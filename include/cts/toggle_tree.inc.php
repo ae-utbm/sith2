@@ -154,7 +154,7 @@ class toggle_tree extends contents
   function add_offset()
   {
     global $topdir;
-    $offset = $this->cur_lvl * 9;
+    $offset = $this->cur_lvl * 20;
     $this->buffer .= "<img src=\"".$topdir."images/px.gif\" style=\"width: ".$offset."px; height: 1px;\" />";
   }
 
