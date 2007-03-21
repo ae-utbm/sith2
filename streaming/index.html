@@ -1,0 +1,243 @@
+<html>
+  <head>
+    <title>AE UTBM : Remise des diplomes en direct</title>
+    <link rel="stylesheet" href="streaming.css" title="AE" media="screen" />
+    <script type="text/javascript">
+
+    function startPage() {
+       document.getElementById('streaming').style.display = 'none';
+       document.getElementById('howitworks').style.display = 'none';
+       document.getElementById('thanks').style.display = 'none';
+
+       document.getElementById('body').innerHTML = document.getElementById('streaming').innerHTML;
+    }
+
+    function openContent (id) {
+       document.getElementById('body').innerHTML = document.getElementById(id).innerHTML;
+       document.getElementById('streamingtd').setAttribute('class', '');
+       document.getElementById('thankstd').setAttribute('class', '');
+       document.getElementById('howitworkstd').setAttribute('class', '');
+
+       document.getElementById(id + 'td').setAttribute('class', 'active');
+    }
+
+    </script>
+  </head>
+
+  <body onLoad="startPage();">
+    <h1 id="logo">
+      <a href="http://ae.utbm.fr/?pass=1" title="AE">
+	<img src="Ae-blanc.png" alt="AE" />
+	<span>Association des étudiants de l'UTBM</span>
+      </a>
+    </h1>
+
+    <!-- Menu -->
+    <table id="menu">
+     <tr>
+      <td id="streamingtd" class="active"><a href="#streaming" onClick="javascript:openContent('streaming'); return false;" title="RDD en direct">La RDD en direct</a></td>
+      <td id="thankstd"><a href="#thanks" onClick="javascript:openContent('thanks'); return false;" title="Remerciements">Remerciements</a></td>
+      <td id="howitworkstd"><a href="#howitworks" onClick="javascript:openContent('howitworks'); return false;" title="Comment ça marche ?">Fonctionnement</a></td>
+      <td><a href="http://ae.utbm.fr/forum/" target="_blank" title="Vos réactions sur le forum de l'AE">Forum</a></td>
+      <td><a href="http://ae.utbm.fr/?pass=1" title="Site de l'AE">Site de l'AE</a></td>
+     </tr>
+    </table>
+
+    <!-- Body -->
+    <div id="body"></div>
+
+    <div id="streaming">
+      <h1>La remise des diplômes en direct</h1>
+
+      <h2>Présentation</h2>
+
+      <p>
+	Cette année, afin de faire participer les personnes
+	non-conviées à la cérémonie de la Remise des Diplômes de l'<a
+	href="http://www.utbm.fr">Université de Technologie de
+	Belfort-Montbéliard</a>, nous avons mis en place un service
+	<i>expérimental</i> de diffusion de la cérémonie en direct.
+      </p>
+
+      <p>
+	La cérémonie de Remise des Diplômes de l'UTBM a lieu le <b>samedi
+	18 novembre 2006 de 10h à 12h</b> au centre des expositions
+	<i>AirExpo</i> d'Andelnans (entre Belfort et Sevenans).
+      </p>
+
+      <p>
+	Grâce au travail d'UTBM-Productions pendant la cérémonie, nous
+	vous offrons en direct les images montées afin de profiter,
+	chez vous, de la cérémonie.
+      </p>
+
+      <h2>Regarder la cérémonie en direct</h2>
+
+      <p>
+	Pour profiter au mieux et de manière plus fiable de cette
+	diffusion, nous vous recommandons l'utilisation du logiciel
+	libre <a href="http://www.videolan.org">VideoLan</a>. Ce
+	logiciel est disponible au <a
+	href="http://www.videolan.org/vlc/">téléchargement</a> pour
+	toutes les plateformes (Windows, Mac OS et Linux compris bien
+	sûr).
+      </p>
+
+      <p id="vlc">
+	Pour les utilisateurs de <b>VideoLan</b>, lancez VLC puis dans
+	le menu <i>Fichier</i> choisissez <i>Ouvrir un flux réseau
+	...</i>. Sélectionnez <i>HTTP/HTTPS/FTP/MMS</i> et rentrez
+	l'URL <tt>mmsh://ae.utbm.fr:8080/</tt>
+      </p>
+
+      <p id="wmp">
+	Pour les utilisateurs de <b>Windows Media Player</b>, lancez
+	Windows Media Player puis dans le menu <i>Fichier</i> choisissez
+	<i>Ouvrir un flux video ...</i> et rentrez l'adresse suivante :
+	<tt>http://ae.utbm.fr:8080/</tt>
+      </p>
+
+      <p>
+	Pour les autres lecteurs (Xine, Totem, MPlayer pour ne citez
+	qu'eux), il est conseillé d'utiliser le flux HTTP :
+	<tt>mplayer -cache 64 mms://ae.utbm.fr:8080/</tt> ou encore
+	<tt>xine http://ae.utbm.fr:8080/</tt>
+      </p>
+<!--
+      <h2>La cérémonie complète</h2>
+
+      <p>
+	Le film diffusé en direct est disponible au téléchargement :
+	<a
+	href="http://ae.utbm.fr/rdd2005.avi">rdd2005.avi</a>. Attention,
+	ce fichier vidéo étant complété au fur et a mesure de la
+	diffusion, il n'est donc pas complet. Toutefois, si pour une
+	raison non-expliquée la lecture du flux vidéo en direct ne
+	marchait pas chez vous, vous pouvez télécharger ce fichier
+	pour visionner la cérémonie jusqu'à l'instant <i>t</i> hors
+	ligne.
+      </p>
+-->
+    </div>
+
+    <div id="thanks">
+      <h1>Remerciements</h1>
+
+      <p>
+	L'idée originale de la diffusion en direct de la cérémonie de
+	la RDD de l'UTBM revient à Laurent Colnat et Maxime Petazzoni,
+	étudiants en Tronc Commun à l'UTBM. Ce système de diffusion en
+	direct a toutefois mobilisé un certain nombre de personnes,
+	que nous tenons à remercier pour leur aide, leur soutien
+	technique ou moral.
+      </p>
+
+      <p>
+	Nous remercions donc (dans le désordre) :
+	<ul>
+	  <li>
+	    Dominique Dalponte et l'équipe du CRI pour nous offrir la
+	    bande passante et les accès nécessaires à cette diffusion
+	    en direct,
+	  </li>
+	  <li>
+	    Stéphanie et toute l'équipe d'AirExpo pour leur accueil
+	    chaleureux et le prêt de leur connexion Internet qui nous
+	    permet de diffuser le flux vidéo,
+	  </li>
+	  <li>
+	    l'Association des Étudiants de l'UTBM pour la mise a
+	    disposition de son serveur et de sa page d'accueil,
+	  </li>
+	  <li>
+	    Robert Dorvidal du Services des Moyens de l'Enseignement
+	    (SME) de l'UTBM pour le prêt du matériel utilisé lors des
+	    tests et de la cérémonie,
+	  </li>
+	  <li>
+	    Toute l'équipe d'UTBM-Productions pour nous offrir leurs
+	    images lors de la cérémonie,
+	  </li>
+	  <li>
+	    François Jouffroy et le Service Communication de l'UTBM pour
+	    leur soutient et leur aide à la réalisation du projet.
+	  </li>
+	</ul>
+      </p>
+
+      <p style="text-align: center;">
+	<a href="http://www.utbm.fr"><img src="utbm.png" alt="UTBM" /></a>
+	<img src="utprod.png" alt="UT Prod" /><br /><br />
+	<a href="http://ae.utbm.fr"><img src="ae.png" alt="AE" /></a>
+      </p>
+
+    </div>
+
+    <div id="howitworks">
+      <h1>Fonctionnement</h1>
+
+      <p>
+	Cette page est destinée au petits curieux qui voudraient
+	savoir comment nous avons mis en place la diffusion des images
+	de la cérémonie de la Remise des Diplômes en direct. Des
+	connaissances de base en réseau et en diffusion vidéo sont
+	souhaitables pour comprendre le mécanisme.
+      </p>
+
+      <h2>Acquisition</h2>
+
+      <p>
+	Au cours de la RDD, UTBM Productions filme avec plusieurs
+	caméras la cérémonie et réalise un montage en direct pour
+	diffusion sur écran géant. Ce sont ces images que nous
+	récupérons, en analogique (via du RCA Video + 2 RCA Audio)
+	grâce à une carte d'acquisition TV pour PC.
+      </p>
+
+      <p>
+	Ces images sont récupérées sur la machine personnelle de
+	Maxime Petazzoni (appelée <tt>skikda</tt>) grâce au logiciel
+	<a href="http://www.videolan.org">VideoLan</a> et le système
+	d'acquisition logicielle Video4Linux (<tt>v4l</tt>). Le flux est
+	alors encodé en DivX v3 pour la vidéo et MPEG Audio Layer 1/2/3
+	(MP3) pour le son, l'ensemble étant encapsulé dans le format ASF
+	(pour la compatibilité avec Windows Media Player). Le flux vidéo
+	ainsi transformé est rendu accessible au serveur de l'AE en HTTP.
+      </p>
+
+      <h2>Diffusion</h2>
+
+      <p>
+	<tt>skikda</tt> étant bien évidement sur les lieux de la RDD,
+	sa connectivité Internet est assurée par la connexion
+	d'AirExpo (une ADSL Cegetel). Un tunnel <i>Vtun</i> est alors
+	créé entre <tt>skikda</tt> et le serveur de l'AE pour
+	simplifier les problématiques de firewall et de routage entre
+	les deux machines.
+      </p>
+
+      <p>
+	Le serveur de l'AE, hébergé par l'UTBM profite donc de la
+	connectivité Internet a très haut débit de l'université. Un
+	second VideoLan lancé sur le serveur de l'AE s'occupe de
+	récupérer le flux vidéo depuis <tt>skikda</tt> et le dupliquer
+	en un flux HTTP (disponible sur le port 8080), un flux MMSH
+	(port 8081) et un enregistrement sur disque (pour le
+	téléchargement du film complet).
+      </p>
+
+      <h2>Powered by ...</h2>
+
+      <p style="text-align: center;">
+	<img src="linux.png" alt="GNU/Linux" />
+	<img src="vlc.jpg" alt="VideoLan" />
+	<img src="debian.png" alt="Debian" />
+      </p>
+    </div>
+
+    <div id="bottom">
+      La remise des diplômes en direct &middot; AE &middot; UTBM &middot; Maxime Petazzoni &amp;
+      Laurent Colnat
+    </div>
+  </body>
+</html>

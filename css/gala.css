@@ -1,0 +1,391 @@
+/** @file
+ *
+ * @brief Transforme le site aux couleurs du GALA 2006
+ *
+ */
+
+/* Copyright 2006
+ * - Simon Lopez <simon DOT lopez AT ayolo POINT org>
+ *
+ * Ce fichier fait partie du site de l'Association des étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+div.box
+{
+  position: relative;
+  margin-bottom: 1em;
+  padding-top:0.75em;
+  width: 192px;
+  background: url("../images/themes/new/box-core.png");
+	background-repeat: no-repeat;
+	background-position: top left;  
+
+}
+div.box h1
+{
+  background: none;
+  border: none;
+  -moz-border-radius:0em 0em 0em 0em;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 2px;
+  height: 1.2em;
+  font-size: 100%;
+  display: inline;
+  position:relative;
+
+}
+
+#important
+{
+  background: none;
+}
+
+#important div.body
+{
+  background-color: #d8e7f3;
+}
+
+div.box div.body
+{
+	background: none;
+	border: none;
+	-moz-border-radius:0em 0em 0em 0em;
+	padding: 8px;
+	position:relative;	
+	background-image: url("../images/themes/new/box-bottom.png");
+	background-repeat: no-repeat;
+	background-position: bottom left;  
+
+	margin:0;   
+}  
+
+div.box h2
+{
+	background:url("../images/themes/new/box-h2.png");
+	height:15px;
+	padding-top:3px;
+	padding-left:5px;
+	color:#00000;
+}
+div.box h2 a
+{
+	color:#00000;
+}
+div.box div.body div.boxlist h2
+{
+  border-bottom: none;
+}
+
+div.box div.body ul
+{
+  margin-bottom:0px;
+}
+
+
+#sbox_calendrier
+{
+	background-image: url("../images/themes/new/box-core-calendar.png");
+}
+
+#sbox_pg
+{
+	background-image: url("../images/themes/new/box-core-search.png");
+}
+
+#sbox_connexion
+{
+	background-image: url("../images/themes/new/box-core-home.png");
+}
+
+#sbox_anniv
+{
+	background-image: url("../images/themes/new/box-core-people.png");
+}
+
+#sbox_mmt
+{
+	background-image: url("../images/themes/new/box-core-search.png");
+}
+
+#sbox_lastnews
+{
+	background-image: url("../images/themes/new/box-core-news.png");
+}
+
+#sbox_Panier
+{
+	background-image: url("../images/themes/new/box-core-caddie.png");
+}
+
+
+#sbox_alerts div.body
+{
+	background-image: url("../images/themes/new/box-bottom.png");
+	background-repeat: no-repeat;
+	background-position: bottom;  
+}
+
+#sbox_sondage div.body
+{
+	background-image: url("../images/themes/new/box-bottom.png");
+	background-repeat: no-repeat;
+	background-position: bottom;  
+}
+
+#sbox_connexion div.body
+{
+	background-image: url("../images/themes/new/box-bottom.png");
+	background-repeat: no-repeat;
+	background-position: bottom;  
+}
+
+
+div.calendarhead
+{
+  border: none;
+  background: none;
+}
+
+div.calendar
+{
+  border: none;
+  background: #ffffff;
+}
+
+div.article
+{
+  border: 1px solid #c0c0c0;
+}
+
+#sbox_alerts
+{
+  position: relative;
+  margin-bottom: 1em;
+  padding-top:0.75em;
+  width: 192px;
+  background: url("../images/themes/new/redbox-core-alert.png");
+}
+
+#sbox_alerts h1
+{
+  background: none;
+  border: none;
+  -moz-border-radius:0em 0em 0em 0em;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 2px;
+  height: 1.2em;
+  font-size: 100%;
+  display: inline;
+  position:relative;
+
+}
+
+#sbox_alerts div.body
+{
+	background: none;
+	border: none;
+	-moz-border-radius:0em 0em 0em 0em;
+	padding: 8px;
+	position:relative;	
+	background-image: url("../images/themes/new/redbox-bottom.png");
+	background-repeat: no-repeat;
+	background-position: bottom;  
+
+} 
+
+#sbox_alerts ul
+{
+	list-style-image: url("../images/themes/new/list-arrow-red.png"); 
+	margin-bottom:0;
+}
+
+li.ok
+{
+	list-style-image: url("../images/themes/new/list-arrow_ok.png"); 
+	margin-bottom:0;
+}
+
+li.ko
+{
+	list-style-image: url("../images/themes/new/list-arrow_ko.png"); 
+	margin-bottom:0;
+}
+
+div.article div.tabs
+{
+	padding: 0;
+	margin: 0;
+	border: 0;
+
+	height:21px;
+	padding-left:2em;
+	overflow:hidden;
+	background:url("../images/themes/new/core-tabs-fond.png");
+	margin-bottom:0.5em;
+}
+
+div.article div.tabs span 
+{
+	float:left;
+	background:url("../images/themes/new/core-tabs-norm-st.png");
+	height:21px;
+	font-size: 12px;
+	padding-left:8px;
+	margin:0;
+	border:0;	
+	color:black;
+}
+
+div.article div.tabs span a
+{
+	padding: 0;
+	margin: 0;
+	border: 0;
+  	-moz-border-radius: 0;
+  	
+	float:left;
+	
+	background:url("../images/themes/new/core-tabs-norm.png");
+	height:21px;
+	padding-right:18px;
+	padding-left:5px;
+	background-repeat: no-repeat;
+	background-position: right top;
+	vertical-align:bottom;
+	line-height:25px;
+	text-decoration: none;
+}
+
+div.article div.tabs span a:hover
+{
+	background:url("../images/themes/new/core-tabs-norm.png");
+	background-repeat: no-repeat;
+	background-position: right top;	
+}
+
+div.article div.tabs span:hover
+{
+	background:url("../images/themes/new/core-tabs-cur-st.png");
+}
+
+div.article div.tabs span:hover a
+{
+	background:url("../images/themes/new/core-tabs-cur.png");
+	background-repeat: no-repeat;
+	background-position: right top;
+}
+
+
+div.article div.tabs span.selected
+{
+	background:url("../images/themes/new/core-tabs-cur-st.png");
+}
+
+div.article div.tabs span.selected a
+{
+	background:url("../images/themes/new/core-tabs-cur.png");
+	background-repeat: no-repeat;
+	background-position: right top;
+}
+
+#logo
+{
+  padding: 0.2em 0 0 1em;
+  background:url("../images/themes/gala/logo.jpg");
+  background-repeat: no-repeat; 
+  background-color: #09022e;
+  height:75px;
+  background-position: em 0.2em;
+}
+
+#logo img
+{
+  display: none;
+}
+
+#logo a
+{
+  width:230px;
+  height:75px;
+  display: block;
+}
+
+div.tabsv2
+{
+  background:url("../images/themes/gala/tabs-fond.jpg");
+}
+
+div.tabsv2 span 
+{
+  background:url("../images/themes/gala/tabs-norm-st.jpg");
+}
+
+div.tabsv2 span a
+{
+  background:url("../images/themes/gala/tabs-norm.jpg");
+  background-repeat: no-repeat;
+  background-position: right top;
+}
+
+div.tabsv2 span:hover
+{
+  background:url("../images/themes/gala/tabs-cur-st.jpg");
+}
+
+div.tabsv2 span:hover a
+{
+  background:url("../images/themes/gala/tabs-cur.jpg");
+  background-repeat: no-repeat;
+  background-position: right top;
+}
+
+
+div.tabsv2 span.selected
+{
+  background:url("../images/themes/gala/tabs-cur-st.jpg");
+}
+
+div.tabsv2 span.selected a
+{
+  background:url("../images/themes/gala/tabs-cur.jpg");
+  background-repeat: no-repeat;
+  background-position: right top;
+}
+
+#fsearchbox
+{
+  position: absolute;
+  top: 3px;
+  right: 0;
+  width:250px;
+  height:35px;
+  padding-top:15px;
+  padding-left:45px;
+  padding-right:25px;
+  background-image:url("../images/themes/gala/site-fsearchbox.jpg");
+  background-repeat: no-repeat;
+  background-position: left top;
+}
+
+#important
+{
+  display:none; 
+}
+

@@ -1,0 +1,142 @@
+/* Copyright 2006
+ * - Julien Etelain <julien AT pmad POINT net>
+ *
+ * Ce fichier fait partie du site de l'Association des étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+ 
+/*
+	Feuille de style pour les comptoirs
+
+*/
+.majorerror
+{
+	font-size: 600%;
+	color:red;
+	font-weight: bold;
+}
+
+.linfo
+{
+	font-size: 300%;
+}
+
+ul.inforech
+{
+	width:65%;
+	float:right;
+	list-style: none;
+}
+
+ul.inforech li
+{
+	font-size: 180%;
+}
+
+ul.inforech b
+{
+	font-size: 100%;
+}
+
+form#recharge
+{
+	display: block;
+	width:65%;
+	float:right;
+}
+
+form#recharge input
+{
+	font-size: 180%;
+}
+
+p.annule
+{
+	font-size: 180%;
+	display: block;
+	width:65%;
+	float:right;
+}
+
+
+form#vente
+{
+	display: block;
+	width:65%;
+	float:right;
+}
+
+ul.panier
+{
+	width:65%;
+	float:right;
+	list-style: none;
+}
+
+ul.panier li
+{
+	font-size: 180%;
+}
+
+ul.panier li.total
+{
+	font-size: 180%;
+	font-weight: bold;
+}
+
+div.userinfo
+{
+	width:30%;
+	float:left;
+}
+
+p.solde
+{
+	font-size: 120%;
+	font-weight: bold;
+}
+
+ul.top10
+{
+	list-style: none;
+	padding:0;
+	margin:0;
+	border:0;
+}
+
+.me a
+{
+	color:red;
+	font-weight:bold;
+}
+.me
+{
+	color:red;
+	font-weight:bold;
+	background: #eff7ff;
+}
+
+ul.top10 li.top
+{
+	font-weight:bold;
+	padding:0.2em;
+	padding-bottom:0.5em;
+	background: #d8e7f3;
+}
+
+

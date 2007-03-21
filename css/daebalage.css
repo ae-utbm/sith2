@@ -1,0 +1,130 @@
+/** @file
+ *
+ * @brief Transforme le site aux couleurs du FF1J 2006
+ *
+ */
+
+/* Copyright 2006
+ * - Julien Etelain <julien AT pmad POINT net>
+ *
+ * Ce fichier fait partie du site de l'Association des étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
+#logo
+{
+	/*padding: 0.2em 0 0 1em;*/
+	padding: 0;
+	background:url("../images/themes/daebalage/logo.jpg");
+	background-repeat: no-repeat;
+	background-color: rgb(32,145,63);
+	height:65px;
+}
+
+#logo img {
+	display: none;
+}
+
+#logo a {
+	width:230px;
+	height:75px;
+	display: block;
+}
+
+div.tabsv2
+{
+	background:url("../images/themes/daebalage/tabs-fond.jpg");
+}
+
+div.tabsv2 span 
+{
+	background:url("../images/themes/daebalage/tabs-norm-st.jpg");
+}
+
+div.tabsv2 span a
+{	
+	background:url("../images/themes/daebalage/tabs-norm.jpg");
+	background-repeat: no-repeat;
+	background-position: right top;	
+}
+
+div.tabsv2 span:hover
+{
+	background:url("../images/themes/daebalage/tabs-cur-st.jpg");
+}
+
+div.tabsv2 span:hover a
+{
+	background:url("../images/themes/daebalage/tabs-cur.jpg");
+	background-repeat: no-repeat;
+	background-position: right top;	
+}
+
+
+div.tabsv2 span.selected
+{
+	background:url("../images/themes/daebalage/tabs-cur-st.jpg");
+}
+
+div.tabsv2 span.selected a
+{
+	background:url("../images/themes/daebalage/tabs-cur.jpg");
+	background-repeat: no-repeat;
+	background-position: right top;	
+}
+
+#left
+{
+	top: 10em;
+}
+
+#right
+{
+	top: 10em;
+}
+#important
+{
+	width:250px;
+	left: 600px;
+	top:4em;
+	margin:0;
+}
+
+#important div.body
+{
+	background: transparent;
+	padding:0;
+	color: black;
+	font-weight: bold;
+	text-align:center;
+}
+
+/*#important div.body a 
+{
+	color: white;
+}*/
+
+#fsearchbox
+{
+    display: none;
+}
+
+#fsearchres
+{
+
+}

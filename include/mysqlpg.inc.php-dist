@@ -1,0 +1,10 @@
+<?php
+class mysqlpg extends mysql {
+
+  function mysqlpg ($type = "ro") {
+
+    $this->mysql('petitgeni', 'opercule', 'localhost', 'petitgeni');
+
+  }
+}
+?>

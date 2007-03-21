@@ -1,0 +1,10 @@
+<search
+version="0.1"
+name="Mat'Matronch UTBM"
+description="Rechercher dans le Mat'Matronch sur le site de l'AE UTBM"
+action="http://ae.utbm.fr/matmatronch/index.php"
+searchForm="http://ae.utbm.fr/matmatronch/index.php"
+method="GET">
+<input name="action" value="simplesearch">
+<input name="pattern" user>
+</search>
