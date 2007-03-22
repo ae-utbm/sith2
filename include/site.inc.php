@@ -916,6 +916,7 @@ class site extends interfaceweb
   
   function get_comptoirs_box ()
   {
+	  global $topdir;
     // 1- On ferme les sessions expirés
 		$req = new requete ($this->dbrw,
 					 "UPDATE `cpt_tracking` SET `closed_time`='".date("Y-m-d H:i:s")."'
