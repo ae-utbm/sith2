@@ -23,6 +23,10 @@
  
 require_once($topdir."include/entitieslinks.inc.php"); 
  
+
+$tglnum = 0;
+
+
 class toggle_tree extends contents
 {
   /** Le tableau définissant l'arbre à afficher ;
@@ -69,6 +73,14 @@ class toggle_tree extends contents
 
   function toggle_tree ($title, $array = null, $buffer)
   {
+
+    global $tglnum;
+
+    if (intval($tglnum) == 0)
+      $tglnum = 1;
+    else
+      $tglnum ++;
+
     $this->contents($title, $buffer);
     $this->array = $array;
     $this->cur_lvl = 0;
@@ -80,14 +92,19 @@ class toggle_tree extends contents
 
   function generate_scripts()
   {
+    global $tglnum;
+
+    /* deja defini par un autre toggle tree */
+    if ($tglnum > 1)
+      return;
 
     // genere le tableau "arbre" des dépendances
     $script .= "<script language=\"javascript\">\n";
-    $script .="function toggle (id)
+    $script .="function toggle (id_tglnum,id)
     {
       // select next span 
-      toHide = document.getElementById(\"tgl_\"+id+\"\");
-      imgToChange = document.getElementById(\"tgl_img\"+id+\"\");
+      toHide = document.getElementById(\"tgl\"+id_tglnum+\"_\"+id+\"\");
+      imgToChange = document.getElementById(\"tgl\"+id_tglnum+\"_img\"+id+\"\");
       
       if (!toHide.class)
       {
@@ -118,6 +135,8 @@ class toggle_tree extends contents
   function generate_buffer($array)
   {
     global $topdir;
+    global $tglnum;
+
     if (is_array($array))
       {
 	foreach($array as $elem)
@@ -125,16 +144,15 @@ class toggle_tree extends contents
 	    $this->add_offset();
 	    
 	    if (is_array($elem['childs']))
-	      $this->buffer .= "<a href=\"javascript:toggle(".++$this->count_id.");\">\n
-                                <img id=\"tgl_img".$this->count_id."\" src=\"" . $topdir . "images/fld.png\" alt=\"\" onclick=\"\"/>\n";
+	      $this->buffer .= "<a href=\"javascript:toggle(".$tglnum.", ".++$this->count_id.");\">\n
+                                <img id=\"tgl".$tglnum."_img".$this->count_id."\" src=\"" . $topdir . "images/fld.png\" alt=\"\" onclick=\"\"/>\n";
+
 	    else
 	      $this->buffer .="<a href=\"javascript:return null;\">";
-
-	     
 	  
 	    $this->buffer .=  $elem['title'] . "</a><br/>\n";
 	    
-	    $this->buffer .= "<span id=\"tgl_" . $this->count_id ."\" class=\"tgloff\">\n";
+	    $this->buffer .= "<span id=\"tgl".$tglnum."_" . $this->count_id ."\" class=\"tgloff\">\n";
 
 
 	    if (is_array($elem['childs']))
