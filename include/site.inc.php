@@ -959,7 +959,7 @@ class site extends interfaceweb
         $descled = "ouvert (mais pas d'activité depuis plus de 10 minutes)";
 
       }
-				$list->add("<a href=\"comptoir/activity.php?id_comptoir=$id\"><img src=\"images/leds/".$led."led.png\" class=\"icon\" alt=\"".htmlentities($descled,ENT_NOQUOTES,"UTF-8")."\" title=\"".htmlentities($descled,ENT_NOQUOTES,"UTF-8")."\" /> $nom</a>");
+				$list->add("<a href=\"comptoir/activity.php?id_comptoir=$id\"><img src=\"".$topdir."images/leds/".$led."led.png\" class=\"icon\" alt=\"".htmlentities($descled,ENT_NOQUOTES,"UTF-8")."\" title=\"".htmlentities($descled,ENT_NOQUOTES,"UTF-8")."\" /> $nom</a>");
     
     }
   
