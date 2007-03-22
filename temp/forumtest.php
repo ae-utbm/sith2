@@ -17,7 +17,7 @@ class mysqlforum extends mysql
   function mysqlforum ()
   {
     // Tschuut on a rien vu ...
-      if ( ! $this->mysql('forum', '7v6nfzli', 'localhost', 'forum'))
+      if ( ! $this->mysql('forum', '7v6nfzli', 'localhost', 'UTBM'))
 	return FALSE;
   }
 }
