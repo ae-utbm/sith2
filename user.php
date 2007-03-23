@@ -744,9 +744,9 @@ else
       $cts->add_paragraph("<br/>R&eacute;flexe E-boutic ! <a href=\"" . $topdir .
                           "e-boutic/?cat=23\">Renouveler sa cotisation en ligne : </a><br /><br />");
       $cts->puts("<center><a href=\"".$topdir."e-boutic/?act=add&item=94&cat=23\"><img src=\"" .
-                 $topdir . "var/img/comptoir/eboutic/prod-ae-an.png\"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                 $topdir . "images/comptoir/eboutic/prod-ae-an.png\"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
       $cts->puts("<a href=\"".$topdir."e-boutic/?act=add&item=93&cat=23\"><img src=\"" . $topdir .
-                 "var/img/comptoir/eboutic/prod-ae-sem.png\"></a></center>");
+                 "images/comptoir/eboutic/prod-ae-sem.png\"></a></center>");
     }
 
   if ( $site->user->is_in_group("gestion_ae") )

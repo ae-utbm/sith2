@@ -33,7 +33,7 @@ require_once ($topdir . "include/watermark.inc.php");
  * Explications : Watermarking d'images pour eboutic.
  *
  * Les images a watermarker doivent etre dans le repertoire courant
- * (/var/www/ae/www/var/img/comptoir/eboutic/)
+ * (/var/www/ae/www/images/comptoir/eboutic/)
  *
  * Les images servant de watermark doivent etre dans le $imgpath
  * defini apres.
