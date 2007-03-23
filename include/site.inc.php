@@ -162,8 +162,8 @@ class site extends interfaceweb
 			
 			$this->add_box("meteo",$this->get_meteo());
 			$this->add_box("comptoirs",$this->get_comptoirs_box());
-			/*if ($this->user->id > 0)
-			    $this->add_box("webcam", $this->get_wc ());*/
+			if ($this->user->id > 0)
+			    $this->add_box("webcam", $this->get_wc ());
 		}
 		elseif ( $section == "pg" )
 		{
@@ -234,32 +234,18 @@ class site extends interfaceweb
   {
     global $topdir;
 
-    $cts = new contents("Webcam foyer");
+    $cts = new contents("AE Academy");
 
     $last_m = @filemtime("/var/www/ae/www/images/webcam.jpg");
-    /* creation d'une nouvelle capture toutes les heures */
 
-    //    if ((!$last_m) || (mktime() - $last_m > (60 * 60)))
-    //{
-	/* recuperation vignette */
-	//secure_exec ("wcget http://ed.rezome.net/img/video.asf -cache 32 -vo jpeg:maxfiles=1:outdir=/tmp -frames 1");
-	/* mise a l'echelle */
-	//secure_exec ("mogrify -size 160x120 -resize 160x120 /tmp/00000001.jpg");
-	/* suppression eventuelle de l'ancienne */
-	//if (file_exists("var/www/ae/www/images/webcam.jpg"))
-	//  unlink ("var/www/ae/www/images/webcam.jpg");
-	/* deplacement */
-	//@rename ("/tmp/00000001.jpg", "/var/www/ae/www/images/webcam.jpg");
-    //}
-
-    if (file_exists("/var/www/ae/www/images/webcam.jpg"))
-      $imgsrc = $topdir . "images/webcam.jpg";
+    if (file_exists("/var/www/ae/www/var/img/webcam.mini.jpg"))
+      $imgsrc = $topdir . "var/img/webcam.jpg?".$last_m;
     else
       $imgsrc = $topdir . "images/na.gif";
 
-    $cts->add_paragraph ("En direct du foyer :<br/>"
+    $cts->add_paragraph ("AE Academy :<br/>"
 			 . "<img src=\"".$imgsrc."\" "
-			 . "alt=\"webcam du foyer\" />");
+			 . "alt=\"webcam de l'AE\" />");
     return $cts;
   }
   
