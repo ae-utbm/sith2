@@ -153,7 +153,7 @@ class site extends interfaceweb
 			if ($this->user->id < 0)
 				$this->set_side_boxes("right",array("planning", "meteo", "search","anniv","photo"),"accueil_nc_right");
 			else
-				$this->set_side_boxes("right",array("planning", "meteo", "weekly_photo","anniv","sondage","photo","comptoirs"),"accueil_c_right");
+				$this->set_side_boxes("right",array("planning", "meteo", "weekly_photo","anniv","sondage","photo","webcam","comptoirs"),"accueil_c_right");
 
 			$this->add_box("anniv", $this->get_anniv_contents());
 			$this->add_box("planning", $this->get_planning_contents());
@@ -163,7 +163,7 @@ class site extends interfaceweb
 			$this->add_box("meteo",$this->get_meteo());
 			$this->add_box("comptoirs",$this->get_comptoirs_box());
 			if ($this->user->id > 0)
-			    $this->add_box("webcam", $this->get_wc ());
+			  $this->add_box("webcam", $this->get_wc ());
 		}
 		elseif ( $section == "pg" )
 		{
