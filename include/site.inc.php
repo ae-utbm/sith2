@@ -243,9 +243,9 @@ class site extends interfaceweb
     else
       $imgsrc = $topdir . "images/na.gif";
 
-    $cts->add_paragraph ("AE Academy :<br/>"
-			 . "<img src=\"".$imgsrc."\" "
-			 . "alt=\"webcam de l'AE\" />");
+    $cts->add_paragraph (
+			   "<center><img src=\"".$imgsrc."\" "
+			 . "alt=\"webcam de l'AE\" /></center>");
     return $cts;
   }
   
