@@ -327,7 +327,7 @@ class site extends interfaceweb
 		if ( $carte->id > 0 )
 		{
 			if ( $carte->etat_vie_carte == CETAT_ATTENTE &&
-				!file_exists("/var/www/ae/www/ae2/images/matmatronch/" . $this->user->id .".identity.jpg") )
+				!file_exists("/var/www/ae/www/ae2/var/img/matmatronch/" . $this->user->id .".identity.jpg") )
 			{
 				$elements[] = "<a href=\"user.php?page=edit&open=photo#setphotos\"><b>Vous devez ajouter une photo</b> pour que votre carte AE soit imprimée.</a>";
 			}
@@ -866,14 +866,14 @@ class site extends interfaceweb
 	function get_planning_contents ()
 	{
 		global $topdir;
-		if ( !file_exists($topdir."images/com/planning.jpg"))
+		if ( !file_exists($topdir."var/img/com/planning.jpg"))
 		  return null;
 		  
-		$planning_valid = filemtime($topdir."images/com/planning.jpg") + (7 * 24 * 60 * 60);
+		$planning_valid = filemtime($topdir."var/img/com/planning.jpg") + (7 * 24 * 60 * 60);
 		if ( time() <= $planning_valid )
 		{
 			$cts = new contents("Planning");
-			$cts->puts("<center><a href=\"".$topdir."article.php?name=planning\"><img src=\"".$topdir."images/com/planning-small.jpg?".$planning_valid."\" alt=\"Planning\" /></a></center>");
+			$cts->puts("<center><a href=\"".$topdir."article.php?name=planning\"><img src=\"".$topdir."var/img/com/planning-small.jpg?".$planning_valid."\" alt=\"Planning\" /></a></center>");
 			return $cts;
 		}
 	}
@@ -881,13 +881,13 @@ class site extends interfaceweb
 	function get_weekly_photo_contents ()
 	{
 		global $topdir;
-		if ( !file_exists($topdir."images/com/weekly_photo.jpg"))
+		if ( !file_exists($topdir."var/img/com/weekly_photo.jpg"))
 		  return null;
-		$weekly_photo_valid = filemtime($topdir."images/com/weekly_photo.jpg") + (7 * 24 * 60 * 60);
+		$weekly_photo_valid = filemtime($topdir."var/img/com/weekly_photo.jpg") + (7 * 24 * 60 * 60);
 		if ( time() <= $weekly_photo_valid )
 		{
 		$cts = new contents("Photo de la semaine");
-		$cts->puts("<center><a href=\"".$topdir."article.php?name=weekly_photo\"><img src=\"".$topdir."images/com/weekly_photo-small.jpg?".$weekly_photo_valid."\" style=\"margin-bottom:0.5em;\" alt=\"Photo de la semaine\" /></a><br/>");
+		$cts->puts("<center><a href=\"".$topdir."article.php?name=weekly_photo\"><img src=\"".$topdir."var/img/com/weekly_photo-small.jpg?".$weekly_photo_valid."\" style=\"margin-bottom:0.5em;\" alt=\"Photo de la semaine\" /></a><br/>");
 		$cts->puts($this->get_textbox('Weekly_photo'));
 		$cts->puts("</center>");
 		return $cts;

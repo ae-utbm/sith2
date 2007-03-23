@@ -142,7 +142,7 @@ $sql = new requete($site->db,"SELECT nvl_dates.*,nvl_nouvelles.* FROM nvl_dates 
 while ( $row = $sql->get_row() )
 {
   $history->add_element(strtotime($row['date_debut_eve']),
-      "<a href=\"".$topdir."news.php?id_nouvelle=".$row['id_nouvelle']."\"><img src=\"".$topdir."images/logos/news.small.png\" /></a>",
+      "<a href=\"".$topdir."news.php?id_nouvelle=".$row['id_nouvelle']."\"><img src=\"".$topdir."images/default/news.small.png\" /></a>",
       "<a href=\"".$topdir."news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a>");
 }
 
@@ -165,10 +165,10 @@ while ( $row = $req->get_row() )
 {
 
   $img = $topdir."images/icons128/user.png";
-  if ( file_exists($topdir."images/matmatronch/".$row['id_utilisateur'].".jpg") )
-    $img = $topdir."images/matmatronch/".$row['id_utilisateur'].".jpg";
-  elseif ( file_exists($topdir."images/matmatronch/".$row['id_utilisateur'].".identity.jpg") )
-    $img = $topdir."images/matmatronch/".$row['id_utilisateur'].".identity.jpg";
+  if ( file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg") )
+    $img = $topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg";
+  elseif ( file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg") )
+    $img = $topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg";
 
   $history->add_element(strtotime($row['date_debut']),
   "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\"><img src=\"$img\" alt=\"Photo\" height=\"105\"></a>",

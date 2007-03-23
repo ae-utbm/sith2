@@ -276,7 +276,7 @@ class dfile extends basedb
 	function get_real_filename()
 	{
 		global $topdir;
-		return $topdir."files/".$this->id;
+		return $topdir."var/files/".$this->id;
 	}
 
 	/**
@@ -286,7 +286,7 @@ class dfile extends basedb
 	function get_thumb_filename()
 	{
 		global $topdir;
-		return $topdir."files/thumb/".$this->id.".jpg";
+		return $topdir."var/files/thumb/".$this->id.".jpg";
 	}
 
 	/**
@@ -296,7 +296,7 @@ class dfile extends basedb
 	function get_screensize_filename()
 	{
 		global $topdir;
-		return $topdir."files/preview/".$this->id.".jpg";
+		return $topdir."var/files/preview/".$this->id.".jpg";
 	}
 
 	function get_icon_name()

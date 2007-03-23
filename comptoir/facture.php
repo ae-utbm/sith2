@@ -47,7 +47,7 @@ if ( isset($_REQUEST["generate"]) )
 
 	$facturing_infos = array ('name' => $asso->nom,
 			 'addr' => explode("\n",utf8_decode($asso->adresse_postale)),
-			 'logo' => "/var/www/ae/www/ae2/images/logos/".$asso->nom_unix.".jpg");
+			 'logo' => "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg");
 
 	$date_facturation = date("d/m/Y", mktime ( 0, 0, 0, substr($month,4)+1, 1, substr($month,0,4)));
 	

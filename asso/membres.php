@@ -239,10 +239,10 @@ if ( $_REQUEST["view"] == "trombino" || $limited )
   {
   
     $img = $topdir."images/icons128/user.png";
-    if ( file_exists($topdir."images/matmatronch/".$row['id_utilisateur'].".identity.jpg") )
-      $img = $topdir."images/matmatronch/".$row['id_utilisateur'].".identity.jpg";
-    elseif ( file_exists($topdir."images/matmatronch/".$row['id_utilisateur'].".jpg") )
-      $img = $topdir."images/matmatronch/".$row['id_utilisateur'].".jpg";
+    if ( file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg") )
+      $img = $topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg";
+    elseif ( file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg") )
+      $img = $topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg";
       
     if ( $row['desc_role'] ) 
       $role = $row['desc_role'];

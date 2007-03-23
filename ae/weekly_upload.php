@@ -42,10 +42,10 @@ $cts = new contents("Planning");
 
 if ( $_REQUEST["action"] == "setplanning" )
 {
-  $dest_small = "/var/www/ae/www/ae2/images/com/planning-small.jpg";
-  $dest_diapo = "/var/www/ae/www/ae2/images/com/planning-diapo.jpg";
-  $dest_full  = "/var/www/ae/www/ae2/images/com/planning.jpg";	
-  if ( isset($_REQUEST['delete']) && file_exists($topdir."images/com/planning.jpg"))
+  $dest_small = "/var/www/ae/www/ae2/var/img/com/planning-small.jpg";
+  $dest_diapo = "/var/www/ae/www/ae2/var/img/com/planning-diapo.jpg";
+  $dest_full  = "/var/www/ae/www/ae2/var/img/com/planning.jpg";	
+  if ( isset($_REQUEST['delete']) && file_exists($topdir."var/img/com/planning.jpg"))
   {		
     if (!unlink($dest_small))
       $erreur = "Erreur lors de la suppression du planning miniature";
@@ -79,11 +79,11 @@ if ( $_REQUEST["action"] == "setplanning" )
 }
 else
 {
-  if (file_exists("/var/www/ae/www/ae2/images/com/planning.jpg"))
+  if (file_exists("/var/www/ae/www/ae2/var/img/com/planning.jpg"))
   {
-    $cts->add_paragraph("<img src=\"".$topdir."images/com/planning-small.jpg\" />".
+    $cts->add_paragraph("<img src=\"".$topdir."var/img/com/planning-small.jpg\" />".
                         "<br/><br/>Fichier planning modifié pour la dernière fois le : " .
-                        strftime("%A %d %B %G", filemtime($topdir."images/com/planning.jpg")),"center");
+                        strftime("%A %d %B %G", filemtime($topdir."var/img/com/planning.jpg")),"center");
   }
 
   $frm = new form("setplanning","weekly_upload.php",true,"POST","Upload");
@@ -101,11 +101,11 @@ $cts = new contents("Photo de la semaine");
 
 if ( $_REQUEST["action"] == "setweekly_photo" )
 {
-  $dest_small = "/var/www/ae/www/ae2/images/com/weekly_photo-small.jpg";
-  $dest_diapo = "/var/www/ae/www/ae2/images/com/weekly_photo-diapo.jpg";
-  $dest_full  = "/var/www/ae/www/ae2/images/com/weekly_photo.jpg";
+  $dest_small = "/var/www/ae/www/ae2/var/img/com/weekly_photo-small.jpg";
+  $dest_diapo = "/var/www/ae/www/ae2/var/img/com/weekly_photo-diapo.jpg";
+  $dest_full  = "/var/www/ae/www/ae2/var/img/com/weekly_photo.jpg";
 	
-  if ( isset($_REQUEST['delete']) && file_exists($topdir."images/com/weekly_photo.jpg"))
+  if ( isset($_REQUEST['delete']) && file_exists($topdir."var/img/com/weekly_photo.jpg"))
   {
     if (!unlink($dest_small))
       $erreur = "Erreur lors de la suppression de la photo miniature";
@@ -128,9 +128,9 @@ if ( $_REQUEST["action"] == "setweekly_photo" )
       else
       {
         $src = $_FILES['file']['tmp_name'];
-        $dest_small = "/var/www/ae/www/ae2/images/com/weekly_photo-small.jpg";
-        $dest_diapo = "/var/www/ae/www/ae2/images/com/weekly_photo-diapo.jpg";
-        $dest_full  = "/var/www/ae/www/ae2/images/com/weekly_photo.jpg";	
+        $dest_small = "/var/www/ae/www/ae2/var/img/com/weekly_photo-small.jpg";
+        $dest_diapo = "/var/www/ae/www/ae2/var/img/com/weekly_photo-diapo.jpg";
+        $dest_full  = "/var/www/ae/www/ae2/var/img/com/weekly_photo.jpg";	
 		
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 140x100 -quality 95 \"$dest_small\""));
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 680x510 -quality 95 \"$dest_diapo\""));
@@ -153,11 +153,11 @@ if ( $_REQUEST["action"] == "setweekly_photo" )
 }
 else
 {
-  if (file_exists("/var/www/ae/www/ae2/images/com/weekly_photo.jpg"))
+  if (file_exists("/var/www/ae/www/ae2/var/img/com/weekly_photo.jpg"))
   {
-    $cts->add_paragraph("<img src=\"".$topdir."images/com/weekly_photo-small.jpg\" />".
+    $cts->add_paragraph("<img src=\"".$topdir."var/img/com/weekly_photo-small.jpg\" />".
                         "<br/><br/>Fichier photo de la semaine modifié pour la dernière fois le : " .
-                        strftime("%A %d %B %G", filemtime($topdir."images/com/weekly_photo.jpg")),"center");
+                        strftime("%A %d %B %G", filemtime($topdir."var/img/com/weekly_photo.jpg")),"center");
   }
   $frm = new form("setweekly_photo","weekly_upload.php",true,"POST","Upload");
   $frm->add_hidden("action","setweekly_photo");

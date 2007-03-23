@@ -344,7 +344,7 @@ L'équipe info AE";
 			"ORDER BY `ae_carte`.`id_carte_ae`");	
 	$printable['sev'] = array();
 	while ( $row = $req->get_row() )
-		if ( file_exists("../images/matmatronch/" . $row['id_utilisateur'] .".identity.jpg"))
+		if ( file_exists("../var/img/matmatronch/" . $row['id_utilisateur'] .".identity.jpg"))
 			$printable['sev'][]=$row['id_utilisateur'];	
 	
 	$req = new requete($site->db, 
@@ -356,7 +356,7 @@ L'équipe info AE";
 			"ORDER BY `ae_carte`.`id_carte_ae`");	
 	$printable['bel'] = array();
 	while ( $row = $req->get_row() )
-		if ( file_exists("../images/matmatronch/" . $row['id_utilisateur'] .".identity.jpg"))
+		if ( file_exists("../var/img/matmatronch/" . $row['id_utilisateur'] .".identity.jpg"))
 			$printable['bel'][]=$row['id_utilisateur'];	
 
 	$req = new requete($site->db,"SELECT `ae_cotisations`.`id_utilisateur` FROM `ae_carte` " .
@@ -367,7 +367,7 @@ L'équipe info AE";
 				"ORDER BY `ae_carte`.`id_carte_ae`");
 	$printable['oth'] = array();
 	while ( $row = $req->get_row() )
-		if ( file_exists("../images/matmatronch/" . $row['id_utilisateur'] .".identity.jpg"))
+		if ( file_exists("../var/img/matmatronch/" . $row['id_utilisateur'] .".identity.jpg"))
 			$printable['oth'][]=$row['id_utilisateur'];	
 	$print = new contents("PDFs &agrave; imprimer ");
 	$print->add_paragraph(count($printable['sev'])." carte(s) imprimable(s) pour SÃ©venans : <a href=\"cartesae.php?action=pdf&ids=".implode(",",$printable['sev'])."\">Imprimer</a>");
@@ -383,7 +383,7 @@ L'équipe info AE";
 			"ORDER BY `ae_carte`.`id_carte_ae`");	
 	$nprintable = array();
 	while ( $row = $req->get_row() )
-		if ( !file_exists("../images/matmatronch/" . $row['id_utilisateur'] .".identity.jpg"))
+		if ( !file_exists("../var/img/matmatronch/" . $row['id_utilisateur'] .".identity.jpg"))
 			$nprintable[]=$row['id_utilisateur'];	
 			
 	$req = new requete($site->db, 

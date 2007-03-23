@@ -15,7 +15,7 @@ if ( isset($_REQUEST["forcegen"]) )
 else
   $Mosaic->load_palette(); 
 
-if ( $Mosaic->load_image(100,75,"http://ae.utbm.fr/images/matmatronch/1649.jpg") )
+if ( $Mosaic->load_image(100,75,"http://ae.utbm.fr/var/img/matmatronch/1649.jpg") )
 {
   if ( isset($_REQUEST["output"]) && $_REQUEST["output"] =="jpeg" )
   {

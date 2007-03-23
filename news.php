@@ -154,9 +154,9 @@ if ( $news->id > 0 )
   $site->start_page ("accueil", $news->titre);
 
   $cts = new contents();
-  $img = "images/logos/".$asso->nom_unix.".small.png";
+  $img = "var/img/logos/".$asso->nom_unix.".small.png";
   if ( !file_exists($img) )
-    $img = "images/logos/news.small.png";
+    $img = "images/default/news.small.png";
 
   $cts->add_title(1,$news->titre);
   $cts->add(new image($asso->nom, $img, "newsimg"));
@@ -375,9 +375,9 @@ if ( $suitable && isset($_REQUEST["preview"]) )
 
   $cts = new contents($_REQUEST["title"]);
 
-  $img = "images/logos/".$asso->nom_unix.".small.png";
+  $img = "var/img/logos/".$asso->nom_unix.".small.png";
   if ( !file_exists($img) )
-    $img = "images/logos/news.small.png";
+    $img = "images/default/news.small.png";
 
   $cts->add(new image($asso->nom, $img, "newsimg"));
   $cts->add(new wikicontents(false,$_REQUEST["content"]));

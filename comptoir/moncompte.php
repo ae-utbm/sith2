@@ -172,7 +172,7 @@ elseif ( $_REQUEST["page"] == "rech" )
 $site->start_page("services", $user->prenom . " " . $user->nom );
 $cts = new contents(classlink($user)." / Compte AE");
 
-$cts->puts("<a href=\"".$topdir."e-boutic/?cat=11\"><img src=\"".$topdir."images/comptoir/eboutic/pub-eb-rech.png\" border=\"0\" alt=\"Recharger par carte bleue\" class=\"imgright\" /></a>");
+$cts->puts("<a href=\"".$topdir."e-boutic/?cat=11\"><img src=\"".$topdir."var/img/comptoir/eboutic/pub-eb-rech.png\" border=\"0\" alt=\"Recharger par carte bleue\" class=\"imgright\" /></a>");
 
 $cts->add_title(2,"Carte AE");
 

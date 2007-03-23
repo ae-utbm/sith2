@@ -292,12 +292,12 @@ elseif ( $_REQUEST['module']=="userfield" )
 	{
 		echo "<li><div class=\"imguser\"><img src=\"";
 			
-		if (file_exists($topdir."images/matmatronch/".$id.".jpg"))
-			echo $tgtopdir."images/matmatronch/".$id.".jpg";
-        elseif (file_exists($topdir."images/matmatronch/".$id.".identity.jpg"))
-            echo $tgtopdir."images/matmatronch/".$id.".identity.jpg";
+		if (file_exists($topdir."var/img/matmatronch/".$id.".jpg"))
+			echo $tgtopdir."var/img/matmatronch/".$id.".jpg";
+        elseif (file_exists($topdir."var/img/matmatronch/".$id.".identity.jpg"))
+            echo $tgtopdir."var/img/matmatronch/".$id.".identity.jpg";
 		else
-			echo $tgtopdir."images/matmatronch/na.gif";
+			echo $tgtopdir."var/img/matmatronch/na.gif";
 			
 		echo "\" /></div><a href=\"#\" onclick=\"userselect_set_user('$tgtopdir','".$_REQUEST["ref"]."',$id,'".addslashes(htmlspecialchars($email))."'); return false;\">".htmlspecialchars($email)."</a></li>\n";
 	}
@@ -314,10 +314,10 @@ elseif ( $_REQUEST['module']=="userinfo" )
 	if ( $user->id < 0 )
 		$user = &$site->user;
 		
-	if (file_exists($topdir."images/matmatronch/".$user->id.".jpg"))
-		echo "<img src=\"".$tgtopdir."images/matmatronch/".$user->id.".jpg\" alt=\"\" />\n";
+	if (file_exists($topdir."var/img/matmatronch/".$user->id.".jpg"))
+		echo "<img src=\"".$tgtopdir."var/img/matmatronch/".$user->id.".jpg\" alt=\"\" />\n";
 	else
-		echo "<img src=\"".$tgtopdir."images/matmatronch/na.gif"."\" alt=\"\" />\n";
+		echo "<img src=\"".$tgtopdir."var/img/matmatronch/na.gif"."\" alt=\"\" />\n";
 		
 	echo "<p class=\"nomprenom\">". $user->prenom . " " . $user->nom . "</p>";
 	if ( $user->surnom )

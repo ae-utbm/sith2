@@ -1280,10 +1280,10 @@ L'équipe info AE";
 			echo "item2.X-ABADR:fr\n";
 		}
 
-		if ( file_exists($topdir."images/matmatronch/".$this->id.".jpg"))
+		if ( file_exists($topdir."var/img/matmatronch/".$this->id.".jpg"))
 		{
 			echo "PHOTO;TYPE=JPEG;BASE64:\n";
-			echo "  ".chunk_split(base64_encode(file_get_contents($topdir."images/matmatronch/".$this->id.".jpg")),76,"\n  ");
+			echo "  ".chunk_split(base64_encode(file_get_contents($topdir."var/img/matmatronch/".$this->id.".jpg")),76,"\n  ");
 			echo "\n";
 		}
 		echo "END:VCARD\n";

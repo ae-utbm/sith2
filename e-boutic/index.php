@@ -102,10 +102,10 @@ if (!isset($_REQUEST['cat']))
 	$items_lst = new gallery ("");
   foreach ($cat as $c)
 	{
-	  /*if( !empty($c['url_logo_typeprod']) && file_exists($topdir."images/comptoir/eboutic/".$c["url_logo_typeprod"]) ) 
-      $img = $topdir."images/comptoir/eboutic/".$c["url_logo_typeprod"];
+	  /*if( !empty($c['url_logo_typeprod']) && file_exists($topdir."var/img/comptoir/eboutic/".$c["url_logo_typeprod"]) ) 
+      $img = $topdir."var/img/comptoir/eboutic/".$c["url_logo_typeprod"];
 		else
-		  $img = $topdir."images/matmatronch/na.gif";*/
+		  $img = $topdir."var/img/matmatronch/na.gif";*/
 		$img = $c['url_logo_typeprod'];
 		$title = $c['nom_typeprod'];
 		$id = $c['id_typeprod'];

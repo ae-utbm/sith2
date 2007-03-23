@@ -416,7 +416,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
 
               $cts->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']=>"Rechercher un autre cotisant")));
 
-              $cts->add(new image($user->prenom . " " . $user->nom,$topdir."/images/matmatronch/".$user->id.".identity.jpg","fiche_image"));
+              $cts->add(new image($user->prenom . " " . $user->nom,$topdir."/var/img/matmatronch/".$user->id.".identity.jpg","fiche_image"));
               $cts->add_paragraph(
                                   "<b>". $user->prenom . " " . $user->nom . "</b><br/>" .
                                   $user->surnom."<br/>\n".

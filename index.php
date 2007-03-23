@@ -95,12 +95,12 @@ if ( $site->user->id <= 0 )
 		{	
 			if ( $row['id_asso'] )
 			{
-				$img = "/images/logos/".$row['nom_unix_asso'].".icon.png";
+				$img = "/var/img/logos/".$row['nom_unix_asso'].".icon.png";
 				if ( !file_exists("/var/www/ae/www/ae2".$img) )
-					$img = "images/logos/news.icon.png";		
+					$img = "images/default/news.icon.png";		
 			}
 			else
-				$img = "images/logos/news.icon.png";
+				$img = "images/default/news.icon.png";
 			
 			$when = " ".date("d/m/Y",strtotime($row['date_nvl']));
 			
@@ -149,13 +149,13 @@ if ( $site->user->id <= 0 )
 			
 			if ( $row['id_asso'] )
 			{
-				$img = "<a href=\"asso.php?id_asso=".$row['id_asso']."\"><img src=\"/images/logos/".$row['nom_unix_asso'].".icon.png\" alt=\"\"/>";
-				if ( !file_exists("/var/www/ae/www/ae2/images/logos/".$row['nom_unix_asso'].".icon.png") )
-					$img = "<a href=\"asso.php?id_asso=".$row['id_asso']."\"><img src=\"images/logos/news.icon.png\" alt=\"\"/></a>";		
+				$img = "<a href=\"asso.php?id_asso=".$row['id_asso']."\"><img src=\"/var/img/logos/".$row['nom_unix_asso'].".icon.png\" alt=\"\"/>";
+				if ( !file_exists("/var/www/ae/www/ae2/var/img/logos/".$row['nom_unix_asso'].".icon.png") )
+					$img = "<a href=\"asso.php?id_asso=".$row['id_asso']."\"><img src=\"images/default/news.icon.png\" alt=\"\"/></a>";		
 			}
 			else
 			{
-			  $img = "<img src=\"images/logos/news.icon.png\" alt=\"\"/>";
+			  $img = "<img src=\"images/default/news.icon.png\" alt=\"\"/>";
 			}
 				
 			if ( $day != date("Y-m-d",$fin) && (($fin-$debut) > (60*60*24)))	

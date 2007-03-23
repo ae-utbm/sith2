@@ -239,9 +239,9 @@ class newsflow extends contents
 					$this->buffer .= "<div class=\"newsitem first altfirst\">";
 				else
 					$this->buffer .= "<div class=\"newsitem first\">";
-				$img = $topdir."images/logos/".$row["nom_unix_asso"].".icon.png";
+				$img = $topdir."var/img/logos/".$row["nom_unix_asso"].".icon.png";
 				if ( !file_exists($img) )
-					$img = $topdir."images/logos/news.icon.png";
+					$img = $topdir."images/default/news.icon.png";
 				$this->buffer .= "<img src=\"$img\" class=\"newsimg\" alt=\"\" />";
 				
 				$this->buffer .= "<a href=\"".$topdir."news.php?id_nouvelle=".$row["id_nouvelle"]."\">".
@@ -366,9 +366,9 @@ class newsflow2 extends contents
 				
 				
 				$this->buffer .= "<div class=\"newsitem first\">";
-				$img = $topdir."images/logos/".$row["nom_unix_asso"].".icon.png";
+				$img = $topdir."var/img/logos/".$row["nom_unix_asso"].".icon.png";
 				if ( !file_exists($img) )
-					$img = $topdir."images/logos/news.icon.png";
+					$img = $topdir."images/default/news.icon.png";
 				$this->buffer .= "<img src=\"$img\" class=\"newsimg\" alt=\"\" />";
 				
 				$this->buffer .= "<a href=\"".$topdir."news.php?id_nouvelle=".$row["id_nouvelle"]."\">".

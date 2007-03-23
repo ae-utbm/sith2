@@ -42,7 +42,7 @@ if ( $_REQUEST["action"] == "setphotosmmt")
 	if ( is_uploaded_file($_FILES['mmtfile']['tmp_name'])  )
 	{
 		$src = $_FILES['mmtfile']['tmp_name'];
-		$dest = "../images/matmatronch/".$_POST['id'].".jpg";
+		$dest = "../var/img/matmatronch/".$_POST['id'].".jpg";
 		exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest");
 		$success = 1;
 		$page = "default";
@@ -56,16 +56,16 @@ if ( $_REQUEST["action"] == "setphotosident")
 	if ( is_uploaded_file($_FILES['idtfile']['tmp_name'])  )
 	{
 		$src = $_FILES['idtfile']['tmp_name'];
-		$dest = "../images/matmatronch/".$_POST['id'].".identity.jpg";
+		$dest = "../var/img/matmatronch/".$_POST['id'].".identity.jpg";
 		exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest");
 		$success = 2;
 		$page = "default";
 	}
 	/* Si l'utilisateur n'a pas de photo mat'matronch à son actif, on lui en met une */
-	if ( !file_exists($topdir."images/matmatronch/".$user->id.".jpg") )
+	if ( !file_exists($topdir."var/img/matmatronch/".$user->id.".jpg") )
 	{
 		$src = $_FILES['idtfile']['tmp_name'];
-		$dest = "../images/matmatronch/".$_POST['id'].".jpg";
+		$dest = "../var/img/matmatronch/".$_POST['id'].".jpg";
 		exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest");
 		$success = 4;
 		$page = "default";
@@ -123,10 +123,10 @@ if ($page == "upload_photos")
 	$frm_identite->add_hidden("nom",$user->nom);
 	$frm_identite->add_hidden("prenom",$user->prenom);
 
-	if ( file_exists($topdir."images/matmatronch/".$user->id.".identity.jpg") )
+	if ( file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg") )
 	{
 		$frm_identite->puts("Photo actuelle : <br/>");
-		$frm_identite->add_info("<img src=\"".$topdir."images/matmatronch/".$user->id.".identity.jpg\" alt=\"\" /><br/><br/>");
+		$frm_identite->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".identity.jpg\" alt=\"\" /><br/><br/>");
 	}
 	else
 		$frm_identite->add_info("Aucune photo d'identit&eacute; actuellement en ligne pour ".$user->nom. " " .$user->prenom);
@@ -143,10 +143,10 @@ if ($page == "upload_photos")
 	$frm_mmt->add_hidden("nom",$user->nom);
 	$frm_mmt->add_hidden("prenom",$user->prenom);
 	
-	if ( file_exists($topdir."images/matmatronch/".$user->id.".jpg") )
+	if ( file_exists($topdir."var/img/matmatronch/".$user->id.".jpg") )
 	{
 		$frm_mmt->puts("Photo actuelle : <br/>");
-		$frm_mmt->add_info("<img src=\"".$topdir."images/matmatronch/".$user->id.".jpg\" alt=\"\" /><br/><br/>");
+		$frm_mmt->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".jpg\" alt=\"\" /><br/><br/>");
 	}
 	else
 		$frm_mmt->add_info("Aucune photo d'mat'matronch actuellement en ligne pour ".$user->nom. " " .$user->prenom);

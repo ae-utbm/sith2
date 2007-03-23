@@ -179,7 +179,7 @@ function import_infos_utl()
      	else if ( $result['impr'] )
      		$etat_vie_carte_ae = CETAT_AU_BUREAU_AE;
      	/* Etat déprécié
-     	 * else if ( file_exists("../../siteae/images/matmatronch/".$result['id'].".jpg") )
+     	 * else if ( file_exists("../../siteae/var/img/matmatronch/".$result['id'].".jpg") )
      		$etat_vie_carte_ae = CETAT_A_PRODUIRE;
 			*/
 			

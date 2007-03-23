@@ -55,7 +55,7 @@ echo "<title>Photo Matmatronch</title>
 
 echo "<center>";
 echo "<a href=\"javascript:window.close()\">".
-     "<img src=\"".$topdir."images/matmatronch/" .
+     "<img src=\"".$topdir."var/img/matmatronch/" .
      $id .".jpg\" style=\"margin-bottom: 0.5em; margin-top: 0.5em;\">".
      "</a><br/>";
 if (!empty($citation) && isset($citation))

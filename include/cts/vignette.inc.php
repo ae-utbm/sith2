@@ -57,12 +57,12 @@ class vignette extends stdcontents
     if ( ereg("^dfile://([0-9]*)$", $img, $regs ))
       $this->buffer .= "<img src=\"" . $topdir . "/d.php?id_file=" . $regs[1] .
         "&amp;action=download&amp;download=thumb\" alt=\"\" class=\"fiche_image\" />\n";
-    elseif ( ($img != "") && ((file_exists($topdir . "images/comptoir/eboutic/" . $img))
+    elseif ( ($img != "") && ((file_exists($topdir . "var/img/comptoir/eboutic/" . $img))
                               || (substr_count($img, "watermark.php") > 0)))
-      $this->buffer .= "<img src=\"".$topdir."images/comptoir/eboutic/" .$img .
+      $this->buffer .= "<img src=\"".$topdir."var/img/comptoir/eboutic/" .$img .
 	"\" alt=\"\" class=\"fiche_image\" />\n";
     else
-      $this->buffer .= "<img src=\"" . $topdir . "images/comptoir/eboutic/prod-unknown.png".
+      $this->buffer .= "<img src=\"" . $topdir . "var/img/comptoir/eboutic/prod-unknown.png".
 	"\" alt=\"\" class=\"fiche_image\" />\n";
     $this->buffer .= "<p><b>". $title . "</b><br/><br/>";
     $this->buffer .= "<i>". $desc . "</i><br/><br/>";
@@ -120,12 +120,12 @@ class vignette2 extends stdcontents
     if ( ereg("^dfile://([0-9]*)$", $img, $regs ))
       $this->buffer .= "<img src=\"" . $topdir . "/d.php?id_file=" . $regs[1] .
         "&amp;action=download&amp;download=thumb\" alt=\"\" class=\"fiche_image\" border=\"0\" />\n";
-    elseif ( ($img != "") && ((file_exists($topdir . "images/comptoir/eboutic/" . $img))
+    elseif ( ($img != "") && ((file_exists($topdir . "var/img/comptoir/eboutic/" . $img))
                               || (substr_count($img, "watermark.php") > 0)))
-      $this->buffer .= "<img src=\"".$topdir."images/comptoir/eboutic/" .$img .
+      $this->buffer .= "<img src=\"".$topdir."var/img/comptoir/eboutic/" .$img .
         "\" alt=\"\" class=\"fiche_image\" border=\"0\" />\n";
     else
-      $this->buffer .= "<img src=\"" . $topdir . "images/comptoir/eboutic/prod-unknown.png".
+      $this->buffer .= "<img src=\"" . $topdir . "var/img/comptoir/eboutic/prod-unknown.png".
         "\" alt=\"\" class=\"fiche_image\" border=\"0\" />\n";
 
     $this->buffer .= "</a>";

@@ -148,10 +148,10 @@ class external_client
 			break;
 		}
 
-		if ( !file_exists($topdir."images/matmatronch/".$user->id.$ext.".jpg") )
+		if ( !file_exists($topdir."var/img/matmatronch/".$user->id.$ext.".jpg") )
 			$this->error("Photo inexsistante de type".$type);
 
-		$this->img = imagecreatefromjpeg($topdir."images/matmatronch/".$user->id.$ext.".jpg");
+		$this->img = imagecreatefromjpeg($topdir."var/img/matmatronch/".$user->id.$ext.".jpg");
 		if (!$this->img)
 			$this->error("Erreur dans la conversion de l'image en flux");
 

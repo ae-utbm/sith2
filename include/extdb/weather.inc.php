@@ -95,7 +95,7 @@ function cache_get_weather($citycode="FRXX0012")
 {
 	global $topdir;
 	
-	$file = $topdir."cache/weather/".$citycode;
+	$file = $topdir."var/cache/weather/".$citycode;
 	
 	if ( !file_exists($file) || time() > filemtime($file) + (1 * 60 * 60) )
 	{

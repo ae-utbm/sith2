@@ -27,7 +27,7 @@ foreach ($coords as $coord)
 foreach ($cpx as $bleh)
   $carte->draw_circle ($bleh, 5, "blue");
 
-$carte->output ("/var/www/ae/www/images/logos/promo04.png");
+$carte->output ("/var/www/ae/www/var/img/logos/promo04.png");
 $carte->destroy ();
 
 /*

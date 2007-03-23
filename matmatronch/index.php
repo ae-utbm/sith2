@@ -339,7 +339,7 @@ $frm_order->add_radiobox_field("order_by","Trier par",array(1=>"Nom",2=>"Prenom"
 $frm_order->add_radiobox_field("display_by","Affichage resultats",array(1=>"Mode Liste",2=>"Mode Fiches"),2,false,false,array());
 $frm_global->add($frm_order);
 
-$frm_global->puts("<table style=\"position: relative; float:left;\"><tr><td><img src=\"".$topdir."images/logos/firefox.icon.png\"></td><td><b>Nouveau :</b><br/> Le Mat'Matronch dans la search bar Firefox ! Cliquez-ici</td><td><a href=\"javascript:addEngine('".UrlCourante()."','matmatronch','png','AE',0)\"><img src=\"".$topdir."images/actions/install.png\"></td></tr></table>");
+$frm_global->puts("<table style=\"position: relative; float:left;\"><tr><td><img src=\"".$topdir."var/img/logos/firefox.icon.png\"></td><td><b>Nouveau :</b><br/> Le Mat'Matronch dans la search bar Firefox ! Cliquez-ici</td><td><a href=\"javascript:addEngine('".UrlCourante()."','matmatronch','png','AE',0)\"><img src=\"".$topdir."images/actions/install.png\"></td></tr></table>");
 $frm_global->add_submit("mmtsubmit","Rechercher");
 
 $site->add_contents($frm_global);

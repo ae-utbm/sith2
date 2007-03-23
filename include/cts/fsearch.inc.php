@@ -206,12 +206,12 @@ if ( $site->user->id > 0 && ($site->user->utbm || $site->user->ae) )
 				
 			$this->buffer .= "<li><div class=\"imguser\"><img src=\"";
 			
-			if (file_exists($topdir."images/matmatronch/".$row['id_utilisateur'].".jpg"))
-				$this->buffer .= $tgtopdir."images/matmatronch/".$row['id_utilisateur'].".jpg";
-		    elseif (file_exists($topdir."images/matmatronch/".$row['id_utilisateur'].".identity.jpg"))
-				$this->buffer .= $tgtopdir."images/matmatronch/".$row['id_utilisateur'].".identity.jpg";
+			if (file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg"))
+				$this->buffer .= $tgtopdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg";
+		    elseif (file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg"))
+				$this->buffer .= $tgtopdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg";
 			else
-				$this->buffer .= $tgtopdir."images/matmatronch/na.gif";
+				$this->buffer .= $tgtopdir."var/img/matmatronch/na.gif";
 				
 			$this->buffer .= "\" /></div><a href=\"".$tgtopdir."user.php?id_utilisateur=".$row['id_utilisateur']."\"><img src=\"".$tgtopdir."images/icons16/user.png\" class=\"icon\" alt=\"\" /> $nom</a></li>";
 			

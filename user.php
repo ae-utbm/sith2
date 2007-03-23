@@ -310,17 +310,17 @@ elseif ( $_REQUEST["action"] == "reprint" && $site->user->is_in_group("gestion_a
 
 if ( $_REQUEST["action"] == "setphotos" && $can_edit )
 {
-	$dest_idt = "/var/www/ae/www/ae2/images/matmatronch/".$user->id.".identity.jpg";
+	$dest_idt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg";
 	/*if( isset($_REQUEST['delete_idt']) && file_exists($dest_idt))
 		unlink($dest_idt);*/
 	if ( is_uploaded_file($_FILES['idtfile']['tmp_name'])  )
     {
       $src = $_FILES['idtfile']['tmp_name'];
-      $dest = "/var/www/ae/www/ae2/images/matmatronch/".$user->id.".identity.jpg";
+      $dest = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg";
       exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_idt");
     }
 
-	$dest_mmt = "/var/www/ae/www/ae2/images/matmatronch/".$user->id.".jpg";
+	$dest_mmt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg";
 	if( isset($_REQUEST['delete_mmt']) && file_exists($dest_mmt))
 		unlink($dest_mmt);
 	if ( is_uploaded_file($_FILES['mmtfile']['tmp_name'])  )
@@ -334,8 +334,8 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit )
 
 if ( $_REQUEST["action"] == "setblouse" && $can_edit )
 {
-	$dest = "/var/www/ae/www/ae2/images/matmatronch/".$user->id.".blouse.jpg";
-	//$dest_mini = "/var/www/ae/www/ae2/images/matmatronch/".$user->id.".blouse.mini.jpg";
+	$dest = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.jpg";
+	//$dest_mini = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.mini.jpg";
 	if( isset($_REQUEST['delete_blouse']) && file_exists($dest))
 	{
 		unlink($dest);
@@ -482,12 +482,12 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   //$frm->add_info("<b>ATTENTION</b>: Apr&egrave;s l'envoi d'une nouvelle photo, il se peut que le cache de votre navigateur ne se mette pas &agrave; jour imm&eacute;diatemment. Pour cela, faites sur l'image : <i>Clic droit &gt; Voir l'image</i> et forcez un raffraichissement de la page (avec Ctrl+Shift+R). Votre photo devrait se mettre &agrave; jour.");
 
   $subfrm = new form("mmt",null,null,null,"Photo matmatronch");
-  if ( file_exists("/var/www/ae/www/ae2/images/matmatronch/".$user->id.".jpg") )
+  if ( file_exists("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg") )
 	{
-  	$exif = @exif_read_data("/var/www/ae/www/ae2/images/matmatronch/".$user->id.".jpg", 0, true);
+  	$exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg", 0, true);
     if ( $exif["FILE"]["FileDateTime"] )
 		  $date_prise_vue = $exif["FILE"]["FileDateTime"];
-		$subfrm->add_info("<img src=\"".$topdir."images/matmatronch/".$user->id.".jpg?".$date_prise_vue."\" alt=\"\" width=\"100\" /><br/>");
+		$subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".jpg?".$date_prise_vue."\" alt=\"\" width=\"100\" /><br/>");
   }
 	$subfrm->add_file_field ( "mmtfile", "Fichier" );
 	$subfrm->add_checkbox("delete_mmt","Supprimer ma photo matmatronch");
@@ -495,13 +495,13 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
 
   $subfrm = new form("idt",null,null,null,"Photo identit&eacute; (carte AE)");
 
-  if ( file_exists("/var/www/ae/www/ae2/images/matmatronch/".$user->id.".identity.jpg") )
+  if ( file_exists("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg") )
     {
 		  $date_prise_vue="";
-		  $exif = @exif_read_data("/var/www/ae/www/ae2/images/matmatronch/".$user->id.".identity.jpg", 0, true);
+		  $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg", 0, true);
 			if ( $exif["FILE"]["FileDateTime"] )
 			  $date_prise_vue = $exif["FILE"]["FileDateTime"];
-      $subfrm->add_info("<img src=\"".$topdir."images/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."\" alt=\"\" width=\"100\" /><br/>");
+      $subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."\" alt=\"\" width=\"100\" /><br/>");
       if ($site->user->is_asso_role ( 27, 1 ) || $site->user->is_in_group("gestion_ae"))
 	  {
         $subfrm->add_file_field ( "idtfile", "Fichier" );
@@ -523,8 +523,8 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   $frm->add_hidden("action","setblouse");
   $subfrm = new form("blouse",null,null,null,"Photo de la blouse");
 
-  if ( file_exists("/var/www/ae/www/ae2/images/matmatronch/".$user->id.".blouse.mini.jpg") )
-    $subfrm->add_info("<img src=\"".$topdir."images/matmatronch/".$user->id.".blouse.mini.jpg\" alt=\"\" width=\"100\" /><br/>");
+  if ( file_exists("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.mini.jpg") )
+    $subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".blouse.mini.jpg\" alt=\"\" width=\"100\" /><br/>");
   $subfrm->add_file_field ( "blousefile", "Fichier" );
   $subfrm->add_checkbox("delete_blouse","Supprimer la photo de ma blouse");
   $frm->add ( $subfrm );
@@ -744,9 +744,9 @@ else
       $cts->add_paragraph("<br/>R&eacute;flexe E-boutic ! <a href=\"" . $topdir .
                           "e-boutic/?cat=23\">Renouveler sa cotisation en ligne : </a><br /><br />");
       $cts->puts("<center><a href=\"".$topdir."e-boutic/?act=add&item=94&cat=23\"><img src=\"" .
-                 $topdir . "images/comptoir/eboutic/prod-ae-an.png\"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                 $topdir . "var/img/comptoir/eboutic/prod-ae-an.png\"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
       $cts->puts("<a href=\"".$topdir."e-boutic/?act=add&item=93&cat=23\"><img src=\"" . $topdir .
-                 "images/comptoir/eboutic/prod-ae-sem.png\"></a></center>");
+                 "var/img/comptoir/eboutic/prod-ae-sem.png\"></a></center>");
     }
 
   if ( $site->user->is_in_group("gestion_ae") )
@@ -821,7 +821,7 @@ else
     {
       $cts->add_title(2, "Cotisation AE");
 
-      if ( !file_exists("/var/www/ae/www/ae2/images/matmatronch/" . $user->id .".identity.jpg"))
+      if ( !file_exists("/var/www/ae/www/ae2/var/img/matmatronch/" . $user->id .".identity.jpg"))
         $cts->add_paragraph("<img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION</b>: " .
                             "<a href=\"user.php?page=edit&amp;id_utilisateur=".$user->id.
                             "&amp;open=photo#setphotos\">Photo d'identit&eacute; non pr&eacute;sente !</a>");

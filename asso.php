@@ -118,9 +118,9 @@ else if ( isset($_REQUEST["id_asso"]) )
       {
         $src = $_FILES['logofile']['tmp_name'];
     
-        $dest_small ="/var/www/ae/www/ae2/images/logos/".$asso->nom_unix.".small.png";
-        $dest_icon = "/var/www/ae/www/ae2/images/logos/".$asso->nom_unix.".icon.png";
-        $dest_full = "/var/www/ae/www/ae2/images/logos/".$asso->nom_unix.".jpg";
+        $dest_small ="/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".small.png";
+        $dest_icon = "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".icon.png";
+        $dest_full = "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg";
     
         exec("/usr/share/php5/exec/convert $src -thumbnail 80x80 $dest_small");
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 48x48 -bordercolor white  -border 24 -background white -gravity center -crop 48x48+0+0 +repage $dest_icon"));
@@ -182,8 +182,8 @@ else if ( isset($_REQUEST["id_asso"]) )
     $frm->add_hidden("action","setlogo");
     if ( $ErreurLogo )
       $frm->error($ErreurLogo);
-    if ( file_exists($topdir."images/logos/".$asso->nom_unix.".small.png") )
-      $frm->add_info("<img src=\"".$topdir."images/logos/".$asso->nom_unix.".small.png\" />");
+    if ( file_exists($topdir."var/img/logos/".$asso->nom_unix.".small.png") )
+      $frm->add_info("<img src=\"".$topdir."var/img/logos/".$asso->nom_unix.".small.png\" />");
     $frm->add_info("Le logo doit être de grande taille, avec un fond transparent et au format PNG");
     $frm->add_file_field("logofile","Fichier PNG");
     $frm->add_submit("valid","Enregistrer");
@@ -202,7 +202,7 @@ else if ( isset($_REQUEST["id_asso"]) )
 	
 	$cts->add(new tabshead($asso->get_tabs($site->user),"info"));	
 
-	$img = "/images/logos/".$asso->nom_unix.".small.png";
+	$img = "/var/img/logos/".$asso->nom_unix.".small.png";
 	if ( file_exists("/var/www/ae/www/ae2".$img) )
 		$cts->add(new image($asso->nom, $img, "newsimg"));
 
@@ -240,7 +240,7 @@ else if ( isset($_REQUEST["id_asso"]) )
     $gal = new gallery($vocable,"clubsgal");
     while ( $row = $req->get_row() )
     {
-  		$img = "/images/logos/".$row['nom_unix_asso'].".small.png";
+  		$img = "/var/img/logos/".$row['nom_unix_asso'].".small.png";
 
       if ( !file_exists("/var/www/ae/www/ae2".$img) )
       {
