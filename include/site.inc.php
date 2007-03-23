@@ -236,10 +236,10 @@ class site extends interfaceweb
 
     $cts = new contents("AE Academy");
 
-    $last_m = @filemtime("/var/www/ae/www/images/webcam.jpg");
+    $last_m = @filemtime("/var/www/ae/www/var/img/webcam.mini.jpg");
 
     if (file_exists("/var/www/ae/www/var/img/webcam.mini.jpg"))
-      $imgsrc = $topdir . "var/img/webcam.jpg?".$last_m;
+      $imgsrc = $topdir . "var/img/webcam.mini.jpg?".$last_m;
     else
       $imgsrc = $topdir . "images/na.gif";
 
