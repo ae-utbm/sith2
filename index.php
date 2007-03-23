@@ -96,7 +96,7 @@ if ( $site->user->id <= 0 )
 			if ( $row['id_asso'] )
 			{
 				$img = "/var/img/logos/".$row['nom_unix_asso'].".icon.png";
-				if ( !file_exists("/var/www/ae/www/ae2".$img) )
+				if ( !file_exists("/var/www/ae/www".$img) )
 					$img = "images/default/news.icon.png";		
 			}
 			else
