@@ -22,7 +22,8 @@
  * 02111-1307, USA.
  */
 define("CPT_MACHINES", 8);
-define("PROD_JETON", 186);
+define("JET_LAVAGE", 224);
+define("JET_SECHAGE", 225);
 define("GRP_BLACKLIST", 29);
 
 $topdir="../";
@@ -55,22 +56,26 @@ if ($_REQUEST["view"] == "retour")
 {
 
 	$frm = new form("retourjetons","jetons.php?view=retour",false,"POST","Retour jetons");
+	$lst = new itemlist("Résultats :");
+	
 	/* Test des valeurs de jetons envoyés et modif dans la base (+ message)*/ 
-		if (isset($_REQUEST["numjetons"]))
+	if (isset($_REQUEST["numjetons"]) && isset($_REQUEST["typejeton"]))
 			{
 				$array_jetons = explode(" ", $_REQUEST["numjetons"]);
 				foreach($array_jetons as $numjeton)
 				{
 					$jeton = new jeton($site->db, $site->dbrw);
-					$jeton->load_by_nom($numjeton);
+					$jeton->load_by_nom($numjeton, $_REQUEST["typejeton"]);
 					
-					if(!$jeton->is_borrowed())
-						$frm->add_info("hey ! mais il est pas emprunté $numjeton !");
+					if($jeton->id < 0)
+					  $lst->add("Erreur pour le jeton n°$numjeton (mauvais type ?)", "ko");
+					elseif(!$jeton->is_borrowed())
+					  $lst->add("hey ! mais il est pas emprunté $numjeton !", "ko");
 					else
 					{	
 						$jeton->given_back ( $_REQUEST["sallejeton"], $_REQUEST["typejeton"], $numjeton);
 						if($jeton->id > -1)
-							$frm->add_info("- $numjeton a bien été marqué comme restitué");
+						  $lst->add("$numjeton a bien été marqué comme restitué", "ok");
 					}
 				}
 		
@@ -78,8 +83,11 @@ if ($_REQUEST["view"] == "retour")
 	$frm->add_info("Entrez les numéros des jetons séparés par des espaces :");
 	$frm->add_text_area("numjetons","Numéros :");
 	$frm->set_focus("numjetons");
+	$frm->add_select_field("typejeton", "Type du jeton :", $GLOBALS['types_jeton']);
 	$frm->add_submit("valid","Valider");
+	$cts->add($lst);
 	$cts->add($frm,true);
+	
 	
 }
 /* Onglet ajout de jetons, jetons en libertés, mauvais payeurs */
@@ -176,6 +184,7 @@ Les responsables machines à laver";
 	
 	
 	/* Formulaire d'ajout de jetons */	
+	$lst = new itemlist("Résultats :");
 	$frm = new form("ajoutjeton", "jetons.php?view=listing", false, "POST", "Ajouter un jeton");
 		/* Test des valeurs de jetons envoyés et ajout dans la base (+ message) */
 		if (isset($_REQUEST["numjetons"]))
@@ -186,7 +195,7 @@ Les responsables machines à laver";
 					$jeton = new jeton($site->db, $site->dbrw);
 					$jeton->add ( $_REQUEST["sallejeton"], $_REQUEST["typejeton"], $numjeton);
 					if($jeton->id > -1)
-						$frm->add_info("le jeton $numjeton a bien été enregistré");
+					  $lst->add("le jeton $numjeton a bien été enregistré", "ok");
 				}
 		
 			}
@@ -197,6 +206,7 @@ Les responsables machines à laver";
 	$frm->add_select_field("sallejeton", "Salle concernée :", $GLOBALS['salles_jeton']);
 	$frm->add_submit("valid","Valider");
 	$frm->allow_only_one_usage();
+	$cts->add($lst);
 	$cts->add($frm,true);
 
 	/* Liste des jetons empruntés */
@@ -342,7 +352,7 @@ else
 
           $debit = new debitfacture($site->db, $site->dbrw);
 					$ok = $debit->debitAE($utl, $site->user, $cpt, array(array(1,$vente)), false);
-				}
+	}
         else
           $ok = true;
           

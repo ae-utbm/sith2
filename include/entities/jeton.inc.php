@@ -53,12 +53,13 @@ class jeton
 	 * $this->id est égal à -1 en cas d'erreur
 	 * @param $id id du jeton
 	 */
-	function load_by_nom ( $nom )
+	function load_by_nom ( $nom, $type)
 	{
 		$req = new requete($this->db, "SELECT * FROM `mc_jeton`
-				WHERE `nom_jeton` = '" . mysql_real_escape_string($nom) . "'
+				WHERE `nom_jeton` = '" . mysql_real_escape_string($nom) . "' 
+				AND `type_jeton` = '". mysql_real_escape_string($type) . "'
 				LIMIT 1");	
-				
+	       
 		if ( $req->lines == 1 )
 			$this->_load($req->get_row());
 		else
