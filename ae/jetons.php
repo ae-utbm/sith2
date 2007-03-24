@@ -324,9 +324,9 @@ else
     else
     {
       $jetlav = new jeton($site->db, $site->dbrw);
-      $jetlav->load_by_nom($_REQUEST['numjetlaver']);
+      $jetlav->load_by_nom($_REQUEST['numjetlaver'], "laver");
       $jetsech = new jeton($site->db, $site->dbrw);
-      $jetsech->load_by_nom($_REQUEST['numjetsecher']);
+      $jetsech->load_by_nom($_REQUEST['numjetsecher'], "secher");
 
       if($jetlav->id == -1)
         $error = "Le jeton de machine à laver est invalide";
