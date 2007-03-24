@@ -300,6 +300,7 @@ Les responsables machines à laver";
 /* Sinon onglet d'emprunt des jetons */
 else
 {
+  $lst = new itemlist("Résultats :");
 
   /* execution de la demande */
   if (isset($_REQUEST["magicform"]) && $_REQUEST["magicform"]["name"] == "empruntjeton")
@@ -320,23 +321,29 @@ else
       $error = "Cotisation non renouvelée.";
 
     if(!empty($error))
-      $cts->add_paragraph("Erreur : $error");
+      $lst->add($error, "ko");
     else
     {
-      $jetlav = new jeton($site->db, $site->dbrw);
-      $jetlav->load_by_nom($_REQUEST['numjetlaver'], "laver");
-      $jetsech = new jeton($site->db, $site->dbrw);
-      $jetsech->load_by_nom($_REQUEST['numjetsecher'], "secher");
+      if(!empty($_REQUEST['numjetlaver']))
+	{
+	  $jetlav = new jeton($site->db, $site->dbrw);
+	  $jetlav->load_by_nom($_REQUEST['numjetlaver'], "laver");
+	  
+	  if($jetlav->id == -1)
+	    $error = "Le jeton de machine à laver est invalide";
+	  elseif($jetlav->is_borrowed())
+	    $error = "Le jeton de machine à laver ($jetlav->nom) est censé etre emprunté, comment ce fait-ce ?";
+	}
+      if(!empty($_REQUEST['numjetsecher']))
+	{
+	  $jetsech = new jeton($site->db, $site->dbrw);
+	  $jetsech->load_by_nom($_REQUEST['numjetsecher'], "secher");
 
-      if($jetlav->id == -1)
-        $error = "Le jeton de machine à laver est invalide";
-      if($jetsech->id == -1)
-        $error = "Le jeton de seche-linge est invalide";
-
-      if($jetlav->is_borrowed())
-        $error = "Le jeton de machine à laver ($jetlav->nom) est censé etre emprunté, comment ce fait-ce ?";	
-      if($jetsech->is_borrowed())
-        $error = "Le jeton de seche-linge ($jetsech->nom) est censé etre emprunté, comment ce fait-ce ?";
+	  if($jetsech->id == -1)
+	    $error = "Le jeton de seche-linge est invalide";      
+	  elseif($jetsech->is_borrowed())
+	    $error = "Le jeton de seche-linge ($jetsech->nom) est censé etre emprunté, comment ce fait-ce ?";
+	}
 
       if(!empty($error))
         $cts->add_paragraph("Erreur : $error");
@@ -346,24 +353,44 @@ else
         {
           $cpt = new comptoir ($site->db, $site->dbrw);
           $cpt->load_by_id (CPT_MACHINES);
-
-          $vente = new venteproduit($site->db, $site->dbrw);
-          $vente->load_by_id(PROD_JETON, CPT_MACHINES);
-
-          $debit = new debitfacture($site->db, $site->dbrw);
-					$ok = $debit->debitAE($utl, $site->user, $cpt, array(array(1,$vente)), false);
+	  $caddie = array();
+	  
+	  if($jetlav)
+	    {
+	      $vente_lav = new venteproduit($site->db, $site->dbrw);
+	      $vente_lav->load_by_id(JET_LAVAGE, CPT_MACHINES);
+	      $caddie[] = array(1, $vente_lav);
+	    }
+	  if($jetsech)
+	    {
+	      $vente_sech = new venteproduit($site->db, $site->dbrw);
+	      $vente_sech->load_by_id(JET_SECHAGE, CPT_MACHINES);
+	      $caddie[] = array(1, $vente_sech);
+	    }
+	  
+	  if($caddie)
+	    {
+	      $debit = new debitfacture($site->db, $site->dbrw);
+	      $ok = $debit->debitAE($utl, $site->user, $cpt, $caddie, false);
+	    }
 	}
         else
           $ok = true;
           
         if ( !$ok )
-          $cts->add_paragraph("Erreur : Solde insuffisant");
+          $lst->add("Solde insuffisant", "ko");
         else
         {
-          $jetlav->borrow_to_user($utl->id);
-          $jetsech->borrow_to_user($utl->id);
-
-          $cts->add_paragraph("Les jetons $jetlav->nom et $jetsech->nom ont bien ete prêtés à $utl->prenom $utl->nom");
+	  if($jetlav)
+	    {
+	      $jetlav->borrow_to_user($utl->id);
+	      $lst->add("Le jeton n°$jetlav->nom (lavage) a bien ete prêté à $utl->prenom $utl->nom", "ok");
+	    }
+	  if($jetsech)
+	    {
+	      $jetsech->borrow_to_user($utl->id);
+	      $lst->add("Le jeton n°$jetsech->nom (séchage) a bien ete prêté à $utl->prenom $utl->nom", "ok");
+	    }
         }
       }
     }
@@ -376,13 +403,14 @@ else
 	$frm->add_user_fieldv2("userae", "Utilisateur");
 	$frm->add_info("<br />");
 
-	$frm->add_text_field("numjetlaver", "Numéro de jeton lavage", "", true);
-	$frm->add_text_field("numjetsecher", "Numéro de jeton séchage", "", true);
+	$frm->add_text_field("numjetlaver", "Numéro de jeton lavage");
+	$frm->add_text_field("numjetsecher", "Numéro de jeton séchage");
 	$frm->add_radiobox_field("typedebit", "Type de débit",  array("debit_carte"=>"Cartes AE", "debit_especes"=>"Espèces"), "debit_carte");
 
 	$frm->add_submit("valid","Valider");
 	$frm->allow_only_one_usage();
 
+	$cts->add($lst);
 	$cts->add($frm,true);
 }
 
