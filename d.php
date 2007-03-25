@@ -228,7 +228,6 @@ elseif ( $_REQUEST["action"] == "addfile" && $folder->is_right($site->user,DROIT
   }
   elseif( !is_uploaded_file($_FILES['file']['tmp_name']) || ($_FILES['file']['error'] != UPLOAD_ERR_OK ) )
   {
-	  print_r($_FILES['file']);
     $_REQUEST["page"] = "newfolder";
     $ErreurAjout="Erreur lors du transfert.";
   }
