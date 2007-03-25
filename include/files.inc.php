@@ -156,7 +156,7 @@ class file
     $mime_types = NULL;
     /* le mimetype */
     $type = mime_content_type($tmp_file);
-    $filename = $topdir . "files/" . $nom;
+    $filename = $topdir . "var/files/" . $nom;
 
 
     /* on deplace le fichier (fonction membre upload()) */
@@ -170,7 +170,7 @@ class file
 		       "fichiers",
 		       array ("id_utilisateur" => $author,
 			      "id_catfch" => $cat,
-			      "nom_fichier" => "./files/" . $nom,
+			      "nom_fichier" => "./var/files/" . $nom,
 			      "mime_fichier" => $type,
 			      "date_fichier" => date("Y-m-d h:i:s"),
 			      "commentaire_fichier" => $comment,
