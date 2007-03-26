@@ -335,17 +335,17 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit )
 if ( $_REQUEST["action"] == "setblouse" && $can_edit )
 {
 	$dest = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.jpg";
-	//$dest_mini = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.mini.jpg";
+	$dest_mini = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.mini.jpg";
 	if( isset($_REQUEST['delete_blouse']) && file_exists($dest))
 	{
 		unlink($dest);
-		//unlink($dest_mini);
+		unlink($dest_mini);
 	}
 	if ( is_uploaded_file($_FILES['blousefile']['tmp_name'])  )
     {
       $src = $_FILES['blousefile']['tmp_name'];
       exec("/usr/share/php5/exec/convert $src -thumbnail 1600x1600 -quality 80 $dest");
-      //exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 -quality 90 $dest_mini");
+      exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 -quality 90 $dest_mini");
     }
   $_REQUEST["page"] = "edit";
   $_REQUEST["open"] = "blouse";
