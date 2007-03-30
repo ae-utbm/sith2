@@ -45,7 +45,7 @@ class newslist extends itemlist
 		
 		$sql = new requete($db,"SELECT * FROM nvl_nouvelles " .
 				"INNER JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
-				"WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND " .
+				"WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND asso_seule_nvl='0' AND " .
 				"NOW() > nvl_dates.date_debut_eve AND NOW() < nvl_dates.date_fin_eve");
 		
 		while ( $row = $sql->get_row() )
@@ -62,7 +62,7 @@ class newslist extends itemlist
 		
 		$sql = new requete($db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso FROM nvl_nouvelles " .
 				"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-				"WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND " .
+				"WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND asso_seule_nvl='0' AND " .
 				"DATEDIFF(date_nvl,NOW()) < 14 " .
 				"LIMIT 3");
 				
@@ -84,7 +84,7 @@ class newslist extends itemlist
 				"FROM nvl_dates " .
 				"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
 				"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-				"WHERE (type_nvl='".NEWS_TYPE_EVENT."' OR type_nvl='".NEWS_TYPE_HEBDO."') AND  modere_nvl='1' AND " .
+				"WHERE (type_nvl='".NEWS_TYPE_EVENT."' OR type_nvl='".NEWS_TYPE_HEBDO."') AND  modere_nvl='1' AND asso_seule_nvl='0' AND " .
 				"NOW() < nvl_dates.date_fin_eve " .
 				"ORDER BY nvl_dates.date_debut_eve " .
 				"LIMIT 5");
@@ -107,7 +107,7 @@ class newslist extends itemlist
 				"FROM nvl_dates " .
 				"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
 				"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-				"WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND " .
+				"WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND asso_seule_nvl='0' AND " .
 				"nvl_dates.id_nouvelle NOT IN (".implode(",",$ids).") AND " .
 				"NOW() < nvl_dates.date_debut_eve " .
 				"ORDER BY nvl_dates.date_debut_eve " .
@@ -169,7 +169,7 @@ class newsflow extends contents
 				"LEFT JOIN `asso` AS `asso3` ON `asso2`.`id_asso_parent`=`asso3`.`id_asso` " .
 				"WHERE ".
 				"($cond) ".
-				"AND `modere_nvl`='1'");
+				"AND `modere_nvl`='1' AND asso_seule_nvl='0'");
 			
 			list($max) = $req->get_row();
 			
@@ -216,7 +216,7 @@ class newsflow extends contents
 			"LEFT JOIN `asso` AS `asso3` ON `asso2`.`id_asso_parent`=`asso3`.`id_asso` " .
 			"WHERE ".
 			"($cond) ".
-			"AND `modere_nvl`='1' ORDER BY 1,`date_nvl` DESC LIMIT $st,$npp");
+			"AND `modere_nvl`='1' AND asso_seule_nvl='0' ORDER BY 1,`date_nvl` DESC LIMIT $st,$npp");
 
 		$first=true;
 		$n=0;
@@ -338,7 +338,7 @@ class newsflow2 extends contents
 			"LEFT JOIN `asso` AS `asso3` ON `asso2`.`id_asso_parent`=`asso3`.`id_asso` " .
 			"WHERE ".
 			"($cond) ".
-			"AND `modere_nvl`='1' ORDER BY 1,`date_nvl` DESC LIMIT $nb");
+			"AND `modere_nvl`='1' AND asso_seule_nvl='0' ORDER BY 1,`date_nvl` DESC LIMIT $nb");
 
 		$n=0;
 		$left_nws=array();
