@@ -567,7 +567,7 @@ class site extends interfaceweb
 		$sublist->add("<a href=\"".$topdir."user.php?view=assos\">Associations et clubs</a>");
 		$sublist->add("<a href=\"".$topdir."user.php?view=parrain\">Parrains et fillots</a>");
 		$sublist->add("<a href=\"".$topdir."comptoir/moncompte.php\">Compte AE</a>");
-      	$sublist->add("<a href=\"".$topdir."perso.php\">Personnalisation</a>");
+      	//$sublist->add("<a href=\"".$topdir."perso.php\">Personnalisation</a>");
 		$req = new requete($this->db,"SELECT  " .
 			"COUNT(*) " .
 			"FROM sl_reservation " .
