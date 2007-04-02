@@ -175,7 +175,7 @@ Merci d'avance
 Les responsables machines à laver";
 			  
 		  $mail = mail($user->email, utf8_decode("[AE] Jetons de machines à laver"), utf8_decode($body),
-                            "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ae.info@utbm.fr");
+                            "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: marie-anne.mittet@utbm.fr,sebastien.dete@utbm.fr");
 			if ($mail)
 				$lst->add("Mail de rappel &agrave; " .$user->prenom. " " .$user->nom. " : Envoy&eacute;","ok");	
 			else
@@ -259,6 +259,7 @@ Les responsables machines à laver";
 				);
 	$cts->add($table,true);
 
+	/* Liste des mauvais clients */
 	$sql = new requete($site->db, "SELECT mc_jeton_utilisateur.id_jeton,
 					mc_jeton_utilisateur.id_utilisateur,
 					mc_jeton_utilisateur.retour_jeton,
@@ -309,7 +310,26 @@ Les responsables machines à laver";
 			      );
 
 	$cts->add($table, true);
-				
+
+	/* Liste complète des jetons */
+	$sql = new requete($site->db, "SELECT * FROM mc_jeton");
+	
+	$table = new sqltable("listjeton",
+			      "Liste des jetons",
+			      $sql,
+			      "jeton.php?view=listing",
+			      "id_jeton",
+			      array(
+				    "id_jeton" => "ID du jeton",
+				    "nom_jeton" => "N° du jeton",
+				    "type_jeton" =>"Type du jeton"
+				    ),
+			      array(),
+			      array(),
+			      array()
+			      );
+
+	$cts->add($table, true);				
 
 
 		
@@ -422,7 +442,7 @@ else
 
 	$frm->add_text_field("numjetlaver", "Numéro de jeton lavage");
 	$frm->add_text_field("numjetsecher", "Numéro de jeton séchage");
-	$frm->add_radiobox_field("typedebit", "Type de débit",  array("debit_carte"=>"Cartes AE", "debit_especes"=>"Espèces"), "debit_carte");
+	$frm->add_radiobox_field("typedebit", "Type de débit",  array("debit_carte"=>"Cartes AE", "debit_especes"=>"Espèces"), "debit_espece");
 
 	$frm->add_submit("valid","Valider");
 	$frm->allow_only_one_usage();
