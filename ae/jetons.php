@@ -136,11 +136,24 @@ elseif ( $_REQUEST["view"] == "listing" )
 		foreach ( $ids as $id )
 		{
 		  $user = new utilisateur($site->db);
+
+		  $id = intval($id);
+
 		  $user->load_by_id($id);
-		  $sql = new requete($site->db, "SELECT mc_jeton_utilisateur.id_jeton, mc_jeton.nom_jeton, DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) AS duree 
-			  			FROM mc_jeton 
-						INNER JOIN mc_jeton_utilisateur ON mc_jeton.id_jeton = mc_jeton_utilisateur.id_jeton 
-						WHERE id_utilisateur=1956 AND retour_jeton IS NULL");
+		  $sql = new requete($site->db, "SELECT 
+                                                        mc_jeton_utilisateur.id_jeton
+                                                        , mc_jeton.nom_jeton
+                                                        , DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) AS duree 
+			  			 FROM 
+                                                        mc_jeton 
+						INNER JOIN 
+                                                        mc_jeton_utilisateur 
+                                                ON 
+                                                        mc_jeton.id_jeton = mc_jeton_utilisateur.id_jeton 
+						WHERE 
+                                                        id_utilisateur = $id 
+                                                AND 
+                                                        retour_jeton IS NULL");
 		  $body = "Bonjour, 
 
 Vous utilisez le service de machines à laver proposé par l'AE et nous vous en remercions, nous attirons votre attention sur le fait que les jetons vous sont prêtés pour une utilisation des machines dans la journée suivante, ceci afin de permettre une bonne circulation des jetons, garantissant ainsi à tous la possiblité de bénéficier de ce service.
