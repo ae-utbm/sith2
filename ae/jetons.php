@@ -442,7 +442,7 @@ else
 
 	$frm->add_text_field("numjetlaver", "Numéro de jeton lavage");
 	$frm->add_text_field("numjetsecher", "Numéro de jeton séchage");
-	$frm->add_radiobox_field("typedebit", "Type de débit",  array("debit_carte"=>"Cartes AE", "debit_especes"=>"Espèces"), "debit_espece");
+	$frm->add_radiobox_field("typedebit", "Type de débit",  array("debit_carte"=>"Cartes AE", "debit_especes"=>"Espèces"), "debit_especes");
 
 	$frm->add_submit("valid","Valider");
 	$frm->allow_only_one_usage();
