@@ -332,7 +332,7 @@ elseif ( $_REQUEST["page"] == "addasso" && $site->user->is_in_group("gestion_ae"
 {
 	$site->start_page("services","Administration des comptoirs");
 	$cts = new contents();
-	$frm = new form ("addtype","admin.php",true,"POST","Ajout d'un type de produit");
+	$frm = new form ("addasso","admin.php",true,"POST","Ajout d'une association");
 	$frm->add_hidden("action","addasso");
 	$frm->add_entity_select("id_asso", "Association", $site->db, "asso");
 	$frm->add_submit("valid","Ajouter");
@@ -362,7 +362,7 @@ elseif ( $_REQUEST["page"] == "addproduit" )
 {
 	$site->start_page("services","Administration des comptoirs");
 	$cts = new contents();
-	$frm = new form ("addproduit","admin.php",true,"POST","D'un produit");
+	$frm = new form ("addproduit","admin.php",true,"POST","Ajout d'un produit");
 	$frm->add_hidden("action","addproduit");
 	$frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit");
 	$frm->add_text_field("nom","Nom","",true);
