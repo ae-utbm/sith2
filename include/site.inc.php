@@ -151,16 +151,16 @@ class site extends interfaceweb
 		if ( $section == "accueil" )
 		{
 			if ($this->user->id < 0)
-				$this->set_side_boxes("right",array("planning", "meteo", "search","anniv","photo"),"accueil_nc_right");
+				$this->set_side_boxes("right",array("planning",/* "meteo", */"search","anniv","photo"),"accueil_nc_right");
 			else
-				$this->set_side_boxes("right",array("planning", "meteo", "weekly_photo","anniv","sondage","photo"/*,"webcam"*/,"comptoirs"),"accueil_c_right");
+				$this->set_side_boxes("right",array("planning", /*"meteo", */"weekly_photo","anniv","sondage","photo"/*,"webcam"*/,"comptoirs"),"accueil_c_right");
 
 			$this->add_box("anniv", $this->get_anniv_contents());
 			$this->add_box("planning", $this->get_planning_contents());
 			$this->add_box("weekly_photo",$this->get_weekly_photo_contents());
 			$this->add_box("sondage",$this->get_sondage());
 			
-			$this->add_box("meteo",$this->get_meteo());
+			//$this->add_box("meteo",$this->get_meteo());
 			$this->add_box("comptoirs",$this->get_comptoirs_box());
 			/*if ($this->user->id > 0)
 			  $this->add_box("webcam", $this->get_wc ());*/
@@ -252,7 +252,7 @@ class site extends interfaceweb
   
 	function get_meteo ()
 	{
-		global $topdir;
+		/*global $topdir;
 		require_once ($topdir ."include/extdb/weather.inc.php");
 
 		$w = cache_get_weather();
@@ -294,7 +294,8 @@ class site extends interfaceweb
 		}
 
 		
-		return $cts;
+		return $cts;*/
+		return null;
 	}
 
 	function get_alerts()
