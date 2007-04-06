@@ -4,7 +4,6 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir. "include/cts/gallery.inc.php");
-require_once($topdir. "include/cts/special.inc.php");
 require_once($topdir. "include/globals.inc.php");
 $site = new site ();
 if ( $site->user->id < 1 )
@@ -97,10 +96,10 @@ elseif ( $_REQUEST["action"] == "search" )
 	  $elements[] = "`promo_utbm`='".mysql_escape_string($_REQUEST["promo"])."'";
 	
 	if ( $_REQUEST["tel_maison"])
-	  $elements[] = "`tel_maison_utl`='".mysql_escape_string(telephone_userinput($_REQUEST["tel_maison"]))."'";
+	  $elements[] = "`tel_maison_utl`='".mysql_escape_string($_REQUEST["tel_maison"])."'";
 		
 	if ( $_REQUEST["tel_portable"])
-		$elements[] = "`tel_portable_utl`='".mysql_escape_string(telephone_userinput($_REQUEST["tel_portable"]))."'";
+		$elements[] = "`tel_portable_utl`='".mysql_escape_string($_REQUEST["tel_portable"])."'";
 	
 	if ( count($elements) >= 1 )
 	{
