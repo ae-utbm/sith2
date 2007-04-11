@@ -216,7 +216,7 @@ class interfaceweb
 			$req = new requete($this->db, "SELECT COUNT(*) FROM `fimu_inscr`");
 			list($nb) = $req->get_row();
 			
-			echo "Il manque encore ".(250-$nb)." bénévoles pour le FIMU ! <a href=\"".$topdir."fimu/\">Devenez bénévole sans plus attendre !</a>";
+			echo "Il manque encore <b>".(250-$nb)." bénévoles</b> pour le FIMU ! <a href=\"".$topdir."fimu/\"><b>Devenez bénévole sans plus attendre !</b></a>";
 			//echo $this->get_textbox('Important',0). "\n";
 			echo "</div>\n";
 			
