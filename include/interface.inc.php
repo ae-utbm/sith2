@@ -212,7 +212,12 @@ class interfaceweb
 		{
 			echo "<div class=\"box\" id=\"important\">\n";
 			echo "<div class=\"body\">\n";
-			echo $this->get_textbox('Important',0). "\n";
+			// Oui, je sait, c'est mal (tm), mais c'est pour une bonne cause.
+			$req = new requete($this->db, "SELECT COUNT(*) FROM `fimu_inscr`");
+			list($nb) = $req->get_row();
+			
+			echo "Il manque encore ".(250-$nb)." bénévoles pour le FIMU ! <a href=\"".$topdir."fimu/\">Devenez bénévole sans plus attendre !</a>";
+			//echo $this->get_textbox('Important',0). "\n";
 			echo "</div>\n";
 			
 			echo "</div>\n";

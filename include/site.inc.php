@@ -441,6 +441,11 @@ class site extends interfaceweb
 			$elements[] = "<a href=\"".$topdir."e-boutic/?cat=23\"><b>Votre cotisation &agrave; l'AE est expir&eacute;e !</b> Renouvelez l&agrave; en ligne avec E-boutic.</a>";
 		}
 
+		$req = new requete($this->db, "SELECT `id_utilisateur` FROM `fimu_inscr` WHERE `id_utilisateur`='".$this->user->id."'");
+
+    if ( $req->lines == 0 )
+			$elements[] = "<a href=\"".$topdir."fimu/\"><b>Devenez bénévole pour le FIMU !</b> Le FIMU a besoin de vous, n'attendez pas !</a>";
+
 		if ( count($elements) == 0 ) return null;
 
 		if ( count($elements) == 1 )
