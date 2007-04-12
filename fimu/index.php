@@ -39,6 +39,10 @@ $cts = new contents("Festival International de Musique Universitaire");
 
 if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "fimu_inscr")
 {
+  $req = new requete($site->db, "SELECT `id_utilisateur` FROM `fimu_inscr` WHERE `id_utilisateur`='".$site->user->id."'");
+
+  if ( $req->lines == 0 )
+  {
 	$sql = new insert($site->dbrw, "fimu_inscr",
 		array(
 			"id_inscr" => '',
@@ -79,7 +83,7 @@ if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "fimu_insc
 				erreur n°$sql->errno <br />
 				détail : $sql->errmsg <br /><br />
 				Merci de contacter les authorités compétentes ");
-		
+  }
 }
 else if (isset($_REQUEST['listing']))
 {
