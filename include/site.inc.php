@@ -772,7 +772,7 @@ class site extends interfaceweb
 		{
 			$sublist = new itemlist("Staff Mat'Matronch","boxlist");
  			$sublist->add("<a href=\"".$topdir."mmt/wiki/\">Wiki Mat'Matronch</a>");
-			$sublist->add("<a href=\"".$topdir."mmt/cotiz-mmt/\">Gestion des cotisations</a>");
+			//$sublist->add("<a href=\"".$topdir."mmt/cotiz-mmt/\">Gestion des cotisations</a>");
 			$sublist->add("<a href=\"".$topdir."matmatronch/upload_photo_user.php\">Upload des Photos</a>");
 			$sublist->add("<a href=\"".$topdir."matmatronch/inscriptions.php\">Ajout utilisateur</a>");
 			$cts->add($sublist,true, true, "matmatronchbox", "boxlist", true, false);
