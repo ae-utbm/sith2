@@ -6,12 +6,22 @@
 	background-position-left:0px;
 	background-repeat:none;
 	background-color: #F39521;
-	height:80px;
+	height:95px;
 }
 
 #logo img
 {
 	display: none;
+}
+
+#left
+{
+  top: 11em;
+}
+
+#right
+{
+  top: 11em;
 }
 
 #logo a
@@ -20,6 +30,9 @@
 	height:71px;
 	display: block;
 	background:url("../images/logo.jpg");
+	top:10px;
+	left:0px;
+  position:absolute;
 }
 
 div.tabsv2
@@ -68,8 +81,20 @@ div.tabsv2 span.selected a
   top: 4em;
 }
 
+#important
+{
+  top:25px;
+  left:265px;  
+}
+
 #important div.body
 {
   background:none;
+  color: white;
+
 }
 
+#important div.body a
+{
+  color: white;
+}
