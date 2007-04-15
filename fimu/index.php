@@ -170,7 +170,7 @@ else
 	$frm->allow_only_one_usage();
 	
 	$subfrm = new form("fimu_inscr", "index.php", true, "POST", "Disponibilités");
-		$subfrm->add_info("Il est fortement souhaitable que vous soyez disponible 3 jours consécutifs minimum");
+		$subfrm->add_info("Il est fortement souhaitable que vous soyez disponible 2 jours consécutifs minimum");
 		$subfrm->add_checkbox("disp_24", "Jeudi 24 Mai");
 		$subfrm->add_checkbox("disp_25", "Vendredi 25 Mai");
 	$subfrm->add_checkbox("disp_26", "Samedi 26 Mai");
