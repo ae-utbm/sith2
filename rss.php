@@ -66,7 +66,7 @@ output_news($sql,$ids);
 $sql = new requete($site->db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso FROM nvl_nouvelles " .
 		"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
 		"WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND asso_seule_nvl='0' AND " .
-		"DATEDIFF(date_nvl,NOW()) < 14 " .
+		"DATEDIFF(NOW(),date_nvl) < 14 " .
 		"LIMIT 3");
 		
 output_news($sql,$ids);		
