@@ -36,7 +36,7 @@ print("Prénom; Nom; Bordel; a ; couette; \n");
 while($gnaa = $sql->get_row())
 	{
 	$i = 0;	
-	while($i++ < 26)
+	while($i++ < 36)
 		print_r ($gnaa[$i] . "; ");
 	echo "\n";
 	}
