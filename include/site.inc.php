@@ -67,8 +67,6 @@ class site extends interfaceweb
     $this->add_box("calendrier",new calendar($this->db));
     $this->add_box("connexion", $this->get_connection_contents());
 
-    $this->add_css("themes/fimu/css/site.css");
-
   }
 
   /** Erreur de connexion au serveur MySQL */
@@ -433,12 +431,13 @@ class site extends interfaceweb
 		if (!$congres_box->check_if_registered($this->user->email))
 			$elements[] = "Vous n'avez pas encore remplit votre <a href=\"/congres/congres2006/inscription.php?nom=".$this->user->nom."&prenom=".$this->user->prenom."&email=".$this->user->email."&branche=".$UserBranches[$this->user->branche]."\"><b>fiche d'inscription au congr&egrave;s</b></a>";
         */
-		/* Pour l'integ */
+        
+/* Pour l'integ 
 		require_once($topdir . "include/integ.inc.php");
 		$integ_box = new integ();
 		if (!$integ_box->check_if_registered($this->user->email))
 			$elements[] = "<b><a href=\"/integ/2007/preparainage.php?nom=".$this->user->nom."&prenom=".$this->user->prenom."&email=".$this->user->email."&branche=".$UserBranches[$this->user->branche]."\">Souhaitez vous préparainer un futur étudiant ?</a></b>";
-
+*/
 
 		$cotiz = new cotisation($this->db);
 		$cotiz->load_lastest_by_user ( $this->user->id );

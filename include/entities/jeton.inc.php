@@ -10,7 +10,7 @@
  *
  */
 $GLOBALS['types_jeton'] = array ('laver' => "Machine à laver", 'secher' => "Seche linge");
-$GLOBALS['salles_jeton'] = array ('5' => "Foyer");
+$GLOBALS['salles_jeton'] = array ('5' => "Belfort",'39'=>"Sevenans");
 
 /**
  * Class gérant un jeton
@@ -141,7 +141,7 @@ class jeton
 			array(
 				"id_utilisateur" => $id_utilisateur,
 				"id_jeton" => $this->id,
-				"prise_jeton" => date("Y-m-d h:i:s"),
+				"prise_jeton" => date("Y-m-d H:i:s"),
 				"retour_jeton" => NULL
 				)
 			);  
@@ -155,7 +155,7 @@ class jeton
 		$sql = new update ($this->dbrw,
 			"mc_jeton_utilisateur",
 		  array(
-				"retour_jeton" => date("Y-m-d h:i:s")
+				"retour_jeton" => date("Y-m-d H:i:s")
 				),
 			array(
 				"id_jeton" => $this->id,
