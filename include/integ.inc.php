@@ -2,7 +2,7 @@
 
 /** @file
  *
- * @brief Accès au site du congrès pour la box ATTENTION
+ * @brief Accès au site e l'integ pour la box ATTENTION
  *
  */
 /* Copyright 2006
@@ -29,7 +29,7 @@
 
 require_once($topdir . "include/mysql.inc.php");
 
-	
+
 $UserBranches = array("TC"             => "TC",
                       "GI"             => "GI",
                       "GSP"            => "IMAP",
@@ -39,24 +39,20 @@ $UserBranches = array("TC"             => "TC",
                       "Administration" => "Administration",
                       "Autre"          => "Autre");
 
-class congres
+class integ
 {
-	var $db;
+  var $db;
 
-	function congres()
-	{
-		$this->db = new mysql("inetg","lecombev","localhost","integ");
-	}
+  function integ()
+  {
+    $this->db = new mysql("integ","lecombev","localhost","integ");
+  }
 
-	function check_if_registered($email)
-	{
-		$req = new requete($this->db,"SELECT `email` FROM `2007_preparainage` WHERE `email` = '".
-          mysql_real_escape_string(utf8_decode($email))."'");
-
-		return ($req && ($req->lines == 1))
-	}
+  function check_if_registered($email)
+  {
+    $req = new requete($this->db,"SELECT `email` FROM `2007_preparainage` WHERE `email` = '".mysql_real_escape_string(utf8_decode($email))."'");
+    return ($req && ($req->lines == 1));
+  }
 }
-
-
 
 ?>
