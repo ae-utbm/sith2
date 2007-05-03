@@ -437,7 +437,7 @@ class site extends interfaceweb
 		require_once($topdir . "include/integ.inc.php");
 		$integ_box = new integ();
 		if (!$integ_box->check_if_registered($this->user->email))
-			$elements[] = "<b><a href=\"/integ/2007/preparainage.php?nom=".$this->user->nom."&prenom=".$this->user->prenom."&email=".$this->user->email."&branche=".$UserBranches[$this->user->branche]."\">Souhaitez vous préparainer un futur étudiant ?</a></b>.";
+			$elements[] = "<b><a href=\"/integ/2007/preparainage.php?nom=".$this->user->nom."&prenom=".$this->user->prenom."&email=".$this->user->email."&branche=".$UserBranches[$this->user->branche]."\">Souhaitez vous préparainer un futur étudiant ?</a></b>";
 
 
 		$cotiz = new cotisation($this->db);
