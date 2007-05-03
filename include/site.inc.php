@@ -11,6 +11,7 @@
  * - Maxime Petazzoni <maxime POINT petazzoni CHEZ bulix POINT org>
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  * - Julien Etelain <julien CHEZ pmad POINT net>
+ * - Simon Lopez <simon POINT lopez CHEZ ayolo POINT org>
  *
  * Ce fichier fait partie du site de l'Association des 0tudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -432,7 +433,13 @@ class site extends interfaceweb
 		if (!$congres_box->check_if_registered($this->user->email))
 			$elements[] = "Vous n'avez pas encore remplit votre <a href=\"/congres/congres2006/inscription.php?nom=".$this->user->nom."&prenom=".$this->user->prenom."&email=".$this->user->email."&branche=".$UserBranches[$this->user->branche]."\"><b>fiche d'inscription au congr&egrave;s</b></a>";
         */
-		
+		/* Pour l'integ */
+		require_once($topdir . "include/integ.inc.php");
+		$integ_box = new integ();
+		if (!$congres_box->check_if_registered($this->user->email))
+			$elements[] = "Souhaitez vous préparainer un futur étudiant ? faites le <a href=\"/integ/2007/preparainage.php?nom=".$this->user->nom."&prenom=".$this->user->prenom."&email=".$this->user->email."&branche=".$UserBranches[$this->user->branche]."\"><b>ici</b></a>.";
+
+
 		$cotiz = new cotisation($this->db);
 		$cotiz->load_lastest_by_user ( $this->user->id );
 
