@@ -789,7 +789,13 @@ class site extends interfaceweb
 			$sublist->add("<a href=\"".$topdir."mmt/cotiz-mmt/\">Gestion des cotisations</a>");
 			$cts->add($sublist,true, true, "matmatronchbox", "boxlist", true, false);
 		}
-
+/* pour le grand yoz en attendant la 2.1 */
+    if ( $this->user->is_asso_role ( 3, 2 ) )
+		{
+			$sublist = new itemlist("BDS - ajout fiches","boxlist");
+      $sublist->add("<a href=\"".$topdir."matmatronch/inscriptions.php\">Ajout utilisateur</a>");
+      $cts->add($sublist,true, true, "bds_tmp_box", "boxlist", true, false);
+		}
 		/* Bouton de Deconnexion */
 		$frm = new form("disconnect",$topdir."disconnect.php",false,"POST","Deconnexion");
 		$frm->add_submit("disconnect","Se déconnecter");

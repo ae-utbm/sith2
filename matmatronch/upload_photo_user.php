@@ -30,7 +30,7 @@ if ( $site->user->id < 1 )
 if (!$site->user->utbm && !$site->user->ae )
 	error_403("reserved");
 
-if ( !$site->user->is_in_group("matmatronch") )
+if ( !$site->user->is_in_group("matmatronch") && !$site->user->is_in_group("root") && !$site->user->is_asso_role ( 3, 2 ) )
 	error_404();
 
 $site->start_page("up_mmt","Envoi d'une photo mat'matronch");

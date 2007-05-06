@@ -41,7 +41,7 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site ();
 
-if ( !$site->user->is_asso_role ( 27, 1 ) )
+if ( !$site->user->is_asso_role ( 27, 1 ) && !$site->user->is_in_group("root") && !$site->user->is_asso_role ( 3, 2 ) )
   error_403();
 
 $site->start_page ("none", "Inscriptions nouvel étudiant au mat'matronch");
