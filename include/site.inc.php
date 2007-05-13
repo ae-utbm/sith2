@@ -33,7 +33,7 @@
  */
 session_start();
 
-if ( $_SERVER["REMOTE_ADDR"] == "127.0.1.1" )
+if ( 1 )
   $GLOBALS["is_using_ssl"] = true;
 else
   $GLOBALS["is_using_ssl"] = false;
@@ -66,7 +66,7 @@ class site extends interfaceweb
     $this->set_side_boxes("left",array("calendrier","alerts","connexion"),"default_left");
     $this->add_box("calendrier",new calendar($this->db));
     $this->add_box("connexion", $this->get_connection_contents());
-
+    $this->add_css("themes/ff1j/css/site.css");
   }
 
   /** Erreur de connexion au serveur MySQL */
