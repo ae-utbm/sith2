@@ -67,9 +67,32 @@ div.tabsv2 span.selected a
 
 #important
 {
-  display:none;
+  position:absolute;
+  left:380px;
+  top:30px;
+  padding:0;
+  margin:0;
+  border:0;
+  width:290px;
 }
 
+
+#important div.body
+{
+  color:white;
+  background:none;
+  border:0;
+  padding:0;
+  margin:0;
+  -moz-border-radius:0;
+  text-align:center;
+}
+
+#important div.body a
+{
+  color:white;
+
+}
 
 #fsearchbox
 {
