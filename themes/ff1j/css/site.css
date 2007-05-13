@@ -1,11 +1,11 @@
+
+
 #logo
 {
 	padding:0;
-	background:url("../images/bandeau_ff1j.png");
-	background-position: 0px 0px;
-	background-repeat:no-repeat;
-	background-color: #86a53d;
-	height:75px;
+	background:url("../images/bandeau.jpg");
+	background-color: #000000;
+	height:80px;
 }
 
 #logo img
@@ -13,24 +13,21 @@
 	display: none;
 }
 
+#logo a
+{
+	width:230px;
+	height:75px;
+	display: block;
+}
+
 #left
 {
-  top: 11em;
+  top: 10.5em;
 }
 
 #right
 {
-  top: 11em;
-}
-
-#logo a
-{
-	width:236px;
-	height:71px;
-	display: block;
-	top:Opx;
-	left:0px;
-  position:absolute;
+  top: 10.5em;
 }
 
 div.tabsv2
@@ -68,6 +65,12 @@ div.tabsv2 span.selected a
 	background-image:url("../images/tabs-cur.jpg");
 }
 
+#important
+{
+  display:none;
+}
+
+
 #fsearchbox
 {
   background:none;
@@ -78,9 +81,3 @@ div.tabsv2 span.selected a
 {
   top: 4em;
 }
-
-#important
-{
-  display:none;
-}
-
