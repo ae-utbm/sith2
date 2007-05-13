@@ -1,0 +1,86 @@
+#logo
+{
+	padding:0;
+	background:url("../images/bandeau_ff1j.png");
+	background-position: 0px 0px;
+	background-repeat:no-repeat;
+	background-color: #86a53d;
+	height:75px;
+}
+
+#logo img
+{
+	display: none;
+}
+
+#left
+{
+  top: 11em;
+}
+
+#right
+{
+  top: 11em;
+}
+
+#logo a
+{
+	width:236px;
+	height:71px;
+	display: block;
+	top:Opx;
+	left:0px;
+  position:absolute;
+}
+
+div.tabsv2
+{
+	background-image:url("../images/tabs-fond.jpg");
+}
+
+div.tabsv2 span 
+{
+	background-image:url("../images/tabs-norm-st.jpg");
+}
+
+div.tabsv2 span a
+{	
+	background-image:url("../images/tabs-norm.jpg");
+}
+
+div.tabsv2 span:hover
+{
+	background-image:url("../images/tabs-cur-st.jpg");
+}
+
+div.tabsv2 span:hover a
+{
+	background-image:url("../images/tabs-cur.jpg");
+}
+
+div.tabsv2 span.selected
+{
+	background-image:url("../images/tabs-cur-st.jpg");
+}
+
+div.tabsv2 span.selected a
+{
+	background-image:url("../images/tabs-cur.jpg");
+}
+
+#fsearchbox
+{
+  background:none;
+  top:15px;
+}
+
+#fsearchres
+{
+  top: 4em;
+}
+
+#important
+{
+  display:none;
+}
+
