@@ -33,6 +33,10 @@ $site = new site;
 if ( $site->user->id == -1 )
 	error_403("reserved");
 
+ /*******************************************************************************/
+	error_403("La période d'inscription est terminée");
+ /*******************************************************************************/
+	
 $site->start_page ("none", "FIMU 2007 - Inscriptions des bénévoles");
 
 $cts = new contents("Festival International de Musique Universitaire");
