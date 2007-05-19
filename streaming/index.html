@@ -6,7 +6,7 @@
     <script type="text/javascript">
 
     function startPage() {
-       document.getElementById('streaming').style.display = 'true';
+       document.getElementById('streaming').style.display = 'none';
        document.getElementById('howitworks').style.display = 'none';
        document.getElementById('thanks').style.display = 'none';
 
@@ -36,7 +36,7 @@
     <!-- Menu -->
     <table id="menu">
      <tr>
-      <td id="streamingtd" class="active"><a href="#streaming" onClick="javascript:openContent('streaming'); return false;" title="RDD en direct">La RDD en direct</a></td>
+      <td id="streamingtd" class="active"><a href="#streaming" onClick="javascript:openContent('streaming'); return false;" title="Le FF1J en direct">Le FF1J en direct</a></td>
       <td id="thankstd"><a href="#thanks" onClick="javascript:openContent('thanks'); return false;" title="Remerciements">Remerciements</a></td>
       <td id="howitworkstd"><a href="#howitworks" onClick="javascript:openContent('howitworks'); return false;" title="Comment ça marche ?">Fonctionnement</a></td>
       <td><a href="http://ae.utbm.fr/forum/" target="_blank" title="Vos réactions sur le forum de l'AE">Forum</a></td>
@@ -83,7 +83,7 @@
 
       <p>
 	Pour les utilisateurs de <b>VideoLan</b> et de <b>Windows Media Player</b>, ouvrez le lien :
-	<a href="http://ae.utbm.fr/ff1j.m3u>ici</a> et regardez cette cérémonie.
+	<a href="http://ae.utbm.fr/streaming/ff1j.m3u">ici</a> et regardez cette cérémonie.
       </p>
 
       <p>
@@ -92,7 +92,21 @@
 	<tt>mplayer -cache 64 mms://ae.utbm.fr:443/</tt> ou encore
 	<tt>xine http://ae.utbm.fr:80/</tt>
       </p>
+<!--
+      <h2>La cérémonie complète</h2>
 
+      <p>
+	Le film diffusé en direct est disponible au téléchargement :
+	<a
+	href="http://ae.utbm.fr/rdd2005.avi">rdd2005.avi</a>. Attention,
+	ce fichier vidéo étant complété au fur et a mesure de la
+	diffusion, il n'est donc pas complet. Toutefois, si pour une
+	raison non-expliquée la lecture du flux vidéo en direct ne
+	marchait pas chez vous, vous pouvez télécharger ce fichier
+	pour visionner la cérémonie jusqu'à l'instant <i>t</i> hors
+	ligne.
+      </p>
+-->
     </div>
 
     <div id="thanks">
