@@ -66,7 +66,7 @@ class site extends interfaceweb
     $this->set_side_boxes("left",array("calendrier","alerts","connexion"),"default_left");
     $this->add_box("calendrier",new calendar($this->db));
     $this->add_box("connexion", $this->get_connection_contents());
-    $this->add_css("themes/ff1j/css/site.css");
+    //$this->add_css("themes/ff1j/css/site.css");
   }
 
   /** Erreur de connexion au serveur MySQL */
@@ -446,11 +446,6 @@ class site extends interfaceweb
 		{
 			$elements[] = "<a href=\"".$topdir."e-boutic/?cat=23\"><b>Votre cotisation &agrave; l'AE est expir&eacute;e !</b> Renouvelez l&agrave; en ligne avec E-boutic.</a>";
 		}
-
-		$req = new requete($this->db, "SELECT `id_utilisateur` FROM `fimu_inscr` WHERE `id_utilisateur`='".$this->user->id."'");
-
-    if ( $req->lines == 0 )
-			$elements[] = "<a href=\"".$topdir."fimu/\"><b>Devenez bénévole pour le FIMU !</b> Le FIMU a besoin de vous, n'attendez pas !</a>";
 
 		if ( count($elements) == 0 ) return null;
 
