@@ -48,17 +48,14 @@ else
 
 class mysqlae extends mysql {
 
-  function mysqlae ($type = "ro") {
-
-    if ($type == "rw") {
-      if ( ! $this->mysql('ae_read_write', 'NwCkpDc', 'localhost', 'ae2')) {
-	return FALSE;
-      }
-    } else {
-      if ( ! $this->mysql('ae_read_only', 'ljjTutG', 'localhost', 'ae2')) {
-	return FALSE;
-      }
-    }
+	function mysqlae ($type = "ro")
+	{
+		if ($type == "rw")
+      if ( ! $this->mysql('ae_read_write', 'NwCkpDc', 'localhost', 'ae2'))
+				return FALSE;
+    else
+			if ( ! $this->mysql('ae_read_only', 'ljjTutG', 'localhost', 'ae2'))
+				return FALSE;
   }
 }
 
