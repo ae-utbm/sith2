@@ -91,7 +91,7 @@ class requete {
     if(!$base->dbh) {
       $this->errmsg = "Non connecté";
       $this->lines = -1;
-      if( !preg_match('/^\/var\/www\/ae\/www\/ae2\//', $_SERVER['SCRIPT_FILENAME']))
+      if( !preg_match('/^\/var\/www\/ae\/www\//', $_SERVER['SCRIPT_FILENAME']))
         echo "<p>NON MAIS CA VA PAS ! c'est un \$site->db et pas un \$this->db (ou inversement)</p>\n";
       return FALSE;
     }
