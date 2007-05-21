@@ -36,7 +36,7 @@
 /* On interdit le chargement de ce script si il ne vient pas du site
    officiel */
 
-if(! preg_match('/^\/var\/www\/ae\/www\/(taiste|siteae)\//', $_SERVER['SCRIPT_FILENAME'])) {
+if(! preg_match('/^\/var\/www\/ae\/www\/(ae2|taiste)\//', $_SERVER['SCRIPT_FILENAME'])) {
   echo "denied";
   die();
 }
