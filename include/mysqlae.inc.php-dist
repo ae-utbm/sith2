@@ -49,11 +49,11 @@ class mysqlae extends mysql {
   function mysqlae ($type = "ro") {
     if ($type == "rw") {
       if ( ! $this->mysql('login_read_write', 'mdp_read_write', 'host', 'base')) {
-	return FALSE;
+        return FALSE;
       }
     } else {
       if ( ! $this->mysql('login_read_only', 'mdp_read_only', 'host', 'base')) {
-	return FALSE;
+        return FALSE;
       }
     }
   }
