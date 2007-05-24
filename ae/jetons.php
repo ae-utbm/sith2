@@ -98,90 +98,109 @@ elseif ( $_REQUEST["view"] == "listing" )
 	  {
 	    $lst = new itemlist("Résultats :");
 
-	    if(isset($_REQUEST['id_utilisateur']))
-			$ids[] = $_REQUEST['id_utilisateur'];
-		elseif($_REQUEST['id_utilisateurs'])
-		{
+		   if(isset($_REQUEST['id_utilisateur']))
+				$ids[] = $_REQUEST['id_utilisateur'];
+			elseif($_REQUEST['id_utilisateurs'])
+				{		
+					foreach ($_REQUEST['id_utilisateurs'] as $id_util)
+						$ids[] = $id_util;
+				}
 
-			foreach ($_REQUEST['id_utilisateurs'] as $id_util)
-				$ids[] = $id_util;
-		}
 
+			if($_REQUEST['action'] == "retourner")
+			{	
+			
+				if(isset($_REQUEST['id_jeton']))
+					$id_jetons[] = $_REQUEST['id_jeton'];
+				elseif($_REQUEST['id_jetons'])
+				{
+					foreach ($_REQUEST['id_jetons'] as $id_jeton)
+						$id_jetons[] = $id_jeton;
+				}
+				
+				foreach($id_jetons as $numjeton)
+					{
+						$jeton = new jeton($site->db, $site->dbrw);
+						$jeton->load_by_id($numjeton);
+						$jeton->given_back ();
+					}
+					
+			}
 		
 	    if($_REQUEST['action'] == "blacklist")
 	      {
-		foreach ( $ids as $id )
-		{
-		  $user = new utilisateur($site->db, $site->dbrw);
-		  $user->load_by_id($id);
-
-		  $user->add_to_group(GRP_BLACKLIST);
-
-		}
+					foreach ( $ids as $id )
+					{
+					  $user = new utilisateur($site->db, $site->dbrw);
+					  $user->load_by_id($id);
+			
+					  $user->add_to_group(GRP_BLACKLIST);
+			
+					}
 	      }
 
 	    if($_REQUEST['action'] == "unblacklist")
 	      {
-		foreach ( $ids as $id )
-		{
-		  $user = new utilisateur($site->db, $site->dbrw);
-		  $user->load_by_id($id);
-
-		  $user->remove_from_group(GRP_BLACKLIST);
-		}
+					foreach ( $ids as $id )
+					{
+					  $user = new utilisateur($site->db, $site->dbrw);
+					  $user->load_by_id($id);
+			
+					  $user->remove_from_group(GRP_BLACKLIST);
+					}
 	      }
 	      	
 	    if($_REQUEST['action'] == "mail_rappel")
 	      {
-		foreach ( $ids as $id )
-		{
-		  $user = new utilisateur($site->db);
-
-		  $id = intval($id);
-
-		  $user->load_by_id($id);
-		  $sql = new requete($site->db, "SELECT 
-                                                        `mc_jeton_utilisateur`.`id_jeton`
-                                                        , `mc_jeton`.`nom_jeton`
-                                                        , DATEDIFF(CURDATE(), `mc_jeton_utilisateur`.`prise_jeton`) AS `duree` 
-			  			 FROM 
-                                                        `mc_jeton` 
-						 INNER JOIN 
-                                                        `mc_jeton_utilisateur` 
-                                                 ON 
-                                                        `mc_jeton`.`id_jeton` = `mc_jeton_utilisateur`.`id_jeton` 
-						 WHERE 
-                                                        `id_utilisateur` = $id 
-                                                 AND 
-                                                        `retour_jeton` IS NULL");
-		  /* et si y'a pas de lignes ? */
-		  if ($sql->lines <= 0)
-		    continue;
-
-		  $body = "Bonjour, 
-
-Vous utilisez le service de machines à laver proposé par l'AE et nous vous en remercions, nous attirons votre attention sur le fait que les jetons vous sont prêtés pour une utilisation des machines dans la journée suivante, ceci afin de permettre une bonne circulation des jetons, garantissant ainsi à tous la possiblité de bénéficier de ce service.
-
-Or vous avez encore en votre possession le(s) jeton(s) suivant(s) : \n";
-		  
-		  while ($row = $sql->get_row())
-		    $body .= "- Jeton n°".$row['nom_jeton'].", emprunté depuis ".$row['duree']." jours \n";
-		  
-
-		  $body .= "\n Afin que tout le monde puisse profiter des machines mises à disposition par l'AE nous vous remercions de bien vouloir utiliser ou rapporter ces jetons dans les plus brefs délais, à défaut de quoi, vous pourriez vous voir bloquer l'accès à ce service.
-
-Merci d'avance
-
-Les responsables machines à laver";
-			  
-		  $mail = mail($user->email, utf8_decode("[AE] Jetons de machines à laver"), utf8_decode($body),
-                            "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: marie-anne.mittet@utbm.fr,sebastien.dete@utbm.fr");
-			if ($mail)
-				$lst->add("Mail de rappel &agrave; " .$user->prenom. " " .$user->nom. " : Envoy&eacute;","ok");	
-			else
-				$lst->add("Erreur lors de l'envoi du mail de rappel pour " . $user->prenom . " " . $user->nom ." !","ko");
-		  
-		}
+					foreach ( $ids as $id )
+					{
+					  $user = new utilisateur($site->db);
+			
+					  $id = intval($id);
+			
+					  $user->load_by_id($id);
+					  $sql = new requete($site->db, "SELECT 
+			                                                        `mc_jeton_utilisateur`.`id_jeton`
+			                                                        , `mc_jeton`.`nom_jeton`
+			                                                        , DATEDIFF(CURDATE(), `mc_jeton_utilisateur`.`prise_jeton`) AS `duree` 
+						  			 FROM 
+			                                                        `mc_jeton` 
+									 INNER JOIN 
+			                                                        `mc_jeton_utilisateur` 
+			                                                 ON 
+			                                                        `mc_jeton`.`id_jeton` = `mc_jeton_utilisateur`.`id_jeton` 
+									 WHERE 
+			                                                        `id_utilisateur` = $id 
+			                                                 AND 
+			                                                        `retour_jeton` IS NULL");
+					  /* et si y'a pas de lignes ? */
+					  if ($sql->lines <= 0)
+					    continue;
+			
+					  $body = "Bonjour, 
+			
+			Vous utilisez le service de machines à laver proposé par l'AE et nous vous en remercions, nous attirons votre attention sur le fait que les jetons vous sont prêtés pour une utilisation des machines dans la journée suivante, ceci afin de permettre une bonne circulation des jetons, garantissant ainsi à tous la possiblité de bénéficier de ce service.
+			
+			Or vous avez encore en votre possession le(s) jeton(s) suivant(s) : \n";
+					  
+					  while ($row = $sql->get_row())
+					    $body .= "- Jeton n°".$row['nom_jeton'].", emprunté depuis ".$row['duree']." jours \n";
+					  
+			
+					  $body .= "\n Afin que tout le monde puisse profiter des machines mises à disposition par l'AE nous vous remercions de bien vouloir utiliser ou rapporter ces jetons dans les plus brefs délais, à défaut de quoi, vous pourriez vous voir bloquer l'accès à ce service.
+			
+			Merci d'avance
+			
+			Les responsables machines à laver";
+						  
+					  $mail = mail($user->email, utf8_decode("[AE] Jetons de machines à laver"), utf8_decode($body),
+			                            "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: marie-anne.mittet@utbm.fr,sebastien.dete@utbm.fr");
+						if ($mail)
+							$lst->add("Mail de rappel &agrave; " .$user->prenom. " " .$user->nom. " : Envoy&eacute;","ok");	
+						else
+							$lst->add("Erreur lors de l'envoi du mail de rappel pour " . $user->prenom . " " . $user->nom ." !","ko");
+					  
+					}
 	      }
 	    $cts->add($lst);
 	      
@@ -231,6 +250,7 @@ Les responsables machines à laver";
 					mc_jeton_utilisateur.id_utilisateur, 
 					mc_jeton_utilisateur.prise_jeton,
 					mc_jeton.id_jeton,
+					mc_jeton.type_jeton,	
 					mc_jeton.nom_jeton,
 					DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) AS duree,
 					utilisateurs.id_utilisateur,
@@ -247,15 +267,15 @@ Les responsables machines à laver";
 	$table = new sqltable("listeemprunts",
 				"Liste des jetons empruntés",
 				$sql, 
-				"jetons.php", 
-				"id_jeton", 
+				"jetons.php?view=listing", 
+				"id_jeton",
 				array(
 					"nom_jeton" => "Jeton",
 					"nom_utilisateur"=>"Utilisateur",
 					"prise_jeton" => "Date d'emprunt",
 					"duree" => "Depuis (jours)"
 					), 
-				array(), array(), array()
+				array("retourner" => "Retourner"), array("retourner" => "Retourner"), array()
 				);
 	$cts->add($table,true);
 
