@@ -147,7 +147,7 @@ div.forumsujetsliste div.forumsujet.nonlu p.auteur
   background:#ffffff;
 }
 
-div.forumlist div.forumhead div
+div.forumlist div.forumhead p, div.forumsujetsliste div.forumhead p, 
 {
   background:#ffffff;
 }
