@@ -211,7 +211,8 @@ div.forummessageentry h2.frmt
 {
   font-size:12px;
 
-  height:1.5em;  
+  height:1em;
+  margin-top:5px;  
   margin:0px;
   
   padding-left:260px;
