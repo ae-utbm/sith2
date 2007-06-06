@@ -32,6 +32,11 @@ div.forumsection h2, div.forumsection p.description
   padding-right:240px;
 }
 
+div.forumsujetsliste div.forumhead
+{
+  height:20px;
+}
+
 div.forumsujetsliste div.forumsujet h2, div.forumsujetsliste div.forumsujet p.soustitre
 {
   padding-right:350px;
@@ -72,7 +77,7 @@ div.forumsujetsliste div.forumsujet p.sujeticon
   left:5px;
 }
 
-div.forumsujetsliste div.forumsujet p.auteur
+div.forumsujetsliste div.forumsujet p.auteur, div.forumsujetsliste div.forumhead p.auteur
 {
   position:absolute;
   width:100px;
@@ -84,7 +89,7 @@ div.forumsujetsliste div.forumsujet p.auteur
   text-align:center;
 }
 
-div.forumsection div.forumitem p.nbsujets, div.forumsujetsliste div.forumsujet p.nbmessages
+div.forumsection div.forumitem p.nbsujets, div.forumsujetsliste div.forumsujet p.nbmessages, div.forumsujetsliste div.forumhead p.nbmessages
 {
   position:absolute;
   width:50px;
@@ -96,7 +101,7 @@ div.forumsection div.forumitem p.nbsujets, div.forumsujetsliste div.forumsujet p
   text-align:center;
 }
 
-div.forumsection div.forumitem p.dernier, div.forumsujetsliste div.forumsujet p.dernier
+div.forumsection div.forumitem p.dernier, div.forumsujetsliste div.forumsujet p.dernier, div.forumsujetsliste div.forumhead p.dernier
 {
   position:absolute;
   width:160px;
@@ -217,16 +222,13 @@ div.forummessageentry.nonlu div.auteur
 div.forummessageentry h2.frmt
 {
   font-size:12px;
-
-  height:1em;
   
   margin:0px;
-
-  margin-top:5px;  
   
-  padding-left:280px;
   border:0;
   
+  padding-top:5px;  
+  padding-left:280px;
 }
 
 div.forummessageentry p.date

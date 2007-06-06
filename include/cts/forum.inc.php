@@ -95,6 +95,14 @@ class sujetslist extends stdcontents
     
     $this->buffer .= "<div class=\"forumsujetsliste\">\n";
     
+
+        $this->buffer .= "<div class=\"forumhead\">\n";
+      $this->buffer .= "<p class=\"auteur\">Auteur</p>\n";
+      $this->buffer .= "<p class=\"nbmessages\">Réponses</p>\n";
+      $this->buffer .= "<p class=\"dernier\">Dernier message</p>\n";
+      $this->buffer .= "</div>\n";
+    
+    
     foreach ( $rows as $row )
     {
       
