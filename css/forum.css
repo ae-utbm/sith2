@@ -157,6 +157,11 @@ div.forummessageentry.nonlu
   background:#d8e7f3;
 }
 
+div.forummessageentry.pair
+{
+  background:#eff7ff;
+}
+
 div.forummessageentry div.auteur
 {
   background:#d8e7f3;

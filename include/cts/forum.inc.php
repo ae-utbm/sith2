@@ -170,6 +170,8 @@ class sujetforum extends stdcontents
     
     $initial = ($start==0 && $order=="ASC");
     
+    $n=0;
+    
     foreach ( $rows as $row )
     {
       $t = strtotime($row['date_message']);
@@ -186,8 +188,13 @@ class sujetforum extends stdcontents
         }
       }
       else
-        $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$row['id_message']."\">\n";
-      
+      {
+        if ( $n )
+          $this->buffer .= "<div class=\"forummessageentry pair\" id=\"msg".$row['id_message']."\">\n";
+        else
+          $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$row['id_message']."\">\n";
+        $n=($n+1)%2;
+      }
       $this->buffer .= "<h2 class=\"frmt\">".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";      
        $this->buffer .= "<p class=\"date\">".date("d/m/Y H:i",$t)."</p>\n";
 
