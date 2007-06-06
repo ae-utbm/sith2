@@ -1078,7 +1078,7 @@ class site extends interfaceweb
     else
       $cts->add_paragraph("pas de messages non lus");
     $cts->add($list);
-    return $cts:
+    return $cts;
   }
   
   function allow_only_logged_users($section="none")
