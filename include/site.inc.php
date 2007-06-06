@@ -1065,10 +1065,10 @@ class site extends interfaceweb
   
     $req = new requete($this->db,$query);
     
-    $cts->add_title(2,"<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">Derniers messages non lus</a>");
     
     if ( $req->lines > 0 )
     {
+      $cts->add_title(2,"<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">Derniers messages non lus</a>");
       $list = new itemlist();
       while ( $row = $req->get_row() )
       {
@@ -1076,11 +1076,12 @@ class site extends interfaceweb
         htmlentities($row['titre_sujet'], ENT_NOQUOTES, "UTF-8").
         "</a>");
       }
+      $cts->add($list);
       $cts->add_paragraph("<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">suite...</a>");
     }
     else
       $cts->add_paragraph("pas de messages non lus");
-    $cts->add($list);
+    
     return $cts;
   }
   
