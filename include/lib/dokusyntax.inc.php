@@ -71,7 +71,7 @@ function doku2xhtml($text)
   // block de code
   firstpass($table,$text,"/(\n( {2,}|\t)[^\*\-\n ][^\n]+)(\n( {2,}|\t)[^\n]*)*/se","preformat('\\0','block')","\n");
 
-  if(preg_match("/\[quote=(.+?)\]/i",$text) ) print_r("bleh");
+  if(preg_match("/\[quote=(.+?)\](.+?)\[\/quote\]/i",$text) ) print_r("bleh");
 
   //citation
   while( preg_match("/\[quote=(.+?)\](.+?)\[\/quote\]/i",$text) )
