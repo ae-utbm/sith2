@@ -36,6 +36,7 @@ div.forumsujetsliste div.forumhead
   height:20px;
   position:relative;
   margin:2px;
+  border:1px;
 }
 
 div.forumsujetsliste div.forumsujet h2, div.forumsujetsliste div.forumsujet p.soustitre
