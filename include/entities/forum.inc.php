@@ -222,10 +222,7 @@ class forum extends basedb
         "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$user->id."')) ";
     }
 	  $query .= "ORDER BY frm_forum.ordre_forum";
-	  
-	  echo "<!-- $query; -->";
-	  
-	  
+	  	  
     $req = new requete($this->db,$query);
 	  
 	  $rows = array();
