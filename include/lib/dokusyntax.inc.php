@@ -111,7 +111,7 @@ function doku2xhtml($text)
   $text = htmlspecialchars($text);
 
 	//citation
-  $text= str_replace('\\n','__slash_n__',$text);
+  $text= str_replace('\n','__slash_n__',$text);
   while( preg_match("/\[quote=(.*?)\](.*?)\[\/quote\]/i",$text) )
 	{
     print_r("bleh");
