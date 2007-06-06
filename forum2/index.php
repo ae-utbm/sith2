@@ -491,6 +491,19 @@ if ( $sujet->is_valid() )
       $message->load_by_id($last_read);
       $delta=1;
     }
+    elseif( !is_null($site->user->tout_lu_avant) )
+    {
+      $req = new requete($site->db,"SELECT id_message FROM frm_message ".
+        "WHERE id_sujet='".mysql_real_escape_string($sujet->id)."' ".
+        "AND message.date_message > '".date("Y-m-d H:i:s",$site->user->tout_lu_avant)."' ".
+        "ORDER BY date_message LIMIT 1");
+      if ( $req->lines == 1 )
+      {
+        list($last_read) = $req->get_row();
+        $message->load_by_id($last_read);
+        $delta=1;
+      }
+    }
     unset($_REQUEST["spage"]);
   }
 
