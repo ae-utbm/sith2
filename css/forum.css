@@ -33,7 +33,7 @@ div.forumsection h2, div.forumsection p.description
   padding-right:240px;
 }
 
-div.forumsujetsliste div.forumhead
+div.forumsujetsliste div.forumhead, div.forumlist div.forumhead
 {
   height:21px;
   position:relative;
@@ -94,7 +94,7 @@ div.forumsujetsliste div.forumsujet p.auteur, div.forumsujetsliste div.forumhead
   text-align:center;
 }
 
-div.forumsection div.forumitem p.nbsujets, div.forumsujetsliste div.forumsujet p.nbmessages, div.forumsujetsliste div.forumhead p.nbmessages
+div.forumsection div.forumitem p.nbsujets, div.forumsujetsliste div.forumsujet p.nbmessages, div.forumsujetsliste div.forumhead p.nbmessages, div.forumlist div.forumhead p.nbsujets
 {
   position:absolute;
   width:50px;
@@ -106,7 +106,7 @@ div.forumsection div.forumitem p.nbsujets, div.forumsujetsliste div.forumsujet p
   text-align:center;
 }
 
-div.forumsection div.forumitem p.dernier, div.forumsujetsliste div.forumsujet p.dernier, div.forumsujetsliste div.forumhead p.dernier
+div.forumsection div.forumitem p.dernier, div.forumsujetsliste div.forumsujet p.dernier, div.forumsujetsliste div.forumhead p.dernier, div.forumlist div.forumhead p.dernier
 {
   position:absolute;
   width:160px;

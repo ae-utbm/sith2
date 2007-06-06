@@ -20,6 +20,12 @@ class forumslist extends stdcontents
         $sections = false;
     }    
     $this->buffer .= "<div class=\"forumlist\">\n";
+    
+    $this->buffer .= "<div class=\"forumhead\">\n";
+    $this->buffer .= "<p class=\"nbsujets\">Sujets</p>\n";
+    $this->buffer .= "<p class=\"dernier\">Dernier message</p>\n";
+    $this->buffer .= "</div>\n";    
+    
     if ( $sections )
     {
       $sforum = new forum ( $forum->db );
