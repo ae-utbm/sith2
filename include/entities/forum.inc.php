@@ -182,9 +182,9 @@ class forum extends basedb
         "sujet.id_sujet ".
         "FROM frm_sujet sujet ".
         "INNER JOIN frm_forum AS base ON (base.id_forum=sujet.id_forum) ".
-        "INNER JOIN frm_forum AS level1 ON (level1.id_forum=base.id_forum_parent) ".
-        "INNER JOIN frm_forum AS level2 ON (level2.id_forum=level1.id_forum_parent) ".
-        "INNER JOIN frm_forum AS level3 ON (level3.id_forum=level2.id_forum_parent) ".
+        "LEFT JOIN frm_forum AS level1 ON (level1.id_forum=base.id_forum_parent) ".
+        "LEFT JOIN frm_forum AS level2 ON (level2.id_forum=level1.id_forum_parent) ".
+        "LEFT JOIN frm_forum AS level3 ON (level3.id_forum=level2.id_forum_parent) ".
         "LEFT JOIN frm_message AS message ON ( message.id_message = sujet.id_message_dernier ) ".
         "LEFT JOIN frm_sujet_utilisateur AS sujet_util ON ( sujet_util.id_sujet=sujet.id_sujet AND sujet_util.id_utilisateur='".$user->id."' )  ".
         "WHERE ".
