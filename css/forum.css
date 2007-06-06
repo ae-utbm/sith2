@@ -191,12 +191,12 @@ div.forummessageentry div.auteur p.funame a
 
 div.forummessageentry div.auteur p.fuimg
 {
-	
+	text-align:center;
 }
 
 div.forummessageentry div.auteur p.fuimg img
 {
-  width:140px;
+  width:70px;
   
 }
 
