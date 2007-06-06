@@ -121,7 +121,7 @@ function doku2xhtml($text)
   margin-top:2px;
   padding: 4px;
   text-aling: justify;
-  background-color: #ecf4fe;\">$2</div></div>",
+  background-color: #ecf4fe;\">$2</div></div>".CHR(10),
            $text);
   }
   while( preg_match("/\[quote\](.*?)\[\/quote\]/i",$text) )
@@ -133,7 +133,7 @@ function doku2xhtml($text)
   margin-top:2px;
   padding: 4px;
   text-aling: justify;
-  background-color: #ecf4fe;\">$1</div></div>",
+  background-color: #ecf4fe;\">$1</div></div>".CHR(10),
                         $text);
 	}
   $text= str_replace('__slash_n__',CHR(10),$text);
