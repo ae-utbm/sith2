@@ -177,7 +177,7 @@ class forum extends basedb
         
     if ( $user->is_valid() ) 
     {
-      $query .= ",EXISTS( ".
+      $query .= "EXISTS( ".
         "SELECT  ".
         "sujet.id_sujet ".
         "FROM frm_sujet sujet ".
@@ -198,10 +198,10 @@ class forum extends basedb
       if( !is_null($user->tout_lu_avant))
         $query .= " AND message.date_message > '2007-06-06 01:01:01'";
         
-      $query .= ")) AS non_lu";
+      $query .= ")) AS non_lu ";
     }
     else
-      $query .= "'0' AS non_lu";
+      $query .= "'0' AS non_lu ";
         
     $query .= "FROM frm_forum " .
         "LEFT JOIN frm_sujet ON ( frm_sujet.id_sujet = frm_forum.id_sujet_dernier ) " .
