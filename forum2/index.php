@@ -51,7 +51,12 @@ if ( !$forum->is_valid() )
 
 if ( !$forum->is_right($site->user,DROIT_LECTURE) )
 {
-  header("Location: ".$wwwtopdir);
+  //header("Location: ".$wwwtopdir);
+  echo "<!--";
+  print_r($forum);
+  print_r($site->user);
+  echo "-->";
+
   exit();
 }
 
