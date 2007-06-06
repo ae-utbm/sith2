@@ -1018,7 +1018,10 @@ class site extends interfaceweb
   function get_forum_box ()
   {  
     global $wwwtopdir;
-    
+    require_once($topdir . "include/entities/forum.inc.php");
+    $forum = new forum($site->db);
+    $forum->load_by_id(1);
+
     $cts = new contents("Forum");
   
     $query = "SELECT frm_sujet.*, ".
