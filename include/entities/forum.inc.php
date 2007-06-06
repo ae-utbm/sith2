@@ -223,6 +223,9 @@ class forum extends basedb
     }
 	  $query .= "ORDER BY frm_forum.ordre_forum";
 	  
+	  echo "<!-- $query; -->";
+	  
+	  
     $req = new requete($this->db,$query);
 	  
 	  $rows = array();
