@@ -71,6 +71,32 @@ function doku2xhtml($text)
   // block de code
   firstpass($table,$text,"/(\n( {2,}|\t)[^\*\-\n ][^\n]+)(\n( {2,}|\t)[^\n]*)*/se","preformat('\\0','block')","\n");
 
+  //citation
+  while( preg_match("/\[quote=(.+?)\](.+?)\[\/quote\]/i",$text) )
+  {
+    $text = preg_replace("/\[quote=(.+?)\](.+?)\[\/quote\]/",
+                         "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
+  <b>Citation de $1 :</b>
+  <div style=\"border: 1px #374a70 solid;
+  margin-top:2px;
+  padding: 4px;
+  text-aling: justify;
+  background-color: #ecf4fe;\">$2</div></div>",
+           $text);
+  }
+  while( preg_match("/\[quote\](.+?)\[\/quote\]/i",$text) )
+  {
+    $text = preg_replace("/\[quote\](.+?)\[\/quote\]/",
+                         "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
+  <b>Citation :</b>
+  <div style=\"border: 1px #374a70 solid;
+  margin-top:2px;
+  padding: 4px;
+  text-aling: justify;
+  background-color: #ecf4fe;\">$1</div></div>",
+                        $text);
+  }
+
   //check if toc is wanted
   if(!isset($parser['toc'])){
     if(strpos($text,'~~NOTOC~~')!== false)
@@ -337,33 +363,6 @@ function linkformat($match)
 function simpleformat($text)
 {
   global $conf;
-
-  //citation
-  while( preg_match('#&lt;quote=(.+?)&gt;(.+?)&lt;/quote&gt;#i',$text) )
-	{
-		print_r("debug");
-    $text = preg_replace('#&lt;quote=(.+?)&gt;(.+?)&lt;/quote&gt;#i',
-                         "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
-                          <b>Citation de $1 :</b>
-                          <div style=\"border: 1px #374a70 solid;
-                                       margin-top:2px;
-                                       padding: 4px;
-                                       text-aling: justify;
-                                       background-color: #ecf4fe;\">$2</div></div>",
-                         $text);
-  }
-  while( preg_match('#&lt;quote&gt;(.+?)&lt;/quote&gt;#i',$text) )
-  {
-    $text = preg_replace('#&lt;quote\&gt;(.+?)&lt;/quote&gt;#i',
-                         "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
-                          <b>Citation :</b>
-                          <div style=\"border: 1px #374a70 solid;
-                                       margin-top:2px;
-                                       padding: 4px;
-                                       text-aling: justify;
-                                       background-color: #ecf4fe;\">$1</div></div>",
-                         $text);
-  }
 
   $text = preg_replace('#&lt;del&gt;(.*?)&lt;/del&gt;#is','<s>\1</s>',$text); //del
   $text = preg_replace('/__([^_]+?)__/s','<u>\1</u>',$text);  //underline
