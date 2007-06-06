@@ -495,7 +495,7 @@ if ( $sujet->is_valid() )
     {
       $req = new requete($site->db,"SELECT id_message FROM frm_message ".
         "WHERE id_sujet='".mysql_real_escape_string($sujet->id)."' ".
-        "AND message.date_message > '".date("Y-m-d H:i:s",$site->user->tout_lu_avant)."' ".
+        "AND date_message > '".date("Y-m-d H:i:s",$site->user->tout_lu_avant)."' ".
         "ORDER BY date_message LIMIT 1");
       if ( $req->lines == 1 )
       {
