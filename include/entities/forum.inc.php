@@ -85,7 +85,7 @@ class forum extends basedb
     $this->id_groupe_admin = $row['id_groupe_admin'];
     $this->droits_acces = $row['droits_acces_forum'];
     $this->ordre = $row['ordre_forum'];
-
+    $this->modere=1;
   }
   
 	function is_admin ( &$user )

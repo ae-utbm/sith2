@@ -101,19 +101,18 @@ class basedb extends stdentity
 	 */
 	function is_right ( &$user, $required )
 	{
-    echo "<!--$required-->";
 		if ( $this->is_admin($user)) return true;
-		echo "<!--1-->";
+		
 		if ( ($user->id ==  $this->id_utilisateur) && 
 			($required & ($this->droits_acces >> 8)) == $required ) return true;
-		echo "<!--2-->";
+			
 		if ( $this->modere == 0 ) return false;
-		echo "<!--3-->";
+		
 		if ( ($user->is_in_group_id($this->id_groupe)) && 
 			($required & ($this->droits_acces >> 4)) == $required ) return true;
-		echo "<!--4-->";
+			
 		if ( ($required & ($this->droits_acces)) == $required ) return true;
-		echo "<!--5-->";
+		
 		return false;
 	}
 	
