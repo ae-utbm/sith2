@@ -1,0 +1,128 @@
+/* embedded images */
+img.media
+{
+  margin: 3px;
+}
+
+img.medialeft
+{
+  border: 0;
+  float: left;
+  margin: 0 1.5em 0 0;
+}
+
+img.mediaright
+{
+  border: 0;
+  float: right;
+  margin: 0 0 0 1.5em;
+}
+
+img.mediacenter
+{
+  border: 0;
+  display: block;
+  margin: 0 auto;
+}
+
+/* unordered lists */
+ul {
+  line-height: 1.5em;
+  margin: 0 0 0.5em 1.5em;
+  color: #638c9c;
+}
+
+/* ordered lists */
+ol {
+  line-height: 1.5em;
+  margin: 0 0 0.5em 1.5em;
+  color: #638c9c;
+  font-weight: bold;
+}
+
+/* the list items overriding the ul/ol definition */
+.li {
+  color: #000;
+  font-weight: normal;
+}
+
+ol {list-style-type: decimal}
+ol ol {list-style-type: upper-roman}
+ol ol ol {list-style-type: lower-alpha}
+ol ol ol ol {list-style-type: lower-greek}
+
+li.open {
+    /*list-style-type: circle;*/
+}
+
+li.closed {
+    /*list-style-type: disc;*/
+}
+
+blockquote {
+  border-left: 2px solid #8cacbb;
+  padding-left: 3px;
+}
+
+pre {
+  font-size: 120%;
+  padding: 0.5em;
+  border: 1px dashed #8cacbb;
+  color: #000;
+  overflow: auto;
+}
+
+/* inline tables */
+table.inline {
+	font-size:100%;
+  background-color: #fff;
+  border-spacing: 0px;
+  border-collapse: collapse;
+}
+
+table.inline th {
+  padding: 3px;
+  border: 1px solid #8cacbb;
+  background-color: #dee7ec;
+}
+
+table.inline td {
+  padding: 3px;
+  border: 1px solid #8cacbb;
+}
+
+/* --------------------- footnotes -------------------------------- */
+
+div.footnotes {
+  clear: both;
+  border-top: 1px solid #8cacbb;
+  padding-left: 1em;
+  margin-top: 1em;
+}
+
+div.fn {
+  font-size: 90%;
+}
+
+a.fn_top {
+  vertical-align: super;
+  font-size: 80%;
+}
+
+a.fn_bot {
+  vertical-align: super;
+  font-size: 80%;
+  font-weight: bold;
+}
+
+/* insitu-footnotes */
+div.insitu-footnote {
+  font-size: 80%;
+  line-height: 1.2em;
+  border: 1px solid #8cacbb;
+  background-color: #f7f9fa;
+  text-align: left;
+  padding: 4px;
+  max-width: 40%;    /* IE's width is handled in javascript */
+}
+

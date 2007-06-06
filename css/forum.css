@@ -1,0 +1,234 @@
+
+
+div.forumsection, div.forumsujetsliste
+{
+  border:1px solid #FFF1C5; 
+  padding:2px;
+  margin-bottom:10px;
+}
+
+div.forumsection h2
+{
+  background:#FFF1C5;
+  border:0px;
+  font-size:15px;
+  margin:0px;
+  padding:5px;
+}
+
+div.forumsection div.forumitem, div.forumsujetsliste div.forumsujet
+{
+  border:1px solid #eff7ff; 
+  padding:5px;
+  position:relative;
+  overflow:hidden;
+}
+
+div.forumsection h2, div.forumsection p.description
+{
+  padding-right:240px;
+}
+
+div.forumsujetsliste div.forumsujet h2, div.forumsujetsliste div.forumsujet p.soustitre
+{
+  padding-right:350px;
+  padding-left:32px;
+}
+
+div.forumsujetsliste div.forumsujet.nonlu
+{
+  background:#eff7ff;
+}
+
+div.forumsection div.forumitem h3
+{
+  margin:0px;
+  font-size:13px;
+}
+
+
+
+
+div.forumsujetsliste div.forumsujet h2
+{
+  margin:0px;
+  font-size:12px;
+  border:0px;
+}
+
+div.forumsection div.forumitem p.description, div.forumsujetsliste div.forumsujet p.soustitre
+{
+  margin:0px;
+  font-size:11px;
+}
+
+div.forumsujetsliste div.forumsujet p.sujeticon
+{
+  position:absolute;
+  top:10px;
+  left:5px;
+}
+
+div.forumsujetsliste div.forumsujet p.auteur
+{
+  position:absolute;
+  width:100px;
+  right:233px;
+  top:1px;
+  padding:5px;
+  background:#eff7ff;
+  font-size:11px;
+  text-align:center;
+}
+
+div.forumsection div.forumitem p.nbsujets, div.forumsujetsliste div.forumsujet p.nbmessages
+{
+  position:absolute;
+  width:50px;
+  right:172px;
+  top:1px;
+  padding:5px;
+  background:#eff7ff;
+  font-size:11px;
+  text-align:center;
+}
+
+div.forumsection div.forumitem p.dernier, div.forumsujetsliste div.forumsujet p.dernier
+{
+  position:absolute;
+  width:160px;
+  right:1px;
+  top:1px;
+  padding:5px;
+  background:#eff7ff;
+  font-size:11px;
+  text-align:center;
+}
+
+
+div.forumsection div.forumitem p.actions, div.forumsujetsliste div.forumsujet p.actions
+{
+  position:absolute;
+  width:auto;
+  right:344px;
+  top:1px;
+  padding:5px;
+  font-size:11px;
+}
+
+
+div.forumsujetsliste div.forumsujet.nonlu p.dernier
+{
+  background:#ffffff;
+}
+
+div.forumsujetsliste div.forumsujet.nonlu p.nbmessages
+{
+  background:#ffffff;
+}
+
+div.forumsujetsliste div.forumsujet.nonlu p.auteur
+{
+  background:#ffffff;
+}
+
+
+div.forummessagesliste
+{
+  
+}
+
+div.forummessageentry
+{
+  border:1px solid #eff7ff; 
+  padding:5px;
+  padding-left:160px;
+  position:relative;
+  margin-bottom:5px;
+  overflow:hidden;
+}
+
+div.forummessageentry.nonlu
+{
+  background:#eff7ff;
+}
+
+div.forummessageentry div.auteur
+{
+  background:#eff7ff;
+  position:absolute;
+  left:1px;
+  top:1px;
+  width:140px;
+  padding:5px;
+  overflow:hidden;
+}
+
+div.forummessageentry div.auteur p.funame
+{
+
+}
+
+div.forummessageentry div.auteur p.funame a
+{
+  color:#000000;
+}
+
+
+div.forummessageentry div.auteur p.fuimg
+{
+
+}
+
+div.forummessageentry div.auteur p.fuimg img
+{
+  width:140px;
+}
+
+div.forummessageentry.nonlu div.auteur
+{
+  background:#ffffff;
+}
+
+
+div.forummessageentry h2
+{
+  font-size:12px;
+  border-bottom:1px solid #FFF1C5;
+  height:1.5em;  
+  margin:0px;
+  margin-bottom:5px;
+  padding-left:100px;
+}
+
+div.forummessageentry p.date
+{
+  position:absolute;
+  top:5px;
+  left:160px;
+}
+
+div.forummessageentry p.actions
+{
+  position:absolute;
+  top:5px;
+  right:5px;
+}
+
+div.forummessageentry div.signature
+{
+  margin-top:10px;
+  border-top:1px solid #FFF1C5;
+  padding-top:5px;
+  max-height:3em;
+  padding-bottom:5px;
+}
+
+div.sujetcontext
+{
+  margin-left:150px;
+  margin-right:150px;  
+  margin-bottom:20px;  
+  border:1px solid #eff7ff;
+  padding:5px;
+}
