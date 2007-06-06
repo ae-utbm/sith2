@@ -114,7 +114,7 @@ function doku2xhtml($text)
   while( preg_match("/\[quote=(.*?)\](.*?)\[\/quote\]/i",$text) )
 	{
     print_r("bleh");
-    $text = preg_replace("/\[quote=(.+*)\](.*?)\[\/quote\]/",
+    $text = preg_replace("/\[quote=(.*?)\](.*?)\[\/quote\]/",
                          "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
   <b>Citation de $1 :</b>
   <div style=\"border: 1px #374a70 solid;
