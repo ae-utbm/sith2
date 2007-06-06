@@ -249,7 +249,7 @@ class sujetforum extends stdcontents
       }
       
       $this->buffer .= "</div>\n";      
-      
+      $this->buffer .= "<div class=\"clearboth\"></div>\n";
       $this->buffer .= "</div>\n";
       $initial=false;
     }

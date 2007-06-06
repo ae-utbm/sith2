@@ -160,9 +160,10 @@ div.forummessageentry.nonlu
 div.forummessageentry div.auteur
 {
   background:#eff7ff;
-  position:absolute;
+  /*position:absolute;
   left:1px;
-  top:1px;
+  top:1px;*/
+  float:left;
   width:150px;
   padding:0;
   margin:0;
