@@ -128,6 +128,7 @@ if ( $_REQUEST["action"] == "post" && !$forum->categorie )
     
 if ( $_REQUEST['page'] == 'delete' )
 {
+  $site->allow_only_logged_users("forum");
   if ( $message->is_valid() )
   {
     /* pas de confirmation à la suppression */
@@ -186,6 +187,8 @@ if ( $sujet->is_valid() )
   /* Edition d'un message (pour cela il faut que le sujet soit valide) */
   if ($_REQUEST['page'] == 'edit')
   {
+    $site->allow_only_logged_users("forum");
+    
     if ( $message->is_valid() ) // On edite un message
     {
       if ($message->id_utilisateur != $site->user->id && !$forum->is_admin($site->user))    
@@ -285,6 +288,8 @@ if ( $sujet->is_valid() )
 
   if ($_REQUEST['page'] == 'commitedit')
   {
+    $site->allow_only_logged_users("forum");
+    
     //$site->start_page("forum",$sujet->titre);
     if ( $message->is_valid() )
     {

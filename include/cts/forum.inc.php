@@ -104,7 +104,7 @@ class sujetslist extends stdcontents
 
       /* actions */
       if ( !is_array($forum) )
-      if (($user->id == $row['id_utilisateur']) ||($forum->is_admin($user)))
+      if (($user->is_valid() && $user->id == $row['id_utilisateur']) ||($forum->is_admin($user)))
 	    {
         $this->buffer .= "<p class=\"actions\">";
         
@@ -189,7 +189,7 @@ class sujetforum extends stdcontents
     	     "&amp;quote=1\">Répondre en citant</a>";
     	 }
 
-       if (($user->id == $row['id_utilisateur']) ||($forum->is_admin($user)))
+       if (($user->is_valid() && $user->id == $row['id_utilisateur']) ||($forum->is_admin($user)))
     	 {
     	   if ( $initial ) // Pour le message initial, renvoie vers le sujet
     	   {
