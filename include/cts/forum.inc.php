@@ -201,8 +201,13 @@ class sujetforum extends stdcontents
           $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$row['id_message']."\">\n";
         $n=($n+1)%2;
       }
-      $this->buffer .= "<h2 class=\"frmt\">".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";      
-       $this->buffer .= "<p class=\"date\">".date("d/m/Y H:i",$t)."</p>\n";
+      
+      if ( $row['titre_message'] )
+        $this->buffer .= "<h2 class=\"frmt\">".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";      
+      else
+        $this->buffer .= "<h2 class=\"frmt\">&nbsp;</h2>\n";  
+            
+     $this->buffer .= "<p class=\"date\">".date("d/m/Y H:i",$t)."</p>\n";
 
        /* actions sur un message */
        $this->buffer .= "<p class=\"actions\">";
