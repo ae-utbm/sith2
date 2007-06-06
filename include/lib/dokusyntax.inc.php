@@ -110,6 +110,7 @@ function doku2xhtml($text)
 
   $text = htmlspecialchars($text);
 
+	print_r($text);
   if(preg_match("/\&lt;quote=(.+?)\&gt;(.+?)\&lt;\/quote\&gt;/i",$text) ) print_r("bleh");
 
   //citation
