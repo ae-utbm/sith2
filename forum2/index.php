@@ -364,16 +364,25 @@ if ( $sujet->is_valid() )
     $frm = new form("frmreply", "?page=commit&amp;id_sujet=".$sujet->id, true);
   
     if (intval($_REQUEST['quote']) == 1)
-      {
-	/* l'objet message doit alors etre chargé */
-	$rpltext = "[quote]".$message->contenu . "[/quote]";
-	$rpltitle = "Re : " . $message->titre;
-      }
+		{
+		  $_auteur="";
+		  /* l'objet message doit alors etre chargé */
+			if($message->id_utilisateur>0)
+		  {
+				$_auteur=new utilisateur($site->db,$site->dbrw);
+				$_auteur->load_by_id($message->id_utilisateur);
+				if(!is_null($_auteur->id))
+		      $_auteur="=".$_auteur->alias;
+		  }
+			
+	    $rpltext = "[quote".$_auteur."]".$message->contenu . "[/quote]";
+	    $rpltitle = "Re : " . $message->titre;
+    }
     else 
-      {
-	$rpltext = '';
-	$rpltitle = '';  
-      }
+    {
+	    $rpltext = '';
+	    $rpltitle = '';  
+    }
 
     $frm->add_text_field("rpltitle", "Titre du message : ", $rpltitle,false,80);
     $frm->add_select_field('synengine',
