@@ -243,7 +243,7 @@ div.forummessageentry p.actions
 
 div.forummessageentry div.forummessage
 {
-  border-top:1px solid #FFF1C5;
+  border-top:1px solid #C0C0C0;
   margin-left:160px;
   padding-top:5px;
   margin-top:3px;
@@ -254,10 +254,20 @@ div.forummessageentry div.forummessage
 div.forummessageentry div.signature
 {
   margin-top:10px;
-  border-top:1px solid #FFF1C5;
+  border-top:1px solid #C0C0C0;
   padding-top:5px;
   max-height:3em;
   padding-bottom:5px;
+}
+
+div.forummessageentry.nonlu div.forummessage
+{
+  border-top:1px solid #FFFFFF;
+}
+
+div.forummessageentry.nonlu div.signature
+{
+  border-top:1px solid #FFFFFF;
 }
 
 div.sujetcontext
