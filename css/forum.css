@@ -22,6 +22,7 @@ div.forumsection div.forumitem, div.forumsujetsliste div.forumsujet
   padding:5px;
   position:relative;
   overflow:hidden;
+  width:100%;
 }
 
 div.forumsection h2, div.forumsection p.description
@@ -135,17 +136,20 @@ div.forumsujetsliste div.forumsujet.nonlu p.auteur
 
 div.forummessagesliste
 {
-  
+  overflow:hidden;
+  position:relative;
 }
 
 div.forummessageentry
 {
   border:1px solid #eff7ff; 
-  padding:5px;
-  padding-left:160px;
+  /*padding:5px;*/
+  /*padding-left:160px;*/
   position:relative;
   margin-bottom:5px;
   overflow:hidden;
+  padding:0;
+    height:auto;
 }
 
 div.forummessageentry.nonlu
@@ -159,9 +163,19 @@ div.forummessageentry div.auteur
   position:absolute;
   left:1px;
   top:1px;
-  width:140px;
-  padding:5px;
+  width:150px;
+  padding:0;
+  margin:0;
+  padding-top:5px;
+  padding-bottom:5px;
+
   overflow:hidden;
+}
+
+div.forummessageentry div.auteur p
+{
+  margin-left:5px;
+  margin-right:5px;
 }
 
 div.forummessageentry div.auteur p.funame
@@ -177,7 +191,7 @@ div.forummessageentry div.auteur p.funame a
 
 div.forummessageentry div.auteur p.fuimg
 {
-
+	
 }
 
 div.forummessageentry div.auteur p.fuimg img
@@ -194,11 +208,13 @@ div.forummessageentry.nonlu div.auteur
 div.forummessageentry h2
 {
   font-size:12px;
-  border-bottom:1px solid #FFF1C5;
+
   height:1.5em;  
   margin:0px;
-  margin-bottom:5px;
-  padding-left:100px;
+  
+  padding-left:260px;
+  border:0;
+  
 }
 
 div.forummessageentry p.date
@@ -213,6 +229,14 @@ div.forummessageentry p.actions
   position:absolute;
   top:5px;
   right:5px;
+}
+
+div.forummessageentry div.forummessage
+{
+  border-top:1px solid #FFF1C5;
+  margin-left:160px;
+  padding-top:2px;
+  margin-top:3px;
 }
 
 div.forummessageentry div.signature
