@@ -339,10 +339,10 @@ function simpleformat($text)
   global $conf;
 
   //citation
-  while( preg_match("/&lt;quote=(.+?)&gt;(.+?)&lt;\/quote&gt;/i",$text) )
+  while( preg_match('/&lt;quote=(.+?)&gt;(.+?)&lt;\/quote&gt;/i',$text) )
 	{
 		print_r("debug");
-    $text = preg_replace("/&lt;quote=(.+?)&gt;(.+?)&lt;\/quote&gt;/i",
+    $text = preg_replace('/&lt;quote=(.+?)&gt;(.+?)&lt;\/quote&gt;/i',
                          "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
                           <b>Citation de $1 :</b>
                           <div style=\"border: 1px #374a70 solid;
@@ -352,9 +352,9 @@ function simpleformat($text)
                                        background-color: #ecf4fe;\">$2</div></div>",
                          $text);
   }
-  while( preg_match("/&lt;quote&gt;(.+?)&lt;\/quote&gt;/i",$text) )
+  while( preg_match('/&lt;quote&gt;(.+?)&lt;\/quote&gt;/i',$text) )
   {
-    $text = preg_replace("/&lt;quote\&gt;(.+?)&lt;\/quote&gt;/i",
+    $text = preg_replace('/&lt;quote\&gt;(.+?)&lt;\/quote&gt;/i',
                          "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
                           <b>Citation :</b>
                           <div style=\"border: 1px #374a70 solid;
