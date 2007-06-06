@@ -71,34 +71,6 @@ function doku2xhtml($text)
   // block de code
   firstpass($table,$text,"/(\n( {2,}|\t)[^\*\-\n ][^\n]+)(\n( {2,}|\t)[^\n]*)*/se","preformat('\\0','block')","\n");
 
-  if(preg_match("/\[quote=(.+?)\](.+?)\[\/quote\]/i",$text) ) print_r("bleh");
-
-  //citation
-  while( preg_match("/\[quote=(.+?)\](.+?)\[\/quote\]/i",$text) )
-  {
-    $text = preg_replace("/\[quote=(.+?)\](.+?)\[\/quote\]/",
-                         "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
-  <b>Citation de $1 :</b>
-  <div style=\"border: 1px #374a70 solid;
-  margin-top:2px;
-  padding: 4px;
-  text-aling: justify;
-  background-color: #ecf4fe;\">$2</div></div>",
-           $text);
-  }
-  while( preg_match("/\[quote\](.+?)\[\/quote\]/i",$text) )
-  {
-    $text = preg_replace("/\[quote\](.+?)\[\/quote\]/",
-                         "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
-  <b>Citation :</b>
-  <div style=\"border: 1px #374a70 solid;
-  margin-top:2px;
-  padding: 4px;
-  text-aling: justify;
-  background-color: #ecf4fe;\">$1</div></div>",
-                        $text);
-  }
-
   //check if toc is wanted
   if(!isset($parser['toc'])){
     if(strpos($text,'~~NOTOC~~')!== false)
@@ -137,6 +109,34 @@ function doku2xhtml($text)
   firstpass($table,$text,"#<([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)>#ie", "linkformat('\\1@\\2')");
 
   $text = htmlspecialchars($text);
+
+  if(preg_match("/\&lt;quote=(.+?)\&gt;(.+?)\&lt;\/quote\&gt;/i",$text) ) print_r("bleh");
+
+  //citation
+  while( preg_match("/\[quote=(.+?)\](.+?)\[\/quote\]/i",$text) )
+  {
+    $text = preg_replace("/\[quote=(.+?)\](.+?)\[\/quote\]/",
+                         "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
+  <b>Citation de $1 :</b>
+  <div style=\"border: 1px #374a70 solid;
+  margin-top:2px;
+  padding: 4px;
+  text-aling: justify;
+  background-color: #ecf4fe;\">$2</div></div>",
+           $text);
+  }
+  while( preg_match("/\[quote\](.+?)\[\/quote\]/i",$text) )
+  {
+    $text = preg_replace("/\[quote\](.+?)\[\/quote\]/",
+                         "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
+  <b>Citation :</b>
+  <div style=\"border: 1px #374a70 solid;
+  margin-top:2px;
+  padding: 4px;
+  text-aling: justify;
+  background-color: #ecf4fe;\">$1</div></div>",
+                        $text);
+  }
 
   /* deuxième pass pour les formatages simples */
   $text = simpleformat($text);
