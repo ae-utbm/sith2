@@ -351,7 +351,7 @@ function simpleformat($text)
                                        background-color: #ecf4fe;\">$2</div></div>",
                          $text);
   }
-  while( preg_match("/&lt;quote&gt;(.+?)&&lt;\/quote&gt;/i",$text) )
+  while( preg_match("/&lt;quote&gt;(.+?)&lt;\/quote&gt;/i",$text) )
   {
     $text = preg_replace("/&lt;quote\&gt;(.+?)&lt;\/quote&gt;/",
                          "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
