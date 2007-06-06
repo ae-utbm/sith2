@@ -610,7 +610,7 @@ if ( $sujet->is_valid() )
   for( $n=0;$n<$nbpages;$n++)
     $entries[]=array($n,"forum2/?id_sujet=".$sujet->id."&spage=".$n,$n+1);
     
-	$cts->add(new tabshead($entries, floor($start/$npp), "_lg"));
+	$cts->add(new tabshead($entries, floor($start/$npp), "_top"));
     
   $cts->add(new sujetforum ($forum, 
 			    $sujet, 
