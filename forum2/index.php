@@ -603,13 +603,7 @@ if ( $sujet->is_valid() )
       }
     }
   }
-
-  $cts->add(new sujetforum ($forum, 
-			    $sujet, 
-			    $site->user, 
-			    "./", 
-			    $start, 
-			    $npp ));
+  
   
   $entries=array();
   
@@ -617,9 +611,19 @@ if ( $sujet->is_valid() )
     $entries[]=array($n,"forum2/?id_sujet=".$sujet->id."&spage=".$n,$n+1);
     
 	$cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
+    
+  $cts->add(new sujetforum ($forum, 
+			    $sujet, 
+			    $site->user, 
+			    "./", 
+			    $start, 
+			    $npp ));
+    
+	$cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
 
   $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\">Répondre</a>");
-
+  $cts->add_paragraph($path);
+  
   /**@todo:bouttons+infos*/
 
   if ( $site->user->is_valid() )
