@@ -75,7 +75,7 @@ if ( $_REQUEST["page"] == "unread" )
 	while ( $row = $req->get_row() )
 	  $rows[] = $row;
 	    
-	$cts->add(new sujetslist($rows, $site->user, "./", null, null));
+	$cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
 	    
   $site->add_contents($cts);
   

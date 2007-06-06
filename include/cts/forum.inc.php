@@ -81,7 +81,7 @@ class sujetslist extends stdcontents
 {
   
   
-  function sujetslist ( &$forum, &$user, $page, $start, $npp )
+  function sujetslist ( &$forum, &$user, $page, $start, $npp, $gotounread=false )
   {
     global $wwwtopdir;
     
@@ -89,6 +89,9 @@ class sujetslist extends stdcontents
       $rows = $forum;
     else
       $rows = $forum->get_sujets($user, $start, $npp);
+    
+    if ( $gotounread && $user->is_valid() )
+      $this->buffer .= "<p>Remarque: En cliquant sur le nom du sujet vous irai directement au premier message non lu</p>\n";
     
     $this->buffer .= "<div class=\"forumsujetsliste\">\n";
     
@@ -100,8 +103,13 @@ class sujetslist extends stdcontents
       else
         $this->buffer .= "<div class=\"forumsujet\">\n";
       
-      $this->buffer .= "<h2><a href=\"".$page."?id_sujet=".$row['id_sujet']."\">".
-                       htmlentities($row['titre_sujet'], ENT_NOQUOTES, "UTF-8")."</a></h2>\n";
+      if ( $row['nonlu'] && $gotounread && $user->is_valid() )
+        $this->buffer .= "<h2><a href=\"".$page."?id_sujet=".$row['id_sujet']."&amp;spage=firstunread#firstunread\">".
+                         htmlentities($row['titre_sujet'], ENT_NOQUOTES, "UTF-8")."</a></h2>\n";
+      else
+      
+        $this->buffer .= "<h2><a href=\"".$page."?id_sujet=".$row['id_sujet']."\">".
+                         htmlentities($row['titre_sujet'], ENT_NOQUOTES, "UTF-8")."</a></h2>\n";
                        
       if ( !$row['soustitre_sujet'] )
         $this->buffer .= "<p class=\"soustitre\">&nbsp;</p>\n";
