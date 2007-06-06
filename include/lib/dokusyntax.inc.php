@@ -111,7 +111,7 @@ function doku2xhtml($text)
   $text = htmlspecialchars($text);
 
 	print_r($text);
-  if(preg_match("/\&lt;quote=(.+?)\&gt;(.+?)\&lt;\/quote\&gt;/i",$text) ) print_r("bleh");
+  if(preg_match("/\[quote=(.+?)\&gt;(.+?)\&lt;\/quote\]/i",$text) ) print_r("bleh");
 
   //citation
   while( preg_match("/\[quote=(.+?)\](.+?)\[\/quote\]/i",$text) )
