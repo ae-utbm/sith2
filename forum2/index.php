@@ -482,6 +482,14 @@ if ( $sujet->is_valid() )
   $start=0;
   $nbpages = ceil($sujet->nb_messages/$npp);
 
+  if ( isset($_REQUEST["spage"]) && $_REQUEST["spage"] == "firstunread" && $site->user->is_valid() )
+  { 
+    $last_read = $sujet->get_last_read_message ( $site->user->id );
+    if ( !is_null($last_read) )
+      $message->load_by_id($last_read);
+    unset($_REQUEST["spage"]);
+  }
+
   if ( $message->is_valid() )
   {
     $req = new requete($site->db,"SELECT id_message FROM frm_message WHERE id_sujet='".mysql_real_escape_string($sujet->id)."' ORDER BY date_message");

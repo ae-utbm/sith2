@@ -238,7 +238,7 @@ class site extends interfaceweb
       if (!$this->user->is_valid())
         $this->set_side_boxes("right",array("planning", "search","anniv","photo"),"accueil_nc_right");
       else
-        $this->set_side_boxes("right",array("planning", "weekly_photo","anniv","sondage","photo","comptoirs"),"accueil_c_right");
+        $this->set_side_boxes("right",array("planning", "weekly_photo","anniv","sondage","photo","comptoirs","forum"),"accueil_c_right");
 
       $this->add_box("anniv", $this->get_anniv_contents());
       $this->add_box("planning", $this->get_planning_contents());
@@ -246,6 +246,9 @@ class site extends interfaceweb
       $this->add_box("sondage",$this->get_sondage());
       
       $this->add_box("comptoirs",$this->get_comptoirs_box());
+      if ($this->user->is_valid())
+        $this->add_box("forum",$this->get_forum_box());
+      //
     }
     elseif ( $section == "pg" )
     {
@@ -1010,6 +1013,72 @@ class site extends interfaceweb
   
     return $list;
   
+  }
+  
+  function get_forum_box ()
+  {  
+    global $wwwtopdir;
+    
+    $cts = new contents("Forum");
+  
+    $query = "SELECT frm_sujet.*, ".
+        "frm_message.date_message, " .
+        "frm_message.id_message, " .
+        "dernier_auteur.alias_utl AS `nom_utilisateur_dernier_auteur`, " .
+        "dernier_auteur.id_utilisateur AS `id_utilisateur_dernier`, " .
+        "premier_auteur.alias_utl AS `nom_utilisateur_premier_auteur`, " .
+        "premier_auteur.id_utilisateur AS `id_utilisateur_premier`, " .
+        "1 AS `nonlu`, " .
+        "titre_forum AS `soustitre_sujet` " .
+        "FROM frm_sujet " .
+        "INNER JOIN frm_forum USING(id_forum) ".
+        "LEFT JOIN frm_message ON ( frm_message.id_message = frm_sujet.id_message_dernier ) " .
+        "LEFT JOIN utilisateurs AS `dernier_auteur` ON ( dernier_auteur.id_utilisateur=frm_message.id_utilisateur ) " .
+        "LEFT JOIN utilisateurs AS `premier_auteur` ON ( premier_auteur.id_utilisateur=frm_sujet.id_utilisateur ) ".
+        "LEFT JOIN frm_sujet_utilisateur ".
+          "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
+          "AND frm_sujet_utilisateur.id_utilisateur='".$site->user->id."' ) ".
+        "WHERE ";
+              
+    if( is_null($site->user->tout_lu_avant))
+      $query .= "(frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
+                "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ";    
+    else
+      $query .= "((frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
+                "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ".
+                "AND frm_message.date_message > '".date("Y-m-d H:i:s",$site->user->tout_lu_avant)."') ";  
+  
+    if ( !$forum->is_admin( $site->user ) )
+    {
+      $grps = $site->user->get_groups_csv();
+      $query .= "AND ((droits_acces_forum & 0x1) OR " .
+        "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
+        "(id_groupe_admin IN ($grps)) OR " .
+        "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$site->user->id."')) ";
+    }
+  
+    $query .= "ORDER BY frm_message.date_message DESC ";
+    $query .= "LIMIT 5 ";
+  
+    $req = new requete($site->db,$query);
+    
+    $cts->add_title(2,"<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">Derniers messages non lus</a>");
+    
+    if ( $req->lines > 0 )
+    {
+      $list = new itemlist();
+      while ( $row = $req->get_row() )
+      {
+        $list->add("<a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."&amp;spage=firstunread#firstunread\"\">".
+        htmlentities($row['titre_sujet'], ENT_NOQUOTES, "UTF-8").
+        "</a>");
+      }
+      $cts->add_paragraph("<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">suite...</a>");
+    }
+    else
+      $cts->add_paragraph("pas de messages non lus");
+    $cts->add($list);
+    return $cts:
   }
   
   function allow_only_logged_users($section="none")
