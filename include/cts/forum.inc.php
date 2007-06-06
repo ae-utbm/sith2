@@ -171,24 +171,6 @@ class sujetforum extends stdcontents
       else
         $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$row['id_message']."\">\n";
       
-        
-      $this->buffer .= "<div class=\"auteur\">\n";
-      
-      $this->buffer .= "<p class=\"funame\"><a href=\"".$wwwtopdir."user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['alias_utl'],ENT_NOQUOTES,"UTF-8")."</a></p>\n";
-      
-      $img=null;
-      if (file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg"))
-        $img = $wwwtopdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg";
-      elseif (file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg"))
-        $img = $wwwtopdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg";
-        
-      if ( !is_null($img) )
-        $this->buffer .= "<p class=\"fuimg\"><img src=\"".htmlentities($img,ENT_NOQUOTES,"UTF-8")."\" /></p>\n";
-      
-      
-      $this->buffer .= "</div>\n";
-        
-        
       $this->buffer .= "<h2>".htmlentities($row['titre_sujet'], ENT_NOQUOTES, "UTF-8")."</h2>\n";      
        $this->buffer .= "<p class=\"date\">".date("d/m/Y H:i",$t)."</p>\n";
 
@@ -230,8 +212,21 @@ class sujetforum extends stdcontents
 
        $this->buffer .= "</p>\n";   
           
-
+      $this->buffer .= "<div class=\"auteur\">\n";
       
+      $this->buffer .= "<p class=\"funame\"><a href=\"".$wwwtopdir."user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['alias_utl'],ENT_NOQUOTES,"UTF-8")."</a></p>\n";
+      
+      $img=null;
+      if (file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg"))
+        $img = $wwwtopdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg";
+      elseif (file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg"))
+        $img = $wwwtopdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg";
+        
+      if ( !is_null($img) )
+        $this->buffer .= "<p class=\"fuimg\"><img src=\"".htmlentities($img,ENT_NOQUOTES,"UTF-8")."\" /></p>\n";
+      
+      
+      $this->buffer .= "</div>\n";
       $this->buffer .= "<div class=\"forummessage\">\n";
       
       if ( $row['syntaxengine_message'] == "bbcode" )
