@@ -111,11 +111,9 @@ function doku2xhtml($text)
   $text = htmlspecialchars($text);
 
 	//citation
-	$text= str_replace('\n','__slash_n__',$text);
   $text = str_replace( CHR(10), "__slash_n__" , $text );
   while( preg_match("/\[quote=(.*?)\](.*?)\[\/quote\]/i",$text) )
 	{
-    print_r("bleh");
     $text = preg_replace("/\[quote=(.*?)\](.*?)\[\/quote\]/",
                          "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
   <b>Citation de $1 :</b>
@@ -138,7 +136,7 @@ function doku2xhtml($text)
   background-color: #ecf4fe;\">$1</div></div>",
                         $text);
 	}
-  $text= str_replace('__slash_n_',CHR(10),$text);
+  $text= str_replace('__slash_n__',CHR(10),$text);
 
   /* deuxième pass pour les formatages simples */
   $text = simpleformat($text);
