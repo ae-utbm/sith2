@@ -121,7 +121,7 @@ function doku2xhtml($text)
   margin-top:2px;
   padding: 4px;
   text-aling: justify;
-  background-color: #ecf4fe;\">$2</div></div>".CHR(10),
+  background-color: #ecf4fe;\">$2___</div>___</div>___",
            $text);
   }
   while( preg_match("/\[quote\](.*?)\[\/quote\]/i",$text) )
@@ -133,9 +133,10 @@ function doku2xhtml($text)
   margin-top:2px;
   padding: 4px;
   text-aling: justify;
-  background-color: #ecf4fe;\">$1</div></div>".CHR(10),
+  background-color: #ecf4fe;\">$1___</div>___</div>___",
                         $text);
 	}
+  $text= str_replace('___</div>___</div>___','</div></div>'.CHR(10),$text);
   $text= str_replace('__slash_n__',CHR(10),$text);
 
   /* deuxième pass pour les formatages simples */
