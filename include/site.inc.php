@@ -183,7 +183,7 @@ class site extends interfaceweb
     {
       if ( strtotime($expire) < time() ) // Session expirée, fait le ménage
       {
-        $req = new delete($site->dbrw, "site_sessions", array("id_session"=>$sid) );
+        $req = new delete($this->dbrw, "site_sessions", array("id_session"=>$sid) );
         
         if ( isset($_COOKIE['AE2_SESS_ID']) )
         {
@@ -429,7 +429,7 @@ class site extends interfaceweb
     if (  is_null($this->user->date_maj) )
         $elements[] = "<b>Vous n'avez pas r&eacute;cemment mis &agrave; jour votre fiche Matmatronch</b> : <a href=\"".$topdir."user.php?page=edit\">La mettre &agrave; jour</a>";
     elseif ( (time() - $this->user->date_maj) > (6*30*24*60*60) )
-        $elements[] = "<b>Vous n'avez pas mis &agrave; jour votre fiche Matmatronch depuis ".round((time() - $site->user->date_maj)/(24*60*60))." jours !</b> : <a href=\"".$topdir."user.php?page=edit\">La mettre &agrave; jour</a>";
+        $elements[] = "<b>Vous n'avez pas mis &agrave; jour votre fiche Matmatronch depuis ".round((time() - $this->user->date_maj)/(24*60*60))." jours !</b> : <a href=\"".$topdir."user.php?page=edit\">La mettre &agrave; jour</a>";
 
     if( $this->user->is_in_group("sas_admin") )
     {
@@ -632,7 +632,7 @@ class site extends interfaceweb
       
     $req = new requete($this->db,"SELECT COUNT(*) " .
     		"FROM inv_emprunt " .
-    		"WHERE id_utilisateur='".$site->user->id."' AND etat_emprunt<=1");	
+    		"WHERE id_utilisateur='".$this->user->id."' AND etat_emprunt<=1");	
     list($nb) = $req->get_row();
 
     if ( $nb )
@@ -1019,7 +1019,7 @@ class site extends interfaceweb
   {  
     global $wwwtopdir;
     require_once($topdir . "include/entities/forum.inc.php");
-    $forum = new forum($site->db);
+    $forum = new forum($this->db);
     $forum->load_by_id(1);
 
     $cts = new contents("Forum");
@@ -1040,30 +1040,30 @@ class site extends interfaceweb
         "LEFT JOIN utilisateurs AS `premier_auteur` ON ( premier_auteur.id_utilisateur=frm_sujet.id_utilisateur ) ".
         "LEFT JOIN frm_sujet_utilisateur ".
           "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
-          "AND frm_sujet_utilisateur.id_utilisateur='".$site->user->id."' ) ".
+          "AND frm_sujet_utilisateur.id_utilisateur='".$this->user->id."' ) ".
         "WHERE ";
               
-    if( is_null($site->user->tout_lu_avant))
+    if( is_null($this->user->tout_lu_avant))
       $query .= "(frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
                 "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ";    
     else
       $query .= "((frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
                 "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ".
-                "AND frm_message.date_message > '".date("Y-m-d H:i:s",$site->user->tout_lu_avant)."') ";  
+                "AND frm_message.date_message > '".date("Y-m-d H:i:s",$this->user->tout_lu_avant)."') ";  
   
-    if ( !$forum->is_admin( $site->user ) )
+    if ( !$forum->is_admin( $this->user ) )
     {
-      $grps = $site->user->get_groups_csv();
+      $grps = $this->user->get_groups_csv();
       $query .= "AND ((droits_acces_forum & 0x1) OR " .
         "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
         "(id_groupe_admin IN ($grps)) OR " .
-        "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$site->user->id."')) ";
+        "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$this->user->id."')) ";
     }
   
     $query .= "ORDER BY frm_message.date_message DESC ";
     $query .= "LIMIT 5 ";
   
-    $req = new requete($site->db,$query);
+    $req = new requete($this->db,$query);
     
     $cts->add_title(2,"<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">Derniers messages non lus</a>");
     
