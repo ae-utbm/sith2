@@ -197,6 +197,7 @@ div.forummessageentry div.auteur p.fuimg
 div.forummessageentry div.auteur p.fuimg img
 {
   width:140px;
+  
 }
 
 div.forummessageentry.nonlu div.auteur
@@ -255,4 +256,10 @@ div.sujetcontext
   margin-bottom:20px;  
   border:1px solid #eff7ff;
   padding:5px;
+}
+
+.tabs_bottom
+{
+	position:relative;	
+	
 }
