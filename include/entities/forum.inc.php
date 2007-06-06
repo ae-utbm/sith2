@@ -196,7 +196,7 @@ class forum extends basedb
         "((sujet_util.id_message_dernier_lu<sujet.id_message_dernier OR sujet_util.id_message_dernier_lu IS NULL)";
         
       if( !is_null($user->tout_lu_avant))
-        $query .= " AND message.date_message > '2007-06-06 01:01:01'";
+        $query .= " AND message.date_message > '".date("Y-m-d H:i:s",$user->tout_lu_avant)."'";
         
       $query .= ")) AS non_lu ";
     }
