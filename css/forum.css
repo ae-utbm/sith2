@@ -35,6 +35,8 @@ div.forumsection h2, div.forumsection p.description
 div.forumsujetsliste div.forumhead
 {
   height:20px;
+  position:relative;
+  width:100%;
 }
 
 div.forumsujetsliste div.forumsujet h2, div.forumsujetsliste div.forumsujet p.soustitre
