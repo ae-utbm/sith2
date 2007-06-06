@@ -53,7 +53,13 @@ class forumslist extends stdcontents
     
     foreach ( $rows as $row )
     {
-      $this->buffer .= "<div class=\"forumitem\">\n";
+      if ( $row["non_lu"] )
+        $this->buffer .= "<div class=\"forumitem nonlu\">\n";
+      else
+        $this->buffer .= "<div class=\"forumitem\">\n";
+      
+      
+      
       $this->buffer .= "<h3><a href=\"".$page."?id_forum=".$row['id_forum']."\">".
                        htmlentities($row['titre_forum'], ENT_NOQUOTES, "UTF-8")."</a></h3>\n";
 

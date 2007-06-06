@@ -50,7 +50,7 @@ div.forumsujetsliste div.forumsujet h2, div.forumsujetsliste div.forumsujet p.so
   padding-left:32px;
 }
 
-div.forumsujetsliste div.forumsujet.nonlu
+div.forumsujetsliste div.forumsujet.nonlu, div.forumsection div.forumitem.nonlu
 {
   background:#d8e7f3;
 }
@@ -132,20 +132,16 @@ div.forumsection div.forumitem p.actions, div.forumsujetsliste div.forumsujet p.
 }
 
 
-div.forumsujetsliste div.forumsujet.nonlu p.dernier
+div.forumsujetsliste div.forumsujet.nonlu p.dernier, div.forumsujetsliste div.forumsujet.nonlu p.auteur, div.forumsujetsliste div.forumsujet.nonlu p.nbmessages
 {
   background:#ffffff;
 }
 
-div.forumsujetsliste div.forumsujet.nonlu p.nbmessages
+div.forumsection div.forumitem.nonlu p.dernier, div.forumsection div.forumitem.nonlu p.nbsujets
 {
   background:#ffffff;
 }
 
-div.forumsujetsliste div.forumsujet.nonlu p.auteur
-{
-  background:#ffffff;
-}
 
 div.forumsujetsliste div.forumhead p.dernier, div.forumlist div.forumhead p.dernier, div.forumsujetsliste div.forumhead p.nbmessages, div.forumlist div.forumhead p.nbsujets, div.forumsujetsliste div.forumhead p.auteur
 {

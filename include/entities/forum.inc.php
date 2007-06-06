@@ -173,8 +173,37 @@ class forum extends basedb
         "frm_message.date_message, " .
         "frm_message.id_message, " .
         "utilisateurs.alias_utl AS `nom_utilisateur_dernier_auteur`, " .
-        "utilisateurs.id_utilisateur AS `id_utilisateur_dernier` " .
-        "FROM frm_forum " .
+        "utilisateurs.id_utilisateur AS `id_utilisateur_dernier`, ";
+        
+    if ( $user->is_valid() ) 
+    {
+      $query .= ",EXISTS( ".
+        "SELECT  ".
+        "sujet.id_sujet ".
+        "FROM frm_sujet sujet ".
+        "INNER JOIN frm_forum AS base ON (base.id_forum=sujet.id_forum) ".
+        "INNER JOIN frm_forum AS level1 ON (level1.id_forum=base.id_forum_parent) ".
+        "INNER JOIN frm_forum AS level2 ON (level2.id_forum=level1.id_forum_parent) ".
+        "INNER JOIN frm_forum AS level3 ON (level3.id_forum=level2.id_forum_parent) ".
+        "LEFT JOIN frm_message AS message ON ( message.id_message = sujet.id_message_dernier ) ".
+        "LEFT JOIN frm_sujet_utilisateur AS sujet_util ON ( sujet_util.id_sujet=sujet.id_sujet AND sujet_util.id_utilisateur='".$user->id."' )  ".
+        "WHERE ".
+        "(sujet.id_forum=frm_forum.id_forum OR  ".
+        "level1.id_forum=frm_forum.id_forum OR  ".
+        "level2.id_forum=frm_forum.id_forum OR  ".
+        "level3.id_forum=frm_forum.id_forum)  ".
+        "AND ".
+        "((sujet_util.id_message_dernier_lu<sujet.id_message_dernier OR sujet_util.id_message_dernier_lu IS NULL)";
+        
+      if( !is_null($user->tout_lu_avant))
+        $query .= " AND message.date_message > '2007-06-06 01:01:01'";
+        
+      $query .= ")) AS non_lu";
+    }
+    else
+      $query .= "'0' AS non_lu";
+        
+    $query .= "FROM frm_forum " .
         "LEFT JOIN frm_sujet ON ( frm_sujet.id_sujet = frm_forum.id_sujet_dernier ) " .
         "LEFT JOIN frm_message ON ( frm_message.id_message = frm_sujet.id_message_dernier ) " .
         "LEFT JOIN utilisateurs ON ( utilisateurs.id_utilisateur=frm_message.id_utilisateur ) " .
