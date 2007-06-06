@@ -171,7 +171,7 @@ class sujetforum extends stdcontents
       else
         $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$row['id_message']."\">\n";
       
-      $this->buffer .= "<h2>".htmlentities($row['titre_sujet'], ENT_NOQUOTES, "UTF-8")."</h2>\n";      
+      $this->buffer .= "<h2 class=\"frmt\">".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";      
        $this->buffer .= "<p class=\"date\">".date("d/m/Y H:i",$t)."</p>\n";
 
        /* actions sur un message */
