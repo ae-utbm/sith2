@@ -480,13 +480,17 @@ if ( $sujet->is_valid() )
 
   $npp=40;
   $start=0;
+  $delta=0;
   $nbpages = ceil($sujet->nb_messages/$npp);
 
   if ( isset($_REQUEST["spage"]) && $_REQUEST["spage"] == "firstunread" && $site->user->is_valid() )
   { 
     $last_read = $sujet->get_last_read_message ( $site->user->id );
     if ( !is_null($last_read) )
+    {
       $message->load_by_id($last_read);
+      $delta=1;
+    }
     unset($_REQUEST["spage"]);
   }
 
@@ -499,6 +503,7 @@ if ( $sujet->is_valid() )
       $ids[] = $id;
   
     list($start) = array_keys($ids, $message->id);
+    $start += $delta;
     $start -= $start%$npp;
   }
   elseif ( isset($_REQUEST["spage"]) )
