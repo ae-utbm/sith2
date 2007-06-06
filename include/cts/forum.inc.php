@@ -51,14 +51,17 @@ class forumslist extends stdcontents
       $this->buffer .= "<h3><a href=\"".$page."?id_forum=".$row['id_forum']."\">".
                        htmlentities($row['titre_forum'], ENT_NOQUOTES, "UTF-8")."</a></h3>\n";
 
-      $this->buffer .= "<p class=\"description\">".htmlentities($row['description_forum'],ENT_NOQUOTES,"UTF-8")."</p>\n";
+      if ( $row['description_forum'] )
+        $this->buffer .= "<p class=\"description\">".htmlentities($row['description_forum'],ENT_NOQUOTES,"UTF-8")."</p>\n";
+      else
+        $this->buffer .= "<p class=\"description\">&nbsp;</p>\n";
       
-      $this->buffer .= "<p class=\"nbsujets\">".$row['nb_sujets_forum']."</p>\n";
+      $this->buffer .= "<p class=\"nbsujets\">".$row['nb_sujets_forum']."<br/></p>\n";
       
       if ( !is_null($row['id_message']) )
       {
-        if ( strlen($row['titre_sujet']) > 40 )
-          $row['titre_sujet'] = substr($row['titre_sujet'],0,37)."...";
+        if ( strlen($row['titre_sujet']) > 30 )
+          $row['titre_sujet'] = substr($row['titre_sujet'],0,27)."...";
         $this->buffer .= "<p class=\"dernier\">".htmlentities($row['titre_sujet'],ENT_NOQUOTES,"UTF-8").
           "<br/><a href=\"".$page."?id_message=".$row['id_message']."#msg".$row['id_message']."\">".
           htmlentities($row['nom_utilisateur_dernier_auteur'],ENT_NOQUOTES,"UTF-8")." ".
