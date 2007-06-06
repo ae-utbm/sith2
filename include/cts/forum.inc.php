@@ -33,7 +33,7 @@ class forumslist extends stdcontents
       foreach ( $rows as $row )
       {
         $sforum->_load($row);
-        $srows = $sforum->get_sub_forums($user);
+        $srows = $sforum->get_sub_forums($user,$row["non_lu"]);
         $this->_render_section ( $sforum, $srows, $page );      
       }
     }

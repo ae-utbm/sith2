@@ -165,7 +165,7 @@ class forum extends basedb
             array("id_forum"=>$this->id) );
 	}	
 	
-	function get_sub_forums ( &$user )
+	function get_sub_forums ( &$user, $searchforunread=true )
 	{
 	 
     $query = "SELECT frm_forum.*, ".
@@ -175,7 +175,7 @@ class forum extends basedb
         "utilisateurs.alias_utl AS `nom_utilisateur_dernier_auteur`, " .
         "utilisateurs.id_utilisateur AS `id_utilisateur_dernier`, ";
         
-    if ( $user->is_valid() ) 
+    if ( $user->is_valid() && $searchforunread ) 
     {
       $query .= "EXISTS( ".
         "SELECT  ".
