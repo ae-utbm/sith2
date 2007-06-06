@@ -56,8 +56,14 @@ class forumslist extends stdcontents
       $this->buffer .= "<p class=\"nbsujets\">".$row['nb_sujets_forum']."</p>\n";
       
       if ( !is_null($row['id_message']) )
-        $this->buffer .= "<p class=\"dernier\"><a href=\"".$page."?id_message=".$row['id_message']."#msg".$row['id_message']."\">".htmlentities($row['nom_utilisateur_dernier_auteur'],ENT_NOQUOTES,"UTF-8")." ".date("d/m/Y H:i",strtotime($row['date_message']))."</a></p>\n";
-      
+      {
+        if ( strlen($row['titre_sujet']) > 40 )
+          $row['titre_sujet'] = substr($row['titre_sujet'],0,37)."...";
+        $this->buffer .= "<p class=\"dernier\">".htmlentities($row['titre_sujet'],ENT_NOQUOTES,"UTF-8").
+          "<br/><a href=\"".$page."?id_message=".$row['id_message']."#msg".$row['id_message']."\">".
+          htmlentities($row['nom_utilisateur_dernier_auteur'],ENT_NOQUOTES,"UTF-8")." ".
+          date("d/m/Y H:i",strtotime($row['date_message']))."</a></p>\n";
+      }
       $this->buffer .= "</div>\n";
     }
     
