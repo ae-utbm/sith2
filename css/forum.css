@@ -4,8 +4,8 @@ div.forumsection, div.forumsujetsliste
 {
   /*border:1px solid #FFF1C5; */
   border:1px solid #ffcc2a;
-  padding:2px;
   margin-bottom:10px;
+  width:100%;
 }
 
 div.forumsection h2
@@ -14,7 +14,7 @@ div.forumsection h2
   background:#ffcc2a;
   border:0px;
   font-size:15px;
-  margin:0px;
+  margin:2px;
   padding:5px;
 }
 
@@ -24,7 +24,6 @@ div.forumsection div.forumitem, div.forumsujetsliste div.forumsujet
   padding:5px;
   position:relative;
   overflow:hidden;
-  width:100%;
 }
 
 div.forumsection h2, div.forumsection p.description
@@ -36,7 +35,7 @@ div.forumsujetsliste div.forumhead
 {
   height:20px;
   position:relative;
-  width:100%;
+  margin:2px;
 }
 
 div.forumsujetsliste div.forumsujet h2, div.forumsujetsliste div.forumsujet p.soustitre
