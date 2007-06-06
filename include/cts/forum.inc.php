@@ -60,8 +60,8 @@ class forumslist extends stdcontents
       
       if ( !is_null($row['id_message']) )
       {
-        if ( strlen($row['titre_sujet']) > 23 )
-          $row['titre_sujet'] = substr($row['titre_sujet'],0,20)."...";
+        if ( strlen($row['titre_sujet']) > 20 )
+          $row['titre_sujet'] = substr($row['titre_sujet'],0,17)."...";
         $this->buffer .= "<p class=\"dernier\">".htmlentities($row['titre_sujet'],ENT_NOQUOTES,"UTF-8").
           "<br/><a href=\"".$page."?id_message=".$row['id_message']."#msg".$row['id_message']."\">".
           htmlentities($row['nom_utilisateur_dernier_auteur'],ENT_NOQUOTES,"UTF-8")." ".

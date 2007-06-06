@@ -1077,7 +1077,8 @@ class site extends interfaceweb
         "</a>");
       }
       $cts->add($list);
-      $cts->add_paragraph("<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">suite...</a>");
+      if ( $req->lines == 5 )
+        $cts->add_paragraph("<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">suite...</a>");
     }
     else
       $cts->add_paragraph("pas de messages non lus");
