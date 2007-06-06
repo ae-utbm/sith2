@@ -2,14 +2,16 @@
 
 div.forumsection, div.forumsujetsliste
 {
-  border:1px solid #FFF1C5; 
+  /*border:1px solid #FFF1C5; */
+  border:1px solid #DFEAF2;
   padding:2px;
   margin-bottom:10px;
 }
 
 div.forumsection h2
 {
-  background:#FFF1C5;
+  /*background:#FFF1C5;*/
+  background:#DFEAF2;
   border:0px;
   font-size:15px;
   margin:0px;
