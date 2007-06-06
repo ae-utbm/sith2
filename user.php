@@ -465,7 +465,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $subfrm3->add_entity_smartselect ("id_ville_parents","Ville parents (France)", $ville_parents);
     $subfrm3->add_entity_smartselect ("id_pays_parents","ou pays parents", $pays_parents);
       
-    $subfrm3->add_text_field("tel_parents","T&eacute;l&eactue;phone parents",$user->tel_parents);
+    $subfrm3->add_text_field("tel_parents","T&eacute;l&eacute;phone parents",$user->tel_parents);
     $frm->add ( $subfrm3, false, false, false, false, false, true, false );
   }
 

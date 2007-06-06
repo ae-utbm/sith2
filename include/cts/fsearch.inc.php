@@ -157,7 +157,7 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 			"UNION ALL SELECT COUNT(*) " .
 			"FROM `utl_etu_utbm` " .
 			"INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
-			"WHERE `surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$sqlpattern."' $force_sql");
+			"WHERE `surnom_utbm`!='' AND (`surnom_utbm`!=`alias_utl` OR `alias_utl` IS NULL) AND `surnom_utbm` REGEXP '^".$sqlpattern."' $force_sql");
 
 	$nbutils = 0;
 	while ( list($c) = $req->get_row() ) $nbutils += $c;
@@ -177,7 +177,7 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 			"UNION SELECT `surnom_utbm`, '4' as `method`, `utilisateurs`.* " .
 			"FROM `utl_etu_utbm` " .
 			"INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
-			"WHERE `surnom_utbm`!='' AND `surnom_utbm`!=`alias_utl` AND `surnom_utbm` REGEXP '^".$sqlpattern."' $force_sql " .
+			"WHERE `surnom_utbm`!='' AND (`surnom_utbm`!=`alias_utl` OR `alias_utl` IS NULL) AND `surnom_utbm` REGEXP '^".$sqlpattern."' $force_sql " .
 			"ORDER BY 1 LIMIT 3");			
 		
 		$this->buffer .= "<h2>Personnes</h2>";

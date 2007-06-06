@@ -144,7 +144,7 @@ function classlink ( $obj, $obj1=null,$obj2=null )
 function wikilink ( $name, $title )
 {
 	global $topdir;
-	return "<a href=\"".$topdir."article.php?name=$name\"><img src=\"".$topdir."page.png\" class=\"icon\" alt=\"Article\" /> ".htmlentities($title,ENT_NOQUOTES,"UTF-8")."</a>";
+	return "<a href=\"".$topdir."article.php?name=$name\"><img src=\"".$topdir."images/icons/16/page.png\" class=\"icon\" alt=\"Article\" /> ".htmlentities($title,ENT_NOQUOTES,"UTF-8")."</a>";
 }
 
 

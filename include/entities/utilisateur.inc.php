@@ -1640,7 +1640,7 @@ L'équipe info AE";
            "UNION SELECT `surnom_utbm`, '4' as `method`, `utilisateurs`.* " .
            "FROM `utl_etu_utbm` " .
            "INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
-           "WHERE `surnom_utbm`!='' AND `surnom_utbm`!=`alias_utl` AND `surnom_utbm` REGEXP '^".$sqlpattern."' $extrasql " .
+           "WHERE `surnom_utbm`!='' AND (`surnom_utbm`!=`alias_utl` OR `alias_utl` IS NULL) AND `surnom_utbm` REGEXP '^".$sqlpattern."' $extrasql " .
            "ORDER BY 1";
 
     if ( !is_null($limit) && $limit > 0 )
@@ -1658,7 +1658,7 @@ L'équipe info AE";
       if ( $row["method"] > 2 )
         $values[$row['id_utilisateur']] = $row['prenom_utl']." ".$row['nom_utl']." : ".$row[0];
         
-      elseif ( $row["method"] == 1 )
+      else//if ( $row["method"] == 1 )
         $values[$row['id_utilisateur']] = $row[0];
 
     }
