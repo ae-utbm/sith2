@@ -494,7 +494,7 @@ class comptoir extends stdentity
 			return true;
 		}
 
-    if ( !$vp->produit->can_be_sold($this->client) )
+    if ( !$prod->can_be_sold($this->client) )
       return;
 
 		if (!$this->client->credit_suffisant($this->calcule_somme () + $prod->obtenir_prix ($this->prix_barman)))
