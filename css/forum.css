@@ -269,3 +269,8 @@ div.sujetcontext
 	position:relative;	
 	
 }
+
+p.frmgeneral
+{
+  text-align:right;  
+}

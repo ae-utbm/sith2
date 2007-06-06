@@ -771,8 +771,8 @@ if ( $forum->categorie )
 
   if ( $forum->id == 1 && $site->user->is_valid() )
   {
-   $cts->add_paragraph("<a href=\"./search.php?page=unread\">Voir tous les messages non lu</a>");
-   $cts->add_paragraph("<a href=\"./?action=setallread\">Marquer tous les messages comme lu</a>");
+   $cts->add_paragraph("<a href=\"./search.php?page=unread\">Voir tous les messages non lu</a>","frmgeneral");
+   $cts->add_paragraph("<a href=\"./?action=setallread\">Marquer tous les messages comme lu</a>","frmgeneral");
   }
 
   $cts->add(new forumslist($forum, $site->user, "./"));

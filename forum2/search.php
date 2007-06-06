@@ -28,7 +28,7 @@ if ( $_REQUEST["page"] == "unread" )
   
   $cts = new contents($forum->get_html_link()." / <a href=\"search.php?page=unread\">Messages non lus</a>");
     
-  $cts->add_paragraph("<a href=\"./?action=setallread\">Marquer tous les messages comme lu</a>");
+  $cts->add_paragraph("<a href=\"./?action=setallread\">Marquer tous les messages comme lu</a>","frmgeneral");
     
     
   $query = "SELECT frm_sujet.*, ".
@@ -38,7 +38,8 @@ if ( $_REQUEST["page"] == "unread" )
       "dernier_auteur.id_utilisateur AS `id_utilisateur_dernier`, " .
       "premier_auteur.alias_utl AS `nom_utilisateur_premier_auteur`, " .
       "premier_auteur.id_utilisateur AS `id_utilisateur_premier`, " .
-      "1 AS `nonlu` " .
+      "1 AS `nonlu`, " .
+      "titre_forum AS `soustitre_sujet` " .
       "FROM frm_sujet " .
       "INNER JOIN frm_forum USING(id_forum) ".
       "LEFT JOIN frm_message ON ( frm_message.id_message = frm_sujet.id_message_dernier ) " .
