@@ -110,7 +110,8 @@ function doku2xhtml($text)
 
   $text = htmlspecialchars($text);
 
-  //citation
+	//citation
+  $text= str_replace('\\n','__slash_n__',$text);
   while( preg_match("/\[quote=(.*?)\](.*?)\[\/quote\]/i",$text) )
 	{
     print_r("bleh");
@@ -135,7 +136,8 @@ function doku2xhtml($text)
   text-aling: justify;
   background-color: #ecf4fe;\">$1</div></div>",
                         $text);
-  }
+	}
+  $text= str_replace('__slash_n_','\n',$text);
 
   /* deuxième pass pour les formatages simples */
   $text = simpleformat($text);
