@@ -939,6 +939,8 @@ elseif ( $_REQUEST["page"] == "new" )
 		$lst->add("<a href=\"classeur.php?id_op=".$op->id."&amp;action=print\">Imprimer</a>");
 		$cts->add($lst,true);
 		$efact->id=null;
+		$ent->id=null;
+		$utl->id=null;
 	}
   elseif ( isset($_REQUEST["id_efact"]) )
     $efact->load_by_id($_REQUEST["id_efact"]);
