@@ -338,6 +338,32 @@ function simpleformat($text)
 {
   global $conf;
 
+  //citation
+  while( preg_match("/&lt;quote=(.+?)&gt;(.+?)&lt;\/quote&gt;/i",$text) )
+  {
+    $text = preg_replace("/&lt;quote=(.+?)&gt;(.+?)&lt;\/quote&gt;/",
+                         "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
+                          <b>Citation de $1 :</b>
+                          <div style=\"border: 1px #374a70 solid;
+                                       margin-top:2px;
+                                       padding: 4px;
+                                       text-aling: justify;
+                                       background-color: #ecf4fe;\">$2</div></div>",
+                         $text);
+  }
+  while( preg_match("/&lt;quote&gt;(.+?)&&lt;\/quote&gt;/i",$text) )
+  {
+    $text = preg_replace("/&lt;quote\&gt;(.+?)&lt;\/quote&gt;/",
+                         "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
+                          <b>Citation :</b>
+                          <div style=\"border: 1px #374a70 solid;
+                                       margin-top:2px;
+                                       padding: 4px;
+                                       text-aling: justify;
+                                       background-color: #ecf4fe;\">$1</div></div>",
+                         $text);
+  }
+
   $text = preg_replace('#&lt;del&gt;(.*?)&lt;/del&gt;#is','<s>\1</s>',$text); //del
   $text = preg_replace('/__([^_]+?)__/s','<u>\1</u>',$text);  //underline
   $text = preg_replace('/\/\/([^_]+?)\/\//s','<em>\1</em>',$text);  //emphasize
@@ -382,32 +408,6 @@ function simpleformat($text)
 
   // tableaux
   $text = preg_replace("/\n(([\|\^][^\n]*?)+[\|\^]\n)+/se","\"\\n\".tableformat('\\0')",$text);
-
-  //citation
-  while( preg_match("/&lt;quote=(.+?)&gt;(.+?)&lt;\/quote&gt;/i",$text) )
-  {
-    $text = preg_replace("/&lt;quote=(.+?)&gt;(.+?)&lt;\/quote&gt;/",
-                         "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
-                          <b>Citation de $1 :</b>
-                          <div style=\"border: 1px #374a70 solid;
-                                       margin-top:2px;
-                                       padding: 4px;
-                                       text-aling: justify;
-                                       background-color: #ecf4fe;\">$2</div></div>",
-                         $text);
- }
- while( preg_match("/&lt;quote&gt;(.+?)&&lt;\/quote&gt;/i",$text) )
- {
-   $text = preg_replace("/&lt;quote\&gt;(.+?)&lt;\/quote&gt;/",
-                        "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
-                         <b>Citation :</b>
-                         <div style=\"border: 1px #374a70 solid;
-                                      margin-top:2px;
-                                      padding: 4px;
-                                      text-aling: justify;
-                                      background-color: #ecf4fe;\">$1</div></div>",
-                        $text);
- }
 
   //smileys
   $text = smileys($text);
