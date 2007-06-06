@@ -243,7 +243,7 @@ if ( count($conds) >= 1 )
                       "Chiffre d'affaire: ".($sum/100)." Euros<br/>" .
                       "Prix countant total estimé* : ".($sumcoutant/100)." Euros");
 
-  $frm = new form ("cptacptpdf","ventes.php",true,"POST","PDF");
+  $frm = new form ("cptacptpdf","ventes.php?id_asso=".$asso->id,true,"POST","PDF");
   $frm->add_hidden("action","pdf");
 	$i=0;
   foreach($conds as $value)
