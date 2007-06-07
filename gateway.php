@@ -314,7 +314,7 @@ elseif ( $_REQUEST['module']=="userinfo" )
 	if ( $user->id < 0 )
 		$user = &$site->user;
 		
-	if (file_exists($topdir."var/img/matmatronch/".$user->id.".jpg"))
+	if (file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
 		echo "<img src=\"".$wwwtopdir."var/img/matmatronch/".$user->id.".jpg\" alt=\"\" />\n";
 	else
 		echo "<img src=\"".$wwwtopdir."var/img/matmatronch/na.gif"."\" alt=\"\" />\n";

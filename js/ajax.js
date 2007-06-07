@@ -180,7 +180,7 @@ function autocomplete_callback(topdir,res,field,pattern,kind)
 			else if ( kind == 'user' )
 			{
 				id=items.item(i).getAttribute("id");
-				buf = buf + "<li><a href=\"#\" onclick=\"autocomplete_set('"+field+"','"+value+"'); return false;\"><img src=\"/images/matmatronch/"+id+".jpg\" border=\"0\" alt=\"\" width=\"32\" /> " + value + "</a></li>";
+				buf = buf + "<li><a href=\"#\" onclick=\"autocomplete_set('"+field+"','"+value+"'); return false;\"><img src=\"/images/matmatronch/"+id+".identity.jpg\" border=\"0\" alt=\"\" width=\"32\" /> " + value + "</a></li>";
 			}
 			else
 				buf = buf + "<li><a href=\"#\" onclick=\"autocomplete_set('"+field+"','"+value+"'); return false;\">" + value + "</a></li>";
