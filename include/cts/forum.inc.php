@@ -3,6 +3,18 @@
 include($topdir."include/lib/bbcode.inc.php");
 //include($topdir."include/lib/dokusyntax.inc.php");
 
+function human_date ( $timestamp )
+{
+  if ( date("d/m/Y",$timestamp) == date("d/m/Y",time()) )
+    return "Aujourd'hui ".date("H:i",$timestamp);
+    
+  if ( date("d/m/Y",$timestamp) == date("d/m/Y",time()-86400 ) )
+    return "Hier ".date("H:i",$timestamp);  
+    
+  return date("d/m/Y H:i",$timestamp);
+}
+
+
 class forumslist extends stdcontents
 {
   
@@ -77,7 +89,7 @@ class forumslist extends stdcontents
         $this->buffer .= "<p class=\"dernier\">".htmlentities($row['titre_sujet'],ENT_NOQUOTES,"UTF-8").
           "<br/><a href=\"".$page."?id_message=".$row['id_message']."#msg".$row['id_message']."\">".
           htmlentities($row['nom_utilisateur_dernier_auteur'],ENT_NOQUOTES,"UTF-8")." ".
-          date("d/m/Y H:i",strtotime($row['date_message']))."</a></p>\n";
+          human_date(strtotime($row['date_message']))."</a></p>\n";
       }
       $this->buffer .= "</div>\n";
     }
@@ -156,7 +168,7 @@ class sujetslist extends stdcontents
       $this->buffer .= "<p class=\"nbmessages\">".$row['nb_messages_sujet']."</p>\n";
       
       if ( !is_null($row['id_message']) )
-        $this->buffer .= "<p class=\"dernier\"><a href=\"".$page."?id_message=".$row['id_message']."#msg".$row['id_message']."\">".htmlentities($row['nom_utilisateur_dernier_auteur'],ENT_NOQUOTES,"UTF-8")." ".date("d/m/Y H:i",strtotime($row['date_message']))."</a></p>\n";
+        $this->buffer .= "<p class=\"dernier\"><a href=\"".$page."?id_message=".$row['id_message']."#msg".$row['id_message']."\">".htmlentities($row['nom_utilisateur_dernier_auteur'],ENT_NOQUOTES,"UTF-8")." ".human_date(strtotime($row['date_message']))."</a></p>\n";
       
       $this->buffer .= "</div>\n";
     }
@@ -204,6 +216,12 @@ class sujetforum extends stdcontents
           $firstunread=false;  
           $this->buffer .= "<div id=\"firstunread\"></div>";
         }
+        
+        if ( $row['titre_message'] )
+          $this->buffer .= "<h2 class=\"frmt\">Message non lu: ".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";      
+        else
+          $this->buffer .= "<h2 class=\"frmt\">Message non lu</h2>\n";  
+        
       }
       else
       {
@@ -212,14 +230,15 @@ class sujetforum extends stdcontents
         else
           $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$row['id_message']."\">\n";
         $n=($n+1)%2;
+        
+        if ( $row['titre_message'] )
+          $this->buffer .= "<h2 class=\"frmt\">".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";      
+        else
+          $this->buffer .= "<h2 class=\"frmt\">&nbsp;</h2>\n";  
+        
       }
       
-      if ( $row['titre_message'] )
-        $this->buffer .= "<h2 class=\"frmt\">".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";      
-      else
-        $this->buffer .= "<h2 class=\"frmt\">&nbsp;</h2>\n";  
-            
-     $this->buffer .= "<p class=\"date\">".date("d/m/Y H:i",$t)."</p>\n";
+     $this->buffer .= "<p class=\"date\">".human_date($t)."</p>\n";
 
        /* actions sur un message */
        $this->buffer .= "<p class=\"actions\">";
