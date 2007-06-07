@@ -103,15 +103,13 @@ if ($req->lines >0)
     echo ">> dealing with news id : ".$row['id_nouvelle']."\n";
     $content = translate($row['contenu_nvl']);
     $resume = translate($row['resume_nvl']);
-    //$req2 = new update ($db,
-    //                    "nvl_nouvelles",
-    //                    array ("resume_nvl" => $resume,
-    //                           "contenu_nvl" => $contenu),
-    //                    array("id_nouvelle"=>$row['id_nouvelle'])
-    //                   );
+    $req2 = new update ($db,
+                        "nvl_nouvelles",
+                        array ("resume_nvl" => $resume,
+                               "contenu_nvl" => $content),
+                        array("id_nouvelle"=>$row['id_nouvelle'])
+                       );
 
-    echo $content . "\n";
-    echo $resume . "\n";
     echo "   - done\n";
   }
 }
