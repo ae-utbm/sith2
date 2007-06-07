@@ -13,7 +13,7 @@ $topdir = "../";
 require_once $topdir."include/mysql.inc.php";
 require_once $topdir."include/mysqlae.inc.php";
 
-$db=new mysqlae(rw);
+$db=new mysqlae('rw');
 
 
 function translate($text)
@@ -103,18 +103,22 @@ if ($req->lines >0)
     echo ">> dealing with news id : ".$row['id_nouvelle']."\n";
     $content = translate($row['contenu_nvl']);
     $resume = translate($row['resume_nvl']);
-    $req2 = new update ($db,
-                        "nvl_nouvelles",
-                        array ("resume_nvl" => $resume,
-                               "contenu_nvl" => $contenu),
-                        array("id_nouvelle"=>$row['id_nouvelle'])
-                       );
+    //$req2 = new update ($db,
+    //                    "nvl_nouvelles",
+    //                    array ("resume_nvl" => $resume,
+    //                           "contenu_nvl" => $contenu),
+    //                    array("id_nouvelle"=>$row['id_nouvelle'])
+    //                   );
+
+    echo $content . "\n";
+    echo $resume . "\n";
     echo "   - done\n";
   }
 }
 
 
 /* ------------------------------------- PAGES ------------------------------------- */
+/*
 echo "\n\n";
 echo "============================ Performing pages translation ... ============================\n";
 $table ="pages";
@@ -140,7 +144,9 @@ if ($req->lines >0)
 
 
 echo "\n\n";
+*/
 /* ------------------------------------- BOXES ------------------------------------- */
+/*
 echo "============================ Performing boxes translation ... ============================\n";
 $table = "site_boites";
 $req=new requete($db,
@@ -169,4 +175,5 @@ echo "============================ END ============================\n";
 
 
 echo "</pre>\n";
+*/
 ?>
