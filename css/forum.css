@@ -6,7 +6,8 @@ div.forumsection, div.forumsujetsliste
   /*border:1px solid #ffcc2a;*/
   margin-bottom:10px;
   width:100%;
-  
+  position:relative;
+  background:white;
 }
 
 div.forumsection h2
