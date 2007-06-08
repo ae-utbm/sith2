@@ -41,9 +41,7 @@ if (isset($_POST['preparefaxsbmt']))
 			1 /* ae, quoi */);
   
 
-  
-  $site->add_contents($dbg);
-
+ 
   $cts = new contents("Euh ouais", 
 		      "Par contre j'ai besoin que tu me tapes ".
 		      "l'image la dans la ptite boite !"); 
