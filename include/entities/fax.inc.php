@@ -235,7 +235,6 @@ class fax extends stdentity
     if ((!$this->numdest) || (!$this->captchavalue) || (!$this->idfree)
 	|| (!$this->idtfree) || (!file_exists($this->pdffile)))
       {
-	echo "manque numdest, captchatruc, idfree idtfree ou pdffile existe pas !";
 	return false;
       }
     if ($secret == true)
@@ -246,7 +245,7 @@ class fax extends stdentity
     /* préparation de la requete HTTP */
     srand((double) microtime () * 1000000);
     $boundary = substr(md5(rand(0,32000)),0,10);
-    $cttype = "multipart/form-data, boundary=$boundary";
+    $cttype = "multipart/form-data, boundary=".$boundary;
 
     /* masque */
     $query = "--".$boundary."\r\ncontent-disposition: form-data; name=\"masque\"\r\n";
@@ -291,7 +290,9 @@ class fax extends stdentity
 				  "/admin/tel/send_fax_valid.pl",
 				  $cttype,
 				  $query);
-    
+    echo $query;
+
+    echo $txtres;
     /* resultat */
     if (strpos($r, "Votre Fax est en cours d'envoi") > 0)
       return true;
