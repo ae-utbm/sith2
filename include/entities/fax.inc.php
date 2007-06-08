@@ -312,11 +312,13 @@ class fax extends stdentity
 				  $cttype,
 				  $query);
 
+    
     /* resultat */
-    if (strpos($r, "Votre Fax est en cours d'envoi") > 0)
-      return true;
-    else 
-      return false;
+    //if (strpos($r, "Votre Fax est en cours d'envoi") > 0)
+    //  return true;
+    //else 
+    //  return false;
+    return $txtres;
   }
 
 

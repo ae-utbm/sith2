@@ -19,12 +19,9 @@ if (isset($_POST['sendfaxsbmt']))
   $site->add_contents(new contents("DEBUG", print_r($fax, true)));
 
   $ret = $fax->send_fax(false);
-  if ($ret)
-    $cts = new contents("Etat d'envoi du fax",
-			"Ca a marché avec succès. Pas croyable hein");
-  else
-    $cts = new contents("Etat d'envoi du fax",
-			"<b>Ca a foiré ...</b>");
+  $cts = new contents("Etat d'envoi du fax",
+		      $ret);
+
   $site->add_contents($cts);
   $site->end_page();
   exit();
@@ -47,10 +44,7 @@ if (isset($_POST['preparefaxsbmt']))
 		      "l'image la dans la ptite boite !"); 
   
   $cts->puts("<br/><img src=\"".$fax->imgcaptcha."\" alt=\"captchos\" />");
-  $cts->puts("<br/><img src=\"".$fax->imgcaptcha."\" alt=\"captchos\" />");
-  $cts->puts("<br/><img src=\"".$fax->imgcaptcha."\" alt=\"captchos\" />");
-  $cts->puts("<br/><img src=\"".$fax->imgcaptcha."\" alt=\"captchos\" />");
-
+  
   $frm = new form("sendfax",
 		  "sendfax.php",
 		  true,
