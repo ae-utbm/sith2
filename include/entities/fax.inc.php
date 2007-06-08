@@ -48,8 +48,8 @@ class fax extends stdentity
   var $numdest;
 
   /* les identifiants freebox de l'AE */
-  var $login = "";
-  var $pass  = "";
+  var $login;
+  var $pass;
 
   /* identifiant de l'utilisateur faisant la demande */
   var $id_utilisateur;
