@@ -20,11 +20,11 @@ while ( $row = $sql->get_row() )
   
   echo "\"$msg\"<br/><br/><br/>";
   
-  /*
+  
   
   new update($sqlae,"frm_message",array("id_utilisateur"=>1909,"contenu_message"=>$msg),array("id_message"=>$row["id_message"]));
   
-  */
+  
   
 }
 
