@@ -138,6 +138,14 @@ class fax extends stdentity
     $this->idfree  = mysql_real_escape_string($found[1][0]);
     $this->idtfree = mysql_real_escape_string($found[2][0]);
 
+    /* we probably have to "hit" the page, in order
+     * to validate kind of "session opening"
+     */
+    
+    preg_match("/Location: ([^\r\n]*)\r\n/", $string, $tab);
+    $opensess = $tab[1];
+    @file_get_contents($opensess);
+
     /* so there is our captcha */
     $this->imgcaptcha = "http://adsl.free.fr/admin/tel/captcha.pl?id_client=" . $this->idfree;    
     
