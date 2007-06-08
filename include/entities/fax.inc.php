@@ -299,7 +299,6 @@ class fax extends stdentity
 				  $cttype,
 				  $query);
 
-    echo $txtres;
     /* resultat */
     if (strpos($r, "Votre Fax est en cours d'envoi") > 0)
       return true;

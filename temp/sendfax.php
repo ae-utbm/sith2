@@ -41,10 +41,6 @@ if (isset($_POST['preparefaxsbmt']))
 			1 /* ae, quoi */);
   
 
-  $dbg = new contents("Debug",
-		      "POST : " . print_r($_POST, true) .
-		      "<br/>FILE : " . print_r($_FILES, true).
-		      "<br/>faxouze : " .print_r($fax, true));
   
   $site->add_contents($dbg);
 
@@ -52,6 +48,9 @@ if (isset($_POST['preparefaxsbmt']))
 		      "Par contre j'ai besoin que tu me tapes ".
 		      "l'image la dans la ptite boite !"); 
   
+  $cts->puts("<br/><img src=\"".$fax->imgcaptcha."\" alt=\"captchos\" />");
+  $cts->puts("<br/><img src=\"".$fax->imgcaptcha."\" alt=\"captchos\" />");
+  $cts->puts("<br/><img src=\"".$fax->imgcaptcha."\" alt=\"captchos\" />");
   $cts->puts("<br/><img src=\"".$fax->imgcaptcha."\" alt=\"captchos\" />");
 
   $frm = new form("sendfax",
