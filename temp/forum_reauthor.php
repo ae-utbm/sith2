@@ -16,7 +16,7 @@ $sql = new requete($sqlae,"SELECT id_message,contenu_message FROM frm_message WH
 
 while ( $row = $sql->get_row() )
 {
-  $msg = substr(strlen($key),$row["contenu_message"]);  
+  $msg = substr($row["contenu_message"],strlen($key));  
   
   echo "\"$msg\"<br/><br/><br/>";
   
