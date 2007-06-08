@@ -48,8 +48,8 @@ class fax extends stdentity
   var $numdest;
 
   /* les identifiants freebox de l'AE */
-  var $login = "{LOGIN_FBX_AE}";
-  var $pass  = "{PASSW_FBX_AE}";
+  var $login = "";
+  var $pass  = "";
 
   /* identifiant de l'utilisateur faisant la demande */
   var $id_utilisateur;
@@ -106,13 +106,21 @@ class fax extends stdentity
 			   $file,
 			   $id_asso = null)
   {
-    if ((!$id_utilisateur) || (!$numdest))
-      return false;
-
-    if ($id_asso == null)
-      $id_asso = "NULL";
+    if (!$id_utilisateur)
+      {
+	echo "Foireaise pas id utilisateur";
+	return false;
+      }
+    if (!$numdest)
+      {
+	echo "numdest vide";
+	return false;
+      }
 
     $this->id_asso = $id_asso;
+    
+    if ($id_asso == null)
+      $id_asso = "NULL";
 
     $this->id_utilisateur = $id_utilisateur;
     $this->numdest        = $numdest;
@@ -124,6 +132,8 @@ class fax extends stdentity
 				  "/login/login.pl",
 				  "application/x-www-form-urlencoded",
 				  $query);
+    echo $string;
+
     
     preg_match_all("/id=([0-9]*)&idt=([a-z0-9]*)/", $string, $found);
     
@@ -135,8 +145,11 @@ class fax extends stdentity
     /* so there is our captcha */
     $this->imgcaptcha = "http://adsl.free.fr/admin/captcha.pl?id_client=" . $this->idfree;    
     
-    if ( !is_uploaded_file($file['tmp_name']) )
-      return false;
+    if ( !is_uploaded_file($file['tmp_name']))
+      {
+	echo "foireaize fichiers tmp_name";
+	return false;
+      }
 
     $this->filename = $file['name'];
 
@@ -159,6 +172,7 @@ class fax extends stdentity
 	$this->pdffile = $file['name'];
 	return true;
       }
+    echo "Foireaize ajout base";
     return false;
   }
 
@@ -205,7 +219,7 @@ class fax extends stdentity
     }
     
     fclose($h);
-
+    
     return $r;
   }
 
