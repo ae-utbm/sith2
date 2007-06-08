@@ -160,7 +160,7 @@ class fax extends stdentity
 		      array ('idfree_fax'     => $this->idfree,
 			     'idtfree_fax'    => $this->idtfree,
 			     'numdest_fax'    => $this->numdest,
-			     'nom_fax'        => $this->filename,
+			     'filename_fax'   => $this->filename,
 			     'id_utilisateur' => $this->id_utilisateur,
 			     'id_asso'        => $this->id_asso,
 			     'date_fax'       => date('Y-m-d H:i:s')));
