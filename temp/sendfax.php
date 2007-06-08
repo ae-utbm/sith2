@@ -16,6 +16,8 @@ if (isset($_POST['sendfaxsbmt']))
   $fax->load_by_id($_POST['faxinstanceid']);
   $fax->set_captcha($_POST['captcha']);
 
+  $site->add_contents(new contents("DEBUG", print_r($fax, true));
+
   $ret = $fax->send_fax(false);
   if ($ret)
     $cts = new contents("Etat d'envoi du fax",
