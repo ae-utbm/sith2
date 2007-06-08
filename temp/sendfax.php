@@ -39,7 +39,8 @@ if (isset($_POST['preparefaxsbmt']))
 
   $dbg = new contents("Debug",
 		      "POST : " . print_r($_POST, true) .
-		      "<br/>FILE : " . print_r($_FILES, true));
+		      "<br/>FILE : " . print_r($_FILES, true).
+		      "<br/>faxouze : " .print_r($fax, true));
   
   $site->add_contents($dbg);
 
