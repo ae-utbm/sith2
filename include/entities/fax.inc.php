@@ -163,13 +163,22 @@ class fax extends stdentity
       {
 	$this->id = $req->get_id();
 	global $topdir;
-	@move_uploaded_file($file, $topdir ."var/fax/". $this->id . ".pdf");
+	
+	@move_uploaded_file($file['tmp_name'], $topdir ."var/fax/". $this->id . ".pdf");
 	$this->pdffile = $topdir . "var/fax/". $this->id . ".pdf";
 	return true;
       }
     return false;
   }
 
+  /* positionne la valeur du captcha
+   * (Evidemment obligatoire avant de tenter un sendfax ...)
+   */
+
+  function set_captcha($cp)
+  {
+    $this->captchavalue = $cp;
+  }
 
   /* envoie une requete à un serveur Web
    * 
@@ -189,7 +198,9 @@ class fax extends stdentity
   {
     
     if ((!$host) || (!$page) || (!$cttype) || (!$query))
-      return false;
+      {
+	return false;
+      }
 
     $tosend = "POST ".$page." HTTP/1.1\r\n".
       "Host: $host\r\n".
@@ -223,8 +234,10 @@ class fax extends stdentity
 
     if ((!$this->numdest) || (!$this->captchavalue) || (!$this->idfree)
 	|| (!$this->idtfree) || (!file_exists($this->pdffile)))
-      return false;
-
+      {
+	echo "manque numdest, captchatruc, idfree idtfree ou pdffile existe pas !";
+	return false;
+      }
     if ($secret == true)
       $this->mask = 'Y';
     else
