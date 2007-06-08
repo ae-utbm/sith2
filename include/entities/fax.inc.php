@@ -194,7 +194,8 @@ class fax extends stdentity
   function _sendrequest($host,
 			$page,
 			$cttype,
-			$query)
+			$query,
+			$stop = false)
   {
     
     if ((!$host) || (!$page) || (!$cttype) || (!$query))
@@ -211,6 +212,13 @@ class fax extends stdentity
 
     $h = fsockopen($host,80);
  
+    if ($stop == true)
+      {
+	header("Content-type: text/plain");
+	echo $tosend;
+	die();
+
+      }
     if (!$h)
       return false;
     
@@ -289,8 +297,7 @@ class fax extends stdentity
     $txtres = $this->_sendrequest("adsl.free.fr",
 				  "/admin/tel/send_fax_valid.pl",
 				  $cttype,
-				  $query);
-    echo $query;
+				  $query, true);
 
     echo $txtres;
     /* resultat */
