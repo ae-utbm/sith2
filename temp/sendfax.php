@@ -28,10 +28,10 @@ if (isset($_POST['sendfaxsbmt']))
 
 if (isset($_POST['preparefaxsbmt']))
 {
-
+  
   $fax = new fax($site->db, $site->dbrw);
   
-  $fax->create_instance($site->user->id_utilisateur,
+  $fax->create_instance($site->user->id,
 			$_POST['numdest'],
 			$_FILES['mypdf'],
 			1 /* ae, quoi */);
@@ -40,6 +40,7 @@ if (isset($_POST['preparefaxsbmt']))
   $dbg = new contents("Debug",
 		      "POST : " . print_r($_POST, true) .
 		      "<br/>FILE : " . print_r($_FILES, true));
+  
   $site->add_contents($dbg);
 
   $cts = new contents("Euh ouais", 
