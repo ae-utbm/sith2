@@ -139,7 +139,7 @@ class fax extends stdentity
     $this->idtfree = mysql_real_escape_string($found[2][0]);
 
     /* so there is our captcha */
-    $this->imgcaptcha = "http://adsl.free.fr/admin/captcha.pl?id_client=" . $this->idfree;    
+    $this->imgcaptcha = "http://adsl.free.fr/admin/tel/captcha.pl?id_client=" . $this->idfree;    
     
     if ( !is_uploaded_file($file['tmp_name']))
       {
@@ -164,7 +164,7 @@ class fax extends stdentity
 	$this->id = $req->get_id();
 	global $topdir;
 	@move_uploaded_file($file, $topdir ."var/fax/". $this->id . ".pdf");
-	$this->pdffile = $file['name'];
+	$this->pdffile = $topdir . "var/fax/". $this->id . ".pdf";
 	return true;
       }
     return false;
