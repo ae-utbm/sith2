@@ -252,7 +252,7 @@ class fax extends stdentity
 
     /* préparation de la requete HTTP */
     srand((double) microtime () * 1000000);
-    $boundary = substr(md5(rand(0,32000)),0,10);
+    $boundary = substr(md5(rand(0,32000)),0,6);
     $cttype = "multipart/form-data, boundary=".$boundary;
 
     /* masque */
@@ -286,7 +286,7 @@ class fax extends stdentity
     $query .= "\r\n";
 
     /* uploaded file */
-    $query .= "--".$boundary."\r\ncontent-disposition: form-data; name=\"uploaded_file\"; filename=\"".$this->filename."\"\r\n";
+    $query .= "--".$boundary."\r\ncontent-disposition: form-data; name=\"uploaded_file\"; filename=\"aefax.pdf\"\r\n";
     $query .= "Content-Type: application/pdf\r\n";
     $query .= "\r\n";
     $query .= file_get_contents($this->pdffile);
