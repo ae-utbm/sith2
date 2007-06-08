@@ -297,7 +297,7 @@ class fax extends stdentity
     $txtres = $this->_sendrequest("adsl.free.fr",
 				  "/admin/tel/send_fax_valid.pl",
 				  $cttype,
-				  $query, true);
+				  $query);
 
     echo $txtres;
     /* resultat */
