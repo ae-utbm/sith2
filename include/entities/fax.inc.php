@@ -108,12 +108,10 @@ class fax extends stdentity
   {
     if (!$id_utilisateur)
       {
-	echo "Foireaise pas id utilisateur";
 	return false;
       }
     if (!$numdest)
       {
-	echo "numdest vide";
 	return false;
       }
 
@@ -126,14 +124,12 @@ class fax extends stdentity
     $this->numdest        = $numdest;
     
     /* connect to the free.fr website */
-    $query = "login=".$this->login_fbx_ae."&pass=".$this->passw_fbx_ae;
+    $query = "login=".$this->login."&pass=".$this->pass;
 
     $string = $this->_sendrequest("subscribe.free.fr", 
 				  "/login/login.pl",
 				  "application/x-www-form-urlencoded",
 				  $query);
-    echo $string;
-
     
     preg_match_all("/id=([0-9]*)&idt=([a-z0-9]*)/", $string, $found);
     
@@ -147,7 +143,6 @@ class fax extends stdentity
     
     if ( !is_uploaded_file($file['tmp_name']))
       {
-	echo "foireaize fichiers tmp_name";
 	return false;
       }
 
@@ -172,7 +167,6 @@ class fax extends stdentity
 	$this->pdffile = $file['name'];
 	return true;
       }
-    echo "Foireaize ajout base";
     return false;
   }
 
