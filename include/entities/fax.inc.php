@@ -141,13 +141,18 @@ class fax extends stdentity
     /* we probably have to "hit" the page, in order
      * to validate kind of "session opening"
      */
-    
     preg_match("/Location: ([^\r\n]*)\r\n/", $string, $tab);
     $opensess = $tab[1];
-    file_get_contents($opensess);
+    $adminitf = @file_get_contents($opensess);
 
+    /* and what about send_fax.pl ? */
+    preg_match("/<a href=\"([^\"]*)\">Envoyer un Fax<\/a>/", $adminitf, $found);
+    $sendfaxaddr = $found[1];
+    $newpage = file_get_contents($sendfaxaddr);
+    preg_match("/src=\"(captcha.pl?[^\"]*)\"/", $newpage, $found);
+    
     /* so there is our captcha */
-    $this->imgcaptcha = "http://adsl.free.fr/admin/tel/captcha.pl?id_client=" . $this->idfree;    
+    $this->imgcaptcha = "http://adsl.free.fr/admin/tel/" . $found[1];
     
     if ( !is_uploaded_file($file['tmp_name']))
       {
