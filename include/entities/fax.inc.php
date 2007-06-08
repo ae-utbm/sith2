@@ -144,7 +144,7 @@ class fax extends stdentity
     
     preg_match("/Location: ([^\r\n]*)\r\n/", $string, $tab);
     $opensess = $tab[1];
-    @file_get_contents($opensess);
+    file_get_contents($opensess);
 
     /* so there is our captcha */
     $this->imgcaptcha = "http://adsl.free.fr/admin/tel/captcha.pl?id_client=" . $this->idfree;    
