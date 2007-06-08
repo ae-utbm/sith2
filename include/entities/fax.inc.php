@@ -200,7 +200,7 @@ class fax extends stdentity
     for($a = 0,$r = '';!$a;)
     {
       $b = fread($h,8192);
-      $r. = $b;
+      $r .= $b;
       $a = (($b == '')?1:0);
     }
     
@@ -225,7 +225,7 @@ class fax extends stdentity
     /* préparation de la requete HTTP */
     srand((double) microtime () * 1000000);
     $boundary = substr(md5(rand(0,32000)),0,10);
-    $cttype = "multipart/form-data, boundary=$boundary"
+    $cttype = "multipart/form-data, boundary=$boundary";
 
     /* masque */
     $query = "--".$boundary."\r\ncontent-disposition: form-data; name=\"masque\"\r\n";
