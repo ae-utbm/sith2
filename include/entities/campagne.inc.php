@@ -235,7 +235,7 @@ class campagne extends stdentity
 		$sql = new requete($this->db, "SELECT * " .
 						"FROM `cpg_participe` " .
 						"WHERE `id_campagne`='".mysql_escape_string($this->id)."' " .
-						"AND `id_utilisateur`='".mysql_escape_string($id_utilisateur)."'");
+						"AND `id_utilisateur`='".mysql_escape_string($id_utilisateur)."'",1);
 
 		print_r($sql->errmsg."<br>");
 		if($sql->lines == 1)
