@@ -71,7 +71,12 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
     foreach($questions as $id => $question)
 		{
 			if($question["type"]=="text")
-				$frm->add_text_area("reponses[$id]",$question["description"]);
+			{
+				$frm->add_info($question["description"]."<br />");
+				$frm->add_text_area("reponses[$id]","");
+				$frm->add_info("<br />");
+			}
+
 			elseif($question["type"]=="list")
 			{
 				$frm->add_info($question["description"]."<br />");
@@ -97,7 +102,11 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
 				$frm->add_info("<br />");
 			}
 			elseif($question["type"]=="checkbox")
-				$frm->add_checkbox( "reponses[$id]", $question["description"]);
+			{
+				$frm->add_info($question["description"]."<br />");
+				$frm->add_checkbox( "reponses[$id]","");
+				$frm->add_info("<br />");
+			}
 
 		}
 
