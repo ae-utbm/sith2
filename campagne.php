@@ -76,7 +76,7 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
         $frm->add_text_field("reponses[$id]","","",false,80);
         $frm->add_info("<br />");
       }
-      elseif(($question["type"]=="textarea")
+      elseif($question["type"]=="textarea")
       {
         $frm->add_info("<b>".$question["description"]."</b><br />");
         $frm->add_text_area("reponses[$id]","");
