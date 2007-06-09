@@ -73,7 +73,7 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
 			if($question["type"]=="text")
 			{
 				$frm->add_info("<b>".$question["description"]."</b><br />");
-				$frm->add_text_field("reponses[$id]",""):
+				$frm->add_text_field("reponses[$id]","");
 				$frm->add_info("<br />");
 			}
 
