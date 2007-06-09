@@ -65,7 +65,7 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
 
     $cts->add($frm,true);
 
-    $frm = new form("apply","campagne.php".$user->id,true,"POST","Formulaire d'inscription");
+    $frm = new form("apply","campagne.php",true,"POST","Formulaire d'inscription");
     $frm->add_hidden("answord","true");
     $frm->add_hidden("id_campagne",$cpg->id);
     foreach($questions as $id => $question)

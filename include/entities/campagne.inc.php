@@ -257,6 +257,7 @@ class campagne extends stdentity
 				"date_participation" => date("Y-m-d H:i:s")
 				)
 			);
+		print_r($sql->errmsg."<br>";);
 
 		if ( !empty($answers) )
 		{	
@@ -267,6 +268,7 @@ class campagne extends stdentity
 					      "id_question"=>$id,
 								"id_utilisateur"=>$id_utilisateur,
 								"valeur_reponse"=>$value));
+			print_r($sql->errmsg/"<br>");
 		}
 	}
 }
