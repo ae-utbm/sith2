@@ -37,10 +37,10 @@ $cpg = new campagne($site->db,$site->dbrw);
 if (  isset($_REQUEST["answord"]) && (isset($_REQUEST["discard"]) || isset($_REQUEST["reponses"])) )
 {
   if(isset($_REQUEST["discard"]) )
-    $_REQUEST["reponses"]=array();
+    $_REQUEST["reponses"]="";
 
   $cpg->load_lastest();
-  if ( $cpg->id > 0 && $_REQUEST["id_campagne"] == $cpg->id )
+  if ( $cpg->id > 0 && $_REQUEST["id_campagne"] == $cpg->id && !$cpg->a_repondu($site->user->id) )
     $cpg->repondre($site->user->id,$_REQUEST["reponses"]);
 
   $res = new contents("Merci","Votre participation.");
