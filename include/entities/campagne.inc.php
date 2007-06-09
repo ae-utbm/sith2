@@ -245,9 +245,8 @@ class campagne extends stdentity
 	 * Definit les réponses à la campagne pour un utilisateur
 	 */
 	function repondre ( $id_utilisateur, $answers )
-	{		
-		
-		if ( $this->a_repondu($id_utilisateur) ) return;
+	{			
+		//if ( $this->a_repondu($id_utilisateur) ) return;
 
 		$sql = new insert ($this->dbrw,
 			"cpg_participe",
