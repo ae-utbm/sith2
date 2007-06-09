@@ -331,7 +331,7 @@ class site extends interfaceweb
     $elements = array();
 
     $cpg = new campagne($this->db,$this->dbrw);
-    if($cpg->load_lastest() && $this->user->is_in_group_id($cpg->group))
+    if($cpg->load_lastest() && $this->user->is_in_group_id($cpg->group) && !$cpg->a_repondu($site->user->id))
     {
       $elements[] = "<a href=\"".$topdir."campagne.php?id_campagne=".$cpg->id."\"><b>Campagne en cours : ".$cpg->nom."</b>.</a>";
 		}
