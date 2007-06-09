@@ -97,7 +97,7 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
 				{
 					$value=explode("|", $value, 2);
 					$keys[$value[2]]=$value[1];
-					$frm->add_radiobox_field( "reponses[$id]", "", $keys, false, false, true );
+					$frm->add_radiobox_field( "reponses[$id]", "", $keys, "", false, true );
 				}
 				$frm->add_info("<br />");
 			}
