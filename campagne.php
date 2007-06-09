@@ -72,14 +72,14 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
 		{
 			if($question["type"]=="text")
 			{
-				$frm->add_info($question["description"]."<br />");
+				$frm->add_info("<b>".$question["description"]."</b><br />");
 				$frm->add_text_area("reponses[$id]","");
 				$frm->add_info("<br />");
 			}
 
 			elseif($question["type"]=="list")
 			{
-				$frm->add_info($question["description"]."<br />");
+				$frm->add_info("<b>".$question["description"]."</b><br />");
 				$values=explode(";",$question["reponses"]);
 				foreach($values as $value)
 				{	
@@ -91,19 +91,19 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
 			}
 			elseif($question["type"]=="radio")
 			{
-				$frm->add_info($question["description"]."<br />");
+				$frm->add_info("<b>".$question["description"]."</b><br />");
 				$values=explode(";",$question["reponses"]);
 				foreach($values as $value)
 				{
 					$value=explode("|", $value, 2);
 					$keys[$value[2]]=$value[1];
-					$frm->add_radiobox_field( "reponses[$id]", "", $keys );
+					$frm->add_radiobox_field( "reponses[$id]", "", $keys, true );
 				}
 				$frm->add_info("<br />");
 			}
 			elseif($question["type"]=="checkbox")
 			{
-				$frm->add_info($question["description"]."<br />");
+				$frm->add_info("<b>".$question["description"]."</b><br />");
 				$frm->add_checkbox( "reponses[$id]","");
 				$frm->add_info("<br />");
 			}
