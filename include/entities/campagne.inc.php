@@ -31,249 +31,246 @@
  */
 class campagne extends stdentity
 {
-	/** Date d'ajout de la campagne */
-	var $date;
-	
+  /** Date d'ajout de la campagne */
+  var $date;
+  
   /** Date de fin de la campagne */
-	var $end_date;
+  var $end_date;
 
-	/** id de la campagne */
-	var $id;
+  /** id de la campagne */
+  var $id;
 
-	/** nom de la campagne */
-	var $nom;
+  /** nom de la campagne */
+  var $nom;
 
-	/** description de la campagne */
-	var $descrition;
+  /** description de la campagne */
+  var $descrition;
 
-	/** groupe concerné */
-	var $group;
-	
-	/** Charge une campagne en fonction de son id
-	 * $this->id est égal à -1 en cas d'erreur
-	 * @param $id id de la campagne
-	 */
-	function load_by_id ( $id )
-	{
-		$req = new requete($this->db, "SELECT * FROM `cpg_campagne`
-				WHERE `id_campagne` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		
-		$this->id = null;	
-		return false;
-	}
-	
-	function load_lastest ( )
-	{
-		$req = new requete($this->db, "SELECT * FROM `cpg_campagne` WHERE `date_fin_campagne`>=NOW() ORDER BY date_debut_campagne DESC LIMIT 1");	
-				
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		
-		$this->id = null;	
-		return false;
-	}
+  /** groupe concerné */
+  var $group;
+  
+  /** Charge une campagne en fonction de son id
+   * $this->id est égal à -1 en cas d'erreur
+   * @param $id id de la campagne
+   */
+  function load_by_id ( $id )
+  {
+    $req = new requete($this->db, "SELECT * FROM `cpg_campagne`
+        WHERE `id_campagne` = '" . mysql_real_escape_string($id) . "'
+        LIMIT 1");  
+        
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
+    
+    $this->id = null;  
+    return false;
+  }
+  
+  function load_lastest ( )
+  {
+    $req = new requete($this->db, "SELECT * FROM `cpg_campagne` WHERE `date_fin_campagne`>=NOW() ORDER BY date_debut_campagne DESC LIMIT 1");  
+        
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
+    
+    $this->id = null;  
+    return false;
+  }
 
-	function is_lastest( $id )
-	{
-		if ($this->id != $id)
-			return 0;
-		else
-			return 1;
-	}
-	
-	function _load ( $row )
-	{
-		$this->id	= $row['id_campagne'];
-		$this->nom = $row['nom_campagne'];
-		$this->description = $row['description_campagne'];
-		$this->group = $row["id_groupe"];
-		$this->date	= $row['date_debut_campagne'];
-		$this->end_date	= $row['date_fin_campagne'];
-	}
-	
-	function new_campagne ( $nom, $description, $end_date, $group )
-	{
-		$this->nom = $nom;
-		$this->end_date = $end_date;
-		$this->description = $description;
-		$this->date = time();
-		$this->group = $group;
-		
-		$sql = new insert ($this->dbrw,
-			"cpg_campagne",
-			array(
-				"nom_campagne" => $this->nom,
-				"description_campagne" => $this->description,
-				"id_groupe" => $this->group,
-				"date_debut_campagne" => date("Y-m-d H:i:s"),
-				"date_fin_campagne" => date("Y-m-d",$this->end_date)
-				)
-			);
-				
-		if ( $sql )
-			$this->id = $sql->get_id();
-		else
-			$this->id = null;
-	}
+  function is_lastest( $id )
+  {
+    if ($this->id != $id)
+      return 0;
+    else
+      return 1;
+  }
+  
+  function _load ( $row )
+  {
+    $this->id  = $row['id_campagne'];
+    $this->nom = $row['nom_campagne'];
+    $this->description = $row['description_campagne'];
+    $this->group = $row["id_groupe"];
+    $this->date  = $row['date_debut_campagne'];
+    $this->end_date  = $row['date_fin_campagne'];
+  }
+  
+  function new_campagne ( $nom, $description, $end_date, $group )
+  {
+    $this->nom = $nom;
+    $this->end_date = $end_date;
+    $this->description = $description;
+    $this->date = time();
+    $this->group = $group;
+    
+    $sql = new insert ($this->dbrw,
+      "cpg_campagne",
+      array(
+        "nom_campagne" => $this->nom,
+        "description_campagne" => $this->description,
+        "id_groupe" => $this->group,
+        "date_debut_campagne" => date("Y-m-d H:i:s"),
+        "date_fin_campagne" => date("Y-m-d",$this->end_date)
+        )
+      );
+        
+    if ( $sql )
+      $this->id = $sql->get_id();
+    else
+      $this->id = null;
+  }
 
-	/** Met à jour une campagne avec les données en paramètre
-	 * @param $nom intitulé de la campagne
-	 * @param $description la description de la campagne
-	 * @param $begin_date date de début
-	 * @param $end_date date de fin
-	 */
-	function update_campagne ($nom, $description, $begin_date, $end_date)
-	{
-		$this->nom = $nom;
-		$this->description=$descritpion;
-		$this->end_date = $end_date;
-		
-		$sql = new update($this->dbrw,
-			"cpg_campagne",
-			array(
-				"nom_campagne" => $this->nom,
-				"description_campagne" => $description,
-				"date_debut_campagne" => $begin_date,
-				"date_fin_campagne" => date("Y-m-d",$this->end_date)
-				),array("id_campagne"=>$this->id)
-			);
-	}
-	
-	function update_question ($id, $question, $desc, $type, $resp, $limit=0)
-	{
-		$sql = new requete($this->db,"SELECT `nom_question` FROM `cpg_question` WHERE `id_campagne`='".mysql_real_escape_string($this->id)."' AND `id_question`='".mysql_real_escape_string($id)."'");
+  /** Met à jour une campagne avec les données en paramètre
+   * @param $nom intitulé de la campagne
+   * @param $description la description de la campagne
+   * @param $begin_date date de début
+   * @param $end_date date de fin
+   */
+  function update_campagne ($nom, $description, $begin_date, $end_date)
+  {
+    $this->nom = $nom;
+    $this->description=$descritpion;
+    $this->end_date = $end_date;
+    
+    $sql = new update($this->dbrw,
+      "cpg_campagne",
+      array(
+        "nom_campagne" => $this->nom,
+        "description_campagne" => $description,
+        "date_debut_campagne" => $begin_date,
+        "date_fin_campagne" => date("Y-m-d",$this->end_date)
+        ),array("id_campagne"=>$this->id)
+      );
+  }
+  
+  function update_question ($id, $question, $desc, $type, $resp, $limit=0)
+  {
+    $sql = new requete($this->db,"SELECT `nom_question` FROM `cpg_question` WHERE `id_campagne`='".mysql_real_escape_string($this->id)."' AND `id_question`='".mysql_real_escape_string($id)."'");
 
-		if ( $sql->lines == 0 )
-			$this->add_question($question, $desc, $type, $resp, $limit);
-		else
-			$sql = new update($this->dbrw,
-			"cpg_question",
-			array("nom_question" => $question,
-			      "description_question" => $desc,
-						"type_question" => $type,
-						"reponses_question" => $resp,
-						"limits_reponses_question" => $limit
-		       ),
-			array("id_campagne"=>$this->id,"id_question"=>$id)
-			);		
-	}
-	
-	function add_question ( $nom, $desc, $type, $resp="", $limit=0 )
-	{
-		$sql = new insert ($this->dbrw,
-			"cpg_question",
-			array(
-				"id_campagne" => $this->id,
-				"nom_question" => $nom,
-				"description_question" => $desc,
-				"type_question" => $type,
-				"reponses_question" => $resp,
-				"limites_reponses_question" => $limit
-				)
-			);
-	}
-	
-	function remove_question ( $id )
-	{
-		$sql = new delete($this->dbrw,
-			"cpg_question",
-			array(
-				"id_campagne" => $this->id,
-				"id_question" => $id
-				)
-			);
-	}
-	
-	function get_questions()
-	{
-		$sql = new requete($this->db, "SELECT * " .
-						"FROM `cpg_question` " .
-						"WHERE id_campagne='".mysql_escape_string($this->id)."' " .
-						"ORDER BY `id_question`");
-		
-		$questions = array();
-		
-		while ( $row = $sql->get_row() )
-		{
-			$id=$row['id_question'];
-			$questions[$id] = array("nom"=>$row["nom_question"],
-			                                       "description"=>$row["description_question"],
-				                                     "type"=>$row["type_question"],
-				                                     "reponses"=>$row["reponses_question"],
-				                                     "limit"=>$row["limites_reponses_question"]);
-		}	
-		return $questions;
-	}
-	
-	function get_user_results($id_utilisateur)
-	{
-		$sql = new requete($this->db, "SELECT `id_question`, `valeur_reponse` " .
-						"FROM `cpg_reponse` " .
-						"WHERE id_campagne='".mysql_escape_string($this->id)."' " .
-						"ORDER BY `id_question`");
-		
-		$resultats = array();
-		
-		while ( list($id,$rep) = $sql->get_row() )
-			$resultats[$id] = $rep;
-			
-		return $resultats;
-	}
-	function a_repondu ( $id_utilisateur )
-	{
-		
-		$sql = new requete($this->db, "SELECT * " .
-						"FROM `cpg_participe` " .
-						"WHERE `id_campagne`='".mysql_escape_string($this->id)."' " .
-						"AND `id_utilisateur`='".mysql_escape_string($id_utilisateur)."'",1);
+    if ( $sql->lines == 0 )
+      $this->add_question($question, $desc, $type, $resp, $limit);
+    else
+      $sql = new update($this->dbrw,
+      "cpg_question",
+      array("nom_question" => $question,
+            "description_question" => $desc,
+            "type_question" => $type,
+            "reponses_question" => $resp,
+            "limits_reponses_question" => $limit
+           ),
+      array("id_campagne"=>$this->id,"id_question"=>$id)
+      );    
+  }
+  
+  function add_question ( $nom, $desc, $type, $resp="", $limit=0 )
+  {
+    $sql = new insert ($this->dbrw,
+      "cpg_question",
+      array(
+        "id_campagne" => $this->id,
+        "nom_question" => $nom,
+        "description_question" => $desc,
+        "type_question" => $type,
+        "reponses_question" => $resp,
+        "limites_reponses_question" => $limit
+        )
+      );
+  }
+  
+  function remove_question ( $id )
+  {
+    $sql = new delete($this->dbrw,
+      "cpg_question",
+      array(
+        "id_campagne" => $this->id,
+        "id_question" => $id
+        )
+      );
+  }
+  
+  function get_questions()
+  {
+    $sql = new requete($this->db, "SELECT * " .
+            "FROM `cpg_question` " .
+            "WHERE id_campagne='".mysql_escape_string($this->id)."' " .
+            "ORDER BY `id_question`");
+    
+    $questions = array();
+    
+    while ( $row = $sql->get_row() )
+    {
+      $id=$row['id_question'];
+      $questions[$id] = array("nom"=>$row["nom_question"],
+                                             "description"=>$row["description_question"],
+                                             "type"=>$row["type_question"],
+                                             "reponses"=>$row["reponses_question"],
+                                             "limit"=>$row["limites_reponses_question"]);
+    }  
+    return $questions;
+  }
+  
+  function get_user_results($id_utilisateur)
+  {
+    $sql = new requete($this->db, "SELECT `id_question`, `valeur_reponse` " .
+            "FROM `cpg_reponse` " .
+            "WHERE id_campagne='".mysql_escape_string($this->id)."' " .
+            "ORDER BY `id_question`");
+    
+    $resultats = array();
+    
+    while ( list($id,$rep) = $sql->get_row() )
+      $resultats[$id] = $rep;
+      
+    return $resultats;
+  }
+  function a_repondu ( $id_utilisateur )
+  {
+    
+    $sql = new requete($this->db, "SELECT * " .
+            "FROM `cpg_participe` " .
+            "WHERE `id_campagne`='".mysql_escape_string($this->id)."' " .
+            "AND `id_utilisateur`='".mysql_escape_string($id_utilisateur)."'");
 
-		print_r($sql->errmsg."<br>");
-		if($sql->lines == 1)
-			return true;
-		else
-		  return false;
-		
-	}
+    if($sql->lines == 1)
+      return true;
+    else
+      return false;
+    
+  }
 
-	/**
-	 * Definit les réponses à la campagne pour un utilisateur
-	 */
-	function repondre ( $id_utilisateur, $answers )
-	{			
-		//if ( $this->a_repondu($id_utilisateur) ) return;
+  /**
+   * Definit les réponses à la campagne pour un utilisateur
+   */
+  function repondre ( $id_utilisateur, $answers )
+  {      
+    if ( $this->a_repondu($id_utilisateur) ) return;
 
-		$sql = new insert ($this->dbrw,
-			"cpg_participe",
-			array(
-				"id_campagne" => $this->id,
-				"id_utilisateur" => $id_utilisateur,
-				"date_participation" => date("Y-m-d H:i:s")
-				)
-			);
-		print_r($sql->errmsg."<br>");
+    $sql = new insert ($this->dbrw,
+      "cpg_participe",
+      array(
+        "id_campagne" => $this->id,
+        "id_utilisateur" => $id_utilisateur,
+        "date_participation" => date("Y-m-d H:i:s")
+        )
+      );
 
-		if ( !empty($answers) )
-		{	
-			foreach($answers as $id => $value)
-				$sql = new insert($this->dbrw,
-					"cpg_reponse",
-					array("id_campagne"=>$this->id,
-					      "id_question"=>$id,
-								"id_utilisateur"=>$id_utilisateur,
-								"valeur_reponse"=>$value));
-			print_r($sql->errmsg."<br>");
-		}
-	}
+    if ( !empty($answers) )
+    {  
+      foreach($answers as $id => $value)
+        $sql = new insert($this->dbrw,
+          "cpg_reponse",
+          array("id_campagne"=>$this->id,
+                "id_question"=>$id,
+                "id_utilisateur"=>$id_utilisateur,
+                "valeur_reponse"=>$value));
+    }
+  }
 }
  
  
