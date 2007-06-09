@@ -237,7 +237,11 @@ class campagne extends stdentity
 						"WHERE id_campagne='".mysql_escape_string($this->id)."' " .
 						"AND id_utilisateur='".mysql_escape_string($id_utilisateur)."'");
 
-		return ($sql->lines == 1);
+		print_r($sql->errmsg."<br>");
+		if($sql->lines == 1)
+			return true;
+		else
+		  return false;
 		
 	}
 
