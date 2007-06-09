@@ -34,7 +34,6 @@ if ( !$site->user->is_valid() )
   
 $cpg = new campagne($site->db,$site->dbrw);
 $cpg->load_lastest();
-print_r($cpg->id);
 if ( $cpg->id > 0 && !$cpg->a_repondu($site->user->id) && isset($_REQUEST["answord"]) )
 {
   if(isset($_REQUEST["discard"]) )
@@ -43,12 +42,11 @@ if ( $cpg->id > 0 && !$cpg->a_repondu($site->user->id) && isset($_REQUEST["answo
   if ( $_REQUEST["id_campagne"] == $cpg->id )
     $cpg->repondre($site->user->id,$_REQUEST["reponses"]);
 
-  $res = new contents("Merci","Votre participation.");
+	$res = new contents("Merci","Votre participation.");
+	unset($_REQUEST['id_campagne']);
 }  
-else if ( isset($_REQUEST["id_campagne"]) )
-  $cpg->load_by_id($_REQUEST["id_campagne"]);
 
-if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repondu($site->user->id) )
+if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repondu($site->user->id) )
 {
   $questions = $cpg->get_questions();
   if (!empty($questions))
