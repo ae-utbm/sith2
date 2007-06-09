@@ -34,14 +34,14 @@ if ( !$site->user->is_valid() )
   
 $cpg = new campagne($site->db,$site->dbrw);
 $cpg->load_lastest();
-print_r($_REQUEST["answord"]);
-if ( $cpg->id > 0 && !$cpg->a_repondu($site->user->id) && isset($_REQUEST["answord"]) && (isset($_REQUEST["discard"]) || isset($_REQUEST["reponses"])) )
+print_r($_REQUEST);
+if ( $cpg->id > 0 && !$cpg->a_repondu($site->user->id) && isset($_REQUEST["answord"]) )
 {
 	print_r("debug");
   if(isset($_REQUEST["discard"]) )
     $_REQUEST["reponses"]="";
 
-  if (  $_REQUEST["id_campagne"] == $cpg->id  )
+  if ( $_REQUEST["id_campagne"] == $cpg->id )
     $cpg->repondre($site->user->id,$_REQUEST["reponses"]);
 
   $res = new contents("Merci","Votre participation.");
