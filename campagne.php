@@ -74,22 +74,24 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
 				$frm->add_text_area("reponses[$id]",$question["description"]);
 			elseif($question["type"]=="list")
 			{
+				$frm->add_info($question["description"]."<br />");
 				$values=explode(";",$question["reponses"]);
 				foreach($values as $value)
 				{	
 					$value=explode("|", $value,2);
 					$keys[$value[0]]=$value[1];
-					$frm->add_select_field( "reponses[$id]", $question["description"], $keys);
+					$frm->add_select_field( "reponses[$id]", "", $keys);
 				}
 			}
 			elseif($question["type"]=="radio")
 			{
+				$frm->add_info($question["description"]."<br />");
 				$values=explode(";",$question["reponses"]);
 				foreach($values as $value)
 				{
 					$value=explode("|", $value, 2);
 					$keys[$value[2]]=$value[1];
-					$frm->add_radiobox_field( "reponses[$id]", $question["description"], $keys );
+					$frm->add_radiobox_field( "reponses[$id]", "", $keys );
 				}
 			}
 			elseif($question["type"]=="checkbox")
