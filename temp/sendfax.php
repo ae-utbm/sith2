@@ -19,8 +19,12 @@ if (isset($_POST['sendfaxsbmt']))
   $site->add_contents(new contents("DEBUG", print_r($fax, true)));
 
   $ret = $fax->send_fax(false);
-  $cts = new contents("Etat d'envoi du fax",
-		      $ret);
+  if ($ret)
+    $cts = new contents("Etat d'envoi du fax",
+			"Ca a marché !");
+  else
+    $cts = new contents("Etat d'envoi du fax",
+			"<b>FOIREAIZE !</b>");
 
   $site->add_contents($cts);
   $site->end_page();
