@@ -34,6 +34,7 @@ if ( !$site->user->is_valid() )
   
 $cpg = new campagne($site->db,$site->dbrw);
 $cpg->load_lastest();
+print_r($_REQUEST["answord"]);
 if ( $cpg->id > 0 && !$cpg->a_repondu($site->user->id) && isset($_REQUEST["answord"]) && (isset($_REQUEST["discard"]) || isset($_REQUEST["reponses"])) )
 {
 	print_r("debug");
