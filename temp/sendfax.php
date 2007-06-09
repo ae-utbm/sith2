@@ -22,12 +22,13 @@ $site->start_page("services","AE - R&D - envoi de fax");
 if (isset($_POST['sendfaxsbmt']))
 {
   $fax = new fax ($site->db, $site->dbrw);
+
   $fax->load_by_id($_POST['faxinstanceid']);
+
   $fax->set_captcha($_POST['captcha']);
 
-  $site->add_contents(new contents("DEBUG", print_r($fax, true)));
-
   $ret = $fax->send_fax(false);
+
   if ($ret)
     $cts = new contents("Etat d'envoi du fax",
 			"Ca a marché !");
