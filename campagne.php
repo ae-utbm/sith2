@@ -33,9 +33,9 @@ if ( !$site->user->is_valid() )
   error_403();
   
 $cpg = new campagne($site->db,$site->dbrw);
-print_r($_REQUEST);
 if (  isset($_REQUEST["answord"]) && (isset($_REQUEST["discard"]) || isset($_REQUEST["reponses"])) )
 {
+	print_r("debug");
   if(isset($_REQUEST["discard"]) )
     $_REQUEST["reponses"]="";
 
