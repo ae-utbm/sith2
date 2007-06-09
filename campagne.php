@@ -85,8 +85,8 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
 				{	
 					$value=explode("|", $value,2);
 					$keys[$value[0]]=$value[1];
-					$frm->add_select_field( "reponses[$id]", "", $keys);
 				}
+				$frm->add_select_field( "reponses[$id]", "", $keys);
 				$frm->add_info("<br />");
 			}
 			elseif($question["type"]=="radio")
@@ -96,7 +96,7 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
 				foreach($values as $value)
 				{
 					$value=explode("|", $value, 2);
-					$key=array();
+					$keys=array();
 					$keys[$value[0]]=$value[1];
 					$frm->add_radiobox_field( "reponses[$id]", "", $keys, "", false, false );
 				}
