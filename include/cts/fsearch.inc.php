@@ -339,7 +339,7 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 		while ( $row = $req->get_row() )
 		{
 			if ( $req->lines == 1 )
-				$this->redirect = $wwwtopdir."forum2/?id_message=".$row['id_message'];
+				$this->redirect = $wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message'];
 			
 			$nom=$row["titre_nvl"];
 				
@@ -354,7 +354,7 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
   			$this->buffer .= "<ul>";
 			}
 			
-  		$this->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."\">".
+  		$this->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".
   			str_replace("\r","",str_replace("\n","",substr($row['contenu_message'],0,40)))."...</a></li>";	
   			
 			$id_sujet=$row['id_sujet'];
