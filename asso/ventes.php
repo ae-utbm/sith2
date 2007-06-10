@@ -200,8 +200,6 @@ $frm->add_entity_select("id_produit", "Produit", $site->db, "produit",$_REQUEST[
 $frm->add_submit("valid","Voir");
 $cts->add($frm,true);
 
-print_r($_REQUEST);
-
 
 $conds = array("cpt_vendu.id_assocpt='".$asso->id."'");
 $comptoir = false;
