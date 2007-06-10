@@ -322,7 +322,9 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
     $sql .= "(contenu_message REGEXP '$word' OR titre_sujet REGEXP '$word' OR soustitre_sujet REGEXP '$word')";
     
   }
-
+  
+  $sql .= " ORDER BY frm_message.id_message DESC LIMIT 3";
+  
   $req = new requete($site->db,$sql);
   
   $this->buffer .= print_r($req,true);
@@ -355,7 +357,6 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 			}
 			
   		$this->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."\">".
-  			"<img src=\"".$wwwtopdir."images/icons/16/nouvelle.png\" class=\"icon\" alt=\"\" /> ".
   			substr($row['contenu_message'],40)."...</a></li>";	
   			
 			$id_sujet=$row['id_sujet'];
