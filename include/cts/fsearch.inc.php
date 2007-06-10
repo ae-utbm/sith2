@@ -357,7 +357,7 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 			}
 			
   		$this->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."\">".
-  			substr($row['contenu_message'],40)."...</a></li>";	
+  			str_replace("\n","",substr($row['contenu_message'],0,40))."...</a></li>";	
   			
 			$id_sujet=$row['id_sujet'];
 		}
