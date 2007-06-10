@@ -332,16 +332,15 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 		
 		$id_sujet=null;
 		
-		$this->buffer .= "<h2>Nouvelles</h2>";
+		$this->buffer .= "<h2>Forum</h2>";
 		$this->buffer .= "<ul>";
+		
 		while ( $row = $req->get_row() )
 		{
 			if ( $req->lines == 1 )
 				$this->redirect = $wwwtopdir."forum2/?id_message=".$row['id_message'];
 			
 			$nom=$row["titre_nvl"];
-				
-				
 				
 			if ( 	$id_sujet!=$row['id_sujet'] )
 			{
@@ -360,7 +359,8 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
   			
 			$id_sujet=$row['id_sujet'];
 		}
-		$this->buffer .= "</ul>";
+		if ( !is_null($id_sujet) )
+		  $this->buffer .= "</ul>";
 		$this->buffer .= "</ul>";
 	}
 
