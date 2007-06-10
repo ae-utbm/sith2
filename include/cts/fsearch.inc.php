@@ -349,8 +349,8 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
   			  $this->buffer .= "</ul>";
   			$this->buffer .= 
   			"<li><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
-  			"<img src=\"".$wwwtopdir."images/icons/16/nouvelle.png\" class=\"icon\" alt=\"\" /> ".
-  			$row['titre_sujet']."</a></li>";	
+  			"<img src=\"".$wwwtopdir."images/icons/16/nouvelle.png\" class=\"icon\" alt=\"\" /> <b>".
+  			$row['titre_sujet']."</b></a></li>";	
   			$this->buffer .= "<ul>";
 			}
 			
