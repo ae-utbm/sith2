@@ -266,7 +266,7 @@ class site extends interfaceweb
     }
     elseif ( $section == "forum" )
     {
-      $this->set_side_boxes("left",array());
+      $this->set_side_boxes("left",array("connexion"));
       $this->set_side_boxes("right",array());
     }
   }
