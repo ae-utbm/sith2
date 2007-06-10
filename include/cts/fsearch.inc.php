@@ -326,6 +326,8 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 
   $req = new requete($site->db,$sql);
   
+  $this->buffer .= print_r($req,true);
+  
 	if ( $req->lines )
 	{
 		$this->nb += $req->lines;
