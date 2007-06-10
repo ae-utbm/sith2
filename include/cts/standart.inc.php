@@ -963,12 +963,12 @@ class form extends stdcontents
 		}		
 		elseif ( $entityclass == "group") // déprécié
 		{
-			$name = $name." (!)";
+			$title = $title." (!)";
 			$values=enumerates_groups($db);
 		}
 		else // déprécié
 		{		
-			$name = $name." (!)";
+			$title = $title." (!)";
 			
       if ( $none ) 
         $values=array(0=>"-");

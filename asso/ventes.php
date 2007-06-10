@@ -25,6 +25,12 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 
+require_once($topdir. "comptoir/include/typeproduit.inc.php");
+require_once($topdir. "comptoir/include/produit.inc.php");
+require_once($topdir. "comptoir/include/comptoir.inc.php");
+
+
+
 $site = new site ();
 $asso = new asso($site->db,$site->dbrw);
 
