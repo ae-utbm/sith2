@@ -326,9 +326,7 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
   $sql .= " ORDER BY frm_message.id_message DESC LIMIT 3";
   
   $req = new requete($site->db,$sql);
-  
-  $this->buffer .= print_r($req,true);
-  
+    
 	if ( $req->lines )
 	{
 		$this->nb += $req->lines;
@@ -357,7 +355,7 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 			}
 			
   		$this->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."\">".
-  			str_replace("\n","",substr($row['contenu_message'],0,40))."...</a></li>";	
+  			str_replace("\r","",str_replace("\n","",substr($row['contenu_message'],0,40)))."...</a></li>";	
   			
 			$id_sujet=$row['id_sujet'];
 		}
