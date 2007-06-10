@@ -307,7 +307,7 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 
 
   $sql = "SELECT frm_sujet.id_sujet, frm_sujet.titre_sujet, frm_message.id_message, frm_message.contenu_message ".
-         "FROM frm_messagen INNER JOIN frm_sujet USING ( id_sujet ) WHERE ";
+         "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) WHERE ";
 
   $first=true;
 
@@ -322,7 +322,6 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
     $sql .= "(contenu_message REGEXP '$word' OR titre_sujet REGEXP '$word' OR soustitre_sujet REGEXP '$word')";
     
   }
-  $sql .= " ORDER BY id_message DESC LIMIT 5";
 
   $req = new requete($site->db,$sql);
   
