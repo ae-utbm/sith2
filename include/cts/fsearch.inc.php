@@ -306,6 +306,65 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 	}
 
 
+  $sql = "SELECT frm_sujet.id_sujet, frm_sujet.titre_sujet, frm_message.id_message, frm_message.contenu_message ".
+         "FROM frm_messagen INNER JOIN frm_sujet USING ( id_sujet ) WHERE ";
+
+  $first=true;
+
+  $words = explode(" ",$sqlpattern);
+  foreach ( $words as $word )
+  {
+    if ( $first )
+      $first=false;  
+    else
+      $sql .= " AND ";
+    
+    $sql .= "(contenu_message REGEXP '$word' OR titre_sujet REGEXP '$word' OR soustitre_sujet REGEXP '$word')";
+    
+  }
+  $sql .= " ORDER BY id_message DESC LIMIT 5";
+
+  $req = new requete($site->db,$sql);
+  
+	if ( $req->lines )
+	{
+		$this->nb += $req->lines;
+		
+		$id_sujet=null;
+		
+		$this->buffer .= "<h2>Nouvelles</h2>";
+		$this->buffer .= "<ul>";
+		while ( $row = $req->get_row() )
+		{
+			if ( $req->lines == 1 )
+				$this->redirect = $wwwtopdir."forum2/?id_message=".$row['id_message'];
+			
+			$nom=$row["titre_nvl"];
+				
+				
+				
+			if ( 	$id_sujet!=$row['id_sujet'] )
+			{
+			  if ( !is_null($id_sujet) )
+  			  $this->buffer .= "</ul>";
+  			$this->buffer .= 
+  			"<li><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
+  			"<img src=\"".$wwwtopdir."images/icons/16/nouvelle.png\" class=\"icon\" alt=\"\" /> ".
+  			$row['titre_sujet']."</a></li>";	
+  			$this->buffer .= "<ul>";
+			}
+			
+  		$this->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."\">".
+  			"<img src=\"".$wwwtopdir."images/icons/16/nouvelle.png\" class=\"icon\" alt=\"\" /> ".
+  			substr($row['contenu_message'],40)."...</a></li>";	
+  			
+			$id_sujet=$row['id_sujet'];
+		}
+		$this->buffer .= "</ul>";
+		$this->buffer .= "</ul>";
+	}
+
+
 // Objets de l'inventaire	
 	if ( $site->user->is_in_group("gestion_ae") )	
 	{
