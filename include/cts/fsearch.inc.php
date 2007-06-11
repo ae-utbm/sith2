@@ -360,6 +360,10 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 		if ( !is_null($id_sujet) )
 		  $this->buffer .= "</ul>";
 		$this->buffer .= "</ul>";
+		
+		if ( $req->lines == 3 )
+			$this->buffer .= "<p class=\"more\"><a href=\"".$wwwtopdir."forum2/search.php?pattern=".urlencode($_REQUEST["pattern"])."\">plus de resultats</a></p>";		
+		
 	}
 
 

@@ -83,6 +83,57 @@ if ( $_REQUEST["page"] == "unread" )
   exit();
 }
 
+if ( isset($_REQUEST["pattern"] )
+{
+	$pattern = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","(e|é|è|ê|ë|É|È|Ê|Ë)",$_REQUEST["pattern"]);
+	$pattern = ereg_replace("(a|à|â|ä|À|Â|Ä)","(a|à|â|ä|À|Â|Ä)",$pattern);
+	$pattern = ereg_replace("(i|ï|î|Ï|Î)","(i|ï|î|Ï|Î)",$pattern);
+	$pattern = ereg_replace("(c|ç|Ç)","(c|ç|Ç)",$pattern);
+	$pattern = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","(u|ù|ü|û|Ü|Û|Ù)",$pattern);
+	$pattern = ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$pattern);
+	$sqlpattern = mysql_real_escape_string($pattern);
+	
+  $sql = "SELECT frm_sujet.* ".
+         "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) WHERE ";
+
+  $first=true;
+
+  $words = explode(" ",$sqlpattern);
+  foreach ( $words as $word )
+  {
+    if ( $first )
+      $first=false;  
+    else
+      $sql .= " AND ";
+    
+    $sql .= "(contenu_message REGEXP '$word' OR titre_sujet REGEXP '$word' OR soustitre_sujet REGEXP '$word')";
+    
+  }
+  
+  $sql .= " ORDER BY frm_message.id_message DESC LIMIT 100";
+  
+  
+  $req = new requete($site->db,$sql);
+	$rows = array();
+	while ( $row = $req->get_row() )
+	  $rows[] = $row;
+	    
+	    
+  $site->start_page("forum","Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8"));
+  
+  $cts = new contents($forum->get_html_link()." / <a href=\"search.php?pattern=".urlencode($_REQUEST["pattern"])."\">Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8")."</a>");
+    
+  $cts->add_paragraph("<a href=\"./?action=setallread\">Marquer tous les messages comme lu</a>","frmgeneral");
+   
+	    
+	$cts->add(new sujetslist($rows, $site->user, "./", null, null));
+	    
+  $site->add_contents($cts);
+  
+  $site->end_page();
+  exit();
+
+}
 // Moteur de recherche pas encore fait
 header("Location: ./");
 
