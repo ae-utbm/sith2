@@ -341,15 +341,13 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 			if ( $req->lines == 1 )
 				$this->redirect = $wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message'];
 			
-			$nom=$row["titre_nvl"];
-				
 			if ( 	$id_sujet!=$row['id_sujet'] )
 			{
 			  if ( !is_null($id_sujet) )
   			  $this->buffer .= "</ul>";
   			$this->buffer .= 
   			"<li><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
-  			"<img src=\"".$wwwtopdir."images/icons/16/nouvelle.png\" class=\"icon\" alt=\"\" /> <b>".
+  			"<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> <b>".
   			$row['titre_sujet']."</b></a></li>";	
   			$this->buffer .= "<ul>";
 			}

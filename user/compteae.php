@@ -290,7 +290,7 @@ $req1 = new requete($site->db,
         "WHERE mode_paiement = 'SG' " .
         "AND `cpt_comptoir`.`id_comptoir` = 3 ".
         "AND `utilisateurs`.`id_utilisateur` = ".
-        $site->user->id ." ".
+        $user->id ." ".
         "GROUP BY `cpt_debitfacture`.`id_facture` ".
         "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
@@ -324,7 +324,7 @@ $req2 = new requete($site->db,
         "WHERE mode_paiement = 'AE' " .
         "AND `cpt_comptoir`.`id_comptoir` = 3 ".
         "AND `utilisateurs`.`id_utilisateur` = ".
-        $site->user->id ." ".
+        $user->id ." ".
         "GROUP BY `cpt_debitfacture`.`id_facture` ".
         "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
