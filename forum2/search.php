@@ -83,7 +83,7 @@ if ( $_REQUEST["page"] == "unread" )
   exit();
 }
 
-if ( isset($_REQUEST["pattern"] )
+if ( isset($_REQUEST["pattern"] ) )
 {
 	$pattern = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","(e|é|è|ê|ë|É|È|Ê|Ë)",$_REQUEST["pattern"]);
 	$pattern = ereg_replace("(a|à|â|ä|À|Â|Ä)","(a|à|â|ä|À|Â|Ä)",$pattern);
