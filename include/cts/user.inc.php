@@ -216,7 +216,7 @@ class userinfo extends stdcontents
         if ( $solde && $user->montant_compte/100 != 0)
           {
             $this->buffer .= "<div class=\"compt_ae\" style=\"color: red; float: right; text-align: center;\">";
-            $this->buffer .= "<a href=\"comptoir/moncompte.php?id_utilisateur=".$user->id."\" alt=\"Consulter son compte AE\" title=\"Consulter son compte AE\"><img src=\"".$topdir."images/money.png\"></a><br/>".($user->montant_compte/100)." €\n";
+            $this->buffer .= "<a href=\"".$topdir."compteae.php?id_utilisateur=".$user->id."\" alt=\"Consulter son compte AE\" title=\"Consulter son compte AE\"><img src=\"".$topdir."images/money.png\"></a><br/>".($user->montant_compte/100)." €\n";
             $this->buffer .= "</div>";
           }
         $this->buffer .= "<p>";
@@ -317,7 +317,7 @@ class userinfo extends stdcontents
         if ( $extraadmin )
           {
             $this->buffer .= "<p><a href=\"".$topdir."ae/cotisations.php?action=searchstudent&amp;id_utilisateur=".$user->id."\">&nbsp;&nbsp;Nouvelle cotisation à l'AE</a></p>";
-            $this->buffer .= "<a href=\"comptoir/moncompte.php?id_utilisateur=".$user->id."\">Consulter compte AE</a>";
+            $this->buffer .= "<a href=\"".$topdir."compteae.php?id_utilisateur=".$user->id."\">Consulter compte AE</a>";
           }
 
         $this->buffer .= "</div>";
@@ -576,7 +576,7 @@ class userinfov2 extends stdcontents
       {
         $this->buffer .= "<ul class=\"useradmin\">";
         $this->buffer .= "<li><a href=\"".$topdir."ae/cotisations.php?action=searchstudent&amp;id_utilisateur=".$user->id."\">Nouvelle cotisation à l'AE</a></li>";
-        $this->buffer .= "<li><a href=\"".$topdir."comptoir/moncompte.php?id_utilisateur=".$user->id."\">Consulter compte AE</a></li>";
+        $this->buffer .= "<li><a href=\"".$topdir."compteae.php?id_utilisateur=".$user->id."\">Consulter compte AE</a></li>";
         $this->buffer .= "</ul>";
       }
     }
