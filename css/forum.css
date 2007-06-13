@@ -304,10 +304,6 @@ div.article p.frmgeneral
 
 /* table class doku */
 table.doku{
-  margin:1em 0;
-  width:100%;
-}
-table.doku{
   background-color:#fff;
   border-spacing:0px;
   border-collapse:collapse;
