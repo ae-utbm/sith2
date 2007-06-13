@@ -620,8 +620,8 @@ function tableformat($block)
     for ($c=0; $c < count($rows[$r]); $c++)
     {
 			$cspan=1;
-			print_r($rows[$r][$c]['data']);
       $format=alignment($rows[$r][$c]['data']);
+      print_r($format);
       $data = trim($rows[$r][$c]['data']);
       $data = smileys($data);
       $head = $rows[$r][$c]['head'];
