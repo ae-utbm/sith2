@@ -531,7 +531,7 @@ if ( $sujet->is_valid() )
   
   /**@todo:bouttons+infos*/
 
-  $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\">Répondre</a>","frmtools");
+  $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a>","frmtools");
 
   if ( $start == 0 )
   {
@@ -647,7 +647,7 @@ if ( $sujet->is_valid() )
     
 	$cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
 
-  $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\">Répondre</a>","frmtools");
+  $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a>","frmtools");
   $cts->add_paragraph($path);
   
   /**@todo:bouttons+infos*/
@@ -823,7 +823,7 @@ else
   
   /**@todo:bouttons+infos*/
   
-  $cts->add_paragraph("<a href=\"?id_forum=".$forum->id."&amp;page=post\">Nouveau sujet</a>","frmtools");
+  $cts->add_paragraph("<a href=\"?id_forum=".$forum->id."&amp;page=post\"><img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" />Nouveau sujet</a>","frmtools");
   
   $cts->add(new sujetslist($forum, $site->user, "./", $start, $npp));
   
@@ -834,7 +834,7 @@ else
   
 	$cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
 	
-  $cts->add_paragraph("<a href=\"?id_forum=".$forum->id."&amp;page=post\">Nouveau sujet</a>","frmtools");
+  $cts->add_paragraph("<a href=\"?id_forum=".$forum->id."&amp;page=post\"><img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" />Nouveau sujet</a>","frmtools");
 
   /**@todo:bouttons+infos*/
 }

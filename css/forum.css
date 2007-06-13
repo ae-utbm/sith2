@@ -348,9 +348,14 @@ p.frmtools a:hover
   color:black;
 }
 
-p.frmtools
+div.article p.frmtools
 {
-  padding:10px;
-  
+  margin:20px;
+  margin-left:10px;
+}
+
+div.article p.frmtools img
+{
+  margin-right:10px;
 }
 
