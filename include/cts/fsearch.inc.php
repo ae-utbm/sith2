@@ -325,10 +325,12 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
   
   $sql .= " ORDER BY frm_message.id_message DESC LIMIT 3";
   
-  $prev = ini_get ("mysql.connect_timeout");
-  ini_set("mysql.connect_timeout","1");
+  $st=microtime();
+  
   $req = new requete($site->db,$sql);
-  ini_set("mysql.connect_timeout",$prev);
+  
+  $end=microtime();
+  
   
 	if ( $req && $req->lines )
 	{
@@ -336,7 +338,7 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 		
 		$id_sujet=null;
 		
-		$this->buffer .= "<h2>Forum</h2>";
+		$this->buffer .= "<h2>Forum (".($st-$end)." sec)</h2>";
 		$this->buffer .= "<ul>";
 		
 		while ( $row = $req->get_row() )
