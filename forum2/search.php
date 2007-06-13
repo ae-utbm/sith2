@@ -141,7 +141,7 @@ if ( isset($_REQUEST["pattern"] ) )
   			$cts->buffer .= "<ul class=\"frmmessagesres\">";
 			}
 			
-  		$cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a> - ".human_date(strtotime($row['date_message']))."</li>";	
+  		$cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a> <span>- ".human_date(strtotime($row['date_message']))."</span></li>";	
   			
 			$id_sujet=$row['id_sujet'];
 		}

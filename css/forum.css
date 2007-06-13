@@ -369,3 +369,13 @@ ul.frmsujetres ul li
 {
   margin-bottom:5px;
 }
+
+ul.frmsujetres ul li a
+{
+  color:black;
+}
+
+ul.frmsujetres ul li span
+{
+  color:#c0c0c0;
+}

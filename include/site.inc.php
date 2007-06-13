@@ -72,7 +72,7 @@ class site extends interfaceweb
     $this->add_box("calendrier",new calendar($this->db));
     $this->add_box("connexion", $this->get_connection_contents());
 
-    $this->add_css("themes/weekair/css/site.css");
+    //$this->add_css("themes/weekair/css/site.css");
     
   }
 
