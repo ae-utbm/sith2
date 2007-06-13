@@ -212,7 +212,7 @@ div.forummessageentry div.auteur p.funame a
 
 div.forummessageentry div.auteur p.fuimg
 {
-	text-align:center;
+  text-align:center;
 }
 
 div.forummessageentry div.auteur p.fuimg img
@@ -293,11 +293,31 @@ div.sujetcontext
 
 .tabs_bottom
 {
-	position:relative;	
-	
+  position:relative;  
+  
 }
 
 div.article p.frmgeneral
 {
   /*text-align:right;  */
+}
+
+/* table class doku */
+table.doku{
+  margin:1em 0;
+  width:100%;
+}
+table.doku{
+  background-color:#fff;
+  border-spacing:0px;
+  border-collapse:collapse;
+}
+table.doku th{
+  padding:3px;
+  border:1px solid #8cacbb;
+  background-color:#dee7ec;
+}
+table.doku td{
+  padding:3px;
+  border:1px solid #8cacbb;
 }
