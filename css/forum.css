@@ -132,17 +132,17 @@ div.forumsection div.forumitem p.actions, div.forumsujetsliste div.forumsujet p.
   font-size:11px;
 }
 
-/*
+
 div.forumsujetsliste div.forumsujet.nonlu p.dernier, div.forumsujetsliste div.forumsujet.nonlu p.auteur, div.forumsujetsliste div.forumsujet.nonlu p.nbmessages
 {
-  background:#ffffff;
+  border-left:1px solid #ffffff;
 }
 
 div.forumsection div.forumitem.nonlu p.dernier, div.forumsection div.forumitem.nonlu p.nbsujets
 {
-  background:#ffffff;
+  border-left:1px solid #ffffff;
 }
-*/
+
 
 div.forumsujetsliste div.forumhead p.dernier, div.forumlist div.forumhead p.dernier, div.forumsujetsliste div.forumhead p.nbmessages, div.forumlist div.forumhead p.nbsujets, div.forumsujetsliste div.forumhead p.auteur
 {
@@ -287,14 +287,14 @@ div.forummessageentry.nonlu div.forummessage
 div.forummessageentry.nonlu div.signature
 {
   border-top:1px solid #FFFFFF;
-  color:#FFFFFF;
+  /*color:#FFFFFF;*/
 }
-
+/*
 div.forummessageentry.nonlu div.signature *
 {
   color:#FFFFFF;  
 }
-
+*/
 div.sujetcontext
 {
   margin-left:150px;
