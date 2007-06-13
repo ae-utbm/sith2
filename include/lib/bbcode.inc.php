@@ -50,7 +50,7 @@ function bbcode($text)
   $text = str_replace( ">"    , "&gt;" , $text );
   $text = str_replace( "<"    , "&lt;" , $text );
   $text = str_replace( "\""    , "&quot;" , $text );
-	$text = str_replace( "'"    , "&#146;" , $text );
+  $text = str_replace( "'"    , "&#146;" , $text );
   $text = str_replace( "" , "&#146;" , $text );
 
   $text = str_replace( "é"    , "&eacute;" , $text );
@@ -60,8 +60,8 @@ function bbcode($text)
   $text = str_replace( ""    , "&oelig;" , $text );
 
   $text = str_replace('"',"&#147;", $text );
-	$text = str_replace("'", '&#146;', $text);
-	$text = str_replace("", '&euro;', $text);
+  $text = str_replace("'", '&#146;', $text);
+  $text = str_replace("", '&euro;', $text);
   $text = str_replace("&amp;#", '&#', $text);
 
   //conversion des retours à la ligne
@@ -70,7 +70,7 @@ function bbcode($text)
   $text = str_replace( "[hr]", "<hr>" , $text );
   //images
   $text = preg_replace("#\[img\]((ht|f)tp://)([^\r\n\t<\"]*?)\[/img\]#sie", "'<img src=\\1' . str_replace(' ', '%20', '\\3') . '>'", 
-		       $text); 
+           $text); 
   //url
   $text = preg_replace("/\[url\](.+?)\[\/url\]/", "<a href=\"$1\" target=\"blank\">$1</a>", $text);
   $text = preg_replace("/\[url=(.+?)\](.+?)\[\/url\]/", "<a href=\"$1\" target=\"blank\">$2</a>", $text); 
@@ -108,11 +108,11 @@ function bbcode($text)
   background-color: #ecf4fe;\">$2</div></div>",
            $text);
   }
-	while( preg_match("/\[quote\](.+?)\[\/quote\]/i",$text) )
+  while( preg_match("/\[quote\](.+?)\[\/quote\]/i",$text) )
   {
     $text = preg_replace("/\[quote\](.+?)\[\/quote\]/",
                          "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
-	<b>Citation :</b>
+  <b>Citation :</b>
   <div style=\"border: 1px #374a70 solid;
   margin-top:2px;
   padding: 4px;
@@ -121,7 +121,7 @@ function bbcode($text)
                         $text);
   }
   
-	//couleur
+  //couleur
   $text = preg_replace("/\[color=(.+?)\](.+?)\[\/color\]/", "<font color=$1>$2</font>", $text); 
   //taille
   $text = preg_replace("/\[size=(.+?)\](.+?)\[\/size\]/", "<font style=\"font-size:$1px\">$2</font>", $text);
@@ -129,55 +129,55 @@ function bbcode($text)
   $text = preg_replace("/\[pre\](.+?)\[\/pre\]/", "<pre>$1</pre>", $text);
  
   //smilies
-	$smTags = array(":-)"=>"smile.png",
-	                ":)"=>"smile.png",
-									"^_^"=>"happy.png",
-									"^^"=>"happy.png",
-									";)"=>"wink.png",
-									";-)"=>"wink.png",
-									":-/"=>"confused.png",
-									":/"=>"confused.png",
-									":-|"=>"neutral.png",
-									":|"=>"neutral.png",
-									":-D"=>"lol.png",
-									":D"=>"lol.png",
-									":-o"=>"omg.png",
-									":-O"=>"omg.png",
-									":o"=>"omg.png",
-									":O"=>"omg.png",
-									"8-O"=>"omg.png",
-									"Oo"=>"dizzy.png",
-									"O_o"=>"dizzy.png",
-									"O_O"=>"dizzy.png",
-									"o_o"=>"dizzy.png",
-									"o_O"=>"dizzy.png",
-									":'("=>"cry.png",
-									";-("=>"cry.png",
-									";("=>"cry.png",
-									":-p"=>"tongue.png",
-									":-P"=>"tongue.png",
-									":p"=>"tongue.png",
-									":P"=>"tongue.png"
-									);
+  $smTags = array(":-)"=>"smile.png",
+                  ":)"=>"smile.png",
+                  "^_^"=>"happy.png",
+                  "^^"=>"happy.png",
+                  ";)"=>"wink.png",
+                  ";-)"=>"wink.png",
+                  ":-/"=>"confused.png",
+                  ":/"=>"confused.png",
+                  ":-|"=>"neutral.png",
+                  ":|"=>"neutral.png",
+                  ":-D"=>"lol.png",
+                  ":D"=>"lol.png",
+                  ":-o"=>"omg.png",
+                  ":-O"=>"omg.png",
+                  ":o"=>"omg.png",
+                  ":O"=>"omg.png",
+                  "8-O"=>"omg.png",
+                  "Oo"=>"dizzy.png",
+                  "O_o"=>"dizzy.png",
+                  "O_O"=>"dizzy.png",
+                  "o_o"=>"dizzy.png",
+                  "o_O"=>"dizzy.png",
+                  ":'("=>"cry.png",
+                  ";-("=>"cry.png",
+                  ";("=>"cry.png",
+                  ":-p"=>"tongue.png",
+                  ":-P"=>"tongue.png",
+                  ":p"=>"tongue.png",
+                  ":P"=>"tongue.png"
+                  );
   $smPath = $topdir."/images/forum/smilies/";
-	foreach ( $smTags as $tag => $img )
-	  if ( file_exists($smPath . "/" . $img) )
-		{
-		   $tag = preg_replace('!\]!i', '\]', $tag);
-			 $tag = preg_replace('!\[!i', '\[', $tag);
-			 $tag = preg_replace('!\)!i', '\)', $tag);
-			 $tag = preg_replace('!\(!i', '\(', $tag);
-			 $tag = preg_replace('!\!!i', '\!', $tag);
-			 $tag = preg_replace('!\^!i', '\^', $tag);
-			 $tag = preg_replace('!\$!i', '\$', $tag);
-			 $tag = preg_replace('!\{!i', '\}', $tag);
-			 $tag = preg_replace('!\}!i', '\{', $tag);
-			 $tag = preg_replace('!\?!i', '\?', $tag);
-			 $tag = preg_replace('!\+!i', '\+', $tag);
-			 $tag = preg_replace('!\*!i', '\*', $tag);
-			 $tag = preg_replace('!\.!i', '\.', $tag);
-			 $tag = preg_replace('!\|!i', '\|', $tag);
-		   $text = preg_replace('! ' . $tag . '!i', '<img src="'.$smPath.$img.'" alt="" />', $text);
+  foreach ( $smTags as $tag => $img )
+    if ( file_exists($smPath . "/" . $img) )
+    {
+       $tag = preg_replace('!\]!i', '\]', $tag);
+       $tag = preg_replace('!\[!i', '\[', $tag);
+       $tag = preg_replace('!\)!i', '\)', $tag);
+       $tag = preg_replace('!\(!i', '\(', $tag);
+       $tag = preg_replace('!\!!i', '\!', $tag);
+       $tag = preg_replace('!\^!i', '\^', $tag);
+       $tag = preg_replace('!\$!i', '\$', $tag);
+       $tag = preg_replace('!\{!i', '\}', $tag);
+       $tag = preg_replace('!\}!i', '\{', $tag);
+       $tag = preg_replace('!\?!i', '\?', $tag);
+       $tag = preg_replace('!\+!i', '\+', $tag);
+       $tag = preg_replace('!\*!i', '\*', $tag);
+       $tag = preg_replace('!\.!i', '\.', $tag);
+       $tag = preg_replace('!\|!i', '\|', $tag);
+       $text = preg_replace('! ' . $tag . '!i', '<img src="'.$smPath.$img.'" alt="" />', $text);
     }
 
   return $text; 

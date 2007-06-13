@@ -110,10 +110,10 @@ function doku2xhtml($text)
 
   $text = htmlspecialchars($text);
 
-	//citation
+  //citation
   $text = str_replace( CHR(10), "__slash_n__" , $text );
   while( preg_match("/\[quote=(.*?)\](.*?)\[\/quote\]/i",$text) )
-	{
+  {
     $text = preg_replace("/\[quote=(.*?)\](.*?)\[\/quote\]/",
                          "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
   <b>Citation de $1 :</b>
@@ -135,7 +135,7 @@ function doku2xhtml($text)
   text-aling: justify;
   background-color: #ecf4fe;\">$1___</div>___</div>___",
                         $text);
-	}
+  }
   $text= str_replace('___</div>___</div>___','</div></div>'.CHR(10),$text);
   $text= str_replace('__slash_n__',CHR(10),$text);
 
@@ -619,7 +619,8 @@ function tableformat($block)
 
     for ($c=0; $c < count($rows[$r]); $c++)
     {
-      $cspan=1;
+			$cspan=1;
+      $format=alignment($$rows[$r][$c]['data']);
       $data = trim($rows[$r][$c]['data']);
       $data = smileys($data);
       $head = $rows[$r][$c]['head'];
@@ -635,9 +636,9 @@ function tableformat($block)
         $cspan = '';
 
       if ($head)
-        $ret .= "    <th class=\"inline\" $cspan>$data</th>\n";
+        $ret .= "    <th class=\"inline $format\" $cspan>$data</th>\n";
       else
-        $ret .= "    <td class=\"inline\" $cspan>$data</td>\n";
+        $ret .= "    <td class=\"inline $format\" $cspan>$data</td>\n";
     }
     $ret .= "  </tr>\n";
   }
