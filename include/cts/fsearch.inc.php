@@ -325,9 +325,12 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
   
   $sql .= " ORDER BY frm_message.id_message DESC LIMIT 3";
   
+  $prev = ini_get ("mysql.connect_timeout");
+  ini_set("mysql.connect_timeout","1");
   $req = new requete($site->db,$sql);
-    
-	if ( $req->lines )
+  ini_set("mysql.connect_timeout",$prev);
+  
+	if ( $req && $req->lines )
 	{
 		$this->nb += $req->lines;
 		
