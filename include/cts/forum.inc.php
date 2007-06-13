@@ -325,6 +325,4 @@ class sujetforum extends stdcontents
 
 
 
-
-
 ?>

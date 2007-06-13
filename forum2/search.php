@@ -110,25 +110,46 @@ if ( isset($_REQUEST["pattern"] ) )
     
   }
   
-  $sql .= " ORDER BY frm_message.id_message DESC LIMIT 100";
-  
-  echo "$sql";
-  
+  $sql .= " ORDER BY frm_message.id_message DESC ";
+  $sql .= "LIMIT 50";
   
   $req = new requete($site->db,$sql);
-	$rows = array();
-	while ( $row = $req->get_row() )
-	  $rows[] = $row;
+
 	    
 	    
   $site->start_page("forum","Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8"));
   
   $cts = new contents($forum->get_html_link()." / <a href=\"search.php?pattern=".urlencode($_REQUEST["pattern"])."\">Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8")."</a>");
     
-  $cts->add_paragraph("<a href=\"./?action=setallread\">Marquer tous les messages comme lu</a>","frmgeneral");
    
+	//$cts->add(new sujetslist($rows, $site->user, "./", null, null, false));
 	    
-	$cts->add(new sujetslist($rows, $site->user, "./", null, null));
+		$id_sujet=null;
+		
+		$cts->buffer .= "<ul>";
+		
+		while ( $row = $req->get_row() )
+		{
+			if ( 	$id_sujet!=$row['id_sujet'] )
+			{
+			  if ( !is_null($id_sujet) )
+  			  $cts->buffer .= "</ul>";
+  			$cts->buffer .= 
+  			"<li><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
+  			"<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> <b>".
+  			$row['titre_sujet']."</b></a></li>";	
+  			$cts->buffer .= "<ul>";
+			}
+			
+  		$cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,60)."...</a></li>";	
+  			
+			$id_sujet=$row['id_sujet'];
+		}
+		if ( !is_null($id_sujet) )
+		  $cts->buffer .= "</ul>";
+		$cts->buffer .= "</ul>";
+	    
+	    
 	    
   $site->add_contents($cts);
   
