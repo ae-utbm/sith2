@@ -93,7 +93,7 @@ if ( isset($_REQUEST["pattern"] ) )
 	$pattern = ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$pattern);
 	$sqlpattern = mysql_real_escape_string($pattern);
 	
-  $sql = "SELECT frm_sujet.*, frm_message.id_message, frm_message.contenu_message ".
+  $sql = "SELECT frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message ".
          "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) WHERE ";
 
   $first=true;
@@ -135,13 +135,13 @@ if ( isset($_REQUEST["pattern"] ) )
 			  if ( !is_null($id_sujet) )
   			  $cts->buffer .= "</ul>";
   			$cts->buffer .= 
-  			"<li><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
+  			"<li class=\"sujet\"><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
   			"<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> <b>".
   			$row['titre_sujet']."</b></a></li>";	
   			$cts->buffer .= "<ul class=\"frmmessagesres\">";
 			}
 			
-  		$cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a></li>";	
+  		$cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a> - ".human_date(strtotime($row['date_message']))."</li>";	
   			
 			$id_sujet=$row['id_sujet'];
 		}

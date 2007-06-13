@@ -361,10 +361,11 @@ div.article p.frmtools img
 
 ul.frmsujetres ul
 {
+  margin-top:5px;
   margin-bottom:10px;
 }
 
 ul.frmsujetres ul li
 {
-  margin-bottom:2px;
+  margin-bottom:5px;
 }
