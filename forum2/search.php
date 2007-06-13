@@ -126,7 +126,7 @@ if ( isset($_REQUEST["pattern"] ) )
 	    
 		$id_sujet=null;
 		
-		$cts->buffer .= "<ul>";
+		$cts->buffer .= "<ul class=\"frmsujetres\">";
 		
 		while ( $row = $req->get_row() )
 		{
@@ -138,7 +138,7 @@ if ( isset($_REQUEST["pattern"] ) )
   			"<li><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
   			"<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> <b>".
   			$row['titre_sujet']."</b></a></li>";	
-  			$cts->buffer .= "<ul>";
+  			$cts->buffer .= "<ul class=\"frmmessagesres\">";
 			}
 			
   		$cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a></li>";	

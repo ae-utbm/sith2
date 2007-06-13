@@ -359,3 +359,12 @@ div.article p.frmtools img
   margin-right:10px;
 }
 
+ul.frmsujetres ul
+{
+  margin-bottom:10px;
+}
+
+ul.frmsujetres ul li
+{
+  margin-bottom:2px;
+}
