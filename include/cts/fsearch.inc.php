@@ -69,8 +69,7 @@ class fsearch extends stdcontents
 	{
 		global $wwwtopdir, $topdir;
 		
-	 
-
+		
 		if ( $_REQUEST["pattern"] == "" )
 			return;
 		
@@ -99,11 +98,8 @@ class fsearch extends stdcontents
       $pat .= $cur[0]." ";
     }
 	}
-	  	$st=microtime(true);
-
+	
   $clefs = $this->pg_touve_motclef($patterns[$i]);
-  $this->buffer.="pg** :".(microtime(true)-$st)." sec";
-
   if ( count($clefs) )
   {
     $ids = "";
@@ -119,7 +115,7 @@ class fsearch extends stdcontents
     $sql = "SELECT COUNT(pg_liste.id), pg_motclef.id_motclef FROM pg_liste $joins GROUP BY pg_motclef.id_motclef ORDER BY pg_motclef.nom_motclef LIMIT 3";
     
     $req = new requete($this->dbpg,$sql);
-  $this->buffer.="pg :".(microtime(true)-$st)." sec";
+	
     if ( $req->lines > 0 )
     {
 		  $this->buffer .= "<h2>Petit géni</h2>";
@@ -143,7 +139,6 @@ class fsearch extends stdcontents
 // Utilisateurs
 if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 {
-  	$st=microtime(true);
 
 	if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_asso_role ( 27, 1 ) )
 	    $force_sql = "AND `publique_utl`='1'";
@@ -167,8 +162,7 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 	$nbutils = 0;
 	while ( list($c) = $req->get_row() ) $nbutils += $c;
 
-  $this->buffer.="mmt** :".(microtime(true)-$st)." sec";
-
+	
 	if ( $nbutils > 0 )
 	{
 		$req = new requete($site->db, "SELECT CONCAT(`prenom_utl`,' ',`nom_utl`),'1' as `method`, utilisateurs.* " .
@@ -185,7 +179,7 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 			"INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
 			"WHERE `surnom_utbm`!='' AND (`surnom_utbm`!=`alias_utl` OR `alias_utl` IS NULL) AND `surnom_utbm` REGEXP '^".$sqlpattern."' $force_sql " .
 			"ORDER BY 1 LIMIT 3");			
-  $this->buffer.="mmt :".(microtime(true)-$st)." sec";
+		
 		$this->buffer .= "<h2>Personnes</h2>";
 		$this->buffer .= "<ul>";
 		
@@ -229,9 +223,8 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 }
 
 	// Clubs et associations
-	$st=microtime(true);
 	$req = new requete($site->db,"SELECT * FROM `asso` WHERE nom_asso REGEXP '".$sqlpattern."' LIMIT 3");
-  $this->buffer.="assos :".(microtime(true)-$st)." sec";
+	
 	if ( $req->lines )
 	{
 		$this->nb += $req->lines;
@@ -248,7 +241,6 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 		
 		$this->buffer .= "</ul>";
 	}
-	$st=microtime(true);
 
 	// Produits sur e-boutic
     $req = new requete($site->db,"SELECT `cpt_produits`.*, `cpt_type_produit`.* " .
@@ -263,7 +255,6 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
             "`nom_typeprod` REGEXP '".$sqlpattern."') " .
             "ORDER BY `nom_typeprod`, `nom_prod` " .
             "LIMIT 3");
-  $this->buffer.="eboutic :".(microtime(true)-$st)." sec";
 
 	if ( $req->lines )
 	{
@@ -285,14 +276,13 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 		$this->buffer .= "</ul>";
 	}
 	
-	$st=microtime(true);
 	// Nouvelles
 	$req = new requete($site->db,"SELECT *, (SELECT date_debut_eve FROM nvl_dates WHERE nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle ORDER BY date_debut_eve LIMIT 1) AS `date_debut_eve` " .
 			"FROM `nvl_nouvelles` " .
 			"WHERE titre_nvl REGEXP '".$sqlpattern."' " .
 			"ORDER BY date_nvl " .
 			"DESC LIMIT 3");
-  $this->buffer.="news :".(microtime(true)-$st)." sec";
+	
 	if ( $req->lines )
 	{
 		$this->nb += $req->lines;
@@ -315,7 +305,7 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 		$this->buffer .= "</ul>";
 	}
 
-
+/*
   $sql = "SELECT frm_sujet.id_sujet, frm_sujet.titre_sujet, frm_message.id_message, frm_message.contenu_message ".
          "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) WHERE ";
 
@@ -335,12 +325,9 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
   
   $sql .= " ORDER BY frm_message.id_message DESC LIMIT 3";
   
-  $st=microtime(true);
   $req = new requete($site->db,$sql);
-  $this->buffer.="forum :".(microtime(true)-$st)." sec";
-  
-  
-	if ( $req && $req->lines )
+    
+	if ( $req->lines )
 	{
 		$this->nb += $req->lines;
 		
@@ -379,7 +366,7 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 		
 	}
 
-
+*/
 // Objets de l'inventaire	
 	if ( $site->user->is_in_group("gestion_ae") )	
 	{
