@@ -123,6 +123,8 @@ class message extends stdentity
       $sujet->update_last_message($forum); 
       $forum->update_last_sujet(); 
       
+      $sujet->set_user_read ( $id_utilisateur, $this->id );
+
 		  return true;
 		}
 		

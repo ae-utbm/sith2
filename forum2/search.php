@@ -112,6 +112,8 @@ if ( isset($_REQUEST["pattern"] ) )
   
   $sql .= " ORDER BY frm_message.id_message DESC LIMIT 100";
   
+  echo "$sql";
+  
   
   $req = new requete($site->db,$sql);
 	$rows = array();
