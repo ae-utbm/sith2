@@ -119,7 +119,7 @@ if ( isset($_REQUEST["pattern"] ) )
 	    
   $site->start_page("forum","Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8"));
   
-  $cts = new contents($forum->get_html_link()." / <a href=\"search.php?pattern=".urlencode($_REQUEST["pattern"])."\">Recherche \"".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8")."\"</a>");
+  $cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche</a> / <a href=\"search.php?pattern=".urlencode($_REQUEST["pattern"])."\">".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8")."</a>");
     
    
 	//$cts->add(new sujetslist($rows, $site->user, "./", null, null, false));
@@ -157,8 +157,19 @@ if ( isset($_REQUEST["pattern"] ) )
   exit();
 
 }
-// Moteur de recherche pas encore fait
-header("Location: ./");
+	    
+$site->start_page("forum","Recherche");
 
+$cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche</a>");
+  
+$frm = new form("frmsearch",$wwwtopdir."forum2/search.php");
+$frm->add_text_field("pattern","");
+$frm->add_submit("search","Rechercher");
+$cts->add($frm);  
+  
+$site->add_contents($cts);
+
+$site->end_page();
+exit();
 
 ?>
