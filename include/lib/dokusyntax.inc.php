@@ -621,7 +621,7 @@ function tableformat($block)
     {
 			$cspan=1;
       $format=alignment($rows[$r][$c]['data']);
-      print_r($format);
+      $format=$format['align'];
       $data = trim($rows[$r][$c]['data']);
       $data = smileys($data);
       $head = $rows[$r][$c]['head'];
