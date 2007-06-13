@@ -93,7 +93,7 @@ if ( isset($_REQUEST["pattern"] ) )
 	$pattern = ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$pattern);
 	$sqlpattern = mysql_real_escape_string($pattern);
 	
-  $sql = "SELECT frm_sujet.* ".
+  $sql = "SELECT frm_sujet.*, frm_message.id_message, frm_message.contenu_message ".
          "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) WHERE ";
 
   $first=true;
@@ -119,7 +119,7 @@ if ( isset($_REQUEST["pattern"] ) )
 	    
   $site->start_page("forum","Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8"));
   
-  $cts = new contents($forum->get_html_link()." / <a href=\"search.php?pattern=".urlencode($_REQUEST["pattern"])."\">Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8")."</a>");
+  $cts = new contents($forum->get_html_link()." / <a href=\"search.php?pattern=".urlencode($_REQUEST["pattern"])."\">Recherche \"".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8")."\"</a>");
     
    
 	//$cts->add(new sujetslist($rows, $site->user, "./", null, null, false));
@@ -141,7 +141,7 @@ if ( isset($_REQUEST["pattern"] ) )
   			$cts->buffer .= "<ul>";
 			}
 			
-  		$cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,60)."...</a></li>";	
+  		$cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,80)."...</a></li>";	
   			
 			$id_sujet=$row['id_sujet'];
 		}
