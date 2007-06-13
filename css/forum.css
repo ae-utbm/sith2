@@ -132,7 +132,7 @@ div.forumsection div.forumitem p.actions, div.forumsujetsliste div.forumsujet p.
   font-size:11px;
 }
 
-
+/*
 div.forumsujetsliste div.forumsujet.nonlu p.dernier, div.forumsujetsliste div.forumsujet.nonlu p.auteur, div.forumsujetsliste div.forumsujet.nonlu p.nbmessages
 {
   background:#ffffff;
@@ -142,7 +142,7 @@ div.forumsection div.forumitem.nonlu p.dernier, div.forumsection div.forumitem.n
 {
   background:#ffffff;
 }
-
+*/
 
 div.forumsujetsliste div.forumhead p.dernier, div.forumlist div.forumhead p.dernier, div.forumsujetsliste div.forumhead p.nbmessages, div.forumlist div.forumhead p.nbsujets, div.forumsujetsliste div.forumhead p.auteur
 {
@@ -220,12 +220,12 @@ div.forummessageentry div.auteur p.fuimg img
   width:70px;
   
 }
-
+/*
 div.forummessageentry.nonlu div.auteur
 {
   background:#ffffff;
 }
-
+*/
 
 div.forummessageentry h2.frmt
 {
@@ -270,7 +270,14 @@ div.forummessageentry div.signature
   padding-top:5px;
   max-height:3em;
   padding-bottom:5px;
+  color: #C0C0C0;
 }
+
+div.forummessageentry div.signature *
+{
+  color: #C0C0C0;
+}
+
 
 div.forummessageentry.nonlu div.forummessage
 {
@@ -280,6 +287,12 @@ div.forummessageentry.nonlu div.forummessage
 div.forummessageentry.nonlu div.signature
 {
   border-top:1px solid #FFFFFF;
+  color:#FFFFFF;
+}
+
+div.forummessageentry.nonlu div.signature *
+{
+  color:#FFFFFF;  
 }
 
 div.sujetcontext
