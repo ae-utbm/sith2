@@ -336,10 +336,21 @@ table.doku td{
 
 p.frmtools a
 {
-  border:1px solid black;
+  border:1px solid #d8e7f3;
   padding:10px;
-  
+  color:black;
 }
 
+p.frmtools a:hover
+{
+  background:#d8e7f3;
+  text-decoration:none;
+  color:black;
+}
 
+p.frmtools
+{
+  margin:10px;
+  
+}
 
