@@ -72,9 +72,29 @@ pre {
   overflow: auto;
 }
 
+/* table class doku */
+table.doku{
+  margin:1em 0;
+  width:100%;
+}
+table.doku{
+  background-color:#fff;
+  border-spacing:0px;
+  border-collapse:collapse;
+}
+table.doku th{
+  padding:3px;
+  border:1px solid #8cacbb;
+  background-color:#dee7ec;
+}
+table.doku td{
+  padding:3px;
+  border:1px solid #8cacbb;
+}
+
 /* inline tables */
 table.inline {
-	font-size:100%;
+  font-size:100%;
   background-color: #fff;
   border-spacing: 0px;
   border-collapse: collapse;
