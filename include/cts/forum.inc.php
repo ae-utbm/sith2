@@ -105,7 +105,7 @@ class sujetslist extends stdcontents
 {
   
   
-  function sujetslist ( &$forum, &$user, $page, $start, $npp, $gotounread=false )
+  function sujetslist ( &$forum, &$user, $page, $start, $npp, $gotounread=true )
   {
     global $wwwtopdir;
     
