@@ -114,8 +114,8 @@ class sujetslist extends stdcontents
     else
       $rows = $forum->get_sujets($user, $start, $npp);
     
-    if ( $gotounread && $user->is_valid() )
-      $this->buffer .= "<p>Remarque: En cliquant sur le nom du sujet vous irez directement au premier message non lu</p>\n";
+    /*if ( $gotounread && $user->is_valid() )
+      $this->buffer .= "<p>Remarque: En cliquant sur le nom du sujet vous irez directement au premier message non lu</p>\n";*/
     
     $this->buffer .= "<div class=\"forumsujetsliste\">\n";
     
