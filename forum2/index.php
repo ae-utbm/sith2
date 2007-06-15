@@ -807,6 +807,7 @@ if ( $forum->categorie )
     $query = "SELECT COUNT(*) " .
         "FROM frm_sujet " .
         "INNER JOIN frm_forum USING(id_forum) ".
+        "LEFT JOIN frm_message ON ( frm_message.id_message = frm_sujet.id_message_dernier ) " .
         "LEFT JOIN frm_sujet_utilisateur ".
           "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
           "AND frm_sujet_utilisateur.id_utilisateur='".$site->user->id."' ) ".
