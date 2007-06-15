@@ -72,7 +72,7 @@ $req = new requete($site->db,"SELECT inv_emprunt.*, " .
 		
 $cts->add(new sqltable(
 		"attenteemprunt", 
-		"Reservations de matériel en attente", $req, "emprunt.php", 
+		"Reservations de matériel en attente", $req, "../emprunt.php", 
 		"id_emprunt", 
 		array(
 			"id_emprunt"=>"N° d'emprunt",
