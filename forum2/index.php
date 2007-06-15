@@ -791,6 +791,8 @@ $site->start_page("forum",$forum->titre);
 
 $cts = new contents($path);
 
+
+
 if ( $forum->categorie )
 {
 // Liste des sous-forums 
@@ -800,6 +802,8 @@ if ( $forum->categorie )
    $cts->add_paragraph("<a href=\"./search.php?page=unread\">Voir tous les messages non lu</a>","frmgeneral");
    $cts->add_paragraph("<a href=\"./?action=setallread\">Marquer tous les messages comme lu</a>","frmgeneral");
   }
+  
+  $cts->add_paragraph("<a href=\"search.php\"><img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher</a>","frmtools");
 
   $cts->add(new forumslist($forum, $site->user, "./"));
 
@@ -823,7 +827,7 @@ else
   
   /**@todo:bouttons+infos*/
   
-  $cts->add_paragraph("<a href=\"?id_forum=".$forum->id."&amp;page=post\"><img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" />Nouveau sujet</a>","frmtools");
+  $cts->add_paragraph("<a href=\"search.php\"><img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher</a> <a href=\"?id_forum=".$forum->id."&amp;page=post\"><img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" />Nouveau sujet</a>","frmtools");
   
   $cts->add(new sujetslist($forum, $site->user, "./", $start, $npp));
   
