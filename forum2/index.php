@@ -834,15 +834,21 @@ if ( $forum->categorie )
       
     list($nb)=$req->get_row();
       
-    $cts->add_paragraph(
-    "<a href=\"search.php?page=unread\">".
-      "<img src=\"".$wwwtopdir."images/icons/16/unread.png\" class=\"icon\" alt=\"\" />Messages non lu ($nb)".
-    "</a> ".
-    "<a href=\"./?action=setallread\">".
-      "<img src=\"".$wwwtopdir."images/icons/16/valid.png\" class=\"icon\" alt=\"\" />Marquer tout comme lu".
-    "</a> ".
-    "<a href=\"search.php\"><img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher</a>"
-    ,"frmtools");
+    if ( $nb > 0 )
+      $cts->add_paragraph(
+      "<a href=\"search.php?page=unread\">".
+        "<img src=\"".$wwwtopdir."images/icons/16/unread.png\" class=\"icon\" alt=\"\" />Messages non lu ($nb sujet(s))".
+      "</a> ".
+      "<a href=\"./?action=setallread\">".
+        "<img src=\"".$wwwtopdir."images/icons/16/valid.png\" class=\"icon\" alt=\"\" />Marquer tout comme lu".
+      "</a> ".
+      "<a href=\"search.php\">".
+        "<img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher".
+      "</a>"
+      ,"frmtools");
+    else
+      $cts->add_paragraph("<a href=\"search.php\"><img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher</a>","frmtools");
+      
   }
   else
     $cts->add_paragraph("<a href=\"search.php\"><img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher</a>","frmtools");

@@ -28,8 +28,15 @@ if ( $_REQUEST["page"] == "unread" )
   
   $cts = new contents($forum->get_html_link()." / <a href=\"search.php?page=unread\">Messages non lus</a>");
     
-  $cts->add_paragraph("<a href=\"./?action=setallread\">Marquer tous les messages comme lu</a>","frmgeneral");
-    
+  $cts->add_paragraph(
+  "<a href=\"./?action=setallread\">".
+    "<img src=\"".$wwwtopdir."images/icons/16/valid.png\" class=\"icon\" alt=\"\" />Marquer tout comme lu".
+  "</a> ".
+  "<a href=\"search.php\">".
+    "<img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher".
+  "</a>"
+  ,"frmtools");
+      
     
   $query = "SELECT frm_sujet.*, ".
       "frm_message.date_message, " .
