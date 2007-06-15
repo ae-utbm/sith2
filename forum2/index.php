@@ -801,15 +801,47 @@ if ( $forum->categorie )
   {
    /*$cts->add_paragraph("<a href=\"./search.php?page=unread\">Voir tous les messages non lu</a>","frmgeneral");
    $cts->add_paragraph("<a href=\"./?action=setallread\">Marquer tous les messages comme lu</a>","frmgeneral");*/
-   $cts->add_paragraph(
-   "<a href=\"search.php?page=unread\">".
-     "<img src=\"".$wwwtopdir."images/icons/16/unread.png\" class=\"icon\" alt=\"\" />Messages non lu".
-   "</a>".
-   "<a href=\"./?action=setallread\">".
-     "<img src=\"".$wwwtopdir."images/icons/16/valid.png\" class=\"icon\" alt=\"\" />Marquer tout comme lu".
-   "</a>".
-   "<a href=\"search.php\"><img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher</a>"
-   ,"frmtools");
+   
+
+   
+    $query = "SELECT COUNT(*) " .
+        "FROM frm_sujet " .
+        "INNER JOIN frm_forum USING(id_forum) ".
+        "LEFT JOIN frm_sujet_utilisateur ".
+          "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
+          "AND frm_sujet_utilisateur.id_utilisateur='".$site->user->id."' ) ".
+        "WHERE ";
+              
+    if( is_null($site->user->tout_lu_avant))
+      $query .= "(frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
+                "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ";    
+    else
+      $query .= "((frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
+                "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ".
+                "AND frm_message.date_message > '".date("Y-m-d H:i:s",$site->user->tout_lu_avant)."') ";  
+    
+    if ( !$forum->is_admin( $site->user ) )
+    {
+      $grps = $site->user->get_groups_csv();
+      $query .= "AND ((droits_acces_forum & 0x1) OR " .
+        "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
+        "(id_groupe_admin IN ($grps)) OR " .
+        "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$site->user->id."')) ";
+    }
+      
+    $req = new requete($site->db,$query);  
+      
+    list($nb)=$req->get_row();
+      
+    $cts->add_paragraph(
+    "<a href=\"search.php?page=unread\">".
+      "<img src=\"".$wwwtopdir."images/icons/16/unread.png\" class=\"icon\" alt=\"\" />Messages non lu ($nb)".
+    "</a> ".
+    "<a href=\"./?action=setallread\">".
+      "<img src=\"".$wwwtopdir."images/icons/16/valid.png\" class=\"icon\" alt=\"\" />Marquer tout comme lu".
+    "</a> ".
+    "<a href=\"search.php\"><img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher</a>"
+    ,"frmtools");
   }
   else
     $cts->add_paragraph("<a href=\"search.php\"><img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher</a>","frmtools");
