@@ -6,9 +6,10 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site();
 
-if (!$site->user->is_in_group ("gestion_ae")) 
-     error_403();
-
+if (!$site->user->is_in_group ("gestion_ae"))
+{ 
+  error_403();
+}   
 
 if (isset($_REQUEST['toptenimg']))
 {
@@ -30,28 +31,28 @@ if (isset($_REQUEST['toptenimg']))
 
 
   $datas = array("utilisateur" => "Nbmessages");
-
+  
 
   while ($plouf = $rs->get_row())
     {
       $plouf['alias_utl'] = explode(' ', $plouf['alias_utl']);
       $plouf['alias_utl'] = $plouf['alias_utl'][0];
-
+      
       $datas[utf8_decode($plouf['alias_utl'])] = $plouf['totmesg'];
     }
-
-
+  
+  
   $hist = new histogram($datas, "Top 10");
-
+  
   $hist->png_render();
-
+  
   $hist->destroy();
-
+  
   exit();
 
 }
 
-if isset($_REQUEST['mesgbyday'])
+if (isset($_REQUEST['mesgbyday']))
 {
   require_once($topdir. "include/graph.inc.php");
   $query =
@@ -68,7 +69,7 @@ if isset($_REQUEST['mesgbyday'])
   $req = new requete($site->db, $query);
 
   $i = 0;
-  (while $rs = $req->get_row())
+  while ($rs = $req->get_row())
     {
       $xaxis_time = array($rs['datemesg'] => $rs['datemesg']);
       $coords[$i] = array('x' => $i,
