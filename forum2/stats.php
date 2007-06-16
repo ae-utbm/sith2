@@ -72,7 +72,8 @@ if (isset($_REQUEST['mesgbyday']))
 
   while ($rs = $req->get_row())
     {
-      $xtics[]  = $rs['datemesg'];
+      if (($i % 30) == 0)
+	$xtics[]  = $rs['datemesg'];
       $coords[] = array('x' => $i,
 			'y' => $rs['nbmesg']);
       $i++;
