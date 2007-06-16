@@ -35,7 +35,7 @@ header("Content-Type: Text/plain");
 
 $hist = new histogram($datas, "Messages par utilisateurs");
 
-echo $hist->data_file;
+file_get_contents($hist->data_file);
 
 $hist->destroy();
 
