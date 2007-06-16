@@ -56,8 +56,13 @@ if (isset($_REQUEST['mesgbyday']))
 {
   if (!isset($_REQUEST['db']))
     $db = date("Y")."-01-01";
+  else
+    $db = $_REQUEST['db'];
+
   if (!isset($_REQUEST['de']))
     $de = date("Y-m-d");
+  else
+    $de = $_REQUEST['de'];
 
   $db = mysql_real_escape_string($db);
   $de = mysql_real_escape_string($de);
@@ -76,8 +81,6 @@ if (isset($_REQUEST['mesgbyday']))
             `date_message` <= '".$de."'
      GROUP BY 
             `datemesg`";
-
-  echo $query;
 
   $req = new requete($site->db, $query);
 
@@ -101,7 +104,7 @@ if (isset($_REQUEST['mesgbyday']))
 
   $grp->png_render();
 
-  //  $grp->destroy_graph();
+  $grp->destroy_graph();
 
   exit();
 }
