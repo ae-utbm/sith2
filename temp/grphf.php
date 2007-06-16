@@ -26,15 +26,16 @@ $rs = new requete($site->db, $req);
 
 $datas = array("utilisateurs" => "Nbmessages");
 
+
+header("Content-Type: Text/plain");
+
 while ($plouf = $rs->get_row())
 {
-  echo $plouf['alias_utl'] . "\t" . $plouf['totmesg'];
+  echo $plouf['alias_utl'] . "\t" . $plouf['totmesg']."\n";
 
   $datas[] = array($plouf['alias_utl'] => $plouf['totmesg']);
 }
 
-
-header("Content-Type: Text/plain");
 
 $hist = new histogram($datas, "Messages par utilisateurs");
 
