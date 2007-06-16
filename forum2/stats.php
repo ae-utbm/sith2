@@ -75,6 +75,8 @@ if (isset($_REQUEST['mesgbyday']))
 			'y' => $rs['nmbesg']);
     }
   
+  print_r($coords);
+
   $grp = new graphic("",
 		     "messages par jour",
 		     $coords,
