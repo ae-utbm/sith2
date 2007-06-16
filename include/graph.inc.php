@@ -394,7 +394,7 @@ class histogram
 
   function png_render ()
   {
-    exec ("/usr/share/php5/exec/gnuplot " .$this->conf_file);
+    exec ("/usr/share/php5/exec/gnuplot-4.2 " .$this->conf_file);
 
     /* tunage sauce AE */
     $img_wmarked = new img_watermark (imagecreatefrompng($this->img_file));
