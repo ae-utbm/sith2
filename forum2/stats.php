@@ -77,6 +77,8 @@ if (isset($_REQUEST['mesgbyday']))
      GROUP BY 
             `datemesg`";
 
+  echo $query;
+
   $req = new requete($site->db, $query);
 
   $i = 0;
@@ -99,7 +101,7 @@ if (isset($_REQUEST['mesgbyday']))
 
   $grp->png_render();
 
-  $grp->destroy_graph();
+  //  $grp->destroy_graph();
 
   exit();
 }
