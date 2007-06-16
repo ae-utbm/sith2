@@ -113,11 +113,13 @@ $cts->add_title(1, "Top 10 des posteurs");
 $cts->add_paragraph("<center><img src=\"./stats.php?toptenimg\" alt=\"top10\" /></center>");
 
 $cts->add_title(1, "Messages postés depuis le début de l'année");
-$cts->add_paragraph("<center><img src=\"./stats.php?mesgbyday&db=".date("Y")."-01-01&de=".date("Y-m-d").
-		    "\" alt=\"Messages par jour\" /></center>");
+$cts->add_paragraph("<center><img src=\"./stats.php?mesgbyday\" alt=\"Messages par jour\" /></center>");
 
 $cts->add_title(1, "Messages postés les 30 derniers jours");
+
+/* statistiques sur 30 jours */
 $db = date("Y-m-d", time() - (30 * 24 * 3600));
+
 $cts->add_paragraph("<center><img src=\"./stats.php?mesgbyday&db=".$db."&de=".date("Y-m-d").
 		    "\" alt=\"Messages par jour\" /></center>");
 
