@@ -20,6 +20,7 @@ $req = "SELECT
                  `id_utilisateur`
         ORDER BY 
                  COUNT(`id_message`) DESC";
+
 $rs = new requete($site->db, $req);
 
 
@@ -27,6 +28,8 @@ $datas = array("utilisateurs" => "Nbmessages");
 
 while ($plouf = $rs->get_row())
 {
+  echo $plouf['alias_utl'] . "\t" . $plouf['totmesg']);
+
   $datas[] = array($plouf['alias_utl'] => $plouf['totmesg']);
 }
 
