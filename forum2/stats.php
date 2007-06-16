@@ -82,7 +82,8 @@ if (isset($_REQUEST['mesgbyday']))
   $grp = new graphic("",
 		     "messages par jour",
 		     $coords,
-		     false);
+		     false,
+		     $xtics);
 
   $grp->png_render();
 
