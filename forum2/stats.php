@@ -86,7 +86,7 @@ if (isset($_REQUEST['mesgbyday']))
 
   $i = 0;
 
-  $step = (int) ($req->lines / 10);
+  $step = (int) ($req->lines / 5);
 
   while ($rs = $req->get_row())
     {
