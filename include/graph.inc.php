@@ -420,7 +420,7 @@ class histogram
   {
     @unlink($this->conf_file);
     @unlink($this->data_file);
-    @unlink($this->png_file);
+    @unlink($this->img_file);
   }
 
 }

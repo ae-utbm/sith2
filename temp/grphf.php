@@ -38,11 +38,14 @@ while ($plouf = $rs->get_row())
 
 $hist = new histogram($datas, "Messages par utilisateurs");
 
-$hist->png_render();
+//$hist->png_render();
+
+header("Content-Type: text/plain");
+echo file_get_contents($hist->data_file);
+echo file_get_contents($hist->conf_file);
 
 
-
-$hist->destroy();
+//$hist->destroy();
 
 
 ?>
