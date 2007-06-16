@@ -30,19 +30,17 @@ $datas = array("utilisateur" => "Nbmessages");
 while ($plouf = $rs->get_row())
 {
 
-  $datas[$plouf['alias_utl']] = $plouf['totmesg'];
-
-
+  $datas[utf8_decode($plouf['alias_utl'])] = $plouf['totmesg'];
 }
 
 
 $hist = new histogram($datas, "Messages par utilisateurs");
 
-//$hist->png_render();
+$hist->png_render();
 
-header("Content-Type: text/plain");
-echo file_get_contents($hist->data_file);
-echo file_get_contents($hist->conf_file);
+//header("Content-Type: text/plain");
+//echo file_get_contents($hist->data_file);
+//echo file_get_contents($hist->conf_file);
 
 
 //$hist->destroy();
