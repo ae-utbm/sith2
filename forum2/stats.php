@@ -68,15 +68,13 @@ if (isset($_REQUEST['mesgbyday']))
 
   $req = new requete($site->db, $query);
 
-  $i = 0;
   while ($rs = $req->get_row())
     {
-      $xaxis_time = array($rs['datemesg'] => $rs['datemesg']);
-      $coords[$i] = array('x' => $i,
-			  'y' => $rs['nmbesg']);
-      $i++;
+      $xtics[]  = $rs['datemesg'];
+      $coords[] = array('x' => $i,
+			'y' => $rs['nmbesg']);
     }
-
+  
   $grp = new graphic("",
 		     "messages par jour",
 		     $coords,
@@ -84,7 +82,7 @@ if (isset($_REQUEST['mesgbyday']))
 
   $grp->png_render();
 
-  $grp->destroy_graph();
+  //$grp->destroy_graph();
 
   exit();
 }
