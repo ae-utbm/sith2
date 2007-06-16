@@ -31,7 +31,7 @@ header("Content-Type: Text/plain");
 
 while ($plouf = $rs->get_row())
 {
-  echo $plouf['alias_utl'] . "\t" . $plouf['totmesg']."\n";
+  print_r($plouf);
 
   $datas[] = array($plouf['alias_utl'] => $plouf['totmesg']);
 }
@@ -39,7 +39,9 @@ while ($plouf = $rs->get_row())
 
 $hist = new histogram($datas, "Messages par utilisateurs");
 
-//file_get_contents($hist->data_file);
+echo file_get_contents($hist->conf_file);
+echo file_get_contents($hist->data_file);
+
 
 $hist->destroy();
 
