@@ -48,6 +48,10 @@ if (isset($_REQUEST['toptenimg']))
 
 
 $site = new site();
+
+if (!$site->user->is_in_group ("gestion_ae")) 
+     error_403();
+
 $site->start_page("forum", "Statistiques du forum de l'AE");
 
 $cts = new contents("Top 10 des meilleurs posteurs",
