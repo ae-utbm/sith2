@@ -340,3 +340,66 @@ class graphic
     return;
   }
 }
+
+
+class histogram
+{
+  var $title;
+  var $graph_id;
+
+  var $conf_file;
+  var $data_file;
+  var $img_file;
+
+  function histogram($plots, $title)
+  {
+    /* identifiant de graphique */
+    $this->graph_id = substr(md5(microtime(true)), 0, 6);
+    /* fichiers */
+    $this->conf_file = "/tmp/" . $this->graph_id . ".conf";
+    $this->data_file = "/tmp/" . $this->graph_id . ".data";
+    $this->img_file = "/tmp/" . $this->graph_id . ".png";
+    /* titre */
+    $this->title = $title;
+
+
+    $out_gplot = "set terminal png transparent nocrop enhanced\n".
+      "set output '". $this->img_file."'\n".
+      "set boxwidth 1\n".
+      "set style fill   solid 1.00 border -1\n".
+      "set style histogram clustered gap 1 title  offset character 0, 0, 0\n".
+      "set datafile missing '-'\n".
+      "set style data histograms\n".
+      "set xtics border nomirror rotate by -45  offset character 0, 0, 0\n";
+     
+    $minvalue = 0;
+    $maxvalue = 0;
+    
+    foreach ($plots as $key => $value)
+      {
+	$out_data .= $key . "\t". $value."\n";	
+	if ($value >= $maxvalue)
+	  $maxvalue = $value;
+	if ($value <= $minvalue)
+	  $minvalue = $value;
+      }
+
+    file_put_contents($this->data_file, $out_data);
+
+
+    $out_gplot .= "set title \"".$this->title."\"\n".
+      "plot '".$this->data_file."' using 2:xtic(1) title col\n";
+
+    file_put_contents($this->conf_file, $out_gplot);
+ 
+  }
+
+
+  function destroy()
+  {
+    @unlink($this->conf_file);
+    @unlink($this->data_file);
+    @unlink($this->png_file);
+  }
+
+}
