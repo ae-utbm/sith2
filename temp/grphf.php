@@ -19,7 +19,7 @@ $req = "SELECT
         GROUP BY 
                  `id_utilisateur`
         ORDER BY 
-                 COUNT(`id_message`) DESC";
+                 COUNT(`id_message`) DESC LIMIT 10";
 
 $rs = new requete($site->db, $req);
 
