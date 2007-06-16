@@ -394,6 +394,27 @@ class histogram
  
   }
 
+  function png_render ()
+  {
+    exec ("/usr/share/php5/exec/gnuplot " .$this->conf_file/*,$info,$ret*/);
+
+    /* tunage sauce AE */
+    $img_wmarked = new img_watermark (imagecreatefrompng($this->img_file));
+    $img_wmarked->save_image($this->img_file);
+    $img_wmarked->destroy();
+
+
+    header("Pragma: public");
+    header("Expires: 0");
+    header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+    header("Content-Type: image/png");
+    header("Content-Disposition: inline; filename=".
+	   basename($this->img_file));
+    /*on envoie le fichier */
+    readfile($this->img_file);
+
+  }
+
 
   function destroy()
   {

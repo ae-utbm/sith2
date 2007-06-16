@@ -24,23 +24,22 @@ $req = "SELECT
 $rs = new requete($site->db, $req);
 
 
-$datas = array("utilisateurs" => "Nbmessages");
+$datas = array("utilisateur" => "Nbmessages");
 
-
-header("Content-Type: Text/plain");
 
 while ($plouf = $rs->get_row())
 {
-  print_r($plouf);
 
-  $datas[] = array($plouf['alias_utl'] => $plouf['totmesg']);
+  $datas[$plouf['alias_utl']] = $plouf['totmesg'];
+
+
 }
 
 
 $hist = new histogram($datas, "Messages par utilisateurs");
 
-echo file_get_contents($hist->conf_file);
-echo file_get_contents($hist->data_file);
+$hist->png_render();
+
 
 
 $hist->destroy();
