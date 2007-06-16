@@ -72,7 +72,7 @@ if (isset($_REQUEST['mesgbyday']))
     {
       $xtics[]  = $rs['datemesg'];
       $coords[] = array('x' => $i,
-			'y' => $rs['nmbesg']);
+			'y' => $rs['nbmesg']);
     }
   
   print_r($coords);
