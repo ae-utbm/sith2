@@ -689,6 +689,7 @@ class site extends interfaceweb
       $sublist->add("<a href=\"".$topdir."ae/cotisations.php\">Cotisations</a>");
       $sublist->add("<a href=\"".$topdir."ae/cartesae.php\">Cartes AE</a>");
       $sublist->add("<a href=\"".$topdir."ae/elections.php\">Elections</a>");
+      $sublist->add("<a href=\"".$topdir."asso/sendfax.php?id_asso=1\">Envoi de fax</a>");
       $cts->add($sublist,true, true, "aeadminbox", "boxlist", true, false);
     
       if( $this->user->is_in_group("compta_admin") )
