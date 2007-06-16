@@ -4,6 +4,11 @@ $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
 
+$site = new site();
+
+if (!$site->user->is_in_group ("gestion_ae")) 
+     error_403();
+
 
 if (isset($_REQUEST['toptenimg']))
 {
@@ -21,7 +26,7 @@ if (isset($_REQUEST['toptenimg']))
           ORDER BY 
                  COUNT(`id_message`) DESC LIMIT 10";
 
-  $rs = new requete(new mysqlae(), $req);
+  $rs = new requete($site->db, $req);
 
 
   $datas = array("utilisateur" => "Nbmessages");
@@ -46,16 +51,53 @@ if (isset($_REQUEST['toptenimg']))
 
 }
 
+if isset($_REQUEST['mesgbyday'])
+{
+  require_once($topdir. "include/graph.inc.php");
+  $query =
+    "SELECT 
+            DATE_FORMAT(date_message,'%Y-%m-%d') AS `datemesg`
+            , COUNT(id_message) AS `nbmesg` 
+     FROM 
+            `frm_message` 
+     WHERE 
+            `date_message` >= '2007-01-01' 
+     GROUP BY 
+            `datemesg`";
 
-$site = new site();
+  $req = new requete($site->db, $query);
 
-if (!$site->user->is_in_group ("gestion_ae")) 
-     error_403();
+  $i = 0;
+  (while $rs = $req->get_row())
+    {
+      $xaxis_time = array($rs['datemesg'] => $rs['datemesg']);
+      $coords[$i] = array('x' => $i,
+			  'y' => $rs['nmbesg']);
+      $i++;
+    }
+
+  $grp = new graphic("",
+		     "messages par jour",
+		     $coords,
+		     true);
+
+  $grp->png_render();
+
+  $grp->destroy_graph();
+
+  exit();
+}
+
+
 
 $site->start_page("forum", "Statistiques du forum de l'AE");
 
-$cts = new contents("Top 10 des meilleurs posteurs",
-		    "<img src=\"stats.php?toptenimg\" alt=\"topten\" />");
+$cts = new contents("Statistiques du forum");
+$cts->add_title(1, "Top 10 des posteurs");
+$cts->add_paragraph("<center><img src=\"./stats.php?toptenimg\" alt=\"top10\" /></center>");
+
+$cts->add_title(1, "Messages postés depuis le début de l'année 2007");
+$cts->add_paragraph("<center><img src=\"./stats.php?mesgbyday\" alt=\"Messages par jour\" /></center>");
 
 $site->add_contents($cts);
 
