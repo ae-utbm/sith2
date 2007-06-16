@@ -87,7 +87,7 @@ if (isset($_REQUEST['mesgbyday']))
 
   $grp->png_render();
 
-  //$grp->destroy_graph();
+  $grp->destroy_graph();
 
   exit();
 }
