@@ -384,11 +384,14 @@ class histogram
 	  $minvalue = $value;
       }
 
+    echo $out_data;
     file_put_contents($this->data_file, $out_data);
 
 
     $out_gplot .= "set title \"".$this->title."\"\n".
       "plot '".$this->data_file."' using 2:xtic(1) title col\n";
+
+    echo $out_gplot;
 
     file_put_contents($this->conf_file, $out_gplot);
  

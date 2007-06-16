@@ -39,7 +39,7 @@ while ($plouf = $rs->get_row())
 
 $hist = new histogram($datas, "Messages par utilisateurs");
 
-file_get_contents($hist->data_file);
+//file_get_contents($hist->data_file);
 
 $hist->destroy();
 
