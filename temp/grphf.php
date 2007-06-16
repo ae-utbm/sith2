@@ -29,6 +29,8 @@ $datas = array("utilisateur" => "Nbmessages");
 
 while ($plouf = $rs->get_row())
 {
+  $plouf['alias_utl'] = explode(' ', $plouf['alias_utl']);
+  $plouf['alias_utl'] = $plouf['alias_utl'][0];
 
   $datas[utf8_decode($plouf['alias_utl'])] = $plouf['totmesg'];
 }

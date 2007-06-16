@@ -371,7 +371,7 @@ class histogram
       "set boxwidth 0.9\n".
       "set title \"".$title."\"\n".
       "set xtics border nomirror offset character 0,0,0\n".
-      "plot '".$this->data_file."' using 2:xtic(1) title col\n";
+      "plot '".$this->data_file."' using 2:xtic(1) title col";
 
     $minvalue = 0;
     $maxvalue = 0;
@@ -394,7 +394,7 @@ class histogram
 
   function png_render ()
   {
-    exec ("/usr/share/php5/exec/gnuplot " .$this->conf_file/*,$info,$ret*/);
+    exec ("/usr/share/php5/exec/gnuplot " .$this->conf_file);
 
     /* tunage sauce AE */
     $img_wmarked = new img_watermark (imagecreatefrompng($this->img_file));
@@ -420,5 +420,4 @@ class histogram
     @unlink($this->data_file);
     @unlink($this->img_file);
   }
-
 }
