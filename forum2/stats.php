@@ -54,6 +54,15 @@ if (isset($_REQUEST['toptenimg']))
 
 if (isset($_REQUEST['mesgbyday']))
 {
+  if (!isset($_REQUEST['db']))
+    $db = date("Y")."-01-01";
+  if (!isset($_REQUEST['de']))
+    $de = date("Y-m-d");
+
+  $db = mysql_real_escape_string($db);
+  $de = mysql_real_escape_string($de);
+
+
   require_once($topdir. "include/graph.inc.php");
   $query =
     "SELECT 
@@ -62,7 +71,9 @@ if (isset($_REQUEST['mesgbyday']))
      FROM 
             `frm_message` 
      WHERE 
-            `date_message` >= '2007-01-01' 
+            `date_message` >= '".$db."'
+     AND
+            `date_message` <= '".$de."'
      GROUP BY 
             `datemesg`";
 
@@ -101,8 +112,14 @@ $cts = new contents("Statistiques du forum");
 $cts->add_title(1, "Top 10 des posteurs");
 $cts->add_paragraph("<center><img src=\"./stats.php?toptenimg\" alt=\"top10\" /></center>");
 
-$cts->add_title(1, "Messages postés depuis le début de l'année 2007");
-$cts->add_paragraph("<center><img src=\"./stats.php?mesgbyday\" alt=\"Messages par jour\" /></center>");
+$cts->add_title(1, "Messages postés depuis le début de l'année");
+$cts->add_paragraph("<center><img src=\"./stats.php?mesgbyday&db=".date("Y")."-01-01&de=".date("Y-m-d").
+		    "\" alt=\"Messages par jour\" /></center>");
+
+$cts->add_title(1, "Messages postés les 30 derniers jours");
+$db = date("Y-m-d", time() - (30 * 24 * 3600));
+$cts->add_paragraph("<center><img src=\"./stats.php?mesgbyday&db=".$db."&de=".date("Y-m-d").
+		    "\" alt=\"Messages par jour\" /></center>");
 
 $site->add_contents($cts);
 
