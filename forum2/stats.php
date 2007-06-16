@@ -68,11 +68,14 @@ if (isset($_REQUEST['mesgbyday']))
 
   $req = new requete($site->db, $query);
 
+  $i = 0;
+
   while ($rs = $req->get_row())
     {
       $xtics[]  = $rs['datemesg'];
       $coords[] = array('x' => $i,
 			'y' => $rs['nbmesg']);
+      $i++;
     }
   
   print_r($coords);
