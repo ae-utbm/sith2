@@ -91,6 +91,18 @@ class fax extends stdentity
 
   }
 
+  /* fonction permettant d'envoyer sur la sortie le PDF.
+   */
+  function output_pdf()
+  {
+    if (!$this->pdffile)
+      return;
+
+    header("Content-Type: application/pdf");
+    @readfile($this->pdffile);
+
+
+  }
   
   /* Fonction de création d'instance de fax. Ne faxe pas
    * à proprement parler, mais prépare un faxage. 
