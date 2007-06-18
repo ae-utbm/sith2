@@ -1143,7 +1143,7 @@ class site extends interfaceweb
       $this->add_contents(new contents("Accés refusé","<p>Accès réservé $who.</p>")); 
     }
     elseif ( $reason == "private" && $section =="matmatronch" )
-      $this->add_contents(new contents("Accés refusé","<p>Cette fiche est privée, la personne concernée a souhaité que les informations le concernant ne soit pas rendues publiques.</p>"));
+      $this->add_contents(new contents("Accés refusé","<p>Cette fiche est privée, la personne concernée a souhaité que les informations la concernant ne soit pas rendues publiques.</p>"));
     else
       $this->add_contents(new contents("Accés refusé","<p>Vos droits sont insuffisant pour accéder à cette page.</p>"));
     $this->end_page();     
