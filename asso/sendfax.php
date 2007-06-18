@@ -108,6 +108,14 @@ if (isset($_POST['preparefaxsbmt']))
 
 }	
 
+$cts = new contents("Envoi de fax",
+		    "Par cette page, vous pouvez addresser des fax ".
+		    "via notre fournisseur d'accès.<br/>".
+		    "Veuillez entrer un fichier PDF, ainsi que le numéro".
+		    " du destinataire. Une vérification anti-robot vous ".
+		    "sera demandée sur la page suivante.");
+
+
 $frm = new form("preparefax",
 		"sendfax.php",
 		true,
@@ -118,7 +126,9 @@ $frm->add_file_field("mypdf", "Fichier PDF : ", true);
 $frm->add_submit("preparefaxsbmt","Valider");
 $frm->add_hidden("id_asso", $asso->id);
 
-$site->add_contents($frm);
+$cts->add($frm);
+
+$site->add_contents($cts);
 
 $site->end_page();
 
