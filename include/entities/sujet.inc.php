@@ -250,6 +250,20 @@ class sujet extends stdentity
         array("id_sujet"=>$this->id) );              
   }
 
+
+  function get_user_infos ( $id_utilisateur )
+  {
+    $req = new requete($this->db, "SELECT id_message_dernier_lu, etoile_sujet FROM `frm_sujet_utilisateur`
+				WHERE `id_sujet` = '".mysql_real_escape_string($this->id) . "'
+		    AND `id_utilisateur` = '".mysql_real_escape_string($id_utilisateur) . "'
+				LIMIT 1");
+				
+		if ( $req->lines == 0 )
+		  return null;
+		
+		return $req->get_row();    
+  }
+
   /**
    * Determine l'id du dernier message lu du sujet par un utilisateur
    * @param $id_utilisateur Id de l'utilisateur
@@ -258,15 +272,11 @@ class sujet extends stdentity
    */
   function get_last_read_message ( $id_utilisateur )
   {
-    $req = new requete($this->db, "SELECT id_message_dernier_lu FROM `frm_sujet_utilisateur`
-				WHERE `id_sujet` = '".mysql_real_escape_string($this->id) . "'
-		    AND `id_utilisateur` = '".mysql_real_escape_string($id_utilisateur) . "'
-				LIMIT 1");
-				
-		if ( $req->lines == 0 )
-		  return null;
-		
-		$row = $req->get_row();
+    $row = $this->get_user_infos($id_utilisateur);
+    
+    if ( is_null($row) )
+      return null;
+    
 		return $row['id_message_dernier_lu'];
   }
 
@@ -280,19 +290,38 @@ class sujet extends stdentity
     if ( is_null($max_id_message) )
       $max_id_message = $this->id_message_dernier;
   
-    $user_id_message = $this->get_last_read_message($id_utilisateur);
+    $row = $this->get_user_infos($id_utilisateur);
     
-    if ( is_null($user_id_message) )
+    if ( is_null($row) )
     {
       $req = new insert ($this->dbrw,
             "frm_sujet_utilisateur", 
             array("id_message_dernier_lu"=>$max_id_message,"id_sujet"=>$this->id,"id_utilisateur"=>$id_utilisateur) );    
     }
-    elseif ( $max_id_message > $user_id_message )
+    elseif ( $max_id_message > $row['id_message_dernier_lu'] )
     {
       $req = new update ($this->dbrw,
             "frm_sujet_utilisateur", 
             array("id_message_dernier_lu"=>$max_id_message),
+            array("id_sujet"=>$this->id,"id_utilisateur"=>$id_utilisateur) );
+    }
+  }
+
+  function set_user_star ( $id_utilisateur, $etoile )
+  {
+    $row = $this->get_user_infos($id_utilisateur);
+    
+    if ( is_null($row) )
+    {
+      $req = new insert ($this->dbrw,
+            "frm_sujet_utilisateur", 
+            array("etoile_sujet"=>$etoile,"id_sujet"=>$this->id,"id_utilisateur"=>$id_utilisateur) );    
+    }
+    elseif ( $etoile != > $row['etoile_sujet'] )
+    {
+      $req = new update ($this->dbrw,
+            "frm_sujet_utilisateur", 
+            array("etoile_sujet"=>$etoile),
             array("id_sujet"=>$this->id,"id_utilisateur"=>$id_utilisateur) );
     }
   }
