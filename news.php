@@ -238,12 +238,12 @@ if ( isset($_REQUEST["preview"]) || isset($_REQUEST["submit"]) )
 
   if ( $file->is_valid() )
   {
-    $_REQUEST["content"] = str_replace("((@affiche|","((dfile://".$file->id."/preview|",$_REQUEST["content"]);
-    $_REQUEST["content"] = str_replace("|@affiche]","|dfile://".$file->id."]",$_REQUEST["content"]);
+    $_REQUEST["content"] = str_replace("{{@affiche|","{{dfile://".$file->id."/preview|",$_REQUEST["content"]);
+    $_REQUEST["content"] = str_replace("[[@affiche|","[[dfile://".$file->id."]",$_REQUEST["content"]);
     
-    if ( !ereg("\(\(dfile\:\/\/([0-9]*)\/preview\|(.*)\)\)",$_REQUEST["content"]) )
+    if ( !ereg("\{\{dfile\:\/\/([0-9]*)\/preview\|(.*)\}\}",$_REQUEST["content"]) )
     {
-      $_REQUEST["content"] .= "\n\n~((dfile://".$file->id."/preview|Affiche))\n\n[Version HD de l'affiche|dfile://".$file->id."]";
+      $_REQUEST["content"] .= "\n\n{{dfile://".$file->id."/preview|Affiche}}\n\n[[dfile://".$file->id."|Version HD de l'affiche]]";
     }
   }
 

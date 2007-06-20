@@ -317,7 +317,7 @@ class sujet extends stdentity
             "frm_sujet_utilisateur", 
             array("etoile_sujet"=>$etoile,"id_sujet"=>$this->id,"id_utilisateur"=>$id_utilisateur) );    
     }
-    elseif ( $etoile != > $row['etoile_sujet'] )
+    elseif ( $etoile != $row['etoile_sujet'] )
     {
       $req = new update ($this->dbrw,
             "frm_sujet_utilisateur", 
