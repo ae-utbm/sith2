@@ -46,7 +46,8 @@ if ( $_REQUEST["page"] == "unread" )
       "premier_auteur.alias_utl AS `nom_utilisateur_premier_auteur`, " .
       "premier_auteur.id_utilisateur AS `id_utilisateur_premier`, " .
       "1 AS `nonlu`, " .
-      "titre_forum AS `soustitre_sujet` " .
+      "titre_forum AS `soustitre_sujet`, " .
+      "frm_sujet_utilisateur.etoile_sujet AS `etoile` " .
       "FROM frm_sujet " .
       "INNER JOIN frm_forum USING(id_forum) ".
       "LEFT JOIN frm_message ON ( frm_message.id_message = frm_sujet.id_message_dernier ) " .
