@@ -543,7 +543,7 @@ if ( $sujet->is_valid() )
   {
     $row = $sujet->get_user_infos($site->user->id);
     
-    if ( is_null($row) && !$row['etoile_sujet'] )
+    if ( is_null($row) && $row['etoile_sujet'] != 1 )
       $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a> <a href=\"?id_sujet=".$sujet->id."&amp;action=star\"><img src=\"".$wwwtopdir."images/icons/16/star.png\" class=\"icon\" alt=\"\" />Ajouter aux sujets favoris</a>","frmtools");
     else
       $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a> <a href=\"?id_sujet=".$sujet->id."&amp;action=unstar\"><img src=\"".$wwwtopdir."images/icons/16/unstar.png\" class=\"icon\" alt=\"\" />Enlever des sujets favoris</a>","frmtools");
