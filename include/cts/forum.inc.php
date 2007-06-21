@@ -146,7 +146,10 @@ class sujetslist extends stdcontents
       else
         $this->buffer .= "<p class=\"soustitre\">".htmlentities($row['soustitre_sujet'],ENT_NOQUOTES,"UTF-8")."</p>\n";
       
-      $this->buffer .= "<p class=\"sujeticon\"><img src=\"".$wwwtopdir."images/icons/16/sujet.png\" /></p>\n";
+      if ( !$row['etoile'] )
+        $this->buffer .= "<p class=\"sujeticon\"><img src=\"".$wwwtopdir."images/icons/16/sujet.png\" /></p>\n";
+      else
+        $this->buffer .= "<p class=\"sujeticon\"><img src=\"".$wwwtopdir."images/icons/16/star.png\" /></p>\n";
 
 
       /* actions */

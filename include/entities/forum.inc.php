@@ -244,14 +244,16 @@ class forum extends basedb
         "premier_auteur.id_utilisateur AS `id_utilisateur_premier`, ";
         
     if ( !$user->is_valid() )
-      $query .= "0 AS `nonlu` ";
+      $query .= "0 AS `nonlu`, 0 AS `etoile` ";
     elseif( is_null($user->tout_lu_avant))
       $query .= "IF(frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
-                "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL,1,0) AS `nonlu` ";    
+                "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL,1,0) AS `nonlu`, ".
+                "frm_sujet_utilisateur.etoile_sujet AS `etoile` ";    
     else
       $query .= "IF((frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
                 "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ".
-                "AND frm_message.date_message > '".date("Y-m-d H:i:s",$user->tout_lu_avant)."' ,1,0) AS `nonlu` ";
+                "AND frm_message.date_message > '".date("Y-m-d H:i:s",$user->tout_lu_avant)."' ,1,0) AS `nonlu`, ".
+                "frm_sujet_utilisateur.etoile_sujet AS `etoile` ";    
 
     $query .= "FROM frm_sujet " .
         "LEFT JOIN frm_message ON ( frm_message.id_message = frm_sujet.id_message_dernier ) " .
