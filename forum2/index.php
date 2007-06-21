@@ -183,9 +183,17 @@ while ( $pforum->is_valid() )
   
 if ( $sujet->is_valid() )
 {
-
-  /* Edition d'un message (pour cela il faut que le sujet soit valide) */
-  if ($_REQUEST['page'] == 'edit')
+  if ($_REQUEST['action'] == 'star')
+  {
+    $site->allow_only_logged_users("forum");
+    $sujet->set_user_star($site->user->id,true);
+  }
+  elseif ($_REQUEST['action'] == 'unstar')
+  {
+    $site->allow_only_logged_users("forum");
+    $sujet->set_user_star($site->user->id,false);
+  }
+  elseif ($_REQUEST['page'] == 'edit')
   {
     $site->allow_only_logged_users("forum");
     
@@ -531,7 +539,18 @@ if ( $sujet->is_valid() )
   
   /**@todo:bouttons+infos*/
 
-  $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a>","frmtools");
+  if ( $site->user->is_valid() )
+  {
+    $row = $sujet->get_user_infos($site->user->id);
+    
+    if ( is_null($row) && !$row['etoile_sujet'] )
+      $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a> <a href=\"?id_sujet=".$sujet->id."&amp;action=star\"><img src=\"".$wwwtopdir."images/icons/16/star.png\" class=\"icon\" alt=\"\" />Ajouter aux sujets favoris</a>","frmtools");
+    else
+      $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a> <a href=\"?id_sujet=".$sujet->id."&amp;action=unstar\"><img src=\"".$wwwtopdir."images/icons/16/unstar.png\" class=\"icon\" alt=\"\" />Enlever des sujets favoris</a>","frmtools");
+    
+  }
+  else
+    $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a>","frmtools");
 
   if ( $start == 0 )
   {
