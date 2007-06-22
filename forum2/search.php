@@ -96,6 +96,7 @@ if ( $_REQUEST["page"] == "unread" )
   	  $rows[] = $row;
     
   	$cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
+  	$cts->add_paragraph("&nbsp;");
   }
 	
 	
