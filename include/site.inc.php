@@ -1061,11 +1061,34 @@ class site extends interfaceweb
         "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$this->user->id."')) ";
     }
   
+    $query_fav = $query."AND frm_sujet_utilisateur.etoile_sujet='1' ";
+    $query_fav .= "ORDER BY frm_message.date_message DESC ";
+    $query_fav .= "LIMIT 5 ";
+    
+    $query .= "AND frm_sujet_utilisateur.etoile_sujet!='1' ";
     $query .= "ORDER BY frm_message.date_message DESC ";
     $query .= "LIMIT 5 ";
   
+    $req_fav = new requete($this->db,$query_fav);
+  
+    if ( $req->lines > 0 )
+    {
+      $cts->add_title(2,"<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">Favoris non lus</a>");
+      $list = new itemlist();
+      while ( $row = $req->get_row() )
+      {
+        $list->add("<a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."&amp;spage=firstunread#firstunread\"\">".
+        htmlentities($row['titre_sujet'], ENT_NOQUOTES, "UTF-8").
+        "</a>");
+      }
+      $cts->add($list);
+      if ( $req->lines == 5 )
+        $cts->add_paragraph("<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">suite...</a>");
+    }
+    else
+      $cts->add_paragraph("pas de favoris non lus");
+  
     $req = new requete($this->db,$query);
-    
     
     if ( $req->lines > 0 )
     {
@@ -1082,7 +1105,7 @@ class site extends interfaceweb
         $cts->add_paragraph("<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">suite...</a>");
     }
     else
-      $cts->add_paragraph("pas de messages non lus");
+      $cts->add_paragraph("pas d'autres messages non lus");
     
     return $cts;
   }
