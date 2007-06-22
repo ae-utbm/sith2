@@ -1065,11 +1065,11 @@ class site extends interfaceweb
     $query_fav .= "ORDER BY frm_message.date_message DESC ";
     $query_fav .= "LIMIT 5 ";
     
-    $query .= "AND frm_sujet_utilisateur.etoile_sujet!='1' ";
+    $query .= "AND ( frm_sujet_utilisateur.etoile_sujet IS NULL OR frm_sujet_utilisateur.etoile_sujet!='1' ) ";
     $query .= "ORDER BY frm_message.date_message DESC ";
     $query .= "LIMIT 5 ";
   
-    $req_fav = new requete($this->db,$query_fav);
+    $req = new requete($this->db,$query_fav);
   
     if ( $req->lines > 0 )
     {
