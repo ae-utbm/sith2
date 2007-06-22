@@ -607,7 +607,7 @@ class site extends interfaceweb
     $cts = new contents("L'AE et Moi");
     $cts->add_paragraph($this->get_textbox('Welcome')." <b>".$this->user->prenom." ".$this->user->nom."</b>");
 
-    $cts->add_paragraph("<br><a href=\"".$topdir."user/compteae.php\">Compte AE : ".($this->user->montant_compte/100)." Euros</a>");
+    $cts->add_paragraph("<br><a href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>");
 
     $sublist = new itemlist("Mon Compte","boxlist");
     $sublist->add("<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>");
