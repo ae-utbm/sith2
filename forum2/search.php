@@ -75,15 +75,40 @@ if ( $_REQUEST["page"] == "unread" )
       "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$site->user->id."')) ";
   }
 
-  $query .= "ORDER BY frm_message.date_message DESC ";
-  $query .= "LIMIT 100 ";
+
+  $query_fav = $query."AND frm_sujet_utilisateur.etoile_sujet='1' ";
+  $query_fav .= "ORDER BY frm_message.date_message DESC ";
+  $query_fav .= "LIMIT 75 ";
   
+  $query .= "AND ( frm_sujet_utilisateur.etoile_sujet IS NULL OR frm_sujet_utilisateur.etoile_sujet!='1' ) ";
+  $query .= "ORDER BY frm_message.date_message DESC ";
+  $query .= "LIMIT 75 ";
+
+  /*$query .= "ORDER BY frm_message.date_message DESC ";
+  $query .= "LIMIT 100 ";*/
+  
+  $req = new requete($site->db,$query_fav);
+  if ( $req->lines > 0 )
+  {
+    $cts->add_title(2,"Sujets favoris avec des messages non lus");
+  	$rows = array();
+  	while ( $row = $req->get_row() )
+  	  $rows[] = $row;
+    
+  	$cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
+  }
+	
+	
   $req = new requete($site->db,$query);
-	$rows = array();
-	while ( $row = $req->get_row() )
-	  $rows[] = $row;
-	    
-	$cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
+  if ( $req->lines > 0 )
+  {
+    $cts->add_title(2,"Sujets avec des messages non lus");
+  	$rows = array();
+  	while ( $row = $req->get_row() )
+  	  $rows[] = $row;
+    
+  	$cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
+  }
 	    
   $site->add_contents($cts);
   

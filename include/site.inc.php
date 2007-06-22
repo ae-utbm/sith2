@@ -1063,11 +1063,11 @@ class site extends interfaceweb
   
     $query_fav = $query."AND frm_sujet_utilisateur.etoile_sujet='1' ";
     $query_fav .= "ORDER BY frm_message.date_message DESC ";
-    $query_fav .= "LIMIT 5 ";
+    $query_fav .= "LIMIT 4 ";
     
     $query .= "AND ( frm_sujet_utilisateur.etoile_sujet IS NULL OR frm_sujet_utilisateur.etoile_sujet!='1' ) ";
     $query .= "ORDER BY frm_message.date_message DESC ";
-    $query .= "LIMIT 5 ";
+    $query .= "LIMIT 4 ";
   
     $req = new requete($this->db,$query_fav);
   
@@ -1082,7 +1082,7 @@ class site extends interfaceweb
         "</a>");
       }
       $cts->add($list);
-      if ( $req->lines == 5 )
+      if ( $req->lines == 4 )
         $cts->add_paragraph("<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">suite...</a>");
     }
     else
@@ -1101,7 +1101,7 @@ class site extends interfaceweb
         "</a>");
       }
       $cts->add($list);
-      if ( $req->lines == 5 )
+      if ( $req->lines == 4 )
         $cts->add_paragraph("<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">suite...</a>");
     }
     else
