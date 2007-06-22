@@ -855,7 +855,7 @@ if ( $forum->categorie )
     if ( $nb > 0 )
       $cts->add_paragraph(
       "<a href=\"search.php?page=unread\">".
-        "<img src=\"".$wwwtopdir."images/icons/16/unread.png\" class=\"icon\" alt=\"\" />Messages non lu ($nb sujet(s))".
+        "<img src=\"".$wwwtopdir."images/icons/16/unread.png\" class=\"icon\" alt=\"\" />Messages non lu : <b>$nb sujet(s)</b>".
       "</a> ".
       "<a href=\"./?action=setallread\">".
         "<img src=\"".$wwwtopdir."images/icons/16/valid.png\" class=\"icon\" alt=\"\" />Marquer tout comme lu".
