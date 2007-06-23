@@ -379,3 +379,24 @@ ul.frmsujetres ul li span
 {
   color:#c0c0c0;
 }
+
+
+div.liner
+{
+  margin-top:-13px;
+  margin-bottom:4px;
+}
+
+div.liner p.center
+{
+  padding:0;
+  margin:0;
+  font-size:90%;
+  color:#808080;
+}
+
+div.liner p.center a
+{
+  font-size:100%;
+  color:#808080;
+}
