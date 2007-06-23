@@ -32,7 +32,7 @@ require_once($topdir. "include/entities/page.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 
 $site = new sas();
-
+$site->add_css("css/doku.css");
 $site->allow_only_logged_users("sas");
 
 $photo = new photo($site->db,$site->dbrw);
