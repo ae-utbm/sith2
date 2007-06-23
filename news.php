@@ -432,8 +432,7 @@ if ( $file->id > 0 )
 else
 $frm->add_file_field("affiche_file","Affiche");
 
-$frm->add_info("Pour ins&eacute;rer l'affiche, utilisez la syntaxe suivante: ((@affiche|Affiche)).");
-$frm->add_info("Pour ins&eacute;rer un lien, utilisez la syntaxe suivante: [Version HD de l'affiche|@affiche].");
+$frm->add_info("L'affiche sera automatiquement ajoutée en bas de la news.");
 
 $frm->add_submit ("preview","Pr&eacute;visualiser");
 
