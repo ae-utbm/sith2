@@ -17,6 +17,15 @@ require_once($topdir . "include/cts/forum.inc.php");
 $site = new site ();
 $site->add_css("css/forum.css");
 
+$cts = new contents();
+$cts->cssclass="liner";
+if ( $site->user->is_valid() )
+  $cts->buffer = "<p class=\"center\">Connecté en tant que ".$site->user->alias." - <a href=\"../user.php?page=edit\">Mon profil</a></p>";
+else
+  $cts->buffer = "<p class=\"center\">Non connecté - <a href=\"../index.php\">Se connecter</p> - <a href=\"../newaccount.php\">Creer un compte</p>";
+$site->add_contents($cts);
+unset($cts);
+
 $forum = new forum($site->db);
 $forum->load_by_id(1);
 
