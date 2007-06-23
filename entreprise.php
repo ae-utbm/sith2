@@ -27,6 +27,7 @@ include($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/entreprise.inc.php");
 require_once($topdir. "include/entities/ville.inc.php");
+require_once($topdir. "include/entities/asso.inc.php");
 
 $site = new site ();
 
