@@ -15,8 +15,22 @@ require_once($topdir . "sas2/include/cat.inc.php");
 require_once($topdir . "include/cts/forum.inc.php");
 
 $site = new site ();
-
 $site->add_css("css/forum.css");
+
+$cts = new contents();
+$cts->cssclass="liner";
+if ( $site->user->is_valid() )
+{
+  $cts->buffer = "<p class=\"center\">Connecté en tant que ".$site->user->alias." - <a href=\"../user.php\">Mon profil</a></p>";
+}
+else
+{
+  $cts->buffer = "<p class=\"center\">Non connecté - <a href=\"../index.php\">Se connecter</p> - <a href=\"../newaccount.php\">Creer un compte</p>";
+  
+}
+$site->add_contents($cts);
+unset($cts);
+
 
 $forum = new forum($site->db,$site->dbrw);
 $pforum = new forum($site->db);
@@ -802,7 +816,19 @@ if ( $_REQUEST["page"] == "post" && !$forum->categorie )
   
   exit();
 }
-
+elseif ( $_REQUEST["page"] == "edit" && $forum->is_admin($site->user->id) )
+{
+  $site->start_page("forum", $forum->titre);
+  $cts = new contents($path." / Editer");
+  
+  
+  
+  
+  
+  $site->add_contents($cts);
+  $site->end_page();  
+  exit();
+}
 
 
 $site->start_page("forum",$forum->titre);
