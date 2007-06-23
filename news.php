@@ -203,7 +203,6 @@ if ( !$site->user->is_valid() )
   header("Location: 403.php?reason=session");
   exit();
 }
-print_r($_REQUEST);
 
 require_once($topdir."include/entities/files.inc.php");
 require_once($topdir."include/entities/folder.inc.php");
@@ -376,12 +375,11 @@ $frm = new form ("addnews_frm","news.php",false,"POST","Proposition d'une nouvel
 if ( $news_error )
   $frm->error($news_error);
 
-print_r($_REQUEST);
-
-$type = $_REQUEST["type"];
-if ( !$type )
+if ( isset($_REQUEST["type"]) )
+  $type = $_REQUEST["type"];
+else
   $type=1;
-print_r($type);
+  
 $sfrm = new form("type",null,null,null,"Nouvelle sur un concours, un appel &agrave; canditure : longue dur&eacute;e");
 $sfrm->add_datetime_field("t3_debut","Date et heure de d&eacute;but",time());
 $sfrm->add_datetime_field("t3_fin","Date et heure de fin",GetRequestParam('t3_fin',-1));
