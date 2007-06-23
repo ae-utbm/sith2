@@ -22,7 +22,7 @@ $cts->cssclass="liner";
 if ( $site->user->is_valid() )
   $cts->buffer = "<p class=\"center\">Connecté en tant que ".$site->user->alias." - <a href=\"../user.php?page=edit\">Mon profil</a></p>";
 else
-  $cts->buffer = "<p class=\"center\">Non connecté - <a href=\"../index.php\">Se connecter</a> - <a href=\"../newaccount.php\">Creer un compte</p>";
+  $cts->buffer = "<p class=\"center\">Non connecté - <a href=\"../index.php\">Se connecter</a> - <a href=\"../newaccount.php\">Creer un compte</a></p>";
 $site->add_contents($cts);
 unset($cts);
 
@@ -433,6 +433,8 @@ if ( $sujet->is_valid() )
   /* réponse postée */
   if ($_REQUEST['page'] == 'commit')
   {
+    $site->allow_only_logged_users("forum");
+    
     $site->start_page("forum",$sujet->titre);
 
     $cts = new contents($path.
