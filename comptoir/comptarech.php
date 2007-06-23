@@ -25,6 +25,9 @@ require_once("include/comptoirs.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
 $site = new sitecomptoirs();
 
+if (!$site->user->is_in_group("gestion_ae"))
+	error_403();
+
 if ( !$site->user->is_valid() )
 {
 	header("Location: ../403.php?reason=session");
