@@ -203,6 +203,7 @@ if ( !$site->user->is_valid() )
   header("Location: 403.php?reason=session");
   exit();
 }
+print_r($_REQUEST);
 
 require_once($topdir."include/entities/files.inc.php");
 require_once($topdir."include/entities/folder.inc.php");
