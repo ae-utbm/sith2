@@ -187,7 +187,7 @@ class catphoto extends basedb
         "id_catph='".$id_cat."'$filter AND " .
         "((((droits_acces_ph & 0x1) OR " .
         "((droits_acces_ph & 0x10) AND id_groupe IN ($grps))) " .
-          "AND droits_acquis='1' AND modere_catph='1' ) OR " .
+          "AND droits_acquis='1' AND modere_ph='1' ) OR " .
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='".$user->id."') OR " .
         "((droits_acces_ph & 0x100) AND sas_personnes_photos.id_utilisateur IS NOT NULL) ) " .
