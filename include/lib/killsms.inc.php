@@ -39,13 +39,13 @@ define( 'ACCEPTABLE_LIMIT', 10);
 class killsms
 {
   var $dico = array();
-  var $dbro;
+  var $db;
   var $dbrw;
 
-  function killsms($dbro, $dbrw)
+  function killsms($db, $dbrw)
   {
-    $this->$dbro=$dbro;
-    $this->$dbrw=$dbrw;
+    $this->db=$db;
+    $this->dbrw=$dbrw;
   }
   function is_sms($text,$explain=FALSE)
   {

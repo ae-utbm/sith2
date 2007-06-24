@@ -132,6 +132,10 @@ if ( $_REQUEST["action"] == "post" && !$forum->categorie )
 				    $_REQUEST['titre_sujet'],
 				    $_REQUEST['subjtext'],
 				    $_REQUEST['synengine']);
+				    
+    if ( isset($_REQUEST['star']) )
+      $sujet->set_user_star($site->user->id,true);
+      				    
   }
 }
     
@@ -423,7 +427,9 @@ if ( $sujet->is_valid() )
 			    0, 
 			    40, 
 			    "DESC" ));
-    
+			    
+    $frm->add_checkbox ( "star", "Ajouter à mes sujets favoris.", true );
+
     $site->add_contents($cts);
     $site->end_page();
     exit();  
@@ -434,6 +440,9 @@ if ( $sujet->is_valid() )
   if ($_REQUEST['page'] == 'commit')
   {
     $site->allow_only_logged_users("forum");
+    
+    if ( isset($_REQUEST['star']) )
+      $sujet->set_user_star($site->user->id,true);
     
     $site->start_page("forum",$sujet->titre);
 
@@ -803,6 +812,10 @@ if ( $_REQUEST["page"] == "post" && !$forum->categorie )
   /* texte du message initiateur */
   $frm->add_text_area("subjtext", "Texte du message : ","",80,20);
   /* et hop ! */
+  
+  $frm->add_checkbox ( "star", "Ajouter à mes sujets favoris.", true );
+  
+  
   $frm->add_submit("subjsubmit", "Poster");
 
   $cts->add($frm);
