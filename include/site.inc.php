@@ -179,7 +179,7 @@ class site extends interfaceweb
                        mysql_escape_string($sid) . "'");
     list($uid,$connecte,$expire) = $req->get_row();
 
-    if ( !is_null($expire) )
+    if ( $req->lines > 0 || !is_null($expire) )
     {
       if ( strtotime($expire) < time() ) // Session expirée, fait le ménage
       {
@@ -198,7 +198,7 @@ class site extends interfaceweb
         return;
       }
       $expire = date("Y-m-d H:i:s",time()+(15*60)); // Session expire dans 15 minutes
-    }
+		}
     
     $req = new update($this->dbrw, "site_sessions",
           array(
@@ -208,8 +208,10 @@ class site extends interfaceweb
             
     $this->user->load_by_id($uid);
     
-    if ($this->user->hash != "valid")
-      $this->user->id = -1;
+		if ($this->user->hash != "valid")
+    {
+			$this->user->id = -1;
+    }
     else
     {
       $this->user->visite();
