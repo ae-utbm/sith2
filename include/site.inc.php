@@ -55,18 +55,18 @@ class site extends interfaceweb
 
     $dbrw = new mysqlae ("rw");
     if (!$dbrw)
-			$this->fatal("no dbrw");
+      $this->fatal("no dbrw");
 
-		$this->interfaceweb($dbro, $dbrw);
-		
-		if( !preg_match('/taiste/', $_SERVER['SCRIPT_NAME']) )
-		  $this->stats();
+    $this->interfaceweb($dbro, $dbrw);
+    
+    if( !preg_match('/taiste/', $_SERVER['SCRIPT_NAME']) )
+      $this->stats();
 
     if($_COOKIE['AE2_SESS_ID'])
       $this->load_session($_COOKIE['AE2_SESS_ID']);
 
-		if ( $this->get_param("closed",false) && !$this->user->is_in_group("root") )
-		  $this->fatal("closed");
+    if ( $this->get_param("closed",false) && !$this->user->is_in_group("root") )
+      $this->fatal("closed");
 
     $this->set_side_boxes("left",array("calendrier","alerts","connexion"),"default_left");
     $this->add_box("calendrier",new calendar($this->db));
@@ -79,7 +79,7 @@ class site extends interfaceweb
   function stats()
   {
     $page=$_SERVER['SCRIPT_NAME'];
-		$req = new requete($this->db, "SELECT * FROM `stats_page` WHERE `page` = '".mysql_escape_string($page)."'");
+    $req = new requete($this->db, "SELECT * FROM `stats_page` WHERE `page` = '".mysql_escape_string($page)."'");
     if ( $req->lines != 0 )
       $stats = new requete($this->dbrw, "UPDATE `stats_page` SET `visites`=`visites`+1 WHERE `page`='".mysql_escape_string($page)."'");
     else
@@ -179,7 +179,19 @@ class site extends interfaceweb
                        mysql_escape_string($sid) . "'");
     list($uid,$connecte,$expire) = $req->get_row();
 
-    if ( $req->lines > 0 || !is_null($expire) )
+    if ($req->lines > 0)
+    {
+      if ( isset($_COOKIE['AE2_SESS_ID']) )
+      {
+        $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
+        setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain, 0);
+        unset($_COOKIE['AE2_SESS_ID']);
+      }
+      if ( isset($_SESSION['session_redirect']) )
+        unset($_SESSION['session_redirect']);
+      return;
+    }
+    elseif ( !is_null($expire) )
     {
       if ( strtotime($expire) < time() ) // Session expirée, fait le ménage
       {
@@ -198,7 +210,7 @@ class site extends interfaceweb
         return;
       }
       $expire = date("Y-m-d H:i:s",time()+(15*60)); // Session expire dans 15 minutes
-		}
+    }
     
     $req = new update($this->dbrw, "site_sessions",
           array(
@@ -208,9 +220,9 @@ class site extends interfaceweb
             
     $this->user->load_by_id($uid);
     
-		if ($this->user->hash != "valid")
+    if ($this->user->hash != "valid")
     {
-			$this->user->id = -1;
+      $this->user->id = -1;
     }
     else
     {
@@ -323,7 +335,7 @@ class site extends interfaceweb
   {
     global $topdir;
 
-		if ( !$this->user->is_valid() ) return null;
+    if ( !$this->user->is_valid() ) return null;
 
     $cts = new contents("Attention");
 
@@ -336,7 +348,7 @@ class site extends interfaceweb
     if($cpg->load_lastest() && $this->user->is_in_group_id($cpg->group) && !$cpg->a_repondu($this->user->id))
     {
       $elements[] = "<a href=\"".$topdir."campagne.php?id_campagne=".$cpg->id."\"><b>Campagne en cours : ".$cpg->nom."</b>.</a>";
-		}
+    }
 
     if ( $carte->is_valid() )
     {
@@ -551,8 +563,8 @@ class site extends interfaceweb
     $frm = new form("sondage","sondage.php");
     $frm->add_hidden("id_sondage",$sdn->id);
 
-		$reps = $sdn->get_reponses();
-		foreach( $reps as $num => $rep )
+    $reps = $sdn->get_reponses();
+    foreach( $reps as $num => $rep )
       $resp_[$num] = "$rep<br/>";
 
     $frm->add_radiobox_field ( "numrep", "", $resp_ );
@@ -633,8 +645,8 @@ class site extends interfaceweb
       $sublist->add("<a href=\"".$topdir."user/reservations.php\">Mes reservations de salles</a>");
       
     $req = new requete($this->db,"SELECT COUNT(*) " .
-    		"FROM inv_emprunt " .
-    		"WHERE id_utilisateur='".$this->user->id."' AND etat_emprunt<=1");	
+        "FROM inv_emprunt " .
+        "WHERE id_utilisateur='".$this->user->id."' AND etat_emprunt<=1");  
     list($nb) = $req->get_row();
 
     if ( $nb )
@@ -1185,21 +1197,21 @@ class site extends interfaceweb
       exit();
     }
     
-		if (!empty($this->tab_array))
-		{
-		  foreach ($this->tab_array as $entry)
-		  {
-			  if ( $section == $entry[0] )
-			    $redirect = $wwwtopdir . $entry[1];
-			}
-		}
-		
+    if (!empty($this->tab_array))
+    {
+      foreach ($this->tab_array as $entry)
+      {
+        if ( $section == $entry[0] )
+          $redirect = $wwwtopdir . $entry[1];
+      }
+    }
+    
     if ( !is_null($redirect) )
     {
       header("Location: $redirect");
       exit();
     }
-		
+    
     $this->start_page($section,"Non trouvé");
     $this->add_contents(new contents("Non trouvé","<p>L'élément demandé n'a pas été trouvé</p>"));
     $this->end_page(); 
