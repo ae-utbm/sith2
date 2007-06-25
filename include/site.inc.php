@@ -179,7 +179,7 @@ class site extends interfaceweb
                        mysql_escape_string($sid) . "'");
     list($uid,$connecte,$expire) = $req->get_row();
 
-    if ($req->lines > 0)
+    if ($req->lines < 1 )
     {
       if ( isset($_COOKIE['AE2_SESS_ID']) )
       {
