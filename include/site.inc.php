@@ -320,13 +320,12 @@ class site extends interfaceweb
     $sid = md5(rand(0,32000) . $_SERVER['REMOTE_ADDR'] . rand(0,32000));
 
     $req = new insert($this->dbrw, "site_sessions",
-            array(
-              "id_session"      => $sid,
-              "id_utilisateur"    => $this->user->id,
-              "date_debut_sess"  => date("Y-m-d H:i:s"),
-              "derniere_visite"  => date("Y-m-d H:i:s"),
-              "expire_sess" => $expire
-              ));
+                      array("id_session"      => $sid,
+                            "id_utilisateur"  => $this->user->id,
+                            "date_debut_sess" => date("Y-m-d H:i:s"),
+                            "derniere_visite" => date("Y-m-d H:i:s"),
+                            "expire_sess"     => $expire
+                           ));
 
     return $sid;
   }
