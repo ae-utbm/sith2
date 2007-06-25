@@ -48,8 +48,8 @@ class fax extends stdentity
   var $numdest;
 
   /* les identifiants freebox de l'AE */
-  var $login;
-  var $pass;
+  var $login = "__LOGIN_FREEBOX__";
+  var $pass = "__MDP_FREEBOX__";
 
   /* identifiant de l'utilisateur faisant la demande */
   var $id_utilisateur;
@@ -66,8 +66,7 @@ class fax extends stdentity
   {
     $query = "SELECT * FROM `fax_fbx` WHERE id_fax = '".intval($id_fax)."' LIMIT 1";
     
-    $req = new requete($this->db,
-		       $query);
+    $req = new requete($this->db, $query);
 
     if ($req->lines <= 0)
       return false;
@@ -100,8 +99,6 @@ class fax extends stdentity
 
     header("Content-Type: application/pdf");
     @readfile($this->pdffile);
-
-
   }
   
   /* Fonction de création d'instance de fax. Ne faxe pas
@@ -114,18 +111,18 @@ class fax extends stdentity
    *
    */
   function create_instance($id_utilisateur,
-			   $numdest,
-			   $file,
-			   $id_asso = null)
+         $numdest,
+         $file,
+         $id_asso = null)
   {
     if (!$id_utilisateur)
-      {
-	return false;
-      }
+    {
+      return false;
+    }
     if (!$numdest)
-      {
-	return false;
-      }
+    {
+      return false;
+    }
 
     $this->id_asso = $id_asso;
     
@@ -139,9 +136,9 @@ class fax extends stdentity
     $query = "login=".$this->login."&pass=".$this->pass;
 
     $string = $this->_sendrequest("subscribe.free.fr", 
-				  "/login/login.pl",
-				  "application/x-www-form-urlencoded",
-				  $query);
+                                  "/login/login.pl",
+                                  "application/x-www-form-urlencoded",
+                                  $query);
     
     preg_match_all("/id=([0-9]*)&idt=([a-z0-9]*)/", $string, $found);
     
@@ -167,32 +164,32 @@ class fax extends stdentity
     $this->imgcaptcha = "http://adsl.free.fr/admin/tel/" . $found[1];
     
     if ( !is_uploaded_file($file['tmp_name']))
-      {
-	return false;
-      }
+    {
+      return false;
+    }
 
     $this->filename = $file['name'];
 
 
     /* and now, plug it into the MySQL base :-) */
     $req = new insert($this->dbrw,
-		      "fax_fbx",
-		      array ('idfree_fax'     => $this->idfree,
-			     'idtfree_fax'    => $this->idtfree,
-			     'numdest_fax'    => $this->numdest,
-			     'filename_fax'   => $this->filename,
-			     'id_utilisateur' => $this->id_utilisateur,
-			     'id_asso'        => $this->id_asso,
-			     'date_fax'       => date('Y-m-d H:i:s')));
+                      "fax_fbx",
+                      array ('idfree_fax'     => $this->idfree,
+                             'idtfree_fax'    => $this->idtfree,
+                             'numdest_fax'    => $this->numdest,
+                             'filename_fax'   => $this->filename,
+                             'id_utilisateur' => $this->id_utilisateur,
+                             'id_asso'        => $this->id_asso,
+                             'date_fax'       => date('Y-m-d H:i:s')));
     if ($req)
-      {
-	$this->id = $req->get_id();
-	global $topdir;
-	
-	@move_uploaded_file($file['tmp_name'], $topdir ."var/fax/". $this->id . ".pdf");
-	$this->pdffile = $topdir . "var/fax/". $this->id . ".pdf";
-	return true;
-      }
+    {
+      $this->id = $req->get_id();
+      global $topdir;
+
+      @move_uploaded_file($file['tmp_name'], $topdir ."var/fax/". $this->id . ".pdf");
+      $this->pdffile = $topdir . "var/fax/". $this->id . ".pdf";
+      return true;
+    }
     return false;
   }
 
@@ -217,33 +214,32 @@ class fax extends stdentity
    */
 
   function _sendrequest($host,
-			$page,
-			$cttype,
-			$query,
-			$stop = false)
+      $page,
+      $cttype,
+      $query,
+      $stop = false)
   {
     
     if ((!$host) || (!$page) || (!$cttype) || (!$query))
-      {
-	return false;
-      }
+    {
+      return false;
+    }
 
     $tosend = "POST ".$page." HTTP/1.1\r\n".
-      "Host: $host\r\n".
-      "Content-type: ".$cttype. "\r\n".
-      "User-Agent: Mozilla 4.0\r\n".
-      "Content-length: ".strlen($query).
-      "\r\nConnection: close\r\n\r\n$query";
+              "Host: $host\r\n".
+              "Content-type: ".$cttype. "\r\n".
+              "User-Agent: Mozilla 4.0\r\n".
+              "Content-length: ".strlen($query).
+              "\r\nConnection: close\r\n\r\n$query";
 
     $h = fsockopen($host,80);
  
     if ($stop == true)
-      {
-	header("Content-type: text/plain");
-	echo $tosend;
-	die();
-
-      }
+    {
+      header("Content-type: text/plain");
+      echo $tosend;
+      die();
+    }
     if (!$h)
       return false;
     
@@ -266,10 +262,11 @@ class fax extends stdentity
   {
 
     if ((!$this->numdest) || (!$this->captchavalue) || (!$this->idfree)
-	|| (!$this->idtfree) || (!file_exists($this->pdffile)))
-      {
-	return false;
-      }
+        || (!$this->idtfree) || (!file_exists($this->pdffile)))
+    {
+      return false;
+		}
+
     if ($secret == true)
       $this->mask = 'Y';
     else
@@ -320,9 +317,9 @@ class fax extends stdentity
 
     /* on envoie la requete */
     $txtres = $this->_sendrequest("adsl.free.fr",
-				  "/admin/tel/send_fax_valid.pl",
-				  $cttype,
-				  $query);
+                                  "/admin/tel/send_fax_valid.pl",
+                                  $cttype,
+                                  $query);
 
     
     /* resultat */
@@ -332,8 +329,6 @@ class fax extends stdentity
       return false;
   }
 
-
 }
-
 
 ?>
