@@ -411,6 +411,7 @@ if ( $sujet->is_valid() )
 		     array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),'doku');
     $frm->add_dokuwiki_toolbar('rpltext');
     $frm->add_text_area("rpltext", "Texte du message : ",$rpltext,80,20);
+    $frm->add_checkbox ( "star", "Ajouter à mes sujets favoris.", true );
     $frm->add_submit("rplsubmit", "Poster");
     $frm->allow_only_one_usage();
     $cts->add($frm);
@@ -428,7 +429,6 @@ if ( $sujet->is_valid() )
 			    40, 
 			    "DESC" ));
 			    
-    $frm->add_checkbox ( "star", "Ajouter à mes sujets favoris.", true );
 
     $site->add_contents($cts);
     $site->end_page();
