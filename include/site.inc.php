@@ -771,6 +771,11 @@ class site extends interfaceweb
         $sublist->add("<a href=\"".$topdir."asso/mailing.php?id_asso=$id\">Mailing</a>");
         $sublist->add("<a href=\"".$topdir."asso/ventes.php?id_asso=$id\">Ventes</a>");
         $sublist->add("<a href=\"".$topdir."d.php?id_asso=$id\">Fichiers</a>");
+
+	if ($role == ROLEASSO_PRESIDENT)
+	  {
+            $sublist->add("<a href=\"".$topdir."asso/sendfax.php?id_asso=$id\">Envoi de fax</a>");
+	  }
         
         if ( $role >= ROLEASSO_TRESORIER )
         {
@@ -788,6 +793,9 @@ class site extends interfaceweb
             $sublist->add("<a href=\"".$topdir."compta/classeur.php?id_classeur=$id\">Compta $nom</a>");
           }
         }
+
+
+
         $cts->add($sublist,true, true, "asso".$id."box", "boxlist", true, true);
       }
     }
