@@ -59,6 +59,7 @@ $cts->add(new tabshead($asso->get_tabs($site->user),"tools"));
 	$sublist->add("<a href=\"../emprunt.php?id_asso=".$asso->id."\">Reserver du matériel</a>");
 	$sublist->add("<a href=\"../news.php?id_asso=".$asso->id."\">Ajouter une nouvelle</a>");
 	$sublist->add("<a href=\"reservations.php?id_asso=".$asso->id."\">Suivre les reservations de salle et emprunts de matériel</a>");
+	$sublist->add("<a href=\"sendfax.php?id_asso=".$asso->id."\">Envoyer un fax</a>");
 	$cts->add($sublist,true);
 	
 	$req = new requete ($site->db,
