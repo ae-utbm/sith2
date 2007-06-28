@@ -24,9 +24,9 @@
 
 $topdir="./";
 
-include($topdir. "include/site.inc.php");
-include($topdir. "include/entities/page.inc.php");
-include($topdir. "include/entities/asso.inc.php");
+require_once($topdir. "include/site.inc.php");
+require_once($topdir. "include/entities/page.inc.php");
+require_once($topdir. "include/entities/asso.inc.php");
 
 $site = new site ();
 $page = new page ($site->db,$site->dbrw);

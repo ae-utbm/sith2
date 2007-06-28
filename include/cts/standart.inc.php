@@ -229,17 +229,35 @@ class wikicontents extends contents
 class wikihelp extends stdcontents
 {
 	
+	var $page;
+	
 	/** Crée un stdcontents servant d'aide pour le wiki
 	 */
 	function wikihelp()
 	{
-		$this->title = "Aide";
+		$this->title = "Aide syntaxe (type DokuWiki)";
 	}
 
 	function html_render ()
 	{
-		$wiki = new wiki2xhtml();
-		return $wiki->help();
+	  global $wwwtopdir;
+    return 
+    "<h2>Mise en forme élémentaire</h2>".
+    "<ul>".
+    "<li><b>Gras</b> : **gras**</li>".
+    "<li><b>Italique</b> : //italique//</li>".
+    "<li><b>Souligné</b> : __souligné__</li>".
+    "<li><b>Barré</b> : &lt;del&gt;barré&lt;del&gt;</li>".
+    "<li><b>Lien</b> : [[url]], [[url|texte du lien]]</li>".
+    "<li><b>Image</b> : {{url}}, {{url?<i>largeur</i>x<i>hauteur</i>}}, centré {{ url }}, droite {{ url}}, gauche {{url }}</li>".
+    "<li><b>Notes bas de page</b> : ((note bas de page))</li>".
+    "</ul>".
+    "<h2>Paragraphes</h2>".
+    "<h2>Tableaux</h2>".
+    "<p><a href=\"".$wwwtopdir."article.php?name=docs:syntax\">Voir aussi : <b>Aide détaillée</b></a></p>";
+    
+
+
 	}
 
 }
