@@ -337,44 +337,48 @@ class delete extends requete {
    *  message d'erreur dans errmsg.
    */
   function delete($base, $table, $delete_conds, $debug = 0)
-    {
-      if(!$base || !$table || ! $delete_conds)
-	{
-	  return false;
-	}
+  {
+    if(!$base || !$table || ! $delete_conds)
+  	{
+  	  return false;
+  	}
 
-      $delete_conds_count = count($delete_conds);
+    $delete_conds_count = count($delete_conds);
 
-      if($delete_conds_count <= 0)
-	{
-	  return false;
-	}
+    if($delete_conds_count <= 0)
+  	{
+  	  return false;
+  	}
 
-      $sql = "delete from `" . $table . "` where (";
+    $sql = "delete from `" . $table . "` where (";
 
-      $i = 0;
+    $i = 0;
 
-      foreach ($delete_conds as $key => $value)
-	{
-	  $sql .= "(`" . $key . "`= '" . mysql_escape_string($value) . "')";
-
-	  if($i != ($delete_conds_count-1))
+    foreach ($delete_conds as $key => $value)
+  	{
+      if ( is_null($value) )
+        $sql .= "(`" . $key . "` is NULL)";
+      else
+        $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
+  
+  
+  	  if($i != ($delete_conds_count-1))
 	    {
 	      $sql .= " AND ";
 	    }
+  
+  	  $i++;
+  	}
 
-	  $i++;
-	}
+    $sql .= ")";
 
-      $sql .= ")";
+    if($debug == 1)
+  	{
+  	  echo "Votre requete SQL est <b> " . $sql . "</b><br/>";
+  	}
 
-      if($debug == 1)
-	{
-	  echo "Votre requete SQL est <b> " . $sql . "</b><br/>";
-	}
-
-      $this->requete($base, $sql);
-    }
+    $this->requete($base, $sql);
+  }
 }
 
 ?>
