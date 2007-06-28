@@ -1696,7 +1696,10 @@ L'équipe info AE";
     // supprime les frm_sujet_utilisateur qui ne servirons plus à rien
     $req = new delete($this->dbrw,"frm_sujet_utilisateur", 
             array("etoile_sujet"=>0,"id_utilisateur"=>$this->id));
-    
+            
+    $req = new delete($this->dbrw,"frm_sujet_utilisateur", 
+            array("etoile_sujet"=>NULL,"id_utilisateur"=>$this->id));
+            
     $this->tout_lu_avant = time();   
     $req = new update($this->dbrw,"utilisateurs",
                       array("tout_lu_avant_utl"=>date("Y-m-d H:i:s")),
