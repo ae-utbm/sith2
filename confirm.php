@@ -25,12 +25,10 @@ $topdir = "./";
 require_once($topdir. "include/site.inc.php");
 
 $site = new site ();
- 
+  
 $site->user->load_by_id($_REQUEST["id"]);
 
-if ( ($site->user->id == -1) || 
-	( ($site->user->hash !=  $_REQUEST["hash"]) && 
-	($site->user->hash  != "valid") ) )
+if ( !$site->user->is_valid() || ($site->user->hash == "valid") || ($site->user->hash != $_REQUEST["hash"]) )
 {
 	$site->start_page("none","Erreur");
 	$site->add_contents(new error("Impossible d'activer votre compte","Merci de vérifier le lien dans l'email qui vous a été adressé"));
