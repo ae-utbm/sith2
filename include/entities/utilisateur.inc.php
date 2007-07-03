@@ -180,12 +180,25 @@ class utilisateur extends stdentity
   function load_by_carteae ( $num )
   {
     $this->vol = false;  
-    list($id,$extra) = explode(" ",$num);
+
+	  if ( ereg("^([0-9]+)([a-zA-Z]{1})$", $num, $regs) )
+	  {
+	    $cond = "`ae_carte`.`id_carte_ae` = '" . mysql_real_escape_string($regs[1]) . "' AND ".
+	             "`ae_carte`.`cle_carteae` = '" . strtoupper(mysql_real_escape_string($regs[2])) . "'";
+	  }
+	  elseif ( ereg("^([0-9]+) ([a-zA-Z\\-]{1,6})\\.([a-zA-Z\\-]{1,6})$", $num, $regs) )
+	  {
+	    $cond = "`ae_carte`.`id_carte_ae` = '" . mysql_real_escape_string($regs[1]) . "'";
+	  }
+    else // voué à disparaitre
+    {
+      $cond = "`ae_carte`.`id_carte_ae` = '" . mysql_real_escape_string(intval($num)) . "'";
+    }	 
 
     $req = new requete($this->db, "SELECT * FROM `utilisateurs` " .
                                   "INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
                                   "INNER JOIN `ae_carte` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` " .
-                                  "WHERE `ae_carte`.`id_carte_ae` = '" . mysql_real_escape_string($id) . "' " .
+                                  "WHERE $cond " .
                                   "AND `ae_carte`.`etat_vie_carte_ae`<=".CETAT_EXPIRE." " .
                                   "LIMIT 1");
 

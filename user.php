@@ -874,13 +874,13 @@ else
                             "Cotisant(e) AE jusqu'au " .
                             HumanReadableDate($res['date_fin_cotis'], null, false) . " $year !");
   
-        $req = new requete($site->db,"SELECT `id_carte_ae`, `etat_vie_carte_ae` FROM `ae_carte` INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` WHERE `ae_cotisations`.`id_utilisateur`='".$user->id."' AND `ae_carte`.`etat_vie_carte_ae`<".CETAT_EXPIRE."");
+        $req = new requete($site->db,"SELECT `id_carte_ae`, `etat_vie_carte_ae`, `cle_carteae` FROM `ae_carte` INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` WHERE `ae_cotisations`.`id_utilisateur`='".$user->id."' AND `ae_carte`.`etat_vie_carte_ae`<".CETAT_EXPIRE."");
   
         $tbl = new sqltable(
                             "listasso",
                             "Ma carte AE", $req, "user.php?id_utilisateur=".$user->id,
                             "id_carte_ae",
-                            array("id_carte_ae"=>"N°","etat_vie_carte_ae"=>"Etat"),
+                            array("id_carte_ae"=>"N°","cle_carteae"=>"Lettre clé","etat_vie_carte_ae"=>"Etat"),
                             $site->user->is_in_group("gestion_ae")?array("reprint"=>"Re-imprimer carte"):array(),
                             array(), array("etat_vie_carte_ae"=>$EtatsCarteAE )
                             );

@@ -35,6 +35,9 @@ define("CETAT_EXPIRE",10);
 define("CETAT_PERDUE",12);
 define("CETAT_VOLEE",14);
 
+/*
+ * UPDATE `ae_carte` SET cle_carteae = CHAR( ASCII( 'A' ) + CEIL( RAND( ) *26 ) -1 ) WHERE cle_carteae IS NULL
+ */
 
 $EtatsCarteAE = array (
 	CETAT_ATTENTE       => "Attente de fabrication",
@@ -53,7 +56,8 @@ class carteae extends stdentity
 	var $id_cotisation;
 	var $etat_vie_carte;
 	var $date_expiration;
-
+  var $cle;
+  
 	/** Charge une carte en fonction de son id
 	 * $this->id est égal à -1 en cas d'erreur
 	 * @param $id id de la fonction
@@ -76,9 +80,24 @@ class carteae extends stdentity
 	 */
 	function load_by_cbarre ( $num )
 	{
-		list($id,$extra) = explode(" ",$num);
-
-		$this->load_by_id($id);
+	  if ( ereg("^([0-9]+)([a-zA-Z]{1})$", $num, $regs) )
+	  {
+	    $this->load_by_id($regs[1]);
+	    
+	    if ( strtoupper($this->cle) != strtoupper($regs[2]) ) // Verifie la cle de contrôle
+	    {
+	      $this->id=null;
+	      $this->id_cotisation=null;
+	    }
+	  }
+	  elseif ( ereg("^([0-9]+) ([a-zA-Z\\-]{1,6})\\.([a-zA-Z\\-]{1,6})$", $num, $regs) )
+	  {
+	    $this->load_by_id($regs[1]);
+	  }
+    else // voué à disparaitre
+    {
+	    $this->load_by_id(intval($num));
+    }	 
 	}
 
 	/** Charge une carte en fonction de l'id de son propriétaire
@@ -111,6 +130,8 @@ class carteae extends stdentity
 		$this->id_cotisation		= $row['id_cotisation'];
 		$this->etat_vie_carte		= $row['etat_vie_carte_ae'];
 		$this->date_expiration	= $row['date_expiration'];
+		$this->cle	= $row['cle_carteae'];
+
 	}
 
 	function add ( $id_cotisation, $expire )
@@ -118,13 +139,15 @@ class carteae extends stdentity
 		$this->id_cotisation = $id_cotisation;
 		$this->etat_vie_carte = CETAT_ATTENTE;
 		$this->date_expiration = $expire;
-
+    $this->cle = chr(ord('A')+rand(0,25));
+    
 		$sql = new insert ($this->dbrw,
 			"ae_carte",
 			array(
 				"id_cotisation" => $this->id_cotisation,
 				"etat_vie_carte_ae" => $this->etat_vie_carte,
-				"date_expiration" => date("Y-m-d",$this->date_expiration)
+				"date_expiration" => date("Y-m-d",$this->date_expiration),
+				"cle_carteae" => $this->cle
 				)
 			);
 
@@ -182,7 +205,5 @@ class carteae extends stdentity
 
 
 }
-
-
 
 ?>
