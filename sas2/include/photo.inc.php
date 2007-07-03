@@ -99,7 +99,7 @@ class photo extends basedb
     $this->droits_acces = $row['droits_acces_ph'];
 
     $this->meta_id_asso = $row['meta_id_asso_ph'];
-
+    
     $this->date_ajout = strtotime($row['date_ajout_ph']);
     $this->id_asso_photographe = $row['id_asso_photographe'];
   }
