@@ -5,7 +5,7 @@ if ( $_REQUEST["action"] == "logclient" && count($site->comptoir->operateurs))
 	$client = new utilisateur($site->db,$site->dbrw);
 
 	if ( $_REQUEST["code_bar_carte"] )
-	  $client->load_by_carteae($_REQUEST["code_bar_carte"]);
+	  $client->load_by_carteae($_REQUEST["code_bar_carte"],true);
 	else
 	  $client->load_by_email($_REQUEST["adresse_mail_log"]);
 
@@ -201,7 +201,7 @@ else if ( $_REQUEST["page"] == "confirmrech" && count($site->comptoir->operateur
 	$client = new utilisateur($site->db);
 
 	if ( $_REQUEST["code_bar_carte"] )
-	  $client->load_by_carteae($_REQUEST["code_bar_carte"]);
+	  $client->load_by_carteae($_REQUEST["code_bar_carte"],true);
 	else
 	  $client->load_by_email($_REQUEST["adresse_mail_rech"]);
 

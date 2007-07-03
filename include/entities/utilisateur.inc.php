@@ -177,7 +177,7 @@ class utilisateur extends stdentity
    * En cas d'erreur, l'id est défini à null
    * @param $num numéro de carte
    */
-  function load_by_carteae ( $num )
+  function load_by_carteae ( $num, $strict=false )
   {
     $this->vol = false;  
 
@@ -192,6 +192,11 @@ class utilisateur extends stdentity
 	  }
     else // voué à disparaitre
     {
+      if ( $strict )
+      {
+        $this->id=null;
+        return;
+      }
       $cond = "`ae_carte`.`id_carte_ae` = '" . mysql_real_escape_string(intval($num)) . "'";
     }	 
 
