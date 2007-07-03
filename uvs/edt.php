@@ -29,7 +29,7 @@ $cts = new contents("Emploi du temps",
 		    "Sur cette page, vous allez pouvoir ".
 		    "créer votre emploi du temps.");
 
-$adduv = new form("adduv", "edt.php?adduv=1", "post", "Ajout d'une UV");
+$adduv = new form("adduv", "edt.php?adduv=1", true, "post", "Ajout d'une UV");
 
 $adduv->add_info("Ce formulaire vous permet d'ajouter une UV, au cas où ".
 		 "celle-ci ne serait pas déjà enregistrée en base.");
@@ -48,9 +48,10 @@ $adduv->add_submit('adduv_sbmt',
 $cts->add($adduv);
 
 $addseance = new form("addseance", 
-		  "edt.php?addseance=1", 
-		  "post", 
-		  "Ajout d'une séance");
+		      "edt.php?addseance=1",
+		      true,
+		      "post", 
+		      "Ajout d'une séance");
 
 $q = new requete($site->db, "SELECT 
                                      id_uv
@@ -79,27 +80,27 @@ else
   
   /* défini dans entities/edt.inc.php */
   global $jour;
-  $addrseance->add_select_field('adds_j',
+  $addseance->add_select_field('adds_j',
 				'jour',
 				$jour);
 
-  $addrseance->add_time_field('adds_hdeb',
+  $addseance->add_time_field('adds_hdeb',
 			      'Heure de début',
 			      -1, true);
 
-  $addrseance->add_time_field('adds_hfin',
+  $addseance->add_time_field('adds_hfin',
 			      'Heure de fin',
 			      -1, true);
 
-  $addrseance->add_select_field('adds_freq',
+  $addseance->add_select_field('adds_freq',
 				'Fréquence',
 				array("1" => "Hebdomadaire",
 				      "2" => "Bimensuelle"));
 
-  $addrseance->add_hidden('adds_semestre',
+  $addseance->add_hidden('adds_semestre',
 			  (date('M') > 06 ? "A" : "P"). date("y"));
 
-  $addrseance->add_submit("adds_sbmt",
+  $addseance->add_submit("adds_sbmt",
 			  "Ajouter la séance");
   
 }
