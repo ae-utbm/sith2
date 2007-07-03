@@ -151,6 +151,7 @@ class edt extends stdentity
   }
 
   function create_grp ($iduv,
+		       $type_grp,
 		       $numgrp,
 		       $hdebgrp,
 		       $hfingrp,
@@ -165,7 +166,7 @@ class edt extends stdentity
     $sql = new insert($this->dbrw,
 		      "edu_uv_groupe",
 		      array("id_uv"           => $iduv,
-			    "type_grp"        => $id_etu,
+			    "type_grp"        => $type_grp,
 			    "numero_grp"      => $numgrp,
 			    "heure_debut_grp" => $hdebgrp,
 			    "heure_fin_grp"   => $hfingrp,
