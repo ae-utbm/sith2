@@ -128,7 +128,7 @@ if ( $_REQUEST["page"] == "unread" )
 
 if ( isset($_REQUEST["pattern"] ) )
 {
-	$pattern = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","(e|é|è|ê|ë|É|È|Ê|Ë)",$_REQUEST["pattern"]);
+	/*$pattern = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","(e|é|è|ê|ë|É|È|Ê|Ë)",$_REQUEST["pattern"]);
 	$pattern = ereg_replace("(a|à|â|ä|À|Â|Ä)","(a|à|â|ä|À|Â|Ä)",$pattern);
 	$pattern = ereg_replace("(i|ï|î|Ï|Î)","(i|ï|î|Ï|Î)",$pattern);
 	$pattern = ereg_replace("(c|ç|Ç)","(c|ç|Ç)",$pattern);
@@ -154,6 +154,13 @@ if ( isset($_REQUEST["pattern"] ) )
   }
   
   $sql .= " ORDER BY frm_message.id_message DESC ";
+  $sql .= "LIMIT 50";
+  */
+  
+  $sql = "SELECT frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message ".
+         "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) WHERE ";
+  $sql .= "MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($pattern)."') ";
+  $sql .= "ORDER BY frm_message.id_message DESC ";
   $sql .= "LIMIT 50";
   
   $req = new requete($site->db,$sql);
