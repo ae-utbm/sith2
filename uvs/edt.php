@@ -32,6 +32,8 @@ $cts = new contents("Emploi du temps",
 
 $adduv = new form("adduv", "edt.php?adduv=1", true, "post", "Ajout d'une UV");
 
+$cts->add_title(2, "Ajout d'une UV");
+
 $adduv->add_info("Ce formulaire vous permet d'ajouter une UV, au cas où ".
 		 "celle-ci ne serait pas déjà enregistrée en base.");
 
@@ -47,6 +49,8 @@ $adduv->add_submit('adduv_sbmt',
 		   "Ajouter");
 
 $cts->add($adduv);
+
+$cts->add_title(2, "Ajout d'une séance");
 
 $addseance = new form("addseance", 
 		      "edt.php?addseance=1",
