@@ -13,7 +13,7 @@ require_once ($topdir . "include/entities/edt.inc.php");
 
 $site = new site();
 
-$site->start_page("Services", "Emploi du temps");
+$site->start_page("services", "Emploi du temps");
 
 if (!$site->user->utbm)
 {
