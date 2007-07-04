@@ -834,7 +834,7 @@ elseif ( $_REQUEST["page"] == "edit" && $forum->is_admin($site->user) )
   $site->start_page("forum", $forum->titre);
   $cts = new contents($path." / Editer");
   
-  $frm = new form("editfrm","?id_forum".$forum->id);
+  $frm = new form("editfrm","?id_forum=".$forum->id);
   $frm->add_hidden("action","edit");
   $frm->add_text_field("titre","Titre",$forum->titre);
   $frm->add_text_field("ordre","Numéro d'ordre",$forum->ordre);
