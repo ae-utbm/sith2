@@ -52,7 +52,7 @@ class reactonforum extends stdcontents
       $req = new requete($db,"SELECT id_sujet, titre_sujet ".
         "FROM frm_sujet ".
         "INNER JOIN frm_forum USING(`id_forum`) ".
-        "WHERE ((droits_acces_forum & 0x1) ".
+        "WHERE (droits_acces_forum & 0x1) ".
         "AND $sqlconds");
     
     if ( $req->lines > 0 )

@@ -54,6 +54,54 @@ elseif ( isset($_REQUEST["id_forum"]) )
 {
   $forum->load_by_id($_REQUEST["id_forum"]); 
 }
+elseif ( isset($_REQUEST["react"]) )
+{
+  
+  $conds=array();
+  
+  if ( isset($_REQUEST["id_sujet"]) )
+    $conds[]= "(`frm_sujet`.`id_sujet`='" . mysql_escape_string($_REQUEST["id_sujet"]) . "')";
+  
+  $sqlconds = implode(" AND ",$conds);
+    
+  if ( $user->is_valid() )
+  {
+    $grps = $user->get_groups_csv();
+    $req = new requete($db,"SELECT frm_sujet.* ".
+      "FROM frm_sujet ".
+      "INNER JOIN frm_forum USING(`id_forum`) ".
+      "WHERE ((droits_acces_forum & 0x1) OR " .
+      "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
+      "(id_groupe_admin IN ($grps)) OR " .
+      "((droits_acces_forum & 0x100) AND id_utilisateur='".$user->id."')) ".
+      "AND $sqlconds");
+  }
+  else
+    $req = new requete($db,"SELECT frm_sujet.* ".
+      "FROM frm_sujet ".
+      "INNER JOIN frm_forum USING(`id_forum`) ".
+      "WHERE (droits_acces_forum & 0x1) ".
+      "AND $sqlconds");
+    
+  if ( $req->lines > 0 )
+  {
+    $sujet->_load($req->get_row());
+    $forum->load_by_id($sujet->id_forum); 
+  }
+  else
+  {
+    $forum->load_by_id(3);
+    if ( isset($_REQUEST["id_asso"]) && !is_null($_REQUEST["id_asso"]) )
+    {
+      $req = new requete($db,"SELECT * FROM frm_forum WHERE id_asso='".mysql_escape_string($_REQUEST["id_asso"])."' AND categorie_forum=0");
+      if ( $req->lines > 0 )
+        $forum->_load($req->get_row());
+    }
+    $_REQUEST["page"]="post";
+  }
+}
+
+
 
 if ( !$forum->is_valid() )
   $forum->load_by_id(1); // Le forum id=1 est la racine

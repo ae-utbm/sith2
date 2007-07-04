@@ -177,6 +177,12 @@ class newslister extends stdcontents
   			
   			$when = " ".date("d/m/Y",strtotime($row['date_nvl']));
   			
+  			$when .= " - <a href=\"forum2/?react=react".
+  			   "&amp;id_nouvelle=".$row['id_nouvelle'].
+  			   "&amp;id_asso=".$row['id_asso'].
+  			   "&amp;titre_sujet=".urlencode($row['titre_nvl']).
+  			   "\">Réactions</a>";
+  			
   			$this->puts("<li class=\"nvlitm nvl$n\"><img src=\"$img\" alt=\"\"/><a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\" class=\"nvltitre\">".$row['titre_nvl']."</a> <span class=\"when\">$when</span><br/><span class=\"nvlresume\">".doku2xhtml($row['resume_nvl'])."</span><div class=\"clearboth\"></div></li>\n");
   			$n = ($n+1)%2;	
   		}
@@ -229,6 +235,13 @@ class newslister extends stdcontents
   			else
   				$hour = "de ".strftime("%H:%M",$debut) . " jusqu'à ".strftime("%H:%M",$fin);
   
+    		$hour .= " - <a href=\"forum2/?react=react".
+  			   "&amp;id_nouvelle=".$row['id_nouvelle'].
+  			   "&amp;id_asso=".$row['id_asso'].
+  			   "&amp;titre_sujet=".urlencode($row['titre_nvl']).
+  			   "\">Réactions</a>";
+  
+  
   			$this->puts("<li class=\"nvlitm nvl$n\">$img<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\" class=\"nvltitre\">".$row['titre_nvl']."</a> <span class=\"hour\">$hour</span><br/><span class=\"nvlresume\">".doku2xhtml($row['resume_nvl'])."</span><div class=\"clearboth\"></div></li>\n");
   		
   		
@@ -261,6 +274,11 @@ class newslister extends stdcontents
   		{
   			$debut = strtotime($row['date_debut_eve']);
   			$hour = "le ".strftime("%A %d %B %G à %H:%M",$debut);
+    		$hour .= " - <a href=\"forum2/?react=react".
+  			   "&amp;id_nouvelle=".$row['id_nouvelle'].
+  			   "&amp;id_asso=".$row['id_asso'].
+  			   "&amp;titre_sujet=".urlencode($row['titre_nvl']).
+  			   "\">Réactions</a>";
   			$this->puts("<li class=\"nvlttls\"><a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">$hour</span></li>");	
   		}
   		$this->puts("</ul>\n");
@@ -354,6 +372,7 @@ class newsday extends newslister
   			"WHERE modere_nvl='1' AND asso_seule_nvl='0' " .
   			"AND `nvl_dates`.`date_debut_eve` <= '" . date("Y-m-d",$day+24*60*60) ." 05:59:59' " .
   			"AND `nvl_dates`.`date_fin_eve` >= '" . date("Y-m-d",$day) ." 06:00:00' " .
+  			"GROUP BY nvl_nouvelles.id_nouvelle" .
   			"ORDER BY nvl_dates.date_debut_eve ");
     
     $this->days_list($sql,"Activités et évenements prévus");
