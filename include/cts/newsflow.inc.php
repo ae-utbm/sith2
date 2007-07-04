@@ -372,7 +372,6 @@ class newsday extends newslister
   			"WHERE modere_nvl='1' AND asso_seule_nvl='0' " .
   			"AND `nvl_dates`.`date_debut_eve` <= '" . date("Y-m-d",$day+24*60*60) ." 05:59:59' " .
   			"AND `nvl_dates`.`date_fin_eve` >= '" . date("Y-m-d",$day) ." 06:00:00' " .
-  			"GROUP BY nvl_nouvelles.id_nouvelle" .
   			"ORDER BY nvl_dates.date_debut_eve ");
     
     $this->days_list($sql,"Activités et évenements prévus");
