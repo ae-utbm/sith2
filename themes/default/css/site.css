@@ -1915,11 +1915,13 @@ li.nvlitm .hour
 {
 	font-size:80%;
 	margin-left:0.25em;
+	color:#808080;
 }
 
 li.nvlitm .hour a
 {
 	font-size:100%;
+	color:#808080;
 }
 
 li.nvlitm .nvlresume
@@ -1978,17 +1980,21 @@ li.nvlttls .hour a
 {
 	font-size:100%;
 	color:#808080;
+	font-weight:normal;
 }
 
 li.nvlitm .when
 {
 	font-size:80%;
 	margin-left:0.25em;
+	color:#808080;
 }
 
 li.nvlitm .when a
 {
 	font-size:100%;
+	font-weight:normal;
+	color:#808080;
 }
 
 
