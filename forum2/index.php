@@ -64,20 +64,20 @@ elseif ( isset($_REQUEST["react"]) )
   
   $sqlconds = implode(" AND ",$conds);
     
-  if ( $user->is_valid() )
+  if ( $site->user->is_valid() )
   {
-    $grps = $user->get_groups_csv();
-    $req = new requete($db,"SELECT frm_sujet.* ".
+    $grps = $site->user->get_groups_csv();
+    $req = new requete($site->db,"SELECT frm_sujet.* ".
       "FROM frm_sujet ".
       "INNER JOIN frm_forum USING(`id_forum`) ".
       "WHERE ((droits_acces_forum & 0x1) OR " .
       "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
       "(id_groupe_admin IN ($grps)) OR " .
-      "((droits_acces_forum & 0x100) AND id_utilisateur='".$user->id."')) ".
+      "((droits_acces_forum & 0x100) AND id_utilisateur='".$site->user->id."')) ".
       "AND $sqlconds");
   }
   else
-    $req = new requete($db,"SELECT frm_sujet.* ".
+    $req = new requete($site->db,"SELECT frm_sujet.* ".
       "FROM frm_sujet ".
       "INNER JOIN frm_forum USING(`id_forum`) ".
       "WHERE (droits_acces_forum & 0x1) ".
@@ -93,7 +93,7 @@ elseif ( isset($_REQUEST["react"]) )
     $forum->load_by_id(3);
     if ( isset($_REQUEST["id_asso"]) && !is_null($_REQUEST["id_asso"]) )
     {
-      $req = new requete($db,"SELECT * FROM frm_forum WHERE id_asso='".mysql_escape_string($_REQUEST["id_asso"])."' AND categorie_forum=0");
+      $req = new requete($site->db,"SELECT * FROM frm_forum WHERE id_asso='".mysql_escape_string($_REQUEST["id_asso"])."' AND categorie_forum=0");
       if ( $req->lines > 0 )
         $forum->_load($req->get_row());
     }
