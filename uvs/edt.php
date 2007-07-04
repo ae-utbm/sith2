@@ -26,6 +26,13 @@ if (!$site->user->is_valid())
 
 
 
+if ($_REQUEST['adduv'] == 1)
+{
+  //  $site->add_contents(new contents("Ajout d'UV", "UV ajoutée avec succès"));
+  $site->add_contents(new contents("POST", print_r($_POST, true)));
+  
+}
+
 $cts = new contents("Emploi du temps",
 		    "Sur cette page, vous allez pouvoir ".
 		    "créer votre emploi du temps.");
