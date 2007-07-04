@@ -842,6 +842,7 @@ elseif ( $_REQUEST["page"] == "edit" && $forum->is_admin($site->user) )
   $frm->add_checkbox ( "categorie", "Catégorie", $forum->categorie );
   $frm->add_text_area("description","Description",$forum->description);
   $frm->add_rights_field($forum,false,$forum->is_admin($site->user));
+  $frm->add_submit("rec","Enregistrer");
   $cts->add($frm);
   
   $site->add_contents($cts);
