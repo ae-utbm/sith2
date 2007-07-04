@@ -534,10 +534,10 @@ class userinfov2 extends stdcontents
     if ( $ville->is_valid() || $user->addresse )
     {
       $this->buffer .= "<p class=\"adresse\">";
-      $this->buffer .= htmlentities($user->addresse,ENT_COMPAT,"UTF-8") . "<br />" . htmlentities($user->cpostal,ENT_COMPAT,"UTF-8");
+      $this->buffer .= htmlentities($user->addresse,ENT_COMPAT,"UTF-8");
       
       if ( $ville->is_valid() )
-        $this->buffer .= $ville->cpostal." "." " . $ville->get_html_link();
+        $this->buffer .= " ".$ville->cpostal." " . $ville->get_html_link();
       
       if ( $pays->is_valid() )
         $this->buffer .= "<br/>".$pays->get_html_link();
@@ -568,10 +568,10 @@ class userinfov2 extends stdcontents
       if ( $ville_parents->is_valid() || $user->addresse_parents )
       {
         $this->buffer .= "<p class=\"adresseparents\">";
-        $this->buffer .= htmlentities($user->addresse_parents,ENT_COMPAT,"UTF-8") . "<br />";
+        $this->buffer .= htmlentities($user->addresse_parents,ENT_COMPAT,"UTF-8");
         
         if ( $ville_parents->is_valid() )
-          $this->buffer .= $ville_parents->cpostal." ".$ville_parents->get_html_link();
+          $this->buffer .= " ".$ville_parents->cpostal." ".$ville_parents->get_html_link();
         
         if ( $pays_parents->is_valid() )
           $this->buffer .= "<br/>".$pays_parents->get_html_link();
