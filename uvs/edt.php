@@ -24,13 +24,17 @@ if (!$site->user->is_valid())
 	error_403();
 }
 
-
+$edt = new edt($site->db, $site->dbrw);
 
 if ($_REQUEST['adduv'] == 1)
 {
-  //  $site->add_contents(new contents("Ajout d'UV", "UV ajoutée avec succès"));
-  $site->add_contents(new contents("POST", print_r($_POST, true)));
+ 
+  $ret = $edt->create_uv($_REQUEST['adduv_name'], $_REQUEST['adduv_intitule']);
   
+  if ($ret)
+    $site->add_contents(new contents("Ajout d'UV", "l'UV ".
+				     $_REQUEST['adduv_name'].
+				     " a été ajoutée avec succès"));
 }
 
 $cts = new contents("Emploi du temps",

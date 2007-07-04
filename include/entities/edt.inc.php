@@ -137,7 +137,8 @@ class edt extends stdentity
     
     if (!$this->dbrw)
       return false;
-
+    $code_uv = mysql_real_escape_string($code_uv);
+    $intitule_uv = mysql_real_escape_string($intitule_uv);
 
     $sql = new insert($this->dbrw,
 		      "edu_uv",
