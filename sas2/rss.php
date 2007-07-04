@@ -67,7 +67,7 @@ while ( $row = $sqlph->get_row() )
   echo "			<pubDate>".gmdate("D, j M Y G:i:s T",$photo->date_ajout)."</pubDate>\n";
 
   if ( !is_null($photo->date_prise_vue) )
-    echo "      <dc:date.Taken>".gmstrftime("%Y-%m-%dT%H:%M:%S%P+00:00",$photo->date_prise_vue)."</dc:date.Taken>\n";
+    echo "			<dc:date.Taken>".gmstrftime("%Y-%m-%dT%H:%M:%S%P+00:00",$photo->date_prise_vue)."</dc:date.Taken>\n";
   echo "			<guid isPermaLink=\"false\">".htmlspecialchars($img)."</guid>\n";                            echo "			<media:content url=\"".htmlspecialchars($link)."\" type=\"image/jpeg\" />\n";  echo "			<media:title>".htmlspecialchars($title)."</media:title>\n";    echo "			<media:text type=\"html\">".htmlspecialchars($description)."</media:text>\n";  echo "			<media:thumbnail url=\"".$img_vignette."\" />\n";    echo "		</item>\n";
 }
 

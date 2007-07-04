@@ -828,24 +828,40 @@ if ( $_REQUEST["page"] == "post" && !$forum->categorie )
 }
 elseif ( $_REQUEST["page"] == "edit" && $forum->is_admin($site->user->id) )
 {
+  $asso = new asso($site->db);
+  $asso->load_by_id($forum->id_asso);
+  
   $site->start_page("forum", $forum->titre);
   $cts = new contents($path." / Editer");
   
-  
-  
-  
+  $frm = new form("editfrm","?id_forum".$forum->id);
+  $frm->add_hidden("action","edit");
+  $frm->add_text_field("titre","Titre",$forum->titre);
+  $frm->add_text_field("ordre","Numéro d'ordre",$forum->ordre);
+  $frm->add_entity_smartselect ("id_asso", "Association/Club lié",$asso, true);
+  $frm->add_checkbox ( "categorie", "Catégorie", $forum->categorie );
+  $frm->add_text_area("description","Description",$forum->description);
+  $frm->add_rights_field($forum,false,$forum->is_admin($site->user));
+  $cts->add($frm);
   
   $site->add_contents($cts);
   $site->end_page();  
   exit();
 }
-
+elseif ( $_REQUEST["action"] == "edit" && $forum->is_admin($site->user->id) )
+{
+  $asso = new asso($site->db);
+  $asso->load_by_id($_REQUEST["id_asso"]);
+  $forum->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin'],false);  
+  $forum->update ( $_REQUEST["titre"], $_REQUEST["description"], $_REQUEST["categorie"], $forum->id_forum_parent, $asso->id, $_REQUEST["ordre"] );
+}
 
 $site->start_page("forum",$forum->titre);
 
 $cts = new contents($path);
 
-
+if ( $forum->is_admin($site->user->id) )
+  $cts->set_toolbox(new toolbox(array("?page=edit&id_forum=".$forum->id=>"Editer")));
 
 if ( $forum->categorie )
 {

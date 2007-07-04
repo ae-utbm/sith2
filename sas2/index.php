@@ -907,6 +907,9 @@ $sqlcntph = $cat->get_photos ( $cat->id, $site->user, $grps, "COUNT(*)");
 
 list($nb) = $sqlcntph->get_row();
 
+if ( $nb>0 )
+  $site->add_rss("Gallerie: ".$cat->nom,"rss.php?id_catph=".$cat->id);
+
 if ( $nb>0 || $cat->is_right($site->user,DROIT_AJOUTITEM) )
 {
 
