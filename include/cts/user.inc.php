@@ -377,6 +377,23 @@ class userinfov2 extends stdcontents
   {
     global $topdir, $UserBranches;
     
+    require_once($topdir . "include/entities/ville.inc.php");
+    require_once($topdir . "include/entities/pays.inc.php");    
+    
+    $ville = new ville($user->db);
+    $pays = new pays($user->db);
+    $ville_parents = new ville($user->db);
+    $pays_parents = new pays($user->db);
+    
+    $ville->load_by_id($user->id_ville);
+    $pays->load_by_id($user->id_pays);
+    
+    if ( $user->etudiant || $user->ancien_etudiant )
+    {
+      $ville_parents->load_by_id($user->id_ville_parents);
+      $pays_parents->load_by_id($user->id_pays_parents);  
+    }
+  
     static $numFiche=0;
     $numFiche++;
     
@@ -410,7 +427,6 @@ class userinfov2 extends stdcontents
     else
       $this->buffer .= "<div class=\"userinfov2\">";
     
-    //$this->buffer .= "<h2 class=\"nom\"><a href=\"".$topdir."user.php?id_utilisateur=".$user->id."\">".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."</a></h2>\n";
 	$this->buffer .= "<h2 class=\"nom\">".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."</h2>\n";
     
     $this->buffer .= "<div class=\"photo\">";
@@ -470,13 +486,15 @@ class userinfov2 extends stdcontents
     
     elseif ( $user->alias )
       $this->buffer .= "<p class=\"surnom\">&laquo; ". htmlentities($user->alias,ENT_COMPAT,"UTF-8") . " &raquo;</p>";
-      
-    if ( $user->branche && isset($UserBranches[$user->branche]) )
+  
+    if ( $user->utbm )
     {
-      $this->buffer .= "<p class=\"departement\">".$UserBranches[$user->branche];
-      if ( $user->branche!="Enseig" && $user->branche!="Admini" && $user->branche!="Autre" )
-      {
+      $this->buffer .= "<p class=\"departement\">";
       
+      if ( $user->role == "etu" )
+      {
+        $this->buffer .= $GLOBALS["utbm_departements"][$user->departement];        
+        
         if ( !is_null($user->date_diplome_utbm) && $user->date_diplome_utbm < time() )
         {
           if ($user->sexe == 1)
@@ -490,9 +508,17 @@ class userinfov2 extends stdcontents
         if ( $user->filiere )
           $this->buffer .= "<span class=\"filiere\">Filière : ".htmlentities($user->filiere,ENT_COMPAT,"UTF-8")."</span>";
       }
+      else
+      {
+        $this->buffer .= $GLOBALS["utbm_roles"][$user->role];   
+             
+        if ( $user->departement != "na" )
+          $this->buffer .= " ".$GLOBALS["utbm_departements"][$user->departement];        
+      }
+      
       $this->buffer .= "</p>\n";
     }
-    
+
     $this->buffer .= "<p class=\"naissance\">";
     if ( $user->date_naissance )
     {
@@ -505,16 +531,21 @@ class userinfov2 extends stdcontents
     }
     $this->buffer .= "</p>\n";
     
-    if ( $user->addresse || $user->cpostal || $user->ville )
+    if ( $ville->is_valid() || $user->addresse )
     {
       $this->buffer .= "<p class=\"adresse\">";
-      $this->buffer .= htmlentities($user->addresse,ENT_COMPAT,"UTF-8") . "<br />" . htmlentities($user->cpostal,ENT_COMPAT,"UTF-8") . " " . htmlentities($user->ville,ENT_COMPAT,"UTF-8");
-      if ( $user->pays && strtoupper($user->pays) != "FRANCE" )
-        $this->buffer .= "<br/>".htmlentities(strtoupper($user->pays),ENT_COMPAT,"UTF-8");
+      $this->buffer .= htmlentities($user->addresse,ENT_COMPAT,"UTF-8") . "<br />" . htmlentities($user->cpostal,ENT_COMPAT,"UTF-8");
+      
+      if ( $ville->is_valid() )
+        $this->buffer .= $ville->cpostal." "." " . $ville->get_html_link();
+      
+      if ( $pays->is_valid() )
+        $this->buffer .= "<br/>".$pays->get_html_link();
+        
       $this->buffer .= "</p>\n";
     }
-    elseif ( $user->pays )
-      $this->buffer .= "<p class=\"adresse\">".htmlentities(strtoupper($user->pays),ENT_COMPAT,"UTF-8")."</p>\n";
+    elseif ( $pays->is_valid() )
+      $this->buffer .= "<p class=\"adresse\">".$pays->get_html_link()."</p>\n";
 
     if ( $user->promo_utbm > 0 )
     {
@@ -534,17 +565,21 @@ class userinfov2 extends stdcontents
     if ( $display == "full" )
     {
     
-      if ($user->adresse_parents || $user->cpostal_parents || $user->ville_parents)
+      if ( $ville_parents->is_valid() || $user->addresse_parents )
       {
         $this->buffer .= "<p class=\"adresseparents\">";
-      
-        $this->buffer .= htmlentities($user->adresse_parents,ENT_COMPAT,"UTF-8") . "<br />" . htmlentities($user->cpostal_parents,ENT_COMPAT,"UTF-8") . " " . htmlentities($user->ville_parents,ENT_COMPAT,"UTF-8");
-        if ( $user->pays_parents && strtoupper($user->pays_parents) != "FRANCE" )
-          $this->buffer .= "<br/>".htmlentities(strtoupper($user->pays_parents),ENT_COMPAT,"UTF-8");
-        $this->buffer .= "</p>";
+        $this->buffer .= htmlentities($user->addresse_parents,ENT_COMPAT,"UTF-8") . "<br />";
+        
+        if ( $ville_parents->is_valid() )
+          $this->buffer .= $ville_parents->cpostal." ".$ville_parents->get_html_link();
+        
+        if ( $pays_parents->is_valid() )
+          $this->buffer .= "<br/>".$pays_parents->get_html_link();
+          
+        $this->buffer .= "</p>\n";
       }
-      elseif ( $user->pays_parents )
-        $this->buffer .= "<p class=\"adresseparents\">".htmlentities(strtoupper($user->pays_parents),ENT_COMPAT,"UTF-8")."</p>\n";
+      elseif ( $pays_parents->is_valid() )
+        $this->buffer .= "<p class=\"adresseparents\">".$pays_parents->get_html_link()."</p>\n";
             
       if ( $user->tel_parents )
         $this->buffer .= "<p class=\"telparents\">" . htmlentities(telephone_display($user->tel_parents),ENT_COMPAT,"UTF-8") . "</p>\n";
