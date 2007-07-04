@@ -826,7 +826,7 @@ if ( $_REQUEST["page"] == "post" && !$forum->categorie )
   
   exit();
 }
-elseif ( $_REQUEST["page"] == "edit" && $forum->is_admin($site->user->id) )
+elseif ( $_REQUEST["page"] == "edit" && $forum->is_admin($site->user) )
 {
   $asso = new asso($site->db);
   $asso->load_by_id($forum->id_asso);
@@ -848,7 +848,7 @@ elseif ( $_REQUEST["page"] == "edit" && $forum->is_admin($site->user->id) )
   $site->end_page();  
   exit();
 }
-elseif ( $_REQUEST["action"] == "edit" && $forum->is_admin($site->user->id) )
+elseif ( $_REQUEST["action"] == "edit" && $forum->is_admin($site->user) )
 {
   $asso = new asso($site->db);
   $asso->load_by_id($_REQUEST["id_asso"]);
@@ -860,7 +860,7 @@ $site->start_page("forum",$forum->titre);
 
 $cts = new contents($path);
 
-if ( $forum->is_admin($site->user->id) )
+if ( $forum->is_admin($site->user) )
   $cts->set_toolbox(new toolbox(array("?page=edit&id_forum=".$forum->id=>"Editer")));
 
 if ( $forum->categorie )
