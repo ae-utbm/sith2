@@ -157,10 +157,10 @@ if ( isset($_REQUEST["pattern"] ) )
   $sql .= "LIMIT 50";
   */
   
-  $sql = "SELECT frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message ".
+  $sql = "SELECT MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') AS deg, frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message ".
          "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) WHERE ";
   $sql .= "MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
-  $sql .= "ORDER BY frm_message.id_message DESC ";
+  $sql .= "ORDER BY 1 DESC ";
   $sql .= "LIMIT 50";
   
   $req = new requete($site->db,$sql);
