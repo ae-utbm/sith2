@@ -1917,6 +1917,11 @@ li.nvlitm .hour
 	margin-left:0.25em;
 }
 
+li.nvlitm .hour a
+{
+	font-size:100%;
+}
+
 li.nvlitm .nvlresume
 {
 	color:#404040;
@@ -1969,11 +1974,23 @@ li.nvlttls .hour
 	
 }
 
+li.nvlttls .hour a
+{
+	font-size:100%;
+	color:#808080;
+}
+
 li.nvlitm .when
 {
 	font-size:80%;
 	margin-left:0.25em;
 }
+
+li.nvlitm .when a
+{
+	font-size:100%;
+}
+
 
 #sbox_body_lastnews li
 {
