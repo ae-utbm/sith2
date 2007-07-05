@@ -199,7 +199,7 @@ $cts->add($addseance);
 
 $cts->add_title(2, "Rendu graphique de l'emploi du temps");
 
-$cts->add_pagragraph("<center><img src=\"./edt.php?render=1\" alt=\"Emploi du temps graphique\" /></center>");
+$cts->add_paragraph("<center><img src=\"./edt.php?render=1\" alt=\"Emploi du temps graphique\" /></center>");
 
 $site->add_contents($cts);
 
