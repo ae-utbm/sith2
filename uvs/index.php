@@ -18,11 +18,11 @@ $site->start_page("services", "Emploi du temps");
 
 if (!$site->user->utbm)
 {
-	error_403("reservedutbm");
+  error_403("reservedutbm");
 }
 if (!$site->user->is_valid())
 {
-	error_403();
+  error_403();
 }
 
 
@@ -104,7 +104,7 @@ if ($rq->lines > 0)
     $uvs[$rs['id_uv']] = $rs['code_uv'] . " - " . $rs['intitule_uv'];
 
   $js = 
-"
+    "
 <script language=\"javascript\">
 function addUV(obj)
 {
@@ -143,7 +143,28 @@ $cts->add($adduv);
 
 $site->add_contents($cts);
 
-$site->add_contents(new contents('Liste des UVs dans lesquelles vous êtes inscrit',"<script language=\"javascript\">openInContents('cts2', 'index.php', 'refreshlistuv');</script>'));
+$uvs = "";
+
+
+
+if (is_array($_SESSION['edu_uv_subscr']))
+    {
+
+      $uvs .= "<ul>\n";
+
+      foreach($_SESSION['edu_uv_subscr'] as $key => $value)
+	{
+	  $uvs .= "<li>".$value."</li>\n";
+	}
+      $uvs .= "</ul>\n";
+    }
+
+else
+    $uvs .= "<b>Vous n'avez pour l'instant selectionné aucune UV.</b>";
+
+$site->add_contents(new contents('Liste des UVs dans lesquelles vous êtes '.
+                        'inscrit',$uvs));
+
 
 $site->end_page();
 
