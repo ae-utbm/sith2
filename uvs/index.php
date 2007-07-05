@@ -36,7 +36,7 @@ if (isset($_REQUEST['emptylist']))
 if (isset($_REQUEST['subscr']))
 {
   $uv = $_REQUEST['subscr'];
-  if (! in_array($uv, $_SESSION['edu_uv_subscr']))
+  if (! array_key_exists($uv, $_SESSION['edu_uv_subscr']))
     {
       $rq = new requete($site->db,
 			"SELECT 
