@@ -218,7 +218,7 @@ function emptylistuv()
 
 function modifyuv()
 {
-  mod_iduv  = document.getElementsByName(mod_iduv')[0].value;
+  mod_iduv  = document.getElementsByName('mod_iduv')[0].value;
   mod_cours = document.getElementsByName('magicform[boolean][mod_cours]')[0].checked;
   mod_td    = document.getElementsByName('magicform[boolean][mod_td]')[0].checked;
   mod_tp    = document.getElementsByName('magicform[boolean][mod_tp]')[0].checked;
