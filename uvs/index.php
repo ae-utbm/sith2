@@ -113,7 +113,7 @@ function emptylistuv()
 
   $adduv->add_select_field('uv_sl', "UV", $uvs);
   $adduv->add_button("adduv_existing", "Ajouter l'UV à la liste", "javascript:addUV(parent)");
-
+  $adduv->add_button("emptylist", "Réinitialiser la liste", "javascript:emptylistuv()");
 }
 
 $adduv->add_text_field('adduv_name',
