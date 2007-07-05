@@ -202,7 +202,7 @@ else
 $site->add_contents(new contents('Liste des UVs dans lesquelles vous êtes '.
                         'inscrit',$uvs));
 
-$site->add_contents(new contents("Modification d'UV","");
+$site->add_contents(new contents("Modification d'UV",""));
 
 
 $site->end_page();
