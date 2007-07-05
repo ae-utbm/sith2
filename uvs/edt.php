@@ -106,13 +106,31 @@ else
 				'jour',
 				$jour);
 
-  $addseance->add_time_field('adds_hdeb',
-			      'Heure de début',
-			      -1, true);
+  for ($i = 0; $i < 24; $i++)
+    $hours[$i] = sprintf("%02d", $i); 
+  
+  for ($i = 0; $i < 60; $i++)
+    $minut[$i] = sprintf("%02d", $i);
 
-  $addseance->add_time_field('adds_hfin',
-			      'Heure de fin',
-			      -1, true);
+  $addseance->add_infos("Heure de début");
+  
+  
+  $addseance->add_select_field('adds_hdeb',
+			       '', $hours);
+  
+  $addseance->add_select_field('adds_mdeb',
+			       '', $minutes);
+
+  $addseance->add_infos("Heure de début");
+
+  $addseance->add_select_field('adds_hfin',
+			       '', $hours);
+  
+  $addseance->add_select_field('adds_mfin',
+			       '', $minutes);
+
+
+  
 
   $addseance->add_select_field('adds_freq',
 				'Fréquence',
