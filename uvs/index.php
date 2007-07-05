@@ -64,7 +64,7 @@ if (isset($_REQUEST['modform']))
 		    "post", 
 		    "Modification d'une UV");
 
-  $moduv->add_hidden('mod_iduv', $uv);
+  $moduv->puts('<input type="hidden" name="mod_iduv" value="'.$uv.'" />\n');
   $moduv->add_checkbox('mod_cours', 'Cours', $cours);
   $moduv->add_checkbox('mod_td', 'TD', $td);
   $moduv->add_checkbox('mod_tp', 'TP', $tp);
@@ -218,7 +218,7 @@ function emptylistuv()
 
 function modifyuv()
 {
-  mod_iduv  = document.getElementsByName('magicform[boolean][mod_iduv]')[0].value;
+  mod_iduv  = document.getElementsByName(mod_iduv')[0].value;
   mod_cours = document.getElementsByName('magicform[boolean][mod_cours]')[0].checked;
   mod_td    = document.getElementsByName('magicform[boolean][mod_td]')[0].checked;
   mod_tp    = document.getElementsByName('magicform[boolean][mod_tp]')[0].checked;
