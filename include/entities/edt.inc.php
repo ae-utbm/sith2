@@ -169,6 +169,27 @@ class edt extends stdentity
     $sg = mysql_real_escape_string($semestre);
     $salleg = mysql_real_escape_string($sallegrp);
 
+    echo "<pre>SELECT 
+                                id_uv_groupe 
+                        FROM
+                                edu_uv_groupe
+                        WHERE
+                                type_grp = '". $typeg ."'
+                        AND
+                                numero_grp = ". intval($numg) . "
+                        AND
+                                heure_debut_grp = '".$hdg . "'
+                        AND
+                                heure_fin_grp = '".$hfg . "'
+                        AND
+                                jour_grp = ".intval($jg) . "
+                        AND
+                                frequence_grp = ".intval($fg) . "
+                        AND
+                                semestre_grp = '".$sg . "'
+                        AND
+                                salle_grp = '".$salleg . "'</pre>";
+
     
     $vfy = new requete($this->db,
 		       "SELECT 
