@@ -40,7 +40,27 @@ if ($_REQUEST['adduv'] == 1)
 
 else if ($_REQUEST['addseance'] == 1)
 {
-  $site->add_contents(new contents("Ajout d'une séance", print_r($_POST, true)));
+  $ret = $edt->create_grp ($_REQUEST['adds_uv'],
+			   $_REQUEST['adds_types'],
+			   $_REQUEST['adds_numgp'],
+			   $_REQUEST['adds_hdeb'] . ":" . $_REQUEST['adds_mdeb'] . ":00",
+			   $_REQUEST['adds_hfin'] . ":" . $_REQUEST['adds_mfin'] . ":00",
+			   $_REQUEST['adds_j'],
+			   $_REQUEST['adds_freq'],
+			   $_REQUEST['adds_semestre'],
+			   $_REQUEST['adds_numsalle']);
+
+
+  if ($ret > 0)
+    {
+      $aret = $edt->assign_etu_to_grp($site->user->id_utilisateur,
+				      $ret,
+				      $_REQUEST['adds_semgrp']);
+
+      if ($aret)
+	$site->add_contents(new contents("Ajout d'une séance", "Vous avez été ajouté à ".
+					 "la séance donnée avec succès.")); 
+    } 
 }
 
 $cts = new contents("Emploi du temps",
@@ -91,6 +111,7 @@ else
   $addseance->add_select_field('adds_uv',
 			       'UV',
 			       $uv);
+
   $addseance->add_select_field('adds_types',
 			       'Type de séance',
 			       array("C" => "Cours",
@@ -107,11 +128,16 @@ else
 				$jour);
 
   for ($i = 0; $i < 24; $i++)
-    $hours[$i] = sprintf("%02d", $i); 
-  
-  for ($i = 0; $i < 60; $i++)
-    $minut[$i] = sprintf("%02d", $i);
+    {
+      $tmp = sprintf("%02d", $i);
+      $hours[$tmp] = $tmp; 
+    }
 
+  for ($i = 0; $i < 60; $i++)
+    {
+      $tmp = sprintf("%02d", $i);
+      $minut[$tmp] = $tmp;
+    }
     
   $addseance->add_select_field('adds_hdeb',
 			       'Heure de début', $hours);
@@ -134,8 +160,18 @@ else
 				array("1" => "Hebdomadaire",
 				      "2" => "Bimensuelle"));
 
+  $addseance->add_select_field('adds_semgrp',
+				'Semaine',
+				array("AB" => "Toutes les semaines",
+				      "A" => "Semaine A",
+				      "B" => "Semaine B"));
+
   $addseance->add_hidden('adds_semestre',
-			  (date('M') > 06 ? "A" : "P"). date("y"));
+			  (intval(date('M')) > 6 ? "A" : "P"). date("y"));
+
+  $addseance->add_text_field('adds_numsalle',
+			     'Numéro de salle',
+			     '', false);
 
   $addseance->add_submit("adds_sbmt",
 			  "Ajouter la séance");

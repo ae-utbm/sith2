@@ -137,9 +137,7 @@ class edt extends stdentity
     
     if (!$this->dbrw)
       return false;
-    $code_uv = mysql_real_escape_string($code_uv);
-    $intitule_uv = mysql_real_escape_string($intitule_uv);
-
+ 
     $sql = new insert($this->dbrw,
 		      "edu_uv",
 		      array("code_uv"     => $code_uv,
@@ -148,7 +146,7 @@ class edt extends stdentity
     if ($sql->lines <= 0)
       return false;
     
-    return true;
+    return $sql->get_id();
   }
 
   function create_grp ($iduv,
@@ -163,6 +161,47 @@ class edt extends stdentity
   {
     if (!$this->dbrw)
       return false;
+
+    /* on vérifie que la séance n'a pas deja été renseignée */
+    $typg = mysql_real_escape_string($type_grp);
+    $numg = mysql_real_escape_string($numgrp);
+    $hdg = mysql_real_escape_string($hdebgrp);
+    $hfg = mysql_real_escape_string($hfingrp);
+    $jg = mysql_real_escape_string($jourgrp);
+    $fg = mysql_real_escape_string($freqgrp);
+    $sg = mysql_real_escape_string($semestre);
+    $salleg = mysql_real_escape_string($sallegrp);
+
+    
+    $vfy = new requete($this->db,
+		       "SELECT 
+                                id_groupe 
+                        FROM
+                                edu_uv_groupe
+                        WHERE
+                                type_grp = '". $typeg ."'
+                        AND
+                                numero_grp = '".$numg . "'
+                        AND
+                                heure_debut_grp = '".$hdg . "'
+                        AND
+                                heure_fin_grp = '".$hfg . "'
+                        AND
+                                jour_grp = '".$jg . "'
+                        AND
+                                frequence_grp = '".$fg . "'
+                        AND
+                                semestre_grp = '".$sg . "'
+                        AND
+                                salle_grp = '".$salleg . "'");
+
+
+
+    if ($vfy->lines >=1)
+      {
+	$rs = $vfy->get_row();
+	return $rs['id_groupe'];
+      }
 
     $sql = new insert($this->dbrw,
 		      "edu_uv_groupe",
@@ -179,7 +218,7 @@ class edt extends stdentity
     if ($sql->lines <= 0)
       return false;
     
-    return true;
+    return $sql->get_id();
 
 
 
