@@ -43,13 +43,25 @@ if (isset($_REQUEST['subscr']))
                                 `id_uv`
                                 , `code_uv`
                                 , `intitule_uv`
+                                , `cours_uv`
+                                , `td_uv`
+                                , `tp_uv`
                          FROM
                                 `edu_uv`
                          WHERE
                                 `id_uv` = " . intval($uv));
       $res = $rq->get_row();
-      
-      $_SESSION['edu_uv_subscr'][$uv] = $res['code_uv'] . ' - ' . $res['intitule_uv'];
+
+      if ($res['cours_uv'] == 1)
+	$format_h[] = "Cours";
+      if ($res['td_uv'] == 1)
+	$format_h[] =  "TD";
+      if ($res['tp_uv'] == 1)
+	$format_h[] = "TP";
+      $format_h = implode(" / ", $format_h);
+
+
+      $_SESSION['edu_uv_subscr'][$uv] = $res['code_uv'] . ' - ' . $res['intitule_uv']. " - ".$format_h;
     }
 
   exit();
