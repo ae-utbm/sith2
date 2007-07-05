@@ -64,7 +64,7 @@ if (isset($_REQUEST['modform']))
 		    "post", 
 		    "Modification d'une UV");
 
-  $moduv->puts('<input type="hidden" name="mod_iduv" value="'.$uv.'" />\n');
+  $moduv->puts("<input type=\"hidden\" name=\"mod_iduv\" value=\"$uv\" />\n");
   $moduv->add_checkbox('mod_cours', 'Cours', $cours);
   $moduv->add_checkbox('mod_td', 'TD', $td);
   $moduv->add_checkbox('mod_tp', 'TP', $tp);
@@ -91,6 +91,17 @@ if (isset($_REQUEST['modifyuv']))
 			  'td_uv' => $td,
 			  'tp_uv' => $tp),
 		   array ('id_uv' => $uv));
+
+  echo "<pre>";
+
+  print_r($_REQUEST);
+  echo "</pre>";
+
+  if ($rq->lines <= 0)
+    echo "<b>Erreur lors de la modification du format horaire</b>";
+  else 
+    echo "<b>Modification du format horaire effectuée</b>";
+
   exit();
 
 }
