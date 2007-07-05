@@ -73,6 +73,8 @@ if (isset($_REQUEST['modform']))
 
 
   echo $moduv->buffer;
+  exit();
+
 }
 
 /* l'utilisateur a demandé l'ajout d'une UV */
