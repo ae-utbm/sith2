@@ -167,7 +167,7 @@ else
 				      "B" => "Semaine B"));
 
   $addseance->add_hidden('adds_semestre',
-			  (intval(date('M')) > 6 ? "A" : "P"). date("y"));
+			  (intval(date('m')) > 6 ? "A" : "P"). date("y"));
 
   $addseance->add_text_field('adds_numsalle',
 			     'Numéro de salle',
