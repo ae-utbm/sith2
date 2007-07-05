@@ -61,17 +61,21 @@ if (isset($_REQUEST['subscr']))
 if (isset($_REQUEST['refreshlistuv']))
 {
   echo "<h1>Liste des UVs dans lesquelles vous êtes inscrits</h1>\n";
-  echo "<ul>\n";
 
   if (is_array($_SESSION['edu_uv_subscr']))
     {
+
+      echo "<ul>\n";
+
       foreach($_SESSION['edu_uv_subscr'] as $key => $value)
 	{
 	  echo "<li>".$value."</li>\n";
 	}
+      echo "</ul>\n";
     }
+  else
+    echo "<b>Vous n'avez pour l'instant selectionné aucune UV.</b>";
 
-  echo "</ul>\n";
 
   exit();
 }
