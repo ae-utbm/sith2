@@ -164,11 +164,8 @@ class edt extends stdentity
 
     /* on vérifie que la séance n'a pas deja été renseignée */
     $typg = mysql_real_escape_string($type_grp);
-    $numg = mysql_real_escape_string($numgrp);
     $hdg = mysql_real_escape_string($hdebgrp);
     $hfg = mysql_real_escape_string($hfingrp);
-    $jg = mysql_real_escape_string($jourgrp);
-    $fg = mysql_real_escape_string($freqgrp);
     $sg = mysql_real_escape_string($semestre);
     $salleg = mysql_real_escape_string($sallegrp);
 
@@ -181,15 +178,15 @@ class edt extends stdentity
                         WHERE
                                 type_grp = '". $typeg ."'
                         AND
-                                numero_grp = '".$numg . "'
+                                numero_grp = ". intval($numg) . "
                         AND
                                 heure_debut_grp = '".$hdg . "'
                         AND
                                 heure_fin_grp = '".$hfg . "'
                         AND
-                                jour_grp = '".$jg . "'
+                                jour_grp = ".intval($jg) . "
                         AND
-                                frequence_grp = '".$fg . "'
+                                frequence_grp = ".intval($fg) . "
                         AND
                                 semestre_grp = '".$sg . "'
                         AND
@@ -197,8 +194,10 @@ class edt extends stdentity
 
 
 
-    if ($vfy->lines >=1)
+    if ($vfy->lines >= 1)
       {
+	echo "DEBUG : Y'a deja une seance à la con comme ca ...";
+
 	$rs = $vfy->get_row();
 	return $rs['id_groupe'];
       }
