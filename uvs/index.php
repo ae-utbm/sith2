@@ -89,6 +89,10 @@ if (isset($_REQUEST['refreshlistuv']))
   exit();
 }
 
+
+/** real code begins here */
+
+
 $edt = new edt($site->db, $site->dbrw);
 
 
@@ -97,7 +101,7 @@ $cts = new contents("Emploi du temps",
 		    "Sur cette page, vous allez pouvoir ".
 		    "créer votre emploi du temps.");
 
-$adduv = new form("adduv", "edt.php?step=1", true, "post", "Renseignement sur les  UVs");
+$selectuv = new form("adduv", "edt.php?step=2", true, "post", "Sélection des  UVs");
 
 $rq = new requete($site->db,
 		  "SELECT 
@@ -129,16 +133,19 @@ function emptylistuv()
 }
 </script>\n";
   
-  $adduv->puts($js);
-
-  $adduv->add_select_field('uv_sl', "UV", $uvs);
-  $adduv->add_button("adduv_existing", "Ajouter l'UV à la liste", "javascript:addUV(parent)");
-  $adduv->add_button("emptylist", "Réinitialiser la liste", "javascript:emptylistuv()");
+  $selectuv->puts($js);
+  $selectuv->add_select_field('uv_sl', "UV", $uvs);
+  $selectuv->add_button("adduv_existing", "Ajouter l'UV à la liste", "javascript:addUV(parent)");
+  $selectuv->add_button("emptylist", "Réinitialiser la liste", "javascript:emptylistuv()");
 }
+$cts->add($selectuv);
 
 $cts->add_title(2, "ajout d'une UV");
 $cts->add_paragraph("Au cas où une UV n'existerait pas encore en base, "
                      . "vous avez la possibilité de renseigner ses caractéristiques ici.");
+
+
+$adduv = new form("adduv", "edt.php?step=2", true, "post", "Ajout d'une UV");
 
 $adduv->add_text_field('adduv_name',
 		       "Code de l'UV",
