@@ -133,7 +133,6 @@ function emptylistuv()
   evalCommand('index.php', 'emptylist');
   openInContents('cts2', 'index.php', 'refreshlistuv');
 }
-document.getElementsByName('cts3')[0].style.visible = 'false';
 
 </script>\n";
   
@@ -203,7 +202,8 @@ $site->add_contents(new contents('Liste des UVs dans lesquelles vous êtes '.
                         'inscrit',$uvs));
 
 $site->add_contents(new contents("Modification d'UV",""));
-
+$site->puts("<script language=\"javascript\">
+document.getElementsByName('cts3')[0].setStyle('display', 'none');");
 
 $site->end_page();
 
