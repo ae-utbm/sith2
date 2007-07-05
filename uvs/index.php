@@ -106,13 +106,13 @@ if ($rq->lines > 0)
 function addUV(obj)
 {
  selected = document.getElementsByName('uv_sl')[0];
- evalCommand('cts2', 'index.php', 'subscr=' + selected.value);
+ evalCommand('index.php', 'subscr=' + selected.value);
  openInContents('cts2', 'index.php', 'refreshlistuv');
 }
 
 function emptylistuv()
 {
-  evalCommand('cts2', 'index.php', 'emptylist');
+  evalCommand('index.php', 'emptylist');
   openInContents('cts2', 'index.php', 'refreshlistuv');
 }
 </script>\n";
