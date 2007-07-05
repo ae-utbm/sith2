@@ -26,7 +26,7 @@ if (!$site->user->is_valid())
 }
 
 
-if (isset($_REQUEST['empty']))
+if (isset($_REQUEST['emptylist']))
 {
   unset($_SESSION['edu_uv_subscr']);
   exit();
@@ -108,14 +108,12 @@ function addUV(obj)
  selected = document.getElementsByName('uv_sl')[0];
  evalCommand('cts2', 'index.php', 'subscr=' + selected.value);
  openInContents('cts2', 'index.php', 'refreshlistuv');
- alert('plouf coincoin');
 }
 
 function emptylistuv()
 {
-  evalCommand('cts2', 'index.php', 'emptylistuv');
+  evalCommand('cts2', 'index.php', 'emptylist');
   openInContents('cts2', 'index.php', 'refreshlistuv');
-  alert('truc');
 }
 </script>\n";
   
