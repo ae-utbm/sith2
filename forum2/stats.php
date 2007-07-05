@@ -97,7 +97,8 @@ if (isset($_REQUEST['mesgbyday']))
       $i++;
     }
   
-  
+  print_r($coords);
+
   $grp = new graphic("",
 		     "messages par jour",
 		     $coords,
