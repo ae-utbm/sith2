@@ -136,6 +136,10 @@ function emptylistuv()
   $adduv->add_button("emptylist", "Réinitialiser la liste", "javascript:emptylistuv()");
 }
 
+$cts->add_title(2, "ajout d'une UV");
+$cts->add_paragraph("Au cas où une UV n'existerait pas encore en base, "
+                     . "vous avez la possibilité de renseigner ses caractéristiques ici.");
+
 $adduv->add_text_field('adduv_name',
 		       "Code de l'UV",
 		       "", true);
@@ -143,6 +147,19 @@ $adduv->add_text_field('adduv_name',
 $adduv->add_text_area('adduv_intitule',
 		      "Intitulé de l'UV",
 		      "");
+
+$adduv->add_checkbox('adduv_c',
+		      "Cours",
+		      true);
+
+$adduv->add_checkbox('adduv_td',
+		      "TD",
+		      true);
+
+$adduv->add_checkbox('adduv_tp',
+		      "TP",
+		      true);
+
 
 $adduv->add_submit('adduv_sbmt',
 		   "Ajouter");
