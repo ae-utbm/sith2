@@ -32,7 +32,6 @@ $site = new site ();
 $site->start_page("none","Statistiques");
 $cts = new contents("Statistiques");
 
-$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 $tabs = array(array("","stats.php", "Informations"),
               array("cotisants","stats.php?view=cotisants", "Cotisants"),
@@ -43,6 +42,8 @@ $tabs = array(array("","stats.php", "Informations"),
               array("comptoirs","stats.php?view=comptoirs", "Comptoirs")
               );
               
+$cts->add(new tabshead($tabs,$_REQUEST["view"]));
+
 if ( $_REQUEST["view"] == "cotisants" )
 {
   $req = new requete($site->db,"SELECT COUNT(*) FROM `utilisateurs` WHERE `ancien_etudiant_utl`='0'");
