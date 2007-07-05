@@ -88,8 +88,8 @@ class edt extends stdentity
 	else
 	  $semaine_seance = $row['semaine_etu_grp'];
 
-	$hrdeb = substr($row['heure_debut_grp'], 0, 2) . "h" . substr($row['heure_debut_grp'], 2,2);
-	$hrfin = substr($row['heure_fin_grp'], 0, 2) . "h" . substr($row['heure_fin_grp'], 2,2);
+	$hrdeb = substr($row['heure_debut_grp'], 0, 2) . "h" . substr($row['heure_debut_grp'], 3,2);
+	$hrfin = substr($row['heure_fin_grp'], 0, 2) . "h" . substr($row['heure_fin_grp'], 3,2);
 	
 	$jsem = $jour[$row['jour_grp']];
 
