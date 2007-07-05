@@ -283,6 +283,24 @@ elseif ( $_REQUEST["view"] == "site" )
 elseif ( $_REQUEST["view"] == "sas" )
 {
   
+  $cts->add_title(2,"Photos");
+
+  $req = new requete($site->db,"SELECT COUNT(*) FROM `sas_photos`");
+  list($total) = $req->get_row();
+  
+  $cts->add_paragraph("".$total." photos (et vidéos) dans le SAS");
+  
+  $req = new requete($site->db,"SELECT COUNT(*) FROM `sas_photos` WHERE incomplet=1");
+  list($nbphotos) = $req->get_row();
+  
+  $cts->add_paragraph("".round($nbphotos*100/$total,1)."% photos incomplètes");
+  
+  $req = new requete($site->db,"SELECT COUNT(*) FROM `sas_photos` WHERE droits_acquis=1");
+  list($nbphotos) = $req->get_row();
+  
+  $cts->add_paragraph("".round($nbphotos*100/$total,1)."% photos dont tous les droits sont acquis");
+  
+  
   $req = new requete ($site->db, "SELECT COUNT(sas_photos.id_photo) as `count`, `utilisateurs`.`id_utilisateur`, " .
           "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
           "FROM sas_photos " .
