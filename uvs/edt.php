@@ -31,6 +31,9 @@ $edt = new edt($site->db, $site->dbrw);
 if ($_REQUEST['render'] == 1)
 {
   $edt->load($site->user->id);
+  echo "<pre>";
+  print_r($edt->edt_arr);
+  echo "</pre>";
 
   $edtimg = new edt_img($site->user->alias,  $edt->edt_arr);
   $edtimg->generate ();
