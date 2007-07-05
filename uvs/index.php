@@ -196,9 +196,9 @@ function emptylistuv()
 
 function modifyuv()
 {
-  mod_cours = document.getElementsByName('mod_cours')[0].value;
-  mod_td    = document.getElementsByName('mod_td')[0].value;
-  mod_tp    = document.getElementsByName('mod_tp')[0].value;
+  mod_cours = document.getElementsByName('magicform[boolean][mod_cours]')[0].value;
+  mod_td    = document.getElementsByName('magicform[boolean][mod_td]')[0].value;
+  mod_tp    = document.getElementsByName('magicform[boolean][mod_tp]')[0].value;
   alert(mod_cours + mod_td + mod_tp);
 }
 function updatemodifpanel()
