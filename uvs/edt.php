@@ -9,6 +9,7 @@ $topdir = "../";
 include($topdir. "include/site.inc.php");
 
 require_once ($topdir . "include/entities/edt.inc.php");
+require_once ($topdir . "include/cts/edt_img.inc.php");
 
 
 $site = new site();
@@ -25,6 +26,17 @@ if (!$site->user->is_valid())
 }
 
 $edt = new edt($site->db, $site->dbrw);
+
+
+if ($_REQUEST['render'] == 1)
+{
+  $edt->load($site->user->id);
+
+  $edtimg = new edt_img($site->user->alias,  $edt->edt_arr);
+  $edtimg->generate ();
+  exit();
+
+}
 
 if ($_REQUEST['adduv'] == 1)
 {
@@ -59,7 +71,11 @@ else if ($_REQUEST['addseance'] == 1)
 
       if ($aret)
 	$site->add_contents(new contents("Ajout d'une séance", "Vous avez été ajouté à ".
-					 "la séance donnée avec succès.")); 
+					 "la séance donnée avec succès."));
+      else
+	$site->add_contents(new contents("Ajout d'une séance", "Erreur à l'ajout / la tentative d'inscription " .
+					 "à la séance donnée. Peut-être y êtes-vous déjà inscrit ?"));
+
     } 
 }
 
@@ -181,6 +197,9 @@ else
 
 $cts->add($addseance);
 
+$cts->add_title(2, "Rendu graphique de l'emploi du temps");
+
+$cts->add_pagragraph("<center><img src=\"./edt.php?render=1\" alt=\"Emploi du temps graphique\" /></center>");
 
 $site->add_contents($cts);
 
