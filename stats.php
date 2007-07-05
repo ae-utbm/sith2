@@ -332,7 +332,7 @@ elseif ( $_REQUEST["view"] == "comptoirs" )
   		"IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
   		"SUM( UNIX_TIMESTAMP( `activity_time` ) - UNIX_TIMESTAMP( `logged_time` ) ) /60/60 as total " .
   		"FROM cpt_tracking " .
-  		"INNER JOIN utilisateurs ON cpt_tracking.id_utilisateur_client=utilisateurs.id_utilisateur " .
+  		"INNER JOIN utilisateurs ON cpt_tracking.id_utilisateur=utilisateurs.id_utilisateur " .
   		"LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
   		"WHERE logged_time > '$debut_semestre' " .
   		"GROUP BY utilisateurs.id_utilisateur " .
