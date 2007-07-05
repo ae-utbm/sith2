@@ -108,12 +108,14 @@ function addUV(obj)
  selected = document.getElementsByName('uv_sl')[0];
  evalCommand('cts2', 'index.php', 'subscr=' + selected.value);
  openInContents('cts2', 'index.php', 'refreshlistuv');
+ alert('plouf coincoin');
 }
 
 function emptylistuv()
 {
   evalCommand('cts2', 'index.php', 'emptylistuv');
   openInContents('cts2', 'index.php', 'refreshlistuv');
+  alert('truc');
 }
 </script>\n";
   
