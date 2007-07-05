@@ -203,10 +203,11 @@ $site->add_contents(new contents('Liste des UVs dans lesquelles vous êtes '.
 
 $cts = new contents("Modification d'UV","");
 $cts->puts("<script language=\"javascript\">
-document.getElementById('cts3').setStyle('display', 'none');
+document.getElementById('cts3').style.display = 'none';
 </script>");
 
 $site->add_contents($cts);
+
 
 $site->end_page();
 
