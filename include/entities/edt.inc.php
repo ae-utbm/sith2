@@ -47,33 +47,9 @@ class edt extends stdentity
 
     /** semestre courant par défaut */
     if ($semestre == null)
-      $semestre = (date("m") > 6 ? "A" : "P") . date("Y");
+      $semestre = (date("m") > 6 ? "A" : "P") . date("y");
     else
       $semestre = mysql_real_escape_string($semestre);
-
-    echo "SELECT 
-                              `edu_uv_groupe`.`id_uv_groupe`
-                            , `edu_uv_groupe`.`type_grp`
-                            , `edu_uv_groupe`.`heure_debut_grp`
-                            , `edu_uv_groupe`.`heure_fin_grp`
-                            , `edu_uv_groupe`.`jour_grp`
-                            , `edu_uv_groupe`.`numero_grp`
-                            , `edu_uv_groupe`.`frequence_grp`
-                            , `edu_uv_groupe`.`salle_grp`
-                            , `edu_uv_groupe_etudiant`.`semaine_etu_grp`
-                            , `edu_uv`.`code_uv`
-                       FROM
-                              `edu_uv_groupe_etudiant`
-                       INNER JOIN
-                              `edu_uv_groupe`
-                              USING (`id_uv_groupe`)
-                       INNER JOIN
-                              `edu_uv`
-                              USING (`id_uv`)
-                       WHERE
-                             `edu_uv_groupe`.`semestre_grp` = '".$semestre."'
-                       AND
-                             `edu_uv_groupe_etudiant`.`id_utilisateur` = $id";
 
     $req= new requete($this->db,
 		      "SELECT 
