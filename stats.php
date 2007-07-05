@@ -2,6 +2,7 @@
 
 /* Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
+ * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -28,6 +29,11 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
 $site = new site ();
 
+
+if (!$site->user->is_in_group ("gestion_ae"))
+{ 
+  error_403();
+}   
 
 $site->start_page("none","Statistiques");
 $cts = new contents("Statistiques");
@@ -275,46 +281,165 @@ elseif ( $_REQUEST["view"] == "sas" )
 {
   
   $req = new requete ($site->db, "SELECT COUNT(sas_photos.id_photo) as `count`, `utilisateurs`.`id_utilisateur`, " .
-      "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
-      "FROM sas_photos " .
-      "INNER JOIN utilisateurs ON sas_photos.id_utilisateur=utilisateurs.id_utilisateur " .
-      "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
-      "GROUP BY sas_photos.id_utilisateur " .
-      "ORDER BY count DESC LIMIT 30");
+		      "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
+		      "FROM sas_photos " .
+		      "INNER JOIN utilisateurs ON sas_photos.id_utilisateur=utilisateurs.id_utilisateur " .
+		      "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+		      "GROUP BY sas_photos.id_utilisateur " .
+		      "ORDER BY count DESC LIMIT 30");
   
   $lst = new itemlist("Les meilleurs contributeurs (30)");
   $n=1;
   while ( $row = $req->get_row() )
-  {
-    $lst->add("$n : ".entitylink ("utilisateur", $row["id_utilisateur"], $row["nom_utilisateur"] )." (".$row['count']." photos)");
-    $n++;
-  }
+    {
+      $lst->add("$n : ".entitylink ("utilisateur", $row["id_utilisateur"], $row["nom_utilisateur"] )." (".$row['count']." photos)");
+      $n++;
+    }
   
   $cts->add($lst,true);
   
   $req = new requete ($site->db, "SELECT COUNT(sas_personnes_photos.id_photo) as `count`, `utilisateurs`.`id_utilisateur`, " .
-      "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
-      "FROM sas_personnes_photos " .
-      "INNER JOIN utilisateurs ON sas_personnes_photos.id_utilisateur=utilisateurs.id_utilisateur " .
-      "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
-      "GROUP BY sas_personnes_photos.id_utilisateur " .
-      "ORDER BY count DESC LIMIT 30");
+		      "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
+		      "FROM sas_personnes_photos " .
+		      "INNER JOIN utilisateurs ON sas_personnes_photos.id_utilisateur=utilisateurs.id_utilisateur " .
+		      "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+		      "GROUP BY sas_personnes_photos.id_utilisateur " .
+		      "ORDER BY count DESC LIMIT 30");
   
   $lst = new itemlist("Les plus photographi&eacute;s (30)");
   $n=1;
   while ( $row = $req->get_row() )
-  {
-    $lst->add("$n : ".entitylink ("utilisateur", $row["id_utilisateur"], $row["nom_utilisateur"] )." (".$row['count']." photos)");
-    $n++;
-  }
+    {
+      $lst->add("$n : ".entitylink ("utilisateur", $row["id_utilisateur"], $row["nom_utilisateur"] )." (".$row['count']." photos)");
+      $n++;
+    }
   
   $cts->add($lst,true);
   
 }
 elseif ( $_REQUEST["view"] == "forum" )
 {
+  if (isset($_REQUEST['toptenimg']))
+    {
+      require_once($topdir. "include/graph.inc.php");
+      $req = "SELECT 
+                COUNT(`id_message`) as totmesg
+              , `utilisateurs`.`alias_utl`
+          FROM 
+                `frm_message`
+          INNER JOIN 
+                `utilisateurs`
+          USING (`id_utilisateur`)
+          GROUP BY 
+                 `id_utilisateur`
+          ORDER BY 
+                 COUNT(`id_message`) DESC LIMIT 10";
+
+      $rs = new requete($site->db, $req);
+
+
+      $datas = array("utilisateur" => "Nbmessages");
+  
+
+      while ($plouf = $rs->get_row())
+	{
+	  $plouf['alias_utl'] = explode(' ', $plouf['alias_utl']);
+	  $plouf['alias_utl'] = $plouf['alias_utl'][0];
+      
+	  $datas[utf8_decode($plouf['alias_utl'])] = $plouf['totmesg'];
+	}
+  
+  
+      $hist = new histogram($datas, "Top 10");
+  
+      $hist->png_render();
+  
+      $hist->destroy();
+  
+      exit();
+
+    }
+
+  if (isset($_REQUEST['mesgbyday']))
+    {
+      if (!isset($_REQUEST['db']))
+	$db = date("Y")."-01-01";
+      else
+	$db = $_REQUEST['db'];
+
+      if (!isset($_REQUEST['de']))
+	$de = date("Y-m-d");
+      else
+	$de = $_REQUEST['de'];
+
+      $db = mysql_real_escape_string($db);
+      $de = mysql_real_escape_string($de);
+
+
+      require_once($topdir. "include/graph.inc.php");
+      $query =
+	"SELECT 
+            DATE_FORMAT(date_message,'%Y-%m-%d') AS `datemesg`
+            , COUNT(id_message) AS `nbmesg` 
+     FROM 
+            `frm_message` 
+     WHERE 
+            `date_message` >= '".$db."'
+     AND
+            `date_message` <= '".$de."'
+     GROUP BY 
+            `datemesg`";
+
+      $req = new requete($site->db, $query);
+
+      $i = 0;
+
+      $step = (int) ($req->lines / 5);
+
+      while ($rs = $req->get_row())
+	{
+	  if (($i % $step) == 0)
+	    $xtics[$i]  = $rs['datemesg'];
+	  $coords[] = array('x' => $i,
+			    'y' => $rs['nbmesg']);
+	  $i++;
+	}
+  
+
+      $grp = new graphic("",
+			 "messages par jour",
+			 $coords,
+			 false,
+			 $xtics);
+
+      $grp->png_render();
+
+      $grp->destroy_graph();
+
+      exit();
+    }
+
+
+
+  $cts = new contents("Statistiques du forum");
+  $cts->add_title(1, "Top 10 des posteurs");
+  $cts->add_paragraph("<center><img src=\"./stats.php?view=forum&toptenimg\" alt=\"top10\" /></center>");
+  
+  $cts->add_title(1, "Messages postés depuis le début de l'année");
+  $cts->add_paragraph("<center><img src=\"./stats.php?view=forum&mesgbyday\" alt=\"Messages par jour\" /></center>");
+  
+  $cts->add_title(1, "Messages postés les 30 derniers jours");
+  
+  /* statistiques sur 30 jours */
+  $db = date("Y-m-d", time() - (30 * 24 * 3600));
+  
+  $cts->add_paragraph("<center><img src=\"./stats.php?mesgbyday&db=".$db."&de=".date("Y-m-d").
+		      "\" alt=\"Messages par jour\" /></center>");
+
+  $site->add_contents($cts);
   
 }
+
 elseif ( $_REQUEST["view"] == "comptoirs" )
 {
   $site->add_css("css/comptoirs.css");
