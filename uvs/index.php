@@ -34,7 +34,7 @@ if (isset($_REQUEST['emptylist']))
 
 if (isset($_REQUEST['modform']))
 {
-  $uv = $_REQUEST['iduv'];
+  $uv = intval($_REQUEST['iduv']);
 
   if ($uv <= 0)
     exit();
@@ -48,7 +48,7 @@ if (isset($_REQUEST['modform']))
                      FROM
                                 `edu_uv`
                      WHERE
-                                `id_uv` = " . intval($uv));
+                                `id_uv` = " . $uv);
       $res = $rq->get_row();
 
       ($res['cours_uv'] == 1) ?	$cours = true : $cours = false;
@@ -60,11 +60,11 @@ if (isset($_REQUEST['modform']))
 
   $moduv = new form("moduv", 
 		    "edt.php?step=1", 
-		    true, 
+		    false, 
 		    "post", 
 		    "Modification d'une UV");
 
-  $moduv->add_hidden('mod_iduv', -1);
+  $moduv->add_hidden('mod_iduv', $uv);
   $moduv->add_checkbox('mod_cours', 'Cours', $cours);
   $moduv->add_checkbox('mod_td', 'TD', $td);
   $moduv->add_checkbox('mod_tp', 'TP', $tp);
