@@ -36,7 +36,7 @@ if (isset($_REQUEST['empty']))
 if (isset($_REQUEST['subscr']))
 {
   $uv = $_REQUEST['subscr'];
-  if ((! in_array($uv, $_SESSION['edu_uv_subscr'])) && ($uv != -1))
+  if (! in_array($uv, $_SESSION['edu_uv_subscr']))
     {
       $rq = new requete($site->db,
 			"SELECT 
@@ -50,10 +50,16 @@ if (isset($_REQUEST['subscr']))
       $res = $rq->get_row();
       
       $_SESSION['edu_uv_subscr'][$uv] = $res['code_uv'] . ' - ' . $res['intitule_uv'];
-
-
     }
 
+  if ($uv == -1)
+    unset($_SESSION['edu_uv_subscr']);
+
+  exit();
+}
+
+if (isset($_REQUEST['refreshlistuv']))
+{
   echo "<h1>Liste des UVs dans lesquelles vous êtes inscrits</h1>\n";
   echo "<ul>\n";
 
@@ -66,7 +72,6 @@ if (isset($_REQUEST['subscr']))
     }
 
   echo "</ul>\n";
-  echo "<a href=\"javascript:emptylistuv();\">Vider la liste</a>\n";
 
   exit();
 }
@@ -101,11 +106,13 @@ function addUV(obj)
 {
  selected = document.getElementsByName('uv_sl')[0];
  openInContents('cts2', 'index.php', 'subscr=' + selected.value);
+ openInContents('cts2', 'index.php', 'refreshlistuv');
 }
 
 function emptylistuv()
 {
   openInContents('cts2', 'index.php', 'subscr=' + '-1');
+ openInContents('cts2', 'index.php', 'refreshlistuv');
 }
 </script>\n";
   
