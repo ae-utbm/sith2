@@ -52,15 +52,12 @@ if (isset($_REQUEST['subscr']))
       $_SESSION['edu_uv_subscr'][$uv] = $res['code_uv'] . ' - ' . $res['intitule_uv'];
     }
 
-  if ($uv == -1)
-    unset($_SESSION['edu_uv_subscr']);
-
   exit();
 }
 
 if (isset($_REQUEST['refreshlistuv']))
 {
-  echo "<h1>Liste des UVs dans lesquelles vous êtes inscrits</h1>\n";
+  echo "<h1>Liste des UVs dans lesquelles vous êtes inscrit</h1>\n";
 
   if (is_array($_SESSION['edu_uv_subscr']))
     {
@@ -115,7 +112,7 @@ function addUV(obj)
 
 function emptylistuv()
 {
-  evalCommand('cts2', 'index.php', 'subscr=' + '-1');
+  evalCommand('cts2', 'index.php', 'emptylistuv');
   openInContents('cts2', 'index.php', 'refreshlistuv');
 }
 </script>\n";
