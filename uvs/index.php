@@ -101,6 +101,8 @@ $cts = new contents("Emploi du temps",
 		    "Sur cette page, vous allez pouvoir ".
 		    "créer votre emploi du temps.");
 
+$cts->add_title(2, "Sélection des UVs");
+
 $selectuv = new form("adduv", "edt.php?step=2", true, "post", "Sélection des  UVs");
 
 $rq = new requete($site->db,
@@ -140,7 +142,7 @@ function emptylistuv()
 }
 $cts->add($selectuv);
 
-$cts->add_title(2, "ajout d'une UV");
+$cts->add_title(2, "Ajout d'une UV");
 $cts->add_paragraph("Au cas où une UV n'existerait pas encore en base, "
                      . "vous avez la possibilité de renseigner ses caractéristiques ici.");
 
