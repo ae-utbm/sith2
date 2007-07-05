@@ -47,7 +47,7 @@ class edt extends stdentity
 
     /** semestre courant par défaut */
     if ($semestre == null)
-      $semestre = (date("m") >= 9 ? "A" : "P") . date("Y");
+      $semestre = (date("m") > 6 ? "A" : "P") . date("Y");
     else
       $semestre = mysql_real_escape_string($semestre);
 

@@ -53,7 +53,7 @@ else if ($_REQUEST['addseance'] == 1)
 
   if ($ret > 0)
     {
-      $aret = $edt->assign_etu_to_grp($site->user->id_utilisateur,
+      $aret = $edt->assign_etu_to_grp($site->user->id,
 				      $ret,
 				      $_REQUEST['adds_semgrp']);
 
