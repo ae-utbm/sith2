@@ -112,19 +112,16 @@ else
   for ($i = 0; $i < 60; $i++)
     $minut[$i] = sprintf("%02d", $i);
 
-  $addseance->add_info("Heure de début");
-  
-  
+    
   $addseance->add_select_field('adds_hdeb',
-			       '', $hours);
+			       'Heure de début', $hours);
   
   $addseance->add_select_field('adds_mdeb',
 			       '', $minut);
 
-  $addseance->add_info("Heure de début");
 
   $addseance->add_select_field('adds_hfin',
-			       '', $hours);
+			       'Heure de fin', $hours);
   
   $addseance->add_select_field('adds_mfin',
 			       '', $minut);
