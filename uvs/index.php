@@ -225,7 +225,7 @@ function modifyuv()
   alert(mod_cours + mod_td + mod_tp);
 
   evalCommand('index.php', 'modifyuv=1&mod_cours='+mod_cours+'&mod_td='+mod_td+'&mod_tp='+mod_tp);
-  openInContents('cts3', 'modifyuv=1&iduv='+mod_iduv+'mod_cours='+mod_cours+'&mod_td='+mod_td+'&mod_tp='+mod_tp
+  openInContents('cts3','index.php' ,'modifyuv=1&iduv='+mod_iduv+'mod_cours='+mod_cours+'&mod_td='+mod_td+'&mod_tp='+mod_tp);
 
 }
 function updatemodifpanel()
