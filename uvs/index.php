@@ -51,11 +51,13 @@ if (isset($_REQUEST['subscr']))
   echo "<h1>Liste des UVs dans lesquelles vous êtes inscrits</h1>\n";
   echo "<ul>\n";
 
-  foreach($_SESSION['edu_uv_subscr'] as $key => $value)
+  if (is_array($_SESSION['edu_uv_subscr']))
     {
-      echo "<li>".$value."</li>\n";
+      foreach($_SESSION['edu_uv_subscr'] as $key => $value)
+	{
+	  echo "<li>".$value."</li>\n";
+	}
     }
-
 
   echo "</ul>\n";
 
