@@ -133,6 +133,8 @@ function emptylistuv()
   evalCommand('index.php', 'emptylist');
   openInContents('cts2', 'index.php', 'refreshlistuv');
 }
+document.getElementsByName('cts3')[0].style.visible = 'false';
+
 </script>\n";
   
   $selectuv->puts($js);
@@ -199,6 +201,8 @@ else
 
 $site->add_contents(new contents('Liste des UVs dans lesquelles vous êtes '.
                         'inscrit',$uvs));
+
+$site->add_contents(new contents("Modification d'UV","");
 
 
 $site->end_page();
