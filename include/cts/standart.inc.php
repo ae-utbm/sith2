@@ -944,7 +944,7 @@ class form extends stdcontents
 		}
 	}
 	
-	/** Ajoute un boutton de validation
+	/** Ajoute un bouton de validation
 	 * Valeur à récupérer dans $_REQUEST[$name]
 	 * @param $name		Nom du champ
 	 * @param $title	Libéllé du champ
@@ -959,6 +959,19 @@ class form extends stdcontents
 		if ( $tipp )
 			$this->_add_tipp($tipp);
 		$this->buffer .= "</div></div>\n";
+	}
+	/** Ajoute un bouton 
+	 * @param $name		Nom du champ
+	 * @param $title	Libéllé du champ
+	 * @param $action	Action (javascript) lors de l'appui
+	 */
+	function add_button ($name, $title, $action = "")
+	{
+	  $this->buffer .= "<div class=\"formrow\">";
+	  $this->_render_name($name,"",false);
+	  $this->buffer .= "<div class=\"formfield\">";
+	  $this->buffer .= "<input type=\"button\" id=\"$name\" name=\"$name\" value=\"$title\" onclick=\"$action\" class=\"isubmit\" />";
+	  $this->buffer .= "</div></div>\n";
 	}
 	
 	/** Selecteur d'une entité definie dans entitiescatalog
