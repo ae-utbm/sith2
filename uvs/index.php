@@ -32,6 +32,49 @@ if (isset($_REQUEST['emptylist']))
   exit();
 }
 
+if (isset($_REQUEST['modform']))
+{
+  $uv = $_REQUEST['iduv'];
+
+  if ($uv <= 0)
+    exit();
+  
+  $rq = new requete($site->db,
+		    "SELECT
+                                `code_uv`
+                                , `cours_uv`
+                                , `td_uv`
+                                , `tp_uv`
+                     FROM
+                                `edu_uv`
+                     WHERE
+                                `id_uv` = " . intval($uv));
+      $res = $rq->get_row();
+
+      ($res['cours_uv'] == 1) ?	$cours = true : $cours = false;
+      ($res['td_uv'] == 1)    ? $td = true    : $td = false;
+      ($res['tp_uv'] == 1)    ? $tp = true    : $tp = false;
+
+  echo "<h1>Modification d'UV</h1>";
+  echo "<p>A l'aide de ce formulaire, vous pouvez modifier le format horaire de l'UV ".$res['code_uv']."</p>";
+
+  $moduv = new form("moduv", 
+		    "edt.php?step=1", 
+		    true, 
+		    "post", 
+		    "Modification d'une UV");
+
+  $moduv->add_hidden('mod_iduv', -1);
+  $moduv->add_checkbox('mod_cours', 'Cours', $cours);
+  $moduv->add_checkbox('mod_td', 'TD', $td);
+  $moduv->add_checkbox('mod_tp', 'TP', $tp);
+
+  $moduv->add_button('moduv', 'Modifier le format', 'javascript:modifyuv();');
+
+
+  echo $moduv->buffer;
+}
+
 /* l'utilisateur a demandé l'ajout d'une UV */
 if (isset($_REQUEST['subscr']))
 {
@@ -159,8 +202,9 @@ function modifyuv()
 function updatemodifpanel()
 {
   selected = document.getElementsByName('uv_sl')[0].value;
-  document.getElementById('cts3').style.display = 'block';
-  alert ('TODO : faire le chargement');
+  moduv = document.getElementById('cts3');
+  openInContents('cts3', 'index.php', 'modform=1&iduv='+selected);
+  moduv.style.display = 'block';
 
 }
 </script>\n";
