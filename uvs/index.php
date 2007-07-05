@@ -26,11 +26,17 @@ if (!$site->user->is_valid())
 }
 
 
+if (isset($_REQUEST['empty']))
+{
+  unset($_SESSION['edu_uv_subscr']);
+  exit();
+}
+
 /* l'utilisateur a demandé l'ajout d'une UV */
 if (isset($_REQUEST['subscr']))
 {
   $uv = $_REQUEST['subscr'];
-  if (! in_array($uv, $_SESSION['edu_uv_subscr']))
+  if ((! in_array($uv, $_SESSION['edu_uv_subscr'])) && ($uv != -1))
     {
       $rq = new requete($site->db,
 			"SELECT 
@@ -60,6 +66,7 @@ if (isset($_REQUEST['subscr']))
     }
 
   echo "</ul>\n";
+  echo "<a href=\"javascript:emptylistuv();\">Vider la liste</a>\n";
 
   exit();
 }
@@ -94,6 +101,11 @@ function addUV(obj)
 {
  selected = document.getElementsByName('uv_sl')[0];
  openInContents('cts2', 'index.php', 'subscr=' + selected.value);
+}
+
+function emptylistuv()
+{
+  openInContents('cts2', 'index.php', 'subscr=' + '-1');
 }
 </script>\n";
   
