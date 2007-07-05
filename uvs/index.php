@@ -77,6 +77,25 @@ if (isset($_REQUEST['modform']))
 
 }
 
+if (isset($_REQUEST['modifyuv']))
+{
+  ($_REQUEST['mod_cours'] == 'true') ? $c = 1 : $c = 0;
+  ($_REQUEST['mod_td']    == 'true') ? $td = 1 : $td = 0;
+  ($_REQUEST['mod_tp']    == 'true') ? $tp = 1 : $tp = 0;
+
+  $uv = intval($_REQUEST['iduv']);
+
+  $rq = new update($site->dbrw,
+		   'edu_uv',
+		   array ('cours_uv' => $c,
+			  'td_uv' => $td,
+			  'tp_uv' => $tp),
+		   array ('id_uv' => $uv));
+  exit();
+
+}
+
+
 /* l'utilisateur a demandé l'ajout d'une UV */
 if (isset($_REQUEST['subscr']))
 {
@@ -178,6 +197,9 @@ if ($rq->lines > 0)
 
       $uvs[$rs['id_uv']] = $rs['code_uv'] . " - " . $rs['intitule_uv'] . " - " . $format_h;
     }
+
+  /* javascript code begins here ! */
+
   $js = 
     "
 <script language=\"javascript\">
@@ -196,10 +218,13 @@ function emptylistuv()
 
 function modifyuv()
 {
-  mod_cours = document.getElementsByName('magicform[boolean][mod_cours]')[0].value;
-  mod_td    = document.getElementsByName('magicform[boolean][mod_td]')[0].value;
-  mod_tp    = document.getElementsByName('magicform[boolean][mod_tp]')[0].value;
+  mod_cours = document.getElementsByName('magicform[boolean][mod_cours]')[0].checked;
+  mod_td    = document.getElementsByName('magicform[boolean][mod_td]')[0].checked;
+  mod_tp    = document.getElementsByName('magicform[boolean][mod_tp]')[0].checked;
   alert(mod_cours + mod_td + mod_tp);
+
+  evalCommand('index.php', 'modifyuv=1&mod_cours='+mod_cours+'&mod_td='+mod_td+'&mod_tp='+mod_tp);
+
 }
 function updatemodifpanel()
 {
