@@ -134,12 +134,28 @@ function emptylistuv()
   openInContents('cts2', 'index.php', 'refreshlistuv');
 }
 
+function modifyuv()
+{
+  mod_cours = document.getElementsByName('mod_cours')[0].value;
+  mod_td    = document.getElementsByName('mod_td')[0].value;
+  mod_tp    = document.getElementsByName('mod_tp')[0].value;
+  alert(mod_cours + mod_td + mod_tp);
+}
+function updatemodifpanel()
+{
+  selected = document.getElementsByName('uv_sl')[0].value;
+  document.getElementById('cts3').style.display = 'block';
+  alert ('TODO : faire le chargement');
+
+}
 </script>\n";
   
   $selectuv->puts($js);
   $selectuv->add_select_field('uv_sl', "UV", $uvs);
   $selectuv->add_button("adduv_existing", "Ajouter l'UV à la liste", "javascript:addUV(parent)");
   $selectuv->add_button("emptylist", "Réinitialiser la liste", "javascript:emptylistuv()");
+  $selectuv->add_button("reqmodiffmth", "Modifier le format horaire", "javascript:updatemodifpanel()");
+
 }
 $cts->add($selectuv);
 
@@ -205,6 +221,26 @@ $cts = new contents("Modification d'UV","");
 $cts->puts("<script language=\"javascript\">
 document.getElementById('cts3').style.display = 'none';
 </script>");
+
+$cts->add_title(2, "Modification d'UV");
+$cts->add_paragraph("A l'aide de ce formulaire, vous pouvez ".
+                    "modifier le format horaire d'une UV");
+ 
+$moduv = new form("moduv", 
+                  "edt.php?step=1", 
+                  true, 
+                  "post", 
+                  "Modification d'une UV");
+
+$moduv->add_hidden('mod_iduv', -1);
+$moduv->add_checkbox('mod_cours', 'Cours', true);
+$moduv->add_checkbox('mod_td', 'TD', true);
+$moduv->add_checkbox('mod_tp', 'TP', true);
+
+$moduv->add_button('moduv', 'Modifier le format', 'javascript:modifyuv();');
+
+$cts->add($moduv);
+
 
 $site->add_contents($cts);
 
