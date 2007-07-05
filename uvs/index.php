@@ -114,7 +114,9 @@ $rq = new requete($site->db,
                             , `td_uv`
                             , `tp_uv`
                    FROM
-                            `edu_uv`");
+                            `edu_uv`
+                   ORDER BY
+                            `code_uv`");
 
 if ($rq->lines > 0)
 {
