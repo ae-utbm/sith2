@@ -433,10 +433,8 @@ elseif ( $_REQUEST["view"] == "forum" )
   /* statistiques sur 30 jours */
   $db = date("Y-m-d", time() - (30 * 24 * 3600));
   
-  $cts->add_paragraph("<center><img src=\"./stats.php?mesgbyday&db=".$db."&de=".date("Y-m-d").
+  $cts->add_paragraph("<center><img src=\"./stats.php?view=forum&mesgbyday&db=".$db."&de=".date("Y-m-d").
 		      "\" alt=\"Messages par jour\" /></center>");
-
-  $site->add_contents($cts);
   
 }
 
