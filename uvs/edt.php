@@ -119,7 +119,7 @@ else
 			       '', $hours);
   
   $addseance->add_select_field('adds_mdeb',
-			       '', $minutes);
+			       '', $minut);
 
   $addseance->add_info("Heure de début");
 
@@ -127,7 +127,7 @@ else
 			       '', $hours);
   
   $addseance->add_select_field('adds_mfin',
-			       '', $minutes);
+			       '', $minut);
 
 
   
