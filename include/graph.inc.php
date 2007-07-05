@@ -296,7 +296,7 @@ class graphic
     //$info=array();
     //$ret=0;
 
-    exec ("/usr/share/php5/exec/gnuplot " .$this->conf_file/*,$info,$ret*/);
+    exec ("/usr/share/php5/exec/gnuplot-4.2 " .$this->conf_file/*,$info,$ret*/);
     //print_r($info);
     //echo $ret;
   }
