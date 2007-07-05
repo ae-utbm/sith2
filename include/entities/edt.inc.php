@@ -175,7 +175,7 @@ class edt extends stdentity
     
     $vfy = new requete($this->db,
 		       "SELECT 
-                                id_groupe 
+                                id_uv_groupe 
                         FROM
                                 edu_uv_groupe
                         WHERE
