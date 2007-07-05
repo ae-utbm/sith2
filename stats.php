@@ -48,6 +48,10 @@ $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 if ( $_REQUEST["view"] == "cotisants" )
 {
+  if (!$site->user->is_in_group ("gestion_ae"))
+  {
+    error_403();
+  }
   $req = new requete($site->db,"SELECT COUNT(*) FROM `utilisateurs` WHERE `ancien_etudiant_utl`='0'");
   list($total) = $req->get_row();
   
@@ -66,7 +70,7 @@ if ( $_REQUEST["view"] == "cotisants" )
     array("count"=>"%","mode_paiement_cotis"=>"Mode"), 
     array(), array(),
     array("mode_paiement_cotis"=> array(1=>"Espèces",2=>"Carte bleu",3=>"Chèque",4=>"Administration",5=>"E-Boutic"))
-    );	
+    );  
   $cts->add($tbl,true);
   
   $req = new requete($site->db,"SELECT SUM(a_pris_carte),SUM(a_pris_cadeau)  FROM `ae_cotisations` WHERE `date_fin_cotis` > NOW()");
@@ -87,7 +91,7 @@ if ( $_REQUEST["view"] == "cotisants" )
     array("count"=>"%","taux"=>"Taux de cotisants","promo"=>"Promo"), 
     array(), array(),
     array()
-    );	
+    );  
   $cts->add($tbl,true);
   
 /*
@@ -100,18 +104,18 @@ if ( $_REQUEST["view"] == "cotisants" )
     array("count"=>"%","taux"=>"Taux de cotisants","branche"=>"Branche"), 
     array(), array(),
     array("branche"=>$UserBranches)
-    );	
+    );  
   $cts->add($tbl,true);
 */
   
   $month = date("m");
   
   if ( $month >= 2 && $month < 9 )
-  	$debut_semestre = date("Y")."-02-01";
+    $debut_semestre = date("Y")."-02-01";
   else if ( $month >= 9 )
-  	$debut_semestre = date("Y")."-09-01";
+    $debut_semestre = date("Y")."-09-01";
   else
-  	$debut_semestre = (date("Y")-1)."-09-01";
+    $debut_semestre = (date("Y")-1)."-09-01";
   
   $cts->add_title(2,"Carte AE");
   
@@ -203,7 +207,7 @@ elseif ( $_REQUEST["view"] == "utilisateurs" )
     array("count"=>"%","promo"=>"Promo"), 
     array(), array(),
     array()
-    );	
+    );  
   $cts->add($tbl,true);
   /*
   $req = new requete($site->db,"SELECT ROUND(COUNT(*)*100/$total,1) AS `count`, IF(`utl_etu_utbm`.`branche_utbm` IS NULL,'Autre',`utl_etu_utbm`.`branche_utbm`) AS `branche` FROM `utilisateurs` LEFT JOIN `utl_etu_utbm` USING(`id_utilisateur`) WHERE `ancien_etudiant_utl`='0'  GROUP BY `branche` ORDER BY `count` DESC");
@@ -215,17 +219,17 @@ elseif ( $_REQUEST["view"] == "utilisateurs" )
     array("count"=>"%","branche"=>"Branche"), 
     array(), array(),
     array("branche"=>$UserBranches)
-    );	
+    );  
   $cts->add($tbl,true);
   */
   $month = date("m");
   
   if ( $month >= 2 && $month < 9 )
-  	$debut_semestre = date("Y")."-02-01";
+    $debut_semestre = date("Y")."-02-01";
   else if ( $month >= 9 )
-  	$debut_semestre = date("Y")."-09-01";
+    $debut_semestre = date("Y")."-09-01";
   else
-  	$debut_semestre = (date("Y")-1)."-09-01";
+    $debut_semestre = (date("Y")-1)."-09-01";
   
   
   $cts->add_title(2,"Matmatronch");
@@ -271,18 +275,21 @@ elseif ( $_REQUEST["view"] == "utilisateurs" )
 }
 elseif ( $_REQUEST["view"] == "site" )
 {
-  
+  if (!$site->user->is_in_group ("gestion_ae"))
+  {
+    error_403();
+  }
 }
 elseif ( $_REQUEST["view"] == "sas" )
 {
   
   $req = new requete ($site->db, "SELECT COUNT(sas_photos.id_photo) as `count`, `utilisateurs`.`id_utilisateur`, " .
-		      "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
-		      "FROM sas_photos " .
-		      "INNER JOIN utilisateurs ON sas_photos.id_utilisateur=utilisateurs.id_utilisateur " .
-		      "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
-		      "GROUP BY sas_photos.id_utilisateur " .
-		      "ORDER BY count DESC LIMIT 30");
+          "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
+          "FROM sas_photos " .
+          "INNER JOIN utilisateurs ON sas_photos.id_utilisateur=utilisateurs.id_utilisateur " .
+          "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+          "GROUP BY sas_photos.id_utilisateur " .
+          "ORDER BY count DESC LIMIT 30");
   
   $lst = new itemlist("Les meilleurs contributeurs (30)");
   $n=1;
@@ -295,12 +302,12 @@ elseif ( $_REQUEST["view"] == "sas" )
   $cts->add($lst,true);
   
   $req = new requete ($site->db, "SELECT COUNT(sas_personnes_photos.id_photo) as `count`, `utilisateurs`.`id_utilisateur`, " .
-		      "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
-		      "FROM sas_personnes_photos " .
-		      "INNER JOIN utilisateurs ON sas_personnes_photos.id_utilisateur=utilisateurs.id_utilisateur " .
-		      "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
-		      "GROUP BY sas_personnes_photos.id_utilisateur " .
-		      "ORDER BY count DESC LIMIT 30");
+          "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
+          "FROM sas_personnes_photos " .
+          "INNER JOIN utilisateurs ON sas_personnes_photos.id_utilisateur=utilisateurs.id_utilisateur " .
+          "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+          "GROUP BY sas_personnes_photos.id_utilisateur " .
+          "ORDER BY count DESC LIMIT 30");
   
   $lst = new itemlist("Les plus photographi&eacute;s (30)");
   $n=1;
@@ -343,12 +350,12 @@ elseif ( $_REQUEST["view"] == "forum" )
   
 
       while ($plouf = $rs->get_row())
-	{
-	  $plouf['alias_utl'] = explode(' ', $plouf['alias_utl']);
-	  $plouf['alias_utl'] = $plouf['alias_utl'][0];
+  {
+    $plouf['alias_utl'] = explode(' ', $plouf['alias_utl']);
+    $plouf['alias_utl'] = $plouf['alias_utl'][0];
       
-	  $datas[utf8_decode($plouf['alias_utl'])] = $plouf['totmesg'];
-	}
+    $datas[utf8_decode($plouf['alias_utl'])] = $plouf['totmesg'];
+  }
   
   
       $hist = new histogram($datas, "Top 10");
@@ -364,14 +371,14 @@ elseif ( $_REQUEST["view"] == "forum" )
   if (isset($_REQUEST['mesgbyday']))
     {
       if (!isset($_REQUEST['db']))
-	$db = date("Y")."-01-01";
+  $db = date("Y")."-01-01";
       else
-	$db = $_REQUEST['db'];
+  $db = $_REQUEST['db'];
 
       if (!isset($_REQUEST['de']))
-	$de = date("Y-m-d");
+  $de = date("Y-m-d");
       else
-	$de = $_REQUEST['de'];
+  $de = $_REQUEST['de'];
 
       $db = mysql_real_escape_string($db);
       $de = mysql_real_escape_string($de);
@@ -379,7 +386,7 @@ elseif ( $_REQUEST["view"] == "forum" )
 
       require_once($topdir. "include/graph.inc.php");
       $query =
-	"SELECT 
+  "SELECT 
             DATE_FORMAT(date_message,'%Y-%m-%d') AS `datemesg`
             , COUNT(id_message) AS `nbmesg` 
      FROM 
@@ -398,20 +405,20 @@ elseif ( $_REQUEST["view"] == "forum" )
       $step = (int) ($req->lines / 5);
 
       while ($rs = $req->get_row())
-	{
-	  if (($i % $step) == 0)
-	    $xtics[$i]  = $rs['datemesg'];
-	  $coords[] = array('x' => $i,
-			    'y' => $rs['nbmesg']);
-	  $i++;
-	}
+  {
+    if (($i % $step) == 0)
+      $xtics[$i]  = $rs['datemesg'];
+    $coords[] = array('x' => $i,
+          'y' => $rs['nbmesg']);
+    $i++;
+  }
   
 
       $grp = new graphic("",
-			 "messages par jour",
-			 $coords,
-			 false,
-			 $xtics);
+       "messages par jour",
+       $coords,
+       false,
+       $xtics);
 
       $grp->png_render();
 
@@ -435,7 +442,7 @@ elseif ( $_REQUEST["view"] == "forum" )
   $db = date("Y-m-d", time() - (30 * 24 * 3600));
   
   $fcts->add_paragraph("<center><img src=\"./stats.php?view=forum&mesgbyday&db=".$db."&de=".date("Y-m-d").
-		      "\" alt=\"Messages par jour\" /></center>");
+          "\" alt=\"Messages par jour\" /></center>");
   
   $cts->add($fcts);
 
@@ -448,44 +455,45 @@ elseif ( $_REQUEST["view"] == "comptoirs" )
   $month = date("m");
   
   if ( $month >= 2 && $month < 9 )
-  	$debut_semestre = date("Y")."-02-01";
+    $debut_semestre = date("Y")."-02-01";
   else if ( $month >= 9 )
-  	$debut_semestre = date("Y")."-09-01";
+    $debut_semestre = date("Y")."-09-01";
   else
-  	$debut_semestre = (date("Y")-1)."-09-01";
-  	
-  $req = new requete ($site->db, "SELECT `utilisateurs`.`id_utilisateur`, " .
-  		"IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
-  		"ROUND(SUM( UNIX_TIMESTAMP( `activity_time` ) - UNIX_TIMESTAMP( `logged_time` ) ) /60/60,1) as total " .
-  		"FROM cpt_tracking " .
-  		"INNER JOIN utilisateurs ON cpt_tracking.id_utilisateur=utilisateurs.id_utilisateur " .
-  		"LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
-  		"WHERE logged_time > '$debut_semestre' " .
-  		"GROUP BY utilisateurs.id_utilisateur " .
-  		"ORDER BY total DESC LIMIT 30");
-  		
-  $cts->add(new sqltable(
-    "barmens", 
-    "Barmens : Permanences cumulées (ce semestre)", $req, "", 
-    "", 
-    array("nom_utilisateur"=>"Barmen","total"=>"Heures cumulées"), 
-    array(), array(),
-    array()
-    ),true);	
-  
+    $debut_semestre = (date("Y")-1)."-09-01";
+  if ($site->user->is_in_group ("gestion_ae") || $site->user->is_in_group ("kfet_admin") || $site->user->is_in_group ("foyer_admin"))
+  {
+    $req = new requete ($site->db, "SELECT `utilisateurs`.`id_utilisateur`, " .
+        "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
+        "ROUND(SUM( UNIX_TIMESTAMP( `activity_time` ) - UNIX_TIMESTAMP( `logged_time` ) ) /60/60,1) as total " .
+        "FROM cpt_tracking " .
+        "INNER JOIN utilisateurs ON cpt_tracking.id_utilisateur=utilisateurs.id_utilisateur " .
+        "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+        "WHERE logged_time > '$debut_semestre' " .
+        "GROUP BY utilisateurs.id_utilisateur " .
+        "ORDER BY total DESC LIMIT 30");
+      
+    $cts->add(new sqltable(
+      "barmens", 
+      "Barmens : Permanences cumulées (ce semestre)", $req, "", 
+      "", 
+      array("nom_utilisateur"=>"Barmen","total"=>"Heures cumulées"), 
+      array(), array(),
+      array()
+      ),true);  
+  }
   $cts->add_title(2,"Consomateurs : Top 10 (+ 90 premiers) (ce semestre)");
   
   
   $req = new requete ($site->db, "SELECT `utilisateurs`.`id_utilisateur`, " .
-  		"IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
-  		"sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) as total " .
-  		"FROM cpt_vendu " .
-  		"INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture " .
-  		"INNER JOIN utilisateurs ON cpt_debitfacture.id_utilisateur_client=utilisateurs.id_utilisateur " .
-  		"LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
-  		"WHERE cpt_debitfacture.mode_paiement='AE' AND date_facture > '$debut_semestre' " .
-  		"GROUP BY utilisateurs.id_utilisateur " .
-  		"ORDER BY total DESC LIMIT 100");
+      "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
+      "sum(`cpt_vendu`.`quantite`*`cpt_vendu`.prix_unit) as total " .
+      "FROM cpt_vendu " .
+      "INNER JOIN cpt_debitfacture ON cpt_debitfacture.id_facture=cpt_vendu.id_facture " .
+      "INNER JOIN utilisateurs ON cpt_debitfacture.id_utilisateur_client=utilisateurs.id_utilisateur " .
+      "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+      "WHERE cpt_debitfacture.mode_paiement='AE' AND date_facture > '$debut_semestre' " .
+      "GROUP BY utilisateurs.id_utilisateur " .
+      "ORDER BY total DESC LIMIT 100");
   
   $lst = new itemlist(false,"top10");
   
@@ -493,15 +501,15 @@ elseif ( $_REQUEST["view"] == "comptoirs" )
   
   while ( $row = $req->get_row() )
   {
-  	$class = $n<=10?"top":false;
-  	
-  	if ( $row["id_utilisateur"] == $site->user->id )
-  		$class = $class?"$class me":"me";
+    $class = $n<=10?"top":false;
+    
+    if ( $row["id_utilisateur"] == $site->user->id )
+      $class = $class?"$class me":"me";
           if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("foyer_admin") && !$site->user->is_in_group("kfet_admin"))
-  	  $lst->add("N°$n : ".entitylink ("utilisateur", $row["id_utilisateur"], $row["nom_utilisateur"]),$class);
+      $lst->add("N°$n : ".entitylink ("utilisateur", $row["id_utilisateur"], $row["nom_utilisateur"]),$class);
           else
-  	  $lst->add("N°$n : ".entitylink ("utilisateur", $row["id_utilisateur"], $row["nom_utilisateur"] ).(isset($_REQUEST["fcsoldes"])?" ".($row["total"]/100):""),$class);
-  	$n++;
+      $lst->add("N°$n : ".entitylink ("utilisateur", $row["id_utilisateur"], $row["nom_utilisateur"] ).(isset($_REQUEST["fcsoldes"])?" ".($row["total"]/100):""),$class);
+    $n++;
   }
   
   $cts->add($lst);
@@ -510,6 +518,6 @@ elseif ( $_REQUEST["view"] == "comptoirs" )
 
 
 $site->add_contents($cts);
-$site->end_page();	
+$site->end_page();  
 
 ?>
