@@ -110,14 +110,27 @@ $rq = new requete($site->db,
                             `id_uv`
                             , `code_uv`
                             , `intitule_uv`
+                            , `cours_uv`
+                            , `td_uv`
+                            , `tp_uv`
                    FROM
                             `edu_uv`");
 
 if ($rq->lines > 0)
 {
   while ($rs = $rq->get_row())
-    $uvs[$rs['id_uv']] = $rs['code_uv'] . " - " . $rs['intitule_uv'];
+    {
+      $format_h = array();
+      if ($rs['cours_uv'] == 1)
+	$format_h[] = "Cours";
+      if ($rs['td_uv'] == 1)
+	$format_h[] =  "TD";
+      if ($rs['tp_uv'] == 1)
+	$format_h[] = "TP";
+      $format_h = implode(" / ", $format_h);
 
+      $uvs[$rs['id_uv']] = $rs['code_uv'] . " - " . $rs['intitule_uv'] . " - " . $format_h;
+    }
   $js = 
     "
 <script language=\"javascript\">
