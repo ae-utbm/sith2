@@ -37,6 +37,12 @@ if ($_REQUEST['adduv'] == 1)
 				     " a été ajoutée avec succès"));
 }
 
+
+else if ($_REQUEST['addseance'] == 1)
+{
+  $site->add_contents(new contents("Ajout d'une séance", print_r($_POST, true)));
+}
+
 $cts = new contents("Emploi du temps",
 		    "Sur cette page, vous allez pouvoir ".
 		    "créer votre emploi du temps.");
