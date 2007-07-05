@@ -195,10 +195,8 @@ class edt extends stdentity
 
     if ($vfy->lines >= 1)
       {
-	echo "DEBUG : Y'a deja une seance à la con comme ca ...";
-
 	$rs = $vfy->get_row();
-	return $rs['id_groupe'];
+	return $rs['id_uv_groupe'];
       }
 
     $sql = new insert($this->dbrw,
