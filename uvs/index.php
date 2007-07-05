@@ -143,7 +143,7 @@ $cts->add($adduv);
 
 $site->add_contents($cts);
 
-$site->add_contents(new contents('Liste des UVs dans lesquelles vous êtes inscrit',''));
+$site->add_contents(new contents('Liste des UVs dans lesquelles vous êtes inscrit',"<script language=\"javascript\">openInContents('cts2', 'index.php', 'refreshlistuv');</script>'));
 
 $site->end_page();
 
