@@ -69,7 +69,7 @@ if ($_REQUEST['step'] == 2)
 			   "en renseigner les caractéristiques<br/>");
 	      else
 		{
-		  while ($rs = $req->row())
+		  while ($rs = $req->get_row())
 		    $cours[$rs['id_uv_groupe']] = 'Cours N°'.$rs['numero_grp'];
 		  $frm->add_select_field($uv.'-C', $cours);
 		}
@@ -90,7 +90,7 @@ if ($_REQUEST['step'] == 2)
 				    "en renseigner les caractéristiques<br/>");
 	      else
 		{
-		  while ($rs = $req->row())
+		  while ($rs = $req->get_row())
 		    $cours[$rs['id_uv_groupe']] = 'TD N°'.$rs['numero_grp'];
 		  $frm->add_select_field($uv.'-TD', $cours);
 
@@ -113,7 +113,7 @@ if ($_REQUEST['step'] == 2)
 			       "en renseigner les caractéristiques<br/>");
 	      else
 		{
-		  while ($rs = $req->row())
+		  while ($rs = $req->get_row())
 		    $cours[$rs['id_uv_groupe']] = 'TP N°'.$rs['numero_grp'];
 		  $frm->add_select_field($uv.'-TP', $cours);
 
