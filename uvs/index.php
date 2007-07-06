@@ -26,6 +26,16 @@ if (!$site->user->is_valid())
 {
   error_403();
 }
+/** STEP 3 : En fonction des formats horaires, on pond un formulaire de renseignement sur les séances */
+if ($_REQUEST['step'] == 3)
+{
+
+  $site->add_contents(new contents("DEBUG", print_r($_REQUEST, true)));
+
+  $site->end_page();
+  exit();
+}
+
 
 /** STEP 2 : En fonction des formats horaires, on pond un formulaire de renseignement sur les séances */
 
@@ -68,19 +78,22 @@ if ($_REQUEST['step'] == 2)
 	  $tp   = $rs['tp_uv'];
 	  $iduv = $rs['id_uv'];
 
-	  /* cours */
 	  if (($c==0) && ($td == 0) && ($tp == 0))
 	    $frm->puts("<b>UV hors emploi du temps. En conséquence, elle n'apparaitra pas sur l'Emploi du temps.</b>");
+
+	  /* cours */
 	  if ($c == 1)
 	    {
+	      $frm->puts("<h2>Cours</h2>");
+
 	      $req = new requete($site->db, 
 				"SELECT `id_uv_groupe`, `numero_grp`
                                  FROM `edu_uv_groupe`
                                  WHERE `id_uv` = $iduv AND `type_grp` = 'C'");
 
 	      if ($req->lines <= 0)
-		$frm->puts("Aucun groupe de cours connu pour cette UV. Vous êtes donc amené à ".
-			   "en renseigner les caractéristiques<br/>");
+		$frm->puts("<p>Aucun groupe de cours connu pour cette UV. Vous êtes donc amené à ".
+			   "en renseigner les caractéristiques<br/></p>");
 	      else
 		{
 		  $sccours = array();
@@ -132,13 +145,15 @@ if ($_REQUEST['step'] == 2)
 	  /* td */
 	  if ($td == 1)
 	    {
+	      $frm->puts("<h2>TD</h2>");
+
 	      $req = new requete($site->db, 
 				"SELECT `id_uv_groupe`, `numero_grp`
                                  FROM `edu_uv_groupe`
                                  WHERE `id_uv` = $iduv AND `type_grp` = 'TD'");
 	      if ($req->lines <= 0)
-		$frm->puts("Aucun groupe de TD connu pour cette UV. Vous êtes donc amené à ".
-				    "en renseigner les caractéristiques<br/>");
+		$frm->puts("<p>Aucun groupe de TD connu pour cette UV. Vous êtes donc amené à ".
+				    "en renseigner les caractéristiques<br/></p>");
 	      else
 		{
 		  $sctd = array();
@@ -190,13 +205,14 @@ if ($_REQUEST['step'] == 2)
 	  /* tp */
 	  if ($tp == 1)
 	    {
+	      $frm->puts("<h2>TP</h2>");
 	      $req = new requete($site->db, 
 				"SELECT `id_uv_groupe`, `numero_grp`
                                  FROM `edu_uv_groupe`
                                  WHERE `id_uv` = $iduv AND `type_grp` = 'TP'");
 	      if ($req->lines <= 0)
-		$frm->puts("Aucun groupe de TP connu pour cette UV. Vous êtes donc amené à ".
-			       "en renseigner les caractéristiques<br/>");
+		$frm->puts("<p>Aucun groupe de TP connu pour cette UV. Vous êtes donc amené à ".
+			       "en renseigner les caractéristiques<br/></p>");
 	      else
 		{
 		  $sctp = array();
@@ -244,6 +260,7 @@ if ($_REQUEST['step'] == 2)
 	    }
 	  $frm->puts("<br/>");
 	} // fin foreach
+      $frm->add_submit("step2_sbmt", "Envoyer");
       $cts->add($frm);
     } // else
 
