@@ -193,7 +193,8 @@ function toggleknownseance(obj, uv,type)
   freq =  document.getElementsByName('uv[' +uv+ '][' +type+ '][freq]')[0];
   sall =  document.getElementsByName('uv[' +uv+ '][' +type+ '][salle]')[0];
  
-  alert(obj.selectedIndex);
+  alert(ngrp.parentNode.previousSibling.innerHTML);
+
 
   if (obj.selectedIndex <= 0)
     {
