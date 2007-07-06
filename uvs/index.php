@@ -55,7 +55,8 @@ if ($_REQUEST['step'] == 2)
 	  $iduv = $rs['id_uv'];
 
 	  /* cours */
-
+	  if (($c==0) && ($td == 0) && ($tp))
+	    $frm->puts("<b>UV hors emploi du temps. En conséquence, elle n'apparaitra pas sur l'Emploi du temps.</b>");
 	  if ($c == 1)
 	    {
 	      $req = new requete($site->db, 
@@ -64,8 +65,8 @@ if ($_REQUEST['step'] == 2)
                                  WHERE `id_uv` = $iduv AND `type_grp` = 'C'");
 
 	      if ($req->lines <= 0)
-		$frm->puts("<b>Aucun groupe de cours connu pour cette UV. Vous êtes donc amené à ".
-			   "en renseigner les caractéristiques</b>");
+		$frm->puts("Aucun groupe de cours connu pour cette UV. Vous êtes donc amené à ".
+			   "en renseigner les caractéristiques");
 	      else
 		{
 		  while ($rs = $req->row())
@@ -85,8 +86,8 @@ if ($_REQUEST['step'] == 2)
                                  FROM `edu_uv_groupe`
                                  WHERE `id_uv` = $iduv AND `type_grp` = 'TD'");
 	      if ($req->lines <= 0)
-		$frm->puts("<b>Aucun groupe de TD connu pour cette UV. Vous êtes donc amené à ".
-				    "en renseigner les caractéristiques</b>");
+		$frm->puts("Aucun groupe de TD connu pour cette UV. Vous êtes donc amené à ".
+				    "en renseigner les caractéristiques");
 	      else
 		{
 		  while ($rs = $req->row())
@@ -108,8 +109,8 @@ if ($_REQUEST['step'] == 2)
                                  FROM `edu_uv_groupe`
                                  WHERE `id_uv` = $iduv AND `type_grp` = 'TP'");
 	      if ($req->lines <= 0)
-		$frm->puts("<b>Aucun groupe de TP connu pour cette UV. Vous êtes donc amené à ".
-			       "en renseigner les caractéristiques</b>");
+		$frm->puts("Aucun groupe de TP connu pour cette UV. Vous êtes donc amené à ".
+			       "en renseigner les caractéristiques");
 	      else
 		{
 		  while ($rs = $req->row())
