@@ -59,10 +59,11 @@ if (isset($_REQUEST['modform']))
   echo "<p>A l'aide de ce formulaire, vous pouvez modifier le format horaire de l'UV ".$res['code_uv']."</p>";
 
   $moduv = new form("moduv", 
-		    "index.php?modifyuv=1", 
+		    "index.php", 
 		    false, 
 		    "post", 
 		    "Modification d'une UV");
+  $moduv->add_hidden('modifyuv', 1);
   $moduv->add_hidden('mod_iduv', $uv);
   $moduv->add_checkbox('mod_cours', 'Cours', $cours);
   $moduv->add_checkbox('mod_td', 'TD', $td);
