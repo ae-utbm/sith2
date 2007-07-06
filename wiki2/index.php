@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Forwarder to doku.php
  *
