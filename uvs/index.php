@@ -34,23 +34,79 @@ if ($_REQUEST['step'] == 3)
 
   $cts = new contents("POSTAGE", "");
 
+  $semestre = (date("m") > 6 ? "A" : "P") . date("y");
+    
   foreach($_REQUEST['uv'] as $uv => $value)
     {
 
+      $req = new requete($site->db, "SELECT id_uv FROM edu_uv WHERE code_uv = '".mysql_real_escape_string($uv)."'");
+      $rs = $req->get_row();
 
+      $id_uv = $rs['id_uv'];
       if (isset($value['C']))
 	{
-	  $cts->add_paragraph("<h4>$uv : Séance de cours</h4><br/>". print_r($value['C'], true)); 
+	  $cts->add_paragraph("<h4>$uv : Séance de cours</h4><br/>". print_r($value['C'], true));
+	  $value['C']['freq'] == '1' ? $sem = 'AB' : $sem = $value['C']['semaine'];
+	  
+	  $ret = $edt->create_grp($id_uv,
+				  "C",
+				  $value['C']['numgrp'],
+				  $value['C']['hdeb'] . ":" . $value['C']['mdeb'].':00',
+				  $value['C']['hfin'] . ":" . $value['C']['mfin'].':00',
+				  $value['C']['jour'],
+				  $value['C']['freq'],
+				  $semestre,
+				  $value['C']['salle']);
+
+	  if ($ret >=0)
+	    {
+	      $edt->assign_etu_to_grp($site->user->id, $ret, $sem);
+	      $cts->add_paragraph("Séance créée et ajoutée à l'emploi du temps avec succès !");
+	    }
 	}
 
       if (isset($value['TD']))
 	{
 	  $cts->add_paragraph("<h4>$uv : Séance de TD</h4><br/>". print_r($value['TD'], true)); 
+	  $value['TD']['freq'] == '1' ? $sem = 'AB' : $sem = $value['TD']['semaine'];
+	  
+	  $ret = $edt->create_grp($id_uv,
+				  "TD",
+				  $value['TD']['numgrp'],
+				  $value['TD']['hdeb'] . ":" . $value['TD']['mdeb'].':00',
+				  $value['TD']['hfin'] . ":" . $value['TD']['mfin'].':00',
+				  $value['TD']['jour'],
+				  $value['TD']['freq'],
+				  $semestre,
+				  $value['TD']['salle']);
+
+	  if ($ret >=0)
+	    {
+	      $edt->assign_etu_to_grp($site->user->id, $ret, $sem);
+	      $cts->add_paragraph("Séance créée et ajoutée à l'emploi du temps avec succès !");
+	    }
 	}
 
       if (isset($value['TP']))
 	{
-	  $cts->add_paragraph("<h4>$uv : Séance de TP</h4><br/>". print_r($value['TP'], true)); 
+	  $cts->add_paragraph("<h4>$uv : Séance de TP</h4><br/>". print_r($value['TP'], true));
+	  $value['TP']['freq'] == '1' ? $sem = 'AB' : $sem = $value['TP']['semaine'];
+	  
+	  $ret = $edt->create_grp($id_uv,
+				  "TP",
+				  $value['TP']['numgrp'],
+				  $value['TP']['hdeb'] . ":" . $value['TP']['mdeb'].':00',
+				  $value['TP']['hfin'] . ":" . $value['TP']['mfin'].':00',
+				  $value['TP']['jour'],
+				  $value['TP']['freq'],
+				  $semestre,
+				  $value['TP']['salle']);
+
+	  if ($ret >=0)
+	    {
+	      $edt->assign_etu_to_grp($site->user->id, $ret, $sem);
+	      $cts->add_paragraph("Séance créée et ajoutée à l'emploi du temps avec succès !");
+	    }
 	}
 
     }
