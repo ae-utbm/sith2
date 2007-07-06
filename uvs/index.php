@@ -79,12 +79,6 @@ if (isset($_REQUEST['modform']))
 if (isset($_REQUEST['modifyuv']))
 {
 
-  echo "<pre>";
-
-  print_r($_REQUEST);
-  
-  echo "</pre>";
-
   ($_REQUEST['mod_cours'] == 1) ? $c = 1 : $c = 0;
   ($_REQUEST['mod_td']    == 1) ? $td = 1 : $td = 0;
   ($_REQUEST['mod_tp']    == 1) ? $tp = 1 : $tp = 0;
@@ -98,14 +92,10 @@ if (isset($_REQUEST['modifyuv']))
 			  'tp_uv' => $tp),
 		   array ('id_uv' => $uv));
 
-  $cts = new contents("Modification d'UV", "");
-
   if ($rq->lines <= 0)
-    $cts->add_paragraph("<b>Erreur lors de la modification du format horaire</b>");
+    $retmod = true;
   else 
-    $cts->add_paragraph("<b>Modification du format horaire effectuée</b>");
-
-  $site->add_contents($cts);
+    $retmod = false;
 
 }
 
@@ -182,6 +172,20 @@ $edt = new edt($site->db, $site->dbrw);
 $cts = new contents("Emploi du temps",
 		    "Sur cette page, vous allez pouvoir ".
 		    "créer votre emploi du temps.");
+
+if (isset($retmod))
+{
+  if ($retmod == true)
+    {
+      $cts->title(2, "Modification d'UV");
+      $cts->add_paragraph("Le format horaire a été modifié avec succès.");
+    }
+  else
+    {
+      $cts->title(2, "Modification d'UV");
+      $cts->add_paragraph("<b>Erreur lors de la modification du format horaire.");
+    }
+}
 
 $cts->add_title(2, "Sélection des UVs");
 
