@@ -91,7 +91,7 @@ class edt_img
     global $topdir;
 
     $this->name = $name . " - UTBM";
-    $this->credits = "Emploi du temps - sur idée originale de MasterJul";
+    $this->credits = "Emploi du temps - sur idée de MasterJul";
 
     /* taille totale de l'image : 800x762 */
     $this->dim['width'] = 800;
