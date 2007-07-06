@@ -28,6 +28,7 @@ if (!$site->user->is_valid())
 }
 
 /** STEP 2 : En fonction des formats horaires, on pond un formulaire de renseignement sur les séances */
+
 if ($_REQUEST['step'] == 2)
 {
   $cts = new contents("Renseignement sur les séances", "");
@@ -38,6 +39,92 @@ if ($_REQUEST['step'] == 2)
     {
       $lst = new itemlist("Liste des UVs", false, $_SESSION['edu_uv_subscr']);
       $cts->add($lst);
+
+      $frm = new form('frm', 'index.php?step=3');
+
+      foreach($_SESSION['edu_uv_subscr'] as $uv)
+	{
+	  $frm->add_info("<h1>$uv</h1>");
+	  $req = new requete($site->db, "SELECT `cours_uv`, `td_uv`, `tp_uv`, `id_uv` 
+                                         FROM   `edu_uv` 
+                                         WHERE `code_uv` = '".mysql_real_escape_string($uv) . "'");
+ 	  $rs = $req->get_row();
+	  $c    = $rs['cours_uv'];
+	  $td   = $rs['td_uv'];
+	  $tp   = $rs['tp_uv'];
+	  $iduv = $rs['id_uv'];
+
+	  /* cours */
+
+	  if ($c == 1)
+	    {
+	      $req = new requete($site->db, 
+				"SELECT `id_uv_groupe`, `numero_grp`
+                                 FROM `edu_uv_groupe`
+                                 WHERE `id_uv` = $iduv AND `type_grp` = 'C'");
+
+	      if ($req->lines <= 0)
+		$frm->add_info("<b>Aucun groupe de cours connu pour cette UV. Vous êtes donc amené à ".
+			   "en renseigner les caractéristiques</b>");
+	      else
+		{
+		  while ($rs = $req->row())
+		    $cours[$rs['id_uv_groupe']] = 'Cours N°'.$rs['numero_grp'];
+		  $frm->add_select_field($uv.'-C', $cours);
+		}
+
+	      /* TODO : formulaire ajout cours */
+	      
+	    }
+
+	  /* td */
+	  if ($td == 1)
+	    {
+	      $req = new requete($site->db, 
+				"SELECT `id_uv_groupe`, `numero_grp`
+                                 FROM `edu_uv_groupe`
+                                 WHERE `id_uv` = $iduv AND `type_grp` = 'TD'");
+	      if ($req->lines <= 0)
+		$frm->add_info("<b>Aucun groupe de TD connu pour cette UV. Vous êtes donc amené à ".
+				    "en renseigner les caractéristiques</b>");
+	      else
+		{
+		  while ($rs = $req->row())
+		    $cours[$rs['id_uv_groupe']] = 'TD N°'.$rs['numero_grp'];
+		  $frm->add_select_field($uv.'-TD', $cours);
+
+		}
+
+	      /* TODO : formulaire ajout cours */
+	      
+	    }
+
+
+	  /* tp */
+	  if ($tp == 1)
+	    {
+	      $req = new requete($site->db, 
+				"SELECT `id_uv_groupe`, `numero_grp`
+                                 FROM `edu_uv_groupe`
+                                 WHERE `id_uv` = $iduv AND `type_grp` = 'TP'");
+	      if ($req->lines <= 0)
+		$frm->add_info("<b>Aucun groupe de TP connu pour cette UV. Vous êtes donc amené à ".
+			       "en renseigner les caractéristiques</b>");
+	      else
+		{
+		  while ($rs = $req->row())
+		    $cours[$rs['id_uv_groupe']] = 'TP N°'.$rs['numero_grp'];
+		  $frm->add_select_field($uv.'-TP', $cours);
+
+		}
+
+	      /* TODO : formulaire ajout cours */
+	      
+	    }
+	    
+	}
+      $cts->add($frm);
+      
     }
 
 
