@@ -30,9 +30,8 @@ if (!$site->user->is_valid())
 if ($_REQUEST['step'] == 3)
 {
 
-  $site->add_contents(new contents("DEBUG", print_r($_REQUEST, true)));
 
-  $cts = new contents("POSTAGE", "");
+  $cts = new contents("Traitement de l'emploi du temps", "");
 
   $semestre = (date("m") > 6 ? "A" : "P") . date("y");
     
@@ -45,7 +44,7 @@ if ($_REQUEST['step'] == 3)
       $id_uv = $rs['id_uv'];
       if (isset($value['C']))
 	{
-	  $cts->add_paragraph("<h4>$uv : Séance de cours</h4><br/>". print_r($value['C'], true));
+	  $cts->add_paragraph("<h4>$uv : Séance de cours</h4><br/>");
 	  $value['C']['freq'] == '1' ? $sem = 'AB' : $sem = $value['C']['semaine'];
 
 	  /* l'utilisateur a selectionné une séance de cours existante */
@@ -77,7 +76,7 @@ if ($_REQUEST['step'] == 3)
 
       if (isset($value['TD']))
 	{
-	  $cts->add_paragraph("<h4>$uv : Séance de TD</h4><br/>". print_r($value['TD'], true)); 
+	  $cts->add_paragraph("<h4>$uv : Séance de TD</h4><br/>"); 
 	  $value['TD']['freq'] == '1' ? $sem = 'AB' : $sem = $value['TD']['semaine'];
 
 	  if ($value['TD']['selectlst'] > 0)
@@ -109,7 +108,7 @@ if ($_REQUEST['step'] == 3)
 
       if (isset($value['TP']))
 	{
-	  $cts->add_paragraph("<h4>$uv : Séance de TP</h4><br/>". print_r($value['TP'], true));
+	  $cts->add_paragraph("<h4>$uv : Séance de TP</h4><br/>");
 	  $value['TP']['freq'] == '1' ? $sem = 'AB' : $sem = $value['TP']['semaine'];
 
 
@@ -183,8 +182,41 @@ function togglesellist(obj, uv, type)
   }
 }
 
+function toggleknownseance(obj, uv,type)
+{
+  ngrp =  document.getElementsByName('uv[' +uv+ '][' +type+ '][numgrp]')[0];
+  jour =  document.getElementsByName('uv[' +uv+ '][' +type+ '][jour]')[0];
+  hdeb =  document.getElementsByName('uv[' +uv+ '][' +type+ '][hdeb]')[0];
+  mdeb =  document.getElementsByName('uv[' +uv+ '][' +type+ '][mdeb]')[0];
+  hfin =  document.getElementsByName('uv[' +uv+ '][' +type+ '][hfin]')[0];
+  mfin =  document.getElementsByName('uv[' +uv+ '][' +type+ '][mfin]')[0];
+  freq =  document.getElementsByName('uv[' +uv+ '][' +type+ '][freq]')[0];
+  sall =  document.getElementsByName('uv[' +uv+ '][' +type+ '][salle]')[0];
+ 
+  if (obj.selectedIndex == '-1')
+    {
+      ngrp.style.display = 'block';
+      jour.style.display = 'block';
+      hdeb.style.display = 'block';
+      mdeb.style.display = 'block';
+      hfin.style.display = 'block';
+      mfin.style.display = 'block';
+      freq.style.display = 'block';
+      sall.style.display = 'block';
+    }
+  else
+    {
+      ngrp.style.display = 'none';
+      jour.style.display = 'none';
+      hdeb.style.display = 'none';
+      mdeb.style.display = 'none';
+      hfin.style.display = 'none';
+      mfin.style.display = 'none';
+      freq.style.display = 'none';
+      sall.style.display = 'none';
+    }
 
-
+}
 
 </script>\n");
 
@@ -238,7 +270,12 @@ function togglesellist(obj, uv, type)
 		  while ($rs = $req->get_row())
 		    $sccours[$rs['id_uv_groupe']] = 'Cours N°'.$rs['numero_grp']." du ". 
 		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];;
-		  $frm->add_select_field("uv[$uv][C][selectlst]", 'Séances de cours connues', $sccours);
+		  $frm->add_select_field("uv[$uv][C][selectlst]", 
+                                         'Séances de cours connues', 
+                                         $sccours,
+                                         false,
+                                         "", false, true, 			     
+                                         "javascript:toggleknownseance(this, '".$uv."', 'C')");
 		}
 	      add_seance_form($frm, $uv, 'C');      
 	    }
@@ -261,8 +298,12 @@ function togglesellist(obj, uv, type)
 		  while ($rs = $req->get_row())
 		    $sctd[$rs['id_uv_groupe']] = 'TD N°'.$rs['numero_grp'] . " du ". 
 		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
-		  $frm->add_select_field("uv[$uv][TD][selectlst]", 'Séances de TD connues', $sctd);
-
+		  $frm->add_select_field("uv[$uv][TD][selectlst]", 
+                                         'Séances de TD connues', 
+                                         $sctd,
+                                         false,
+                                         "", false, true, 			     
+                                         "javascript:toggleknownseance(this, '".$uv."', 'TD')");
 		}
 	      add_seance_form($frm, $uv, 'TD');	      
 	    }
@@ -285,7 +326,13 @@ function togglesellist(obj, uv, type)
 		  while ($rs = $req->get_row())
 		    $sctp[$rs['id_uv_groupe']] = 'TP N°'.$rs['numero_grp']. " du ". 
 		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
-		  $frm->add_select_field("uv[$uv][TP][selectlst]", 'Séances de TP connues', $sctp);
+		 
+                      $frm->add_select_field("uv[$uv][TP][selectlst]", 
+                                             'Séances de cours connues', 
+                                             $sctp,
+                                             false,
+                                             "", false, true, 			     
+                                             "javascript:toggleknownseance(this, '".$uv."', 'TP')");
 
 		}
 	      add_seance_form($frm, $uv, 'TP');
@@ -348,7 +395,8 @@ function add_seance_form($formcts, $uv, $type)
   
   $formcts->add_select_field("uv[$uv][$type][semaine]",
 			     'Semaine',
-			     array("A" => "Semaine A",
+			     array("AB" => "Toutes les semaines",
+                                   "A" => "Semaine A",
 				   "B" => "Semaine B"));
 
   $formcts->add_text_field("uv[$uv][$type][salle]",
