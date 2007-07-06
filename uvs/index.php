@@ -64,7 +64,7 @@ function togglesellist(obj, uv, type)
   }
   else
   {
-   s ellist.style.display = 'block';
+   sellist.style.display = 'block';
   }
 }
 
