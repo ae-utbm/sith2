@@ -55,7 +55,7 @@ if ($_REQUEST['step'] == 2)
 	  $iduv = $rs['id_uv'];
 
 	  /* cours */
-	  if (($c==0) && ($td == 0) && ($tp))
+	  if (($c==0) && ($td == 0) && ($tp == 0))
 	    $frm->puts("<b>UV hors emploi du temps. En conséquence, elle n'apparaitra pas sur l'Emploi du temps.</b>");
 	  if ($c == 1)
 	    {
