@@ -59,7 +59,7 @@ if (isset($_REQUEST['modform']))
   echo "<p>A l'aide de ce formulaire, vous pouvez modifier le format horaire de l'UV ".$res['code_uv']."</p>";
 
   $moduv = new form("moduv", 
-		    "edt.php?step=1", 
+		    "index.php?step=1", 
 		    false, 
 		    "post", 
 		    "Modification d'une UV");
@@ -128,7 +128,11 @@ if (isset($_REQUEST['subscr']))
 	$format_h[] =  "TD";
       if ($res['tp_uv'] == 1)
 	$format_h[] = "TP";
-      $format_h = implode(" / ", $format_h);
+
+      if (count($format_h) == 0)
+	$format_h = "HET";
+      else
+	$format_h = implode(" / ", $format_h);
 
 
       $_SESSION['edu_uv_subscr'][$uv] = $res['code_uv'] . ' - ' . $res['intitule_uv']. " - ".$format_h;
@@ -199,7 +203,10 @@ if ($rq->lines > 0)
 	$format_h[] =  "TD";
       if ($rs['tp_uv'] == 1)
 	$format_h[] = "TP";
-      $format_h = implode(" / ", $format_h);
+      if (count($format_h) == 0)
+	$format_h = "HET";
+      else
+	$format_h = implode(" / ", $format_h);
 
       $uvs[$rs['id_uv']] = $rs['code_uv'] . " - " . $rs['intitule_uv'] . " - " . $format_h;
     }
@@ -258,7 +265,7 @@ $cts->add_paragraph("Au cas où une UV n'existerait pas encore en base, "
                      . "vous avez la possibilité de renseigner ses caractéristiques ici.");
 
 
-$adduv = new form("adduv", "edt.php?step=2", true, "post", "Ajout d'une UV");
+$adduv = new form("adduv", "index.php?step=2", true, "post", "Ajout d'une UV");
 
 $adduv->add_text_field('adduv_name',
 		       "Code de l'UV",
