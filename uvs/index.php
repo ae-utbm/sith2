@@ -56,10 +56,9 @@ if ($_REQUEST['step'] == 2)
 "<script language=\"javascript\">
 function togglesellist(obj, uv, type)
 {
-  alert('coincoin');
   sellist = document.getElementsByName('uv[' +uv+ '][' +type+ '][semaine]')[0];
 
-  if (obj.selectedIndex == '1')
+  if (obj.selectedIndex == '0')
    sellist.style.display = 'none';
   else
    sellist.style.display = 'block';
