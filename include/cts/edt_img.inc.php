@@ -586,7 +586,7 @@ class edt_img
   /* generation des plages horaires */
   function generate ()
   {
-    if (count($this->lines > 0))
+    if (count($this->lines) > 0)
     {
       foreach ($this->lines as $line)
 	$this->draw_course ($line);
