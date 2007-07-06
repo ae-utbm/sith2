@@ -867,7 +867,7 @@ class form extends stdcontents
 	 * @param $values	Valeurs possibles array( clé => valeur)
 	 * @param $value	Valeur selectionnée
 	 */	
-	function add_select_field ( $name, $title, $values, $value = false, $prefix="" ,$required = false, $enabled = true)
+	function add_select_field ( $name, $title, $values, $value = false, $prefix="" ,$required = false, $enabled = true, $jscript_onchange = null)
 	{
 		if (empty($values))
 			return;
@@ -879,7 +879,10 @@ class form extends stdcontents
 		
 		$this->buffer .= "<div class=\"formfield\">$prefix";
 		$this->buffer .= "<select name=\"$name\" ";
-		
+
+		if ($jscript_onchange != null)
+		  $this->buffer .= "onChange=\"$js_onchange\" ";
+
 		if (!$enabled)
 			$this->buffer .= "DISABLED";
 		$this->buffer .= ">\n";
