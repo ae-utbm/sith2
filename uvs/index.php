@@ -59,7 +59,7 @@ function togglesellist(obj, uv, type)
   alert('coincoin');
   sellist = document.getElementsByName('uv[' +uv+ '][' +type+ '][semaine]')[0];
 
-  if (obj.value == '1')
+  if (obj.selectedIndex == '1')
    sellist.style.display = 'none';
   else
    sellist.style.display = 'block';
