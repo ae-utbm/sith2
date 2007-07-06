@@ -101,7 +101,7 @@ if ($_REQUEST['step'] == 2)
 		  $sccours = array(-1 => "--");
 		  while ($rs = $req->get_row())
 		    $sccours[$rs['id_uv_groupe']] = 'Cours N°'.$rs['numero_grp']." du ". 
-		      $jour[$rs['jour_grp']] . "de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];;
+		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];;
 		  $frm->add_select_field($uv.'-C', 'Séances de cours connues', $sccours);
 		}
 	      add_seance_form($frm, $uv, 'C');      
@@ -124,7 +124,7 @@ if ($_REQUEST['step'] == 2)
 		  $sctd = array(-1 => "--");
 		  while ($rs = $req->get_row())
 		    $sctd[$rs['id_uv_groupe']] = 'TD N°'.$rs['numero_grp'] . " du ". 
-		      $jour[$rs['jour_grp']] . "de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
+		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
 		  $frm->add_select_field($uv.'-TD', 'Séances de TD connues', $sctd);
 
 		}
@@ -148,7 +148,7 @@ if ($_REQUEST['step'] == 2)
 		  $sctp = array(-1 => "--");
 		  while ($rs = $req->get_row())
 		    $sctp[$rs['id_uv_groupe']] = 'TP N°'.$rs['numero_grp']. " du ". 
-		      $jour[$rs['jour_grp']] . "de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
+		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
 		  $frm->add_select_field($uv.'-TP', 'Séances de TP connues', $sctp);
 
 		}
