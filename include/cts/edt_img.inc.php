@@ -91,7 +91,7 @@ class edt_img
     global $topdir;
 
     $this->name = $name . " - UTBM";
-    $this->credits = "Emploi du temps - contribution de MasterJul";
+    $this->credits = "Emploi du temps - sur idée originale de MasterJul";
 
     /* taille totale de l'image : 800x762 */
     $this->dim['width'] = 800;
@@ -526,6 +526,11 @@ class edt_img
       }
 
     /* affichage du type de seance */
+    if ($line['grp_seance'] == 0)
+      $grps = '';
+    else
+      $grps = $line['grp_seance'];
+
     imagettftext($this->img,
 		 10,
 		 0,
@@ -533,10 +538,10 @@ class edt_img
 		 $HrDebut1 * 60 + $HrDebut2 - $this->dim['dh'] + $this->dim['entete'] + $DVNum,
 		 $groupe_color,
 		 $this->font,
-		 $line['type_seance'] . $line['grp_seance']);
+		 $line['type_seance'] . $grps);
 
     // Affichage du groupe
-    if($line['semaine_seance']!="T")
+    if($line['semaine_seance']!="AB")
       imagettftext($this->img,
 		   8,
 		   0,
