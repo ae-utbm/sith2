@@ -146,6 +146,8 @@ if ($_REQUEST['step'] == 3)
   $site->add_contents(new contents("Emploi du temps graphique", "<center>".
 				   "<img src=\"./edt.php?render=1\" alt=\"Emploi du temps\" /></center>"));
 
+  unset($_SESSION['edu_uv_subscr']);
+
   $site->end_page();
   exit();
 }
@@ -167,7 +169,7 @@ if ($_REQUEST['step'] == 2)
       $frm = new form('frm', 'index.php?step=3');
 
       $frm->puts(
-"<script language=\"javascript\">
+		 "<script language=\"javascript\">
 function togglesellist(obj, uv, type)
 {
   sellist = document.getElementsByName('uv[' +uv+ '][' +type+ '][semaine]')[0];
@@ -257,13 +259,14 @@ function toggleknownseance(obj, uv,type)
 	  $minut[$tmp] = $tmp;
 	}
 
+  $semestre = (date("m") > 6 ? "A" : "P") . date("y");
 
       foreach($_SESSION['edu_uv_subscr'] as $uv)
 	{
 	  $frm->puts("<h1>$uv</h1>");
 	  $req = new requete($site->db, "SELECT `cours_uv`, `td_uv`, `tp_uv`, `id_uv` 
-                                         FROM   `edu_uv` 
-                                         WHERE `code_uv` = '".mysql_real_escape_string($uv) . "'");
+  FROM   `edu_uv` 
+  WHERE `code_uv` = '".mysql_real_escape_string($uv) . "'");
  	  $rs = $req->get_row();
 	  $c    = $rs['cours_uv'];
 	  $td   = $rs['td_uv'];
@@ -280,8 +283,8 @@ function toggleknownseance(obj, uv,type)
 
 	      $req = new requete($site->db, 
 				"SELECT `id_uv_groupe`, `numero_grp`, `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
-                                 FROM `edu_uv_groupe`
-                                 WHERE `id_uv` = $iduv AND `type_grp` = 'C'");
+  FROM `edu_uv_groupe`
+  WHERE `id_uv` = $iduv AND `type_grp` = 'C' AND `semestre_grp` = '".$semestre."'");
 
 	      if ($req->lines <= 0)
 		$frm->puts("<p>Aucun groupe de cours connu pour cette UV. Vous êtes donc amené à ".
@@ -309,8 +312,8 @@ function toggleknownseance(obj, uv,type)
 
 	      $req = new requete($site->db, 
 				"SELECT `id_uv_groupe`, `numero_grp`,  `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
-                                 FROM `edu_uv_groupe`
-                                 WHERE `id_uv` = $iduv AND `type_grp` = 'TD'");
+  FROM `edu_uv_groupe`
+  WHERE `id_uv` = $iduv AND `type_grp` = 'TD' AND `semestre_grp` = '".$semestre."'");
 	      if ($req->lines <= 0)
 		$frm->puts("<p>Aucun groupe de TD connu pour cette UV. Vous êtes donc amené à ".
 				    "en renseigner les caractéristiques<br/></p>");
@@ -337,8 +340,8 @@ function toggleknownseance(obj, uv,type)
 	      $frm->puts("<h2>TP</h2>");
 	      $req = new requete($site->db, 
 				"SELECT `id_uv_groupe`, `numero_grp`,  `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
-                                 FROM `edu_uv_groupe`
-                                 WHERE `id_uv` = $iduv AND `type_grp` = 'TP'");
+  FROM `edu_uv_groupe`
+  WHERE `id_uv` = $iduv AND `type_grp` = 'TP' AND `semestre_grp` = '".$semestre."'");
 	      if ($req->lines <= 0)
 		$frm->puts("<p>Aucun groupe de TP connu pour cette UV. Vous êtes donc amené à ".
 			       "en renseigner les caractéristiques<br/></p>");
@@ -454,11 +457,11 @@ if (isset($_REQUEST['modform']))
                                 `edu_uv`
                      WHERE
                                 `id_uv` = " . $uv);
-      $res = $rq->get_row();
+  $res = $rq->get_row();
 
-      ($res['cours_uv'] == 1) ?	$cours = true : $cours = false;
-      ($res['td_uv'] == 1)    ? $td = true    : $td = false;
-      ($res['tp_uv'] == 1)    ? $tp = true    : $tp = false;
+  ($res['cours_uv'] == 1) ?	$cours = true : $cours = false;
+  ($res['td_uv'] == 1)    ? $td = true    : $td = false;
+  ($res['tp_uv'] == 1)    ? $tp = true    : $tp = false;
 
   echo "<h1>Modification d'UV</h1>";
   echo "<p>A l'aide de ce formulaire, vous pouvez modifier le format horaire de l'UV ".$res['code_uv']."</p>";
