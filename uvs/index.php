@@ -85,11 +85,14 @@ if (isset($_REQUEST['adduv_sbmt']))
 {
   $name = $_REQUEST['adduv_name'];
   $intl = $_REQUEST['adduv_intitule'];
-  $c = $_REQUEST['adduv_c'];
-  $td = $_REQUEST['adduv_td'];
-  $tp = $_REQUEST['adduv_tp'];
+  $c = $_REQUEST['adduv_c'] == 1 ? 1 : 0;
+  $td = $_REQUEST['adduv_td'] == 1 ? 1 : 0;
+  $tp = $_REQUEST['adduv_tp'] == 1 ? 1 : 0;
 
   $ret = $edt->create_uv($name, $intl, $c, $td, $tp);
+
+
+  echo $ret;
 
   if ($ret >= 0)
     $creationuv = true;
