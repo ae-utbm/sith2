@@ -85,11 +85,11 @@ if (isset($_REQUEST['modifyuv']))
   
   echo "</pre>";
 
-  ($_REQUEST['mod_cours'] == 'true') ? $c = 1 : $c = 0;
-  ($_REQUEST['mod_td']    == 'true') ? $td = 1 : $td = 0;
-  ($_REQUEST['mod_tp']    == 'true') ? $tp = 1 : $tp = 0;
+  ($_REQUEST['mod_cours'] == 1) ? $c = 1 : $c = 0;
+  ($_REQUEST['mod_td']    == 1) ? $td = 1 : $td = 0;
+  ($_REQUEST['mod_tp']    == 1) ? $tp = 1 : $tp = 0;
 
-  $uv = intval($_REQUEST['iduv']);
+  $uv = intval($_REQUEST['mod_iduv']);
 
   $rq = new update($site->dbrw,
 		   'edu_uv',
