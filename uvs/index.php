@@ -44,7 +44,7 @@ if ($_REQUEST['step'] == 2)
 
       foreach($_SESSION['edu_uv_subscr'] as $uv)
 	{
-	  $frm->add_info("<h1>$uv</h1>");
+	  $frm->puts("<h1>$uv</h1>");
 	  $req = new requete($site->db, "SELECT `cours_uv`, `td_uv`, `tp_uv`, `id_uv` 
                                          FROM   `edu_uv` 
                                          WHERE `code_uv` = '".mysql_real_escape_string($uv) . "'");
@@ -64,7 +64,7 @@ if ($_REQUEST['step'] == 2)
                                  WHERE `id_uv` = $iduv AND `type_grp` = 'C'");
 
 	      if ($req->lines <= 0)
-		$frm->add_info("<b>Aucun groupe de cours connu pour cette UV. Vous êtes donc amené à ".
+		$frm->puts("<b>Aucun groupe de cours connu pour cette UV. Vous êtes donc amené à ".
 			   "en renseigner les caractéristiques</b>");
 	      else
 		{
@@ -85,7 +85,7 @@ if ($_REQUEST['step'] == 2)
                                  FROM `edu_uv_groupe`
                                  WHERE `id_uv` = $iduv AND `type_grp` = 'TD'");
 	      if ($req->lines <= 0)
-		$frm->add_info("<b>Aucun groupe de TD connu pour cette UV. Vous êtes donc amené à ".
+		$frm->puts("<b>Aucun groupe de TD connu pour cette UV. Vous êtes donc amené à ".
 				    "en renseigner les caractéristiques</b>");
 	      else
 		{
@@ -108,7 +108,7 @@ if ($_REQUEST['step'] == 2)
                                  FROM `edu_uv_groupe`
                                  WHERE `id_uv` = $iduv AND `type_grp` = 'TP'");
 	      if ($req->lines <= 0)
-		$frm->add_info("<b>Aucun groupe de TP connu pour cette UV. Vous êtes donc amené à ".
+		$frm->puts("<b>Aucun groupe de TP connu pour cette UV. Vous êtes donc amené à ".
 			       "en renseigner les caractéristiques</b>");
 	      else
 		{
