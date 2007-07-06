@@ -159,7 +159,8 @@ if ($_REQUEST['step'] == 2)
 {
   $cts = new contents("Renseignement sur les séances", "");
   if (count($_SESSION['edu_uv_subscr']) == 0)
-    $cts->add_paragraph("Vous n'avez pas sélectionné d'UV à l'étape 1. Merci de recommencer cette étape ".
+    $cts->add_paragraph("Vous n'avez pas sélectionné d'UV à <a href=\"./index.php\">l'étape 1</a>".
+			". Merci de recommencer cette étape ".
 			"avant de remplir les différentes informations sur les formats horaires");
   else
     {
@@ -710,8 +711,8 @@ function updatemodifpanel()
 }
 $cts->add($selectuv);
 
-$cts->add_paragraph("Une fois la liste des UVs suivies renseignées, vous pouvez passer à ".
-"<a href=\"./index.php?step=2\">la deuxième étape</a>");
+$cts->add_paragraph("Une fois la liste des UVs suivies renseignées, <b>vous pouvez passer à ".
+"<a href=\"./index.php?step=2\">la deuxième étape</a></b>");
 
 $cts->add_title(2, "Ajout d'une UV");
 $cts->add_paragraph("Au cas où une UV n'existerait pas encore en base, "
