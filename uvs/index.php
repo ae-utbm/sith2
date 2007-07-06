@@ -180,7 +180,7 @@ function add_seance_form($formcts, $uv, $type)
 			     $jour);
   
   /* horaires debut / fin */
-  
+  global $hours, $minut;
   $formcts->add_select_field("uv[$uv][$type][hdeb]",
 			     'Heure de début', $hours);
   
