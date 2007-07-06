@@ -177,12 +177,12 @@ if (isset($retmod))
 {
   if ($retmod == true)
     {
-      $cts->title(2, "Modification d'UV");
+      $cts->add_title(2, "Modification d'UV");
       $cts->add_paragraph("Le format horaire a été modifié avec succès.");
     }
   else
     {
-      $cts->title(2, "Modification d'UV");
+      $cts->add_title(2, "Modification d'UV");
       $cts->add_paragraph("<b>Erreur lors de la modification du format horaire.");
     }
 }
