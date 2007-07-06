@@ -158,6 +158,35 @@ class edt extends stdentity
     return $sql->get_id();
   }
 
+  function delete_edt($id_etu, $semestre)
+  {
+
+    $req = new requete($this->db,"SELECT 
+                                                  `id_uv_groupe`  
+                                  FROM 
+                                                  `edu_uv_groupe_etudiant`
+                                  INNER JOIN 
+                                                  `edu_uv_groupe` 
+                                  USING     
+                                                  (`id_uv_groupe`)
+                                  WHERE 
+                                                  `id_utilisateur` = ".intval($id_etu)." 
+                                  AND 
+                                                  `semestre_grp` = '".mysql_real_escape_string($semestre)."'");
+
+    while ($rs = $req->get_row())
+      {
+	$todel = $rs['id_uv_groupe'];
+	$req = new delete($this->dbrw,
+			  "edu_uv_groupe_etudiant",
+			  array('id_utilisateur' => intval($id_etu),
+				'id_uv_groupe' => $todel));
+		      
+      }
+    return;
+  }
+    
+
   function create_grp ($iduv,
 		       $type_grp,
 		       $numgrp,
