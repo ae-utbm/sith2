@@ -23,6 +23,15 @@ if (!$site->user->is_valid())
 
 $edt = new edt($site->db, $site->dbrw);
 
+if($_REQUEST['showincts'] == 1)
+{
+  $cts = new contents("Rendu graphique de l'emploi du temps","");
+  $cts->add_paragraph("<center><img src=\"./edt.php?render=1&semestre=".
+		      $_REQUEST['semestre']."\" alt=\"emploi du temps\" /></center>");
+
+  echo $cts->html_render();
+
+}
 
 if ($_REQUEST['render'] == 1)
 {
@@ -52,6 +61,14 @@ $cts->add_paragraph("Sur cette page vous pouvez gérer vos emplois du temps.".
 
 $cts->add_paragraph("<h2>Vos emplois du temps disponibles</h2><br/>");
 
+$cts->puts("<script language=\"javascript\">
+function render(sem)
+{
+  openInContents('cts2', './edt.php', 'showincts=1&semestre='+sem);
+}
+</script>
+");
+
 $req = new requete($site->db, "SELECT 
                                         `semestre_grp`
                                         , `edu_uv_groupe_etudiant`.`id_utilisateur` 
@@ -72,8 +89,9 @@ if ($req->lines <= 0)
 else
 {
   while ($rs = $req->get_row())
-    $tab[] = "<a href=\"./edt.php?render=1&id=".$site->user->id."&semestre=".$rs['semestre_grp']."\">".
-      "Emploi du temps du semestre ".$rs['semestre_grp']."</a>";
+    $tab[] = "<a href=\"javascript:render('".$rs['semestre_grp']."')\">".
+      "Emploi du temps du semestre ".$rs['semestre_grp'].
+      "</a> | <a href=\"./edt.php?delete&semestre=".$rs['semestre_grp']."\">Supprimer</a>";
 
   $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
   $cts->add($itemlst);
@@ -82,6 +100,9 @@ else
 }
 
 $site->add_contents($cts);
+
+/* contents 2 */
+$site->add_contents(new contents("", ""));
 
 
 $site->end_page();
