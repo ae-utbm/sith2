@@ -131,7 +131,10 @@ class edt extends stdentity
 
 
   function create_uv ($code_uv,
-		      $intitule_uv)
+		      $intitule_uv,
+		      $cours_uv = 1,
+		      $td_uv = 1,
+		      $tp_uv = 1)
   {
     
     if (!$this->dbrw)
@@ -140,7 +143,10 @@ class edt extends stdentity
     $sql = new insert($this->dbrw,
 		      "edu_uv",
 		      array("code_uv"     => $code_uv,
-			    "intitule_uv" => $intitule_uv));
+			    "intitule_uv" => $intitule_uv,
+			    "cours_uv"    => $cours_uv,
+			    "td_uv"       => $td_uv,
+			    "tp_uv"       => $tp_uv));
 
     if ($sql->lines <= 0)
       return false;

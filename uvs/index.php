@@ -14,6 +14,8 @@ require_once ($topdir . "include/cts/edt_img.inc.php");
 
 $site = new site();
 
+$edt = new edt($site->db, $site->dbrw);
+
 $site->start_page("services", "Emploi du temps");
 
 if (!$site->user->utbm)
@@ -75,6 +77,24 @@ if (isset($_REQUEST['modform']))
 
   exit();
 
+}
+
+
+/** ajout uv **/
+if (isset($_REQUEST['adduv_sbmt']))
+{
+  $name = $_REQUEST['adduv_name'];
+  $intl = $_REQUEST['adduv_intitule'];
+  $c = $_REQUEST['adduv_c'];
+  $td = $_REQUEST['adduv_td'];
+  $tp = $_REQUEST['adduv_tp'];
+
+  $ret = $edt->create_uv($name, $intl, $c, $td, $tp);
+
+  if ($ret >= 0)
+    $creationuv = true;
+  else
+    $creationuv = false;
 }
 
 if (isset($_REQUEST['modifyuv']))
@@ -162,7 +182,6 @@ if (isset($_REQUEST['refreshlistuv']))
 /** real code begins here */
 
 
-$edt = new edt($site->db, $site->dbrw);
 
 
 
@@ -174,13 +193,27 @@ if (isset($retmod))
 {
   if ($retmod == true)
     {
-      $cts->add_title(2, "Modification d'UV");
+      $cts->add_title(1, "Modification d'UV");
       $cts->add_paragraph("Le format horaire a été modifié avec succès.");
     }
   else
     {
-      $cts->add_title(2, "Modification d'UV");
+      $cts->add_title(1, "Modification d'UV");
       $cts->add_paragraph("<b>Erreur lors de la modification du format horaire.</b>");
+    }
+}
+
+if (isset($creationuv))
+{
+  if ($creactionuv == true)
+    {
+      $cts->add_title(1, "Création d'UV");
+      $cts->add_paragraph("L'UV a été créée avec succès.");
+    }
+  else
+    {
+      $cts->add_title(1, "Création d'UV");
+      $cts->add_paragraph("<b>Erreur lors de la création de l'UV.</b>");
     }
 }
 
