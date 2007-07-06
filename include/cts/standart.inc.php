@@ -881,7 +881,7 @@ class form extends stdcontents
 		$this->buffer .= "<select name=\"$name\" ";
 
 		if ($jscript_onchange != null)
-		  $this->buffer .= "onChange=\"$js_onchange\" ";
+		  $this->buffer .= "onChange=\"$jscript_onchange\" ";
 
 		if (!$enabled)
 			$this->buffer .= "DISABLED";
