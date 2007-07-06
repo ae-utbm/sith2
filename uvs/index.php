@@ -93,7 +93,7 @@ if (isset($_REQUEST['modifyuv']))
 			  'tp_uv' => $tp),
 		   array ('id_uv' => $uv));
 
-  if ($rq->lines <= 0)
+  if ($rq->lines  == 1)
     $retmod = true;
   else 
     $retmod = false;
