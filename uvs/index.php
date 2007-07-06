@@ -92,7 +92,6 @@ if (isset($_REQUEST['adduv_sbmt']))
   $ret = $edt->create_uv($name, $intl, $c, $td, $tp);
 
 
-  echo $ret;
 
   if ($ret >= 0)
     $creationuv = true;
