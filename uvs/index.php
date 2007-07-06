@@ -195,7 +195,7 @@ function toggleknownseance(obj, uv,type)
  
   alert(obj.selectedIndex);
 
-  if (obj.selectedIndex == -1)
+  if (obj.selectedIndex <= 0)
     {
       ngrp.style.display = 'block';
       jour.style.display = 'block';
