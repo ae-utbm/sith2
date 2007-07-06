@@ -174,10 +174,12 @@ function togglesellist(obj, uv, type)
 
   if (obj.selectedIndex == '1')
   {
+    sellist.parentNode.previousSibling.style.display = 'none';
     sellist.style.display = 'none';
   }
   else
   {
+   sellist.parentNode.previousSibling.style.display = 'block';
    sellist.style.display = 'block';
   }
 }
