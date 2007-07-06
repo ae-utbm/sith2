@@ -42,6 +42,20 @@ if ($_REQUEST['step'] == 2)
 
       $frm = new form('frm', 'index.php?step=3');
 
+      /* horaires */
+      for ($i = 0; $i < 24; $i++)
+	{
+	  $tmp = sprintf("%02d", $i);
+	  $hours[$tmp] = $tmp; 
+	}
+	      
+      for ($i = 0; $i < 60; $i++)
+	{
+	  $tmp = sprintf("%02d", $i);
+	  $minut[$tmp] = $tmp;
+	}
+
+
       foreach($_SESSION['edu_uv_subscr'] as $uv)
 	{
 	  $frm->puts("<h1>$uv</h1>");
@@ -75,8 +89,44 @@ if ($_REQUEST['step'] == 2)
 		  $frm->add_select_field($uv.'-C', 'Séances de cours connues', $sccours);
 		}
 
-	      /* TODO : formulaire ajout cours */
+	      /* numéro groupe de cours */
+	      $frm->add_text_field("uv[$uv][c][numgrp]",
+					 'Numéro de groupe',
+					 '', false, 1);
+	      /* jour */
+	      global $jour;
+	      $frm->add_select_field("uv[$uv][c][jour]",
+				     'jour',
+				     $jour);
+
+	      /* horaires debut / fin */
+    
+	      $frm->add_select_field("uv[$uv][c][hdeb]",
+				     'Heure de début', $hours);
 	      
+	      $frm->add_select_field("uv[$uv][c][mdeb]",
+				     'Minutes de début', $minut);
+
+
+	      $frm->add_select_field("uv[$uv][c][hfin]",
+				     'Heure de fin', $hours);
+  
+	      $frm->add_select_field("uv[$uv][c][mfin]",
+				     'Minutes de fin', $minut);
+
+
+  
+
+	      $frm->add_select_field("uv[$uv][c][freq]",
+				     'Fréquence',
+				     array("1" => "Hebdomadaire",
+					   "2" => "Bimensuelle"));
+
+	      $frm->add_select_field("uv[$uv][c][semaine]",
+				     'Semaine',
+				     array("AB" => "Toutes les semaines",
+					   "A" => "Semaine A",
+					   "B" => "Semaine B")); 
 	    }
 
 	  /* td */
@@ -98,7 +148,41 @@ if ($_REQUEST['step'] == 2)
 
 		}
 
-	      /* TODO : formulaire ajout cours */
+	      /* numéro groupe de TD */
+	      $frm->add_text_field("uv[$uv][td][numgrp]",
+					 'Numéro de groupe',
+					 '', false, 1);
+	      /* jour */
+	      global $jour;
+	      $frm->add_select_field("uv[$uv][td][jour]",
+				     'jour',
+				     $jour);
+
+	      /* horaires debut / fin */
+    
+	      $frm->add_select_field("uv[$uv][td][hdeb]",
+				     'Heure de début', $hours);
+	      
+	      $frm->add_select_field("uv[$uv][td][mdeb]",
+				     'Minutes de début', $minut);
+
+
+	      $frm->add_select_field("uv[$uv][td][hfin]",
+				     'Heure de fin', $hours);
+  
+	      $frm->add_select_field("uv[$uv][td][mfin]",
+				     'Minutes de fin', $minut);
+
+	      $frm->add_select_field("uv[$uv][td][freq]",
+				     'Fréquence',
+				     array("1" => "Hebdomadaire",
+					   "2" => "Bimensuelle"));
+
+	      $frm->add_select_field("uv[$uv][td][semaine]",
+				     'Semaine',
+				     array("AB" => "Toutes les semaines",
+					   "A" => "Semaine A",
+					   "B" => "Semaine B"));
 	      
 	    }
 
@@ -121,15 +205,47 @@ if ($_REQUEST['step'] == 2)
 		  $frm->add_select_field($uv.'-TP', 'Séances de TP connues', $sctp);
 
 		}
+	     
+	      /* numéro groupe de TP */
+	      $frm->add_text_field("uv[$uv][tp][numgrp]",
+					 'Numéro de groupe',
+					 '', false, 1);
+	      /* jour */
+	      global $jour;
+	      $frm->add_select_field("uv[$uv][tp][jour]",
+				     'jour',
+				     $jour);
 
-	      /* TODO : formulaire ajout cours */
+	      /* horaires debut / fin */
+    
+	      $frm->add_select_field("uv[$uv][tp][hdeb]",
+				     'Heure de début', $hours);
 	      
+	      $frm->add_select_field("uv[$uv][tp][mdeb]",
+				     'Minutes de début', $minut);
+
+
+	      $frm->add_select_field("uv[$uv][tp][hfin]",
+				     'Heure de fin', $hours);
+  
+	      $frm->add_select_field("uv[$uv][tp][mfin]",
+				     'Minutes de fin', $minut);
+
+	      $frm->add_select_field("uv[$uv][tp][freq]",
+				     'Fréquence',
+				     array("1" => "Hebdomadaire",
+					   "2" => "Bimensuelle"));
+
+	      $frm->add_select_field("uv[$uv][tp][semaine]",
+				     'Semaine',
+				     array("AB" => "Toutes les semaines",
+					   "A" => "Semaine A",
+					   "B" => "Semaine B")); 
 	    }
-	    
-	}
+	  $frm->puts("<br/>");
+	} // fin foreach
       $cts->add($frm);
-      
-    }
+    } // else
 
 
 
