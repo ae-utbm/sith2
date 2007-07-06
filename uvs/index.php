@@ -208,7 +208,7 @@ if (isset($retmod))
 
 if (isset($creationuv))
 {
-  if ($creactionuv == true)
+  if ($creationuv == true)
     {
       $cts->add_title(1, "Création d'UV");
       $cts->add_paragraph("L'UV a été créée avec succès.");
