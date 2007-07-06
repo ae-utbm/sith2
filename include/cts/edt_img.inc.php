@@ -573,12 +573,12 @@ class edt_img
   function show_edt ()
   {
     global $topdir;
-    //require_once ($topdir . "include/watermark.inc.php");
+    require_once ($topdir . "include/watermark.inc.php");
 
     header("Content-Type: image/png");
-    //$wm_img = new img_watermark ($this->img);
-    //imagepng ($wm_img->img);
-    //$wm_img->destroy ();
+    $wm_img = new img_watermark ($this->img);
+    imagepng ($wm_img->img);
+    $wm_img->destroy ();
     imagepng($this->img);
     $this->destroy ();
   }
