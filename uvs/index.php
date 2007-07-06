@@ -66,7 +66,7 @@ if ($_REQUEST['step'] == 2)
 
 	      if ($req->lines <= 0)
 		$frm->puts("Aucun groupe de cours connu pour cette UV. Vous êtes donc amené à ".
-			   "en renseigner les caractéristiques");
+			   "en renseigner les caractéristiques<br/>");
 	      else
 		{
 		  while ($rs = $req->row())
@@ -87,7 +87,7 @@ if ($_REQUEST['step'] == 2)
                                  WHERE `id_uv` = $iduv AND `type_grp` = 'TD'");
 	      if ($req->lines <= 0)
 		$frm->puts("Aucun groupe de TD connu pour cette UV. Vous êtes donc amené à ".
-				    "en renseigner les caractéristiques");
+				    "en renseigner les caractéristiques<br/>");
 	      else
 		{
 		  while ($rs = $req->row())
@@ -110,7 +110,7 @@ if ($_REQUEST['step'] == 2)
                                  WHERE `id_uv` = $iduv AND `type_grp` = 'TP'");
 	      if ($req->lines <= 0)
 		$frm->puts("Aucun groupe de TP connu pour cette UV. Vous êtes donc amené à ".
-			       "en renseigner les caractéristiques");
+			       "en renseigner les caractéristiques<br/>");
 	      else
 		{
 		  while ($rs = $req->row())
