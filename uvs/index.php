@@ -167,6 +167,8 @@ if ($_REQUEST['step'] == 2)
 /** fonction affichant un formulaire de saisie */
 function add_seance_form($formcts, $uv, $type)
 {
+  $formcts->puts("<h3>Ajout d'une séance horaire</h3>");
+
   /* numéro groupe de TP */
   $formcts->add_text_field("uv[$uv][$type][numgrp]",
 			   'Numéro de groupe',
