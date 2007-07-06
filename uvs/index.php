@@ -111,7 +111,11 @@ if ($_REQUEST['step'] == 3)
 
     }
 
-	  $site->add_contents($cts);
+  $site->add_contents($cts);
+
+
+  $site->add_contents(new contents("Emploi du temps graphique", "<center>".
+				   "<img src=\"./edt.php?render=1\" alt=\"Emploi du temps\" /></center>"));
 
   $site->end_page();
   exit();
@@ -316,6 +320,10 @@ function add_seance_form($formcts, $uv, $type)
 			     'Semaine',
 			     array("A" => "Semaine A",
 				   "B" => "Semaine B"));
+
+  $formcts->add_text_field("uv[$uv][$type][salle]",
+                           'salle',
+                           "");
 }
 
 
