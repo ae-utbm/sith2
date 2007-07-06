@@ -52,6 +52,8 @@ if ($_REQUEST['step'] == 2)
 
       $frm = new form('frm', 'index.php?step=3');
 
+      global $jour;
+
       /* horaires */
       for ($i = 0; $i < 24; $i++)
 	{
@@ -87,7 +89,7 @@ if ($_REQUEST['step'] == 2)
 	      $frm->puts("<h2>Cours</h2>");
 
 	      $req = new requete($site->db, 
-				"SELECT `id_uv_groupe`, `numero_grp`
+				"SELECT `id_uv_groupe`, `numero_grp`, `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
                                  FROM `edu_uv_groupe`
                                  WHERE `id_uv` = $iduv AND `type_grp` = 'C'");
 
@@ -96,9 +98,10 @@ if ($_REQUEST['step'] == 2)
 			   "en renseigner les caractéristiques<br/></p>");
 	      else
 		{
-		  $sccours = array();
+		  $sccours = array(-1 => "--");
 		  while ($rs = $req->get_row())
-		    $sccours[$rs['id_uv_groupe']] = 'Cours N°'.$rs['numero_grp'];
+		    $sccours[$rs['id_uv_groupe']] = 'Cours N°'.$rs['numero_grp']." du ". 
+		      $jour[$rs['jour_grp']] . "de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];;
 		  $frm->add_select_field($uv.'-C', 'Séances de cours connues', $sccours);
 		}
 	      add_seance_form($frm, $uv, 'C');      
@@ -110,7 +113,7 @@ if ($_REQUEST['step'] == 2)
 	      $frm->puts("<h2>TD</h2>");
 
 	      $req = new requete($site->db, 
-				"SELECT `id_uv_groupe`, `numero_grp`
+				"SELECT `id_uv_groupe`, `numero_grp`,  `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
                                  FROM `edu_uv_groupe`
                                  WHERE `id_uv` = $iduv AND `type_grp` = 'TD'");
 	      if ($req->lines <= 0)
@@ -118,9 +121,10 @@ if ($_REQUEST['step'] == 2)
 				    "en renseigner les caractéristiques<br/></p>");
 	      else
 		{
-		  $sctd = array();
+		  $sctd = array(-1 => "--");
 		  while ($rs = $req->get_row())
-		    $sctd[$rs['id_uv_groupe']] = 'TD N°'.$rs['numero_grp'];
+		    $sctd[$rs['id_uv_groupe']] = 'TD N°'.$rs['numero_grp'] . " du ". 
+		      $jour[$rs['jour_grp']] . "de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
 		  $frm->add_select_field($uv.'-TD', 'Séances de TD connues', $sctd);
 
 		}
@@ -133,7 +137,7 @@ if ($_REQUEST['step'] == 2)
 	    {
 	      $frm->puts("<h2>TP</h2>");
 	      $req = new requete($site->db, 
-				"SELECT `id_uv_groupe`, `numero_grp`
+				"SELECT `id_uv_groupe`, `numero_grp`,  `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
                                  FROM `edu_uv_groupe`
                                  WHERE `id_uv` = $iduv AND `type_grp` = 'TP'");
 	      if ($req->lines <= 0)
@@ -141,9 +145,10 @@ if ($_REQUEST['step'] == 2)
 			       "en renseigner les caractéristiques<br/></p>");
 	      else
 		{
-		  $sctp = array();
+		  $sctp = array(-1 => "--");
 		  while ($rs = $req->get_row())
-		    $sctp[$rs['id_uv_groupe']] = 'TP N°'.$rs['numero_grp'];
+		    $sctp[$rs['id_uv_groupe']] = 'TP N°'.$rs['numero_grp']. " du ". 
+		      $jour[$rs['jour_grp']] . "de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
 		  $frm->add_select_field($uv.'-TP', 'Séances de TP connues', $sctp);
 
 		}
