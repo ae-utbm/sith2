@@ -59,7 +59,7 @@ if (isset($_REQUEST['modform']))
   echo "<p>A l'aide de ce formulaire, vous pouvez modifier le format horaire de l'UV ".$res['code_uv']."</p>";
 
   $moduv = new form("moduv", 
-		    "index.php?step=1", 
+		    "index.php?modifyuv=1", 
 		    false, 
 		    "post", 
 		    "Modification d'une UV");
@@ -69,8 +69,7 @@ if (isset($_REQUEST['modform']))
   $moduv->add_checkbox('mod_td', 'TD', $td);
   $moduv->add_checkbox('mod_tp', 'TP', $tp);
 
-  $moduv->add_button('moduv', 'Modifier le format', 'javascript:modifyuv();');
-
+  $moduv->add_submit('moduv_sbmt', 'Modifier le format');
 
   echo $moduv->buffer;
   exit();
@@ -92,12 +91,14 @@ if (isset($_REQUEST['modifyuv']))
 			  'tp_uv' => $tp),
 		   array ('id_uv' => $uv));
 
-  if ($rq->lines <= 0)
-    echo "<b>Erreur lors de la modification du format horaire</b>";
-  else 
-    echo "<b>Modification du format horaire effectuée</b>";
+  $cts = new contents("Modification d'UV", "");
 
-  exit();
+  if ($rq->lines <= 0)
+    $cts->add_paragraph("<b>Erreur lors de la modification du format horaire</b>");
+  else 
+    $cts->add_paragraph("<b>Modification du format horaire effectuée</b>");
+
+  $site->add_contents($cts);
 
 }
 
