@@ -69,9 +69,10 @@ if ($_REQUEST['step'] == 2)
 			   "en renseigner les caractéristiques<br/>");
 	      else
 		{
+		  $sccours = array();
 		  while ($rs = $req->get_row())
-		    $cours[$rs['id_uv_groupe']] = 'Cours N°'.$rs['numero_grp'];
-		  $frm->add_select_field($uv.'-C', $cours);
+		    $sccours[$rs['id_uv_groupe']] = 'Cours N°'.$rs['numero_grp'];
+		  $frm->add_select_field($uv.'-C', 'Séance de cours connues', $sccours);
 		}
 
 	      /* TODO : formulaire ajout cours */
@@ -90,9 +91,10 @@ if ($_REQUEST['step'] == 2)
 				    "en renseigner les caractéristiques<br/>");
 	      else
 		{
+		  $sctd = array();
 		  while ($rs = $req->get_row())
-		    $cours[$rs['id_uv_groupe']] = 'TD N°'.$rs['numero_grp'];
-		  $frm->add_select_field($uv.'-TD', $cours);
+		    $sctd[$rs['id_uv_groupe']] = 'TD N°'.$rs['numero_grp'];
+		  $frm->add_select_field($uv.'-TD', 'séance de TD connues', $sctd);
 
 		}
 
@@ -113,9 +115,10 @@ if ($_REQUEST['step'] == 2)
 			       "en renseigner les caractéristiques<br/>");
 	      else
 		{
+		  $sctp = array();
 		  while ($rs = $req->get_row())
-		    $cours[$rs['id_uv_groupe']] = 'TP N°'.$rs['numero_grp'];
-		  $frm->add_select_field($uv.'-TP', $cours);
+		    $sctp[$rs['id_uv_groupe']] = 'TP N°'.$rs['numero_grp'];
+		  $frm->add_select_field($uv.'-TP', 'séance de TP connues', $sctp);
 
 		}
 
