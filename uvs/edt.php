@@ -30,6 +30,7 @@ if($_REQUEST['showincts'] == 1)
 		      $_REQUEST['semestre']."\" alt=\"emploi du temps\" /></center>");
 
   echo $cts->html_render();
+  exit();
 
 }
 
@@ -65,6 +66,8 @@ $cts->puts("<script language=\"javascript\">
 function render(sem)
 {
   openInContents('cts2', './edt.php', 'showincts=1&semestre='+sem);
+  document.getElementById('cts2').style.display = 'block';
+
 }
 </script>
 ");
@@ -102,7 +105,16 @@ else
 $site->add_contents($cts);
 
 /* contents 2 */
-$site->add_contents(new contents("", ""));
+
+$cts2 = new contents("", "");
+
+
+$cts2->puts("<script language=\"javascript\">
+document.getElementById('cts2').style.display = 'none';
+</script>");
+
+
+$site->add_contents($cts2);
 
 
 $site->end_page();
