@@ -46,6 +46,10 @@ if ($_REQUEST['render'] == 1)
 
 $cts = new contents("Emploi du temps", "");
 
+$cts->add_paragraph("Sur cette page vous pouvez gérer vos emplois du temps.".
+		    "<br/><a href=\"./index.php\">Ajouter un emploi du temps</a>");
+
+
 $cts->add_paragraph("<h2>Vos emplois du temps disponibles</h2><br/>");
 
 $req = new requete($site->db, "SELECT 
