@@ -41,16 +41,15 @@ $edt = new edt($site->db, $site->dbrw);
 
 $site->start_page("services", "Information sur les UVs");
 
-$query = $_REQUEST['q'];
-
 
 function post($host,$query,$others='')
 {
+
    $path=explode('/',$host);
    $host=$path[0];
    unset($path[0]);
    $path='/'.(implode('/',$path));
-   $post="POST $path HTTP/1.1\r\nHost: $host\r\nContent-type: application/x-www-form-urlencoded\r\n${others}".
+   $post="POST $path HTTP/1.1\r\nHost: $host\r\nContent-type: application/x-www-form-urlencoded${others}".
      "\r\nUser-Agent: Mozilla 4.0\r\nContent-length: ".strlen($query)."\r\nConnection: close\r\n\r\n$query";
    $h=fsockopen($host,80);
    fwrite($h,$post);
@@ -66,7 +65,7 @@ function post($host,$query,$others='')
 function get_be_infos($uv)
 {
   $s = post("www.bankexam.fr/rechercher", "query=".$uv." UTBM");
-
+  
   preg_match_all("/<a class=\"agoogle\" href=\"(.*)\">.*<\/a>/", $s, $truc);
 
   $link = $truc[1][0];
@@ -77,7 +76,7 @@ function get_be_infos($uv)
 		 $s, $truc);
 
   foreach ($truc[1] as $annales)
-    $ret[] =  basename($annales);
+    $ret[] =  "<a href=\"http://www.bankexam.fr".$annales."\">".basename($annales)."</a>";
 
   preg_match_all("/\?page=([0-9]*)\"/", $s, $pages);
 
@@ -92,18 +91,21 @@ function get_be_infos($uv)
 			 $s, $truc);
 
 	  foreach ($truc[1] as $annales)
-	    $ret[] = basename($annales);
+	    $ret[] = "<a href=\"http://www.bankexam.fr".$annales."\">".basename($annales) . "</a>";
 
 	}
     }
   return $ret;
 }
 
+$query = $_REQUEST['q'];
+
 $cts = new contents("Information sur les UVs","");
 if ($query)
 {
   $tab = get_be_infos($query);
-  $itl = new itemlist("Annales chez Bankexam", false, $tab);
+  $itl = new itemlist("Annales chez Bankexam - $query", false, $tab);
+  $cts->add_paragraph("<h4>Annales chez Bankexam - $query</h4>");
   $cts->add($itl);
 }
 
