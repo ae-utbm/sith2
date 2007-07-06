@@ -218,7 +218,8 @@ function add_seance_form($formcts, $uv, $type)
   
   $formcts->add_select_field("uv[$uv][$type][freq]",
 			     'Fréquence',
-			     array("1" => "Hebdomadaire",
+			     array("0" => "--",
+                                   "1" => "Hebdomadaire",
 				   "2" => "Bimensuelle"),
 			     false,
 			     "",
