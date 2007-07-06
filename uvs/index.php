@@ -27,6 +27,30 @@ if (!$site->user->is_valid())
   error_403();
 }
 
+/** STEP 2 : En fonction des formats horaires, on pond un formulaire de renseignement sur les séances */
+if ($_REQUEST['step'] == 2)
+{
+  $cts = new contents("Renseignement sur les séances", "");
+  if (count($_SESSION['edu_uv_subscr']) == 0)
+    $cts->add_paragraph("Vous n'avez pas sélectionné d'UV à l'étape 1. Merci de recommencer cette étape ".
+			"avant de remplir les différentes informations sur les formats horaires");
+  else
+    {
+      $lst = new itemlist("Liste des UVs", false, $_SESSION['edu_uv_subscr']);
+      $cts->add($lst);
+    }
+
+
+
+  $site->add_contents($cts);
+
+  $site->end_page();
+  exit();
+}
+
+
+/*** STEP 1 : étape initiale, choix des uvs, ajout et modification d'un format horaire */
+
 
 if (isset($_REQUEST['emptylist']))
 {
@@ -221,7 +245,7 @@ if (isset($creationuv))
 
 $cts->add_title(2, "Sélection des UVs");
 
-$selectuv = new form("adduv", "edt.php?step=2", true, "post", "Sélection des  UVs");
+$selectuv = new form("adduv", "index.php", true, "post", "Sélection des  UVs");
 
 $rq = new requete($site->db,
 		  "SELECT 
@@ -304,12 +328,15 @@ function updatemodifpanel()
 }
 $cts->add($selectuv);
 
+$cts->add_paragraph("Une fois la liste des UVs suivies renseignées, vous pouvez passer à ".
+"<a href=\"./index.php?step=2\">la deuxième étape</a>");
+
 $cts->add_title(2, "Ajout d'une UV");
 $cts->add_paragraph("Au cas où une UV n'existerait pas encore en base, "
                      . "vous avez la possibilité de renseigner ses caractéristiques ici.");
 
 
-$adduv = new form("adduv", "index.php?step=2", true, "post", "Ajout d'une UV");
+$adduv = new form("adduv", "index.php", true, "post", "Ajout d'une UV");
 
 $adduv->add_text_field('adduv_name',
 		       "Code de l'UV",
@@ -372,7 +399,7 @@ $cts->add_paragraph("A l'aide de ce formulaire, vous pouvez ".
                     "modifier le format horaire d'une UV");
  
 $moduv = new form("moduv", 
-                  "edt.php?step=1", 
+                  "index.php", 
                   true, 
                   "post", 
                   "Modification d'une UV");
