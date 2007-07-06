@@ -63,15 +63,15 @@ if (isset($_REQUEST['modform']))
 		    false, 
 		    "post", 
 		    "Modification d'une UV");
-
-  $moduv->puts("<input type=\"hidden\" name=\"mod_iduv\" value=\"$uv\" />\n");
+  $moduv->add_hidden('mod_iduv', $uv);
   $moduv->add_checkbox('mod_cours', 'Cours', $cours);
   $moduv->add_checkbox('mod_td', 'TD', $td);
   $moduv->add_checkbox('mod_tp', 'TP', $tp);
 
   $moduv->add_submit('moduv_sbmt', 'Modifier le format');
 
-  echo $moduv->buffer;
+  echo $moduv->html_render();
+
   exit();
 
 }
