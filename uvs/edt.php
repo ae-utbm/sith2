@@ -54,6 +54,14 @@ if ($_REQUEST['render'] == 1)
 
 }
 
+/* suppression d'emploi du temps */
+if (isset($_REQUEST['delete']))
+{
+  $semestre = $_REQUEST['semestre'];
+  $edt->delete_edt($site->user->id,
+		   $semestre);
+}
+
 $cts = new contents("Emploi du temps", "");
 
 $cts->add_paragraph("Sur cette page vous pouvez gérer vos emplois du temps.".
