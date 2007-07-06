@@ -198,6 +198,14 @@ function toggleknownseance(obj, uv,type)
 
   if (obj.selectedIndex <= 0)
     {
+      ngrp.parentNode.previousSibling.style.display = 'block';
+      jour.parentNode.previousSibling.style.display = 'block';
+      hdeb.parentNode.previousSibling.style.display = 'block';
+      mdeb.parentNode.previousSibling.style.display = 'block';
+      hfin.parentNode.previousSibling.style.display = 'block';
+      mfin.parentNode.previousSibling.style.display = 'block';
+      freq.parentNode.previousSibling.style.display = 'block';
+      sall.parentNode.previousSibling.style.display = 'block';
       ngrp.style.display = 'block';
       jour.style.display = 'block';
       hdeb.style.display = 'block';
@@ -206,9 +214,20 @@ function toggleknownseance(obj, uv,type)
       mfin.style.display = 'block';
       freq.style.display = 'block';
       sall.style.display = 'block';
+      
+
     }
   else
     {
+      ngrp.parentNode.previousSibling.style.display = 'none';
+      jour.parentNode.previousSibling.style.display = 'none';
+      hdeb.parentNode.previousSibling.style.display = 'none';
+      mdeb.parentNode.previousSibling.style.display = 'none';
+      hfin.parentNode.previousSibling.style.display = 'none';
+      mfin.parentNode.previousSibling.style.display = 'none';
+      freq.parentNode.previousSibling.style.display = 'none';
+      sall.parentNode.previousSibling.style.display = 'none';
+
       ngrp.style.display = 'none';
       jour.style.display = 'none';
       hdeb.style.display = 'none';
