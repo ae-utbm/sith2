@@ -72,9 +72,12 @@ else
       "Emploi du temps du semestre ".$rs['semestre_grp']."</a>";
 
   $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
+  $cts->add($itemlst);
+
 
 }
 
+$site->add_contents($cts);
 
 
 $site->end_page();
