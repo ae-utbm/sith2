@@ -57,7 +57,7 @@ $req = new requete($site->db, "SELECT
                                         `edu_uv_groupe_etudiant` 
                                USING(`id_uv_groupe`) 
                                WHERE 
-                                        `id_utilisateur` = $site->user->id 
+                                        `id_utilisateur` = ".$site->user->id." 
                                GROUP BY 
                                         `id_utilisateur`");
 if ($req->lines <= 0)
