@@ -97,7 +97,7 @@ class edt extends stdentity
 	
 	$jsem = $jour[$row['jour_grp']];
 
-	$type = ($row['type_grp'] == 'C' ? 'Cours' : $type['grp']);
+	$type = ($row['type_grp'] == 'C' ? 'Cours' : $row['type_grp']);
 	$grp  = $row['numero_grp'];
 	$nomuv = $row['code_uv'];
 	$salle = $row['salle_grp'];
