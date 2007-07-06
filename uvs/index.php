@@ -78,6 +78,13 @@ if (isset($_REQUEST['modform']))
 
 if (isset($_REQUEST['modifyuv']))
 {
+
+  echo "<pre>";
+
+  print_r($_REQUEST);
+  
+  echo "</pre>";
+
   ($_REQUEST['mod_cours'] == 'true') ? $c = 1 : $c = 0;
   ($_REQUEST['mod_td']    == 'true') ? $td = 1 : $td = 0;
   ($_REQUEST['mod_tp']    == 'true') ? $tp = 1 : $tp = 0;
