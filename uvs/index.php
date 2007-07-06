@@ -225,7 +225,7 @@ function add_seance_form($formcts, $uv, $type)
 			     "",
 			     false,
 			     true,
-			     "javascript:togglesellist(this, $uv, $type)");
+			     "javascript:togglesellist(this, '".$uv."', '".$type."')");
   
   $formcts->add_select_field("uv[$uv][$type][semaine]",
 			     'Semaine',
