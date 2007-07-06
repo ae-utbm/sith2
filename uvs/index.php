@@ -208,7 +208,7 @@ function togglesellist(obj, uv, type)
 		  while ($rs = $req->get_row())
 		    $sccours[$rs['id_uv_groupe']] = 'Cours N°'.$rs['numero_grp']." du ". 
 		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];;
-		  $frm->add_select_field($uv.'-C', 'Séances de cours connues', $sccours);
+		  $frm->add_select_field("uv[$uv][C][selectlst]", 'Séances de cours connues', $sccours);
 		}
 	      add_seance_form($frm, $uv, 'C');      
 	    }
@@ -231,7 +231,7 @@ function togglesellist(obj, uv, type)
 		  while ($rs = $req->get_row())
 		    $sctd[$rs['id_uv_groupe']] = 'TD N°'.$rs['numero_grp'] . " du ". 
 		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
-		  $frm->add_select_field($uv.'-TD', 'Séances de TD connues', $sctd);
+		  $frm->add_select_field("uv[$uv][TD][selectlst]", 'Séances de TD connues', $sctd);
 
 		}
 	      add_seance_form($frm, $uv, 'TD');	      
@@ -255,7 +255,7 @@ function togglesellist(obj, uv, type)
 		  while ($rs = $req->get_row())
 		    $sctp[$rs['id_uv_groupe']] = 'TP N°'.$rs['numero_grp']. " du ". 
 		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
-		  $frm->add_select_field($uv.'-TP', 'Séances de TP connues', $sctp);
+		  $frm->add_select_field("uv[$uv][TP][selectlst]", 'Séances de TP connues', $sctp);
 
 		}
 	      add_seance_form($frm, $uv, 'TP');
