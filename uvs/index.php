@@ -111,10 +111,6 @@ if (isset($_REQUEST['subscr']))
 			"SELECT 
                                 `id_uv`
                                 , `code_uv`
-                                , `intitule_uv`
-                                , `cours_uv`
-                                , `td_uv`
-                                , `tp_uv`
                          FROM
                                 `edu_uv`
                          WHERE
@@ -134,7 +130,7 @@ if (isset($_REQUEST['subscr']))
 	$format_h = implode(" / ", $format_h);
 
 
-      $_SESSION['edu_uv_subscr'][$uv] = $res['code_uv'] . ' - ' . $res['intitule_uv']. " - ".$format_h;
+      $_SESSION['edu_uv_subscr'][$uv] = $res['code_uv'];
     }
 
   exit();
