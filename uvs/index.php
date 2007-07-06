@@ -32,6 +32,31 @@ if ($_REQUEST['step'] == 3)
 
   $site->add_contents(new contents("DEBUG", print_r($_REQUEST, true)));
 
+  $cts = new contents("POSTAGE", "");
+
+  foreach($_REQUEST['uv'] as $uv => $value)
+    {
+
+
+      if (isset($value['C']))
+	{
+	  $cts->add_paragraph("<h4>$uv : Séance de cours</h4><br/>". print_r($value['C'], true)); 
+	}
+
+      if (isset($value['TD']))
+	{
+	  $cts->add_paragraph("<h4>$uv : Séance de TD</h4><br/>". print_r($value['TD'], true)); 
+	}
+
+      if (isset($value['TP']))
+	{
+	  $cts->add_paragraph("<h4>$uv : Séance de TP</h4><br/>". print_r($value['TP'], true)); 
+	}
+
+    }
+
+	  $site->add_contents($cts);
+
   $site->end_page();
   exit();
 }
