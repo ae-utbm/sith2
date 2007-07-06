@@ -27,9 +27,14 @@ $edt = new edt($site->db, $site->dbrw);
 if ($_REQUEST['render'] == 1)
 {
   isset($_REQUEST['id']) ? $id = intval($_REQUEST['id']) : $id = $site->user->id;
+ 
+  $user = new utilisateur($site->db);
+  $user->load_by_id($id);
+
+
   $edt->load($id);
 
-  $edtimg = new edt_img("",  $edt->edt_arr);
+  $edtimg = new edt_img($user->prenom . " ". $user->nom . "(".$user->alias.") ",  $edt->edt_arr);
   $edtimg->generate ();
   exit();
 
