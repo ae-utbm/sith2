@@ -52,6 +52,24 @@ if ($_REQUEST['step'] == 2)
 
       $frm = new form('frm', 'index.php?step=3');
 
+      $frm->puts(
+"<script language=\"javascript\">
+function togglesellist(obj, uv, type)
+{
+  alert('coincoin');
+  sellist = document.getElementsByName('uv[' +uv+ '][' +type+ '][semaine]')[0];
+
+  if (obj.value == 'AB')
+   sellist.style.display = 'none';
+  else
+   sellist.style.display = 'block';
+}
+
+
+
+
+</script>\n");
+
       global $jour;
 
       /* horaires */
@@ -202,7 +220,12 @@ function add_seance_form($formcts, $uv, $type)
   $formcts->add_select_field("uv[$uv][$type][freq]",
 			     'Fréquence',
 			     array("1" => "Hebdomadaire",
-				   "2" => "Bimensuelle"));
+				   "2" => "Bimensuelle"),
+			     false,
+			     "",
+			     false,
+			     true,
+			     "javascript:togglesellist(this, $uv, $type)");
   
   $formcts->add_select_field("uv[$uv][$type][semaine]",
 			     'Semaine',
