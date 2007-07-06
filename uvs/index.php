@@ -58,7 +58,7 @@ function togglesellist(obj, uv, type)
 {
   sellist = document.getElementsByName('uv[' +uv+ '][' +type+ '][semaine]')[0];
 
-  if (obj.selectedIndex == '0')
+  if (obj.selectedIndex == '1')
    sellist.style.display = 'none';
   else
    sellist.style.display = 'block';
