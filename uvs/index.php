@@ -59,9 +59,13 @@ function togglesellist(obj, uv, type)
   sellist = document.getElementsByName('uv[' +uv+ '][' +type+ '][semaine]')[0];
 
   if (obj.selectedIndex == '1')
-   sellist.style.display = 'none';
+  {
+    sellist.style.display = 'none';
+  }
   else
-   sellist.style.display = 'block';
+  {
+   s ellist.style.display = 'block';
+  }
 }
 
 
@@ -229,8 +233,7 @@ function add_seance_form($formcts, $uv, $type)
   
   $formcts->add_select_field("uv[$uv][$type][semaine]",
 			     'Semaine',
-			     array("AB" => "Toutes les semaines",
-				   "A" => "Semaine A",
+			     array("A" => "Semaine A",
 				   "B" => "Semaine B"));
 }
 
