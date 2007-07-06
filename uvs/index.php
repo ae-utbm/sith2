@@ -183,7 +183,7 @@ if (isset($retmod))
   else
     {
       $cts->add_title(2, "Modification d'UV");
-      $cts->add_paragraph("<b>Erreur lors de la modification du format horaire.");
+      $cts->add_paragraph("<b>Erreur lors de la modification du format horaire.</b>");
     }
 }
 
