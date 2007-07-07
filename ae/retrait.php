@@ -35,12 +35,11 @@ if ( !$site->user->is_in_group("gestion_ae") )
 if ( $_REQUEST["action"] == "retires")
 {
 	$fact = new debitfacture($site->db,$site->dbrw);
-	foreach(  $_REQUEST["id_factprods"] as $id_factprod )
+	foreach( $_REQUEST["id_factprods"] as $id_factprod )
 	{
 		list($id_facture,$id_produit) = explode(",",$id_factprod);	
 		$fact->load_by_id($id_facture);
-		
-		if ( $fact->id > 0 && $fact->id_utilisateur_client == $user->id )
+		if ( $fact->is_valid() )
 			$fact->set_retire($id_produit);
 	}
 }	
@@ -63,7 +62,7 @@ $req = new requete($site->db, "SELECT " .
   "`cpt_produits`.`nom_prod`, " .
   "`cpt_produits`.`id_produit`, " .
   "`utilisateurs`.`id_utilisateur` AS `id_utilisateur`, " .
-  "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`, " .
+  "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur`, " .
   "IF(`cpt_vendu`.`a_retirer_vente`='1','a retirer','a expedier') AS `info` " .
   "FROM `cpt_vendu` " .
   "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
@@ -77,19 +76,19 @@ $req = new requete($site->db, "SELECT " .
 
 $cts->add(new sqltable(
   "listresp",
-  utf8_encode("Produits à retirer/à expédier"), $req,
+  "Produits à retirer/à expédier", $req,
   "retrait.php",
   "id_factprod",
   array(
   "nom_utilisateur"=>"Client",
   "id_facture"=>"Facture",
   "nom_prod"=>"Produit",
-  "quantite"=>utf8_encode("Quantité"),
+  "quantite"=>"Quantité",
   "date_facture"=>"Depuis le",
   "info"=>""
   ),
   array(),
-  array("retires"=>utf8_encode("Marquer comme retiré")),
+  array("retires"=>"Marquer comme retiré"),
   array()), true);
 
 $site->add_contents($cts);
