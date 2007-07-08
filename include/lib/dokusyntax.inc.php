@@ -619,7 +619,7 @@ function tableformat($block)
 
     for ($c=0; $c < count($rows[$r]); $c++)
     {
-			$cspan=1;
+      $cspan=1;
       $format=alignment($rows[$r][$c]['data']);
       $format=$format['align'];
       $data = trim($rows[$r][$c]['data']);
