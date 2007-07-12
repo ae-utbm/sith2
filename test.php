@@ -27,15 +27,17 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
-
+ 
 $topdir = "./";
-
 require_once($topdir. "include/site.inc.php");
-
 $site = new site ();
-$site->start_page("test","Test");
 
-$cts = new contents("TEST");
+if ( !preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
+  $site->fatal("taiste only");
+
+$site->start_page("test","Test / Debug");
+
+$cts = new contents("TEST / DEBUG");
 
 $cts->add_title(2,"Utilisateur connecté");
 
@@ -45,6 +47,9 @@ $cts->add_paragraph("id: ".$site->user->id);
 $cts->add_paragraph("groupes: ".implode(", ",$site->user->groupes));
 $cts->add_paragraph("id groupes: ".$site->user->get_groups_csv());
 
+
+
+$site->add_contents($cts);
 
 $site->end_page();
 
