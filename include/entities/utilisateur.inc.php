@@ -649,8 +649,8 @@ class utilisateur extends stdentity
                        "SELECT `utl_etu`.*, `utl_etu_utbm`.*, `utl_extra`.* ".
                        "FROM utilisateurs ".
                        "LEFT JOIN `utl_etu` ON (`utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur`) ".
-                       "LEFT JOIN `utl_etu_utbm` ON (`utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur`) ".
-                       "LEFT JOIN `utl_extra` ON (`utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur`) ".
+                       "LEFT JOIN `utl_etu_utbm` ON (`utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur`) ".
+                       "LEFT JOIN `utl_extra` ON (`utilisateurs`.`id_utilisateur`=`utl_extra`.`id_utilisateur`) ".
                        "WHERE ".
                        "`utilisateurs`.`id_utilisateur` = '" . mysql_real_escape_string($this->id). "' ".
                        "LIMIT 1");
