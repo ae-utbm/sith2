@@ -168,7 +168,7 @@ class insert extends requete {
 	}
 
       $sql = "insert into `" . $table . "` (";
-
+      $sql2 = "";
       $i = 0;
 
       foreach ($insert_array as $key => $value)
