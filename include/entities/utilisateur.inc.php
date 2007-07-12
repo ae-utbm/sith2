@@ -86,9 +86,16 @@ class utilisateur extends stdentity
   var $promo_utbm;
   var $date_diplome_utbm; 
 
+  /* extra */
+  var $musicien;
+  var $taille_tshirt;
+  var $permis_conduire;
+  var $date_permis_conduire;
+  var $hab_elect;
+  var $afps;  var $sst;
+
 
   var $_grps;
-
   var $vol;
 
   function utilisateur ( &$db, &$dbrw = null )
@@ -329,11 +336,8 @@ class utilisateur extends stdentity
       $this->tout_lu_avant = strtotime($row['tout_lu_avant_utl']);   
   }
 
-
-  function _load_all ( $row )
+  function _load_extras($row)
   {
-    $this->_load($row);
-
     if ( $this->etudiant || $this->ancien_etudiant )
     {
       $this->citation = $row["citation"];
@@ -374,6 +378,24 @@ class utilisateur extends stdentity
       unset($this->promo_utbm);
       unset($this->date_diplome_utbm);
     }
+    
+    $this->musicien = $row["musicien_utl"];
+    $this->taille_tshirt = $row["taille_tshirt_utl"];
+    $this->permis_conduire = $row["permis_conduire_utl"];
+    
+    if ( $this->permis_conduire )
+      $this->date_permis_conduire = $row["date_permis_conduire_utl"];
+    else
+      $this->date_permis_conduire = null;
+      
+    $this->hab_elect = $row["hab_elect_utl"];
+    $this->afps = $row["afps_utl"];    $this->sst = $row["sst_utl"];    
+  }
+
+  function _load_all ( $row )
+  {
+    $this->_load($row);
+    $this->_load_extras($row);
   }
   
   /** 
@@ -512,7 +534,7 @@ class utilisateur extends stdentity
       
     if ( $this->modere ) 
       $this->groupes[10008] = "utilisateurs-valides";
-      
+    /*  
     $req = new requete($this->db,
                        "SELECT `asso`.`id_asso`, `asso`.`nom_unix_asso` " .
                        "FROM `asso_membre` " .
@@ -536,7 +558,29 @@ class utilisateur extends stdentity
 
     while ( list($id,$name) = $req->get_row() )
       $this->groupes[$id+30000] = $name."-membres";
-
+    */
+    
+    $req = new requete($this->db,
+                       "SELECT `asso`.`id_asso`, ".
+                       "`asso`.`nom_unix_asso`, ".
+                       "`asso_membre`.`role`, ".
+                       "`asso`.`id_asso_parent` " .
+                       "FROM `asso_membre` " .
+                       "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
+                       "WHERE `asso_membre`.`id_utilisateur`='".$this->id."' " .
+                       "AND `asso_membre`.`date_fin` is NULL " .
+                       "AND (`asso`.`id_asso_parent` IS NOT NULL OR `asso_membre`.`role` > 1 ) " .
+                       "ORDER BY `asso`.`nom_asso`");
+                       
+    while ( list($id,$name,$role,$parent) = $req->get_row() )
+    {
+      if ( $role > 1 )
+        $this->groupes[$id+20000] = $name."-bureau";
+        
+      if( !is_null($parent) )
+        $this->groupes[$id+30000] = $name."-membres";
+    }
+    
     if ( !isset($this->promo_utbm) )
       $this->load_all_extra();
 
@@ -602,40 +646,16 @@ class utilisateur extends stdentity
   function load_all_extra ()
   {
     $req = new requete($this->db,
-                       "SELECT * FROM `utl_etu`
-                        WHERE `id_utilisateur` = '" . mysql_real_escape_string($this->id). "'
-                        LIMIT 1");
+                       "SELECT `utl_etu`.*, `utl_etu_utbm`.*, `utl_extra`.* ".
+                       "FROM utilisateurs ".
+                       "LEFT JOIN `utl_etu` ON (`utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur`) ".
+                       "LEFT JOIN `utl_etu_utbm` ON (`utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur`) ".
+                       "LEFT JOIN `utl_extra` ON (`utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur`) ".
+                       "WHERE ".
+                       "`utilisateurs`.`id_utilisateur` = '" . mysql_real_escape_string($this->id). "' ".
+                       "LIMIT 1");
 
-    if ( ($req->lines == 1) && ($this->etudiant || $this->ancien_etudiant) )
-    {
-      $row = $req->get_row();
-      $this->citation = $row["citation"];
-      $this->adresse_parents = $row["adresse_parents"];
-      $this->id_ville_parents = $row["id_ville"];
-      $this->id_pays_parents = $row["id_pays"];
-      $this->tel_parents = $row["tel_parents"];
-      $this->nom_ecole_etudiant = $row["nom_ecole_etudiant"];
-    }
-
-    $req = new requete($this->db,
-                       "SELECT * FROM `utl_etu_utbm`
-                        WHERE `id_utilisateur` = '" . mysql_real_escape_string($this->id). "'
-                        LIMIT 1");
-
-    if ( ($req->lines == 1) && $this->utbm )
-    {
-      $row = $req->get_row();
-      $this->role = $row["role_utbm"];
-      $this->departement = $row["departement_utbm"];
-      
-      $this->semestre = $row["semestre_utbm"];
-      $this->filiere = $row["filiere_utbm"];
-      $this->surnom = $row["surnom_utbm"];
-      $this->email_utbm = $row["email_utbm"];
-      $this->promo_utbm = $row["promo_utbm"];
-      
-      $this->date_diplome_utbm = is_null($row["date_diplome_utbm"])?null:strtotime($row["date_diplome_utbm"]);
-    }
+    $this->_load_extras($req->get_row());
   }
 
   /**
@@ -692,6 +712,33 @@ class utilisateur extends stdentity
                               'date_diplome_utbm'=> ($this->date_diplome_utbm!=NULL)?date("Y-m-d H:i:s",$this->date_diplome_utbm):NULL),
                         array( 'id_utilisateur' => $this->id));
     }
+    
+    $req = new update($this->dbrw,
+                      "utl_extra",
+                      array(
+                      'musicien_utl'=>$this->musicien,
+                      'taille_tshirt_utl'=>$this->taille_tshirt,
+                      'permis_conduire_utl'=>$this->permis_conduire,
+                      'date_permis_conduire_utl'=>$this->permis_conduire?$this->date_permis_conduire:null,
+                      'hab_elect_utl'=>$this->hab_elect,
+                      'afps_utl'=>$this->afps,
+                      'sst_utl'=>$this->sst,
+                      'stuff_utl'=>$this->stuff),
+                      array('id_utilisateur' => $this->id));
+
+    if ( $req->lines == 0 )
+      new insert($this->dbrw,
+                      "utl_extra",
+                      array(
+                      'id_utilisateur' => $this->id,
+                      'musicien_utl'=>$this->musicien,
+                      'taille_tshirt_utl'=>$this->taille_tshirt,
+                      'permis_conduire_utl'=>$this->permis_conduire,
+                      'date_permis_conduire_utl'=>$this->permis_conduire?$this->date_permis_conduire:null,
+                      'hab_elect_utl'=>$this->hab_elect,
+                      'afps_utl'=>$this->afps,
+                      'sst_utl'=>$this->sst,
+                      'stuff_utl'=>$this->stuff));
 
     if ( XML_RPC_USE )
     {
