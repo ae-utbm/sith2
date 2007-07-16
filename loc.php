@@ -68,6 +68,9 @@ if (isset($_REQUEST['genimg']) == 1)
   $lat  = rad2deg($_REQUEST['lat']);
   $long = rad2deg($_REQUEST['lng']);
 
+  $lat = str_replace(",", ".", $lat);
+  $long = str_replace(",", ".", $long);
+
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
 
