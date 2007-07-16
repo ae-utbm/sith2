@@ -265,6 +265,7 @@ elseif ( $ville->is_valid() )
   $cts->add_paragraph("Pays: ".$pays->get_html_link());
 
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($ville->lat)."N , ".geo_radians_to_degrees($ville->long)."E");
+  $cts->add_paragraph("<center><img src=\"loc.php?genimg=1&lat=".$ville->lat."&lng=".$ville->long."\" alt=\"position ville\" /></center>\n");
 
   $site->add_contents($cts);
 
