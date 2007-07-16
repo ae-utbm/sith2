@@ -344,7 +344,10 @@ class imgcarto
   function output()
   {
     if ($this->imgres)
-      imagepng($this->imgres);
+      {
+	header("Content-Type: image/png");
+	imagepng($this->imgres);
+      }
   }
 
   function destroy()
