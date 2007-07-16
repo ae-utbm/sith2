@@ -81,11 +81,11 @@ if (isset($_REQUEST['genimg']) == 1)
   $pgreq = new pgrequete($pgconn, "SELECT 
                                            nom_dept
                                            , nom_region
-                                           , AsText(TRANSFORM(GeomFromText('POINT(".$lat.
-                                                                           " ".$long.")', 4030), 27582)) AS villecoords
+                                           , AsText(TRANSFORM(GeomFromText('POINT(".$long.
+                                                                           " ".$lat.")', 4030), 27582)) AS villecoords
                                            , asText(the_geom) AS points
-                                           , CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$lat.
-                                                                           " ".$long.")', 4030), 27582)) AS indept
+                                           , CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$long.
+                                                                           " ".$lat.")', 4030), 27582)) AS indept
                                    FROM 
                                            deptfr
                                    WHERE 
@@ -94,8 +94,8 @@ if (isset($_REQUEST['genimg']) == 1)
                                                          FROM  
                                                                          deptfr 
                                                          WHERE 
-                                                                         CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$lat.
-                                                                                                   " ".$long.")', 4030), 27582)) LIMIT 1)");
+                                                                         CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$long.
+                                                                                                   " ".$lat.")', 4030), 27582)) LIMIT 1)", true);
   $rs = $pgreq->get_all_rows();
   
   $numdept = 0;
