@@ -90,7 +90,8 @@ if (isset($_REQUEST['genimg']) == 1)
                                            , CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$long.
                                                                            " ".$lat.")', 4030), 27582)) AS indept
                                    FROM 
-                                           deptfr
+                                           deptfr");
+  /*
                                    WHERE 
                                            nom_region = (SELECT DISTINCT 
                                                                          nom_region 
@@ -98,7 +99,10 @@ if (isset($_REQUEST['genimg']) == 1)
                                                                          deptfr 
                                                          WHERE 
                                                                          CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$long.
-                                                                                                   " ".$lat.")', 4030), 27582)) LIMIT 1)");
+                                                                                                " ".$lat.")', 4030), 27582)) LIMIT 1)");
+ 
+  */
+ 
   $rs = $pgreq->get_all_rows();
   
   $numdept = 0;
