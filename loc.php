@@ -146,8 +146,6 @@ if (isset($_REQUEST['genimg']) == 1)
     {
       foreach($departement['plgs'] as $plg)
 	{
-	  echo $departement['isin'] . "\n";
-
 	  if ($departement['isin'] == 't')
 	    $img->addpolygon($plg, 'pred', true);
 	  else
