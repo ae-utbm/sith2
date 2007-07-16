@@ -19,7 +19,7 @@ $dbconn = new pgsqlae();
 $req = new pgrequete($dbconn,
 		     "SELECT 
                             name AS nom
-                            , ST_AsText(TRANSFORM(the_geom, 32631)) AS points 
+                            , AsText(TRANSFORM(the_geom, 32631)) AS points 
                       FROM 
                             worldadmwgs
                       WHERE
@@ -97,7 +97,7 @@ foreach ($rtpoints as $rtpoint)
 
 
 $req = pg_query("SELECT 
-                        ST_AsText(TRANSFORM(the_geom, 32631)) AS points 
+                        AsText(TRANSFORM(the_geom, 32631)) AS points 
                  FROM 
                         deptfr
                  WHERE
