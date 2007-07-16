@@ -91,17 +91,6 @@ if (isset($_REQUEST['genimg']) == 1)
                                                                            " ".$lat.")', 4030), 27582)) AS indept
                                    FROM 
                                            deptfr");
-  /*
-                                   WHERE 
-                                           nom_region = (SELECT DISTINCT 
-                                                                         nom_region 
-                                                         FROM  
-                                                                         deptfr 
-                                                         WHERE 
-                                                                         CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$long.
-                                                                                                " ".$lat.")', 4030), 27582)) LIMIT 1)");
- 
-  */
  
   $rs = $pgreq->get_all_rows();
   
@@ -147,7 +136,10 @@ if (isset($_REQUEST['genimg']) == 1)
       foreach($departement['plgs'] as $plg)
 	{
 	  if ($departement['isin'] == 't')
-	    $img->addpolygon($plg, 'pred', true);
+	    {
+	      $img->addpolygon($plg, 'pred', true);
+	      $img->addpolygon($plg, 'black', false);
+	    }
 	  else
 	    $img->addpolygon($plg, 'black', false);
 	}
