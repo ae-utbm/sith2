@@ -111,6 +111,9 @@ class imgcarto
     $max_y = 0;
     $min_y = 0;
 
+
+    $factor = &$this->factor;
+
     if (count($this->lines))
       {
 	foreach ($this->lines as $line)
