@@ -71,12 +71,12 @@ class pgrequete
 	$this->lines = -1;
       }
 
-    $res = pg_query($req_sql, $base->connection);
-    $this->errno = pg_errno($base->connection);
+    $res = pg_query($base->connection, $req_sql);
+    $this->errno = pg_last_error($base->connection);
 
     if ($this->errno != 0) 
       {
-	$this->errmsg = pg_error($base->connection);
+	$this->errmsg = pg_last_error($base->connection);
 	$this->lines = -1;
 	return FALSE;
       }
