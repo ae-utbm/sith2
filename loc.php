@@ -79,7 +79,7 @@ if (isset($_REQUEST['genimg']) == 1)
   $pgconn = new pgsqlae();
 
   $pgreq = new pgrequete($pgconn, "SELECT 
-                                           , nom_dept
+                                           nom_dept
                                            , nom_region
                                            , AsText(TRANSFORM(GeomFromText('POINT(".$lat.
                                                                            " ".$long.")', 4030), 27582)) AS villecoords
