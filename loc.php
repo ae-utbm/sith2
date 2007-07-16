@@ -1,6 +1,7 @@
 <?php
 /* Copyright 2007
  * - Julien Etelain < julien at pmad dot net >
+ * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -36,13 +37,22 @@ if ( $_REQUEST["action"] == "kml" )
   header("Content-type: application/vnd.google-earth.kml+xml");
   header("Content-Disposition: filename=ae_utbm.kml");
 
-  echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";  echo "<kml xmlns=\"http://earth.google.com/kml/2.1\">";
+  echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+  echo "<kml xmlns=\"http://earth.google.com/kml/2.1\">";
   
   echo "<Document id=\"ae_utbm_fr_lieux\">";
   echo "<name>ae utbm</name>";
-    $req = new requete($site->db, "SELECT * FROM loc_lieu");
+  $req = new requete($site->db, "SELECT * FROM loc_lieu");
   while ( $row = $req->get_row() )
-  {    echo "<Placemark id=\"ae_utbm_fr_lieu_".$row['id_lieu']."\">";    echo "<name>".htmlspecialchars($row['nom_lieu'])."</name>";    echo "<description></description>";    echo "<Point>";    echo "<coordinates>".sprintf("%.12F",$row['long_lieu']*360/2/M_PI).",".sprintf("%.12F",$row['lat_lieu']*360/2/M_PI)."</coordinates>";    echo "</Point>";    echo "</Placemark>";
+  {   
+    echo "<Placemark id=\"ae_utbm_fr_lieu_".$row['id_lieu']."\">";
+    echo "<name>".htmlspecialchars($row['nom_lieu'])."</name>";
+    echo "<description></description>";
+    echo "<Point>";
+    echo "<coordinates>".sprintf("%.12F",$row['long_lieu']*360/2/M_PI).",".
+      sprintf("%.12F",$row['lat_lieu']*360/2/M_PI)."</coordinates>";
+    echo "</Point>";
+    echo "</Placemark>";
   } 
   echo "</Document>";
   echo "</kml>";
@@ -53,6 +63,104 @@ if ( $_REQUEST["action"] == "kml" )
 
 
 
+if (isset($_REQUEST['genimg']) == 1)
+{
+  $lat  = rad2deg($_REQUEST['lat']);
+  $long = rad2deg($_REQUEST['lng']);
+
+  require_once($topdir. "include/pgsqlae.inc.php");
+  require_once($topdir. "include/cts/imgcarto.inc.php");
+
+  /* les coordonnées sont considérées en srid 4030, et on les
+   * transforme à la volée en Lambert II étendu, pour coller avec
+   * les données de l'IGN
+   */
+
+  $pgconn = new pgsqlae();
+
+  $pgreq = new pgrequete($pgconn, "SELECT 
+                                           , nom_dept
+                                           , nom_region
+                                           , AsText(TRANSFORM(GeomFromText('POINT(".$lat.
+                                                                           " ".$long.")', 4030), 27582)) AS villecoords
+                                           , asText(the_geom) AS points
+                                           , CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$lat.
+                                                                           " ".$long.")', 4030), 27582)) AS indept
+                                   FROM 
+                                           deptfr
+                                   WHERE 
+                                           nom_region = (SELECT DISTINCT 
+                                                                         nom_region 
+                                                         FROM  
+                                                                         deptfr 
+                                                         WHERE 
+                                                                         CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$lat.
+                                                                                                   " ".$long.")', 4030), 27582)) LIMIT 1)");
+  $rs = $pgreq->get_all_rows();
+  
+  $numdept = 0;
+
+  foreach($rs as $result)
+    {
+
+      $astext = $result['points'];
+      $matched = array();
+
+      preg_match_all("/\(([^)]*)\)/", $astext, $matched);
+      
+      /* récupère les différents polygones pour un département */
+      $i = 0;
+      
+      foreach ($matched[1] as $polygon)
+	{
+	  $polygon = str_replace("(", "", $polygon);
+	  $points = explode(",", $polygon);
+  
+	  foreach ($points as $point)
+	    {
+	      $coord = explode(" ", $point);
+	      $dept[$numdept]['plgs'][$i][] = $coord[0];
+	      $dept[$numdept]['plgs'][$i][] = $coord[1];
+	    }
+
+	  $i++;
+	}
+      $dept[$numdept]['isin'] = $result['indept'];
+      $numdept++;
+    }
+  $villecoords = $result['villecoords'];
+
+  $img = new imgcarto();
+
+  $img->addcolor('pred', 255, 192, 192);
+
+  $i = 0;
+  foreach($dept as $departement)
+    {
+      foreach($departement['plgs'] as $plg)
+	{
+	  if ($departement['isin'])
+	    $img->addpolygon($plg, 'pred', true);
+	  else
+	    $img->addpolygon($plg, 'black', false);
+	}
+    }
+
+  $villecoords = str_replace("POINT(", "", $villecoords);
+  $villecoords = str_replace(")", "", $villecoords);
+  $villecoords = explode(" ", $villecoords);
+
+  $img->addpoint($villecoords[0], $villecoords[1], 5, "red");
+
+  $img->setfactor(1600);
+
+  $img->draw();
+  
+
+  $img->output();
+
+  exit();
+}
 
 $pays = new pays($site->db,$site->dbrw);
 $ville = new ville($site->db,$site->dbrw);
@@ -106,8 +214,9 @@ if ( $lieu->is_valid() )
   $cts = new contents("<a href=\"loc.php\">Lieux</a> / ".$path);
 
   $cts->add_paragraph("Ville: ".$ville->get_html_link());
-
+  
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($lieu->lat)."N , ".geo_radians_to_degrees($lieu->long)."E");
+  $cts->add_paragraph("<center><img src=\"loc.php?genimg=1&lat=".$ville->lat."&lng=".$ville->long."\" alt=\"position ville\" /></center>\n");
 
   $req = new requete($site->db, "SELECT * FROM loc_lieu WHERE id_lieu_parent='".mysql_real_escape_string($lieu->id)."' ORDER BY nom_lieu");
 
