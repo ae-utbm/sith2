@@ -154,9 +154,11 @@ if (isset($_REQUEST['genimg']) == 1)
   $img->setfactor(1600);
 
   $img->draw();
-  
 
-  $img->output();
+  require_once ($topdir . "include/watermark.inc.php");  
+  $wm_img = new img_watermark (&$this->img);
+
+  $wm_img->output();
 
   exit();
 }
