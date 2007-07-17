@@ -127,10 +127,8 @@ if ($_REQUEST['action'] == 'genimgpays')
     }
 
   $img = new imgcarto();
-
   $img->addcolor('pred', 255, 192, 192);
 
-  $i = 0;
 
   foreach($country as $c)
     {
@@ -147,16 +145,16 @@ if ($_REQUEST['action'] == 'genimgpays')
     }
 
 
-  $img->setfactor(100000000);
+  //$img->setfactor(100000000);
 
-  $img->draw();
-  echo "After calculating image before attempting to draw it : " . $img->dimx . ":" . $img->dimy . "\n";
+  //$img->draw();
+  //echo "After calculating image before attempting to draw it : " . $img->dimx . ":" . $img->dimy . "\n";
 
 
-  require_once ($topdir . "include/watermark.inc.php");
-  $wm_img = new img_watermark (&$img->imgres);
+  //require_once ($topdir . "include/watermark.inc.php");
+  //$wm_img = new img_watermark (&$img->imgres);
 
-  $wm_img->output();
+  //$wm_img->output();
 
 
   exit();
