@@ -67,6 +67,8 @@ if ($_REQUEST['action'] == 'genimgpays')
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
 
+  echo "DEBUT\n";
+
   $idpays = intval($_REQUEST['idpays']);
 
   $req = new requete($site->db,
@@ -76,7 +78,6 @@ if ($_REQUEST['action'] == 'genimgpays')
   $nomengpays = $nomengpays['nomeng_pays'];
 
 
-  header("Content-Type: text/plain");
   /*
   if ($nomengpays == '')
     exit();
@@ -142,6 +143,7 @@ if ($_REQUEST['action'] == 'genimgpays')
 	    $img->addpolygon($plg, 'black', false);
 	}
     }
+  echo "PLOUF fin ajout polygones\n";
 
   $img->setfactor(1000);
 
