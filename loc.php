@@ -156,7 +156,7 @@ if (isset($_REQUEST['genimg']) == 1)
   $img->draw();
 
   require_once ($topdir . "include/watermark.inc.php");  
-  $wm_img = new img_watermark (&$this->img);
+  $wm_img = new img_watermark ($this->img);
 
   $wm_img->output();
 
