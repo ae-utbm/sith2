@@ -78,6 +78,7 @@ if ($_REQUEST['action'] == 'genimgpays')
   if ($nomengpays == '')
     exit();
 
+  $pgconn = new pgsqlae();
 
   $pgreq = new pgrequete($pgconn, "SELECT 
                                            name
@@ -362,7 +363,7 @@ elseif ( $pays->is_valid() )
   $site->start_page("none","Lieux");
 
   $cts = new contents($pays->nom);
-  $cts->add_paragraph("<center><img src=\"loc.php?action=genimgpays&lat=".$pays->id."\" alt=\"position pays\" /></center>\n");
+  $cts->add_paragraph("<center><img src=\"loc.php?action=genimgpays&idpays=".$pays->id."\" alt=\"position pays\" /></center>\n");
   
   $site->add_contents($cts);
 
