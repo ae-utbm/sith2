@@ -75,6 +75,7 @@ if ($_REQUEST['action'] == 'genimgpays')
   $nomengpays = $req->get_row();
   $nomengpays = $nomengpays['nomeng_pays'];
 
+  echo $nomengpays . "\n";
   /*
   if ($nomengpays == '')
     exit();
@@ -88,7 +89,7 @@ if ($_REQUEST['action'] == 'genimgpays')
                                            worldadmwgs");
 
   $rs = $pgreq->get_all_rows();
-  
+  echo count($rs). " countries found. Calculating ...\n";
   $numpays = 0;
 
   foreach($rs as $result)
@@ -128,6 +129,7 @@ if ($_REQUEST['action'] == 'genimgpays')
   $img->addcolor('pred', 255, 192, 192);
 
   $i = 0;
+
   foreach($country as $c)
     {
       foreach($c['plgs'] as $plg)
@@ -146,9 +148,10 @@ if ($_REQUEST['action'] == 'genimgpays')
   $img->setfactor(100000000);
 
   $img->draw();
+  echo "After calculating image before attempting to draw it : " . $img->dimx . ":" . $img->dimy . "\n";
 
-  require_once ($topdir . "include/watermark.inc.php");  
-  
+
+  require_once ($topdir . "include/watermark.inc.php");
   $wm_img = new img_watermark (&$img->imgres);
 
   $wm_img->output();
