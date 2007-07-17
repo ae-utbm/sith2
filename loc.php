@@ -87,7 +87,7 @@ if ($_REQUEST['action'] == 'genimgpays')
                                            name
                                            , AsText(the_geom) AS points
                                    FROM 
-                                           worldadmwgs", true);
+                                           worldadmwgs");
 
   $rs = $pgreq->get_all_rows();
   
@@ -113,8 +113,8 @@ if ($_REQUEST['action'] == 'genimgpays')
 	    {
 	      $coord = explode(" ", $point);
 	      /* 6400 Km = approximativement le rayon de la Terre */
-	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[0]) * 6400000;
-	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[1]) * 6400000;
+	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[0]) * 6400;
+	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[1]) * 6400;
 	    }
 	  $i++;
 	}
@@ -143,7 +143,7 @@ if ($_REQUEST['action'] == 'genimgpays')
 	}
     }
 
-  $img->setfactor(1000000);
+  $img->setfactor(1000);
 
   echo "Calculating image polygons ...\n";
 
