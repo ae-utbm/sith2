@@ -75,6 +75,8 @@ if ($_REQUEST['action'] == 'genimgpays')
   $nomengpays = $req->get_row();
   $nomengpays = $nomengpays['nomeng_pays'];
 
+
+  header("Content-Type: text/plain");
   echo $nomengpays . "\n";
   /*
   if ($nomengpays == '')
