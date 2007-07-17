@@ -75,9 +75,10 @@ if ($_REQUEST['action'] == 'genimgpays')
   $nomengpays = $req->get_row();
   $nomengpays = $nomengpays['nomeng_pays'];
 
+  /*
   if ($nomengpays == '')
     exit();
-
+  */
   $pgconn = new pgsqlae();
 
   $pgreq = new pgrequete($pgconn, "SELECT 
