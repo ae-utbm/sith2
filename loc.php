@@ -77,7 +77,6 @@ if ($_REQUEST['action'] == 'genimgpays')
 
 
   header("Content-Type: text/plain");
-  echo $nomengpays . "\n";
   /*
   if ($nomengpays == '')
     exit();
@@ -91,7 +90,7 @@ if ($_REQUEST['action'] == 'genimgpays')
                                            worldadmwgs", true);
 
   $rs = $pgreq->get_all_rows();
-  echo count($rs). " countries found. Calculating ...\n";
+  
   $numpays = 0;
 
   foreach($rs as $result)
@@ -144,11 +143,13 @@ if ($_REQUEST['action'] == 'genimgpays')
 	}
     }
 
+  $img->setfactor(1000000);
 
-  //$img->setfactor(100000000);
+  echo "Calculating image polygons ...\n";
 
-  //$img->draw();
-  //echo "After calculating image before attempting to draw it : " . $img->dimx . ":" . $img->dimy . "\n";
+  $img->draw();
+  
+  echo "After calculating image before attempting to draw it : " . $img->dimx . ":" . $img->dimy . "\n";
 
 
   //require_once ($topdir . "include/watermark.inc.php");
