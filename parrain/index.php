@@ -35,14 +35,21 @@ $site = new site();
 
 $site->start_page("services", "Pré-parrainage");
 
+// Commenté en attendant de savoir si on passe par une procédure d'inscription classique
+/*
 if (!$site->user->is_valid())
 {
   error_403();
 }
+*/
 
 $cts = new contents("Pré-parrainage",
 		    "Sur cette page, vous allez pouvoir ".
 		    "vous inscrire pour le pré-parrainage.");
+
+$cts->add_title(2,"Informations");
+
+$cts->add_paragraph("Le module de pré-parrainage est actuellement en cours de réalisation. Merci de revenir prochainement.");
 
 $site->add_contents($cts);
 
