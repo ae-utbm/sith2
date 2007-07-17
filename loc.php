@@ -62,8 +62,100 @@ if ( $_REQUEST["action"] == "kml" )
 }
 
 
+if ($_REQUEST['action'] == 'genimgpays')
+{
+  require_once($topdir. "include/pgsqlae.inc.php");
+  require_once($topdir. "include/cts/imgcarto.inc.php");
 
-if (isset($_REQUEST['genimg']) == 1)
+  $idpays = intval($_REQUEST['idpays']);
+
+  $req = new requete($site->db,
+		     "SELECT nomeng_pays FROM loc_pays WHERE id_pays = " . $idpays);
+
+  $nomengpays = $req->get_row();
+  $nomengpays = $nomengpays['nomeng_pays'];
+
+  if ($nomengpays == '')
+    exit();
+
+
+  $pgreq = new pgrequete($pgconn, "SELECT 
+                                           name
+                                           , AsText(the_geom) AS points
+                                   FROM 
+                                           worldadmwgs");
+
+  $rs = $pgreq->get_all_rows();
+  
+  $numpays = 0;
+
+  foreach($rs as $result)
+    {
+
+      $astext = $result['points'];
+      $matched = array();
+
+      preg_match_all("/\(([^)]*)\)/", $astext, $matched);
+      
+      /* récupère les différents polygones pour un pays donné */
+      $i = 0;
+      
+      foreach ($matched[1] as $polygon)
+	{
+	  $polygon = str_replace("(", "", $polygon);
+	  $points = explode(",", $polygon);
+  
+	  foreach ($points as $point)
+	    {
+	      $coord = explode(" ", $point);
+	      /* 6400 Km = approximativement le rayon de la Terre */
+	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[0]) * 6400000;
+	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[1]) * 6400000;
+	    }
+	  $i++;
+	}
+      if ($result['name'] == $nomengpays)
+	$country[$numpays]['isin'] = true;
+      else
+	$country[$numpays]['isin'] = false;
+      $numpays++;
+    }
+
+  $img = new imgcarto();
+
+  $img->addcolor('pred', 255, 192, 192);
+
+  $i = 0;
+  foreach($country as $c)
+    {
+      foreach($c['plgs'] as $plg)
+	{
+	  if ($c['isin'] == true)
+	    {
+	      $img->addpolygon($plg, 'pred', true);
+	      $img->addpolygon($plg, 'black', false);
+	    }
+	  else
+	    $img->addpolygon($plg, 'black', false);
+	}
+    }
+
+
+  $img->setfactor(100000000);
+
+  $img->draw();
+
+  require_once ($topdir . "include/watermark.inc.php");  
+  
+  $wm_img = new img_watermark (&$img->imgres);
+
+  $wm_img->output();
+
+
+  exit();
+}
+
+if ($_REQUEST['action'] == 'genimgville')
 {
   $lat  = rad2deg($_REQUEST['lat']);
   $long = rad2deg($_REQUEST['lng']);
@@ -217,7 +309,6 @@ if ( $lieu->is_valid() )
   $cts->add_paragraph("Ville: ".$ville->get_html_link());
   
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($lieu->lat)."N , ".geo_radians_to_degrees($lieu->long)."E");
-  $cts->add_paragraph("<center><img src=\"loc.php?genimg=1&lat=".$ville->lat."&lng=".$ville->long."\" alt=\"position ville\" /></center>\n");
 
   $req = new requete($site->db, "SELECT * FROM loc_lieu WHERE id_lieu_parent='".mysql_real_escape_string($lieu->id)."' ORDER BY nom_lieu");
 
@@ -259,7 +350,7 @@ elseif ( $ville->is_valid() )
   $cts->add_paragraph("Pays: ".$pays->get_html_link());
 
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($ville->lat)."N , ".geo_radians_to_degrees($ville->long)."E");
-  $cts->add_paragraph("<center><img src=\"loc.php?genimg=1&lat=".$ville->lat."&lng=".$ville->long."\" alt=\"position ville\" /></center>\n");
+  $cts->add_paragraph("<center><img src=\"loc.php?action=genimgville&lat=".$ville->lat."&lng=".$ville->long."\" alt=\"position ville\" /></center>\n");
 
   $site->add_contents($cts);
 
@@ -271,6 +362,7 @@ elseif ( $pays->is_valid() )
   $site->start_page("none","Lieux");
 
   $cts = new contents($pays->nom);
+  $cts->add_paragraph("<center><img src=\"loc.php?action=genimgpays&lat=".$pays->id."\" alt=\"position pays\" /></center>\n");
   
   $site->add_contents($cts);
 
