@@ -88,7 +88,7 @@ if ($_REQUEST['action'] == 'genimgpays')
                                            name
                                            , AsText(the_geom) AS points
                                    FROM 
-                                           worldadmwgs");
+                                           worldadmwgs", true);
 
   $rs = $pgreq->get_all_rows();
   echo count($rs). " countries found. Calculating ...\n";
