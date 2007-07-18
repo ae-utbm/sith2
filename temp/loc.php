@@ -36,7 +36,7 @@ $site = new site ();
 if(isset($_REQUEST["id"]))
   $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays` WHERE `id_pays`>=".intval($_REQUEST["id"])."");
 else
-  $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays`")
+  $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays`");
 
 echo "<pre>\n";
 echo $req->lines."\n";
