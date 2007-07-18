@@ -36,7 +36,7 @@ $site = new site ();
 $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays`");
 
 echo "<pre>\n";
-
+echo $req->lines."\n";
 while(list($idpays,$nom)=$req->get_row())
 {
   require_once($topdir. "include/pgsqlae.inc.php");
@@ -46,11 +46,11 @@ while(list($idpays,$nom)=$req->get_row())
 
   $imgfile = $topdir . "var/cache/loc/pays/".$idpays.".png";
 
-  //if (file_exists($imgfile))
-  //{
-  //  echo $nom." (".$idpays.") : allready exists  \n";
-  //  continue;
-  //}
+  if (file_exists($imgfile))
+  {
+    echo $nom." (".$idpays.") : allready exists  \n";
+    continue;
+  }
   $nomengpays = $nom;
 
   $pgconn = new pgsqlae();
