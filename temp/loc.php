@@ -41,9 +41,10 @@ else
 echo "<pre>\n";
 echo $req->lines."\n";
 $ok=false;
-$idpays=0;
+$id=0;
 while(list($idpays,$nom)=$req->get_row())
 {
+  $id=$idpays;
   $ok=true;
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
@@ -139,7 +140,7 @@ while(list($idpays,$nom)=$req->get_row())
 echo "this is the end\n";
 echo "</pre>\n";
 if($ok)
-  echo "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"0;URL='loc.php?id=".$idpays."'\">";
+  echo "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"0;URL='loc.php?id=".$id."'\">";
 exit();
 
 ?>
