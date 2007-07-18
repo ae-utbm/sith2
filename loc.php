@@ -126,8 +126,6 @@ if ($_REQUEST['action'] == 'genimgpays')
     }
 
   $img = new imgcarto();
-  $img->addcolor('pred', 255, 192, 192);
-
 
   foreach($country as $c)
     {
@@ -135,7 +133,7 @@ if ($_REQUEST['action'] == 'genimgpays')
 	{
 	  if ($c['isin'] == true)
 	    {
-	      $img->addpolygon($plg, 'pred', true);
+	      $img->addpolygon($plg, 'red', true);
 	      $img->addpolygon($plg, 'black', false);
 	    }
 	  else
@@ -146,7 +144,8 @@ if ($_REQUEST['action'] == 'genimgpays')
   $img->setfactor(55);
 
   $img->draw();
-  
+  /* hack : on n'est pas censé faire ca ... */
+  $img->dimy /= 2;
 
   require_once ($topdir . "include/watermark.inc.php");
   $wm_img = new img_watermark (&$img->imgres);
