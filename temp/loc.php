@@ -43,7 +43,7 @@ echo $req->lines."\n";
 $i=0;
 while(list($idpays,$nom)=$req->get_row())
 {
-  if ($i==6)
+  if ($i==4)
   {
     echo "</pre>\n";
     exit();
