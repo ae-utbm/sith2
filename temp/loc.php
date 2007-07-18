@@ -41,6 +41,7 @@ else
 echo "<pre>\n";
 echo $req->lines."\n";
 $ok=false;
+$idpays=0;
 while(list($idpays,$nom)=$req->get_row())
 {
   $ok=true;
