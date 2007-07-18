@@ -113,6 +113,9 @@ class img_watermark
   {
     imagepng($this->img, $dest);
   }
+
+  function saveas($dest) { $this->save_image($dest); }
+
   function output ()
   {
     header ("Content-Type: image/png");
