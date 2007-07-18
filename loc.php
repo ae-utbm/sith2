@@ -67,7 +67,6 @@ if ($_REQUEST['action'] == 'genimgpays')
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
 
-  echo "DEBUT\n";
 
   $idpays = intval($_REQUEST['idpays']);
 
@@ -143,21 +142,16 @@ if ($_REQUEST['action'] == 'genimgpays')
 	    $img->addpolygon($plg, 'black', false);
 	}
     }
-  echo "PLOUF fin ajout polygones\n";
 
-  //$img->setfactor(1000);
 
-  echo "Calculating image polygons ...\n";
 
   $img->draw();
   
-  echo "After calculating image before attempting to draw it : " . $img->dimx . ":" . $img->dimy . "\n";
 
+  require_once ($topdir . "include/watermark.inc.php");
+  $wm_img = new img_watermark (&$img->imgres);
 
-  //require_once ($topdir . "include/watermark.inc.php");
-  //$wm_img = new img_watermark (&$img->imgres);
-
-  //$wm_img->output();
+  $wm_img->output();
 
 
   exit();
