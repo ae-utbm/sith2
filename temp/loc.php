@@ -34,9 +34,9 @@ require_once($topdir. "include/entities/lieu.inc.php");
 $site = new site ();
 
 if(isset($_REQUEST["id"]))
-  $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays` WHERE `id_pays`>".intval($_REQUEST["id"])." LIMIT 4");
+  $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays` WHERE `id_pays`>".intval($_REQUEST["id"])." LIMIT 1");
 else
-  $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays` LIMIT 4");
+  $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays` LIMIT 1");
 
 echo "<pre>\n";
 echo $req->lines."\n";
