@@ -145,12 +145,18 @@ if ($_REQUEST['action'] == 'genimgpays')
     }
 
   $img->setfactor(55000);
-
   $img->draw();
 
-  require_once ($topdir . "include/watermark.inc.php");
-  $wm_img = new img_watermark (&$img->imgres);
+  /* hack : redimensionnement de l'image ... */
+  $newimgres = imagecreatetruecolor($img->dimx, $img->dimy / 2);
+  imagecopy($newimgres,        // image destination
+	    $img->imgres,      // image source
+	    0,0,               // coordonnées arrivée image cible
+	    0, $img->dimy / 2, // coordonnées de la région image copiée
+	    $img->dimx, $img->dimy / 2); // largeur / longueur de l'étendue
 
+  require_once ($topdir . "include/watermark.inc.php");
+  $wm_img = new img_watermark (&$newimgres);
   $wm_img->output();
 
 
