@@ -126,7 +126,7 @@ if ($_REQUEST['action'] == 'genimgpays')
     }
 
   $img = new imgcarto();
-
+  $img->addcolor('green', 150,255, 150);
   foreach($country as $c)
     {
       foreach($c['plgs'] as $plg)
@@ -137,20 +137,21 @@ if ($_REQUEST['action'] == 'genimgpays')
 	      $img->addpolygon($plg, 'black', false);
 	    }
 	  else
-	    $img->addpolygon($plg, 'black', false);
+	    {
+	      $img->addpolygon($plg, 'green', false);
+	      $img->addpolygon($plg, 'black', false);
+	    }
 	}
     }
 
   $img->setfactor(55);
 
   $img->draw();
-  /* hack : on n'est pas censé faire ca ... */
-  $img->dimy /= 2;
 
-  require_once ($topdir . "include/watermark.inc.php");
-  $wm_img = new img_watermark (&$img->imgres);
+  //  require_once ($topdir . "include/watermark.inc.php");
+  //$wm_img = new img_watermark (&$img->imgres);
 
-  $wm_img->output();
+  //$wm_img->output();
 
 
   exit();
