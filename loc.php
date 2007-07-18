@@ -113,8 +113,8 @@ if ($_REQUEST['action'] == 'genimgpays')
 	    {
 	      $coord = explode(" ", $point);
 	      /* 6400 Km = approximativement le rayon de la Terre */
-	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[0]) * 640;
-	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[1]) * 640;
+	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[0]) * 64;
+	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[1]) * 64;
 	    }
 	  $i++;
 	}
@@ -144,9 +144,9 @@ if ($_REQUEST['action'] == 'genimgpays')
 	}
     }
 
-  $img->setfactor(55);
-
   $img->draw();
+
+  $img->output();
 
   //  require_once ($topdir . "include/watermark.inc.php");
   //$wm_img = new img_watermark (&$img->imgres);
