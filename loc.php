@@ -114,8 +114,8 @@ if ($_REQUEST['action'] == 'genimgpays')
 	    {
 	      $coord = explode(" ", $point);
 	      /* 6400 Km = approximativement le rayon de la Terre */
-	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[0]) * 6400;
-	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[1]) * 6400;
+	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[0]) * 64;
+	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[1]) * 64;
 	    }
 	  $i++;
 	}
@@ -145,7 +145,7 @@ if ($_REQUEST['action'] == 'genimgpays')
     }
   echo "PLOUF fin ajout polygones\n";
 
-  $img->setfactor(1000);
+  //$img->setfactor(1000);
 
   echo "Calculating image polygons ...\n";
 
