@@ -35,7 +35,8 @@ $photo = new photo($site->db,$site->dbrw);
 if ( $_REQUEST["action"] == "setaccordphoto" )
 {
 	$photo->load_by_id($_REQUEST["id_photo"]);
-  print_r($photo->id);
+  if($photo->is_on_photo($site->user->id))
+    print_r("debug");
   if ( $photo->id > 0 && $photo->is_on_photo($site->user->id))
 	{
     print_r("debug1");
