@@ -113,8 +113,8 @@ if ($_REQUEST['action'] == 'genimgpays')
 	    {
 	      $coord = explode(" ", $point);
 	      /* 6400 Km = approximativement le rayon de la Terre */
-	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[0]) * 6400;
-	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[1]) * 6400;
+	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[0]) * 640;
+	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[1]) * 640;
 	    }
 	  $i++;
 	}
