@@ -44,10 +44,11 @@ $i=0;
 while(list($idpays,$nom)=$req->get_row())
 {
   if ($i==6)
-	{
-		echo "</pre>\n";
-    echo "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"0;URL='loc.php?id=".$idpays."'\">";
-	}
+  {
+    echo "</pre>\n";
+    exit();
+    //echo "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"0;URL='loc.php?id=".$idpays."'\">";
+  }
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
 
@@ -59,7 +60,7 @@ while(list($idpays,$nom)=$req->get_row())
   {
     echo $nom." (".$idpays.") : allready exists  \n";
     continue;
-	}
+  }
   $i++;
   $nomengpays = $nom;
 
@@ -131,9 +132,9 @@ while(list($idpays,$nom)=$req->get_row())
 
   require_once ($topdir . "include/watermark.inc.php");
   $wm_img = new img_watermark (&$newimgres);
-	$wm_img->saveas($imgfile);
+  $wm_img->saveas($imgfile);
   //$wm_img->output();
-	echo $nom." (".$idpays.") : OK \n";
+  echo $nom." (".$idpays.") : OK \n";
   unset($img);
   unset($wm_img);
   unset($newimgres);
