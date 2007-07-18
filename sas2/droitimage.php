@@ -38,7 +38,8 @@ if ( $_REQUEST["action"] == "setaccordphoto" )
   if ( $photo->id > 0 && $photo->is_on_photo($site->user->id))
   {
     if ( $_REQUEST["mesure"] == "ok" )
-    {
+		{
+      print_r("debug");
       $photo->donne_accord($site->user->id);
     }
     elseif ( $_REQUEST["mesure"] == "retrait" )
