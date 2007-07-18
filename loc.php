@@ -75,7 +75,7 @@ if ($_REQUEST['action'] == 'genimgpays')
   if (file_exists($imgfile))
     {
       header("Content-Type: image/png");
-      file_get_contents($imgfile);
+      readfile($imgfile);
       exit();
     }
 
