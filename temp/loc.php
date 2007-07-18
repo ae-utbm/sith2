@@ -34,7 +34,7 @@ require_once($topdir. "include/entities/lieu.inc.php");
 $site = new site ();
 
 if(isset($_REQUEST["id"]))
-  $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays` WHERE `id_pays`>=".intval($_REQUEST["id"])." LIMIT 4");
+  $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays` WHERE `id_pays`>".intval($_REQUEST["id"])." LIMIT 4");
 else
   $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays` LIMIT 4");
 
@@ -43,6 +43,7 @@ echo $req->lines."\n";
 $ok=false;
 while(list($idpays,$nom)=$req->get_row())
 {
+  $ok=true;
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
 
@@ -131,8 +132,7 @@ while(list($idpays,$nom)=$req->get_row())
   echo $nom." (".$idpays.") : OK \n";
   unset($img);
   unset($wm_img);
-	unset($newimgres);
-  $ok=true;
+  unset($newimgres);
 }
 
 echo "this is the end\n";
