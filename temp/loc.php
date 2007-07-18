@@ -46,11 +46,11 @@ while(list($idpays,$nom)=$req->get_row())
 
   $imgfile = $topdir . "var/cache/loc/pays/".$idpays.".png";
 
-  if (file_exists($imgfile))
-  {
-    echo $nom." (".$idpays.") : allready exists  \n";
-    continue;
-  }
+  //if (file_exists($imgfile))
+  //{
+  //  echo $nom." (".$idpays.") : allready exists  \n";
+  //  continue;
+  //}
   $nomengpays = $nom;
 
   $pgconn = new pgsqlae();
@@ -121,8 +121,12 @@ while(list($idpays,$nom)=$req->get_row())
 
   require_once ($topdir . "include/watermark.inc.php");
   $wm_img = new img_watermark (&$newimgres);
-  $wm_img->saveas($imgfile);
-  echo $nom." (".$idpays.") : OK \n";
+	$wm_img->saveas($imgfile);
+  //$wm_img->output();
+	echo $nom." (".$idpays.") : OK \n";
+  unset($img);
+  unset($wm_img);
+  unset($newimgres);
 }
 
 echo "this is the end\n";
