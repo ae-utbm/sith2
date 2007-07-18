@@ -823,8 +823,8 @@ class form extends stdcontents
 		global $topdir;
 		if(empty($values))
 			return;
-    if(!is_array($values))
-      return;
+    //if(!is_array($values))
+      //return;
 
 		if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];	
 		$this->buffer .= "<div class=\"formrow\">\n";
