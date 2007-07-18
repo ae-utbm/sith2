@@ -70,6 +70,16 @@ if ($_REQUEST['action'] == 'genimgpays')
 
   $idpays = intval($_REQUEST['idpays']);
 
+  $imgfile = $topdir . "var/cache/loc/pays/".$idpays.".png";
+
+  if (file_exists($imgfile))
+    {
+      header("Content-Type: image/png");
+      file_get_contents($imgfile);
+      exit();
+    }
+
+
   $req = new requete($site->db,
 		     "SELECT nomeng_pays FROM loc_pays WHERE id_pays = " . $idpays);
 
@@ -157,6 +167,9 @@ if ($_REQUEST['action'] == 'genimgpays')
 
   require_once ($topdir . "include/watermark.inc.php");
   $wm_img = new img_watermark (&$newimgres);
+
+  $wm_img->saveas($imgfile);
+
   $wm_img->output();
 
 
