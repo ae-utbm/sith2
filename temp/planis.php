@@ -36,7 +36,6 @@ foreach ($matched[1] as $polygon)
   $i++;
 }
 
-echo count($totalpoints) . " polygons found.\n";
 
 /** Now we have every points of the polygons, and ready to (try to) plot this ! **/
 
@@ -83,7 +82,6 @@ $yfactor = 1;
 $offset = 10;
 
 
-echo "STEP 2.\n";
 
 /* STEP 2 : Time to do some (useless ?) calculus */
 
@@ -188,7 +186,6 @@ foreach($plg as $polygone)
   imagepolygon($img, $polygone, count($polygone) / 2, $black);
 }
 
-echo "Finished.\n";
 header("Content-Type: image/png");
 
 imagepng($img);
