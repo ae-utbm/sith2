@@ -34,21 +34,21 @@ require_once($topdir. "include/entities/lieu.inc.php");
 $site = new site ();
 
 if(isset($_REQUEST["id"]))
-  $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays` WHERE `id_pays`>=".intval($_REQUEST["id"])."");
+  $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays` WHERE `id_pays`>=".intval($_REQUEST["id"])." LIMIT 4");
 else
-  $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays`");
+  $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays` LIMIT 4");
 
 echo "<pre>\n";
 echo $req->lines."\n";
-$i=0;
+//$i=0;
 while(list($idpays,$nom)=$req->get_row())
 {
-  if ($i==4)
-  {
-    echo "</pre>\n";
-    exit();
+  //if ($i==4)
+  //{
+    //echo "</pre>\n";
+    //exit();
     //echo "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"0;URL='loc.php?id=".$idpays."'\">";
-  }
+  //}
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
 
