@@ -157,7 +157,7 @@ class vigproduit extends stdcontents
     if ( $stock == 0 )
       $this->buffer .= "<p class=\"details\"><a href=\"./?id_produit=".$row["id_produit"]."\">Details / Acheter</a></p>\n";
     else
-      $this->buffer .= "<p class=\"details\"><a href=\"./?id_produit=".$row["id_produit"]."\">Details</a> - <a href=\"./?act=add&amp;id_produit=".$row["id_produit"]."\">Ajout pannier</a></p>\n";
+      $this->buffer .= "<p class=\"details\"><a href=\"./?id_produit=".$row["id_produit"]."\">Details</a> - <a href=\"./?act=add&amp;id_produit=".$row["id_produit"]."\">Ajout panier</a></p>\n";
     $this->buffer .= "</div>\n";
   }
 }
