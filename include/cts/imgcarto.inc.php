@@ -264,6 +264,9 @@ class imgcarto
       } // end parsing polygons
 
     $this->dimy = ($max_y - $min_y) + $this->offset * 2;
+
+    echo "DEBUG : ".$this->dimx . ":" . $this->dimy ."\n";
+
   }
 
   function draw()

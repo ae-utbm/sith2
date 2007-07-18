@@ -146,7 +146,7 @@ if ($_REQUEST['action'] == 'genimgpays')
 
   $img->draw();
 
-  $img->output();
+  //$img->output();
 
   //  require_once ($topdir . "include/watermark.inc.php");
   //$wm_img = new img_watermark (&$img->imgres);
