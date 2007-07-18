@@ -462,7 +462,7 @@ class photo extends basedb
    */
   function donne_accord($id_utilisateur)
   {
-    $sql = new update($this->dbrw,"sas_personnes_photos",array("accord_phutl"=>true),array(
+    $sql = new update($this->dbrw,"sas_personnes_photos",array("accord_phutl"=>'1'),array(
         "id_photo"=>$this->id,
         "id_utilisateur"=>$id_utilisateur
         ));
