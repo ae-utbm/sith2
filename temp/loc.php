@@ -42,7 +42,7 @@ while(list($idpays,$nom)=$req->get_row())
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
 
-  $idpays = intval($id_pays);
+  $idpays = intval($idpays);
 
   $imgfile = $topdir . "var/cache/loc/pays/".$idpays.".png";
 
