@@ -33,12 +33,21 @@ require_once($topdir. "include/entities/lieu.inc.php");
 
 $site = new site ();
 
-$req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays`");
+if(isset($_REQUEST["id"]))
+  $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays` WHERE `id_pays`>=".intval($_REQUEST["id"])."");
+else
+  $req = new requete($site->db, "SELECT `id_pays`, `nomeng_pays` FROM `loc_pays`")
 
 echo "<pre>\n";
 echo $req->lines."\n";
+$i=0;
 while(list($idpays,$nom)=$req->get_row())
 {
+  if ($i==6)
+	{
+		echo "</pre>\n";
+    echo "<META HTTP-EQUIV=\"Refresh\" CONTENT=\"0;URL='loc.php?id=".$idpays."'\">";
+	}
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
 
@@ -50,7 +59,8 @@ while(list($idpays,$nom)=$req->get_row())
   {
     echo $nom." (".$idpays.") : allready exists  \n";
     continue;
-  }
+	}
+  $i++;
   $nomengpays = $nom;
 
   $pgconn = new pgsqlae();
