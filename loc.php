@@ -113,8 +113,8 @@ if ($_REQUEST['action'] == 'genimgpays')
 	    {
 	      $coord = explode(" ", $point);
 	      /* 6400 Km = approximativement le rayon de la Terre */
-	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[0]) * 64;
-	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[1]) * 64;
+	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[0]) * 6400;
+	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[1]) * 6400;
 	    }
 	  $i++;
 	}
@@ -143,7 +143,7 @@ if ($_REQUEST['action'] == 'genimgpays')
 	}
     }
 
-
+  $img->setfactor(55);
 
   $img->draw();
   
