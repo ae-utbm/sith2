@@ -242,6 +242,7 @@ if ($_REQUEST['action'] == 'genimgville')
   $img = new imgcarto();
 
   $img->addcolor('pred', 255, 192, 192);
+  $img->addcolor('pgreen', 192,255, 192);
 
   $i = 0;
   foreach($dept as $departement)
@@ -254,7 +255,10 @@ if ($_REQUEST['action'] == 'genimgville')
 	      $img->addpolygon($plg, 'black', false);
 	    }
 	  else
-	    $img->addpolygon($plg, 'black', false);
+	    {
+	      $img->addpolygon($plg, 'pgreen', true);
+	      $img->addpolygon($plg, 'black', false);
+	    }
 	}
     }
 
@@ -262,7 +266,7 @@ if ($_REQUEST['action'] == 'genimgville')
   $villecoords = str_replace(")", "", $villecoords);
   $villecoords = explode(" ", $villecoords);
 
-  $img->addpoint($villecoords[0], $villecoords[1], 5, "red");
+  $img->addpoint($villecoords[0], $villecoords[1], 5, "black");
 
   $img->setfactor(1600);
 
