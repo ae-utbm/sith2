@@ -413,7 +413,11 @@ class photo extends basedb
    * @see class Utilisateur
    */
   function add_personne( $utl, $modere=true )
-  {
+	{
+    if($modere)
+      $modere=1;
+    else
+      $modere=0;
     $sql = new insert ($this->dbrw,
       "sas_personnes_photos",
       array(
@@ -507,7 +511,7 @@ class photo extends basedb
       "FROM `sas_personnes_photos` " .
       "WHERE `id_photo`='".$this->id."' " .
       "AND `id_utilisateur`='".$id_utilisateur."' " .
-      "AND `modere_phutl`='1'");
+      "AND `modere_phutl`='1' LIMIT 1");
 
     return ($req->lines==1);
   }
