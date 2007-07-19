@@ -724,7 +724,7 @@ class utilisateur extends stdentity
                       'afps_utl'=>$this->afps,
                       'sst_utl'=>$this->sst),
                       array('id_utilisateur' => $this->id));
-
+    print_r($req);
     if ( $req->lines == 0 )
       new insert($this->dbrw,
                       "utl_extra",
