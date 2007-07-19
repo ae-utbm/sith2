@@ -45,7 +45,7 @@ elseif ( $m > 6 && $m < 9)
 else
 {
   $cts = new contents("Pré-parrainage",
-                      "Pas de campagne de pré-parainage pour le moment");
+                      "Pas de campagne de pré-parrainage pour le moment");
   $site->add_contents($cts);
   $site->end_page();
   exit();
@@ -98,9 +98,10 @@ else
     if($_POST["etape"] == 3)
     {
       $_cts = new contents("Inscription : Etape 3/3");
-      $_cts->add_paragraph("Ton inscription au préparainage est effective. Tu recevras de plus d'informations dans les semaines à venir.");
+      $_cts->add_paragraph("Ton inscription au préparrainage est effective. Tu recevras de plus d'informations dans les semaines à venir.");
       if($_POST['departement'] == "tc")
       {
+        new insert($this->dbrw,"pre_parrainage", array('semestre'=>$sem,'id_utilisateur' => $site->user->id,'tc'=>1,'branche'=>$_POST["voeux"]));
         $_cts->add_paragraph("TC et voeux : " $_POST["voeux"]);
         $site->add_contents($_cts);
         $site->end_page();
@@ -108,6 +109,7 @@ else
       }
       else
       {
+        new insert($this->dbrw,"pre_parrainage", array('semestre'=>$sem,'id_utilisateur' => $site->user->id,'tc'=>0,'branche'=>$_POST["branche"]));
         $_cts->add_paragraph("branche : " $_POST["branche"]);
         $site->add_contents($_cts);
         $site->end_page();
@@ -172,7 +174,7 @@ else
 
 
 $cts = new contents("Inscription : Etape 1/3");
-$cts->add_paragraph("Vous êtes sur le point de vous inscrire au système de préparainage.");
+$cts->add_paragraph("Vous êtes sur le point de vous inscrire au système de pré-parrainage.");
 $frm = new form("verifinfo","index.php",true,"POST","Vérifications des informations personnelles");
 $frm->add_hidden("etape","2");
 if ( isset($Erreur) )
