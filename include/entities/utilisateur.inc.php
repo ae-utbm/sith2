@@ -722,8 +722,7 @@ class utilisateur extends stdentity
                       'date_permis_conduire_utl'=>$this->permis_conduire?$this->date_permis_conduire:null,
                       'hab_elect_utl'=>$this->hab_elect,
                       'afps_utl'=>$this->afps,
-                      'sst_utl'=>$this->sst,
-                      'stuff_utl'=>$this->stuff),
+                      'sst_utl'=>$this->sst),
                       array('id_utilisateur' => $this->id));
 
     if ( $req->lines == 0 )
@@ -737,8 +736,7 @@ class utilisateur extends stdentity
                       'date_permis_conduire_utl'=>$this->permis_conduire?$this->date_permis_conduire:null,
                       'hab_elect_utl'=>$this->hab_elect,
                       'afps_utl'=>$this->afps,
-                      'sst_utl'=>$this->sst,
-                      'stuff_utl'=>$this->stuff));
+                      'sst_utl'=>$this->sst));
 
     if ( XML_RPC_USE )
     {
