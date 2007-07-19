@@ -238,7 +238,7 @@ if ($_REQUEST['action'] == 'genimgville')
                                            , CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$long.
                                                                            " ".$lat.")', 4030), 27582)) AS indept
                                    FROM 
-                                           deptfr", true);
+                                           deptfr");
  
   $rs = $pgreq->get_all_rows();
   
