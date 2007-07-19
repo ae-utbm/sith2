@@ -23,13 +23,13 @@
 /**
  * @file Gestion des fichier des repertoires virtuels (partie téléchargement).
  */
-require_once($topdir."include/entities/basedb.inc.php");
+require_once($topdir."include/entities/fs.inc.php");
 require_once($topdir."include/entities/folder.inc.php");
 
 /**
  * Classe de gestion des fichiers des repertoires virtuels
  */
-class dfile extends basedb
+class dfile extends fs
 {
 
 	/** Nom du fichier avec l'extention, c'est ce qui sera communiqué au navigateur lors du téléchargement */
@@ -90,8 +90,10 @@ class dfile extends basedb
 		$this->id_groupe_admin = $row['id_groupe_admin'];
 		$this->droits_acces = $row['droits_acces_file'];
 		$this->modere = $row['modere_file'];
-
 	}
+
+
+
 
 	/**
 	 * Ajoute un fichier.
@@ -114,7 +116,7 @@ class dfile extends basedb
 		$this->date_ajout = time();
 		$this->modere=false;
 
-		$this->nom_fichier= $file['name'];
+		$this->nom_fichier= $this->get_free_filename($id_folder,$file['name']);
 		$this->taille=$file['size'];
 		$this->mime_type=$file['type']; // ou mime_content_type($file['tmp_name']);
 
@@ -185,7 +187,7 @@ class dfile extends basedb
 		$this->date_ajout = $dateajout;
 		$this->modere=$modere;
 
-		$this->nom_fichier= $filename;
+		$this->nom_fichier= $this->get_free_filename($id_folder,$filename);
 		$this->taille=$filesize;
 		$this->mime_type=$mime_type; // ou mime_content_type($file['tmp_name']);
 
@@ -266,9 +268,11 @@ class dfile extends basedb
 	function move_to ( $id_folder )
 	{
 		$this->id_folder = $id_folder;
+		$this->nom_fichier= $this->get_free_filename($id_folder,$this->nom_fichier);
+		
 		$sql = new update ($this->dbrw,
 			"d_file",
-			array("id_folder"=>$this->id_folder),
+			array("nom_fichier_file"=>$this->nom_fichier,"id_folder"=>$this->id_folder),
 			array("id_file"=>$this->id)
 			);
 	}

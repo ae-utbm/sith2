@@ -144,5 +144,37 @@ while ( $row = $sql->get_row() )
 }
 echo "</ul>";
 
+echo "<li><b>Check folder names (nulls)</b></li>";
+
+$sql = new requete($site->db,"SELECT * FROM `d_folder` WHERE nom_fichier_folder IS NULL");
+
+$folder=new dfolder($site->db,$site->dbrw);
+
+while ( $row = $sql->get_row() )
+{
+  $folder->_load($row);
+  $folder->update_folder ( $folder->titre, $folder->description, $folder->id_asso );
+}
+
+echo "<li><b>Check files names (unicity)</b></li>";
+
+$file=new dfile($site->db,$site->dbrw);
+
+$sql = new requete($site->db,"SELECT COUNT(*) AS `nb`,`id_folder`,`nom_fichier_file` FROM `d_file` GROUP BY `id_folder`,`nom_fichier_file` HAVING COUNT(*) > 1");
+
+while ( $row = $sql->get_row() )
+{
+  $sql2 = new requete($site->db,"SELECT * FROM `d_file` WHERE `id_folder` = " . mysql_real_escape_string($row['id_folder']) . "' AND `nom_fichier_file` = " . mysql_real_escape_string($row['nom_fichier_file']) . "' LIMIT ".($row['nb']-1));
+  while ( $row = $sql2->get_row() )
+  {
+    $file->_load($row);
+  	$file->nom_fichier= $file->get_free_filename($file->id_folder,$file->nom_fichier,$file->id);
+    new update ($site->dbrw,
+			"d_file",
+			array("nom_fichier_file"=>$file->nom_fichier),
+			array("id_file"=>$file->id)
+			);
+  }
+}
 
 ?>

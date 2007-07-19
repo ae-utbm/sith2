@@ -24,7 +24,7 @@
  * @file Gestion des repertoires virtuels (partie téléchargement).
  */
  
-require_once($topdir."include/entities/basedb.inc.php");
+require_once($topdir."include/entities/fs.inc.php");
 require_once($topdir."include/entities/files.inc.php");
 
 /**
@@ -33,9 +33,10 @@ require_once($topdir."include/entities/files.inc.php");
  * La partie "fichier" est décrite par le dossier qui a id_asso=null et id_folder_parent=null.
  * Les repertoire pour chaque asso est décrit par le dossier ayant l'id de lasso et id_folder_parent=null.
  */
-class dfolder extends basedb
+class dfolder extends fs
 {
-
+	/** Nom de fichier du dossier (généré automatiquement) */
+	var $nom_fichier;
 	/** Titre du dossier */
 	var $titre;
 	/** Id du dossier parent, NULL si dossier racine */
@@ -117,6 +118,7 @@ class dfolder extends basedb
 	{
 		$this->id = $row['id_folder'];
 		$this->titre = $row['titre_folder'];
+		$this->nom_fichier = $row['nom_fichier_folder'];
 		$this->id_folder_parent = $row['id_folder_parent'];
 		$this->description = $row['description_folder'];
 		$this->date_ajout = strtotime($row['date_ajout_folder']);
@@ -146,15 +148,17 @@ class dfolder extends basedb
 		$this->date_ajout = time();
 		$this->modere=(is_null($id_folder_parent) && !is_null($id_asso))?true:false;
 		
+		$this->_compute_nom_fichier();	
+		
 		$sql = new insert ($this->dbrw,
 			"d_folder",
 			array(
 				"titre_folder"=>$this->titre,
+				"nom_fichier_folder"=>$this->nom_fichier,
 				"id_folder_parent"=>$this->id_folder_parent,	
 				"description_folder"=>$this->description,
 				"date_ajout_folder"=>date("Y-m-d H:i:s",$this->date_ajout),
 				"id_asso"=>$this->id_asso,
-				
 				"id_utilisateur"=>$this->id_utilisateur,
 				"id_groupe"=>$this->id_groupe,
 				"id_groupe_admin"=>$this->id_groupe_admin,
@@ -183,10 +187,14 @@ class dfolder extends basedb
 		$this->description = $description;
 		$this->id_asso = $id_asso;
 		
+		$this->_compute_nom_fichier();	
+
+		
 		$sql = new update ($this->dbrw,
 			"d_folder",
 			array(
 				"titre_folder"=>$this->titre,
+				"nom_fichier_folder"=>$this->nom_fichier,
 				"description_folder"=>$this->description,
 				"id_asso"=>$this->id_asso,
 				
@@ -216,15 +224,34 @@ class dfolder extends basedb
 		  $pfolder->load_by_id($pfolder->id_folder_parent);
 		}
 		
-		
 		$this->id_folder_parent = $id_folder;
+		$this->_compute_nom_fichier();	
+		
 		$sql = new update ($this->dbrw,
 			"d_folder",
-			array("id_folder_parent"=>$this->id_folder_parent),
+			array("nom_fichier_folder"=>$this->nom_fichier,"id_folder_parent"=>$this->id_folder_parent),
 			array("id_folder"=>$this->id)
 			);
 	}
 	
+	function _compute_nom_fichier()
+	{
+		if ( is_null($this->id_folder_parent) )
+		{
+		  if ( is_null($this->id_asso) )
+		    $filename="public";
+		  else
+		  {
+		    $a = new asso($this->db);
+		    $a->load_by_id($this->id_asso);  
+		    $filename = $a->nom_unix;
+		  }
+		}
+		else
+		  $filename = preg_replace("`([//\\\\\\:\\*\\?\"<>\\|]+)`", "", $this->titre);	
+		  
+		$this->nom_fichier= $this->get_free_filename($this->id_folder_parent,$filename,null,$this->id);		
+	}
 	
 	/** Liste les sous-dossiers que l'utilisateur peut voir
 	 * @param $user Instance de utilisateur
