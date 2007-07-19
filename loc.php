@@ -67,7 +67,6 @@ if ($_REQUEST['action'] == 'genimgpays')
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
 
-
   $idpays = intval($_REQUEST['idpays']);
 
   $imgfile = $topdir . "var/cache/loc/pays/".$idpays.".png";
@@ -178,11 +177,40 @@ if ($_REQUEST['action'] == 'genimgpays')
 
 if ($_REQUEST['action'] == 'genimgville')
 {
-  $lat  = rad2deg($_REQUEST['lat']);
-  $long = rad2deg($_REQUEST['lng']);
 
-  $lat = str_replace(",", ".", $lat);
-  $long = str_replace(",", ".", $long);
+
+  /* on utilise les lat/long pour la localisation */
+  if (isset($_REQUEST['lat']))
+    {
+      $lat  = rad2deg($_REQUEST['lat']);
+      $long = rad2deg($_REQUEST['lng']);
+
+      $lat = str_replace(",", ".", $lat);
+      $long = str_replace(",", ".", $long);
+    }
+  else if (isset($_REQUEST['cpostal']))
+    {
+      $cpostal = intval($_RESQUEST['cpostal']);
+      $req = new requete($site->db, "SELECT 
+                                             lat_ville
+                                             , long_ville
+                                     FROM
+                                             loc_ville
+                                     WHERE
+                                             cpostal_ville = $cpostal");
+
+      if ($req->lines > 0)
+	{
+	  while ($rs = $req->get_row())
+	    {
+	      $lat[] = $rs['lat_ville'];
+	      $long[] = $rs['long_ville'];
+	    }
+
+	  $lat  = sum($lat)  / count($lat);
+	  $long = sum($long) / count($long); 
+	}
+    }
 
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
