@@ -156,7 +156,7 @@ else
           $branche = new form("departement",null,null,null,"en branche :");
           $branche->add_select_field("branche","Quelle branche ?",$voeux,$user->departement);
           $frm->add($branche,false,true,1,"tc",false,true,true);
-          $_cts->add($frm,,false,true,0,"branche",false,true);
+          $_cts->add($frm,false,true,0,"branche",false,true);
           $site->add_contents($_cts);
           $site->end_page();
           exit();
