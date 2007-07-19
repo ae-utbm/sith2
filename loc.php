@@ -188,6 +188,7 @@ if ($_REQUEST['action'] == 'genimgville')
       $lat = str_replace(",", ".", $lat);
       $long = str_replace(",", ".", $long);
     }
+  /* code postal */
   else if (isset($_REQUEST['cpostal']))
     {
       $cpostal = intval($_REQUEST['cpostal']);
@@ -207,8 +208,8 @@ if ($_REQUEST['action'] == 'genimgville')
 	      $long[] = $rs['long_ville'];
 	    }
 
-	  $lat  = sum($lat)  / count($lat);
-	  $long = sum($long) / count($long); 
+	  $lat  = array_sum($lat)  / count($lat);
+	  $long = array_sum($long) / count($long); 
 	  
 	  $lat = rad2deg($lat);
 	  $long = rad2deg($long);
