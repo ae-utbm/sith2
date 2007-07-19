@@ -1607,10 +1607,10 @@ L'équipe info AE";
     }
 */
 
-    if ( file_exists($topdir."var/img/matmatronch/".$this->id.".jpg"))
+    if ( file_exists($topdir."var/img/matmatronch/".$this->id.".identity.jpg"))
     {
       echo "PHOTO;TYPE=JPEG;BASE64:\n";
-      echo "  ".chunk_split(base64_encode(file_get_contents($topdir."var/img/matmatronch/".$this->id.".jpg")),76,"\n  ");
+      echo "  ".chunk_split(base64_encode(file_get_contents($topdir."var/img/matmatronch/".$this->id.".identity.jpg")),76,"\n  ");
       echo "\n";
     }
     echo "END:VCARD\n";
