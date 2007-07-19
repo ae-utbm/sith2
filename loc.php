@@ -214,6 +214,8 @@ if ($_REQUEST['action'] == 'genimgville')
 	  $lat = rad2deg($lat);
 	  $long = rad2deg($long);
 
+	  $lat = str_replace(",", ".", $lat);
+	  $long = str_replace(",", ".", $long);
 	}
     }
 
