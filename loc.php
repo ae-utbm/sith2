@@ -209,6 +209,10 @@ if ($_REQUEST['action'] == 'genimgville')
 
 	  $lat  = sum($lat)  / count($lat);
 	  $long = sum($long) / count($long); 
+	  
+	  $lat = rad2deg($lat);
+	  $long = rad2deg($long);
+
 	}
     }
 
