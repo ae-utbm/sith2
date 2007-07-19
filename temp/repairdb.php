@@ -168,7 +168,7 @@ $sql = new requete($site->db,"SELECT COUNT(*) AS `nb`,`id_folder`,`nom_fichier_f
 
 while ( $row = $sql->get_row() )
 {
-  $sql2 = new requete($site->db,"SELECT * FROM `d_file` WHERE `id_folder` = " . mysql_real_escape_string($row['id_folder']) . "' AND `nom_fichier_file` = '" . mysql_real_escape_string($row['nom_fichier_file']) . "' LIMIT ".($row['nb']-1));
+  $sql2 = new requete($site->db,"SELECT * FROM `d_file` WHERE `id_folder` = '" . mysql_real_escape_string($row['id_folder']) . "' AND `nom_fichier_file` = '" . mysql_real_escape_string($row['nom_fichier_file']) . "' LIMIT ".($row['nb']-1));
   while ( $row = $sql2->get_row() )
   {
     $file->_load($row);
