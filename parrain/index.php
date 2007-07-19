@@ -75,7 +75,7 @@ elseif ( $site->user->utbm || $site->user->ae )
   exit();
 }
 
-$req = new requete($this->db, "SELECT `id_utl` FROM `pre_parrainage` WHERE `id_utilisateur` = '".$site->user->id."' AND `semestre` = '".$sem."'LIMIT 1");
+$req = new requete($site->db, "SELECT `id_utl` FROM `pre_parrainage` WHERE `id_utilisateur` = '".$site->user->id."' AND `semestre` = '".$sem."'LIMIT 1");
 if($req->lines==1)
 {
   $cts = new contents("Pré-parrainage",
@@ -101,7 +101,7 @@ else
       $_cts->add_paragraph("Ton inscription au préparrainage est effective. Tu recevras de plus d'informations dans les semaines à venir.");
       if($_POST['departement'] == "tc")
       {
-        $_req = new insert($this->dbrw,"pre_parrainage", array('semestre'=>$sem,'id_utilisateur' => $site->user->id,'tc'=>1,'branche'=>$_POST["voeux"]));
+        $_req = new insert($site->dbrw,"pre_parrainage", array('semestre'=>$sem,'id_utilisateur' => $site->user->id,'tc'=>1,'branche'=>$_POST["voeux"]));
         $_cts->add_paragraph("TC et voeux : ".$_POST["voeux"]);
         $site->add_contents($_cts);
         $site->end_page();
@@ -109,7 +109,7 @@ else
       }
       else
       {
-        $_req = new insert($this->dbrw,"pre_parrainage", array('semestre'=>$sem,'id_utilisateur' => $site->user->id,'tc'=>0,'branche'=>$_POST["branche"]));
+        $_req = new insert($site->dbrw,"pre_parrainage", array('semestre'=>$sem,'id_utilisateur' => $site->user->id,'tc'=>0,'branche'=>$_POST["branche"]));
         $_cts->add_paragraph("branche : ".$_POST["branche"]);
         $site->add_contents($_cts);
         $site->end_page();
