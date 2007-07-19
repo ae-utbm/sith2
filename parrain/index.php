@@ -29,12 +29,15 @@
  */
 
 $topdir = "../";
-
 include($topdir. "include/site.inc.php");
+require_once($topdir . "include/entities/ville.inc.php");
+require_once($topdir . "include/entities/pays.inc.php");
+
 
 $site = new site();
-
 $site->start_page("services", "Pré-parrainage");
+
+
 
 $d = date("d");
 $m = date("m");
@@ -172,6 +175,8 @@ else
   }
 }
 
+$ville = new ville($site->db);
+$pays = new pays($site->db);
 
 $cts = new contents("Inscription : Etape 1/3");
 $cts->add_paragraph("Vous êtes sur le point de vous inscrire au système de pré-parrainage.");
@@ -185,8 +190,8 @@ $frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
 $frm->add_text_field("prenom","Prenom",$user->prenom,true,false,false,false);
 $frm->add_text_field("email","Votre adresse email",$user->email,true,false,false,false);
 $frm->add_text_field("addresse","Adresse",$user->addresse,$true);
-//$frm->add_entity_smartselect ("id_ville","Ville (France)", $ville,true);
-//$frm->add_entity_smartselect ("id_pays","ou pays", $pays,true);
+$frm->add_entity_smartselect ("id_ville","Ville (France)", $ville,true);
+$frm->add_entity_smartselect ("id_pays","ou pays", $pays,true);
 $frm->add_text_field("tel_maison","Telephone (fixe)",$user->tel_maison);
 $frm->add_text_field("tel_portable","Telephone (portable)",$user->tel_portable);
 $frm->add_submit("save","Enregistrer");
