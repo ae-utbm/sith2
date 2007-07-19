@@ -26,6 +26,8 @@ $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/entities/carteae.inc.php");
 require_once($topdir. "include/entities/cotisation.inc.php");
+require_once($topdir. "include/entities/files.inc.php");
+require_once($topdir. "include/entities/folder.inc.php");
 
 $site = new site ();
 
