@@ -190,7 +190,7 @@ if ($_REQUEST['action'] == 'genimgville')
     }
   else if (isset($_REQUEST['cpostal']))
     {
-      $cpostal = intval($_RESQUEST['cpostal']);
+      $cpostal = intval($_REQUEST['cpostal']);
       $req = new requete($site->db, "SELECT 
                                              lat_ville
                                              , long_ville
