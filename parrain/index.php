@@ -75,7 +75,7 @@ elseif ( $site->user->utbm || $site->user->ae )
   exit();
 }
 
-$req = new requete($site->db, "SELECT `id_utl` FROM `pre_parrainage` WHERE `id_utilisateur` = '".$site->user->id."' AND `semestre` = '".$sem."'LIMIT 1");
+$req = new requete($site->db, "SELECT `id_utilisateur` FROM `pre_parrainage` WHERE `id_utilisateur` = '".$site->user->id."' AND `semestre` = '".$sem."'LIMIT 1");
 if($req->lines==1)
 {
   $cts = new contents("Pré-parrainage",
