@@ -665,7 +665,7 @@ class utilisateur extends stdentity
   function saveinfos ()
   {
     global $topdir;
-    $req = new update($this->dbrw,
+    new update($this->dbrw,
                       "utilisateurs",
                       array('nom_utl' => $this->nom,
                             'prenom_utl' => $this->prenom,
@@ -687,7 +687,7 @@ class utilisateur extends stdentity
 
     if ( $this->etudiant || $this->ancien_etudiant )
     {
-      $req = new update($this->dbrw,
+      new update($this->dbrw,
                         "utl_etu",
                         array('citation' => $this->citation,
                               'adresse_parents' => $this->adresse_parents,
@@ -701,7 +701,7 @@ class utilisateur extends stdentity
 
     if ( $this->utbm )
     {
-      $req = new update($this->dbrw,
+      new update($this->dbrw,
                         "utl_etu_utbm",
                         array('semestre_utbm' => $this->semestre,
                               'role_utbm' => $this->role,
@@ -713,18 +713,7 @@ class utilisateur extends stdentity
                         array( 'id_utilisateur' => $this->id));
     }
     
-    $req = new update($this->dbrw,
-                      "utl_extra",
-                      array(
-                      'musicien_utl'=>$this->musicien,
-                      'taille_tshirt_utl'=>$this->taille_tshirt,
-                      'permis_conduire_utl'=>$this->permis_conduire,
-                      'date_permis_conduire_utl'=>$this->permis_conduire?$this->date_permis_conduire:null,
-                      'hab_elect_utl'=>$this->hab_elect,
-                      'afps_utl'=>$this->afps,
-                      'sst_utl'=>$this->sst),
-                      array('id_utilisateur' => $this->id));
-    print_r($req);
+    $req = new requete($this->db,"SELECT id_utilisateur FROM utl_extra WHERE id_utilisateur='".mysql_real_escape_string($this->id)."'");
     if ( $req->lines == 0 )
       new insert($this->dbrw,
                       "utl_extra",
@@ -737,6 +726,20 @@ class utilisateur extends stdentity
                       'hab_elect_utl'=>$this->hab_elect,
                       'afps_utl'=>$this->afps,
                       'sst_utl'=>$this->sst));
+    else
+      new update($this->dbrw,
+                    "utl_extra",
+                    array(
+                    'musicien_utl'=>$this->musicien,
+                    'taille_tshirt_utl'=>$this->taille_tshirt,
+                    'permis_conduire_utl'=>$this->permis_conduire,
+                    'date_permis_conduire_utl'=>$this->permis_conduire?$this->date_permis_conduire:null,
+                    'hab_elect_utl'=>$this->hab_elect,
+                    'afps_utl'=>$this->afps,
+                    'sst_utl'=>$this->sst),
+                    array('id_utilisateur' => $this->id));
+
+
 
     if ( XML_RPC_USE )
     {
