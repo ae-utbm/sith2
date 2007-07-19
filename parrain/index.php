@@ -93,7 +93,7 @@ else
   $cts->add_paragraph("Le pré-parrainage permet aux nouveaux étudiants d'être accompagnés par un étudiant de ".
                       "de l'UTBM dans ses démarches administratives, la découverte de Belfort, ...");
   $site->add_contents($cts);
-  if(isset($_POST["etape"])
+  if(isset($_POST["etape"]))
   {
     if($_POST["etape"] == 3)
     {
