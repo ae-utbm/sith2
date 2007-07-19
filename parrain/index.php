@@ -101,16 +101,16 @@ else
       $_cts->add_paragraph("Ton inscription au préparrainage est effective. Tu recevras de plus d'informations dans les semaines à venir.");
       if($_POST['departement'] == "tc")
       {
-        new insert($this->dbrw,"pre_parrainage", array('semestre'=>$sem,'id_utilisateur' => $site->user->id,'tc'=>1,'branche'=>$_POST["voeux"]));
-        $_cts->add_paragraph("TC et voeux : " $_POST["voeux"]);
+        $_req = new insert($this->dbrw,"pre_parrainage", array('semestre'=>$sem,'id_utilisateur' => $site->user->id,'tc'=>1,'branche'=>$_POST["voeux"]));
+        $_cts->add_paragraph("TC et voeux : ".$_POST["voeux"]);
         $site->add_contents($_cts);
         $site->end_page();
         exit();
       }
       else
       {
-        new insert($this->dbrw,"pre_parrainage", array('semestre'=>$sem,'id_utilisateur' => $site->user->id,'tc'=>0,'branche'=>$_POST["branche"]));
-        $_cts->add_paragraph("branche : " $_POST["branche"]);
+        $_req = new insert($this->dbrw,"pre_parrainage", array('semestre'=>$sem,'id_utilisateur' => $site->user->id,'tc'=>0,'branche'=>$_POST["branche"]));
+        $_cts->add_paragraph("branche : ".$_POST["branche"]);
         $site->add_contents($_cts);
         $site->end_page();
         exit();
