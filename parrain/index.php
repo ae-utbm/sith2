@@ -69,7 +69,7 @@ if ( !$site->user->is_valid() )
 elseif ( $site->user->utbm || $site->user->ae )
 {
   $cts = new contents("Pré-parrainage",
-                      "Le module de pré-parrainage est en cours de dévelopement, merci de votre compréhention");
+                      "Le module de pré-parrainage est en cours de dévelopement, merci de votre compréhension");
   $site->add_contents($cts);
   $site->end_page();
   exit();
