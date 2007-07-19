@@ -28,6 +28,7 @@ require_once($topdir. "include/entities/carteae.inc.php");
 require_once($topdir. "include/entities/cotisation.inc.php");
 require_once($topdir. "include/entities/files.inc.php");
 require_once($topdir. "include/entities/folder.inc.php");
+require_once($topdir. "include/entities/asso.inc.php");
 
 $site = new site ();
 
@@ -144,7 +145,6 @@ while ( $row = $sql->get_row() )
                       array('alias_utl' => $alias),
                       array('id_utilisateur' => $row["id_utilisateur"]));  
 }
-echo "</ul>";
 
 echo "<li><b>Check folder names (nulls)</b></li>";
 
@@ -156,6 +156,8 @@ while ( $row = $sql->get_row() )
 {
   $folder->_load($row);
   $folder->update_folder ( $folder->titre, $folder->description, $folder->id_asso );
+  echo "<li>Folder #".$folder->id." is now named ".$folder->nom_fichier."</li>";
+
 }
 
 echo "<li><b>Check files names (unicity)</b></li>";
@@ -176,7 +178,9 @@ while ( $row = $sql->get_row() )
 			array("nom_fichier_file"=>$file->nom_fichier),
 			array("id_file"=>$file->id)
 			);
+		echo "<li>File #".$file->id." is now named ".$file->nom_fichier."</li>";
   }
 }
+echo "</ul>";
 
 ?>
