@@ -105,7 +105,7 @@ class serverwebdavaedrive extends webdavserverae
     if ( is_null($ent) )
       return false;
       
-    if ( !$ent->is_right($this->user,DROIT_LECTURE) )
+    if ( $ent->is_valid() && !$ent->is_right($this->user,DROIT_LECTURE) )
       return "403 Forbidden";
       
     $files["files"] = array();
@@ -142,7 +142,7 @@ class serverwebdavaedrive extends webdavserverae
     if ( is_null($ent) )
       return false;
 
-    if ( !$ent->is_right($this->user,DROIT_LECTURE) )
+    if ( $ent->is_valid() && !$ent->is_right($this->user,DROIT_LECTURE) )
       return "403 Forbidden";
 
     if ( get_class($ent) == "dfolder" )
