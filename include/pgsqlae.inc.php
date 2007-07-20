@@ -66,20 +66,20 @@ class pgrequete
     $esql = explode(" ", $req_sql);
     
     if(!$base->connection) 
-      {
-	$this->errmsg = "Non connecté";
-	$this->lines = -1;
-      }
+    {
+      $this->errmsg = "Non connecté";
+      $this->lines = -1;
+    }
 
     $res = pg_query($base->connection, $req_sql);
     $this->errno = pg_last_error($base->connection);
 
     if ($this->errno != 0) 
-      {
-	$this->errmsg = pg_last_error($base->connection);
-	$this->lines = -1;
-	return FALSE;
-      }
+    {
+      $this->errmsg = pg_last_error($base->connection);
+      $this->lines = -1;
+      return FALSE;
+    }
 
     $this->errmsg = "";
     
@@ -88,15 +88,18 @@ class pgrequete
 
     $this->result = $res;
 
-    if(strcasecmp($esql[0], "SELECT") == 0) {
+    if(strcasecmp($esql[0], "SELECT") == 0)
+    {
       $this->lines =  pg_num_rows ($res);
-    } else {
+    }
+    else
+    {
       $this->lines =  pg_affected_rows ();
     }
     if($debug == 1)
-	{
-	  echo "Votre requete SQL est <b> " . $this->sql . "</b><br/>";
-	}
+    {
+      echo "Votre requete SQL est <b> " . $this->sql . "</b><br/>";
+    }
   }
 
   function get_all_rows () 

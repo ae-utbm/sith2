@@ -72,15 +72,15 @@ if ($_REQUEST['action'] == 'genimgpays')
   $imgfile = $topdir . "var/cache/loc/pays/".$idpays.".png";
 
   if (file_exists($imgfile))
-    {
-      header("Content-Type: image/png");
-      readfile($imgfile);
-      exit();
-    }
+  {
+    header("Content-Type: image/png");
+    readfile($imgfile);
+    exit();
+  }
 
 
   $req = new requete($site->db,
-		     "SELECT nomeng_pays FROM loc_pays WHERE id_pays = " . $idpays);
+                     "SELECT nomeng_pays FROM loc_pays WHERE id_pays = " . $idpays);
 
   $nomengpays = $req->get_row();
   $nomengpays = $nomengpays['nomeng_pays'];
@@ -93,76 +93,75 @@ if ($_REQUEST['action'] == 'genimgpays')
   $pgconn = new pgsqlae();
 
   $pgreq = new pgrequete($pgconn, "SELECT 
-                                           name
-                                           , AsText(the_geom) AS points
+                                   name
+                                   , AsText(the_geom) AS points
                                    FROM 
-                                           worldadmwgs");
+                                   worldadmwgs");
 
   $rs = $pgreq->get_all_rows();
   
   $numpays = 0;
 
   foreach($rs as $result)
+  {
+    $astext = $result['points'];
+    $matched = array();
+
+    preg_match_all("/\(([^)]*)\)/", $astext, $matched);
+      
+    /* récupère les différents polygones pour un pays donné */
+    $i = 0;
+      
+    foreach ($matched[1] as $polygon)
     {
-
-      $astext = $result['points'];
-      $matched = array();
-
-      preg_match_all("/\(([^)]*)\)/", $astext, $matched);
-      
-      /* récupère les différents polygones pour un pays donné */
-      $i = 0;
-      
-      foreach ($matched[1] as $polygon)
-	{
-	  $polygon = str_replace("(", "", $polygon);
-	  $points = explode(",", $polygon);
+      $polygon = str_replace("(", "", $polygon);
+      $points = explode(",", $polygon);
   
-	  foreach ($points as $point)
-	    {
-	      $coord = explode(" ", $point);
-	      /* 6400 Km = approximativement le rayon de la Terre */
-	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[0]) * 6400000;
-	      $country[$numpays]['plgs'][$i][] = deg2rad($coord[1]) * 6400000;
-	    }
-	  $i++;
-	}
-      if ($result['name'] == $nomengpays)
-	$country[$numpays]['isin'] = true;
-      else
-	$country[$numpays]['isin'] = false;
-      $numpays++;
+      foreach ($points as $point)
+      {
+        $coord = explode(" ", $point);
+        /* 6400 Km = approximativement le rayon de la Terre */
+        $country[$numpays]['plgs'][$i][] = deg2rad($coord[0]) * 6400000;
+        $country[$numpays]['plgs'][$i][] = deg2rad($coord[1]) * 6400000;
+      }
+      $i++;
     }
+    if ($result['name'] == $nomengpays)
+      $country[$numpays]['isin'] = true;
+    else
+      $country[$numpays]['isin'] = false;
+    $numpays++;
+  }
 
   $img = new imgcarto();
   $img->addcolor('green', 150,255, 150);
   foreach($country as $c)
+  {
+    foreach($c['plgs'] as $plg)
     {
-      foreach($c['plgs'] as $plg)
-	{
-	  if ($c['isin'] == true)
-	    {
-	      $img->addpolygon($plg, 'red', true);
-	      $img->addpolygon($plg, 'black', false);
-	    }
-	  else
-	    {
-	      $img->addpolygon($plg, 'green', true);
-	      $img->addpolygon($plg, 'black', false);
-	    }
-	}
+      if ($c['isin'] == true)
+      {
+        $img->addpolygon($plg, 'red', true);
+        $img->addpolygon($plg, 'black', false);
+      }
+      else
+      {
+        $img->addpolygon($plg, 'green', true);
+        $img->addpolygon($plg, 'black', false);
+      }
     }
+  }
 
   $img->setfactor(55000);
   $img->draw();
 
   /* hack : redimensionnement de l'image ... */
   $newimgres = imagecreatetruecolor($img->dimx, $img->dimy / 2);
-  imagecopy($newimgres,        // image destination
-	    $img->imgres,      // image source
-	    0,0,               // coordonnées arrivée image cible
-	    0, $img->dimy / 2, // coordonnées de la région image copiée
-	    $img->dimx, $img->dimy / 2); // largeur / longueur de l'étendue
+  imagecopy($newimgres,                  // image destination
+            $img->imgres,                // image source
+            0,0,                         // coordonnées arrivée image cible
+            0, $img->dimy / 2,           // coordonnées de la région image copiée
+            $img->dimx, $img->dimy / 2); // largeur / longueur de l'étendue
 
   require_once ($topdir . "include/watermark.inc.php");
   $wm_img = new img_watermark (&$newimgres);
@@ -181,43 +180,43 @@ if ($_REQUEST['action'] == 'genimgville')
 
   /* on utilise les lat/long pour la localisation */
   if (isset($_REQUEST['lat']))
+  {
+    $lat  = rad2deg($_REQUEST['lat']);
+    $long = rad2deg($_REQUEST['lng']);
+
+    $lat = str_replace(",", ".", $lat);
+    $long = str_replace(",", ".", $long);
+  }
+  /* code postal */
+  else if (isset($_REQUEST['cpostal']))
+  {
+    $cpostal = intval($_REQUEST['cpostal']);
+    $req = new requete($site->db, "SELECT 
+                                   lat_ville
+                                   , long_ville
+                                   FROM
+                                   loc_ville
+                                   WHERE
+                                   cpostal_ville = $cpostal");
+
+    if ($req->lines > 0)
     {
-      $lat  = rad2deg($_REQUEST['lat']);
-      $long = rad2deg($_REQUEST['lng']);
+      while ($rs = $req->get_row())
+      {
+        $lat[] = $rs['lat_ville'];
+        $long[] = $rs['long_ville'];
+      }
+
+      $lat  = array_sum($lat)  / count($lat);
+      $long = array_sum($long) / count($long); 
+
+      $lat = rad2deg($lat);
+      $long = rad2deg($long);
 
       $lat = str_replace(",", ".", $lat);
       $long = str_replace(",", ".", $long);
     }
-  /* code postal */
-  else if (isset($_REQUEST['cpostal']))
-    {
-      $cpostal = intval($_REQUEST['cpostal']);
-      $req = new requete($site->db, "SELECT 
-                                             lat_ville
-                                             , long_ville
-                                     FROM
-                                             loc_ville
-                                     WHERE
-                                             cpostal_ville = $cpostal");
-
-      if ($req->lines > 0)
-	{
-	  while ($rs = $req->get_row())
-	    {
-	      $lat[] = $rs['lat_ville'];
-	      $long[] = $rs['long_ville'];
-	    }
-
-	  $lat  = array_sum($lat)  / count($lat);
-	  $long = array_sum($long) / count($long); 
-	  
-	  $lat = rad2deg($lat);
-	  $long = rad2deg($long);
-
-	  $lat = str_replace(",", ".", $lat);
-	  $long = str_replace(",", ".", $long);
-	}
-    }
+  }
 
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
@@ -228,50 +227,44 @@ if ($_REQUEST['action'] == 'genimgville')
    */
 
   $pgconn = new pgsqlae();
-
   $pgreq = new pgrequete($pgconn, "SELECT 
-                                           nom_dept
-                                           , nom_region
-                                           , AsText(TRANSFORM(GeomFromText('POINT(".$long.
-                                                                           " ".$lat.")', 4030), 27582)) AS villecoords
-                                           , asText(the_geom) AS points
-                                           , CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$long.
-                                                                           " ".$lat.")', 4030), 27582)) AS indept
+                                   nom_dept
+                                   , nom_region
+                                   , AsText(TRANSFORM(GeomFromText('POINT(".$long.
+                                                                          " ".$lat.")', 4030), 27582)) AS villecoords
+                                   , asText(the_geom) AS points
+                                   , CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$long.
+                                   " ".$lat.")', 4030), 27582)) AS indept
                                    FROM 
-                                           deptfr");
- 
+                                   deptfr");
   $rs = $pgreq->get_all_rows();
   
   $numdept = 0;
 
   foreach($rs as $result)
+  {
+    $astext = $result['points'];
+    $matched = array();
+    preg_match_all("/\(([^)]*)\)/", $astext, $matched);
+    /* récupère les différents polygones pour un département */
+    $i = 0;
+    foreach ($matched[1] as $polygon)
     {
-
-      $astext = $result['points'];
-      $matched = array();
-
-      preg_match_all("/\(([^)]*)\)/", $astext, $matched);
-      
-      /* récupère les différents polygones pour un département */
-      $i = 0;
-      
-      foreach ($matched[1] as $polygon)
-	{
-	  $polygon = str_replace("(", "", $polygon);
-	  $points = explode(",", $polygon);
+      $polygon = str_replace("(", "", $polygon);
+      $points = explode(",", $polygon);
   
-	  foreach ($points as $point)
-	    {
-	      $coord = explode(" ", $point);
-	      $dept[$numdept]['plgs'][$i][] = $coord[0];
-	      $dept[$numdept]['plgs'][$i][] = $coord[1];
-	    }
+      foreach ($points as $point)
+      {
+        $coord = explode(" ", $point);
+        $dept[$numdept]['plgs'][$i][] = $coord[0];
+        $dept[$numdept]['plgs'][$i][] = $coord[1];
+      }
 
-	  $i++;
-	}
-      $dept[$numdept]['isin'] = $result['indept'];
-      $numdept++;
+      $i++;
     }
+    $dept[$numdept]['isin'] = $result['indept'];
+    $numdept++;
+  }
   $villecoords = $result['villecoords'];
 
   $img = new imgcarto();
@@ -281,21 +274,21 @@ if ($_REQUEST['action'] == 'genimgville')
 
   $i = 0;
   foreach($dept as $departement)
+  {
+    foreach($departement['plgs'] as $plg)
     {
-      foreach($departement['plgs'] as $plg)
-	{
-	  if ($departement['isin'] == 't')
-	    {
-	      $img->addpolygon($plg, 'pred', true);
-	      $img->addpolygon($plg, 'black', false);
-	    }
-	  else
-	    {
-	      $img->addpolygon($plg, 'pgreen', true);
-	      $img->addpolygon($plg, 'black', false);
-	    }
-	}
+      if ($departement['isin'] == 't')
+      {
+        $img->addpolygon($plg, 'pred', true);
+        $img->addpolygon($plg, 'black', false);
+      }
+      else
+      {
+        $img->addpolygon($plg, 'pgreen', true);
+        $img->addpolygon($plg, 'black', false);
+      }
     }
+  }
 
   $villecoords = str_replace("POINT(", "", $villecoords);
   $villecoords = str_replace(")", "", $villecoords);
@@ -309,7 +302,6 @@ if ($_REQUEST['action'] == 'genimgville')
 
   require_once ($topdir . "include/watermark.inc.php");  
   $wm_img = new img_watermark (&$img->imgres);
-
   $wm_img->output();
 
   exit();
@@ -365,35 +357,29 @@ if ( $lieu->is_valid() )
   $site->start_page("none",$lieu->nom);
 
   $cts = new contents("<a href=\"loc.php\">Lieux</a> / ".$path);
-
   $cts->add_paragraph("Ville: ".$ville->get_html_link());
-  
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($lieu->lat)."N , ".geo_radians_to_degrees($lieu->long)."E");
 
   $req = new requete($site->db, "SELECT * FROM loc_lieu WHERE id_lieu_parent='".mysql_real_escape_string($lieu->id)."' ORDER BY nom_lieu");
 
   if ( $req->lines > 0 )
-    $cts->add(new sqltable(
-    	"listsublieux", "Sous-lieux", $req, "loc.php", 
-    	"id_lieu", 
-    	array("nom_lieu"=>"Nom"), 
-    	array(), array(),array()),true); 
+    $cts->add(new sqltable("listsublieux", "Sous-lieux", $req, "loc.php", 
+                           "id_lieu", 
+                           array("nom_lieu"=>"Nom"), 
+                           array(), array(),array()),true); 
 
   if ( $site->user->is_in_group("gestion_ae") )
   {
-  	$frm = new form("editlieu","loc.php?id_lieu=".$lieu->id,true,"POST","Editer");
-  	$frm->add_hidden("action","editlieu");
-  	$frm->add_text_field("nom","Nom",$lieu->nom,true);
-  	
-  	$frm->add_entity_smartselect ("id_ville", "Ville", $ville );
+    $frm = new form("editlieu","loc.php?id_lieu=".$lieu->id,true,"POST","Editer");
+    $frm->add_hidden("action","editlieu");
+    $frm->add_text_field("nom","Nom",$lieu->nom,true);
+    $frm->add_entity_smartselect ("id_ville", "Ville", $ville );
     $frm->add_entity_select("id_lieu_parent", "Lieu parent", $site->db, "lieu",$lieu->id_lieu_parent,true);
-  
-  	$frm->add_geo_field("lat","Latitude","lat",$lieu->lat);
-  	$frm->add_geo_field("long","Longitude","long",$lieu->long);
-  	$frm->add_text_field("eloi","Eloignement",$lieu->eloi);
-  	
-  	$frm->add_submit("valid","Enregistrer");
-  	$cts->add($frm,true);
+    $frm->add_geo_field("lat","Latitude","lat",$lieu->lat);
+    $frm->add_geo_field("long","Longitude","long",$lieu->long);
+    $frm->add_text_field("eloi","Eloignement",$lieu->eloi);
+    $frm->add_submit("valid","Enregistrer");
+    $cts->add($frm,true);
   }
 
   $site->add_contents($cts);
@@ -406,9 +392,7 @@ elseif ( $ville->is_valid() )
   $site->start_page("none","Lieux");
 
   $cts = new contents($ville->nom);
-
   $cts->add_paragraph("Pays: ".$pays->get_html_link());
-
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($ville->lat)."N , ".geo_radians_to_degrees($ville->long)."E");
   $cts->add_paragraph("<center><img src=\"loc.php?action=genimgville&lat=".$ville->lat."&lng=".$ville->long."\" alt=\"position ville\" /></center>\n");
 
@@ -437,34 +421,32 @@ $cts = new contents("Gestion des lieux");
 
 $req = new requete($site->db, "SELECT * FROM loc_lieu LEFT JOIN loc_ville USING(id_ville) WHERE id_lieu_parent IS NULL ORDER BY nom_lieu");
 
-$cts->add(new sqltable(
-   "listsublieux", "Lieux racines", $req, "loc.php", 
-   "id_lieu", 
-   array("nom_lieu"=>"Nom","nom_ville"=>"Ville"), 
-   array(), array(),array()),true); 
+$cts->add(new sqltable("listsublieux", "Lieux racines", $req, "loc.php", 
+                       "id_lieu", 
+                       array("nom_lieu"=>"Nom","nom_ville"=>"Ville"), 
+                       array(), array(),array()),true); 
 
 if ( $site->user->is_in_group("gestion_ae") )
 {
-	$frm = new form("addlieu","loc.php",true,"POST","Nouveau lieu");
-	$frm->add_hidden("action","addlieu");
-	$frm->add_text_field("nom","Nom","",true);
-	
-	//$frm->add_entity_select("id_ville", "Ville", $site->db, "ville",false,true);
-	$frm->add_entity_smartselect ("id_ville", "Ville", $ville );
+  $frm = new form("addlieu","loc.php",true,"POST","Nouveau lieu");
+  $frm->add_hidden("action","addlieu");
+  $frm->add_text_field("nom","Nom","",true);
+  
+  //$frm->add_entity_select("id_ville", "Ville", $site->db, "ville",false,true);
+  $frm->add_entity_smartselect ("id_ville", "Ville", $ville );
   $frm->add_entity_select("id_lieu_parent", "Lieu parent", $site->db, "lieu",false,true);
 
-	$frm->add_geo_field("lat","Latitude","lat");
-	$frm->add_geo_field("long","Longitude","long");
-	$frm->add_text_field("eloi","Eloignement");
-	
-	$frm->add_submit("valid","Ajouter");
-	$cts->add($frm,true);
+  $frm->add_geo_field("lat","Latitude","lat");
+  $frm->add_geo_field("long","Longitude","long");
+  $frm->add_text_field("eloi","Eloignement");
+  
+  $frm->add_submit("valid","Ajouter");
+  $cts->add($frm,true);
 }
 
 
 $site->add_contents($cts);
 
 $site->end_page();
-
 
 ?>
