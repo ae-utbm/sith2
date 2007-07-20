@@ -59,7 +59,7 @@ else
 if ( !$site->user->is_valid() )
 {
   $cts = new contents("Pré-parrainage",
-                      "Pour accéder à cette page veuillez <a href=\"../index.php\">connecter</a> ".
+                      "Pour accéder à cette page veuillez vous <a href=\"../index.php\">connecter</a> ".
                       "ou <a href=\"../newaccount.php\">Creer un compte</a>.");
   $site->add_contents($cts);
   $site->end_page();
@@ -101,23 +101,14 @@ else
     if($_POST["etape"] == 3)
     {
       $_cts = new contents("Inscription : Etape 3/3");
-      $_cts->add_paragraph("Ton inscription au préparrainage est effective. Tu recevras de plus d'informations dans les semaines à venir.");
+      $_cts->add_paragraph("Ton inscription au pré-parrainage est effective. Tu recevras plus d'informations dans les semaines à venir.");
       if($_POST['departement'] == "tc")
-      {
         $_req = new insert($site->dbrw,"pre_parrainage", array('semestre'=>$sem,'id_utilisateur' => $site->user->id,'tc'=>1,'branche'=>$_POST["voeux"]));
-        $_cts->add_paragraph("TC et voeux : ".$_POST["voeux"]);
-        $site->add_contents($_cts);
-        $site->end_page();
-        exit();
-      }
       else
-      {
         $_req = new insert($site->dbrw,"pre_parrainage", array('semestre'=>$sem,'id_utilisateur' => $site->user->id,'tc'=>0,'branche'=>$_POST["branche"]));
-        $_cts->add_paragraph("branche : ".$_POST["branche"]);
-        $site->add_contents($_cts);
-        $site->end_page();
-        exit();
-      }
+      $site->add_contents($_cts);
+      $site->end_page();
+      exit();
     }
     if($_POST["etape"] == 2)
     {
@@ -167,7 +158,7 @@ else
             $voeux=array();
             foreach($GLOBALS["utbm_departements"] AS $key => $value)
             {
-              if($key!="tc" && $key!="na")
+              if($key!="tc" && $key!="na" && $key!="hum")
                 $voeux[$key]=$value;
             }
               $TC->add_select_field("voeux","Branche envisagée",$voeux,$site->user->departement);
