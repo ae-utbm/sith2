@@ -194,9 +194,19 @@ $dav = new serverwebdavaedrive();
 
 if ( isset($_GET["test"]) )
 {
+  echo "<pre>";
+  echo "\n/public/AE\n";
   print_r($dav->get_entity_for_path("/public/AE"));
+  echo "\n/public/AE/\n";
   print_r($dav->get_entity_for_path("/public/AE/"));
+  echo "\n/public/AE/Com/ChargeGraphique.pdf\n";
   print_r($dav->get_entity_for_path("/public/AE/Com/ChargeGraphique.pdf"));
+  echo "\n/\n";
+  print_r($dav->get_entity_for_path("/"));
+  echo "\n\n";
+  echo "</pre>";
+  $opt["path"] = "/";
+  $dav->GET($opt);
   exit();  
 }
 
