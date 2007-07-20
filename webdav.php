@@ -85,14 +85,14 @@ class serverwebdavaedrive extends webdavserverae
     {
       $info["props"][] = $this->mkprop("resourcetype", "collection");
       $info["props"][] = $this->mkprop("getcontenttype", "httpd/unix-directory");      
-      $info["path"] = $this->_slashify($path); 
+      $info["path"] = $this->_urlencode($this->_slashify($path)); 
     }
     else
     {
       $info["props"][] = $this->mkprop("resourcetype", "");
       $info["props"][] = $this->mkprop("getcontenttype", $ent->mime_type);        
       $info["props"][] = $this->mkprop("getcontentlength", $ent->taille);
-      $info["path"] = $path; 
+      $info["path"] = $this->_urlencode($path); 
     }
 
     return $info;
@@ -120,7 +120,7 @@ class serverwebdavaedrive extends webdavserverae
       while ( $row = $sub->get_row() )
       {
         $sent->_load($row);
-        $files["files"][] = $this->entinfo($options["path"].rawurlencode($sent->nom_fichier),$sent);
+        $files["files"][] = $this->entinfo($options["path"].$sent->nom_fichier,$sent);
         // TODO recursion needed if "Depth: infinite"
       }
 
@@ -129,7 +129,7 @@ class serverwebdavaedrive extends webdavserverae
       while ( $row = $sub->get_row() )
       {
         $sent->_load($row);
-        $files["files"][] = $this->entinfo($options["path"].rawurlencode($sent->nom_fichier),$sent);
+        $files["files"][] = $this->entinfo($options["path"].$sent->nom_fichier,$sent);
       }
     }
     return true;
@@ -154,7 +154,9 @@ class serverwebdavaedrive extends webdavserverae
         header("Location: ".$this->base_uri.$path);
         exit;
       }
-
+      
+		  header("Content-Type: text/html; charset=utf-8");
+		  
       $format = "%15s  %-19s  %-s\n";
 
       echo "<html><head><title>Index of ".htmlspecialchars($options['path'])."</title></head>\n";
@@ -171,7 +173,7 @@ class serverwebdavaedrive extends webdavserverae
         $name = htmlspecialchars($row['nom_fichier_folder']);
         printf($format, 
                 number_format($row['taille_folder']),
-                $row['date_ajout_folder'], 
+                $row['date_modif_folder'], 
                 "<a href='$name/'>$name</a>");
       }
 
