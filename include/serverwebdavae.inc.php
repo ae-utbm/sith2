@@ -2,6 +2,49 @@
 /**
  * @file
  */
+ 
+/* Copyright 2007
+ * - Julien Etelain < julien at pmad dot net >
+ *
+ * Ce fichier fait partie du site de l'Association des Étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+ 
+/* 
+ * Some parts of this file is subject to version 2.02 of the PHP license
+ */ 
+// +----------------------------------------------------------------------+
+// | PHP Version 4                                                        |
+// +----------------------------------------------------------------------+
+// | Copyright (c) 1997-2003 The PHP Group                                |
+// +----------------------------------------------------------------------+
+// | This source file is subject to version 2.02 of the PHP license,      |
+// | that is bundled with this package in the file LICENSE, and is        |
+// | available at through the world-wide-web at                           |
+// | http://www.php.net/license/2_02.txt.                                 |
+// | If you did not receive a copy of the PHP license and are unable to   |
+// | obtain it through the world-wide-web, please send a note to          |
+// | license@php.net so we can mail you a copy immediately.               |
+// +----------------------------------------------------------------------+
+// | Authors: Hartmut Holzgraefe <hholzgra@php.net>                       |
+// |          Christian Stocker <chregu@bitflux.ch>                       |
+// +----------------------------------------------------------------------+
+
 
 
 require_once($topdir."include/mysql.inc.php");
@@ -41,7 +84,7 @@ class webdavserverae extends HTTP_WebDAV_Server
     */
   function checkAuth($type, $username, $password) 
   {
-    if ( !$GLOBALS["is_using_ssl"] ) // Pas d'auth, accès anonyme
+    if ( $_SERVER["REMOTE_ADDR"] != "127.0.1.1" ) // Pas d'auth, accès anonyme
       return true;
     
     if ( $type == "digest" ) // Digest not supported

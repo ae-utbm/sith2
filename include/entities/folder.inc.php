@@ -135,6 +135,40 @@ class dfolder extends fs
 		return false;
 	}
 	
+  function is_filename_avaible ($filename )
+  {
+		$req = new requete($this->db, "SELECT id_file FROM `d_file`
+				WHERE `nom_fichier_file` = '" . mysql_real_escape_string($filename) . "'
+				AND `id_folder` = '" . mysql_real_escape_string($this->id) . "' 
+				LIMIT 1");
+				
+		if ( $req->lines != 0 ) 
+		  return false;
+		  
+		$req = new requete($this->db, "SELECT id_folder FROM `d_folder`
+				WHERE `nom_fichier_folder` = '" . mysql_real_escape_string($filename) . "'
+				AND `id_folder_parent` = '" . mysql_real_escape_string($this->id) . "' 
+				LIMIT 1");  
+  				  
+		if ( $req->lines != 0 ) 
+		  return false;
+		  
+		return true;
+  }
+	
+	function get_child_by_nom_fichier( $filename )
+	{
+    $ent = new dfolder($this->db,$this->dbrw); 
+    if ( $ent->load_by_nom_fichier($this->id,$filename) )
+      return $ent;
+      
+    $ent = new dfile($this->db,$this->dbrw); 
+    if ( $ent->load_by_nom_fichier($this->id,$filename) )
+      return $ent;
+
+    return null;
+	}
+	
 	/**
 	 * Charge un dossier d'après une ligne de resultat SQL.
 	 * @param $row Ligne SQL
@@ -421,6 +455,11 @@ class dfolder extends fs
 		$sql = new delete($this->dbrw,"d_folder",array("id_folder"=>$this->id));
 	}
 	
+  function delete()
+  {
+    $this->delete_folder();  
+  }
+
 	function create_or_load ( $path, $id_asso=null )
 	{
 	  $this->load_root_by_asso ( $id_asso );

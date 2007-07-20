@@ -38,6 +38,8 @@ class dfile extends fs
 	var $titre;
 	/** Id du dossier dans le quel le fichier se trouve */
 	var $id_folder;
+	var $id_folder_parent; // alias pour simplicité
+	
 	/** Description du fichier */
 	var $description;
 	/** date de l'ajout du fichier */
@@ -52,6 +54,8 @@ class dfile extends fs
 	var $mime_type;
 	/** Taille en octets du fichier */
 	var $taille;
+
+  
 
 	/** Charge un fichier par son ID
 	 * @param $id ID du fichier
@@ -96,6 +100,7 @@ class dfile extends fs
 		$this->nom_fichier = $row['nom_fichier_file'];
 		$this->titre = $row['titre_file'];
 		$this->id_folder = $row['id_folder'];
+		$this->id_folder_parent = $row['id_folder'];
 		$this->description = $row['description_file'];
 		$this->date_ajout = strtotime($row['date_ajout_file']);
 		$this->date_modif = strtotime($row['date_modif_file']);
@@ -175,11 +180,8 @@ class dfile extends fs
 
 		move_uploaded_file ( $file['tmp_name'], $this->get_real_filename() );
 
-		if ( ereg("image/(.*)",$this->mime_type) )
-		{
-			exec("/usr/share/php5/exec/convert ".$this->get_real_filename()." -thumbnail 128x128 -quality 95 ".$this->get_thumb_filename());
-			exec("/usr/share/php5/exec/convert ".$this->get_real_filename()." -thumbnail 500x1000 -quality 95 ".$this->get_screensize_filename());
-		}
+    $this->generate_thumbs();
+
 	}
 
 	/**
@@ -203,6 +205,7 @@ class dfile extends fs
 
 		$this->titre = $titre;
 		$this->id_folder = $id_folder;
+		$this->id_folder_parent = $id_folder;
 		$this->description = $description;
 		$this->id_asso = $id_asso;
 		$this->date_ajout = $dateajout;
@@ -248,12 +251,20 @@ class dfile extends fs
 
 		copy ( $localfile, $this->get_real_filename() );
 
+    $this->generate_thumbs();
+
+	}
+
+
+  function generate_thumbs()
+  {
 		if ( ereg("image/(.*)",$this->mime_type) )
 		{
 			exec("/usr/share/php5/exec/convert ".$this->get_real_filename()." -thumbnail 128x128 -quality 95 ".$this->get_thumb_filename());
 			exec("/usr/share/php5/exec/convert ".$this->get_real_filename()." -thumbnail 500x1000 -quality 95 ".$this->get_screensize_filename());
-		}
-	}
+		}    
+  }
+
 
 	/**
 	 * Met à jour les informations d'un fichier.
@@ -283,7 +294,78 @@ class dfile extends fs
 			);
 
 	}
+	
+	function update_contents ( $filesize, $mime_type )
+	{
+		$this->date_modif = time();
+		$this->modere=0;
+		$this->taille=$filesize;
+		$this->mime_type=$mime_type;
+		$this->nb_telechargement=0;
 
+		$sql = new update ($this->dbrw,
+			"d_file",
+			array(
+				"mime_type_file"=>$this->mime_type,
+				"date_modif_file"=>date("Y-m-d H:i:s",$this->date_modif),
+				"taille_file"=>$this->taille,
+				"nb_telechargement_file"=>$this->nb_telechargement,
+				"modere_file"=>$this->modere
+				),
+			array("id_file"=>$this->id)
+			);
+	}
+	
+  function create_empty ( $id_folder, $filename, $filesize, $mime_type )
+	{
+		$this->titre = $filename;
+		$this->id_folder = $id_folder;
+		$this->description = "";
+		$this->date_ajout = time();
+		$this->date_modif = time();
+		$this->modere=false;
+
+		$this->nom_fichier= $this->get_free_filename($id_folder,$filename);
+		$this->taille=$filesize;
+		$this->mime_type=$mime_type; // ou mime_content_type($file['tmp_name']);
+
+		$this->nb_telechargement=0;
+
+		$sql = new insert ($this->dbrw,
+			"d_file",
+			array(
+				"titre_file"=>$this->titre,
+				"id_folder"=>$this->id_folder,
+				"description_file"=>$this->description,
+				"date_ajout_file"=>date("Y-m-d H:i:s",$this->date_ajout),
+				"date_modif_file"=>date("Y-m-d H:i:s",$this->date_modif),
+				"id_asso"=>$this->id_asso,
+
+				"nom_fichier_file"=>$this->nom_fichier,
+				"taille_file"=>$this->taille,
+				"mime_type_file"=>$this->mime_type,
+				"nb_telechargement_file"=>$this->nb_telechargement,
+
+				"id_utilisateur"=>$this->id_utilisateur,
+				"id_groupe"=>$this->id_groupe,
+				"id_groupe_admin"=>$this->id_groupe_admin,
+				"droits_acces_file"=>$this->droits_acces,
+				"modere_file"=>$this->modere
+				)
+			);
+
+		if ( $sql )
+			$this->id = $sql->get_id();
+		else
+		{
+			$this->id = null;
+			return;
+		}
+
+	}
+
+	
+	
 	/**
 	 * Deplace le fichier dans un autre dossier
 	 * @param $id_folder Titre du dossier
@@ -291,6 +373,7 @@ class dfile extends fs
 	function move_to ( $id_folder, $new_nom_fichier=null )
 	{
 		$this->id_folder = $id_folder;
+		$this->id_folder_parent = $id_folder;
 		
 		if ( is_null($new_nom_fichier) )
 		  $this->nom_fichier= $this->get_free_filename($id_folder,$this->nom_fichier);
@@ -388,6 +471,11 @@ class dfile extends fs
 
 		$sql = new delete($this->dbrw,"d_file",array("id_file"=>$this->id));
 	}
+
+  function delete()
+  {
+    $this->delete_file();  
+  }
 
 	/**
 	 * Incremente le compteur de téléchargements
