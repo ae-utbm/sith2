@@ -85,14 +85,14 @@ class serverwebdavaedrive extends webdavserverae
     {
       $info["props"][] = $this->mkprop("resourcetype", "collection");
       $info["props"][] = $this->mkprop("getcontenttype", "httpd/unix-directory");      
-      $info["path"] = $this->_slashify($path); 
+      $info["path"] = urlencode($this->_slashify($path)); 
     }
     else
     {
       $info["props"][] = $this->mkprop("resourcetype", "");
       $info["props"][] = $this->mkprop("getcontenttype", $ent->mime_type);        
       $info["props"][] = $this->mkprop("getcontentlength", $ent->taille);
-      $info["path"] = $path; 
+      $info["path"] = urlencode($path); 
     }
 
     return $info;
@@ -104,7 +104,10 @@ class serverwebdavaedrive extends webdavserverae
 
     if ( is_null($ent) )
       return false;
-
+      
+    if ( !$ent->is_right($this->user,DROIT_LECTURE) )
+      return "403 Forbidden";
+      
     $files["files"] = array();
     $files["files"][] = $this->entinfo($options["path"],$ent);
 
@@ -138,6 +141,9 @@ class serverwebdavaedrive extends webdavserverae
 
     if ( is_null($ent) )
       return false;
+
+    if ( !$ent->is_right($this->user,DROIT_LECTURE) )
+      return "403 Forbidden";
 
     if ( get_class($ent) == "dfolder" )
     {
