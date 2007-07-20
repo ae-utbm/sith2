@@ -121,6 +121,8 @@ else
     }
     if($_POST["etape"] == 2)
     {
+      $ville = new ville($site->db);
+      $pays = new pays($site->db);
       //if(empty($_POST["addresse"]))
         //$Erreur = "Vous devez renseigner votre adresse";
       //else
