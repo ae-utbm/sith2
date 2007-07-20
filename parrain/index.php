@@ -123,8 +123,6 @@ else
     {
       $ville = new ville($site->db);
       $pays = new pays($site->db);
-      $ville->load_by_id($user->id_ville);
-      $pays->load_by_id($user->id_pays);
       if(empty($_POST['id_ville']) && empty($_POST['id_pays']))
       {
         $cts = new contents("Erreur",
@@ -197,6 +195,8 @@ else
 
 $ville = new ville($site->db);
 $pays = new pays($site->db);
+$ville->load_by_id($user->id_ville);
+$pays->load_by_id($user->id_pays);
 
 $cts = new contents("Inscription : Etape 1/3");
 $cts->add_paragraph("Vous êtes sur le point de vous inscrire au système de pré-parrainage.");
