@@ -200,8 +200,6 @@ $cts = new contents("Inscription : Etape 1/3");
 $cts->add_paragraph("Vous êtes sur le point de vous inscrire au système de pré-parrainage.");
 $frm = new form("verifinfo","index.php",true,"POST","Vérifications des informations personnelles");
 $frm->add_hidden("etape","2");
-if ( isset($Erreur) )
-  $frm->error($Erreur);
 $frm->add_info("Si les informations suivantes ne sont pas correctes veuillez mettre à jour votre ".
                "<a href=\"".$topdir."user.php?page=edit\">compte</a>.");
 $frm->add_text_field("nom","Nom",$site->user->nom,true,false,false,false);
