@@ -85,14 +85,14 @@ class serverwebdavaedrive extends webdavserverae
     {
       $info["props"][] = $this->mkprop("resourcetype", "collection");
       $info["props"][] = $this->mkprop("getcontenttype", "httpd/unix-directory");      
-      $info["path"] = urlencode($this->_slashify($path)); 
+      $info["path"] = $this->_slashify($path); 
     }
     else
     {
       $info["props"][] = $this->mkprop("resourcetype", "");
       $info["props"][] = $this->mkprop("getcontenttype", $ent->mime_type);        
       $info["props"][] = $this->mkprop("getcontentlength", $ent->taille);
-      $info["path"] = urlencode($path); 
+      $info["path"] = $path; 
     }
 
     return $info;
