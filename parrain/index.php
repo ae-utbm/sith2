@@ -186,14 +186,14 @@ if ( isset($Erreur) )
   $frm->error($Erreur);
 $frm->add_info("Si les informations suivantes ne sont pas correctes veuillez mettre à jour votre ".
                "<a href=\"".$topdir."user.php?page=edit\">compte</a>.");
-$frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
-$frm->add_text_field("prenom","Prenom",$user->prenom,true,false,false,false);
-$frm->add_text_field("email","Votre adresse email",$user->email,true,false,false,false);
-$frm->add_text_field("addresse","Adresse",$user->addresse,$true);
+$frm->add_text_field("nom","Nom",$site->user->nom,true,false,false,false);
+$frm->add_text_field("prenom","Prenom",$site->user->prenom,true,false,false,false);
+$frm->add_text_field("email","Votre adresse email",$site->user->email,true,false,false,false);
+$frm->add_text_field("addresse","Adresse",$site->user->addresse,$true);
 $frm->add_entity_smartselect ("id_ville","Ville (France)", $ville,true);
 $frm->add_entity_smartselect ("id_pays","ou pays", $pays,true);
-$frm->add_text_field("tel_maison","Telephone (fixe)",$user->tel_maison);
-$frm->add_text_field("tel_portable","Telephone (portable)",$user->tel_portable);
+$frm->add_text_field("tel_maison","Telephone (fixe)",$site->user->tel_maison);
+$frm->add_text_field("tel_portable","Telephone (portable)",$site->user->tel_portable);
 $frm->add_submit("save","Enregistrer");
 $cts->add($frm,true);
 
