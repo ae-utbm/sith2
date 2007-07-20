@@ -54,6 +54,7 @@ class serverwebdavaedrive extends webdavserverae
               return null;
               
             if ( $idx != count($tokens)-1 ) // ce n'est pas le dernier element, donc c'est faux (tm)
+              return null;
           }
         }
         $id_folder_parent = $ent->id_folder_parent;
