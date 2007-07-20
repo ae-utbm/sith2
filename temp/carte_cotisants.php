@@ -56,7 +56,7 @@ if($req->lines!=0)
                                   " FROM deptfr");
   $rs = $pgreq->get_all_rows();
   $numdept = 0;
-  /*foreach($rs as $result)
+  foreach($rs as $result)
   {
     $astext = $result['points'];
     $matched = array();
@@ -75,11 +75,11 @@ if($req->lines!=0)
       $i++;
     }
     $numdept++;
-	}*/
+	}
 
   $viles = array();
   /* on récupèré toutes les coordonnées pour les villes */
-  /*foreach($loc AS $point)
+  foreach($loc AS $point)
   {
     $pgreq = new pgrequete($pgconn, "AsText(TRANSFORM(GeomFromText('POINT(".$point['long']." ".$point['lat'].")', 4030), 27582)) AS villecoords ".
                                     "FROM deptfr");
@@ -89,23 +89,23 @@ if($req->lines!=0)
       $villes[] = $result['villecoords'];
       break;
     }
-	}*/
-  /*foreach($dept as $departement)
+	}
+  foreach($dept as $departement)
   {
     foreach($departement['plgs'] as $plg)
     {
       $img->addpolygon($plg, 'pblue', true);
       $img->addpolygon($plg, 'pblue_dark', false);
     }
-	}*/
+	}
 
-  /*foreach($villes as $ville)
+  foreach($villes as $ville)
   {
     $villecoords = str_replace("POINT(", "", $ville);
     $villecoords = str_replace(")", "", $villecoords);
     $villecoords = explode(" ", $villecoords);
     $img->addpoint($villecoords[0], $villecoords[1], 5, "black");
-	}*/
+	}
 
   $img->setfactor(1600);
   $img->draw();
