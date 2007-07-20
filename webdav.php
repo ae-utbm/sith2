@@ -65,7 +65,7 @@ class serverwebdavaedrive extends webdavserverae
           }
         }
         echo "continues (".$ent->nom_fichier.")\n";
-        $id_folder_parent = $ent->id_folder_parent;
+        $id_folder_parent = $ent->id;
       }
     }
     
