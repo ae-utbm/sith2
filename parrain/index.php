@@ -151,7 +151,7 @@ else
           $site->add_contents($cts);
           $erreur=true;
         }
-        if($erreur)
+        if(!$erreur)
         {
           $site->user->tel_maison = telephone_userinput($_POST['tel_maison']);
           $site->user->tel_portable = telephone_userinput($_POST['tel_portable']);
