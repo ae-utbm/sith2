@@ -146,7 +146,7 @@ else
         {
           $_cts = new contents("Inscription : Etape 2/3");
           $_cts->add_paragraph("Information relative à votre cursus.");
-          $frm = new form("infocursus","index.php",true,"POST","Cursus envisagé");
+          $frm = new form("infocursus","index.php",false,"POST","Cursus envisagé");
           $frm->add_hidden("etape","3");
           $frm->add_info("À votre arrivée vous serez :");
           $TC = new form("departement",null,null,null,"en tronc commun (TC)");
