@@ -42,9 +42,9 @@ $site->start_page("services", "Pré-parrainage");
 $d = date("d");
 $m = date("m");
 if ( $m <= 2 )
-  $sem = "P".sprintf("%'02d",(date("y",$time)));
+  $sem = "P".sprintf("%02d",(date("y")));
 elseif ( $m > 6 && $m < 9)
-  $sem = "A".date("y",$time);
+  $sem = "A".sprintf("%02d",(date("y")));
 else
 {
   $cts = new contents("Pré-parrainage",
