@@ -136,6 +136,8 @@ class serverwebdavaedrive extends webdavserverae
   {
     $ent = $this->get_entity_for_path($options["path"]);
 
+    print_r($ent);
+
     if ( is_null($ent) )
       return false;
 
