@@ -120,7 +120,7 @@ class serverwebdavaedrive extends webdavserverae
       while ( $row = $sub->get_row() )
       {
         $sent->_load($row);
-        $files["files"][] = $this->entinfo($options["path"].urlencode($sent->nom_fichier),$sent);
+        $files["files"][] = $this->entinfo($options["path"].rawurlencode($sent->nom_fichier),$sent);
         // TODO recursion needed if "Depth: infinite"
       }
 
@@ -129,7 +129,7 @@ class serverwebdavaedrive extends webdavserverae
       while ( $row = $sub->get_row() )
       {
         $sent->_load($row);
-        $files["files"][] = $this->entinfo($options["path"].urlencode($sent->nom_fichier),$sent);
+        $files["files"][] = $this->entinfo($options["path"].rawurlencode($sent->nom_fichier),$sent);
       }
     }
     return true;
