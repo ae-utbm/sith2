@@ -161,6 +161,7 @@ else
             $branche = new form("departement",null,null,null,"en branche :");
             $branche->add_select_field("branche","Quelle branche ?",$voeux,$site->user->departement);
           $frm->add($branche,false,true,0,"branche",false,true);
+          $frm->add_submit("save","Suivant");
           $_cts->add($frm,true);
           $site->add_contents($_cts);
           $site->end_page();
@@ -196,7 +197,7 @@ $frm->add_entity_smartselect ("id_ville","Ville (France)", $ville,true);
 $frm->add_entity_smartselect ("id_pays","ou pays", $pays,true);
 $frm->add_text_field("tel_maison","Telephone (fixe)",$site->user->tel_maison);
 $frm->add_text_field("tel_portable","Telephone (portable)",$site->user->tel_portable);
-$frm->add_submit("save","Enregistrer");
+$frm->add_submit("save","Suivant");
 $cts->add($frm,true);
 
 $site->add_contents($cts);
