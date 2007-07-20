@@ -123,10 +123,15 @@ else
     {
       $ville = new ville($site->db);
       $pays = new pays($site->db);
-      //if(empty($_POST["addresse"]))
-        //$Erreur = "Vous devez renseigner votre adresse";
-      //else
-      //{
+      if(empty($_POST['id_ville']) && empty($_POST['id_ville']))
+      {
+        $cts = new contents("Erreur",
+                            "Veuillez entrer une ville ou un pays.");
+        $site->add_contents($cts);
+      }
+      else
+      {
+        $erreur=false;
         $site->user->addresse = $_POST['addresse'];
         if ( $_POST['id_ville'] )
         {
@@ -134,38 +139,48 @@ else
           $site->user->id_ville = $ville->id;
           $site->user->id_pays = $ville->id_pays;
         }
-        else
+        elseif($pays->load_by_id($_POST['id_pays']))
         {
           $site->user->id_ville = null;
-          $site->user->id_pays = $_POST['id_pays'];
+          $site->user->id_pays = $pays->id;
         }
-        $site->user->tel_maison = telephone_userinput($_POST['tel_maison']);
-        $site->user->tel_portable = telephone_userinput($_POST['tel_portable']);
-        $site->user->date_maj = time();
-        if ($site->user->saveinfos())
+        else
         {
-          $_cts = new contents("Inscription : Etape 2/3");
-          $_cts->add_paragraph("Information relative à votre cursus.");
-          $frm = new form("infocursus","index.php",false,"POST","Cursus envisagé");
-          $frm->add_hidden("etape","3");
-          $frm->add_info("À votre arrivée vous serez :");
-            $TC = new form("departement",null,null,null,"en tronc commun (TC)");
-          $voeux=array();
-          foreach($GLOBALS["utbm_departements"] AS $key => $value)
+          $cts = new contents("Erreur",
+            "Une erreur s'est produite, veuillez recommencer.");
+          $site->add_contents($cts);
+          $erreur=true;
+        }
+        if(!$erreur)
+        {
+          $site->user->tel_maison = telephone_userinput($_POST['tel_maison']);
+          $site->user->tel_portable = telephone_userinput($_POST['tel_portable']);
+          $site->user->date_maj = time();
+          if ($site->user->saveinfos())
           {
-            if($key!="tc" && $key!="na")
-              $voeux[$key]=$value;
+            $_cts = new contents("Inscription : Etape 2/3");
+            $_cts->add_paragraph("Information relative à votre cursus.");
+            $frm = new form("infocursus","index.php",false,"POST","Cursus envisagé");
+            $frm->add_hidden("etape","3");
+            $frm->add_info("À votre arrivée vous serez :");
+              $TC = new form("departement",null,null,null,"en tronc commun (TC)");
+            $voeux=array();
+            foreach($GLOBALS["utbm_departements"] AS $key => $value)
+            {
+              if($key!="tc" && $key!="na")
+                $voeux[$key]=$value;
+            }
+              $TC->add_select_field("voeux","Branche envisagée",$voeux,$site->user->departement);
+            $frm->add($TC,false,true,1,"tc",false,true,true);
+              $branche = new form("departement",null,null,null,"en branche :");
+              $branche->add_select_field("branche","Quelle branche ?",$voeux,$site->user->departement);
+            $frm->add($branche,false,true,0,"branche",false,true);
+            $frm->add_submit("save","Suivant");
+            $_cts->add($frm,true);
+            $site->add_contents($_cts);
+            $site->end_page();
+            exit();
           }
-            $TC->add_select_field("voeux","Branche envisagée",$voeux,$site->user->departement);
-          $frm->add($TC,false,true,1,"tc",false,true,true);
-            $branche = new form("departement",null,null,null,"en branche :");
-            $branche->add_select_field("branche","Quelle branche ?",$voeux,$site->user->departement);
-          $frm->add($branche,false,true,0,"branche",false,true);
-          $frm->add_submit("save","Suivant");
-          $_cts->add($frm,true);
-          $site->add_contents($_cts);
-          $site->end_page();
-          exit();
         }
         else
         {
@@ -173,7 +188,7 @@ else
                               "Une erreur s'est produite, veuillez recommencer.");
           $site->add_contents($cts);
         }
-      //}
+      }
     }
   }
 }
