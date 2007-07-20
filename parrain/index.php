@@ -121,10 +121,10 @@ else
     }
     if($_POST["etape"] == 2)
     {
-      if(empty($_POST["addresse"]))
-        $Erreur = "Vous devez renseigner votre adresse";
-      else
-      {
+      //if(empty($_POST["addresse"]))
+        //$Erreur = "Vous devez renseigner votre adresse";
+      //else
+      //{
         $user->addresse = $_POST['addresse'];
         if ( $_POST['id_ville'] )
         {
@@ -170,7 +170,7 @@ else
                               "Une erreur s'est produite, veuillez recommencer.");
           $site->add_contents($cts);
         }
-      }
+      //}
     }
   }
 }
