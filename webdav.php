@@ -77,7 +77,7 @@ class serverwebdavaedrive extends webdavserverae
     $info = array();
     
     $info["props"] = array();
-    $info["props"][] = $this->mkprop("displayname",     $ent->titre);
+    $info["props"][] = $this->mkprop("displayname",     $ent->nom_fichier);
     $info["props"][] = $this->mkprop("creationdate",    $ent->date_ajout);
     $info["props"][] = $this->mkprop("getlastmodified", $ent->date_modif);
 
