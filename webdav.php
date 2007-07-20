@@ -32,7 +32,7 @@ class serverwebdavaedrive extends webdavserverae
 
     foreach ( $tokens as $idx => $token )
     {
-      echo "token($idx) : $token\n";
+      //echo "token($idx) : $token\n";
       if ( $token != "." )
       {
         if ( $token == ".." )
@@ -51,12 +51,12 @@ class serverwebdavaedrive extends webdavserverae
           {
             $ent = new dfile($this->db,$this->dbrw); 
             
-            echo "not a folder, tries for a file\n";
+            //echo "not a folder, tries for a file\n";
             
             if ( !$ent->load_by_nom_fichier($id_folder_parent,$token) )
               return null;
               
-            echo "it's a file ".$ent->nom_fichier."\n";
+            //echo "it's a file ".$ent->nom_fichier."\n";
               
             if ( $idx != count($tokens)-1 ) // ce n'est pas le dernier element, donc c'est faux (tm)
               return null;
@@ -64,7 +64,7 @@ class serverwebdavaedrive extends webdavserverae
             return $ent;
           }
         }
-        echo "continues (".$ent->nom_fichier.")\n";
+        //echo "continues (".$ent->nom_fichier.")\n";
         $id_folder_parent = $ent->id;
       }
     }
@@ -135,8 +135,6 @@ class serverwebdavaedrive extends webdavserverae
   function GET(&$options) 
   {
     $ent = $this->get_entity_for_path($options["path"]);
-
-    print_r($ent);
 
     if ( is_null($ent) )
       return false;
