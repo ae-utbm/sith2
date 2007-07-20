@@ -67,7 +67,7 @@ if ( !$site->user->is_valid() )
 }
 // les anciens ne peuvent pas encore accéder à cette partie, il faudra mettre en place
 // la page "choisi" ton fillot
-// $user->etudiant || $user->ancien_etudiant ne peuvent pas s'appliquer ici et c'est
+// $site->user->etudiant || $site->user->ancien_etudiant ne peuvent pas s'appliquer ici et c'est
 // chiant.
 elseif ( $site->user->utbm || $site->user->ae )
 {
@@ -127,22 +127,22 @@ else
         //$Erreur = "Vous devez renseigner votre adresse";
       //else
       //{
-        $user->addresse = $_POST['addresse'];
+        $site->user->addresse = $_POST['addresse'];
         if ( $_POST['id_ville'] )
         {
           $ville->load_by_id($_POST['id_ville']);
-          $user->id_ville = $ville->id;
-          $user->id_pays = $ville->id_pays;
+          $site->user->id_ville = $ville->id;
+          $site->user->id_pays = $ville->id_pays;
         }
         else
         {
-          $user->id_ville = null;
-          $user->id_pays = $_POST['id_pays'];
+          $site->user->id_ville = null;
+          $site->user->id_pays = $_POST['id_pays'];
         }
-        $user->tel_maison = telephone_userinput($_POST['tel_maison']);
-        $user->tel_portable = telephone_userinput($_POST['tel_portable']);
-        $user->date_maj = time();
-        if ($user->saveinfos())
+        $site->user->tel_maison = telephone_userinput($_POST['tel_maison']);
+        $site->user->tel_portable = telephone_userinput($_POST['tel_portable']);
+        $site->user->date_maj = time();
+        if ($site->user->saveinfos())
         {
           $_cts = new contents("Inscription : Etape 2/3");
           $_cts->add_paragraph("Information relative à votre cursus.");
@@ -156,10 +156,10 @@ else
             if($key!="tc" && $key!="na")
               $voeux[$key]=$value;
           }
-          $TC->add_select_field("voeux","Branche envisagée",$voeux,$user->departement);
+          $TC->add_select_field("voeux","Branche envisagée",$voeux,$site->user->departement);
           $frm->add($TC,false,true,1,"tc",false,true,true);
           $branche = new form("departement",null,null,null,"en branche :");
-          $branche->add_select_field("branche","Quelle branche ?",$voeux,$user->departement);
+          $branche->add_select_field("branche","Quelle branche ?",$voeux,$site->user->departement);
           $frm->add($branche,false,true,1,"tc",false,true,true);
           $_cts->add($frm,false,true,0,"branche",false,true);
           $site->add_contents($_cts);
