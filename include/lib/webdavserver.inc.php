@@ -1971,7 +1971,7 @@ class HTTP_WebDAV_Server
      */
     function _urldecode($path) 
     {
-        return urldecode($path);
+        return rawurldecode($path);
     }
 
     /**
