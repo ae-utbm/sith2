@@ -41,7 +41,10 @@ class webdavserverae extends HTTP_WebDAV_Server
     */
   function checkAuth($type, $username, $password) 
   {
-    /*if ( $type == "digest" ) // Digest not supported
+    if ( !$GLOBALS["is_using_ssl"] ) // Pas d'auth, accès anonyme
+      return true;
+    
+    if ( $type == "digest" ) // Digest not supported
       return false;
     
     if ( $username == "anonymous" )
@@ -50,8 +53,8 @@ class webdavserverae extends HTTP_WebDAV_Server
     $this->user->load_by_email($username);
     
     if ( !$this->user->is_valid() || !$this->user->is_password($password) )
-      return false;*/
-    // désactivé car entre en concurence avec l'auth de taiste
+      return false;
+      
     return true;
   } 
 
