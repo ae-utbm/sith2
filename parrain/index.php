@@ -148,7 +148,7 @@ else
           $_cts->add_paragraph("Information relative à votre cursus.");
           $frm = new form("infocursus","index.php",true,"POST","Cursus envisagé");
           $frm->add_hidden("etape","3");
-          $frm->add_info("Département à votre arrivée vous serez :");
+          $frm->add_info("À votre arrivée vous serez :");
           $TC = new form("departement",null,null,null,"en tronc commun (TC)");
           $voeux=array();
           foreach($GLOBALS["utbm_departements"] AS $key => $value)
@@ -160,7 +160,7 @@ else
           $frm->add($TC,false,true,1,"tc",false,true,true);
           $branche = new form("departement",null,null,null,"en branche :");
           $branche->add_select_field("branche","Quelle branche ?",$voeux,$site->user->departement);
-          $frm->add($branche,false,true,1,"tc",false,true,true);
+          $frm->add($branche,false,true,0,"tc",false,true,true);
           $_cts->add($frm,false,true,0,"branche",false,true);
           $site->add_contents($_cts);
           $site->end_page();
