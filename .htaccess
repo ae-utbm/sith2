@@ -1,0 +1,5 @@
+<Files "webdav.php">
+  Options +Includes
+  SetOutputFilter INCLUDES
+  AcceptPathInfo On
+</Files>
