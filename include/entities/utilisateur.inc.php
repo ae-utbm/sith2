@@ -92,7 +92,8 @@ class utilisateur extends stdentity
   var $permis_conduire;
   var $date_permis_conduire;
   var $hab_elect;
-  var $afps;  var $sst;
+	var $afps;
+  var $sst;
 
 
   var $_grps;

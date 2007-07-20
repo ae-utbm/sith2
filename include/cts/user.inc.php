@@ -565,10 +565,10 @@ class userinfov2 extends stdcontents
     if ( $display == "full" )
     {
     
-      if ( $ville_parents->is_valid() || $user->addresse_parents )
+      if ( $ville_parents->is_valid() || $user->adresse_parents )
       {
         $this->buffer .= "<p class=\"adresseparents\">";
-        $this->buffer .= htmlentities($user->addresse_parents,ENT_COMPAT,"UTF-8");
+        $this->buffer .= htmlentities($user->adresse_parents,ENT_COMPAT,"UTF-8");
         
         if ( $ville_parents->is_valid() )
           $this->buffer .= " ".$ville_parents->cpostal." ".$ville_parents->get_html_link();
