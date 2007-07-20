@@ -6,6 +6,8 @@
 
 require_once($topdir."include/mysql.inc.php");
 require_once($topdir."include/mysqlae.inc.php");
+require_once($topdir . "include/entities/std.inc.php");
+require_once($topdir . "include/entities/utilisateur.inc.php");
 require_once($topdir."include/lib/webdavserver.inc.php");
 
 /**
