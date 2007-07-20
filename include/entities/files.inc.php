@@ -70,7 +70,23 @@ class dfile extends fs
 		$this->id = null;	
 		return false;
 	}
-
+	
+	function load_by_nom_fichier ( $id_parent, $nom_fichier )
+	{
+		$req = new requete($this->db, "SELECT * FROM `d_file` ".
+				"WHERE `nom_fichier_file` = '" . mysql_real_escape_string($nom_fichier) . "' ".
+				"AND id_folder ='".mysql_real_escape_string($id_parent)."' ".
+				"LIMIT 1");	
+				
+		if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
+	}
 	/**
 	 * Charge un fichier d'après une ligne de resultat SQL
 	 */
