@@ -32,7 +32,7 @@ $topdir = "../";
 include($topdir. "include/site.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
-
+require_once($topdir . "include/cts/special.inc.php");
 
 $site = new site();
 $site->start_page("services", "Pré-parrainage");
