@@ -317,7 +317,7 @@ class serverwebdavaedrive extends webdavserverae
 
     fclose($stream);   
 
-    $ent->generate_thumbs(); // Fabrique les mignatures (pour l'accés web)
+    $ent->generate_thumbs(); // Fabrique les miniatures (pour l'accés web)
 
     return $stat;
   }
