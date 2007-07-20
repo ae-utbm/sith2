@@ -166,7 +166,7 @@ class serverwebdavaedrive extends webdavserverae
         printf($format, 
                 number_format($row['taille_folder']),
                 $row['date_ajout_folder'], 
-                "<a href='$name'>$name</a>");
+                "<a href='$name/'>$name</a>");
       }
 
       $sub = $ent->get_files($this->user);
