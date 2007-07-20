@@ -45,6 +45,8 @@ class dfolder extends fs
 	var $description;
 	/** Date d'ajout du dossier */
 	var $date_ajout;
+	
+	var $date_modif;
 	/** Dans le cas du dossier parent, donne l'association à qui est rattaché ce dossier parent, (NULL si section "fichiers").
 	 * Dans le cas général c'est une méta-donnée informant si l'association liée.
 	 */
@@ -110,6 +112,29 @@ class dfolder extends fs
 		return false;
 	}
 	
+	function load_by_nom_fichier ( $id_parent, $nom_fichier )
+	{
+	  if ( is_null($id_parent) || $id_parent === 0 )
+  		$req = new requete($this->db, "SELECT * FROM `d_folder` ".
+  				"WHERE `nom_fichier_folder` = '" . mysql_real_escape_string($nom_fichier) . "' ".
+  				"AND id_folder_parent IS NULL ".
+  				"LIMIT 1");	
+	  else
+  		$req = new requete($this->db, "SELECT * FROM `d_folder` ".
+  				"WHERE `nom_fichier_folder` = '" . mysql_real_escape_string($nom_fichier) . "' ".
+  				"AND id_folder_parent ='".mysql_real_escape_string($id_parent)."' ".
+  				"LIMIT 1");	
+  				
+		if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
+	}
+	
 	/**
 	 * Charge un dossier d'après une ligne de resultat SQL.
 	 * @param $row Ligne SQL
@@ -122,6 +147,7 @@ class dfolder extends fs
 		$this->id_folder_parent = $row['id_folder_parent'];
 		$this->description = $row['description_folder'];
 		$this->date_ajout = strtotime($row['date_ajout_folder']);
+		$this->date_modif = strtotime($row['date_modif_folder']);
 		$this->id_asso = $row['id_asso'];
 		
 		$this->id_utilisateur = $row['id_utilisateur'];	
@@ -146,6 +172,7 @@ class dfolder extends fs
 		$this->description = $description;
 		$this->id_asso = $id_asso;
 		$this->date_ajout = time();
+		$this->date_modif = time();
 		$this->modere=(is_null($id_folder_parent) && !is_null($id_asso))?true:false;
 		
 		$this->_compute_nom_fichier();	
@@ -158,6 +185,7 @@ class dfolder extends fs
 				"id_folder_parent"=>$this->id_folder_parent,	
 				"description_folder"=>$this->description,
 				"date_ajout_folder"=>date("Y-m-d H:i:s",$this->date_ajout),
+				"date_modif_folder"=>date("Y-m-d H:i:s",$this->date_modif),
 				"id_asso"=>$this->id_asso,
 				"id_utilisateur"=>$this->id_utilisateur,
 				"id_groupe"=>$this->id_groupe,
@@ -212,26 +240,37 @@ class dfolder extends fs
 	 * Deplace le fichier dans un autre dossier
 	 * @param $id_folder Titre du dossier
 	 */
-	function move_to ( $id_folder )
+	function move_to ( $id_folder, $new_nom_fichier=null )
 	{
-		
+		if ( is_null($this->id_folder_parent) )
+		  return false;
+		  
 		$pfolder = new dfolder($this->db);
 		$pfolder->load_by_id($id_folder);
 		
 		while ( $pfolder->is_valid() )
 		{
-		  if ( $pfolder->id == $this->id ) return; // On ne peut deplacer un dossier dans un dossier fils ou dans lui même
+		  if ( $pfolder->id == $this->id ) return false; // On ne peut deplacer un dossier dans un dossier fils ou dans lui même
 		  $pfolder->load_by_id($pfolder->id_folder_parent);
 		}
 		
 		$this->id_folder_parent = $id_folder;
+		
+		if ( !is_null($new_nom_fichier) )
+		  $this->titre = $new_nom_fichier;
+		
 		$this->_compute_nom_fichier();	
 		
 		$sql = new update ($this->dbrw,
 			"d_folder",
-			array("nom_fichier_folder"=>$this->nom_fichier,"id_folder_parent"=>$this->id_folder_parent),
+			array(
+			"titre_folder"=>$this->titre,
+			"nom_fichier_folder"=>$this->nom_fichier,
+			"id_folder_parent"=>$this->id_folder_parent),
 			array("id_folder"=>$this->id)
 			);
+			
+		return true;
 	}
 	
 	function _compute_nom_fichier()
@@ -260,18 +299,23 @@ class dfolder extends fs
 	 */
 	function get_folders ( $user, $select="*")
 	{
+	  if ( is_null($this->id) || $this->id === 0 )
+	    $p="id_folder_parent IS NULL";
+	  else
+	    $p="id_folder_parent='".$this->id."'";
+	 
 		if ( $this->is_admin( $user ) )
 			return new requete($this->db,"SELECT $select " .
 				"FROM d_folder " .
 				"WHERE " .
-				"id_folder_parent='".$this->id."' " .
+				"$p " .
 				"ORDER BY `titre_folder`");	
 				
 		elseif ( !$user->is_valid() )
 			return new requete($this->db,"SELECT $select " .
 				"FROM d_folder " .
 				"WHERE " .
-				"id_folder_parent='".$this->id."' AND " .
+				"$p AND " .
 				"(droits_acces_folder & 0x1) " .
 				"AND modere_folder='1' " .
 				"ORDER BY `titre_folder`");
@@ -280,7 +324,7 @@ class dfolder extends fs
 			return new requete($this->db,"SELECT $select " .
 				"FROM d_folder " .
 				"WHERE " .
-				"id_folder_parent='".$this->id."' AND " .
+				"$p AND " .
 				"((" .
 					"(" .
 						"(droits_acces_folder & 0x1) OR " .

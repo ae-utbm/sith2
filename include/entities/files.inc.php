@@ -42,6 +42,8 @@ class dfile extends fs
 	var $description;
 	/** date de l'ajout du fichier */
 	var $date_ajout;
+	/** date de modification du fichier */
+	var $date_modif;
 	/** Id de l'association lié (méta-donnée) (n'a pas de rapport avec l'id_asso du dossier racine, @see dfolder)*/
 	var $id_asso;
 	/** Nombre de téléchargements */
@@ -80,6 +82,7 @@ class dfile extends fs
 		$this->id_folder = $row['id_folder'];
 		$this->description = $row['description_file'];
 		$this->date_ajout = strtotime($row['date_ajout_file']);
+		$this->date_modif = strtotime($row['date_modif_file']);
 		$this->id_asso = $row['id_asso'];
 		$this->nb_telechargement = $row['nb_telechargement_file'];
 		$this->mime_type = $row['mime_type_file'];
@@ -114,6 +117,7 @@ class dfile extends fs
 		$this->description = $description;
 		$this->id_asso = $id_asso;
 		$this->date_ajout = time();
+		$this->date_modif = time();
 		$this->modere=false;
 
 		$this->nom_fichier= $this->get_free_filename($id_folder,$file['name']);
@@ -129,6 +133,7 @@ class dfile extends fs
 				"id_folder"=>$this->id_folder,
 				"description_file"=>$this->description,
 				"date_ajout_file"=>date("Y-m-d H:i:s",$this->date_ajout),
+				"date_modif_file"=>date("Y-m-d H:i:s",$this->date_modif),
 				"id_asso"=>$this->id_asso,
 
 				"nom_fichier_file"=>$this->nom_fichier,
@@ -185,6 +190,7 @@ class dfile extends fs
 		$this->description = $description;
 		$this->id_asso = $id_asso;
 		$this->date_ajout = $dateajout;
+		$this->date_modif = $dateajout;
 		$this->modere=$modere;
 
 		$this->nom_fichier= $this->get_free_filename($id_folder,$filename);
@@ -200,6 +206,7 @@ class dfile extends fs
 				"id_folder"=>$this->id_folder,
 				"description_file"=>$this->description,
 				"date_ajout_file"=>date("Y-m-d H:i:s",$this->date_ajout),
+				"date_modif_file"=>date("Y-m-d H:i:s",$this->date_modif),
 				"id_asso"=>$this->id_asso,
 
 				"nom_fichier_file"=>$this->nom_fichier,
@@ -265,16 +272,22 @@ class dfile extends fs
 	 * Deplace le fichier dans un autre dossier
 	 * @param $id_folder Titre du dossier
 	 */
-	function move_to ( $id_folder )
+	function move_to ( $id_folder, $new_nom_fichier=null )
 	{
 		$this->id_folder = $id_folder;
-		$this->nom_fichier= $this->get_free_filename($id_folder,$this->nom_fichier);
 		
+		if ( is_null($new_nom_fichier) )
+		  $this->nom_fichier= $this->get_free_filename($id_folder,$this->nom_fichier);
+		else
+		  $this->nom_fichier= $this->get_free_filename($id_folder,$new_nom_fichier);
+		  
 		$sql = new update ($this->dbrw,
 			"d_file",
 			array("nom_fichier_file"=>$this->nom_fichier,"id_folder"=>$this->id_folder),
 			array("id_file"=>$this->id)
 			);
+			
+		return true;
 	}
 
 	/**
