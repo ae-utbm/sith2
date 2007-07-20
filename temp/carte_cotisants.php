@@ -52,7 +52,7 @@ if($req->lines!=0)
     $loc[$i]['long']=$_long;
   }
   $pgconn = new pgsqlae();
-  $pgreq = new pgrequete($pgconn, "SELECT nom_dept , nom_region , asText(the_geom) AS points".
+  $pgreq = new pgrequete($pgconn, "SELECT asText(the_geom) AS points".
                                   "FROM deptfr");
   $rs = $pgreq->get_all_rows();
   $numdept = 0;
