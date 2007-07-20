@@ -123,7 +123,7 @@ else
     {
       $ville = new ville($site->db);
       $pays = new pays($site->db);
-      if(empty($_POST['id_ville']) && empty($_POST['id_ville']))
+      if(empty($_POST['id_ville']) && empty($_POST['id_pays']))
       {
         $cts = new contents("Erreur",
                             "Veuillez entrer une ville ou un pays.");
@@ -151,7 +151,7 @@ else
           $site->add_contents($cts);
           $erreur=true;
         }
-        if(!$erreur)
+        if($erreur)
         {
           $site->user->tel_maison = telephone_userinput($_POST['tel_maison']);
           $site->user->tel_portable = telephone_userinput($_POST['tel_portable']);
