@@ -81,7 +81,7 @@ if($req->lines!=0)
   /* on récupèré toutes les coordonnées pour les villes */
   foreach($loc AS $point)
   {
-    $pgreq = new pgrequete($pgconn, "AsText(TRANSFORM(GeomFromText('POINT(".$point['long']." ".$point['lat'].")', 4030), 27582)) AS villecoords ".
+    $pgreq = new pgrequete($pgconn, "SELECT AsText(TRANSFORM(GeomFromText('POINT(".$point['long']." ".$point['lat'].")', 4030), 27582)) AS villecoords ".
                                     "FROM deptfr");
     $rs = $pgreq->get_all_rows();
     foreach($rs as $result)
