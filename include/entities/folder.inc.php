@@ -290,7 +290,7 @@ class dfolder extends fs
 		$this->add_folder ( is_null($new_nom_fichier)?$source->titre:$new_nom_fichier, $id_parent, $source->description, $source->id_asso );
 		
 		if ( $depth == 0 )
-		  return;
+		  return true;
 		  
 		if ( $depth > 0 )
 		  $depth--;   
