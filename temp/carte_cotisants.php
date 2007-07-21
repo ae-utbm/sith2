@@ -37,14 +37,6 @@ $site = new site ();
 
 if (MODE == 0)
 {
-  /*
-  $req = new requete($site->db, "SELECT `L1`.`lat_ville`, `L1`.`long_ville`, `L2`.`lat_ville`, `L2`.`long_ville`
-                                 FROM `utl_etu`
-                                 LEFT JOIN `loc_ville` AS L1 ON `utl_etu`.`id_ville` = `L1`.`id_ville`
-                                 LEFT JOIN `loc_ville` AS L2 ON CAST( `utl_etu`.`cpostal_parents` AS UNSIGNED ) = CAST( `L2`.`cpostal_ville` AS UNSIGNED )
-                                 WHERE (`L1`.`lat_ville` IS NOT NULL OR `L2`.`lat_ville` IS NOT NULL)
-                                 GROUP BY `L1`.`id_ville`, `L2`.`id_ville`");
-   */
   $req = new requete($site->db, "SELECT `loc_ville`.`lat_ville`, `loc_ville`.`long_ville`
                                  FROM `loc_ville`
                                  LEFT JOIN `utl_etu` AS E1 ON (`loc_ville`.`id_ville` = `E1`.`id_ville`
@@ -58,8 +50,10 @@ elseif (MODE == 1)
   // on ne veux que les codes postaux et on va essayer un truc : faire en 2 requetes
   // la première : jointure sur les id_ville
   $req = new requete($site->db, "SELECT  `lat_ville`, `long_ville`, COUNT(*) AS `nb` FROM `loc_ville`
-    LEFT JOIN `utl_etu` ON  `utl_etu`.`id_ville` = `loc_ville`.`id_ville`
-    GROUP BY `loc_ville`.`id_ville`");
+                                 LEFT JOIN `utl_etu` ON  (`utl_etu`.`id_ville` = `loc_ville`.`id_ville`
+                                 OR CAST( `utl_etu`.`cpostal_parents` AS UNSIGNED )
+                                 = CAST( `loc_ville`.`cpostal_ville` AS UNSIGNED ))
+                                 GROUP BY `loc_ville`.`id_ville`");
 }
 else
 {
