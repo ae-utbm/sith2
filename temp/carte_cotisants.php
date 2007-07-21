@@ -108,14 +108,14 @@ if($req->lines!=0)
     $villecoords = str_replace(")", "", $villecoords);
 		$villecoords = explode(" ", $villecoords);
 		$villecoords[1] = (-1*$villecoords[1]);
-		print_r((int)$villecoords[0]." ".(int)$villecoords[1]."<br>");
-    //$img->addpoint((int)$lat[0], (int)$long[0], 5, "black");
+		//print_r((int)$villecoords[0]." ".(int)$villecoords[1]."<br>");
+    $img->addpoint((int)$lat[0], (int)$long[0], 5, "black");
 	}
 
-  //$img->setfactor(1600);
-  //$img->draw();
-  //$wm_img = new img_watermark (&$img->imgres);
-  //$wm_img->output();
+  $img->setfactor(1600);
+  $img->draw();
+  $wm_img = new img_watermark (&$img->imgres);
+  $wm_img->output();
 
 }
 
