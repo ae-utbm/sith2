@@ -64,7 +64,6 @@ else
 if($req->lines!=0)
 {
   $img = new imgcarto();
-  $img->addcolor('pblue', 255, 255, 255);
   $img->addcolor('pblue_dark', 51, 102, 153);
   if(MODE==1)
   {
@@ -88,7 +87,7 @@ if($req->lines!=0)
     $img->addcolor('p17',  255, 36, 0);  // 800 <= hts < 850
     $img->addcolor('p18',  255, 26, 0);  // 850 <= hts < 900
     $img->addcolor('p19',  255, 16, 0);  // 900 <= hts < 950
-    $img->addcolor('p20',  255, 16, 0);  // 950 <= hts
+    $img->addcolor('p20',  255, 0, 0);  // 950 <= hts
   }
 
   $i=0;
@@ -222,7 +221,7 @@ if($req->lines!=0)
     {
       foreach($departement['plgs'] as $plg)
       {
-        $img->addpolygon($plg, 'pblue', true);
+        $img->addpolygon($plg, 'white', true);
         $img->addpolygon($plg, 'pblue_dark', false);
       }
     }
@@ -233,17 +232,17 @@ if($req->lines!=0)
     {
       $d=$departement['gid'];
       if(!isset($villes[$d]))
-        $color="p0";
+        $color="white";
       elseif($villes[$d]>=950)
-        $color="pmax";
+        $color="p20";
       elseif( 0< $villes[$d] && $villes[$d]<950)
       {
-        $n=$villes[$d]+1;
+        $n=$villes[$d];
         $n=(int)($n/50);
         $color="p".$n;
       }
       else
-        $color="p0";
+        $color="white";
 
       foreach($departement['plgs'] as $plg)
       {
