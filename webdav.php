@@ -324,6 +324,9 @@ class serverwebdavaedrive extends webdavserverae
   
   function MKCOL($options) 
   {           
+      ini_set("display_errors", 1);
+
+    
     list($ppath,$nom_fichier)=$this->_explode_path($options["path"]);
 
     $ent = $this->get_entity_for_path($ppath);
@@ -349,7 +352,10 @@ class serverwebdavaedrive extends webdavserverae
     $new_ent->droits_acces |= 0xDD0; // Droits minimaux, pour pas se faire signaler de faux "bugs"
     $new_ent->add_folder ( $nom_fichier, $ent->id, "", $ent->id_asso );
     
-    return ("201 Created");
+    if ( !$new_ent->is_valid() )
+      return "500 Internal server error";
+      
+    return "201 Created";
   }
     
   function DELETE($options) 
