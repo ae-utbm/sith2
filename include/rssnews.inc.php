@@ -113,7 +113,7 @@ class rssfeednewsclub extends rssfeednews
   {
     $ids = array(0);
     
-    $req = new requete($site->db,"SELECT * FROM nvl_nouvelles ".
+    $req = new requete($this->db,"SELECT * FROM nvl_nouvelles ".
       "WHERE id_asso='".mysql_real_escape_string($this->asso->id)."' ".
       "AND `modere_nvl`='1' ".
       "ORDER BY date_nvl DESC ".
