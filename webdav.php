@@ -366,9 +366,6 @@ class serverwebdavaedrive extends webdavserverae
     
     if ( !$ent->is_right($this->user,DROIT_ECRITURE) || !$this->user->is_valid() )
       return "403 Forbidden"; 
-      
-    print_r($ent);
-    print_r($options["path"]);
     
     $ent->delete();
       
@@ -377,8 +374,6 @@ class serverwebdavaedrive extends webdavserverae
   
   function MOVE($options) 
   {
-      ini_set("display_errors", 1);
-
     
     if (!empty($this->_SERVER["CONTENT_LENGTH"]))
       return "415 Unsupported media type";
