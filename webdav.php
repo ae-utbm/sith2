@@ -396,7 +396,7 @@ class serverwebdavaedrive extends webdavserverae
     if ( !$this->user->is_valid() )
       return "403 Forbidden"; 
 
-    if ( $ent_src->is_null() || is_null($ent_src->id_folder_parent) ) // Racine, et dossier dans la racine intouchables
+    if ( !$ent_src->is_valid() || is_null($ent_src->id_folder_parent) ) // Racine, et dossier dans la racine intouchables
       return "403 Forbidden"; 
       
     if ( get_class($ent_src) == "dfolder" && ($options["depth"] != "infinity") ) 
