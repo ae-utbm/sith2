@@ -243,7 +243,6 @@ class serverwebdavaedrive extends webdavserverae
   
   function PUT(&$options) 
   {
-    ini_set("display_errors", 1);
 
     if ( !$this->user->is_valid() )
       return "403 Forbidden";       
@@ -367,6 +366,9 @@ class serverwebdavaedrive extends webdavserverae
     
     if ( !$ent->is_right($this->user,DROIT_ECRITURE) || !$this->user->is_valid() )
       return "403 Forbidden"; 
+      
+    print_r($ent);
+    print_r($options["path"]);
     
     $ent->delete();
       
