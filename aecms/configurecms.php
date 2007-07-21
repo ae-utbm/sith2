@@ -87,18 +87,21 @@ $cts->add_title(2,"Onglets");
 $liste_onglets = array();
 foreach ( $site->tab_array as $row )
 {
-  if ( ereg("^index.php?name=(.*)$",$row[1],$regs) )
-    $lien = "Page: ".$pages[$regs[1]];
-  elseif ( $row[1] == "photos.php" )
-    $lien = "Gallerie photos";
-  elseif ( $row[1] == "d.php" )
-    $lien = "Espace fichiers";
-  elseif ( $row[1] == "index.php" )
-    $lien = "Page: ".$pages["home"];
-  else
-    $lien = "Lien spécial (non supporté)";
-    
-  $liste_onglets[] = array("nom_onglet"=>$row[0],"titre_onglet"=>$row[2],"lien_onglet"=>$lien);
+  if ( $row[0] != CMS_PREFIX."config" )
+  {
+    if ( ereg("^index.php?name=(.*)$",$row[1],$regs) )
+      $lien = "Page: ".$pages[$regs[1]];
+    elseif ( $row[1] == "photos.php" )
+      $lien = "Gallerie photos";
+    elseif ( $row[1] == "d.php" )
+      $lien = "Espace fichiers";
+    elseif ( $row[1] == "index.php" )
+      $lien = "Page: ".$pages["home"];
+    else
+      $lien = "Lien spécial (non supporté)";
+      
+    $liste_onglets[] = array("nom_onglet"=>$row[0],"titre_onglet"=>$row[2],"lien_onglet"=>$lien);
+  }
 }
 
 $cts->add( new sqltable ( "onglets", "Onglets", $liste_onglets, 
