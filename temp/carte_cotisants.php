@@ -106,8 +106,10 @@ if($req->lines!=0)
   {
     $villecoords = str_replace("POINT(", "", $ville);
     $villecoords = str_replace(")", "", $villecoords);
-    $villecoords = explode(" ", $villecoords);
-    $img->addpoint((int)$villecoords[0], (int)$villecoords[1], 5, "black");
+		$villecoords = explode(" ", $villecoords);
+		$lat = explode(".", $villecoords[0]);
+		$long = explode(".", $villecoords[1]);
+    $img->addpoint((int)$lat[0], (int)$long[0], 5, "black");
 	}
 
   $img->setfactor(1600);
