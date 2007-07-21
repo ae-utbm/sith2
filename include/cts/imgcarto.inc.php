@@ -110,67 +110,66 @@ class imgcarto
     $min_y = 0;
 
     if (count($this->lines))
+    {
+      foreach ($this->lines as $line)
       {
-	foreach ($this->lines as $line)
-	  {
-	    if ($max_x < $line[0])
-	      $max_x = $line[0];
-	    if ($min_x > $line[0])
-	      $min_x = $line[0];
+        if ($max_x < $line[0])
+          $max_x = $line[0];
+        if ($min_x > $line[0])
+          $min_x = $line[0];
 
-	    if ($max_y < $line[1])
-	      $max_y = $line[1];
-	    if ($min_y > $line[1])
-	      $min_y = $line[1];
+        if ($max_y < $line[1])
+          $max_y = $line[1];
+        if ($min_y > $line[1])
+          $min_y = $line[1];
 
-	    if ($max_x < $line[2])
-	      $max_x = $line[2];
-	    if ($min_x > $line[2])
-	      $min_x = $line[2];
+        if ($max_x < $line[2])
+          $max_x = $line[2];
+        if ($min_x > $line[2])
+          $min_x = $line[2];
 
-	    if ($max_y < $line[3])
-	      $max_y = $line[3];
-	    if ($min_y > $line[3])
-	      $min_y = $line[3];
-	  }
-      } // end parsing lines
+        if ($max_y < $line[3])
+          $max_y = $line[3];
+        if ($min_y > $line[3])
+          $min_y = $line[3];
+      }
+    } // end parsing lines
 
     if (count($this->points))
+    {
+      foreach ($this->points as $point)
       {
-	foreach ($this->points as $point)
-	  {
-	    if ($max_x < $point[0])
-	      $max_x = $point[0];
-	    if ($min_x > $point[0])
-	      $min_x = $point[0];
+        if ($max_x < $point[0])
+          $max_x = $point[0];
+        if ($min_x > $point[0])
+          $min_x = $point[0];
 
-	    if ($max_y < $point[1])
-	      $max_y = $point[1];
-	    if ($min_y > $point[1])
-	      $min_y = $point[1];
-	  }
-      } // end parsing points
+        if ($max_y < $point[1])
+          $max_y = $point[1];
+        if ($min_y > $point[1])
+          $min_y = $point[1];
+      }
+    } // end parsing points
 
     if (count($this->polygons))
+    {
+      foreach ($this->polygons as $polygon)
       {
-	foreach ($this->polygons as $polygon)
-	  {
-	    for ($i = 0; $i < count($polygon[0]); $i+= 2)
-	      {
-		if ($max_x < $polygon[0][$i])
-		  $max_x = $polygon[0][$i];
-		if ($min_x > $polygon[0][$i])
-		  $min_x = $polygon[0][$i];
+        for ($i = 0; $i < count($polygon[0]); $i+= 2)
+        {
+          if ($max_x < $polygon[0][$i])
+            $max_x = $polygon[0][$i];
+          if ($min_x > $polygon[0][$i])
+            $min_x = $polygon[0][$i];
 
-		if ($max_y < $polygon[0][$i+1])
-		  $max_y = $polygon[0][$i+1];
-		if ($min_y > $polygon[0][$i+1])
-		  $min_y = $polygon[0][$i+1];
-	      }
-	  }
-      } // end parsing polygons
+          if ($max_y < $polygon[0][$i+1])
+            $max_y = $polygon[0][$i+1];
+          if ($min_y > $polygon[0][$i+1])
+            $min_y = $polygon[0][$i+1];
+        }
+      }
+    } // end parsing polygons
 
-    
     $this->dimx = (($max_x - $min_x) / $this->factor) + $this->offset * 2;
     $this->dimy = (($max_y - $min_y) / $this->factor) + $this->offset * 2;
 
@@ -181,42 +180,42 @@ class imgcarto
    
     // points
     if (count($this->points))
+    {
+      for ($i = 0; $i < count($this->points); $i++)
       {
-	for ($i = 0; $i < count($this->points); $i++)
-	  {
-	    $this->points[$i][0] = ($this->points[$i][0] / $this->factor) - $min_x + $this->offset;
-	    /* ATTENTION : inversion des ordonnées */
-	    $this->points[$i][1] = $this->dimy - ($this->points[$i][1] / $this->factor) - $min_y + $this->offset;
-	  }
+        $this->points[$i][0] = ($this->points[$i][0] / $this->factor) - $min_x + $this->offset;
+        /* ATTENTION : inversion des ordonnées */
+        $this->points[$i][1] = $this->dimy - ($this->points[$i][1] / $this->factor) - $min_y + $this->offset;
       }
+    }
     // lines
     if (count($this->lines))
+    {
+      for ($i = 0; $i < count($this->lines); $i++)
       {
-	for ($i = 0; $i < count($this->lines); $i++)
-	  {
-	    $this->lines[$i][0] = ($this->lines[$i][0] / $this->factor) - $min_x + $this->offset;
-	    /* attention : inversion ordonnées */
-	    $this->lines[$i][1] = $this->dimy - ($this->lines[$i][1] / $this->factor) - $min_y + $this->offset;
-	    
-	    $this->lines[$i][2] = ($this->lines[$i][2] / $this->factor) - $min_x + $this->offset;
-	    /* meme remarque ... */
-	    $this->lines[$i][3] = $this->dimy - ($this->lines[$i][3] / $this->factor) - $min_y + $this->offset;
-	  }
+        $this->lines[$i][0] = ($this->lines[$i][0] / $this->factor) - $min_x + $this->offset;
+        /* attention : inversion ordonnées */
+        $this->lines[$i][1] = $this->dimy - ($this->lines[$i][1] / $this->factor) - $min_y + $this->offset;
 
+        $this->lines[$i][2] = ($this->lines[$i][2] / $this->factor) - $min_x + $this->offset;
+        /* meme remarque ... */
+        $this->lines[$i][3] = $this->dimy - ($this->lines[$i][3] / $this->factor) - $min_y + $this->offset;
       }
+
+    }
     // polygons
     if (count($this->polygons))
+    {
+      for ($i = 0; $i < count($this->polygons); $i++)
       {
-	for ($i = 0; $i < count($this->polygons); $i++)
-	  {
-	    for ($j = 0; $j < count($this->polygons[$i][0]); $j += 2)
-	      {
-		$this->polygons[$i][0][$j] =   ($this->polygons[$i][0][$j] / $this->factor) - $min_x + $this->offset;
-		/* ATTENTION : invesion des ordonnées ! */
-		$this->polygons[$i][0][$j+1] = $this->dimy - ($this->polygons[$i][0][$j+1] / $this->factor) - $min_y + $this->offset;
-	      }
-	  }
+        for ($j = 0; $j < count($this->polygons[$i][0]); $j += 2)
+        {
+          $this->polygons[$i][0][$j] =   ($this->polygons[$i][0][$j] / $this->factor) - $min_x + $this->offset;
+          /* ATTENTION : invesion des ordonnées ! */
+          $this->polygons[$i][0][$j+1] = $this->dimy - ($this->polygons[$i][0][$j+1] / $this->factor) - $min_y + $this->offset;
+        }
       }
+    }
 
     /* HACK ? on reparse (suite aux calculs) pour avoir la
      * bonne composante en y pour la dimension "hauteur" de l'image */
@@ -224,44 +223,44 @@ class imgcarto
     $min_y = 0;
 
     if (count($this->lines))
+    {
+      foreach ($this->lines as $line)
       {
-	foreach ($this->lines as $line)
-	  {
-	    if ($max_y < $line[1])
-	      $max_y = $line[1];
-	    if ($min_y > $line[1])
-	      $min_y = $line[1];
-	    if ($max_y < $line[3])
-	      $max_y = $line[3];
-	    if ($min_y > $line[3])
-	      $min_y = $line[3];
-	  }
-      } // end parsing lines
+        if ($max_y < $line[1])
+          $max_y = $line[1];
+        if ($min_y > $line[1])
+          $min_y = $line[1];
+        if ($max_y < $line[3])
+          $max_y = $line[3];
+        if ($min_y > $line[3])
+          $min_y = $line[3];
+      }
+    } // end parsing lines
 
     if (count($this->points))
+    {
+      foreach ($this->points as $point)
       {
-	foreach ($this->points as $point)
-	  {
-	    if ($max_y < $point[1])
-	      $max_y = $point[1];
-	    if ($min_y > $point[1])
-	      $min_y = $point[1];
-	  }
-      } // end parsing points
+        if ($max_y < $point[1])
+          $max_y = $point[1];
+        if ($min_y > $point[1])
+          $min_y = $point[1];
+      }
+    } // end parsing points
 
     if (count($this->polygons))
+    {
+      foreach ($this->polygons as $polygon)
       {
-	foreach ($this->polygons as $polygon)
-	  {
-	    for ($i = 0; $i < count($polygon[0]); $i+= 2)
-	      {
-		if ($max_y < $polygon[0][$i+1])
-		  $max_y = $polygon[0][$i+1];
-		if ($min_y > $polygon[0][$i+1])
-		  $min_y = $polygon[0][$i+1];
-	      }
-	  }
-      } // end parsing polygons
+        for ($i = 0; $i < count($polygon[0]); $i+= 2)
+        {
+          if ($max_y < $polygon[0][$i+1])
+            $max_y = $polygon[0][$i+1];
+          if ($min_y > $polygon[0][$i+1])
+            $min_y = $polygon[0][$i+1];
+        }
+      }
+    } // end parsing polygons
 
     $this->dimy = ($max_y - $min_y) + $this->offset * 2;
   }
@@ -272,68 +271,66 @@ class imgcarto
       $this->calculatedimensions();
 
     if ($this->dimx > IMG_MAX_WIDTH)
-      {
-	$this->errmsg = "Image too large : $this->dimx:$this->dimy\n";
-	return false;
-      }
+    {
+      $this->errmsg = "Image too large : $this->dimx:$this->dimy\n";
+      return false;
+    }
 
     $this->imgres = imagecreatetruecolor($this->dimx, $this->dimy);
     
     /* allocate colors */
     if (count($this->colors))
+    {
+      foreach ($this->colors as $key => $color)
       {
-	foreach ($this->colors as $key => $color)
-	  {
-	    $this->colors[$key]['gd'] = imagecolorallocate($this->imgres,
-							   $color[0],
-							   $color[1],
-							   $color[2]);
-	  }
+        $this->colors[$key]['gd'] = imagecolorallocate($this->imgres,
+                                                       $color[0],
+                                                       $color[1],
+                                                       $color[2]);
       }
+    }
 
     imagefill($this->imgres, 0,0, $this->colors['white']['gd']);
 
     /* draw polygons */
     if (count($this->polygons))
+    {
+      foreach ($this->polygons as $polygon)
       {
-	foreach ($this->polygons as $polygon)
-	  {
-	    if ($polygon[2] == false)
-	      imagepolygon($this->imgres, $polygon[0], count($polygon[0]) / 2, $this->colors[$polygon[1]]['gd']);
-	    else
-	      imagefilledpolygon($this->imgres, $polygon[0], count($polygon[0]) / 2, $this->colors[$polygon[1]]['gd']);
-	  }
+        if ($polygon[2] == false)
+          imagepolygon($this->imgres, $polygon[0], count($polygon[0]) / 2, $this->colors[$polygon[1]]['gd']);
+        else
+          imagefilledpolygon($this->imgres, $polygon[0], count($polygon[0]) / 2, $this->colors[$polygon[1]]['gd']);
       }
+    }
 
     /* draw lines */
     if (count($this->lines))
+    {
+      foreach ($this->lines as $line)
       {
-	foreach ($this->lines as $line)
-	  {
-	    imageline ($this->imgres,
-		       $line[0],
-		       $line[1],
-		       $line[2],
-		       $line[3],
-		       $this->colors[$line[4]]['gd']);
-	  }
+        imageline ($this->imgres,
+                   $line[0],
+                   $line[1],
+                   $line[2],
+                   $line[3],
+                   $this->colors[$line[4]]['gd']);
       }
+    }
     /* draw points */
     if (count($this->points))
+    {
+      foreach ($this->points as $point)
       {
-	foreach ($this->points as $point)
-	  {
-	    imagefilledellipse ($this->imgres,
-				$point[0],
-				$point[1],
-				$point[2],
-				$point[2],
-				$this->colors[$point[3]]['gd']);
-	    
-	  }
-
+        imagefilledellipse ($this->imgres,
+                            $point[0],
+                            $point[1],
+                            $point[2],
+                            $point[2],
+                            $this->colors[$point[3]]['gd']);
+ 
       }
-
+    }
   }
   function saveas($path)
   {
@@ -344,10 +341,10 @@ class imgcarto
   function output()
   {
     if ($this->imgres)
-      {
-	header("Content-Type: image/png");
-	imagepng($this->imgres);
-      }
+    {
+      header("Content-Type: image/png");
+      imagepng($this->imgres);
+    }
   }
 
   function destroy()
