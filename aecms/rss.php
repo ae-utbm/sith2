@@ -24,6 +24,7 @@ require_once("include/site.inc.php");
 require_once($topdir. "include/rssnews.inc.php");
 
 $rss = new rssfeednewsclub($site->db,$site->asso,$site->pubUrl);
-$rss->output();
 print_r($rss);
+$rss->output();
+
 ?>
