@@ -168,45 +168,46 @@ if($req->lines!=0)
     }
   }
 
+  $villes = array();
   if (MODE==0)
   {
-    $villes = array();
+    $i=0;
     /* on récupèré toutes les coordonnées pour les villes */
     foreach($loc AS $point)
     {
       $pgreq = new pgrequete($pgconn, "SELECT AsText(TRANSFORM(GeomFromText('POINT(".$point['long']." ".$point['lat'].")', 4030), 27582)) AS villecoords ".
                                       "FROM deptfr LIMIT 1");
       $rs = $pgreq->get_all_rows();
-      foreach($rs as $result)
+      if(isset($rs[0]['gid']))
       {
-        $villes[] = $result['villecoords'];
-        break;
+        $villes[$i] = $rs[0]['villecoords'];
+        $i++;
       }
     }
   }
-  if(MODE==1)
+  elseif(MODE==1)
   {
-    $villes = array();
     /* on récupèré toutes les coordonnées pour les villes */
     foreach($loc AS $point)
     {
       $pgreq = new pgrequete($pgconn, "SELECT gid ".
                                       "FROM deptfr ".
-                                      "WHERE CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$point['lat']." ".$point['long'].")', 4030), 27582)) ".
+                                      "WHERE CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$point['long']." ".$point['lat'].")', 4030), 27582)) ".
                                       "LIMIT 1");
       $rs = $pgreq->get_all_rows();
-      foreach($rs as $result)
+      if(isset($rs[0]['gid']))
       {
-        $d=$result['gid'];
+        $d=$rs[0]['gid'];
         if(!isset($villes[$d]))
           $villes[$d] = $point['nb'];
         else
           $villes[$d] = $villes[$d]+$point['nb'];
-        break;
       }
     }
   }
 
+  print_r($villes);
+  exit();
   if(MODE==0)
   {
     foreach($dept as $departement)
