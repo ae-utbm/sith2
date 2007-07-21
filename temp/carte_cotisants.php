@@ -125,8 +125,9 @@ if($req->lines!=0)
   $img->draw();
   $wm_img = new img_watermark (&$img->imgres);
   $wm_img->output();
-
+  exit();
 }
 
+echo "what the fuck ?!";
 exit();
 ?>
