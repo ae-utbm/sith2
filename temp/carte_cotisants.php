@@ -190,7 +190,7 @@ if($req->lines!=0)
     /* on récupèré toutes les coordonnées pour les villes */
     foreach($loc AS $point)
     {
-      $pgreq = new pgrequete($pgconn, "SELECT gid".
+      $pgreq = new pgrequete($pgconn, "SELECT gid ".
                                       "FROM deptfr ".
                                       "WHERE CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$point['lat']." ".$point['long'].")', 4030), 27582)) ".
                                       "LIMIT 1");
