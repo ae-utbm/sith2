@@ -101,7 +101,7 @@ else
     if($_POST["etape"] == 3)
     {
       $_cts = new contents("Inscription : Etape 3/3");
-      $_cts->add_paragraph("Ton inscription au pré-parrainage est effective. Tu recevras plus d'informations dans les semaines à venir.");
+      $_cts->add_paragraph("Ton inscription au pré-parrainage est effective. Un e-mail te sera envoyé au cours du mois d'août afin de t'indiquer les coordonnées de ton pré-parrain. N'hésite pas à le contacter avant d'arriver avant de venir à Belfort pour que celui-ci puisse être présent à ton arrivé pour t'accueillir et te guider.");
       if($_POST['departement'] == "tc")
         $_req = new insert($site->dbrw,"pre_parrainage", array('semestre'=>$sem,'id_utilisateur' => $site->user->id,'tc'=>1,'branche'=>$_POST["voeux"]));
       else
@@ -166,7 +166,7 @@ else
               $branche = new form("departement",null,null,null,"en branche :");
               $branche->add_select_field("branche","Quelle branche ?",$voeux,$site->user->departement);
             $frm->add($branche,false,true,0,"branche",false,true);
-            $frm->add_submit("save","Suivant");
+            $frm->add_submit("save","Terminer");
             $_cts->add($frm,true);
             $site->add_contents($_cts);
             $site->end_page();
