@@ -97,7 +97,7 @@ class aecms extends site
   function aecms()
   {
     $this->site();
-    $this->pubUrl = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["SCRIPT_NAME"]);
+    $this->pubUrl = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["SCRIPT_NAME"])."/";
     $this->tab_array = array (array(CMS_PREFIX."accueil", "index.php", "Accueil"));
     
     $this->asso = new asso($this->db,$this->dbrw);
