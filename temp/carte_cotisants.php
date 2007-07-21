@@ -49,8 +49,8 @@ if($req->lines!=0)
     $long = rad2deg($_long);
     $lat = str_replace(",", ".", $lat);
     $long = str_replace(",", ".", $long);
-    $loc[$i]['lat']=$_lat;
-    $loc[$i]['long']=$_long;
+    $loc[$i]['lat']=$lat;
+    $loc[$i]['long']=$long;
     $i++;
   }
 
@@ -107,7 +107,7 @@ if($req->lines!=0)
     $villecoords = str_replace("POINT(", "", $ville);
     $villecoords = str_replace(")", "", $villecoords);
 		$villecoords = explode(" ", $villecoords);
-		$villecoords[1] = (-1*$villecoords[1]);
+		//$villecoords[1] = (-1*$villecoords[1]);
 		//print_r((int)$villecoords[0]." ".(int)$villecoords[1]."<br>");
     $img->addpoint((int)$villecoords[0], (int)$villecoords[1], 5, "black");
 	}
