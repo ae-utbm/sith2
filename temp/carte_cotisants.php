@@ -35,7 +35,8 @@ $req = new requete($site->db, "SELECT `L1`.`lat_ville`, `L1`.`long_ville`, `L2`.
                                FROM `utilisateurs`
                                LEFT JOIN `loc_ville` AS L1 ON `utilisateurs`.`id_ville` = `L1`.`id_ville`
                                LEFT JOIN `loc_ville` AS L2 ON CAST( `utilisateurs`.`cpostal_utl` AS UNSIGNED ) = CAST( `L2`.`cpostal_ville` AS UNSIGNED )
-                               WHERE (`L1`.`lat_ville` IS NOT NULL OR `L2`.`lat_ville` IS NOT NULL)");
+                               WHERE (`L1`.`lat_ville` IS NOT NULL OR `L2`.`lat_ville` IS NOT NULL)
+                               GROUP BY `L1`.`id_ville` GROUP BY `L2`.`id_ville`");
 
 if($req->lines!=0)
 {
