@@ -324,9 +324,7 @@ class serverwebdavaedrive extends webdavserverae
   
   function MKCOL($options) 
   {           
-      ini_set("display_errors", 1);
 
-    
     list($ppath,$nom_fichier)=$this->_explode_path($options["path"]);
 
     $ent = $this->get_entity_for_path($ppath);
@@ -334,7 +332,7 @@ class serverwebdavaedrive extends webdavserverae
     if ( is_null($ent) )
         return "409 Conflict";
 
-    if ( get_class($ent) != "dfolder" || $ent->is_valid() )
+    if ( get_class($ent) != "dfolder" || !$ent->is_valid() )
         return "403 Forbidden";
 
     if ( !$ent->is_filename_avaible($nom_fichier) )
