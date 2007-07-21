@@ -270,7 +270,7 @@ class dfolder extends fs
 	
 	}
 	
-	function create_copy_of ( &$source, $id_parent, $new_nom_fichier=null )
+	function create_copy_of ( &$source, $id_parent, $new_nom_fichier=null, $depth=-1 )
 	{
 	  // 1- On s'assure que le copie ne vas pas se faire dans un dossier fils de la source
 		$pfolder = new dfolder($this->db);
@@ -289,6 +289,12 @@ class dfolder extends fs
 		$this->droits_acces = $source->droits_acces;
 		$this->add_folder ( is_null($new_nom_fichier)?$source->titre:$new_nom_fichier, $id_parent, $source->description, $source->id_asso );
 		
+		if ( $depth == 0 )
+		  return;
+		  
+		if ( $depth > 0 )
+		  $depth--;   
+		
 		// 3- Copie des sous-dossiers
 		$fd = new dfolder($this->db);
 		$nfd = new dfolder($this->db,$this->dbrw);
@@ -300,7 +306,7 @@ class dfolder extends fs
 			while($row = $req->get_row())
 			{
 				$fd->_load($row);
-				if ( !$nfd->create_copy_of($fd,$this->id) )
+				if ( !$nfd->create_copy_of($fd,$this->id,null,$depth) )
 				  return false;
 			}
 		

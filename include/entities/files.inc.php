@@ -316,7 +316,7 @@ class dfile extends fs
 			);
 	}
 	
-  function create_copy_of ( &$source, $id_parent, $new_nom_fichier=null )
+  function create_copy_of ( &$source, $id_parent, $new_nom_fichier=null, $depth=0 )
 	{
 		$this->id_utilisateur = $source->id_utilisateur;
 		$this->id_groupe = $source->id_groupe;

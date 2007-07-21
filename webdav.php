@@ -488,10 +488,6 @@ class serverwebdavaedrive extends webdavserverae
          is_null($ent_src->id_folder_parent) ) // Racine, et dossier dans la racine intouchables
       return "403 Forbidden"; 
       
-    if ( get_class($ent_src) == "dfolder" && ($options["depth"] != "infinity") ) 
-      // RFC 2518 Section 9.2, last paragraph
-      return "400 Bad request";
-      
     // 2- Repertoire cible (parent de la destination) / Destination
 
     $ent_dst = $this->get_entity_for_path($options["dest"]);
@@ -535,12 +531,16 @@ class serverwebdavaedrive extends webdavserverae
         
     // 3- Et enfin... on fait le boulot
     
+    $depth=-1;
+    if ( $options["depth"] != "infinity")
+      $depth = intval($options["depth"]);
+    
     if ( get_class($ent_src) == "dfolder" )
       $new_ent = new dfolder($this->db,$this->dbrw);
     else
       $new_ent = new dfile($this->db,$this->dbrw);
     
-    if ( !$new_ent->create_copy_of ( $ent_src, $ent_folder_dst->id, $nom_fichier ) )
+    if ( !$new_ent->create_copy_of ( $ent_src, $ent_folder_dst->id, $nom_fichier,$depth ) )
       return "500 Internal server error";
       
     return $created ? "201 Created" : "204 No Content";         
