@@ -101,8 +101,8 @@ class rssfeednewsclub extends rssfeednews
   function rssfeednewsclub ( &$db, &$asso, $pubUrl )
   {
     $this->rssfeednews($db);
-    $this->title = $this->asso->nom;
-    $this->description = "Les dernières nouvelles de ".$this->asso->nom;
+    $this->title = $asso->nom;
+    $this->description = "Les dernières nouvelles de ".$asso->nom;
     $this->link = $pubUrl;
     $this->pubUrl = $pubUrl;
     $this->asso = $asso;
@@ -118,7 +118,7 @@ class rssfeednewsclub extends rssfeednews
       "ORDER BY date_nvl DESC ".
       "LIMIT 30");
     
-    $this->output_news($sql,$ids);
+    $this->output_news($req,$ids);
   }
   
 }
