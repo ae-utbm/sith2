@@ -416,6 +416,7 @@ class serverwebdavaedrive extends webdavserverae
         // Dans ce cas, on considére que la destination est en fait le repertoire cible
         $ent_folder_dst = $ent_dst; // Le repertoire cible est donc la destination 
         $ent_dst = $ent_folder_dst->get_child_by_nom_fichier($this->_basename($options["path"])); // La destination est donc le fichier/dossier nommé comme la source dans le repertoire cible
+        $created=false;
       }
     }
 
