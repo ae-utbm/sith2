@@ -27,13 +27,15 @@ include($topdir. "include/site.inc.php");
 require_once($topdir. "include/pgsqlae.inc.php");
 require_once($topdir. "include/cts/imgcarto.inc.php");
 require_once ($topdir . "include/watermark.inc.php");
+require_once($topdir. "include/entities/ville.inc.php");
 
 $site = new site ();
 
-$req = new requete($site->db, "SELECT `loc_ville`.`lat_ville`, `loc_ville`.`long_ville` from `utilisateurs`
-                               INNER JOIN `loc_ville` ON `utilisateurs`.`id_ville` = `loc_ville`.`id_ville`
-                               WHERE `utilisateurs`.`id_ville` IS NOT NULL
-                               GROUP BY `utilisateurs`.`id_ville`");
+$req = new requete($site->db, "SELECT `L1`.`lat_ville`, `L1`.`long_ville`, `L2`.`lat_ville`, `L2`.`long_ville`
+                               FROM `utilisateurs`
+                               LEFT JOIN `loc_ville` AS L1 ON `utilisateurs`.`id_ville` = `L1`.`id_ville`
+                               LEFT JOIN `loc_ville` AS L2 ON CAST( `utilisateurs`.`cpostal_utl` AS UNSIGNED ) = CAST( `L2`.`cpostal_ville` AS UNSIGNED )
+                               WHERE (`L1`.`lat_ville` IS NOT NULL OR `L2`.`lat_ville` IS NOT NULL)");
 
 if($req->lines!=0)
 {
@@ -43,10 +45,18 @@ if($req->lines!=0)
 
   $i=0;
   $loc = array();
-  while(list($_lat, $_long) = $req->get_row())
+  while(list($_lat, $_long, $_lat2, $_long2 ) = $req->get_row())
   {
-    $lat  = rad2deg($_lat);
-    $long = rad2deg($_long);
+    if(!is_null($_lat)
+    {
+      $lat  = rad2deg($_lat);
+      $long = rad2deg($_long);
+    }
+    else
+    {
+      $lat  = rad2deg($_lat2);
+      $long = rad2deg($_long2);
+    }
     $lat = str_replace(",", ".", $lat);
     $long = str_replace(",", ".", $long);
     $loc[$i]['lat']=$lat;
@@ -103,14 +113,12 @@ if($req->lines!=0)
   }
 
   foreach($villes as $ville)
-	{
+  {
     $villecoords = str_replace("POINT(", "", $ville);
     $villecoords = str_replace(")", "", $villecoords);
-		$villecoords = explode(" ", $villecoords);
-		//$villecoords[1] = (-1*$villecoords[1]);
-		//print_r((int)$villecoords[0]." ".(int)$villecoords[1]."<br>");
-    $img->addpoint((int)$villecoords[0], (int)$villecoords[1], 5, "black");
-	}
+    $villecoords = explode(" ", $villecoords);
+    $img->addpoint($villecoords[0], $villecoords[1], 5, "black");
+  }
 
   $img->setfactor(1600);
   $img->draw();
