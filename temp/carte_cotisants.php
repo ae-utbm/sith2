@@ -82,7 +82,7 @@ if($req->lines!=0)
 
   $viles = array();
   /* on récupèré toutes les coordonnées pour les villes */
-/*  foreach($loc AS $point)
+  foreach($loc AS $point)
   {
     $pgreq = new pgrequete($pgconn, "SELECT AsText(TRANSFORM(GeomFromText('POINT(".$point['long']." ".$point['lat'].")', 4030), 27582)) AS villecoords ".
                                     "FROM deptfr",1);
@@ -109,7 +109,7 @@ if($req->lines!=0)
     $villecoords = explode(" ", $villecoords);
     $img->addpoint($villecoords[0], $villecoords[1], 5, "black");
   }
- */
+
   $img->setfactor(1600);
   $img->draw();
   $wm_img = new img_watermark (&$img->imgres);
