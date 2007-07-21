@@ -20,13 +20,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
-$topdir = "./";
-require_once($topdir. "include/site.inc.php");
+require_once("include/site.inc.php");
 require_once($topdir. "include/rssnews.inc.php");
 
-$site = new site ();
-
-$rss = new rssfeednewshome($site->db);
+$rss = new rssfeednewsclub($site->db,$site->asso,$site->pubUrl);
 $rss->output();
 
 ?>
