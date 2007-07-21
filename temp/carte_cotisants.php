@@ -206,8 +206,6 @@ if($req->lines!=0)
     }
   }
 
-  print_r($villes);
-  exit();
   if(MODE==0)
   {
     foreach($dept as $departement)
