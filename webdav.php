@@ -282,7 +282,7 @@ class serverwebdavaedrive extends webdavserverae
       
       // Nouveau fichier  
       $ent = new dfile($this->db,$this->dbrw);
-      $ent->herit($ent);    
+      $ent->herit($parent);    
       $ent->id_utilisateur = $this->user->id;
       $ent->droits_acces |= 0x330; // Droits minimaux, pour pas se faire signaler de faux "bugs"
       $ent->create_empty ( $parent->id, $nom_fichier, $options["content_length"], $options["content_type"] );
