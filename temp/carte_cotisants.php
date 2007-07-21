@@ -235,7 +235,7 @@ if($req->lines!=0)
         $color="pmax";
       elseif(10 <= $villes[$d] && $villes[$d]<100)
       {
-        $n=int($villes[$d] / 10)
+        $n=int($villes[$d]/10);
         $color="p".$n;
       }
       else
