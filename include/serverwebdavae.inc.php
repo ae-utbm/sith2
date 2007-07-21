@@ -92,6 +92,12 @@ class webdavserverae extends HTTP_WebDAV_Server
     
     if ( $username == "anonymous" )
       return true;
+    
+    if ( preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
+    {  
+      $this->user->load_by_alias($username); 
+      return true;
+    }
       
     $this->user->load_by_email($username);
     
