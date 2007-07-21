@@ -26,8 +26,10 @@
  
 require_once("include/site.inc.php");
 require_once($topdir."include/entities/news.inc.php");
+require_once($topdir."include/entities/lieu.inc.php");
 
 $news = new nouvelle($site->db,$site->dbrw);
+$lieu = new lieu($site->db);
 
 if ( isset($_REQUEST["id_nouvelle"]) )
 {
@@ -103,12 +105,12 @@ if ( isset($_REQUEST["preview"]) || isset($_REQUEST["submit"]) )
 
   if ( $file->is_valid() )
   {
-    $_REQUEST["content"] = str_replace("((@affiche|","((dfile://".$file->id."/preview|",$_REQUEST["content"]);
-    $_REQUEST["content"] = str_replace("|@affiche]","|dfile://".$file->id."]",$_REQUEST["content"]);
+    $_REQUEST["content"] = str_replace("{{@affiche|","{{dfile://".$file->id."/preview|",$_REQUEST["content"]);
+    $_REQUEST["content"] = str_replace("[[@affiche|","[[dfile://".$file->id."]",$_REQUEST["content"]);
     
-    if ( !ereg("\(\(dfile\:\/\/([0-9]*)\/preview\|(.*)\)\)",$_REQUEST["content"]) )
+    if ( !ereg("\{\{dfile\:\/\/([0-9]*)\/preview\|(.*)\}\}",$_REQUEST["content"]) )
     {
-      $_REQUEST["content"] .= "\n\n~((dfile://".$file->id."/preview|Affiche))\n\n[Version HD de l'affiche|dfile://".$file->id."]";
+      $_REQUEST["content"] .= "\n\n{{dfile://".$file->id."/preview|Affiche}}\n\n[[dfile://".$file->id."|Version HD de l'affiche]]";
     }
   }
 
@@ -154,14 +156,15 @@ if ( isset($_REQUEST["preview"]) || isset($_REQUEST["submit"]) )
 
 if ( $suitable && isset($_REQUEST["submit"]) )
 {
-
+  $lieu->load_by_id($_REQUEST["id_lieu"]);
+  
   $news->add_news($site->user->id,
                   $site->asso->id,
                   $_REQUEST['title'],
                   $_REQUEST['resume'],
                   $_REQUEST['content'],
                   $_REQUEST['type'],
-                  !isset($_REQUEST['non_asso_seule']));
+                  !isset($_REQUEST['non_asso_seule'],$lieu->id));
 
   if ( !isset($_REQUEST['non_asso_seule']) ) // Auto-modération si affiché seulement dans le CMS
     $news->validate($site->user->id);
@@ -239,8 +242,9 @@ $frm = new form ("addnews_frm","news.php",false,"POST","Proposition d'une nouvel
 if ( $news_error )
   $frm->error($news_error);
 
-$type = $_REQUEST["type"];
-if ( !$type )
+if ( isset($_REQUEST["type"]) )
+  $type = $_REQUEST["type"];
+else
   $type=1;
 
 $sfrm = new form("type",null,null,null,"Nouvelle sur un concours, un appel &agrave; canditure : longue dur&eacute;e");
@@ -281,8 +285,9 @@ $frm->add($sfrm,false,true, $type==2 ,2 ,false,true);
 $sfrm = new form("type",null,null,null,"Information, resultat d'&eacute;lection - sans date");
 $frm->add($sfrm,false,true, $type==0 ,0 ,false,true);
 
-$frm->add_checkbox ( "non_asso_seule", "Publier aussi sur le site de l'AE (sera soumis à modération)", true);
 $frm->add_text_field("title", "Titre de la nouvelle",$_REQUEST["title"],true);
+$frm->add_checkbox ( "non_asso_seule", "Publier aussi sur le site de l'AE (sera soumis à modération)", true);
+$frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",false,true);
 $frm->add_text_area ("resume","Resum&eacute;",$_REQUEST["resume"]);
 $frm->add_text_area ("content", "Contenu",$_REQUEST["content"],80,10,true);
 
@@ -294,8 +299,7 @@ if ( $file->id > 0 )
 else
 $frm->add_file_field("affiche_file","Affiche");
 
-$frm->add_info("Pour ins&eacute;rer l'affiche, utilisez la syntaxe suivante: ((@affiche|Affiche)).");
-$frm->add_info("Pour ins&eacute;rer un lien, utilisez la syntaxe suivante: [Version HD de l'affiche|@affiche].");
+$frm->add_info("L'affiche sera automatiquement ajoutée en bas de la news.");
 
 $frm->add_submit ("preview","Pr&eacute;visualiser");
 
@@ -307,6 +311,5 @@ $site->add_contents ($frm);
 $site->add_contents (new wikihelp());
 
 $site->end_page ();
-
 
 ?>
