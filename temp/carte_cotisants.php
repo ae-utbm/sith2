@@ -1,5 +1,4 @@
 <?php
-exit();
 /* Copyright 2007
  * - Simon Lopez < simon dot lopez at ayolo dot org >
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
@@ -34,10 +33,11 @@ $site = new site ();
 
 $req = new requete($site->db, "SELECT `L1`.`lat_ville`, `L1`.`long_ville`, `L2`.`lat_ville`, `L2`.`long_ville`
                                FROM `utilisateurs`
-                               LEFT JOIN `loc_ville` AS L1 ON `utilisateurs`.`id_ville` = `L1`.`id_ville`
-                               LEFT JOIN `loc_ville` AS L2 ON CAST( `utilisateurs`.`cpostal_utl` AS UNSIGNED ) = CAST( `L2`.`cpostal_ville` AS UNSIGNED )
+                               INNER JOIN `utl_etu` ON `utl_etu`.`id_utilisateur`=`utilisateurs`.`id_utilisateur`
+                               LEFT JOIN `loc_ville` AS L1 ON `utl_etu`.`id_ville` = `L1`.`id_ville`
+                               LEFT JOIN `loc_ville` AS L2 ON CAST( `utl_etu`.`cpostal_parents` AS UNSIGNED ) = CAST( `L2`.`cpostal_ville` AS UNSIGNED )
                                WHERE (`L1`.`lat_ville` IS NOT NULL OR `L2`.`lat_ville` IS NOT NULL)
-                               GROUP BY `L1`.`id_ville` GROUP BY `L2`.`id_ville`");
+                               GROUP BY `L1`.`id_ville`, `L2`.`id_ville`");
 
 if($req->lines!=0)
 {
