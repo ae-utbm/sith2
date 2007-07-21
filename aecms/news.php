@@ -33,7 +33,7 @@ if ( isset($_REQUEST["id_nouvelle"]) )
 {
   $news->load_by_id($_REQUEST["id_nouvelle"]);
   
-  if ( !$news->is_valid() || ($news->id_asso != $site->asso->id) )
+  if ( !$news->is_valid() || $news->id_asso != $site->asso->id )
   {
     header("Location: index.php");
     exit();
