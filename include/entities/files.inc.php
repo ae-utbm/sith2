@@ -318,6 +318,10 @@ class dfile extends fs
 	
   function create_copy_of ( &$source, $id_parent, $new_nom_fichier=null )
 	{
+		$this->id_utilisateur = $source->id_utilisateur;
+		$this->id_groupe = $source->id_groupe;
+		$this->id_groupe_admin = $source->id_groupe_admin;
+		$this->droits_acces = $source->droits_acces;	 
 	  $this->import_file ( 
       $source->get_real_filename(), 
       is_null($new_nom_fichier)?$source->nom_fichier:$new_nom_fichier, 
