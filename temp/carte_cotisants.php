@@ -64,21 +64,31 @@ else
 if($req->lines!=0)
 {
   $img = new imgcarto();
-  $img->addcolor('pblue', 222, 235, 245);
+  $img->addcolor('pblue', 255, 255, 255);
   $img->addcolor('pblue_dark', 51, 102, 153);
   if(MODE==1)
   {
-    $img->addcolor('p1', 172, 213, 245); // 0   <  hts < 50
-    $img->addcolor('p2', 172, 194, 245); // 50  <= hts < 150
-    $img->addcolor('p3', 74, 170, 245);  // 100 <= hts < 200
-    $img->addcolor('p4', 39, 123, 227);  // 150 <= hts < 250
-    $img->addcolor('p5', 39, 52, 227);   // 200 <= hts < 300
-    $img->addcolor('p6', 99, 0, 227);    // 250 <= hts < 350
-    $img->addcolor('p7', 168, 0, 185);   // 300 <= hts < 400
-    $img->addcolor('p8', 167, 0, 71);    // 350 <= hts < 450
-    $img->addcolor('p9', 190, 59, 68);   // 400 <= hts < 500
-    $img->addcolor('p10', 255, 120, 0);  // 500 <= hts < 550
-    $img->addcolor('pmax', 255, 0, 0);   // 550 <= hts
+    $img->addcolor('p0',   255, 242, 0); // 0   <  hts
+    $img->addcolor('p1',   255, 231, 0); // 0   < hts  < 50
+    $img->addcolor('p2',   255, 220, 0); // 50  <= hts < 100
+    $img->addcolor('p3',   255, 198, 0); // 100 <= hts < 150
+    $img->addcolor('p4',   255, 176, 0); // 150 <= hts < 200
+    $img->addcolor('p5',   255, 165, 0); // 200 <= hts < 250
+    $img->addcolor('p6',   255, 154, 0); // 250 <= hts < 300
+    $img->addcolor('p7',   255, 143, 0); // 300 <= hts < 350
+    $img->addcolor('p8',   255, 132, 0); // 350 <= hts < 400
+    $img->addcolor('p9',   255, 121, 0); // 400 <= hts < 450
+    $img->addcolor('p10',  255, 114, 0); // 450 <= hts < 500
+    $img->addcolor('p11',  255, 101, 0); // 500 <= hts < 550
+    $img->addcolor('p12',  255, 90, 0);  // 550 <= hts < 600
+    $img->addcolor('p13',  255, 80, 0);  // 600 <= hts < 650
+    $img->addcolor('p14',  255, 68, 0);  // 650 <= hts < 700
+    $img->addcolor('p15',  255, 58, 0);  // 700 <= hts < 750
+    $img->addcolor('p16',  255, 47, 0);  // 750 <= hts < 800
+    $img->addcolor('p17',  255, 36, 0);  // 800 <= hts < 850
+    $img->addcolor('p18',  255, 26, 0);  // 850 <= hts < 900
+    $img->addcolor('p19',  255, 16, 0);  // 900 <= hts < 950
+    $img->addcolor('p20',  255, 16, 0);  // 950 <= hts
   }
 
   $i=0;
@@ -223,17 +233,17 @@ if($req->lines!=0)
     {
       $d=$departement['gid'];
       if(!isset($villes[$d]))
-        $color="pblue";
-      elseif($villes[$d]>=550)
+        $color="p0";
+      elseif($villes[$d]>=950)
         $color="pmax";
-      elseif( 0< $villes[$d] && $villes[$d]<550)
+      elseif( 0< $villes[$d] && $villes[$d]<950)
       {
-        $n=$villes[$d];
+        $n=$villes[$d]+1;
         $n=(int)($n/50);
         $color="p".$n;
       }
       else
-        $color="pblue";
+        $color="p0";
 
       foreach($departement['plgs'] as $plg)
       {
