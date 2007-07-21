@@ -197,8 +197,9 @@ if($req->lines!=0)
     foreach($loc AS $point)
     {
       $pgreq = new pgrequete($pgconn, "SELECT gid, AsText(TRANSFORM(GeomFromText('POINT(".$point['long']." ".$point['lat'].")', 4030), 27582)) AS villecoords ".
-                                      "FROM deptfr LIMIT 1"
-                                      "WHERE CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$point['long']." ".$point['lat'].")', 4030), 27582))");
+                                      "FROM deptfr ".
+                                      "WHERE CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$point['long']." ".$point['lat'].")', 4030), 27582)) ".
+                                      "LIMIT 1");
       $rs = $pgreq->get_all_rows();
       foreach($rs as $result)
       {
