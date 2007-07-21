@@ -50,10 +50,10 @@ if($req->lines!=0)
     $lat = str_replace(",", ".", $lat);
     $long = str_replace(",", ".", $long);
     $loc[$i]['lat']=$_lat;
-		$loc[$i]['long']=$_long;
+    $loc[$i]['long']=$_long;
     $i++;
-	}
-  print_r($loc);
+  }
+
   $pgconn = new pgsqlae();
   $pgreq = new pgrequete($pgconn, "SELECT asText(the_geom) AS points".
                                   " FROM deptfr");
@@ -85,7 +85,7 @@ if($req->lines!=0)
   foreach($loc AS $point)
   {
     $pgreq = new pgrequete($pgconn, "SELECT AsText(TRANSFORM(GeomFromText('POINT(".$point['long']." ".$point['lat'].")', 4030), 27582)) AS villecoords ".
-                                    "FROM deptfr",1);
+                                    "FROM deptfr");
     $rs = $pgreq->get_all_rows();
     foreach($rs as $result)
     {
