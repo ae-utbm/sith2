@@ -32,6 +32,7 @@ $site = new site ();
 
 $req = new requete($site->db, "SELECT `loc_ville`.`lat_ville`, `loc_ville`.`long_ville` from `utilisateurs`
                                INNER JOIN `loc_ville` ON `utilisateurs`.`id_ville` = `loc_ville`.`id_ville`
+                               WHERE `utilisateurs`.`id_ville` != NULL
                                GROUP BY `utilisateurs`.`id_ville`");
 
 if($req->lines!=0)
