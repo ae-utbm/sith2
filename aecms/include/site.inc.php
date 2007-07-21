@@ -33,7 +33,7 @@
  *   specific
  *     aecms.conf.php
  *     custom.css
- *   aecms --> /var/www/ae/www/taiste21/aecms
+ *   aecms --> /var/www/ae/www/taiste/aecms
  *   .htaccess
  *     RewriteRule ^([a-z]*)\.php(.*)$  aecms/$1.php$2 [L] 
  *     RewriteRule ^$  aecms/index.php [L] 
@@ -63,9 +63,9 @@ if ( CMS_ID_ASSO != intval(CMS_ID_ASSO) )
 }
  
 // Configuration générale (en BETA)
-$topdir = "/var/www/ae/www/taiste21/";
+$topdir = "/var/www/ae/www/taiste/";
 $wwwtopdir = "./";
-define("CMS_CONFIGPATH","/var/www/ae/www/taiste21/var/aecms");
+define("CMS_CONFIGPATH","/var/www/ae/www/taiste/var/aecms");
 define("CMS_CONFIGFILE",CMS_CONFIGPATH."/cms".CMS_ID_ASSO.".conf.php");
 
 // Inclusion des classes AE2
@@ -107,6 +107,9 @@ class aecms extends site
 	  if ( file_exists(CMS_CONFIGFILE) && !isset($GET["___aecms_admin_ignoreconf"]) )
       include(CMS_CONFIGFILE);
     
+    if ($this->is_user_admin())
+      $this->tab_array[] = array(CMS_PREFIX."config", "configurecms.php", "Administration");
+      
   }
   
   function start_page ( $section, $title,$compact=false )
@@ -141,11 +144,14 @@ class aecms extends site
     {
       foreach ( $this->tab_array as $row )
       {
-        $n++;
-        if ( $n == $cnt )
-          fwrite($f," array(\"".addslashes($row[0])."\",\"".addslashes($row[1])."\",\"".addslashes($row[2])."\"));\n");
-        else
-          fwrite($f," array(\"".addslashes($row[0])."\",\"".addslashes($row[1])."\",\"".addslashes($row[2])."\"),\n");
+        if ( $row[0] != CMS_PREFIX."config" )
+        {
+          $n++;
+          if ( $n == $cnt )
+            fwrite($f," array(\"".addslashes($row[0])."\",\"".addslashes($row[1])."\",\"".addslashes($row[2])."\"));\n");
+          else
+            fwrite($f," array(\"".addslashes($row[0])."\",\"".addslashes($row[1])."\",\"".addslashes($row[2])."\"),\n");
+        }
       }
     }
     fwrite($f,"\n?>");
@@ -213,9 +219,6 @@ class aecms extends site
 			echo " title=\"" . $entry[2] . "\">".
 			  $entry[2] . "</a></span>\n";
 		}
-
-		if ($this->is_user_admin())
-			echo "<span class=\"tabadmin\"><a href=\"".$wwwtopdir."configurecms.php\">Administration</a></span>\n";
 
 		echo "</div>\n"; // /tabs
 		
