@@ -163,7 +163,7 @@ if($req->lines!=0)
         }
         $i++;
       }
-      $dept[$numdept]['id']=$result['gid'];
+      $dept[$numdept]['gid']=$result['gid'];
       $numdept++;
     }
   }
