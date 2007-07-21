@@ -334,6 +334,7 @@ class dfile extends fs
       $id_parent, 
       $source->description, 
       $source->id_asso );
+    return true;
 	}
 	
   function create_empty ( $id_folder, $filename, $filesize, $mime_type )
