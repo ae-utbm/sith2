@@ -334,7 +334,7 @@ class serverwebdavaedrive extends webdavserverae
     if ( is_null($ent) )
         return "409 Conflict";
 
-    if ( get_class($ent) != "dfolder" || $ent->is_null() )
+    if ( get_class($ent) != "dfolder" || $ent->is_valid() )
         return "403 Forbidden";
 
     if ( !$ent->is_filename_avaible($nom_fichier) )
