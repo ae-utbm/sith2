@@ -157,6 +157,8 @@ if ( $can_edit )
 
 if ( $page->nom == CMS_PREFIX."home" )
 {
+  $site->add_rss("Toute l'actualité de ".$site-asso->nom,"rss.php");
+  
   $newscount = 0;
   $req = new requete($site->db,"SELECT COUNT(*) FROM nvl_nouvelles WHERE id_asso='".mysql_real_escape_string($site->asso->id)."' AND `modere_nvl`='1'");
   list($newscount) = $req->get_row();
