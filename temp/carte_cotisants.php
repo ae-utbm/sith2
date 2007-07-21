@@ -45,10 +45,10 @@ if($req->lines!=0)
   $loc = array();
   while(list($_lat, $_long) = $req->get_row())
   {
-    $_lat  = rad2deg($_lat);
-    $_long = rad2deg($_long);
-    $_lat = str_replace(",", ".", $lat);
-    $_long = str_replace(",", ".", $long);
+    $lat  = rad2deg($_lat);
+    $long = rad2deg($_long);
+    $lat = str_replace(",", ".", $lat);
+    $long = str_replace(",", ".", $long);
     $loc[$i]['lat']=$_lat;
 		$loc[$i]['long']=$_long;
     $i++;
