@@ -35,7 +35,7 @@ require_once($topdir . "include/entities/lieu.inc.php");
 $site = new site();
 $site->add_css("css/doku.css");
 
-$news = new nouvelle ($site->db, $site->dbrw);
+$news = new nouvelle($site->db, $site->dbrw);
 $lieu = new lieu($site->db);
 
 $can_edit = false;
