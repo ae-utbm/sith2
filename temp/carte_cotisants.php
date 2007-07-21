@@ -47,7 +47,7 @@ if($req->lines!=0)
   $loc = array();
   while(list($_lat, $_long, $_lat2, $_long2 ) = $req->get_row())
   {
-    if(!is_null($_lat)
+    if(!is_null($_lat))
     {
       $lat  = rad2deg($_lat);
       $long = rad2deg($_long);
