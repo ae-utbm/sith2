@@ -443,7 +443,7 @@ class serverwebdavaedrive extends webdavserverae
       return "412 precondition failed"; 
     
     // Verifie que l'on peut écrire dans le repertoire cible
-    if ( $ent_folder_dst->is_null() || !$ent_folder_dst->is_right($this->user,DROIT_ECRITURE) )
+    if ( !$ent_folder_dst->is_valid() || !$ent_folder_dst->is_right($this->user,DROIT_ECRITURE) )
       return "403 Forbidden"; 
       
     if ( !is_null($ent_dst) ) // La destination existe déjà
