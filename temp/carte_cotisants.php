@@ -103,7 +103,8 @@ if($req->lines!=0)
   }
 
   foreach($villes as $ville)
-  {
+	{
+		print_r($ville);
     $villecoords = str_replace("POINT(", "", $ville);
     $villecoords = str_replace(")", "", $villecoords);
 		$villecoords = explode(" ", $villecoords);
