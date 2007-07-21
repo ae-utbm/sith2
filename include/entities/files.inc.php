@@ -316,6 +316,22 @@ class dfile extends fs
 			);
 	}
 	
+  function create_copy_of ( &$source, $id_parent, $new_nom_fichier=null )
+	{
+	  $this->import_file ( 
+      $source->get_real_filename(), 
+      is_null($new_nom_fichier)?$source->nom_fichier:$new_nom_fichier, 
+      $source->taille, 
+      $source->mime_type, 
+      time(), 
+      0, 
+      0, 
+      $source->titre, 
+      $id_parent, 
+      $source->description, 
+      $source->id_asso );
+	}
+	
   function create_empty ( $id_folder, $filename, $filesize, $mime_type )
 	{
 		$this->titre = $filename;

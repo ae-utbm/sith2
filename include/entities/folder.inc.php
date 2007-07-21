@@ -270,6 +270,57 @@ class dfolder extends fs
 	
 	}
 	
+	function create_copy_of ( &$source, $id_parent, $new_nom_fichier=null )
+	{
+	  // 1- On s'assure que le copie ne vas pas se faire dans un dossier fils de la source
+		$pfolder = new dfolder($this->db);
+		$pfolder->load_by_id($id_folder);
+		
+		while ( $pfolder->is_valid() )
+		{
+		  if ( $pfolder->id == $source->id ) return false; // On ne peut copier un dossier dans un dossier fils ou dans lui même
+		  $pfolder->load_by_id($pfolder->id_folder_parent);
+		}
+		
+		// 2- Création du dossier
+		$this->id_utilisateur = $source->id_utilisateur;
+		$this->id_groupe = $source->id_groupe;
+		$this->id_groupe_admin = $source->id_groupe_admin;
+		$this->droits_acces = $source->droits_acces;
+		$this->add_folder ( is_null($new_nom_fichier)?$source->titre:$new_nom_fichier, $id_parent, $source->description, $source->id_asso );
+		
+		// 3- Copie des sous-dossiers
+		$fd = new dfolder($this->db);
+		$nfd = new dfolder($this->db,$this->dbrw);
+		$req = new requete($this->db,"SELECT * " .
+				"FROM d_folder " .
+				"WHERE " .
+				"id_folder_parent='".$source->id."'");
+		if ( $req->lines > 0 )	
+			while($row = $req->get_row())
+			{
+				$fd->_load($row);
+				if ( !$nfd->create_copy_of($fd,$this->id) )
+				  return false;
+			}
+		
+		// 4- Copie des fichiers
+		$fl = new dfile($this->db);
+		$nfl = new dfile($this->db,$this->dbrw);
+		$req = new requete($this->db,"SELECT * " .
+				"FROM d_file " .
+				"WHERE " .
+				"id_folder='".$source->id."'");	
+		if ( $req->lines > 0 )
+			while($row = $req->get_row())
+			{
+				$fl->_load($row);
+				$nfl->create_copy_of($fl,$this->id);
+			}
+			
+		return true;
+	}
+	
 	/**
 	 * Deplace le fichier dans un autre dossier
 	 * @param $id_folder Titre du dossier

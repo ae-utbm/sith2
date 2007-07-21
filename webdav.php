@@ -464,6 +464,88 @@ class serverwebdavaedrive extends webdavserverae
     return $created ? "201 Created" : "204 No Content";         
   }
   
+  function COPY($options) 
+  {
+    ini_set("display_errors", 1);
+
+    if (!empty($this->_SERVER["CONTENT_LENGTH"]))
+      return "415 Unsupported media type";
+  
+    if (isset($options["dest_url"]))
+      return "502 bad gateway";
+    
+    // 1- La source
+    
+    $ent_src = $this->get_entity_for_path($options["path"]);
+       
+    if ( is_null($ent_src) )
+      return "404 Not found";
+
+    if ( !$this->user->is_valid() )
+      return "403 Forbidden"; 
+
+    if ( !$ent_src->is_valid() ||
+         is_null($ent_src->id_folder_parent) ) // Racine, et dossier dans la racine intouchables
+      return "403 Forbidden"; 
+      
+    if ( get_class($ent_src) == "dfolder" && ($options["depth"] != "infinity") ) 
+      // RFC 2518 Section 9.2, last paragraph
+      return "400 Bad request";
+      
+    // 2- Repertoire cible (parent de la destination) / Destination
+
+    $ent_dst = $this->get_entity_for_path($options["dest"]);
+    $ent_folder_dst = null;
+    $created = true;
+
+    if ( is_null($ent_dst) ) // La destination n'existe pas, on récupére le repertoire cible
+    {
+      list($ppath,$nom_fichier)=$this->_explode_path($options["dest"]);
+      $ent_folder_dst = $this->get_entity_for_path($ppath);
+    }
+    else // La destination existe, son parent est le repertoire cible
+    {
+      $ent_folder_dst = new dfolder($this->db);
+      $ent_folder_dst->load_by_id($ent_dst->id_folder_parent);
+      $nom_fichier = $ent_dst->nom_fichier;
+    }
+    
+    if ( is_null($ent_folder_dst) )
+      return "412 precondition failed"; 
+    
+    // Verifie que l'on peut écrire dans le repertoire cible
+    if ( !$ent_folder_dst->is_valid() || !$ent_folder_dst->is_right($this->user,DROIT_ECRITURE) )
+      return "403 Forbidden"; 
+      
+    if ( !is_null($ent_dst) ) // La destination existe déjà
+    {
+      if ( $options["overwrite"]) // Si l'overwrite est actif, alors on supprime la destination
+      {
+        if ( !$ent_dst->is_right($this->user,DROIT_ECRITURE) || !$this->user->is_valid() )
+          return "403 Forbidden"; 
+        
+        $ent_dst->delete();
+      
+        $created=false;
+        // Note: on pourrai faire un backup automatique dans ces cas là
+      }
+      else // Sinon echec 
+        return "412 precondition failed";
+    }
+        
+    // 3- Et enfin... on fait le boulot
+    
+    if ( get_class($ent_src) == "dfolder" )
+      $new_ent = new dfolder($this->db,$this->dbrw);
+    else
+      $new_ent = new dfile($this->db,$this->dbrw);
+    
+    if ( !$new_ent->create_copy_of ( $ent_src, $ent_folder_dst->id, $nom_fichier ) )
+      return "500 Internal server error";
+      
+    return $created ? "201 Created" : "204 No Content";         
+  }
+  
   function PROPPATCH(&$options) 
   {
     foreach ($options["props"] as $key => $prop)
