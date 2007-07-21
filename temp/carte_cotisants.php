@@ -224,11 +224,12 @@ if($req->lines!=0)
       $d=$departement['gid'];
       if(!isset($villes[$d]))
         $color="pblue";
-      elseif($villes[$d]>=100)
+      elseif($villes[$d]>=550)
         $color="pmax";
       elseif( 0< $villes[$d] && $villes[$d]<550)
       {
-        $n=(int)($villes[$d]/50);
+        $n=$villes[$d];
+        $n=(int)($n/50);
         $color="p".$n;
       }
       else
