@@ -68,17 +68,17 @@ if($req->lines!=0)
   $img->addcolor('pblue_dark', 51, 102, 153);
   if(MODE==1)
   {
-    $img->addcolor('p10', 172, 213, 245); // 0 < hts < 10
-    $img->addcolor('p20', 172, 194, 245); // 10 <= hts < 20
-    $img->addcolor('p30', 74, 170, 245); // 20 <= hts < 30
-    $img->addcolor('p40', 39, 123, 227); // 30 <= hts < 40
-    $img->addcolor('p50', 39, 52, 227); // 40 <= hts < 50
-    $img->addcolor('p60', 99, 0, 227); // 50 <= hts < 60
-    $img->addcolor('p70', 168, 0, 185); // 60 <= hts < 70
-    $img->addcolor('p80', 167, 0, 71); // 70 <= hts < 80
-    $img->addcolor('p90', 190, 59, 68); // 80 <= hts < 90
-    $img->addcolor('p100', 255, 120, 0); // 90 <= hts < 100
-    $img->addcolor('pmax', 255, 0, 0); // 100 <= hts
+    $img->addcolor('p1', 172, 213, 245); // 0   <  hts < 50
+    $img->addcolor('p2', 172, 194, 245); // 50  <= hts < 150
+    $img->addcolor('p3', 74, 170, 245);  // 100 <= hts < 200
+    $img->addcolor('p4', 39, 123, 227);  // 150 <= hts < 250
+    $img->addcolor('p5', 39, 52, 227);   // 200 <= hts < 300
+    $img->addcolor('p6', 99, 0, 227);    // 250 <= hts < 350
+    $img->addcolor('p7', 168, 0, 185);   // 300 <= hts < 400
+    $img->addcolor('p8', 167, 0, 71);    // 350 <= hts < 450
+    $img->addcolor('p9', 190, 59, 68);   // 400 <= hts < 500
+    $img->addcolor('p10', 255, 120, 0);  // 500 <= hts < 550
+    $img->addcolor('pmax', 255, 0, 0);   // 550 <= hts
   }
 
   $i=0;
@@ -226,9 +226,9 @@ if($req->lines!=0)
         $color="pblue";
       elseif($villes[$d]>=100)
         $color="pmax";
-      elseif(10 <= $villes[$d] && $villes[$d]<100)
+      elseif( 0< $villes[$d] && $villes[$d]<550)
       {
-        $n=(int)($villes[$d]/10);
+        $n=(int)($villes[$d]/50);
         $color="p".$n;
       }
       else
