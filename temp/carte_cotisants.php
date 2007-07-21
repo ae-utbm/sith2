@@ -1,4 +1,5 @@
 <?php
+exit();
 /* Copyright 2007
  * - Simon Lopez < simon dot lopez at ayolo dot org >
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
