@@ -265,8 +265,16 @@ if($req->lines!=0)
 
   $img->setfactor(RATIO);
   $img->draw();
-  $wm_img = new img_watermark (&$img->imgres);
-  $wm_img->output();
+  if(MODE==0)
+  {
+    $wm_img = new img_watermark (&$img->imgres);
+    $wm_img->output();
+  }
+  elseif(MODE==1)
+  {
+    $img->output();
+  }
+
   exit();
 }
 
