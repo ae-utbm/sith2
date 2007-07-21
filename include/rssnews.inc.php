@@ -13,6 +13,7 @@ class rssfeednews extends rssfeed
   {
     $this->db = $db;  
     $this->pubUrl = "http://ae.utbm.fr/";
+    $this->rssfeed();
   }
 
 
