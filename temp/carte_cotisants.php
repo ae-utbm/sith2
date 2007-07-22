@@ -23,8 +23,10 @@
  */
 exit();
 
-define("RATIO", 1600);
-define("MODE", 0); // 0 => points, 1 => nb/departement
+define("RATIO", 1600);     // Le ratio pour la carte final (1/1600)
+define("MODE", 0);         // 0 => points, 1 => nb/departement
+define("WATERMARK", TRUE); // watermark TRUE ou FALSE
+
 $topdir = "../";
 include($topdir. "include/site.inc.php");
 
@@ -264,13 +266,14 @@ if($req->lines!=0)
   }
 
   $img->setfactor(RATIO);
-  $img->draw();
-  if(MODE==0)
+	$img->draw();
+
+  if(WATERMARK)
   {
     $wm_img = new img_watermark (&$img->imgres);
     $wm_img->output();
   }
-  elseif(MODE==1)
+  else
   {
     $img->output();
   }
