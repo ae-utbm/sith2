@@ -40,11 +40,10 @@ $site = new site ();
 if (MODE == 0)
 {
   $req = new requete($site->db, "SELECT `loc_ville`.`lat_ville`, `loc_ville`.`long_ville`
-                                 FROM `loc_ville`
-                                 LEFT JOIN `utl_etu` ON (`loc_ville`.`id_ville` = `utl_etu`.`id_ville`
+                                 FROM `utl_etu`
+                                 LEFT JOIN `loc_ville` ON (`loc_ville`.`id_ville` = `utl_etu`.`id_ville`
                                  OR CAST( `utl_etu`.`cpostal_parents` AS UNSIGNED )
                                  = CAST( `loc_ville`.`cpostal_ville` AS UNSIGNED ))
-                                 WHERE (`utl_etu`.`cpostal_parents` IS NOT NULL OR `utl_etu`.`id_ville` IS NOT NULL)
                                  GROUP BY `loc_ville`.`id_ville`");
 }
 
