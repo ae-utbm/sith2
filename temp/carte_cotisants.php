@@ -41,16 +41,15 @@ if (MODE == 0)
 {
   $req = new requete($site->db, "SELECT `loc_ville`.`lat_ville`, `loc_ville`.`long_ville`
                                  FROM `loc_ville`
-                                 LEFT JOIN `utl_etu` AS E1 ON (`loc_ville`.`id_ville` = `E1`.`id_ville`
-                                 OR CAST( `E1`.`cpostal_parents` AS UNSIGNED )
+                                 LEFT JOIN `utl_etu` ON (`loc_ville`.`id_ville` = `utl_etu`.`id_ville`
+                                 OR CAST( `utl_etu`.`cpostal_parents` AS UNSIGNED )
                                  = CAST( `loc_ville`.`cpostal_ville` AS UNSIGNED ))
+                                 WHERE (`utl_etu`.`cpostal_parents` IS NOT NULL OR `utl_etu`.`id_ville` IS NOT NULL)
                                  GROUP BY `loc_ville`.`id_ville`");
 }
 
 elseif (MODE == 1)
 {
-  // on ne veux que les codes postaux et on va essayer un truc : faire en 2 requetes
-  // la première : jointure sur les id_ville
   $req = new requete($site->db, "SELECT  `lat_ville`, `long_ville`, COUNT(*) AS `nb` FROM `loc_ville`
                                  LEFT JOIN `utl_etu` ON  (`utl_etu`.`id_ville` = `loc_ville`.`id_ville`
                                  OR CAST( `utl_etu`.`cpostal_parents` AS UNSIGNED )
@@ -67,7 +66,11 @@ if($req->lines!=0)
 {
   $img = new imgcarto();
   $img->addcolor('pblue_dark', 51, 102, 153);
-  if(MODE==1)
+  if(MODE==0)
+  {
+    $img->addcolor('pblue', 222, 235, 245);
+  }
+  elseif(MODE==1)
   {
     $img->addcolor('p0',   255, 242, 0); // 0   <  hts
     $img->addcolor('p1',   255, 231, 0); // 0   < hts  < 50
@@ -223,7 +226,7 @@ if($req->lines!=0)
     {
       foreach($departement['plgs'] as $plg)
       {
-        $img->addpolygon($plg, 'white', true);
+        $img->addpolygon($plg, 'pblue', true);
         $img->addpolygon($plg, 'pblue_dark', false);
       }
     }
@@ -266,7 +269,7 @@ if($req->lines!=0)
   }
 
   $img->setfactor(RATIO);
-	$img->draw();
+  $img->draw();
 
   if(WATERMARK)
   {
