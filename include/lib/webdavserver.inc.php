@@ -1953,12 +1953,14 @@ class HTTP_WebDAV_Server
      */
     function _urlencode($url) 
     {
-        return strtr($url, array(" "=>"%20",
+      return implode("/", array_map("rawurlencode", explode("/", $url)));
+      
+      /*  return strtr($url, array(" "=>"%20",
                                  "&"=>"%26",
                                  "<"=>"%3C",
                                  ">"=>"%3E",
                                  "é"=>"%C3%A9"
-                                 ));
+                                 ));*/
     }
 
     /**
