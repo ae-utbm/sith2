@@ -42,7 +42,7 @@ if (MODE == 0)
   $req = new requete($site->db, "SELECT `loc_ville`.`lat_ville`, `loc_ville`.`long_ville`
                                  FROM `loc_ville`
                                  LEFT JOIN `utl_etu` AS E1 ON (`loc_ville`.`id_ville` = `E1`.`id_ville`
-                                 OR CAST( `E2`.`cpostal_parents` AS UNSIGNED )
+                                 OR CAST( `E1`.`cpostal_parents` AS UNSIGNED )
                                  = CAST( `loc_ville`.`cpostal_ville` AS UNSIGNED ))
                                  GROUP BY `loc_ville`.`id_ville`");
 }
