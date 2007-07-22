@@ -189,7 +189,7 @@ if($req->lines!=0)
       $pgreq = new pgrequete($pgconn, "SELECT AsText(TRANSFORM(GeomFromText('POINT(".$point['long']." ".$point['lat'].")', 4030), 27582)) AS villecoords ".
                                       "FROM deptfr LIMIT 1");
       $rs = $pgreq->get_all_rows();
-      if(isset($rs[0]['gid']))
+      if(isset($rs[0]))
       {
         $villes[$i] = $rs[0]['villecoords'];
         $i++;
