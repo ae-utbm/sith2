@@ -21,21 +21,40 @@ function nosecret_findname ( $matches )
   if ( preg_match("`^__([a-zA-z0-9]*)__$`",$matches[0]) )
     return $matches[0];
   
-  if ( isset($GLOBAL["nosecret_cache"][$matches[0]]) )
-    return $GLOBAL["nosecret_cache"][$matches[0]];
+  $key = strtolower($matches[0];)
+  
+  if ( isset($GLOBAL["nosecret_cache"][$key]) )
+    return $GLOBAL["nosecret_cache"][$key];
   
   $st = microtime(true);
   
-  $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[0])))."$";
+  $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[0])));
   
-  $values = $site->user->_fsearch ( $sqlpattern, -1 );
+  $sql = "UNION SELECT `alias_utl`, prenom_utl, nom_utl, utilisateurs.id_utilisateur  " .
+          "FROM `utilisateurs` " .
+          "WHERE `alias_utl`!='' AND `alias_utl` REGEXP '^".$sqlpattern."$' " .
+          
+          "UNION SELECT `surnom_utbm`, prenom_utl, nom_utl, utilisateurs.id_utilisateur " .
+          "FROM `utl_etu_utbm` " .
+          "INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
+          "WHERE `surnom_utbm`!='' ".
+          "AND (`surnom_utbm`!=`alias_utl` OR `alias_utl` IS NULL) ".
+          "AND `surnom_utbm` REGEXP '^".$sqlpattern."([`\\\']*)$' " .
+          "ORDER BY 1";
 
-  if ( is_null($values) || count($values) == 0 )
+  $req = new requete($site->db,$sql);
+  
+  if ( !$req || $req->errno != 0 || $req->lines == 0 )
     $result=$matches[0]."(?)";  
   else
+  {
+    $values=array();
+    while ( $row = $req->get_row() )
+      $values[] = "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\">".$row[0]." : ".$row['prenom_utl']." ".$row['nom_utl']."</a>";
     $result=$matches[0]."(".implode(", ",$values).")";  
-    
-  $GLOBAL["nosecret_cache"][$matches[0]]=$result;
+  }
+  
+  $GLOBAL["nosecret_cache"][$key]=$result;
   
   return $result." (in ".(microtime(true)-$st)." seconds)";
 }
