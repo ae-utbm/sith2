@@ -355,7 +355,7 @@ class imgcarto
 
   function map_area($mapname="map")
   {
-    if ($max_x == 0)
+    //if ($max_x == 0)
       $this->calculatedimensions();
 
     if (count($this->polygons))

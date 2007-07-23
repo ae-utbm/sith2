@@ -35,7 +35,7 @@ $img->addcolor('pblue_dark', 51, 102, 153);
 $img->addcolor('pblue', 222, 235, 245);
 
 $pgconn = new pgsqlae();
-$pgreq = new pgrequete($pgconn, "SELECT asText(the_geom) AS points FROM deptfr");
+$pgreq = new pgrequete($pgconn, "SELECT nom_dept, asText(the_geom) AS points FROM deptfr");
 $rs = $pgreq->get_all_rows();
 
 $numdept = 0;
