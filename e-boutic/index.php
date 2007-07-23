@@ -152,6 +152,7 @@ elseif ( !$typeproduit->is_valid() )
             "INNER JOIN `cpt_type_produit` USING (`id_typeprod`) ".
             "WHERE `cpt_mise_en_vente`.`id_comptoir` = ".CPT_E_BOUTIC." ".
             "AND `cpt_produits`.`prod_archive` = 0 ".
+            "AND id_produit_parent IS NULL ".
             "ORDER BY date_mise_en_vente DESC ".
             "LIMIT 3");
   
