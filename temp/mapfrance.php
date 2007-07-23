@@ -89,13 +89,20 @@ echo "<html>\n<head>\n<title>click la france</title>\n</head>\n<body>\n";
 echo "map area de la carte de france<br/>\n";
 echo "<script language=\"javascript\">
 {
-  function ploufdept(id)
+  function ploufdept(obj, id)
   {
     alert('plouf ! ' + id);
   }
 
 }
-</script>\n";
+</script>
+<style type=\"text/css\">
+area:hover
+{
+  background-color: grey;
+}
+
+</style>\n";
 
 
 echo $img->map_area("carte_de_france");
