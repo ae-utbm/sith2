@@ -54,7 +54,7 @@ function nosecret_findname ( $matches )
   
   $GLOBALS["nosecret_cache"][$key]=$result;
   
-  return $result."N";
+  return $result;
 }
 
 function nosecret ( $text )
