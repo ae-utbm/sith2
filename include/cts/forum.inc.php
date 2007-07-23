@@ -21,14 +21,21 @@ function nosecret_findname ( $matches )
   if ( preg_match("`^__([a-zA-z0-9]*)__$`",$matches[0]) )
     return $matches[0];
   
+  if ( isset($GLOBAL["nosecret_cache"][$matches[0]]) )
+    return $GLOBAL["nosecret_cache"][$matches[0]];
+  
   $sqlpattern = mysql_real_escape_string(str_replace("_","(a|à|â|ä|À|Â|Ä|e|é|è|ê|ë|É|È|Ê|Ë|i|ï|î|Ï|Î|o|u|ù|ü|û|Ü|Û|Ù|y)",$matches[0]))."$";
   
   $values = $site->user->_fsearch ( $sqlpattern, -1 );
 
   if ( is_null($values) || count($values) == 0 )
-    return $matches[0]."(?)";  
+    $result=$matches[0]."(?)";  
+  else
+    $result=$matches[0]."(".implode(", ",$values).")";  
     
-  return $matches[0]."(".implode(", ",$values).")";  
+  $GLOBAL["nosecret_cache"][$matches[0]]=$result;
+  
+  return $result;
 }
 
 function nosecret ( $text )
