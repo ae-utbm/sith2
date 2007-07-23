@@ -178,7 +178,7 @@ if ( 	$_REQUEST["view"] == "factures" )
   
   $cts->add(new sqltable(
   	"compta", 
-  	"Comptabilité comptoirs", $table, "factures.php", 
+  	"Comptabilité comptoirs", $table, "syscarteae.php?view=factures", 
   	"mois", 
   	$headers, 
   	array("genfact"=>"Factures"), 
