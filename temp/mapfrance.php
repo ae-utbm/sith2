@@ -100,29 +100,43 @@ if (isset($_REQUEST['getinfodepts']))
   $cp .= '___';
 
   $req = new requete($site->db, "SELECT 
-                                        `utilisateurs`.`prenom_utl`
+                                        `utilisateurs`.`id_utilisateur`
+                                        , `utilisateurs`.`prenom_utl`
                                         , `utilisateurs`.`nom_utl`
-                                        , `utilisateurs`.`alias_utl`
+                                        , `utl_etu_utbm`.`surnom_utbm`
                                  FROM
                                         `utilisateurs`
                                  INNER JOIN
                                         `utl_etu`
                                  ON
                                         `utl_etu`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
+                                 INNER JOIN
+                                        `utl_etu_utbm`
+                                 ON
+                                        `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
+
                                  WHERE
                                         `cpostal_parents` LIKE '".$cp."' ORDER BY RAND() LIMIT 10");
 
 
   if ($req->lines <= 0)
-    exit();
-  
-  echo "<ul>";
-
-  while ($rs = $req->get_row())
     {
-      echo "<li>".$rs['prenom_utl'] . " " . $rs['nom_utl'] . " (". $rs['alias_utl'] . ")</li>";
+      echo "<p><b>Apparemment, personne ;-(</b></p>";
+      exit();
     }
-  echo "</ul>";
+  require_once($topdir . "include/cts/sqltable.inc.php");
+
+  $sqlt = new sqltable('userslst', 
+		       'Liste des utilisateurs',
+		       $req,
+		       '../user.php',
+		       'id_utilisateur', 
+		       array('prenom_utl' => 'prenom', 'nom_utl' => 'nom', 'surnom_utbm' => 'surnom'),
+		       array('view' => 'Voir la fiche'), 
+		       array(), 
+		       array());
+
+  echo $sqlt->html_render();
 
   exit();
 }
