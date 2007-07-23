@@ -21,7 +21,7 @@ function nosecret_findname ( $matches )
   if ( preg_match("`__([a-zA-z0-9]*)__`",$matches[0]) )
     return $matches[0];
   
-  $sqlpattern = mysql_real_escape_string(str_replace("_",".",$matches[0]));
+  $sqlpattern = mysql_real_escape_string(str_replace("_",".",$matches[0]))."$";
   
   $values = $site->user->_fsearch ( $sqlpattern, -1 );
 
