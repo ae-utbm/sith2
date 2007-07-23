@@ -73,6 +73,8 @@ foreach($dept as $departement)
 $img->setfactor(RATIO);
 
 
+$img->draw();
+
 if ($_REQUEST['generate'] == 1)
 {
   $img->output();
