@@ -366,7 +366,7 @@ class imgcarto
         $map .="<area shape=\"poly\" coords=\"";
         for ($i = 0; $i < count($polygon[0]); $i+= 2)
         {
-          if($i == 0)
+          if($i != 0)
             $map .=",";
           $map .= $polygon[0][$i].",".$polygon[0][$i+1];
         }
