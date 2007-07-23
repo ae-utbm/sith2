@@ -23,8 +23,8 @@ function nosecret_findname ( $matches )
   
   $key = strtolower($matches[0]);
   
-  if ( isset($GLOBAL["nosecret_cache"][$key]) )
-    return $GLOBAL["nosecret_cache"][$key];
+  if ( isset($GLOBALS["nosecret_cache"][$key]) )
+    return $GLOBALS["nosecret_cache"][$key];
   
   $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[0])))."([`\\\\\']?)";
   
@@ -52,9 +52,9 @@ function nosecret_findname ( $matches )
     $result=$matches[0]."(".implode(", ",$values).")";  
   }
   
-  $GLOBAL["nosecret_cache"][$key]=$result;
+  $GLOBALS["nosecret_cache"][$key]=$result;
   
-  return $result;
+  return $result."N";
 }
 
 function nosecret ( $text )
