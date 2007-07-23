@@ -85,7 +85,11 @@ $img->draw();
 
 if ($_REQUEST['generate'] == 1)
 {
-  $img->output();
+  require_once($topdir . 'include/watermark.inc.php');
+  $wm_img = new img_watermark ($img->imgres);
+
+  $wm_img->output();
+
   exit();
 }
 
