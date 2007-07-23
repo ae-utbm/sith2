@@ -355,12 +355,11 @@ class imgcarto
 
   function map_area($mapname="map")
   {
-    //if ($max_x == 0)
-      $this->calculatedimensions();
+    $this->calculatedimensions();
 
     if (count($this->polygons))
     {
-      $map = "<map name=\"".$mapname."\">";
+      $map = "<map name=\"".$mapname."\">\n";
       $pol_n=0;
       foreach ($this->polygons as $polygon)
       {
@@ -371,10 +370,10 @@ class imgcarto
             $map .=",";
           $map .= $polygon[0][$i].",".$polygon[0][$i+1];
         }
-        $map .= "\" href=\"__URL__".$pol_n."\" alt\"__ALT__".$pol_n.">";
+        $map .= "\" href=\"__URL__".$pol_n."\" alt\"__ALT__".$pol_n.">\n";
         $pol_n++;
       }
-      $map .= "</map>";
+      $map .= "</map>\n";
 
       return $map;
     }

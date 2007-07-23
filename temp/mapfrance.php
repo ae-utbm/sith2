@@ -70,7 +70,7 @@ foreach($dept as $departement)
 }
 
 $img->setfactor(RATIO);
-
+echo "map area de la carte de france\n";
 echo $img->map_area("carte_de_france");
 
 ?>
