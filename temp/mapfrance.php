@@ -96,28 +96,26 @@ $cts = new contents("La carte de France de l'AE", "");
 
 $cts->add_paragraph("<h2>map area de la carte de france</h2>\n".
 		    "<script language=\"javascript\">
-{
-  function ploufdept(obj, id, name)
+function ploufdept(obj, id, name)
   {
     alert('vous avez cliqué sur ' + name);
   }
 
-}
-</script>
-<style type=\"text/css\">
-area:hover
-{
-  background-color: grey;
-}
 
-</style>\n");
+document.getElementById('cts2').style.display = 'none';
+
+</script>\n");
 
 
 $cts->add_paragraph($img->map_area("carte_de_france"));
 
-$cts->add_paragraph("\n<img src=\"mapfrance.php?generate=1\" alt=\"plouf\" usemap=\"#carte_de_france\" />\n");
+$cts->add_paragraph("<center><img src=\"mapfrance.php?generate=1\" alt=\"plouf\" usemap=\"#carte_de_france\" /></center>\n");
 
 $site->add_contents($cts);
+
+$cts = new contents("", "");
+$site->add_contents($cts);
+
 
 $site->end_page();
 
