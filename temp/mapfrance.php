@@ -27,6 +27,7 @@ define("WATERMARK", TRUE); // watermark TRUE ou FALSE
 
 $topdir = "../";
 
+require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/pgsqlae.inc.php");
 require_once($topdir. "include/cts/imgcarto.inc.php");
 require_once ($topdir . "include/watermark.inc.php");
@@ -85,13 +86,19 @@ if ($_REQUEST['generate'] == 1)
   $img->output();
   exit();
 }
-echo "<html>\n<head>\n<title>click la france</title>\n</head>\n<body>\n";
-echo "map area de la carte de france<br/>\n";
-echo "<script language=\"javascript\">
+
+
+$site = new site ();
+$site->start_page("services","Carte de France de l'AE");
+
+$cts = new contents("La carte de France de l'AE", "");
+
+$cts->add_paragraph("<h2>map area de la carte de france</h2>\n".
+		    "<script language=\"javascript\">
 {
   function ploufdept(obj, id)
   {
-    alert('plouf ! ' + id);
+
   }
 
 }
@@ -102,11 +109,15 @@ area:hover
   background-color: grey;
 }
 
-</style>\n";
+</style>\n");
 
 
-echo $img->map_area("carte_de_france");
+$cts->add_paragraph($img->map_area("carte_de_france"));
 
-echo "\n<img src=\"mapfrance.php?generate=1\" alt=\"plouf\" usemap=\"#carte_de_france\" />\n";
-echo "</body>\n<html>";
+$cts->add_paragraph("\n<img src=\"mapfrance.php?generate=1\" alt=\"plouf\" usemap=\"#carte_de_france\" />\n");
+
+$site->add_contents($cts);
+
+$site->end_page();
+
 ?>
