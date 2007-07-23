@@ -38,7 +38,7 @@ $img->addcolor('pblue', 222, 235, 245);
 
 $pgconn = new pgsqlae();
 
-$pgreq = new pgrequete($pgconn, "SELECT gid, nom_dept, asText(simplify(the_geom, 2000)) AS points FROM deptfr");
+$pgreq = new pgrequete($pgconn, "SELECT code_dept, nom_dept, asText(simplify(the_geom, 2000)) AS points FROM deptfr");
 $rs = $pgreq->get_all_rows();
 
 $numdept = 0;
@@ -62,7 +62,7 @@ foreach($rs as $result)
     $i++;
   }
   $dept[$numdept]['name'] = $result['nom_dept'];
-  $dept[$numdept]['gid'] = $result['gid'];
+  $dept[$numdept]['iddept'] = $result['code_dept'];
 
   $numdept++;
 }
@@ -73,7 +73,7 @@ foreach($dept as $departement)
   {
     $img->addpolygon($plg, 'pblue_dark', false, array('id' =>$departement['gid'],
 						      'url' => "javascript:ploufdept(this, ".
-						      $departement['gid'].", '".$departement['name']."')"));
+						      $departement['iddept']. ")"));
   }
 }
 
@@ -82,12 +82,50 @@ $img->setfactor(RATIO);
 
 $img->draw();
 
+
 if ($_REQUEST['generate'] == 1)
 {
   $img->output();
   exit();
 }
 
+$site = new site ();
+
+if (isset($_REQUEST['getinfodepts']))
+{
+  echo "<h2>Ils viennent de ce département :</h2>";
+
+  $cp = mysql_real_escape_string($_REQUEST['getinfodepts']);
+
+  $cp .= '___';
+
+  $req = new requete($site->db, "SELECT 
+                                        `utilisateurs`.`prenom_utl`
+                                        , `utilisateurs`.`nom_utl`
+                                        , `utilisateurs`.`alias_utl`
+                                 FROM
+                                        `utilisateurs`
+                                 INNER JOIN
+                                        `utl_etu`
+                                 ON
+                                        `utl_etu`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
+                                 WHERE
+                                        `cpostal_parents` LIKE '".$cp."' ORDER BY RAND() LIMIT 10");
+
+
+  if ($req->lines <= 0)
+    exit();
+  
+  echo "<ul>";
+
+  while ($rs = $req->get_row())
+    {
+      echo "<li>".$rs['prenom_utl'] . " " . $rs['nom_utl'] . " (". $rs['alias_utl'] . ")</li>";
+    }
+  echo "</ul>";
+
+  exit();
+}
 
 $site = new site ();
 $site->start_page("services","Carte de France de l'AE");
@@ -96,9 +134,10 @@ $cts = new contents("La carte de France de l'AE", "");
 
 $cts->add_paragraph("<h2>map area de la carte de france</h2>\n".
 		    "<script language=\"javascript\">
-function ploufdept(obj, id, name)
+function ploufdept(obj, id)
   {
-    alert('vous avez cliqué sur ' + name);
+    openInContents('cts2', './mapfrance.php', 'getinfodepts='+id);
+    document.getElementById('cts2').style.display = 'block';
   }
 
 
