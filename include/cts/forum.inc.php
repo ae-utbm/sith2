@@ -25,7 +25,7 @@ function nosecret_findname ( $matches )
   
   $values = $site->user->_fsearch ( $sqlpattern, -1 );
 
-  if ( is_null($values) || count($values) == 0 )
+  if ( is_null($values) || count($values) == 0 )
     return $matches[0]."(?)";  
     
   return $matches[0]."(".implode(", ",$values).")";  
