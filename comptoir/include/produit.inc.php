@@ -310,7 +310,24 @@ class produit extends stdentity
 
     return true;
   }
+  
+  function modifier_typeprod ($id_typeprod)
+  {
 
+    $this->id_type = $id_typeprod;
+
+    $req = new update ($this->dbrw,
+		       "cpt_produits",
+		       array("id_typeprod" => $this->id_type
+			      ),
+			   array("id_produit" => $this->id));
+
+    if ( !$req )
+    	return false;
+
+    return true;
+  }
+  
   function supprimer ()
   {
     if ( $this->determine_deja_vendu() )

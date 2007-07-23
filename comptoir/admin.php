@@ -432,8 +432,23 @@ elseif ( $_REQUEST["page"] == "addproduit" )
 	exit();
 }
 
+
+
 if ( $_REQUEST["page"] == "produits" )
 {
+  if ( ereg("^settypeprod=([0-9]*)$",$_REQUEST["action"],$regs) )
+  {
+    $typeprod->load_by_id( $regs[1]);
+  
+    foreach($_REQUEST["id_produits"] as $id)
+    {
+      $produit->load_by_id($id);
+      if ( $produit->is_valid() )
+         $produit->modifier_typeprod ($typeprod->id); 
+    }	
+  }
+  
+  
 	$site->start_page("services","Administration des comptoirs");
 	$cts = new contents();
 
@@ -448,9 +463,19 @@ if ( $_REQUEST["page"] == "produits" )
 		"INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
 		"ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
 
+  $batch = array();
+  
+	$req = new requete($site->db,
+		"SELECT `id_typeprod`,`nom_typeprod` " .
+		"FROM `cpt_type_produit`  " .
+		"ORDER BY `nom_typeprod`");
+		
+	while ( $row = $req->get_row() )
+	  $batch["settypeprod=".$row['id_typeprod']] = "Modifier le type pour ".$row['nom_typeprod']; 
+	 
 	$tbl = new sqltable(
 			"lstproduits", 
-			"Produits", $req, "admin.php", 
+			"Produits", $req, "admin.php?page=produits", 
 			"id_produit", 
 			array(
 			"nom_typeprod"=>"Type",
@@ -461,7 +486,7 @@ if ( $_REQUEST["page"] == "produits" )
 			"stock_global_prod"=>"Stock global",
 			"nom_asso"=>"Association"
 			), 
-			array("edit"=>"Editer"), array(), array()
+			array("edit"=>"Editer"), $batch, array()
 			);
 			
 	$cts->add($tbl,true);
