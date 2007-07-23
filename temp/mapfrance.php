@@ -49,7 +49,10 @@ if (isset($_REQUEST['gendept']))
   
   $astext = $result['points'];
   
+  $dept = array();
+
   $matched = array();
+
   preg_match_all("/\(([^)]*)\)/", $astext, $matched);
   
   $i = 0;
