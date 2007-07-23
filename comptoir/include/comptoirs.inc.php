@@ -30,13 +30,13 @@
  
 require_once($topdir."include/site.inc.php");
 
-require_once("comptoir.inc.php");
-require_once("cptasso.inc.php");
-require_once("defines.inc.php");
-require_once("facture.inc.php");
-require_once("produit.inc.php");
-require_once("typeproduit.inc.php");
-require_once("venteproduit.inc.php");
+require_once($topdir . "comptoir/include/comptoir.inc.php");
+require_once($topdir . "comptoir/include/cptasso.inc.php");
+require_once($topdir . "comptoir/include/defines.inc.php");
+require_once($topdir . "comptoir/include/facture.inc.php");
+require_once($topdir . "comptoir/include/produit.inc.php");
+require_once($topdir . "comptoir/include/typeproduit.inc.php");
+require_once($topdir . "comptoir/include/venteproduit.inc.php");
 require_once($topdir."include/entities/books.inc.php");
 
 class sitecomptoirs extends site
