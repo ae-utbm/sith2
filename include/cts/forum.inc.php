@@ -44,7 +44,7 @@ function nosecret_findname ( $matches )
 
   $req = new requete($site->db,$sql);
   
-  if ( !$req || $req->errno != 0 || $req->lines == 0 )
+  if ( !$req || $req->lines == 0 )
     $result=$matches[0]."(?)";  
   else
   {
