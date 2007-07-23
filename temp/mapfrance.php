@@ -81,9 +81,11 @@ if ($_REQUEST['generate'] == 1)
   exit();
 }
 
-echo "map area de la carte de france<br/>";
+echo "map area de la carte de france<br/>\n";
 
-echo "<img src=\"mapfrance.php?generate=1\" alt=\"plouf\" usemap=\"#carte_de_france\" />";
+echo $img->map_area("carte_de_france");
+
+echo "\n<img src=\"mapfrance.php?generate=1\" alt=\"plouf\" usemap=\"#carte_de_france\" />\n";
 
 echo $img->map_area("carte_de_france");
 
