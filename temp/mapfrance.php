@@ -43,14 +43,22 @@ if (isset($_REQUEST['gendept']))
   $img->addcolor('orange', 255, 204, 42);
 
   $dept = intval($_REQUEST['gendept']);
-  $pgreq = new pgrequete($pgconn, "SELECT code_dept, nom_dept, asText(simplify(the_geom, 2000)) AS points FROM deptfr WHERE code_dept = '".$dept."'");
+  $pgreq = new pgrequete($pgconn, 
+			 "SELECT 
+                                 code_dept
+                                 , nom_dept
+                                 , asText(simplify(the_geom, 2000)) AS points 
+                          FROM 
+                                 deptfr 
+                          WHERE 
+                                 code_dept = '".$dept."'");
   
   $result = $pgreq->get_all_rows();
-  
+  print_r($result);
+
   $astext = $result['points'];
   
   $dept = array();
-
   $matched = array();
 
   preg_match_all("/\(([^)]*)\)/", $astext, $matched);
