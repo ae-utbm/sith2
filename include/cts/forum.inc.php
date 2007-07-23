@@ -21,14 +21,14 @@ function nosecret_findname ( $matches )
   if ( preg_match("`^__([a-zA-z0-9]*)__$`",$matches[0]) )
     return $matches[0];
   
-  $key = strtolower($matches[0];)
+  $key = strtolower($matches[0]);
   
   if ( isset($GLOBAL["nosecret_cache"][$key]) )
     return $GLOBAL["nosecret_cache"][$key];
   
   $st = microtime(true);
   
-  $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[0])));
+  $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[0])))."([`\\\']*)";
   
   $sql = "UNION SELECT `alias_utl`, prenom_utl, nom_utl, utilisateurs.id_utilisateur  " .
           "FROM `utilisateurs` " .
@@ -39,7 +39,7 @@ function nosecret_findname ( $matches )
           "INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
           "WHERE `surnom_utbm`!='' ".
           "AND (`surnom_utbm`!=`alias_utl` OR `alias_utl` IS NULL) ".
-          "AND `surnom_utbm` REGEXP '^".$sqlpattern."([`\\\']*)$' " .
+          "AND `surnom_utbm` REGEXP '^".$sqlpattern."$' " .
           "ORDER BY 1";
 
   $req = new requete($site->db,$sql);
