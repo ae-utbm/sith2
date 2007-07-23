@@ -73,7 +73,7 @@ foreach($dept as $departement)
   {
     $img->addpolygon($plg, 'pblue_dark', false, array('id' =>$departement['gid'],
 						      'url' => "javascript:ploufdept(this, ".
-						      $departement['gid'].", ".$departement['name'].")"));
+						      $departement['gid'].", '".$departement['name']."')"));
   }
 }
 
