@@ -83,9 +83,15 @@ class imgcarto
   {
     $this->lines[] = array($x,$y,$fx,$fy,$color);
   }
-  function addpolygon($plg, $color, $filled = false)
+
+  /*
+   * Précisions sur la variable facultative $mapdatas : contient
+   * éventuellement un tableau associatif avec une clé id désignant
+   * l'identifiant unique de "l'objet", ainsi qu'une URL pour l'action.
+   */
+  function addpolygon($plg, $color, $filled = false, $mapdatas = null)
   {
-    $this->polygons[] = array($plg, $color, $filled);
+    $this->polygons[] = array($plg, $color, $filled, $mapdatas);
   }
 
   function setfactor($factor)
@@ -383,8 +389,11 @@ class imgcarto
 
 	$map .= implode (",", $values);
 
-        $map .= "\" href=\"__URL__".$pol_n."\" alt=\"__ALT__".$pol_n."\">\n";
+	//        $map .= "\" href=\"__URL__".$pol_n."\" alt=\"__ALT__".$pol_n."\">\n";
+
+	$map .= "\" href=\"".$polygon[3]['url']."\" alt=\"notset\" />\n";
         $pol_n++;
+
       }
       $map .= "</map>\n";
 

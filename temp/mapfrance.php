@@ -1,6 +1,7 @@
 <?php
 /* Copyright 2007
  * - Simon Lopez < simon dot lopez at ayolo dot org >
+ * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -36,7 +37,7 @@ $img->addcolor('pblue', 222, 235, 245);
 
 $pgconn = new pgsqlae();
 
-$pgreq = new pgrequete($pgconn, "SELECT nom_dept, asText(simplify(the_geom, 2000)) AS points FROM deptfr");
+$pgreq = new pgrequete($pgconn, "SELECT gid, nom_dept, asText(simplify(the_geom, 2000)) AS points FROM deptfr");
 $rs = $pgreq->get_all_rows();
 
 $numdept = 0;
@@ -59,6 +60,9 @@ foreach($rs as $result)
     }
     $i++;
   }
+  $dept[$numdept]['name'] = $result['nom_dept'];
+  $dept[$numdept]['gid'] = $result['gid'];
+
   $numdept++;
 }
 
@@ -66,7 +70,8 @@ foreach($dept as $departement)
 {
   foreach($departement['plgs'] as $plg)
   {
-    $img->addpolygon($plg, 'pblue_dark', false);
+    $img->addpolygon($plg, 'pblue_dark', false, array('id' =>$departement['gid'],
+						      'url' => "javascript:ploufdept(this, ".$departement['gid'].")"));
   }
 }
 
@@ -82,6 +87,16 @@ if ($_REQUEST['generate'] == 1)
 }
 echo "<html>\n<head>\n<title>click la france</title>\n</head>\n<body>\n";
 echo "map area de la carte de france<br/>\n";
+echo "<script language=\"javascript\">
+{
+  function ploufdept(id)
+  {
+    alert('plouf ! ' + id);
+  }
+
+}
+</script>\n";
+
 
 echo $img->map_area("carte_de_france");
 
