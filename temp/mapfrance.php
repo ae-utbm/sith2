@@ -93,9 +93,9 @@ $site = new site ();
 
 if (isset($_REQUEST['getinfodepts']))
 {
-  echo "<h2>Ils viennent de ce département :</h2>";
-
   $cp = mysql_real_escape_string($_REQUEST['getinfodepts']);
+
+  echo "<h2>Ils viennent de ce département ($cp) :</h2>";
 
   $cp .= '___';
 
