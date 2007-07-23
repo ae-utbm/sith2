@@ -54,6 +54,7 @@ if (isset($_REQUEST['gendept']))
                                  code_dept = '".$dept."'");
   
   $result = $pgreq->get_all_rows();
+  $result = $result[0];
 
   $astext = $result['points'];
   
