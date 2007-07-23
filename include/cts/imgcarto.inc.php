@@ -364,14 +364,12 @@ class imgcarto
       $pol_n=0;
       foreach ($this->polygons as $polygon)
       {
-        $first=true;
         $map .="<area shape=\"poly\" coords=\"";
         for ($i = 0; $i < count($polygon[0]); $i+= 2)
         {
-          if(!$first)
+          if($i == 0)
             $map .=",";
           $map .= $polygon[0][$i].",".$polygon[0][$i+1];
-          $first=false;
         }
         $map .= "\" href=\"__URL__".$pol_n."\" alt\"__ALT__".$pol_n.">";
         $pol_n++;
