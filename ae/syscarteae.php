@@ -210,9 +210,9 @@ elseif ( 	$_REQUEST["view"] == "comptes" )
 
   list($dep) = $req->get_row();
 
-  $sum = $rep-$rech;
+  $sum = $rech-$dep;
 
-  $cts->add_paragraph("Solde théorique le ".date("d/m/Y H:I:S",$when)." : ".($sum/100)." &euro;");
+  $cts->add_paragraph("Solde théorique le ".date("d/m/Y H:i:s",$when)." : ".($sum/100)." &euro;");
 
   $frm = new form ("cptsoldes","syscarteae.php?view=comptes");
   $frm->add_hidden("action","sumsoldes");
