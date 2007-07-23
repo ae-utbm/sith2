@@ -14,6 +14,27 @@ function human_date ( $timestamp )
   return date("d/m/Y H:i",$timestamp);
 }
 
+function nosecret_findname ( $matches )
+{
+  global $site;
+
+  if ( preg_match("`__([a-zA-z0-9]*)__`",$matches[0]) )
+    return $matches[0];
+  
+  $sqlpattern = mysql_real_escape_string(str_replace("_",".",$matches[0]));
+  
+  $values = $site->user->_fsearch ( $sqlpattern, -1 );
+
+  if ( is_null($values) || count($values) == 0 )
+    return $matches[0]."(?)";  
+    
+  return $matches[0]."("implode(", ",$values).")";  
+}
+
+function nosecret ( $text )
+{
+  return preg_replace_callback("`([a-zA-z0-9]*_[a-zA-z0-9_]*)`","nosecret_findname",$text);
+}
 
 class forumslist extends stdcontents
 {
@@ -295,6 +316,9 @@ class sujetforum extends stdcontents
       
       $this->buffer .= "</div>\n";
       $this->buffer .= "<div class=\"forummessage\">\n";
+      
+      if ( isset($_COOKIE["nosecret"]) && $_COOKIE["nosecret"] == 1 )
+        $row['contenu_message'] = nosecret($row['contenu_message']);
       
       if ( $row['syntaxengine_message'] == "bbcode" )
         $this->buffer .= bbcode($row['contenu_message']);

@@ -134,6 +134,8 @@ elseif ( isset($_REQUEST["react"]) )
   }
 }
 
+if ( isset($_REQUEST["setnosecret"]) )
+  setcookie ("nosecret", $_REQUEST["setnosecret"], time() + 31536000, "/", $domain, 0);
 
 
 if ( !$forum->is_valid() )
