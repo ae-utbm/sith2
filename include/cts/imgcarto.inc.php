@@ -353,6 +353,35 @@ class imgcarto
       imagedestroy($imgres);
   }
 
+  function map_area($mapname="map")
+  {
+    if ($max_x == 0)
+      $this->calculatedimensions();
+
+    if (count($this->polygons))
+    {
+      $map = "<map name=\"".$mapname."\">";
+      $pol_n=0;
+      foreach ($this->polygons as $polygon)
+      {
+        $first=true;
+        $map .="<area shape=\"poly\" coords=\"";
+        for ($i = 0; $i < count($polygon[0]); $i+= 2)
+        {
+          if(!$first)
+            $map .=",";
+          $map .= $polygon[0][$i].",".$polygon[0][$i+1];
+          $first=false;
+        }
+        $map .= "\" href=\"__URL__".$pol_n."\" alt\"__ALT__".$pol_n.">";
+        $pol_n++;
+      }
+      $map .= "</map>";
+
+      return $map;
+    }
+    return "";
+  }
 }
 
 ?>
