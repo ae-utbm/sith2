@@ -146,28 +146,35 @@ $site->start_page("services","Carte de France de l'AE");
 
 $cts = new contents("La carte de France de l'AE", "");
 
-$cts->add_paragraph("<h2>map area de la carte de france</h2>\n".
-		    "<script language=\"javascript\">
+$cts->add_paragraph("<script language=\"javascript\">
 function ploufdept(obj, id)
   {
     openInContents('cts2', './mapfrance.php', 'getinfodepts='+id);
     document.getElementById('cts2').style.display = 'block';
   }
+</script>
 
-
-document.getElementById('cts2').style.display = 'none';
-
-</script>\n");
+<style type=\"text/css\">
+img.cartefr:hover
+{
+  filter:alpha(opacity=40);
+}
+</style>\n");
 
 
 $cts->add_paragraph($img->map_area("carte_de_france"));
 
-$cts->add_paragraph("<center><img src=\"mapfrance.php?generate=1\" alt=\"plouf\" usemap=\"#carte_de_france\" /></center>\n");
+$cts->add_paragraph("<center><img class=\"cartefr\" src=\"mapfrance.php?generate=1\" alt=\"plouf\" usemap=\"#carte_de_france\" /></center>\n");
 
 $site->add_contents($cts);
 
 $cts = new contents("", "");
+$cts->add_paragraph("<script language=\"javascript\">
+document.getElementById('cts2').style.display = 'none';
+</script>\n");
+
 $site->add_contents($cts);
+
 
 
 $site->end_page();
