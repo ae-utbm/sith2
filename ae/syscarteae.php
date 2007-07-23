@@ -188,7 +188,7 @@ $site->start_page("none","Système carte AE");
 $cts = new contents("Système carte AE");
 
 $tabs = array(array("","ae/syscarteae.php", "Résumé"),
-			array("factures","ae/syscarteae.php?view=factures", "Appels à factures"),
+			array("factures","ae/syscarteae.php?view=factures", "Appels à facture"),
 			array("comptes","ae/syscarteae.php?view=comptes", "Comptes")
 			);
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));	
@@ -196,7 +196,7 @@ $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 	
 if ( 	$_REQUEST["view"] == "factures" )
 {
-  $cts->add_title(2,"Touts les appels à facture");
+  $cts->add_title(2,"Tous les appels à facture");
 
   $sql = new requete($site->db, 
   "SELECT ".
