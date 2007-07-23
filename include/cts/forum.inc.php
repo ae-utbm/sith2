@@ -26,8 +26,6 @@ function nosecret_findname ( $matches )
   if ( isset($GLOBAL["nosecret_cache"][$key]) )
     return $GLOBAL["nosecret_cache"][$key];
   
-  $st = microtime(true);
-  
   $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[0])))."([`\\\\\']?)";
   
   $sql = "SELECT `alias_utl`, prenom_utl, nom_utl, utilisateurs.id_utilisateur  " .
@@ -56,7 +54,7 @@ function nosecret_findname ( $matches )
   
   $GLOBAL["nosecret_cache"][$key]=$result;
   
-  return $result." (in ".(microtime(true)-$st)." seconds)";
+  return $result;
 }
 
 function nosecret ( $text )
