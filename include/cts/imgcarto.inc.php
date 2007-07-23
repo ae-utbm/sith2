@@ -54,6 +54,8 @@ class imgcarto
 
   function imgcarto()
   {
+    $this->dimx = 0;
+
     $this->addcolor("black", 0,0,0);
     $this->addcolor("red", 255, 0,0);
     $this->addcolor("blue", 0,0,255);
@@ -267,7 +269,7 @@ class imgcarto
 
   function draw()
   {
-    if ($max_x == 0)
+    if ($this->dimx == 0)
       $this->calculatedimensions();
 
     if ($this->dimx > IMG_MAX_WIDTH)
@@ -355,7 +357,8 @@ class imgcarto
 
   function map_area($mapname="map")
   {
-    $this->calculatedimensions();
+    if ($this->dimx == 0)
+      $this->calculatedimensions();
 
     if (count($this->polygons))
     {
@@ -364,12 +367,22 @@ class imgcarto
       foreach ($this->polygons as $polygon)
       {
         $map .="<area shape=\"poly\" coords=\"";
-        for ($i = 0; $i < count($polygon[0]); $i+= 2)
+	/*
+     for ($i = 0; $i < count($polygon[0]); $i+= 2)
         {
           if($i != 0)
             $map .=",";
           $map .= $polygon[0][$i].",".$polygon[0][$i+1];
         }
+	*/
+	$values = array();
+
+	foreach ($polygon[0] as $elem)
+	  $values[] = intval($elem);
+
+
+	$map .= implode (",", $values);
+
         $map .= "\" href=\"__URL__".$pol_n."\" alt=\"__ALT__".$pol_n."\">\n";
         $pol_n++;
       }
