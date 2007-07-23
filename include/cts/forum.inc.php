@@ -349,16 +349,16 @@ class sujetforum extends stdcontents
         $row['contenu_message'] = nosecret($row['contenu_message']);
       
       if ( $row['syntaxengine_message'] == "bbcode" )
-        $this->buffer = bbcode($row['contenu_message']);
+        $this->buffer .= bbcode($row['contenu_message']);
         
       elseif ( $row['syntaxengine_message'] == "doku" )
-        $this->buffer = doku2xhtml($row['contenu_message']);
+        $this->buffer .= doku2xhtml($row['contenu_message']);
         
       elseif ( $row['syntaxengine_message'] == "plain" )
-        $this->buffer = "<pre>".htmlentities($row['contenu_message'],ENT_NOQUOTES,"UTF-8")."</pre>";
+        $this->buffer .= "<pre>".htmlentities($row['contenu_message'],ENT_NOQUOTES,"UTF-8")."</pre>";
       
       else // text
-        $this->buffer = nl2br(htmlentities($row['contenu_message'],ENT_NOQUOTES,"UTF-8"));
+        $this->buffer .= nl2br(htmlentities($row['contenu_message'],ENT_NOQUOTES,"UTF-8"));
         
       if ( !is_null($row['signature_utl']) )  
       {
