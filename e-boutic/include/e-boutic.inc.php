@@ -70,7 +70,7 @@ class eboutic extends site
     $this->comptoir = new comptoir($this->db,$this->dbrw);
     $this->comptoir->load_by_id(CPT_E_BOUTIC);
     
-  	if ( $this->get_param("closed.eboutic",false) )
+  	if ( $this->get_param("closed.eboutic",false) && !$this->user->is_in_group("root")  )
       $this->fatal_partial("services");
   }
 
