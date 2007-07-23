@@ -28,7 +28,7 @@ function nosecret_findname ( $matches )
   
   $st = microtime(true);
   
-  $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[0])))."([`\\\']*)";
+  $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[0])))."(`?)";
   
   $sql = "SELECT `alias_utl`, prenom_utl, nom_utl, utilisateurs.id_utilisateur  " .
           "FROM `utilisateurs` " .
