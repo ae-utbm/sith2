@@ -212,7 +212,7 @@ elseif ( 	$_REQUEST["view"] == "comptes" )
 
   $sum = $rech-$dep;
 
-  $cts->add_paragraph("Solde théorique le ".date("d/m/Y H:i:s",$when)." : ".($sum/100)." &euro;");
+  $cts->add_paragraph("Solde théorique le ".date("d/m/Y H:i:s",$when)." : <b>".($sum/100)." &euro;/b>");
 
   $frm = new form ("cptsoldes","syscarteae.php?view=comptes");
   $frm->add_hidden("action","sumsoldes");
@@ -226,7 +226,7 @@ elseif ( 	$_REQUEST["view"] == "comptes" )
   $frm->add_hidden("action","sumrech");
   $frm->add_datetime_field("debut","Date et heure de début");
   $frm->add_datetime_field("fin","Date et heure de fin");
-  $frm->add_entity_select("id_comptoir", "Lieu", $site->db, "comptoir",$_REQUEST["id_comptoir"]);
+  $frm->add_entity_select("id_comptoir", "Lieu", $site->db, "comptoir",$_REQUEST["id_comptoir"],true);
   $frm->add_select_field("banque_rech","Banque", $Banques,$_REQUEST["banque_rech"]);
   $frm->add_select_field("type_paiement_rech","Type paiement",$TypesPaiementsFull,
     isset($_REQUEST["type_paiement_rech"])?$_REQUEST["type_paiement_rech"]:-1);
