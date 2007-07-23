@@ -80,11 +80,11 @@ if ($_REQUEST['generate'] == 1)
   $img->output();
   exit();
 }
-
+echo "<html>\n<head>\n<title>click la france</title>\n</head>\n<body>\n";
 echo "map area de la carte de france<br/>\n";
 
 echo $img->map_area("carte_de_france");
 
 echo "\n<img src=\"mapfrance.php?generate=1\" alt=\"plouf\" usemap=\"#carte_de_france\" />\n";
-
+echo "</body>\n<html>";
 ?>
