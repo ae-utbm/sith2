@@ -313,7 +313,6 @@ class debitfacture extends stdentity
 		}
 
 		$req = new delete ($this->dbrw,"cpt_vendu",array("id_facture" => $this->id));
-		$req = new delete ($this->dbrw,"cpt_vendu_cotisant",array("id_facture" => $this->id));
 		$req = new delete ($this->dbrw,"cpt_debitfacture",array("id_facture" => $this->id));
 	}
 

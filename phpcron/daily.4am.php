@@ -29,5 +29,13 @@ while ( $row = $req->get_row() )
   $vp->debloquer ( $client, $row['quantite'] );
 }
 
+// Tâche 2 : Nettotage des produits (et eventuels verrous liés), et des types
+
+$req = new requete($site->dbrw,"DELETE FROM `cpt_produits` WHERE prod_archive=1 AND NOT EXISTS(SELECT * FROM cpt_vendu WHERE cpt_vendu.id_produit=cpt_produits.id_produit)");
+
+$req = new requete($site->dbrw,"DELETE FROM `cpt_verrou` WHERE NOT EXISTS(SELECT * FROM cpt_produits WHERE cpt_verrou.id_produit=cpt_produits.id_produit)");
+
+$req = new requete($site->dbrw,"DELETE FROM `cpt_type_produit` WHERE NOT EXISTS ( SELECT * FROM cpt_produits WHERE cpt_produits.id_typeprod=cpt_type_produit.id_typeprod)");
+
 
 ?>
