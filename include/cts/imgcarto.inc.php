@@ -370,7 +370,7 @@ class imgcarto
             $map .=",";
           $map .= $polygon[0][$i].",".$polygon[0][$i+1];
         }
-        $map .= "\" href=\"__URL__".$pol_n."\" alt\"__ALT__".$pol_n."\">\n";
+        $map .= "\" href=\"__URL__".$pol_n."\" alt=\"__ALT__".$pol_n."\">\n";
         $pol_n++;
       }
       $map .= "</map>\n";
