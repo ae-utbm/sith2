@@ -54,7 +54,6 @@ if (isset($_REQUEST['gendept']))
                                  code_dept = '".$dept."'");
   
   $result = $pgreq->get_all_rows();
-  print_r($result);
 
   $astext = $result['points'];
   
@@ -64,11 +63,12 @@ if (isset($_REQUEST['gendept']))
   preg_match_all("/\(([^)]*)\)/", $astext, $matched);
   
   $i = 0;
-  
+
   foreach ($matched[1] as $polygon)
     {
       $polygon = str_replace("(", "", $polygon);
       $points = explode(",", $polygon);
+
       foreach ($points as $point)
 	{
 	  $coord = explode(" ", $point);
@@ -77,8 +77,10 @@ if (isset($_REQUEST['gendept']))
 	}
       $i++;
     }
+
   $dept['name'] = $result['nom_dept'];
   $dept['iddept'] = $result['code_dept'];
+  print_r($dept);
 
   foreach($dept['plgs'] as $plg)
     {
