@@ -131,7 +131,7 @@ if ( !$folder->is_valid() )
 }
 
 if ( !$folder->is_right($site->user,DROIT_LECTURE) )
-  $site->error_forbidden($section,"group",$folder->id_groups);
+  $site->error_forbidden($section,"group",$folder->id_groupe);
 
 
 if ( $_REQUEST["action"] == "cut" )
