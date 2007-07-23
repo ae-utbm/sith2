@@ -24,7 +24,7 @@ function nosecret_findname ( $matches )
   if ( isset($GLOBAL["nosecret_cache"][$matches[0]]) )
     return $GLOBAL["nosecret_cache"][$matches[0]];
   
-  
+  $st = microtime(true);
   
   $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[0])))."$";
   
@@ -37,7 +37,7 @@ function nosecret_findname ( $matches )
     
   $GLOBAL["nosecret_cache"][$matches[0]]=$result;
   
-  return $result;
+  return $result." (in ".(microtime(true)-$st)." seconds)";
 }
 
 function nosecret ( $text )
