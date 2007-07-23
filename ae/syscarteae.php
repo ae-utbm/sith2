@@ -120,6 +120,68 @@ if ( $_REQUEST["action"] == "genfact" )
   $fact_pdf->Output ();
   exit();
 }
+elseif ( $_REQUEST["action"] == "genonefact" )
+{
+	$asso = new asso($site->db);
+	$asso->load_by_id($_REQUEST["id_asso"]);
+	
+	$month = $_REQUEST["month"];
+	
+	$factured_infos = array ('name' => "AE - UTBM",
+			 'addr' => array("6 Boulevard Anatole France",
+					 "90000 BELFORT"),
+			 'logo' => "http://ae.utbm.fr/images/Ae-blanc.jpg");
+
+	$facturing_infos = array ('name' => $asso->nom,
+			 'addr' => explode("\n",utf8_decode($asso->adresse_postale)),
+			 'logo' => "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg");
+
+	$date_facturation = date("d/m/Y", mktime ( 0, 0, 0, substr($month,4)+1, 1, substr($month,0,4)));
+	
+	$titre = utf8_decode("Facture système carte AE");
+	
+	$ref = $month;
+
+	$query = new requete ($site->db, "SELECT " .
+			"CONCAT(`cpt_produits`.`id_typeprod`,'-',`cpt_vendu`.`id_produit`,'-',`cpt_vendu`.`prix_unit`) AS `groupby`, " .
+			"SUM(`cpt_vendu`.`quantite`) AS `quantite`, " .
+			"`cpt_vendu`.`prix_unit` AS `prix_unit`, " .
+			"SUM(`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`) AS `total`," .
+			"`cpt_produits`.`nom_prod`," .
+			"`cpt_type_produit`.`nom_typeprod`"  .
+			"FROM `cpt_vendu` " .
+			"INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
+			"INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
+			"INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
+			"INNER JOIN `utilisateurs` ON `cpt_debitfacture`.`id_utilisateur` =`utilisateurs`.`id_utilisateur` " .
+			"INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
+			"WHERE `cpt_vendu`.`id_assocpt`='".mysql_real_escape_string($asso->id)."' AND `cpt_produits`.`id_typeprod`!='11' " .
+			"AND EXTRACT(YEAR_MONTH FROM `date_facture`)='".mysql_real_escape_string($month)."' " .
+			"GROUP BY `groupby` " .
+			"ORDER BY `cpt_type_produit`.`nom_typeprod`, `cpt_produits`.`nom_prod`, `cpt_vendu`.`prix_unit`");
+
+	
+	while ($line = $query->get_row ())
+	{
+	  $lines[] = array('nom' => utf8_decode($line['nom_prod']),
+			   'quantite' => intval($line['quantite']),
+			   'prix' => $line['prix_unit'],
+			   'sous_total' => intval($line['quantite']) * $line['prix_unit']);
+	}
+	
+	
+	$fact_pdf = new facture_pdf ($facturing_infos,
+				     $factured_infos,
+				     $date_facturation,
+				     $titre,
+				     $ref,
+				     $lines);
+	
+	$fact_pdf->renderize ();
+	
+	
+	exit();	
+}
 
 $site->start_page("none","Système carte AE");
 
@@ -134,7 +196,8 @@ $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 	
 if ( 	$_REQUEST["view"] == "factures" )
 {
-  
+  $cts->add_title(2,"Touts les appels à facture");
+
   $sql = new requete($site->db, 
   "SELECT ".
   "`asso`.`nom_asso`,".
@@ -185,6 +248,28 @@ if ( 	$_REQUEST["view"] == "factures" )
   	array(),
   	array( )
   	));
+  	
+  $cts->add_title(2,"Re-Générer un appel à facture");
+
+  $months = array();
+
+  $req = new requete($site->db, "SELECT " .
+  		"EXTRACT(YEAR_MONTH FROM `date_facture`) as `month` " .
+  		"FROM `cpt_debitfacture` " .
+  		"GROUP BY `month` " .
+  		"ORDER BY `month` DESC");
+  
+  while ( list($month) = $req->get_row() )
+  	$months[$month] = substr($month,4)."/".substr($month,0,4);
+  
+  
+  $frm = new form ("genfact","syscarteae.php?view=factures",false);
+  $frm->add_hidden("action","genonefact");
+  $frm->add_select_field("month","Mois",$months);
+  $frm->add_entity_select("id_asso", "Association émétrice", $site->db, "assocpt");
+  $frm->add_submit("generate","Générer");
+  $cts->add($frm);
+
 }
 elseif ( 	$_REQUEST["view"] == "comptes" )
 {
@@ -212,7 +297,7 @@ elseif ( 	$_REQUEST["view"] == "comptes" )
 
   $sum = $rech-$dep;
 
-  $cts->add_paragraph("Solde théorique le ".date("d/m/Y H:i:s",$when)." : <b>".($sum/100)." &euro;/b>");
+  $cts->add_paragraph("Solde théorique le ".date("d/m/Y H:i:s",$when)." : <b>".($sum/100)." &euro;</b>");
 
   $frm = new form ("cptsoldes","syscarteae.php?view=comptes");
   $frm->add_hidden("action","sumsoldes");
