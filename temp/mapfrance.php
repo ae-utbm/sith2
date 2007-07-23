@@ -38,6 +38,51 @@ $img->addcolor('pblue', 222, 235, 245);
 
 $pgconn = new pgsqlae();
 
+if (isset($_REQUEST['gendept']))
+{
+  $img->addcolor('orange', 255, 204, 42);
+
+  $dept = intval($_REQUEST['gendept']);
+  $pgreq = new pgrequete($pgconn, "SELECT code_dept, nom_dept, asText(simplify(the_geom, 2000)) AS points FROM deptfr WHERE code_dept = '".$dept."'");
+  
+  $result = $pgreq->get_all_rows();
+  
+  $astext = $result['points'];
+  
+  $matched = array();
+  preg_match_all("/\(([^)]*)\)/", $astext, $matched);
+  
+  $i = 0;
+  
+  foreach ($matched[1] as $polygon)
+    {
+      $polygon = str_replace("(", "", $polygon);
+      $points = explode(",", $polygon);
+      foreach ($points as $point)
+	{
+	  $coord = explode(" ", $point);
+	  $dept['plgs'][$i][] = $coord[0];
+	  $dept['plgs'][$i][] = $coord[1];
+	}
+      $i++;
+    }
+  $dept['name'] = $result['nom_dept'];
+  $dept['iddept'] = $result['code_dept'];
+
+  foreach($dept['plgs'] as $plg)
+    {
+      $img->addpolygon($plg, 'orange', true, null);
+    }
+
+
+  $img->setfactor(RATIO);
+  $img->draw();
+  $img->output();
+
+  exit();
+}
+
+
 $pgreq = new pgrequete($pgconn, "SELECT code_dept, nom_dept, asText(simplify(the_geom, 2000)) AS points FROM deptfr");
 $rs = $pgreq->get_all_rows();
 
@@ -81,7 +126,6 @@ $img->setfactor(RATIO);
 
 
 $img->draw();
-
 
 if ($_REQUEST['generate'] == 1)
 {
