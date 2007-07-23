@@ -28,11 +28,12 @@ function nosecret_findname ( $matches )
   
   $st = microtime(true);
   
-  $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[0])))."";
+  $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[0])))."([`\\\']*)";
   
-  $sql = "UNION SELECT `alias_utl`, prenom_utl, nom_utl, utilisateurs.id_utilisateur  " .
+  $sql = "SELECT `alias_utl`, prenom_utl, nom_utl, utilisateurs.id_utilisateur  " .
           "FROM `utilisateurs` " .
           "WHERE `alias_utl`!='' AND `alias_utl` REGEXP '^".$sqlpattern."$' " .
+          
           "UNION SELECT `surnom_utbm`, prenom_utl, nom_utl, utilisateurs.id_utilisateur " .
           "FROM `utl_etu_utbm` " .
           "INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
