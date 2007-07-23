@@ -81,7 +81,6 @@ if (isset($_REQUEST['gendept']))
 
   $dept['name'] = $result['nom_dept'];
   $dept['iddept'] = $result['code_dept'];
-  print_r($dept);
 
   foreach($dept['plgs'] as $plg)
     {
