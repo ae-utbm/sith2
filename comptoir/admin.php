@@ -471,13 +471,14 @@ if ( $_REQUEST["page"] == "produits" )
 		"FROM `cpt_produits` " .
 		"INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
 		"INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
+		"WHERE prod_archive != 1 " .
 		"ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
 
 
 	 
 	$tbl = new sqltable(
 			"lstproduits", 
-			"Produits", $req, "admin.php?page=produits", 
+			"Produits (hors archivés)", $req, "admin.php?page=produits", 
 			"id_produit", 
 			array(
 			"nom_typeprod"=>"Type",
