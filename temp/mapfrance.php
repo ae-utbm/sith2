@@ -72,7 +72,8 @@ foreach($dept as $departement)
   foreach($departement['plgs'] as $plg)
   {
     $img->addpolygon($plg, 'pblue_dark', false, array('id' =>$departement['gid'],
-						      'url' => "javascript:ploufdept(this, ".$departement['gid'].")"));
+						      'url' => "javascript:ploufdept(this, ".
+						      $departement['gid'].", ".$departement['name'].")"));
   }
 }
 
@@ -96,9 +97,9 @@ $cts = new contents("La carte de France de l'AE", "");
 $cts->add_paragraph("<h2>map area de la carte de france</h2>\n".
 		    "<script language=\"javascript\">
 {
-  function ploufdept(obj, id)
+  function ploufdept(obj, id, name)
   {
-
+    alert('vous avez cliqué sur ' + name);
   }
 
 }
