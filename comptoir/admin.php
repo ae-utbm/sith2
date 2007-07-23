@@ -593,6 +593,26 @@ elseif ( $produit->id > 0 )
 }
 elseif ( $typeprod->id > 0 )
 {
+  if ( $_REQUEST["action"] == "arch" )
+  {
+    foreach($_REQUEST["id_produits"] as $id)
+    {
+      $produit->load_by_id($id);
+      if ( $produit->is_valid() )
+         $produit->archiver(); 
+    }	
+  }  
+  elseif ( $_REQUEST["action"] == "unarch" )
+  {
+    foreach($_REQUEST["id_produits"] as $id)
+    {
+      $produit->load_by_id($id);
+      if ( $produit->is_valid() )
+         $produit->dearchiver(); 
+    }	
+  } 
+  
+  
 	$site->start_page("services","Administration des comptoirs");
 	$cts = new contents($typeprod->nom);
 	
@@ -614,7 +634,7 @@ elseif ( $typeprod->id > 0 )
 	$cts->add($frm,true);
 	
 	$req = new requete($site->db,
-		"SELECT `cpt_produits`.`nom_prod`, `cpt_produits`.`id_produit`," .
+		"SELECT `cpt_produits`.`nom_prod`, `cpt_produits`.`id_produit`,`cpt_produits`.`prod_archive`, " .
 		"`cpt_produits`.stock_global_prod, `cpt_produits`.prix_vente_barman_prod/100 AS prix_vente_barman_prod," .
 		"`cpt_produits`.prix_vente_prod/100 AS prix_vente_prod, `cpt_produits`.prix_achat_prod/100 AS  prix_achat_prod, " .
 		"`asso`.`nom_asso`,`asso`.`id_asso`, " .
@@ -627,7 +647,7 @@ elseif ( $typeprod->id > 0 )
 	
 	$tbl = new sqltable(
 			"lstproduits", 
-			"Produits", $req, "admin.php", 
+			"Produits", $req, "admin.php?id_typeprod=".$typeprod->id, 
 			"id_produit", 
 			array(
 			"nom_typeprod"=>"Type",
@@ -636,9 +656,10 @@ elseif ( $typeprod->id > 0 )
 			"prix_vente_prod"=>"Prix de vente",
 			"prix_achat_prod"=>"Prix d'achat",
 			"stock_global_prod"=>"Stock global",
-			"nom_asso"=>"Association"
+			"nom_asso"=>"Association",
+			"prod_archive"=>"Archivé"
 			), 
-			array("edit"=>"Editer"), array(), array()
+			array("edit"=>"Editer"), array("arch"=>"Archiver","unarch"=>"Desarchiver"), array("prod_archive"=>array(0=>"non",1=>"oui"))
 			);	
 			
 	$cts->add($tbl,true);		
