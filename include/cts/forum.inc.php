@@ -24,7 +24,9 @@ function nosecret_findname ( $matches )
   if ( isset($GLOBAL["nosecret_cache"][$matches[0]]) )
     return $GLOBAL["nosecret_cache"][$matches[0]];
   
-  $sqlpattern = mysql_real_escape_string(str_replace("_","(a|à|â|ä|À|Â|Ä|e|é|è|ê|ë|É|È|Ê|Ë|i|ï|î|Ï|Î|o|u|ù|ü|û|Ü|Û|Ù|y)",$matches[0]))."$";
+  
+  
+  $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[0])))."$";
   
   $values = $site->user->_fsearch ( $sqlpattern, -1 );
 
