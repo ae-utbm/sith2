@@ -28,7 +28,7 @@ function nosecret_findname ( $matches )
   
   $st = microtime(true);
   
-  $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[0])))."(`?)";
+  $sqlpattern = mysql_real_escape_string(str_replace("_","([aeiouy]|é)",str_replace("[","",$matches[0])))."([`\\\\\']?)";
   
   $sql = "SELECT `alias_utl`, prenom_utl, nom_utl, utilisateurs.id_utilisateur  " .
           "FROM `utilisateurs` " .
@@ -50,7 +50,7 @@ function nosecret_findname ( $matches )
   {
     $values=array();
     while ( $row = $req->get_row() )
-      $values[] = "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\">".$row[0]." : ".$row['prenom_utl']." ".$row['nom_utl']."</a>";
+      $values[] = $row[0]." : ".$row['prenom_utl']." ".$row['nom_utl'];
     $result=$matches[0]."(".implode(", ",$values).")";  
   }
   
