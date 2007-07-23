@@ -71,7 +71,16 @@ foreach($dept as $departement)
 }
 
 $img->setfactor(RATIO);
+
+
+if ($_REQUEST['generate'] == 1)
+{
+  $img->output();
+  exit();
+}
+
 echo "map area de la carte de france\n";
 echo $img->map_area("carte_de_france");
+echo "<img src=\"mapfrance.php?generate=1\" alt=\"plouf\" usemap=\"#carte_de_france\" />";
 
 ?>
