@@ -28,7 +28,7 @@ function nosecret_findname ( $matches )
   if ( is_null($values) || count($values) == 0 )
     return $matches[0]."(?)";  
     
-  return $matches[0]."("implode(", ",$values).")";  
+  return $matches[0]."(".implode(", ",$values).")";  
 }
 
 function nosecret ( $text )
