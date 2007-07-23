@@ -13,14 +13,22 @@ $sql = new requete($dbrw,"SELECT id_utilisateur_client,SUM( `montant_facture` ) 
 while ( list($id,$sum) = $sql->get_row() )
 	$comptes[$id] -= $sum;
 
+$allsoldes = 0;
+
 foreach ( $comptes as $id => $solde )
 {
-
+  $allsoldes+=$solde;
+  
 	$up = new requete($dbrw,"UPDATE `utilisateurs` 
 						SET `montant_compte` = '$solde'
 						WHERE `id_utilisateur` = '$id'");
 }
+echo "<pre>";
 
+echo "<b>".$allsoldes."</b>\n";
 
+print_r($comptes);
+
+echo "</pre>";
 
 ?>
