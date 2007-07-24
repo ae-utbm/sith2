@@ -317,8 +317,7 @@ FROM `sas_personnes_photos` AS `p1`
 INNER JOIN utilisateurs ON ( p1.id_utilisateur= utilisateurs.id_utilisateur )
 JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photo
 AND p1.id_utilisateur != p2.id_utilisateur )
-GROUP BY p1.id_utilisateur
-LIMIT 200");
+GROUP BY p1.id_utilisateur");
 
 while ( $row = $req1->get_row() )
 {
@@ -1661,7 +1660,7 @@ new wire($map->personnes[169],$map->personnes[165],2);
 
 $tension_max=119;
 */
-$step = 500;
+$step = 50;
 if ( isset($_GET["step"]) )
    $step = intval($_GET["step"]);
 
