@@ -77,7 +77,7 @@ class map
   {
     foreach($this->personnes as $per )
     {
-      if ( $me !== $per && abs($x-$per->x) < 0.3 && abs($y-$per->y) < 0.3 )
+      if ( $me !== $per && abs($x-$per->x) < 0.1 && abs($y-$per->y) < 0.1 )
         return false;
     }   
     
