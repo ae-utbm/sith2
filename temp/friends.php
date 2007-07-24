@@ -71,7 +71,7 @@ class map
   
   function draw ()
   {
-    $tx=10;
+    $tx=40;
     
     $dim = $this->dim();
     
