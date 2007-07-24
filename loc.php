@@ -92,11 +92,14 @@ if ($_REQUEST['action'] == 'genimgpays')
   */
   $pgconn = new pgsqlae();
 
+  /* 3395 est le SRID de la projection "globale" cylindrique (mercator) */
   $pgreq = new pgrequete($pgconn, "SELECT 
-                                   name
-                                   , AsText(the_geom) AS points
+                                           name
+                                           , AsText(Transform(Simplify(the_geom, 0.1), 3395)) AS points
                                    FROM 
-                                   worldadmwgs");
+                                           worldadmwgs
+                                   WHERE
+                                           region != 'Antarctica'");
 
   $rs = $pgreq->get_all_rows();
   
@@ -120,9 +123,8 @@ if ($_REQUEST['action'] == 'genimgpays')
       foreach ($points as $point)
       {
         $coord = explode(" ", $point);
-        /* 6400 Km = approximativement le rayon de la Terre */
-        $country[$numpays]['plgs'][$i][] = deg2rad($coord[0]) * 6400000;
-        $country[$numpays]['plgs'][$i][] = deg2rad($coord[1]) * 6400000;
+        $country[$numpays]['plgs'][$i][] = $coord[0];
+        $country[$numpays]['plgs'][$i][] = $coord[1];
       }
       $i++;
     }
