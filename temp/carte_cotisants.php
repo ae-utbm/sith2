@@ -21,6 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
+
 exit();
 
 define("RATIO", 1600);     // Le ratio pour la carte final (1/1600)
