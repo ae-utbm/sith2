@@ -230,7 +230,7 @@ class wire
     if ( $len == $min_len )
       return array ( 0, 0 );
     
-    $f = ($len-$min_len)*$this->tension/1000;
+    $f = ($len-$min_len)*$this->tension/100;
     
     $dx = ($this->p1->x-$this->p2->x);
     $dy = ($this->p1->y-$this->p2->y);
