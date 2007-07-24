@@ -233,7 +233,7 @@ class wire
       return array ( 0, 0 );
     
     if ( $len < $min_len )
-      $f=10;
+      $f=-10;
     else
       $f = ($len-$min_len)*$this->tension/$tension_max;
     
