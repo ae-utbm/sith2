@@ -7,7 +7,7 @@ define('RAYON_TERRE', 6400);
 $dbconn = pg_connect("host=localhost dbname=geography user=geography password=geography");
 
 
-$req = pg_query("SELECT name AS nom, AsText(Transform(simplify(the_geom, 1), 3395)) AS points FROM worldadmwgs WHERE region != 'Antarctica'");
+$req = pg_query("SELECT name AS nom, AsText(Transform(simplify(the_geom, 0.75), 3395)) AS points FROM worldadmwgs WHERE region != 'Antarctica'");
 
 
 $rs = pg_fetch_all($req);
