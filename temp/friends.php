@@ -200,11 +200,11 @@ class personne
   
   function do_poll ()
   {
-    if ( $this->map-> can_go ( $this, $this->x + $this->dx, $this->y + $this->dy ) )
-    {
+    //if ( $this->map-> can_go ( $this, $this->x + $this->dx, $this->y + $this->dy ) )
+    //{
       $this->x += $this->dx;
       $this->y += $this->dy;  
-    }
+    //}
   }
   
 
