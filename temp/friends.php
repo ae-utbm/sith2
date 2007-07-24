@@ -258,7 +258,7 @@ $map = new map();
 $req1 = new requete($db, "SELECT p1.id_utilisateur, alias_utlFROM `sas_personnes_photos` AS `p1`
 INNER JOIN utilisateurs ON ( p1.id_utilisateur= utilisateurs.id_utilisateur )JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photoAND p1.id_utilisateur != p2.id_utilisateur )GROUP BY p1.id_utilisateur");
 
-while ( $row = $req2->get_row() )
+while ( $row = $req1->get_row() )
   new personne($row['id_utilisateur'],$row['alias_utl'],$map);
 
 
@@ -266,7 +266,7 @@ echo count($map->personnes)." utilisateurs dans la moulinette\n";
 
 $req2 = new requete($db, "SELECT COUNT( * ) as c, p1.id_utilisateur as u1, p2.id_utilisateur as u2FROM `sas_personnes_photos` AS `p1`JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photoAND p1.id_utilisateur != p2.id_utilisateur )GROUP BY p1.id_utilisateur, p2.id_utilisateur");
 
-while ( $row = $req1->get_row() )
+while ( $row = $req2->get_row() )
   new wire($map->personnes[$row['u1']],$map->personnes[$row['u2']],$row['c']);
   
 echo count($map->wires)." liens dans la moulinette\n";
