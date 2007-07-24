@@ -320,10 +320,10 @@ for($i=0;$i<$step;$i++)
   $map->echo_infos();
 }
 
-/*
+
 $map->draw();
 echo "<br/><br/><img src=\"friends_temp.png\" />";
-*/
+
 /*
 $map = new map();
 
