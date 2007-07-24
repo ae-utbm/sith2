@@ -103,6 +103,10 @@ if (isset($_REQUEST['id_uv']))
 		      $myuvdpts);
   $cts->add($lst);
 
+
+  $site->add_contents($cts);
+  $site->end_page();
+
   exit();
 }
 
