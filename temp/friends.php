@@ -30,9 +30,9 @@ class map
     
   function echo_infos ()
   {
-    echo "listing\n";
+    echo "listing<br/>\n";
     foreach($this->personnes as $per )
-      echo $per->id." (".$per->x.",".$per->y.")\n";     
+      echo $per->id." (".$per->x.",".$per->y.")<br/>\n";     
   }
  
   function dim ()
@@ -297,7 +297,7 @@ for($i=0;$i<$step;$i++)
 
 }
 
-  
+$map->echo_infos();
 $map->draw();
 
 echo "<br/><br/><img src=\"friends_temp.png\" />";
