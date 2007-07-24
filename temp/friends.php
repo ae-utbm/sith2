@@ -75,6 +75,8 @@ class map
     
     $dim = $this->dim();
     
+    print_r($dim);
+    
     $top_x = floor($dim[0]-1);
     $top_y = floor($dim[1]-1);
     $bottom_x = ceil($dim[2]+1);
