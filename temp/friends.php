@@ -77,7 +77,7 @@ class map
   {
     foreach($this->personnes as $per )
     {
-      if ( $me !== $per && abs($x-$per->x) < 0.1 && abs($y-$per->y) < 0.1 )
+      if ( $me !== $per && pow($x-$per->x,2)+pow($y-$per->y,2) < 0.1 )
         return false;
     }   
     
@@ -200,11 +200,11 @@ class personne
   
   function do_poll ()
   {
-    //if ( $this->map-> can_go ( $this, $this->x + $this->dx, $this->y + $this->dy ) )
-    //{
+    if ( $this->map-> can_go ( $this, $this->x + $this->dx, $this->y + $this->dy ) )
+    {
       $this->x += $this->dx;
       $this->y += $this->dy;  
-    //}
+    }
   }
   
 
