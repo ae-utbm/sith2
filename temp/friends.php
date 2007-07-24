@@ -305,7 +305,7 @@ while ( $row = $req2->get_row() )
   if ( isset($map->personnes[$row['u1']]) && isset($map->personnes[$row['u2']]) )
   {
     new wire($map->personnes[$row['u1']],$map->personnes[$row['u2']],$row['c']);
-    echo "new wire(".'$'."map->personnes[".$row['u1']."],$map->personnes[".'$'."".$row['u2']."],".$row['c'].");<br/>";
+    echo "new wire(".'$'."map->personnes[".$row['u1']."],".'$'."map->personnes[".$row['u2']."],".$row['c'].");<br/>";
   }
 }
   
@@ -322,12 +322,12 @@ for($i=0;$i<$step;$i++)
   $st = microtime(true);
   $map->poll();
   echo "done in ".(microtime(true)-$st)."seconds<br/>";
-  //$map->echo_infos();
+  $map->echo_infos();
 }
 
 
 //$map->draw();
-echo "<br/><br/><img src=\"friends_temp.png\" />";
+//echo "<br/><br/><img src=\"friends_temp.png\" />";
 
 /*
 $map = new map();
