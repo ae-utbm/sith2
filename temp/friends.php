@@ -226,7 +226,7 @@ class wire
     if ( $len == $min_len )
       return array ( 0, 0 );
     
-    $f = ($len-$min_len)*$this->tension/50;
+    $f = ($len-$min_len)*$this->tension/10;
     
     $dx = ($this->p1->x-$this->p2->x);
     $dy = ($this->p1->y-$this->p2->y);
@@ -249,7 +249,11 @@ class wire
       $dy = -$dy;
     }
     
-    
+    if ( $dx == 0 && $dy == 0 )
+    {
+      $dx = mt_rand(1,100)/100;  
+      $dy = mt_rand(1,100)/100;  
+    }
     
     return array( $dx*$f, $dy*$f );
   }
