@@ -180,7 +180,7 @@ while ( $row = $req->get_row() )
 
   $history->add_element(strtotime($row['date_debut']),
   "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\"><img src=\"$img\" alt=\"Photo\" height=\"105\"></a>",
-  $role[$row['asso_membre`.`role']]." : <a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a>");
+  $role[$row['role']]." : <a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a>");
 }
 
 $cts->add($history,true);	
