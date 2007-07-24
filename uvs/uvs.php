@@ -53,7 +53,9 @@ if (isset($_REQUEST['id_uv']))
                       FROM
                              `edu_uv`
                       WHERE
-                             `edu_uv`.`id_uv` = $iduv");
+                             `edu_uv`.`id_uv` = $iduv
+                      ORDER BY
+                             `edu_uv`.`code_uv`");
 
   $cts = new contents('');
 
@@ -131,7 +133,9 @@ if (isset($_REQUEST['iddept']))
                              `edu_uv_dept`
                           USING (`id_uv`)
                           WHERE
-                             `id_dept` = '".$dept."'");
+                             `id_dept` = '".$dept."'
+                          ORDER BY
+                             `edu_uv`.`code_uv`");
 
       $uvs = array();
       while ($rs = $req->get_row())
@@ -168,7 +172,9 @@ foreach ($depts as $dept)
                              `edu_uv_dept`
                       USING (`id_uv`)
                       WHERE
-                             `id_dept` = '".$dept."'");
+                             `id_dept` = '".$dept."'
+                      ORDER BY
+                             `edu_uv`.`code_uv`");
 
   $uvs = array();
   while ($rs = $req->get_row())
