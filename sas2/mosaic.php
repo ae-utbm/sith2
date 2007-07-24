@@ -80,14 +80,14 @@ elseif ( $_REQUEST["action"] == "mosaic" )
     $Mosaic->load_image($w,$h,$img);
     
     $cts = new contents("Resultat");
-    $cts->puts($Mosaic->output_html());
+    $cts->add($Mosaic->output_stdcontents());
     $site->add_contents($cts);
     
     $cts = new contents("log");
     $cts->add(new itemlist(false,false,explode("\n",$Mosaic->log)));
     $site->add_contents($cts);
   }
-}
+}//http://ae.utbm.fr/var/img/matmatronch/1827.jpg
 
 $site->end_page ();
 

@@ -298,7 +298,7 @@ class ImageMosaic
 		}
 		imagedestroy($NvlImg);	
 		
-    echo "load_image/total: ".(microtime_float()-$st)." sec<br/>";
+    $this->log .= "load_image/total: ".(microtime_float()-$st)." sec";
 		return true;
 	}
 
