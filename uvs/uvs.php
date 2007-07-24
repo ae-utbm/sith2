@@ -49,6 +49,7 @@ if (isset($_REQUEST['id_uv']))
                              , `edu_uv`.`cours_uv`
                              , `edu_uv`.`td_uv`
                              , `edu_uv`.`tp_uv`
+                             , `edu_uv`.`ects_uv`
 
                       FROM
                              `edu_uv`
@@ -61,9 +62,10 @@ if (isset($_REQUEST['id_uv']))
 
   $rs = $req->get_row();
   
-  /* Code + intitulé */
+  /* Code + intitulé + crédits ECTS */
   $cts->add_title(1, $rs['code_uv']);
   $cts->add_paragraph("<center><i>\"".$rs['intitule_uv']."\"</i></center>");
+  $cts->add_paragraph("Cette UV équivaut à <b>".$rs['ects_uv']."</b> crédits ECTS");
 
   /* format horaire */
   $cts->add_title(2, "Formats horaires");
