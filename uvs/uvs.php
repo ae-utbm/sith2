@@ -43,8 +43,36 @@ if (isset($_REQUEST['iddept']))
   if (in_array($_REQUEST['iddept'], $depts))
     {
       $cts = new contents ("UVs - Département " . $_REQUEST['iddept']);
-      $site->add_contents($cts);
+      
+      $dept = mysql_real_escape_string($_REQUEST['iddept']);
 
+      $req = new requete($site->db,
+			 "SELECT 
+                             `edu_uv`.`id_uv`
+                             , `edu_uv`.`code_uv`
+                             , `edu_uv`.`intitule_uv`
+                          FROM
+                             `edu_uv`
+                          LEFT JOIN
+                             `edu_uv_dept`
+                          USING (`id_uv`)
+                          WHERE
+                             `id_dept` = '".$dept."'");
+
+      $uvs = array();
+      while ($rs = $req->get_row())
+	{
+	  $uvs[] = "<a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">". 
+	    $rs['code_uv'] . " - " . $rs['intitule_uv'] . "</a>";
+	}
+
+      $lst = new itemlist($dept,
+			  false,
+			  $uvs);
+      $cts->add($lst);
+
+      $site->add_contents($cts);
+      
       $site->end_page();
       exit();
     }
