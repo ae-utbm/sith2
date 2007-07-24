@@ -24,51 +24,51 @@ for ($i = 1; $i <= 321 ; $i++)
       
   $req = new insert($site->dbrw,
 		    'edu_uv_dept',
-		    ('id_uv' => $i, 'id_dept' => $dept));
+		    array('id_uv' => $i, 'id_dept' => $dept));
 
 }
 
 /* ST40 */
 $req = new insert($site->dbrw,
 		  'edu_uv_dept',
-		  ('id_uv' => 194, 'id_dept' => 'GI'));
+		  array('id_uv' => 194, 'id_dept' => 'GI'));
 $req = new insert($site->dbrw,
 		  'edu_uv_dept',
-		  ('id_uv' => 194, 'id_dept' => 'IMAP'));
+		  array('id_uv' => 194, 'id_dept' => 'IMAP'));
 $req = new insert($site->dbrw,
 		  'edu_uv_dept',
-		  ('id_uv' => 194, 'id_dept' => 'GMC'));
+		  array('id_uv' => 194, 'id_dept' => 'GMC'));
 /* ST50 */
 $req = new insert($site->dbrw,
 		  'edu_uv_dept',
-		  ('id_uv' => 195, 'id_dept' => 'GI'));
+		  array('id_uv' => 195, 'id_dept' => 'GI'));
 $req = new insert($site->dbrw,
 		  'edu_uv_dept',
-		  ('id_uv' => 195, 'id_dept' => 'IMAP'));
+		  array('id_uv' => 195, 'id_dept' => 'IMAP'));
 $req = new insert($site->dbrw,
 		  'edu_uv_dept',
-		  ('id_uv' => 195, 'id_dept' => 'GMC'));
+		  array('id_uv' => 195, 'id_dept' => 'GMC'));
 
 /* SQ40 */
 $req = new insert($site->dbrw,
 		  'edu_uv_dept',
-		  ('id_uv' => 160, 'id_dept' => 'GI'));
+		  array('id_uv' => 160, 'id_dept' => 'GI'));
 $req = new insert($site->dbrw,
 		  'edu_uv_dept',
-		  ('id_uv' => 160, 'id_dept' => 'IMAP'));
+		  array('id_uv' => 160, 'id_dept' => 'IMAP'));
 $req = new insert($site->dbrw,
 		  'edu_uv_dept',
-		  ('id_uv' => 160, 'id_dept' => 'GMC'));
+		  array('id_uv' => 160, 'id_dept' => 'GMC'));
 
 /* MT30 */
 $req = new insert($site->dbrw,
 		  'edu_uv_dept',
-		  ('id_uv' => 150, 'id_dept' => 'GI'));
+		  array('id_uv' => 150, 'id_dept' => 'GI'));
 $req = new insert($site->dbrw,
 		  'edu_uv_dept',
-		  ('id_uv' => 150, 'id_dept' => 'IMAP'));
+		  array('id_uv' => 150, 'id_dept' => 'IMAP'));
 $req = new insert($site->dbrw,
 		  'edu_uv_dept',
-		  ('id_uv' => 150, 'id_dept' => 'GMC'));
+		  array('id_uv' => 150, 'id_dept' => 'GMC'));
 
 ?>
