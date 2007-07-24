@@ -7,7 +7,7 @@ define('RAYON_TERRE', 6400);
 $dbconn = pg_connect("host=localhost dbname=geography user=geography password=geography");
 
 
-$req = pg_query("SELECT name AS nom, AsText(Simplify(the_geom, 1)) AS points FROM worldadmwgs WHERE region != 'Antarctica'");
+$req = pg_query("SELECT name AS nom, AsText(Transform(Simplify(the_geom, 1)), 3395) AS points FROM worldadmwgs WHERE region != 'Antarctica'");
 
 
 $rs = pg_fetch_all($req);
@@ -29,8 +29,9 @@ foreach ($matched[1] as $polygon)
   foreach ($points as $point)
     {
       $point = explode (" ", $point);
-      $totalpoints[$i][] = array(rad2deg($point[0]) * RAYON_TERRE,
-				 rad2deg($point[1]) * RAYON_TERRE);
+      //      $totalpoints[$i][] = array(rad2deg($point[0]) * RAYON_TERRE,
+      //				 rad2deg($point[1]) * RAYON_TERRE);
+      $totalpoints[$i][] = $point;
     }
 
   $i++;
