@@ -7,7 +7,7 @@ define('RAYON_TERRE', 6400);
 $dbconn = pg_connect("host=localhost dbname=geography user=geography password=geography");
 
 
-$req = pg_query("SELECT name AS nom, AsText(the_geom) AS points FROM worldadmwgs");
+$req = pg_query("SELECT name AS nom, AsText(simplify(the_geom, 2)) AS points FROM worldadmwgs");
 
 
 $rs = pg_fetch_all($req);
