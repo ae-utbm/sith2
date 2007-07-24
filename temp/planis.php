@@ -156,8 +156,7 @@ $dimy *= $yfactor;
 if (($dimx > 40000) || ($dimy > 15000))
      die ("LAST CHANCE : image too large !!!\n");
 
-     
-
+$tol = $dimx / 1.2;
 
 for ($i = 0; $i < count($sommetsx); $i++)
 {
@@ -168,7 +167,7 @@ for ($i = 0; $i < count($sommetsx); $i++)
 				   $plg[$i][count($plg[$i]) - 1],
 				   $sommetsx[$i][$j],
 				   $dimy - $sommetsy[$i][$j] * $yfactor,
-				   $dimx / 2)))
+				   $tol)))
 	{
 	  $plg[$i][] = $sommetsx[$i][$j];
 	  $plg[$i][] = $dimy - $sommetsy[$i][$j] * $yfactor;
