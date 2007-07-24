@@ -201,16 +201,15 @@ foreach($plg as $polygone)
 }
 
 
-/*
+
 $topdir = "../";
 require_once($topdir . "include/watermark.inc.php");
 $wm = new img_watermark($img);
 $wm->output();
-*/
 
+/*
 header("Content-Type: image/png");
-
 imagepng($img);
-
+*/
 
 ?>
