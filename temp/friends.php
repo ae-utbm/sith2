@@ -223,7 +223,9 @@ class wire
     $len = $this->get_length();
     $min_len = $this->get_minimal_length();
     
-    echo "len=".$len." min=".$min_len."<br/>";
+    echo "p1=".$p1->id.",p2=".$p2->id."<br/>";
+
+    echo "len=".$len.",min_len=".$min_len."<br/>";
     
     if ( $len == $min_len )
       return array ( 0, 0 );
