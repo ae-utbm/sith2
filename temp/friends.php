@@ -14,8 +14,8 @@ class map
     $this->personnes = array();
     $this->wires = array();
     
-    $this->gx = 0;
-    $this->gy = 0;
+    $this->gx = 100;
+    $this->gy = 100;
   }
   
   
@@ -144,11 +144,11 @@ class personne
     $this->x = $map->gx;
     $this->y = $map->gy;
     
-    $map->gx += 10;
+    /*$map->gx += 10;
     $map->gy += 0.5;
     
     if ( $map->gx > 20 )
-      $map->gx = 0;
+      $map->gx = 0;*/
      
     $this->map = &$map;
     $this->wires = array();
