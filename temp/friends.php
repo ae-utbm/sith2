@@ -163,7 +163,6 @@ class personne
     foreach ( $this->wires as $wire )
     {
       list($mx,$my) = $wire->get_delta($this);
-      echo "mx=$mx,my=$my<br/>";
       
       $this->dx += $mx;
       $this->dy += $my;
@@ -258,6 +257,8 @@ class wire
       $dy = mt_rand(1,100)/100;  
     }
     
+    echo "f=$f,dx=$dx,dy=$dy<br/>";
+      
     return array( $dx*$f, $dy*$f );
   }
    
