@@ -184,7 +184,7 @@ imagefill($img, 0,0, $white);
 
 foreach($plg as $polygone)
 {
-  imagepolygon($img, $polygone, count($polygone) / 2, $black);
+  imagefilledpolygon($img, $polygone, count($polygone) / 2, $black);
 }
 
 
