@@ -86,6 +86,8 @@ elseif ( $_REQUEST["action"] == "mosaic" )
     $cts = new contents("log");
     $cts->add(new itemlist(false,false,explode("\n",$Mosaic->log)));
     $site->add_contents($cts);
+    
+    $cts->add_pargraph("Lien vers cette page : http://".$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"]."?url=".rawurlencode($_REQUEST["url"])."&amp;action=mosaic");
   }
 }//http://ae.utbm.fr/var/img/matmatronch/1827.jpg
 
