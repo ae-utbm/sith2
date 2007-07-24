@@ -86,7 +86,7 @@ class ficheproduit extends stdcontents
         else
         {
           if ( $stock != -1 )
-            $info_stock=" ($info_stock en stock)";
+            $info_stock=" ($stock en stock)";
           else
             $info_stock="";
           

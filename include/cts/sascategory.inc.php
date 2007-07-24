@@ -54,7 +54,7 @@ class sascategory extends contents
         foreach ( $cats as $row )
         {
           $scat->_load($row);
-          $this->write_simple_gallery( $scat->nom, $scat->get_all_categories($user), $page, $scat, $user, $sscat );
+          $this->write_simple_gallery( "<a href=\"".$page."?id_catph=".$scat->id."\">".$scat->nom."</a>", $scat->get_all_categories($user), $page, $scat, $user, $sscat );
         }
         return; 
       }
