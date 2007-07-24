@@ -73,7 +73,7 @@ foreach ($totalpoints as $polygon)
 
 /* SCALE !!! 1px = ??? meters */
 
-$factor = 20000;
+$factor = 60000;
 
 $yfactor = 1;
 
