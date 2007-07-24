@@ -191,7 +191,7 @@ foreach($plg as $polygone)
 $topdir = "../";
 
 require_once($topdir . "include/watermark.inc.php");
-$wm = new watermark($img);
+$wm = new img_watermark($img);
 $wm->output();
 
 
