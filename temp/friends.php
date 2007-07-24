@@ -23,7 +23,9 @@ class map
   {
     foreach($this->personnes as $per )
     {
-      print_r($per);
+      if ( get_class($per) != "personne" )
+        print_r($per);
+        
       $per->pre_poll();
     }  
     foreach($this->personnes as $per )
