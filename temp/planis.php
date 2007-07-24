@@ -7,7 +7,7 @@ define('RAYON_TERRE', 6400);
 $dbconn = pg_connect("host=localhost dbname=geography user=geography password=geography");
 
 
-$req = pg_query("SELECT name AS nom, AsText(Transform(simplify(the_geom, 0.3), 3395)) AS points FROM worldadmwgs WHERE region != 'Antarctica'");
+$req = pg_query("SELECT name AS nom, AsText(Transform(simplify(the_geom, 0.1), 3395)) AS points FROM worldadmwgs WHERE region != 'Antarctica'");
 
 
 $rs = pg_fetch_all($req);
@@ -164,11 +164,25 @@ for ($i = 0; $i < count($sommetsx); $i++)
   //  unset($plg);
   for ($j = 0; $j < count($sommetsx[$i]); $j++)
     {
-      $plg[$i][] = $sommetsx[$i][$j];
-      $plg[$i][] = $dimy - $sommetsy[$i][$j] * $yfactor;
-      $ycoords[] = $plg[$i][count($plg[$i]) - 1];
-      
+      if (($j > 0) && (checkcoords($plg[$i][count($plg[$i]) - 2],
+				   $plg[$i][count($plg[$i]) - 1],
+				   $sommetsx[$i][$j],
+				   $dimy - $sommetsy[$i][$j] * $yfactor,
+				   $dimx / 2)))
+	{
+	  $plg[$i][] = $sommetsx[$i][$j];
+	  $plg[$i][] = $dimy - $sommetsy[$i][$j] * $yfactor;
+	  $ycoords[] = $plg[$i][count($plg[$i]) - 1];
+	}
     }
+}
+
+
+function checkcoords($lx, $ly, $x, $y, $tolerance)
+{
+  if (sqrt(pow($x - $lx, 2) + pow($y - $ly, 2)) > $tolerance)
+    return false;
+  return true;
 }
 
 $dimy = max($ycoords) + $offset;
@@ -188,14 +202,14 @@ foreach($plg as $polygone)
 }
 
 
+/*
 $topdir = "../";
-
 require_once($topdir . "include/watermark.inc.php");
 $wm = new img_watermark($img);
 $wm->output();
+*/
 
-
-//imagepng($img);
+imagepng($img);
 
 
 ?>
