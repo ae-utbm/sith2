@@ -188,9 +188,9 @@ else if ( isset($_REQUEST["id_asso"]) )
 	
 	$cts->add(new tabshead($asso->get_tabs($site->user),"info"));	
 
-	$img = "/var/img/logos/".$asso->nom_unix.".small.png";
+	/*$img = "/var/img/logos/".$asso->nom_unix.".small.png";
 	if ( file_exists("/var/www/ae/www/ae2".$img) )
-		$cts->add(new image($asso->nom, $img, "newsimg"));
+		$cts->add(new image($asso->nom, $img, "newsimg"));*/
 
 	$page = new page($site->db);
 	$page->load_by_name("activites-".$asso->nom_unix);
@@ -199,9 +199,6 @@ else if ( isset($_REQUEST["id_asso"]) )
 		$cts->add_title(2,"Pr&eacute;sentation");
 		$cts->add($page->get_contents());
 		
-		/*if ( $site->user->is_in_group("moderateur_site") || $site->user->is_in_group_id($page->id_groupe) )
-			$cts->add_paragraph("<a href=\"article.php?page=edit&amp;name=activites-".$asso->nom_unix."\">Editer l'article de pr&eacute;sentation</a>");
-		*/
 	}
 	elseif ( $site->user->is_in_group("moderateur_site") )
 		$cts->add_paragraph("<a href=\"article.php?page=edit&amp;name=activites-".$asso->nom_unix."\">Creer l'article de pr&eacute;sentation</a>");
@@ -239,27 +236,6 @@ else if ( isset($_REQUEST["id_asso"]) )
     $cts->add($gal,true);
 		
 	}
-
-	/*$seealso = array("<a href=\"".$topdir."asso/history.php?id_asso=".$asso->id."\">Historique</a>");	
-		
-	require_once($topdir."sas2/include/cat.inc.php");
-	$cat = new catphoto($site->db);
-	$cat->load_by_asso_summary($asso->id);
-	if ( $cat->id > 0 )	
-	{
-		$seealso[] = "<a href=\"".$topdir."sas2/?id_catph=".$cat->id."\">Photos</a>";
-	}
-	
-	require_once($topdir."include/entities/folder.inc.php");
-	$fl = new dfolder($site->db);
-	$fl->load_root_by_asso($asso->id);
-	if ( $fl->id > 0 )	
-	{
-		$seealso[] = "<a href=\"".$topdir."d.php?id_folder=".$fl->id."\">Fichiers</a>";
-	}
-	
-	if ( count($seealso) > 0)
-		$cts->add(new itemlist("A voir aussi",false,$seealso),true);*/
 		
   $links = array();
   
@@ -291,54 +267,13 @@ else if ( isset($_REQUEST["id_asso"]) )
 		  $links[] = "<b>Responsable</b> : <a href=\"asso/membres.php?id_asso=".$asso->id."\">Voir le(s) responsable(s)</a>";
 	}	
 		
+	$links[] = "<b>Historique</b> : <a href=\"asso/history.php?id_asso=".$asso->id."\">Voir résumé</a>";
+		
 	if ( count($links) > 0)
 		$cts->add(new itemlist("",false,$links),true);
 		
 	$cts->puts("<div class=\"clearboth\"></div>");
-		
-	/*$req = new requete($site->db,
-		"SELECT `utilisateurs`.`id_utilisateur`, " .
-		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-		"`asso_membre`.`role`, " .
-		"`asso_membre`.`date_debut` " .
-		"FROM `asso_membre` " .
-		"INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
-		"WHERE `asso_membre`.`date_fin` IS NULL " .
-		"AND `asso_membre`.`id_asso`='".$asso->id."' " .
-		"AND `asso_membre`.`role` > 1 " .
-		"ORDER BY `asso_membre`.`role`");
-	if ( $req->lines > 0 )
-	{	
-		$tbl = new sqltable(
-			"listresp", 
-			"Responsables", $req, "asso.php?id_asso=".$asso->id, 
-			"id_utilisateur", 
-			array("nom_utilisateur"=>"Utilisateur","role"=>"Role","date_debut"=>"Depuis le"), 
-			array(), array(),
-			array("role"=>$GLOBALS['ROLEASSO'] )
-			);	
-		$cts->add($tbl,true);
-	}
-	
-	$req = new requete($site->db,"SELECT `sl_salle`.`id_salle`,`nom_salle`,`etage`,`sl_batiment`.`id_batiment`,`nom_bat`,`sl_site`.`id_site`,`nom_site` " .
-								"FROM `sl_salle` " .
-								"INNER JOIN `sl_association` ON `sl_association`.`id_salle`=`sl_salle`.`id_salle` " .
-								"INNER JOIN `sl_batiment` ON `sl_batiment`.`id_batiment`=`sl_salle`.`id_batiment` " .
-								"INNER JOIN `sl_site` ON `sl_site`.`id_site`=`sl_batiment`.`id_site`" .
-								"WHERE `sl_association`.`id_asso`='".$asso->id."'");
-	if ( $req->lines > 0 )
-	{
-		$tbl = new sqltable(
-			"listsalles", 
-			"Salles", $req, "salle.php", 
-			"id_salle", 
-			array("nom_salle"=>"Salle","etage"=>"Etage","nom_bat"=>"Batiment","nom_site"=>"Site"), 
-			array(), array(),array()
-			);
-		$cts->add($tbl,true);
-	}
-  */
-  
+
 	$site->add_contents($cts);
 	$site->end_page();
 	exit();

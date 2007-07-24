@@ -149,18 +149,26 @@ while ( $row = $sql->get_row() )
 $req = new requete($site->db,
 		"SELECT `utilisateurs`.`id_utilisateur`, " .
 		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-		"`asso_membre`.`date_debut` " .
+		"`asso_membre`.`date_debut`, `asso_membre`.`role` " .
 		"FROM `asso_membre` " .
 		"INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
 		"WHERE `asso_membre`.`id_asso`='".$asso->id."' " .
-		"AND `asso_membre`.`role` = ".ROLEASSO_PRESIDENT." ".
+		"AND `asso_membre`.`role` >= ".ROLEASSO_VICEPRESIDENT." ".
 		"ORDER BY `asso_membre`.`date_debut`, `asso_membre`.`desc_role`");
 		
-$prez = "Président";
+
 
 if ( !is_null($asso->id_parent) )
-  $prez = "Responsable";
-
+{
+  $role[ROLEASSO_PRESIDENT] = "Responsable";
+  $role[ROLEASSO_VICEPRESIDENT] = "Vice-Responsable";
+}
+else
+{
+  $role[ROLEASSO_PRESIDENT] = "Président(e)";
+  $role[ROLEASSO_VICEPRESIDENT] = "Vice-Président(e)";
+}
+ 
 while ( $row = $req->get_row() )
 {
 
@@ -172,7 +180,7 @@ while ( $row = $req->get_row() )
 
   $history->add_element(strtotime($row['date_debut']),
   "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\"><img src=\"$img\" alt=\"Photo\" height=\"105\"></a>",
-  "$prez : <a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a>");
+  $role[$row['asso_membre`.`role']]." : <a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a>");
 }
 
 $cts->add($history,true);	
