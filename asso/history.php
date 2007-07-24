@@ -60,7 +60,8 @@ $site->set_side_boxes("left",array(),"nope");
 
 $cts = new contents($asso->nom);
 $cts->add(new tabshead($asso->get_tabs($site->user),"info"));	
-      
+      	$cts->add(new tabshead($asso->get_tabs($site->user),"info"));	
+
 $history = new history("Petite histoire de ".$asso->nom);
 
 

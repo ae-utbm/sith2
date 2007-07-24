@@ -34,7 +34,10 @@ class sas extends site
   {
 
     $this->site();
-
+    
+  	if ( $this->get_param("closed.sas",false) && !$this->user->is_in_group("root")  )
+      $this->fatal_partial("sas");
+      
     $this->set_side_boxes("left",array("sasuser","monsas","connexion"));
 
 

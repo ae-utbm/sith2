@@ -22,6 +22,9 @@ class sascategory extends contents
     $semestre_mode=true;
     $expand_mode=true;
     
+    if ( $cat->id == 1 )
+      $expand_mode=false;
+    
     if ( !count($cats) )
       return;
     
