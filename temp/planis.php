@@ -7,7 +7,7 @@ define('RAYON_TERRE', 6400);
 $dbconn = pg_connect("host=localhost dbname=geography user=geography password=geography");
 
 
-$req = pg_query("SELECT name AS nom, AsText(Transform(Simplify(the_geom, 1), 3395)) AS points FROM worldadmwgs WHERE region != 'Antarctica'");
+$req = pg_query("SELECT name AS nom, AsText(Transform(the_geom, 3395)) AS points FROM worldadmwgs WHERE region != 'Antarctica'");
 
 
 $rs = pg_fetch_all($req);
@@ -73,7 +73,7 @@ foreach ($totalpoints as $polygon)
 
 /* SCALE !!! 1px = ??? meters */
 
-$factor = 100000;
+$factor = 10000;
 
 $yfactor = 1;
 
@@ -189,7 +189,13 @@ foreach($plg as $polygone)
 
 header("Content-Type: image/png");
 
-imagepng($img);
+$topdir = "../";
+
+require_once($topdir . "include/watermark.inc.php");
+$wm = new watermark($img);
+$wm->output();
+
+//imagepng($img);
 
 
 ?>
