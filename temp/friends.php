@@ -93,8 +93,9 @@ class map
       return;
     
     $bg = imagecolorallocate($img, 255, 255, 255);
-    $textcolor = imagecolorallocate($img, 0, 0, 255);
+    $textcolor = imagecolorallocate($img, 0, 0, 0);
     $wirecolor = imagecolorallocate($img, 255, 0, 0);
+    $bullcolor = imagecolorallocate($img, 255, 128, 128);
     
     foreach($this->personnes as $per )
     {
@@ -109,8 +110,8 @@ class map
     
     foreach($this->personnes as $per )
     {
-      imagefilledellipse ($img, $per->ix, $per->iy, $tx/2, $tx/2, $textcolor );
-      imagestring($img, 1, $per->ix, $per->iy,  $per->nom, $bg);
+      imagefilledellipse ($img, $per->ix, $per->iy, $tx/2, $tx/2, $bullcolor );
+      imagestring($img, 1, $per->ix, $per->iy,  $per->nom, $textcolor);
     }    
     
     //      
@@ -159,7 +160,7 @@ class personne
   {
     $this->dx = 0;
     $this->dy = 0;  
-    echo "pre_poll() on ".$this->id." (".$this->x.",".$this->y.")<br/>";
+    //echo "pre_poll() on ".$this->id." (".$this->x.",".$this->y.")<br/>";
     foreach ( $this->wires as $wire )
     {
       list($mx,$my) = $wire->get_delta($this);
@@ -167,7 +168,7 @@ class personne
       $this->dx += $mx;
       $this->dy += $my;
     }
-      echo "dx=".$this->dx.",dy=".$this->dy."<br/>";
+      //echo "dx=".$this->dx.",dy=".$this->dy."<br/>";
   }
   
   function do_poll ()
@@ -225,9 +226,9 @@ class wire
     $len = $this->get_length();
     $min_len = $this->get_minimal_length();
     
-    echo "p1=".$this->p1->id.",p2=".$this->p2->id."<br/>";
+    //echo "p1=".$this->p1->id.",p2=".$this->p2->id."<br/>";
 
-    echo "len=".$len.",min_len=".$min_len."<br/>";
+    //echo "len=".$len.",min_len=".$min_len."<br/>";
     
     if ( $len == $min_len )
       return array ( 0, 0 );
@@ -264,7 +265,7 @@ class wire
       $dy = mt_rand(-100,100)/100;  
     }
     
-    echo "f=$f,dx=$dx,dy=$dy<br/>";
+    //echo "f=$f,dx=$dx,dy=$dy<br/>";
       
     return array( $dx*$f, $dy*$f );
   }
@@ -282,7 +283,7 @@ $map = new map();
 
 $req1 = new requete($db, "SELECT p1.id_utilisateur, alias_utlFROM `sas_personnes_photos` AS `p1`
 INNER JOIN utilisateurs ON ( p1.id_utilisateur= utilisateurs.id_utilisateur )JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photoAND p1.id_utilisateur != p2.id_utilisateur )GROUP BY p1.id_utilisateur
-LIMIT 10");
+LIMIT 100");
 
 while ( $row = $req1->get_row() )
   new personne($row['id_utilisateur'],$row['alias_utl'],$map);
@@ -317,7 +318,7 @@ for($i=0;$i<$step;$i++)
   $st = microtime(true);
   $map->poll();
   echo "done in ".(microtime(true)-$st)."seconds<br/>";
-  $map->echo_infos();
+  //$map->echo_infos();
 }
 
 
