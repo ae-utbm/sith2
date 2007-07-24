@@ -121,6 +121,8 @@ class ImageMosaic
   var $Image;
   var $ImageRGB;
   
+  var $log;
+  
   /**
    * Construit un générateur de mosaique.
    * @param $db Lien à la base de donnés
@@ -134,6 +136,8 @@ class ImageMosaic
       (((0xFF << $approx) & 0xFF) << 8) |
       ((0xFF << $approx) & 0xFF);
       
+      
+    $this->log = "AE R&D - Mosaic\n";
   }
 	
   function merge_color_indexes ( $rgb2,  $idx1, $idx2 )
@@ -163,7 +167,7 @@ class ImageMosaic
 				$this->merge_color_indexes($rgb2,$idx1,$idx2);
 			}
 		}
-    echo "make_palette_diverse: ".(microtime_float()-$st)." sec<br/>";
+    $this->log .= "make_palette_diverse: ".(microtime_float()-$st)." sec\n";
 	}
 	
 	/**
@@ -179,7 +183,7 @@ class ImageMosaic
 	     foreach ( $photos as $id_photo )
 	       new insert ($this->db, "sas_palette_photos", array("idx"=>$idx,"id_photo"=>$id_photo));
 	       
-    echo "store_palette: ".(microtime_float()-$st)." sec<br/>";
+    $this->log .= "store_palette: ".(microtime_float()-$st)." sec\n";
     
 	}
 	
@@ -200,9 +204,9 @@ class ImageMosaic
     while ( list($idx,$id_photo) = $req->get_row() )	
       $this->Photos[$idx][] = $id_photo;
       
-    echo "load_palette: ".(microtime_float()-$st)." sec<br/>";
+    $this->log .= "load_palette: ".(microtime_float()-$st)." sec\n";
     
-    if ( !count($this->Photos) )
+    if ( count($this->Photos) == 0 )
     {
       $this->generate_palette();
       $this->store_palette();
@@ -242,7 +246,7 @@ class ImageMosaic
       $this->Photos[$idx][] = $Id;
     }
     
-    echo "generate_palette: ".(microtime_float()-$st)." sec<br/>";
+    $this->log .= "generate_palette: ".(microtime_float()-$st)." sec\n";
     
     $this->make_palette_diverse();
   }
@@ -271,7 +275,7 @@ class ImageMosaic
 		else
 			return false;
 		
-    echo "load_image/part1: ".(microtime_float()-$st)." sec<br/>";
+    $this->log .= "load_image/part1: ".(microtime_float()-$st)." sec\n";
 
 		$NvlImg = @imagecreatetruecolor($this->RealWidth,$this->RealHeight); 
 		imagecopyresampled($NvlImg,$SrcImg,0,0,0,0,$this->RealWidth,$this->RealHeight,ImageSX($SrcImg),ImageSY($SrcImg));
@@ -375,7 +379,7 @@ class ImageMosaic
 	
 		imagedestroy($Image);
 		
-    echo "output_image: ".(microtime_float()-$st)." sec<br/>";
+    $this->log .= "output_image: ".(microtime_float()-$st)." sec\n";
     
 		return true;
 	}	
