@@ -235,16 +235,16 @@ class wire
     $dx = ($this->p1->x-$this->p2->x);
     $dy = ($this->p1->y-$this->p2->y);
     
-    if ( $dx > 1 )
+    if ( abs($dx) > 1 )
     {
-      $dy = $dy/$dx;
-      $dx = 1;
+      $dy = $dy/abs($dx);
+      $dx = $dx/abs($dx);
     }
     
-    if ( $dy > 1 )
+    if ( abs($dy) > 1 )
     {
-      $dx = $dx/$dy;
-      $dy = 1;
+      $dx = $dx/abs($dy);
+      $dy = $dy/abs($dy);
     }
     
     if ( $p === $this->p1 )
@@ -255,8 +255,8 @@ class wire
     
     if ( $dx == 0 && $dy == 0 )
     {
-      $dx = mt_rand(1,100)/100;  
-      $dy = mt_rand(1,100)/100;  
+      $dx = mt_rand(-100,100)/100;  
+      $dy = mt_rand(-100,100)/100;  
     }
     
     echo "f=$f,dx=$dx,dy=$dy<br/>";
