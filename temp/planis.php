@@ -209,6 +209,8 @@ $wm = new img_watermark($img);
 $wm->output();
 */
 
+header("Content-Type: image/png");
+
 imagepng($img);
 
 
