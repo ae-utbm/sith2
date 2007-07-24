@@ -36,16 +36,29 @@ $site = new site();
 
 $site->start_page("services", "Informations UV");
 
+$depts = array('Humas', 'GESC', 'GI', 'IMAP', 'GMC');
 
+if (isset($_REQUEST['iddept']))
+{
+  if (in_array($_REQUEST['iddept'], $depts))
+    {
+      $cts = new contents ("UVs - Département " . $_REQUEST['iddept']);
+      $site->add_contents($cts);
+
+      $site->end_page();
+      exit();
+    }
+}
 
 $cts = new contents("Guide - Informations sur les UVs");
 
-$depts = array('Humas', 'GESC', 'GI', 'IMAP', 'GMC');
 
 foreach ($depts as $dept)
 {
   $req = new requete($site->db,
-		     "SELECT `edu_uv`.`code_uv`
+		     "SELECT 
+                             `edu_uv`.`id_uv`
+                             , `edu_uv`.`code_uv`
                              , `edu_uv`.`intitule_uv`
                       FROM
                              `edu_uv`
@@ -58,12 +71,14 @@ foreach ($depts as $dept)
   $uvs = array();
   while ($rs = $req->get_row())
     {
-      $uvs[] = $rs['code_uv'] . " - " . $rs['intitule_uv'];
+      $uvs[] = "<a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">". 
+	$rs['code_uv'] . " - " . $rs['intitule_uv'] . "</a>";
     }
 
   $lst = new itemlist($dept,
 		      false,
 		      $uvs);
+  $cts->add_title(2,"<a href=\"./uvs.php?iddept=$dept\">$dept</a>");
   $cts->add($lst);
 }
 
