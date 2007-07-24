@@ -60,7 +60,7 @@ if (isset($_REQUEST['id_uv']))
   $rs = $req->get_row();
   
   /* Code + intitulé */
-  $cts->add_title(2, $rs['code_uv']);
+  $cts->add_title(1, $rs['code_uv']);
   $cts->add_paragraph("<center><i>\"".$rs['intitule_uv']."\"</i></center>");
 
   /* format horaire */
