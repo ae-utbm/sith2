@@ -173,9 +173,7 @@ while ( $row = $req->get_row() )
 {
 
   $img = $topdir."images/icons/128/user.png";
-  if ( file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg") )
-    $img = $topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg";
-  elseif ( file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg") )
+  if ( file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg") )
     $img = $topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg";
 
   $history->add_element(strtotime($row['date_debut']),
