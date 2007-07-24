@@ -279,9 +279,9 @@ class wire
     // Calcul du déplacement à appliquer pour aller vers une position qui nous satisfait plus
     
     if ( $l < $l_repos ) // On est écrasé, repulsion mais reduite par la tension
-      $delta = ($l-$l_repos)*2;// *$p->sum_tension/$this->tension;
+      $delta = ($l-$l_repos)/2;// *$p->sum_tension/$this->tension;
     else // On est tendu, attraction proportinelle à la tension, longueur & co
-      $delta = ($l-$l_repos)*$this->tension/$p->sum_tension;
+      $delta = ($l-$l_repos)*$this->tension/$p->sum_tension/2;
     
     if ( $dx == 0 && $dy == 0 ) // Vecteur zéro, on va donner une implusion aléatoire pour aller vers une position satisfaisante
     {
