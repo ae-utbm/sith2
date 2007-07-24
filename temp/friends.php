@@ -257,7 +257,7 @@ class wire
     
     return array( $dx*$f, $dy*$f );
   }
-  
+   
 }
 
 
