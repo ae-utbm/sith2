@@ -326,8 +326,8 @@ for($i=0;$i<$step;$i++)
 }
 
 
-//$map->draw();
-//echo "<br/><br/><img src=\"friends_temp.png\" />";
+$map->draw();
+echo "<br/><br/><img src=\"friends_temp.png\" />";
 
 /*
 $map = new map();
