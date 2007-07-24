@@ -36,7 +36,36 @@ $site = new site();
 
 $site->start_page("services", "Informations UV");
 
-$cts = new contents("Informations sur les UVs");
+
+
+$cts = new contents("Guide - Informations sur les UVs");
+
+$depts = array('Humas', 'GESC', 'GI', 'IMAP', 'GMC');
+
+foreach ($depts as $dept)
+{
+  $req = new requete($site->db,
+		     "SELECT `edu_uv`.`code_uv`
+                             , `edu_uv`.`intitule_uv`
+                      FROM
+                             `edu_uv`
+                      LEFT JOIN
+                             `edu_uv_dept`
+                      USING (`id_uv`)
+                      WHERE
+                             `edu_uv_dept` = '".$dept."'");
+
+  $uvs = array();
+  while ($rs = $req->get_row())
+    {
+      $uvs[] = $rs['code_uv'] . " - " . $rs['intitule_uv'];
+    }
+
+  $lst = new itemlist($dept,
+		      false,
+		      $uvs);
+  $cts->add($lst);
+}
 
 $site->add_contents($cts);
 
