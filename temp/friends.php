@@ -159,13 +159,16 @@ class personne
   {
     $this->dx = 0;
     $this->dy = 0;  
-    //echo "pre_poll()\n";
+    echo "pre_poll() on ".$this->id." (".$this->x.",".$this->y.")<br/>";
     foreach ( $this->wires as $wire )
     {
       list($mx,$my) = $wire->get_delta($this);
+      echo "mx=$mx,my=$my<br/>";
+      
       $this->dx += $mx;
       $this->dy += $my;
     }
+      echo "dx=".$this->dx.",dy=".$this->dy."<br/>";
   }
   
   function do_poll ()
