@@ -223,7 +223,7 @@ class wire
     $len = $this->get_length();
     $min_len = $this->get_minimal_length();
     
-    //echo "len=".$len." min=".$min_len;
+    echo "len=".$len." min=".$min_len."<br/>";
     
     if ( $len == $min_len )
       return array ( 0, 0 );
@@ -275,7 +275,7 @@ $map = new map();
 
 $req1 = new requete($db, "SELECT p1.id_utilisateur, alias_utlFROM `sas_personnes_photos` AS `p1`
 INNER JOIN utilisateurs ON ( p1.id_utilisateur= utilisateurs.id_utilisateur )JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photoAND p1.id_utilisateur != p2.id_utilisateur )GROUP BY p1.id_utilisateur
-LIMIT 100");
+LIMIT 10");
 
 while ( $row = $req1->get_row() )
   new personne($row['id_utilisateur'],$row['alias_utl'],$map);
@@ -304,14 +304,13 @@ for($i=0;$i<$step;$i++)
   $st = microtime(true);
   $map->poll();
   echo "done in ".(microtime(true)-$st)."seconds<br/>";
-
+  $map->echo_infos();
 }
 
-$map->echo_infos();
+/*
 $map->draw();
-
 echo "<br/><br/><img src=\"friends_temp.png\" />";
-
+*/
 /*
 $map = new map();
 
