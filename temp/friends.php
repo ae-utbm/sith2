@@ -236,7 +236,7 @@ class wire
     if ( $len < $min_len )
       $f=-10;
     else
-      $f = ($len-$min_len)*$this->tension/$tension_max;
+      $f = ($len-$min_len)*$this->tension/$tension_max/10;
     
     $dx = ($this->p1->x-$this->p2->x);
     $dy = ($this->p1->y-$this->p2->y);
@@ -283,11 +283,13 @@ $map = new map();
 
 $req1 = new requete($db, "SELECT p1.id_utilisateur, alias_utlFROM `sas_personnes_photos` AS `p1`
 INNER JOIN utilisateurs ON ( p1.id_utilisateur= utilisateurs.id_utilisateur )JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photoAND p1.id_utilisateur != p2.id_utilisateur )GROUP BY p1.id_utilisateur
-LIMIT 100");
+LIMIT 20");
 
 while ( $row = $req1->get_row() )
+{
   new personne($row['id_utilisateur'],$row['alias_utl'],$map);
-
+  echo "new personne(".$row['id_utilisateur'].",'".$row['alias_utl']."',".'$'."map);<br/>";
+}
 
 echo count($map->personnes)." utilisateurs dans la moulinette<br/>";
 
@@ -300,9 +302,11 @@ while ( $row = $req2->get_row() )
   if ( $row['c'] > $tension_max )
     $tension_max = $row['c'];
   
-  
   if ( isset($map->personnes[$row['u1']]) && isset($map->personnes[$row['u2']]) )
+  {
     new wire($map->personnes[$row['u1']],$map->personnes[$row['u2']],$row['c']);
+    echo "new wire(".'$'."map->personnes[".$row['u1']."],$map->personnes[".'$'."".$row['u2']."],".$row['c'].");<br/>";
+  }
 }
   
 echo count($map->wires)." liens dans la moulinette<br/>";
@@ -322,7 +326,7 @@ for($i=0;$i<$step;$i++)
 }
 
 
-$map->draw();
+//$map->draw();
 echo "<br/><br/><img src=\"friends_temp.png\" />";
 
 /*
