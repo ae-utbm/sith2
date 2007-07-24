@@ -187,13 +187,13 @@ foreach($plg as $polygone)
   imagepolygon($img, $polygone, count($polygone) / 2, $black);
 }
 
-header("Content-Type: image/png");
 
 $topdir = "../";
 
 require_once($topdir . "include/watermark.inc.php");
 $wm = new watermark($img);
 $wm->output();
+
 
 //imagepng($img);
 
