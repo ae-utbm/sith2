@@ -123,8 +123,24 @@ if ($_REQUEST['action'] == 'genimgpays')
       foreach ($points as $point)
       {
         $coord = explode(" ", $point);
-        $country[$numpays]['plgs'][$i][] = $coord[0];
-        $country[$numpays]['plgs'][$i][] = $coord[1];
+	$step = count($country[$numpays]['plgs'][$i]); 
+
+	/* premier point */
+	if ($step == 0)
+	  {
+	    $country[$numpays]['plgs'][$i][] = $coord[0];
+	    $country[$numpays]['plgs'][$i][] = $coord[1];
+	  }
+	/* points suivants : détection de la connerie */
+	else if (checkcoords($country[$numpays]['plgs'][$i][$step - 2],
+			     $country[$numpays]['plgs'][$i][$step - 1],
+			     $coord[0],
+			     $coord[1],
+			     1000000)) // tolérance à 1000 km
+	  {
+	    $country[$numpays]['plgs'][$i][] = $coord[0];
+	    $country[$numpays]['plgs'][$i][] = $coord[1];
+	  }
       }
       $i++;
     }
@@ -158,15 +174,16 @@ if ($_REQUEST['action'] == 'genimgpays')
   $img->draw();
 
   /* hack : redimensionnement de l'image ... */
+  /*
   $newimgres = imagecreatetruecolor($img->dimx, $img->dimy / 2);
   imagecopy($newimgres,                  // image destination
             $img->imgres,                // image source
             0,0,                         // coordonnées arrivée image cible
             0, $img->dimy / 2,           // coordonnées de la région image copiée
             $img->dimx, $img->dimy / 2); // largeur / longueur de l'étendue
-
+  */
   require_once ($topdir . "include/watermark.inc.php");
-  $wm_img = new img_watermark (&$newimgres);
+  $wm_img = new img_watermark ($img->imgres);
 
   $wm_img->saveas($imgfile);
 
@@ -450,5 +467,14 @@ if ( $site->user->is_in_group("gestion_ae") )
 $site->add_contents($cts);
 
 $site->end_page();
+
+
+
+function checkcoords($lx, $ly, $x, $y, $tolerance)
+{
+  if (sqrt(pow($x - $lx, 2) + pow($y - $ly, 2)) > $tolerance)
+    return false;
+  return true;
+}
 
 ?>
