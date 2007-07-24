@@ -14,8 +14,8 @@ class map
     $this->personnes = array();
     $this->wires = array();
     
-    $this->gx = 100;
-    $this->gy = 100;
+    $this->gx = 0;
+    $this->gy = 0;
   }
   
   
@@ -71,7 +71,7 @@ class map
   
   function draw ()
   {
-    $tx=40;
+    $tx=100;
     
     $dim = $this->dim();
     
@@ -94,7 +94,8 @@ class map
     
     $bg = imagecolorallocate($img, 255, 255, 255);
     $textcolor = imagecolorallocate($img, 0, 0, 0);
-    $wirecolor = imagecolorallocate($img, 255, 0, 0);
+    $wirecolor = imagecolorallocate($img, 255, 192, 192);
+    $idealwirecolor = imagecolorallocate($img, 192, 255, 192);
     $bullcolor = imagecolorallocate($img, 255, 128, 128);
     
     foreach($this->personnes as $per )
@@ -105,15 +106,21 @@ class map
     
     foreach($this->wires as $wire )
     {
-      imageline ($img, $wire->p1->ix, $wire->p1->iy, $wire->p2->ix, $wire->p2->iy, $wirecolor );
+      if ( abs($wire->get_length()- $wire->get_minimal_length()) < 0.1 )
+        imageline ($img, $wire->p1->ix, $wire->p1->iy, $wire->p2->ix, $wire->p2->iy, $idealwirecolor );
+      else
+        imageline ($img, $wire->p1->ix, $wire->p1->iy, $wire->p2->ix, $wire->p2->iy, $wirecolor );
     }
     
     foreach($this->personnes as $per )
     {
-      imagefilledellipse ($img, $per->ix, $per->iy, $tx/2, $tx/2, $bullcolor );
-      imagestring($img, 1, $per->ix, $per->iy,  $per->nom, $textcolor);
+      imagefilledellipse ($img, $per->ix, $per->iy, $tx/3, $tx/3, $bullcolor );
     }    
     
+    foreach($this->personnes as $per )
+    {
+      imagestring($img, 1, $per->ix, $per->iy,  $per->nom, $textcolor);
+    } 
     //      
 
     
@@ -142,14 +149,15 @@ class personne
   {
     $this->id= $id;
     $this->nom= $nom;
+    
     $this->x = $map->gx;
     $this->y = $map->gy;
     
-    /*$map->gx += 10;
-    $map->gy += 0.5;
+    $map->gx += 1;
+    $map->gy += 0.05;
     
     if ( $map->gx > 20 )
-      $map->gx = 0;*/
+      $map->gx = 0;
      
     $this->map = &$map;
     $this->wires = array();
@@ -215,8 +223,8 @@ class wire
   
   function get_minimal_length()
   {
-    //return 1/$this->tension;
-    return 1;
+    return 1+(1/$this->tension);
+    //return 1;
   }
   
   function get_delta(&$p)
@@ -234,9 +242,9 @@ class wire
       return array ( 0, 0 );
     
     if ( $len < $min_len )
-      $f=-10;
+      $f= ($len-$min_len)*2;
     else
-      $f = ($len-$min_len)*$this->tension/$tension_max/10;
+      $f = ($len-$min_len)*$this->tension/$tension_max/count($p->wires);
     
     $dx = ($this->p1->x-$this->p2->x);
     $dy = ($this->p1->y-$this->p2->y);
@@ -281,19 +289,27 @@ $db = new mysqlae();;
 
 $map = new map();
 
-$req1 = new requete($db, "SELECT p1.id_utilisateur, alias_utlFROM `sas_personnes_photos` AS `p1`
-INNER JOIN utilisateurs ON ( p1.id_utilisateur= utilisateurs.id_utilisateur )JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photoAND p1.id_utilisateur != p2.id_utilisateur )GROUP BY p1.id_utilisateur
-LIMIT 100");
+$req1 = new requete($db, "SELECT p1.id_utilisateur, alias_utl
+FROM `sas_personnes_photos` AS `p1`
+INNER JOIN utilisateurs ON ( p1.id_utilisateur= utilisateurs.id_utilisateur )
+JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photo
+AND p1.id_utilisateur != p2.id_utilisateur )
+GROUP BY p1.id_utilisateur
+LIMIT 200");
 
 while ( $row = $req1->get_row() )
 {
   new personne($row['id_utilisateur'],$row['alias_utl'],$map);
-  echo "new personne(".$row['id_utilisateur'].",'".$row['alias_utl']."',".'$'."map);<br/>";
+  //echo "new personne(".$row['id_utilisateur'].",'".$row['alias_utl']."',".'$'."map);<br/>";
 }
 
 echo count($map->personnes)." utilisateurs dans la moulinette<br/>";
 
-$req2 = new requete($db, "SELECT COUNT( * ) as c, p1.id_utilisateur as u1, p2.id_utilisateur as u2FROM `sas_personnes_photos` AS `p1`JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photoAND p1.id_utilisateur != p2.id_utilisateur )GROUP BY p1.id_utilisateur, p2.id_utilisateur");
+$req2 = new requete($db, "SELECT COUNT( * ) as c, p1.id_utilisateur as u1, p2.id_utilisateur as u2
+FROM `sas_personnes_photos` AS `p1`
+JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photo
+AND p1.id_utilisateur != p2.id_utilisateur )
+GROUP BY p1.id_utilisateur, p2.id_utilisateur");
 
 $tension_max=1;
 
@@ -305,7 +321,7 @@ while ( $row = $req2->get_row() )
   if ( isset($map->personnes[$row['u1']]) && isset($map->personnes[$row['u2']]) )
   {
     new wire($map->personnes[$row['u1']],$map->personnes[$row['u2']],$row['c']);
-    echo "new wire(".'$'."map->personnes[".$row['u1']."],".'$'."map->personnes[".$row['u2']."],".$row['c'].");<br/>";
+    //echo "new wire(".'$'."map->personnes[".$row['u1']."],".'$'."map->personnes[".$row['u2']."],".$row['c'].");<br/>";
   }
 }
   
@@ -322,7 +338,7 @@ for($i=0;$i<$step;$i++)
   $st = microtime(true);
   $map->poll();
   echo "done in ".(microtime(true)-$st)."seconds<br/>";
-  $map->echo_infos();
+  //$map->echo_infos();
 }
 
 
