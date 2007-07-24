@@ -53,7 +53,7 @@ foreach ($depts as $dept)
                              `edu_uv_dept`
                       USING (`id_uv`)
                       WHERE
-                             `edu_uv_dept` = '".$dept."'");
+                             `id_dept` = '".$dept."'");
 
   $uvs = array();
   while ($rs = $req->get_row())
