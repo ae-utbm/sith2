@@ -92,6 +92,6 @@ $conasses = array("DR01" => "Introduction à l'étude du droit",
 foreach ($conasses as $key => $value)
      $req = new update($site->dbrw,
 		       'edu_uv',
-		       array('code_uv' => $key, 'intitule_uv' => $value));
+		       array('intitule_uv' => $value), array('code_uv' => $key));
 
 ?>
