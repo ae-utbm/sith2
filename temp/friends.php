@@ -237,14 +237,14 @@ class wire
     
     if ( $dx > 1 )
     {
-      $dx = 1;
       $dy = $dy/$dx;
+      $dx = 1;
     }
     
     if ( $dy > 1 )
     {
-      $dy = 1;
       $dx = $dx/$dy;
+      $dy = 1;
     }
     
     if ( $p === $this->p1 )
