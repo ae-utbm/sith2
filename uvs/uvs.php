@@ -61,7 +61,7 @@ if (isset($_REQUEST['id_uv']))
   
   /* Code + intitulé */
   $cts->add_title(2, $rs['code_uv']);
-  $cts->add_paragraph("<b>".$rs['intitule_uv']."</b>");
+  $cts->add_paragraph("<center><i>\"".$rs['intitule_uv']."\"</i></center>");
 
   /* format horaire */
   $cts->add_title(2, "Formats horaires");
