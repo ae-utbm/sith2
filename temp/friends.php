@@ -22,12 +22,8 @@ class map
   function poll ()
   {
     foreach($this->personnes as $per )
-    {
-      if ( get_class($per) != "personne" )
-        print_r($per);
-        
       $per->pre_poll();
-    }  
+      
     foreach($this->personnes as $per )
       $per->do_poll();      
   }      
@@ -271,7 +267,10 @@ echo count($map->personnes)." utilisateurs dans la moulinette\n";
 $req2 = new requete($db, "SELECT COUNT( * ) as c, p1.id_utilisateur as u1, p2.id_utilisateur as u2FROM `sas_personnes_photos` AS `p1`JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photoAND p1.id_utilisateur != p2.id_utilisateur )GROUP BY p1.id_utilisateur, p2.id_utilisateur");
 
 while ( $row = $req2->get_row() )
-  new wire($map->personnes[$row['u1']],$map->personnes[$row['u2']],$row['c']);
+{
+  if ( isset($map->personnes[$row['u1']]) && isset($map->personnes[$row['u2']]) )
+    new wire($map->personnes[$row['u1']],$map->personnes[$row['u2']],$row['c']);
+}
   
 echo count($map->wires)." liens dans la moulinette\n";
 
