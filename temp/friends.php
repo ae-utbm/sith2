@@ -71,7 +71,7 @@ class map
   
   function draw ()
   {
-    $tx=50;
+    $tx=10;
     
     $dim = $this->dim();
     
@@ -142,8 +142,8 @@ class personne
     $this->x = $map->gx;
     $this->y = $map->gy;
     
-    $map->gx += 20;
-    $map->gy++;
+    $map->gx += 10;
+    $map->gy += 0.5;
     
     if ( $map->gx > 20 )
       $map->gx = 0;
@@ -184,6 +184,8 @@ class wire
   var $p2;
   var $tension;  
   
+  var $len;
+  
   function wire ( &$p1, &$p2, $tension )
   {
     if ( isset($p1->wires[$p2->id]) )
@@ -198,6 +200,7 @@ class wire
     $this->p2 = &$p2;
     $this->tension = $tension;
     $p1->map->wires[] = &$this;
+    $this->len=null;
   }
   
   function get_length()
@@ -261,7 +264,8 @@ $db = new mysqlae();;
 $map = new map();
 
 $req1 = new requete($db, "SELECT p1.id_utilisateur, alias_utlFROM `sas_personnes_photos` AS `p1`
-INNER JOIN utilisateurs ON ( p1.id_utilisateur= utilisateurs.id_utilisateur )JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photoAND p1.id_utilisateur != p2.id_utilisateur )GROUP BY p1.id_utilisateur");
+INNER JOIN utilisateurs ON ( p1.id_utilisateur= utilisateurs.id_utilisateur )JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photoAND p1.id_utilisateur != p2.id_utilisateur )GROUP BY p1.id_utilisateur
+LIMIT 100");
 
 while ( $row = $req1->get_row() )
   new personne($row['id_utilisateur'],$row['alias_utl'],$map);
