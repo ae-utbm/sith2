@@ -22,8 +22,10 @@ class map
   function poll ()
   {
     foreach($this->personnes as $per )
+    {
+      print_r($per);
       $per->pre_poll();
-      
+    }  
     foreach($this->personnes as $per )
       $per->do_poll();      
   }      
