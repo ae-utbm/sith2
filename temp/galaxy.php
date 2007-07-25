@@ -166,7 +166,7 @@ if ( isset($_REQUEST["render"]) )
   
   while ( $row = $req->get_row() )
   {
-    imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], $tx/3, $tx/3, $bullcolor );
+    imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], $tx/5, $tx/5, $bullcolor );
   }
   
   $req = new requete($dbrw, "SELECT ".
