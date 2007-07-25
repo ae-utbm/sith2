@@ -112,7 +112,7 @@ for($i=0;$i<$cycles;$i++)
   
   
   
-  new requete($dbrw,"UPDATE galaxy_star SET x_star = x_star + dx_star, y_star = y_star + dy_star WHERE dx_star != 0 OR dy_star != 0 WHERE fixe_star != 1");
+  new requete($dbrw,"UPDATE galaxy_star SET x_star = x_star + dx_star, y_star = y_star + dy_star WHERE dx_star != 0 OR dy_star != 0 AND fixe_star != 1");
   echo "done in ".round(microtime(true)-$st,2)." sec<br/>\n";
 }
 //
