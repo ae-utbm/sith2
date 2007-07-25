@@ -136,7 +136,7 @@ if ($_REQUEST['action'] == 'genimgpays')
 			     $country[$numpays]['plgs'][$i][$step - 1],
 			     $coord[0],
 			     $coord[1],
-			     1000000)) // tolérance à 1000 km
+			     10000000)) // tolérance
 	  {
 	    $country[$numpays]['plgs'][$i][] = $coord[0];
 	    $country[$numpays]['plgs'][$i][] = $coord[1];
