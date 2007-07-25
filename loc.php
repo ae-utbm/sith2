@@ -177,16 +177,16 @@ if ($_REQUEST['action'] == 'genimgpays')
   $img->draw();
 
   /* hack : redimensionnement de l'image ... */
-  $newimgres = imagecreatetruecolor($img->dimx, $img->dimy / 1.5);
+  $newimgres = imagecreatetruecolor($img->dimx, (2 * $img->dimy) / 3);
   imagecopy($newimgres,                  // image destination
             $img->imgres,                // image source
             0,0,                         // coordonnées arrivée image cible
-            0, $img->dimy / 1.5,           // coordonnées de la région image copiée
-            $img->dimx, $img->dimy - ($img->dimy / 1.5)); // largeur / longueur de l'étendue
+            0, $img->dimy / 3,           // coordonnées de la région image copiée
+            $img->dimx, (2*$img->dimy) / 3); // largeur / longueur de l'étendue
   require_once ($topdir . "include/watermark.inc.php");
   $wm_img = new img_watermark ($newimgres);
 
-  $wm_img->saveas($imgfile);
+//$wm_img->saveas($imgfile);
 
   $wm_img->output();
 
