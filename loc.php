@@ -326,7 +326,8 @@ if ($_REQUEST['action'] == 'genimgdept')
   $pgconn = new pgsqlae();
   /* on dessine les contours de la Franche Comté */
   $pgreq = new pgrequete($pgconn, "SELECT 
-                                           code_dept AS nom_dept
+                                           nom_dept
+                                           , code_dept
                                            , asText(the_geom) AS points
                                            , AsText(centroid(the_geom)) AS center
                                    FROM 
@@ -364,14 +365,14 @@ if ($_REQUEST['action'] == 'genimgdept')
     $center = str_replace(')', '', $center);
     $dept[$numdept]['center'] = explode( ' ', $center);
     /* nom */
-    $dept[$numdept]['name'] = $result['nom_dept'];
+    $dept[$numdept]['name'] = $result['nom_dept'] . "(". $result['code_dept'] . ")";
 
     $numdept++;
   }
 
   $villecoords = $result['villecoords'];
 
-  $img = new imgcarto(800, 10);
+  $img = new imgcarto(500, 10);
 
   $img->addcolor('pred', 255, 192, 192);
   $img->addcolor('pgreen', 192,255, 192);
@@ -384,7 +385,7 @@ if ($_REQUEST['action'] == 'genimgdept')
     {
       $img->addpolygon($plg, 'black', false);
     }
-    $img->addtext(12, -30, $departement['center'][0], $departement['center'][1], 'grey', strtolower($departement['name']));
+    $img->addtext(12, 0, $departement['center'][0], $departement['center'][1], 'pred', strtolower($departement['name']));
   }
 
   $img->draw();
