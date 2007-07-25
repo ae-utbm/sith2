@@ -385,7 +385,7 @@ if ($_REQUEST['action'] == 'genimgbfmontbe')
     }
     $img->addtext(16, 0, 
 		  $departement['center'][0] + 200, 
-		  $departement['center'][1] + 1000, 
+		  $departement['center'][1] + 2500, 
 		  'pred', 
 		  ucfirst(strtolower($departement['name'])));
   }
@@ -414,7 +414,7 @@ if ($_REQUEST['action'] == 'genimgbfmontbe')
       $point = explode(' ', $point);
 
       $img->addpoint($point[0], $point[1], 4, 'black');
-      $img->addtext(12, 0, $point[0], $point[1], 'black', $result['name_loc']); 
+      $img->addtext(12, 0, $point[0] + 20000, $point[1], 'black', $result['name_loc']); 
     }
 
   $img->draw();
