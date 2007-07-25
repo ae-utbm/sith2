@@ -56,7 +56,7 @@ $statscotis = new requete($site->db, "SELECT
 
 while ($rs = $statscotis->get_row)
 {
-  $statsdep[$rs['cpostal']] = $num;
+  $statsdep[$rs['cpostal']] = $rs['num'];
 }
 
 
