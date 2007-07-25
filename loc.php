@@ -397,11 +397,10 @@ if ($_REQUEST['action'] == 'genimgfc')
     $img->addtext(12, -30, $departement['center'][0], $departement['center'][1], 'grey', $departement['name']);
   }
 
-  $img->setfactor(100);
+  $img->setfactor(400);
   $img->draw();
-  print_r($img);
 
-  //  $img->output();
+  $img->output();
 
   // require_once ($topdir . "include/watermark.inc.php");  
   //$wm_img = new img_watermark ($img->imgres);
