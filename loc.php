@@ -95,7 +95,7 @@ if ($_REQUEST['action'] == 'genimgpays')
   /* 3395 est le SRID de la projection "globale" cylindrique (mercator) */
   $pgreq = new pgrequete($pgconn, "SELECT 
                                            name
-                                           , AsText(Transform(Simplify(the_geom, 0.25), 3395)) AS points
+                                           , AsText(Transform(Simplify(the_geom, 0.2), 3395)) AS points
                                    FROM 
                                            worldadmwgs
                                    WHERE
@@ -186,7 +186,7 @@ if ($_REQUEST['action'] == 'genimgpays')
   require_once ($topdir . "include/watermark.inc.php");
   $wm_img = new img_watermark ($newimgres);
 
-//$wm_img->saveas($imgfile);
+  $wm_img->saveas($imgfile);
 
   $wm_img->output();
 
