@@ -60,12 +60,10 @@ if ( isset($_REQUEST["init"]) )
   // POST-INITIALISATION
   echo "POST-INITIALISATION : ";
   $st = microtime(true);
-  new requete($dbrw, 
-  "UPDATE galaxy_link SET ideal_length_link=0.5+(10/tense_link);\n ".
-  "UPDATE galaxy_star SET sum_tense_star = ( SELECT SUM(tense_link) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star );\n ".
-  "UPDATE galaxy_star SET nblinks_star = ( SELECT COUNT(*) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star );\n ".
-  "DELETE FROM galaxy_star WHERE nblinks_star = 0;"
-  );
+  new requete($dbrw, "UPDATE galaxy_link SET ideal_length_link=0.5+(10/tense_link)");
+  new requete($dbrw, "UPDATE galaxy_star SET sum_tense_star = ( SELECT SUM(tense_link) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
+  new requete($dbrw, "UPDATE galaxy_star SET nblinks_star = ( SELECT COUNT(*) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
+  new requete($dbrw, "DELETE FROM galaxy_star WHERE nblinks_star = 0");
   echo "done in ".(microtime(true)-$st)." sec<br/>\n";
 
 }
