@@ -134,7 +134,7 @@ if ( isset($_REQUEST["render"]) )
   $bullcolor = imagecolorallocate($img, 255, 128, 128);
   
   $req = new requete($dbrw, "SELECT ABS(tense_link-ideal_length_link) as ex, ".
-  "a.rx_star as x1, a.ry_star ax y1, b.rx_star as x2, b.y_star as y2 ".
+  "a.rx_star as x1, a.ry_star as y1, b.rx_star as x2, b.y_star as y2 ".
   "FROM  galaxy_link ".
   "INNER JOIN galaxy_star AS a ON (a.id_star=galaxy_link.id_star_a) ".
   "INNER JOIN galaxy_star AS b ON (b.id_star=galaxy_link.id_star_b)");
