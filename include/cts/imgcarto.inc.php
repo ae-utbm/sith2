@@ -25,8 +25,6 @@
  * 02111-1307, USA.
  */
 
-define ("IMG_MAX_WIDTH", 800);
-
 class imgcarto
 {
   /* objets graphiques à ajouter à l'image */
@@ -49,19 +47,28 @@ class imgcarto
   /* une valeur en pixels de décalage */
   var $offset = 10;
 
+  /* points minis / maxi */
+  var $minx, $miny;
+  var $maxx, $maxy;
+
   /* dimensions */
   var $dimx, $dimy;
 
   var $errmsg;
+  
+  var $calculated = false;
 
-  function imgcarto()
+  function imgcarto($dimx, $offset)
   {
-    $this->dimx = 0;
-
+    $this->dimx = $dimx;
+    $this->offset = $offset;
+    
+    /* quelques couleurs de base */
     $this->addcolor("black", 0,0,0);
     $this->addcolor("red", 255, 0,0);
     $this->addcolor("blue", 0,0,255);
     $this->addcolor("white", 255,255,255);
+
     return;
   }
   
@@ -81,19 +88,76 @@ class imgcarto
     global $topdir;
 
     if ($font == null)
-      $font = $topdir . "font/verdana.ttf";
+      $font = $topdir . "verdana.ttf";
     
+    if (!isset($this->minx))
+      $this->minx = $x;
+    if (!isset($this->miny))
+      $this->miny = $y;
+
+
+    if ($this->minx > $x)
+      $this->minx = $x;
+    if ($this->maxx < $x)
+      $this->maxx = $x;
+
+    if ($this->miny > $y)
+      $this->miny = $y;
+    if ($this->maxy < $y)
+      $this->maxy = $y;
+
     $this->texts[] = array($size, $angle, $x, $y, $color, $font, $text);
 
   }
 
   function addpoint($x, $y, $r, $color)
   {
+
+    if (!isset($this->minx))
+      $this->minx = $x;
+    if (!isset($this->miny))
+      $this->miny = $y;
+
+    if ($this->minx > $x)
+      $this->minx = $x;
+    if ($this->maxx < $x)
+      $this->maxx = $x;
+
+    if ($this->miny > $y)
+      $this->miny = $y;
+    if ($this->maxy < $y)
+      $this->maxy = $y;
+
     $this->points[] = array($x,$y,$r, $color);
   }
 
   function addline($x, $y, $fx, $fy, $color)
   {
+    if (!isset($this->minx))
+      $this->minx = $x;
+    if (!isset($this->miny))
+      $this->miny = $y;
+
+    if ($this->minx > $x)
+      $this->minx = $x;
+    if ($this->maxx < $x)
+      $this->maxx = $x;
+
+    if ($this->miny > $y)
+      $this->miny = $y;
+    if ($this->maxy < $y)
+      $this->maxy = $y;
+
+    if ($this->minx > $fx)
+      $this->minx = $fx;
+    if ($this->maxx < $fx)
+      $this->maxx = $fx;
+
+    if ($this->miny > $fy)
+      $this->miny = $fy;
+    if ($this->maxy < $fy)
+      $this->maxy = $fy;
+
     $this->lines[] = array($x,$y,$fx,$fy,$color);
   }
 
@@ -104,211 +168,155 @@ class imgcarto
    */
   function addpolygon($plg, $color, $filled = false, $mapdatas = null)
   {
+    if (count($plg) <= 0)
+      return;
+    
+    for ($i = 0; $i < count($plg); $i +=2)
+      {
+	$x = $plg[$i];
+	$y = $plg[$i+1];
+	if (!isset($this->minx))
+	  $this->minx = $x;
+	if (!isset($this->miny))
+	  $this->miny = $y;
+
+	if ($this->minx > $x)
+	  $this->minx = $x;
+	if ($this->maxx < $x)
+	  $this->maxx = $x;
+
+	if ($this->miny > $y)
+	  $this->miny = $y;
+	if ($this->maxy < $y)
+	  $this->maxy = $y;
+      }
+
     $this->polygons[] = array($plg, $color, $filled, $mapdatas);
   }
-
-  function setfactor($factor)
+  
+  /* passe les coordonnées des objets en positif */
+  function setpositivecoords()
   {
-    $this->factor = $factor;
-  }
+    /* pour passer en positif, il suffit de retrancher aux coordonnées
+     * le minimum */
 
-  function setoffset($offset)
-  {
-    $this->offset = $offset;
-  }
-  /*
-   * Fonction permettant de calculer les dimensions de l'image. Elle
-   * permet en outre de recalculer les points si nécessaire
-   * (coordonnées négatives à passer en "relativement positif" par
-   * exemple).
-   *
-   */
-  function calculatedimensions()
-  {
-    $max_x = 0;
-    $min_x = 0;
-    $max_y = 0;
-    $min_y = 0;
-
-    if (count($this->lines))
-    {
-      foreach ($this->lines as $line)
-      {
-        if ($max_x < $line[0])
-          $max_x = $line[0];
-        if ($min_x > $line[0])
-          $min_x = $line[0];
-
-        if ($max_y < $line[1])
-          $max_y = $line[1];
-        if ($min_y > $line[1])
-          $min_y = $line[1];
-
-        if ($max_x < $line[2])
-          $max_x = $line[2];
-        if ($min_x > $line[2])
-          $min_x = $line[2];
-
-        if ($max_y < $line[3])
-          $max_y = $line[3];
-        if ($min_y > $line[3])
-          $min_y = $line[3];
-      }
-    } // end parsing lines
-
-    if (count($this->points))
-    {
-      foreach ($this->points as $point)
-      {
-        if ($max_x < $point[0])
-          $max_x = $point[0];
-        if ($min_x > $point[0])
-          $min_x = $point[0];
-
-        if ($max_y < $point[1])
-          $max_y = $point[1];
-        if ($min_y > $point[1])
-          $min_y = $point[1];
-      }
-    } // end parsing points
-
-    if (count($this->polygons))
-    {
-      foreach ($this->polygons as $polygon)
-      {
-        for ($i = 0; $i < count($polygon[0]); $i+= 2)
-        {
-          if ($max_x < $polygon[0][$i])
-            $max_x = $polygon[0][$i];
-          if ($min_x > $polygon[0][$i])
-            $min_x = $polygon[0][$i];
-
-          if ($max_y < $polygon[0][$i+1])
-            $max_y = $polygon[0][$i+1];
-          if ($min_y > $polygon[0][$i+1])
-            $min_y = $polygon[0][$i+1];
-        }
-      }
-    } // end parsing polygons
-
-    $this->dimx = (($max_x - $min_x) / $this->factor) + $this->offset * 2;
-    $this->dimy = (($max_y - $min_y) / $this->factor) + $this->offset * 2;
-
-    $min_x = ($min_x / $this->factor);
-    $min_y = ($min_y / $this->factor);
-
-    /* on peut maintenant recalculer les coordonnées */
-    
-    // texts : on considérera que les textes sont toujours inclus dans
-    // le graphique et qu'il n'est pas nécessaire de les prendre en
-    // compte pour le calcul des dimensions
+    /* textes */
     if (count($this->texts))
       {
-	for ($i = 0; $i < count($this->texts) ; $i++)
+	foreach ($this->texts as &$text)
 	  {
-	    $this->texts[$i][2] = ($this->texts[$i][2] / $this->factor) - $min_x + $this->offset;
-	    /* ATTENTION : inversion des ordonnées */
-	    $this->texts[$i][3] = $this->dimy - ($this->texts[$i][3] / $this->factor) - $min_y + $this->offset;
+	    $text[2] -= $this->minx;
+	    $text[3] -= $this->miny;
 	  }
       }
-
-    // points
+    /* points */
     if (count($this->points))
-    {
-      for ($i = 0; $i < count($this->points); $i++)
       {
-        $this->points[$i][0] = ($this->points[$i][0] / $this->factor) - $min_x + $this->offset;
-        /* ATTENTION : inversion des ordonnées */
-        $this->points[$i][1] = $this->dimy - ($this->points[$i][1] / $this->factor) - $min_y + $this->offset;
+	foreach($this->points as &$point)
+	  {
+	    $point[0] -= $this->minx;
+	    $point[1] -= $this->miny;
+	  }
       }
-    }
-    // lines
+    /* lignes */
     if (count($this->lines))
-    {
-      for ($i = 0; $i < count($this->lines); $i++)
       {
-        $this->lines[$i][0] = ($this->lines[$i][0] / $this->factor) - $min_x + $this->offset;
-        /* attention : inversion ordonnées */
-        $this->lines[$i][1] = $this->dimy - ($this->lines[$i][1] / $this->factor) - $min_y + $this->offset;
-
-        $this->lines[$i][2] = ($this->lines[$i][2] / $this->factor) - $min_x + $this->offset;
-        /* meme remarque ... */
-        $this->lines[$i][3] = $this->dimy - ($this->lines[$i][3] / $this->factor) - $min_y + $this->offset;
+	foreach($this->lines as &$line)
+	  {
+	    $line[0] -= $this->minx;
+	    $line[1] -= $this->miny;
+	    $line[2] -= $this->minx;
+	    $line[3] -= $this->miny;
+	  }
       }
-
-    }
-    // polygons
+    /* polygones */
     if (count($this->polygons))
-    {
-      for ($i = 0; $i < count($this->polygons); $i++)
       {
-        for ($j = 0; $j < count($this->polygons[$i][0]); $j += 2)
-        {
-          $this->polygons[$i][0][$j] =   ($this->polygons[$i][0][$j] / $this->factor) - $min_x + $this->offset;
-          /* ATTENTION : invesion des ordonnées ! */
-          $this->polygons[$i][0][$j+1] = $this->dimy - ($this->polygons[$i][0][$j+1] / $this->factor) - $min_y + $this->offset;
-        }
+	foreach ($this->polygons as &$polygon)
+	  {
+	    for ($i = 0; $i < count($polygon[0]); $i+=2)
+	      {
+		$polygon[0][$i] -= $this->minx;
+		$polygon[0][$i+1] -= $this->miny;
+	      }
+	    
+	  }
       }
-    }
+  }
 
-    /* HACK ? on reparse (suite aux calculs) pour avoir la
-     * bonne composante en y pour la dimension "hauteur" de l'image */
-    $max_y = 0;
-    $min_y = 0;
-
-    if (count($this->lines))
-    {
-      foreach ($this->lines as $line)
+  /* calcul des dimensions */
+  function calculatedimensions($invert_y = true)
+  {
+    $this->factor = (($this->dimx - 2 * $this->offset) / ($this->maxx - $this->minx));
+    $this->dimy = ($this->maxy - $this->miny) * $this->factor + 2 * $this->offset;
+    /* on repasse en revue les objets afin de leur donner
+     * une taille en adéquation avec l'image de sortie
+     */
+    /* textes */
+    if (count($this->texts))
       {
-        if ($max_y < $line[1])
-          $max_y = $line[1];
-        if ($min_y > $line[1])
-          $min_y = $line[1];
-        if ($max_y < $line[3])
-          $max_y = $line[3];
-        if ($min_y > $line[3])
-          $min_y = $line[3];
+	foreach ($this->texts as &$text)
+	  {
+	    $text[2] = $text[2] * $this->factor + $this->offset;
+	    $text[3] = $text[3] * $this->factor + $this->offset;
+	    if ($invert_y)
+	      $text[3] = $this->dimy - $text[3];
+	  }
       }
-    } // end parsing lines
-
+    /* points */
     if (count($this->points))
-    {
-      foreach ($this->points as $point)
       {
-        if ($max_y < $point[1])
-          $max_y = $point[1];
-        if ($min_y > $point[1])
-          $min_y = $point[1];
+	foreach($this->points as &$point)
+	  {
+	    $point[0] = $point[0] * $this->factor + $this->offset;
+	    $point[1] = $point[1] * $this->factor + $this->offset;
+	    if ($invert_y)
+	      $point[1] = $this->dimy - $point[1];
+	  }
       }
-    } // end parsing points
+    /* lignes */
+    if (count($this->lines))
+      {
+	foreach($this->lines as &$line)
+	  {
+	    $line[0] = $line[0] * $this->factor + $this->offset;
+	    $line[1] = $line[1] * $this->factor + $this->offset;
+	    $line[2] = $line[2] * $this->factor + $this->offset;
+	    $line[3] = $line[3] * $this->factor + $this->offset;
 
+	    if ($invert_y)
+	      {
+		$line[1] = $this->dimy - $line[1];
+		$line[3] = $this->dimy - $line[3];
+	      }
+	  }
+      }
+    /* polygones */
     if (count($this->polygons))
-    {
-      foreach ($this->polygons as $polygon)
       {
-        for ($i = 0; $i < count($polygon[0]); $i+= 2)
-        {
-          if ($max_y < $polygon[0][$i+1])
-            $max_y = $polygon[0][$i+1];
-          if ($min_y > $polygon[0][$i+1])
-            $min_y = $polygon[0][$i+1];
-        }
+	foreach ($this->polygons as &$polygon)
+	  {
+	    for ($i = 0; $i < count($polygon[0]); $i+=2)
+	      {
+		$polygon[0][$i]    = $polygon[0][$i] * $this->factor + $this->offset;
+		$polygon[0][$i+1]  = $polygon[0][$i+1] * $this->factor + $this->offset;
+		
+		if ($invert_y)
+		  $polygon[0][$i+1] = $this->dimy - $polygon[0][$i+1];
+	      }
+	  }
       }
-    } // end parsing polygons
-
-    $this->dimy = ($max_y - $min_y) + $this->offset * 2;
+    $this->calculated = true;
   }
 
   function draw()
   {
-    if ($this->dimx == 0)
-      $this->calculatedimensions();
 
-    if ($this->dimx > IMG_MAX_WIDTH)
-    {
-      $this->errmsg = "Image too large : $this->dimx:$this->dimy\n";
-      return false;
-    }
+    if ($this->calculated == false)
+      {
+	$this->setpositivecoords();
+	$this->calculatedimensions();
+      }
 
     $this->imgres = imagecreatetruecolor($this->dimx, $this->dimy);
     
@@ -404,8 +412,6 @@ class imgcarto
 
   function map_area($mapname="map")
   {
-    if ($this->dimx == 0)
-      $this->calculatedimensions();
 
     if (count($this->polygons))
     {
