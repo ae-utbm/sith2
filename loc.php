@@ -315,10 +315,10 @@ if ($_REQUEST['action'] == 'genimgville')
   exit();
 }
 
-/* spécifique Franche Comté */
+/* Echelle d'un département */
 if ($_REQUEST['action'] == 'genimgdept')
 {
-  $dept = intval($_REQUEST['iddept']);
+  $iddept = intval($_REQUEST['iddept']);
 
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
@@ -332,7 +332,7 @@ if ($_REQUEST['action'] == 'genimgdept')
                                    FROM 
                                            deptfr
                                    WHERE
-                                           code_dept = $dept");
+                                           code_dept = $iddept");
   $rs = $pgreq->get_all_rows();
   
   $numdept = 0;
