@@ -340,7 +340,7 @@ while ( $row = $req2->get_row() )
   if ( $row['c'] > $tension_max )
     $tension_max = $row['c'];
   
-  if ( isset($map->personnes[$row['u1']]) && isset($map->personnes[$row['u2']]) )
+  if ( isset($map->personnes[$row['u1']]) && isset($map->personnes[$row['u2']]) && $row['c'] > 2 )
   {
     new wire($map->personnes[$row['u1']],$map->personnes[$row['u2']],$row['c']);
     //echo "new wire(".'$'."map->personnes[".$row['u1']."],".'$'."map->personnes[".$row['u2']."],".$row['c'].");<br/>";
