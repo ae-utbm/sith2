@@ -385,7 +385,7 @@ if ($_REQUEST['action'] == 'genimgbfmontbe')
     }
     $img->addtext(16, 0, 
 		  $departement['center'][0] + 200, 
-		  $departement['center'][1] + 400, 
+		  $departement['center'][1] + 1000, 
 		  'pred', 
 		  ucfirst(strtolower($departement['name'])));
   }
