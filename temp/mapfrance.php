@@ -100,6 +100,7 @@ foreach($dept as $departement)
 		     array('id' =>$departement['gid'],
 			   'url' => "javascript:ploufdept(this, ".
 			   $departement['iddept']. ")"));
+    $img->addpolygon($plg, 'black', false);
   }
 }
 
