@@ -507,34 +507,33 @@ if ($_REQUEST['action'] == 'genimgdept')
   }
 
   /* on plotte quelques villes */
-  if ($iddept == 90)
-    {
-      $psql = new pgrequete($pgconn, 
-			    "SELECT DISTINCT
+  $psql = new pgrequete($pgconn, 
+			"SELECT
                                            name_loc, 
                                            AsText(TRANSFORM(the_geom, 27582)) AS points 
                              FROM 
                                            worldloc 
                              WHERE 
-                                           name_loc IN ('Belfort', 'Montbeliard', 'Sevenans') 
+                                           CONTAINS((SELECT TRANSFORM(the_geom, 4030) FROM deptfr WHERE code_dept = '".$iddept."'), the_geom) 
                              AND 
                                            countryc_loc = 'FR'
                              GROUP BY 
-                                           name_loc, the_geom");
+                                           name_loc, the_geom
+                             ORDER BY
+                                           RANDOM()
+                             LIMIT 10");
 
   
-      $rq = $psql->get_all_rows();
-      foreach($rq as $result)
-	{
-	  $point = $result['points'];
-	  $point = str_replace("POINT(", '', $point);
-	  $point = str_replace(")", '', $point);
-	  $point = explode(' ', $point);
+  $rq = $psql->get_all_rows();
+  foreach($rq as $result)
+    {
+      $point = $result['points'];
+      $point = str_replace("POINT(", '', $point);
+      $point = str_replace(")", '', $point);
+      $point = explode(' ', $point);
 
-	  $img->addpoint($point[0], $point[1], 4, 'black');
-	  $img->addtext(12, 0, $point[0] + 2000, $point[1], 'black', $result['name_loc']); 
-	}
-
+      $img->addpoint($point[0], $point[1], 4, 'black');
+      $img->addtext(12, 0, $point[0] + 5000, $point[1] - 400, 'black', $result['name_loc']); 
     }
 
   $img->draw();
