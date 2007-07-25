@@ -83,12 +83,12 @@ class imgcarto
   }
   
 
-  function addtext($size, $angle, $x, $y, $color, $text, $font = null)
+  function addtext($size, $angle, $x, $y, $color, $text, $font = null, $pointed = null)
   {
     global $topdir;
 
     if ($font == null)
-      $font = $topdir . "/font/verdana.ttf";
+      $font =  "./verdana.ttf";
     
     if (!isset($this->minx))
       $this->minx = $x;
@@ -105,15 +105,15 @@ class imgcarto
       $this->miny = $y;
     if ($this->maxy < $y)
       $this->maxy = $y;
-
-    $this->texts[] = array($size, $angle, $x, $y, $color, $font, $text);
+    
+    $this->texts[] = array($size, $angle, $x, $y, $color, $font, $text, $pointed);
 
   }
 
   function addpointwithlegend($x, $y, $r, $pcolor, $size, $angle, $text, $tcolor, $font = null)
   {
     $this->addpoint($x, $y, $r, $color);
-    $this->addtext($size, $angle, $x + $r, $y - $r, $tcolor, $text, $font);
+    $this->addtext($size, $angle, $x, $y, $tcolor, $text, $font, $r);
   }
 
   function addpoint($x, $y, $r, $color)
@@ -265,6 +265,16 @@ class imgcarto
 	  {
 	    $text[2] = $text[2] * $this->factor + $this->offset;
 	    $text[3] = $text[3] * $this->factor + $this->offset;
+	    
+	    /* point avec légende */
+	    if ($text[7] != null)
+	      {
+		$text[2] = $text[2] + 1.5 * $text[7];
+		$text[3] = $text[3] - $text[7];
+	      }
+
+	    
+
 	    if ($invert_y)
 	      $text[3] = $this->dimy - $text[3];
 	  }
