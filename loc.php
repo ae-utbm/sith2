@@ -155,19 +155,22 @@ if ($_REQUEST['action'] == 'genimgpays')
   $img->addcolor('green', 150,255, 150);
   foreach($country as $c)
   {
-    foreach($c['plgs'] as $plg)
-    {
-      if ($c['isin'] == true)
+    if (count($c['plgs']) > 0)
       {
-        $img->addpolygon($plg, 'red', true);
-        $img->addpolygon($plg, 'black', false);
+	foreach($c['plgs'] as $plg)
+	  {
+	    if ($c['isin'] == true)
+	      {
+		$img->addpolygon($plg, 'red', true);
+		$img->addpolygon($plg, 'black', false);
+	      }
+	    else
+	      {
+		$img->addpolygon($plg, 'green', true);
+		$img->addpolygon($plg, 'black', false);
+	      }
+	  }
       }
-      else
-      {
-        $img->addpolygon($plg, 'green', true);
-        $img->addpolygon($plg, 'black', false);
-      }
-    }
   }
 
   $img->setfactor(55000);
