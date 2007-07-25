@@ -316,21 +316,23 @@ if ($_REQUEST['action'] == 'genimgville')
 }
 
 /* spécifique Franche Comté */
-if ($_REQUEST['action'] == 'genimgfc')
+if ($_REQUEST['action'] == 'genimgdept')
 {
+  $dept = intval($_REQUEST['iddept']);
+
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
   
   $pgconn = new pgsqlae();
   /* on dessine les contours de la Franche Comté */
   $pgreq = new pgrequete($pgconn, "SELECT 
-                                           nom_dept
+                                           code_dept AS nom_dept
                                            , asText(the_geom) AS points
                                            , AsText(centroid(the_geom)) AS center
                                    FROM 
                                            deptfr
                                    WHERE
-                                           nom_region = 'FRANCHE-COMTE'");
+                                           code_dept = $dept");
   $rs = $pgreq->get_all_rows();
   
   $numdept = 0;
