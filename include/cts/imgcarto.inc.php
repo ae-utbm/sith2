@@ -113,7 +113,7 @@ class imgcarto
   function addpointwithlegend($x, $y, $r, $pcolor, $size, $angle, $text, $tcolor, $font = null)
   {
     $this->addpoint($x, $y, $r, $color);
-    $this->addtext($size, $angle, $text, $x + $r, $y - $r, $tcolor, $text, $font);
+    $this->addtext($size, $angle, $x + $r, $y - $r, $tcolor, $text, $font);
   }
 
   function addpoint($x, $y, $r, $color)
