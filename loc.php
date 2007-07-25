@@ -242,7 +242,7 @@ if ($_REQUEST['action'] == 'genimgville')
                                    , nom_region
                                    , AsText(TRANSFORM(GeomFromText('POINT(".$long.
                                                                           " ".$lat.")', 4030), 27582)) AS villecoords
-                                   , asText(the_geom) AS points
+                                   , asText(Simplify(the_geom, 20)) AS points
                                    , CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$long.
                                    " ".$lat.")', 4030), 27582)) AS indept
                                    FROM 
