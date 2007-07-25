@@ -63,7 +63,7 @@ if ( isset($_REQUEST["init"]) )
   
   //fixe_star
   
-  new requete($dbrw, "UPDATE galaxy_link SET ideal_length_link=0.5+(10/tense_link)");
+  new requete($dbrw, "UPDATE galaxy_link SET ideal_length_link=0.2+(20/tense_link)");
   new requete($dbrw, "UPDATE galaxy_star SET sum_tense_star = ( SELECT SUM(tense_link) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
   new requete($dbrw, "UPDATE galaxy_star SET nblinks_star = ( SELECT COUNT(*) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
   new requete($dbrw, "DELETE FROM galaxy_star WHERE nblinks_star = 0");
@@ -93,8 +93,8 @@ for($i=0;$i<$cycles;$i++)
   echo "2: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_link SET dx_link=vx_link/length_link, dy_link=vy_link/length_link WHERE length_link != 0");
   echo "3: ".round(microtime(true)-$st,2)." - ";
-  new requete($dbrw,"UPDATE galaxy_link SET dx_link=0, dy_link=0 WHERE length_link = 0");
-  new requete($dbrw,"UPDATE galaxy_link SET dx_link=RAND(), dy_link=RAND() WHERE length_link != 0 AND dx_link=0 AND dy_link=0");
+  new requete($dbrw,"UPDATE galaxy_link SET dx_link=0, dy_link=0 WHERE length_link = ideal_length_link");
+  new requete($dbrw,"UPDATE galaxy_link SET dx_link=RAND(), dy_link=RAND() WHERE length_link != ideal_length_link AND dx_link=0 AND dy_link=0");
   echo "4: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET  ".
   "delta_link_a=(length_link-ideal_length_link)*tense_link/a.sum_tense_star/2, ".
@@ -108,7 +108,7 @@ for($i=0;$i<$cycles;$i++)
     "COALESCE((SELECT SUM( delta_link_b * dy_link ) FROM galaxy_link WHERE id_star_b = id_star ),0) WHERE fixe_star != 1");
   echo "6: ".round(microtime(true)-$st,2)." - ";
   
-  new requete($dbrw,"UPDATE galaxy_star AS a, galaxy_star AS b SET a.dx_star=0, a.dy_star=0 WHERE POW((a.x_star+a.dx_star)-(b.x_star),2)+POW((a.y_star+a.dy_star)-(b.y_star),2) < 0.2");
+  new requete($dbrw,"UPDATE galaxy_star AS a, galaxy_star AS b SET a.dx_star=0, a.dy_star=0, b.dx_star=0, b.dy_star=0 WHERE POW(a.x_star+a.dx_star-b.x_star-b.dx_star,2)+POW(a.y_star+a.dy_star-b.y_star-b.dy_star,2) < 0.05");
   echo "7: ".round(microtime(true)-$st,2)." - ";
   
   new requete($dbrw,"UPDATE galaxy_star SET x_star = x_star + dx_star, y_star = y_star + dy_star WHERE dx_star != 0 OR dy_star != 0 AND fixe_star != 1");
@@ -159,7 +159,7 @@ if ( isset($_REQUEST["render"]) )
   
   while ( $row = $req->get_row() )
   {
-    if ( $row['ex'] < 0.1 )
+    if ( $row['ex'] < 0.2 )
       imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $idealwirecolor );
     else
       imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $wirecolor );    
