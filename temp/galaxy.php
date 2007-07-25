@@ -95,7 +95,7 @@ for($i=0;$i<$cycles;$i++)
   "WHERE a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
   echo "5: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_star SET ".
-  "dx_star = ( SELECT SUM( delta_link_a * dx_link ) FROM galaxy_lin kWHERE id_star_a = id_star ) + ".
+  "dx_star = ( SELECT SUM( delta_link_a * dx_link ) FROM galaxy_link WHERE id_star_a = id_star ) + ".
     "(SELECT SUM( delta_link_b * dx_link ) FROM galaxy_link WHERE id_star_b = id_star ), ".
   "dy_star = ( SELECT SUM( delta_link_a * dy_link ) FROM galaxy_link WHERE id_star_a = id_star ) + ".
     "(SELECT SUM( delta_link_b * dy_link ) FROM galaxy_link WHERE id_star_b = id_star ) ");
