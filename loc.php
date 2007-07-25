@@ -399,7 +399,9 @@ if ($_REQUEST['action'] == 'genimgfc')
 
   $img->setfactor(100);
   $img->draw();
-  $img->output();
+  print_r($img);
+
+  //  $img->output();
 
   // require_once ($topdir . "include/watermark.inc.php");  
   //$wm_img = new img_watermark ($img->imgres);
