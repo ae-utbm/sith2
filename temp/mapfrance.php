@@ -43,67 +43,6 @@ for ($i = 0; $i < 19; $i++)
 
 $pgconn = new pgsqlae();
 
-if (isset($_REQUEST['gendept']))
-{
-  $img->addcolor('orange', 255, 204, 42);
-
-  $dept = intval($_REQUEST['gendept']);
-
-
-
-
-  $pgreq = new pgrequete($pgconn, 
-			 "SELECT 
-                                 code_dept
-                                 , nom_dept
-                                 , asText(simplify(the_geom, 2000)) AS points 
-                          FROM 
-                                 deptfr 
-                          WHERE 
-                                 code_dept = '".$dept."'");
-
-
-
-  
-  $result = $pgreq->get_all_rows();
-  $result = $result[0];
-
-  $astext = $result['points'];
-  
-  $dept = array();
-  $matched = array();
-
-  preg_match_all("/\(([^)]*)\)/", $astext, $matched);
-  
-  $i = 0;
-
-  foreach ($matched[1] as $polygon)
-    {
-      $polygon = str_replace("(", "", $polygon);
-      $points = explode(",", $polygon);
-
-      foreach ($points as $point)
-	{
-	  $coord = explode(" ", $point);
-	  $dept['plgs'][$i][] = $coord[0];
-	  $dept['plgs'][$i][] = $coord[1];
-	}
-      $i++;
-    }
-
-  $dept['name'] = $result['nom_dept'];
-  $dept['iddept'] = $result['code_dept'];
-
-  foreach($dept['plgs'] as $plg)
-    {
-      $img->addpolygon($plg, 'orange', true, null);
-    }
-
-  $img->draw();
-  $img->output();
-
-  exit();
-}
 
 $statscotis = new requete($site->db, "SELECT  
                                                COUNT(`id_utilisateur`)          AS num  
@@ -123,6 +62,7 @@ while ($rs = $statscotis->get_row)
 
 
 $pgreq = new pgrequete($pgconn, "SELECT code_dept, nom_dept, asText(simplify(the_geom, 2000)) AS points FROM deptfr");
+
 $rs = $pgreq->get_all_rows();
 
 $numdept = 0;
@@ -156,7 +96,7 @@ foreach($dept as $departement)
 {
   foreach($departement['plgs'] as $plg)
   {
-    $img->addpolygon($plg, 'l' . $statsdep[$departement['iddept']] % 10);
+    $img->addpolygon($plg, 'l' . $statsdep[$departement['iddept']] % 10, true);
     $img->addpolygon($plg, 'pblue_dark', false, array('id' =>$departement['gid'],
 						      'url' => "javascript:ploufdept(this, ".
 						      $departement['iddept']. ")"));
@@ -169,7 +109,6 @@ if ($_REQUEST['generate'] == 1)
 {
   require_once($topdir . 'include/watermark.inc.php');
   $wm_img = new img_watermark ($img->imgres);
-
   $wm_img->output();
 
   exit();
