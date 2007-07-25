@@ -35,6 +35,12 @@ $img = new imgcarto(800, 10);
 $img->addcolor('pblue_dark', 51, 102, 153);
 $img->addcolor('pblue', 222, 235, 245);
 
+for ($i = 0; $i < 19; $i++)
+{
+  $img->addcolor('l' . $i, 255, 255 - ($i * 10), 255 - ($i * 6));
+}
+
+
 $pgconn = new pgsqlae();
 
 if (isset($_REQUEST['gendept']))
@@ -42,6 +48,10 @@ if (isset($_REQUEST['gendept']))
   $img->addcolor('orange', 255, 204, 42);
 
   $dept = intval($_REQUEST['gendept']);
+
+
+
+
   $pgreq = new pgrequete($pgconn, 
 			 "SELECT 
                                  code_dept
@@ -51,6 +61,9 @@ if (isset($_REQUEST['gendept']))
                                  deptfr 
                           WHERE 
                                  code_dept = '".$dept."'");
+
+
+
   
   $result = $pgreq->get_all_rows();
   $result = $result[0];
@@ -92,12 +105,29 @@ if (isset($_REQUEST['gendept']))
   exit();
 }
 
+$statscotis = new requete($site->db, "SELECT  
+                                               COUNT(`id_utilisateur`)          AS num  
+                                               , substring(cpostal_parents,1,2) AS cpostal 
+                                      FROM  
+                                               `utl_etu` 
+                                      WHERE 
+                                               char_length(cpostal_parents) = 5
+                                      GROUP BY 
+                                               substring(cpostal_parents,1,2)");
+
+while ($rs = $statscotis->get_row)
+{
+  $statsdep[$rs['cpostal']] = $num;
+}
+
+
 
 $pgreq = new pgrequete($pgconn, "SELECT code_dept, nom_dept, asText(simplify(the_geom, 2000)) AS points FROM deptfr");
 $rs = $pgreq->get_all_rows();
 
 $numdept = 0;
 $dept=array();
+
 foreach($rs as $result)
 {
   $astext = $result['points'];
@@ -126,6 +156,7 @@ foreach($dept as $departement)
 {
   foreach($departement['plgs'] as $plg)
   {
+    $img->addpolygon($plg, 'l' . $statsdep[$departement['iddept']] % 10);
     $img->addpolygon($plg, 'pblue_dark', false, array('id' =>$departement['gid'],
 						      'url' => "javascript:ploufdept(this, ".
 						      $departement['iddept']. ")"));
