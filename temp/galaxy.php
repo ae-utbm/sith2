@@ -50,7 +50,7 @@ if ( isset($_REQUEST["init"]) )
   
   while ( $row = $req2->get_row() )
   {
-    if ( !isset($done[$row['u2']]) && $row['c'] > 2 )
+    if ( !isset($done[$row['u2']]) && $row['c'] > 9 )
       new insert($dbrw,"galaxy_link",array( "id_star_a"=>$row['u1'], "id_star_b"=>$row['u2'], "tense_link" => $row['c'] ));
     $done[$row['u1']]=true;
   }
@@ -60,9 +60,15 @@ if ( isset($_REQUEST["init"]) )
   // POST-INITIALISATION
   echo "POST-INITIALISATION : ";
   $st = microtime(true);
+  
+  //fixe_star
+  
   new requete($dbrw, "UPDATE galaxy_link SET ideal_length_link=0.5+(10/tense_link)");
   new requete($dbrw, "UPDATE galaxy_star SET sum_tense_star = ( SELECT SUM(tense_link) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
   new requete($dbrw, "UPDATE galaxy_star SET nblinks_star = ( SELECT COUNT(*) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
+  
+  new requete($dbrw, "UPDATE galaxy_star SET fixe_star = 1 WHERE sum_tense_star > 1000");  
+  
   new requete($dbrw, "DELETE FROM galaxy_star WHERE nblinks_star = 0");
   echo "done in ".(microtime(true)-$st)." sec<br/>\n";
 
@@ -99,14 +105,14 @@ for($i=0;$i<$cycles;$i++)
   "dx_star = COALESCE(( SELECT SUM( delta_link_a * dx_link ) FROM galaxy_link WHERE id_star_a = id_star ),0) + ".
     "COALESCE((SELECT SUM( delta_link_b * dx_link ) FROM galaxy_link WHERE id_star_b = id_star ),0), ".
   "dy_star = COALESCE(( SELECT SUM( delta_link_a * dy_link ) FROM galaxy_link WHERE id_star_a = id_star ),0) + ".
-    "COALESCE((SELECT SUM( delta_link_b * dy_link ) FROM galaxy_link WHERE id_star_b = id_star ),0) ");
+    "COALESCE((SELECT SUM( delta_link_b * dy_link ) FROM galaxy_link WHERE id_star_b = id_star ),0) WHERE fixe_star != 1");
   echo "6: ".round(microtime(true)-$st,2)." - ";
   /*new requete($dbrw,"UPDATE galaxy_star AS a, galaxy_star AS b SET a.dx_star=0, a.dy_star=0 WHERE POW((a.x_star+a.dx_star)-(b.x_star),2)+POW((a.y_star+a.dy_star)-(b.y_star),2) < 0.2");
   echo "7: ".round(microtime(true)-$st,2)." - ";*/
   
   
   
-  new requete($dbrw,"UPDATE galaxy_star SET x_star = x_star + dx_star, y_star = y_star + dy_star WHERE dx_star != 0 OR dy_star != 0");
+  new requete($dbrw,"UPDATE galaxy_star SET x_star = x_star + dx_star, y_star = y_star + dy_star WHERE dx_star != 0 OR dy_star != 0 WHERE fixe_star != 1");
   echo "done in ".round(microtime(true)-$st,2)." sec<br/>\n";
 }
 //
