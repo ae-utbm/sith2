@@ -39,7 +39,7 @@ $img->addcolor('pblue', 222, 235, 245);
 
 for ($i = 0; $i < 19; $i++)
 {
-  $img->addcolor('l' . $i, 50, 255 - ($i * 10), 255 - ($i * 6));
+  $img->addcolor('l' . $i, 255, 150 - ($i * 6), 150 - ($i * 3));
 }
 
 
