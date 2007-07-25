@@ -533,9 +533,10 @@ if ($_REQUEST['action'] == 'genimgdept')
       $point = str_replace("POINT(", '', $point);
       $point = str_replace(")", '', $point);
       $point = explode(' ', $point);
+      $img->addpointwithlegend($point[0], $point[1], 10, 'black', 12, 0, $result['name_loc'], 'black');
 
-      $img->addpoint($point[0], $point[1], 4, 'black');
-      $img->addtext(12, 0, $point[0], $point[1], 'black', $result['name_loc']); 
+      //      $img->addpoint($point[0], $point[1], 4, 'black');
+      //      $img->addtext(12, 0, $point[0], $point[1], 'black', $result['name_loc']); 
     }
 
   $img->draw();
