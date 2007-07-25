@@ -30,8 +30,10 @@ define ("IMG_MAX_WIDTH", 800);
 class imgcarto
 {
   /* objets graphiques à ajouter à l'image */
+  var $texts  = array();
 
   var $lines = array();
+
   var $polygons = array();
 
   var $points = array();
@@ -73,6 +75,17 @@ class imgcarto
     $this->colors[$def] = array($r,$g,$b);
   }
   
+
+  function addtext($size, $angle, $x, $y, $color, $font = null)
+  {
+    global $topdir;
+
+    if ($font == null)
+      $font = $topdir . "font/verdana.ttf";
+    
+    $this->texts[] = array($size, $angle, $x, $y, $color, $font);
+
+  }
 
   function addpoint($x, $y, $r, $color)
   {
@@ -185,7 +198,20 @@ class imgcarto
     $min_y = ($min_y / $this->factor);
 
     /* on peut maintenant recalculer les coordonnées */
-   
+    
+    // texts : on considérera que les textes sont toujours inclus dans
+    // le graphique et qu'il n'est pas nécessaire de les prendre en
+    // compte pour le calcul des dimensions
+    if (count($this->texts))
+      {
+	for ($i = 0; $i < count($this->texts) ; $i++)
+	  {
+	    $this->texts[$i][2] = ($this->texts[$i][2] / $this->factor) - $min_x + $this->offset;
+	    /* ATTENTION : inversion des ordonnées */
+	    $this->texts[$i][3] = $this->dimy - ($this->texts[$i][3] / $this->factor) - $min_y + $this->offset;
+	  }
+      }
+
     // points
     if (count($this->points))
     {
@@ -339,6 +365,20 @@ class imgcarto
  
       }
     }
+    /* draw texts */
+    if (count($this->texts))
+      {
+	foreach ($this->texts as $text)
+	  {
+	    imagettftext ($this->imgres,
+			  $text[0],
+			  $text[1],
+			  $text[2],
+			  $text[3],
+			  $this->colors[$text[4]]['gd'],
+			  $text[5]);
+	  }
+      }
   }
   function saveas($path)
   {
