@@ -392,6 +392,40 @@ if ($_REQUEST['action'] == 'genimgdept')
 		  ucfirst(strtolower($departement['name'])));
   }
 
+
+
+
+  /* on plotte quelques villes */
+  if ($dept == 90)
+    {
+      $psql = new pgrequete($pgconn, 
+			    "SELECT DISTINCT
+                                           name_loc, 
+                                           AsText(TRANSFORM(the_geom, 27582)) AS points 
+                             FROM 
+                                           worldloc 
+                             WHERE 
+                                           name_loc IN ('Belfort', 'Montbeliard', 'Sevenans') 
+                             AND 
+                                           countryc_loc = 'FR'
+                             GROUP BY 
+                                           name_loc, the_geom");
+
+  
+      $rq = $psql->get_all_rows();
+      foreach($rq as $result)
+	{
+	  $point = $result['points'];
+	  $point = str_replace("POINT(", '', $point);
+	  $point = str_replace(")", '', $point);
+	  $point = explode(' ', $point);
+
+	  $img->addpoint($point[0], $point[1], 4, 'black');
+	  $img->addtext(12, 0, $point[0] + 2000, $point[1], 'black', $result['name_loc']); 
+	}
+
+    }
+
   $img->draw();
   
 
