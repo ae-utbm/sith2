@@ -154,7 +154,7 @@ if ( isset($_REQUEST["render"]) )
   $idealwirecolor = imagecolorallocate($img, 192, 255, 192);
   $bullcolor = imagecolorallocate($img, 255, 128, 128);
   
-  $req = new requete($dbrw, "SELECT ABS(tense_link-ideal_length_link) as ex, ".
+  $req = new requete($dbrw, "SELECT ABS(length_link-ideal_length_link) as ex, ".
   "a.rx_star as x1, a.ry_star as y1, b.rx_star as x2, b.ry_star as y2 ".
   "FROM  galaxy_link ".
   "INNER JOIN galaxy_star AS a ON (a.id_star=galaxy_link.id_star_a) ".
@@ -162,7 +162,6 @@ if ( isset($_REQUEST["render"]) )
   
   while ( $row = $req->get_row() )
   {
-    echo $row['ex'].",";
     if ( $row['ex'] < 0.2 )
       imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $idealwirecolor );
     else
