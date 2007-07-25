@@ -95,7 +95,7 @@ if ($_REQUEST['action'] == 'genimgpays')
   /* 3395 est le SRID de la projection "globale" cylindrique (mercator) */
   $pgreq = new pgrequete($pgconn, "SELECT 
                                            name
-                                           , AsText(Transform(Simplify(the_geom, 0.1), 3395)) AS points
+                                           , AsText(Transform(Simplify(the_geom, 0.25), 3395)) AS points
                                    FROM 
                                            worldadmwgs
                                    WHERE
