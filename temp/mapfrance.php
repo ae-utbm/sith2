@@ -22,7 +22,6 @@
  * 02111-1307, USA.
  */
 
-define("RATIO", 1600);     // Le ratio pour la carte final (1/1600)
 define("WATERMARK", TRUE); // watermark TRUE ou FALSE
 
 $topdir = "../";
@@ -32,7 +31,7 @@ require_once($topdir. "include/pgsqlae.inc.php");
 require_once($topdir. "include/cts/imgcarto.inc.php");
 require_once ($topdir . "include/watermark.inc.php");
 
-$img = new imgcarto();
+$img = new imgcarto(800, 10);
 $img->addcolor('pblue_dark', 51, 102, 153);
 $img->addcolor('pblue', 222, 235, 245);
 
@@ -87,8 +86,6 @@ if (isset($_REQUEST['gendept']))
       $img->addpolygon($plg, 'orange', true, null);
     }
 
-
-  $img->setfactor(RATIO);
   $img->draw();
   $img->output();
 
@@ -134,9 +131,6 @@ foreach($dept as $departement)
 						      $departement['iddept']. ")"));
   }
 }
-
-$img->setfactor(RATIO);
-
 
 $img->draw();
 
@@ -235,8 +229,6 @@ document.getElementById('cts2').style.display = 'none';
 </script>\n");
 
 $site->add_contents($cts);
-
-
 
 $site->end_page();
 

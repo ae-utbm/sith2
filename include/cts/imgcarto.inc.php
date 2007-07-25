@@ -413,6 +413,12 @@ class imgcarto
   function map_area($mapname="map")
   {
 
+    if ($this->calculated == false)
+      {
+	$this->setpositivecoords();
+	$this->calculatedimensions();
+      }
+
     if (count($this->polygons))
     {
       $map = "<map name=\"".$mapname."\">\n";
@@ -420,14 +426,7 @@ class imgcarto
       foreach ($this->polygons as $polygon)
       {
         $map .="<area shape=\"poly\" coords=\"";
-	/*
-     for ($i = 0; $i < count($polygon[0]); $i+= 2)
-        {
-          if($i != 0)
-            $map .=",";
-          $map .= $polygon[0][$i].",".$polygon[0][$i+1];
-        }
-	*/
+
 	$values = array();
 
 	foreach ($polygon[0] as $elem)
@@ -436,7 +435,6 @@ class imgcarto
 
 	$map .= implode (",", $values);
 
-	//        $map .= "\" href=\"__URL__".$pol_n."\" alt=\"__ALT__".$pol_n."\">\n";
 
 	$map .= "\" href=\"".$polygon[3]['url']."\" alt=\"notset\" />\n";
         $pol_n++;
