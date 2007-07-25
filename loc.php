@@ -521,10 +521,11 @@ if ($_REQUEST['action'] == 'genimgdept')
                                            name_loc, the_geom
                              ORDER BY
                                            RANDOM()
-                             LIMIT 10");
+                             LIMIT 5");
 
   
   $rq = $psql->get_all_rows();
+
   foreach($rq as $result)
     {
       $point = $result['points'];
@@ -533,7 +534,7 @@ if ($_REQUEST['action'] == 'genimgdept')
       $point = explode(' ', $point);
 
       $img->addpoint($point[0], $point[1], 4, 'black');
-      $img->addtext(12, 0, $point[0] + 5000, $point[1] - 400, 'black', $result['name_loc']); 
+      $img->addtext(12, 0, $point[0] + 400 * strlen($result['name_loc']), $point[1] - 400, 'black', $result['name_loc']); 
     }
 
   $img->draw();
