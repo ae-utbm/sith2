@@ -328,7 +328,7 @@ if ($_REQUEST['action'] == 'genimgville')
 }
 
 /* spécifique Franche Comté */
-if (isset($_REQUEST['genimgfc']))
+if ($_REQUEST['action'] == 'genimgfc')
 {
   require_once($topdir. "include/pgsqlae.inc.php");
   require_once($topdir. "include/cts/imgcarto.inc.php");
@@ -399,10 +399,11 @@ if (isset($_REQUEST['genimgfc']))
 
   $img->setfactor(100);
   $img->draw();
+  $img->output();
 
-  require_once ($topdir . "include/watermark.inc.php");  
-  $wm_img = new img_watermark (&$img->imgres);
-  $wm_img->output();
+  // require_once ($topdir . "include/watermark.inc.php");  
+  //$wm_img = new img_watermark ($img->imgres);
+  //$wm_img->output();
 
   exit();
 }

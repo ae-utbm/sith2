@@ -76,14 +76,14 @@ class imgcarto
   }
   
 
-  function addtext($size, $angle, $x, $y, $color, $font = null)
+  function addtext($size, $angle, $x, $y, $color, $text, $font = null)
   {
     global $topdir;
 
     if ($font == null)
       $font = $topdir . "font/verdana.ttf";
     
-    $this->texts[] = array($size, $angle, $x, $y, $color, $font);
+    $this->texts[] = array($size, $angle, $x, $y, $color, $font, $text);
 
   }
 
@@ -376,7 +376,8 @@ class imgcarto
 			  $text[2],
 			  $text[3],
 			  $this->colors[$text[4]]['gd'],
-			  $text[5]);
+			  $text[5],
+			  $text[6]);
 	  }
       }
   }
