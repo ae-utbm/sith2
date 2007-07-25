@@ -94,7 +94,7 @@ class pgrequete
     }
     else
     {
-      $this->lines =  pg_affected_rows ();
+      $this->lines =  pg_affected_rows ($res);
     }
     if($debug == 1)
     {
