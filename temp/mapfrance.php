@@ -31,6 +31,8 @@ require_once($topdir. "include/pgsqlae.inc.php");
 require_once($topdir. "include/cts/imgcarto.inc.php");
 require_once ($topdir . "include/watermark.inc.php");
 
+$site = new site ();
+
 $img = new imgcarto(800, 10);
 $img->addcolor('pblue_dark', 51, 102, 153);
 $img->addcolor('pblue', 222, 235, 245);
@@ -115,8 +117,6 @@ if ($_REQUEST['generate'] == 1)
 
   exit();
 }
-
-$site = new site ();
 
 if (isset($_REQUEST['getinfodepts']))
 {
