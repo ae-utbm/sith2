@@ -394,11 +394,12 @@ if ($_REQUEST['action'] == 'genimgfc')
     {
       $img->addpolygon($plg, 'black', false);
     }
-    $img->addtext(12, -30, $departement['center'][0], $departement['center'][1], 'grey', $departement['name']);
+    $img->addtext(12, -30, $departement['center'][0], $departement['center'][1], 'grey', strtolower($departement['name']));
   }
 
   $img->setfactor(2500);
   $img->draw();
+  print_r($img);
 
   $img->output();
 
