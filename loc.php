@@ -384,7 +384,7 @@ if ($_REQUEST['action'] == 'genimgbfmontbe')
       $img->addpolygon($plg, 'black', false);
     }
     $img->addtext(16, 0, 
-		  $departement['center'][0] + 2000, 
+		  $departement['center'][0] + 200, 
 		  $departement['center'][1], 
 		  'pred', 
 		  ucfirst(strtolower($departement['name'])));
