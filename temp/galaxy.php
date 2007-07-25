@@ -50,7 +50,7 @@ if ( isset($_REQUEST["init"]) )
   
   while ( $row = $req2->get_row() )
   {
-    if ( !isset($done[$row['u2']]) )
+    if ( !isset($done[$row['u2']]) && $row['c'] > 2 )
       new insert($dbrw,"galaxy_link",array( "id_star_a"=>$row['u1'], "id_star_b"=>$row['u2'], "tense_link" => $row['c'] ));
     $done[$row['u1']]=true;
   }
