@@ -151,7 +151,7 @@ if ($_REQUEST['action'] == 'genimgpays')
     $numpays++;
   }
 
-  $img = new imgcarto(500, 10);
+  $img = new imgcarto(800, 10);
   $img->addcolor('green', 150,255, 150);
   foreach($country as $c)
   {
@@ -277,7 +277,7 @@ if ($_REQUEST['action'] == 'genimgville')
   }
   $villecoords = $result['villecoords'];
 
-  $img = new imgcarto(500, 10);
+  $img = new imgcarto(800, 10);
 
   $img->addcolor('pred', 255, 192, 192);
   $img->addcolor('pgreen', 192,255, 192);
@@ -369,7 +369,7 @@ if ($_REQUEST['action'] == 'genimgfc')
 
   $villecoords = $result['villecoords'];
 
-  $img = new imgcarto(500, 10);
+  $img = new imgcarto(800, 10);
 
   $img->addcolor('pred', 255, 192, 192);
   $img->addcolor('pgreen', 192,255, 192);
