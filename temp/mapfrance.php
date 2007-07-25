@@ -59,6 +59,7 @@ while ($rs = $statscotis->get_row)
   $statsdep[$rs['cpostal']] = $rs['num'];
 }
 
+print_r($statsdep);
 
 
 $pgreq = new pgrequete($pgconn, "SELECT code_dept, nom_dept, asText(simplify(the_geom, 2000)) AS points FROM deptfr");
@@ -96,7 +97,9 @@ foreach($dept as $departement)
 {
   foreach($departement['plgs'] as $plg)
   {
-    echo 'l' . ($statsdep[$departement['iddept']] % 10) . "\n";
+    print_r($statsdep);
+    print_r($departement);
+
     $img->addpolygon($plg, 'l' . ($statsdep[$departement['iddept']] % 10), true, 
 		     array('id' =>$departement['gid'],
 			   'url' => "javascript:ploufdept(this, ".
