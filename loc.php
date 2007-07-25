@@ -498,6 +498,7 @@ if ($_REQUEST['action'] == 'genimgdept')
   {
     foreach($departement['plgs'] as $plg)
     {
+      $img->addpolygon($plg, 'pgreen', true);
       $img->addpolygon($plg, 'black', false);
     }
     $img->addtext(16, 0, 
