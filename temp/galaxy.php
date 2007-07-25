@@ -94,15 +94,19 @@ for($i=0;$i<$cycles;$i++)
   "delta_link_b=(length_link-ideal_length_link)*tense_link/b.sum_tense_star*-1/2 ".
   "WHERE a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
   echo "5: ".round(microtime(true)-$st,2)." - ";
-  new requete($dbrw,"UPDATE galaxy_star ".
-  "SET dx_star = ( SELECT SUM(IF(id_star_a=id_star,delta_link_a,delta_link_b)*dx_link) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star ), ".
-  "dy_star = ( SELECT SUM(IF(id_star_a=id_star,delta_link_a,delta_link_b)*dy_link) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
+  new requete($dbrw,"UPDATE galaxy_star SET ".
+  "dx_star = ( SELECT SUM( delta_link_a * dx_link ) FROM galaxy_lin kWHERE id_star_a = id_star ) + ".
+    "(SELECT SUM( delta_link_b * dx_link ) FROM galaxy_link WHERE id_star_b = id_star ), ".
+  "dy_star = ( SELECT SUM( delta_link_a * dy_link ) FROM galaxy_link WHERE id_star_a = id_star ) + ".
+    "(SELECT SUM( delta_link_b * dy_link ) FROM galaxy_link WHERE id_star_b = id_star ) ");
   echo "6: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_star AS a, galaxy_star AS b SET a.dx_star=0, a.dy_star=0 WHERE POW((a.x_star+a.dx_star)-(b.x_star+b.dx_star),2)+POW((a.y_star+a.dy_star)-(b.y_star+b.dy_star),2) < 0.1 AND POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2) > 0.1");
   echo "7: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_star SET x_star = x_star + dx_star, y_star = y_star + dy_star WHERE dx_star != 0 OR dy_star != 0");
   echo "done in ".round(microtime(true)-$st,2)." sec<br/>\n";
 }
+//
+
 
 if ( isset($_REQUEST["render"]) )
 {
