@@ -22,7 +22,7 @@
  * 02111-1307, USA.
  */
 
-define("WATERMARK", TRUE); // watermark TRUE ou FALSE
+define("WATERMARK", FALSE); // watermark TRUE ou FALSE
 
 $topdir = "../";
 
@@ -108,9 +108,14 @@ $img->draw();
 
 if ($_REQUEST['generate'] == 1)
 {
-  require_once($topdir . 'include/watermark.inc.php');
-  $wm_img = new img_watermark ($img->imgres);
-  $wm_img->output();
+  if (WATERMARK == TRUE)
+    {
+      require_once($topdir . 'include/watermark.inc.php');
+      $wm_img = new img_watermark ($img->imgres);
+      $wm_img->output();
+    }
+  else
+    $img->output();
 
   exit();
 }
