@@ -397,7 +397,7 @@ if ($_REQUEST['action'] == 'genimgfc')
     $img->addtext(12, -30, $departement['center'][0], $departement['center'][1], 'grey', $departement['name']);
   }
 
-  $img->setfactor(1000);
+  $img->setfactor(2500);
   $img->draw();
   print_r($img);
 
