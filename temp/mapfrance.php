@@ -96,10 +96,10 @@ foreach($dept as $departement)
 {
   foreach($departement['plgs'] as $plg)
   {
-    $img->addpolygon($plg, 'l' . $statsdep[$departement['iddept']] % 10, true);
-    $img->addpolygon($plg, 'pblue_dark', false, array('id' =>$departement['gid'],
-						      'url' => "javascript:ploufdept(this, ".
-						      $departement['iddept']. ")"));
+    $img->addpolygon($plg, 'l' . ($statsdep[$departement['iddept']] % 10), true, 
+		     array('id' =>$departement['gid'],
+			   'url' => "javascript:ploufdept(this, ".
+			   $departement['iddept']. ")"));
   }
 }
 
