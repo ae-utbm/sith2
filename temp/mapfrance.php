@@ -171,7 +171,13 @@ if (isset($_REQUEST['getinfodepts']))
                                         `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
 
                                  WHERE
-                                        `cpostal_parents` LIKE '".$cp."' ORDER BY RAND() LIMIT 10");
+                                        `cpostal_parents` LIKE '".$cp."'
+                                 
+                                 AND
+                                        `publique_utl` = '1'        
+                                 ORDER BY 
+                                         RAND() 
+                                 LIMIT 10");
 
 
   if ($req->lines <= 0)
@@ -199,34 +205,30 @@ if (isset($_REQUEST['getinfodepts']))
 $site = new site ();
 $site->start_page("services","Carte de France de l'AE");
 
+/*cts 1 : liste des gens */
+$cts = new contents("", "");
+
+$cts->add_paragraph("<script language=\"javascript\">
+document.getElementById('cts1').style.display = 'none';
+</script>\n");
+
+$site->add_contents($cts);
+
+/* cts 2 : la carte de France */ 
 $cts = new contents("La carte de France de l'AE", "");
 
 $cts->add_paragraph("<script language=\"javascript\">
 function ploufdept(obj, id)
   {
-    openInContents('cts2', './mapfrance.php', 'getinfodepts='+id);
-    document.getElementById('cts2').style.display = 'block';
+    openInContents('cts1', './mapfrance.php', 'getinfodepts='+id);
+    document.getElementById('cts1').style.display = 'block';
   }
-</script>
-
-<style type=\"text/css\">
-img.cartefr:hover
-{
-  filter:alpha(opacity=40);
-}
-</style>\n");
+</script>\n");
 
 
 $cts->add_paragraph($img->map_area("carte_de_france"));
 
 $cts->add_paragraph("<center><img class=\"cartefr\" src=\"mapfrance.php?generate=1\" alt=\"plouf\" usemap=\"#carte_de_france\" /></center>\n");
-
-$site->add_contents($cts);
-
-$cts = new contents("", "");
-$cts->add_paragraph("<script language=\"javascript\">
-document.getElementById('cts2').style.display = 'none';
-</script>\n");
 
 $site->add_contents($cts);
 
