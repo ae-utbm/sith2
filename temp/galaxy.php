@@ -97,8 +97,8 @@ for($i=0;$i<$cycles;$i++)
   new requete($dbrw,"UPDATE galaxy_link SET dx_link=RAND(), dy_link=RAND() WHERE length_link != ideal_length_link AND dx_link=0 AND dy_link=0");
   echo "4: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET  ".
-  "delta_link_a=(length_link-ideal_length_link)/ideal_length_link, ".
-  "delta_link_b=(length_link-ideal_length_link)/ideal_length_link*-1 ".
+  "delta_link_a=(length_link-ideal_length_link)/ideal_length_link/4, ".
+  "delta_link_b=(length_link-ideal_length_link)/ideal_length_link/4*-1 ".
   "WHERE a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
   echo "5: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_star SET ".
