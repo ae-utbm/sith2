@@ -151,7 +151,7 @@ if ($_REQUEST['action'] == 'genimgpays')
     $numpays++;
   }
 
-  $img = new imgcarto();
+  $img = new imgcarto(500, 10);
   $img->addcolor('green', 150,255, 150);
   foreach($country as $c)
   {
@@ -173,7 +173,6 @@ if ($_REQUEST['action'] == 'genimgpays')
       }
   }
 
-  $img->setfactor(55000);
   $img->draw();
 
   /* hack : redimensionnement de l'image ... */
@@ -287,7 +286,7 @@ if ($_REQUEST['action'] == 'genimgville')
   }
   $villecoords = $result['villecoords'];
 
-  $img = new imgcarto();
+  $img = new imgcarto(500, 10);
 
   $img->addcolor('pred', 255, 192, 192);
   $img->addcolor('pgreen', 192,255, 192);
@@ -315,8 +314,6 @@ if ($_REQUEST['action'] == 'genimgville')
   $villecoords = explode(" ", $villecoords);
 
   $img->addpoint($villecoords[0], $villecoords[1], 5, "black");
-
-  $img->setfactor(1600);
 
   $img->draw();
 
@@ -381,7 +378,7 @@ if ($_REQUEST['action'] == 'genimgfc')
 
   $villecoords = $result['villecoords'];
 
-  $img = new imgcarto();
+  $img = new imgcarto(500, 10);
 
   $img->addcolor('pred', 255, 192, 192);
   $img->addcolor('pgreen', 192,255, 192);
@@ -397,10 +394,8 @@ if ($_REQUEST['action'] == 'genimgfc')
     $img->addtext(12, -30, $departement['center'][0], $departement['center'][1], 'grey', strtolower($departement['name']));
   }
 
-  $img->setfactor(2500);
   $img->draw();
-  print_r($img);
-
+  
   $img->output();
 
   // require_once ($topdir . "include/watermark.inc.php");  
