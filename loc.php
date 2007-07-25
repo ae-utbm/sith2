@@ -331,7 +331,7 @@ if ($_REQUEST['action'] == 'genimgbfmontbe')
                                    FROM 
                                            deptfr
                                    WHERE
-                                           code_dept IN ('90', '25')");
+                                           code_dept = '90'");
   $rs = $pgreq->get_all_rows();
   
   $numdept = 0;
