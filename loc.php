@@ -392,11 +392,8 @@ if ($_REQUEST['action'] == 'genimgdept')
 		  ucfirst(strtolower($departement['name'])));
   }
 
-
-
-
   /* on plotte quelques villes */
-  if ($dept == 90)
+  if ($iddept == 90)
     {
       $psql = new pgrequete($pgconn, 
 			    "SELECT DISTINCT
