@@ -385,7 +385,7 @@ if ($_REQUEST['action'] == 'genimgdept')
     {
       $img->addpolygon($plg, 'black', false);
     }
-    $img->addtext(20, 0, 
+    $img->addtext(16, 0, 
 		  $departement['center'][0], 
 		  $departement['center'][1], 
 		  'pred', 
