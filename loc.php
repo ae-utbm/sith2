@@ -414,8 +414,9 @@ if ($_REQUEST['action'] == 'genimgbfmontbe')
       $point = str_replace(")", '', $point);
       $point = explode(' ', $point);
 
-      $img->addpoint($point[0], $point[1], 4, 'black');
-      $img->addtext(12, 0, $point[0] + 7500, $point[1] - 400, 'black', $result['name_loc']); 
+      $img->addpointwithlegend($point[0], $point[1], 10, 'black', 12, 0, $result['name_loc'], 'black');
+      //      $img->addpoint($point[0], $point[1], 4, 'black');
+      //      $img->addtext(12, 0, $point[0] + 7500, $point[1] - 400, 'black', $result['name_loc']); 
     }
 
   $img->draw();
@@ -438,7 +439,7 @@ if ($_REQUEST['action'] == 'genimgdept')
   require_once($topdir. "include/cts/imgcarto.inc.php");
   
   $pgconn = new pgsqlae();
-  /* on dessine les contours de la Franche Comté */
+  /* on dessine les contours du département */
   $pgreq = new pgrequete($pgconn, "SELECT 
                                            nom_dept
                                            , code_dept
