@@ -82,19 +82,26 @@ for($i=0;$i<$cycles;$i++)
   "vx_link = b.x_star-a.x_star, ".
   "vy_link = b.y_star-a.y_star  ".
   "WHERE a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
+  echo "1: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_link SET length_link = SQRT(POW(vx_link,2)+POW(vy_link,2))");
+  echo "2: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_link SET dx_link=vx_link/length_link, dy_link=vy_link/length_link WHERE length_link != 0");
+  echo "3: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_link SET dx_link=0, dy_link=0 WHERE length_link = 0");
+  echo "4: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET  ".
   "delta_link_a=(length_link-ideal_length_link)*tense_link/a.sum_tense_star/2, ".
   "delta_link_b=(length_link-ideal_length_link)*tense_link/b.sum_tense_star*-1/2 ".
   "WHERE a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
+  echo "5: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_star ".
   "SET dx_star = ( SELECT SUM(IF(id_star_a=id_star,delta_link_a,delta_link_b)*dx_link) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star ), ".
   "dy_star = ( SELECT SUM(IF(id_star_a=id_star,delta_link_a,delta_link_b)*dy_link) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
+  echo "6: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_star AS a, galaxy_star AS b SET a.dx_star=0, a.dy_star=0 WHERE POW((a.x_star+a.dx_star)-(b.x_star+b.dx_star),2)+POW((a.y_star+a.dy_star)-(b.y_star+b.dy_star),2) < 0.1 AND POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2) > 0.1");
+  echo "7: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_star SET x_star = x_star + dx_star, y_star = y_star + dy_star WHERE dx_star != 0 OR dy_star != 0");
-  echo "done in ".(microtime(true)-$st)." sec<br/>\n";
+  echo "done in ".round(microtime(true)-$st,2)." sec<br/>\n";
 }
 
 if ( isset($_REQUEST["render"]) )
