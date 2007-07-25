@@ -257,7 +257,9 @@ class imgcarto
       {
 	foreach ($this->texts as &$text)
 	  {
-	    $text[2] = $text[2] * $this->factor + $this->offset;
+	    $strpx = strlen($text[5]) * $text[0];
+	    /* on décale pour centrer le texte sur sa coordonnée en x */
+	    $text[2] = $text[2] * $this->factor + $this->offset - ($strpx / 2);
 	    $text[3] = $text[3] * $this->factor + $this->offset;
 	    if ($invert_y)
 	      $text[3] = $this->dimy - $text[3];

@@ -386,7 +386,7 @@ if ($_REQUEST['action'] == 'genimgdept')
       $img->addpolygon($plg, 'black', false);
     }
     $img->addtext(20, 0, 
-		  $departement['center'][0] - 16000, 
+		  $departement['center'][0], 
 		  $departement['center'][1], 
 		  'pred', 
 		  ucfirst(strtolower($departement['name'])));
