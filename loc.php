@@ -365,7 +365,7 @@ if ($_REQUEST['action'] == 'genimgdept')
     $center = str_replace(')', '', $center);
     $dept[$numdept]['center'] = explode( ' ', $center);
     /* nom */
-    $dept[$numdept]['name'] = $result['nom_dept'] . "(". $result['code_dept'] . ")";
+    $dept[$numdept]['name'] = $result['nom_dept'] . " (". $result['code_dept'] . ")";
 
     $numdept++;
   }
@@ -385,17 +385,20 @@ if ($_REQUEST['action'] == 'genimgdept')
     {
       $img->addpolygon($plg, 'black', false);
     }
-    $img->addtext(12, 0, $departement['center'][0], $departement['center'][1], 'pred', strtolower($departement['name']));
+    $img->addtext(20, 0, 
+		  $departement['center'][0], 
+		  $departement['center'][1], 
+		  'pred', 
+		  ucfirst($departement['name']));
   }
 
   $img->draw();
   
-  $img->output();
 
-  // require_once ($topdir . "include/watermark.inc.php");  
-  //$wm_img = new img_watermark ($img->imgres);
-  //$wm_img->output();
-
+  require_once ($topdir . "include/watermark.inc.php");  
+  $wm_img = new img_watermark ($img->imgres);
+  $wm_img->output();
+  
   exit();
 }
 
