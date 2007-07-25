@@ -54,7 +54,7 @@ $statscotis = new requete($site->db, "SELECT
                                       GROUP BY 
                                                substring(cpostal_parents,1,2)");
 
-while ($rs = $statscotis->get_row)
+while ($rs = $statscotis->get_row())
 {
   $statsdep[$rs['cpostal']] = $rs['num'];
 }
@@ -98,8 +98,6 @@ foreach($dept as $departement)
   foreach($departement['plgs'] as $plg)
   {
     print_r($statsdep);
-    print_r($departement);
-
     $img->addpolygon($plg, 'l' . ($statsdep[$departement['iddept']] % 10), true, 
 		     array('id' =>$departement['gid'],
 			   'url' => "javascript:ploufdept(this, ".
