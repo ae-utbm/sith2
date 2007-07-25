@@ -88,7 +88,7 @@ class imgcarto
     global $topdir;
 
     if ($font == null)
-      $font = $topdir . "verdana.ttf";
+      $font = $topdir . "/font/verdana.ttf";
     
     if (!isset($this->minx))
       $this->minx = $x;
