@@ -327,6 +327,88 @@ if ($_REQUEST['action'] == 'genimgville')
   exit();
 }
 
+/* spécifique Franche Comté */
+if (isset($_REQUEST['genimgfc']))
+{
+  require_once($topdir. "include/pgsqlae.inc.php");
+  require_once($topdir. "include/cts/imgcarto.inc.php");
+  
+  $pgconn = new pgsqlae();
+  /* on dessine les contours de la Franche Comté */
+  $pgreq = new pgrequete($pgconn, "SELECT 
+                                           nom_dept
+                                           , asText(the_geom) AS points
+                                           , AsText(centroid(the_geom)) AS center
+                                   FROM 
+                                           deptfr
+                                   WHERE
+                                           nom_region = 'FRANCHE-COMTE'");
+  $rs = $pgreq->get_all_rows();
+  
+  $numdept = 0;
+
+  foreach($rs as $result)
+  {
+    $astext = $result['points'];
+    $matched = array();
+    preg_match_all("/\(([^)]*)\)/", $astext, $matched);
+    /* récupère les différents polygones pour un département */
+    $i = 0;
+    foreach ($matched[1] as $polygon)
+    {
+      $polygon = str_replace("(", "", $polygon);
+      $points = explode(",", $polygon);
+  
+      foreach ($points as $point)
+      {
+        $coord = explode(" ", $point);
+        $dept[$numdept]['plgs'][$i][] = $coord[0];
+        $dept[$numdept]['plgs'][$i][] = $coord[1];
+      }
+
+      $i++;
+    }
+    /* centre */
+    $center = $result['center'];
+    $center = str_replace('POINT(', '', $center);
+    $center = str_replace(')', '', $center);
+    $dept[$numdept]['center'] = explode( ' ', $center);
+    /* nom */
+    $dept[$numdept]['name'] = $result['nom_dept'];
+
+    $numdept++;
+  }
+
+  $villecoords = $result['villecoords'];
+
+  $img = new imgcarto();
+
+  $img->addcolor('pred', 255, 192, 192);
+  $img->addcolor('pgreen', 192,255, 192);
+  $img->addcolor('grey', 120, 120, 120);
+
+  $i = 0;
+  foreach($dept as $departement)
+  {
+    foreach($departement['plgs'] as $plg)
+    {
+      $img->addpolygon($plg, 'black', false);
+    }
+    $img->addtext(12, -30, $departement['center'][0], $departement['center'][1], 'grey');
+  }
+
+  $img->setfactor(100);
+  $img->draw();
+
+  require_once ($topdir . "include/watermark.inc.php");  
+  $wm_img = new img_watermark (&$img->imgres);
+  $wm_img->output();
+
+  exit();
+}
+
+
+
 $pays = new pays($site->db,$site->dbrw);
 $ville = new ville($site->db,$site->dbrw);
 $lieu = new lieu($site->db,$site->dbrw);
