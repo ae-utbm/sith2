@@ -534,7 +534,7 @@ if ($_REQUEST['action'] == 'genimgdept')
       $point = explode(' ', $point);
 
       $img->addpoint($point[0], $point[1], 4, 'black');
-      $img->addtext(12, 0, $point[0] + 400 * strlen($result['name_loc']), $point[1] - 400, 'black', $result['name_loc']); 
+      $img->addtext(12, 0, $point[0] + 40 * strlen($result['name_loc']), $point[1] - 400, 'black', $result['name_loc']); 
     }
 
   $img->draw();
