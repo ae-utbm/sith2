@@ -315,6 +315,119 @@ if ($_REQUEST['action'] == 'genimgville')
   exit();
 }
 
+/* Spécifique Belfort / montbé */
+if ($_REQUEST['action'] == 'genimgbfmontbe')
+{
+  require_once($topdir. "include/pgsqlae.inc.php");
+  require_once($topdir. "include/cts/imgcarto.inc.php");
+  
+  $pgconn = new pgsqlae();
+  /* on dessine les contours de la Franche Comté */
+  $pgreq = new pgrequete($pgconn, "SELECT 
+                                           nom_dept
+                                           , code_dept
+                                           , asText(the_geom) AS points
+                                           , AsText(centroid(the_geom)) AS center
+                                   FROM 
+                                           deptfr
+                                   WHERE
+                                           code_dept IN ('90', '25')");
+  $rs = $pgreq->get_all_rows();
+  
+  $numdept = 0;
+
+  foreach($rs as $result)
+  {
+    $astext = $result['points'];
+    $matched = array();
+    preg_match_all("/\(([^)]*)\)/", $astext, $matched);
+    /* récupère les différents polygones pour un département */
+    $i = 0;
+    foreach ($matched[1] as $polygon)
+    {
+      $polygon = str_replace("(", "", $polygon);
+      $points = explode(",", $polygon);
+  
+      foreach ($points as $point)
+      {
+        $coord = explode(" ", $point);
+        $dept[$numdept]['plgs'][$i][] = $coord[0];
+        $dept[$numdept]['plgs'][$i][] = $coord[1];
+      }
+
+      $i++;
+    }
+    /* centre */
+    $center = $result['center'];
+    $center = str_replace('POINT(', '', $center);
+    $center = str_replace(')', '', $center);
+    $dept[$numdept]['center'] = explode( ' ', $center);
+    /* nom */
+    $dept[$numdept]['name'] = $result['nom_dept'] . " (". $result['code_dept'] . ")";
+
+    $numdept++;
+  }
+
+  $villecoords = $result['villecoords'];
+
+  $img = new imgcarto(500, 10);
+
+  $img->addcolor('pred', 255, 192, 192);
+  $img->addcolor('pgreen', 192,255, 192);
+  $img->addcolor('grey', 120, 120, 120);
+
+  $i = 0;
+  foreach($dept as $departement)
+  {
+    foreach($departement['plgs'] as $plg)
+    {
+      $img->addpolygon($plg, 'black', false);
+    }
+    $img->addtext(16, 0, 
+		  $departement['center'][0] + 5000, 
+		  $departement['center'][1], 
+		  'pred', 
+		  ucfirst(strtolower($departement['name'])));
+  }
+
+  /* on plotte quelques villes bien connues ;-) */
+  $psql = new pgrequete($pgconn, 
+			    "SELECT DISTINCT
+                                           name_loc, 
+                                           AsText(TRANSFORM(the_geom, 27582)) AS points 
+                             FROM 
+                                           worldloc 
+                             WHERE 
+                                           name_loc IN ('Belfort', 'Montbeliard', 'Sevenans') 
+                             AND 
+                                           countryc_loc = 'FR'
+                             GROUP BY 
+                                           name_loc, the_geom");
+
+  
+  $rq = $psql->get_all_rows();
+  foreach($rq as $result)
+    {
+      $point = $result['points'];
+      $point = str_replace("POINT(", '', $point);
+      $point = str_replace(")", '', $point);
+      $point = explode(' ', $point);
+
+      $img->addpoint($point[0], $point[1], 4, 'black');
+      $img->addtext(12, 0, $point[0] - 2000, $point[1], 'black', $result['name_loc']); 
+    }
+
+  $img->draw();
+  
+
+  require_once ($topdir . "include/watermark.inc.php");  
+  $wm_img = new img_watermark ($img->imgres);
+  $wm_img->output();
+  
+  exit();
+}
+
+
 /* Echelle d'un département */
 if ($_REQUEST['action'] == 'genimgdept')
 {
