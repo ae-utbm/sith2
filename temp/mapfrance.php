@@ -150,8 +150,9 @@ if (isset($_REQUEST['getinfodepts']))
 {
   $cp = mysql_real_escape_string($_REQUEST['getinfodepts']);
 
-  echo "<h2>Ils viennent de ce département ($cp) :</h2>";
+  echo "<h1>Ils viennent de ce département ($cp) :</h1>";
 
+  echo "<center>\n";
   $cp .= '___';
 
   $req = new requete($site->db, "SELECT 
@@ -186,7 +187,7 @@ if (isset($_REQUEST['getinfodepts']))
       exit();
     }
   require_once($topdir . "include/cts/sqltable.inc.php");
-
+  
   $sqlt = new sqltable('userslst', 
 		       'Liste des utilisateurs',
 		       $req,
@@ -198,6 +199,7 @@ if (isset($_REQUEST['getinfodepts']))
 		       array());
 
   echo $sqlt->html_render();
+  echo "</center>";
 
   exit();
 }
