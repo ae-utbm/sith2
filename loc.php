@@ -399,7 +399,6 @@ if ($_REQUEST['action'] == 'genimgfc')
 
   $img->setfactor(2500);
   $img->draw();
-  print_r($img);
 
   $img->output();
 
