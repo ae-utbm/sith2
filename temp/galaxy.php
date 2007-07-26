@@ -168,6 +168,24 @@ if ( isset($_REQUEST["render"]) )
   
   imagefill($img, 0, 0, $bg);
   
+  
+  for($i=0;$i<820;$i++)
+  {
+    if ( $i > 800 )
+      $t = imagecolorallocate($img, 255, 255, 255);
+    elseif ( $i > 700 )
+      $t = imagecolorallocate($img, 255-(($i-700)*255/100), 255-(($i-700)*255/100), 255);      
+    elseif ( $i > 400 )
+      $t = imagecolorallocate($img, 255 -(($i-300)*255/400), 255 -(($i-400)*255/300), ($i-400)*255/300);
+    elseif ( $i > 35 )
+      $t = imagecolorallocate($img, 255, ($i-35)*255/365, 0); 
+    else
+      $t = imagecolorallocate($img, 128+($i*128/35), 0, 0); 
+    imageline($img,$i,0,$i,20,$t);
+  }
+  
+  
+  
   if ( !isset($_REQUEST["nowires"]) )
   {
     $req = new requete($dbrw, "SELECT ABS(length_link-ideal_length_link) as ex, ".
