@@ -99,7 +99,7 @@ if ($_REQUEST['generate'] == 1)
     }
   }
 
-  $req = new requete($site->db, "SELECT `id_cotisation`, `lat_ville`, `long_ville` FROM `utl_etu`
+  $req = new requete($site->db, "SELECT `lat_ville`, `long_ville` FROM `utl_etu`
     LEFT JOIN `ae_cotisations` ON `ae_cotisations`.`id_utilisateur` = `utl_etu`.`id_utilisateur`
     INNER JOIN `loc_ville` ON `utl_etu`.`id_ville` = `loc_ville`.`id_ville`
     WHERE `date_fin_cotis` > NOW() AND `utl_etu`.`id_ville` IS NOT NULL
