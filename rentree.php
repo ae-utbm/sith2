@@ -147,7 +147,7 @@ if ($_REQUEST['generate'] == 1)
 $site->start_page("services","Carte de France de l'AE en temps réel");
 
 $cts = new contents("La carte de France de l'AE", "");
-$cts->add_paragraph("<center><img class=\"cartefr\" src=\"mapfrance.php?generate=1\" alt=\"plouf\" usemap=\"#carte_de_france\" /></center>\n");
+$cts->add_paragraph("<center><img class=\"cartefr\" src=\"rentree.php?generate=1\" alt=\"plouf\" /></center>\n");
 $site->add_contents($cts);
 
 $site->end_page();
