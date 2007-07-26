@@ -157,7 +157,7 @@ if ( isset($_REQUEST["render"]) )
     exit();
   }
   imagealphablending($img,true);
-  imageantialias($img,true);
+  //imageantialias($img,true);
   
   
   
