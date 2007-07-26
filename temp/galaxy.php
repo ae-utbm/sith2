@@ -163,7 +163,7 @@ if ( isset($_REQUEST["render"]) )
   $idealwirecolor = imagecolorallocate($img, 0, 64, 0);
   $bullcolor = imagecolorallocate($img, 128, 128, 128);
   
-  if ( isset($_REQUEST["nowires"]) )
+  if ( !isset($_REQUEST["nowires"]) )
   {
     $req = new requete($dbrw, "SELECT ABS(length_link-ideal_length_link) as ex, ".
     "a.rx_star as x1, a.ry_star as y1, b.rx_star as x2, b.ry_star as y2 ".
@@ -191,7 +191,7 @@ if ( isset($_REQUEST["render"]) )
     elseif ( $row['sum_tense_star'] > 400 )
       $bullcolor = imagecolorallocate($img, 55 -(($row['sum_tense_star']-400)*255/400), 255 -(($row['sum_tense_star']-400)*255/400), ($row['sum_tense_star']-400)*255/400); // Jaune -> Bleu
     elseif ( $row['sum_tense_star'] > 35 )
-      $bullcolor = imagecolorallocate($img, 255, ($row['sum_tense_star']-35)*255/(400-35), 255); // Rouge -> Jaune
+      $bullcolor = imagecolorallocate($img, 255, ($row['sum_tense_star']-35)*255/(400-35), 0); // Rouge -> Jaune
     else
       $bullcolor = imagecolorallocate($img, 128+($row['sum_tense_star']*128/35), 0, 0);
     
