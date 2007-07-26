@@ -163,8 +163,8 @@ if ( isset($_REQUEST["render"]) )
   
   $bg = imagecolorallocate($img, 0, 0, 0);
   $textcolor = imagecolorallocate($img, 255, 255, 255);
-  $wirecolor = imagecolorallocate($img, 64, 0, 0);
-  $idealwirecolor = imagecolorallocate($img, 0, 64, 0);
+  $wirecolor = imagecolorallocate($img, 64, 32, 32);
+  $idealwirecolor = imagecolorallocate($img, 32, 64, 32);
   $bullcolor = imagecolorallocate($img, 128, 128, 128);
   
   imagefill($img, 0, 0, $bg);
@@ -207,10 +207,7 @@ if ( isset($_REQUEST["render"]) )
     
     // 0 ---------- 35 ----------------- 400 ---------------- 700 --- 800
     // Rouge foncé   | Rouge              | Jaune              | Bleu  | Blanc
-    
-    
-    imagefilledrectangle ($img, $row['rx_star']-4, $row['ry_star']-4, $row['rx_star']+4, $row['ry_star']+4, $bullcolor | (105 << 24));
-    imagefilledrectangle ($img, $row['rx_star']-3, $row['ry_star']-3, $row['rx_star']+3, $row['ry_star']+3, $bullcolor | (105 << 24));    
+
     //imageellipse ($img, $row['rx_star'], $row['ry_star'], 7, 7, $bullcolor | (0x60) << 24 );
     imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 5, 5, $bullcolor );
     
