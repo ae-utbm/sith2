@@ -168,6 +168,7 @@ if ( isset($_REQUEST["render"]) )
   
   imagefill($img, 0, 0, $bg);
   
+  imagestring($img, 1, 0, 0, "AE R&D - GALAXY", $textcolor);
   
   for($i=0;$i<820;$i++)
   {
@@ -181,7 +182,10 @@ if ( isset($_REQUEST["render"]) )
       $t = imagecolorallocate($img, 255, ($i-35)*255/365, 0); 
     else
       $t = imagecolorallocate($img, 128+($i*128/36), 0, 0); 
-    imageline($img,$i,0,$i,20,$t);
+    imageline($img,$i,10,$i,20,$t);
+    
+    if ( $i %100 == 0)
+      imagestring($img, 1, $i, 22, $i, $textcolor);
   }
   
   
