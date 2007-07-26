@@ -77,7 +77,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
                       FROM
                              `edu_uv`
                       WHERE
-                             `edu_uv`.`code_uv` = $codeuv
+                             `edu_uv`.`code_uv` = '".$codeuv."'
                       ORDER BY
                              `edu_uv`.`code_uv`");
     }
