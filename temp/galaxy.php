@@ -149,11 +149,11 @@ if ( isset($_REQUEST["render"]) )
   
   new requete($dbrw,"UPDATE galaxy_star SET rx_star = (x_star-".sprintf("%f",$top_x).") * $tx, ry_star = (y_star-".sprintf("%f",$top_y).") * $tx");
   
-  $img = imagecreate($width,$height);
+  $img = imagecreatetruecolor($width,$height);
   
   if ( $img === false )
   {
-    echo "failed imagecreate($width,$height);";
+    echo "failed imagecreatetruecolor($width,$height);";
     exit();
   }
   
@@ -191,7 +191,7 @@ if ( isset($_REQUEST["render"]) )
     elseif ( $row['sum_tense_star'] > 400 )
       $bullcolor = imagecolorallocate($img, 55 -(($row['sum_tense_star']-400)*255/400), 255 -(($row['sum_tense_star']-400)*255/400), ($row['sum_tense_star']-400)*255/400); // Jaune -> Bleu
     elseif ( $row['sum_tense_star'] > 35 )
-      $bullcolor = imagecolorallocate($img, 255, ($row['sum_tense_star']-35)*255/(400-35), 0); // Rouge -> Jaune
+      $bullcolor = imagecolorallocate($img, 255, ($row['sum_tense_star']-35)*255/365, 0); // Rouge -> Jaune
     else
       $bullcolor = imagecolorallocate($img, 128+($row['sum_tense_star']*128/35), 0, 0);
     
