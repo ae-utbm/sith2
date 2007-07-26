@@ -180,7 +180,7 @@ if ( isset($_REQUEST["render"]) )
     elseif ( $i > 35 )
       $t = imagecolorallocate($img, 255, ($i-35)*255/365, 0); 
     else
-      $t = imagecolorallocate($img, 128+($i*128/35), 0, 0); 
+      $t = imagecolorallocate($img, 128+($i*128/36), 0, 0); 
     imageline($img,$i,0,$i,20,$t);
   }
   
@@ -217,7 +217,7 @@ if ( isset($_REQUEST["render"]) )
     elseif ( $row['sum_tense_star'] > 35 )
       $bullcolor = imagecolorallocate($img, 255, ($row['sum_tense_star']-35)*255/365, 0); // Rouge -> Jaune
     else
-      $bullcolor = imagecolorallocate($img, 128+($row['sum_tense_star']*128/35), 0, 0);
+      $bullcolor = imagecolorallocate($img, 128+($row['sum_tense_star']*128/36), 0, 0);
     
     // 0 ---------- 35 ----------------- 400 ---------------- 700 --- 800
     // Rouge foncé   | Rouge              | Jaune              | Bleu  | Blanc
