@@ -162,6 +162,7 @@ if ( isset($_REQUEST["render"]) )
   $wirecolor = imagecolorallocate($img, 64, 0, 0);
   $idealwirecolor = imagecolorallocate($img, 0, 64, 0);
   $bullcolor = imagecolorallocate($img, 128, 128, 128);
+  imagealphablending($img,true);
   
   if ( !isset($_REQUEST["nowires"]) )
   {
@@ -184,7 +185,6 @@ if ( isset($_REQUEST["render"]) )
   "rx_star, ry_star, sum_tense_star  ".
   "FROM  galaxy_star");
   
-  imagealphablending($img,true);
 
   while ( $row = $req->get_row() )
   {
@@ -205,7 +205,7 @@ if ( isset($_REQUEST["render"]) )
     
     
     imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 10, 10, $bullcolor | (0x40) << 24 );
-    imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 8, 8, $bullcolor | (0x60) << 24 );
+    //imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 8, 8, $bullcolor | (0x60) << 24 );
     
     
     imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 5, 5, $bullcolor );
