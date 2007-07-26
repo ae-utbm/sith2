@@ -37,12 +37,12 @@ $img = new imgcarto(800, 10);
 $img->addcolor('pblue_dark', 51, 102, 153);
 $img->addcolor('pblue', 222, 235, 245);
 
-for ($i = 0; $i < 19; $i++)
+for ($i = 0; $i < 3; $i++)
 {
   $img->addcolor('l' . $i, 
 		 255, 
-		 (int) (255 - (exp($i / 6.5) * 9.6)), 
-		 (int) (255 - (exp($i / 6.5) * 13.4)));
+		 (int) (255 - ($i * 60)), 
+		 (int) (255 - ($i * 127)));
 }
 
 
@@ -99,7 +99,7 @@ foreach($dept as $departement)
 {
   foreach($departement['plgs'] as $plg)
   {
-    $img->addpolygon($plg, 'l' . (int) ($statsdep[$departement['iddept']] / 10), true, 
+    $img->addpolygon($plg, 'l' . (int) ($statsdep[$departement['iddept']] / 50), true, 
 		     array('id' =>$departement['gid'],
 			   'url' => "javascript:ploufdept(this, ".
 			   $departement['iddept']. ")"));
