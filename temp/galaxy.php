@@ -159,8 +159,8 @@ if ( isset($_REQUEST["render"]) )
   
   $bg = imagecolorallocate($img, 0, 0, 0);
   $textcolor = imagecolorallocate($img, 255, 255, 255);
-  $wirecolor = imagecolorallocate($img, 128, 0, 0);
-  $idealwirecolor = imagecolorallocate($img, 0, 0, 0);
+  $wirecolor = imagecolorallocate($img, 64, 0, 0);
+  $idealwirecolor = imagecolorallocate($img, 0, 64, 0);
   $bullcolor = imagecolorallocate($img, 128, 128, 128);
   
   $req = new requete($dbrw, "SELECT ABS(length_link-ideal_length_link) as ex, ".
