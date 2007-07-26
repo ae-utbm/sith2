@@ -183,7 +183,7 @@ if ( isset($_REQUEST["render"]) )
   
   while ( $row = $req->get_row() )
   {
-    imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], $tx/5, $tx/5, $bullcolor );
+    imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 5, 5, $textcolor );
   }
   
   $req = new requete($dbrw, "SELECT ".
@@ -193,7 +193,7 @@ if ( isset($_REQUEST["render"]) )
   
   while ( $row = $req->get_row() )
   {
-    imagestring($img, 1, $row['rx_star'], $row['ry_star']-3,  utf8_decode($row['alias_utl']), $textcolor);
+    imagestring($img, 1, $row['rx_star']+5, $row['ry_star']-3,  utf8_decode($row['alias_utl']), $textcolor);
   }
   
   echo "<br/><br/><img src=\"galaxy_temp.png\" />";
