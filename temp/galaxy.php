@@ -184,6 +184,8 @@ if ( isset($_REQUEST["render"]) )
   "rx_star, ry_star, sum_tense_star  ".
   "FROM  galaxy_star");
   
+  imagealphablending($img,true);
+
   while ( $row = $req->get_row() )
   {
     if ( $row['sum_tense_star'] > 800 )
