@@ -38,12 +38,14 @@ $site->start_page("services", "Informations UV");
 
 $depts = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC');
 
-if (isset($_REQUEST['id_uv']))
+if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 {
-  $iduv = intval($_REQUEST['id_uv']);
-
-  $req = new requete($site->db,
-		     "SELECT 
+  if (isset($_REQUEST['id_uv']))
+    {
+      $iduv = intval($_REQUEST['id_uv']);
+  
+      $req = new requete($site->db,
+			 "SELECT 
                              `edu_uv`.`code_uv`
                              , `edu_uv`.`intitule_uv`
                              , `edu_uv`.`cours_uv`
@@ -57,11 +59,36 @@ if (isset($_REQUEST['id_uv']))
                              `edu_uv`.`id_uv` = $iduv
                       ORDER BY
                              `edu_uv`.`code_uv`");
+    }
+  else
+    {
+      $codeuv = mysql_real_escape_string($_REQUEST['code_uv']);
+  
+      $req = new requete($site->db,
+			 "SELECT 
+                             `edu_uv`.`code_uv`
+                             , `edu_uv`.`id_uv`
+                             , `edu_uv`.`intitule_uv`
+                             , `edu_uv`.`cours_uv`
+                             , `edu_uv`.`td_uv`
+                             , `edu_uv`.`tp_uv`
+                             , `edu_uv`.`ects_uv`
+
+                      FROM
+                             `edu_uv`
+                      WHERE
+                             `edu_uv`.`code_uv` = $codeuv
+                      ORDER BY
+                             `edu_uv`.`code_uv`");
+    }
 
   $cts = new contents('');
 
   $rs = $req->get_row();
-  
+
+  if (isset($_REQUEST['code_uv']))
+    $iduv = $rs['id_uv'];
+
   /* Code + intitulé + crédits ECTS */
   $cts->add_title(1, $rs['code_uv']);
   $cts->add_paragraph("<center><i>\"".$rs['intitule_uv']."\"</i></center>");
@@ -145,7 +172,6 @@ if (isset($_REQUEST['id_uv']))
 			 $exts);
 
   $cts->add($itmlst);
-
 
   $site->add_contents($cts);
   $site->end_page();
