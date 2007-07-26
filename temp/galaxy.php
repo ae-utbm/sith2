@@ -209,8 +209,8 @@ if ( isset($_REQUEST["render"]) )
     // Rouge foncé   | Rouge              | Jaune              | Bleu  | Blanc
     
     
-    imagefilledrectangle ($img, $row['rx_star']-5, $row['ry_star']-5, $row['rx_star']+5, $row['ry_star']+5, $bullcolor | (96 << 24));
-    imagefilledrectangle ($img, $row['rx_star']-4, $row['ry_star']-4, $row['rx_star']+4, $row['ry_star']+4, $bullcolor | (96 << 24));    
+    imagefilledrectangle ($img, $row['rx_star']-4, $row['ry_star']-4, $row['rx_star']+4, $row['ry_star']+4, $bullcolor | (116 << 24));
+    imagefilledrectangle ($img, $row['rx_star']-3, $row['ry_star']-3, $row['rx_star']+3, $row['ry_star']+3, $bullcolor | (116 << 24));    
     //imageellipse ($img, $row['rx_star'], $row['ry_star'], 7, 7, $bullcolor | (0x60) << 24 );
     imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 5, 5, $bullcolor );
     
