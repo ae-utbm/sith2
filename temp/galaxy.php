@@ -174,9 +174,9 @@ if ( isset($_REQUEST["render"]) )
     if ( $i > 800 )
       $t = imagecolorallocate($img, 255, 255, 255);
     elseif ( $i > 700 )
-      $t = imagecolorallocate($img, 255-(($i-700)*255/100), 255-(($i-700)*255/100), 255);      
+      $t = imagecolorallocate($img, (($i-700)*255/100), (($i-700)*255/100), 255);      
     elseif ( $i > 400 )
-      $t = imagecolorallocate($img, 255 -(($i-300)*255/400), 255 -(($i-400)*255/300), ($i-400)*255/300);
+      $t = imagecolorallocate($img, 255 -(($i-400)*255/300), 255 -(($i-400)*255/300), ($i-400)*255/300);
     elseif ( $i > 35 )
       $t = imagecolorallocate($img, 255, ($i-35)*255/365, 0); 
     else
@@ -210,10 +210,10 @@ if ( isset($_REQUEST["render"]) )
     if ( $row['sum_tense_star'] > 800 )
       $bullcolor = imagecolorallocate($img, 255, 255, 255);
     elseif ( $row['sum_tense_star'] > 700 )
-      $bullcolor = imagecolorallocate($img, 255-(($row['sum_tense_star']-700)*255/100), 255-(($row['sum_tense_star']-700)*255/100), 255);      
+      $bullcolor = imagecolorallocate($img, (($row['sum_tense_star']-700)*255/100),(($row['sum_tense_star']-700)*255/100), 255);      
       
     elseif ( $row['sum_tense_star'] > 400 )
-      $bullcolor = imagecolorallocate($img, 255 -(($row['sum_tense_star']-300)*255/400), 255 -(($row['sum_tense_star']-400)*255/300), ($row['sum_tense_star']-400)*255/300); // Jaune -> Bleu
+      $bullcolor = imagecolorallocate($img, 255 -(($row['sum_tense_star']-400)*255/300), 255 -(($row['sum_tense_star']-400)*255/300), ($row['sum_tense_star']-400)*255/300); // Jaune -> Bleu
     elseif ( $row['sum_tense_star'] > 35 )
       $bullcolor = imagecolorallocate($img, 255, ($row['sum_tense_star']-35)*255/365, 0); // Rouge -> Jaune
     else
