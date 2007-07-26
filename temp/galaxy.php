@@ -157,11 +157,11 @@ if ( isset($_REQUEST["render"]) )
     exit();
   }
   
-  $bg = imagecolorallocate($img, 255, 255, 255);
-  $textcolor = imagecolorallocate($img, 0, 0, 0);
-  $wirecolor = imagecolorallocate($img, 255, 192, 192);
-  $idealwirecolor = imagecolorallocate($img, 192, 255, 192);
-  $bullcolor = imagecolorallocate($img, 255, 128, 128);
+  $bg = imagecolorallocate($img, 0, 0, 0);
+  $textcolor = imagecolorallocate($img, 255, 255, 255);
+  $wirecolor = imagecolorallocate($img, 128, 0, 0);
+  $idealwirecolor = imagecolorallocate($img, 0, 0, 0);
+  $bullcolor = imagecolorallocate($img, 128, 128, 128);
   
   $req = new requete($dbrw, "SELECT ABS(length_link-ideal_length_link) as ex, ".
   "a.rx_star as x1, a.ry_star as y1, b.rx_star as x2, b.ry_star as y2 ".
