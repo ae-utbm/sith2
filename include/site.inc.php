@@ -59,7 +59,7 @@ class site extends interfaceweb
 
     $this->interfaceweb($dbro, $dbrw);
     
-    if( !preg_match('/taiste/', $_SERVER['SCRIPT_NAME']) )
+    if( !preg_match('/taiste/', $_SERVER['SCRIPT_NAME']) && !preg_match('/ae/', $_SERVER['SCRIPT_NAME']))
       $this->stats();
 
     if($_COOKIE['AE2_SESS_ID'])
