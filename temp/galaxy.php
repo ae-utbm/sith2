@@ -205,8 +205,8 @@ if ( isset($_REQUEST["render"]) )
     
     
     imageellipse ($img, $row['rx_star'], $row['ry_star'], 11, 11, $bullcolor | ((0x20) << 24) );
-    imageellipse ($img, $row['rx_star'], $row['ry_star'], 9, 9, $bullcolor | ((0x40) << 24) );
-    imageellipse ($img, $row['rx_star'], $row['ry_star'], 7, 7, $bullcolor | (0x60) << 24 );
+    //imageellipse ($img, $row['rx_star'], $row['ry_star'], 9, 9, $bullcolor | ((0x40) << 24) );
+    //imageellipse ($img, $row['rx_star'], $row['ry_star'], 7, 7, $bullcolor | (0x60) << 24 );
     imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 5, 5, $bullcolor );
     
     
