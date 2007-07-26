@@ -210,7 +210,7 @@ if ( isset($_REQUEST["render"]) )
     
     $t =imagecolorallocatealpha($img,($bullcolor >> 16) & 0xFF,($bullcolor >> 8) & 0xFF,$bullcolor & 0xFF,64);
     
-    imageellipse ($img, $row['rx_star'], $row['ry_star'], 11, 11, $t);
+    imagefilledrectangle ($img, $row['rx_star']-5, $row['ry_star']-5, $row['rx_star']+5, $row['ry_star']+5, $t);
     //imageellipse ($img, $row['rx_star'], $row['ry_star'], 9, 9, $bullcolor | ((0x40) << 24) );
     //imageellipse ($img, $row['rx_star'], $row['ry_star'], 7, 7, $bullcolor | (0x60) << 24 );
     imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 5, 5, $bullcolor );
