@@ -198,9 +198,19 @@ if ( isset($_REQUEST["render"]) )
     else
       $bullcolor = imagecolorallocate($img, 128+($row['sum_tense_star']*128/35), 0, 0);
     
-    // 0 ---------- 35 ----------------- 400 -------------------- 800
-    // Rouge foncé   | Rouge              | Jaune                  | Bleu
+    // 0 ---------- 35 ----------------- 400 ---------------- 700 --- 800
+    // Rouge foncé   | Rouge              | Jaune              | Bleu  | Blanc
+    
+    
+    imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 7, 7, $bullcolor | (0x60) << 24 );
+    
+    
+    
     imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 5, 5, $bullcolor );
+    
+    
+    
+    
   }
   
   $req = new requete($dbrw, "SELECT ".
