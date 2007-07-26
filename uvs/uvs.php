@@ -101,11 +101,50 @@ if (isset($_REQUEST['id_uv']))
   while ($rs = $req->get_row())
     {
       $myuvdpts[] = "<a href=\"./uvs.php?iddept=".$rs['id_dept']."\">".$rs['id_dept']."</a>\n";
+      $uvdept[] = $rs['id_dept'];
     }
   $lst = new itemlist("Départements",
 		      false,
 		      $myuvdpts);
   $cts->add($lst);
+
+  /* commentaires sur les uvs ? */
+
+  /* TODO : prévoir une table, l'ajout de commentaires, la modération
+   * éventuellement un lien vers le forum */
+
+
+  /* Ressources externes */
+  $cts->add_title(2, "Ailleurs sur le net ...");
+
+  foreach ($uvdept as $departement)
+    {
+      if ($departement == 'Humas')
+	$exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=207\"><b>Site de l'UTBM</b>, information sur le département des Humanités</a>";
+      if ($departement == 'TC')
+	$exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=205\"><b>Site de l'UTBM</b>, information sur le département de Tronc Commun</a>";
+      if ($departement == 'GESC')
+	$exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=70\"><b>Site de l'UTBM</b>, information sur le département du Génie Electrique et ".
+	  "Systèmes de Commande (GESC)</a>";
+      if ($departement == 'GI')
+	$exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=67\"><b>Site de l'UTBM</b>, information sur le département du Génie Informatique (GI)</a>";
+      if ($departement == 'IMAP')
+	$exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=69\"><b>Site de l'UTBM</b>, information sur le département de l'Ingénierie et".
+	  " management de process (IMAP)</a>";
+      if ($departement == 'GMC')
+	$exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=68\"><b>Site de l'UTBM</b>, information sur le département du Génie Mécanique ".
+	  "et conception (GMC)</a>";
+    }
+  $exts[] = "<a href=\"http://bankexam.fr/etablissement/1-Universite-de-Technologie-de-Belfort-Montbeliard\">".
+    "<b>Bankexam.fr</b>, base de données d'examens</a>";
+  $exts[] = "<a href=\"https://webct6.utbm.fr/\"><b>WebCT</b>, la plateforme pédagogique de l'UTBM</a>";
+  
+
+  $itmlst = new itemlist("Ressources externes",
+			 false,
+			 $exts);
+
+  $cts->add($itmlst);
 
 
   $site->add_contents($cts);
