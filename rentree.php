@@ -130,7 +130,7 @@ if ($_REQUEST['generate'] == 1)
       $villecoords = str_replace(")", "", $villecoords);
       $villecoords = explode(" ", $villecoords);
       $color="p".$i;
-      $img->addpoint($villecoords[0], $villecoords[1], 5, $color);
+      $img->addpoint($villecoords[0], $villecoords[1], 10, $color);
       $i--;
     }
   }
