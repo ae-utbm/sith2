@@ -147,7 +147,22 @@ if ($_REQUEST['generate'] == 1)
 $site->start_page("services","Carte de France de l'AE en temps réel");
 
 $cts = new contents("La carte de France de l'AE", "");
-$cts->add_paragraph("<center><img class=\"cartefr\" src=\"rentree.php?generate=1\" alt=\"plouf\" /></center>\n");
+$cts->add_paragraph("<center><img id=\"cartefr\" class=\"cartefr\" src=\"rentree.php?generate=1\" alt=\"plouf\" /></center>\n");
+
+
+$script = "<script language=\"javascript\">
+function cartefr_refresh()
+{
+  document.getElementById('cartefr').src = 'rentree.php?generate=1&'+(new Date()).getTime();
+  setTimeout('cartefr_refresh()', 5000);
+
+}
+cartefr_refresh();
+</script>";
+
+
+$cts->add_paragraph($script);
+
 $site->add_contents($cts);
 
 $site->end_page();
