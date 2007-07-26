@@ -39,13 +39,19 @@ $img->addcolor('pblue', 222, 235, 245);
 
 $nbpaliers = 5;
 
-for ($i = 0; $i < $nbpaliers; $i++)
-{
-  $img->addcolor('l' . $i, 
-		 255, 
-		 (int) (255 - ($i * (255 - 72) / $nbpaliers)), 
-		 (int) (255 - ($i * 255 / $nbpaliers)));
-}
+$img->addcolor('l0', 255, 255, 255);
+$img->addcolor('l1', 255, 220, 0);
+$img->addcolor('l2', 255, 198, 0);
+$img->addcolor('l3', 255, 176, 0);
+$img->addcolor('l4', 255, 154, 0);
+$img->addcolor('l5', 255, 143, 0);
+$img->addcolor('l6', 255, 121, 0);
+$img->addcolor('l7', 255, 114, 0);
+$img->addcolor('l8', 255, 101, 0);
+$img->addcolor('l9', 255, 68, 0);
+$img->addcolor('l10', 255, 0, 0);
+
+
 
 
 $pgconn = new pgsqlae();
@@ -107,7 +113,7 @@ foreach($dept as $departement)
 			     'url' => "javascript:ploufdept(this, ".
 			     $departement['iddept']. ")"));
 
-    $img->addpolygon($plg, 'l' . (int) (1 + $statsdep[$departement['iddept']] / (190/ $nbpaliers)), true, 
+    $img->addpolygon($plg, 'l' . (int) (1 + $statsdep[$departement['iddept']] / 20), true, 
 		     array('id' =>$departement['gid'],
 			   'url' => "javascript:ploufdept(this, ".
 			   $departement['iddept']. ")"));
