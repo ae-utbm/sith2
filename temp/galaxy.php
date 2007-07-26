@@ -157,12 +157,17 @@ if ( isset($_REQUEST["render"]) )
     exit();
   }
   imagealphablending($img,true);
+  imageantialias($img,true);
+  
+  
   
   $bg = imagecolorallocate($img, 0, 0, 0);
   $textcolor = imagecolorallocate($img, 255, 255, 255);
   $wirecolor = imagecolorallocate($img, 64, 0, 0);
   $idealwirecolor = imagecolorallocate($img, 0, 64, 0);
   $bullcolor = imagecolorallocate($img, 128, 128, 128);
+  
+  imagefill($img, 0, 0, $bg);
   
   if ( !isset($_REQUEST["nowires"]) )
   {
