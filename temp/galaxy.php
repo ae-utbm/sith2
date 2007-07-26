@@ -156,13 +156,13 @@ if ( isset($_REQUEST["render"]) )
     echo "failed imagecreatetruecolor($width,$height);";
     exit();
   }
+  imagealphablending($img,true);
   
   $bg = imagecolorallocate($img, 0, 0, 0);
   $textcolor = imagecolorallocate($img, 255, 255, 255);
   $wirecolor = imagecolorallocate($img, 64, 0, 0);
   $idealwirecolor = imagecolorallocate($img, 0, 64, 0);
   $bullcolor = imagecolorallocate($img, 128, 128, 128);
-  imagealphablending($img,true);
   
   if ( !isset($_REQUEST["nowires"]) )
   {
