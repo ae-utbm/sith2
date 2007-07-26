@@ -163,27 +163,41 @@ if ( isset($_REQUEST["render"]) )
   $idealwirecolor = imagecolorallocate($img, 0, 64, 0);
   $bullcolor = imagecolorallocate($img, 128, 128, 128);
   
-  $req = new requete($dbrw, "SELECT ABS(length_link-ideal_length_link) as ex, ".
-  "a.rx_star as x1, a.ry_star as y1, b.rx_star as x2, b.ry_star as y2 ".
-  "FROM  galaxy_link ".
-  "INNER JOIN galaxy_star AS a ON (a.id_star=galaxy_link.id_star_a) ".
-  "INNER JOIN galaxy_star AS b ON (b.id_star=galaxy_link.id_star_b)");
-  
-  while ( $row = $req->get_row() )
+  if ( isset($_REQUEST["nowires"]) )
   {
-    if ( $row['ex'] < 0.2 )
-      imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $idealwirecolor );
-    else
-      imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $wirecolor );    
+    $req = new requete($dbrw, "SELECT ABS(length_link-ideal_length_link) as ex, ".
+    "a.rx_star as x1, a.ry_star as y1, b.rx_star as x2, b.ry_star as y2 ".
+    "FROM  galaxy_link ".
+    "INNER JOIN galaxy_star AS a ON (a.id_star=galaxy_link.id_star_a) ".
+    "INNER JOIN galaxy_star AS b ON (b.id_star=galaxy_link.id_star_b)");
+    
+    while ( $row = $req->get_row() )
+    {
+      if ( $row['ex'] < 0.2 )
+        imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $idealwirecolor );
+      else
+        imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $wirecolor );    
+    } 
   }
-  
+
   $req = new requete($dbrw, "SELECT ".
-  "rx_star, ry_star ".
+  "rx_star, ry_star, sum_tense_star  ".
   "FROM  galaxy_star");
   
   while ( $row = $req->get_row() )
   {
-    imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 5, 5, $textcolor );
+    if ( $row['sum_tense_star'] > 800 )
+      $bullcolor = imagecolorallocate($img, 0, 0, 255);
+    elseif ( $row['sum_tense_star'] > 400 )
+      $bullcolor = imagecolorallocate($img, 55 -(($row['sum_tense_star']-400)*255/400), 255 -(($row['sum_tense_star']-400)*255/400), ($row['sum_tense_star']-400)*255/400); // Jaune -> Bleu
+    elseif ( $row['sum_tense_star'] > 35 )
+      $bullcolor = imagecolorallocate($img, 255, ($row['sum_tense_star']-35)*255/(400-35), 255); // Rouge -> Jaune
+    else
+      $bullcolor = imagecolorallocate($img, 128+($row['sum_tense_star']*128/35), 0, 0);
+    
+    // 0 ---------- 35 ----------------- 400 -------------------- 800
+    // Rouge foncé   | Rouge              | Jaune                  | Bleu
+    imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 5, 5, $bullcolor );
   }
   
   $req = new requete($dbrw, "SELECT ".
