@@ -163,8 +163,7 @@ if ( isset($_REQUEST["render"]) )
   
   $bg = imagecolorallocate($img, 0, 0, 0);
   $textcolor = imagecolorallocate($img, 255, 255, 255);
-  $wirecolor = imagecolorallocate($img, 64, 32, 32);
-  $idealwirecolor = imagecolorallocate($img, 32, 64, 32);
+  $wirecolor = imagecolorallocate($img, 32, 32, 32);
   $bullcolor = imagecolorallocate($img, 128, 128, 128);
   
   imagefill($img, 0, 0, $bg);
@@ -179,10 +178,7 @@ if ( isset($_REQUEST["render"]) )
     
     while ( $row = $req->get_row() )
     {
-      if ( $row['ex'] < 0.2 )
-        imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $idealwirecolor );
-      else
-        imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $wirecolor );    
+      imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $wirecolor );    
     } 
   }
 
