@@ -79,6 +79,6 @@ $itemlst = new itemlist("edt_lst", false, $lst);
 $cts->add($itemlst);
 
 
-$site->add_content($cts);
+$site->add_contents($cts);
 $site->end_page();
 ?>
