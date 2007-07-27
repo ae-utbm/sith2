@@ -39,7 +39,7 @@ $site->start_page("services", "AE - Pédagogie");
 $cts = new contents("Site de l'AE - Espace Pédagogie");
 
 
-$cts->add_content("Cette partie du site de l'AE vous permet de vous renseigner sur le
+$cts->add_paragraph("Cette partie du site de l'AE vous permet de vous renseigner sur le
 catalogue des UVs en ligne (basé sur le catalogue officiel de l'UTBM).
 <br/><br/><br/><br/> <b>Parce que l'AE cherche à occuper
 votre vie extra-scolaire, mais aussi scolaire, l'AE lance pour vous AE
@@ -55,6 +55,8 @@ du temps en graphique, et ainsi le partager facilement.");
   $lst[] = "<a href=\"./create.php\">Gérer mes emplois du temps</a>";
 
   $itemlst = new itemlist("edt_lst", false, $lst);
+  $cts->add($itemlst);
+
 }
 
 $cts->add_title(1, "Informations sur les UVs");
@@ -74,6 +76,7 @@ foreach ($depts as $dept)
      $lst[] = "<a href=\"./uvs.php?iddept=".$dept."\">UVs du département $dept</a>";
 
 $itemlst = new itemlist("edt_lst", false, $lst);
+$cts->add($itemlst);
 
 
 $site->add_content($cts);
