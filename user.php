@@ -426,199 +426,223 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   $ville->load_by_id($user->id_ville);
   $pays->load_by_id($user->id_pays);
   
- 
-  
   $cts = new contents($user->prenom." ".$user->nom);
-
+  
+  // Legacy support
+  if ( isset($_REQUEST["open"]) && ( $_REQUEST["open"]=="email" || $_REQUEST["open"]=="emailutbm") )
+    $_REQUEST["see"] = "email";
+    
   $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
-  $frm = new form("infoperso","user.php?id_utilisateur=".$user->id,true,"POST","Informations personelles");
-  $frm->add_hidden("action","saveinfos");
-  if ( $ErreurMAJ )
-    $frm->error($ErreurMAJ);
-  if ($site->user->is_asso_role ( 27, 1 ) || $site->user->is_in_group("gestion_ae") )
-    {
-      $frm->add_text_field("nom","Nom",$user->nom,true,false,false,true);
-      $frm->add_text_field("prenom","Prenom",$user->prenom,true,false,false,true);
-    }
-  else
-    {
-      $frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
-      $frm->add_text_field("prenom","Prenom",$user->prenom,true,false,false,false);
-      $frm->add_hidden("nom", $user->nom);
-      $frm->add_hidden("prenom", $user->prenom);
-    }
-  $frm->add_text_field("alias","Alias",$user->alias);
-  if ( $user->utbm )
-    $frm->add_text_field("surnom","Surnom (utbm)",$user->surnom);
-  $frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
-  $frm->add_date_field("date_naissance","Date de naissance",$user->date_naissance);
-  
-  $frm->add_select_field("taille_tshirt","Taille de t-shirt",array(0=>"-",
-    "XS"=>"XS","S"=>"S","M"=>"M","L"=>"L","XL"=>"XL","XXL"=>"XXL","XXXL"=>"XXXL"),$user->taille_tshirt);  
-    
-  if ( $user->utbm )
+  $cts->add(new tabshead(array(
+    array("","user.php?action=edit&id_utilisateur=".$user->id,"Information personnelles"),
+    array("email","user.php?see=email&action=edit&id_utilisateur=".$user->id,"Adresses E-Mail"),
+    array("passwd","user.php?see=passwd&action=edit&id_utilisateur=".$user->id,"Mot de passe"),
+    array("photos","user.php?see=photos&action=edit&id_utilisateur=".$user->id,"Photo/Avatar/Blouse")
+    ),
+    isset($_REQUEST["see"])?$_REQUEST["see"]:"","","subtab"));
+
+  if ( !isset($_REQUEST["see"]) || empty($_REQUEST["see"]) )
   {
-    $frm->add_select_field("role","Role",$GLOBALS["utbm_roles"],$user->role);
-    $frm->add_select_field("departement","Departement",$GLOBALS["utbm_departements"],$user->departement);
+    $frm = new form("infoperso","user.php?id_utilisateur=".$user->id,true,"POST","Informations personelles");
+    $frm->add_hidden("action","saveinfos");
+    if ( $ErreurMAJ )
+      $frm->error($ErreurMAJ);
+    if ($site->user->is_asso_role ( 27, 1 ) || $site->user->is_in_group("gestion_ae") )
+      {
+        $frm->add_text_field("nom","Nom",$user->nom,true,false,false,true);
+        $frm->add_text_field("prenom","Prenom",$user->prenom,true,false,false,true);
+      }
+    else
+      {
+        $frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
+        $frm->add_text_field("prenom","Prenom",$user->prenom,true,false,false,false);
+        $frm->add_hidden("nom", $user->nom);
+        $frm->add_hidden("prenom", $user->prenom);
+      }
+    $frm->add_text_field("alias","Alias",$user->alias);
+    if ( $user->utbm )
+      $frm->add_text_field("surnom","Surnom (utbm)",$user->surnom);
+    $frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
+    $frm->add_date_field("date_naissance","Date de naissance",$user->date_naissance);
     
-    $frm->add_text_field("semestre","Semestre",$user->semestre);
-  }
-  $subfrm1 = new form("infocontact",null,null,null,"Adresse et téléphone");
-
-  $subfrm1->add_text_field("addresse","Adresse",$user->addresse);
-
-  $subfrm1->add_entity_smartselect ("id_ville","Ville (France)", $ville,true);
-  $subfrm1->add_entity_smartselect ("id_pays","ou pays", $pays,true);
-          
-  $subfrm1->add_text_field("tel_maison","Telephone (fixe)",$user->tel_maison);
-  $subfrm1->add_text_field("tel_portable","Telephone (portable)",$user->tel_portable);
-  $frm->add ( $subfrm1, false, false, false, false, false, true, false );
-
-  if ( $user->etudiant || $user->ancien_etudiant )
-  {
-    $ville_parents->load_by_id($user->id_ville_parents);
-    $pays_parents->load_by_id($user->id_pays_parents);  
-    
-    $subfrm2 = new form("infoextra",null,null,null,"Informations suppl&eacute;mentaires");
-    $subfrm2->add_text_field("citation","Citation",$user->citation,false,"60");
-    $subfrm2->add_text_field("nom_ecole","Ecole",$user->nom_ecole_etudiant);
-    $frm->add ( $subfrm2, false, false, false, false, false, true, false );
-
-    $subfrm3 = new form("infoparents",null,null,null,"Informations sur les parents");
-    $subfrm3->add_text_field("adresse_parents","Adresse parents",$user->adresse_parents);
+    $frm->add_select_field("taille_tshirt","Taille de t-shirt",array(0=>"-",
+      "XS"=>"XS","S"=>"S","M"=>"M","L"=>"L","XL"=>"XL","XXL"=>"XXL","XXXL"=>"XXXL"),$user->taille_tshirt);  
       
-    $subfrm3->add_entity_smartselect ("id_ville_parents","Ville parents (France)", $ville_parents,true);
-    $subfrm3->add_entity_smartselect ("id_pays_parents","ou pays parents", $pays_parents,true);
+    if ( $user->utbm )
+    {
+      $frm->add_select_field("role","Role",$GLOBALS["utbm_roles"],$user->role);
+      $frm->add_select_field("departement","Departement",$GLOBALS["utbm_departements"],$user->departement);
       
-    $subfrm3->add_text_field("tel_parents","T&eacute;l&eacute;phone parents",$user->tel_parents);
-    $frm->add ( $subfrm3, false, false, false, false, false, true, false );
-  }
+      $frm->add_text_field("semestre","Semestre",$user->semestre);
+    }
+    $subfrm1 = new form("infocontact",null,null,null,"Adresse et téléphone");
+  
+    $subfrm1->add_text_field("addresse","Adresse",$user->addresse);
+  
+    $subfrm1->add_entity_smartselect ("id_ville","Ville (France)", $ville,true);
+    $subfrm1->add_entity_smartselect ("id_pays","ou pays", $pays,true);
+            
+    $subfrm1->add_text_field("tel_maison","Telephone (fixe)",$user->tel_maison);
+    $subfrm1->add_text_field("tel_portable","Telephone (portable)",$user->tel_portable);
+    $frm->add ( $subfrm1, false, false, false, false, false, true, false );
+  
+    if ( $user->etudiant || $user->ancien_etudiant )
+    {
+      $ville_parents->load_by_id($user->id_ville_parents);
+      $pays_parents->load_by_id($user->id_pays_parents);  
+      
+      $subfrm2 = new form("infoextra",null,null,null,"Informations suppl&eacute;mentaires");
+      $subfrm2->add_text_field("citation","Citation",$user->citation,false,"60");
+      $subfrm2->add_text_field("nom_ecole","Ecole",$user->nom_ecole_etudiant);
+      $frm->add ( $subfrm2, false, false, false, false, false, true, false );
+  
+      $subfrm3 = new form("infoparents",null,null,null,"Informations sur les parents");
+      $subfrm3->add_text_field("adresse_parents","Adresse parents",$user->adresse_parents);
+        
+      $subfrm3->add_entity_smartselect ("id_ville_parents","Ville parents (France)", $ville_parents,true);
+      $subfrm3->add_entity_smartselect ("id_pays_parents","ou pays parents", $pays_parents,true);
+        
+      $subfrm3->add_text_field("tel_parents","T&eacute;l&eacute;phone parents",$user->tel_parents);
+      $frm->add ( $subfrm3, false, false, false, false, false, true, false );
+    }
+  
+    if ( $user->utbm )
+    {
+      $subfrm4 = new form("infoutbm",null,null,null,"Informations UTBM");
+  
+      $subfrm4->add_text_field("filiere","Filiere",$user->filiere);
+      $subfrm4->add_select_field("promo","Promo",array(0=>"-",1=>"1",2=>"2",3=>"3",4=>"4",5=>"5",6=>"6",7=>"7",8=>"8",9=>"9",10=>"10"),$user->promo_utbm);
+      $subfrm4->add_date_field("date_diplome","Date d'obtention du diplome",($user->date_diplome_utbm!=NULL)?$user->date_diplome_utbm:null);
+      $frm->add ( $subfrm4, false, false, false, false, false, true, false );
+    }
+    
+    // Musicien
+    $subfrm = new form("musicien",null,null,null,"Musicien");
+    $req = new requete($site->db,"SELECT mmt_instru_musique.id_instru_musique, ".
+      "mmt_instru_musique.nom_instru_musique, ".
+      "utl_joue_instru.id_utilisateur ".
+      "FROM mmt_instru_musique ".
+      "LEFT JOIN utl_joue_instru ".
+        "ON (`utl_joue_instru`.`id_instru_musique`=`mmt_instru_musique`.`id_instru_musique`" .
+        " AND `utl_joue_instru`.`id_utilisateur`='".$user->id."' )".
+      "ORDER BY nom_instru_musique");
+    
+    while ( $row = $req->get_row() )
+      $subfrm->add_checkbox("instru[".$row['id_instru_musique']."]",$row['nom_instru_musique'], !is_null($row['id_utilisateur']));
+    $frm->add ( $subfrm, true, false, $user->musicien, false, false, true );
+    
+    // Permis de conduire
+    $subfrm = new form("permis_conduire",null,null,null,"Permis de conduire (informations non publiées**)");
+    $subfrm->add_date_field("date_permis_conduire","Date d'obtention (non publiée)",$user->date_permis_conduire);
+    $frm->add ( $subfrm, true, false, $user->permis_conduire, false, false, true );
+    
+    $subfrm = new form(null,null,null,null,"Habilitations (informations non publiées**)");
+    $subfrm->add_checkbox ( "hab_elect", "Habilitation électrique", $user->hab_elect );
+    $subfrm->add_checkbox ( "afps", "Attestation de Formation aux Permiers Secours (AFPS)", $user->afps );
+    $subfrm->add_checkbox ( "sst", "Sauveteur Secouriste du Travail (SST)", $user->sst );
+    $frm->add ( $subfrm, false, false, false, false, false, true, false );
+      
+    //signature  
+    $frm->add_text_area("signature","Signature (forum)",$user->signature);
+      
+    $frm->add_checkbox ( "publique", "Rendre mon profil publique : Apparaitre dans le matmatronch en ligne.", $user->publique );
+    $frm->add_checkbox ( "publique_mmtpapier", "Autoriser la publication de mon profil dans le matmatronch papier.", $user->publique_mmtpapier );
+      
+    $frm->add_submit("save","Enregistrer");
+    $cts->add($frm,true);
+  
+    $cts->add_paragraph("** Ces informations ne seront pas rendues publiques, elles pourrons être utilisées pour pouvoir vous contacter si l'association recherche des bénévoles particuliers.");
 
-  if ( $user->utbm )
+  } 
+  elseif ( $_REQUEST["see"] == "email" )
   {
-    $subfrm4 = new form("infoutbm",null,null,null,"Informations UTBM");
 
-    $subfrm4->add_text_field("filiere","Filiere",$user->filiere);
-    $subfrm4->add_select_field("promo","Promo",array(0=>"-",1=>"1",2=>"2",3=>"3",4=>"4",5=>"5",6=>"6",7=>"7",8=>"8",9=>"9",10=>"10"),$user->promo_utbm);
-    $subfrm4->add_date_field("date_diplome","Date d'obtention du diplome",($user->date_diplome_utbm!=NULL)?$user->date_diplome_utbm:null);
-    $frm->add ( $subfrm4, false, false, false, false, false, true, false );
-  }
+    $frm = new form("changeemail","user.php?id_utilisateur=".$user->id,true,"POST","Adresse email");
+    if ( $ErreurMail )
+      $frm->error($ErreurMail);
+    $frm->add_hidden("action","changeemail");
+    $frm->add_info("<b>ATTENTION</b>: Votre compte sera d&eacute;sactiv&eacute; et votre session sera ferm&eacute;e jusqu'a validation du lien qui vous sera envoye par email &agrave; l'adresse que vous pr&eacute;ciserez !");
   
-  // Musicien
-  $subfrm = new form("musicien",null,null,null,"Musicien");
-  $req = new requete($site->db,"SELECT mmt_instru_musique.id_instru_musique, ".
-    "mmt_instru_musique.nom_instru_musique, ".
-    "utl_joue_instru.id_utilisateur ".
-    "FROM mmt_instru_musique ".
-    "LEFT JOIN utl_joue_instru ".
-      "ON (`utl_joue_instru`.`id_instru_musique`=`mmt_instru_musique`.`id_instru_musique`" .
-      " AND `utl_joue_instru`.`id_utilisateur`='".$user->id."' )".
-    "ORDER BY nom_instru_musique");
+    $frm->add_text_field("email","Adresse email",$user->email,true);
+    $frm->add_submit("save","Enregistrer");
+    $cts->add($frm,true, false, "chmailbx", false, true, $_REQUEST["open"]=="email");
   
-  while ( $row = $req->get_row() )
-    $subfrm->add_checkbox("instru[".$row['id_instru_musique']."]",$row['nom_instru_musique'], !is_null($row['id_utilisateur']));
-  $frm->add ( $subfrm, true, false, $user->musicien, false, false, true );
+    $frm = new form("changeemailutbm","user.php?id_utilisateur=".$user->id,true,"POST","Adresse email UTBM ou ASSIDU");
+    if ( $ErreurMailUtbm )
+      $frm->error($ErreurMailUtbm);
+    $frm->add_hidden("action","changeemailutbm");
+    $frm->add_info("<b>ATTENTION</b>: Votre compte sera d&eacute;sactiv&eacute; et votre session sera ferm&eacute;e jusqu'a validation du lien qui vous sera envoye par email &agrave; l'adresse que vous pr&eacute;ciserez !");
+    $frm->add_text_field("email_utbm","Adresse email",$user->email_utbm?$user->email_utbm:"prenom.nom@utbm.fr",true);
   
-  // Permis de conduire
-  $subfrm = new form("permis_conduire",null,null,null,"Permis de conduire (informations non publiées**)");
-  $subfrm->add_date_field("date_permis_conduire","Date d'obtention (non publiée)",$user->date_permis_conduire);
-  $frm->add ( $subfrm, true, false, $user->permis_conduire, false, false, true );
-  
-  $subfrm = new form(null,null,null,null,"Habilitations (informations non publiées**)");
-  $subfrm->add_checkbox ( "hab_elect", "Habilitation électrique", $user->hab_elect );
-  $subfrm->add_checkbox ( "afps", "Attestation de Formation aux Permiers Secours (AFPS)", $user->afps );
-  $subfrm->add_checkbox ( "sst", "Sauveteur Secouriste du Travail (SST)", $user->sst );
-  $frm->add ( $subfrm, false, false, false, false, false, true, false );
-    
-  //signature  
-  $frm->add_text_area("signature","Signature (forum)",$user->signature);
-    
-  $frm->add_checkbox ( "publique", "Rendre mon profil publique : Apparaitre dans le matmatronch en ligne.", $user->publique );
-  $frm->add_checkbox ( "publique_mmtpapier", "Autoriser la publication de mon profil dans le matmatronch papier.", $user->publique_mmtpapier );
-    
-  $frm->add_submit("save","Enregistrer");
-  $cts->add($frm,true);
+    $frm->add_submit("save","Enregistrer");
+    $cts->add($frm,true, false, "chmailutbx", false, true, $_REQUEST["open"]=="emailutbm");
 
-  $cts->add_paragraph("** Ces informations ne seront pas rendues publiques, elles pourrons être utilisées pour pouvoir vous contacter si l'association recherche des bénévoles particuliers.");
-
-  $frm = new form("changeemail","user.php?id_utilisateur=".$user->id,true,"POST","Adresse email");
-  if ( $ErreurMail )
-    $frm->error($ErreurMail);
-  $frm->add_hidden("action","changeemail");
-  $frm->add_info("<b>ATTENTION</b>: Votre compte sera d&eacute;sactiv&eacute; et votre session sera ferm&eacute;e jusqu'a validation du lien qui vous sera envoye par email &agrave; l'adresse que vous pr&eacute;ciserez !");
-
-  $frm->add_text_field("email","Adresse email",$user->email,true);
-  $frm->add_submit("save","Enregistrer");
-  $cts->add($frm,true, false, "chmailbx", false, true, $_REQUEST["open"]=="email");
-
-  $frm = new form("changeemailutbm","user.php?id_utilisateur=".$user->id,true,"POST","Adresse email UTBM ou ASSIDU");
-  if ( $ErreurMailUtbm )
-    $frm->error($ErreurMailUtbm);
-  $frm->add_hidden("action","changeemailutbm");
-  $frm->add_info("<b>ATTENTION</b>: Votre compte sera d&eacute;sactiv&eacute; et votre session sera ferm&eacute;e jusqu'a validation du lien qui vous sera envoye par email &agrave; l'adresse que vous pr&eacute;ciserez !");
-  $frm->add_text_field("email_utbm","Adresse email",$user->email_utbm?$user->email_utbm:"prenom.nom@utbm.fr",true);
-
-  $frm->add_submit("save","Enregistrer");
-  $cts->add($frm,true, false, "chmailutbx", false, true, $_REQUEST["open"]=="emailutbm");
-
-  $frm = new form("changepassword","user.php?id_utilisateur=".$user->id,true,"POST","Changer de mot de passe");
-  $frm->add_hidden("action","changepassword");
-  $frm->add_password_field("ae2_password","Mot de passe","",true);
-  $frm->add_password_field("ae2_password2","Repetez le mot de passe","",true);
-  $frm->add_submit("save","Enregistrer");
-  $cts->add($frm,true, false, "chpssbx", false, true, false);
-
-
-  $frm = new form("setphotos","user.php?id_utilisateur=".$user->id."#setphotos",true,"POST","Changer mes photos persos");
-  $frm->add_hidden("action","setphotos");
-
-  $subfrm = new form("mmt",null,null,null,"Avatar");
-  if ( file_exists( $topdir."var/img/matmatronch/".$user->id.".jpg") )
-	{
-		$subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".jpg?".filemtime($topdir."var/img/matmatronch/".$user->id.".jpg")."\" alt=\"\" width=\"100\" /><br/>");
-  }
-	$subfrm->add_file_field ( "mmtfile", "Fichier" );
-	$subfrm->add_checkbox("delete_mmt","Supprimer mon avatar");
-  $frm->add ( $subfrm );
-
-  $subfrm = new form("idt",null,null,null,"Photo identit&eacute; (carte AE et matmatronch)");
-
-  if ( file_exists( $topdir."var/img/matmatronch/".$user->id.".identity.jpg") )
+  } 
+  elseif ( $_REQUEST["see"] == "passwd" )
   {
-    $subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".identity.jpg?".filemtime($topdir."var/img/matmatronch/".$user->id.".identity.jpg")."\" alt=\"\" width=\"100\" /><br/>");
-    
-    if ($site->user->is_asso_role ( 27, 1 ) || $site->user->is_in_group("gestion_ae"))
-	  {
+
+    $frm = new form("changepassword","user.php?id_utilisateur=".$user->id,true,"POST","Changer de mot de passe");
+    $frm->add_hidden("action","changepassword");
+    $frm->add_password_field("ae2_password","Mot de passe","",true);
+    $frm->add_password_field("ae2_password2","Repetez le mot de passe","",true);
+    $frm->add_submit("save","Enregistrer");
+    $cts->add($frm,true, false, "chpssbx", false, true, false);
+  
+  } 
+  elseif ( $_REQUEST["see"] == "photos" )
+  {
+
+    $frm = new form("setphotos","user.php?id_utilisateur=".$user->id."#setphotos",true,"POST","Changer mes photos persos");
+    $frm->add_hidden("action","setphotos");
+  
+    $subfrm = new form("mmt",null,null,null,"Avatar");
+    if ( file_exists( $topdir."var/img/matmatronch/".$user->id.".jpg") )
+  	{
+  		$subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".jpg?".filemtime($topdir."var/img/matmatronch/".$user->id.".jpg")."\" alt=\"\" width=\"100\" /><br/>");
+    }
+  	$subfrm->add_file_field ( "mmtfile", "Fichier" );
+  	$subfrm->add_checkbox("delete_mmt","Supprimer mon avatar");
+    $frm->add ( $subfrm );
+  
+    $subfrm = new form("idt",null,null,null,"Photo identit&eacute; (carte AE et matmatronch)");
+  
+    if ( file_exists( $topdir."var/img/matmatronch/".$user->id.".identity.jpg") )
+    {
+      $subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".identity.jpg?".filemtime($topdir."var/img/matmatronch/".$user->id.".identity.jpg")."\" alt=\"\" width=\"100\" /><br/>");
+      
+      if ($site->user->is_asso_role ( 27, 1 ) || $site->user->is_in_group("gestion_ae"))
+  	  {
+        $subfrm->add_file_field ( "idtfile", "Fichier" );
+  		  $carte = new carteae($site->db);
+  		  $carte->load_by_utilisateur($site->user->id);
+  		  if ( !$carte->is_validcard() )
+  			  $subfrm->add_checkbox("delete_idt","Supprimer la photo d'identit&eacute;");
+  	  }
+    }
+    else
       $subfrm->add_file_field ( "idtfile", "Fichier" );
-		  $carte = new carteae($site->db);
-		  $carte->load_by_utilisateur($site->user->id);
-		  if ( !$carte->is_validcard() )
-			  $subfrm->add_checkbox("delete_idt","Supprimer la photo d'identit&eacute;");
-	  }
+  
+    $frm->add ( $subfrm );
+    $frm->add_submit("save","Enregistrer");
+  
+    $cts->add($frm,true, false, "setphotosbx", false, true, $_REQUEST["open"]=="photo");
+  
+    $frm = new form("setblouse","user.php?id_utilisateur=".$user->id."#setblouse",true,"POST","Changer la photo de ma blouse");
+    $frm->add_hidden("action","setblouse");
+    $subfrm = new form("blouse",null,null,null,"Photo de la blouse");
+  
+    if ( file_exists( $topdir."var/img/matmatronch/".$user->id.".blouse.mini.jpg") )
+      $subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".blouse.mini.jpg\" alt=\"\" width=\"100\" /><br/>");
+      
+    $subfrm->add_file_field ( "blousefile", "Fichier" );
+    $subfrm->add_checkbox("delete_blouse","Supprimer la photo de ma blouse");
+    $frm->add ( $subfrm );
+    $frm->add_submit("save","Enregistrer");
+  
+    $cts->add($frm,true, false, "setblousebx", false, true, $_REQUEST["open"]=="blouse");
   }
-  else
-    $subfrm->add_file_field ( "idtfile", "Fichier" );
-
-  $frm->add ( $subfrm );
-  $frm->add_submit("save","Enregistrer");
-
-  $cts->add($frm,true, false, "setphotosbx", false, true, $_REQUEST["open"]=="photo");
-
-  $frm = new form("setblouse","user.php?id_utilisateur=".$user->id."#setblouse",true,"POST","Changer la photo de ma blouse");
-  $frm->add_hidden("action","setblouse");
-  $subfrm = new form("blouse",null,null,null,"Photo de la blouse");
-
-  if ( file_exists( $topdir."var/img/matmatronch/".$user->id.".blouse.mini.jpg") )
-    $subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".blouse.mini.jpg\" alt=\"\" width=\"100\" /><br/>");
-    
-  $subfrm->add_file_field ( "blousefile", "Fichier" );
-  $subfrm->add_checkbox("delete_blouse","Supprimer la photo de ma blouse");
-  $frm->add ( $subfrm );
-  $frm->add_submit("save","Enregistrer");
-
-  $cts->add($frm,true, false, "setblousebx", false, true, $_REQUEST["open"]=="blouse");
-
+  
   $site->add_contents($cts);
   $site->end_page();
   exit();
