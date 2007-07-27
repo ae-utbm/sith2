@@ -476,6 +476,27 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
       
       $frm->add_text_field("semestre","Semestre",$user->semestre);
     }
+    
+    // Permis de conduire
+    $subfrm = new form("permis_conduire",null,null,null,"Permis de conduire (informations non publiées**)");
+    $subfrm->add_date_field("date_permis_conduire","Date d'obtention (non publiée)",$user->date_permis_conduire);
+    $frm->add ( $subfrm, true, false, $user->permis_conduire, false, false, true );    
+    
+    // Musicien
+    $subfrm = new form("musicien",null,null,null,"Musicien");
+    $req = new requete($site->db,"SELECT mmt_instru_musique.id_instru_musique, ".
+      "mmt_instru_musique.nom_instru_musique, ".
+      "utl_joue_instru.id_utilisateur ".
+      "FROM mmt_instru_musique ".
+      "LEFT JOIN utl_joue_instru ".
+        "ON (`utl_joue_instru`.`id_instru_musique`=`mmt_instru_musique`.`id_instru_musique`" .
+        " AND `utl_joue_instru`.`id_utilisateur`='".$user->id."' )".
+      "ORDER BY nom_instru_musique");
+    
+    while ( $row = $req->get_row() )
+      $subfrm->add_checkbox("instru[".$row['id_instru_musique']."]",$row['nom_instru_musique'], !is_null($row['id_utilisateur']));
+    $frm->add ( $subfrm, true, false, $user->musicien, false, false, true );
+    
     $subfrm1 = new form("infocontact",null,null,null,"Adresse et téléphone");
   
     $subfrm1->add_text_field("addresse","Adresse",$user->addresse);
@@ -517,25 +538,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
       $frm->add ( $subfrm4, false, false, false, false, false, true, false );
     }
     
-    // Musicien
-    $subfrm = new form("musicien",null,null,null,"Musicien");
-    $req = new requete($site->db,"SELECT mmt_instru_musique.id_instru_musique, ".
-      "mmt_instru_musique.nom_instru_musique, ".
-      "utl_joue_instru.id_utilisateur ".
-      "FROM mmt_instru_musique ".
-      "LEFT JOIN utl_joue_instru ".
-        "ON (`utl_joue_instru`.`id_instru_musique`=`mmt_instru_musique`.`id_instru_musique`" .
-        " AND `utl_joue_instru`.`id_utilisateur`='".$user->id."' )".
-      "ORDER BY nom_instru_musique");
-    
-    while ( $row = $req->get_row() )
-      $subfrm->add_checkbox("instru[".$row['id_instru_musique']."]",$row['nom_instru_musique'], !is_null($row['id_utilisateur']));
-    $frm->add ( $subfrm, true, false, $user->musicien, false, false, true );
-    
-    // Permis de conduire
-    $subfrm = new form("permis_conduire",null,null,null,"Permis de conduire (informations non publiées**)");
-    $subfrm->add_date_field("date_permis_conduire","Date d'obtention (non publiée)",$user->date_permis_conduire);
-    $frm->add ( $subfrm, true, false, $user->permis_conduire, false, false, true );
+
     
     $subfrm = new form(null,null,null,null,"Habilitations (informations non publiées**)");
     $subfrm->add_checkbox ( "hab_elect", "Habilitation électrique", $user->hab_elect );
