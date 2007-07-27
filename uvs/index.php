@@ -39,11 +39,7 @@ $site->start_page("services", "AE - Pédagogie");
 $cts = new contents("Site de l'AE - Espace Pédagogie");
 
 
-$cts->add_paragraph("Cette partie du site de l'AE vous permet de vous renseigner sur le
-catalogue des UVs en ligne (basé sur le catalogue officiel de l'UTBM).
-<br/><br/><br/><br/> <b>Parce que l'AE cherche à occuper
-votre vie extra-scolaire, mais aussi scolaire, l'AE lance pour vous AE
-- Pedagogie !</b>");
+$cts->add_paragraph("Bienvenue sur la partie Pédagogie du site de l'AE");
 
 if ($site->user->utbm)
 {
