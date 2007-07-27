@@ -35,7 +35,7 @@ require_once($topdir."include/geo.inc.php");
 
 function fname_protect ( $fname )
 {
-  return ereg_replace("\[([^\\]]*)\]","|\\1",$fname);
+  return ereg_replace("\[([^]]*)\]","|\\1",$fname);
 }
 
 function set_request_fname_unprotect ( $fname, $value )
