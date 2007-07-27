@@ -1772,6 +1772,19 @@ L'équipe info AE";
                       array("tout_lu_avant_utl"=>date("Y-m-d H:i:s")),
                       array("id_utilisateur"=>$this->id));
   }
+  
+  
+  function add_instrument($id_instru_musique)
+  {
+    new insert($this->dbrw,"utl_joue_instru", 
+               array("id_instru_musique"=>$id_instru_musique,"id_utilisateur"=>$this->id));
+  }
+  function delete_instrument($id_instru_musique)
+  {
+    new delete($this->dbrw,"utl_joue_instru", 
+               array("id_instru_musique"=>$id_instru_musique,"id_utilisateur"=>$this->id));
+  }
+  
 }
 
 ?>

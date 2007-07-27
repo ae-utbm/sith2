@@ -146,6 +146,29 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
       $user->signature = $_REQUEST['signature'];
 
 
+      $user->musicien = isset($_REQUEST['musicien']);
+      $user->taille_tshirt = $_REQUEST['taille_tshirt'];
+      $user->permis_conduire = isset($_REQUEST['permis_conduire']);
+      $user->date_permis_conduire = $_REQUEST['date_permis_conduire'];
+      $user->hab_elect = isset($_REQUEST['hab_elect']);
+      $user->afps = isset($_REQUEST['afps']);
+      $user->sst = isset($_REQUEST['sst']);
+
+      $req = new requete("SELECT mmt_instru_musique.id_instru_musique, ".
+        "utl_joue_instru.id_utilisateur ".
+        "FROM mmt_instru_musique ".
+        "LEFT JOIN utl_joue_instru ".
+          "(`utl_joue_instru`.`id_instru_musique`=`mmt_instru_musique`.`id_instru_musique`" .
+          " AND `utl_joue_instru`.`id_utilisateur`='".$user->id."' )".
+        "ORDER BY nom_instru_musique");
+      
+      while ( $row = $req->get_row() )
+      {
+        if ( isset($_REQUEST['instru'][$row['id_instru_musique']]) && is_null($row['id_utilisateur']) )
+          $user->add_instrument($row['id_instru_musique']);
+        elseif ( !isset($_REQUEST['instru'][$row['id_instru_musique']]) && !is_null($row['id_utilisateur']) )
+          $user->delete_instrument($row['id_instru_musique']);
+      }
 
       if ( $user->etudiant || $user->ancien_etudiant )
       {
@@ -430,7 +453,10 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add_text_field("surnom","Surnom (utbm)",$user->surnom);
   $frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
   $frm->add_date_field("date_naissance","Date de naissance",$user->date_naissance);
-
+  
+  $frm->add_select_field("taille_tshirt","Taille de t-shity",array(0=>"-",
+    "XS"=>"XS","S"=>"S","M"=>"M","L"=>"L","XL"=>"XL","XXL"=>"XXL","XXXL"=>"XXXL"),$user->taille_tshirt);  
+    
   if ( $user->utbm )
   {
     $frm->add_select_field("role","Role",$GLOBALS["utbm_roles"],$user->role);
@@ -478,6 +504,33 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $subfrm4->add_date_field("date_diplome","Date d'obtention du diplome",($user->date_diplome_utbm!=NULL)?$user->date_diplome_utbm:null);
     $frm->add ( $subfrm4, false, false, false, false, false, true, false );
   }
+  
+  // Musicien
+  $subfrm = new form("musicien",null,null,null,"Musicien");
+  $req = new requete("SELECT mmt_instru_musique.id_instru_musique, ".
+    "mmt_instru_musique.nom_instru_musique, ".
+    "utl_joue_instru.id_utilisateur ".
+    "FROM mmt_instru_musique ".
+    "LEFT JOIN utl_joue_instru ".
+      "(`utl_joue_instru`.`id_instru_musique`=`mmt_instru_musique`.`id_instru_musique`" .
+      " AND `utl_joue_instru`.`id_utilisateur`='".$user->id."' )".
+    "ORDER BY nom_instru_musique");
+  
+  while ( $row = $req->get_row() )
+    $subfrm->add_checkbox("instru[".$row['id_instru_musique']."]",$row['nom_instru_musique'], !is_null($row['id_utilisateur']));
+  
+  $frm->add ( $subfrm, true, false, $user->musicien, false, false, true );
+  
+  // Permis de conduire
+  $subfrm = new form("permis_conduire",null,null,null,"Permis de conduire (informations non publiées**)");
+  $subfrm->add_date_field("date_permis_conduire","Date d'obtention (non publiée)",$user->date_permis_conduire);
+  $frm->add ( $subfrm, true, false, $user->permis_conduire, false, false, true );
+  
+  $subfrm = new form(null,null,null,null,"Habilitations (informations non publiées**)");
+  $frm->add_checkbox ( "hab_elect", "Habilitation électrique", $user->hab_elect );
+  $frm->add_checkbox ( "afps", "Attestation de Formation aux Permiers Secours (AFPS)", $user->afps );
+  $frm->add_checkbox ( "sst", "Sauveteur Secouriste du Travail (SST-", $user->sst );
+  $frm->add ( $subfrm, false, false, false, false, false, true, false );
     
   //signature  
   $frm->add_text_area("signature","Signature (forum)",$user->signature);
@@ -487,6 +540,8 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     
   $frm->add_submit("save","Enregistrer");
   $cts->add($frm,true);
+
+  $cts->add_paragraph("** Ces informations ne seront pas rendues publiques, elles pourrons être utilisées pour pouvoir vous contacter si l'association recherche des bénévoles particuliers.");
 
   $frm = new form("changeemail","user.php?id_utilisateur=".$user->id,true,"POST","Adresse email");
   if ( $ErreurMail )
