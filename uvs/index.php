@@ -651,7 +651,7 @@ if (isset($creationuv))
 
 $cts->add_title(2, "Sélection des UVs");
 
-$selectuv = new form("adduv", "index.php", true, "post", "Sélection des  UVs");
+$selectuv = new form("seluv", "index.php", true, "post", "Sélection des  UVs");
 
 $rq = new requete($site->db,
 		  "SELECT 
