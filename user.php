@@ -454,7 +454,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   $frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
   $frm->add_date_field("date_naissance","Date de naissance",$user->date_naissance);
   
-  $frm->add_select_field("taille_tshirt","Taille de t-shity",array(0=>"-",
+  $frm->add_select_field("taille_tshirt","Taille de t-shirt",array(0=>"-",
     "XS"=>"XS","S"=>"S","M"=>"M","L"=>"L","XL"=>"XL","XXL"=>"XXL","XXXL"=>"XXXL"),$user->taille_tshirt);  
     
   if ( $user->utbm )
@@ -517,8 +517,10 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     "ORDER BY nom_instru_musique");
   
   while ( $row = $req->get_row() )
+  {
+    print_r($row);
     $subfrm->add_checkbox("instru[".$row['id_instru_musique']."]",$row['nom_instru_musique'], !is_null($row['id_utilisateur']));
-  
+  }
   $frm->add ( $subfrm, true, false, $user->musicien, false, false, true );
   
   // Permis de conduire
@@ -529,7 +531,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   $subfrm = new form(null,null,null,null,"Habilitations (informations non publiées**)");
   $subfrm->add_checkbox ( "hab_elect", "Habilitation électrique", $user->hab_elect );
   $subfrm->add_checkbox ( "afps", "Attestation de Formation aux Permiers Secours (AFPS)", $user->afps );
-  $subfrm->add_checkbox ( "sst", "Sauveteur Secouriste du Travail (SST-", $user->sst );
+  $subfrm->add_checkbox ( "sst", "Sauveteur Secouriste du Travail (SST)", $user->sst );
   $frm->add ( $subfrm, false, false, false, false, false, true, false );
     
   //signature  
