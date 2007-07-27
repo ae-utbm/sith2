@@ -744,6 +744,7 @@ elseif ( $_REQUEST["view"]=="assos" )
       "Associations et clubs actuels", $req, "user.php?id_utilisateur=".$user->id,
       "id_membership",
       array("nom_asso"=>"Association","role"=>"Role","desc_role"=>"","date_debut"=>"Depuis"), 
+      $can_edit?array("delete"=>"Supprimer"):array(),
       array(), array("role"=>$GLOBALS['ROLEASSO100'])
       );
     $cts->add($tbl,true);
