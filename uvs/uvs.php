@@ -135,6 +135,47 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 		      $myuvdpts);
   $cts->add($lst);
 
+  /* listing des personnes ayant suivi l'UV */
+  
+  $suivrq = new requete ($site->db,
+			 "SELECT 
+                                  `id_utilisateur` 
+                                  , `prenom_utl`
+                                  , `nom_utl`
+                                  , `surnom_utbm`
+                                  , `semestre_grp`
+                          FROM 
+                                  `edu_uv_groupe_etudiant`
+                          INNER JOIN
+                                  `edu_uv_groupe`
+                          USING (`id_uv_groupe`)
+                          INNER JOIN
+                                   `edu_uv`
+                          USING(`id_uv`)
+                          INNER JOIN
+                                    `utilisateurs`
+                          USING(`id_utilisateur`)
+                          INNER JOIN
+                                    `utl_etu_utbm`
+                          USING (`id_utilisateur`)
+                          WHERE 
+                                `id_uv` = $iduv
+                          GROUP BY `code_uv`, `id_utilisateur`");
+
+  if ($suivrq->lines > 0)
+    {
+      require_once($topdir . "include/cts/sqltable.inc.php");
+      $sqlt = new sqltable('userslst', 
+			   "Liste des utilisateurs suivant ou ayant suivi l'UV",
+			   $suivrq,
+			   '../user.php',
+			   'id_utilisateur', 
+			   array('prenom_utl' => 'prenom', 'nom_utl' => 'nom', 'surnom_utbm' => 'surnom', 'semestre_grp' => 'semestre'),
+			   array('view' => 'Voir la fiche'), 
+			   array(), 
+			   array());
+
+    }
   /* commentaires sur les uvs ? */
 
   /* TODO : prévoir une table, l'ajout de commentaires, la modération
