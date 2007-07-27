@@ -158,7 +158,7 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
         "utl_joue_instru.id_utilisateur ".
         "FROM mmt_instru_musique ".
         "LEFT JOIN utl_joue_instru ".
-          "(`utl_joue_instru`.`id_instru_musique`=`mmt_instru_musique`.`id_instru_musique`" .
+          "ON (`utl_joue_instru`.`id_instru_musique`=`mmt_instru_musique`.`id_instru_musique`" .
           " AND `utl_joue_instru`.`id_utilisateur`='".$user->id."' )".
         "ORDER BY nom_instru_musique");
       
@@ -512,7 +512,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     "utl_joue_instru.id_utilisateur ".
     "FROM mmt_instru_musique ".
     "LEFT JOIN utl_joue_instru ".
-      "(`utl_joue_instru`.`id_instru_musique`=`mmt_instru_musique`.`id_instru_musique`" .
+      "ON (`utl_joue_instru`.`id_instru_musique`=`mmt_instru_musique`.`id_instru_musique`" .
       " AND `utl_joue_instru`.`id_utilisateur`='".$user->id."' )".
     "ORDER BY nom_instru_musique");
   
