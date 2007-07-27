@@ -39,7 +39,7 @@ $site->start_page("services", "AE - Pédagogie");
 $cts = new contents("Site de l'AE - Espace Pédagogie");
 
 
-$cts->add_contents("Cette partie du site de l'AE vous permet de vous renseigner sur le
+$cts->add_content("Cette partie du site de l'AE vous permet de vous renseigner sur le
 catalogue des UVs en ligne (basé sur le catalogue officiel de l'UTBM).
 <br/><br/><br/><br/> <b>Parce que l'AE cherche à occuper
 votre vie extra-scolaire, mais aussi scolaire, l'AE lance pour vous AE
@@ -76,6 +76,6 @@ foreach ($depts as $dept)
 $itemlst = new itemlist("edt_lst", false, $lst);
 
 
-$site->add_contents($cts);
+$site->add_content($cts);
 $site->end_page();
 ?>
