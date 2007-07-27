@@ -737,7 +737,7 @@ $cts->add($selectuv);
 $cts->add_paragraph("Une fois la liste des UVs suivies renseignées, <b>vous pouvez passer à ".
 "<a href=\"./index.php?step=2\">la deuxième étape</a></b>");
 
-$cts->add_title(2, "Ajout d'une UV");
+$cts->add_title(2, "<a href=\"javascript:toggle_adduv();return false;\">Ajout d'une UV");
 $cts->add_paragraph("Au cas où une UV n'existerait pas encore en base, "
                      . "vous avez la possibilité de renseigner ses caractéristiques ici.");
 
@@ -770,6 +770,19 @@ $adduv->add_submit('adduv_sbmt',
 
 $cts->add($adduv);
 
+$cts->add_paragraph("<script language=\"\">
+function toggle_adduv()
+{
+  obj = document.getElementById('adduv');
+
+  if (obj.style.display == 'none')
+     obj.style.display = 'block';
+  else
+     obj.style.display = 'none';
+}
+document.getElementById('adduv').style.display = 'none';
+
+</script>\n");
 
 $site->add_contents($cts);
 
