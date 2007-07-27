@@ -435,10 +435,10 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
   $cts->add(new tabshead(array(
-    array("","user.php?action=edit&id_utilisateur=".$user->id,"Information personnelles"),
-    array("email","user.php?see=email&action=edit&id_utilisateur=".$user->id,"Adresses E-Mail"),
-    array("passwd","user.php?see=passwd&action=edit&id_utilisateur=".$user->id,"Mot de passe"),
-    array("photos","user.php?see=photos&action=edit&id_utilisateur=".$user->id,"Photo/Avatar/Blouse")
+    array("","user.php?page=edit&id_utilisateur=".$user->id,"Information personnelles"),
+    array("email","user.php?see=email&page=edit&id_utilisateur=".$user->id,"Adresses E-Mail"),
+    array("passwd","user.php?see=passwd&page=edit&id_utilisateur=".$user->id,"Mot de passe"),
+    array("photos","user.php?see=photos&page=edit&id_utilisateur=".$user->id,"Photo/Avatar/Blouse")
     ),
     isset($_REQUEST["see"])?$_REQUEST["see"]:"","","subtab"));
 
