@@ -770,7 +770,7 @@ $adduv->add_submit('adduv_sbmt',
 
 $cts->add($adduv);
 
-$cts->add_paragraph("<script language=\"\">
+$cts->add_paragraph("<script language=\"javascript\">
 function toggle_adduv()
 {
   obj = document.getElementById('adduv');
