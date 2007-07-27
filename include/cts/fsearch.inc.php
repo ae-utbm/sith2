@@ -304,6 +304,31 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 		
 		$this->buffer .= "</ul>";
 	}
+	
+	// UVs
+	$req = new requete($site->db,"SELECT * " .
+			"FROM `edu_uv` " .
+			"WHERE code_uv REGEXP '^".$sqlpattern."' " .
+			"ORDER BY code_uv " .
+			"DESC LIMIT 3");
+	
+	if ( $req->lines )
+	{
+		$this->nb += $req->lines;
+		
+		$this->buffer .= "<h2>UVs</h2>";
+		$this->buffer .= "<ul>";
+		while ( $row = $req->get_row() )
+		{
+			if ( $req->lines == 1 )
+				$this->redirect = $wwwtopdir."uvs/uvs.php?id_uv=".$row['id_uv'];
+			
+			$this->buffer .= "<li><a href=\"".$wwwtopdir."uvs/uvs.php?id_uv=".$row['id_uv']."\">".eregi_replace($pattern,"<b>\\0</b>",$row['id_uv']." : ".$row['intitule_uv'])."</a></li>";	
+		}
+		
+		$this->buffer .= "</ul>";
+	}
+	
 
 /*
   $sql = "SELECT frm_sujet.id_sujet, frm_sujet.titre_sujet, frm_message.id_message, frm_message.contenu_message ".
