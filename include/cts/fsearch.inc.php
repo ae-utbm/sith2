@@ -323,7 +323,7 @@ if ( $site->user->is_valid() && ($site->user->utbm || $site->user->ae) )
 			if ( $req->lines == 1 )
 				$this->redirect = $wwwtopdir."uvs/uvs.php?id_uv=".$row['id_uv'];
 			
-			$this->buffer .= "<li><a href=\"".$wwwtopdir."uvs/uvs.php?id_uv=".$row['id_uv']."\">".eregi_replace($pattern,"<b>\\0</b>",$row['id_uv']." : ".$row['intitule_uv'])."</a></li>";	
+			$this->buffer .= "<li><a href=\"".$wwwtopdir."uvs/uvs.php?id_uv=".$row['id_uv']."\">".eregi_replace($pattern,"<b>\\0</b>",$row['code_uv']." : ".$row['intitule_uv'])."</a></li>";	
 		}
 		
 		$this->buffer .= "</ul>";
