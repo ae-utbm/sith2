@@ -162,6 +162,8 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
           " AND `utl_joue_instru`.`id_utilisateur`='".$user->id."' )".
         "ORDER BY nom_instru_musique");
       
+      print_r($_REQUEST);
+      
       while ( $row = $req->get_row() )
       {
         if ( isset($_REQUEST['instru'][$row['id_instru_musique']]) && is_null($row['id_utilisateur']) )
@@ -517,10 +519,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     "ORDER BY nom_instru_musique");
   
   while ( $row = $req->get_row() )
-  {
-    print_r($row);
     $subfrm->add_checkbox("instru[".$row['id_instru_musique']."]",$row['nom_instru_musique'], !is_null($row['id_utilisateur']));
-  }
   $frm->add ( $subfrm, true, false, $user->musicien, false, false, true );
   
   // Permis de conduire
