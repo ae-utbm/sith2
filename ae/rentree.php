@@ -24,7 +24,7 @@
 
 define("WATERMARK", TRUE); // watermark TRUE ou FALSE
 
-$topdir = "./";
+$topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/pgsqlae.inc.php");
