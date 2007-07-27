@@ -174,6 +174,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 			   array('view' => 'Voir la fiche'), 
 			   array(), 
 			   array());
+      $cts->add_title(2, "Ils suivent ou ont suivi cette UV");
       $cts->add($sqlt);
 
     }
