@@ -161,9 +161,7 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
           "ON (`utl_joue_instru`.`id_instru_musique`=`mmt_instru_musique`.`id_instru_musique`" .
           " AND `utl_joue_instru`.`id_utilisateur`='".$user->id."' )".
         "ORDER BY nom_instru_musique");
-      
-      print_r($_REQUEST);
-      
+            
       while ( $row = $req->get_row() )
       {
         if ( isset($_REQUEST['instru'][$row['id_instru_musique']]) && is_null($row['id_utilisateur']) )
