@@ -48,7 +48,7 @@ if ($site->user->utbm)
 du temps en graphique, et ainsi le partager facilement.");
   
   $lst[] = "<a href=\"./create.php\">Créer un emploi du temps</a>";
-  $lst[] = "<a href=\"./create.php\">Gérer mes emplois du temps</a>";
+  $lst[] = "<a href=\"./edt.php\">Gérer mes emplois du temps</a>";
 
   $itemlst = new itemlist("edt_lst", false, $lst);
   $cts->add($itemlst);
@@ -57,7 +57,7 @@ du temps en graphique, et ainsi le partager facilement.");
 
 $cts->add_title(1, "Informations sur les UVs");
 $cts->add_paragraph("Grâce à cette section, vous pouvez consulter les UVs dispensées à
-l'UTBM. Ces informations ont été copiées du <a href=\"\">Guide
+l'UTBM. Ces informations ont été copiées du <a href=\"http://www.utbm.fr/upload/gestionFichiers/GUIDEUV_1370.pdf\">Guide
 officiel des UVs</a>, et aucune garantie n'est donnée quant à la
 justesse des informations.");
 
