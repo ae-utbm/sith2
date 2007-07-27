@@ -553,7 +553,15 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $cts->add($frm,true);
   
     $cts->add_paragraph("** Ces informations ne seront pas rendues publiques, elles pourrons être utilisées pour pouvoir vous contacter si l'association recherche des bénévoles particuliers.");
-
+    
+    $cts->add_paragraph("&nbsp;");
+        
+    $cts->add_title(2,"Modification des autres informations");
+    $cts->add_paragraph("<a href=\"user.php?see=email&amp;page=edit&amp;id_utilisateur=".$user->id."\">Adresses e-mail (personelle et utbm)</a>");
+    $cts->add_paragraph("<a href=\"user.php?see=passwd&amp;page=edit&amp;id_utilisateur=".$user->id."\">Mot de passe</a>");
+    $cts->add_paragraph("<a href=\"user.php?see=photos&amp;page=edit&amp;id_utilisateur=".$user->id."\">Photo d'identité, avatar et blouse</a>");
+    
+    
   } 
   elseif ( $_REQUEST["see"] == "email" )
   {
@@ -566,7 +574,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   
     $frm->add_text_field("email","Adresse email",$user->email,true);
     $frm->add_submit("save","Enregistrer");
-    $cts->add($frm,true, false, "chmailbx", false, true, $_REQUEST["open"]=="email");
+    $cts->add($frm,true);
   
     $frm = new form("changeemailutbm","user.php?id_utilisateur=".$user->id,true,"POST","Adresse email UTBM ou ASSIDU");
     if ( $ErreurMailUtbm )
@@ -576,7 +584,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add_text_field("email_utbm","Adresse email",$user->email_utbm?$user->email_utbm:"prenom.nom@utbm.fr",true);
   
     $frm->add_submit("save","Enregistrer");
-    $cts->add($frm,true, false, "chmailutbx", false, true, $_REQUEST["open"]=="emailutbm");
+    $cts->add($frm,true);
 
   } 
   elseif ( $_REQUEST["see"] == "passwd" )
@@ -587,7 +595,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add_password_field("ae2_password","Mot de passe","",true);
     $frm->add_password_field("ae2_password2","Repetez le mot de passe","",true);
     $frm->add_submit("save","Enregistrer");
-    $cts->add($frm,true, false, "chpssbx", false, true, false);
+    $cts->add($frm,true);
   
   } 
   elseif ( $_REQUEST["see"] == "photos" )
@@ -626,7 +634,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add ( $subfrm );
     $frm->add_submit("save","Enregistrer");
   
-    $cts->add($frm,true, false, "setphotosbx", false, true, $_REQUEST["open"]=="photo");
+    $cts->add($frm,true);
   
     $frm = new form("setblouse","user.php?id_utilisateur=".$user->id."#setblouse",true,"POST","Changer la photo de ma blouse");
     $frm->add_hidden("action","setblouse");
@@ -640,7 +648,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add ( $subfrm );
     $frm->add_submit("save","Enregistrer");
   
-    $cts->add($frm,true, false, "setblousebx", false, true, $_REQUEST["open"]=="blouse");
+    $cts->add($frm,true);
   }
   
   $site->add_contents($cts);
