@@ -182,7 +182,7 @@ if ($_REQUEST['step'] == 2)
 {
   $cts = new contents("Renseignement sur les séances", "");
   if (count($_SESSION['edu_uv_subscr']) == 0)
-    $cts->add_paragraph("Vous n'avez pas sélectionné d'UV à <a href=\"./index.php\">l'étape 1</a>".
+    $cts->add_paragraph("Vous n'avez pas sélectionné d'UV à <a href=\"./create.php\">l'étape 1</a>".
 			". Merci de recommencer cette étape ".
 			"avant de remplir les différentes informations sur les formats horaires");
   else
@@ -190,7 +190,7 @@ if ($_REQUEST['step'] == 2)
       $lst = new itemlist("Liste des UVs", false, $_SESSION['edu_uv_subscr']);
       $cts->add($lst);
 
-      $frm = new form('frm', 'index.php?step=3');
+      $frm = new form('frm', 'create.php?step=3');
 
       $frm->puts(
 		 "<script language=\"javascript\">
@@ -491,7 +491,7 @@ if (isset($_REQUEST['modform']))
   echo "<p>A l'aide de ce formulaire, vous pouvez modifier le format horaire de l'UV ".$res['code_uv']."</p>";
 
   $moduv = new form("moduv", 
-		    "index.php", 
+		    "create.php", 
 		    false, 
 		    "post", 
 		    "Modification d'une UV");
@@ -604,7 +604,7 @@ if (isset($_REQUEST['refreshlistuv']))
       echo "</ul>\n";
 
       echo "<p><b>passer à ".
-	"<a href=\"./index.php?step=2\">la deuxième étape</a></b>\n";
+	"<a href=\"./create.php?step=2\">la deuxième étape</a></b>\n";
     }
   else
     echo "<b>Vous n'avez pour l'instant selectionné aucune UV.</b>";
@@ -654,7 +654,7 @@ if (isset($creationuv))
 
 $cts->add_title(2, "Sélection des UVs");
 
-$selectuv = new form("seluv", "index.php", true, "post", "Sélection des  UVs");
+$selectuv = new form("seluv", "create.php", true, "post", "Sélection des  UVs");
 
 $rq = new requete($site->db,
 		  "SELECT 
@@ -696,14 +696,14 @@ if ($rq->lines > 0)
 function addUV(obj)
 {
  selected = document.getElementsByName('uv_sl')[0];
- evalCommand('index.php', 'subscr=' + selected.value);
- openInContents('cts2', 'index.php', 'refreshlistuv');
+ evalCommand('create.php', 'subscr=' + selected.value);
+ openInContents('cts2', 'create.php', 'refreshlistuv');
 }
 
 function emptylistuv()
 {
-  evalCommand('index.php', 'emptylist');
-  openInContents('cts2', 'index.php', 'refreshlistuv');
+  evalCommand('create.php', 'emptylist');
+  openInContents('cts2', 'create.php', 'refreshlistuv');
 }
 
 function modifyuv()
@@ -714,15 +714,15 @@ function modifyuv()
   mod_tp    = document.getElementsByName('magicform[boolean][mod_tp]')[0].checked;
   alert(mod_cours + mod_td + mod_tp);
 
-  evalCommand('index.php', 'modifyuv=1&mod_cours='+mod_cours+'&mod_td='+mod_td+'&mod_tp='+mod_tp);
-  openInContents('cts3','index.php' ,'modifyuv=1&iduv='+mod_iduv+'&mod_cours='+mod_cours+'&mod_td='+mod_td+'&mod_tp='+mod_tp);
+  evalCommand('create.php', 'modifyuv=1&mod_cours='+mod_cours+'&mod_td='+mod_td+'&mod_tp='+mod_tp);
+  openInContents('cts3','create.php' ,'modifyuv=1&iduv='+mod_iduv+'&mod_cours='+mod_cours+'&mod_td='+mod_td+'&mod_tp='+mod_tp);
 
 }
 function updatemodifpanel()
 {
   selected = document.getElementsByName('uv_sl')[0].value;
   moduv = document.getElementById('cts3');
-  openInContents('cts3', 'index.php', 'modform=1&iduv='+selected);
+  openInContents('cts3', 'create.php', 'modform=1&iduv='+selected);
   moduv.style.display = 'block';
 
 }
@@ -738,7 +738,7 @@ function updatemodifpanel()
 $cts->add($selectuv);
 
 $cts->add_paragraph("Une fois la liste des UVs suivies renseignées, <b>vous pouvez passer à ".
-"<a href=\"./index.php?step=2\">la deuxième étape</a></b>");
+"<a href=\"./create.php?step=2\">la deuxième étape</a></b>");
 
 $cts->add_paragraph("Au cas où une UV n'existerait pas encore en base, "
                      . "vous avez la possibilité de renseigner ses caractéristiques ici.");
@@ -746,7 +746,7 @@ $cts->add_paragraph("Au cas où une UV n'existerait pas encore en base, "
 $cts->add_title(2, "<a href=\"javascript:toggle_adduv();\">Ajout d'une UV</a>");
 
 
-$adduv = new form("adduv", "index.php", true, "post", "Ajout d'une UV");
+$adduv = new form("adduv", "create.php", true, "post", "Ajout d'une UV");
 
 $adduv->add_text_field('adduv_name',
 		       "Code de l'UV",
@@ -822,7 +822,7 @@ $cts->add_paragraph("A l'aide de ce formulaire, vous pouvez ".
                     "modifier le format horaire d'une UV");
  
 $moduv = new form("moduv", 
-                  "index.php", 
+                  "create.php", 
                   true, 
                   "post", 
                   "Modification d'une UV");

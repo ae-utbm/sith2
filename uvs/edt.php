@@ -75,7 +75,7 @@ if ($_REQUEST['render'] == 1)
 
   $edt->load($id, $semestre);
 
-  $edtimg = new edt_img($user->prenom . " ". $user->nom . "(".$user->alias.") ",  $edt->edt_arr);
+  $edtimg = new edt_img($user->prenom . " ". $user->nom . " (".$user->alias.") ",  $edt->edt_arr);
   $edtimg->generate ();
   exit();
 
@@ -92,7 +92,7 @@ if (isset($_REQUEST['delete']))
 $cts = new contents("Emploi du temps", "");
 
 $cts->add_paragraph("Sur cette page vous pouvez gérer vos emplois du temps.".
-		    "<br/><a href=\"./index.php\">Ajouter un emploi du temps</a>");
+		    "<br/><a href=\"./create.php\">Ajouter un emploi du temps</a>");
 
 
 $cts->add_paragraph("<h2>Vos emplois du temps disponibles</h2><br/>");
