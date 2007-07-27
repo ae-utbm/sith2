@@ -154,7 +154,7 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
       $user->afps = isset($_REQUEST['afps']);
       $user->sst = isset($_REQUEST['sst']);
 
-      $req = new requete("SELECT mmt_instru_musique.id_instru_musique, ".
+      $req = new requete($site->db,"SELECT mmt_instru_musique.id_instru_musique, ".
         "utl_joue_instru.id_utilisateur ".
         "FROM mmt_instru_musique ".
         "LEFT JOIN utl_joue_instru ".
@@ -507,7 +507,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   
   // Musicien
   $subfrm = new form("musicien",null,null,null,"Musicien");
-  $req = new requete("SELECT mmt_instru_musique.id_instru_musique, ".
+  $req = new requete($site->db,"SELECT mmt_instru_musique.id_instru_musique, ".
     "mmt_instru_musique.nom_instru_musique, ".
     "utl_joue_instru.id_utilisateur ".
     "FROM mmt_instru_musique ".
@@ -527,9 +527,9 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   $frm->add ( $subfrm, true, false, $user->permis_conduire, false, false, true );
   
   $subfrm = new form(null,null,null,null,"Habilitations (informations non publiées**)");
-  $frm->add_checkbox ( "hab_elect", "Habilitation électrique", $user->hab_elect );
-  $frm->add_checkbox ( "afps", "Attestation de Formation aux Permiers Secours (AFPS)", $user->afps );
-  $frm->add_checkbox ( "sst", "Sauveteur Secouriste du Travail (SST-", $user->sst );
+  $subfrm->add_checkbox ( "hab_elect", "Habilitation électrique", $user->hab_elect );
+  $subfrm->add_checkbox ( "afps", "Attestation de Formation aux Permiers Secours (AFPS)", $user->afps );
+  $subfrm->add_checkbox ( "sst", "Sauveteur Secouriste du Travail (SST-", $user->sst );
   $frm->add ( $subfrm, false, false, false, false, false, true, false );
     
   //signature  
