@@ -743,7 +743,7 @@ elseif ( $_REQUEST["view"]=="assos" )
       "listasso",
       "Associations et clubs actuels", $req, "user.php?id_utilisateur=".$user->id,
       "id_membership",
-      array("nom_asso"=>"Association","role"=>"Role","date_debut"=>"Depuis"),
+      array("nom_asso"=>"Association","role"=>"Role","date_debut"=>"Depuis")
       );
     $cts->add($tbl,true);
   }
