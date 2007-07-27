@@ -738,16 +738,15 @@ elseif ( $_REQUEST["view"]=="assos" )
                      "AND `asso_membre`.`date_fin` is NULL " .
                      "ORDER BY `asso`.`nom_asso`");
   if ( $req->lines > 0 )
-    {
-      $tbl = new sqltable(
-                          "listasso",
-                          "Associations actuelles", $req, "user.php?id_utilisateur=".$user->id,
-                          "id_membership",
-                          array("nom_asso"=>"Association","role"=>"Role","date_debut"=>"Depuis"),
-                          $can_edit?array("delete"=>"Supprimer"):array(), array(), array("role"=>$GLOBALS['ROLEASSO100'] )
-                          );
-      $cts->add($tbl,true);
-    }
+  {
+    $tbl = new sqltable(
+      "listasso",
+      "Associations et clubs actuels", $req, "user.php?id_utilisateur=".$user->id,
+      "id_membership",
+      array("nom_asso"=>"Association","role"=>"Role","date_debut"=>"Depuis"),
+      );
+    $cts->add($tbl,true);
+  }
 
   /* Anciennes assos */
   $req = new requete($site->db,
@@ -761,42 +760,42 @@ elseif ( $_REQUEST["view"]=="assos" )
                      "AND `asso_membre`.`date_fin` is NOT NULL " .
                      "ORDER BY `asso`.`nom_asso`,`asso_membre`.`date_debut`");
   if ( $req->lines > 0 )
-    {
-      $tbl = new sqltable(
-                          "listassoformer",
-                          "Associations", $req, "user.php?id_utilisateur=".$user->id,
-                          "id_membership",
-                          array("nom_asso"=>"Association","role"=>"Role","date_debut"=>"Date de d&eacute;but","date_fin"=>"Date de fin"),
-                          $can_edit?array("delete"=>"Supprimer"):array(), array(), array("role"=>$GLOBALS['ROLEASSO100'] )
-                          );
-      $cts->add($tbl,true);
-    }
+  {
+    $tbl = new sqltable(
+      "listassoformer",
+      "Associations et clubs (anciennes participations)", $req, "user.php?id_utilisateur=".$user->id,
+      "id_membership",
+      array("nom_asso"=>"Association","role"=>"Role","date_debut"=>"Date de d&eacute;but","date_fin"=>"Date de fin"),
+      $can_edit?array("delete"=>"Supprimer"):array(), array(), array("role"=>$GLOBALS['ROLEASSO100'] )
+      );
+    $cts->add($tbl,true);
+  }
 
 
   if ( $can_edit )
-    {
-      $frm = new form("addme","user.php?view=assos&id_utilisateur=".$user->id,false,"POST","Ajouter comme membre");
-      if ( $ErreurAddMe )
-        $frm->error($ErreurAddMe);
-      $frm->add_hidden("action","addme");
-      $frm->add_info("<b>Attention</b> : Si vous &ecirc;tes membre du bureau (tresorier, secretaire...) ou membre actif veuillez vous adresser au responsable de l'association/du club. Si vous &ecirc;tes le responsable, merci de vous adresser au bureau de l'AE.");
-      $frm->add_entity_select ( "id_asso", "Association/Club", $site->db, "asso");
-      $frm->add_date_field("date_debut","Depuis le",time(),true);
-      $frm->add_submit("valid","Ajouter");
-      $cts->add($frm,true);
+  {
+    $frm = new form("addme","user.php?view=assos&id_utilisateur=".$user->id,false,"POST","Ajouter comme membre");
+    if ( $ErreurAddMe )
+      $frm->error($ErreurAddMe);
+    $frm->add_hidden("action","addme");
+    $frm->add_info("<b>Attention</b> : Si vous &ecirc;tes membre du bureau (tresorier, secretaire...) ou membre actif veuillez vous adresser au responsable de l'association/du club. Si vous &ecirc;tes le responsable, merci de vous adresser au bureau de l'AE.");
+    $frm->add_entity_select ( "id_asso", "Association/Club", $site->db, "asso");
+    $frm->add_date_field("date_debut","Depuis le",time(),true);
+    $frm->add_submit("valid","Ajouter");
+    $cts->add($frm,true);
 
-      $frm = new form("addmeformer","user.php?view=assos&id_utilisateur=".$user->id,false,"POST","Ajouter comme un ancien membre");
-      $frm->add_hidden("action","addmeformer");
-      if ( $ErreurAddMeFormer )
-        $frm->error($ErreurAddMeFormer);
-      $frm->add_entity_select ( "id_asso", "Association/Club", $site->db, "asso");
-      $frm->add_text_field("role_desc","Role (champ libre)","");
-      $frm->add_select_field("role","Role",$GLOBALS['ROLEASSO']);
-      $frm->add_date_field("former_date_debut","Date de d&eacute;but",-1,true);
-      $frm->add_date_field("former_date_fin","Date de fin",-1,true);
-      $frm->add_submit("valid","Ajouter");
-      $cts->add($frm,true);
-    }
+    $frm = new form("addmeformer","user.php?view=assos&id_utilisateur=".$user->id,false,"POST","Ajouter comme un ancien membre");
+    $frm->add_hidden("action","addmeformer");
+    if ( $ErreurAddMeFormer )
+      $frm->error($ErreurAddMeFormer);
+    $frm->add_entity_select ( "id_asso", "Association/Club", $site->db, "asso");
+    $frm->add_text_field("role_desc","Role (champ libre)","");
+    $frm->add_select_field("role","Role",$GLOBALS['ROLEASSO']);
+    $frm->add_date_field("former_date_debut","Date de d&eacute;but",-1,true);
+    $frm->add_date_field("former_date_fin","Date de fin",-1,true);
+    $frm->add_submit("valid","Ajouter");
+    $cts->add($frm,true);
+  }
 }
 
 elseif ( ($_REQUEST["view"]=="groups") &&
@@ -976,36 +975,6 @@ else
         $cts->add($tbl,true);
       }
     }
-	if ( $site->user->is_in_group("gestion_ae") )
-	{
-	  $frm = new form("pass_reinit", "user.php?id_utilisateur=".$user->id, true, "POST", "R&eacute;initialiser le mot de passe");
-		$frm->allow_only_one_usage();
-		$frm->add_submit("valid","R&eacute;initialiser !");
-		$cts->add($frm,true);
-	}
-
-  /* Associations en cours */
-  $req = new requete($site->db,
-                     "SELECT `asso`.`id_asso`, `asso`.`nom_asso`, " .
-                     "IF(`asso`.`id_asso_parent` IS NULL,`asso_membre`.`role`+100,`asso_membre`.`role`) AS `role`,
-                      `asso_membre`.`date_debut`, " .
-                     "CONCAT(`asso`.`id_asso`,',',`asso_membre`.`date_debut`) as `id_membership` " .
-                     "FROM `asso_membre` " .
-                     "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
-                     "WHERE `asso_membre`.`id_utilisateur`='".$user->id."' " .
-                     "AND `asso_membre`.`date_fin` is NULL " .
-                     "ORDER BY `asso`.`nom_asso`");
-  if ( $req->lines > 0 )
-    {
-      $tbl = new sqltable(
-                          "listasso",
-                          "Mes associations", $req, "user.php?id_utilisateur=".$user->id,
-                          "id_membership",
-                          array("nom_asso"=>"Association","role"=>"Role","date_debut"=>"Depuis"),
-                          $can_edit?array("delete"=>"Supprimer"):array(), array(), array("role"=>$GLOBALS['ROLEASSO100'] )
-                          );
-      $cts->add($tbl,true);
-    }
 
   if ( $can_edit )
   {
@@ -1017,6 +986,15 @@ else
     )),true); 
     
   }
+
+	if ( $site->user->is_in_group("gestion_ae") )
+	{
+	  $frm = new form("pass_reinit", "user.php?id_utilisateur=".$user->id, true, "POST", "R&eacute;initialiser le mot de passe");
+		$frm->allow_only_one_usage();
+		$frm->add_submit("valid","R&eacute;initialiser !");
+		$cts->add($frm,true);
+	}
+
 
 
 }
