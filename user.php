@@ -559,11 +559,11 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     
     $cts->add_paragraph("&nbsp;");
         
-    $cts->add_title(2,"Modification des autres informations");
-    $cts->add_paragraph("<a href=\"user.php?see=email&amp;page=edit&amp;id_utilisateur=".$user->id."\">Adresses e-mail (personelle et utbm)</a>");
-    $cts->add_paragraph("<a href=\"user.php?see=passwd&amp;page=edit&amp;id_utilisateur=".$user->id."\">Mot de passe</a>");
-    $cts->add_paragraph("<a href=\"user.php?see=photos&amp;page=edit&amp;id_utilisateur=".$user->id."\">Photo d'identité, avatar et blouse</a>");
-    
+    $cts->add(new itemlist("Modification des autres informations",false,array(
+    "<a href=\"user.php?see=email&amp;page=edit&amp;id_utilisateur=".$user->id."\">Adresses e-mail (personelle et utbm)</a>",
+    "<a href=\"user.php?see=passwd&amp;page=edit&amp;id_utilisateur=".$user->id."\">Mot de passe</a>",
+    "<a href=\"user.php?see=photos&amp;page=edit&amp;id_utilisateur=".$user->id."\">Photo d'identité, avatar et blouse</a>"
+    )),true);
     
   } 
   elseif ( $_REQUEST["see"] == "email" )
@@ -1006,6 +1006,18 @@ else
                           );
       $cts->add($tbl,true);
     }
+
+  if ( $can_edit )
+  {
+    $cts->add(new itemlist("Modification du profil",false,array(
+    "<a href=\"user.php?see=email&amp;page=edit&amp;id_utilisateur=".$user->id."\">Informations personelle</a>",
+    "<a href=\"user.php?see=email&amp;page=edit&amp;id_utilisateur=".$user->id."\">Adresses e-mail (personelle et utbm)</a>",
+    "<a href=\"user.php?see=passwd&amp;page=edit&amp;id_utilisateur=".$user->id."\">Mot de passe</a>",
+    "<a href=\"user.php?see=photos&amp;page=edit&amp;id_utilisateur=".$user->id."\">Photo d'identité, avatar et blouse</a>"
+    )),true); 
+    
+  }
+
 
 }
 
