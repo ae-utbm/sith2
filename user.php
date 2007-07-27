@@ -730,7 +730,7 @@ elseif ( $_REQUEST["view"]=="assos" )
   $req = new requete($site->db,
                      "SELECT `asso`.`id_asso`, `asso`.`nom_asso`, " .
                      "IF(`asso`.`id_asso_parent` IS NULL,`asso_membre`.`role`+100,`asso_membre`.`role`) AS `role`, ".
-                     "`asso_membre`.`date_debut`, " .
+                     "`asso_membre`.`date_debut`, `asso_membre`.`desc_role`, " .
                      "CONCAT(`asso`.`id_asso`,',',`asso_membre`.`date_debut`) as `id_membership` " .
                      "FROM `asso_membre` " .
                      "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
@@ -743,7 +743,8 @@ elseif ( $_REQUEST["view"]=="assos" )
       "listasso",
       "Associations et clubs actuels", $req, "user.php?id_utilisateur=".$user->id,
       "id_membership",
-      array("nom_asso"=>"Association","role"=>"Role","date_debut"=>"Depuis")
+      array("nom_asso"=>"Association","role"=>"Role","desc_role"=>"","date_debut"=>"Depuis"), 
+      array(), array("role"=>$GLOBALS['ROLEASSO100'])
       );
     $cts->add($tbl,true);
   }
@@ -752,7 +753,7 @@ elseif ( $_REQUEST["view"]=="assos" )
   $req = new requete($site->db,
                      "SELECT `asso`.`id_asso`, `asso`.`nom_asso`, " .
                      "IF(`asso`.`id_asso_parent` IS NULL,`asso_membre`.`role`+100,`asso_membre`.`role`) AS `role`, ".
-                     "`asso_membre`.`date_debut`, `asso_membre`.`date_fin`, " .
+                     "`asso_membre`.`date_debut`, `asso_membre`.`desc_role`, `asso_membre`.`date_fin`, " .
                      "CONCAT(`asso`.`id_asso`,',',`asso_membre`.`date_debut`) as `id_membership` " .
                      "FROM `asso_membre` " .
                      "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
@@ -765,7 +766,7 @@ elseif ( $_REQUEST["view"]=="assos" )
       "listassoformer",
       "Associations et clubs (anciennes participations)", $req, "user.php?id_utilisateur=".$user->id,
       "id_membership",
-      array("nom_asso"=>"Association","role"=>"Role","date_debut"=>"Date de d&eacute;but","date_fin"=>"Date de fin"),
+      array("nom_asso"=>"Association","role"=>"Role","desc_role"=>"","date_debut"=>"Date de début","date_fin"=>"Date de fin"),
       $can_edit?array("delete"=>"Supprimer"):array(), array(), array("role"=>$GLOBALS['ROLEASSO100'] )
       );
     $cts->add($tbl,true);
