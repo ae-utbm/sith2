@@ -602,6 +602,9 @@ if (isset($_REQUEST['refreshlistuv']))
 	  echo "<li>".$value."</li>\n";
 	}
       echo "</ul>\n";
+
+      echo "<p><b>passer à ".
+	"<a href=\"./index.php?step=2\">la deuxième étape</a></b>\n";
     }
   else
     echo "<b>Vous n'avez pour l'instant selectionné aucune UV.</b>";
@@ -737,9 +740,10 @@ $cts->add($selectuv);
 $cts->add_paragraph("Une fois la liste des UVs suivies renseignées, <b>vous pouvez passer à ".
 "<a href=\"./index.php?step=2\">la deuxième étape</a></b>");
 
-$cts->add_title(2, "<a href=\"javascript:toggle_adduv();\">Ajout d'une UV</a>");
 $cts->add_paragraph("Au cas où une UV n'existerait pas encore en base, "
                      . "vous avez la possibilité de renseigner ses caractéristiques ici.");
+
+$cts->add_title(2, "<a href=\"javascript:toggle_adduv();\">Ajout d'une UV</a>");
 
 
 $adduv = new form("adduv", "index.php", true, "post", "Ajout d'une UV");
