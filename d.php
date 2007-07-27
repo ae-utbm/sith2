@@ -170,6 +170,46 @@ elseif ( $folder->is_valid() && $_REQUEST["action"] == "delete" )
     }
 }
 
+
+if ( $_REQUEST["action"] == "davmount" ) 
+{
+  /*
+   * Support RFC 4709
+   * http://www.ietf.org/rfc/rfc4709.txt
+   *
+   */
+  
+  $rpath = rawurlencode($folder->nom_fichier);
+  
+  $pfolder = new dfolder($site->db);
+  $pfolder->load_by_id($folder->id_folder_parent);  
+  while ( $pfolder->is_valid() )
+  {
+    $rpath = rawurlencode($pfolder->nom_fichier)."/".$rpath;
+    $pfolder->load_by_id($pfolder->id_folder_parent);
+  }
+  
+  if ( !$site->user->is_valid() )
+    $url = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["SCRIPT_NAME"])."/webdav.php/";
+  else
+    $url = "https://".$_SERVER["HTTP_HOST"].dirname($_SERVER["SCRIPT_NAME"])."/webdav.php/";
+  
+  header("Content-Type: application/davmount+xml");
+  header("Cache-Control: private");
+  
+  echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+  echo "<dm:mount xmlns:dm=\"http://purl.org/NET/webdav/mount\">\n";
+  echo "  <dm:url>".htmlspecialchars($url,ENT_NOQUOTES,"UTF-8")."</dm:url>\n";
+  echo "  <dm:open>".htmlspecialchars($rpath,ENT_NOQUOTES,"UTF-8")."</dm:open>\n";
+  
+  if ( $site->user->is_valid() 
+       /*&& !preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME'])*/ )
+    echo "  <dm:username>".htmlspecialchars($site->user->email,ENT_NOQUOTES,"UTF-8")."</dm:username>\n";
+    echo "</dm:mount>\n";
+     
+  exit(); 
+}
+
 if ( $file->is_valid() )
   $path = classlink($folder)." / ".classlink($file);
 else
@@ -583,7 +623,7 @@ if ( $folder->is_right($site->user,DROIT_AJOUTCAT) )
 if ( $folder->is_right($site->user,DROIT_AJOUTITEM) )
   $cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;page=newfile\">Ajouter un fichier</a>");
 
-
+$cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;action=davmount\">Voir ce dossier avec votre client WebDAV</a>");
 
 $site->add_contents($cts);
 $site->end_page();
