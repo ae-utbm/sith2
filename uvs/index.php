@@ -737,7 +737,7 @@ $cts->add($selectuv);
 $cts->add_paragraph("Une fois la liste des UVs suivies renseignées, <b>vous pouvez passer à ".
 "<a href=\"./index.php?step=2\">la deuxième étape</a></b>");
 
-$cts->add_title(2, "<a href=\"javascript:toggle_adduv();return false;\">Ajout d'une UV</a>");
+$cts->add_title(2, "<a href=\"javascript:toggle_adduv();\">Ajout d'une UV</a>");
 $cts->add_paragraph("Au cas où une UV n'existerait pas encore en base, "
                      . "vous avez la possibilité de renseigner ses caractéristiques ici.");
 
