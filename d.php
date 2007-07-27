@@ -176,7 +176,6 @@ if ( $_REQUEST["action"] == "davmount" )
   /*
    * Support RFC 4709
    * http://www.ietf.org/rfc/rfc4709.txt
-   *
    */
   
   $rpath = rawurlencode($folder->nom_fichier);
@@ -196,11 +195,12 @@ if ( $_REQUEST["action"] == "davmount" )
   
   header("Content-Type: application/davmount+xml");
   header("Cache-Control: private");
+  header("Content-Disposition: filename=".$folder->id.".davmount");
   
   echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
   echo "<dm:mount xmlns:dm=\"http://purl.org/NET/webdav/mount\">\n";
   echo "  <dm:url>".htmlspecialchars($url,ENT_NOQUOTES,"UTF-8")."</dm:url>\n";
-  echo "  <dm:open>".htmlspecialchars($rpath,ENT_NOQUOTES,"UTF-8")."</dm:open>\n";
+  echo "  <dm:open>".htmlspecialchars($rpath,ENT_NOQUOTES,"UTF-8")."/</dm:open>\n";
   
   if ( $site->user->is_valid() 
        /*&& !preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME'])*/ )
