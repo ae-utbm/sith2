@@ -36,7 +36,7 @@ $site = new site();
 
 $site->start_page("services", "Informations UV");
 
-$depts = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC');
+$depts = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
 
 if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 {
