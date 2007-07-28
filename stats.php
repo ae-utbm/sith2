@@ -473,7 +473,8 @@ elseif ( $_REQUEST["view"] == "site" )
 
     $cts->add_title(2, "Administration");
     $cts->add_paragraph("Remettre &agrave; z&eacute;ro les stats du site ae.".
-      "<br /><img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : <a href=\"stats_site.php?view=site&action=reset\">Reset !</a>");
+			"<br /><img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : ".
+      "<a href=\"stats_site.php?view=site&action=reset\" onClick= \"if (confirm('Voulez vous vraiment remettre les statistiques à zéro ? ')) { return true; } else { return false; }}\">Reset !</a>");
     $cts->add_paragraph("<script language=\"javascript\">
     function next(obj, start)
     {
