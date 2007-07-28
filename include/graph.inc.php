@@ -451,7 +451,7 @@ class camembert
                      $color=array(),
                      $decimal=2,
                      $padding=20,
-                     $spacing=15,
+                     $spacing=0,
                      $profondeur=0,
                      $ombre=0,
                      $inclinaison=0,
