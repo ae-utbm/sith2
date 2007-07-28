@@ -616,65 +616,16 @@ $sqlcntph = $cat->get_photos ( $cat->id, $site->user, $grps, "COUNT(*)");
 
 list($nb) = $sqlcntph->get_row();
 
-if ( $nb>0 || $cat->is_right($site->user,DROIT_AJOUTITEM) )
+if ( $cat->is_right($site->user,DROIT_AJOUTITEM) )
 {
-
-  if ( $nb>0)
-  {
-    $req = new requete($site->db, "SELECT COUNT(*) FROM `sas_photos` ".
-      "WHERE `incomplet`='1' AND `id_catph`='".intval($cat->id)."' AND (`droits_acces_ph` & 0x100) AND `id_utilisateur` ='".$site->user->id."'");
-    list($nbtcus)=$req->get_row();
-
-    if ( $cat->is_admin($site->user) )
-    {
-      $req = new requete($site->db, "SELECT COUNT(*) FROM `sas_photos` ".
-        "WHERE `incomplet`='1' AND `id_catph`='".intval($cat->id)."' AND `id_groupe_admin` ='".$cat->id_groupe_admin."'");
-      list($nbtcad)=$req->get_row();
-    }
-    else
-      $nbtcad=0;
-  }
-  else
-  {
-    $nbtcad=0;
-    $nbtcus=0;
-  }
-
   $tabs = array(array("",$self."id_catph=".$cat->id, "photos - $nb"),
-          array("tools",$self."view=tools&id_catph=".$cat->id,($nbtcad>0||$nbtcus>0)?"<b>outils !!</b>":"outils"),
-          array("stats",$self."view=stats&id_catph=".$cat->id,"statistiques"));
-
-  if ($cat->is_right($site->user,DROIT_AJOUTITEM) )
-    $tabs[] =array("add",$self."view=add&id_catph=".$cat->id,"Ajouter");
-
+        array("add",$self."view=add&id_catph=".$cat->id,"Ajouter"));
+            
   $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 }
 
-if ( $_REQUEST["view"] == "tools" )
+if ( $_REQUEST["view"] == "add" && $cat->is_right($site->user,DROIT_AJOUTITEM) )
 {
-
-
-  if ( $nbtcus > 0 )
-    $cts->add_paragraph("<a href=\"/sas2/complete.php?mode=userphoto&id_catph=".$cat->id."\">Identification des personnes sur mes photos ($nbtcus)</a>");
-
-  if ( $cat->is_admin($site->user) )
-  {
-
-    $cts->add_paragraph("<a href=\"/sas2/complete.php?mode=adminzone&id_catph=".$cat->id."\">Identification des personnes sur les photos ($nbtcad)</a>");
-
-  }
-}
-elseif ( $_REQUEST["view"] == "stats" )
-{
-
-
-
-}
-elseif ( $_REQUEST["view"] == "add" && $cat->is_right($site->user,DROIT_AJOUTITEM) )
-{
-
-  if ( $metacat->is_valid() )
-    $asso->load_by_id($metacat->meta_id_asso);
 
   $cts->add_paragraph("<br/>Si vous voulez ajouter de nombreuses photos, " .
       "nous vous conseillons d'utiliser le logiciel UBPT Transfert qui " .
@@ -692,7 +643,7 @@ elseif ( $_REQUEST["view"] == "add" && $cat->is_right($site->user,DROIT_AJOUTITE
   $frm->add_file_field("file","Fichier",true);
   $frm->add_text_area("comment","Commentaire");
   $frm->add_checkbox("personne","Il n'y a personne sur la photo (reconaissable)");
-  $frm->add_entity_select ( "id_asso", "Association/Club lié", $site->db, "asso",$asso->id,true);
+  $frm->add_entity_select ( "id_asso", "Association/Club lié", $site->db, "asso",$site->asso->id,true);
   $frm->add_rights_field($cat,false,$cat->is_admin($site->user));
   $frm->add_submit("valid","Ajouter");
 
