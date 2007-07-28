@@ -464,9 +464,9 @@ class camembert
     $this->padding              = $padding;
     $this->decimal              = $decimal;
     $this->spacing              = $spacing;
-    $this->prodondeurGraph      = $profondeur; //Profondeur du graph en pixel (0 pour 2D)
-    $this->ombre                = $ombre;
-    $this->inclinaison          = $inclinaison;
+    $this->prodondeurGraph      = $profondeur;  //Profondeur du graph en pixel (0 pour 2D)
+    $this->ombre                = $ombre;       //force de 0 à 1
+    $this->inclinaison          = $inclinaison; // en %
     $this->ombrage              = $ombrage;
     $this->largeurLegend        = $largeurLegend;
     $this->largeurAretteExterne = $largeurArette;

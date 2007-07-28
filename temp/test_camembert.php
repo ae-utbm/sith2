@@ -30,7 +30,19 @@ $valeur=array('50',
               '65',
 							'35');
 
-$cam=new camembert(500,500, array(0 => '#ffffff'));
+$cam=new camembert(500,
+                   500,
+									 array(0 => '#ffffff'),
+									 2,
+									 20,
+									 0,
+									 10,
+									 0.25,
+									 10,
+									 10,
+									 10,
+									 0
+								  );
 
 for ($i=0; $i<count($valeur); $i++)
   $cam->data($valeur[$i],$color[$i], '');
