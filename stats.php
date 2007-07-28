@@ -460,7 +460,7 @@ elseif ( $_REQUEST["view"] == "utilisateurs" )
 }
 elseif ( $_REQUEST["view"] == "site" )
 {
-  if (!$site->user->is_in_group ("gestion_ae"))
+  if ($site->user->is_in_group ("gestion_ae"))
   {
     if ( $_REQUEST["action"] == "reset" )
     {
