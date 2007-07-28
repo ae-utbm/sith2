@@ -450,7 +450,7 @@ class camembert
                      $height=200,
                      $color=array(),
                      $decimal=2,
-                     $padding=10,
+                     $padding=20,
                      $spacing=15,
                      $profondeur=0,
                      $ombre=0,
