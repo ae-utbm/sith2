@@ -30,25 +30,25 @@ if (!$site->user->is_in_group ("gestion_ae"))
   error_403();
 
 $color=array(0 => "FFF200",
-             1 => "FFE700",
-						 2 => "FFCD00",
-						 3 => "FFC600",
+//             1 => "FFE700",
+//						 2 => "FFCD00",
+//						 3 => "FFC600",
 						 4 => "FFB000",
-						 5 => "FFA500",
-						 6 => "FF9A00",
-						 7 => "FF8F00",
+//						 5 => "FFA500",
+//						 6 => "FF9A00",
+//						 7 => "FF8F00",
 						 8 => "FF8400",
-						 9 => "FF7900",
-						 10=> "FF7200",
-						 11=> "FF6500",
+//						 9 => "FF7900",
+//						 10=> "FF7200",
+//						 11=> "FF6500",
 						 12=> "FF5A00",
-						 13=> "FF5000",
-						 14=> "FF4400",
-						 15=> "FF3A00",
+//						 13=> "FF5000",
+//						 14=> "FF4400",
+//						 15=> "FF3A00",
 						 16=> "FF2F00",
-						 17=> "FF2400",
-						 18=> "FF1A00",
-						 19=> "FF1000",
+//						 17=> "FF2400",
+//						 18=> "FF1A00",
+//						 19=> "FF1000",
 						 20=> "FF0000");
 
 if ( $_REQUEST["action"] == "os" )
@@ -59,7 +59,7 @@ if ( $_REQUEST["action"] == "os" )
 	while($row=$req->get_row())
   {
 		$cam->data($row['visites'], $color[$i], $row['os']);
-    $i--;
+    $i=$i-4;
     if($i<0)
       $i=20;
   }
@@ -74,7 +74,7 @@ if ( $_REQUEST["action"] == "browser" )
 	while($row=$req->get_row())
   {
 		$cam->data($row['visites'], $color[$i], $row['browser']);
-    $i--;
+    $i=$i-4;
     if($i<0)
       $i=20;
   }
