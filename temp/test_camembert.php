@@ -30,7 +30,7 @@ $valeur=array('50',
               '65',
 							'35');
 
-$cam=new camembert(500,500);
+$cam=new camembert(500,500, array(0 => '#000000'));
 
 for ($i=0; $i<count($valeur); $i++)
   $cam->data($valeur[$i],$color[$i], '');
