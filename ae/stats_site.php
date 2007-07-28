@@ -243,15 +243,16 @@ $cts = new contents("Pages visit&eacute;es visit&eacute;s");
 $cts->add_paragraph("<center>");
 $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
 
-$cts->add(new sqltable("top_full",
-                       "", $req, "stats.php",
-                       "page",
-                       array("page"=>"page",
-                             "visites"=>"Visites"),
-                       array(),
-                       array(),
-                       array()
-                     ),true);
+$sqlt = new sqltable("top_full",
+                     "", $req, "stats.php",
+                     "page",
+                     array("page"=>"page",
+                           "visites"=>"Visites"),
+                     array(),
+                     array(),
+                     array()
+                    ),true);
+$cts->add_parapgraph($sqlt->html_render());
 $cts->add_paragraph("</center>");
 $cts->add_paragraph("<center><a href=\"javascript:next(this, 21)\">Voir les 20 suivants</a></center>");
 $site->add_contents($cts);
