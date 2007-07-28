@@ -197,7 +197,9 @@ if (isset($_REQUEST['start']))
                        array()
                       );
 
-  echo $sqlt->html_render();
+	echo $sqlt->html_render();
+  $start = $start+20;
+  echo "\n<a href=\"javascript:next(this, $start)\">Voir les 20 suivants</a>";
   echo "</center>";
 
   exit();
