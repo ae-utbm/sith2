@@ -583,7 +583,7 @@ class camembert
       $this->tabAngle[$i]=($this->tabPourc[$i] * 360 / 100);
     if(isset($tmp['reste']))
     {
-      $this->tabAngle[$j]=($tmp['reste'] * 360 / 100);
+      $this->tabAngle[$j]=($tmp['pourc_reste'] * 360);
       $tmp[$j]=$tmp['reste'];
       $this->tabPourc[$j]=$tmp['pourc_reste'];
       unset($tmp['reste']);
