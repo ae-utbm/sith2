@@ -186,7 +186,6 @@ if (isset($_REQUEST['start']))
     $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
     $start=-21;
   }
-  echo "<h1>Classement</h1>\n";
   echo "<h1>Pages visit&eacute;es visit&eacute;s</h1>\n";
   echo "<center>\n";
   $sqlt = new sqltable("top_full",
@@ -240,7 +239,6 @@ $cts->add_paragraph("Remettre &agrave; z&eacute;ro les stats du site ae.".
 $site->add_contents($cts);
 
 $cts = new contents("Pages visit&eacute;es visit&eacute;s");
-$cts->add_paragraph("<center>");
 $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
 
 $sqlt = new sqltable("top_full",
@@ -252,8 +250,7 @@ $sqlt = new sqltable("top_full",
                      array(),
                      array()
                     );
-$cts->add_paragraph($sqlt->html_render());
-$cts->add_paragraph("</center>");
+$cts->add_paragraph("<center>".$sqlt->html_render()."</center>");
 $cts->add_paragraph("<center><a href=\"javascript:next(this, 21)\">Voir les 20 suivants</a></center>");
 $site->add_contents($cts);
 /*
