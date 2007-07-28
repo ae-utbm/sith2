@@ -698,6 +698,8 @@ class camembert
     if ($this->largeurLegend>20)
       $this->legend();
 
+    imageantialias($this->img, true);
+
     if($watermark)
     {
       $img_wmarked = new img_watermark ($this->img);
