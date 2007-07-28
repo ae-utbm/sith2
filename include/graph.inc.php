@@ -683,7 +683,7 @@ class camembert
   }
 
 
-  function png_render ($watermark=true)
+  function png_render ($watermark=false)
   {
     $this->initColor();
     $this->drawGraph();
@@ -701,8 +701,7 @@ class camembert
     header("Content-Type: image/png");
     if($watermark)
 		{
-      imagecopy($dstim,$this->img,0,0,0,0,$this->largeurImg,$this->hauteurImg);
-			$img_wmarked = new img_watermark ($dstim);
+			$img_wmarked = new img_watermark ($this->img);
       imagepng($img_wmarked);
     }
     else
