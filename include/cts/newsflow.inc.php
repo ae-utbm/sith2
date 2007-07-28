@@ -373,10 +373,10 @@ class newsday extends newslister
   			"AND `nvl_dates`.`date_debut_eve` <= '" . date("Y-m-d",$day+24*60*60) ." 05:59:59' " .
   			"AND `nvl_dates`.`date_fin_eve` >= '" . date("Y-m-d",$day) ." 06:00:00' ";
 
-		if ( is_null($this->id_asso) )
+		if ( is_null($id_asso) )
 		  $sql .= "AND asso_seule_nvl='0' ";
 		else
-		  $sql .= "AND id_asso='".mysql_real_escape_string($this->id_asso)."' ";
+		  $sql .= "AND id_asso='".mysql_real_escape_string($id_asso)."' ";
 
     $sql .= "ORDER BY nvl_dates.date_debut_eve ";
 
