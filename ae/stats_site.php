@@ -29,22 +29,55 @@ $site = new site ();
 if (!$site->user->is_in_group ("gestion_ae"))
   error_403();
 
+$color=array(0 => "FFF200",
+             1 => "FFE700",
+						 2 => "FFCD00",
+						 3 => "FFC600",
+						 4 => "FFB000",
+						 5 => "FFA500",
+						 6 => "FF9A00",
+						 7 => "FF8F00",
+						 8 => "FF8400",
+						 9 => "FF7900",
+						 10=> "FF7200",
+						 11=> "FF6500",
+						 12=> "FF5A00",
+						 13=> "FF5000",
+						 14=> "FF4400",
+						 15=> "FF3A00",
+						 16=> "FF2F00",
+						 17=> "FF2400",
+						 18=> "FF1A00",
+						 19=> "FF1000",
+						 20=> "FF0000");
 
 if ( $_REQUEST["action"] == "os" )
 {
   $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
-  $cam=new camembert(600,500,array(0 => '#ffffff'),2,20,0,10,0.25,10,10,10,150);
-  while($row=$req->get_row())
-    $cam->data($row['visites'], "#cccccc", $row['os']);
+	$cam=new camembert(600,500,array(0 => '#ffffff'),2,20,0,10,0.25,10,10,10,150);
+  $i=20;
+	while($row=$req->get_row())
+  {
+		$cam->data($row['visites'], "#cccccc", $row['os']);
+    $i--;
+    if($i<0)
+      $i=20;
+  }
   $cam->png_render();
   exit();
 }
 if ( $_REQUEST["action"] == "browser" )
 {
   $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
-  $cam=new camembert(600,500,array(0 => '#ffffff'),2,20,0,10,0.25,10,10,10,150);
-  while($row=$req->get_row())
-    $cam->data($row['visites'], "#cccccc", $row['browser']);
+	$cam=new camembert(600,500,array(0 => '#ffffff'),2,20,0,10,0.25,10,10,10,150);
+  $i=20;
+	while($row=$req->get_row())
+  {
+		$cam->data($row['visites'], "#cccccc", $row['browser']);
+    $i--;
+    if($i<0)
+      $i=20;
+  }
   $cam->png_render();
   exit();
 }
