@@ -220,9 +220,7 @@ document.getElementById('cts1').style.display = 'none';
 $cts->add_paragraph("<script language=\"javascript\">
 function next(obj, start)
 {
-  document.getElementById('cts2').style.display = 'none';
-  openInContents('cts1', './stats_site.php', 'start='+start);
-  document.getElementById('cts1').style.display = 'block';
+  openInContents('cts2', './stats_site.php', 'start='+start);
 }
 </script>\n");
 $site->add_contents($cts);
