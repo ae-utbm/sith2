@@ -195,7 +195,7 @@ if (isset($_REQUEST['start']))
                        array(),
                        array(),
                        array()
-                      ),true);
+                      );
 
   echo $sqlt->html_render();
   echo "</center>";
