@@ -209,6 +209,21 @@ if (isset($_REQUEST['start']))
 
 $site->start_page ("none", "statistiques du site");
 
+$cts = new contents("", "");
+$cts->add_paragraph("<script language=\"javascript\">
+document.getElementById('cts1').style.display = 'none';
+</script>\n");
+
+$cts->add_paragraph("<script language=\"javascript\">
+function next(obj, start)
+{
+  openInContents('cts1', './stats_site.php', 'start='+start);
+  document.getElementById('cts1').style.display = 'block';
+}
+</script>\n
+<center>\n");
+$site->add_contents($cts);
+
 $cts = new contents("Classement");
 
 if ( $_REQUEST["action"] == "reset" )
@@ -225,21 +240,6 @@ $cts->add_paragraph("Remettre &agrave; z&eacute;ro les stats du site ae.".
                     "<br /><img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : <a href=\"stats_site.php?action=reset\">Reset !</a>");
 
 $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
-$site->add_contents($cts);
-
-$cts = new contents("", "");
-$cts->add_paragraph("<script language=\"javascript\">
-document.getElementById('cts1').style.display = 'none';
-</script>\n");
-
-$cts->add_paragraph("<script language=\"javascript\">
-function next(obj, start)
-{
-  openInContents('cts1', './stats_site.php', 'start='+start);
-  document.getElementById('cts1').style.display = 'block';
-}
-</script>\n
-<center>\n");
 
 $cts->add(new sqltable("top_full",
                        "Pages visit&eacute;es visit&eacute;s", $req, "stats.php",
