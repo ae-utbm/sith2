@@ -1,1 +1,11 @@
 @import url("/css/sas.css");
+
+#sasimg
+{
+  width:600px;
+}
+
+#photoinfo
+{
+  width:250px;
+}

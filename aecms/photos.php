@@ -322,30 +322,6 @@ if ( $photo->is_valid() )
   else
     $exdata="";
 
-  if ( $_REQUEST["fetch"] == "script" )
-  {
-    echo "openInContents( 'cts1', 'photos.php', '".$exdata."id_photo=".$photo->id."&fetch=cts1');";
-    if ( $_REQUEST["diaporama"] > 0 && ( $idx != $count-1 ) )
-    {
-      echo "cache5.src=\"images.php?/".$photos[$idx+1].".diapo.jpg\";\n";
-      echo "setTimeout(\"evalCommand('photos.php', '".$exdata."id_photo=".$photos[$idx+1]."&fetch=script&diaporama=".intval($_REQUEST["diaporama"])."')\", ".intval($_REQUEST["diaporama"]).");";
-    }
-    exit();
-  }
-
-  if ( $_REQUEST["diaporama"] > 0 && ( $idx != $count-1 ) )
-  {
-    $cts->puts("<script>" .
-        "cache1= new Image(); cache1.src=\"".$wwwtopdir."images/to_prev.png\";".
-        "cache2= new Image(); cache2.src=\"".$wwwtopdir."images/to_next.png\";".
-        "cache3= new Image(); cache3.src=\"".$wwwtopdir."images/icons/16/catph.png\";".
-        "cache4= new Image(); cache4.src=\"".$wwwtopdir."images/icons/16/photo.png\";".
-        "cache5= new Image(); cache5.src=\"images.php?/".$photos[$idx+1].".diapo.jpg\";".
-        "cache6= new Image(); cache6.src=\"".$wwwtopdir."images/user.png\";".
-        "cache7= new Image(); cache7.src=\"".$wwwtopdir."images/actions/delete.png\";");
-    $cts->puts("setTimeout(\"evalCommand('photos.php', '".$exdata."id_photo=".$photos[$idx+1]."&fetch=script&diaporama=".intval($_REQUEST["diaporama"])."')\", ".intval($_REQUEST["diaporama"]).");");
-    $cts->puts("</script>");
-  }
 
   $subcts = new contents();
 
@@ -354,7 +330,7 @@ if ( $photo->is_valid() )
   if ( $idx != 0 )
   {
     $subcts->puts("<div id=\"back\">");
-    $subcts->puts("<a href=\"".$self."id_photo=".$photos[$idx-1]."\" onclick=\"openInContents( 'cts1', './', '".$exdata."id_photo=".$photos[$idx-1]."&fetch=cts1'); return false;\">");
+    $subcts->puts("<a href=\"".$self."id_photo=".$photos[$idx-1]."\">");
     $subcts->puts("<img src=\"images.php?/".$photos[$idx-1].".vignette.jpg\" alt=\"Precedent\" class=\"mininav\" />");
     $subcts->puts("<img src=\"".$wwwtopdir."images/to_prev.png\" alt=\"Precedent\" class=\"mininavbtn\" />");
     $subcts->puts("</a>");
@@ -364,7 +340,7 @@ if ( $photo->is_valid() )
   if ( $idx != $count-1 )
   {
     $subcts->puts("<div id=\"next\">");
-    $subcts->puts("<a href=\"".$self."id_photo=".$photos[$idx+1]."\" onclick=\"openInContents( 'cts1', './', '".$exdata."id_photo=".$photos[$idx+1]."&fetch=cts1'); return false;\">");
+    $subcts->puts("<a href=\"".$self."id_photo=".$photos[$idx+1]."\">");
     $subcts->puts("<img src=\"images.php?/".$photos[$idx+1].".vignette.jpg\" alt=\"Suivant\" class=\"mininav\" />");
     $subcts->puts("<img src=\"".$wwwtopdir."images/to_next.png\" alt=\"Suivant\" class=\"mininavbtn\" />");
     $subcts->puts("</a>");
@@ -665,7 +641,6 @@ if ( $nb>0 || $cat->is_right($site->user,DROIT_AJOUTITEM) )
   }
 
   $tabs = array(array("",$self."id_catph=".$cat->id, "photos - $nb"),
-          array("diaporama",$self."view=diaporama&id_catph=".$cat->id,"diaporama"),
           array("tools",$self."view=tools&id_catph=".$cat->id,($nbtcad>0||$nbtcus>0)?"<b>outils !!</b>":"outils"),
           array("stats",$self."view=stats&id_catph=".$cat->id,"statistiques"));
 
@@ -720,20 +695,6 @@ elseif ( $_REQUEST["view"] == "add" && $cat->is_right($site->user,DROIT_AJOUTITE
   $frm->add_entity_select ( "id_asso", "Association/Club lié", $site->db, "asso",$asso->id,true);
   $frm->add_rights_field($cat,false,$cat->is_admin($site->user));
   $frm->add_submit("valid","Ajouter");
-
-  $cts->add($frm);
-}
-elseif ( $_REQUEST["view"] == "diaporama" && $nb > 0 )
-{
-  $sqlph = $cat->get_photos ( $cat->id, $site->user, $grps, "sas_photos.id_photo", " LIMIT 1");
-  list($id_photo)=$sqlph->get_row();
-
-
-  $cts->add_paragraph("<br/>Selectionnez l'interval entre deux photos, et lancez le diaporama.<br/>");
-
-  $frm = new form("diaporama",$self."id_photo=".$id_photo);
-  $frm->add_select_field("diaporama","Interval",array(1000=>"1 seconde",3000=>"3 secondes",5000=>"5 secondes"),3000);
-  $frm->add_submit("valid","Lancer");
 
   $cts->add($frm);
 }
