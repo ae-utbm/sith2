@@ -562,12 +562,12 @@ class camembert
         if(isset($tmp['reste']))
         {
           $tmp['reste']=$tmp['reste']+$this->tabValue[$i];
-          $tmp['pourc_reste']=$tmp['pourc_reste']+($this->tabValue[$i] * 100 / $total);
+          $tmp['pourc_reste']=$tmp['pourc_reste']+$this->tabValue[$i];
         }
         else
         {
           $tmp['reste']=$this->tabValue[$i];
-          $tmp['pourc_reste']=($this->tabValue[$i] * 100 / $total);
+          $tmp['pourc_reste']=$this->tabValue[$i];
         }
       }
       else
@@ -582,8 +582,9 @@ class camembert
     for ($i=0; $i<$j; $i++)
       $this->tabAngle[$i]=($this->tabPourc[$i] * 360 / 100);
     if(isset($tmp['reste']))
-    {
-      $this->tabAngle[$j]=($tmp['pourc_reste'] * 360);
+		{
+			$this->tabPourc[$j]=($tmp['pourc_reste'] * 100 / $total);
+      $this->tabAngle[$j]=($this->tabPourc[$j] * 360 / 100);
       $tmp[$j]=$tmp['reste'];
       $this->tabPourc[$j]=$tmp['pourc_reste'];
       unset($tmp['reste']);
