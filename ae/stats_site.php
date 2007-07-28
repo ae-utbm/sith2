@@ -216,15 +216,14 @@ if (isset($_REQUEST['start']))
 
 $site->start_page ("none", "statistiques du site");
 
+$cts = new contents("Classement");
+
 $cts->add_paragraph("<script language=\"javascript\">
 function next(obj, start)
 {
   openInContents('cts2', './stats_site.php', 'start='+start);
 }
 </script>\n");
-$site->add_contents($cts);
-
-$cts = new contents("Classement");
 
 if ( $_REQUEST["action"] == "reset" )
 {
