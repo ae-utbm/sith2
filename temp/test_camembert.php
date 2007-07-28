@@ -33,7 +33,7 @@ $valeur=array('50',
 $cam=new camembert();
 
 for ($i=0; $i<count($valeur); $i++)
-  $cam->data(valeur[$i],$color[$i], '');
+  $cam->data($valeur[$i],$color[$i], '');
 
 $cam->png_render();
 
