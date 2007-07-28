@@ -252,8 +252,9 @@ $cts->add(new sqltable("top_full",
                        array(),
                        array(),
                        array()
-                     ),true);
-$cts->add_paragraph("\n<a href=\"javascript:next(this, 20)\">Voir les 20 suivants</a>");
+										 ),true);
+$cts->add_paragraph("</center>");
+$cts->add_paragraph("<center><a href=\"javascript:next(this, 20)\">Voir les 20 suivants</a></center>");
 $site->add_contents($cts);
 /*
 $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
