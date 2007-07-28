@@ -31,149 +31,25 @@ require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir . "include/graph.inc.php");
 $site = new site ();
 
-function dec2hex($val)
-{
-  $hex="";
-  for($i=0; $i<3; $i++)
-  {
-    $temp = dechex($val[$i]);
-    if(strlen($temp) < 2)
-      $hex .= "0". $temp;
-    else
-      $hex .= $temp;
-  }
-  return $hex;
-}
-
 if ( $_REQUEST["action"] == "os" )
 {
-  $color=array(255=>0,1=>0,2=>0);
-  $_color="#FF0000";
-  $inc=50;
   $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
   $cam=new camembert(600,500,array(),2,0,0,0,0,0,0,10,150);
-  $i=1;
   while($row=$req->get_row())
-  {
-    $cam->data($row['visites'], $_color, $row['os']);
-    if($i==1)
-    {
-      if($color[0]!=0)
-      {
-        $color[0]=$color[0]-$inc;
-        if($color[0]<0)
-          $color[0]=0;
-      }
-      elseif($color[1]!=0)
-      {
-        $color[1]=$color[1]-$inc;
-        if($color[1]<0)
-          $color[1]=0;
-      }
-      elseif($color[2]!=0)
-      {
-        $color[2]=$color[2]-$inc;
-        if($color[2]<0)
-          $color[2]=0;
-      }
-      else
-        $i=0;
-      $_color=dec2hex($color);
-    }
-    if($i==0)
-    {
-      if($color[2]!=255)
-      {
-        $color[2]=$color[2]+$inc;
-        if($color[2]>255)
-          $color[2]=255;
-      }
-      elseif($color[0]!=255)
-      {
-        $color[0]=$color[0]+$inc;
-        if($color[0]>255)
-          $color[0]=255;
-      }
-      elseif($color[1]!=255)
-      {
-        $color[1]=$color[1]+$inc;
-        if($color[1]>255)
-          $color[1]=255;
-      }
-      else
-      {
-        $color[0]=$color[0]-$inc;
-        $i=1;
-      }
-      $_color=dec2hex($color);
-    }
-  }
+    $cam->data($row['visites'], $row['os']);
   $cam->png_render();
   exit();
 }
 
 if ( $_REQUEST["action"] == "browser" )
 {
-  $color=array(255=>0,1=>0,2=>0);
-  $_color="#FF0000";
-  $inc=50;
   $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
   $cam=new camembert(600,500,array(),2,0,0,0,0,0,0,10,150);
-  $i=1;
   while($row=$req->get_row())
   {
-    $cam->data($row['visites'], $_color, $row['browser']);
-    if($i==1)
-    {
-      if($color[0]!=0)
-      {
-        $color[0]=$color[0]-$inc;
-        if($color[0]<0)
-          $color[0]=0;
-      }
-      elseif($color[1]!=0)
-      {
-        $color[1]=$color[1]-$inc;
-        if($color[1]<0)
-          $color[1]=0;
-      }
-      elseif($color[2]!=0)
-      {
-        $color[2]=$color[2]-$inc;
-        if($color[2]<0)
-          $color[2]=0;
-      }
-      else
-        $i=0;
-      $_color=dec2hex($color);
-    }
-    if($i==0)
-    {
-      if($color[2]!=255)
-      {
-        $color[2]=$color[2]+$inc;
-        if($color[2]>255)
-          $color[2]=255;
-      }
-      elseif($color[0]!=255)
-      {
-        $color[0]=$color[0]+$inc;
-        if($color[0]>255)
-          $color[0]=255;
-      }
-      elseif($color[1]!=255)
-      {
-        $color[1]=$color[1]+$inc;
-        if($color[1]>255)
-          $color[1]=255;
-      }
-      else
-      {
-        $color[0]=$color[0]-$inc;
-        $i=1;
-      }
-      $_color=dec2hex($color);
-    }
+    if($row['browser']=="Autre")
+      $row['browser']=="Inconnus";
+    $cam->data($row['visites'], $row['browser']);
   }
   $cam->png_render();
   exit();
@@ -777,7 +653,7 @@ elseif ( $_REQUEST["view"] == "comptoirs" )
 }
 else
 {
-	$cts->add_paragraph("<br />Vous trouverez ici l'ensemble des statistiques (complètement in)utiles du site AE. ".
+  $cts->add_paragraph("<br />Vous trouverez ici l'ensemble des statistiques (complètement in)utiles du site AE. ".
                       "Enjoy it ;)");
 }
 

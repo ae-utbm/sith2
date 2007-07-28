@@ -530,21 +530,11 @@ class camembert
     $this->hauteurCam=(($tab[3] - ($tab[3] * $this->inclinaison / 100)) *2);
   }
 
-
-  function data($v, $c, $com)
+  function data($v, $com="")
   {
-    $tabColor=$this->hexa2rvb($c);
-    $this->tabColor[]= imagecolorallocate($this->img, $tabColor[0],$tabColor[1],$tabColor[2]);
-
-    $tabColor1[0]=round($tabColor[0]* (1.05 - $this->ombre));
-    $tabColor1[1]=round($tabColor[1]* (1.05 - $this->ombre));
-    $tabColor1[2]=round($tabColor[2]* (1.05 - $this->ombre));
-    $this->tabColorOmbre[]= imagecolorallocate($this->img, $tabColor1[0],$tabColor1[1],$tabColor1[2]);
-
     $this->tabValue[]= $v;
     $this->tabComment[]= $com;
   }
-
 
   function dataTreat()
   {
@@ -598,13 +588,41 @@ class camembert
 
   function traceArc($img, $ombre=0)
   {
-    if ($ombre==0)
+    $this->tabColor[]=imagecolorallocate($this->img, 255, 255, 0 );
+    $this->tabColor[]=imagecolorallocate($this->img, 255, 220, 0 );
+    $this->tabColor[]=imagecolorallocate($this->img, 255, 198, 0 );
+    $this->tabColor[]=imagecolorallocate($this->img, 255, 176, 0 );
+    $this->tabColor[]=imagecolorallocate($this->img, 255, 154, 0 );
+    $this->tabColor[]=imagecolorallocate($this->img, 255, 143, 0 );
+    $this->tabColor[]=imagecolorallocate($this->img, 255, 121, 0 );
+    $this->tabColor[]=imagecolorallocate($this->img, 255, 114, 0 );
+    $this->tabColor[]=imagecolorallocate($this->img, 255, 101, 0 );
+    $this->tabColor[]=imagecolorallocate($this->img, 255, 68 , 0 );
+    $this->tabColor[]=imagecolorallocate($this->img, 255, 0  , 0 );
+    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (255*(1.05-$this->ombre)), 0 );
+    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (220*(1.05-$this->ombre)), 0 );
+    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (198*(1.05-$this->ombre)), 0 );
+    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (176*(1.05-$this->ombre)), 0 );
+    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (154*(1.05-$this->ombre)), 0 );
+    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (143*(1.05-$this->ombre)), 0 );
+    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (121*(1.05-$this->ombre)), 0 );
+    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (114*(1.05-$this->ombre)), 0 );
+    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (101*(1.05-$this->ombre)), 0 );
+    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (68 *(1.05-$this->ombre)), 0 );
+    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (0  *(1.05-$this->ombre)), 0 );
+
+    $col=count($this->tabColor);
+    if ($ombre!=0)
     {
       for ($j=$this->prodondeurGraph; $j>0; $j--)
       {
+        $col=count($this->tabColor);
         $sommeAngle=0;
         for ($i=0; $i<$this->nbrdata; $i++)
         {
+          $col--;
+          if($col<0)
+            $col=count($this->tabColor)-1;
           $aStart=((isset($this->tabAngle[$i-1]))? $aStart+$this->tabAngle[$i-1] : 0);
           imagefilledarc( $img,
                           ($this->centreXCam + ($this->spacing * cos(deg2rad($sommeAngle + ($this->tabAngle[$i] / 2))))),
@@ -613,7 +631,7 @@ class camembert
                           $this->hauteurCam,
                           $aStart,
                           ($aStart + $this->tabAngle[$i]),
-                          $this->tabColorOmbre[$i],
+                          $this->tabColorOmbre[$col],
                           IMG_ARC_EDGED);
 
           $sommeAngle+=$this->tabAngle[$i];
@@ -622,8 +640,12 @@ class camembert
     }
 
     $sommeAngle=0;
+    $col=count($this->tabColor);
     for ($i=0; $i<$this->nbrdata; $i++)
     {
+      $col--;
+      if($col<0)
+        $col=count($this->tabColor)-1;
       $aStart=((isset($this->tabAngle[$i-1]))? $aStart+$this->tabAngle[$i-1] : 0);
       imagefilledarc($img,
                      ($this->centreXCam + ($this->spacing * cos(deg2rad($sommeAngle + ($this->tabAngle[$i] / 2))))),
@@ -632,7 +654,7 @@ class camembert
                      $this->hauteurCam,
                      $aStart,
                      ($aStart + $this->tabAngle[$i]),
-                     $this->tabColor[$i],
+                     $this->tabColor[$col],
                      IMG_ARC_EDGED);
       $sommeAngle+=$this->tabAngle[$i];
     }
