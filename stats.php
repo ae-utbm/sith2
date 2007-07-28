@@ -3,6 +3,7 @@
 /* Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
+ * - Simon Lopez < simon DOT lopez AT ayolo DOT org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -27,9 +28,193 @@ $topdir = "./";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
+require_once($topdir . "include/graph.inc.php");
 $site = new site ();
 
+function dec2hex($val)
+{
+  $hex="";
+  for($i=0; $i<3; $i++)
+  {
+    $temp = dechex($val[$i]);
+    if(strlen($temp) < 2)
+      $hex .= "0". $temp;
+    else
+      $hex .= $temp;
+  }
+  return $hex;
+}
 
+if ( $_REQUEST["action"] == "os" )
+{
+  $color=array(255=>0,1=>0,2=>0);
+  $_color="#FF0000";
+  $inc=50;
+  $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
+  $cam=new camembert(600,500,array(),2,20,0,0,0,0,0,10,150);
+  $i=1;
+  while($row=$req->get_row())
+  {
+    $cam->data($row['visites'], $_color, $row['os']);
+    if($i==1)
+    {
+      if($color[0]!=0)
+      {
+        $color[0]=$color[0]-$inc;
+        if($color[0]<0)
+          $color[0]=0;
+      }
+      elseif($color[1]!=0)
+      {
+        $color[1]=$color[1]-$inc;
+        if($color[1]<0)
+          $color[1]=0;
+      }
+      elseif($color[2]!=0)
+      {
+        $color[2]=$color[2]-$inc;
+        if($color[2]<0)
+          $color[2]=0;
+      }
+      else
+        $i=0;
+      $_color=dec2hex($color);
+    }
+    if($i==0)
+    {
+      if($color[2]!=255)
+      {
+        $color[2]=$color[2]+$inc;
+        if($color[2]>255)
+          $color[2]=255;
+      }
+      elseif($color[0]!=255)
+      {
+        $color[0]=$color[0]+$inc;
+        if($color[0]>255)
+          $color[0]=255;
+      }
+      elseif($color[1]!=255)
+      {
+        $color[1]=$color[1]+$inc;
+        if($color[1]>255)
+          $color[1]=255;
+      }
+      else
+      {
+        $color[0]=$color[0]-$inc;
+        $i=1;
+      }
+      $_color=dec2hex($color);
+    }
+  }
+  $cam->png_render();
+  exit();
+}
+
+if ( $_REQUEST["action"] == "browser" )
+{
+  $color=array(255=>0,1=>0,2=>0);
+  $_color="#FF0000";
+  $inc=50;
+  $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
+  $cam=new camembert(600,500,array(),2,20,0,0,0,0,0,10,150);
+  $i=1;
+  while($row=$req->get_row())
+  {
+    $cam->data($row['visites'], $_color, $row['os']);
+    if($i==1)
+    {
+      if($color[0]!=0)
+      {
+        $color[0]=$color[0]-$inc;
+        if($color[0]<0)
+          $color[0]=0;
+      }
+      elseif($color[1]!=0)
+      {
+        $color[1]=$color[1]-$inc;
+        if($color[1]<0)
+          $color[1]=0;
+      }
+      elseif($color[2]!=0)
+      {
+        $color[2]=$color[2]-$inc;
+        if($color[2]<0)
+          $color[2]=0;
+      }
+      else
+        $i=0;
+      $_color=dec2hex($color);
+    }
+    if($i==0)
+    {
+      if($color[2]!=255)
+      {
+        $color[2]=$color[2]+$inc;
+        if($color[2]>255)
+          $color[2]=255;
+      }
+      elseif($color[0]!=255)
+      {
+        $color[0]=$color[0]+$inc;
+        if($color[0]>255)
+          $color[0]=255;
+      }
+      elseif($color[1]!=255)
+      {
+        $color[1]=$color[1]+$inc;
+        if($color[1]>255)
+          $color[1]=255;
+      }
+      else
+      {
+        $color[0]=$color[0]-$inc;
+        $i=1;
+      }
+      $_color=dec2hex($color);
+    }
+  }
+  $cam->png_render();
+  exit();
+}
+
+if (isset($_REQUEST['stats_site_start']))
+{
+  $start = mysql_real_escape_string($_REQUEST['stats_site_start']);
+  $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT ".$start.",20");
+
+  if ($req->lines < 20)
+  {
+    $txt = "retour au d&eacute;but  ...";
+    $start=-21;
+  }
+  else
+    $txt = "Voir les 20 suivants ...";
+  if ($req->lines <= 0)
+  {
+    $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
+    $start=-21;
+  }
+  echo "<h1>Pages visit&eacute;es visit&eacute;s</h1>\n";
+  echo "<center>\n";
+  $sqlt = new sqltable("top_full",
+                       "Pages visit&eacute;es visit&eacute;s", $req, "stats.php",
+                       "page",
+                       array("page"=>"page",
+                             "visites"=>"Visites"),
+                       array(),
+                       array(),
+                       array()
+                      );
+
+  echo $sqlt->html_render();
+  $start = $start+21;
+  echo "\n<a href=\"javascript:next(this, $start)\">".$txt."</a>";
+  echo "</center>";
+
+  exit();
+}
 
 $site->start_page("none","Statistiques");
 $cts = new contents("Statistiques");
@@ -38,7 +223,7 @@ $cts = new contents("Statistiques");
 $tabs = array(array("","stats.php", "Informations"),
               array("cotisants","stats.php?view=cotisants", "Cotisants"),
               array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
-              array("site","stats.php?view=site", "Site"),
+              array("site","stats.php?view=site", "Statistiques du site"),
               array("sas","stats.php?view=sas", "SAS"),
               array("forum","stats.php?view=forum", "Forum"),
               array("comptoirs","stats.php?view=comptoirs", "Comptoirs")
@@ -277,8 +462,54 @@ elseif ( $_REQUEST["view"] == "site" )
 {
   if (!$site->user->is_in_group ("gestion_ae"))
   {
-    error_403();
+    if ( $_REQUEST["action"] == "reset" )
+    {
+      $req = new requete($site->dbrw, "DELETE FROM `stats_page` WHERE `page`!=''");
+      $req = new requete($site->dbrw, "DELETE FROM `stats_os` WHERE `os`!=''");
+      $req = new requete($site->dbrw, "DELETE FROM `stats_browser` WHERE `browser`!=''");
+      $cts->add_title(2, "Reset");
+      $cts->add_paragraph("Le reset des stats a &eacute;t&eacute; effectu&eacute; avec succ&egrave;s");
+    }
+
+    $cts->add_title(2, "Administration");
+    $cts->add_paragraph("Remettre &agrave; z&eacute;ro les stats du site ae.".
+      "<br /><img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : <a href=\"stats_site.php?view=site&action=reset\">Reset !</a>");
+    $cts->add_paragraph("<script language=\"javascript\">
+    function next(obj, start)
+    {
+      openInContents('cts2', './stats_site.php', 'start='+start);
+    }
+    </script>\n");
+    $site->add_contents($cts);
+
+    $cts = new contents("Pages visit&eacute;es visit&eacute;s");
+    $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
+    if($req->lines<20)
+      $less=true;
+    else
+      $less=false;
+    $sqlt = new sqltable("top_full",
+                         "", $req, "stats.php",
+                         "page",
+                         array("page"=>"page",
+                               "visites"=>"Visites"),
+                         array(),
+                         array(),
+                         array()
+                        );
+    $cts->add_paragraph("<center>".$sqlt->html_render()."</center>");
+    if(!$less)
+      $cts->add_paragraph("<center><a href=\"javascript:next(this, 21)\">Voir les 20 suivants ...</a></center>");
   }
+
+  $site->add_contents($cts);
+
+  $cts = new contents("Navigateurs utilis&eacute;s");
+  $cts->add_paragraph("<center><img src=\"stats.php?action=browser\" alt=\"navigateurs utilis&eacute;s\" /></center>\n");
+  $site->add_contents($cts);
+
+  $cts = new contents("Syst&egrave;mes d'exploitation utilis&eacute;s");
+  $cts->add_paragraph("<center><img src=\"stats_site.php?action=os\" alt=\"syst&egrave;mes d'exploitation utilis&eacute;s\" /></center>\n");
 }
 elseif ( $_REQUEST["view"] == "sas" )
 {
