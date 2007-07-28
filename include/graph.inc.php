@@ -582,11 +582,10 @@ class camembert
     for ($i=0; $i<$j; $i++)
       $this->tabAngle[$i]=($this->tabPourc[$i] * 360 / 100);
     if(isset($tmp['reste']))
-		{
-			$this->tabPourc[$j]=($tmp['pourc_reste'] * 100 / $total);
+    {
+      $this->tabPourc[$j]=($tmp['pourc_reste'] * 100 / $total);
       $this->tabAngle[$j]=($this->tabPourc[$j] * 360 / 100);
       $tmp[$j]=$tmp['reste'];
-      $this->tabPourc[$j]=$tmp['pourc_reste'];
       unset($tmp['reste']);
       unset($tmp['pourc_reste']);
       $comments[$j]="Reste";
