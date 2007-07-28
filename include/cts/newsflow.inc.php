@@ -362,8 +362,6 @@ class newsday extends newslister
 
   function newsday ( $db, $day, $is_asso = null )
   {
-    echo "id_asso=$is_asso";
-    
   	$this->class="nvls";
 
     $sql = "SELECT nvl_nouvelles.*,".
@@ -378,7 +376,7 @@ class newsday extends newslister
 		if ( is_null($id_asso) )
 		  $sql .= "AND asso_seule_nvl='0' ";
 		else
-		  $sql .= "AND id_asso='".mysql_real_escape_string($id_asso)."' ";
+		  $sql .= "AND nvl_nouvelles.id_asso='".mysql_real_escape_string($id_asso)."' ";
 
     $sql .= "ORDER BY nvl_dates.date_debut_eve ";
 
