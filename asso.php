@@ -179,7 +179,7 @@ else if ( isset($_REQUEST["id_asso"]) )
     $site->end_page();
     exit();
 	}
-
+  $site->add_css("css/doku.css");
 	$site->start_page("presentation",$asso->nom);
 
 	$cts = new contents($asso->get_html_path());
