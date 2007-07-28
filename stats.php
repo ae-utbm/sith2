@@ -219,16 +219,27 @@ if (isset($_REQUEST['stats_site_start']))
 $site->start_page("none","Statistiques");
 $cts = new contents("Statistiques");
 
+if (!$site->user->is_in_group ("gestion_ae"))
+{
+  $tabs = array(array("","stats.php", "Informations"),
+                array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
+                array("site","stats.php?view=site", "Statistiques du site"),
+                array("sas","stats.php?view=sas", "SAS"),
+                array("comptoirs","stats.php?view=comptoirs", "Comptoirs")
+                );
+}
+else
+{
+  $tabs = array(array("","stats.php", "Informations"),
+                array("cotisants","stats.php?view=cotisants", "Cotisants"),
+                array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
+                array("site","stats.php?view=site", "Statistiques du site"),
+                array("sas","stats.php?view=sas", "SAS"),
+                array("forum","stats.php?view=forum", "Forum"),
+                array("comptoirs","stats.php?view=comptoirs", "Comptoirs")
+                );
+}
 
-$tabs = array(array("","stats.php", "Informations"),
-              array("cotisants","stats.php?view=cotisants", "Cotisants"),
-              array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
-              array("site","stats.php?view=site", "Statistiques du site"),
-              array("sas","stats.php?view=sas", "SAS"),
-              array("forum","stats.php?view=forum", "Forum"),
-              array("comptoirs","stats.php?view=comptoirs", "Comptoirs")
-              );
-              
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 if ( $_REQUEST["view"] == "cotisants" )
@@ -473,15 +484,15 @@ elseif ( $_REQUEST["view"] == "site" )
 
     $cts->add_title(2, "Administration");
     $cts->add_paragraph("Remettre &agrave; z&eacute;ro les stats du site ae.".
-			"<br /><img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : ".
-			"<a href=\"stats_site.php?view=site&action=reset\" onClick= \"if (confirm('Voulez vous vraiment remettre les statistiques à zéro ? ')) { return true; } else { return false; }}\">Reset !</a>");
-	}
+      "<br /><img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : ".
+      "<a href=\"stats_site.php?view=site&action=reset\" onClick= \"if (confirm('Voulez vous vraiment remettre les statistiques à zéro ? ')) { return true; } else { return false; }}\">Reset !</a>");
+  }
   $cts->add_paragraph("<script language=\"javascript\">
   function next(obj, start)
   {
     openInContents('cts2', './stats.php', 'stats_site_start='+start);
   }
-	</script>\n");
+  </script>\n");
   $site->add_contents($cts);
 
   $cts = new contents("Pages visit&eacute;es visit&eacute;s");
