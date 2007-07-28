@@ -340,9 +340,12 @@ function linkformat($match)
   // liens
   else
     format_link($link,$name,$class,$target,$style,$pre,$post,$more);
-
+    
   //les dfiles://
-  $link = preg_replace("/dfile:\/\//i",$topdir."d.php?action=download&id_file=",$link);
+  $link = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$topdir."d.php?action=download&download=preview&id_file=$1",$link);
+  $link = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$topdir."d.php?action=download&download=thumb&id_file=$1",$link);
+  $link = preg_replace("/dfile:\/\/([0-9]*)/i",$topdir."d.php?action=download&id_file=$1",$link);
+
   //les article://
   $link = preg_replace("/article:\/\//i",$topdir."article.php?name=",$link);
   

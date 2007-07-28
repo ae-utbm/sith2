@@ -1,9 +1,12 @@
 <?php
-/* Copyright 2006
- * - Julien Etelain < julien at pmad dot net >
+/* 
+ * AECMS : CMS pour les clubs et activités de l'AE UTBM
+ *        
+ * Copyright 2007
+ * - Julien Etelain < julien dot etelain at gmail dot com >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
- * l'UTBM, http://ae.utbm.fr.
+ * l'UTBM, http://ae.utbm.fr/
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
