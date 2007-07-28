@@ -509,7 +509,7 @@ elseif ( $_REQUEST["view"] == "site" )
   $site->add_contents($cts);
 
   $cts = new contents("Syst&egrave;mes d'exploitation utilis&eacute;s");
-  $cts->add_paragraph("<center><img src=\"stats_site.php?action=os\" alt=\"syst&egrave;mes d'exploitation utilis&eacute;s\" /></center>\n");
+  $cts->add_paragraph("<center><img src=\"stats.php?action=os\" alt=\"syst&egrave;mes d'exploitation utilis&eacute;s\" /></center>\n");
 }
 elseif ( $_REQUEST["view"] == "sas" )
 {
