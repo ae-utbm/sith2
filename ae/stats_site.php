@@ -216,15 +216,10 @@ if (isset($_REQUEST['start']))
 
 $site->start_page ("none", "statistiques du site");
 
-$cts = new contents("", "");
-/*$cts->add_paragraph("<script language=\"javascript\">
-document.getElementById('cts2').style.display = 'none';
-</script>\n");*/
-
 $cts->add_paragraph("<script language=\"javascript\">
 function next(obj, start)
 {
-  openInContents('cts3', './stats_site.php', 'start='+start);
+  openInContents('cts2', './stats_site.php', 'start='+start);
 }
 </script>\n");
 $site->add_contents($cts);
