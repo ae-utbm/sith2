@@ -477,7 +477,7 @@ elseif ( $_REQUEST["view"] == "site" )
     $cts->add_paragraph("<script language=\"javascript\">
     function next(obj, start)
     {
-      openInContents('cts2', './stats_site.php', 'start='+start);
+      openInContents('cts2', './stats_site.php', 'stats_site_start='+start);
     }
     </script>\n");
     $site->add_contents($cts);
