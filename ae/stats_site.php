@@ -181,6 +181,13 @@ if (isset($_REQUEST['start']))
   $start = mysql_real_escape_string($_REQUEST['start']);
   $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT ".$start.",20");
 
+  if ($req->lines < 20)
+  {
+    $txt = "retour au d&eacute;";
+    $start=-21;
+  }
+  else
+    $txt = "Voir les 20 suivants";
   if ($req->lines <= 0)
   {
     $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
@@ -200,7 +207,7 @@ if (isset($_REQUEST['start']))
 
   echo $sqlt->html_render();
   $start = $start+21;
-  echo "\n<a href=\"javascript:next(this, $start)\">Voir les 20 suivants</a>";
+  echo "\n<a href=\"javascript:next(this, $start)\">".$txt."</a>";
   echo "</center>";
 
   exit();
@@ -240,7 +247,10 @@ $site->add_contents($cts);
 
 $cts = new contents("Pages visit&eacute;es visit&eacute;s");
 $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
-
+if($req->lines<20)
+  $less=true;
+else
+  $less=false;
 $sqlt = new sqltable("top_full",
                      "", $req, "stats.php",
                      "page",
@@ -251,7 +261,8 @@ $sqlt = new sqltable("top_full",
                      array()
                     );
 $cts->add_paragraph("<center>".$sqlt->html_render()."</center>");
-$cts->add_paragraph("<center><a href=\"javascript:next(this, 21)\">Voir les 20 suivants</a></center>");
+if(!$less)
+  $cts->add_paragraph("<center><a href=\"javascript:next(this, 21)\">Voir les 20 suivants</a></center>");
 $site->add_contents($cts);
 /*
 $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
