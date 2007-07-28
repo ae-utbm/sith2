@@ -51,15 +51,30 @@ $color=array(0 => "FFF200",
 //             19=> "FF1000",
              20=> "FF0000");
 
+function dec2hex($val)
+{
+	$hex="";
+	for($i=0; $i<3; $i++)
+	{
+		$temp = dechex($val[$i]);
+		if(strlen($temp) < 2)
+			$hex .= "0". $temp;
+		else
+			$hex .= $temp;
+	}
+	return $hex;
+}
+
 if ( $_REQUEST["action"] == "os" )
 {
-  $color=array(0=>255,1=>255,2=>255);
+	$color=array(0=>255,1=>255,2=>255);
+  $_color="#ffffff";
   $inc=50;
   $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
   $cam=new camembert(600,500,array(),2,20,0,10,0.25,10,10,10,150);
   while($row=$req->get_row())
   {
-    $cam->data($row['visites'], $color[$i], $row['os']);
+    $cam->data($row['visites'], $_color, $row['os']);
     if($i==1)
     {
       if($color[0]!=0)
@@ -81,7 +96,8 @@ if ( $_REQUEST["action"] == "os" )
           $color[2]=0;
       }
       else
-        $i=0;
+				$i=0;
+			$_color=dec2hex($color);
     }
     if($i==0)
     {
@@ -107,7 +123,8 @@ if ( $_REQUEST["action"] == "os" )
       {
         $color[0]=$color[0]-$inc;
         $i=1;
-      }
+			}
+			$_color=dec2hex($color);
     }
   }
   $cam->png_render();
