@@ -251,7 +251,7 @@ $sqlt = new sqltable("top_full",
                      array(),
                      array(),
                      array()
-                    ),true);
+                    );
 $cts->add_parapgraph($sqlt->html_render());
 $cts->add_paragraph("</center>");
 $cts->add_paragraph("<center><a href=\"javascript:next(this, 21)\">Voir les 20 suivants</a></center>");
