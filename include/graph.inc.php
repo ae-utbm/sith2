@@ -683,7 +683,7 @@ class camembert
   }
 
 
-  function png_render ($watermark=false)
+  function png_render ($watermark=true)
   {
     $this->initColor();
     $this->drawGraph();
@@ -698,14 +698,16 @@ class camembert
     if ($this->largeurLegend>20)
       $this->legend();
 
-    header("Content-Type: image/png");
     if($watermark)
 		{
 			$img_wmarked = new img_watermark ($this->img);
-      imagepng($img_wmarked);
+      $img_wmarked->output();
     }
-    else
-      imagepng($this->img);
+		else
+		{
+      header("Content-Type: image/png");
+			imagepng($this->img);
+    }
   }
 
 }
