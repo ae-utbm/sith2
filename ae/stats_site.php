@@ -176,6 +176,34 @@ if ( $_REQUEST["action"] == "browser" )
   exit();
 }
 
+if (isset($_REQUEST['start']))
+{
+  $start = mysql_real_escape_string($_REQUEST['start']);
+  $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT ".$start." 10");
+
+  if ($req->lines <= 0)
+  {
+    exit();
+	}
+
+  echo "<center>";
+	$sqlt = new sqltable("top_full",
+                       "Pages visit&eacute;es visit&eacute;s", $req, "stats.php",
+                       "page",
+                       array("page"=>"page",
+                             "visites"=>"Visites"),
+                       array(),
+                       array(),
+                       array()
+                      ),true);
+
+  echo $sqlt->html_render();
+  echo "</center>";
+
+  exit();
+}
+
+
 $site->start_page ("none", "statistiques du site");
 
 $cts = new contents("Classement");
@@ -193,19 +221,32 @@ $cts->add_title(2, "Administration");
 $cts->add_paragraph("Remettre &agrave; z&eacute;ro les stats du site ae.".
                     "<br /><img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : <a href=\"stats_site.php?action=reset\">Reset !</a>");
 
-$req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC");
+$req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 10");
 
+$cts = new contents("", "");
+$cts->add_paragraph("<script language=\"javascript\">
+document.getElementById('cts1').style.display = 'none';
+</script>\n");
+
+$cts->add_paragraph("<script language=\"javascript\">
+function next(obj, start)
+{
+  openInContents('cts1', './stats_site.php', 'start='+start);
+  document.getElementById('cts1').style.display = 'block';
+}
+</script>\n
+<center>\n");
 
 $cts->add(new sqltable("top_full",
                        "Pages visit&eacute;es visit&eacute;s", $req, "stats.php",
                        "page",
-                       array("=num" => "N°",
-                             "page"=>"page",
+                       array("page"=>"page",
                              "visites"=>"Visites"),
                        array(),
                        array(),
                        array()
-                      ),true);
+										 ),true);
+$cts->add_paragraph("\n<a href=\"javascript:next(this, 20)\">Voir les 20 suivants</a>");
 $site->add_contents($cts);
 /*
 $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
