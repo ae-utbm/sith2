@@ -683,7 +683,7 @@ class camembert
   }
 
 
-  function png_render ($watermark=true)
+  function png_render ($watermark=false)
   {
     $this->initColor();
     $this->drawGraph();
