@@ -189,7 +189,7 @@ if (isset($_REQUEST['start']))
   echo "<h1>Classement</h1>\n";
   echo "<h2>Administration</h2>\n";
   echo "<p>Remettre &agrave; z&eacute;ro les stats du site ae.<br /><img src=\"../images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : <a href=\"stats_site.php?action=reset\">Reset !</a></p>\n";
-  echo "<h2>Pages visit&eacute;es visit&eacute;s</h2>\n"
+  echo "<h2>Pages visit&eacute;es visit&eacute;s</h2>\n";
   echo "<center>\n";
   $sqlt = new sqltable("top_full",
                        "Pages visit&eacute;es visit&eacute;s", $req, "stats.php",
