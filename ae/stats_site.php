@@ -35,14 +35,18 @@ if ( $_REQUEST["action"] == "os" )
   $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
   $cam=new camembert(600,500,array(0 => '#ffffff'),2,20,0,10,0.25,10,10,10,60);
   while($row=$req->get_row())
-    $cam->data($row['visites'], "#cccccc", $row['os']);
+		$cam->data($row['visites'], "#cccccc", $row['os']);
+  $cam->png_render();
+  exit();
 }
 if ( $_REQUEST["action"] == "browser" )
 {
   $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
   $cam=new camembert(600,500,array(0 => '#ffffff'),2,20,0,10,0.25,10,10,10,60);
   while($row=$req->get_row())
-    $cam->data($row['visites'], "#cccccc", $row['browser']);
+		$cam->data($row['visites'], "#cccccc", $row['browser']);
+  $cam->png_render();
+  exit();
 }
 
 $site->start_page ("none", "statistiques du site");
