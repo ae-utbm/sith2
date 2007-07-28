@@ -24,6 +24,8 @@
  * 02111-1307, USA.
  */
  
+$_GET['caldate'] = $_REQUEST["day"];
+
 require_once("include/site.inc.php");
 require_once($topdir. "include/cts/newsflow.inc.php");
 

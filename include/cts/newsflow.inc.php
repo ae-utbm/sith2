@@ -362,6 +362,8 @@ class newsday extends newslister
 
   function newsday ( $db, $day, $is_asso = null )
   {
+    echo "id_asso=$is_asso";
+    
   	$this->class="nvls";
 
     $sql = "SELECT nvl_nouvelles.*,".
