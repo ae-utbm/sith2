@@ -45,11 +45,11 @@ function dec2hex($val)
 
 if ( $_REQUEST["action"] == "os" )
 {
-  $color=array(0=>255,1=>255,2=>255);
-  $_color="#ffffff";
-  $inc=50;
+  $color=array(0=>0,1=>0,2=>0);
+  $_color="#000000";
+  $inc=-50;
   $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
-  $cam=new camembert(600,500,array(),2,20,0,10,0.25,10,10,10,150);
+  $cam=new camembert(600,500,array(),2,20,0,0,0,0,0,10,150);
   $i=1;
   while($row=$req->get_row())
   {
