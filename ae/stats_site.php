@@ -33,18 +33,18 @@ if (!$site->user->is_in_group ("gestion_ae"))
 if ( $_REQUEST["action"] == "os" )
 {
   $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
-  $cam=new camembert(600,500,array(0 => '#ffffff'),2,20,0,10,0.25,10,10,10,60);
+  $cam=new camembert(600,500,array(0 => '#ffffff'),2,20,0,10,0.25,10,10,10,150);
   while($row=$req->get_row())
-		$cam->data($row['visites'], "#cccccc", $row['os']);
+    $cam->data($row['visites'], "#cccccc", $row['os']);
   $cam->png_render();
   exit();
 }
 if ( $_REQUEST["action"] == "browser" )
 {
   $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
-  $cam=new camembert(600,500,array(0 => '#ffffff'),2,20,0,10,0.25,10,10,10,60);
+  $cam=new camembert(600,500,array(0 => '#ffffff'),2,20,0,10,0.25,10,10,10,150);
   while($row=$req->get_row())
-		$cam->data($row['visites'], "#cccccc", $row['browser']);
+    $cam->data($row['visites'], "#cccccc", $row['browser']);
   $cam->png_render();
   exit();
 }
@@ -78,7 +78,8 @@ $cts->add(new sqltable("top_full",
                        array(),
                        array(),
                        array()
-         ),true);
+                      ),true);
+$site->add_contents($cts);
 /*
 $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
 $cts->add(new sqltable("top_full",
