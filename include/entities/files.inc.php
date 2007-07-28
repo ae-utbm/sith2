@@ -526,6 +526,16 @@ class dfile extends fs
     return true;  
   }
   
+	function is_admin ( &$user )
+	{
+		if ( $user->is_in_group("gestion_ae") )
+		  return true;	
+
+		return parent::is_admin($user);
+	}
+  
+  
+  
 }
 
 ?>
