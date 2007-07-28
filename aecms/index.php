@@ -188,8 +188,9 @@ if ( $page->nom == CMS_PREFIX."home" )
   while ( $row = $req->get_row() )
   {
     $news->_load($row);
-    $cts = $news->get_contents_nobrand_flow();
     
+    $cts = $news->get_contents_nobrand_flow();
+    $cts->cssclass="article anews";
     $site->add_contents($cts);
   }
   

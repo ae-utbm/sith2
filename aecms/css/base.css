@@ -16,6 +16,7 @@ div.contents
   margin-left:auto;
   margin-right:auto;
   position:relative;
+  margin-bottom:20px;
 }
 
 div#logo
@@ -111,5 +112,71 @@ div.emptysectionlinks
 
 div.article
 {
-  border:0;  
+  border:0;
+  margin-top:1em;  
+  padding:0;
+}
+
+div.article h1
+{
+  margin-top: 0;
+  margin-bottom: 1em;
+  padding-bottom: 0.3em;
+  font-size: 150%;
+  border-bottom: 1px black solid;
+}
+
+div.article h2
+{
+  font-size: 130%;
+  padding-bottom: 0.2em;
+  border-bottom: 1px #c0c0c0 solid;
+  margin-bottom: 1em;
+  margin-top: 2em;
+  clear:both;
+}
+
+div.article h3
+{
+  font-size: 110%;
+  border-bottom: 1px #c0c0c0 solid;
+  margin-bottom: 1em;
+  margin-top: 2em;
+  clear:both;
+}
+
+div.article p
+{
+  text-align: justify;
+  margin: 0;
+  padding: 0;
+  
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+
+div.article.anews h1
+{
+  font-size: 130%;
+  padding-bottom: 0.2em;
+  border-bottom: 1px #c0c0c0 solid;
+  margin-bottom: 1em;
+  margin-top: 2em;
+  clear:both;
+}
+
+p.footer
+{
+  margin-top:2em;
+  padding-bottom:2em;  
+  font-size:10px;
+  color:#c0c0c0;
+  text-align:center;
+}
+
+p.footer a
+{
+  font-size:10px;
+  color:#c0c0c0;
 }
