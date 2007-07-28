@@ -199,7 +199,7 @@ if (isset($_REQUEST['stats_site_start']))
   echo "<h1>Pages visit&eacute;es</h1>\n";
   echo "<center>\n";
   $sqlt = new sqltable("top_full",
-                       "Pages visit&eacute;es visit&eacute;s", $req, "stats.php",
+                       "Pages visit&eacute;es", $req, "stats.php",
                        "page",
                        array("page"=>"page",
                              "visites"=>"Visites"),
