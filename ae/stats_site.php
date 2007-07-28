@@ -49,7 +49,7 @@ if ( $_REQUEST["action"] == "os" )
   $_color="#ffffff";
   $inc=50;
   $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
-	$cam=new camembert(600,500,array(),2,20,0,10,0.25,10,10,10,150);
+  $cam=new camembert(600,500,array(),2,20,0,10,0.25,10,10,10,150);
   $i=1;
   while($row=$req->get_row())
   {
@@ -182,13 +182,16 @@ if (isset($_REQUEST['start']))
   $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT ".$start.",20");
 
   if ($req->lines <= 0)
-	{
+  {
     $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
     $start=-20;
-	}
-
-  echo "<center>";
-	$sqlt = new sqltable("top_full",
+  }
+  echo "<h1>Classement</h1>\n";
+  echo "<h2>Administration</h2>\n";
+  echo "<p>Remettre &agrave; z&eacute;ro les stats du site ae.<br /><img src=\"../images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : <a href=\"stats_site.php?action=reset\">Reset !</a></p>\n";
+  echo "<h2>Pages visit&eacute;es visit&eacute;s</h2>\n"
+  echo "<center>\n";
+  $sqlt = new sqltable("top_full",
                        "Pages visit&eacute;es visit&eacute;s", $req, "stats.php",
                        "page",
                        array("page"=>"page",
@@ -198,7 +201,7 @@ if (isset($_REQUEST['start']))
                        array()
                       );
 
-	echo $sqlt->html_render();
+  echo $sqlt->html_render();
   $start = $start+20;
   echo "\n<a href=\"javascript:next(this, $start)\">Voir les 20 suivants</a>";
   echo "</center>";
@@ -217,11 +220,11 @@ document.getElementById('cts1').style.display = 'none';
 $cts->add_paragraph("<script language=\"javascript\">
 function next(obj, start)
 {
+  document.getElementById('cts2').style.display = 'none';
   openInContents('cts1', './stats_site.php', 'start='+start);
   document.getElementById('cts1').style.display = 'block';
 }
-</script>\n
-<center>\n");
+</script>\n");
 $site->add_contents($cts);
 
 $cts = new contents("Classement");
@@ -238,7 +241,7 @@ if ( $_REQUEST["action"] == "reset" )
 $cts->add_title(2, "Administration");
 $cts->add_paragraph("Remettre &agrave; z&eacute;ro les stats du site ae.".
                     "<br /><img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : <a href=\"stats_site.php?action=reset\">Reset !</a>");
-
+$cts->add_paragraph("<center>");
 $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
 
 $cts->add(new sqltable("top_full",
@@ -249,7 +252,7 @@ $cts->add(new sqltable("top_full",
                        array(),
                        array(),
                        array()
-										 ),true);
+                     ),true);
 $cts->add_paragraph("\n<a href=\"javascript:next(this, 20)\">Voir les 20 suivants</a>");
 $site->add_contents($cts);
 /*
