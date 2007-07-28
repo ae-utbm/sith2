@@ -179,11 +179,12 @@ if ( $_REQUEST["action"] == "browser" )
 if (isset($_REQUEST['start']))
 {
   $start = mysql_real_escape_string($_REQUEST['start']);
-  $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT ".$start.",10");
+  $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT ".$start.",20");
 
   if ($req->lines <= 0)
-  {
-    exit();
+	{
+    $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
+    $start=-20;
 	}
 
   echo "<center>";
@@ -223,7 +224,7 @@ $cts->add_title(2, "Administration");
 $cts->add_paragraph("Remettre &agrave; z&eacute;ro les stats du site ae.".
                     "<br /><img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : <a href=\"stats_site.php?action=reset\">Reset !</a>");
 
-$req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 10");
+$req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
 $site->add_contents($cts);
 
 $cts = new contents("", "");
