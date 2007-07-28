@@ -189,12 +189,76 @@ $cts = new contents("Système carte AE");
 
 $tabs = array(array("","ae/syscarteae.php", "Résumé"),
 			array("factures","ae/syscarteae.php?view=factures", "Appels à facture"),
-			array("comptes","ae/syscarteae.php?view=comptes", "Comptes")
+			array("comptes","ae/syscarteae.php?view=comptes", "Comptes"),
+			array("retrait","ae/syscarteae.php?view=retrait", "Produits non retirés")
 			);
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));	
 	
 	
-if ( 	$_REQUEST["view"] == "factures" )
+if ( 	$_REQUEST["view"] == "retrait" )
+{
+  
+	if ( $_REQUEST["action"] == "retires")
+  {
+  	$fact = new debitfacture($site->db,$site->dbrw);
+  	foreach( $_REQUEST["id_factprods"] as $id_factprod )
+  	{
+  		list($id_facture,$id_produit) = explode(",",$id_factprod);	
+  		$fact->load_by_id($id_facture);
+  		if ( $fact->is_valid() )
+  			$fact->set_retire($id_produit);
+  	}
+  }	
+  
+  $site->start_page("none","Boutic: Produit en attente de retrait");
+  
+  $cts = new contents("Produit en attente de retrait");
+  
+  $req = new requete($site->db, "SELECT " .
+    "CONCAT(`cpt_debitfacture`.`id_facture`,',',`cpt_produits`.`id_produit`) AS `id_factprod`, " .
+    "`cpt_debitfacture`.`id_facture`, " .
+    "`cpt_debitfacture`.`date_facture`, " .
+    "`asso`.`id_asso`, " .
+    "`asso`.`nom_asso`, " .
+    "`cpt_vendu`.`a_retirer_vente`, " .
+    "`cpt_vendu`.`a_expedier_vente`, " .
+    "`cpt_vendu`.`quantite`, " .
+    "`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
+    "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
+    "`cpt_produits`.`nom_prod`, " .
+    "`cpt_produits`.`id_produit`, " .
+    "`utilisateurs`.`id_utilisateur` AS `id_utilisateur`, " .
+    "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur`, " .
+    "IF(`cpt_vendu`.`a_retirer_vente`='1','a retirer','a expedier') AS `info` " .
+    "FROM `cpt_vendu` " .
+    "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
+    "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
+    "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
+    "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`cpt_debitfacture`.`id_utilisateur_client` " .
+    "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+    "WHERE `cpt_vendu`.`a_retirer_vente`='1' OR `cpt_vendu`.`a_expedier_vente`='1' " .
+    "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
+  
+  
+  $cts->add(new sqltable(
+    "listresp",
+    "Produits à retirer/à expédier", $req,
+    "syscarteae.php?view=retrait",
+    "id_factprod",
+    array(
+    "nom_utilisateur"=>"Client",
+    "id_facture"=>"Facture",
+    "nom_prod"=>"Produit",
+    "quantite"=>"Quantité",
+    "date_facture"=>"Depuis le",
+    "info"=>""
+    ),
+    array(),
+    array("retires"=>"Marquer comme retiré"),
+    array()), true);
+
+}	
+elseif ( 	$_REQUEST["view"] == "factures" )
 {
   $cts->add_title(2,"Tous les appels à facture");
 
