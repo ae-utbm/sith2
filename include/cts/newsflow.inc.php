@@ -380,6 +380,8 @@ class newsday extends newslister
 
     $sql .= "ORDER BY nvl_dates.date_debut_eve ";
 
+    echo $sql;
+
   	$req = new requete($db, $sql);
     
     $this->days_list($req,"Activités et évenements prévus");
