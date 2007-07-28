@@ -54,7 +54,7 @@ $color=array(0 => "FFF200",
 if ( $_REQUEST["action"] == "os" )
 {
   $color=array(0=>255,1=>255,2=>255);
-  $inc=10;
+  $inc=60;
   $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
   $cam=new camembert(600,500,array(),2,20,0,10,0.25,10,10,10,150);
   while($row=$req->get_row())
