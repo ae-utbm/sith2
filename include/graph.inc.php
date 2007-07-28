@@ -527,7 +527,7 @@ class camembert
 		if ($tab[0]<$tab[1])$tab[3]=$tab[0];
 
     $this->largeurCam=($tab[3] * 2);
-    $this->hauteurCam=(($tab[3]) - (($tab[3] * $this->inclinaison / 100)) *2);
+    $this->hauteurCam=(($tab[3]) - (($tab[3] * $this->inclinaison / 100)));
   }
 
 
