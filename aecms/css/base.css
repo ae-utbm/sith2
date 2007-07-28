@@ -1,1 +1,115 @@
 @import url("/themes/default/css/site.css");
+
+
+body
+{
+  background:black;  
+
+  
+}
+
+div.contents
+{
+  background:white;  
+  width:915px;
+  margin:0;
+  margin-left:auto;
+  margin-right:auto;
+  position:relative;
+}
+
+div#logo
+{
+  background: url("head-orchestre.png");
+  width:917px;
+  height:98px;
+  padding:0;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+div#logo a
+{
+  display:none;  
+}
+
+div.tabsv2
+{
+  background: url("head-orchestre.png") 0px -98px;
+  width:917px;
+  height:44px;
+  padding:0;
+  margin-left:auto;
+  margin-right:auto;
+
+}
+
+div.tabsv2 span
+{
+  background:none;  
+  margin-top:8px;
+  margin-left:10px;
+  height:26px;
+	padding-left:0px;
+
+}
+
+
+div.tabsv2 span a
+{
+  background:none;  
+  color:black;
+  font-size:14px;
+	padding-right:10px;
+	padding-left:10px;   
+  height:26px;
+	line-height:26px;
+}
+
+
+
+
+div.tabsv2 span.selected 
+{
+  background:white;  
+}
+
+div.tabsv2 span.selected a
+{
+  background:white;  
+  color:black;
+}
+
+div.tabsv2 span:hover
+{
+  background:white;  
+}
+
+div.tabsv2 span:hover a
+{
+  background:white;  
+  color:black;
+}
+
+
+div.emptysectionlinks
+{
+  padding:0;
+}
+
+#left
+{
+  top:1em;  
+  
+}
+
+#right
+{
+  top:1em;  
+  
+}
+
+div.article
+{
+  border:0;  
+}

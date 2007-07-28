@@ -118,7 +118,7 @@ class aecms extends site
   {
     if ( $section == CMS_PREFIX."accueil" )
     {
-      $this->set_side_boxes("left",array("calendrier"),"aecms");
+      $this->set_side_boxes("right",array("calendrier"),"aecms");
       $this->add_box("calendrier",new calendar($this->db,$this->asso->id));
     }
     
@@ -212,12 +212,7 @@ class aecms extends site
 		if (!$this->compact )
 		{
 		  echo "<div id=\"logo\"><a href=\"".htmlentities($this->pubUrl,ENT_QUOTES,"UTF-8")."\">";
-		  
-		  if ( file_exists($basedir."specific/logo.jpg") )
-		    echo "<img src=\"specific/logo.jpg\" alt=\"Logo ".htmlentities($this->asso->nom,ENT_QUOTES,"UTF-8")."\" />";
-		  else
-		    echo "AE CMS";
-
+		  echo htmlentities($this->asso->nom,ENT_QUOTES,"UTF-8");
 		  echo "</a></div>\n";					
 		}
 		
