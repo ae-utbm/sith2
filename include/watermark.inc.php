@@ -78,7 +78,7 @@ class img_watermark
     /* creation du watermark a la taille de l'image a marquer */
     $this->res_wm = imagecreatetruecolor($this->size[0],
 					 $this->size[1]);
-
+    imagecolorallocate($this->res_wm, 255,255,255);
     /* calcul du positionnement dans l'image */
     $dest['x'] = ($this->size[0] - $size) / 2;
     $dest['y'] = ($this->size[1] - $size) / 2;
