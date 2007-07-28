@@ -740,9 +740,9 @@ class site extends interfaceweb
     if( $this->user->is_in_group("gestion_syscarteae") )
     {
       $sublist = new itemlist("Système Carte AE","boxlist");
-      $sublist->add("<a href=\"".$topdir."syscarteae.php?view=factures\">Appels à facture</a>");
-      $sublist->add("<a href=\"".$topdir."syscarteae.php?view=comptes\">Comptes</a>");
-      $sublist->add("<a href=\"".$topdir."syscarteae.php?view=retrait\">Produits non retirés</a>");
+      $sublist->add("<a href=\"".$topdir."ae/syscarteae.php?view=factures\">Appels à facture</a>");
+      $sublist->add("<a href=\"".$topdir."ae/syscarteae.php?view=comptes\">Comptes</a>");
+      $sublist->add("<a href=\"".$topdir."ae/syscarteae.php?view=retrait\">Produits non retirés</a>");
       $cts->add($sublist,true, true, "syscarteaebox", "boxlist", true, false);
     }
     
