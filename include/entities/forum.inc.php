@@ -90,7 +90,7 @@ class forum extends basedb
   
 	function is_admin ( &$user )
 	{
-		if ( $user->is_in_group("moderateur_forum") || $user->is_in_group("root") )
+		if ( $user->is_in_group("moderateur_forum") )
 		  return true;	
 		
 		if ( !is_null($this->id_asso) )
