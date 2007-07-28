@@ -701,7 +701,7 @@ class camembert
     header("Content-Type: image/png");
     if($watermark)
     {
-      $img_wmarked = new img_watermark (imagecreatefrompng($this->img));
+      $img_wmarked = new img_watermark ($this->img);
       imagepng($img_wmarked);
     }
     else
