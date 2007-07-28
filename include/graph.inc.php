@@ -699,14 +699,14 @@ class camembert
       $this->legend();
 
     if($watermark)
-		{
-			$img_wmarked = new img_watermark ($this->img);
+    {
+      $img_wmarked = new img_watermark ($this->img);
       $img_wmarked->output();
     }
-		else
-		{
+    else
+    {
       header("Content-Type: image/png");
-			imagepng($this->img);
+      imagepng($this->img);
     }
   }
 
