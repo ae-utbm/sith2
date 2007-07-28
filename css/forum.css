@@ -18,6 +18,7 @@ div.forumsection h2
   font-size:15px;
   margin:0px;
   padding:5px;
+  
 }
 
 div.forumsection div.forumitem, div.forumsujetsliste div.forumsujet
@@ -32,6 +33,7 @@ div.forumsection div.forumitem, div.forumsujetsliste div.forumsujet
 div.forumsection h2, div.forumsection p.description
 {
   padding-right:240px;
+  margin:0px;
 }
 
 div.forumsujetsliste div.forumhead, div.forumlist div.forumhead
@@ -49,6 +51,8 @@ div.forumsujetsliste div.forumsujet h2, div.forumsujetsliste div.forumsujet p.so
 {
   padding-right:350px;
   padding-left:32px;
+  margin:0px;
+  border:0px;
 }
 
 div.forumsujetsliste div.forumsujet.nonlu, div.forumsection div.forumitem.nonlu
@@ -60,6 +64,7 @@ div.forumsection div.forumitem h3
 {
   margin:0px;
   font-size:13px;
+  border:0px;
 }
 
 
@@ -83,6 +88,7 @@ div.forumsujetsliste div.forumsujet p.sujeticon
   position:absolute;
   top:10px;
   left:5px;
+  margin:0px;
 }
 
 div.forumsujetsliste div.forumsujet p.auteur, div.forumsujetsliste div.forumhead p.auteur
@@ -95,6 +101,7 @@ div.forumsujetsliste div.forumsujet p.auteur, div.forumsujetsliste div.forumhead
   background:#d8e7f3;
   font-size:11px;
   text-align:center;
+  margin:0px;
 }
 
 div.forumsection div.forumitem p.nbsujets, div.forumsujetsliste div.forumsujet p.nbmessages, div.forumsujetsliste div.forumhead p.nbmessages, div.forumlist div.forumhead p.nbsujets
@@ -107,6 +114,7 @@ div.forumsection div.forumitem p.nbsujets, div.forumsujetsliste div.forumsujet p
   background:#d8e7f3;
   font-size:11px;
   text-align:center;
+  margin:0px;
 }
 
 div.forumsection div.forumitem p.dernier, div.forumsujetsliste div.forumsujet p.dernier, div.forumsujetsliste div.forumhead p.dernier, div.forumlist div.forumhead p.dernier
@@ -119,6 +127,7 @@ div.forumsection div.forumitem p.dernier, div.forumsujetsliste div.forumsujet p.
   background:#d8e7f3;
   font-size:11px;
   text-align:center;
+  margin:0px;
 }
 
 
@@ -130,23 +139,27 @@ div.forumsection div.forumitem p.actions, div.forumsujetsliste div.forumsujet p.
   top:1px;
   padding:5px;
   font-size:11px;
+  margin:0px;
 }
 
 
 div.forumsujetsliste div.forumsujet.nonlu p.dernier, div.forumsujetsliste div.forumsujet.nonlu p.auteur, div.forumsujetsliste div.forumsujet.nonlu p.nbmessages
 {
   border-left:1px solid #ffffff;
+  margin:0px;
 }
 
 div.forumsection div.forumitem.nonlu p.dernier, div.forumsection div.forumitem.nonlu p.nbsujets
 {
   border-left:1px solid #ffffff;
+  margin:0px;
 }
 
 
 div.forumsujetsliste div.forumhead p.dernier, div.forumlist div.forumhead p.dernier, div.forumsujetsliste div.forumhead p.nbmessages, div.forumlist div.forumhead p.nbsujets, div.forumsujetsliste div.forumhead p.auteur
 {
   background:#ffffff;
+  margin:0px;
 }
 
 div.forummessagesliste
@@ -197,11 +210,12 @@ div.forummessageentry div.auteur p
 {
   margin-left:5px;
   margin-right:5px;
+  margin:0px;
 }
 
 div.forummessageentry div.auteur p.funame
 {
-
+  margin:0px;
 }
 
 div.forummessageentry div.auteur p.funame a
@@ -213,6 +227,7 @@ div.forummessageentry div.auteur p.funame a
 div.forummessageentry div.auteur p.fuimg
 {
   text-align:center;
+  margin:0px;
 }
 
 div.forummessageentry div.auteur p.fuimg img
@@ -244,6 +259,7 @@ div.forummessageentry p.date
   position:absolute;
   top:5px;
   left:160px;
+  margin:0px;
 }
 
 div.forummessageentry p.actions
@@ -251,6 +267,7 @@ div.forummessageentry p.actions
   position:absolute;
   top:5px;
   right:5px;
+  margin:0px;
 }
 
 div.forummessageentry div.forummessage
@@ -352,6 +369,7 @@ div.article p.frmtools
 {
   margin:20px;
   margin-left:10px;
+  
 }
 
 div.article p.frmtools img
