@@ -589,26 +589,27 @@ class camembert
   function traceArc($img, $ombre=0)
   {
     $this->tabColor[]=imagecolorallocate($this->img, 255, 255, 0 );
-    $this->tabColor[]=imagecolorallocate($this->img, 255, 220, 0 );
+    //$this->tabColor[]=imagecolorallocate($this->img, 255, 220, 0 );
     $this->tabColor[]=imagecolorallocate($this->img, 255, 198, 0 );
-    $this->tabColor[]=imagecolorallocate($this->img, 255, 176, 0 );
+    //$this->tabColor[]=imagecolorallocate($this->img, 255, 176, 0 );
     $this->tabColor[]=imagecolorallocate($this->img, 255, 154, 0 );
-    $this->tabColor[]=imagecolorallocate($this->img, 255, 143, 0 );
+    //$this->tabColor[]=imagecolorallocate($this->img, 255, 143, 0 );
     $this->tabColor[]=imagecolorallocate($this->img, 255, 121, 0 );
-    $this->tabColor[]=imagecolorallocate($this->img, 255, 114, 0 );
+    //$this->tabColor[]=imagecolorallocate($this->img, 255, 114, 0 );
     $this->tabColor[]=imagecolorallocate($this->img, 255, 101, 0 );
-    $this->tabColor[]=imagecolorallocate($this->img, 255, 68 , 0 );
+    //$this->tabColor[]=imagecolorallocate($this->img, 255, 68 , 0 );
     $this->tabColor[]=imagecolorallocate($this->img, 255, 0  , 0 );
+
     $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (255*(1.05-$this->ombre)), 0 );
-    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (220*(1.05-$this->ombre)), 0 );
+    //$this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (220*(1.05-$this->ombre)), 0 );
     $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (198*(1.05-$this->ombre)), 0 );
-    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (176*(1.05-$this->ombre)), 0 );
+    //$this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (176*(1.05-$this->ombre)), 0 );
     $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (154*(1.05-$this->ombre)), 0 );
-    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (143*(1.05-$this->ombre)), 0 );
+    //$this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (143*(1.05-$this->ombre)), 0 );
     $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (121*(1.05-$this->ombre)), 0 );
-    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (114*(1.05-$this->ombre)), 0 );
+    //$this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (114*(1.05-$this->ombre)), 0 );
     $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (101*(1.05-$this->ombre)), 0 );
-    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (68 *(1.05-$this->ombre)), 0 );
+    //$this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (68 *(1.05-$this->ombre)), 0 );
     $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (0  *(1.05-$this->ombre)), 0 );
 
     $col=count($this->tabColor);
