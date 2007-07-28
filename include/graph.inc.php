@@ -515,13 +515,13 @@ class camembert
   function drawGraph()
   {
     $this->centreXCam=($this->largeurImg - $this->largeurLegend - $this->padding - $this->padding) / 2 + $this->padding;
-    $this->centreYCam=($this->hauteurImg - $this->padding - $this->padding) / 2  + $this->padding;
+    $this->centreYCam=($this->hauteurImg - $this->padding) / 2  + $this->padding;
 
     if ($this->ombrage>0)
       $this->centreYCam=($this->centreYCam-20);
 
     $tab[]=$this->centreXCam - ($this->largeurLegend / 2) - $this->padding - $this->padding;
-    $tab[]=$this->centreYCam - $this->padding - $this->padding;
+    $tab[]=$this->centreYCam - $this->padding;
 
     if ($tab[0]>=$tab[1])$tab[3]=$tab[1];
     if ($tab[0]<$tab[1])$tab[3]=$tab[0];
