@@ -115,7 +115,7 @@ if ( $_REQUEST["action"] == "browser" )
   $_color="#ffffff";
   $inc=50;
   $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
-  $cam=new camembert(600,500,array(),2,20,0,10,0.25,65,10,10,150);
+  $cam=new camembert(600,500,array(),2,20,0,10,0.25,5,10,10,150);
   $i=1;
   while($row=$req->get_row())
   {
