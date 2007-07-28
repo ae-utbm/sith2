@@ -489,7 +489,7 @@ class camembert
   function drawEnviro()
   {
     $this->img = imagecreate($this->largeurImg,$this->hauteurImg);
-    $hexa = hexa2rvb($this->fond);
+    $hexa = $this->hexa2rvb($this->fond);
     imagecolorallocate($this->img, $hexa[0],$hexa[1],$hexa[2]);
   }
 
