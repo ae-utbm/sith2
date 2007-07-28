@@ -183,11 +183,11 @@ if (isset($_REQUEST['start']))
 
   if ($req->lines < 20)
   {
-    $txt = "retour au d&eacute;";
+    $txt = "retour au d&eacute;but  ...";
     $start=-21;
   }
   else
-    $txt = "Voir les 20 suivants";
+    $txt = "Voir les 20 suivants ...";
   if ($req->lines <= 0)
   {
     $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
@@ -256,7 +256,7 @@ $sqlt = new sqltable("top_full",
                     );
 $cts->add_paragraph("<center>".$sqlt->html_render()."</center>");
 if(!$less)
-  $cts->add_paragraph("<center><a href=\"javascript:next(this, 21)\">Voir les 20 suivants</a></center>");
+  $cts->add_paragraph("<center><a href=\"javascript:next(this, 21)\">Voir les 20 suivants ...</a></center>");
 $site->add_contents($cts);
 /*
 $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
