@@ -574,6 +574,7 @@ div.article h2
   border-bottom: 1px #c0c0c0 solid;
   margin-bottom: 1em;
   margin-top: 2em;
+  clear:both;
 }
 
 div.article h3
@@ -582,6 +583,7 @@ div.article h3
   border-bottom: 1px #c0c0c0 solid;
   margin-bottom: 1em;
   margin-top: 2em;
+  clear:both;
 }
 
 div.article img
