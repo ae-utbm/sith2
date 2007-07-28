@@ -714,6 +714,7 @@ class camembert
 
   function legend()
   {
+    $col=count($this->tabColor);
     $x1=($this->largeurImg - $this->padding) - $this->largeurLegend;
     imagefilledrectangle($this->img,
                          $x1,
@@ -724,6 +725,9 @@ class camembert
 
     for ($i=0; $i<$this->nbrdata; $i++)
     {
+      $col--;
+      if($col<0)
+        $col=count($this->tabColor)-1;
       imagefilledrectangle($this->img,
                            ($x1 +10),
                            ($this->padding + 10 + ($i * 23)),
