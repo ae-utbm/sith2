@@ -448,16 +448,16 @@ class camembert
 
   function camembert($width=100,
                      $height=80,
-                     $color =array(),
+                     $color=array(),
                      $decimal=2,
                      $padding=10,
                      $spacing=15,
                      $profondeur=0,
-                     $ombre = 0,
+                     $ombre=0,
                      $inclinaison=0,
                      $ombrage=0,
                      $largeurArette=10,
-                     $largeurLegend=0;
+                     $largeurLegend=0)
   {
     $this->largeurImg           = $width;
     $this->hauteurImg           = $height;
