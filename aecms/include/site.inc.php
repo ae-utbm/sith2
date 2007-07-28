@@ -211,7 +211,14 @@ class aecms extends site
 				/* Generate the logo */
 		if (!$this->compact )
 		{
-		  echo "<div id=\"logo\"></div>\n";					
+		  echo "<div id=\"logo\"><a href=\"".htmlentities($this->pubUrl,ENT_QUOTES,"UTF-8")."\">";
+		  
+		  if ( file_exists($basedir."specific/logo.jpg") )
+		    echo "<img src=\"specific/logo.jpg" alt=\"Logo ".htmlentities($this->asso->nom,ENT_QUOTES,"UTF-8")."\" />";
+		  else
+		    echo "AE CMS";
+
+		  echo "</a></div>\n";					
 		}
 		
 		echo "<div class=\"tabsv2\">\n";
