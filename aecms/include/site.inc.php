@@ -118,8 +118,8 @@ class aecms extends site
   {
     if ( $section == CMS_PREFIX."accueil" )
     {
-      $this->set_side_boxes("left",array(CMS_PREFIX."calendrier"),"aecms");
-      $this->add_box(CMS_PREFIX."calendrier",new calendar($this->db,$this->asso->id));
+      $this->set_side_boxes("left",array("calendrier"),"aecms");
+      $this->add_box("calendrier",new calendar($this->db,$this->asso->id));
     }
     
 		interfaceweb::start_page($section,$title,$compact);
