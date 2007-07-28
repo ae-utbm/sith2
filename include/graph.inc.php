@@ -442,7 +442,7 @@ class camembert
 
   //couleurs par defaut
   var $fond="#ffffff";
-  var $colorArette = "#685309";
+  var $colorArette = "#000000";
   var $texte = "#000000";
   var $colorLegende = "#E2E2E2";
 
@@ -552,12 +552,45 @@ class camembert
     $total='';
     for ($i=0; $i<$this->nbrdata; $i++)
       $total+=$this->tabValue[$i];
-
+    $j=0;
+    $tmp=array();
+    $comments=array();
     for ($i=0; $i<$this->nbrdata; $i++)
-      $this->tabPourc[$i]=($this->tabValue[$i] * 100 / $total);
+    {
+      if(($this->tabValue[$i] * 100 / $total) < 2)
+      {
+        if(isset($this->tabPourc['reste']))
+        {
+          $tmp['reste']=$tmp['reste']+$this->tabValue[$i];
+          $this->tabPourc['reste']=$this->tabPourc['reste']+($this->tabValue[$i] * 100 / $total);
+        }
+        else
+        {
+          $tmp['reste']=$this->tabValue[$i];
+          $this->tabPourc['reste']=($this->tabValue[$i] * 100 / $total);
+        }
+      }
+      else
+      {
+        $this->tabPourc[$j]=($this->tabValue[$i] * 100 / $total);
+        $tmp[$j]=$this->tabValue[$i];
+        $comments[$j]=$this->tabComment[$i];
+        $j++;
+      }
+    }
 
-    for ($i=0; $i<$this->nbrdata; $i++)
+    for ($i=0; $i<$j; $i++)
       $this->tabAngle[$i]=($this->tabPourc[$i] * 360 / 100);
+    if(isset($this->tabPourc['reste']))
+    {
+      $this->tabAngle[$j]=($this->tabPourc['reste'] * 360 / 100);
+      $tmp[$j]=$tmp['reste'];
+      unset($tmp['reste']);
+      $comments[$j]="Reste";
+    }
+    $this->nbrdata=$j+1;
+    $this->tabValue=$tmp;
+    $this->tabComment=$comments;
   }
 
 
