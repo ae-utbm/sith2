@@ -187,9 +187,7 @@ if (isset($_REQUEST['start']))
     $start=-21;
   }
   echo "<h1>Classement</h1>\n";
-  echo "<h2>Administration</h2>\n";
-  echo "<p>Remettre &agrave; z&eacute;ro les stats du site ae.<br /><img src=\"../images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : <a href=\"stats_site.php?action=reset\">Reset !</a></p>\n";
-  echo "<h2>Pages visit&eacute;es visit&eacute;s</h2>\n";
+  echo "<h1>Pages visit&eacute;es visit&eacute;s</h1>\n";
   echo "<center>\n";
   $sqlt = new sqltable("top_full",
                        "Pages visit&eacute;es visit&eacute;s", $req, "stats.php",
@@ -213,14 +211,14 @@ if (isset($_REQUEST['start']))
 $site->start_page ("none", "statistiques du site");
 
 $cts = new contents("", "");
-$cts->add_paragraph("<script language=\"javascript\">
-document.getElementById('cts1').style.display = 'none';
-</script>\n");
+/*$cts->add_paragraph("<script language=\"javascript\">
+document.getElementById('cts2').style.display = 'none';
+</script>\n");*/
 
 $cts->add_paragraph("<script language=\"javascript\">
 function next(obj, start)
 {
-  openInContents('cts2', './stats_site.php', 'start='+start);
+  openInContents('cts3', './stats_site.php', 'start='+start);
 }
 </script>\n");
 $site->add_contents($cts);
@@ -239,11 +237,14 @@ if ( $_REQUEST["action"] == "reset" )
 $cts->add_title(2, "Administration");
 $cts->add_paragraph("Remettre &agrave; z&eacute;ro les stats du site ae.".
                     "<br /><img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : <a href=\"stats_site.php?action=reset\">Reset !</a>");
+$site->add_contents($cts);
+
+$cts = new contents("Pages visit&eacute;es visit&eacute;s");
 $cts->add_paragraph("<center>");
 $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
 
 $cts->add(new sqltable("top_full",
-                       "Pages visit&eacute;es visit&eacute;s", $req, "stats.php",
+                       "", $req, "stats.php",
                        "page",
                        array("page"=>"page",
                              "visites"=>"Visites"),
