@@ -45,22 +45,22 @@ class img_watermark
   var $opacity;
 
   function img_watermark ($image_to_mark,
-        $watermark = "/var/www/ae/www/var/img/ae_watermark.png",
-        $opacity = 9)
+                          $watermark = "/var/www/ae/www/var/img/ae_watermark.png",
+                          $opacity = 9)
   {
     $this->opacity = $opacity;
     /* watermark temporaire */
     /* on ne supporte que le JPG et le PNG */
     switch (exif_imagetype($watermark))
-      {
+    {
       case IMAGETYPE_JPEG:
-  $temp_wm = imagecreatefromjpeg ($watermark);
-  break;
+        $temp_wm = imagecreatefromjpeg ($watermark);
+        break;
       case IMAGETYPE_PNG:
-  $temp_wm = imagecreatefrompng($watermark);
-  break;
+        $temp_wm = imagecreatefrompng($watermark);
+        break;
       default:
-  die ("Format Watermark non supporte");
+        die ("Format Watermark non supporte");
       }
     /* taille du watermark temporaire */
     $temp_wm_dim = getimagesize($watermark);
@@ -86,27 +86,27 @@ class img_watermark
 
     /* copie watermark original vers watermark taille finale */
     imagecopyresized($this->res_wm,
-         $temp_wm,
-         $dest['x'],
-         $dest['y'],
-         0,
-         0,
-         $size,
-         $size,
-         $temp_wm_dim[0],
-         $temp_wm_dim[1]);
+                     $temp_wm,
+                     $dest['x'],
+                     $dest['y'],
+                     0,
+                     0,
+                     $size,
+                     $size,
+                     $temp_wm_dim[0],
+                     $temp_wm_dim[1]);
 
 
     /* merging a proprement parler */
     imagecopymerge($this->img,
-       $this->res_wm,
-       0,
-       0,
-       0,
-       0,
-       $this->size[0],
-       $this->size[1],
-       $this->opacity);
+                   $this->res_wm,
+                   0,
+                   0,
+                   0,
+                   0,
+                   $this->size[0],
+                   $this->size[1],
+                   $this->opacity);
     imagedestroy ($this->res_wm);
     imagedestroy ($temp_wm);
   }
