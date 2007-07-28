@@ -54,11 +54,11 @@ $color=array(0 => "FFF200",
 if ( $_REQUEST["action"] == "os" )
 {
   $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
-	$cam=new camembert(600,500,array(0 => '#ffffff'),2,20,0,10,0.25,10,10,10,150);
+	$cam=new camembert(600,500,array(),2,20,0,10,0.25,10,10,10,150);
   $i=20;
 	while($row=$req->get_row())
   {
-		$cam->data($row['visites'], "#cccccc", $row['os']);
+		$cam->data($row['visites'], $color[$i], $row['os']);
     $i--;
     if($i<0)
       $i=20;
@@ -69,11 +69,11 @@ if ( $_REQUEST["action"] == "os" )
 if ( $_REQUEST["action"] == "browser" )
 {
   $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
-	$cam=new camembert(600,500,array(0 => '#ffffff'),2,20,0,10,0.25,10,10,10,150);
+	$cam=new camembert(600,500,array(),2,20,0,10,0.25,10,10,10,150);
   $i=20;
 	while($row=$req->get_row())
   {
-		$cam->data($row['visites'], "#cccccc", $row['browser']);
+		$cam->data($row['visites'], $color[$i], $row['browser']);
     $i--;
     if($i<0)
       $i=20;
