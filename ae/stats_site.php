@@ -31,37 +31,84 @@ if (!$site->user->is_in_group ("gestion_ae"))
 
 $color=array(0 => "FFF200",
 //             1 => "FFE700",
-//						 2 => "FFCD00",
-//						 3 => "FFC600",
-						 4 => "FFB000",
-//						 5 => "FFA500",
-//						 6 => "FF9A00",
-//						 7 => "FF8F00",
-						 8 => "FF8400",
-//						 9 => "FF7900",
-//						 10=> "FF7200",
-//						 11=> "FF6500",
-						 12=> "FF5A00",
-//						 13=> "FF5000",
-//						 14=> "FF4400",
-//						 15=> "FF3A00",
-						 16=> "FF2F00",
-//						 17=> "FF2400",
-//						 18=> "FF1A00",
-//						 19=> "FF1000",
-						 20=> "FF0000");
+//             2 => "FFCD00",
+//             3 => "FFC600",
+             4 => "FFB000",
+//             5 => "FFA500",
+//             6 => "FF9A00",
+//             7 => "FF8F00",
+             8 => "FF8400",
+//             9 => "FF7900",
+//             10=> "FF7200",
+//             11=> "FF6500",
+             12=> "FF5A00",
+//             13=> "FF5000",
+//             14=> "FF4400",
+//             15=> "FF3A00",
+             16=> "FF2F00",
+//             17=> "FF2400",
+//             18=> "FF1A00",
+//             19=> "FF1000",
+             20=> "FF0000");
 
 if ( $_REQUEST["action"] == "os" )
 {
+  $color=array(0=>255,1=>255,2=>255);
+  $inc=10;
   $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
-	$cam=new camembert(600,500,array(),2,20,0,10,0.25,10,10,10,150);
-  $i=20;
-	while($row=$req->get_row())
+  $cam=new camembert(600,500,array(),2,20,0,10,0.25,10,10,10,150);
+  while($row=$req->get_row())
   {
-		$cam->data($row['visites'], $color[$i], $row['os']);
-    $i=$i-4;
-    if($i<0)
-      $i=20;
+    $cam->data($row['visites'], $color[$i], $row['os']);
+    if($i==1)
+    {
+      if($color[0]!=0)
+      {
+        $color[0]=$color[0]-$inc;
+        if($color[0]<0)
+          $color[0]=0;
+      }
+      elseif($color[1]!=0)
+      {
+        $color[1]=$color[1]-$inc;
+        if($color[1]<0)
+          $color[1]=0;
+      }
+      elseif($color[2]!=0)
+      {
+        $color[2]=$color[2]-$inc;
+        if($color[2]<0)
+          $color[2]=0;
+      }
+      else
+        $i=0;
+    }
+    if($i==0)
+    {
+      if($color[2]!=255)
+      {
+        $color[2]=$color[2]+$inc;
+        if($color[2]>255)
+          $color[2]=255;
+      }
+      elseif($color[0]!=255)
+      {
+        $color[0]=$color[0]+$inc;
+        if($color[0]>255)
+          $color[0]=255;
+      }
+      elseif($color[1]!=255)
+      {
+        $color[1]=$color[1]+$inc;
+        if($color[1]>255)
+          $color[1]=255;
+      }
+      else
+      {
+        $color[0]=$color[0]-$inc;
+        $i=1;
+      }
+    }
   }
   $cam->png_render();
   exit();
@@ -69,11 +116,11 @@ if ( $_REQUEST["action"] == "os" )
 if ( $_REQUEST["action"] == "browser" )
 {
   $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
-	$cam=new camembert(600,500,array(),2,20,0,10,0.25,10,10,10,150);
+  $cam=new camembert(600,500,array(),2,20,0,10,0.25,10,10,10,150);
   $i=20;
-	while($row=$req->get_row())
+  while($row=$req->get_row())
   {
-		$cam->data($row['visites'], $color[$i], $row['browser']);
+    $cam->data($row['visites'], $color[$i], $row['browser']);
     $i=$i-4;
     if($i<0)
       $i=20;
