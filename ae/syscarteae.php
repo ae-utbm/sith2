@@ -210,10 +210,6 @@ if ( 	$_REQUEST["view"] == "retrait" )
   	}
   }	
   
-  $site->start_page("none","Boutic: Produit en attente de retrait");
-  
-  $cts = new contents("Produit en attente de retrait");
-  
   $req = new requete($site->db, "SELECT " .
     "CONCAT(`cpt_debitfacture`.`id_facture`,',',`cpt_produits`.`id_produit`) AS `id_factprod`, " .
     "`cpt_debitfacture`.`id_facture`, " .
@@ -338,7 +334,7 @@ elseif ( 	$_REQUEST["view"] == "factures" )
 elseif ( 	$_REQUEST["view"] == "comptes" )
 {
   $cts->add_title(2,"Solde théorique du compte");
-  $cts->add_paragraph("Ceci correspond au solde dès lors que tous les encaissements sont effectués, que les commissions carte bleue sont compensés et que l'ensemble des factures opnt été payées.");
+  $cts->add_paragraph("Ceci correspond au solde dès lors que tous les encaissements sont effectués, que les commissions carte bleue sont compensés et que l'ensemble des factures ont été payées.");
 
   $when = time();
 
