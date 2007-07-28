@@ -771,6 +771,8 @@ function mediaformat($text)
   list($width,$height) = split('x',$sizes,2);
   $name=trim($name);
   //les dfiles://
+  $img = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$topdir."d.php?action=download&download=preview&id_file=$1",$img);
+  $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$topdir."d.php?action=download&download=thumb&id_file=$1",$img);
   $img = preg_replace("/dfile:\/\//i",$topdir."d.php?action=download&id_file=",$img);
   $ret .= '<img src="'.$img.'"';
   $ret .= ' class="media'.$format['align'].'"';
