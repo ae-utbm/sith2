@@ -733,7 +733,7 @@ class camembert
                            ($this->padding + 10 + ($i * 23)),
                            ($x1 +20),
                            ($this->padding +20 + ($i * 23)),
-                           $this->tabColor[$i]);
+                           $this->tabColor[$col]);
       imagestring($this->img,
                   2,
                   ($x1 + 20 + 5 ),
