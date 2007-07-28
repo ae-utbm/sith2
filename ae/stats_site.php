@@ -237,9 +237,7 @@ function next(obj, start)
 }
 </script>\n
 <center>\n");
-$site->add_contents($cts);
 
-$cts = new contents("", "");
 $cts->add(new sqltable("top_full",
                        "Pages visit&eacute;es visit&eacute;s", $req, "stats.php",
                        "page",
