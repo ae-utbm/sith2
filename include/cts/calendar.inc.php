@@ -34,15 +34,19 @@
 class calendar extends stdcontents
 {
 	var $db, $date, $events;
+	
 	var $weekdays = array ("Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di");
+	
 	var $months = array ("Janvier", "Février", "Mars", "Avril",
 	"Mai", "Juin", "Juillet", "Août", "Septembre",
 	"Octobre", "Novembre", "Décembre");
 	
+	var $id_asso;
+	
 	
 	/** Constructeur de la classe
 	*/
-	function calendar ($db)
+	function calendar (&$db,$id_asso=null)
 	{
 		$this->db = $db;
 		
@@ -56,6 +60,9 @@ class calendar extends stdcontents
 		
 		$this->events = "";
 		$this->title = "Calendrier";
+		$this->id_asso = $id_asso;
+		
+		
 	}
 	
 	/** Affichage du calendrier
@@ -179,14 +186,19 @@ class calendar extends stdcontents
 		/* le jour suivant */
 		$date2 = $this->sql_date(mktime(0, 0, 0, $month, $day + 1, $year));
 		
-		/* On regarde si il y a des évenements pour ce jour */
-		$event = new requete ($this->db,
-			"SELECT `nvl_dates`.*,`nvl_nouvelles`.* FROM `nvl_dates` " .
+		
+		$sql = "SELECT `nvl_dates`.*,`nvl_nouvelles`.* FROM `nvl_dates` " .
 			"INNER JOIN `nvl_nouvelles` on `nvl_nouvelles`.`id_nouvelle`=`nvl_dates`.`id_nouvelle`" .
-			"WHERE " .
-			"((`nvl_dates`.`date_debut_eve` <= '" . mysql_escape_string($date2) ." 06:59:59') AND " .
-			"(`nvl_dates`.`date_fin_eve` >= '" . mysql_escape_string($date) ." 06:00:00') AND
-			(`nvl_nouvelles`.`modere_nvl` > 0))");
+			"WHERE  modere_nvl='1' ".
+			"AND `nvl_dates`.`date_debut_eve` <= '" . mysql_escape_string($date2) ." 05:59:59' " .
+			"AND `nvl_dates`.`date_fin_eve` >= '" . mysql_escape_string($date) ." 06:00:00' ";
+		
+		if ( is_null($this->id_asso) )
+		  $sql .= "AND asso_seule_nvl='0' ";
+		else
+		  $sql .= "AND id_asso='".mysql_real_escape_string($this->id_asso)."' ";
+
+    $event = new requete($this->db,$sql);
 		
 		/* Si oui, on change le style de la case, et on ajoute l'évenement */
 		if ($event->lines > 0)

@@ -360,21 +360,29 @@ class newsfront extends newslister
 class newsday extends newslister
 {
 
-  function newsday ( $db, $day )
+  function newsday ( $db, $day, $is_asso = null )
   {
   	$this->class="nvls";
 
-  	$sql = new requete($db,"SELECT nvl_nouvelles.*,".
+    $sql = "SELECT nvl_nouvelles.*,".
         "asso.nom_unix_asso, nvl_dates.date_debut_eve, nvl_dates.date_fin_eve " .
   			"FROM nvl_dates " .
   			"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
   			"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-  			"WHERE modere_nvl='1' AND asso_seule_nvl='0' " .
+  			"WHERE modere_nvl='1' " .
   			"AND `nvl_dates`.`date_debut_eve` <= '" . date("Y-m-d",$day+24*60*60) ." 05:59:59' " .
-  			"AND `nvl_dates`.`date_fin_eve` >= '" . date("Y-m-d",$day) ." 06:00:00' " .
-  			"ORDER BY nvl_dates.date_debut_eve ");
+  			"AND `nvl_dates`.`date_fin_eve` >= '" . date("Y-m-d",$day) ." 06:00:00' ";
+
+		if ( is_null($this->id_asso) )
+		  $sql .= "AND asso_seule_nvl='0' ";
+		else
+		  $sql .= "AND id_asso='".mysql_real_escape_string($this->id_asso)."' ";
+
+    $sql .= "ORDER BY nvl_dates.date_debut_eve ";
+
+  	$req = new requete($db, $sql);
     
-    $this->days_list($sql,"Activités et évenements prévus");
+    $this->days_list($req,"Activités et évenements prévus");
   }
 }
 
