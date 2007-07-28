@@ -29,17 +29,32 @@ if (!$site->user->is_in_group ("gestion_ae"))
   error_403();
 
 
+if ( $_REQUEST["action"] == "os" )
+{
+  $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
+  $cam=new camembert(600,500,array(0 => '#ffffff'),2,20,0,10,0.25,10,10,10,60);
+  while($row=$req->get_row())
+    $cam->data($row['visites'], "#cccccc", $row['os']);
+}
+if ( $_REQUEST["action"] == "browser" )
+{
+  $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
+  $cam=new camembert(600,500,array(0 => '#ffffff'),2,20,0,10,0.25,10,10,10,60);
+  while($row=$req->get_row())
+    $cam->data($row['visites'], "#cccccc", $row['browser']);
+}
+
 $site->start_page ("none", "statistiques du site");
 
 $cts = new contents("Classement");
 
 if ( $_REQUEST["action"] == "reset" )
 {
-	$req = new requete($site->dbrw, "DELETE FROM `stats_page` WHERE `page`!=''");
-	$req = new requete($site->dbrw, "DELETE FROM `stats_os` WHERE `os`!=''");
-	$req = new requete($site->dbrw, "DELETE FROM `stats_browser` WHERE `browser`!=''");
-	$cts->add_title(2, "Reset");
-	$cts->add_paragraph("Le reset des stats a &eacute;t&eacute; effectu&eacute; avec succ&egrave;s");
+  $req = new requete($site->dbrw, "DELETE FROM `stats_page` WHERE `page`!=''");
+  $req = new requete($site->dbrw, "DELETE FROM `stats_os` WHERE `os`!=''");
+  $req = new requete($site->dbrw, "DELETE FROM `stats_browser` WHERE `browser`!=''");
+  $cts->add_title(2, "Reset");
+  $cts->add_paragraph("Le reset des stats a &eacute;t&eacute; effectu&eacute; avec succ&egrave;s");
 }
 
 $cts->add_title(2, "Administration");
@@ -59,19 +74,23 @@ $cts->add(new sqltable("top_full",
                        array(),
                        array()
          ),true);
-
+/*
 $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
 $cts->add(new sqltable("top_full",
                        "Navigateurs utilis&eacute;s", $req, "stats.php",
                        "browser",
-											 array("=num" => "N°",
+                       array("=num" => "N°",
                              "browser"=>"Navigateur",
                              "visites"=>"Total"),
                        array(),
                        array(),
                        array()
          ),true);
-
+ */
+$cts = new contents("Navigateurs utilis&eacute;s");
+$cts->add_paragraph("<center><img src=\"stats_site.php?action=browser\" alt=\"navigateurs utilisés\" /></center>\n");
+$site->add_contents($cts);
+/*
 $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
 $cts->add(new sqltable("top_full",
                        "Syst&egrave;mes d'exploitation utilis&eacute;s", $req, "stats.php",
@@ -83,8 +102,9 @@ $cts->add(new sqltable("top_full",
                        array(),
                        array()
          ),true);
-
-
+ */
+$cts = new contents("Syst&egrave;mes d'exploitation utilis&eacute;s");
+$cts->add_paragraph("<center><img src=\"stats_site.php?action=os\" alt=\"syst&egrave;mes d'exploitation utilisés\" /></center>\n");
 $site->add_contents($cts);
 
 $site->end_page ();
