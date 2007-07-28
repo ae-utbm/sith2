@@ -179,7 +179,7 @@ if ( $_REQUEST["action"] == "browser" )
 if (isset($_REQUEST['start']))
 {
   $start = mysql_real_escape_string($_REQUEST['start']);
-  $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT ".$start." 10");
+  $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT ".$start.",10");
 
   if ($req->lines <= 0)
   {
