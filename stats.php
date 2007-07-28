@@ -196,7 +196,7 @@ if (isset($_REQUEST['stats_site_start']))
     $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
     $start=-21;
   }
-  echo "<h1>Pages visit&eacute;es visit&eacute;s</h1>\n";
+  echo "<h1>Pages visit&eacute;es</h1>\n";
   echo "<center>\n";
   $sqlt = new sqltable("top_full",
                        "Pages visit&eacute;es visit&eacute;s", $req, "stats.php",

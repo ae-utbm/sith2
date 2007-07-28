@@ -559,15 +559,15 @@ class camembert
     {
       if(($this->tabValue[$i] * 100 / $total) < 2)
       {
-        if(isset($this->tabPourc['reste']))
+        if(isset($tmp['reste']))
         {
           $tmp['reste']=$tmp['reste']+$this->tabValue[$i];
-          $this->tabPourc['reste']=$this->tabPourc['reste']+($this->tabValue[$i] * 100 / $total);
+          $tmp['pourc_reste']=$tmp['pourc_reste']+($this->tabValue[$i] * 100 / $total);
         }
         else
         {
           $tmp['reste']=$this->tabValue[$i];
-          $this->tabPourc['reste']=($this->tabValue[$i] * 100 / $total);
+          $tmp['pourc_reste']=($this->tabValue[$i] * 100 / $total);
         }
       }
       else
@@ -581,11 +581,13 @@ class camembert
 
     for ($i=0; $i<$j; $i++)
       $this->tabAngle[$i]=($this->tabPourc[$i] * 360 / 100);
-    if(isset($this->tabPourc['reste']))
+    if(isset($tmp['reste']))
     {
       $this->tabAngle[$j]=($this->tabPourc['reste'] * 360 / 100);
       $tmp[$j]=$tmp['reste'];
+      $this->tabPourc[$j]=$tmp['pourc_reste'];
       unset($tmp['reste']);
+      unset($tmp['pourc_reste']);
       $comments[$j]="Reste";
     }
     $this->nbrdata=$j+1;
