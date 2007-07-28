@@ -777,7 +777,7 @@ elseif ( $_REQUEST["view"] == "comptoirs" )
 }
 else
 {
-	$cts->add_paragraph("Vous trouverez ici l'ensemble des statistiques (complètement in)utiles du site AE. ".
+	$cts->add_paragraph("<br />Vous trouverez ici l'ensemble des statistiques (complètement in)utiles du site AE. ".
                       "Enjoy it ;)");
 }
 
