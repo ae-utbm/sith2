@@ -4,7 +4,7 @@
 body
 {
   background:black;  
-
+  text-align:center;
   
 }
 
@@ -17,6 +17,8 @@ div.contents
   margin-right:auto;
   position:relative;
   margin-bottom:20px;
+  text-align:left;
+
 }
 
 div#logo
@@ -27,6 +29,7 @@ div#logo
   padding:0;
   margin-left:auto;
   margin-right:auto;
+  text-align:left;
 }
 
 div#logo a
@@ -42,7 +45,7 @@ div.tabsv2
   padding:0;
   margin-left:auto;
   margin-right:auto;
-
+  text-align:left;
 }
 
 div.tabsv2 span
@@ -179,4 +182,21 @@ p.footer a
 {
   font-size:10px;
   color:#c0c0c0;
+}
+
+div.page#lr
+{
+  margin: 0 19em;
+}
+
+div.page#r
+{
+  margin-left: 2em;
+  margin-right: 19em;
+}
+
+div.page#l
+{
+  margin-left: 19em;
+  margin-right: 2em;
 }
