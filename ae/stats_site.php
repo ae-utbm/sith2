@@ -23,6 +23,7 @@
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
+require_once($topdir . "include/graph.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("gestion_ae"))
@@ -88,7 +89,7 @@ $cts->add(new sqltable("top_full",
          ),true);
  */
 $cts = new contents("Navigateurs utilis&eacute;s");
-$cts->add_paragraph("<center><img src=\"stats_site.php?action=browser\" alt=\"navigateurs utilisés\" /></center>\n");
+$cts->add_paragraph("<center><img src=\"stats_site.php?action=browser\" alt=\"navigateurs utilis&eacute;s\" /></center>\n");
 $site->add_contents($cts);
 /*
 $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
@@ -104,7 +105,7 @@ $cts->add(new sqltable("top_full",
          ),true);
  */
 $cts = new contents("Syst&egrave;mes d'exploitation utilis&eacute;s");
-$cts->add_paragraph("<center><img src=\"stats_site.php?action=os\" alt=\"syst&egrave;mes d'exploitation utilisés\" /></center>\n");
+$cts->add_paragraph("<center><img src=\"stats_site.php?action=os\" alt=\"syst&egrave;mes d'exploitation utilis&eacute;s\" /></center>\n");
 $site->add_contents($cts);
 
 $site->end_page ();
