@@ -360,7 +360,7 @@ class newsfront extends newslister
 class newsday extends newslister
 {
 
-  function newsday ( $db, $day, $is_asso = null )
+  function newsday ( $db, $day, $id_asso = null )
   {
   	$this->class="nvls";
 
@@ -379,8 +379,6 @@ class newsday extends newslister
 		  $sql .= "AND nvl_nouvelles.id_asso='".mysql_real_escape_string($id_asso)."' ";
 
     $sql .= "ORDER BY nvl_dates.date_debut_eve ";
-
-    echo $sql;
 
   	$req = new requete($db, $sql);
     
