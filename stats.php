@@ -479,28 +479,28 @@ elseif ( $_REQUEST["view"] == "site" )
     {
       openInContents('cts2', './stats.php', 'stats_site_start='+start);
     }
-    </script>\n");
-    $site->add_contents($cts);
-
-    $cts = new contents("Pages visit&eacute;es visit&eacute;s");
-    $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
-    if($req->lines<20)
-      $less=true;
-    else
-      $less=false;
-    $sqlt = new sqltable("top_full",
-                         "", $req, "stats.php",
-                         "page",
-                         array("page"=>"page",
-                               "visites"=>"Visites"),
-                         array(),
-                         array(),
-                         array()
-                        );
-    $cts->add_paragraph("<center>".$sqlt->html_render()."</center>");
-    if(!$less)
-      $cts->add_paragraph("<center><a href=\"javascript:next(this, 21)\">Voir les 20 suivants ...</a></center>");
+		</script>\n");
   }
+  $site->add_contents($cts);
+
+  $cts = new contents("Pages visit&eacute;es visit&eacute;s");
+  $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
+  if($req->lines<20)
+    $less=true;
+  else
+    $less=false;
+  $sqlt = new sqltable("top_full",
+                       "", $req, "stats.php",
+                       "page",
+                       array("page"=>"page",
+                             "visites"=>"Visites"),
+                       array(),
+                       array(),
+                       array()
+                      );
+  $cts->add_paragraph("<center>".$sqlt->html_render()."</center>");
+  if(!$less)
+    $cts->add_paragraph("<center><a href=\"javascript:next(this, 21)\">Voir les 20 suivants ...</a></center>");
 
   $site->add_contents($cts);
 
