@@ -446,8 +446,8 @@ class camembert
   var $texte = "#000000";
   var $colorLegende = "#E2E2E2";
 
-  function camembert($width=100,
-                     $height=80,
+  function camembert($width=200,
+                     $height=200,
                      $color=array(),
                      $decimal=2,
                      $padding=10,
@@ -523,7 +523,7 @@ class camembert
     $tab[]=$this->centreXCam - ($this->largeurLegend / 2) - $this->padding - $this->padding;
     $tab[]=$this->centreYCam - $this->padding - $this->padding;
 
-    if ($tab[0]>$tab[1])$tab[3]=$tab[1];
+    if ($tab[0]>=$tab[1])$tab[3]=$tab[1];
     if ($tab[0]<$tab[1])$tab[3]=$tab[0];
 
     $this->largeurCam=($tab[3] * 2);
