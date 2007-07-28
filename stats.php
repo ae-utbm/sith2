@@ -495,7 +495,7 @@ elseif ( $_REQUEST["view"] == "site" )
   </script>\n");
   $site->add_contents($cts);
 
-  $cts = new contents("Pages visit&eacute;es visit&eacute;s");
+  $cts = new contents("Pages visit&eacute;es");
   $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
   if($req->lines<20)
     $less=true;
