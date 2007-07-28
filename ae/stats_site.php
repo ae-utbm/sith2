@@ -47,7 +47,7 @@ if ( $_REQUEST["action"] == "os" )
 {
   $color=array(255=>0,1=>0,2=>0);
   $_color="#FF0000";
-  $inc=-50;
+  $inc=50;
   $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
   $cam=new camembert(600,500,array(),2,20,0,0,0,0,0,10,150);
   $i=1;
@@ -113,7 +113,7 @@ if ( $_REQUEST["action"] == "browser" )
 {
   $color=array(255=>0,1=>0,2=>0);
   $_color="#FF0000";
-  $inc=-50;
+  $inc=50;
   $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
   $cam=new camembert(600,500,array(),2,20,0,0,0,0,0,10,150);
   $i=1;
