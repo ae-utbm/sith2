@@ -184,7 +184,7 @@ if (isset($_REQUEST['start']))
   if ($req->lines <= 0)
   {
     $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
-    $start=-20;
+    $start=-21;
   }
   echo "<h1>Classement</h1>\n";
   echo "<h2>Administration</h2>\n";
@@ -202,7 +202,7 @@ if (isset($_REQUEST['start']))
                       );
 
   echo $sqlt->html_render();
-  $start = $start+20;
+  $start = $start+21;
   echo "\n<a href=\"javascript:next(this, $start)\">Voir les 20 suivants</a>";
   echo "</center>";
 
@@ -250,9 +250,9 @@ $cts->add(new sqltable("top_full",
                        array(),
                        array(),
                        array()
-										 ),true);
+                     ),true);
 $cts->add_paragraph("</center>");
-$cts->add_paragraph("<center><a href=\"javascript:next(this, 20)\">Voir les 20 suivants</a></center>");
+$cts->add_paragraph("<center><a href=\"javascript:next(this, 21)\">Voir les 20 suivants</a></center>");
 $site->add_contents($cts);
 /*
 $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
