@@ -736,15 +736,22 @@ class site extends interfaceweb
 
       $cts->add($sublist,true, true, "sainvadminbox", "boxlist", true, false);
     }
-
+    
+    if( $this->user->is_in_group("gestion_syscarteae") )
+    {
+      $sublist = new itemlist("Système Carte AE","boxlist");
+      $sublist->add("<a href=\"".$topdir."syscarteae.php?view=factures\">Appels à facture</a>");
+      $sublist->add("<a href=\"".$topdir."syscarteae.php?view=comptes\">Comptes</a>");
+      $sublist->add("<a href=\"".$topdir."syscarteae.php?view=retrait\">Produits non retirés</a>");
+      $cts->add($sublist,true, true, "syscarteaebox", "boxlist", true, false);
+    }
+    
     if( $this->user->is_in_group("root") )
     {
-       $sublist = new itemlist("Equipe info","boxlist");
-       $sublist->add("<a href=\"".$topdir."group.php\">Gestion des groupes</a>");
-       $sublist->add("<a href=\"".$topdir."ae/pollcoti.php\">Expiration des cotisations (sem.)</a>");
-      $cts->add($sublist,true, true, "riitadminbox", "boxlist", true, false);
-
-
+      $sublist = new itemlist("Equipe info","boxlist");
+      $sublist->add("<a href=\"".$topdir."group.php\">Gestion des groupes</a>");
+      $sublist->add("<a href=\"".$topdir."ae/pollcoti.php\">Expiration des cotisations (sem.)</a>");
+      $cts->add($sublist,true, true, "rootadminbox", "boxlist", true, false);
     }
 
 

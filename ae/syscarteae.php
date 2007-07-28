@@ -39,7 +39,7 @@ require_once($topdir."include/entities/books.inc.php");
 
 $site = new site ();
 
-if ( !$site->user->is_in_group("gestion_ae") )
+if ( !$site->user->is_in_group("gestion_syscarteae") )
 	error_403();
 	
 if ( $_REQUEST["action"] == "genfact" )
