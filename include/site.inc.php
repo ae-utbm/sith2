@@ -47,7 +47,7 @@ require_once($topdir . "include/entities/cotisation.inc.php");
 class site extends interfaceweb
 {
   /** Constructeur de la classe */
-  function site ()
+  function site ($stats=true)
   {
     $dbro = new mysqlae ();
     if (!$dbro)
@@ -59,7 +59,7 @@ class site extends interfaceweb
 
     $this->interfaceweb($dbro, $dbrw);
     
-    if( !preg_match('/taiste/', $_SERVER['SCRIPT_NAME']) && !preg_match('/ae/', $_SERVER['SCRIPT_NAME']))
+    if( $stats && !preg_match('/taiste/', $_SERVER['SCRIPT_NAME']) && !preg_match('/ae/', $_SERVER['SCRIPT_NAME']))
       $this->stats();
 
     if($_COOKIE['AE2_SESS_ID'])
