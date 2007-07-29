@@ -362,7 +362,7 @@ if ( !isset($dejafait["membres"]) )
   $frm->add($sfrm,false,true,false,"membres",false,true);
 }
 $frm->add_submit("save","Ajouter");
-$cts->add ( $frm, true, true, "_newonglet", false, true, false );
+$cts->add ( $frm, true/*, true, "_newonglet", false, true, false*/ );
 
 $cts->add_title(1,"Boites");
 
@@ -408,7 +408,7 @@ if ( !in_array("calendrier",$boxes) )
   $frm->add($sfrm,false,true,false,"calendrier",false,true);
 }
 $frm->add_submit("save","Ajouter");
-$cts->add ( $frm, true, true, "_newbox", false, true, false );
+$cts->add ( $frm, true/*, true, "_newbox", false, true, false*/ );
 
 $frm = new form("setboxsections","configurecms.php",false,"POST","Sections où les boites seront affichées");
 $frm->add_hidden("action","setboxsections");
@@ -417,7 +417,7 @@ foreach ( $onglets_noms as $nom => $titre )
   $frm->add_checkbox("sections[$nom]","$titre",in_array($nom,$boxes_sections));
 
 $frm->add_submit("save","Enregistrer");
-$cts->add ( $frm, true, true, "_setboxsections", false, true, false );
+$cts->add ( $frm, true/*, true, "_setboxsections", false, true, false*/ );
 
 $cts->add_title(1,"Général");
 
