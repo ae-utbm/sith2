@@ -61,7 +61,7 @@ $statscotis = new requete($site->db, "SELECT
                                       COUNT(`id_utilisateur`) AS num  
                                       , substring(cpostal_ville,1,2) AS cpostal 
                                       FROM `utl_etu`
-                                      INNER JOIN 
+                                      INNER JOIN `loc_ville` ON `loc_ville`.`id_ville` = `utl_etu`.`id_ville` 
                                       WHERE `utl_etu`.`id_ville` IS NOT NULL
                                       GROUP BY substring(cpostal_ville,1,2)");
 
