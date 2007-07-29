@@ -58,14 +58,11 @@ $pgconn = new pgsqlae();
 
 
 $statscotis = new requete($site->db, "SELECT  
-                                               COUNT(`id_utilisateur`)          AS num  
-                                               , substring(cpostal_parents,1,2) AS cpostal 
-                                      FROM  
-                                               `utl_etu` 
-                                      WHERE 
-                                               char_length(cpostal_parents) = 5
-                                      GROUP BY 
-                                               substring(cpostal_parents,1,2)");
+                                      COUNT(`id_utilisateur`) AS num  
+                                      , substring(cpostal_parents,1,2) AS cpostal 
+                                      FROM `utl_etu` 
+                                      WHERE char_length(cpostal_parents) = 5
+                                      GROUP BY substring(cpostal_parents,1,2)");
 
 while ($rs = $statscotis->get_row())
 {
