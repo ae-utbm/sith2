@@ -30,7 +30,7 @@ $site->start_page ( CMS_PREFIX."contact", "Contact" );
 
 $cts = new contents("Contact");
 
-$cts->add_paragraph(2,htmlentities($this->asso->nom,ENT_NOQUOTES,"UTF-8")." est une activitée de l'association des étudiants de l'université de technologie de belfort montbéliard");
+$cts->add_paragraph(2,htmlentities($site->asso->nom,ENT_NOQUOTES,"UTF-8")." est une activitée de l'association des étudiants de l'université de technologie de belfort montbéliard");
 
 $cts->add_title(2,"Adresses");
 
@@ -41,7 +41,7 @@ htmlentities($this->asso->nom,ENT_NOQUOTES,"UTF-8")."<br/>".
 "90010 BELFORT CEDEX");
 
 if ( $site->asso->email )
-  $cts->add_paragraph(2,"e-mail: ".$site->asso->email);
+  $cts->add_paragraph(2,"e-mail: ".htmlentities($site->asso->email,ENT_NOQUOTES,"UTF-8"));
 
 $cts->add_title(2,"Liens");
 
