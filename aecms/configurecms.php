@@ -170,7 +170,7 @@ elseif ( $_REQUEST["action"] == "setboxsections"  )
   $site->config["boxes.sections"] = implode(",",$sections);
   $site->save_conf();
 }
-elseif ( $_REQUEST["action"] == "up" )
+elseif ( $_REQUEST["action"] == "up" && isset($_REQUEST["nom_onglet"]) )
 {
   $prevkey=null;
   
@@ -189,7 +189,7 @@ elseif ( $_REQUEST["action"] == "up" )
   }
   $site->save_conf();
 }
-elseif ( $_REQUEST["action"] == "down" )
+elseif ( $_REQUEST["action"] == "down" && isset($_REQUEST["nom_onglet"]) )
 {
   $prevkey=null;
   foreach ( $site->tab_array as $key => $row )
@@ -205,6 +205,55 @@ elseif ( $_REQUEST["action"] == "down" )
     }
   }
   $site->save_conf();
+}
+elseif ( $_REQUEST["action"] == "up" && isset($_REQUEST["box_name"]) )
+{
+  if ( empty($site->config["boxes.names"]) )
+    $boxes = array();
+  else
+    $boxes = explode(",",$site->config["boxes.names"]);
+
+  $prevkey=null;
+  
+  foreach ( $boxes as $key => $name )
+  {
+    if ( $_REQUEST["box_name"] == $name )
+    {
+      if ( !is_null($prevkey) )
+      {
+        $tmp = $boxes[$key];
+        $boxes[$key] = $boxes[$prevkey];
+        $boxes[$prevkey] = $tmp;
+      }
+    }
+    $prevkey = $key;
+  }
+  
+  $site->config["boxes.names"] = implode(",",$boxes);
+  $site->save_conf();  
+}
+elseif ( $_REQUEST["action"] == "down" && isset($_REQUEST["box_name"]) )
+{
+  if ( empty($site->config["boxes.names"]) )
+    $boxes = array();
+  else
+    $boxes = explode(",",$site->config["boxes.names"]);  
+  
+  $prevkey=null;
+  foreach ( $boxes as $key => $name )
+  {
+    if ( $_REQUEST["box_name"] == $name )
+      $prevkey = $key;
+    elseif ( !is_null($prevkey) )
+    {
+      $tmp = $boxes[$key];
+      $boxes[$key] = $boxes[$prevkey];
+      $boxes[$prevkey] = $tmp;
+    }
+  }
+  
+  $site->config["boxes.names"] = implode(",",$boxes);
+  $site->save_conf();  
 }
 elseif ( $_REQUEST["action"] == "edit" )
 {
@@ -313,7 +362,7 @@ if ( !isset($dejafait["membres"]) )
   $frm->add($sfrm,false,true,false,"membres",false,true);
 }
 $frm->add_submit("save","Ajouter");
-$cts->add($frm,true);
+$cts->add ( $frm, true, true, "_newonglet", false, true, false )
 
 $cts->add_title(1,"Boites");
 
@@ -343,7 +392,7 @@ foreach ( $boxes as $name )
 
 $cts->add( new sqltable ( "boxes", "Boites", $boxes_list, 
 "configurecms.php", "box_name", array("box_title"=>"Titre","box_type"=>"Type"), 
-array("delete"=>"Supprimer","edit"=>"Editer"), array() ));
+array("delete"=>"Supprimer","edit"=>"Editer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
 
 $frm = new form("newbox","configurecms.php",false,"POST","Nouvelle boite");
 $frm->add_hidden("action","addbox");
@@ -359,8 +408,7 @@ if ( !in_array("calendrier",$boxes) )
   $frm->add($sfrm,false,true,false,"calendrier",false,true);
 }
 $frm->add_submit("save","Ajouter");
-$cts->add($frm,true);
-
+$cts->add ( $frm, true, true, "_newbox", false, true, false )
 
 $frm = new form("setboxsections","configurecms.php",false,"POST","Sections où les boites seront affichées");
 $frm->add_hidden("action","setboxsections");
@@ -369,7 +417,7 @@ foreach ( $onglets_noms as $nom => $titre )
   $frm->add_checkbox("sections[$nom]","$titre",in_array($nom,$boxes_sections));
 
 $frm->add_submit("save","Enregistrer");
-$cts->add($frm,true);
+$cts->add ( $frm, true, true, "_setboxsections", false, true, false )
 
 $cts->add_title(1,"Général");
 
