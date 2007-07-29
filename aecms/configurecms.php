@@ -156,7 +156,7 @@ foreach ( $site->tab_array as $row )
 {
   if ( $row[0] != CMS_PREFIX."config" )
   {
-    $dejafait[$row[0]] = true;
+    $dejafait[substr($row[0],strlen(CMS_PREFIX))] = true;
     
     if ( ereg("^index.php?name=(.*)$",$row[1],$regs) )
       $lien = "Page: ".$pages[$regs[1]];
