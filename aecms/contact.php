@@ -37,7 +37,7 @@ $cts->add_title(2,"Adresses");
 $cts->add_paragraph(2,
 "université de technologie de belfort-montébliard<br/>".
 "association des étudiants<br/>".
-htmlentities($this->asso->nom,ENT_NOQUOTES,"UTF-8")."<br/>".
+htmlentities($site->asso->nom,ENT_NOQUOTES,"UTF-8")."<br/>".
 "90010 BELFORT CEDEX");
 
 if ( $site->asso->email )
