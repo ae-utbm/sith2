@@ -35,6 +35,7 @@
  *     custom.css
  *   aecms --> /var/www/ae/www/taiste/aecms
  *   .htaccess
+ *     RewriteEngine On
  *     RewriteRule ^([a-z]*)\.php(.*)$  aecms/$1.php$2 [L] 
  *     RewriteRule ^$  aecms/index.php [L] 
  *     RewriteRule ^images/(.*)$  aecms/images/$1 [L]

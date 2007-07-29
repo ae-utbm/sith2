@@ -27,6 +27,17 @@
 require_once("include/site.inc.php");
 require_once($topdir."include/cts/gallery.inc.php");
 
+if ( !is_null($site->asso->id_parent) )
+{
+  $GLOBALS['ROLEASSO'][ROLEASSO_PRESIDENT] = "Responsable";
+  $GLOBALS['ROLEASSO'][ROLEASSO_VICEPRESIDENT] = "Vice-responsable";
+}
+else
+{
+  $GLOBALS['ROLEASSO'][ROLEASSO_PRESIDENT] = "Président";
+  $GLOBALS['ROLEASSO'][ROLEASSO_VICEPRESIDENT] = "Vice-président";
+}
+
 $site->start_page ( CMS_PREFIX."membres", "Membres" );
 
 $cts = new contents("Membres");
