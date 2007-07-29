@@ -331,15 +331,20 @@ $boxes_list = array();
 foreach ( $boxes as $name )
 {
   if ( $name == "calendrier" )
-    $title = "calendrier";
+  {
+    $title = "Calendrier";
+    $type="Calendrier";
+  }
   else
+  {
     $title = $pages_boxes["boxes:".$name];
-
-  $boxes_list[] = array("box_name"=>$name,"box_title"=>$title);
+    $type="Personnalisée";
+  }
+  $boxes_list[] = array("box_name"=>$name,"box_title"=>$title,"box_type"=>$type);
 }
 
 $cts->add( new sqltable ( "boxes", "Boites", $boxes_list, 
-"configurecms.php", "box_name", array("box_title"=>"Titre"), 
+"configurecms.php", "box_name", array("box_title"=>"Titre","box_type"=>"Type"), 
 array("delete"=>"Supprimer","edit"=>"Editer"), array() ));
 
 $frm = new form("newbox","configurecms.php",false,"POST","Nouvelle boite");
@@ -359,12 +364,11 @@ $frm->add_submit("save","Ajouter");
 $cts->add($frm,true);
 
 
-
 $frm = new form("setboxsections","configurecms.php",false,"POST","Affichage des boites");
 $frm->add_hidden("action","setboxsections");
 
 foreach ( $onglets_noms as $nom => $titre )
-  $frm->add_checkbox("sections[$nom]","$titre",isset($boxes_sections[$nom]));
+  $frm->add_checkbox("sections[$nom]","$titre",in_array($nom,$boxes_sections));
 
 $frm->add_submit("save","Enregistrer");
 $cts->add($frm,true);
