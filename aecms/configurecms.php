@@ -295,7 +295,7 @@ $site->start_page ( CMS_PREFIX."config", "Configuration de AECMS" );
 
 $cts = new contents("Configuration de AECMS");
 
-$cts->add_title(1,"Onglets");
+$cts->add_title(2,"Onglets");
 
 $dejafait = array();
 $onglets_noms = array();
@@ -331,6 +331,8 @@ $cts->add( new sqltable ( "onglets", "Onglets", $liste_onglets,
 "configurecms.php", "nom_onglet", array("titre_onglet"=>"Titre","lien_onglet"=>"Lien"), 
 array("delete"=>"Supprimer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
 
+$cts->add_title(3,"Nouvel onglet");
+
 $frm = new form("newonglet","configurecms.php",false,"POST","Nouvel onglet");
 
 
@@ -362,7 +364,7 @@ if ( !isset($dejafait["membres"]) )
   $frm->add($sfrm,false,true,false,"membres",false,true);
 }
 $frm->add_submit("save","Ajouter");
-$cts->add ( $frm, true/*, true, "_newonglet", false, true, false*/ );
+$cts->add ( $frm );
 
 $cts->add_title(1,"Boites");
 
@@ -394,6 +396,8 @@ $cts->add( new sqltable ( "boxes", "Boites", $boxes_list,
 "configurecms.php", "box_name", array("box_title"=>"Titre","box_type"=>"Type"), 
 array("delete"=>"Supprimer","edit"=>"Editer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
 
+$cts->add_title(3,"Nouvelle boite");
+
 $frm = new form("newbox","configurecms.php",false,"POST","Nouvelle boite");
 $frm->add_hidden("action","addbox");
 
@@ -408,7 +412,9 @@ if ( !in_array("calendrier",$boxes) )
   $frm->add($sfrm,false,true,false,"calendrier",false,true);
 }
 $frm->add_submit("save","Ajouter");
-$cts->add ( $frm, true/*, true, "_newbox", false, true, false*/ );
+$cts->add ( $frm );
+
+$cts->add_title(3,"Sections où les boites seront affichées");
 
 $frm = new form("setboxsections","configurecms.php",false,"POST","Sections où les boites seront affichées");
 $frm->add_hidden("action","setboxsections");
@@ -417,9 +423,12 @@ foreach ( $onglets_noms as $nom => $titre )
   $frm->add_checkbox("sections[$nom]","$titre",in_array($nom,$boxes_sections));
 
 $frm->add_submit("save","Enregistrer");
-$cts->add ( $frm, true/*, true, "_setboxsections", false, true, false*/ );
+$cts->add ( $frm );
 
-$cts->add_title(1,"Général");
+$cts->add_title(2,"Général");
+
+$cts->add_title(3,"Options");
+
 
 $frm = new form("setconfig","configurecms.php",true,"POST","Options");
 $frm->add_hidden("action","setconfig");
@@ -428,8 +437,9 @@ $frm->add_select_field("membres_upto","Membres, liste jusqu'au niveau",$GLOBALS[
 $frm->add_checkbox("membres_allowjoinus","Membres, afficher le formulaire \"Rejoignez-nous\"",$site->config["membres.allowjoinus"]);
 
 $frm->add_submit("save","Enregistrer");
-$cts->add($frm,true);
+$cts->add($frm);
 
+$cts->add_title(3,"Outils");
 
 
 
@@ -437,7 +447,7 @@ $cts->add(new itemlist("Outils",false,array(
 "<a href=\"index.php?page=new\">Creer une nouvelle page</a>",
 "<a href=\"news.php\">Ajouter une nouvelle</a>"
 
-)),true);
+)));
 
 
 
