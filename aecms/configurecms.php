@@ -43,13 +43,19 @@ else
   $GLOBALS['ROLEASSO'][ROLEASSO_VICEPRESIDENT] = "Vice-président";
 }
 
-$req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "%'");	
+$req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "%' AND `nom_page` NOT LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");	
 $pages = array();
 while ( $row = $req->get_row() )
   $pages[substr($row['nom_page'],strlen(CMS_PREFIX))] = $row['titre_page'];
   
 if ( !isset($pages["home"]) )
   $pages["home"] = "Accueil";
+  
+$req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");	
+$pages_boxes = array();
+while ( $row = $req->get_row() )
+  $pages_boxes[substr($row['nom_page'],strlen(CMS_PREFIX))] = $row['titre_page'];
+  
   
 if ( $_REQUEST["action"] == "addonglet" )
 {
@@ -91,19 +97,78 @@ if ( $_REQUEST["action"] == "addonglet" )
   $site->tab_array[] = array(CMS_PREFIX.$name,$lien,$_REQUEST["title"]);
   $site->save_conf();
 }
+elseif ( $_REQUEST["action"] == "addbox" )
+{
+  $boxes = explode(",",$site->config["boxes.names"]);
+  
+  $name = "none";
+  
+  if ( $_REQUEST["typebox"] == "custom" )
+  {
+    $name = $_REQUEST["name"];
+    $page = new page ($site->db,$site->dbrw);
+    $page->load_by_name(CMS_PREFIX."boxes:".$name);
+    if ( !$page->is_valid() )
+    {
+      $page->id_utilisateur = null;
+      $page->id_groupe = $site->asso->get_membres_group_id();
+      $page->id_groupe_admin = $site->asso->get_bureau_group_id();
+      $page->droits_acces = 0x311;      
+      $page->add(CMS_PREFIX."boxes:".$name, $_REQUEST["title"], "", CMS_PREFIX."accueil");
+    }
+    else
+      $page->save($_REQUEST["title"], $page->texte, CMS_PREFIX."accueil" );
+
+  }
+  elseif ( $_REQUEST["typebox"] == "calendrier" )
+    $name = "calendrier";
+  
+  $boxes[] = $name;
+  
+  $site->config["boxes.names"] = implode(",",$boxes);
+  $site->save_conf();
+}
 elseif ( $_REQUEST["action"] == "setconfig" )
 {
   $site->config["membres.upto"] = intval($_REQUEST["membres_upto"]);
   $site->config["membres.allowjoinus"] = isset($_REQUEST["membres_allowjoinus"])?1:0;
   $site->save_conf();
 }
-elseif ( $_REQUEST["action"] == "delete" )
+elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["nom_onglet"]) )
 {
-  foreach ( $site->tab_array as $key => $row )
+  if ( $_REQUEST["nom_onglet"] != CMS_PREFIX."accueil" )
   {
-    if ( $_REQUEST["nom_onglet"] == $row[0] )
-      unset($site->tab_array[$key]);
+  
+    foreach ( $site->tab_array as $key => $row )
+    {
+      if ( $_REQUEST["nom_onglet"] == $row[0] )
+        unset($site->tab_array[$key]);
+    }
+    $site->save_conf();
   }
+}
+elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["box_name"]) )
+{
+  $boxes = explode(",",$site->config["boxes.names"]);
+  
+  foreach ( $boxes as $key => $name )
+  {
+    if ( $_REQUEST["box_name"] == $name )
+      unset($boxes[$key]);
+  }
+  
+  $site->config["boxes.names"] = implode(",",$boxes);
+  $site->save_conf();
+  
+}
+elseif ( $_REQUEST["action"] == "setboxsections"  )
+{
+  $sections = array(); 
+  
+  foreach( $_REQUEST["sections"]  as $nom => $set )
+    $sections[]=$nom;  
+    
+  $site->config["boxes.sections"] = implode(",",$sections);
   $site->save_conf();
 }
 elseif ( $_REQUEST["action"] == "up" )
@@ -142,7 +207,38 @@ elseif ( $_REQUEST["action"] == "down" )
   }
   $site->save_conf();
 }
+elseif ( $_REQUEST["action"] == "edit" )
+{
+  $page = new page ($site->db,$site->dbrw);
+  $page->load_by_name(CMS_PREFIX."boxes:".$_REQUEST["box_name"]);
+  if ($page->is_valid() )
+  {
+    $site->start_page(CMS_PREFIX."config","Edition boite :".$page->titre);
+    $frm = new form("editarticle","configurecms.php",true,"POST","Edition : ".$page->nom);
+    $frm->add_hidden("action","save");
+    $frm->add_hidden("box_name",$_REQUEST["box_name"]);
+    $frm->add_text_field("title","Titre",$page->titre,true);
+    $frm->add_rights_field($page,false,true,"pages");
+    $frm->add_text_area("texte","Contenu",$page->texte,80,20,true);
+    $frm->add_submit("save","Enregistrer");
+    $site->add_contents($frm);
+    $site->add_contents(new wikihelp());
+    $site->end_page();
+  }
+}
+elseif ( $_REQUEST["action"] == "save" )
+{
+  $page = new page ($site->db,$site->dbrw);
+  $page->load_by_name(CMS_PREFIX."boxes:".$_REQUEST["box_name"]);
   
+  if ($page->is_valid() )
+  {
+    $page->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
+    $page->save( $_REQUEST['title'], $_REQUEST['texte'], CMS_PREFIX."accueil" );
+  }
+}
+
+
 $site->start_page ( CMS_PREFIX."config", "Configuration de AECMS" );
 
 $cts = new contents("Configuration de AECMS");
@@ -150,6 +246,7 @@ $cts = new contents("Configuration de AECMS");
 $cts->add_title(2,"Onglets");
 
 $dejafait = array();
+$onglets_noms = array();
 
 $liste_onglets = array();
 foreach ( $site->tab_array as $row )
@@ -174,12 +271,13 @@ foreach ( $site->tab_array as $row )
       $lien = "Lien spécial (non supporté)";
       
     $liste_onglets[] = array("nom_onglet"=>$row[0],"titre_onglet"=>$row[2],"lien_onglet"=>$lien);
+    $onglets_noms[$row[0]] = $row[2];
   }
 }
 
 $cts->add( new sqltable ( "onglets", "Onglets", $liste_onglets, 
 "configurecms.php", "nom_onglet", array("titre_onglet"=>"Titre","lien_onglet"=>"Lien"), 
-array("delete"=>"Supprimer","edit"=>"Editer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
+array("delete"=>"Supprimer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
 
 $frm = new form("newonglet","configurecms.php",true,"POST","Nouvel onglet");
 
@@ -214,7 +312,54 @@ if ( !isset($dejafait["membres"]) )
 $frm->add_submit("save","Ajouter");
 $cts->add($frm,true);
 
-$frm = new form("setconfig","configurecms.php",true,"POST","Configuration");
+// Boxes
+$boxes = explode(",",$site->config["boxes.names"]);
+$boxes_sections = explode(",",$site->config["boxes.sections"]);
+
+$boxes_list = array();
+foreach ( $boxes as $name )
+{
+  if ( $name == "calendrier" )
+    $title = "calendrier";
+  else
+    $title = $pages_boxes["boxes:".$name];
+
+  $boxes_list[] = array("box_name"=>$name,"box_title"=>$title);
+}
+
+$cts->add( new sqltable ( "boxes", "Boites", $boxes_list, 
+"configurecms.php", "box_name", array("box_title"=>"Titre"), 
+array("delete"=>"Supprimer","edit"=>"Editer"), array() ));
+
+$frm = new form("newbox","configurecms.php",true,"POST","Nouvelle boite");
+$frm->add_hidden("action","addbox");
+
+$sfrm = new form("typebox",null,null,null,"Personnalisée");
+$frm->add_text_field("name","Code (nom)","",true);
+$frm->add_text_field("title","Titre","",true);
+$frm->add($sfrm,false,true,true,"custom",false,true);
+
+if ( !in_array("calendrier",$boxes) )
+{
+  $sfrm = new form("typebox",null,null,null,"Calendrier");
+  $frm->add($sfrm,false,true,false,"calendrier",false,true);
+}
+$frm->add_submit("save","Ajouter");
+$cts->add($frm,true);
+
+
+
+$frm = new form("setboxsections","configurecms.php",true,"POST","Affichage des boites");
+$frm->add_hidden("action","setboxsections");
+
+foreach ( $onglets_noms as $nom => $titre )
+  $frm->add_checkbox("sections[$nom]","$titre",isset($boxes_sections[$nom]));
+
+$frm->add_submit("save","Enregistrer");
+$cts->add($frm,true);
+
+
+$frm = new form("setconfig","configurecms.php",true,"POST","Options");
 $frm->add_hidden("action","setconfig");
 
 $frm->add_select_field("membres_upto","Membres, liste jusqu'au niveau",$GLOBALS['ROLEASSO'], $site->config["membres.upto"]);

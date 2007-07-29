@@ -108,7 +108,12 @@ class aecms extends site
     $this->site();
     $this->pubUrl = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["SCRIPT_NAME"])."/";
     $this->tab_array = array (array(CMS_PREFIX."accueil", "index.php", "Accueil"));
-    $this->config = array("membres.allowjoinus"=>1,"membres.upto"=>ROLEASSO_TRESORIER);
+    $this->config = array(
+      "membres.allowjoinus"=>1,
+      "membres.upto"=>ROLEASSO_TRESORIER,
+      "boxes.sections"=> CMS_PREFIX."accueil",
+      "boxes.names"=>"calendrier"
+    );
     
     $this->asso = new asso($this->db,$this->dbrw);
     $this->asso->load_by_id(CMS_ID_ASSO);
@@ -126,10 +131,19 @@ class aecms extends site
   
   function start_page ( $section, $title,$compact=false )
   {
-    if ( $section == CMS_PREFIX."accueil" )
+    $sections = explode(",",$this->config["boxes.sections"]);
+    if ( in_array($section,$sections) )
     {
-      $this->set_side_boxes("right",array("calendrier"),"aecms");
-      $this->add_box("calendrier",new calendar($this->db,$this->asso->id));
+      $boxes = explode(",",$this->config["boxes.names"]);
+      $this->set_side_boxes("right",$boxes,"aecms");
+      
+      foreach( $boxes as $name )
+      {
+        if ( $name == "calendrier" )
+          $this->add_box("calendrier",new calendar($this->db,$this->asso->id));
+        else
+          $this->add_box($name,$this->get_box($name));
+      }
     }
     
 		interfaceweb::start_page($section,$title,$compact);
