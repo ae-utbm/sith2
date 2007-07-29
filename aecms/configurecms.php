@@ -89,7 +89,6 @@ if ( $_REQUEST["action"] == "addonglet" )
 }
 elseif ( $_REQUEST["action"] == "setconfig" )
 {
-  print_r($_REQUEST);
   $site->config["membres.upto"] = intval($_REQUEST["membres_upto"]);
   $site->config["membres.allowjoinus"] = isset($_REQUEST["membres_allowjoinus"])?1:0;
   $site->save_conf();
