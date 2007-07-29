@@ -22,7 +22,7 @@
 * 02111-1307, USA.
 */
 
-$topdir="../";
+$topdir="./";
 
 include($topdir."include/graph.inc.php");
 
