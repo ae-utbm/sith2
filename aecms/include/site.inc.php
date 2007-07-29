@@ -149,7 +149,7 @@ class aecms extends site
     fwrite($f,'$'."this->config = array(\n");
     
     $n=0;
-    $cnt=count($this->config)-1;
+    $cnt=count($this->config);
     
     if ( $cnt == 0 )
       fwrite($f,");\n");
@@ -157,7 +157,7 @@ class aecms extends site
     {
       foreach ( $this->config as $key => $value )
       {          
-        if ( is_numeric($value) || is_bool($value) )
+        if ( is_numeric($value) || is_bool($value) )
           fwrite($f," \"".addslashes($key)."\" => ".str_replace(",",".",$value)."");
         else
           fwrite($f," \"".addslashes($key)."\" => \"".addslashes($value)."\"");
@@ -169,7 +169,6 @@ class aecms extends site
           fwrite($f,",\n");
       }
     }
-    
     
     fwrite($f,'$'."this->tab_array = array(\n");
     
@@ -214,7 +213,7 @@ class aecms extends site
     $page = new page ($site->db);
     $page->load_by_name(CMS_PREFIX."boxes:".$name);
     
-    if ( !$page->is_valid() || !$page->is_right($this->user,DROIT_LECTURE) )
+    if ( !$page->is_valid() || !$page->is_right($this->user,DROIT_LECTURE) )
       return null;
       
     return $page->get_contents();
