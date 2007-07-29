@@ -10,7 +10,7 @@ $svn=explode("|",$svn);
 $stast_svn=array();
 for($i=0;$i<count($svn);$i++)
 {
-  if($empty($svn[$i]))
+  if(!empty($svn[$i]))
   {
     $tmp=explode(" ",$svn[$i]);
     $cam->data($tmp[1],$tmp[0]);
