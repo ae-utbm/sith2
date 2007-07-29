@@ -144,7 +144,7 @@ class aecms extends site
     
     
     $n=0;
-    $cnt=count($this->tab_array);
+    $cnt=count($this->tab_array)-1;
     
     if ( $cnt == 0 )
       fwrite($f,");\n");
