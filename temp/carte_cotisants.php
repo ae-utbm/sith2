@@ -22,7 +22,7 @@
  * 02111-1307, USA.
  */
 
-exit();
+//exit();
 
 define("RATIO", 1600);     // Le ratio pour la carte final (1/1600)
 define("MODE", 0);         // 0 => points, 1 => nb/departement
@@ -42,18 +42,14 @@ if (MODE == 0)
 {
   $req = new requete($site->db, "SELECT `loc_ville`.`lat_ville`, `loc_ville`.`long_ville`
                                  FROM `utl_etu`
-                                 LEFT JOIN `loc_ville` ON (`loc_ville`.`id_ville` = `utl_etu`.`id_ville`
-                                 OR CAST( `utl_etu`.`cpostal_parents` AS UNSIGNED )
-                                 = CAST( `loc_ville`.`cpostal_ville` AS UNSIGNED ))
+                                 LEFT JOIN `loc_ville` ON `loc_ville`.`id_ville` = `utl_etu`.`id_ville`
                                  GROUP BY `loc_ville`.`id_ville`");
 }
 
 elseif (MODE == 1)
 {
   $req = new requete($site->db, "SELECT  `lat_ville`, `long_ville`, COUNT(*) AS `nb` FROM `loc_ville`
-                                 LEFT JOIN `utl_etu` ON  (`utl_etu`.`id_ville` = `loc_ville`.`id_ville`
-                                 OR CAST( `utl_etu`.`cpostal_parents` AS UNSIGNED )
-                                 = CAST( `loc_ville`.`cpostal_ville` AS UNSIGNED ))
+                                 LEFT JOIN `utl_etu` ON  `utl_etu`.`id_ville` = `loc_ville`.`id_ville`
                                  GROUP BY `loc_ville`.`id_ville`");
 }
 else
