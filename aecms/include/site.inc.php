@@ -313,7 +313,7 @@ class aecms extends site
 		echo "<p class=\"footer\">\n";		
 		echo "<a href=\"/\">association des etudiants de l'utbm</a>";
 		echo " - <a href=\"/article.php?name=legals\">informations légales</a>";
-		echo " - <a href=\"/contact.php\">contact</a>";
+		echo " - <a href=\"contact.php\">contact</a>";
 	  echo "</p>\n";
 		
 		echo "</div>\n"; // /contents
