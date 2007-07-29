@@ -90,8 +90,8 @@ if ( $_REQUEST["action"] == "addonglet" )
 elseif ( $_REQUEST["action"] == "setconfig" )
 {
   print_r($_REQUEST);
-  $site->config["membres.upto"] = intval($_REQUEST["membres.upto"]);
-  $site->config["membres.allowjoinus"] = isset($_REQUEST["membres.allowjoinus"])?1:0;
+  $site->config["membres.upto"] = intval($_REQUEST["membres_upto"]);
+  $site->config["membres.allowjoinus"] = isset($_REQUEST["membres_allowjoinus"])?1:0;
   $site->save_conf();
 }
 elseif ( $_REQUEST["action"] == "delete" )
@@ -168,8 +168,8 @@ $cts->add($frm,true);
 $frm = new form("setconfig","configurecms.php",true,"POST","Configuration");
 $frm->add_hidden("action","setconfig");
 
-$frm->add_select_field("membres.upto","Membres, liste jusqu'au niveau",$GLOBALS['ROLEASSO'], $site->config["membres.upto"]);
-$frm->add_checkbox("membres.allowjoinus","Membres, afficher le formulaire \"Rejoignez-nous\"",$site->config["membres.allowjoinus"]);
+$frm->add_select_field("membres_upto","Membres, liste jusqu'au niveau",$GLOBALS['ROLEASSO'], $site->config["membres.upto"]);
+$frm->add_checkbox("membres_allowjoinus","Membres, afficher le formulaire \"Rejoignez-nous\"",$site->config["membres.allowjoinus"]);
 
 $frm->add_submit("save","Enregistrer");
 $cts->add($frm,true);
