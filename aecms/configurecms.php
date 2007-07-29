@@ -248,7 +248,7 @@ $site->start_page ( CMS_PREFIX."config", "Configuration de AECMS" );
 
 $cts = new contents("Configuration de AECMS");
 
-$cts->add_title(2,"Onglets");
+$cts->add_title(1,"Onglets");
 
 $dejafait = array();
 $onglets_noms = array();
@@ -282,9 +282,9 @@ foreach ( $site->tab_array as $row )
 
 $cts->add( new sqltable ( "onglets", "Onglets", $liste_onglets, 
 "configurecms.php", "nom_onglet", array("titre_onglet"=>"Titre","lien_onglet"=>"Lien"), 
-array("delete"=>"Supprimer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ),true);
+array("delete"=>"Supprimer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
 
-$frm = new form("newonglet","configurecms.php",true,"POST","Nouvel onglet");
+$frm = new form("newonglet","configurecms.php",false,"POST","Nouvel onglet");
 
 
 $frm->add_hidden("action","addonglet");
@@ -317,6 +317,8 @@ if ( !isset($dejafait["membres"]) )
 $frm->add_submit("save","Ajouter");
 $cts->add($frm,true);
 
+$cts->add_title(1,"Boites");
+
 // Boxes
 if ( empty($site->config["boxes.names"]) )
   $boxes = array();
@@ -340,12 +342,12 @@ $cts->add( new sqltable ( "boxes", "Boites", $boxes_list,
 "configurecms.php", "box_name", array("box_title"=>"Titre"), 
 array("delete"=>"Supprimer","edit"=>"Editer"), array() ));
 
-$frm = new form("newbox","configurecms.php",true,"POST","Nouvelle boite");
+$frm = new form("newbox","configurecms.php",false,"POST","Nouvelle boite");
 $frm->add_hidden("action","addbox");
 
 $sfrm = new form("typebox",null,null,null,"Personnalisée");
-$frm->add_text_field("name","Code (nom)","",true);
-$frm->add_text_field("title","Titre","",true);
+$sfrm->add_text_field("name","Code (nom)","",true);
+$sfrm->add_text_field("title","Titre","",true);
 $frm->add($sfrm,false,true,true,"custom",false,true);
 
 if ( !in_array("calendrier",$boxes) )
@@ -358,7 +360,7 @@ $cts->add($frm,true);
 
 
 
-$frm = new form("setboxsections","configurecms.php",true,"POST","Affichage des boites");
+$frm = new form("setboxsections","configurecms.php",false,"POST","Affichage des boites");
 $frm->add_hidden("action","setboxsections");
 
 foreach ( $onglets_noms as $nom => $titre )
@@ -367,6 +369,7 @@ foreach ( $onglets_noms as $nom => $titre )
 $frm->add_submit("save","Enregistrer");
 $cts->add($frm,true);
 
+$cts->add_title(1,"Général");
 
 $frm = new form("setconfig","configurecms.php",true,"POST","Options");
 $frm->add_hidden("action","setconfig");
