@@ -102,7 +102,42 @@ elseif ( $_REQUEST["action"] == "delete" )
   }
   $site->save_conf();
 }
+elseif ( $_REQUEST["action"] == "up" )
+{
+  $prevkey=null;
   
+  foreach ( $site->tab_array as $key => $row )
+  {
+    if ( $_REQUEST["nom_onglet"] == $row[0] )
+    {
+      if ( !is_null($prevkey) )
+      {
+        $tmp = $site->tab_array[$key];
+        $site->tab_array[$key] = $site->tab_array[$prevkey];
+        $site->tab_array[$prevkey] = $tmp;
+      }
+    }
+    $prevkey = $key;
+  }
+  $site->save_conf();
+}
+elseif ( $_REQUEST["action"] == "down" )
+{
+  $prevkey=null;
+  foreach ( $site->tab_array as $key => $row )
+  {
+    if ( $_REQUEST["nom_onglet"] == $row[0] )
+      $prevkey = $key;
+    elseif ( !is_null($prevkey) )
+    {
+      $tmp = $site->tab_array[$key];
+      $site->tab_array[$key] = $site->tab_array[$prevkey];
+      $site->tab_array[$prevkey] = $tmp;
+      $prevkey=null;
+    }
+  }
+  $site->save_conf();
+}
   
 $site->start_page ( CMS_PREFIX."config", "Configuration de AECMS" );
 
@@ -137,7 +172,7 @@ foreach ( $site->tab_array as $row )
 
 $cts->add( new sqltable ( "onglets", "Onglets", $liste_onglets, 
 "configurecms.php", "nom_onglet", array("titre_onglet"=>"Titre","lien_onglet"=>"Lien"), 
-array("delete"=>"Supprimer","edit"=>"Editer"), array() ));
+array("delete"=>"Supprimer","edit"=>"Editer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
 
 $frm = new form("newonglet","configurecms.php",true,"POST","Nouvel onglet");
 

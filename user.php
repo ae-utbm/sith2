@@ -109,7 +109,14 @@ if ( $_REQUEST["action"] == "delete" && $can_edit && isset($_REQUEST["id_members
   $asso->load_by_id($id_asso);
   $asso->remove_member($user->id, strtotime($date_debut));
 }
-
+elseif ( $_REQUEST["action"] == "stop" && $can_edit && isset($_REQUEST["id_membership"]))
+{
+  $_REQUEST["view"]="assos";
+  list($id_asso,$date_debut) = explode(",",$_REQUEST["id_membership"]);
+  $asso = new asso($site->db,$site->dbrw);
+  $asso->load_by_id($id_asso);
+  $asso->make_former_member($user->id, time());
+}
 elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
 {
   if ( $_REQUEST["alias"] && !$user->is_alias_avaible($_REQUEST["alias"]) )
@@ -744,7 +751,7 @@ elseif ( $_REQUEST["view"]=="assos" )
       "Associations et clubs actuels", $req, "user.php?id_utilisateur=".$user->id,
       "id_membership",
       array("nom_asso"=>"Association","role"=>"Role","desc_role"=>"","date_debut"=>"Depuis"), 
-      $can_edit?array("delete"=>"Supprimer"):array(),
+      $can_edit?array("delete"=>"Supprimer","stop"=>"Arreter à la date de ce jour"):array(),
       array(), array("role"=>$GLOBALS['ROLEASSO100'])
       );
     $cts->add($tbl,true);
