@@ -34,7 +34,7 @@ $site = new site ();
 if ( $_REQUEST["action"] == "os" )
 {
   $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
-  $cam=new camembert(600,500,array(),2,0,0,0,0,0,0,10,150);
+  $cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
   while($row=$req->get_row())
     $cam->data($row['visites'], $row['os']);
   $cam->png_render();
@@ -44,7 +44,7 @@ if ( $_REQUEST["action"] == "os" )
 if ( $_REQUEST["action"] == "browser" )
 {
   $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
-  $cam=new camembert(600,500,array(),2,0,0,0,0,0,0,10,150);
+  $cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
   while($row=$req->get_row())
   {
     if($row['browser']=="Autre")
