@@ -190,7 +190,7 @@ class aecms extends site
 		echo "<html>\n";
 		echo "<head>\n";
 		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-		echo "<title>".$this->title." | ".htmlentities($this->asso->nom,ENT_NOQUOTES,"UTF-8")."</title>\n";
+		echo "<title>".$this->title." - ".htmlentities($this->asso->nom,ENT_NOQUOTES,"UTF-8")."</title>\n";
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/base.css\" title=\"AE2CMSDEF\" />\n";
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "specific/custom.css\" title=\"\" />\n";
 		foreach ( $this->extracss as $url ) 
@@ -313,6 +313,7 @@ class aecms extends site
 		echo "<p class=\"footer\">\n";		
 		echo "<a href=\"/\">association des etudiants de l'utbm</a>";
 		echo " - <a href=\"/article.php?name=legals\">informations légales</a>";
+		echo " - <a href=\"/contact.php\">contact</a>";
 	  echo "</p>\n";
 		
 		echo "</div>\n"; // /contents

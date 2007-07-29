@@ -57,6 +57,16 @@ if ( $_REQUEST["action"] == "addonglet" )
     $lien = "photos.php";
     $name = "sas";
   }
+  elseif ( $_REQUEST["typepage"] == "contact" )
+  {
+    $lien = "contact.php";
+    $name = "contact";
+  }  
+  elseif ( $_REQUEST["typepage"] == "membres" )
+  {
+    $lien = "membres.php";
+    $name = "membres";
+  }
   else
   {
     $lien = "index.php";
@@ -95,6 +105,10 @@ foreach ( $site->tab_array as $row )
       $lien = "Gallerie photos";
     elseif ( $row[1] == "d.php" )
       $lien = "Espace fichiers";
+    elseif ( $row[1] == "membres.php" )
+      $lien = "Membres";      
+    elseif ( $row[1] == "contact.php" )
+      $lien = "Contact";      
     elseif ( $row[1] == "index.php" )
       $lien = "Page: ".$pages["home"];
     else
@@ -123,6 +137,12 @@ $frm->add($sfrm,false,true,false,"aedrive",false,true);
 
 $sfrm = new form("typepage",null,null,null,"Gallerie photos (sas2)");
 $frm->add($sfrm,false,true,false,"sas2",false,true);
+
+$sfrm = new form("typepage",null,null,null,"Contact");
+$frm->add($sfrm,false,true,false,"contact",false,true);
+
+$sfrm = new form("typepage",null,null,null,"Membres");
+$frm->add($sfrm,false,true,false,"membres",false,true);
 
 $frm->add_submit("save","Ajouter");
 $cts->add($frm,true);
