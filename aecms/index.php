@@ -25,7 +25,6 @@
  */
  
 require_once("include/site.inc.php");
-require_once($topdir."include/entities/page.inc.php");
 require_once($topdir."include/entities/news.inc.php");
 
 $page = new page ($site->db,$site->dbrw);

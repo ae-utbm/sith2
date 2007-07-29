@@ -72,6 +72,7 @@ define("CMS_CONFIGFILE",CMS_CONFIGPATH."/cms".CMS_ID_ASSO.".conf.php");
 // Inclusion des classes AE2
 require_once($topdir."include/site.inc.php");
 require_once($topdir."include/entities/asso.inc.php");
+require_once($topdir."include/entities/page.inc.php");
 
 // Met à jour le catalogue pour AECMS
 $GLOBALS["entitiescatalog"]["catphoto"][3]="photos.php";
@@ -95,11 +96,14 @@ class aecms extends site
   var $asso;
   var $pubUrl;
 
+  var $config;
+
   function aecms()
   {
     $this->site();
     $this->pubUrl = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["SCRIPT_NAME"])."/";
     $this->tab_array = array (array(CMS_PREFIX."accueil", "index.php", "Accueil"));
+    $this->config = array("membres.allowjoinus"=>1,"membres.upto"=>ROLEASSO_TRESORIER);
     
     $this->asso = new asso($this->db,$this->dbrw);
     $this->asso->load_by_id(CMS_ID_ASSO);
@@ -107,7 +111,7 @@ class aecms extends site
     $this->set_side_boxes("left",array());
     $this->set_side_boxes("right",array());
     
-	  if ( file_exists(CMS_CONFIGFILE) && !isset($GET["___aecms_admin_ignoreconf"]) )
+	  if ( file_exists(CMS_CONFIGFILE) && !isset($GET["aecms_admin_ignoreconf"]) )
       include(CMS_CONFIGFILE);
     
     if ($this->is_user_admin())
@@ -141,8 +145,33 @@ class aecms extends site
     
     fwrite($f,"<?php\n");
     
-    fwrite($f,'$'."this->tab_array = array(\n");
     
+    fwrite($f,'$'."this->config = array(\n");
+    
+    $n=0;
+    $cnt=count($this->config)-1;
+    
+    if ( $cnt == 0 )
+      fwrite($f,");\n");
+    else
+    {
+      foreach ( $this->config as $key => $value )
+      {          
+        if ( is_numeric($value) || is_bool($value) )
+          fwrite($f," \"".addslashes($key)."\" => ".str_replace(",",".",$value)."");
+        else
+          fwrite($f," \"".addslashes($key)."\" => \"".addslashes($value)."\"");
+
+        $n++;
+        if ( $n == $cnt )
+          fwrite($f,");\n");
+        else
+          fwrite($f,",\n");
+      }
+    }
+    
+    
+    fwrite($f,'$'."this->tab_array = array(\n");
     
     $n=0;
     $cnt=count($this->tab_array)-1;
@@ -179,6 +208,18 @@ class aecms extends site
       
     return true;
 	}
+	
+	function get_box ( $name )
+	{
+    $page = new page ($site->db);
+    $page->load_by_name(CMS_PREFIX."boxes:".$name);
+    
+    if ( !$page->is_valid() || !$page->is_right($this->user,DROIT_LECTURE) )
+      return null;
+      
+    return $page->get_contents();
+	}
+	
 	
 	function end_page () // <=> html_render
 	{

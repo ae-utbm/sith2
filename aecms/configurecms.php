@@ -32,6 +32,17 @@ if ( !$site->is_user_admin() )
   exit();
 }
 
+if ( !is_null($site->asso->id_parent) )
+{
+  $GLOBALS['ROLEASSO'][ROLEASSO_PRESIDENT] = "Responsable";
+  $GLOBALS['ROLEASSO'][ROLEASSO_VICEPRESIDENT] = "Vice-responsable";
+}
+else
+{
+  $GLOBALS['ROLEASSO'][ROLEASSO_PRESIDENT] = "Président";
+  $GLOBALS['ROLEASSO'][ROLEASSO_VICEPRESIDENT] = "Vice-président";
+}
+
 $req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "%'");	
 $pages = array();
 while ( $row = $req->get_row() )
@@ -74,6 +85,12 @@ if ( $_REQUEST["action"] == "addonglet" )
   }
 
   $site->tab_array[] = array(CMS_PREFIX.$name,$lien,$_REQUEST["title"]);
+  $site->save_conf();
+}
+elseif ( $_REQUEST["action"] == "setconfig" )
+{
+  $site->config["membres.upto"] = intval($_REQUEST["membres.upto"]);
+  $site->config["membres.allowjoinus"] = isset($_REQUEST["membres.allowjoinus"])?1:0;
   $site->save_conf();
 }
 elseif ( $_REQUEST["action"] == "delete" )
@@ -146,6 +163,17 @@ $frm->add($sfrm,false,true,false,"membres",false,true);
 
 $frm->add_submit("save","Ajouter");
 $cts->add($frm,true);
+
+$frm = new form("newonglet","configurecms.php",true,"POST","Configuration");
+$frm->add_hidden("action","setconfig");
+
+$frm->add_select_field("membres.upto","Membres, liste jusqu'au niveau",$GLOBALS['ROLEASSO'], $site->config["membres.upto"]);
+$frm->add_checkbox("membres.allowjoinus","Membres, afficher le formulaire \"Rejoignez-nous\"",$site->config["membres.allowjoinus"]);
+
+$frm->add_submit("save","Enregistrer");
+$cts->add($frm,true);
+
+
 
 
 $cts->add(new itemlist("Outils",false,array(

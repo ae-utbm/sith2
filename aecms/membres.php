@@ -55,7 +55,7 @@ $req = new requete($site->db,
 	"INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
 	"WHERE `asso_membre`.`date_fin` IS NULL " .
 	"AND `asso_membre`.`id_asso`='".$site->asso->id."' " .
-	"AND `asso_membre`.`role` > '".ROLEASSO_TRESORIER."' ".
+	"AND `asso_membre`.`role` >= '".$this->config["membres.upto"]."' ".
 	"ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
 	
 $gal = new gallery();
@@ -77,6 +77,15 @@ while ( $row = $req->get_row() )
 }
 $cts->add($gal);
 
+if ( $this->config["membres.allowjoinus"] == 1 )
+{
+  $cts->add_title(2,"Rejoignez-nous");
+
+
+
+
+
+}
 	
 $site->add_contents($cts);  
   
