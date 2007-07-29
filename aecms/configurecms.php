@@ -364,7 +364,7 @@ $frm->add_submit("save","Ajouter");
 $cts->add($frm,true);
 
 
-$frm = new form("setboxsections","configurecms.php",false,"POST","Affichage des boites");
+$frm = new form("setboxsections","configurecms.php",false,"POST","Sections où les boites seront affichées");
 $frm->add_hidden("action","setboxsections");
 
 foreach ( $onglets_noms as $nom => $titre )
