@@ -4,10 +4,9 @@ include($topdir."include/graph.inc.php");
 
 $cam=new camembert(600,500,array(),2,0,0,0,0,0,0,10,150);
 
-$svn=exec ("/usr/share/php5/exec/svn_stats.sh");
-
-$svn=explode("|",$svn,-1);
-print_r($svn);
+//$svn=exec("/usr/share/php5/exec/svn_stats.sh");
+print_r(exec("/usr/share/php5/exec/svn_stats.sh"));
+//$svn=explode("|",$svn,-1);
 /*for($i=0;$i<count($svn);$i++)
 {
   if(!empty($svn[$i]))
