@@ -46,6 +46,9 @@ function doku2xhtml($text)
   //fix : je sais pas comment changer le vin en eau dsl
   $text  = "\n".$text."\n";
 
+  // last revision
+  $text = str_replace("«««site-rev»»»", get_rev());
+
   /*les liens (à la base y'en a plein de suportés j'ai fait le ménage
    * ex : telnet, gopher, irc, ...
    */
