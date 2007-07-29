@@ -51,12 +51,6 @@ while ( $row = $req->get_row() )
 if ( !isset($pages["home"]) )
   $pages["home"] = "Accueil";
   
-$req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");	
-$pages_boxes = array();
-while ( $row = $req->get_row() )
-  $pages_boxes[substr($row['nom_page'],strlen(CMS_PREFIX))] = $row['titre_page'];
-  
-  
 if ( $_REQUEST["action"] == "addonglet" )
 {
   if ( $_REQUEST["typepage"] == "article" )
@@ -243,7 +237,11 @@ elseif ( $_REQUEST["action"] == "save" )
   }
 }
 
-
+$req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");	
+$pages_boxes = array();
+while ( $row = $req->get_row() )
+  $pages_boxes[substr($row['nom_page'],strlen(CMS_PREFIX))] = $row['titre_page'];
+  
 $site->start_page ( CMS_PREFIX."config", "Configuration de AECMS" );
 
 $cts = new contents("Configuration de AECMS");
