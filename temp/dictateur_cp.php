@@ -5,8 +5,8 @@ include($topdir. "include/site.inc.php");
 
 $site = new site ();
 
-$req = new requete($site->db, "SELECT `id_utilisateur`, `cpostal_utl` FROM `utilisateurs` ".
-                              "WHERE `id_ville` IS NULL AND `id_pays` IS NULL AND (`cpostal_utl` IS NOT NULL AND `cpostal_utl` != '')");
+$req = new requete($site->db, "SELECT `id_utilisateur`, `cpostal_parent` FROM `utl_etu` ".
+                              "WHERE `id_ville` IS NULL AND `id_pays` IS NULL AND (`cpostal_parent` IS NOT NULL AND `cpostal_parent` != '')");
 echo "<pre>\n";
 while(list($id,$cp)=$req->get_row())
 {
@@ -17,7 +17,7 @@ while(list($id,$cp)=$req->get_row())
 
   $v=$_req->get_row();
   echo "updating utl : ".$id."\n";
-  new update($site->dbrw,"utilisateurs",array('id_ville' => $v['id_ville'], 'id_pays' => 1), array('id_utilisateur' => $id));
+  new update($site->dbrw,"utl_etu",array('id_ville' => $v['id_ville'], 'id_pays' => 1), array('id_utilisateur' => $id));
 }
 echo "</pre>";
 ?>
