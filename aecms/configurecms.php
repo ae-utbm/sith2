@@ -147,9 +147,13 @@ $frm->add($sfrm,false,true,false,"membres",false,true);
 $frm->add_submit("save","Ajouter");
 $cts->add($frm,true);
 
-$cts->add_title(2,"Outils");
 
-$cts->add_paragraph("<a href=\"index.php?page=new\">Creer une nouvelle page</a>");
+$cts->add(new itemlist("Outils",false,array(
+"<a href=\"index.php?page=new\">Creer une nouvelle page</a>",
+"<a href=\"news.php\">Ajouter une nouvelle</a>"
+
+)),true);
+
 
 
 
