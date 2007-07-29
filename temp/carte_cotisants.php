@@ -22,7 +22,7 @@
  * 02111-1307, USA.
  */
 
-//exit();
+exit();
 
 define("RATIO", 1600);     // Le ratio pour la carte final (1/1600)
 define("MODE", 1);         // 0 => points, 1 => nb/departement
