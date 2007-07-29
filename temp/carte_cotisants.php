@@ -25,7 +25,7 @@
 //exit();
 
 define("RATIO", 1600);     // Le ratio pour la carte final (1/1600)
-define("MODE", 0);         // 0 => points, 1 => nb/departement
+define("MODE", 1);         // 0 => points, 1 => nb/departement
 define("WATERMARK", TRUE); // watermark TRUE ou FALSE
 
 $topdir = "../";
