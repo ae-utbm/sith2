@@ -18,7 +18,7 @@ div.contents
   position:relative;
   margin-bottom:20px;
   text-align:left;
-
+  overflow:hidden;
 }
 
 div#logo
@@ -110,7 +110,6 @@ div.emptysectionlinks
 #right
 {
   top:1em;  
-  
 }
 
 div.article
@@ -176,6 +175,7 @@ p.footer
   font-size:10px;
   color:#c0c0c0;
   text-align:center;
+  clear:both;
 }
 
 p.footer a
