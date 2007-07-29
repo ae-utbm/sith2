@@ -326,7 +326,7 @@ foreach ( $site->tab_array as $row )
   {
     $dejafait[substr($row[0],strlen(CMS_PREFIX))] = true;
     
-    if ( ereg("^index.php?name=(.*)$",$row[1],$regs) )
+    if ( ereg("^index\.php\?name=(.*)$",$row[1],$regs) )
     {
       $lien = "Page: ".$pages[$regs[1]];
       unset($pages[$regs[1]]);
@@ -342,7 +342,7 @@ foreach ( $site->tab_array as $row )
     elseif ( $row[1] == "index.php" )
       $lien = "Page: ".$pages["home"];
     else
-      $lien = "Lien spécial (non supporté)";
+      $lien = "Lien spécial (".$row[1].")";
       
     $liste_onglets[] = array("nom_onglet"=>$row[0],"titre_onglet"=>$row[2],"lien_onglet"=>$lien);
     $onglets_noms[$row[0]] = $row[2];
