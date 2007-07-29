@@ -373,9 +373,11 @@ class interfaceweb
 		}
 		
 		echo "<p class=\"text-footer\">";
-		echo "<a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a> - <a href=\"/equipeinfo\">Equipe info</a>";
-		echo "<br/>\n";     
-		 
+		echo "<a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a>";
+    echo " - <a href=\"". $wwwtopdir ."article.php?name=rd\">R&D</a>";
+    echo " - <a href=\"". $wwwtopdir ."equipeinfo\">Equipe info</a>";
+		echo "<br/>\n"; 
+		
 		echo "Icones par <a href=\"http://www.everaldo.com/\">Everaldo.com</a></p>\n";
 		
 		echo "</div>\n"; // /page
