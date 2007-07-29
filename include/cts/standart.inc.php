@@ -634,8 +634,8 @@ class form extends stdcontents
                 $this->buffer .= "<div class=\"formfield\">\n";
                 $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/bold.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'**','**');\" /> \n";
                 $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/italic.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'//','//');\" />\n";
-                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/underline.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'<del>','</del>');\" />\n";
-                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/strike.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'//','//');\" />\n";
+                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/underline.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'__','__');\" />\n";
+                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/strike.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'<del>','</del>');\" />\n";
                 $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h1.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'======','======');\" />\n";
                 $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h2.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'=====','=====');\" />\n";
                 $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h3.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'====','====');\" />\n";
