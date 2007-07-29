@@ -191,12 +191,12 @@ $sfrm = new form("typepage",null,null,null,"Page (article)");
 $sfrm->add_select_field("nom_page","Page",$pages);
 $frm->add($sfrm,false,true,true,"article",false,true);
 
-if ( !isset($dejafait["aedrive"]) )
+if ( !isset($dejafait["fichiers"]) )
 {
   $sfrm = new form("typepage",null,null,null,"Espace fichiers (aedrive)");
   $frm->add($sfrm,false,true,false,"aedrive",false,true);
 }
-if ( !isset($dejafait["sas2"]) )
+if ( !isset($dejafait["sas"]) )
 {
   $sfrm = new form("typepage",null,null,null,"Gallerie photos (sas2)");
   $frm->add($sfrm,false,true,false,"sas2",false,true);
