@@ -277,7 +277,7 @@ foreach ( $site->tab_array as $row )
 
 $cts->add( new sqltable ( "onglets", "Onglets", $liste_onglets, 
 "configurecms.php", "nom_onglet", array("titre_onglet"=>"Titre","lien_onglet"=>"Lien"), 
-array("delete"=>"Supprimer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
+array("delete"=>"Supprimer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ),true);
 
 $frm = new form("newonglet","configurecms.php",true,"POST","Nouvel onglet");
 
