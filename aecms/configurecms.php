@@ -366,7 +366,7 @@ if ( !isset($dejafait["membres"]) )
 $frm->add_submit("save","Ajouter");
 $cts->add ( $frm );
 
-$cts->add_title(1,"Boites");
+$cts->add_title(2,"Boites");
 
 // Boxes
 if ( empty($site->config["boxes.names"]) )
