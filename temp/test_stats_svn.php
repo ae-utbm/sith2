@@ -12,10 +12,11 @@ for($i=0;$i<count($svn);$i++)
 {
   if(!empty($svn[$i]))
   {
-    $tmp=explode(" ",$svn[$i]);
-    $cam->data($tmp[1],$tmp[0]);
+		$tmp=explode(" ",$svn[$i]);
+    print_r($tmp);
+    //$cam->data($tmp[1],$tmp[0]);
   }
 }
-$cam->png_render();
+//$cam->png_render();
 exit();
 ?>
