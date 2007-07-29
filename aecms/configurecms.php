@@ -111,7 +111,7 @@ elseif ( $_REQUEST["action"] == "addbox" )
     $page->load_by_name(CMS_PREFIX."boxes:".$name);
     if ( !$page->is_valid() )
     {
-      $page->id_utilisateur = null;
+      $page->id_utilisateur = $site->user->id;
       $page->id_groupe = $site->asso->get_membres_group_id();
       $page->id_groupe_admin = $site->asso->get_bureau_group_id();
       $page->droits_acces = 0x311;      
