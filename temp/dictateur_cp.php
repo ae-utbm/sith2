@@ -6,7 +6,7 @@ include($topdir. "include/site.inc.php");
 $site = new site ();
 
 $req = new requete($site->db, "SELECT `id_utilisateur`, `cpostal_utl` FROM `utilisateurs` ".
-                              "WHERE `id_ville` IS NULL AND `id_pays` IS NULL AND (`cpostal_utl` IS NOT NULL AND `cpostal_utl` != ''");
+                              "WHERE `id_ville` IS NULL AND `id_pays` IS NULL AND (`cpostal_utl` IS NOT NULL AND `cpostal_utl` != '')");
 echo "<pre>\n";
 while(list($id,$cp)=$req->get_row())
 {
