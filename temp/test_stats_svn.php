@@ -1,4 +1,5 @@
 <?php
+
 $topdir="../";
 include($topdir."include/graph.inc.php");
 
