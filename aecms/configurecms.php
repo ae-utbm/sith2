@@ -99,9 +99,10 @@ if ( $_REQUEST["action"] == "addonglet" )
 }
 elseif ( $_REQUEST["action"] == "addbox" )
 {
-  $boxes = explode(",",$site->config["boxes.names"]);
-  
-  $name = "none";
+  if ( empty($site->config["boxes.names"]) )
+    $boxes = array();
+  else
+    $boxes = explode(",",$site->config["boxes.names"]);
   
   if ( $_REQUEST["typebox"] == "custom" )
   {
@@ -120,9 +121,10 @@ elseif ( $_REQUEST["action"] == "addbox" )
       $page->save($_REQUEST["title"], $page->texte, CMS_PREFIX."accueil" );
 
   }
-  elseif ( $_REQUEST["typebox"] == "calendrier" )
+  else//if ( $_REQUEST["typebox"] == "calendrier" )
     $name = "calendrier";
   
+  if ( !in_array($name,$boxes) )
   $boxes[] = $name;
   
   $site->config["boxes.names"] = implode(",",$boxes);
@@ -149,7 +151,10 @@ elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["nom_onglet"]) )
 }
 elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["box_name"]) )
 {
-  $boxes = explode(",",$site->config["boxes.names"]);
+  if ( empty($site->config["boxes.names"]) )
+    $boxes = array();
+  else
+    $boxes = explode(",",$site->config["boxes.names"]);
   
   foreach ( $boxes as $key => $name )
   {
@@ -313,7 +318,11 @@ $frm->add_submit("save","Ajouter");
 $cts->add($frm,true);
 
 // Boxes
-$boxes = explode(",",$site->config["boxes.names"]);
+if ( empty($site->config["boxes.names"]) )
+  $boxes = array();
+else
+  $boxes = explode(",",$site->config["boxes.names"]);
+
 $boxes_sections = explode(",",$site->config["boxes.sections"]);
 
 $boxes_list = array();
