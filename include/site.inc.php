@@ -623,7 +623,8 @@ class site extends interfaceweb
     $cts->add_paragraph("<br><a href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>");
 
     $sublist = new itemlist("Mon Compte","boxlist");
-    $sublist->add("<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>");
+		$sublist->add("<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>");
+    $sublist->add("<a href=\"".$topdir."uvs/edt.php\">Mes emplois du temps</a>");
     $sublist->add("<a href=\"".$topdir."user.php?view=assos\">Associations et clubs</a>");
     $sublist->add("<a href=\"".$topdir."user.php?view=parrain\">Parrains et fillots</a>");
     $sublist->add("<a href=\"".$topdir."user/compteae.php\">Compte AE</a>");
