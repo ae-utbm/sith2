@@ -2,6 +2,8 @@
 
 $topdir="../";
 include($topdir."include/i/site.inc.php");
+include($topdir."include/entities/ville.inc.php");
+include($topdir."include/entities/pays.inc.php");
 
 $UserBranches = array("TC"             => "TC",
                       "GI"             => "GI",
@@ -86,21 +88,28 @@ if ( $user->date_naissance )
     
   $fiche->puts("le : ". date("d/m/Y", $user->date_naissance)."<br />");
 }
-  
-  
+
+$ville = new ville($site->db);
+$pays = new pays($site->db);
+
+$ville->load_by_id($user->id_ville);
+$pays->load_by_id($user->id_pays);
+
 if ( $user->tel_maison )
   $fiche->puts("Fixe: <a href=\"tel:" . htmlentities($user->tel_maison,ENT_COMPAT,"UTF-8")  ."\" telbook=\"".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."\" accesskey=\"1\">&#59106;</a> " . htmlentities($user->tel_maison,ENT_COMPAT,"UTF-8")  ."<br />");  
 if ( $user->tel_portable )
   $fiche->puts("Portable: <a href=\"tel:" . htmlentities($user->tel_portable,ENT_COMPAT,"UTF-8") ."\" telbook=\"".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."\" accesskey=\"2\">&#59107;</a> " . htmlentities($user->tel_portable,ENT_COMPAT,"UTF-8") ."<br />");
 
-if ( $user->addresse || $user->cpostal || $user->ville )
+if ( $user->addresse || $ville->is_valid )
 {
   $fiche->puts("Adresse: ");
-  $fiche->puts(htmlentities($user->addresse,ENT_COMPAT,"UTF-8") . "<br />" . htmlentities($user->cpostal,ENT_COMPAT,"UTF-8") . " " . htmlentities($user->ville,ENT_COMPAT,"UTF-8"));
-  if ( $user->pays && strtoupper($user->pays) != "FRANCE" )
-    $fiche->puts("<br />".htmlentities(strtoupper($user->pays),ENT_COMPAT,"UTF-8")."<br />");
-  $fiche->puts("<br />\n");
+  $fiche->puts(htmlentities($user->addresse,ENT_COMPAT,"UTF-8") . "<br />" . htmlentities($ville->cpostal,ENT_COMPAT,"UTF-8") . " " . htmlentities($ville->nom,ENT_COMPAT,"UTF-8"));
 }
+
+if ( $pays->is_valid() )
+  $fiche->puts("<br />".htmlentities(strtoupper($pays->nom),ENT_COMPAT,"UTF-8")."<br />");
+#$fiche->puts("<br />\n");
+
 
 if ( $user->branche && isset($UserBranches[$user->branche]) )
 {
