@@ -92,12 +92,17 @@ $GLOBALS["entitiescatalog"]["asso"][3]=null;
  */
 class aecms extends site
 {
-
+  /** Association/activité dont c'est le site*/
   var $asso;
+  /** URL publique du site */
   var $pubUrl;
-
+  /** Paramétres du site */
   var $config;
 
+  /** 
+   * Construteur de site
+   * Utilise les constantes CMS_ID_ASSO, CMS_CONFIGFILE et CMS_PREFIX
+   */
   function aecms()
   {
     $this->site();
@@ -130,6 +135,10 @@ class aecms extends site
 		interfaceweb::start_page($section,$title,$compact);
 	}
 	
+	/**
+	 * Enregistre la configuration acteulle ( tab_array et config )
+	 * Ecrit le fichier CMS_CONFIGFILE, et si nécessaire creer le dossier CMS_CONFIGPATH
+	 */
 	function save_conf()
 	{
 	  if ( !$this->is_user_admin() )
@@ -208,6 +217,10 @@ class aecms extends site
     return true;
 	}
 	
+	/**
+	 * Renvoie le stdcontents pour la boite demandée, si la boite en gestion est une "page"
+	 * @return une instance de stdcontents ou NULL si la boite demandée n'existe pas
+	 */
 	function get_box ( $name )
 	{
     $page = new page ($site->db);

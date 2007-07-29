@@ -57,6 +57,10 @@ if ( $_REQUEST["action"] == "addonglet" )
   {
     $lien = "index.php?name=".$_REQUEST["nom_page"];
     $name = $_REQUEST["nom_page"];
+    
+    $page = new page ($site->db,$site->dbrw);
+    $page->load_by_name(CMS_PREFIX.$_REQUEST["nom_page"]);
+    $page->save($page->title, $page->texte, $name );
   }
   elseif ( $_REQUEST["typepage"] == "aedrive" )
   {
@@ -145,12 +149,15 @@ $cts = new contents("Configuration de AECMS");
 
 $cts->add_title(2,"Onglets");
 
+$dejafait = array();
 
 $liste_onglets = array();
 foreach ( $site->tab_array as $row )
 {
   if ( $row[0] != CMS_PREFIX."config" )
   {
+    $dejafait[$row[0]] = true;
+    
     if ( ereg("^index.php?name=(.*)$",$row[1],$regs) )
       $lien = "Page: ".$pages[$regs[1]];
     elseif ( $row[1] == "photos.php" )
@@ -184,18 +191,26 @@ $sfrm = new form("typepage",null,null,null,"Page (article)");
 $sfrm->add_select_field("nom_page","Page",$pages);
 $frm->add($sfrm,false,true,true,"article",false,true);
 
-$sfrm = new form("typepage",null,null,null,"Espace fichiers (aedrive)");
-$frm->add($sfrm,false,true,false,"aedrive",false,true);
-
-$sfrm = new form("typepage",null,null,null,"Gallerie photos (sas2)");
-$frm->add($sfrm,false,true,false,"sas2",false,true);
-
-$sfrm = new form("typepage",null,null,null,"Contact");
-$frm->add($sfrm,false,true,false,"contact",false,true);
-
-$sfrm = new form("typepage",null,null,null,"Membres");
-$frm->add($sfrm,false,true,false,"membres",false,true);
-
+if ( !isset($dejafait["aedrive"]) )
+{
+  $sfrm = new form("typepage",null,null,null,"Espace fichiers (aedrive)");
+  $frm->add($sfrm,false,true,false,"aedrive",false,true);
+}
+if ( !isset($dejafait["sas2"]) )
+{
+  $sfrm = new form("typepage",null,null,null,"Gallerie photos (sas2)");
+  $frm->add($sfrm,false,true,false,"sas2",false,true);
+}
+if ( !isset($dejafait["contact"]) )
+{
+  $sfrm = new form("typepage",null,null,null,"Contact");
+  $frm->add($sfrm,false,true,false,"contact",false,true);
+}
+if ( !isset($dejafait["membres"]) )
+{
+  $sfrm = new form("typepage",null,null,null,"Membres");
+  $frm->add($sfrm,false,true,false,"membres",false,true);
+}
 $frm->add_submit("save","Ajouter");
 $cts->add($frm,true);
 
