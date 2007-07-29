@@ -60,7 +60,7 @@ if ( $_REQUEST["action"] == "addonglet" )
     
     $page = new page ($site->db,$site->dbrw);
     $page->load_by_name(CMS_PREFIX.$_REQUEST["nom_page"]);
-    $page->save($page->title, $page->texte, $name );
+    $page->save($page->title, $page->texte, CMS_PREFIX.$name );
   }
   elseif ( $_REQUEST["typepage"] == "aedrive" )
   {
