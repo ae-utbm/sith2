@@ -2,7 +2,7 @@
 $topdir="../";
 include($topdir."include/graph.inc.php");
 
-$cam=new camembert(600,500,array(),2,0,0,0,0,0,0,10,150);
+$cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
 
 $svn=exec("/usr/share/php5/exec/svn_stats.sh");
 $svn=explode("|",$svn,-1);
