@@ -11,7 +11,7 @@ echo "<pre>\n";
 while(list($id,$cp)=$req->get_row())
 {
   $_req = new requete($site->db, "SELECT `id_ville` FROM `loc_ville` ".
-                                 "WHERE `cpostal_ville` = '"mysql_real_escape_string($cp)"' LIMIT 1";
+                                 "WHERE `cpostal_ville` = '"mysql_real_escape_string($cp)"' LIMIT 1");
   if($_req->lines!=1)
     continue;
 
