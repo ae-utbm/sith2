@@ -62,6 +62,25 @@ if ( $_REQUEST["action"] == "addonglet" )
     $page->load_by_name(CMS_PREFIX.$_REQUEST["nom_page"]);
     $page->save($page->title, $page->texte, CMS_PREFIX.$name );
   }
+  elseif ( $_REQUEST["typepage"] == "crearticle" )
+  {
+    $lien = "index.php?name=".$_REQUEST["name"];
+    $name = $_REQUEST["name"];
+    
+    $page = new page ($site->db,$site->dbrw);
+    $page->load_by_name(CMS_PREFIX.$name);
+    
+    if ( !$page->is_valid() )
+    {
+      $page->id_utilisateur = $site->user->id;
+      $page->id_groupe = $site->asso->get_membres_group_id();
+      $page->id_groupe_admin = $site->asso->get_bureau_group_id();
+      $page->droits_acces = 0x311;      
+      $page->add(CMS_PREFIX.$name, $_REQUEST["title"], "", CMS_PREFIX.$name);
+    }
+    else
+      $page->save($page->title, $page->texte, CMS_PREFIX.$name );
+  }
   elseif ( $_REQUEST["typepage"] == "aedrive" )
   {
     $lien = "d.php";
@@ -308,7 +327,10 @@ foreach ( $site->tab_array as $row )
     $dejafait[substr($row[0],strlen(CMS_PREFIX))] = true;
     
     if ( ereg("^index.php?name=(.*)$",$row[1],$regs) )
+    {
       $lien = "Page: ".$pages[$regs[1]];
+      unset($pages[$regs[1]]);
+    }
     elseif ( $row[1] == "photos.php" )
       $lien = "Gallerie photos";
     elseif ( $row[1] == "d.php" )
@@ -339,9 +361,18 @@ $frm = new form("newonglet","configurecms.php",false,"POST","Nouvel onglet");
 $frm->add_hidden("action","addonglet");
 $frm->add_text_field("title","Titre","",true);
 
-$sfrm = new form("typepage",null,null,null,"Page (article)");
-$sfrm->add_select_field("nom_page","Page",$pages);
-$frm->add($sfrm,false,true,true,"article",false,true);
+unset($pages["home"]);
+
+if ( count($pages) > 0 )
+{
+  $sfrm = new form("typepage",null,null,null,"Page existante");
+  $sfrm->add_select_field("nom_page","Page",$pages);
+  $frm->add($sfrm,false,true,true,"article",false,true);
+}
+
+$sfrm = new form("typepage",null,null,null,"Nouvelle page");
+$sfrm->add_text_field("name","Code (nom)","",true);
+$frm->add($sfrm,false,true,true,"crearticle",false,true);
 
 if ( !isset($dejafait["fichiers"]) )
 {
