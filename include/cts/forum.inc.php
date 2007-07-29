@@ -1,7 +1,6 @@
 <?php
 
 include($topdir."include/lib/bbcode.inc.php");
-include($topdir."include/lib/dokusyntax.inc.php");
 
 function human_date ( $timestamp )
 {
