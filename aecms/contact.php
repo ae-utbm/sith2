@@ -30,11 +30,11 @@ $site->start_page ( CMS_PREFIX."contact", "Contact" );
 
 $cts = new contents("Contact");
 
-$cts->add_paragraph(2,htmlentities($site->asso->nom,ENT_NOQUOTES,"UTF-8")." est une activitée de l'association des étudiants de l'université de technologie de belfort montbéliard");
+$cts->add_paragraph(htmlentities($site->asso->nom,ENT_NOQUOTES,"UTF-8")." est une activitée de l'association des étudiants de l'université de technologie de belfort montbéliard");
 
 $cts->add_title(2,"Adresses");
 
-$cts->add_paragraph(2,
+$cts->add_paragraph(
 "université de technologie de belfort-montébliard<br/>".
 "association des étudiants<br/>".
 htmlentities($site->asso->nom,ENT_NOQUOTES,"UTF-8")."<br/>".
@@ -45,7 +45,7 @@ if ( $site->asso->email )
 
 $cts->add_title(2,"Liens");
 
-$cts->add_paragraph(2,
+$cts->add_paragraph(
 "<a href=\"http://www.utbm.fr/\">université de technologie de belfort-montébliard</a><br/>".
 "<a href=\"http://ae.utbm.fr/\">association des étudiants</a>");
 
