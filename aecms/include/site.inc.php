@@ -225,7 +225,7 @@ class aecms extends site
       return false;
       
     if ( !$this->asso->is_member_role($this->user->id,ROLEASSO_MEMBREBUREAU)
-         && !$this->user->is_in_group("gestion_ae") )
+         && !$this->user->is_in_group("root") )
       return false;
       
     return true;
