@@ -41,7 +41,7 @@ htmlentities($site->asso->nom,ENT_NOQUOTES,"UTF-8")."<br/>".
 "90010 BELFORT CEDEX");
 
 if ( $site->asso->email )
-  $cts->add_paragraph(2,"e-mail: ".htmlentities($site->asso->email,ENT_NOQUOTES,"UTF-8"));
+  $cts->add_paragraph("e-mail: ".htmlentities($site->asso->email,ENT_NOQUOTES,"UTF-8"));
 
 $cts->add_title(2,"Liens");
 
