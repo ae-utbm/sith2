@@ -89,6 +89,7 @@ if ( $_REQUEST["action"] == "addonglet" )
 }
 elseif ( $_REQUEST["action"] == "setconfig" )
 {
+  print_r($_REQUEST);
   $site->config["membres.upto"] = intval($_REQUEST["membres.upto"]);
   $site->config["membres.allowjoinus"] = isset($_REQUEST["membres.allowjoinus"])?1:0;
   $site->save_conf();
@@ -164,7 +165,7 @@ $frm->add($sfrm,false,true,false,"membres",false,true);
 $frm->add_submit("save","Ajouter");
 $cts->add($frm,true);
 
-$frm = new form("newonglet","configurecms.php",true,"POST","Configuration");
+$frm = new form("setconfig","configurecms.php",true,"POST","Configuration");
 $frm->add_hidden("action","setconfig");
 
 $frm->add_select_field("membres.upto","Membres, liste jusqu'au niveau",$GLOBALS['ROLEASSO'], $site->config["membres.upto"]);
