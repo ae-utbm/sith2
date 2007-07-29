@@ -108,7 +108,8 @@ if ( $user->addresse || $ville->is_valid )
 
 if ( $pays->is_valid() )
   $fiche->puts("<br />".htmlentities(strtoupper($pays->nom),ENT_COMPAT,"UTF-8")."<br />");
-#$fiche->puts("<br />\n");
+
+$fiche->puts("<br />\n");
 
 
 if ( $user->branche && isset($UserBranches[$user->branche]) )
