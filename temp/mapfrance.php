@@ -59,10 +59,11 @@ $pgconn = new pgsqlae();
 
 $statscotis = new requete($site->db, "SELECT  
                                       COUNT(`id_utilisateur`) AS num  
-                                      , substring(cpostal_parents,1,2) AS cpostal 
-                                      FROM `utl_etu` 
-                                      WHERE char_length(cpostal_parents) = 5
-                                      GROUP BY substring(cpostal_parents,1,2)");
+                                      , substring(cpostal_ville,1,2) AS cpostal 
+                                      FROM `utl_etu`
+                                      INNER JOIN 
+                                      WHERE `utl_etu`.`id_ville` IS NOT NULL
+                                      GROUP BY substring(cpostal_ville,1,2)");
 
 while ($rs = $statscotis->get_row())
 {
@@ -106,14 +107,14 @@ foreach($dept as $departement)
   {
     if ($statsdep[$departement['iddept']] == 0)
       $img->addpolygon($plg, 'l0', true, 
-		       array('id' =>$departement['gid'],
-			     'url' => "javascript:ploufdept(this, ".
-			     $departement['iddept']. ")"));
+           array('id' =>$departement['gid'],
+           'url' => "javascript:ploufdept(this, ".
+           $departement['iddept']. ")"));
 
     $img->addpolygon($plg, 'l' . (int) (1 + $statsdep[$departement['iddept']] / 20), true, 
-		     array('id' =>$departement['gid'],
-			   'url' => "javascript:ploufdept(this, ".
-			   $departement['iddept']. ")"));
+         array('id' =>$departement['gid'],
+         'url' => "javascript:ploufdept(this, ".
+         $departement['iddept']. ")"));
     $img->addpolygon($plg, 'black', false);
   }
 }
@@ -143,29 +144,17 @@ if (isset($_REQUEST['getinfodepts']))
   echo "<center>\n";
   $cp .= '___';
 
-  $req = new requete($site->db, "SELECT 
-                                        `utilisateurs`.`id_utilisateur`
+  $req = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`
                                         , `utilisateurs`.`prenom_utl`
                                         , `utilisateurs`.`nom_utl`
                                         , `utl_etu_utbm`.`surnom_utbm`
-                                 FROM
-                                        `utilisateurs`
-                                 INNER JOIN
-                                        `utl_etu`
-                                 ON
-                                        `utl_etu`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
-                                 INNER JOIN
-                                        `utl_etu_utbm`
-                                 ON
-                                        `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
-
-                                 WHERE
-                                        `cpostal_parents` LIKE '".$cp."'
-                                 
-                                 AND
-                                        `publique_utl` = '1'        
-                                 ORDER BY 
-                                         RAND() 
+                                 FROM `utilisateurs`
+                                 INNER JOIN `utl_etu` ON `utl_etu`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
+                                 INNER JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
+                                 INNER JOIN `loc_ville` ON `loc_ville`.`id_ville` = `utl_etu`.`id_ville`
+                                 WHERE `loc_ville`.`cpostal_ville` LIKE '".$cp."'
+                                 AND   `publique_utl` = '1'        
+                                 ORDER BY RAND() 
                                  LIMIT 10");
 
 
@@ -177,14 +166,14 @@ if (isset($_REQUEST['getinfodepts']))
   require_once($topdir . "include/cts/sqltable.inc.php");
   
   $sqlt = new sqltable('userslst', 
-		       'Liste des utilisateurs',
-		       $req,
-		       '../user.php',
-		       'id_utilisateur', 
-		       array('prenom_utl' => 'prenom', 'nom_utl' => 'nom', 'surnom_utbm' => 'surnom'),
-		       array('view' => 'Voir la fiche'), 
-		       array(), 
-		       array());
+                       'Liste des utilisateurs',
+                       $req,
+                       '../user.php',
+                       'id_utilisateur', 
+                       array('prenom_utl' => 'prenom', 'nom_utl' => 'nom', 'surnom_utbm' => 'surnom'),
+                       array('view' => 'Voir la fiche'), 
+                       array(), 
+                       array());
 
   echo $sqlt->html_render();
   echo "</center>";
