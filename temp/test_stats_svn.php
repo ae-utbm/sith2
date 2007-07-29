@@ -1,5 +1,6 @@
 <?php
-include("../include/graph.inc.php");
+$topdir="../";
+include($topdir."include/graph.inc.php");
 
 $cam=new camembert(600,500,array(),2,0,0,0,0,0,0,10,150);
 
