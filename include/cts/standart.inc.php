@@ -119,7 +119,7 @@ class contents extends stdcontents
 	 */
 	function add ( $cts, $title = false, $box = false, $name = false, $class = false, $onoff = false, $on = true, $remember = true )
 	{
-		global $topdir;
+		global $wwwtopdir;
 		
 		if ( $box && $name )
 		{
@@ -149,7 +149,7 @@ class contents extends stdcontents
 			if ( !$on )
 				$img = "fll.png";			
 			
-			$this->buffer .= "<h2><a href=\"#\" onclick=\"on_off_icon_store('".$name."','".$topdir."','$uinf_ref'); return false;\"><img src=\"".$topdir."images/".$img."\" alt=\"togle\" class=\"icon\" id=\"".$name."_icon\" /> ".$cts->title."</a></h2>\n";
+			$this->buffer .= "<h2><a href=\"#\" onclick=\"on_off_icon_store('".$name."','".$wwwtopdir."','$uinf_ref'); return false;\"><img src=\"".$wwwtopdir."images/".$img."\" alt=\"togle\" class=\"icon\" id=\"".$name."_icon\" /> ".$cts->title."</a></h2>\n";
 		}
 		else if ( $title )
 			$this->buffer .= "<h2>".$cts->title."</h2>\n";
