@@ -29,6 +29,7 @@
 $topdir="../";
 
 require_once($topdir . "include/site.inc.php");
+require_once($topdir . "include/entities/ville.inc.php");
 
 $site = new site();
 
@@ -49,77 +50,40 @@ if (isset($_REQUEST['reset']))
 /* formulaire envoye */
 if (isset($_REQUEST['submit']))
 {
-  $start = "'" . mysql_real_escape_string ($_REQUEST['start']) . "'";
-  $stop =  "'" . mysql_real_escape_string ($_REQUEST['stop']) . "'";
-  if ($_REQUEST['etape'] != "")
-    $etape = "'" . mysql_real_escape_string ($_REQUEST['etape']) . "'";
-  if (is_array($_SESSION['trajet']['etapes']))
-    {
-      $etapes = implode(", ", $_SESSION['trajet']['etapes']);
-      $etapes = "(" . $etapes . ")";
-    }
-  if ($etape)
-    $in = "($start, $stop, $etape)";
-  else
-    $in = "($start, $stop)";
-
-  if ($etapes)
-    $in .= " OR `id_ville` IN $etapes";
-  $req = new requete ($site->db,"SELECT `id_ville`, `nom_ville`
-                                  FROM `villes`
-                                 WHERE `nom_ville` IN $in");
-
-  while ($res = $req->get_row())
-    {
-      $villes_db[$res['id_ville']] = $res['nom_ville'];
-      if ($res['nom_ville'] == $_REQUEST['start'])
-	$start = $res['id_ville'];
-      if ($res['nom_ville'] == $_REQUEST['stop'])
-	$stop = $res['id_ville'];
-      if (($res['nom_ville'] == $_REQUEST['etape']) &&
-	  ($_REQUEST['etape'] != ""))
-	$etape = $res['id_ville'];
-    }
-  if ((!isset($_SESSION['trajet']['start']))
-      && (intval($start) != 0))
-    $_SESSION['trajet']['start']    = $start;
-
-  if (($_REQUEST['etape'] != "")
-      && (intval($etape) != 0))
-    $_SESSION['trajet']['etapes'][] = $etape;
-
-  if ((!isset($_SESSION['trajet']['stop']))
-      && (intval($stop) != 0))
-    $_SESSION['trajet']['stop']     = $stop;
+  $site->add_contents(new contents("DEBUG", print_r($_REQUEST,true)));
 }
+
+$ville = new ville($site->db);
+
 
 /* formulaire */
 $frm = new form ("trip",
 		 "trajet.php",
 		 true);
-/* depart */
-if (!isset($_SESSION['trajet']['start']))
-  $frm->add_text_field ("start",
-			"Ville de depart");
+$frm->add_entity_smartselect("start", "Ville de départ", $ville);
 
 $infos = "<p><h3>Etapes actuelles</h3><br/>
           <ul>\n";
-foreach ($_SESSION['trajet']['etapes'] as $id_etape)
-  $infos .= ("<li>". $villes_db[$id_etape] . "</li>\n");
+if (count($_SESSION['trajet']['etapes']))
+{
+  foreach ($_SESSION['trajet']['etapes'] as $id_etape)
+    $infos .= ("<li>". $villes_db[$id_etape] . "</li>\n");
+}
 $infos .= "</ul>\n</p>\n";
 
 $frm->add_info ($infos);
 
+$frm->add_entity_smartselect("etape", "Etape", $ville);
 
-$frm->add_text_field ("etape",
-		      "Etape");
 /* arrivee */
 if (!isset($_SESSION['trajet']['stop']))
 $frm->add_text_field ("stop",
 		      "Arrivee");
+$frm->add_entity_smartselect("stop", "Arrivée", $ville);
 
 $frm->add_submit ("submit",
 		  "Envoyer");
+
 $frm->add_submit ("reset",
 		  "Effacer le trajet");
 

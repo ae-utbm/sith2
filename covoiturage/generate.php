@@ -30,9 +30,12 @@ session_start ();
 
 $topdir = "../";
 
-require_once($topdir . "include/mysql.inc.php");
-require_once($topdir . "include/mysqlae.inc.php");
-require_once($topdir . "include/carto.inc.php");
+include($topdir. "include/site.inc.php");
+
+require_once($topdir. "include/cts/sqltable.inc.php");
+require_once($topdir. "include/entities/pays.inc.php");
+require_once($topdir. "include/entities/ville.inc.php");
+require_once($topdir. "include/entities/lieu.inc.php");
 
 
 $db = new mysqlae ();
@@ -43,34 +46,33 @@ $coords = array();
 $villes[0] = $_SESSION['trajet']['start'];
 
 if (is_array($_SESSION['trajet']['etapes']))
+{
   foreach ($_SESSION['trajet']['etapes'] as $etape)
     $villes[] = $etape;
+}
 
 $villes[] = $_SESSION['trajet']['stop'];
 
-foreach ($villes as $ville)
-  $coords[] = get_coords_by_id($db, $ville);
 
-$carte = new carto ($coords);
-$carte->parse_links (true);
+$img = new imgloc(800, IMGLOC_WORLD, $site->db, new pgsqlae());
 
 
-$carte->output ();
-$carte->destroy ();
-
-
-/*
- * Recherche de coordonnées dans une base
- *
- */
-function get_coords_by_id ($db, $id)
+if (count($villes))
 {
-  $id = intval ($id);
-  $sql = new requete ($db,
-		      "SELECT `lat_ville`, `long_ville`
-                          FROM `villes`
-                         WHERE `id_ville` = '" . $id . "'
-                         LIMIT 1");
-  $res = $sql->get_row();
-  return array (rad2deg($res[0]), rad2deg($res[1]));
+  $objville = new ville($db);
+  
+  foreach($villes as $ville)
+    $img->add_location_by_object($objville->load_by_id($ville));
 }
+
+$img->add_context();
+
+$img = $img->generate_img();
+
+require_once ($topdir . "include/watermark.inc.php");
+$wm_img = new img_watermark ($img->imgres);
+
+//  $wm_img->saveas($imgfile);
+$wm_img->output();
+
+?>
