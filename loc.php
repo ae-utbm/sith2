@@ -94,7 +94,7 @@ if ($_REQUEST['action'] == 'genimgpays')
   require_once ($topdir . "include/watermark.inc.php");
   $wm_img = new img_watermark ($img->imgres);
 
-  $wm_img->saveas($imgfile);
+  //  $wm_img->saveas($imgfile);
   $wm_img->output();
 
   exit();
@@ -103,45 +103,30 @@ if ($_REQUEST['action'] == 'genimgpays')
 if ($_REQUEST['action'] == 'genimgville')
 {
 
-
   /* on utilise les lat/long pour la localisation */
-  if (isset($_REQUEST['lat']))
+  if (isset($_REQUEST['idville']))
   {
-    $lat  = rad2deg($_REQUEST['lat']);
-    $long = rad2deg($_REQUEST['lng']);
+    $idvilles[] = intval($_REQUEST['idville']);
 
-    $lat = str_replace(",", ".", $lat);
-    $long = str_replace(",", ".", $long);
   }
   /* code postal */
   else if (isset($_REQUEST['cpostal']))
   {
     $cpostal = intval($_REQUEST['cpostal']);
     $req = new requete($site->db, "SELECT 
-                                   lat_ville
-                                   , long_ville
+                                      id_ville
                                    FROM
-                                   loc_ville
+                                      loc_ville
                                    WHERE
-                                   cpostal_ville = $cpostal");
+                                      cpostal_ville = $cpostal");
 
     if ($req->lines > 0)
-    {
-      while ($rs = $req->get_row())
       {
-        $lat[] = $rs['lat_ville'];
-        $long[] = $rs['long_ville'];
+	while ($rs = $req->get_row())
+	  {
+	    $idvilles[] = $rs['id_ville'];
+	  }
       }
-
-      $lat  = array_sum($lat)  / count($lat);
-      $long = array_sum($long) / count($long); 
-
-      $lat = rad2deg($lat);
-      $long = rad2deg($long);
-
-      $lat = str_replace(",", ".", $lat);
-      $long = str_replace(",", ".", $long);
-    }
   }
 
   require_once($topdir. "include/pgsqlae.inc.php");
@@ -150,10 +135,14 @@ if ($_REQUEST['action'] == 'genimgville')
   $pgconn = new pgsqlae();
 
   $loc = new imgloc(800, IMGLOC_COUNTRY, $site->db, $pgconn);
+
   // TODO : récupérer le Code postal
-  //$loc->add_hilighted_context_fr();
-  $loc->add_location_by_coords($long, $lat);
+  //  $loc->add_hilighted_context_fr("90");
+  
+  foreach ($idvilles as $idville)
+    $loc->add_location_by_idville($idville);
   $loc->add_context();
+
   require_once ($topdir . "include/watermark.inc.php");  
   $img = $loc->generate_img();
   $wm_img = new img_watermark ($img->imgres);
@@ -248,7 +237,7 @@ elseif ( $ville->is_valid() )
   $cts = new contents($ville->nom);
   $cts->add_paragraph("Pays: ".$pays->get_html_link());
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($ville->lat)."N , ".geo_radians_to_degrees($ville->long)."E");
-  $cts->add_paragraph("<center><img src=\"loc.php?action=genimgville&lat=".$ville->lat."&lng=".$ville->long."\" alt=\"position ville\" /></center>\n");
+  $cts->add_paragraph("<center><img src=\"loc.php?action=genimgville&idville=".$ville->id."\" alt=\"position ville\" /></center>\n");
 
   $site->add_contents($cts);
 

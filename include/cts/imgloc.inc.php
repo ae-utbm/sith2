@@ -72,7 +72,6 @@ class imgloc
   /* constructeur */
   function imgloc($width, $level, &$mysqldb, &$pgsqldb)
   {
-    $this->france  = $france;
     $this->width   = $width;
     $this->level   = $level;
     $this->mysqldb = $mysqldb;
@@ -135,6 +134,39 @@ class imgloc
 
     $this->_add_location($name,  $coords);
     return true;
+  }
+  /* ajout d'une ville via idville */
+  function add_location_by_idville($id)
+  {
+    $my = new requete($this->mysqldb, "SELECT 
+                                              id_ville, 
+                                              nom_ville, 
+                                              cpostal_ville,
+                                              lat_ville,
+                                              long_ville
+                                       FROM 
+                                              loc_ville 
+                                       WHERE 
+                                              id_ville = " . intval($id));
+
+    while ($rs = $my->get_row())
+      {
+	$lng = rad2deg($rs['long_ville']);
+	$lat = rad2deg($rs['lat_ville']);
+	$lng = str_replace(",", ".", $lng);
+	$lat = str_replace(",", ".", $lat);
+
+
+	$convert = new pgrequete($this->pgsqldb, "SELECT GeomFromText('POINT(".$lng." ".$lat. ")', 4030) as datas;");
+	$pgrs = $convert->get_all_rows();
+	
+	$coords['datas'] = $pgrs[0]['datas']; 
+	$coords['srid']  = 4030;
+
+	$this->_add_location($rs['nom_ville'],  $coords);
+
+      }
+
 
   }
 
@@ -159,7 +191,6 @@ class imgloc
 
     $this->_add_location($myloc->nom,  $coords);
     return true;
-
   }
 
   function _add_location($nom, $coords)
