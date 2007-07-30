@@ -137,7 +137,7 @@ if (!$site->user->id)
 
 $site->start_page ("none", "Trombi AE ");
 
-$cts = new contents("Trombino Promo " . $site->user->promo_utbm);
+$cts = new contents("Informations personnelles");
 
 $tabs = array(
         array("","index.php", "Informations"),
@@ -175,12 +175,15 @@ else
 
 $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"));
 $cts->add($info);
+$site->add_contents($cts);
 
 /*
 $cts->puts('<br/>');
 $cts->add_title(2,"TODO");
 $cts->puts('-home<br/>-onglets<br/>-listing membre promo alphabetique<br/>');
  */
+
+$cts = new contents("Liste des membres de la promo ".$site->user->promo_utbm);
 $req = new requete($site->db,
                    "SELECT `id_utilisateur`, `promo_utbm`, "
                   ."CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` "
@@ -209,6 +212,8 @@ else
                       array()
                      );
 }
+
+
 
 $cts->add($tbl,true);
  
