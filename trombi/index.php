@@ -40,6 +40,8 @@ require_once($topdir. "include/globals.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
 require_once($topdir . "include/graph.inc.php");
+require_once($topdir. "include/cts/imgcarto.inc.php");
+require_once($topdir. "include/pgsqlae.inc.php");
 
 $site = new site();
 
@@ -108,16 +110,100 @@ if(isset($_REQUEST["stats"]))
     exit();
   }
   elseif($_REQUEST["stats"]=="departements")
-	{
+  {
     $cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
     $req = new requete($site->db,
                        "SELECT `branche_utbm` , COUNT( `branche_utbm` ) ".
                        "FROM `utl_etu_utbm` ".
-                       "WHERE `promo_utbm` = '6'".
+                       "WHERE `promo_utbm` = '" . $site->user->promo_utbm . "'".
                        "GROUP BY `branche_utbm`");
     while(list($branche,$nb)=$req->get_row())
       $cam->data($nb, $branche);
     $cam->png_render();
+    exit();
+  }
+  elseif($_REQUEST["stats"]=="france")
+  {
+    $img = new imgcarto(800, 10);
+    $img->addcolor('pblue_dark', 51, 102, 153);
+    $img->addcolor('pblue', 222, 235, 245);
+
+    $nbpaliers = 5;
+
+    $img->addcolor('l0', 255, 255, 255);
+    $img->addcolor('l1', 255, 220, 0);
+    $img->addcolor('l2', 255, 198, 0);
+    $img->addcolor('l3', 255, 176, 0);
+    $img->addcolor('l4', 255, 154, 0);
+    $img->addcolor('l5', 255, 143, 0);
+    $img->addcolor('l6', 255, 121, 0);
+    $img->addcolor('l7', 255, 114, 0);
+    $img->addcolor('l8', 255, 101, 0);
+    $img->addcolor('l9', 255, 68, 0);
+    $img->addcolor('l10', 255, 0, 0);
+
+    $pgconn = new pgsqlae();
+
+    $statscotis = new requete($site->db, "SELECT  
+                                          COUNT(`utl_etu`.`id_utilisateur`) AS num  
+                                          , substring(cpostal_ville,1,2) AS cpostal 
+                                          FROM `utl_etu`
+                                          INNER JOIN `loc_ville` ON `loc_ville`.`id_ville` = `utl_etu`.`id_ville`
+                                          INNER JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utl_etu`.`id_utilisateur`
+                                          WHERE `utl_etu`.`id_ville` IS NOT NULL AND `utl_etu_utbm`.`promo_utbm`='" . $site->user->promo_utbm . "'
+                                          GROUP BY substring(cpostal_ville,1,2)");
+    while ($rs = $statscotis->get_row())
+    {
+      $statsdep[$rs['cpostal']] = $rs['num'];
+    }
+    $pgreq = new pgrequete($pgconn, "SELECT code_dept, nom_dept, asText(simplify(the_geom, 2000)) AS points FROM deptfr");
+    $rs = $pgreq->get_all_rows();
+    $numdept = 0;
+    $dept=array();
+    foreach($rs as $result)
+    {
+      $astext = $result['points'];
+      $matched = array();
+      preg_match_all("/\(([^)]*)\)/", $astext, $matched);
+      $i = 0;
+      foreach ($matched[1] as $polygon)
+      {
+        $polygon = str_replace("(", "", $polygon);
+        $points = explode(",", $polygon);
+        foreach ($points as $point)
+        {
+          $coord = explode(" ", $point);
+          $dept[$numdept]['plgs'][$i][] = $coord[0];
+          $dept[$numdept]['plgs'][$i][] = $coord[1];
+        }
+        $i++;
+      }
+      $dept[$numdept]['name'] = $result['nom_dept'];
+      $dept[$numdept]['iddept'] = $result['code_dept'];
+
+      $numdept++;
+    }
+    foreach($dept as $departement)
+    {
+      foreach($departement['plgs'] as $plg)
+      {
+        if ($statsdep[$departement['iddept']] == 0)
+          $img->addpolygon($plg, 'l0', true,
+                           array('id' =>$departement['gid'],
+                                 'url' => "javascript:ploufdept(this, ".
+                                 $departement['iddept']. ")"));
+
+          $img->addpolygon($plg, 'l' . (int) (1 + $statsdep[$departement['iddept']] / 20), true,
+                           array('id' =>$departement['gid'],
+                                 'url' => "javascript:ploufdept(this, ".
+        $departement['iddept']. ")"));
+        $img->addpolygon($plg, 'black', false);
+      }
+    }
+
+    $img->draw();
+    $wm_img = new img_watermark ($img->imgres);
+    $wm_img->output();
     exit();
   }
 }
@@ -201,6 +287,9 @@ elseif($_REQUEST["view"]=="stats")
   $site->add_contents($cts);
   $cts = new contents("Répartition par départements");
   $cts->add_paragraph("<center><img src=\"index.php?stats=departements\" alt=\"répartition par départements\" /></center>\n");
+  $site->add_contents($cts);
+  $cts = new contents("Carte de france de la promo");
+  $cts->add_paragraph("<center><img src=\"index.php?stats=france\" alt=\"carte de france de la promo\" /></center>\n");
 }
 else
 {
