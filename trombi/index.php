@@ -40,14 +40,14 @@ require_once($topdir . "include/entities/pays.inc.php");
 
 
 
-$UserBranches = array("TC"				=> "TC",
-                      "GI"				=> "GI",
-                      "GSP"				=> "IMAP",
-                      "GSC"				=> "GESC",
-                      "GMC"				=> "GMC",
-                      "Enseig"			=> "Enseignant",
-                      "Admini"			=> "Administration",
-                      "Autre"			=> "Autre");
+$UserBranches = array("TC"        => "TC",
+                      "GI"        => "GI",
+                      "GSP"        => "IMAP",
+                      "GSC"        => "GESC",
+                      "GMC"        => "GMC",
+                      "Enseig"      => "Enseignant",
+                      "Admini"      => "Administration",
+                      "Autre"      => "Autre");
                       
 
 function userTrombiDisplay ($user, $admin = false) 
@@ -72,19 +72,19 @@ function userTrombiDisplay ($user, $admin = false)
   }
   
   $buffer = "<div class=\"userfullinfo\">\n"
-         ."	<h2 class=\"nom\">".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."</h2>\n"
-         ."	<div class=\"photo\">\n"
-         ."		<img src=\"$img\" id=\"mmtphoto$numFiche\" class=\"$imgclass\" alt=\"Photo de ".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."\" />\n"
-         ."	</div>\n";	
+         ."  <h2 class=\"nom\">".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."</h2>\n"
+         ."  <div class=\"photo\">\n"
+         ."    <img src=\"$img\" id=\"mmtphoto$numFiche\" class=\"$imgclass\" alt=\"Photo de ".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."\" />\n"
+         ."  </div>\n";  
   
   if ($user->surnom)
-    $buffer .= "	<p class=\"surnom\">&laquo; ". htmlentities($user->surnom,ENT_COMPAT,"UTF-8") . " &raquo;</p>\n";
+    $buffer .= "  <p class=\"surnom\">&laquo; ". htmlentities($user->surnom,ENT_COMPAT,"UTF-8") . " &raquo;</p>\n";
   elseif ($user->alias) 
-    $buffer .= "	<p class=\"surnom\">&laquo; ". htmlentities($user->alias,ENT_COMPAT,"UTF-8") . " &raquo;</p>\n";
+    $buffer .= "  <p class=\"surnom\">&laquo; ". htmlentities($user->alias,ENT_COMPAT,"UTF-8") . " &raquo;</p>\n";
       
   $buffer .= '<p class="naissance" style="width: 170px; text-align: right">';
   if ($user->date_naissance != strtotime("01 january 1970")) 
-  {		
+  {    
     if ($user->sexe == 1) 
       $buffer .= "N&eacute; ";
     else $buffer .= "N&eacute;e ";
@@ -140,9 +140,9 @@ $site->start_page ("none", "Trombi AE ");
 $cts = new contents("Trombino Promo " . $site->user->promo_utbm);
 
 $tabs = array(
-        array("","ae/jetons.php", "Informations"),
-        array("retour","ae/jetons.php?view=retour", "Messages"),
-        array("listing","ae/jetons.php?view=listing", "Version papier"),
+        array("","index.php", "Informations"),
+        array("board","index.php?view=board", "Messages"),
+        array("listing","index.php?view=listing", "Version papier"),
         );
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
@@ -205,8 +205,7 @@ else
                       array()
                      );
 }
-	
-	
+
 //$cts->add($tbl);
  
 $site->add_contents($cts);
