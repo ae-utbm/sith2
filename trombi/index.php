@@ -189,7 +189,6 @@ if(isset($_REQUEST["stats"]))
       if($max<$rs['num'])
         $max=$rs['num'];
     }
-    $max=1/$max;
     $pgreq = new pgrequete($pgconn, "SELECT code_dept, nom_dept, asText(simplify(the_geom, 2000)) AS points FROM deptfr");
     $rs = $pgreq->get_all_rows();
     $numdept = 0;
@@ -228,7 +227,7 @@ if(isset($_REQUEST["stats"]))
                                  $departement['iddept']. ")"));
         else
         {
-          $color=(int)($departement['iddept']*$max*10);
+          $color=(int)($departement['iddept']*10/$max);
           if($color==0)
             $color="sux";
           $img->addpolygon($plg, 'l' . $color, true,
