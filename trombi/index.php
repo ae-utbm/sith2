@@ -69,9 +69,14 @@ if (isset($_REQUEST['id_utilisateur']))
   
   if ($user->id != $site->user->id && !$site->user->utbm && !$site->user->ae)
     $site->error_forbidden("matmatronch","group",10001);
-    
+ 
   if (!$user->publique && !$can_edit)
-    $site->error_forbidden("matmatronch","private");    
+		$site->error_forbidden("matmatronch","private");
+	if(!$user->promo_utbm != $site->user->promo_utbm && $site->user->is_in_group("gestion_ae"))
+	{
+		$user = &$site->user;
+    $can_edit = true;
+  }
 }
 else
 {
