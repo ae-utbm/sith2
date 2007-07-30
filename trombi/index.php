@@ -86,8 +86,6 @@ else
 
 if($_REQUEST["view"] == "listing")
 {
-	$cts->add_title(2, "Liste des membres de la promo ".$site->user->promo_utbm);
-	
 	$req = new requete($site->db,
                    "SELECT `id_utilisateur`, `promo_utbm`, "
 									 ."CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` "
