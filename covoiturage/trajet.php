@@ -54,7 +54,7 @@ if (isset($_REQUEST['submit']))
   if ((isset($_REQUEST['start'])) && ($_REQUEST['start'] != 0))
     $_SESSION['trajet']['start'] = intval($_REQUEST['start']);
 
-  if ((isset($_REQUEST['etape'])) && ($_REQUEST['etape'] != 0))
+  if ((isset($_REQUEST['etape'])) && ($_REQUEST['etape'] !== 0))
     $_SESSION['trajet']['etapes'][] = intval($_REQUEST['etape']);
 
   if ((isset($_REQUEST['stop'])) && ($_REQUEST['stop'] != 0))

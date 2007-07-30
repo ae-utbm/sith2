@@ -59,11 +59,9 @@ $img = new imgloc(800, IMGLOC_COUNTRY, $db, new pgsqlae());
 
 
 if (count($villes))
-{
-  $objville = new ville($db);
-  
+{  
   foreach($villes as $ville)
-    $img->add_location_by_object($objville->load_by_id($ville));
+    $img->add_location_by_idville($ville);
 }
 
 $img->add_context();
