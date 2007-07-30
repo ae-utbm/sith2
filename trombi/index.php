@@ -99,11 +99,9 @@ if(isset($_REQUEST["stats"]))
     $cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
     while(list($sexe,$nb)=$req->get_row())
 		{
-      if($nb=0)
-        continue;
       if($sexe==1)
         $cam->data($nb, "Homme");
-      else
+      elseif($sexe=="2")
         $cam->data($nb, "Femme");
     }
     $cam->png_render();
