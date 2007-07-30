@@ -742,7 +742,7 @@ class utilisateur extends stdentity
 
 
 
-    if ( XML_RPC_USE )
+/*    if ( XML_RPC_USE )
     {
               require_once($topdir . "include/inscriptions/xmlrpc-client.inc.php");
         $ch = new ClientHelper("mmt", "08084e11");
@@ -753,7 +753,7 @@ class utilisateur extends stdentity
           return false;
         else
           return true;
-    }
+    }*/
 
     return true;
   }
