@@ -31,7 +31,6 @@
 /* on garde juste les infos d'utilisateur pour faire de l'ACL */
 $topdir = "./../";
 require_once($topdir. "include/site.inc.php");
-require_once($topdir. "matmatronch/ctsmmtglobals.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir. "include/cts/gallery.inc.php");
