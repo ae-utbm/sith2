@@ -48,9 +48,9 @@ if (!$site->user->id)
 
 $site->start_page ("none", "Trombi AE ");
 
-$tabs = array(array("","index.php", "Informations"),
-              array("board","index.php?view=board", "Messages"),
-              array("listing","index.php?view=listing", "Version papier"),
+$tabs = array(array("",$topdir."trombi/index.php", "Informations"),
+              array("board",$topdir."trombi/index.php?view=board", "Messages"),
+              array("listing",$topdir."trombi/index.php?view=listing", "Version papier"),
              );
 
 
