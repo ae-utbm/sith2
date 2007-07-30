@@ -373,7 +373,7 @@ class userinfov2 extends stdcontents
    * @param $display "small" (listing), "full" (fiche utilisateur), "summary" (comptoirs)
    * @param $admin En mode "full" affiche ou nom les liens d'administration sur l'utilisateur
    */
-  function userinfov2 ( $user, $display = "small", $admin = false )
+  function userinfov2 ( $user, $display = "small", $admin = false, $urldest="user.php" )
   {
     global $topdir, $UserBranches;
     
@@ -597,7 +597,7 @@ class userinfov2 extends stdcontents
       $this->buffer .= "<a class=\"mailperso\" href=\"mailto:".htmlentities($user->email,ENT_COMPAT,"UTF-8")."\"><img src=\"../images/email_perso.png\" alt=\"Email Perso\" title=\"Email Perso\"></a>";
     
     if ( $display != "full" )
-      $this->buffer .= "<a class=\"fiche\" href=\"".$topdir."user.php?id_utilisateur=".$user->id."\"><img src=\"../images/actions/view.png\" alt=\"Fiche\" title=\"Fiche\"></a>";
+      $this->buffer .= "<a class=\"fiche\" href=\"".$topdir.$urldest."?id_utilisateur=".$user->id."\"><img src=\"../images/actions/view.png\" alt=\"Fiche\" title=\"Fiche\"></a>";
     
     /*$this->buffer .= "<a class=\"edt\" href=\"".$topdir."edt.php?id_utilisateur=".$user->id."\"><img src=\"../images/actions/schedule.png\" alt=\"Emploi du temps\" title=\"Emploi du temps\"></a>";*/
     $this->buffer .= "</p>\n";

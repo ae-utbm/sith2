@@ -51,7 +51,7 @@ $site->start_page ("none", "Trombi AE ");
 
 $tabs = array(array("","trombi/index.php", "Informations"),
               array("board","trombi/index.php?view=board", "Messages"),
-              array("listing","trombi/index.php?view=listing", "Version papier"),
+              array("listing","trombi/index.php?view=listing", "La promo"),
              );
 $cts = new contents("Trombinoscope, promo ".$site->user->promo_utbm);
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
@@ -124,7 +124,7 @@ if($_REQUEST["view"] == "listing")
     while ( $row = $req->get_row() )
     {
       $tmpuser->_load_all($row);
-      $gal->add_item(new userinfov2($tmpuser));
+      $gal->add_item(new userinfov2($tmpuser, "small", false, "trombi/index.php"));
     }
     $cts->add($gal);
     if ( $nb > $npp )
