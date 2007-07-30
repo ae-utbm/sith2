@@ -123,6 +123,19 @@ class imgloc
     return true;
   }
 
+  /* ajout d'un lieu par ses coordonnées */
+  function add_location_by_coords($long, $lat, $srid = 4030, $name = "")
+  {
+    $convert = new pgrequete($this->pgsqldb, "SELECT GeomFromText('POINT(".$lng." ".$lat. ")', $srid) as datas;");
+    $rs = $convert->get_all_rows();
+    
+    $coords['datas'] = $rs[0]['datas']; 
+    $coords['srid']  = $srid;
+
+    $this->_add_location($name,  $coords);
+    return true;
+
+  }
 
   /* ajout d'un lieu par objet 
    */

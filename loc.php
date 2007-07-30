@@ -71,14 +71,13 @@ if ($_REQUEST['action'] == 'genimgpays')
 
   $imgfile = $topdir . "var/cache/loc/pays/".$idpays.".png";
 
-  /*
   if (file_exists($imgfile))
     {
       header("Content-Type: image/png");
       readfile($imgfile);
       exit();
     }
-  */
+
 
   $req = new requete($site->db,
                      "SELECT nomeng_pays FROM loc_pays WHERE id_pays = " . $idpays);
@@ -87,7 +86,7 @@ if ($_REQUEST['action'] == 'genimgpays')
   $nomengpays = $nomengpays['nomeng_pays'];
 
   $img = new imgloc(800, IMGLOC_WORLD, $site->db, new pgsqlae());
-  $img->add_hilighted_context("France");
+  $img->add_hilighted_context($nomengpays);
   $img->add_context();
 
   $img = $img->generate_img();
@@ -146,328 +145,21 @@ if ($_REQUEST['action'] == 'genimgville')
   }
 
   require_once($topdir. "include/pgsqlae.inc.php");
-  require_once($topdir. "include/cts/imgcarto.inc.php");
-
-  /* les coordonnées sont considérées en srid 4030, et on les
-   * transforme à la volée en Lambert II étendu, pour coller avec
-   * les données de l'IGN
-   */
-
-  $pgconn = new pgsqlae();
-  $pgreq = new pgrequete($pgconn, "SELECT 
-                                   nom_dept
-                                   , nom_region
-                                   , AsText(TRANSFORM(GeomFromText('POINT(".$long.
-                                                                          " ".$lat.")', 4030), 27582)) AS villecoords
-                                   , asText(Simplify(the_geom, 400)) AS points
-                                   , CONTAINS(the_geom, TRANSFORM(GeomFromText('POINT(".$long.
-                                   " ".$lat.")', 4030), 27582)) AS indept
-                                   FROM 
-                                   deptfr");
-  $rs = $pgreq->get_all_rows();
-  
-  $numdept = 0;
-
-  foreach($rs as $result)
-  {
-    $astext = $result['points'];
-    $matched = array();
-    preg_match_all("/\(([^)]*)\)/", $astext, $matched);
-    /* récupère les différents polygones pour un département */
-    $i = 0;
-    foreach ($matched[1] as $polygon)
-    {
-      $polygon = str_replace("(", "", $polygon);
-      $points = explode(",", $polygon);
-  
-      foreach ($points as $point)
-      {
-        $coord = explode(" ", $point);
-        $dept[$numdept]['plgs'][$i][] = $coord[0];
-        $dept[$numdept]['plgs'][$i][] = $coord[1];
-      }
-
-      $i++;
-    }
-    $dept[$numdept]['isin'] = $result['indept'];
-    $numdept++;
-  }
-  $villecoords = $result['villecoords'];
-
-  $img = new imgcarto(800, 10);
-
-  $img->addcolor('pred', 255, 192, 192);
-  $img->addcolor('pgreen', 192,255, 192);
-
-  $i = 0;
-  foreach($dept as $departement)
-  {
-    foreach($departement['plgs'] as $plg)
-    {
-      if ($departement['isin'] == 't')
-      {
-        $img->addpolygon($plg, 'pred', true);
-        $img->addpolygon($plg, 'black', false);
-      }
-      else
-      {
-        $img->addpolygon($plg, 'pgreen', true);
-        $img->addpolygon($plg, 'black', false);
-      }
-    }
-  }
-
-  $villecoords = str_replace("POINT(", "", $villecoords);
-  $villecoords = str_replace(")", "", $villecoords);
-  $villecoords = explode(" ", $villecoords);
-
-  $img->addpoint($villecoords[0], $villecoords[1], 5, "black");
-
-  $img->draw();
-
-  require_once ($topdir . "include/watermark.inc.php");  
-  $wm_img = new img_watermark (&$img->imgres);
-  $wm_img->output();
-
-  exit();
-}
-
-/* Spécifique Belfort / montbé */
-if ($_REQUEST['action'] == 'genimgbfmontbe')
-{
-  require_once($topdir. "include/pgsqlae.inc.php");
-  require_once($topdir. "include/cts/imgcarto.inc.php");
+  require_once($topdir. "include/cts/imgloc.inc.php");
   
   $pgconn = new pgsqlae();
-  /* on dessine les contours de la Franche Comté */
-  $pgreq = new pgrequete($pgconn, "SELECT 
-                                           nom_dept
-                                           , code_dept
-                                           , asText(the_geom) AS points
-                                           , AsText(centroid(the_geom)) AS center
-                                   FROM 
-                                           deptfr
-                                   WHERE
-                                           code_dept = '90'");
-  $rs = $pgreq->get_all_rows();
-  
-  $numdept = 0;
 
-  foreach($rs as $result)
-  {
-    $astext = $result['points'];
-    $matched = array();
-    preg_match_all("/\(([^)]*)\)/", $astext, $matched);
-    /* récupère les différents polygones pour un département */
-    $i = 0;
-    foreach ($matched[1] as $polygon)
-    {
-      $polygon = str_replace("(", "", $polygon);
-      $points = explode(",", $polygon);
-  
-      foreach ($points as $point)
-      {
-        $coord = explode(" ", $point);
-        $dept[$numdept]['plgs'][$i][] = $coord[0];
-        $dept[$numdept]['plgs'][$i][] = $coord[1];
-      }
-
-      $i++;
-    }
-    /* centre */
-    $center = $result['center'];
-    $center = str_replace('POINT(', '', $center);
-    $center = str_replace(')', '', $center);
-    $dept[$numdept]['center'] = explode( ' ', $center);
-    /* nom */
-    $dept[$numdept]['name'] = $result['nom_dept'] . " (". $result['code_dept'] . ")";
-
-    $numdept++;
-  }
-
-  $villecoords = $result['villecoords'];
-
-  $img = new imgcarto(500, 10);
-
-  $img->addcolor('pred', 255, 192, 192);
-  $img->addcolor('pgreen', 192,255, 192);
-  $img->addcolor('grey', 120, 120, 120);
-
-  $i = 0;
-  foreach($dept as $departement)
-  {
-    foreach($departement['plgs'] as $plg)
-    {
-      $img->addpolygon($plg, 'pgreen', true);
-      $img->addpolygon($plg, 'black', false);
-    }
-    $img->addtext(16, 0, 
-		  $departement['center'][0] + 200, 
-		  $departement['center'][1] + 2500, 
-		  'pred', 
-		  ucfirst(strtolower($departement['name'])));
-  }
-
-  /* on plotte quelques villes bien connues ;-) */
-  $psql = new pgrequete($pgconn, 
-			    "SELECT DISTINCT
-                                           name_loc, 
-                                           AsText(TRANSFORM(the_geom, 27582)) AS points 
-                             FROM 
-                                           worldloc 
-                             WHERE 
-                                           name_loc IN ('Belfort', 'Montbeliard', 'Sevenans') 
-                             AND 
-                                           countryc_loc = 'FR'
-                             GROUP BY 
-                                           name_loc, the_geom");
-
-  
-  $rq = $psql->get_all_rows();
-  foreach($rq as $result)
-    {
-      $point = $result['points'];
-      $point = str_replace("POINT(", '', $point);
-      $point = str_replace(")", '', $point);
-      $point = explode(' ', $point);
-
-      $img->addpointwithlegend($point[0], $point[1], 10, 'black', 12, 0, $result['name_loc'], 'black');
-      //      $img->addpoint($point[0], $point[1], 4, 'black');
-      //      $img->addtext(12, 0, $point[0] + 7500, $point[1] - 400, 'black', $result['name_loc']); 
-    }
-
-  $img->draw();
-  
-
+  $loc = new imgloc(800, IMGLOC_COUNTRY, $site->db, $pgconn);
+  // TODO : récupérer le Code postal
+  //$loc->add_hilighted_context_fr();
+  $loc->add_location_by_coords($long, $lat);
+  $loc->add_context();
   require_once ($topdir . "include/watermark.inc.php");  
+  $img = $loc->generate_img();
   $wm_img = new img_watermark ($img->imgres);
   $wm_img->output();
-  
   exit();
 }
-
-
-/* Echelle d'un département */
-if ($_REQUEST['action'] == 'genimgdept')
-{
-  $iddept = intval($_REQUEST['iddept']);
-
-  require_once($topdir. "include/pgsqlae.inc.php");
-  require_once($topdir. "include/cts/imgcarto.inc.php");
-  
-  $pgconn = new pgsqlae();
-  /* on dessine les contours du département */
-  $pgreq = new pgrequete($pgconn, "SELECT 
-                                           nom_dept
-                                           , code_dept
-                                           , asText(the_geom) AS points
-                                           , AsText(centroid(the_geom)) AS center
-                                   FROM 
-                                           deptfr
-                                   WHERE
-                                           code_dept = $iddept");
-  $rs = $pgreq->get_all_rows();
-  
-  $numdept = 0;
-
-  foreach($rs as $result)
-  {
-    $astext = $result['points'];
-    $matched = array();
-    preg_match_all("/\(([^)]*)\)/", $astext, $matched);
-    /* récupère les différents polygones pour un département */
-    $i = 0;
-    foreach ($matched[1] as $polygon)
-    {
-      $polygon = str_replace("(", "", $polygon);
-      $points = explode(",", $polygon);
-  
-      foreach ($points as $point)
-      {
-        $coord = explode(" ", $point);
-        $dept[$numdept]['plgs'][$i][] = $coord[0];
-        $dept[$numdept]['plgs'][$i][] = $coord[1];
-      }
-
-      $i++;
-    }
-    /* centre */
-    $center = $result['center'];
-    $center = str_replace('POINT(', '', $center);
-    $center = str_replace(')', '', $center);
-    $dept[$numdept]['center'] = explode( ' ', $center);
-    /* nom */
-    $dept[$numdept]['name'] = $result['nom_dept'] . " (". $result['code_dept'] . ")";
-
-    $numdept++;
-  }
-
-  $villecoords = $result['villecoords'];
-
-  $img = new imgcarto(500, 10);
-
-  $img->addcolor('pred', 255, 192, 192);
-  $img->addcolor('pgreen', 192,255, 192);
-  $img->addcolor('grey', 120, 120, 120);
-
-  $i = 0;
-  foreach($dept as $departement)
-  {
-    foreach($departement['plgs'] as $plg)
-    {
-      $img->addpolygon($plg, 'pgreen', true);
-      $img->addpolygon($plg, 'black', false);
-    }
-    $img->addtext(16, 0, 
-		  $departement['center'][0], 
-		  $departement['center'][1], 
-		  'pred', 
-		  ucfirst(strtolower($departement['name'])));
-  }
-
-  /* on plotte quelques villes */
-  $psql = new pgrequete($pgconn, 
-			"SELECT
-                                           name_loc, 
-                                           AsText(TRANSFORM(the_geom, 27582)) AS points 
-                             FROM 
-                                           worldloc 
-                             WHERE 
-                                           CONTAINS((SELECT TRANSFORM(the_geom, 4030) FROM deptfr WHERE code_dept = '".$iddept."'), the_geom) 
-                             AND 
-                                           countryc_loc = 'FR'
-                             GROUP BY 
-                                           name_loc, the_geom
-                             ORDER BY
-                                           RANDOM()
-                             LIMIT 5");
-
-  
-  $rq = $psql->get_all_rows();
-
-  foreach($rq as $result)
-    {
-      $point = $result['points'];
-      $point = str_replace("POINT(", '', $point);
-      $point = str_replace(")", '', $point);
-      $point = explode(' ', $point);
-      $img->addpointwithlegend($point[0], $point[1], 10, 'black', 12, 0, $result['name_loc'], 'black');
-
-      //$img->addpoint($point[0], $point[1], 4, 'black');
-      //$img->addtext(12, 0, $point[0], $point[1], 'black', $result['name_loc']); 
-    }
-
-  $img->draw();
-  
-
-  require_once ($topdir . "include/watermark.inc.php");  
-  $wm_img = new img_watermark ($img->imgres);
-  $wm_img->output();
-  
-  exit();
-}
-
-
 
 $pays = new pays($site->db,$site->dbrw);
 $ville = new ville($site->db,$site->dbrw);
