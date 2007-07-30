@@ -70,10 +70,10 @@ if (isset($_REQUEST['id_utilisateur']))
     $site->error_forbidden("matmatronch","group",10001);
  
   if (!$user->publique && !$can_edit)
-		$site->error_forbidden("matmatronch","private");
-	if(!$user->promo_utbm != $site->user->promo_utbm && $site->user->is_in_group("gestion_ae"))
-	{
-		$user = &$site->user;
+    $site->error_forbidden("matmatronch","private");
+  if(!$user->promo_utbm != $site->user->promo_utbm && $site->user->is_in_group("gestion_ae"))
+  {
+    $user = &$site->user;
     $can_edit = true;
   }
 }
@@ -86,36 +86,50 @@ else
 
 if($_REQUEST["view"] == "listing")
 {
-	$req = new requete($site->db,
-                   "SELECT `id_utilisateur`, `promo_utbm`, "
-									 ."CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` "
-									 ."FROM `utl_etu_utbm` "
-									 ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
-									 ."LEFT JOIN `utl_etu` USING (`id_utilisateur`) "
-									 ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
-									 ."ORDER BY `nom_utl`, `prenom_utl` ASC "
-									 ."LIMIT 0 , 30");
-	if ($req->lines == 0)
-		$tbl = new error("Aucun resultat","");
-	else
-	{
-		$tbl = new sqltable("listresult",
+  $req = new requete($site->db,
+                   //"SELECT `id_utilisateur`, `promo_utbm`, "
+                   //."CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` "
+                   "SELECT `utilisateurs`.*, `utl_etu`.*, `utl_etu_utbm`.* " .
+                   ."FROM `utl_etu_utbm` "
+                   ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
+                   ."LEFT JOIN `utl_etu` USING (`id_utilisateur`) "
+                   ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
+                   ."ORDER BY `nom_utl`, `prenom_utl` ASC "
+                   ."LIMIT 0 , 30");
+  if ($req->lines == 0)
+    $tbl = new error("Aucun resultat","");
+  else
+  {
+    /*
+    $tbl = new sqltable("listresult",
                         "Liste des promo " . $site->user->promo_utbm,
                         $req,
-												"index.php",
-												"id_utilisateur",
-												array("nom_utilisateur"=>"Nom"),
-												array(),
-												array(),
-												array()
-											);
-		$cts->add($tbl,true);
-	}
+                        "index.php",
+                        "id_utilisateur",
+                        array("nom_utilisateur"=>"Nom"),
+                        array(),
+                        array(),
+                        array()
+                      );*/
+    $tbl = new sqltable("listresult",
+                        "Liste des promo " . $site->user->promo_utbm,
+                        "id_utilisateur",
+                        array("nom_utl"=>"Nom",
+                              "prenom_utl"=>"Prenom",
+                              "surnom_utbm"=>"Surnom",
+                              "date_naissance_utl"=>"Date de naissance",
+                              "promo_utbm"=>"Promo"),
+                        array("view"=>"Voir la fiche"),
+                        array(),
+                        array()
+                       );
+    $cts->add($tbl,true);
+  }
 }
 else
 {
-	$cts->add_title(2, "Informations personnelles");
-	$info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"));
+  $cts->add_title(2, "Informations personnelles");
+  $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"));
   $cts->add($info);
 }
 
