@@ -95,6 +95,15 @@ if($_REQUEST["view"] == "listing")
     $st=$page*$npp;
   else
     $st=0;
+  $reqnb = new requete($site->db,
+                       "SELECT COUNT(`utilisateurs`.`id_utilisateur`) "
+                       ."FROM `utl_etu_utbm` "
+                       ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
+                       ."LEFT JOIN `utl_etu` USING (`id_utilisateur`) "
+                       ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
+                       ."AND `publique_utl`='1'");
+  list($nb) = $reqnb->get_row();
+
   $req = new requete($site->db,
                    //"SELECT `id_utilisateur`, `promo_utbm`, "
                    //."CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` "
