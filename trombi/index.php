@@ -93,7 +93,8 @@ if($_REQUEST["view"] == "listing")
                    ."FROM `utl_etu_utbm` "
                    ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
                    ."LEFT JOIN `utl_etu` USING (`id_utilisateur`) "
-                   ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
+									 ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
+                   ."AND `publique_utl`='1' "
                    ."ORDER BY `nom_utl`, `prenom_utl` ASC "
                    ."LIMIT 0 , 30");
   if ($req->lines == 0)
@@ -113,7 +114,8 @@ if($_REQUEST["view"] == "listing")
                       );*/
     $tbl = new sqltable("listresult",
                         "Liste des promo " . $site->user->promo_utbm,
-                        $req,
+												$req,
+                        "../trombi/index.php"
                         "id_utilisateur",
                         array("nom_utl"=>"Nom",
                               "prenom_utl"=>"Prenom",
