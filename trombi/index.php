@@ -146,7 +146,7 @@ if(isset($_REQUEST["stats"]))
       $coords[] = array('x' => $i,'y' => $nb);
       $i++;
     }
-    $graph = new graphic("", "Date de naissances des membres",$coords,false,$xtics);
+    $graph = new graphic("", "Date de naissance des membres",$coords,false,$xtics);
     $graph->png_render();
     $graph->destroy_graph();
     exit();
