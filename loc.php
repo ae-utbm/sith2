@@ -611,13 +611,4 @@ $site->add_contents($cts);
 
 $site->end_page();
 
-
-
-function checkcoords($lx, $ly, $x, $y, $tolerance)
-{
-  if (sqrt(pow($x - $lx, 2) + pow($y - $ly, 2)) > $tolerance)
-    return false;
-  return true;
-}
-
 ?>
