@@ -48,8 +48,6 @@ if (!$site->user->id)
 
 $site->start_page ("none", "Trombi AE ");
 
-$cts = new contents("Informations personnelles");
-
 $tabs = array(array("","index.php", "Informations"),
               array("board","index.php?view=board", "Messages"),
               array("listing","index.php?view=listing", "Version papier"),
@@ -84,50 +82,45 @@ else
   $can_edit = true;
 }
 
-$info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"));
-$cts->add($info);
-$site->add_contents($cts);
 
-/*
-$cts->puts('<br/>');
-$cts->add_title(2,"TODO");
-$cts->puts('-home<br/>-onglets<br/>-listing membre promo alphabetique<br/>');
- */
-
-$cts = new contents("Liste des membres de la promo ".$site->user->promo_utbm);
-$req = new requete($site->db,
-                   "SELECT `id_utilisateur`, `promo_utbm`, "
-                  ."CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` "
-                  ."FROM `utl_etu_utbm` "
-                  ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
-                  ."LEFT JOIN `utl_etu` USING (`id_utilisateur`) "
-                  ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
-                  ."ORDER BY `nom_utl`, `prenom_utl` ASC "
-                  ."LIMIT 0 , 30");
-                  
-if ($req->lines == 0)
+if($_REQUEST["view"] == "listing")
 {
-  $tbl = new error("Aucun resultat","");
+	$cts = new contents("Liste des membres de la promo ".$site->user->promo_utbm);
+	$req = new requete($site->db,
+                   "SELECT `id_utilisateur`, `promo_utbm`, "
+									 ."CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` "
+									 ."FROM `utl_etu_utbm` "
+									 ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
+									 ."LEFT JOIN `utl_etu` USING (`id_utilisateur`) "
+									 ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
+									 ."ORDER BY `nom_utl`, `prenom_utl` ASC "
+									 ."LIMIT 0 , 30");
+	if ($req->lines == 0)
+		$tbl = new error("Aucun resultat","");
+	else
+	{
+		$tbl = new sqltable("listresult",
+                        "Liste des promo " . $site->user->promo_utbm,
+                        $req,
+												"index.php",
+												"id_utilisateur",
+												array("nom_utilisateur"=>"Nom"),
+												array(),
+												array(),
+												array()
+											);
+		$cts->add($tbl,true);
+	}
 }
 else
 {
-  $tbl = new sqltable("listresult",
-                      "Liste des promo " . $site->user->promo_utbm,
-                      $req,
-                      "index.php",
-                      "id_utilisateur", 
-                      array("nom_utilisateur"=>"Nom"),
-                      array(), 
-                      array(), 
-                      array()
-                     );
+	$cts = new contents("Informations personnelles");
+	$info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"));
+  $cts->add($info);
 }
 
-
-
-$cts->add($tbl,true);
- 
 $site->add_contents($cts);
+
 
 $site->end_page ();
 
