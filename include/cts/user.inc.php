@@ -377,6 +377,7 @@ class userinfov2 extends stdcontents
   {
     global $topdir, $UserBranches;
 		$sub=substr_count($urldest, "/");
+		print_r($sub);
 		$realpath="";
 		if($sub>0)
 		{
