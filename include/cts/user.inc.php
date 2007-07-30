@@ -380,7 +380,7 @@ class userinfov2 extends stdcontents
 		$realpath="";
 		if($sub>0)
 		{
-			for($i=0;$<$sub;$i++)
+			for($i=0;$i<$sub;$i++)
 				$realpath.= "../";
 		}
     require_once($topdir . "include/entities/ville.inc.php");
