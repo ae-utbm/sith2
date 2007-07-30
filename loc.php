@@ -134,11 +134,13 @@ if ($_REQUEST['action'] == 'genimgville')
   
   $pgconn = new pgsqlae();
 
-  $loc = new imgloc(800, IMGLOC_COUNTRY, $site->db, $pgconn);
+  if (isset($_REQUEST['level']))
+    $lvl = intval($_REQUEST['level']);
+  else
+    $lvl = IMGLOC_COUNTRY;
 
-  // TODO : récupérer le Code postal
-  //  $loc->add_hilighted_context_fr("90");
-  
+  $loc = new imgloc(800, $lvl, $site->db, $pgconn);
+   
   foreach ($idvilles as $idville)
     $loc->add_location_by_idville($idville);
   $loc->add_context();
@@ -235,10 +237,27 @@ elseif ( $ville->is_valid() )
   $site->start_page("none","Lieux");
 
   $cts = new contents($ville->nom);
+  if (isset($_REQUEST['level']))
+    {
+      if ($_REQUEST['level'] == 1)
+	$cts->add_paragraph("Echelle: Mondiale");
+      if ($_REQUEST['level'] == 2)
+	$cts->add_paragraph("Echelle: Continentale");
+      if ($_REQUEST['level'] == 3)
+	$cts->add_paragraph("Echelle: Nationale");
+      if ($_REQUEST['level'] == 4)
+	$cts->add_paragraph("Echelle: France / Régionale");
+      if ($_REQUEST['level'] == 5)
+	$cts->add_paragraph("Echelle: France / Départementale");
+     
+    }
+
   $cts->add_paragraph("Pays: ".$pays->get_html_link());
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($ville->lat)."N , ".geo_radians_to_degrees($ville->long)."E");
-  $cts->add_paragraph("<center><img src=\"loc.php?action=genimgville&idville=".$ville->id."\" alt=\"position ville\" /></center>\n");
-
+  if (isset($_REQUEST['level']))
+    $cts->add_paragraph("<center><img src=\"loc.php?action=genimgville&idville=".$ville->id."&level=".intval($_REQUEST['level'])."\" alt=\"position ville\" /></center>\n");
+  else
+    $cts->add_paragraph("<center><img src=\"loc.php?action=genimgville&idville=".$ville->id."\" alt=\"position ville\" /></center>\n");
   $site->add_contents($cts);
 
   $site->end_page();
