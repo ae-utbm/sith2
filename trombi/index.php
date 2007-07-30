@@ -170,6 +170,7 @@ if(isset($_REQUEST["stats"]))
     $img->addcolor('l8', 255, 101, 0);
     $img->addcolor('l9', 255, 68, 0);
     $img->addcolor('l10', 255, 0, 0);
+    $img->addcolor('lsux', 255, 255, 0);
 
     $pgconn = new pgsqlae();
 
@@ -181,10 +182,14 @@ if(isset($_REQUEST["stats"]))
                                           INNER JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utl_etu`.`id_utilisateur`
                                           WHERE `utl_etu`.`id_ville` IS NOT NULL AND `utl_etu_utbm`.`promo_utbm`='" . $site->user->promo_utbm . "'
                                           GROUP BY substring(cpostal_ville,1,2)");
+    $max=0;
     while ($rs = $statscotis->get_row())
     {
       $statsdep[$rs['cpostal']] = $rs['num'];
+      if($max<$rs['num'])
+        $max=$rs['num'];
     }
+    $max=1/$max;
     $pgreq = new pgrequete($pgconn, "SELECT code_dept, nom_dept, asText(simplify(the_geom, 2000)) AS points FROM deptfr");
     $rs = $pgreq->get_all_rows();
     $numdept = 0;
@@ -221,11 +226,16 @@ if(isset($_REQUEST["stats"]))
                            array('id' =>$departement['gid'],
                                  'url' => "".
                                  $departement['iddept']. ")"));
-
-          $img->addpolygon($plg, 'l' . (int) (1 + $statsdep[$departement['iddept']] / 5), true,
+        else
+        {
+          $color=(int)($departement['iddept']*$max*10);
+          if($color==0)
+            $color="sux";
+          $img->addpolygon($plg, 'l' . $color, true,
                            array('id' =>$departement['gid'],
                                  'url' => "".
-        $departement['iddept']. ")"));
+                                 $departement['iddept']. ")"));
+        }
         $img->addpolygon($plg, 'black', false);
       }
     }
@@ -259,7 +269,7 @@ if($_REQUEST["view"] == "listing")
 
   $req = new requete($site->db,
                      "SELECT `utilisateurs`.*, `utl_etu`.*, `utl_etu_utbm`.*, "
-										."`utilisateurs`.`id_ville` AS `id_ville`, `utl_etu`.`id_ville` AS `ville_parents`, "
+                    ."`utilisateurs`.`id_ville` AS `id_ville`, `utl_etu`.`id_ville` AS `ville_parents`, "
                     ."`utilisateurs`.`id_pays` AS `id_pays`, `utl_etu`.`id_pays` AS `pays_parents` "
                     ."FROM `utl_etu_utbm` "
                     ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
