@@ -51,6 +51,15 @@ if (isset($_REQUEST['reset']))
 if (isset($_REQUEST['submit']))
 {
   $site->add_contents(new contents("DEBUG", print_r($_REQUEST,true)));
+  if (isset($_REQUEST['start']))
+
+    $_SESSION['trajet']['start'] = intval($_REQUEST['start']);
+
+  if (isset($_REQUEST['etape']))
+    $_SESSION['trajet']['etapes'][] = intval($_REQUEST['etape']);
+
+  if (isset($_REQUEST['stop']))
+    $_SESSION['trajet']['stop'] = intval($_REQUEST['stop']);
 }
 
 $ville = new ville($site->db);
@@ -60,26 +69,36 @@ $ville = new ville($site->db);
 $frm = new form ("trip",
 		 "trajet.php",
 		 true);
-$frm->add_entity_smartselect("start", "Ville de départ", $ville);
+
+if (!isset($_SESSION['trajet']['start']))
+{
+     $frm->add_entity_smartselect("start", "Ville de départ", $ville);
+}    
 
 $infos = "<p><h3>Etapes actuelles</h3><br/>
           <ul>\n";
 if (count($_SESSION['trajet']['etapes']))
 {
+  $villeaff = new ville($site->db);
+
   foreach ($_SESSION['trajet']['etapes'] as $id_etape)
-    $infos .= ("<li>". $villes_db[$id_etape] . "</li>\n");
+    {
+      $villeaff->load_by_id($id_etape);
+      $infos .= ("<li>". $villeaff->nom . "</li>\n");
+    }
 }
+
 $infos .= "</ul>\n</p>\n";
 
 $frm->add_info ($infos);
 
 $frm->add_entity_smartselect("etape", "Etape", $ville);
 
-/* arrivee */
+
 if (!isset($_SESSION['trajet']['stop']))
-$frm->add_text_field ("stop",
-		      "Arrivee");
-$frm->add_entity_smartselect("stop", "Arrivée", $ville);
+{
+  $frm->add_entity_smartselect("stop", "Arrivée", $ville);
+}    
 
 $frm->add_submit ("submit",
 		  "Envoyer");
