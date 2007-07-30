@@ -136,7 +136,7 @@ class imgloc
     return true;
   }
   /* ajout d'une ville via idville */
-  function add_location_by_idville($id)
+  function add_location_by_idville($id, $hilight = true)
   {
     $my = new requete($this->mysqldb, "SELECT 
                                               id_ville, 
@@ -164,14 +164,16 @@ class imgloc
 	$coords['srid']  = 4030;
 
 	$this->_add_location($rs['nom_ville'],  $coords);
-	if (strlen($rs['cpostal_ville']) == 4)
-	  $cp = "0" . substr($rs['cpostal_ville'], 0, 1);
-	else
-	  $cp = substr($rs['cpostal_ville'], 0, 2);
+	if ($hilight == true)
+	  {
+	    if (strlen($rs['cpostal_ville']) == 4)
+	      $cp = "0" . substr($rs['cpostal_ville'], 0, 1);
+	    else
+	      $cp = substr($rs['cpostal_ville'], 0, 2);
 	
-	$this->add_hilighted_context_fr($cp);
+	    $this->add_hilighted_context_fr($cp);
+	  }
       }
-
 
   }
 

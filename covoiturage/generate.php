@@ -61,7 +61,7 @@ $img = new imgloc(800, IMGLOC_COUNTRY, $db, new pgsqlae());
 if (count($villes))
 {  
   foreach($villes as $ville)
-    $img->add_location_by_idville($ville);
+    $img->add_location_by_idville($ville, false);
 }
 
 $img->add_context();
