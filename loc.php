@@ -152,6 +152,26 @@ if ($_REQUEST['action'] == 'genimgville')
   exit();
 }
 
+if ($_REQUEST['action'] == 'genimglieu')
+{
+  $idlieu = intval($_REQUEST['id_lieu']);
+  $level  = intval($_REQUEST['level']);
+  
+  $lieu = new lieu($site->db);
+  $lieu->load_by_id($idlieu);
+
+  $loc = new imgloc(800, $level, $site->db, $pgconn);
+  $loc->add_location_by_object($lieu);
+  $loc->add_context();
+
+  require_once ($topdir . "include/watermark.inc.php");  
+  $img = $loc->generate_img();
+  $wm_img = new img_watermark ($img->imgres);
+  $wm_img->output();
+  
+  exit();
+}
+
 $pays = new pays($site->db,$site->dbrw);
 $ville = new ville($site->db,$site->dbrw);
 $lieu = new lieu($site->db,$site->dbrw);
@@ -206,7 +226,8 @@ if ( $lieu->is_valid() )
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($lieu->lat)."N , ".geo_radians_to_degrees($lieu->long)."E");
 
   $req = new requete($site->db, "SELECT * FROM loc_lieu WHERE id_lieu_parent='".mysql_real_escape_string($lieu->id)."' ORDER BY nom_lieu");
-
+  $cts->add_paragraph("<center><img src=\"loc.php?action=genimglieu&id_lieu=".
+		      $lieu->id."&level=".$_REQUEST['level']."\" alt=\"loc lieu\" /></center>");
   if ( $req->lines > 0 )
     $cts->add(new sqltable("listsublieux", "Sous-lieux", $req, "loc.php", 
                            "id_lieu", 
