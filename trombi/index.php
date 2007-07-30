@@ -206,11 +206,11 @@ else
                      );
 }
 
-//$cts->add($tbl);
+$cts->add($tbl,true);
  
 $site->add_contents($cts);
 
-$site->add_contents($tbl);
+//$site->add_contents($tbl);
 
 $site->end_page ();
 
