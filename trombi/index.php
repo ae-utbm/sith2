@@ -52,6 +52,8 @@ $tabs = array(array("","trombi/index.php", "Informations"),
               array("board","trombi/index.php?view=board", "Messages"),
               array("listing","trombi/index.php?view=listing", "Version papier"),
              );
+$cts = new contents("Trombinoscope, promo ".$site->user->promo_utbm);
+$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 
 if (isset($_REQUEST['id_utilisateur']))
@@ -84,8 +86,8 @@ else
 
 if($_REQUEST["view"] == "listing")
 {
-	$cts = new contents("Liste des membres de la promo ".$site->user->promo_utbm);
-	$cts->add(new tabshead($tabs,$_REQUEST["view"]));
+	$cts->add_title(2, "Liste des membres de la promo ".$site->user->promo_utbm);
+	
 	$req = new requete($site->db,
                    "SELECT `id_utilisateur`, `promo_utbm`, "
 									 ."CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` "
@@ -114,8 +116,7 @@ if($_REQUEST["view"] == "listing")
 }
 else
 {
-	$cts = new contents("Informations personnelles");
-	$cts->add(new tabshead($tabs,$_REQUEST["view"]));
+	$cts->add_title(2, "Informations personnelles");
 	$info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"));
   $cts->add($info);
 }
