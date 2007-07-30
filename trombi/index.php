@@ -98,7 +98,9 @@ if(isset($_REQUEST["stats"]))
                        "GROUP BY `utilisateurs`.`sexe_utl`");
     $cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
     while(list($sexe,$nb)=$req->get_row())
-    {
+		{
+      if($nb=0)
+        continue;
       if($sexe==1)
         $cam->data($nb, "Homme");
       else
