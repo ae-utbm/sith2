@@ -51,14 +51,13 @@ if (isset($_REQUEST['reset']))
 if (isset($_REQUEST['submit']))
 {
   $site->add_contents(new contents("DEBUG", print_r($_REQUEST,true)));
-  if (isset($_REQUEST['start']))
-
+  if ((isset($_REQUEST['start'])) && ($_REQUEST['start'] != 0))
     $_SESSION['trajet']['start'] = intval($_REQUEST['start']);
 
-  if (isset($_REQUEST['etape']))
+  if ((isset($_REQUEST['etape'])) && ($_REQUEST['etape'] != 0))
     $_SESSION['trajet']['etapes'][] = intval($_REQUEST['etape']);
 
-  if (isset($_REQUEST['stop']))
+  if ((isset($_REQUEST['stop'])) && ($_REQUEST['stop'] != 0))
     $_SESSION['trajet']['stop'] = intval($_REQUEST['stop']);
 }
 
