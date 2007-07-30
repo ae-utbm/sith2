@@ -2,14 +2,14 @@
 /*
  * @brief Classe de traçage de lieux, basé sur l'utilisation de la
  * clase imgcarto. Cette classe a par ailleurs pour objectif de lier
- * les différentes données hétérogènes sur les lieux. (bases / tables
+ * les différentes données hétérogènes sur les lieux (bases / tables
  * MySQL, Postgres ...).
  *
  */
 /* Copyright 2007
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
- * Ce fichier fait partie du site de l'Association des Ãtudiants de
+ * Ce fichier fait partie du site de l'Association des étudiants de
  * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
@@ -65,6 +65,9 @@ class imgloc
   
   /* une liste de contextes */
   var $contexts = array();
+
+  /* une liste de contextes spéciaux à hilighter */
+  var $hlcontexts = array();
   
   /* constructeur */
   function imgloc($width, $level, &$mysqldb, &$pgsqldb)
@@ -150,6 +153,60 @@ class imgloc
     $this->locs[] = array($nom, $coords);
   }
 
+  function add_hilighted_context_fr($identifier)
+  {
+    if (($this->level < 3) || ($this->france == false))
+      return false;
+    
+    $sql = "SELECT
+                    AsText(the_geom) points
+            FROM
+                    deptfr
+            WHERE
+                    nom_dept = '".pg_escape_string($identifier) . "'
+            OR
+                    code_dept = '".pg_escape_string($identifier) . "'
+            OR
+                    nom_region = '".pg_escape_string($identifier) . "'
+            OR
+                    code_region = '".pg_escape_string($identifier) . "';";
+    
+    $this->add_hl_context_by_sql($sql);
+  }
+
+
+  function add_hilighted_context($identifier)
+  {
+    /* n'a aucun sens pour la france métropolitaine */
+    if ($this->france == true)
+      return false;
+
+    $sql = "SELECT
+                    AsText(Transform(Simplify(the_geom, 0.2), 3395)) As points
+            FROM
+                    worldadmwgs
+            WHERE
+                    name = '".pg_escape_string($identifier) ."'
+            OR
+                    region = '".pg_escape_string($identifier) . "'";
+    
+    $this->add_hl_context_by_sql($sql);
+
+  }
+
+
+  function add_hl_context_by_sql($sql)
+  {
+    $pgreq = new pgrequete($this->pgsqldb, $sql);
+    $rs = $pgreq->get_all_rows();
+
+    $this->_add_hl_context ($rs);
+  }
+
+  function _add_hl_context ($datas)
+  {
+    $this->parse_polygons($datas, true);
+  }
   /*
    * Ajoute le contexte du lieu en fonction du niveau défini dans le
    * constructeur.
@@ -427,13 +484,18 @@ class imgloc
 
   }
   
-  function parse_polygons($datas)
+  function parse_polygons($datas, $hl = false)
   {
-    if (count($datas) <= 0)
+    if ((!is_array($datas)) || (count($datas) <= 0))
       return;
-    
+
     $numplg = 0;
 
+    if ($hl == false)
+      $arraysto = &$this->contexts;
+    else
+      $arraysto = &$this->hlcontexts;
+    
     foreach($datas as $data)
       {
 	$astext = $data['points'];
@@ -450,23 +512,23 @@ class imgloc
 	    foreach ($points as $point)
 	      {
 		$coord = explode(" ", $point);
-		$step = count($this->contexts[$numplg]); 
+		$step = count($arraysto[$numplg]); 
 		
 		/* premier point */
 		if ($step == 0)
 		  {
-		    $this->contexts[$numplg][] = $coord[0];
-		    $this->contexts[$numplg][] = $coord[1];
+		    $arraysto[$numplg][] = $coord[0];
+		    $arraysto[$numplg][] = $coord[1];
 		  }
 		/* points suivants : détection de la connerie */
-		else if (checkcoords($this->contexts[$numplg][$step - 2],
-				     $this->contexts[$numplg][$step - 1],
+		else if (checkcoords($arraysto[$numplg][$step - 2],
+				     $arraysto[$numplg][$step - 1],
 				     $coord[0],
 				     $coord[1],
 				     10000000)) // tolérance
 		  {
-		    $this->contexts[$numplg][] = $coord[0];
-		    $this->contexts[$numplg][] = $coord[1];
+		    $arraysto[$numplg][] = $coord[0];
+		    $arraysto[$numplg][] = $coord[1];
 		  }
 	      } // points du polygone
 	    $numplg++;
@@ -478,7 +540,7 @@ class imgloc
    * Génération de l'image
    *
    */
-  function generate_img($wmark = false)
+  function generate_img()
   {
     $myimg = new imgcarto($this->width, 10);
 
@@ -490,8 +552,23 @@ class imgloc
       {
 	foreach($this->contexts as $plg)
 	  {
-	    $myimg->addpolygon($plg, 'pgreen', true);
-	    $myimg->addpolygon($plg, 'grey',   false);
+	    if (count($plg) >= 6)
+	      {
+		$myimg->addpolygon($plg, 'pgreen', true);
+		$myimg->addpolygon($plg, 'grey',   false);
+	      }
+	  }
+      }
+
+    if (count($this->hlcontexts))
+      {
+	foreach($this->hlcontexts as $plg)
+	  {
+	    if (count($plg) >= 6)
+	      {
+		$myimg->addpolygon($plg, 'red', true);
+		$myimg->addpolygon($plg, 'grey',   false);
+	      }
 	  }
       }
 
