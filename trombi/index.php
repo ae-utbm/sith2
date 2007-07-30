@@ -320,7 +320,7 @@ if($_REQUEST["view"] == "listing")
 }
 elseif($_REQUEST["view"]=="stats")
 {
-  $cts->add_paragraph("Des stats, des stats, oui mais des panzanni ! ((c)Ayolo)");
+  $cts->add_paragraph("Des stats, des stats, oui mais des panzanni ! (&copy;Ayolo)");
   $site->add_contents($cts);
   $cts = new contents("Répartition Homme/Femme dans la promo");
   $cts->add_paragraph("<center><img src=\"index.php?stats=sexe\" alt=\"répartition Homme/Femme\" /></center>\n");
