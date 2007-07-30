@@ -135,12 +135,20 @@ if(isset($_REQUEST["stats"]))
                        "AND `utilisateurs`.`date_naissance_utl` != '0000-00-00' ".
                        "GROUP BY substring(`utilisateurs`.`date_naissance_utl`,1,7) ".
                        "ORDER BY substring(`utilisateurs`.`date_naissance_utl`,1,7) ASC");
-    $datas = array("Date" => "Naissances");
+    $coords = array();
+    $xtics = array();
+    $i = 0;
+    $step = (int) ($req->lines / 5);
     while(list($date,$nb)=$req->get_row())
-      $datas[$date]=$nb;
-    $hist = new histogram($datas, "Date de naissances des membres");
-    $hist->png_render();
-    $hist->destroy();
+    {
+      if (($i % $step) == 0)
+        $xtics[$i]=$date;
+      $coords[] = array('x' => $i,'y' => $nb);
+      $i++
+    }
+    $graph = new graphic("", "Date de naissances des membres",$coords,false,$xtics);
+    $graph->png_render();
+    $graph->destroy_graph();
     exit();
   }
   elseif($_REQUEST["stats"]=="france")
