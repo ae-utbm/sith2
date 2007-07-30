@@ -170,13 +170,17 @@ else
 }
 
 
-$info = userTrombiDisplay($user);
-$cts->puts($info);
+//$info = userTrombiDisplay($user);
+//$cts->puts($info);
 
+$info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"));
+$cts->add($info);
+
+/*
 $cts->puts('<br/>');
 $cts->add_title(2,"TODO");
 $cts->puts('-home<br/>-onglets<br/>-listing membre promo alphabetique<br/>');
-
+ */
 $req = new requete($site->db,
                    "SELECT `id_utilisateur`, `promo_utbm`, "
                   ."CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` "
