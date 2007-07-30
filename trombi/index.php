@@ -53,7 +53,6 @@ $tabs = array(array("","index.php", "Informations"),
               array("listing","index.php?view=listing", "Version papier"),
              );
 
-$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 if (isset($_REQUEST['id_utilisateur']))
 {
@@ -86,6 +85,7 @@ else
 if($_REQUEST["view"] == "listing")
 {
 	$cts = new contents("Liste des membres de la promo ".$site->user->promo_utbm);
+	$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 	$req = new requete($site->db,
                    "SELECT `id_utilisateur`, `promo_utbm`, "
 									 ."CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` "
@@ -115,6 +115,7 @@ if($_REQUEST["view"] == "listing")
 else
 {
 	$cts = new contents("Informations personnelles");
+	$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 	$info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"));
   $cts->add($info);
 }
