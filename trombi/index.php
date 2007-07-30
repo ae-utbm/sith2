@@ -259,7 +259,8 @@ if($_REQUEST["view"] == "listing")
 
   $req = new requete($site->db,
                      "SELECT `utilisateurs`.*, `utl_etu`.*, `utl_etu_utbm`.*, "
-                    ."`utilisateurs`.`id_ville` AS `id_ville`, `utl_etu`.`id_ville` AS `ville_parents`"
+										."`utilisateurs`.`id_ville` AS `id_ville`, `utl_etu`.`id_ville` AS `ville_parents`, "
+                    ."`utilisateurs`.`id_pays` AS `id_pays`, `utl_etu`.`id_pays` AS `pays_parents` "
                     ."FROM `utl_etu_utbm` "
                     ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
                     ."LEFT JOIN `utl_etu` USING (`id_utilisateur`) "
