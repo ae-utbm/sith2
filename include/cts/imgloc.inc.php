@@ -155,11 +155,13 @@ class imgloc
 
   function add_hilighted_context_fr($identifier)
   {
-    if (($this->level < 3) || ($this->france == false))
-      return false;
-    
+    if (($this->level == 4) || ($this->level == 5))
+      $srid = 27582;
+    else
+      $srid = 3395;
+
     $sql = "SELECT
-                    AsText(the_geom) points
+                    AsText(Transform(the_geom, $srid)) AS points
             FROM
                     deptfr
             WHERE
@@ -169,7 +171,7 @@ class imgloc
             OR
                     nom_region = '".pg_escape_string($identifier) . "'
             OR
-                    code_region = '".pg_escape_string($identifier) . "';";
+                    code_reg = '".pg_escape_string($identifier) . "';";
     
     $this->add_hl_context_by_sql($sql);
   }
@@ -302,10 +304,11 @@ class imgloc
 	    $subrq .= implode(" OR ", $conds);
 	  }
 	$sql .= "FROM
-                       worldadmwgs
-                 WHERE
-                       region IN (" . $subrq . ")";
-
+                       worldadmwgs\n";
+	if ($subrq)
+	  $sql .="     WHERE
+                              region IN (" . $subrq . ")";
+	
 	$rq = new pgrequete($this->pgsqldb, $sql);
 	
 	$rs = $rq->get_all_rows();
@@ -354,10 +357,11 @@ class imgloc
 	    $subrq .= implode(" OR ", $conds);
 	  }
 	$sql .= "FROM
-                       worldadmwgs
-                 WHERE
+                       worldadmwgs\n";
+	if ($subrq)
+	  $sql .=" WHERE
                        name IN (" . $subrq . ")";
-
+	
 	$rq = new pgrequete($this->pgsqldb, $sql);
 	
 	$rs = $rq->get_all_rows();
@@ -401,8 +405,9 @@ class imgloc
 	  }
 	$sql .="
                 FROM
-                       deptfr
-                WHERE
+                       deptfr\n";
+	if ($subrq)
+	  $sql .= " WHERE
                        code_reg IN (".$subrq.");";
 
 	$rq = new pgrequete($this->pgsqldb, $sql);
@@ -448,8 +453,9 @@ class imgloc
 	  }
 	$sql .="
                 FROM
-                       deptfr
-                WHERE
+                       deptfr\n";
+	if ($subrq)
+	  $sql .= " WHERE
                        code_dept IN (".$subrq.");";
 
 	$rq = new pgrequete($this->pgsqldb, $sql);
