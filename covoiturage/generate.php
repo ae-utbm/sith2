@@ -55,7 +55,7 @@ if (is_array($_SESSION['trajet']['etapes']))
 $villes[] = $_SESSION['trajet']['stop'];
 
 
-$img = new imgloc(800, IMGLOC_COUNTRY, $site->db, new pgsqlae());
+$img = new imgloc(800, IMGLOC_COUNTRY, $db, new pgsqlae());
 
 
 if (count($villes))
