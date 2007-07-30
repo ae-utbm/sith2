@@ -309,6 +309,7 @@ elseif($_REQUEST["view"]=="stats")
   $site->add_contents($cts);
   $cts = new contents("Carte de la natalité");
   $cts->add_paragraph("<center><img src=\"index.php?stats=naissances\" alt=\"graph des naissances\" /></center>\n");
+  $site->add_contents($cts);
   $cts = new contents("Répartition par départements");
   $cts->add_paragraph("<center><img src=\"index.php?stats=departements\" alt=\"répartition par départements\" /></center>\n");
   $site->add_contents($cts);
