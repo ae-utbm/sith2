@@ -65,19 +65,20 @@ if ( $_REQUEST["action"] == "kml" )
 if ($_REQUEST['action'] == 'genimgpays')
 {
   require_once($topdir. "include/pgsqlae.inc.php");
-  require_once($topdir. "include/cts/imgcarto.inc.php");
+  require_once($topdir. "include/cts/imgloc.inc.php");
 
   $idpays = intval($_REQUEST['idpays']);
 
   $imgfile = $topdir . "var/cache/loc/pays/".$idpays.".png";
 
+  /*
   if (file_exists($imgfile))
-  {
-    header("Content-Type: image/png");
-    readfile($imgfile);
-    exit();
-  }
-
+    {
+      header("Content-Type: image/png");
+      readfile($imgfile);
+      exit();
+    }
+  */
 
   $req = new requete($site->db,
                      "SELECT nomeng_pays FROM loc_pays WHERE id_pays = " . $idpays);
@@ -85,95 +86,11 @@ if ($_REQUEST['action'] == 'genimgpays')
   $nomengpays = $req->get_row();
   $nomengpays = $nomengpays['nomeng_pays'];
 
+  $img = new imgloc(800, IMGLOC_WORLD, $site->db, new pgsqlae());
+  $img->add_hilighted_context("France");
+  $img->add_context();
 
-  /*
-  if ($nomengpays == '')
-    exit();
-  */
-  $pgconn = new pgsqlae();
-
-  /* 3395 est le SRID de la projection "globale" cylindrique (mercator) */
-  $pgreq = new pgrequete($pgconn, "SELECT 
-                                           name
-                                           , AsText(Transform(Simplify(the_geom, 0.2), 3395)) AS points
-                                   FROM 
-                                           worldadmwgs
-                                   WHERE
-                                           region != 'Antarctica'");
-
-  $rs = $pgreq->get_all_rows();
-  
-  $numpays = 0;
-
-  foreach($rs as $result)
-  {
-    $astext = $result['points'];
-    $matched = array();
-
-    preg_match_all("/\(([^)]*)\)/", $astext, $matched);
-      
-    /* récupère les différents polygones pour un pays donné */
-    $i = 0;
-      
-    foreach ($matched[1] as $polygon)
-    {
-      $polygon = str_replace("(", "", $polygon);
-      $points = explode(",", $polygon);
-  
-      foreach ($points as $point)
-      {
-        $coord = explode(" ", $point);
-	$step = count($country[$numpays]['plgs'][$i]); 
-
-	/* premier point */
-	if ($step == 0)
-	  {
-	    $country[$numpays]['plgs'][$i][] = $coord[0];
-	    $country[$numpays]['plgs'][$i][] = $coord[1];
-	  }
-	/* points suivants : détection de la connerie */
-	else if (checkcoords($country[$numpays]['plgs'][$i][$step - 2],
-			     $country[$numpays]['plgs'][$i][$step - 1],
-			     $coord[0],
-			     $coord[1],
-			     10000000)) // tolérance
-	  {
-	    $country[$numpays]['plgs'][$i][] = $coord[0];
-	    $country[$numpays]['plgs'][$i][] = $coord[1];
-	  }
-      }
-      $i++;
-    }
-    if ($result['name'] == $nomengpays)
-      $country[$numpays]['isin'] = true;
-    else
-      $country[$numpays]['isin'] = false;
-    $numpays++;
-  }
-
-  $img = new imgcarto(800, 10);
-  $img->addcolor('green', 150,255, 150);
-  foreach($country as $c)
-  {
-    if (count($c['plgs']) > 0)
-      {
-	foreach($c['plgs'] as $plg)
-	  {
-	    if ($c['isin'] == true)
-	      {
-		$img->addpolygon($plg, 'red', true);
-		$img->addpolygon($plg, 'black', false);
-	      }
-	    else
-	      {
-		$img->addpolygon($plg, 'green', true);
-		$img->addpolygon($plg, 'black', false);
-	      }
-	  }
-      }
-  }
-
-  $img->draw();
+  $img = $img->generate_img();
 
   require_once ($topdir . "include/watermark.inc.php");
   $wm_img = new img_watermark ($img->imgres);
