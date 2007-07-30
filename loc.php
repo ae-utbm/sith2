@@ -160,6 +160,11 @@ if ($_REQUEST['action'] == 'genimglieu')
   $lieu = new lieu($site->db);
   $lieu->load_by_id($idlieu);
 
+  require_once($topdir. "include/pgsqlae.inc.php");
+  require_once($topdir. "include/cts/imgloc.inc.php");
+  
+  $pgconn = new pgsqlae();
+
   $loc = new imgloc(800, $level, $site->db, $pgconn);
   $loc->add_location_by_object($lieu);
   $loc->add_context();
