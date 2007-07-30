@@ -113,6 +113,7 @@ if($_REQUEST["view"] == "listing")
                       );*/
     $tbl = new sqltable("listresult",
                         "Liste des promo " . $site->user->promo_utbm,
+                        $req,
                         "id_utilisateur",
                         array("nom_utl"=>"Nom",
                               "prenom_utl"=>"Prenom",
