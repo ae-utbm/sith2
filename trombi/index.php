@@ -97,7 +97,7 @@ $req = new requete($site->db,
                   ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
                   ."LEFT JOIN `utl_etu` USING (`id_utilisateur`) "
                   ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
-                  ."ORDER BY `nom_utl` `prenom_utl` ASC "
+                  ."ORDER BY `nom_utl`, `prenom_utl` ASC "
                   ."LIMIT 0 , 30");
                   
 if ($req->lines == 0)
