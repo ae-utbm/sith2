@@ -39,7 +39,7 @@ require_once($topdir. "include/cts/special.inc.php");
 require_once($topdir. "include/globals.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
-
+require_once($topdir . "include/graph.inc.php");
 
 $site = new site();
 
@@ -53,6 +53,7 @@ $site->start_page ("none", "Trombi AE ");
 $tabs = array(array("","trombi/index.php", "Informations"),
               //array("board","trombi/index.php?view=board", "Messages"),
               array("listing","trombi/index.php?view=listing", "La promo"),
+              array("stats","trombi/index.php?view=stats", "Des chiffres")
              );
 $cts = new contents("Trombinoscope, promo ".$site->user->promo_utbm);
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
@@ -83,6 +84,29 @@ else
 {
   $user = &$site->user;
   $can_edit = true;
+}
+
+if(isset($_REQUEST["stats"]))
+{
+  if($_REQUEST["stats"]=="sexe")
+  {
+    $req = new requete($site->db,
+                       "SELECT `utilisateurs`.`sexe_utl`, COUNT(`utilisateurs`.`sexe_utl`) ".
+                       "FROM `utl_etu_utbm` ".
+                       "LEFT JOIN `utilisateurs` USING (`id_utilisateur`) ".
+                       "WHERE `promo_utbm`='" . $site->user->promo_utbm . "' ".
+                       "GROUP BY `utilisateurs`.`sexe_utl`");
+    $cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
+    while(list($sexe,$nb)=$req->get_row())
+    {
+      if($sexe==1)
+        $cam->data($nb, "Homme");
+      else
+        $cam->data($nb, "Femme");
+    }
+    $cam->png_render();
+    exit();
+  }
 }
 
 
@@ -154,6 +178,13 @@ if($_REQUEST["view"] == "listing")
       $cts->add(new tabshead($tabs, $page, "_bottom"));
     }
   }
+}
+elseif($_REQUEST["view"]=="stats")
+{
+  $cts->add_title(2, "Des stats, des stats, oui mais des panzanni !");
+  $site->add_contents($cts);
+  $cts = new contents("Répartition Homme/Femme dans la promo");
+  $cts->add_paragraph("<center><img src=\"index.php?stats=sexe\" alt=\"répartition Homme/Femme\" /></center>\n");
 }
 else
 {
