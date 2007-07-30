@@ -87,6 +87,7 @@ else
 
 if($_REQUEST["view"] == "listing")
 {
+  $site->add_css("css/mmt.css");
   $npp=18;
   $page = intval($_REQUEST["page"]);
 
@@ -114,7 +115,7 @@ if($_REQUEST["view"] == "listing")
     while ( $row = $req->get_row() )
     {
       $tmpuser->_load_all($row);
-      $gal->add_item(new userinfov2($user));
+      $gal->add_item(new userinfov2($tmpuser));
     }
     $cts->add($gal);
     if ( $nb > $npp )
