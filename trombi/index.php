@@ -108,7 +108,8 @@ if(isset($_REQUEST["stats"]))
     exit();
   }
   elseif($_REQUEST["stats"]=="departements")
-  {
+	{
+    $cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
     $req = new requete($site->db,
                        "SELECT `branche_utbm` , COUNT( `branche_utbm` ) ".
                        "FROM `utl_etu_utbm` ".
