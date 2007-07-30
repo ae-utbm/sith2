@@ -122,7 +122,7 @@ if(isset($_REQUEST["stats"]))
     $cam->png_render();
     exit();
   }
-  elseif($_REQUEST["stats"]=="naissance")
+  elseif($_REQUEST["stats"]=="naissances")
   {
     $req = new requete($site->db,
                        "SELECT substring(`utilisateurs`.`date_naissance_utl`,1,7) AS date, ".
@@ -307,6 +307,8 @@ elseif($_REQUEST["view"]=="stats")
   $cts = new contents("Répartition Homme/Femme dans la promo");
   $cts->add_paragraph("<center><img src=\"index.php?stats=sexe\" alt=\"répartition Homme/Femme\" /></center>\n");
   $site->add_contents($cts);
+  $cts = new contents("Carte de la natalité");
+  $cts->add_paragraph("<center><img src=\"index.php?stats=naissances\" alt=\"graph des naissances\" /></center>\n");
   $cts = new contents("Répartition par départements");
   $cts->add_paragraph("<center><img src=\"index.php?stats=departements\" alt=\"répartition par départements\" /></center>\n");
   $site->add_contents($cts);
