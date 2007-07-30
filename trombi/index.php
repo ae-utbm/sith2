@@ -122,6 +122,27 @@ if(isset($_REQUEST["stats"]))
     $cam->png_render();
     exit();
   }
+  elseif($_REQUEST["stats"]=="naissance")
+  {
+    $req = new requete($site->db,
+                       "SELECT substring(`utilisateurs`.`date_naissance_utl`,1,7) AS date, ".
+                       "COUNT(substring(`utilisateurs`.`date_naissance_utl`,1,7)) as num ".
+                       "FROM `utilisateurs` ".
+                       "INNER JOIN `utl_etu_utbm` USING(`id_utilisateur`) ".
+                       "WHERE `utl_etu_utbm`.`promo_utbm`='" . $site->user->promo_utbm . "' ".
+                       "AND `utilisateurs`.`date_naissance_utl` IS NOT NULL ".
+                       "AND `utilisateurs`.`date_naissance_utl` != '1970-01-01' ".
+                       "AND `utilisateurs`.`date_naissance_utl` != '0000-00-00' ".
+                       "GROUP BY substring(`utilisateurs`.`date_naissance_utl`,1,7) ".
+                       "ORDER BY substring(`utilisateurs`.`date_naissance_utl`,1,7) ASC");
+    $datas = array("Date" => "Naissances");
+    while(list($date,$nb)=$req->get_row())
+      $datas[$date]=$nb;
+    $hist = new histogram($datas, "Date de naissances des membres");
+    $hist->png_render();
+    $hist->destroy();
+    exit();
+  }
   elseif($_REQUEST["stats"]=="france")
   {
     $img = new imgcarto(800, 10);
@@ -190,12 +211,12 @@ if(isset($_REQUEST["stats"]))
         if ($statsdep[$departement['iddept']] == 0)
           $img->addpolygon($plg, 'l0', true,
                            array('id' =>$departement['gid'],
-                                 'url' => "javascript:ploufdept(this, ".
+                                 'url' => "".
                                  $departement['iddept']. ")"));
 
           $img->addpolygon($plg, 'l' . (int) (1 + $statsdep[$departement['iddept']] / 20), true,
                            array('id' =>$departement['gid'],
-                                 'url' => "javascript:ploufdept(this, ".
+                                 'url' => "".
         $departement['iddept']. ")"));
         $img->addpolygon($plg, 'black', false);
       }
@@ -229,14 +250,15 @@ if($_REQUEST["view"] == "listing")
   list($nb) = $reqnb->get_row();
 
   $req = new requete($site->db,
-                   "SELECT `utilisateurs`.*, `utl_etu`.*, `utl_etu_utbm`.* "
-                   ."FROM `utl_etu_utbm` "
-                   ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
-                   ."LEFT JOIN `utl_etu` USING (`id_utilisateur`) "
-                   ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
-                   ."AND `publique_utl`='1' "
-                   ."ORDER BY `nom_utl`, `prenom_utl` ASC "
-                   ."LIMIT ".$st." , ".$npp."");
+                     "SELECT `utilisateurs`.*, `utl_etu`.*, `utl_etu_utbm`.*, "
+                    ."`utilisateurs`.`id_ville` AS `id_ville`, `utl_etu`.`id_ville` AS `ville_parents`"
+                    ."FROM `utl_etu_utbm` "
+                    ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
+                    ."LEFT JOIN `utl_etu` USING (`id_utilisateur`) "
+                    ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
+                    ."AND `publique_utl`='1' "
+                    ."ORDER BY `nom_utl`, `prenom_utl` ASC "
+                    ."LIMIT ".$st." , ".$npp."");
   if ($req->lines == 0)
     $tbl = new error("Aucun resultat","");
   else
