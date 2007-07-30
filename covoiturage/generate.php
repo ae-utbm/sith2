@@ -66,14 +66,11 @@ if (count($villes))
 
 $img->add_context();
 
-print_r($img);
-die();
 $img = $img->generate_img();
 
 require_once ($topdir . "include/watermark.inc.php");
 $wm_img = new img_watermark ($img->imgres);
 
-//  $wm_img->saveas($imgfile);
 $wm_img->output();
 
 ?>
