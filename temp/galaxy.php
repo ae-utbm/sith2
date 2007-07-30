@@ -32,7 +32,7 @@ if ( isset($_REQUEST["init"]) )
     $liens[$a][$b] = $row['c'];
   }  
   
-  // b- Parrainage : 25pt / relation parrain-fillot
+  // b- Parrainage : 15pt / relation parrain-fillot
   $req = new requete($dbrw, "SELECT id_utilisateur as u1, id_utilisateur_fillot as u2 ".
   "FROM `parrains` ".
   "GROUP BY id_utilisateur, id_utilisateur_fillot");
@@ -42,9 +42,9 @@ if ( isset($_REQUEST["init"]) )
     $b = max($row['u1'],$row['u2']);    
     
     if ( isset($liens[$a][$b]) )
-      $liens[$a][$b] += 25;
+      $liens[$a][$b] += 15;
     else
-      $liens[$a][$b] = 25;
+      $liens[$a][$b] = 15;
   }  
   
   echo "step 1 (finished at ".(microtime(true)-$st)." sec)<br/>\n";
