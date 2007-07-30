@@ -144,7 +144,7 @@ if(isset($_REQUEST["stats"]))
       if (($i % $step) == 0)
         $xtics[$i]=$date;
       $coords[] = array('x' => $i,'y' => $nb);
-      $i++
+      $i++;
     }
     $graph = new graphic("", "Date de naissances des membres",$coords,false,$xtics);
     $graph->png_render();
