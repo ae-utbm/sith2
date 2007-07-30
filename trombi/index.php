@@ -3,6 +3,7 @@
 /* Copyright 2007
  *
  * - Sebastien WATTIEZ < webast2 at gmail dot com >
+ * - Simon Lopez < simon DOT lopez AT ayolo DOT org >
  *
  * Ce fichier fait partie du site de l'Association des étudiants
  * de l'UTBM, http://ae.utbm.fr.
@@ -50,7 +51,7 @@ if (!$site->user->id)
 $site->start_page ("none", "Trombi AE ");
 
 $tabs = array(array("","trombi/index.php", "Informations"),
-              array("board","trombi/index.php?view=board", "Messages"),
+              //array("board","trombi/index.php?view=board", "Messages"),
               array("listing","trombi/index.php?view=listing", "La promo"),
              );
 $cts = new contents("Trombinoscope, promo ".$site->user->promo_utbm);
@@ -105,8 +106,6 @@ if($_REQUEST["view"] == "listing")
   list($nb) = $reqnb->get_row();
 
   $req = new requete($site->db,
-                   //"SELECT `id_utilisateur`, `promo_utbm`, "
-                   //."CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` "
                    "SELECT `utilisateurs`.*, `utl_etu`.*, `utl_etu_utbm`.* "
                    ."FROM `utl_etu_utbm` "
                    ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
@@ -154,32 +153,6 @@ if($_REQUEST["view"] == "listing")
       }
       $cts->add(new tabshead($tabs, $page, "_bottom"));
     }
-    /*
-    $tbl = new sqltable("listresult",
-                        "Liste des promo " . $site->user->promo_utbm,
-                        $req,
-                        "index.php",
-                        "id_utilisateur",
-                        array("nom_utilisateur"=>"Nom"),
-                        array(),
-                        array(),
-                        array()
-                      );*/
-    /*bl = new sqltable("listresult",
-                        "Liste des promo " . $site->user->promo_utbm,
-                        $req,
-                        "../trombi/index.php",
-                        "id_utilisateur",
-                        array("nom_utl"=>"Nom",
-                              "prenom_utl"=>"Prenom",
-                              "surnom_utbm"=>"Surnom",
-                              "date_naissance_utl"=>"Date de naissance",
-                              "promo_utbm"=>"Promo"),
-                        array("view"=>"Voir la fiche"),
-                        array(),
-                        array()
-                       );
-    $cts->add($tbl,true);*/
   }
 }
 else
