@@ -227,7 +227,8 @@ if(isset($_REQUEST["stats"]))
                                  $departement['iddept']. ")"));
         else
         {
-          $color=(int)($departement['iddept']*10/$max);
+					$color=(int)(($departement['iddept']*10)/$max);
+          print_r($color);
           if($color==0)
             $color="sux";
           $img->addpolygon($plg, 'l' . $color, true,
@@ -241,7 +242,7 @@ if(isset($_REQUEST["stats"]))
 
     $img->draw();
     $wm_img = new img_watermark ($img->imgres);
-    $wm_img->output();
+    //$wm_img->output();
     exit();
   }
 }
