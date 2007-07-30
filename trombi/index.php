@@ -39,95 +39,6 @@ require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
 
 
-
-$UserBranches = array("TC"        => "TC",
-                      "GI"        => "GI",
-                      "GSP"        => "IMAP",
-                      "GSC"        => "GESC",
-                      "GMC"        => "GMC",
-                      "Enseig"      => "Enseignant",
-                      "Admini"      => "Administration",
-                      "Autre"      => "Autre");
-                      
-
-function userTrombiDisplay ($user, $admin = false) 
-{
-  global $topdir, $UserBranches;
-  static $numFiche=0;
-  $numFiche++;
-  
-  $imgclass="noimg";
-  $img = $topdir."images/icons/128/unknown.png";
-  $date_prise_vue = "";
-    
-  if (file_exists($topdir."/var/img/matmatronch/".$user->id.".jpg")) 
-  {
-    $img = $topdir."/var/img/matmatronch/".$user->id.".jpg?";
-    $imgclass="mmtimg";
-  } 
-  elseif (file_exists($topdir."/var/img/matmatronch/".$user->id.".identity.jpg")) 
-  {
-    $img = $topdir."/var/img/matmatronch/".$user->id.".identity.jpg?";
-    $imgclass="idimg";
-  }
-  
-  $buffer = "<div class=\"userfullinfo\">\n"
-         ."  <h2 class=\"nom\">".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."</h2>\n"
-         ."  <div class=\"photo\">\n"
-         ."    <img src=\"$img\" id=\"mmtphoto$numFiche\" class=\"$imgclass\" alt=\"Photo de ".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."\" />\n"
-         ."  </div>\n";  
-  
-  if ($user->surnom)
-    $buffer .= "  <p class=\"surnom\">&laquo; ". htmlentities($user->surnom,ENT_COMPAT,"UTF-8") . " &raquo;</p>\n";
-  elseif ($user->alias) 
-    $buffer .= "  <p class=\"surnom\">&laquo; ". htmlentities($user->alias,ENT_COMPAT,"UTF-8") . " &raquo;</p>\n";
-      
-  $buffer .= '<p class="naissance" style="width: 170px; text-align: right">';
-  if ($user->date_naissance != strtotime("01 january 1970")) 
-  {    
-    if ($user->sexe == 1) 
-      $buffer .= "N&eacute; ";
-    else $buffer .= "N&eacute;e ";
-      $buffer .= "le " . strftime("%d %B %Y", $user->date_naissance) . "</p>\n";
-  }
-  
-  $buffer .= '<p class="departement">'.$user->branche.$user->semestre.'(ex:GI05)<span class="filiere">Filière : '.$user->filiere.'</span></p>';
-  
-  if ($user->branche && $user->nom_ecole_etudiant == "UTBM") 
-  {
-    /*$buffer .= "<div class=\"branches\" style=\"float: left; width: 200px;\">\n";
-    $buffer .= "<img src=\"".$topdir."images/utbmlogo.gif\" style=\"position: relative; float: left; width: 65px;\">\n";
-    $buffer .= "<div class=\"branches_info\" style=\"position: relative; width: 300px;\">\n";
-    $buffer .= "<br/><b>".$UserBranches[$user->branche]."\n";*/
-    
-    if ($user->branche!="Enseignant" && $user->branche!="Administration" && $user->branche!="Autre" && $user->branche!="TC")
-    {
-      if (isset($user->date_diplome_utbm) && !(empty($user->date_diplome_utbm)) && ($user->date_diplome_utbm != "0000-00-00") && ($user->date_diplome_utbm < time()))
-        if ($user->sexe == 1) 
-          $buffer .= " Dipl&ocirc;m&eacute;</b>\n";
-        else  $buffer .= " Dipl&ocirc;m&eacute;e</b>\n";
-      else
-        $buffer .= sprintf("%02d",$user->semestre)."</b>\n";
-      if ($user->filiere)
-      {
-        $buffer .= "<br/>Filière : <br/>\n";
-        $buffer .= "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$user->filiere . "\n";
-      }
-    }
-    
-    $buffer .="</b>\n";
-    $buffer .= "</div>\n";
-    
-    $buffer .= "</div>\n";
-  }
-    
-  $buffer .= "</div>\n\n\n\n";
-  $buffer .= "</div>\n";
-  
-  return $buffer;
-}
-
-
 $site = new site();
 
 $site->add_css("css/userfullinfo.css");
@@ -139,16 +50,15 @@ $site->start_page ("none", "Trombi AE ");
 
 $cts = new contents("Informations personnelles");
 
-$tabs = array(
-        array("","index.php", "Informations"),
-        array("board","index.php?view=board", "Messages"),
-        array("listing","index.php?view=listing", "Version papier"),
-        );
+$tabs = array(array("","index.php", "Informations"),
+              array("board","index.php?view=board", "Messages"),
+              array("listing","index.php?view=listing", "Version papier"),
+             );
+
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 if (isset($_REQUEST['id_utilisateur']))
 {
-  
   $user = new utilisateur($site->db,$site->dbrw);
   $user->load_by_id($_REQUEST["id_utilisateur"]);
   
@@ -169,10 +79,6 @@ else
   $can_edit = true;
 }
 
-
-//$info = userTrombiDisplay($user);
-//$cts->puts($info);
-
 $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"));
 $cts->add($info);
 $site->add_contents($cts);
@@ -191,7 +97,7 @@ $req = new requete($site->db,
                   ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
                   ."LEFT JOIN `utl_etu` USING (`id_utilisateur`) "
                   ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
-                  ."ORDER BY `visites` DESC "
+                  ."ORDER BY `nom_utl` `prenom_utl` ASC "
                   ."LIMIT 0 , 30");
                   
 if ($req->lines == 0)
@@ -218,8 +124,6 @@ else
 $cts->add($tbl,true);
  
 $site->add_contents($cts);
-
-//$site->add_contents($tbl);
 
 $site->end_page ();
 
