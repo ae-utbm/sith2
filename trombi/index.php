@@ -185,7 +185,7 @@ if($_REQUEST["view"] == "listing")
 else
 {
   $cts->add_title(2, "Informations personnelles");
-  $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"));
+  $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"), "trombi/index.php");
   $cts->add($info);
 }
 

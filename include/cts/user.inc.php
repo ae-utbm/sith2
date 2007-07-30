@@ -89,10 +89,10 @@ class userinfo extends stdcontents
         
         if ($user->id && file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
         {
-					  $date_prise_vue = "";
-					  $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg", 0, true);
-						if ( $exif["FILE"]["FileDateTime"] )
-						  $date_prise_vue = $exif["FILE"]["FileDateTime"];
+            $date_prise_vue = "";
+            $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg", 0, true);
+            if ( $exif["FILE"]["FileDateTime"] )
+              $date_prise_vue = $exif["FILE"]["FileDateTime"];
             $size = getimagesize($topdir."var/img/matmatronch/".$user->id.".identity.jpg");
             /* laissons une marge de 50px */
             $width = $size[0] + 50;
@@ -103,10 +103,10 @@ class userinfo extends stdcontents
         }
         elseif ( $user->id && file_exists($topdir."var/img/matmatronch/".$user->id.".jpg"))
           {
-					  $date_prise_vue = "";
-				  	$exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg", 0, true);
-					  if ( $exif["FILE"]["FileDateTime"] )
-						  $date_prise_vue = $exif["FILE"]["FileDateTime"];
+            $date_prise_vue = "";
+            $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg", 0, true);
+            if ( $exif["FILE"]["FileDateTime"] )
+              $date_prise_vue = $exif["FILE"]["FileDateTime"];
             $size = getimagesize($topdir."var/img/matmatronch/".$user->id.".jpg");
             /* laissons une marge de 50px */
             $width = $size[0] + 50;
@@ -120,19 +120,19 @@ class userinfo extends stdcontents
           
         $this->buffer .= "</div>";
 
-		if ($user->date_naissance != strtotime("01 january 1970"))
-		  {
+    if ($user->date_naissance != strtotime("01 january 1970"))
+      {
         if ( $user->sexe == 1 )
           $this->buffer .= "N&eacute; ";
         else
           $this->buffer .= "N&eacute;e ";
-	        $this->buffer .= "le : ". date("d/m/Y", $user->date_naissance) . "<br />\n";
-		  }
-		if ($user->addresse || $user->cpostal || $user->ville)
-		{
-	        $this->buffer .= "<br /><img src=\"".$topdir."images/icons/16/batiment.png\" width=\"14\" height=\"14\" style=\"margin-right:0.5em;\">";
-		    $this->buffer .= $user->addresse . "<br />" . $user->cpostal . " " . $user->ville;
-		}
+          $this->buffer .= "le : ". date("d/m/Y", $user->date_naissance) . "<br />\n";
+      }
+    if ($user->addresse || $user->cpostal || $user->ville)
+    {
+          $this->buffer .= "<br /><img src=\"".$topdir."images/icons/16/batiment.png\" width=\"14\" height=\"14\" style=\"margin-right:0.5em;\">";
+        $this->buffer .= $user->addresse . "<br />" . $user->cpostal . " " . $user->ville;
+    }
         if ($user->pays != "FRANCE")
           $this->buffer .= "<br/>".strtoupper($user->pays);
 
@@ -235,14 +235,14 @@ class userinfo extends stdcontents
         $this->buffer .= "<div class=\"others_infos\" style=\"position: relative; float: left;\">";
         $this->buffer .= "<br/>";
 
-		if ($user->date_naissance != strtotime("01 january 1970"))
-		  {
+    if ($user->date_naissance != strtotime("01 january 1970"))
+      {
         if ( $user->sexe == 1 )
           $this->buffer .= "N&eacute; ";
         else
           $this->buffer .= "N&eacute;e ";
         $this->buffer .= "le " . strftime("%A %d %B %Y", $user->date_naissance) . "<br />";
-		  }
+      }
         if ( $user->hash != "valid" )
           $this->buffer .= "<span style=\"font-color: red;\">Compte non valid&eacute; !</span><br />\n";
 
@@ -257,12 +257,12 @@ class userinfo extends stdcontents
               {
                 if (isset($user->date_diplome_utbm) && !(empty($user->date_diplome_utbm)) && ($user->date_diplome_utbm != "0000-00-00") && ($user->date_diplome_utbm < time()))
                 
-					if ($user->sexe == 1)
-						  $this->buffer .= " Dipl&ocirc;m&eacute;</b>";
-					else
-						  $this->buffer .= " Dipl&ocirc;m&eacute;e</b>";
-				else
-				  $this->buffer .= sprintf("%02d",$user->semestre)."</b>";
+          if ($user->sexe == 1)
+              $this->buffer .= " Dipl&ocirc;m&eacute;</b>";
+          else
+              $this->buffer .= " Dipl&ocirc;m&eacute;e</b>";
+        else
+          $this->buffer .= sprintf("%02d",$user->semestre)."</b>";
                 if ( $user->filiere )
                   {
                     $this->buffer .= "<br/>Filière : <br/>";
@@ -275,13 +275,13 @@ class userinfo extends stdcontents
             $this->buffer .= "</div>";
           }
         $this->buffer .= "<div class=\"clearboth\"></div>\n";
-		
+    
         $this->buffer .= "<div class=\"adresse_perso\" style=\"float: left; width: 200px; text-align:center;\">";
-		if ( $user->addresse || $user->cpostal || $user->ville )
-		 {
-			$this->buffer .= "<br><img src=\"".$topdir."images/icons/16/site.png\" width=\"14\" height=\"14\" style=\"margin-right:0.5em;\">";
-		    $this->buffer .= $user->addresse . "<br />" . $user->cpostal . " " . $user->ville;
-		 }
+    if ( $user->addresse || $user->cpostal || $user->ville )
+     {
+      $this->buffer .= "<br><img src=\"".$topdir."images/icons/16/site.png\" width=\"14\" height=\"14\" style=\"margin-right:0.5em;\">";
+        $this->buffer .= $user->addresse . "<br />" . $user->cpostal . " " . $user->ville;
+     }
         if ( $user->pays )
           {
             $this->buffer .= "<br/>".strtoupper($user->pays);
@@ -312,8 +312,8 @@ class userinfo extends stdcontents
           {
             $this->buffer .= "<a href=\"promo".sprintf("%02d",$user->promo_utbm)."\"><img src=\"".$topdir."images/promo_".sprintf("%02d",$user->promo_utbm).".png\" style=\"position: relative; float: left;\"></a>";
           }
-		if ($user->promo_utbm)
-	        $this->buffer .= "<p style=\"padding-top: 5px;\"><a href=\"promo".sprintf("%02d",$user->promo_utbm)."\">Le Site de la Promo ".sprintf("%02d",$user->promo_utbm)."</p>";
+    if ($user->promo_utbm)
+          $this->buffer .= "<p style=\"padding-top: 5px;\"><a href=\"promo".sprintf("%02d",$user->promo_utbm)."\">Le Site de la Promo ".sprintf("%02d",$user->promo_utbm)."</p>";
         if ( $extraadmin )
           {
             $this->buffer .= "<p><a href=\"".$topdir."ae/cotisations.php?action=searchstudent&amp;id_utilisateur=".$user->id."\">&nbsp;&nbsp;Nouvelle cotisation à l'AE</a></p>";
@@ -376,14 +376,13 @@ class userinfov2 extends stdcontents
   function userinfov2 ( $user, $display = "small", $admin = false, $urldest="user.php" )
   {
     global $topdir, $UserBranches;
-		$sub=substr_count($urldest, "/");
-		print_r($urldest);
-		$realpath="";
-		if($sub>0)
-		{
-			for($i=0;$i<$sub;$i++)
-				$realpath.= "../";
-		}
+    $sub=substr_count($urldest, "/");
+    $realpath="";
+    if($sub>0)
+    {
+      for($i=0;$i<$sub;$i++)
+        $realpath.= "../";
+    }
     require_once($topdir . "include/entities/ville.inc.php");
     require_once($topdir . "include/entities/pays.inc.php");    
     
@@ -412,18 +411,18 @@ class userinfov2 extends stdcontents
     
     if (file_exists("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg"))
     {
-		  $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg", 0, true);
-			if ( $exif["FILE"]["FileDateTime"] )
-			  $date_prise_vue = $exif["FILE"]["FileDateTime"];
+      $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg", 0, true);
+      if ( $exif["FILE"]["FileDateTime"] )
+        $date_prise_vue = $exif["FILE"]["FileDateTime"];
 
       $img = "/var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue;
       $imgclass="idimg";
     }
     elseif (file_exists("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg"))
     {
-		  $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg", 0, true);
-			if ( $exif["FILE"]["FileDateTime"] )
-			  $date_prise_vue = $exif["FILE"]["FileDateTime"];
+      $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg", 0, true);
+      if ( $exif["FILE"]["FileDateTime"] )
+        $date_prise_vue = $exif["FILE"]["FileDateTime"];
 
       $img = "/var/img/matmatronch/".$user->id.".jpg?".$date_prise_vue;
       $imgclass="mmtimg";
@@ -434,7 +433,7 @@ class userinfov2 extends stdcontents
     else
       $this->buffer .= "<div class=\"userinfov2\">";
     
-	$this->buffer .= "<h2 class=\"nom\">".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."</h2>\n";
+  $this->buffer .= "<h2 class=\"nom\">".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."</h2>\n";
     
     $this->buffer .= "<div class=\"photo\">";
     $this->buffer .= "<img src=\"$img\" id=\"mmtphoto$numFiche\" class=\"$imgclass\" alt=\"Photo de ".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."\" />";
@@ -447,9 +446,9 @@ class userinfov2 extends stdcontents
       $this->buffer .= "<div class=\"photommt\">";
       if (file_exists($topdir."var/img/matmatronch/".$user->id.".jpg"))
       {
-			  $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg", 0, true);
-			  if ( $exif["FILE"]["FileDateTime"] )
-				  $date_prise_vue = $exif["FILE"]["FileDateTime"];
+        $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg", 0, true);
+        if ( $exif["FILE"]["FileDateTime"] )
+          $date_prise_vue = $exif["FILE"]["FileDateTime"];
 
         $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','".$realpath."var/img/matmatronch/".$user->id.".jpg?".$date_prise_vue."'); return false;\">";
         $this->buffer .= "<img src=\"".$topdir."var/img/matmatronch/".$user->id.".jpg?".$date_prise_vue."\" class=\"switch\" alt=\"Photo\" /></a>";
@@ -461,11 +460,11 @@ class userinfov2 extends stdcontents
       $this->buffer .= "<div class=\"photoid\">";
       if (file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
       {
-			  $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg", 0, true);
-				if ( $exif["FILE"]["FileDateTime"] )
-				  $date_prise_vue = $exif["FILE"]["FileDateTime"];
-				
-	      $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','".$realpath."var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."'); return false;\">";
+        $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg", 0, true);
+        if ( $exif["FILE"]["FileDateTime"] )
+          $date_prise_vue = $exif["FILE"]["FileDateTime"];
+        
+        $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','".$realpath."var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."'); return false;\">";
         $this->buffer .= "<img src=\"".$topdir."var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."\" class=\"switch\" alt=\"Photo d'identite\" /></a>";
       }
       else
@@ -475,10 +474,10 @@ class userinfov2 extends stdcontents
       $this->buffer .= "<div class=\"photoblouse\">";
       if (file_exists("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.mini.jpg"))
       {
-			  $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.mini.jpg", 0, true);
-				if ( $exif["FILE"]["FileDateTime"] )
-				  $date_prise_vue = $exif["FILE"]["FileDateTime"];
-				
+        $exif = @exif_read_data("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.mini.jpg", 0, true);
+        if ( $exif["FILE"]["FileDateTime"] )
+          $date_prise_vue = $exif["FILE"]["FileDateTime"];
+        
         $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','".$realpath."var/img/matmatronch/".$user->id.".blouse.mini.jpg?".$date_prise_vue."'); return false;\">";
         $this->buffer .= "<img src=\"".$topdir."var/img/matmatronch/".$user->id.".blouse.mini.jpg?".$date_prise_vue."\" class=\"switch\" alt=\"Photo de la blouse\" /></a>";
       }
