@@ -222,7 +222,7 @@ if(isset($_REQUEST["stats"]))
                                  'url' => "".
                                  $departement['iddept']. ")"));
 
-          $img->addpolygon($plg, 'l' . (int) (1 + $statsdep[$departement['iddept']] / 4), true,
+          $img->addpolygon($plg, 'l' . (int) (1 + $statsdep[$departement['iddept']] / 5), true,
                            array('id' =>$departement['gid'],
                                  'url' => "".
         $departement['iddept']. ")"));
