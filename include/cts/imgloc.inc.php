@@ -164,7 +164,11 @@ class imgloc
 	$coords['srid']  = 4030;
 
 	$this->_add_location($rs['nom_ville'],  $coords);
-	$cp = substr($rs['cpostal_ville'], 0, 2);
+	if (strlen($rs['cpostal_ville']) == 4)
+	  $cp = "0" . substr($rs['cpostal_ville'], 0, 1);
+	else
+	  $cp = substr($rs['cpostal_ville'], 0, 2);
+	
 	$this->add_hilighted_context_fr($cp);
       }
 
