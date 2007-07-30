@@ -231,8 +231,12 @@ if ( $lieu->is_valid() )
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($lieu->lat)."N , ".geo_radians_to_degrees($lieu->long)."E");
 
   $req = new requete($site->db, "SELECT * FROM loc_lieu WHERE id_lieu_parent='".mysql_real_escape_string($lieu->id)."' ORDER BY nom_lieu");
+  if (!isset($_REQUEST['level']))
+    $level = 5;
+  else
+    $level = $_REQUEST['level'];
   $cts->add_paragraph("<center><img src=\"loc.php?action=genimglieu&id_lieu=".
-		      $lieu->id."&level=".$_REQUEST['level']."\" alt=\"loc lieu\" /></center>");
+		      $lieu->id."&level=$level\" alt=\"loc lieu\" /></center>");
   if ( $req->lines > 0 )
     $cts->add(new sqltable("listsublieux", "Sous-lieux", $req, "loc.php", 
                            "id_lieu", 
