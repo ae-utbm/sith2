@@ -110,11 +110,11 @@ foreach($dept as $departement)
            array('id' =>$departement['gid'],
            'url' => "javascript:ploufdept(this, ".
            $departement['iddept']. ")"));
-
-    $img->addpolygon($plg, 'l' . (int) (1 + $statsdep[$departement['iddept']] / 20), true, 
-         array('id' =>$departement['gid'],
-         'url' => "javascript:ploufdept(this, ".
-         $departement['iddept']. ")"));
+    else
+      $img->addpolygon($plg, 'l' . (int) (1 + $statsdep[$departement['iddept']] / 20), true, 
+                       array('id' =>$departement['gid'],
+                             'url' => "javascript:ploufdept(this, ".
+                             $departement['iddept']. ")"));
     $img->addpolygon($plg, 'black', false);
   }
 }
