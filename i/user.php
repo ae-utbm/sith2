@@ -100,17 +100,19 @@ if ( $user->tel_maison )
 if ( $user->tel_portable )
   $fiche->puts("Portable: <a href=\"tel:" . htmlentities($user->tel_portable,ENT_COMPAT,"UTF-8") ."\" telbook=\"".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."\" accesskey=\"2\">&#59107;</a> " . htmlentities($user->tel_portable,ENT_COMPAT,"UTF-8") ."<br />");
 
-if ( $user->addresse || $ville->is_valid() )
+if ( $user->addresse || $ville->is_valid() || $pays->is_valid() )
 {
   $fiche->puts("Adresse: ");
-  $fiche->puts(htmlentities($user->addresse,ENT_COMPAT,"UTF-8") . "<br />" . htmlentities($ville->cpostal,ENT_COMPAT,"UTF-8") . " " . htmlentities($ville->nom,ENT_COMPAT,"UTF-8"));
+
+  if ( $user->addresse )
+    $fiche->puts(htmlentities($user->addresse,ENT_COMPAT,"UTF-8"));
+  if ( $ville->is_valid() )
+    $fiche->puts("<br />".htmlentities($ville->cpostal,ENT_COMPAT,"UTF-8") . " " . htmlentities($ville->nom,ENT_COMPAT,"UTF-8"));
+  if ( $pays->is_valid() )
+    $fiche->puts("<br />".htmlentities(strtoupper($pays->nom),ENT_COMPAT,"UTF-8"));
+
+  $fiche->puts("<br />\n");
 }
-
-if ( $pays->is_valid() )
-  $fiche->puts("<br />".htmlentities(strtoupper($pays->nom),ENT_COMPAT,"UTF-8")."<br />");
-
-$fiche->puts("<br />\n");
-
 
 if ( $user->branche && isset($UserBranches[$user->branche]) )
 {
