@@ -33,24 +33,19 @@ $svn=exec("/usr/share/php5/exec/svn_stats.sh");
 $svn=explode("|",$svn,-1);
 
 $stats=array();
-$j=0;
 for($i=0;$i<count($svn);$i++)
 {
   if(!empty($svn[$i]))
   {
     $tmp=explode(" ",$svn[$i]);
-    $stats[$j]['commits']=$tmp[1];
-    $stats[$j]['user']=$tmp[0];
-    $tmp=explode(" ",$svn[$i]);
-    $j++;
+    $j=$tmp[1];
+    $stats[$j]=$tmp[0];
   }
 }
 asort($stats);
 
-for($i=0;$i<count($stats);$i++)
-{
-  $cam->data($stats[$i]['commits'],$stats[$i]['user']);
-}
+foreach($stats as $commits => $author)
+  $cam->data($commits,$author);
 
 $cam->png_render();
 
