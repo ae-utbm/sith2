@@ -127,6 +127,7 @@ class imgloc
   function add_location_by_coords($long, $lat, $srid = 4030, $name = "")
   {
     $convert = new pgrequete($this->pgsqldb, "SELECT GeomFromText('POINT(".$lng." ".$lat. ")', $srid) as datas;");
+    echo "SELECT GeomFromText('POINT(".$lng." ".$lat. ")', $srid) as datas;";
     $rs = $convert->get_all_rows();
     
     $coords['datas'] = $rs[0]['datas']; 
