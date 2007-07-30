@@ -98,12 +98,24 @@ if(isset($_REQUEST["stats"]))
                        "GROUP BY `utilisateurs`.`sexe_utl`");
     $cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
     while(list($sexe,$nb)=$req->get_row())
-		{
+    {
       if($sexe==1)
         $cam->data($nb, "Homme");
       elseif($sexe=="2")
         $cam->data($nb, "Femme");
     }
+    $cam->png_render();
+    exit();
+  }
+  elseif($_REQUEST["stats"]=="departements")
+  {
+    $req = new requete($site->db,
+                       "SELECT `branche_utbm` , COUNT( `branche_utbm` ) ".
+                       "FROM `utl_etu_utbm` ".
+                       "WHERE `promo_utbm` = '6'".
+                       "GROUP BY `branche_utbm`");
+    while(list($branche,$nb)=$req->get_row())
+      $cam->data($nb, $branche);
     $cam->png_render();
     exit();
   }
@@ -185,6 +197,9 @@ elseif($_REQUEST["view"]=="stats")
   $site->add_contents($cts);
   $cts = new contents("Répartition Homme/Femme dans la promo");
   $cts->add_paragraph("<center><img src=\"index.php?stats=sexe\" alt=\"répartition Homme/Femme\" /></center>\n");
+  $site->add_contents($cts);
+  $cts = new contents("Répartition par départements");
+  $cts->add_paragraph("<center><img src=\"index.php?stats=departements\" alt=\"répartition par départements\" /></center>\n");
 }
 else
 {
