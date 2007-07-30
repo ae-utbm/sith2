@@ -241,7 +241,7 @@ if(isset($_REQUEST["stats"]))
 
     $img->draw();
     $wm_img = new img_watermark ($img->imgres);
-    //$wm_img->output();
+    $wm_img->output();
     exit();
   }
 }
