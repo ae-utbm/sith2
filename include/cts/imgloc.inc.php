@@ -219,9 +219,7 @@ class imgloc
             OR
                     code_dept = '".pg_escape_string($identifier) . "'
             OR
-                    nom_region = '".pg_escape_string($identifier) . "'
-            OR
-                    code_reg = '".pg_escape_string($identifier) . "';";
+                    nom_region = '".pg_escape_string($identifier) . "';";
     
     $this->add_hl_context_by_sql($sql);
   }
