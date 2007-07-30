@@ -89,7 +89,7 @@ if($_REQUEST["view"] == "listing")
   $req = new requete($site->db,
                    //"SELECT `id_utilisateur`, `promo_utbm`, "
                    //."CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` "
-                   "SELECT `utilisateurs`.*, `utl_etu`.*, `utl_etu_utbm`.* " .
+                   "SELECT `utilisateurs`.*, `utl_etu`.*, `utl_etu_utbm`.* "
                    ."FROM `utl_etu_utbm` "
                    ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
                    ."LEFT JOIN `utl_etu` USING (`id_utilisateur`) "
