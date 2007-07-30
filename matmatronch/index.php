@@ -200,7 +200,6 @@ if ( $_REQUEST["action"] == "search" )
 			
 			while ( $row = $req->get_row() )
 			{
-			  echo $user->id_ville;
 				$user->_load_all($row);
 				$gal->add_item(new userinfov2($user));
 			}
