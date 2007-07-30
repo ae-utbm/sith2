@@ -87,6 +87,13 @@ else
 
 if($_REQUEST["view"] == "listing")
 {
+  $npp=18;
+  $page = intval($_REQUEST["page"]);
+
+  if ( $page)
+    $st=$page*$npp;
+  else
+    $st=0;
   $req = new requete($site->db,
                    //"SELECT `id_utilisateur`, `promo_utbm`, "
                    //."CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` "
@@ -94,14 +101,49 @@ if($_REQUEST["view"] == "listing")
                    ."FROM `utl_etu_utbm` "
                    ."LEFT JOIN `utilisateurs` USING (`id_utilisateur`) "
                    ."LEFT JOIN `utl_etu` USING (`id_utilisateur`) "
-									 ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
+                   ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
                    ."AND `publique_utl`='1' "
                    ."ORDER BY `nom_utl`, `prenom_utl` ASC "
-                   ."LIMIT 0 , 30");
+                   ."LIMIT ".$st." , ".$npp."");
   if ($req->lines == 0)
     $tbl = new error("Aucun resultat","");
   else
   {
+    $gal = new gallery();
+    $tmpuser = new utilisateur($site->db);
+    while ( $row = $req->get_row() )
+    {
+      $tmpuser->_load_all($row);
+      $gal->add_item(new userinfov2($user));
+    }
+    $cts->add($gal);
+    if ( $nb > $npp )
+    {
+      $tabs = array();
+      $i=0;
+      while ( $i < $nb )
+      {
+        $n = $i/$npp;
+        $url = "";
+        $ar = array_merge($_GET,$_POST);
+        $ar["page"] = $n;
+        foreach ( $ar as $key => $value )
+        {
+          if( $key != "magicform" && $value && $key != "mmtsubmit" )
+          {
+            if ( $url )
+              $url .= "&";
+            else
+              $url = "trombi/index.php?";
+            if ( !is_array($value) )
+              $url .= $key."=".rawurlencode($value);
+          }
+        }
+        $tabs[]=array($n,$url,$n+1 );
+        $i+=$npp;
+      }
+      $cts->add(new tabshead($tabs, $page, "_bottom"));
+    }
     /*
     $tbl = new sqltable("listresult",
                         "Liste des promo " . $site->user->promo_utbm,
@@ -113,9 +155,9 @@ if($_REQUEST["view"] == "listing")
                         array(),
                         array()
                       );*/
-    $tbl = new sqltable("listresult",
+    /*bl = new sqltable("listresult",
                         "Liste des promo " . $site->user->promo_utbm,
-												$req,
+                        $req,
                         "../trombi/index.php",
                         "id_utilisateur",
                         array("nom_utl"=>"Nom",
@@ -127,7 +169,7 @@ if($_REQUEST["view"] == "listing")
                         array(),
                         array()
                        );
-    $cts->add($tbl,true);
+    $cts->add($tbl,true);*/
   }
 }
 else
