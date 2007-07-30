@@ -175,6 +175,7 @@ div.gallery div.galitem
   position:absolute;
   left:10px;
   top: 70px;
+  margin:0;
 }
 
 .userinfov2 p.promo
@@ -184,6 +185,7 @@ div.gallery div.galitem
   right:10px;
   top: 140px;
   text-align:center;
+  margin:0;
 }
 
 .userinfov2 p.adresse
@@ -196,6 +198,7 @@ div.gallery div.galitem
   padding-top:1px;
   background : url("../images/icons/16/batiment.png") top left no-repeat;
   width:105px;
+  margin:0;
 }
 
 .userinfov2 p.departement
@@ -204,6 +207,7 @@ div.gallery div.galitem
   left:10px;
   top: 50px;
   font-weight:bold;
+  margin:0;
 }
 
 .userinfov2 p.departement span.filiere
@@ -218,6 +222,7 @@ div.gallery div.galitem
   left:10px;
   top: 30px;
   font-style: italic;
+  margin:0;
 }
 
 
@@ -229,7 +234,7 @@ div.gallery div.galitem
   padding-left:20px;
   padding-top:3px;
   background : url("../images/mmt/usr_fixe.png") top left no-repeat;
-
+  margin:0;
 }
 
 .userinfov2 p.telportable
@@ -240,6 +245,7 @@ div.gallery div.galitem
   padding-left:20px;
   padding-top:3px;  
   background : url("../images/mmt/usr_mobile.png") top left no-repeat;
+  margin:0;
 }
 
 .userinfov2 a.vcard
