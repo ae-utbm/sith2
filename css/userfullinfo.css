@@ -106,6 +106,7 @@ div.userfullinfo p.surnom
   left:0px;
   font-style: italic;
   padding-left:10px;
+  margin:0;
 }
 
 div.userfullinfo p.naissance
@@ -113,6 +114,7 @@ div.userfullinfo p.naissance
   position:absolute;
   top:40px;
   left:170px;
+  margin:0;
 }
 
 div.userfullinfo p.promo
@@ -122,6 +124,7 @@ div.userfullinfo p.promo
   left:0px;
   padding-left:50px;
   padding-top:17px;
+  margin:0;
 }
 
 div.userfullinfo p.promo img
@@ -140,6 +143,7 @@ div.userfullinfo p.citation
   width:200px;
   text-align:center;
   font-style: italic;
+  margin:0;
 }
 
 div.userfullinfo p.departement
@@ -153,6 +157,7 @@ div.userfullinfo p.departement
   padding-top:8px;
   height:37px;
   background : url("../images/mmt/utbm.jpg") top left no-repeat;
+  margin:0;
   
 }
 
@@ -180,6 +185,7 @@ div.userfullinfo p.adresse
   padding-top:1px;
   background : url("../images/icons/16/batiment.png") top left no-repeat;
   width:140px;
+  margin:0;
 }
 
 div.userfullinfo p.telfixe
@@ -190,6 +196,7 @@ div.userfullinfo p.telfixe
   padding-left:20px;
   padding-top:3px;
   background : url("../images/mmt/usr_fixe.png") top left no-repeat;
+  margin:0;
 
 }
 
@@ -201,6 +208,7 @@ div.userfullinfo p.telportable
   padding-left:20px;
   padding-top:3px;  
   background : url("../images/mmt/usr_mobile.png") top left no-repeat;
+  margin:0;
 }
 
 
@@ -216,6 +224,7 @@ div.userfullinfo p.adresseparents
   width:140px;
   border-left:1px solid #c0c0c0;
   height:90px;
+  margin:0;
 }
 
 div.userfullinfo p.telparents
@@ -226,7 +235,7 @@ div.userfullinfo p.telparents
   padding-left:20px;
   padding-top:3px;
   background : url("../images/mmt/usr_fixe.png") top left no-repeat;
-
+  margin:0;
 }
 
 div.userfullinfo a.vcard
