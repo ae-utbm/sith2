@@ -210,14 +210,6 @@ else
  
 $site->add_contents($cts);
 
-echo "<!-- USER DEFINI ";
-print_r($user);
-echo "-->";
-
-echo "<!-- USER COURANT ";
-print_r($site->user);
-echo "-->";
-
 $site->add_contents($tbl);
 
 $site->end_page ();
