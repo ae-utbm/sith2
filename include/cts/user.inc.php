@@ -376,7 +376,13 @@ class userinfov2 extends stdcontents
   function userinfov2 ( $user, $display = "small", $admin = false, $urldest="user.php" )
   {
     global $topdir, $UserBranches;
-    
+		$sub=substr_count($urldest, "/");
+		$realpath="";
+		if($sub>0)
+		{
+			for($i=0;$<$sub;$i++)
+				$realpath.= "../";
+		}
     require_once($topdir . "include/entities/ville.inc.php");
     require_once($topdir . "include/entities/pays.inc.php");    
     
@@ -444,7 +450,7 @@ class userinfov2 extends stdcontents
 			  if ( $exif["FILE"]["FileDateTime"] )
 				  $date_prise_vue = $exif["FILE"]["FileDateTime"];
 
-        $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','var/img/matmatronch/".$user->id.".jpg?".$date_prise_vue."'); return false;\">";
+        $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','".$realpath."var/img/matmatronch/".$user->id.".jpg?".$date_prise_vue."'); return false;\">";
         $this->buffer .= "<img src=\"".$topdir."var/img/matmatronch/".$user->id.".jpg?".$date_prise_vue."\" class=\"switch\" alt=\"Photo\" /></a>";
       }
       else
@@ -458,7 +464,7 @@ class userinfov2 extends stdcontents
 				if ( $exif["FILE"]["FileDateTime"] )
 				  $date_prise_vue = $exif["FILE"]["FileDateTime"];
 				
-	      $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."'); return false;\">";
+	      $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','".$realpath."var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."'); return false;\">";
         $this->buffer .= "<img src=\"".$topdir."var/img/matmatronch/".$user->id.".identity.jpg?".$date_prise_vue."\" class=\"switch\" alt=\"Photo d'identite\" /></a>";
       }
       else
@@ -472,7 +478,7 @@ class userinfov2 extends stdcontents
 				if ( $exif["FILE"]["FileDateTime"] )
 				  $date_prise_vue = $exif["FILE"]["FileDateTime"];
 				
-        $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','var/img/matmatronch/".$user->id.".blouse.mini.jpg?".$date_prise_vue."'); return false;\">";
+        $this->buffer .= "<a href=\"#\" onclick=\"switchphoto('mmtphoto$numFiche','".$realpath."var/img/matmatronch/".$user->id.".blouse.mini.jpg?".$date_prise_vue."'); return false;\">";
         $this->buffer .= "<img src=\"".$topdir."var/img/matmatronch/".$user->id.".blouse.mini.jpg?".$date_prise_vue."\" class=\"switch\" alt=\"Photo de la blouse\" /></a>";
       }
       else
