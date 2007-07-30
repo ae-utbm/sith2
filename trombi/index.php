@@ -227,8 +227,7 @@ if(isset($_REQUEST["stats"]))
                                  $departement['iddept']. ")"));
         else
         {
-					$color=(int)(($departement['iddept']*10)/$max);
-          print_r("(".$departement['iddept']."x10)/".$max."=".$color."\n");
+          $color=(int)(($statsdep[$departement['iddept']]*10)/$max);
           if($color==0)
             $color="sux";
           $img->addpolygon($plg, 'l' . $color, true,
