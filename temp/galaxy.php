@@ -13,8 +13,88 @@ if ( isset($_REQUEST["init"]) )
   
   new requete($dbrw,"TRUNCATE `galaxy_link`");  new requete($dbrw,"TRUNCATE `galaxy_star`");
   
+  $liens = array();
   
-  $req1 = new requete($dbrw, "SELECT p1.id_utilisateur, alias_utl
+  // 1- Cacul du score
+  
+  // a- Les photos : 1pt / photo ensemble
+  $req = new requete($dbrw, "SELECT COUNT( * ) as c, p1.id_utilisateur as u1, p2.id_utilisateur as u2 ".
+  "FROM `sas_personnes_photos` AS `p1` ".
+  "JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photo ".
+  "AND p1.id_utilisateur != p2.id_utilisateur ) ".
+  "GROUP BY p1.id_utilisateur, p2.id_utilisateur");
+  
+  while ( $row = $req->get_row() )
+  {
+    $a = min($row['u1'],$row['u2']);
+    $b = max($row['u1'],$row['u2']);
+    
+    $liens[$a][$b] = $row['c'];
+  }  
+  
+  // b- Parrainage : 25pt / relation parrain-fillot
+  $req = new requete($dbrw, "SELECT id_utilisateur as u1, id_utilisateur_fillot as u2 ".
+  "FROM `parrains` ".
+  "GROUP BY id_utilisateur, id_utilisateur_fillot");
+  while ( $row = $req->get_row() )
+  {
+    $a = min($row['u1'],$row['u2']);
+    $b = max($row['u1'],$row['u2']);    
+    
+    if ( isset($liens[$a][$b]) )
+      $liens[$a][$b] += 25;
+    else
+      $liens[$a][$b] = 25;
+  }  
+  
+  echo "step 1 (finished at ".(microtime(true)-$st)." sec)<br/>\n";
+
+  // 2- On vire les liens pas significatifs
+  foreach ( $liens as $a => $data )
+  {
+    foreach ( $data as $b => $score )
+      if ( $score < 10 )
+        unset($liens[$a][$b]);
+  }
+  
+  echo "step 2 (finished at ".(microtime(true)-$st)." sec)<br/>\n";
+
+  // 3- On crée les peronnes requises
+  $stars = array();
+  foreach ( $liens as $a => $data )
+  {
+    if ( !isset($stars[$a]) )
+      $stars[$a] = $a;
+    
+    foreach ( $data as $b => $score )
+      if ( !isset($stars[$b]) )
+        $stars[$b] = $b;
+  }
+  
+  $gx=0;
+  $gy=0;
+  
+  $width = floor(sqrt(count($stars)));
+  
+  foreach ( $stars as $id )
+  {
+    new insert($dbrw,"galaxy_star",array( "id_star"=>$id, "x_star" => $gx, "y_star" => $gy ));
+    $gx++;
+    if ( $gx > $width )
+    {
+      $gx=0;
+      $gy++;
+    }
+  } 
+  echo "step 3 (finished at ".(microtime(true)-$st)." sec)<br/>\n";
+
+  // 4- On crée les liens
+  foreach ( $liens as $a => $data )
+    foreach ( $data as $b => $score )
+      new insert($dbrw,"galaxy_link",array( "id_star_a"=>$a, "id_star_b"=>$b, "tense_link" => $score ));
+  
+
+/*  $req1 = new requete($dbrw, "SELECT p1.id_utilisateur, alias_utl
   FROM `sas_personnes_photos` AS `p1`
   INNER JOIN utilisateurs ON ( p1.id_utilisateur= utilisateurs.id_utilisateur )
   JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photo
@@ -53,7 +133,7 @@ if ( isset($_REQUEST["init"]) )
     if ( !isset($done[$row['u2']]) && $row['c'] > 9 )
       new insert($dbrw,"galaxy_link",array( "id_star_a"=>$row['u1'], "id_star_b"=>$row['u2'], "tense_link" => $row['c'] ));
     $done[$row['u1']]=true;
-  }
+  }*/
     
   echo "done in ".(microtime(true)-$st)." sec<br/>\n";
   
