@@ -68,6 +68,8 @@ if (count($villes))
 
 $img->add_context();
 
+print_r($img);
+die();
 $img = $img->generate_img();
 
 require_once ($topdir . "include/watermark.inc.php");
