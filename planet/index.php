@@ -60,7 +60,7 @@ if($_REQUEST["action"]=="delete")
   {
     $sql="AND `id_utilisateur`='".$site->user->id."'";
   }
-  $req = new requete($site->db,"SELECT `id_flux` FROM `planet_flux` WHERE `url`='".$_REQUEST["flux"]."' ".$sql." LIMIT 1");
+  $req = new requete($site->db,"SELECT `id_flux` FROM `planet_flux` WHERE `id_flux`='".$_REQUEST["id_flux"]."' ".$sql." LIMIT 1");
   if($req->lines==1)
   {
     $_req = new delete($this->dbrw, "planet_flux", array("id_flux" => $_REQUEST["id_flux"]));
