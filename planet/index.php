@@ -129,7 +129,7 @@ else
                 break;
               if(!isset($content[$item['date_timestamp']]))
                 $content[$item['date_timestamp']]=array();
-              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'content'=>$item['description']);
+              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'content'=>$item['content']);
               $num++;
             }
           }
