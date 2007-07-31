@@ -147,13 +147,14 @@ else
         $cts = new contents("Tag : ".$tag);
         foreach($content AS $date => $items)
         {
+          $i=0;
           foreach($items AS $item)
           {
+            $i++;
             $_cts = new contents($item['title']." (le ".date("d/m/Y h:i:s", $date).")");
-            //$cts->add_title(2, $item['title']." (le ".date("d/m/Y h:i:s", $date).")");
             $_cts->puts($item['content']);
             $_cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Version complète</a></p><hr />');
-            $cts->add($_cts,true,false,true,false,true,false);
+            $cts->add($_cts,true,false,$date.$tag.$i,false,true,false);
           }
         }
       }
