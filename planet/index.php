@@ -133,7 +133,7 @@ else
 								$sumup=$item['content']['encoded'];
 							else
 								$sumup=str_replace('&lt;','<',str_replace('&gt;','>',$item['description']));
-              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'content'=>$sumup,'link'=>$['link']);
+              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'content'=>$sumup,'link'=>$item['link']);
               $num++;
             }
           }
