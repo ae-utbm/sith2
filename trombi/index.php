@@ -51,14 +51,14 @@ $site->add_css("css/userfullinfo.css");
 if (!$site->user->id)
   error_403();
 
-$site->start_page ("none", "Trombi AE ");
+$site->start_page ("none", "Trombi PROMO ".sprintf("%02d",$site->user->promo_utbm));
 
 $tabs = array(array("","trombi/index.php", "Informations"),
               //array("board","trombi/index.php?view=board", "Messages"),
               array("listing","trombi/index.php?view=listing", "La promo"),
               array("stats","trombi/index.php?view=stats", "Des chiffres")
              );
-$cts = new contents("Trombinoscope, promo ".$site->user->promo_utbm);
+$cts = new contents("Trombinoscope, promo ".sprintf("%02d",$site->user->promo_utbm));
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 
@@ -367,7 +367,7 @@ else
     $site->add_css("css/sas.css");
     $site->add_contents($cts);
     $cts = new contents("Photos");
-    $gal = new gallery("\"Photos allez à Toire\" &copy;","photos");
+    $gal = new gallery("Photos aléatoires","photos");
     while ( $row = $req->get_row())
     {
       $img = $topdir."sas2/images.php?/".$row['id_photo'].".vignette.jpg";
