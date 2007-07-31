@@ -151,7 +151,7 @@ else
                 $auteur="par ".$item['dc']['creator']." ";
               else
                 $auteur="";
-							$content[$item['date_timestamp']][]=array('title'=>$item['title'],'sumup'=>$sumup,'full'=>$item['content']['encoded']'link'=>$item['link'], 'auteur'=>$auteur);
+							$content[$item['date_timestamp']][]=array('title'=>$item['title'],'sumup'=>$sumup,'full'=>$item['content']['encoded'],'link'=>$item['link'], 'auteur'=>$auteur);
 
               $num++;
             }
