@@ -30,6 +30,8 @@ define('MAGPIE_CACHE_ON', true);
 define('MAGPIE_CACHE_AGE', 60*60); //une heure
 define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
 define('MAX_NUM',20);
+define('MAX_SUM_LENGHT',200);
+
 
 include($topdir. "include/site.inc.php");
 require_once($topdir. "include/lib/magpierss/rss_fetch.inc.php");
@@ -130,18 +132,27 @@ else
               if($num==MAX_NUM)
                 break;
               if(!isset($content[$item['date_timestamp']]))
-                $content[$item['date_timestamp']]=array();
+								$content[$item['date_timestamp']]=array();
+
               if(!empty($item['description']))
+              {
                 $sumup=str_replace('&lt;','<',str_replace('&gt;','>',$item['description']));
-              elseif(!empty($item['content']['encoded']))
-                $sumup=$item['content']['encoded'];
+                if (strlen($sumup) > MAX_SUM_LENGHT)
+                {
+                  $sumup = substr($sumup, 0, MAX_SUM_LENGHT);
+                  $espace = strrpos($sumup, " ");
+                  $sumup = substr($sumup, 0, $espace)."...";
+                }
+              }
               else
-                $sumup="Pas de résumé désolé.";
+								$sumup="Pas de résumé désolé.";
+
               if(isset($item['dc']['creator']))
                 $auteur="par ".$item['dc']['creator']." ";
               else
                 $auteur="";
-              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'content'=>$sumup,'link'=>$item['link'], 'auteur'=>$auteur);
+							$content[$item['date_timestamp']][]=array('title'=>$item['title'],'sumup'=>$sumup,'full'=>$sumup=$item['content']['encoded'];'link'=>$item['link'], 'auteur'=>$auteur);
+
               $num++;
             }
           }
@@ -161,9 +172,11 @@ else
               $open=true;
             else
               $open=false;
-            $_cts = new contents($item['title']." (".$item['auteur']."le ".date("d/m/Y h:i:s", $date).")");
-            $_cts->puts($item['content']);
-            $_cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Version complète</a></p>');
+            $cts->add_title(2,$item['title']." (".$item['auteur']."le ".date("d/m/Y h:i:s", $date).")");
+            $_cts->add_paragraph($item['sumup']);
+            $_cts = new contents("Version complète");
+            $_cts->puts($item['full']);
+            $_cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Lien vers l\'article</a></p>');
             $cts->add($_cts,true,false,$date.$tag.$i,false,true,$open);
             $i++;
           }
