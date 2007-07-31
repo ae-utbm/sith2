@@ -26,6 +26,9 @@ require_once ("include/comptoirs.inc.php");
 
 require_once ($topdir . "include/pdf/facture_pdf.inc.php");
 
+require_once ($topdir . "include/entities/ville.inc.php");
+require_once ($topdir . "include/entities/pays.inc.php");
+
 
 /* on n'a pas l'intention de sortir du (x)html en sortie
  * mais les objets membres de site vont etre utiles      */
@@ -55,6 +58,8 @@ else
   $user->load_by_id ($fact->id_utilisateur_client);
 }
 
+$ville = new ville($site->db);
+$ville->load_by_id($user->id_ville);
 
 $facturing_infos = array ('name' => "AE - UTBM",
 			 'addr' => array("6 Boulevard Anatole France",
@@ -66,9 +71,9 @@ $factured_infos = array ('name' => utf8_decode($user->nom)
 			 utf8_decode($user->prenom),
 			 'addr' => array(
 					 utf8_decode($user->addresse),
-					 utf8_decode($user->cpostal)
+					 utf8_decode($ville->cpostal)
 					 . " " .
-					 utf8_decode($user->ville)),
+					 utf8_decode($ville->nom)),
 			 false);
 
 $date_facturation = date("d/m/Y H:i", strtotime($fact->date));
