@@ -47,6 +47,30 @@ if ( isset($_REQUEST["init"]) )
       $liens[$a][$b] = 15;
   }  
   
+  // c- associations et clubs : 1pt / 75 jours ensemble / assos
+  $req = new requete($dbrw,"SELECT a.id_utilisateur as u1,b.id_utilisateur as u2,
+SUM(DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut))) AS together
+FROM asso_membre AS a
+JOIN asso_membre AS b ON
+( 
+a.id_utilisateur < b.id_utilisateur  
+AND a.id_asso = b.id_asso
+AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) > 74
+)
+GROUP BY a.id_utilisateur,b.id_utilisateur
+ORDER BY a.id_utilisateur,b.id_utilisateur";
+
+  while ( $row = $req->get_row() )
+  {
+    $a = min($row['u1'],$row['u2']);
+    $b = max($row['u1'],$row['u2']);    
+    
+    if ( isset($liens[$a][$b]) )
+      $liens[$a][$b] += round($row['together']/75);
+    else
+      $liens[$a][$b] += round($row['together']/75);
+  }    
+  
   echo "step 1 (finished at ".(microtime(true)-$st)." sec)<br/>\n";
 
   // 2- On vire les liens pas significatifs
