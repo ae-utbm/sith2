@@ -111,7 +111,8 @@ else
   }
   else
   {
-    $cts->add_paragraph("le planet est à la galaxy ce qu'est le la tour effel à la patate ... cherhez pas y'a pas de logique ...");
+		$cts->add_paragraph("L'AE n'est pas responsable du contenu de cette page. Les contenus proposés  ".
+                        "restent la propriété de leur(s) auteur(s) respectif(s).");
     foreach($tags AS $tag => $_flux)
     {
       $content=array();
