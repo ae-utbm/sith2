@@ -553,7 +553,8 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
 			  array_push( $promos, $i );
 			}
 
-      $subfrm4->add_select_field("promo","Promo",$promos,$user->promo_utbm);
+/*      $subfrm4->add_select_field("promo","Promo",$promos,$user->promo_utbm);*/
+      $subfrm4->add_select_promo_utbm("promo","Promo",$user->promo_utbm);
       $subfrm4->add_date_field("date_diplome","Date d'obtention du diplome",($user->date_diplome_utbm!=NULL)?$user->date_diplome_utbm:null);
       $frm->add ( $subfrm4, false, false, false, false, false, true, false );
     }
