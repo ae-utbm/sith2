@@ -88,14 +88,14 @@ elseif($_REQUEST["action"]=="addtag" && !empty($_REQUEST["tag"]))
 {
   $req = new requete($site->db,"SELECT `id_tag` FROM `planet_tags` WHERE `tag`='".strtoupper($_REQUEST["tag"])."' LIMIT 1");
   if($req->lines==1)
-    $add="Le tag ".$_REQUEST["tag"]." existe déjà.";
+    $add="Le tag ".strtoupper($_REQUEST["tag"])." existe déjà.";
   else
   {
     if($site->user->is_in_group("gestion_ae"))
       $_req = new insert($site->dbrw,"planet_tags", array('tag'=>strtoupper($_REQUEST["tag"]),'modere'=>1));
     else
       $_req = new insert($site->dbrw,"planet_tags", array('tag'=>strtoupper($_REQUEST["tag"]),'modere'=>0));
-    $add="Le tag ".$_REQUEST["tag"]." a été ajouté.";
+    $add="Le tag ".strtoupper($_REQUEST["tag"])." a été ajouté.";
   }
 }
 
