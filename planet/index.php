@@ -121,16 +121,16 @@ else
           break;
         if($rs=fetch_rss($flux[$id_flux]['url_flux']))
 				{
-					print_r($rs->items);
+					//print_r($rs->items);
           if(count($rs->items)>0)
           {
             foreach($rs->items as $item)
             {
               if($num==MAX_NUM)
                 break;
-              if(!isset($content[$item['dc']['date']]))
-                $content[$item['dc']['date']]=array();
-              $content[$item['dc']['date']][]=array('title'=>$item['title'],'content'=>$item['content']['encoded']);
+              if(!isset($content[$item['pubdate']]))
+                $content[$item['pudate']]=array();
+              $content[$item['pubdate']][]=array('title'=>$item['title'],'content'=>$item['description']);
               $num++;
             }
           }
