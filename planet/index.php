@@ -145,9 +145,9 @@ else
         krsort($content);
         $site->add_contents($cts);
         $cts = new contents("Tag : ".$tag);
+        $i=0;
         foreach($content AS $date => $items)
         {
-          $i=0;
           foreach($items AS $item)
           {
             $i++;
