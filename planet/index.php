@@ -57,11 +57,11 @@ if($_REQUEST["action"]=="addflux")
 {
   if($site->user->is_in_group("gestion_ae"))
   {
-    $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'id_utilisateur' => $site->user->id,'modere'=>1);
+    $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'id_utilisateur' => $site->user->id,'modere'=>1));
   }
   else
   {
-    $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'id_utilisateur' => $site->user->id,'modere'=>0);
+    $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'id_utilisateur' => $site->user->id,'modere'=>0));
   }
 
 }
