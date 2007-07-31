@@ -64,7 +64,7 @@ if($_REQUEST["view"]=="add")
 else
 {
   $cts->add_title(2, "Mon planet à moi");
-  $_tags = new request($site->db,
+  $_tags = new requete($site->db,
                        "SELECT `planet_tags`.`tag`, `planet_flux_tags`.`id_flux`, `planet_flux`.`nom`, `planet_flux`.`url` ".
                        "FROM `planet_user_tags` ".
                        "INNER JOIN `planet_flux_tags` USING(`id_tag`) ".
@@ -87,7 +87,7 @@ else
     $flux[$id_flux]['nom_flux']=$nom_flux;
     $flux[$id_flux]['url_flux']=$url_flux;
   }
-  $_flux = new request($site->db,
+  $_flux = new requete($site->db,
                        "SELECT `planet_flux`.`id_flux`, `planet_flux`.`nom`, `planet_flux`.`url` ".
                        "FROM `planet_user_flux` ".
                        "INNER JOIN `planet_flux` ON `planet_user_flux`.`id_flux`=`planet_flux`.`id_flux` ".
