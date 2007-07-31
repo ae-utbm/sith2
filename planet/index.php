@@ -153,7 +153,7 @@ else
             //$cts->add_title(2, $item['title']." (le ".date("d/m/Y h:i:s", $date).")");
             $_cts->puts($item['content']);
             $_cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Version complète</a></p><hr />');
-            $cts->add($cts);
+            $cts->add($_cts);
           }
         }
       }
