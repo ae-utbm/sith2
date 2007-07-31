@@ -34,6 +34,7 @@ require_once($topdir. "include/cts/special.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
+require_once($topdir."sas2/include/photo.inc.php");
 require_once($topdir. "include/cts/gallery.inc.php");
 require_once($topdir. "include/cts/special.inc.php");
 require_once($topdir. "include/globals.inc.php");
@@ -363,6 +364,7 @@ else
                      );
   if($req->lines>0)
   {
+    $site->add_css("css/sas.css");
     $site->add_contents($cts);
     $cts = new contents("Photos");
     $gal = new gallery("Photos aléatoires","photos");
