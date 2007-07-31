@@ -121,9 +121,9 @@ else
           break;
         if($rs=fetch_rss($flux[$id_flux]['url_flux']))
         {
-          //if(count($rs['items'])>0)
-          //{
-            foreach($rs['items'] as $item)
+          if(count($rs->items)>0)
+          {
+            foreach($rs->items as $item)
             {
               if($num==MAX_NUM)
                 break;
@@ -132,7 +132,7 @@ else
               $content[$item['dc']['date']][]=$item;
               $num++;
             }
-          //}
+          }
         }
       }
       if(count($content)>0)
