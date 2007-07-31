@@ -1784,7 +1784,23 @@ L'équipe info AE";
     new delete($this->dbrw,"utl_joue_instru", 
                array("id_instru_musique"=>$id_instru_musique,"id_utilisateur"=>$this->id));
   }
-  
+ 
+  static function liste_promos()
+	{
+    if ( date("m") >= 9 )
+		  $promo_max = date("y") + 2;
+		else
+		  $promo_max = date("y") + 1;
+
+		$promos = array(0=>"-");
+		for ( $i = 1; $i <= $promo_max; $i+=1 )
+		{
+		  array_push( $promos, $i );
+		}
+
+		return $promos;
+  }
+
 }
 
 ?>

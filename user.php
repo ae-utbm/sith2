@@ -542,18 +542,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   
       $subfrm4->add_text_field("filiere","Filiere",$user->filiere);
 
-			if ( date("m") >= 9 )
-			  $promo_max = date("y") + 2;
-			else
-			  $promo_max = date("y") + 1;
-			
-			$promos = array(0=>"-");
-			for ( $i = 1; $i <= $promo_max; $i+=1 )
-			{
-			  array_push( $promos, $i );
-			}
-
-      $subfrm4->add_select_field("promo","Promo",$promos,$user->promo_utbm);
+      $subfrm4->add_select_field("promo","Promo",$user->liste_promos(),$user->promo_utbm);
       $subfrm4->add_date_field("date_diplome","Date d'obtention du diplome",($user->date_diplome_utbm!=NULL)?$user->date_diplome_utbm:null);
       $frm->add ( $subfrm4, false, false, false, false, false, true, false );
     }
