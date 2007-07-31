@@ -128,8 +128,12 @@ else
               if($num==MAX_NUM)
                 break;
               if(!isset($content[$item['date_timestamp']]))
-                $content[$item['date_timestamp']]=array();
-              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'content'=>$item['content']['encoded']);
+								$content[$item['date_timestamp']]=array();
+              if(!empty($item['content']['encoded']))
+								$sumup=$item['content']['encoded'];
+							else
+								$sumup=str_replace('&lt;','<',str_replace('&gt;','>',$item['description']));
+              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'content'=>$sumup);
               $num++;
             }
           }
