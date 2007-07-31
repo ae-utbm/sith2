@@ -163,22 +163,17 @@ else
         krsort($content);
         $site->add_contents($cts);
         $cts = new contents("Tag : ".$tag);
-        $i=0;
         foreach($content AS $date => $items)
         {
           foreach($items AS $item)
           {
-            if($i==0)
-              $open=true;
-            else
-              $open=false;
             $cts->add_title(2,$item['title']." (".$item['auteur']."le ".date("d/m/Y h:i:s", $date).")");
             $cts->add_paragraph($item['sumup']);
             $_cts = new contents("Version complète");
             $_cts->puts($item['full']);
             $_cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Lien vers l\'article</a></p>');
-            $cts->add($_cts,true,false,$date.$tag.$i,false,true,$open);
-            $i++;
+            $cts->add($_cts,true,false,$date.$tag.$i,false,true,false);
+            $_cts->add_paragraph('<br />');
           }
         }
       }
