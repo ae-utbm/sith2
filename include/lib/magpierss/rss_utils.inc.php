@@ -26,8 +26,8 @@ function parse_w3cdtf ( $date_str ) {
     # regex to match wc3dtf
     $pat = "/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(:(\d{2}))?(?:([-+])(\d{2}):?(\d{2})|(Z))?/";
     if ( preg_match( $pat, $date_str, $match ) ) {
-        list( $year, $month, $day, $hours, $minutes, $seconds) = 
-            array( $match[1], $match[2], $match[3], $match[4], $match[5], $match[6]);
+        list( $year, $month, $day, $hours, $minutes, $seconds) = $match; 
+//            array( $match[1], $match[2], $match[3], $match[4], $match[5], $match[6]);
         
         # calc epoch for current date assuming GMT
         $epoch = gmmktime( $hours, $minutes, $seconds, $month, $day, $year);
