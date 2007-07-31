@@ -181,7 +181,7 @@ elseif($_REQUEST["view"]=="perso")
         }
       }
       if(!$abo)
-        $frm->add_checkbox("flux[".$row['id_flux']."]",.$row['nom']"</a>", is_null($row['id_utilisateur']));
+        $frm->add_checkbox("flux[".$row['id_flux']."]",$row['nom'], is_null($row['id_utilisateur']));
     }
   }
 }
