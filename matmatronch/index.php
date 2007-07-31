@@ -298,15 +298,7 @@ $frm_level->add($frm_niveau,true, false, /**/true, "niveau", false, true, true);
 
 $frm_promo = new form("parformpromo",null,null,null,"Promo :");
 
-$frm_promo->add_radiobox_field("promo", false, array (1 => "Promo 01",
-                                                      2 => "Promo 02",
-                                                      3 => "Promo 03",
-                                                      4 => "Promo 04",
-                                                      5 => "Promo 05",
-                                                      6 => "Promo 06",
-                                                      7 => "Promo 07",
-                                                      8 => "Promo 08",
-                                                      0 => "Toutes"),
+$frm_promo->add_radiobox_field("promo", false, $user->liste_promos(),
                                 0, -1, false, array ( 1 => "images/promo_01.png",
                                                       2 => "images/promo_02.png",
                                                       3 => "images/promo_03.png",
