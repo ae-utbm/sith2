@@ -147,10 +147,9 @@ else
         $cts = new contents("Tag : ".$tag);
         foreach($content AS $date => $items)
         {
-          $published = $date;
           foreach($items AS $item)
           {
-            $cts->add_title(2, $item['title']." (le "./*date("d/m/Y h:i:s", */$published/*)*/.")");
+            $cts->add_title(2, $item['title']." (le ".date("d/m/Y h:i:s", $date).")");
             $cts->puts($item['content']);
             $cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Version complète</a></p><hr />');
           }
