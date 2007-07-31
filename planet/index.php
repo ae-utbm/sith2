@@ -136,6 +136,55 @@ if($_REQUEST["view"]=="add")
   $tbl = new sqltable("listasso","",$req, "index.php?view=add","id_flux",array("nom"=>"Nom","url"=>"Url"),array("delete"=>"Supprimer"), array(), array());
   $cts->add($tbl,false);
 }
+elseif($_REQUEST["view"]=="perso")
+{
+  $cts->add_paragraph("Personalisez votre planet");
+  $site->add_contents($cts);
+  $cts = new contents("Vos abonnements aux tags");
+  $req = new requete($site->db,"SELECT `planet_tags`.`id_tag`, `planet_tags`.`tag`, `planet_user_tags`.`id_utilisateur` ".
+                               "FROM `planet_tags` ".
+                               "LEFT JOIN `planet_user_tags` ".
+                               "ON (`planet_user_tags`.`id_tag`=`planet_tags`.`id_tag` ".
+                               "AND `planet_user_tags`.`id_utilisateur` = '".$site->user->id."') ".
+                               "WHERE `planet_tags`.`modere`='1'");
+  $frm = new form("tags_","index.php?view=perso&action=tagperso","false","POST","");
+  $abotags=array();
+  while ( $row = $req->get_row() )
+  {
+    if(!is_null($row['id_utilisateur'])
+      $abotags[]=$row['id_tag'];
+    $frm->add_checkbox("tags[".$row['id_tag']."]","<a href=index.php?view=perso&tagid=".$row['id_tag'].">".$row['tag']"</a>", is_null($row['id_utilisateur']));
+  }
+  $cts->add ( $frm, false, false, true, false, false, true );
+  $req = new requete($site->db,"SELECT `planet_flux`.`id_flux`, `planet_flux`.`nom`, `planet_user_flux`.`id_utilisateur` ".
+                               "FROM `planet_flux` ".
+                               "LEFT JOIN `planet_user_flux` ".
+                               "ON (`planet_user_flux`.`id_flux`=`planet_flux`.`id_flux` ".
+                               "AND `planet_user_flux`.`id_utilisateur` = '".$site->user->id."') ".
+                               "WHERE (`planet_flux`.`id_utilisateur`='".$site->user->id."' OR `planet_flux`.`modere`= '1')");
+  if($req->lines>0)
+  {
+    $site->add_contents($cts);
+    $cts = new contents("Vos abonnements aux autres flux");
+    while ( $row = $req->get_row() )
+    {
+      $_req = new requete($site->db,"SELECT `id_tag`, ".
+                                    "FROM `planet_flux_tags` ".
+                                    "WHERE `id_flux`='".$row['id_flux']."'");
+      $abo=false;
+      while ( $_row = $_req->get_row() )
+      {
+        if(in_array($_row['id_tag'],$abotags))
+        {
+          $abo=true;
+          break;
+        }
+      }
+      if(!$abo)
+        $frm->add_checkbox("flux[".$row['id_flux']."]",.$row['nom']"</a>", is_null($row['id_utilisateur']));
+    }
+  }
+}
 else
 {
   $cts->add_title(2, "Mon planet à moi");
