@@ -138,7 +138,7 @@ else
       }
       if(count($content)>0)
 			{
-				$content=arsort($content)
+				$content=arsort($content);
         $site->add_contents($cts);
         $cts = new contents("Tag : ".$tag);
         foreach($content AS $date => $item)
