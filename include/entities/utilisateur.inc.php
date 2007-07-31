@@ -1795,7 +1795,7 @@ L'équipe info AE";
 		$promos = array(0=>"-");
 		for ( $i = 1; $i <= $promo_max; $i+=1 )
 		{
-		  array_push( $promos, $i );
+		  $promos[$i] = $i;
 		}
 
 		return $promos;
