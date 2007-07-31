@@ -321,7 +321,7 @@ if($_REQUEST["view"] == "listing")
 }
 elseif($_REQUEST["view"]=="stats")
 {
-  $cts->add_paragraph("Des stats, des stats, oui mais des panzanni ! (&copy;Ayolo)");
+  $cts->add_paragraph("Des stats, des stats, oui mais des panzani ! (&copy;Ayolo)");
   $site->add_contents($cts);
   $cts = new contents("Répartition Homme/Femme dans la promo");
   $cts->add_paragraph("<center><img src=\"index.php?stats=sexe\" alt=\"répartition Homme/Femme\" /></center>\n");
@@ -343,13 +343,13 @@ else
 
   /* photos */
   $grps = $site->user->get_groups_csv();
-  $req = new requete($site->db,"SELECT sas_photos.*,sas_cat_photos.nom_catph " .
+  $req = new requete($site->db,"SELECT sas_photos.* " .
                                "FROM sas_personnes_photos AS `p2` " .
                                "INNER JOIN sas_photos ON p2.id_photo=sas_photos.id_photo " .
                                "INNER JOIN sas_cat_photos ON sas_cat_photos.id_catph=sas_photos.id_catph " .
                                "LEFT JOIN sas_personnes_photos AS `p1` ON " .
                                "(p1.id_photo=sas_photos.id_photo " .
-                               "AND p1.id_utilisateur='". $user->id."' " .//$site->user->id
+                               "AND p1.id_utilisateur='". $site->user->id."' " .//$site->user->id
                                "AND p1.modere_phutl='1') " .
                                "WHERE " .
                                "p2.id_utilisateur='". $user->id."' AND " .
