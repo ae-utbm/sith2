@@ -393,7 +393,7 @@ class userinfov2 extends stdcontents
     
     $ville->load_by_id($user->id_ville);
     $pays->load_by_id($user->id_pays);
-    
+ 
     if ( $user->etudiant || $user->ancien_etudiant )
     {
       $ville_parents->load_by_id($user->id_ville_parents);
@@ -543,7 +543,7 @@ class userinfov2 extends stdcontents
       $this->buffer .= htmlentities($user->addresse,ENT_COMPAT,"UTF-8");
       
       if ( $ville->is_valid() )
-        $this->buffer .= " ".$ville->cpostal." " . $ville->get_html_link();
+			  $this->buffer .= "<br/>".$ville->get_html_link()." (".$ville->cpostal.")";
       
       if ( $pays->is_valid() )
         $this->buffer .= "<br/>".$pays->get_html_link();
