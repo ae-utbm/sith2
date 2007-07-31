@@ -168,7 +168,7 @@ elseif($_REQUEST["view"]=="perso")
     $cts = new contents("Vos abonnements aux autres flux");
     while ( $row = $req->get_row() )
     {
-      $_req = new requete($site->db,"SELECT `id_tag`, ".
+      $_req = new requete($site->db,"SELECT `id_tag` ".
                                     "FROM `planet_flux_tags` ".
                                     "WHERE `id_flux`='".$row['id_flux']."'");
       $abo=false;
