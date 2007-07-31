@@ -142,7 +142,7 @@ else
       }
       if(count($content)>0)
 			{
-				ksort($content);
+				krsort($content);
         $site->add_contents($cts);
         $cts = new contents("Tag : ".$tag);
         foreach($content AS $date => $items)
