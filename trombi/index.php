@@ -339,6 +339,54 @@ else
   $cts->add_title(2, "Informations personnelles");
   $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"), "trombi/index.php");
   $cts->add($info);
+  $site->add_contents($cts);
+  $cts = new contents("Associations");
+  /* Associations en cours */
+  $req = new requete($site->db,
+                     "SELECT `asso`.`id_asso`, `asso`.`nom_asso`, " .
+                     "IF(`asso`.`id_asso_parent` IS NULL,`asso_membre`.`role`+100,`asso_membre`.`role`) AS `role`, ".
+                     "`asso_membre`.`date_debut`, `asso_membre`.`desc_role`, " .
+                     "CONCAT(`asso`.`id_asso`,',',`asso_membre`.`date_debut`) as `id_membership` " .
+                     "FROM `asso_membre` " .
+                     "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
+                     "WHERE `asso_membre`.`id_utilisateur`='".$user->id."' " .
+                     "AND `asso_membre`.`date_fin` is NULL " .
+                     "ORDER BY `asso`.`nom_asso`");
+  if ( $req->lines > 0 )
+  {
+    $tbl = new sqltable("listasso",
+                        "Associations et clubs actuels",
+                        $req,
+                        "user.php?id_utilisateur=".$user->id,
+                        "id_membership",
+                          array("nom_asso"=>"Association","role"=>"Role","desc_role"=>"","date_debut"=>"Depuis"),
+                          $can_edit?array("delete"=>"Supprimer","stop"=>"Arreter à la date de ce jour"):array(),
+                          array(),
+                          array("role"=>$GLOBALS['ROLEASSO100'])
+                        );
+    $cts->add($tbl,true);
+  }
+  /* Anciennes assos */
+  $req = new requete($site->db,
+                     "SELECT `asso`.`id_asso`, `asso`.`nom_asso`, " .
+                     "IF(`asso`.`id_asso_parent` IS NULL,`asso_membre`.`role`+100,`asso_membre`.`role`) AS `role`, ".
+                     "`asso_membre`.`date_debut`, `asso_membre`.`desc_role`, `asso_membre`.`date_fin`, " .
+                     "CONCAT(`asso`.`id_asso`,',',`asso_membre`.`date_debut`) as `id_membership` " .
+                     "FROM `asso_membre` " .
+                     "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
+                     "WHERE `asso_membre`.`id_utilisateur`='".$user->id."' " .
+                     "AND `asso_membre`.`date_fin` is NOT NULL " .
+                     "ORDER BY `asso`.`nom_asso`,`asso_membre`.`date_debut`");
+  if ( $req->lines > 0 )
+  {
+    $tbl = new sqltable("listassoformer",
+                        "Associations et clubs (anciennes participations)", $req, "user.php?id_utilisateur=".$user->id,
+                        "id_membership",
+                        array("nom_asso"=>"Association","role"=>"Role","desc_role"=>"","date_debut"=>"Date de début","date_fin"=>"Date de fin"),
+                        $can_edit?array("delete"=>"Supprimer"):array(), array(), array("role"=>$GLOBALS['ROLEASSO100'] )
+                       );
+    $cts->add($tbl,true);
+  }
 }
 
 $site->add_contents($cts);
