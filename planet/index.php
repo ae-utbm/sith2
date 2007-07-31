@@ -25,8 +25,8 @@
 
 $topdir = "../";
 define('MAGPIE_CACHE_DIR', '/var/www/ae/www/var/cache/planet/');
-//define('MAGPIE_CACHE_ON', true);
-define('MAGPIE_CACHE_ON', false);
+define('MAGPIE_CACHE_ON', true);
+//define('MAGPIE_CACHE_ON', false);
 define('MAGPIE_CACHE_AGE', 60*60); //une heure
 define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
 define('MAX_NUM',20);
@@ -170,9 +170,11 @@ else
                 $auteur="";
 
               if(!empty($item['content']['encoded']))
-                $item['content']['encoded']=$item['description'];
+                $full=$item['description'];
+              else
+                $full=$item['content']['encoded'];
 
-              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'sumup'=>$sumup,'full'=>$item['content']['encoded'],'link'=>$item['link'], 'auteur'=>$auteur);
+              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'sumup'=>$sumup,'full'=>$full,'link'=>$item['link'], 'auteur'=>$auteur);
 
               $num++;
             }
