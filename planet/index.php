@@ -68,7 +68,7 @@ if($_REQUEST["action"]=="delete")
     $_req = new delete($site->dbrw, "planet_user_flux", array("id_flux" => $_REQUEST["id_flux"]));
   }
 }
-if($_REQUEST["action"]=="addflux" && !empty($_REQUEST["url"]) && !empty($_REQUEST["nom"]))
+elseif($_REQUEST["action"]=="addflux" && !empty($_REQUEST["url"]) && !empty($_REQUEST["nom"]))
 {
   $req = new requete($site->db,"SELECT `id_flux` FROM `planet_flux` WHERE `url`='".$_REQUEST["url"]."' LIMIT 1");
   if($req->lines==1)
@@ -78,23 +78,39 @@ if($_REQUEST["action"]=="addflux" && !empty($_REQUEST["url"]) && !empty($_REQUES
   else
   {
     if($site->user->is_in_group("gestion_ae"))
-    {
       $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'nom'=>$_REQUEST["nom"],'id_utilisateur' => $site->user->id,'modere'=>1));
-    }
     else
-    {
       $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'nom'=>$_REQUEST["nom"],'id_utilisateur' => $site->user->id,'modere'=>0));
-    }
     $add="Le flux ".$_REQUEST["nom"]." (".$_REQUEST["url"].") a bien été ajouté.";
   }
 }
-
+elseif($_REQUEST["action"]=="addtag" && !empty($_REQUEST["nom"]))
+{
+  $req = new requete($site->db,"SELECT `id_tag` FROM `planet_tags` WHERE `tag`='".$_REQUEST["tag"]."' LIMIT 1");
+  if($req->lines==1)
+    $add="Le tag ".$_REQUEST["tag"]." existe déjà.";
+  else
+  {
+    if($site->user->is_in_group("gestion_ae"))
+      $_req = new insert($site->dbrw,"planet_flux", array('tag'=>$_REQUEST["tag"],'modere'=>1));
+    else
+      $_req = new insert($site->dbrw,"planet_flux", array('tag'=>$_REQUEST["tag"],'modere'=>0));
+    $add="Le tag ".$_REQUEST["tag"]." a été ajouté.";
+  }
+}
 
 if($_REQUEST["view"]=="add")
 {
   $cts->add_paragraph("Gestion du contenu");
   if(isset($add))
     $cts->add_paragraph($add);
+  $site->add_contents($cts);
+  $cts = new contents("Proposer un nouveau flux");
+  $frm = new form("addflux","index.php?view=add",true,"POST","");
+  $frm->add_hidden("action","addtag");
+  $frm->add_text_field("tag","Tag",false,true);
+  $frm->add_submit("save","Envoyer");
+  $cts->add($frm,false);
   $site->add_contents($cts);
   $cts = new contents("Proposer un nouveau flux");
   $frm = new form("addflux","index.php?view=add",true,"POST","");
