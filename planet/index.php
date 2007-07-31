@@ -156,7 +156,7 @@ else
               $open=false;
             $_cts = new contents($item['title']." (le ".date("d/m/Y h:i:s", $date).")");
             $_cts->puts($item['content']);
-            $_cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Version complète</a></p><hr />');
+            $_cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Version complète</a></p>');
             $cts->add($_cts,true,false,$date.$tag.$i,false,true,$open);
             $i++;
           }
