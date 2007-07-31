@@ -47,7 +47,7 @@ if ( isset($_REQUEST["init"]) )
       $liens[$a][$b] = 15;
   }  
   
-  // c- associations et clubs : 1pt / 75 jours ensemble / assos
+  // c- associations et clubs : 1pt / 30 jours ensemble / assos
   $req = new requete($dbrw,"SELECT a.id_utilisateur as u1,b.id_utilisateur as u2,
 SUM(DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut))) AS together
 FROM asso_membre AS a
@@ -55,7 +55,7 @@ JOIN asso_membre AS b ON
 ( 
 a.id_utilisateur < b.id_utilisateur  
 AND a.id_asso = b.id_asso
-AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) > 74
+AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) >= 30
 )
 GROUP BY a.id_utilisateur,b.id_utilisateur
 ORDER BY a.id_utilisateur,b.id_utilisateur");
@@ -66,9 +66,9 @@ ORDER BY a.id_utilisateur,b.id_utilisateur");
     $b = max($row['u1'],$row['u2']);    
     
     if ( isset($liens[$a][$b]) )
-      $liens[$a][$b] += round($row['together']/75);
+      $liens[$a][$b] += round($row['together']/30);
     else
-      $liens[$a][$b] += round($row['together']/75);
+      $liens[$a][$b] += round($row['together']/30);
   }    
   
   echo "step 1 (finished at ".(microtime(true)-$st)." sec)<br/>\n";
