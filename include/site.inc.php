@@ -625,7 +625,7 @@ class site extends interfaceweb
     $sublist = new itemlist("Mon Compte","boxlist");
 		$sublist->add("<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>");
 		$sublist->add("<a href=\"".$topdir."uvs/edt.php\">Mes emplois du temps</a>");
-    if($this->user->promo_utbm>0)
+    if($this->user->utbm)
       $sublist->add("<a href=\"".$topdir."trombino/index.php\">Trombinoscope</a>");
     $sublist->add("<a href=\"".$topdir."user.php?view=assos\">Associations et clubs</a>");
     $sublist->add("<a href=\"".$topdir."user.php?view=parrain\">Parrains et fillots</a>");
