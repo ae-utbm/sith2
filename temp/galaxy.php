@@ -194,7 +194,7 @@ for($i=0;$i<$cycles;$i++)
 {
   // CYCLE
   
-  $req = new requete($dbrw,"SELECT * FROM galaxy_star WHERE length_link/ideal_length_link > 1000 LIMIT 1");
+  $req = new requete($dbrw,"SELECT * FROM galaxy_link WHERE length_link/ideal_length_link > 1000 LIMIT 1");
   if ( $req->lines > 0 )
   {
     echo "<b>Dégénérescence<b><br/>";
