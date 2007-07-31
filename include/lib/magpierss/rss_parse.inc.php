@@ -155,6 +155,9 @@ class MagpieRSS {
         if ( $ns and $ns != 'rdf' ) {
             $this->current_namespace = $ns;
         }
+        if(preg_match("/rdf/i", $element))
+          $el="rdf";
+
             
         # if feed type isn't set, then this is first element of feed
         # identify feed from root element
@@ -406,9 +409,7 @@ class MagpieRSS {
                     $item['summary'] = $item['description'];
                 if ( isset($item['content']['encoded'] ) )
                     $item['atom_content'] = $item['content']['encoded'];
-               print_r($item['dc']); 
-								if ( $this->is_rss() == '1.0' and isset($item['dc']['date']) ) {
-									print_r("bleh");
+                if ( $this->is_rss() == '1.0' and isset($item['dc']['date']) ) {
                     $epoch = @parse_w3cdtf($item['dc']['date']);
                     if ($epoch and $epoch > 0) {
                         $item['date_timestamp'] = $epoch;
