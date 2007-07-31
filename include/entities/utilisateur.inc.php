@@ -1785,7 +1785,7 @@ L'équipe info AE";
                array("id_instru_musique"=>$id_instru_musique,"id_utilisateur"=>$this->id));
   }
  
-  static function liste_promos($autre = "Autre")
+  static function liste_promos($autre = "Autre", $logo = false)
 	{
     if ( date("m") >= 9 )
 		  $promo_max = date("y") + 2;
@@ -1794,10 +1794,14 @@ L'équipe info AE";
 
 		for ( $i = 1; $i <= $promo_max; $i+=1 )
 		{
-		  $promos[$i] = $i;
+		  if ( $logo == true )
+			  $promos[$i] = "images/promo_".sprintf("%02d",$i).".png";
+			else
+		    $promos[$i] = $i;
 		}
 
-		$promos[0] = $autre;
+    if ( $logo != true )
+  		$promos[0] = $autre;
 
 		return $promos;
   }
