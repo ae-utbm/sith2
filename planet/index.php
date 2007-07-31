@@ -73,7 +73,7 @@ if($_REQUEST["view"]=="add")
 {
   $cts->add_paragraph("Gestion du contenu");
   if(isset($add))
-    $cts->add_paragraph("Gestion du contenu");
+    $cts->add_paragraph($add);
   $site->add_contents($cts);
   $cts = new contents("Proposer un nouveau flux");
   $frm = new form("addflux","index.php",true,"POST","");
