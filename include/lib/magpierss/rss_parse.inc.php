@@ -424,6 +424,12 @@ class MagpieRSS {
                   if ($epoch > 0)
                     $item['date_timestamp'] = $epoch;
                 }
+                elseif(isset($item['dc']['date']))
+                {
+                  $epoch = @strtotime($item['dc']['date']);
+                  if ($epoch > 0)
+                    $item['date_timestamp'] = $epoch;
+                }
                 
                 $this->items[$i] = $item;
             }
