@@ -141,7 +141,7 @@ else
         $cts = new contents("Tag : ".$tag);
         foreach($content AS $date => $item)
         {
-          $published = parse_w3cdtf($date);
+          $published = $date;
           $cts->add_title(3, $item['title']." (le ".date("h:i:s d/m/Y", $published).")");
           $cts->add_paragraph($item['content']);
         }
