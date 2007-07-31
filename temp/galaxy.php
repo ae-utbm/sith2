@@ -58,7 +58,7 @@ AND a.id_asso = b.id_asso
 AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) > 74
 )
 GROUP BY a.id_utilisateur,b.id_utilisateur
-ORDER BY a.id_utilisateur,b.id_utilisateur";
+ORDER BY a.id_utilisateur,b.id_utilisateur");
 
   while ( $row = $req->get_row() )
   {
