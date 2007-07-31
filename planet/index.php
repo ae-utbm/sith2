@@ -129,7 +129,7 @@ else
                 break;
               if(!isset($content[$item['dc']['date']]))
                 $content[$item['dc']['date']]=array();
-              $content[$item['dc']['date']][]=$item;
+              $content[$item['dc']['date']][]=array('title'=>$item['title'],'content'=>$item['content']['encoded']);
               $num++;
             }
           }
@@ -139,11 +139,11 @@ else
       {
         $site->add_contents($cts);
         $cts = new contents("Tag : ".$tag);
-        foreach($content AS $item)
+        foreach($content AS $date => $item)
         {
-          $published = parse_w3cdtf($item['dc']['date']);
-          $cts->add_title(3, $item['title']." (le ".date("h:i:s A", $published).")");
-          $cts->add_paragraph($item['content']['encoded']);
+          $published = parse_w3cdtf($date);
+          $cts->add_title(3, $item['title']." (le ".date("h:i:s d/m/Y", $published).")");
+          $cts->add_paragraph($item['content']);
         }
       }
     }
