@@ -120,8 +120,7 @@ else
         if($num==MAX_NUM)
           break;
         if($rs=fetch_rss($flux[$id_flux]['url_flux']))
-				{
-					//print_r($rs->items);
+        {
           if(count($rs->items)>0)
           {
             foreach($rs->items as $item)
@@ -137,16 +136,17 @@ else
         }
       }
       if(count($content)>0)
-			{
-				//$content=arsort($content);
+      {
         $site->add_contents($cts);
         $cts = new contents("Tag : ".$tag);
-        foreach($content AS $date => $item)
-				{
-					print_r($item);
+        foreach($content AS $date => $items)
+        {
           $published = $date;
-          $cts->add_title(3, $item['title']." (le ".date("h:i:s d/m/Y", $published).")");
-          $cts->add_paragraph($item['content']);
+          foreach($items AS $item)
+          {
+            $cts->add_title(3, $item['title']." (le ".date("d/m/Y à h:i:s", $published).")");
+            $cts->add_paragraph($item['content']);
+          }
         }
       }
     }
