@@ -151,7 +151,7 @@ elseif($_REQUEST["view"]=="perso")
   $abotags=array();
   while ( $row = $req->get_row() )
   {
-    if(!is_null($row['id_utilisateur'])
+    if(!is_null($row['id_utilisateur']))
       $abotags[]=$row['id_tag'];
     $frm->add_checkbox("tags[".$row['id_tag']."]","<a href=index.php?view=perso&tagid=".$row['id_tag'].">".$row['tag']"</a>", is_null($row['id_utilisateur']));
   }
