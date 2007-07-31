@@ -358,7 +358,7 @@ else
                                "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='". $site->user->id."') OR " .
                                "((droits_acces_ph & 0x100) AND p1.id_utilisateur IS NOT NULL) ) " .
                                "ORDER BY sas_cat_photos.date_debut_catph DESC, sas_cat_photos.id_catph DESC, date_prise_vue ".
-                               "LIMIT 1";
+                               "LIMIT 1"
                      );
   if($req->lines==1)
   {
