@@ -55,7 +55,6 @@ $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 if($_REQUEST["action"]=="delete")
 {
-  $_REQUEST["view"]="add";
   $sql="";
   if(!$site->user->is_in_group("gestion_ae"))
   {
@@ -71,7 +70,6 @@ if($_REQUEST["action"]=="delete")
 }
 if($_REQUEST["action"]=="addflux" && !empty($_REQUEST["url"]) && !empty($_REQUEST["nom"]))
 {
-  $_REQUEST["view"]="add";
   $req = new requete($site->db,"SELECT `id_flux` FROM `planet_flux` WHERE `url`='".$_REQUEST["url"]."' LIMIT 1");
   if($req->lines==1)
   {
@@ -87,7 +85,7 @@ if($_REQUEST["action"]=="addflux" && !empty($_REQUEST["url"]) && !empty($_REQUES
     {
       $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'nom'=>$_REQUEST["nom"],'id_utilisateur' => $site->user->id,'modere'=>0));
     }
-    $add="Le flux ".$_REQUEST["url"]." a bien été ajouté.";
+    $add="Le flux ".$_REQUEST["nom"]." (".$_REQUEST["url"].") a bien été ajouté.";
   }
 }
 
@@ -99,7 +97,7 @@ if($_REQUEST["view"]=="add")
     $cts->add_paragraph($add);
   $site->add_contents($cts);
   $cts = new contents("Proposer un nouveau flux");
-  $frm = new form("addflux","index.php",true,"POST","");
+  $frm = new form("addflux","index.php?view=add",true,"POST","");
   $frm->add_hidden("action","addflux");
   $frm->add_text_field("nom","Nom",false,true);
   $frm->add_text_field("url","URL",false,true);
@@ -109,7 +107,7 @@ if($_REQUEST["view"]=="add")
   $cts = new contents("Mes propositions");
   $cts->add_paragraph("Liste des flux déjà proposés\n");
   $req = new requete($site->db,"SELECT * FROM `planet_flux` WHERE `id_utilisateur`='".$site->user->id."'");
-  $tbl = new sqltable("listasso","",$req, "planet/index.php?action=delete","id_flux",array("nom"=>"Nom","url"=>"Url"),array("delete"=>"Supprimer"), array(), array());
+  $tbl = new sqltable("listasso","",$req, "planet/index.php?view=add","id_flux",array("nom"=>"Nom","url"=>"Url"),array("delete"=>"Supprimer"), array(), array());
   $cts->add($tbl,false);
 }
 else
