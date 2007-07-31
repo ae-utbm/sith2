@@ -45,7 +45,7 @@ if (!$site->user->id)
 $site->start_page ("none", "Planet AE ");
 
 $tabs = array(array("","planet/index.php", "Planet"),
-              array("perso","trombi/index.php?view=perso", "Personnaliser"),
+              array("perso","planet/index.php?view=perso", "Personnaliser"),
               array("add","planet/index.php?view=add", "Proposer")
              );
 $cts = new contents("Planet AE ");
@@ -141,7 +141,8 @@ else
         }
       }
       if(count($content)>0)
-      {
+			{
+				arsort($content);
         $site->add_contents($cts);
         $cts = new contents("Tag : ".$tag);
         foreach($content AS $date => $items)
