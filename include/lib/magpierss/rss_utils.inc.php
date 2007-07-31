@@ -25,10 +25,6 @@
 function parse_w3cdtf ( $date_str ) {
     # regex to match wc3dtf
     $pat = "/(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(:(\d{2}))?(?:([-+])(\d{2}):?(\d{2})|(Z))?/";
-		if ( !preg_match( $pat, $date_str, $match ) )
-			print_r("bleh");
-		if ( preg_match( $pat, $date_str, $match ) )
-			print_r("bleh2");
     if ( preg_match( $pat, $date_str, $match ) ) {
         list( $year, $month, $day, $hours, $minutes, $seconds) = 
             array( $match[1], $match[2], $match[3], $match[4], $match[5], $match[6]);
@@ -58,7 +54,8 @@ function parse_w3cdtf ( $date_str ) {
             
             $offset = $offset_secs; 
         }
-        $epoch = $epoch + $offset;
+				$epoch = $epoch + $offset;
+				print_r($epoch);
         return $epoch;
     }
     else {
