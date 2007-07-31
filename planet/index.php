@@ -150,7 +150,7 @@ else
           {
             $cts->add_title(2, $item['title']." (le "./*date("d/m/Y h:i:s", */$published/*)*/.")");
             $cts->puts($item['content']);
-            $cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Version complète</a></p>');
+            $cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Version complète</a></p><hr />');
           }
         }
       }
