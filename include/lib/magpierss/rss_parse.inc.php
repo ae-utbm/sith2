@@ -155,10 +155,7 @@ class MagpieRSS {
         if ( $ns and $ns != 'rdf' ) {
             $this->current_namespace = $ns;
         }
-        if(preg_match("/rdf/i", $element))
-          $el="rdf";
-
-            
+ 
         # if feed type isn't set, then this is first element of feed
         # identify feed from root element
         #
