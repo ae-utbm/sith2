@@ -114,6 +114,11 @@ if($_REQUEST["view"]=="add")
   $frm = new form("addflux","index.php?view=add&action=addflux",false,"POST","");
   $frm->add_text_field("nom","Nom",false,true);
   $frm->add_text_field("url","URL",false,true);
+  $subfrm = new form("tags_",null,null,null,"Tags associés");
+  $req = new requete($site->db,"SELECT `id_tag`, `tag` FROM `planet_tags` ORDER BY `tag` ASC");
+  while ( $row = $req->get_row() )
+    $subfrm->add_checkbox("tags[".$row['id_tag']."]",$row['tag'], false);
+  $frm->add ( $subfrm, true, false, false, false, false, true );
   $frm->add_submit("save","Envoyer");
   $cts->add($frm,false);
   $site->add_contents($cts);
