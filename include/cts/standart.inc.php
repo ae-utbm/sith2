@@ -902,7 +902,7 @@ class form extends stdcontents
 	
 	}	
 	
-	function add_select_promo_utbm ( $name, $title, $value = false, $disabled = false, $required = false, $type = "select", $img = false, $jscript_onchange )
+	function add_select_promo_utbm ( $name, $title, $value = false, $disabled = false, $required = false, $type = "select", $img = false, $prefix, $jscript_onchange )
 	{
 		if ( date("m") >= 9 )
 		  $promo_max = date("y") + 2;
@@ -927,7 +927,7 @@ class form extends stdcontents
 		else
 		{
 			$enabled = !$disabled;
-		  $this->add_select_field( $name, $title, $promos, $value,, $required, $enabled, $jscript_onchange );
+		  $this->add_select_field( $name, $title, $promos, $value, $prefix, $required, $enabled, $jscript_onchange );
 		}
 
 	}
