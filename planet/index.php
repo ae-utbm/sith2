@@ -81,6 +81,14 @@ elseif($_REQUEST["action"]=="addflux" && !empty($_REQUEST["url"]) && !empty($_RE
     else
       $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'nom'=>$_REQUEST["nom"],'id_utilisateur' => $site->user->id,'modere'=>0));
     $add="Le flux ".$_REQUEST["nom"]." (".$_REQUEST["url"].") a bien été ajouté.";
+    if(isset($_REQUEST['tags_']))
+    {
+      $fluxid=$_req->get_id();
+      $req = new requete($site->db,"SELECT `id_tag` FROM `planet_tags`");
+      while ( list($id) = $req->get_row() )
+        if(isset($_REQUEST['tags'][$id]))
+          $_req = new insert($site->dbrw,"planet_flux_tags", array('id_flux'=>$fluxid,'id_tag'=>$id));
+    }
   }
 }
 elseif($_REQUEST["action"]=="addtag" && !empty($_REQUEST["tag"]))
