@@ -64,7 +64,7 @@ if($_REQUEST["action"]=="delete")
   if($req->lines==1)
   {
     $_req = new delete($site->dbrw, "planet_flux", array("id_flux" => $_REQUEST["id_flux"]));
-    $_req = new delete($site->dbrw, "planet_flux_tag", array("id_flux" => $_REQUEST["id_flux"]));
+    $_req = new delete($site->dbrw, "planet_flux_tags", array("id_flux" => $_REQUEST["id_flux"]));
     $_req = new delete($site->dbrw, "planet_user_flux", array("id_flux" => $_REQUEST["id_flux"]));
   }
 }
