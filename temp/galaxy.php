@@ -47,7 +47,7 @@ if ( isset($_REQUEST["init"]) )
       $liens[$a][$b] = 15;
   }  
   
-  // c- associations et clubs : 1pt / 30 jours ensemble / assos
+  // c- associations et clubs : 1pt / 75 jours ensemble / assos
   $req = new requete($dbrw,"SELECT a.id_utilisateur as u1,b.id_utilisateur as u2,
 SUM(DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut))) AS together
 FROM asso_membre AS a
@@ -55,7 +55,7 @@ JOIN asso_membre AS b ON
 ( 
 a.id_utilisateur < b.id_utilisateur  
 AND a.id_asso = b.id_asso
-AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) >= 30
+AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) > 74
 )
 GROUP BY a.id_utilisateur,b.id_utilisateur
 ORDER BY a.id_utilisateur,b.id_utilisateur");
@@ -66,9 +66,9 @@ ORDER BY a.id_utilisateur,b.id_utilisateur");
     $b = max($row['u1'],$row['u2']);    
     
     if ( isset($liens[$a][$b]) )
-      $liens[$a][$b] += round($row['together']/30);
+      $liens[$a][$b] += round($row['together']/75);
     else
-      $liens[$a][$b] += round($row['together']/30);
+      $liens[$a][$b] += round($row['together']/75);
   }    
   
   echo "step 1 (finished at ".(microtime(true)-$st)." sec)<br/>\n";
@@ -171,7 +171,7 @@ ORDER BY a.id_utilisateur,b.id_utilisateur");
   new requete($dbrw, "UPDATE galaxy_star SET nblinks_star = ( SELECT COUNT(*) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
   new requete($dbrw, "UPDATE galaxy_link SET max_tense_stars_link=( SELECT MAX(max_tense_star) FROM galaxy_star WHERE id_star=id_star_a OR id_star=id_star_b )");
   
-  new requete($dbrw, "UPDATE galaxy_link SET ideal_length_link=0.1+((1-(tense_link/max_tense_stars_link))*15)");
+  new requete($dbrw, "UPDATE galaxy_link SET ideal_length_link=0.1+((1-(tense_link/max_tense_stars_link))*20)");
   
   
   new requete($dbrw, "DELETE FROM galaxy_star WHERE nblinks_star = 0");
@@ -193,6 +193,14 @@ if ( isset($_GET["cycles"]) )
 for($i=0;$i<$cycles;$i++)
 {
   // CYCLE
+  
+  $req = new requete($dbrw,"SELECT * FROM galaxy_star WHERE length_link/ideal_length_link > 1000 LIMIT 1");
+  if ( $req->lines > 0 )
+  {
+    echo "<b>Dégénérescence<b><br/>";
+    exit();
+  }
+  
   echo "CYCLE : ";
   $st = microtime(true);
   new requete($dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET ".
