@@ -87,7 +87,7 @@ else
     $flux[$id_flux]['nom_flux']=$nom_flux;
     $flux[$id_flux]['url_flux']=$url_flux;
   }
-  $_flux = new request($site->db
+  $_flux = new request($site->db,
                        "SELECT `planet_flux`.`id_flux`, `planet_flux`.`nom`, `planet_flux`.`url` ".
                        "FROM `planet_user_flux` ".
                        "INNER JOIN `planet_flux` ON `planet_user_flux`.`id_flux`=`planet_flux`.`id_flux` ".
