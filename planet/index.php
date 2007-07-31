@@ -163,6 +163,7 @@ else
         krsort($content);
         $site->add_contents($cts);
         $cts = new contents("Tag : ".$tag);
+        $cts->add_paragraph("<br />");
         foreach($content AS $date => $items)
         {
           foreach($items AS $item)
