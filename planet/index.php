@@ -111,7 +111,7 @@ else
   }
   else
   {
-		$cts->add_paragraph("L'AE n'est pas responsable du contenu de cette page. Les contenus proposés  ".
+    $cts->add_paragraph("L'AE n'est pas responsable du contenu de cette page. Les contenus proposés  ".
                         "restent la propriété de leur(s) auteur(s) respectif(s).");
     foreach($tags AS $tag => $_flux)
     {
@@ -135,7 +135,11 @@ else
                 $sumup=$item['content']['encoded'];
               else
                 $sumup=str_replace('&lt;','<',str_replace('&gt;','>',$item['description']));
-              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'content'=>$sumup,'link'=>$item['link']);
+              if(isset($item['dc']['creator']))
+                $auteur="par ".$item['dc']['creator']." ";
+              else
+                $auteur="";
+              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'content'=>$sumup,'link'=>$item['link'], 'auteur'=>$auteur);
               $num++;
             }
           }
@@ -155,7 +159,7 @@ else
               $open=true;
             else
               $open=false;
-            $_cts = new contents($item['title']." (le ".date("d/m/Y h:i:s", $date).")");
+            $_cts = new contents($item['title']." (".$auteur."le ".date("d/m/Y h:i:s", $date).")");
             $_cts->puts($item['content']);
             $_cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Version complète</a></p>');
             $cts->add($_cts,true,false,$date.$tag.$i,false,true,$open);
