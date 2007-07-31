@@ -365,7 +365,7 @@ else
   {
     $site->add_contents($cts);
     $cts = new contents("Photos");
-    $cts->add_paragraph("Voir les photos de l'utilisateur <b><a href=\"../user/photos.php?id_utilisateur=".$user->id."\">ici</a></b>");
+    $cts->add_paragraph("Voir les photos de l'utilisateur <b><a href=\"../user/photos.php?id_utilisateur=".$user->id."\">ici</a>.</b>");
   }
 
   /* genealogie */
