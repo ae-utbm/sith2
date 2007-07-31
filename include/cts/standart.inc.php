@@ -902,7 +902,7 @@ class form extends stdcontents
 	
 	}	
 	
-	function add_select_promo_utbm ( $name, $title, $value = false, $disabled = false, $required = false, $type = "select", $img = false, $prefix, $jscript_onchange )
+	function add_select_promo_utbm ( $name, $title, $value = false, $disabled = false, $required = false, $type = "select", $img = false, $prefix="", $jscript_onchange=null )
 	{
 		if ( date("m") >= 9 )
 		  $promo_max = date("y") + 2;
