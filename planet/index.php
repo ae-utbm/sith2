@@ -128,16 +128,17 @@ else
             {
               if($num==MAX_NUM)
                 break;
-              if(!isset($content[$item['pubdate']]))
-                $content[$item['pudate']]=array();
-              $content[$item['pubdate']][]=array('title'=>$item['title'],'content'=>$item['description']);
+              if(!isset($content[$item['date_timestamp']]))
+                $content[$item['date_timestamp']]=array();
+              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'content'=>$item['description']);
               $num++;
             }
           }
         }
       }
       if(count($content)>0)
-      {
+			{
+				$content=arsort($content)
         $site->add_contents($cts);
         $cts = new contents("Tag : ".$tag);
         foreach($content AS $date => $item)
