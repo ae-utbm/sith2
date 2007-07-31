@@ -1792,11 +1792,12 @@ L'équipe info AE";
 		else
 		  $promo_max = date("y") + 1;
 
-		$promos = array(0=>"$autre");
 		for ( $i = 1; $i <= $promo_max; $i+=1 )
 		{
 		  $promos[$i] = $i;
 		}
+
+		$promos[0] = $autre;
 
 		return $promos;
   }
