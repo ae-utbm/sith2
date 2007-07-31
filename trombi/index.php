@@ -405,7 +405,6 @@ else
       $cts = new contents("Généalogie");
     }
     $tbl = new sqltable("listasso",
-                      "listasso",
                       "Fillot(s)/Fillote(s)", $req, "user.php?view=parrain&mode=fillot&id_utilisateur=".$user->id,
                       "id_utilisateur2",
                       array("nom_utilisateur2"=>"Fillot/Fillote"),
