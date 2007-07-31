@@ -53,6 +53,18 @@ $tabs = array(array("","planet/index.php", "Planet"),
 $cts = new contents("Planet AE ");
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
+if($_REQUEST["action"]=="addflux")
+{
+  if($site->user->is_in_group("gestion_ae"))
+  {
+    $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'id_utilisateur' => $site->user->id,'modere'=>1);
+  }
+  else
+  {
+    $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'id_utilisateur' => $site->user->id,'modere'=>0);
+  }
+
+}
 
 
 if($_REQUEST["view"]=="add")
@@ -60,6 +72,11 @@ if($_REQUEST["view"]=="add")
     $cts->add_paragraph("Gestion du contenu");
     $site->add_contents($cts);
     $cts = new contents("Proposer un nouveau flux");
+    $frm = new form("addflux","index.php",true,"POST","");
+    $frm->add_hidden("action","addflux");
+    $frm->add_text_field("url","URL",false,true);
+    $frm->add_submit("save","Envoyer");
+    $cts->add($frm,false);
     $site->add_contents($cts);
     $cts = new contents("Mes propositions");
     $cts->add_paragraph("Liste des flux déjà proposés\n");
@@ -151,6 +168,10 @@ else
                 $auteur="par ".$item['dc']['creator']." ";
               else
                 $auteur="";
+
+              if(!empty($item['content']['encoded']))
+                $item['content']['encoded']=$item['description'];
+
               $content[$item['date_timestamp']][]=array('title'=>$item['title'],'sumup'=>$sumup,'full'=>$item['content']['encoded'],'link'=>$item['link'], 'auteur'=>$auteur);
 
               $num++;
