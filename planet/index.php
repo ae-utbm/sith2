@@ -120,7 +120,8 @@ else
         if($num==MAX_NUM)
           break;
         if($rs=fetch_rss($flux[$id_flux]['url_flux']))
-        {
+				{
+					print_r($rs->items);
           if(count($rs->items)>0)
           {
             foreach($rs->items as $item)
