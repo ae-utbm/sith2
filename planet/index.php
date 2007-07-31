@@ -56,16 +56,23 @@ $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 if($_REQUEST["action"]=="addflux" && !empty($_REQUEST["url"]))
 {
   $_REQUEST["view"]="add";
-  if($site->user->is_in_group("gestion_ae"))
+  $req = new requete($site->db,"SELECT `id_flux` WHERE `url`='".$_REQUEST["url"]."' LIMIT 1");
+  if($req->lines==1)
   {
-    $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'id_utilisateur' => $site->user->id,'modere'=>1));
+    $add="Le flux ".$_REQUEST["url"]." est déjà présent.";
   }
   else
   {
-    $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'id_utilisateur' => $site->user->id,'modere'=>0));
+    if($site->user->is_in_group("gestion_ae"))
+    {
+      $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'id_utilisateur' => $site->user->id,'modere'=>1));
+    }
+    else
+    {
+      $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'id_utilisateur' => $site->user->id,'modere'=>0));
+    }
+    $add="Le flux ".$_REQUEST["url"]." a bien été ajouté.";
   }
-  $add="Le flux ".$_REQUEST["url"]." a bien été ajouté.";
-
 }
 
 
