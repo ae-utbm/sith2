@@ -141,17 +141,19 @@ else
         }
       }
       if(count($content)>0)
-			{
-				krsort($content);
+      {
+        krsort($content);
         $site->add_contents($cts);
         $cts = new contents("Tag : ".$tag);
         foreach($content AS $date => $items)
         {
           foreach($items AS $item)
           {
-            $cts->add_title(2, $item['title']." (le ".date("d/m/Y h:i:s", $date).")");
-            $cts->puts($item['content']);
-            $cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Version complète</a></p><hr />');
+            $_cts = new contents($item['title']." (le ".date("d/m/Y h:i:s", $date).")");
+            //$cts->add_title(2, $item['title']." (le ".date("d/m/Y h:i:s", $date).")");
+            $_cts->puts($item['content']);
+            $_cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Version complète</a></p><hr />');
+            $cts->add($cts);
           }
         }
       }
