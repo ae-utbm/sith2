@@ -26,21 +26,17 @@
 
 $topdir = "../";
 
-
-require_once($topdir."comptoir/include/defines.inc.php");
-
 include($topdir. "include/site.inc.php");
-require_once($topdir. "include/cts/special.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
-require_once($topdir."sas2/include/photo.inc.php");
+require_once($topdir. "sas2/include/photo.inc.php");
 require_once($topdir. "include/cts/gallery.inc.php");
 require_once($topdir. "include/cts/special.inc.php");
 require_once($topdir. "include/globals.inc.php");
-require_once($topdir . "include/entities/ville.inc.php");
-require_once($topdir . "include/entities/pays.inc.php");
-require_once($topdir . "include/graph.inc.php");
+require_once($topdir. "include/entities/ville.inc.php");
+require_once($topdir. "include/entities/pays.inc.php");
+require_once($topdir. "include/graph.inc.php");
 require_once($topdir. "include/cts/imgcarto.inc.php");
 require_once($topdir. "include/pgsqlae.inc.php");
 
