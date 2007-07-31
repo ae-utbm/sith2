@@ -106,15 +106,13 @@ if($_REQUEST["view"]=="add")
     $cts->add_paragraph($add);
   $site->add_contents($cts);
   $cts = new contents("Proposer un nouveau flux");
-  $frm = new form("addflux","index.php?view=add",true,"POST","");
-  $frm->add_hidden("action","addtag");
+  $frm = new form("addflux","index.php?view=add&action=addtag",true,"POST","");
   $frm->add_text_field("tag","Tag",false,true);
   $frm->add_submit("save","Envoyer");
   $cts->add($frm,false);
   $site->add_contents($cts);
   $cts = new contents("Proposer un nouveau flux");
-  $frm = new form("addflux","index.php?view=add",true,"POST","");
-  $frm->add_hidden("action","addflux");
+  $frm = new form("addflux","index.php?view=add&action=addflux",true,"POST","");
   $frm->add_text_field("nom","Nom",false,true);
   $frm->add_text_field("url","URL",false,true);
   $frm->add_submit("save","Envoyer");
