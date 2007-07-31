@@ -153,7 +153,6 @@ else
 
               if(!empty($item['description']))
               {
-                $sumup=str_replace('&lt;','<',str_replace('&gt;','>',$item['description']));
                 if (strlen($sumup) > MAX_SUM_LENGHT)
                 {
                   $sumup = substr($sumup, 0, MAX_SUM_LENGHT);
@@ -169,8 +168,8 @@ else
               else
                 $auteur="";
 
-              if(!empty($item['content']['encoded']))
-                $full=$item['description'];
+              if(empty($item['content']['encoded']))
+                $full=str_replace('&lt;','<',str_replace('&gt;','>',$item['description']));
               else
                 $full=$item['content']['encoded'];
 
