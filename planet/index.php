@@ -142,7 +142,8 @@ else
         $site->add_contents($cts);
         $cts = new contents("Tag : ".$tag);
         foreach($content AS $date => $item)
-        {
+				{
+					print_r($item);
           $published = $date;
           $cts->add_title(3, $item['title']." (le ".date("h:i:s d/m/Y", $published).")");
           $cts->add_paragraph($item['content']);
