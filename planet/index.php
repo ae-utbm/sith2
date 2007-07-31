@@ -132,7 +132,7 @@ else
               if($num==MAX_NUM)
                 break;
               if(!isset($content[$item['date_timestamp']]))
-								$content[$item['date_timestamp']]=array();
+                $content[$item['date_timestamp']]=array();
 
               if(!empty($item['description']))
               {
@@ -145,13 +145,13 @@ else
                 }
               }
               else
-								$sumup="Pas de résumé désolé.";
+                $sumup="Pas de résumé désolé.";
 
               if(isset($item['dc']['creator']))
                 $auteur="par ".$item['dc']['creator']." ";
               else
                 $auteur="";
-							$content[$item['date_timestamp']][]=array('title'=>$item['title'],'sumup'=>$sumup,'full'=>$item['content']['encoded'],'link'=>$item['link'], 'auteur'=>$auteur);
+              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'sumup'=>$sumup,'full'=>$item['content']['encoded'],'link'=>$item['link'], 'auteur'=>$auteur);
 
               $num++;
             }
@@ -173,7 +173,7 @@ else
             else
               $open=false;
             $cts->add_title(2,$item['title']." (".$item['auteur']."le ".date("d/m/Y h:i:s", $date).")");
-            $_cts->add_paragraph($item['sumup']);
+            $cts->add_paragraph($item['sumup']);
             $_cts = new contents("Version complète");
             $_cts->puts($item['full']);
             $_cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Lien vers l\'article</a></p>');
