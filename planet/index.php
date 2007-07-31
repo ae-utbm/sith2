@@ -131,10 +131,12 @@ else
                 break;
               if(!isset($content[$item['date_timestamp']]))
                 $content[$item['date_timestamp']]=array();
-              if(!empty($item['content']['encoded']))
+              if(!empty($item['description']))
+                $sumup=str_replace('&lt;','<',str_replace('&gt;','>',$item['description']));
+              elseif(!empty($item['content']['encoded']))
                 $sumup=$item['content']['encoded'];
               else
-                $sumup=str_replace('&lt;','<',str_replace('&gt;','>',$item['description']));
+                $sumup="Pas de résumé désolé.";
               if(isset($item['dc']['creator']))
                 $auteur="par ".$item['dc']['creator']." ";
               else
