@@ -63,9 +63,9 @@ if($_REQUEST["action"]=="delete")
   $req = new requete($site->db,"SELECT `id_flux` FROM `planet_flux` WHERE `id_flux`='".$_REQUEST["id_flux"]."' ".$sql." LIMIT 1");
   if($req->lines==1)
   {
-    $_req = new delete($this->dbrw, "planet_flux", array("id_flux" => $_REQUEST["id_flux"]));
-    $_req = new delete($this->dbrw, "planet_flux_tag", array("id_flux" => $_REQUEST["id_flux"]));
-    $_req = new delete($this->dbrw, "planet_user_flux", array("id_flux" => $_REQUEST["id_flux"]));
+    $_req = new delete($site->dbrw, "planet_flux", array("id_flux" => $_REQUEST["id_flux"]));
+    $_req = new delete($site->dbrw, "planet_flux_tag", array("id_flux" => $_REQUEST["id_flux"]));
+    $_req = new delete($site->dbrw, "planet_user_flux", array("id_flux" => $_REQUEST["id_flux"]));
   }
 }
 if($_REQUEST["action"]=="addflux" && !empty($_REQUEST["url"]) && !empty($_REQUEST["nom"]))
