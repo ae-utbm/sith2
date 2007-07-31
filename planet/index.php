@@ -70,10 +70,10 @@ else
                        "INNER JOIN `planet_flux_tags` USING(`id_tag`) ".
                        "INNER JOIN `planet_tags` ON `planet_user_tags`.`id_tag` = `planet_tags`.`id_tag` ".
                        "INNER JOIN `planet_flux` ON `planet_flux_tags`.`id_flux`=`planet_flux`.`id_flux` ".
-                       "LEFT JOIN `planet_user_flux` ON `planet_flux_tags`.`id_flux`=`planet_user_flux`.`id_flux` "
+                       "LEFT JOIN `planet_user_flux` ON `planet_flux_tags`.`id_flux`=`planet_user_flux`.`id_flux` ".
                        "WHERE `planet_user_tags`.`id_utilisateur`='".$site->user->id."' ".
                        "AND (`planet_user_flux`.`view` IS NULL OR `planet_user_flux`.`view`!='0') ".
-                       "AND `planet_flux`.`modere`='1' "
+                       "AND `planet_flux`.`modere`='1' ".
                        "GROUP BY `planet_flux_tags`.`id_flux`");
   $totflux=$_tags->lines;
   $tags=array();
