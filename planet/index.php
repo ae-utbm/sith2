@@ -154,7 +154,7 @@ else
               if(!empty($item['description']))
               {
                 $sumup=$item['description'];
-                $sumup = preg_replace('<(.+?)>','',$sumup);
+                $sumup = preg_replace('/<(.+?)>/s','',$sumup);
                 if (strlen($sumup) > MAX_SUM_LENGHT)
                 {
                   $sumup = substr($sumup, 0, MAX_SUM_LENGHT);
