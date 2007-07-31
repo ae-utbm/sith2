@@ -91,7 +91,7 @@ else
                        "SELECT `planet_flux`.`id_flux`, `planet_flux`.`nom`, `planet_flux`.`url` ".
                        "FROM `planet_user_flux` ".
                        "INNER JOIN `planet_flux` ON `planet_user_flux`.`id_flux`=`planet_flux`.`id_flux` ".
-                       "WHERE `planet_user_flux`.`view`=1 AND `planet_flux`.`modere`='1'");
+                       "WHERE `planet_user_flux`.`view`='1' AND `planet_flux`.`modere`='1'");
   $totflux=$totflux+$_flux->lines;
   while(list($id_flux,$nom_flux,$url_flux)=$_flux->get_row())
   {
