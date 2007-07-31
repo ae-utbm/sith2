@@ -27,8 +27,6 @@ require_once ("include/comptoirs.inc.php");
 require_once ($topdir . "include/pdf/facture_pdf.inc.php");
 
 require_once ($topdir . "include/entities/ville.inc.php");
-require_once ($topdir . "include/entities/pays.inc.php");
-
 
 /* on n'a pas l'intention de sortir du (x)html en sortie
  * mais les objets membres de site vont etre utiles      */
