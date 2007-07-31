@@ -128,11 +128,11 @@ else
               if($num==MAX_NUM)
                 break;
               if(!isset($content[$item['date_timestamp']]))
-								$content[$item['date_timestamp']]=array();
+                $content[$item['date_timestamp']]=array();
               if(!empty($item['content']['encoded']))
-								$sumup=$item['content']['encoded'];
-							else
-								$sumup=str_replace('&lt;','<',str_replace('&gt;','>',$item['description']));
+                $sumup=$item['content']['encoded'];
+              else
+                $sumup=str_replace('&lt;','<',str_replace('&gt;','>',$item['description']));
               $content[$item['date_timestamp']][]=array('title'=>$item['title'],'content'=>$sumup,'link'=>$item['link']);
               $num++;
             }
@@ -148,8 +148,9 @@ else
           $published = $date;
           foreach($items AS $item)
           {
-						$cts->add_title(3, $item['title']." (le "./*date("d/m/Y h:i:s", */$published/*)*/.")");
+            $cts->add_title(3, $item['title']." (le "./*date("d/m/Y h:i:s", */$published/*)*/.")");
             $cts->puts($item['content']);
+            $cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Version complète</a></p>');
           }
         }
       }
