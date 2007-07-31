@@ -339,6 +339,80 @@ else
   $cts->add_title(2, "Informations personnelles");
   $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"), "trombi/index.php");
   $cts->add($info);
+
+  /* photos */
+  $req = new requete($site->db,"SELECT sas_photos.*,sas_cat_photos.nom_catph " .
+                               "FROM sas_personnes_photos AS `p2` " .
+                               "INNER JOIN sas_photos ON p2.id_photo=sas_photos.id_photo " .
+                               "INNER JOIN sas_cat_photos ON sas_cat_photos.id_catph=sas_photos.id_catph " .
+                               "LEFT JOIN sas_personnes_photos AS `p1` ON " .
+                               "(p1.id_photo=sas_photos.id_photo " .
+                               "AND p1.id_utilisateur='". $user->id."' " .//$site->user->id
+                               "AND p1.modere_phutl='1') " .
+                               "WHERE " .
+                               "p2.id_utilisateur='". $user->id."' AND " .
+                               "((((droits_acces_ph & 0x1) OR " .
+                               "((droits_acces_ph & 0x10) AND sas_photos.id_groupe IN ($grps))) " .
+                               "AND droits_acquis='1') OR " .
+                               "(sas_photos.id_groupe_admin IN ($grps)) OR " .
+                               "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='". $site->user->id."') OR " .
+                               "((droits_acces_ph & 0x100) AND p1.id_utilisateur IS NOT NULL) ) " .
+                               "ORDER BY sas_cat_photos.date_debut_catph DESC, sas_cat_photos.id_catph DESC, date_prise_vue ".
+                               "LIMIT 1";
+                     );
+  if($req->lines==1)
+  {
+    $site->add_contents($cts);
+    $cts = new contents("Photos");
+    $cts->add_paragraph("Voir les photos de l'utilisateur <b><a href=\"../user/photos.php?id_utilisateur="$user->id">ici</a></b>");
+  }
+
+  /* genealogie */
+  $genea=false;
+  $req = new requete($site->db,
+                "SELECT `utilisateurs`.`id_utilisateur` AS `id_utilisateur2`, " .
+                "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur2` " .
+                "FROM `parrains` " .
+                "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`parrains`.`id_utilisateur` " .
+                "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+                "WHERE `parrains`.`id_utilisateur_fillot`='".$user->id."'");
+  if ( $req->lines > 0 )
+  {
+    $site->add_contents($cts);
+    $cts = new contents("Généalogie");
+    $genea=true;
+    $tbl = new sqltable("listasso",
+                        "Parrain(s)/Marraine(s)", $req, "user.php?view=parrain&mode=parrain&id_utilisateur=".$user->id,
+                        "id_utilisateur2",
+                        array("nom_utilisateur2"=>"Parrain/Marraine"),
+                        array("delete"=>"Enlever"), array(), array( )
+                      );
+    $cts->add($tbl,true);
+  }
+  $req = new requete($site->db,
+                "SELECT `utilisateurs`.`id_utilisateur` AS `id_utilisateur2`, " .
+                "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur2` " .
+                "FROM `parrains` " .
+                "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`parrains`.`id_utilisateur_fillot` " .
+                "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+                "WHERE `parrains`.`id_utilisateur`='".$user->id."'");
+  if ( $req->lines > 0 )
+  {
+    if(!$genea)
+    {
+      $site->add_contents($cts);
+      $cts = new contents("Généalogie");
+    }
+    $tbl = new sqltable("listasso",
+                      "listasso",
+                      "Fillot(s)/Fillote(s)", $req, "user.php?view=parrain&mode=fillot&id_utilisateur=".$user->id,
+                      "id_utilisateur2",
+                      array("nom_utilisateur2"=>"Fillot/Fillote"),
+                      array("delete"=>"Enlever"), array(), array( )
+                    );
+    $cts->add($tbl,true);
+  }
+
   $asso=false;
   /* Associations en cours */
   $req = new requete($site->db,
