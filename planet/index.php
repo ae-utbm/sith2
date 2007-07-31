@@ -167,7 +167,7 @@ else
         {
           foreach($items AS $item)
           {
-            $cts->add_title(2,$item['title']." (".$item['auteur']."le ".date("d/m/Y h:i:s", $date).")");
+            $cts->add_title(1,$item['title']." (".$item['auteur']."le ".date("d/m/Y h:i:s", $date).")");
             $cts->add_paragraph($item['sumup']);
             $_cts = new contents("Version complète");
             $_cts->puts($item['full']);
