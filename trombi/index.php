@@ -51,14 +51,14 @@ $site->add_css("css/userfullinfo.css");
 if (!$site->user->id)
   error_403();
 
-$site->start_page ("none", "Trombi PROMO ".sprintf("%02d",$site->user->promo_utbm));
+$site->start_page ("none", "Trombi Promo ".sprintf("%02d",$site->user->promo_utbm));
 
 $tabs = array(array("","trombi/index.php", "Informations"),
               //array("board","trombi/index.php?view=board", "Messages"),
               array("listing","trombi/index.php?view=listing", "La promo"),
               array("stats","trombi/index.php?view=stats", "Des chiffres")
              );
-$cts = new contents("Trombinoscope, promo ".sprintf("%02d",$site->user->promo_utbm));
+$cts = new contents("Trombinoscope, Promo ".sprintf("%02d",$site->user->promo_utbm));
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 
