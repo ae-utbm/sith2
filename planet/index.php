@@ -56,7 +56,7 @@ $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 if($_REQUEST["action"]=="addflux" && !empty($_REQUEST["url"]))
 {
   $_REQUEST["view"]="add";
-  $req = new requete($site->db,"SELECT `id_flux` WHERE `url`='".$_REQUEST["url"]."' LIMIT 1");
+  $req = new requete($site->db,"SELECT `id_flux` FROM `planet_flux` WHERE `url`='".$_REQUEST["url"]."' LIMIT 1");
   if($req->lines==1)
   {
     $add="Le flux ".$_REQUEST["url"]." est déjà présent.";
