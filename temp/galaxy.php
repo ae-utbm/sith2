@@ -171,7 +171,7 @@ ORDER BY a.id_utilisateur,b.id_utilisateur");
   new requete($dbrw, "UPDATE galaxy_star SET nblinks_star = ( SELECT COUNT(*) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
   new requete($dbrw, "UPDATE galaxy_link SET max_tense_stars_link=( SELECT MAX(max_tense_star) FROM galaxy_star WHERE id_star=id_star_a OR id_star=id_star_b )");
   
-  new requete($dbrw, "UPDATE galaxy_link SET ideal_length_link=0.1+((1-(tense_link/max_tense_stars_link))*20)");
+  new requete($dbrw, "UPDATE galaxy_link SET ideal_length_link=0.1+((1-(tense_link/max_tense_stars_link))*15)");
   
   
   new requete($dbrw, "DELETE FROM galaxy_star WHERE nblinks_star = 0");
@@ -208,8 +208,8 @@ for($i=0;$i<$cycles;$i++)
   new requete($dbrw,"UPDATE galaxy_link SET dx_link=RAND(), dy_link=RAND() WHERE length_link != ideal_length_link AND dx_link=0 AND dy_link=0");
   echo "4: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET  ".
-  "delta_link_a=(length_link-ideal_length_link)/ideal_length_link/400, ".
-  "delta_link_b=(length_link-ideal_length_link)/ideal_length_link/400*-1 ".
+  "delta_link_a=(length_link-ideal_length_link)/ideal_length_link/100, ".
+  "delta_link_b=(length_link-ideal_length_link)/ideal_length_link/100*-1 ".
   "WHERE a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
   echo "5: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_star SET ".
