@@ -144,7 +144,7 @@ else
           $published = $date;
           foreach($items AS $item)
           {
-            $cts->add_title(3, $item['title']." (le ".date("d/m/Y h:i:s", $published).")");
+						$cts->add_title(3, $item['title']." (le "./*date("d/m/Y h:i:s", */$published/*)*/.")");
             $cts->add_paragraph($item['content']);
           }
         }
