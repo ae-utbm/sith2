@@ -545,7 +545,7 @@ class userinfov2 extends stdcontents
       if ( $ville->is_valid() )
 			  $this->buffer .= "<br/>".$ville->get_html_link()." (".$ville->cpostal.")";
       
-      if ( $pays->is_valid() )
+      if ( $pays->is_valid() && $pays->id != 1)
         $this->buffer .= "<br/>".$pays->get_html_link();
         
       $this->buffer .= "</p>\n";
@@ -579,7 +579,7 @@ class userinfov2 extends stdcontents
         if ( $ville_parents->is_valid() )
           $this->buffer .= "<br/>".$ville_parents->get_html_link()." (".$ville_parents->cpostal.")";
         
-        if ( $pays_parents->is_valid() )
+        if ( $pays_parents->is_valid() && $pays_parents->id != 1)
           $this->buffer .= "<br/>".$pays_parents->get_html_link();
           
         $this->buffer .= "</p>\n";
