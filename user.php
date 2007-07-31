@@ -5,6 +5,7 @@
  * - Maxime Petazzoni < sam at bulix dot org >
  * - Laurent Colnat < laurent dot colnat at utbm dot fr >
  * - Julien Etelain < julien at pmad dot net >
+ * - Benjamin Collet < bcollet at oxynux dot org >
  *
  * Ce fichier fait partie du site de l'Association des étudiants
  * de l'UTBM, http://ae.utbm.fr.
@@ -27,10 +28,10 @@
 
 $topdir = "./";
 include($topdir. "include/site.inc.php");
-require_once($topdir. "include/cts/special.inc.php");
-require_once($topdir. "include/cts/sqltable.inc.php");
-require_once($topdir. "include/entities/asso.inc.php");
-require_once($topdir. "include/cts/user.inc.php");
+require_once($topdir . "include/cts/special.inc.php");
+require_once($topdir . "include/cts/sqltable.inc.php");
+require_once($topdir . "include/entities/asso.inc.php");
+require_once($topdir . "include/cts/user.inc.php");
 require_once($topdir . "include/entities/carteae.inc.php");
 require_once($topdir . "include/entities/cotisation.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
@@ -540,7 +541,19 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
       $subfrm4 = new form("infoutbm",null,null,null,"Informations UTBM");
   
       $subfrm4->add_text_field("filiere","Filiere",$user->filiere);
-      $subfrm4->add_select_field("promo","Promo",array(0=>"-",1=>"1",2=>"2",3=>"3",4=>"4",5=>"5",6=>"6",7=>"7",8=>"8",9=>"9",10=>"10"),$user->promo_utbm);
+
+			if ( date("m") >= 9 )
+			  $promo_max = date("y") + 2;
+			else
+			  $promo_max = date("y") + 1;
+			
+			$promos = array(0=>"-");
+			for ( $i = 1; $i <= $promo_max; $i+=1 )
+			{
+			  array_push( $promos, $i );
+			}
+
+      $subfrm4->add_select_field("promo","Promo",$promos,$user->promo_utbm);
       $subfrm4->add_date_field("date_diplome","Date d'obtention du diplome",($user->date_diplome_utbm!=NULL)?$user->date_diplome_utbm:null);
       $frm->add ( $subfrm4, false, false, false, false, false, true, false );
     }
