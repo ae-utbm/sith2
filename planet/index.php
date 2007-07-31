@@ -84,7 +84,7 @@ elseif($_REQUEST["action"]=="addflux" && !empty($_REQUEST["url"]) && !empty($_RE
     $add="Le flux ".$_REQUEST["nom"]." (".$_REQUEST["url"].") a bien été ajouté.";
   }
 }
-elseif($_REQUEST["action"]=="addtag" && !empty($_REQUEST["nom"]))
+elseif($_REQUEST["action"]=="addtag" && !empty($_REQUEST["tag"]))
 {
   $req = new requete($site->db,"SELECT `id_tag` FROM `planet_tags` WHERE `tag`='".$_REQUEST["tag"]."' LIMIT 1");
   if($req->lines==1)
