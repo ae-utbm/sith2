@@ -341,13 +341,14 @@ else
   $cts->add($info);
 
   /* photos */
+  $grps = $site->user->get_groups_csv();
   $req = new requete($site->db,"SELECT sas_photos.*,sas_cat_photos.nom_catph " .
                                "FROM sas_personnes_photos AS `p2` " .
                                "INNER JOIN sas_photos ON p2.id_photo=sas_photos.id_photo " .
                                "INNER JOIN sas_cat_photos ON sas_cat_photos.id_catph=sas_photos.id_catph " .
                                "LEFT JOIN sas_personnes_photos AS `p1` ON " .
                                "(p1.id_photo=sas_photos.id_photo " .
-                               "AND p1.id_utilisateur='". $site->user->id."' " .//$site->user->id
+                               "AND p1.id_utilisateur='". $user->id."' " .//$site->user->id
                                "AND p1.modere_phutl='1') " .
                                "WHERE " .
                                "p2.id_utilisateur='". $user->id."' AND " .
