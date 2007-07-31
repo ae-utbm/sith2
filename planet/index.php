@@ -28,7 +28,7 @@ define('MAGPIE_CACHE_DIR', '/var/www/ae/www/var/cache/planet/');
 define('MAGPIE_CACHE_ON', true);
 define('MAGPIE_CACHE_AGE', 60*60); //une heure
 define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
-define('MAX_NUM',2);
+define('MAX_NUM',10);
 
 include($topdir. "include/site.inc.php");
 require_once($topdir. "include/lib/magpierss/rss_fetch.inc.php");
@@ -133,7 +133,7 @@ else
 								$sumup=$item['content']['encoded'];
 							else
 								$sumup=str_replace('&lt;','<',str_replace('&gt;','>',$item['description']));
-              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'content'=>$sumup);
+              $content[$item['date_timestamp']][]=array('title'=>$item['title'],'content'=>$sumup,'link'=>$['link']);
               $num++;
             }
           }
