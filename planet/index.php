@@ -153,6 +153,7 @@ else
 
               if(!empty($item['description']))
               {
+                $sumup=$item['description'];
                 if (strlen($sumup) > MAX_SUM_LENGHT)
                 {
                   $sumup = substr($sumup, 0, MAX_SUM_LENGHT);
