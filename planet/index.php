@@ -29,7 +29,7 @@ define('MAGPIE_CACHE_DIR', '/var/www/ae/www/var/cache/planet/');
 define('MAGPIE_CACHE_ON', false);
 define('MAGPIE_CACHE_AGE', 60*60); //une heure
 define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
-define('MAX_NUM',10000);
+define('MAX_NUM',20);
 
 include($topdir. "include/site.inc.php");
 require_once($topdir. "include/lib/magpierss/rss_fetch.inc.php");
