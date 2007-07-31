@@ -381,7 +381,7 @@ else
   {
     $site->add_contents($cts);
     $cts = new contents("Généalogie");
-    $cts->add_paragraph("<b><a href=\"".$topdir."family.php?id_utilisateur=".$user->id."\">Arbre généalogique parrains/fillots</a>.</b>");
+    $cts->add_paragraph("<a href=\"".$topdir."family.php?id_utilisateur=".$user->id."\">Arbre généalogique parrains/fillots</a>.");
     $genea=true;
     $tbl = new sqltable("listasso",
                         "Parrain(s)/Marraine(s)", $req, "user.php?view=parrain&mode=parrain&id_utilisateur=".$user->id,
@@ -404,7 +404,7 @@ else
     {
       $site->add_contents($cts);
       $cts = new contents("Généalogie");
-      $cts->add_paragraph("<b><a href=\"".$topdir."family.php?id_utilisateur=".$user->id."\">Arbre généalogique parrains/fillots</a>.</b>");
+      $cts->add_paragraph("<a href=\"".$topdir."family.php?id_utilisateur=".$user->id."\">Arbre généalogique parrains/fillots</a>.");
     }
     $tbl = new sqltable("listasso",
                       "Fillot(s)/Fillote(s)", $req, "user.php?view=parrain&mode=fillot&id_utilisateur=".$user->id,
