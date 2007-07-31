@@ -358,14 +358,21 @@ else
                                "(sas_photos.id_groupe_admin IN ($grps)) OR " .
                                "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='". $site->user->id."') OR " .
                                "((droits_acces_ph & 0x100) AND p1.id_utilisateur IS NOT NULL) ) " .
-                               "ORDER BY sas_cat_photos.date_debut_catph DESC, sas_cat_photos.id_catph DESC, date_prise_vue ".
-                               "LIMIT 1"
+                               "ORDER BY RAND() ".
+                               "LIMIT 5"
                      );
-  if($req->lines==1)
+  if($req->lines>0)
   {
     $site->add_contents($cts);
     $cts = new contents("Photos");
-    $cts->add_paragraph("Voir les photos de l'utilisateur <b><a href=\"".$topdir."user/photos.php?id_utilisateur=".$user->id."\">ici</a>.</b>");
+    $gal = new gallery("Photos aléatoires","photos");
+    while ( $row = $req->get_row())
+    {
+      $img = $topdir."sas2/images.php?/".$row['id_photo'].".vignette.jpg";
+      $gal->add_item("<a href=\"".$topdir."sas2/?id_photo=".$row['id_photo']."\"><img src=\"$img\" alt=\"Photo\"></a>");
+    }
+    $cts->add($gal,true);
+    $cts->add_paragraph("<a href=\"".$topdir."user/photos.php?id_utilisateur=".$user->id."\">Toutes les photos</a>.");
   }
 
   /* genealogie */
