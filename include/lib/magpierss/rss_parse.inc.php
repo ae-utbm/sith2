@@ -406,7 +406,7 @@ class MagpieRSS {
                     $item['summary'] = $item['description'];
                 if ( isset($item['content']['encoded'] ) )
                     $item['atom_content'] = $item['content']['encoded'];
-                
+               print_r($item['dc']); 
 								if ( $this->is_rss() == '1.0' and isset($item['dc']['date']) ) {
 									print_r("bleh");
                     $epoch = @parse_w3cdtf($item['dc']['date']);
