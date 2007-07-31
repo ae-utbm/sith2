@@ -53,7 +53,7 @@ $tabs = array(array("","planet/index.php", "Planet"),
 $cts = new contents("Planet AE ");
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
-if($_REQUEST["action"]=="addflux")
+if($_REQUEST["action"]=="addflux" && !empty($_REQUEST["url"]))
 {
   if($site->user->is_in_group("gestion_ae"))
   {
