@@ -153,7 +153,7 @@ elseif($_REQUEST["view"]=="perso")
   {
     if(!is_null($row['id_utilisateur']))
       $abotags[]=$row['id_tag'];
-    $frm->add_checkbox("tags[".$row['id_tag']."]","<a href=index.php?view=perso&tagid=".$row['id_tag'].">".$row['tag']"</a>", is_null($row['id_utilisateur']));
+    $frm->add_checkbox("tags[".$row['id_tag']."]","<a href=index.php?view=perso&tagid=".$row['id_tag'].">".$row['tag']."</a>", is_null($row['id_utilisateur']));
   }
   $cts->add ( $frm, false, false, true, false, false, true );
   $req = new requete($site->db,"SELECT `planet_flux`.`id_flux`, `planet_flux`.`nom`, `planet_user_flux`.`id_utilisateur` ".
