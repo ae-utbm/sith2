@@ -92,9 +92,9 @@ elseif($_REQUEST["action"]=="addtag" && !empty($_REQUEST["tag"]))
   else
   {
     if($site->user->is_in_group("gestion_ae"))
-      $_req = new insert($site->dbrw,"planet_flux", array('tag'=>$_REQUEST["tag"],'modere'=>1));
+      $_req = new insert($site->dbrw,"planet_tags", array('tag'=>$_REQUEST["tag"],'modere'=>1));
     else
-      $_req = new insert($site->dbrw,"planet_flux", array('tag'=>$_REQUEST["tag"],'modere'=>0));
+      $_req = new insert($site->dbrw,"planet_tags", array('tag'=>$_REQUEST["tag"],'modere'=>0));
     $add="Le tag ".$_REQUEST["tag"]." a été ajouté.";
   }
 }
