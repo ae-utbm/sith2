@@ -107,7 +107,7 @@ if($_REQUEST["view"]=="add")
   $cts = new contents("Mes propositions");
   $cts->add_paragraph("Liste des flux déjà proposés\n");
   $req = new requete($site->db,"SELECT * FROM `planet_flux` WHERE `id_utilisateur`='".$site->user->id."'");
-  $tbl = new sqltable("listasso","",$req, "planet/index.php?view=add","id_flux",array("nom"=>"Nom","url"=>"Url"),array("delete"=>"Supprimer"), array(), array());
+  $tbl = new sqltable("listasso","",$req, "index.php?view=add","id_flux",array("nom"=>"Nom","url"=>"Url"),array("delete"=>"Supprimer"), array(), array());
   $cts->add($tbl,false);
 }
 else
