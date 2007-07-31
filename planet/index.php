@@ -150,8 +150,7 @@ else
         {
           foreach($items AS $item)
           {
-            $i++;
-            if($i==1)
+            if($i==0)
               $open=true;
             else
               $open=false;
@@ -159,6 +158,7 @@ else
             $_cts->puts($item['content']);
             $_cts->add_paragraph('<p align="right"><a href="'.$item['link'].'">Version complète</a></p><hr />');
             $cts->add($_cts,true,false,$date.$tag.$i,false,true,$open);
+            $i++;
           }
         }
       }
