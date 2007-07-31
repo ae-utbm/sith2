@@ -339,8 +339,7 @@ else
   $cts->add_title(2, "Informations personnelles");
   $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"), "trombi/index.php");
   $cts->add($info);
-  $site->add_contents($cts);
-  $cts = new contents("Associations");
+  $asso=false;
   /* Associations en cours */
   $req = new requete($site->db,
                      "SELECT `asso`.`id_asso`, `asso`.`nom_asso`, " .
@@ -354,6 +353,9 @@ else
                      "ORDER BY `asso`.`nom_asso`");
   if ( $req->lines > 0 )
   {
+    $site->add_contents($cts);
+    $cts = new contents("Associations");
+    $asso=true;
     $tbl = new sqltable("listasso",
                         "Associations et clubs actuels",
                         $req,
@@ -379,6 +381,11 @@ else
                      "ORDER BY `asso`.`nom_asso`,`asso_membre`.`date_debut`");
   if ( $req->lines > 0 )
   {
+    if(!$asso)
+    {
+      $site->add_contents($cts);
+      $cts = new contents("Associations");
+    }
     $tbl = new sqltable("listassoformer",
                         "Associations et clubs (anciennes participations)", $req, "user.php?id_utilisateur=".$user->id,
                         "id_membership",
