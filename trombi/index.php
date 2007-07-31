@@ -367,7 +367,7 @@ else
     $site->add_css("css/sas.css");
     $site->add_contents($cts);
     $cts = new contents("Photos");
-    $gal = new gallery(false,"photos");
+    $gal = new gallery("\"Photos allez à Toire\" &copy;","photos");
     while ( $row = $req->get_row())
     {
       $img = $topdir."sas2/images.php?/".$row['id_photo'].".vignette.jpg";
