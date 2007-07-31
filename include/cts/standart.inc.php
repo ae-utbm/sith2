@@ -902,36 +902,6 @@ class form extends stdcontents
 	
 	}	
 	
-	function add_select_promo_utbm ( $name, $title, $value = false, $disabled = false, $required = false, $type = "select", $img = false, $prefix="", $jscript_onchange=null )
-	{
-		if ( date("m") >= 9 )
-		  $promo_max = date("y") + 2;
-		else
-		  $promo_max = date("y") + 1;
-		
-		$promos = array(0=>"-");
-		if ( $img == true )
-		  $promos_img = array(0=>"");
-		
-		for ( $i = 1; $i <= $promo_max; $i+=1 )
-		{
-		  array_push( $promos, "Promo ".$i );
-			if ( $img == true )
-			  array_push( $promos, "images/promo_".$i.".png" );
-		}
-	  
-		if ( $type == "radio" )
-		{
-		  $this->add_radiobox_field( $name, $title, $promos, $value, $disabled, $required, $promos_img );
-		}
-		else
-		{
-			$enabled = !$disabled;
-		  $this->add_select_field( $name, $title, $promos, $value, $prefix, $required, $enabled, $jscript_onchange );
-		}
-
-	}
-
 	/**
 	 * 
 	 * 
