@@ -66,10 +66,10 @@ if ( $_REQUEST["action"] == "view" )
 	$comptoir = false;
 	
 	if ( $_REQUEST["debut"] )
-	  /*$conds[] = "cpt_debitfacture.date_facture >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";*/
+	  $conds[] = "cpt_debitfacture.date_facture >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
 	
 	if ( $_REQUEST["fin"] )
-	  /*$conds[] = "cpt_debitfacture.date_facture <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";*/
+	  $conds[] = "cpt_debitfacture.date_facture <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
 	
 	if ( isset($comptoirs[$_REQUEST["id_comptoir"]]) && $_REQUEST["id_comptoir"] )
 	{
@@ -82,18 +82,21 @@ if ( $_REQUEST["action"] == "view" )
       $conds[] = "cpt_produits.id_assocpt='".intval($_REQUEST["id_assocpt"])."'";
   }
 
-  $req = new requete($site->db,
-    "SELECT `cpt_produits`.`nom_prod`, `cpt_produits`.`id_produit`," .
-    "`asso`.`nom_asso`,`asso`.`id_asso`, " .
-    "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod`, " .
-    "`cpt_mise_en_vente`.`stock_local_prod`, " .
-		"(SELECT SUM(`cpt_vendu`.`quantite`) AS `ventes` FROM `cpt_vendu` WHERE `cpt_vendu`.`id_produit`=`cpt_produits`.`id_produit` ) AS `ventes` ".
-    "FROM `cpt_produits` " .
-    "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
-    "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
-    "INNER JOIN cpt_mise_en_vente ON `cpt_mise_en_vente`.`id_produit`=`cpt_produits`.`id_produit` " .
-    "WHERE " .implode(" AND ",$conds).
-		"ORDER BY `ventes` DESC");
+  if ( count($conds) )
+	{
+    $req = new requete($site->db,
+      "SELECT `cpt_produits`.`nom_prod`, `cpt_produits`.`id_produit`," .
+      "`asso`.`nom_asso`,`asso`.`id_asso`, " .
+      "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod`, " .
+      "`cpt_mise_en_vente`.`stock_local_prod`, " .
+	  	"(SELECT SUM(`cpt_vendu`.`quantite`) AS `ventes` FROM `cpt_vendu` WHERE `cpt_vendu`.`id_produit`=`cpt_produits`.`id_produit` ) AS `ventes` ".
+      "FROM `cpt_produits` " .
+      "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
+      "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
+      "INNER JOIN cpt_mise_en_vente ON `cpt_mise_en_vente`.`id_produit`=`cpt_produits`.`id_produit` " .
+      "WHERE " .implode(" AND ",$conds).
+   		"ORDER BY `ventes` DESC");
+  }
 
   $tbl = new sqltable(
     "lstproduits",
@@ -107,7 +110,7 @@ if ( $_REQUEST["action"] == "view" )
     ), array(), array(), array() );
 
 	$cts->add($tbl,true);
-
+  
 }
 
 $site->add_contents($cts);
