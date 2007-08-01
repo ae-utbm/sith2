@@ -105,6 +105,48 @@ elseif($_REQUEST["action"]=="addtag" && !empty($_REQUEST["tag"]))
     $add="Le tag ".strtoupper($_REQUEST["tag"])." a été ajouté.";
   }
 }
+elseif($_REQUEST["action"]=="tagperso")
+{
+  $req = new requete($site->db,"SELECT `planet_tags`.`id_tag`, `planet_tags`.`tag`, `planet_user_tags`.`id_utilisateur` ".
+                               "FROM `planet_tags` ".
+                               "LEFT JOIN `planet_user_tags` ".
+                               "ON (`planet_user_tags`.`id_tag`=`planet_tags`.`id_tag` ".
+                               "AND `planet_user_tags`.`id_utilisateur` = '".$site->user->id."') ".
+                               "WHERE `planet_tags`.`modere`='1'");
+  if($req->lines>0)
+  {
+    while($row=$req->get_row())
+    {
+      if(isset($_REQUEST['tags'][$row['id_tag']]) && is_null($row['id_utilisateur']))
+        $_req = new insert($site->dbrw,"planet_users_tags", array('id_tag'=>$row['id_tag'],'id_utilisateur'=>$site->user->id));
+      elseif(!isset($_REQUEST['tags'][$row['id_tag']]) && !is_null($row['id_utilisateur']))
+        $_req = new delete($site->dbrw, "planet_users_tags", array("id_tag" => $row['id_tag'], "id_utilisateur"=>$site->user->id));
+    }
+  }
+}
+elseif($_REQUEST["action"]=="fluxperso")
+{
+  $req = new requete($site->db,"SELECT `planet_flux`.`id_flux`, `planet_user_flux`.`id_utilisateur`, `planet_user_flux`.`view` ".
+                               "FROM `planet_flux` ".
+                               "LEFT JOIN `planet_user_flux` ".
+                               "ON (`planet_user_flux`.`id_flux`=`planet_flux`.`id_flux` ".
+                               "AND `planet_user_flux`.`id_utilisateur` = '".$site->user->id."') ".
+                               "WHERE (`planet_flux`.`id_utilisateur`='".$site->user->id."' OR `planet_flux`.`modere`= '1')");
+  if($req->lines>0)
+  {
+    while($row=$req->get_row())
+    {
+      if(isset($_REQUEST['flux'][$row['id_flux']]) && is_null($row['id_utilisateur']))
+        $_req = new insert($site->dbrw,"planet_users_flux", array('id_flux'=>$row['id_flux'],'id_utilisateur'=>$site->user->id, 'view'=>1));
+      elseif(!isset($_REQUEST['flux'][$row['id_flux']]) && !is_null($row['id_utilisateur']) && $row['view']==1)
+        $_req = new delete($site->dbrw, "planet_users_flux", array("id_flux" => $row['id_flux'], "id_utilisateur"=>$site->user->id));
+      elseif(isset($_REQUEST['flux'][$row['id_flux']]) && !is_null($row['id_utilisateur']) && $row['view']==0)
+        $_req = new requete($site->dbrw, "UPDATE `planet_users_flux` SET `view`='1' ".
+                                         "WHERE `id_flux` = '".$row['id_flux']."' AND `id_utilisateur`='".$site->user->id."'");
+    }
+  }
+}
+
 
 if($_REQUEST["view"]=="add")
 {
@@ -139,23 +181,27 @@ if($_REQUEST["view"]=="add")
 elseif($_REQUEST["view"]=="perso")
 {
   $cts->add_paragraph("Personalisez votre planet");
-  $site->add_contents($cts);
-  $cts = new contents("Vos abonnements aux tags");
+
   $req = new requete($site->db,"SELECT `planet_tags`.`id_tag`, `planet_tags`.`tag`, `planet_user_tags`.`id_utilisateur` ".
                                "FROM `planet_tags` ".
                                "LEFT JOIN `planet_user_tags` ".
                                "ON (`planet_user_tags`.`id_tag`=`planet_tags`.`id_tag` ".
                                "AND `planet_user_tags`.`id_utilisateur` = '".$site->user->id."') ".
                                "WHERE `planet_tags`.`modere`='1'");
-  $frm = new form("tags_","index.php?view=perso&action=tagperso","false","POST","");
   $abotags=array();
-  while ( $row = $req->get_row() )
+  if($req->lines>0)
   {
-    if(!is_null($row['id_utilisateur']))
-      $abotags[]=$row['id_tag'];
-    $frm->add_checkbox("tags[".$row['id_tag']."]","<a href=index.php?view=perso&tagid=".$row['id_tag'].">".$row['tag']."</a>", !is_null($row['id_utilisateur']));
+    $site->add_contents($cts);
+    $cts = new contents("Vos abonnements aux tags");
+    $frm = new form("tags_","index.php?view=perso&action=tagperso","false","POST","");
+    while ( $row = $req->get_row() )
+    {
+      if(!is_null($row['id_utilisateur']))
+        $abotags[]=$row['id_tag'];
+      $frm->add_checkbox("tags[".$row['id_tag']."]","<a href=index.php?view=perso&tagid=".$row['id_tag'].">".$row['tag']."</a>", !is_null($row['id_utilisateur']));
+    }
+    $cts->add ( $frm, false, false, true, false, false, true );
   }
-  $cts->add ( $frm, false, false, true, false, false, true );
   $req = new requete($site->db,"SELECT `planet_flux`.`id_flux`, `planet_flux`.`nom`, `planet_user_flux`.`id_utilisateur` ".
                                "FROM `planet_flux` ".
                                "LEFT JOIN `planet_user_flux` ".
@@ -165,7 +211,7 @@ elseif($_REQUEST["view"]=="perso")
   $aboflux=false;
   if($req->lines>0)
   {
-    $frm = new form("tags_","index.php?view=perso&action=fluxperso","false","POST","");
+    $frm = new form("flux_","index.php?view=perso&action=fluxperso","false","POST","");
     while ( $row = $req->get_row() )
     {
       $_req = new requete($site->db,"SELECT `id_tag` ".
