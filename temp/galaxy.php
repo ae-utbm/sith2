@@ -229,7 +229,7 @@ for($i=0;$i<$cycles;$i++)
   new requete($dbrw,"UPDATE galaxy_star SET x_star = x_star + dx_star, y_star = y_star + dy_star WHERE dx_star != 0 OR dy_star != 0 AND fixe_star != 1");
   
   echo "8: ".round(microtime(true)-$st,2)." - ";
-  $req = new requete($dbrw,"SELECT length_link/ideal_length_link ORDER BY 1 LIMIT 1");
+  $req = new requete($dbrw,"SELECT length_link/ideal_length_link FROM galaxy_link ORDER BY 1 LIMIT 1");
   if ( $req->lines > 0 )
   {
     list($max) = $req->get_row();
