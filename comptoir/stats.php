@@ -110,7 +110,7 @@ if ( $_REQUEST["action"] == "view" )
 			  "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
 			  "WHERE `cpt_vendu`.`id_produit`=`".$id_prod."`" .implode(" AND ",$condsnb));
         
-				$ventes = $req->get_row();
+				list($ventes) = $req->get_row();
 
       $tbl->add_row(array($ventes,$nom_typeprod,$nom_prod,$nom_asso));
 		}
