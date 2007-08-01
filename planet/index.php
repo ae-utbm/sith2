@@ -225,9 +225,9 @@ elseif(isset($_REQUEST["modere"]) && $site->user->is_in_group("gestion_ae"))
   }
   elseif($_REQUEST["action"]=="donetags")
   {
-    print_r("debug");
-    if(!empty($_REQUEST["id_tag"]))
+    if(is_array($_REQUEST["id_tag"]) && !empty($_REQUEST["id_tag"]))
     {
+      print_r($_REQUEST["id_tag"]);
       foreach($_REQUEST["id_tag"] AS $tag)
         $req = new requete($site->dbrw, "UPDATE `planet_tags` SET `modere`='1' ".
                                         "WHERE `id_tag` = '".$tag."'");
