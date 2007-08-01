@@ -50,7 +50,7 @@ var $WARNING = "";
 
 // define some constants
 
-var $_CONTENT_CONSTRUCTS = array('content', 'summary', 'info', 'title', 'tagline', 'copyright','author');
+var $_CONTENT_CONSTRUCTS = array('content', 'summary', 'info', 'title', 'tagline', 'copyright','author','name');
 var $_KNOWN_ENCODINGS  = array('UTF-8', 'US-ASCII', 'ISO-8859-1');
 
 // parser variables, useless if you're not a parser, treat as private
