@@ -39,7 +39,7 @@ if ( !$site->user->is_valid() )
 
 $site->fetch_admin_comptoirs();
 
-$comptoirs = array(0=>"-") + $site->admin_comptoirs);
+$comptoirs = array(0=>"-") + $site->admin_comptoirs;
 
 if ( !count($site->admin_comptoirs) && !$site->user->is_in_group("gestion_ae") )
   error_403();
