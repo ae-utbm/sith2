@@ -10,7 +10,7 @@ define('MAGPIE_CACHE_AGE', 50*60); //50minutes pour etre certain d'avoir un truc
 define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
 define('MAX_NUM',20);
 define('MAX_SUM_LENGHT',200);
-
+$_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/ae2/phpcron"
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/lib/magpierss/rss_fetch.inc.php");
