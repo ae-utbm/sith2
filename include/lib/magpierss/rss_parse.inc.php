@@ -378,33 +378,35 @@ function append($el, $text) {
 
 function normalize () {
   // if atom populate rss fields
-			if ( $this->is_atom() ) {
-  $this->channel['description'] = $this->channel['tagline'];
-  for ( $i = 0; $i < count($this->items); $i++) {
-    $item = $this->items[$i];
-    if ( isset($item['summary']) )
-    $item['description'] = $item['summary'];
-    if ( isset($item['atom_content']))
-    $item['content']['encoded'] = $item['atom_content'];
+  if ( $this->is_atom() ) {
+    $this->channel['description'] = $this->channel['tagline'];
+    for ( $i = 0; $i < count($this->items); $i++) {
+      $item = $this->items[$i];
+      if ( isset($item['summary']) )
+        $item['description'] = $item['summary'];
+      if ( isset($item['atom_content']))
+        $item['content']['encoded'] = $item['atom_content'];
 
-    if(isset($item['issued']))
-    $atom_date = $item['issued'];
-    elseif(isset($item['modified']))
-    $atom_date = $item['modified'];
-    elseif(isset($item['updated']))
-    $atom_date = $item['updated'];
-    else
-    $atom_date = "1980-01-01T00:00:00+00:00";
+      if(isset($item['issued']))
+        $atom_date = $item['issued'];
+      elseif(isset($item['modified']))
+        $atom_date = $item['modified'];
+      elseif(isset($item['updated']))
+        $atom_date = $item['updated'];
+      else
+        $atom_date = "1980-01-01T00:00:00+00:00";
 
-    if ( $atom_date ) {
-    $epoch = @parse_w3cdtf($atom_date);
-    if ($epoch and $epoch > 0) {
-      $item['date_timestamp'] = $epoch;
+      if ( $atom_date ) {
+        $epoch = @parse_w3cdtf($atom_date);
+        if ($epoch and $epoch > 0) {
+          $item['date_timestamp'] = $epoch;
+        }
+      }
+      else
+        $item['date_timestamp'] = 0;
+
+      $this->items[$i] = $item;
     }
-    }
-      
-    $this->items[$i] = $item;
-  }     
   }
   elseif ( $this->is_rss() ) {
   $this->channel['tagline'] = $this->channel['description'];
