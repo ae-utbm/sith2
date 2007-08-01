@@ -90,6 +90,7 @@ if ( $_REQUEST["action"] == "view" )
 		"(SELECT SUM(`cpt_vendu`.`quantite`) AS `ventes` FROM `cpt_vendu` WHERE `cpt_vendu`.`id_produit`=`cpt_produits`.`id_produit` ) AS `ventes` ".
     "FROM `cpt_produits` " .
     "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
+		"INNER JOIN `cpt_vendu` ON `cpt_vendu`.`id_produit` =`cpt_produits`.`id_produit` " .
     "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
     "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
     "INNER JOIN cpt_mise_en_vente ON `cpt_mise_en_vente`.`id_produit`=`cpt_produits`.`id_produit` " .
