@@ -40,7 +40,7 @@ require_once($topdir . "include/graph.inc.php");
 
 $site = new site();
 
-if (!$site->user->id)
+if (!$site->user->id || !$site->user->utbm)
   error_403();
 
 $site->start_page ("none", "Planet AE ");
