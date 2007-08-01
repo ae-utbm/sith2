@@ -200,13 +200,14 @@ elseif($_REQUEST["action"]=="fluxfortag")
 if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
 {
   $cts->add_paragraph("Modération du contenu.");
-  $req = new requete($site->db,"SELECT `planet_tags`.`id_tag`, `planet_tags`.`tag` ".
+  $req = new requete($site->db,"SELECT `id_tag`, `tag` ".
                                "FROM `planet_tags` ".
-                               "WHERE `planet_tags`.`modere`='0'");
+                               "WHERE `modere`='0'");
   $site->add_contents($cts);
   $cts = new contents("Tags en attente de modération");
   $tabl = new sqltable ("moderetags_list",
                         "",
+                        $req,
                         "index.php?view=modere&action=tagsmodere",
                         "id_tag",
                         array ("tag" => "Tag"),
