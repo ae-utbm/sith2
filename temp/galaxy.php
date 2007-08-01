@@ -439,7 +439,7 @@ if ( isset($_REQUEST["render"]) )
   echo "done in ".(microtime(true)-$st)." sec<br/>\n";
   echo "<br/><br/><img src=\"galaxy_temp.png\" />";
   
-  render_area ( $dbrw, floor($width/2)-200, floor($height/2)-200, 400, 400 );
+  render_area ( $dbrw, floor($width/2)-150, floor($height/2)-150, 300, 300 );
 }
 
 ?>
