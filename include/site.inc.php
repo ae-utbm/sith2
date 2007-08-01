@@ -379,14 +379,22 @@ class site extends interfaceweb
       list($nbfichiers) = $req->get_row();
       $req = new requete($this->db,"SELECT COUNT(*) FROM `d_folder`  WHERE `modere_folder`='0' ");
       list($nbdossiers) = $req->get_row();
-      
       $nbfichiers+=$nbdossiers;
+
+      $req = new requete($this->db,"SELECT COUNT(*) FROM `planet_flux`  WHERE `modere`='0' ");
+      list($nbflux) = $req->get_row();
+      $req = new requete($this->db,"SELECT COUNT(*) FROM `planet_tags`  WHERE `modere`='0' ");
+      list($nbtags) = $req->get_row();
+      $nbflux+=$nbtags;
 
       if ( $nbnews > 0 )
         $elements[] = "<a href=\"".$topdir."ae/moderenews.php\"><b>$nbnews nouvelle(s)</b> à modérer</b></a>";
 
       if ( $nbfichiers > 0 )
         $elements[] = "<a href=\"".$topdir."ae/moderedrive.php\"><b>$nbfichiers fichier(s) et dossier(s)</b> à modérer</a>";
+
+      if ( $nbflux > 0 )
+        $elements[] = "<a href=\"".$topdir."planet/index.php?view=modere\"><b>$nbflux flux</b> à modérer</b></a>";
     }
     
     if ( $this->user->is_in_group("gestion_salles") )
@@ -623,8 +631,8 @@ class site extends interfaceweb
     $cts->add_paragraph("<br><a href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>");
 
     $sublist = new itemlist("Mon Compte","boxlist");
-		$sublist->add("<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>");
-		$sublist->add("<a href=\"".$topdir."uvs/edt.php\">Mes emplois du temps</a>");
+    $sublist->add("<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>");
+    $sublist->add("<a href=\"".$topdir."uvs/edt.php\">Mes emplois du temps</a>");
     if($this->user->utbm)
       $sublist->add("<a href=\"".$topdir."trombi/index.php\">Trombinoscope</a>");
     $sublist->add("<a href=\"".$topdir."user.php?view=assos\">Associations et clubs</a>");
@@ -674,9 +682,14 @@ class site extends interfaceweb
       list($nbfichiers) = $req->get_row();
       $req = new requete($this->db,"SELECT COUNT(*) FROM `d_folder`  WHERE `modere_folder`='0' ");
       list($nbdossiers) = $req->get_row();
-      
       $nbfichiers+=$nbdossiers;
-      
+
+      $req = new requete($this->db,"SELECT COUNT(*) FROM `planet_flux`  WHERE `modere`='0' ");
+      list($nbflux) = $req->get_row();
+      $req = new requete($this->db,"SELECT COUNT(*) FROM `planet_tags`  WHERE `modere`='0' ");
+      list($nbtags) = $req->get_row();
+      $nbflux+=$nbtags;
+
       $sublist = new itemlist("Equipe com'","boxlist");
 
       $sublist->add("<a href=\"".$topdir."ae/site.php\">Textes paramètrables</a>");
@@ -692,6 +705,11 @@ class site extends interfaceweb
         $sublist->add("<a href=\"".$topdir."ae/moderedrive.php\"><b>Modération des fichiers et dossiers ($nbfichiers)</b></a>");
       else
         $sublist->add("<a href=\"".$topdir."ae/moderedrive.php\">Modération des fichiers et dossiers (Aucun)</a>");
+
+      if ( $nbflux > 0 )
+        $sublist->add("<a href=\"".$topdir."planet/index.php?view=modere\"><b>Modération des flux ($nbflux)</b></a>");
+      else
+        $sublist->add("<a href=\"".$topdir."planet/index.php?view=modere\">Modération des flux (Aucun)</a>")
 
       $cts->add($sublist,true, true, "siteadminbox", "boxlist", true, false);
     }
@@ -782,10 +800,10 @@ class site extends interfaceweb
         $sublist->add("<a href=\"".$topdir."asso/ventes.php?id_asso=$id\">Ventes</a>");
         $sublist->add("<a href=\"".$topdir."d.php?id_asso=$id\">Fichiers</a>");
 
-	if ($role == ROLEASSO_PRESIDENT)
-	  {
+        if ($role == ROLEASSO_PRESIDENT)
+        {
             $sublist->add("<a href=\"".$topdir."asso/sendfax.php?id_asso=$id\">Envoi de fax</a>");
-	  }
+        }
         
         if ( $role >= ROLEASSO_TRESORIER )
         {
