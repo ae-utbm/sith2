@@ -17,7 +17,7 @@ if ( isset($_REQUEST["init"]) )
   
   // 1- Cacul du score
   
-  // a- Les photos : 1pt / photo ensemble
+  // a- Les photos : 0.5pt / photo ensemble
   $req = new requete($dbrw, "SELECT COUNT( * ) as c, p1.id_utilisateur as u1, p2.id_utilisateur as u2 ".
   "FROM `sas_personnes_photos` AS `p1` ".
   "JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photo ".
@@ -29,7 +29,7 @@ if ( isset($_REQUEST["init"]) )
     $a = min($row['u1'],$row['u2']);
     $b = max($row['u1'],$row['u2']);
     
-    $liens[$a][$b] = $row['c'];
+    $liens[$a][$b] = round($row['c']/2);
   }  
   
   // b- Parrainage : 15pt / relation parrain-fillot
@@ -171,7 +171,7 @@ ORDER BY a.id_utilisateur,b.id_utilisateur");
   new requete($dbrw, "UPDATE galaxy_star SET nblinks_star = ( SELECT COUNT(*) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
   new requete($dbrw, "UPDATE galaxy_link SET max_tense_stars_link=( SELECT MAX(max_tense_star) FROM galaxy_star WHERE id_star=id_star_a OR id_star=id_star_b )");
   
-  new requete($dbrw, "UPDATE galaxy_link SET ideal_length_link=0.1+((1-(tense_link/max_tense_stars_link))*20)");
+  new requete($dbrw, "UPDATE galaxy_link SET ideal_length_link=0.2+((1-(tense_link/max_tense_stars_link))*15)");
   
   
   new requete($dbrw, "DELETE FROM galaxy_star WHERE nblinks_star = 0");
