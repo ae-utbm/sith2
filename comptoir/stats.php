@@ -32,7 +32,7 @@ $site = new site ();
 $site->start_page("none","Statistiques de consommation");
 $cts = new contents("Statistiques de consommation");
 
-if (!$site->user->is_in_group("gestion_ae") || !$site->user->is_in_group("kfet_admin") || $site->user->is_in_group("foyer_admin"))
+if (!$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("kfet_admin") && $site->user->is_in_group("foyer_admin"))
 {
   error_403();
 }
