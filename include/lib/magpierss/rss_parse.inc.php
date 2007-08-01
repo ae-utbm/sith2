@@ -378,10 +378,11 @@ function append($el, $text) {
 
 function normalize () {
   // if atom populate rss fields
-  if ( $this->is_atom() ) {
+	if ( $this->is_atom() ) {
     $this->channel['description'] = $this->channel['tagline'];
     for ( $i = 0; $i < count($this->items); $i++) {
-      $item = $this->items[$i];
+			$item = $this->items[$i];
+			print_r($item);
       if ( isset($item['summary']) )
         $item['description'] = $item['summary'];
       if ( isset($item['atom_content']))
