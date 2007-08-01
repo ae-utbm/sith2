@@ -206,11 +206,11 @@ if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
   $site->add_contents($cts);
   $cts = new contents("Tags en attente de modération");
   $tabl = new sqltable ("moderetags_list",
-                        "",
+                        "Modere Tags",
                         $req,
                         "index.php?view=modere&action=tagsmodere",
                         "id_tag",
-                        array ("tag" => "Tag"),
+                        array ("id_tag"=>"ID","tag" => "Tag"),
                         array ("edit" => "moderer",
                                "delete" => "supprimer"),
                         array(),
