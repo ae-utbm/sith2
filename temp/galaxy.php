@@ -275,7 +275,7 @@ function render_area ( $db, $tx, $ty, $w, $h )
   $x1 = $tx-3;
   $y1 = $ty-3;
   $x2 = $tx+$w+3;
-  $y2 = $ty-$h+3;
+  $y2 = $ty+$h+3;
 
     $img = imagecreatetruecolor($w,$h);
    
