@@ -118,9 +118,9 @@ elseif($_REQUEST["action"]=="tagperso")
     while($row=$req->get_row())
     {
       if(isset($_REQUEST['tags'][$row['id_tag']]) && is_null($row['id_utilisateur']))
-        $_req = new insert($site->dbrw,"planet_users_tags", array('id_tag'=>$row['id_tag'],'id_utilisateur'=>$site->user->id));
+        $_req = new insert($site->dbrw,"planet_user_tags", array('id_tag'=>$row['id_tag'],'id_utilisateur'=>$site->user->id));
       elseif(!isset($_REQUEST['tags'][$row['id_tag']]) && !is_null($row['id_utilisateur']))
-        $_req = new delete($site->dbrw, "planet_users_tags", array("id_tag" => $row['id_tag'], "id_utilisateur"=>$site->user->id));
+        $_req = new delete($site->dbrw, "planet_user_tags", array("id_tag" => $row['id_tag'], "id_utilisateur"=>$site->user->id));
     }
   }
 }
@@ -137,11 +137,11 @@ elseif($_REQUEST["action"]=="fluxperso")
     while($row=$req->get_row())
     {
       if(isset($_REQUEST['flux'][$row['id_flux']]) && is_null($row['id_utilisateur']))
-        $_req = new insert($site->dbrw,"planet_users_flux", array('id_flux'=>$row['id_flux'],'id_utilisateur'=>$site->user->id, 'view'=>1));
+        $_req = new insert($site->dbrw,"planet_user_flux", array('id_flux'=>$row['id_flux'],'id_utilisateur'=>$site->user->id, 'view'=>1));
       elseif(!isset($_REQUEST['flux'][$row['id_flux']]) && !is_null($row['id_utilisateur']) && $row['view']==1)
-        $_req = new delete($site->dbrw, "planet_users_flux", array("id_flux" => $row['id_flux'], "id_utilisateur"=>$site->user->id));
+        $_req = new delete($site->dbrw, "planet_user_flux", array("id_flux" => $row['id_flux'], "id_utilisateur"=>$site->user->id));
       elseif(isset($_REQUEST['flux'][$row['id_flux']]) && !is_null($row['id_utilisateur']) && $row['view']==0)
-        $_req = new requete($site->dbrw, "UPDATE `planet_users_flux` SET `view`='1' ".
+        $_req = new requete($site->dbrw, "UPDATE `planet_user_flux` SET `view`='1' ".
                                          "WHERE `id_flux` = '".$row['id_flux']."' AND `id_utilisateur`='".$site->user->id."'");
     }
   }
