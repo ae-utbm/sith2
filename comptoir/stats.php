@@ -87,7 +87,7 @@ if ( $_REQUEST["action"] == "view" )
     "`asso`.`nom_asso`,`asso`.`id_asso`, " .
     "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod`, " .
     "`cpt_mise_en_vente`.`stock_local_prod`, " .
-		"(SELECT SUM(`cpt_vendu`.`quantite`) AS `ventes` FROM `cpt_vendu` WHERE `cpt_vendu`.`id_produit`=`cpt_produits`.`id_produit` GROUP BY `ventes`) ".
+		"(SELECT SUM(`cpt_vendu`.`quantite`) AS `ventes` FROM `cpt_vendu` WHERE `cpt_vendu`.`id_produit`=`cpt_produits`.`id_produit` GROUP BY `id_produit`) ".
     "FROM `cpt_produits` " .
     "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
     "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
