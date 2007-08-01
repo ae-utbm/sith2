@@ -102,7 +102,7 @@ if ( $_REQUEST["action"] == "view" )
 
     $tbl->add_row(array("Nombre de ventes","Type","Nom du produit","Association"));
 
-    while ( list($ventes,$nom_prod,$id_prod,$nom_asso,$nom_typeprod,$ventes) = $req->get_row() )
+    while ( list($nom_prod,$id_prod,$nom_asso,$nom_typeprod,$ventes) = $req->get_row() )
 		{
 		  $reqnb = new requete($site->db, "SELECT " .
 			  "SUM(`cpt_vendu`.`quantite`) " .
