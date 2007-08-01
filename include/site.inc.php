@@ -709,7 +709,7 @@ class site extends interfaceweb
       if ( $nbflux > 0 )
         $sublist->add("<a href=\"".$topdir."planet/index.php?view=modere\"><b>Modération des flux ($nbflux)</b></a>");
       else
-        $sublist->add("<a href=\"".$topdir."planet/index.php?view=modere\">Modération des flux (Aucun)</a>")
+        $sublist->add("<a href=\"".$topdir."planet/index.php?view=modere\">Modération des flux (Aucun)</a>");
 
       $cts->add($sublist,true, true, "siteadminbox", "boxlist", true, false);
     }
