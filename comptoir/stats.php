@@ -79,7 +79,7 @@ if ( $_REQUEST["action"] == "view" )
   if ( $comptoir || $site->user->is_in_group("gestion_ae") )
 	{
     if ( $_REQUEST["id_assocpt"] )
-      $conds[] = "cpt_produit.id_assocpt='".intval($_REQUEST["id_assocpt"])."'";
+      $conds[] = "cpt_produits.id_assocpt='".intval($_REQUEST["id_assocpt"])."'";
   }
 
   $req = new requete($site->db,
