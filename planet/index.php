@@ -227,6 +227,8 @@ elseif(isset($_REQUEST["modere"]) && $site->user->is_in_group("gestion_ae"))
     }
   }
 }
+
+
 if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
 {
   $cts->add_paragraph("Modération du contenu.");
@@ -241,6 +243,23 @@ if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
                         "index.php?view=modere&modere=1",
                         "id_tag",
                         array ("id_tag"=>"ID","tag" => "Tag"),
+                        array ("done" => "Accepter",
+                               "delete" => "Supprimer"),
+                        array("donetags" => "Accepter",
+                              "deletetags" => "Supprimer"),
+                        array());
+  $cts->add($tabl);
+  $site->add_contents($cts);
+  $cts = new contents("Flux en attente de modération");
+  $req = new requete($site->db,"SELECT `id_flux`, `nom`, `url` ".
+                               "FROM `planet_flux` ".
+                               "WHERE `modere`='0'");
+  $tabl = new sqltable ("modere",
+                        "Modere Flux",
+                        $req,
+                        "index.php?view=modere&modere=1",
+                        "id_flux",
+                        array ("id_flux"=>"ID","nom" => "Nom",'url'=>"URL"),
                         array ("done" => "Accepter",
                                "delete" => "Supprimer"),
                         array("donetags" => "Accepter",
