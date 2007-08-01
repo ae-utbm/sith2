@@ -214,9 +214,9 @@ elseif(isset($_REQUEST["modere"]) && $site->user->is_in_group("gestion_ae"))
   }
   elseif($_REQUEST["action"]=="deletetags")
   {
-    if(!empty($_REQUEST["id_tag"]))
+    if(is_array($_REQUEST["id_tags"]) && !empty($_REQUEST["id_tags"]))
     {
-      foreach($_REQUEST["id_tag"] AS $tag)
+      foreach($_REQUEST["id_tags"] AS $tag)
       {
         $req = new delete($site->dbrw, "planet_tags", array("id_tag" => $tag));
         $_req = new delete($site->dbrw, "planet_flux_tags", array("id_tag" => $tag));
@@ -224,11 +224,10 @@ elseif(isset($_REQUEST["modere"]) && $site->user->is_in_group("gestion_ae"))
     }
   }
   elseif($_REQUEST["action"]=="donetags")
-	{
-		print_r($_REQUEST);
-    if(is_array($_REQUEST["id_tag"]) && !empty($_REQUEST["id_tag"]))
+  {
+    if(is_array($_REQUEST["id_tags"]) && !empty($_REQUEST["id_tags"]))
     {
-      foreach($_REQUEST["id_tag"] AS $tag)
+      foreach($_REQUEST["id_tags"] AS $tag)
         $req = new requete($site->dbrw, "UPDATE `planet_tags` SET `modere`='1' ".
                                         "WHERE `id_tag` = '".$tag."'");
     }
