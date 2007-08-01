@@ -50,7 +50,7 @@ var $WARNING = "";
 
 // define some constants
 
-var $_CONTENT_CONSTRUCTS = array('content', 'summary', 'info', 'title', 'tagline', 'copyright');
+var $_CONTENT_CONSTRUCTS = array('content', 'summary', 'info', 'title', 'tagline', 'copyright','author');
 var $_KNOWN_ENCODINGS  = array('UTF-8', 'US-ASCII', 'ISO-8859-1');
 
 // parser variables, useless if you're not a parser, treat as private
@@ -168,7 +168,7 @@ function feed_start_element($p, $element, &$attrs) {
       $this->feed_type = RSS;
       $this->feed_version = $attrs['version'];
     }
-		elseif ( $el == 'feed' ) {
+    elseif ( $el == 'feed' ) {
       $this->feed_type = ATOM;
       $this->feed_version = $attrs['version'];
       $this->inchannel = true;
@@ -378,10 +378,10 @@ function append($el, $text) {
 
 function normalize () {
   // if atom populate rss fields
-	if ( $this->is_atom() ) {
+  if ( $this->is_atom() ) {
     $this->channel['description'] = $this->channel['tagline'];
     for ( $i = 0; $i < count($this->items); $i++) {
-			$item = $this->items[$i];
+      $item = $this->items[$i];
       if ( isset($item['summary']) )
         $item['description'] = $item['summary'];
       if ( isset($item['atom_content']))
