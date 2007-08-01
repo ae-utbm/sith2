@@ -394,7 +394,7 @@ class MagpieRSS {
                 elseif(isset($item['updated']))
                   $atom_date = $item['updated'];
                 else
-                  $atom_date = "0000-00-00T00:00:00+00:00";
+                  $atom_date = "1980-01-01T00:00:00+00:00";
 
                 if ( $atom_date ) {
                     $epoch = @parse_w3cdtf($atom_date);
