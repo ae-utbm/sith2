@@ -208,7 +208,7 @@ if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
   $tabl = new sqltable ("moderenews_list",
                         "",
                         "index.php?view=modere&action=tagsmodere",
-                        "id-tag",
+                        "id_tag",
                         array ("tag" => "Tag"),
                         array ("edit" => "moderer",
                                "delete" => "supprimer"),
