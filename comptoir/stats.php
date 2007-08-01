@@ -66,10 +66,10 @@ if ( $_REQUEST["action"] == "view" )
 	$comptoir = false;
 	
 	if ( $_REQUEST["debut"] )
-	  $conds[] = "cpt_debitfacture.date_facture >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
+	  $condsnb[] = "cpt_debitfacture.date_facture >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
 	
 	if ( $_REQUEST["fin"] )
-	  $conds[] = "cpt_debitfacture.date_facture <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
+	  $condsnb[] = "cpt_debitfacture.date_facture <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
 	
 	if ( isset($comptoirs[$_REQUEST["id_comptoir"]]) && $_REQUEST["id_comptoir"] )
 	{
@@ -85,10 +85,9 @@ if ( $_REQUEST["action"] == "view" )
   if ( count($conds) )
 	{
     $req = new requete($site->db,
-      "SELECT `cpt_produits`.`nom_prod`, `cpt_produits`.`id_produit`," .
-      "`asso`.`nom_asso`,`asso`.`id_asso`, " .
-      "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod`, " .
-      "`cpt_mise_en_vente`.`stock_local_prod`, " .
+      "SELECT `cpt_produits`.`nom_prod`,`cpt_produits`.`id_produit`" .
+      "`asso`.`nom_asso` " .
+      "`cpt_type_produit`.`nom_typeprod`, " .
 	  	"(SELECT SUM(`cpt_vendu`.`quantite`) AS `ventes` FROM `cpt_vendu` WHERE `cpt_vendu`.`id_produit`=`cpt_produits`.`id_produit` ) AS `ventes` ".
       "FROM `cpt_produits` " .
       "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
@@ -96,21 +95,29 @@ if ( $_REQUEST["action"] == "view" )
       "INNER JOIN cpt_mise_en_vente ON `cpt_mise_en_vente`.`id_produit`=`cpt_produits`.`id_produit` " .
       "WHERE " .implode(" AND ",$conds).
    		"ORDER BY `ventes` DESC");
+
+
+    $tbl = new table("Produits");
+
+    $tbl->add_row(array("Nombre de ventes","Type","Nom du produit","Association"));
+
+    while ( list($nom_prod,$id_prod,$nom_asso,$nom_typeprod,$ventes) = $req->get_row() )
+		{
+		  $reqnb = new requete($site->db, "SELECT " .
+			  "SUM(`cpt_vendu`.`quantite`), " .
+			  "FROM `cpt_vendu` " .
+			  "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
+			  "WHERE `cpt_vendu`.`id_produit`=`".$id_prod."`" .implode(" AND ",$condsnb));
+        
+				$ventes = $req->get_row();
+
+      $tbl->add_row(array($ventes,$nom_typeprod,$nom_prod,$nom_asso));
+		}
+
+    $cts->add($tbl,true);
+
   }
 
-  $tbl = new sqltable(
-    "lstproduits",
-    "Produits", $req, "stats.php",
-    "id_produit",
-    array(
-		  "ventes"=>"Nombre de ventes",
-      "nom_typeprod"=>"Type",
-      "nom_prod"=>"Nom du produit",
-      "nom_asso"=>"Association"
-    ), array(), array(), array() );
-
-	$cts->add($tbl,true);
-  
 }
 
 $site->add_contents($cts);
