@@ -66,20 +66,20 @@ if ( $_REQUEST["action"] == "view" )
 	$comptoir = false;
 	
 	if ( $_REQUEST["debut"] )
-	  $conds[] = "cpt_debitfacture.date_facture >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
+	  /*$conds[] = "cpt_debitfacture.date_facture >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";*/
 	
 	if ( $_REQUEST["fin"] )
-	  $conds[] = "cpt_debitfacture.date_facture <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
+	  /*$conds[] = "cpt_debitfacture.date_facture <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";*/
 	
 	if ( isset($comptoirs[$_REQUEST["id_comptoir"]]) && $_REQUEST["id_comptoir"] )
 	{
-	  $conds[] = "cpt_debitfacture.id_comptoir='".intval($_REQUEST["id_comptoir"])."'";
+	  $conds[] = "cpt_mise_en_vente.id_comptoir='".intval($_REQUEST["id_comptoir"])."'";
 	  $comptoir=true;
 	}
   if ( $comptoir || $site->user->is_in_group("gestion_ae") )
 	{
     if ( $_REQUEST["id_assocpt"] )
-      $conds[] = "cpt_vendu.id_assocpt='".intval($_REQUEST["id_assocpt"])."'";
+      $conds[] = "cpt_produit.id_assocpt='".intval($_REQUEST["id_assocpt"])."'";
   }
 
   $req = new requete($site->db,
@@ -92,8 +92,8 @@ if ( $_REQUEST["action"] == "view" )
     "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
     "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
     "INNER JOIN cpt_mise_en_vente ON `cpt_mise_en_vente`.`id_produit`=`cpt_produits`.`id_produit` " .
-    "WHERE `cpt_mise_en_vente`.`id_comptoir`='".$_REQUEST["id_comptoir"]."' " .
-    "ORDER BY `ventes` DESC,`cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
+    "WHERE " .implode(" AND ",$conds).
+		"ORDER BY `ventes` DESC,`cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
 
   $tbl = new sqltable(
     "lstproduits",
