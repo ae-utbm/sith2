@@ -87,15 +87,14 @@ if ( $_REQUEST["action"] == "view" )
     "`asso`.`nom_asso`,`asso`.`id_asso`, " .
     "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod`, " .
     "`cpt_mise_en_vente`.`stock_local_prod`, " .
-		"(SELECT SUM(`cpt_vendu`.`quantite`) AS `ventes` FROM `cpt_vendu` WHERE `cpt_vendu`.`id_produit`=`cpt_produits`.`id_produit` ) AS `ventes` ".
+		"(SELECT SUM(`cpt_vendu`.`quantite`) AS `ventes` FROM `cpt_vendu` WHERE `cpt_vendu`.`id_produit`=`cpt_produits`.`id_produit` AND " . implode(" AND ",$conds) .") AS `ventes` ".
     "FROM `cpt_produits` " .
     "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
 		"INNER JOIN `cpt_vendu` ON `cpt_vendu`.`id_produit` =`cpt_produits`.`id_produit` " .
-    "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
     "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
     "INNER JOIN cpt_mise_en_vente ON `cpt_mise_en_vente`.`id_produit`=`cpt_produits`.`id_produit` " .
-    "WHERE `cpt_mise_en_vente`.`id_comptoir`='".$_REQUEST["id_comptoir"]."' AND " . implode(" AND ",$conds) .
-    "ORDER BY `ventes` DESC,`cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
+    "WHERE `cpt_mise_en_vente`.`id_comptoir`='".$_REQUEST["id_comptoir"].
+		"ORDER BY `ventes` DESC,`cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
 
   $tbl = new sqltable(
     "lstproduits",
