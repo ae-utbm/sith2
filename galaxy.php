@@ -55,7 +55,7 @@ if ( isset($_REQUEST["id_utilisateur"]) )
     FROM galaxy_link
     INNER JOIN utilisateurs ON ( id_star_b=id_utilisateur)
     WHERE id_star_a='".mysql_real_escape_string($user->id)."'
-    ORDER BY 1 DESC");
+    ORDER BY 1");
    
     $tbl = new sqltable(
       "listvoisins",
@@ -71,8 +71,9 @@ if ( isset($_REQUEST["id_utilisateur"]) )
     COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur
     FROM galaxy_star AS a, galaxy_star AS b, utilisateurs
     WHERE a.id_star='".mysql_real_escape_string($user->id)."' 
+    AND a.id_star!=b.id_star
     AND b.id_star=id_utilisateur 
-    AND POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2) < 1");
+    AND POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2) < 4");
     
     
     $tbl = new sqltable(
