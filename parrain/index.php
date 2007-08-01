@@ -198,7 +198,7 @@ $frm->add_info("Si les informations suivantes ne sont pas correctes veuillez met
 $frm->add_text_field("nom","Nom",$site->user->nom,true,false,false,false);
 $frm->add_text_field("prenom","Prenom",$site->user->prenom,true,false,false,false);
 $frm->add_text_field("email","Votre adresse email",$site->user->email,true,false,false,false);
-$frm->add_text_field("addresse","Adresse",$site->user->addresse,$true);
+$frm->add_text_field("addresse","Adresse",$site->user->addresse,true);
 $frm->add_entity_smartselect ("id_ville","Ville (France)", $ville,true);
 $frm->add_entity_smartselect ("id_pays","ou pays", $pays,true);
 $frm->add_text_field("tel_maison","Telephone (fixe)",$site->user->tel_maison);
