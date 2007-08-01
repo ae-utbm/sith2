@@ -17,7 +17,7 @@ if ( isset($_REQUEST["init"]) )
   
   // 1- Cacul du score
   
-  // a- Les photos : 0.5pt / photo ensemble
+  // a- Les photos : 1pt / photo ensemble
   $req = new requete($dbrw, "SELECT COUNT( * ) as c, p1.id_utilisateur as u1, p2.id_utilisateur as u2 ".
   "FROM `sas_personnes_photos` AS `p1` ".
   "JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photo ".
@@ -29,7 +29,7 @@ if ( isset($_REQUEST["init"]) )
     $a = min($row['u1'],$row['u2']);
     $b = max($row['u1'],$row['u2']);
     
-    $liens[$a][$b] = round($row['c']/2);
+    $liens[$a][$b] = $row['c'];
   }  
   
   // b- Parrainage : 15pt / relation parrain-fillot
@@ -47,7 +47,7 @@ if ( isset($_REQUEST["init"]) )
       $liens[$a][$b] = 15;
   }  
   
-  // c- associations et clubs : 1pt / 35 jours ensemble / assos
+  // c- associations et clubs : 1pt / 75 jours ensemble / assos
   $req = new requete($dbrw,"SELECT a.id_utilisateur as u1,b.id_utilisateur as u2,
 SUM(DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut))) AS together
 FROM asso_membre AS a
@@ -55,7 +55,7 @@ JOIN asso_membre AS b ON
 ( 
 a.id_utilisateur < b.id_utilisateur  
 AND a.id_asso = b.id_asso
-AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) >= 35
+AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) > 74
 )
 GROUP BY a.id_utilisateur,b.id_utilisateur
 ORDER BY a.id_utilisateur,b.id_utilisateur");
@@ -66,9 +66,9 @@ ORDER BY a.id_utilisateur,b.id_utilisateur");
     $b = max($row['u1'],$row['u2']);    
     
     if ( isset($liens[$a][$b]) )
-      $liens[$a][$b] += round($row['together']/35);
+      $liens[$a][$b] += round($row['together']/75);
     else
-      $liens[$a][$b] += round($row['together']/35);
+      $liens[$a][$b] += round($row['together']/75);
   }    
   
   echo "step 1 (finished at ".(microtime(true)-$st)." sec)<br/>\n";
@@ -171,7 +171,7 @@ ORDER BY a.id_utilisateur,b.id_utilisateur");
   new requete($dbrw, "UPDATE galaxy_star SET nblinks_star = ( SELECT COUNT(*) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
   new requete($dbrw, "UPDATE galaxy_link SET max_tense_stars_link=( SELECT MAX(max_tense_star) FROM galaxy_star WHERE id_star=id_star_a OR id_star=id_star_b )");
   
-  new requete($dbrw, "UPDATE galaxy_link SET ideal_length_link=0.2+((1-(tense_link/max_tense_stars_link))*15)");
+  new requete($dbrw, "UPDATE galaxy_link SET ideal_length_link=0.1+((1-(tense_link/max_tense_stars_link))*20)");
   
   
   new requete($dbrw, "DELETE FROM galaxy_star WHERE nblinks_star = 0");
@@ -208,8 +208,8 @@ for($i=0;$i<$cycles;$i++)
   new requete($dbrw,"UPDATE galaxy_link SET dx_link=RAND(), dy_link=RAND() WHERE length_link != ideal_length_link AND dx_link=0 AND dy_link=0");
   echo "4: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET  ".
-  "delta_link_a=(length_link-ideal_length_link)/ideal_length_link/500, ".
-  "delta_link_b=(length_link-ideal_length_link)/ideal_length_link/500*-1 ".
+  "delta_link_a=(length_link-ideal_length_link)/ideal_length_link/100, ".
+  "delta_link_b=(length_link-ideal_length_link)/ideal_length_link/100*-1 ".
   "WHERE a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
   echo "5: ".round(microtime(true)-$st,2)." - ";
   new requete($dbrw,"UPDATE galaxy_star SET ".
@@ -229,7 +229,7 @@ for($i=0;$i<$cycles;$i++)
   new requete($dbrw,"UPDATE galaxy_star SET x_star = x_star + dx_star, y_star = y_star + dy_star WHERE dx_star != 0 OR dy_star != 0 AND fixe_star != 1");
   
   echo "8: ".round(microtime(true)-$st,2)." - ";
-  $req = new requete($dbrw,"SELECT length_link/ideal_length_link FROM galaxy_link ORDER BY 1 DESC LIMIT 1");
+  $req = new requete($dbrw,"SELECT MAX(length_link/ideal_length_link) FROM galaxy_link");
   if ( $req->lines > 0 )
   {
     list($max) = $req->get_row();
