@@ -206,7 +206,6 @@ elseif(isset($_REQUEST["modere"]) && $site->user->is_in_group("gestion_ae"))
   }
   elseif($_REQUEST["action"]=="delete")
   {
-      print_r("debug");
     if(isset($_REQUEST["id_tag"]))
     {
       $req = new delete($site->dbrw, "planet_tags", array("id_tag" => $_REQUEST['id_tag']));
@@ -226,6 +225,7 @@ elseif(isset($_REQUEST["modere"]) && $site->user->is_in_group("gestion_ae"))
   }
   elseif($_REQUEST["action"]=="donetags")
   {
+    print_r("debug");
     if(!empty($_REQUEST["id_tag"]))
     {
       foreach($_REQUEST["id_tag"] AS $tag)
