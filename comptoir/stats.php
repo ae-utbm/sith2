@@ -93,7 +93,7 @@ if ( $_REQUEST["action"] == "view" )
     "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
     "INNER JOIN cpt_mise_en_vente ON `cpt_mise_en_vente`.`id_produit`=`cpt_produits`.`id_produit` " .
     "WHERE " .implode(" AND ",$conds).
-		"ORDER BY `ventes` DESC,`cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
+		"ORDER BY `ventes` DESC");
 
   $tbl = new sqltable(
     "lstproduits",
