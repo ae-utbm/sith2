@@ -83,15 +83,11 @@ if ( $_REQUEST["action"] == "view" )
 
   $req = new requete($site->db,
     "SELECT `cpt_produits`.`nom_prod`, `cpt_produits`.`id_produit`," .
-    "`cpt_produits`.stock_global_prod, `cpt_produits`.prix_vente_barman_prod/100 AS prix_vente_barman_prod," .
-    "`cpt_produits`.prix_vente_prod/100 AS prix_vente_prod, `cpt_produits`.prix_achat_prod/100 AS  prix_achat_prod, " .
     "`asso`.`nom_asso`,`asso`.`id_asso`, " .
     "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod`, " .
-    "`cpt_mise_en_vente`.`stock_local_prod` " .
     "FROM `cpt_produits` " .
     "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
     "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
-    "INNER JOIN cpt_mise_en_vente ON `cpt_mise_en_vente`.`id_produit`=`cpt_produits`.`id_produit` " .
     "WHERE `cpt_mise_en_vente`.`id_comptoir`='".$_REQUEST["id_comptoir"]."' " .
     "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
 
