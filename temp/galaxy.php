@@ -268,6 +268,9 @@ if ( isset($_REQUEST["render"]) )
   
   new requete($dbrw,"UPDATE galaxy_star SET rx_star = (x_star-".sprintf("%f",$top_x).") * $tx, ry_star = (y_star-".sprintf("%f",$top_y).") * $tx");
   
+  echo "1: ".round(microtime(true)-$st,2)." - ";
+
+  
   $img = imagecreatetruecolor($width,$height);
   
   if ( $img === false )
@@ -307,7 +310,8 @@ if ( isset($_REQUEST["render"]) )
       imagestring($img, 1, $i, 22, $i, $textcolor);
   }
   
-  
+  echo "2: ".round(microtime(true)-$st,2)." - ";
+
   
   if ( !isset($_REQUEST["nowires"]) )
   {
@@ -322,6 +326,9 @@ if ( isset($_REQUEST["render"]) )
       imageline ($img, $row['x1'], $row['y1'], $row['x2'], $row['y2'], $wirecolor );    
     } 
   }
+
+  echo "3: ".round(microtime(true)-$st,2)." - ";
+
 
   $req = new requete($dbrw, "SELECT ".
   "rx_star, ry_star, sum_tense_star  ".
@@ -351,23 +358,24 @@ if ( isset($_REQUEST["render"]) )
     
   }
   
+  echo "4: ".round(microtime(true)-$st,2)." - ";
+  
   $req = new requete($dbrw, "SELECT ".
-  "rx_star, ry_star, alias_utl ".
+  "rx_star, ry_star, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom".
   "FROM  galaxy_star ".
   "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star)");  
   
   while ( $row = $req->get_row() )
   {
-    imagestring($img, 1, $row['rx_star']+5, $row['ry_star']-3,  utf8_decode($row['alias_utl']), $textcolor);
+    imagestring($img, 1, $row['rx_star']+5, $row['ry_star']-3,  utf8_decode($row['nom']), $textcolor);
   }
   
-  echo "<br/><br/><img src=\"galaxy_temp.png\" />";
 
   imagepng($img,"galaxy_temp.png");
   imagedestroy($img);
     
   echo "done in ".(microtime(true)-$st)." sec<br/>\n";
-
+  echo "<br/><br/><img src=\"galaxy_temp.png\" />";
 }
 
 ?>
