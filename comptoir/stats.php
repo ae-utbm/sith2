@@ -33,7 +33,9 @@ $site->start_page("none","Statistiques de consommation");
 $cts = new contents("Statistiques de consommation");
 
 if (!$site->user->is_in_group("gestion_ae") || !$site->user->is_in_group("kfet_admin") || $site->user->is_in_group("foyer_admin"))
+{
   error_403();
+}
 
 $cts->add_title(2,"Statistiques de consommation aux points de ventes");
 $cts->add_paragraph("<br />Hum... où en est le cours de la Vodka ce mois ci ?");
