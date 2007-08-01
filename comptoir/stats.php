@@ -85,8 +85,8 @@ if ( $_REQUEST["action"] == "view" )
   if ( count($conds) )
 	{
     $req = new requete($site->db,
-      "SELECT `cpt_produits`.`nom_prod`,`cpt_produits`.`id_produit`" .
-      "`asso`.`nom_asso` " .
+      "SELECT `cpt_produits`.`nom_prod`,`cpt_produits`.`id_produit`, " .
+      "`asso`.`nom_asso`, " .
       "`cpt_type_produit`.`nom_typeprod`, " .
 	  	"(SELECT SUM(`cpt_vendu`.`quantite`) AS `ventes` FROM `cpt_vendu` WHERE `cpt_vendu`.`id_produit`=`cpt_produits`.`id_produit` ) AS `ventes` ".
       "FROM `cpt_produits` " .
