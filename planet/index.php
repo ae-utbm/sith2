@@ -203,21 +203,18 @@ if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
   $req = new requete($site->db,"SELECT `planet_tags`.`id_tag`, `planet_tags`.`tag` ".
                                "FROM `planet_tags` ".
                                "WHERE `planet_tags`.`modere`='0'");
-  if($req->lines>0)
-  {
-    $site->add_contents($cts);
-    $cts = new contents("Tags en attente de modération");
-    $tabl = new sqltable ("moderenews_list",
-                          "",
-                          "index.php?view=modere&action=tagsmodere",
-                          "id-tag",
-                          array ("tag" => "Tag"),
-                          array ("edit" => "moderer",
-                                 "delete" => "supprimer"),
-                          array(),
-                          array());
-    $cts->add($tabl);
-  }
+  $site->add_contents($cts);
+  $cts = new contents("Tags en attente de modération");
+  $tabl = new sqltable ("moderenews_list",
+                        "",
+                        "index.php?view=modere&action=tagsmodere",
+                        "id-tag",
+                        array ("tag" => "Tag"),
+                        array ("edit" => "moderer",
+                               "delete" => "supprimer"),
+                        array(),
+                        array());
+  $cts->add($tabl);
 
 }
 elseif($_REQUEST["view"]=="add")
