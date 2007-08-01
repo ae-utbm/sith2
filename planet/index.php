@@ -45,7 +45,7 @@ if (!$site->user->id || !$site->user->utbm)
 
 $site->start_page ("none", "Planet AE ");
 
-if($site->user->is_in_group("gestion_ae"))
+if($this->user->is_in_group("moderateur_site"))
 {
   $tabs = array(array("","planet/index.php", "Planet"),
                 array("perso","planet/index.php?view=perso", "Personnaliser"),
@@ -64,10 +64,10 @@ else
 $cts = new contents("Planet AE ");
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
-if(!isset($_REQUEST["modere"]) && $_REQUEST["action"]=="delete")
+if($_REQUEST["action"]=="delete" && isset($_REQUEST["id_flux"]))
 {
   $sql="";
-  if(!$site->user->is_in_group("gestion_ae"))
+  if(!$site->user->is_in_group("moderateur_site"))
   {
     $sql="AND `id_utilisateur`='".$site->user->id."'";
   }
@@ -190,13 +190,16 @@ elseif($_REQUEST["action"]=="fluxfortag")
     }
   }
 }
-elseif(isset($_REQUEST["modere"]) && $site->user->is_in_group("gestion_ae"))
+elseif(isset($_REQUEST["modere"]) && $site->user->is_in_group("moderateur_site"))
 {
   if($_REQUEST["action"]=="done")
   {
     if(isset($_REQUEST["id_tag"]))
       $req = new requete($site->dbrw, "UPDATE `planet_tags` SET `modere`='1' ".
                                       "WHERE `id_tag` = '".$_REQUEST["id_tag"]."'");
+    if(isset($_REQUEST["id_flux"]))
+      $req = new requete($site->dbrw, "UPDATE `planet_flux` SET `modere`='1' ".
+                                      "WHERE `id_flux` = '".$_REQUEST["id_flux"]."'");
   }
   elseif($_REQUEST["action"]=="delete")
   {
@@ -226,10 +229,31 @@ elseif(isset($_REQUEST["modere"]) && $site->user->is_in_group("gestion_ae"))
                                         "WHERE `id_tag` = '".$tag."'");
     }
   }
+  elseif($_REQUEST["action"]=="deleteflux")
+  {
+    if(is_array($_REQUEST["id_fluxs"]) && !empty($_REQUEST["id_fluxs"]))
+    {
+      foreach($_REQUEST["id_fluxs"] AS $flux)
+      {
+        $req = new delete($site->dbrw, "planet_flux", array("id_flux" => $flux));
+        $req = new delete($site->dbrw, "planet_flux_tags", array("id_flux" => $flux));
+        $req = new delete($site->dbrw, "planet_user_flux", array("id_flux" => $flux));
+      }
+    }
+  }
+  elseif($_REQUEST["action"]=="doneflux")
+  {
+    if(is_array($_REQUEST["id_fluxs"]) && !empty($_REQUEST["id_fluxs"]))
+    {
+      foreach($_REQUEST["id_fluxs"] AS $flux)
+        $req = new requete($site->dbrw, "UPDATE `planet_flux` SET `modere`='1' ".
+                                        "WHERE `id_flux` = '".$flux."'");
+    }
+  }
 }
 
 
-if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
+if($_REQUEST["view"]=="modere" && $site->user->is_in_group("moderateur_site"))
 {
   $cts->add_paragraph("Modération du contenu.");
   $req = new requete($site->db,"SELECT `id_tag`, `tag` ".
@@ -262,8 +286,8 @@ if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
                         array ("id_flux"=>"ID","nom" => "Nom",'url'=>"URL"),
                         array ("done" => "Accepter",
                                "delete" => "Supprimer"),
-                        array("donetags" => "Accepter",
-                              "deletetags" => "Supprimer"),
+                        array("doneflux" => "Accepter",
+                              "deletetflux" => "Supprimer"),
                         array());
   $cts->add($tabl);
   $site->add_contents($cts);
