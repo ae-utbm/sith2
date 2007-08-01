@@ -26,7 +26,7 @@
 $topdir = "../";
 define('MAGPIE_CACHE_DIR', '/var/www/ae/www/var/cache/planet/');
 define('MAGPIE_CACHE_ON', true);
-define('MAGPIE_CACHE_AGE', 60*60); //une heure
+define('MAGPIE_CACHE_AGE', 70*60); //une heure et dix minutes (le cache est regénéré automatiquement)
 define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
 define('MAX_NUM',20);
 define('MAX_SUM_LENGHT',200);
@@ -84,15 +84,12 @@ elseif($_REQUEST["action"]=="addflux" && !empty($_REQUEST["url"]) && !empty($_RE
   $req = new requete($site->db,"SELECT `id_flux` FROM `planet_flux` WHERE `url`='".$_REQUEST["url"]."' LIMIT 1");
   if($req->lines==1)
   {
-    $add="Le flux ".$_REQUEST["url"]." est déjà présent.";
+    $add="Le flux \"".$_REQUEST["url"]."\" est déjà présent.";
   }
   else
   {
-    if($site->user->is_in_group("gestion_ae"))
-      $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'nom'=>$_REQUEST["nom"],'id_utilisateur' => $site->user->id,'modere'=>1));
-    else
-      $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'nom'=>$_REQUEST["nom"],'id_utilisateur' => $site->user->id,'modere'=>0));
-    $add="Le flux ".$_REQUEST["nom"]." (".$_REQUEST["url"].") a bien été ajouté.";
+    $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'nom'=>$_REQUEST["nom"],'id_utilisateur' => $site->user->id,'modere'=>0));
+    $add="Le flux \"".$_REQUEST["nom"]."\" (".$_REQUEST["url"].") a bien été ajouté.";
     if(isset($_REQUEST['tags_']))
     {
       $fluxid=$_req->get_id();
@@ -107,14 +104,11 @@ elseif($_REQUEST["action"]=="addtag" && !empty($_REQUEST["tag"]))
 {
   $req = new requete($site->db,"SELECT `id_tag` FROM `planet_tags` WHERE `tag`='".strtoupper($_REQUEST["tag"])."' LIMIT 1");
   if($req->lines==1)
-    $add="Le tag ".strtoupper($_REQUEST["tag"])." existe déjà.";
+    $add="Le tag \"".strtoupper($_REQUEST["tag"])."\" existe déjà.";
   else
   {
-    if($site->user->is_in_group("gestion_ae"))
-      $_req = new insert($site->dbrw,"planet_tags", array('tag'=>strtoupper($_REQUEST["tag"]),'modere'=>1));
-    else
-      $_req = new insert($site->dbrw,"planet_tags", array('tag'=>strtoupper($_REQUEST["tag"]),'modere'=>0));
-    $add="Le tag ".strtoupper($_REQUEST["tag"])." a été ajouté.";
+    $_req = new insert($site->dbrw,"planet_tags", array('tag'=>strtoupper($_REQUEST["tag"]),'modere'=>0));
+    $add="Le tag \"".strtoupper($_REQUEST["tag"])."\" a été ajouté.";
   }
 }
 elseif($_REQUEST["action"]=="tagperso")
@@ -320,7 +314,6 @@ elseif($_REQUEST["view"]=="perso")
                                  "AND `planet_user_flux`.`id_utilisateur` = '".$site->user->id."') ".
                                  "WHERE (`planet_flux`.`id_utilisateur`='".$site->user->id."' OR `planet_flux`.`modere`= '1')".
                                  "AND `planet_flux_tags`.`id_tag`='".$_REQUEST["tagid"]."'");
-    //$site->add_contents($cts);
     $cts = new contents("Vos abonnements aux autres flux");
     if($req->lines>0)
     {
