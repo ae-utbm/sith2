@@ -45,7 +45,7 @@ if (!$site->user->id || !$site->user->utbm)
 
 $site->start_page ("none", "Planet AE ");
 
-if($this->user->is_in_group("moderateur_site"))
+if($site->user->is_in_group("moderateur_site"))
 {
   $tabs = array(array("","planet/index.php", "Planet"),
                 array("perso","planet/index.php?view=perso", "Personnaliser"),
