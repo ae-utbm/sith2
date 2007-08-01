@@ -66,10 +66,10 @@ if ( $_REQUEST["action"] == "view" )
   $condsnb = array();
   $comptoir = false;
   
-  if ( $_REQUEST["debut"] )
+  if ( $_REQUEST["debut"] && !empty($_REQUEST["debut"]) )
     $conds[] = "`cpt_debitfacture`.`date_facture` >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
   
-  if ( $_REQUEST["fin"] )
+  if ( $_REQUEST["fin"] && !empty($_REQUEST["fin"]) )
     $conds[] = "`cpt_debitfacture`.`date_facture` <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
   
   if ( isset($comptoirs[$_REQUEST["id_comptoir"]]) && $_REQUEST["id_comptoir"] )
