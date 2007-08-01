@@ -211,9 +211,10 @@ if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
                         "index.php?view=modere&action=tagsmodere",
                         "id_tag",
                         array ("id_tag"=>"ID","tag" => "Tag"),
-                        array ("edit" => "moderer",
-                               "delete" => "supprimer"),
-                        array(),
+                        array ("done" => "Accepter",
+                               "delete" => "Supprimer"),
+                        array("done" => "Accepter",
+                              "delete" => "Supprimer"),
                         array());
   $cts->add($tabl);
 
