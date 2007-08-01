@@ -162,27 +162,38 @@ elseif($_REQUEST["view"]=="perso")
                                "ON (`planet_user_flux`.`id_flux`=`planet_flux`.`id_flux` ".
                                "AND `planet_user_flux`.`id_utilisateur` = '".$site->user->id."') ".
                                "WHERE (`planet_flux`.`id_utilisateur`='".$site->user->id."' OR `planet_flux`.`modere`= '1')");
+  $aboflux=false;
   if($req->lines>0)
   {
-    $site->add_contents($cts);
-    $cts = new contents("Vos abonnements aux autres flux");
+    $frm = new form("tags_","index.php?view=perso&action=fluxperso","false","POST","");
     while ( $row = $req->get_row() )
     {
       $_req = new requete($site->db,"SELECT `id_tag` ".
                                     "FROM `planet_flux_tags` ".
                                     "WHERE `id_flux`='".$row['id_flux']."'");
-      $abo=false;
+      $abotag=false;
       while ( $_row = $_req->get_row() )
       {
         if(in_array($_row['id_tag'],$abotags))
         {
-          $abo=true;
+          $abotag=true;
           break;
         }
       }
-      if(!$abo)
+      if(!$abotag)
+      {
+        if(!$aboflux)
+        {
+          $site->add_contents($cts);
+          $cts = new contents("Vos abonnements aux autres flux");
+          $aboflux=true;
+        }
+
         $frm->add_checkbox("flux[".$row['id_flux']."]",$row['nom'], !is_null($row['id_utilisateur']));
+      }
     }
+    if($aboflux)
+      $cts->add ( $frm, false, false, true, false, false, true );
   }
 }
 else
