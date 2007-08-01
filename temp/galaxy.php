@@ -233,12 +233,12 @@ for($i=0;$i<$cycles;$i++)
   if ( $req->lines > 0 )
   {
     list($max) = $req->get_row();
+    echo "divergence : $max - ";
     if ( $max > 1000 )
     {
       echo "dégénérescence<br/>";
       exit();
     }
-    echo "divergence : $max - ";
   }
   
   
