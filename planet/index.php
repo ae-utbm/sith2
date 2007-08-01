@@ -162,6 +162,9 @@ elseif($_REQUEST["action"]=="fluxperso")
     }
   }
 }
+elseif($_REQUEST["action"]=="fluxfortag")
+{
+}
 
 
 if($_REQUEST["view"]=="add")
@@ -219,46 +222,74 @@ elseif($_REQUEST["view"]=="perso")
     $frm->add_submit("save","Modifier");
     $cts->add ( $frm, false, false, true, false, false, true );
   }
-  $req = new requete($site->db,"SELECT `planet_flux`.`id_flux`, `planet_flux`.`nom`, `planet_user_flux`.`id_utilisateur` ".
-                               "FROM `planet_flux` ".
-                               "LEFT JOIN `planet_user_flux` ".
-                               "ON (`planet_user_flux`.`id_flux`=`planet_flux`.`id_flux` ".
-                               "AND `planet_user_flux`.`id_utilisateur` = '".$site->user->id."') ".
-                               "WHERE (`planet_flux`.`id_utilisateur`='".$site->user->id."' OR `planet_flux`.`modere`= '1')");
-  $aboflux=false;
-  if($req->lines>0)
+  if(isset($_REQUEST["tagid"]) && in_array($_REQUEST["tagid"],$abotags))
   {
-    while ( $row = $req->get_row() )
+    $req = new requete($site->db,"SELECT `planet_flux`.`id_flux`, `planet_flux`.`nom`, `planet_user_flux`.`id_utilisateur` ".
+                                 "FROM `planet_flux` ".
+                                 "INNER JOIN `planet_flux_tags` USING(`id_flux`) ".
+                                 "LEFT JOIN `planet_user_flux` ".
+                                 "ON (`planet_user_flux`.`id_flux`=`planet_flux`.`id_flux` ".
+                                 "AND `planet_user_flux`.`id_utilisateur` = '".$site->user->id."') ".
+                                 "WHERE (`planet_flux`.`id_utilisateur`='".$site->user->id."' OR `planet_flux`.`modere`= '1')"
+                                 "AND `planet_flux_tags`.`id_tag`='".$_REQUEST["tagid"]."'");
+    //$site->add_contents($cts);
+    $cts = new contents("Vos abonnements aux autres flux");
+    if($req->lines>0)
     {
-      $_req = new requete($site->db,"SELECT `id_tag` ".
-                                    "FROM `planet_flux_tags` ".
-                                    "WHERE `id_flux`='".$row['id_flux']."'");
-      $abotag=false;
-      while ( $_row = $_req->get_row() )
-      {
-        if(in_array($_row['id_tag'],$abotags))
-        {
-          $abotag=true;
-          break;
-        }
-      }
-      if(!$abotag)
-      {
-        if(!$aboflux)
-        {
-          $site->add_contents($cts);
-          $cts = new contents("Vos abonnements aux autres flux");
-          $aboflux=true;
-          $frm = new form("flux_","index.php?view=perso&action=fluxperso","false","POST","");
-        }
-
+      $frm = new form("flux_","index.php?view=perso&action=fluxfortag","false","POST","");
+      while($row = $req->get_row() )
         $frm->add_checkbox("flux[".$row['id_flux']."]",$row['nom'], !is_null($row['id_utilisateur']));
-      }
-    }
-    if($aboflux)
-    {
+
       $frm->add_submit("save","Modifier");
       $cts->add ( $frm, false, false, true, false, false, true );
+    }
+    else
+      $cts->add_paragraph("Aucun lien associé à ce tag.");
+  }
+  else
+  {
+    $req = new requete($site->db,"SELECT `planet_flux`.`id_flux`, `planet_flux`.`nom`, `planet_user_flux`.`id_utilisateur` ".
+                                 "FROM `planet_flux` ".
+                                 "LEFT JOIN `planet_user_flux` ".
+                                 "ON (`planet_user_flux`.`id_flux`=`planet_flux`.`id_flux` ".
+                                 "AND `planet_user_flux`.`id_utilisateur` = '".$site->user->id."') ".
+                                 "WHERE (`planet_flux`.`id_utilisateur`='".$site->user->id."' OR `planet_flux`.`modere`= '1')");
+    if(isset($_REQUEST["tagid"]) && in_array($_REQUEST["tagid"],$abotags))
+    $aboflux=false;
+    if($req->lines>0)
+    {
+      while ( $row = $req->get_row() )
+      {
+        $_req = new requete($site->db,"SELECT `id_tag` ".
+                                      "FROM `planet_flux_tags` ".
+                                      "WHERE `id_flux`='".$row['id_flux']."'");
+        $abotag=false;
+        while ( $_row = $_req->get_row() )
+        {
+          if(in_array($_row['id_tag'],$abotags))
+          {
+            $abotag=true;
+            break;
+          }
+        }
+        if(!$abotag)
+        {
+          if(!$aboflux)
+          {
+            $site->add_contents($cts);
+            $cts = new contents("Vos abonnements aux autres flux");
+            $aboflux=true;
+            $frm = new form("flux_","index.php?view=perso&action=fluxperso","false","POST","");
+          }
+
+          $frm->add_checkbox("flux[".$row['id_flux']."]",$row['nom'], !is_null($row['id_utilisateur']));
+        }
+      }
+      if($aboflux)
+      {
+        $frm->add_submit("save","Modifier");
+        $cts->add ( $frm, false, false, true, false, false, true );
+      }
     }
   }
 }
