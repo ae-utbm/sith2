@@ -97,7 +97,7 @@ if ( $_REQUEST["action"] == "view" )
       "INNER JOIN cpt_mise_en_vente ON `cpt_mise_en_vente`.`id_produit`=`cpt_produits`.`id_produit` " .
       "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
       "WHERE " .implode(" AND ",$conds).
-      "GROUP BY `cpt_produits`.`id_produit` AND ",1);
+      "GROUP BY `cpt_produits`.`id_produit` AND ",true);
       //"ORDER BY `ventes` DESC");
 
     $tbl = new sqltable("products",
