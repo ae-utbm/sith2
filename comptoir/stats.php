@@ -108,7 +108,7 @@ if ( $_REQUEST["action"] == "view" )
 			  "SUM(`cpt_vendu`.`quantite`) " .
 			  "FROM `cpt_vendu` " .
 			  "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
-			  "WHERE `cpt_vendu`.`id_produit`=`".$id_prod."`" .implode(" AND ",$condsnb));
+			  "WHERE `cpt_vendu`.`id_produit`=`".$id_prod."` AND " .implode(" AND ",$condsnb));
         
 				list($ventes) = $req->get_row();
 
