@@ -247,6 +247,12 @@ if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
                               "deletetags" => "Supprimer"),
                         array());
   $cts->add($tabl);
+  $site->add_contents($cts);
+  $cts = new contents("Flux existants");
+  $cts->add_paragraph("Liste des flux déjà proposés\n");
+  $req = new requete($site->db,"SELECT * FROM `planet_flux` WHERE `modere`='1'");
+  $tbl = new sqltable("listasso","",$req, "index.php?view=modere","id_flux",array("nom"=>"Nom","url"=>"Url"),array("delete"=>"Supprimer"), array(), array());
+  $cts->add($tbl,false);
 
 }
 elseif($_REQUEST["view"]=="add")
