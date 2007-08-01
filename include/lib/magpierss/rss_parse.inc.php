@@ -386,6 +386,7 @@ class MagpieRSS {
                     $item['description'] = $item['summary'];
                 if ( isset($item['atom_content']))
                     $item['content']['encoded'] = $item['atom_content'];
+print_r($item['updated']);
 
                 if(isset($item['issued']))
                   $atom_date = $item['issued'];
