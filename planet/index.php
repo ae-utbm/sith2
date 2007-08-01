@@ -200,6 +200,7 @@ elseif($_REQUEST["view"]=="perso")
         $abotags[]=$row['id_tag'];
       $frm->add_checkbox("tags[".$row['id_tag']."]","<a href=index.php?view=perso&tagid=".$row['id_tag'].">".$row['tag']."</a>", !is_null($row['id_utilisateur']));
     }
+    $frm->add_submit("save","Modifier");
     $cts->add ( $frm, false, false, true, false, false, true );
   }
   $req = new requete($site->db,"SELECT `planet_flux`.`id_flux`, `planet_flux`.`nom`, `planet_user_flux`.`id_utilisateur` ".
@@ -211,7 +212,6 @@ elseif($_REQUEST["view"]=="perso")
   $aboflux=false;
   if($req->lines>0)
   {
-    $frm = new form("flux_","index.php?view=perso&action=fluxperso","false","POST","");
     while ( $row = $req->get_row() )
     {
       $_req = new requete($site->db,"SELECT `id_tag` ".
@@ -233,13 +233,17 @@ elseif($_REQUEST["view"]=="perso")
           $site->add_contents($cts);
           $cts = new contents("Vos abonnements aux autres flux");
           $aboflux=true;
+          $frm = new form("flux_","index.php?view=perso&action=fluxperso","false","POST","");
         }
 
         $frm->add_checkbox("flux[".$row['id_flux']."]",$row['nom'], !is_null($row['id_utilisateur']));
       }
     }
     if($aboflux)
+    {
+      $frm->add_submit("save","Modifier");
       $cts->add ( $frm, false, false, true, false, false, true );
+    }
   }
 }
 else
