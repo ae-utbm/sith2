@@ -87,7 +87,7 @@ if ( $_REQUEST["action"] == "view" )
     "`asso`.`nom_asso`,`asso`.`id_asso`, " .
     "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod`, " .
     "`cpt_mise_en_vente`.`stock_local_prod`, " .
-		"(SELECT SUM(`cpt_vendu`.`quantite`) FROM `cpt_vendu` WHERE `cpt_produits`.`id_produit`=`cpt_vendu`.`id_produit`) ".
+		"(SELECT SUM(`cpt_vendu`.`quantite`) AS `ventes` FROM `cpt_vendu` WHERE `cpt_produits`.`id_produit`=`cpt_vendu`.`id_produit`) ".
     "FROM `cpt_produits` " .
     "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
     "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
@@ -101,7 +101,7 @@ if ( $_REQUEST["action"] == "view" )
     "Produits", $req, "stats.php",
     "id_produit",
     array(
-		  ""=>"Nombre de ventes",
+		  "ventes"=>"Nombre de ventes",
       "nom_typeprod"=>"Type",
       "nom_prod"=>"Nom du produit",
       "nom_asso"=>"Association"
