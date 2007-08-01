@@ -104,7 +104,7 @@ if ( $_REQUEST["action"] == "view" )
     while ( list($nom_prod,$id_prod,$nom_asso,$nom_typeprod,$ventes) = $req->get_row() )
 		{
 		  $reqnb = new requete($site->db, "SELECT " .
-			  "SUM(`cpt_vendu`.`quantite`), " .
+			  "SUM(`cpt_vendu`.`quantite`) " .
 			  "FROM `cpt_vendu` " .
 			  "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
 			  "WHERE `cpt_vendu`.`id_produit`=`".$id_prod."`" .implode(" AND ",$condsnb));
