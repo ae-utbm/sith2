@@ -507,7 +507,7 @@ else
               }
               else
                 $sumup="Pas de résumé désolé.";
-
+print_r($item['author']);
               if(isset($item['dc']['creator']))
                 $auteur="par ".$item['dc']['creator']." ";
               elseif(isset($item['author']) && !empty($item['author']))
