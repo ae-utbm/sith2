@@ -38,13 +38,13 @@ for($i=0;$i<count($svn);$i++)
   if(!empty($svn[$i]))
   {
     $tmp=explode(" ",$svn[$i]);
-    $j=$tmp[1];
-    $stats[$j]=$tmp[0];
+    $j=$tmp[0];
+    $stats[$j]=$tmp[1];
   }
 }
 krsort($stats);
 
-foreach($stats as $commits => $author)
+foreach($stats as $author => $commits)
   $cam->data($commits,$author);
 
 $cam->png_render();
