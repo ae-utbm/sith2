@@ -392,7 +392,7 @@ class MagpieRSS {
                 elseif(isset($item['modified']))
                   $atom_date = $item['modified'];
                 elseif(isset($item['updated']))
-                  $atom_date = $item['updated';
+                  $atom_date = $item['updated'];
                 else
                   $atom_date = "0000-00-00T00:00:00+00:00";
 
