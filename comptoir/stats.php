@@ -99,7 +99,7 @@ if ( $_REQUEST["action"] == "view" )
 
     $tbl = new sqltable("products",
                         "Produits",
-                        $reg,
+                        $req,
                         "",
                         "id_produit",
                         array("ventes"=>"Nombre de ventes",
