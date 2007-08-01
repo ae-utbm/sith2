@@ -211,7 +211,7 @@ if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
                           "",
                           "index.php?view=modere&action=tagsmodere",
                           "id-tag",
-                          array ("tag" => "Tag")
+                          array ("tag" => "Tag"),
                           array ("edit" => "moderer",
                                  "delete" => "supprimer"),
                           array(),
