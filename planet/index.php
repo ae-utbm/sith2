@@ -205,7 +205,7 @@ if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
                                "WHERE `planet_tags`.`modere`='0'");
   $site->add_contents($cts);
   $cts = new contents("Tags en attente de modération");
-  $tabl = new sqltable ("moderenews_list",
+  $tabl = new sqltable ("moderetags_list",
                         "",
                         "index.php?view=modere&action=tagsmodere",
                         "id_tag",
