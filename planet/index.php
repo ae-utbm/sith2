@@ -204,7 +204,8 @@ elseif($site->user->is_in_group("gestion_ae"))
                                     "WHERE `id_tag` = '".$_REQUEST["id_tag"]."'");
   }
   elseif($_REQUEST["action"]=="delete" && isset($_REQUEST["id_tag"]))
-  {
+	{
+		print_r("debug");
     $req = new delete($site->dbrw, "planet_tags", array("id_tag" => $_REQUEST['id_tag']));
     $_req = new delete($site->dbrw, "planet_flux_tags", array("id_tag" => $_REQUEST['id_tag']));
   }
