@@ -509,10 +509,15 @@ else
                 $sumup="Pas de résumé désolé.";
               if(isset($item['dc']['creator']))
                 $auteur="par ".$item['dc']['creator']." ";
-              elseif(isset($item['author']) && !empty($item['author']))
+              elseif(isset($item['author']))
               {
-                if(is_array($item['author']))
-                  $auteur = implode(", ", $item['author']);
+                if(preg_match('/<(.+?)>/s',$item['author']))
+                {
+                  $auteur = preg_replace('/<(.+?)>/s','UuU',$item['author']);
+                  $auteur=explode("UuUUuU", $auteur);
+                  $auteur = implode(", ", $auteur);
+                  $auteur = preg_replace('/UuU/s','',$auteur);
+                }
                 else
                   $auteur = $item['author'];
                 $auteur="par ".$auteur." ";
