@@ -40,6 +40,8 @@ if ( !$site->user->is_valid() )
 $site->fetch_admin_comptoirs();
 $comptoirs = array_merge(array(0=>"-"),$site->admin_comptoirs);
 
+printf $site->admin_comptoirs;
+
 if ( !count($site->admin_comptoirs) && !$site->user->is_in_group("gestion_ae") )
   error_403();
 
@@ -55,7 +57,7 @@ $frm->add_hidden("action","view");
 $frm->add_datetime_field("debut","Date et heure de début");
 $frm->add_datetime_field("fin","Date et heure de fin");
 $frm->add_entity_select("id_assocpt", "Association", $site->db, "assocpt",$_REQUEST["id_assocpt"],true);
-$frm->add_select_field("id_comptoir","Lieu", $comptoirs,$_REQUEST["id_comptoir"]);
+$frm->add_select_field("id_comptoir","Lieu", $comptoirs, $_REQUEST["id_comptoir"]);
 $frm->add_submit("valid","Voir");
 $cts->add($frm,true);
 
