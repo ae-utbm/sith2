@@ -56,6 +56,7 @@ $frm->add_hidden("action","view");
 $frm->add_datetime_field("debut","Date et heure de début");
 $frm->add_datetime_field("fin","Date et heure de fin");
 $frm->add_entity_select("id_assocpt", "Association", $site->db, "assocpt",$_REQUEST["id_assocpt"],true);
+$frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit",$_REQUEST["id_typeprod"],true);
 $frm->add_select_field("id_comptoir","Lieu", $comptoirs, $_REQUEST["id_comptoir"]);
 $frm->add_submit("valid","Voir");
 $cts->add($frm,true);
@@ -63,7 +64,6 @@ $cts->add($frm,true);
 if ( $_REQUEST["action"] == "view" )
 {
   $conds = array();
-  $condsnb = array();
   $comptoir = false;
   
   if ( $_REQUEST["debut"] && !empty($_REQUEST["debut"]) )
@@ -81,6 +81,9 @@ if ( $_REQUEST["action"] == "view" )
   {
     if ( $_REQUEST["id_assocpt"] && !empty($_REQUEST["id_assocpt"]))
       $conds[] = "`cpt_produits`.`id_assocpt`='".intval($_REQUEST["id_assocpt"])."'";
+
+    if ( $_REQUEST["id_typeprod"] && !empty($_REQUEST["id_typeprod"]) )
+	    $conds[] = "`cpt_produits`.`id_typeprod`='".intval($_REQUEST["id_typeprod"])."'";
   }
 
   if ( count($conds) )
