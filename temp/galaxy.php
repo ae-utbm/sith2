@@ -247,6 +247,96 @@ for($i=0;$i<$cycles;$i++)
 }
 //
 
+    // 0 ---------- 35 ----------------- 400 ---------------- 700 --- 800
+    // Noir         | Rouge              | Jaune              | Bleu  | Blanc
+function star_color ( $img, $i )
+{
+  if ( $i > 800 )
+    return imagecolorallocate($img, 255, 255, 255);
+    
+  if ( $i > 700 )
+    return imagecolorallocate($img, (($i-700)*255/100), (($i-700)*255/100), 255);      
+    
+  if ( $i > 400 )
+    return imagecolorallocate($img, 255 -(($i-400)*255/300), 255 -(($i-400)*255/300), ($i-400)*255/300);
+    
+  if ( $i > 35 )
+    return imagecolorallocate($img, 255, ($i-35)*255/365, 0); 
+  
+  return imagecolorallocate($img, $i*255/36, 0, 0);   
+}
+
+function render_area ( $db, $tx, $ty, $w, $h )
+{
+  $st = microtime(true);
+
+  echo "RENDER AREA : ";
+
+  $x1 = $tx-3;
+  $y1 = $ty-3;
+  $x2 = $tx+$w+3;
+  $y2 = $tx-$w+3;
+
+    $img = imagecreatetruecolor($w,$h);
+   
+  $bg = imagecolorallocate($img, 0, 0, 0);
+  $textcolor = imagecolorallocate($img, 255, 255, 255);
+  $wirecolor = imagecolorallocate($img, 32, 32, 32);
+  
+  imagefill($img, 0, 0, $bg);  
+  
+  echo "2: ".round(microtime(true)-$st,2)." - ";
+
+  
+  if ( !isset($_REQUEST["nowires"]) )
+  {
+    $req = new requete($db, "SELECT ABS(length_link-ideal_length_link) as ex, ".
+    "a.rx_star as x1, a.ry_star as y1, b.rx_star as x2, b.ry_star as y2 ".
+    "FROM  galaxy_link ".
+    "INNER JOIN galaxy_star AS a ON (a.id_star=galaxy_link.id_star_a) ".
+    "INNER JOIN galaxy_star AS b ON (b.id_star=galaxy_link.id_star_b)");
+    
+    while ( $row = $req->get_row() )
+    {
+      imageline ($img, $row['x1']-$tx, $row['y1']-$ty, $row['x2']-$tx, $row['y2']-$ty, $wirecolor );    
+    } 
+  }
+
+  echo "3: ".round(microtime(true)-$st,2)." - ";
+
+  $req = new requete($db, "SELECT ".
+  "rx_star, ry_star, sum_tense_star  ".
+  "FROM  galaxy_star ".
+  "WHERE rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2");
+  
+  while ( $row = $req->get_row() )
+  {
+    imagefilledellipse ($img, $row['rx_star']-$tx, $row['ry_star']-$ty, 5, 5, star_color($img,$row['sum_tense_star']) ); 
+  }
+  
+  echo "4: ".round(microtime(true)-$st,2)." - ";
+  
+  $req = new requete($db, "SELECT ".
+  "rx_star, ry_star, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
+  "FROM  galaxy_star ".
+  "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star) ".
+  "WHERE rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2" );  
+  
+  while ( $row = $req->get_row() )
+  {
+    imagestring($img, 1, $row['rx_star']+5-$tx, $row['ry_star']-3-$ty,  utf8_decode($row['nom']), $textcolor);
+  }
+  
+
+  imagepng($img,"galaxy_area_temp.png");
+  imagedestroy($img);  
+  
+  
+  echo "done in ".(microtime(true)-$st)." sec<br/>\n";
+    echo "<br/><br/><img src=\"galaxy_area_temp.png\" />";
+
+}
+
 
 if ( isset($_REQUEST["render"]) )
 {
@@ -294,17 +384,7 @@ if ( isset($_REQUEST["render"]) )
   
   for($i=0;$i<820;$i++)
   {
-    if ( $i > 800 )
-      $t = imagecolorallocate($img, 255, 255, 255);
-    elseif ( $i > 700 )
-      $t = imagecolorallocate($img, (($i-700)*255/100), (($i-700)*255/100), 255);      
-    elseif ( $i > 400 )
-      $t = imagecolorallocate($img, 255 -(($i-400)*255/300), 255 -(($i-400)*255/300), ($i-400)*255/300);
-    elseif ( $i > 35 )
-      $t = imagecolorallocate($img, 255, ($i-35)*255/365, 0); 
-    else
-      $t = imagecolorallocate($img, 128+($i*128/36), 0, 0); 
-    imageline($img,$i,10,$i,20,$t);
+    imageline($img,$i,10,$i,20,star_color($img,$i));
     
     if ( $i %100 == 0)
       imagestring($img, 1, $i, 22, $i, $textcolor);
@@ -329,33 +409,13 @@ if ( isset($_REQUEST["render"]) )
 
   echo "3: ".round(microtime(true)-$st,2)." - ";
 
-
   $req = new requete($dbrw, "SELECT ".
   "rx_star, ry_star, sum_tense_star  ".
   "FROM  galaxy_star");
   
-
   while ( $row = $req->get_row() )
   {
-    if ( $row['sum_tense_star'] > 800 )
-      $bullcolor = imagecolorallocate($img, 255, 255, 255);
-    elseif ( $row['sum_tense_star'] > 700 )
-      $bullcolor = imagecolorallocate($img, (($row['sum_tense_star']-700)*255/100),(($row['sum_tense_star']-700)*255/100), 255);      
-      
-    elseif ( $row['sum_tense_star'] > 400 )
-      $bullcolor = imagecolorallocate($img, 255 -(($row['sum_tense_star']-400)*255/300), 255 -(($row['sum_tense_star']-400)*255/300), ($row['sum_tense_star']-400)*255/300); // Jaune -> Bleu
-    elseif ( $row['sum_tense_star'] > 35 )
-      $bullcolor = imagecolorallocate($img, 255, ($row['sum_tense_star']-35)*255/365, 0); // Rouge -> Jaune
-    else
-      $bullcolor = imagecolorallocate($img, 128+($row['sum_tense_star']*128/36), 0, 0);
-    
-    // 0 ---------- 35 ----------------- 400 ---------------- 700 --- 800
-    // Rouge foncé   | Rouge              | Jaune              | Bleu  | Blanc
-
-    //imageellipse ($img, $row['rx_star'], $row['ry_star'], 7, 7, $bullcolor | (0x60) << 24 );
-    imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 5, 5, $bullcolor );
-    
-    
+    imagefilledellipse ($img, $row['rx_star'], $row['ry_star'], 5, 5, star_color($img,$row['sum_tense_star']) ); 
   }
   
   echo "4: ".round(microtime(true)-$st,2)." - ";
@@ -376,6 +436,8 @@ if ( isset($_REQUEST["render"]) )
     
   echo "done in ".(microtime(true)-$st)." sec<br/>\n";
   echo "<br/><br/><img src=\"galaxy_temp.png\" />";
+  
+  render_area ( $dbrw, floor($width/2)-150, floor($height/2)-150, 300, 300 );
 }
 
 ?>
