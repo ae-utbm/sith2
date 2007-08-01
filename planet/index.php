@@ -214,7 +214,7 @@ elseif($_REQUEST["view"]=="perso")
     {
       if(!is_null($row['id_utilisateur']))
         $abotags[]=$row['id_tag'];
-      $frm->add_checkbox("tags[".$row['id_tag']."]",(!is_null($row['id_utilisateur'])?"<a href=index.php?view=perso&tagid=":"").$row['id_tag'].">".$row['tag'].(!is_null($row['id_utilisateur'])?"</a>":""), !is_null($row['id_utilisateur']));
+      $frm->add_checkbox("tags[".$row['id_tag']."]",(!is_null($row['id_utilisateur'])?"<a href=index.php?view=perso&tagid=".$row['id_tag'].">":"").$row['tag'].(!is_null($row['id_utilisateur'])?"</a>":""), !is_null($row['id_utilisateur']));
     }
     $frm->add_submit("save","Modifier");
     $cts->add ( $frm, false, false, true, false, false, true );
