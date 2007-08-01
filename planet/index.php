@@ -118,9 +118,25 @@ elseif($_REQUEST["action"]=="tagperso")
     while($row=$req->get_row())
     {
       if(isset($_REQUEST['tags'][$row['id_tag']]) && is_null($row['id_utilisateur']))
+      {
         $_req = new insert($site->dbrw,"planet_user_tags", array('id_tag'=>$row['id_tag'],'id_utilisateur'=>$site->user->id));
+        $subreq = new requete($site->db,"SELECT `planet_flux_tag`.`id_flux` ".
+                                        "`planet_flux_tag` ".
+                                        "INNER JOIN `planet_user_flux` USING(`id_flux`) ".
+                                        "WHERE `planet_flux_tag`.`id_tag` = '".$row['id_tag']."'");
+        while($_row=$subreq->get_row())
+          $_req = new delete($site->dbrw, "planet_user_flux", array("id_flux" => $_row["id_flux"],"id_utilisateur"=>$site->user->id));
+      }
       elseif(!isset($_REQUEST['tags'][$row['id_tag']]) && !is_null($row['id_utilisateur']))
+      {
         $_req = new delete($site->dbrw, "planet_user_tags", array("id_tag" => $row['id_tag'], "id_utilisateur"=>$site->user->id));
+        $subreq = new requete($site->db,"SELECT `planet_flux_tag`.`id_flux` ".
+                                        "`planet_flux_tag` ".
+                                        "INNER JOIN `planet_user_flux` USING(`id_flux`) ".
+                                        "WHERE `planet_flux_tag`.`id_tag` = '".$row['id_tag']."'");
+        while($_row=$subreq->get_row())
+          $_req = new delete($site->dbrw, "planet_user_flux", array("id_flux" => $_row["id_flux"],"id_utilisateur"=>$site->user->id));
+      }
     }
   }
 }
