@@ -63,6 +63,7 @@ $cts->add($frm,true);
 if ( $_REQUEST["action"] == "view" )
 {
   $conds = array();
+	$condsnb = array();
 	$comptoir = false;
 	
 	if ( $_REQUEST["debut"] )
