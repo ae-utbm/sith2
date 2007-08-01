@@ -361,7 +361,7 @@ if ( isset($_REQUEST["render"]) )
   echo "4: ".round(microtime(true)-$st,2)." - ";
   
   $req = new requete($dbrw, "SELECT ".
-  "rx_star, ry_star, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom".
+  "rx_star, ry_star, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
   "FROM  galaxy_star ".
   "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star)");  
   
