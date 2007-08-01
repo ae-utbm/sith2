@@ -21,7 +21,7 @@ $site = new site ();
 // Tâche 1 : mettre à jour le cache
 $req = new requete($site->db,"SELECT `url` FROM `planet_flux` WHERE `modere`='1'");
 while ( list($url) = $req->get_row() )
-  $rs=fetch_rss($flux[$id_flux]['url_flux']);
+  $rs=fetch_rss($url);
 
 
 
