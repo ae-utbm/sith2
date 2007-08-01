@@ -121,7 +121,7 @@ elseif($_REQUEST["action"]=="tagperso")
       {
         $_req = new insert($site->dbrw,"planet_user_tags", array('id_tag'=>$row['id_tag'],'id_utilisateur'=>$site->user->id));
         $subreq = new requete($site->db,"SELECT `planet_flux_tag`.`id_flux` ".
-                                        "`planet_flux_tag` ".
+                                        "FROM `planet_flux_tag` ".
                                         "INNER JOIN `planet_user_flux` USING(`id_flux`) ".
                                         "WHERE `planet_flux_tag`.`id_tag` = '".$row['id_tag']."'");
         while($_row=$subreq->get_row())
@@ -131,7 +131,7 @@ elseif($_REQUEST["action"]=="tagperso")
       {
         $_req = new delete($site->dbrw, "planet_user_tags", array("id_tag" => $row['id_tag'], "id_utilisateur"=>$site->user->id));
         $subreq = new requete($site->db,"SELECT `planet_flux_tag`.`id_flux` ".
-                                        "`planet_flux_tag` ".
+                                        "FROM `planet_flux_tag` ".
                                         "INNER JOIN `planet_user_flux` USING(`id_flux`) ".
                                         "WHERE `planet_flux_tag`.`id_tag` = '".$row['id_tag']."'");
         while($_row=$subreq->get_row())
