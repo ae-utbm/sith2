@@ -382,7 +382,6 @@ function normalize () {
     $this->channel['description'] = $this->channel['tagline'];
     for ( $i = 0; $i < count($this->items); $i++) {
 			$item = $this->items[$i];
-			print_r("bleh");
       if ( isset($item['summary']) )
         $item['description'] = $item['summary'];
       if ( isset($item['atom_content']))

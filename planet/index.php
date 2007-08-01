@@ -510,6 +510,14 @@ else
 
               if(isset($item['dc']['creator']))
                 $auteur="par ".$item['dc']['creator']." ";
+              elseif(isset($item['author']) && !empty($item['author']))
+              {
+                if(is_array($item['author']))
+                  $auteur = implode(", ", $item['author']);
+                else
+                  $auteur = $item['author'];
+                $auteur="par ".$auteur." ";
+              }
               else
                 $auteur="";
 
