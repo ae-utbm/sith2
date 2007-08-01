@@ -386,8 +386,16 @@ class MagpieRSS {
                     $item['description'] = $item['summary'];
                 if ( isset($item['atom_content']))
                     $item['content']['encoded'] = $item['atom_content'];
-                
-                $atom_date = (isset($item['issued']) ) ? $item['issued'] : $item['modified'];
+
+                if(isset($item['issued']))
+                  $atom_date = $item['issued'];
+                elseif(isset($item['modified']))
+                  $atom_date = $item['modified'];
+                elseif(isset($item['updated'))
+                  $atom_date = $item['updated';
+                else
+                  $atom_date = "0000-00-00T00:00:00+00:00";
+
                 if ( $atom_date ) {
                     $epoch = @parse_w3cdtf($atom_date);
                     if ($epoch and $epoch > 0) {
