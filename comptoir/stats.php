@@ -67,20 +67,20 @@ if ( $_REQUEST["action"] == "view" )
   $comptoir = false;
   
   if ( $_REQUEST["debut"] )
-    $condsnb[] = "cpt_debitfacture.date_facture >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
+    $conds[] = "`cpt_debitfacture`.`date_facture` >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
   
   if ( $_REQUEST["fin"] )
-    $condsnb[] = "cpt_debitfacture.date_facture <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
+    $conds[] = "`cpt_debitfacture`.`date_facture` <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
   
   if ( isset($comptoirs[$_REQUEST["id_comptoir"]]) && $_REQUEST["id_comptoir"] )
   {
-    $conds[] = "cpt_mise_en_vente.id_comptoir='".intval($_REQUEST["id_comptoir"])."'";
+    $conds[] = "`cpt_mise_en_vente`.`id_comptoir`='".intval($_REQUEST["id_comptoir"])."'";
     $comptoir=true;
   }
   if ( $comptoir || $site->user->is_in_group("gestion_ae") )
   {
     if ( $_REQUEST["id_assocpt"] && !empty($_REQUEST["id_assocpt"]))
-      $conds[] = "cpt_produits.id_assocpt='".intval($_REQUEST["id_assocpt"])."'";
+      $conds[] = "`cpt_produits`.`id_assocpt`='".intval($_REQUEST["id_assocpt"])."'";
   }
 
   if ( count($conds) )
