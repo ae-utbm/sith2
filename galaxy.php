@@ -4,6 +4,7 @@ $topdir = "./";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/galaxy.inc.php");
+require_once($topdir . "include/cts/sqltable.inc.php");
 
 $site = new site ();
 $galaxy = new galaxy($site->db,$site->dbrw);
@@ -29,7 +30,7 @@ if ( isset($_REQUEST["id_utilisateur"]) )
   $site->start_page("rd","galaxy");
   $cts = new contents("Galaxy : ".$user->prenom . " " . $user->nom);
   
-  $req = new requete($site->db,"SELECT rx_star,ry_star WHERE galaxy_star WHERE id_star='".mysql_real_escape_string($user->id)."'");
+  $req = new requete($site->db,"SELECT rx_star,ry_star FROM galaxy_star WHERE id_star='".mysql_real_escape_string($user->id)."'");
 
   if ( $req->lines == 0 )
   {
