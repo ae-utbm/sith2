@@ -196,7 +196,39 @@ elseif($_REQUEST["action"]=="fluxfortag")
     }
   }
 }
-
+elseif($site->user->is_in_group("gestion_ae"))
+{
+  if($_REQUEST["action"]=="done" && isset($_REQUEST["id_tag"]))
+  {
+    $req = new requete($site->dbrw, "UPDATE `planet_tags` SET `modere`='1' ".
+                                    "WHERE `id_tag` = '".$_REQUEST["id_tag"]."'");
+  }
+  elseif($_REQUEST["action"]=="delete" && isset($_REQUEST["id_tag"]))
+  {
+    $req = new delete($site->dbrw, "planet_tags", array("id_tag" => $_REQUEST['id_tag']));
+    $_req = new delete($site->dbrw, "planet_flux_tags", array("id_tag" => $_REQUEST['id_tag']));
+  }
+  elseif($_REQUEST["action"]=="deletetags" && isset($_REQUEST["id_tag"]))
+  {
+    if(!empty($_REQUEST["id_tag"]))
+    {
+      foreach($_REQUEST["id_tag"] AS $tag)
+      {
+        $req = new delete($site->dbrw, "planet_tags", array("id_tag" => $tag));
+        $_req = new delete($site->dbrw, "planet_flux_tags", array("id_tag" => $tag));
+      }
+    }
+  }
+  elseif($_REQUEST["action"]=="donetags" && isset($_REQUEST["id_tag"]))
+  {
+    if(!empty($_REQUEST["id_tag"]))
+    {
+      foreach($_REQUEST["id_tag"] AS $tag)
+        $req = new requete($site->dbrw, "UPDATE `planet_tags` SET `modere`='1' ".
+                                        "WHERE `id_tag` = '".$tag."'");
+    }
+  }
+}
 if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
 {
   $cts->add_paragraph("Modération du contenu.");
@@ -208,11 +240,11 @@ if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
   $tabl = new sqltable ("moderetags_list",
                         "Modere Tags",
                         $req,
-                        "index.php?view=modere&action=tagsmodere",
+                        "index.php?view=modere",
                         "id_tag",
                         array ("id_tag"=>"ID","tag" => "Tag"),
-                        array ("donetag" => "Accepter",
-                               "deletetag" => "Supprimer"),
+                        array ("done" => "Accepter",
+                               "delete" => "Supprimer"),
                         array("donetags" => "Accepter",
                               "deletetags" => "Supprimer"),
                         array());
