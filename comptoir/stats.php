@@ -59,6 +59,56 @@ $frm->add_select_field("id_comptoir","Lieu", $comptoirs,$_REQUEST["id_comptoir"]
 $frm->add_submit("valid","Voir");
 $cts->add($frm,true);
 
+if ( $_REQUEST["action"] == "view" )
+{
+  $conds = array();
+	$comptoir = false;
+	
+	if ( $_REQUEST["debut"] )
+	  $conds[] = "cpt_debitfacture.date_facture >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
+	
+	if ( $_REQUEST["fin"] )
+	  $conds[] = "cpt_debitfacture.date_facture <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
+	
+	if ( isset($comptoirs[$_REQUEST["id_comptoir"]]) && $_REQUEST["id_comptoir"] )
+	{
+	  $conds[] = "cpt_debitfacture.id_comptoir='".intval($_REQUEST["id_comptoir"])."'";
+	  $comptoir=true;
+	}
+  if ( $comptoir || $site->user->is_in_group("gestion_ae") )
+	{
+    if ( $_REQUEST["id_assocpt"] )
+      $conds[] = "cpt_vendu.id_assocpt='".intval($_REQUEST["id_assocpt"])."'";
+  }
+
+  $req = new requete($site->db,
+    "SELECT `cpt_produits`.`nom_prod`, `cpt_produits`.`id_produit`," .
+    "`cpt_produits`.stock_global_prod, `cpt_produits`.prix_vente_barman_prod/100 AS prix_vente_barman_prod," .
+    "`cpt_produits`.prix_vente_prod/100 AS prix_vente_prod, `cpt_produits`.prix_achat_prod/100 AS  prix_achat_prod, " .
+    "`asso`.`nom_asso`,`asso`.`id_asso`, " .
+    "`cpt_type_produit`.`id_typeprod`,`cpt_type_produit`.`nom_typeprod`, " .
+    "`cpt_mise_en_vente`.`stock_local_prod` " .
+    "FROM `cpt_produits` " .
+    "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
+    "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
+    "INNER JOIN cpt_mise_en_vente ON `cpt_mise_en_vente`.`id_produit`=`cpt_produits`.`id_produit` " .
+    "WHERE `cpt_mise_en_vente`.`id_comptoir`='".$_REQUEST["id_comptoir"]."' " .
+    "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
+
+  $tbl = new sqltable(
+    "lstproduits",
+    "Produits", $req, "stats.php",
+790       "id_produit",
+791       array(
+792       "nom_typeprod"=>"Type",
+793       "nom_prod"=>"Nom du produit",
+799       "nom_asso"=>"Association"
+800       ),
+801       array(), array(), array()
+802       );
+
+}
+
 $site->add_contents($cts);
 $site->end_page();  
 
