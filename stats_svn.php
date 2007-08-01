@@ -42,7 +42,7 @@ for($i=0;$i<count($svn);$i++)
     $stats[$j]=$tmp[1];
   }
 }
-krsort($stats);
+arsort($stats);
 
 foreach($stats as $author => $commits)
   $cam->data($commits,$author);
