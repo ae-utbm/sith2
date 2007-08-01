@@ -27,18 +27,37 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir. "include/graph.inc.php");
-$site = new site ();
+require_once("include/comptoirs.inc.php");
 
-$site->start_page("none","Statistiques de consommation");
-$cts = new contents("Statistiques de consommation");
+$site = new sitecomptoirs();
 
-if (!$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("kfet_admin") && $site->user->is_in_group("foyer_admin"))
+if ( !$site->user->is_valid() )
 {
-  error_403();
+  header("Location: ../403.php?reason=session");
+  exit();
 }
 
-$cts->add_title(2,"Statistiques de consommation aux points de ventes");
+$site->fetch_admin_comptoirs();
+$comptoirs = array_merge(array(0=>"-"),$site->admin_comptoirs);
+
+if ( !count($site->admin_comptoirs) && !$site->user->is_in_group("gestion_ae") )
+  error_403();
+
+$site->set_admin_mode();
+
+$site->start_page("services","Statistiques de consommation");
+$cts = new contents("Statistiques de consommation");
+
 $cts->add_paragraph("<br />Hum... où en est le cours de la Vodka ce mois ci ?");
+
+$frm = new form ("cptstats","stats.php",true,"POST","Critères de selection");
+$frm->add_hidden("action","view");
+$frm->add_datetime_field("debut","Date et heure de début");
+$frm->add_datetime_field("fin","Date et heure de fin");
+$frm->add_entity_select("id_assocpt", "Association", $site->db, "assocpt",$_REQUEST["id_assocpt"],true);
+$frm->add_select_field("id_comptoir","Lieu", $comptoirs,$_REQUEST["id_comptoir"]);
+$frm->add_submit("valid","Voir");
+$cts->add($frm,true);
 
 $site->add_contents($cts);
 $site->end_page();  
