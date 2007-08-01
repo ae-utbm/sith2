@@ -64,7 +64,7 @@ else
 $cts = new contents("Planet AE ");
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
-if($_REQUEST["action"]=="delete")
+if(!isset($_REQUEST["modere"]) && $_REQUEST["action"]=="delete")
 {
   $sql="";
   if(!$site->user->is_in_group("gestion_ae"))
@@ -196,7 +196,7 @@ elseif($_REQUEST["action"]=="fluxfortag")
     }
   }
 }
-elseif($site->user->is_in_group("gestion_ae"))
+elseif(isset($_REQUEST["modere"]) && $site->user->is_in_group("gestion_ae"))
 {
   if($_REQUEST["action"]=="done")
   {
@@ -242,10 +242,10 @@ if($_REQUEST["view"]=="modere" && $site->user->is_in_group("gestion_ae"))
                                "WHERE `modere`='0'");
   $site->add_contents($cts);
   $cts = new contents("Tags en attente de modération");
-  $tabl = new sqltable ("moderetags_list",
+  $tabl = new sqltable ("modere",
                         "Modere Tags",
                         $req,
-                        "index.php?view=modere",
+                        "index.php?view=modere&modere=1",
                         "id_tag",
                         array ("id_tag"=>"ID","tag" => "Tag"),
                         array ("done" => "Accepter",
