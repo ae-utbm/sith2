@@ -328,7 +328,7 @@ function render_area ( $db, $tx, $ty, $w, $h )
   }
   
   echo "rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2 - ";
-  ech $req->lines. " - ";
+  echo $req->lines. " - ";
 
   imagepng($img,"galaxy_area_temp.png");
   imagedestroy($img);  
