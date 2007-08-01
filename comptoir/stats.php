@@ -105,6 +105,8 @@ if ( $_REQUEST["action"] == "view" )
       "nom_asso"=>"Association"
     ), array(), array(), array() );
 
+	$cts->add($tbl,true);
+
 }
 
 $site->add_contents($cts);
