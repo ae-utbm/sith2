@@ -169,7 +169,6 @@ function feed_start_element($p, $element, &$attrs) {
       $this->feed_version = $attrs['version'];
     }
 		elseif ( $el == 'feed' ) {
-			print_r("bleh2");
       $this->feed_type = ATOM;
       $this->feed_version = $attrs['version'];
       $this->inchannel = true;
@@ -459,7 +458,7 @@ function is_rss () {
 
 function is_atom() {
   if ( $this->feed_type == ATOM ) {
-    return $this->feed_version;
+    return true;
   }
   else {
     return false;
