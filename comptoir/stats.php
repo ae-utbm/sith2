@@ -98,14 +98,12 @@ if ( $_REQUEST["action"] == "view" )
   $tbl = new sqltable(
     "lstproduits",
     "Produits", $req, "stats.php",
-790       "id_produit",
-791       array(
-792       "nom_typeprod"=>"Type",
-793       "nom_prod"=>"Nom du produit",
-799       "nom_asso"=>"Association"
-800       ),
-801       array(), array(), array()
-802       );
+    "id_produit",
+    array(
+      "nom_typeprod"=>"Type",
+      "nom_prod"=>"Nom du produit",
+      "nom_asso"=>"Association"
+    ), array(), array(), array() );
 
 }
 
