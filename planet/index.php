@@ -164,6 +164,25 @@ elseif($_REQUEST["action"]=="fluxperso")
 }
 elseif($_REQUEST["action"]=="fluxfortag")
 {
+  $req = new requete($site->db,"SELECT `planet_flux`.`id_flux`, `planet_user_flux`.`id_utilisateur`, `planet_user_flux`.`view` ".
+                               "FROM `planet_flux` ".
+                               "LEFT JOIN `planet_user_flux` ".
+                               "ON (`planet_user_flux`.`id_flux`=`planet_flux`.`id_flux` ".
+                               "AND `planet_user_flux`.`id_utilisateur` = '".$site->user->id."') ".
+                               "WHERE (`planet_flux`.`id_utilisateur`='".$site->user->id."' OR `planet_flux`.`modere`= '1')");
+  if($req->lines>0)
+  {
+    while($row=$req->get_row())
+    {
+      if(isset($_REQUEST['flux'][$row['id_flux']]) && is_null($row['id_utilisateur']))
+        $_req = new insert($site->dbrw,"planet_user_flux", array('id_flux'=>$row['id_flux'],'id_utilisateur'=>$site->user->id, 'view'=>0));
+      elseif(!isset($_REQUEST['flux'][$row['id_flux']]) && !is_null($row['id_utilisateur']))
+        $_req = new delete($site->dbrw, "planet_user_flux", array("id_flux" => $row['id_flux'], "id_utilisateur"=>$site->user->id));
+      elseif(isset($_REQUEST['flux'][$row['id_flux']]) && !is_null($row['id_utilisateur']) && $row['view']==1)
+        $_req = new requete($site->dbrw, "UPDATE `planet_user_flux` SET `view`='0' ".
+                                         "WHERE `id_flux` = '".$row['id_flux']."' AND `id_utilisateur`='".$site->user->id."'");
+    }
+  }
 }
 
 
