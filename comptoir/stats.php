@@ -102,13 +102,13 @@ if ( $_REQUEST["action"] == "view" )
 
     $tbl->add_row(array("Nombre de ventes","Type","Nom du produit","Association"));
 
-    while ( list($nom_prod,$id_prod,$nom_asso,$nom_typeprod,$ventes) = $req->get_row() )
+    while ( list($ventes,$nom_prod,$id_prod,$nom_asso,$nom_typeprod,$ventes) = $req->get_row() )
 		{
 		  $reqnb = new requete($site->db, "SELECT " .
 			  "SUM(`cpt_vendu`.`quantite`) " .
 			  "FROM `cpt_vendu` " .
 			  "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
-			  "WHERE `cpt_vendu`.`id_produit`=`".$id_prod."` AND " .implode(" AND ",$condsnb));
+			  "WHERE `cpt_vendu`.`id_produit`=".$id_prod." AND " .implode(" AND ",$condsnb));
         
 				list($ventes) = $req->get_row();
 
