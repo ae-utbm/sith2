@@ -193,16 +193,8 @@ if ( isset($_GET["cycles"]) )
 for($i=0;$i<$cycles;$i++)
 {
   // CYCLE
-  
-  $req = new requete($dbrw,"SELECT * FROM galaxy_link WHERE length_link/ideal_length_link > 1000 LIMIT 1");
-  if ( $req->lines > 0 )
-  {
-    echo "<b>Dégénérescence<b><br/>";
-    exit();
-  }
-  
   echo "CYCLE : ";
-  $st = microtime(true);
+  $st = microtime(true);  
   new requete($dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET ".
   "vx_link = b.x_star-a.x_star, ".
   "vy_link = b.y_star-a.y_star  ".
@@ -235,6 +227,21 @@ for($i=0;$i<$cycles;$i++)
   echo "7: ".round(microtime(true)-$st,2)." - ";
   
   new requete($dbrw,"UPDATE galaxy_star SET x_star = x_star + dx_star, y_star = y_star + dy_star WHERE dx_star != 0 OR dy_star != 0 AND fixe_star != 1");
+  
+  echo "8: ".round(microtime(true)-$st,2)." - ";
+  $req = new requete($dbrw,"SELECT length_link/ideal_length_link ORDER BY 1 LIMIT 1");
+  if ( $req->lines > 0 )
+  {
+    list($max) = $req->get_row();
+    if ( $max > 1000 )
+    {
+      echo "dégénérescence<br/>";
+      exit();
+    }
+    echo "divergence : $max - ";
+  }
+  
+  
   
   echo "done in ".round(microtime(true)-$st,2)." sec<br/>\n";
 }
