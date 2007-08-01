@@ -230,7 +230,7 @@ elseif($_REQUEST["view"]=="perso")
                                  "LEFT JOIN `planet_user_flux` ".
                                  "ON (`planet_user_flux`.`id_flux`=`planet_flux`.`id_flux` ".
                                  "AND `planet_user_flux`.`id_utilisateur` = '".$site->user->id."') ".
-                                 "WHERE (`planet_flux`.`id_utilisateur`='".$site->user->id."' OR `planet_flux`.`modere`= '1')"
+                                 "WHERE (`planet_flux`.`id_utilisateur`='".$site->user->id."' OR `planet_flux`.`modere`= '1')".
                                  "AND `planet_flux_tags`.`id_tag`='".$_REQUEST["tagid"]."'");
     //$site->add_contents($cts);
     $cts = new contents("Vos abonnements aux autres flux");
