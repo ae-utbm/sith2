@@ -95,7 +95,7 @@ if ( $_REQUEST["action"] == "view" )
     "WHERE `cpt_mise_en_vente`.`id_comptoir`='".$_REQUEST["id_comptoir"]."' " .
     "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
 
- printf $req; 
+ printf( $req); 
   $tbl = new sqltable(
     "lstproduits",
     "Produits", $req, "stats.php",
