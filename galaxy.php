@@ -19,8 +19,13 @@ define('AREA_HEIGHT',500);
 
 if ( $_REQUEST["action"] == "area_image" )
 {
+  $highlight = null;
+  
+  if ( isset($_REQUEST["highlight"]) )
+    $highlight = explode(",",$_REQUEST["highlight"]);
+  
   header("Content-type: image/png");
-  $galaxy->render_area ( intval($_REQUEST['x']), intval($_REQUEST['y']), AREA_WIDTH, AREA_HEIGHT );
+  $galaxy->render_area ( intval($_REQUEST['x']), intval($_REQUEST['y']), AREA_WIDTH, AREA_HEIGHT, null, $highlight );
   exit();
 }
 
@@ -46,7 +51,22 @@ if ( isset($_REQUEST["id_utilisateur"]) )
     list($rx,$ry) = $req->get_row();
     
     $cts->add_title(2,"Localisation");
-    $cts->add_paragraph("<img src=\"galaxy.php?action=area_image&amp;x=".($rx-250)."&amp;y=".($ry-250)."\" />");  
+    
+    $hl = $user->id;
+    
+    $req = new requete($site->db,
+    "SELECT id_star_a
+    FROM galaxy_link
+    WHERE id_star_b='".mysql_real_escape_string($user->id)."'
+    UNION
+    SELECT id_star_b
+    FROM galaxy_link
+    WHERE id_star_a='".mysql_real_escape_string($user->id)."'");
+    
+    while (list($id) = $req->get_row() )
+      $hl .= ",".$id;
+    
+    $cts->add_paragraph("<img src=\"galaxy.php?action=area_image&amp;x=".($rx-250)."&amp;y=".($ry-250)."&amp;highlight=$hl\" />");  
    
     $req = new requete($site->db,
     "SELECT length_link, ideal_length_link, 

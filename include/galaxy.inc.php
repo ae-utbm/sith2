@@ -288,7 +288,7 @@ class galaxy
     
   }
   
-  function render_area ( $tx, $ty, $w, $h, $target=null )
+  function render_area ( $tx, $ty, $w, $h, $target=null, $highlight=null )
   {
     $st = microtime(true);
   
@@ -316,26 +316,82 @@ class galaxy
       imageline ($img, $row['x1']-$tx, $row['y1']-$ty, $row['x2']-$tx, $row['y2']-$ty, $wirecolor );    
     } 
   
-    $req = new requete($this->db, "SELECT ".
-    "rx_star, ry_star, sum_tense_star  ".
-    "FROM  galaxy_star ".
-    "WHERE rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2");
-    
-    while ( $row = $req->get_row() )
+    if ( is_null($highlight ) ) // Normal render
     {
-      imagefilledellipse ($img, $row['rx_star']-$tx, $row['ry_star']-$ty, 5, 5, $this->star_color($img,$row['sum_tense_star']) ); 
+      $req = new requete($this->db, "SELECT ".
+      "rx_star, ry_star, sum_tense_star  ".
+      "FROM  galaxy_star ".
+      "WHERE rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2");
+      
+      while ( $row = $req->get_row() )
+        imagefilledellipse ($img, $row['rx_star']-$tx, $row['ry_star']-$ty, 5, 5, $this->star_color($img,$row['sum_tense_star']) ); 
+      
+      $req = new requete($this->db, "SELECT ".
+      "rx_star, ry_star, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
+      "FROM  galaxy_star ".
+      "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star) ".
+      "WHERE rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2" );  
+      
+      while ( $row = $req->get_row() )
+        imagestring($img, 1, $row['rx_star']+5-$tx, $row['ry_star']-3-$ty,  utf8_decode($row['nom']), $textcolor);
+      
     }
-    
-    $req = new requete($this->db, "SELECT ".
-    "rx_star, ry_star, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
-    "FROM  galaxy_star ".
-    "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star) ".
-    "WHERE rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2" );  
-    
-    while ( $row = $req->get_row() )
+    else
     {
-      imagestring($img, 1, $row['rx_star']+5-$tx, $row['ry_star']-3-$ty,  utf8_decode($row['nom']), $textcolor);
+      
+      $wirecolor = imagecolorallocate($img, 64, 64, 64);
+
+      $req = new requete($this->db, "SELECT ABS(length_link-ideal_length_link) as ex, ".
+      "a.rx_star as x1, a.ry_star as y1, b.rx_star as x2, b.ry_star as y2 ".
+      "FROM  galaxy_link ".
+      "INNER JOIN galaxy_star AS a ON (a.id_star=galaxy_link.id_star_a) ".
+      "INNER JOIN galaxy_star AS b ON (b.id_star=galaxy_link.id_star_b) ".
+      "WHERE a.id_star='".$highlight[0]."' OR b.id_star='".$highlight[0]."'");
+      
+      while ( $row = $req->get_row() )
+        imageline ($img, $row['x1']-$tx, $row['y1']-$ty, $row['x2']-$tx, $row['y2']-$ty, $wirecolor );    
+      
+      $textcolor = imagecolorallocate($img, 128, 128, 128);
+      $ids = implode(",",$highlight);
+      
+       $req = new requete($this->db, "SELECT ".
+      "rx_star, ry_star, sum_tense_star  ".
+      "FROM  galaxy_star ".
+      "WHERE id_star NOT IN ($ids) AND rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2");
+      
+      while ( $row = $req->get_row() )
+        imagefilledellipse ($img, $row['rx_star']-$tx, $row['ry_star']-$ty, 5, 5, $this->star_color($img,$row['sum_tense_star']) ); 
+      
+      $req = new requete($this->db, "SELECT ".
+      "rx_star, ry_star, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
+      "FROM  galaxy_star ".
+      "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star) ".
+      "WHERE id_star NOT IN ($ids) AND rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2" );  
+      
+      while ( $row = $req->get_row() )
+        imagestring($img, 1, $row['rx_star']+5-$tx, $row['ry_star']-3-$ty,  utf8_decode($row['nom']), $textcolor);
+      
+      $textcolor = imagecolorallocate($img, 255, 255, 255);
+      
+       $req = new requete($this->db, "SELECT ".
+      "rx_star, ry_star, sum_tense_star  ".
+      "FROM  galaxy_star ".
+      "WHERE id_star IN ($ids) AND rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2");
+      
+      while ( $row = $req->get_row() )
+        imagefilledellipse ($img, $row['rx_star']-$tx, $row['ry_star']-$ty, 5, 5, $this->star_color($img,$row['sum_tense_star']) ); 
+      
+      $req = new requete($this->db, "SELECT ".
+      "rx_star, ry_star, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom ".
+      "FROM  galaxy_star ".
+      "INNER JOIN utilisateurs ON (utilisateurs.id_utilisateur=galaxy_star.id_star) ".
+      "WHERE id_star IN ($ids) AND rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2" );  
+      
+      while ( $row = $req->get_row() )
+        imagestring($img, 1, $row['rx_star']+5-$tx, $row['ry_star']-3-$ty,  utf8_decode($row['nom']), $textcolor);
+            
     }
+
     if ( is_null($target) )
       imagepng($img);
     else
