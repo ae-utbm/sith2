@@ -237,6 +237,7 @@ class galaxy
     
     $bg = imagecolorallocate($img, 0, 0, 0);
     $textcolor = imagecolorallocate($img, 255, 255, 255);
+    $wirecolor = imagecolorallocate($img, 32, 32, 32);
     
     imagefill($img, 0, 0, $bg);
     
