@@ -135,6 +135,17 @@ class galaxy
   
   function cycle ( $detectcollision=false )
   {
+     
+    
+    new requete($this->dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET ".
+    "vx_link = b.x_star-a.x_star, ".
+    "vy_link = b.y_star-a.y_star  ".
+    "WHERE a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
+    new requete($this->dbrw,"UPDATE galaxy_link SET length_link = SQRT(POW(vx_link,2)+POW(vy_link,2))");
+    new requete($this->dbrw,"UPDATE galaxy_link SET dx_link=vx_link/length_link, dy_link=vy_link/length_link WHERE length_link != 0");
+    new requete($this->dbrw,"UPDATE galaxy_link SET dx_link=0, dy_link=0 WHERE length_link = ideal_length_link");
+    new requete($this->dbrw,"UPDATE galaxy_link SET dx_link=RAND(), dy_link=RAND() WHERE length_link != ideal_length_link AND dx_link=0 AND dy_link=0");
+    
     $req = new requete($this->db,"SELECT MAX(length_link/ideal_length_link),AVG(length_link/ideal_length_link) FROM galaxy_link");
     
     $reducer=1000;
@@ -150,16 +161,7 @@ class galaxy
       if ( !is_null($max) && $max > 0 )
         $reducer = max(50,round($max)*2);  
       echo $max." ".$avg." (".$reducer.") - ";
-    }     
-    
-    new requete($this->dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET ".
-    "vx_link = b.x_star-a.x_star, ".
-    "vy_link = b.y_star-a.y_star  ".
-    "WHERE a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
-    new requete($this->dbrw,"UPDATE galaxy_link SET length_link = SQRT(POW(vx_link,2)+POW(vy_link,2))");
-    new requete($this->dbrw,"UPDATE galaxy_link SET dx_link=vx_link/length_link, dy_link=vy_link/length_link WHERE length_link != 0");
-    new requete($this->dbrw,"UPDATE galaxy_link SET dx_link=0, dy_link=0 WHERE length_link = ideal_length_link");
-    new requete($this->dbrw,"UPDATE galaxy_link SET dx_link=RAND(), dy_link=RAND() WHERE length_link != ideal_length_link AND dx_link=0 AND dy_link=0");
+    }    
     
     new requete($this->dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET  ".
     "delta_link_a=(length_link-ideal_length_link)/ideal_length_link/$reducer, ".
