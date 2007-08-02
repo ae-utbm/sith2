@@ -329,7 +329,7 @@ $req2 = new requete($site->db,
         "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
 $cts->add(new sqltable("eblstcb",
-         "E-boutic, Commandes payés par carte bleu",
+         "E-boutic, Commandes payées par carte bleu",
          $req1,
          "moncompte.php",
          "id_facture",
@@ -343,7 +343,7 @@ $cts->add(new sqltable("eblstcb",
 
 
 $cts->add(new sqltable("eblstae",
-         "E-boutic, Commandes payés par carte AE",
+         "E-boutic, Commandes payées par carte AE",
          $req2,
          "moncompte.php",
          "id_facture",
