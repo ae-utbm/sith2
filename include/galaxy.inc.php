@@ -124,10 +124,10 @@ class galaxy
     new requete($this->dbrw, "UPDATE galaxy_star SET max_tense_star = ( SELECT MAX(tense_link) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
     new requete($this->dbrw, "UPDATE galaxy_star SET sum_tense_star = ( SELECT SUM(tense_link) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
     new requete($this->dbrw, "UPDATE galaxy_star SET nblinks_star = ( SELECT COUNT(*) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
-    new requete($this->dbrw, "UPDATE galaxy_link SET max_tense_stars_link=( SELECT MAX(max_tense_star) FROM galaxy_star WHERE id_star=id_star_a OR id_star=id_star_b )");
+    new requete($this->dbrw, "UPDATE galaxy_link SET max_tense_stars_link=( SELECT AVG(max_tense_star) FROM galaxy_star WHERE id_star=id_star_a OR id_star=id_star_b )");
     
         
-    new requete($this->dbrw, "UPDATE galaxy_link SET ideal_length_link=0.1+((1-(tense_link/max_tense_stars_link))*20)");
+    new requete($this->dbrw, "UPDATE galaxy_link SET ideal_length_link=0.25+((1-(tense_link/max_tense_stars_link))*30)");
     new requete($this->dbrw, "DELETE FROM galaxy_star WHERE nblinks_star = 0");
   
   
