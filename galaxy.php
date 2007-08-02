@@ -9,6 +9,11 @@ require_once($topdir . "include/cts/sqltable.inc.php");
 $site = new site ();
 $galaxy = new galaxy($site->db,$site->dbrw);
 
+// trichons un peu...
+
+$GLOBALS["entitiescatalog"]["utilisateur"][3]="galaxy.php";
+
+
 define('AREA_WIDTH',500);
 define('AREA_HEIGHT',500);
 
@@ -45,13 +50,15 @@ if ( isset($_REQUEST["id_utilisateur"]) )
    
     $req = new requete($site->db,
     "SELECT length_link, ideal_length_link, 
-    tense_link, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur
+    tense_link, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
+    id_utilisateur
     FROM galaxy_link
     INNER JOIN utilisateurs ON ( id_star_a=id_utilisateur)
     WHERE id_star_b='".mysql_real_escape_string($user->id)."'
     UNION
     SELECT length_link, ideal_length_link, 
-    tense_link, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur
+    tense_link, COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
+    id_utilisateur
     FROM galaxy_link
     INNER JOIN utilisateurs ON ( id_star_b=id_utilisateur)
     WHERE id_star_a='".mysql_real_escape_string($user->id)."'
@@ -66,9 +73,12 @@ if ( isset($_REQUEST["id_utilisateur"]) )
       );
     $cts->add($tbl,true);  
     
+    $cts->add_paragraph("Le score par lien est calculé à partir du nombre de photos où vous êtes tous deux présents, les liens de parrainage, et le temps inscrits dans les mêmes clubs et associations. Ensuite le score permet de déterminer la longueur du lien en fonction du score maximal de tous les liens de chaque personne.");
+    
     $req = new requete($site->db,
     "SELECT SQRT(POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2)) AS dist, 
-    COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur
+    COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
+    id_utilisateur
     FROM galaxy_star AS a, galaxy_star AS b, utilisateurs
     WHERE a.id_star='".mysql_real_escape_string($user->id)."' 
     AND a.id_star!=b.id_star
@@ -86,7 +96,7 @@ if ( isset($_REQUEST["id_utilisateur"]) )
       );
     $cts->add($tbl,true);    
     
-    
+    $cts->add_paragraph("Il est possible que de nombreuses personnes soient dans votre \"voisinnage\" par pur harsard. Cependant en général il s'agit soit de personnes liées soit de personnes avec un profil similaire.");
   } 
  
   $site->add_contents($cts);
