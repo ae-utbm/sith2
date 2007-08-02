@@ -185,7 +185,7 @@ if ( !$user->ae )
 	if ( $user->montant_compte >= 500 )
 		$cts->add_paragraph("Vous pouvez demander le remboursement des ".($user->montant_compte/100)." Euros restant sur le compte.");
 	elseif ( $user->montant_compte > 0 )
-		$cts->add_paragraph("Le solde restant est insufisent pour pouvoir obtenir un remboursement. Conformèment au réglement intérieur de l'AE.");
+		$cts->add_paragraph("Le solde restant est insuffisant pour pouvoir obtenir un remboursement. Conformément au réglement intérieur de l'AE.");
 	
 }
 
