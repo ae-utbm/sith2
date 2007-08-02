@@ -159,7 +159,7 @@ class galaxy
         exit();
       }
       if ( !is_null($max) && $max > 0 )
-        $reducer = max(100,round($max)*4);  
+        $reducer = max(25,round($max)*3);  
       echo $max." ".$avg." (".$reducer.") - ";
     }    
     
