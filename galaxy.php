@@ -87,7 +87,7 @@ if ( isset($_REQUEST["id_utilisateur"]) )
     $cts->add($tbl,true);    
     
     
-  }
+  } 
  
   $site->add_contents($cts);
   $site->end_page();
