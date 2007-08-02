@@ -136,13 +136,13 @@ class galaxy
   
   function cycle ( $detectcollision=false )
   {
-    $req = new requete($this->db,"SELECT MAX(length_link/ideal_length_link) FROM galaxy_link");
+    $req = new requete($this->db,"SELECT MAX(length_link/ideal_length_link),AVG(length_link/ideal_length_link) FROM galaxy_link");
     
-    $reducer=200;
+    $reducer=1000;
     
     if ( $req->lines > 0 )
     {
-      list($max) = $req->get_row();
+      list($max,$avg) = $req->get_row();
       if ( $max > 1000 )
       {
         echo "failed due to expension";
@@ -150,7 +150,7 @@ class galaxy
       }
       if ( !is_null($max) && $max > 0 )
         $reducer = max(25,round($max)*2);  
-      echo $max." (".$reducer.") - ";
+      echo $max." ".$avg." (".$reducer.") - ";
     }     
     
     new requete($this->dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET ".
