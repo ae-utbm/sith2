@@ -363,7 +363,7 @@ elseif($_REQUEST["view"]=="perso")
                                  "AND `planet_user_flux`.`id_utilisateur` = '".$site->user->id."') ".
                                  "WHERE (`planet_flux`.`id_utilisateur`='".$site->user->id."' OR `planet_flux`.`modere`= '1')".
                                  "AND `planet_flux_tags`.`id_tag`='".$_REQUEST["tagid"]."'");
-    $cts = new contents("Vos abonnements aux autres flux");
+    $cts = new contents("Vos désabonnements dans le tag");
     if($req->lines>0)
     {
       $frm = new form("flux_","index.php?view=perso&action=fluxfortag","false","POST","");
