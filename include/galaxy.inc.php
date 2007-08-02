@@ -137,6 +137,9 @@ class galaxy
   function cycle ( $detectcollision=false )
   {
     $req = new requete($this->db,"SELECT MAX(length_link/ideal_length_link) FROM galaxy_link");
+    
+    $reducer=200;
+    
     if ( $req->lines > 0 )
     {
       list($max) = $req->get_row();
@@ -145,8 +148,9 @@ class galaxy
         echo "failed due to expension";
         exit();
       }
-      echo $max." - ";
-    } 
+      if ( !is_null($max) && $max > 0 )
+        $reducer = max(4,round($max)+1);  
+    }     
     
     new requete($this->dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET ".
     "vx_link = b.x_star-a.x_star, ".
@@ -158,16 +162,9 @@ class galaxy
     new requete($this->dbrw,"UPDATE galaxy_link SET dx_link=RAND(), dy_link=RAND() WHERE length_link != ideal_length_link AND dx_link=0 AND dy_link=0");
     
     new requete($this->dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET  ".
-    "delta_link_a=(length_link-ideal_length_link)/ideal_length_link/50, ".
-    "delta_link_b=(length_link-ideal_length_link)/ideal_length_link/50*-1 ".
-    "WHERE length_link < ideal_length_link ".
-    "AND a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
-    
-    new requete($this->dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET  ".
-    "delta_link_a=(length_link-ideal_length_link)/ideal_length_link/100, ".
-    "delta_link_b=(length_link-ideal_length_link)/ideal_length_link/100*-1 ".
-    "WHERE length_link >= ideal_length_link ".
-    "AND a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
+    "delta_link_a=(length_link-ideal_length_link)/ideal_length_link/$reducer, ".
+    "delta_link_b=(length_link-ideal_length_link)/ideal_length_link/$reducer*-1 ".
+    "WHERE a.id_star = galaxy_link.id_star_a AND b.id_star = galaxy_link.id_star_b");
     
     new requete($this->dbrw,"UPDATE galaxy_star SET ".
     "dx_star = COALESCE(( SELECT SUM( delta_link_a * dx_link ) FROM galaxy_link WHERE id_star_a = id_star ),0) + ".
