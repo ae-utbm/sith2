@@ -539,12 +539,16 @@ if ( $sujet->is_valid() )
     /* nombre de posts par page */
     $npp=40;
 
+		/* transforme les `/me est un geek` (exemple) en `* BenC` est un geek` */
+		$rpltext = preg_replace('(\n|^)/me(\s)',"* ".$site->user->alias." ",$_REQUEST['rpltext']);
+
+
     if (($GLOBALS['svalid_call'] == true) && ($_REQUEST['rpltext'] != ''))
 	    $retpost = $message->create($forum,
 				    $sujet,
 				    $site->user->id,
 				    $_REQUEST['rpltitle'],
-				    $_REQUEST['rpltext'],
+				    $rpltext,
 				    $_REQUEST['synengine']);
     else
       $retpost = false;
