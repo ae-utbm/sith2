@@ -111,6 +111,7 @@ class sitecomptoirs extends site
 		$lst->add("<a href=\"admin.php?page=addproduit\">Ajouter un produit</a>");
 		$lst->add("<a href=\"admin.php?page=addtype\">Ajouter un type de produit</a>");
 		$lst->add("<a href=\"admin.php?page=produits\">Liste des produits et des types de produits</a>");
+		$lst->add("<a href=\"stats.php\">Statistiques de consommation</a>");
 		$admcts->add($lst,true, true, "prodbox", "boxlist", true, true);
 		
 		$lst = new itemlist("Gestion des comptoirs","boxlist");
