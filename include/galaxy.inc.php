@@ -149,7 +149,7 @@ class galaxy
         exit();
       }
       if ( !is_null($max) && $max > 0 )
-        $reducer = max(4,round($max)+1);  
+        $reducer = max(10,round($max)*2);  
       echo $max." (".$reducer.") - ";
     }     
     
