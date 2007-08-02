@@ -150,6 +150,7 @@ class galaxy
       }
       if ( !is_null($max) && $max > 0 )
         $reducer = max(4,round($max)+1);  
+      echo $max." (".$reducer.") - ";
     }     
     
     new requete($this->dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET ".
