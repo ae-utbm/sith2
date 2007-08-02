@@ -126,9 +126,11 @@ class galaxy
     new requete($this->dbrw, "UPDATE galaxy_star SET nblinks_star = ( SELECT COUNT(*) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
     new requete($this->dbrw, "UPDATE galaxy_link SET max_tense_stars_link=( SELECT MAX(max_tense_star) FROM galaxy_star WHERE id_star=id_star_a OR id_star=id_star_b )");
     
-    new requete($this->dbrw, "UPDATE galaxy_link SET ideal_length_link=0.1+((1-(tense_link/max_tense_stars_link))*20)");
     
+    //=20,1-(SIN(A2/39*PI()/2)*20)
     
+    //new requete($this->dbrw, "UPDATE galaxy_link SET ideal_length_link=0.1+((1-(tense_link/max_tense_stars_link))*20)");
+    new requete($this->dbrw, "UPDATE galaxy_link SET ideal_length_link=20.1-(SIN(tense_link/max_tense_stars_link*PI()*2)*20)");    
     new requete($this->dbrw, "DELETE FROM galaxy_star WHERE nblinks_star = 0");
   
   
@@ -149,7 +151,7 @@ class galaxy
         exit();
       }
       if ( !is_null($max) && $max > 0 )
-        $reducer = max(25,round($max)*2);  
+        $reducer = max(50,round($max)*2);  
       echo $max." ".$avg." (".$reducer.") - ";
     }     
     
