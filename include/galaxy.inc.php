@@ -130,7 +130,7 @@ class galaxy
     //=20,1-(SIN(A2/39*PI()/2)*20)
     
     //new requete($this->dbrw, "UPDATE galaxy_link SET ideal_length_link=0.1+((1-(tense_link/max_tense_stars_link))*20)");
-    new requete($this->dbrw, "UPDATE galaxy_link SET ideal_length_link=20.1-(SIN(tense_link/max_tense_stars_link*PI()*2)*20)");    
+    new requete($this->dbrw, "UPDATE galaxy_link SET ideal_length_link=40.25-(SIN(tense_link/max_tense_stars_link*PI()/2)*40)");    
     new requete($this->dbrw, "DELETE FROM galaxy_star WHERE nblinks_star = 0");
   
   
