@@ -340,14 +340,14 @@ class galaxy
     {
       $ids = implode(",",$highlight);
       
-      $wirecolor = imagecolorallocate($img, 80, 80, 80);
+      $wirecolor = imagecolorallocate($img, 64, 64, 64);
 
       $req = new requete($this->db, "SELECT ABS(length_link-ideal_length_link) as ex, ".
       "a.rx_star as x1, a.ry_star as y1, b.rx_star as x2, b.ry_star as y2 ".
       "FROM  galaxy_link ".
       "INNER JOIN galaxy_star AS a ON (a.id_star=galaxy_link.id_star_a) ".
       "INNER JOIN galaxy_star AS b ON (b.id_star=galaxy_link.id_star_b) ".
-      "WHERE a.id_star IN ($ids) OR b.id_star IN ($ids)");
+      "WHERE a.id_star = ".$highlight[0]." OR b.id_star = ".$highlight[0]."");
       
       while ( $row = $req->get_row() )
         imageline ($img, $row['x1']-$tx, $row['y1']-$ty, $row['x2']-$tx, $row['y2']-$ty, $wirecolor );    
