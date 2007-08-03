@@ -331,6 +331,12 @@ class forum extends basedb
     }
     
   }
+  function commit_replace($text,$alias)
+	{
+	  $text = preg_replace("/(\n|^)\/me\s/","\n* ".$alias." ",$text);
+
+		return $test;
+	}
 }
 
 ?>
