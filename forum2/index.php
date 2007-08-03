@@ -208,12 +208,14 @@ if ( $_REQUEST["action"] == "post" && !$forum->categorie )
     $sujet->create ( $forum, $site->user->id, $_REQUEST["titre_sujet"], $_REQUEST["soustitre_sujet"],
         $type,null,$date_fin_annonce,
         $news->id,$catph->id,$sdn->id );
-        
+       
+	  $subjtext = preg_replace("/(\n|^)\/me\s/","* ".$site->user->alias." ",$_REQUEST['subjtext']);
+
     $message->create($forum,
 				    $sujet,
 				    $site->user->id,
 				    $_REQUEST['titre_sujet'],
-				    $_REQUEST['subjtext'],
+				    $subjtext,
 				    $_REQUEST['synengine']);
 				    
     if ( isset($_REQUEST['star']) )
@@ -401,10 +403,11 @@ if ( $sujet->is_valid() )
         || ($forum->is_admin($site->user)))
         && ($GLOBALS['svalid_call'] == true))
       {
+			  $text = preg_replace("/(\n|^)\/me\s/","* ".$site->user->alias." ",$_REQUEST['text']);
         $ret = $message->update($forum, 
       			  $sujet,
       			  $_REQUEST['title'],
-      			  $_REQUEST['text'],
+      			  $text,
       			  $_REQUEST['synengine']);
         $cts = new contents("Modification d'un message", "Message modifié");
       }
@@ -421,10 +424,12 @@ if ( $sujet->is_valid() )
         
       $message->load_initial_of_sujet($sujet->id);  
       
+			$text = preg_replace("/(\n|^)\/me\s/","* ".$site->user->alias." ",$_REQUEST['text']);
+
       $message->update($forum, 
       			  $sujet,
       			  $_REQUEST['titre'],
-      			  $_REQUEST['text'],
+      			  $text,
       			  $_REQUEST['synengine']);
       
       $type=SUJET_NORMAL;
