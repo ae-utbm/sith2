@@ -47,7 +47,7 @@ if ( isset($_GET["optimize"]) )
    
   while ( list($ida,$idb,$x,$y) = $req->get_row() )
   {
-    $d = $galaxy->get_density ( $x-1, $y-1, 2, 2, "$ida,$idb" );
+    $d = $galaxy->get_density ( $x-1, $y-1, $x+1, $y+1, "$ida,$idb" );
     if ( $d > 10 )
     {
       list($nx,$ny) = $galaxy->find_low_density_point(0,0,$x2,$y2,"$ida,$idb"); 
