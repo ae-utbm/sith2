@@ -240,7 +240,7 @@ class galaxy
     $req = new requete($this->db, "SELECT FLOOR(rx_star/100),FLOOR(ry_star/100),SUM(sum_tense_star) FROM  galaxy_star GROUP BY FLOOR(rx_star/100),FLOOR(ry_star/100)");
     
     while ( list($x,$y,$d) = $req->get_row() )
-      imagesetpixel($img,$x,$y,$this->star_color($img,round($d/2)));
+      imagesetpixel($img,$x,$y,$this->star_color($img,$d));
     
     imagepng($img,$mini_target);
     imagedestroy($img); 
