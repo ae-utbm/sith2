@@ -209,7 +209,7 @@ if ( $_REQUEST["action"] == "post" && !$forum->categorie )
         $type,null,$date_fin_annonce,
         $news->id,$catph->id,$sdn->id );
        
-	  $subjtext = preg_replace("/(\n|^)\/me\s/","* ".$site->user->alias." ",$_REQUEST['subjtext']);
+	  $subjtext = preg_replace("/(\n|^)\/me\s/","\n* ".$site->user->alias." ",$_REQUEST['subjtext']);
 
     $message->create($forum,
 				    $sujet,
@@ -403,7 +403,7 @@ if ( $sujet->is_valid() )
         || ($forum->is_admin($site->user)))
         && ($GLOBALS['svalid_call'] == true))
       {
-			  $text = preg_replace("/(\n|^)\/me\s/","* ".$site->user->alias." ",$_REQUEST['text']);
+			  $text = preg_replace("/(\n|^)\/me\s/","\n* ".$site->user->alias." ",$_REQUEST['text']);
         $ret = $message->update($forum, 
       			  $sujet,
       			  $_REQUEST['title'],
@@ -424,7 +424,7 @@ if ( $sujet->is_valid() )
         
       $message->load_initial_of_sujet($sujet->id);  
       
-			$text = preg_replace("/(\n|^)\/me\s/","* ".$site->user->alias." ",$_REQUEST['text']);
+			$text = preg_replace("/(\n|^)\/me\s/","\n* ".$site->user->alias." ",$_REQUEST['text']);
 
       $message->update($forum, 
       			  $sujet,
@@ -545,7 +545,7 @@ if ( $sujet->is_valid() )
     $npp=40;
 
 		/* transforme les `/me est un geek` (exemple) en `* BenC` est un geek` */
-		$rpltext = preg_replace("/(\n|^)\/me\s/","* ".$site->user->alias." ",$_REQUEST['rpltext']);
+		$rpltext = preg_replace("/(\n|^)\/me\s/","\t* ".$site->user->alias." ",$_REQUEST['rpltext']);
 
 
     if (($GLOBALS['svalid_call'] == true) && ($_REQUEST['rpltext'] != ''))
