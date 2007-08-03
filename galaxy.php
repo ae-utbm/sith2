@@ -194,11 +194,16 @@ $buffer.="</div>";
 $site->add_css("css/galaxy.css");
 $site->add_js("js/galaxy.js");
 
-list($x1,$y1,$x2,$y2) = $galaxy->limits();
+list($top_x,$top_y,$bottom_x,$bottom_y) = $galaxy->limits();
 
-$goX = round(($x2+$x1)/2*100)-250;
-$goY = round(($y2+$y1)/2*100)-250;
-
+$top_x = floor($top_x);
+$top_y = floor($top_y);
+$bottom_x = ceil($bottom_x);
+$bottom_y = ceil($bottom_y);
+  
+$goX = (($bottom_x-$top_x)*50)-250;
+$goY = (($bottom_y-$top_y)*50)-250;
+    
 $cts->puts("<div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square0\"></div>
 <div class=\"square\" id=\"square1\"></div>
