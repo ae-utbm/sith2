@@ -151,6 +151,23 @@ if ( isset($_REQUEST["id_utilisateur"]) )
 $site->start_page("rd","galaxy");
 $cts = new contents("Galaxy");
 
+$buffer= "<div style=\"position:relative;\"><img src=\"var/galaxy.png\" />";
+
+$req = new requete($site->db, "SELECT ".
+  "rx_star, ry_star, id_star ".
+  "FROM  galaxy_star");  
+
+while($row = $req->get_row() )
+{
+  $x = $row["rx_star"]-3;
+  $y = $row["ry_star"]-3; 
+  $buffer .= "<a href=\"galaxy.php?id_utilisateur=".$row["id_star"]."\" style=\"position:absolute;left:".$x."px;top:".$y."px;width:6px;height:6px;overflow:hidden;\">&nbsp;</a>";
+}
+$buffer.="</div>";
+
+$cts->puts($buffer);  
+
+
 $site->add_contents($cts);
 $site->end_page();
 

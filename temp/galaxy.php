@@ -48,7 +48,7 @@ if ( isset($_GET["optimize"]) )
   while ( list($ida,$idb,$x,$y) = $req->get_row() )
   {
     $d = $galaxy->get_density ( $x-1, $y-1, $x+1, $y+1, "$ida,$idb" );
-    if ( $d > 10 )
+    if ( $d > 5 )
     {
       list($nx,$ny) = $galaxy->find_low_density_point(0,0,$x2,$y2,"$ida,$idb"); 
       echo "MOVE $ida,$idb to ($nx, $ny)<br/>\n";
@@ -89,9 +89,9 @@ if ( isset($_REQUEST["render"]) )
 {
   echo "RENDER : ";
   $st = microtime(true);
-  $galaxy->render();
+  $galaxy->render("../var/galaxy.png");
   echo "done in ".(microtime(true)-$st)." sec<br/>\n";
-  echo "<br/><br/><img src=\"galaxy_temp.png\" />";
+  echo "<br/><br/><img src=\"../var/galaxy.png\" />";
 }
 
 ?>
