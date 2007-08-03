@@ -11,6 +11,7 @@ function galaxy_get_contents(obj,x,y)
   //obj.innerHTML="<img src=\"galaxy.php?action=area_image&x="+(x*500)+"&y="+(y*500)+"\" width=\"500\" height=\"500\" alt=\"\" />";
   //;
   //area_html
+  obj.innerHTML="";
   openInContents( obj.getAttribute("id"), "galaxy.php", "action=area_html&x="+(x*500)+"&y="+(y*500))
 }
 

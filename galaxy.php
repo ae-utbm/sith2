@@ -45,8 +45,8 @@ if ( $_REQUEST["action"] == "area_html" )
     "WHERE rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2" );  
   while($row = $req->get_row() )
   {
-    $x = $row["rx_star"]-$tx;
-    $y = $row["ry_star"]-$ty; 
+    $x = $row["rx_star"]-$tx-3;
+    $y = $row["ry_star"]-$ty-3; 
     echo "<a href=\"galaxy.php?id_utilisateur=".$row["id_star"]."\" style=\"position:absolute;left:".$x."px;top:".$y."px;width:6px;height:6px;overflow:hidden;\">&nbsp;</a>";
   }
   echo"</div>";
