@@ -85,7 +85,7 @@ if ( isset($_REQUEST["id_utilisateur"]) )
     {
       $x = $row["rx_star"]-$tx-3;
       $y = $row["ry_star"]-$ty-3; 
-      $buffer .= "<a href=\"galaxy.php?id_utilisateur=".$row["id_star"]."\" style=\"position:absolute;top:".$x."px;top:".$y."px;width:6px;height:6px;\">&nbsp;</a>";
+      $buffer .= "<a href=\"galaxy.php?id_utilisateur=".$row["id_star"]."\" style=\"position:absolute;top:".$x."px;top:".$y."px;width:6px;height:6px;border:1px solid red;\">&nbsp;</a>";
     }
     $buffer.="</div>";
     
