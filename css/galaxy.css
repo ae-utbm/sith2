@@ -5,6 +5,7 @@
   height:500px;
   overflow:hidden; 
   position:relative;
+  cursor:move;
 }
 
 .square
@@ -13,11 +14,12 @@
   width:500px;
   height:500px;
   background:#000000 url("../images/galaxy_loading.png");
+  cursor:move;
 }
 
 .square img
 {
   border=0;
-  
+  cursor:move;
 }
 

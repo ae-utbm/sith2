@@ -5,6 +5,7 @@ var galaxy_see_top_y = 1000;
 
 var galaxy_x = 0;
 var galaxy_y = 0;
+var galaxy_extra = "";
 
 function galaxy_get_contents(obj,x,y)
 {
@@ -12,7 +13,7 @@ function galaxy_get_contents(obj,x,y)
   //;
   //area_html
   obj.innerHTML="";
-  openInContents( obj.getAttribute("id"), "galaxy.php", "action=area_html&x="+(x*500)+"&y="+(y*500))
+  openInContents( obj.getAttribute("id"), "galaxy.php", "action=area_html&x="+(x*500)+"&y="+(y*500)+galaxy_extra)
 }
 
 function galaxy_placeall()
@@ -117,12 +118,13 @@ function no_mousedown(e) {
 function no_mouseup(e) {
   return false;}
 
-function init_galaxy(go_x,go_y)
+function init_galaxy(go_x,go_y, extra)
 {
 
   galaxy_x=0;
   galaxy_y=0;
-
+  galaxy_extra=extra;
+  
   galaxy_see_top_x = go_x;
   galaxy_see_top_y = go_y;
   

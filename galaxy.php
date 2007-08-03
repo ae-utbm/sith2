@@ -34,7 +34,13 @@ if ( $_REQUEST["action"] == "area_html" )
 	header("Content-Type: text/html; charset=utf-8");
 	$tx = intval($_REQUEST['x']);
 	$ty = intval($_REQUEST['y']);
+	
+  if ( isset($_REQUEST["highlight"]) )	
+  echo "<div style=\"position:relative;\"><img src=\"?action=area_image&amp;x=$tx&amp;y=$ty&amp;highlight=".$_REQUEST["highlight"]."\" width=\"500\" height=\"500\" />";
+  else
   echo "<div style=\"position:relative;\"><img src=\"?action=area_image&amp;x=$tx&amp;y=$ty\" width=\"500\" height=\"500\" />";
+  
+  
   $x1 = $tx;
   $y1 = $ty;
   $x2 = $tx+(AREA_WIDTH);
@@ -93,7 +99,7 @@ if ( isset($_REQUEST["id_utilisateur"]) )
     $tx = intval($rx-(AREA_WIDTH/2));
     $ty = intval($ry-(AREA_HEIGHT/2));    
     
-    $buffer= "<div style=\"position:relative;\"><img src=\"galaxy.php?action=area_image&amp;x=$tx&amp;y=$ty&amp;highlight=$hl\" />";
+    /*$buffer= "<div style=\"position:relative;\"><img src=\"galaxy.php?action=area_image&amp;x=$tx&amp;y=$ty&amp;highlight=$hl\" />";
     
     $x1 = $tx-3;
     $y1 = $ty-3;
@@ -113,7 +119,30 @@ if ( isset($_REQUEST["id_utilisateur"]) )
     }
     $buffer.="</div>";
     
-    $cts->puts($buffer);  
+    $cts->puts($buffer);  */
+    
+$site->add_css("css/galaxy.css");
+$site->add_js("js/galaxy.js");
+
+$cts->puts("<div class=\"viewer\" id=\"viewer\">
+<div class=\"square\" id=\"square0\"></div>
+<div class=\"square\" id=\"square1\"></div>
+<div class=\"square\" id=\"square2\"></div>
+<div class=\"square\" id=\"square3\"></div>
+<div class=\"square\" id=\"square4\"></div>
+<div class=\"square\" id=\"square5\"></div>
+<div class=\"square\" id=\"square6\"></div>
+<div class=\"square\" id=\"square7\"></div>
+<div class=\"square\" id=\"square8\"></div>
+<div class=\"square\" id=\"square9\"></div>
+<div class=\"square\" id=\"square10\"></div>
+<div class=\"square\" id=\"square11\"></div>
+<div class=\"square\" id=\"square12\"></div>
+<div class=\"square\" id=\"square13\"></div>
+<div class=\"square\" id=\"square14\"></div>
+<div class=\"square\" id=\"square15\"></div>
+</div><script>init_galaxy($goX,$goY,\"&highlight=$hl\");</script>");  
+    
    
     $req = new requete($site->db,
     "SELECT length_link, ideal_length_link, 
@@ -221,7 +250,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square13\"></div>
 <div class=\"square\" id=\"square14\"></div>
 <div class=\"square\" id=\"square15\"></div>
-</div><script>init_galaxy($goX,$goY);</script>");  
+</div><script>init_galaxy($goX,$goY,\"\");</script>");  
 
 
 $cts->add_paragraph("<a href=\"var/galaxy.png\">Tout galaxy sur une seule image</a>");
