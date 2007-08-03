@@ -292,6 +292,19 @@ class galaxy
       imagepng($img);
     else
       imagepng($img,$target);
+      
+    if ( !is_null($mini_target) )
+    {
+      $img2 = imagecreatetruecolor($w/$tx,$h/$tx);
+      imagecopyresampled ( $img2, $img, 0, 0, 0, 0, $w/$tx,$h/$tx, $w, $h );
+      imagedestroy($img);
+      imagepng($img2,$mini_target);
+      imagedestroy($img2); 
+      return;
+    } 
+      
+      
+      
     imagedestroy($img);
     
   }
@@ -404,16 +417,6 @@ class galaxy
       imagepng($img);
     else
       imagepng($img,$target);
-      
-    if ( !is_null($mini_target) )
-    {
-      $img2 = imagecreatetruecolor($w/$tx,$h/$tx);
-      imagecopyresampled ( $img2, $img, 0, 0, 0, 0, $w/$tx,$h/$tx, $w, $h );
-      imagedestroy($img);
-      imagepng($img2,$mini_target);
-      imagedestroy($img2); 
-      return;
-    } 
       
     imagedestroy($img);  
         

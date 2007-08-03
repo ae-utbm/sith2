@@ -133,8 +133,9 @@ if ( isset($_REQUEST["id_utilisateur"]) )
 $site->add_css("css/galaxy.css");
 $site->add_js("js/galaxy.js");
 
-$cts->puts("<div class=\"map\" id=\"map\"><div class=\"position\" id=\"position\">
-<img src=\"var/mini_galaxy.png\" /></div></div><div class=\"viewer\" id=\"viewer\">
+$cts->puts("<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
+<div class=\"position\" id=\"position\"></div></div>
+<div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square0\"></div>
 <div class=\"square\" id=\"square1\"></div>
 <div class=\"square\" id=\"square2\"></div>
@@ -245,8 +246,8 @@ $goY = (($bottom_y-$top_y)*50)-250;
     
 $cts->add_title(2,"Voici galaxy");
     
-$cts->puts("<div class=\"map\" id=\"map\"><div class=\"position\" id=\"position\">
-<img src=\"var/mini_galaxy.png\" /></div></div>
+$cts->puts("<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
+<div class=\"position\" id=\"position\"></div></div>
 <div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square0\"></div>
 <div class=\"square\" id=\"square1\"></div>
