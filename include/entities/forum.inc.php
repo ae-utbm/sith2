@@ -339,7 +339,7 @@ class forum extends basedb
 	{
 	  $text = preg_replace("/(\n|^)\/me\s/","\n* ".$alias." ",$text);
 
-		return $test;
+		return $text;
 	}
 }
 
