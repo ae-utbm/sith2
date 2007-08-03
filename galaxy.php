@@ -1,5 +1,29 @@
 <?php
-
+/* Copyright 2007
+ *
+ * - Julien Etelain < julien at pmad dot net >
+ *
+ * "AE Recherche & Developpement" : Galaxy
+ *
+ * Ce fichier fait partie du site de l'Association des étudiants
+ * de l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+ 
 $topdir = "./";
 
 require_once($topdir. "include/site.inc.php");
@@ -62,7 +86,8 @@ if ( $_REQUEST["action"] == "area_html" )
   {
     $x = $row["rx_star"]-$tx-3;
     $y = $row["ry_star"]-$ty-3; 
-    echo "<a href=\"galaxy.php?id_utilisateur=".$row["id_star"]."\" style=\"position:absolute;left:".$x."px;top:".$y."px;width:6px;height:6px;overflow:hidden;\">&nbsp;</a>";
+    $id = $row["id_star"];
+    echo "<a href=\"galaxy.php?id_utilisateur=$id\" id=\"g$id\" onmouseover=\"show_tooltip('g$id','./','utilisateur','$id');\" onmouseout=\"hide_tooltip('g$id');\" style=\"position:absolute;left:".$x."px;top:".$y."px;width:6px;height:6px;overflow:hidden;\" >&nbsp;</a>";
   }
   echo"</div>";
   exit();
@@ -107,29 +132,7 @@ if ( isset($_REQUEST["id_utilisateur"]) )
     
     $tx = intval($rx-(AREA_WIDTH/2));
     $ty = intval($ry-(AREA_HEIGHT/2));    
-    
-    /*$buffer= "<div style=\"position:relative;\"><img src=\"galaxy.php?action=area_image&amp;x=$tx&amp;y=$ty&amp;highlight=$hl\" />";
-    
-    $x1 = $tx-3;
-    $y1 = $ty-3;
-    $x2 = $tx+(AREA_WIDTH+3);
-    $y2 = $ty+(AREA_HEIGHT+3);
-    
-    $req = new requete($site->db, "SELECT ".
-      "rx_star, ry_star, id_star ".
-      "FROM  galaxy_star ".
-      "WHERE rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2" );  
-    
-    while($row = $req->get_row() )
-    {
-      $x = $row["rx_star"]-$tx-3;
-      $y = $row["ry_star"]-$ty-3; 
-      $buffer .= "<a href=\"galaxy.php?id_utilisateur=".$row["id_star"]."\" style=\"position:absolute;left:".$x."px;top:".$y."px;width:6px;height:6px;overflow:hidden;\">&nbsp;</a>";
-    }
-    $buffer.="</div>";
-    
-    $cts->puts($buffer);  */
-    
+
 $site->add_css("css/galaxy.css");
 $site->add_js("js/galaxy.js");
 
@@ -215,22 +218,6 @@ $cts->puts("<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
 $site->start_page("rd","galaxy - ae r&d");
 $cts = new contents("galaxy");
 
-/*
-$buffer= "<div style=\"position:relative;\"><img src=\"var/galaxy.png\" />";
-
-$req = new requete($site->db, "SELECT ".
-  "rx_star, ry_star, id_star ".
-  "FROM  galaxy_star");  
-
-while($row = $req->get_row() )
-{
-  $x = $row["rx_star"]-3;
-  $y = $row["ry_star"]-3; 
-  $buffer .= "<a href=\"galaxy.php?id_utilisateur=".$row["id_star"]."\" style=\"position:absolute;left:".$x."px;top:".$y."px;width:6px;height:6px;overflow:hidden;\">&nbsp;</a>";
-}
-$buffer.="</div>";
-*/
-
 $site->add_css("css/galaxy.css");
 $site->add_js("js/galaxy.js");
 
@@ -269,7 +256,7 @@ $cts->puts("<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
 
 $cts->add_paragraph("<a href=\"var/galaxy.png\">Tout galaxy sur une seule image</a>");
 
-$frm = new form("galaxygo",$topdir."galaxy.php",true,"POST","Aller vers une personne");
+$frm = new form("galaxygo",$topdir."galaxy.php",true,"GET","Aller vers une personne");
 $frm->add_entity_smartselect("id_utilisateur","Nom/Surnom",new utilisateur($site->db));
 $frm->add_submit("go","Y aller");
 

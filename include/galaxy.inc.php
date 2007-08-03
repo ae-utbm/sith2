@@ -1,5 +1,30 @@
 <?php
 
+/* Copyright 2007
+ *
+ * - Julien Etelain < julien at pmad dot net >
+ *
+ * "AE Recherche & Developpement" : Galaxy
+ *
+ * Ce fichier fait partie du site de l'Association des étudiants
+ * de l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+ 
 
 class galaxy
 {
@@ -9,13 +34,19 @@ class galaxy
   var $width;
   var $height;
   
+  var $done_pre_cycle;
   
   function galaxy ( &$db, &$dbrw )
   {
     $this->db = $db;
     $this->dbrw = $dbrw;
+    $this->done_pre_cycle=false;
   }  
   
+  /**
+   * Vérifie que des données puevent être montrés aux utilisateurs.
+   * Pour cela vérifie qu'il existe des éléments avec des coordonnées en pixels.
+   */
   function is_ready_public()
   {
     $req = new requete($this->db,"SELECT * FROM galaxy_star WHERE rx_star IS NOT NULL AND ry_star IS NOT NULL LIMIT 1");
@@ -24,7 +55,9 @@ class galaxy
     return true;
   }
   
-  
+  /**
+   * Initialise une nouvelle galaxy, le "big bang" en quelque sorte
+   */
   function init ( )
   {
     new requete($this->dbrw,"TRUNCATE `galaxy_link`");    new requete($this->dbrw,"TRUNCATE `galaxy_star`");
@@ -141,9 +174,28 @@ class galaxy
   
   }
   
+  /**
+   * Préalable à une série de cycles.
+   * Efface les coordonnées en pixels de tous les éléments.
+   */
+  function pre_cycle ()
+  {
+    // s'assure que is_ready_public() renverra false pendant les calculs
+    // se débloquera après un appel à pre_render() (causé par render() ou mini_render())
+    new requete($this->dbrw,"UPDATE `galaxy_star` SET rx_star = NULL, ry_star = NULL");
+    $this->done_pre_cycle=true;
+  }
+  
+  /**
+   * Cycle.
+   * Produit les mouvements des objets par le calculs des contraintes aux quels ils sont soumis.
+   * Attention: Il n'y a pas de notion d'accélération ou d'intertie.
+   * Provoque un appel de pre_cycle() s'il n'a pas eu lieu.
+   */
   function cycle ( $detectcollision=false )
   {
-     
+    if ( !$this->done_pre_cycle )
+      $this->pre_cycle();
     
     new requete($this->dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET ".
     "vx_link = b.x_star-a.x_star, ".
@@ -191,9 +243,62 @@ class galaxy
     
   }
   
+  /**
+   * Provoque un deplacement aleatoir de tous les éléments (+/- 5 sur x et y)
+   */
   function rand()
   {
     new requete($this->dbrw, "UPDATE `galaxy_star` SET x_star = x_star+5-( RAND( ) *10 ), y_star = y_star+5-( RAND( ) *10)");
+  }
+  
+  /**
+   * Optimise le placement de certains éléments en les renvoyant dans des zones peu denses
+   */
+  function optimize()
+  {
+    
+    $req = new requete($this->db,
+    "SELECT a.id_star, b.x_star, b.y_star, l.ideal_length_link 
+     FROM galaxy_star AS a
+     INNER JOIN galaxy_link AS l ON ( l.id_star_a = a.id_star )
+     INNER JOIN galaxy_star AS b ON ( l.id_star_b = b.id_star )
+     WHERE a.nblinks_star=1 AND b.nblinks_star > 1
+     UNION
+     SELECT b.id_star, a.x_star, a.y_star, l.ideal_length_link
+     FROM galaxy_star AS b
+     INNER JOIN galaxy_link AS l ON ( l.id_star_b = b.id_star )
+     INNER JOIN galaxy_star AS a ON ( l.id_star_a = a.id_star )
+     WHERE b.nblinks_star=1 AND a.nblinks_star > 1");
+     
+    while ( list($id,$cx,$cy,$l) = $req->get_row() )
+    {
+      list($nx,$ny) = $this->find_low_density_point($cx-$l,$cy-$l,$l*2,$l*2,$id); 
+      $nx = sprintf("%.f",$nx);
+      $ny = sprintf("%.f",$ny);
+      //echo "MOVE $id to ($nx, $ny)<br/>\n";
+      new requete ( $this->dbrw, "UPDATE galaxy_star set x_star=$nx, y_star=$ny WHERE id_star=$id");
+    }
+      
+    list($x1,$y1,$x2,$y2) = $this->limits();
+    
+    $req = new requete($this->db,
+    "SELECT a.id_star, b.id_star, b.x_star, b.y_star 
+     FROM galaxy_star AS a
+     INNER JOIN galaxy_link AS l ON ( l.id_star_a = a.id_star )
+     INNER JOIN galaxy_star AS b ON ( l.id_star_b = b.id_star )
+     WHERE a.nblinks_star=1 AND b.nblinks_star=1");
+     
+    while ( list($ida,$idb,$x,$y) = $req->get_row() )
+    {
+      $d = $this->get_density ( $x-1, $y-1, $x+1, $y+1, "$ida,$idb" );
+      if ( $d > 5 )
+      {
+        list($nx,$ny) = $this->find_low_density_point(0,0,$x2,$y2,"$ida,$idb"); 
+        //echo "MOVE $ida,$idb to ($nx, $ny)<br/>\n";
+        new requete ( $this->dbrw, "UPDATE galaxy_star set x_star=$nx, y_star=$ny WHERE id_star=$ida OR id_star=$idb");
+      }
+    }
+    
   }
   
   function star_color ( $img, $i )
@@ -213,6 +318,9 @@ class galaxy
     return imagecolorallocate($img, $i*255/36, 0, 0);   
   }
   
+  /**
+   * Préalable au rendu: fixe les coordonnées en pixels de tous les éléments
+   */
   function pre_render ($tx=100)
   {
     $req = new requete($this->db, "SELECT MIN(x_star), MIN(y_star), MAX(x_star), MAX(y_star) FROM  galaxy_star");
@@ -229,6 +337,9 @@ class galaxy
     new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-".sprintf("%f",$top_x).") * $tx, ry_star = (y_star-".sprintf("%f",$top_y).") * $tx");    
   }
   
+  /**
+   * Fait le rendu de la mignature de galaxy
+   */
   function mini_render ( $mini_target="mini_galaxy_temp.png")
   {
     if ( empty($this->width) || empty($this->height) )
@@ -249,6 +360,9 @@ class galaxy
     imagedestroy($img); 
   }
   
+  /**
+   * Fait le rendu de l'image globale de galaxy
+   */
   function render ($target="galaxy_temp.png") 
   {
     if ( empty($this->width) || empty($this->height) )
@@ -317,10 +431,11 @@ class galaxy
     
   }
   
+  /**
+   * Fait le rendu d'une zone de galaxy
+   */
   function render_area ( $tx, $ty, $w, $h, $target=null, $highlight=null )
   {
-    $st = microtime(true);
-  
     $x1 = $tx-100; // Pour les textes
     $y1 = $ty-3;
     $x2 = $tx+$w+3;
@@ -430,6 +545,9 @@ class galaxy
         
   }
 
+  /**
+   * Calcule le nombre d'objet dans la zone donnée.
+   */
   function get_density ( $x1, $y1, $x2, $y2, $except=null )
   {
     $x1 = sprintf("%.f",$x1);
@@ -437,7 +555,7 @@ class galaxy
     $x2 = sprintf("%.f",$x2);
     $y2 = sprintf("%.f",$y2);
     
-    echo "get_density($x1,$y1,$x2,$y2) = ";
+    //echo "get_density($x1,$y1,$x2,$y2) = ";
     
     if (is_null($except) )
       $req = new requete($this->db, "SELECT ".
@@ -452,11 +570,14 @@ class galaxy
         
     list($count) = $req->get_row();
     
-    echo $count."<br/>\n";
+    //echo $count."<br/>\n";
     
     return $count;
   }
-
+  
+  /**
+   * Cherche un point où la densité est faible dans la zone donnée.
+   */
   function find_low_density_point ( $x, $y, $s, $except=null )
   {
     $ld = null;
