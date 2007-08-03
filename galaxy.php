@@ -141,7 +141,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square13\"></div>
 <div class=\"square\" id=\"square14\"></div>
 <div class=\"square\" id=\"square15\"></div>
-</div><script>init_galaxy($goX,$goY,\"&highlight=$hl\");</script>");  
+</div><script>init_galaxy($tx,$ty,\"&highlight=$hl\");</script>");  
     
    
     $req = new requete($site->db,
