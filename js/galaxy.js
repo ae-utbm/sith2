@@ -128,13 +128,13 @@ function init_galaxy(go_x,go_y, extra)
   galaxy_see_top_x = go_x;
   galaxy_see_top_y = go_y;
   
-  while ( galaxy_see_top_x > 1500 )
+  while ( galaxy_see_top_x > 500 )
   {
     galaxy_x++;
     galaxy_see_top_x -= 500;
   }
   
-  while ( galaxy_see_top_y > 1500 )
+  while ( galaxy_see_top_y > 500 )
   {
     galaxy_y++;
     galaxy_see_top_y -= 500;
