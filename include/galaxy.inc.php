@@ -229,7 +229,24 @@ class galaxy
     new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-".sprintf("%f",$top_x).") * $tx, ry_star = (y_star-".sprintf("%f",$top_y).") * $tx");    
   }
   
-  function render ($target="galaxy_temp.png",$mini_target=null) 
+  function mini_render ( $mini_target="mini_galaxy_temp.png")
+  {
+    if ( empty($this->width) || empty($this->height) )
+      $this->pre_render();
+    
+    $img = imagecreatetruecolor($this->width/100,$this->height/100);
+    $bg = imagecolorallocate($img, 0, 0, 0);
+    imagefill($img, 0, 0, $bg);
+    $req = new requete($this->db, "SELECT FLOOR(rx_star/100),FLOOR(ry_star/100),AVG(sum_tense_star) FROM  galaxy_star GROUP BY FLOOR(rx_star/100),FLOOR(ry_star/100)");
+    
+    while ( list($x,$y,$d) = $req->get_row() )
+      imagesetpixel($img,$x,$y,$this->star_color($img,$d));
+    
+    imagepng($img,$mini_target);
+    imagedestroy($img); 
+  }
+  
+  function render ($target="galaxy_temp.png") 
   {
     if ( empty($this->width) || empty($this->height) )
       $this->pre_render();
@@ -292,19 +309,7 @@ class galaxy
       imagepng($img);
     else
       imagepng($img,$target);
-      
-    if ( !is_null($mini_target) )
-    {
-      $img2 = imagecreatetruecolor($this->width/100,$this->height/100);
-      imagecopyresampled ( $img2, $img, 0, 0, 0, 0, $this->width/100,$this->height/100, $this->width,$this->height );
-      imagedestroy($img);
-      imagepng($img2,$mini_target);
-      imagedestroy($img2); 
-      return;
-    } 
-      
-      
-      
+
     imagedestroy($img);
     
   }

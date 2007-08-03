@@ -85,11 +85,20 @@ for($i=0;$i<$cycles;$i++)
   echo "done in ".round(microtime(true)-$st,2)." sec<br/>\n";
 }
 
+if ( isset($_REQUEST["minirender"]) )
+{
+  echo "MINI-RENDER : ";
+  $st = microtime(true);
+  $galaxy->mini_render("../var/mini_galaxy.png");
+  echo "done in ".(microtime(true)-$st)." sec<br/>\n";
+  echo "<br/><br/><img src=\"../var/mini_galaxy.png\" />";
+}
+
 if ( isset($_REQUEST["render"]) )
 {
   echo "RENDER : ";
   $st = microtime(true);
-  $galaxy->render("../var/galaxy.png","../var/mini_galaxy.png");
+  $galaxy->render("../var/galaxy.png");
   echo "done in ".(microtime(true)-$st)." sec<br/>\n";
   echo "<br/><br/><img src=\"../var/galaxy.png\" />";
 }
