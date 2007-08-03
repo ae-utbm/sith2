@@ -403,7 +403,7 @@ if ( $sujet->is_valid() )
         || ($forum->is_admin($site->user)))
         && ($GLOBALS['svalid_call'] == true))
       {
-			  $text = $message->commit_replace($_REQUEST['text'],$site->user->alias);
+			  $text = $message->commit_replace($_REQUEST['text'],$site->user);
         $ret = $message->update($forum, 
       			  $sujet,
       			  $_REQUEST['title'],

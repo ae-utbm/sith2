@@ -176,9 +176,9 @@ class message extends stdentity
   /**
 	* Permet de faire des remplacements au moment du commit
 	*/
-	function commit_replace($text,$alias)
+	function commit_replace($text,$user)
 	{
-	  $text = preg_replace("/(\n|^)\/me\s/","\n* ".$alias." ",$text);
+	  $text = preg_replace("/(\n|^)\/me\s/","\n* ".$user->alias." ",$text);
 	
 	  return $text;
 	}
