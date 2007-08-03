@@ -133,7 +133,8 @@ if ( isset($_REQUEST["id_utilisateur"]) )
 $site->add_css("css/galaxy.css");
 $site->add_js("js/galaxy.js");
 
-$cts->puts("<div class=\"viewer\" id=\"viewer\">
+$cts->puts("<div class=\"map\" id=\"map\"><div class=\"position\" id=\"position\">
+<img src=\"var/mini_galaxy.png\" /></div></div><div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square0\"></div>
 <div class=\"square\" id=\"square1\"></div>
 <div class=\"square\" id=\"square2\"></div>
@@ -242,7 +243,11 @@ $bottom_y = ceil($bottom_y);
 $goX = (($bottom_x-$top_x)*50)-250;
 $goY = (($bottom_y-$top_y)*50)-250;
     
-$cts->puts("<div class=\"viewer\" id=\"viewer\">
+$cts->add_title(2,"Voici galaxy");
+    
+$cts->puts("<div class=\"map\" id=\"map\"><div class=\"position\" id=\"position\">
+<img src=\"var/mini_galaxy.png\" /></div></div>
+<div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square0\"></div>
 <div class=\"square\" id=\"square1\"></div>
 <div class=\"square\" id=\"square2\"></div>
@@ -261,8 +266,13 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square15\"></div>
 </div><script>init_galaxy($goX,$goY,\"\");</script>");  
 
-
 $cts->add_paragraph("<a href=\"var/galaxy.png\">Tout galaxy sur une seule image</a>");
+
+$frm = new form("galaxygo",$topdir."galaxy.php",true,"POST","Aller vers une personne");
+$frm->add_entity_smartselect("id_utilisateur","Nom/Surnom",new utilisateur($site->db));
+$frm->add_submit("go","Y aller");
+
+$cts->add($frm,true);
 
 $site->add_contents($cts);
 $site->end_page();

@@ -89,7 +89,7 @@ if ( isset($_REQUEST["render"]) )
 {
   echo "RENDER : ";
   $st = microtime(true);
-  $galaxy->render("../var/galaxy.png");
+  $galaxy->render("../var/galaxy.png","../var/mini_galaxy.png");
   echo "done in ".(microtime(true)-$st)." sec<br/>\n";
   echo "<br/><br/><img src=\"../var/galaxy.png\" />";
 }

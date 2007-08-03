@@ -7,6 +7,8 @@ var galaxy_x = 0;
 var galaxy_y = 0;
 var galaxy_extra = "";
 
+var galaxy_position;
+
 function galaxy_get_contents(obj,x,y)
 {
   //obj.innerHTML="<img src=\"galaxy.php?action=area_image&x="+(x*500)+"&y="+(y*500)+"\" width=\"500\" height=\"500\" alt=\"\" />";
@@ -23,6 +25,8 @@ function galaxy_placeall()
     galaxy[i].style.left=((i%4)*500)-galaxy_see_top_x; 
     galaxy[i].style.top=(Math.floor(i/4)*500)-galaxy_see_top_y; 
   }
+  galaxy_position.style.left = (galaxy_x*5)+(galaxy_see_top_x/100)-1;
+  galaxy_position.style.top = (galaxy_y*5)+(galaxy_see_top_y/100)-1;
 }
 
 function galaxy_rotate ( dx, dy )
@@ -120,6 +124,8 @@ function no_mouseup(e) {
 
 function init_galaxy(go_x,go_y, extra)
 {
+  
+  galaxy_position=document.getElementById("position");
 
   galaxy_x=0;
   galaxy_y=0;
@@ -139,6 +145,9 @@ function init_galaxy(go_x,go_y, extra)
     galaxy_y++;
     galaxy_see_top_y -= 500;
   }
+  
+  galaxy_position.style.left = (galaxy_x*5)+(galaxy_see_top_x/100)-1;
+  galaxy_position.style.top = (galaxy_y*5)+(galaxy_see_top_y/100)-1;
   
   for(i=0;i<16;i++)
   {

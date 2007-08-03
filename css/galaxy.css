@@ -23,3 +23,21 @@
   cursor:move;
 }
 
+.map
+{
+  width:100px;
+  height:100px;
+  background:#000000;
+  position:relative;
+  float:right;
+}
+
+.position
+{
+  width:5px;
+  height:5px;
+  border:1px solid red;
+  position:absolute;
+  top:-1px;
+  left:-1px;
+}

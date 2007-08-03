@@ -229,7 +229,7 @@ class galaxy
     new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-".sprintf("%f",$top_x).") * $tx, ry_star = (y_star-".sprintf("%f",$top_y).") * $tx");    
   }
   
-  function render ($target="galaxy_temp.png") 
+  function render ($target="galaxy_temp.png",$mini_target=null) 
   {
     if ( empty($this->width) || empty($this->height) )
       $this->pre_render();
@@ -404,6 +404,17 @@ class galaxy
       imagepng($img);
     else
       imagepng($img,$target);
+      
+    if ( !is_null($mini_target) )
+    {
+      $img2 = imagecreatetruecolor($w/$tx,$h/$tx);
+      imagecopyresampled ( $img2, $img, 0, 0, 0, 0, $w/$tx,$h/$tx, $w, $h );
+      imagedestroy($img);
+      imagepng($img2,$mini_target);
+      imagedestroy($img2); 
+      return;
+    } 
+      
     imagedestroy($img);  
         
   }
