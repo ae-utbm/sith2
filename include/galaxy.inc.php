@@ -440,7 +440,7 @@ class galaxy
     {
       for($cy=$y;$cy<$y+$s;$cy+=$s/3)
       {
-        $d = get_density($cx,$cy,$cx+($s/3),$cy+($s/3), $except);
+        $d = $this->get_density($cx,$cy,$cx+($s/3),$cy+($s/3), $except);
         if ( $d == 0 )
           return array($cx+($s/6),$cy+($s/6));  
         
