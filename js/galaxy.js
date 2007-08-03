@@ -1,7 +1,7 @@
 var galaxy=new Array();
 
-var galaxy_see_top_x = 750;
-var galaxy_see_top_y = 750;
+var galaxy_see_top_x = 1000;
+var galaxy_see_top_y = 1000;
 
 var galaxy_x = 0;
 var galaxy_y = 0;
