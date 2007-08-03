@@ -209,7 +209,7 @@ if ( $_REQUEST["action"] == "post" && !$forum->categorie )
         $type,null,$date_fin_annonce,
         $news->id,$catph->id,$sdn->id );
        
-	  $subjtext = $message->commit_replace($_REQUEST['subjtext'],$site->user->alias);
+	  $subjtext = $message->commit_replace($_REQUEST['subjtext'],$site->user);
 
     $message->create($forum,
 				    $sujet,
@@ -424,7 +424,7 @@ if ( $sujet->is_valid() )
         
       $message->load_initial_of_sujet($sujet->id);  
       
-			$text = $message->commit_replace($_REQUEST['text'],$site->user->alias);
+			$text = $message->commit_replace($_REQUEST['text'],$site->user);
 
       $message->update($forum, 
       			  $sujet,
@@ -544,7 +544,7 @@ if ( $sujet->is_valid() )
     /* nombre de posts par page */
     $npp=40;
 
-		$rpltext = $message->commit_replace($_REQUEST['rpltext'],$site->user->alias);
+		$rpltext = $message->commit_replace($_REQUEST['rpltext'],$site->user);
 
     if (($GLOBALS['svalid_call'] == true) && ($_REQUEST['rpltext'] != ''))
 	    $retpost = $message->create($forum,
