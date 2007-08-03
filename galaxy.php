@@ -13,6 +13,15 @@ $galaxy = new galaxy($site->db,$site->dbrw);
 
 $GLOBALS["entitiescatalog"]["utilisateur"][3]="galaxy.php";
 
+$ready = $galaxy->is_ready_public(); 
+
+if ( !$ready )
+{
+  if ( $_REQUEST["action"] == "area_image" || $_REQUEST["action"] == "area_html"  )
+    exit();  
+  $site->fatal_partial();
+  exit();  
+}
 
 define('AREA_WIDTH',500);
 define('AREA_HEIGHT',500);

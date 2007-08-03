@@ -16,6 +16,14 @@ class galaxy
     $this->dbrw = $dbrw;
   }  
   
+  function is_ready_public()
+  {
+    $req = new requete($this->db,"SELECT * FROM galaxy_star WHERE rx_star IS NOT NULL AND ry_star IS NOT NULL LIMIT 1");
+    if ( $req->lines != 1 )
+      return false;
+    return true;
+  }
+  
   
   function init ( )
   {
