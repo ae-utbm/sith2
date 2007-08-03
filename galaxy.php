@@ -150,7 +150,7 @@ if ( isset($_REQUEST["id_utilisateur"]) )
 
 $site->start_page("rd","galaxy");
 $cts = new contents("Galaxy");
-
+/*
 $buffer= "<div style=\"position:relative;\"><img src=\"var/galaxy.png\" />";
 
 $req = new requete($site->db, "SELECT ".
@@ -164,8 +164,29 @@ while($row = $req->get_row() )
   $buffer .= "<a href=\"galaxy.php?id_utilisateur=".$row["id_star"]."\" style=\"position:absolute;left:".$x."px;top:".$y."px;width:6px;height:6px;overflow:hidden;\">&nbsp;</a>";
 }
 $buffer.="</div>";
+*/
+$site->add_css("css/galaxy.css");
+$site->add_js("js/galaxy.js");
 
-$cts->puts($buffer);  
+
+$cts->puts("<div class=\"viewer\" id=\"viewer\">
+<div class=\"square\" id=\"square0\"></div>
+<div class=\"square\" id=\"square1\"></div>
+<div class=\"square\" id=\"square2\"></div>
+<div class=\"square\" id=\"square3\"></div>
+<div class=\"square\" id=\"square4\"></div>
+<div class=\"square\" id=\"square5\"></div>
+<div class=\"square\" id=\"square6\"></div>
+<div class=\"square\" id=\"square7\"></div>
+<div class=\"square\" id=\"square8\"></div>
+<div class=\"square\" id=\"square9\"></div>
+<div class=\"square\" id=\"square10\"></div>
+<div class=\"square\" id=\"square11\"></div>
+<div class=\"square\" id=\"square12\"></div>
+<div class=\"square\" id=\"square13\"></div>
+<div class=\"square\" id=\"square14\"></div>
+<div class=\"square\" id=\"square15\"></div>
+</div><script>init_galaxy();</script>");  
 
 
 $site->add_contents($cts);

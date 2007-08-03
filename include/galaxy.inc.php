@@ -292,7 +292,7 @@ class galaxy
   {
     $st = microtime(true);
   
-    $x1 = $tx-3;
+    $x1 = $tx-100; // Pour les textes
     $y1 = $ty-3;
     $x2 = $tx+$w+3;
     $y2 = $ty+$h+3;
