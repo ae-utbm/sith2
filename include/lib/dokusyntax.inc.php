@@ -512,6 +512,7 @@ function smileys($text)
       $text = preg_replace('!^'.$tag.' !i', '<img src="'.$smPath.$img.'" alt="" /> ', $text);
       $text = preg_replace('!\n'.$tag.'$!i', "\n<img src=\"".$smPath.$img."\" alt=\"\" />", $text);
       $text = preg_replace('!^'.$tag.'$!i', '<img src="'.$smPath.$img.'" alt="" />', $text);
+			$text = preg_replace('! '.$tag.'$!i', ' <img src="'.$smPath.$img.'" alt="" />', $text);
     }
   }
   return $text;
