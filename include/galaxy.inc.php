@@ -295,8 +295,8 @@ class galaxy
       
     if ( !is_null($mini_target) )
     {
-      $img2 = imagecreatetruecolor($w/$tx,$h/$tx);
-      imagecopyresampled ( $img2, $img, 0, 0, 0, 0, $w/$tx,$h/$tx, $w, $h );
+      $img2 = imagecreatetruecolor($this->width/100,$this->height/100);
+      imagecopyresampled ( $img2, $img, 0, 0, 0, 0, $this->width/100,$this->height/100, $this->width,$this->height );
       imagedestroy($img);
       imagepng($img2,$mini_target);
       imagedestroy($img2); 
