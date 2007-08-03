@@ -338,21 +338,21 @@ class galaxy
     }
     else
     {
+      $ids = implode(",",$highlight);
       
-      $wirecolor = imagecolorallocate($img, 64, 64, 64);
+      $wirecolor = imagecolorallocate($img, 80, 80, 80);
 
       $req = new requete($this->db, "SELECT ABS(length_link-ideal_length_link) as ex, ".
       "a.rx_star as x1, a.ry_star as y1, b.rx_star as x2, b.ry_star as y2 ".
       "FROM  galaxy_link ".
       "INNER JOIN galaxy_star AS a ON (a.id_star=galaxy_link.id_star_a) ".
       "INNER JOIN galaxy_star AS b ON (b.id_star=galaxy_link.id_star_b) ".
-      "WHERE a.id_star='".$highlight[0]."' OR b.id_star='".$highlight[0]."'");
+      "WHERE a.id_star IN ($ids) OR b.id_star IN ($ids)");
       
       while ( $row = $req->get_row() )
         imageline ($img, $row['x1']-$tx, $row['y1']-$ty, $row['x2']-$tx, $row['y2']-$ty, $wirecolor );    
       
       $textcolor = imagecolorallocate($img, 128, 128, 128);
-      $ids = implode(",",$highlight);
       
        $req = new requete($this->db, "SELECT ".
       "rx_star, ry_star, sum_tense_star  ".
@@ -400,9 +400,70 @@ class galaxy
         
   }
 
+  function get_density ( $x1, $y1, $x2, $y2, $except=null )
+  {
+    $x1 = sprintf("%.f",$x1);
+    $y1 = sprintf("%.f",$y1);
+    $x2 = sprintf("%.f",$x2);
+    $y2 = sprintf("%.f",$y2);
+    
+    echo "get_density($x1,$y1,$x2,$y2) = ";
+    
+    if (is_null($except) )
+      $req = new requete($this->db, "SELECT ".
+        "COUNT(*)  ".
+        "FROM  galaxy_star ".
+        "WHERE x_star >= $x1 AND x_star < $x2 AND y_star >= $y1 AND y_star < $y2");
+    else
+      $req = new requete($this->db, "SELECT ".
+        "COUNT(*)  ".
+        "FROM  galaxy_star ".
+        "WHERE id_star != ".intval($except)." AND x_star >= $x1 AND x_star < $x2 AND y_star >= $y1 AND y_star < $y2");
+        
+    list($count) = $req->get_row();
+    
+    echo $count."<br/>\n";
+    
+    return $count;
+  }
+
+  function find_low_density_point ( $x, $y, $s, $except=null )
+  {
+    $ld = null;
+    $lx = null;
+    $ly = null;
+    
+    $cx = $x;
+    $cy = $y;
+    
+    for($cx=$x;$cx<$x+$s;$cx+=$s/3)
+    {
+      for($cy=$y;$cy<$y+$s;$cy+=$s/3)
+      {
+        $d = get_density($cx,$cy,$cx+($s/3),$cy+($s/3), $except);
+        if ( $d == 0 )
+          return array($cx+($s/6),$cy+($s/6));  
+        
+        if ( is_null($ld) || $ld > $d )
+        {
+          $lx = $cx;  
+          $ly = $cy;
+          $ld = $d;
+        }
+      }
+    }
+    
+    if ( $s < 0.001 )
+      return array($lx+($s/6),$ly+($s/6)); 
+    
+    return $this->find_low_density_point($lx,$ly,$s/3, $except);
+  }
   
-  
-  
+  function limits()
+  {
+    $req = new requete($this->db, "SELECT MIN(x_star), MIN(y_star), MAX(x_star), MAX(y_star) FROM  galaxy_star");
+    return $req->get_row();
+  }
   
 }
 
