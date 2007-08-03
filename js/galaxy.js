@@ -117,13 +117,31 @@ function no_mousedown(e) {
 function no_mouseup(e) {
   return false;}
 
-function init_galaxy()
+function init_galaxy(go_x,go_y)
 {
 
+  galaxy_x=0;
+  galaxy_y=0;
+
+  galaxy_see_top_x = go_x;
+  galaxy_see_top_y = go_y;
+  
+  while ( galaxy_see_top_x > 1500 )
+  {
+    galaxy_x++;
+    galaxy_see_top_x -= 500;
+  }
+  
+  while ( galaxy_see_top_y > 1500 )
+  {
+    galaxy_y++;
+    galaxy_see_top_y -= 500;
+  }
+  
   for(i=0;i<16;i++)
   {
     galaxy[i]= document.getElementById("square"+i);
-    galaxy_get_contents(galaxy[i],(i%4),Math.floor(i/4));
+    galaxy_get_contents(galaxy[i],galaxy_x+(i%4),galaxy_y+Math.floor(i/4));
     galaxy[i].style.left=((i%4)*500)-galaxy_see_top_x; 
     galaxy[i].style.top=(Math.floor(i/4)*500)-galaxy_see_top_y; 
     galaxy[i].onmousedown = no_mousedown;

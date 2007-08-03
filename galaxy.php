@@ -194,6 +194,10 @@ $buffer.="</div>";
 $site->add_css("css/galaxy.css");
 $site->add_js("js/galaxy.js");
 
+list($x1,$y1,$x2,$y2) = $galaxy->limits();
+
+$goX = round(($x2+$x1)/2*100)-250;
+$goY = round(($y2+$y1)/2*100)-250;
 
 $cts->puts("<div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square0\"></div>
@@ -212,7 +216,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square13\"></div>
 <div class=\"square\" id=\"square14\"></div>
 <div class=\"square\" id=\"square15\"></div>
-</div><script>init_galaxy();</script>");  
+</div><script>init_galaxy($goX,$goY);</script>");  
 
 
 $cts->add_paragraph("<a href=\"var/galaxy.png\">Tout galaxy sur une seule image</a>");
