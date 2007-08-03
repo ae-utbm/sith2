@@ -33,7 +33,7 @@ if ( isset($_GET["optimize"]) )
     $nx = sprintf("%.f",$nx);
     $ny = sprintf("%.f",$ny);
     echo "MOVE $id to ($nx, $ny)<br/>\n";
-    new update ( $dbrw, "UPDATE galaxy_star set x_star=$nx, y_star=$ny WHERE id_star=$id");
+    new requete ( $dbrw, "UPDATE galaxy_star set x_star=$nx, y_star=$ny WHERE id_star=$id");
   }
     
   
