@@ -34,7 +34,7 @@ if ( $_REQUEST["action"] == "area_html" )
 	header("Content-Type: text/html; charset=utf-8");
 	$tx = intval($_REQUEST['x']);
 	$ty = intval($_REQUEST['y']);
-  $buffer= "<div style=\"position:relative;\"><img src=\"?action=area_image&amp;x=$tx&amp;y=$ty\" width=\"500\" height=\"500\" />";
+  echo "<div style=\"position:relative;\"><img src=\"?action=area_image&amp;x=$tx&amp;y=$ty\" width=\"500\" height=\"500\" />";
   $x1 = $tx;
   $y1 = $ty;
   $x2 = $tx+(AREA_WIDTH);
@@ -47,9 +47,9 @@ if ( $_REQUEST["action"] == "area_html" )
   {
     $x = $row["rx_star"]-$tx;
     $y = $row["ry_star"]-$ty; 
-    $buffer .= "<a href=\"galaxy.php?id_utilisateur=".$row["id_star"]."\" style=\"position:absolute;left:".$x."px;top:".$y."px;width:6px;height:6px;overflow:hidden;\">&nbsp;</a>";
+    echo "<a href=\"galaxy.php?id_utilisateur=".$row["id_star"]."\" style=\"position:absolute;left:".$x."px;top:".$y."px;width:6px;height:6px;overflow:hidden;\">&nbsp;</a>";
   }
-  $buffer.="</div>";
+  echo"</div>";
   exit();
 }
 
