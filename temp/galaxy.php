@@ -29,14 +29,32 @@ if ( isset($_GET["optimize"]) )
    
   while ( list($id,$cx,$cy,$l) = $req->get_row() )
   {
-    list($nx,$ny) = $galaxy->find_low_density_point($cx-($l*1.5),$cy-($l*1.5),$l*3,$l*3,$id); 
+    list($nx,$ny) = $galaxy->find_low_density_point($cx-$l,$cy-$l,$l*2,$l*2,$id); 
     $nx = sprintf("%.f",$nx);
     $ny = sprintf("%.f",$ny);
     echo "MOVE $id to ($nx, $ny)<br/>\n";
     new requete ( $dbrw, "UPDATE galaxy_star set x_star=$nx, y_star=$ny WHERE id_star=$id");
   }
     
+  list($x1,$y1,$x2,$y2) = $galaxy->limits();
   
+  $req = new requete($dbrw,
+  "SELECT a.id_star, b.id_star, b.x_star, b.y_star 
+   FROM galaxy_star AS a
+   INNER JOIN galaxy_link AS l ON ( l.id_star_a = a.id_star )
+   INNER JOIN galaxy_star AS b ON ( l.id_star_b = b.id_star )
+   WHERE a.nblinks_star=1 AND b.nblinks_star=1");
+   
+  while ( list($ida,$idb,$x,$y) = $req->get_row() )
+  {
+    $d = $galaxy->get_density ( $x-1, $y-1, 2, 2, "$ida,$idb" );
+    if ( $d > 10 )
+    {
+      list($nx,$ny) = $galaxy->find_low_density_point(0,0,$x2,$y2,"$ida,$idb"); 
+      echo "MOVE $ida,$idb to ($nx, $ny)<br/>\n";
+      new requete ( $dbrw, "UPDATE galaxy_star set x_star=$nx, y_star=$ny WHERE id_star=$ida OR id_star=$idb");
+    }
+  }
   
   
   exit();

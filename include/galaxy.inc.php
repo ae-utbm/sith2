@@ -418,7 +418,7 @@ class galaxy
       $req = new requete($this->db, "SELECT ".
         "COUNT(*)  ".
         "FROM  galaxy_star ".
-        "WHERE id_star != ".intval($except)." AND x_star >= $x1 AND x_star < $x2 AND y_star >= $y1 AND y_star < $y2");
+        "WHERE id_star NOT IN (".$except.") AND x_star >= $x1 AND x_star < $x2 AND y_star >= $y1 AND y_star < $y2");
         
     list($count) = $req->get_row();
     
