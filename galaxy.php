@@ -66,7 +66,30 @@ if ( isset($_REQUEST["id_utilisateur"]) )
     while (list($id) = $req->get_row() )
       $hl .= ",".$id;
     
-    $cts->add_paragraph("<img src=\"galaxy.php?action=area_image&amp;x=".($rx-250)."&amp;y=".($ry-250)."&amp;highlight=$hl\" />");  
+    $tx = intval($rx-250);
+    $ty = intval($ry-250);    
+    
+    $buffer= "<div style=\"position:relative;\"><img src=\"galaxy.php?action=area_image&amp;x=$tx&amp;y=$ty&amp;highlight=$hl\" />";
+    
+    $x1 = $ty-3;
+    $y1 = $tx-3;
+    $x2 = $ty+(AREA_WIDTH+3);
+    $y2 = $tx+(AREA_HEIGHT+3);
+    
+    $req = new requete($this->db, "SELECT ".
+      "rx_star, ry_star, id_star ".
+      "FROM  galaxy_star ".
+      "WHERE rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2" );  
+    
+    while($row = $req->get_row() )
+    {
+      $x = $row["rx_star"]-$tx-3;
+      $y = $row["ry_star"]-$ty-3; 
+      $buffer .= "<a href=\"galaxy.php?id_utilisateur=".$row["id_star"]."\" style=\"position:absolute;top:".$x."px;top:".$y."px;width:6px;height:6px;\"></a>";
+    }
+    $buffer.="</div>";
+    
+    $cts->puts($buffer);  
    
     $req = new requete($site->db,
     "SELECT length_link, ideal_length_link, 
