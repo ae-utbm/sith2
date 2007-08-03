@@ -66,15 +66,15 @@ if ( isset($_REQUEST["id_utilisateur"]) )
     while (list($id) = $req->get_row() )
       $hl .= ",".$id;
     
-    $tx = intval($rx-250);
-    $ty = intval($ry-250);    
+    $tx = intval($rx-(AREA_WIDTH/2));
+    $ty = intval($ry-(AREA_HEIGHT/2));    
     
     $buffer= "<div style=\"position:relative;\"><img src=\"galaxy.php?action=area_image&amp;x=$tx&amp;y=$ty&amp;highlight=$hl\" />";
     
-    $x1 = $ty-3;
-    $y1 = $tx-3;
-    $x2 = $ty+(AREA_WIDTH+3);
-    $y2 = $tx+(AREA_HEIGHT+3);
+    $x1 = $tx-3;
+    $y1 = $ty-3;
+    $x2 = $tx+(AREA_WIDTH+3);
+    $y2 = $ty+(AREA_HEIGHT+3);
     
     $req = new requete($site->db, "SELECT ".
       "rx_star, ry_star, id_star ".
@@ -85,7 +85,7 @@ if ( isset($_REQUEST["id_utilisateur"]) )
     {
       $x = $row["rx_star"]-$tx-3;
       $y = $row["ry_star"]-$ty-3; 
-      $buffer .= "<a href=\"galaxy.php?id_utilisateur=".$row["id_star"]."\" style=\"position:absolute;top:".$x."px;top:".$y."px;width:6px;height:6px;\"></a>";
+      $buffer .= "<a href=\"galaxy.php?id_utilisateur=".$row["id_star"]."\" style=\"position:absolute;top:".$x."px;top:".$y."px;width:6px;height:6px;\">&nbsp;</a>";
     }
     $buffer.="</div>";
     
