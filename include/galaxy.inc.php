@@ -237,10 +237,10 @@ class galaxy
     $img = imagecreatetruecolor($this->width/100,$this->height/100);
     $bg = imagecolorallocate($img, 0, 0, 0);
     imagefill($img, 0, 0, $bg);
-    $req = new requete($this->db, "SELECT FLOOR(rx_star/100),FLOOR(ry_star/100),AVG(sum_tense_star) FROM  galaxy_star GROUP BY FLOOR(rx_star/100),FLOOR(ry_star/100)");
+    $req = new requete($this->db, "SELECT FLOOR(rx_star/100),FLOOR(ry_star/100),SUM(sum_tense_star) FROM  galaxy_star GROUP BY FLOOR(rx_star/100),FLOOR(ry_star/100)");
     
     while ( list($x,$y,$d) = $req->get_row() )
-      imagesetpixel($img,$x,$y,$this->star_color($img,$d));
+      imagesetpixel($img,$x,$y,$this->star_color($img,round($d/10)));
     
     imagepng($img,$mini_target);
     imagedestroy($img); 
