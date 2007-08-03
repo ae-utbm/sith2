@@ -8,8 +8,10 @@ var galaxy_y = 0;
 
 function galaxy_get_contents(obj,x,y)
 {
-  obj.innerHTML="<img src=\"galaxy.php?action=area_image&x="+(x*500)+"&y="+(y*500)+"\" width=\"500\" height=\"500\" alt=\"\" />";
-  //obj.getAttribute("id");
+  //obj.innerHTML="<img src=\"galaxy.php?action=area_image&x="+(x*500)+"&y="+(y*500)+"\" width=\"500\" height=\"500\" alt=\"\" />";
+  //;
+  //area_html
+  openInContents( obj.getAttribute("id"), "galaxy.php", "action=area_html&x="+(x*500)+"&y="+(y*500))
 }
 
 function galaxy_placeall()
@@ -23,6 +25,9 @@ function galaxy_placeall()
 
 function galaxy_rotate ( dx, dy )
 {
+  galaxy_ox=galaxy_x;
+  galaxy_oy=galaxy_y;
+  
   galaxy_x+=dx;
   galaxy_y+=dy;
   galaxy_see_top_x-=(dx*500);
@@ -42,7 +47,10 @@ function galaxy_rotate ( dx, dy )
       galaxy[i]=old_galaxy[ox+(oy*4)]; 
       
       //galaxy[i].innerHTML="("+(x+galaxy_x)+","+(y+galaxy_y)+")";
-      galaxy_get_contents(galaxy[i],x+galaxy_x,y+galaxy_y);
+      
+      if ( galaxy_ox+ox != x+galaxy_x || galaxy_oy+oy != y+galaxy_y )
+        galaxy_get_contents(galaxy[i],x+galaxy_x,y+galaxy_y);
+      
       galaxy[i].style.top=(y*500)-galaxy_see_top_y; 
       galaxy[i].style.left=(x*500)-galaxy_see_top_x; 
       i++;

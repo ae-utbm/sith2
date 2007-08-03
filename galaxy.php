@@ -29,6 +29,30 @@ if ( $_REQUEST["action"] == "area_image" )
   exit();
 }
 
+if ( $_REQUEST["action"] == "area_html" )
+{
+	header("Content-Type: text/html; charset=utf-8");
+	$tx = intval($_REQUEST['x']);
+	$ty = intval($_REQUEST['y']);
+  $buffer= "<div style=\"position:relative;\"><img src=\"?action=area_image&amp;x=$tx&amp;y=$ty\" width=\"500\" height=\"500\" />";
+  $x1 = $tx;
+  $y1 = $ty;
+  $x2 = $tx+(AREA_WIDTH);
+  $y2 = $ty+(AREA_HEIGHT);
+  $req = new requete($site->db, "SELECT ".
+    "rx_star, ry_star, id_star ".
+    "FROM  galaxy_star ".
+    "WHERE rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2" );  
+  while($row = $req->get_row() )
+  {
+    $x = $row["rx_star"]-$tx;
+    $y = $row["ry_star"]-$ty; 
+    $buffer .= "<a href=\"galaxy.php?id_utilisateur=".$row["id_star"]."\" style=\"position:absolute;left:".$x."px;top:".$y."px;width:6px;height:6px;overflow:hidden;\">&nbsp;</a>";
+  }
+  $buffer.="</div>";
+  exit();
+}
+
 if ( isset($_REQUEST["id_utilisateur"]) )
 {
   $user = new utilisateur($site->db,$site->dbrw);
@@ -148,8 +172,9 @@ if ( isset($_REQUEST["id_utilisateur"]) )
 }
 
 
-$site->start_page("rd","galaxy");
-$cts = new contents("Galaxy");
+$site->start_page("rd","galaxy - ae r&d");
+$cts = new contents("galaxy");
+
 /*
 $buffer= "<div style=\"position:relative;\"><img src=\"var/galaxy.png\" />";
 
@@ -165,6 +190,7 @@ while($row = $req->get_row() )
 }
 $buffer.="</div>";
 */
+
 $site->add_css("css/galaxy.css");
 $site->add_js("js/galaxy.js");
 
@@ -188,6 +214,8 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square15\"></div>
 </div><script>init_galaxy();</script>");  
 
+
+$cts->add_paragraph("<a href=\"var/galaxy.png\">Tout galaxy sur une seule image</a>");
 
 $site->add_contents($cts);
 $site->end_page();
