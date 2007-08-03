@@ -76,7 +76,7 @@ if ( isset($_REQUEST["id_utilisateur"]) )
     $x2 = $ty+(AREA_WIDTH+3);
     $y2 = $tx+(AREA_HEIGHT+3);
     
-    $req = new requete($this->db, "SELECT ".
+    $req = new requete($site->db, "SELECT ".
       "rx_star, ry_star, id_star ".
       "FROM  galaxy_star ".
       "WHERE rx_star >= $x1 AND rx_star <= $x2 AND ry_star >= $y1 AND ry_star <= $y2" );  
