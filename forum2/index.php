@@ -209,7 +209,7 @@ if ( $_REQUEST["action"] == "post" && !$forum->categorie )
         $type,null,$date_fin_annonce,
         $news->id,$catph->id,$sdn->id );
        
-	  $subjtext = preg_replace("/(\n|^)\/me\s/","\n* ".$site->user->alias." ",$_REQUEST['subjtext']);
+	  $subjtext = $message->commit_replace($_REQUEST['subjtext'],$site->user->alias);
 
     $message->create($forum,
 				    $sujet,
@@ -403,7 +403,7 @@ if ( $sujet->is_valid() )
         || ($forum->is_admin($site->user)))
         && ($GLOBALS['svalid_call'] == true))
       {
-			  $text = preg_replace("/(\n|^)\/me\s/","\n* ".$site->user->alias." ",$_REQUEST['text']);
+			  $text = $message->commit_replace($_REQUEST['text'],$site->user->alias);
         $ret = $message->update($forum, 
       			  $sujet,
       			  $_REQUEST['title'],
@@ -424,7 +424,7 @@ if ( $sujet->is_valid() )
         
       $message->load_initial_of_sujet($sujet->id);  
       
-			$text = preg_replace("/(\n|^)\/me\s/","\n* ".$site->user->alias." ",$_REQUEST['text']);
+			$text = $message->commit_replace($_REQUEST['text'],$site->user->alias);
 
       $message->update($forum, 
       			  $sujet,
@@ -544,9 +544,7 @@ if ( $sujet->is_valid() )
     /* nombre de posts par page */
     $npp=40;
 
-		/* transforme les `/me est un geek` (exemple) en `* BenC` est un geek` */
-		$rpltext = preg_replace("/(\n|^)\/me\s/","\t* ".$site->user->alias." ",$_REQUEST['rpltext']);
-
+		$rpltext = $message->commit_replace($_REQUEST['rpltext'],$site->user->alias);
 
     if (($GLOBALS['svalid_call'] == true) && ($_REQUEST['rpltext'] != ''))
 	    $retpost = $message->create($forum,
