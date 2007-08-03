@@ -540,7 +540,7 @@ if ( $sujet->is_valid() )
     $npp=40;
 
 		/* transforme les `/me est un geek` (exemple) en `* BenC` est un geek` */
-		$rpltext = preg_replace("/(\n|^)/me\s/","* ".$site->user->alias." ",$_REQUEST['rpltext']);
+		$rpltext = preg_replace("/(\n|^)\/me\s/","* ".$site->user->alias." ",$_REQUEST['rpltext']);
 
 
     if (($GLOBALS['svalid_call'] == true) && ($_REQUEST['rpltext'] != ''))
