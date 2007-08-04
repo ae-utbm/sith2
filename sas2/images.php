@@ -86,7 +86,7 @@ if ( $id_photo > 0 )
         exit();
       }
     }
-  
+    header("Cache-Control: must-revalidate");    header("Pragma: cache");
     header("Last-Modified: ".$lastModified);
     header("Cache-Control: public");
     header("Content-type: image/jpeg");

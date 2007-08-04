@@ -50,6 +50,35 @@ if ( !$ready )
 define('AREA_WIDTH',500);
 define('AREA_HEIGHT',500);
 
+if ( $_REQUEST["action"] == "area_image" || $_REQUEST["action"] == "area_html"  )
+{
+  $lastModified = gmdate('D, d M Y H:i:s', filemtime("var/mini_galaxy.png") ) . ' GMT';    
+  $etag=md5($_SERVER['SCRIPT_FILENAME']."?".$_SERVER['QUERY_STRING'].'#'.$lastModified);
+
+  if ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) )
+  {
+    $ifModifiedSince = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']);
+    if ($lastModified == $ifModifiedSince)
+    {
+      header("HTTP/1.0 304 Not Modified");
+      header('ETag: "'.$etag.'"');
+      exit();
+    }
+  }
+  
+  if ( isset($_SERVER['HTTP_IF_NONE_MATCH']) )  {    if ( $etag == str_replace('"', '',stripslashes($_SERVER['HTTP_IF_NONE_MATCH'])) )
+    {
+      header("HTTP/1.0 304 Not Modified");
+      header('ETag: "'.$etag.'"');
+      exit();
+    }
+  }
+  header("Cache-Control: must-revalidate");  header("Pragma: cache");
+  header("Last-Modified: ".$lastModified);
+  header("Cache-Control: public");
+  header('ETag: "'.$etag.'"');
+}
+
 if ( $_REQUEST["action"] == "area_image" )
 {
   $highlight = null;
