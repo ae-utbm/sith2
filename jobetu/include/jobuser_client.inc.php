@@ -127,7 +127,7 @@ class jobuser_client extends utilisateur
   				$buffer .= "<div class=\"apply_table\">";
 	  					  					
  						$buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_1');\">";
- 							$buffer .= "Robert Belot (TaChatte inc.)";
+ 							$buffer .= "Tatid (LittleDick inc.)";
   					$buffer .= "</div>";
   					
   					$buffer .= "<div id=\"applicant_1\" class=\"apply_content\">";
@@ -141,7 +141,7 @@ class jobuser_client extends utilisateur
 	  			$buffer .= "<div class=\"apply_table\">";
 	  				
 	  				$buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_2');\">";
-		  				$buffer .= "Aude Petit (Grand Manitou)";
+		  				$buffer .= "Popol (cf plus haut)";
 		  			$buffer .= "</div>";
 
 		  			$buffer .= "<div id=\"applicant_2\" class=\"apply_content\">";
