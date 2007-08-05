@@ -90,9 +90,40 @@ class jobuser_client extends utilisateur
   		$buffer .= "</div>";
   			
   		$buffer .= "<div class=\"content\">";
-  			$buffer .= "Il y a `2` candidatures pour votre annonce :";
-  				
+  			  				
   			/** Candidatures ******************************************************/
+
+  			$sql = new requete($this->db, "SELECT job_annonces_etu.id_etu,
+																							job_annonces_etu.comment,
+																							utilisateurs.nom_utl,
+																							utilisateurs.prenom_utl,
+																							utl_etu_utbm.branche_utbm,
+																							CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur
+																				FROM job_annonces_etu
+																				LEFT JOIN utilisateurs
+																				ON job_annonces_etu.id_etu = utilisateurs.id_utilisateur 
+																				LEFT JOIN utl_etu_utbm
+																				ON job_annonces_etu.id_etu = utl_etu_utbm.id_utilisateur 
+																				WHERE id_annonce = '".$annonce['id_annonce']."' AND relation = 'apply'");
+
+  			$buffer .= "Il y a `".$sql->lines."` candidature(s) pour votre annonce :";
+  			
+  			while($line = $sql->get_row())
+  			{
+  				$buffer .= "<div class=\"apply_table\">";
+  					
+  				$buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_1');\">";
+  				$buffer .= $line['nom_utilisateur']." (département ".$line['branche_utbm'].")";
+  				$buffer .= "</div>";
+  					
+  				$buffer .= "<div id=\"applicant_1\" class=\"apply_content\">";
+  				$buffer .= "gnaa";
+  				$buffer .= "</div>";
+
+	  			$buffer .= "</div>";
+  			}
+
+  			
   				$buffer .= "<div class=\"apply_table\">";
 	  					  					
  						$buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_1');\">";
