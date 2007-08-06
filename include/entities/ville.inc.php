@@ -58,7 +58,7 @@ class ville extends stdentity
     $this->id = $row['id_ville'];
     $this->nom = $row['nom_ville'];
     $this->id_pays = $row['id_pays'];
-    $this->cpostal = $row['cpostal_ville'];
+    $this->cpostal = sprintf("%5d", $row['cpostal_ville']);
     $this->lat = $row['lat_ville'];
     $this->long = $row['long_ville'];
     $this->eloi = $row['eloi_ville'];    
