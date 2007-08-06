@@ -543,7 +543,7 @@ class userinfov2 extends stdcontents
       $this->buffer .= htmlentities($user->addresse,ENT_COMPAT,"UTF-8");
       
       if ( $ville->is_valid() )
-			  $this->buffer .= "<br/>".$ville->get_html_link()." (".number_format(sprintf("%05d", $ville->cpostal), '0', '.',' ').")";
+	$this->buffer .= "<br/>".$ville->get_html_link()." (".sprintf("%05d", $ville->cpostal).")";
       
       if ( $pays->is_valid() && $pays->id != 1)
         $this->buffer .= "<br/>".$pays->get_html_link();
@@ -577,7 +577,7 @@ class userinfov2 extends stdcontents
         $this->buffer .= htmlentities($user->adresse_parents,ENT_COMPAT,"UTF-8");
         
         if ( $ville_parents->is_valid() )
-          $this->buffer .= "<br/>".$ville_parents->get_html_link()." (".number_format(sprintf("%05d", $ville_parents->cpostal), '0', '.', ' ').")";
+          $this->buffer .= "<br/>".$ville_parents->get_html_link()." (".sprintf("%05d", $ville_parents->cpostal).")";
         
         if ( $pays_parents->is_valid() && $pays_parents->id != 1)
           $this->buffer .= "<br/>".$pays_parents->get_html_link();
