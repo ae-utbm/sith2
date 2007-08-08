@@ -44,22 +44,6 @@
   padding:0;
 }
 
-.square div
-{
-  padding:0;
-  margin:0;
-  border:0;
-}
-
-.square img
-{
-  border:0;
-  cursor:move;
-  width:500px;
-  height:500px;
-  border:1px solid red;
-}
-
 .map
 {
   width:100px;
