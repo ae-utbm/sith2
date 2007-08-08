@@ -41,6 +41,7 @@
   height:500px;
   background:#000000 url("../images/galaxy_loading.png");
   cursor:move;
+  overflow:hidden; 
 }
 
 .square img
