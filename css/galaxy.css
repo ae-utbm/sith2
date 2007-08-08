@@ -41,7 +41,14 @@
   height:500px;
   background:#000000 url("../images/galaxy_loading.png");
   cursor:move;
-  overflow:hidden; 
+  padding:0;
+}
+
+.square div
+{
+  padding:0;
+  margin:0;
+  border:0;
 }
 
 .square img
