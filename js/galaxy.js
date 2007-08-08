@@ -110,7 +110,7 @@ function galaxy_mousemove(e) {
     dx=0;
     dy=0;
     
-    if ( galaxy_see_top_x > 1500 )
+    if ( galaxy_see_top_x > 1250 )
       dx = 1;
       
     if ( galaxy_see_top_y > 1500 )

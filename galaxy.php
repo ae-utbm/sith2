@@ -242,9 +242,7 @@ elseif ( isset($_REQUEST["id_utilisateur"]) )
 $site->add_css("css/galaxy.css");
 $site->add_js("js/galaxy.js");
 
-$cts->puts("<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
-<div class=\"position\" id=\"position\"></div></div>
-<div class=\"viewer\" id=\"viewer\">
+$cts->puts("<div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square0\"></div>
 <div class=\"square\" id=\"square1\"></div>
 <div class=\"square\" id=\"square2\"></div>
@@ -261,7 +259,8 @@ $cts->puts("<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
 <div class=\"square\" id=\"square13\"></div>
 <div class=\"square\" id=\"square14\"></div>
 <div class=\"square\" id=\"square15\"></div>
-</div><script>init_galaxy($tx,$ty,\"&highlight=$hl\");</script>");  
+<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
+<div class=\"position\" id=\"position\"></div></div></div><script>init_galaxy($tx,$ty,\"&highlight=$hl\");</script>");  
     
    
     $req = new requete($site->db,
@@ -342,9 +341,7 @@ $goY = (($bottom_y-$top_y)*50)-250;
     
 $cts->add_title(2,"Voici galaxy");
     
-$cts->puts("<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
-<div class=\"position\" id=\"position\"></div></div>
-<div class=\"viewer\" id=\"viewer\">
+$cts->puts("<div class=\"viewer\" id=\"viewer\">
 <div class=\"square\" id=\"square0\"></div>
 <div class=\"square\" id=\"square1\"></div>
 <div class=\"square\" id=\"square2\"></div>
@@ -361,7 +358,8 @@ $cts->puts("<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
 <div class=\"square\" id=\"square13\"></div>
 <div class=\"square\" id=\"square14\"></div>
 <div class=\"square\" id=\"square15\"></div>
-</div><script>init_galaxy($goX,$goY,\"\");</script>");  
+<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
+<div class=\"position\" id=\"position\"></div></div></div><script>init_galaxy($goX,$goY,\"\");</script>");  
 
 $cts->add_paragraph("<a href=\"var/galaxy.png\">Tout galaxy sur une seule image</a>");
 
