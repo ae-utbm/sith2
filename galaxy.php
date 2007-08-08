@@ -283,7 +283,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
       "listvoisins",
       "Personnes liées", $req, "galaxy.php?id_utilisateur_a=".$user->id,
       "id_utilisateur",
-      array("length_link"=>"Distance réelle","ideal_length_link"=>"Distance idéale","tense_link"=>"Score","nom_utilisateur"=>"Nom"),
+      array("length_link"=>"Distance réelle","ideal_length_link"=>"Distance cible","tense_link"=>"Score","nom_utilisateur"=>"Nom"),
       array("info"=>"Infos"), array(), array( )
       );
     $cts->add($tbl,true);  
