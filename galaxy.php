@@ -100,7 +100,7 @@ if ( $_REQUEST["action"] == "area_html" )
   if ( isset($_REQUEST["highlight"]) )	
   echo "<div style=\"position:relative;border:0;margin:0;padding:0;\"><img src=\"?action=area_image&amp;x=$tx&amp;y=$ty&amp;highlight=".$_REQUEST["highlight"]."\" />";
   else
-  echo "<div style=\"position:relative;border:0;margin:0;padding:0;\"><img style=\"border:1px solid red;\" src=\"?action=area_image&amp;x=$tx&amp;y=$ty\" />";
+  echo "<div style=\"position:relative;border:0;margin:0;padding:0;border:1px solid red;\"><img src=\"?action=area_image&amp;x=$tx&amp;y=$ty\" />";
   
   
   $x1 = $tx;
