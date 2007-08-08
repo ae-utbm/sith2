@@ -236,8 +236,8 @@ elseif ( isset($_REQUEST["id_utilisateur"]) )
     while (list($id) = $req->get_row() )
       $hl .= ",".$id;
     
-    $tx = intval($rx-(AREA_WIDTH/2));
-    $ty = intval($ry-(AREA_HEIGHT/2));    
+    $tx = intval($rx-375);
+    $ty = intval($ry-250);    
 
 $site->add_css("css/galaxy.css");
 $site->add_js("js/galaxy.js");
@@ -336,7 +336,7 @@ $top_y = floor($top_y);
 $bottom_x = ceil($bottom_x);
 $bottom_y = ceil($bottom_y);
   
-$goX = (($bottom_x-$top_x)*50)-250;
+$goX = (($bottom_x-$top_x)*50)-375;
 $goY = (($bottom_y-$top_y)*50)-250;
     
 $cts->add_title(2,"Voici galaxy");
