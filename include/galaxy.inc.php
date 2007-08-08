@@ -54,14 +54,10 @@ class galaxy
       return false;
     return true;
   }
+
   
-  /**
-   * Initialise une nouvelle galaxy, le "big bang" en quelque sorte
-   */
-  function init ( )
+  function scores ()
   {
-    new requete($this->dbrw,"TRUNCATE `galaxy_link`");    new requete($this->dbrw,"TRUNCATE `galaxy_star`");
-    
     $liens = array();
     
     // 1- Cacul du score
@@ -127,7 +123,20 @@ class galaxy
         if ( $score < 10 )
           unset($liens[$a][$b]);
     }
+
+    return $liens;
+  }
+  
+  
+  /**
+   * Initialise une nouvelle galaxy, le "big bang" en quelque sorte
+   */
+  function init ( )
+  {
+    new requete($this->dbrw,"TRUNCATE `galaxy_link`");    new requete($this->dbrw,"TRUNCATE `galaxy_star`");
     
+    $liens = $this->scores();
+        
     // 3- On crée les peronnes requises
     $stars = array();
     foreach ( $liens as $a => $data )
@@ -167,12 +176,85 @@ class galaxy
     new requete($this->dbrw, "UPDATE galaxy_star SET nblinks_star = ( SELECT COUNT(*) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
     new requete($this->dbrw, "UPDATE galaxy_link SET max_tense_stars_link=( SELECT AVG(max_tense_star) FROM galaxy_star WHERE id_star=id_star_a OR id_star=id_star_b )");
     
-        
     new requete($this->dbrw, "UPDATE galaxy_link SET ideal_length_link=0.25+((1-(tense_link/max_tense_stars_link))*30)");
     new requete($this->dbrw, "DELETE FROM galaxy_star WHERE nblinks_star = 0");
   
-  
   }
+  
+  function update()
+  {
+    $liens = $this->scores();
+    
+    $stars = array();
+    foreach ( $liens as $a => $data )
+    {
+      if ( !isset($stars[$a]) )
+        $stars[$a] = $a;
+      
+      foreach ( $data as $b => $score )
+        if ( !isset($stars[$b]) )
+          $stars[$b] = $b;
+    }
+    
+    $prev_stars = array();
+    $prev_liens = array();
+    
+    $req = new requete($this->dbrw, "SELECT id_star FROM galaxy_star");
+    
+    while ( list($id) = $req->get_row() )
+      $prev_stars[$id] = $id;
+    
+    $req = new requete($this->dbrw, "SELECT id_star_a, id_star_b, tense_link FROM galaxy_link");
+    
+    while ( list($a,$b,$c) = $req->get_row() )
+      $prev_liens[$a][$b] = $c;
+      
+    // enlève les anciennes étoiles
+    foreach ( $prev_stars as $id )
+      if ( !isset($stars[$id]) )
+        new delete($this->dbrw,"galaxy_star",array( "id_star"=>$id) );
+    
+    // enlève les anciens liens
+    foreach ( $prev_liens as $a => $data )
+      foreach ( $data as $b => $score )
+        if (!isset($liens[$a][$b]) )
+          new delete($this->dbrw,"galaxy_link",array( "id_star_a"=>$a, "id_star_b"=>$b));
+          
+    list($x1,$y1,$x2,$y2) = $this->limits();
+    $cw = max($x2-$x1,$y2-$y1);
+    
+    // ajoute les nouvelles étoiles
+    foreach ( $stars as $id )
+      if ( !isset($prev_stars[$id]) )
+      {
+        list($nx,$ny) = $this->find_low_density_point($x1,$y1,$cw);
+        new insert($this->dbrw,"galaxy_star",array( "id_star"=>$id, "x_star" => $nx, "y_star" => $ny ));
+      } 
+        
+    // ajoute les nouveaux liens  
+    foreach ( $liens as $a => $data )
+      foreach ( $data as $b => $score )
+        if (!isset($prev_liens[$a][$b]) )
+          new insert($this->dbrw,"galaxy_link",array( "id_star_a"=>$a, "id_star_b"=>$b, "tense_link" => $score ));
+        
+    // met à jour les anciens liens
+    foreach ( $liens as $a => $data )
+      foreach ( $data as $b => $score )
+        if ( isset($prev_liens[$a][$b]) && $prev_liens[$a][$b] != $score )
+          new update($this->dbrw,"galaxy_link",array("tense_link"=>$score),array("id_star_a"=>$a,"id_star_b"=>$b));
+    
+    // met à jour les champs calculés  
+    new requete($this->dbrw, "UPDATE galaxy_star SET max_tense_star = ( SELECT MAX(tense_link) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
+    new requete($this->dbrw, "UPDATE galaxy_star SET sum_tense_star = ( SELECT SUM(tense_link) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
+    new requete($this->dbrw, "UPDATE galaxy_star SET nblinks_star = ( SELECT COUNT(*) FROM galaxy_link WHERE id_star_a=id_star OR id_star_b=id_star )");
+    new requete($this->dbrw, "UPDATE galaxy_link SET max_tense_stars_link=( SELECT AVG(max_tense_star) FROM galaxy_star WHERE id_star=id_star_a OR id_star=id_star_b )");
+    
+    new requete($this->dbrw, "UPDATE galaxy_link SET ideal_length_link=0.25+((1-(tense_link/max_tense_stars_link))*30)");
+    new requete($this->dbrw, "DELETE FROM galaxy_star WHERE nblinks_star = 0");
+      
+  }
+  
+  
   
   /**
    * Préalable à une série de cycles.
@@ -272,7 +354,7 @@ class galaxy
      
     while ( list($id,$cx,$cy,$l) = $req->get_row() )
     {
-      list($nx,$ny) = $this->find_low_density_point($cx-$l,$cy-$l,$l*2,$l*2,$id); 
+      list($nx,$ny) = $this->find_low_density_point($cx-$l,$cy-$l,$l*2,$id); 
       $nx = sprintf("%.f",$nx);
       $ny = sprintf("%.f",$ny);
       //echo "MOVE $id to ($nx, $ny)<br/>\n";
@@ -280,6 +362,7 @@ class galaxy
     }
       
     list($x1,$y1,$x2,$y2) = $this->limits();
+    $cw = max($x2-$x1,$y2-$y1);
     
     $req = new requete($this->db,
     "SELECT a.id_star, b.id_star, b.x_star, b.y_star 
@@ -293,7 +376,7 @@ class galaxy
       $d = $this->get_density ( $x-1, $y-1, $x+1, $y+1, "$ida,$idb" );
       if ( $d > 5 )
       {
-        list($nx,$ny) = $this->find_low_density_point(0,0,$x2,$y2,"$ida,$idb"); 
+        list($nx,$ny) = $this->find_low_density_point($x1,$y1,$cw,"$ida,$idb"); 
         //echo "MOVE $ida,$idb to ($nx, $ny)<br/>\n";
         new requete ( $this->dbrw, "UPDATE galaxy_star set x_star=$nx, y_star=$ny WHERE id_star=$ida OR id_star=$idb");
       }

@@ -41,6 +41,14 @@ if ( isset($_REQUEST["init"]) )
   echo "done in ".(microtime(true)-$st)." sec<br/>\n";
 }
 
+if ( isset($_REQUEST["update"]) )
+{
+  echo "UPDATE : ";
+  $st = microtime(true);
+  $galaxy->update();
+  echo "done in ".(microtime(true)-$st)." sec<br/>\n";
+}
+
 if ( isset($_GET["rand"]) )
   $galaxy->rand();
   
