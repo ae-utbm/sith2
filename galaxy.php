@@ -168,11 +168,12 @@ if ( $_REQUEST["action"] == "info" )
   FROM asso_membre AS a
   JOIN asso_membre AS b ON
   ( 
+  b.id_utilisateur='".intval($user_b->id)."'
   AND a.id_asso = b.id_asso
   AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) > 74
   )
   INNER JOIN asso ON (asso.id_asso = a.id_asso)
-  WHERE a.id_utilisateur='".intval($user_a->id)."' AND b.id_utilisateur='".intval($user_b->id)."'
+  WHERE a.id_utilisateur='".intval($user_a->id)."' 
   GROUP BY a.id_asso");
   
   while ( $row = $req->get_row() )
