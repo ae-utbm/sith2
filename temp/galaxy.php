@@ -48,7 +48,7 @@ if ( isset($_GET["optimize"]) )
 {
   echo "OPTIMIZE : ";
   $st = microtime(true);
-  $this->optimize();
+  $galaxy->optimize();
   echo "done in ".(microtime(true)-$st)." sec<br/>\n";
 }
 
