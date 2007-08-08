@@ -122,7 +122,74 @@ if ( $_REQUEST["action"] == "area_html" )
   exit();
 }
 
-if ( isset($_REQUEST["id_utilisateur"]) )
+if ( $_REQUEST["action"] == "info" )
+{
+  $user_a = new utilisateur($site->db);
+  $user_a->load_by_id($_REQUEST["id_utilisateur"]);
+  
+  $user_b = new utilisateur($site->db);
+  $user_b->load_by_id($_REQUEST["id_star"]);
+  
+	if ( !$user_a->is_valid() || !$user_b->is_valid() )
+		$site->error_not_found("rd"); 
+  
+  $site->start_page("rd","galaxy");
+  $cts = new contents("Galaxy : Score ".$user_a->prenom . " " . $user_a->nom." - ".$user_b->prenom . " " . $user_b->nom);
+  
+  $total=0;
+  
+  $reasons = new itemlist();
+  
+  $req = new requete($site->db, "SELECT COUNT( * ) as c ".
+    "FROM `sas_personnes_photos` AS `p1` ".
+    "JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photo ".
+    "AND p1.id_utilisateur != p2.id_utilisateur ) ".
+    "WHERE p1.id_utilisateur='".intval($user_a->id)."' AND p2.id_utilisateur='".intval($user_b->id)."' ");
+
+  list($nbphotos) = $req->get_row();
+
+  $total += $nbphotos;
+
+  $reasons->add("$nbphotos photos ensemble : $nbphotos points");
+
+  $req = new requete($site->db, "SELECT COUNT(*) ".
+    "FROM `parrains` ".
+    "WHERE (id_utilisateur='".intval($user_a->id)."' AND id_utilisateur_fillot='".intval($user_b->id)."') ".
+    "OR (id_utilisateur='".intval($user_a->id)."' AND id_utilisateur_fillot='".intval($user_b->id)."')");
+    
+  list($nbpar) = $req->get_row();
+  
+  $total += $nbpar*15;
+  
+  $reasons->add("$nbpar lien de parrainage : ".($nbpar*15)." points");
+  
+  $req = new requete($site->db,"SELECT asso.nom_asso, a.id_asso,
+  SUM(DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut))) AS together
+  FROM asso_membre AS a
+  JOIN asso_membre AS b ON
+  ( 
+  AND a.id_asso = b.id_asso
+  AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) > 74
+  )
+  INNER JOIN asso ON (asso.id_asso = a.id_asso)
+  WHERE a.id_utilisateur='".intval($user_a->id)."' AND b.id_utilisateur='".intval($user_b->id)."'
+  GROUP BY a.id_asso");
+  
+  while ( $row = $req->get_row() )
+  {
+    $reasons->add($row["together"]." jours ensemble à ".$row["nom_asso"]." : ".round($row["together"]/75,3)." points");
+    $total += $row["together"]/75;
+  } 
+  
+  $reasons->add("<b>Total: ".round($total)." points</b>");
+  
+  $cts->add($reasons);
+  
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();  
+}
+elseif ( isset($_REQUEST["id_utilisateur"]) )
 {
   $user = new utilisateur($site->db,$site->dbrw);
   $user->load_by_id($_REQUEST["id_utilisateur"]);
@@ -208,7 +275,7 @@ $cts->puts("<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
       "Personnes liées", $req, "galaxy.php?id_utilisateur=".$user->id,
       "id_star",
       array("length_link"=>"Distance réelle","ideal_length_link"=>"Distance idéale","tense_link"=>"Score","nom_utilisateur"=>"Nom"),
-      array(), array(), array( )
+      array("info"=>"Infos"), array(), array( )
       );
     $cts->add($tbl,true);  
     
