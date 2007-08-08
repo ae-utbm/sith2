@@ -155,7 +155,7 @@ if ( $_REQUEST["action"] == "info" )
   $req = new requete($site->db, "SELECT COUNT(*) ".
     "FROM `parrains` ".
     "WHERE (id_utilisateur='".intval($user_a->id)."' AND id_utilisateur_fillot='".intval($user_b->id)."') ".
-    "OR (id_utilisateur='".intval($user_a->id)."' AND id_utilisateur_fillot='".intval($user_b->id)."')");
+    "OR (id_utilisateur='".intval($user_b->id)."' AND id_utilisateur_fillot='".intval($user_a->id)."')");
     
   list($nbpar) = $req->get_row();
   
