@@ -98,9 +98,9 @@ if ( $_REQUEST["action"] == "area_html" )
 	$ty = intval($_REQUEST['y']);
 	
   if ( isset($_REQUEST["highlight"]) )	
-  echo "<div style=\"position:relative;border:0;margin:0;padding:0;\"><img src=\"?action=area_image&amp;x=$tx&amp;y=$ty&amp;highlight=".$_REQUEST["highlight"]."\" />";
+  echo "<div style=\"position:relative;\"><img src=\"?action=area_image&amp;x=$tx&amp;y=$ty&amp;highlight=".$_REQUEST["highlight"]."\" style=\"position:absolute;top:0px;left:0px;\" />";
   else
-  echo "<div style=\"position:relative;border:0;margin:0;padding:0;border:1px solid red;\"><img src=\"?action=area_image&amp;x=$tx&amp;y=$ty\" />";
+  echo "<div style=\"position:relative;\"><img src=\"?action=area_image&amp;x=$tx&amp;y=$ty\" style=\"position:absolute;top:0px;left:0px;\" />";
   
   
   $x1 = $tx;
