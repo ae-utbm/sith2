@@ -125,10 +125,10 @@ if ( $_REQUEST["action"] == "area_html" )
 if ( $_REQUEST["action"] == "info" )
 {
   $user_a = new utilisateur($site->db);
-  $user_a->load_by_id($_REQUEST["id_utilisateur"]);
+  $user_a->load_by_id($_REQUEST["id_utilisateur_a"]);
   
   $user_b = new utilisateur($site->db);
-  $user_b->load_by_id($_REQUEST["id_star"]);
+  $user_b->load_by_id($_REQUEST["id_utilisateur"]);
   
 	if ( !$user_a->is_valid() || !$user_b->is_valid() )
 		$site->error_not_found("rd"); 
@@ -272,8 +272,8 @@ $cts->puts("<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
    
     $tbl = new sqltable(
       "listvoisins",
-      "Personnes liées", $req, "galaxy.php?id_utilisateur=".$user->id,
-      "id_star",
+      "Personnes liées", $req, "galaxy.php?id_utilisateur_a=".$user->id,
+      "id_utilisateur",
       array("length_link"=>"Distance réelle","ideal_length_link"=>"Distance idéale","tense_link"=>"Score","nom_utilisateur"=>"Nom"),
       array("info"=>"Infos"), array(), array( )
       );
