@@ -45,8 +45,10 @@
 
 .square img
 {
-  border=0;
+  border:0;
   cursor:move;
+  width:500px;
+  height:500px;
 }
 
 .map

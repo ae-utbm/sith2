@@ -45,23 +45,11 @@ function galaxy_get_contents(obj,x,y)
 
 function galaxy_placeall()
 {
-  /*for(i=0;i<16;i++)
+  for(i=0;i<16;i++)
   {
     galaxy[i].style.left=((i%4)*500)-galaxy_see_top_x; 
     galaxy[i].style.top=(Math.floor(i/4)*500)-galaxy_see_top_y; 
-  }*/
-  
-  i=0;
-  for(y=0;y<4;y++)
-  {
-    for(x=0;x<4;x++)
-    {
-      galaxy[i].style.top=(y*500)-galaxy_see_top_y; 
-      galaxy[i].style.left=(x*500)-galaxy_see_top_x; 
-      i++;
-    }
   }
-  
   galaxy_position.style.left = (galaxy_x*5)+(galaxy_see_top_x/100)-1;
   galaxy_position.style.top = (galaxy_y*5)+(galaxy_see_top_y/100)-1;
 }
