@@ -151,9 +151,9 @@ if ( $_REQUEST["action"] == "info" )
 
   list($nbphotos) = $req->get_row();
 
-  $total += $nbphotos;
+  $total += round($nbphotos/GALAXY_SCORE_1PTPHOTO);
 
-  $reasons->add("$nbphotos photos ensemble : $nbphotos points");
+  $reasons->add("$nbphotos photos ensemble : ".round($nbphotos/GALAXY_SCORE_1PTPHOTO)." points");
 
   $req = new requete($site->db, "SELECT COUNT(*) ".
     "FROM `parrains` ".
@@ -162,9 +162,9 @@ if ( $_REQUEST["action"] == "info" )
     
   list($nbpar) = $req->get_row();
   
-  $total += $nbpar*15;
+  $total += $nbpar*GALAXY_SCORE_PARRAINAGE;
   
-  $reasons->add("$nbpar lien de parrainage : ".($nbpar*15)." points");
+  $reasons->add("$nbpar lien de parrainage : ".($nbpar*GALAXY_SCORE_PARRAINAGE)." points");
   
   $req = new requete($site->db,"SELECT asso.nom_asso, a.id_asso,
   SUM(DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut))) AS together
@@ -173,7 +173,7 @@ if ( $_REQUEST["action"] == "info" )
   ( 
   b.id_utilisateur='".intval($user_b->id)."'
   AND a.id_asso = b.id_asso
-  AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) > 74
+  AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) >= ".GALAXY_SCORE_1PTJOURSASSO."
   )
   INNER JOIN asso ON (asso.id_asso = a.id_asso)
   WHERE a.id_utilisateur='".intval($user_a->id)."' 
@@ -181,11 +181,14 @@ if ( $_REQUEST["action"] == "info" )
   
   while ( $row = $req->get_row() )
   {
-    $reasons->add($row["together"]." jours ensemble à ".$row["nom_asso"]." : ".round($row["together"]/75,3)." points");
-    $total += $row["together"]/75;
+    $reasons->add($row["together"]." jours ensemble à ".$row["nom_asso"]." : ".round($row["together"]/GALAXY_SCORE_1PTJOURSASSO,3)." points");
+    $total += $row["together"]/GALAXY_SCORE_1PTJOURSASSO;
   } 
   
   $reasons->add("<b>Total: ".round($total)." points</b>");
+  
+  if ( round($total) < GALAXY_MINSCORE )
+    $reasons->add("<i>Score trop faible pour le lien puisse être considéré comme pertinent</i>");
   
   $cts->add($reasons);
   

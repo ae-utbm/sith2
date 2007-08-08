@@ -25,6 +25,10 @@
  * 02111-1307, USA.
  */
  
+define("GALAXY_SCORE_1PTPHOTO",1);
+define("GALAXY_SCORE_PARRAINAGE",15);
+define("GALAXY_SCORE_1PTJOURSASSO",75);
+define("GALAXY_MINSCORE",10);
 
 class galaxy
 {
@@ -62,7 +66,7 @@ class galaxy
     
     // 1- Cacul du score
     
-    // a- Les photos : 1pt / photo ensemble
+    // a- Les photos : 1pt / n photo ensemble
     $req = new requete($this->db, "SELECT COUNT( * ) as c, p1.id_utilisateur as u1, p2.id_utilisateur as u2 ".
     "FROM `sas_personnes_photos` AS `p1` ".
     "JOIN `sas_personnes_photos` AS `p2` ON ( p1.id_photo = p2.id_photo ".
@@ -74,10 +78,10 @@ class galaxy
       $a = min($row['u1'],$row['u2']);
       $b = max($row['u1'],$row['u2']);
       
-      $liens[$a][$b] = $row['c'];
+      $liens[$a][$b] = round($row['c']/GALAXY_SCORE_1PTPHOTO);
     }  
     
-    // b- Parrainage : 15pt / relation parrain-fillot
+    // b- Parrainage : n pt / relation parrain-fillot
     $req = new requete($this->db, "SELECT id_utilisateur as u1, id_utilisateur_fillot as u2 ".
     "FROM `parrains` ".
     "GROUP BY id_utilisateur, id_utilisateur_fillot");
@@ -87,12 +91,12 @@ class galaxy
       $b = max($row['u1'],$row['u2']);    
       
       if ( isset($liens[$a][$b]) )
-        $liens[$a][$b] += 15;
+        $liens[$a][$b] += GALAXY_SCORE_PARRAINAGE;
       else
-        $liens[$a][$b] = 15;
+        $liens[$a][$b] = GALAXY_SCORE_PARRAINAGE;
     }  
     
-    // c- associations et clubs : 1pt / 75 jours ensemble / assos
+    // c- associations et clubs : 1pt / n jours ensemble / assos
     $req = new requete($this->db,"SELECT a.id_utilisateur as u1,b.id_utilisateur as u2,
   SUM(DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut))) AS together
   FROM asso_membre AS a
@@ -100,7 +104,7 @@ class galaxy
   ( 
   a.id_utilisateur < b.id_utilisateur  
   AND a.id_asso = b.id_asso
-  AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) > 74
+  AND DATEDIFF(LEAST(COALESCE(a.date_fin,NOW()),COALESCE(b.date_fin,NOW())),GREATEST(a.date_debut,b.date_debut)) >= ".GALAXY_SCORE_1PTJOURSASSO."
   )
   GROUP BY a.id_utilisateur,b.id_utilisateur
   ORDER BY a.id_utilisateur,b.id_utilisateur");
@@ -111,16 +115,16 @@ class galaxy
       $b = max($row['u1'],$row['u2']);    
       
       if ( isset($liens[$a][$b]) )
-        $liens[$a][$b] += round($row['together']/75);
+        $liens[$a][$b] += round($row['together']/GALAXY_SCORE_1PTJOURSASSO);
       else
-        $liens[$a][$b] += round($row['together']/75);
+        $liens[$a][$b] = round($row['together']/GALAXY_SCORE_1PTJOURSASSO);
     }    
     
     // 2- On vire les liens pas significatifs
     foreach ( $liens as $a => $data )
     {
       foreach ( $data as $b => $score )
-        if ( $score < 10 )
+        if ( $score < GALAXY_MINSCORE )
           unset($liens[$a][$b]);
     }
 
