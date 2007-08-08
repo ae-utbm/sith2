@@ -31,6 +31,11 @@ require_once($topdir. "include/galaxy.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
 
 $site = new site ();
+$site->allow_only_logged_users("rd");
+
+if ( !$site->user->utbm && !$site->user->ae )
+  $site->error_forbidden("matmatronch","group",10001);
+  
 $galaxy = new galaxy($site->db,$site->dbrw);
 
 // trichons un peu...
