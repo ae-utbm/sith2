@@ -134,8 +134,11 @@ if ( $_REQUEST["action"] == "info" )
 		$site->error_not_found("rd"); 
   
   $site->start_page("rd","galaxy");
-  $cts = new contents("Galaxy : Score ".$user_a->prenom . " " . $user_a->nom." - ".$user_b->prenom . " " . $user_b->nom);
-  
+  $cts = new contents("<a href=\"galaxy.php\">Galaxy</a> : Score ".
+  "<a href=\"galaxy.php?id_utilisateur=".$user_a->id."\">".$user_a->prenom . " " . $user_a->nom."</a>".
+  " - <a href=\"galaxy.php?id_utilisateur=".$user_b->id."\">".$user_b->prenom . " " . $user_b->nom."</a>");
+  $cts->add_title(2,"Cacul du score \"galaxy\"");
+
   $total=0;
   
   $reasons = new itemlist();
@@ -186,6 +189,8 @@ if ( $_REQUEST["action"] == "info" )
   
   $cts->add($reasons);
   
+  $cts->add_title(2,"A propos de galaxy");
+  $cts->add_paragraph("<a href=\"article.php?name=rd:galaxy\">Explications sur ce qu'est et ce que n'est pas galaxy</a>");
   $site->add_contents($cts);
   $site->end_page();
   exit();  
@@ -199,7 +204,8 @@ elseif ( isset($_REQUEST["id_utilisateur"]) )
 		$site->error_not_found("rd");
 		
   $site->start_page("rd","galaxy");
-  $cts = new contents("Galaxy : ".$user->prenom . " " . $user->nom);
+  $cts = new contents("<a href=\"galaxy.php\">Galaxy</a> : ".
+  "<a href=\"galaxy.php?id_utilisateur=".$user->id."\">".$user->prenom . " " . $user->nom."</a>");
   
   $req = new requete($site->db,"SELECT rx_star,ry_star FROM galaxy_star WHERE id_star='".mysql_real_escape_string($user->id)."'");
 
@@ -280,7 +286,7 @@ $cts->puts("<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
       );
     $cts->add($tbl,true);  
     
-    $cts->add_paragraph("Le score par lien est calculé à partir du nombre de photos où vous êtes tous deux présents, les liens de parrainage, et le temps inscrits dans les mêmes clubs et associations. Ensuite le score permet de déterminer la longueur du lien en fonction du score maximal de tous les liens de chaque personne.");
+    $cts->add_paragraph("Le score par lien est calculé à partir du nombre de photos où vous êtes tous deux présents, les liens de parrainage, et le temps inscrits dans les mêmes clubs et associations. Ensuite le score permet de déterminer la longueur du lien en fonction du score maximal de tous les liens de chaque personne. Cliquer sur l'icone \"infos\" pour connaitre le calcul du score");
     
     $req = new requete($site->db,
     "SELECT SQRT(POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2)) AS dist, 
@@ -305,7 +311,10 @@ $cts->puts("<div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
     
     $cts->add_paragraph("Il est possible que de nombreuses personnes soient dans votre \"voisinnage\" par pur harsard. Cependant en général il s'agit soit de personnes liées soit de personnes avec un profil similaire.");
   } 
- 
+  
+  $cts->add_title(2,"A propos de galaxy");
+  $cts->add_paragraph("<a href=\"article.php?name=rd:galaxy\">Explications sur ce qu'est et ce que n'est pas galaxy</a>");
+
   $site->add_contents($cts);
   $site->end_page();
   exit();  
@@ -358,6 +367,10 @@ $frm->add_entity_smartselect("id_utilisateur","Nom/Surnom",new utilisateur($site
 $frm->add_submit("go","Y aller");
 
 $cts->add($frm,true);
+
+$cts->add_title(2,"A propos de galaxy");
+$cts->add_paragraph("<a href=\"article.php?name=rd:galaxy\">Explications sur ce qu'est et ce que n'est pas galaxy</a>");
+
 
 $site->add_contents($cts);
 $site->end_page();
