@@ -43,7 +43,7 @@ $galaxy = new galaxy($site->db,$site->dbrw);
 $galaxy->update();
 
 for($i=0;$i<45;$i++) // Environs 1100 cycles/jours
-  $galaxy->cycle(!isset($_REQUEST["bypasscollision"]));
+  $galaxy->cycle();
 
 $galaxy->mini_render($topdir."var/mini_galaxy.png");
 
