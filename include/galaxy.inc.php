@@ -421,13 +421,13 @@ class galaxy
     $this->width = ($bottom_x-$top_x)*$tx;
     $this->height = ($bottom_y-$top_y)*$tx;
     
-    $req=new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-".sprintf("%f",$top_x).") * $tx, ry_star = (y_star-".sprintf("%f",$top_y).") * $tx");   
+    $req=new requete($this->dbrw,"UPDATE galaxy_star SET rx_star = (x_star-".sprintf("%.f",$top_x).") * $tx, ry_star = (y_star-".sprintf("%.f",$top_y).") * $tx");   
     print_r($req); 
   }
   
   /**
    * Fait le rendu de la mignature de galaxy
-   */
+   */</>
   function mini_render ( $mini_target="mini_galaxy_temp.png")
   {
     if ( empty($this->width) || empty($this->height) )
