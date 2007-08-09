@@ -427,7 +427,7 @@ class galaxy
   
   /**
    * Fait le rendu de la mignature de galaxy
-   */</>
+   */
   function mini_render ( $mini_target="mini_galaxy_temp.png")
   {
     if ( empty($this->width) || empty($this->height) )
