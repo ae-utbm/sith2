@@ -366,7 +366,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
 <div class=\"map\" id=\"map\"><img src=\"var/mini_galaxy.png\" />
 <div class=\"position\" id=\"position\"></div></div></div><script>init_galaxy($goX,$goY,\"\");</script>");  
 
-$cts->add_paragraph("<a href=\"var/galaxy.png\">Tout galaxy sur une seule image</a>");
+//$cts->add_paragraph("<a href=\"var/galaxy.png\">Tout galaxy sur une seule image</a>");
 
 $frm = new form("galaxygo",$topdir."galaxy.php",true,"GET","Aller vers une personne");
 $frm->add_entity_smartselect("id_utilisateur","Nom/Surnom",new utilisateur($site->db));
