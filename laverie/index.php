@@ -31,8 +31,7 @@ $site->start_page("none","Machines");
 $cts = new contents("Machines à laver de l'AE");
 
 $cts->add_paragraph("<br />Ici trônera joyeusement l'interface cotisant-machine à laver.");
-$cts->add_paragraph("Le tout via un système révolutionnaire de responsables machines nourris au Bob AE et à la cancoillote afin de vous assurer une productivité parfaite 
-dans le nettoyage de vos chaussettes sales et de vos caleçons dégueus (non rien pour les filles, elle sont juste un mythe à l'UTBM).");
+$cts->add_paragraph("Le tout via un système révolutionnaire de responsables machines nourris au Bob AE et à la cancoillote afin de vous assurer une productivité parfaite dans le nettoyage de vos chaussettes sales et de vos caleçons dégueus (non rien pour les filles, elle sont juste un mythe à l'UTBM).");
 
 $site->add_contents($cts);
 $site->end_page();  
