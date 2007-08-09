@@ -38,7 +38,12 @@ $site->start_page ("none", "Tout en 2007" );
 $cts = new contents("Tout en 2007");
 
 
-$filter="(date_op>='2007-01-01' AND date_op <='2007-12-31')";
+$filter="( date_op>='2007-01-01' AND date_op <='2007-12-31' ";
+//1- Ignorer les opérations entre comptes
+$filter.= " AND id_cptasso IS NULL ";
+//2- Ignorer les 791,678,689,789 (sera recalculé plus tard)
+$filter.= " AND code_plan NOT IN (791,678,689,789) ";
+$filter.= ")";
 
 
 	$req = new requete ( $site->db, "SELECT " .
