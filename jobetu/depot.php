@@ -38,7 +38,7 @@ $tabs = array(
 							array("infos", "jobetu/depot.php?action=infos", "Vos informations"),
 	      			array("annonce", "jobetu/depot.php?action=annonce", "Votre annonce")
 	      			);
-$cts->add(new tabshead($tabs, $_REQUEST['action']));
+//$cts->add(new tabshead($tabs, $_REQUEST['action']));
 
 
 /****************************************************************************************************
@@ -47,34 +47,7 @@ $cts->add(new tabshead($tabs, $_REQUEST['action']));
 
 if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 {
-	/*************************************************************
-	 * Récupération et traitement des infos de l'onglet connexion 
-	 */
-	if(isset($_REQUEST) && $_REQUEST['magicform']['name'] == "user_info")
-	{
-		$jobuser = new jobuser_client($site->db, $site->dbrw);
-		
-		if($_REQUEST['type_indent'] == "connexion")
-		{
-			$jobuser->connexion($_REQUEST['ident_email'], $_REQUEST['ident_passwd']);
-		}
-		else if($_REQUEST['type_indent'] == "inscr_particulier")
-		{
-//			print_r($_REQUEST);
-
-			if(!empty($_REQUEST['ip_client_nom'])
-			&& !empty($_REQUEST['ip_client_prenom'])
-			&& !empty($_REQUEST['ip_email'])
-			&& !empty($_REQUEST['ip_passwd'])
-			&& $_REQUEST['ip_passwd'] == $_REQUEST['ip_passwd_conf'])
-			{
-				$jobuser->create_user($_REQUEST['ip_client_nom'], $_REQUEST['ip_client_prenom'], false, $_REQUEST['ip_email'], $_REQUEST['ip_passwd'], false, false, $_REQUEST['sexe']);
-			}
-		}
-		else if($_REQUEST['type_indent'] == "inscr_societe")
-		{
-		}
-	}
+	if($site->user == NULL) header("Location: depot.php?action=infos");
 	
 	$jobetu = new jobetu($site->db, $site->dbrw);
 	$jobetu->get_job_types();
@@ -102,7 +75,36 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
  */
 else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 {
-	$frm_main = new form("user_info", "depot.php?action=annonce", false, "POST", "Informations sur toi public ;)");
+	/*************************************************************
+	 * Récupération et traitement des infos de l'onglet connexion 
+	 */
+	if(isset($_REQUEST) && $_REQUEST['magicform']['name'] == "user_info")
+	{
+		$jobuser = new jobuser_client($site->db, $site->dbrw);
+
+		if($_REQUEST['type_indent'] == "connexion")
+		{
+			$jobuser->connexion($_REQUEST['ident_email'], $_REQUEST['ident_passwd']);
+		}
+		else if($_REQUEST['type_indent'] == "inscr_particulier")
+		{
+			//			print_r($_REQUEST);
+
+			if(!empty($_REQUEST['ip_client_nom'])
+			&& !empty($_REQUEST['ip_client_prenom'])
+			&& !empty($_REQUEST['ip_email'])
+			&& !empty($_REQUEST['ip_passwd'])
+			&& $_REQUEST['ip_passwd'] == $_REQUEST['ip_passwd_conf'])
+			{
+				$jobuser->create_user($_REQUEST['ip_client_nom'], $_REQUEST['ip_client_prenom'], false, $_REQUEST['ip_email'], $_REQUEST['ip_passwd'], false, false, $_REQUEST['sexe']);
+			}
+		}
+		else if($_REQUEST['type_indent'] == "inscr_societe")
+		{
+		}
+	}
+	
+	$frm_main = new form("user_info", "depot.php?action=infos", false, "POST", "Informations sur toi public ;)");
 	
 	/*****************************
 	 * Connexion compte existant
@@ -191,7 +193,7 @@ else
 	$cts->add_paragraph("Patati patata bla bla bla <br /> Vous devrez tout d'abord vous inscrire si c'est la premiere fois que vous venez et puis allez y");
 	$cts->add_paragraph("A lire : <a href=\"http://ae.utbm.fr/article.php?name=legals-jobetu-cgu\">C.G.U.</a>");
 	
-	$frm = new form("go", "depot.php?action=infos", false, "POST", false);
+	$frm = new form("go", "depot.php?action=annonce", false, "POST", false);
 	$frm->add_submit("next", "Etape suivante");
 	
 	$cts->add($frm);
