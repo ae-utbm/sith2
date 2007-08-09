@@ -226,7 +226,7 @@ $filter.= ")";
 		"LEFT JOIN `cpta_op_clb` ON `cpta_operation`.`id_opclb`=`cpta_op_clb`.`id_opclb` ".
 		"LEFT JOIN `cpta_op_plcptl` ON `cpta_operation`.`id_opstd`=`cpta_op_plcptl`.`id_opstd` ".
 		"WHERE $filter " .
-		"GROUP BY `cpta_op_plcptl`.`code_plan`" );
+		"GROUP BY COALESCE(`cpta_op_plcptl`.`code_plan`,`cpta_op_clb`.`type_mouvement`)" );
 
 	$pl["debit"]=0;
 	$pl["credit"]=0;
