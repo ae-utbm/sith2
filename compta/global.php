@@ -277,13 +277,13 @@ $filter.= ")";
 
 	while( list($code,$libelle) = $req->get_row())
 	{
+	  if ( $code == "6" && $pl["debit"] > 0 )
+	    $tbl->add_row(array("6--","Debit non codé",$pl["debit"]/100),"plct2");
+	 	if ( $code == "7" && $pl["credit"] > 0 )
+	    $tbl->add_row(array("7--","Credit non codé",$pl["credit"]/100),"plct2");
 		if ( $pl[$code]  )
 			$tbl->add_row(array($code,$libelle,$pl[$code]/100),"plct".strlen($code));
 	}
-	if ( $pl["debit"] > 0 )
-	$tbl->add_row(array("6--","Debit non codé",$pl["debit"]/100));
-	if ( $pl["credit"] > 0)
-	$tbl->add_row(array("7--","Credit non codé",$pl["credit"]/100));
 	$cts->add($tbl);
 	
 $site->add_contents($cts);
