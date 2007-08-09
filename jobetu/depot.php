@@ -33,13 +33,6 @@ $site->start_page("services", "AE Job Etu");
 
 $cts = new contents("Déposer une annonce");
 
-$tabs = array(
-							array("", "jobetu/depot.php", "Informations"),
-							array("infos", "jobetu/depot.php?action=infos", "Vos informations"),
-	      			array("annonce", "jobetu/depot.php?action=annonce", "Votre annonce")
-	      			);
-//$cts->add(new tabshead($tabs, $_REQUEST['action']));
-
 
 /****************************************************************************************************
  *  Formulaire de dépôt de l'annonce
@@ -47,7 +40,7 @@ $tabs = array(
 
 if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 {
-	if($site->user == NULL) header("Location: depot.php?action=infos");
+	if(!$site->user->is_valid()) header("Location: depot.php?action=infos");
 	
 	$jobetu = new jobetu($site->db, $site->dbrw);
 	$jobetu->get_job_types();
@@ -78,13 +71,26 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 	/*************************************************************
 	 * Récupération et traitement des infos de l'onglet connexion 
 	 */
+
 	if(isset($_REQUEST) && $_REQUEST['magicform']['name'] == "user_info")
 	{
 		$jobuser = new jobuser_client($site->db, $site->dbrw);
 
 		if($_REQUEST['type_indent'] == "connexion")
 		{
-			$jobuser->connexion($_REQUEST['ident_email'], $_REQUEST['ident_passwd']);
+			$site->user->load_by_email($_REQUEST['ident_email']);
+			if ( ($site->user->id == -1) || !$site->user->is_password($_REQUEST['ident_passwd']) )
+			{
+				header("Location: http://ae.utbm.fr/article.php?name=site-wrongpassoruser");
+				exit();
+			}
+			else if ( $site->user->hash != "valid" )
+			{
+				header("Location: http://ae.utbm.fr/article.php?name=compte-non-valide");
+				exit();
+			}
+			
+			header("Location: depot.php?action=annonce");
 		}
 		else if($_REQUEST['type_indent'] == "inscr_particulier")
 		{

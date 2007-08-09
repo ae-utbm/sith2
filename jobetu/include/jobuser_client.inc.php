@@ -41,12 +41,12 @@ class jobuser_client extends utilisateur
     
   function connexion($email, $passwd)
   {
-  	$this->load_by_email($email);
-		if ( !$this->is_password($passwd) )
+  	/*$site->user->load_by_email($email);
+		if ( !$site->user->is_password($passwd) )
 		{
 			header("Location: http://ae.utbm.fr/article.php?name=site-wrongpassoruser");
 			exit();
-		}
+		}*/
   }
 
   function is_jobetu_client()
@@ -120,7 +120,7 @@ class jobuser_client extends utilisateur
   				
   					$usr = new utilisateur($this->db);
   					$usr->load_by_id($line['id_etu']);
-  					$userinfo = new userinfo($user, true);
+  					$userinfo = new userinfo($usr, true, false, true, false, true, true);
   					$buffer .= $userinfo->buffer;
   				
   				
