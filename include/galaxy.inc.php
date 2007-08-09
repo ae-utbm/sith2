@@ -637,10 +637,10 @@ class galaxy
    */
   function get_density ( $x1, $y1, $x2, $y2, $except=null )
   {
-    $x1 = sprintf("%.f",$x1);
-    $y1 = sprintf("%.f",$y1);
-    $x2 = sprintf("%.f",$x2);
-    $y2 = sprintf("%.f",$y2);
+    $x1 = str_replace(",",".",sprintf("%.f",$x1));
+    $y1 = str_replace(",",".",sprintf("%.f",$y1));
+    $x2 = str_replace(",",".",sprintf("%.f",$x2));
+    $y2 = str_replace(",",".",sprintf("%.f",$y2));
     
     //echo "get_density($x1,$y1,$x2,$y2) = ";
     
