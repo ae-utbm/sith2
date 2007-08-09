@@ -49,5 +49,6 @@ print_r($galaxy);
 
 $galaxy->mini_render($topdir."var/mini_galaxy.png");
 
+print_r($galaxy);
 
 ?>
