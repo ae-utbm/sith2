@@ -228,7 +228,8 @@ $filter.= ")";
 		"WHERE $filter " .
 		"GROUP BY `cpta_op_plcptl`.`code_plan`" );
 
-	
+	$pl["debit"]=0;
+	$pl["credit"]=0;
 
 	while( list($code,$sum) = $req->get_row())
 	{
@@ -238,7 +239,12 @@ $filter.= ")";
 				$pl["debit"] += abs($sum);
 			else
 				$pl["credit"] += abs($sum);
-			
+				
+			if ( $sum < 0 )
+				$pl["6"] += abs($sum);
+			else
+				$pl["7"] += abs($sum);
+				
 		} 
 		else
 		{
@@ -249,7 +255,7 @@ $filter.= ")";
 		}
 	}
 
-	$sum = $globalsum[0]+$globalsum[1];
+	$sum = $pl["7"]-$pl["6"];
 
 	if ( $sum > 0 )
 	{
@@ -277,10 +283,10 @@ $filter.= ")";
 		if ( $pl[$code]  )
 			$tbl->add_row(array($code,$libelle,$pl[$code]/100),"plct".strlen($code));
 	}
-	if ( $pl["debit"] )
-	$tbl->add_row(array("","Debit non codé",$pl["debit"]/100));
-	if ( $pl["credit"] )
-	$tbl->add_row(array("","Credit non codé",$pl["credit"]/100));
+	if ( $pl["debit"] > 0 )
+	$tbl->add_row(array("6--","Debit non codé",$pl["debit"]/100));
+	if ( $pl["credit"] > 0)
+	$tbl->add_row(array("7--","Credit non codé",$pl["credit"]/100));
 	$cts->add($tbl);
 	
 $site->add_contents($cts);
