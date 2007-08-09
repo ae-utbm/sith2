@@ -30,6 +30,8 @@ define("GALAXY_SCORE_PARRAINAGE",15);
 define("GALAXY_SCORE_1PTJOURSASSO",75);
 define("GALAXY_MINSCORE",10);
 
+setlocale(LC_NUMERIC,"en_US");
+
 class galaxy
 {
   var $db;
