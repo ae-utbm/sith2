@@ -46,7 +46,12 @@ $req = new requete($site->db,"SELECT a.id_asso ".  "FROM asso AS a ".
 while(list($id)=$req->get_row())
   $na[]=$id;
 
-$filter="( date_op>='2007-01-01' AND date_op <='2007-12-31' ";
+$y=2007;
+
+if ( isset($_GET["y"]) )
+  $y = intval($_GET["y"]);
+
+$filter="( date_op>='$y-01-01' AND date_op <='$y-12-31' ";
 //1- Ignorer les opérations entre comptes
 $filter.= " AND (cpta_operation.id_asso NOT IN (".implode(",",$na).") OR cpta_operation.id_asso IS NULL) ";
 $filter.= " AND cpta_operation.id_cptasso IS NULL ";
