@@ -23,9 +23,17 @@
  */
  
 $topdir = "../";
-require_once($topdir. "include/site.inc.php");
+require_once($topdir. "laverie/include/laverie.inc.php");
 
-$site = new site ();
+$site = new sitelaverie ();
+
+if ( !$site->user->is_valid() )
+	error_403();
+
+$site->user_is_admin();
+
+if ( $site->is_admin )
+  $site->set_admin_mode();
 
 $site->start_page("none","Machines");
 $cts = new contents("Machines à laver de l'AE");
