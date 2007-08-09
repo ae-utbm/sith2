@@ -75,9 +75,9 @@ class sitelaverie extends site
 			$lst_util->add("<a href=\"index.php?action=cotiser\">Nouvelle cotisation</a>");
 			$lst_util->add("<a href=\"index.php?action=ajouter_util\">Ajouter un utilisateur</a>");
 
-			$admcts->add($lst_taches,true, true, "gestbox", "boxlist", true, true);
-			$admcts->add($lst_admin,true, true, "gestbox", "boxlist", true, true);
-			$admcts->add($lst_util,true, true, "gestbox", "boxlist", true, true);
+			$admcts->add($lst_taches,true, true, "tachesbox", "boxlist", true, true);
+			$admcts->add($lst_admin,true, true, "adminbox", "boxlist", true, true);
+			$admcts->add($lst_util,true, true, "utilbox", "boxlist", true, true);
 		}
 		
 		$this->add_box("laverie",$admcts);	
