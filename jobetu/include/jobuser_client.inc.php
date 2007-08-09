@@ -117,6 +117,13 @@ class jobuser_client extends utilisateur
   				$buffer .= "</div>";
   					
   				$buffer .= "<div id=\"applicant_1\" class=\"apply_content\">";
+  				
+  					$usr = new utilisateur($this->db);
+  					$usr->load_by_id($line['id_etu']);
+  					$userinfo = new userinfo($user, true);
+  					$buffer .= $userinfo->buffer;
+  				
+  				
   				$buffer .= "gnaa";
   				$buffer .= "</div>";
 
