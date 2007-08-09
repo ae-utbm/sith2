@@ -220,8 +220,8 @@ $filter.= ")";
 	
 	
 		$req = new requete ( $site->db, "SELECT " .
-		"`cpta_op_plcptl`.`code_plan`, " .
-		"SUM(IF(`cpta_op_plcptl`.`type_mouvement` IS NULL,`cpta_op_clb`.`type_mouvement`,`cpta_op_plcptl`.`type_mouvement`)*`montant_op`) AS `sum` " .
+		"COALESCE(`cpta_op_plcptl`.`code_plan`,`cpta_op_clb`.`type_mouvement`) , " .
+		"SUM(COALESCE(`cpta_op_plcptl`.`type_mouvement`,`cpta_op_clb`.`type_mouvement`)*`montant_op`) AS `sum` " .
 		"FROM `cpta_operation` " .
 		"LEFT JOIN `cpta_op_clb` ON `cpta_operation`.`id_opclb`=`cpta_op_clb`.`id_opclb` ".
 		"LEFT JOIN `cpta_op_plcptl` ON `cpta_operation`.`id_opstd`=`cpta_op_plcptl`.`id_opstd` ".
@@ -233,19 +233,16 @@ $filter.= ")";
 
 	while( list($code,$sum) = $req->get_row())
 	{
-		if ( !$code )
+		if ( $code == -1 )
 		{
-			if ( $sum < 0 )
-				$pl["debit"] += abs($sum);
-			else
-				$pl["credit"] += abs($sum);
-				
-			if ( $sum < 0 )
-				$pl["6"] += abs($sum);
-			else
-				$pl["7"] += abs($sum);
-				
-		} 
+			$pl["debit"] += abs($sum);
+		  $pl["6"] += abs($sum);
+		}
+		elseif ( $code == 1 )
+		{
+			$pl["credit"] += abs($sum);
+			$pl["7"] += abs($sum);
+		}	
 		else
 		{
 			for($i=1;$i<=strlen($code);$i++)
@@ -254,7 +251,7 @@ $filter.= ")";
 			}
 		}
 	}
-/*
+
 	$sum = $pl["7"]-$pl["6"];
 
 	if ( $sum > 0 )
@@ -269,7 +266,7 @@ $filter.= ")";
 		$pl["78"] += abs($sum);
 		$pl["7"] += abs($sum);
 	}
-	*/
+	
 	$req = new requete ( $site->db, "SELECT " .
 		"`code_plan`, `libelle_plan` " .
 		"FROM  `cpta_op_plcptl`  ".
