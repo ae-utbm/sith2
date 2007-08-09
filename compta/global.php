@@ -37,12 +37,23 @@ $site->start_page ("none", "Tout en 2007" );
 
 $cts = new contents("Tout en 2007");
 
+$na = array(1);
+
+$req = new requete($site->db,"SELECT a.id_asso ".  "FROM asso AS a ".
+  "JOIN asso AS b ON (a.id_asso_parent=b.id_asso) ".
+  "WHERE a.id_asso_parent=1 OR b.id_asso_parent=1");
+
+while(list($id)=$req->get_row())
+  $na[]=$id;
 
 $filter="( date_op>='2007-01-01' AND date_op <='2007-12-31' ";
 //1- Ignorer les opérations entre comptes
+$filter.= " AND cpta_operation.id_asso NOT IN (".implode(",",$na).") ";
 $filter.= " AND cpta_operation.id_cptasso IS NULL ";
 //2- Ignorer les 791,678,689,789 (sera recalculé plus tard)
 $filter.= " AND code_plan NOT IN (791,678,689,789) ";
+
+
 $filter.= ")";
 
 
