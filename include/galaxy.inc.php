@@ -306,7 +306,7 @@ class galaxy
       }
       if ( !is_null($max) && $max > 0 )
         $reducer = max(25,round($max)*3);  
-      echo $max." ".$avg." (".$reducer.") - ";
+      //echo $max." ".$avg." (".$reducer.") - ";
     }    
     
     new requete($this->dbrw,"UPDATE galaxy_link, galaxy_star AS a, galaxy_star AS b SET  ".
