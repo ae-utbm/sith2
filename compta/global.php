@@ -254,7 +254,7 @@ $filter.= ")";
 			}
 		}
 	}
-
+/*
 	$sum = $pl["7"]-$pl["6"];
 
 	if ( $sum > 0 )
@@ -269,7 +269,7 @@ $filter.= ")";
 		$pl["78"] += abs($sum);
 		$pl["7"] += abs($sum);
 	}
-	
+	*/
 	$req = new requete ( $site->db, "SELECT " .
 		"`code_plan`, `libelle_plan` " .
 		"FROM  `cpta_op_plcptl`  ".
