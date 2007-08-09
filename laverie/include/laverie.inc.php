@@ -1,7 +1,7 @@
 <?php
 
 /* Copyright 2006
- * - Julien Etelain < julien at pmad dot net >
+ * - Benjamin Collet < bcollet at oxynux dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -22,17 +22,10 @@
  * 02111-1307, USA.
  */
  
-/** @file
- * @defgroup comptoirs Comptoirs/E-boutic
- * @{
- */ 
- 
- 
 require_once($topdir."include/site.inc.php");
 
 class sitelaverie extends site
 {
-  /* vars à définir */
 	var $is_admin;
 	
 	function sitelaverie()
@@ -41,7 +34,6 @@ class sitelaverie extends site
 		
 		$this->site();
 		$this->set_side_boxes("left",array("laverie","connexion"));
-		
 	}
 
 	function start_page ( $section, $title, $compact=false ) 
@@ -71,21 +63,25 @@ class sitelaverie extends site
 		
 		if ( $this->is_admin )
 		{
-			$lst = new itemlist("Administration","boxlist");
-			$lst->add("<a href=\"index.php?action=reserver\">Effectuer une réservation</a>");
-			$admcts->add($lst,true, true, "gestbox", "boxlist", true, true);
+			$lst_taches = new itemlist("Tâches usuelles","boxlist");
+			$lst_taches->add("<a href=\"index.php?action=reserver\">Réserver un créneau</a>");
+			$lst_taches->add("<a href=\"index.php?action=vente\">Retirer un jeton</a>");
+			$lst_admin = new itemlist("Administration","boxlist");
+			$lst_admin->add("<a href=\"index.php?action=machines\">Gestion des machines</a>");
+			$lst_admin->add("<a href=\"index.php?action=crenaux\">Gestion des créneaux</a>");
+			$lst_admin->add("<a href=\"index.php?action=inventaire\">Inventaire des jetons</a>");
+			$lst_util = new itemlist("Utilisateurs","boxlist");
+			$lst_util->add("<a href=\"index.php?action=recharger\">Rechargement</a>");
+			$lst_util->add("<a href=\"index.php?action=cotiser\">Nouvelle cotisation</a>");
+			$lst_util->add("<a href=\"index.php?action=ajouter_util\">Ajouter un utilisateur</a>");
+
+			$admcts->add($lst_taches,true, true, "gestbox", "boxlist", true, true);
+			$admcts->add($lst_admin,true, true, "gestbox", "boxlist", true, true);
+			$admcts->add($lst_util,true, true, "gestbox", "boxlist", true, true);
 		}
 		
 		$this->add_box("laverie",$admcts);	
-
 	}
-	
-	
-	
 }
-
-
-
-/**@}*/
 
 ?>
