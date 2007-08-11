@@ -30,7 +30,7 @@ require_once("include/annonce.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
 
-define("GRP_JOBETU_CLIENT", 32);
+define("GRP_JOBETU_CLIENT", 35);
 
 $site = new site();
 $site->start_page("services", "AE Job Etu");
@@ -91,16 +91,12 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 			$site->user->tel_maison = telephone_userinput($_REQUEST['tel_fixe']);
 			$site->user->tel_portable = telephone_userinput($_REQUEST['tel_portable']);
 			
-			echo "plop : ";
-			echo $site->user->saveinfos();
-			echo "\ngnaa : ";
-			echo $site->user->add_to_group(GRP_JOBETU_CLIENT);
 			
-/*			if( $site->user->saveinfos() && $site->user->add_to_group(GRP_JOBETU_CLIENT) )
+			if( $site->user->saveinfos() && $site->user->add_to_group(GRP_JOBETU_CLIENT) )
 			{
 				header("Location: depot.php?action=annonce");
 				exit;
-			} */
+			} 
 			
 			
 		}
