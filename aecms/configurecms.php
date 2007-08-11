@@ -282,7 +282,7 @@ elseif ( $_REQUEST["action"] == "edit" )
   if ($page->is_valid() )
   {
     $site->start_page(CMS_PREFIX."config","Edition boite :".$page->titre);
-    $frm = new form("editarticle","configurecms.php",true,"POST","Edition : ".$page->nom);
+    $frm = new form("editarticle","configurecms.php?view=boxes",true,"POST","Edition : ".$page->nom);
     $frm->add_hidden("action","save");
     $frm->add_hidden("box_name",$_REQUEST["box_name"]);
     $frm->add_text_field("title","Titre",$page->titre,true);
@@ -314,8 +314,6 @@ while ( $row = $req->get_row() )
 $site->start_page ( CMS_PREFIX."config", "Configuration de AECMS" );
 
 $cts = new contents("Configuration de AECMS");
-
-$cts->add_title(2,"Onglets");
 
 $dejafait = array();
 $onglets_noms = array();
@@ -350,138 +348,152 @@ foreach ( $site->tab_array as $row )
   }
 }
 
-$cts->add( new sqltable ( "onglets", "Onglets", $liste_onglets, 
-"configurecms.php", "nom_onglet", array("titre_onglet"=>"Titre","lien_onglet"=>"Lien"), 
-array("delete"=>"Supprimer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
 
-$cts->add_title(3,"Nouvel onglet");
+$tabs = array(
+        array("","configurecms.php", "Onglets"),
+        array("boxes","configurecms.php?view=boxes","Boites"),
+        array("options","configurecms.php?view=options","Options"),
+        );
+            
+$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
-$frm = new form("newonglet","configurecms.php",false,"POST","Nouvel onglet");
 
-
-$frm->add_hidden("action","addonglet");
-$frm->add_text_field("title","Titre","",true);
-
-unset($pages["home"]);
-
-if ( count($pages) > 0 )
+if ( $_REQUEST["view"] == "" )
 {
-  $sfrm = new form("typepage",null,null,null,"Page existante");
-  $sfrm->add_select_field("nom_page","Page",$pages);
-  $frm->add($sfrm,false,true,true,"article",false,true);
-}
-
-$sfrm = new form("typepage",null,null,null,"Nouvelle page");
-$sfrm->add_text_field("name","Code (nom)","",true);
-$frm->add($sfrm,false,true,true,"crearticle",false,true);
-
-if ( !isset($dejafait["fichiers"]) )
-{
-  $sfrm = new form("typepage",null,null,null,"Espace fichiers (aedrive)");
-  $frm->add($sfrm,false,true,false,"aedrive",false,true);
-}
-if ( !isset($dejafait["sas"]) )
-{
-  $sfrm = new form("typepage",null,null,null,"Gallerie photos (sas2)");
-  $frm->add($sfrm,false,true,false,"sas2",false,true);
-}
-if ( !isset($dejafait["contact"]) )
-{
-  $sfrm = new form("typepage",null,null,null,"Contact");
-  $frm->add($sfrm,false,true,false,"contact",false,true);
-}
-if ( !isset($dejafait["membres"]) )
-{
-  $sfrm = new form("typepage",null,null,null,"Membres");
-  $frm->add($sfrm,false,true,false,"membres",false,true);
-}
-$frm->add_submit("save","Ajouter");
-$cts->add ( $frm );
-
-$cts->add_title(2,"Boites");
-
-// Boxes
-if ( empty($site->config["boxes.names"]) )
-  $boxes = array();
-else
-  $boxes = explode(",",$site->config["boxes.names"]);
-
-$boxes_sections = explode(",",$site->config["boxes.sections"]);
-
-$boxes_list = array();
-foreach ( $boxes as $name )
-{
-  if ( $name == "calendrier" )
+  $cts->add( new sqltable ( "onglets", "Onglets", $liste_onglets, 
+  "configurecms.php", "nom_onglet", array("titre_onglet"=>"Titre","lien_onglet"=>"Lien"), 
+  array("delete"=>"Supprimer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
+  
+  $cts->add_title(2,"Nouvel onglet");
+  
+  $frm = new form("newonglet","configurecms.php",false,"POST","Nouvel onglet");
+  
+  
+  $frm->add_hidden("action","addonglet");
+  $frm->add_text_field("title","Titre","",true);
+  
+  unset($pages["home"]);
+  
+  if ( count($pages) > 0 )
   {
-    $title = "Calendrier";
-    $type="Calendrier";
+    $sfrm = new form("typepage",null,null,null,"Page existante");
+    $sfrm->add_select_field("nom_page","Page",$pages);
+    $frm->add($sfrm,false,true,true,"article",false,true);
   }
+  
+  $sfrm = new form("typepage",null,null,null,"Nouvelle page");
+  $sfrm->add_text_field("name","Code (nom)","",true);
+  $frm->add($sfrm,false,true,true,"crearticle",false,true);
+  
+  if ( !isset($dejafait["fichiers"]) )
+  {
+    $sfrm = new form("typepage",null,null,null,"Espace fichiers (aedrive)");
+    $frm->add($sfrm,false,true,false,"aedrive",false,true);
+  }
+  if ( !isset($dejafait["sas"]) )
+  {
+    $sfrm = new form("typepage",null,null,null,"Gallerie photos (sas2)");
+    $frm->add($sfrm,false,true,false,"sas2",false,true);
+  }
+  if ( !isset($dejafait["contact"]) )
+  {
+    $sfrm = new form("typepage",null,null,null,"Contact");
+    $frm->add($sfrm,false,true,false,"contact",false,true);
+  }
+  if ( !isset($dejafait["membres"]) )
+  {
+    $sfrm = new form("typepage",null,null,null,"Membres");
+    $frm->add($sfrm,false,true,false,"membres",false,true);
+  }
+  $frm->add_submit("save","Ajouter");
+  $cts->add ( $frm );
+
+}
+else if ( $_REQUEST["view"] == "boxes" )
+{
+
+  // Boxes
+  if ( empty($site->config["boxes.names"]) )
+    $boxes = array();
   else
+    $boxes = explode(",",$site->config["boxes.names"]);
+  
+  $boxes_sections = explode(",",$site->config["boxes.sections"]);
+  
+  $boxes_list = array();
+  foreach ( $boxes as $name )
   {
-    $title = $pages_boxes["boxes:".$name];
-    $type="Personnalisée";
+    if ( $name == "calendrier" )
+    {
+      $title = "Calendrier";
+      $type="Calendrier";
+    }
+    else
+    {
+      $title = $pages_boxes["boxes:".$name];
+      $type="Personnalisée";
+    }
+    $boxes_list[] = array("box_name"=>$name,"box_title"=>$title,"box_type"=>$type);
   }
-  $boxes_list[] = array("box_name"=>$name,"box_title"=>$title,"box_type"=>$type);
+  
+  $cts->add( new sqltable ( "boxes", "Boites", $boxes_list, 
+  "configurecms.php?view=boxes", "box_name", array("box_title"=>"Titre","box_type"=>"Type"), 
+  array("delete"=>"Supprimer","edit"=>"Editer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
+  
+  $cts->add_title(2,"Nouvelle boite");
+  
+  $frm = new form("newbox","configurecms.php?view=boxes",false,"POST","Nouvelle boite");
+  $frm->add_hidden("action","addbox");
+  
+  $sfrm = new form("typebox",null,null,null,"Personnalisée");
+  $sfrm->add_text_field("name","Code (nom)","",true);
+  $sfrm->add_text_field("title","Titre","",true);
+  $frm->add($sfrm,false,true,true,"custom",false,true);
+  
+  if ( !in_array("calendrier",$boxes) )
+  {
+    $sfrm = new form("typebox",null,null,null,"Calendrier");
+    $frm->add($sfrm,false,true,false,"calendrier",false,true);
+  }
+  $frm->add_submit("save","Ajouter");
+  $cts->add ( $frm );
+  
+  $cts->add_title(2,"Sections où les boites seront affichées");
+  
+  $frm = new form("setboxsections","configurecms.php?view=boxes",false,"POST","Sections où les boites seront affichées");
+  $frm->add_hidden("action","setboxsections");
+  
+  foreach ( $onglets_noms as $nom => $titre )
+    $frm->add_checkbox("sections[$nom]","$titre",in_array($nom,$boxes_sections));
+  
+  $frm->add_submit("save","Enregistrer");
+  $cts->add ( $frm );
+
 }
-
-$cts->add( new sqltable ( "boxes", "Boites", $boxes_list, 
-"configurecms.php", "box_name", array("box_title"=>"Titre","box_type"=>"Type"), 
-array("delete"=>"Supprimer","edit"=>"Editer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
-
-$cts->add_title(3,"Nouvelle boite");
-
-$frm = new form("newbox","configurecms.php",false,"POST","Nouvelle boite");
-$frm->add_hidden("action","addbox");
-
-$sfrm = new form("typebox",null,null,null,"Personnalisée");
-$sfrm->add_text_field("name","Code (nom)","",true);
-$sfrm->add_text_field("title","Titre","",true);
-$frm->add($sfrm,false,true,true,"custom",false,true);
-
-if ( !in_array("calendrier",$boxes) )
+else if ( $_REQUEST["view"] == "options" )
 {
-  $sfrm = new form("typebox",null,null,null,"Calendrier");
-  $frm->add($sfrm,false,true,false,"calendrier",false,true);
+
+
+  $frm = new form("setconfig","configurecms.php?view=options",true,"POST","Options");
+  $frm->add_hidden("action","setconfig");
+  
+  $sfrm = new form("typebox",null,null,null,"Section membres");
+  $sfrm->add_select_field("membres_upto","Membres, liste jusqu'au niveau",$GLOBALS['ROLEASSO'], $site->config["membres.upto"]);
+  $sfrm->add_checkbox("membres_allowjoinus","Membres, afficher le formulaire \"Rejoignez-nous\"",$site->config["membres.allowjoinus"]);
+  $frm->add($sfrm);
+  
+  $sfrm = new form("typebox",null,null,null,"Page accueil");
+  $sfrm->add_checkbox("home_news","Afficher les nouvelles",$site->config["home.news"]);
+  $frm->add($sfrm);
+  
+  
+  
+  $frm->add_submit("save","Enregistrer");
+  $cts->add($frm);
+
 }
-$frm->add_submit("save","Ajouter");
-$cts->add ( $frm );
 
-$cts->add_title(3,"Sections où les boites seront affichées");
-
-$frm = new form("setboxsections","configurecms.php",false,"POST","Sections où les boites seront affichées");
-$frm->add_hidden("action","setboxsections");
-
-foreach ( $onglets_noms as $nom => $titre )
-  $frm->add_checkbox("sections[$nom]","$titre",in_array($nom,$boxes_sections));
-
-$frm->add_submit("save","Enregistrer");
-$cts->add ( $frm );
-
-$cts->add_title(2,"Général");
-
-$cts->add_title(3,"Options");
-
-
-$frm = new form("setconfig","configurecms.php",true,"POST","Options");
-$frm->add_hidden("action","setconfig");
-
-$sfrm = new form("typebox",null,null,null,"Section membres");
-$sfrm->add_select_field("membres_upto","Membres, liste jusqu'au niveau",$GLOBALS['ROLEASSO'], $site->config["membres.upto"]);
-$sfrm->add_checkbox("membres_allowjoinus","Membres, afficher le formulaire \"Rejoignez-nous\"",$site->config["membres.allowjoinus"]);
-$frm->add($sfrm);
-
-$sfrm = new form("typebox",null,null,null,"Page accueil");
-$sfrm->add_checkbox("home_news","Afficher les nouvelles",$site->config["home.news"]);
-$frm->add($sfrm);
-
-
-
-$frm->add_submit("save","Enregistrer");
-$cts->add($frm);
-
-$cts->add_title(3,"Outils");
-
-
+$cts->add_title(2,"Outils");
 
 $cts->add(new itemlist("Outils",false,array(
 "<a href=\"index.php?page=new\">Creer une nouvelle page</a>",
