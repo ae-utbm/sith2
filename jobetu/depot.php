@@ -40,7 +40,9 @@ $cts = new contents("Déposer une annonce");
 
 if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 {
-	if(!$site->user->is_valid()) header("Location: depot.php?action=infos");
+
+	$site->allow_only_logged_users("services");
+	if(!$site->user->is_in_group("jobetu_client")) header("Location: depot.php?action=infos");
 	
 	$jobetu = new jobetu($site->db, $site->dbrw);
 	$jobetu->get_job_types();
@@ -68,111 +70,15 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
  */
 else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 {
-	/*************************************************************
-	 * Récupération et traitement des infos de l'onglet connexion 
-	 */
-
-	if(isset($_REQUEST) && $_REQUEST['magicform']['name'] == "user_info")
-	{
-		$jobuser = new jobuser_client($site->db, $site->dbrw);
-
-		if($_REQUEST['type_indent'] == "connexion")
-		{
-			$site->user->load_by_email($_REQUEST['ident_email']);
-			if ( ($site->user->id == -1) || !$site->user->is_password($_REQUEST['ident_passwd']) )
-			{
-				header("Location: http://ae.utbm.fr/article.php?name=site-wrongpassoruser");
-				exit();
-			}
-			else if ( $site->user->hash != "valid" )
-			{
-				header("Location: http://ae.utbm.fr/article.php?name=compte-non-valide");
-				exit();
-			}
-			
-			header("Location: depot.php?action=annonce");
-		}
-		else if($_REQUEST['type_indent'] == "inscr_particulier")
-		{
-			//			print_r($_REQUEST);
-
-			if(!empty($_REQUEST['ip_client_nom'])
-			&& !empty($_REQUEST['ip_client_prenom'])
-			&& !empty($_REQUEST['ip_email'])
-			&& !empty($_REQUEST['ip_passwd'])
-			&& $_REQUEST['ip_passwd'] == $_REQUEST['ip_passwd_conf'])
-			{
-				$jobuser->create_user($_REQUEST['ip_client_nom'], $_REQUEST['ip_client_prenom'], false, $_REQUEST['ip_email'], $_REQUEST['ip_passwd'], false, false, $_REQUEST['sexe']);
-			}
-		}
-		else if($_REQUEST['type_indent'] == "inscr_societe")
-		{
-		}
-	}
+	$cts->add_title(2, "Vos informations personnelles");
+	$cts->add_paragraph("Vous êtes à présent inscrit sur le site de l'AE, nous vous remerçions de votre confiance.");
+	$cts->add_paragraph("Afin de compléter votre profil dans le but de passer votre annonce, nous vous remerçions de bien vouloir prendre le temps de remplir les champs ci-dessous.<br />
+												Vous devrez ensuite accepter les conditions générales d'utilisation du service AE Job Etu pour valider cette inscription. <br />
+												Vous pourrez passer votre annonce à la prochaine étape.");
 	
-	$frm_main = new form("user_info", "depot.php?action=infos", false, "POST", "Informations sur toi public ;)");
-	
-	/*****************************
-	 * Connexion compte existant
-	 */	
-		$frm_identification = new form("type_indent",null,null,null,"Déjà inscrit ? Identifiez vous");
-		$frm_identification->add_text_field("ident_email", "Adresse email");
-		$frm_identification->add_password_field("ident_passwd", "Mot de passe");
-		$frm_identification->add_submit("go", "Envoyer");
-	$frm_main->add($frm_identification,false,true,1,"connexion",false,true,true);
+	$frm = new form("user_info", "depot.php?action=info", true, "POST", "Informations complémentaires");
+	//http://ae.utbm.fr/article.php?name=legals-jobetu-cgu
 
-	/**********************************
-	 * Nouvelle inscription particulier
-	 */
-		$frm_inscr_particulier = new form("type_indent",null,null,null,"Particulier ? Créez votre compte");
-		$frm_inscr_particulier->add_select_field("ip_sexe", false, array(
-																																"m" => "M.",
-																																"mme" => "Mme",
-																																"mlle" => "Mlle"));
-		$frm_inscr_particulier->add_text_field("ip_client_nom", "Nom");
-		$frm_inscr_particulier->add_text_field("ip_client_prenom","Prenom");
-		$frm_inscr_particulier->add_text_area("ip_adresse", "Adresse", false, 40, 1);
-		$frm_inscr_particulier->add_text_field("ip_cpostal", "Code postal");
-		$frm_inscr_particulier->add_text_field("ip_ville", "Ville");
-		$frm_inscr_particulier->add_text_field("ip_pays", "Pays", "France");
-		$frm_inscr_particulier->add_text_field("ip_telephone", "Numero de telephone");
-		$frm_inscr_particulier->add("");
-		$frm_inscr_particulier->puts("<h3>Votre compte sur AE Job Etu</h3>");
-		$frm_inscr_particulier->add_text_field("ip_email", "Adresse email de contact", null, null, null, null, true, "<i>Cette adresse sera votre identifiant sur le site</i>");
-		$frm_inscr_particulier->add_password_field("ip_passwd", "Choisissez un mot de passe");
-		$frm_inscr_particulier->add_password_field("ip_passwd_conf", "Confirmez votre mot de passe");
-		$frm_inscr_particulier->add_submit("go", "Envoyer");
-	$frm_main->add($frm_inscr_particulier,false,true,0,"inscr_particulier",false,true);
-
-	/*******************************
-	 * Nouvelle inscription société
-	 */
-		$frm_inscr_societe = new form("type_indent",null,null,null,"Société ? Créez votre compte");
-		$frm_inscr_societe->add_text_field("is_client_nom", "Nom de votre société");
-		$frm_inscr_societe->add_text_field("is_client_nom", "Activité");
-		$frm_inscr_societe->add_text_area("is_adresse", "Adresse", false, 40, 1);
-		$frm_inscr_societe->add_text_field("is_cpostal", "Code postal");
-		$frm_inscr_societe->add_text_field("is_ville", "Ville");
-		$frm_inscr_societe->add_text_field("is_pays", "Pays", "France");
-		$frm_inscr_societe->add_text_field("is_telephone", "Numéro de telephone");
-		$frm_inscr_societe->add_text_field("is_fax", "Numéro de fax");
-		
-		$frm_inscr_societe->puts("<h3>Contact au sein de votre entreprise</h3>");
-		$frm_inscr_societe->add_select_field("is_identite", false, array(
-																																		"m" => "M.",
-																																		"mme" => "Mme",
-																																		"mlle" => "Mlle"));
-		$frm_inscr_societe->add_text_field("is_client_nom", "Nom");
-		$frm_inscr_societe->add_text_field("is_client_prenom","Prenom");
-		$frm_inscr_societe->add_text_field("is_telephone", "Numero de telephone");
-
-		$frm_inscr_societe->puts("<h3>Votre compte sur AE Job Etu</h3>");
-		$frm_inscr_societe->add_text_field("is_email", "Adresse email de contact", null, null, null, null, true, "<i>Cette adresse sera votre identifiant sur le site</i>");
-		$frm_inscr_societe->add_password_field("is_passwd", "Choisissez un mot de passe");
-		$frm_inscr_societe->add_password_field("is_passwd_conf", "Confirmez votre mot de passe");
-		$frm_inscr_societe->add_submit("go", "Envoyer");
-	$frm_main->add($frm_inscr_societe,false,true,0,"inscr_societe",false,true);
-	$cts->add($frm_main, true);
 
 }
 
