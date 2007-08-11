@@ -147,6 +147,7 @@ elseif ( $_REQUEST["action"] == "setconfig" )
 {
   $site->config["membres.upto"] = intval($_REQUEST["membres_upto"]);
   $site->config["membres.allowjoinus"] = isset($_REQUEST["membres_allowjoinus"])?1:0;
+  $site->config["home.news"] = isset($_REQUEST["home_news"])?1:0;
   $site->save_conf();
 }
 elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["nom_onglet"]) )
@@ -464,8 +465,16 @@ $cts->add_title(3,"Options");
 $frm = new form("setconfig","configurecms.php",true,"POST","Options");
 $frm->add_hidden("action","setconfig");
 
+$sfrm = new form("typebox",null,null,null,"Section membres");
 $frm->add_select_field("membres_upto","Membres, liste jusqu'au niveau",$GLOBALS['ROLEASSO'], $site->config["membres.upto"]);
 $frm->add_checkbox("membres_allowjoinus","Membres, afficher le formulaire \"Rejoignez-nous\"",$site->config["membres.allowjoinus"]);
+$frm->add($sfrm);
+
+$sfrm = new form("typebox",null,null,null,"Page accueil");
+$frm->add_checkbox("home_news","Afficher les nouvelles",$site->config["home.news"]);
+$frm->add($sfrm);
+
+
 
 $frm->add_submit("save","Enregistrer");
 $cts->add($frm);

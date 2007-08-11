@@ -112,7 +112,8 @@ class aecms extends site
       "membres.allowjoinus"=>1,
       "membres.upto"=>ROLEASSO_TRESORIER,
       "boxes.sections"=> CMS_PREFIX."accueil",
-      "boxes.names"=>"calendrier"
+      "boxes.names"=>"calendrier",
+      "home.news"=>1
     );
     
     $this->asso = new asso($this->db,$this->dbrw);
