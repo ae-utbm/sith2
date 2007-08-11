@@ -72,6 +72,12 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
  */
 else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 {
+	$site->allow_only_logged_users("services");
+	$jobuser = new jobuser_client($site->dbrw);
+	$jobuser->load_by_id($site->user->id);
+	
+	print_r($jobuser);
+	
 	if(isset($_REQUEST) && $_REQUEST['magicform']['name'] == "user_info")
 	{
 		print_r($_REQUEST);
@@ -80,11 +86,18 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 			$error = "Vous devez accepter les conditions générales d'utilisation pour poursuivre";
 	}
 	
-	
 	$ville = new ville($site->db);
 	$pays = new pays($site->db);
-	$pays->load_by_id($user->id_pays); // France par défaut
 	
+	if(!empty($jobuser->id_pays))
+		$pays->load_by_id($user->id_pays);
+	else
+		$pays->load_by_id(1); //France par défaut
+	
+	if(!empty($jobuser->id_pays))
+		$pays->load_by_id($user->id_pays);
+		
+		
 	$cts->add_paragraph("Vous êtes à présent inscrit sur le site de l'AE, nous vous remerçions de votre confiance.");
 	$cts->add_paragraph("Afin de compléter votre profil dans le but de passer votre annonce, nous vous remerçions de bien vouloir prendre le temps de remplir les champs ci-dessous.<br />
 												Vous devrez ensuite également les conditions générales d'utilisation du service AE Job Etu pour valider cette inscription. <br />
@@ -93,11 +106,11 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 	$frm = new form("user_info", "depot.php?action=infos", true, "POST", "Informations complémentaires");
 	if(!empty($error))
 		$frm->error($error);
-	$frm->add_text_area("adresse", "Adresse", false, 40, 1);
-	$frm->add_text_field("cpostal", "Code postal");
-	$frm->add_entity_smartselect ("ville","Ville", $ville, true);
-	$frm->add_entity_smartselect ("pays","Pays", $pays, true);
-	$frm->add_text_field("tel", "Numéro de téléphone");
+	$frm->add_text_area("adresse", "Adresse", false, 40, 1, true);
+	$frm->add_text_field("cpostal", "Code postal", "", true);
+	$frm->add_entity_smartselect ("ville","Ville", $ville, true, true);
+	$frm->add_entity_smartselect ("pays","Pays", $pays, true, true);
+	$frm->add_text_field("tel", "Numéro de téléphone", "", true);
 	$frm->puts("");
 	$frm->add_checkbox("accept_cgu", "J'ai lu et j'accepte les <a href=\"http://ae.utbm.fr/article.php?name=legals-jobetu-cgu\">conditions générales d'utilisation</a>", false);
 	$frm->add_submit("go", "Etape suivante");
