@@ -305,6 +305,10 @@ elseif ( $_REQUEST["action"] == "save" )
     $page->save( $_REQUEST['title'], $_REQUEST['texte'], CMS_PREFIX."accueil" );
   }
 }
+elseif( $_REQUEST["action"] == "setcss" )
+{
+  file_put_contents($basedir."/specific/custom.css",$_REQUEST["data"]);  
+}
 
 $req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");	
 $pages_boxes = array();
@@ -353,6 +357,7 @@ $tabs = array(
         array("","configurecms.php", "Onglets"),
         array("boxes","configurecms.php?view=boxes","Boites"),
         array("options","configurecms.php?view=options","Options"),
+        array("css","configurecms.php?view=css","Style")
         );
             
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
@@ -496,6 +501,20 @@ else if ( $_REQUEST["view"] == "options" )
   $cts->add($frm);
 
 }
+else if ( $_REQUEST["view"] == "css" )
+{
+  if ( file_exists($basedir."/specific/custom.css") )
+    $custom = file_get_contents($basedir."/specific/custom.css");
+  else
+    $custom = "";
+  $cts->add_title(2,"Feuille de style");
+  $frm = new form("setcss","configurecms.php?view=css",true,"POST","CSS");
+  $frm->add_hidden("action","setcss");
+  $frm->add_text_area("data","Code CSS personalisé",$custom,80,20,true);
+  $frm->add_submit("save","Enregistrer");
+  $cts->add($frm);  
+}
+
 
 $cts->add_title(2,"Outils");
 
