@@ -30,7 +30,7 @@ require_once("include/annonce.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
 
-define("GRP_JOBETU_CLIENT", 32);
+define("GRP_JOBETU_CLIENT", 35);
 
 $site = new site();
 $site->start_page("services", "AE Job Etu");
