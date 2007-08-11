@@ -27,6 +27,8 @@ require_once($topdir . "include/site.inc.php");
 require_once("include/jobetu.inc.php");
 require_once("include/jobuser_client.inc.php");
 require_once("include/annonce.inc.php");
+require_once($topdir . "include/entities/ville.inc.php");
+require_once($topdir . "include/entities/pays.inc.php");
 
 $site = new site();
 $site->start_page("services", "AE Job Etu");
@@ -46,7 +48,7 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	
 	$jobetu = new jobetu($site->db, $site->dbrw);
 	$jobetu->get_job_types();
-	
+
 	$frm = new form("jobs", "depot.php?action=add", false, "POST", "Taiste");
 	
 	$cts->add_title(2, "Details concernant la sauce aux poireaux");
@@ -70,13 +72,24 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
  */
 else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 {
-	$cts->add_title(2, "Vos informations personnelles");
+	$ville = new ville($site->db);
+	$pays = new pays($site->db);
+	
+	//$cts->add_title(2, "Vos informations personnelles");
 	$cts->add_paragraph("Vous êtes à présent inscrit sur le site de l'AE, nous vous remerçions de votre confiance.");
 	$cts->add_paragraph("Afin de compléter votre profil dans le but de passer votre annonce, nous vous remerçions de bien vouloir prendre le temps de remplir les champs ci-dessous.<br />
 												Vous devrez ensuite accepter les conditions générales d'utilisation du service AE Job Etu pour valider cette inscription. <br />
 												Vous pourrez passer votre annonce à la prochaine étape.");
 	
 	$frm = new form("user_info", "depot.php?action=info", true, "POST", "Informations complémentaires");
+	$frm->add_text_area("adresse", "Adresse", false, 40, 1);
+	$frm->add_text_field("cpostal", "Code postal");
+	$frm->add_entity_smartselect ("ville","Ville", $ville,true);
+	$frm->add_entity_smartselect ("ville","Pays", $pays,true);
+	$frm->add_text_field("tel", "Numéro de téléphone");
+	$frm->add_submit("go", "Etape suivante");
+	
+	$cts->add($frm, true);
 	//http://ae.utbm.fr/article.php?name=legals-jobetu-cgu
 
 
