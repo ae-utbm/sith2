@@ -30,6 +30,8 @@ require_once("include/annonce.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
 
+define("GRP_JOBETU_CLIENT", 32);
+
 $site = new site();
 $site->start_page("services", "AE Job Etu");
 
@@ -75,15 +77,27 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 	$site->allow_only_logged_users("services");
 	$jobuser = new jobuser_client($site->dbrw);
 	$jobuser->load_by_id($site->user->id);
-	
-	print_r($jobuser);
+	$jobuser->load_all_extra();
 	
 	if(isset($_REQUEST) && $_REQUEST['magicform']['name'] == "user_info")
-	{
-		print_r($_REQUEST);
-		
+	{		
 		if( !$_REQUEST['accept_cgu'] )
 			$error = "Vous devez accepter les conditions générales d'utilisation pour poursuivre";
+		else
+		{
+			$jobuser->addresse = $_REQUEST['adresse'];
+			$jobuser->id_ville = $_REQUEST['ville'];
+			$jobuser->id_pays = $_REQUEST['pays'];
+			$jobuser->tel_maison = telephone_userinput($_REQUEST['tel']);
+			
+			if( $jobuser->saveinfos() && $jobuser->add_to_group(GRP_JOBETU_CLIENT) )
+			{
+				header("Location: depot.php?action=annonce");
+				exit;
+			}
+			
+			
+		}
 	}
 	
 	$ville = new ville($site->db);
@@ -103,11 +117,10 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 												Vous devrez ensuite également les conditions générales d'utilisation du service AE Job Etu pour valider cette inscription. <br />
 												Vous pourrez passer votre annonce à la prochaine étape.");
 	
-	$frm = new form("user_info", "depot.php?action=infos", true, "POST", "Informations complémentaires");
+	$frm = new form("user_info", "depot.php?action=infos", true, "POST", "Informations complémentaires (".$jobuser->prenom." ".$jobuser->nom.")");
 	if(!empty($error))
 		$frm->error($error);
 	$frm->add_text_area("adresse", "Adresse", false, 40, 1, true);
-	$frm->add_text_field("cpostal", "Code postal", "", true);
 	$frm->add_entity_smartselect ("ville","Ville", $ville, true, true);
 	$frm->add_entity_smartselect ("pays","Pays", $pays, true, true);
 	$frm->add_text_field("tel", "Numéro de téléphone", "", true);
