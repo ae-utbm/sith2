@@ -74,6 +74,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 {
 	$ville = new ville($site->db);
 	$pays = new pays($site->db);
+	$pays->load_by_id(1);
 	
 	//$cts->add_title(2, "Vos informations personnelles");
 	$cts->add_paragraph("Vous êtes à présent inscrit sur le site de l'AE, nous vous remerçions de votre confiance.");
@@ -84,8 +85,8 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 	$frm = new form("user_info", "depot.php?action=info", true, "POST", "Informations complémentaires");
 	$frm->add_text_area("adresse", "Adresse", false, 40, 1);
 	$frm->add_text_field("cpostal", "Code postal");
-	$frm->add_entity_smartselect ("ville","Ville", $ville,true);
-	$frm->add_entity_smartselect ("ville","Pays", $pays,true);
+	$frm->add_entity_smartselect ("ville","Ville", $ville, true);
+	$frm->add_entity_smartselect ("ville","Pays", $pays, true);
 	$frm->add_text_field("tel", "Numéro de téléphone");
 	$frm->add_submit("go", "Etape suivante");
 	
