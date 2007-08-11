@@ -88,7 +88,8 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 			$jobuser->addresse = $_REQUEST['adresse'];
 			$jobuser->id_ville = $_REQUEST['ville'];
 			$jobuser->id_pays = $_REQUEST['pays'];
-			$jobuser->tel_maison = telephone_userinput($_REQUEST['tel']);
+			$jobuser->tel_maison = telephone_userinput($_REQUEST['tel_fixe']);
+			$jobuser->tel_portable = telephone_userinput($_REQUEST['tel_portable']);
 			
 			if( $jobuser->saveinfos() && $jobuser->add_to_group(GRP_JOBETU_CLIENT) )
 			{
@@ -123,7 +124,8 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 	$frm->add_text_area("adresse", "Adresse", false, 40, 1, true);
 	$frm->add_entity_smartselect ("ville","Ville", $ville, true, true);
 	$frm->add_entity_smartselect ("pays","Pays", $pays, true, true);
-	$frm->add_text_field("tel", "Numéro de téléphone", "", true);
+	$frm->add_text_field("tel_fixe", "Téléphone (fixe)", "", false);
+	$frm->add_text_field("tel_portable", "Télephone (portable)", "", false);
 	$frm->puts("");
 	$frm->add_checkbox("accept_cgu", "J'ai lu et j'accepte les <a href=\"http://ae.utbm.fr/article.php?name=legals-jobetu-cgu\">conditions générales d'utilisation</a>", false);
 	$frm->add_submit("go", "Etape suivante");
