@@ -154,7 +154,7 @@ $site->add_contents($cts);
 if ( $can_edit )
   $cts->set_toolbox(new toolbox(array("index.php?page=edit&name=".substr($page->nom,strlen(CMS_PREFIX))=>"Editer")));
 
-if ( $page->nom == CMS_PREFIX."home" )
+if ( $page->nom == CMS_PREFIX."home" && $site->config["home.news"] == 1 )
 {
   $site->add_rss("L'actualité de ".$site->asso->nom,"rss.php");
   $site->add_rss("Toute l'actualité de l'association des étudiants","/rss.php");
