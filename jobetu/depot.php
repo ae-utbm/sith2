@@ -48,12 +48,14 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	$site->allow_only_logged_users("services");
 	if(!$site->user->is_in_group("jobetu_client")) header("Location: depot.php?action=infos");
 	
+	$cts->add_paragraph("Veuillez à présent entrer la description de votre annonce.");
+	$cts->add_paragraph("Soyez aussi précis que possible dans la description de vos besoins afin que nous puissions pleinement vous satisfaire.");
+	
 	$jobetu = new jobetu($site->db, $site->dbrw);
 	$jobetu->get_job_types();
 
-	$frm = new form("jobs", "depot.php?action=add", false, "POST", "Taiste");
+	$frm = new form("jobs", "depot.php?action=add", false, "POST", "Contenu de l'annonce");
 	
-	$cts->add_title(2, "Details concernant la sauce aux poireaux");
 	$frm->add_text_field("titre_ann", "Titre de l'annonce", false, true, 60);
 	$jobetu->add_jobtypes_select_field($frm, "job_type", "Catégorie");
 	$frm->add_info("<i>Si vous ne trouvez pas de categorie adequate, n'hesitez pas a <a href=''>le signaler</a></i>");
@@ -63,9 +65,9 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	$frm->add_text_field("duree", "Duree (facultatif)");
 	$frm->add_text_field("remuneration", "Rémuneration (facultatif)");
 	$frm->add_text_area("divers", "Autres informations", false, 60, 3);
-	$frm->add_submit("next", "Etape suivante");
+	$frm->add_submit("go", "Enregistrer mon annonce");
 	
-	$cts->add($frm);
+	$cts->add($frm, true);
 }
 
 
@@ -75,8 +77,6 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 {
 	$site->allow_only_logged_users("services");
-//	$jobuser = new jobuser_client($site->dbrw);
-//	$jobuser->load_by_id($site->user->id);
 	$site->user->load_all_extra();
 	
 	if(isset($_REQUEST) && $_REQUEST['magicform']['name'] == "user_info")
@@ -111,7 +111,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 		$pays->load_by_id(1); //France par défaut
 	
 	if(!empty($site->user->id_pays))
-		$pays->load_by_id($site->user->id_pays);
+		$ville->load_by_id($site->user->id_ville);
 		
 		
 	$cts->add_paragraph("Vous êtes à présent inscrit sur le site de l'AE, nous vous remerçions de votre confiance.");
@@ -146,8 +146,17 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="add" && $_REQUEST['
 	$annonce = new annonce($site->db, $site->dbrw);
 	$jobuser->load_by_id($site->user->id);
 	
-	$annonce->add($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['divers']);
-	//print_r($annonce);
+	$result = $annonce->add($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['divers']);
+	
+	if(result)
+	{
+		$cts->add_paragraph("Votre annonce a bien été enregistrée sous le numéro $result. Elle sera désormais soumise aux candidatures des étudiants.");
+		$cts->add_paragraph("Vous pouvez désormais gérer l'avancée de votre offre dans votre panneau de contrôle, les différents candidats vous y seront proposés à mesure que leurs candidatures nous parviennent, vous pourrez alors en sélectionner une pour répondre à votre attente");
+		
+		$frm = new form("go", "board_client.php", false, "POST", false);
+		$frm->add_submit("next", "Aller à mon panneau de contrôle");
+		$cts->add($frm);	
+	}
 }
 else
 {
