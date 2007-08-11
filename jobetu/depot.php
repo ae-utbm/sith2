@@ -30,7 +30,7 @@ require_once("include/annonce.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
 
-define("GRP_JOBETU_CLIENT", 35);
+define("GRP_JOBETU_CLIENT", 32);
 
 $site = new site();
 $site->start_page("services", "AE Job Etu");
@@ -75,9 +75,9 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 {
 	$site->allow_only_logged_users("services");
-	$jobuser = new jobuser_client($site->dbrw);
-	$jobuser->load_by_id($site->user->id);
-	$jobuser->load_all_extra();
+//	$jobuser = new jobuser_client($site->dbrw);
+//	$jobuser->load_by_id($site->user->id);
+	$site->user->load_all_extra();
 	
 	if(isset($_REQUEST) && $_REQUEST['magicform']['name'] == "user_info")
 	{		
@@ -85,17 +85,22 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 			$error = "Vous devez accepter les conditions générales d'utilisation pour poursuivre";
 		else
 		{
-			$jobuser->addresse = $_REQUEST['adresse'];
-			$jobuser->id_ville = $_REQUEST['ville'];
-			$jobuser->id_pays = $_REQUEST['pays'];
-			$jobuser->tel_maison = telephone_userinput($_REQUEST['tel_fixe']);
-			$jobuser->tel_portable = telephone_userinput($_REQUEST['tel_portable']);
+			$site->user->addresse = $_REQUEST['adresse'];
+			$site->user->id_ville = $_REQUEST['ville'];
+			$site->user->id_pays = $_REQUEST['pays'];
+			$site->user->tel_maison = telephone_userinput($_REQUEST['tel_fixe']);
+			$site->user->tel_portable = telephone_userinput($_REQUEST['tel_portable']);
 			
-			if( $jobuser->saveinfos() && $jobuser->add_to_group(GRP_JOBETU_CLIENT) )
+			echo "plop : ";
+			echo $site->user->saveinfos();
+			echo "\ngnaa : ";
+			echo $site->user->add_to_group(GRP_JOBETU_CLIENT);
+			
+/*			if( $site->user->saveinfos() && $site->user->add_to_group(GRP_JOBETU_CLIENT) )
 			{
 				header("Location: depot.php?action=annonce");
 				exit;
-			}
+			} */
 			
 			
 		}
@@ -104,13 +109,13 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 	$ville = new ville($site->db);
 	$pays = new pays($site->db);
 	
-	if(!empty($jobuser->id_pays))
+	if(!empty($site->user->id_pays))
 		$pays->load_by_id($user->id_pays);
 	else
 		$pays->load_by_id(1); //France par défaut
 	
-	if(!empty($jobuser->id_pays))
-		$pays->load_by_id($user->id_pays);
+	if(!empty($site->user->id_pays))
+		$pays->load_by_id($site->user->id_pays);
 		
 		
 	$cts->add_paragraph("Vous êtes à présent inscrit sur le site de l'AE, nous vous remerçions de votre confiance.");
@@ -118,7 +123,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 												Vous devrez ensuite également les conditions générales d'utilisation du service AE Job Etu pour valider cette inscription. <br />
 												Vous pourrez passer votre annonce à la prochaine étape.");
 	
-	$frm = new form("user_info", "depot.php?action=infos", true, "POST", "Informations complémentaires (".$jobuser->prenom." ".$jobuser->nom.")");
+	$frm = new form("user_info", "depot.php?action=infos", true, "POST", "Informations complémentaires (".$site->user->prenom." ".$site->user->nom.")");
 	if(!empty($error))
 		$frm->error($error);
 	$frm->add_text_area("adresse", "Adresse", false, 40, 1, true);
