@@ -360,6 +360,9 @@ $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 if ( $_REQUEST["view"] == "" )
 {
+  $cts->add_title(2,"Onglets");
+  
+  
   $cts->add( new sqltable ( "onglets", "Onglets", $liste_onglets, 
   "configurecms.php", "nom_onglet", array("titre_onglet"=>"Titre","lien_onglet"=>"Lien"), 
   array("delete"=>"Supprimer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
@@ -411,6 +414,7 @@ if ( $_REQUEST["view"] == "" )
 }
 else if ( $_REQUEST["view"] == "boxes" )
 {
+  $cts->add_title(2,"Boites");
 
   // Boxes
   if ( empty($site->config["boxes.names"]) )
@@ -472,7 +476,7 @@ else if ( $_REQUEST["view"] == "boxes" )
 }
 else if ( $_REQUEST["view"] == "options" )
 {
-
+  $cts->add_title(2,"Paramètrage");
 
   $frm = new form("setconfig","configurecms.php?view=options",true,"POST","Options");
   $frm->add_hidden("action","setconfig");
