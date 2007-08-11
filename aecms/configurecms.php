@@ -510,7 +510,7 @@ else if ( $_REQUEST["view"] == "css" )
   $cts->add_title(2,"Feuille de style");
   $frm = new form("setcss","configurecms.php?view=css",true,"POST","CSS");
   $frm->add_hidden("action","setcss");
-  $frm->add_text_area("data","Code CSS personalisé",$custom,80,20,true);
+  $frm->add_text_area("data","Code CSS personalisé",$custom,80,20);
   $frm->add_submit("save","Enregistrer");
   $cts->add($frm);  
 }
