@@ -466,12 +466,12 @@ $frm = new form("setconfig","configurecms.php",true,"POST","Options");
 $frm->add_hidden("action","setconfig");
 
 $sfrm = new form("typebox",null,null,null,"Section membres");
-$frm->add_select_field("membres_upto","Membres, liste jusqu'au niveau",$GLOBALS['ROLEASSO'], $site->config["membres.upto"]);
-$frm->add_checkbox("membres_allowjoinus","Membres, afficher le formulaire \"Rejoignez-nous\"",$site->config["membres.allowjoinus"]);
+$sfrm->add_select_field("membres_upto","Membres, liste jusqu'au niveau",$GLOBALS['ROLEASSO'], $site->config["membres.upto"]);
+$sfrm->add_checkbox("membres_allowjoinus","Membres, afficher le formulaire \"Rejoignez-nous\"",$site->config["membres.allowjoinus"]);
 $frm->add($sfrm);
 
 $sfrm = new form("typebox",null,null,null,"Page accueil");
-$frm->add_checkbox("home_news","Afficher les nouvelles",$site->config["home.news"]);
+$sfrm->add_checkbox("home_news","Afficher les nouvelles",$site->config["home.news"]);
 $frm->add($sfrm);
 
 
