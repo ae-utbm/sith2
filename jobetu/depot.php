@@ -91,9 +91,9 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 			$site->user->tel_maison = telephone_userinput($_REQUEST['tel_fixe']);
 			$site->user->tel_portable = telephone_userinput($_REQUEST['tel_portable']);
 			
-			
-			if( $site->user->saveinfos() && $site->user->add_to_group(GRP_JOBETU_CLIENT) )
+			if( $site->user->saveinfos() )
 			{
+				$site->user->add_to_group(GRP_JOBETU_CLIENT);
 				header("Location: depot.php?action=annonce");
 				exit;
 			} 
