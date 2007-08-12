@@ -35,12 +35,21 @@ class ficheproduit extends stdcontents
       "</p>\n";      
     }
     
+    $this->buffer .= "<div class=\"description\">";
+    
     // Description
     if ( !$produit->description_longue )
-      $this->buffer .= "<div class=\"description\">".$produit->description."</div>";
+      $this->buffer .= $produit->description;
     else
-      $this->buffer .= "<div class=\"description\">".$produit->description_longue."</div>";
-    
+      $this->buffer .= $produit->description_longue;
+      
+    $extra = $produit->get_extra_info($user);
+      
+    if ( !empty($extra) )
+      $this->buffer .= "<br/>".$extra;
+      
+    $this->buffer .= "</div>";
+      
     // Informations sur le retrait
     if ( $produit->a_retirer )
     {
@@ -75,14 +84,23 @@ class ficheproduit extends stdcontents
     $this->buffer .= "<h3>Acheter le produit</h3>";
     if ( $req->lines > 0 )
     {
+      $subprod=new produit($produit->db);
+      
       $this->buffer .= "<ul>";
       while ( $row = $req->get_row() )
       {
+        $subprod->_load($row);
+        
+        $extra = $produit->get_extra_info($user);
+        
+        if ( !empty($extra) )
+          $extra = " <i>($extra)</i>";
+        
         $stock = $row["stock_local_prod"] == -1 ? $row["stock_global_prod"] : $row["stock_local_prod"];
         
         if ( $stock == 0 )
           $this->buffer .= 
-            "<li>".$row["nom_prod"]." : épuisé</li>";
+            "<li>".$row["nom_prod"].$extra." : épuisé</li>";
         else
         {
           if ( $stock != -1 )
@@ -93,12 +111,12 @@ class ficheproduit extends stdcontents
           if ( $row["prix_vente_prod"] != $produit->prix_vente )
             $this->buffer .= 
               "<li><a href=\"./?act=add&amp;id_produit=".$row["id_produit"]."\">".
-              $row["nom_prod"]." <b>".($row["prix_vente_prod"]/100).
+              $row["nom_prod"].$extra." <b>".($row["prix_vente_prod"]/100).
               "&euro;</b> : Ajouter au panier</a>$info_stock</li>";          
           else
             $this->buffer .= 
               "<li><a href=\"./?act=add&amp;id_produit=".$row["id_produit"]."\">".
-              $row["nom_prod"]." : Ajouter au panier</a>$info_stock</li>";
+              $row["nom_prod"].$extra." : Ajouter au panier</a>$info_stock</li>";
         }    
       }      
       $this->buffer .= "</ul>";

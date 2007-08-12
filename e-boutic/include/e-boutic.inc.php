@@ -208,7 +208,7 @@ class eboutic extends site
     if ( !$vp->produit->can_be_sold($this->user) )
       return;
     
-    if ( $cl = $vp->produit->get_prodclass() )
+    if ( $cl = $vp->produit->get_prodclass($this->user) )
     {
       if ($this->cart == null)
         $this->load_cart();  
@@ -217,7 +217,7 @@ class eboutic extends site
       {
         foreach ($this->cart as $prod)
         {
-          $cl2 = $prod->get_prodclass();
+          $cl2 = $prod->get_prodclass($this->user);
           if ( $cl2 && !$cl->is_compatible($cl2) )
             return false;
         }

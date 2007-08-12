@@ -15,9 +15,47 @@ class cotisationae
 	var $db;
 	var $dbrw;
 	
-	function cotisationae($db,$dbrw,$param)
+	function cotisationae($db,$dbrw,$param,&$user)
 	{
-		$this->enddate = strtotime($param);
+	  $year  = date("Y");
+    $month = date("m");
+    
+	  if ( $user->ae )
+	  {
+  		$req = new requete($this->db,
+    		"SELECT date_cotis ".
+    		"FROM `ae_cotisations` " .
+    		"WHERE `id_utilisateur`='".$user->id."' " .
+    		"ORDER BY `date_cotis` DESC LIMIT 1");	   
+  		list($curend) = $req->get_row();
+  		$curend=strtotime($curend);	   
+		  $year  = date("Y",$curend);
+      $month = date("m",$curend);
+	  }
+	  
+	  if ( $month < 2 ) // janvier => aout année -1
+	  {
+	    $year--; 
+	    $month = 8;
+	  }
+	  else if ( $month < 7 ) // février, mars, avril, mai, juin => février année
+	  {
+	    $month = 2; 
+	  }
+	  else // juillet, aout, sept, octobre, novembre, décembre => aout année
+	  {
+	    $month = 8; 
+	  }
+	  
+	  $month += intval($param);
+	  
+	  if ( $month > 12 )
+	  {
+	    $year++;
+	    $month -= 12; 
+	  }
+
+		$this->enddate = mktime ( 2, 0, 0, $month, 15 , $year );
 		
 		$this->db = $db;
 		$this->dbrw = $dbrw;
@@ -27,6 +65,11 @@ class cotisationae
 	{
 		$cotisation = new cotisation($this->db,$this->dbrw);
 		$cotisation->add ( $user->id, $this->enddate, 5, $prix_unit );
+	}
+	
+	function get_info()
+	{
+	  return "Cotisation à l'AE jusqu'au ".date("d/m/Y",$this->enddate);
 	}
 	
 	function get_once_sold_cts($user)
@@ -41,8 +84,11 @@ class cotisationae
 	
 	function can_be_sold($user)
 	{
-		if ( !$user->ae )
-			return true;
+		if ( !$user->utbm )
+			return false;
+			
+		/*if ( !$user->ae )
+			return true;			
 			
 		$req = new requete($this->db,
 		"SELECT *".
@@ -58,9 +104,9 @@ class cotisationae
 		$curend=strtotime($curend);
 		
 		if ( $curend < $this->enddate )
-			return true;
+			return true;*/
 		
-		return false;
+		return true;
 	}
 	
 	function is_compatible($cl)

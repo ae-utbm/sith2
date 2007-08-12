@@ -401,7 +401,7 @@ class venteproduit extends stdentity
 		else if ( $this->produit->action == ACTION_CLASS )
 		{
 			$this->produit->dbrw = $this->dbrw;
-			if ( $cl = $this->produit->get_prodclass() )
+			if ( $cl = $this->produit->get_prodclass($client) )
 				$cl->vendu($client,$prix);
 		}
 	}

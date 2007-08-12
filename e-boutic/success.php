@@ -75,7 +75,7 @@ if (isset($_POST['DATA']))
       foreach ($cart as $id => $count)
       {
         $prod->load_by_id($id);
-        if ($cl=$prod->get_prodclass())
+        if ($cl=$prod->get_prodclass($site->user))
           if ( $cts=$cl->get_once_sold_cts($site->user))
             $site->add_contents($cts);
       }

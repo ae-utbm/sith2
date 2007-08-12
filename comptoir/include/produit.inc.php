@@ -457,7 +457,7 @@ class produit extends stdentity
 	  
 	  if ( $this->action == ACTION_CLASS )
 	  {
-      $this->get_prodclass();
+      $this->get_prodclass($user);
       return $this->cl->can_be_sold($user);
 	  }
 	  
@@ -465,37 +465,46 @@ class produit extends stdentity
   }
   
   
-	function get_prodclass()
+	function get_prodclass(&$user)
 	{
 		global $topdir;
 		
 		if ( $this->cl )
 			return $this->cl;
 		
-	  	if ( $this->action != ACTION_CLASS )
+  	if ( $this->action != ACTION_CLASS )
+  		return NULL;
+  		
+  	$regs=null;	
+  		
+  	if ( !ereg("^([a-z]+)\((.*)\)$",$this->meta,$regs))
+  		return NULL;
+  		
+  	$class = $regs[1]; // que des lettes minuscules
+  	$param = $regs[2]; // 
+  	
+  	if ( !class_exists($class))
+  	{
+	  	if ( !file_exists($topdir."comptoir/include/class/".$class.".inc.php") )
 	  		return NULL;
 	  		
-	  	$regs=null;	
-	  		
-	  	if ( !ereg("^([a-z]+)\((.*)\)$",$this->meta,$regs))
-	  		return NULL;
-	  		
-	  	$class = $regs[1]; // que des lettes minuscules
-	  	$param = $regs[2]; // 
-	  	
-	  	if ( !class_exists($class))
-	  	{
-		  	if ( !file_exists($topdir."comptoir/include/class/".$class.".inc.php") )
-		  		return NULL;
-		  		
-		  	include($topdir."comptoir/include/class/".$class.".inc.php");
-	  	}
-	  	
-	  	$this->cl = new $class ( $this->db, $this->dbrw, $param );	
-	  	
-	  	return $this->cl;
+	  	include($topdir."comptoir/include/class/".$class.".inc.php");
+  	}
+  	
+  	$this->cl = new $class ( $this->db, $this->dbrw, $param, $user );	
+  	
+  	return $this->cl;
 	}
-  
+	
+  function get_extra_info (&$user)
+  {	  
+	  if ( $this->action == ACTION_CLASS )
+	  {
+      $this->get_prodclass($user);
+      return $this->cl->get_info();
+	  }
+    return "";
+  }
   
 }
 ?>
