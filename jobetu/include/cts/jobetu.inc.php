@@ -36,9 +36,60 @@
 		{
 			if( !($annonce instanceof annonce) ) exit("Namého ! mauvaise argumentation mon bonhomme ! :)");
 			
-			$this->buffer .= "<div class=\"annonce_table\">";
-			$this->buffer .= "<p>Bleh !</p>";
-			$this->buffer .= "</div>";
+	  	$this->buffer .= "<div class=\"annonce_table\">";
+	
+	  	$this->buffer .= "<div class=\"header\">";
+	  	$this->buffer .= "<div class=\"num\">";
+	  	$this->buffer .= "n°".$annonce->id;
+	  	$this->buffer .= "</div>";
+	  		
+	  	$this->buffer .= "<div class=\"title\">";
+	  	$this->buffer .= $annonce->titre;
+	  	$this->buffer .= "</div>";
+	  		
+	  	$this->buffer .= "<div class=\"icons\">";
+	  	$this->buffer .= "<a href=\"../article.php?name=jobetu-help\" title=\"Aide\"><img src=\"../images/actions/info.png\" /></a> &nbsp;";
+	  	$this->buffer .= "<a href=\"board_client.php?action=edit&id=".$annonce->id."\" title=\"Editer l'annonce\"><img src=\"../images/actions/edit.png\" /></a> &nbsp;";
+	  	$this->buffer .= "<a href=\"board_client.php?action=close&id=".$annonce->id."\" title=\"Clore cette annonce\"><img src=\"../images/actions/lock.png\" /></a>";
+	  	$this->buffer .= "</div>";
+	  	$this->buffer .= "</div>";
+	  		
+	  	$this->buffer .= "<div class=\"content\">";
+	  	
+	  	/** Candidatures ******************************************************/
+	  	$this->buffer .= "Il y a `".count($annonce->applicants)."` candidature(s) pour votre annonce :";
+	  	$n = 1; // Compteuràlacon
+
+	  	foreach($annonce->applicants as $line)
+	  	{
+	  		$usr = new utilisateur($this->db);
+	  		$usr->load_by_id($line['id_etu']);
+	  		$userinfo = new userinfo($usr, true, false, true, false, true, true);
+	  		$this->buffer .= $userinfo->buffer;
+	  		
+	  		$this->buffer .= "<div class=\"apply_table\">";
+  					
+  				$this->buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_1');\">";
+  				$this->buffer .= $usr->prenom." ".$usr->nom." (département ".$usr->branche_utbm.")";
+  				$this->buffer .= "</div>";
+  					
+  				$this->buffer .= "<div id=\"applicant_1\" class=\"apply_content\">";
+  				 				
+  				
+  				$this->buffer .= "gnaa";
+  				$this->buffer .= "</div>";
+
+	  			$this->buffer .= "</div>";
+	  			$n++;
+	  	}
+	  	
+	  	$this->buffer .= "</div>";
+  			
+  		$this->buffer .= $annonce->desc;
+  		$this->buffer .= "</div>";
+  		
+  		 		  		
+		$buffer .= "</div>";
 		}
 
 	}
