@@ -94,7 +94,7 @@ if ($_REQUEST['act'] == "add")
   /* produit non trouve ou stock insuffisant */
   if ($ret == false)
     $add_rs = new error("Ajout",
-      "<b>Impossible d'ajouter le produit dans le panier</b>. Soit le produit ne peut être cheté, soit il est incompatible avec un produit se trouvant déjà dans le panier.");
+      "<b>Impossible d'ajouter le produit dans le panier</b>. Soit le produit ne peut être acheté, soit il est incompatible avec un produit se trouvant déjà dans le panier.");
   /*ajout possible */
   else
   {
