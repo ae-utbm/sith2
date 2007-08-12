@@ -1,171 +1,5 @@
 @import url("/themes/default/css/site.css");
 
-
-body
-{
-  background:black;  
-  text-align:center;
-  
-}
-
-div.contents
-{
-  background:white;  
-  width:915px;
-  margin:0;
-  margin-left:auto;
-  margin-right:auto;
-  position:relative;
-  margin-bottom:20px;
-  text-align:left;
-  overflow:hidden;
-}
-
-div#logo
-{
-  background: url("head-orchestre.png");
-  width:917px;
-  height:98px;
-  padding:0;
-  margin-left:auto;
-  margin-right:auto;
-  text-align:left;
-}
-
-div#logo a
-{
-  display:none;  
-}
-
-div.tabsv2
-{
-  background: url("head-orchestre.png") 0px -98px;
-  width:917px;
-  height:44px;
-  padding:0;
-  margin-left:auto;
-  margin-right:auto;
-  text-align:left;
-}
-
-div.tabsv2 span
-{
-  background:none;  
-  margin-top:8px;
-  margin-left:10px;
-  height:26px;
-	padding-left:0px;
-
-}
-
-
-div.tabsv2 span a
-{
-  background:none;  
-  color:black;
-  font-size:14px;
-	padding-right:10px;
-	padding-left:10px;   
-  height:26px;
-	line-height:26px;
-}
-
-
-
-
-div.tabsv2 span.selected 
-{
-  background:white;  
-}
-
-div.tabsv2 span.selected a
-{
-  background:white;  
-  color:black;
-}
-
-div.tabsv2 span:hover
-{
-  background:white;  
-}
-
-div.tabsv2 span:hover a
-{
-  background:white;  
-  color:black;
-}
-
-
-div.emptysectionlinks
-{
-  padding:0;
-}
-
-#left
-{
-  top:1em;  
-  
-}
-
-#right
-{
-  top:1em;  
-}
-
-div.article
-{
-  border:0;
-  margin-top:1em;  
-  padding:0;
-}
-
-div.article h1
-{
-  margin-top: 0;
-  margin-bottom: 1em;
-  padding-bottom: 0.3em;
-  font-size: 150%;
-  border-bottom: 1px black solid;
-}
-
-div.article h2
-{
-  font-size: 130%;
-  padding-bottom: 0.2em;
-  border-bottom: 1px #c0c0c0 solid;
-  margin-bottom: 1em;
-  margin-top: 2em;
-}
-
-div.article h3
-{
-  font-size: 110%;
-  border-bottom: 1px #c0c0c0 solid;
-  margin-bottom: 1em;
-  margin-top: 2em;
-}
-
-div.article p
-{
-  text-align: justify;
-  margin: 0;
-  padding: 0;
-  
-  margin-bottom: 1em;
-  margin-top: 1em;
-}
-
-
-div.article.anews h1
-{
-  font-size: 130%;
-  padding-bottom: 0.2em;
-  border-bottom: 1px #c0c0c0 solid;
-  margin-bottom: 1em;
-  margin-top: 2em;
-  clear:both;
-}
-
 p.footer
 {
   margin-top:2em;
@@ -179,22 +13,30 @@ p.footer
 p.footer a
 {
   font-size:10px;
-  color:#c0c0c0;
+  color:#a0a0a0;
 }
 
-div.page#lr
+div#logo
 {
-  margin: 0 19em;
+  height:60px;
+  padding:0;
+  margin-left:auto;
+  margin-right:auto;
+  text-align:left;
+  position:relative;
 }
 
-div.page#r
+div#logo a
 {
-  margin-left: 2em;
-  margin-right: 19em;
-}
+  position:absolute;
+  font-size:40px;
+  color:#FFFFFF;
+  top:10px;
+  left:40px;
+    text-transform: lowercase;
 
-div.page#l
+}
+div#logo a:hover
 {
-  margin-left: 19em;
-  margin-right: 2em;
+  text-decoration:none;
 }

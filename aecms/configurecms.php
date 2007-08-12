@@ -307,6 +307,8 @@ elseif ( $_REQUEST["action"] == "save" )
 }
 elseif( $_REQUEST["action"] == "setcss" )
 {
+  $site->config["css.base"] = $_REQUEST["css_base"];
+  $site->save_conf();  
   file_put_contents($basedir."/specific/custom.css",$_REQUEST["data"]);  
 }
 elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["filename"]) )
@@ -527,6 +529,8 @@ else if ( $_REQUEST["view"] == "options" )
 }
 else if ( $_REQUEST["view"] == "css" )
 {
+  $base_styles = array("base.css"="Site AE","base-blackie.css"=>"Blackie");
+  
   if ( file_exists($basedir."/specific/custom.css") )
     $custom = file_get_contents($basedir."/specific/custom.css");
   else
@@ -534,6 +538,8 @@ else if ( $_REQUEST["view"] == "css" )
   $cts->add_title(2,"Feuille de style");
   $frm = new form("setcss","configurecms.php?view=css",true,"POST","CSS");
   $frm->add_hidden("action","setcss");
+  
+  $sfrm->add_select_field("css_base","Style de base",$base_styles, $site->config["css.base"]);  
   $frm->add_text_area("data","Code CSS personalisé",$custom,80,20);
   $frm->add_submit("save","Enregistrer");
   $cts->add($frm);  
