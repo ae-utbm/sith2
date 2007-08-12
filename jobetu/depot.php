@@ -151,10 +151,10 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="add" && $_REQUEST['
 	if(result)
 	{
 		$cts->add_paragraph("Votre annonce a bien été enregistrée sous le numéro $result. Elle sera désormais soumise aux candidatures des étudiants.");
-		$cts->add_paragraph("Vous pouvez désormais gérer l'avancée de votre offre dans votre panneau de contrôle, les différents candidats vous y seront proposés à mesure que leurs candidatures nous parviennent, vous pourrez alors en sélectionner une pour répondre à votre attente");
+		$cts->add_paragraph("Vous pouvez désormais gérer l'avancée de votre offre dans votre tableau de bord, les différents candidats vous y seront proposés à mesure que leurs candidatures nous parviennent, vous pourrez alors en sélectionner une pour répondre à votre attente");
 		
 		$frm = new form("go", "board_client.php", false, "POST", false);
-		$frm->add_submit("next", "Aller à mon panneau de contrôle");
+		$frm->add_submit("next", "Aller à mon tableau de bord");
 		$cts->add($frm);	
 	}
 }

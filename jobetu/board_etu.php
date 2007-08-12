@@ -30,6 +30,7 @@ require_once("include/jobetu.inc.php");
 require_once("include/jobuser_etu.inc.php");
 
 $site = new site();
+$site->allow_only_logged_users("services");
 $site->add_css("jobetu/jobetu.css");
 $site->start_page("services", "AE Job Etu");
 

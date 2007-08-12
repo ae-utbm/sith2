@@ -27,9 +27,14 @@ $topdir = "../";
 require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
 require_once("include/jobetu.inc.php");
+require_once("include/annonce.inc.php");
+require_once("include/cts/jobetu.inc.php");
 require_once("include/jobuser_client.inc.php");
 
 $site = new site();
+$site->allow_only_logged_users("services");
+if(!$site->user->is_in_group("jobetu_client")) header("Location: index.php");
+
 $site->add_css("jobetu/jobetu.css");
 $site->start_page("services", "AE Job Etu");
 
@@ -37,7 +42,8 @@ $cts = new contents("Tableau de bord AE Job Etu");
 
 $tabs = array(
 		      array("", "jobetu/board_client.php", "annonces"),
-		      array("preferences", "jobetu/board_client.php?view=preferences", "préférences")
+		      array("preferences", "jobetu/board_client.php?view=preferences", "préférences"),
+		      array("annonce", "jobetu/depot.php?action=annonce", "nouvelle annonce")
 	      	);
 $cts->add(new tabshead($tabs, $_REQUEST['view']));
 
@@ -60,7 +66,17 @@ else
 	$user->load_annonces();
 	
 	$cts->add_paragraph("Vous avez `".count($user->annonces)."` nouveau(x) message(s)");
-	$cts->buffer .= $user->add_annonce_box(0);
+	
+	foreach($user->annonces as $ann)
+	{
+		$annonce = new annonce($site->db);
+		$annonce->load_by_id($ann['id_annonce']);
+		$annonce->load_applicants();
+		
+		$box = new annonce_box($annonce);
+		$cts->add($box);
+	}
+	
 }
 
 $site->add_contents($cts);

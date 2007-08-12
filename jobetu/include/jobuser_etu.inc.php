@@ -106,10 +106,11 @@ class jobuser_etu extends utilisateur
 	  				$buffer .= "<div id=\"apply_1\" style=\"display: none;\" class=\"apply_form\">";
 		  				$frm = new form("application_1", "board_etu.php?board_etu.php?action=apply", true, "POST");
 		  				$frm->puts("Ajouter un message à votre candidature <i>(facultatif)</i> :<br />");
+		  				$frm->add_hidden("id_annonce", $annonce['id_annonce']);
 		  				$frm->add_text_area("comment", false, false, 80, 10);
 		  				$frm->add_submit("send", "Envoyer la candidature");
 	  				$buffer .= $frm->buffer;
-		  				
+	  				
 	  				$buffer .= "</div>";
   				  				
   				$buffer .= "</div>";
