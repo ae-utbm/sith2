@@ -529,7 +529,7 @@ else if ( $_REQUEST["view"] == "options" )
 }
 else if ( $_REQUEST["view"] == "css" )
 {
-  $base_styles = array("base.css"="Site AE","base-blackie.css"=>"Blackie");
+  $base_styles = array("base.css"=>"Site AE","base-blackie.css"=>"Blackie");
   
   if ( file_exists($basedir."/specific/custom.css") )
     $custom = file_get_contents($basedir."/specific/custom.css");
