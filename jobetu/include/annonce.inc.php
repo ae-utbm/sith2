@@ -39,7 +39,7 @@ class annonce extends stdentity
 	var $ville;
 	var $type_contrat;
 	
-	var $liste;
+	var $applicants;
 		
   function load_by_id($id)
   {
@@ -67,7 +67,6 @@ class annonce extends stdentity
   	
   function liste_annonce($condition = "all")
   {
-  	$liste = array();
   	/*
   	//ah ben non, case ne prend qu une valeur de type scalaire
   	switch($condition)
@@ -82,7 +81,7 @@ class annonce extends stdentity
   			$sql_condition = " WHERE client == particulier";
   			break;
   		case (instanceof jobuser_client):
-  			$sql_condition = " WHERE client = " . $condition->id;
+  			$sql_condition = " WHEREid client = " . $condition->id;
   			break;
   		case (instanceof jobuser_etu):
   			$sql_condition = " WHERE etu_selected = " . $condition->id;
@@ -93,6 +92,17 @@ class annonce extends stdentity
 	*/
   }
 
+  function load_applicants()
+  {
+  	$this->applicants = array();
+  	
+  	$sql = new requete($this->db, "SELECT `id_etu`, `comment` FROM `job_annonces_etu` WHERE `id_annonce` = $this->id AND `relation` = 'apply'");
+  	while($line = $sql->get_row())
+  		$this->applicants[] = $line;
+  		
+  	return count($this->applicants);  	
+  }
+  
   function is_provided()
   {
   }
