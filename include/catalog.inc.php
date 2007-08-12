@@ -41,6 +41,7 @@
  */
 $GLOBALS["entitiescatalog"] = array (
 	"utilisateur"	=> array ( "id_utilisateur", "nom_utilisateur"/*alias*/, "user.png", "user.php", null, "utilisateur.inc.php"),
+	"page" => array ( "id_page", "titre_page", "page.png", "article.php"),
 	"asso" 			=> array ( "id_asso", "nom_asso", "asso.png", "asso.php", "asso", "asso.inc.php" ),
 	"group" 			=> array ( "id_groupe", "nom_groupe", "group.png", "group.php", "groupe" ),
 	"sitebat" 		=> array ( "id_site", "nom_site", "site.png", "sitebat.php" ),

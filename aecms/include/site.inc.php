@@ -79,6 +79,7 @@ $GLOBALS["entitiescatalog"]["catphoto"][3]="photos.php";
 $GLOBALS["entitiescatalog"]["photo"][3]="photos.php";
 $GLOBALS["entitiescatalog"]["utilisateur"][3]=null;
 $GLOBALS["entitiescatalog"]["asso"][3]=null;
+$GLOBALS["entitiescatalog"]["page"][3]="index.php";
 
 /*
  * NOTE : Il faudra modifier mysqlae.inc.php pour accepter les inclusions d'autres emplacements...

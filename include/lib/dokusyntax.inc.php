@@ -321,7 +321,7 @@ function format_headlines(&$table,&$hltable,&$text)
 function linkformat($match)
 {
   global $conf;
-  global $topdir;
+  global $wwwtopdir;
   $ret = '';
   $match = str_replace('\\"','"',$match);
 
@@ -345,12 +345,12 @@ function linkformat($match)
     format_link($link,$name,$class,$target,$style,$pre,$post,$more);
     
   //les dfiles://
-  $link = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$topdir."d.php?action=download&download=preview&id_file=$1",$link);
-  $link = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$topdir."d.php?action=download&download=thumb&id_file=$1",$link);
-  $link = preg_replace("/dfile:\/\/([0-9]*)/i",$topdir."d.php?action=download&id_file=$1",$link);
+  $link = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$wwwtopdir."d.php?action=download&download=preview&id_file=$1",$link);
+  $link = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$wwwtopdir."d.php?action=download&download=thumb&id_file=$1",$link);
+  $link = preg_replace("/dfile:\/\/([0-9]*)/i",$wwwtopdir."d.php?action=download&id_file=$1",$link);
 
   //les article://
-  $link = preg_replace("/article:\/\//i",$topdir."article.php?name=",$link);
+  $link = preg_replace("/article:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
   
   $ret .= $pre;
   $ret .= '<a href="'.$link.'"';
@@ -456,7 +456,7 @@ function footnotes($text)
  */
 function smileys($text)
 {
-  global $topdir;
+  global $wwwtopdir;
   $smileys = array(":-)"=>"smile.png",
                    ":)"=>"smile.png",
                    "^_^"=>"happy.png",
@@ -487,7 +487,7 @@ function smileys($text)
                    ":p"=>"tongue.png",
                    ":P"=>"tongue.png"
                    );
-  $smPath = $topdir."/images/forum/smilies/";
+  $smPath = $wwwtopdir."images/forum/smilies/";
   foreach($smileys as $tag => $img)
   {
     if ( file_exists($smPath . "/" . $img) )
@@ -766,7 +766,7 @@ function preformat($text,$type,$option='')
 function mediaformat($text)
 {
   global $conf;
-  global $topdir;
+  global $wwwtopdir;
   $name = str_replace('\\"','"',$text);
   $ret .= $pre;
   $format=alignment($name);
@@ -776,9 +776,9 @@ function mediaformat($text)
   list($width,$height) = split('x',$sizes,2);
   $name=trim($name);
   //les dfiles://
-  $img = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$topdir."d.php?action=download&download=preview&id_file=$1",$img);
-  $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$topdir."d.php?action=download&download=thumb&id_file=$1",$img);
-  $img = preg_replace("/dfile:\/\//i",$topdir."d.php?action=download&id_file=",$img);
+  $img = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$wwwtopdir."d.php?action=download&download=preview&id_file=$1",$img);
+  $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$wwwtopdir."d.php?action=download&download=thumb&id_file=$1",$img);
+  $img = preg_replace("/dfile:\/\//i",$wwwtopdir."d.php?action=download&id_file=",$img);
   $ret .= '<img src="'.$img.'"';
   $ret .= ' class="media'.$format['align'].'"';
   $ret .= ' width="'.$width.'"';
