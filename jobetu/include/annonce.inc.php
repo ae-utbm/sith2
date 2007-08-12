@@ -62,36 +62,7 @@ class annonce extends stdentity
   	$this->indemnite = $line['indemnite'];
   	$this->ville = $line['ville'];
   	$this->type_contrat = $line['type_contrat'];
-  	
-  	print_r($sql->get_row());
-  	
-  }
-  	
-  function liste_annonce($condition = "all")
-  {
-  	/*
-  	//ah ben non, case ne prend qu une valeur de type scalaire
-  	switch($condition)
-  	{
-  		case "pourvu":
-  			$sql_condition = " WHERE `etu_selected` IS NOT NULL";
-  			break;
-  		case "societe":
-  			$sql_condition = " WHERE client == societe";
-  			break;
-  		case "particulier":
-  			$sql_condition = " WHERE client == particulier";
-  			break;
-  		case (instanceof jobuser_client):
-  			$sql_condition = " WHEREid client = " . $condition->id;
-  			break;
-  		case (instanceof jobuser_etu):
-  			$sql_condition = " WHERE etu_selected = " . $condition->id;
-  			break;
-  	}
-  	
-  	$sql = new requete($site->db, "SELECT* FROM job_annonces" . $condition)
-	*/
+
   }
 
   function load_applicants()
@@ -124,18 +95,32 @@ class annonce extends stdentity
 
   function is_provided()
   {
+  	return $winner;
   }
 
   function get_client()
   {
+  	return $id_client;
   }
 
-  function get_etu()
+  function apply_to($etu, $comment = null)
   {
-  }
-
-  function apply_to()
-  {
+  	if( !($etu instanceof jobuser_etu) ) exit("NIET !");
+  	
+  	$sql = new insert($this->dbrw, 
+  										"job_annonces_etu",
+  										array(
+  											"id_annonce" => $this->id,
+  											"id_etu" => $etu->id,
+  											"relation" => "apply",
+  											"comment" => mysql_real_escape_string($comment)
+  											)
+  										);
+  	
+  	if($sql)
+			return $sql->get_id();
+		else
+			return -1;
   }
 
   /**
@@ -150,15 +135,15 @@ class annonce extends stdentity
 	 	
 		$this->id_client = $client->id;
 		$this->id_select_etu = null;
-		$this->titre = $titre;
+		$this->titre = mysql_real_escape_string($titre);
 		$this->job_type	= $job_type;
-		$this->desc = $desc;
-		$this->divers = $divers;
-		$this->profil = $profil;
+		$this->desc = mysql_real_escape_string($desc);
+		$this->divers = mysql_real_escape_string($divers);
+		$this->profil = mysql_real_escape_string($profil);
 		$this->start_date = $start_date;
-		$this->duree = $duree;
-		$this->nb_postes = $nb_postes;
-		$this->indemnite = $indemnite;
+		$this->duree = mysql_real_escape_string($duree);
+		$this->nb_postes = mysql_real_escape_string($nb_postes);
+		$this->indemnite = mysql_real_escape_string($indemnite);
 		$this->ville = $ville;
 		$this->type_contrat = $type_contrat;
 
@@ -184,7 +169,7 @@ class annonce extends stdentity
 		if($sql)
 			$this->id = $sql->get_id();
 		else
-			$this->id = null;
+			$this->id = -1;
 
 		return $this->id;
   }

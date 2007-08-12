@@ -31,6 +31,10 @@ require_once("include/annonce.inc.php");
 require_once("include/cts/jobetu.inc.php");
 require_once("include/jobuser_client.inc.php");
 
+require_once($topdir. "include/cts/user.inc.php");
+require_once($topdir. "include/cts/gallery.inc.php");
+require_once($topdir. "include/cts/special.inc.php");
+
 $site = new site();
 $site->allow_only_logged_users("services");
 if(!$site->user->is_in_group("jobetu_client")) header("Location: index.php");
@@ -72,7 +76,6 @@ else
 	{
 		$annonce = new annonce($site->db);
 		$annonce->load_by_id($ann['id_annonce']);
-		$annonce->load_applicants();
 		$annonce->load_applicants_fullobj();
 		$box = new annonce_box($annonce);
 		$cts->add($box);

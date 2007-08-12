@@ -36,61 +36,93 @@
 		{
 			if( !($annonce instanceof annonce) ) exit("Namého ! mauvaise argumentation mon bonhomme ! :)");
 			
-	  	$this->buffer .= "<div class=\"annonce_table\">";
+			$this->buffer .= "<div class=\"annonce_table\">\n";
 	
-	  	$this->buffer .= "<div class=\"header\">";
-	  	$this->buffer .= "<div class=\"num\">";
+			$this->buffer .= "<div class=\"header\">\n";
+			$this->buffer .= "<div class=\"num\">";
 	  	$this->buffer .= "n°".$annonce->id;
-	  	$this->buffer .= "</div>";
+	  	$this->buffer .= "</div>\n";
 	  		
 	  	$this->buffer .= "<div class=\"title\">";
 	  	$this->buffer .= $annonce->titre;
-	  	$this->buffer .= "</div>";
+	  	$this->buffer .= "</div>\n";
 	  		
 	  	$this->buffer .= "<div class=\"icons\">";
 	  	$this->buffer .= "<a href=\"../article.php?name=jobetu-help\" title=\"Aide\"><img src=\"../images/actions/info.png\" /></a> &nbsp;";
 	  	$this->buffer .= "<a href=\"board_client.php?action=edit&id=".$annonce->id."\" title=\"Editer l'annonce\"><img src=\"../images/actions/edit.png\" /></a> &nbsp;";
 	  	$this->buffer .= "<a href=\"board_client.php?action=close&id=".$annonce->id."\" title=\"Clore cette annonce\"><img src=\"../images/actions/lock.png\" /></a>";
-	  	$this->buffer .= "</div>";
-	  	$this->buffer .= "</div>";
+	  	$this->buffer .= "</div>\n";
+	  	$this->buffer .= "</div>\n";
 	  		
-	  	$this->buffer .= "<div class=\"content\">";
+	  	$this->buffer .= "<div class=\"content\">\n";
 	  	
 	  	/** Candidatures ******************************************************/
-	  	$this->buffer .= "Il y a `".count($annonce->applicants)."` candidature(s) pour votre annonce :";
+	  	$this->buffer .= "Il y a `".count($annonce->applicants)."` candidature(s) pour votre annonce :\n";
 	  	$n = 1; // Compteuràlacon
 
 	  	foreach($annonce->applicants_fullobj as $usr)
 	  	{
-	  		//$userinfo = new userinfo($usr, true, false, true, false, true, true);
-				$userinfo = new userinfov2($usr);
-	  		
-	  		$this->buffer .= "<div class=\"apply_table\">";
+				$usr->load_all_extra();
+	  		$this->buffer .= "<div class=\"apply_table\">\n";
+  				$this->buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_".$n."');\">";
+  				$this->buffer .= $usr->prenom." ".$usr->nom." (département ".$usr->departement.")";
+  				$this->buffer .= "</div>\n";
   					
-  				$this->buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_1');\">";
-  				$this->buffer .= $usr->prenom." ".$usr->nom." (département ".$usr->branche_utbm.")";
-  				$this->buffer .= "</div>";
-  					
-  				$this->buffer .= "<div id=\"applicant_1\" class=\"apply_content\">";
-  				 				
-  				$this->buffer .= $userinfo->buffer;
-  				$this->buffer .= "gnaa";
-  				$this->buffer .= "</div>";
+  				$this->buffer .= "<div id=\"applicant_".$n."\" class=\"apply_content\">";
 
-	  			$this->buffer .= "</div>";
+  				
+  				$this->buffer .= "gnaa";
+  				$this->buffer .= "</div>\n";
+
+	  			$this->buffer .= "</div>\n";
 	  			$n++;
 	  	}
 	  	
-	  	$this->buffer .= "</div>";
+	  	$this->buffer .= "</div>\n";
   			
   		$this->buffer .= $annonce->desc;
-  		$this->buffer .= "</div>";
+  		$this->buffer .= "</div>\n";
   		
   		 		  		
-		$buffer .= "</div>";
+  		$this->buffer .= "</div>\n";
+			
 		}
 
 	}
 
+	class add_jobtypes_select_field extends form
+	{
+		function add_jobtypes_select_field($jobetu, $name, $title, $value = false, $required = true, $enabled = true)
+		{
+			if( !($jobetu instanceof jobetu) ) return -1;
+			if(empty($jobetu->job_types)) $jobetu->get_job_types();
+	  	
+	//  	if ( $frm->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];	
+			$this->buffer .= "<div class=\"formrow\">";
+			$this->_render_name($name,$title,$required);
+		
+			
+			$this->buffer .= "<div class=\"formfield\">$prefix";
+			$this->buffer .= "<select name=\"$name\" ";
+			
+			$this->buffer .= ">\n";
+	
+			foreach ( $jobetu->job_types as $key => $item )
+			{
+					$this->buffer .= "<option value=\"$key\"";
+				if(!($key%100))
+					$this->buffer .= " disabled style=\"background: #D8E7F3; color: #000000; font-weight: bold;\"";
+				if ( $value == $key )
+					$this->buffer .= " selected=\"selected\"";
+				if(!($key%100))
+					$this->buffer .= ">".htmlentities($item,ENT_NOQUOTES,"UTF-8")."</option>\n";
+				else
+					$this->buffer .= ">&nbsp;&nbsp;&nbsp;&nbsp;".htmlentities($item,ENT_NOQUOTES,"UTF-8")."</option>\n";
+			}
+	
+			$this->buffer .= "</select></div>\n";
+			$this->buffer .= "</div>";
+		}
+	}
 	
 ?>
