@@ -549,11 +549,11 @@ else if ( $_REQUEST["view"] == "css" )
     {      while (($file = readdir($dh)) !== false)
       {
         if ( is_file($dir.$file) )
-          $files[]=array("filename"=>$file);
+          $files[]=array("filename"=>$file,"useincss"=>"img/".$file);
       }      closedir($dh);    }  }
 
   $cts->add( new sqltable ( "cssimg", "Images", $files, 
-  "configurecms.php?view=css", "filename", array("filename"=>"Fichier"), 
+  "configurecms.php?view=css", "filename", array("filename"=>"Fichier","useincss"=>"Nom à utiliser dans le code CSS"), 
   array("delete"=>"Supprimer"), array() ));
 
   $cts->add_title(2,"Ajouter une image pour la feuille de style personalisée");
