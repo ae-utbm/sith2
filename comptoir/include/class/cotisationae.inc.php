@@ -26,10 +26,10 @@ class cotisationae
 	  if ( $user->ae )
 	  {
   		$req = new requete($this->db,
-    		"SELECT date_cotis ".
+    		"SELECT date_fin_cotis ".
     		"FROM `ae_cotisations` " .
     		"WHERE `id_utilisateur`='".$user->id."' " .
-    		"ORDER BY `date_cotis` DESC LIMIT 1");	 
+    		"ORDER BY `date_fin_cotis` DESC LIMIT 1");	 
       if ( $req->lines == 1 )
       {  
     		list($curend) = $req->get_row();
