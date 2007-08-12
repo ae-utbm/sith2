@@ -39,9 +39,9 @@ class ficheproduit extends stdcontents
     
     // Description
     if ( !$produit->description_longue )
-      $this->buffer .= $produit->description;
+      $this->buffer .= doku2xhtml($produit->description);
     else
-      $this->buffer .= $produit->description_longue;
+      $this->buffer .= doku2xhtml($produit->description_longue);
       
     $extra = $produit->get_extra_info($user);
       
@@ -167,7 +167,7 @@ class vigproduit extends stdcontents
       "<img src=\"".$topdir."images/comptoir/eboutic/prod-unknown.png\" alt=\"\" />".
       "</a></p>\n";
 	
-    $this->buffer .= "<p class=\"description\">".$row["description_prod"]."</p>\n";
+    $this->buffer .= "<p class=\"description\">".doku2xhtml($row["description_prod"])."</p>\n";
     $this->buffer .= "<p class=\"prixunit\">".($row["prix_vente_prod"]/100)." &euro;</p>\n";
     
     
@@ -200,7 +200,7 @@ class vigtypeproduit extends stdcontents
       "<img src=\"".$topdir."images/comptoir/eboutic/prod-unknown.png\" alt=\"\" />".
       "</a></p>\n";
 	
-    $this->buffer .= "<p class=\"description\">".$row["description_typeprod"]."</p>\n";
+    $this->buffer .= "<p class=\"description\">".doku2xhtml($row["description_typeprod"])."</p>\n";
     $this->buffer .= "<p class=\"details\"><a href=\"?id_typeprod=".$row["id_typeprod"]."\">Produits</a></p>\n";
     $this->buffer .= "</div>\n";
   
