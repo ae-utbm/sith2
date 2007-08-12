@@ -62,8 +62,9 @@
 
 	  	foreach($annonce->applicants_fullobj as $usr)
 	  	{
-	  		$userinfo = new userinfo($usr, true, false, true, false, true, true);
-	  			  		
+	  		//$userinfo = new userinfo($usr, true, false, true, false, true, true);
+				$userinfo = new userinfov2($usr);
+	  		
 	  		$this->buffer .= "<div class=\"apply_table\">";
   					
   				$this->buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_1');\">";
