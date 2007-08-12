@@ -6,7 +6,7 @@
  * @brief déclaration de la classe produit
  */
 
-/* Copyright 2005
+/* Copyright 2005,2006,2007
  * - Julien Etelain <julien CHEZ pmad POINT net>
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  * - Simon Lopez <simon POINT lopez CHEZ ayolo POINT org>
@@ -178,8 +178,8 @@ class produit extends stdentity
     $this->postable = $postable?1:0;    
     $this->frais_port = intval(frais_port);  
     
-    $this->id_groupe = $id_groupe?$this->id_groupe:null;
-    $this->date_fin = $date_fin;
+    $this->id_groupe = $id_groupe?$id_groupe:null;
+    $this->date_fin = $date_fin?$date_fin:null;
     $this->id_produit_parent = $id_produit_parent;
 
 
@@ -273,8 +273,8 @@ class produit extends stdentity
     $this->postable = $postable?1:0;    
     $this->frais_port = intval(frais_port);     
     
-    $this->id_groupe = $id_groupe?$this->id_groupe:null;
-    $this->date_fin = $date_fin;
+    $this->id_groupe = $id_groupe?$id_groupe:null;
+    $this->date_fin = $date_fin?$date_fin:null;
     $this->id_produit_parent = $id_produit_parent;
 
     
