@@ -24,24 +24,45 @@
 
 class annonce extends stdentity
 {	
-		var $id;
-		var $id_client;
-		var $winner;
-		var $titre;
-		var $job_type;
-		var $desc;
-		var $profil;
-		var $start_date;
-		var $duree;
-		var $nb_postes;
-		var $indemnite;
-		var $ville;
-		var $type_contrat;
+	var $id;
+	var $id_client;
+	var $winner;
+	var $titre;
+	var $job_type;
+	var $desc;
+	var $profil;
+	var $divers;
+	var $start_date;
+	var $duree;
+	var $nb_postes;
+	var $indemnite;
+	var $ville;
+	var $type_contrat;
+	
+	var $liste;
 		
-		var $liste;
-  
   function load_by_id($id)
   {
+  	$sql = new requete($this->db, "SELECT * FROM `job_annonces` WHERE `id_annonce` = $id LIMIT 1");
+  	$line = $sql->get_row();
+  	
+  	$this->id = $id;
+  	$this->id_client = $line['id_client'];
+  	$this->winner = $line['id_select_etu'];
+  	$this->titre = $line['titre'];
+  	$this->job_type = $line['job_type'];
+  	$this->desc = $line['desc'];
+  	$this->profil = $line['profil'];
+  	$this->divers = $line['divers'];
+  	$this->start_date = $line['start_date'];
+  	$this->duree = $line['duree'];
+  	$this->nb_postes = $line['nb_postes'];
+  	$this->indemnite = $line['indemnite'];
+  	$this->ville = $line['ville'];
+  	$this->type_contrat = $line['type_contrat'];
+  	
+  	print_r($sql->get_row());
+  	
   }
   	
   function liste_annonce($condition = "all")
@@ -111,7 +132,7 @@ class annonce extends stdentity
 		$this->indemnite = $indemnite;
 		$this->ville = $ville;
 		$this->type_contrat = $type_contrat;
-		//print_r($this);
+
 		$sql = new insert($this->dbrw,
 											"job_annonces",
 											array(
