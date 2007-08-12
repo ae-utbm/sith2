@@ -11,6 +11,7 @@ require_once($topdir. "include/entities/cotisation.inc.php");
 class cotisationae
 {
 	var $enddate;
+	var $prevdate;
 	
 	var $db;
 	var $dbrw;
@@ -33,9 +34,9 @@ class cotisationae
       if ( $req->lines == 1 )
       {  
     		list($curend) = $req->get_row();
-    		$curend=strtotime($curend);	   
-  		  $year  = date("Y",$curend);
-        $month = date("m",$curend);
+    		$this->prevdate=strtotime($curend);	   
+  		  $year  = date("Y",$this->prevdate);
+        $month = date("m",$this->prevdate);
       }
 	  }
 	  
@@ -79,7 +80,8 @@ class cotisationae
 	
 	function get_once_sold_cts($user)
 	{
-		$cts = new contents("Vous venez de cotiser à l'AE jusqu'au ".date("d/m/Y",$this->enddate));
+	 // On affiche la date "précédente", vu que la cotisation a déjà été fait, $this->enddate corresponderait à une nouvelle cotisation 
+		$cts = new contents("Vous venez de cotiser à l'AE jusqu'au ".date("d/m/Y",$this->prevdate));
 		$cts->add_paragraph("Pensez à venir retirer votre cadeau et votre carte AE au bureau de l'AE.");
 		$cts->add_paragraph("Assurez vous d'avoir une photo d'indentité dans votre profil pour que votre carte puisse être imprimée.");
 		$cts->add_paragraph("Pensez à mettre à jour votre profil dans le matmatronch.");
