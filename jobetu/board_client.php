@@ -36,6 +36,7 @@ $site->allow_only_logged_users("services");
 if(!$site->user->is_in_group("jobetu_client")) header("Location: index.php");
 
 $site->add_css("jobetu/jobetu.css");
+$site->add_css("css/mmt.css");
 $site->start_page("services", "AE Job Etu");
 
 $cts = new contents("Tableau de bord AE Job Etu");
