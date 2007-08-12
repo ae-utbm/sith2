@@ -17,6 +17,9 @@ class cotisationae
 	
 	function cotisationae($db,$dbrw,$param,&$user)
 	{
+		$this->db = $db;
+		$this->dbrw = $dbrw;	 
+	 
 	  $year  = date("Y");
     $month = date("m");
     
@@ -26,11 +29,14 @@ class cotisationae
     		"SELECT date_cotis ".
     		"FROM `ae_cotisations` " .
     		"WHERE `id_utilisateur`='".$user->id."' " .
-    		"ORDER BY `date_cotis` DESC LIMIT 1");	   
-  		list($curend) = $req->get_row();
-  		$curend=strtotime($curend);	   
-		  $year  = date("Y",$curend);
-      $month = date("m",$curend);
+    		"ORDER BY `date_cotis` DESC LIMIT 1");	 
+      if ( $req->lines == 1 )
+      {  
+    		list($curend) = $req->get_row();
+    		$curend=strtotime($curend);	   
+  		  $year  = date("Y",$curend);
+        $month = date("m",$curend);
+      }
 	  }
 	  
 	  if ( $month < 2 ) // janvier => aout année -1
@@ -57,8 +63,7 @@ class cotisationae
 
 		$this->enddate = mktime ( 2, 0, 0, $month, 15 , $year );
 		
-		$this->db = $db;
-		$this->dbrw = $dbrw;
+
 	}	
 	
 	function vendu($user,$prix_unit)
