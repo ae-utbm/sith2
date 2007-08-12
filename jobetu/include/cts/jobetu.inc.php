@@ -60,13 +60,10 @@
 	  	$this->buffer .= "Il y a `".count($annonce->applicants)."` candidature(s) pour votre annonce :";
 	  	$n = 1; // Compteuràlacon
 
-	  	foreach($annonce->applicants as $line)
+	  	foreach($annonce->applicants_fullobj as $usr)
 	  	{
-	  		$usr = new utilisateur($this->db);
-	  		$usr->load_by_id($line['id_etu']);
 	  		$userinfo = new userinfo($usr, true, false, true, false, true, true);
-	  		$this->buffer .= $userinfo->buffer;
-	  		
+	  			  		
 	  		$this->buffer .= "<div class=\"apply_table\">";
   					
   				$this->buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_1');\">";
@@ -75,7 +72,7 @@
   					
   				$this->buffer .= "<div id=\"applicant_1\" class=\"apply_content\">";
   				 				
-  				
+  				$this->buffer .= $userinfo->buffer;
   				$this->buffer .= "gnaa";
   				$this->buffer .= "</div>";
 

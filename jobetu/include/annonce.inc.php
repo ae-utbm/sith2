@@ -21,6 +21,7 @@
  * 02111-1307, USA.
  */
 
+require_once("jobuser_etu.inc.php");
 
 class annonce extends stdentity
 {	
@@ -40,6 +41,7 @@ class annonce extends stdentity
 	var $type_contrat;
 	
 	var $applicants;
+	var $applicants_fullobj;
 		
   function load_by_id($id)
   {
@@ -103,6 +105,23 @@ class annonce extends stdentity
   	return count($this->applicants);  	
   }
   
+  function load_applicants_fullobj()
+  {
+  	$this->applicants = array();
+  	 
+  	$sql = new requete($this->db, "SELECT `id_etu`, `comment` FROM `job_annonces_etu` WHERE `id_annonce` = $this->id AND `relation` = 'apply'");
+  	while($line = $sql->get_row())
+  	{
+  		$this->applicants[] = $line;
+  		
+  		$etu = new jobuser_etu($this->db);
+  		$etu->load_by_id($line['id_etu']);
+  		$this->applicants_fullobj[] = $etu;
+  	}
+
+  	return count($this->applicants);
+  }
+
   function is_provided()
   {
   }
