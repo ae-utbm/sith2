@@ -262,11 +262,11 @@ class aecms extends site
 		echo "<title>".$this->title." - ".htmlentities($this->asso->nom,ENT_NOQUOTES,"UTF-8")."</title>\n";
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/base.css\" />\n";
 		
-		if ( file_exists($basedir."/specific/custom.css") )
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "specific/custom.css\" />\n";
-		
 		foreach ( $this->extracss as $url ) 
 			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
+			
+		if ( file_exists($basedir."/specific/custom.css") )
+		  echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "specific/custom.css\" />\n";
 		
 		foreach ( $this->rss as $title => $url ) 
 			echo "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_NOQUOTES,"UTF-8")."\" href=\"".htmlentities($url,ENT_NOQUOTES,"UTF-8")."\" />";

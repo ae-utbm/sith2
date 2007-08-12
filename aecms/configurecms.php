@@ -309,6 +309,30 @@ elseif( $_REQUEST["action"] == "setcss" )
 {
   file_put_contents($basedir."/specific/custom.css",$_REQUEST["data"]);  
 }
+elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["filename"]) )
+{
+  $dir = $basedir."/specific/img/";
+  
+  $filename = $dir.preg_replace("`([^a-zA-Z0-9_\\-\\.])`", "", basename($_REQUEST["filename"]));	
+  
+  unlink($filename);
+}
+elseif ( $_REQUEST["action"] == "addimgfile" )
+{
+  if( is_uploaded_file($_FILES['file']['tmp_name']) && ($_FILES['file']['error'] == UPLOAD_ERR_OK ) )
+  {
+    $dir = $basedir."/specific/img/";
+    
+    if (!is_dir($dir))
+      mkdir($dir);
+    
+  	$filename = $dir.preg_replace("`([^a-zA-Z0-9_\\-\\.])`", "", basename($_FILES['file']['name']));	
+
+		move_uploaded_file ( $_FILES['file']['tmp_name'], $filename );
+  }
+}
+
+
 
 $req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");	
 $pages_boxes = array();
@@ -513,6 +537,36 @@ else if ( $_REQUEST["view"] == "css" )
   $frm->add_text_area("data","Code CSS personalisé",$custom,80,20);
   $frm->add_submit("save","Enregistrer");
   $cts->add($frm);  
+  
+  $cts->add_title(2,"Images pour la feuille de style personalisée");
+  
+  $files=array();
+  
+  $dir = $basedir."/specific/img/";
+  
+  if (is_dir($dir))
+  {    if ($dh = opendir($dir))
+    {      while (($file = readdir($dh)) !== false)
+      {
+        if ( is_file($dir.$file) )
+          $files[]=array("filename"=>$file);
+      }      closedir($dh);    }  }
+
+  $cts->add( new sqltable ( "cssimg", "Images", $files, 
+  "configurecms.php?view=css", "filename", array("filename"=>"Fichier"), 
+  array("delete"=>"Supprimer"), array() ));
+
+  $cts->add_title(2,"Ajouter une image pour la feuille de style personalisée");
+  
+  $frm = new form("addfile","configurecms.php?view=css");
+  $frm->allow_only_one_usage();
+  $frm->add_hidden("action","addimgfile");
+  $frm->add_file_field("file","Fichier",true);
+  $frm->add_submit("add","Ajouter");
+  $cts->add($frm);    
+  
+  
+  
 }
 
 
