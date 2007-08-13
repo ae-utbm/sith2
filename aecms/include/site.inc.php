@@ -365,7 +365,10 @@ class aecms extends site
 		  if ( !is_null($cts->cssclass) )
 		    $cssclass = $cts->cssclass;
 		  
-			echo "<div class=\"$cssclass\">\n";
+			echo "<div class=\"$cssclass\"";
+			if ( $cts->divid )
+			  echo " id=\"".$cts->divid."\"";
+			echo ">\n";			
 			
 			if ( $cts->toolbox )
 			{

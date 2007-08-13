@@ -205,7 +205,7 @@ class sasphoto extends contents
     }    
     
     $this->title = $title;
-    $this->divid = "photocts";
+    $this->divid = "cts1";
     
     $imgcts = new contents();
   

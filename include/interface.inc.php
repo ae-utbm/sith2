@@ -356,7 +356,12 @@ class interfaceweb
 		    $cssclass = $cts->cssclass;		  
 		  
 			$i++;
-			echo "<div class=\"$cssclass\" id=\"cts$i\">\n";
+			echo "<div class=\"$cssclass\"";
+			if ( $cts->divid )
+			  echo " id=\"".$cts->divid."\"";
+			else
+			  echo " id=\"cts$i\"";
+			echo ">\n";
 			
 			if ( $cts->toolbox )
 			{
