@@ -1,5 +1,7 @@
 <?php
 
+require_once($topdir."include/cts/video.inc.php");
+
 /**
  * Index des sous-catégories d'une catégorie du SAS
  *
