@@ -477,7 +477,7 @@ if ( $photo->is_valid() )
   $site->add_contents($cts);
   $site->end_page ();*/
   
-  $cts = new sasphoto ( $path, "./", $cat, $photo, $site->user, $Message, $metacat );
+  $cts = new sasphoto ( $path, "photos.php", $cat, $photo, $site->user, $Message, $metacat );
 
   if ( $_REQUEST["fetch"] == "photocts" )
   {
