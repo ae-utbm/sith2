@@ -303,7 +303,7 @@ if ( $photo->is_valid() )
     $site->end_page ();
     exit();
   }
-
+/*
   $phasso = new asso($site->db);
   if ( $photo->meta_id_asso )
     $phasso->load_by_id($photo->meta_id_asso);
@@ -474,6 +474,19 @@ if ( $photo->is_valid() )
   }
 
   $site->start_page(CMS_PREFIX."sas","Photos",true);
+  $site->add_contents($cts);
+  $site->end_page ();*/
+  
+  $cts = new sasphoto ( $path, "./", $cat, $photo, $site->user, $Message, $metacat );
+
+  if ( $_REQUEST["fetch"] == "photocts" )
+  {
+    echo "<h1>".$cts->title."</h1>\n";
+    echo $cts->html_render();
+    exit();
+  }
+  
+  $site->start_page("sas","Stock à Souvenirs",true);
   $site->add_contents($cts);
   $site->end_page ();
 
