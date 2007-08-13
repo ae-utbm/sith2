@@ -180,6 +180,15 @@ class sasphoto extends contents
   {
     global $wwwtopdir;
     
+    $sqlph = $cat->get_photos ( $cat->id, $user, $user->get_groups_csv(), "sas_photos.id_photo");
+    $count=0;
+    while ( list($id) = $sqlph->get_row() )
+    {
+      if ( $id == $photo->id ) $idx = $count;
+      $photos[] = $id;
+      $count++;
+    }
+  
     $can_write = $photo->is_right($user,DROIT_ECRITURE);
     
     if ( $metacat && $metacat->is_valid() )
