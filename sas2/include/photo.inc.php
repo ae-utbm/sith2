@@ -311,9 +311,7 @@ class photo extends basedb
 
     if ( $sql )
     {
-      print_r($sql);
       $this->id = $sql->get_id();
-    
     }
     else
     {
