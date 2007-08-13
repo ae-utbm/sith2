@@ -170,7 +170,7 @@ class catphoto extends basedb
         "FROM sas_photos " .
         "WHERE " .
         "id_catph='".$id_cat."'$filter ".
-        "ORDER BY date_prise_vue " .
+        "ORDER BY type_media_ph DESC, date_prise_vue " .
         "$limit");
     else
       return new requete($this->db,"SELECT $select " .
@@ -191,7 +191,7 @@ class catphoto extends basedb
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='".$user->id."') OR " .
         "((droits_acces_ph & 0x100) AND sas_personnes_photos.id_utilisateur IS NOT NULL) ) " .
-        "ORDER BY date_prise_vue " .
+        "ORDER BY type_media_ph DESC, date_prise_vue " .
         "$limit");
 
   }
