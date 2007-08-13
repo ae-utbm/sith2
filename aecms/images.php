@@ -1,11 +1,11 @@
 <?php
 /* 
- * AECMS : CMS pour les clubs et activités de l'AE UTBM
+ * AECMS : CMS pour les clubs et activitÃ©s de l'AE UTBM
  *        
  * Copyright 2004-2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
- * Ce fichier fait partie du site de l'Association des Étudiants de
+ * Ce fichier fait partie du site de l'Association des Ã‰tudiants de
  * l'UTBM, http://ae.utbm.fr/
  *
  * This program is free software; you can redistribute it and/or
@@ -45,6 +45,11 @@ else if ( ereg("^(.*)/([0-9]*).diapo.jpg$",$_SERVER["argv"][0],$regs) )
   $id_photo = intval($regs[2]);
   $mode = "diapo";
 }
+else if ( ereg("^(.*)/([0-9]*).flv$",$_SERVER["argv"][0],$regs) )
+{
+  $id_photo = intval($regs[2]);
+  $mode = "flv";
+}
 else if ( ereg("^/(.*)$",$_SERVER["argv"][0]) )
 {
   $path = $_SERVER["argv"][0];
@@ -82,6 +87,7 @@ if ( $id_photo > 0 )
       }
     }
   
+    header("Cache-Control: must-revalidate");    header("Pragma: cache");
     header("Last-Modified: ".$lastModified);
     header("Cache-Control: public");
     header("Content-type: image/jpeg");
@@ -123,7 +129,16 @@ if ( $id_photo > 0 )
   }
   
   $abs_file = $photo->get_abs_path().$photo->id;
-
+  
+  if ( $mode == "flv" && $photo->type_media == MEDIA_VIDEOFLV )
+  {
+    header('Content-length: '.filesize($abs_file.".flv")); 
+    header("Content-type: video/x-flv");
+    header("Content-Disposition: file; filename=\"".$photo->id.".flv\"");
+    readfile($abs_file.".flv");
+    exit(); 
+  }
+  
   if ( $mode == "vignette" )
     $abs_file.=".vignette.jpg";
   else if ( $mode == "diapo" )
