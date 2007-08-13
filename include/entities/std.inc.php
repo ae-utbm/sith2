@@ -56,13 +56,13 @@ class stdentity
    */
   function get_display_name()
   {
-    if ( isset($this->nom) )
+    if ( !empty($this->nom) )
       return $this->nom;
       
-    if ( isset($this->titre) )
+    if ( !empty($this->titre) )
       return $this->titre;
       
-    if ( isset($this->num) )
+    if ( !empty($this->num) )
       return "n°".$this->num;      
       
     return "n°".$this->id;
