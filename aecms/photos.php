@@ -253,7 +253,7 @@ if ( $photo->is_valid() )
 
     $cts = new contents($path." / Editer");
 
-    $frm = new form("updatephoto","photos.php?id_photo=".$photo->id);
+    $frm = new form("updatephoto",$self."id_photo=".$photo->id);
     $frm->add_hidden("action","updatephoto");
     $frm->add_datetime_field("date","Date et heure de prise de vue",$photo->date_prise_vue);
     $frm->add_text_area("comment","Commentaire",$photo->commentaire);
