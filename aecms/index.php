@@ -71,8 +71,18 @@ if ( $site->is_user_admin() )
   }
 }
 
-if ( isset($_REQUEST["name"]) ) 
-  $page->load_by_name(CMS_PREFIX.$_REQUEST["name"]);
+$bypass_admin=false;
+
+if ( isset($_REQUEST["name"]) )
+{
+  if ( $_REQUEST["name"]{0} == ":" )
+  {
+    $page->load_by_name(substr($_REQUEST["name"],1));
+    $bypass_admin=true;
+  }
+  else
+    $page->load_by_name(CMS_PREFIX.$_REQUEST["name"]);
+}
 else
   $page->load_by_name(CMS_PREFIX."home");
   
@@ -114,7 +124,7 @@ if ( !$page->is_right($site->user,DROIT_LECTURE) )
 
 
 
-if ( $page->is_right($site->user,DROIT_ECRITURE) || $site->is_user_admin() )
+if ( $page->is_right($site->user,DROIT_ECRITURE) || ($site->is_user_admin() && !$bypass_admin) )
 {
   if ( $_REQUEST['action'] == "save" )
   {

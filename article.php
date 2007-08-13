@@ -79,7 +79,12 @@ if ( $site->user->is_valid()  && $site->user->is_in_group("moderateur_site") )
 
 
 if ( isset($_REQUEST["name"]) ) 
-  $page->load_by_name($_REQUEST["name"]);
+{
+  if ( $_REQUEST["name"]{0} == ":" )
+    $page->load_by_name(substr($_REQUEST["name"],1));
+  else
+    $page->load_by_name($_REQUEST["name"]);
+}
 
 if ( !$page->is_valid() )
 {

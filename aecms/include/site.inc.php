@@ -388,9 +388,19 @@ class aecms extends site
 		echo "<!-- end of page -->\n\n";
 		
 		echo "<p class=\"footer\">\n";		
-		echo "<a href=\"/\">association des etudiants de l'utbm</a>";
-		echo " - <a href=\"/article.php?name=legals\">informations légales</a>";
-		echo " - <a href=\"contact.php\">contact</a>";
+		
+		if ( !is_null($this->asso->id_asso_parent) )
+    {
+  		echo "<a href=\"/\">association des etudiants de l'utbm</a>";
+  		echo " - <a href=\"index.php?name=:legals\">informations légales</a>";
+  		echo " - <a href=\"contact.php\">contact</a>";
+    }
+    else
+    {
+  		echo "<a href=\"index.php?name=legals\">informations légales</a>";
+  		echo " - <a href=\"contact.php\">contact</a>";
+    }
+    
 	  echo "</p>\n";
 		
 		echo "</div>\n"; // /contents
