@@ -109,9 +109,9 @@ elseif ( $_REQUEST["act"] == "FetchUserGroups" )
 {
   echo "<groups>\n";
 
-  $site->user->load_groups();
+  $groups=enumerates_groups($site->db);
 
-  foreach ( $site->user->groupes as $gid => $Group )
+  foreach ( $groups as $gid => $Group )
     echo "  <group gid=\"$gid\">$Group</group>";
 
   echo "</groups>\n";
