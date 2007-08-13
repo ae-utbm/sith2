@@ -193,6 +193,10 @@ elseif ( $_REQUEST["act"] == "UploadVideoFLV" )
 
     echo "<error>0</error>\n";
 
+    echo "<debug>\n";
+    print_r($_FILES);
+    print_r($photo);
+    echo "</debug>\n";
   }
   else
     echo "<error>1</error>\n";
