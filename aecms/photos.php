@@ -27,7 +27,7 @@
 require_once("include/site.inc.php");
 require_once($topdir."sas2/include/cat.inc.php");
 require_once($topdir."sas2/include/photo.inc.php");
-require_once($topdir."include/cts/sascategory.inc.php");
+require_once($topdir."include/cts/sas.inc.php");
 
 require_once($topdir."include/cts/gallery.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
@@ -609,7 +609,7 @@ if ( $cat->is_right($site->user,DROIT_AJOUTCAT) )
   $cts->add_paragraph("<a href=\"photos.php?id_catph=".$cat->id."&amp;page=subcat\">Ajouter une catégorie dans ".$cat->nom."</a>");
   
 $cts->add(new sascategory ( "photos.php", $cat, $site->user ));
-// --> voir include/cts/sascategory.inc.php
+// --> voir include/cts/sas.inc.php
 
 
 $sqlcntph = $cat->get_photos ( $cat->id, $site->user, $grps, "COUNT(*)");

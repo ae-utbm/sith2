@@ -24,7 +24,7 @@ $topdir="../";
 require_once("include/sas.inc.php");
 require_once($topdir."include/cts/gallery.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
-require_once($topdir."include/cts/sascategory.inc.php");
+require_once($topdir."include/cts/sas.inc.php");
 require_once($topdir."include/cts/video.inc.php");
 require_once($topdir."include/cts/react.inc.php");
 
@@ -410,7 +410,7 @@ if ( $photo->is_valid() )
     exit();
   }
 
-  $cts = new contents($path);
+  /*$cts = new contents($path);
 
   $imgcts = new contents();
 
@@ -454,14 +454,7 @@ if ( $photo->is_valid() )
   }
 
   $subcts = new contents();
-/*  
-  $subcts->puts("<p>");
-  if ( $idx != 0 )
-    $subcts->puts("<a href=\"".$self."id_photo=".$photos[$idx-1]."\" onclick=\"openInContents( 'cts1', './', '".$exdata."id_photo=".$photos[$idx-1]."&fetch=cts1'); return false;\"><img src=\"".$topdir."images/to_prev.png\" border=\"0\" alt=\"Precedent\" /></a> ");
-  if ( $idx != $count-1 )
-    $subcts->puts("<a href=\"".$self."id_photo=".$photos[$idx+1]."\" onclick=\"openInContents( 'cts1', './', '".$exdata."id_photo=".$photos[$idx+1]."&fetch=cts1'); return false;\"><img src=\"".$topdir."images/to_next.png\" border=\"0\" alt=\"Suivant\" /></a> ");
-  $subcts->puts("</p>\n");
-*/
+
 
   $subcts->puts("<div id=\"sasnav\">");
 
@@ -624,8 +617,47 @@ if ( $photo->is_valid() )
 
   $site->start_page("sas","Stock à Souvenirs",true);
   $site->add_contents($cts);
-  $site->end_page ();
+  $site->end_page ();*/
 
+
+  if ( $_REQUEST["fetch"] == "script" )
+  {
+    echo "openInContents( 'cts1', './', '".$exdata."id_photo=".$photo->id."&fetch=photocts');";
+    if ( $_REQUEST["diaporama"] > 0 && ( $idx != $count-1 ) )
+    {
+      echo "cache5.src=\"images.php?/".$photos[$idx+1].".diapo.jpg\";\n";
+      echo "setTimeout(\"evalCommand('./', '".$exdata."id_photo=".$photos[$idx+1]."&fetch=script&diaporama=".intval($_REQUEST["diaporama"])."')\", ".intval($_REQUEST["diaporama"]).");";
+    }
+    exit();
+  }
+
+  $cts = new sasphoto ( $title, $page, $cat, $photo, $user, $Message, $metacat );
+
+  if ( $_REQUEST["diaporama"] > 0 && ( $idx != $count-1 ) )
+  {
+    $cts->puts("<script>" .
+        "cache1= new Image(); cache1.src=\"".$topdir."images/to_prev.png\";".
+        "cache2= new Image(); cache2.src=\"".$topdir."images/to_next.png\";".
+        "cache3= new Image(); cache3.src=\"".$topdir."images/icons/16/catph.png\";".
+        "cache4= new Image(); cache4.src=\"".$topdir."images/icons/16/photo.png\";".
+        "cache5= new Image(); cache5.src=\"images.php?/".$photos[$idx+1].".diapo.jpg\";".
+        "cache6= new Image(); cache6.src=\"".$topdir."images/user.png\";".
+        "cache7= new Image(); cache7.src=\"".$topdir."images/actions/delete.png\";");
+    $cts->puts("setTimeout(\"evalCommand('./', '".$exdata."id_photo=".$photos[$idx+1]."&fetch=script&diaporama=".intval($_REQUEST["diaporama"])."')\", ".intval($_REQUEST["diaporama"]).");");
+    $cts->puts("</script>");
+  }
+
+  if ( $_REQUEST["fetch"] == "photocts" )
+  {
+    echo "<h1>".$cts->title."</h1>\n";
+    echo $cts->html_render();
+    exit();
+  }
+  
+  $site->start_page("sas","Stock à Souvenirs",true);
+  $site->add_contents($cts);
+  $site->end_page ();
+  
   exit();
 }
 
@@ -899,7 +931,7 @@ if ( !is_null($cat->date_debut) )
   $cts->add(new reactonforum ( $site->db, $site->user, $cat->nom, array("id_catph"=>$cat->id), $cat->meta_id_asso, true ));
 
 $cts->add(new sascategory ( "./", $cat, $site->user ));
-// --> voir include/cts/sascategory.inc.php
+// --> voir include/cts/sas.inc.php
 
 
 // Photos
