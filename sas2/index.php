@@ -631,7 +631,7 @@ if ( $photo->is_valid() )
     exit();
   }
 
-  $cts = new sasphoto ( $title, $page, $cat, $photo, $user, $Message, $metacat );
+  $cts = new sasphoto ( $title, $page, $cat, $photo, $site->user, $Message, $metacat );
 
   if ( $_REQUEST["diaporama"] > 0 && ( $idx != $count-1 ) )
   {
