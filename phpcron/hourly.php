@@ -4,7 +4,7 @@ $_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/ae2/phpcron";
 /*
  * hourly
  */
-$topdir="../";
+$topdir=$_SERVER['SCRIPT_FILENAME']."/../";
 define('MAGPIE_CACHE_DIR', '/var/www/ae/www/var/cache/planet/');
 define('MAGPIE_CACHE_ON', true);
 define('MAGPIE_CACHE_AGE', 50*60); //50minutes pour etre certain d'avoir un truc à jour :)
