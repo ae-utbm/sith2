@@ -67,8 +67,8 @@ function list_noaecms ()
   if ($dh = opendir(AECMS_ACCOUNTS))
   {    while (($file = readdir($dh)) !== false)
     {
-      if ( is_dir(AECMS_ACCOUNTS.$file) && !file_exists(AECMS_ACCOUNTS.$file."/specific/aecms.conf.php") )
-        $list[] = $file;
+      if ( $file != "." && $file != ".." && is_dir(AECMS_ACCOUNTS.$file) && !file_exists(AECMS_ACCOUNTS.$file."/specific/aecms.conf.php") )
+        $list[$file] = $file;
     }    closedir($dh);  }
 
   return $list;
@@ -155,33 +155,37 @@ if ( $_REQUEST["page"] == "install" )
      
   $cts->add_paragraph("<b>Attention</b>: Ceci va installer la version \"$aecms_home\"");
 
-  $places=list_noaecms();
+  $list=list_noaecms();
+
+  asort($places); 
    
   $frm = new form("installexists","aecms.php",false,"post","Installer AECMS sur un site existant");
   $frm->add_hidden("action","install");
   $frm->add_select_field("unixname","Emplacement",$places);
   $frm->add_entity_select ( "id_asso", "Association/Activitée", $site->db,"asso",null,true);
   $frm->add_submit("valid","Installer");
-  $cts->add($frm);
+  $cts->add($frm,true);
 
   $frm = new form("installexists","aecms.php",false,"post","Installer AECMS sur un nouveau site");
   $frm->add_hidden("action","install");
   $frm->add_text_field("unixname","Emplacement","",true);
   $frm->add_entity_select ( "id_asso", "Association/Activitée", $site->db,"asso",null,true);
   $frm->add_submit("valid","Installer");
-  $cts->add($frm);
+  $cts->add($frm,true);
   
   $places=array();
   $list = list_aecms();
   foreach($list as $row )
-    $places[]=$row["unixname"];
+    $places[$row["unixname"]]=$row["unixname"];
+  
+  asort($places);
   
   $frm = new form("installexists","aecms.php",false,"post","Re-Installer AECMS");
   $frm->add_hidden("action","install");
   $frm->add_select_field("unixname","Emplacement",$places);
   $frm->add_entity_select ( "id_asso", "Association/Activitée", $site->db,"asso",null,true);
   $frm->add_submit("valid","Installer");
-  $cts->add($frm);
+  $cts->add($frm,true);
   
   $site->add_contents($cts);
   $site->end_page();
