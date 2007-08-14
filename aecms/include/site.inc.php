@@ -124,7 +124,7 @@ class aecms extends site
     $this->set_side_boxes("left",array());
     $this->set_side_boxes("right",array());
     
-	  if ( file_exists(CMS_CONFIGFILE) && !isset($GET["aecms_admin_ignoreconf"]) )
+	  if ( file_exists(CMS_CONFIGFILE) && !isset($_GET["aecms_admin_ignoreconf"]) )
       include(CMS_CONFIGFILE);
     
     if ($this->is_user_admin())

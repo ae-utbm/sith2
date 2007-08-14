@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright 2006
+/* Copyright 2006,2007
  * - Julien Etelain < julien at pmad dot net >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de

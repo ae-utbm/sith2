@@ -32,54 +32,56 @@ require_once($topdir. "include/entities/asso.inc.php");
 
 $site = new site ();
 
-header("Content-Type: text/html; charset=utf-8");
+if ( !$site->user->is_in_group("root") )
+	error_403();
 
-echo "<h1>AE2: Auto repair</h1>";
+$site->start_page("none","Administration");
 
-echo "<ul>";
+$cts = new contents("<a href=\"./\">Administration</a> / Maintenance / Auto-Reparation de la base de données");
 
+$lst = new itemlist();
 
 // Supprime les cotisations rattchés à des utilisateurs qui n'existent pas
-echo "<li><b>Check cotisations users</b></li>";
+$lst->add("<b>Check cotisations users</b>");
 $sql = new requete($site->db,"SELECT id_cotisation FROM ae_cotisations LEFT JOIN utilisateurs USING(`id_utilisateur`) WHERE utilisateurs.id_utilisateur IS NULL");
 while ( list($id_cotisation) = $sql->get_row() )
 {
   $rem = new delete($site->dbrw,"ae_cotisations",array("id_cotisation"=>$id_cotisation));
-  echo "<li>Missing user: Cotisation $id_cotisation removed.</li>";
-}
-
-// Supprime les cartes AE rattachés à une cotisation qui n'existe pas
-echo "<li><b>Check cards cotisations</b></li>";
-$sql = new requete($site->db,"SELECT id_carte_ae FROM ae_carte LEFT JOIN ae_cotisations USING(`id_cotisation`) WHERE ae_cotisations.id_cotisation IS NULL");
-while ( list($id_carte_ae) = $sql->get_row() )
-{
-  $rem = new delete($site->dbrw,"ae_carte",array("id_carte_ae"=>$id_carte_ae));
-  echo "<li>Missing cotisation: Card $id_carte_ae removed.</li>";
+  $lst->add("Missing user: Cotisation $id_cotisation removed.");
 }
 
 // Ajoute les carte AE aux cotisations qui n'ont on pas
-echo "<li><b>Check cotisations cards</b></li>";
+$lst->add("<b>Check cotisations cards</b>");
 $sql = new requete($site->db,"SELECT ae_cotisations.* FROM ae_cotisations LEFT JOIN ae_carte USING(`id_cotisation`) WHERE ae_carte.id_cotisation IS NULL AND date_fin_cotis > NOW()");
 $cotiz = new cotisation($site->db,$site->dbrw);
 while ( $row = $sql->get_row() )
 {
   $cotiz->_load($row);
   $cotiz->generate_card();
-  echo "<li>Missing card for valid cotisation ".$cotiz->id." (user ".$cotiz->id_utilisateur.") : A card added.</li>";
+  $lst->add("Missing card for valid cotisation ".$cotiz->id." (user ".$cotiz->id_utilisateur.") : A card added.");
+}
+
+// Supprime les cartes AE rattachés à une cotisation qui n'existe pas
+$lst->add("<b>Check cards cotisations</b>");
+$sql = new requete($site->db,"SELECT id_carte_ae FROM ae_carte LEFT JOIN ae_cotisations USING(`id_cotisation`) WHERE ae_cotisations.id_cotisation IS NULL");
+while ( list($id_carte_ae) = $sql->get_row() )
+{
+  $rem = new delete($site->dbrw,"ae_carte",array("id_carte_ae"=>$id_carte_ae));
+  $lst->add("Missing cotisation: Card $id_carte_ae removed.");
 }
 
 // Supprime les alias utilisés par plusieurs utilisateurs
-echo "<li><b>Check aliases unicity</b></li>";
+$lst->add("<b>Check aliases unicity</b>");
 $sql = new requete($site->db,"SELECT COUNT(*),alias_utl FROM `utilisateurs` WHERE alias_utl IS NOT NULL GROUP BY alias_utl HAVING COUNT(*) > 1");
 $aliases=array();
 while ( $row = $sql->get_row() )
 {
-  echo "<li>Alias ".$row[1]." used by ".$row[0]." users : Set to NULL.</li>";
+  $lst->add("Alias ".$row[1]." used by ".$row[0]." users : Set to NULL.");
   new requete($site->dbrw,"UPDATE `utilisateurs` SET alias_utl=NULL WHERE alias_utl='".mysql_real_escape_string($row[1])."'");
 }
 
 // Génére un alias aux utilisateurs du forum
-echo "<li><b>Check forum users aliases</b></li>";
+$lst->add("<b>Check forum users aliases</b>");
 $sql = new requete($site->db,"SELECT utilisateurs.id_utilisateur,email_utbm,nom_utl,prenom_utl,email_utl ".
 "FROM `utilisateurs` ".
 "JOIN frm_message ON (frm_message.id_utilisateur=utilisateurs.id_utilisateur) ".
@@ -138,7 +140,7 @@ while ( $row = $sql->get_row() )
     }
   }
   
-  echo "<li>Alias for ".$row["prenom_utl"]." ".$row["nom_utl"]." (".$row["id_utilisateur"].") : $alias</li>";
+  $lst->add("Alias for ".$row["prenom_utl"]." ".$row["nom_utl"]." (".$row["id_utilisateur"].") : $alias");
   
   new update($site->dbrw,
                       "utilisateurs",
@@ -146,7 +148,7 @@ while ( $row = $sql->get_row() )
                       array('id_utilisateur' => $row["id_utilisateur"]));  
 }
 
-echo "<li><b>Check folder names (nulls)</b></li>";
+$lst->add("<b>Check folder names (nulls)</b>");
 
 $sql = new requete($site->db,"SELECT * FROM `d_folder` WHERE nom_fichier_folder IS NULL");
 
@@ -156,11 +158,11 @@ while ( $row = $sql->get_row() )
 {
   $folder->_load($row);
   $folder->update_folder ( $folder->titre, $folder->description, $folder->id_asso );
-  echo "<li>Folder #".$folder->id." is now named ".$folder->nom_fichier."</li>";
+  $lst->add("Folder #".$folder->id." is now named ".$folder->nom_fichier."");
 
 }
 
-echo "<li><b>Check files names (unicity)</b></li>";
+$lst->add("<b>Check files names (unicity)</b>");
 
 $file=new dfile($site->db,$site->dbrw);
 
@@ -178,9 +180,12 @@ while ( $row = $sql->get_row() )
 			array("nom_fichier_file"=>$file->nom_fichier),
 			array("id_file"=>$file->id)
 			);
-		echo "<li>File #".$file->id." is now named ".$file->nom_fichier."</li>";
+		$lst->add("File #".$file->id." is now named ".$file->nom_fichier."");
   }
 }
-echo "</ul>";
 
+$cts->add($lst);
+$site->add_contents($cts);
+
+$site->end_page();
 ?>
