@@ -25,7 +25,8 @@ $topdir = "./";
 
 require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/entities/ideabox.inc.php");
-require_once($topdir. "include/cts/sqltable.inc.php");
+require_once($topdir . "include/cts/sqltable.inc.php");
+require_once($topdir . "include/entities/asso.inc.php");
 
 $site = new site();
 
@@ -36,21 +37,28 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "ideas")
 {
 	$cts = new contents("Idées demandées");
 	
-	$ibx = new ideabox($site->db);
-	$ibx->load_by_id(mysql_real_escape_string($_REQUEST['id']));
+	$box = new ideabox($site->db);
+	$box->load_by_id(mysql_real_escape_string($_REQUEST['id']));
 	
 }
 else if(isset($_REQUEST['action']) && $_REQUEST['action'] == "new")
 {
+	if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "newbox")
+	{
+		$box = new ideabox($site->db, $site->dbrw);
+		$box->add();
+	}
+	
 	$cts = new contents("Nouvelle boite à idée");
 
 	$frm = new form("newbox", "ideabox.php?action=new", true, "POST", "boiboite");
-	$frm->add_text_field("title", "Question");
-	$frm->add_text_area("desc", "Description");
+	$frm->add_text_field("title", "Question", "", true, 50);
+	$frm->add_text_area("desc", "Description", "", 60, 5);
 	$frm->add_date_field("start_date", "Date de début", "2007");
 	$frm->add_date_field("end_date", "Date de fin");
-	$frm->add_entity_select("groupid","Groupe concerné",$site->db,"group", 0, "none"); 
+	$frm->add_entity_select("groupid","Groupe concerné",$site->db,"group", false, "none");
 	$frm->add_info("aucun : tout le monde");
+	$frm->add_entity_select("assoid","Demandé par",$site->db,"asso", false, "none"); 
 	$frm->add_submit("go", "Envoyer");
 	
 	
