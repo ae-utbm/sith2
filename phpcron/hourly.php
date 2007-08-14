@@ -1,5 +1,6 @@
 <?php
 $_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/ae2/phpcron";
+
 /*
  * hourly
  */
@@ -10,7 +11,6 @@ define('MAGPIE_CACHE_AGE', 50*60); //50minutes pour etre certain d'avoir un truc
 define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
 define('MAX_NUM',20);
 define('MAX_SUM_LENGHT',200);
-$_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/ae2/phpcron";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/lib/magpierss/rss_fetch.inc.php");
@@ -22,8 +22,6 @@ $site = new site ();
 $req = new requete($site->db,"SELECT `url` FROM `planet_flux` WHERE `modere`='1'");
 while ( list($url) = $req->get_row() )
   $rs=fetch_rss($url);
-
-
 
 // Tâche 1 [planet] : nettoyage du cache
 $cache = opendir(MAGPIE_CACHE_DIR);
