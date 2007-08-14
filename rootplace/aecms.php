@@ -77,7 +77,7 @@ function list_noaecms ()
 function install_aecms ( $unixname, $id_asso )
 {
   if ( !ereg("^([a-z0-9])$", $unixname) )
-    return false;
+    return "Nom de l'emplacement invalide";
   
   return _install_aecms(AECMS_ACCOUNTS.$unixname."/",$id_asso);
 }
@@ -88,14 +88,14 @@ function _install_aecms ( $target, $id_asso )
 
   if ( !is_dir($target) )
     if ( !mkdir($target) )
-      return false;
+      return "Impossible de creer $target";
 
   if ( substr($target,-1) != "/" )
     $target = $target."/";
 
   if ( !is_dir($target."specific") )
     if ( !mkdir($target."specific") )
-      return false;
+      return "Impossible de creer le sous dossier specific";
     
   $aecmsConfPhp='<?php
 define("CMS_ID_ASSO",'.$id_asso.');
@@ -103,17 +103,17 @@ define("CMS_PREFIX","cms:".CMS_ID_ASSO.":");
 ?>';
 
   if ( !file_put_contents($target."specific/aecms.conf.php",$aecmsConfPhp) )
-    return false;
+    return "Impossible d'ecrire le fichier specific/aecms.conf.php";
   
   if ( !file_put_contents($target."specific/custom.css","/* a personaliser */") )
-    return false;
+    return "Impossible d'ecrire le fichier specific/custom.css";
   
   if ( is_link($target."aecms") )
     if ( !unlink($target."aecms") )
-      return false;
+      return "Impossible d'enlever le lien symbolique aecms déjà présent";
   
   if ( !symlink($aecms_home,$target."aecms") )
-    return false;
+    return "Impossible de creer le lien symbolique aecms";
 
   $apacheRules='RewriteEngine On
 RewriteRule ^([a-z]*)\.php(.*)$  aecms/$1.php$2 [L] 
@@ -122,7 +122,7 @@ RewriteRule ^images/(.*)$  aecms/images/$1 [L]
 RewriteRule ^css/(.*)$  aecms/css/$1 [L]
 ';  
   if ( !file_put_contents($target.".htaccess",$apacheRules) )
-    return false;
+    return "Impossible d'ecrire le fichier .htaccess";
     
   return true;
 }
@@ -135,9 +135,9 @@ function raz_aecms ( $id_asso )
 	
 if ( $_REQUEST["action"] == "install" )
 {
-  if ( !install_aecms ( $_REQUEST["unixname"], $_REQUEST["id_asso"] ) )
+  if ( ($err = install_aecms ( $_REQUEST["unixname"], $_REQUEST["id_asso"] )! !== true )
 	{
-	  $Message="Erreur lors de l'installation.";
+	  $Message="Erreur lors de l'installation : $err.";
 	  $_REQUEST["page"] = "install";
 	}
 	else
