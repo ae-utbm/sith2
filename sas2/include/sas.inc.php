@@ -41,7 +41,7 @@ class sas extends site
     $this->set_side_boxes("left",array("sasuser","monsas","connexion"));
 
 
-    $frm = new form("seepersonphotos","user.php",false,"POST","Voir les photos de...");
+    $frm = new form("seepersonphotos","../user/photos.php",false,"POST","Voir les photos de...");
     $frm->add_user_fieldv2("id_utilisateur","Prenom Nom/Surnom");
     $frm->add_submit("valid","Voir");
     $this->add_box("sasuser",$frm);
