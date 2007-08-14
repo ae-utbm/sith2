@@ -206,6 +206,7 @@ foreach($list as $row)
   $row["nom_asso"]=$asso->nom; 
 }
 
+print_r($list);
 
 $cts = new contents("<a href=\"./\">Administration</a> / AECMS");
 
