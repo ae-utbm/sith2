@@ -206,18 +206,18 @@ if ( isset($Message) )
     
 $cts->add(new sqltable(
   "aecms", 
-  "", $list, "aecms.php", 
+  "Liste des AECMS installés", $list, "aecms.php", 
   "type", 
   array("unixname"=>"Nom","aecms"=>"AECMS installé"), 
   array(), 
   array(),
   array()
-  ));
+  ),true);
   
-$lst = new itemlist();
+$lst = new itemlist("Outils");
 $lst->add("<a href=\"aecms.php?page=raz\">RAZ d'un AECMS</a> (remet les paramètres aux valeurs par défaut)");
 $lst->add("<a href=\"aecms.php?page=install\">Installation d'un AECMS</a> (ou re-installation)");
-$cts->add($lst);
+$cts->add($lst,true);
 
 $site->add_contents($cts);
  
