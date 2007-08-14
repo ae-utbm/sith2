@@ -104,11 +104,12 @@ define("CMS_PREFIX","cms:".CMS_ID_ASSO.":");
 
   if ( !file_put_contents($target."specific/aecms.conf.php",$aecmsConfPhp) )
     return "Impossible d'ecrire le fichier specific/aecms.conf.php";
+    
+  if ( !file_exists($target."specific/custom.css") ) // en cas de migration, on broie pas le css
+    if ( !file_put_contents($target."specific/custom.css","/* a personnaliser */") )
+      return "Impossible d'ecrire le fichier specific/custom.css";
   
-  if ( !file_put_contents($target."specific/custom.css","/* a personnaliser */") )
-    return "Impossible d'ecrire le fichier specific/custom.css";
-  
-  if ( is_link($target."aecms") )
+  if ( is_link($target."aecms") ) // en cas de migration
     if ( !unlink($target."aecms") )
       return "Impossible d'enlever le lien symbolique aecms déjà présent";
   
@@ -182,7 +183,7 @@ if ( $_REQUEST["page"] == "install" )
   
   asort($places);
   
-  $frm = new form("installexists","aecms.php",false,"post","Re-Installer AECMS");
+  $frm = new form("installexists","aecms.php",false,"post","Re-Installer AECMS (permet la migration)");
   $frm->add_hidden("action","install");
   $frm->add_select_field("unixname","Emplacement",$places);
   $frm->add_entity_smartselect ( "id_asso", "Association/Activitée", $asso);
