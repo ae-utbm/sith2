@@ -197,16 +197,17 @@ if ( $_REQUEST["page"] == "install" )
 	
 $site->start_page("none","Administration");
 
-$list = list_aecms();
+$baselist = list_aecms();
+$list=array();
 $asso = new asso($site->db);
 
-foreach($list as $row)
+foreach($baselist as $row)
 {
   $asso->load_by_id($row["id_asso"]);
   $row["nom_asso"]=$asso->nom; 
+  $list[]=$row;
 }
 
-print_r($list);
 
 $cts = new contents("<a href=\"./\">Administration</a> / AECMS");
 
