@@ -64,7 +64,7 @@ if ( CMS_ID_ASSO != intval(CMS_ID_ASSO) )
 }
  
 // Configuration générale (en BETA)
-$topdir = dirname(readlink($basedir."/aecms"));
+$topdir = dirname(readlink($basedir."/aecms"))."/";
 $wwwtopdir = "./";
 define("CMS_CONFIGPATH","/var/www/ae/www/taiste/var/aecms");
 define("CMS_CONFIGFILE",CMS_CONFIGPATH."/cms".CMS_ID_ASSO.".conf.php");
