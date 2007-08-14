@@ -198,6 +198,14 @@ if ( $_REQUEST["page"] == "install" )
 $site->start_page("none","Administration");
 
 $list = list_aecms();
+$asso = new asso($site->db);
+
+foreach($list as $row)
+{
+  $asso->load_by_id($row["id_asso"]);
+  $row["nom_asso"]=$asso->nom; 
+}
+
 
 $cts = new contents("<a href=\"./\">Administration</a> / AECMS");
 
@@ -208,7 +216,7 @@ $cts->add(new sqltable(
   "aecms", 
   "Liste des AECMS installés", $list, "aecms.php", 
   "type", 
-  array("unixname"=>"Nom","aecms"=>"AECMS installé"), 
+  array("unixname"=>"Nom","nom_asso"=>"Association/Activité","aecms"=>"AECMS installé"), 
   array(), 
   array(),
   array()
