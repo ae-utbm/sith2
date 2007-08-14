@@ -241,6 +241,11 @@ div.page
   left:15px;
 }
 
+div.page#n
+{
+  margin: 0;
+}
+
 div.page#lr
 {
   margin: 0;
