@@ -133,7 +133,7 @@ div.emptysectionlinks
   float:left;
   position:relative;
   top:0;
-  left:5px;
+  left:10px;
 }
 
 #right
@@ -142,7 +142,7 @@ div.emptysectionlinks
   float:right;
   position:relative;
   top:0;
-  right:5px;
+  right:10px;
 }
 
 div.article
@@ -218,10 +218,10 @@ p.footer a
 div.page
 {
   margin: 0;
-  width:890px;
+  width:880px;
   float:left;
   position:relative;
-  left:15px;
+  left:25px;
 }
 
 div.page#n
@@ -232,21 +232,21 @@ div.page#n
 div.page#lr
 {
   margin: 0;
-  width:690px;
+  width:675px;
   float:left;
 }
 
 div.page#r
 {
   margin: 0;
-  width:690px;
+  width:675px;
   float:left;
 }
 
 div.page#l
 {
   margin: 0;
-  width:490px;
+  width:470px;
   float:left;
 }
 
