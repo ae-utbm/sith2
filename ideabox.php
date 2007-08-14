@@ -31,38 +31,68 @@ $site = new site();
 
 $site->start_page("none", "La boite à idées");
 
-$cts = new contents("Index des campagnes d'idées");
 
-$cts->add_paragraph("Pour toi public !");
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == "ideas")
+{
+	$cts = new contents("Idées demandées");
+	
+	$ibx = new ideabox($site->db);
+	$ibx->load_by_id(mysql_real_escape_string($_REQUEST['id']));
+	
+}
+else if(isset($_REQUEST['action']) && $_REQUEST['action'] == "new")
+{
+	$cts = new contents("Nouvelle boite à idée");
 
-$sql = new requete($site->db, "SELECT `ideabox_campagne`.*,
-																			`ideabox_reponses`.`id_cpg`,
-																			COUNT(id_cpg) AS `nbideas`
-																			FROM `ideabox_campagne` 
-																			LEFT JOIN `ideabox_reponses` 
-																			ON `ideabox_campagne`.`id` = `ideabox_reponses`.`id_cpg`
-																			GROUP BY `ideabox_reponses`.`id_cpg`
-																			ORDER BY `date` ASC"
-																			);
+	$frm = new form("newbox", "ideabox.php?action=new", true, "POST", "boiboite");
+	$frm->add_text_field("title", "Question");
+	$frm->add_text_area("desc", "Description");
+	$frm->add_date_field("start_date", "Date de début", "2007");
+	$frm->add_date_field("end_date", "Date de fin");
+	$frm->add_entity_select("groupid","Groupe concerné",$site->db,"group", 0, "none"); 
+	$frm->add_info("aucun : tout le monde");
+	$frm->add_submit("go", "Envoyer");
+	
+	
+	$cts->add($frm, false);
 
-$table = new sqltable("cpg_list",
-											"Liste des boites à idées ouvertes",
-											$sql,
-											"ideabox.php",
-											"id",
-											array(
-												"title" => "Titre",
-												"start_date" => "De",
-												"end_date" => "A",
-												"nbideas" => "Idées"
-												),
-											array("ideas" => "Aller voir"),
-											array(),
-											array()
-										);
+}
+else
+{
 
-$cts->add($table, true);
-										
+	$cts = new contents("Index des campagnes d'idées");
+	
+	$cts->add_paragraph("Pour toi public !");
+	
+	$sql = new requete($site->db, "SELECT `ideabox_campagne`.*,
+																				`ideabox_reponses`.`id_cpg`,
+																				COUNT(id_cpg) AS `nbideas`
+																				FROM `ideabox_campagne` 
+																				LEFT JOIN `ideabox_reponses` 
+																				ON `ideabox_campagne`.`id` = `ideabox_reponses`.`id_cpg`
+																				GROUP BY `ideabox_reponses`.`id_cpg`
+																				ORDER BY `date` ASC"
+																				);
+	
+	$table = new sqltable("cpg_list",
+												"Liste des boites à idées ouvertes",
+												$sql,
+												"ideabox.php",
+												"id",
+												array(
+													"title" => "Titre",
+													"start_date" => "De",
+													"end_date" => "A",
+													"nbideas" => "Idées"
+													),
+												array("ideas" => "Aller voir"),
+												array(),
+												array()
+											);
+	
+	$cts->add($table, true);
+}
+
 $site->add_contents($cts);
 
 $site->end_page ();
