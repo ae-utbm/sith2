@@ -105,7 +105,7 @@ define("CMS_PREFIX","cms:".CMS_ID_ASSO.":");
   if ( !file_put_contents($target."specific/aecms.conf.php",$aecmsConfPhp) )
     return "Impossible d'ecrire le fichier specific/aecms.conf.php";
   
-  if ( !file_put_contents($target."specific/custom.css","/* a personaliser */") )
+  if ( !file_put_contents($target."specific/custom.css","/* a personnaliser */") )
     return "Impossible d'ecrire le fichier specific/custom.css";
   
   if ( is_link($target."aecms") )
