@@ -50,10 +50,13 @@ if ( !file_exists($basedir."/specific/aecms.conf.php") ) // COnfiguration par d�
   // Configuration par défaut
   define("CMS_ID_ASSO",1);
   define("CMS_PREFIX","cms:".CMS_ID_ASSO.":");
+  $topdir = "../";
 }
 else
+{
   include($basedir."/specific/aecms.conf.php");
-  
+  $topdir = dirname(readlink($basedir."/aecms"))."/";
+}  
 
 // Verification de sécu
 if ( CMS_ID_ASSO != intval(CMS_ID_ASSO) )
@@ -64,7 +67,6 @@ if ( CMS_ID_ASSO != intval(CMS_ID_ASSO) )
 }
  
 // Configuration générale (en BETA)
-$topdir = dirname(readlink($basedir."/aecms"))."/";
 $wwwtopdir = "./";
 define("CMS_CONFIGPATH","/var/www/ae/www/taiste/var/aecms");
 define("CMS_CONFIGFILE",CMS_CONFIGPATH."/cms".CMS_ID_ASSO.".conf.php");
