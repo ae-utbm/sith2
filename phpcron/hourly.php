@@ -1,5 +1,5 @@
 <?php
-
+$_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/ae2/phpcron";
 /*
  * hourly
  */
