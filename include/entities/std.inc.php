@@ -105,6 +105,12 @@ class stdentity
       htmlentities($this->get_display_name(),ENT_COMPAT,"UTF-8")."</a>";
   }
 
+  function prefer_list()
+  {
+    return false;  
+  }
+
+
   /**
    * Check if class can enumarate its elements using enumerate.
    * @return true if it can enumerate, else return false

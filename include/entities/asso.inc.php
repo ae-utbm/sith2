@@ -429,6 +429,10 @@ class asso extends stdentity
     return $path;
   }
   
+  function prefer_list()
+  {
+    return true;  
+  }  
   
 }
  

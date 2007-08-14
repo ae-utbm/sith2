@@ -489,7 +489,7 @@ class form extends stdcontents
 		  return;
 		}
 		
-		if ( !$instance->can_fsearch() || !is_null($conds) )
+		if ( !$instance->can_fsearch() || !is_null($conds) || $instance->prefer_list() )
 		{
 		  if ( !$instance->can_enumerate() )
 		    return;
