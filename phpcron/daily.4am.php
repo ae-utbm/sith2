@@ -5,7 +5,7 @@
  */
 $_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/ae2/phpcron";
 
-$topdir="../";
+$topdir=$_SERVER['SCRIPT_FILENAME']."/../";
 require_once($topdir. "include/site.inc.php");
 
 $site = new site ();
