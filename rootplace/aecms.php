@@ -146,6 +146,8 @@ if ( $_REQUEST["action"] == "install" )
 
 if ( $_REQUEST["page"] == "install" )
 {
+  $asso = new asso($site->db);
+  
   
   $site->start_page("none","Administration");
   $cts = new contents("<a href=\"./\">Administration</a> / <a href=\"aecms.php\">AECMS</a> / Installer");
@@ -155,21 +157,21 @@ if ( $_REQUEST["page"] == "install" )
      
   $cts->add_paragraph("<b>Attention</b>: Ceci va installer la version \"$aecms_home\"");
 
-  $list=list_noaecms();
+  $places=list_noaecms();
 
   asort($places); 
    
   $frm = new form("installexists","aecms.php",false,"post","Installer AECMS sur un site existant");
   $frm->add_hidden("action","install");
   $frm->add_select_field("unixname","Emplacement",$places);
-  $frm->add_entity_select ( "id_asso", "Association/Activitée", $site->db,"asso",null,true);
+  $frm->add_entity_smartselect ( "id_asso", "Association/Activitée", $asso);
   $frm->add_submit("valid","Installer");
   $cts->add($frm,true);
 
   $frm = new form("installexists","aecms.php",false,"post","Installer AECMS sur un nouveau site");
   $frm->add_hidden("action","install");
   $frm->add_text_field("unixname","Emplacement","",true);
-  $frm->add_entity_select ( "id_asso", "Association/Activitée", $site->db,"asso",null,true);
+  $frm->add_entity_smartselect ( "id_asso", "Association/Activitée", $asso);
   $frm->add_submit("valid","Installer");
   $cts->add($frm,true);
   
@@ -183,7 +185,7 @@ if ( $_REQUEST["page"] == "install" )
   $frm = new form("installexists","aecms.php",false,"post","Re-Installer AECMS");
   $frm->add_hidden("action","install");
   $frm->add_select_field("unixname","Emplacement",$places);
-  $frm->add_entity_select ( "id_asso", "Association/Activitée", $site->db,"asso",null,true);
+  $frm->add_entity_smartselect ( "id_asso", "Association/Activitée", $asso);
   $frm->add_submit("valid","Installer");
   $cts->add($frm,true);
   
