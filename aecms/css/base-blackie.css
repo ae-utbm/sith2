@@ -250,3 +250,17 @@ div.page#l
   float:left;
 }
 
+#sasimg
+{
+  width:600px;
+}
+
+#sasimg img
+{
+  width:600px;
+}
+
+#photoinfo
+{
+  width:250px;
+}
