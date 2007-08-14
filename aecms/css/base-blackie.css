@@ -1,6 +1,22 @@
 @import url("/themes/default/css/site.css");
 
 
+div.box
+{
+  background-image: url("blackie-box.png");
+}
+
+div.box div.body
+{
+  background-image: url("blackie-box-bottom.png");
+}
+
+#sbox_calendrier
+{
+  background-image: url("blackie-box.png");
+}
+
+
 body
 {
   background:black;  
