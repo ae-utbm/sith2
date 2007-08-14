@@ -135,7 +135,7 @@ function raz_aecms ( $id_asso )
 	
 if ( $_REQUEST["action"] == "install" )
 {
-  if ( ($err = install_aecms ( $_REQUEST["unixname"], $_REQUEST["id_asso"] )! !== true )
+  if ( ($err = install_aecms ( $_REQUEST["unixname"], $_REQUEST["id_asso"] ) !== true )
 	{
 	  $Message="Erreur lors de l'installation : $err.";
 	  $_REQUEST["page"] = "install";
