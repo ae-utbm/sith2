@@ -162,13 +162,15 @@ if ( $_REQUEST["page"] == "install" )
   $frm->add_select_field("unixname","Emplacement",$places);
   $frm->add_entity_select ( "id_asso", "Association/Activitée", $site->db,"asso",null,true);
   $frm->add_submit("valid","Installer");
-   
+  $cts->add($frm);
+
   $frm = new form("installexists","aecms.php",false,"post","Installer AECMS sur un nouveau site");
   $frm->add_hidden("action","install");
   $frm->add_text_field("unixname","Emplacement","",true);
   $frm->add_entity_select ( "id_asso", "Association/Activitée", $site->db,"asso",null,true);
   $frm->add_submit("valid","Installer");
-   
+  $cts->add($frm);
+  
   $places=array();
   $list = list_aecms();
   foreach($list as $row )
@@ -179,6 +181,7 @@ if ( $_REQUEST["page"] == "install" )
   $frm->add_select_field("unixname","Emplacement",$places);
   $frm->add_entity_select ( "id_asso", "Association/Activitée", $site->db,"asso",null,true);
   $frm->add_submit("valid","Installer");
+  $cts->add($frm);
   
   $site->add_contents($cts);
   $site->end_page();
