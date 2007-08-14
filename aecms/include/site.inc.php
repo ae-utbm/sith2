@@ -285,6 +285,8 @@ class aecms extends site
 		
 		echo "<body>\n";
 				/* Generate the logo */
+		echo "<div id=\"site\">";		
+				
 		if (!$this->compact )
 		{
 		  echo "<div id=\"logo\"><a href=\"".htmlentities($this->pubUrl,ENT_QUOTES,"UTF-8")."\">";
@@ -297,7 +299,6 @@ class aecms extends site
 		
 		foreach ($this->tab_array as $entry)
 		{
-		  
 			echo "<span";
 			if ($this->section == $entry[0])
 			{
@@ -406,7 +407,7 @@ class aecms extends site
 	  echo "</p>\n";
 		
 		echo "</div>\n"; // /contents
-		
+		echo "<div id=\"endsite\"></div></div>\n";		
 		echo "</body>\n";
 		echo "</html>\n";
       

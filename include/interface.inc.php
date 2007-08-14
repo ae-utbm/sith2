@@ -224,6 +224,8 @@ class interfaceweb
 		
 		echo "<body>\n";
 				/* Generate the logo */
+		echo "<div id=\"site\">";		
+				
 		if (!$this->compact )
 		{
 			echo "<div class=\"box\" id=\"important\">\n";
@@ -389,7 +391,7 @@ class interfaceweb
 		echo "<!-- end of page -->\n\n";
 		
 		echo "</div>\n"; // /contents
-		
+		echo "<div id=\"endsite\"></div></div>\n";		
 		echo "</body>\n";
 		echo "</html>\n";
       
