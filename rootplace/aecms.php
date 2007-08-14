@@ -133,13 +133,68 @@ function raz_aecms ( $id_asso )
   return unlink($file);
 }
 	
+if ( $_REQUEST["action"] == "install" )
+{
+  if ( !install_aecms ( $_REQUEST["unixname"], $_REQUEST["id_asso"] ) )
+	{
+	  $Message="Erreur lors de l'installation.";
+	  $_REQUEST["page"] = "install";
+	}
+	else
+	  $Message="AECMS installé.";
+}
+
+if ( $_REQUEST["page"] == "install" )
+{
+  
+  $site->start_page("none","Administration");
+  $cts = new contents("<a href=\"./\">Administration</a> / <a href=\"aecms.php\">AECMS</a> / Installer");
+   
+  if ( isset($Message) )
+    $cts->add_paragraph($Message,"error");
+     
+  $cts->add_paragraph("<b>Attention</b>: Ceci va installer la version \"$aecms_home\"");
+
+  $places=list_noaecms();
+   
+  $frm = new form("installexists","aecms.php",false,"post","Installer AECMS sur un site existant");
+  $frm->add_hidden("action","install");
+  $frm->add_select_field("unixname","Emplacement",$places);
+  $frm->add_entity_select ( "id_asso", "Association/Activitée", $site->db,"asso",null,true);
+  $frm->add_submit("valid","Installer");
+   
+  $frm = new form("installexists","aecms.php",false,"post","Installer AECMS sur un nouveau site");
+  $frm->add_hidden("action","install");
+  $frm->add_text_field("unixname","Emplacement","",true);
+  $frm->add_entity_select ( "id_asso", "Association/Activitée", $site->db,"asso",null,true);
+  $frm->add_submit("valid","Installer");
+   
+  $places=array();
+  $list = list_aecms();
+  foreach($list as $row )
+    $places[]=$row["unixname"];
+  
+  $frm = new form("installexists","aecms.php",false,"post","Re-Installer AECMS");
+  $frm->add_hidden("action","install");
+  $frm->add_select_field("unixname","Emplacement",$places);
+  $frm->add_entity_select ( "id_asso", "Association/Activitée", $site->db,"asso",null,true);
+  $frm->add_submit("valid","Installer");
+  
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
+}
+	
 	
 $site->start_page("none","Administration");
 
 $list = list_aecms();
 
-$cts = new contents("AECMS");
- 
+$cts = new contents("<a href=\"./\">Administration</a> / AECMS");
+
+if ( isset($Message) )
+  $cts->add_paragraph($Message,"error");
+    
 $cts->add(new sqltable(
   "aecms", 
   "", $list, "aecms.php", 
@@ -149,7 +204,12 @@ $cts->add(new sqltable(
   array(),
   array()
   ));
- 
+  
+$lst = new itemlist();
+$lst->add("<a href=\"aecms.php?page=raz\">RAZ d'un AECMS</a> (remet les paramètres aux valeurs par défaut)");
+$lst->add("<a href=\"aecms.php?page=install\">Installation d'un AECMS</a> (ou re-installation)");
+$cts->add($lst);
+
 $site->add_contents($cts);
  
 //TODO
