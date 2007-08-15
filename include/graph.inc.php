@@ -543,6 +543,8 @@ class camembert
     for ($i=0; $i<$this->nbrdata; $i++)
       $total+=$this->tabValue[$i];
     $j=0;
+    print_r($total);
+    exit();
     $tmp=array();
     $comments=array();
     for ($i=0; $i<$this->nbrdata; $i++)
