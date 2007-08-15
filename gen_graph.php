@@ -36,9 +36,7 @@ if ( $_REQUEST["action"] == "cam" )
     $value=explode("|", $value, 2);
     if(count($value)==2)
     {
-      //$value[1]=(float)$value[1];
-      print_r($value[1]);
-      $cam->data((float)$value[1], $value[0]);
+      $cam->data($value[1], $value[0]);
     }
     else
       exit();
