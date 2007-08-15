@@ -620,6 +620,7 @@ function tableformat($block)
       $gen_stat=true;
     else
     {
+      print_r($rows[$r]);
       $gen_graph=false;
       unset($graph);
     }
