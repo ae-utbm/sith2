@@ -668,17 +668,15 @@ function tableformat($block)
     $ret .= "  </tr>\n";
     if($gen_graph && !$head)
     {
-      if(!ereg("^[0-9]+(\,[0-9]{1,2})?\%$",$rows[$r][1]))
+      if(!ereg("^[0-9]+(\,[0-9]{1,2})?\%$",$rows[$r][1]["data"]))
       {
         $gen_graph=false;
         unset($graph);
-        print_r($rows[$r]);
-        exit();
       }
-      elseif(!isset($graph[$rows[$r][0]]))
-        $graph[$rows[0]]=str_replace("%", "",str_replace(",",".",$row[$r][1]));
+      elseif(!isset($graph[$rows[$r][0]["data"]]))
+        $graph[$rows[$r][0]["data"]]=str_replace("%", "",str_replace(",",".",$row[$r][1]));
       else
-        $graph[$rows[0]]=$graph[$rows[0]]+str_replace("%", "",str_replace(",",".",$row[$r][1]));
+        $graph[$rows[$r][0]["data"]]=$graph[$rows[$r][0]["data"]]+str_replace("%", "",str_replace(",",".",$row[$r][1]["data"]));
     }
     elseif($gen_graph && $r>0)
     {
