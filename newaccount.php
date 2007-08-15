@@ -91,6 +91,8 @@ if ( isset($_REQUEST["mode"]) )
     $site->start_page("services","Inscription");
     $cts = new contents("Inscription : Etape 2/3");    
     
+    $cts->add_paragraph("<a href=\"article.php?name=docs:inscription\">Aide</a>");
+
     $frm = new form("createaccount","newaccount.php?mode=$mode",true);
     $frm->allow_only_one_usage();
     $frm->add_hidden("action","create");
@@ -141,9 +143,7 @@ $cts = new contents("Inscription : Etape 1/3");
 
 $cts->add_paragraph("Vous êtes sur le point d'ouvrir un compte sur le site de l'association des etudiants de l'utbm.");
 
-
-
-
+$cts->add_paragraph("<a href=\"article.php?name=docs:inscription\">Aide</a>");
 
 $ctsutbm = new contents("Etudiant à l'utbm ou membre du personnel de l'utbm");
 $ctsutbm->add_paragraph("Pour pouvoir procéder à votre inscription vous devez posséder une adresse e-mail personnelle utbm.fr et y avoir accès. Votre inscription sera soumise à modération.");
