@@ -693,7 +693,7 @@ function tableformat($block)
     if(!empty($graph))
     {
       arsort($graph);
-      float $total=0;
+      (float)$total=0;
       $data="";
       foreach($graph as $key => $value)
       {
