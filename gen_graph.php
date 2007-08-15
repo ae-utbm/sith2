@@ -55,9 +55,9 @@ if ( $_REQUEST["action"] == "bar" )
     else
       exit();
   }
-	print_r($datas);
-  exit();
-  $hist = new histogram($datas,"");
+	$hist = new histogram($datas,"");
+  $hist->png_render();
+  $hist->destroy();
   exit();
 }
 
