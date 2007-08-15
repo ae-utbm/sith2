@@ -700,7 +700,7 @@ function tableformat($block)
           $data.=";".$key."|".$value;
         else
           $data=$key."|".$value;
-        $total=$total+$value;
+        $total=$total+(float)$value;
       }
 
       if($total==100)
