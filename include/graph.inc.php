@@ -530,7 +530,7 @@ class camembert
     $this->hauteurCam=(($tab[3] - ($tab[3] * $this->inclinaison / 100)) *2);
   }
 
-  function data(float $v, $com="")
+  function data($v, $com="")
   {
     $this->tabValue[]= $v;
     $this->tabComment[]= $com;
