@@ -36,7 +36,7 @@ if ( $_REQUEST["action"] == "cam" )
   {
     $value=explode("|", $value, 2);
     if(count($value)==2)
-      $cam->data($value[0], $value[1]);
+      $cam->data($value[1], $value[0]);
     else
       exit();
   }
@@ -55,7 +55,7 @@ if ( $_REQUEST["action"] == "bar" )
     else
       exit();
   }
-	$hist = new histogram($datas,"");
+  $hist = new histogram($datas,"");
   $hist->png_render();
   $hist->destroy();
   exit();
