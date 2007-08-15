@@ -52,7 +52,7 @@ if ( $_REQUEST["action"] == "bar" )
   {
     $value=explode("|", $value, 2);
     if(count($value)==2)
-      $datas[$value[0]]=$value[1]);
+      $datas[$value[0]]=$value[1];
     else
       exit();
   }
