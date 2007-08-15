@@ -50,11 +50,13 @@ if ( $_REQUEST["action"] == "bar" )
   foreach($values as $value)
   {
     $value=explode("|", $value, 2);
+    print_r($value);
     if(count($value)==2)
       $datas[$value[0]]=$value[1];
     else
       exit();
   }
+  exit();
   $hist = new histogram($datas,"");
   exit();
 }
