@@ -31,7 +31,6 @@ if(empty($values))
 
 if ( $_REQUEST["action"] == "cam" )
 {
-  $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
   $cam=new camembert(600,400);
   foreach($values as $value)
   {
