@@ -541,7 +541,7 @@ class camembert
     $this->nbrdata=sizeof($this->tabValue);
     $total='';
     for ($i=0; $i<$this->nbrdata; $i++)
-      $total+=$this->tabValue[$i];
+      $total+=(float)$this->tabValue[$i];
     $j=0;
     print_r($total);
     exit();
