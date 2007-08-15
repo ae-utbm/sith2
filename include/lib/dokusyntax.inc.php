@@ -512,8 +512,8 @@ function smileys($text)
       $text = preg_replace('!^'.$tag.' !i', '<img src="'.$smPath.$img.'" alt="" /> ', $text);
       $text = preg_replace('!\n'.$tag.'$!i', "\n<img src=\"".$smPath.$img."\" alt=\"\" />", $text);
       $text = preg_replace('!^'.$tag.'$!i', '<img src="'.$smPath.$img.'" alt="" />', $text);
-			$text = preg_replace('! '.$tag.'$!i', ' <img src="'.$smPath.$img.'" alt="" />', $text);
-			$text = preg_replace('! '.$tag.'\n!i', " <img src=\"".$smPath.$img."\" alt=\"\" />\n", $text);
+      $text = preg_replace('! '.$tag.'$!i', ' <img src="'.$smPath.$img.'" alt="" />', $text);
+      $text = preg_replace('! '.$tag.'\n!i', " <img src=\"".$smPath.$img."\" alt=\"\" />\n", $text);
     }
   }
   return $text;
@@ -591,9 +591,9 @@ function tableformat($block)
   
   $lines = split("\n",$block);
   $ret = "";
-	$rows = array();
-	$gen_graph="not_yet";
-	$graph=array();
+  $rows = array();
+  $gen_graph="not_yet";
+  $graph=array();
   for($r=0; $r < count($lines); $r++)
   {
     $line = $lines[$r];
@@ -603,7 +603,7 @@ function tableformat($block)
     {
       if($line[$chr] == '^')
       {
-				$c++;
+        $c++;
         $rows[$r][$c]['head'] = true;
         $rows[$r][$c]['data'] = '';
       }
@@ -615,15 +615,15 @@ function tableformat($block)
       }
       else
         $rows[$r][$c]['data'].= $line[$chr];
-		}
-		if ($c==1 && $gen_stat == "no_yet")
-			$gen_stat=true;
-		else
-		{
-			$gen_graph=false;
-			unset($graph);
-		}
-	}
+    }
+    if ($c==1 && $gen_stat == "no_yet")
+      $gen_stat=true;
+    else
+    {
+      $gen_graph=false;
+      unset($graph);
+    }
+  }
 
   // et là les tables de la loi furent !
   if(isset($class))
@@ -646,12 +646,12 @@ function tableformat($block)
         $c++;
         $cspan++;
       }
-			if($cspan > 1)
-			{
-				$gen_graph=false;
-				unset($graph);
-				$cspan = 'colspan="'.$cspan.'"';
-			}
+      if($cspan > 1)
+      {
+        $gen_graph=false;
+        unset($graph);
+        $cspan = 'colspan="'.$cspan.'"';
+      }
       else
         $cspan = '';
 
@@ -660,45 +660,50 @@ function tableformat($block)
       else
         $ret .= "    <td class=\"inline $format\" $cspan>$data</td>\n";
     }
-		$ret .= "  </tr>\n";
-		if($gen_graph && !$head)
-		{
-			if(!ereg("^[0-9]+(\,[0-9]{1,2})?\%$",$rows[$r][0]))
-			{
-				$gen_graph=false;
-				unset($graph);
-			}
-			elseif(!isset($graph[$rows[$r][0]]))
-				$graph[$rows[0]]=str_replace("%", "",str_replace(",",".",$row[$r][1]));
-			else
-				$graph[$rows[0]]=$graph[$rows[0]]+str_replace("%", "",str_replace(",",".",$row[$r][1]));
-		}
-		elseif($gen_graph && $r>0)
-		{
-			$gen_graph==false;
-			unset($graph);
-		}
+    $ret .= "  </tr>\n";
+    if($gen_graph && !$head)
+    {
+      if(!ereg("^[0-9]+(\,[0-9]{1,2})?\%$",$rows[$r][0]))
+      {
+        $gen_graph=false;
+        unset($graph);
+      }
+      elseif(!isset($graph[$rows[$r][0]]))
+        $graph[$rows[0]]=str_replace("%", "",str_replace(",",".",$row[$r][1]));
+      else
+        $graph[$rows[0]]=$graph[$rows[0]]+str_replace("%", "",str_replace(",",".",$row[$r][1]));
+    }
+    elseif($gen_graph && $r>0)
+    {
+      $gen_graph==false;
+      unset($graph);
+    }
   }
   $ret .= "</table>\n\n";
 
-	if($gen_graph)
-	{
-		global $topdir;
-		require_once($topdir . "include/graph.inc.php");
-		if(!empty($graph))
-		{
-			$total=0;
-			foreach($graph as $value)
-				$total+=$value;
+  if($gen_graph)
+  {
+    global $topdir;
+    require_once($topdir . "include/graph.inc.php");
+    if(!empty($graph))
+    {
+      $total=0;
+      $data="";
+      foreach($graph as $key => $value)
+      {
+        if(!empty($data))
+          $data.=";".$key."|".$value;
+        else
+          $data=$key."|".$value;
+        $total+=$value;
+      }
 
-			if($total==100)
-			{
-			}
-			else
-			{
-			}
-		}
-	}
+      if($total==100)
+        $ret .= "<img src=\"".$topdir."gen_graph.php?action=cam&"$data"\" />";
+      else
+        $ret .= "<img src=\"".$topdir."gen_graph.php?action=bar&"$data"\" />";
+    }
+  }
   return $ret;
 }
 
