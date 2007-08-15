@@ -699,9 +699,9 @@ function tableformat($block)
       }
 
       if($total==100)
-        $ret .= "<img src=\"".$topdir."gen_graph.php?action=cam&"$data"\" />";
+        $ret .= "<img src=\"".$topdir."gen_graph.php?action=cam&".$data."\" />";
       else
-        $ret .= "<img src=\"".$topdir."gen_graph.php?action=bar&"$data"\" />";
+        $ret .= "<img src=\"".$topdir."gen_graph.php?action=bar&".$data."\" />";
     }
   }
   return $ret;
