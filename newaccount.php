@@ -192,10 +192,6 @@ $ctsnonutbm->add($frm);
 
 $cts->add($ctsnonutbm,true,true, "secnonutbm", false, true, $_REQUEST["mode"] == "nonutbm", false);
 
-
-$cts->add_paragraph("Les informations recueillies font l'objet d'un traitement informatique. Conformément à la loi « informatique et libertés » du 6 janvier 1978, vous bénéficiez d'un droit d'accès et de rectification aux informations qui vous concernent. Si vous souhaitez exercer ce droit et obtenir communication des informations vous concernant, veuillez vous adresser par courrier éléctronique à ae@utbm.fr ou par courrier postal à ae utbm, 6 Boulevard Anatole France, 90000 Belfort.");
-
-
 $site->add_contents($cts);
 
 $site->end_page();
