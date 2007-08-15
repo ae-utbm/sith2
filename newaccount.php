@@ -176,7 +176,7 @@ $ctsetu->add($frm);
 $cts->add($ctsetu,true,true, "secetu", false, true, $_REQUEST["mode"] == "etu", false);
 
 
-$ctsnonutbm = new contents("Personnes tierses ou future étudiant");
+$ctsnonutbm = new contents("Personnes tierses ou futur étudiant");
 $ctsnonutbm->add_paragraph("Pour pouvoir procéder à votre inscription vous devez posséder une adresse e-mail personnelle valide, votre inscription sera soumise à modération. Vous pourrez accéder au forum, à l'e-boutic et à jobétu.");
 $frm = new form("nonutbm","newaccount.php?mode=nonutbm",true);
 if ( isset($Erreur) && $mode == "nonutbm" )
