@@ -211,11 +211,12 @@ class aecms extends site
       {
         if ( $row[0] != CMS_PREFIX."config" )
         {
+          fwrite($f," array(\"".addslashes($row[0])."\",\"".addslashes($row[1])."\",\"".addslashes($row[2])."\"");
           $n++;
           if ( $n == $cnt )
-            fwrite($f," array(\"".addslashes($row[0])."\",\"".addslashes($row[1])."\",\"".addslashes($row[2])."\"));\n");
+            fwrite($f,"));\n");
           else
-            fwrite($f," array(\"".addslashes($row[0])."\",\"".addslashes($row[1])."\",\"".addslashes($row[2])."\"),\n");
+            fwrite($f,"),\n");
         }
       }
     }

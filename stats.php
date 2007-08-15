@@ -166,19 +166,19 @@ if ( $_REQUEST["view"] == "cotisants" )
     );  
   $cts->add($tbl,true);
   
-/*
-  $req = new requete($site->db,"SELECT ROUND(SUM(`ae_utl`='1')*100/$cotisants,1) AS `count`, ROUND(SUM(`ae_utl`='1')*100/SUM(IF (ancien_etudiant_utl='0' OR ae_utl='1',1,0)),1) AS `taux`,IF(`utl_etu_utbm`.`branche_utbm` IS NULL,'Autre',`utl_etu_utbm`.`branche_utbm`) AS `branche` FROM `utilisateurs` LEFT JOIN `utl_etu_utbm` USING(`id_utilisateur`) GROUP BY `branche` ORDER BY `count` DESC");
+  $req = new requete($site->db,"SELECT ROUND(SUM(`ae_utl`='1')*100/$cotisants,1) AS `count`, ROUND(SUM(`ae_utl`='1')*100/SUM(IF (ancien_etudiant_utl='0' OR ae_utl='1',1,0)),1) AS `taux`,IF(`utl_etu_utbm`.`departement_utbm` IS NULL,'na',`utl_etu_utbm`.`departement_utbm`) AS `dep` FROM `utilisateurs` LEFT JOIN `utl_etu_utbm` USING(`id_utilisateur`) GROUP BY `dep` ORDER BY `count` DESC");
   
   $tbl = new sqltable(
     "paie", 
     "Distribution par departement", $req, "", 
     "", 
-    array("count"=>"%","taux"=>"Taux de cotisants","branche"=>"Branche"), 
+    array("count"=>"%","taux"=>"Taux de cotisants","dep"=>"Branche"), 
     array(), array(),
-    array("branche"=>$UserBranches)
+    array("dep"=>$GLOBALS["utbm_departements"])
     );  
   $cts->add($tbl,true);
-*/
+
+  
   
   $month = date("m");
   
@@ -281,19 +281,20 @@ elseif ( $_REQUEST["view"] == "utilisateurs" )
     array()
     );  
   $cts->add($tbl,true);
-  /*
-  $req = new requete($site->db,"SELECT ROUND(COUNT(*)*100/$total,1) AS `count`, IF(`utl_etu_utbm`.`branche_utbm` IS NULL,'Autre',`utl_etu_utbm`.`branche_utbm`) AS `branche` FROM `utilisateurs` LEFT JOIN `utl_etu_utbm` USING(`id_utilisateur`) WHERE `ancien_etudiant_utl`='0'  GROUP BY `branche` ORDER BY `count` DESC");
+  
+  
+  $req = new requete($site->db,"SELECT ROUND(COUNT(*)*100/$total,1) AS `count`, IF(`utl_etu_utbm`.`departement_utbm` IS NULL,'na',`utl_etu_utbm`.`departement_utbm`) AS `dep` FROM `utilisateurs` LEFT JOIN `utl_etu_utbm` USING(`id_utilisateur`) WHERE `ancien_etudiant_utl`='0'  GROUP BY `dep` ORDER BY `count` DESC");
   
   $tbl = new sqltable(
-    "paie", 
+    "dep", 
     "Distribution par departement", $req, "", 
     "", 
-    array("count"=>"%","branche"=>"Branche"), 
+    array("count"=>"%","dep"=>"Branche"), 
     array(), array(),
-    array("branche"=>$UserBranches)
+    array("dep"=>$GLOBALS["utbm_departements"])
     );  
   $cts->add($tbl,true);
-  */
+  
   $month = date("m");
   
   if ( $month >= 2 && $month < 9 )
