@@ -591,7 +591,9 @@ function tableformat($block)
   
   $lines = split("\n",$block);
   $ret = "";
-  $rows = array();
+	$rows = array();
+	$gen_graph="not_yet";
+	$graph=array();
   for($r=0; $r < count($lines); $r++)
   {
     $line = $lines[$r];
@@ -601,7 +603,7 @@ function tableformat($block)
     {
       if($line[$chr] == '^')
       {
-        $c++;
+				$c++;
         $rows[$r][$c]['head'] = true;
         $rows[$r][$c]['data'] = '';
       }
@@ -613,8 +615,15 @@ function tableformat($block)
       }
       else
         $rows[$r][$c]['data'].= $line[$chr];
-    }
-  }
+		}
+		if ($c==1 && $gen_stat == "no_yet")
+			$gen_stat=true;
+		else
+		{
+			$gen_graph=false;
+			unset($graph);
+		}
+	}
 
   // et là les tables de la loi furent !
   if(isset($class))
@@ -624,7 +633,6 @@ function tableformat($block)
   for($r=0; $r < count($rows); $r++)
   {
     $ret .= "  <tr>\n";
-
     for ($c=0; $c < count($rows[$r]); $c++)
     {
       $cspan=1;
@@ -633,14 +641,17 @@ function tableformat($block)
       $data = trim($rows[$r][$c]['data']);
       $data = smileys($data);
       $head = $rows[$r][$c]['head'];
-
       while($c < count($rows[$r])-1 && $rows[$r][$c+1]['data'] == '')
       {
         $c++;
         $cspan++;
       }
-      if($cspan > 1)
-        $cspan = 'colspan="'.$cspan.'"';
+			if($cspan > 1)
+			{
+				$gen_graph=false;
+				unset($graph);
+				$cspan = 'colspan="'.$cspan.'"';
+			}
       else
         $cspan = '';
 
@@ -649,10 +660,45 @@ function tableformat($block)
       else
         $ret .= "    <td class=\"inline $format\" $cspan>$data</td>\n";
     }
-    $ret .= "  </tr>\n";
+		$ret .= "  </tr>\n";
+		if($gen_graph && !$head)
+		{
+			if(!ereg("^[0-9]+(\,[0-9]{1,2})?\%$",$rows[$r][0]))
+			{
+				$gen_graph=false;
+				unset($graph);
+			}
+			elseif(!isset($graph[$rows[$r][0]]))
+				$graph[$rows[0]]=str_replace("%", "",str_replace(",","."$row[$r][1]));
+			else
+				$graph[$rows[0]]=$graph[$rows[0]]+str_replace("%", "",str_replace(",","."$row[$r][1]));
+		}
+		elseif($gen_graph && $r>0)
+		{
+			$gen_graph==false;
+			unset($graph);
+		}
   }
   $ret .= "</table>\n\n";
 
+	if($gen_graph)
+	{
+		global $topdir;
+		require_once($topdir . "include/graph.inc.php");
+		if(!empty($graph)
+		{
+			$total=0;
+			foreach($graph as $value)
+				$total+=$value;
+
+			if($total==100)
+			{
+			}
+			else
+			{
+			}
+		}
+	}
   return $ret;
 }
 
