@@ -616,7 +616,7 @@ function tableformat($block)
       else
         $rows[$r][$c]['data'].= $line[$chr];
     }
-    if ($c==1 && $gen_stat == "no_yet")
+    if ($c==1 && $gen_stat == "not_yet")
       $gen_stat=true;
     else
     {
