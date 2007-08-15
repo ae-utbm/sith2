@@ -668,11 +668,11 @@ function tableformat($block)
     $ret .= "  </tr>\n";
     if($gen_graph && !$head)
     {
-      if(!ereg("^[0-9]+(\,[0-9]{1,2})?\%$",$rows[$r]["data"]))
+      if(!ereg("^[0-9]+(\,[0-9]{1,2})?\%$",$rows[$r][1]))
       {
         $gen_graph=false;
         unset($graph);
-        print_r($rows[$r]["data"]);
+        print_r($rows[$r]);
         exit();
       }
       elseif(!isset($graph[$rows[$r][0]]))
