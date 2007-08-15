@@ -28,7 +28,7 @@ require_once($topdir . "include/graph.inc.php");
 $values=explode(";",$_REQUEST["values"]);
 if(empty($values))
   exit();
-
+print_r($values);
 if ( $_REQUEST["action"] == "cam" )
 {
   $cam=new camembert(600,400);
