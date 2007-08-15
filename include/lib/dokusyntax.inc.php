@@ -618,12 +618,16 @@ function tableformat($block)
     }
     if ($c==1 && $gen_stat == "not_yet")
       $gen_stat=true;
-    else
+    elseif($c>1)
     {
-      print_r($rows[$r]);
       $gen_graph=false;
       unset($graph);
     }
+  }
+  if($gen_stat == "not_yet" )
+  {
+    $gen_graph=false;
+    unset($graph);
   }
 
   // et là les tables de la loi furent !
