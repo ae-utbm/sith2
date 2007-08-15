@@ -697,6 +697,7 @@ function tableformat($block)
       $data="";
       foreach($graph as $key => $value)
       {
+        print_r($value);
         if(!empty($data))
           $data.=";".str_replace(" ","_",$key)."|".$value;
         else
