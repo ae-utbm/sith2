@@ -28,7 +28,6 @@ require_once($topdir . "include/graph.inc.php");
 $values=explode(";",$_REQUEST["values"]);
 if(empty($values))
   exit();
-print_r($values);
 if ( $_REQUEST["action"] == "cam" )
 {
   $cam=new camembert(600,400);
@@ -36,7 +35,11 @@ if ( $_REQUEST["action"] == "cam" )
   {
     $value=explode("|", $value, 2);
     if(count($value)==2)
+    {
+      //$value[1]=(float)$value[1];
+      print_r($value[1]);
       $cam->data((float)$value[1], $value[0]);
+    }
     else
       exit();
   }
