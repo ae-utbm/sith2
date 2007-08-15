@@ -36,7 +36,7 @@ if ( $_REQUEST["action"] == "cam" )
   {
     $value=explode("|", $value, 2);
     if(count($value)==2)
-      $cam->data($value[1], str_replace("%20"," ",$value[0]));
+      $cam->data($value[1], $value[0]);
     else
       exit();
   }
@@ -51,7 +51,7 @@ if ( $_REQUEST["action"] == "bar" )
   {
     $value=explode("|", $value, 2);
     if(count($value)==2)
-      $datas[str_replace("%20"," ",$value[0])]=$value[1];
+      $datas[$value[0]]=$value[1];
     else
       exit();
   }

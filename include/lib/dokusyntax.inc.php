@@ -697,9 +697,9 @@ function tableformat($block)
       foreach($graph as $key => $value)
       {
         if(!empty($data))
-          $data.=";".$key."|".$value;
+          $data.=";".$key."|".str_replace(" ","_",$value);
         else
-          $data=$key."|".$value;
+          $data=$key."|".str_replace(" ","_",$value);
         $total=$total+(float)$value;
       }
 
