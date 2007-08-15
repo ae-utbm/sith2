@@ -674,9 +674,9 @@ function tableformat($block)
         unset($graph);
       }
       elseif(!isset($graph[$rows[$r][0]["data"]]))
-        $graph[$rows[$r][0]["data"]]=str_replace("%", "",str_replace(",",".",$row[$r][1]));
+        $graph[$rows[$r][0]["data"]]=str_replace("%", "",str_replace(",",".",$rows[$r][1]));
       else
-        $graph[$rows[$r][0]["data"]]=$graph[$rows[$r][0]["data"]]+str_replace("%", "",str_replace(",",".",$row[$r][1]["data"]));
+        $graph[$rows[$r][0]["data"]]=$graph[$rows[$r][0]["data"]]+str_replace("%", "",str_replace(",",".",$rows[$r][1]["data"]));
     }
     elseif($gen_graph && $r>0)
     {
