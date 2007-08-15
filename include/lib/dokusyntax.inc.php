@@ -704,7 +704,7 @@ function tableformat($block)
           $data=str_replace(" ","_",$key)."|".$value;
         $total=$total+(float)$value;
       }
-
+      $total=round($total,0);
       if($total==100)
         $ret .= "<img src=\"".$topdir."gen_graph.php?action=cam&values=".$data."\" />";
       else
