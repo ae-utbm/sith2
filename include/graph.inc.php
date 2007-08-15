@@ -532,6 +532,7 @@ class camembert
 
   function data($v, $com="")
   {
+    print_r($v);
     $this->tabValue[]= $v;
     $this->tabComment[]= $com;
   }
