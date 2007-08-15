@@ -685,7 +685,7 @@ function tableformat($block)
 	{
 		global $topdir;
 		require_once($topdir . "include/graph.inc.php");
-		if(!empty($graph)
+		if(!empty($graph))
 		{
 			$total=0;
 			foreach($graph as $value)
