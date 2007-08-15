@@ -701,6 +701,8 @@ function tableformat($block)
         else
           $data=$key."|".$value;
         $total=$total+(float)$value;
+        print_r($value);
+        exit();
       }
 
       if($total==100)
