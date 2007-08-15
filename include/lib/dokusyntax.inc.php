@@ -618,15 +618,15 @@ function tableformat($block)
     }
     if ($c==1 && $gen_stat == "not_yet")
       $gen_stat=true;
-    elseif($c>1)
-		{
-      print_r($rows[$r][1]);
+    elseif($c>1 && $gen_stat == "not_yet")
+    {
       $gen_graph=false;
       unset($graph);
     }
   }
   if($gen_stat == "not_yet" )
   {
+    print_r("debug");
     $gen_graph=false;
     unset($graph);
   }
