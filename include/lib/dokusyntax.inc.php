@@ -626,7 +626,6 @@ function tableformat($block)
   }
   if($gen_stat == "not_yet" )
   {
-    print_r("debug");
     $gen_graph=false;
     unset($graph);
   }
@@ -673,6 +672,7 @@ function tableformat($block)
       {
         $gen_graph=false;
         unset($graph);
+        print_r("debug");
       }
       elseif(!isset($graph[$rows[$r][0]]))
         $graph[$rows[0]]=str_replace("%", "",str_replace(",",".",$row[$r][1]));
