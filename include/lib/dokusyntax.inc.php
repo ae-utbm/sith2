@@ -674,7 +674,7 @@ function tableformat($block)
         unset($graph);
       }
       elseif(!isset($graph[$rows[$r][0]["data"]]))
-        $graph[$rows[$r][0]["data"]]=(float)str_replace("%", "",str_replace(",",".",$rows[$r][1]));
+        $graph[$rows[$r][0]["data"]]=(float)str_replace("%", "",str_replace(",",".",$rows[$r][1]["data"]));
       else
         $graph[$rows[$r][0]["data"]]=$graph[$rows[$r][0]["data"]]+(float)str_replace("%", "",str_replace(",",".",$rows[$r][1]["data"]));
     }
@@ -701,8 +701,6 @@ function tableformat($block)
         else
           $data=$key."|".$value;
         $total=$total+(float)$value;
-        print_r($value);
-        exit();
       }
 
       if($total==100)
