@@ -29,9 +29,6 @@ $values=explode(";",$_REQUEST["values"]);
 if(empty($values))
   exit();
 
-print_r($values);
-exit();
-
 if ( $_REQUEST["action"] == "cam" )
 {
   $cam=new camembert(600,400);
