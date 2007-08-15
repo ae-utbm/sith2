@@ -142,6 +142,9 @@ $cts = new contents("Inscription : Etape 1/3");
 $cts->add_paragraph("Vous êtes sur le point d'ouvrir un compte sur le site de l'association des etudiants de l'utbm.");
 
 
+
+
+
 $ctsutbm = new contents("Etudiant à l'utbm ou membre du personnel de l'utbm");
 $ctsutbm->add_paragraph("Pour pouvoir procéder à votre inscription vous devez posséder une adresse e-mail personnelle utbm.fr et y avoir accès. Votre inscription sera soumise à modération.");
 $frm = new form("utbm","newaccount.php?mode=utbm",true);
@@ -154,7 +157,8 @@ $frm->add_select_field("role","Votre fonction",$GLOBALS["utbm_roles"]);
 $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",false);
 $frm->add_submit("next","Etape suivante");
 $ctsutbm->add($frm);
-$cts->add($ctsutbm,true);
+
+$cts->add($ctsutbm,true,true, "secutbm", false, true, $_REQUEST["mode"] == "utbm", false);
 
 
 $ctsetu = new contents("Etudiant dans l'aide urbaine, ou dans une université de technologie");
@@ -169,10 +173,10 @@ $frm->add_select_field("ecole","Votre ecole",array("utt","utc","iut"));
 $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",false);
 $frm->add_submit("next","Etape suivante");
 $ctsetu->add($frm);
-$cts->add($ctsetu,true);
+$cts->add($ctsetu,true,true, "secetu", false, true, $_REQUEST["mode"] == "etu", false);
 
 
-$ctsnonutbm = new contents("Personnes tierses");
+$ctsnonutbm = new contents("Personnes tierses ou future étudiant");
 $ctsnonutbm->add_paragraph("Pour pouvoir procéder à votre inscription vous devez posséder une adresse e-mail personnelle valide, votre inscription sera soumise à modération. Vous pourrez accéder au forum, à l'e-boutic et à jobétu.");
 $frm = new form("nonutbm","newaccount.php?mode=nonutbm",true);
 if ( isset($Erreur) && $mode == "nonutbm" )
@@ -183,7 +187,11 @@ $frm->add_text_field("email","Votre adresse email","",true);
 $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",false);
 $frm->add_submit("next","Etape suivante");
 $ctsnonutbm->add($frm);
-$cts->add($ctsnonutbm,true);
+
+
+
+$cts->add($ctsnonutbm,true,true, "secnonutbm", false, true, $_REQUEST["mode"] == "nonutbm", false);
+
 
 $cts->add_paragraph("Les informations recueillies font l'objet d'un traitement informatique. Conformément à la loi « informatique et libertés » du 6 janvier 1978, vous bénéficiez d'un droit d'accès et de rectification aux informations qui vous concernent. Si vous souhaitez exercer ce droit et obtenir communication des informations vous concernant, veuillez vous adresser par courrier éléctronique à ae@utbm.fr ou par courrier postal à ae utbm, 6 Boulevard Anatole France, 90000 Belfort.");
 
