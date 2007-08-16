@@ -694,13 +694,18 @@ class histogram2 extends graph
     
     $v=$this->min;
     
-    while ( $v < $this->max )
+    while ( $v <= $this->max )
     {
       $y = $this->padding+(($this->max-$v)*$scale);
       
-      imageline ( $this->img, $this->padding, $y, $this->padding+5, $y, $this->colorArette);
+      imageline ( $this->img, $this->padding, $y, $this->padding+$this->ticksWidth, $y, $this->colorArette);
       
-      imagestring ( $this->img, 2, $this->padding+6, $y-(imagefontheight(2)/2), $v, $this->texte);
+      $y = $y-imagefontheight(2)-1;
+      
+      if ( $y < $this->padding )
+        $y = $this->padding+1;
+      
+      imagestring ( $this->img, 2, $this->padding+1, $y, $v, $this->texte);
       
       $v += $delta;
     }
