@@ -381,7 +381,7 @@ class histogram
 
     foreach ($plots as $key => $value)
     {
-      $out_data .= "\"".str_replace(" ","\n",$key)."\"" . "\t". $value."\n";  
+      $out_data .= "".str_replace(" ","\n",$key)."" . "\t". $value."\n";  
       if ($value >= $maxvalue)
         $maxvalue = $value;
       if ($value <= $minvalue)
