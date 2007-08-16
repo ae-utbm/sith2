@@ -695,8 +695,8 @@ function tableformat($block)
       $GLOBALS['js']=true;
       $_js = "<script language=\"JavaScript\">\n";
       $_js.= "function switchid(id,p){\n";
-      $_js.= "document.getElementById(id+\"Table\").style.display = 'none';\n";
-      $_js.= "document.getElementById(id+\"Graph\").style.display = 'none';\n";
+      $_js.= "document.getElementById(id+'Table').style.display = 'none';\n";
+      $_js.= "document.getElementById(id+'Graph').style.display = 'none';\n";
       $_js.= "document.getElementById(id+p).style.display = 'block';\n";
       $_js.= "}\n";
       $_js.="</script>\n";
