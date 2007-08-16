@@ -696,12 +696,12 @@ function tableformat($block)
       $total=0;
       $data="";
       foreach($graph as $key => $value)
-      {
+			{
         $value=str_replace(",",".",$value);
         if(!empty($data))
-          $data.=";".str_replace(" ","_",$key)."|".$value;
+          $data.=";".rawurlencode($key)."|".$value;
         else
-          $data=str_replace(" ","_",$key)."|".$value;
+          $data=rawurlencode($key)."|".$value;
         $total=$total+(float)$value;
       }
       $total=round($total,0);
