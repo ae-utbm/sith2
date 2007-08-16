@@ -699,6 +699,7 @@ function tableformat($block)
       $_js.= "document.getElementById(id+\"Graph\").style.display = 'none';\n";
       $_js.= "document.getElementById(id+p).style.display = 'block';\n";
       $_js.= "}\n";
+      $_js.="</script>\n";
     }
     else
       $_js="";
