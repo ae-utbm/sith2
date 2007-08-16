@@ -370,9 +370,8 @@ class histogram
                  "set style histogram cluster gap 1\n".
                  "set style fill solid border -1\n".
                  "set boxwidth 0.9\n".
-								 "set title \"".$title."\"\n".
-								 "tics out\n".
-                 "set xtics border in scale 0,0 mirror rotate by 90  offset character 0, 0, 0\n".
+                 "set title \"".$title."\"\n".
+                 "set xtics border nomirror offset character 0,0,0\n".
                  "plot '".$this->data_file."' using 2:xtic(1) title col";
 
     $minvalue = 0;
