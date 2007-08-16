@@ -37,6 +37,7 @@
 function doku2xhtml($text)
 {
   global $parser;
+  $js = "";
   $table   = array();
   $hltable = array();
 
@@ -151,7 +152,7 @@ function doku2xhtml($text)
     $text = str_replace($key,$val,$text);
 
   $text = trim($text);
-  return $text;
+  return $js.$text;
 }
 
 /**
@@ -688,6 +689,16 @@ function tableformat($block)
 
   if($gen_graph)
   {
+    global $js;
+    if(empty($js))
+    {
+      $js = "<script language=\"JavaScript\">\n";
+      $js.= "function switchid(id,p){\n";
+      $js.= "document.getElementById(id+\"Table\").style.display = 'none';\n";
+      $js.= "document.getElementById(id+\"Graph\").style.display = 'none';\n";
+      $js.= "document.getElementById(id+p).style.display = 'block';\n";
+      $js.= "}\n";
+    }
     global $topdir;
     require_once($topdir . "include/graph.inc.php");
     if(!empty($graph))
@@ -695,7 +706,7 @@ function tableformat($block)
       $total=0;
       $data="";
       foreach($graph as $key => $value)
-			{
+      {
         $value=str_replace(",",".",$value);
         if(!empty($data))
           $data.=";".rawurlencode($key)."|".$value;
@@ -704,10 +715,18 @@ function tableformat($block)
         $total=$total+(float)$value;
       }
       $total=round($total,0);
+      $id=substr(md5(microtime(true)), 0, 6);
+      $_ret ="<div id=\"".$id."\" class=\"tabs\">\n";
+      $_ret.="<span id=\"".$id."T\" class=\"selected\"><a href=\"javascript:next($id,\"Graph\")\" id=\"".$id."TA\" class=\"selected\" title=\"Tableu\">Tableu</a></span>\n";
+      $_ret.="<span id=\"".$id."G\"><a href=\"javascript:next($id,\"Table\")\" id=\"".$id."GA\" title=\"Graph\">Graph</a></span>\n";
+      $_ret.="</div>\n";
+      $_ret.="<div id=\"".$id."Table\" style=\"display:block;\">".$ret."</div>\n";
+      $_ret.="<div id=\"".$id."Graph\" style=\"display:none;\">"
       if($total==100)
-        $ret .= "<img src=\"".$topdir."gen_graph.php?action=cam&values=".$data."\" />";
+        $_ret.= "<img src=\"".$topdir."gen_graph.php?action=cam&values=".$data."\" /></div>\n";
       else
-        $ret .= "<img src=\"".$topdir."gen_graph.php?action=bar&values=".$data."\" />";
+        $_ret.= "<img src=\"".$topdir."gen_graph.php?action=bar&values=".$data."\" /></div>\n";
+      $ret = $_ret;
     }
   }
   return $ret;
