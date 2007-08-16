@@ -636,9 +636,11 @@ class histogram2 extends graph
   var $barWidth;
   var $barInterval;
   
+  var $ticksWidth=20;
+  
   function initCam()
   {
-    $this->drawWidth=$this->largeurImg - $this->largeurLegend - $this->padding - $this->padding;
+    $this->drawWidth=$this->largeurImg - $this->largeurLegend - $this->padding - $this->padding - $this->ticksWidth;
     $this->drawHeight=$this->hauteurImg - $this->padding - $this->padding;   
      
     $this->barInterval = $this->drawWidth/count($this->tabValue);
@@ -676,20 +678,62 @@ class histogram2 extends graph
     
     $scale = $this->drawHeight/($this->max-$this->min);
     
-    $x1=$this->padding + (($this->barInterval-$this->barWidth)/2);
+    
+    $delta = $this->max-$this->min;
+    
+    if ( $delta > 500 )
+      $delta=100;
+    elseif ( $delta > 100 )
+      $delta=50;         
+    elseif ( $delta > 50 )
+      $delta=10;   
+    elseif ( $delta > 5 )
+      $delta=5;   
+    elseif ( $delta > 5 )
+      $delta=1;       
+    
+    $v=$this->min;
+    
+    while ( $v < $this->max )
+    {
+      $y = $this->padding+(($this->max-$v)*$scale);
+      
+      imageline ( $this->img, $this->padding, $y, $this->padding+5, $y, $this->colorArette);
+      
+      imagestring ( $this->img, 2, $this->padding+6, $y-(imagefontheight(2)/2), $v, $this->texte);
+      
+      $v += $delta;
+    }
+    
+    
+    
+    
+    $x1=$this->ticksWidth+$this->padding + (($this->barInterval-$this->barWidth)/2);
     $col=count($this->tabColor);
 
-    foreach( $this->tabValue as $v )
+    foreach( $this->tabValue as $i => $v )
     {
       $col--;
       if($col<0)
         $col=count($this->tabColor)-1;
       
-      $y1=$this->padding+$this->drawHeight-(($this->max-$v)*$scale);
+      $y1=$this->padding+(($this->max-$v)*$scale);
       $y2=$this->padding+$this->drawHeight;
       $x2 = $x1+$this->barWidth;
       
       imagefilledrectangle($this->img,$x1,$y1,$x2,$y2,$this->tabColor[$col]);
+      
+      
+      $tw = imagefontwidth(2)*strlen("$v");
+      $tx = ($x1+$x2-$tw)/2;
+      $ty = $y1-imagefontheight(2);
+      
+      if( $ty < $this->padding ) 
+        $ty = $y1;
+        
+      imagestring ( $this->img, 2, $tx, $ty, "$v", $this->texte);
+        
+      
       
       $x1+=$this->barInterval;
     }
@@ -699,7 +743,7 @@ class histogram2 extends graph
 
   function markValeur()
   {
-    //TODO
+
   }
 
 }
