@@ -137,7 +137,8 @@ class notefrais extends stdentity
   function delete ()
   {
     $req = new delete ($this->dbrw,"cpta_notefrais", array("id_notefrais"=>$this->id));	   
-    $req = new delete ($this->dbrw,"cpta_notefrais_ligne", array("id_notefrais"=>$this->id));	    
+    $req = new delete ($this->dbrw,"cpta_notefrais_ligne", array("id_notefrais"=>$this->id));	   
+    $this->id = null; 
   }
   
   
