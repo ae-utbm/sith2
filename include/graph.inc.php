@@ -371,8 +371,7 @@ class histogram
                  "set style fill solid border -1\n".
                  "set boxwidth 0.9\n".
                  "set title \"".$title."\"\n".
-                 "set xtics border in scale 1,0.5 nomirror rotate by 45  offset character 0, 0, 0\n".
-                 "set xtics   (\"Austria\" 0.500000, \"France\" 1.50000, \"Germany\" 2.50000, \"Italy\" 3.50000)\n".
+                 "set xtics border nomirror offset character 0,0,0\n".
                  "plot '".$this->data_file."' using 2:xtic(1) title col";
 
     $minvalue = 0;
