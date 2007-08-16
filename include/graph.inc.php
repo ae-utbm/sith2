@@ -627,27 +627,73 @@ class graph
 
 class histogram2 extends graph
 {
+  var $min;
+  var $max;
+  
+  var $drawWidth;
+  var $drawHeight;
+  
+  var $barWidth;
+  var $barInterval;
   
   function initCam()
   {
-    //TODO
+    $this->drawWidth=$this->largeurImg - $this->largeurLegend - $this->padding - $this->padding;
+    $this->drawHeight=$this->hauteurImg - $this->padding - $this->padding;   
+     
+    $this->barInterval = $this->drawWidth/count($this->tabValue);
+    $this->barWidth = $this->barInterval/3;
   }
   
   function dataTreat()
   {
-    //TODO
+    $this->min=null;
+    $this->max=null;
+    
+    foreach( $this->tabValue as $v )
+    {
+      if ( is_null($this->min) || $v < $this->min )
+        $this->min = $v;
+        
+      if ( is_null($this->max) || $v > $this->max )
+        $this->max = $v;      
+    }
+    
+    if ( $this->min > 0 && ($this->max - $this->min) > 2*$this->min )
+      $this->min = 0;
+    
   }
   
   function ombrage()
   {
-    //TODO
   }
 
   function traceValues($img, $ombre)
   {
     $this->makePalette($ombre);
-    //TODO
+    
+    $scale = $this->drawHeight/($this->max-$this->min);
+    
+    $x1=$this->padding + (($this->barInterval-$this->barWidth)/2);
+    $col=count($this->tabColor);
+
+    foreach( $this->tabValue as $v )
+    {
+      $col--;
+      if($col<0)
+        $col=count($this->tabColor)-1;
+      
+      $y1=$this->padding+$this->drawHeight-(($this->max-$v)*$scale);
+      $y2=$this->padding+$this->drawHeight;
+      $x2 = $x1+$this->barWidth;
+      
+      imagefilledrectangle($this->img,$x1,$y1,$x2,$y2);
+      
+      $x1+=$this->barInterval;
+    }
+    
   }
+
 
   function markValeur()
   {

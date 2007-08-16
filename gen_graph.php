@@ -28,42 +28,31 @@ require_once($topdir . "include/graph.inc.php");
 $values=explode(";",utf8_decode($_REQUEST["values"]));
 if(empty($values))
   exit();
+  
+$val=array();
+foreach($values as $value)
+{
+  $value=explode("|", $value, 2);
+  if(count($value)==2)
+    $val[$value[0]]=$value[1];
+  else
+    exit();
+}
+  
 if ( $_REQUEST["action"] == "cam" )
 {
-  $val=array();
-  $cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
-  foreach($values as $value)
-  {
-    $value=explode("|", $value, 2);
-    if(count($value)==2)
-      $val[$value[0]]=$value[1];
-    else
-      exit();
-  }
+  $graph=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
   arsort($val);
-
-  foreach($val as $key=>$value)
-    $cam->data($value, $key);
-
-  $cam->png_render();
+}  
+elseif ( $_REQUEST["action"] == "bar" )
+  $graph=new histogram2(600,400,array(),2,0,0,0,0,0,0,10,150);
+else
   exit();
-}
 
-if ( $_REQUEST["action"] == "bar" )
-{
-  $datas = array("Nom" => "Pourcentage");
-  foreach($values as $value)
-  {
-    $value=explode("|", $value, 2);
-    if(count($value)==2)
-      $datas[$value[0]]=(float)$value[1];
-    else
-      exit();
-  }
-  $hist = new histogram($datas,"");
-  $hist->png_render();
-  $hist->destroy();
-  exit();
-}
+foreach($val as $key=>$value)
+  $graph->data($value, $key);
+
+$graph->png_render();
+exit();
 
 ?>
