@@ -695,20 +695,18 @@ function tableformat($block)
       $GLOBALS['js']=true;
       $_js = "<script language=\"JavaScript\">\n";
       $_js.= "function switchid(obj,id1,id2){\n";
-      //$_js.= "if(p==1)\n";
-      //$_js.= "{\n";
-      $_js.= "table = document.getElementById(id1);\n";
-      $_js.= "table.style.display = 'none';\n";
-      $_js.= "graph = document.getElementById(id2);\n";
-      $_js.= "graph.style.display = 'block';\n";
-      /*$_js.= "}\n";
-      $_js.= "else\n";
-      $_js.= "{\n";
-      $_js.= "graph = document.getElementById(id+2);\n";
-      $_js.= "graph.style.display = 'none';\n";
-      $_js.= "table = document.getElementById(id+1);\n";
-      $_js.= "table.style.display = 'block';\n";
-      $_js.= "}\n";*/
+      $_js.= "tohide = document.getElementById(id1);\n";
+      $_js.= "tohide.style.display = 'none';\n";
+      $_js.= "toshow = document.getElementById(id2);\n";
+      $_js.= "toshow.style.display = 'block';\n";
+      $_js.= "spanunselect = document.getElementById(id1+0);\n";
+      $_js.= "spanunselect.class='';\n";
+      $_js.= "aunselect = document.getElementById(id1+1);\n";
+      $_js.= "aunselect.class='';\n";
+      $_js.= "spanselect = document.getElementById(id1+0);\n";
+      $_js.= "spanselect.class='selected';\n";
+      $_js.= "aselect = document.getElementById(id1+1);\n";
+      $_js.= "aselect.class='selected';\n";
       $_js.= "}\n";
       $_js.="</script>\n";
     }
@@ -732,8 +730,8 @@ function tableformat($block)
       $total=round($total,0);
       $id=substr(md5(microtime(true)), 0, 6);
       $_ret ="<div id=\"".$id."\" class=\"tabs\">\n";
-      $_ret.="<span id=\"".$id."T\" class=\"selected\"><a href=\"javascript:switchid(this,'".$id."2','".$id."1');\" id=\"".$id."TA\" class=\"selected\" title=\"Tableau\">Tableau</a></span>\n";
-      $_ret.="<span id=\"".$id."G\"><a href=\"javascript:switchid(this,'".$id."1','".$id."2');\" id=\"".$id."GA\" title=\"Graph\">Graph</a></span>\n";
+      $_ret.="<span id=\"".$id."10\" class=\"selected\"><a href=\"javascript:switchid(this,'".$id."2','".$id."1');\" id=\"".$id."11\" class=\"selected\" title=\"Tableau\">Tableau</a></span>\n";
+      $_ret.="<span id=\"".$id."20\"><a href=\"javascript:switchid(this,'".$id."1','".$id."2');\" id=\"".$id."21\" title=\"Graph\">Graph</a></span>\n";
       $_ret.="</div>\n";
       $_ret.="<div id=\"".$id."1\" style=\"display:block;\">".$ret."</div>\n";
       $_ret.="<div id=\"".$id."2\" style=\"display:none;\">";
