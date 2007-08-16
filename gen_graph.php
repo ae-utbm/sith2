@@ -30,7 +30,7 @@ if(empty($values))
   exit();
 if ( $_REQUEST["action"] == "cam" )
 {
-  $cam=new camembert(600,400);
+  $cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
   foreach($values as $value)
   {
     $value=explode("|", $value, 2);
