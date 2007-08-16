@@ -659,8 +659,11 @@ class histogram2 extends graph
         $this->max = $v;      
     }
     
-    if ( $this->min > 0 && ($this->max - $this->min) > $this->min )
+    if ( $this->min >= 0 && $this->max <=100 )
+    {
       $this->min = 0;
+      $this->max = 100;
+    }
   }
   
   function ombrage()
