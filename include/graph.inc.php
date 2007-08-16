@@ -438,7 +438,7 @@ class graph
   var $texte = "#000000";
   var $colorLegende = "#E2E2E2";
 
-  function camembert($width=200,
+  function graph($width=200,
                      $height=200,
                      $color=array(),
                      $decimal=2,
