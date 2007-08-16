@@ -703,9 +703,9 @@ function tableformat($block)
       $_js.= "spanunselect.class='';\n";
       $_js.= "aunselect = document.getElementById(id1+1);\n";
       $_js.= "aunselect.class='';\n";
-      $_js.= "spanselect = document.getElementById(id1+0);\n";
+      $_js.= "spanselect = document.getElementById(id2+0);\n";
       $_js.= "spanselect.class='selected';\n";
-      $_js.= "aselect = document.getElementById(id1+1);\n";
+      $_js.= "aselect = document.getElementById(id2+1);\n";
       $_js.= "aselect.class='selected';\n";
       $_js.= "}\n";
       $_js.="</script>\n";
