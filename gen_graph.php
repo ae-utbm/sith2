@@ -36,7 +36,7 @@ if ( $_REQUEST["action"] == "cam" )
   {
     $value=explode("|", $value, 2);
     if(count($value)==2)
-      $val[$value[0]]=$value[1]);
+      $val[$value[0]]=$value[1];
     else
       exit();
   }
