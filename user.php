@@ -474,7 +474,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
     $frm->add_date_field("date_naissance","Date de naissance",$user->date_naissance);
     
-    $frm->add_select_field("taille_tshirt","Taille de t-shirt",array(0=>"-",
+    $frm->add_select_field("taille_tshirt","Taille de t-shirt (non publié***)",array(0=>"-",
       "XS"=>"XS","S"=>"S","M"=>"M","L"=>"L","XL"=>"XL","XXL"=>"XXL","XXXL"=>"XXXL"),$user->taille_tshirt);  
       
     if ( $user->utbm )
@@ -565,7 +565,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $cts->add($frm,true);
   
     $cts->add_paragraph("** Ces informations ne seront pas rendues publiques, elles pourrons être utilisées pour pouvoir vous contacter si l'association recherche des bénévoles particuliers.");
-    
+    $cts->add_paragraph("*** La taille de t-shirt est collectée à des fins statistiques, pour commander le nombre de t-shirt par taille au plus juste pour le cadeau offert avec une cotisation, ou lors des différents évenements.");
     $cts->add_paragraph("&nbsp;");
         
     $cts->add(new itemlist("Modification des autres informations",false,array(
