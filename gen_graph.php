@@ -30,17 +30,21 @@ if(empty($values))
   exit();
 if ( $_REQUEST["action"] == "cam" )
 {
+  $val=array();
   $cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
   foreach($values as $value)
   {
     $value=explode("|", $value, 2);
     if(count($value)==2)
-    {
-      $cam->data($value[1], $value[0]);
-    }
+      $val[$value[0]]=$value[1]);
     else
       exit();
   }
+  arsort($val);
+
+  foreach($val as $key=>$value)
+    $cam->data($value, $key);
+
   $cam->png_render();
   exit();
 }

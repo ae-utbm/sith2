@@ -692,7 +692,6 @@ function tableformat($block)
     require_once($topdir . "include/graph.inc.php");
     if(!empty($graph))
     {
-      arsort($graph);
       $total=0;
       $data="";
       foreach($graph as $key => $value)
