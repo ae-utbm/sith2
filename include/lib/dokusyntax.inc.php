@@ -721,7 +721,7 @@ function tableformat($block)
       $_ret.="<span id=\"".$id."G\"><a href=\"javascript:next($id,\"Table\")\" id=\"".$id."GA\" title=\"Graph\">Graph</a></span>\n";
       $_ret.="</div>\n";
       $_ret.="<div id=\"".$id."Table\" style=\"display:block;\">".$ret."</div>\n";
-      $_ret.="<div id=\"".$id."Graph\" style=\"display:none;\">"
+      $_ret.="<div id=\"".$id."Graph\" style=\"display:none;\">";
       if($total==100)
         $_ret.= "<img src=\"".$topdir."gen_graph.php?action=cam&values=".$data."\" /></div>\n";
       else
