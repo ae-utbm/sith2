@@ -687,7 +687,7 @@ class histogram2 extends graph
       $y2=$this->padding+$this->drawHeight;
       $x2 = $x1+$this->barWidth;
       
-      imagefilledrectangle($this->img,$x1,$y1,$x2,$y2);
+      imagefilledrectangle($this->img,$x1,$y1,$x2,$y2,$this->tabColor[$col]);
       
       $x1+=$this->barInterval;
     }
