@@ -370,7 +370,7 @@ class histogram
                  "set style histogram cluster gap 1\n".
                  "set style fill solid border -1\n".
                  "set boxwidth 0.9\n".
-                 "set title \"".str_replace(" ","_",$title)."\"\n".
+                 "set title \"".$title."\"\n".
                  "set xtics border nomirror offset character 0,0,0\n".
                  "plot '".$this->data_file."' using 2:xtic(1) title col";
 
@@ -381,7 +381,7 @@ class histogram
 
     foreach ($plots as $key => $value)
     {
-      $out_data .= $key . "\t". $value."\n";  
+      $out_data .= "\"".$key."\"" . "\t". $value."\n";  
       if ($value >= $maxvalue)
         $maxvalue = $value;
       if ($value <= $minvalue)
