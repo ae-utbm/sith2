@@ -696,7 +696,7 @@ function tableformat($block)
       $_js = "<script language=\"JavaScript\">\n";
       $_js.= "function switchid(id,p){\n";
       $_js.= "document.getElementById(id+'Table').style.display = 'none';\n";
-      $_js.= "document.getElementById(id+'Graph').style.display = 'none';\n";
+      $_js.= "document.getElementById(id).style.display = 'none';\n";
       $_js.= "document.getElementById(id+p).style.display = 'block';\n";
       $_js.= "}\n";
       $_js.="</script>\n";
@@ -724,7 +724,7 @@ function tableformat($block)
       $_ret.="<span id=\"".$id."T\" class=\"selected\"><a href=\"javascript:switchid($id,Graph);\" id=\"".$id."TA\" class=\"selected\" title=\"Tableau\">Tableau</a></span>\n";
       $_ret.="<span id=\"".$id."G\"><a href=\"javascript:switchid($id,Table);\" id=\"".$id."GA\" title=\"Graph\">Graph</a></span>\n";
       $_ret.="</div>\n";
-      $_ret.="<div id=\"".$id."Table\" style=\"display:block;\">".$ret."</div>\n";
+      $_ret.="<div id=\"".$id."\" style=\"display:block;\">".$ret."</div>\n";
       $_ret.="<div id=\"".$id."Graph\" style=\"display:none;\">";
       if($total==100)
         $_ret.= "<img src=\"".$topdir."gen_graph.php?action=cam&values=".$data."\" /></div>\n";
