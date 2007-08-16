@@ -371,7 +371,7 @@ class histogram
                  "set style fill solid border -1\n".
                  "set boxwidth 0.9\n".
                  "set title \"".$title."\"\n".
-                 "set xtics border scale 1,0.5 nomirror rotate by -45 offset character 0,0,0\n".
+                 "set xtics border scale 1,0.5 nomirror rotate by -45  offset character 0,0,0\n".
                  "plot '".$this->data_file."' using 2:xtic(1) title col";
 
     $minvalue = 0;
