@@ -732,8 +732,8 @@ function tableformat($block)
       $total=round($total,0);
       $id=substr(md5(microtime(true)), 0, 6);
       $_ret ="<div id=\"".$id."\" class=\"tabs\">\n";
-      $_ret.="<span id=\"".$id."T\" class=\"selected\"><a href=\"javascript:switchid(this,'".$id."1','".$id."2');\" id=\"".$id."TA\" class=\"selected\" title=\"Tableau\">Tableau</a></span>\n";
-      $_ret.="<span id=\"".$id."G\"><a href=\"javascript:switchid(this,'".$id."2','".$id."1');\" id=\"".$id."GA\" title=\"Graph\">Graph</a></span>\n";
+      $_ret.="<span id=\"".$id."T\" class=\"selected\"><a href=\"javascript:switchid(this,'".$id."2','".$id."1');\" id=\"".$id."TA\" class=\"selected\" title=\"Tableau\">Tableau</a></span>\n";
+      $_ret.="<span id=\"".$id."G\"><a href=\"javascript:switchid(this,'".$id."1','".$id."2');\" id=\"".$id."GA\" title=\"Graph\">Graph</a></span>\n";
       $_ret.="</div>\n";
       $_ret.="<div id=\"".$id."1\" style=\"display:block;\">".$ret."</div>\n";
       $_ret.="<div id=\"".$id."2\" style=\"display:none;\">";
