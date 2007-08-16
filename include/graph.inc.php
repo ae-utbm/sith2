@@ -10,7 +10,7 @@
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  * - Simon Lopez < simon DOT lopez AT ayolo DOT org >
  *
- * Ce fichier fait partie du site de l'Association des étudiants de
+ * Ce fichier fait partie du site de l'Association des Ã©tudiants de
  * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
@@ -37,7 +37,7 @@ class graphic
 {
   /* un identifiant */
   var $graph_id;
-  /* un tableau de coordoonnées
+  /* un tableau de coordoonnÃ©es
    *
    * $coords[k]['x'] => abscisse du k-ieme point
    *
@@ -57,7 +57,7 @@ class graphic
    * (ou tableau de titres si plusieurs graphes a tracer)
    */
   var $title;
-  /* une(des) legende(s) pour le tracé
+  /* une(des) legende(s) pour le tracÃ©
    * Si plusieurs, envoyer un tableau */
   var $func_legend;
 
@@ -303,7 +303,7 @@ class graphic
   }
 
   /* fonction de rendu du png
-   * Attention, le fichier est craché depuis sur la sortie standard !
+   * Attention, le fichier est crachÃ© depuis sur la sortie standard !
    */
   function png_render ()
   {
@@ -423,18 +423,10 @@ class histogram
   }
 }
 
-
-
-/*
- * une classe pour faire des camemberts :)
- */
-
-class camembert
+class graph
 {
+  
   var $img;
-  var $centreCam;
-  var $hauteurCam;
-  var $largeurCam;
   var $tabValeurColor;
   var $tabComment;
   var $nbrdata;
@@ -465,7 +457,7 @@ class camembert
     $this->decimal              = $decimal;
     $this->spacing              = $spacing;
     $this->prodondeurGraph      = $profondeur;  //Profondeur du graph en pixel (0 pour 2D)
-    $this->ombre                = $ombre;       //force de 0 à 1
+    $this->ombre                = $ombre;       //force de 0 Ã  1
     $this->inclinaison          = $inclinaison; // en %
     $this->ombrage              = $ombrage;
     $this->largeurLegend        = $largeurLegend;
@@ -496,9 +488,9 @@ class camembert
   function hexa2rvb($hexa)
   {
     $hexa = str_replace('#', '', $hexa);
-    for ($i=0; $i<3; $i++){
+    for ($i=0; $i<3; $i++)
       $tab[$i]=hexdec(substr($hexa, (2 * $i),2));
-    }
+    
     return $tab;
   }
 
@@ -512,7 +504,190 @@ class camembert
     $this->colorLegende= imagecolorallocate($this->img, $tabColor[0],$tabColor[1],$tabColor[2]);
   }
 
-  function drawGraph()
+  function data($v, $com="")
+  {
+    $this->tabValue[]= $v;
+    $this->tabComment[]= $com;
+  }
+  
+  function makePalette($ombre=0)
+  {
+    $colors = array (
+      array(  0, 255, 0),
+      array(101, 255, 0),
+      array(121, 255, 0),
+      array(154, 255, 0),
+      array(198, 255, 0),
+      array(255, 255, 0),
+      array(255, 198, 0),
+      array(255, 154, 0),
+      array(255, 121, 0),
+      array(255, 101, 0),
+      array(255, 0  , 0));
+      
+    foreach( $colors as $col )
+    {
+      $coef = 1.05-$this->ombre;
+      $this->tabColor[]=imagecolorallocate($this->img, $col[0], $col[1], $col[2] );
+      $this->tabColorOmbre[]=imagecolorallocate($this->img, $col[0]*$coef, $col[1]*$coef, $col[2]*$coef );
+    }
+  }
+  
+  function drawLegend()
+  {
+    $col=count($this->tabColor);
+    $x1=($this->largeurImg - $this->padding) - $this->largeurLegend;
+    imagefilledrectangle($this->img,
+                         $x1,
+                         $this->padding,
+                         ($this->largeurImg - $this->padding),
+                         ($this->hauteurImg - $this->padding),
+                         $this->colorLegende);
+
+    for ($i=0; $i<$this->nbrdata; $i++)
+    {
+      $col--;
+      if($col<0)
+        $col=count($this->tabColor)-1;
+      imagefilledrectangle($this->img,
+                           ($x1 +10),
+                           ($this->padding + 10 + ($i * 23)),
+                           ($x1 +20),
+                           ($this->padding +20 + ($i * 23)),
+                           $this->tabColor[$col]);
+      imagestring($this->img,
+                  2,
+                  ($x1 + 20 + 5 ),
+                  ($this->padding +20 + ($i * 23) - 12 ),
+                  $this->tabComment[$i].' ('.round($this->tabValue[$i], $this->decimal).')',
+                  $this->texte);
+    }
+  }
+
+
+  function png_render ($watermark=true)
+  {
+    if (function_exists('imageantialias'))
+      imageantialias($this->img, true);    
+    
+    $this->initColor();
+    
+    $this->initCam();
+    
+    $this->dataTreat();
+    
+    if ($this->ombrage>0)
+      $this->ombrage();
+
+    $this->traceValues($this->img, false);
+
+    $this->markValeur();
+
+    if ($this->largeurLegend>20)
+      $this->drawLegend();
+
+    if($watermark)
+    {
+      $img_wmarked = new img_watermark ($this->img);
+      $img_wmarked->output();
+    }
+    else
+    {
+      header("Content-Type: image/png");
+      imagepng($this->img);
+    }
+  }
+  
+  function initCam()
+  {
+    
+  }
+  
+  function dataTreat()
+  {
+    
+  }
+  
+  function ombrage()
+  {
+    
+  }
+
+  function traceValues($img, $ombre)
+  {
+    $this->makePalette($ombre);
+  }
+
+  function markValeur()
+  {
+    
+  }
+  
+}
+
+class histogram2 extends graph
+{
+  
+  function initCam()
+  {
+    //TODO
+  }
+  
+  function dataTreat()
+  {
+    //TODO
+  }
+  
+  function ombrage()
+  {
+    //TODO
+  }
+
+  function traceValues($img, $ombre)
+  {
+    $this->makePalette($ombre);
+    //TODO
+  }
+
+  function markValeur()
+  {
+    //TODO
+  }
+
+}
+
+
+
+
+
+/*
+ * une classe pour faire des camemberts :)
+ */
+class camembert extends graph
+{
+  var $centreCam;
+  var $hauteurCam;
+  var $largeurCam;
+
+  function camembert($width=200,
+                     $height=200,
+                     $color=array(),
+                     $decimal=2,
+                     $padding=20,
+                     $spacing=0,
+                     $profondeur=0,
+                     $ombre=0,
+                     $inclinaison=0,
+                     $ombrage=0,
+                     $largeurArette=10,
+                     $largeurLegend=0)
+  {
+    $this->graph($width,$height,$color,$decimal,$padding,$spacing,$profondeur,
+                 $ombre,$inclinaison,$ombrage,$largeurArette,$largeurLegend);
+
+  }
+
+  function initCam()
   {
     $this->centreXCam=($this->largeurImg - $this->largeurLegend - $this->padding - $this->padding) / 2 + $this->padding;
     $this->centreYCam=($this->hauteurImg - $this->padding - $this->padding) / 2  + $this->padding;
@@ -528,12 +703,6 @@ class camembert
 
     $this->largeurCam=($tab[3] * 2);
     $this->hauteurCam=(($tab[3] - ($tab[3] * $this->inclinaison / 100)) *2);
-  }
-
-  function data($v, $com="")
-  {
-    $this->tabValue[]= $v;
-    $this->tabComment[]= $com;
   }
 
   function dataTreat()
@@ -588,31 +757,9 @@ class camembert
   }
 
 
-  function traceArc($img, $ombre=0)
+  function traceValues($img, $ombre=0)
   {
-    $this->tabColor[]=imagecolorallocate($this->img, 255, 255, 0 );
-    //$this->tabColor[]=imagecolorallocate($this->img, 255, 220, 0 );
-    $this->tabColor[]=imagecolorallocate($this->img, 255, 198, 0 );
-    //$this->tabColor[]=imagecolorallocate($this->img, 255, 176, 0 );
-    $this->tabColor[]=imagecolorallocate($this->img, 255, 154, 0 );
-    //$this->tabColor[]=imagecolorallocate($this->img, 255, 143, 0 );
-    $this->tabColor[]=imagecolorallocate($this->img, 255, 121, 0 );
-    //$this->tabColor[]=imagecolorallocate($this->img, 255, 114, 0 );
-    $this->tabColor[]=imagecolorallocate($this->img, 255, 101, 0 );
-    //$this->tabColor[]=imagecolorallocate($this->img, 255, 68 , 0 );
-    $this->tabColor[]=imagecolorallocate($this->img, 255, 0  , 0 );
-
-    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (255*(1.05-$this->ombre)), 0 );
-    //$this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (220*(1.05-$this->ombre)), 0 );
-    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (198*(1.05-$this->ombre)), 0 );
-    //$this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (176*(1.05-$this->ombre)), 0 );
-    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (154*(1.05-$this->ombre)), 0 );
-    //$this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (143*(1.05-$this->ombre)), 0 );
-    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (121*(1.05-$this->ombre)), 0 );
-    //$this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (114*(1.05-$this->ombre)), 0 );
-    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (101*(1.05-$this->ombre)), 0 );
-    //$this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (68 *(1.05-$this->ombre)), 0 );
-    $this->tabColorOmbre[]=imagecolorallocate($this->img, (255*(1.05-$this->ombre)), (0  *(1.05-$this->ombre)), 0 );
+    $this->makePalette($ombre);
 
     $col=count($this->tabColor);
     if ($ombre!=0)
@@ -698,7 +845,7 @@ class camembert
       $indexColorTransparente = imagecolorexact($this->imgTemp,0,0,0);
         ImageColorTransparent($this->imgTemp,$indexColorTransparente);
 
-      $this->traceArc($this->imgTemp, $i);
+      $this->traceValues($this->imgTemp, $i);
 
       imagecopymerge($this->img,
                      $this->imgTemp,
@@ -711,69 +858,6 @@ class camembert
                      ($this->ombrage - $i));
 
       imagedestroy($this->imgTemp);
-    }
-  }
-
-
-  function legend()
-  {
-    $col=count($this->tabColor);
-    $x1=($this->largeurImg - $this->padding) - $this->largeurLegend;
-    imagefilledrectangle($this->img,
-                         $x1,
-                         $this->padding,
-                         ($this->largeurImg - $this->padding),
-                         ($this->hauteurImg - $this->padding),
-                         $this->colorLegende);
-
-    for ($i=0; $i<$this->nbrdata; $i++)
-    {
-      $col--;
-      if($col<0)
-        $col=count($this->tabColor)-1;
-      imagefilledrectangle($this->img,
-                           ($x1 +10),
-                           ($this->padding + 10 + ($i * 23)),
-                           ($x1 +20),
-                           ($this->padding +20 + ($i * 23)),
-                           $this->tabColor[$col]);
-      imagestring($this->img,
-                  2,
-                  ($x1 + 20 + 5 ),
-                  ($this->padding +20 + ($i * 23) - 12 ),
-                  $this->tabComment[$i].' ('.round($this->tabValue[$i], $this->decimal).')',
-                  $this->texte);
-    }
-  }
-
-
-  function png_render ($watermark=true)
-  {
-    $this->initColor();
-    $this->drawGraph();
-    $this->dataTreat();
-    if ($this->ombrage>0)
-      $this->ombrage();
-
-    $this->traceArc($this->img, false);
-
-    $this->markValeur();
-
-    if ($this->largeurLegend>20)
-      $this->legend();
-
-    if (function_exists('imageantialias'))
-      imageantialias($this->img, true);
-
-    if($watermark)
-    {
-      $img_wmarked = new img_watermark ($this->img);
-      $img_wmarked->output();
-    }
-    else
-    {
-      header("Content-Type: image/png");
-      imagepng($this->img);
     }
   }
 
