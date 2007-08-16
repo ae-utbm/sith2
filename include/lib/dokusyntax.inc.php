@@ -700,13 +700,13 @@ function tableformat($block)
       $_js.= "toshow = document.getElementById(id2);\n";
       $_js.= "toshow.style.display = 'block';\n";
       $_js.= "spanunselect = document.getElementById(id1+0);\n";
-      $_js.= "spanunselect.class='';\n";
+      $_js.= "spanunselect.className='';\n";
       $_js.= "aunselect = document.getElementById(id1+1);\n";
-      $_js.= "aunselect.class='';\n";
+      $_js.= "aunselect.className='';\n";
       $_js.= "spanselect = document.getElementById(id2+0);\n";
-      $_js.= "spanselect.class='selected';\n";
+      $_js.= "spanselect.className='selected';\n";
       $_js.= "aselect = document.getElementById(id2+1);\n";
-      $_js.= "aselect.class='selected';\n";
+      $_js.= "aselect.className='selected';\n";
       $_js.= "}\n";
       $_js.="</script>\n";
     }
