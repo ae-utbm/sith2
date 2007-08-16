@@ -543,8 +543,8 @@ class graph
                          ($this->largeurImg - $this->padding),
                          ($this->hauteurImg - $this->padding),
                          $this->colorLegende);
-
-    for ($i=0; $i<$this->nbrdata; $i++)
+                         
+    foreach( $this->tabComment as $i => $comment )
     {
       $col--;
       if($col<0)
@@ -559,7 +559,7 @@ class graph
                   2,
                   ($x1 + 20 + 5 ),
                   ($this->padding +20 + ($i * 23) - 12 ),
-                  $this->tabComment[$i].' ('.round($this->tabValue[$i], $this->decimal).')',
+                  $comment.' ('.round($this->tabValue[$i], $this->decimal).')',
                   $this->texte);
     }
   }
@@ -659,9 +659,8 @@ class histogram2 extends graph
         $this->max = $v;      
     }
     
-    if ( $this->min > 0 && ($this->max - $this->min) > 2*$this->min )
+    if ( $this->min > 0 && ($this->max - $this->min) > $this->min )
       $this->min = 0;
-    
   }
   
   function ombrage()
