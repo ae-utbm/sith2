@@ -25,7 +25,7 @@
 $topdir = "./";
 require_once($topdir . "include/graph.inc.php");
 
-$values=explode(";",$_REQUEST["values"]);
+$values=explode(";",utf8_decode($_REQUEST["values"]));
 if(empty($values))
   exit();
 if ( $_REQUEST["action"] == "cam" )
