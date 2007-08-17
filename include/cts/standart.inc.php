@@ -908,6 +908,8 @@ class form extends stdcontents
 	 */
 	function add_rights_field ( $basedb, $category=false, $admin=false, $context="sas" )
 	{
+	  global $wwwtopdir;
+	 
 		$this->add_hidden("magicform[processrights]",true);
 		
 		if ( $admin )
@@ -947,6 +949,9 @@ class form extends stdcontents
                     array( 0x4 => "Ajout de cat&eacute;gories"),$add );
 			}
 		}
+		
+		$this->add_info("<a href=\"".$wwwtopdir."article.php?name=docs:basedb\">Aide sur les droits d'accés</a>");
+		
 	}
 	
 	/** Ajoute un bouton de validation
