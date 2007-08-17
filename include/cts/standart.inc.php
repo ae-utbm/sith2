@@ -920,7 +920,7 @@ class form extends stdcontents
 		$this->buffer .= "<div class=\"formfield\">";
 		
 		if ( $GLOBALS["entitiescatalog"][$class][2] )
-			$this->buffer .= = "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$class][2]."\" class=\"icon\" alt=\"\" /> ";		
+			$this->buffer .= "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$class][2]."\" class=\"icon\" alt=\"\" /> ";		
 		
 		$this->buffer .= "<select name=\"$name\" id=\"sd".$uid."_field\"";
 		
