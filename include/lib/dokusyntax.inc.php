@@ -264,6 +264,7 @@ function format_headlines(&$table,&$hltable,&$text)
     $headline   = '';
     if($cnt - 1) $headline .= '</div>';
     $headline  .= '<a name="'.($cnt).'"></a>';
+    $headline  .= '<a name="'.$hl['name'].'"></a>';
     $headline  .= '<h'.$hl['level'].'>';
     $headline  .= $hl['name'];
     $headline  .= '</h'.$hl['level'].'>';
