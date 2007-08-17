@@ -1050,7 +1050,7 @@ class form extends stdcontents
     if ( !class_exists($entityclass) 
          && isset($GLOBALS["entitiescatalog"][$entityclass][5]) 
          && $GLOBALS["entitiescatalog"][$entityclass][5] )
-      include($topdir."include/entities/".$GLOBALS["entitiescatalog"][$entityclass][5]);
+      require_once($topdir."include/entities/".$GLOBALS["entitiescatalog"][$entityclass][5]);
 		
 		if (class_exists($entityclass)) // Nouvelle méthode
 		{

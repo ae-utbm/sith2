@@ -287,7 +287,7 @@ class group extends stdentity
     if ( $this->id == 10008 ) 
       return "utilisateurs dont le compte a été modéré";
 
-    return $this->description;
+    return trim($this->description);
   }
   
 } 
