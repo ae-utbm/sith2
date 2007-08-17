@@ -1047,7 +1047,7 @@ class form extends stdcontents
 	{
 		global $topdir;
 
-   echo $topdir;
+   echo "HEHO:".$topdir."|";
 
     if ( !class_exists($entityclass) 
          && isset($GLOBALS["entitiescatalog"][$entityclass][5]) 
