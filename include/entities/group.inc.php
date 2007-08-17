@@ -240,8 +240,8 @@ class group extends stdentity
   {
     if ( $this->id > 40000 )
       return "membres de la promo ".sprintf("%02d",$this->id-40000)." de l'utbm";
-    
-    if ( $this->id > 30000 || $this->id > 20000 )
+      
+    if ( $this->id > 20000 )
     {
       if ( $this->id > 30000 )
       {
@@ -257,8 +257,7 @@ class group extends stdentity
       
       $asso = new asso($this->db);
       $asso->load_by_id($id_asso);
-      
-      retrun "membres de ".$asso->nom.$append;
+      return "membres de ".$asso->nom.$append;
     }
 
     if ( $this->id == 10000 ) 
