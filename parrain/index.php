@@ -60,7 +60,7 @@ if ( !$site->user->is_valid() )
 {
   $cts = new contents("Pré-parrainage",
                       "Pour accéder à cette page veuillez vous <a href=\"../index.php\">connecter</a> ".
-                      "ou <a href=\"../newaccount.php\">Creer un compte</a>.");
+                      "ou <a href=\"../newaccount.php?only_mode=futurutbm\">Creer un compte</a>.");
   $site->add_contents($cts);
   $site->end_page();
   exit();

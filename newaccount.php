@@ -186,7 +186,7 @@ if ( is_null($only_mode) || $only_mode == "etu" )
     $frm->error($Erreur);
   $frm->add_text_field("nom","Votre nom","",true);
   $frm->add_text_field("prenom","Votre prenom","",true);
-  $frm->add_text_field("email","Votre adresse email","",true);
+  $frm->add_text_field("email","Votre adresse email personnelle (pas utbm.fr)","",true);
   $frm->add_select_field("ecole","Votre ecole",array("utt","utc","iut"));
   $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",false);
   $frm->add_submit("next","Etape suivante");
@@ -203,7 +203,7 @@ if ( is_null($only_mode) || $only_mode == "nonutbm" )
     $frm->error($Erreur);
   $frm->add_text_field("nom","Votre nom","",true);
   $frm->add_text_field("prenom","Votre prenom","",true);
-  $frm->add_text_field("email","Votre adresse email","",true);
+  $frm->add_text_field("email","Votre adresse email personnelle (pas utbm.fr)","",true);
   $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",false);
   $frm->add_submit("next","Etape suivante");
   $ctsnonutbm->add($frm);
