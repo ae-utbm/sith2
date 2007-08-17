@@ -676,9 +676,6 @@ class histogram2 extends graph
   {
     $this->makePalette($ombre);
     
-    $scale = $this->drawHeight/($this->max-$this->min);
-    
-    
     $delta = $this->max-$this->min;
     
     if ( $delta > 500 )
@@ -687,13 +684,17 @@ class histogram2 extends graph
       $delta=50;         
     elseif ( $delta > 50 )
       $delta=10;   
-    elseif ( $delta > 5 )
+    elseif ( $delta > 10 )
       $delta=5;   
     elseif ( $delta > 5 )
       $delta=1;       
     
+    $this->min = floor($this->min/$delta)*$delta;
+    
     $v=$this->min;
     
+    $scale = $this->drawHeight/($this->max-$this->min);
+
     while ( $v <= $this->max )
     {
       $y = $this->padding+(($this->max-$v)*$scale);
