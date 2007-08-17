@@ -171,16 +171,17 @@ class notefrais extends stdentity
   function update_fields()
   {
 		$req = new requete($this->db, "SELECT SUM(prix_ligne_notefrais) FROM `cpta_notefrais_ligne`
-				WHERE `id_notefrais` = '" . mysql_real_escape_string($this->id) . "');
+				WHERE `id_notefrais` = '" . mysql_real_escape_string($this->id) . "'");
 				
     list($this->total) = $req->get_row();
     
     $this->total_payer = $this->total-$this->avance;
     
     $req = new update ($this->dbrw,
-            "cpta_notefrais", array(
+            "cpta_notefrais",
+            array(
               "total_notefrais"=>$this->total,
-              "total_payer_notefrais"=>$this->total_payer,
+              "total_payer_notefrais"=>$this->total_payer
             ),
             array("id_notefrais"=>$this->id));
   }
