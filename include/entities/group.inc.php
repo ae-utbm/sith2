@@ -230,6 +230,67 @@ class group extends stdentity
   {
     return false;
   }
+  
+  function can_describe()
+  {
+    return true; 
+  }
+
+  function get_description()
+  {
+    if ( $this->id > 40000 )
+      return "membres de la promo ".sprintf("%02d",$this->id-40000)." de l'utbm";
+    
+    if ( $this->id > 30000 || $this->id > 20000 )
+    {
+      if ( $this->id > 30000 )
+      {
+        $id_asso = $this->id-30000;
+        $append = " qui ont un rôle supérieur ou égal à \"Membre du bureau\"";
+      }
+      else
+      {
+        $id_asso = $this->id-20000;
+        $append = "";
+      }
+      require_once($topdir . "include/entities/asso.inc.php");
+      
+      $asso = new asso($this->db);
+      $asso->load_by_id($id_asso);
+      
+      retrun "membres de ".$asso->nom.$append;
+    }
+
+    if ( $this->id == 10000 ) 
+      return "cotisants à l'AE";
+      
+    if ( $this->id == 10001 ) 
+      return "etudiants, ancien étudiants, membres du personnel et enseignants à l'utbm";
+      
+    if ( $this->id == 10002 ) 
+      return "anciens étudiants";
+      
+    if ( $this->id == 10003 ) 
+      return "étudiants";
+      
+    if ( $this->id == 10004 ) 
+      return "étudiants de l'utbm";
+      
+    if ( $this->id == 10005 ) 
+      return "anciens étudiants de l'utbm";
+      
+    if ( $this->id == 10006 ) 
+      return "étudiants et anciens étudiants de l'utbm";
+      
+    if ( $this->id == 10007 ) 
+      return "étudiants et anciens étudiants";
+      
+    if ( $this->id == 10008 ) 
+      return "utilisateurs dont le compte a été modéré";
+
+    return $this->description;
+  }
+  
 } 
 
 /**

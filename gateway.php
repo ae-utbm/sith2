@@ -360,6 +360,35 @@ elseif ( $_REQUEST['module']=="entinfo" )
   exit();  
 
 }
+elseif ( $_REQUEST['module']=="entdesc" )
+{
+  $class = $_REQUEST['class'];
+  
+  if ( class_exists($class) )
+		$std = new $class($site->db);
+		
+  elseif ( isset($GLOBALS["entitiescatalog"][$class][5]) && $GLOBALS["entitiescatalog"][$class][5] )
+  {
+    include($topdir."include/entities/".$GLOBALS["entitiescatalog"][$class][5]);
+    if ( class_exists($class) )
+		  $std = new $class($site->db);
+  }
+  
+  $std->load_by_id($_REQUEST['id']);
+  
+  if ( !$std->is_valid() )
+  {
+    echo "?";
+    exit();  
+  }
+  
+  if ( !$std->allow_user_consult($site->user) )
+    exit();  
+  
+  echo htmlentities($std->get_description(),ENT_NOQUOTES,"UTF-8");
+  
+  exit();  
+}
 elseif ( $_REQUEST['module']=="fsfield" )
 {
   $class = $_REQUEST['class'];

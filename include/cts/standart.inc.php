@@ -496,13 +496,7 @@ class form extends stdcontents
 		    
 		  $values = $instance->enumerate ( $none, $conds );
 
-		  $prefix="";
-		
-		  if ( $GLOBALS["entitiescatalog"][$entityclass][2] )
-			  $prefix = "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$classname][2]."\" class=\"icon\" alt=\"\" /> ";
-		  
-		  $this->add_select_field ( $name, $title, $values, $instance->id, $prefix );
-		  
+		  $this->add_select_list_entity_field ( $name, $title, $values, $instance );
 		  return;
 		}
 		
@@ -622,30 +616,29 @@ class form extends stdcontents
 	}
 	
 	
-	/** Ajoute une barre de bouton de syntaxe DokuWiki
-         * @param nom du textarea concerné (attribut 'name' et non pas 'id' !)
-         */
-        function add_dokuwiki_toolbar($area_name)
-        {
-		global $wwwtopdir;
-
-                $this->buffer .= "<div class=\"formrow\">\n";
-                $this->buffer .= "<div class=\"formlabel\"></div>\n";
-                $this->buffer .= "<div class=\"formfield\">\n";
-                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/bold.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'**','**');\" /> \n";
-                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/italic.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'//','//');\" />\n";
-                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/underline.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'__','__');\" />\n";
-                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/strike.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'<del>','</del>');\" />\n";
-                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h1.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'======','======');\" />\n";
-                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h2.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'=====','=====');\" />\n";
-                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h3.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'====','====');\" />\n";
-                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h4.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'===','===');\" />\n";
-                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h5.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'==','==');\" />\n";
-                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/link.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'[[',']]');\" />\n";
-                $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/image.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'{{','}}', 'lien vers votre image');\" />\n";
-                $this->buffer .= "</div>\n";
-                $this->buffer .= "</div>\n";
-        }
+  /** Ajoute une barre de bouton de syntaxe DokuWiki
+   * @param nom du textarea concerné (attribut 'name' et non pas 'id' !)
+   */
+  function add_dokuwiki_toolbar($area_name)
+  {
+    global $wwwtopdir;
+    $this->buffer .= "<div class=\"formrow\">\n";
+    $this->buffer .= "<div class=\"formlabel\"></div>\n";
+    $this->buffer .= "<div class=\"formfield\">\n";
+    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/bold.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'**','**');\" /> \n";
+    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/italic.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'//','//');\" />\n";
+    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/underline.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'__','__');\" />\n";
+    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/strike.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'<del>','</del>');\" />\n";
+    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h1.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'======','======');\" />\n";
+    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h2.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'=====','=====');\" />\n";
+    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h3.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'====','====');\" />\n";
+    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h4.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'===','===');\" />\n";
+    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h5.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'==','==');\" />\n";
+    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/link.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'[[',']]');\" />\n";
+    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/image.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'{{','}}', 'lien vers votre image');\" />\n";
+    $this->buffer .= "</div>\n";
+    $this->buffer .= "</div>\n";
+  }
 
 	
 	/** Ajoute un champ mot de passe au formulaire
@@ -902,6 +895,63 @@ class form extends stdcontents
 	
 	}	
 	
+	
+	/** Ajoute une liste à choix au formulaire
+	 * Valeur à récupérer dans $_REQUEST[$name] (clé de la valeur selectionée)
+	 * @param $name		Nom du champ
+	 * @param $title	Libéllé du champ
+	 */	
+	function add_select_list_entity_field ( $name, $title, $values, $std )
+	{
+	  global $wwwtopdir;
+	  
+	  static $uid=0;
+	  $uid++;
+	 
+		if (empty($values))
+			return;
+
+    $class=get_class($std);
+
+		if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];	
+		
+		$this->buffer .= "<div class=\"formrow\">";
+		$this->_render_name($name,$title,$required);
+		$this->buffer .= "<div class=\"formfield\">";
+		
+		if ( $GLOBALS["entitiescatalog"][$class][2] )
+			$prefix = "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$class][2]."\" class=\"icon\" alt=\"\" /> ";		
+		
+		$this->buffer .= "<select name=\"$name\" id=\"sd".$uid."_field\"";
+		
+		if ( $std->can_describe() )
+		  $this->buffer .= "onchange=\"openInContents('sd".$uid."_desc', '".$wwwtopdir."gateway.php', 'module=entdesc&class=".$class."&id='+document.getElementById('sd".$uid."_field').value)\"";
+		
+		$this->buffer .= ">\n";
+
+		foreach ( $values as $key => $item )
+		{
+		  $this->buffer .= "<option value=\"$key\"";
+		  if ( $value == $key )
+			  $this->buffer .= " selected=\"selected\"";
+		  $this->buffer .= ">".htmlentities($item,ENT_NOQUOTES,"UTF-8")."</option>\n";
+		}
+
+		$this->buffer .= "</select>";
+		
+		if ( $std->can_describe() )
+		{
+		  $this->buffer .= "(<span id=\"sd".$uid."_desc\">";
+		  if ( $std->is_valid() )
+		  	$this->buffer .= htmlentities($std->can_describe(),ENT_NOQUOTES,"UTF-8");
+      else
+        $this->buffer .= "rien";
+		  $this->buffer .= "</span>)";
+		}
+		
+		$this->buffer .= "</div>\n</div>";
+	}
+	
 	/**
 	 * 
 	 * 
@@ -1001,6 +1051,9 @@ class form extends stdcontents
 		{
 		  $std = new $entityclass($db);
 		  $values = $std->enumerate ( $none, $conds );
+		  
+		  $this->add_select_list_entity_field ( $name, $title, $values, $std );
+		  return;
 		}		
 		elseif ( $entityclass == "group") // déprécié
 		{

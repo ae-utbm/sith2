@@ -376,6 +376,24 @@ class stdentity
     return $path;
   }
   
+  /**
+   * Check if class can describe an instance
+   */
+  function can_describe()
+  {
+    return false; 
+  }
+  
+  /**
+   * Get description of instance
+   * @see can_describe
+   */
+  function get_description()
+  {
+    return "";
+  }
+  
+  
 }
 
 
