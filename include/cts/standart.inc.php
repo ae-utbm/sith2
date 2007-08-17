@@ -932,7 +932,7 @@ class form extends stdcontents
 		foreach ( $values as $key => $item )
 		{
 		  $this->buffer .= "<option value=\"$key\"";
-		  if ( $value == $key )
+		  if ( $std->id == $key )
 			  $this->buffer .= " selected=\"selected\"";
 		  $this->buffer .= ">".htmlentities($item,ENT_NOQUOTES,"UTF-8")."</option>\n";
 		}
