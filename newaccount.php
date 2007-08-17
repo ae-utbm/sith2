@@ -160,7 +160,7 @@ $cts = new contents("Inscription : Etape 1/3");
 
 $cts->add_paragraph("Vous êtes sur le point d'ouvrir un compte sur le site de l'association des etudiants de l'utbm.");
 
-if ( is_null($only_mode) || $only_mode == "utbm" )
+if ( is_null($only_mode) || $only_mode == "utbm" )
 {
   $ctsutbm = new contents("Etudiant à l'utbm ou membre du personnel de l'utbm");
   $ctsutbm->add_paragraph("Pour pouvoir procéder à votre inscription vous devez posséder une adresse e-mail personnelle utbm.fr et y avoir accès. Votre inscription sera soumise à modération.");
@@ -177,7 +177,7 @@ if ( is_null($only_mode) || $only_mode == "utbm" )
   $cts->add($ctsutbm,true,true, "secutbm", false, true, $mode == "utbm", false);
 }
 
-if ( is_null($only_mode) || $only_mode == "etu" )
+if ( is_null($only_mode) || $only_mode == "etu" )
 {
   $ctsetu = new contents("Etudiant dans l'aire urbaine, ou dans une université de technologie");
   $ctsetu->add_paragraph("Pour pouvoir procéder à votre inscription vous devez posséder une adresse e-mail personnelle valide, votre inscription sera soumise à modération, vous pourrez cependant accèder à quelques services en attendant.");
@@ -194,7 +194,7 @@ if ( is_null($only_mode) || $only_mode == "etu" )
   $cts->add($ctsetu,true,true, "secetu", false, true, $mode == "etu", false);
 }
 
-if ( is_null($only_mode) || $only_mode == "nonutbm" )
+if ( is_null($only_mode) || $only_mode == "nonutbm" )
 {
   $ctsnonutbm = new contents("Personnes tierces ou futur étudiant");
   $ctsnonutbm->add_paragraph("Pour pouvoir procéder à votre inscription vous devez posséder une adresse e-mail personnelle valide, votre inscription sera soumise à modération. Vous pourrez accéder au forum, à l'e-boutic et à jobétu.");
