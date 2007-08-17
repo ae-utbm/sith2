@@ -91,8 +91,6 @@ if ( isset($_REQUEST["mode"]) )
     $site->start_page("services","Inscription");
     $cts = new contents("Inscription : Etape 2/3");    
     
-    $cts->add_paragraph("<a href=\"article.php?name=docs:inscription\">Aide</a>");
-
     $frm = new form("createaccount","newaccount.php?mode=$mode",true);
     $frm->allow_only_one_usage();
     $frm->add_hidden("action","create");
@@ -129,7 +127,14 @@ if ( isset($_REQUEST["mode"]) )
 
     $cts->add($frm);
     
-    $cts->add_paragraph("Les informations recueillies font l'objet d'un traitement informatique. Conformément à la loi « informatique et libertés » du 6 janvier 1978, vous bénéficiez d'un droit d'accès et de rectification aux informations qui vous concernent. Si vous souhaitez exercer ce droit et obtenir communication des informations vous concernant, veuillez vous adresser par courrier éléctronique à ae@utbm.fr ou par courrier postal à ae utbm, 6 Boulevard Anatole France, 90000 Belfort.");
+    $cts->add_paragraph("Les informations recueillies font l'objet d'un traitement informatique. Conformément à la loi « informatique et libertés » du 6 janvier 1978, vous bénéficiez d'un droit d'accès et de rectification aux informations qui vous concernent. Si vous souhaitez exercer ce droit et obtenir communication des informations vous concernant, veuillez vous adresser par courrier éléctronique à ae arroba utbm point fr ou par courrier postal à ae utbm, 6 Boulevard Anatole France, 90000 Belfort.");
+    
+    $list = new itemlist("Voir aussi");
+    $list->add("<a href=\"article.php?name=docs:inscription\">Documentation : Inscription</a>");
+    $list->add("<a href=\"article.php?name=docs:inscription\">Documentation : Inscription : Questions et problèmes fréquents</a>");
+    $list->add("<a href=\"article.php?name=docs:index\">Documentation</a>");
+    $cts->add($list,true);    
+    
     
     $site->add_contents($cts); 
     $site->end_page();
@@ -142,8 +147,6 @@ $site->start_page("services","Inscription");
 $cts = new contents("Inscription : Etape 1/3");
 
 $cts->add_paragraph("Vous êtes sur le point d'ouvrir un compte sur le site de l'association des etudiants de l'utbm.");
-
-$cts->add_paragraph("<a href=\"article.php?name=docs:inscription\">Aide</a>");
 
 $ctsutbm = new contents("Etudiant à l'utbm ou membre du personnel de l'utbm");
 $ctsutbm->add_paragraph("Pour pouvoir procéder à votre inscription vous devez posséder une adresse e-mail personnelle utbm.fr et y avoir accès. Votre inscription sera soumise à modération.");
@@ -191,6 +194,14 @@ $ctsnonutbm->add($frm);
 
 
 $cts->add($ctsnonutbm,true,true, "secnonutbm", false, true, $_REQUEST["mode"] == "nonutbm", false);
+
+
+$list = new itemlist("Voir aussi");
+$list->add("<a href=\"article.php?name=docs:inscription\">Documentation : Inscription</a>");
+$list->add("<a href=\"article.php?name=docs:inscription\">Documentation : Inscription : Questions et problèmes fréquents</a>");
+$list->add("<a href=\"article.php?name=docs:index\">Documentation</a>");
+$cts->add($list,true);
+
 
 $site->add_contents($cts);
 

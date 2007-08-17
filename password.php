@@ -85,9 +85,14 @@ if ( $form )
 	$frm->add_text_field("email","Adresse e-mail","",true);
 	$frm->add_submit("submit","Envoyer");
 	$cts->add($frm);
-	 
-	
 }
+
+$list = new itemlist("Voir aussi");
+$list->add("<a href=\"article.php?name=docs:inscription\">Documentation : Inscription : Questions et problèmes fréquents</a>");
+$list->add("<a href=\"article.php?name=docs:profil\">Documentation : Profil personnel : Questions et problèmes fréquents</a>");
+$list->add("<a href=\"article.php?name=docs:index\">Documentation</a>");
+$cts->add($list,true);
+
 $site->add_contents($cts);
 $site->end_page(); 	
 exit();
