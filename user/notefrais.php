@@ -117,7 +117,7 @@ if ( $notefrais->is_valid() )
 
   $cts->add_paragraph("Commentaire : ".$notefrais->commentaire);
   
-  $req = new requete("SELECT designation_ligne_notefrais, prix_ligne_notefrais,num_notefrais_ligne FROM cpta_notefrais_ligne WHERE id_notefrais='".$notefrais->id."'");
+  $req = new requete($site->db,"SELECT designation_ligne_notefrais, prix_ligne_notefrais,num_notefrais_ligne FROM cpta_notefrais_ligne WHERE id_notefrais='".$notefrais->id."'");
   
   $tbl = new sqltable(
     "listdep",
@@ -149,7 +149,7 @@ if ( $notefrais->is_valid() )
 }
 else
 {
-  $req = new requete("SELECT id_notefrais,date_notefrais,commentaire_notefrais,valide_notefrais FROM cpta_notefrais_ligne WHERE id_utilisateur='".$user->id."' ORDER BY id_notefrais");
+  $req = new requete($site->db,"SELECT id_notefrais,date_notefrais,commentaire_notefrais,valide_notefrais FROM cpta_notefrais_ligne WHERE id_utilisateur='".$user->id."' ORDER BY id_notefrais");
   
   $tbl = new sqltable(
     "listnf",
