@@ -106,6 +106,18 @@ if ( $notefrais->is_valid() )
   $asso = new asso($site->db);
   $asso->load_by_id($notefrais->id_asso);
   
+  if ( !$notefrais->valide )
+  {
+    $cts->add_paragraph("Cette note de frais n'a pas encore été validée par le trésorier.");
+    $cts->add_paragraph("Si vous ne l'avez pas encore fait, vous devez <a href=\"notefrais.php?id_utilisateur=".$user->id."&amp;id_notefrais=".$notefrais->id."&amp;action=print\">l'imprimer</a>, la signer et la faire parvenir au trésorier avec tous les justificatifs.");
+    $cts->add_paragraph("<a href=\"notefrais.php?id_utilisateur=".$user->id."&amp;id_notefrais=".$notefrais->id."&amp;action=print\">Imprimer</a>");
+  }
+  else
+  {
+    $cts->add_paragraph("Cette note de frais a été validée par le trésorier. Si vous n'avez pas encore été remboursé, cela ne devrai pas tarder.");
+    $cts->add_paragraph("<a href=\"notefrais.php?id_utilisateur=".$user->id."&amp;id_notefrais=".$notefrais->id."&amp;action=print\">Re-Imprimer</a>");
+  }
+  
   $cts->add_title(2,"Note de frais n°".$notefrais->id);
   
   if ( $asso->id_parent )
