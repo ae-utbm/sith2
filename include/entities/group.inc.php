@@ -238,6 +238,8 @@ class group extends stdentity
 
   function get_description()
   {
+    global $topdir;
+    
     if ( $this->id > 40000 )
       return "membres de la promo ".sprintf("%02d",$this->id-40000)." de l'utbm";
       
