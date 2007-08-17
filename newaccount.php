@@ -101,17 +101,20 @@ if ( isset($_REQUEST["mode"]) )
     $frm->add_select_field("sexe","Je suis",array(1=>"un homme",2=>"une femme"));
     $frm->add_text_field("nom","Votre nom",$_REQUEST["nom"],true);
     $frm->add_text_field("prenom","Votre prenom",$_REQUEST["prenom"],true);
-    $frm->add_text_field("email","Votre adresse email",$_REQUEST["email"],true);
-
+    
     if ( $mode == "utbm" )
     {
+      $frm->add_text_field("email","Votre adresse email utbm",$_REQUEST["email"],true);
       $frm->add_select_field("role","Votre fonction",$GLOBALS["utbm_roles"],$_REQUEST["role"]);
       $frm->add_select_field("dep","Votre departement",$GLOBALS["utbm_departements"]);
     }
     elseif ( $mode == "etu" )
     {
+      $frm->add_text_field("email","Votre adresse email personnelle (pas utbm.fr)",$_REQUEST["email"],true);
       $frm->add_select_field("ecole","Votre ecole",array("utt","utc","iut"),$_REQUEST["role"]);
     }
+    else
+      $frm->add_text_field("email","Votre adresse email personnelle (pas utbm.fr)",$_REQUEST["email"],true);
     
     $frm->add_text_field("alias","Alias (affiché dans le forum)");
     $frm->add_password_field("password","Mot de passe","",true);
@@ -142,59 +145,70 @@ if ( isset($_REQUEST["mode"]) )
   }
 }
 
+$only_mode=null;
+if ( isset($_REQUEST["only_mode"]) )
+{
+  $only_mode = $_REQUEST["only_mode"];
+  if ( $only_mode == "futurutbm" )
+    $only_mode = "nonutbm";
+  $mode = $only_mode;
+}
+
 $site->start_page("services","Inscription");
 
 $cts = new contents("Inscription : Etape 1/3");
 
 $cts->add_paragraph("Vous êtes sur le point d'ouvrir un compte sur le site de l'association des etudiants de l'utbm.");
 
-$ctsutbm = new contents("Etudiant à l'utbm ou membre du personnel de l'utbm");
-$ctsutbm->add_paragraph("Pour pouvoir procéder à votre inscription vous devez posséder une adresse e-mail personnelle utbm.fr et y avoir accès. Votre inscription sera soumise à modération.");
-$frm = new form("utbm","newaccount.php?mode=utbm",true);
-if ( isset($Erreur) && $mode == "utbm" )
-  $frm->error($Erreur);
-$frm->add_text_field("nom","Votre nom","",true);
-$frm->add_text_field("prenom","Votre prenom","",true);
-$frm->add_text_field("email","Votre adresse email utbm","@utbm.fr",true);
-$frm->add_select_field("role","Votre fonction",$GLOBALS["utbm_roles"]);
-$frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",false);
-$frm->add_submit("next","Etape suivante");
-$ctsutbm->add($frm);
+if ( is_null($only_mode) || $only_mode == "utbm" )
+{
+  $ctsutbm = new contents("Etudiant à l'utbm ou membre du personnel de l'utbm");
+  $ctsutbm->add_paragraph("Pour pouvoir procéder à votre inscription vous devez posséder une adresse e-mail personnelle utbm.fr et y avoir accès. Votre inscription sera soumise à modération.");
+  $frm = new form("utbm","newaccount.php?mode=utbm",true);
+  if ( isset($Erreur) && $mode == "utbm" )
+    $frm->error($Erreur);
+  $frm->add_text_field("nom","Votre nom","",true);
+  $frm->add_text_field("prenom","Votre prenom","",true);
+  $frm->add_text_field("email","Votre adresse email utbm","@utbm.fr",true);
+  $frm->add_select_field("role","Votre fonction",$GLOBALS["utbm_roles"]);
+  $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",false);
+  $frm->add_submit("next","Etape suivante");
+  $ctsutbm->add($frm);
+  $cts->add($ctsutbm,true,true, "secutbm", false, true, $mode == "utbm", false);
+}
 
-$cts->add($ctsutbm,true,true, "secutbm", false, true, $_REQUEST["mode"] == "utbm", false);
+if ( is_null($only_mode) || $only_mode == "etu" )
+{
+  $ctsetu = new contents("Etudiant dans l'aire urbaine, ou dans une université de technologie");
+  $ctsetu->add_paragraph("Pour pouvoir procéder à votre inscription vous devez posséder une adresse e-mail personnelle valide, votre inscription sera soumise à modération, vous pourrez cependant accèder à quelques services en attendant.");
+  $frm = new form("etu","newaccount.php?mode=etu",true);
+  if ( isset($Erreur) && $mode == "etu" )
+    $frm->error($Erreur);
+  $frm->add_text_field("nom","Votre nom","",true);
+  $frm->add_text_field("prenom","Votre prenom","",true);
+  $frm->add_text_field("email","Votre adresse email","",true);
+  $frm->add_select_field("ecole","Votre ecole",array("utt","utc","iut"));
+  $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",false);
+  $frm->add_submit("next","Etape suivante");
+  $ctsetu->add($frm);
+  $cts->add($ctsetu,true,true, "secetu", false, true, $mode == "etu", false);
+}
 
-
-$ctsetu = new contents("Etudiant dans l'aire urbaine, ou dans une université de technologie");
-$ctsetu->add_paragraph("Pour pouvoir procéder à votre inscription vous devez posséder une adresse e-mail personnelle valide, votre inscription sera soumise à modération, vous pourrez cependant accèder à quelques services en attendant.");
-$frm = new form("etu","newaccount.php?mode=etu",true);
-if ( isset($Erreur) && $mode == "etu" )
-  $frm->error($Erreur);
-$frm->add_text_field("nom","Votre nom","",true);
-$frm->add_text_field("prenom","Votre prenom","",true);
-$frm->add_text_field("email","Votre adresse email","",true);
-$frm->add_select_field("ecole","Votre ecole",array("utt","utc","iut"));
-$frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",false);
-$frm->add_submit("next","Etape suivante");
-$ctsetu->add($frm);
-$cts->add($ctsetu,true,true, "secetu", false, true, $_REQUEST["mode"] == "etu", false);
-
-
-$ctsnonutbm = new contents("Personnes tierces ou futur étudiant");
-$ctsnonutbm->add_paragraph("Pour pouvoir procéder à votre inscription vous devez posséder une adresse e-mail personnelle valide, votre inscription sera soumise à modération. Vous pourrez accéder au forum, à l'e-boutic et à jobétu.");
-$frm = new form("nonutbm","newaccount.php?mode=nonutbm",true);
-if ( isset($Erreur) && $mode == "nonutbm" )
-  $frm->error($Erreur);
-$frm->add_text_field("nom","Votre nom","",true);
-$frm->add_text_field("prenom","Votre prenom","",true);
-$frm->add_text_field("email","Votre adresse email","",true);
-$frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",false);
-$frm->add_submit("next","Etape suivante");
-$ctsnonutbm->add($frm);
-
-
-
-$cts->add($ctsnonutbm,true,true, "secnonutbm", false, true, $_REQUEST["mode"] == "nonutbm", false);
-
+if ( is_null($only_mode) || $only_mode == "nonutbm" )
+{
+  $ctsnonutbm = new contents("Personnes tierces ou futur étudiant");
+  $ctsnonutbm->add_paragraph("Pour pouvoir procéder à votre inscription vous devez posséder une adresse e-mail personnelle valide, votre inscription sera soumise à modération. Vous pourrez accéder au forum, à l'e-boutic et à jobétu.");
+  $frm = new form("nonutbm","newaccount.php?mode=nonutbm",true);
+  if ( isset($Erreur) && $mode == "nonutbm" )
+    $frm->error($Erreur);
+  $frm->add_text_field("nom","Votre nom","",true);
+  $frm->add_text_field("prenom","Votre prenom","",true);
+  $frm->add_text_field("email","Votre adresse email","",true);
+  $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",false);
+  $frm->add_submit("next","Etape suivante");
+  $ctsnonutbm->add($frm);
+  $cts->add($ctsnonutbm,true,true, "secnonutbm", false, true, $mode == "nonutbm", false);
+}
 
 $list = new itemlist("Voir aussi");
 $list->add("<a href=\"article.php?name=docs:inscription\">Documentation : Inscription</a>");
