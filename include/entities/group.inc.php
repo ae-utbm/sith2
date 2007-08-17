@@ -246,12 +246,12 @@ class group extends stdentity
       if ( $this->id > 30000 )
       {
         $id_asso = $this->id-30000;
-        $append = " qui ont un rôle supérieur ou égal à \"Membre du bureau\"";
+        $append = "";
       }
       else
       {
         $id_asso = $this->id-20000;
-        $append = "";
+        $append = " qui ont un rôle supérieur ou égal à \"Membre du bureau\"";
       }
       require_once($topdir . "include/entities/asso.inc.php");
       

@@ -941,9 +941,9 @@ class form extends stdcontents
 		
 		if ( $std->can_describe() )
 		{
-		  $this->buffer .= "(<span id=\"sd".$uid."_desc\">";
+		  $this->buffer .= " (<span id=\"sd".$uid."_desc\">";
 		  if ( $std->is_valid() )
-		  	$this->buffer .= htmlentities($std->can_describe(),ENT_NOQUOTES,"UTF-8");
+		  	$this->buffer .= htmlentities($std->get_description(),ENT_NOQUOTES,"UTF-8");
       else
         $this->buffer .= "rien";
 		  $this->buffer .= "</span>)";
@@ -1046,12 +1046,17 @@ class form extends stdcontents
 	function add_entity_select ( $name, $title, $db, $entityclass, $value=false, $none=false, $conds=array())
 	{
 		global $topdir;
+
+    if ( !class_exists($entityclass) 
+         && isset($GLOBALS["entitiescatalog"][$entityclass][5]) 
+         && $GLOBALS["entitiescatalog"][$entityclass][5] )
+      include($topdir."include/entities/".$GLOBALS["entitiescatalog"][$entityclass][5]);
 		
 		if (class_exists($entityclass)) // Nouvelle méthode
 		{
 		  $std = new $entityclass($db);
 		  $values = $std->enumerate ( $none, $conds );
-		  
+		  $std->load_by_id($value);
 		  $this->add_select_list_entity_field ( $name, $title, $values, $std );
 		  return;
 		}		
