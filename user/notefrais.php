@@ -118,6 +118,8 @@ if ( $notefrais->is_valid() )
     $cts->add_paragraph("<a href=\"notefrais.php?id_utilisateur=".$user->id."&amp;id_notefrais=".$notefrais->id."&amp;action=print\">Re-Imprimer</a>");
   }
   
+  $cts->add_paragraph("<a href=\"notefrais.php?id_utilisateur=".$user->id."\">Autre notes de frais</a>");
+      
   $cts->add_title(2,"Note de frais n°".$notefrais->id);
   
   if ( $asso->id_parent )
@@ -179,7 +181,7 @@ else
       "date_notefrais"=>"Date",
       "commentaire_notefrais"=>"Description",
       "valide_notefrais"=>"Validée"),
-    array("delete"=>"Supprimer","info"=>"Voir"), array(), array("valide_notefrais"=>array("Non","Oui"))
+    array("delete"=>"Supprimer","info"=>"Voir","print"=>"Imprimer"), array(), array("valide_notefrais"=>array("Non","Oui"))
     );
   $cts->add($tbl,true);
   
