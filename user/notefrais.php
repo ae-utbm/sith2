@@ -54,7 +54,7 @@ if ( isset($_REQUEST["id_notefrais"]) )
     $notefrais->id = null;
 }
 
-if ( $_REQUEST["action"] == "addnote" )
+if ( $_REQUEST["action"] == "addnote" && $GLOBALS["svalid_call"] )
 {
   $lignes=array();
   for($i=0;$i<5;$i++)
@@ -87,7 +87,7 @@ elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["id_notefrais"]) )
   if ( $notefrais->is_valid() && !$notefrais->valide )
     $notefrais->delete();
 }
-elseif ( $_REQUEST["action"] == "addline" )
+elseif ( $_REQUEST["action"] == "addline" && $GLOBALS["svalid_call"] )
 {
   if ( $notefrais->is_valid() && !$notefrais->valide && $_REQUEST["montant"] && $_REQUEST["depense"] )
       $notefrais->create_line($_REQUEST["depense"],$_REQUEST["montant"]);
@@ -113,6 +113,11 @@ if ( $notefrais->is_valid() )
   else
     $cts->add_paragraph("Association : ".$asso->nom);
     
+  if ( $user->sexe == 1 )
+    $cts->add_paragraph("M ".$user->prenom . " " . $user->nom);
+  else  
+    $cts->add_paragraph("Mme ".$user->prenom . " " . $user->nom);
+    
   $cts->add_paragraph("Date : ".date("d/m/Y",$notefrais->date));
 
   $cts->add_paragraph("Commentaire : ".$notefrais->commentaire);
@@ -137,19 +142,21 @@ if ( $notefrais->is_valid() )
   if ( $can_edit )
   {
     $frm = new form("addnote","notefrais.php?id_utilisateur=".$user->id."&id_notefrais=".$notefrais->id,false,"POST","Ajouter une dépense");
+    $frm->allow_only_one_usage();
     $frm->add_hidden("action","addline");
     $frm->add_text_field("depense","Libéllé");
     $frm->add_price_field("montant","Montant");
-    $frm->add_info("N'oubliez pas de faire parvenir la note imprimée et signée avec les justificatifs au trésorier pour être remboursé.");
     $frm->add_submit("valid","Ajouter");
     $cts->add($frm,true);
+    
+  $cts->add_paragraph("N'oubliez pas de faire parvenir la note imprimée et signée avec les justificatifs au trésorier pour être remboursé.");    
   }
   
   
 }
 else
 {
-  $req = new requete($site->db,"SELECT id_notefrais,date_notefrais,commentaire_notefrais,valide_notefrais FROM cpta_notefrais_ligne WHERE id_utilisateur='".$user->id."' ORDER BY id_notefrais");
+  $req = new requete($site->db,"SELECT id_notefrais,date_notefrais,commentaire_notefrais,valide_notefrais FROM cpta_notefrais WHERE id_utilisateur='".$user->id."' ORDER BY id_notefrais");
   
   $tbl = new sqltable(
     "listnf",
@@ -165,6 +172,7 @@ else
   $cts->add($tbl,true);
   
   $frm = new form("addnote","notefrais.php?id_utilisateur=".$user->id,false,"POST","Saisir une nouvelle note de frais");
+  $frm->allow_only_one_usage();
   $frm->add_hidden("action","addnote");
   $frm->add_entity_select ( "id_asso", "Association/Activité", $site->db, "asso");
   $frm->add_text_field("commentaire","Motif des dépenses","",true);
@@ -176,9 +184,9 @@ else
     $sfrm->add_price_field("montant[$i]","Montant");
     $frm->add($sfrm, false, false, false, false, true);
   }
-  $frm->add_info("N'oubliez pas de faire parvenir la note imprimée et signée avec les justificatifs au trésorier pour être remboursé.");
   $frm->add_submit("valid","Ajouter");
   $cts->add($frm,true);
+  $cts->add_paragraph("N'oubliez pas de faire parvenir la note imprimée et signée avec les justificatifs au trésorier pour être remboursé.");
 
 }
 
