@@ -615,13 +615,22 @@ class site extends interfaceweb
 
     if ( !$this->user->is_valid() )
     {
+      $cts = new contents("Connexion");
+      
       $frm = new form("connect",$topdir."connect.php",true,"POST","Connexion");
       $frm->add_select_field("domain","Connexion",array("utbm"=>"UTBM","assidu"=>"Assidu","id"=>"ID","autre"=>"Autre","alias"=>"Alias"));
       $frm->add_text_field("username","Utilisateur","prenom.nom","",20,true);
       $frm->add_password_field("password","Mot de passe","","",20);
       $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", false );
-      $frm->add_submit("connectbtn","Se connecter","Veillez a bien sélectionner votre type d'utilisateur UTBM / ASSIDU");
-      return $frm;
+      $frm->add_submit("connectbtn","Se connecter");
+      $cts->add($frm);
+      
+      $list = new itemlist("Voir aussi");
+      $list->add("<a href=\"".$wwwtopdir."article.php?name=docs:connexion\">Documentation</a>");
+      $list->add("<a href=\"".$wwwtopdir."password.php\">Mot de passe perdu</a>");
+      $cts->add($list);      
+      
+      return $cts;
     }
 
 
