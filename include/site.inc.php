@@ -617,10 +617,7 @@ class site extends interfaceweb
     {
       $cts = new contents("Connexion");
       
-      $list = new itemlist("Voir aussi");
-      $list->add("<a href=\"".$wwwtopdir."article.php?name=docs:connexion\">Aide</a>");
-      $list->add("<a href=\"".$wwwtopdir."password.php\">Mot de passe perdu</a>");
-      $cts->add($list);  
+
       
       $frm = new form("connect",$topdir."connect.php",true,"POST","Connexion");
       $frm->add_select_field("domain","Connexion",array("utbm"=>"UTBM","assidu"=>"Assidu","id"=>"ID","autre"=>"Autre","alias"=>"Alias"));
@@ -629,6 +626,9 @@ class site extends interfaceweb
       $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", false );
       $frm->add_submit("connectbtn","Se connecter");
       $cts->add($frm);
+      
+      $cts->add_paragraph("<a href=\"".$wwwtopdir."article.php?name=docs:connexion\">Aide</a>");
+      $cts->add_paragraph("<a href=\"".$wwwtopdir."password.php\">Mot de passe perdu</a>");
       
       return $cts;
     }
