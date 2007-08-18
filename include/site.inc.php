@@ -627,8 +627,7 @@ class site extends interfaceweb
       $frm->add_submit("connectbtn","Se connecter");
       $cts->add($frm);
       
-      $cts->add_paragraph("<a href=\"".$wwwtopdir."article.php?name=docs:connexion\">Aide</a>");
-      $cts->add_paragraph("<a href=\"".$wwwtopdir."password.php\">Mot de passe perdu</a>");
+      $cts->add_paragraph("<a href=\"".$wwwtopdir."article.php?name=docs:connexion\">Aide</a> - <a href=\"".$wwwtopdir."password.php\">Mot de passe perdu</a>");
       
       return $cts;
     }
