@@ -122,6 +122,25 @@ class annonce extends stdentity
 		else
 			return -1;
   }
+  
+  function reject($etu)
+  {
+  	if( !($etu instanceof jobuser_etu) ) exit("NIET !");
+  	
+  	$sql = new insert($this->dbrw, 
+  										"job_annonces_etu",
+  										array(
+  											"id_annonce" => $this->id,
+  											"id_etu" => $etu->id,
+  											"relation" => "reject"
+  											)
+  										);
+  	
+  	if($sql)
+			return $sql->get_id();
+		else
+			return -1;
+  }
 
   /**
    * Ajoute une nouvelle annonce
