@@ -124,14 +124,14 @@ else
 		{
 			if( $annonce->apply_to($usr, $_REQUEST['comment']) )
 			{
-				$cts->add_paragraph("Votre candidature à bien été enregistrée pour l'annonce n°".$annonce->id." : <i>".$annonce->titre."</i>\n")
+				$cts->add_paragraph("Votre candidature à bien été enregistrée pour l'annonce n°".$annonce->id." : <i>".$annonce->titre."</i>\n");
 			}
 		}
 		else if($_REQUEST['action'] == "reject")
 		{
 			if( $annonce->reject($usr) )
 			{
-				$cts->add_paragraph("Votre souhait de ne plus voir l'annonce n°".$annonce->id." vous être proposée à bien été enregistré.\n")
+				$cts->add_paragraph("Votre souhait de ne plus voir l'annonce n°".$annonce->id." vous être proposée à bien été enregistré.\n");
 			}
 		}
 		
