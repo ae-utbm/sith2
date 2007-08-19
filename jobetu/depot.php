@@ -25,6 +25,7 @@ $topdir = "../";
 
 require_once($topdir . "include/site.inc.php");
 require_once("include/jobetu.inc.php");
+require_once("include/cts/jobetu.inc.php");
 require_once("include/jobuser_client.inc.php");
 require_once("include/annonce.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
@@ -57,7 +58,10 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	$frm = new form("jobs", "depot.php?action=add", false, "POST", "Contenu de l'annonce");
 	
 	$frm->add_text_field("titre_ann", "Titre de l'annonce", false, true, 60);
-	$jobetu->add_jobtypes_select_field($frm, "job_type", "Catégorie");
+	//$jobetu->add_jobtypes_select_field($frm, "job_type", "Catégorie");
+	$frm->add( new jobtypes_select_field($jobetu, "selectbox", "Catégorie") );
+	
+	
 	$frm->add_info("<i>Si vous ne trouvez pas de categorie adequate, n'hesitez pas a <a href=''>le signaler</a></i>");
 	$frm->add_text_area("desc_ann", "Description de l'annonce", false, 60, 8, true);
 	$frm->add_text_area("profil", "Profil recherche", false, 60, 3, true);

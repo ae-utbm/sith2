@@ -90,13 +90,15 @@
 
 	}
 
-	class add_jobtypes_select_field extends form
+	class jobtypes_select_field extends form
 	{
-		function add_jobtypes_select_field($jobetu, $name, $title, $value = false, $required = true, $enabled = true)
+		function jobtypes_select_field(&$jobetu, $name, $title, $value = false, $required = true, $enabled = true)
 		{
 			if( !($jobetu instanceof jobetu) ) return -1;
 			if(empty($jobetu->job_types)) $jobetu->get_job_types();
-	  	
+			
+			parent::form($name, false);
+			  	
 	//  	if ( $frm->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];	
 			$this->buffer .= "<div class=\"formrow\">";
 			$this->_render_name($name,$title,$required);
