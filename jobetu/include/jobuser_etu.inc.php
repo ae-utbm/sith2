@@ -63,65 +63,6 @@ class jobuser_etu extends utilisateur
 			    $this->annonces[] = $line;
 	    }
 	}
-	
-	function apply_to_annonce($id_annonce)
-	{
-		
-	}
-	
-	function add_annonce_box($id_annonce)
-	{
-  	$annonce = $this->annonces[$id_annonce];
-  	
-  	$buffer .= "<div class=\"annonce_table\">";
-  		
-  	$buffer .= "<div class=\"header\" onClick=\"javascript:on_off('annonce_1');\">";
-  			$buffer .= "<div class=\"num\">";
-  				$buffer .= "n°".$annonce['id_annonce'];
-  			$buffer .= "</div>";
-			
-  			$buffer .= "<div class=\"title\">";
-  				$buffer .= $annonce['titre'];
-  			$buffer .= "</div>";
-  			
-  			$buffer .= "<div class=\"icons\">";
-  				$buffer .= "<img src=\"../images/actions/info.png\" /> &nbsp;";
-  				$buffer .= "<a href=\"board_etu.php?action=reject&id=".$annonce['id_annonce']."\" title=\"Ne plus me proposer\"><img src=\"../images/actions/delete.png\" /></a>";
-  			$buffer .= "</div>";
-  		$buffer .= "</div>";
-  			
-  		/** Contenu  ************************************************************/
-	  		$buffer .= "<div id=\"annonce_1\" class=\"content\">";
-  				$buffer .= "Demandeur : ".$annonce['id_client']."<br />";			
-  				$buffer .= "Description : ".$annonce['desc']."<br />";
-  				$buffer .= "Nombre de postes : ".$annonce['nb_postes']."<br />";
-  				$buffer .= "Date de début : ".$annonce['start_date']."<br />";
-  				$buffer .= "Rémunération: ".$annonce['indemnite']."<br />";
-  				$buffer .= "Durée : ".$annonce['duree']."<br />";
-
-	  				$frm = new form("apply_1", false, true, "POST");
-	  					$frm->add_submit("clic", "Se porter candidat");
-	  				$buffer .= "<div onClick=\"javascript:on_off('apply_1');\">" . $frm->buffer . "</div>";
-	  				
-	  				$buffer .= "<div id=\"apply_1\" style=\"display: none;\" class=\"apply_form\">";
-		  				$frm = new form("application_1", "board_etu.php?board_etu.php?action=apply", true, "POST");
-		  				$frm->puts("Ajouter un message à votre candidature <i>(facultatif)</i> :<br />");
-		  				$frm->add_hidden("id_annonce", $annonce['id_annonce']);
-		  				$frm->add_text_area("comment", false, false, 80, 10);
-		  				$frm->add_submit("send", "Envoyer la candidature");
-	  				$buffer .= $frm->buffer;
-	  				
-	  				$buffer .= "</div>";
-  				  				
-  				$buffer .= "</div>";
-  		/************************************************************************/			
-  		$buffer .= "</div>";
-  		
-  		 		  		
-		$buffer .= "</div>";	
-		
-		return $buffer;
-	}
 
 }
 

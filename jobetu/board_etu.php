@@ -88,7 +88,11 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
  */
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
 {
-	
+	$usr = new jobuser_etu($site->db, $site->dbrw);
+	$usr->load_by_id($site->user->id);
+		
+	$sql = new requete($site->db, "SELECT * from `job_annonces_etu` WHERE `id_etu` = $usr->id AND `relation` = 'apply'");
+	$cts->add(new sqltable("candidatures", "Candidatures", $sql, false, 'id_relation', array("id_relation"=>"Id", "id_etu"=>"Etu"), array(), array()), true);
 }
 
 /*******************************************************************************
@@ -96,11 +100,33 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
  */
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 {
-
+	$sql = new requete($site->db, "SELECT `job_annonces`.*,
+																	CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur`,
+																	`job_types`.`nom` AS `job_nom`
+																	FROM `job_annonces`
+																	LEFT JOIN `utilisateurs`
+																	ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
+																	LEFT JOIN `job_types`
+																	ON `job_types`.`id_type` = `job_annonces`.`job_type` 
+																	");
+	
+	$table = new sqltable("annlist", "Liste des annonces en cours", $sql, "board_etu.php?view=general", "id_annonce",
+												array(
+													"id_annonce" => "N°",
+													"nom_utilisateur" => "Client",
+													"job_nom" => "Catégorie",
+													"titre" => "Titre"
+												),
+												array("detail" => "Détails", "reject" => "Ne plus me montrer"),
+												array("detail" => "Détails", "reject" => "Ne plus me montrer"),
+												array()											
+											);
+	
+	$cts->add($table, true);
 }
 
 /*******************************************************************************
- * Onglet tout jobetu
+ * Onglet préférénce
  */
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 {
@@ -135,7 +161,8 @@ else
 			}
 		}
 		
-	}
+	} //fin 'actions'
+
 	
 	$annonce = new annonce($site->db);
 	$annonce->load_by_id(1);
