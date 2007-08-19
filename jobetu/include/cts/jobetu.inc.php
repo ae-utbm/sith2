@@ -25,7 +25,54 @@
 	{
 		function apply_annonce_box($annonce)
 		{
-			$this->buffer .= "<p>Gnaa !</p>";
+			if( !($annonce instanceof annonce) ) exit("Namého ! mauvaise argumentation mon bonhomme ! :)");
+  	
+	  	$this->buffer .= "<div class=\"annonce_table\">";
+	  		
+	  	$this->buffer .= "<div class=\"header\" onClick=\"javascript:on_off('annonce_1');\">";
+	  			$this->buffer .= "<div class=\"num\">";
+	  				$this->buffer .= "n°".$annonce->id_annonce;
+	  			$this->buffer .= "</div>";
+				
+	  			$this->buffer .= "<div class=\"title\">";
+	  				$this->buffer .= $annonce->titre;
+	  			$this->buffer .= "</div>";
+	  			
+	  			$this->buffer .= "<div class=\"icons\">";
+	  				$this->buffer .= "<img src=\"../images/actions/info.png\" /> &nbsp;";
+	  				$this->buffer .= "<a href=\"board_etu.php?action=reject&id=".$annonce->id_annonce."\" title=\"Ne plus me proposer\"><img src=\"../images/actions/delete.png\" /></a>";
+	  			$this->buffer .= "</div>";
+	  		$this->buffer .= "</div>";
+	  			
+	  		/** Contenu  ************************************************************/
+		  		$this->buffer .= "<div id=\"annonce_1\" class=\"content\">";
+	  				$this->buffer .= "Demandeur : ".$annonce->id_client."<br />";			
+	  				$this->buffer .= "Description : ".$annonce->desc."<br />";
+	  				$this->buffer .= "Nombre de postes : ".$annonce->nb_postes."<br />";
+	  				$this->buffer .= "Date de début : ".$annonce->start_date."<br />";
+	  				$this->buffer .= "Rémunération: ".$annonce->indemnite."<br />";
+	  				$this->buffer .= "Durée : ".$annonce->duree."<br />";
+	
+		  				$frm = new form("apply_1", false, true, "POST");
+		  					$frm->add_submit("clic", "Se porter candidat");
+		  				$this->buffer .= "<div onClick=\"javascript:on_off('apply_1');\">" . $frm->buffer . "</div>";
+		  				
+		  				$this->buffer .= "<div id=\"apply_1\" style=\"display: none;\" class=\"apply_form\">";
+			  				$frm = new form("application_1", "board_etu.php?board_etu.php?action=apply", true, "POST");
+			  				$frm->puts("Ajouter un message à votre candidature <i>(facultatif)</i> :<br />");
+			  				$frm->add_hidden("id_annonce", $annonce->id_annonce);
+			  				$frm->add_text_area("comment", false, false, 80, 10);
+			  				$frm->add_submit("send", "Envoyer la candidature");
+		  				$this->buffer .= $frm->buffer;
+		  				
+		  				$this->buffer .= "</div>";
+	  				  				
+	  				$this->buffer .= "</div>";
+	  		/************************************************************************/			
+	  		$this->buffer .= "</div>";
+	  		
+	  		 		  		
+			$this->buffer .= "</div>";
 		}
 			
 	}
