@@ -27,21 +27,23 @@
 		{
 			if( !($annonce instanceof annonce) ) exit("Namého ! mauvaise argumentation mon bonhomme ! :)");
   	
+			global $topdir;
+			
 	  	$this->buffer .= "<div class=\"annonce_table\">";
 	  		
-	  	$this->buffer .= "<div class=\"header\" onClick=\"javascript:on_off('annonce_".$annonce->id."');\">";
+	  	$this->buffer .= "<div class=\"header\" onClick=\"javascript:on_off('annonce_".$annonce->id."');\">\n";
 	  			$this->buffer .= "<div class=\"num\">";
 	  				$this->buffer .= "n°".$annonce->id;
-	  			$this->buffer .= "</div>";
+	  			$this->buffer .= "</div>\n";
 				
 	  			$this->buffer .= "<div class=\"title\">";
 	  				$this->buffer .= $annonce->titre;
-	  			$this->buffer .= "</div>";
+	  			$this->buffer .= "</div>\n";
 	  			
-	  			$this->buffer .= "<div class=\"icons\">";
-	  				$this->buffer .= "<img src=\"../images/actions/info.png\" /> &nbsp;";
+	  			$this->buffer .= "<div class=\"icons\">\n";
+	  				$this->buffer .= "<a href=\"$topdir"."article.php?page=docs:jobetu:candidats\" title=\"Aide\"><img src=\"../images/actions/info.png\" /> &nbsp;";
 	  				$this->buffer .= "<a href=\"board_etu.php?action=reject&id=".$annonce->id."\" title=\"Ne plus me proposer\"><img src=\"../images/actions/delete.png\" /></a>";
-	  			$this->buffer .= "</div>";
+	  			$this->buffer .= "</div>\n";
 	  		$this->buffer .= "</div>";
 	  			
 	  		/** Contenu  ************************************************************/
@@ -53,17 +55,17 @@
 	  				$this->buffer .= "Rémunération: ".$annonce->indemnite."<br />";
 	  				$this->buffer .= "Durée : ".$annonce->duree."<br />";
 	
-		  				$frm = new form("apply_1", false, true, "POST");
+	  					$frm = new form("apply_".$annonce->id."", false, true, "POST");
 		  					$frm->add_submit("clic", "Se porter candidat");
-		  				$this->buffer .= "<div onClick=\"javascript:on_off('apply_1');\">" . $frm->buffer . "</div>";
+		  				$this->buffer .= "<div onClick=\"javascript:on_off('apply_".$annonce->id."');\">" . $frm->buffer . "</div>";
 		  				
-		  				$this->buffer .= "<div id=\"apply_1\" style=\"display: none;\" class=\"apply_form\">";
+		  				$this->buffer .= "<div id=\"apply_".$annonce->id."\" style=\"display: none;\" class=\"apply_form\">";
 			  				$frm = new form("application_1", "board_etu.php?board_etu.php?action=apply", true, "POST");
 			  				$frm->puts("Ajouter un message à votre candidature <i>(facultatif)</i> :<br />");
 			  				$frm->add_hidden("id", $annonce->id);
 			  				$frm->add_text_area("comment", false, false, 80, 10);
 			  				$frm->add_submit("send", "Envoyer la candidature");
-		  				$this->buffer .= $frm->buffer;
+		  				$this->buffer .= $frm->html_render();
 		  				
 		  				$this->buffer .= "</div>";
 	  				  				
