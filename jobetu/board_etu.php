@@ -112,18 +112,29 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
  */
 else
 {	
-	if(isset($_REQUEST['action']) && $_REQUEST['action'] == "apply")
+	if( isset($_REQUEST['action']) )
 	{
+		$usr = new jobuser_etu($site->db);
+		$usr->load_by_id($site->user->id);
+
 		$annonce = new annonce($site->db, $site->dbrw);
 		$annonce->load_by_id($_REQUEST['id']);
 		
-		$usr = new jobuser_etu($site->db);
-		$usr->load_by_id($site->user->id);
-		
-		if($annonce->apply_to($usr, $_REQUEST['comment']))
+		if($_REQUEST['action'] == "apply")
 		{
-			$cts->add_paragraph("Votre candidature à bien été enregistrée pour l'annonce n°".$annonce->id." : <i>".$annonce->titre."</i>\n")
+			if( $annonce->apply_to($usr, $_REQUEST['comment']) )
+			{
+				$cts->add_paragraph("Votre candidature à bien été enregistrée pour l'annonce n°".$annonce->id." : <i>".$annonce->titre."</i>\n")
+			}
 		}
+		else if($_REQUEST['action'] == "reject")
+		{
+			if( $annonce->reject($usr) )
+			{
+				$cts->add_paragraph("Votre souhait de ne plus voir l'annonce n°".$annonce->id." vous être proposée à bien été enregistré.\n")
+			}
+		}
+		
 	}
 	
 	$annonce = new annonce($site->db);
