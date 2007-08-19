@@ -43,40 +43,6 @@ class jobetu extends stdentity
     }
   }
 
-  /** 
-   * Ajoute une liste à choix 'customisée' pour les types de jobs dans un formulaire
-   */
-  function add_jobtypes_select_field($frm, $name, $title, $value = false, $required = true, $enabled = true)
-  {
-  	if(!($frm instanceof form)) return -1;
-  	if(empty($this->job_types)) $this->get_job_types();
-  	
-//  	if ( $frm->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];	
-		$frm->buffer .= "<div class=\"formrow\">";
-		$frm->_render_name($name,$title,$required);
-	
-		
-		$frm->buffer .= "<div class=\"formfield\">$prefix";
-		$frm->buffer .= "<select name=\"$name\" ";
-		
-		$frm->buffer .= ">\n";
-
-		foreach ( $this->job_types as $key => $item )
-		{
-			$frm->buffer .= "<option value=\"$key\"";
-			if(!($key%100))
-			$frm->buffer .= " disabled style=\"background: #D8E7F3; color: #000000; font-weight: bold;\"";
-			if ( $value == $key )
-				$frm->buffer .= " selected=\"selected\"";
-			if(!($key%100))
-				$frm->buffer .= ">".htmlentities($item,ENT_NOQUOTES,"UTF-8")."</option>\n";
-			else
-				$frm->buffer .= ">&nbsp;&nbsp;&nbsp;&nbsp;".htmlentities($item,ENT_NOQUOTES,"UTF-8")."</option>\n";
-		}
-
-		$frm->buffer .= "</select></div>\n";	
-		$frm->buffer .= "</div>";
-  }
   
   /**
    * Ajoute un tableau de type sqltable pour les types de jobs
