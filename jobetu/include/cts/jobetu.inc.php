@@ -97,17 +97,15 @@
 			if( !($jobetu instanceof jobetu) ) return -1;
 			if(empty($jobetu->job_types)) $jobetu->get_job_types();
 			
-			parent::form($name, false);
+			parent::form($name, false, true);
 			  	
-	//  	if ( $frm->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];	
-			$this->buffer .= "<div class=\"formrow\">";
+	  	if ( $frm->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];	
+			
+			$this->buffer .= "<div class=\"formrow\" style=\"margin-left: -2em; padding-left: -2em\" >";
 			$this->_render_name($name,$title,$required);
-		
-			
-			$this->buffer .= "<div class=\"formfield\">$prefix";
-			$this->buffer .= "<select name=\"$name\" ";
-			
-			$this->buffer .= ">\n";
+					
+			$this->buffer .= "<div class=\"formfield\">";
+			$this->buffer .= "<select name=\"$name\" >\n";
 	
 			foreach ( $jobetu->job_types as $key => $item )
 			{
@@ -123,7 +121,8 @@
 			}
 	
 			$this->buffer .= "</select></div>\n";
-			$this->buffer .= "</div>";
+			$this->buffer .= "</div>\n";
+
 		}
 	}
 	
