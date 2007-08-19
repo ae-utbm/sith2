@@ -60,7 +60,7 @@
 		  				$this->buffer .= "<div onClick=\"javascript:on_off('apply_".$annonce->id."');\">" . $frm->buffer . "</div>";
 		  				
 		  				$this->buffer .= "<div id=\"apply_".$annonce->id."\" style=\"display: none;\" class=\"apply_form\">";
-			  				$frm = new form("application_1", "board_etu.php?board_etu.php?action=apply", true, "POST");
+		  					$frm = new form("application_".$annonce->id."", "board_etu.php?action=apply", true, "POST");
 			  				$frm->puts("Ajouter un message à votre candidature <i>(facultatif)</i> :<br />");
 			  				$frm->add_hidden("id", $annonce->id);
 			  				$frm->add_text_area("comment", false, false, 80, 10);

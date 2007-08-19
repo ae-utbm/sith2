@@ -112,10 +112,12 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
  */
 else
 {	
+	if(isset($_REQUEST['action']) && $_REQUEST['action'] == "apply")
+		print_r($_REQUEST);
+	
 	$annonce = new annonce($site->db);
 	$annonce->load_by_id(1);
-	$box = new apply_annonce_box($annonce);
-	$cts->add($box);
+	$cts->add( new apply_annonce_box($annonce) );
 }
 
 
