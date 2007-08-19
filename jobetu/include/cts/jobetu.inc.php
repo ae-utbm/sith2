@@ -29,9 +29,9 @@
   	
 	  	$this->buffer .= "<div class=\"annonce_table\">";
 	  		
-	  	$this->buffer .= "<div class=\"header\" onClick=\"javascript:on_off('annonce_1');\">";
+	  	$this->buffer .= "<div class=\"header\" onClick=\"javascript:on_off('annonce_".$annonce->id."');\">";
 	  			$this->buffer .= "<div class=\"num\">";
-	  				$this->buffer .= "n°".$annonce->id_annonce;
+	  				$this->buffer .= "n°".$annonce->id;
 	  			$this->buffer .= "</div>";
 				
 	  			$this->buffer .= "<div class=\"title\">";
@@ -40,12 +40,12 @@
 	  			
 	  			$this->buffer .= "<div class=\"icons\">";
 	  				$this->buffer .= "<img src=\"../images/actions/info.png\" /> &nbsp;";
-	  				$this->buffer .= "<a href=\"board_etu.php?action=reject&id=".$annonce->id_annonce."\" title=\"Ne plus me proposer\"><img src=\"../images/actions/delete.png\" /></a>";
+	  				$this->buffer .= "<a href=\"board_etu.php?action=reject&id=".$annonce->id."\" title=\"Ne plus me proposer\"><img src=\"../images/actions/delete.png\" /></a>";
 	  			$this->buffer .= "</div>";
 	  		$this->buffer .= "</div>";
 	  			
 	  		/** Contenu  ************************************************************/
-		  		$this->buffer .= "<div id=\"annonce_1\" class=\"content\">";
+	  			$this->buffer .= "<div id=\"annonce_".$annonce->id."\" class=\"content\">";
 	  				$this->buffer .= "Demandeur : ".$annonce->id_client."<br />";			
 	  				$this->buffer .= "Description : ".$annonce->desc."<br />";
 	  				$this->buffer .= "Nombre de postes : ".$annonce->nb_postes."<br />";
@@ -60,7 +60,7 @@
 		  				$this->buffer .= "<div id=\"apply_1\" style=\"display: none;\" class=\"apply_form\">";
 			  				$frm = new form("application_1", "board_etu.php?board_etu.php?action=apply", true, "POST");
 			  				$frm->puts("Ajouter un message à votre candidature <i>(facultatif)</i> :<br />");
-			  				$frm->add_hidden("id_annonce", $annonce->id_annonce);
+			  				$frm->add_hidden("id", $annonce->id);
 			  				$frm->add_text_area("comment", false, false, 80, 10);
 			  				$frm->add_submit("send", "Envoyer la candidature");
 		  				$this->buffer .= $frm->buffer;
@@ -174,7 +174,7 @@
 	}
 	
 	
-	function jobtypes_table extends stdcontents
+	class jobtypes_table extends stdcontents
 	{
 		
 	}

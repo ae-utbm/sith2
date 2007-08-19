@@ -27,6 +27,8 @@ $topdir = "../";
 require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
 require_once("include/jobetu.inc.php");
+require_once("include/annonce.inc.php");
+require_once("include/cts/jobetu.inc.php");
 require_once("include/jobuser_etu.inc.php");
 
 $site = new site();
@@ -110,10 +112,10 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
  */
 else
 {	
-	$user = new jobuser_etu($site->db);
-	$user->load_by_id($site->user->id);
-	$user->load_annonces();
-	$cts->buffer .= $user->add_annonce_box(0);
+	$annonce = new annonce($site->db);
+	$annonce->load_by_id(1);
+	$box = new apply_annonce_box($annonce);
+	$cts->add($box);
 }
 
 
