@@ -64,7 +64,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 		
 		
 		$cts->add_title(2, "Modifiez vos informations");
-	  $cts->add_paragraph("Toutes vos informations personnelles, telles que votre adresse, téléphone, date de naissance... sont celles de votre fiche Matmatronch, pour les modifier, <a href=\"$topdir./user.php?id_utilisateur=$usr->id\">cliquez ici</a>");
+	  $cts->add_paragraph("Toutes vos informations personnelles, telles que votre adresse, téléphone, date de naissance... sont celles de votre fiche Matmatronch, pour les modifier, <a href=\"$topdir./user.php?id_utilisateur=$usr->id&page=edit\">cliquez ici</a>");
 	
 	$frm = new form("jobcapa", "board_etu.php?view=profil", true, "POST");
 	$frm->puts("<h3>De quoi êtes vous capable ?</h3>");

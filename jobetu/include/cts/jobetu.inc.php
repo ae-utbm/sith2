@@ -126,4 +126,10 @@
 		}
 	}
 	
+	
+	function jobtypes_table extends stdcontents
+	{
+		
+	}
+	
 ?>

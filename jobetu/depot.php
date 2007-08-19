@@ -58,10 +58,7 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	$frm = new form("jobs", "depot.php?action=add", false, "POST", "Contenu de l'annonce");
 	
 	$frm->add_text_field("titre_ann", "Titre de l'annonce", false, true, 60);
-	//$jobetu->add_jobtypes_select_field($frm, "job_type", "Catégorie");
-	$frm->add( new jobtypes_select_field($jobetu, "selectbox", "Catégorie") );
-	
-	
+	$frm->add( new jobtypes_select_field($jobetu, "job_type", "Catégorie") );
 	$frm->add_info("<i>Si vous ne trouvez pas de categorie adequate, n'hesitez pas a <a href=''>le signaler</a></i>");
 	$frm->add_text_area("desc_ann", "Description de l'annonce", false, 60, 8, true);
 	$frm->add_text_area("profil", "Profil recherche", false, 60, 3, true);
@@ -152,7 +149,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="add" && $_REQUEST['
 	
 	$result = $annonce->add($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['divers']);
 	
-	if(result)
+	if($result)
 	{
 		$cts->add_paragraph("Votre annonce a bien été enregistrée sous le numéro $result. Elle sera désormais soumise aux candidatures des étudiants.");
 		$cts->add_paragraph("Vous pouvez désormais gérer l'avancée de votre offre dans votre tableau de bord, les différents candidats vous y seront proposés à mesure que leurs candidatures nous parviennent, vous pourrez alors en sélectionner une pour répondre à votre attente");
