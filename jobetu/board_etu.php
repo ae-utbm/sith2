@@ -100,29 +100,66 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
  */
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 {
-	$sql = new requete($site->db, "SELECT `job_annonces`.*,
-																	CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur`,
-																	`job_types`.`nom` AS `job_nom`
-																	FROM `job_annonces`
-																	LEFT JOIN `utilisateurs`
-																	ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
-																	LEFT JOIN `job_types`
-																	ON `job_types`.`id_type` = `job_annonces`.`job_type` 
-																	");
-	
-	$table = new sqltable("annlist", "Liste des annonces en cours", $sql, "board_etu.php?view=general", "id_annonce",
-												array(
-													"id_annonce" => "N°",
-													"nom_utilisateur" => "Client",
-													"job_nom" => "Catégorie",
-													"titre" => "Titre"
-												),
-												array("detail" => "Détails", "reject" => "Ne plus me montrer"),
-												array("detail" => "Détails", "reject" => "Ne plus me montrer"),
-												array()											
-											);
-	
-	$cts->add($table, true);
+	if(isset($_REQUEST['action']))
+	{
+		$ids = array();
+		if(isset($_REQUEST['id_annonce']))
+			$ids[] = $_REQUEST['id_annonce'];
+		if(isset($_REQUEST['id_annonces']))
+			foreach ($_REQUEST['id_annonces'] as $id)
+				$ids[] = $id;
+		
+		if($_REQUEST['action'] == "detail")
+		{				
+			foreach ($ids as $id_annonce)
+			{
+				$annonce = new annonce($site->db);
+				$annonce->load_by_id($id_annonce);
+				$cts->add( new apply_annonce_box($annonce) );
+			}
+		}
+		else if($_REQUEST['action'] == "reject")
+		{
+			$usr = new jobuser_etu($site->db);
+			$usr->load_by_id($site->user->id);
+			
+			foreach ($ids as $id_annonce)
+			{
+				$annonce = new annonce($site->db);
+				$annonce->load_by_id($id_annonce);
+				$annonce->reject($usr);
+			}
+		}
+		else if($_REQUEST['action'] == "apply")
+		{
+			$cts->add_paragraph("Namého ! tu te crois chez mémé ? ca se passe pas comme ça nondidiou !!");
+		}
+	}
+	else
+	{
+		$sql = new requete($site->db, "SELECT `job_annonces`.*,
+																		CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur`,
+																		`job_types`.`nom` AS `job_nom`
+																		FROM `job_annonces`
+																		LEFT JOIN `utilisateurs`
+																		ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
+																		LEFT JOIN `job_types`
+																		ON `job_types`.`id_type` = `job_annonces`.`job_type`");
+		
+		$table = new sqltable("annlist", "Liste des annonces en cours", $sql, "board_etu.php?view=general", "id_annonce",
+													array(
+														"id_annonce" => "N°",
+														"nom_utilisateur" => "Client",
+														"job_nom" => "Catégorie",
+														"titre" => "Titre"
+													),
+													array("detail" => "Détails", "reject" => "Ne plus me montrer"),
+													array("detail" => "Détails", "reject" => "Ne plus me montrer"),
+													array()											
+												);
+		
+		$cts->add($table, true);
+	}
 }
 
 /*******************************************************************************
