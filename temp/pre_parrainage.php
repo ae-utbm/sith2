@@ -70,7 +70,7 @@ $req = new requete($sql,"SELECT `nom_utl`, `prenom_utl`, `email_utl`, `addresse_
                         "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
                         "LEFT JOIN `loc_pays` USING(`id_pays`) ".
                         "LEFT JOIN `loc_ville` USING(`id_ville`) ".
-                        "WHERE SEMESTRE='$sem'";
+                        "WHERE SEMESTRE='".$sem."'");
 
 while(list($nom,$prenom,$email,$adresse,$ville,$cpostal,$pays,$tc,$branche)=$req->get_rwo())
 {
