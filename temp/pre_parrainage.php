@@ -56,7 +56,7 @@ while ( list($id_utl, $nom, $prenom, $ville, $cpostal, $pays)=$req->get_row() )
       if(isset($rep[$id]))
         echo "<td>".$rep[$id]."</td>";
       else
-        echo "<td> </td>";
+        echo "<td>&nbsp;</td>";
     }
     echo "</tr>\n";
   }
