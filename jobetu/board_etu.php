@@ -138,6 +138,9 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 	}
 	else
 	{
+		$usr = new jobuser_etu($site->db, $site->dbrw);
+		$usr->load_by_id($site->user->id);
+	
 		$sql = new requete($site->db, "SELECT `job_annonces`.*,
 																		CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur`,
 																		`job_types`.`nom` AS `job_nom`
@@ -145,11 +148,11 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 																		LEFT JOIN `utilisateurs`
 																		ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
 																		LEFT JOIN `job_types`
-																		ON `job_types`.`id_type` = `job_annonces`.`job_type`");
-/*																		LEFT JOIN `job_annonces_etu`
-																		ON `job_annonces`.`id_annonce` = `job_annonces_etu`.`id_annonce`
-																		WHERE `job_annonces_etu`.`relation` <> 'reject'
-																		"); */
+																		ON `job_types`.`id_type` = `job_annonces`.`job_type`
+																		WHERE `job_annonces`.`id_annonce`
+																		NOT IN (SELECT id_annonce FROM job_annonces_etu WHERE id_etu = $usr->id)
+																		", false);
+
 		
 		$table = new sqltable("annlist", "Liste des annonces en cours", $sql, "board_etu.php?view=general", "id_annonce",
 													array(
@@ -192,7 +195,7 @@ else
 		{
 			if( $annonce->apply_to($usr, $_REQUEST['comment']) )
 			{
-				$cts->add_paragraph("Votre candidature à bien été enregistrée pour l'annonce n°".$annonce->id." : <i>".$annonce->titre."</i>\n");
+				$cts->add_paragraph("Votre candidature à bien été enregistrée pour l'annonce n°".$annonce->id." : <i>\" ".$annonce->titre." \"</i>\n");
 			}
 		}
 		else if($_REQUEST['action'] == "reject")
