@@ -120,7 +120,7 @@ class annonce extends stdentity
   	if($sql)
 			return $sql->get_id();
 		else
-			return -1;
+			return false;
   }
   
   function reject($etu)
@@ -132,14 +132,15 @@ class annonce extends stdentity
   										array(
   											"id_annonce" => $this->id,
   											"id_etu" => $etu->id,
-  											"relation" => "reject"
+  											"relation" => "reject",
+  											"comment" => null
   											)
   										);
   	
   	if($sql)
-			return $sql->get_id();
+			return true;
 		else
-			return -1;
+			return false;
   }
 
   /**
@@ -188,7 +189,7 @@ class annonce extends stdentity
 		if($sql)
 			$this->id = $sql->get_id();
 		else
-			$this->id = -1;
+			$this->id = false;
 
 		return $this->id;
   }

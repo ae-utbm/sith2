@@ -125,11 +125,12 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 			
 			foreach ($ids as $id_annonce)
 			{
-				$annonce = new annonce($site->db);
+				$annonce = new annonce($site->db, $site->dbrw);
 				$annonce->load_by_id($id_annonce);
-				$annonce->reject($usr);
+				if( $annonce->reject($usr) )
+					$cts->add_paragraph("Votre souhait de ne plus voir l'annonce n°".$annonce->id." vous être proposée à bien été enregistré.\n");;
 			}
-		}
+		}	
 		else if($_REQUEST['action'] == "apply")
 		{
 			$cts->add_paragraph("Namého ! tu te crois chez mémé ? ca se passe pas comme ça nondidiou !!");
@@ -145,6 +146,10 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 																		ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
 																		LEFT JOIN `job_types`
 																		ON `job_types`.`id_type` = `job_annonces`.`job_type`");
+/*																		LEFT JOIN `job_annonces_etu`
+																		ON `job_annonces`.`id_annonce` = `job_annonces_etu`.`id_annonce`
+																		WHERE `job_annonces_etu`.`relation` <> 'reject'
+																		"); */
 		
 		$table = new sqltable("annlist", "Liste des annonces en cours", $sql, "board_etu.php?view=general", "id_annonce",
 													array(
