@@ -53,8 +53,8 @@ while ( list($id_utl, $nom, $prenom, $ville, $cpostal, $pays)=$req->get_row() )
       $rep[$id]=$_rep;
     foreach($question AS $id=>$q)
     {
-      if( isset($rep[$id]) && !empty($rep[$id]) && !is_null($rep[$id]) )
-        echo "<td>".$rep[$id]."</td>";
+      if( isset($rep[$id]) )
+        echo "<td>".$rep[$id]." </td>";
       else
         echo "<td>&nbsp;</td>";
     }
