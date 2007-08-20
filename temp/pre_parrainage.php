@@ -71,7 +71,7 @@ $req = new requete($sql,"SELECT `nom_utl`, `prenom_utl`, `email_utl`, `addresse_
                         "LEFT JOIN `loc_ville` USING(`id_ville`) ".
                         "WHERE SEMESTRE='".$sem."'");
 
-while(list($nom,$prenom,$email,$adresse,$ville,$cpostal,$pays,$tc,$branche)=$req->get_rwo())
+while(list($nom,$prenom,$email,$adresse,$ville,$cpostal,$pays,$tc,$branche)=$req->get_row())
 {
   echo "\n==================================\n";
   echo "QUI ? : ".$nom." ".$prenom."\n";
