@@ -46,7 +46,7 @@ while ( list($id_utl, $nom, $prenom, $ville, $cpostal, $pays)=$req->get_row() )
                            "ORDER BY `id_question`");
   if( $_req->lines>0 )
   {
-    $table.="<tr><td>".$nom."</td><td>".$prenom."<td>".$ville." (".$cpostal.")</td><td>$pays</td>";
+    echo "<tr><td>".$nom."</td><td>".$prenom."<td>".$ville." (".$cpostal.")</td><td>$pays</td>";
     $rep=array();
     while( list($id,$_rep)=$_req->get_row())
       $rep[$id]=$_rep;
@@ -72,27 +72,16 @@ $req = new requete($sql,"SELECT `nom_utl`, `prenom_utl`, `email_utl`, `addresse_
                         "LEFT JOIN `loc_pays` USING(`id_pays`) ".
                         "LEFT JOIN `loc_ville` USING(`id_ville`) ".
                         "WHERE SEMESTRE='".$sem."'");
+echo "\n<br />\n";
+echo "<table>\n";
+echo "<tr><td>NOM</td><td>PRENOM</td><td>VILLE</td><td>PAYS</td><td>ADRESSE</td><td>VILLE</td><td>PAYS</td><td>TC</td><td>BRANCHE</td></tr>\n";
 
 while(list($nom,$prenom,$email,$adresse,$ville,$cpostal,$pays,$tc,$branche)=$req->get_row())
 {
-  echo "\n==================================\n";
-  echo "QUI ? : ".$nom." ".$prenom."\n";
-  if(is_null($ville) && is_null($pays))
-    echo "cet abrutis n'a spécifié ni sa ville ni son pays ...\n";
-  else
-  {
-    if(!is_null($pays))
-      echo "Pays : ".$pays."\n";
-    if(!is_null($ville))
-      echo "Ville : ".$ville." (".$cpostal.")\n";
-  }
-  echo "Adresse : ".$adresse."\n";
-  if($tc==1)
-    echo "Rentre en TC et souhaite faire ".$branche."\n";
-  else
-    echo "Rentre en ".$branche."\n";
+  echo "\n<br />\n";
+  echo "<table>\n";
+  echo "<tr><td>".$nom."</td><td>".$prenom."</td><td>".$email."</td><td>".$adresse."</td><td>".$ville." (".$cpostal.")</td><td>".$pays."</td><td>".$tc."</td><td>".$branche."</td></tr>\n";
 }
 
-echo "</pre>";
 
 ?>
