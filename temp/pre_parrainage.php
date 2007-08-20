@@ -24,7 +24,7 @@ $question=array();
 if( $req->lines==0 )
   exit();
 
-$req2 = new requete($sql,"SELECT `nom_question` FROM `cpg_reponse` WHERE `id_campagne`='".$cpg."'");
+$req2 = new requete($sql,"SELECT `nom_question` FROM `cpg_question` WHERE `id_campagne`='".$cpg."'");
 if( $req2->lines==0 )
   exit();
 else
