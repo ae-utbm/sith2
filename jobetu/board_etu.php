@@ -117,6 +117,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 				$annonce->load_by_id($id_annonce);
 				$cts->add( new apply_annonce_box($annonce) );
 			}
+			
 		}
 		else if($_REQUEST['action'] == "reject")
 		{
@@ -136,8 +137,6 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 			$cts->add_paragraph("Namého ! tu te crois chez mémé ? ca se passe pas comme ça nondidiou !!");
 		}
 	}
-	else
-	{
 		$usr = new jobuser_etu($site->db, $site->dbrw);
 		$usr->load_by_id($site->user->id);
 	
@@ -168,7 +167,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 												);
 		
 		$cts->add($table, true);
-	}
+	
 }
 
 /*******************************************************************************
