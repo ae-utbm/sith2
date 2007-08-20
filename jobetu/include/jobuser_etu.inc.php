@@ -58,7 +58,10 @@ class jobuser_etu extends utilisateur
 		if(!empty($this->annonces)) $this->annonces = null;
 	   // if( is_jobetu_etu() )
       {
-      	$sql = new requete($this->db, "SELECT id_annonce FROM job_annonces WHERE job_type IN ('".implode('\', \'', $this->competences)."')", false);
+      	$sql = new requete($this->db, "SELECT id_annonce FROM job_annonces 
+																				WHERE job_type IN ('".implode('\', \'', $this->competences)."')
+																				AND `job_annonces`.`id_annonce` NOT IN (SELECT id_annonce FROM job_annonces_etu WHERE id_etu = $this->id)
+																				", false);
       	     	
         while($line = $sql->get_row())
 			    $this->annonces[] = $line[0];
