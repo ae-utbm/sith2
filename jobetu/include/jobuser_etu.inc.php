@@ -55,12 +55,13 @@ class jobuser_etu extends utilisateur
 	function load_annonces()
 	{
 		if(empty($this->competences)) $this->load_competences();
+		if(!empty($this->annonces)) $this->annonces = null;
 	   // if( is_jobetu_etu() )
       {
-      	$sql = new requete($this->db, "SELECT * FROM job_annonces WHERE job_type IN ('".implode(', ', $this->competences)."')");
+      	$sql = new requete($this->db, "SELECT id_annonce FROM job_annonces WHERE job_type IN ('".implode('\', \'', $this->competences)."')", false);
       	     	
         while($line = $sql->get_row())
-			    $this->annonces[] = $line;
+			    $this->annonces[] = $line[0];
 	    }
 	}
 

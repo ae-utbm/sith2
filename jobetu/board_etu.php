@@ -183,11 +183,11 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
  */
 else
 {	
+	$usr = new jobuser_etu($site->db);
+	$usr->load_by_id($site->user->id);
+	
 	if( isset($_REQUEST['action']) )
 	{
-		$usr = new jobuser_etu($site->db);
-		$usr->load_by_id($site->user->id);
-
 		$annonce = new annonce($site->db, $site->dbrw);
 		$annonce->load_by_id($_REQUEST['id']);
 		
@@ -208,10 +208,15 @@ else
 		
 	} //fin 'actions'
 
+	$usr->load_annonces();
 	
-	$annonce = new annonce($site->db);
-	$annonce->load_by_id(1);
-	$cts->add( new apply_annonce_box($annonce) );
+	foreach($usr->annonces as $id_annonce)
+	{
+		$annonce = new annonce($site->db);
+		$annonce->load_by_id($id_annonce);
+		$cts->add( new apply_annonce_box($annonce) );
+	}
+	
 }
 
 
