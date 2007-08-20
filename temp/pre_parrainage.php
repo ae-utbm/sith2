@@ -31,10 +31,10 @@ else
   while( list($id,$nom)=$req2->get_row() )
     $question[$id]=$nom;
 
-$table="<table><tr><td>NOM</td><td>PRENOM</td><td>VILLE</td><td>PAYS</td>";
+echo "<table>\n<tr><td>NOM</td><td>PRENOM</td><td>VILLE</td><td>PAYS</td>";
 foreach($question AS $q)
-  $table.="<td>".$q."</td>";
-$table.="</tr>";
+  echo "<td>".$q."</td>";
+echo "</tr>\n";
 
 echo "PARRAINS :\n";
 
@@ -57,6 +57,7 @@ while ( list($id_utl, $nom, $prenom, $ville, $cpostal, $pays)=$req->get_row() )
       else
         echo "<td> </td>";
     }
+    echo "</tr>\n";
   }
 }
 
