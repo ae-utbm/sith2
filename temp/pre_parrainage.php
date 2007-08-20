@@ -54,7 +54,7 @@ while ( list($id_utl, $nom, $prenom, $ville, $cpostal, $pays)=$req->get_row() )
     foreach($question AS $id=>$q)
     {
       if( isset($rep[$id]) )
-        echo "<td>".$rep[$id]." </td>";
+        echo "<td>".$rep[$id]."&nbsp;</td>";
       else
         echo "<td>&nbsp;</td>";
     }
