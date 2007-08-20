@@ -79,7 +79,7 @@ echo "<tr><td>NOM</td><td>PRENOM</td><td>EMAIL</td><td>ADRESSE</td><td>VILLE</td
 
 while(list($nom,$prenom,$email,$adresse,$ville,$cpostal,$pays,$tc,$branche)=$req->get_row())
 {
-  echo "<tr><td>".$nom."</td><td>".$prenom."</td><td>".$email."</td><td>".$adresse."</td><td>".$ville." (".$cpostal.")</td><td>".$pays."</td><td>".$tc."</td><td>".$branche."</td></tr>\n";
+  echo "<tr><td>".$nom."</td><td>".$prenom."</td><td>".$email."</td><td>".$adresse."&nbsp;</td><td>".$ville." (".$cpostal.")</td><td>".$pays."</td><td>".$tc."</td><td>".$branche."</td></tr>\n";
 }
 echo "</table>";
 
