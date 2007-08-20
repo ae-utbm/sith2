@@ -38,7 +38,7 @@ while ( list($id_utl, $nom, $prenom, $adresse, $ville, $cpostal, $pays)=$req->ge
 {
   $_req = new requete($sql,"SELECT `id_question`, `valeur_reponse` FROM `cpg_reponse` ".
                            "INNER JOIN `cpg_question` USING(`id_campagne`,`id_question`) ".
-                           "WHERE `id_campagne`='".$cpg."' AND `id_utilisateur`='".$id_utl."' "
+                           "WHERE `id_campagne`='".$cpg."' AND `id_utilisateur`='".$id_utl."' ".
                            "ORDER BY `id_question`");
   if( $_req->lines>0 )
   {
