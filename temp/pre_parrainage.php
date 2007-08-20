@@ -60,11 +60,11 @@ while ( list($id_utl, $nom, $prenom, $ville, $cpostal, $pays)=$req->get_row() )
     echo "</tr>\n";
   }
 }
+echo "</table>";
 
 
 
-
-echo "\n\n\n\nBIJOUX\n\n";
+echo "\n<br />\n<hr />\n<br />\nBIJOUX\n";
 
 $req = new requete($sql,"SELECT `nom_utl`, `prenom_utl`, `email_utl`, `addresse_utl`, `nom_ville`, `cpostal_ville`, `nom_pays`, `tc`, `branche` ".
                         "FROM `pre_parrainage` ".
