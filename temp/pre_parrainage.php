@@ -31,7 +31,11 @@ else
   while( list($id,$nom)=$req2->get_row() )
     $question[$id]=$nom;
 
-echo "<pre>\n";
+$table="<table><tr><td>NOM</td><td>PRENOM</td><td>VILLE</td><td>PAYS</td>";
+foreach($question AS $q)
+  $table.="<td>".$q."</td>";
+$table.="</tr>";
+
 echo "PARRAINS :\n";
 
 while ( list($id_utl, $nom, $prenom, $ville, $cpostal, $pays)=$req->get_row() )
@@ -42,20 +46,17 @@ while ( list($id_utl, $nom, $prenom, $ville, $cpostal, $pays)=$req->get_row() )
                            "ORDER BY `id_question`");
   if( $_req->lines>0 )
   {
-    echo "\n==================================\n";
-    echo "QUI ? : ".$nom." ".$prenom."\n";
-    if(is_null($ville) && is_null($pays))
-      echo "cet abrutis n'a spécifié ni sa ville ni son pays ...\n";
-    else
+    $table.="<tr><td>".$nom."</td><td>".$prenom."<td>".$ville." (".$cpostal.")</td><td>$pays</td>";
+    $rep=array();
+    while( list($id,$_rep)=$_req->get_row())
+      $rep[$id]=$_rep;
+    foreach($question AS $id=>$q)
     {
-      if(!is_null($pays))
-        echo "Pays : ".$pays."\n";
-      if(!is_null($ville))
-        echo "Ville : ".$ville." (".$cpostal.")\n";
+      if(isset($rep[$id]))
+        echo "<td>".$rep[$id]."</td>";
+      else
+        echo "<td> </td>";
     }
-    echo "\nRéponses :\n";
-    while( list($id,$rep)=$_req->get_row())
-      echo "  ".$question[$id]." : ".$rep."\n";
   }
 }
 
