@@ -11,7 +11,7 @@ require_once ($topdir . "include/mysqlae.inc.php");
 
 $sql = new mysqlae ();
 
-$req = new requete($sql,"SELECT `id_utilisateur`, `nom_utl`, `prenom_utl`, `addresse_utl`, `nom_ville`, `cpostal_ville`, `nom_pays` ".
+$req = new requete($sql,"SELECT `id_utilisateur`, `nom_utl`, `prenom_utl`, `nom_ville`, `cpostal_ville`, `nom_pays` ".
                         "FROM `cpg_participe` ".
                         "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
                         "INNER JOIN `utl_etu` USING(`id_utilisateur`) ".
@@ -34,7 +34,7 @@ else
 echo "<pre>\n";
 echo "PARRAINS :\n";
 
-while ( list($id_utl, $nom, $prenom, $adresse, $ville, $cpostal, $pays)=$req->get_row() )
+while ( list($id_utl, $nom, $prenom, $ville, $cpostal, $pays)=$req->get_row() )
 {
   $_req = new requete($sql,"SELECT `id_question`, `valeur_reponse` FROM `cpg_reponse` ".
                            "INNER JOIN `cpg_question` USING(`id_campagne`,`id_question`) ".
@@ -53,7 +53,6 @@ while ( list($id_utl, $nom, $prenom, $adresse, $ville, $cpostal, $pays)=$req->ge
       if(!is_null($ville))
         echo "Ville : ".$ville." (".$cpostal.")\n";
     }
-    echo "Adresse : ".$adresse."\n";
     echo "\nRéponses :\n";
     while( list($id,$rep)=$_req->get_row())
       echo $question[$id]." : ".$rep."\n";
