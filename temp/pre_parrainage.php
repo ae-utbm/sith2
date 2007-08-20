@@ -31,12 +31,13 @@ else
   while( list($id,$nom)=$req2->get_row() )
     $question[$id]=$nom;
 
-echo "<table>\n<tr><td>NOM</td><td>PRENOM</td><td>VILLE</td><td>PAYS</td>";
+echo "PARRAINS\n";
+
+echo "<table border=\"1\">\n<tr><td>NOM</td><td>PRENOM</td><td>VILLE</td><td>PAYS</td>";
 foreach($question AS $q)
   echo "<td>".$q."</td>";
 echo "</tr>\n";
 
-echo "PARRAINS :\n";
 
 while ( list($id_utl, $nom, $prenom, $ville, $cpostal, $pays)=$req->get_row() )
 {
@@ -73,8 +74,8 @@ $req = new requete($sql,"SELECT `nom_utl`, `prenom_utl`, `email_utl`, `addresse_
                         "LEFT JOIN `loc_ville` USING(`id_ville`) ".
                         "WHERE SEMESTRE='".$sem."'");
 echo "\n<br />\n";
-echo "<table>\n";
-echo "<tr><td>NOM</td><td>PRENOM</td><td>VILLE</td><td>PAYS</td><td>ADRESSE</td><td>VILLE</td><td>PAYS</td><td>TC</td><td>BRANCHE</td></tr>\n";
+echo "<table border=\"1\">\n";
+echo "<tr><td>NOM</td><td>PRENOM</td><td>EMAIL</td><td>ADRESSE</td><td>VILLE</td><td>PAYS</td><td>TC</td><td>BRANCHE</td></tr>\n";
 
 while(list($nom,$prenom,$email,$adresse,$ville,$cpostal,$pays,$tc,$branche)=$req->get_row())
 {
