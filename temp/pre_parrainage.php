@@ -55,7 +55,7 @@ while ( list($id_utl, $nom, $prenom, $ville, $cpostal, $pays)=$req->get_row() )
     }
     echo "\nRéponses :\n";
     while( list($id,$rep)=$_req->get_row())
-      echo $question[$id]." : ".$rep."\n";
+      echo "  ".$question[$id]." : ".$rep."\n";
   }
 }
 
