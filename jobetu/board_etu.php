@@ -143,6 +143,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 	
 		$sql = new requete($site->db, "SELECT `job_annonces`.*,
 																		CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur`,
+																		`utilisateurs`.`id_utilisateur`,
 																		`job_types`.`nom` AS `job_nom`
 																		FROM `job_annonces`
 																		LEFT JOIN `utilisateurs`
