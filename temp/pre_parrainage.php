@@ -89,7 +89,7 @@ while(list($nom,$prenom,$email,$adresse,$ville,$cpostal,$pays,$tc,$branche)=$req
   if($tc==1)
     echo "Rentre en TC et souhaite faire ".$branche."\n";
   else
-    echo "Rentre en "$branche."\n";
+    echo "Rentre en ".$branche."\n";
 }
 
 echo "</pre>";
