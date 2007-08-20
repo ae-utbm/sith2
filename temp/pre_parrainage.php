@@ -47,7 +47,7 @@ while ( list($id_utl, $nom, $prenom, $ville, $cpostal, $pays)=$req->get_row() )
                            "ORDER BY `id_question`");
   if( $_req->lines>0 )
   {
-    echo "<tr><td>".$nom."</td><td>".$prenom."<td>".$ville." (".$cpostal.")</td><td>$pays</td>";
+    echo "<tr><td>".$nom."</td><td>".$prenom."<td>".$ville." (".$cpostal.")</td><td>".$pays."&nbsp;</td>";
     $rep=array();
     while( list($id,$_rep)=$_req->get_row())
       $rep[$id]=$_rep;
