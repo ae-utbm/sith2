@@ -28,6 +28,8 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site();
 
+echo file_get_contents($topdir."var/cache/stream.php");
+
 if ( file_exists($topdir."var/cache/stream.php") )
   include($topdir."var/cache/stream.php");
 else
