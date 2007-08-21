@@ -425,7 +425,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                               );
           $site->add_contents($tbl);
 	}
-    }
+
 }
 
 elseif ($_REQUEST['action'] == "add")
