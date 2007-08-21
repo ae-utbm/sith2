@@ -66,15 +66,15 @@ echo "thank you. updated: ".implode(", ",$updated);
 
 $GLOBALS["streaminfo"]["updated"] = time();
 
-$data = '$GLOBALS["streaminfo"] = array(';
+$stuff = '<? $GLOBALS["streaminfo"] = array(';
 foreach ( $GLOBALS["streaminfo"] as $key => $data )
 {
-  $data .= '\''.addcslashes($key,'\'\\').'\'=>\''.addcslashes($data,'\'\\').'\'';
-  $data .= "\n"; 
+  $stuff .= '\''.addcslashes($key,'\'\\').'\'=>\''.addcslashes($data,'\'\\').'\'';
+  $stuff .= "\n"; 
 }
-$data .= ');';
-$data .= "\n";
+$stuff .= ');';
+$stuff .= "\n?>";
 
-file_put_contents($topdir."var/cache/stream.php",$data);
+file_put_contents($topdir."var/cache/stream.php",$stuff);
 
 ?>
