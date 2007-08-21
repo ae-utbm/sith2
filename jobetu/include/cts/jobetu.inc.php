@@ -176,7 +176,39 @@
 	
 	class jobtypes_table extends stdcontents
 	{
-		
+		function jobtypes_table(&$jobetu, $name, $title, $value = false, $required = true, $enabled = true)
+		{
+			if( !($jobetu instanceof jobetu) ) return -1;
+			if( empty($jobetu->job_types) ) $jobetu->get_job_types();
+	
+	  	$l = 1;
+	  	$t = 0;
+	  	static $num = 1;
+	  	$id_name = "id_job";
+	  	
+	  	$this->buffer .= "<table class=\"sqltable\">\n";
+	  	
+	  	foreach ( $jobetu->job_types as $key => $item )
+			{
+				if(!($key%100))
+				{
+			  	$this->buffer .= "<tr class=\"head\">\n";
+			  		$this->buffer .= "<th colspan=\"2\" value=\"$key\">$item</th>";
+			  	$this->buffer .= "</tr>\n";
+				}
+				else
+				{
+			  	$this->buffer .= "<tr id=\"ln[$num]\" class=\"ln$t\" onMouseDown=\"setPointer('ln$t','$num','click','".$id_name."s[','".$frm->name."');\" onMouseOut=\"setPointer('ln$t','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
+						$this->buffer .= "<td><input type=\"checkbox\" class=\"chkbox\" name=\"".$id_name."s[$num]\" value=\"".$key."\" onClick=\"setPointer('ln$t','$num','click','".$id_name."s[','".$frm->name."');\"/></td>\n";
+						$this->buffer .= "<td>$item</td>\n";
+					$this->buffer .= "</tr>";
+				
+					$l++; $t++; $num++;
+				}
+			}
+	  	$this->buffer .= "</table>\n";
+	  	$this->buffer .= "</select>\n<input type=\"submit\" name=\"$formname\" value=\"Enregistrer\" class=\"isubmit\"/>\n</p>\n";
+		}
 	}
 	
 ?>

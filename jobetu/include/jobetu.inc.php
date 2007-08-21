@@ -69,8 +69,8 @@ class jobetu extends stdentity
 			}
 			else
 			{
-		  	$frm->buffer .= "<tr id=\"ln[$num]\" class=\"ln$t\" onMouseDown=\"setPointer('ln$t','$num','click','".$id_name."s[','".$frm->name."');\" onMouseOut=\"setPointer('ln$t','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
-					$frm->buffer .= "<td><input type=\"checkbox\" class=\"chkbox\" name=\"".$id_name."s[$num]\" value=\"".$key."\" onClick=\"setPointer('ln$t','$num','click','".$id_name."s[','".$frm->name."');\"/></td>\n";
+				$frm->buffer .= "<tr id=\"ln[$num]\" class=\"ln$t\" onMouseDown=\"setPointer('ln$t','$num','click','".$id_name."s[','".$name."');\" onMouseOut=\"setPointer('ln$t','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
+				$frm->buffer .= "<td><input type=\"checkbox\" class=\"chkbox\" name=\"".$id_name."s[$num]\" value=\"".$key."\" onClick=\"setPointer('ln$t','$num','click','".$id_name."s[','".$name."');\"/></td>\n";
 					$frm->buffer .= "<td>$item</td>\n";
 				$frm->buffer .= "</tr>";
 			

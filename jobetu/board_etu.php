@@ -70,17 +70,26 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 	
 	$frm = new form("jobcapa", "board_etu.php?view=profil", true, "POST");
 	$frm->puts("<h3>De quoi êtes vous capable ?</h3>");
-	$jobetu->add_jobtypes_table($frm, "job_type", "Catégorie");
+	//$jobetu->add_jobtypes_table($frm, "job_type", "Catégorie");
 	
 	$sql = new requete($site->db, "SELECT *  FROM job_types ORDER BY id_type ASC");
 	$table = new sqltable("typetable", "Catégorie des jobs", $sql, null, "id_types", array("id_type" => "Num", "nom" => "Nom de la catégorie"), array("go"=>"Go"), array("go"=>"Go"), array());
 	//$cts->add($table);
 		
+	$cts->puts("<script langage=\"javascript\"> 
+								function test(){ 
+									 document.getElementById(\"jobcapa\").innerHTML += '<div class=\"formrow\"><div class=\"formlabel\">Un autre CV</div><div class=\"formfield\"><input type=\"file\" name=\"cv_2\" /></div></div>';
+								} 
+							</script>");
+	
 	$frm->puts("<h3>Vos CV \"traditionnels\"</h3>");
 		$frm->add_file_field("cv_1", "Envoyez un CV");
 		$frm->add_file_field("cv_2", "Un autre CV");
+		$frm->puts("<input type=\"button\" onclick=\"test();\" value=\"Ajouter un champ\"/>");
 	$frm->add_submit("go", "Envoyer");
 	$cts->add($frm);
+	
+	$cts->add( new jobtypes_table($jobetu, "jobtypes_table", "Vos compétences") );
 }
 
 /*******************************************************************************
