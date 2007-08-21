@@ -22,19 +22,6 @@
  */
 $topdir = "../";
 
-if (XMLRPC_USE)
-{
-  require_once($topdir. 'include/inscriptions/xmlrpc.inc');
-
-  define('API_URI', 'inscriptions.php');
-  define('API_HOST', 'ae.utbm.fr');
-  define('API_PORT', 443);
-  define('API_PROTOCOL', 'https');
-
-  require_once($topdir. 'include/inscriptions/xmlrpc-client.inc.php');
-  $ch = new ClientHelper ("ae", "b2a78500"); 
-}
-
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/cotisation.inc.php");
