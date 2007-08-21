@@ -74,7 +74,7 @@ foreach ( $GLOBALS["streaminfo"] as $key => $data )
   $stuff .= '\''.addcslashes($key,'\'\\').'\'=>\''.addcslashes($data,'\'\\').'\',';
   $stuff .= "\n"; 
 }
-$stuff .= '\'done\');';
+$stuff .= '\'done\'';
 $stuff .= ');';
 $stuff .= "\n?>";
 
