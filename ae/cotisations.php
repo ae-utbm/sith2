@@ -81,7 +81,6 @@ function add_search_form()
   $frm->add_info("&nbsp;");
   $frm->add_submit("submit","Envoyer");
   $cts->add($frm,true);
-}
 
   return $cts;
 }
