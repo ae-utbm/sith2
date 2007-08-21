@@ -186,9 +186,9 @@ class aecms extends site
       foreach ( $this->config as $key => $value )
       {          
         if ( is_numeric($value) || is_bool($value) )
-          fwrite($f," \"".addslashes($key)."\" => ".str_replace(",",".",$value)."");
+          fwrite($f,' \''.addcslashes($key,'\'\\').'\' => '.str_replace(",",".",$value).'');
         else
-          fwrite($f," \"".addslashes($key)."\" => \"".addslashes($value)."\"");
+          fwrite($f,' \''.addcslashes($key,'\'\\').'\' => \''.addcslashes($value,'\'\\').'\'');
 
         $n++;
         if ( $n == $cnt )
