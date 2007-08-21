@@ -104,7 +104,6 @@
 	  	$this->buffer .= "<div class=\"content\">\n";
 	  	
 	  	/** Candidatures ******************************************************/
-	  	$this->buffer .= "Il y a `".count($annonce->applicants)."` candidature(s) pour votre annonce :\n";
 	  	$n = 1; // Compteuràlacon
 
 			if( empty($annonce->applicants) )
@@ -113,6 +112,8 @@
 			}
 			else
 			{
+				$this->buffer .= "<p>Il y a `".count($annonce->applicants)."` candidature(s) pour votre annonce :</p>\n";
+				
 		  	foreach($annonce->applicants_fullobj as $usr)
 		  	{
 					$usr->load_all_extra();
