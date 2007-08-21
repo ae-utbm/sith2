@@ -119,7 +119,7 @@
 					$usr->load_all_extra();
 		  		$this->buffer .= "<div class=\"apply_table\">\n";
 	  				$this->buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_".$n."');\">";
-	  				$this->buffer .= $usr->prenom." ".$usr->nom." (département ".$usr->departement.")";
+	  				$this->buffer .= $usr->prenom." ".$usr->nom." (département ".strtoupper($usr->departement).")";
 	  				$this->buffer .= "</div>\n";
 	  					
 	  				$this->buffer .= "<div id=\"applicant_".$n."\" class=\"apply_content\">";
