@@ -210,11 +210,22 @@ else
 
 	$usr->load_annonces();
 	
-	foreach($usr->annonces as $id_annonce)
+	if(empty($usr->annonces))
 	{
-		$annonce = new annonce($site->db);
-		$annonce->load_by_id($id_annonce);
-		$cts->add( new apply_annonce_box($annonce) );
+		$cts->add_paragraph("<b>Nous n'avons trouvé aucune annonce correspondant à votre profil</b>.");
+		$cts->add_paragraph("Vérifiez d'avoir correctement rempli votre tableau de compétences dans la <a href=\"board_etu.php?view=profil\">section \"profil\"</a>.");
+		$cts->add_paragraph("Si vous pensez avoir découvert un bug, merci de <a href=\"https://ae.utbm.fr/trac/ae2/newticket?component=jobetu\">le signaler</a>.");
+	}
+	else
+	{
+		$cts->add_title(3, "Nous avons trouvé ".count($usr->annonces)." annonce(s) correspondant à votre <a href=\"board_etu.php?view=profil\">profil</a> :");
+		
+		foreach($usr->annonces as $id_annonce)
+		{
+			$annonce = new annonce($site->db);
+			$annonce->load_by_id($id_annonce);
+			$cts->add( new apply_annonce_box($annonce) );
+		}
 	}
 	
 }
