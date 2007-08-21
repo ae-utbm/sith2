@@ -58,56 +58,30 @@ function add_search_form()
   global $topdir, $ch;
   $cts = new contents("Gestion des cotisations");
 
-  if ( XMLRPC_USE )
-    {
-      $xmlrpc_cts = new contents("Recherche sur la base de donn&eacute;es commune");
-      $xmlrpc_cts->add_paragraph("<img src=\"".$topdir."images/actions/info.png\"/>&nbsp;&nbsp;Seuls les personnes NON cotisantes &agrave; l'AE figurent dans cette liste.");
-      $list = $ch->getList ();
-      if (array_key_exists('error_code', $list)) {
-        $xmlrpc_cts->add_paragraph("<strong>" . $list['reason'] . "</strong>");
-      } elseif (!count($list)) {
-        $xmlrpc_cts->add_paragraph("<strong>Aucun adh&eacute;rent disponible</strong>");
-      } else {
-        $xmlrpc_cts->puts("<form action=\"".$_SERVER['SCRIPT_NAME']."\" method=\"post\">\n");
-        $xmlrpc_cts->puts("<input type=\"hidden\" name=\"action\" value=\"searchstudent\">");
-        $xmlrpc_cts->puts("<select name=\"search_id\">\n");
-        $xmlrpc_cts->puts("<option value=\"NULL\">S&eacute;lectionnez une personne dans la liste</option>\n");
+  $frm = new form("searchstudent","cotisations.php",true,"POST",utf8_encode("Recherche d'un étudiant"));
+  $frm->add_hidden("action","searchstudent");
 
-        foreach ($list as $value)
-          $xmlrpc_cts->puts("<option value=\"". $value['id'] . "\">" . $value["nom"] . " " . $value['prenom'] . " (" . $value['email'] . ")</option>\n");
+  $sub_frm_ident = new form ("searchstudentident",null,null,null,utf8_encode("Par son Nom ou Prénom : "));
+  $sub_frm_ident->add_text_field("nom","Nom");
+  $sub_frm_ident->add_text_field("prenom","Prenom");
+  $frm->add($sub_frm_ident,false,false,false,false,false,true,true);
 
-        $xmlrpc_cts->puts("</select>");
-        $xmlrpc_cts->puts("&nbsp;&nbsp;&nbsp;<input type=\"submit\" value=\"Go\" class=\"isubmit\"/>\n");
-        $xmlrpc_cts->puts("</form>");
-      }
-      $cts->add($xmlrpc_cts,true);
-    }
-  else
-    {
-      $frm = new form("searchstudent","cotisations.php",true,"POST",utf8_encode("Recherche d'un étudiant"));
-      $frm->add_hidden("action","searchstudent");
+  $frm->add_info("&nbsp;");
 
-      $sub_frm_ident = new form ("searchstudentident",null,null,null,utf8_encode("Par son Nom ou Prénom : "));
-      $sub_frm_ident->add_text_field("nom","Nom");
-      $sub_frm_ident->add_text_field("prenom","Prenom");
-      $frm->add($sub_frm_ident,false,false,false,false,false,true,true);
+  $sub_frm_email = new form ("searchstudentemail",null,null,null,utf8_encode("Par son E Mail : "));
+  $sub_frm_email->add_text_field("email","Adresse e-mail");
+  $frm->add($sub_frm_email,false,false,false,false,false,true,true);
 
-      $frm->add_info("&nbsp;");
+  $frm->add_info("&nbsp;");
 
-      $sub_frm_email = new form ("searchstudentemail",null,null,null,utf8_encode("Par son E Mail : "));
-      $sub_frm_email->add_text_field("email","Adresse e-mail");
-      $frm->add($sub_frm_email,false,false,false,false,false,true,true);
+  $sub_frm_cbarre = new form("searchstudentcbarre",null,null,null,utf8_encode("Par le code barre de sa carte AE : "));
+  $sub_frm_cbarre->add_text_field("numcarte","Carte AE");
+  $frm->add($sub_frm_cbarre,false,false,false,false,false,true,true);
 
-      $frm->add_info("&nbsp;");
-
-      $sub_frm_cbarre = new form("searchstudentcbarre",null,null,null,utf8_encode("Par le code barre de sa carte AE : "));
-      $sub_frm_cbarre->add_text_field("numcarte","Carte AE");
-      $frm->add($sub_frm_cbarre,false,false,false,false,false,true,true);
-
-      $frm->add_info("&nbsp;");
-      $frm->add_submit("submit","Envoyer");
-      $cts->add($frm,true);
-    }
+  $frm->add_info("&nbsp;");
+  $frm->add_submit("submit","Envoyer");
+  $cts->add($frm,true);
+}
 
   return $cts;
 }
@@ -116,9 +90,6 @@ function add_new_form($id = null)
 {
   global $topdir, $ch;
   
-  if (isset($id) && XMLRPC_USE)
-    $xmlrpc_user = $ch->getById($id);
-
   global $date1, $date2;
 
   $cts = new contents("Gestion des cotisations");
@@ -130,20 +101,11 @@ function add_new_form($id = null)
 
   $sub_frm_ident = new form("ident",null,null,null,utf8_encode("Identité"));
 
-  if ( $xmlrpc_user['nom'] && XMLRPC_USE )
-    $sub_frm_ident->add_text_field("nom","Nom",$xmlrpc_user['nom'],true);
-  else
-    $sub_frm_ident->add_text_field("nom","Nom","",true);
+  $sub_frm_ident->add_text_field("nom","Nom","",true);
 
-  if ( $xmlrpc_user['prenom'] && XMLRPC_USE )
-    $sub_frm_ident->add_text_field("prenom","Prenom",$xmlrpc_user['prenom'],true);
-  else
-    $sub_frm_ident->add_text_field("prenom","Prenom","",true);
+  $sub_frm_ident->add_text_field("prenom","Prenom","",true);
 
-  if ( $xmlrpc_user['email'] && XMLRPC_USE )
-    $sub_frm_ident->add_text_field("emailutbm","Adresse e-mail (UTBM si possible)",$xmlrpc_user['email'],true,false,false,true);
-  else
-    $sub_frm_ident->add_text_field("emailutbm","Adresse e-mail (UTBM si possible)","",true,false,false,true);
+  $sub_frm_ident->add_text_field("emailutbm","Adresse e-mail (UTBM si possible)","",true,false,false,true);
 
   $frm->add($sub_frm_ident);
   $frm->add_info("&nbsp;");
@@ -280,17 +242,8 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
       }
     $user->saveinfos();
 
-    /* ici on update la base XMLRPC */
-    if ( XMLRPC_USE )
-      $ret = $ch->addUser($user->nom, $user->prenom, $user->email, $user->sexe, $user->branche, $user->semestre, date("Y-m-d",$user->date_naissance));
+    $info = new contents("Nouvelle cotisation","<img src=\"".$topdir."images/actions/done.png\">&nbsp;&nbsp;La cotisation a bien &eacute;t&eacute; enregistr&eacute;e.<br /><a href=\"" . $topdir . "ae/cotisations.php\">Retour</a>");
 
-    if ( XMLRPC_USE && $ret == TRUE) {
-      $info = new contents("Nouvelle cotisation","<img src=\"".$topdir."images/actions/done.png\">&nbsp;&nbsp;La cotisation a bien &eacute;t&eacute; enregistr&eacute;e avec mise &agrave; jour de la base de donn&eacute;es commune.<br />");
-    } elseif ( XMLRPC_USE && $ret !== TRUE) {
-      $info = new contents("Erreur","<img src=\"".$topdir."images/actions/delete.png\" />&nbsp;&nbsp;Une erreur s'est produite lors de l'ajout de l'utilisateur &agrave; la base de donn&eacute;es commune : " . $ret['reason']);
-    } else {
-      $info = new contents("Nouvelle cotisation","<img src=\"".$topdir."images/actions/done.png\">&nbsp;&nbsp;La cotisation a bien &eacute;t&eacute; enregistr&eacute;e.<br /><a href=\"" . $topdir . "ae/cotisations.php\">Retour</a>");
-    }
 
     $list = new itemlist();
     $list->add("<a href=\"" . $topdir . "ae/cotisations.php\">Retour aux cotisations</a>");
@@ -310,60 +263,37 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
   if ( $_REQUEST['search_id'] && XMLRPC_USE )
     $user = $ch->getById($_REQUEST['search_id']);
 
-  if ( XMLRPC_USE && $_REQUEST['search_id'] && array_key_exists('error_code', $user))
-    {
-      $cts = new contents("WARNING");
-      $cts->set_toolbox(new toolbox(array("javascript:history.go(-1);"=>utf8_encode("Retour"))));
-      $cts->add_paragraph("<img src=\"".$topdir."images/actions/delete.png\">&nbsp;&nbsp;".utf8_encode("<strong>". $user['reason']."</strong>"));
-      $site->add_contents($cts,true);
-    } elseif ( XMLRPC_USE && $_REQUEST['search_id'] && !count($user)) {
-      $cts = new contents("WARNING");
-      $cts->set_toolbox(new toolbox(array("javascript:history.go(-1);"=>utf8_encode("Retour"))));
-      $cts->add_paragraph("<img src=\"".$topdir."images/actions/delete.png\">Aucun utilisateur corespondant a cet id : ". $_REQUEST['search_id']);
-      $site->add_contents($cts,true);
-    }
-  elseif (!XMLRPC_USE || ( XMLRPC_USE && !array_key_exists('error_code', $user) ) || isset($_REQUEST['id_utilisateur']))
-    {
-      if ( ( !XMLRPC_USE && $_REQUEST["nom"] ) || ( XMLRPC_USE && $user['nom'] ) )
+  if ( $_REQUEST["nom"] )
 	{
           $by = "nom";
-          if ( XMLRPC_USE )
-            $on = $user['nom'];
-          else
-            $on = $_REQUEST['nom'];
+          $on = $_REQUEST['nom'];
           if ($on)
             $conds .= " AND utilisateurs.nom_utl LIKE '".mysql_real_escape_string($on)."%'";
 	}
-      if ( ( !XMLRPC_USE && $_REQUEST["prenom"] ) || ( XMLRPC_USE && $user['prenom'] ) )
+  if ( $_REQUEST["prenom"] )
 	{
           $by = "prénom";
-          if ( XMLRPC_USE )
-            $on = $user['prenom'];
-          else
-            $on = $_REQUEST['prenom'];
+          $on = $_REQUEST['prenom'];
           if ($on)
             $conds .= " AND utilisateurs.prenom_utl LIKE '".mysql_real_escape_string($on)."%'";
 	}
-      if ( ( !XMLRPC_USE && $_REQUEST["email"] ) || ( XMLRPC_USE && $user['email'] ) )
+  if ( $_REQUEST["email"] )
 	{
           $by = "E Mail";
-          if ( XMLRPC_USE )
-            $on = $user['email'];
-          else
-            $on = $_REQUEST['email'];
+          $on = $_REQUEST['email'];
           if ($on)
             $conds .= " AND (`utilisateurs`.`email_utl` = '" . mysql_real_escape_string($on) . "' OR " .
               "`utl_etu_utbm`.`email_utbm` = '" . mysql_real_escape_string($on) . "') ";
 	}
-      if ( ( ! XMLRPC_USE && $_REQUEST["numcarte"] ) )
+  if ( $_REQUEST["numcarte"] )
 	{
           $by = "Code Barre Carte AE";
           list($num,$extra)=explode(" ",$_REQUEST["numcarte"]);
           $on = intval($num);
           $conds .= " AND ae_carte.id_carte_ae = '". mysql_real_escape_string($on)."'";
 	}
-      if ( isset($_REQUEST['id_utilisateur']) && ($_REQUEST['id_utilisateur'] > 0))
-        {
+  if ( isset($_REQUEST['id_utilisateur']) && ($_REQUEST['id_utilisateur'] > 0))
+  {
 	  $by = "Identifiant AE";
 	  $on = intval($_REQUEST['id_utilisateur']);
 	  $conds .= " AND utilisateurs.id_utilisateur = '" . mysql_real_escape_string($on) . "'";
