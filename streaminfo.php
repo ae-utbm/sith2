@@ -28,13 +28,11 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site();
 
-echo file_get_contents($topdir."var/cache/stream.php");
-
-/*if ( file_exists($topdir."var/cache/stream.php") )
+if ( file_exists($topdir."var/cache/stream.php") )
   include($topdir."var/cache/stream.php");
 else
   $GLOBALS["streaminfo"] = array();
-*/
+
 if ( !$GLOBALS["is_using_ssl"] )
 {
   echo "sorry, please use ssl";
@@ -66,7 +64,7 @@ foreach ( $allowed as $key )
 
 echo "thank you. updated: ".implode(", ",$updated);
 
-$GLOBALS["streaminfo"][] = time();
+$GLOBALS["streaminfo"]["updated"] = time();
 
 $stuff = '<? $GLOBALS["streaminfo"] = array(';
 foreach ( $GLOBALS["streaminfo"] as $key => $data )
@@ -74,7 +72,7 @@ foreach ( $GLOBALS["streaminfo"] as $key => $data )
   $stuff .= '\''.addcslashes($key,'\'\\').'\'=>\''.addcslashes($data,'\'\\').'\',';
   $stuff .= "\n"; 
 }
-$stuff .= '\'done\'';
+$stuff .= '\'final\'';
 $stuff .= ');';
 $stuff .= "\n?>";
 
