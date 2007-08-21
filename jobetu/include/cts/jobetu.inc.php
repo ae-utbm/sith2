@@ -123,22 +123,11 @@
 	  				$this->buffer .= "</div>\n";
 	  					
 	  				$this->buffer .= "<div id=\"applicant_".$n."\" class=\"apply_content\">";
-	  				
-	  				$gal = <<<EOF
-							<div class="gallery">
-							<div class="galitem">
-							<div class="galitemdata"><div class="userinfov2"><h2 class="nom">$usr->prenom $usr->nom</h2>
-							<div class="photo"><img src="./../images/icons/128/unknown.png" id="mmtphoto10" class="noimg" alt="Photo de $usr->prenom $usr->nomT" /></div>
-							<p class="departement">GI05</p>
-							<p class="naissance">N&eacute; le : $usr->date_naissance</p>
-							
-							<p class="outils"><a class="vcard" href="./../matmatronch/vcf.php?id_utilisateur=$usr->id"><img src="../images/vcard.png" alt="vCard" title="vCard"></a><a class="mailutbm" href="mailto:$usr->email"><img src="../images/mail_UTBM.png" alt="Email UTBM" title="Email UTBM"></a><a class="fiche" href="./../user.php?id_utilisateur=$usr->id"><img src="../images/actions/view.png" alt="Fiche" title="Fiche"></a></p>
-							</div>
-							</div><div class="galiteminfo"></div>
-							</div></div>
-EOF;
-						$this->buffer .= $gal;
-						$this->buffer .= "bleh";
+	  				$gal = new gallery();
+	  				$gal->add_item( new userinfov2($usr) );
+
+						$this->buffer .= $gal->html_render();
+						$this->buffer .= "bleh<br>";
 	  				$this->buffer .= "</div>\n";
 	
 		  			$this->buffer .= "</div>\n";
