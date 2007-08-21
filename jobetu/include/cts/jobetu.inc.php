@@ -107,23 +107,30 @@
 	  	$this->buffer .= "Il y a `".count($annonce->applicants)."` candidature(s) pour votre annonce :\n";
 	  	$n = 1; // Compteuràlacon
 
-	  	foreach($annonce->applicants_fullobj as $usr)
-	  	{
-				$usr->load_all_extra();
-	  		$this->buffer .= "<div class=\"apply_table\">\n";
-  				$this->buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_".$n."');\">";
-  				$this->buffer .= $usr->prenom." ".$usr->nom." (département ".$usr->departement.")";
-  				$this->buffer .= "</div>\n";
-  					
-  				$this->buffer .= "<div id=\"applicant_".$n."\" class=\"apply_content\">";
-
-  				
-  				$this->buffer .= "gnaa";
-  				$this->buffer .= "</div>\n";
-
-	  			$this->buffer .= "</div>\n";
-	  			$n++;
-	  	}
+			if( empty($annonce->applicants) )
+			{
+				$this->buffer .= "<p>Aucun candidat ne s'est pour l'instant présenté pour répondre à votre offre.</p>";
+			}
+			else
+			{
+		  	foreach($annonce->applicants_fullobj as $usr)
+		  	{
+					$usr->load_all_extra();
+		  		$this->buffer .= "<div class=\"apply_table\">\n";
+	  				$this->buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_".$n."');\">";
+	  				$this->buffer .= $usr->prenom." ".$usr->nom." (département ".$usr->departement.")";
+	  				$this->buffer .= "</div>\n";
+	  					
+	  				$this->buffer .= "<div id=\"applicant_".$n."\" class=\"apply_content\">";
+	
+	  				
+	  				$this->buffer .= "gnaa";
+	  				$this->buffer .= "</div>\n";
+	
+		  			$this->buffer .= "</div>\n";
+		  			$n++;
+		  	}
+			}
 	  	
 	  	$this->buffer .= "</div>\n";
   			
