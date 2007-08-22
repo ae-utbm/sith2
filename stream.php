@@ -37,7 +37,7 @@ if ( !$GLOBALS["streaminfo"]["mp3"] )
   exit();  
 }
 
-$plug = "wmp";
+$plug = "quicktime";
 
 if (isset($_REQUEST["plug"]))
   $plug = $_REQUEST["plug"];
@@ -46,33 +46,24 @@ if (isset($_REQUEST["plug"]))
 if ( $plug == "wmp" )
 {
 
-echo "<object id=\"wmp\" height=\"34\" width=\"262\" classid =\" CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95\" codebase =\" http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701\" standby=\"ça chauffe...\" type=\"application/x-oleobject\">
-							<PARAM NAME=\"Filename\" value=\"".$GLOBALS["streaminfo"]["mp3"]."\">
-							<PARAM NAME=\"ShowControls\" VALUE=\"1\">
-							<PARAM NAME=\"ShowStatusBar\" VALUE=\"1\">
-							<PARAM NAME=\"ShowDisplay\" VALUE=\"TRUE\">
-							<PARAM NAME=\"DefaultFrame\" VALUE=\"Slide\">
-							<PARAM NAME=\"Autostart\" VALUE=\"1\">
-							<PARAM NAME=\"Volume\" value=\"100\">
-							<PARAM NAME=\"loop\" value=\"1\">
-							<embed 
-							width=\"262\" height=\"34\" 
-							Name=\"wmp\"
-							Autostart=\"1\"
-							ShowControls=\"1\"
-							ShowDisplay=\"1\"
-							ShowStatusBar=\"1\"
-							DefaultFrame=\"Slide\"
-							type=\"application/x-mplayer2\" 
-							pluginspage=\"http://www.microsoft.com/Windows/MediaPlayer/download/default.asp\" 
-							src=\"".$GLOBALS["streaminfo"]["mp3"]."\" 
-							id=\"wmp\">
-							</embed>
-							</object>";
+echo "<object classid=\"CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95\" 
+codebase=\"http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701\">
+							<param name=\"filename\" value=\"".$GLOBALS["streaminfo"]["mp3"]."\">
+							<param name=\"autostart\" value=\"1\">
+							<embed src=\"".$GLOBALS["streaminfo"]["mp3"]."\"
+							autostart=\"1\"
+							pluginspage=\"http://www.microsoft.com/Windows/MediaPlayer/download/default.asp\">
+							</embed></object>";
 }
 else
 {
-  echo "<OBJECT CLASSID=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\" CODEBASE=\"http://www.apple.com/qtactivex/qtplugin.cab\" WIDTH=\"140\" HEIGHT=\"22\"><PARAM NAME=\"src\" VALUE=\"".$GLOBALS["streaminfo"]["mp3"]."\" ><PARAM NAME=\"autoplay\" VALUE=\"true\" ><embed autoplay=\"true\" width=\"170\" height=\"22\" name=\"quicktime\" pluginspage=\"http://www.apple.com/quicktime/download/\" type=\"image/x-quicktime\" qtsrc=\"".$GLOBALS["streaminfo"]["mp3"]."\"></embed></OBJECT>";  
+  echo "<object classid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\"
+   codebase=\"http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0\">
+  <param name=\"src\" value=\"".$GLOBALS["streaminfo"]["mp3"]."\" />
+  <param name=\"autoplay\" value=\"true\" />
+  <embed src=\"".$GLOBALS["streaminfo"]["mp3"]."\"
+    pluginspage=\"http://www.apple.com/quicktime/download/\"
+    autoplay=\"true\"></embed></object>";  
   
 }
 
