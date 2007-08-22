@@ -68,7 +68,5 @@ $GLOBALS["streaminfo"]["updated"] = time();
 
 file_put_contents($topdir."var/cache/stream",serialize($GLOBALS["streaminfo"]));
 
-print_r($GLOBALS["streaminfo"]);
-
 
 ?>
