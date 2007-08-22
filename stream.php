@@ -24,9 +24,7 @@
 
 $topdir = "./";
 
-require_once($topdir. "include/site.inc.php");
 
-$site = new site();
 
 if ( file_exists($topdir."var/cache/stream") )
   $GLOBALS["streaminfo"] = unserialize(file_get_contents($topdir."var/cache/stream"));
@@ -152,6 +150,9 @@ if ( $_REQUEST["get"] == "popup" )
   exit();
 }
 
+require_once($topdir. "include/site.inc.php");
+
+$site = new site();
 
 $site->start_page("stream","Streaming");
 
