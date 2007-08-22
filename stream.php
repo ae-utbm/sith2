@@ -66,7 +66,7 @@ echo "<object id=\"wmp\" height=\"34\" width=\"262\" classid =\" CLSID:22d6f312-
 							type=\"application/x-mplayer2\" 
 							pluginspage=\"http://www.microsoft.com/Windows/MediaPlayer/download/default.asp\" 
 							src=\"".$GLOBALS["streaminfo"]["mp3"]."\" 
-							id=\"wouindows\">
+							id=\"wmp\">
 							</embed>
 							</object>";
 }
