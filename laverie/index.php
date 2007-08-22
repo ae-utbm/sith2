@@ -265,7 +265,7 @@ elseif($_REQUEST['view']=="mauvais")
             , DATEDIFF(CURDATE(), `mc_jeton_utilisateur`.`prise_jeton`) AS `duree` 
 						FROM `mc_jeton` 
 						INNER JOIN `mc_jeton_utilisateur` ON `mc_jeton`.`id_jeton` = `mc_jeton_utilisateur`.`id_jeton` 
-						WHERE `id_utilisateur` = $id AND `retour_jeton` IS NULL AND (DATEDIFF(CURDATE(); mc_jeton_utilisateur.prise_jeton) > 10)");
+						WHERE `id_utilisateur` = $id");
 		  /* et si y'a pas de lignes ? */
 		  if ($sql->lines <= 0)
 		    continue;
@@ -308,7 +308,7 @@ Les responsables machines à laver";
 					FROM mc_jeton_utilisateur
 					LEFT JOIN utilisateurs 
 					ON mc_jeton_utilisateur.id_utilisateur = utilisateurs.id_utilisateur
-					WHERE mc_jeton_utilisateur.retour_jeton IS NULL
+					WHERE mc_jeton_utilisateur.retour_jeton IS NULL  AND `retour_jeton` IS NULL AND (DATEDIFF(CURDATE(); mc_jeton_utilisateur.prise_jeton) > 10)
 					GROUP BY mc_jeton_utilisateur.id_utilisateur
 					ORDER BY nombre DESC");
 
