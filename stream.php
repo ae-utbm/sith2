@@ -94,7 +94,7 @@ if ( $_REQUEST["get"] == "popup" )
   if (isset($_REQUEST["plug"]))
     $plug = $_REQUEST["plug"];
   
-  $plugins = array("quicktime"=>"QuickTime","wmp"=>"Windows Media Player","real"=>"Real Player","vlc"=>"VLC");
+  $plugins = array("quicktime"=>"QuickTime","wmp"=>"Windows Media Player","real"=>"Real Player","vlc"=>"VLC","autre"=>"Autre");
   
   if ( $plug == "wmp" )
   {
@@ -136,6 +136,10 @@ if ( $_REQUEST["get"] == "popup" )
         <a href=\"javascript:;\" onclick=\"if(!document.all) document.stream.play(); else document.getElementById('stream').play();\">Play</a>
         <a href=\"javascript:;\" onclick=\"if(!document.all) document.stream.stop(); else document.getElementById('stream').stop();\">Stop</a>";
   }
+  else if ( $plug == "autre" )
+  {
+    echo "<embed width=\"250\" height=\"60\" src=\"".$GLOBALS["streaminfo"]["mp3"]."\" autoplay=\"true\" type=\"audio/mpeg\"></embed>";  
+  }  
   else
   {
     echo "<object classid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\"
