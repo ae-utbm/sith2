@@ -26,6 +26,7 @@
 $topdir = "../";
 require_once($topdir. "laverie/include/laverie.inc.php");
 require_once($topdir. "include/entities/jeton.inc.php");
+require_once($topdir. "include/cts/sqltable.inc.php");
 
 $site = new sitelaverie ();
 
