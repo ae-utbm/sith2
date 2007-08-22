@@ -88,8 +88,8 @@ if ( $_REQUEST["get"] == "popup" )
     // Sous Mac OS X, QuickTime forcément présent
     $plug = "quicktime";
   elseif ( stripos($_SERVER["HTTP_USER_AGENT"],"Linux") !== FALSE ) 
-    // Sous linux, il n'y a que vlc à priori de possiblle
-    $plug = "vlc";
+    // Sous linux, c'est le problème du navigateur
+    $plug = "autre";
     
   if (isset($_REQUEST["plug"]))
     $plug = $_REQUEST["plug"];
@@ -138,7 +138,10 @@ if ( $_REQUEST["get"] == "popup" )
   }
   else if ( $plug == "autre" )
   {
-    echo "<embed width=\"250\" height=\"60\" src=\"".$GLOBALS["streaminfo"]["mp3"]."\" autoplay=\"true\" type=\"audio/mpeg\"></embed>";  
+    if ( $GLOBALS["streaminfo"]["ogg"] )
+      echo "<embed width=\"250\" height=\"60\" src=\"".$GLOBALS["streaminfo"]["ogg"]."\" autoplay=\"true\" type=\"application/ogg\"></embed>";      
+    else
+      echo "<embed width=\"250\" height=\"60\" src=\"".$GLOBALS["streaminfo"]["mp3"]."\" autoplay=\"true\" type=\"audio/mpeg\"></embed>";  
   }  
   else
   {
