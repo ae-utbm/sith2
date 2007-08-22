@@ -115,8 +115,8 @@ if ( $_REQUEST["get"] == "popup" )
          name=\"stream\"
          autoplay=\"yes\" loop=\"yes\" width=\"1\" height=\"1\"
          target=\"$vlcStream\" /></object><br />
-        <a href=\"javascript:;\" onclick=\"if(document.stream.play) document.stream.play(); else document.getElementById('stream').play();\">Play</a>
-        <a href=\"javascript:;\" onclick=\"if(document.stream.stop) document.stream.stop(); else document.getElementById('stream').stop();\">Stop</a>";
+        <a href=\"javascript:;\" onclick=\"if(!document.all) document.stream.play(); else document.getElementById('stream').play();\">Play</a>
+        <a href=\"javascript:;\" onclick=\"if(!document.all) document.stream.stop(); else document.getElementById('stream').stop();\">Stop</a>";
   }
   else
   {
