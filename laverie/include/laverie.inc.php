@@ -64,16 +64,17 @@ class sitelaverie extends site
 		if ( $this->is_admin )
 		{
 			$lst_taches = new itemlist("Tâches usuelles","boxlist");
-			$lst_taches->add("<a href=\"index.php?action=reserver\">Réserver un créneau</a>");
-			$lst_taches->add("<a href=\"index.php?action=vente\">Retirer un jeton</a>");
+			$lst_taches->add("<a href=\"index.php?view=reserver\">Réserver un créneau</a>");
+			$lst_taches->add("<a href=\"index.php?view=vente\">Retirer des jeton</a>");
+			$lst_taches->add("<a href=\"index.php?view=retour\">Restituer des jetons</a>");
 			$lst_admin = new itemlist("Administration","boxlist");
-			$lst_admin->add("<a href=\"index.php?action=machines\">Gestion des machines</a>");
-			$lst_admin->add("<a href=\"index.php?action=crenaux\">Gestion des créneaux</a>");
-			$lst_admin->add("<a href=\"index.php?action=inventaire\">Inventaire des jetons</a>");
+			$lst_admin->add("<a href=\"index.php?view=machines\">Gestion des machines</a>");
+			$lst_admin->add("<a href=\"index.php?view=crenaux\">Gestion des créneaux</a>");
+			$lst_admin->add("<a href=\"index.php?view=inventaire\">Inventaire des jetons</a>");
 			$lst_util = new itemlist("Utilisateurs","boxlist");
-			$lst_util->add("<a href=\"index.php?action=recharger\">Rechargement</a>");
-			$lst_util->add("<a href=\"index.php?action=cotiser\">Nouvelle cotisation</a>");
-			$lst_util->add("<a href=\"index.php?action=ajouter_util\">Ajouter un utilisateur</a>");
+			$lst_util->add("<a href=\"index.php?view=recharger\">Rechargement</a>");
+			$lst_util->add("<a href=\"index.php?view=cotiser\">Nouvelle cotisation</a>");
+			$lst_util->add("<a href=\"index.php?view=ajouter_util\">Ajouter un utilisateur</a>");
 
 			$admcts->add($lst_taches,true, true, "tachesbox", "boxlist", true, true);
 			$admcts->add($lst_admin,true, true, "adminbox", "boxlist", true, true);

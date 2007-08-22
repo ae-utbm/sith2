@@ -41,8 +41,11 @@ if ( $site->is_admin )
 $site->start_page("none","Machines");
 $cts = new contents("Machines à laver de l'AE");
 
-if ( $_REQUEST['action'] == "inventaire" )
+if ( $_REQUEST['view'] == "inventaire" )
 {
+	if ( !$site->is_admin )
+		error_403()
+
 	$cts->add_title(2,"Nombre de jetons");
 
 	$req = new requete($site->db,"SELECT COUNT(*) FROM `mc_jeton`");
@@ -56,7 +59,7 @@ if ( $_REQUEST['action'] == "inventaire" )
 
 	/* Formulaire d'ajout de jetons */	
 	$lst = new itemlist("Résultats :");
-	$frm = new form("ajoutjeton", "index.php?action=inventaire", false, "POST", "Ajouter un jeton");
+	$frm = new form("ajoutjeton", "index.php?view=inventaire", false, "POST", "Ajouter un jeton");
 	/* Test des valeurs de jetons envoyés et ajout dans la base (+ message) */
 	if (isset($_REQUEST["numjetons"]))
 	{
@@ -101,7 +104,7 @@ if ( $_REQUEST['action'] == "inventaire" )
 	$table = new sqltable("listeemprunts",
 				"Liste des jetons empruntés",
 				$sql, 
-				"index.php?action=inventaire", 
+				"index.php?view=inventaire", 
 				"id_jeton", 
 				array(
 					"nom_jeton" => "Jeton",
@@ -120,7 +123,7 @@ if ( $_REQUEST['action'] == "inventaire" )
 	$table = new sqltable("listjeton",
 			      "Liste des jetons",
 			      $sql,
-			      "index.php?view=listing",
+			      "index.php?view=inventaire",
 			      "id_jeton",
 			      array(
 				    "id_jeton" => "ID du jeton",
@@ -128,8 +131,8 @@ if ( $_REQUEST['action'] == "inventaire" )
 				    "type_jeton" =>"Type du jeton",
 						"nom_lieu" =>"Lieu"
 				    ),
-			      array(),
-			      array(),
+			      array("supprimer" => "Supprimer"),
+			      array("supprimer" => "Supprimer"),
 			      array()
 			      );
 
