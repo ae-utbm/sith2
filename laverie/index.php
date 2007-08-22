@@ -65,7 +65,7 @@ if ( $_REQUEST['view'] == "inventaire" )
 		}
 	}
 
-	if($_REQUEST['action'] == "supprimer"
+	if($_REQUEST['action'] == "supprimer")
 	{
 		if(isset($_REQUEST['id_jeton']))
 			$id_jeton[] = $_REQUEST['id_jeton'];
