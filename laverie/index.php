@@ -313,7 +313,7 @@ Les responsables machines à laver";
 					utilisateurs.nom_utl, 
 					utilisateurs.prenom_utl, 
 					utilisateurs.id_utilisateur,
-					CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur
+					CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur,
 					DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) AS duree
 					FROM mc_jeton_utilisateur
 					LEFT JOIN utilisateurs 
