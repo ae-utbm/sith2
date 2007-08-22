@@ -42,17 +42,31 @@ if ( $_REQUEST["get"] == "qt.pls" )
   echo "Version=2\n";
   exit();
 }
-
-
-
+if ( $_REQUEST["get"] == "real.ram" )
+{
+  header("Content-Type: audio/x-pn-realaudio");
+  echo $GLOBALS["streaminfo"]["mp3"]."\n";
+  exit();
+}
 if ( $_REQUEST["get"] == "popup" )
 {
+	header("Content-Type: text/html; charset=utf-8");
+
   if ( !$GLOBALS["streaminfo"]["mp3"] )
   {
     echo "<p>Indisponible actuellement</p>";
     exit();  
   }
   
+	echo "<html>\n";
+	echo "<head>\n";
+	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+	echo "<title>Superflux - Lecteur web</title>\n";
+	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/superflux.css\" />\n";
+	echo "<script type=\"text/javascript\" src=\"js/superflux.js\"></script>\n";
+	echo "</head>\n";
+	echo "<body>\n";
+		
   echo "<h1>Superflux</h1>";
   
   $plug = "quicktime";
@@ -60,7 +74,7 @@ if ( $_REQUEST["get"] == "popup" )
   if (isset($_REQUEST["plug"]))
     $plug = $_REQUEST["plug"];
   
-  $plugins = array("quicktime"=>"QuickTime","wmp"=>"Windows Media Player");
+  $plugins = array("quicktime"=>"QuickTime","wmp"=>"Windows Media Player","real"=>"Real Player");
   
   if ( $plug == "wmp" )
   {
@@ -73,6 +87,15 @@ if ( $_REQUEST["get"] == "popup" )
     							autostart=\"1\" type=\"application/x-mplayer2\"
     							pluginspage=\"http://www.microsoft.com/Windows/MediaPlayer/download/default.asp\">
     							</embed></object>";
+  }
+  else if ( $plug == "real" )
+  {
+    echo "<object width=\"250\" height=\"60\" classid=\"clsid:CFCDAA03-8BE4-11cf-B84B-0020AFBBCCFA\">
+    <param name=\"autostart\" value=\"true\">
+    <param name=\"src\" value=\"http://".$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"]."?get=real.ram\">
+    <embed src=\"http://".$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"]."?get=real.ram\"
+     width=\"250\" height=\"60\" type=\"audio/x-pn-realaudio-plugin\"
+     autostart=\"true\"></embed></object>";
   }
   else
   {
@@ -92,6 +115,10 @@ if ( $_REQUEST["get"] == "popup" )
     echo "<li><a href=\"?get=popup&amp;plug=$key\">$desc</a></li>";
   }
   echo "</ul>";
+  
+	echo "</body>\n";
+	echo "</html>\n";
+  
   exit();
 }
 
