@@ -308,7 +308,9 @@ Les responsables machines à laver";
 					FROM mc_jeton_utilisateur
 					LEFT JOIN utilisateurs 
 					ON mc_jeton_utilisateur.id_utilisateur = utilisateurs.id_utilisateur
-					WHERE mc_jeton_utilisateur.retour_jeton IS NULL  AND `retour_jeton` IS NULL AND (DATEDIFF(CURDATE(); mc_jeton_utilisateur.prise_jeton) > 10)
+					WHERE mc_jeton_utilisateur.retour_jeton IS NULL
+					AND `retour_jeton` IS NULL
+					AND (DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) > 10)
 					GROUP BY mc_jeton_utilisateur.id_utilisateur
 					ORDER BY nombre DESC");
 
@@ -316,7 +318,7 @@ Les responsables machines à laver";
 	$table = new sqltable("toploosers",
 				"Top des mauvais clients",
 				$sql,
-				"jetons.php?view=listing",
+				"index.php?view=mauvais",
 				"id_utilisateur",
 				array(
 					"nom_utilisateur"=>"Utilisateur",
@@ -338,7 +340,7 @@ Les responsables machines à laver";
 	$table = new sqltable("blackmember", 
 			"Liste des personnes bloquées",
 			$sql,
-			"jetons.php?view=listing",
+			"index.php?view=mauvais",
 			"id_utilisateur",
 			array("nom_utilisateur" => "Utilisateur"),
 			      array("unblacklist" => "Débloquer"),
