@@ -582,8 +582,8 @@ function insert_tags(txtarea, lft, rgt, sample_text)
     }
 }
 
-function popUpStream()
+function popUpStream(topdir="./")
 {
-  window.open(site_topdir + "stream.php?get=popup", "stream", "width=300,height=250,status=no");
+  window.open(topdir+"stream.php?get=popup", "stream", "width=300,height=250,status=no");
   return true;  
 }
