@@ -584,6 +584,6 @@ function insert_tags(txtarea, lft, rgt, sample_text)
 
 function popUpStream(topdir)
 {
-  window.open(topdir+"stream.php?get=popup", "stream", "width=300,height=250,status=no");
+  window.open(topdir+"stream.php?get=popup", "stream", "width=300,height=300,status=no");
   return false;  
 }

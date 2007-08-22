@@ -106,7 +106,7 @@ if ( $_REQUEST["get"] == "popup" )
     
     echo "<embed type=\"application/x-vlc-plugin\"
          name=\"stream\"
-         autoplay=\"yes\" loop=\"yes\" width=\"250\" height=\"60\"
+         autoplay=\"yes\" loop=\"yes\" width=\"1\" height=\"1\"
          target=\"$vlcStream\" /><br />
         <a href=\"javascript:;\" onclick='document.stream.play()'>Play</a>
         <a href=\"javascript:;\" onclick='document.stream.stop()'>Stop</a>";
