@@ -48,6 +48,13 @@ if ( $_REQUEST["get"] == "real.ram" )
   echo $GLOBALS["streaminfo"]["mp3"]."\n";
   exit();
 }
+if ( $_REQUEST["get"] == "info" )
+{
+	header("Content-Type: text/html; charset=utf-8");
+  echo htmlentities($GLOBALS["streaminfo"]["title"], ENT_NOQUOTES, "UTF-8").
+       " - ". htmlentities($GLOBALS["streaminfo"]["artist"], ENT_NOQUOTES, "UTF-8");
+  exit();
+}
 if ( $_REQUEST["get"] == "popup" )
 {
 	header("Content-Type: text/html; charset=utf-8");
@@ -70,7 +77,8 @@ if ( $_REQUEST["get"] == "popup" )
 	echo "<body>\n";
 		
   echo "<h1>Superflux</h1>";
-  
+  echo "<p id=\"streaminfo\">".htmlentities($GLOBALS["streaminfo"]["title"], ENT_NOQUOTES, "UTF-8").
+       " - ". htmlentities($GLOBALS["streaminfo"]["artist"], ENT_NOQUOTES, "UTF-8")."</p>";
   $plug = "quicktime";
   
   if (isset($_REQUEST["plug"]))
