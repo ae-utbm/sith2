@@ -33,6 +33,7 @@ if ( file_exists($topdir."var/cache/stream") )
 
 if ( $_REQUEST["get"] == "qt.pls" )
 {
+  header("Content-Type: audio/x-scpls");
   echo "[playlist]\n";
   echo "File1=".$GLOBALS["streaminfo"]["mp3"]."\n";
   echo "Title1=\n";
@@ -73,7 +74,7 @@ else
    codebase=\"http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0\">
   <param name=\"src\" value=\"?get=qt.pls\" />
   <param name=\"autoplay\" value=\"true\" />
-  <embed src=\"?get=qt.pls\" type=\"image/x-quicktime\"
+  <embed type=\"image/x-quicktime\"
     pluginspage=\"http://www.apple.com/quicktime/download/\"
     autoplay=\"true\" qtsrc=\"?get=qt.pls\"></embed></object>";  
   
