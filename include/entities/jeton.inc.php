@@ -10,7 +10,7 @@
  *
  */
 $GLOBALS['types_jeton'] = array ('laver' => "Machine à laver", 'secher' => "Seche linge");
-$GLOBALS['salles_jeton'] = array ('5' => "Belfort",'39'=>"Sevenans");
+$GLOBALS['salles_jeton'] = array ('6' => "Maison des Élèves",'8'=>"Riverotte");
 
 /**
  * Class gérant un jeton
