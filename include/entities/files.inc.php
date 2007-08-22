@@ -420,6 +420,12 @@ class dfile extends fs
 		return $topdir."var/files/".$this->id;
 	}
 
+	function get_backup_filename($n)
+	{
+		global $topdir;
+		return $topdir."var/files/".$this->id.".bak$n";
+	}
+
 	/**
 	 * Donne le nom de l'aperçu sur le serveur.
 	 * Les fichiers ne doivent pas être accessibles depuis l'exterieur.
@@ -485,8 +491,19 @@ class dfile extends fs
 	{
 		$f = $this->get_real_filename();
 		if ( file_exists($f)) unlink($f);
+		
+		$f = $this->get_backup_filename(1);
+		if ( file_exists($f)) unlink($f);
+		
+		$f = $this->get_backup_filename(2);
+		if ( file_exists($f)) unlink($f);
+		
+		$f = $this->get_backup_filename(3);
+		if ( file_exists($f)) unlink($f);
+		
 		$f = $this->get_thumb_filename();
 		if ( file_exists($f)) unlink($f);
+		
 		$f = $this->get_screensize_filename();
 		if ( file_exists($f)) unlink($f);
 
@@ -534,6 +551,24 @@ class dfile extends fs
 		return parent::is_admin($user);
 	}
   
+  function backup_for_overwrite()
+  {
+		$f1 = $this->get_backup_filename(1);
+		if ( file_exists($f1) )
+		{
+  		$f2 = $this->get_backup_filename(2);
+  		if ( file_exists($f2)) 
+  		{
+    		$f3 = $this->get_backup_filename(3);
+    		if ( file_exists($f3)) unlink($f);    
+          unlink($f3);
+    		rename ( $f2, $f3);
+  		}
+  		rename ( $f1, $f2);
+		}
+		$f = $this->get_real_filename();
+    rename ( $f, $f1);
+  }
   
   
 }

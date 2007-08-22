@@ -269,6 +269,8 @@ class serverwebdavaedrive extends webdavserverae
         
       $stat = "204 No Content"; 
         
+      $ent->backup_for_overwrite();  
+        
       // Mise à jour du contenu  
       $ent->update_contents($options["content_length"],$options["content_type"]);
     }
