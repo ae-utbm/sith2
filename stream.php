@@ -74,7 +74,7 @@ if ( $_REQUEST["get"] == "popup" )
   if (isset($_REQUEST["plug"]))
     $plug = $_REQUEST["plug"];
   
-  $plugins = array("quicktime"=>"QuickTime","wmp"=>"Windows Media Player","real"=>"Real Player");
+  $plugins = array("quicktime"=>"QuickTime","wmp"=>"Windows Media Player","real"=>"Real Player","vlc"=>"VLC");
   
   if ( $plug == "wmp" )
   {
@@ -96,6 +96,20 @@ if ( $_REQUEST["get"] == "popup" )
     <embed src=\"http://".$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"]."?get=real.ram\"
      width=\"250\" height=\"60\" type=\"audio/x-pn-realaudio-plugin\"
      autostart=\"true\"></embed></object>";
+  }
+  else if ( $plug == "vlc" )
+  {
+    $vlcStream = $GLOBALS["streaminfo"]["mp3"];
+    
+    if ( $GLOBALS["streaminfo"]["ogg"] ) // Ogg préféré pour VLC
+      $vlcStream = $GLOBALS["streaminfo"]["ogg"];
+    
+    echo "<embed type=\"application/x-vlc-plugin\"
+         name=\"stream\"
+         autoplay=\"yes\" loop=\"yes\" width=\"250\" height=\"60\"
+         target=\"$vlcStream\" /><br />
+        <a href=\"javascript:;\" onclick='document.stream.play()'>Play</a>
+        <a href=\"javascript:;\" onclick='document.stream.stop()'>Stop</a>";
   }
   else
   {
@@ -134,7 +148,7 @@ if ( $GLOBALS["streaminfo"]["mp3"] )
 }
 
 if ( $GLOBALS["streaminfo"]["ogg"] )
-  $cts->add_paragraph("Flux Ogg : <a href=\"".$GLOBALS["streaminfo"]["ogg"]."\">".$GLOBALS["streaminfo"]["ogg"]."</a>");
+  $cts->add_paragraph("Flux Ogg (recommandé) : <a href=\"".$GLOBALS["streaminfo"]["ogg"]."\">".$GLOBALS["streaminfo"]["ogg"]."</a>");
 
 $site->add_contents($cts);
 
