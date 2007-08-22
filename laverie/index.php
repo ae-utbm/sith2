@@ -68,7 +68,7 @@ if ( $_REQUEST['view'] == "inventaire" )
 	if($_REQUEST['action'] == "supprimer")
 	{
 		if(isset($_REQUEST['id_jeton']))
-			$id_jeton[] = $_REQUEST['id_jeton'];
+			$id_jetons[] = $_REQUEST['id_jeton'];
 		elseif($_REQUEST['id_jetons'])
 		{
 			foreach ($_REQUEST['id_jetons'] as $id_jeton)
