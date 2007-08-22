@@ -77,6 +77,7 @@ if ( $_REQUEST["get"] == "popup" )
 	echo "<body>\n";
 		
   echo "<h1>Superflux</h1>";
+  echo "<p id=\"ecoute\">Actuellement</p>";
   echo "<p id=\"streaminfo\">".htmlentities($GLOBALS["streaminfo"]["title"], ENT_NOQUOTES, "UTF-8").
        " - ". htmlentities($GLOBALS["streaminfo"]["artist"], ENT_NOQUOTES, "UTF-8")."</p>";
   $plug = "quicktime";
@@ -137,7 +138,7 @@ if ( $_REQUEST["get"] == "popup" )
       autoplay=\"true\" qtsrc=\"http://".$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"]."?get=qt.pls\"></embed></object>";  
   }
   
-  echo "<p>Lecteur audio :</p>";
+  echo "<p id=\"players\">Lecteur audio :</p>";
   echo "<ul>";
   foreach ( $plugins as $key => $desc)
   {
