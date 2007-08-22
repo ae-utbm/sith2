@@ -106,10 +106,15 @@ if ( $_REQUEST["get"] == "popup" )
     if ( $GLOBALS["streaminfo"]["ogg"] ) // Ogg préféré pour VLC
       $vlcStream = $GLOBALS["streaminfo"]["ogg"];
     
-    echo "<embed type=\"application/x-vlc-plugin\"
+    echo "<object classid=\"clsid:E23FE9C6-778E-49D4-B537-38FCDE4887D8\"
+					codebase=\"http://downloads.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab\"
+					id=\"stream\" name=\"stream\" type=\"application/x-oleobject\">
+			<param name=\"autoplay\" value=\"true\" />
+			<param name=\"src\" value=\"$vlcStream\" />
+			<embed type=\"application/x-vlc-plugin\"
          name=\"stream\"
          autoplay=\"yes\" loop=\"yes\" width=\"1\" height=\"1\"
-         target=\"$vlcStream\" /><br />
+         target=\"$vlcStream\" /></object><br />
         <a href=\"javascript:;\" onclick='document.stream.play()'>Play</a>
         <a href=\"javascript:;\" onclick='document.stream.stop()'>Stop</a>";
   }
