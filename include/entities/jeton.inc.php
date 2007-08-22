@@ -135,7 +135,10 @@ class jeton extends stdentity
 		{
 			$sql = new delete ($this->dbrw,
 				"mc_jeton",
-				"id_jeton" => $this->id);
+				array(
+					"id_jeton" => $this->id
+					)
+			);
 			return 0;
 		}
 		else
