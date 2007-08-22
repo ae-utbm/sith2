@@ -28,14 +28,14 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site();
 
-if ( file_exists($topdir."var/cache/stream.php") )
-  include($topdir."var/cache/stream.php");
+if ( file_exists($topdir."var/cache/stream") )
+  $GLOBALS["streaminfo"] = unserialize(file_get_contents($topdir."var/cache/stream"));
 else
   $GLOBALS["streaminfo"] = array();
 
 if ( !$GLOBALS["is_using_ssl"] )
 {
-  echo "sorry, please use ssl";
+  echo "sorry, please use ssl\n";
   exit();
 }
 
@@ -46,7 +46,7 @@ $valid = new requete($site->db,
 
 if ( $valid->lines != 1 )
 {
-  echo "sorry, wrong key";
+  echo "sorry, wrong key\n";
   exit();
 }
 
@@ -62,20 +62,13 @@ foreach ( $allowed as $key )
   }
 }
 
-echo "thank you. updated: ".implode(", ",$updated);
+echo "thank you. updated: ".implode(", ",$updated)."\n";
 
 $GLOBALS["streaminfo"]["updated"] = time();
 
-$stuff = '<? $GLOBALS["streaminfo"] = array(';
-foreach ( $GLOBALS["streaminfo"] as $key => $data )
-{
-  $stuff .= '\''.addcslashes($key,'\'\\').'\'=>\''.addcslashes($data,'\'\\').'\',';
-  $stuff .= "\n"; 
-}
-$stuff .= '\'final\'';
-$stuff .= ');';
-$stuff .= "\n?>";
+file_put_contents($topdir."var/cache/stream",serialize($GLOBALS["streaminfo"]));
 
-file_put_contents($topdir."var/cache/stream.php",$stuff);
+print_r($GLOBALS["streaminfo"]);
+
 
 ?>
