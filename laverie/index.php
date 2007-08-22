@@ -296,7 +296,7 @@ Merci d'avance
 Les responsables machines à laver";
 			  
 		  $mail = mail($user->email, utf8_decode("[AE] Jetons de machines à laver"), utf8_decode($body),
-                            "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: marie-anne.mittet@utbm.fr,sebastien.dete@utbm.fr");
+                            "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ae@utbm.fr");
 			if ($mail)
 				$lst->add("Mail de rappel &agrave; " .$user->prenom. " " .$user->nom. " : Envoy&eacute;","ok");	
 			else
@@ -304,6 +304,8 @@ Les responsables machines à laver";
 		  
 		}
 	}
+
+	$cts->add($lst,true);
 
 	/* Liste des mauvais clients */
 	$sql = new requete($site->db, "SELECT mc_jeton_utilisateur.id_jeton,
