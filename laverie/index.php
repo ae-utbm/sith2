@@ -56,7 +56,7 @@ if ( $_REQUEST['action'] == "inventaire" )
 
 	/* Formulaire d'ajout de jetons */	
 	$lst = new itemlist("Résultats :");
-	$frm = new form("ajoutjeton", "index.php?action=ajoutjeton", false, "POST", "Ajouter un jeton");
+	$frm = new form("ajoutjeton", "index.php?action=inventaire", false, "POST", "Ajouter un jeton");
 	/* Test des valeurs de jetons envoyés et ajout dans la base (+ message) */
 	if (isset($_REQUEST["numjetons"]))
 	{
@@ -101,7 +101,7 @@ if ( $_REQUEST['action'] == "inventaire" )
 	$table = new sqltable("listeemprunts",
 				"Liste des jetons empruntés",
 				$sql, 
-				"jetons.php?view=listing", 
+				"index.php?action=inventaire", 
 				"id_jeton", 
 				array(
 					"nom_jeton" => "Jeton",
@@ -112,6 +112,28 @@ if ( $_REQUEST['action'] == "inventaire" )
 					array("retourner" => "Retourner"), array("retourner" => "Retourner"), array()
 				);
 	$cts->add($table,true);
+
+		/* Liste complète des jetons */
+	$sql = new requete($site->db, "SELECT * FROM mc_jeton
+						INNER JOIN loc_lieu ON mc_jeton.id_salle = loc_lieu.id_lieu");
+	
+	$table = new sqltable("listjeton",
+			      "Liste des jetons",
+			      $sql,
+			      "index.php?view=listing",
+			      "id_jeton",
+			      array(
+				    "id_jeton" => "ID du jeton",
+				    "nom_jeton" => "N° du jeton",
+				    "type_jeton" =>"Type du jeton",
+						"lieu" =>"Lieu"
+				    ),
+			      array(),
+			      array(),
+			      array()
+			      );
+
+	$cts->add($table, true);				
 
 }
 else
