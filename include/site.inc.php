@@ -240,29 +240,26 @@ class site extends interfaceweb
 
     parent::start_page($section,$title,$compact);
 
-    if ( $section == "bdf" )
+    if ( $section == "accueil" )
     {
-        $this->set_side_boxes("right",array());
-        $this->set_side_boxes("left",array("bdf"));
-        $this->add_css("css/bdf.css");
-        $this->add_box("bdf",$this->get_bdf_box());
-    }
-    elseif ( $section == "accueil" )
-    {
-      if (!$this->user->is_valid())
-        $this->set_side_boxes("right",array("planning", "search","anniv","photo"),"accueil_nc_right");
-      else
-        $this->set_side_boxes("right",array("planning", "weekly_photo","anniv","sondage","photo","comptoirs","forum"),"accueil_c_right");
-
       $this->add_box("anniv", $this->get_anniv_contents());
       $this->add_box("planning", $this->get_planning_contents());
-      $this->add_box("weekly_photo",$this->get_weekly_photo_contents());
-      $this->add_box("sondage",$this->get_sondage());
+      $this->add_box("stream",$this->get_stream_box());
+      $this->add_box("photo",$this->get_weekly_photo_contents());
       
-      $this->add_box("comptoirs",$this->get_comptoirs_box());
       if ($this->user->is_valid())
+      {
         $this->add_box("forum",$this->get_forum_box());
-      //
+        $this->add_box("comptoirs",$this->get_comptoirs_box());        
+        $this->add_box("sondage",$this->get_sondage());
+        $this->set_side_boxes("right",
+          array("planning","photo","anniv","stream",
+                "sondage","comptoirs","forum"),"accueil_c_right");
+      } 
+      else
+        $this->set_side_boxes("right",
+          array("planning","anniv","stream","photo"),"accueil_nc_right");
+      
     }
     elseif ( $section == "pg" )
     {
@@ -276,7 +273,6 @@ class site extends interfaceweb
       $this->set_side_boxes("left",array("mmt","lastnews","connexion"),"mmt_left");
       $this->add_box("mmt", $this->get_mmt_box());
       $this->add_box("lastnews",new newslist ( "Denières nouvelles", $this->db ) );
-
     }
     elseif ( $section == "forum" )
     {
@@ -1166,6 +1162,52 @@ class site extends interfaceweb
     
     return $cts;
   }
+  
+  function get_stream_box()
+  {
+    $cts = new contents("Superflux");
+    
+    $cts->add_paragraph("La webradio de l'AE");
+    
+    if ( file_exists($topdir."var/cache/stream") )
+      $GLOBALS["streaminfo"] = unserialize(file_get_contents($topdir."var/cache/stream"));
+    
+    if ( $GLOBALS["streaminfo"]["ogg"] || $GLOBALS["streaminfo"]["mp3"] ) 
+    {
+      if ( $GLOBALS["streaminfo"]["title"] || $GLOBALS["streaminfo"]["artist"] )
+      {
+        $cts->add_title(2,"Actuellement");
+        
+        $cts->add_paragraph(
+          htmlentities($GLOBALS["streaminfo"]["title"], ENT_NOQUOTES, "UTF-8").
+          " - ".
+          htmlentities($GLOBALS["streaminfo"]["artist"], ENT_NOQUOTES, "UTF-8"));
+      }
+      
+      if ( $GLOBALS["streaminfo"]["message"] ) 
+      {
+        $cts->add_title(2,"Information");
+        $cts->add_paragraph($GLOBALS["streaminfo"]["message"]);
+      }
+      
+      $cts->add_title(2,"Ecouter");
+      
+      if ( $GLOBALS["streaminfo"]["mp3"] )
+      {
+        $cts->add_paragraph("<a href=\"stream.php\" onclick=\"return popUpStream();\">Lecteur web</a>");
+        $cts->add_paragraph("<a href=\"".$GLOBALS["streaminfo"]["mp3"]."\">Flux MP3</a>");
+      }
+      
+      if ( $GLOBALS["streaminfo"]["ogg"] )
+        $cts->add_paragraph("<a href=\"".$GLOBALS["streaminfo"]["ogg"]."\">Flux Ogg</a>");
+    }
+    else
+      $cts->add_paragraph("Indisponible");
+    
+    return $cts;  
+  }
+  
+  
   
   function allow_only_logged_users($section="none")
   {
