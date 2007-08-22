@@ -243,7 +243,7 @@ elseif($_REQUEST['view']=="mauvais")
 		  $user = new utilisateur($site->db, $site->dbrw);
 		  $user->load_by_id($id);
 
-		  $user->add_to_group(GRP_BLACKLIST);
+		  $user->add_to_group(blacklist_machines);
 
 		}
 	}
@@ -255,7 +255,7 @@ elseif($_REQUEST['view']=="mauvais")
 		  $user = new utilisateur($site->db, $site->dbrw);
 		  $user->load_by_id($id);
 
-		  $user->remove_from_group(GRP_BLACKLIST);
+		  $user->remove_from_group(blacklist_machines);
 		}
 	}
 	      	
@@ -274,7 +274,7 @@ elseif($_REQUEST['view']=="mauvais")
             , DATEDIFF(CURDATE(), `mc_jeton_utilisateur`.`prise_jeton`) AS `duree` 
 						FROM `mc_jeton` 
 						INNER JOIN `mc_jeton_utilisateur` ON `mc_jeton`.`id_jeton` = `mc_jeton_utilisateur`.`id_jeton` 
-						WHERE `id_utilisateur` = $id");
+						WHERE `id_utilisateur` = $id AND mc_jeton_utilisateur.retour_jeton IS NULL");
 		  /* et si y'a pas de lignes ? */
 		  if ($sql->lines <= 0)
 		    continue;
