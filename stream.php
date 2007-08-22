@@ -66,10 +66,10 @@ if ( $_REQUEST["get"] == "popup" )
   {
     echo "<object classid=\"CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95\" 
     codebase=\"http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701\" 
-    type=\"application/x-oleobject\">
+    type=\"application/x-oleobject\" width=\"250\" height=\"60\">
     							<param name=\"filename\" value=\"".$GLOBALS["streaminfo"]["mp3"]."\">
     							<param name=\"autostart\" value=\"1\">
-    							<embed src=\"".$GLOBALS["streaminfo"]["mp3"]."\"
+    							<embed width=\"250\" height=\"60\" src=\"".$GLOBALS["streaminfo"]["mp3"]."\"
     							autostart=\"1\" type=\"application/x-mplayer2\"
     							pluginspage=\"http://www.microsoft.com/Windows/MediaPlayer/download/default.asp\">
     							</embed></object>";
@@ -77,10 +77,10 @@ if ( $_REQUEST["get"] == "popup" )
   else
   {
     echo "<object classid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\"
-     codebase=\"http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0\">
+     codebase=\"http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0\" width=\"250\" height=\"60\">
     <param name=\"src\" value=\"http://".$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"]."?get=qt.pls\" />
     <param name=\"autoplay\" value=\"true\" />
-    <embed type=\"image/x-quicktime\" src=\"http://".$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"]."?get=qt.pls\"
+    <embed width=\"250\" height=\"60\" type=\"image/x-quicktime\" src=\"http://".$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"]."?get=qt.pls\"
       pluginspage=\"http://www.apple.com/quicktime/download/\"
       autoplay=\"true\" qtsrc=\"http://".$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"]."?get=qt.pls\"></embed></object>";  
   }
@@ -100,7 +100,14 @@ $site->start_page("stream","Streaming");
 
 $cts = new contents("Superflux, la webradio");
 
-$cts->add_paragraph("<a href=\"stream.php?get=popup\" onclick=\"return popUpStream();\">Ecouter avec le lecteur web</a>");
+if ( $GLOBALS["streaminfo"]["mp3"] )
+{
+  $cts->add_paragraph("<a href=\"stream.php?get=popup\" onclick=\"return popUpStream();\">Ecouter avec le lecteur web</a>");        
+  $cts->add_paragraph("Flux MP3 : <a href=\"".$GLOBALS["streaminfo"]["mp3"]."\">".$GLOBALS["streaminfo"]["mp3"]."</a>");
+}
+
+if ( $GLOBALS["streaminfo"]["ogg"] )
+  $cts->add_paragraph("Flux Ogg : <a href=\"".$GLOBALS["streaminfo"]["ogg"]."\">".$GLOBALS["streaminfo"]["ogg"]."</a>");
 
 $site->add_contents($cts);
 
