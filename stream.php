@@ -72,11 +72,11 @@ else
 {
   echo "<object classid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\"
    codebase=\"http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0\">
-  <param name=\"src\" value=\"?get=qt.pls\" />
+  <param name=\"src\" value=\"".$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"]."?get=qt.pls\" />
   <param name=\"autoplay\" value=\"true\" />
-  <embed type=\"image/x-quicktime\"
+  <embed type=\"image/x-quicktime\" src=\"".$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"]."?get=qt.pls\"
     pluginspage=\"http://www.apple.com/quicktime/download/\"
-    autoplay=\"true\" qtsrc=\"?get=qt.pls\"></embed></object>";  
+    autoplay=\"true\" qtsrc=\"http://".$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"]."?get=qt.pls\"></embed></object>";  
   
 }
 
