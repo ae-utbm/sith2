@@ -246,7 +246,7 @@ elseif($_REQUEST['view']=="mauvais")
 		  $user->load_by_id($id);
 
 		  $user->add_to_group(GRP_BLACKLIST);
-			$lst->add("L'utilisateur a bien été banni de l'usage des machines", "ok");
+			$lst->add("L'utilisateur $user->prenom $user->nom a bien été banni de l'usage des machines", "ok");
 		}
 	}
 
@@ -258,7 +258,7 @@ elseif($_REQUEST['view']=="mauvais")
 		  $user->load_by_id($id);
 
 		  $user->remove_from_group(GRP_BLACKLIST);
-			$lst->add("L'utilisateur a bien été débanni de l'usage des machines", "ok");
+			$lst->add("L'utilisateur $user->prenom $user->nom a bien été débanni de l'usage des machines", "ok");
 		}
 	}
 	      	
