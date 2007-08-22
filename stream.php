@@ -102,7 +102,7 @@ $cts = new contents("Superflux, la webradio");
 
 if ( $GLOBALS["streaminfo"]["mp3"] )
 {
-  $cts->add_paragraph("<a href=\"stream.php?get=popup\" onclick=\"return popUpStream();\">Ecouter avec le lecteur web</a>");        
+  $cts->add_paragraph("<a href=\"stream.php?get=popup\" onclick=\"return popUpStream('".$wwwtopdir."');\">Ecouter avec le lecteur web</a>");        
   $cts->add_paragraph("Flux MP3 : <a href=\"".$GLOBALS["streaminfo"]["mp3"]."\">".$GLOBALS["streaminfo"]["mp3"]."</a>");
 }
 

@@ -1194,7 +1194,7 @@ class site extends interfaceweb
       
       if ( $GLOBALS["streaminfo"]["mp3"] )
       {
-        $cts->add_paragraph("<a href=\"stream.php\" onclick=\"return popUpStream();\">Lecteur web</a>");
+        $cts->add_paragraph("<a href=\"".$wwwtopdir."stream.php\" onclick=\"return popUpStream('".$wwwtopdir."');\">Lecteur web</a>");
         $cts->add_paragraph("<a href=\"".$GLOBALS["streaminfo"]["mp3"]."\">Flux MP3</a>");
       }
       
