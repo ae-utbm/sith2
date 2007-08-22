@@ -78,8 +78,19 @@ if ( $_REQUEST["get"] == "popup" )
   echo "<p id=\"ecoute\">Actuellement</p>";
   echo "<p id=\"streaminfo\">".htmlentities($GLOBALS["streaminfo"]["title"], ENT_NOQUOTES, "UTF-8").
        " - ". htmlentities($GLOBALS["streaminfo"]["artist"], ENT_NOQUOTES, "UTF-8")."</p>";
+       
   $plug = "quicktime";
   
+  if ( stripos($_SERVER["HTTP_USER_AGENT"],"Windows") !== FALSE ) 
+    // Sous windows, 99.99% de chances que WMP soit présent
+    $plug = "wmp";
+  elseif ( stripos($_SERVER["HTTP_USER_AGENT"],"Mac OS X") !== FALSE ) 
+    // Sous Mac OS X, QuickTime forcément présent
+    $plug = "quicktime";
+  elseif ( stripos($_SERVER["HTTP_USER_AGENT"],"Linux") !== FALSE ) 
+    // Sous linux, il n'y a que vlc à priori de possiblle
+    $plug = "vlc";
+    
   if (isset($_REQUEST["plug"]))
     $plug = $_REQUEST["plug"];
   
@@ -121,7 +132,7 @@ if ( $_REQUEST["get"] == "popup" )
 			<embed type=\"application/x-vlc-plugin\"
          name=\"stream\"
          autoplay=\"yes\" loop=\"yes\" width=\"1\" height=\"1\"
-         target=\"$vlcStream\" /></object><br />
+         target=\"$vlcStream\" /></object><br />VLC : 
         <a href=\"javascript:;\" onclick=\"if(!document.all) document.stream.play(); else document.getElementById('stream').play();\">Play</a>
         <a href=\"javascript:;\" onclick=\"if(!document.all) document.stream.stop(); else document.getElementById('stream').stop();\">Stop</a>";
   }
