@@ -126,7 +126,7 @@ if ( $_REQUEST['action'] == "inventaire" )
 				    "id_jeton" => "ID du jeton",
 				    "nom_jeton" => "N° du jeton",
 				    "type_jeton" =>"Type du jeton",
-						"lieu" =>"Lieu"
+						"nom_lieu" =>"Lieu"
 				    ),
 			      array(),
 			      array(),
