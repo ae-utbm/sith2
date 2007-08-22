@@ -44,7 +44,7 @@ $cts = new contents("Machines à laver de l'AE");
 if ( $_REQUEST['view'] == "inventaire" )
 {
 	if ( !$site->is_admin )
-		error_403()
+		error_403();
 
 	$cts->add_title(2,"Nombre de jetons");
 
