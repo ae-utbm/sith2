@@ -46,6 +46,9 @@ if ( $_REQUEST['view'] == "retour" )
 	if ( !$site->is_admin )
 		error_403();
 
+	$frm = new form("retourjetons","index.php?view=retour",false,"POST","Retour jetons");
+	$lst = new itemlist("Résultats :");
+	
 	if($_REQUEST['action'] == "retourner")
 	{
 				
@@ -65,9 +68,6 @@ if ( $_REQUEST['view'] == "retour" )
 			$lst->add("Le jeton $jeton->nom a bien été rendu.", "ok");
 		}
 	}
-
-	$frm = new form("retourjetons","index.php?view=retour",false,"POST","Retour jetons");
-	$lst = new itemlist("Résultats :");
 	
 	/* Test des valeurs de jetons envoyés et modif dans la base (+ message)*/ 
 	if (isset($_REQUEST["numjetons"]) && isset($_REQUEST["typejeton"]))
@@ -220,6 +220,11 @@ elseif ( $_REQUEST['view'] == "inventaire" )
 			      );
 
 	$cts->add($table, true);				
+
+}
+elseif($_REQUEST['view']=="mauvais")
+{
+
 
 }
 else

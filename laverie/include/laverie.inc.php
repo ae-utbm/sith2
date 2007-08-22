@@ -72,6 +72,7 @@ class sitelaverie extends site
 			$lst_admin->add("<a href=\"index.php?view=crenaux\">Gestion des créneaux</a>");
 			$lst_admin->add("<a href=\"index.php?view=inventaire\">Inventaire des jetons</a>");
 			$lst_util = new itemlist("Utilisateurs","boxlist");
+			$lst_util->add("<a href=\"index.php?view=mauvais\">Mauvais clients</a>");
 			$lst_util->add("<a href=\"index.php?view=recharger\">Rechargement</a>");
 			$lst_util->add("<a href=\"index.php?view=cotiser\">Nouvelle cotisation</a>");
 			$lst_util->add("<a href=\"index.php?view=ajouter_util\">Ajouter un utilisateur</a>");
