@@ -884,12 +884,12 @@ class site extends interfaceweb
       $sublist->add("<a href=\"".$topdir."matmatronch/inscriptions.php\">Ajout utilisateur</a>");
       $cts->add($sublist,true, true, "matmatronchbox", "boxlist", true, false);
     }
-    elseif ( $this->user->is_in_group("matmatronch") )
+    /*elseif ( $this->user->is_in_group("matmatronch") )
     {
       $sublist = new itemlist("Staff Mat'Matronch","boxlist");
       $sublist->add("<a href=\"".$topdir."mmt/cotiz-mmt/\">Gestion des cotisations</a>");
       $cts->add($sublist,true, true, "matmatronchbox", "boxlist", true, false);
-    }
+    }*/
 
     /* Bouton de Deconnexion */
     $frm = new form("disconnect",$topdir."disconnect.php",false,"POST","Deconnexion");
