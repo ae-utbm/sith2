@@ -22,7 +22,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
+define("GRP_BLACKLIST", 29);
+
 $topdir = "../";
 require_once($topdir. "laverie/include/laverie.inc.php");
 require_once($topdir. "include/entities/jeton.inc.php");
@@ -243,7 +245,7 @@ elseif($_REQUEST['view']=="mauvais")
 		  $user = new utilisateur($site->db, $site->dbrw);
 		  $user->load_by_id($id);
 
-		  $user->add_to_group(blacklist_machines);
+		  $user->add_to_group(GRP_BLACKLIST);
 
 		}
 	}
@@ -255,7 +257,7 @@ elseif($_REQUEST['view']=="mauvais")
 		  $user = new utilisateur($site->db, $site->dbrw);
 		  $user->load_by_id($id);
 
-		  $user->remove_from_group(blacklist_machines);
+		  $user->remove_from_group(GRP_BLACKLIST);
 		}
 	}
 	      	
