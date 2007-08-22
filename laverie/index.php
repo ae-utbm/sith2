@@ -227,6 +227,15 @@ elseif($_REQUEST['view']=="mauvais")
 
 	$lst = new itemlist("Résultats :");
 
+  if(isset($_REQUEST['id_utilisateur']))
+		$ids[] = $_REQUEST['id_utilisateur'];
+	elseif($_REQUEST['id_utilisateurs'])
+	{
+		foreach ($_REQUEST['id_utilisateurs'] as $id_util)
+		$ids[] = $id_util;
+	}
+
+
 	if($_REQUEST['action'] == "blacklist")
 	{
 		foreach ( $ids as $id )
@@ -305,6 +314,7 @@ Les responsables machines à laver";
 					utilisateurs.prenom_utl, 
 					utilisateurs.id_utilisateur,
 					CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur
+					DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) AS duree
 					FROM mc_jeton_utilisateur
 					LEFT JOIN utilisateurs 
 					ON mc_jeton_utilisateur.id_utilisateur = utilisateurs.id_utilisateur
@@ -316,18 +326,18 @@ Les responsables machines à laver";
 
 
 	$table = new sqltable("toploosers",
-				"Top des mauvais clients",
+				"Top des mauvais clients (jetons non rendus depuis plus de 10 jours)",
 				$sql,
 				"index.php?view=mauvais",
 				"id_utilisateur",
 				array(
 					"nom_utilisateur"=>"Utilisateur",
-					"nombre" => "Nombre"
-					),
-			      array("mail_rappel"=>"Envoyer mail de rappel", "blacklist" => "Blacklister"),
-			      array("mail_rappel"=>"Envoyer mail de rappel", "blacklist" => "Blacklister"),
-			      array()
-				);
+					"nombre" => "Nombre",
+					"duree" => "Depuis (jours)"
+				),
+		    array("mail_rappel"=>"Envoyer mail de rappel", "blacklist" => "Blacklister"),
+		    array("mail_rappel"=>"Envoyer mail de rappel", "blacklist" => "Blacklister"),
+		    array() );
 
 	$cts->add($table, true);
 
