@@ -41,7 +41,66 @@ if ( $site->is_admin )
 $site->start_page("none","Machines");
 $cts = new contents("Machines à laver de l'AE");
 
-if ( $_REQUEST['view'] == "inventaire" )
+if ( $_REQUEST['view'] == "retour" )
+{
+	if ( !$site->is_admin )
+		error_403();
+
+	if($_REQUEST['action'] == "retourner")
+	{
+				
+		if(isset($_REQUEST['id_jeton']))
+			$id_jetons[] = $_REQUEST['id_jeton'];
+		elseif($_REQUEST['id_jetons'])
+		{
+			foreach ($_REQUEST['id_jetons'] as $id_jeton)
+				$id_jetons[] = $id_jeton;
+		}
+
+		foreach($id_jetons as $numjeton)
+		{
+			$jeton = new jeton($site->db, $site->dbrw);
+			$jeton->load_by_id($numjeton);
+			$jeton->given_back ();
+			$lst->add("Le jeton $jeton->nom a bien été rendu.", "ok");
+		}
+	}
+
+	/* Liste des jetons empruntés */
+	$sql = new requete($site->db, "SELECT mc_jeton_utilisateur.id_jeton, 
+					mc_jeton_utilisateur.id_utilisateur, 
+					mc_jeton_utilisateur.prise_jeton,
+					mc_jeton.id_jeton,
+					mc_jeton.nom_jeton,
+					DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) AS duree,
+					utilisateurs.id_utilisateur,
+					CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`
+					FROM mc_jeton_utilisateur
+					INNER JOIN utilisateurs
+					ON mc_jeton_utilisateur.id_utilisateur = utilisateurs.id_utilisateur
+					LEFT JOIN mc_jeton
+					ON mc_jeton_utilisateur.id_jeton = mc_jeton.id_jeton
+					WHERE mc_jeton_utilisateur.retour_jeton IS NULL
+					ORDER BY duree DESC
+					"); 
+	
+	$table = new sqltable("listeemprunts",
+				"Liste des jetons empruntés",
+				$sql, 
+				"index.php?view=retour", 
+				"id_jeton", 
+				array(
+					"nom_jeton" => "Jeton",
+					"nom_utilisateur"=>"Utilisateur",
+					"prise_jeton" => "Date d'emprunt",
+					"duree" => "Depuis (jours)"
+					), 
+					array("retourner" => "Retourner"), array("retourner" => "Retourner"), array()
+				);
+	$cts->add($table,true);
+
+}
+elseif ( $_REQUEST['view'] == "inventaire" )
 {
 	if ( !$site->is_admin )
 		error_403();
@@ -71,26 +130,6 @@ if ( $_REQUEST['view'] == "inventaire" )
 			$jeton->add ( $_REQUEST["sallejeton"], $_REQUEST["typejeton"], $numjeton);
 			if($jeton->id > -1)
 			  $lst->add("Le jeton $numjeton a bien été enregistré", "ok");
-		}
-	}
-
-	if($_REQUEST['action'] == "retourner")
-	{
-				
-		if(isset($_REQUEST['id_jeton']))
-			$id_jetons[] = $_REQUEST['id_jeton'];
-		elseif($_REQUEST['id_jetons'])
-		{
-			foreach ($_REQUEST['id_jetons'] as $id_jeton)
-				$id_jetons[] = $id_jeton;
-		}
-
-		foreach($id_jetons as $numjeton)
-		{
-			$jeton = new jeton($site->db, $site->dbrw);
-			$jeton->load_by_id($numjeton);
-			$jeton->given_back ();
-			$lst->add("Le jeton $jeton->nom a bien été rendu.", "ok");
 		}
 	}
 
@@ -126,40 +165,7 @@ if ( $_REQUEST['view'] == "inventaire" )
 	$cts->add($lst);
 	$cts->add($frm,true);
 
-	/* Liste des jetons empruntés */
-	$sql = new requete($site->db, "SELECT mc_jeton_utilisateur.id_jeton, 
-					mc_jeton_utilisateur.id_utilisateur, 
-					mc_jeton_utilisateur.prise_jeton,
-					mc_jeton.id_jeton,
-					mc_jeton.nom_jeton,
-					DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) AS duree,
-					utilisateurs.id_utilisateur,
-					CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`
-					FROM mc_jeton_utilisateur
-					INNER JOIN utilisateurs
-					ON mc_jeton_utilisateur.id_utilisateur = utilisateurs.id_utilisateur
-					LEFT JOIN mc_jeton
-					ON mc_jeton_utilisateur.id_jeton = mc_jeton.id_jeton
-					WHERE mc_jeton_utilisateur.retour_jeton IS NULL
-					ORDER BY duree DESC
-					"); 
-	
-	$table = new sqltable("listeemprunts",
-				"Liste des jetons empruntés",
-				$sql, 
-				"index.php?view=inventaire", 
-				"id_jeton", 
-				array(
-					"nom_jeton" => "Jeton",
-					"nom_utilisateur"=>"Utilisateur",
-					"prise_jeton" => "Date d'emprunt",
-					"duree" => "Depuis (jours)"
-					), 
-					array("retourner" => "Retourner"), array("retourner" => "Retourner"), array()
-				);
-	$cts->add($table,true);
-
-		/* Liste complète des jetons */
+	/* Liste complète des jetons */
 	$sql = new requete($site->db, "SELECT * FROM mc_jeton
 						INNER JOIN loc_lieu ON mc_jeton.id_salle = loc_lieu.id_lieu");
 	
