@@ -73,7 +73,7 @@ else
    codebase=\"http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0\">
   <param name=\"src\" value=\"?get=qt.pls\" />
   <param name=\"autoplay\" value=\"true\" />
-  <embed 
+  <embed src=\"?get=qt.pls\" type=\"image/x-quicktime\"
     pluginspage=\"http://www.apple.com/quicktime/download/\"
     autoplay=\"true\" qtsrc=\"?get=qt.pls\"></embed></object>";  
   
