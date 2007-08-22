@@ -139,12 +139,12 @@ if ( $_REQUEST["get"] == "popup" )
   else if ( $plug == "mplayer" )
   {
     $mStream = $GLOBALS["streaminfo"]["mp3"];
-    $type = "audio/mp3";
+    $type = "audio/mpeg";
     
     if ( $GLOBALS["streaminfo"]["ogg"] ) // Ogg préféré pour MPlayer
     {
       $mStream = $GLOBALS["streaminfo"]["ogg"];
-      $type = "audio/ogg";
+      $type = "application/ogg";
     }
     echo "<embed width=\"250\" height=\"60\" src=\"$mStream\" autoplay=\"true\" type=\"$type\"></embed>";  
   }  
