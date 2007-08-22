@@ -45,15 +45,15 @@ if (isset($_REQUEST["plug"]))
 
 if ( $plug == "wmp" )
 {
-
-echo "<object classid=\"CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95\" 
-codebase=\"http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701\">
-							<param name=\"filename\" value=\"".$GLOBALS["streaminfo"]["mp3"]."\">
-							<param name=\"autostart\" value=\"1\">
-							<embed src=\"".$GLOBALS["streaminfo"]["mp3"]."\"
-							autostart=\"1\"
-							pluginspage=\"http://www.microsoft.com/Windows/MediaPlayer/download/default.asp\">
-							</embed></object>";
+  echo "<object classid=\"CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95\" 
+  codebase=\"http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701\" 
+  type=\"application/x-oleobject\">
+  							<param name=\"filename\" value=\"".$GLOBALS["streaminfo"]["mp3"]."\">
+  							<param name=\"autostart\" value=\"1\">
+  							<embed src=\"".$GLOBALS["streaminfo"]["mp3"]."\"
+  							autostart=\"1\" type=\"application/x-mplayer2\"
+  							pluginspage=\"http://www.microsoft.com/Windows/MediaPlayer/download/default.asp\">
+  							</embed></object>";
 }
 else
 {
@@ -63,7 +63,7 @@ else
   <param name=\"autoplay\" value=\"true\" />
   <embed src=\"".$GLOBALS["streaminfo"]["mp3"]."\"
     pluginspage=\"http://www.apple.com/quicktime/download/\"
-    autoplay=\"true\"></embed></object>";  
+    autoplay=\"true\" qtsrc=\"".$GLOBALS["streaminfo"]["mp3"]."\"></embed></object>";  
   
 }
 
