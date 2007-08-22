@@ -108,15 +108,15 @@ if ( $_REQUEST["get"] == "popup" )
     
     echo "<object classid=\"clsid:E23FE9C6-778E-49D4-B537-38FCDE4887D8\"
 					codebase=\"http://downloads.videolan.org/pub/videolan/vlc/latest/win32/axvlc.cab\"
-					id=\"stream\" name=\"stream\" type=\"application/x-oleobject\">
+					id=\"stream\" type=\"application/x-oleobject\" width=\"1\" height=\"1\">
 			<param name=\"autoplay\" value=\"true\" />
 			<param name=\"src\" value=\"$vlcStream\" />
 			<embed type=\"application/x-vlc-plugin\"
-         name=\"stream\"
+         id=\"stream\"
          autoplay=\"yes\" loop=\"yes\" width=\"1\" height=\"1\"
          target=\"$vlcStream\" /></object><br />
-        <a href=\"javascript:;\" onclick='document.stream.play()'>Play</a>
-        <a href=\"javascript:;\" onclick='document.stream.stop()'>Stop</a>";
+        <a href=\"javascript:;\" onclick=\"document.getElementById('stream').play()\">Play</a>
+        <a href=\"javascript:;\" onclick=\"document.getElementById('stream').stop()\">Stop</a>";
   }
   else
   {
