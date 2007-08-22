@@ -90,7 +90,7 @@ if ( $_REQUEST['view'] == "inventaire" )
 			$jeton = new jeton($site->db, $site->dbrw);
 			$jeton->load_by_id($numjeton);
 			$jeton->given_back ();
-			$lst->add("Le jeton $numjeton a bien été rendu.", "ok");
+			$lst->add("Le jeton $jeton->nom a bien été rendu.", "ok");
 		}
 	}
 
@@ -110,9 +110,9 @@ if ( $_REQUEST['view'] == "inventaire" )
 			$jeton->load_by_id($numjeton);
 			$retour = $jeton->delete();
 			if($retour == 0)
-				$lst->add("Le jeton $numjeton a bien été supprimé.", "ok");
+				$lst->add("Le jeton $jeton->nom a bien été supprimé.", "ok");
 			else
-				$lst->add("Le jeton $numjeton est encore emprunté et ne peut donc être supprimé.", "ko");
+				$lst->add("Le jeton $jeton->nom est encore emprunté et ne peut donc être supprimé.", "ko");
 		}
 	}
 
