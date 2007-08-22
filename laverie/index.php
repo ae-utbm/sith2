@@ -46,6 +46,44 @@ if ( $_REQUEST['view'] == "inventaire" )
 	if ( !$site->is_admin )
 		error_403();
 
+	if($_REQUEST['action'] == "retourner")
+	{
+				
+		if(isset($_REQUEST['id_jeton']))
+			$id_jetons[] = $_REQUEST['id_jeton'];
+		elseif($_REQUEST['id_jetons'])
+		{
+			foreach ($_REQUEST['id_jetons'] as $id_jeton)
+				$id_jetons[] = $id_jeton;
+		}
+
+		foreach($id_jetons as $numjeton)
+		{
+			$jeton = new jeton($site->db, $site->dbrw);
+			$jeton->load_by_id($numjeton);
+			$jeton->given_back ();
+		}
+	}
+
+	if($_REQUEST['action'] == "supprimer"
+	{
+		if(isset($_REQUEST['id_jeton']))
+			$id_jeton[] = $_REQUEST['id_jeton'];
+		elseif($_REQUEST['id_jetons'])
+		{
+			foreach ($_REQUEST['id_jetons'] as $id_jeton)
+			$id_jetons[] = $id_jeton;
+		}
+
+		foreach($id_jetons as $numjeton)
+		{
+			$jeton = new jeton($site->db, $site->dbrw);
+			$jeton->load_by_id($numjeton);
+			$jeton->delete();
+		}
+	}
+
+
 	$cts->add_title(2,"Nombre de jetons");
 
 	$req = new requete($site->db,"SELECT COUNT(*) FROM `mc_jeton`");

@@ -123,6 +123,25 @@ class jeton extends stdentity
 				)
 			);
 	}
+
+	/**
+	 * Supprime un jeton
+	 * @return 1 si le jeton est umprunté, sinon retourne 0
+	 */
+
+	function delete ( )
+	{
+		if ( $this->is_borrowed() == 0 )
+		{
+			$sql = new delete ($this->dbrw,
+				"mc_jeton",
+				"id_jeton" => $this->id);
+			return 0;
+		}
+		else
+			return 1;
+			
+	}
 	
   /**
    * Prête le jeton à un utilisateur.
