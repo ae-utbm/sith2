@@ -31,6 +31,18 @@ $site = new site();
 if ( file_exists($topdir."var/cache/stream") )
   $GLOBALS["streaminfo"] = unserialize(file_get_contents($topdir."var/cache/stream"));
 
+if ( $REQUEST["get"] == "qt.pls" )
+{
+  echo "[playlist]\n";
+  echo "File1=".$GLOBALS["streaminfo"]["mp3"]."\n";
+  echo "Title1=\n";
+  echo "Length1=-1\n";
+  echo "NumberOfEntries=1\n";
+  echo "Version=2\n";
+  exit();
+}
+
+
 if ( !$GLOBALS["streaminfo"]["mp3"] )
 {
   echo "<p>Indisponible actuellement</p>";
@@ -59,11 +71,11 @@ else
 {
   echo "<object classid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\"
    codebase=\"http://www.apple.com/qtactivex/qtplugin.cab#version=6,0,2,0\">
-  <param name=\"src\" value=\"".$GLOBALS["streaminfo"]["mp3"]."\" />
+  <param name=\"src\" value=\"?get=qt.pls\" />
   <param name=\"autoplay\" value=\"true\" />
-  <embed src=\"".$GLOBALS["streaminfo"]["mp3"]."\"
+  <embed src=\"?get=qt.pls\"
     pluginspage=\"http://www.apple.com/quicktime/download/\"
-    autoplay=\"true\" qtsrc=\"".$GLOBALS["streaminfo"]["mp3"]."\"></embed></object>";  
+    autoplay=\"true\" qtsrc=\"?get=qt.pls\"></embed></object>";  
   
 }
 
