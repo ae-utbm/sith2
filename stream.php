@@ -31,7 +31,7 @@ $site = new site();
 if ( file_exists($topdir."var/cache/stream") )
   $GLOBALS["streaminfo"] = unserialize(file_get_contents($topdir."var/cache/stream"));
 
-if ( $REQUEST["get"] == "qt.pls" )
+if ( $_REQUEST["get"] == "qt.pls" )
 {
   echo "[playlist]\n";
   echo "File1=".$GLOBALS["streaminfo"]["mp3"]."\n";
