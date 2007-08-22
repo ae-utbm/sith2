@@ -63,6 +63,8 @@ if ( $_REQUEST["get"] == "popup" )
 	echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
 	echo "<title>Superflux - Lecteur web</title>\n";
 	echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/superflux.css\" />\n";
+	echo "<script type=\"text/javascript\" src=\"js/site.js\"></script>\n";
+	echo "<script type=\"text/javascript\" src=\"js/ajax.js\"></script>\n";
 	echo "<script type=\"text/javascript\" src=\"js/superflux.js\"></script>\n";
 	echo "</head>\n";
 	echo "<body>\n";
