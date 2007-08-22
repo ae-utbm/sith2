@@ -22,21 +22,6 @@
  */
 $topdir = "../";
 
-if (XMLRPC_USE)
-{
-  require_once($topdir. 'include/inscriptions/xmlrpc.inc');
-
-  /** Notre authentification auprÃ¨s de l'API XML-RPC */
-   define('API_URI', 'inscriptions.php');
-  define('API_HOST', 'ae.utbm.fr');
-  define('API_PORT', 443);
-  define('API_PROTOCOL', 'https');
-
-  require_once($topdir. 'include/inscriptions/xmlrpc-client.inc.php');
-  $ch = new ClientHelper ("mmt", "08084e11"); 
-}
-
-
 require_once($topdir. "include/site.inc.php");
 
 $site = new site ();
@@ -59,14 +44,7 @@ function save_infos($nom, $prenom, $sexe, $email, $emailutbm, $droit_image, $sem
 	  mmt_inscr_error("Erreur lors de l'ajout de l'utilisateur dans la base de données du Mat'Matronch !",2);
   else
   {
-   /* ici on update la base XMLRPC */
-    if ( XMLRPC_USE )
-      $ret = $ch->addUser($nom, $prenom, ($emailutbm!=null)?$emailutbm:null, $sexe, $branche, $semestre, date("Y-m-d",$date_naissance));
-
-    if ( XMLRPC_USE && $ret == FALSE) 
-      mmt_inscr_error("Erreur lors de la mise à à jour de la base de données commune");
-	else
-		  add_other_infos_form($user);
+	  add_other_infos_form($user);
   }
 }
 
