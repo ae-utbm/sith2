@@ -46,6 +46,34 @@ if ( $_REQUEST['view'] == "inventaire" )
 	if ( !$site->is_admin )
 		error_403();
 
+	$cts->add_title(2,"Nombre de jetons");
+
+	$req = new requete($site->db,"SELECT COUNT(*) FROM `mc_jeton`");
+	list($total) = $req->get_row();
+	$cts->add_paragraph("Total : $total");
+	$req = new requete($site->db,"SELECT COUNT(*) FROM `mc_jeton_utilisateur` WHERE `retour_jeton` IS NULL");
+	list($utilises) = $req->get_row();
+	$cts->add_paragraph("En circulation : $utilises");
+	$disponibles = $total - $utilises;
+	$cts->add_paragraph("En caisse : $disponibles");
+
+	/* Formulaire d'ajout de jetons */	
+	$lst = new itemlist("Résultats :");
+	$frm = new form("ajoutjeton", "index.php?view=inventaire", false, "POST", "Ajouter un jeton");
+
+/* Test des valeurs de jetons envoyés et ajout dans la base (+ message) */
+	if (isset($_REQUEST["numjetons"]))
+	{
+		$array_jetons = explode(" ", $_REQUEST["numjetons"]);
+		foreach($array_jetons as $numjeton)
+		{
+			$jeton = new jeton($site->db, $site->dbrw);
+			$jeton->add ( $_REQUEST["sallejeton"], $_REQUEST["typejeton"], $numjeton);
+			if($jeton->id > -1)
+			  $lst->add("Le jeton $numjeton a bien été enregistré", "ok");
+		}
+	}
+
 	if($_REQUEST['action'] == "retourner")
 	{
 				
@@ -62,6 +90,7 @@ if ( $_REQUEST['view'] == "inventaire" )
 			$jeton = new jeton($site->db, $site->dbrw);
 			$jeton->load_by_id($numjeton);
 			$jeton->given_back ();
+			$lst->add("Le jeton $numjeton a bien été rendu.", "ok");
 		}
 	}
 
@@ -79,35 +108,11 @@ if ( $_REQUEST['view'] == "inventaire" )
 		{
 			$jeton = new jeton($site->db, $site->dbrw);
 			$jeton->load_by_id($numjeton);
-			$jeton->delete();
-		}
-	}
-
-
-	$cts->add_title(2,"Nombre de jetons");
-
-	$req = new requete($site->db,"SELECT COUNT(*) FROM `mc_jeton`");
-	list($total) = $req->get_row();
-	$cts->add_paragraph("Total : $total");
-	$req = new requete($site->db,"SELECT COUNT(*) FROM `mc_jeton_utilisateur` WHERE `retour_jeton` IS NULL");
-	list($utilises) = $req->get_row();
-	$cts->add_paragraph("En circulation : $utilises");
-	$disponibles = $total - $utilises;
-	$cts->add_paragraph("En caisse : $disponibles");
-
-	/* Formulaire d'ajout de jetons */	
-	$lst = new itemlist("Résultats :");
-	$frm = new form("ajoutjeton", "index.php?view=inventaire", false, "POST", "Ajouter un jeton");
-	/* Test des valeurs de jetons envoyés et ajout dans la base (+ message) */
-	if (isset($_REQUEST["numjetons"]))
-	{
-		$array_jetons = explode(" ", $_REQUEST["numjetons"]);
-		foreach($array_jetons as $numjeton)
-		{
-			$jeton = new jeton($site->db, $site->dbrw);
-			$jeton->add ( $_REQUEST["sallejeton"], $_REQUEST["typejeton"], $numjeton);
-			if($jeton->id > -1)
-			  $lst->add("le jeton $numjeton a bien été enregistré", "ok");
+			$retour = $jeton->delete();
+			if($retour == 0)
+				$lst->add("Le jeton $numjeton a bien été supprimé.", "ok");
+			else
+				$lst->add("Le jeton $numjeton est encore emprunté et ne peut donc être supprimé.", "ko");
 		}
 	}
 
