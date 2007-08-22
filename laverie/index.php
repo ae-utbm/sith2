@@ -226,6 +226,8 @@ elseif ( $_REQUEST['view'] == "inventaire" )
 }
 elseif($_REQUEST['view']=="mauvais")
 {
+	if ( !$site->is_admin )
+		error_403();
 
 	$lst = new itemlist("Résultats :");
 
