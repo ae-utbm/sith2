@@ -2,6 +2,7 @@
 
 /* Copyright 2007
  * - Benjamin Collet < bcollet AT oxynux DOT org >
+ * - Manuel Vonthron < manuel DOT vonthron AT acadis DOT org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -24,6 +25,7 @@
  
 $topdir = "../";
 require_once($topdir. "laverie/include/laverie.inc.php");
+require_once($topdir. "include/entities/jeton.inc.php");
 
 $site = new sitelaverie ();
 
@@ -51,6 +53,64 @@ if ( $_REQUEST['action'] == "inventaire" )
 	$disponibles = $total - $utilises;
 	$cts->add_paragraph("En caisse : $disponibles");
 
+	/* Formulaire d'ajout de jetons */	
+	$lst = new itemlist("Résultats :");
+	$frm = new form("ajoutjeton", "index.php?action=ajoutjeton", false, "POST", "Ajouter un jeton");
+	/* Test des valeurs de jetons envoyés et ajout dans la base (+ message) */
+	if (isset($_REQUEST["numjetons"]))
+	{
+		$array_jetons = explode(" ", $_REQUEST["numjetons"]);
+		foreach($array_jetons as $numjeton)
+		{
+			$jeton = new jeton($site->db, $site->dbrw);
+			$jeton->add ( $_REQUEST["sallejeton"], $_REQUEST["typejeton"], $numjeton);
+			if($jeton->id > -1)
+			  $lst->add("le jeton $numjeton a bien été enregistré", "ok");
+		}
+	}
+
+	$frm->add_info("Entrez les numéros des jetons séparés par des espaces");
+	$frm->add_text_area("numjetons", "Numéro ");
+	$frm->set_focus("numjetons");
+	$frm->add_select_field("typejeton", "Type du jeton :", $GLOBALS['types_jeton']);
+	$frm->add_select_field("sallejeton", "Salle concernée :", $GLOBALS['salles_jeton']);
+	$frm->add_submit("valid","Valider");
+	$frm->allow_only_one_usage();
+	$cts->add($lst);
+	$cts->add($frm,true);
+
+	/* Liste des jetons empruntés */
+	$sql = new requete($site->db, "SELECT mc_jeton_utilisateur.id_jeton, 
+					mc_jeton_utilisateur.id_utilisateur, 
+					mc_jeton_utilisateur.prise_jeton,
+					mc_jeton.id_jeton,
+					mc_jeton.nom_jeton,
+					DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) AS duree,
+					utilisateurs.id_utilisateur,
+					CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`
+					FROM mc_jeton_utilisateur
+					INNER JOIN utilisateurs
+					ON mc_jeton_utilisateur.id_utilisateur = utilisateurs.id_utilisateur
+					LEFT JOIN mc_jeton
+					ON mc_jeton_utilisateur.id_jeton = mc_jeton.id_jeton
+					WHERE mc_jeton_utilisateur.retour_jeton IS NULL
+					ORDER BY duree DESC
+					"); 
+	
+	$table = new sqltable("listeemprunts",
+				"Liste des jetons empruntés",
+				$sql, 
+				"jetons.php?view=listing", 
+				"id_jeton", 
+				array(
+					"nom_jeton" => "Jeton",
+					"nom_utilisateur"=>"Utilisateur",
+					"prise_jeton" => "Date d'emprunt",
+					"duree" => "Depuis (jours)"
+					), 
+					array("retourner" => "Retourner"), array("retourner" => "Retourner"), array()
+				);
+	$cts->add($table,true);
 
 }
 else
