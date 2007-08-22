@@ -1191,15 +1191,18 @@ class site extends interfaceweb
       }
       
       $cts->add_title(2,"Ecouter");
+      $list = new itemlist();
       
       if ( $GLOBALS["streaminfo"]["mp3"] )
       {
-        $cts->add_paragraph("<a href=\"".$wwwtopdir."stream.php\" onclick=\"return popUpStream('".$wwwtopdir."');\">Lecteur web</a>");
-        $cts->add_paragraph("<a href=\"".$GLOBALS["streaminfo"]["mp3"]."\">Flux MP3</a>");
+        $list->add("<a href=\"".$wwwtopdir."stream.php\" onclick=\"return popUpStream('".$wwwtopdir."');\">Lecteur web</a>");
+        $list->add("<a href=\"".$GLOBALS["streaminfo"]["mp3"]."\">Flux MP3</a>");
       }
       
       if ( $GLOBALS["streaminfo"]["ogg"] )
-        $cts->add_paragraph("<a href=\"".$GLOBALS["streaminfo"]["ogg"]."\">Flux Ogg</a>");
+        $list->add("<a href=\"".$GLOBALS["streaminfo"]["ogg"]."\">Flux Ogg</a>");
+        
+      $cts->add($list);
     }
     else
       $cts->add_paragraph("Indisponible");
