@@ -45,6 +45,7 @@ require_once($topdir . "include/entities/news.inc.php");
 $site = new site ();
 $site->add_rss("Toute l'actualité de l'association des étudiants","rss.php");
 $site->add_css("css/doku.css");
+$site->add_js("js/superflux.js");
 
 $site->start_page("accueil","Bienvenue");
 
