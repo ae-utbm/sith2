@@ -332,8 +332,10 @@ class wiki extends basedb
 				LIMIT 1");    
 				
 		if ( $req->lines != -1 )
+		{
+		  echo "$fullpath NOT found - ";
 		  return null;
-		  
+		}  
 		list($id) = $req->get_row();
 		
 		return $id;
