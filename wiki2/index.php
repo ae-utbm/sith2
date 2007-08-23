@@ -288,7 +288,7 @@ elseif ( $_REQUEST["view"] == "refs" )
   $req = new requete($site->db,"SELECT titre_file, nom_fichier_file, d_file.id_file ".
     "FROM wiki_ref_file ".
     "INNER JOIN d_file USING(id_file) ".
-		"WHERE wiki_ref_wiki.id_wiki='".$wiki->id."' ".
+		"WHERE wiki_ref_file.id_wiki='".$wiki->id."' ".
 		"ORDER BY titre_file");  
   
   if ( $req->lines )
