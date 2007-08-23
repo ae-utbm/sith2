@@ -289,8 +289,6 @@ class wiki extends basedb
     
     foreach( $matches[1] as $link )
     {
-      echo $link."?";
-      
       list($link,$dummy) = explode("|",$link,2);
       
       if ( $media )
@@ -311,9 +309,7 @@ class wiki extends basedb
         }
         elseif ( preg_match("#^([a-zA-Z0-9\-_:]+)$#i",$link,$match) )
         {
-          $link = $match[1];
-          
-          print_r($match);
+          $wiki = $match[1];
           
           if ( $wiki{0} == ':' )
             $wiki = substr($wiki,1);
@@ -337,7 +333,6 @@ class wiki extends basedb
 				
 		if ( $req->lines != -1 )
 		{
-		  echo "$fullpath NOT found - ";
 		  return null;
 		}  
 		list($id) = $req->get_row();
