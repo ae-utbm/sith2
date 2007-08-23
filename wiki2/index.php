@@ -37,6 +37,27 @@ if (!$site->user->id)
 
 $wiki = new wiki($site->db,$site->dbrw);
 
+function build_htmlpath ( $fullpath )
+{
+  $buffer = "<a href=\"./\">Wiki</a>";
+  
+  if ( empty($fullpath) )
+    return $buffer;
+  
+  $path=null;
+  $tokens = explode(":",$fullpath);
+  
+  foreach ( $tokens as $token )
+  {
+    if ( is_null($path) )
+      $path = $token;
+    else
+      $path .= ":".$token;
+    $buffer .= " &gt; <a href=\"./?name=$path\">$token</a>";
+  }
+  return $buffer;
+}
+
 // Creation d'une page
 if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
 {
@@ -75,7 +96,7 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
     $parentparent = clone $parent;
   }
 
-  if ( $can_create && $parent->is_valid() )
+  if ( $can_create && $parent->is_valid() && !$wiki->load_by_name($parent->id,$pagename) )
   {
     $wiki->herit($parent);
     if ( $parent->is_admin($site->user) )
@@ -94,7 +115,10 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
   }
 }
 elseif ( isset($_REQUEST["name"]) )
-  $wiki->load_by_fullpath($_REQUEST["name"]);
+{
+  if ( !(isset($_REQUEST["rev"]) && $wiki->load_by_fullpath($_REQUEST["name"],$_REQUEST["rev"])) )
+    $wiki->load_by_fullpath($_REQUEST["name"]);
+}
 else
   $wiki->load_by_id(1);
 
@@ -140,6 +164,7 @@ if ( !$wiki->is_valid() )
     $tabs = array(array("","wiki2/?name=".$pagepath, "Page"));
                
   $cts = new contents();
+  $cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
   $cts->add(new tabshead($tabs,$_REQUEST["view"]));
   
   if ( $can_create && $_REQUEST["view"] == "create" )
@@ -159,7 +184,7 @@ if ( !$wiki->is_valid() )
   else
   {
     if ( $can_create )
-      $cts->add_paragraph("Cette page n'existe pas. <a href=\"wiki2/?name=".$pagepath."&view=create\">La creer</a>","error");
+      $cts->add_paragraph("Cette page n'existe pas. <a href=\"?name=".$pagepath."&view=create\">La creer</a>","error");
     else
       $cts->add_paragraph("Cette page n'existe pas.","error");
   }
@@ -192,8 +217,8 @@ else
                );
              
 $cts = new contents();
+$cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
-
 
 if ( $can_edit && $_REQUEST["view"] == "edit" )
 {
@@ -213,13 +238,29 @@ elseif ( $_REQUEST["view"] == "refs" )
 }
 elseif ( $_REQUEST["view"] == "hist" ) 
 {
+  $req = new requete($site->db,"SELECT ".
+  "id_rev, date_rev, comment_rev, ".
+  "COALESCE(alias_utl,CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) AS `nom_utilisateur` ".
+  "FROM wiki_rev ".
+  "INNER JOIN utilisateurs ON ( wiki_rev.id_utilisateur_rev=utilisateurs.id_utilisateur) ".
+  "WHERE id_wiki='".$wiki->id."' ".
+  "ORDER BY date_rev DESC");
   
-  
-  
+  $list = new itemlist(false,"wikihist");
+  while ( $row = $req->get_row() )
+  {
+    $list->add(
+      "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
+      "<a class=\"wpage\" href=\"?name=$pagepath&amp;rev=".$row['id_rev']."\">$pagepath</a> ".
+      "- <span class=\"wuser\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</span> ".
+      "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span>");
+    //TODO: ajouter un lien diff, et implémenter le diff
+  }
+  $cts->add($list);
 }
 else
 {
-  $cts->add_title(1,$wiki->title);
+  $cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
   
   $cts->add($wiki->get_stdcontents());
 }
