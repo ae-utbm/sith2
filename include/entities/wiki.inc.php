@@ -188,7 +188,9 @@ class wiki extends basedb
     
     if ( !empty($parent->fullpath) )
       $this->fullpath = $parent->fullpath.":".$this->name;
-
+    else
+      $this->fullpath =$this->name;
+    
     $req = new insert($this->dbrw,"wiki", array (
       "id_utilisateur" => $this->id_utilisateur,
       "id_groupe" => $this->id_groupe,

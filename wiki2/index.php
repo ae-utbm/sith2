@@ -70,10 +70,13 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
            $_REQUEST['rights_id_group_admin']);
       else
         $parent->id_utilisateur=$site->user->id;
+      print_r($parentparent);  
       $parent->create ( $parentparent, null, $token, $token, "Créée pour [[:$pagepath]]", $_REQUEST["comment"] );
     }
     $parentparent = clone $parent;
   }
+
+  print_r($parent);
 
   if ( $can_create && $parent->is_valid() )
   {
@@ -172,11 +175,6 @@ if ( !$wiki->is_valid() )
 
 $pagepath = $wiki->fullpath;
 $can_edit = $site->user->is_valid() && $wiki->is_right($site->user,DROIT_ECRITURE);
-
-print_r($wiki);
-print_r($wiki->is_right($site->user,DROIT_ECRITURE));
-print_r($can_edit);
-
 
 
 if ( $_REQUEST["action"] == "revision" && $can_edit)
