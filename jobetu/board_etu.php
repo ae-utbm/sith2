@@ -87,9 +87,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 	 */
 
 	$cts->add_title(3, "De quoi êtes vous capable ?");
-	//$jobetu->add_jobtypes_table($frm, "job_type", "Catégorie");
-
-	$cts->add( new jobtypes_table($jobetu, "jobtypes_table", "Vos compétences") );
+	$cts->add( new jobtypes_table($jobetu, $usr, "jobtypes_table", "Vos compétences") );
 
 	/**
 	 * Envoi de CV en PDF

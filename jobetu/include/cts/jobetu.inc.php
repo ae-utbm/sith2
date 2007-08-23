@@ -191,10 +191,12 @@
 	
 	class jobtypes_table extends stdcontents
 	{
-		function jobtypes_table(&$jobetu, $name, $title, $value = false, $required = true, $enabled = true)
+		function jobtypes_table(&$jobetu, $user, $name, $title, $value = false, $required = true, $enabled = true)
 		{
 			if( !($jobetu instanceof jobetu) ) return -1;
+			if( !($user instanceof jobuser_etu) ) return -1;
 			if( empty($jobetu->job_types) ) $jobetu->get_job_types();
+			if( empty($user->competences) ) $user->load_competences();
 	
 	  	$l = 1;
 	  	$t = 0;
@@ -217,8 +219,13 @@
 				{
 					$t = $t%2;
 					
+					if( in_array($key, $user->competences) )
+						$check = "checked=\"checked\"";
+					else
+						$check = "";
+					
 					$this->buffer .= "<tr id=\"ln[$num]\" class=\"ln$t\" onMouseDown=\"setPointer('ln$t','$num','click','".$id_name."s[','".$name."');\" onMouseOut=\"setPointer('ln$t','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
-					$this->buffer .= "<td><input type=\"checkbox\" class=\"chkbox\" name=\"".$id_name."s[$num]\" value=\"".$key."\" onClick=\"setPointer('ln$t','$num','click','".$id_name."s[','".$name."');\"/></td>\n";
+					$this->buffer .= "<td><input type=\"checkbox\" class=\"chkbox\" name=\"".$id_name."s[$num]\" value=\"".$key."\" $check onClick=\"setPointer('ln$t','$num','click','".$id_name."s[','".$name."');\"/></td>\n";
 						$this->buffer .= "<td>$item</td>\n";
 					$this->buffer .= "</tr>";
 				
