@@ -407,6 +407,16 @@ class wiki extends basedb
 	  $this->droits_acces = $basedb->droits_acces;
 	}
 	
+	function set_rights ( $user,  $rights, $id_group, $id_group_admin )
+	{
+		if ( $this->is_admin($user) && $id_group_admin )
+			$this->id_groupe_admin = $id_group_admin;
+		if ( !$this->id_utilisateur )
+			$this->id_utilisateur = $user->id;
+		$this->id_groupe = $id_group;	
+	  $this->droits_acces = $rights;
+	}
+	
 }
 
 
