@@ -290,6 +290,8 @@ class wiki extends basedb
       "DELETE FROM wiki_ref_wiki ".
       "WHERE `id_wiki` = '" . mysql_real_escape_string($this->id) . "'");    
 
+    $this->_ref_cache=array("f"=>array(),"w"=>array());
+
     $this->_update_references($contents,"#\[\[([^\]]+?)\]\]#i");
     $this->_update_references($contents,"#\{\{([^\}]+?)\}\}#i",true);
     
@@ -309,15 +311,22 @@ class wiki extends basedb
       if ( preg_match("#^(dfile:\/\/|.*d\.php\?id_file=)([0-9]*)(.*)$#i",$link,$match) )
       {
         $id_file = $match[2];
-        new insert($this->dbrw,"wiki_ref_file",array("id_wiki"=>$this->id,"id_file"=>$id_file));
+        if ( !isset($this->_ref_cache["f"][$id_file]) ) 
+        {
+          new insert($this->dbrw,"wiki_ref_file",array("id_wiki"=>$this->id,"id_file"=>$id_file));
+          $this->_ref_cache["f"][$id_file]=1;
+        }
       }
       elseif ( !$media )
       {
         if ( preg_match("#^wiki:\/\/(.*)$#i",$link,$match) )
         {
           $id_wiki = $this->get_id_fullpath($match[1]);
-          if ( !is_null($id_wiki) )
+          if ( !is_null($id_wiki) && ! isset($this->_ref_cache["w"][$id_wiki]) )
+          {
             new insert($this->dbrw,"wiki_ref_wiki",array("id_wiki"=>$this->id,"id_wiki_rel"=>$id_wiki));
+            $this->_ref_cache["w"][$id_wiki]=1;
+          }
         }
         elseif ( preg_match("#^([a-zA-Z0-9\-_:]+)$#i",$link,$match) )
         {
@@ -329,8 +338,11 @@ class wiki extends basedb
             $wiki = $this->get_scope().$wiki;
             
           $id_wiki = $this->get_id_fullpath($wiki);
-          if ( !is_null($id_wiki) )
+          if ( !is_null($id_wiki) && ! isset($this->_ref_cache["w"][$id_wiki]) )
+          {
             new insert($this->dbrw,"wiki_ref_wiki",array("id_wiki"=>$this->id,"id_wiki_rel"=>$id_wiki));
+            $this->_ref_cache["w"][$id_wiki]=1;
+          }
         }
       }
     }
