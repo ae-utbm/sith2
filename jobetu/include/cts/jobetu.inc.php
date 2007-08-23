@@ -123,7 +123,7 @@
 	  				$this->buffer .= "</div>\n";
 	  					
 	  				$this->buffer .= "<div id=\"applicant_".$n."\" class=\"apply_content\">";
-	  				$gal = new gallery();
+	  				$gal = new gallery("Fiche du candidat");
 	  				$gal->add_item( new userinfov2($usr) );
 
 						$this->buffer .= $gal->html_render();

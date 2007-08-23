@@ -77,15 +77,17 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 	//$cts->add($table);
 		
 	$cts->puts("<script langage=\"javascript\"> 
-								function test(){ 
-									 document.getElementById(\"jobcapa\").innerHTML += '<div class=\"formrow\"><div class=\"formlabel\">Un autre CV</div><div class=\"formfield\"><input type=\"file\" name=\"cv_2\" /></div></div>';
+								function add_cv_field(){ 
+									 document.getElementById(\"jobcvs\").innerHTML += '<div class=\"formrow\"><div class=\"formlabel\">Un autre CV</div><div class=\"formfield\"><input type=\"file\" name=\"cv_2\" /></div></div>';
 								} 
 							</script>");
 	
 	$frm->puts("<h3>Vos CV \"traditionnels\"</h3>");
+		$frm->puts("<div name=\"jobcvs\" id=\"jobcvs\">");
 		$frm->add_file_field("cv_1", "Envoyez un CV");
 		$frm->add_file_field("cv_2", "Un autre CV");
-		$frm->puts("<input type=\"button\" onclick=\"test();\" value=\"Ajouter un champ\"/>");
+		$frm->puts("</div>");
+		$frm->puts("<input type=\"button\" onclick=\"add_cv_field();\" value=\"Ajouter un champ\"/>");
 	$frm->add_submit("go", "Envoyer");
 	$cts->add($frm);
 	
