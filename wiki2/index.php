@@ -136,7 +136,7 @@ if ( !$wiki->is_valid() )
     $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
                   array("create","wiki2/?name=".$pagepath."&view=create", "Creer")
                  );
-  elese
+  else
     $tabs = array(array("","wiki2/?name=".$pagepath, "Page"));
                
   $cts = new contents();
