@@ -70,13 +70,10 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
            $_REQUEST['rights_id_group_admin']);
       else
         $parent->id_utilisateur=$site->user->id;
-      print_r($parentparent);  
       $parent->create ( $parentparent, null, $token, $token, "Créée pour [[:$pagepath]]", $_REQUEST["comment"] );
     }
     $parentparent = clone $parent;
   }
-
-  print_r($parent);
 
   if ( $can_create && $parent->is_valid() )
   {
