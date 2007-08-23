@@ -72,21 +72,29 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 		/**
 		 * Gestion des données recues sur la mise à jour du profil
 		 */
-		if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "jobcapa")
-			$usr->update_competences($_REQUEST['id_jobs']);
+		if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "jobtypes_table")
+		{
+			print_r($_REQUEST);
+		}
+			//$usr->update_competences($_REQUEST['id_jobs']);
 		
 		
 		$cts->add_title(2, "Modifiez vos informations");
 	  $cts->add_paragraph("Toutes vos informations personnelles, telles que votre adresse, téléphone, date de naissance... sont celles de votre fiche Matmatronch, pour les modifier, <a href=\"$topdir./user.php?id_utilisateur=$usr->id&page=edit\">cliquez ici</a>");
 	
-	$frm = new form("jobcapa", "board_etu.php?view=profil", true, "POST");
-	$frm->puts("<h3>De quoi êtes vous capable ?</h3>");
+	/**
+	 * sqltable des compétences
+	 */
+
+	$cts->add_title(3, "De quoi êtes vous capable ?");
 	//$jobetu->add_jobtypes_table($frm, "job_type", "Catégorie");
-	
-	$sql = new requete($site->db, "SELECT *  FROM job_types ORDER BY id_type ASC");
-	$table = new sqltable("typetable", "Catégorie des jobs", $sql, null, "id_types", array("id_type" => "Num", "nom" => "Nom de la catégorie"), array("go"=>"Go"), array("go"=>"Go"), array());
-	//$cts->add($table);
-		
+
+	$cts->add( new jobtypes_table($jobetu, "jobtypes_table", "Vos compétences") );
+
+	/**
+	 * Envoi de CV en PDF
+	 */
+
 	$cts->puts("<script langage=\"javascript\"> 
 								function add_cv_field(){ 
 										if ( typeof this.counter == 'undefined' ) this.counter = 1;
@@ -94,7 +102,8 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 										document.getElementById(\"jobcvs\").innerHTML += '<div class=\"formrow\" name=\"cv_item_row\" id=\"cv_item_row\"><div class=\"linedrow\"><div class=\"subformlabel\"></div><div class=\"subforminline\" id=\"cv_item_contents\"> <!-- cv_item_contents --><div class=\"formrow\"><div class=\"formlabel\">Un autre CV &nbsp;&nbsp;</div><div class=\"formfield\"><input type=\"file\" name=\"cv_' + this.counter + '\" /></div></div><div class=\"formrow\"><div class=\"formlabel\">Langue &nbsp;&nbsp;</div><div class=\"formfield\"><select name=\"lang\" ><option value=\"ar\">Arabe</option>	<option value=\"ch\">Chinois</option>	<option value=\"de\">Allemand</option>	<option value=\"en\">Anglais</option>	<option value=\"es\">Espagnol</option>	<option value=\"fr\" selected=\"selected\">Fran&ccedil;ais</option>	<option value=\"it\">Italien</option>	<option value=\"kr\">Cor&eacute;en</option>	<option value=\"pt\">Portugais</option></select></div></div></div><!-- end of cv_item_contents --></div><!-- end of fullrow/linedrow --></div></div>';								
 							} 
 							</script>");
-	
+
+	$frm = new form("job_cvs", "board_etu.php?view=profil", true, "POST");
 	$frm->puts("<h3>Vos CV \"traditionnels\"</h3>");
 		$frm->puts("<div name=\"jobcvs\" id=\"jobcvs\">");
 		
@@ -108,7 +117,6 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 	$frm->add_submit("go", "Envoyer les CVs");
 	$cts->add($frm);
 	
-	$cts->add( new jobtypes_table($jobetu, "jobtypes_table", "Vos compétences") );
 }
 
 /*******************************************************************************

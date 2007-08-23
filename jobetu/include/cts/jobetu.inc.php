@@ -201,6 +201,8 @@
 	  	static $num = 1;
 	  	$id_name = "id_job";
 	  	
+	  	$this->buffer .= "<form name=\"$name\" action=\"board_etu.php?view=profil\" method=\"POST\">\n";
+	  	$this->buffer .= "<input type=\"hidden\" name=\"magicform[name]\" value =\"$name\" />\n";
 	  	$this->buffer .= "<table class=\"sqltable\">\n";
 	  	
 	  	foreach ( $jobetu->job_types as $key => $item )
@@ -213,8 +215,10 @@
 				}
 				else
 				{
-			  	$this->buffer .= "<tr id=\"ln[$num]\" class=\"ln$t\" onMouseDown=\"setPointer('ln$t','$num','click','".$id_name."s[','".$frm->name."');\" onMouseOut=\"setPointer('ln$t','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
-						$this->buffer .= "<td><input type=\"checkbox\" class=\"chkbox\" name=\"".$id_name."s[$num]\" value=\"".$key."\" onClick=\"setPointer('ln$t','$num','click','".$id_name."s[','".$frm->name."');\"/></td>\n";
+					$t = $t%2;
+					
+					$this->buffer .= "<tr id=\"ln[$num]\" class=\"ln$t\" onMouseDown=\"setPointer('ln$t','$num','click','".$id_name."s[','".$name."');\" onMouseOut=\"setPointer('ln$t','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
+					$this->buffer .= "<td><input type=\"checkbox\" class=\"chkbox\" name=\"".$id_name."s[$num]\" value=\"".$key."\" onClick=\"setPointer('ln$t','$num','click','".$id_name."s[','".$name."');\"/></td>\n";
 						$this->buffer .= "<td>$item</td>\n";
 					$this->buffer .= "</tr>";
 				
@@ -223,7 +227,8 @@
 			}
 	  	$this->buffer .= "</table>\n";
 	  	$this->buffer .= "</select>\n<input type=\"submit\" name=\"$formname\" value=\"Enregistrer\" class=\"isubmit\"/>\n</p>\n";
-		}
+	
+	  	$this->buffer .= "</form>\n";	}
 	}
 	
 ?>
