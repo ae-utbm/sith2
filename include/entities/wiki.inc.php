@@ -202,8 +202,8 @@ class wiki extends basedb
       "name_wiki" => $this->name,
       "fullpath_wiki" => $this->fullpath));
 
-		if ( $sql )
-			$this->id = $sql->get_id();
+		if ( $req )
+			$this->id = $req->get_id();
 		else
 		{
 			$this->id = null;
@@ -236,8 +236,8 @@ class wiki extends basedb
       "title_rev" => $this->rev_title,
       "comment_rev" => $this->rev_comment));   
        
-		if ( $sql )
-			$this->rev_id = $sql->get_id();
+		if ( $req )
+			$this->rev_id = $req->get_id();
 		else
 		{
 			$this->rev_id = null;
