@@ -43,43 +43,6 @@ class jobetu extends stdentity
     }
   }
 
-  
-  /**
-   * Ajoute un tableau de type sqltable pour les types de jobs
-   */
-	function add_jobtypes_table($frm, $name, $title, $value = false, $required = true, $enabled = true)
-	{
-  	if(!($frm instanceof form)) return -1;
-  	if(empty($this->job_types)) $this->get_job_types();
-
-  	$l = 1;
-  	$t = 0;
-  	static $num = 1;
-  	$id_name = "id_job";
-  	
-  	$frm->buffer .= "<table class=\"sqltable\">\n";
-  	
-  	foreach ( $this->job_types as $key => $item )
-		{
-			if(!($key%100))
-			{
-		  	$frm->buffer .= "<tr class=\"head\">\n";
-		  		$frm->buffer .= "<th colspan=\"2\" value=\"$key\">$item</th>";
-		  	$frm->buffer .= "</tr>\n";
-			}
-			else
-			{
-				$frm->buffer .= "<tr id=\"ln[$num]\" class=\"ln$t\" onMouseDown=\"setPointer('ln$t','$num','click','".$id_name."s[','".$name."');\" onMouseOut=\"setPointer('ln$t','$num','out');\" onMouseOver=\"setPointer('ln$t','$num','over');\">\n";
-				$frm->buffer .= "<td><input type=\"checkbox\" class=\"chkbox\" name=\"".$id_name."s[$num]\" value=\"".$key."\" onClick=\"setPointer('ln$t','$num','click','".$id_name."s[','".$name."');\"/></td>\n";
-					$frm->buffer .= "<td>$item</td>\n";
-				$frm->buffer .= "</tr>";
-			
-				$l++; $t++; $num++;
-			}
-		}
-  	$frm->buffer .= "</table>\n";
-	}
-
   /** Ajoute une nouvelle catégorie de job
    * @param $name nom de la catégorie
    * @return num de la nouvelle catégorie, -1 si échec
