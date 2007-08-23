@@ -333,6 +333,7 @@ class wiki extends basedb
 				
 		if ( $req->lines != -1 )
 		{
+		  echo "$fullpath NOT found - ";
 		  return null;
 		}  
 		list($id) = $req->get_row();
