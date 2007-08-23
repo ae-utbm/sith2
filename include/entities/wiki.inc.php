@@ -215,10 +215,8 @@ class wiki extends basedb
 		    INNER JOIN `wiki_rev` 
 		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
 		           AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
-				WHERE contents_rev LIKE '%[[".mysql_real_escape_string($this->fullpath)."]]%'
-				OR contents_rev LIKE '%[[".mysql_real_escape_string($this->fullpath)."#%]]%'
-				OR contents_rev LIKE '%[[wiki://".mysql_real_escape_string($this->fullpath)."]]%'
-				OR contents_rev LIKE '%[[wiki://".mysql_real_escape_string($this->fullpath)."#%]]%'");      
+				WHERE contents_rev LIKE '%[[%".mysql_real_escape_string($this->name)."]]%'
+				OR contents_rev LIKE '%[[%".mysql_real_escape_string($this->name)."#%]]%'");      
 		$updater = new wiki($this->db,$this->dbrw);
     while ( $row = $req->get_row() )
     {
