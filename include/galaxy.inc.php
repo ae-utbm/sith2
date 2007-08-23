@@ -224,8 +224,17 @@ class galaxy
         if (!isset($liens[$a][$b]) )
           new delete($this->dbrw,"galaxy_link",array( "id_star_a"=>$a, "id_star_b"=>$b));
           
-    list($x1,$y1,$x2,$y2) = $this->limits();
-    $cw = max($x2-$x1,$y2-$y1);
+    if ( count($prev_stars) == 0 )
+    {
+      $x1=0;
+      $y1=0;
+      $cw=10;
+    }
+    else
+    {
+      list($x1,$y1,$x2,$y2) = $this->limits();
+      $cw = max($x2-$x1,$y2-$y1);
+    }
     
     // ajoute les nouvelles étoiles
     foreach ( $stars as $id )
