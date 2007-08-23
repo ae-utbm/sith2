@@ -31,6 +31,17 @@ require_once("include/annonce.inc.php");
 require_once("include/cts/jobetu.inc.php");
 require_once("include/jobuser_etu.inc.php");
 
+$i18n = array("ar" => "Arabe",
+							"ch" => "Chinois",
+							"de" => "Allemand",
+							"en" => "Anglais",
+							"es" => "Espagnol",
+							"fr" => "Français",
+							"it" => "Italien",
+							"kr" => "Coréen",
+							"pt" => "Portugais"
+							);
+
 $site = new site();
 $site->allow_only_logged_users("services");
 $site->add_css("jobetu/jobetu.css");
@@ -78,14 +89,18 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 		
 	$cts->puts("<script langage=\"javascript\"> 
 								function add_cv_field(){ 
-									 document.getElementById(\"jobcvs\").innerHTML += '<div class=\"formrow\"><div class=\"formlabel\">Un autre CV</div><div class=\"formfield\"><input type=\"file\" name=\"cv_2\" /></div></div>';
+									 document.getElementById(\"jobcvs\").innerHTML += '<div class=\"formrow\"><div class=\"formlabel\">Envoyez un CV &nbsp;&nbsp;</div><div class=\"formfield\"><input type=\"file\" name=\"cv_1\" /></div></div><div class=\"formrow\"><div class=\"formlabel\">Langue &nbsp;&nbsp;</div><div class=\"formfield\"><select name=\"lang\" ><option value=\"ar\">Arabe</option>	<option value=\"ch\">Chinois</option>	<option value=\"de\">Allemand</option>	<option value=\"en\">Anglais</option>	<option value=\"es\">Espagnol</option>	<option value=\"fr\" selected=\"selected\">Fran&ccedil;ais</option>	<option value=\"it\">Italien</option>	<option value=\"kr\">Cor&eacute;en</option>	<option value=\"pt\">Portugais</option></select></div></div></div><!-- end of cv_item_contents --></div><!-- end of fullrow/linedrow --></div></div>';								
 								} 
 							</script>");
 	
 	$frm->puts("<h3>Vos CV \"traditionnels\"</h3>");
 		$frm->puts("<div name=\"jobcvs\" id=\"jobcvs\">");
-		$frm->add_file_field("cv_1", "Envoyez un CV");
-		$frm->add_file_field("cv_2", "Un autre CV");
+		
+		$subfrm = new form("cv_item", false, false, "POST");
+		$subfrm->add_file_field("cv_1", "Envoyez un CV &nbsp;&nbsp;");
+		$subfrm->add_select_field("lang", "Langue &nbsp;&nbsp;", $i18n, "fr");
+		
+		$frm->add($subfrm, false, false, false, false, true);
 		$frm->puts("</div>");
 		$frm->puts("<input type=\"button\" onclick=\"add_cv_field();\" value=\"Ajouter un champ\"/>");
 	$frm->add_submit("go", "Envoyer");
