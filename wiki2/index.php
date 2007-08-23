@@ -119,7 +119,7 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
 }
 elseif ( isset($_REQUEST["name"]) )
 {
-  if ( !(isset($_REQUEST["rev"]) && $wiki->load_by_fullpath($_REQUEST["name"],$_REQUEST["rev"])) )
+  if ( !(isset($_REQUEST["rev"]) && $wiki->load_by_fullpath_and_rev($_REQUEST["name"],$_REQUEST["rev"])) )
     $wiki->load_by_fullpath($_REQUEST["name"]);
 }
 else
@@ -206,10 +206,11 @@ $pagename = $pagepath ? $pagepath : "(racine)";
 $can_edit = $site->user->is_valid() && $wiki->is_right($site->user,DROIT_ECRITURE);
 
 
-if ( $_REQUEST["action"] == "revision" && $can_edit)
+if ( $_REQUEST["action"] == "revision" && $can_edit 
+    && ($_REQUEST["title"] != $wiki->rev_title || $_REQUEST["contents"] != $wiki->rev_contents ) )
   $wiki->revision ( $site->user->id, $_REQUEST["title"], $_REQUEST["contents"], $_REQUEST["comment"] );
 
-$site->start_page ("none", $wiki->title);
+$site->start_page ("none", $wiki->rev_title);
 
 if ( $can_edit )
   $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
