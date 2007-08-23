@@ -96,7 +96,7 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
     $parentparent = clone $parent;
   }
   
-  if ( !preg_match("#^([a-zA-Z0-9\-_:]+)$#i",$link,$pagepath) )
+  if ( !preg_match("#^([a-zA-Z0-9\-_:]+)$#i",$pagepath) )
     $can_create=false;
     
   if ( $can_create && $parent->is_valid() && !$wiki->load_by_name($parent->id,$pagename) )
