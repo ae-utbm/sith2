@@ -210,7 +210,21 @@ class wiki extends basedb
 			return false;
 		} 
     
-    $parent->update_references($parent->rev_contents);  
+		$req = new requete($this->db, "SELECT * 
+		    FROM `wiki`
+		    INNER JOIN `wiki_rev` 
+		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
+		           AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
+				WHERE contents_rev LIKE '%[[".mysql_real_escape_string($this->fullpath)."]]%'
+				OR contents_rev LIKE '%[[".mysql_real_escape_string($this->fullpath)."#%]]%'
+				OR contents_rev LIKE '%[[wiki://".mysql_real_escape_string($this->fullpath)."]]%'
+				OR contents_rev LIKE '%[[wiki://".mysql_real_escape_string($this->fullpath)."#%]]%'");      
+		$updater = new wiki($this->db,$this->dbrw);
+    while ( $row = $req->get_row() )
+    {
+      $updater->_load($row);  
+      $updater->update_references($updater->rev_contents);  
+    }  
       
     return $this->revision($this->id_utilisateur,$title, $contents, $comment);
   }

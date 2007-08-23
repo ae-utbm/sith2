@@ -132,7 +132,7 @@ if ( !$wiki->is_valid() )
   $is_admin = false;
   if ( $site->user->is_valid() )
   {
-    // Cherche le parent le plus haut pour savoir si la création de page est authorisée
+    // Cherche le parent le plus haut pour savoir si la création de page est autorisée
     $parent = new wiki($site->db);
     $tokens = explode(":",$pagepath);
     array_pop($tokens);
