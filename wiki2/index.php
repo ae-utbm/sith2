@@ -241,6 +241,68 @@ if ( $can_edit && $_REQUEST["view"] == "edit" )
 elseif ( $_REQUEST["view"] == "refs" ) 
 {
   
+  $req = new requete($site->db,"SELECT fullpath_wiki, title_rev ".
+    "FROM wiki_ref_wiki ".
+    "INNER JOIN wiki ON ( wiki.id_wiki=wiki_ref_wiki.id_wiki_rel) ".
+    "INNER JOIN `wiki_rev` ON (".
+		      "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
+		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) "
+		"WHERE wiki_ref_wiki.id_wiki='".$wiki->id."' ".
+		"ORDER BY fullpath_wiki");
+  
+  if ( $req->lines )
+  {
+    $list = new itemlist("Cette page fait référence aux pages","wikirefpages");
+    while ( $row = $req->get_row() )
+    {
+      $list->add(
+        "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".
+        ($row['fullpath_wiki']?$row['fullpath_wiki']:"(racine)")."</a> ".
+        " : <span class=\"wtitle\">".htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8")."</span> ");      
+    }
+    $cts->add($list,true);
+  }
+  
+  $req = new requete($site->db,"SELECT fullpath_wiki, title_rev ".
+    "FROM wiki_ref_wiki ".
+    "INNER JOIN wiki ON ( wiki.id_wiki=wiki_ref_wiki.id_wiki) ".
+    "INNER JOIN `wiki_rev` ON (".
+		      "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
+		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) "
+		"WHERE wiki_ref_wiki.id_wiki_rel='".$wiki->id."' ".
+		"ORDER BY fullpath_wiki");
+  
+  if ( $req->lines )
+  {
+    $list = new itemlist("Les pages suivantes font référence à cette page","wikirefpages");
+    while ( $row = $req->get_row() )
+    {
+      $list->add(
+        "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".
+        ($row['fullpath_wiki']?$row['fullpath_wiki']:"(racine)")."</a> ".
+        " : <span class=\"wtitle\">".htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8")."</span> ");      
+    }
+    $cts->add($list,true);
+  }
+  
+  $req = new requete($site->db,"SELECT titre_file, nom_fichier_file, d_file.id_file ".
+    "FROM wiki_ref_file ".
+    "INNER JOIN d_file USING(id_file) "
+		"WHERE wiki_ref_wiki.id_wiki='".$wiki->id."' ".
+		"ORDER BY titre_file");  
+  
+  if ( $req->lines )
+  {
+    $list = new itemlist("Cette page fait référence ou utilise les fichiers suivants","wikirefpages");
+    while ( $row = $req->get_row() )
+    {
+      $list->add(
+        "<a class=\"wfile\" href=\"".$wwwtopdir."d.php?id_file=".$row['id_file']."\">".
+        htmlentities($row['titre_file'],ENT_NOQUOTES,"UTF-8")."</a>  (".$row['nom_fichier_file'].") ");      
+    }
+    $cts->add($list,true);
+  }
+  
   
   
 }
