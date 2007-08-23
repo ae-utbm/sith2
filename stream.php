@@ -24,10 +24,13 @@
 
 $topdir = "./";
 
+if ( preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
+  $infofile = $topdir."var/cache/stream";
+else
+  $infofile = $topdir."var/cache/stream-prod";
 
-
-if ( file_exists($topdir."var/cache/stream") )
-  $GLOBALS["streaminfo"] = unserialize(file_get_contents($topdir."var/cache/stream"));
+if ( file_exists($infofile) )
+  $GLOBALS["streaminfo"] = unserialize(file_get_contents($infofile));
 
 if ( $_REQUEST["get"] == "qt.pls" )
 {

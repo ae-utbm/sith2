@@ -28,8 +28,14 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site();
 
-if ( file_exists($topdir."var/cache/stream") )
-  $GLOBALS["streaminfo"] = unserialize(file_get_contents($topdir."var/cache/stream"));
+if ( preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
+  $infofile = $topdir."var/cache/stream";
+else
+  $infofile = $topdir."var/cache/stream-prod";
+
+
+if ( file_exists($infofile) )
+  $GLOBALS["streaminfo"] = unserialize(file_get_contents($infofile));
 else
   $GLOBALS["streaminfo"] = array();
 
@@ -66,7 +72,7 @@ echo "thank you. updated: ".implode(", ",$updated)."\n";
 
 $GLOBALS["streaminfo"]["updated"] = time();
 
-file_put_contents($topdir."var/cache/stream",serialize($GLOBALS["streaminfo"]));
+file_put_contents($infofile,serialize($GLOBALS["streaminfo"]));
 
 
 ?>
