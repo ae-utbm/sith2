@@ -246,7 +246,7 @@ elseif ( $_REQUEST["view"] == "refs" )
     "INNER JOIN wiki ON ( wiki.id_wiki=wiki_ref_wiki.id_wiki_rel) ".
     "INNER JOIN `wiki_rev` ON (".
 		      "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
-		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) "
+		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) ".
 		"WHERE wiki_ref_wiki.id_wiki='".$wiki->id."' ".
 		"ORDER BY fullpath_wiki");
   
@@ -268,7 +268,7 @@ elseif ( $_REQUEST["view"] == "refs" )
     "INNER JOIN wiki ON ( wiki.id_wiki=wiki_ref_wiki.id_wiki) ".
     "INNER JOIN `wiki_rev` ON (".
 		      "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
-		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) "
+		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) ".
 		"WHERE wiki_ref_wiki.id_wiki_rel='".$wiki->id."' ".
 		"ORDER BY fullpath_wiki");
   
@@ -287,7 +287,7 @@ elseif ( $_REQUEST["view"] == "refs" )
   
   $req = new requete($site->db,"SELECT titre_file, nom_fichier_file, d_file.id_file ".
     "FROM wiki_ref_file ".
-    "INNER JOIN d_file USING(id_file) "
+    "INNER JOIN d_file USING(id_file) ".
 		"WHERE wiki_ref_wiki.id_wiki='".$wiki->id."' ".
 		"ORDER BY titre_file");  
   
