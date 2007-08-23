@@ -346,13 +346,29 @@ function linkformat($match)
   else
     format_link($link,$name,$class,$target,$style,$pre,$post,$more);
     
-  //les dfiles://
-  $link = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$wwwtopdir."d.php?action=download&download=preview&id_file=$1",$link);
-  $link = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$wwwtopdir."d.php?action=download&download=thumb&id_file=$1",$link);
-  $link = preg_replace("/dfile:\/\/([0-9]*)/i",$wwwtopdir."d.php?action=download&id_file=$1",$link);
-
-  //les article://
-  $link = preg_replace("/article:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
+  if( preg_match('/^([a-zA-Z0-9\-_:]+)$/',$link) )
+  {
+    if ( $link{0} == ':' )
+      $link = substr($link,1);
+    elseif ( !empty($conf["linksscope"]))
+      $link = $conf["linksscope"].$link;
+    
+    if ( $conf["linkscontext"] == "wiki" )
+      $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=".$link; 
+    else
+      $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=".$link;
+  }
+  else
+  {  
+    //les dfiles://
+    $link = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$wwwtopdir."d.php?action=download&download=preview&id_file=$1",$link);
+    $link = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$wwwtopdir."d.php?action=download&download=thumb&id_file=$1",$link);
+    $link = preg_replace("/dfile:\/\/([0-9]*)/i",$wwwtopdir."d.php?action=download&id_file=$1",$link);
+    //les article://
+    $link = preg_replace("/article:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
+    //les wiki://
+    $link = preg_replace("/wiki:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link);    
+  }
   
   $ret .= $pre;
   $ret .= '<a href="'.$link.'"';
