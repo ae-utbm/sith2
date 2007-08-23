@@ -89,6 +89,28 @@ class wiki extends basedb
 		return false;
 	}
 	
+	function load_by_name ( $id_parent, $name )
+	{
+	 
+		$req = new requete($this->db, "SELECT * 
+		    FROM `wiki`
+		    INNER JOIN `wiki_rev` 
+		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
+		           AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
+				WHERE `name_wiki` = '" . mysql_real_escape_string($name) . "'
+				AND `id_wiki_parent`= '" . mysql_real_escape_string($id_parent) . "'
+				LIMIT 1");
+				
+		if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
+	}
+	
 	function load_by_fullpath ( $fullpath )
 	{
 	 
@@ -139,7 +161,7 @@ class wiki extends basedb
 		$this->id_groupe = $row['id_groupe'];
 		$this->id_groupe_admin = $row['id_groupe_admin'];
 		$this->droits_acces = $row['droits_acces_wiki'];
-		$this->modere = 1;
+		$this->modere = true;
 		
     $this->id_wiki_parent = $row['id_wiki_parent']; 
     $this->id_asso = $row['id_asso'];
@@ -158,7 +180,6 @@ class wiki extends basedb
 	
   function create ( $parent, $id_asso, $name, $title, $contents, $comment="créée!")
   {
-		$this->modere = 1;
 		
 		$this->id_wiki_parent = $parent->id;
     $this->id_asso = $id_asso;
@@ -343,7 +364,23 @@ class wiki extends basedb
     return $cts;
   }
   
-  
+	function is_admin ( &$user )
+	{
+		if ( $user->is_in_group("wiki_admin") )
+		  return true;	
+
+		return parent::is_admin($user);
+	}
+	
+	function herit ( $basedb )
+	{
+		$this->id_utilisateur = null;
+		$this->id_groupe = $basedb->id_groupe;	
+		$this->id_groupe_admin = $basedb->id_groupe_admin;
+		$this->modere=true;
+	  $this->droits_acces = $basedb->droits_acces;
+	}
+	
 }
 
 
