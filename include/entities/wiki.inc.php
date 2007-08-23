@@ -320,7 +320,12 @@ class wiki extends basedb
    */
   function get_scope ()
   {
-    return substr($this->fullpath,0,-strlen($this->name));
+    if ( empty($this->fullpath) )
+      return "";
+    elseif ( $this->fullpath == $this->name ) // Pour éviter de polluer la racine
+      return $this->fullpath.":";
+    else
+      return substr($this->fullpath,0,-strlen($this->name));
   }
   
   function get_stdcontents()
