@@ -32,7 +32,7 @@ require_once("include/cts/jobetu.inc.php");
 require_once("include/jobuser_etu.inc.php");
 
 $i18n = array("ar" => "Arabe",
-							"ch" => "Chinois",
+							"cn" => "Chinois",
 							"de" => "Allemand",
 							"en" => "Anglais",
 							"es" => "Espagnol",
@@ -105,7 +105,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 		$frm->add($subfrm, false, false, false, false, true);
 		$frm->puts("</div>");
 		$frm->puts("<input type=\"button\" onclick=\"add_cv_field();\" value=\"Ajouter un champ\"/>");
-	$frm->add_submit("go", "Envoyer");
+	$frm->add_submit("go", "Envoyer les CVs");
 	$cts->add($frm);
 	
 	$cts->add( new jobtypes_table($jobetu, "jobtypes_table", "Vos compétences") );
