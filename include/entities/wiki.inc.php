@@ -289,6 +289,8 @@ class wiki extends basedb
     
     foreach( $matches[1] as $link )
     {
+      echo $link."?";
+      
       list($link,$dummy) = explode("|",$link,2);
       
       if ( $media )
@@ -310,6 +312,8 @@ class wiki extends basedb
         elseif ( preg_match("#^([a-zA-Z0-9\-_:]+)$#i",$link,$match) )
         {
           $link = $match[1];
+          
+          print_r($match);
           
           if ( $wiki{0} == ':' )
             $wiki = substr($wiki,1);
