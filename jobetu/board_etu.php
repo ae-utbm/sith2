@@ -78,12 +78,16 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 		}
 		else if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "job_cvs")
 		{
-			print_r($_REQUEST);
-			print_r($_FILES);
+//			print_r($_REQUEST);
+//			print_r($_FILES);
 			$i = 1;
 			foreach($_FILES as $file)
 			{
-				$usr->add_pdf_cv($file, $_REQUEST['lang_'.$i]);
+				if( $usr->add_pdf_cv($file, $_REQUEST['lang_'.$i]) )
+					$cts->add_paragraph("Votre CV a été correctement envoyé");
+				else
+					$cts->add_paragraph("Une erreur s'est produite");
+					
 				$i++;
 			}
 		}

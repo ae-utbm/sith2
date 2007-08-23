@@ -86,7 +86,7 @@ class jobuser_etu extends utilisateur
     
     if( move_uploaded_file($file['tmp_name'], $topdir ."var/cvs/". $this->id . "." . $lang . ".pdf") )
     {
-    	$sql = new insert($this->dbrw, "job_cvs", array("id_utl" => $this->id, "date" => date(), "lang" => $lang) );
+    	$sql = new insert($this->dbrw, "job_cvs", array("id_utl" => $this->id, "date" => date("Y-m-d"), "lang" => $lang) );
     	if($sql)
     	{
     		return true;
