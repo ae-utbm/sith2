@@ -173,6 +173,12 @@ if ( !$wiki->is_valid() )
 $pagepath = $wiki->fullpath;
 $can_edit = $site->user->is_valid() && $wiki->is_right($site->user,DROIT_ECRITURE);
 
+print_r($wiki);
+print_r($wiki->is_right($site->user,DROIT_ECRITURE));
+print_r($can_edit);
+
+
+
 if ( $_REQUEST["action"] == "revision" && $can_edit)
   $wiki->revision ( $site->user->id, $_REQUEST["title"], $_REQUEST["contents"], $_REQUEST["comment"] );
 
