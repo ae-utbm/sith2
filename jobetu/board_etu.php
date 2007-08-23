@@ -74,9 +74,10 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 		 */
 		if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "jobtypes_table")
 		{
-			print_r($_REQUEST);
+			$usr->update_competences($_REQUEST['id_jobs']);
+			$usr->load_competences();
 		}
-			//$usr->update_competences($_REQUEST['id_jobs']);
+			
 		
 		
 		$cts->add_title(2, "Modifiez vos informations");

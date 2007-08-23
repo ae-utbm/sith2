@@ -50,6 +50,9 @@ class jobuser_etu extends utilisateur
 		
 		foreach ($add as $value)
 			$sql = new insert($this->dbrw, "job_types_etu", array("id_type" => $value, "id_utilisateur" => $this->id));
+			
+		$this->competences = array();
+		$this->load_competences();
 	}
 	
 	function load_annonces()
