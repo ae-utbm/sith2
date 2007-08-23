@@ -95,7 +95,10 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
     }
     $parentparent = clone $parent;
   }
-
+  
+  if ( !preg_match("#^([a-zA-Z0-9\-_:]+)$#i",$link,$pagepath) )
+    $can_create=false;
+    
   if ( $can_create && $parent->is_valid() && !$wiki->load_by_name($parent->id,$pagename) )
   {
     $wiki->herit($parent);
@@ -153,6 +156,9 @@ if ( !$wiki->is_valid() )
     }
   }
   
+  if ( !preg_match("#^([a-zA-Z0-9\-_:]+)$#i",$link,$pagepath) )
+    $can_create=false;
+  
   
   $site->start_page ("none", "Page inexistante");
   
@@ -196,6 +202,7 @@ if ( !$wiki->is_valid() )
 }
 
 $pagepath = $wiki->fullpath;
+$pagename = $pagepath ? $pagepath : "(racine)";
 $can_edit = $site->user->is_valid() && $wiki->is_right($site->user,DROIT_ECRITURE);
 
 
@@ -251,7 +258,7 @@ elseif ( $_REQUEST["view"] == "hist" )
   {
     $list->add(
       "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
-      "<a class=\"wpage\" href=\"?name=$pagepath&amp;rev=".$row['id_rev']."\">$pagepath</a> ".
+      "<a class=\"wpage\" href=\"?name=$pagepath&amp;rev=".$row['id_rev']."\">$pagename</a> ".
       "- <span class=\"wuser\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</span> ".
       "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span>");
     //TODO: ajouter un lien diff, et implémenter le diff
