@@ -156,7 +156,7 @@ if ( !$wiki->is_valid() )
     }
   }
   
-  if ( !preg_match("#^([a-zA-Z0-9\-_:]+)$#i",$link,$pagepath) )
+  if ( !preg_match("#^([a-zA-Z0-9\-_:]+)$#i",$pagepath) )
     $can_create=false;
   
   
