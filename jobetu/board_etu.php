@@ -75,9 +75,18 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 		if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "jobtypes_table")
 		{
 			$usr->update_competences($_REQUEST['id_jobs']);
-			$usr->load_competences();
 		}
-			
+		else if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "job_cvs")
+		{
+			print_r($_REQUEST);
+			print_r($_FILES);
+			$i = 1;
+			foreach($_FILES as $file)
+			{
+				$usr->add_pdf_cv($file, $_REQUEST['lang_'.$i]);
+				$i++;
+			}
+		}
 		
 		
 		$cts->add_title(2, "Modifiez vos informations");
@@ -98,7 +107,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 								function add_cv_field(){ 
 										if ( typeof this.counter == 'undefined' ) this.counter = 1;
 										this.counter++;
-										document.getElementById(\"jobcvs\").innerHTML += '<div class=\"formrow\" name=\"cv_item_row\" id=\"cv_item_row\"><div class=\"linedrow\"><div class=\"subformlabel\"></div><div class=\"subforminline\" id=\"cv_item_contents\"> <!-- cv_item_contents --><div class=\"formrow\"><div class=\"formlabel\">Un autre CV &nbsp;&nbsp;</div><div class=\"formfield\"><input type=\"file\" name=\"cv_' + this.counter + '\" /></div></div><div class=\"formrow\"><div class=\"formlabel\">Langue &nbsp;&nbsp;</div><div class=\"formfield\"><select name=\"lang\" ><option value=\"ar\">Arabe</option>	<option value=\"ch\">Chinois</option>	<option value=\"de\">Allemand</option>	<option value=\"en\">Anglais</option>	<option value=\"es\">Espagnol</option>	<option value=\"fr\" selected=\"selected\">Fran&ccedil;ais</option>	<option value=\"it\">Italien</option>	<option value=\"kr\">Cor&eacute;en</option>	<option value=\"pt\">Portugais</option></select></div></div></div><!-- end of cv_item_contents --></div><!-- end of fullrow/linedrow --></div></div>';								
+										document.getElementById(\"jobcvs\").innerHTML += '<div class=\"formrow\" name=\"cv_item_row\" id=\"cv_item_row\"><div class=\"linedrow\"><div class=\"subformlabel\"></div><div class=\"subforminline\" id=\"cv_item_contents\"> <!-- cv_item_contents --><div class=\"formrow\"><div class=\"formlabel\">Un autre CV &nbsp;&nbsp;</div><div class=\"formfield\"><input type=\"file\" name=\"cv_' + this.counter + '\" /></div></div><div class=\"formrow\"><div class=\"formlabel\">Langue &nbsp;&nbsp;</div><div class=\"formfield\"><select name=\"lang_' + this.counter + '\" ><option value=\"ar\">Arabe</option>	<option value=\"ch\">Chinois</option>	<option value=\"de\">Allemand</option>	<option value=\"en\">Anglais</option>	<option value=\"es\">Espagnol</option>	<option value=\"fr\" selected=\"selected\">Fran&ccedil;ais</option>	<option value=\"it\">Italien</option>	<option value=\"kr\">Cor&eacute;en</option>	<option value=\"pt\">Portugais</option></select></div></div></div><!-- end of cv_item_contents --></div><!-- end of fullrow/linedrow --></div></div>';								
 							} 
 							</script>");
 
@@ -108,7 +117,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 		
 		$subfrm = new form("cv_item", false, false, "POST");
 		$subfrm->add_file_field("cv_1", "Envoyez un CV &nbsp;&nbsp;");
-		$subfrm->add_select_field("lang", "Langue &nbsp;&nbsp;", $i18n, "fr");
+		$subfrm->add_select_field("lang_1", "Langue &nbsp;&nbsp;", $i18n, "fr");
 		
 		$frm->add($subfrm, false, false, false, false, true);
 		$frm->puts("</div>");

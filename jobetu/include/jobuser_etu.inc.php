@@ -70,6 +70,36 @@ class jobuser_etu extends utilisateur
 			    $this->annonces[] = $line[0];
 	    }
 	}
+	
+	function add_pdf_cv($file, $lang = 'fr')
+	{
+		global $topdir;
+		
+	  if ( !is_uploaded_file($file['tmp_name']) )
+    {
+      return false;
+    }
+    if( $file['type'] != "application/pdf" )
+    {
+    	return false;	
+    }
+    
+    if( move_uploaded_file($file['tmp_name'], $topdir ."var/cvs/". $this->id . "." . $lang . ".pdf") )
+    {
+    	$sql = new insert($this->dbrw, "job_cvs", array("id_utl" => $this->id, "date" => date(), "lang" => $lang) );
+    	if($sql)
+    	{
+    		return true;
+    	}
+    }
+    
+    return false;
+	}
+	
+	function del_pdf_cv($lang)
+	{
+		
+	}
 
 }
 
