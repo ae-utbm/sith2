@@ -37,20 +37,55 @@ if (!$site->user->id)
 
 $wiki = new wiki($site->db,$site->dbrw);
 
+if ( isset($_REQUEST["name"]) )
+  $wiki->load_by_fullpath($_REQUEST["name"]);
+else
+  $wiki->load_by_id(1);
 
-$site->start_page ("none", "Un wiki AE proof");
+if ( !$wiki->is_valid() )
+{
+  $pagepath = $_REQUEST["name"];
 
-$tabs = array(array("","wiki2/index.php", "Accueil"),
-              array("admin","wiki2/index.php?view=admin", "Administration")
+  
+  $site->start_page ("none", "Page inexistante");
+  
+  $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
+                array("create","wiki2/?name=".$pagepath."&view=create", "Creer")
+               );
+               
+  $cts = new contents();
+  $cts->add(new tabshead($tabs,$_REQUEST["view"]));
+  
+  
+  $cts->add_paragraph("Cette page n'existe pas. <a href=\"wiki2/?name=".$pagepath."&view=create\">La creer</a>","error");
+  
+  $site->add_contents($cts);
+  
+  $site->end_page ();
+  
+  exit();  
+}
+
+$pagepath = $wiki->fullpath;
+
+
+$site->start_page ("none", $wiki->title);
+
+$tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
+              array("edit","wiki2/?name=".$pagepath."&view=edit", "Editer"),
+              array("refs","wiki2/?name=".$pagepath."&view=refs", "Références"),
+              array("hist","wiki2/?name=".$pagepath."&view=hist", "Historique")
              );
-$cts = new contents("Un wiki AE proof");
+             
+$cts = new contents();
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
+$cts->add_title(1,$wiki->title);
+
+$cts->add($wiki->get_stdcontents());
 
 $site->add_contents($cts);
-
 
 $site->end_page ();
 
 ?>
-
