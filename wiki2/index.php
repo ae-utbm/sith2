@@ -268,9 +268,15 @@ elseif ( $_REQUEST["view"] == "hist" )
 }
 else
 {
+  
+  if ( $wiki->rev_id != $wiki->id_rev_last )
+    $cts->add_paragraph("Ceci est une version archivée. En date du ".date("d/m/Y H:i",$wiki->rev_date).".","wikinotice");
+  
   $cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
   
   $cts->add($wiki->get_stdcontents());
+  
+  
 }
 
 $site->add_contents($cts);
