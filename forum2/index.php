@@ -619,7 +619,7 @@ if ( $sujet->is_valid() )
       {
         list($last_read) = $req->get_row();
         $message->load_by_id($last_read);
-        $delta=1;
+        $delta=0;
       }
     }
     unset($_REQUEST["spage"]);
