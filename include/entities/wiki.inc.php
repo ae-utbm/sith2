@@ -55,7 +55,7 @@ class wiki extends basedb
 		    INNER JOIN `wiki_rev` 
 		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
 		           AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
-				WHERE `id_wiki` = '" . mysql_real_escape_string($id) . "'
+				WHERE `wiki`.`id_wiki` = '" . mysql_real_escape_string($id) . "'
 				LIMIT 1");
 				
 		if ( $req->lines == 1 )
@@ -76,7 +76,7 @@ class wiki extends basedb
 		    INNER JOIN `wiki_rev` 
 		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
 		           AND `wiki_rev`.`id_rev`='" . mysql_real_escape_string($id) . "')
-				WHERE `id_wiki` = '" . mysql_real_escape_string($id_rev) . "'
+				WHERE `wiki`.`id_wiki` = '" . mysql_real_escape_string($id_rev) . "'
 				LIMIT 1");
 				
 		if ( $req->lines == 1 )
