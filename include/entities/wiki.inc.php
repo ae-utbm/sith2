@@ -169,7 +169,6 @@ class wiki extends basedb
       $this->fullpath = $parent->fullpath.":".$this->name;
 
     $req = new insert($this->dbrw,"wiki", array (
-      "id_wiki" => $this->id,
       "id_utilisateur" => $this->id_utilisateur,
       "id_groupe" => $this->id_groupe,
       "id_groupe_admin" => $this->id_groupe_admin,
@@ -196,7 +195,7 @@ class wiki extends basedb
 	  new update($this->dbrw,"wiki",array("id_rev_last"=>$this->id_rev_last),array("id_wiki"=>$this->id));
 	}
 	
-	function revision ( $id_utilisateur, $title, $contents, $comment="créée!" )
+	function revision ( $id_utilisateur, $title, $contents, $comment="" )
 	{
     $this->rev_id_utilisateur = $id_utilisateur;
     $this->rev_date = time();
@@ -244,7 +243,7 @@ class wiki extends basedb
 	 * la base du contenu fourni.
 	 * @param $contents Contenu à analyser
 	 */
-  funtion update_references($contents)
+  function update_references($contents)
   {
     new requete($this->dbrw,
       "DELETE FROM wiki_ref_file ".

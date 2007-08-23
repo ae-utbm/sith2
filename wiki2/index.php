@@ -3,7 +3,7 @@
 /* Copyright 2007
  *
  * - Simon Lopez < simon DOT lopez AT ayolo DOT org >
- *
+ * - Julien Etelain < julien at pmad dot net >
  * Ce fichier fait partie du site de l'Association des étudiants
  * de l'UTBM, http://ae.utbm.fr.
  *
@@ -25,15 +25,18 @@
 
 $topdir = "../";
 
-include($topdir. "include/site.inc.php");
+require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
-require_once($topdir. "include/globals.inc.php");
+require_once($topdir. "include/entities/wiki.inc.php");
 
 $site = new site();
 
 /* temporairement, si t'es pas logué tu lis pas */
 if (!$site->user->id)
   error_403();
+
+$wiki = new wiki($site->db,$site->dbrw);
+
 
 $site->start_page ("none", "Un wiki AE proof");
 
