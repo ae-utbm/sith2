@@ -331,11 +331,9 @@ class wiki extends basedb
 				WHERE `fullpath_wiki` = '" . mysql_real_escape_string($fullpath) . "'
 				LIMIT 1");    
 				
-		if ( $req->lines != -1 )
-		{
-		  echo "$fullpath NOT found - ";
+		if ( $req->lines != 1 )
 		  return null;
-		}  
+	
 		list($id) = $req->get_row();
 		
 		return $id;
