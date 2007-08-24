@@ -296,7 +296,33 @@ class wiki extends basedb
     $this->_update_references($contents,"#\{\{([^\}]+?)\}\}#i",true);
     
   }
-  
+/*  if( preg_match('/^([a-zA-Z]+):\/\//',$link) ) // liens externe et spéciaux
+  {
+    $link = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$wwwtopdir."d.php?action=download&download=preview&id_file=$1",$link);
+    $link = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$wwwtopdir."d.php?action=download&download=thumb&id_file=$1",$link);
+    $link = preg_replace("/dfile:\/\/([0-9]*)/i",$wwwtopdir."d.php?action=download&id_file=$1",$link);
+    //les article://
+    $link = preg_replace("/article:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
+    //les wiki://
+    $link = preg_replace("/wiki:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link); 
+  }
+  else
+  {  
+    $link2 = utf8_enleve_accents($link);
+    if( preg_match('/^([a-zA-Z0-9\-_:]+)$/',$link2) )
+    {
+      $link = strtolower($link2);
+      if ( $link{0} == ':' )
+        $link = substr($link,1);
+      elseif ( !empty($conf["linksscope"]))
+        $link = $conf["linksscope"].$link;
+      
+      if ( $conf["linkscontext"] == "wiki" )
+        $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=".$link; 
+      else
+        $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=".$link;
+    }
+  }*/  
   function _update_references( $contents, $regexp, $media=false )
   {
     if ( !preg_match_all ( $regexp, $contents, $matches ) ) return;
@@ -307,19 +333,19 @@ class wiki extends basedb
       
       if ( $media )
         list($link,$dummy) = explode("?",$link,2);
-      
-      if ( preg_match("#^(dfile:\/\/|.*d\.php\?id_file=)([0-9]*)(.*)$#i",$link,$match) )
+        
+      if( preg_match('/^([a-zA-Z]+):\/\//',$link) )
       {
-        $id_file = $match[2];
-        if ( !isset($this->_ref_cache["f"][$id_file]) ) 
+        if ( preg_match("#^(dfile:\/\/|.*d\.php\?id_file=)([0-9]*)(.*)$#i",$link,$match) )
         {
-          new insert($this->dbrw,"wiki_ref_file",array("id_wiki"=>$this->id,"id_file"=>$id_file));
-          $this->_ref_cache["f"][$id_file]=1;
+          $id_file = $match[2];
+          if ( !isset($this->_ref_cache["f"][$id_file]) ) 
+          {
+            new insert($this->dbrw,"wiki_ref_file",array("id_wiki"=>$this->id,"id_file"=>$id_file));
+            $this->_ref_cache["f"][$id_file]=1;
+          }
         }
-      }
-      elseif ( !$media )
-      {
-        if ( preg_match("#^wiki:\/\/(.*)$#i",$link,$match) )
+        elseif ( !$media && preg_match("#^wiki:\/\/(.*)$#i",$link,$match) )
         {
           $id_wiki = $this->get_id_fullpath($match[1]);
           if ( !is_null($id_wiki) && ! isset($this->_ref_cache["w"][$id_wiki]) )
@@ -328,10 +354,13 @@ class wiki extends basedb
             $this->_ref_cache["w"][$id_wiki]=1;
           }
         }
-        elseif ( preg_match("#^([a-zA-Z0-9\-_:]+)$#i",$link,$match) )
+      }
+      else
+      {
+        $link = strtolower(utf8_enleve_accents($link));
+        if ( preg_match("#^([a-zA-Z0-9\-_:]+)$#i",$link,$match) )
         {
           $wiki = $match[1];
-          
           if ( $wiki{0} == ':' )
             $wiki = substr($wiki,1);
           else

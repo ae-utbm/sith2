@@ -2,7 +2,7 @@
 
 /** @file
  *
- * @brief Fonctions diverses et variées.
+ * @brief Fonctions diverses et variÃ©es.
  *
  */
 
@@ -11,7 +11,7 @@
  * - Thomas Petazzoni <thomas POINT petazzoni CHEZ enix POINT org>
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
- * Ce fichier fait partie du site de l'Association des Étudiants de
+ * Ce fichier fait partie du site de l'Association des Ãtudiants de
  * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
@@ -68,17 +68,17 @@ function aeerror ($text)
   die();
 }
 
-/** Convertit la date en une chaîne human readable
+/** Convertit la date en une chaÃ®ne human readable
  *
- * @param start Date de début au format YYYY-MM-DD HH:MM:SS. Si aucune
- * date de fin n'est donnée, alors une chaîne du type "Mardi 4 mai à
- * 14h00" sera générée.
+ * @param start Date de dÃ©but au format YYYY-MM-DD HH:MM:SS. Si aucune
+ * date de fin n'est donnÃ©e, alors une chaÃ®ne du type "Mardi 4 mai Ã 
+ * 14h00" sera gÃ©nÃ©rÃ©e.
  *
- * @param end Date de fin (optionnelle). Si elle est donnée, une
- * chaîne du type "Du mardi 4 mai à 14h00 au mardi 5 mai à 18h00" sera
- * générée.
+ * @param end Date de fin (optionnelle). Si elle est donnÃ©e, une
+ * chaÃ®ne du type "Du mardi 4 mai Ã  14h00 au mardi 5 mai Ã  18h00" sera
+ * gÃ©nÃ©rÃ©e.
  *
- * @return Une chaîne de caractère humainement lisible de la date ou
+ * @return Une chaÃ®ne de caractÃ¨re humainement lisible de la date ou
  * de l'intervalle de date.
  */
 function HumanReadableDate($start, $end="", $time = true)
@@ -95,7 +95,7 @@ function HumanReadableDate($start, $end="", $time = true)
   if(setlocale(LC_TIME, "fr_FR.UTF-8") == false)
     aeerror("Erreur de configuration des locales");
 
-  /* Est-ce qu'une date de fin est donnée ? */
+  /* Est-ce qu'une date de fin est donnÃ©e ? */
   if($end == "")
     {
 	  if ($time)
@@ -105,18 +105,18 @@ function HumanReadableDate($start, $end="", $time = true)
     }
   else
     {
-      /* Si les dates de début et de fin sont le même jour,
-         on affiche un truc du style "lundi 4 mai de 14h00 à 18h00" */
+      /* Si les dates de dÃ©but et de fin sont le mÃªme jour,
+         on affiche un truc du style "lundi 4 mai de 14h00 Ã  18h00" */
       if($start[2] == $end[2] && $start[1] == $end[1] && $start[0] == $end[0])
 	    return (strftime("%A %e %B de %Hh%M", $timestamp) . strftime(" &agrave; %Hh%M", $timestampend));
 
-      /* Sinon, on affiche un truc du style "du lundi 4 mai à 14h00 au mardi 5 mai à 15h00" */
+      /* Sinon, on affiche un truc du style "du lundi 4 mai Ã  14h00 au mardi 5 mai Ã  15h00" */
       else
-	    return (strftime("du %A %e %B �%Hh%M", $timestamp) . strftime(" au %A %e %B �%Hh%M", $timestampend));
+	    return (strftime("du %A %e %B à %Hh%M", $timestamp) . strftime(" au %A %e %B à %Hh%M", $timestampend));
     }
 }
 
-/** Créé un lien d'email ANTI-SPAM
+/** CrÃ©Ã© un lien d'email ANTI-SPAM
  * @param email Adresse email
  * @param text Texte du lien
  */
@@ -137,12 +137,12 @@ function GenerateEmailLink($email, $text, $class="")
     }
 }
 
-/** Génère une liste de sélection pour un formulaire
+/** GÃ©nÃ¨re une liste de sÃ©lection pour un formulaire
  *
- * @param values Un tableau associatif (clé => valeur) donnant la
- * liste des éléments.
+ * @param values Un tableau associatif (clÃ© => valeur) donnant la
+ * liste des Ã©lÃ©ments.
  *
- * @param current La clé de l'élement sélectionné
+ * @param current La clÃ© de l'Ã©lement sÃ©lectionnÃ©
  *
  * @param name Le nom du champ dans le formulaire
  *
@@ -167,13 +167,13 @@ function GenerateSelectList($values, $current, $name, $size=1)
   return $buffer;
 }
 
-/** Génération de mot de passe
- * Cette fonction va générer une chaîne aléatoire de la longueur
- * spécifiée. C'est notamment utile pour générer des mots de passe.
+/** GÃ©nÃ©ration de mot de passe
+ * Cette fonction va gÃ©nÃ©rer une chaÃ®ne alÃ©atoire de la longueur
+ * spÃ©cifiÃ©e. C'est notamment utile pour gÃ©nÃ©rer des mots de passe.
  *
- * @param nameLength Longueur de la chaîne
+ * @param nameLength Longueur de la chaÃ®ne
  *
- * @return La chaîne aléatoire
+ * @return La chaÃ®ne alÃ©atoire
  */
 function genere_pass ($nameLength=12)
 {
@@ -206,10 +206,10 @@ function genere_pass ($nameLength=12)
 function jj_mm_aaaa__to__aaaa_mm_jj($date)
 {
   //Controle sur la longueur
-  //un peu féblard !
+  //un peu fÃ©blard !
   if (strlen($date)==10) {
   $ret =
-    //Année
+    //AnnÃ©e
     substr($date,6,4). "-".
     //Mois
     substr($date,3,2). "-".
@@ -234,15 +234,15 @@ function aaaa_mm_jj__to__jj_mm_aaaa($date, $char = "/")
     substr($date,8,2). $char.
     //Mois
     substr($date,5,2). $char.
-    //Année
+    //AnnÃ©e
       substr($date,0,4);
   return $ret;
   }
   else return -1;
 }
-/** Vérification de l'email
+/** VÃ©rification de l'email
  *
- * @param email L'email à vérifier
+ * @param email L'email Ã  vÃ©rifier
  * @param type  0 = email du type "prenom.nom"
  *              1 = email utbm
  *              2 = email assidu
@@ -292,9 +292,9 @@ function CheckEmail($email, $type = 0)
 
   return false;
 }
-/** Référence à la page
+/** RÃ©fÃ©rence Ã  la page
  *
- * @return l'url pointant sur la page elle même
+ * @return l'url pointant sur la page elle mÃªme
  */
 function URLCourante()
 {
@@ -307,18 +307,18 @@ function URLCourante()
   return $url;
 }
 
-/** Génération d'une date située n jours après (si n > 0)
+/** GÃ©nÃ©ration d'une date situÃ©e n jours aprÃ¨s (si n > 0)
  *                               (n jours avant si n < 0)
  *
- * @param date la date à prendre comme point de repère
+ * @param date la date Ã  prendre comme point de repÃ¨re
  *
- * @param format_parm le format de la date passé en argument
+ * @param format_parm le format de la date passÃ© en argument
  *                    timestamp ou date (Y-m-d)
  *
- * @param n le nombre de jours à évaluer.  (exemple : n = -1 renverra
+ * @param n le nombre de jours Ã  Ã©valuer.  (exemple : n = -1 renverra
  * la veille de $date n = 1 renverra le lendemain).
  *
- * @param format_ret le format de la date à renvoyer
+ * @param format_ret le format de la date Ã  renvoyer
  * si = date la fonction renverra au format "Y-m-d"
  * si = timestamp, la fonction renverra un timestamp
  *
@@ -377,26 +377,26 @@ function get_rev ()
 
 /** Convertit un nom
   *
-  * Cette fonction convertit un nom en majuscule, de mani�re �
+  * Cette fonction convertit un nom en majuscule, de manière à
   * uniformiser l'aspect des noms dans la base.
   *
-  * @param nom Le nom � normaliser
+  * @param nom Le nom à normaliser
   *
-  * @result Le nom normalis�
+  * @result Le nom normalisé
   */
 function convertir_nom($nom)
 {
   return trim(mb_strtoupper($nom));
 }
 
-/** Convertit un pr�nom
+/** Convertit un prénom
   *
-  * Cette fonction convertit un pr�nom en majuscule, de mani�re �
-  * uniformiser l'aspect des pr�noms dans la base.
+  * Cette fonction convertit un prénom en majuscule, de manière à
+  * uniformiser l'aspect des prénoms dans la base.
   *
-  * @param nom Le pr�nom � normaliser
+  * @param nom Le prénom à normaliser
   *
-  * @result Le pr�nom normalis�
+  * @result Le prénom normalisé
   */
 
 function do_prenom_stuff($frags)
@@ -455,6 +455,19 @@ function GetRequestParam ($name, $default = null, $array = null)
   return $default;
 }
 
-/* Changement du séparateur pour &amp */
+/* Changement du sÃ©parateur pour &amp */
 ini_set("arg_separator.output", "&amp;");
+
+function utf8_enleve_accents ($text)
+{
+  $text = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","e",$mot);
+  $text = ereg_replace("(a|à|â|ä|À|Â|Ä)","a",$text);
+  $text = ereg_replace("(i|ï|î|Ï|Î)","i",$text);
+  $text = ereg_replace("(c|ç|Ç)","c",$text);
+  $text = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","u",$text);
+  $text = ereg_replace("(n|ñ|Ñ)","n",$text);
+  return $text;
+}
+
+
 ?>
