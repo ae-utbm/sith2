@@ -26,6 +26,7 @@ class jobuser_etu extends utilisateur
 {
 	var $competences =  array();
 	var $annonces = array();
+	var $pdf_cvs = array();
 	
 	function is_jobetu_user()
 	{
@@ -69,6 +70,14 @@ class jobuser_etu extends utilisateur
         while($line = $sql->get_row())
 			    $this->annonces[] = $line[0];
 	    }
+	}
+	
+	function load_pdf_cv()
+	{
+		$sql = new requete($this->db, "SELECT `lang` FROM `job_pdf_cv` WHERE id_utl = $this->id");
+		
+		while($line = $sql->get_row())
+			    $this->pdf_cvs[] = $line[0];
 	}
 	
 	function add_pdf_cv($file, $lang = 'fr')
