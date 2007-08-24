@@ -92,7 +92,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 		else if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 		{
 			if( $usr->del_pdf_cv($_REQUEST['cv']) )
-				$cts->add_paragraph("Votre CV en ".$i18n[ $_REQUEST['cv'] ] ."à bien été supprimé.");
+				$cts->add_paragraph("Votre CV en ".$i18n[ $_REQUEST['cv'] ] ." à bien été supprimé.");
 			else
 				$cts->add_paragraph("Une erreur s'est produite.");
 		}
@@ -119,11 +119,16 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 											Vous pouvez envoyer un CV par langue, si vous envoyez un deuxième CV dans une même langue, celui-ci remplacera le précédent.");
 	
 	$cts->add_title(3, "Vos fichiers actuellement disponibles");
-	$lst = new itemlist(false);
-	foreach($usr->pdf_cvs as $cv)
-	$lst->add("<img src=\"$topdir/images/i18n/$cv.png\" />&nbsp; CV PDF en " . $i18n[ $cv ] . ".&nbsp;&nbsp;&nbsp; [<a href=\"". $topdir . "var/cv/". $usr->id . "." . $cv .".pdf\">voir</a>] [<a href=\"board_etu.php?view=profil&action=delete&cv=$cv\">supprimer</a>]");
-	$cts->add($lst, false);
-
+	if( empty($usr->pdf_cvs) )
+		$cts->add_paragraph("Vous n'avez envoyé aucun CV pour l'instant.");
+	else
+	{
+		$lst = new itemlist(false);
+		foreach($usr->pdf_cvs as $cv)
+			$lst->add("<img src=\"$topdir/images/i18n/$cv.png\" />&nbsp; CV PDF en " . $i18n[ $cv ] . ".&nbsp;&nbsp;&nbsp; [<a href=\"". $topdir . "var/cv/". $usr->id . "." . $cv .".pdf\">voir</a>] [<a href=\"board_etu.php?view=profil&action=delete&cv=$cv\">supprimer</a>]");
+		$cts->add($lst, false);
+	}
+	
 	$cts->add_title(3, "Envoyer un nouveau fichier");
 	$cts->puts("<script langage=\"javascript\"> 
 								function add_cv_field(){ 
