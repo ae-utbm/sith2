@@ -622,6 +622,38 @@ class form extends stdcontents
   function add_dokuwiki_toolbar($area_name)
   {
     global $wwwtopdir;
+    
+    $id = "textarea_".$this->name."_".$area_name;
+
+    $tools = array (
+      "bold" => array("Gras","**","**","Gras"),
+      "italic" => array("Italic","//","//","Italic"),
+      "underline" => array("Souligné","__","__","Souligné"),
+      "strike" => array("Barré","<del>","</del>","Barré"),
+      "h1" => array("Titre de niveau 1","======","======","Titre de niveau 1"),
+      "h2" => array("Titre de niveau 2","=====","=====","Titre de niveau 2"),
+      "h3" => array("Titre de niveau 3","====","====","Titre de niveau 3"),
+      "h4" => array("Titre de niveau 4","===","===","Titre de niveau 4"),
+      "h5" => array("Titre de niveau 5","==","==","Titre de niveau 5"),  
+      "link" => array("Lien interne","[[","]]","nom_de_la_page|Lien interne"),
+      "linkext" => array("Lien externe","[[","]]","http://|Lien externe"),
+      "image" => array("Image","{{","}}","Image"));
+      
+    $this->buffer .= "<div class=\"formrow\">\n";
+    $this->buffer .= "<div class=\"formlabel\"></div>\n";
+    $this->buffer .= "<div class=\"formfield\">\n";
+    
+    foreach ( $tools as $tool => $infos )
+    {
+      $this->buffer .= 
+        "<a onclick=\"insert_tags2('".$id."','".$infos[1]."','".$infos[2]."','".$infos[3]."');\" />".
+        "<img src=\"".$wwwtopdir."/images/toolbar/".$tool.".png\" alt=\"".$infos[0]."\" />".
+        "</a> \n";
+    }
+    
+    $this->buffer .= "</div>\n";
+    $this->buffer .= "</div>\n";
+    /*
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->buffer .= "<div class=\"formlabel\"></div>\n";
     $this->buffer .= "<div class=\"formfield\">\n";
@@ -635,9 +667,9 @@ class form extends stdcontents
     $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h4.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'===','===');\" />\n";
     $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h5.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'==','==');\" />\n";
     $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/link.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'[[',']]');\" />\n";
-    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/image.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'{{','}}', 'lien vers votre image');\" />\n";
+    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/image.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'{{','}}');\" />\n";
     $this->buffer .= "</div>\n";
-    $this->buffer .= "</div>\n";
+    $this->buffer .= "</div>\n";*/
   }
 
 	
@@ -692,7 +724,7 @@ class form extends stdcontents
 		if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];	
 		$this->buffer .= "<div class=\"formrow\">\n";
 		$this->_render_name($name,$title,$required);
-		$this->buffer .= "<div class=\"formfield\"><textarea name=\"$name\" rows=\"$height\" cols=\"$width\">";
+		$this->buffer .= "<div class=\"formfield\"><textarea name=\"$name\" id=\"textarea_".$this->name."_".$name."\" rows=\"$height\" cols=\"$width\">";
 		
 		$this->buffer .= htmlentities($value,ENT_NOQUOTES,"UTF-8")."</textarea></div>\n";
 		$this->buffer .= "</div>\n";

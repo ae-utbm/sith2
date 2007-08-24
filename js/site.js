@@ -582,6 +582,69 @@ function insert_tags(txtarea, lft, rgt, sample_text)
     }
 }
 
+function setSelectionRange(input, selectionStart, selectionEnd)
+{
+  if (input.createTextRange)
+  {
+    var range = input.createTextRange();
+    range.collapse(true);
+    range.moveEnd('character', selectionEnd);
+    range.moveStart('character', selectionStart);
+    range.select();
+  }
+  else if (input.setSelectionRange)
+  {
+    input.focus();
+    input.setSelectionRange(selectionStart, selectionEnd);
+  } 
+  else
+  {
+  	input.selectionStart = selectionStart;
+  	input.selectionEnd = selectionEnd;
+  }
+}
+
+function insert_tags2(objid, lft, rgt, deftext) 
+{
+  var obj = document.getElementById(objid);
+  
+  if ( !obj )
+    return;
+  
+  if ( document.selection )
+  {
+    obj.focus();
+    range = document.selection.createRange();
+    if ( range.text == "")
+      range.text = lft + deftext + rgt;
+    else
+      range.text = lft + _selection + rgt;
+      
+    range = document.selection.createRange();
+    range.moveStart('character', lft.length);
+    range.moveEnd('character', -rgt.length);
+    range.select();
+  }
+  else if ( obj.selectionStart != null )
+  {		
+    obj.focus();
+    var start = obj.selectionStart;
+    var end = obj.selectionEnd;
+    
+    var s1 = obj.value.substring(0,_start);
+    var s2 = obj.value.substring(_start, _end)
+    var s3 = obj.value.substring(_end);
+     
+    if(s2 == "")
+      s2 = deftext;   
+
+    txtarea.value = s1 + lft + s2 + rgt + s3;
+
+    setSelectionRange(obj,start+lft.length,end+lft.length);
+  }
+}
+
+
 function popUpStream(topdir)
 {
   window.open(topdir+"stream.php?get=popup", "stream", "width=300,height=350,status=no,scrollbars=yes,resizable=yes");

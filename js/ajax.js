@@ -129,25 +129,6 @@ function autocomplete(event,topdir, field,kind)
 	return true;
 }
 
-function setSelectionRange(input, selectionStart, selectionEnd) {
-  if (input.createTextRange) {
-    var range = input.createTextRange();
-    range.collapse(true);
-    range.moveEnd('character', selectionEnd);
-    range.moveStart('character', selectionStart);
-    range.select();
-  }
-  else if (input.setSelectionRange) {
-    input.focus();
-    input.setSelectionRange(selectionStart, selectionEnd);
-  } 
-  else
-  {
-  	input.selectionStart = selectionStart;
-  	input.selectionEnd = selectionEnd;
-  }
-}
-
 function autocomplete_callback(topdir,res,field,pattern,kind)
 {
 	var obj = document.getElementById(field);
