@@ -53,7 +53,8 @@ function build_htmlpath ( $fullpath )
       $path = $token;
     else
       $path .= ":".$token;
-    $buffer .= " &gt; <a href=\"./?name=$path\">$token</a>";
+    $buffer .= " &gt; <a href=\"./?name=".htmlentities($path,ENT_QUOTES,"UTF-8")."\">".
+               htmlentities($token,ENT_NOQUOTES,"UTF-8")."</a>";
   }
   return $buffer;
 }
@@ -204,15 +205,29 @@ if ( !$wiki->is_valid() )
 $pagepath = $wiki->fullpath;
 $pagename = $pagepath ? $pagepath : "(racine)";
 $can_edit = $site->user->is_valid() && $wiki->is_right($site->user,DROIT_ECRITURE);
+$is_admin = $wiki->is_admin($site->user);
 
 
 if ( $_REQUEST["action"] == "revision" && $can_edit 
     && ($_REQUEST["title"] != $wiki->rev_title || $_REQUEST["contents"] != $wiki->rev_contents ) )
   $wiki->revision ( $site->user->id, $_REQUEST["title"], $_REQUEST["contents"], $_REQUEST["comment"] );
-
+elseif ( $_REQUEST["action"] == "edit" && $id_admin )
+{
+  $wiki->set_rights($site->user,
+          $_REQUEST['rights'],$_REQUEST['rights_id_group'],
+          $_REQUEST['rights_id_group_admin']);
+  $wiki->update();          
+}
 $site->start_page ("none", $wiki->rev_title);
 
-if ( $can_edit )
+if ( $is_admin )
+  $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
+                array("edit","wiki2/?name=".$pagepath."&view=edit", "Editer"),
+                array("refs","wiki2/?name=".$pagepath."&view=refs", "Références"),
+                array("hist","wiki2/?name=".$pagepath."&view=hist", "Historique"),
+                array("advc","wiki2/?name=".$pagepath."&view=advc", "Propriétées"),
+               );
+elseif ( $can_edit )
   $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
                 array("edit","wiki2/?name=".$pagepath."&view=edit", "Editer"),
                 array("refs","wiki2/?name=".$pagepath."&view=refs", "Références"),
@@ -228,9 +243,17 @@ $cts = new contents();
 $cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
-if ( $can_edit && $_REQUEST["view"] == "edit" )
+if ( $is_admin && $_REQUEST["view"] == "advc" )
 {
-  $frm = new form("newwiki","./?name=$pagepath",true,"POST");
+  $frm = new form("editwiki","./?name=$pagepath",true,"POST");
+  $frm->add_hidden("action","edit");
+  $frm->add_rights_field($wiki,true,true,"wiki");
+  $frm->add_submit("edit","Enregistrer"); 
+  $cts->add($frm);
+}
+elseif ( $can_edit && $_REQUEST["view"] == "edit" )
+{
+  $frm = new form("revisewiki","./?name=$pagepath",true,"POST");
   $frm->add_hidden("action","revision");
   $frm->add_text_field("title","Titre",$wiki->rev_title,true);
   $frm->add_text_area("contents","Contenu",$wiki->rev_contents,80,20,true);
