@@ -113,7 +113,7 @@ class jobuser_etu extends utilisateur
 			if( unlink($topdir ."var/cv/". $this->id . "." . $lang . ".pdf") )
 			{
 				$sql = new delete($this->dbrw, "job_pdf_cv", array("id_utl" => $this->id, "lang" => $lang));
-				return true
+				return true;
 			}
 		}
 		return false;

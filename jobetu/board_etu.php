@@ -92,7 +92,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 		else if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 		{
 			if( $usr->del_pdf_cv($_REQUEST['cv']) )
-				$cts->add_paragraph("Votre CV en $i18n[ $cv ] à bien été supprimé.");
+				$cts->add_paragraph("Votre CV en ".$i18n[ $_REQUEST['cv'] ] ."à bien été supprimé.");
 			else
 				$cts->add_paragraph("Une erreur s'est produite.");
 		}
