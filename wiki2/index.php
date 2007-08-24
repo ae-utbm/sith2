@@ -211,7 +211,7 @@ $is_admin = $wiki->is_admin($site->user);
 if ( $_REQUEST["action"] == "revision" && $can_edit 
     && ($_REQUEST["title"] != $wiki->rev_title || $_REQUEST["contents"] != $wiki->rev_contents ) )
   $wiki->revision ( $site->user->id, $_REQUEST["title"], $_REQUEST["contents"], $_REQUEST["comment"] );
-elseif ( $_REQUEST["action"] == "edit" && $id_admin )
+elseif ( $_REQUEST["action"] == "edit" && $is_admin )
 {
   $wiki->set_rights($site->user,
           $_REQUEST['rights'],$_REQUEST['rights_id_group'],
