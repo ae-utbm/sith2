@@ -622,7 +622,7 @@ function insert_tags2(objid, lft, rgt, deftext)
       
     range = document.selection.createRange();
     range.moveStart('character', lft.length);
-    range.moveEnd('character', /*-rgt.length*/10);
+    range.moveEnd('character', -rgt.length);
     range.select();
     
     
