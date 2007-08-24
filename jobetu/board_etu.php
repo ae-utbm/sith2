@@ -107,6 +107,11 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 	 * Envoi de CV en PDF
 	 */
 
+	$usr->load_pdf_cv();
+	$lst = new itemlist("Vos CV traditionnels en ligne :");
+	foreach($usr->pdf_cvs as $cv)
+		$lst->add("CV PDF en " . $i18n[$cv] . ".", "ok");
+
 	$cts->puts("<script langage=\"javascript\"> 
 								function add_cv_field(){ 
 										if ( typeof this.counter == 'undefined' ) this.counter = 1;
