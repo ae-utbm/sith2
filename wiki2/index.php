@@ -122,7 +122,7 @@ elseif ( isset($_REQUEST["name"]) )
 {
   if ( !preg_match("#(\.|/)#",$_REQUEST["name"]) )
   {
-    $_REQUEST["name"] = preg_replace("#[^a-z0-9\-_:]#","_",strtolower(utf8_enleve_accents($link)));
+    $_REQUEST["name"] = preg_replace("#[^a-z0-9\-_:]#","_",strtolower(utf8_enleve_accents($_REQUEST["name"])));
     $valid_name=true;
     
     if ( !(isset($_REQUEST["rev"]) && $wiki->load_by_fullpath_and_rev($_REQUEST["name"],$_REQUEST["rev"])) )
