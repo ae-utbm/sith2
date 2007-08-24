@@ -357,23 +357,20 @@ function linkformat($match)
     //les wiki://
     $link = preg_replace("/wiki:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link); 
   }
-  else
+  elseif ( !preg_match("#(\.|/)#",$link) )
   {  
-    $link2 = utf8_enleve_accents($link);
-    if( preg_match('/^([a-zA-Z0-9\-_:]+)$/',$link2) )
-    {
-      $link = strtolower($link2);
-      if ( $link{0} == ':' )
-        $link = substr($link,1);
-      elseif ( !empty($conf["linksscope"]))
-        $link = $conf["linksscope"].$link;
+    $link = preg_replace("#[^a-z0-9\-_:]#","_",strtolower(utf8_enleve_accents($link)));
+    if ( $link{0} == ':' )
+      $link = substr($link,1);
+    elseif ( !empty($conf["linksscope"]))
+      $link = $conf["linksscope"].$link;
       
-      if ( $conf["linkscontext"] == "wiki" )
-        $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=".$link; 
-      else
-        $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=".$link;
-    }
+    if ( $conf["linkscontext"] == "wiki" )
+      $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=".$link; 
+    else
+      $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=".$link;
   }
+
 
   
   $ret .= $pre;

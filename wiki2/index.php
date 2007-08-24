@@ -97,7 +97,7 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
     $parentparent = clone $parent;
   }
   
-  if ( !preg_match("#^([a-zA-Z0-9\-_:]+)$#i",$pagepath) )
+  if ( !preg_match("#^([a-z0-9\-_:]+)$#",$pagepath) )
     $can_create=false;
     
   if ( $can_create && $parent->is_valid() && !$wiki->load_by_name($parent->id,$pagename) )
@@ -120,8 +120,16 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
 }
 elseif ( isset($_REQUEST["name"]) )
 {
-  if ( !(isset($_REQUEST["rev"]) && $wiki->load_by_fullpath_and_rev($_REQUEST["name"],$_REQUEST["rev"])) )
-    $wiki->load_by_fullpath($_REQUEST["name"]);
+  if ( !preg_match("#(\.|/)#",$_REQUEST["name"]) )
+  {
+    $_REQUEST["name"] = preg_replace("#[^a-z0-9\-_:]#","_",strtolower(utf8_enleve_accents($link)));
+    $valid_name=true;
+    
+    if ( !(isset($_REQUEST["rev"]) && $wiki->load_by_fullpath_and_rev($_REQUEST["name"],$_REQUEST["rev"])) )
+      $wiki->load_by_fullpath($_REQUEST["name"]);  
+  }
+  else
+    $valid_name=false;
 }
 else
   $wiki->load_by_id(1);
@@ -131,7 +139,7 @@ if ( !$wiki->is_valid() )
   $pagepath = $_REQUEST["name"];
   $can_create = false;
   $is_admin = false;
-  if ( $site->user->is_valid() )
+  if ( $site->user->is_valid() && $valid_name )
   {
     // Cherche le parent le plus haut pour savoir si la création de page est autorisée
     $parent = new wiki($site->db);
@@ -156,10 +164,6 @@ if ( !$wiki->is_valid() )
       $lastparent = clone $parent;
     }
   }
-  
-  if ( !preg_match("#^([a-zA-Z0-9\-_:]+)$#i",$pagepath) )
-    $can_create=false;
-  
   
   $site->start_page ("none", "Page inexistante");
   
