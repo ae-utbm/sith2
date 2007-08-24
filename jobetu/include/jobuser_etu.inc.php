@@ -107,7 +107,7 @@ class jobuser_etu extends utilisateur
 	{
 		$lang = mysql_real_escape_string($lang);
 		
-		$sql = new requete($this->db, "SELECT `lang` FROM `job_pdf_cv` WHERE `id_utl` = $this->id AND `lang` = ".$lang);
+		$sql = new requete($this->db, "SELECT `lang` FROM `job_pdf_cv` WHERE `id_utl` = $this->id AND `lang` = '".$lang."'");
 		if($sql->lines == 1)
 		{
 			if( unlink($topdir ."var/cv/". $this->id . "." . $lang . ".pdf") )
