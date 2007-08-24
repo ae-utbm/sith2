@@ -210,17 +210,17 @@ class wiki extends basedb
 			return false;
 		} 
     
-		$req = new requete($this->db, "SELECT * 
-		    FROM `wiki`
-		    INNER JOIN `wiki_rev` 
-		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
-		           AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )");      
-		$updater = new wiki($this->db,$this->dbrw);
+		$req = new requete($this->db, "SELECT id_wiki 
+		    FROM `wiki_ref_missingwiki`
+				WHERE `fullname_wiki_rel` = '" . mysql_real_escape_string($this->fullpath) . "'");    
+    
     while ( $row = $req->get_row() )
     {
-      $updater->_load($row);  
-      $updater->update_references($updater->rev_contents);  
+      $row["id_wiki_rel"] = $this->id;
+      new insert($this->dbrw,"wiki_ref_wiki",$row);
     }  
+      
+    new delete($this->dbrw,"wiki_ref_missingwiki",array("fullname_wiki_rel"=>$this->fullpath));
       
     return $this->revision($this->id_utilisateur,$title, $contents, $comment);
   }
@@ -288,7 +288,11 @@ class wiki extends basedb
       "DELETE FROM wiki_ref_wiki ".
       "WHERE `id_wiki` = '" . mysql_real_escape_string($this->id) . "'");    
 
-    $this->_ref_cache=array("f"=>array(),"w"=>array());
+    new requete($this->dbrw,
+      "DELETE FROM wiki_ref_missingwiki ".
+      "WHERE `id_wiki` = '" . mysql_real_escape_string($this->id) . "'");   
+
+    $this->_ref_cache=array("f"=>array(),"w"=>array(),"mw"=>array());
 
     $this->_update_references($contents,"#\[\[([^\]]+?)\]\]#i");
     $this->_update_references($contents,"#\{\{([^\}]+?)\}\}#i",true);
@@ -321,6 +325,37 @@ class wiki extends basedb
         $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=".$link;
     }
   }*/  
+  
+  function add_rel_wiki ( $fullname )
+  {
+    $id_wiki = $this->get_id_fullpath($fullname);
+    if ( !is_null($id_wiki))
+    {
+      if ( !isset($this->_ref_cache["w"][$id_wiki]) )
+      {
+        new insert($this->dbrw,"wiki_ref_wiki",array("id_wiki"=>$this->id,"id_wiki_rel"=>$id_wiki));
+        $this->_ref_cache["w"][$id_wiki]=1;
+      }
+    }
+    else
+    {
+      if ( !isset($this->_ref_cache["mw"][$fullname]) )
+      {
+        new insert($this->dbrw,"wiki_ref_missingwiki",array("id_wiki"=>$this->id,"fullname_wiki_rel"=>$fullname));
+        $this->_ref_cache["mw"][$fullname]=1;
+      }         
+    }
+  } 
+  
+  function add_rel_file ( $id_file )
+  {
+    if ( !isset($this->_ref_cache["f"][$id_file]) ) 
+    {
+      new insert($this->dbrw,"wiki_ref_file",array("id_wiki"=>$this->id,"id_file"=>$id_file));
+      $this->_ref_cache["f"][$id_file]=1;
+    }
+  }
+  
   function _update_references( $contents, $regexp, $media=false )
   {
     if ( !preg_match_all ( $regexp, $contents, $matches ) ) return;
@@ -335,23 +370,10 @@ class wiki extends basedb
       if( preg_match('/^([a-zA-Z]+):\/\//',$link) )
       {
         if ( preg_match("#^(dfile:\/\/|.*d\.php\?id_file=)([0-9]*)(.*)$#i",$link,$match) )
-        {
-          $id_file = $match[2];
-          if ( !isset($this->_ref_cache["f"][$id_file]) ) 
-          {
-            new insert($this->dbrw,"wiki_ref_file",array("id_wiki"=>$this->id,"id_file"=>$id_file));
-            $this->_ref_cache["f"][$id_file]=1;
-          }
-        }
+          $this->add_rel_file($match[2]);
+        
         elseif ( !$media && preg_match("#^wiki:\/\/(.*)$#i",$link,$match) )
-        {
           $id_wiki = $this->get_id_fullpath($match[1]);
-          if ( !is_null($id_wiki) && ! isset($this->_ref_cache["w"][$id_wiki]) )
-          {
-            new insert($this->dbrw,"wiki_ref_wiki",array("id_wiki"=>$this->id,"id_wiki_rel"=>$id_wiki));
-            $this->_ref_cache["w"][$id_wiki]=1;
-          }
-        }
       }
       else
       {
@@ -359,17 +381,13 @@ class wiki extends basedb
         if ( preg_match("#^([a-zA-Z0-9\-_:]+)$#i",$link,$match) )
         {
           $wiki = $match[1];
+          
           if ( $wiki{0} == ':' )
             $wiki = substr($wiki,1);
           else
             $wiki = $this->get_scope().$wiki;
             
-          $id_wiki = $this->get_id_fullpath($wiki);
-          if ( !is_null($id_wiki) && ! isset($this->_ref_cache["w"][$id_wiki]) )
-          {
-            new insert($this->dbrw,"wiki_ref_wiki",array("id_wiki"=>$this->id,"id_wiki_rel"=>$id_wiki));
-            $this->_ref_cache["w"][$id_wiki]=1;
-          }
+          $this->add_rel_wiki($wiki);
         }
       }
     }
