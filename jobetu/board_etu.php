@@ -108,11 +108,18 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 	 */
 
 	$usr->load_pdf_cv();
-	$lst = new itemlist("Vos CV traditionnels en ligne :");
+	$cts->add_title(2, "Vos CV \"traditionnels\" en ligne");
+	$cts->add_paragraph("Vous avez ici la possiblité d'envoyer vos CV sur le site afin qu'ils soient consultés par les recruteurs <br />");
+	$cts->add_paragraph("Attention : Vous ne pouvez envoyer que des fichiers PDF, si vous n'avez pas la possiblité d'en produire un par votre traitement de texte, vous pouvez vous tourner vers des outils de conversion tels <a href=\"http://www.zamzar.com\"> le site Zamzar</a>. <br />
+											Vous pouvez envoyer un CV par langue, si vous envoyez un deuxième CV dans une même langue, celui-ci remplacera le précédent.");
+	
+	$cts->add_title(3, "Vos fichiers actuellement disponibles");
+	$lst = new itemlist(false);
 	foreach($usr->pdf_cvs as $cv)
-		$lst->add("CV PDF en " . $i18n[$cv] . ".", "ok");
-	$cts->add($lst);
+	$lst->add("CV PDF en " . $i18n[ $cv ] . ".&nbsp;&nbsp;&nbsp; [<a href=\"". $topdir . "var/cv/". $usr->id . "." . $cv .".pdf\">voir</a>] [<a href=\"board_etu.php?view=profil&action=delete&cv=$cv\">supprimer</a>]");
+	$cts->add($lst, false);
 
+	$cts->add_title(3, "Envoyer un nouveau fichier");
 	$cts->puts("<script langage=\"javascript\"> 
 								function add_cv_field(){ 
 										if ( typeof this.counter == 'undefined' ) this.counter = 1;
@@ -122,7 +129,6 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 							</script>");
 
 	$frm = new form("job_cvs", "board_etu.php?view=profil", true, "POST");
-	$frm->puts("<h3>Vos CV \"traditionnels\"</h3>");
 		$frm->puts("<div name=\"jobcvs\" id=\"jobcvs\">");
 		
 		$subfrm = new form("cv_item", false, false, "POST");
