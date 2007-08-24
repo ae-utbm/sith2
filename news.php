@@ -119,6 +119,7 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
   $frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$news->id_asso,true);
   $frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",$news->id_lieu,true);
   $frm->add_text_area ("resume","Resume",$news->resume);
+  $frm->add_dokuwiki_toolbar('content');
   $frm->add_text_area ("content", "Contenu",$news->contenu,80,10,true);
 
   $frm->add_submit("valid","Enregistrer");
@@ -422,6 +423,7 @@ $frm->add_text_field("title", "Titre de la nouvelle",$_REQUEST["title"],true);
 $frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$_REQUEST["id_asso"],true);
 $frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",false,true);
 $frm->add_text_area ("resume","Resum&eacute;",$_REQUEST["resume"]);
+$frm->add_dokuwiki_toolbar('content');
 $frm->add_text_area ("content", "Contenu",$_REQUEST["content"],80,10,true);
 
 if ( $file->id > 0 )

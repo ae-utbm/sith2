@@ -65,7 +65,7 @@ if ( $site->user->is_valid()  && $site->user->is_in_group("moderateur_site") )
       $frm->add_select_field("section","Section",$sections,"presentation");
       
       $frm->add_rights_field($page,false,$page->is_admin($site->user),"pages");
-
+      $frm->add_dokuwiki_toolbar('texte');
       $frm->add_text_area("texte","Contenu","",80,20,true);
       
       $frm->add_submit("save","Ajouter");
@@ -132,7 +132,7 @@ if ( $page->is_right($site->user,DROIT_ECRITURE) )
       $frm->add_select_field("section","Section",$sections,$page->section);
       
       $frm->add_rights_field($page,false,$page->is_admin($site->user),"pages");
-      
+      $frm->add_dokuwiki_toolbar('texte');
       $frm->add_text_area("texte","Contenu",$page->texte,80,20,true);
       $frm->add_submit("save","Enregistrer");
       $site->add_contents($frm);
