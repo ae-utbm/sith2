@@ -618,7 +618,7 @@ function insert_tags2(objid, lft, rgt, deftext)
     if ( range.text == "")
       range.text = lft + deftext + rgt;
     else
-      range.text = lft + _selection + rgt;
+      range.text = lft + range.text + rgt;
       
     range = document.selection.createRange();
     range.moveStart('character', lft.length);
