@@ -460,7 +460,7 @@ ini_set("arg_separator.output", "&amp;");
 
 function utf8_enleve_accents ($text)
 {
-  $text = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","e",$mot);
+  $text = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","e",$text);
   $text = ereg_replace("(a|à|â|ä|À|Â|Ä)","a",$text);
   $text = ereg_replace("(i|ï|î|Ï|Î)","i",$text);
   $text = ereg_replace("(c|ç|Ç)","c",$text);
