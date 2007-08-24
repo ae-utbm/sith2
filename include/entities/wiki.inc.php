@@ -216,6 +216,7 @@ class wiki extends basedb
     
     while ( $row = $req->get_row() )
     {
+      unset($row[0]);
       $row["id_wiki_rel"] = $this->id;
       new insert($this->dbrw,"wiki_ref_wiki",$row);
     }  
