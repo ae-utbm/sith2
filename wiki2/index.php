@@ -185,6 +185,7 @@ if ( !$wiki->is_valid() )
       $frm->error($Erreur);
     $frm->add_hidden("action","create");
     $frm->add_text_field("title","Titre","",true);
+    $frm->add_dokuwiki_toolbar("contents");
     $frm->add_text_area("contents","Contenu","",80,20,true);
     $frm->add_text_field("comment","Log","Créée");
     if ( $is_admin )
@@ -260,6 +261,7 @@ elseif ( $can_edit && $_REQUEST["view"] == "edit" )
   $frm = new form("revisewiki","./?name=$pagepath",true,"POST");
   $frm->add_hidden("action","revision");
   $frm->add_text_field("title","Titre",$wiki->rev_title,true);
+  $frm->add_dokuwiki_toolbar("contents");
   $frm->add_text_area("contents","Contenu",$wiki->rev_contents,80,20,true);
   $frm->add_text_field("comment","Log","");
   $frm->add_submit("save","Enregistrer"); 
