@@ -640,7 +640,7 @@ function insert_tags2(objid, lft, rgt, deftext)
 
     obj.value = s1 + lft + s2 + rgt + s3;
 
-    setSelectionRange(obj,start+lft.length,end+lft.length);
+    setSelectionRange(obj,start+lft.length,start+lft.length+s2.length);
   }
 }
 
