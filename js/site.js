@@ -631,9 +631,9 @@ function insert_tags2(objid, lft, rgt, deftext)
     var start = obj.selectionStart;
     var end = obj.selectionEnd;
     
-    var s1 = obj.value.substring(0,_start);
-    var s2 = obj.value.substring(_start, _end)
-    var s3 = obj.value.substring(_end);
+    var s1 = obj.value.substring(0,start);
+    var s2 = obj.value.substring(start, end)
+    var s3 = obj.value.substring(end);
      
     if(s2 == "")
       s2 = deftext;   
