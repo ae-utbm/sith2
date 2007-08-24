@@ -638,7 +638,7 @@ function insert_tags2(objid, lft, rgt, deftext)
     if(s2 == "")
       s2 = deftext;   
 
-    txtarea.value = s1 + lft + s2 + rgt + s3;
+    obj.value = s1 + lft + s2 + rgt + s3;
 
     setSelectionRange(obj,start+lft.length,end+lft.length);
   }
