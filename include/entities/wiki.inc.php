@@ -215,7 +215,7 @@ class wiki extends basedb
 		    INNER JOIN `wiki_rev` 
 		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
 		           AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
-				WHERE REGEXP '\[\[([^[.right-square-bracket.]]*:)?".utf8_pattern_accents($this->name)."(#[^[.right-square-bracket.]]*)?\]\]'");   
+				WHERE contents_rev REGEXP '\[\[([^[.right-square-bracket.]]*:)?".utf8_pattern_accents($this->name)."(#[^[.right-square-bracket.]]*)?\]\]'");   
 		//DEBUG:		
 		print_r($req);
 				   
