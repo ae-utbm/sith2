@@ -105,6 +105,7 @@ class jobuser_etu extends utilisateur
 	
 	function del_pdf_cv($lang)
 	{
+		global $topdir;
 		$lang = mysql_real_escape_string($lang);
 		
 		$sql = new requete($this->db, "SELECT `lang` FROM `job_pdf_cv` WHERE `id_utl` = $this->id AND `lang` = '".$lang."'");
