@@ -78,8 +78,6 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 		}
 		else if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "job_cvs")
 		{
-//			print_r($_REQUEST);
-//			print_r($_FILES);
 			$i = 1;
 			foreach($_FILES as $file)
 			{
@@ -90,6 +88,10 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 					
 				$i++;
 			}
+		}
+		else if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
+		{
+			$usr->del_pdf_cv($_REQUEST['cv']);
 		}
 		
 		

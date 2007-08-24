@@ -105,7 +105,18 @@ class jobuser_etu extends utilisateur
 	
 	function del_pdf_cv($lang)
 	{
+		$lang = mysql_real_escape_string($lang);
 		
+		$sql = new requete($this->db, "SELECT `lang` FROM `job_pdf_cv` WHERE `id_utl` = $this->id AND `lang` = ".$lang);
+		if($sql->lines == 1)
+		{
+			if( unlink($topdir ."var/cv/". $this->id . "." . $lang . ".pdf") )
+			{
+				$sql = new delete($this->dbrw, "job_pdf_cv", array("id_utl" => $this->id, "lang" => $lang));
+				return true
+			}
+		}
+		return false;
 	}
 
 }
