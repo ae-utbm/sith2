@@ -360,6 +360,7 @@ function linkformat($match)
   else
   {  
     $link2 = utf8_enleve_accents($link);
+    echo $link2."?";
     if( preg_match('/^([a-zA-Z0-9\-_:]+)$/',$link2) )
     {
       $link = strtolower($link2);
