@@ -215,7 +215,23 @@ $is_admin = $wiki->is_admin($site->user);
 
 if ( $_REQUEST["action"] == "revision" && $can_edit 
     && ($_REQUEST["title"] != $wiki->rev_title || $_REQUEST["contents"] != $wiki->rev_contents ) )
-  $wiki->revision ( $site->user->id, $_REQUEST["title"], $_REQUEST["contents"], $_REQUEST["comment"] );
+{
+  $wiki->unlock($site->user);
+  
+  if ( $_REQUEST["id_rev_last"] != $wiki->id_rev_last ) // pas cool
+  {
+    $Erreur="La page a été modifiée par un autre utilisateur ente temps.";
+    $_REQUEST["view"] = "edit";
+  }
+  else if ( $wiki->is_locked($site->user) ) // encore moins cool
+  {
+    $Erreur="La page est en cours d'édition par un autre utilisteur. Elle n'a pas eu être modifiée.";
+    $_REQUEST["view"] = "edit";
+  }
+  else
+    $wiki->revision ( $site->user->id, $_REQUEST["title"], $_REQUEST["contents"], $_REQUEST["comment"] );
+
+}  
 elseif ( $_REQUEST["action"] == "edit" && $is_admin )
 {
   $wiki->set_rights($site->user,
@@ -258,14 +274,52 @@ if ( $is_admin && $_REQUEST["view"] == "advc" )
 }
 elseif ( $can_edit && $_REQUEST["view"] == "edit" )
 {
-  $frm = new form("revisewiki","./?name=$pagepath",true,"POST");
-  $frm->add_hidden("action","revision");
-  $frm->add_text_field("title","Titre",$wiki->rev_title,true);
-  $frm->add_dokuwiki_toolbar("contents");
-  $frm->add_text_area("contents","Contenu",$wiki->rev_contents,80,20,true);
-  $frm->add_text_field("comment","Log","");
-  $frm->add_submit("save","Enregistrer"); 
-  $cts->add($frm);
+  if ( $wiki->is_locked($site->user) )
+  {
+    if ( isset($Erreur) )
+    {
+      $cts->add_paragraph($Erreur,"error"); 
+      /* et oui, un autre a pu modifier et encore un autre peut editer la page 
+       * à ce moment là, là c'est vraiment pas de bol, ça peut arriver qu'a Ayolo 
+       * ce genre de situation, mais bon... :-P
+       */
+      $cts->add_paragraph("<a href=\"./?name=$pagepath\">Voir la version actuelle.</a>");      
+      $cts->add_paragraph("La page est en cours d'édition par un autre utilisteur. Il n'est pas possible de reprendre l'édition de la page.","error");
+      $cts->add_paragraph("<b>Conseil</b>: Sauvegardez vos modification dans un éditeur de texte, et retentez de le modifier dans une dizaine de minutes.");
+      $cts->add_paragraph("Voici ce que vous vouliez soumettre :");
+      $cts->add_paragraph("Titre : ".htmlentities($_REQUEST["title"],ENT_NOQUOTES,"UTF-8"));
+      $cts->add_paragraph("Contenu : ".nl2br(htmlentities($_REQUEST["contents"],ENT_NOQUOTES,"UTF-8")));
+      $cts->add_paragraph("Log : ".htmlentities($_REQUEST["comment"],ENT_NOQUOTES,"UTF-8"));
+    }
+    else
+      $cts->add_paragraph("Cette page est en cours d'édition par un autre utilisateur. Il n'est pas possible de l'éditer en même temps.","error");
+  }
+  else
+  {
+    if ( isset($Erreur) )
+    {
+      // TODO: tenter un merge? (sur $_REQUEST["contents"] et $_REQUEST["title"])
+      // TODO: ou montrer un diff ? ou les deux ?
+      $cts->add_paragraph($Erreur,"error");
+      $cts->add_paragraph("<a href=\"./?name=$pagepath\">Voir la version actuelle.</a>");
+      $cts->add_paragraph("<b>Attention</b>: Le texte en cours d'édition corresponds à votre soumission, il ne tient pas compte des modifications apportés par l'autre utilisateur.");
+      $cts->add_paragraph("<b>Conseil</b>: Sauvegardez vos modification dans un éditeur de texte, et repartez de la version actuelle.");      
+    }
+    
+    $wiki->lock($site->user);
+    $frm = new form("revisewiki","./?name=$pagepath",true,"POST");
+    // le true au desus, va dire à form reprendre le bordel soumis, 
+    // dans le cas où la page a été appelée par la validation du formulaire
+    $frm->add_hidden("action","revision");
+    $frm->add_hidden("id_rev_last",$wiki->id_rev_last);
+    $frm->add_text_field("title","Titre",$wiki->rev_title,true);
+    $frm->add_dokuwiki_toolbar("contents");
+    $frm->add_text_area("contents","Contenu",$wiki->rev_contents,80,20,true);
+    $frm->add_text_field("comment","Log","");
+    $frm->add_submit("save","Enregistrer"); 
+    $cts->add($frm);
+    //TODO: faire un unock quand on va sur une autre page sans enregistrer
+  }
 }
 elseif ( $_REQUEST["view"] == "refs" ) 
 {

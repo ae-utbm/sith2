@@ -34,7 +34,7 @@
  * elle te pond du xhtml, c'est de la magie en boite de concerve
  * @param $text le texte que tu veux qu'il resorte cossu :p
  */
-function doku2xhtml($text)
+function doku2xhtml($text,$summury=false)
 {
   global $parser;
   $js = false;
@@ -152,6 +152,10 @@ function doku2xhtml($text)
     $text = str_replace($key,$val,$text);
 
   $text = trim($text);
+  
+  if ( $summury )
+    return array($js.$text,$hltable);
+
   return $js.$text;
 }
 

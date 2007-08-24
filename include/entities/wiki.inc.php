@@ -432,6 +432,25 @@ class wiki extends basedb
 	  $this->droits_acces = $rights;
 	}
 	
+	function is_locked(&$user)
+	{
+	 
+	  return false; 
+	}
+	
+	function lock(&$user)
+	{
+	 
+	 
+	}
+	
+	function unlock(&$user)
+	{
+	 
+	 
+	}
+	
+	
 }
 
 
