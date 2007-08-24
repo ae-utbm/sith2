@@ -620,10 +620,12 @@ function insert_tags2(objid, lft, rgt, deftext)
     else
       range.text = lft + range.text + rgt;
       
-    //range = document.selection.createRange();
+    range = document.selection.createRange();
     range.moveStart('character', lft.length);
-    range.moveEnd('character', -rgt.length);
+    range.moveEnd('character', /*-rgt.length*/10);
     range.select();
+    
+    
   }
   else if ( obj.selectionStart != null )
   {		
