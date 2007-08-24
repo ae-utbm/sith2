@@ -215,10 +215,8 @@ class wiki extends basedb
 		    INNER JOIN `wiki_rev` 
 		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
 		           AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
-				WHERE contents_rev REGEXP '\[\[([^[.right-square-bracket.]]*:)?".utf8_pattern_accents($this->name)."(#[^[.right-square-bracket.]]*)?\]\]'");   
-		//DEBUG:		
-		print_r($req);
-				   
+				WHERE contents_rev LIKE '%[[%".mysql_real_escape_string($this->name)."]]%'
+				OR contents_rev LIKE '%[[%".mysql_real_escape_string($this->name)."#%]]%'");      
 		$updater = new wiki($this->db,$this->dbrw);
     while ( $row = $req->get_row() )
     {
