@@ -460,14 +460,24 @@ ini_set("arg_separator.output", "&amp;");
 
 function utf8_enleve_accents ($text)
 {
-  $text = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","e",$text);
-  $text = ereg_replace("(a|à|â|ä|À|Â|Ä)","a",$text);
-  $text = ereg_replace("(i|ï|î|Ï|Î)","i",$text);
-  $text = ereg_replace("(c|ç|Ç)","c",$text);
-  $text = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","u",$text);
-  $text = ereg_replace("(n|ñ|Ñ)","n",$text);
+  $text = ereg_replace("(é|è|ê|ë|É|È|Ê|Ë)","e",$text);
+  $text = ereg_replace("(à|â|ä|À|Â|Ä)","a",$text);
+  $text = ereg_replace("(ï|î|Ï|Î)","i",$text);
+  $text = ereg_replace("(ç|Ç)","c",$text);
+  $text = ereg_replace("(ù|ü|û|Ü|Û|Ù)","u",$text);
+  $text = ereg_replace("(ñ|Ñ)","n",$text);
   return $text;
 }
 
-
+function utf8_pattern_accents ($text)
+{
+  $text = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","(e|é|è|ê|ë|É|È|Ê|Ë)",$text);
+  $text = ereg_replace("(a|à|â|ä|À|Â|Ä)","(a|à|â|ä|À|Â|Ä)",$text);
+  $text = ereg_replace("(i|ï|î|Ï|Î)","(i|ï|î|Ï|Î)",$text);
+  $text = ereg_replace("(c|ç|Ç)","(c|ç|Ç)",$text);
+  $text = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","(u|ù|ü|û|Ü|Û|Ù)",$text);
+  $text = ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$text);
+  return $text;
+}
+    
 ?>
