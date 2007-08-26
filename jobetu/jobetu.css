@@ -91,3 +91,31 @@ div.apply_form
 	margin-top: 10px;
 	padding-top: 10px;
 }
+
+div.annonce_table div.desc_row
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	position: relative;
+}
+
+div.annonce_table div.desc_label
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	position: absolute;
+	top: 1px;
+/* 	height: 1em; */
+	width: 15%;
+	overflow: hidden;
+}
+
+div.annonce_table div.desc_content
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	margin-left: 15%;
+}

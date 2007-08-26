@@ -223,7 +223,9 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 																		NOT IN (SELECT id_annonce FROM job_annonces_etu WHERE id_etu = $usr->id)
 																		", false);
 
-		
+		/**
+		 * @todo possibilité de trier par catégorie (voire utilisateur, date...)
+		 */		
 		$table = new sqltable("annlist", "Liste des annonces en cours", $sql, "board_etu.php?view=general", "id_annonce",
 													array(
 														"id_annonce" => "N°",
