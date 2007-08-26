@@ -48,10 +48,13 @@ class annonce extends stdentity
   {
   	$sql = new requete($this->db, "SELECT `job_annonces`.*, 
 																		DATE_FORMAT(`job_annonces`.`start_date`, '%e-%c-%Y') as `s_date`,
-																		CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_client` 
+																		CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_client`,
+																		`job_types`.`nom` as `nom_type`
 																		FROM `job_annonces` 
 																		LEFT JOIN `utilisateurs`
 																		ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
+																		LEFT JOIN `job_types`
+																		ON `job_types`.`id_type` = `job_annonces`.`job_type`
 																		WHERE `id_annonce` = $id LIMIT 1");
   	$line = $sql->get_row();
   	
@@ -60,7 +63,8 @@ class annonce extends stdentity
   	$this->nom_client = $line['nom_client'];
   	$this->winner = $line['id_select_etu'];
   	$this->titre = $line['titre'];
-  	$this->job_type = $line['job_type'];
+  	$this->id_type = $line['job_type'];
+  	$this->nom_type = $line['nom_type'];
   	$this->desc = $line['desc'];
   	$this->profil = $line['profil'];
   	$this->divers = $line['divers'];
