@@ -53,7 +53,7 @@
 				if( $annonce->start_date != '0-0-0000' )
 						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Date de début </div> \n <div class=\"desc_content\">".$annonce->start_date."</div> \n</div>";
 				if( !empty($annonce->indemnite) )
-						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Rémunération </div> \n <div class=\"desc_content\">". $annonce->indemnite ."</div> \n</div>";
+						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Rémunération (€)</div> \n <div class=\"desc_content\">". $annonce->indemnite ."</div> \n</div>";
 				if( $annonce->nb_postes != 1 )
 						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Nombre de postes </div> \n <div class=\"desc_content\">".$annonce->nb_postes."</div> \n</div>";
 				if( !empty($annonce->duree) )
@@ -73,6 +73,7 @@
 		  				
 		  				$this->buffer .= "<div id=\"apply_".$annonce->id."\" style=\"display: none;\" class=\"apply_form\">";
 		  					$frm = new form("application_".$annonce->id."", "board_etu.php?action=apply", true, "POST");
+		  					$frm->puts("<p>Veuillez noter qu'en soumettant votre candidature, vous vous engagez et qu'il ne vous sera pas possible d'annuler cette candidature (sauf raison particulière ou l'acceptation d'une autre offre). Merci donc de ne pas vous porter candidat \"à la légère\".<p> ");
 			  				$frm->puts("Ajouter un message à votre candidature <i>(facultatif)</i> :<br />");
 			  				$frm->add_hidden("id", $annonce->id);
 			  				$frm->add_text_area("comment", false, false, 80, 10);

@@ -64,7 +64,7 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	$frm->add_text_area("profil", "Profil recherche", false, 60, 3, true);
 	$frm->add_date_field("date_debut", "Date de debut (facultatif)");
 	$frm->add_text_field("duree", "Duree (facultatif)");
-	$frm->add_text_field("remuneration", "Rémuneration (facultatif)");
+	$frm->add_text_field("remuneration", "Rémuneration en € (facultatif)");
 	$frm->add_text_area("divers", "Autres informations", false, 60, 3);
 	$frm->add_submit("go", "Enregistrer mon annonce");
 	
