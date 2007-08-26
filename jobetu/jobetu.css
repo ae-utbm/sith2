@@ -92,7 +92,7 @@ div.apply_form
 	padding-top: 10px;
 }
 
-div.annonce_table div.desc_row
+div.desc_row
 {
 	margin: 0;
 	padding: 0;
@@ -100,7 +100,7 @@ div.annonce_table div.desc_row
 	position: relative;
 }
 
-div.annonce_table div.desc_label
+div.desc_label
 {
 	margin: 0;
 	padding: 0;
@@ -112,7 +112,7 @@ div.annonce_table div.desc_label
 	overflow: hidden;
 }
 
-div.annonce_table div.desc_content
+div.desc_content
 {
 	margin: 0;
 	padding: 0;

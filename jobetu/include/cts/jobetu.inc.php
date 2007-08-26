@@ -136,11 +136,13 @@
 	  				$this->buffer .= "</div>\n";
 	  					
 	  				$this->buffer .= "<div id=\"applicant_".$n."\" class=\"apply_content\">";
+	  				$this->buffer .= "<p>Votre annonce à reçu la candidature de cet étudiant :</p>";
 	  				$gal = new gallery("Fiche du candidat");
 	  				$gal->add_item( new userinfov2($usr) );
 
 						$this->buffer .= "<div style=\"margin: 0 auto;\">\n" . $gal->html_render() . "</div>" ;
-						$this->buffer .= "bleh<br>";
+						if( !empty($annonce->applicants[$n-1]['comment']) )
+							$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Message </div> \n <div class=\"desc_content\">".$annonce->applicants[$n-1]['comment']."</div> \n</div>";
 						
 						$frm = new form("apply_".$annonce->id."", false, true, "POST");
 		  			$frm->add_submit("clic", "Choisir ce candidat");
@@ -151,11 +153,12 @@
 		  			$this->buffer .= "</div>\n";
 		  			$n++;
 		  	}
+		  	$this->buffer .= "<p></p>";
 			}
 	  	
-	  	$this->buffer .= "</div>\n";
-  			
-  		$this->buffer .= $annonce->desc;
+	 // 	$this->buffer .= "</div>\n";
+  		$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Votre annonce </div> \n <div class=\"desc_content\">".$annonce->desc."</div> \n</div>";
+
   		$this->buffer .= "</div>\n";
   		
   		 		  		
