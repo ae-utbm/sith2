@@ -27,6 +27,7 @@ class annonce extends stdentity
 {	
 	var $id;
 	var $id_client;
+	var $nom_client;
 	var $winner;
 	var $titre;
 	var $job_type;
@@ -45,11 +46,17 @@ class annonce extends stdentity
 		
   function load_by_id($id)
   {
-  	$sql = new requete($this->db, "SELECT * FROM `job_annonces` WHERE `id_annonce` = $id LIMIT 1");
+  	$sql = new requete($this->db, "SELECT `job_annonces`.*, 
+																		CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_client` 
+																		FROM `job_annonces` 
+																		LEFT JOIN `utilisateurs`
+																		ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
+																		WHERE `id_annonce` = $id LIMIT 1");
   	$line = $sql->get_row();
   	
   	$this->id = $id;
   	$this->id_client = $line['id_client'];
+  	$this->nom_client = $line['nom_client'];
   	$this->winner = $line['id_select_etu'];
   	$this->titre = $line['titre'];
   	$this->job_type = $line['job_type'];
