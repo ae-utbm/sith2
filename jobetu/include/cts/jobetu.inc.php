@@ -48,7 +48,7 @@
 	  			
 	  		/** Contenu  ************************************************************/
 	  			$this->buffer .= "<div id=\"annonce_".$annonce->id."\" class=\"content\"> \n";
-	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Demandeur </div> \n <div class=\"desc_content\">".$annonce->nom_client."</div> \n</div>";			
+	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Demandeur </div> \n <div class=\"desc_content\"> <a href=\"$topdir/user.php?id_utilisateur=$annonce->id_client\"><img src=\"http://ae.utbm.fr/images/icons/16/user.png\" /> ".$annonce->nom_client."</a></div> \n</div>";
 /*  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Nombre de postes </div> \n <div class=\"desc_content\">".$annonce->nb_postes."</div> \n</div>"; */
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Date de début </div> \n <div class=\"desc_content\">".$annonce->start_date."</div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Rémunération </div> \n <div class=\"desc_content\">". $annonce->indemnite ."</div> \n</div>";
