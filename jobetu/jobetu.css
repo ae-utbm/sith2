@@ -107,7 +107,7 @@ div.annonce_table div.desc_label
 	border: 0;
 	position: absolute;
 	top: 1px;
-/* 	height: 1em; */
+ 	height: 1em; 
 	width: 15%;
 	overflow: hidden;
 }
@@ -116,6 +116,7 @@ div.annonce_table div.desc_content
 {
 	margin: 0;
 	padding: 0;
-	border: 0;
 	margin-left: 15%;
+	padding-left: 10px;
+	border-left: 1px solid #D8E7F3;
 }
