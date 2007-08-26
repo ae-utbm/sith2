@@ -174,15 +174,15 @@ class annonce extends stdentity
 	 	
 		$this->id_client = $client->id;
 		$this->id_select_etu = null;
-		$this->titre = mysql_real_escape_string($titre);
+		$this->titre = $titre;
 		$this->job_type	= $job_type;
-		$this->desc = mysql_real_escape_string($desc);
-		$this->divers = mysql_real_escape_string($divers);
-		$this->profil = mysql_real_escape_string($profil);
+		$this->desc = $desc;
+		$this->divers = $divers;
+		$this->profil = $profil;
 		$this->start_date = $start_date;
-		$this->duree = mysql_real_escape_string($duree);
-		$this->nb_postes = mysql_real_escape_string($nb_postes);
-		$this->indemnite = mysql_real_escape_string($indemnite);
+		$this->duree = $duree;
+		$this->nb_postes = $nb_postes;
+		$this->indemnite = $indemnite;
 		$this->ville = $ville;
 		$this->type_contrat = $type_contrat;
 
@@ -192,7 +192,7 @@ class annonce extends stdentity
 														"id_client" => $this->id_client,
 														"id_select_etu" => $this->id_select_etu,
 														"titre" => $this->titre,
-														"date" => date("Y-m-d");
+														"date" => date("Y-m-d"),
 														"job_type" => $this->job_type,
 														"desc" => $this->desc,
 														"divers" => $this->divers,
