@@ -47,6 +47,7 @@ class annonce extends stdentity
   function load_by_id($id)
   {
   	$sql = new requete($this->db, "SELECT `job_annonces`.*, 
+																		DATE_FORMAT(`job_annonces`.`start_date`, '%e-%c-%Y') as `s_date`,
 																		CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_client` 
 																		FROM `job_annonces` 
 																		LEFT JOIN `utilisateurs`
@@ -63,7 +64,7 @@ class annonce extends stdentity
   	$this->desc = $line['desc'];
   	$this->profil = $line['profil'];
   	$this->divers = $line['divers'];
-  	$this->start_date = $line['start_date'];
+  	$this->start_date = $line['s_date'];
   	$this->duree = $line['duree'];
   	$this->nb_postes = $line['nb_postes'];
   	$this->indemnite = $line['indemnite'];
