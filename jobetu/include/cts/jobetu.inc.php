@@ -50,7 +50,7 @@
 	  			$this->buffer .= "<div id=\"annonce_".$annonce->id."\" class=\"content\"> \n";
 	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Demandeur </div> \n <div class=\"desc_content\"> <a href=\"$topdir/user.php?id_utilisateur=$annonce->id_client\"><img src=\"http://ae.utbm.fr/images/icons/16/user.png\" /> ".$annonce->nom_client."</a></div> \n</div>";
 	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Type </div> \n <div class=\"desc_content\">".$annonce->nom_type." (". $annonce->nom_main_cat .") </div> \n</div>";
-				if( $annonce->start_date != '0-0-0000' )
+				if( $annonce->start_date != '0/0/0000' )
 						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Date de début </div> \n <div class=\"desc_content\">".$annonce->start_date."</div> \n</div>";
 				if( !empty($annonce->indemnite) )
 						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Rémunération (€)</div> \n <div class=\"desc_content\">". $annonce->indemnite ."</div> \n</div>";

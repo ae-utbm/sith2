@@ -49,7 +49,7 @@ class annonce extends stdentity
   function load_by_id($id)
   {
   	$sql = new requete($this->db, "SELECT `job_annonces`.*, 
-																		DATE_FORMAT(`job_annonces`.`start_date`, '%e-%c-%Y') as `s_date`,
+																		DATE_FORMAT(`job_annonces`.`start_date`, '%e/%c/%Y') as `s_date`,
 																		CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_client`,
 																		`job_types`.`nom` as `nom_type`
 																		FROM `job_annonces` 
