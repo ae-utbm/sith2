@@ -59,11 +59,11 @@
 				if( !empty($annonce->duree) )
 						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Durée </div> \n <div class=\"desc_content\">".$annonce->duree."</div> \n</div>";
 				if( !empty($annonce->desc) ) //enfin en théorie ça peut pas l'être
-						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Description </div> \n <div class=\"desc_content\">".$annonce->desc."</div> \n</div>";
+						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Description </div> \n <div class=\"desc_content\">".htmlentities($annonce->desc,ENT_NOQUOTES,"UTF-8")."</div> \n</div>";
 				if( !empty($annonce->profil) )
-						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Profil recherché </div> \n <div class=\"desc_content\">".$annonce->profil."</div> \n</div>";
+						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Profil recherché </div> \n <div class=\"desc_content\">".htmlentities($annonce->profil,ENT_NOQUOTES,"UTF-8")."</div> \n</div>";
 				if( !empty($annonce->divers) )
-						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Autres renseignements </div> \n <div class=\"desc_content\">".$annonce->divers."</div> \n</div>";
+						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Autres renseignements </div> \n <div class=\"desc_content\">".htmlentities($annonce->divers,ENT_NOQUOTES,"UTF-8")."</div> \n</div>";
 
 						$this->buffer .= "<br />";
 						
@@ -157,7 +157,7 @@
 			}
 	  	
 	 // 	$this->buffer .= "</div>\n";
-  		$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Votre annonce </div> \n <div class=\"desc_content\">".$annonce->desc."</div> \n</div>";
+  		$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Votre annonce </div> \n <div class=\"desc_content\">".htmlentities($annonce->desc,ENT_NOQUOTES,"UTF-8")."</div> \n</div>";
 
   		$this->buffer .= "</div>\n";
   		
