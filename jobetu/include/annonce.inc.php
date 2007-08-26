@@ -30,7 +30,9 @@ class annonce extends stdentity
 	var $nom_client;
 	var $winner;
 	var $titre;
-	var $job_type;
+	var $id_type;
+	var $nom_type;
+	var $nom_main_cat;
 	var $desc;
 	var $profil;
 	var $divers;
@@ -57,7 +59,6 @@ class annonce extends stdentity
 																		ON `job_types`.`id_type` = `job_annonces`.`job_type`
 																		WHERE `id_annonce` = $id LIMIT 1");
   	$line = $sql->get_row();
-  	
   	$this->id = $id;
   	$this->id_client = $line['id_client'];
   	$this->nom_client = $line['nom_client'];
@@ -74,7 +75,11 @@ class annonce extends stdentity
   	$this->indemnite = $line['indemnite'];
   	$this->ville = $line['ville'];
   	$this->type_contrat = $line['type_contrat'];
-
+  	
+  	/* C'est pas beau mais j'arrive pas à le faire en une requete */
+  	$sql = new requete($this->db, "SELECT `job_types`.`nom` FROM `job_annonces` LEFT JOIN `job_types` ON `job_types`.`id_type` = ". ($this->id_type - $this->id_type%100) ."");
+		$line = $sql->get_row();
+		$this->nom_main_cat = $line['nom'];
   }
 
   function load_applicants()
