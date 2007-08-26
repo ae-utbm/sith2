@@ -48,13 +48,22 @@
 	  			
 	  		/** Contenu  ************************************************************/
 	  			$this->buffer .= "<div id=\"annonce_".$annonce->id."\" class=\"content\"> \n";
-	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Demandeur </div> \n <div class=\"desc_content\"> <a href=\"$topdir/user.php?id_utilisateur=$annonce->id_client\"><img src=\"http://ae.utbm.fr/images/icons/16/user.png\" /> ".$annonce->nom_client."</a></div> \n</div>";
-/*  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Nombre de postes </div> \n <div class=\"desc_content\">".$annonce->nb_postes."</div> \n</div>"; */
-	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Date de début </div> \n <div class=\"desc_content\">".$annonce->start_date."</div> \n</div>";
-	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Rémunération </div> \n <div class=\"desc_content\">". $annonce->indemnite ."</div> \n</div>";
-	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Durée </div> \n <div class=\"desc_content\">".$annonce->duree."</div> \n</div>";
-	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Description </div> \n <div class=\"desc_content\">".$annonce->desc."</div> \n</div>";
-	
+	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Demandeur </div> \n <div class=\"desc_content\"> <a href=\"$topdir/user.php?id_utilisateur=$annonce->id_client\"><img src=\"http://ae.utbm.fr/images/icons/16/user.png\" /> ".$annonce->nom_client."</a></div> \n</div>"; 
+				if( $annonce->start_date != '0-0-0000' )
+						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Date de début </div> \n <div class=\"desc_content\">".$annonce->start_date."</div> \n</div>";
+				if( !empty($annonce->indemnite) )
+						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Rémunération </div> \n <div class=\"desc_content\">". $annonce->indemnite ."</div> \n</div>";
+				if( !empty($annonce->nb_postes) )
+						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Nombre de postes </div> \n <div class=\"desc_content\">".$annonce->nb_postes."</div> \n</div>";
+				if( !empty($annonce->duree) )
+						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Durée </div> \n <div class=\"desc_content\">".$annonce->duree."</div> \n</div>";
+
+						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Description </div> \n <div class=\"desc_content\">".$annonce->desc."</div> \n</div>";
+				if( !empty($annonce->profil) )
+						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Profil recherché </div> \n <div class=\"desc_content\">".$annonce->profil."</div> \n</div>";
+				if( !empty($annonce->divers) )
+						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Autres renseignements </div> \n <div class=\"desc_content\">".$annonce->divers."</div> \n</div>";
+
 	  					$frm = new form("apply_".$annonce->id."", false, true, "POST");
 		  					$frm->add_submit("clic", "Se porter candidat");
 		  				$this->buffer .= "<div onClick=\"javascript:on_off('apply_".$annonce->id."');\">" . $frm->buffer . "</div>";
