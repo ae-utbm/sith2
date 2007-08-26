@@ -29,6 +29,7 @@ class annonce extends stdentity
 	var $id_client;
 	var $nom_client;
 	var $winner;
+	var $date_depot;
 	var $titre;
 	var $id_type;
 	var $nom_type;
@@ -63,6 +64,7 @@ class annonce extends stdentity
   	$this->id_client = $line['id_client'];
   	$this->nom_client = $line['nom_client'];
   	$this->winner = $line['id_select_etu'];
+  	$this->date_depot = $line['date'];
   	$this->titre = $line['titre'];
   	$this->id_type = $line['job_type'];
   	$this->nom_type = $line['nom_type'];
@@ -190,6 +192,7 @@ class annonce extends stdentity
 														"id_client" => $this->id_client,
 														"id_select_etu" => $this->id_select_etu,
 														"titre" => $this->titre,
+														"date" => date("Y-m-d");
 														"job_type" => $this->job_type,
 														"desc" => $this->desc,
 														"divers" => $this->divers,
