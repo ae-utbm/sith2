@@ -147,7 +147,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="add" && $_REQUEST['
 	$annonce = new annonce($site->db, $site->dbrw);
 	$jobuser->load_by_id($site->user->id);
 	
-	$result = $annonce->add($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['divers']);
+	$result = $annonce->add($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['divers'], $_REQUEST['date_debut'], $_REQUEST['duree'], 1, $_REQUEST['remuneration']);
 	
 	if($result)
 	{

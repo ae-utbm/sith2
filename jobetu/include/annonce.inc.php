@@ -166,7 +166,7 @@ class annonce extends stdentity
    * @param $client objet jobuser_client
    * @param $titre titre de l'annonce 
    */
-  function add($client, $titre, $job_type, $desc, $profil, $divers = null, $start_date = null, $duree = null, $divers = null, $nb_postes = 1, $indemnite = null, $ville = null, $type_contrat = null )
+  function add($client, $titre, $job_type, $desc, $profil, $divers = null, $start_date = null, $duree = null, $nb_postes = 1, $indemnite = null, $ville = null, $type_contrat = null )
   {
 		if(!($client instanceof jobuser_client))	return -1;
 	 	
