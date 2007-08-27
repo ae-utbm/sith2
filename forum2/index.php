@@ -307,7 +307,7 @@ if ( $sujet->is_valid() )
       $frm = new form("frmedit", 
     		  "?page=commitedit&amp;id_sujet=".
     		  $sujet->id."&amp;".
-    		  "id_message=".$message->id, 
+    		  "id_message=".$message->id."#msg".$message->id, 
     		  true);
       
       $frm->add_text_field("title", "Titre du message : ", $message->titre,false,80);
@@ -475,7 +475,7 @@ if ( $sujet->is_valid() )
     $cts = new contents($path." / <a href=\"?id_sujet=".$sujet->id."&amp;page=reply\">Répondre</a>");    
   
     /* formulaire d'invite à postage de réponse */
-    $frm = new form("frmreply", "?page=commit&amp;id_sujet=".$sujet->id, true);
+    $frm = new form("frmreply", "?page=commit&amp;id_sujet=".$sujet->id."#lastmessage", true);
   
     if (intval($_REQUEST['quote']) == 1)
 		{

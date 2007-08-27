@@ -252,9 +252,14 @@ class sujetforum extends stdcontents
     $initial = ($start==0 && $order=="ASC");
     
     $n=0;
-    
+    $i=0;
     foreach ( $rows as $row )
     {
+      $i++;
+      if ( $i == count($rows) )
+        $this->buffer .= "<div id=\"lastmessage\"></div>";      
+      
+      
       $t = strtotime($row['date_message']);
       
       if ( $user->is_valid() && 
@@ -283,51 +288,50 @@ class sujetforum extends stdcontents
         $n=($n+1)%2;
         
         if ( $row['titre_message'] )
-          $this->buffer .= "<h2 class=\"frmt\">".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";      
+          $this->buffer .= "<h2 class=\"frmt\">".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";
         else
           $this->buffer .= "<h2 class=\"frmt\">&nbsp;</h2>\n";  
-        
       }
-      
-     $this->buffer .= "<p class=\"date\">".human_date($t)."</p>\n";
+
+      $this->buffer .= "<p class=\"date\">".human_date($t)."</p>\n";
 
        /* actions sur un message */
-       $this->buffer .= "<p class=\"actions\">";
+      $this->buffer .= "<p class=\"actions\">";
        
        /* utilisateur authentifié */
-       if ($user->is_valid())
-    	 {
-    	   $this->buffer .= "<a href=\"?page=reply&amp;id_forum=".
+      if ($user->is_valid())
+    	{
+    	  $this->buffer .= "<a href=\"?page=reply&amp;id_forum=".
     	     $forum->id.
     	     "&amp;id_sujet=".
     	     $sujet->id.
     	     "&amp;id_message=".
     	     $row['id_message'].
     	     "&amp;quote=1\">Répondre en citant</a>";
-    	 }
+    	}
 
-       if (($user->is_valid() && $user->id == $row['id_utilisateur']) ||($forum->is_admin($user)))
-    	 {
-    	   if ( $initial ) // Pour le message initial, renvoie vers le sujet
-    	   {
-      	   $spage = ceil($start/$npp);
-      	   $this->buffer .= " | <a href=\"?page=edit&amp;id_sujet=".$sujet->id."\">Modifier</a> | ".
+      if (($user->is_valid() && $user->id == $row['id_utilisateur']) ||($forum->is_admin($user)))
+      {
+    	  if ( $initial ) // Pour le message initial, renvoie vers le sujet
+    	  {
+      	  $spage = ceil($start/$npp);
+      	  $this->buffer .= " | <a href=\"?page=edit&amp;id_sujet=".$sujet->id."\">Modifier</a> | ".
       	     "<a href=\"?page=delete&amp;id_sujet=".$sujet->id."&amp;spage=$spage\">Supprimer</a>";    	     
-    	   }
-    	   else
-    	   {
-      	   $spage = ceil($start/$npp);
-      	   $this->buffer .= " | <a href=\"?page=edit&amp;id_forum=".
+    	  }
+    	  else
+    	  {
+      	  $spage = ceil($start/$npp);
+      	  $this->buffer .= " | <a href=\"?page=edit&amp;id_forum=".
       	     $forum->id.
       	     "&amp;id_sujet=".
       	     $sujet->id.
       	     "&amp;id_message=".
       	     $row['id_message']."\">Modifier</a> | ".
       	     "<a href=\"?page=delete&amp;id_message=".$row['id_message']."&amp;spage=$spage\">Supprimer</a>";
-    	   }
-    	 }
+    	  }
+    	}
 
-       $this->buffer .= "</p>\n";   
+      $this->buffer .= "</p>\n";   
           
       $this->buffer .= "<div class=\"auteur\">\n";
       
@@ -371,7 +375,6 @@ class sujetforum extends stdcontents
       $this->buffer .= "</div>\n";
       $initial=false;
     }
-    
     $this->buffer .= "</div>\n";
   }
 
