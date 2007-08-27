@@ -634,7 +634,7 @@ function insert_tags2(objid, lft, rgt, deftext)
     range.moveStart('character', -rgt.length-len);
     range.moveEnd('character', -rgt.length);
     
-    if ( window.opera && rgt.substring(-1) == "\n" )
+    if ( window.opera && rgt.substring(rgt.length-1) == "\n" )
       range.move('character',1);
     
     range.select();
