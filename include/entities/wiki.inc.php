@@ -447,6 +447,9 @@ class wiki extends basedb
       else
         $wiki = $this->get_scope().$wiki;      
       
+      if ( substr($wiki,-1) == ":" )
+        $wiki = substr($wiki,0,-1); 
+      
       $id = $this->get_id_fullpath($wiki);
       
       if ( !is_null($id) )
