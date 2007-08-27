@@ -529,8 +529,12 @@ function smileys($text)
   $smPath = $wwwtopdir."images/forum/smilies/";
   foreach($smileys as $tag => $img)
   {
+      echo $tag." = $img";
+    
+    
     if ( file_exists($smPath . "/" . $img) )
     {
+      echo " : OK\n";
       $tag = preg_replace('!\]!i', '\]', $tag);
       $tag = preg_replace('!\[!i', '\[', $tag);
       $tag = preg_replace('!\)!i', '\)', $tag);
@@ -554,12 +558,13 @@ function smileys($text)
       $text = preg_replace('! '.$tag.'$!i', ' <img src="'.$smPath.$img.'" alt="" />', $text);
       $text = preg_replace('! '.$tag.'\n!i', " <img src=\"".$smPath.$img."\" alt=\"\" />\n", $text);*/
       
-      echo $tag."    ";
       
       $text = preg_replace('!( |^|\n)'.$tag.'( |$|\n)!i', "$1<img src=\"".$smPath.$img."\" alt=\"\" />$2", $text);
 
       
     }
+    else
+      echo " : NOK\n";
   }
   return $text;
 }
