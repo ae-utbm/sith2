@@ -133,12 +133,13 @@ function add_new_form($id = null)
 
 function add_user_info_form ($user = null)
 {
+  global $site;
   $ville = new ville($site->db);
   $pays = new pays($site->db);
-  $ville_parents = new ville($site->db);
-  $pays_parents = new pays($site->db);
   $ville->load_by_id($user->id_ville);
   $pays->load_by_id($user->id_pays);
+  $ville_parents = new ville($site->db);
+  $pays_parents = new pays($site->db);
   $pays_parents->load_by_id($user->id_pays_parents);
   $ville_parents->load_by_id($user->id_ville_parents);
 
