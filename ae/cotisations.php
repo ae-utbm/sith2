@@ -131,6 +131,15 @@ function add_new_form($id = null)
 
 function add_user_info_form ($user = null)
 {
+  require_once($topdir . "include/entities/ville.inc.php");
+  require_once($topdir . "include/entities/pays.inc.php");
+  $ville = new ville($site->db);
+  $pays = new pays($site->db);
+  $ville_parents = new ville($site->db);
+  $pays_parents = new pays($site->db);
+
+  $ville->load_by_id($user->id_ville);
+  $pays->load_by_id($user->id_pays);
 
   $sub_frm = new form("infosmmt",null,null,null,utf8_encode("Informations complémentaires"));
   $sub_frm->add_info("&nbsp;");
@@ -140,23 +149,35 @@ function add_user_info_form ($user = null)
   else
     $sub_frm->add_date_field("date_naissance","Date de naissance",strtotime("1986-01-01"),false,false,true);
 
- if ($user->utbm)
+  if ($user->utbm)
   {
- $sub_frm->add_select_field("branche","Branche",array("TC"=>"TC","GI"=>"GI","GSP"=>"IMAP","GSC"=>"GESC","GMC"=>"GMC","Enseignant"=>"Enseignant","Administration"=>"Administration","Autre"=>"Autre"),$user->branche);
-  $sub_frm->add_text_field("semestre","Semestre",$user->semestre?$user->semestre:"1");
-  $sub_frm->add_text_field("filiere","Filiere",$user->filiere);    $sub_frm->add_select_field("promo","Promo",array(0=>"-",1=>"1",2=>"2",3=>"3",4=>"4",5=>"5",6=>"6",7=>"7",8=>"8",9=>"9",10=>"10"),$user->promo_utbm?$user->promo_utbm:8);
+    $sub_frm->add_select_field("role","Role",$GLOBALS["utbm_roles"],$user->role);
+    $sub_frm->add_select_field("departement","Departement",$GLOBALS["utbm_departements"],$user->departement);
+    $sub_frm->add_text_field("semestre","Semestre",$user->semestre);
   }
   $sub_frm->add_text_field("addresse","Adresse",$user->addresse);
  
-  $sub_frm->add_text_field("ville","Ville",$user->ville);
-  $sub_frm->add_text_field("cpostal","Code postal",$user->cpostal);
-  $sub_frm->add_text_field("pays","Pays",$user->pays?$user->pays:"FRANCE");
+  $sub_frm->add_entity_smartselect("id_ville","Ville (France)", $ville,true);
+  $sub_frm->add_entity_smartselect("id_pays","ou pays", $pays,true);
   $sub_frm->add_text_field("tel_maison","Telephone (fixe)",$user->tel_maison);
   $sub_frm->add_info("et/ou");
   $sub_frm->add_text_field("tel_portable","Telephone (portable)",$user->tel_portable);
   $sub_frm->add_text_field("citation","Citation",$user->citation);
-  $sub_frm->add_text_field("ville_parents","Ville parents",$user->ville_parents);
-  $sub_frm->add_text_field("cpostal_parents","Code postal parents",$user->cpostal_parents);
+
+  $pays_parents->load_by_id($user->id_pays_parents);
+  $ville_parents->load_by_id($user->id_ville_parents);
+  $sub_frm->add_entity_smartselect ("id_ville_parents","Ville parents (France)", $ville_parents,true);
+  $sub_frm->add_entity_smartselect ("id_pays_parents","ou pays parents", $pays_parents,true);
+  $subfrm->add_select_field("taille_tshirt","Taille de t-shirt (non publié***)",
+                            array(0=>"-",
+                                  "XS"=>"XS",
+                                  "S"=>"S",
+                                  "M"=>"M",
+                                  "L"=>"L",
+                                  "XL"=>"XL",
+                                  "XXL"=>"XXL",
+                                  "XXXL"=>"XXXL"),
+                            $user->taille_tshirt);
   $sub_frm->add_info("&nbsp;");
 
   return $sub_frm;
