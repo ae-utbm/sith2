@@ -429,9 +429,9 @@ function simpleformat($text)
   $text = preg_replace('/&lt;=/i','&#8656;',$text);
   $text = preg_replace('/=&gt;/i','&#8658;',$text);
   
-  $text = preg_replace('/\(c\)/i','&#copy;',$text);
-  $text = preg_replace('/\(r\)/i','&#reg;',$text);
-  $text = preg_replace('/\(tm\)/i','&#trade;',$text);
+  $text = preg_replace('/\(c\)/i','&copy;',$text);
+  $text = preg_replace('/\(r\)/i','&reg;',$text);
+  $text = preg_replace('/\(tm\)/i','&trade;',$text);
   
   //retours à la ligne forcés
   $text = preg_replace('#\\\\\\\\(\s)#',"<br />\\1",$text);
