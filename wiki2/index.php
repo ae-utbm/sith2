@@ -269,9 +269,9 @@ elseif ( $can_edit )
                );
 else
   $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
+                array("srcs","wiki2/?name=".$pagepath."&view=srcs", "Source"),
                 array("refs","wiki2/?name=".$pagepath."&view=refs", "Références"),
-                array("hist","wiki2/?name=".$pagepath."&view=hist", "Historique"),
-                array("srcs","wiki2/?name=".$pagepath."&view=srcs", "Source")
+                array("hist","wiki2/?name=".$pagepath."&view=hist", "Historique")
                );
              
 $cts = new contents();
@@ -340,7 +340,7 @@ elseif ( $_REQUEST["view"] == "srcs" )
   if ( $wiki->rev_id != $wiki->id_rev_last )
     $cts->add_paragraph("Ceci est une version archivée. En date du ".date("d/m/Y H:i",$wiki->rev_date).". ".
     "<a href=\"./?name=$pagepath\">Version actuelle</a>","wikinotice");
-  $cts->add_paragraph("Contenu : ".nl2br(htmlentities($wiki->rev_contents,ENT_NOQUOTES,"UTF-8")));
+  $cts->add_paragraph(nl2br(htmlentities($wiki->rev_contents,ENT_NOQUOTES,"UTF-8")));
 }
 elseif ( $_REQUEST["view"] == "refs" ) 
 {
