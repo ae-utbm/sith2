@@ -447,11 +447,12 @@ class wiki extends basedb
       
       if ( !is_null($id) )
       {
+      print_r($id);
         $buffer = "<ul>\n";
         $buffer .= $this->__map_childs($id);
         $buffer .= "</ul>\n";
         $cts->buffer = str_replace("#@@".$match[1].":pagesmap@@#", $buffer, $cts->buffer);
-        
+      print_r($buffer);
       print_r($cts->buffer);
       }
     }
