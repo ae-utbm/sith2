@@ -1,6 +1,7 @@
 <?php
 /* Copyright 2006
  * - Julien Etelain < julien at pmad dot net >
+ * - Simon Lopez < simon DOT lopez AT ayolo DOT org >
  *
  * Ce fichier fait partie du site de l'Association des Ã‰tudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -427,13 +428,13 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
 	}
 
 }
-
+/*
 elseif ($_REQUEST['action'] == "add")
 {
   $cts = add_new_form();
-  $cts->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']=>utf8_encode("Rechercher un cotisant"))));
+  //$cts->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']=>utf8_encode("Rechercher un cotisant"))));
   $site->add_contents($cts);
-}
+}*/
 
 elseif ($_REQUEST['action'] == "modifyUser" && $_POST['search_id'])
   $cts = add_new_form($_POST['search_id']);
@@ -578,7 +579,7 @@ elseif ($_REQUEST["action"] == "newstudent")
 else
 {
   $cts = add_search_form();
-  $cts->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']."?action=add"=>utf8_encode("Insérer un nouveau cotisant"))));
+  //$cts->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']."?action=add"=>utf8_encode("Insérer un nouveau cotisant"))));
   $cts->add(add_new_form());
   $site->add_contents($cts);
 }
