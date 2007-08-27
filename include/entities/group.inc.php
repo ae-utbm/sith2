@@ -192,7 +192,7 @@ class group extends stdentity
         "ORDER BY `nom_asso`");	
           
       while ( list($id,$fname) = $req->get_row() )
-        $values[$id+20000] = $fname."-bureau";
+        $values[$id+20000] = strtolower($fname)."-bureau";
         
       $req = new requete($this->db,
         "SELECT `id_asso`, `nom_unix_asso` " .
@@ -201,7 +201,7 @@ class group extends stdentity
         "ORDER BY `nom_asso`");	
         
       while ( list($id,$fname) = $req->get_row() )
-        $values[$id+30000] = $fname."-membres";
+        $values[$id+30000] = strtolower($fname)."-membres";
       
       $promo = 1;
       while ( in_array("promo".sprintf("%02d",$promo)."-bureau", $values) )
