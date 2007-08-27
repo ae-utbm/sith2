@@ -375,7 +375,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                      "LEFT JOIN ae_carte ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` " .
                      "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
                      "WHERE 1 $conds " .
-                     "ORDER BY utilisateurs.nom_utl, utilisateurs.prenom_utl AND ae_cotisations.date_fin_cotis LIMIT 1");
+                     "ORDER BY utilisateurs.nom_utl, utilisateurs.prenom_utl LIMIT 1");
 
   $nb = $req->lines;
   if ($nb == 1)
