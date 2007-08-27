@@ -432,6 +432,8 @@ class wiki extends basedb
     
     if ( preg_match("#@@([^a-z0-9\-_:]*):pagesmap@@#",$cts->buffer,$match) )
     {
+      print_r($match);
+      
       $wiki = $match[1];
       
       if ( $wiki{0} == ':' )
