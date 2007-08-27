@@ -68,12 +68,12 @@ function add_search_form()
   $frm->add_text_field("email","Adresse e-mail");
   $frm->add_hidden("action","quickemail");
   $frm->add_submit("valid","Cotisation");
-  $cts->add($frm,true);
+  $cts->add($frm,true,false,false,false,true,false);
   $frm = new form("searchemail","cotisations.php",false,"POST","Par carte AE ...");
   $frm->add_text_field("numcarte","Carte AE");
   $frm->add_hidden("action","quickcarte");
   $frm->add_submit("valid","Cotisation");
-  $cts->add($frm,true);
+  $cts->add($frm,true,false,false,false,true,false);
 /*
   $frm = new form("searchstudent","cotisations.php",true,"POST",utf8_encode("Recherche d'un étudiant"));
   $frm->add_hidden("action","searchstudent");
