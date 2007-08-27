@@ -141,7 +141,7 @@ function add_user_info_form ($user = null)
   $pays->load_by_id($user->id_pays);
   $pays_parents->load_by_id($user->id_pays_parents);
   $ville_parents->load_by_id($user->id_ville_parents);
-if(!$ville->load_by_id($user->id_ville)) print_r("bleh");
+
   $sub_frm = new form("infosmmt",null,null,null,utf8_encode("Informations complémentaires"));
   $sub_frm->add_info("&nbsp;");
   $sub_frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
@@ -260,32 +260,46 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     $user->sexe = $_REQUEST['sexe'];
     $user->surnom = $_REQUEST['surnom'];
     $user->date_naissance = $_REQUEST['date_naissance'];
-    $user->addresse = $_REQUEST['addresse'];
-    $user->ville = $_REQUEST['ville'];
-    $user->cpostal = $_REQUEST['cpostal'];
-    $user->pays = $_REQUEST['pays'];
+		$user->addresse = $_REQUEST['addresse'];
+    if ( $_REQUEST['id_ville'] )
+		{
+			$ville->load_by_id($_REQUEST['id_ville']);
+			$user->id_ville = $ville->id;
+			$user->id_pays = $ville->id_pays;
+		}
+		else
+		{
+			$user->id_ville = null;
+			$user->id_pays = $_REQUEST['id_pays'];
+		}
     $user->tel_maison = telephone_userinput($_REQUEST['tel_maison']);
     $user->tel_portable = telephone_userinput($_REQUEST['tel_portable']);
     $user->date_maj = time();
 
     if ( $user->etudiant )
-      {
-        $user->citation = $_REQUEST['citation'];
-        $user->adresse_parents = $_REQUEST['adresse_parents'];
-        $user->ville_parents = $_REQUEST['ville_parents'];
-        $user->cpostal_parents = $_REQUEST['cpostal_parents'];
-        $user->tel_parents = NULL;
-        $user->nom_ecole_etudiant = "UTBM";
-      }
+    {
+      $user->citation = $_REQUEST['citation'];
+			$user->adresse_parents = $_REQUEST['adresse_parents'];
+			if ( $_REQUEST['id_ville_parents'] )
+			{
+				$ville_parents->load_by_id($_REQUEST['id_ville_parents']);
+				$user->id_ville_parents = $ville_parents->id;
+				$user->id_pays_parents = $ville_parents->id_pays;
+			}
+			else
+			{
+				$user->id_ville_parents = null;
+				$user->id_pays_parents = $_REQUEST['id_pays_parents'];
+			}
+      $user->tel_parents = NULL;
+      $user->nom_ecole_etudiant = "UTBM";
+    }
     if ( $user->utbm )
-      {
-        $user->surnom = $_REQUEST['surnom'];
-        $user->semestre = $_REQUEST['semestre'];
-        $user->branche = $_REQUEST['branche'];
-        $user->filiere = $_REQUEST['filiere'];
-        $user->promo_utbm = $_REQUEST['promo'];
-        $user->date_diplome_utbm = NULL;
-      }
+    {
+      $user->surnom = $_REQUEST['surnom'];
+      $user->semestre = $_REQUEST['semestre'];
+      $user->role = $_REQUEST['role'];
+    }
     $user->saveinfos();
 
     $info = new contents("Nouvelle cotisation","<img src=\"".$topdir."images/actions/done.png\">&nbsp;&nbsp;La cotisation a bien &eacute;t&eacute; enregistr&eacute;e.<br /><a href=\"" . $topdir . "ae/cotisations.php\">Retour</a>");
