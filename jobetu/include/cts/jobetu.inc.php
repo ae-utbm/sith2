@@ -148,6 +148,7 @@
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Branche </div> \n <div class=\"desc_content\">".strtoupper($usr->departement) ." ". $usr->semestre."</div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Email </div> \n <div class=\"desc_content\">".preg_replace('(@)', ' [at] ', $usr->email_utbm)."</div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Adresse </div> \n <div class=\"desc_content\">".nl2br(htmlentities($usr->addresse, ENT_NOQUOTES,"UTF-8"))."</div> \n</div>";
+
 	  				if( !empty($usr->pdf_cvs) )
 	  				{
 	  					$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> CV(s) disponible(s) </div> \n <div class=\"desc_content\">";
