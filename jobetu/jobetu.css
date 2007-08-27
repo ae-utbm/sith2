@@ -83,6 +83,7 @@ div.apply_table div.apply_title
 div.apply_table div.apply_content
 {
 	display: none;
+	position: relative;
 }
 
 div.apply_form
@@ -118,4 +119,14 @@ div.desc_content
 	padding: 3px;
 	padding-left: 15px;
 	border-left: 1px solid #D8E7F3;
+}
+
+div.desc_user_photo
+{
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	width: 80px;
+	height: 100px;
+	overflow: hidden;
 }
