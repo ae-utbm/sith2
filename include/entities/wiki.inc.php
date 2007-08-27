@@ -441,13 +441,18 @@ class wiki extends basedb
       else
         $wiki = $this->get_scope().$wiki;      
       
+      print_r($wiki);
+      
       $id = $this->get_id_fullpath($wiki);
+      
       if ( !is_null($id) )
       {
         $buffer = "<ul>\n";
         $buffer .= $this->__map_childs($id);
         $buffer .= "</ul>\n";
         $cts->buffer = str_replace("#@@".$match[1].":pagesmap@@#", $buffer, $cts->buffer);
+        
+      print_r($cts->buffer);
       }
     }
     
