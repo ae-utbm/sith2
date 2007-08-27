@@ -363,6 +363,18 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                                 "a_pris_cadeau"=>"Cadeau"),
                           array(), array(), array("a_pris_cadeau"=>array(0=>"Non pris",1=>"Pris"))
                          );
+
+      if($req->lines > 0)
+      {
+        $max = 0;
+        while( $row = $req->get_row() )
+        {
+          if( strtotime($row["date_fin_cotis"]) > time() && strtotime($row["date_fin_cotis"]) > $max )
+            $max = $row["date_fin_cotis"];
+        }
+        if($max>0)
+          $cts->add_paragraph("<h1><b><font color=\"red\">Déjà cotisant jusqu'au : ".strftime("%A %d %B %Y",$max)." !!!</font></b></h1>");
+      }
       $cts->add($tbl,true);
 
       $req = new requete($site->db,
@@ -416,13 +428,6 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
   }
 
 }
-/*
-elseif ($_REQUEST['action'] == "add")
-{
-  $cts = add_new_form();
-  //$cts->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']=>utf8_encode("Rechercher un cotisant"))));
-  $site->add_contents($cts);
-}*/
 
 elseif ($_REQUEST['action'] == "modifyUser" && $_POST['search_id'])
   $cts = add_new_form($_POST['search_id']);
@@ -566,7 +571,6 @@ elseif ($_REQUEST["action"] == "newstudent")
 else
 {
   $cts = add_search_form();
-  //$cts->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']."?action=add"=>utf8_encode("Insérer un nouveau cotisant"))));
   $cts->add(add_new_form());
   $site->add_contents($cts);
 }
