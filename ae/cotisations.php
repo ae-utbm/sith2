@@ -135,7 +135,9 @@ function add_user_info_form ($user = null)
   require_once($topdir . "include/entities/ville.inc.php");
   require_once($topdir . "include/entities/pays.inc.php");
   $ville = new ville($site->db);
-  $pays = new pays($site->db);
+	$pays = new pays($site->db);
+
+  $user->load_all_extra();
   $ville_parents = new ville($site->db);
   $pays_parents = new pays($site->db);
 
