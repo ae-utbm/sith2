@@ -140,7 +140,12 @@
 	  
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Nom </div> \n <div class=\"desc_content\">".$usr->prenom ." ". $usr->nom."</div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Date de naissance </div> \n <div class=\"desc_content\">".date("d/m/Y", $usr->date_naissance)."</div> \n</div>";
-	  				$this->buffer .= "<div class=\"desc_user_photo\"> <img src=\"http://localhost/ae2/trunk/images/icons/128/unknown.png\" alt=\"Photo de $usr->prenom $usr->nom\" /></div>\n ";
+	  				
+	  				if( file_exist($topdir."var/img/matmatronch/".$usr->id.".identity.jpg") )
+	  					$img = $topdir."var/img/matmatronch/".$usr->id.".identity.jpg";
+	  				else
+	  					$img = $topdir."/images/icons/128/unknown.png";
+	  				$this->buffer .= "<div class=\"desc_user_photo\"> <img src=\"$img\" width=80 alt=\"Photo de $usr->prenom $usr->nom\" /></div>\n ";
 /*	  				$gal = new gallery("Fiche du candidat");
 	  				$gal->add_item( new userinfov2($usr) ); //Mauvaise intégration :(
 
