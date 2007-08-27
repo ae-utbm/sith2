@@ -141,7 +141,7 @@ function add_user_info_form ($user = null)
   $pays->load_by_id($user->id_pays);
   $pays_parents->load_by_id($user->id_pays_parents);
   $ville_parents->load_by_id($user->id_ville_parents);
-print_r($ville->load_by_id($user->id_ville););
+print_r($ville->load_by_id($user->id_ville));
   $sub_frm = new form("infosmmt",null,null,null,utf8_encode("Informations complémentaires"));
   $sub_frm->add_info("&nbsp;");
   $sub_frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
