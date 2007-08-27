@@ -70,10 +70,10 @@ function add_search_form()
   $subfrm->add_text_field("email","Adresse e-mail");
   $subfrm->add_submit("valid","Cotisation");
   $frm->add($subfrm,false,false,false,false,false,true,false);
-  $subfrm = new form("searchcarte","cotisations.php",false,"POST","Par carte AE ...");
+  /*$subfrm = new form("searchcarte","cotisations.php",false,"POST","Par carte AE ...");
   $subfrm->add_text_field("numcarte","Carte AE");
   $subfrm->add_submit("valid","Cotisation");
-  $frm->add($subfrm,false,false,false,false,false,true,false);
+  $frm->add($subfrm,false,false,false,false,false,true,false);*/
   $cts->add($frm,true);
   return $cts;
 }
