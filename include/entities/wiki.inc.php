@@ -432,8 +432,6 @@ class wiki extends basedb
     
     if ( preg_match("#@@([^a-z0-9\-_:]*):pagesmap@@#",$cts->buffer,$match) )
     {
-      print_r($match);
-      
       $wiki = $match[1];
       
       if ( $wiki{0} == ':' )
@@ -441,19 +439,14 @@ class wiki extends basedb
       else
         $wiki = $this->get_scope().$wiki;      
       
-      print_r($wiki);
-      
       $id = $this->get_id_fullpath($wiki);
       
       if ( !is_null($id) )
       {
-      print_r($id);
         $buffer = "<ul>\n";
         $buffer .= $this->__map_childs($id);
         $buffer .= "</ul>\n";
-        $cts->buffer = str_replace("#@@".$match[1].":pagesmap@@#", $buffer, $cts->buffer);
-      print_r($buffer);
-      print_r($cts->buffer);
+        $cts->buffer = str_replace("@@".$match[1].":pagesmap@@", $buffer, $cts->buffer);
       }
     }
     
