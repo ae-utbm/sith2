@@ -207,7 +207,8 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
   {
     if ( $user->ae )
     {
-      $req = new requete($this->db,
+      global $site;
+      $req = new requete($site->db,
                          "SELECT date_fin_cotis ".
                          "FROM `ae_cotisations` " .
                          "WHERE `id_utilisateur`='".$user->id."' " .
