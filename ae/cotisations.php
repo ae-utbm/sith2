@@ -178,10 +178,47 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
   $user = new utilisateur($site->db,$site->dbrw);
   $user->load_by_id($_REQUEST['id_utilisateur']);
 
-  if ( $user->id < 0 ) {
+  if ( $user->id < 0 )
+  {
     header("Location: " . $topdir . "404.php");
     exit();
-  } else {
+  }
+  else
+  {
+    if ( $user->ae )
+    {
+      $req = new requete($this->db,
+                         "SELECT date_fin_cotis ".
+                         "FROM `ae_cotisations` " .
+                         "WHERE `id_utilisateur`='".$user->id."' " .
+                         "ORDER BY `date_fin_cotis` DESC LIMIT 1");
+      if ( $req->lines == 1 )
+      {
+        /* on fait de l'incrémental */
+        list($curend) = $req->get_row();
+        $prevdate=strtotime($curend);
+
+        /* calculs identiques au mode normal mais basé sur la dernière cotiz */
+        if (date("m-d",$prevdate) < "02-15")
+        {
+            $date1 = date("Y",$prevdate) . "-02-15";
+            $date2 = date("Y",$prevdate) . "-08-15";
+        }
+        else
+        {
+          if (date("m-d",$prevdate) < "08-15")
+          {
+            $date1 = date("Y",$prevdate) . "-08-15";
+            $date2 = date("Y",$prevdate) + 1 . "-02-15";
+          }
+          else
+          {
+            $date1 = date("Y",$prevdate) + 1 . "-02-15";
+            $date2 = date("Y",$prevdate) + 1 . "-08-15";
+          }
+        }
+      }
+    }
     $cotisation = new cotisation($site->db,$site->dbrw);
     if ( $_REQUEST["cotiz"] == 0 ) {
       $date_fin = strtotime($date1);
@@ -341,8 +378,8 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
       $frm = new form("newcotiz","cotisations.php?id_utilisateur=".$user->id,true,"POST","Nouvelle cotisation");
       $frm->add_hidden("action","newcotiz");
       $frm->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, $date1", 1=>"2 Semestres, 28 Euros, $date2" ),1);
-      $frm->add_select_field("paiement","Mode de paiement",array(1 => "ChÃ¨que", 2 => "CB", 3 => "Liquide", 4 => "Administration"));
-      $frm->add_checkbox("droit_image","Droit Ã  l'image",$user->droit_image);
+      $frm->add_select_field("paiement","Mode de paiement",array(1 => utf8_encode("Chèque"), 2 => "CB", 3 => "Liquide", 4 => "Administration"));
+      $frm->add_checkbox("droit_image","Droit &agrave; l'image",$user->droit_image);
       $frm->add_checkbox("a_pris_cadeau",utf8_encode("Cadeau distribué"),false);
       $frm->add_submit("submit","Enregistrer");
       $cts->add($frm,true);
@@ -372,11 +409,11 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
 
       if ($req->lines)
       {
-				$_req= new requete($site->db,
-					                 "SELECT * ".
-													 "FROM `ae_cotisations` " .
-													 "WHERE `id_utilisateur`='".$user->id."' AND `date_fin_cotis` > NOW() " .
-													 "ORDER BY `date_cotis` DESC LIMIT 1");
+        $_req= new requete($site->db,
+                           "SELECT * ".
+                           "FROM `ae_cotisations` " .
+                           "WHERE `id_utilisateur`='".$user->id."' AND `date_fin_cotis` > NOW() " .
+                           "ORDER BY `date_cotis` DESC LIMIT 1");
         $max = 0;
         while( $row = $_req->get_row() )
           if( strtotime($row["date_fin_cotis"]) > time() && strtotime($row["date_fin_cotis"]) > $max )
@@ -394,7 +431,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                             array("Action"=>"Marquer le cadeau pris"), array(), array("a_pris_cadeau"=>array(0=>"Non pris",1=>"Pris"))
                            );
         $cts->add($tbl2,true);
-			}
+      }
 
       $cts->add($tbl,true);
 
