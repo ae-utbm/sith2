@@ -315,7 +315,7 @@ if ( $sujet->is_valid() )
     			 'Moteur de rendu : ',
     			 array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),
     			 $message->syntaxengine);
-    	if ( $message->syntaxengine == "bbcode" ) 
+    	if ( $message->syntaxengine == "doku" ) 
         $frm->add_dokuwiki_toolbar('text');
       $frm->add_text_area("text", "Texte du message : ",$message->contenu,80,20);
       $frm->add_submit("submit", "Modifier");
