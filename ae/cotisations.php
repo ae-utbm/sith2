@@ -63,7 +63,7 @@ function add_search_form()
   $frm->add_user_fieldv2("id_utilisateur","Prenom Nom/Surnom");
   $frm->add_hidden("action","quicksearch");
   $frm->add_submit("valid","Cotisation");
-  $cts->add($frm,true,true,true,false,true);
+  $cts->add($frm,true,true,true,false,true,true,true);
   $frm = new form("searchemail","cotisations.php",false,"POST","Recherche par email ...");
   $frm->add_text_field("email","Adresse e-mail");
   $frm->add_hidden("action","quickemail");
