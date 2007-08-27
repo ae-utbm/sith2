@@ -479,7 +479,7 @@ class wiki extends basedb
         $buffer = "<ul>\n";
   		  while ( $row = $req->get_row() )
           $buffer .= "<li><a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".
-            $row['fullpath_wiki']."</a></li>\n"   
+            $row['fullpath_wiki']."</a></li>\n";
         $buffer .= "</ul>\n";
       }
       
