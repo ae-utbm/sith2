@@ -367,22 +367,24 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
       $req = new requete($site->db,
                          "SELECT * ".
                          "FROM `ae_cotisations` " .
-                         "WHERE `id_utilisateur`='".$user->id."' AND (`a_pris_cadeau` = '0' OR `a_pris_carte` = '0') " .
-                         "ORDER BY `date_cotis` DESC LIMIT 1");
+                         "WHERE `id_utilisateur`='".$user->id."' AND `date_fin_cotis` > NOW() " .
+                         "ORDER BY `date_cotis` DESC");
 
       if ($req->lines)
       {
-        $_req=$req;
+				$_req= new requete($site->db,
+					                 "SELECT * ".
+													 "FROM `ae_cotisations` " .
+													 "WHERE `id_utilisateur`='".$user->id."' AND `date_fin_cotis` > NOW() " .
+													 "ORDER BY `date_cotis` DESC LIMIT 1");
         $max = 0;
         while( $row = $_req->get_row() )
           if( strtotime($row["date_fin_cotis"]) > time() && strtotime($row["date_fin_cotis"]) > $max )
             $max = $row["date_fin_cotis"];
         if($max>0)
-          $cts->add_paragraph("<h1><b><font color=\"red\">D&eacute;j&agrave; cotisant jusqu'au : ".strftime("%A %d %B %Y",$max)." !!!</font></b></h1>");
+          $cts->add_paragraph("<b><font color=\"red\">D&eacute;j&agrave; cotisant jusqu'au : ".strftime("%A %d %B %Y",$max)." !!!</font></b>");
 
-        $cts->add($tbl,true);
-
-        $tbl = new sqltable(
+        $tbl2 = new sqltable(
                             "listcotiz_encours",
                             utf8_encode("Cotisation en cours"), $req, "cotisations.php?id_utilisateur=".$user->id,
                             "id_cotisation",
@@ -391,10 +393,10 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                                   "a_pris_cadeau"=>"Cadeau"),
                             array("Action"=>"Marquer le cadeau pris"), array(), array("a_pris_cadeau"=>array(0=>"Non pris",1=>"Pris"))
                            );
-        $cts->add($tbl,true);
-      }
-      else
-        $cts->add($tbl,true);
+        $cts->add($tbl2,true);
+			}
+
+      $cts->add($tbl,true);
 
       $site->add_contents($cts);
     }
