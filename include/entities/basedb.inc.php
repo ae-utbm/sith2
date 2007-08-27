@@ -103,7 +103,8 @@ class basedb extends stdentity
 	{
 		if ( $this->is_admin($user)) return true;
 		
-		if ( ($user->id ==  $this->id_utilisateur) && 
+		if ( !is_null($this->id_utilisateur) &&
+		  ($user->id ==  $this->id_utilisateur) && 
 			($required & ($this->droits_acces >> 8)) == $required ) return true;
 			
 		if ( $this->modere == 0 ) return false;

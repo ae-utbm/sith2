@@ -528,9 +528,10 @@ function smileys($text)
     ";-("=>"cry.png",
     ";("=>"cry.png",
                   
-    "X|"=>"caca.png",
-    "X-|"=>"caca.png",                  
-                  
+    "x)"=>"caca.png",
+    "x-)"=>"caca.png",                  
+    ":caca:"=>"caca.png",     
+                 
     ":-p"=>"tongue.png",
     ":-P"=>"tongue.png",
     ":p"=>"tongue.png",
