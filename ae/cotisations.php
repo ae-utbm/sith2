@@ -385,6 +385,13 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
 
       if ($req->lines)
       {
+        $_req=$req;
+        $max = 0;
+        while( $row = $_req->get_row() )
+          if( strtotime($row["date_fin_cotis"]) > time() && strtotime($row["date_fin_cotis"]) > $max )
+            $max = $row["date_fin_cotis"];
+        if($max>0)
+          $cts->add_paragraph("<h1><b><font color=\"red\">Déjà cotisant jusqu'au : ".strftime("%A %d %B %Y",$max)." !!!</font></b></h1>");
         $tbl = new sqltable(
                             "listcotiz_encours",
                             utf8_encode("Cotisation en cours"), $req, "cotisations.php?id_utilisateur=".$user->id,
