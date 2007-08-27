@@ -655,6 +655,8 @@ class form extends stdcontents
         "</a> \n";
     }
     
+    $this->buffer .= " - <a href=\"".$wwwtopdir."article.php?name=docs:syntax\" target=\"_blank\">aide sur la syntaxe</a>";
+    
     $this->buffer .= "</div>\n";
     $this->buffer .= "</div>\n";
     /*
