@@ -589,15 +589,12 @@ if ( $sujet->is_valid() )
       $entries[]=array($n,"forum2/?id_sujet=".$sujet->id."&spage=".$n,$n+1);
       
     $cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
-
-    $site->add_contents($cts);
-
-  	$cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
-  
+    
     $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a>","frmtools");
     $cts->add_paragraph($path);
-
-
+    
+    $site->add_contents($cts);
+  
     $site->end_page();
     exit();
   }
