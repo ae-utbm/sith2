@@ -506,32 +506,32 @@ elseif ($_REQUEST["action"] == "newstudent")
     $email_utbm_needed = true;
   }
   else
-    {
-      $nom_ecole = null;
-      $etudiant = false;
-    }
+  {
+    $nom_ecole = null;
+    $etudiant = false;
+  }
 
   /* Verif UTBM */
   if ($email_utbm_needed && !CheckEmail($_REQUEST['emailutbm'],1))
-    {
-      $cts = new contents("WARNING");
-      $cts->set_toolbox(new toolbox(array("javascript:history.go(-1);"=>utf8_encode("Retour"))));
-      $cts->add_paragraph("<img src=\"".$topdir."images/actions/info.png\">&nbsp;&nbsp;Il faut un email UTBM valide pour inscrire un &eacute;tudiant, professeur ou administratif UTBM !");
-      $site->add_contents($cts,true);
-      $site->end_page();
-      exit();
-    }
+  {
+    $cts = new contents("WARNING");
+    $cts->set_toolbox(new toolbox(array("javascript:history.go(-1);"=>utf8_encode("Retour"))));
+    $cts->add_paragraph("<img src=\"".$topdir."images/actions/info.png\">&nbsp;&nbsp;Il faut un email UTBM valide pour inscrire un &eacute;tudiant, professeur ou administratif UTBM !");
+    $site->add_contents($cts,true);
+    $site->end_page();
+    exit();
+  }
 
   /* Verif de disponibilite */
   if (!$user->is_email_avaible($_REQUEST['emailutbm']))
-    {
-      $cts = new contents("WARNING");
-      $cts->set_toolbox(new toolbox(array("javascript:history.go(-1);"=>utf8_encode("Retour"))));
-      $cts->add_paragraph("<img src=\"".$topdir."images/actions/info.png\">&nbsp;&nbsp;L'email existe d&eacute;j&agrave; v&eacute;rifier que l'utilisateur ne figure pas dans la liste de la base de donn&eacute;es commune !");
-      $site->add_contents($cts,true);
-      $site->end_page();
-      exit();
-    }
+  {
+    $cts = new contents("WARNING");
+    $cts->set_toolbox(new toolbox(array("javascript:history.go(-1);"=>utf8_encode("Retour"))));
+    $cts->add_paragraph("<img src=\"".$topdir."images/actions/info.png\">&nbsp;&nbsp;L'email existe d&eacute;j&agrave; v&eacute;rifier que l'utilisateur ne figure pas dans la liste de la base de donn&eacute;es commune !");
+    $site->add_contents($cts,true);
+    $site->end_page();
+    exit();
+  }
 
   $email = null;
   $emailutbm = null;
@@ -551,34 +551,33 @@ elseif ($_REQUEST["action"] == "newstudent")
                        $nom_ecole);
 
   if ($user->id < 0)
-    {
-      $cts = new contents("WARNING");
-      $cts->set_toolbox(new toolbox(array("javascript:history.go(-1);"=>utf8_encode("Retour"))));
-      $cts->add_paragraph("<img src=\"".$topdir."images/actions/delete.png\">&nbsp;&nbsp;Probleme lors de l'ajout de l'utilisateur".$user->id);
-      $site->add_contents($cts,true);
-      $site->end_page();
-      exit();
-    }
+  {
+    $cts = new contents("WARNING");
+    $cts->set_toolbox(new toolbox(array("javascript:history.go(-1);"=>utf8_encode("Retour"))));
+    $cts->add_paragraph("<img src=\"".$topdir."images/actions/delete.png\">&nbsp;&nbsp;Probleme lors de l'ajout de l'utilisateur".$user->id);
+    $site->add_contents($cts,true);
+    $site->end_page();
+    exit();
+  }
   else
-    {
-      $user->load_all_extra();
-      $cts = new contents(utf8_encode("Mise à jour des infos indispensable pour l'impression de la carte AE"));
-      $frm = new form("infos","cotisations.php?id_utilisateur=".$user->id,true,"POST",null);
-      $frm->add_hidden("action","savecotiz");
-      $frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
-      $frm->add_text_field("prenom",utf8_encode("Prénom"),$user->prenom,true,false,false,false);
-      $frm->add_text_field("surnom","Surnom (facultatif) ",$user->surnom);
-      $sub_frm = add_user_info_form($user);
-      $frm->add($sub_frm,false,false,false,false,false,true,true);
-
-      $frm->add_hidden("cotiz",$_POST['cotiz']);
-      $frm->add_hidden("paiement",$_POST['paiement']);
-      $frm->add_hidden("droit",$_REQUEST["droit_image"]);
-      $frm->add_hidden("cadeau",$_REQUEST["cadeau"]);
-      $frm->add_submit("submit","Enregistrer");
-      $cts->add($frm);
-      $site->add_contents($cts);
-    }
+  {
+    $user->load_all_extra();
+    $cts = new contents(utf8_encode("Mise à jour des infos indispensable pour l'impression de la carte AE"));
+    $frm = new form("infos","cotisations.php?id_utilisateur=".$user->id,true,"POST",null);
+    $frm->add_hidden("action","savecotiz");
+    $frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
+    $frm->add_text_field("prenom",utf8_encode("Prénom"),$user->prenom,true,false,false,false);
+    $frm->add_text_field("surnom","Surnom (facultatif) ",$user->surnom);
+    $sub_frm = add_user_info_form($user);
+    $frm->add($sub_frm,false,false,false,false,false,true,true);
+    $frm->add_hidden("cotiz",$_POST['cotiz']);
+    $frm->add_hidden("paiement",$_POST['paiement']);
+    $frm->add_hidden("droit",$_REQUEST["droit_image"]);
+    $frm->add_hidden("cadeau",$_REQUEST["cadeau"]);
+    $frm->add_submit("submit","Enregistrer");
+    $cts->add($frm);
+    $site->add_contents($cts);
+  }
 }
 
 else
