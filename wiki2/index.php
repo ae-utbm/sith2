@@ -229,6 +229,8 @@ if ( $_REQUEST["action"] == "revision" && $can_edit
     && ($_REQUEST["title"] != $wiki->rev_title || $_REQUEST["contents"] != $wiki->rev_contents ) )
 {
   $wiki->unlock($site->user);
+  print_r($wiki);
+  print_r($site->user);
   
   if ( $_REQUEST["id_rev_last"] != $wiki->id_rev_last ) // pas cool
   {
