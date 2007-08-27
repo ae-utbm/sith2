@@ -36,14 +36,12 @@ $i18n = array("ar" => "Arabe",
 							
 require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
+require_once($topdir . "include/entities/ville.inc.php");
 require_once("include/jobetu.inc.php");
 require_once("include/annonce.inc.php");
 require_once("include/cts/jobetu.inc.php");
 require_once("include/jobuser_client.inc.php");
 
-require_once($topdir. "include/cts/user.inc.php");
-require_once($topdir. "include/cts/gallery.inc.php");
-require_once($topdir. "include/cts/special.inc.php");
 
 $site = new site();
 $site->allow_only_logged_users("jobetu");
@@ -79,15 +77,17 @@ else
 	$user = new jobuser_client($site->db);
 	$user->load_by_id($site->user->id);
 	$user->load_annonces();
-	
+		
 	$cts->add_paragraph("Vous avez `".count($user->annonces)."` nouveau(x) message(s)");
 	
 	foreach($user->annonces as $ann)
 	{
+		$ville = new ville($site->db);
+		
 		$annonce = new annonce($site->db);
 		$annonce->load_by_id($ann['id_annonce']);
 		$annonce->load_applicants_fullobj();
-		$box = new annonce_box($annonce);
+		$box = new annonce_box($annonce, $ville);
 		$cts->add($box);
 	}
 	
