@@ -23,7 +23,17 @@
 
 
 $topdir = "../";
-
+$i18n = array("ar" => "Arabe",
+							"cn" => "Chinois",
+							"de" => "Allemand",
+							"en" => "Anglais",
+							"es" => "Espagnol",
+							"fr" => "Français",
+							"it" => "Italien",
+							"kr" => "Coréen",
+							"pt" => "Portugais"
+							);
+							
 require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
 require_once("include/jobetu.inc.php");

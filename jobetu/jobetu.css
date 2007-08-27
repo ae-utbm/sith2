@@ -129,8 +129,8 @@ div.desc_user_photo
 	width: 80px;
 	height: 100px;
 	overflow: hidden;
-	padding-top: 2px;
-	padding-bottom: 2px;
+	padding-top: 3px;
+	padding-bottom: 3px;
 	border-top: 1px solid #D8E7F3;
 	border-bottom: 1px solid #D8E7F3;
 }

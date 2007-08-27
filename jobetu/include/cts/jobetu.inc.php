@@ -96,6 +96,7 @@
 		function annonce_box($annonce)
 		{
 			global $topdir;
+			global $i18n;
 			
 			if( !($annonce instanceof annonce) ) exit("Namého ! mauvaise argumentation mon bonhomme ! :)");
 			
@@ -133,6 +134,7 @@
 		  	foreach($annonce->applicants_fullobj as $usr)
 		  	{
 					$usr->load_all_extra();
+					$usr->load_pdf_cv();
 		  		$this->buffer .= "<div class=\"apply_table\">\n";
 	  				$this->buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_".$n."');\">";
 	  				$this->buffer .= $usr->prenom." ".$usr->nom." (département ".strtoupper($usr->departement).")";
@@ -145,19 +147,26 @@
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Date de naissance </div> \n <div class=\"desc_content\">".date("d/m/Y", $usr->date_naissance)."</div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Branche </div> \n <div class=\"desc_content\">".strtoupper($usr->departement) ." ". $usr->semestre."</div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Email </div> \n <div class=\"desc_content\">".preg_replace('(@)', ' [at] ', $usr->email_utbm)."</div> \n</div>";
+	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Adresse </div> \n <div class=\"desc_content\">".nl2br(htmlentities($usr->addresse, ENT_NOQUOTES,"UTF-8"))."</div> \n</div>";
+	  				if( !empty($usr->pdf_cvs) )
+	  				{
+	  					$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> CV(s) disponible(s) </div> \n <div class=\"desc_content\">";
+	  					foreach( $usr->pdf_cvs as $cv )
+	  						$this->buffer .= "<img src=\"$topdir/images/i18n/$cv.png\" />&nbsp; <a href=\"". $topdir . "var/cv/". $usr->id . "." . $cv .".pdf\"> CV en ". $i18n[ $cv ] ."</a> <br /> \n";
+	  					$this->buffer .= "</div> \n</div>";
+	  				}
 	  				
 	  				if( file_exists($topdir."var/img/matmatronch/".$usr->id.".identity.jpg") )
 	  					$img = $topdir."var/img/matmatronch/".$usr->id.".identity.jpg";
 	  				else
 	  					$img = $topdir."/images/icons/128/unknown.png";
 	  				$this->buffer .= "<div class=\"desc_user_photo\"> <img src=\"$img\" width=80 alt=\"Photo de $usr->prenom $usr->nom\" /></div>\n ";
-/*	  				$gal = new gallery("Fiche du candidat");
-	  				$gal->add_item( new userinfov2($usr) ); //Mauvaise intégration :(
 
-						$this->buffer .= "<div style=\"margin: 0 auto;\">\n" . $gal->html_render() . "</div>" ; */
 						if( !empty($annonce->applicants[$n-1]['comment']) )
 							$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Message </div> \n <div class=\"desc_content\">".nl2br(htmlentities($annonce->applicants[$n-1]['comment'],ENT_NOQUOTES,"UTF-8"))."</div> \n</div>";
 						
+						$this->buffer .= "<p></p>";
+							
 						$frm = new form("apply_".$annonce->id."", false, true, "POST");
 		  			$frm->add_submit("clic", "Choisir ce candidat");
 						$this->buffer .= $frm->html_render(); 
