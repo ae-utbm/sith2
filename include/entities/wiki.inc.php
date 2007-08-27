@@ -39,6 +39,7 @@ class wiki extends basedb
   
   var $name;
   var $fullpath;
+  var $namespace_behaviour;
   
   var $rev_id;
   var $rev_id_utilisateur;
@@ -89,7 +90,7 @@ class wiki extends basedb
 		return false;
 	}
 	
-	function load_by_name ( $id_parent, $name )
+	function load_by_name ( $parent, $name )
 	{
 	 
 		$req = new requete($this->db, "SELECT * 
@@ -98,7 +99,7 @@ class wiki extends basedb
 		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
 		           AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
 				WHERE `name_wiki` = '" . mysql_real_escape_string($name) . "'
-				AND `id_wiki_parent`= '" . mysql_real_escape_string($id_parent) . "'
+				AND `id_wiki_parent`= '" . mysql_real_escape_string($parent->id) . "'
 				LIMIT 1");
 				
 		if ( $req->lines == 1 )
@@ -169,6 +170,7 @@ class wiki extends basedb
   
     $this->name = $row['name_wiki'];
     $this->fullpath = $row['fullpath_wiki'];
+    $this->namespace_behaviour = $row['namespace_behaviour'];
   
     $this->rev_id = $row['id_rev'];
     $this->rev_id_utilisateur = $row['id_utilisateur_rev'];
@@ -178,13 +180,14 @@ class wiki extends basedb
     $this->rev_comment = $row['comment_rev'];
 	}
 	
-  function create ( $parent, $id_asso, $name, $title, $contents, $comment="créée!")
+  function create ( $parent, $id_asso, $name, $namespace, $title, $contents, $comment="créée!")
   {
 		
 		$this->id_wiki_parent = $parent->id;
     $this->id_asso = $id_asso;
     
     $this->name = $name;
+    $this->namespace_behaviour = $namespace;
     
     if ( !empty($parent->fullpath) )
       $this->fullpath = $parent->fullpath.":".$this->name;
@@ -200,7 +203,8 @@ class wiki extends basedb
       "id_asso" => $this->id_asso,
       "id_rev_last" => null,
       "name_wiki" => $this->name,
-      "fullpath_wiki" => $this->fullpath));
+      "fullpath_wiki" => $this->fullpath,
+      "namespace_behaviour" => $this->namespace_behaviour));
 
 		if ( $req )
 			$this->id = $req->get_id();
@@ -271,7 +275,8 @@ class wiki extends basedb
       "id_groupe" => $this->id_groupe,
       "id_groupe_admin" => $this->id_groupe_admin,
       "droits_acces_wiki" => $this->droits_acces,
-      "id_asso" => $this->id_asso),array("id_wiki"=>$this->id));	 
+      "id_asso" => $this->id_asso,
+      "namespace_behaviour" => $this->namespace_behaviour),array("id_wiki"=>$this->id));	 
 	}
 	
 	/**
@@ -385,11 +390,37 @@ class wiki extends basedb
   {
     if ( empty($this->fullpath) )
       return "";
-    elseif ( $this->fullpath == $this->name ) // Pour éviter de polluer la racine
+    elseif ( $this->namespace_behaviour ) // Pour éviter de polluer la racine
       return $this->fullpath.":";
     else
       return substr($this->fullpath,0,-strlen($this->name));
   }
+  
+  function __map_childs($id_wiki)
+  {
+    $buffer = "<ul>\n";
+		$req = new requete($this->db, "SELECT wiki.id_wikii, name_wiki, title_rev
+		    FROM `wiki`
+		    INNER JOIN `wiki_rev` 
+		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
+		           AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
+				WHERE `wiki`.`id_wiki_parent` = '" . mysql_real_escape_string($id_wiki) . "'");    
+				
+		while ( $row = $req->get_row() )
+		{
+      $buffer .= "<li>".
+        "<a class=\"wpage\" href=\"?name=".$row['name_wiki']."\">".
+        ($row['name_wiki']?$row['name_wiki']:"(sans nom)")."</a> ".
+        " : <span class=\"wtitle\">".
+        htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8").
+        "</span> ".
+        $this->__map_childs($row['id_wiki'])."</li>\n";		  
+		}
+				
+    $buffer .= "</ul>\n";
+    return $buffer;
+  }
+
   
   function get_stdcontents()
   {
@@ -398,6 +429,25 @@ class wiki extends basedb
     $conf["linksscope"] = $this->get_scope();
     
     $cts = new wikicontents($this->rev_title,$this->rev_contents);
+    
+    if ( preg_match("#@@([^a-z0-9\-_:]*):pagesmap()@@#",$cts->buffer,$match) )
+    {
+      $wiki = $match[1];
+      
+      if ( $wiki{0} == ':' )
+        $wiki = substr($wiki,1);
+      else
+        $wiki = $this->get_scope().$wiki;      
+      
+      $id = $this->get_id_fullpath($wiki);
+      if ( !is_null($id) )
+      {
+        $buffer = "<ul>\n";
+        $buffer .= $this->__map_childs($id);
+        $buffer .= "</ul>\n";
+        $cts->buffer = str_replace("#@@".$match[1].":pagesmap()@@#", $buffer, $cts->buffer);
+      }
+    }
     
     $conf["linksscope"]="";
     $conf["linkscontext"]="";
@@ -434,20 +484,48 @@ class wiki extends basedb
 	
 	function is_locked(&$user)
 	{
-	 
-	  return false; 
+	  $req = new requete($this->dbrw,
+      "SELECT wiki_lock FROM wiki_lock ".
+      "WHERE `id_wiki` = '" . mysql_real_escape_string($this->id) . "' ".
+      "AND time_lock >= '".date("Y-m-d H:i:s",time()-900)."' ".
+      "LIMIT 1");
+    
+    if ( $req->lines == 0 )
+    {
+      new delete($this->dbrw,"wiki_lock",array("id_wiki"=>$this->id)); // Nettoyage      
+      return false;
+    }
+    
+    list($uid) = $req->get_row();
+    
+    if ( $uid == $user->id_utilisateur )
+      return false;
+    
+	  return $uid; 
 	}
 	
 	function lock(&$user)
 	{
-	 
-	 
+	  $this->unlock($user); // Supprime d'eventuels vieux verrous...
+    new insert($this->dbrw,"wiki_lock",
+      array(
+        "id_wiki"=>$this->id,
+        "id_utilisateur"=>$user->id,
+        "time_lock"=>date("Y-m-d H:i:s")));
 	}
 	
 	function unlock(&$user)
 	{
-	 
-	 
+    new delete($this->dbrw,"wiki_lock",
+      array(
+        "id_wiki"=>$this->id,
+        "id_utilisateur"=>$user->id
+        ));
+	}
+	
+	function force_unlock()
+	{
+    new delete($this->dbrw,"wiki_lock",array("id_wiki"=>$this->id));
 	}
 	
 	

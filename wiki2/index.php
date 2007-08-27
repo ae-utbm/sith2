@@ -80,7 +80,7 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
   $parentparent = clone $parent;
   foreach( $tokens as $token )
   {
-    if ( $parent->load_by_name($parentparent->id,$token) )
+    if ( $parent->load_by_name($parentparent,$token) )
       $can_create = $parent->is_right($site->user,DROIT_AJOUTCAT);
       
     elseif( $can_create ) // On a le droit de creer, on alors on crée le parent manquant
@@ -92,7 +92,7 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
            $_REQUEST['rights_id_group_admin']);
       else
         $parent->id_utilisateur=$site->user->id;
-      $parent->create ( $parentparent, null, $token, $token, "Créée pour [[:$pagepath]]", $_REQUEST["comment"] );
+      $parent->create ( $parentparent, null, $token, 0, $token, "Créée pour [[:$pagepath]]", $_REQUEST["comment"] );
     }
     $parentparent = clone $parent;
   }
@@ -100,7 +100,7 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
   if ( !preg_match("#^([a-z0-9\-_:]+)$#",$pagepath) )
     $can_create=false;
     
-  if ( $can_create && $parent->is_valid() && !$wiki->load_by_name($parent->id,$pagename) )
+  if ( $can_create && $parent->is_valid() && !$wiki->load_by_name($parent,$pagename) )
   {
     $wiki->herit($parent);
     if ( $parent->is_admin($site->user) )
@@ -109,7 +109,7 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
           $_REQUEST['rights_id_group_admin']);
     else
       $parent->id_utilisateur=$site->user->id;    
-    $wiki->create ( $parent, null, $pagename, $_REQUEST["title"], $_REQUEST["contents"], $_REQUEST["comment"] );    
+    $wiki->create ( $parent, null, $pagename, 0, $_REQUEST["title"], $_REQUEST["contents"], $_REQUEST["comment"] );    
   }
   else
   {
@@ -154,7 +154,7 @@ if ( !$wiki->is_valid() )
     // Les eventuels parents    
     foreach( $tokens as $token )
     {
-      if ( $parent->load_by_name($parent->id,$token) )
+      if ( $parent->load_by_name($parent,$token) )
       {
         $can_create = $parent->is_right($site->user,DROIT_AJOUTCAT);
         $is_admin = $parent->is_admin($site->user);
