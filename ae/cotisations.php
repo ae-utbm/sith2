@@ -363,6 +363,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
     $by = "Identifiant AE";
     $on = intval($_REQUEST['id_utilisateur']);
     $conds .= " AND utilisateurs.id_utilisateur = '" . mysql_real_escape_string($on) . "'";
+    print_r("debug");
   }
 
   $req = new requete($site->db,"SELECT utilisateurs.nom_utl AS nom_utilisateur, " .
