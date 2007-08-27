@@ -169,16 +169,16 @@ function add_user_info_form ($user = null)
   $ville_parents->load_by_id($user->id_ville_parents);
   $sub_frm->add_entity_smartselect ("id_ville_parents","Ville parents (France)", $ville_parents,true);
   $sub_frm->add_entity_smartselect ("id_pays_parents","ou pays parents", $pays_parents,true);
-  $subfrm->add_select_field("taille_tshirt","Taille de t-shirt (non publié***)",
-                            array(0=>"-",
-                                  "XS"=>"XS",
-                                  "S"=>"S",
-                                  "M"=>"M",
-                                  "L"=>"L",
-                                  "XL"=>"XL",
-                                  "XXL"=>"XXL",
-                                  "XXXL"=>"XXXL"),
-                            $user->taille_tshirt);
+  $sub_frm->add_select_field("taille_tshirt","Taille de t-shirt (non publié***)",
+                             array(0=>"-",
+                                   "XS"=>"XS",
+                                   "S"=>"S",
+                                   "M"=>"M",
+                                   "L"=>"L",
+                                   "XL"=>"XL",
+                                   "XXL"=>"XXL",
+                                   "XXXL"=>"XXXL"),
+                             $user->taille_tshirt);
   $sub_frm->add_info("&nbsp;");
 
   return $sub_frm;
