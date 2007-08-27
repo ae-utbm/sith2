@@ -138,7 +138,7 @@ function add_user_info_form ($user = null)
 
   $ville_parents = new ville($site->db);
   $pays_parents = new pays($site->db);
-
+print_r($user->id_ville);
   $ville->load_by_id($user->id_ville);
   $pays->load_by_id($user->id_pays);
 
@@ -157,7 +157,6 @@ function add_user_info_form ($user = null)
     $sub_frm->add_text_field("semestre","Semestre",$user->semestre);
   }
   $sub_frm->add_text_field("addresse","Adresse",$user->addresse);
-print_r($ville->id); 
   $sub_frm->add_entity_smartselect("id_ville","Ville (France)", $ville,true);
   $sub_frm->add_entity_smartselect("id_pays","ou pays", $pays,true);
   $sub_frm->add_text_field("tel_maison","Telephone (fixe)",$user->tel_maison);
