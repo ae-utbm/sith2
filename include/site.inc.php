@@ -1217,7 +1217,7 @@ class site extends interfaceweb
   
   
   
-  function allow_only_logged_users($section="none", $domain_preset = "utbm")
+  function allow_only_logged_users($section="none")
   {
     global $topdir;
     if ( $this->user->is_valid() )
@@ -1226,7 +1226,7 @@ class site extends interfaceweb
     require_once($topdir."include/cts/login.inc.php");
     
     $this->start_page($section,"Identification requise");
-    $this->add_contents(new loginerror($domain_preset));
+    $this->add_contents(new loginerror($section));
     $this->end_page(); 
     exit();
   }

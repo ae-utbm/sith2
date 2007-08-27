@@ -351,7 +351,7 @@ class wiki extends basedb
       }
       elseif ( !preg_match("#(\.|/)#",$link) )
       {
-        $wiki = preg_replace("#[^a-z0-9\-_:]#","_",strtolower(utf8_enleve_accents($link)));
+        $wiki = preg_replace("/[^a-z0-9\-_:#]/","_",strtolower(utf8_enleve_accents($link)));
         
         if ( $wiki{0} == ':' )
           $wiki = substr($wiki,1);

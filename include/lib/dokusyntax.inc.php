@@ -363,7 +363,7 @@ function linkformat($match)
   }
   elseif ( !preg_match("#(\.|/)#",$link) )
   {  
-    $link = preg_replace("#[^a-z0-9\-_:]#","_",strtolower(utf8_enleve_accents($link)));
+    $link = preg_replace("/[^a-z0-9\-_:#]/","_",strtolower(utf8_enleve_accents($link)));
     if ( $link{0} == ':' )
       $link = substr($link,1);
     elseif ( !empty($conf["linksscope"]))
