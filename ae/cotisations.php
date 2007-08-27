@@ -59,6 +59,11 @@ function add_search_form()
   global $topdir, $ch;
   $cts = new contents("Gestion des cotisations");
 
+  $frm = new form("quicksearch","cotisations.php",false,"POST","Recherche rapide ...");
+  $frm->add_user_fieldv2("id_utilisateur","Prenom Nom/Surnom");
+  $frm->add_submit("valid","Cotisation");
+  $cts->add($frm,true);
+
   $frm = new form("searchstudent","cotisations.php",true,"POST",utf8_encode("Recherche d'un étudiant"));
   $frm->add_hidden("action","searchstudent");
 
@@ -151,11 +156,11 @@ function add_user_info_form ($user = null)
     $sub_frm->add_date_field("date_naissance","Date de naissance",strtotime("1986-01-01"),false,false,true);
 
  if ($user->utbm)
-	{
+  {
  $sub_frm->add_select_field("branche","Branche",array("TC"=>"TC","GI"=>"GI","GSP"=>"IMAP","GSC"=>"GESC","GMC"=>"GMC","Enseignant"=>"Enseignant","Administration"=>"Administration","Autre"=>"Autre"),$user->branche);
   $sub_frm->add_text_field("semestre","Semestre",$user->semestre?$user->semestre:"1");
-  $sub_frm->add_text_field("filiere","Filiere",$user->filiere);		$sub_frm->add_select_field("promo","Promo",array(0=>"-",1=>"1",2=>"2",3=>"3",4=>"4",5=>"5",6=>"6",7=>"7",8=>"8",9=>"9",10=>"10"),$user->promo_utbm?$user->promo_utbm:8);
-	}
+  $sub_frm->add_text_field("filiere","Filiere",$user->filiere);    $sub_frm->add_select_field("promo","Promo",array(0=>"-",1=>"1",2=>"2",3=>"3",4=>"4",5=>"5",6=>"6",7=>"7",8=>"8",9=>"9",10=>"10"),$user->promo_utbm?$user->promo_utbm:8);
+  }
   $sub_frm->add_text_field("addresse","Adresse",$user->addresse);
  
   $sub_frm->add_text_field("ville","Ville",$user->ville);
@@ -264,40 +269,40 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
     $user = $ch->getById($_REQUEST['search_id']);
 
   if ( $_REQUEST["nom"] )
-	{
+  {
           $by = "nom";
           $on = $_REQUEST['nom'];
           if ($on)
             $conds .= " AND utilisateurs.nom_utl LIKE '".mysql_real_escape_string($on)."%'";
-	}
+  }
   if ( $_REQUEST["prenom"] )
-	{
+  {
           $by = "prénom";
           $on = $_REQUEST['prenom'];
           if ($on)
             $conds .= " AND utilisateurs.prenom_utl LIKE '".mysql_real_escape_string($on)."%'";
-	}
+  }
   if ( $_REQUEST["email"] )
-	{
+  {
           $by = "E Mail";
           $on = $_REQUEST['email'];
           if ($on)
             $conds .= " AND (`utilisateurs`.`email_utl` = '" . mysql_real_escape_string($on) . "' OR " .
               "`utl_etu_utbm`.`email_utbm` = '" . mysql_real_escape_string($on) . "') ";
-	}
+  }
   if ( $_REQUEST["numcarte"] )
-	{
+  {
           $by = "Code Barre Carte AE";
           list($num,$extra)=explode(" ",$_REQUEST["numcarte"]);
           $on = intval($num);
           $conds .= " AND ae_carte.id_carte_ae = '". mysql_real_escape_string($on)."'";
-	}
+  }
   if ( isset($_REQUEST['id_utilisateur']) && ($_REQUEST['id_utilisateur'] > 0))
   {
-	  $by = "Identifiant AE";
-	  $on = intval($_REQUEST['id_utilisateur']);
-	  $conds .= " AND utilisateurs.id_utilisateur = '" . mysql_real_escape_string($on) . "'";
-	}
+    $by = "Identifiant AE";
+    $on = intval($_REQUEST['id_utilisateur']);
+    $conds .= " AND utilisateurs.id_utilisateur = '" . mysql_real_escape_string($on) . "'";
+  }
 
       $req = new requete($site->db,"SELECT utilisateurs.nom_utl AS nom_utilisateur," .
                          "utilisateurs.prenom_utl AS prenom_utilisateur, ".
@@ -313,7 +318,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
 
       $nb = $req->lines;
       if ($nb == 1)
-	{
+  {
           $res = $req->get_row();
 
           $user = new utilisateur($site->db,$site->dbrw);
@@ -383,7 +388,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                                  "ORDER BY `date_cotis` DESC LIMIT 1");
 
               if ($req->lines)
-		{
+    {
                   $tbl = new sqltable(
                                       "listcotiz_encours",
                                       utf8_encode("Cotisation en cours"), $req, "cotisations.php?id_utilisateur=".$user->id,
@@ -394,20 +399,20 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                                       array("Action"=>"Marquer le cadeau pris"), array(), array("a_pris_cadeau"=>array(0=>"Non pris",1=>"Pris"))
                                       );
                   $cts->add($tbl,true);
-		}
+    }
 
               $site->add_contents($cts);
             }
 
-	}
+  }
       else if ($nb == 0)
-	{
+  {
           $cts_2 = add_new_form($_REQUEST['search_id']);
           $cts_2->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']=>utf8_encode("Rechercher un cotisant"))));
           $site->add_contents($cts_2);
-	}
+  }
       else if ($nb > 1 && !XMLRPC_USE)
-	{
+  {
 
           $res = $req->get_row();
 
@@ -425,7 +430,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                               array("pagecotis"=>"Nouvelle cotisation","cadeau"=>"Marquer le cadeau comme pris"), array(), array("ae_utl"=>array(0=>"Non",1=>"Oui"),"a_pris_cadeau"=>array(0=>"NON Pris",1=>"Pris"))
                               );
           $site->add_contents($tbl);
-	}
+  }
 
 }
 /*
@@ -457,7 +462,7 @@ elseif ( $_REQUEST["action"] == "newcotiz" )
       $frm = new form("infos","cotisations.php?id_utilisateur=".$user->id,true,"POST",null);
       $frm->add_hidden("action","savecotiz");
       if ( $user->utbm )
-	{
+  {
           $frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
           $frm->add_text_field("prenom",utf8_encode("Prénom"),$user->prenom,true,false,false,false);
           $frm->add_text_field("surnom","Surnom",$user->surnom);
@@ -465,7 +470,7 @@ elseif ( $_REQUEST["action"] == "newcotiz" )
           $sub_frm = add_user_info_form($user);
 
           $frm->add($sub_frm,false,false,false,false,false,true,true);
-	}
+  }
       else
         $frm->add_info("Cotisant non UTBM");
 
@@ -493,13 +498,13 @@ elseif ($_REQUEST["action"] == "newstudent")
       if ($_REQUEST['ecole'] == "UTBM")
         $email_utbm_needed = true;
     }
-	/* cas d'un prof */
-	elseif ($_REQUEST['ecoleform'] == "other")
-	{
-		$etudiant = false;
-		$nom_ecole = "UTBM";
-		$email_utbm_needed = true;
-	}
+  /* cas d'un prof */
+  elseif ($_REQUEST['ecoleform'] == "other")
+  {
+    $etudiant = false;
+    $nom_ecole = "UTBM";
+    $email_utbm_needed = true;
+  }
   else
     {
       $nom_ecole = null;
