@@ -124,7 +124,7 @@
 
 			if( empty($annonce->applicants) )
 			{
-				$this->buffer .= "<p>Aucun candidat ne s'est pour l'instant présenté pour répondre à votre offre.</p>";
+				$this->buffer .= "<p class=\"error\">Aucun candidat ne s'est pour l'instant présenté pour répondre à votre offre.</p>";
 			}
 			else
 			{
@@ -143,6 +143,8 @@
 	  
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Nom </div> \n <div class=\"desc_content\">".$usr->prenom ." ". $usr->nom."</div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Date de naissance </div> \n <div class=\"desc_content\">".date("d/m/Y", $usr->date_naissance)."</div> \n</div>";
+	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Branche </div> \n <div class=\"desc_content\">".$usr->departement ." ". $usr->semestre."</div> \n</div>";
+	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Email </div> \n <div class=\"desc_content\">".preg_replace('(@)', ' [at] ', $usr->email_utbm)."</div> \n</div>";
 	  				
 	  				if( file_exists($topdir."var/img/matmatronch/".$usr->id.".identity.jpg") )
 	  					$img = $topdir."var/img/matmatronch/".$usr->id.".identity.jpg";
