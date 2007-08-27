@@ -382,7 +382,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
           if( strtotime($row["date_fin_cotis"]) > time() && strtotime($row["date_fin_cotis"]) > $max )
             $max = $row["date_fin_cotis"];
         if($max>0)
-          $cts->add_paragraph("<b><font color=\"red\">D&eacute;j&agrave; cotisant jusqu'au : ".date("Y-m-d",,$max)." !!!</font></b>");
+          $cts->add_paragraph("<b><font color=\"red\">D&eacute;j&agrave; cotisant jusqu'au : ".date("Y-m-d",$max)." !!!</font></b>");
 
         $tbl2 = new sqltable(
                             "listcotiz_encours",
