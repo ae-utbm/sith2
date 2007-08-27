@@ -641,7 +641,7 @@ class form extends stdcontents
       "ol" => array("Liste numérotée","  - ","\\n","Liste numérotée"),
       "quote" => array("Citer","[quote]","[/quote]\\n","Citation"),
       "image" => array("Image","{{","}}","Image"),
-      "hr" => array("Ligne horizontale","----","\\n",""));
+      "hr" => array("Ligne horizontale","----\\n","",""));
       
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->buffer .= "<div class=\"formlabel\"></div>\n";
