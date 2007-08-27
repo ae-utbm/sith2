@@ -623,7 +623,7 @@ function cats_produde_gallery ( $sqlct)
 
     $gal->add_item(
         "<a href=\"./?id_catph=".$row['id_catph']."\"><img src=\"$img\" alt=\"".$row['nom_catph']."\" /></a>",
-        "<a href=\"./?id_catph=".$row['id_catph']."\">".$row['nom_catph']."</a>",
+        "<a href=\"./?id_catph=".$row['id_catph']."\">".$row['nom_catph']."</a> (".$scat->get_short_semestre().")",
         $row['id_catph'],
         $acts);
   }

@@ -533,7 +533,39 @@ class catphoto extends basedb
       array("id_catph"=>$this->id ));
   }
 
-
+  function get_semestre ()
+  {
+    if ( is_null($this->date_debut) )
+      return null;
+    
+    $y = date("Y",$this->date_debut);
+    $m = date("m",$this->date_debut);
+    
+    if ( $m >= 2 && $m < 9)
+    	return "Printemps ".$y;
+    else if ( $m >= 9 )
+    	return "Automne ".$y;
+    else
+    	return "Automne ".($y-1);
+  }
+  
+  function get_short_semestre ()
+  {
+    if ( is_null($this->date_debut) )
+      return null;
+    
+    $y = date("Y",$this->date_debut);
+    $m = date("m",$this->date_debut);
+    
+    if ( $m >= 2 && $m < 9)
+    	return "P".$y;
+    else if ( $m >= 9 )
+    	return "A".$y;
+    else
+    	return "A".($y-1);
+  }
+  
+  
 }
 
 
