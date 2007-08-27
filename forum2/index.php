@@ -592,6 +592,12 @@ if ( $sujet->is_valid() )
 
     $site->add_contents($cts);
 
+  	$cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
+  
+    $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a>","frmtools");
+    $cts->add_paragraph($path);
+
+
     $site->end_page();
     exit();
   }
@@ -783,7 +789,6 @@ if ( $sujet->is_valid() )
   $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a>","frmtools");
   $cts->add_paragraph($path);
   
-  /**@todo:bouttons+infos*/
 
   if ( $site->user->is_valid() )
   {
