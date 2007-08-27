@@ -58,22 +58,21 @@ function add_search_form()
 {
   global $topdir, $ch;
   $cts = new contents("Gestion des cotisations");
-
-  $frm = new form("quicksearch","cotisations.php",false,"POST","Recherche rapide ...");
-  $frm->add_user_fieldv2("id_utilisateur","Prenom Nom/Surnom");
-  $frm->add_hidden("action","quicksearch");
-  $frm->add_submit("valid","Cotisation");
-  $cts->add($frm,true,true,true,false,true,true);
-  $frm = new form("searchemail","cotisations.php",false,"POST","Recherche par email ...");
-  $frm->add_text_field("email","Adresse e-mail");
-  $frm->add_hidden("action","quickemail");
-  $frm->add_submit("valid","Cotisation");
-  $cts->add($frm,true,true,true,false,true,false);
-  $frm = new form("searchemail","cotisations.php",false,"POST","Par carte AE ...");
-  $frm->add_text_field("numcarte","Carte AE");
-  $frm->add_hidden("action","quickcarte");
-  $frm->add_submit("valid","Cotisation");
-  $cts->add($frm,true,true,true,false,true,false);
+  $frm = new form("searchstudent","cotisations.php",true,"POST",utf8_encode("Recherche d'un étudiant"));
+  $subfrm->add_hidden("action","quicksearch");
+  $subfrm = new form("quicksearch","cotisations.php",false,"POST","Recherche rapide ...");
+  $subfrm->add_user_fieldv2("id_utilisateur","Prenom Nom/Surnom");
+  $subfrm->add_submit("valid","Cotisation");
+  $frm->add($subfrm,true,true,true,false,true,true);
+  $subfrm = new form("searchemail","cotisations.php",false,"POST","Recherche par email ...");
+  $subfrm->add_text_field("email","Adresse e-mail");
+  $subfrm->add_submit("valid","Cotisation");
+  $frm->add($subfrm,true,true,true,false,true,false);
+  $subfrm = new form("searchemail","cotisations.php",false,"POST","Par carte AE ...");
+  $subfrm->add_text_field("numcarte","Carte AE");
+  $subfrm->add_submit("valid","Cotisation");
+  $frm->add($subfrm,true,true,true,false,true,false);
+  $cts->add($frm,true);
 /*
   $frm = new form("searchstudent","cotisations.php",true,"POST",utf8_encode("Recherche d'un étudiant"));
   $frm->add_hidden("action","searchstudent");
