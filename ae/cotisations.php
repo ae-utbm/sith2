@@ -73,7 +73,7 @@ function add_search_form()
   $frm->add_text_field("numcarte","Carte AE");
   $frm->add_hidden("action","quickcarte");
   $frm->add_submit("valid","Cotisation");
-  $cts->add($frm,true,false,false,false,true,false);
+  $cts->add($frm,true,true,true,false,true,false);
 /*
   $frm = new form("searchstudent","cotisations.php",true,"POST",utf8_encode("Recherche d'un étudiant"));
   $frm->add_hidden("action","searchstudent");
