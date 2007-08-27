@@ -430,7 +430,7 @@ class wiki extends basedb
     
     $cts = new wikicontents($this->rev_title,$this->rev_contents);
     
-    if ( preg_match("#@@([^a-z0-9\-_:]*):pagesmap()@@#",$cts->buffer,$match) )
+    if ( preg_match("#@@([^a-z0-9\-_:]*):pagesmap\(\)@@#",$cts->buffer,$match) )
     {
       $wiki = $match[1];
       
@@ -485,7 +485,7 @@ class wiki extends basedb
 	function is_locked(&$user)
 	{
 	  $req = new requete($this->dbrw,
-      "SELECT wiki_lock FROM wiki_lock ".
+      "SELECT id_utilisateur FROM wiki_lock ".
       "WHERE `id_wiki` = '" . mysql_real_escape_string($this->id) . "' ".
       "AND time_lock >= '".date("Y-m-d H:i:s",time()-900)."' ".
       "LIMIT 1");
