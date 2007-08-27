@@ -363,7 +363,6 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
     $by = "Identifiant AE";
     $on = intval($_REQUEST['id_utilisateur']);
     $conds .= " AND utilisateurs.id_utilisateur = '" . mysql_real_escape_string($on) . "'";
-    print_r("debug");
   }
 
   $req = new requete($site->db,"SELECT utilisateurs.nom_utl AS nom_utilisateur, " .
@@ -377,7 +376,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                      "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
                      "WHERE 1 $conds " .
                      "ORDER BY utilisateurs.nom_utl, utilisateurs.prenom_utl");
-
+print_r($req->lines);
   $nb = $req->lines;
   if ($nb == 1)
   {
