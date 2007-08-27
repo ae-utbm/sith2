@@ -137,12 +137,16 @@
 	  					
 	  				$this->buffer .= "<div id=\"applicant_".$n."\" class=\"apply_content\">";
 	  				$this->buffer .= "<p>Votre annonce à reçu la candidature de cet étudiant :</p>";
-	  				$gal = new gallery("Fiche du candidat");
-	  				$gal->add_item( new userinfov2($usr) );
+	  
+	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Nom </div> \n <div class=\"desc_content\">".$usr->prenom ." ". $usr->nom."</div> \n</div>";
+	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Date de naissance </div> \n <div class=\"desc_content\">".date("d/m/Y", $usr->date_naissance)."</div> \n</div>";
+	  				
+/*	  				$gal = new gallery("Fiche du candidat");
+	  				$gal->add_item( new userinfov2($usr) ); //Mauvaise intégration :(
 
-						$this->buffer .= "<div style=\"margin: 0 auto;\">\n" . $gal->html_render() . "</div>" ;
+						$this->buffer .= "<div style=\"margin: 0 auto;\">\n" . $gal->html_render() . "</div>" ; */
 						if( !empty($annonce->applicants[$n-1]['comment']) )
-							$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Message </div> \n <div class=\"desc_content\">".$annonce->applicants[$n-1]['comment']."</div> \n</div>";
+							$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Message </div> \n <div class=\"desc_content\">".nl2br(htmlentities($annonce->applicants[$n-1]['comment'],ENT_NOQUOTES,"UTF-8"))."</div> \n</div>";
 						
 						$frm = new form("apply_".$annonce->id."", false, true, "POST");
 		  			$frm->add_submit("clic", "Choisir ce candidat");
@@ -157,7 +161,8 @@
 			}
 	  	
 	 // 	$this->buffer .= "</div>\n";
-  		$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Votre annonce </div> \n <div class=\"desc_content\">".htmlentities($annonce->desc,ENT_NOQUOTES,"UTF-8")."</div> \n</div>";
+	 		$this->buffer .= "<h3>Rappel de votre annonce</h3>";
+  		$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Description </div> \n <div class=\"desc_content\">".htmlentities($annonce->desc,ENT_NOQUOTES,"UTF-8")."</div> \n</div>";
 
   		$this->buffer .= "</div>\n";
   		
