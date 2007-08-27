@@ -27,6 +27,8 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/cotisation.inc.php");
 require_once($topdir. "include/cts/special.inc.php");
+require_once($topdir . "include/entities/ville.inc.php");
+require_once($topdir . "include/entities/pays.inc.php");
 
 $site = new site ();
 
@@ -131,13 +133,9 @@ function add_new_form($id = null)
 
 function add_user_info_form ($user = null)
 {
-  global $topdir;
-  require_once($topdir . "include/entities/ville.inc.php");
-  require_once($topdir . "include/entities/pays.inc.php");
   $ville = new ville($site->db);
-	$pays = new pays($site->db);
+  $pays = new pays($site->db);
 
-  $user->load_all_extra();
   $ville_parents = new ville($site->db);
   $pays_parents = new pays($site->db);
 
