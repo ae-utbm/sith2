@@ -141,9 +141,9 @@
 	  				$this->buffer .= "<div id=\"applicant_".$n."\" class=\"apply_content\">";
 	  				$this->buffer .= "<p>Votre annonce à reçu la candidature de cet étudiant :</p>";
 	  
-	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Nom </div> \n <div class=\"desc_content\">".$usr->prenom ." ". $usr->nom."</div> \n</div>";
+	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Nom </div> \n <div class=\"desc_content\"><b>".$usr->prenom ." ". $usr->nom."</b></div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Date de naissance </div> \n <div class=\"desc_content\">".date("d/m/Y", $usr->date_naissance)."</div> \n</div>";
-	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Branche </div> \n <div class=\"desc_content\">".$usr->departement ." ". $usr->semestre."</div> \n</div>";
+	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Branche </div> \n <div class=\"desc_content\">".strtoupper($usr->departement) ." ". $usr->semestre."</div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Email </div> \n <div class=\"desc_content\">".preg_replace('(@)', ' [at] ', $usr->email_utbm)."</div> \n</div>";
 	  				
 	  				if( file_exists($topdir."var/img/matmatronch/".$usr->id.".identity.jpg") )
