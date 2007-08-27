@@ -152,7 +152,7 @@ if ( !$forum->is_right($site->user,DROIT_LECTURE) )
 if ( $_REQUEST["action"] == "setallread" )
 {
   $site->allow_only_logged_users("forum");
-  $site->user->set_all_read();
+  $site->user->set_all_read( $wwwtopdir."forum2/index.php" );
 }
 
 

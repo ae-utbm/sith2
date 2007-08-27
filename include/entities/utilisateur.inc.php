@@ -1757,7 +1757,7 @@ L'équipe info AE";
     return $user->is_valid();
   }
   
-  function set_all_read ( )
+  function set_all_read ( $page = NULL )
   {
     
     // supprime les frm_sujet_utilisateur qui ne servirons plus à rien
@@ -1771,6 +1771,9 @@ L'équipe info AE";
     $req = new update($this->dbrw,"utilisateurs",
                       array("tout_lu_avant_utl"=>date("Y-m-d H:i:s")),
                       array("id_utilisateur"=>$this->id));
+                      
+    if( $page )
+    	header("Location: $page");
   }
   
   
