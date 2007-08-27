@@ -128,7 +128,7 @@ function add_new_form($id = null)
 
   $sub_frm_cotiz = new form("cotisation",null,null,null,utf8_encode("Cotisation"));
   $sub_frm_cotiz->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, jusqu'au $date1", 1=>"2 Semestres, 28 Euros, jusqu'au $date2" ),1);
-  $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => "Ch&egrave;que", 2 => "CB", 3 => "Liquide", 4 => "Administration"));
+  $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => utf8_encode("Chèque"), 2 => "CB", 3 => "Liquide", 4 => "Administration"));
   $sub_frm_cotiz->add_info("&nbsp;");
 
   $sub_frm_cotiz_ecole = new form("ecoleform",null,null,null,utf8_encode("Etudiant"));
