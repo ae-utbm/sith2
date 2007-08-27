@@ -157,7 +157,7 @@ function add_user_info_form ($user = null)
     $sub_frm->add_text_field("semestre","Semestre",$user->semestre);
   }
   $sub_frm->add_text_field("addresse","Adresse",$user->addresse);
- 
+print_r($ville->id); 
   $sub_frm->add_entity_smartselect("id_ville","Ville (France)", $ville,true);
   $sub_frm->add_entity_smartselect("id_pays","ou pays", $pays,true);
   $sub_frm->add_text_field("tel_maison","Telephone (fixe)",$user->tel_maison);
