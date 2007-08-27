@@ -398,7 +398,6 @@ class wiki extends basedb
   
   function __map_childs($id_wiki)
   {
-    $buffer = "<ul>\n";
 		$req = new requete($this->db, "SELECT wiki.id_wiki, name_wiki, title_rev
 		    FROM `wiki`
 		    INNER JOIN `wiki_rev` 
@@ -406,6 +405,10 @@ class wiki extends basedb
 		           AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
 				WHERE `wiki`.`id_wiki_parent` = '" . mysql_real_escape_string($id_wiki) . "'");    
 				
+		if ( $req->lines == 0 )
+		  return "";	
+				
+    $buffer = "<ul>\n";
 		while ( $row = $req->get_row() )
 		{
       $buffer .= "<li>".
