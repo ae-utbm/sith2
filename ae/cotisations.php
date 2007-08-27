@@ -351,7 +351,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
       $req = new requete($site->db,
                          "SELECT * ".
                          "FROM `ae_cotisations` " .
-                         "WHERE `id_utilisateur`='".$user->id."' AND `date_fin_cotis` < NOW() " .
+                         "WHERE `id_utilisateur`='".$user->id."' " .
                          "ORDER BY `date_cotis` DESC");
 
       $tbl = new sqltable(
