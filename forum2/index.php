@@ -315,6 +315,8 @@ if ( $sujet->is_valid() )
     			 'Moteur de rendu : ',
     			 array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),
     			 $message->syntaxengine);
+    	if ( $message->syntaxengine == "bbcode" ) 
+        $frm->add_dokuwiki_toolbar('text');
       $frm->add_text_area("text", "Texte du message : ",$message->contenu,80,20);
       $frm->add_submit("submit", "Modifier");
       $frm->allow_only_one_usage();
@@ -381,6 +383,7 @@ if ( $sujet->is_valid() )
   			 'Moteur de rendu : ',
   			 array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),
   			 $message->syntaxengine);
+    $frm->add_dokuwiki_toolbar('text');
     $frm->add_text_area("text", "Texte du message : ",$message->contenu,80,20);
     $frm->add_submit("submit", "Modifier");
     $frm->allow_only_one_usage();
@@ -902,6 +905,7 @@ if ( $_REQUEST["page"] == "post" && !$forum->categorie )
 			       'doku' => 'Doku Wiki (recommandé)'),'doku');
   
   /* texte du message initiateur */
+  $frm->add_dokuwiki_toolbar('subjtext');
   $frm->add_text_area("subjtext", "Texte du message : ","",80,20);
   /* et hop ! */
   
