@@ -359,19 +359,16 @@ class wiki extends basedb
         elseif ( !$media && preg_match("#^wiki:\/\/(.*)$#i",$link,$match) )
           $id_wiki = $this->get_id_fullpath($match[1]);
       }
-      elseif ( !preg_match("#(\.|/)#",$link) )
+      elseif ( !preg_match("#(\.|/)#",$link) && $link{0} != '#' )
       {
         $wiki = preg_replace("/[^a-z0-9\-_:#]/","_",strtolower(utf8_enleve_accents($link)));
         
-        if ( $wiki{0} != '#' )
-        {
-          if ( $wiki{0} == ':' )
-            $wiki = substr($wiki,1);
-          else
-            $wiki = $this->get_scope().$wiki;
-              
-          $this->add_rel_wiki($wiki);
-        }
+        if ( $wiki{0} == ':' )
+          $wiki = substr($wiki,1);
+        else
+          $wiki = $this->get_scope().$wiki;
+            
+        $this->add_rel_wiki($wiki);
       }
     }
   }

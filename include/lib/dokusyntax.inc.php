@@ -268,7 +268,7 @@ function format_headlines(&$table,&$hltable,&$text)
     $headline   = '';
     if($cnt - 1) $headline .= '</div>';
     $headline  .= '<a name="'.($cnt).'"></a>';
-    $headline  .= '<a name="'.$hl['name'].'"></a>';
+    $headline  .= '<a name="'.preg_replace("/[^a-z0-9\-_:#]/","_",strtolower(utf8_enleve_accents($hl['name']))).'"></a>';
     $headline  .= '<h'.$hl['level'].'>';
     $headline  .= $hl['name'];
     $headline  .= '</h'.$hl['level'].'>';
