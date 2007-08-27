@@ -92,6 +92,8 @@
 
 	class annonce_box extends stdcontents
 	{
+		global $topdir;
+		
 		function annonce_box($annonce)
 		{
 			if( !($annonce instanceof annonce) ) exit("Namého ! mauvaise argumentation mon bonhomme ! :)");
