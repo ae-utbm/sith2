@@ -364,19 +364,6 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                           array(), array(), array("a_pris_cadeau"=>array(0=>"Non pris",1=>"Pris"))
                          );
 
-      if($req->lines > 0)
-      {
-        $max = 0;
-        while( $row = $req->get_row() )
-        {
-          if( strtotime($row["date_fin_cotis"]) > time() && strtotime($row["date_fin_cotis"]) > $max )
-            $max = $row["date_fin_cotis"];
-        }
-        if($max>0)
-          $cts->add_paragraph("<h1><b><font color=\"red\">Déjà cotisant jusqu'au : ".strftime("%A %d %B %Y",$max)." !!!</font></b></h1>");
-      }
-      $cts->add($tbl,true);
-
       $req = new requete($site->db,
                          "SELECT * ".
                          "FROM `ae_cotisations` " .
@@ -391,7 +378,10 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
           if( strtotime($row["date_fin_cotis"]) > time() && strtotime($row["date_fin_cotis"]) > $max )
             $max = $row["date_fin_cotis"];
         if($max>0)
-          $cts->add_paragraph("<h1><b><font color=\"red\">Déjà cotisant jusqu'au : ".strftime("%A %d %B %Y",$max)." !!!</font></b></h1>");
+          $cts->add_paragraph("<h1><b><font color=\"red\">D&eacute;j&agrave; cotisant jusqu'au : ".strftime("%A %d %B %Y",$max)." !!!</font></b></h1>");
+
+        $cts->add($tbl,true);
+
         $tbl = new sqltable(
                             "listcotiz_encours",
                             utf8_encode("Cotisation en cours"), $req, "cotisations.php?id_utilisateur=".$user->id,
@@ -403,6 +393,8 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                            );
         $cts->add($tbl,true);
       }
+      else
+        $cts->add($tbl,true);
 
       $site->add_contents($cts);
     }
