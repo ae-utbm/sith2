@@ -63,15 +63,15 @@ function add_search_form()
   $subfrm = new form("quicksearch","cotisations.php",false,"POST","Recherche rapide ...");
   $subfrm->add_user_fieldv2("id_utilisateur","Prenom Nom/Surnom");
   $subfrm->add_submit("valid","Cotisation");
-  $frm->add($subfrm,true,true,true,false,true,true);
+  $frm->add($subfrm,false,false,false,false,false,true,true);
   $subfrm = new form("searchemail","cotisations.php",false,"POST","Recherche par email ...");
   $subfrm->add_text_field("email","Adresse e-mail");
   $subfrm->add_submit("valid","Cotisation");
-  $frm->add($subfrm,true,true,true,false,true,false);
+  $frm->add($subfrm,false,false,false,false,false,true,false);
   $subfrm = new form("searchemail","cotisations.php",false,"POST","Par carte AE ...");
   $subfrm->add_text_field("numcarte","Carte AE");
   $subfrm->add_submit("valid","Cotisation");
-  $frm->add($subfrm,true,true,true,false,true,false);
+  $frm->add($subfrm,false,false,false,false,false,true,false);
   $cts->add($frm,true);
 /*
   $frm = new form("searchstudent","cotisations.php",true,"POST",utf8_encode("Recherche d'un étudiant"));
