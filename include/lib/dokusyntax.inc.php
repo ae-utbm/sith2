@@ -364,15 +364,18 @@ function linkformat($match)
   elseif ( !preg_match("#(\.|/)#",$link) )
   {  
     $link = preg_replace("/[^a-z0-9\-_:#]/","_",strtolower(utf8_enleve_accents($link)));
-    if ( $link{0} == ':' )
-      $link = substr($link,1);
-    elseif ( !empty($conf["linksscope"]))
-      $link = $conf["linksscope"].$link;
-      
-    if ( $conf["linkscontext"] == "wiki" )
-      $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=".$link; 
-    else
-      $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=".$link;
+    if ( $link{0} != '#' )
+    {
+      if ( $link{0} == ':' )
+        $link = substr($link,1);
+      elseif ( !empty($conf["linksscope"]))
+        $link = $conf["linksscope"].$link;
+        
+      if ( $conf["linkscontext"] == "wiki" )
+        $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=".$link; 
+      else
+        $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=".$link;
+    }
   }
 
 

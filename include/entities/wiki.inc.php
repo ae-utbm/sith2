@@ -363,12 +363,15 @@ class wiki extends basedb
       {
         $wiki = preg_replace("/[^a-z0-9\-_:#]/","_",strtolower(utf8_enleve_accents($link)));
         
-        if ( $wiki{0} == ':' )
-          $wiki = substr($wiki,1);
-        else
-          $wiki = $this->get_scope().$wiki;
-            
-        $this->add_rel_wiki($wiki);
+        if ( $wiki{0} != '#' )
+        {
+          if ( $wiki{0} == ':' )
+            $wiki = substr($wiki,1);
+          else
+            $wiki = $this->get_scope().$wiki;
+              
+          $this->add_rel_wiki($wiki);
+        }
       }
     }
   }
