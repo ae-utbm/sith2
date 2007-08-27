@@ -135,13 +135,13 @@ function add_user_info_form ($user = null)
 {
   $ville = new ville($site->db);
   $pays = new pays($site->db);
-
   $ville_parents = new ville($site->db);
   $pays_parents = new pays($site->db);
-print_r($user->id_ville);
   $ville->load_by_id($user->id_ville);
   $pays->load_by_id($user->id_pays);
-
+  $pays_parents->load_by_id($user->id_pays_parents);
+  $ville_parents->load_by_id($user->id_ville_parents);
+print_r($ville->id_ville);
   $sub_frm = new form("infosmmt",null,null,null,utf8_encode("Informations complémentaires"));
   $sub_frm->add_info("&nbsp;");
   $sub_frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
@@ -164,8 +164,6 @@ print_r($user->id_ville);
   $sub_frm->add_text_field("tel_portable","Telephone (portable)",$user->tel_portable);
   $sub_frm->add_text_field("citation","Citation",$user->citation);
 
-  $pays_parents->load_by_id($user->id_pays_parents);
-  $ville_parents->load_by_id($user->id_ville_parents);
   $sub_frm->add_entity_smartselect ("id_ville_parents","Ville parents (France)", $ville_parents,true);
   $sub_frm->add_entity_smartselect ("id_pays_parents","ou pays parents", $pays_parents,true);
   $sub_frm->add_select_field("taille_tshirt","Taille de t-shirt (non publié***)",
