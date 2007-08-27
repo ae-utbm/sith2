@@ -260,18 +260,22 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     $user->sexe = $_REQUEST['sexe'];
     $user->surnom = $_REQUEST['surnom'];
     $user->date_naissance = $_REQUEST['date_naissance'];
-		$user->addresse = $_REQUEST['addresse'];
+    $user->addresse = $_REQUEST['addresse'];
+    $ville = new ville($site->db);
+    $pays = new pays($site->db);
+    $ville_parents = new ville($site->db);
+    $pays_parents = new pays($site->db);
     if ( $_REQUEST['id_ville'] )
-		{
-			$ville->load_by_id($_REQUEST['id_ville']);
-			$user->id_ville = $ville->id;
-			$user->id_pays = $ville->id_pays;
-		}
-		else
-		{
-			$user->id_ville = null;
-			$user->id_pays = $_REQUEST['id_pays'];
-		}
+    {
+      $ville->load_by_id($_REQUEST['id_ville']);
+      $user->id_ville = $ville->id;
+      $user->id_pays = $ville->id_pays;
+    }
+    else
+    {
+      $user->id_ville = null;
+      $user->id_pays = $_REQUEST['id_pays'];
+    }
     $user->tel_maison = telephone_userinput($_REQUEST['tel_maison']);
     $user->tel_portable = telephone_userinput($_REQUEST['tel_portable']);
     $user->date_maj = time();
@@ -279,18 +283,18 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     if ( $user->etudiant )
     {
       $user->citation = $_REQUEST['citation'];
-			$user->adresse_parents = $_REQUEST['adresse_parents'];
-			if ( $_REQUEST['id_ville_parents'] )
-			{
-				$ville_parents->load_by_id($_REQUEST['id_ville_parents']);
-				$user->id_ville_parents = $ville_parents->id;
-				$user->id_pays_parents = $ville_parents->id_pays;
-			}
-			else
-			{
-				$user->id_ville_parents = null;
-				$user->id_pays_parents = $_REQUEST['id_pays_parents'];
-			}
+      $user->adresse_parents = $_REQUEST['adresse_parents'];
+      if ( $_REQUEST['id_ville_parents'] )
+      {
+        $ville_parents->load_by_id($_REQUEST['id_ville_parents']);
+        $user->id_ville_parents = $ville_parents->id;
+        $user->id_pays_parents = $ville_parents->id_pays;
+      }
+      else
+      {
+        $user->id_ville_parents = null;
+        $user->id_pays_parents = $_REQUEST['id_pays_parents'];
+      }
       $user->tel_parents = NULL;
       $user->nom_ecole_etudiant = "UTBM";
     }
@@ -393,13 +397,18 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
 
       $cts->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']=>"Rechercher un autre cotisant")));
 
+      $ville = new ville($site->db);
+      $pays = new pays($site->db);
+      $ville->load_by_id($user->id_ville);
+      $pays->load_by_id($user->id_pays);
+
       $cts->add(new image($user->prenom . " " . $user->nom,$topdir."/var/img/matmatronch/".$user->id.".identity.jpg","fiche_image"));
       $cts->add_paragraph(
                           "<b>". $user->prenom . " " . $user->nom . "</b><br/>" .
                           $user->surnom."<br/>\n".
                           date("d/m/Y",$user->date_naissance) . "<br />" .
                           $user->addresse . "<br />" .
-                          $user->cpostal . " " . $user->ville ." (" . $user->pays . ")<br/>" .
+                          $ville->get_html_link()." (".sprintf("%05d", $ville->cpostal).")<br/>".$pays->get_html_link()."<br/>" .
                           $user->tel_maison . "<br/>" .
                           $user->tel_portable . "<br/>"
                          );
