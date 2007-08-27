@@ -92,10 +92,11 @@
 
 	class annonce_box extends stdcontents
 	{
-		global $topdir;
 		
 		function annonce_box($annonce)
 		{
+			global $topdir;
+			
 			if( !($annonce instanceof annonce) ) exit("Namého ! mauvaise argumentation mon bonhomme ! :)");
 			
 			$this->buffer .= "<div class=\"annonce_table\">\n";
