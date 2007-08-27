@@ -532,7 +532,7 @@ class wiki extends basedb
     
     list($uid) = $req->get_row();
     
-    if ( $uid == $user->id_utilisateur )
+    if ( $uid == $user->id )
       return false;
     
 	  return $uid; 
