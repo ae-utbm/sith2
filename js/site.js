@@ -630,12 +630,14 @@ function insert_tags2(objid, lft, rgt, deftext)
     }
     range.select();
     
-    delta = oldlen+len+rgt.length+lft.length-obj.value.length;
-    
     range = document.selection.createRange();
-    range.moveStart('character', -rgt.length-len+delta);
-    range.moveEnd('character', -rgt.length+delta);
+    range.moveStart('character', -rgt.length-len);
+    range.moveEnd('character', -rgt.length);
     range.select();
+    
+    
+    obj.value = obj.value + " # " + oldlen + " -> " + obj.value.length + " - " +
+    rgt.length + ", " + lft.length + ", " + len;
     
   }
   else if ( obj.selectionStart != null )
