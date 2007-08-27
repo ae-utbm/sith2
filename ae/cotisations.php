@@ -3,7 +3,7 @@
  * - Julien Etelain < julien at pmad dot net >
  * - Simon Lopez < simon DOT lopez AT ayolo DOT org >
  *
- * Ce fichier fait partie du site de l'Association des Ã‰tudiants de
+ * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
@@ -289,132 +289,130 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
     $conds .= " AND utilisateurs.id_utilisateur = '" . mysql_real_escape_string($on) . "'";
   }
 
-      $req = new requete($site->db,"SELECT utilisateurs.nom_utl AS nom_utilisateur," .
-                         "utilisateurs.prenom_utl AS prenom_utilisateur, ".
-                         "utilisateurs.id_utilisateur AS id_utl, utilisateurs.ae_utl, ae_cotisations.date_fin_cotis, " .
-                         "utl_etu_utbm.branche_utbm, utl_etu_utbm.semestre_utbm" .
-                         ", ae_cotisations.a_pris_cadeau ".
-                         "FROM utilisateurs " .
-                         "LEFT JOIN ae_cotisations ON (utilisateurs.id_utilisateur=ae_cotisations.id_utilisateur AND ae_cotisations.date_fin_cotis > NOW()) " .
-                         "LEFT JOIN ae_carte ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` " .
-                         "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
-                         "WHERE 1 $conds " .
-                         "ORDER BY utilisateurs.nom_utl, utilisateurs.prenom_utl");
+  $req = new requete($site->db,"SELECT utilisateurs.nom_utl AS nom_utilisateur, " .
+                     "utilisateurs.prenom_utl AS prenom_utilisateur, ".
+                     "utilisateurs.id_utilisateur AS id_utl, utilisateurs.ae_utl, ae_cotisations.date_fin_cotis, " .
+                     "utl_etu_utbm.branche_utbm, utl_etu_utbm.semestre_utbm" .
+                     ", ae_cotisations.a_pris_cadeau ".
+                     "FROM utilisateurs " .
+                     "LEFT JOIN ae_cotisations ON (utilisateurs.id_utilisateur=ae_cotisations.id_utilisateur AND ae_cotisations.date_fin_cotis > NOW()) " .
+                     "LEFT JOIN ae_carte ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` " .
+                     "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
+                     "WHERE 1 $conds " .
+                     "ORDER BY utilisateurs.nom_utl, utilisateurs.prenom_utl");
 
-      $nb = $req->lines;
-      if ($nb == 1)
+  $nb = $req->lines;
+  if ($nb == 1)
   {
-          $res = $req->get_row();
+    $res = $req->get_row();
 
-          $user = new utilisateur($site->db,$site->dbrw);
+    $user = new utilisateur($site->db,$site->dbrw);
 
-          $user->load_by_id($res['id_utl']);
-          if ( $user->id < 0 )
-            {
-              header("Location: 404.php");
-              exit();
-            }
-
-          if ( $user->id > 0 )
-            {
-              $user->load_all_extra();
-
-
-              $cts = new contents("Cotisant ".$user->prenom." ".$user->nom);
-
-              $cts->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']=>"Rechercher un autre cotisant")));
-
-              $cts->add(new image($user->prenom . " " . $user->nom,$topdir."/var/img/matmatronch/".$user->id.".identity.jpg","fiche_image"));
-              $cts->add_paragraph(
-                                  "<b>". $user->prenom . " " . $user->nom . "</b><br/>" .
-                                  $user->surnom."<br/>\n".
-                                  date("d/m/Y",$user->date_naissance) . "<br />" .
-                                  $user->addresse . "<br />" .
-                                  $user->cpostal . " " . $user->ville ." (" . $user->pays . ")<br/>" .
-                                  $user->tel_maison . "<br/>" .
-                                  $user->tel_portable . "<br/>"
-                                  );
-
-              $cts->add_paragraph("Fiche utilisateur : ".classlink($user));
-
-              $cts->add_paragraph("&nbsp;");
-
-              $frm = new form("newcotiz","cotisations.php?id_utilisateur=".$user->id,true,"POST","Nouvelle cotisation");
-              $frm->add_hidden("action","newcotiz");
-              $frm->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, $date1", 1=>"2 Semestres, 28 Euros, $date2" ),1);
-              $frm->add_select_field("paiement","Mode de paiement",array(1 => "ChÃ¨que", 2 => "CB", 3 => "Liquide", 4 => "Administration"));
-              $frm->add_checkbox("droit_image","Droit Ã  l'image",$user->droit_image);
-              $frm->add_checkbox("a_pris_cadeau",utf8_encode("Cadeau distribué"),false);
-              $frm->add_submit("submit","Enregistrer");
-              $cts->add($frm,true);
-
-
-              $req = new requete($site->db,
-                                 "SELECT *".
-                                 "FROM `ae_cotisations` " .
-                                 "WHERE `id_utilisateur`='".$user->id."' AND `date_fin_cotis` < NOW() " .
-                                 "ORDER BY `date_cotis` DESC");
-
-              $tbl = new sqltable(
-                                  "listcotiz_effectue",
-                                  utf8_encode("Cotisations effectuées"), $req, "cotisations.php?id_utilisateur=".$user->id,
-                                  "id_cotisation",
-                                  array("date_cotis"=>"Le",
-                                        "date_fin_cotis"=>"Jusqu'au",
-                                        "a_pris_cadeau"=>"Cadeau"),
-                                  array(), array(), array("a_pris_cadeau"=>array(0=>"Non pris",1=>"Pris"))
-                                  );
-              $cts->add($tbl,true);
-
-              $req = new requete($site->db,
-                                 "SELECT *".
-                                 "FROM `ae_cotisations` " .
-                                 "WHERE `id_utilisateur`='".$user->id."' AND (`a_pris_cadeau` = '0' OR `a_pris_carte` = '0') " .
-                                 "ORDER BY `date_cotis` DESC LIMIT 1");
-
-              if ($req->lines)
+    $user->load_by_id($res['id_utl']);
+    if ( $user->id < 0 )
     {
-                  $tbl = new sqltable(
-                                      "listcotiz_encours",
-                                      utf8_encode("Cotisation en cours"), $req, "cotisations.php?id_utilisateur=".$user->id,
-                                      "id_cotisation",
-                                      array("date_cotis"=>"Le",
-                                            "date_fin_cotis"=>"Jusqu'au",
-                                            "a_pris_cadeau"=>"Cadeau"),
-                                      array("Action"=>"Marquer le cadeau pris"), array(), array("a_pris_cadeau"=>array(0=>"Non pris",1=>"Pris"))
-                                      );
-                  $cts->add($tbl,true);
+      header("Location: 404.php");
+      exit();
     }
 
-              $site->add_contents($cts);
-            }
+    if ( $user->id > 0 )
+    {
+      $user->load_all_extra();
+
+      $cts = new contents("Cotisant ".$user->prenom." ".$user->nom);
+
+      $cts->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']=>"Rechercher un autre cotisant")));
+
+      $cts->add(new image($user->prenom . " " . $user->nom,$topdir."/var/img/matmatronch/".$user->id.".identity.jpg","fiche_image"));
+      $cts->add_paragraph(
+                          "<b>". $user->prenom . " " . $user->nom . "</b><br/>" .
+                          $user->surnom."<br/>\n".
+                          date("d/m/Y",$user->date_naissance) . "<br />" .
+                          $user->addresse . "<br />" .
+                          $user->cpostal . " " . $user->ville ." (" . $user->pays . ")<br/>" .
+                          $user->tel_maison . "<br/>" .
+                          $user->tel_portable . "<br/>"
+                         );
+
+      $cts->add_paragraph("Fiche utilisateur : ".classlink($user));
+
+      $cts->add_paragraph("&nbsp;");
+
+      $frm = new form("newcotiz","cotisations.php?id_utilisateur=".$user->id,true,"POST","Nouvelle cotisation");
+      $frm->add_hidden("action","newcotiz");
+      $frm->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, $date1", 1=>"2 Semestres, 28 Euros, $date2" ),1);
+      $frm->add_select_field("paiement","Mode de paiement",array(1 => "ChÃ¨que", 2 => "CB", 3 => "Liquide", 4 => "Administration"));
+      $frm->add_checkbox("droit_image","Droit Ã  l'image",$user->droit_image);
+      $frm->add_checkbox("a_pris_cadeau",utf8_encode("Cadeau distribué"),false);
+      $frm->add_submit("submit","Enregistrer");
+      $cts->add($frm,true);
+
+
+      $req = new requete($site->db,
+                         "SELECT * ".
+                         "FROM `ae_cotisations` " .
+                         "WHERE `id_utilisateur`='".$user->id."' AND `date_fin_cotis` < NOW() " .
+                         "ORDER BY `date_cotis` DESC");
+
+      $tbl = new sqltable(
+                          "listcotiz_effectue",
+                          utf8_encode("Cotisations effectuées"), $req, "cotisations.php?id_utilisateur=".$user->id,
+                          "id_cotisation",
+                          array("date_cotis"=>"Le",
+                                "date_fin_cotis"=>"Jusqu'au",
+                                "a_pris_cadeau"=>"Cadeau"),
+                          array(), array(), array("a_pris_cadeau"=>array(0=>"Non pris",1=>"Pris"))
+                         );
+      $cts->add($tbl,true);
+
+      $req = new requete($site->db,
+                         "SELECT * ".
+                         "FROM `ae_cotisations` " .
+                         "WHERE `id_utilisateur`='".$user->id."' AND (`a_pris_cadeau` = '0' OR `a_pris_carte` = '0') " .
+                         "ORDER BY `date_cotis` DESC LIMIT 1");
+
+      if ($req->lines)
+      {
+        $tbl = new sqltable(
+                            "listcotiz_encours",
+                            utf8_encode("Cotisation en cours"), $req, "cotisations.php?id_utilisateur=".$user->id,
+                            "id_cotisation",
+                            array("date_cotis"=>"Le",
+                                  "date_fin_cotis"=>"Jusqu'au",
+                                  "a_pris_cadeau"=>"Cadeau"),
+                            array("Action"=>"Marquer le cadeau pris"), array(), array("a_pris_cadeau"=>array(0=>"Non pris",1=>"Pris"))
+                           );
+        $cts->add($tbl,true);
+      }
+
+      $site->add_contents($cts);
+    }
 
   }
-      else if ($nb == 0)
+  else if ($nb == 0)
   {
-          $cts_2 = add_new_form($_REQUEST['search_id']);
-          $cts_2->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']=>utf8_encode("Rechercher un cotisant"))));
-          $site->add_contents($cts_2);
+    $cts_2 = add_new_form($_REQUEST['search_id']);
+    $cts_2->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']=>utf8_encode("Rechercher un cotisant"))));
+    $site->add_contents($cts_2);
   }
-      else if ($nb > 1 && !XMLRPC_USE)
+  else if ($nb > 1 && !XMLRPC_USE)
   {
 
-          $res = $req->get_row();
-
-          $tbl = new sqltable(
-                              "listcotiz",
-                              utf8_encode("$nb Résultats de la recherche de cotisants par $by sur $on"), $req, "cotisations.php",
-                              "id_utilisateur",
-                              array("nom_utilisateur"=>"Nom",
-                                    "prenom_utilisateur"=>utf8_encode("Prénom"),
-                                    "branche_utbm"=>"Branche",
-                                    "semestre_utbm"=>"Semestre",
-                                    "ae_utl"=>"Cotisant",
-                                    "date_fin_cotis"=>"Jusqu'au",
-                                    "a_pris_cadeau"=>"Cadeau"),
-                              array("pagecotis"=>"Nouvelle cotisation","cadeau"=>"Marquer le cadeau comme pris"), array(), array("ae_utl"=>array(0=>"Non",1=>"Oui"),"a_pris_cadeau"=>array(0=>"NON Pris",1=>"Pris"))
-                              );
-          $site->add_contents($tbl);
+    $res = $req->get_row();
+    $tbl = new sqltable(
+                        "listcotiz",
+                         utf8_encode("$nb Résultats de la recherche de cotisants par $by sur $on"), $req, "cotisations.php",
+                         "id_utilisateur",
+                          array("nom_utilisateur"=>"Nom",
+                                "prenom_utilisateur"=>utf8_encode("Prénom"),
+                                "branche_utbm"=>"Branche",
+                                "semestre_utbm"=>"Semestre",
+                                "ae_utl"=>"Cotisant",
+                                "date_fin_cotis"=>"Jusqu'au",
+                                "a_pris_cadeau"=>"Cadeau"),
+                          array("pagecotis"=>"Nouvelle cotisation","cadeau"=>"Marquer le cadeau comme pris"), array(), array("ae_utl"=>array(0=>"Non",1=>"Oui"),"a_pris_cadeau"=>array(0=>"NON Pris",1=>"Pris"))
+                         );
+    $site->add_contents($tbl);
   }
 
 }
@@ -435,38 +433,38 @@ elseif ( $_REQUEST["action"] == "newcotiz" )
 
   $user->load_by_id($_REQUEST['id_utilisateur']);
   if ( $user->id < 0 )
-    {
-      header("Location: 404.php");
-      exit();
-    }
+  {
+    header("Location: 404.php");
+    exit();
+  }
 
   if ( $user->id > 0 )
-    {
-      $user->load_all_extra();
-      $cts = new contents(utf8_encode("Mise à jour des infos indispensable pour l'impression de la carte AE"));
-      $frm = new form("infos","cotisations.php?id_utilisateur=".$user->id,true,"POST",null);
-      $frm->add_hidden("action","savecotiz");
-      if ( $user->utbm )
   {
-          $frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
-          $frm->add_text_field("prenom",utf8_encode("Prénom"),$user->prenom,true,false,false,false);
-          $frm->add_text_field("surnom","Surnom",$user->surnom);
+    $user->load_all_extra();
+    $cts = new contents(utf8_encode("Mise à jour des infos indispensable pour l'impression de la carte AE"));
+    $frm = new form("infos","cotisations.php?id_utilisateur=".$user->id,true,"POST",null);
+    $frm->add_hidden("action","savecotiz");
+    if ( $user->utbm )
+    {
+      $frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
+      $frm->add_text_field("prenom",utf8_encode("Prénom"),$user->prenom,true,false,false,false);
+      $frm->add_text_field("surnom","Surnom",$user->surnom);
 
-          $sub_frm = add_user_info_form($user);
+      $sub_frm = add_user_info_form($user);
 
-          $frm->add($sub_frm,false,false,false,false,false,true,true);
-  }
-      else
-        $frm->add_info("Cotisant non UTBM");
-
-      $frm->add_hidden("cotiz",$_POST['cotiz']);
-      $frm->add_hidden("paiement",$_POST['paiement']);
-      $frm->add_hidden("droit_image",$_POST['droit_image']);
-      $frm->add_hidden("cadeau",$_REQUEST["cadeau"]);
-      $frm->add_submit("submit","Enregistrer");
-      $cts->add($frm);
-      $site->add_contents($cts);
+      $frm->add($sub_frm,false,false,false,false,false,true,true);
     }
+    else
+      $frm->add_info("Cotisant non UTBM");
+
+    $frm->add_hidden("cotiz",$_POST['cotiz']);
+    $frm->add_hidden("paiement",$_POST['paiement']);
+    $frm->add_hidden("droit_image",$_POST['droit_image']);
+    $frm->add_hidden("cadeau",$_REQUEST["cadeau"]);
+    $frm->add_submit("submit","Enregistrer");
+    $cts->add($frm);
+    $site->add_contents($cts);
+  }
 }
 
 elseif ($_REQUEST["action"] == "newstudent")
@@ -477,12 +475,12 @@ elseif ($_REQUEST["action"] == "newstudent")
   /* Si on a le nom d'une ecole parce que c'est un etudiant */
   $email_utbm_needed = false;
   if ($_REQUEST['ecoleform'] == "ecole")
-    {
-      $etudiant = true;
-      $nom_ecole = $_REQUEST['ecole'];
-      if ($_REQUEST['ecole'] == "UTBM")
-        $email_utbm_needed = true;
-    }
+  {
+    $etudiant = true;
+    $nom_ecole = $_REQUEST['ecole'];
+    if ($_REQUEST['ecole'] == "UTBM")
+      $email_utbm_needed = true;
+  }
   /* cas d'un prof */
   elseif ($_REQUEST['ecoleform'] == "other")
   {
