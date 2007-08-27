@@ -517,7 +517,7 @@ function smileys($text)
     "o_o"=>"dizzy.png",
     "o_O"=>"dizzy.png",
     
-    ":'("=>"cry.png",
+    ":&#8217;("=>"cry.png",
     ";-("=>"cry.png",
     ";("=>"cry.png",
                   
@@ -546,8 +546,6 @@ function smileys($text)
       $tag = preg_replace('!\.!i', '\.', $tag);
       $tag = preg_replace('!\|!i', '\|', $tag);
 
-      echo $tag."\n";
-      
       $text = preg_replace('!( |^|\n)'.$tag.'( |$|\n)!i', "$1<img src=\"".$smPath.$img."\" alt=\"\" />$2", $text);
 
     }
