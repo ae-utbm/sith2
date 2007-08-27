@@ -259,7 +259,7 @@ if ( $is_admin )
                 array("edit","wiki2/?name=".$pagepath."&view=edit", "Editer"),
                 array("refs","wiki2/?name=".$pagepath."&view=refs", "Références"),
                 array("hist","wiki2/?name=".$pagepath."&view=hist", "Historique"),
-                array("advc","wiki2/?name=".$pagepath."&view=advc", "Propriétées"),
+                array("advc","wiki2/?name=".$pagepath."&view=advc", "Propriétées")
                );
 elseif ( $can_edit )
   $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
@@ -270,7 +270,8 @@ elseif ( $can_edit )
 else
   $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
                 array("refs","wiki2/?name=".$pagepath."&view=refs", "Références"),
-                array("hist","wiki2/?name=".$pagepath."&view=hist", "Historique")
+                array("hist","wiki2/?name=".$pagepath."&view=hist", "Historique"),
+                array("srcs","wiki2/?name=".$pagepath."&view=srcs", "Source")
                );
              
 $cts = new contents();
@@ -333,6 +334,13 @@ elseif ( $can_edit && $_REQUEST["view"] == "edit" )
     $cts->add($frm);
     //TODO: faire un unock quand on va sur une autre page sans enregistrer
   }
+}
+elseif ( $_REQUEST["view"] == "srcs" ) 
+{
+  if ( $wiki->rev_id != $wiki->id_rev_last )
+    $cts->add_paragraph("Ceci est une version archivée. En date du ".date("d/m/Y H:i",$wiki->rev_date).". ".
+    "<a href=\"./?name=$pagepath\">Version actuelle</a>","wikinotice");
+  $cts->add_paragraph("Contenu : ".nl2br(htmlentities($wiki->rev_contents,ENT_NOQUOTES,"UTF-8")));
 }
 elseif ( $_REQUEST["view"] == "refs" ) 
 {
