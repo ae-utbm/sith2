@@ -131,6 +131,7 @@ function add_new_form($id = null)
 
 function add_user_info_form ($user = null)
 {
+  global $topdir;
   require_once($topdir . "include/entities/ville.inc.php");
   require_once($topdir . "include/entities/pays.inc.php");
   $ville = new ville($site->db);
