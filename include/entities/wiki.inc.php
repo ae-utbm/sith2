@@ -182,6 +182,8 @@ class wiki extends basedb
 	
   function create ( $parent, $id_asso, $name, $namespace, $title, $contents, $comment="créée!")
   {
+		if ( strlen($name) > 64 )
+		  return false;
 		
 		$this->id_wiki_parent = $parent->id;
     $this->id_asso = $id_asso;
@@ -193,7 +195,10 @@ class wiki extends basedb
       $this->fullpath = $parent->fullpath.":".$this->name;
     else
       $this->fullpath =$this->name;
-    
+      
+		if ( strlen($this->fullpath) > 512 )
+		  return false;
+		  
     $req = new insert($this->dbrw,"wiki", array (
       "id_utilisateur" => $this->id_utilisateur,
       "id_groupe" => $this->id_groupe,
@@ -452,10 +457,36 @@ class wiki extends basedb
         $cts->buffer = str_replace("@@".$match[1].":pagesmap@@", $buffer, $cts->buffer);
       }
     }
-    
+    if ( preg_match("#@@([^a-z0-9\-_:]*):missingpages@@#",$cts->buffer,$match) )
+    {
+      $wiki = $match[1];
+      
+      if ( $wiki{0} == ':' )
+        $wiki = substr($wiki,1);
+      else
+        $wiki = $this->get_scope().$wiki;      
+      
+      $req = new requete($site->db,"SELECT fullname_wiki_rel AS fullpath_wiki ".
+        "FROM wiki_ref_missingwiki ".
+        "WHERE fullname_wiki_rel LIKE '".mysql_real_escape_string($wiki)."%' ".
+        "GROUP BY fullname_wiki_rel ".
+    		"ORDER BY fullname_wiki_rel");      
+      
+      if ( $req->lines== 0 )
+        $buffer ="(aucune page manquante)";
+      else
+      {
+        $buffer = "<ul>\n";
+  		  while ( $row = $req->get_row() )
+          $buffer .= "<li><a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".
+            $row['fullpath_wiki']."</a></li>\n"   
+        $buffer .= "</ul>\n";
+      }
+      
+      $cts->buffer = str_replace("@@".$match[1].":missingpages@@", $buffer, $cts->buffer);
+    }
     $conf["linksscope"]="";
     $conf["linkscontext"]="";
-    
     return $cts;
   }
   

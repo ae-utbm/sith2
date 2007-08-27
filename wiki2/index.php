@@ -100,6 +100,12 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
   if ( !preg_match("#^([a-z0-9\-_:]+)$#",$pagepath) )
     $can_create=false;
     
+  if ( strlen($pagename) > 64 )
+    $can_create = false;
+    
+  if ( strlen($pagepath) > 512 )
+    $can_create = false;
+      
   if ( $can_create && $parent->is_valid() && !$wiki->load_by_name($parent,$pagename) )
   {
     $wiki->herit($parent);
@@ -144,7 +150,7 @@ if ( !$wiki->is_valid() )
     // Cherche le parent le plus haut pour savoir si la création de page est autorisée
     $parent = new wiki($site->db);
     $tokens = explode(":",$pagepath);
-    array_pop($tokens);
+    $pagename = array_pop($tokens);
     
     // La racine
     $parent->load_by_id(1);
@@ -163,6 +169,12 @@ if ( !$wiki->is_valid() )
         break;
       $lastparent = clone $parent;
     }
+    
+    if ( strlen($pagename) > 64 )
+      $can_create = false;
+      
+    if ( strlen($pagepath) > 512 )
+      $can_create = false;
   }
   
   $site->start_page ("none", "Page inexistante");
