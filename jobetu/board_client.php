@@ -36,7 +36,7 @@ require_once($topdir. "include/cts/gallery.inc.php");
 require_once($topdir. "include/cts/special.inc.php");
 
 $site = new site();
-$site->allow_only_logged_users("services");
+$site->allow_only_logged_users("jobetu");
 if(!$site->user->is_in_group("jobetu_client")) header("Location: index.php");
 
 $site->add_css("jobetu/jobetu.css");
