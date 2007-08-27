@@ -466,12 +466,11 @@ class wiki extends basedb
       else
         $wiki = $this->get_scope().$wiki;      
       
-      $req = new requete($site->db,"SELECT fullname_wiki_rel AS fullpath_wiki ".
+      $req = new requete($this->db,"SELECT fullname_wiki_rel AS fullpath_wiki ".
         "FROM wiki_ref_missingwiki ".
         "WHERE fullname_wiki_rel LIKE '".mysql_real_escape_string($wiki)."%' ".
         "GROUP BY fullname_wiki_rel ".
     		"ORDER BY fullname_wiki_rel");      
-      
       if ( $req->lines== 0 )
         $buffer ="(aucune page manquante)";
       else
