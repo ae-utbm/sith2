@@ -141,7 +141,7 @@
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Nom </div> \n <div class=\"desc_content\">".$usr->prenom ." ". $usr->nom."</div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Date de naissance </div> \n <div class=\"desc_content\">".date("d/m/Y", $usr->date_naissance)."</div> \n</div>";
 	  				
-	  				if( file_exist($topdir."var/img/matmatronch/".$usr->id.".identity.jpg") )
+	  				if( file_exists($topdir."var/img/matmatronch/".$usr->id.".identity.jpg") )
 	  					$img = $topdir."var/img/matmatronch/".$usr->id.".identity.jpg";
 	  				else
 	  					$img = $topdir."/images/icons/128/unknown.png";
