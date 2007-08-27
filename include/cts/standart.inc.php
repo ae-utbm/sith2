@@ -651,7 +651,7 @@ class form extends stdcontents
     {
       $this->buffer .= 
         "<a onclick=\"insert_tags2('".$id."','".$infos[1]."','".$infos[2]."','".$infos[3]."');\" />".
-        "<img src=\"".$wwwtopdir."/images/toolbar/".$tool.".png\" alt=\"".$infos[0]."\" />".
+        "<img src=\"".$wwwtopdir."/images/toolbar/".$tool.".png\" alt=\"".$infos[0]."\" title=\"".$infos[0]."\" />".
         "</a> \n";
     }
     
