@@ -399,7 +399,7 @@ class wiki extends basedb
   function __map_childs($id_wiki)
   {
     $buffer = "<ul>\n";
-		$req = new requete($this->db, "SELECT wiki.id_wikii, name_wiki, title_rev
+		$req = new requete($this->db, "SELECT wiki.id_wiki, name_wiki, title_rev
 		    FROM `wiki`
 		    INNER JOIN `wiki_rev` 
 		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
@@ -430,7 +430,7 @@ class wiki extends basedb
     
     $cts = new wikicontents($this->rev_title,$this->rev_contents);
     
-    if ( preg_match("#@@([^a-z0-9\-_:]*):pagesmap\(\)@@#",$cts->buffer,$match) )
+    if ( preg_match("#@@([^a-z0-9\-_:]*):pagesmap@@#",$cts->buffer,$match) )
     {
       $wiki = $match[1];
       
@@ -445,7 +445,7 @@ class wiki extends basedb
         $buffer = "<ul>\n";
         $buffer .= $this->__map_childs($id);
         $buffer .= "</ul>\n";
-        $cts->buffer = str_replace("#@@".$match[1].":pagesmap()@@#", $buffer, $cts->buffer);
+        $cts->buffer = str_replace("#@@".$match[1].":pagesmap@@#", $buffer, $cts->buffer);
       }
     }
     
