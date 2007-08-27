@@ -225,26 +225,25 @@ $can_edit = $site->user->is_valid() && $wiki->is_right($site->user,DROIT_ECRITUR
 $is_admin = $wiki->is_admin($site->user);
 
 
-if ( $_REQUEST["action"] == "revision" && $can_edit 
-    && ($_REQUEST["title"] != $wiki->rev_title || $_REQUEST["contents"] != $wiki->rev_contents ) )
+if ( $_REQUEST["action"] == "revision" && $can_edit )
 {
   $wiki->unlock($site->user);
-  print_r($wiki);
-  print_r($site->user);
-  
-  if ( $_REQUEST["id_rev_last"] != $wiki->id_rev_last ) // pas cool
-  {
-    $Erreur="La page a été modifiée par un autre utilisateur ente temps.";
-    $_REQUEST["view"] = "edit";
-  }
-  else if ( $wiki->is_locked($site->user) ) // encore moins cool
-  {
-    $Erreur="La page est en cours d'édition par un autre utilisteur. Elle n'a pas eu être modifiée.";
-    $_REQUEST["view"] = "edit";
-  }
-  else
-    $wiki->revision ( $site->user->id, $_REQUEST["title"], $_REQUEST["contents"], $_REQUEST["comment"] );
 
+  if ( ($_REQUEST["title"] != $wiki->rev_title || $_REQUEST["contents"] != $wiki->rev_contents ) )
+  {
+    if ( $_REQUEST["id_rev_last"] != $wiki->id_rev_last ) // pas cool
+    {
+      $Erreur="La page a été modifiée par un autre utilisateur ente temps.";
+      $_REQUEST["view"] = "edit";
+    }
+    else if ( $wiki->is_locked($site->user) ) // encore moins cool
+    {
+      $Erreur="La page est en cours d'édition par un autre utilisteur. Elle n'a pas eu être modifiée.";
+      $_REQUEST["view"] = "edit";
+    }
+    else
+      $wiki->revision ( $site->user->id, $_REQUEST["title"], $_REQUEST["contents"], $_REQUEST["comment"] );
+  }
 }  
 elseif ( $_REQUEST["action"] == "edit" && $is_admin )
 {

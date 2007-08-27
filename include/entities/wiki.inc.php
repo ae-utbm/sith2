@@ -541,7 +541,6 @@ class wiki extends basedb
 	function lock(&$user)
 	{
 	  $this->unlock($user); // Supprime d'eventuels vieux verrous...
-	 echo "lock ".$user->id;
     new insert($this->dbrw,"wiki_lock",
       array(
         "id_wiki"=>$this->id,
@@ -551,7 +550,6 @@ class wiki extends basedb
 	
 	function unlock(&$user)
 	{
-	 echo "unlock ".$user->id;
     new delete($this->dbrw,"wiki_lock",
       array(
         "id_wiki"=>$this->id,
