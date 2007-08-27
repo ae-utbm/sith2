@@ -129,7 +129,7 @@
 			}
 			else
 			{
-				$this->buffer .= "<p>Il y a `".count($annonce->applicants)."` candidature(s) pour votre annonce :</p>\n";
+				$this->buffer .= "<p>Il y a pour l'instant ".count($annonce->applicants)." candidature(s) pour votre annonce :</p>\n";
 				
 		  	foreach($annonce->applicants_fullobj as $usr)
 		  	{
@@ -170,7 +170,9 @@
 						
 						$this->buffer .= "<p></p>";
 							
-						$frm = new form("apply_".$annonce->id."", false, true, "POST");
+						$frm = new form("apply_".$annonce->id."", "?action=select", true, "POST");
+						$frm->add_hidden("etu", $usr->id);
+						$frm->add_hidden("annonce", $annonce->id);
 		  			$frm->add_submit("clic", "Choisir ce candidat");
 						$this->buffer .= $frm->html_render(); 
 						
