@@ -636,8 +636,8 @@ function insert_tags2(objid, lft, rgt, deftext)
     range.select();
     
     
-    obj.value = obj.value + " # " + oldlen + " -> " + obj.value.length + " - " +
-    rgt.length + ", " + lft.length + ", " + len;
+    alert( oldlen + " -> " + obj.value.length + " - " +
+    rgt.length + ", " + lft.length + ", " + len);
     
   }
   else if ( obj.selectionStart != null )
