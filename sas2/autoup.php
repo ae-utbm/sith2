@@ -72,7 +72,18 @@ if ( $site->user->id < 0 )
 }
 elseif ( $_REQUEST["act"] == "FetchContexts" )
 {
-
+  function get_short_semestre ($t)
+  {
+    $y = date("Y",$t);
+    $m = date("m",$t);
+    
+    if ( $m >= 2 && $m < 9)
+    	return "P".$y;
+    else if ( $m >= 9 )
+    	return "A".$y;
+    else
+    	return "A".($y-1);
+  }
   //
   $grps = $site->user->get_groups_csv();
 
@@ -91,7 +102,11 @@ elseif ( $_REQUEST["act"] == "FetchContexts" )
   require_once($topdir."include/entities/group.inc.php");
   $groups=enumerates_groups($site->db);
 
-  while ( $row = $req->get_row() ) {
+  while ( $row = $req->get_row() )
+  {
+    if ( $row['date_debut_catph'] )
+      $row["nom_catph"] .= " (".get_short_semestre(strtotime($row["date_debut_catph"])).")";
+    
     echo "  <context>";
     echo "    <name>".htmlspecialchars($row["nom_catph"])."</name>\n";
     echo "    <id>".$row["id_catph"]."</id>\n";
