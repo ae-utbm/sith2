@@ -630,7 +630,7 @@ function insert_tags2(objid, lft, rgt, deftext)
     }
     range.select();
     
-    delta = len+oldlen-obj.value.length;
+    delta = oldlen+len+rgt.length+lft.length-obj.value.length;
     
     range = document.selection.createRange();
     range.moveStart('character', -rgt.length-len+delta);
