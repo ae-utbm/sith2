@@ -59,7 +59,7 @@ function add_search_form()
   global $topdir, $ch;
   $cts = new contents("Gestion des cotisations");
   $frm = new form("searchstudent","cotisations.php",true,"POST",utf8_encode("Recherche d'un étudiant"));
-  $subfrm->add_hidden("action","quicksearch");
+  $frm->add_hidden("action","quicksearch");
   $subfrm = new form("quicksearch","cotisations.php",false,"POST","Recherche rapide ...");
   $subfrm->add_user_fieldv2("id_utilisateur","Prenom Nom/Surnom");
   $subfrm->add_submit("valid","Cotisation");
