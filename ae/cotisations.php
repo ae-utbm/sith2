@@ -59,7 +59,7 @@ function add_search_form()
   global $topdir, $ch;
   $cts = new contents("Gestion des cotisations");
   $frm = new form("searchstudent","cotisations.php",true,"POST",utf8_encode("Recherche d'un étudiant"));
-  $frm->add_hidden("action","quicksearch");
+  $frm->add_hidden("action","searchstudent");
   $subfrm = new form("quicksearch","cotisations.php",false,"POST","Recherche rapide ...");
   $subfrm->add_user_fieldv2("id_utilisateur","Prenom Nom/Surnom");
   $subfrm->add_submit("valid","Cotisation");
@@ -73,31 +73,6 @@ function add_search_form()
   $subfrm->add_submit("valid","Cotisation");
   $frm->add($subfrm,false,false,false,false,false,true,false);
   $cts->add($frm,true);
-/*
-  $frm = new form("searchstudent","cotisations.php",true,"POST",utf8_encode("Recherche d'un étudiant"));
-  $frm->add_hidden("action","searchstudent");
-
-  $sub_frm_ident = new form ("searchstudentident",null,null,null,utf8_encode("Par son Nom ou Prénom : "));
-  $sub_frm_ident->add_text_field("nom","Nom");
-  $sub_frm_ident->add_text_field("prenom","Prenom");
-  $frm->add($sub_frm_ident,false,false,false,false,false,true,true);
-
-  $frm->add_info("&nbsp;");
-
-  $sub_frm_email = new form ("searchstudentemail",null,null,null,utf8_encode("Par son E Mail : "));
-  $sub_frm_email->add_text_field("email","Adresse e-mail");
-  $frm->add($sub_frm_email,false,false,false,false,false,true,true);
-
-  $frm->add_info("&nbsp;");
-
-  $sub_frm_cbarre = new form("searchstudentcbarre",null,null,null,utf8_encode("Par le code barre de sa carte AE : "));
-  $sub_frm_cbarre->add_text_field("numcarte","Carte AE");
-  $frm->add($sub_frm_cbarre,false,false,false,false,false,true,true);
-
-  $frm->add_info("&nbsp;");
-  $frm->add_submit("submit","Envoyer");
-  $cts->add($frm,true);
- */
   return $cts;
 }
 
