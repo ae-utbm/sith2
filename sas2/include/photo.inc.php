@@ -101,16 +101,16 @@ class photo extends basedb
     $this->meta_id_asso = $row['meta_id_asso_ph'];
     
     $this->date_ajout = strtotime($row['date_ajout_ph']);
-		$this->id_asso_photographe = $row['id_asso_photographe'];
+    $this->id_asso_photographe = $row['id_asso_photographe'];
 
-		//exif et puis nah ! :)
-		$this->iso = $row["iso"];
-	  $this->focale = $row["focale"];
-		$this->flash = $row["flash"];
-		$this->exposuretime = $row["exposuretime"];
-		$this->aperture = $row["aperture"];
-		$this->manufacturer = $row["manufacturer"];
-		$this->model = $row["model"];
+    //exif et puis nah ! :)
+    $this->iso = $row["iso"];
+    $this->focale = $row["focale"];
+    $this->flash = $row["flash"];
+    $this->exposuretime = $row["exposuretime"];
+    $this->aperture = $row["aperture"];
+    $this->manufacturer = $row["manufacturer"];
+    $this->model = $row["model"];
 
   }
 
@@ -184,6 +184,7 @@ class photo extends basedb
     $exif = @exif_read_data($tmp_filename, "IFDO", true);
     if ( $exif )
     {
+      print_r($exif);
       //EXIF
       if(isset($exif["EXIF"]))
       {
