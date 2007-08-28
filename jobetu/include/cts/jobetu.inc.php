@@ -150,6 +150,7 @@
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Date de naissance </div> \n <div class=\"desc_content\">".date("d/m/Y", $usr->date_naissance)."</div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Branche </div> \n <div class=\"desc_content\">".strtoupper($usr->departement) ." ". $usr->semestre."</div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Email </div> \n <div class=\"desc_content\">".preg_replace('(@)', ' [at] ', $usr->email_utbm)."</div> \n</div>";
+	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Téléphone </div> \n <div class=\"desc_content\">".telephone_display($usr->tel_portable)."</div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Adresse </div> \n <div class=\"desc_content\">".nl2br(htmlentities($usr->addresse, ENT_NOQUOTES,"UTF-8")). "<br /> $ville->cpostal $ville->nom </div> \n</div>";
 	  				if( !empty($usr->pdf_cvs) )
 	  				{
