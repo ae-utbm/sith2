@@ -263,7 +263,6 @@ class sasphoto extends contents
 
     if(!empty($exif))
     {
-      //$imgcts->add_title(2,"Informations techniques");
       $imgcts->puts($_exif);
       $imgcts->puts($exif);
       $imgcts->puts("</div>\n");
@@ -427,14 +426,6 @@ class sasphoto extends contents
       
     $subcts->add_paragraph("<a href=\"".$page."?id_photo=".$photo->id."&amp;page=askdelete\">Demander le retrait</a>");
 
-    /*if(!empty($exif))
-    {
-      $subcts->add_title(2,"Informations techniques");
-      $subcts->puts($_exif);
-      $subcts->puts($exif);
-      $subcts->puts("</div>\n");
-		}*/
-  
     $this->add($subcts,false,true,"photoinfo");
     $this->puts("<div class=\"clearboth\"></div>");
     
