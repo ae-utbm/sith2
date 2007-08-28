@@ -194,10 +194,10 @@ class photo extends basedb
       //EXIF
       if(isset($exif["EXIF"]))
       {
+        $EXIF=$exif["EXIF"];
         // Date
         if ( $EXIF["DateTimeOriginal"] )
           $this->date_prise_vue = datetime_to_timestamp($EXIF["DateTimeOriginal"]);
-print_r($EXIF["ExposureTime"]);
         //Exposuretime
         if(isset($EXIF["ExposureTime"]))
           $this->exposuretime=$EXIF["ExposureTime"];
