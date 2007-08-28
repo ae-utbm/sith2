@@ -247,18 +247,18 @@ class sasphoto extends contents
         }
         else
           $et="";
-        $exif.="<span class=\"exiftitle\">Vitesse</span>: ".$photo->exposuretime." ".$et."<br />\n";
+        $exif.="<span class=\"exiftitle\">Vitesse</span> : ".$photo->exposuretime." ".$et."<br />\n";
       }
       if($photo->aperture!=0)
-        $exif.="<span class=\"exiftitle\">Ouverture</span>: ".$photo->aperture."<br />\n";
+        $exif.="<span class=\"exiftitle\">Ouverture</span> : ".$photo->aperture."<br />\n";
       if(!empty($photo->focale))
-        $exif.="<span class=\"exiftitle\">Focale</span>: ".$photo->focale." mm<br />\n";
+        $exif.="<span class=\"exiftitle\">Focale</span> : ".$photo->focale." mm<br />\n";
       if($photo->iso!=0)
-        $exif.="<span class=\"exiftitle\">Iso</span>: ".$photo->iso."<br />\n";
+        $exif.="<span class=\"exiftitle\">Iso</span> : ".$photo->iso."<br />\n";
       if($photo->flash==1)
-        $exif.="<span class=\"exiftitle\">Flash</span>: oui<br />\n";
+        $exif.="<span class=\"exiftitle\">Flash</span> : oui<br />\n";
       elseif($photo->flash==0)
-        $exif.="<span class=\"exiftitle\">Flash</span>: non<br />\n";
+        $exif.="<span class=\"exiftitle\">Flash</span> : non<br />\n";
     }
 
     if(!empty($exif))
