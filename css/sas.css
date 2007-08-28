@@ -229,7 +229,7 @@ img.mininav
 #exif
 {
   width:300px;
-  margin:auto;
+  margin-left:10px;
   margin-top:10px;
   text-align:left;
   font-size:9px;
