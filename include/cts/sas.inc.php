@@ -259,7 +259,7 @@ class sasphoto extends contents
       elseif($photo->flash==0)
         $exif.="<span class=\"exiftitle\">Flash</span>: non<br />\n";
       if(!empty($photo->date_prise_vue))
-        $exif.="<span class=\"exiftitle\">Date</span>: ".$photo->date_prise_vue."<br />\n";
+        $exif.="<span class=\"exiftitle\">Date</span>: ".date('d m Y H:i',$photo->date_prise_vue)."<br />\n";
       if(!empty($exif))
       {
         $subcts->puts($_exif);
