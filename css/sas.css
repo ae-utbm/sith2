@@ -114,24 +114,24 @@ div.gallery div.galitem div.tooldep
 
 div.article #photoinfo div.subform
 {
-	padding-left:10px;
+  padding-left:10px;
 }
 
 div.article #photoinfo div.formlabel
 {
-	position:relative;
-	width:100%;
-	height:auto;
+  position:relative;
+  width:100%;
+  height:auto;
 }
 
 div.article #photoinfo #meta_row div.formlabel
 {
-	margin-bottom:5px;
+  margin-bottom:5px;
 }
 
 div.article #photoinfo div.formfield
 {
-	margin-left:0;
+  margin-left:0;
 }
 
 #setcomment div.formlabel
@@ -156,6 +156,7 @@ div.article #photoinfo div.formfield
   float: left;
   width:100%;
 }
+
 #setcomment div.formlabelmissing
 {
   color: #ff0000;
@@ -223,4 +224,20 @@ img.mininav
 #next .mininavbtn
 {
   right:3px;
+}
+
+#exif
+{
+  text-align:left;
+  font-size:9px;
+  padding:10px;
+  margin-right:15px;
+  border:1px dashed #374a70;
+  background-color: #ecf4fe;
+  color:#000000;
+}
+
+.exiftitle
+{
+  font-weight:bold;
 }

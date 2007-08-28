@@ -160,11 +160,11 @@ class sascategory extends contents
     //$d = date("d",$date);
     
     if ( $m >= 2 && $m < 9)
-    	return "Printemps ".$y;
+      return "Printemps ".$y;
     else if ( $m >= 9 )
-    	return "Automne ".$y;
+      return "Automne ".$y;
     else
-    	return "Automne ".($y-1);
+      return "Automne ".($y-1);
   }
   
   
@@ -210,7 +210,8 @@ class sasphoto extends contents
     $this->divid = "cts1";
     
     $imgcts = new contents();
-  
+    $subcts = new contents();
+
     if ( $photo->type_media == MEDIA_VIDEOFLV )
     {
       $flvpath = "images.php?/".$photo->id.".flv";
@@ -219,7 +220,53 @@ class sasphoto extends contents
       $imgcts->add(new flvideo($photo->id,$flvpath));
     }
     else
+    {
       $imgcts->add(new image($photo->id,"images.php?/".$photo->id.".diapo.jpg"));
+      $_exif="<div id=\"exif\">\n";
+      $exif="";
+      if(!empty($photo->manufacturer) || !empty($photo->manufacturer))
+      {
+        if(!empty($photo->manufacturer))
+        {
+          $boitier=$photo->manufacturer;
+          if(!empty($photo->manufacturer))
+            $boitier.=" (".$this->model.")";
+        }
+        else
+          $boitier=$photo->model;
+        $exif.="<span class=\"exiftitle\">Boitier</span>: <br />\n";
+      }
+      if($photo->exposuretime!=0)
+      {
+        $et=explode("/",$photo->exposuretime);
+        if(count($et==2))
+        {
+          $et=((int)$et[0]/(int)$et[1]);
+          $et=" (".$et." s)";
+        }
+        else
+          $et="";
+        $exif.="<span class=\"exiftitle\">Vitesse</span>: ".$photo->exposuretime." ".$et."<br />\n";
+      }
+      if($photo->aperture!=0)
+        $exif.="<span class=\"exiftitle\">Ouverture</span>: ".$photo->aperture."<br />\n";
+      if(!empty($photo->focale))
+        $exif.="<span class=\"exiftitle\">Focale</span>: ".$photo->focale." mm<br />\n";
+      if($photo->iso!=0)
+        $exif.="<span class=\"exiftitle\">Iso</span>: ".$photo->iso."<br />\n";
+      if($photo->flash==1)
+        $exif.="<span class=\"exiftitle\">Flash</span>: oui<br />\n";
+      elseif($photo->flash==0)
+        $exif.="<span class=\"exiftitle\">Flash</span>: non<br />\n";
+      if(!empty($photo->date_prise_vue!=0))
+        $exif.="<span class=\"exiftitle\">Date</span>: ".$photo->date_prise_vue."<br />\n";
+      if(!empty($exif))
+      {
+        $subcts->puts($_exif);
+        $subcts->puts($exif);
+        $subcts->puts("</div>\n");
+      }
+    }
    
     $this->add($imgcts,false,true,"sasimg");
 
