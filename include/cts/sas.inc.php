@@ -230,7 +230,7 @@ class sasphoto extends contents
         if(!empty($photo->manufacturer))
         {
           $boitier=$photo->manufacturer;
-          if(!empty($photo->manufacturer))
+          if(!empty($photo->model))
             $boitier.=" (".$this->model.")";
         }
         else
