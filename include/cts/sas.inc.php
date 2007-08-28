@@ -228,7 +228,7 @@ class sasphoto extends contents
       if(strlen($photo->manufacturer)>1 || strlen($photo->manufacturer)>1)
       {
         if(strlen($photo->manufacturer)>1)
-        {
+        {print_r($photo->model);
           $boitier=$photo->manufacturer;
           if(strlen($photo->model)>1)
             $boitier.=" (".$this->model.")";
