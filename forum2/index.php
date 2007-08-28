@@ -43,7 +43,7 @@ $site->add_css("css/forum.css");
 
 if($site->user->is_in_group("ban_forum"))
 {
-  $site->add_contents(new error("Vous n'avez pas respecté la charte de publication, votre présence est désormais plus souhaité.",false));
+  $site->add_contents(new error("Vous n'avez pas respecté la charte de publication, votre présence n'est désormais plus souhaité.",false));
   $site->end_page();
   exit();
 }
