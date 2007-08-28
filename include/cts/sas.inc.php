@@ -235,7 +235,7 @@ class sasphoto extends contents
         }
         else
           $boitier=$photo->model;
-        $exif.="<span class=\"exiftitle\">Boitier</span>: ".$boitier."<br />\n";
+        $exif.="<span class=\"exiftitle\">Boitier</span> : ".$boitier."<br />\n";
       }
       if($photo->exposuretime!=0)
       {
