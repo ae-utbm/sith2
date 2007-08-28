@@ -41,6 +41,14 @@ require_once($topdir . "include/cts/forum.inc.php");
 $site = new site ();
 $site->add_css("css/forum.css");
 
+if($site->user->is_in_group("ban_forum"))
+{
+  $site->add_contents(new error("Vous n'avez pas respecté la charte de publication, votre présence est désormais plus souhaité."));
+  $site->end_page();
+  exit();
+}
+
+
 $cts = new contents();
 $cts->cssclass="liner";
 if ( $site->user->is_valid() )
@@ -211,18 +219,18 @@ if ( $_REQUEST["action"] == "post" && !$forum->categorie )
         $type,null,$date_fin_annonce,
         $news->id,$catph->id,$sdn->id );
        
-	  $subjtext = $message->commit_replace($_REQUEST['subjtext'],$site->user);
+    $subjtext = $message->commit_replace($_REQUEST['subjtext'],$site->user);
 
     $message->create($forum,
-				    $sujet,
-				    $site->user->id,
-				    $_REQUEST['titre_sujet'],
-				    $subjtext,
-				    $_REQUEST['synengine']);
-				    
+            $sujet,
+            $site->user->id,
+            $_REQUEST['titre_sujet'],
+            $subjtext,
+            $_REQUEST['synengine']);
+            
     if ( isset($_REQUEST['star']) )
       $sujet->set_user_star($site->user->id,true);
-      				    
+                  
   }
 }
     
@@ -244,12 +252,12 @@ if ( $_REQUEST['page'] == 'delete' )
         $ret =$message->delete($forum, $sujet);
         
       $cts = new contents("Suppression d'un message",
-  		  "Message supprimé avec succès.");
+        "Message supprimé avec succès.");
     }
     else
       $cts = new contents("Suppression d'un message",
-  			"Vous n'avez pas les autorisations nécessaires pour supprimer ce message.");
-  			
+        "Vous n'avez pas les autorisations nécessaires pour supprimer ce message.");
+        
     $site->add_contents($cts);
   }
   elseif ( $sujet->is_valid() )
@@ -259,12 +267,12 @@ if ( $_REQUEST['page'] == 'delete' )
     {
       $ret =$sujet->delete($forum);
       $cts = new contents("Suppression d'un sujet",
-  		  "Sujet supprimé avec succès.");
+        "Sujet supprimé avec succès.");
     }
     else
       $cts = new contents("Suppression d'un Sujet",
-  			"Vous n'avez pas les autorisations nécessaires pour supprimer ce sujet.");
-  			
+        "Vous n'avez pas les autorisations nécessaires pour supprimer ce sujet.");
+        
     $site->add_contents($cts);
   }
 }
@@ -305,17 +313,17 @@ if ( $sujet->is_valid() )
       $site->start_page("forum",$sujet->titre);
 
       $frm = new form("frmedit", 
-    		  "?page=commitedit&amp;id_sujet=".
-    		  $sujet->id."&amp;".
-    		  "id_message=".$message->id."#msg".$message->id, 
-    		  true);
+          "?page=commitedit&amp;id_sujet=".
+          $sujet->id."&amp;".
+          "id_message=".$message->id."#msg".$message->id, 
+          true);
       
       $frm->add_text_field("title", "Titre du message : ", $message->titre,false,80);
       $frm->add_select_field('synengine',
-    			 'Moteur de rendu : ',
-    			 array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),
-    			 $message->syntaxengine);
-    	if ( $message->syntaxengine == "doku" ) 
+           'Moteur de rendu : ',
+           array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),
+           $message->syntaxengine);
+      if ( $message->syntaxengine == "doku" ) 
         $frm->add_dokuwiki_toolbar('text');
       $frm->add_text_area("text", "Texte du message : ",$message->contenu,80,20);
       $frm->add_submit("submit", "Modifier");
@@ -342,8 +350,8 @@ if ( $sujet->is_valid() )
     $cts = new contents($path." / Edition");
   
     $frm = new form("frmedit", 
-  		  "?page=commitedit&amp;id_sujet=".$sujet->id, 
-  		  true);
+        "?page=commitedit&amp;id_sujet=".$sujet->id, 
+        true);
     
     if ( $forum->is_admin($site->user) )
     {
@@ -358,16 +366,16 @@ if ( $sujet->is_valid() )
       
       $sfrm = new form("subj_type",null,null,null,"Annonce, le message sera affiché en haut dans un cadre séparé");
       $sfrm->add_datetime_field('date_fin_announce', 
-    			   'Date de fin de l\'annonce',
-    			   $sujet->date_fin_annonce);
+             'Date de fin de l\'annonce',
+             $sujet->date_fin_annonce);
       $frm->add($sfrm,false,true, $sujet->type==SUJET_ANNONCE ,SUJET_ANNONCE ,false,true);
       
       if ( $site->user->is_in_group("moderateur_forum") || $site->user->is_in_group("root") )
       {
         $sfrm = new form("subj_type",null,null,null,"Annonce du site, le message sera affiché en haut sur la première page du forum");
         $sfrm->add_datetime_field('date_fin_announce_site', 
-      			   'Date de fin de l\'annonce',
-      			   $sujet->date_fin_annonce);
+               'Date de fin de l\'annonce',
+               $sujet->date_fin_annonce);
         $frm->add($sfrm,false,true, $sujet->type==SUJET_ANNONCESITE ,SUJET_ANNONCESITE ,false,true);
       }
     }
@@ -380,9 +388,9 @@ if ( $sujet->is_valid() )
     $frm->add_text_field("soustitre","Sous-titre du message (optionel) : ",$sujet->soustitre,false,80);    
     
     $frm->add_select_field('synengine',
-  			 'Moteur de rendu : ',
-  			 array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),
-  			 $message->syntaxengine);
+         'Moteur de rendu : ',
+         array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),
+         $message->syntaxengine);
     $frm->add_dokuwiki_toolbar('text');
     $frm->add_text_area("text", "Texte du message : ",$message->contenu,80,20);
     $frm->add_submit("submit", "Modifier");
@@ -408,17 +416,17 @@ if ( $sujet->is_valid() )
         || ($forum->is_admin($site->user)))
         && ($GLOBALS['svalid_call'] == true))
       {
-			  $text = $message->commit_replace($_REQUEST['text'],$site->user);
+        $text = $message->commit_replace($_REQUEST['text'],$site->user);
         $ret = $message->update($forum, 
-      			  $sujet,
-      			  $_REQUEST['title'],
-      			  $text,
-      			  $_REQUEST['synengine']);
+              $sujet,
+              $_REQUEST['title'],
+              $text,
+              $_REQUEST['synengine']);
         $cts = new contents("Modification d'un message", "Message modifié");
       }
       else
         $cts = new contents("Modification d'un message", 
-  			  "Erreur lors de la modification du message. Assurez-vous d'avoir les privilèges suffisants.");
+          "Erreur lors de la modification du message. Assurez-vous d'avoir les privilèges suffisants.");
       
       $site->add_contents($cts);
     }
@@ -429,13 +437,13 @@ if ( $sujet->is_valid() )
         
       $message->load_initial_of_sujet($sujet->id);  
       
-			$text = $message->commit_replace($_REQUEST['text'],$site->user);
+      $text = $message->commit_replace($_REQUEST['text'],$site->user);
 
       $message->update($forum, 
-      			  $sujet,
-      			  $_REQUEST['titre'],
-      			  $text,
-      			  $_REQUEST['synengine']);
+              $sujet,
+              $_REQUEST['titre'],
+              $text,
+              $_REQUEST['synengine']);
       
       $type=SUJET_NORMAL;
       $date_fin_annonce=null;
@@ -478,30 +486,30 @@ if ( $sujet->is_valid() )
     $frm = new form("frmreply", "?page=commit&amp;id_sujet=".$sujet->id."#lastmessage", true);
   
     if (intval($_REQUEST['quote']) == 1)
-		{
-		  $_auteur="";
-		  /* l'objet message doit alors etre chargé */
-			if($message->id_utilisateur>0)
-		  {
-				$_auteur=new utilisateur($site->db,$site->dbrw);
-				$_auteur->load_by_id($message->id_utilisateur);
-				if(!is_null($_auteur->id))
-		      $_auteur="=".$_auteur->alias;
-		  }
-			
-	    $rpltext = "[quote".$_auteur."]".$message->contenu . "[/quote]";
-	    $rpltitle = "Re : " . $message->titre;
+    {
+      $_auteur="";
+      /* l'objet message doit alors etre chargé */
+      if($message->id_utilisateur>0)
+      {
+        $_auteur=new utilisateur($site->db,$site->dbrw);
+        $_auteur->load_by_id($message->id_utilisateur);
+        if(!is_null($_auteur->id))
+          $_auteur="=".$_auteur->alias;
+      }
+      
+      $rpltext = "[quote".$_auteur."]".$message->contenu . "[/quote]";
+      $rpltitle = "Re : " . $message->titre;
     }
     else 
     {
-	    $rpltext = '';
-	    $rpltitle = '';  
+      $rpltext = '';
+      $rpltitle = '';  
     }
 
     $frm->add_text_field("rpltitle", "Titre du message : ", $rpltitle,false,80);
     $frm->add_select_field('synengine',
-		     'Moteur de rendu : ',
-		     array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),'doku');
+         'Moteur de rendu : ',
+         array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),'doku');
     $frm->add_dokuwiki_toolbar('rpltext');
     $frm->add_text_area("rpltext", "Texte du message : ",$rpltext,80,20);
     $frm->add_checkbox ( "star", "Ajouter à mes sujets favoris.", true );
@@ -515,13 +523,13 @@ if ( $sujet->is_valid() )
     $start = ($nbpages - 1) * $npp;
     
     $cts->add(new sujetforum ($forum, 
-			    $sujet, 
-			    $site->user, 
-			    "./", 
-			    0, 
-			    40, 
-			    "DESC" ));
-			    
+          $sujet, 
+          $site->user, 
+          "./", 
+          0, 
+          40, 
+          "DESC" ));
+          
 
     $site->add_contents($cts);
     $site->end_page();
@@ -540,48 +548,48 @@ if ( $sujet->is_valid() )
     $site->start_page("forum",$sujet->titre);
 
     $cts = new contents($path.
-		  " / <a href=\"?id_sujet=".
-		  $sujet->id.
-		  "&amp;page=reply\">Répondre</a>");          
+      " / <a href=\"?id_sujet=".
+      $sujet->id.
+      "&amp;page=reply\">Répondre</a>");          
     
     /*  sujet */
     
     /* nombre de posts par page */
     $npp=40;
 
-		$rpltext = $message->commit_replace($_REQUEST['rpltext'],$site->user);
+    $rpltext = $message->commit_replace($_REQUEST['rpltext'],$site->user);
 
     if (($GLOBALS['svalid_call'] == true) && ($_REQUEST['rpltext'] != ''))
-	    $retpost = $message->create($forum,
-				    $sujet,
-				    $site->user->id,
-				    $_REQUEST['rpltitle'],
-				    $rpltext,
-				    $_REQUEST['synengine']);
+      $retpost = $message->create($forum,
+            $sujet,
+            $site->user->id,
+            $_REQUEST['rpltitle'],
+            $rpltext,
+            $_REQUEST['synengine']);
     else
       $retpost = false;
-				  
+          
     /* nombre de pages */
     $nbpages = ceil($sujet->nb_messages / $npp);
     /* on va à la derniere */
     $start = ($nbpages - 1) * $npp;
     
     $cts->add(new sujetforum ($forum, 
-			$sujet, 
-			$site->user, 
-			"./", 
-			$start, 
-			$npp));
+      $sujet, 
+      $site->user, 
+      "./", 
+      $start, 
+      $npp));
       
     if ($retpost == true)
-	    $answ = new contents("Poster une réponse",
-			     "<b>Réponse postée avec succès.</b>");      
+      $answ = new contents("Poster une réponse",
+           "<b>Réponse postée avec succès.</b>");      
     else
-	    $answ = new contents("Poster une réponse", 
-			     "<b>Echec lors de la tentative de postage de la réponse.</b>");
+      $answ = new contents("Poster une réponse", 
+           "<b>Echec lors de la tentative de postage de la réponse.</b>");
 
     if ($GLOBALS['svalid_call'] == false)
-	    $answ->add_paragraph('Votre réponse a déjà été postée.');
+      $answ->add_paragraph('Votre réponse a déjà été postée.');
 
     $site->add_contents($answ);
 
@@ -678,39 +686,39 @@ if ( $sujet->is_valid() )
       
       $cts->puts("<div class=\"sujetcontext\">");
       
-    	$cts->add_title(2,"Sondage : resultats");
-	
-    	$cts->add_paragraph($sdn->question);
-    	
-    	$cts->puts("<p>");
+      $cts->add_title(2,"Sondage : resultats");
+  
+      $cts->add_paragraph($sdn->question);
+      
+      $cts->puts("<p>");
     
-    	$res = $sdn->get_results();
-    	
-    	foreach ( $res as $re )
-    	{
-    		$cumul+=$re[1];
-    		$pc = $re[1]*100/$sdn->total;
-    		
-    		$cts->puts($re[0]."<br/>");
-    		
-    		$wpx = floor($pc);
-    		if ( $wpx != 0 )
-    			$cts->puts("<div class=\"activebar\" style=\"width: ".$wpx."px\"></div>");
-    		if ( $wpx != 100 )
-    			$cts->puts("<div class=\"inactivebar\" style=\"width: ".(100-$wpx)."px\"></div>");
-    		
-    		$cts->puts("<div class=\"percentbar\">".round($pc,1)."%</div>");
-    		$cts->puts("<div class=\"clearboth\"></div>\n");
-    		
-    	}
-    	
-    	if ( $cumul < $sdn->total )
-    	{
-    		$pc = ( $sdn->total-$cumul)*100/$sdn->total;
-    		$cts->puts("<br/>Blanc ou nul : ".round($pc,1)."%");
-    	}
-    	$cts->puts("</p>");
-    	$cts->puts("</div>");
+      $res = $sdn->get_results();
+      
+      foreach ( $res as $re )
+      {
+        $cumul+=$re[1];
+        $pc = $re[1]*100/$sdn->total;
+        
+        $cts->puts($re[0]."<br/>");
+        
+        $wpx = floor($pc);
+        if ( $wpx != 0 )
+          $cts->puts("<div class=\"activebar\" style=\"width: ".$wpx."px\"></div>");
+        if ( $wpx != 100 )
+          $cts->puts("<div class=\"inactivebar\" style=\"width: ".(100-$wpx)."px\"></div>");
+        
+        $cts->puts("<div class=\"percentbar\">".round($pc,1)."%</div>");
+        $cts->puts("<div class=\"clearboth\"></div>\n");
+        
+      }
+      
+      if ( $cumul < $sdn->total )
+      {
+        $pc = ( $sdn->total-$cumul)*100/$sdn->total;
+        $cts->puts("<br/>Blanc ou nul : ".round($pc,1)."%");
+      }
+      $cts->puts("</p>");
+      $cts->puts("</div>");
     }
     if ( !is_null($sujet->id_nouvelle) )
     {
@@ -772,16 +780,16 @@ if ( $sujet->is_valid() )
   for( $n=0;$n<$nbpages;$n++)
     $entries[]=array($n,"forum2/?id_sujet=".$sujet->id."&spage=".$n,$n+1);
     
-	$cts->add(new tabshead($entries, floor($start/$npp), "_top"));
+  $cts->add(new tabshead($entries, floor($start/$npp), "_top"));
     
   $cts->add(new sujetforum ($forum, 
-			    $sujet, 
-			    $site->user, 
-			    "./", 
-			    $start, 
-			    $npp ));
+          $sujet, 
+          $site->user, 
+          "./", 
+          $start, 
+          $npp ));
     
-	$cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
+  $cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
 
   $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a>","frmtools");
   $cts->add_paragraph($path);
@@ -817,10 +825,10 @@ if ( $_REQUEST["page"] == "post" && !$forum->categorie )
   
   /* formulaire d'invite à postage de nouveau sujet */
   $frm = new form("newsbj","?id_forum=".$forum->id, 
-		  true);
-		  
-	$frm->add_hidden("action","post");
-		  
+      true);
+      
+  $frm->add_hidden("action","post");
+      
   $frm->allow_only_one_usage();
   
   if ( isset($Erreur) )
@@ -838,16 +846,16 @@ if ( $_REQUEST["page"] == "post" && !$forum->categorie )
     
     $sfrm = new form("subj_type",null,null,null,"Annonce, le message sera affiché en haut dans un cadre séparé");
     $sfrm->add_datetime_field('date_fin_announce', 
-  			   'Date de fin de l\'annonce',
-  			   time()+(7*24*60*60));
+           'Date de fin de l\'annonce',
+           time()+(7*24*60*60));
     $frm->add($sfrm,false,true, $type==SUJET_ANNONCE ,SUJET_ANNONCE ,false,true);
     
     if ( $site->user->is_in_group("moderateur_forum") || $site->user->is_in_group("root") )
     {
       $sfrm = new form("subj_type",null,null,null,"Annonce du site, le message sera affiché en haut sur la première page du forum");
       $sfrm->add_datetime_field('date_fin_announce_site', 
-    			   'Date de fin de l\'annonce',
-    			   time()+(7*24*60*60));
+             'Date de fin de l\'annonce',
+             time()+(7*24*60*60));
       $frm->add($sfrm,false,true, $type==SUJET_ANNONCESITE ,SUJET_ANNONCESITE ,false,true);
     }
   }
@@ -896,15 +904,15 @@ if ( $_REQUEST["page"] == "post" && !$forum->categorie )
 
   /* titre du sujet */
   $frm->add_text_field("titre_sujet", 
-		       "Titre du message : ",$_REQUEST["titre_sujet"],true,80);
+           "Titre du message : ",$_REQUEST["titre_sujet"],true,80);
   /* sous-titre du sujet */
   $frm->add_text_field("soustitre_sujet", 
-		       "Sous-titre du message (optionel) : ","",false,80);
+           "Sous-titre du message (optionel) : ","",false,80);
   /* moteur de rendu */
   $frm->add_select_field('synengine',
-			 'Moteur de rendu : ',
-			 array('bbcode' => 'bbcode (type phpBB)',
-			       'doku' => 'Doku Wiki (recommandé)'),'doku');
+       'Moteur de rendu : ',
+       array('bbcode' => 'bbcode (type phpBB)',
+             'doku' => 'Doku Wiki (recommandé)'),'doku');
   
   /* texte du message initiateur */
   $frm->add_dokuwiki_toolbar('subjtext');
@@ -1053,8 +1061,8 @@ else
   for( $n=0;$n<$nbpages;$n++)
     $entries[]=array($n,"forum2/?id_forum=".$forum->id."&fpage=".$n,$n+1);
   
-	$cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
-	
+  $cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
+  
   $cts->add_paragraph("<a href=\"search.php\"><img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher</a> <a href=\"?id_forum=".$forum->id."&amp;page=post\"><img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" />Nouveau sujet</a>","frmtools");
 
   /**@todo:bouttons+infos*/
