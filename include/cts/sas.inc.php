@@ -212,6 +212,8 @@ class sasphoto extends contents
     $imgcts = new contents();
     $subcts = new contents();
 
+    $exif="";
+
     if ( $photo->type_media == MEDIA_VIDEOFLV )
     {
       $flvpath = "images.php?/".$photo->id.".flv";
@@ -223,7 +225,6 @@ class sasphoto extends contents
     {
       $imgcts->add(new image($photo->id,"images.php?/".$photo->id.".diapo.jpg"));
       $_exif="<div id=\"exif\">\n";
-      $exif="";
       if(!empty($photo->manufacturer) || !empty($photo->manufacturer))
       {
         if(!empty($photo->manufacturer))
@@ -258,12 +259,6 @@ class sasphoto extends contents
         $exif.="<span class=\"exiftitle\">Flash</span>: oui<br />\n";
       elseif($photo->flash==0)
         $exif.="<span class=\"exiftitle\">Flash</span>: non<br />\n";
-      if(!empty($exif))
-      {
-        $subcts->puts($_exif);
-        $subcts->puts($exif);
-        $subcts->puts("</div>\n");
-      }
     }
    
     $this->add($imgcts,false,true,"sasimg");
