@@ -228,6 +228,8 @@ img.mininav
 
 #exif
 {
+  width:150px;
+  margin:auto;
   text-align:left;
   font-size:9px;
   padding:10px;
