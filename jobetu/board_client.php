@@ -103,7 +103,8 @@ else
 		
 		$annonce = new annonce($site->db);
 		$annonce->load_by_id($ann['id_annonce']);
-		$annonce->load_applicants_fullobj();
+		if( !($annonce->is_provided() ) );
+			$annonce->load_applicants_fullobj();
 		$box = new annonce_box($annonce, $ville);
 		$cts->add($box);
 	}
