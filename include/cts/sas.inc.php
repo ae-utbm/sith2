@@ -225,13 +225,13 @@ class sasphoto extends contents
     {
       $imgcts->add(new image($photo->id,"images.php?/".$photo->id.".diapo.jpg"));
       $_exif="<div id=\"exif\">\n";
-      if(strlen($photo->manufacturer)>1 || strlen($photo->manufacturer)>1)
+      if(!empty($photo->manufacturer) || !empty($photo->manufacturer))
       {
-        if(strlen($photo->manufacturer)>1)
-        {print_r($photo->model);
+        if(strlen($photo->manufacturer)>0)
+        {
           $boitier=$photo->manufacturer;
-          if(strlen($photo->model)>1)
-            $boitier.=" (".$this->model.")";
+          if(!empty($photo->model))
+            $boitier.=" (".$photo->model.")";
         }
         else
           $boitier=$photo->model;
