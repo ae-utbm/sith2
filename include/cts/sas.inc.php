@@ -297,13 +297,6 @@ class sasphoto extends contents
     }
   
     $subcts->add_title(2,"Informations");
-
-    if(!empty($exif))
-    {
-      $subcts->puts($_exif);
-      $subcts->puts($exif);
-      $subcts->puts("</div>\n");
-    }
   
     if ( !is_null($photo->date_prise_vue) && $photo->date_prise_vue > 3600 )
       $subcts->add_paragraph(date("d/m/Y H:i:s",$photo->date_prise_vue));
@@ -426,6 +419,14 @@ class sasphoto extends contents
       $subcts->add_paragraph("<a href=\"images.php?/".$photo->id.".flv\">Télécharger la vidéo (format FLV)</a>");
       
     $subcts->add_paragraph("<a href=\"".$page."?id_photo=".$photo->id."&amp;page=askdelete\">Demander le retrait</a>");
+
+    if(!empty($exif))
+    {
+      $subcts->add_title(2,"Informations techniques");
+      $subcts->puts($_exif);
+      $subcts->puts($exif);
+      $subcts->puts("</div>\n");
+    }
   
     $this->add($subcts,false,true,"photoinfo");
     $this->puts("<div class=\"clearboth\"></div>");
