@@ -260,7 +260,14 @@ class sasphoto extends contents
       elseif($photo->flash==0)
         $exif.="<span class=\"exiftitle\">Flash</span>: non<br />\n";
     }
-   
+
+    if(!empty($exif))
+    {
+      $imgcts->add_title(2,"Informations techniques");
+      $imgcts->puts($_exif);
+      $imgcts->puts($exif);
+      $imgcts->puts("</div>\n");
+    }
     $this->add($imgcts,false,true,"sasimg");
 
     if ( $idx != 0 || $idx != $count-1 )
