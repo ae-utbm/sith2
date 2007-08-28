@@ -227,10 +227,10 @@ class sasphoto extends contents
       $_exif="<div id=\"exif\">\n";
       if(!empty($photo->manufacturer) || !empty($photo->manufacturer))
       {
-        if(!empty($photo->manufacturer))
+        if(!is_null($photo->manufacturer))
         {
           $boitier=$photo->manufacturer;
-          if(!empty($photo->model))
+          if(!is_null($photo->model))
             $boitier.=" (".$this->model.")";
         }
         else
