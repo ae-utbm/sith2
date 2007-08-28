@@ -77,6 +77,23 @@ else
 	$user = new jobuser_client($site->db);
 	$user->load_by_id($site->user->id);
 	$user->load_annonces();
+	
+	if(isset($_REQUEST['action']) && $_REQUEST['action'] == "select")
+	{
+		$annonce = new annonce($site->db, $site->dbrw);
+		$annonce->load_by_id($_REQUEST['annonce']);
+		
+		if( $annonce->id_client != $user->id )
+		{
+			$site->add_contents(new error("Soit vous essayez de frauder soit ya un bug, mais dans tout les cas ça peut pas se passer comme ça !"));
+			$site->end_page();
+			exit;
+		}
+		else
+		{
+			$annonce->set_winner($_REQUEST['etu']);
+		}
+	}
 		
 	$cts->add_paragraph("Vous avez `".count($user->annonces)."` nouveau(x) message(s)");
 	

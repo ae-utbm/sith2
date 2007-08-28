@@ -116,6 +116,11 @@ class annonce extends stdentity
   {
   	return $winner;
   }
+  
+  function set_winner($id)
+  {
+  	$sql = new update($this->dbrw, "job_annonce", array("id_select_etu", $id), array("id_annonce", $this->id) );
+  }
 
   function get_client()
   {
