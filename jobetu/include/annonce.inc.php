@@ -43,6 +43,7 @@ class annonce extends stdentity
 	var $indemnite;
 	var $ville;
 	var $type_contrat;
+	var $allow_diff;
 	
 	var $applicants;
 	var $applicants_fullobj;
@@ -77,6 +78,7 @@ class annonce extends stdentity
   	$this->indemnite = $line['indemnite'];
   	$this->ville = $line['ville'];
   	$this->type_contrat = $line['type_contrat'];
+  	$this->allow_diff = $line['allow_diff'];
   	
   	/* C'est pas beau mais j'arrive pas à le faire en une requete */
   	$sql = new requete($this->db, "SELECT `job_types`.`nom` FROM `job_annonces` LEFT JOIN `job_types` ON `job_types`.`id_type` = ". ($this->id_type - $this->id_type%100) ."");
@@ -173,7 +175,7 @@ class annonce extends stdentity
    * @param $client objet jobuser_client
    * @param $titre titre de l'annonce 
    */
-  function add($client, $titre, $job_type, $desc, $profil, $divers = null, $start_date = null, $duree = null, $nb_postes = 1, $indemnite = null, $ville = null, $type_contrat = null )
+  function add($client, $titre, $job_type, $desc, $profil, $divers = null, $start_date = null, $duree = null, $nb_postes = 1, $indemnite = null, $ville = null, $type_contrat = null, $allow_diff = 0 )
   {
 		if(!($client instanceof jobuser_client))	return -1;
 	 	
@@ -190,6 +192,7 @@ class annonce extends stdentity
 		$this->indemnite = $indemnite;
 		$this->ville = $ville;
 		$this->type_contrat = $type_contrat;
+		$this->allow_diff = $allow_diff;
 
 		$sql = new insert($this->dbrw,
 											"job_annonces",
@@ -208,6 +211,7 @@ class annonce extends stdentity
 														"indemnite" => $this->indemnite,
 														"ville" => $this->ville,
 														"type_contrat" => $this->type_contrat,
+														"allow_diff" => $this->allow_diff,
 														"closed" => 0										
 											)
 											);

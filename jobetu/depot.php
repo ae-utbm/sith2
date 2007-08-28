@@ -66,6 +66,7 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	$frm->add_text_field("duree", "Duree (facultatif)");
 	$frm->add_text_field("remuneration", "Rémuneration en € (facultatif)");
 	$frm->add_text_area("divers", "Autres informations", false, 60, 3);
+	$frm->add_checkbox("allow_diff", "Diffuser aux candidats mon numéro de téléphone afin qu'ils puissent me contacter");
 	$frm->add_submit("go", "Enregistrer mon annonce");
 	
 	$cts->add($frm, true);
@@ -147,7 +148,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="add" && $_REQUEST['
 	$annonce = new annonce($site->db, $site->dbrw);
 	$jobuser->load_by_id($site->user->id);
 	
-	$result = $annonce->add($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['divers'], $_REQUEST['date_debut'], $_REQUEST['duree'], 1, $_REQUEST['remuneration']);
+	$result = $annonce->add($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['divers'], $_REQUEST['date_debut'], $_REQUEST['duree'], 1, $_REQUEST['remuneration'], $_REQUEST['allow_diff']);
 	
 	if($result)
 	{
