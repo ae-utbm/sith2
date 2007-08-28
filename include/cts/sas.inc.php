@@ -270,8 +270,6 @@ class sasphoto extends contents
    
     $this->add($imgcts,false,true,"sasimg");
 
-    $subcts = new contents();
-    
     if ( $idx != 0 || $idx != $count-1 )
     {
       $subcts->puts("<div id=\"sasnav\">");
