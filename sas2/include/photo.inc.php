@@ -62,13 +62,13 @@ class photo extends basedb
         WHERE `id_photo` = '" . mysql_real_escape_string($id) . "'
         LIMIT 1");
     if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		
-		$this->id = null;	
-		return false;
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
+    
+    $this->id = null;  
+    return false;
   }
 
   function _load($row)
@@ -101,7 +101,17 @@ class photo extends basedb
     $this->meta_id_asso = $row['meta_id_asso_ph'];
     
     $this->date_ajout = strtotime($row['date_ajout_ph']);
-    $this->id_asso_photographe = $row['id_asso_photographe'];
+		$this->id_asso_photographe = $row['id_asso_photographe'];
+
+		//exif et puis nah ! :)
+		$this->iso = $row["iso"];
+	  $this->focale = $row["focale"];
+		$this->flash = $row["flash"];
+		$this->exposuretime = $row["exposuretime"];
+		$this->aperture = $row["aperture"];
+		$this->manufacturer = $row["manufacturer"];
+		$this->model = $row["model"];
+
   }
 
   /**
@@ -171,12 +181,95 @@ class photo extends basedb
   {
     $this->date_prise_vue=null;
 
-    $exif = @exif_read_data($tmp_filename, 0, true);
-    if ( $exif ) {
-      if ( $exif["EXIF"]["DateTimeOriginal"] )
-        $this->date_prise_vue = datetime_to_timestamp($exif["EXIF"]["DateTimeOriginal"]);
-      else if ( $exif["IFD0"]["DateTime"] )
-        $this->date_prise_vue = datetime_to_timestamp($exif["IFD0"]["DateTime"]);
+    $exif = @exif_read_data($tmp_filename, "IFDO", true);
+    if ( $exif )
+    {
+      //EXIF
+      if(isset($exif["EXIF"]))
+      {
+        // Date
+        if ( $EXIF["DateTimeOriginal"] )
+          $this->date_prise_vue = datetime_to_timestamp($EXIF["DateTimeOriginal"]);
+
+        //Exposuretime
+        if(isset($EXIF["ExposureTime"]))
+          $this->exposuretime=$EXIF["ExposureTime"];
+        else
+          $this->exposuretime=0;
+
+        //ISO
+        if(isset($EXIF["ISOSpeedRatings"]))
+          $this->iso=$EXIF["ISOSpeedRatings"];
+        else
+          $this->iso=0;
+
+        //Focale
+        if(isset($EXIF["FocalLengthIn35mmFilm"]))
+          $this->focale=$EXIF["FocalLengthIn35mmFilm"];
+        else
+          $this->focale=0;
+
+        //Flash
+        if(isset($EXIF["Flash"]))
+        {
+          $flash=(int)$EXIF["Flash"];
+          if(isset($EXIF["LightSource"]))
+          {
+            if ($EXIF["LightSource"]==1)
+              $this->flash=1;
+            else
+              $this->flash=0;
+          }
+          else
+          {
+            if ($flash>0)
+              $this->flash=1;
+            else
+              $this->flash=0;
+          }
+        }
+        else
+          $this->flash=-1;//on ne sait pas vraiment
+      }
+
+      //COMPUTED
+      if(isset($exif["COMPUTED"]))
+      {
+        $COMPUTED=$exif["COMPUTED"];
+        //Aperture
+        if(isset($COMPUTED["ApertureFNumber"]))
+        {
+          $this->aperture=explode("/",$COMPUTED["ApertureFNumber"]);
+          if(count($at)==2)
+            $at=$at[0]." ".$at[1];
+          else
+            $this->aperture=$COMPUTED["ApertureFNumber"];
+        }
+        else
+          $this->aperture=0;
+      }
+
+      //IFDO
+      if (isset($exif["IFD0"])
+      {
+        $IFDO=$exif["IFD0"];
+
+        // Si on a pas déjà la date
+        if(is_null($this->date_prise_vue) && isset($IFDO["DateTime"]))
+          $this->date_prise_vue = datetime_to_timestamp($IFD0["DateTime"]);
+
+        //Fabricant
+        if(isset($IFDO["Make"]))
+          $this->manufacturer=$IFDO["Make"];
+        else
+          $this->manufacturer=null;
+
+        //Boitier
+        if(isset($IFDO["Model"]))
+          $this->model=$IFDO["Model"];
+        else
+          $this->model=NULL;
+      }
     }
 
     if ( $nobody )
@@ -222,7 +315,14 @@ class photo extends basedb
         "date_ajout_ph"=>date("Y-m-d H:i:s"),
         "type_media_ph"=>$this->type_media,
         "titre_ph"=>$this->titre,
-        "id_asso_photographe"=>$this->id_asso_photographe
+        "id_asso_photographe"=>$this->id_asso_photographe,
+        "iso"=>$this->iso,
+        "focale"=>$this->focale,
+        "flash"=>$this->flash,
+        "exposuretime"=>$this->exposuretime,
+        "aperture"=>$this->aperture,
+        "manufacturer"=>$this->manufacturer,
+        "model"=>$this->model
         )
       );
 
@@ -342,45 +442,45 @@ class photo extends basedb
    * Utilisé par le module de génération de mosaiques. Nécessite en général 0.08 sec.
    * Script ressuscité de UBPT v1.
    */
-	function _calcul_couleur_moyenne (  )
-	{
+  function _calcul_couleur_moyenne (  )
+  {
     $vgt = $this->get_abs_path().$this->id.".vignette.jpg";
     $img = imagecreatefromjpeg($vgt);
 
     if ( !$img ) 
       return;
 
-		$sR = 0;
-		$sG = 0;
-		$sB = 0;
-		$n = 0;
-		
-		$W = imagesx($img);
-		$H = imagesy($img);
-		
-		for ( $x=0; $x < $W; $x++ )
-			for ( $y=0; $y < $H; $y++ ) {
-				$rgb = imagecolorat($img,$x,$y);
-				$sR += ($rgb >> 16) & 0xFF;
-				$sG += ($rgb >> 8) & 0xFF;
-				$sB += $rgb & 0xFF;
-				$n++;
-			}
-			
+    $sR = 0;
+    $sG = 0;
+    $sB = 0;
+    $n = 0;
+    
+    $W = imagesx($img);
+    $H = imagesy($img);
+    
+    for ( $x=0; $x < $W; $x++ )
+      for ( $y=0; $y < $H; $y++ ) {
+        $rgb = imagecolorat($img,$x,$y);
+        $sR += ($rgb >> 16) & 0xFF;
+        $sG += ($rgb >> 8) & 0xFF;
+        $sB += $rgb & 0xFF;
+        $n++;
+      }
+      
     imagedestroy($img);
     
-		$R = round($sR/$n);	
-		$G = round($sG/$n);	
-		$B = round($sB/$n);	
-		
-		$this->couleur_moyenne = ($R << 16) | ($G << 8) | $B;
-		
+    $R = round($sR/$n);  
+    $G = round($sG/$n);  
+    $B = round($sB/$n);  
+    
+    $this->couleur_moyenne = ($R << 16) | ($G << 8) | $B;
+    
     $sql = new update ($this->dbrw, "sas_photos",
         array("couleur_moyenne"=>$this->couleur_moyenne),
         array("id_photo"=>$this->id )
       );
       
-	}	
+  }  
 
   /**
    * Recalcule et met à jour les droits à l'image pour la photo
@@ -415,7 +515,7 @@ class photo extends basedb
    * @see class Utilisateur
    */
   function add_personne( $utl, $modere=true )
-	{
+  {
     if($modere)
       $modere=1;
     else
