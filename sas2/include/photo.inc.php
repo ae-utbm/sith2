@@ -180,11 +180,17 @@ class photo extends basedb
   function add_photo ( $tmp_filename, $id_catph, $commentaire="", $id_utilisateur_photographe=null, $nobody=false,$meta_id_asso=NULL, $titre=NULL,$id_asso_photographe=NULL)
   {
     $this->date_prise_vue=null;
+    $this->iso=0;
+    $this->focale=0;
+    $this->exposuretime=0;
+    $this->flash=-1;
+    $this->aperture=0;
+    $this->manufacturer=null;
+    $this->model=null;
 
     $exif = @exif_read_data($tmp_filename, "IFDO", true);
     if ( $exif )
     {
-      print_r($exif);
       //EXIF
       if(isset($exif["EXIF"]))
       {
@@ -195,20 +201,14 @@ class photo extends basedb
         //Exposuretime
         if(isset($EXIF["ExposureTime"]))
           $this->exposuretime=$EXIF["ExposureTime"];
-        else
-          $this->exposuretime=0;
 
         //ISO
         if(isset($EXIF["ISOSpeedRatings"]))
           $this->iso=$EXIF["ISOSpeedRatings"];
-        else
-          $this->iso=0;
 
         //Focale
         if(isset($EXIF["FocalLengthIn35mmFilm"]))
           $this->focale=$EXIF["FocalLengthIn35mmFilm"];
-        else
-          $this->focale=0;
 
         //Flash
         if(isset($EXIF["Flash"]))
@@ -229,8 +229,6 @@ class photo extends basedb
               $this->flash=0;
           }
         }
-        else
-          $this->flash=-1;//on ne sait pas vraiment
       }
 
       //COMPUTED
@@ -246,8 +244,6 @@ class photo extends basedb
           else
             $this->aperture=$COMPUTED["ApertureFNumber"];
         }
-        else
-          $this->aperture=0;
       }
 
       //IFDO
@@ -262,14 +258,10 @@ class photo extends basedb
         //Fabricant
         if(isset($IFDO["Make"]))
           $this->manufacturer=$IFDO["Make"];
-        else
-          $this->manufacturer=null;
 
         //Boitier
         if(isset($IFDO["Model"]))
           $this->model=$IFDO["Model"];
-        else
-          $this->model=NULL;
       }
     }
 
