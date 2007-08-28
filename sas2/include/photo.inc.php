@@ -250,7 +250,7 @@ class photo extends basedb
       }
 
       //IFDO
-      if (isset($exif["IFD0"])
+      if (isset($exif["IFD0"]))
       {
         $IFDO=$exif["IFD0"];
 
