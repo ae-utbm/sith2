@@ -302,6 +302,13 @@ class sasphoto extends contents
     }
   
     $subcts->add_title(2,"Informations");
+
+    if(!empty($exif))
+    {
+      $subcts->puts($_exif);
+      $subcts->puts($exif);
+      $subcts->puts("</div>\n");
+    }
   
     if ( !is_null($photo->date_prise_vue) && $photo->date_prise_vue > 3600 )
       $subcts->add_paragraph(date("d/m/Y H:i:s",$photo->date_prise_vue));
