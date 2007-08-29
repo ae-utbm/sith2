@@ -3,7 +3,7 @@
  * - Julien Etelain < julien at pmad dot net >
  * - Simon Lopez < simon DOT lopez AT ayolo DOT org >
  *
- * Ce fichier fait partie du site de l'Association des Étudiants de
+ * Ce fichier fait partie du site de l'Association des Ã‰tudiants de
  * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
@@ -86,12 +86,12 @@ function add_new_form($id = null)
 
   $cts = new contents("Gestion des cotisations");
 
-  $frm = new form("newstudent","cotisations.php",true,"POST","Inscription d'un nouvel Ã©tudiant UTBM ou administratif UTBM");
+  $frm = new form("newstudent","cotisations.php",true,"POST","Inscription d'un nouvel ÃƒÂ©tudiant UTBM ou administratif UTBM");
   $frm->add_hidden("action","newstudent");
   if ( $ErreurNewStudent )
     $frm->error($ErreurNewStudent);
 
-  $sub_frm_ident = new form("ident",null,null,null,utf8_encode("Identité"));
+  $sub_frm_ident = new form("ident",null,null,null,utf8_encode("IdentitÃ©"));
 
   $sub_frm_ident->add_text_field("nom","Nom","",true);
 
@@ -104,7 +104,7 @@ function add_new_form($id = null)
 
   $sub_frm_cotiz = new form("cotisation",null,null,null,utf8_encode("Cotisation"));
   $sub_frm_cotiz->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, jusqu'au $date1", 1=>"2 Semestres, 28 Euros, jusqu'au $date2" ),1);
-  $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => utf8_encode("Chèque"), 2 => "CB", 3 => "Liquide", 4 => "Administration"));
+  $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => utf8_encode("ChÃ¨que"), 2 => "CB", 3 => "Liquide", 4 => "Administration"));
   $sub_frm_cotiz->add_info("&nbsp;");
 
   $sub_frm_cotiz_ecole = new form("ecoleform",null,null,null,utf8_encode("Etudiant"));
@@ -119,7 +119,7 @@ function add_new_form($id = null)
   $sub_frm_cotiz->add($sub_frm_cotiz_other,false,true,false,"other",false,true,false);
 
   $sub_frm_cotiz->add_info("&nbsp;");
-  $sub_frm_cotiz->add_checkbox("droit_image","Droit Ã  l'image",false);
+  $sub_frm_cotiz->add_checkbox("droit_image","Droit ÃƒÂ  l'image",false);
   $sub_frm_cotiz->add_checkbox("cadeau","Cadeau",false);
   $sub_frm_cotiz->add_info("&nbsp;");
 
@@ -143,7 +143,7 @@ function add_user_info_form ($user = null)
   $pays_parents->load_by_id($user->id_pays_parents);
   $ville_parents->load_by_id($user->id_ville_parents);
 
-  $sub_frm = new form("infosmmt",null,null,null,utf8_encode("Informations complémentaires"));
+  $sub_frm = new form("infosmmt",null,null,null,utf8_encode("Informations complÃ©mentaires"));
   $sub_frm->add_info("&nbsp;");
   $sub_frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
   if ($user->date_naissance)
@@ -167,7 +167,7 @@ function add_user_info_form ($user = null)
 
   $sub_frm->add_entity_smartselect ("id_ville_parents","Ville parents (France)", $ville_parents,true);
   $sub_frm->add_entity_smartselect ("id_pays_parents","ou pays parents", $pays_parents,true);
-  $sub_frm->add_select_field("taille_tshirt","Taille de t-shirt (non publié***)",
+  $sub_frm->add_select_field("taille_tshirt","Taille de t-shirt (non publiÃ©***)",
                              array(0=>"-",
                                    "XS"=>"XS",
                                    "S"=>"S",
@@ -215,11 +215,11 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
                          "ORDER BY `date_fin_cotis` DESC LIMIT 1");
       if ( $req->lines == 1 )
       {
-        /* on fait de l'incrémental */
+        /* on fait de l'incrÃ©mental */
         list($curend) = $req->get_row();
         $prevdate=strtotime($curend);
 
-        /* calculs identiques au mode normal mais basé sur la dernière cotiz */
+        /* calculs identiques au mode normal mais basÃ© sur la derniÃ¨re cotiz */
         if (date("m-d",$prevdate) < "02-15")
         {
             $date1 = date("Y",$prevdate) . "-02-15";
@@ -338,7 +338,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
   }
   if ( $_REQUEST["prenom"] )
   {
-          $by = "prénom";
+          $by = "prÃ©nom";
           $on = $_REQUEST['prenom'];
           if ($on)
             $conds .= " AND utilisateurs.prenom_utl LIKE '".mysql_real_escape_string($on)."%'";
@@ -422,9 +422,9 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
       $frm = new form("newcotiz","cotisations.php?id_utilisateur=".$user->id,true,"POST","Nouvelle cotisation");
       $frm->add_hidden("action","newcotiz");
       $frm->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, $date1", 1=>"2 Semestres, 28 Euros, $date2" ),1);
-      $frm->add_select_field("paiement","Mode de paiement",array(1 => utf8_encode("Chèque"), 2 => "CB", 3 => "Liquide", 4 => "Administration"));
+      $frm->add_select_field("paiement","Mode de paiement",array(1 => utf8_encode("ChÃ¨que"), 2 => "CB", 3 => "Liquide", 4 => "Administration"));
       $frm->add_checkbox("droit_image","Droit &agrave; l'image",$user->droit_image);
-      $frm->add_checkbox("a_pris_cadeau",utf8_encode("Cadeau distribué"),false);
+      $frm->add_checkbox("a_pris_cadeau",utf8_encode("Cadeau distribuÃ©"),false);
       $frm->add_submit("submit","Enregistrer");
       $cts->add($frm,true);
 
@@ -437,7 +437,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
 
       $tbl = new sqltable(
                           "listcotiz_effectue",
-                          utf8_encode("Cotisations effectuées"), $req, "cotisations.php?id_utilisateur=".$user->id,
+                          utf8_encode("Cotisations effectuÃ©es"), $req, "cotisations.php?id_utilisateur=".$user->id,
                           "id_cotisation",
                           array("date_cotis"=>"Le",
                                 "date_fin_cotis"=>"Jusqu'au",
@@ -495,10 +495,10 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
     $res = $req->get_row();
     $tbl = new sqltable(
                         "listcotiz",
-                         utf8_encode("$nb Résultats de la recherche de cotisants par $by sur $on"), $req, "cotisations.php",
+                         utf8_encode("$nb RÃ©sultats de la recherche de cotisants par $by sur $on"), $req, "cotisations.php",
                          "id_utilisateur",
                           array("nom_utilisateur"=>"Nom",
-                                "prenom_utilisateur"=>utf8_encode("Prénom"),
+                                "prenom_utilisateur"=>utf8_encode("PrÃ©nom"),
                                 "branche_utbm"=>"Branche",
                                 "semestre_utbm"=>"Semestre",
                                 "ae_utl"=>"Cotisant",
@@ -528,13 +528,13 @@ elseif ( $_REQUEST["action"] == "newcotiz" )
   if ( $user->id > 0 )
   {
     $user->load_all_extra();
-    $cts = new contents(utf8_encode("Mise à jour des infos indispensable pour l'impression de la carte AE"));
+    $cts = new contents(utf8_encode("Mise Ã  jour des infos indispensable pour l'impression de la carte AE"));
     $frm = new form("infos","cotisations.php?id_utilisateur=".$user->id,true,"POST",null);
     $frm->add_hidden("action","savecotiz");
     if ( $user->utbm )
     {
       $frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
-      $frm->add_text_field("prenom",utf8_encode("Prénom"),$user->prenom,true,false,false,false);
+      $frm->add_text_field("prenom",utf8_encode("PrÃ©nom"),$user->prenom,true,false,false,false);
       $frm->add_text_field("surnom","Surnom",$user->surnom);
 
       $sub_frm = add_user_info_form($user);
@@ -581,7 +581,7 @@ elseif ($_REQUEST["action"] == "newstudent")
     $etudiant = false;
   }
 
-  /* Verif UTBM */
+  /* Verif UTBM 
   if ($email_utbm_needed && !CheckEmail($_REQUEST['emailutbm'],1))
   {
     $cts = new contents("WARNING");
@@ -590,7 +590,7 @@ elseif ($_REQUEST["action"] == "newstudent")
     $site->add_contents($cts,true);
     $site->end_page();
     exit();
-  }
+  }*/
 
   /* Verif de disponibilite */
   if (!$user->is_email_avaible($_REQUEST['emailutbm']))
@@ -632,11 +632,11 @@ elseif ($_REQUEST["action"] == "newstudent")
   else
   {
     $user->load_all_extra();
-    $cts = new contents(utf8_encode("Mise à jour des infos indispensable pour l'impression de la carte AE"));
+    $cts = new contents(utf8_encode("Mise Ã  jour des infos indispensable pour l'impression de la carte AE"));
     $frm = new form("infos","cotisations.php?id_utilisateur=".$user->id,true,"POST",null);
     $frm->add_hidden("action","savecotiz");
     $frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
-    $frm->add_text_field("prenom",utf8_encode("Prénom"),$user->prenom,true,false,false,false);
+    $frm->add_text_field("prenom",utf8_encode("PrÃ©nom"),$user->prenom,true,false,false,false);
     $frm->add_text_field("surnom","Surnom (facultatif) ",$user->surnom);
     $sub_frm = add_user_info_form($user);
     $frm->add($sub_frm,false,false,false,false,false,true,true);
