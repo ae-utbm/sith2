@@ -141,7 +141,19 @@
 				$this->buffer .= "<p> Vous avez déjà sélectionné un candidat : $usr->prenom $usr->nom</p>";
 				$this->buffer .= "<p> Vous devez avoir reçu un email vous confirmant votre choix ainsi que les informations vous permettant de contacter l'étudiant choisi.<br >\n Si ce n'est pas le cas, n'hésitez pas à <a href=\"\">nous le signaler</a>";
 				$this->buffer .= "<p></p>";
-				$this->buffer .= "<p> Votre annonce est actuellement considérée comme étant en cours d'éxécution, si le contrat est terminé, merci de bien vouloir penser à <a onClick=\"javascript:alert('bleh');\"  style=\"cursor: pointer\" >clore l'annonce</a>";
+				$this->buffer .= "<p> Votre annonce est actuellement considérée comme étant en cours d'éxécution, si le contrat est terminé, merci de bien vouloir penser à <a onClick=\"javascript:on_off('close_form_".$annonce->id."');\"  style=\"cursor: pointer\" >clore l'annonce</a>";
+				
+				$this->buffer .= "<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"clic\" name=\"clic\" value=\"Evaluer & clore\" class=\"isubmit\" onClick=\"javascript:on_off('close_form_".$annonce->id."');\" /></div></div>\n";
+				
+				$this->buffer .= "<div id=\"close_form_".$annonce->id."\" style=\"display: none;\">\n";
+
+				$this->buffer .= "<h3>Evaluer et clore cette annonce</h3>";
+					$frm = new form("close_$annonce->id", "board_client.php?action=close&id=".$annonce->id, false, "POST");
+					$frm->add_radiobox_field("close_eval", "Evaluation de la prestation", array( "bad" => "Négative", "bof" => "Neutre", "yeah" => "Positive") );
+					$frm->add_text_area("close_comment", "Commentaire");
+					$frm->add_submit("close_send", "Clore l'annonce");
+				$this->buffer .= $frm->html_render();
+				$this->buffer .= "</div>";
 			}
 			else
 			{
@@ -191,7 +203,7 @@
 							
 						$frm = new form("apply_".$annonce->id."", "?action=select", true, "POST");
 						$frm->add_hidden("etu", $usr->id);
-						$frm->add_hidden("annonce", $annonce->id);
+						$frm->add_hidden("id", $annonce->id);
 						$frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"clic\" name=\"clic\" value=\"Choisir ce candidat\" class=\"isubmit\" onClick=\"javascript:if(confirm('Vous vous apprêtez à sélectionner ".$usr->prenom ." ". $usr->nom.", en êtes vous sûr ?')) this.form.submit();\" /></div></div>\n");
 						$this->buffer .= $frm->html_render(); 
 						

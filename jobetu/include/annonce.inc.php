@@ -126,10 +126,20 @@ class annonce extends stdentity
   {
   	$sql = new update($this->dbrw, "job_annonces", array("id_select_etu" => $id), array("id_annonce" => $this->id) );
   }
+  
+  function is_closed()
+  {
+  	
+  }
 
   function get_client()
   {
   	return $id_client;
+  }
+  
+  function set_closed()
+  {
+  	$sql = new update($this->dbrw, "job_annonces", array("closed" => true), array("id_annonce" => $this->id) );
   }
 
   function apply_to($etu, $comment = null)
