@@ -54,7 +54,7 @@ class annonce extends stdentity
   	$sql = new requete($this->db, "SELECT `job_annonces`.*, 
 																		DATE_FORMAT(`job_annonces`.`start_date`, '%e/%c/%Y') as `s_date`,
 																		CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_client`,
-																		IF(`utilisateurs`.`tel_portable_utl` IS NOT NULL, `utilisateurs`.`tel_portable_utl`, `utilisateurs`.`tel_maison_utl`) AS num_client,
+																		IFNULL(`utilisateurs`.`tel_portable_utl`, `utilisateurs`.`tel_maison_utl`) AS num_client,
 																		`job_types`.`nom` as `nom_type`
 																		FROM `job_annonces` 
 																		LEFT JOIN `utilisateurs`
