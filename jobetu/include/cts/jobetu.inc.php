@@ -149,7 +149,7 @@
 
 				$this->buffer .= "<h3>Evaluer et clore cette annonce</h3>";
 					$frm = new form("close_$annonce->id", "board_client.php?action=close&id=".$annonce->id, false, "POST");
-					$frm->add_radiobox_field("close_eval", "Evaluation de la prestation", array( "bad" => "Négative", "bof" => "Neutre", "yeah" => "Positive") );
+					$frm->add_radiobox_field("close_eval", "Evaluation de la prestation", array( "bof" => "Négative", "bleh" => "Neutre", "yeah" => "Positive") );
 					$frm->add_text_area("close_comment", "Commentaire");
 					$frm->add_submit("close_send", "Clore l'annonce");
 				$this->buffer .= $frm->html_render();

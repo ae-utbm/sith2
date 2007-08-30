@@ -137,9 +137,23 @@ class annonce extends stdentity
   	return $id_client;
   }
   
-  function set_closed()
+  function set_closed($eval = NULL, $comment = NULL)
   {
+  	$val = "";
+  	
+  	switch( mysql_real_escape_string($eval) ) //vu qu'on peut pas mettre de '0' dans les radiobox ...
+  	{
+  		case "bof":
+  			$val = -1; break;
+  		case "bleh":
+  			$val = 0; break;
+  		case "yeah":
+  			$val = +1; break;
+  	}
+  	
   	$sql = new update($this->dbrw, "job_annonces", array("closed" => true), array("id_annonce" => $this->id) );
+  	
+  	$sql2 = new insert($this->dbrw, "job_feedback", array("id_annonce" => $this->id, "note_client" => $val, "eval_client" => mysql_real_escape_string($comment)) );
   }
 
   function apply_to($etu, $comment = null)

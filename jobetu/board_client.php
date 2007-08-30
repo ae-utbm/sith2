@@ -98,7 +98,7 @@ else
 				}
 				else if( $_REQUEST['action'] == "close" )
 				{
-					$annonce->set_closed();
+					$annonce->set_closed($_REQUEST['close_eval'], $_REQUEST['close_comment']);
 				}
 			}
 	}
