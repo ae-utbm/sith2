@@ -181,7 +181,7 @@
 						$frm = new form("apply_".$annonce->id."", "?action=select", true, "POST");
 						$frm->add_hidden("etu", $usr->id);
 						$frm->add_hidden("annonce", $annonce->id);
-						$frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"clic\" name=\"clic\" value=\"Choisir ce candidat\" class=\"isubmit\" onClick=\"javascript:if(confirm('Vous vous apprêtez à sélectionner machin, en êtes vous sur ?')) this.form.submit();\" /></div></div>");
+						$frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"clic\" name=\"clic\" value=\"Choisir ce candidat\" class=\"isubmit\" onClick=\"javascript:if(confirm('Vous vous apprêtez à sélectionner ".$usr->prenom ." ". $usr->nom.", en êtes vous sûr ?')) this.form.submit();\" /></div></div>\n");
 						$this->buffer .= $frm->html_render(); 
 						
 	  				$this->buffer .= "</div>\n";
