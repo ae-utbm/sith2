@@ -26,6 +26,7 @@ $topdir = "../";
 
 require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
+require_once($topdir . "include/cts/special.inc.php");
 require_once("include/jobetu.inc.php");
 require_once("include/annonce.inc.php");
 require_once("include/cts/jobetu.inc.php");

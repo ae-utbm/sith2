@@ -51,8 +51,8 @@
 	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Demandeur </div> \n <div class=\"desc_content\"> <a href=\"$topdir/user.php?id_utilisateur=$annonce->id_client\"><img src=\"http://ae.utbm.fr/images/icons/16/user.png\" /> ".$annonce->nom_client."</a></div> \n</div>";
 	  		if( $annonce->allow_diff )
 	  		{
-	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> </div> \n <div class=\"desc_content\"><i>La diffusion du numéro de téléphone du demandeur à été authorisée, pensez prendre contact afin d'augmenter vos chances</i></div> \n</div>";
-	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Téléphone </div> \n <div class=\"desc_content\">".$annonce->tel_client."</div> \n</div>";
+	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> </div> \n <div class=\"desc_content\"><i>La diffusion du numéro de téléphone du demandeur à été autorisée, pensez prendre contact afin d'augmenter vos chances</i></div> \n</div>";
+	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Téléphone </div> \n <div class=\"desc_content\">".telephone_display($annonce->tel_client)."</div> \n</div>";
 	  		}
 	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Type </div> \n <div class=\"desc_content\">".$annonce->nom_type." (". $annonce->nom_main_cat .") </div> \n</div>";
 				if( $annonce->start_date != '0/0/0000' )
@@ -181,7 +181,9 @@
 						$frm = new form("apply_".$annonce->id."", "?action=select", true, "POST");
 						$frm->add_hidden("etu", $usr->id);
 						$frm->add_hidden("annonce", $annonce->id);
+						$frm->puts("<div id=\"choose\" onClick=\"javascript:if(confirm('Vous vous apprêtez à sélectionner machin, en êtes vous sur ?')) this.form.submit();\">");
 		  			$frm->add_submit("clic", "Choisir ce candidat");
+		  			$frm->puts("</div>");
 						$this->buffer .= $frm->html_render(); 
 						
 	  				$this->buffer .= "</div>\n";
