@@ -51,7 +51,7 @@
 	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Demandeur </div> \n <div class=\"desc_content\"> <a href=\"$topdir/user.php?id_utilisateur=$annonce->id_client\"><img src=\"http://ae.utbm.fr/images/icons/16/user.png\" /> ".$annonce->nom_client."</a></div> \n</div>";
 	  		if( $annonce->allow_diff )
 	  		{
-	  			$this->buffer .= "<p>La diffusion du numéro de téléphone du demandeur à été authorisée, pensez prendre contact afin d'augmenter vos chances</p>";
+	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> </div> \n <div class=\"desc_content\"><i>La diffusion du numéro de téléphone du demandeur à été authorisée, pensez prendre contact afin d'augmenter vos chances</i></div> \n</div>";
 	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Téléphone </div> \n <div class=\"desc_content\">".$annonce->tel_client."</div> \n</div>";
 	  		}
 	  			$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Type </div> \n <div class=\"desc_content\">".$annonce->nom_type." (". $annonce->nom_main_cat .") </div> \n</div>";
