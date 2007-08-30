@@ -45,6 +45,7 @@ class annonce extends stdentity
 	var $type_contrat;
 	var $allow_diff;
 	var $tel_client;
+	var $closed;
 	
 	var $applicants;
 	var $applicants_fullobj;
@@ -82,6 +83,7 @@ class annonce extends stdentity
   	$this->type_contrat = $line['type_contrat'];
   	$this->allow_diff = $line['allow_diff'];
   	$this->tel_client = $line['num_client'];
+  	$this->closed = $line['closed'];
   	
   	/* C'est pas beau mais j'arrive pas à le faire en une requete */
   	$sql = new requete($this->db, "SELECT `job_types`.`nom` FROM `job_annonces` LEFT JOIN `job_types` ON `job_types`.`id_type` = ". ($this->id_type - $this->id_type%100) ."");
@@ -129,7 +131,7 @@ class annonce extends stdentity
   
   function is_closed()
   {
-  	
+  	return $this->closed;
   }
 
   function get_client()

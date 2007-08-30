@@ -100,10 +100,15 @@ else
 				{
 					$annonce->set_closed($_REQUEST['close_eval'], $_REQUEST['close_comment']);
 				}
+				else if( $_REQUEST['action'] == "detail" )
+				{
+					$cts->add_title(3, "Détails de l'annonce n°".$annonce->id);
+					$cts->add( new annonce_box($annonce) );
+				}
 			}
 	}
 		
-	$cts->add_paragraph("Vous avez `".count($user->annonces)."` nouveau(x) message(s)");
+	$cts->add_title(3, "Vous avez ".count($user->annonces)." annonce(s) en cours");
 	
 	foreach($user->annonces as $ann)
 	{
@@ -117,10 +122,19 @@ else
 		$cts->add($box);
 	}
 	
-	$sql = new requete($site->db, "SELECT * FROM job_annonces WHERE id_client = $user->id AND closed = '1'");
+	$sql = new requete($site->db, "SELECT *, 
+																	`job_annonces`.`id_annonce` AS `id`,
+																	DATE_FORMAT(`date`, '%e/%c/%Y') AS `date`, 
+																	CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur`,
+																	`utilisateurs`.`id_utilisateur`
+																	FROM job_annonces
+																	LEFT JOIN `utilisateurs`
+																	ON `job_annonces`.`id_select_etu` = `utilisateurs`.`id_utilisateur`
+																	WHERE id_client = $user->id AND closed = '1'");
 	if( $sql->lines > 0 )
 	{
-		$table = new sqltable("closedlist", "Vos précédentes annonces", $sql, "", "id_annonce", array("id_annonce" => "N°", "date" => "Date", "titre" => "Titre", "id_select_etu" => "Etudiant sélectionné"), array(), array(), array() );
+		$cts->puts("<a name=\"closed\"></a>");
+		$table = new sqltable("closedlist", "Vos précédentes annonces", $sql, "board_client.php", "id", array("id" => "N°", "date" => "Date", "titre" => "Titre", "nom_utilisateur" => "Etudiant sélectionné"), array("detail" => "Détails"), array(), array() );
 		$cts->add($table, true);
 	}
 }

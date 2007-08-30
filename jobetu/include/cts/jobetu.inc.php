@@ -128,10 +128,11 @@
 	  	/** Candidatures ******************************************************/
 	  	$n = 1; // Compteuràlacon
 
-			if( empty($annonce->applicants) )
-			{
-				$this->buffer .= "<p class=\"error\">Aucun candidat ne s'est pour l'instant présenté pour répondre à votre offre.</p>";
-			}
+
+	  	if( $annonce->is_closed() )
+	  	{
+	  		$this->buffer .= "<p class=\"error\">Annonce rangée</p>";
+	  	}
 			else if( $annonce->is_provided() )
 			{
 				foreach($annonce->applicants_fullobj as $usr)
@@ -154,6 +155,10 @@
 					$frm->add_submit("close_send", "Clore l'annonce");
 				$this->buffer .= $frm->html_render();
 				$this->buffer .= "</div>";
+			}
+			else if( empty($annonce->applicants) )
+			{
+				$this->buffer .= "<p class=\"error\">Aucun candidat ne s'est pour l'instant présenté pour répondre à votre offre.</p>";
 			}
 			else
 			{
