@@ -119,7 +119,7 @@ class annonce extends stdentity
 
   function is_provided()
   {
-  	return $winner;
+  	return $this->winner;
   }
   
   function set_winner($id)

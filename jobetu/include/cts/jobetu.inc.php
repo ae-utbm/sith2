@@ -132,6 +132,13 @@
 			{
 				$this->buffer .= "<p class=\"error\">Aucun candidat ne s'est pour l'instant présenté pour répondre à votre offre.</p>";
 			}
+			else if( $annonce->is_provided() )
+			{
+				$this->buffer .= "<p> Vous avez déjà sélectionné un candidat </p>";
+				$key = array_search($annonce->winner, $annonce->applicants);
+				echo $key;
+				print_r($annonce->applicants[$key], true);
+			}
 			else
 			{
 				$this->buffer .= "<p>Il y a pour l'instant ".count($annonce->applicants)." candidature(s) pour votre annonce </p>\n";
