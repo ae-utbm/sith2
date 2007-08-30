@@ -140,6 +140,7 @@ class annonce extends stdentity
   function set_closed($eval = NULL, $comment = NULL)
   {
   	$val = "";
+  	$comment = mysql_real_escape_string($comment);
   	
   	switch( mysql_real_escape_string($eval) ) //vu qu'on peut pas mettre de '0' dans les radiobox ...
   	{
@@ -153,7 +154,8 @@ class annonce extends stdentity
   	
   	$sql = new update($this->dbrw, "job_annonces", array("closed" => true), array("id_annonce" => $this->id) );
   	
-  	$sql2 = new insert($this->dbrw, "job_feedback", array("id_annonce" => $this->id, "note_client" => $val, "eval_client" => mysql_real_escape_string($comment)) );
+  	if( $val != NULL || $comment != NULL )
+  		$sql2 = new insert($this->dbrw, "job_feedback", array("id_annonce" => $this->id, "note_client" => $val, "avis_client" => $comment) );
   }
 
   function apply_to($etu, $comment = null)
