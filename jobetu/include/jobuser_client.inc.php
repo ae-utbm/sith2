@@ -59,7 +59,7 @@ class jobuser_client extends utilisateur
   {
    // if( is_jobetu_client() )
       {
-      	$sql = new requete($this->db, "SELECT * FROM job_annonces WHERE id_client = $this->id");
+      	$sql = new requete($this->db, "SELECT * FROM job_annonces WHERE id_client = $this->id AND closed <> '1'");
 				
         while($line = $sql->get_row())
 			    $this->annonces[] = $line;

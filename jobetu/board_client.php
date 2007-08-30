@@ -117,6 +117,12 @@ else
 		$cts->add($box);
 	}
 	
+	$sql = new requete($site->db, "SELECT * FROM job_annonces WHERE id_client = $user->id AND closed = '1'");
+	if( $sql->lines > 0 )
+	{
+		$table = new sqltable("closedlist", "Vos précédentes annonces", $sql, "", "id_annonce", array("id_annonce" => "N°", "date" => "Date", "titre" => "Titre", "id_select_etu" => "Etudiant sélectionné"), array(), array(), array() );
+		$cts->add($table, true);
+	}
 }
 
 $site->add_contents($cts);
