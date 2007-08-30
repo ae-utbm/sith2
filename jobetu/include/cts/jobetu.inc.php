@@ -134,10 +134,14 @@
 			}
 			else if( $annonce->is_provided() )
 			{
-				$this->buffer .= "<p> Vous avez déjà sélectionné un candidat </p>";
-				$key = array_search($annonce->winner, $annonce->applicants);
-				echo $key;
-				print_r($annonce->applicants[$key], true);
+				foreach($annonce->applicants_fullobj as $usr)
+					if($usr->id == $annonce->winner)
+						break;  // <= ouh que c'est moche
+
+				$this->buffer .= "<p> Vous avez déjà sélectionné un candidat : $usr->prenom $usr->nom</p>";
+				$this->buffer .= "<p> Vous devez avoir reçu un email vous confirmant votre choix ainsi que les informations vous permettant de contacter l'étudiant choisi.<br >\n Si ce n'est pas le cas, n'hésitez pas à <a href=\"\">nous le signaler</a>";
+				$this->buffer .= "<p></p>";
+				$this->buffer .= "<p> Votre annonce est actuellement considérée comme étant en cours d'éxécution, si le contrat est terminé, merci de bien vouloir penser à <a onClick=\"javascript:alert('bleh');\"  style=\"cursor: pointer\" >clore l'annonce</a>";
 			}
 			else
 			{
