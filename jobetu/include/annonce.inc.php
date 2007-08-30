@@ -44,6 +44,7 @@ class annonce extends stdentity
 	var $ville;
 	var $type_contrat;
 	var $allow_diff;
+	var $tel_client;
 	
 	var $applicants;
 	var $applicants_fullobj;
@@ -53,6 +54,7 @@ class annonce extends stdentity
   	$sql = new requete($this->db, "SELECT `job_annonces`.*, 
 																		DATE_FORMAT(`job_annonces`.`start_date`, '%e/%c/%Y') as `s_date`,
 																		CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_client`,
+																		`utilisateurs`.`tel_portable_utl`,
 																		`job_types`.`nom` as `nom_type`
 																		FROM `job_annonces` 
 																		LEFT JOIN `utilisateurs`
@@ -79,6 +81,7 @@ class annonce extends stdentity
   	$this->ville = $line['ville'];
   	$this->type_contrat = $line['type_contrat'];
   	$this->allow_diff = $line['allow_diff'];
+  	$this->tel_client = $line['tel_portable_utl'];
   	
   	/* C'est pas beau mais j'arrive pas à le faire en une requete */
   	$sql = new requete($this->db, "SELECT `job_types`.`nom` FROM `job_annonces` LEFT JOIN `job_types` ON `job_types`.`id_type` = ". ($this->id_type - $this->id_type%100) ."");
