@@ -162,8 +162,34 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
 	$usr = new jobuser_etu($site->db, $site->dbrw);
 	$usr->load_by_id($site->user->id);
 		
-	$sql = new requete($site->db, "SELECT * from `job_annonces_etu` WHERE `id_etu` = $usr->id AND `relation` = 'apply'");
-	$cts->add(new sqltable("candidatures", "Candidatures", $sql, false, 'id_relation', array("id_relation"=>"Id", "id_etu"=>"Etu"), array(), array()), true);
+	$sql = new requete($site->db, "SELECT `job_annonces_etu`.* 
+																	FROM `job_annonces_etu`
+																	NATURAL JOIN `job_annonces`
+																	WHERE `job_annonces_etu`.`id_etu` = $usr->id 
+																	AND `job_annonces_etu`.`relation` = 'apply'
+																	AND `job_annonces`.`id_select_etu` IS NULL
+																");
+	$cts->add(new sqltable("candidatures", "Candidatures en cours", $sql, false, 'id_relation', array("id_annonce"=>"N°", "id_etu"=>"Etu"), array(), array()), true);
+	
+	$sql = new requete($site->db, "SELECT `job_annonces_etu`.*
+																	FROM `job_annonces_etu`
+																	NATURAL JOIN `job_annonces`
+																	WHERE `job_annonces_etu`.`id_etu` = $usr->id 
+																	AND `job_annonces_etu`.`relation` = 'apply'
+																	AND `job_annonces`.`id_select_etu` IS NOT NULL
+																");
+	$cts->add(new sqltable("candidatures", "Candidatures victorieuses", $sql, false, 'id_relation', array("id_relation"=>"Id", "id_etu"=>"Etu"), array(), array()), true);
+	
+	$sql = new requete($site->db, "SELECT `job_annonces_etu`.*,
+																	`job_annonces`.`titre`,
+																	'Vous saurez pas gniak gniak gniak !' AS `people`
+																	FROM `job_annonces_etu`
+																	NATURAL JOIN `job_annonces`
+																	WHERE `job_annonces_etu`.`id_etu` = $usr->id 
+																	AND `job_annonces_etu`.`relation` = 'apply'
+																	AND `job_annonces`.`id_select_etu` IS NOT NULL
+																");
+	$cts->add(new sqltable("candidatures", "Candidatures perdues", $sql, false, 'id_relation', array("id_annonce"=>"N°", "titre" => "Annonce", "people" => "Etudiant sélectionné"), array(), array()), true);
 }
 
 /*******************************************************************************
