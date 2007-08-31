@@ -162,26 +162,34 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
 	$usr = new jobuser_etu($site->db, $site->dbrw);
 	$usr->load_by_id($site->user->id);
 		
-	$sql = new requete($site->db, "SELECT `job_annonces_etu`.* 
+	$sql = new requete($site->db, "SELECT `job_annonces_etu`.*,
+																	`job_annonces`.`titre`,
+																	DATE_FORMAT(`job_annonces`.`date`, '%e/%c/%Y') AS `date`,
+																	CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur`,
+																	`utilisateurs`.`id_utilisateur`,
+																	'en cours' AS `etat`
 																	FROM `job_annonces_etu`
 																	NATURAL JOIN `job_annonces`
+																	LEFT JOIN `utilisateurs`
+																	ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
 																	WHERE `job_annonces_etu`.`id_etu` = $usr->id 
 																	AND `job_annonces_etu`.`relation` = 'apply'
 																	AND `job_annonces`.`id_select_etu` IS NULL
 																");
-	$cts->add(new sqltable("candidatures", "Candidatures en cours", $sql, false, 'id_relation', array("id_annonce"=>"N°", "id_etu"=>"Etu"), array(), array()), true);
-	
-	$sql = new requete($site->db, "SELECT `job_annonces_etu`.*
-																	FROM `job_annonces_etu`
-																	NATURAL JOIN `job_annonces`
-																	WHERE `job_annonces_etu`.`id_etu` = $usr->id 
-																	AND `job_annonces_etu`.`relation` = 'apply'
-																	AND `job_annonces`.`id_select_etu` IS NOT NULL
-																");
-	$cts->add(new sqltable("candidatures", "Candidatures victorieuses", $sql, false, 'id_relation', array("id_relation"=>"Id", "id_etu"=>"Etu"), array(), array()), true);
+	$cts->add(new sqltable("candidatures", "Candidatures en cours", $sql, false, 'id_relation', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le", "nom_utilisateur" => "Par", "etat" => "Etat"), array(), array()), true);
 	
 	$sql = new requete($site->db, "SELECT `job_annonces_etu`.*,
 																	`job_annonces`.`titre`,
+																	DATE_FORMAT(`job_annonces`.`date`, '%e/%c/%Y') AS `date`
+																	FROM `job_annonces_etu`
+																	NATURAL JOIN `job_annonces`
+																	WHERE `job_annonces`.`id_select_etu` = $usr->id
+																");
+	$cts->add(new sqltable("candidatures", "Candidatures victorieuses", $sql, false, 'id_relation', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le"), array(), array()), true);
+	
+	$sql = new requete($site->db, "SELECT `job_annonces_etu`.*,
+																	`job_annonces`.`titre`,
+																	DATE_FORMAT(`job_annonces`.`date`, '%e/%c/%Y') AS `date`,
 																	'Vous saurez pas gniak gniak gniak !' AS `people`
 																	FROM `job_annonces_etu`
 																	NATURAL JOIN `job_annonces`
@@ -189,7 +197,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
 																	AND `job_annonces_etu`.`relation` = 'apply'
 																	AND `job_annonces`.`id_select_etu` IS NOT NULL
 																");
-	$cts->add(new sqltable("candidatures", "Candidatures perdues", $sql, false, 'id_relation', array("id_annonce"=>"N°", "titre" => "Annonce", "people" => "Etudiant sélectionné"), array(), array()), true);
+	$cts->add(new sqltable("candidatures", "Candidatures perdues", $sql, false, 'id_relation', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le", "people" => "Etudiant sélectionné"), array(), array()), true);
 }
 
 /*******************************************************************************
