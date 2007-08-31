@@ -124,9 +124,61 @@ class annonce extends stdentity
   	return $this->winner;
   }
   
-  function set_winner($id)
+  function set_winner($winner, $client)
   {
-  	$sql = new update($this->dbrw, "job_annonces", array("id_select_etu" => $id), array("id_annonce" => $this->id) );
+  	$sql = new update($this->dbrw, "job_annonces", array("id_select_etu" => $winner->id), array("id_annonce" => $this->id) );
+  	
+  	/**
+  	 * Envois de mails
+  	 */
+		$genre_client;
+		switch( $client->sexe )
+		{
+			case 1:
+				$genre_client = "M."; break;
+			case 2:
+				$genre_client = "Mme"; break;
+		}
+  	$genre_etu;
+		switch( $etu->sexe )
+		{
+			case 1:
+				$genre_etu = "M."; break;
+			case 2:
+				$genre_etu = "Mlle"; break;
+		}
+		 
+  	$text_etu = <<<EOF
+			Bonjour,
+	Nous avons le plaisir de vous annoncer que vous avez été sélectionné par $genre_client $client->prenom $client->nom, client de AE Job Etu, pour son annonce "$this->titre" (numéro $this->id).
+	Cette personne à été incitée à vous contacter, mais si cela devait tarder anormalement, n'hésitez pas à prendre les devants. 
+	N° de téléphone : telephone_display($this->tel_client)
+  Pour plus de renseignements, consultez sa fiche Matmatronch : http://ae.utbm.fr/user.php?id_utilisateur=$this->id_client
+  	
+	Nous vous remerçions d'utiliser AE Job Etu et vous souhaitons bon courage pour cette nouvelle mission !
+
+	L'équipe AE et les responsables d'AE Job Etu	
+EOF;
+
+		$text_client = <<<EOF
+			Bonjour,
+	Vous venez de sélectionner $genre_etu $winner->prenom $winner->nom afin de répondre à votre annonce "$this->titre" (numéro $this->id).
+	Nous vous incitons à le contacter si cela n'a pas déjà été fait au telephone_display($winner->tel_portable) afin de convenir des modalités d'exécution du contrat.
+
+	Lorsque la prestation sera terminée, n'oubliez pas ne clore l'annonce depuis votre tableau de bord : http://ae.utbm.fr/jobetu/board_client.php
+
+	Nous vous remerçions de votre confiance et espérons que votre satisfaction sera totale.
+
+	L'équipe AE et les responsables d'AE Job Etu
+EOF;
+  	
+		$mail_etu = mail($winner->email, utf8_decode("[AE Job Etu] Sélection pour l'annonce n°".$this->id), utf8_decode($text_etu), "From: \"AE UTBM\" <ae-jobetu@utbm.fr>");
+		$mail_client = mail($client->email, utf8_decode("[AE Job Etu] Sélection de $winner->prenom $winner->nom pour l'annonce n°".$this->id), utf8_decode($text_client), "From: \"AE UTBM\" <ae-jobetu@utbm.fr>");
+	
+		if($mail_etu && $mail_client)
+			return true;
+		else 
+			return false;
   }
   
   function is_closed()
@@ -170,7 +222,7 @@ class annonce extends stdentity
   											"id_annonce" => $this->id,
   											"id_etu" => $etu->id,
   											"relation" => "apply",
-  											"comment" => mysql_real_escape_string($comment)
+  											"comment" => $comment 
   											)
   										);
   	

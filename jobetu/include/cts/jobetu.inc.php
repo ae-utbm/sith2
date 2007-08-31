@@ -164,7 +164,7 @@
 			{
 				$this->buffer .= "<p>Il y a pour l'instant ".count($annonce->applicants)." candidature(s) pour votre annonce </p>\n";
 				if( !$annonce->allow_diff )
-					$this->buffer .= "<p>Vous n'avez pas demandé la diffusion de votre numéro de téléphone, aussi pensez à prendre contact avec les candidats si vous souahitez les rencontrer</p>";
+					$this->buffer .= "<p>Vous n'avez pas demandé la diffusion de votre numéro de téléphone, aussi pensez à prendre contact avec les candidats si vous souhaitez les rencontrer</p>";
 				
 		  	foreach($annonce->applicants_fullobj as $usr)
 		  	{

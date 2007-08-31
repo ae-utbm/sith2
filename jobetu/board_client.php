@@ -42,6 +42,7 @@ require_once("include/jobetu.inc.php");
 require_once("include/annonce.inc.php");
 require_once("include/cts/jobetu.inc.php");
 require_once("include/jobuser_client.inc.php");
+require_once("include/jobuser_etu.inc.php");
 
 
 $site = new site();
@@ -94,7 +95,9 @@ else
 			{
 				if( $_REQUEST['action'] == "select" )
 				{
-					$annonce->set_winner($_REQUEST['etu']);
+					$etu = new jobuser_client($site->db);
+					$etu->load_by_id($_REQUEST['etu']);
+					$annonce->set_winner($etu, $user);
 				}
 				else if( $_REQUEST['action'] == "close" )
 				{
