@@ -147,33 +147,37 @@ class annonce extends stdentity
 			case 2:
 				$genre_etu = "Mlle"; break;
 		}
-		 
+		
+		$tel = telephone_display($this->tel_client);
   	$text_etu = <<<EOF
-			Bonjour,
-	Nous avons le plaisir de vous annoncer que vous avez été sélectionné par $genre_client $client->prenom $client->nom, client de AE Job Etu, pour son annonce "$this->titre" (numéro $this->id).
-	Cette personne à été incitée à vous contacter, mais si cela devait tarder anormalement, n'hésitez pas à prendre les devants. 
-	N° de téléphone : telephone_display($this->tel_client)
-  Pour plus de renseignements, consultez sa fiche Matmatronch : http://ae.utbm.fr/user.php?id_utilisateur=$this->id_client
-  	
-	Nous vous remerçions d'utiliser AE Job Etu et vous souhaitons bon courage pour cette nouvelle mission !
+		Bonjour,
 
-	L'équipe AE et les responsables d'AE Job Etu	
+Nous avons le plaisir de vous annoncer que vous avez été sélectionné par $genre_client $client->prenom $client->nom, client de AE Job Etu, pour son annonce "$this->titre" (numéro $this->id).
+Cette personne à été incitée à vous contacter, mais si cela devait tarder anormalement, n'hésitez pas à prendre les devants. 
+N° de téléphone : $tel
+Pour plus de renseignements, consultez sa fiche Matmatronch : http://ae.utbm.fr/user.php?id_utilisateur=$this->id_client
+ 	
+Nous vous remerçions d'utiliser AE Job Etu et vous souhaitons bon courage pour cette nouvelle mission !
+
+L'équipe AE et les responsables d'AE Job Etu	
 EOF;
 
+  	$tel = telephone_display($winner->tel_portable);
 		$text_client = <<<EOF
 			Bonjour,
-	Vous venez de sélectionner $genre_etu $winner->prenom $winner->nom afin de répondre à votre annonce "$this->titre" (numéro $this->id).
-	Nous vous incitons à le contacter si cela n'a pas déjà été fait au telephone_display($winner->tel_portable) afin de convenir des modalités d'exécution du contrat.
 
-	Lorsque la prestation sera terminée, n'oubliez pas ne clore l'annonce depuis votre tableau de bord : http://ae.utbm.fr/jobetu/board_client.php
+Vous venez de sélectionner $genre_etu $winner->prenom $winner->nom afin de répondre à votre annonce "$this->titre" (numéro $this->id).
+Nous vous incitons à le contacter si cela n'a pas déjà été fait au $tel afin de convenir des modalités d'exécution du contrat.
 
-	Nous vous remerçions de votre confiance et espérons que votre satisfaction sera totale.
+Lorsque la prestation sera terminée, n'oubliez pas ne clore l'annonce depuis votre tableau de bord : http://ae.utbm.fr/jobetu/board_client.php
 
-	L'équipe AE et les responsables d'AE Job Etu
+Nous vous remerçions de votre confiance et espérons que votre satisfaction sera totale.
+
+L'équipe AE et les responsables d'AE Job Etu
 EOF;
   	
-		$mail_etu = mail($winner->email, utf8_decode("[AE Job Etu] Sélection pour l'annonce n°".$this->id), utf8_decode($text_etu), "From: \"AE UTBM\" <ae-jobetu@utbm.fr>");
-		$mail_client = mail($client->email, utf8_decode("[AE Job Etu] Sélection de $winner->prenom $winner->nom pour l'annonce n°".$this->id), utf8_decode($text_client), "From: \"AE UTBM\" <ae-jobetu@utbm.fr>");
+		$mail_etu = mail($winner->email, utf8_decode("[AE JobEtu] Sélection pour l'annonce n°".$this->id), utf8_decode($text_etu), "From: \"AE Job Etu\" <ae-jobetu@utbm.fr>");
+		$mail_client = mail($client->email, utf8_decode("[AE JobEtu] Sélection de $winner->prenom $winner->nom pour l'annonce n°".$this->id), utf8_decode($text_client), "From: \"AE Job Etu\" <ae-jobetu@utbm.fr>");
 	
 		if($mail_etu && $mail_client)
 			return true;
