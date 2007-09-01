@@ -45,6 +45,7 @@ $i18n = array("ar" => "Arabe",
 
 $site = new site();
 $site->allow_only_logged_users("services");
+if(!$site->user->is_in_group("jobetu_etu")) header("Location: index.php");
 $site->add_css("jobetu/jobetu.css");
 $site->start_page("services", "AE Job Etu");
 
@@ -176,6 +177,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
 																	AND `job_annonces_etu`.`relation` = 'apply'
 																	AND `job_annonces`.`id_select_etu` IS NULL
 																");
+	//faudrait trouver aussi un moyen de compter le nombre de concurrents
 	$cts->add(new sqltable("candidatures", "Candidatures en cours", $sql, false, 'id_relation', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le", "nom_utilisateur" => "Par", "etat" => "Etat"), array(), array()), true);
 	
 	$sql = new requete($site->db, "SELECT `job_annonces_etu`.*,

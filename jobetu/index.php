@@ -39,27 +39,54 @@ $header->add_paragraph("Lorem ipsum dolor sit amet, consectetuer adipiscing elit
 $header->add_paragraph("Lisez les CGU : http://ae.utbm.fr/article.php?name=legals-jobetu-cgu");
 $site->add_contents($header);
 
+if( isset($_REQUEST['activate']) )
+{
+	//$site->allow_only_logged_users("services");
+	
+	$cts = new contents("Faites partie de AE Job Etu !");
+	$cts->add_paragraph("Vous vous apprêtez à vous inscrire en temps que candidat à AE Job Etu.");
+	$text = <<<EOF
+Quelques mots sur le fonctionnement du service : <br />
+  * Les 'recruteurs' (particuliers ou entreprises) déposent leur annonce sur le site, en font notamment la description, indiquent également le type de travail dont il s'agit.
+  * Par défaut, les annonces vous seront proposées selon les compétences que vous aurez sélectionnées dans votre profil (auquel vous accederez après cette page), vous pourrez également accéder à toutes les annonces disponibles, quelques soient les qualifications requises, via l'onglet "tout jobetu". 
+  * Vous pourrez alors poster votre candidature à une annonce, ainsi qu'y joindre un message si vous le souhaitez, sorte de mini lettre de motivation.
+  * Le client recevra alors toutes les candidatures qui lui sont offertes et pourra faire son choix parmi celles ci, vous serez tenu au courant de cette évolution via votre tableau de bord, ou bien même par mail si vous le souhaitez
+  * A la fin du contrat, le demandeur pourra mettre une appréciation à votre prestation (positive, négative ou neutre) s'il le souhaite, afin de vous permettre de mettre en avant votre sérieux pour de futures candidatures. 
 
-$link_etu = new contents("Vous êtes étudiant ?");
-
-if($site->user->is_in_group('jobetu_etu'))
-	$link_etu->add_paragraph("<a href='board_etu.php'>Accédez à votre tableau de bord</a>");
+	Rappelons que l'inscription à AE Job Etu est soumise à l'acceptation des <a href=\"http://ae.utbm.fr/article.php?name=legals-jobetu-cgu\">conditions générales d'utilisation</a>.
+EOF;
+	$cts->add_paragraph($text);
+	
+	$frm = new form("activ_form", "index.php?activate", false, "POST");
+	$frm->add_checkbox_field("accept_cgu", "Je reconnais avoir lu et accepter les <a href=\"http://ae.utbm.fr/article.php?name=legals-jobetu-cgu\">CGU d'AE Job Etu</a>");
+	$frm->add_submit("go", "Activer mon compte");
+	$cts->add($frm);
+	$site->add_contents($cts, true);
+}
 else
-	$link_etu->add_paragraph("Activez votre compte !");
-
-$link_client = new contents("Vous êtes un particulier, une entreprise ?");
-
-if($site->user->is_in_group('jobetu_client'))
-	$link_client->add_paragraph("<a href='board_etu.php'>Accédez à votre tableau de bord</a>");
-else
-	$link_client->add_paragraph("<a href='depot.php'>Passez votre annonce !</a>");
-
-
-$board = new board();
-	$board->add($link_client, true);
-	$board->add($link_etu, true);
-$site->add_contents($board);
-
+{
+	$link_etu = new contents("Vous êtes étudiant ?");
+	
+	if($site->user->is_in_group('jobetu_etu'))
+		$link_etu->add_paragraph("<a href='board_etu.php'>Accédez à votre tableau de bord</a>");
+	else
+		$link_etu->add_paragraph("<a href='index.php?activate'>Activez votre compte !</a>");
+	
+	
+	$link_client = new contents("Vous êtes un particulier, une entreprise ?");
+	
+	if($site->user->is_in_group('jobetu_client'))
+		$link_client->add_paragraph("<a href='board_etu.php'>Accédez à votre tableau de bord</a>");
+	else
+		$link_client->add_paragraph("<a href='depot.php'>Passez votre annonce !</a>");
+	
+	
+	$board = new board();
+		$board->add($link_client, true);
+		$board->add($link_etu, true);
+	$site->add_contents($board);
+}
+	
 $site->end_page();
 
 ?>
