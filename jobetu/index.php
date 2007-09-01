@@ -58,7 +58,7 @@ EOF;
 	$cts->add_paragraph($text);
 	
 	$frm = new form("activ_form", "index.php?activate", false, "POST");
-	$frm->add_checkbox_field("accept_cgu", "Je reconnais avoir lu et accepter les <a href=\"http://ae.utbm.fr/article.php?name=legals-jobetu-cgu\">CGU d'AE Job Etu</a>");
+	$frm->add_checkbox("accept_cgu", "Je reconnais avoir lu et accepter les <a href=\"http://ae.utbm.fr/article.php?name=legals-jobetu-cgu\">CGU d'AE Job Etu</a>");
 	$frm->add_submit("go", "Activer mon compte");
 	$cts->add($frm);
 	$site->add_contents($cts, true);
@@ -76,7 +76,7 @@ else
 	$link_client = new contents("Vous êtes un particulier, une entreprise ?");
 	
 	if($site->user->is_in_group('jobetu_client'))
-		$link_client->add_paragraph("<a href='board_etu.php'>Accédez à votre tableau de bord</a>");
+		$link_client->add_paragraph("<a href='board_client.php'>Accédez à votre tableau de bord</a>");
 	else
 		$link_client->add_paragraph("<a href='depot.php'>Passez votre annonce !</a>");
 	
