@@ -71,37 +71,6 @@ if ( $_REQUEST['view'] == "retour" )
 		}
 	}
 	
-	/* Test des valeurs de jetons envoyés et modif dans la base (+ message)*/ 
-	if (!empty($_REQUEST["numjetons"]) && !empty($_REQUEST["typejeton"]))
-	{
-		$array_jetons = explode(" ", $_REQUEST["numjetons"]);
-		foreach($array_jetons as $numjeton)
-		{
-			$jeton = new jeton($site->db, $site->dbrw);
-			$jeton->load_by_nom($numjeton, $_REQUEST["typejeton"]);
-				
-			if($jeton->id < 0)
-			  $lst->add("Erreur pour le jeton $jeton->nom (mauvais type ?).", "ko");
-			elseif(!$jeton->is_borrowed())
-			  $lst->add("Le jeton $jeton->nom n'est pas emprunté.", "ko");
-			else
-			{	
-				$jeton->given_back ( $_REQUEST["sallejeton"], $_REQUEST["typejeton"], $numjeton);
-				if($jeton->id > -1)
-				  $lst->add("Le jeton $jeton->nom a bien été marqué comme restitué.", "ok");
-			}
-		}
-	}
-
-	$frm->add_info("Entrez les numéros des jetons séparés par des espaces :");
-	$frm->add_text_area("numjetons","Numéros :");
-	$frm->set_focus("numjetons");
-	$frm->add_select_field("typejeton", "Type du jeton :", $GLOBALS['types_jeton']);
-	$frm->add_submit("valid","Valider");
-	$cts->add($lst);
-	$cts->add($frm,true);
-	
-
 	/* Liste des jetons empruntés */
 	$sql = new requete($site->db, "SELECT mc_jeton_utilisateur.id_jeton, 
 					mc_jeton_utilisateur.id_utilisateur, 
