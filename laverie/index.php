@@ -54,7 +54,7 @@ if ( $_REQUEST['view'] == "retour" )
 	if($_REQUEST['action'] == "retourner")
 	{
 				
-		if(isset($_REQUEST['id_jeton']))
+		if(!empty($_REQUEST['id_jeton']))
 			$id_jetons[] = $_REQUEST['id_jeton'];
 		elseif($_REQUEST['id_jetons'])
 		{
@@ -72,7 +72,7 @@ if ( $_REQUEST['view'] == "retour" )
 	}
 	
 	/* Test des valeurs de jetons envoyés et modif dans la base (+ message)*/ 
-	if (isset($_REQUEST["numjetons"]) && isset($_REQUEST["typejeton"]))
+	if (!empty($_REQUEST["numjetons"]) && !empty($_REQUEST["typejeton"]))
 	{
 		$array_jetons = explode(" ", $_REQUEST["numjetons"]);
 		foreach($array_jetons as $numjeton)
@@ -157,7 +157,7 @@ elseif ( $_REQUEST['view'] == "inventaire" )
 	$frm = new form("ajoutjeton", "index.php?view=inventaire", false, "POST", "Ajouter un jeton");
 
 /* Test des valeurs de jetons envoyés et ajout dans la base (+ message) */
-	if (isset($_REQUEST["numjetons"]))
+	if (!empty($_REQUEST["numjetons"]) )
 	{
 		$array_jetons = explode(" ", $_REQUEST["numjetons"]);
 		foreach($array_jetons as $numjeton)
@@ -171,7 +171,7 @@ elseif ( $_REQUEST['view'] == "inventaire" )
 
 	if($_REQUEST['action'] == "supprimer")
 	{
-		if(isset($_REQUEST['id_jeton']))
+		if(!empty($_REQUEST['id_jeton']))
 			$id_jetons[] = $_REQUEST['id_jeton'];
 		elseif($_REQUEST['id_jetons'])
 		{
@@ -231,7 +231,7 @@ elseif($_REQUEST['view']=="mauvais")
 
 	$lst = new itemlist("Résultats :");
 
-  if(isset($_REQUEST['id_utilisateur']))
+  if(!empty($_REQUEST['id_utilisateur']))
 		$ids[] = $_REQUEST['id_utilisateur'];
 	elseif($_REQUEST['id_utilisateurs'])
 	{
@@ -349,7 +349,7 @@ Les responsables machines à laver";
 	$cts->add($table, true);
 
 	$sql = new requete($site->db, "SELECT utilisateurs.id_utilisateur, 
-					CONCAT(utilisateurs.prenom_utl,' ', utilisateurs.nom_utl) AS nom_utilisateur 
+					CONCAT(utilisateurs.prenom_utl,' ', utilisateurs.nom_utl) AS nom_utilisateur
 					FROM utl_groupe INNER JOIN utilisateurs ON utilisateurs.id_utilisateur = utl_groupe.id_utilisateur 
 					WHERE utl_groupe.id_groupe = 29 
 					ORDER BY utilisateurs.nom_utl, utilisateurs.prenom_utl");
@@ -360,10 +360,9 @@ Les responsables machines à laver";
 			"index.php?view=mauvais",
 			"id_utilisateur",
 			array("nom_utilisateur" => "Utilisateur"),
-			      array("unblacklist" => "Débloquer"),
-			      array("unblacklist" => "Débloquer"),
-			      array()
-			      );
+			array("unblacklist" => "Débloquer"),
+			array("unblacklist" => "Débloquer"),
+			array()	);
 
 	$cts->add($table, true);
 
