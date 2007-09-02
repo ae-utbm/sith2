@@ -394,6 +394,13 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				$lst->add("La machine $id  a bien été supprimée","ok");
 			}
 		}
+
+		if (!empty($_REQUEST["lettre_machine"]) )
+		{
+			$sql = new requete($site-dbrw, "INSERT INTO mc_machines
+				('lettre','type','loc')
+				VALUES ('$_REQUEST["lettre_machine"]', '$_REQUEST["typemachine"]', '$_REQUEST["locmachine"]')");
+		}
 		
 		$frm = new form("ajoutmachine", "index.php?view=machines", false, "POST", "Ajouter une machine");
 
