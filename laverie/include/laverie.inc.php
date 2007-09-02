@@ -69,7 +69,7 @@ class sitelaverie extends site
 			$lst_taches->add("<a href=\"index.php?view=retour\">Restituer des jetons</a>");
 			$lst_admin = new itemlist("Administration","boxlist");
 			$lst_admin->add("<a href=\"index.php?view=machines\">Gestion des machines</a>");
-			$lst_admin->add("<a href=\"index.php?view=crenaux\">Gestion des créneaux</a>");
+			$lst_admin->add("<a href=\"index.php?view=plannings\">Gestion des plannings</a>");
 			$lst_admin->add("<a href=\"index.php?view=inventaire\">Inventaire des jetons</a>");
 			$lst_util = new itemlist("Utilisateurs","boxlist");
 			$lst_util->add("<a href=\"index.php?view=mauvais\">Mauvais clients</a>");

@@ -75,7 +75,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		}
 		
 		/* Liste des jetons empruntés */
-		/* Requête à refaire en fonction du nouveau schéma */
 		$sql = new requete($site->db, "SELECT mc_jeton_utilisateur.id_jeton, 
 			mc_jeton_utilisateur.id_utilisateur, 
 			mc_jeton_utilisateur.prise_jeton,
@@ -119,7 +118,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		$req = new requete($site->db,"SELECT COUNT(*) FROM `mc_jeton`");
 		list($total) = $req->get_row();
 		$cts->add_paragraph("Total : $total");
-		/* Requête à refaire en fonction du nouveau schéma */
 		$req = new requete($site->db,"SELECT COUNT(*) FROM `mc_jeton_utilisateur` WHERE `retour_jeton` IS NULL");
 		list($utilises) = $req->get_row();
 		$cts->add_paragraph("En circulation : $utilises");
@@ -247,8 +245,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 				$user->load_by_id($id);
 
-				/* Requête à refaire en fonction du nouveau schéma */
-
 				$sql = new requete($site->db, "SELECT 
 				`mc_jeton_utilisateur`.`id_jeton`
 				, `mc_jeton`.`nom_jeton`
@@ -289,7 +285,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		$cts->add($lst);
 
 		/* Liste des mauvais clients */
-		/* Requête à refaire en fonction du nouveau schéma */
 		$sql = new requete($site->db, "SELECT mc_jeton_utilisateur.id_jeton,
 			mc_jeton_utilisateur.id_utilisateur,
 			mc_jeton_utilisateur.retour_jeton,
@@ -369,6 +364,9 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 				$lst->add("La machine $id a bien été mise hors service","ok");
 			}
+			/* Cloturer le planning de la machine *
+			 * Champ 'name' du planning = 'id' de la machine (pas la lettre) */
+
 		}
 	
 		if($_REQUEST['action'] == "es")
@@ -381,6 +379,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 				$lst->add("La machine $id a bien été mise en service","ok");
 			}
+			/* Créer un nouveau planning pour la machine 
+			 * Champ 'name' du planning = 'id' de la machine (pas la lettre) */
 		}
 
 		if($_REQUEST['action'] == "supprimer")
@@ -392,6 +392,9 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 				$lst->add("La machine $id  a bien été supprimée","ok");
 			}
+			/* Cloturer le planning de la machine *
+			 * Champ 'name' du planning = 'id' de la machine (pas la lettre) */
+
 		}
 
 		if (!empty($_REQUEST["lettre_machine"]) )
@@ -402,6 +405,9 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				  "lettre" => $_REQUEST['lettre_machine'],
 			    "type" => $_REQUEST['typemachine'],
 			    "loc" => $_REQUEST['locmachine']) );
+
+			/* Créer un nouveau planning pour la machine 
+			 * Champ 'name' du planning = 'id' de la machine (pas la lettre) */
 		}
 		
 		$frm = new form("ajoutmachine", "index.php?view=machines", false, "POST", "Ajouter une machine");
@@ -456,6 +462,16 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			array("type"=>$GLOBALS['types_jeton'] ) );
 
 		$cts->add($table, true);
+	}
+	elseif( $_REQUEST['view'] == "plannings" )
+	{
+		/* Permet à l'administateur de générer les plannings futurs de chaque
+		 * machine et de les consulter.
+		 * L'admin ne peut générer que le planning de la semaine en cours et de 
+		 * celle à venir.
+		 * Mettre une liste de tous les créneaux en spécifiant en spécifiant s'ils
+		 * sont libres ou non, et le cas échéant voir par qui il est occupé,
+		 * si le jeton a été retiré, etc... */
 	}
 	else
 	{
