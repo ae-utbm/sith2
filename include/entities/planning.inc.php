@@ -135,7 +135,7 @@ class planning
 			);
   }
 
-  function remove_reneau ( $id_gap )
+  function remove_gap ( $id_gap )
   {
 		$sql = new delete ($this->dbrw,
 			"pl_gap",
