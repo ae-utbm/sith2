@@ -383,6 +383,26 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			array() );
 
 		$cts->add($table, true);
+
+		$sql = new requete($site->db, "SELECT * FROM mc_machines
+			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+			WHERE mc_machines.hs = 1");
+
+		$table = new sqltable("listmachineshs",
+			"Liste des machines hors service",
+			$sql,
+			"index.php?view=machines",
+			"id",
+			array("lettre" => "Lettre",
+				"type" => "Type de la machine",
+				"nom_lieu" => "Lieu"),
+			array("es" => "En service",
+				"supprimer" => "Supprimer"),
+			array("es" => "En service",
+			  "supprimer" => "Supprimer"),
+			array() );
+
+		$cts->add($table, true);
 	}
 	else
 	{
