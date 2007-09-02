@@ -418,7 +418,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		/* Liste des machines */
 		$sql = new requete($site->db, "SELECT mc_machines.id,
 			mc_machines.lettre, mc_machines.loc, mc_machines.hs,
-			IF ( mc_machines = 'laver', 'Machine à laver', 'Sèche linge') AS type
+			IF ( mc_machines.type = 'laver', 'Machine à laver', 'Sèche linge') AS type
 			FROM mc_machines
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE mc_machines.hs = 0");
