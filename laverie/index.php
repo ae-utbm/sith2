@@ -176,10 +176,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		$cts->add($frm,true);
 
 		/* Liste complète des jetons */
-		$sql = new requete($site->db, "SELECT mc_jeton.id_jeton,
-				mc_jeton.nom_jeton, loc_lieu.nom_lieu, loc_lieu.id_lieu,
-				IF ( mc_jeton.type_jeton = 'laver', 'Machine à laver', 'Sèche linge') AS type_jeton
-				FROM mc_jeton
+		$sql = new requete($site->db, "SELECT * FROM mc_jeton
 				INNER JOIN loc_lieu ON mc_jeton.id_salle = loc_lieu.id_lieu");
 
 		$table = new sqltable("listjeton",
@@ -195,8 +192,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				),
 				array("supprimer" => "Supprimer"),
 				array("supprimer" => "Supprimer"),
-				array()
-				);
+				array("type"=>$GLOBALS['types_jeton']) );
 
 		$cts->add($table, true);	
 
@@ -419,12 +415,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		$cts->add($frm,true);
 
 		/* Liste des machines */
-		/*$sql = new requete($site->db, "SELECT mc_machines.id,
-			mc_machines.lettre, mc_machines.hs, loc_lieu.nom_lieu, loc_lieu.id_lieu,
-			IF ( mc_machines.type = 'laver', 'Machine à laver', 'Sèche linge') AS type
-			FROM mc_machines
-			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
-			WHERE mc_machines.hs = 0");*/
 		$sql = new requete($site->db, "SELECT * FROM mc_machines
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE mc_machines.hs = 0");
@@ -445,10 +435,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		$cts->add($table, true);
 
-		$sql = new requete($site->db, "SELECT mc_machines.id,
-			mc_machines.lettre, mc_machines.hs, loc_lieu.nom_lieu, loc_lieu.id_lieu,
-			IF ( mc_machines.type = 'laver', 'Machine à laver', 'Sèche linge') AS type
-			FROM mc_machines
+		$sql = new requete($site->db, "SELECT * FROM mc_machines
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE mc_machines.hs = 1");
 
@@ -464,7 +451,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				"supprimer" => "Supprimer"),
 			array("es" => "En service",
 			  "supprimer" => "Supprimer"),
-			array() );
+			array("type"=>$GLOBALS['types_jeton'] ) );
 
 		$cts->add($table, true);
 	}
