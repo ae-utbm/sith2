@@ -78,6 +78,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		$sql = new requete($site->db, "SELECT mc_jeton_utilisateur.id_jeton, 
 			mc_jeton_utilisateur.id_utilisateur, 
 			mc_jeton_utilisateur.prise_jeton,
+			mc_jeton_utilisateur.penalite,
 			mc_jeton.id_jeton,
 			mc_jeton.nom_jeton,
 			DATEDIFF(CURDATE(), mc_jeton_utilisateur.prise_jeton) AS duree,
@@ -101,9 +102,11 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			"nom_jeton" => "Jeton",
 			"nom_utilisateur"=>"Utilisateur",
 			"prise_jeton" => "Date d'emprunt",
-			"duree" => "Depuis (jours)"
+			"duree" => "Depuis (jours)",
+			"penalite" => "Pénalité"
 			), 
-			array("retourner" => "Retourner"), array("retourner" => "Retourner"), array()
+			array("retourner" => "Retourner"), array("retourner" => "Retourner"), 
+			array("penalite" => array('0' => "Non", '1' => "Oui") )
 		);
 		$cts->add($table,true);
 
@@ -473,10 +476,27 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		 * sont libres ou non, et le cas échéant voir par qui il est occupé,
 		 * si le jeton a été retiré, etc... */
 	}
+	elseif( $_REQUEST['view'] == "reserver" )
+	{
+		/* Interface de sélection d'un créneau parmis ceux disponible (sqltable ?)
+		 * Possibilité pour l'admin de faire une réservation pour quelqu'un
+		 * d'autre */
+	}
+	elseif( $_REQUEST['view'] == "vente" )
+	{
+		/* Interface administrateur de retrait d'un jeton et assignation du 
+		 * retrait du jeton à un créneaux emploi du temps */
+	}
+	elseif( $_REQUEST['view'] == "recharger" || $_REQUEST['view'] == "cotiser" || $_REQUEST['view'] == "ajouter_util" )
+	{
+		$cts->add_paragraph("Cette fonctionnalité n'est pas encore en service.");
+		$cts->add_paragraph("Veuillez nous excuser pour la gêne occasionnée.");
+	}
 	else
 	{
 		/* Mettre un texte d'explication avec des liens vers l'interface de 
-		 * réservation, les documentations, etc... */
+		 * réservation, les documentations, les CGU (/article.php?name=laverie-cgu)
+		 * etc... */
 
 		$cts->add_paragraph("<br />Ici trônera joyeusement l'interface cotisant-machine à laver.");
 		$cts->add_paragraph("Le tout via un système révolutionnaire de responsables machines nourris au Bob AE et à la cancoillote afin de vous assurer une productivité parfaite dans le nettoyage de vos chaussettes sales et de vos caleçons dégueus (non rien pour les filles, elle sont juste un mythe à l'UTBM).");
