@@ -504,7 +504,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		$cts->add($table, true);
 
 		$sql = new requete($site->db, "SELECT * FROM mc_machines
-			INNER JOIN pl_planning ON mc_machines.id = pl_planning.name_planning
+			LEFT JOIN pl_planning ON mc_machines.id = pl_planning.name_planning
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE mc_machines.hs = 0
 			AND pl_planning.start_date_planning >= '".$now."'
