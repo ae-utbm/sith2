@@ -518,10 +518,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			array("lettre" => "Lettre",
 				"type" => "Type de la machine",
 				"nom_lieu" => "Lieu"),
-			array("hs" => "Hors service",
-				"supprimer" => "Supprimer"),
-			array("hs" => "Hors service",
-			  "supprimer" => "Supprimer"),
+			array("creer_planning" => "Créer le planning"),
+			array("creer_planning" => "Créer les plannings"),
 			array("type"=>$GLOBALS['types_jeton'] ) );
 
 		$cts->add($table, true);
