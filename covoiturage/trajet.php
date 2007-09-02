@@ -36,7 +36,7 @@ $site = new site();
 $site->start_page ("Covoiturage", "Creation d'un trajet");
 $accueil = new contents("Covoiturage",
 			"<p>Bienvenue sur la page du covoiturage, "
-			."<br/><strong>AE.COM - Recherche & Dev.".
+			."<br/><strong>AE-UTBM - Recherche & Dev.".
 			"</strong></p>");
 
 $site->add_contents ($accueil);
@@ -50,7 +50,6 @@ if (isset($_REQUEST['reset']))
 /* formulaire envoye */
 if (isset($_REQUEST['submit']))
 {
-  $site->add_contents(new contents("DEBUG", print_r($_REQUEST,true)));
   if ((isset($_REQUEST['start'])) && ($_REQUEST['start'] != 0))
     $_SESSION['trajet']['start'] = intval($_REQUEST['start']);
 

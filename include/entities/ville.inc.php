@@ -35,8 +35,16 @@ class ville extends stdentity
   var $lat;
   var $long;
   var $eloi;
+  
+  var $pgdb;
+  
+  function ville($db, $dbrw = null, $pgdb = null)
+  {
+    $this->stdentity ($db, $dbrw);
+    $this->pgdb = $pgdb;
+  }
 
-  function load_by_id ( $id )
+  function load_by_id ($id)
   {
     $req = new requete($this->db, "SELECT * FROM `loc_ville`
 				WHERE `id_ville` = '" .
@@ -44,15 +52,43 @@ class ville extends stdentity
 				LIMIT 1");
 
     if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		
-		$this->id = null;	
-		return false;
+      {
+	$this->_load($req->get_row());
+	return true;
+      }
+    
+    $this->id = null;	
+    return false;
   }
-  
+
+  function load_by_pgid($id)
+  {
+    if (! $this->pgdb)
+      return false;
+
+    $req = new pgrequete($this->pgdb,
+			 "SELECT 
+                                   AsText(TRANSFORM(the_geom, 4030)) AS coords
+                                   , id_loc AS id_ville
+                                   , name_loc AS nom_ville
+                          FROM
+                                   worldloc
+                          WHERE
+                                   id_loc = ".intval($id));
+
+    $rs = $req->get_all_rows();
+    $rs = $rs[0];
+
+    $rs['coords'] = str_replace("POINT(", "", $rs['coords']);
+    $rs['coords'] = str_replace(")", "", $rs['coords']);
+    list($rs['long_ville'], $rs['lat_ville']) = explode(' ', $rs['coords']);
+    
+    $this->_load($rs);
+
+    
+  }
+
+
   function _load ( $row )
   {
     $this->id = $row['id_ville'];

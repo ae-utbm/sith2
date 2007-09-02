@@ -68,6 +68,9 @@ class imgloc
 
   /* une liste de contextes spéciaux à hilighter */
   var $hlcontexts = array();
+
+  /* une liste de lieux à relier (étapes) */
+  var $steps = array();
   
   /* constructeur */
   function imgloc($width, $level, &$mysqldb, &$pgsqldb)
@@ -78,6 +81,30 @@ class imgloc
     $this->pgsqldb = $pgsqldb;    
   }
 
+
+  function add_step_by_engname($name, $countryc = null)
+  {
+    $this->add_location_by_engname($name, $countryc);
+    $this->steps[] = count($this->locs) - 1;
+  }
+
+  function add_step_by_coords($long, $lat, $srid = 4030, $name = "")
+  {
+    $this->add_location_by_coords($long, $lat, $srid, $name);
+    $this->steps[] = count($this->locs) - 1;
+  }
+
+  function add_step_by_idville($id, $hilight = true, $red = false)
+  {
+    $this->add_location_by_idville($id, $hilight, $red); 
+    $this->steps[] = count($this->locs) - 1;
+  }
+
+  function add_step_by_object(&$myloc)
+  {
+    $this->add_location_by_object($myloc);
+    $this->steps[] = count($this->locs) - 1;
+  }
 
   /* Ajout d'un lieu via son nom anglais (recherche dans la table
    * pgsql://worldloc/).
@@ -107,8 +134,6 @@ class imgloc
     $pgreq = new pgrequete($this->pgsqldb, 
 			   $sql);
 
-    if ($pgreq->lines <= 0)
-      return false;
     
     $rs = $pgreq->get_all_rows();
     $rs = $rs[0];
@@ -126,7 +151,6 @@ class imgloc
   function add_location_by_coords($long, $lat, $srid = 4030, $name = "")
   {
     $convert = new pgrequete($this->pgsqldb, "SELECT GeomFromText('POINT(".$lng." ".$lat. ")', $srid) as datas;");
-    echo "SELECT GeomFromText('POINT(".$lng." ".$lat. ")', $srid) as datas;";
     $rs = $convert->get_all_rows();
     
     $coords['datas'] = $rs[0]['datas']; 
@@ -136,7 +160,7 @@ class imgloc
     return true;
   }
   /* ajout d'une ville via idville */
-  function add_location_by_idville($id, $hilight = true)
+  function add_location_by_idville($id, $hilight = true, $red = false)
   {
     $my = new requete($this->mysqldb, "SELECT 
                                               id_ville, 
@@ -163,7 +187,7 @@ class imgloc
 	$coords['datas'] = $pgrs[0]['datas']; 
 	$coords['srid']  = 4030;
 
-	$this->_add_location($rs['nom_ville'],  $coords);
+	$this->_add_location($rs['nom_ville'],  $coords, $red);
 	if ($hilight == true)
 	  {
 	    if (strlen($rs['cpostal_ville']) == 4)
@@ -200,9 +224,9 @@ class imgloc
     return true;
   }
 
-  function _add_location($nom, $coords)
+  function _add_location($nom, $coords, $red = false)
   {
-    $this->locs[] = array($nom, $coords);
+    $this->locs[] = array($nom, $coords, count($this->locs), $red);
   }
 
   function add_hilighted_context_fr($identifier)
@@ -632,15 +656,41 @@ class imgloc
       {
 	foreach($this->locs as $loc)
 	  {
-	    $myimg->addpointwithlegend($loc[1]['long'],
-				       $loc[1]['lat'],
-				       10,
-				       "red",
-				       12,
-				       0,
-				       $loc[0],
-				       "black");
 
+	    if ($loc[3] == false)
+	      {
+		$myimg->addpointwithlegend($loc[1]['long'],
+					   $loc[1]['lat'],
+					   10,
+					   "red",
+					   12,
+					   0,
+					   $loc[0],
+					   "black");
+	      }
+	    if ($loc[3] == true)
+	      {
+		$myimg->addpointwithlegend($loc[1]['long'],
+					   $loc[1]['lat'],
+					   10,
+					   "red",
+					   12,
+					   0,
+					   $loc[0],
+					   "red");
+	      }
+
+	  }
+      }
+    if (count($this->steps) >= 2)
+      {
+	for($i = 1; $i < count($this->steps); $i++)
+	  {
+	    $loc  = &$this->locs[$this->steps[$i]];
+	    $ploc = &$this->locs[$this->steps[$i-1]];
+	    $myimg->addline($loc[1]['long'], $loc[1]['lat'],
+			    $ploc[1]['long'], $ploc[1]['lat'],
+			    'black');
 	  }
       }
 

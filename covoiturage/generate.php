@@ -4,7 +4,7 @@
  *
  */
 
-/* Copyright 2006
+/* Copyright 2006, 2007
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
@@ -61,7 +61,7 @@ $img = new imgloc(800, IMGLOC_COUNTRY, $db, new pgsqlae());
 if (count($villes))
 {  
   foreach($villes as $ville)
-    $img->add_location_by_idville($ville, false);
+    $img->add_step_by_idville($ville, false);
 }
 
 $img->add_context();

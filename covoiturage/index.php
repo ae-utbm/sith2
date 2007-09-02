@@ -4,7 +4,7 @@
  *
  */
 
-/* Copyright 2006
+/* Copyright 2006 - 2007
  * Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
  * Ce fichier fait partie du site de l'Association des étudiants de
@@ -29,22 +29,111 @@
 $topdir="../";
 
 require_once($topdir . "include/site.inc.php");
-require_once($topdir . "include/cts/sqltable.inc.php");
-require_once($topdir . "include/cts/gallery.inc.php");
-require_once($topdir . "include/cts/vignette.inc.php");
-
+require_once($topdir . "include/pgsqlae.inc.php");
+require_once($topdir . "include/entities/ville.inc.php");
+require_once($topdir . "include/entities/trajet.inc.php");
 
 
 $site = new site();
 
+$site->start_page ("services", "Covoiturage - Accueil");
 
 
+$accueil = new contents("Accueil - Covoiturage",
+			"Bienvenue sur le système de covoiturage de l'AE.<br/><br/>");
 
-$site->start_page ("Accueil Covoiturage", "Bienvenue");
 
-$accueil = new contents("Covoiturage",
-			"<p>Bienvenue sur la page du covoiturage, "
-			."<br/><strong>AE.COM - Recherche & Dev.</strong></p>");
+/* 5 derniers trajets proposés */
+
+$sql = new requete($site->db, "SELECT 
+                                      `id_trajet`
+                               FROM
+                                      `cv_trajet`
+                               ORDER BY
+                                       `id_trajet` DESC
+                               LIMIT 5");
+
+if ($sql->lines > 0)
+{
+  
+  $trajet = new trajet($site->db, null, null);
+  $usrtrj = new utilisateur($site->db);
+
+      
+  while ($res = $sql->get_row())
+    {
+      $trajet->load_by_id($res['id_trajet']);
+      if (!$trajet->has_expired())
+	{
+	  if (!$firsttrj)
+	    {
+
+	      $accueil->add_title(2, "Derniers trajets proposés");
+
+	      $accueil->add_paragraph("Dans la liste ci-dessous, cliquez sur une date spécifique pour avoir ".
+				      "le détail du trajet, et éventuellement faire une demande de covoiturage");
+	      $firsttrj = true;
+	    }
+
+	  $usrtrj->load_by_id($trajet->id_utilisateur);
+	  $trj = "Trajet ". $trajet->ville_depart->nom . " / " . $trajet->ville_arrivee->nom . 
+	    " proposé par ". $usrtrj->get_html_link();
+	  
+	  $accueil->add_title(3, $trj);
+
+	  $date = array();
+
+	  foreach ($trajet->dates as $date)
+	    {
+	      if (strtotime($date) > time())
+		$dates[] = "<a href=\"./details.php?id_trajet=".$trajet->id
+		  ."&amp;date=".$date."\">Le " .HumanReadableDate($date, "", false) . "</a>";
+	    }
+	  if (count($dates))
+	    $accueil->add(new itemlist(false, false, $dates));
+	  
+	}  
+    }
+}
+
+
+/* "Mes trajets proposés" */
+
+$sql = new requete($site->db, "SELECT 
+                                      `id_trajet`
+                               FROM
+                                      `cv_trajet`
+                               WHERE
+                                      `id_utilisateur` = ".$site->user->id .  "
+                               ORDER BY
+                                       `id_trajet`");
+if ($sql->lines)
+{
+  
+  $trajet = new trajet($site->db, null, null);
+  $usrtrj = new utilisateur($site->db);
+      
+  while ($res = $sql->get_row())
+    {
+      $trajet->load_by_id($res['id_trajet']);
+      $mytrj[] = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom . 
+	" / " . $trajet->ville_arrivee->nom . "</a>";
+    }  
+
+  $accueil->add_title(2, "Mes trajets");                             
+  $accueil->add_paragraph("Cliquez sur un lien ci-dessous pour passer sur la page de gestion du trajet concerné.");
+  $mytrjs = new itemlist(false, false, $mytrj);
+  $accueil->add($mytrjs);
+}
+
+/* options */
+$accueil->add_title(2, "Autres options");
+$opts[] = "<a href=\"./propose.php\">Proposer un trajet</a>";
+$opts[] = "<a href=\"./search.php\">Rechercher un trajet</a>";
+
+$options = new itemlist(false, false, $opts);
+$accueil->add($options);
+
 
 $site->add_contents ($accueil);
 

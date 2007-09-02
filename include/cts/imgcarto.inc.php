@@ -105,6 +105,7 @@ class imgcarto
       $this->miny = $y;
     if ($this->maxy < $y)
       $this->maxy = $y;
+
     
     $this->texts[] = array($size, $angle, $x, $y, $color, $font, $text, $pointed);
 
@@ -270,7 +271,7 @@ class imgcarto
 	    if ($text[7] != null)
 	      {
 		$text[2] = $text[2] + 1.5 * $text[7];
-		$text[3] = $text[3] - $text[7];
+		$text[3] = $text[3] - $text[7] / 2;
 	      }
 
 	    
