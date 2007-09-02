@@ -30,6 +30,7 @@ $topdir = "../";
 require_once($topdir. "laverie/include/laverie.inc.php");
 require_once($topdir. "include/entities/jeton.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
+require_once($topdir. "include/entities/planning.inc.php");
 
 $site = new sitelaverie ();
 
@@ -131,7 +132,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		$lst = new itemlist("Résultats :");
 		$frm = new form("ajoutjeton", "index.php?view=inventaire", false, "POST", "Ajouter un jeton");
 
-	/* Test des valeurs de jetons envoyés et ajout dans la base (+ message) */
+		/* Test des valeurs de jetons envoyés et ajout dans la base (+ message) */
 		if (!empty($_REQUEST["numjetons"]) )
 		{
 			$array_jetons = explode(" ", $_REQUEST["numjetons"]);
@@ -257,7 +258,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				WHERE `id_utilisateur` = $id AND mc_jeton_utilisateur.retour_jeton IS NULL");
 				/* et si y'a pas de lignes ? */
 				if ($sql->lines <= 0)
-		continue;
+					continue;
 
 				$body = "Bonjour, 
 
@@ -367,7 +368,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 				$lst->add("La machine $id a bien été mise hors service","ok");
 			}
-			/* Cloturer le planning de la machine *
+			/* Cloturer le planning de la machine
 			 * Champ 'name' du planning = 'id' de la machine (pas la lettre) */
 
 		}
@@ -395,7 +396,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 				$lst->add("La machine $id  a bien été supprimée","ok");
 			}
-			/* Cloturer le planning de la machine *
+			/* Cloturer le planning de la machine
 			 * Champ 'name' du planning = 'id' de la machine (pas la lettre) */
 
 		}
@@ -475,6 +476,33 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		 * Mettre une liste de tous les créneaux en spécifiant en spécifiant s'ils
 		 * sont libres ou non, et le cas échéant voir par qui il est occupé,
 		 * si le jeton a été retiré, etc... */
+
+		$now = date("Y-m-d H:i:s",time());
+
+		$sql = new requete($site->db, "SELECT * FROM pl_planning
+			INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines_id,
+			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+			WHERE pl_planning.id_asso = '".ID_ASSO_LAVERIE."'
+			AND pl_planning.start_date_planning <= '".$now."'
+			AND pl_planning.end_date_planning >= '".$now."'
+			ORDER BY mc_machines.lettre, mc_machines.type");
+
+		$table = new sqltable("listeplannings",
+		"Liste des plannings",
+		$sql,
+		"index.php?view=plannings",
+		"id_planning",
+		array(
+			"lettre" => "Lettre",
+			"type" => "Type",
+			"nom_lieu" => "Lieu",
+			"pl_planning_end" => "Fin du planning"),
+		array("creneaux" => "Voir les créneaux"),
+		array(),
+		array("type" => $GLOBALS['types_jeton']) );
+
+		$cts->add($table, true);
+
 	}
 	elseif( $_REQUEST['view'] == "reserver" )
 	{
