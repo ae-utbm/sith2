@@ -178,7 +178,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		/* Liste complète des jetons */
 		$sql = new requete($site->db, "SELECT mc_jeton.id_jeton,
 				mc_jeton.nom_jeton, loc_lieu.nom_lieu, loc_lieu.id_lieu,
-				IF ( mc_jeton.type = 'laver', 'Machine à laver', 'Sèche linge') AS type_jeton
+				IF ( mc_jeton.type_jeton = 'laver', 'Machine à laver', 'Sèche linge') AS type_jeton
 				FROM mc_jeton
 				INNER JOIN loc_lieu ON mc_jeton.id_salle = loc_lieu.id_lieu");
 
