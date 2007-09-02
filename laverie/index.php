@@ -479,6 +479,20 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		$now = date("Y-m-d H:i:s",time());
 
+		$date = getDate();
+            
+		if($date['wday'] == 0)
+		  $days_left = 0; 
+		else
+		  $days_left = 7 - $date['wday'];
+
+		$current_week_end = date("Y-m-d H:i:s", mktime(23, 59, 59, $date['mon'], $date['mday'] + $days_left, $date['year']) );
+
+		$next_week_start = date("Y-m-d H:i:s", mktime(0, 0, 0, $date['mon'], $date['mday'] + $days_left +1, $date['year']) );
+
+		$next_week_end = date("Y-m-d H:i:s", mktime(23, 59, 59, $date['mon'], $date['mday'] + $days_left +7, $date['year']) );
+
+
 		$sql = new requete($site->db, "SELECT * FROM pl_planning
 			INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines.id
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
@@ -503,14 +517,12 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		$cts->add($table, true);
 
-		/* Modifier requête pour qu'il ne match que les machines qui n'ont pas de
-		 * planning pour la semaine courrante et penser à refaire la même chose
-		 * pour la semaine suivante */
 		$sql = new requete($site->db, "SELECT * FROM mc_machines
 			LEFT JOIN pl_planning ON mc_machines.id = pl_planning.name_planning
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE mc_machines.hs = 0
-			AND (pl_planning.end_date_planning <= '".$now."' OR pl_planning.end_date_planning IS NULL)
+			AND (pl_planning.end_date_planning <= '".$current_week_end."' OR pl_planning.end_date_planning IS NULL)
+v			AND (pl_planning.start_date_planning > '".$now."' OR pl_planning.start_date_planning IS NULL)
 			ORDER BY mc_machines.lettre,mc_machines.type");
 
 		$table = new sqltable("listmachines",
@@ -527,7 +539,27 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		$cts->add($table, true);
  
+		$sql = new requete($site->db, "SELECT * FROM mc_machines
+			LEFT JOIN pl_planning ON mc_machines.id = pl_planning.name_planning
+			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+			WHERE mc_machines.hs = 0
+			AND (pl_planning.end_date_planning <= '".$next_week_end."' OR pl_planning.end_date_planning IS NULL)
+v			AND (pl_planning.start_date_planning > '".$next_week_start."' OR pl_planning.start_date_planning IS NULL)
+			ORDER BY mc_machines.lettre,mc_machines.type");
 
+		$table = new sqltable("listmachines2",
+			"Liste des machines en service sans planning pour la semaine prochaine",
+			$sql,
+			"index.php?view=planning",
+			"id_machine",
+			array("lettre" => "Lettre",
+				"type" => "Type de la machine",
+				"nom_lieu" => "Lieu"),
+			array("creer_planning" => "Créer le planning"),
+			array("creer_planning" => "Créer les plannings"),
+			array("type"=>$GLOBALS['types_jeton'] ) );
+
+		$cts->add($table, true);
 	}
 	elseif( $_REQUEST['view'] == "reserver" )
 	{
