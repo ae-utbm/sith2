@@ -397,9 +397,12 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		if (!empty($_REQUEST["lettre_machine"]) )
 		{
-			$sql = new requete($site-dbrw, "INSERT INTO mc_machines
-				('lettre','type','loc')
-				VALUES ($_REQUEST['lettre_machine'], $_REQUEST['typemachine'], $_REQUEST['locmachine'])");
+			$sql = new insert ($this->dbrw,
+				"mc_machines",
+			   array(
+				  "lettre" => $_REQUEST['lettre_machine'],
+			    "type" => $_REQUEST['typemachine'],
+			    "loc" => $_REQUEST['locmachine']) );
 		}
 		
 		$frm = new form("ajoutmachine", "index.php?view=machines", false, "POST", "Ajouter une machine");
