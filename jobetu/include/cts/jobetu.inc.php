@@ -98,7 +98,7 @@
 	class annonce_box extends stdcontents
 	{
 		
-		function annonce_box($annonce, $ville = NULL)
+		function annonce_box($annonce)
 		{
 			global $topdir;
 			global $i18n;
@@ -173,7 +173,7 @@
 					
 					$ville = new ville($usr->db);
 					$ville->load_by_id($usr->id_ville);
-					print_r($ville);
+					
 		  		$this->buffer .= "<div class=\"apply_table\">\n";
 	  				$this->buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_".$n."');\">";
 	  				$this->buffer .= $usr->prenom." ".$usr->nom." (département ".strtoupper($usr->departement).")";
@@ -188,6 +188,7 @@
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Email </div> \n <div class=\"desc_content\">".preg_replace('(@)', ' [at] ', $usr->email_utbm)."</div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Téléphone </div> \n <div class=\"desc_content\">".telephone_display($usr->tel_portable)."</div> \n</div>";
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Adresse </div> \n <div class=\"desc_content\">".nl2br(htmlentities($usr->addresse, ENT_NOQUOTES,"UTF-8")). "<br /> $ville->cpostal $ville->nom </div> \n</div>";
+	  				
 	  				if( !empty($usr->pdf_cvs) )
 	  				{
 	  					$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> CV(s) disponible(s) </div> \n <div class=\"desc_content\">";
