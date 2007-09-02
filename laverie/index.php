@@ -351,7 +351,14 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			error_403();
 
 		$lst = new itemlist("Resultats :");
-		$frm = new form("ajoutmachine", "index.php?view=machines", false, "POST", "Ajouter une machine");
+
+		if(!empty($_REQUEST['id']))
+			$ids[] = $_REQUEST['id'];
+		elseif($_REQUEST['ids'])
+		{
+			foreach ($_REQUEST['ids'] as $id_machine)
+			$ids[] = $id_machine;
+		}
 
 		if($_REQUEST['action'] == "hs")
 		{
@@ -365,7 +372,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			}
 		}
 		
-	
+		$frm = new form("ajoutmachine", "index.php?view=machines", false, "POST", "Ajouter une machine");
+
 		$frm->add_text_field("lettre_machine", "Lettre de la machine :");
 		$frm->add_select_field("typemachine", "Type de la machine :", $GLOBALS['types_jeton']);
 		$frm->add_select_field("locmachine", "Salle concernée :", $GLOBALS['salles_jeton']);
