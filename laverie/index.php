@@ -353,8 +353,19 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		$lst = new itemlist("Resultats :");
 		$frm = new form("ajoutmachine", "index.php?view=machines", false, "POST", "Ajouter une machine");
 
-		/* Traitement de toutes las actions */
+		if($_REQUEST['action'] == "hs")
+		{
+			foreach ( $ids as $id )
+			{
+				$sql = new requete($site->dbrw, "UPDATE mc_machines 
+					SET mc_machines.hs = 1,
+					WHERE mc_machines.id = $id");
 
+				$lst->add("La machine $id  a bien été mise hors service","ok");
+			}
+		}
+		
+	
 		$frm->add_text_field("lettre_machine", "Lettre de la machine :");
 		$frm->add_select_field("typemachine", "Type de la machine :", $GLOBALS['types_jeton']);
 		$frm->add_select_field("locmachine", "Salle concernée :", $GLOBALS['salles_jeton']);
