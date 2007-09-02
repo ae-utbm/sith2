@@ -155,7 +155,7 @@ class planning
   function add_user_to_gap ( $id_gap, $id_utilisateur )
   {
     $req = new requete ($this->db,
-                        "SELECT COUNT(*) AS `nb` FROM `pl_gap_user` "
+                        "SELECT COUNT(*) AS `nb` FROM `pl_gap_user` ".
                         "WHERE `id_gap`='".$id_gap."'");
     if($req->lines==1)
     {
