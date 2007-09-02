@@ -36,16 +36,16 @@ $site = new sitelaverie ();
 if ( !$site->user->is_valid() )
 	error_403();
 
-$site->user_is_admin();
-
-if ( $site->is_admin )
-  $site->set_admin_mode();
-
 $site->start_page("none","Laverie");
 $cts = new contents("Machines à laver de l'AE");
 
 if ( !$site->user->is_in_group("blacklist_machines") )
 {
+	$site->user_is_admin();
+
+	if ( $site->is_admin )
+		$site->set_admin_mode();
+	
 	if ( $_REQUEST['view'] == "retour" )
 	{
 		if ( !$site->is_admin )
@@ -139,7 +139,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				$jeton = new jeton($site->db, $site->dbrw);
 				$jeton->add ( $_REQUEST["sallejeton"], $_REQUEST["typejeton"], $numjeton);
 				if($jeton->id > -1)
-		$lst->add("Le jeton $numjeton a bien été enregistré", "ok");
+				$lst->add("Le jeton $numjeton a bien été enregistré", "ok");
 			}
 		}
 
@@ -159,9 +159,9 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				$jeton->load_by_id($numjeton);
 				$retour = $jeton->delete();
 				if($retour == 0)
-		$lst->add("Le jeton $jeton->nom a bien été supprimé.", "ok");
+				$lst->add("Le jeton $jeton->nom a bien été supprimé.", "ok");
 				else
-		$lst->add("Le jeton $jeton->nom est encore emprunté et ne peut donc être supprimé.", "ko");
+				$lst->add("Le jeton $jeton->nom est encore emprunté et ne peut donc être supprimé.", "ko");
 			}
 		}
 
@@ -287,7 +287,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			}
 		}
 
-		$cts->add($lst,true);
+		$cts->add($lst);
 
 		/* Liste des mauvais clients */
 		/* Requête à refaire en fonction du nouveau schéma */
@@ -344,6 +344,45 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		$cts->add($table, true);
 
+	}
+	elseif ( $_REQUEST['view'] == "machines" )
+	{
+		if ( !$site->is_admin )
+			error_403();
+
+		$lst = new itemlist("Resultats :");
+		$frm = new form("ajoutmachine", "index.php?view=machines", false, "POST", "Ajouter une machine");
+
+		/* Traitement de toutes las actions */
+
+		$frm->add_text_field("lettre_machine", "Lettre de la machine :");
+		$frm->add_select_field("typemachine", "Type de la machine :", $GLOBALS['types_jeton']);
+		$frm->add_select_field("locmachine", "Salle concernée :", $GLOBALS['salles_jeton']);
+		$frm->add_submit("valid","Valider");
+		$frm->allow_only_one_usage();
+		$cts->add($lst);
+		$cts->add($frm,true);
+
+		/* Liste des machines */
+		$sql = new requete($site->db, "SELECT * FROM mc_machines
+			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+			WHERE mc_machines.hs = 0";
+
+		$table = new sqltable("listmachinesok",
+			"Liste des machines en service",
+			$sql,
+			"index.php?view=machines",
+			"id",
+			array("lettre" => "Lettre",
+				"type" => "Type de la machine",
+				"nom_lieu" => "Lieu"),
+			array("hs" => "Hors service",
+				"supprimer" => "Supprimer"),
+			array("hs" => "Hors service",
+			  "supprimer" => "Supprimer"),
+			array() );
+
+		$cts->add($table, true);
 	}
 	else
 	{
