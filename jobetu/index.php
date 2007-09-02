@@ -53,7 +53,7 @@ Quelques mots sur le fonctionnement du service :
   * Le client recevra alors toutes les candidatures qui lui sont offertes et pourra faire son choix parmi celles ci, vous serez tenu au courant de cette évolution via votre tableau de bord, ou bien même par mail si vous le souhaitez
   * A la fin du contrat, le demandeur pourra mettre une appréciation à votre prestation (positive, négative ou neutre) s'il le souhaite, afin de vous permettre de mettre en avant votre sérieux pour de futures candidatures. 
 
-	Rappelons que l'inscription à AE Job Etu est soumise à l'acceptation des [[http://ae.utbm.fr/article.php?name=legals-jobetu-cgu\|conditions générales d'utilisation]].
+Rappelons que l'inscription à AE Job Etu est soumise à l'acceptation des [[http://ae.utbm.fr/article.php?name=legals-jobetu-cgu|conditions générales d'utilisation]].
 EOF;
 	$cts->add_paragraph(doku2xhtml($text));
 	
