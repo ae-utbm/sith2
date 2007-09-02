@@ -104,7 +104,7 @@ function add_new_form($id = null)
 
   $sub_frm_cotiz = new form("cotisation",null,null,null,utf8_encode("Cotisation"));
   $sub_frm_cotiz->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, jusqu'au $date1", 1=>"2 Semestres, 28 Euros, jusqu'au $date2" ),1);
-  $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => utf8_encode("Chèque"), 2 => "CB", 3 => "Liquide", 4 => "Administration"));
+  $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => utf8_encode("Chèque"), 3 => "Liquide", 4 => "Administration"));
   $sub_frm_cotiz->add_info("&nbsp;");
 
   $sub_frm_cotiz_ecole = new form("ecoleform",null,null,null,utf8_encode("Etudiant"));
@@ -422,7 +422,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
       $frm = new form("newcotiz","cotisations.php?id_utilisateur=".$user->id,true,"POST","Nouvelle cotisation");
       $frm->add_hidden("action","newcotiz");
       $frm->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, $date1", 1=>"2 Semestres, 28 Euros, $date2" ),1);
-      $frm->add_select_field("paiement","Mode de paiement",array(1 => utf8_encode("Chèque"), 2 => "CB", 3 => "Liquide", 4 => "Administration"));
+      $frm->add_select_field("paiement","Mode de paiement",array(1 => utf8_encode("Chèque"), 3 => "Liquide", 4 => "Administration"));
       $frm->add_checkbox("droit_image","Droit &agrave; l'image",$user->droit_image);
       $frm->add_checkbox("a_pris_cadeau",utf8_encode("Cadeau distribué"),false);
       $frm->add_submit("submit","Enregistrer");
