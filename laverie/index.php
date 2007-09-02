@@ -522,7 +522,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE mc_machines.hs = 0
 			AND ( (pl_planning.start_date_planning >= '".$now."' AND pl_planning.end_date_planning > '".$now."')
-				OR (pl_planning.start_date_planning < '".$now."' AND pl_planning.end_date_pla nning <= '".$now."')
+				OR (pl_planning.start_date_planning < '".$now."' AND pl_planning.end_date_planning <= '".$now."')
 				OR (pl_planning.end_date_planning IS NULL AND pl_planning.start_date_planning IS NULL) )
 			ORDER BY mc_machines.lettre,mc_machines.type");
 
