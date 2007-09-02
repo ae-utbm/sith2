@@ -419,10 +419,13 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		$cts->add($frm,true);
 
 		/* Liste des machines */
-		$sql = new requete($site->db, "SELECT mc_machines.id,
+		/*$sql = new requete($site->db, "SELECT mc_machines.id,
 			mc_machines.lettre, mc_machines.hs, loc_lieu.nom_lieu, loc_lieu.id_lieu,
 			IF ( mc_machines.type = 'laver', 'Machine à laver', 'Sèche linge') AS type
 			FROM mc_machines
+			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+			WHERE mc_machines.hs = 0");*/
+		$sql = new requete($site->db, "SELECT * FROM mc_machines
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE mc_machines.hs = 0");
 
@@ -438,7 +441,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				"supprimer" => "Supprimer"),
 			array("hs" => "Hors service",
 			  "supprimer" => "Supprimer"),
-			array() );
+			array("type"=>$GLOBALS['types_jeton'] ) );
 
 		$cts->add($table, true);
 
@@ -477,7 +480,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 else
 {
 	/* Page d'explication si l'utilisateur est dans le groupe 'blacklist_machines' */
-
+	/* Et liste des jetons non-rendus */
 }
 
 $site->add_contents($cts);
