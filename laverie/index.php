@@ -366,7 +366,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		/* Liste des machines */
 		$sql = new requete($site->db, "SELECT * FROM mc_machines
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
-			WHERE mc_machines.hs = 0";
+			WHERE mc_machines.hs = 0");
 
 		$table = new sqltable("listmachinesok",
 			"Liste des machines en service",
