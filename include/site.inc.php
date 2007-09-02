@@ -244,7 +244,8 @@ class site extends interfaceweb
     {
       $this->add_box("anniv", $this->get_anniv_contents());
       $this->add_box("planning", $this->get_planning_contents());
-      $this->add_box("stream",$this->get_stream_box());
+      if ( preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
+        $this->add_box("stream",$this->get_stream_box());
       $this->add_box("photo",$this->get_weekly_photo_contents());
       
       if ($this->user->is_valid())
