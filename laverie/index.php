@@ -480,7 +480,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		$now = date("Y-m-d H:i:s",time());
 
 		$sql = new requete($site->db, "SELECT * FROM pl_planning
-			INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines_id
+			INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines.id
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE pl_planning.id_asso = '".ID_ASSO_LAVERIE."'
 			AND pl_planning.start_date_planning <= '".$now."'
