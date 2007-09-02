@@ -1,6 +1,5 @@
 <?php
 
-
 class planning
 {
 
@@ -23,159 +22,171 @@ class planning
   }
 
 
-	function load_by_id ( $id )
-	{
-		$req = new requete($this->db, "SELECT * FROM `pl_planning`
-				WHERE `id_planning` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
-		if ( $req->lines == 1 )
-			$this->_load($req->get_row());
-		else
-			$this->id = -1;	
-	}
+  function load_by_id ( $id )
+  {
+    $req = new requete($this->db, "SELECT * FROM `pl_planning` ".
+                                  "WHERE `id_planning` = '" . mysql_real_escape_string($id) . "' ".
+                                  "LIMIT 1");
+        
+    if ( $req->lines == 1 )
+      $this->_load($req->get_row());
+    else
+      $this->id = -1;  
+  }
 
-	function _load ( $row )
-	{
-		$this->id      = $row['id_planning'];
-		$this->id_asso = $row['id_asso'];
-		$this->name    = $row['name_planning'];
-		$this->user_per_gap = $row['user_per_gap'];
-		$this->start_date = strtotime($row['start_date_planning']);
-		$this->end_date = strtotime($row['end_date_planning']);
-		$this->weekly = $row['weekly_planning'];
-	}	
+  function _load ( $row )
+  {
+    $this->id           = $row['id_planning'];
+    $this->id_asso      = $row['id_asso'];
+    $this->name         = $row['name_planning'];
+    $this->user_per_gap = $row['user_per_gap'];
+    $this->start_date   = strtotime($row['start_date_planning']);
+    $this->end_date     = strtotime($row['end_date_planning']);
+    $this->weekly       = $row['weekly_planning'];
+  }  
 
-	function add ( $id_asso, $name, $user_per_gap, $start_date, $end_date, $weekly )
-	{
-		$this->id_asso = $id_asso;
-		$this->name = $name;
-		$this->user_per_gap = $user_per_gap;
-		$this->start_date = $start_date;
-		$this->end_date = $end_date;
-		$this->weekly = $weekly;
-		
-		$sql = new insert ($this->dbrw,
-			"pl_planning",
-			array(
-				"id_asso" => $this->id_asso,
-				"name_planning" => $this->name,
-				"user_per_gap" => $this->user_per_gap,
-				"start_date_planning" => date("Y-m-d H:i:s",$this->start_date),
-				"end_date_planning" => date("Y-m-d H:i:s",$this->end_date),
-				"weekly_planning" => $this->weekly
-				
-				)
-			);
-				
-		if ( $sql )
-			$this->id = $sql->get_id();
-		else
-			$this->id = -1;
+  function add ( $id_asso, $name, $user_per_gap, $start_date, $end_date, $weekly )
+  {
+    $this->id_asso = $id_asso;
+    $this->name = $name;
+    $this->user_per_gap = $user_per_gap;
+    $this->start_date = $start_date;
+    $this->end_date = $end_date;
+    $this->weekly = $weekly;
+    
+    $sql = new insert ($this->dbrw,
+                       "pl_planning",
+                       array(
+                             "id_asso" => $this->id_asso,
+                             "name_planning" => $this->name,
+                             "user_per_gap" => $this->user_per_gap,
+                             "start_date_planning" => date("Y-m-d H:i:s",$this->start_date),
+                             "end_date_planning" => date("Y-m-d H:i:s",$this->end_date),
+                             "weekly_planning" => $this->weekly
+                            )
+                      );
+        
+    if ( $sql )
+      $this->id = $sql->get_id();
+    else
+      $this->id = -1;
 
-	}
-	
-	function save ( $id_asso, $name, $user_per_gap,$start_date, $end_date, $weekly )
-	{
-		$this->id_asso = $id_asso;
-		$this->name = $name;
-		$this->user_per_gap = $user_per_gap;
-		$this->start_date = $start_date;
-		$this->end_date = $end_date;
-		$this->weekly = $weekly;
-		
-		$sql = new update ($this->dbrw,
-			"pl_planning",
-			array(
-				"id_asso" => $this->id_asso,
-				"name_planning" => $this->name,
-				"user_per_gap" => $this->user_per_gap,
-				"start_date_planning" => date("Y-m-d H:i:s",$this->start_date),
-				"end_date_planning" => date("Y-m-d H:i:s",$this->end_date),
-				"weekly_planning" => $this->weekly
-				),
-		  array("id_planning"=>$this->id)
-			);
-	}
-	
-	function remove ( )
-	{
-		$sql = new delete ($this->dbrw,
-			"pl_planning",
-			array(
-				"id_planning" => $this->id
-				)
-			); 
-			
-		$sql = new delete ($this->dbrw,
-			"pl_gap",
-			array(
-				"id_planning" => $this->id
-				)
-			); 
-			
-		$sql = new delete ($this->dbrw,
-			"pl_gap_user",
-			array(
-				"id_planning" => $this->id
-				)
-			);
-	}
-	
-	
+  }
+  
+  function save ( $id_asso, $name, $user_per_gap,$start_date, $end_date, $weekly )
+  {
+    $this->id_asso      = $id_asso;
+    $this->name         = $name;
+    $this->user_per_gap = $user_per_gap;
+    $this->start_date   = $start_date;
+    $this->end_date     = $end_date;
+    $this->weekly       = $weekly;
+    
+    $sql = new update ($this->dbrw,
+                       "pl_planning",
+                       array(
+                             "id_asso" => $this->id_asso,
+                             "name_planning" => $this->name,
+                             "user_per_gap" => $this->user_per_gap,
+                             "start_date_planning" => date("Y-m-d H:i:s",$this->start_date),
+                             "end_date_planning" => date("Y-m-d H:i:s",$this->end_date),
+                             "weekly_planning" => $this->weekly
+                            ),
+                       array("id_planning"=>$this->id)
+                      );
+  }
+  
+  function remove ( )
+  {
+    $sql = new delete ($this->dbrw,
+                       "pl_planning",
+                       array(
+                             "id_planning" => $this->id
+                            )
+                      );
+
+    $sql = new delete ($this->dbrw,
+                       "pl_gap",
+                       array(
+                             "id_planning" => $this->id
+                            )
+                      );
+      
+    $sql = new delete ($this->dbrw,
+                       "pl_gap_user",
+                       array(
+                             "id_planning" => $this->id
+                            )
+                      );
+  }
+  
+  
   function add_gap ( $start, $end )
   {
-		$sql = new insert ($this->dbrw,
-			"pl_gap",
-			array(
-				"id_planning" => $this->id,
-				"start_gap" => $start,
-				"end_gap" => $end
-				)
-			);
+    $sql = new insert ($this->dbrw,
+                       "pl_gap",
+                        array(
+                              "id_planning" => $this->id,
+                              "start_gap" => $start,
+                              "end_gap" => $end
+                             )
+                      );
   }
 
   function remove_gap ( $id_gap )
   {
-		$sql = new delete ($this->dbrw,
-			"pl_gap",
-			array(
-				"id_planning" => $this->id,
-				"id_gap" => $id_gap
-				)
-			); 
-			
-		$sql = new delete ($this->dbrw,
-			"pl_gap_user",
-			array(
-				"id_planning" => $this->id,
-				"id_gap" => $id_gap
-				)
-			); 
+    $sql = new delete ($this->dbrw,
+                       "pl_gap",
+                       array(
+                             "id_planning" => $this->id,
+                             "id_gap" => $id_gap
+                            )
+                      );
+      
+    $sql = new delete ($this->dbrw,
+                       "pl_gap_user",
+                       array(
+                             "id_planning" => $this->id,
+                             "id_gap" => $id_gap
+                            )
+                      );
   }
   
   function add_user_to_gap ( $id_gap, $id_utilisateur )
   {
-		$sql = new insert ($this->dbrw,
-			"pl_gap_user",
-			array(
-				"id_planning" => $this->id,
-				"id_gap" => $id_gap,
-				"id_utilisateur" => $id_utilisateur
-				)
-			);  
+    $req = new requete ($this->db,
+                        "SELECT COUNT(*) AS `nb` FROM `pl_gap_user` "
+                        "WHERE `id_gap`='".$id_gap."'");
+    if($req->lines==1)
+    {
+      list($nb)=$req->get_row();
+      if($nb==$this->user_per_gap)
+        return false;
+    }
+    $sql = new insert ($this->dbrw,
+                       "pl_gap_user",
+                       array(
+                             "id_planning" => $this->id,
+                             "id_gap" => $id_gap,
+                             "id_utilisateur" => $id_utilisateur
+                            )
+                          );
+    if( $sql)
+      return true;
+    else
+      return false;
   }
   
   function remove_user_from_gap ( $id_gap, $id_utilisateur )
   {
-		$sql = new delete ($this->dbrw,
-			"pl_gap_user",
-			array(
-				"id_planning" => $this->id,
-				"id_gap" => $id_gap,
-				"id_utilisateur" => $id_utilisateur
-				)
-			);    
+    $sql = new delete ($this->dbrw,
+                       "pl_gap_user",
+                       array(
+                             "id_planning" => $this->id,
+                             "id_gap" => $id_gap,
+                             "id_utilisateur" => $id_utilisateur
+                            )
+                      );
   }
 }
 
