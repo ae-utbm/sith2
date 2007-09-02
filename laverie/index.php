@@ -192,7 +192,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				),
 				array("supprimer" => "Supprimer"),
 				array("supprimer" => "Supprimer"),
-				array("type"=>$GLOBALS['types_jeton']) );
+				array("type_jeton"=>$GLOBALS['types_jeton']) );
 
 		$cts->add($table, true);	
 
@@ -417,7 +417,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		/* Liste des machines */
 		$sql = new requete($site->db, "SELECT * FROM mc_machines
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
-			WHERE mc_machines.hs = 0");
+			WHERE mc_machines.hs = 0
+			ORDER BY mc_machines.lettre");
 
 		$table = new sqltable("listmachinesok",
 			"Liste des machines en service",
@@ -437,7 +438,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		$sql = new requete($site->db, "SELECT * FROM mc_machines
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
-			WHERE mc_machines.hs = 1");
+			WHERE mc_machines.hs = 1
+			ORDER BY mc_machines.lettre");
 
 		$table = new sqltable("listmachineshs",
 			"Liste des machines hors service",
