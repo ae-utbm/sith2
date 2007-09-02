@@ -36,17 +36,16 @@ $site = new sitelaverie ();
 if ( !$site->user->is_valid() )
 	error_403();
 
+$site->user_is_admin();
+
+if ( $site->is_admin )
+  $site->set_admin_mode();
 
 $site->start_page("none","Laverie");
 $cts = new contents("Machines à laver de l'AE");
 
 if ( !$site->user->is_in_group("blacklist_machines") )
 {
-	$site->user_is_admin();
-
-	if ( $site->is_admin )
-	  $site->set_admin_mode();
-	
 	if ( $_REQUEST['view'] == "retour" )
 	{
 		if ( !$site->is_admin )
@@ -204,6 +203,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		if ( !$site->is_admin )
 			error_403();
 
+		$lst = new itemlist("Résultats :");
 
 		if(!empty($_REQUEST['id_utilisateur']))
 			$ids[] = $_REQUEST['id_utilisateur'];
@@ -216,8 +216,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		if($_REQUEST['action'] == "blacklist")
 		{
-		$lst = new itemlist("Résultats :");
-		foreach ( $ids as $id )
+			foreach ( $ids as $id )
 			{
 				$user = new utilisateur($site->db, $site->dbrw);
 				$user->load_by_id($id);
@@ -229,8 +228,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		if($_REQUEST['action'] == "unblacklist")
 		{
-		$lst = new itemlist("Résultats :");
-		foreach ( $ids as $id )
+			foreach ( $ids as $id )
 			{
 				$user = new utilisateur($site->db, $site->dbrw);
 				$user->load_by_id($id);
@@ -242,8 +240,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			
 		if($_REQUEST['action'] == "mail_rappel")
 		{
-		$lst = new itemlist("Résultats :");
-		foreach ( $ids as $id )
+			foreach ( $ids as $id )
 			{
 				$user = new utilisateur($site->db);
 
