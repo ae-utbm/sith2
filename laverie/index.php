@@ -503,6 +503,9 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		$cts->add($table, true);
 
+		/* Modifier requête pour qu'il ne match que les machines qui n'ont pas de
+		 * planning pour la semaine courrante et penser à refaire la même chose
+		 * pour la semaine suivante */
 		$sql = new requete($site->db, "SELECT * FROM mc_machines
 			LEFT JOIN pl_planning ON mc_machines.id = pl_planning.name_planning
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
