@@ -503,6 +503,31 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		$cts->add($table, true);
 
+		$sql = new requete($site->db, "SELECT * FROM mc_machines
+			INNER JOIN pl_planning ON mc_machines.id = pl_planning.name_planning
+			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+			WHERE mc_machines.hs = 0
+			AND pl_planning.start_date_planning >= '".$now."'
+			AND pl_planning.end_date_planning <= '".$now."'
+			ORDER BY mc_machines.lettre,mc_machines.type");
+
+		$table = new sqltable("listmachines",
+			"Liste des machines en service sans planning pour la semaine courrante",
+			$sql,
+			"index.php?view=planning",
+			"id_machine",
+			array("lettre" => "Lettre",
+				"type" => "Type de la machine",
+				"nom_lieu" => "Lieu"),
+			array("hs" => "Hors service",
+				"supprimer" => "Supprimer"),
+			array("hs" => "Hors service",
+			  "supprimer" => "Supprimer"),
+			array("type"=>$GLOBALS['types_jeton'] ) );
+
+		$cts->add($table, true);
+ 
+
 	}
 	elseif( $_REQUEST['view'] == "reserver" )
 	{
