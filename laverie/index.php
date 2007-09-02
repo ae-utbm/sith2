@@ -502,7 +502,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			ORDER BY mc_machines.lettre, mc_machines.type");
 
 		$table = new sqltable("listeplannings",
-		"Liste des plannings",
+		"Liste des plannings de la semaine courrante",
 		$sql,
 		"index.php?view=plannings",
 		"id_planning",
@@ -521,12 +521,12 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			LEFT JOIN pl_planning ON mc_machines.id = pl_planning.name_planning
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE mc_machines.hs = 0
-			AND (pl_planning.end_date_planning <= '".$current_week_end."' OR pl_planning.end_date_planning IS NULL)
-			AND (pl_planning.start_date_planning > '".$now."' OR pl_planning.start_date_planning IS NULL)
+			AND (pl_planning.end_date_planning <= '".$now."' OR pl_planning.end_date_planning IS NULL)
+			AND (pl_planning.start_date_planning >= '".$now."' OR pl_planning.start_date_planning IS NULL)
 			ORDER BY mc_machines.lettre,mc_machines.type");
 
-		$table = new sqltable("listmachines",
-			"Liste des machines en service sans planning pour la semaine courrante",
+		$table = new sqltable("listmachinesencours",
+			"Liste des machines en service sans planning en cours",
 			$sql,
 			"index.php?view=planning",
 			"id_machine",
@@ -547,8 +547,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			AND (pl_planning.start_date_planning > '".$next_week_start."' OR pl_planning.start_date_planning IS NULL)
 			ORDER BY mc_machines.lettre,mc_machines.type");
 
-		$table = new sqltable("listmachines2",
-			"Liste des machines en service sans planning pour la semaine prochaine",
+		$table = new sqltable("listmachinesavenir",
+			"Liste des machines en service sans planning à venir",
 			$sql,
 			"index.php?view=planning",
 			"id_machine",
