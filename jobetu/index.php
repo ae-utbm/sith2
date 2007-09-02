@@ -55,7 +55,7 @@ Quelques mots sur le fonctionnement du service : <br />
 
 	Rappelons que l'inscription à AE Job Etu est soumise à l'acceptation des <a href=\"http://ae.utbm.fr/article.php?name=legals-jobetu-cgu\">conditions générales d'utilisation</a>.
 EOF;
-	$cts->add_paragraph($text);
+	$cts->add_paragraph(doku2xhtml($text));
 	
 	$frm = new form("activ_form", "index.php?activate", false, "POST");
 	$frm->add_checkbox("accept_cgu", "Je reconnais avoir lu et accepter les <a href=\"http://ae.utbm.fr/article.php?name=legals-jobetu-cgu\">CGU d'AE Job Etu</a>");
