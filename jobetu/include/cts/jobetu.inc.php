@@ -171,8 +171,9 @@
 					$usr->load_all_extra();
 					$usr->load_pdf_cv();
 					
-//					$ville->load_by_id($usr->id_ville);
-//					echo $usr->id_ville;
+					$ville = new ville($usr->db);
+					$ville->load_by_id($usr->id_ville);
+					print_r($ville);
 		  		$this->buffer .= "<div class=\"apply_table\">\n";
 	  				$this->buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_".$n."');\">";
 	  				$this->buffer .= $usr->prenom." ".$usr->nom." (département ".strtoupper($usr->departement).")";
