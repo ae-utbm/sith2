@@ -365,7 +365,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			foreach ( $ids as $id )
 			{
 				$sql = new requete($site->dbrw, "UPDATE mc_machines 
-					SET mc_machines.hs = 1,
+					SET mc_machines.hs = 1
 					WHERE mc_machines.id = $id");
 
 				$lst->add("La machine $id  a bien été mise hors service","ok");
