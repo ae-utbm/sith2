@@ -43,7 +43,7 @@ if ( $site->is_admin )
 $site->start_page("none","Machines");
 $cts = new contents("Machines à laver de l'AE");
 
-if ( !$site->user->is_in_group("blacklist_machines")
+if ( !$site->user->is_in_group("blacklist_machines") )
 {
 	if ( $_REQUEST['view'] == "retour" )
 	{
