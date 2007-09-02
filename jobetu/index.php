@@ -46,14 +46,14 @@ if( isset($_REQUEST['activate']) )
 	$cts = new contents("Faites partie de AE Job Etu !");
 	$cts->add_paragraph("Vous vous apprêtez à vous inscrire en temps que candidat à AE Job Etu.");
 	$text = <<<EOF
-Quelques mots sur le fonctionnement du service : <br />
+Quelques mots sur le fonctionnement du service :
   * Les 'recruteurs' (particuliers ou entreprises) déposent leur annonce sur le site, en font notamment la description, indiquent également le type de travail dont il s'agit.
   * Par défaut, les annonces vous seront proposées selon les compétences que vous aurez sélectionnées dans votre profil (auquel vous accederez après cette page), vous pourrez également accéder à toutes les annonces disponibles, quelques soient les qualifications requises, via l'onglet "tout jobetu". 
   * Vous pourrez alors poster votre candidature à une annonce, ainsi qu'y joindre un message si vous le souhaitez, sorte de mini lettre de motivation.
   * Le client recevra alors toutes les candidatures qui lui sont offertes et pourra faire son choix parmi celles ci, vous serez tenu au courant de cette évolution via votre tableau de bord, ou bien même par mail si vous le souhaitez
   * A la fin du contrat, le demandeur pourra mettre une appréciation à votre prestation (positive, négative ou neutre) s'il le souhaite, afin de vous permettre de mettre en avant votre sérieux pour de futures candidatures. 
 
-	Rappelons que l'inscription à AE Job Etu est soumise à l'acceptation des <a href=\"http://ae.utbm.fr/article.php?name=legals-jobetu-cgu\">conditions générales d'utilisation</a>.
+	Rappelons que l'inscription à AE Job Etu est soumise à l'acceptation des [[http://ae.utbm.fr/article.php?name=legals-jobetu-cgu\|conditions générales d'utilisation]].
 EOF;
 	$cts->add_paragraph(doku2xhtml($text));
 	
