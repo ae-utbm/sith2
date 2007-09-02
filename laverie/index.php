@@ -368,7 +368,30 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 					SET mc_machines.hs = 1
 					WHERE mc_machines.id = $id");
 
-				$lst->add("La machine $id  a bien été mise hors service","ok");
+				$lst->add("La machine $id a bien été mise hors service","ok");
+			}
+		}
+	
+		if($_REQUEST['action'] == "es")
+		{
+			foreach ( $ids as $id )
+			{
+				$sql = new requete($site->dbrw, "UPDATE mc_machines 
+					SET mc_machines.hs = 0
+					WHERE mc_machines.id = $id");
+
+				$lst->add("La machine $id a bien été mise en service","ok");
+			}
+		}
+
+		if($_REQUEST['action'] == "supprimer")
+		{
+			foreach ( $ids as $id )
+			{
+				$sql = new requete($site->dbrw, "DELETE FROM mc_machines 
+					WHERE mc_machines.id = $id");
+
+				$lst->add("La machine $id  a bien été supprimée","ok");
 			}
 		}
 		
