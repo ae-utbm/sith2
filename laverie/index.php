@@ -397,7 +397,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		if (!empty($_REQUEST["lettre_machine"]) )
 		{
-			$sql = new insert ($this->dbrw,
+			$sql = new insert ($site->dbrw,
 				"mc_machines",
 			   array(
 				  "lettre" => $_REQUEST['lettre_machine'],
