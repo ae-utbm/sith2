@@ -287,14 +287,16 @@ class ImageMosaic
         $rgb = imagecolorat($NvlImg,$x,$y) & $this->ApproxMask;
         
         $idx = $this->Pal->FindColsest($rgb);
-        
-        if ( !(list($k,$id) = each($this->Photos[$idx])) ) {
-          if(is_array($this->Photos[$idx]))
+
+        if(is_array($this->Photos[$idx]))
+        {
+          if ( !(list($k,$id) = each($this->Photos[$idx])) ) {
             reset($this->Photos[$idx]);
-          list($k,$id) = each($this->Photos[$idx]);
+            list($k,$id) = each($this->Photos[$idx]);
+          }
+          $this->Image[$y][$x] = $id;
+          $this->ImageRGB[$y][$x] = $rgb;
         }
-        $this->Image[$y][$x] = $id;
-        $this->ImageRGB[$y][$x] = $rgb;
       }
     }
     imagedestroy($NvlImg);  
