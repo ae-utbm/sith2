@@ -513,7 +513,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			"nom_lieu" => "Lieu",
 			"start_date_planning" => "Début",
 			"end_date_planning" => "Fin"),
-		array("creneaux" => "Voir les créneaux","supprimer" => "Supprimer"),
+		array("creneaux" => "Voir les créneaux","modifier" => "Modifier","supprimer" => "Supprimer"),
 		array("supprimer" => "Supprimer les plannings"),
 		array("type" => $GLOBALS['types_jeton']) );
 
