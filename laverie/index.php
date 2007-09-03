@@ -509,8 +509,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			"lettre" => "Lettre",
 			"type" => "Type",
 			"nom_lieu" => "Lieu",
-			"start_date_planning" => "Début")
-			"end_date_planning" => "Fin du planning"),
+			"start_date_planning" => "Début"),
+			"end_date_planning" => "Fin"),
 		array("creneaux" => "Voir les créneaux"),
 		array(),
 		array("type" => $GLOBALS['types_jeton']) );
