@@ -53,15 +53,15 @@ class utilisateur extends stdentity
 
   var $date_maj;
   var $derniere_visite;
-  
+
   /** Profil visible de tous, recherchable dans le mmt online */
   var $publique;
-  
+
   /** Publication autorisée dans le matmatronch papier */
   var $publique_mmtpapier;
-  
+
   var $tovalid;
-  
+
   var $signature;
   var $tout_lu_avant;
 
@@ -78,13 +78,13 @@ class utilisateur extends stdentity
   var $role;
   var $departement;
   var $email_utbm;
-  
+
   /* utbm (si etudiant ou ancien etudiant) */
   var $semestre;
   var $filiere;
   var $surnom;
   var $promo_utbm;
-  var $date_diplome_utbm; 
+  var $date_diplome_utbm;
 
   /* extra */
   var $musicien;
@@ -126,7 +126,7 @@ class utilisateur extends stdentity
       $this->_load($req->get_row());
       return true;
     }
-    
+
     $this->id = null;
     return false;
   }
@@ -155,7 +155,7 @@ class utilisateur extends stdentity
       $this->_load($req->get_row());
       return true;
     }
-    
+
     $this->id = null;
     return false;
   }
@@ -175,7 +175,7 @@ class utilisateur extends stdentity
       $this->_load($req->get_row());
       return true;
     }
-    
+
     $this->id = null;
     return false;
 
@@ -187,7 +187,7 @@ class utilisateur extends stdentity
    */
   function load_by_carteae ( $num, $strict=false )
   {
-    $this->vol = false;  
+    $this->vol = false;
 
 	  if ( ereg("^([0-9]+)([a-zA-Z]{1})$", $num, $regs) )
 	  {
@@ -206,7 +206,7 @@ class utilisateur extends stdentity
         return;
       }
       $cond = "`ae_carte`.`id_carte_ae` = '" . mysql_real_escape_string(intval($num)) . "'";
-    }	 
+    }
 
     $req = new requete($this->db, "SELECT * FROM `utilisateurs` " .
                                   "INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
@@ -220,9 +220,9 @@ class utilisateur extends stdentity
       $this->_load($req->get_row());
       return true;
     }
-    
+
     $this->id = null;
-    
+
     $req = new requete($this->db, "SELECT * FROM `ae_carte`
                                    WHERE `id_carte_ae` = '" . mysql_real_escape_string($id) . "'
                                    AND `etat_vie_carte_ae`>=".CETAT_PERDUE." LIMIT 1");
@@ -249,7 +249,7 @@ class utilisateur extends stdentity
       $this->_load($req->get_row());
       return true;
     }
-    
+
     $this->id = null;
     return false;
   }
@@ -266,7 +266,7 @@ class utilisateur extends stdentity
 
     if  ( $req->lines != 0 )
       return false;
-      
+
     $req = new requete($this->db, "SELECT * FROM `asso`
                                     WHERE `nom_unix_asso` = '" . mysql_real_escape_string($alias) . "'
                                     LIMIT 1");
@@ -319,22 +319,22 @@ class utilisateur extends stdentity
       $this->date_maj = strtotime($row['date_maj_utl']);
     else
       $this->date_maj = null;
-      
+
     if ( is_null($row['derniere_visite_utl']) )
       $this->derniere_visite = null;
-    else      
-      $this->derniere_visite = strtotime($row['derniere_visite_utl']);
-      
-    $this->publique = $row['publique_utl'];  
-    $this->publique_mmtpapier = $row['publique_mmtpapier_utl'];
-    $this->tovalid = $row['tovalid_utl'];   
-    
-    $this->signature = $row['signature_utl'];   
-    
-    if ( is_null($row['tout_lu_avant_utl']) )
-      $this->tout_lu_avant = null;   
     else
-      $this->tout_lu_avant = strtotime($row['tout_lu_avant_utl']);   
+      $this->derniere_visite = strtotime($row['derniere_visite_utl']);
+
+    $this->publique = $row['publique_utl'];
+    $this->publique_mmtpapier = $row['publique_mmtpapier_utl'];
+    $this->tovalid = $row['tovalid_utl'];
+
+    $this->signature = $row['signature_utl'];
+
+    if ( is_null($row['tout_lu_avant_utl']) )
+      $this->tout_lu_avant = null;
+    else
+      $this->tout_lu_avant = strtotime($row['tout_lu_avant_utl']);
   }
 
   function _load_extras($row)
@@ -379,18 +379,19 @@ class utilisateur extends stdentity
       unset($this->promo_utbm);
       unset($this->date_diplome_utbm);
     }
-    
+
     $this->musicien = $row["musicien_utl"];
     $this->taille_tshirt = $row["taille_tshirt_utl"];
     $this->permis_conduire = $row["permis_conduire_utl"];
-    
+
     if ( $this->permis_conduire )
       $this->date_permis_conduire = $row["date_permis_conduire_utl"];
     else
       $this->date_permis_conduire = null;
-      
+
     $this->hab_elect = $row["hab_elect_utl"];
-    $this->afps = $row["afps_utl"];    $this->sst = $row["sst_utl"];    
+    $this->afps = $row["afps_utl"];
+    $this->sst = $row["sst_utl"];
   }
 
   function _load_all ( $row )
@@ -398,8 +399,8 @@ class utilisateur extends stdentity
     $this->_load($row);
     $this->_load_extras($row);
   }
-  
-  /** 
+
+  /**
    */
   function visite ( )
   {
@@ -408,7 +409,7 @@ class utilisateur extends stdentity
                       array("derniere_visite_utl"=>date("Y-m-d H:i:s")),
                       array("id_utilisateur"=>$this->id));
   }
-  
+
   /** Active un compte en attente
    */
   function validate ( )
@@ -421,10 +422,10 @@ class utilisateur extends stdentity
                         array("utbm_utl"=>$this->utbm),
                         array("id_utilisateur"=>$this->id));
     }
-    
+
     $this->hash = "valid";
     $this->tovalid = "none";
-    
+
     $req = new update($this->dbrw,
                       "utilisateurs",
                       array("hash_utl"=>$this->hash,
@@ -509,33 +510,33 @@ class utilisateur extends stdentity
     while ( list($id,$name) = $req->get_row() )
       $this->groupes[$id] = $name;
 
-    if ( $this->ae ) 
+    if ( $this->ae )
       $this->groupes[10000] = "ae-membres";
-      
-    if ( $this->utbm ) 
+
+    if ( $this->utbm )
       $this->groupes[10001] = "utbm";
-      
-    if ( $this->ancien_etudiant ) 
+
+    if ( $this->ancien_etudiant )
       $this->groupes[10002] = "etudiants-anciens";
-    
-  if ( $this->etudiant ) 
+
+  if ( $this->etudiant )
       $this->groupes[10003] = "etudiants-actuels";
 
-    if ( $this->etudiant && $this->utbm ) 
+    if ( $this->etudiant && $this->utbm )
       $this->groupes[10004] = "etudiants-utbm-actuels";
-      
-    if ( $this->ancien_etudiant && $this->utbm ) 
+
+    if ( $this->ancien_etudiant && $this->utbm )
       $this->groupes[10005] = "etudiants-utbm-anciens";
-      
-    if ( ( $this->ancien_etudiant || $this->etudiant ) && $this->utbm ) 
+
+    if ( ( $this->ancien_etudiant || $this->etudiant ) && $this->utbm )
       $this->groupes[10006] = "etudiants-utbm-tous";
 
-    if ( $this->ancien_etudiant || $this->etudiant ) 
+    if ( $this->ancien_etudiant || $this->etudiant )
       $this->groupes[10007] = "etudiants-tous";
-      
-    if ( $this->modere ) 
+
+    if ( $this->modere )
       $this->groupes[10008] = "utilisateurs-valides";
-    /*  
+    /*
     $req = new requete($this->db,
                        "SELECT `asso`.`id_asso`, `asso`.`nom_unix_asso` " .
                        "FROM `asso_membre` " .
@@ -560,7 +561,7 @@ class utilisateur extends stdentity
     while ( list($id,$name) = $req->get_row() )
       $this->groupes[$id+30000] = $name."-membres";
     */
-    
+
     $req = new requete($this->db,
                        "SELECT `asso`.`id_asso`, ".
                        "`asso`.`nom_unix_asso`, ".
@@ -572,16 +573,16 @@ class utilisateur extends stdentity
                        "AND `asso_membre`.`date_fin` is NULL " .
                        "AND (`asso`.`id_asso_parent` IS NOT NULL OR `asso_membre`.`role` > 1 ) " .
                        "ORDER BY `asso`.`nom_asso`");
-                       
+
     while ( list($id,$name,$role,$parent) = $req->get_row() )
     {
       if ( $role > 1 )
         $this->groupes[$id+20000] = $name."-bureau";
-        
+
       if( !is_null($parent) )
         $this->groupes[$id+30000] = $name."-membres";
     }
-    
+
     if ( !isset($this->promo_utbm) )
       $this->load_all_extra();
 
@@ -681,7 +682,7 @@ class utilisateur extends stdentity
                             'droit_image_utl' => $this->droit_image==true,
                             'site_web' => $this->site_web,
                             'date_maj_utl' => date("Y-m-d H:i:s",$this->date_maj),
-                            'publique_utl'=> $this->publique, 
+                            'publique_utl'=> $this->publique,
                             'publique_mmtpapier_utl'=>$this->publique_mmtpapier,
                             'signature_utl' =>$this->signature),
                       array('id_utilisateur' => $this->id));
@@ -713,7 +714,7 @@ class utilisateur extends stdentity
                               'date_diplome_utbm'=> ($this->date_diplome_utbm!=NULL)?date("Y-m-d H:i:s",$this->date_diplome_utbm):NULL),
                         array( 'id_utilisateur' => $this->id));
     }
-    
+
     $req = new requete($this->db,"SELECT id_utilisateur FROM utl_extra WHERE id_utilisateur='".mysql_real_escape_string($this->id)."'");
     if ( $req->lines == 0 )
       new insert($this->dbrw,
@@ -768,22 +769,22 @@ class utilisateur extends stdentity
     // 1- Vérifions que l'adresse email peut donner droit au flag 'utbm'
     if ( !ereg("^([a-zA-Z0-9\.\-]+)@(utbm\.fr|assidu-utbm\.fr)$",$email_utbm) )
       return false;
-   
+
     // 2- Vérifions qu'elle n'est pas déjà utilisée
     $req = new requete($this->db,
                        "SELECT id_utilisateur ".
                        "FROM `utl_etu_utbm` ".
                        "WHERE `utl_etu_utbm`.`email_utbm` = '" . mysql_real_escape_string($email_utbm) . "'");
-   
+
     if ( $req->lines > 0 )
       return false;
-      
+
     // Crée l'entrée dans la table utl_etu_utbm (qui a vocation à devenir utl_utbm)
     $req = new insert($this->dbrw,
                       "utl_etu_utbm",
                       array("id_utilisateur" => $this->id,
                             "email_utbm"=>$email_utbm));
-      
+
     // Si c'est un admin qui fait l'opération, on considère que la vérification par email n'est pas requise
     if ( $admin )
     {
@@ -797,10 +798,10 @@ class utilisateur extends stdentity
 
     // Inavlide le compte, et planifie le gain du flag 'utbm'
     $this->invalidate("utbm");
-    
+
     // Envoie l'email d'activation à l'adresse utbm
     $this->send_activation_email($email_utbm);
-    
+
     return true;
   }
 
@@ -813,18 +814,18 @@ class utilisateur extends stdentity
   function became_etudiant ( $ecole, $ancien=false, $admin=false )
   {
     $this->modere = $admin;
-    
+
     $this->etudiant = !$ancien;
     $this->ancien_etudiant = $ancien;
-    
+
     $req = new requete($this->db,
                        "SELECT id_utilisateur FROM utl_etu WHERE id_utilisateur='".mysql_real_escape_string($this->id)."'");
-    
+
     if ( $req->lines == 0 )
       $req = new insert($this->dbrw,
                         "utl_etu",
                          array("id_utilisateur" => $this->id,"nom_ecole_etudiant"=>$ecole));
-    
+
     $req = new update($this->dbrw,
                       "utilisateurs",
                       array("modere_utl"=> $this->modere,
@@ -938,7 +939,7 @@ class utilisateur extends stdentity
                               "ae_utl"=>false,
                               "modere_utl"=> $this->modere,
                               "montant_compte"=> 0,
-                              "publique_utl"=> $this->publique, 
+                              "publique_utl"=> $this->publique,
                               "publique_mmtpapier_utl"=>$this->publique_mmtpapier,
                               "tovalid_utl"=>"none"));
 
@@ -949,10 +950,10 @@ class utilisateur extends stdentity
       $this->id = null;
       return false;
     }
-    
+
     $this->invalidate ("email");
     $this->send_first_email($this->email,$password);
-    
+
     return true;
   }
 
@@ -967,7 +968,7 @@ class utilisateur extends stdentity
                                   $ecole,
                                   $_utbm=false)
   {
-    
+
     if ( !$this->create_user ( $nom,
                                $prenom,
                                $alias,
@@ -979,12 +980,12 @@ class utilisateur extends stdentity
                                $_utbm,
                                true))
       return false;
-    
+
     if ( $_utbm )
       $this->nom_ecole_etudiant = "utbm";
     else
       $this->nom_ecole_etudiant = $ecole;
-    
+
     $req = new insert($this->dbrw,
                       "utl_etu",
                       array("id_utilisateur" => $this->id,
@@ -1028,18 +1029,18 @@ class utilisateur extends stdentity
                                    true,
                                    false))
       return false;
-    
+
     $this->role = $role;
     $this->departement = $departement;
     $this->email_utbm = $emailutbm;
-    
+
     $req = new insert($this->dbrw,
                       "utl_etu_utbm",
                       array("id_utilisateur" => $this->id,
                             "role_utbm" => $this->role,
                             "departement_utbm" => $this->departement,
                             "email_utbm" => $this->email_utbm));
-        
+
     return true;
   }
 
@@ -1053,42 +1054,18 @@ class utilisateur extends stdentity
     $this->nom = convertir_nom($nom);
     $this->prenom = convertir_prenom($prenom);
 
-    /* On inscrit un mec UTBM
-    ==> En réalité comme le nom de la fonction le laisse supposer, ce n'est QUE pour les étudiants à l'UTBM cette fonction.
-     */
-    if (!empty($emailutbm) && $emailutbm)
-    {
-      if (CheckEmail($emailutbm,1))
-      {
-        $this->email_utbm = $emailutbm;
-        $this->utbm = true;
-      }
-      else
-      {
-        $this->id = null;
-        return FALSE;
-      }
-    } 
-    elseif ($nom_ecole == "UTBM")
-    {
-      $this->utbm = true;
-    }
-    else
-    {
-      $this->utbm = false;
-      $this->email_utbm = null;
-    }
+    if (CheckEmail($emailutbm,1))
+      $this->email_utbm = $emailutbm;
 
-    if (!$email || empty($email))
-      $this->email = $emailutbm;
-    else
-      $this->email = $email;
+    $this->utbm = true;
+
+    $this->email = $email;
 
     $this->alias = $alias;
 
     if (!$password)
       $password = genere_pass(7);
-      
+
     $this->pass = crypt($password, "ae");
     $this->etudiant = $etudiant==true;
 
@@ -1099,7 +1076,7 @@ class utilisateur extends stdentity
 
     $this->publique = true;
     $this->publique_mmtpapier = true;
-          
+
     $this->droit_image = $droit_image;
 
     $sql = new insert ($this->dbrw,
@@ -1119,7 +1096,7 @@ class utilisateur extends stdentity
                              "ae_utl"=>false,
                              "modere_utl"=> $this->modere,
                              "montant_compte"=> 0,
-                             "publique_utl"=> $this->publique, 
+                             "publique_utl"=> $this->publique,
                              "publique_mmtpapier_utl"=>$this->publique_mmtpapier,
                              "tovalid_utl"=>"none"));
 
@@ -1155,10 +1132,10 @@ class utilisateur extends stdentity
       $this->promo_utbm = $promo;
       $this->semestre = $semestre;
       $this->email_utbm = $emailutbm;
-      
+
       $this->role = $role;
       $this->departement = $departement;
-      
+
       $req = new insert($this->dbrw,
                         "utl_etu_utbm",
                         array('id_utilisateur' => $this->id,
@@ -1171,7 +1148,7 @@ class utilisateur extends stdentity
 
     if ( $this->email_utbm )
       $this->send_first_email($this->email_utbm,$password);
-    
+
     elseif ( $this->email )
       $this->send_first_email($this->email,$password);
 
@@ -1595,7 +1572,7 @@ L'équipe info AE";
 
     if ( $this->date_naissance )
       echo "BDAY;value=date:".date("Y-m-d",$this->date_naissance)."\n";
-      
+
 /*
     if ( $this->addresse )
     {
@@ -1618,48 +1595,48 @@ L'équipe info AE";
     echo "END:VCARD\n";
 
   }
-  
+
   function can_preview()
   {
     return true;
   }
-  
+
   function get_preview()
   {
     global $topdir;
-    
+
     if ( file_exists($topdir."var/img/matmatronch/".$this->id.".identity.jpg"))
-      return "var/img/matmatronch/".$this->id.".identity.jpg"; 
-      
+      return "var/img/matmatronch/".$this->id.".identity.jpg";
+
     if ( file_exists($topdir."var/img/matmatronch/".$this->id.".jpg"))
       return "var/img/matmatronch/".$this->id.".jpg";
-      
+
     return "images/icons/128/unknown.png";
   }
-  
+
   function get_html_extended_info()
   {
     $buffer = "<b>".htmlentities($this->prenom." ".$this->nom,ENT_COMPAT,"UTF-8")."</b>";
-    
+
     if ( $this->surnom )
       $buffer .= "<br/><i>".htmlentities($this->surnom,ENT_COMPAT,"UTF-8")."</i>";
     elseif ( $this->alias )
       $buffer .= "<br/><i>".htmlentities($this->alias,ENT_COMPAT,"UTF-8")."</i>";
-    
+
     return $buffer;
   }
-  
-  
-  
+
+
+
   function can_fsearch ( )
   {
     return true;
   }
-  
+
   function _fsearch ( $sqlpattern, $limit=5, $count=false, $conds = null )
   {
     $extrasql="";
-      
+
     if ( !is_null($conds) && count($conds) > 0 )
     {
       foreach ($conds as $key => $value)
@@ -1688,13 +1665,13 @@ L'équipe info AE";
                          "FROM `utl_etu_utbm` " .
                          "INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
                          "WHERE `surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$sqlpattern."' $extrasql");
-    
+
       $nbutils = 0;
       while ( list($c) = $req->get_row() ) $nbutils += $c;
-      
+
       return $nbutils;
     }
-    
+
     $sql = "SELECT CONCAT(`prenom_utl`,' ',`nom_utl`),'1' as `method`, utilisateurs.* " .
            "FROM `utilisateurs` " .
            "WHERE CONCAT(`prenom_utl`,' ',`nom_utl`) REGEXP '^".$sqlpattern."' $extrasql " .
@@ -1712,80 +1689,80 @@ L'équipe info AE";
 
     if ( !is_null($limit) && $limit > 0 )
       $sql .= " LIMIT ".$limit;
-      
+
     $req = new requete($this->db,$sql);
-    
+
     if ( !$req || $req->errno != 0 )
       return null;
-      
+
     $values=array();
-    
+
     while ( $row = $req->get_row() )
     {
       if ( $row["method"] > 2 )
         $values[$row['id_utilisateur']] = $row['prenom_utl']." ".$row['nom_utl']." : ".$row[0];
-        
+
       else//if ( $row["method"] == 1 )
         $values[$row['id_utilisateur']] = $row[0];
 
     }
     return $values;
   }
-  
+
   function get_tabs ( &$user )
   {
     $tabs = array(array("","user.php?id_utilisateur=".$this->id, "Informations"),
                   array("parrain","user.php?view=parrain&id_utilisateur=".$this->id, "Parrains"),
                   array("assos","user.php?view=assos&id_utilisateur=".$this->id, "Associations"),
                   array("photos","user/photos.php?id_utilisateur=".$this->id, "Photos"));
-    
+
     if (  $this->id==$user->id || $user->is_in_group("gestion_ae") )
     {
       $tabs[]=array("resa","user/reservations.php?id_utilisateur=".$this->id, "Reservations");
       $tabs[]=array("emp","user/emprunts.php?id_utilisateur=".$this->id, "Emprunts");
       $tabs[]=array("compte","user/compteae.php?id_utilisateur=".$this->id, "Compte AE");
     }
-    
+
     if ( (($user->is_in_group("gestion_ae") && ( $user->is_in_group("root") || $user->id != $this->id )) || $user->is_in_group("root") ) )
       $tabs[]=array("groups","user.php?view=groups&id_utilisateur=".$this->id, "Groupes");
-   
+
     return $tabs;
   }
-  
+
   function allow_user_consult ( $user )
   {
     return $user->is_valid();
   }
-  
+
   function set_all_read ( )
   {
-    
+
     // supprime les frm_sujet_utilisateur qui ne servirons plus à rien
-    $req = new delete($this->dbrw,"frm_sujet_utilisateur", 
+    $req = new delete($this->dbrw,"frm_sujet_utilisateur",
             array("etoile_sujet"=>0,"id_utilisateur"=>$this->id));
-            
-    $req = new delete($this->dbrw,"frm_sujet_utilisateur", 
+
+    $req = new delete($this->dbrw,"frm_sujet_utilisateur",
             array("etoile_sujet"=>NULL,"id_utilisateur"=>$this->id));
-            
-    $this->tout_lu_avant = time();   
+
+    $this->tout_lu_avant = time();
     $req = new update($this->dbrw,"utilisateurs",
                       array("tout_lu_avant_utl"=>date("Y-m-d H:i:s")),
                       array("id_utilisateur"=>$this->id));
 
   }
-  
-  
+
+
   function add_instrument($id_instru_musique)
   {
-    new insert($this->dbrw,"utl_joue_instru", 
+    new insert($this->dbrw,"utl_joue_instru",
                array("id_instru_musique"=>$id_instru_musique,"id_utilisateur"=>$this->id));
   }
   function delete_instrument($id_instru_musique)
   {
-    new delete($this->dbrw,"utl_joue_instru", 
+    new delete($this->dbrw,"utl_joue_instru",
                array("id_instru_musique"=>$id_instru_musique,"id_utilisateur"=>$this->id));
   }
- 
+
   static function liste_promos($autre = "Autre", $logo = false)
 	{
     if ( date("m") >= 9 )

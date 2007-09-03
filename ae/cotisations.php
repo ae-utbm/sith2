@@ -81,7 +81,7 @@ function add_search_form()
 function add_new_form($id = null)
 {
   global $topdir, $ch;
-  
+
   global $date1, $date2;
 
   $cts = new contents("Gestion des cotisations");
@@ -581,17 +581,6 @@ elseif ($_REQUEST["action"] == "newstudent")
     $etudiant = false;
   }
 
-  /* Verif UTBM 
-  if ($email_utbm_needed && !CheckEmail($_REQUEST['emailutbm'],1))
-  {
-    $cts = new contents("WARNING");
-    $cts->set_toolbox(new toolbox(array("javascript:history.go(-1);"=>utf8_encode("Retour"))));
-    $cts->add_paragraph("<img src=\"".$topdir."images/actions/info.png\">&nbsp;&nbsp;Il faut un email UTBM valide pour inscrire un &eacute;tudiant, professeur ou administratif UTBM !");
-    $site->add_contents($cts,true);
-    $site->end_page();
-    exit();
-  }*/
-
   /* Verif de disponibilite */
   if (!$user->is_email_avaible($_REQUEST['emailutbm']))
   {
@@ -603,18 +592,10 @@ elseif ($_REQUEST["action"] == "newstudent")
     exit();
   }
 
-  $email = null;
-  $emailutbm = null;
-
-  $email = $_REQUEST['emailutbm'];
-  if ((($_REQUEST['ecoleform'] == "ecole") && ($nom_ecole == "UTBM")) ||
-      ($_REQUEST['ecoleform'] == "other")) {
-    $emailutbm = $_REQUEST['emailutbm'];
-  }
 
   $user->new_utbm_user($_REQUEST['nom'],
                        $_REQUEST['prenom'],
-                       $email, $emailutbm,
+                       $_REQUEST['emailutbm'], $_REQUEST['emailutbm'],
                        null,null,null,null,null,
                        $etudiant,
                        $_REQUEST['droit_image']==true,
