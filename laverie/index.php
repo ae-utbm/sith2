@@ -475,7 +475,9 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		 * celle à venir.
 		 * Mettre une liste de tous les créneaux en spécifiant en spécifiant s'ils
 		 * sont libres ou non, et le cas échéant voir par qui il est occupé,
-		 * si le jeton a été retiré, etc... */
+		 * si le jeton a été retiré, etc...
+		 * Attention : penser à faire attention lors de la suppression de 
+		 * plannings comportant des créneaux occupés */
 
 		$now = date("Y-m-d H:i:s",time());
 
@@ -511,8 +513,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			"nom_lieu" => "Lieu",
 			"start_date_planning" => "Début",
 			"end_date_planning" => "Fin"),
-		array("creneaux" => "Voir les créneaux"),
-		array(),
+		array("creneaux" => "Voir les créneaux","supprimer" => "Supprimer"),
+		array("supprimer" => "Supprimer les plannings"),
 		array("type" => $GLOBALS['types_jeton']) );
 
 		$cts->add($table, true);
