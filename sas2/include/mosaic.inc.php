@@ -195,7 +195,7 @@ class ImageMosaic
   {
     $st = microtime_float();
     
-    $this->Pal = new Palette();
+    $this->Pal = new Palette($this->db);
     $this->Photos = array();
     
     $this->Pal->reload_cache();
@@ -221,7 +221,7 @@ class ImageMosaic
   {
     $st = microtime_float();
     
-    $this->Pal = new Palette();
+    $this->Pal = new Palette$this->db();
     $this->Pal->clear();
     
     $this->Photos = array();
