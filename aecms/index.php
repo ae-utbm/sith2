@@ -52,8 +52,14 @@ if ( $site->is_user_admin() )
 
   if ( $_REQUEST['action'] == "delete" )
   {
-    $page->del(CMS_PREFIX.$_REQUEST["name"]);
-    $_REQUEST['page'] = "new";
+    if ( $page->load_by_name(CMS_PREFIX.$_REQUEST["name"]) )
+    {
+      if ( $site->is_sure ( "","Suppression de la page ".$page->titre,"page".$page->nom, 1 ) )
+      {
+        $page->del();
+        $_REQUEST['page'] = "new";
+      }
+    }
   }
 
   if ( $_REQUEST['page'] == "new" )

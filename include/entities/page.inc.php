@@ -166,9 +166,9 @@ class page extends basedb
     
   }
 
-  function del ( $name )
+  function del ()
   {
-    $req = new delete($this->dbrw, "pages", array("nom_page"=>$name));
+    $req = new delete($this->dbrw, "pages", array("nom_page"=>$this->nom));
   }
   
   function is_category()
