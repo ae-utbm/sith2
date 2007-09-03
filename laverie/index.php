@@ -497,12 +497,11 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines.id
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE pl_planning.id_asso = '".ID_ASSO_LAVERIE."'
-			AND pl_planning.start_date_planning <= '".$now."'
 			AND pl_planning.end_date_planning > '".$now."'
 			ORDER BY mc_machines.lettre, mc_machines.type");
 
 		$table = new sqltable("listeplannings",
-		"Liste des plannings de la semaine courrante",
+		"Liste des plannings",
 		$sql,
 		"index.php?view=plannings",
 		"id_planning",
@@ -510,7 +509,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			"lettre" => "Lettre",
 			"type" => "Type",
 			"nom_lieu" => "Lieu",
-			"pl_planning_end" => "Fin du planning"),
+			"start_date_planning" => "Début")
+			"end_date_planning" => "Fin du planning"),
 		array("creneaux" => "Voir les créneaux"),
 		array(),
 		array("type" => $GLOBALS['types_jeton']) );
@@ -544,8 +544,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			LEFT JOIN pl_planning ON mc_machines.id = pl_planning.name_planning
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE mc_machines.hs = 0
-			AND (pl_planning.end_date_planning <= '".$next_week_end."' OR pl_planning.end_date_planning IS NULL)
-			AND (pl_planning.start_date_planning > '".$next_week_start."' OR pl_planning.start_date_planning IS NULL)
+			AND pl_planning.start_date_planning > '".$now."'
+			OR (pl_planning.end_date_planning IS NULL AND pl_planning.start_date_planning IS NULL)
 			ORDER BY mc_machines.lettre,mc_machines.type");
 
 		$table = new sqltable("listmachinesavenir",
