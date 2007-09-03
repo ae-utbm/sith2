@@ -35,14 +35,14 @@ class Palette
 {
   var $db;
   
-	var $Colors;
-	var $Cache;
-	
-	function Palette (  )
-	{
-		$this->Cache = array();
-		$this->Colors = array();
-	}
+  var $Colors;
+  var $Cache;
+  
+  function Palette (  )
+  {
+    $this->Cache = array();
+    $this->Colors = array();
+  }
 
   function clear ()
   {
@@ -51,58 +51,58 @@ class Palette
 
   function reload_cache()
   {
-		$rq = mysql_query("select idx,r<<16|g<<8|b from sas_palette");  
+    $rq = mysql_query("select idx,r<<16|g<<8|b from sas_palette");  
     while ( list($idx,$rgb) = mysql_fetch_array($rq) )
     {
-		  $this->Cache[$rgb] = $Idx;
-		  $this->Colors[$Idx] = $rgb;    
+      $this->Cache[$rgb] = $Idx;
+      $this->Colors[$Idx] = $rgb;    
     }
   }
 
-	function SetColor ( $Idx, $rgb )
-	{
-		mysql_query("insert into sas_palette (r,g,b,idx) values (".($rgb >> 16).",".(($rgb >> 8) & 0xFF).",".($rgb & 0xFF).",$Idx)");
-		$this->Cache[$rgb] = $Idx;
-		$this->Colors[$Idx] = $rgb;
-	}
+  function SetColor ( $Idx, $rgb )
+  {
+    mysql_query("insert into sas_palette (r,g,b,idx) values (".($rgb >> 16).",".(($rgb >> 8) & 0xFF).",".($rgb & 0xFF).",$Idx)");
+    $this->Cache[$rgb] = $Idx;
+    $this->Colors[$Idx] = $rgb;
+  }
 
-	function FindColsest ( $rgb ) {
-	
-		if ( isset($this->Cache[$rgb]) ) return $this->Cache[$rgb];
+  function FindColsest ( $rgb ) {
+  
+    if ( isset($this->Cache[$rgb]) ) return $this->Cache[$rgb];
 
-		$Rq = mysql_query(
-			"select idx, ".
-			"(pow(r-".($rgb >> 16).",2) + pow(g-".(($rgb >> 8) & 0xFF).",2) + pow(b-".($rgb & 0xFF).",2)) as dist ".
-			"from sas_palette ".
-			"order by dist ".
-			"limit 0, 1");
-			
-		list($idx,$dist) = mysql_fetch_array($Rq);
-		
-		$this->Cache[$rgb] = $idx;
-		
-		return $idx;
-	}
-	
-	function FindClosestExcept ( $rgb, $exceptIdx ) {
-	
-		$Rq = mysql_query(
-			"select idx, ".
-			"(pow(r-".($rgb >> 16).",2) + pow(g-".(($rgb >> 8) & 0xFF).",2) + pow(b-".($rgb & 0xFF).",2)) as dist ".
-			"from sas_palette ".
-			"where idx!='$exceptIdx' ".
-			"order by dist ".
-			"limit 0, 1");
-			
-		list($idx,$dist) = mysql_fetch_array($Rq);
-		
-		return $idx;
-	}
-	
-	function RemoveIndex ( $idx ) 
-	{
-		mysql_query("delete from sas_palette where idx='$idx'");
-	}
+    $Rq = mysql_query(
+      "select idx, ".
+      "(pow(r-".($rgb >> 16).",2) + pow(g-".(($rgb >> 8) & 0xFF).",2) + pow(b-".($rgb & 0xFF).",2)) as dist ".
+      "from sas_palette ".
+      "order by dist ".
+      "limit 0, 1");
+      
+    list($idx,$dist) = mysql_fetch_array($Rq);
+    
+    $this->Cache[$rgb] = $idx;
+    
+    return $idx;
+  }
+  
+  function FindClosestExcept ( $rgb, $exceptIdx ) {
+  
+    $Rq = mysql_query(
+      "select idx, ".
+      "(pow(r-".($rgb >> 16).",2) + pow(g-".(($rgb >> 8) & 0xFF).",2) + pow(b-".($rgb & 0xFF).",2)) as dist ".
+      "from sas_palette ".
+      "where idx!='$exceptIdx' ".
+      "order by dist ".
+      "limit 0, 1");
+      
+    list($idx,$dist) = mysql_fetch_array($Rq);
+    
+    return $idx;
+  }
+  
+  function RemoveIndex ( $idx ) 
+  {
+    mysql_query("delete from sas_palette where idx='$idx'");
+  }
 
 }
 
@@ -139,7 +139,7 @@ class ImageMosaic
       
     $this->log = "AE R&D - Mosaic\n";
   }
-	
+  
   function merge_color_indexes ( $rgb2,  $idx1, $idx2 )
   {
     $this->Photos[$idx1] = array_merge($this->Photos[$idx1],$this->Photos[$idx2]);
@@ -151,45 +151,45 @@ class ImageMosaic
     
     $this->Pal->RemoveIndex($idx2);
   }
-	
-	/**
+  
+  /**
    * Diversifie les photos : fait en sorte qu'il y ai au moins 2 photos pour chaque couleur de la palette
    */
-	function make_palette_diverse ( )
-	{
+  function make_palette_diverse ( )
+  {
     $st = microtime_float();
-		foreach ( $this->Photos as $idx2 => $ids )
-		{
-			if ( count($ids) < 2 )
-			{
-				$rgb2 = $this->Pal->Colors[$idx2];
-				$idx1 = $this->Pal->FindClosestExcept($rgb2,$idx2);
-				$this->merge_color_indexes($rgb2,$idx1,$idx2);
-			}
-		}
+    foreach ( $this->Photos as $idx2 => $ids )
+    {
+      if ( count($ids) < 2 )
+      {
+        $rgb2 = $this->Pal->Colors[$idx2];
+        $idx1 = $this->Pal->FindClosestExcept($rgb2,$idx2);
+        $this->merge_color_indexes($rgb2,$idx1,$idx2);
+      }
+    }
     $this->log .= "make_palette_diverse: ".(microtime_float()-$st)." sec\n";
-	}
-	
-	/**
-	 * Sauvgarde la palette, pour éviter de devoir la générer à chaque appel
-	 */
-	function store_palette()
-	{
+  }
+  
+  /**
+   * Sauvgarde la palette, pour éviter de devoir la générer à chaque appel
+   */
+  function store_palette()
+  {
     $st = microtime_float();
 
     $req = new requete($this->db, "delete from sas_palette_photos");
     
-	   foreach( $this->Photos as $idx => $photos )
-	     foreach ( $photos as $id_photo )
-	       new insert ($this->db, "sas_palette_photos", array("idx"=>$idx,"id_photo"=>$id_photo));
-	       
+     foreach( $this->Photos as $idx => $photos )
+       foreach ( $photos as $id_photo )
+         new insert ($this->db, "sas_palette_photos", array("idx"=>$idx,"id_photo"=>$id_photo));
+         
     $this->log .= "store_palette: ".(microtime_float()-$st)." sec\n";
     
-	}
-	
-	/**
-	 * Charge la palette, ou la re-génre si aucune palette n'a été préalabelment sauvgardée
-	 */
+  }
+  
+  /**
+   * Charge la palette, ou la re-génre si aucune palette n'a été préalabelment sauvgardée
+   */
   function load_palette()
   {
     $st = microtime_float();
@@ -199,9 +199,9 @@ class ImageMosaic
     
     $this->Pal->reload_cache();
     
-    $req = new requete($this->db, "SELECT idx,id_photo FROM `sas_palette_photos`");	
-    	
-    while ( list($idx,$id_photo) = $req->get_row() )	
+    $req = new requete($this->db, "SELECT idx,id_photo FROM `sas_palette_photos`");  
+      
+    while ( list($idx,$id_photo) = $req->get_row() )  
       $this->Photos[$idx][] = $id_photo;
       
     $this->log .= "load_palette: ".(microtime_float()-$st)." sec\n";
@@ -212,10 +212,10 @@ class ImageMosaic
       $this->store_palette();
     }
   }
-	
-	/**
-	 * Génère la palette, et la diversifie
-	 */
+  
+  /**
+   * Génère la palette, et la diversifie
+   */
   function generate_palette ()
   {
     $st = microtime_float();
@@ -229,7 +229,7 @@ class ImageMosaic
     "SELECT id_photo,(couleur_moyenne & $this->ApproxMask) " .
     "FROM `sas_photos` ".
     "WHERE couleur_moyenne IS NOT NULL AND droits_acquis='1' AND (droits_acces_ph & 1) " .
-    "ORDER BY `couleur_moyenne`");		
+    "ORDER BY `couleur_moyenne`");    
     
     $nidx = 0;
     
@@ -250,72 +250,73 @@ class ImageMosaic
     
     $this->make_palette_diverse();
   }
-	
-	
-	function load_image ( $Width, $Height, $File )
-	{
+  
+  
+  function load_image ( $Width, $Height, $File )
+  {
     $st = microtime_float();
 
-		if ( !isset($this->Pal) ) 
-			$this->load_palette();
-	
-		unset($this->Image);
-		
-		$this->RealWidth = round($Width * 3 / 4);
-		$this->RealHeight = $Height;	
-		
-		
-		if ( !(list($width, $height, $type, $attr) = @getimagesize($File)) )
-			return false;
-		
-		if ( $type == 2 )
-			$SrcImg = imagecreatefromjpeg($File);
-		else if ( $type == 3 )
-			$SrcImg = imagecreatefrompng($File);
-		else
-			return false;
-		
+    if ( !isset($this->Pal) ) 
+      $this->load_palette();
+  
+    unset($this->Image);
+    
+    $this->RealWidth = round($Width * 3 / 4);
+    $this->RealHeight = $Height;  
+    
+    
+    if ( !(list($width, $height, $type, $attr) = @getimagesize($File)) )
+      return false;
+    
+    if ( $type == 2 )
+      $SrcImg = imagecreatefromjpeg($File);
+    else if ( $type == 3 )
+      $SrcImg = imagecreatefrompng($File);
+    else
+      return false;
+    
     $this->log .= "load_image/part1: ".(microtime_float()-$st)." sec\n";
 
-		$NvlImg = @imagecreatetruecolor($this->RealWidth,$this->RealHeight); 
-		imagecopyresampled($NvlImg,$SrcImg,0,0,0,0,$this->RealWidth,$this->RealHeight,ImageSX($SrcImg),ImageSY($SrcImg));
-		imagedestroy($SrcImg);
-		
-		for ( $y=0; $y < $this->RealHeight; $y++ ) {
-			for ( $x=0; $x < $this->RealWidth; $x++ ) {
-			
-				$rgb = imagecolorat($NvlImg,$x,$y) & $this->ApproxMask;
-				
-				$idx = $this->Pal->FindColsest($rgb);
-				
-				if ( !(list($k,$id) = each($this->Photos[$idx])) ) {
-					reset($this->Photos[$idx]);
-					list($k,$id) = each($this->Photos[$idx]);
-				}
-				$this->Image[$y][$x] = $id;
-				$this->ImageRGB[$y][$x] = $rgb;
-			}
-		}
-		imagedestroy($NvlImg);	
-		
+    $NvlImg = @imagecreatetruecolor($this->RealWidth,$this->RealHeight); 
+    imagecopyresampled($NvlImg,$SrcImg,0,0,0,0,$this->RealWidth,$this->RealHeight,ImageSX($SrcImg),ImageSY($SrcImg));
+    imagedestroy($SrcImg);
+    
+    for ( $y=0; $y < $this->RealHeight; $y++ ) {
+      for ( $x=0; $x < $this->RealWidth; $x++ ) {
+      
+        $rgb = imagecolorat($NvlImg,$x,$y) & $this->ApproxMask;
+        
+        $idx = $this->Pal->FindColsest($rgb);
+        
+        if ( !(list($k,$id) = each($this->Photos[$idx])) ) {
+          if(is_array($this->Photos[$idx]))
+            reset($this->Photos[$idx]);
+          list($k,$id) = each($this->Photos[$idx]);
+        }
+        $this->Image[$y][$x] = $id;
+        $this->ImageRGB[$y][$x] = $rgb;
+      }
+    }
+    imagedestroy($NvlImg);  
+    
     $this->log .= "load_image/total: ".(microtime_float()-$st)." sec";
-		return true;
-	}
+    return true;
+  }
 
-	function output_html ()
-	{
-		echo "<p>";
-		
-		for ( $y=0; $y < $this->RealHeight; $y++ )
-		{
-			for ( $x=0; $x < $this->RealWidth; $x++ )
-				echo "<img src=\"/sas2/images.php?/".$this->Image[$y][$x].".vignette.jpg\" width=\"8\" height=\"6\" />";
-			echo "<br/>\n";
-		}
-		
-		echo "</p>";
-	}
-	
+  function output_html ()
+  {
+    echo "<p>";
+    
+    for ( $y=0; $y < $this->RealHeight; $y++ )
+    {
+      for ( $x=0; $x < $this->RealWidth; $x++ )
+        echo "<img src=\"/sas2/images.php?/".$this->Image[$y][$x].".vignette.jpg\" width=\"8\" height=\"6\" />";
+      echo "<br/>\n";
+    }
+    
+    echo "</p>";
+  }
+  
   function output_stdcontents ()
   {
     $cts = new stdcontents();
@@ -329,60 +330,60 @@ class ImageMosaic
     $cts->buffer .= "</p>";
     return $cts;
   }
-	
-	function output_image ( $pxHeight, $File, $cheat=false )
-	{
+  
+  function output_image ( $pxHeight, $File, $cheat=false )
+  {
     $st = microtime_float();
-		$ph = new photo($this->db);
+    $ph = new photo($this->db);
 
 
-		$pxWidth = round($pxHeight * 4 / 3);
-		
-		$Width  = $this->RealWidth  * $pxWidth;
-		$Height = $this->RealHeight * $pxHeight;
+    $pxWidth = round($pxHeight * 4 / 3);
+    
+    $Width  = $this->RealWidth  * $pxWidth;
+    $Height = $this->RealHeight * $pxHeight;
 
-		$Image = imagecreatetruecolor($Width,$Height);
-		if ( !$Image ) return false;
-		imagealphablending($Image,true);
-		
-		$ImgCache = array();
-		$spotY = 0;		
-		
-		for ( $y=0; $y < $this->RealHeight; $y++ ) {
-			$spotX = 0;
-			for ( $x=0; $x < $this->RealWidth; $x++ ) {
-				$id = $this->Image[$y][$x];
-				if ( !isset($ImgCache[$id]) ) {
-					$ph->load_by_id($id);
-					$tmp = imagecreatefromjpeg($ph->get_abs_path().$ph->id.".vignette.jpg");
-					$ImgCache[$id] = $timg = imagecreatetruecolor($pxWidth,$pxHeight);
-					imagecopyresampled($timg,$tmp,0,0,0,0,$pxWidth,$pxHeight,ImageSX($tmp),ImageSY($tmp));
-					imagedestroy($tmp);
-				} else
-					$timg = $ImgCache[$id];
-				
-				imagecopy($Image,$timg,$spotX,$spotY,0,0,$pxWidth,$pxHeight);
-				
-				// un soupcon de triche pour améliorer le rendu
-				if ( $cheat )
-				  imagefilledrectangle ($Image,$spotX, $spotY, $spotX+$pxWidth-1, $spotY+$pxHeight-1, $this->ImageRGB[$y][$x] | (0x60) << 24 );
-				
-				$spotX += $pxWidth;
-			}
-			$spotY += $pxHeight;
-		}
-		
-		foreach ( $ImgCache as $Img )
-			imagedestroy($Img);
-					
-		imagejpeg($Image, $File);
-	
-		imagedestroy($Image);
-		
+    $Image = imagecreatetruecolor($Width,$Height);
+    if ( !$Image ) return false;
+    imagealphablending($Image,true);
+    
+    $ImgCache = array();
+    $spotY = 0;    
+    
+    for ( $y=0; $y < $this->RealHeight; $y++ ) {
+      $spotX = 0;
+      for ( $x=0; $x < $this->RealWidth; $x++ ) {
+        $id = $this->Image[$y][$x];
+        if ( !isset($ImgCache[$id]) ) {
+          $ph->load_by_id($id);
+          $tmp = imagecreatefromjpeg($ph->get_abs_path().$ph->id.".vignette.jpg");
+          $ImgCache[$id] = $timg = imagecreatetruecolor($pxWidth,$pxHeight);
+          imagecopyresampled($timg,$tmp,0,0,0,0,$pxWidth,$pxHeight,ImageSX($tmp),ImageSY($tmp));
+          imagedestroy($tmp);
+        } else
+          $timg = $ImgCache[$id];
+        
+        imagecopy($Image,$timg,$spotX,$spotY,0,0,$pxWidth,$pxHeight);
+        
+        // un soupcon de triche pour améliorer le rendu
+        if ( $cheat )
+          imagefilledrectangle ($Image,$spotX, $spotY, $spotX+$pxWidth-1, $spotY+$pxHeight-1, $this->ImageRGB[$y][$x] | (0x60) << 24 );
+        
+        $spotX += $pxWidth;
+      }
+      $spotY += $pxHeight;
+    }
+    
+    foreach ( $ImgCache as $Img )
+      imagedestroy($Img);
+          
+    imagejpeg($Image, $File);
+  
+    imagedestroy($Image);
+    
     $this->log .= "output_image: ".(microtime_float()-$st)." sec\n";
     
-		return true;
-	}	
+    return true;
+  }  
 
 
 
