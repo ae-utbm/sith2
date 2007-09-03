@@ -50,6 +50,12 @@ if ( $site->is_user_admin() )
     }
   }
 
+  if ( $_REQUEST['action'] == "delete" )
+  {
+    $page->del(CMS_PREFIX.$_REQUEST["name"]);
+    $_REQUEST['page'] = "new";
+  }
+
   if ( $_REQUEST['page'] == "new" )
   {
     foreach ($site->tab_array as $entry)
@@ -162,7 +168,8 @@ $cts = $page->get_contents();
 $site->add_contents($cts);
 
 if ( $can_edit )
-  $cts->set_toolbox(new toolbox(array("index.php?page=edit&name=".substr($page->nom,strlen(CMS_PREFIX))=>"Editer")));
+  $cts->set_toolbox(new toolbox(array("index.php?page=edit&name=".substr($page->nom,strlen(CMS_PREFIX))=>"Editer",
+                                      "index.php?page=delete&name=".substr($page->nom,strlen(CMS_PREFIX))=>"Supprimer")));
 
 if ( $page->nom == CMS_PREFIX."home" && $site->config["home.news"] == 1 )
 {
