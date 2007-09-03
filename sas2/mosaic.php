@@ -91,7 +91,7 @@ elseif ( $_REQUEST["action"] == "mosaic" )
     
 
   }
-}//http://ae.utbm.fr/var/img/matmatronch/1827.jpg
+}
 
 $site->end_page ();
 

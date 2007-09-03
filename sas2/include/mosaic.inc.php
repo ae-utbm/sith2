@@ -385,8 +385,6 @@ class ImageMosaic
     return true;
   }  
 
-
-
 }
 
 ?>
