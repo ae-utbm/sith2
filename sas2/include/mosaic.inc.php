@@ -280,7 +280,7 @@ class ImageMosaic
     $NvlImg = @imagecreatetruecolor($this->RealWidth,$this->RealHeight); 
     imagecopyresampled($NvlImg,$SrcImg,0,0,0,0,$this->RealWidth,$this->RealHeight,ImageSX($SrcImg),ImageSY($SrcImg));
     imagedestroy($SrcImg);
-    
+
     for ( $y=0; $y < $this->RealHeight; $y++ ) {
       for ( $x=0; $x < $this->RealWidth; $x++ ) {
       
@@ -387,9 +387,5 @@ class ImageMosaic
 
 
 }
-
-
-
-
 
 ?>
