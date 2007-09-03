@@ -38,21 +38,22 @@ class Palette
   var $Colors;
   var $Cache;
   
-  function Palette (  )
+  function Palette ($db)
   {
+    $this->db = $db;
     $this->Cache = array();
     $this->Colors = array();
   }
 
   function clear ()
   {
-    mysql_query("delete from sas_palette");
+    $req = new requete($this->db,"delete from sas_palette");
   }
 
   function reload_cache()
   {
-    $rq = mysql_query("select idx,r<<16|g<<8|b from sas_palette");  
-    while ( list($idx,$rgb) = mysql_fetch_array($rq) )
+    $req = new requete($this->db,"select idx,r<<16|g<<8|b from sas_palette");
+    while ( list($idx,$rgb) = $req->get_row() )
     {
       $this->Cache[$rgb] = $Idx;
       $this->Colors[$Idx] = $rgb;    
@@ -61,7 +62,7 @@ class Palette
 
   function SetColor ( $Idx, $rgb )
   {
-    mysql_query("insert into sas_palette (r,g,b,idx) values (".($rgb >> 16).",".(($rgb >> 8) & 0xFF).",".($rgb & 0xFF).",$Idx)");
+    $req = new requete($this->db,"insert into sas_palette (r,g,b,idx) values (".($rgb >> 16).",".(($rgb >> 8) & 0xFF).",".($rgb & 0xFF).",$Idx)");
     $this->Cache[$rgb] = $Idx;
     $this->Colors[$Idx] = $rgb;
   }
@@ -70,14 +71,14 @@ class Palette
   
     if ( isset($this->Cache[$rgb]) ) return $this->Cache[$rgb];
 
-    $Rq = mysql_query(
+    $req = new requete($this->db,
       "select idx, ".
       "(pow(r-".($rgb >> 16).",2) + pow(g-".(($rgb >> 8) & 0xFF).",2) + pow(b-".($rgb & 0xFF).",2)) as dist ".
       "from sas_palette ".
       "order by dist ".
       "limit 0, 1");
       
-    list($idx,$dist) = mysql_fetch_array($Rq);
+    list($idx,$dist) = $req->get_row();
     
     $this->Cache[$rgb] = $idx;
     
@@ -86,7 +87,7 @@ class Palette
   
   function FindClosestExcept ( $rgb, $exceptIdx ) {
   
-    $Rq = mysql_query(
+    $req = new requete($this->db,
       "select idx, ".
       "(pow(r-".($rgb >> 16).",2) + pow(g-".(($rgb >> 8) & 0xFF).",2) + pow(b-".($rgb & 0xFF).",2)) as dist ".
       "from sas_palette ".
@@ -94,14 +95,14 @@ class Palette
       "order by dist ".
       "limit 0, 1");
       
-    list($idx,$dist) = mysql_fetch_array($Rq);
+    list($idx,$dist) = $req->get_row();
     
     return $idx;
   }
   
   function RemoveIndex ( $idx ) 
   {
-    mysql_query("delete from sas_palette where idx='$idx'");
+    $req = new requete($this->db,"delete from sas_palette where idx='$idx'");
   }
 
 }
@@ -287,7 +288,7 @@ class ImageMosaic
         $rgb = imagecolorat($NvlImg,$x,$y) & $this->ApproxMask;
         
         $idx = $this->Pal->FindColsest($rgb);
-print_r($idx);
+
         if ( !(list($k,$id) = each($this->Photos[$idx])) ) {
           reset($this->Photos[$idx]);
           list($k,$id) = each($this->Photos[$idx]);
