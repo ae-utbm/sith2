@@ -494,8 +494,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		$next_week_end = date("Y-m-d H:i:s", mktime(23, 59, 59, $date['mon'], $date['mday'] + $days_left +7, $date['year']) );
 
-		$planning = new planning();
-		
 		if($_REQUEST['action'] == "modifier")
 		{
 
@@ -512,16 +510,17 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		}
 		else
 		{
+			$lst = new itemlist("Resultats :");
+
 			if($_REQUEST['action'] == "supprimer")
 			{
-				$lst = new itemlist("Resultats :");
-					
+				$planning = new planning($site->db,$site->dbrw);
 				$planning->load_by_id( $_REQUEST['id_planning'] );
 				$planning->remove();
 				$lst->add("Le planning a bien été supprimé");
-					
-				$cts->add($lst);
 			}
+
+			$cts->add($lst);
 
 			$sql = new requete($site->db, "SELECT * FROM pl_planning
 				INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines.id
