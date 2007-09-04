@@ -17,7 +17,7 @@ class planning
   function planning ( $db, $dbrw=null)
   {
     $this->db = $db;
-    $this->dbrw=null;
+    $this->dbrw = $dbrw;
     $this->id=-1;
   }
 
