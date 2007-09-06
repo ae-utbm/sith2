@@ -24,8 +24,8 @@
 define('FPDF_FONTPATH', $topdir . 'font/');
 
 require_once($topdir . "include/lib/barcodefpdf.inc.php");
-
-class pdfcarteae extends FPDF
+require_once($topdir . "include/lib/fpdf_alpha.inc.php");
+class pdfcarteae extends FPDF_ImageAlpha
 {
 	var $img_front;
 	var $img_back;
@@ -96,7 +96,7 @@ class pdfcarteae extends FPDF
 				$this->pos['photo']['w'],
 				$this->pos['photo']['h']);
 
-                $this->Image($this->img_front,$x,$y,$this->width,$this->height);
+                $this->ImagePngWithAlpha($this->img_front,$x,$y,$this->width,$this->height);
 
 		$this->SetFont('Arial','',8);
 		
