@@ -96,7 +96,7 @@ class pdfcarteae extends PDF_ImageAlpha
 				$this->pos['photo']['w'],
 				$this->pos['photo']['h']);
 
-                $this->ImagePngWithAlpha($this->img_front,$x,$y,$this->width,$this->height);
+                $this->Image($this->img_front,$x,$y,$this->width,$this->height);
 
 		$this->SetFont('Arial','',8);
 		
