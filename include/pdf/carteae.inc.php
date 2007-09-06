@@ -329,7 +329,7 @@ function _parsepng($file)
 		
 
 		$this->pos = array (
-			"photo" => array ("x"=>10,"y"=>5,"w"=>26,8,"h"=>36,8),
+			"photo" => array ("x"=>5,"y"=>5,"w"=>26,8,"h"=>36,8),
 			"cbar" => array ("x"=>10.6,"y"=>3.8,"w"=>67,"h"=>25),
 			"front" => 
 				array (
