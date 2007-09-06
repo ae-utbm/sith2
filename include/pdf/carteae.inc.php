@@ -25,7 +25,7 @@ define('FPDF_FONTPATH', $topdir . 'font/');
 
 require_once($topdir . "include/lib/barcodefpdf.inc.php");
 require_once($topdir . "include/lib/fpdf_alpha.inc.php");
-class pdfcarteae extends FPDF_ImageAlpha
+class pdfcarteae extends PDF_ImageAlpha
 {
 	var $img_front;
 	var $img_back;
