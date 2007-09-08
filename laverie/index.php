@@ -488,11 +488,11 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		else
 		  $days_left = 7 - $date['wday'];
 
-		$current_week_end = date("Y-m-d H:i:s", mktime(23, 59, 59, $date['mon'], $date['mday'] + $days_left, $date['year']) );
+		$current_week_end = mktime(23, 59, 59, $date['mon'], $date['mday'] + $days_left, $date['year']);
 
-		$next_week_start = date("Y-m-d H:i:s", mktime(0, 0, 0, $date['mon'], $date['mday'] + $days_left +1, $date['year']) );
+		$next_week_start = mktime(0, 0, 0, $date['mon'], $date['mday'] + $days_left +1, $date['year']);
 
-		$next_week_end = date("Y-m-d H:i:s", mktime(23, 59, 59, $date['mon'], $date['mday'] + $days_left +7, $date['year']) );
+		$next_week_end = mktime(23, 59, 59, $date['mon'], $date['mday'] + $days_left +7, $date['year']);
 
 		$lst = new itemlist("Resultats :");
 
@@ -509,7 +509,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		elseif($_REQUEST['action'] == "creer_planning")
 		{
 			$planning = new planning($site->db,$site->dbrw);
-			$planning->add(ID_ASSO_LAVERIE,$_REQUEST['id'],'1',$now,$current_week_end,'0');
+			$planning->add(ID_ASSO_LAVERIE,$_REQUEST['id'],'1',time(),$current_week_end,'0');
 			$lst->add("Le planning a bien été crée, vous pouvez maintenant l'éditer");
 		}
 		elseif($_REQUEST['action'] == "creer_planning_avenir")
@@ -557,7 +557,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE mc_machines.hs = 0
 			AND ( (pl_planning.start_date_planning >= '".$now."' AND pl_planning.end_date_planning > '".$now."')
-			OR (pl_planning.start_date_planning < '".$now."' AND pl_planning.end_date_planning <= '".$now."')
+			OR (pl_planning.start_date_planning < '".$now."' AND pl_planning.end_date_planning >= '".$now."')
 			OR (pl_planning.end_date_planning IS NULL AND pl_planning.start_date_planning IS NULL) )
 			ORDER BY mc_machines.lettre,mc_machines.type");
 
