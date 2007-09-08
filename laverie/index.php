@@ -506,6 +506,10 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			/* Liste des créneaux pour un planning particulier et option pour peupler
 			 * le planning complet ou uniquement créer certain créneaux */
 		}
+		elseif($_REQUEST['action'] == "modifier")
+		{
+
+		}
 		elseif($_REQUEST['action'] == "creer_planning")
 		{
 			$planning = new planning($site->db,$site->dbrw);
@@ -516,7 +520,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		{
 			$planning = new planning($site->db,$site->dbrw);
 			$planning->add(ID_ASSO_LAVERIE,$_REQUEST['id'],'1',$next_week_start,$next_week_end,'0');
-			header( 'Location: index.php?view=plannings&action=creneaux&id_planning='.$_REQUEST['id'] );
+			header( 'Location: index.php?view=plannings&action=modifier&id_planning='.$planning->id );
 		}
 		elseif($_REQUEST['action'] == "supprimer")
 		{
@@ -556,10 +560,10 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			LEFT JOIN pl_planning ON mc_machines.id = pl_planning.name_planning
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE ( mc_machines.hs = 0
-			AND NOT (pl_planning.start_date_planning < '".$now."' AND pl_planning.end_date_planning > '".$now."')
+			AND (NOT (pl_planning.start_date_planning < '".$now."' AND pl_planning.end_date_planning > '".$now."')
 			AND NOT pl_planning.start_date_planning > '".$now."'
 			AND NOT pl_planning.end_date_planning < '".$now."' )
-			OR (pl_planning.end_date_planning IS NULL AND pl_planning.start_date_planning IS NULL)
+			OR (pl_planning.end_date_planning IS NULL AND pl_planning.start_date_planning IS NULL) )
 			ORDER BY mc_machines.lettre,mc_machines.type");
 
 		$table = new sqltable("listmachinesencours",
@@ -579,13 +583,10 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		$sql = new requete($site->db, "SELECT * FROM mc_machines
 			LEFT JOIN pl_planning ON mc_machines.id = pl_planning.name_planning
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
-			WHERE mc_machines.hs = 0
-			AND (pl_planning.start_date_planning < '".$now."' AND pl_planning.end_date_planning  )
-			OR (pl_planning.end_date_planning IS NULL AND pl_planning.start_date_planning IS NULL)
-			ORDER BY mc_machines.lettre,mc_machines.type");
+			WHERE mc_machines.hs = 0");
 
 		$table = new sqltable("listmachinesavenir",
-			"Liste des machines en service sans planning à venir",
+			"Liste des machines en service",
 			$sql,
 			"index.php?view=plannings",
 			"id",
