@@ -510,14 +510,12 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		{
 			$planning = new planning($site->db,$site->dbrw);
 			$planning->add(ID_ASSO_LAVERIE,$_REQUEST['id'],'1',time(),$current_week_end,'0');
-			sleep(1);
 			$lst->add("Le planning a bien été crée, vous pouvez maintenant l'éditer");
 		}
 		elseif($_REQUEST['action'] == "creer_planning_avenir")
 		{
 			$planning = new planning($site->db,$site->dbrw);
 			$planning->add(ID_ASSO_LAVERIE,$_REQUEST['id'],'1',$next_week_start,$next_week_end,'0');
-			sleep(1);
 			$lst->add("Le planning a bien été crée, vous pouvez maintenant l'éditer");
 		}
 		elseif($_REQUEST['action'] == "supprimer")
@@ -558,7 +556,9 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			LEFT JOIN pl_planning ON mc_machines.id = pl_planning.name_planning
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE ( mc_machines.hs = 0
-			AND NOT (pl_planning.start_date_planning < '".$now."' AND pl_planning.end_date_planning > '".$now."') )
+			AND NOT (pl_planning.start_date_planning < '".$now."' AND pl_planning.end_date_planning > '".$now."')
+			AND NOT pl_planning.start_date_planning > '".$now."'
+			AND NOT pl_planning.end_date_planning < '".$now."' )
 			OR (pl_planning.end_date_planning IS NULL AND pl_planning.start_date_planning IS NULL)
 			ORDER BY pl_planning.start_date_planning,mc_machines.lettre,mc_machines.type");
 
