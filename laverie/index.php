@@ -501,12 +501,20 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		}
 		elseif($_REQUEST['action'] == "creneaux")
 		{
-
-
+			/* Liste des créneaux pour un planning particulier et option pour peupler
+			 * le planning complet ou uniquement créer certain créneaux */
 		}
 		elseif($_REQUEST['action'] == "creer_planning")
 		{
-
+			$planning = new planning($site->db,$site->dbrw);
+			$planning->add(ID_ASSO_LAVERIE,$_REQUEST['id'],'1',$now,$current_week_end,'0');
+			$lst->add("Le planning a bien été crée, vous pouvez maintenant l'éditer");
+		}
+		elseif($_REQUEST['action'] == "creer_planning_avenir")
+		{
+			$planning = new planning($site->db,$site->dbrw);
+			$planning->add(ID_ASSO_LAVERIE,$_REQUEST['id'],'1',$next_week_start,$next_week_end,'0');
+			$lst->add("Le planning a bien été crée, vous pouvez maintenant l'éditer");
 		}
 		else
 		{
@@ -558,7 +566,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$table = new sqltable("listmachinesencours",
 				"Liste des machines en service sans planning en cours",
 				$sql,
-				"index.php?view=planning",
+				"index.php?view=plannings",
 				"id",
 				array("lettre" => "Lettre",
 					"type" => "Type de la machine",
@@ -580,12 +588,12 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$table = new sqltable("listmachinesavenir",
 				"Liste des machines en service sans planning à venir",
 				$sql,
-				"index.php?view=planning",
+				"index.php?view=plannings",
 				"id",
 				array("lettre" => "Lettre",
 					"type" => "Type de la machine",
 					"nom_lieu" => "Lieu"),
-				array("creer_planning" => "Créer un planning"),
+				array("creer_planning_avenir" => "Créer un planning"),
 				array(),
 				array("type"=>$GLOBALS['types_jeton'] ) );
 
