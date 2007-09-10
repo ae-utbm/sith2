@@ -1072,7 +1072,7 @@ class site extends interfaceweb
   
   function get_forum_box ()
   {  
-    global $wwwtopdir;
+    global $wwwtopdir, $topdir;
     require_once($topdir . "include/entities/forum.inc.php");
     $forum = new forum($this->db);
     $forum->load_by_id(1);
