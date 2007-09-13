@@ -540,13 +540,16 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		elseif($_REQUEST['action'] == "peupler_planning")
 		{
 			$planning = new planning($site->db,$site->dbrw);
-			$planning->load_by_id($_REQUEST['id_planning'];
+			$planning->load_by_id($_REQUEST['id_planning']);
 
-			$date_temp = $planning->start_date;
-			while ($date_temp < $planning->end_date)
+			$date_temp_start = $planning->start_date;
+			while ($date_temp_start <= $planning->end_date - 1)
 			{
-/*				$planning->add_gap(*/
+				$date_temp_end = date("Y-m-d H:i:s",$date_temp_start + 3600);
+				$planning->add_gap($date_temp_start,$date_temp_end);
+				$date_temp_start = $date_temp_end;
 			}
+			header( 'Location: index.php?view=plannings&id_planning='.$planning->id."&action=creneaux" );
 		}
 		elseif($_REQUEST['action'] == "ajouter_creneau")
 		{
