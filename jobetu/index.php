@@ -41,6 +41,16 @@ $site->add_contents($header);
 
 if( isset($_REQUEST['activate']) )
 {
+	$error = "";
+	if( isset($_REQUEST['magicform']['name']) && $_REQUEST['magicform']['name'] == "activ_form" )
+	{
+		if( isset($_REQUEST['accept_cgu']) && $_REQUEST['accept_cgu'] == 1)
+		{
+				
+		}
+		else
+			$error = "Vous devez impérativement accepter les CGU de AE JobEtu pour continuer";
+	}
 	//$site->allow_only_logged_users("services");
 	
 	$cts = new contents("Faites partie de AE Job Etu !");
@@ -58,6 +68,8 @@ EOF;
 	$cts->add_paragraph(doku2xhtml($text));
 	
 	$frm = new form("activ_form", "index.php?activate", false, "POST");
+	if($error)
+		$frm->error($error);
 	$frm->add_checkbox("accept_cgu", "Je reconnais avoir lu et accepter les <a href=\"http://ae.utbm.fr/article.php?name=legals-jobetu-cgu\">CGU d'AE Job Etu</a>");
 	$frm->add_submit("go", "Activer mon compte");
 	$cts->add($frm);
