@@ -469,16 +469,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 	}
 	elseif( $_REQUEST['view'] == "plannings" )
 	{
-		/* Permet à l'administateur de générer les plannings futurs de chaque
-		 * machine et de les consulter.
-		 * L'admin ne peut générer que le planning de la semaine en cours et de 
-		 * celle à venir.
-		 * Mettre une liste de tous les créneaux en spécifiant en spécifiant s'ils
-		 * sont libres ou non, et le cas échéant voir par qui il est occupé,
-		 * si le jeton a été retiré, etc...
-		 * Attention : penser à faire attention lors de la suppression de 
-		 * plannings comportant des créneaux occupés */
-
 		$now = date("Y-m-d H:i:s",time());
 
 		$date = getDate();
@@ -503,8 +493,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		}
 		elseif($_REQUEST['action'] == "creneaux")
 		{
-			/* Liste des créneaux pour un planning particulier et option pour peupler
-			 * le planning complet ou uniquement créer certain créneaux */
 			$sql = new requete($site->db, "SELECT *,
 				CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur,
 				pl_gap.id_gap AS id_gap
@@ -524,44 +512,10 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 					"end_gap" => "Fin",
 					"nom_utilisateur" => "Réservé par"
 				),
-				array(
-					"supprimer_creneau" => "Supprimer le créneau",
-					"modifier_reservation"=> "Modifier la réservation"
-				),
+				array("modifier_reservation"=> "Modifier la réservation"),
 				array() );
 
-			$choix = new itemlist("Création de créneaux",false,array(
-				"<a href=\"index.php?view=plannings&action=peupler_planning&id_planning=".$_REQUEST['id_planning']."\">Créer tous les créneaux pour le planning</a>",
-				"<a href=\"index.php?view=plannings&action=ajouter_creneau&id_planning=".$_REQUEST['id_planning']."\">Créer un créneau manuellement</a>") );
-
-			$cts->add($choix, true);
-
 			$cts->add($table, true);
-		}
-		elseif($_REQUEST['action'] == "peupler_planning")
-		{
-			$planning = new planning($site->db,$site->dbrw);
-			$planning->load_by_id($_REQUEST['id_planning']);
-
-			$date_temp_start = $planning->start_date;
-			while ($date_temp_start <= $planning->end_date - 3600)
-			{
-				$date_temp_end = $date_temp_start + 3600;
-				$planning->add_gap(date("Y-m-d H:i:s",$date_temp_start),date("Y-m-d H:i:s",$date_temp_end));
-				$date_temp_start = $date_temp_end;
-			}
-			header( 'Location: index.php?view=plannings&id_planning='.$planning->id."&action=creneaux" );
-		}
-		elseif($_REQUEST['action'] == "ajouter_creneau")
-		{
-
-		}
-		elseif($_REQUEST['action'] == "supprimer_creneau")
-		{
-			$planning = new planning($site->db,$site->dbrw);
-			$planning->load_by_id($_REQUEST['id_planning']);
-			$planning->remove_gap($_REQUEST['id_gap']);
-			header( 'Location: index.php?view=plannings&id_planning='.$_REQUEST['id_planning']."&action=creneaux" );
 		}
 		elseif($_REQUEST['action'] == "modifier_reservation")
 		{
