@@ -109,7 +109,12 @@ class aecms extends site
   function aecms()
   {
     $this->site(false);
-    $this->pubUrl = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["SCRIPT_NAME"])."/";
+    
+    if ( ereg("^/var/www/ae/accounts/([a-z0-9]*)/aecms",$_SERVER['SCRIPT_FILENAME'],$match) )
+      $this->pubUrl = "http://ae.utbm.fr/".$match[1]."/";
+    else
+      $this->pubUrl = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["SCRIPT_NAME"])."/";
+      
     $this->tab_array = array (array(CMS_PREFIX."accueil", "index.php", "Accueil"));
     $this->config = array(
       "membres.allowjoinus"=>1,
