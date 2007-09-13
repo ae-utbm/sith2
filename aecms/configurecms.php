@@ -62,7 +62,7 @@ if ( $_REQUEST["action"] == "addonglet" )
     $page->load_by_name(CMS_PREFIX.$_REQUEST["nom_page"]);
     $page->save($page->title, $page->texte, CMS_PREFIX.$name );
   }
-  elseif ( $_REQUEST["typepage"] == "crearticle" )
+  elseif ( $_REQUEST["typepage"] == "crearticle" && $_REQUEST["name"] != "accueil" )
   {
     $lien = "index.php?name=".$_REQUEST["name"];
     $name = $_REQUEST["name"];
@@ -102,13 +102,13 @@ if ( $_REQUEST["action"] == "addonglet" )
     $name = "membres";
   }
   else
-  {
-    $lien = "index.php";
-    $name = "accueil";
-  }
+    $name = null;
 
-  $site->tab_array[] = array(CMS_PREFIX.$name,$lien,$_REQUEST["title"]);
-  $site->save_conf();
+  if ( !is_null($name) )
+  {
+    $site->tab_array[] = array(CMS_PREFIX.$name,$lien,$_REQUEST["title"]);
+    $site->save_conf();
+  }
 }
 elseif ( $_REQUEST["action"] == "addbox" )
 {
