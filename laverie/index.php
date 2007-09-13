@@ -516,8 +516,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$table = new sqltable("listecreneaux",
 				"Liste des créneaux",
 				$sql,
-				"index.php?view=plannings",
-				"id_planning",
+				"index.php?view=plannings&id_planning=".$_REQUEST['id_planning'],
+				"id_gap",
 				array(
 					"start_gap" => "Début",
 					"end_gap" => "Fin",
@@ -525,17 +525,42 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				),
 				array(
 					"supprimer_creneau" => "Supprimer le créneau",
-					"supprimer_reservation"=> "Supprimer la réservation"
+					"modifier_reservation"=> "Modifier la réservation"
 				),
 				array() );
 
 			$choix = new itemlist("Création de créneaux",false,array(
-				"<a href=\"index.php?view=plannings&action=peupler_planning\">Créer tous les créneaux pour le planning</a>",
-				"<a href=\"index.php?view=plannings&action=ajouter_creneau\">Créer un créneau manuellement</a>") );
+				"<a href=\"index.php?view=plannings&action=peupler_planning&id_planning=".$_REQUEST['id_planning']."\">Créer tous les créneaux pour le planning</a>",
+				"<a href=\"index.php?view=plannings&action=ajouter_creneau&id_planning=".$_REQUEST['id_planning']."\">Créer un créneau manuellement</a>") );
 
 			$cts->add($choix, true);
 
 			$cts->add($table, true);
+		}
+		elseif($_REQUEST['action'] == "peupler_planning")
+		{
+			$planning = new planning($site->db,$site->dbrw);
+			$planning->load_by_id($_REQUEST['id_planning'];
+
+			$date_temp = $planning->start_date;
+			while ($date_temp < $planning->end_date)
+			{
+/*				$planning->add_gap(*/
+			}
+		}
+		elseif($_REQUEST['action'] == "ajouter_creneau")
+		{
+
+		}
+		elseif($_REQUEST['action'] == "supprimer_creneau")
+		{
+			$planning = new planning($site->db,$site->dbrw);
+			$planning->remove_gap($_REQUEST['id_gap'];
+			header( 'Location: index.php?view=plannings&id_planning='.$_REQUEST['id_planning']."&action=creneaux" );
+		}
+		elseif($_REQUEST['action'] == "modifier_reservation")
+		{
+
 		}
 		elseif($_REQUEST['action'] == "modifier")
 		{
