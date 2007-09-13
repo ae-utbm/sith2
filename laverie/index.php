@@ -506,7 +506,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			/* Liste des créneaux pour un planning particulier et option pour peupler
 			 * le planning complet ou uniquement créer certain créneaux */
 			$sql = new requete($site->db, "SELECT * FROM pl_gap,
-				CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur,
+				CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur
 				LEFT JOIN pl_gap_user ON pl_gap_user.id_gap = pl_gap.id_gap
 				LEFT JOIN utilisateurs ON pl_gap_user.id_utilisateur = utilisateurs.id_utilisateur
 			 	WHERE pl_gap.id_planning = '".$_REQUEST['id_planning']."'
@@ -515,7 +515,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$table = new sqltable("listecreneaux",
 				"Liste des créneaux",
 				$sql,
-				"index.php?view=plannings&action=creneaux",
+				"index.php?view=plannings",
 				"id_planning",
 				array(
 					"start_gap" => "Début",
@@ -527,6 +527,12 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 					"supprimer_reservation"=> "Supprimer la réservation"
 				),
 				array() );
+
+			$lst = new itemlist("Création de créneaux",false,array(
+				"<a href=\"index.php?view=plannings&action=peupler_planning\">Créer tous les créneaux pour le planning</a>",
+				"<a href=\"index.php?view=plannings&action=ajouter_creneau\">Créer un créneau manuellement") );
+
+			$cts->add($lst,true);
 
 			$cts->add($table, true);
 		}
