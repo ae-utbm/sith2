@@ -188,6 +188,10 @@ class fax extends stdentity
 
       @move_uploaded_file($file['tmp_name'], $topdir ."var/fax/". $this->id . ".pdf");
       $this->pdffile = $topdir . "var/fax/". $this->id . ".pdf";
+      
+      /* convert pdf in order to comply with free.fr architecture */
+      @exec("mogrify -page A4 " . $this->pdffile);
+      
       return true;
     }
     return false;
@@ -265,7 +269,7 @@ class fax extends stdentity
         || (!$this->idtfree) || (!file_exists($this->pdffile)))
     {
       return false;
-		}
+    }
 
     if ($secret == true)
       $this->mask = 'Y';
