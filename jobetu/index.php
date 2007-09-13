@@ -28,7 +28,7 @@ require_once($topdir . "include/cts/board.inc.php");
 require_once("include/jobetu.inc.php");
 require_once("include/jobuser_etu.inc.php");
 
-
+define("GRP_JOBETU_ETU", 36);
 
 $site = new site();
 $site->start_page("services", "AE Job Etu");
@@ -41,18 +41,21 @@ $site->add_contents($header);
 
 if( isset($_REQUEST['activate']) )
 {
+	$site->allow_only_logged_users("services");
+	
 	$error = "";
 	if( isset($_REQUEST['magicform']['name']) && $_REQUEST['magicform']['name'] == "activ_form" )
 	{
 		if( isset($_REQUEST['accept_cgu']) && $_REQUEST['accept_cgu'] == 1)
 		{
-				
+				$site->user->add_to_group(GRP_JOBETU_ETU);
+				header("Location: board_etu.php");
+				exit;
 		}
 		else
 			$error = "Vous devez impérativement accepter les CGU de AE JobEtu pour continuer";
 	}
-	//$site->allow_only_logged_users("services");
-	
+		
 	$cts = new contents("Faites partie de AE Job Etu !");
 	$cts->add_paragraph("Vous vous apprêtez à vous inscrire en temps que candidat à AE Job Etu.");
 	$text = <<<EOF
