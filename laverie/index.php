@@ -559,6 +559,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		elseif($_REQUEST['action'] == "supprimer_creneau")
 		{
 			$planning = new planning($site->db,$site->dbrw);
+			$planning->load_by_id($_REQUEST['id_planning']);
 			$planning->remove_gap($_REQUEST['id_gap']);
 			header( 'Location: index.php?view=plannings&id_planning='.$_REQUEST['id_planning']."&action=creneaux" );
 		}
