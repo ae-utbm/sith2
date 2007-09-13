@@ -581,9 +581,9 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		$cts->add($table, true);
 			 
 		$sql = new requete($site->db, "SELECT * FROM mc_machines
-			LEFT JOIN pl_planning ON mc_machines.id = pl_planning.name_planning
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
-			WHERE mc_machines.hs = 0");
+			WHERE mc_machines.hs = 0
+			ORDER BY mc_machines.lettre,mc_machines.type");
 
 		$table = new sqltable("listmachinesavenir",
 			"Liste des machines en service",
