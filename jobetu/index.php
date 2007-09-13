@@ -42,6 +42,7 @@ $site->add_contents($header);
 if( isset($_REQUEST['activate']) )
 {
 	$site->allow_only_logged_users("services");
+	if( $site->user->is_in_group("jobetu_etu") ) header("Location: board_etu.php"); // ya bien des boulets pour s'inscrire deux fois
 	
 	$error = "";
 	if( isset($_REQUEST['magicform']['name']) && $_REQUEST['magicform']['name'] == "activ_form" )
