@@ -531,7 +531,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 			$choix = new itemlist("Création de créneaux",false,array(
 				"<a href=\"index.php?view=plannings&action=peupler_planning\">Créer tous les créneaux pour le planning</a>",
-				"<a href=\"index.php?view=plannings&action=ajouter_creneau\">Créer un créneau manuellement") );
+				"<a href=\"index.php?view=plannings&action=ajouter_creneau\">Créer un créneau manuellement</a>") );
 
 			$cts->add($choix, true);
 
