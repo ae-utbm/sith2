@@ -547,58 +547,61 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$planning->add(ID_ASSO_LAVERIE,$_REQUEST['id'],'1',$next_week_start,$next_week_end,'0');
 			header( 'Location: index.php?view=plannings&action=modifier&id_planning='.$planning->id );
 		}
-		elseif($_REQUEST['action'] == "supprimer")
+		else
 		{
-			$planning = new planning($site->db,$site->dbrw);
-			$planning->load_by_id( $_REQUEST['id_planning'] );
-			$planning->remove();
-			$lst->add("Le planning a bien été supprimé");
+			if($_REQUEST['action'] == "supprimer")
+			{
+				$planning = new planning($site->db,$site->dbrw);
+				$planning->load_by_id( $_REQUEST['id_planning'] );
+				$planning->remove();
+				$lst->add("Le planning a bien été supprimé");
+			}
+	
+			$cts->add($lst);
+
+			$sql = new requete($site->db, "SELECT * FROM pl_planning
+				INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines.id
+				INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+				WHERE pl_planning.id_asso = '".ID_ASSO_LAVERIE."'
+				AND pl_planning.end_date_planning > '".$now."'
+				ORDER BY pl_planning.start_date_planning,mc_machines.lettre, mc_machines.type");
+
+			$table = new sqltable("listeplannings",
+				"Liste des plannings",
+				$sql,
+				"index.php?view=plannings",
+				"id_planning",
+				array(
+					"lettre" => "Lettre",
+					"type" => "Type",
+					"nom_lieu" => "Lieu",
+					"start_date_planning" => "Début",
+					"end_date_planning" => "Fin"),
+				array("creneaux" => "Voir les créneaux","modifier" => "Modifier","supprimer" => "Supprimer"),
+				array(),
+				array("type" => $GLOBALS['types_jeton']) );
+
+			$cts->add($table, true);
+	
+			$sql = new requete($site->db, "SELECT * FROM mc_machines
+				INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+				WHERE mc_machines.hs = 0
+				ORDER BY mc_machines.lettre,mc_machines.type");
+
+			$table = new sqltable("listmachine",
+				"Liste des machines en service",
+				$sql,
+				"index.php?view=plannings",
+				"id",
+				array("lettre" => "Lettre",
+					"type" => "Type de la machine",
+					"nom_lieu" => "Lieu"),
+				array("creer_planning" => "Créer un planning"),
+				array(),
+				array("type"=>$GLOBALS['types_jeton'] ) );
+
+			$cts->add($table, true);
 		}
-
-		$cts->add($lst);
-
-		$sql = new requete($site->db, "SELECT * FROM pl_planning
-			INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines.id
-			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
-			WHERE pl_planning.id_asso = '".ID_ASSO_LAVERIE."'
-			AND pl_planning.end_date_planning > '".$now."'
-			ORDER BY pl_planning.start_date_planning,mc_machines.lettre, mc_machines.type");
-
-		$table = new sqltable("listeplannings",
-			"Liste des plannings",
-			$sql,
-			"index.php?view=plannings",
-			"id_planning",
-			array(
-				"lettre" => "Lettre",
-				"type" => "Type",
-				"nom_lieu" => "Lieu",
-				"start_date_planning" => "Début",
-				"end_date_planning" => "Fin"),
-			array("creneaux" => "Voir les créneaux","modifier" => "Modifier","supprimer" => "Supprimer"),
-			array(),
-			array("type" => $GLOBALS['types_jeton']) );
-
-		$cts->add($table, true);
-
-		$sql = new requete($site->db, "SELECT * FROM mc_machines
-			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
-			WHERE mc_machines.hs = 0
-			ORDER BY mc_machines.lettre,mc_machines.type");
-
-		$table = new sqltable("listmachine",
-			"Liste des machines en service",
-			$sql,
-			"index.php?view=plannings",
-			"id",
-			array("lettre" => "Lettre",
-				"type" => "Type de la machine",
-				"nom_lieu" => "Lieu"),
-			array("creer_planning" => "Créer un planning"),
-			array(),
-			array("type"=>$GLOBALS['types_jeton'] ) );
-
-		$cts->add($table, true);
 	}
 	elseif( $_REQUEST['view'] == "reserver" )
 	{
