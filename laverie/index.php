@@ -505,18 +505,36 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		{
 			/* Liste des créneaux pour un planning particulier et option pour peupler
 			 * le planning complet ou uniquement créer certain créneaux */
+			$sql = new requete($site->db, "SELECT * FROM pl_gap,
+				CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur,
+				LEFT JOIN pl_gap_user ON pl_gap_user.id_gap = pl_gap.id_gap
+				LEFT JOIN utilisateurs ON pl_gap_user.id_utilisateur = utilisateurs.id_utilisateur
+			 	WHERE pl_gap.id_planning = '".$_REQUEST['id_planning']."'
+				ORDER BY pl_gap.start_gap");
+
+			$table = new sqltable("listecreneaux",
+				"Liste des créneaux",
+				$sql,
+				"index.php?view=plannings&action=creneaux",
+				"id_planning",
+				array(
+					"start_gap" => "Début",
+					"end_gap" => "Fin",
+					"nom_utilisateur" => "Réservé par"
+				),
+				array(
+					"supprimer_creneau" => "Supprimer le créneau",
+					"supprimer_reservation"=> "Supprimer la réservation"
+				),
+				array() );
+
+			$cts->add($table, true);
 		}
 		elseif($_REQUEST['action'] == "modifier")
 		{
 
 		}
 		elseif($_REQUEST['action'] == "creer_planning")
-		{
-			$planning = new planning($site->db,$site->dbrw);
-			$planning->add(ID_ASSO_LAVERIE,$_REQUEST['id'],'1',time(),$current_week_end,'0');
-			$lst->add("Le planning a bien été crée, vous pouvez maintenant l'éditer");
-		}
-		elseif($_REQUEST['action'] == "creer_planning_avenir")
 		{
 			$planning = new planning($site->db,$site->dbrw);
 			$planning->add(ID_ASSO_LAVERIE,$_REQUEST['id'],'1',$next_week_start,$next_week_end,'0');
@@ -557,33 +575,11 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		$cts->add($table, true);
 
 		$sql = new requete($site->db, "SELECT * FROM mc_machines
-			LEFT JOIN pl_planning ON mc_machines.id = pl_planning.name_planning
-			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
-			WHERE ( mc_machines.hs = 0
-			AND NOT (pl_planning.start_date_planning < '".$now."' AND pl_planning.end_date_planning > '".$now."')
-			OR (pl_planning.end_date_planning IS NULL AND pl_planning.start_date_planning IS NULL) )
-			ORDER BY mc_machines.lettre,mc_machines.type");
-
-		$table = new sqltable("listmachinesencours",
-			"Liste des machines en service sans planning en cours",
-			$sql,
-			"index.php?view=plannings",
-			"id",
-			array("lettre" => "Lettre",
-				"type" => "Type de la machine",
-				"nom_lieu" => "Lieu"),
-			array("creer_planning" => "Créer un planning"),
-			array(),
-			array("type"=>$GLOBALS['types_jeton'] ) );
-
-		$cts->add($table, true);
-			 
-		$sql = new requete($site->db, "SELECT * FROM mc_machines
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 			WHERE mc_machines.hs = 0
 			ORDER BY mc_machines.lettre,mc_machines.type");
 
-		$table = new sqltable("listmachinesavenir",
+		$table = new sqltable("listmachine",
 			"Liste des machines en service",
 			$sql,
 			"index.php?view=plannings",
@@ -591,7 +587,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			array("lettre" => "Lettre",
 				"type" => "Type de la machine",
 				"nom_lieu" => "Lieu"),
-			array("creer_planning_avenir" => "Créer un planning"),
+			array("creer_planning" => "Créer un planning"),
 			array(),
 			array("type"=>$GLOBALS['types_jeton'] ) );
 
