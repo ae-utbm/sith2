@@ -506,7 +506,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			/* Liste des créneaux pour un planning particulier et option pour peupler
 			 * le planning complet ou uniquement créer certain créneaux */
 			$sql = new requete($site->db, "SELECT *,
-				CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur
+				CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur,
+				pl_gap.id_gap AS id_gap
 				FROM pl_gap
 				LEFT JOIN pl_gap_user ON pl_gap_user.id_gap = pl_gap.id_gap
 				LEFT JOIN utilisateurs ON pl_gap_user.id_utilisateur = utilisateurs.id_utilisateur
