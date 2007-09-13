@@ -567,15 +567,23 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		{
 
 		}
-		elseif($_REQUEST['action'] == "modifier")
-		{
-
-		}
 		elseif($_REQUEST['action'] == "creer_planning")
 		{
 			$planning = new planning($site->db,$site->dbrw);
 			$planning->add(ID_ASSO_LAVERIE,$_REQUEST['id'],'1',$next_week_start,$next_week_end,'0');
-			header( 'Location: index.php?view=plannings&action=modifier&id_planning='.$planning->id );
+
+			$date_temp_start = $planning->start_date;
+			while ($date_temp_start <= $planning->end_date - 3600)
+			{
+				$date_temp_end = $date_temp_start + 3600;
+				$planning->add_gap(date("Y-m-d H:i:s",$date_temp_start),date("Y-m-d H:i:s",$date_temp_end));
+				$date_temp_start = $date_temp_end;
+			}
+			header( 'Location: index.php?view=plannings' );
+		}
+		elseif($REQUEST['action'] == "ajouter_planning")
+		{
+			/* Interface avec formulaire qui sera traité par l'action "creer_planning" */
 		}
 		else
 		{
@@ -607,7 +615,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 					"nom_lieu" => "Lieu",
 					"start_date_planning" => "Début",
 					"end_date_planning" => "Fin"),
-				array("creneaux" => "Voir les créneaux","modifier" => "Modifier","supprimer" => "Supprimer"),
+				array("creneaux" => "Voir les créneaux","supprimer" => "Supprimer"),
 				array(),
 				array("type" => $GLOBALS['types_jeton']) );
 
@@ -626,7 +634,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				array("lettre" => "Lettre",
 					"type" => "Type de la machine",
 					"nom_lieu" => "Lieu"),
-				array("creer_planning" => "Créer un planning"),
+				array("ajouter_planning" => "Ajouter un planning"),
 				array(),
 				array("type"=>$GLOBALS['types_jeton'] ) );
 
