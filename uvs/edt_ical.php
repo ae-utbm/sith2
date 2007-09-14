@@ -39,6 +39,7 @@ $id_user = intval($_REQUEST['idusr']);
 
 isset($_REQUEST['semestre']) ? $semestre = $_REQUEST['semestre'] : $semestre = (date("m") > 6 ? "A" : "P") . date("y");
 
+echo $id . "  " . $semestre."<br/>";
 
 $edt->load($id, $semestre);
 
