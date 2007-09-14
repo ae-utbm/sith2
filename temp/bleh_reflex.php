@@ -11,9 +11,6 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site ();
 
-if ($site->user->id > 0 )
-  exit();
-
 $user = new utilisateur($site->db,$site->dbrw);
 $user->load_by_id(3538);
 
