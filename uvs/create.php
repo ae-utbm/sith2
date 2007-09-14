@@ -49,7 +49,7 @@ if (!$site->user->is_valid())
 {
   error_403();
 }
-/** STEP 3 : En fonction des formats horaires, on pond un formulaire de renseignement sur les séances */
+/** STEP 3 : on enregistre les infos saisies */
 if ($_REQUEST['step'] == 3)
 {
 
@@ -377,7 +377,7 @@ function toggleknownseance(obj, uv,type)
 		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
 		 
                       $frm->add_select_field("uv[$uv][TP][selectlst]", 
-                                             'Séances de cours connues', 
+                                             'Séances de TP connues', 
                                              $sctp,
                                              false,
                                              "", false, true, 			     
