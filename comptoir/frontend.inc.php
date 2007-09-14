@@ -4,8 +4,12 @@ if ( $_REQUEST["action"] == "logclient" && count($site->comptoir->operateurs))
 {
 	$client = new utilisateur($site->db,$site->dbrw);
 
+  
+
 	if ( $_REQUEST["code_bar_carte"] )
 	  $client->load_by_carteae($_REQUEST["code_bar_carte"],true);
+	elseif ( $_REQUEST["id_utilisateur_achat"] )
+	  $client->load_by_id($_REQUEST["id_utilisateur_achat"]);
 	else
 	  $client->load_by_email($_REQUEST["adresse_mail_log"]);
 
@@ -202,6 +206,8 @@ else if ( $_REQUEST["page"] == "confirmrech" && count($site->comptoir->operateur
 
 	if ( $_REQUEST["code_bar_carte"] )
 	  $client->load_by_carteae($_REQUEST["code_bar_carte"],true);
+	elseif ( $_REQUEST["id_utilisateur_rech"] )
+	  $client->load_by_id($_REQUEST["id_utilisateur_rech"]);
 	else
 	  $client->load_by_email($_REQUEST["adresse_mail_rech"]);
 
@@ -365,7 +371,8 @@ else
 	if ( $Erreur )
 		$frm->error($Erreur);	
 	$frm->add_text_field("code_bar_carte","Carte AE");
-	$frm->add_user_email_field("adresse_mail_log","Adresse email");
+	$frm->add_user_email_field("adresse_mail_log","ou Adresse email");
+  $frm->add_user_fieldv2("id_utilisateur_achat","ou par Recherche");
 	$frm->add_checkbox("prix_barman","Prix barman (si possible)",true);
 	$frm->add_submit("valid","valider");
 	$frm->set_focus("code_bar_carte");	
@@ -391,7 +398,9 @@ else
 	/*$frm->add_radiobox_field("id_typepaie","Mode de paiement",$TypesPaiements,PAIE_ESPECS,-1);
 	$frm->add_select_field("id_banque","Banque",$Banques);*/
 	$frm->add_text_field("code_bar_carte","Carte AE");
-	$frm->add_user_email_field("adresse_mail_rech","Adresse email");
+	$frm->add_user_email_field("adresse_mail_rech","ou Adresse email");
+  $frm->add_user_fieldv2("id_utilisateur_rech","ou par Recherche");
+	
 	$frm->add_submit("valid","valider");
 	$cts->add($frm,true);
 }
