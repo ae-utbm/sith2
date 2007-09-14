@@ -39,9 +39,8 @@ $id_user = intval($_REQUEST['idusr']);
 
 isset($_REQUEST['semestre']) ? $semestre = $_REQUEST['semestre'] : $semestre = (date("m") > 6 ? "A" : "P") . date("y");
 
-echo $id . "  " . $semestre."<br/>";
 
-$edt->load($id, $semestre);
+$edt->load($id_user, $semestre);
 
 echo "BEGIN:VCALENDAR\n";
 echo "VERSION:2.0\n";
