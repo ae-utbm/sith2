@@ -54,7 +54,8 @@ if($_REQUEST['showincts'] == 1)
 {
   $cts = new contents("Rendu graphique de l'emploi du temps","");
   $cts->add_paragraph("<center><img src=\"./edt.php?render=1&semestre=".
-		      $_REQUEST['semestre']."\" alt=\"emploi du temps\" /></center>");
+		      $_REQUEST['semestre']."&id=". $_REQUEST['id']
+		      ."\" alt=\"emploi du temps\" /></center>");
 
   echo $cts->html_render();
   exit();
