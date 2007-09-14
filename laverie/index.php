@@ -631,7 +631,7 @@ else
 		, DATEDIFF(CURDATE(), `mc_jeton_utilisateur`.`prise_jeton`) AS `duree` 
 		FROM `mc_jeton` 
 		INNER JOIN `mc_jeton_utilisateur` ON `mc_jeton`.`id_jeton` = `mc_jeton_utilisateur`.`id_jeton` 
-		WHERE `id_utilisateur` = ".$site->user->id". AND mc_jeton_utilisateur.retour_jeton IS NULL");
+		WHERE `id_utilisateur` = ".$site->user->id." AND mc_jeton_utilisateur.retour_jeton IS NULL");
 
 	if ($sql->lines >= 1)
 	{
