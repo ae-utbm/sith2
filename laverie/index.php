@@ -642,9 +642,7 @@ else
 	
 		$list = new itemlist("Vous devez rendre les jetons suivants :",$jetons);
 
-		$cts->add($list,true);
-			
-		) 
+		$cts->add($list,true); 
 	}
 }
 
