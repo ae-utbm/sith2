@@ -64,17 +64,20 @@ foreach ($edt->edt_arr as $seance)
 {
   $numj = $invday[$seance['jour_seance']];
 
-  /* Automne : premier [jour de la semaine] trouvé apres le premier septembre */
-  if ($semestre[0] == "P")
+  /* Automne : premier [jour de la semaine] trouvé apres le premier septembre -> mi janvier */
+  if ($semestre[0] == "A")
     {
-      $start = date("Ymd", strtotime("next " . $days[$numj], strtotime(date("Y-09-01"))));
-      $until = date("Ymd", strtotime("last " . $days[$numj], strtotime(date("Y-07-01"))));
+      $thisyear = date("Y");
+      $nextyear = date("Y", strtotime("next year"));
+
+      $start = date("Ymd", strtotime("next " . $days[$numj], strtotime($thisyear . date("-09-01"))));
+      $until = date("Ymd", strtotime("last " . $days[$numj], strtotime($nextyear . date("-01-16"))));
     }
-  /* printemps, let's say mi février */
+  /* printemps, let's say mi février -> fin juin */
   else
     {
       $start = date("Ymd", strtotime("next " . $days[$numj], strtotime(date("Y-02-15"))));
-      $until = date("Ymd", strtotime("last " . $days[$numj], strtotime(date("Y-01-16"))));
+      $until = date("Ymd", strtotime("last " . $days[$numj], strtotime(date("Y-07-01"))));
     }
   $start .= "T";
   $end = $start;
