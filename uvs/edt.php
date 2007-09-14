@@ -163,6 +163,8 @@ if ($req->lines <= 0)
 
 else
 {
+  $tab = array();
+
   while ($rs = $req->get_row())
     $tab[] = "<a href=\"javascript:render('".$rs['semestre_grp']."', '".$rs['id_utilisateur']."')\">".
       "Emploi du temps de ".$rs['prenom_utl'] . " " .$rs['nom_utl'] 
