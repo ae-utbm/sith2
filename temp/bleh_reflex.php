@@ -19,6 +19,9 @@ $req = new requete($site->db,"SELECT `id_photo` FROM `sas_photos` WHERE `id_asso
 
 $photo = new photo($site->db,$site->dbrw);
 
+$bouh = false;
+
+exec("/bin/mkdir /tmp/reflex");
 while ( list($id) = $req->get_row() )
 {
   $photo->load_by_id($id);
@@ -26,11 +29,17 @@ while ( list($id) = $req->get_row() )
   {
     if ($photo->is_right($user,DROIT_LECTURE))
     {
-      echo $photo->get_abs_path().$photo->id;
-      echo "\n";
+      $bouh=true;
+      exec ("/bin/cp ".$photo->get_abs_path().$photo->id" /tmp/reflex/".$photo->id.".jpg";
     }
   }
 }
+
+if($bouh)
+{
+  exec("/bin/tar /tmp/reflex.tar.gz /tmp/reflex");
+}
+
 
 
 
