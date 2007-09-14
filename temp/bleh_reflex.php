@@ -19,7 +19,7 @@ $req = new requete($site->db,"SELECT `id_photo` FROM `sas_photos` WHERE `id_asso
 
 $photo = new photo($site->db,$site->dbrw);
 
-while ( list($id) = $req_>gt_row() )
+while ( list($id) = $req->get_row() )
 {
   $photo->load_by_id($id);
   if ($photo->is_valid())
