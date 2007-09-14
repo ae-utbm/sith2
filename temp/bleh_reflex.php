@@ -26,7 +26,8 @@ while ( list($id) = $req->get_row() )
   {
     if ($photo->is_right($user,DROIT_LECTURE))
     {
-      echo "ça poutre";
+      echo $photo->get_abs_path.$photo->id;
+      echo "\n";
     }
   }
 }
