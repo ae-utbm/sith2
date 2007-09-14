@@ -42,6 +42,10 @@ isset($_REQUEST['semestre']) ? $semestre = $_REQUEST['semestre'] : $semestre = (
 
 $edt->load($id_user, $semestre);
 
+header("Content-Type: text/calendar; charset=utf-8");
+header("Content-Disposition: filename=edt.ics");
+
+
 echo "BEGIN:VCALENDAR\n";
 echo "VERSION:2.0\n";
 echo "CALSCALE:GREGORIAN\n";
