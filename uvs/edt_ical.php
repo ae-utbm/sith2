@@ -33,7 +33,7 @@ include($topdir. "include/site.inc.php");
 require_once ($topdir . "include/entities/edt.inc.php");
 
 $db = new mysqlae();
-$edt = new edt($db, null);
+$edt = new edt($db);
 
 $id_user = intval($_REQUEST['idusr']);
 
