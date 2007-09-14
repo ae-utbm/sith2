@@ -98,9 +98,9 @@ $cts->add_paragraph("Sur cette page vous pouvez gérer vos emplois du temps.".
 $cts->add_paragraph("<h2>Vos emplois du temps disponibles</h2><br/>");
 
 $cts->puts("<script language=\"javascript\">
-function render(sem)
+function render(sem, iduser)
 {
-  openInContents('cts2', './edt.php', 'showincts=1&semestre='+sem);
+  openInContents('cts2', './edt.php', 'showincts=1&semestre='+sem+'&id='+iduser);
   document.getElementById('cts2').style.display = 'block';
 
 }
@@ -127,15 +127,51 @@ if ($req->lines <= 0)
 else
 {
   while ($rs = $req->get_row())
-    $tab[] = "<a href=\"javascript:render('".$rs['semestre_grp']."')\">".
+    $tab[] = "<a href=\"javascript:render('".$rs['semestre_grp']."', '".$site->user->id."')\">".
       "Emploi du temps du semestre ".$rs['semestre_grp'].
       "</a> | <a href=\"./edt.php?delete&semestre=".$rs['semestre_grp']."\">Supprimer</a>";
 
   $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
   $cts->add($itemlst);
-
-
 }
+
+/* autres emplois du temps disponibles */
+
+$cts->add_paragraph("<h2>Et les autres, qu'est ce qu'ils branlent ?</h2><br/>");
+
+$req = new requete($site->db, "SELECT 
+                                        `semestre_grp`
+                                        , `edu_uv_groupe_etudiant`.`id_utilisateur`
+                                        , `nom_utl`
+                                        , `prenom_utl` 
+                               FROM 
+                                        `edu_uv_groupe` 
+                               INNER JOIN 
+                                        `edu_uv_groupe_etudiant` 
+                               USING(`id_uv_groupe`) 
+                               INNER JOIN 
+                                        `utilisateurs` 
+                               USING(`id_utilisateur`)
+                               WHERE 
+                                        `id_utilisateur` != ".$site->user->id." 
+                               GROUP BY 
+                                        `semestre_grp`, `id_utilisateur`");
+if ($req->lines <= 0)
+{
+  $cts->add_paragraph("Personne ne fout rien ...");
+} 
+
+else
+{
+  while ($rs = $req->get_row())
+    $tab[] = "<a href=\"javascript:render('".$rs['semestre_grp']."', '".$rs['id_utilisateur']."')\">".
+      "Emploi du temps de ".$rs['prenom_utl'] . " " .$rs['nom_utl'] 
+      ." du semestre ".$rs['semestre_grp']."</a>";
+
+  $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
+  $cts->add($itemlst);
+}
+
 
 $site->add_contents($cts);
 
