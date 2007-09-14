@@ -200,6 +200,7 @@ class comptoir extends stdentity
 			return true;
 
 		/* chargement des op�rateurs */
+		if( isset($_SESSION["Comptoirs"][$this->id]["operateurs"]) )
 		foreach($_SESSION["Comptoirs"][$this->id]["operateurs"] as $uid)
 		{
 			$Op = new utilisateur ($this->db,$this->dbrw);
