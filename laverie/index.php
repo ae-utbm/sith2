@@ -623,8 +623,29 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 }
 else
 {
-	/* Page d'explication si l'utilisateur est dans le groupe 'blacklist_machines' */
-	/* Et liste des jetons non-rendus */
+	$cts->add_paragraph("Vous n'avez pas le droit d'utiliser les machines de l'AE, car vous n'avez pas respecté les conditions d'utilisation.");
+
+	$sql = new requete($site->db, "SELECT 
+		`mc_jeton_utilisateur`.`id_jeton`
+		, `mc_jeton`.`nom_jeton`
+		, DATEDIFF(CURDATE(), `mc_jeton_utilisateur`.`prise_jeton`) AS `duree` 
+		FROM `mc_jeton` 
+		INNER JOIN `mc_jeton_utilisateur` ON `mc_jeton`.`id_jeton` = `mc_jeton_utilisateur`.`id_jeton` 
+		WHERE `id_utilisateur` = ".$site->user->id". AND mc_jeton_utilisateur.retour_jeton IS NULL");
+
+	if ($sql->lines >= 1)
+	{
+		$jetons = array();
+	
+		while ($row = $sql->get_row())
+			array_push($jetons,"Jeton ".$row['nom_jeton'].", emprunté depuis ".$row['duree']." jours.");
+	
+		$list = new itemlist("Vous devez rendre les jetons suivants :",$jetons);
+
+		$cts->add($list,true);
+			
+		) 
+	}
 }
 
 $site->add_contents($cts);
