@@ -107,7 +107,9 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
     $parag .= "<li>TP</li>\n";
   $parag .= "</ul>\n";
 
-  if (($rs['cours_uv']== 0) && ($rs['cours_uv']== 0) && ($rs['cours_uv']== 0)) 
+  if (($rs['cours_uv']== 0) 
+      && ($rs['td_uv']== 0) 
+      && ($rs['tp_uv']== 0)) 
     $parag = "<b>UV Hors Emploi du Temps (HET)</b>";
 
   
