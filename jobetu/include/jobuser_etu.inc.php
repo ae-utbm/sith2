@@ -27,6 +27,7 @@ class jobuser_etu extends utilisateur
 	var $competences =  array();
 	var $annonces = array();
 	var $pdf_cvs = array();
+	var $prefs = array();
 	
 	function is_jobetu_user()
 	{
@@ -118,6 +119,16 @@ class jobuser_etu extends utilisateur
 			}
 		}
 		return false;
+	}
+	
+	function load_prefs()
+	{
+		
+	}
+	
+	function update_prefs()
+	{
+		
 	}
 
 }

@@ -84,7 +84,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 			foreach($_FILES as $file)
 			{
 				if( $usr->add_pdf_cv($file, $_REQUEST['lang_'.$i]) )
-					$cts->add_paragraph("Votre CV a été correctement envoyé");
+					$cts->add_paragraph("Votre CV en ".$i18n[ $_REQUEST['lang_'.$i] ]." a été correctement envoyé");
 				else
 					$cts->add_paragraph("Une erreur s'est produite");
 					
@@ -284,6 +284,12 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
  */
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 {
+	if( empty($usr->prefs) ) $usr->load_prefs();
+	
+	$frm = new form("prefs_utl", "board_etu.php?view=preferences", false, "POST");
+	
+	
+	$cts->add($frm);
 
 }
 
