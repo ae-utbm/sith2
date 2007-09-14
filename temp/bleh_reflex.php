@@ -22,11 +22,11 @@ $photo = new photo($site->db,$site->dbrw);
 while ( list($id) = $req->get_row() )
 {
   $photo->load_by_id($id);
-  if ($photo->is_valid())
+  if ($photo->is_valid() && $photo->type_media != MEDIA_VIDEOFLV)
   {
     if ($photo->is_right($user,DROIT_LECTURE))
     {
-      echo $photo->get_abs_path.$photo->id;
+      echo $photo->get_abs_path().$photo->id;
       echo "\n";
     }
   }
