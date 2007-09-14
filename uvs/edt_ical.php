@@ -53,31 +53,37 @@ TZID:Europe/Paris
 X-LIC-LOCATION:Europe/Paris
 END:VTIMEZONE\n";
 
+$invday = array_flip($jour);
+
 /* strtotime() ne parle qu'anglais ... */
 $days = array("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday");
 $shortdays = array("MO", "TU", "WE", "TH", "FR", "SA", "SU");
 
+
 foreach ($edt->edt_arr as $seance)
 {
+  $numj = $invday[$seance['jour_seance']];
+
   /* Automne : premier [jour de la semaine] trouvé apres le premier septembre */
   if ($semestre[0] == "P")
     {
-      $start = date("Ymd", strtotime("next " . $days[$seance['jour_seance']], strtotime(date("Y-09-01"))));
-      $until = date("Ymd", strtotime("last " . $days[$seance['jour_seance']], strtotime(date("Y-07-01"))));
+      $start = date("Ymd", strtotime("next " . $days[$numj], strtotime(date("Y-09-01"))));
+      $until = date("Ymd", strtotime("last " . $days[$numj], strtotime(date("Y-07-01"))));
     }
   /* printemps, let's say mi février */
   else
     {
-      $start = date("Ymd", strtotime("next " . $days[$seance['jour_seance']], strtotime(date("Y-02-15"))));
-      $until = date("Ymd", strtotime("last " . $days[$seance['jour_seance']], strtotime(date("Y-01-16"))));
+      $start = date("Ymd", strtotime("next " . $days[$numj], strtotime(date("Y-02-15"))));
+      $until = date("Ymd", strtotime("last " . $days[$numj], strtotime(date("Y-01-16"))));
     }
   $start .= "T";
   $end = $start;
   
-  $start .= str_replace(":", "", $seance['hr_deb_seance']);
-  $end   .= str_replace(":", "", $seance['hr_fin_seance']);
+  $start .= str_replace("h", "", $seance['hr_deb_seance']) . "00";
+  $end   .= str_replace("h", "", $seance['hr_fin_seance']) . "00";
   
-  $until .= "T" .str_replace(":", "", $seance['hr_fin_seance']) . "Z";
+  $until .= "T" .str_replace("h", "", $seance['hr_fin_seance']) . "00" ."Z";
+
 
   switch($seance['semaine_seance'])
     {
@@ -91,7 +97,7 @@ foreach ($edt->edt_arr as $seance)
   echo "BEGIN:VEVENT
 DTSTART;TZID=Europe/Paris:$start
 DTEND;TZID=Europe/Paris:$end
-RRULE:FREQ=WEEKLY;UNTIL=$until;INTERVAL=$freq;WKST=MO;BYDAY=".$shortdays[$seance['jour_seance']]."
+RRULE:FREQ=WEEKLY;UNTIL=$until;INTERVAL=$freq;WKST=MO;BYDAY=".$shortdays[$numj]."
 CLASS:PUBLIC
 DESCRIPTION:
 LOCATION:".$seance['salle_seance']."
