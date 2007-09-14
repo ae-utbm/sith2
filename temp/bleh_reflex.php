@@ -30,7 +30,7 @@ while ( list($id) = $req->get_row() )
     if ($photo->is_right($user,DROIT_LECTURE))
     {
       $bouh=true;
-      exec ("/bin/cp ".$photo->get_abs_path().$photo->id" /tmp/reflex/".$photo->id.".jpg";
+      exec ("/bin/cp ".$photo->get_abs_path().$photo->id." /tmp/reflex/".$photo->id.".jpg";
     }
   }
 }
