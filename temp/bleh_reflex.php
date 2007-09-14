@@ -37,7 +37,7 @@ while ( list($id) = $req->get_row() )
 
 if($bouh)
 {
-  exec("/bin/tar /tmp/reflex.tar.gz /tmp/reflex");
+  exec("/bin/tar czf /tmp/reflex.tar.gz /tmp/reflex");
 }
 
 
