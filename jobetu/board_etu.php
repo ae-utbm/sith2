@@ -287,7 +287,8 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 	if( empty($usr->prefs) ) $usr->load_prefs();
 	
 	$frm = new form("prefs_utl", "board_etu.php?view=preferences", false, "POST");
-	
+	//checkbox recevoir un mail dès qu'une annonce est déposée
+	//checkbox publier mes CVs dans le matmatronch
 	
 	$cts->add($frm);
 

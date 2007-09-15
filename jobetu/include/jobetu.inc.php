@@ -21,6 +21,7 @@
  * 02111-1307, USA.
  */
 
+require_once($topdir."include/rss.inc.php");
 
 class jobetu extends stdentity
 {
@@ -95,3 +96,22 @@ class jobetu extends stdentity
 
 }
 
+class rssjobetu extends rssfeed
+{
+	var $db;
+	
+	function rssjobetu(&$db)
+	{
+		$this->db = $db;
+    $this->title = "AE JobEtu";
+    $this->description = "Les dernières annonces de JobEtu";
+    $this->link = "http://ae.utbm.fr/jobetu/";
+    
+		$this->rssfeed();
+	}
+	
+	function output_items()
+	{
+		
+	}
+}
