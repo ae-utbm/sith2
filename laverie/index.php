@@ -537,7 +537,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		}
 		elseif($_REQUEST['action'] == "ajouter_planning")
 		{
-			$frm = new form("ajoutplanning", "index.php?view=inventaire&action=creer_planning",false,"POST","Ajouter un planning");
+			$frm = new form("ajoutplanning", "index.php?view=plannings&action=creer_planning",false,"POST","Ajouter un planning");
 			$frm->add_date_field("date_debut","Date de début",$next_week_start);
 			$frm->add_date_field("date_fin","Date de fin",$next_week_end);
 			$frm->add_hidden("id",$_REQUEST['id']);
