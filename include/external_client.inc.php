@@ -37,7 +37,7 @@
 
 require_once("mysql.inc.php");
 require_once("mysqlae.inc.php");
-require_once("utilisateur.inc.php");
+require_once("entities/utilisateur.inc.php");
 //require_once("watermark.inc.php");
 
 class external_client
