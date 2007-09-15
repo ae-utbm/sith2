@@ -112,6 +112,17 @@ class rssjobetu extends rssfeed
 	
 	function output_items()
 	{
+		$sql = new requete($this->db, "SELECT id_annonce, titre, description, date FROM job_annonces WHERE closed != 1 AND id_select_etu = NULL ORDER BY date DESC LIMIT 15");
+		
+		while( $row = $sql->get_row() )
+		{
+			echo "<item>\n";
+  		echo "<title>".htmlspecialchars($row["titre"],ENT_NOQUOTES,"UTF-8")."</title>\n";
+  		echo "<link>http://ae.utbm.fr/jobetu/board_etu.php?view=general&action=detail&id_annonce=".$row["id_annonce"]."</link>\n";
+  		echo "<description>".htmlspecialchars($row["description"],ENT_NOQUOTES,"UTF-8")."</description>\n";
+  		echo "<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date"]))."</pubDate>\n";
+  		echo "</item>\n";	
+		}
 		
 	}
 }

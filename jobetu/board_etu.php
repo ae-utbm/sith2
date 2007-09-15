@@ -47,6 +47,8 @@ $site = new site();
 $site->allow_only_logged_users("services");
 if(!$site->user->is_in_group("jobetu_etu")) header("Location: index.php");
 $site->add_css("jobetu/jobetu.css");
+$site->add_rss("Les dernières annonces de JobEtu","rss.php");
+
 $site->start_page("services", "AE Job Etu");
 
 $cts = new contents("Tableau de bord AE Job Etu");
