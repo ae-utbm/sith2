@@ -15,7 +15,7 @@ $user = new utilisateur($site->db,$site->dbrw);
 $user->load_by_id(3538);
 
 
-$req = new requete($site->db,"SELECT `id_photo` FROM `sas_photos` WHERE `id_asso_photographe`='43' AND `incomplet`='0'");
+$req = new requete($site->db,"SELECT `id_photo` FROM `sas_photos` WHERE (`id_asso_photographe`='43' OR `meta_id_asso_ph`='43') AND `incomplet`='0'");
 
 $photo = new photo($site->db,$site->dbrw);
 
@@ -38,9 +38,11 @@ while ( list($id) = $req->get_row() )
 if($bouh)
 {
   exec("/bin/tar czf /tmp/reflex.tar.gz /tmp/reflex");
+  exec("/bin/mv /tmp/reflex.tar.gz /var/www/ae/accounts/reflex/");
+  exec("/bin/rm -Rf /tmp/reflex");
 }
 
 
-
+echo "<a href='http://ae.utbm.fr/reflex/reflex.tar.gz'>ici</a>";
 
 ?>
