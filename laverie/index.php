@@ -535,7 +535,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$planning = new planning($site->db);
 			$planning->load_by_id($_REQUEST['id_planning']);
 			if($_REQUEST['id_old'] != NULL)
-				$planning->remove_user_from_gap($_REQUEST['id_gap'],$_REQUEST['id_utilisateur'];
+				$planning->remove_user_from_gap($_REQUEST['id_gap'],$_REQUEST['id_utilisateur']);
 			$planning->add_user_to_gap($_REQUEST['id_gap'],$_REQUEST['id_util']);
 			header( 'Location: index.php?view=plannings&id_planning='.$_REQUEST['id_planning'].'&action=creneaux');
 		}
