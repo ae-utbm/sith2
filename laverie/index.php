@@ -31,6 +31,7 @@ require_once($topdir. "laverie/include/laverie.inc.php");
 require_once($topdir. "include/entities/jeton.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/planning.inc.php");
+require_once($topdir. "
 
 $site = new sitelaverie ();
 
@@ -409,9 +410,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				  "lettre" => $_REQUEST['lettre_machine'],
 			    "type" => $_REQUEST['typemachine'],
 			    "loc" => $_REQUEST['locmachine']) );
-
-			/* Créer un nouveau planning pour la machine 
-			 * Champ 'name' du planning = 'id' de la machine (pas la lettre) */
 		}
 		
 		$frm = new form("ajoutmachine", "index.php?view=machines", false, "POST", "Ajouter une machine");
@@ -488,7 +486,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		if($_REQUEST['action'] == "modifier")
 		{
-
+			
 
 		}
 		elseif($_REQUEST['action'] == "creneaux")
@@ -545,11 +543,16 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		elseif($_REQUEST['action'] == "ajouter_planning")
 		{
 			$sql = new requete($site->db, "SELECT * FROM mc_machines
-				INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
 				WHERE mc_machines.id = ".$_REQUEST['id']);
 			$row = $sql->get_row();
+
+			$lieu = new lieu($site->db);
+			$lieu->load_by_id($row['loc']);
 			
-			$frm = new form("ajoutplanning", "index.php?view=plannings&action=creer_planning",false,"POST","Ajouter un planning pour la machine à ".$row['type']." ".$row['lettre']." située à ".$row['nom_lieu']);
+			$frm = new form("ajoutplanning", "index.php?view=plannings&action=creer_planning",false,"POST","Ajouter un planning");
+			$frm->add_info("<strong>Lieu :</strong> ".$lieu->get_html_link());
+			$frm->add_info("<strong>Type de machine :</strong> machine à ".$row['type']);
+			$frm->add_info("<strong>Identifiant :</strong> ".$row['lettre']);
 			$frm->add_info("Vous ne pouvez ajouter un planning que pour la semaine en cours et la semaine suivante.");
 			$frm->add_datetime_field("date_debut","Date de début",$next_week_start);
 			$frm->add_datetime_field("date_fin","Date de fin",$next_week_end);
