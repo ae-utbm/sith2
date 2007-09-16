@@ -523,21 +523,34 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		}
 		elseif($_REQUEST['action'] == "creer_planning")
 		{
-			$planning = new planning($site->db,$site->dbrw);
-			$planning->add(ID_ASSO_LAVERIE,$_REQUEST['id'],'1',$_REQUEST['date_debut'],$_REQUEST['date_fin'],'0');
-
-			$date_temp_start = $planning->start_date;
-			while ($date_temp_start <= $planning->end_date - 3600)
+			if($_REQUEST['date_fin'] <= $next_week_end)
 			{
-				$date_temp_end = $date_temp_start + 3600;
-				$planning->add_gap(date("Y-m-d H:i:s",$date_temp_start),date("Y-m-d H:i:s",$date_temp_end));
-				$date_temp_start = $date_temp_end;
+				$planning = new planning($site->db,$site->dbrw);
+				$planning->add(ID_ASSO_LAVERIE,$_REQUEST['id'],'1',$_REQUEST['date_debut'],$_REQUEST['date_fin'],'0');
+			
+				$date_temp_start = $planning->start_date;
+				while ($date_temp_start <= $planning->end_date - 3600)
+				{
+					$date_temp_end = $date_temp_start + 3600;
+					$planning->add_gap(date("Y-m-d H:i:s",$date_temp_start),date("Y-m-d H:i:s",$date_temp_end));
+					$date_temp_start = $date_temp_end;
+				}
+				header( 'Location: index.php?view=plannings' );
 			}
-			header( 'Location: index.php?view=plannings' );
+			else
+			{
+				header( 'Location: index.php?view=plannings&id='.$_REQUEST['id'].'&action=ajouter_planning' );
+			}
 		}
 		elseif($_REQUEST['action'] == "ajouter_planning")
 		{
-			$frm = new form("ajoutplanning", "index.php?view=plannings&action=creer_planning",false,"POST","Ajouter un planning");
+			$sql = new requete($site->db, "SELECT * FROM mc_machines
+				INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+				WHERE mc_machines.id = ".$_REQUEST['id']);
+			$row = $sql->get_row();
+			
+			$frm = new form("ajoutplanning", "index.php?view=plannings&action=creer_planning",false,"POST","Ajouter un planning pour la machine à ".$row['type']." ".$row['lettre']." située à ".$row['nom_lieu']);
+			$frm->add_info("Vous ne pouvez ajouter un planning que pour la semaine en cours et la semaine suivante.")
 			$frm->add_date_field("date_debut","Date de début",$next_week_start);
 			$frm->add_date_field("date_fin","Date de fin",$next_week_end);
 			$frm->add_hidden("id",$_REQUEST['id']);
