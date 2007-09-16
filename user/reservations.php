@@ -83,7 +83,7 @@ $cts = new contents( $user->prenom . " " . $user->nom );
 
 $cts->add(new tabshead($user->get_tabs($site->user),"resa"));
 
-$cts->add_paragraph("<a href=\"salle.php?page=reservation\">Nouvelle reservation</a>");
+$cts->add_paragraph("<a href=\"".$topdir."salle.php?page=reservation\">Nouvelle reservation</a>");
 		
 $req = new requete($site->db,"SELECT  " .
 		"`date_demande_res`, " .
