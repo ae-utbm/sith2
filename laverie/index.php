@@ -530,7 +530,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$frm->allow_only_one_usage();
 			$cts->add($frm,true);
 		}
-		elseif($_REQUEST['action'] == "do_modifier_reservation"]
+		elseif($_REQUEST['action'] == "do_modifier_reservation")
 		{
 			$planning = new planning($site->db);
 			$planning->load_by_id($_REQUEST['id_planning']);
