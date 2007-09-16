@@ -212,6 +212,10 @@ class edt extends stdentity
                                 id_uv_groupe 
                         FROM
                                 edu_uv_groupe
+                        INNER JOIN
+                                edu_uv
+                        USING   (`id_uv`)
+
                         WHERE
                                 type_grp = '". $typg ."'
                         AND
@@ -227,7 +231,9 @@ class edt extends stdentity
                         AND
                                 semestre_grp = '".$sg . "'
                         AND
-                                salle_grp = '".$salleg . "'");
+                                salle_grp = '".$salleg . "'
+                        AND
+                                id_uv = " . intval($iduv));
 
 
 
