@@ -112,14 +112,14 @@ class rssjobetu extends rssfeed
 	
 	function output_items()
 	{
-		$sql = new requete($this->db, "SELECT `id_annonce`, `titre`, `desc`, `date` FROM `job_annonces` WHERE `closed` != '1' AND `id_select_etu` IS NULL ORDER BY `date` DESC LIMIT 15");
+		$sql = new requete($this->db, "SELECT `id_annonce`, `titre`, `desc`, `date`, `job_types`.`nom` AS `job_nom` FROM `job_annonces` LEFT JOIN `job_types` ON `job_types`.`id_type` = `job_annonces`.`job_type` WHERE `closed` != '1' AND `id_select_etu` IS NULL ORDER BY `date` DESC LIMIT 15");
 		
 		while( $row = $sql->get_row() )
 		{
 			echo "<item>\n";
   		echo "<title>".htmlspecialchars($row["titre"],ENT_NOQUOTES,"UTF-8")."</title>\n";
   		echo "<link>http://ae.utbm.fr/jobetu/board_etu.php?view=general&amp;id_annonce=".$row["id_annonce"]."&amp;action=detail</link>\n";
-  		echo "<description>".htmlspecialchars($row["desc"],ENT_NOQUOTES,"UTF-8")."</description>\n";
+  		echo "<description>".htmlspecialchars("Catégorie : ".$row["job_nom"]."<br /><br />".$row["desc"], ENT_NOQUOTES,"UTF-8")."</description>\n";
   		echo "<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date"]))."</pubDate>\n";
   		echo "<guid>http://ae.utbm.fr/jobetu/board_etu.php?view=general&amp;action=detail&amp;id_annonce=".$row["id_annonce"]."</guid>\n";
   		echo "</item>\n";	
