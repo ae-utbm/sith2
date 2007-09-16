@@ -31,9 +31,8 @@
 /* On interdit le chargement de ce script si il ne vient pas du site
    officiel */
    
-//if( !preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21|ae2)\//', $_SERVER['SCRIPT_FILENAME'])
-//    && !ereg("^/var/www/ae/accounts/([a-z0-9]*)/aecms",$_SERVER['SCRIPT_FILENAME']) )
-if (0)
+if( !preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21|ae2)\//', $_SERVER['SCRIPT_FILENAME'])
+    && !ereg("^/var/www/ae/accounts/([a-z0-9]*)/aecms",$_SERVER['SCRIPT_FILENAME']) )
 {
 	/* On est peut_etre dans le cas d'une utilisation "home" */
 	if (file_exists($topdir . "include/mysqlae_home.inc.php"))
