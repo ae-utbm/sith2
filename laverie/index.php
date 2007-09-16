@@ -532,7 +532,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		}
 		elseif($_REQUEST['action'] == "do_modifier_reservation")
 		{
-			$planning = new planning($site->db);
+			$planning = new planning($site->db,$site->dbrw);
 			$planning->load_by_id($_REQUEST['id_planning']);
 			if($_REQUEST['id_old'] != NULL)
 				$planning->remove_user_from_gap($_REQUEST['id_gap'],$_REQUEST['id_utilisateur']);
