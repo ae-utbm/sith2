@@ -32,6 +32,7 @@ require_once($topdir. "include/entities/jeton.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/planning.inc.php");
 require_once($topdir. "include/entities/lieu.inc.php");
+require_once($topdir. "include/cts/user.inc.php");
 
 $site = new sitelaverie ();
 
