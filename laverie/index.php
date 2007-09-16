@@ -513,7 +513,9 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		}
 		elseif($_REQUEST['action'] == "modifier_reservation")
 		{
-			$sql = new requete($site->db, "SELECT * FROM pl_gap
+			$sql = new requete($site->db, "SELECT *,
+				pl_gap_user.id_utilisateur AS id_util_old
+				FROM pl_gap
 				LEFT JOIN pl_gap_user ON pl_gap.id_gap = pl_gap_user.id_gap
 				WHERE pl_gap.id_gap = ".$_REQUEST['id_gap']);
 			$row = $sql->get_row();
@@ -523,7 +525,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 			$frm = new form("modifierreservation","index.php?view=plannings&action=do_modifier_reservation",false,"POST","Modifier une réservation");
 			$frm->add_user_fieldv2("id_util","Réservé par");
-			$frm->add_hidden("id_old",$row['id_utilisateur']);
+			$frm->add_hidden("id_old",$row['id_util_old']);
 			$frm->add_hidden("id_gap",$_REQUEST['id_gap']);
 			$frm->add_hidden("id_planning",$_REQUEST['id_planning']);
 			$frm->add_submit("valid","Valider");
@@ -535,7 +537,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$planning = new planning($site->db,$site->dbrw);
 			$planning->load_by_id($_REQUEST['id_planning']);
 			if($_REQUEST['id_old'] != NULL)
-				$planning->remove_user_from_gap($_REQUEST['id_gap'],$_REQUEST['id_utilisateur']);
+				$planning->remove_user_from_gap($_REQUEST['id_gap'],$_REQUEST['id_util_old']);
 			$planning->add_user_to_gap($_REQUEST['id_gap'],$_REQUEST['id_util']);
 			header( 'Location: index.php?view=plannings&id_planning='.$_REQUEST['id_planning'].'&action=creneaux');
 		}
