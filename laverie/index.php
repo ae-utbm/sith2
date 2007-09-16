@@ -478,11 +478,11 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		else
 		  $days_left = 7 - $date['wday'];
 
-		$current_week_end = mktime(23, 59, 59, $date['mon'], $date['mday'] + $days_left, $date['year']);
+		$current_week_end = mktime(0, 0, 0, $date['mon'], $date['mday'] + $days_left, $date['year']);
 
 		$next_week_start = mktime(0, 0, 0, $date['mon'], $date['mday'] + $days_left +1, $date['year']);
 
-		$next_week_end = mktime(23, 59, 59, $date['mon'], $date['mday'] + $days_left +7, $date['year']);
+		$next_week_end = mktime(0, 0, 0, $date['mon'], $date['mday'] + $days_left +8, $date['year']);
 
 		$lst = new itemlist("Resultats :");
 
