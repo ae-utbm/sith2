@@ -84,17 +84,29 @@ else
 	$link_etu = new contents("Vous êtes étudiant ?");
 	
 	if($site->user->is_in_group('jobetu_etu'))
-		$link_etu->add_paragraph("<a href='board_etu.php'>Accédez à votre tableau de bord</a>");
+	{
+		$link_etu->add_paragraph("Gérez vos annonces, vos candidatures, votre profil depuis votre tableau de bord.");
+		$link_etu->add_paragraph("<div align='center'><a href='board_etu.php'><img src=\"$topdir/images/jobetu/etu_2.png\" alt=\"Accédez à votre tableau de bord\" /></a></div>");
+	}
 	else
-		$link_etu->add_paragraph("<a href='index.php?activate'>Activez votre compte !</a>");
-	
+	{
+		$link_etu->add_paragraph("Inscrivez vous à AE JobEtu pour pouvoir répondre aux annonces disponibles.");
+		$link_etu->add_paragraph("<div align='center'><a href='index.php?activate'><img src=\"$topdir/images/jobetu/etu_1.png\" alt=\"Activez votre compte !\" /></a></div>");
+	}
+
 	
 	$link_client = new contents("Vous êtes un particulier, une entreprise ?");
 	
 	if($site->user->is_in_group('jobetu_client'))
-		$link_client->add_paragraph("<a href='board_client.php'>Accédez à votre tableau de bord</a>");
+	{
+		$link_client->add_paragraph("Gérez vos annonces, les candidatures, vos préférences depuis votre tableau de bord.");
+		$link_client->add_paragraph("<div align='center'><a href='board_client.php'><img src=\"$topdir/images/jobetu/client_2.png\" alt=\"Accédez à votre tableau de bord\" /></a></div>");
+	}
 	else
-		$link_client->add_paragraph("<a href='depot.php'>Passez votre annonce !</a>");
+	{
+		$link_client->add_paragraph("Passez dès maintenant votre annonce sur AE JobEtu (inscription au site requise).");
+		$link_client->add_paragraph("<div align='center'><a href='depot.php'><img src=\"$topdir/images/jobetu/client_1.png\" alt=\"Passez votre annonce !\" /></a></div>");
+	}
 	
 	
 	$board = new board();
