@@ -519,11 +519,13 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$row = $sql->get_row();
 			$cts->add_paragraph("<strong>Début du créneau :</strong> ".$row['start_gap']);
 			$cts->add_paragraph("<strong>Fin du créneau</strong> ".$row['end_gap']);
-			$frm->add_user_fieldv2("id_utilisateur","Réservé par");
 			$planning = new planning($site->db);
 			$planning->load_by_id($_REQUEST['id_planning']);
 			$frm = new form("modifierreservation","index.php?view=planning&action=do_modifier_reservation",false,"POST","Modifier une réservation");
-
+			$frm->add_user_fieldv2("id_utilisateur","Réservé par");
+			$frm->add_submit("valid","Valider");
+			$frm->allow_only_one_usage();
+			$cts->add($frm,true);
 		}
 		elseif($_REQUEST['action'] == "creer_planning")
 		{
