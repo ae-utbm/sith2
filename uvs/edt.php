@@ -130,7 +130,8 @@ else
   while ($rs = $req->get_row())
     $tab[] = "<a href=\"javascript:render('".$rs['semestre_grp']."', '".$site->user->id."')\">".
       "Emploi du temps du semestre ".$rs['semestre_grp'].
-      "</a> | <a href=\"./edt.php?delete&semestre=".$rs['semestre_grp']."\">Supprimer</a>";
+      "</a> | <a href=\"./edt_ical.php?semestre=".$rs['semestre_grp']."&idusr=".$site->user->id.">iCal</a> | ".
+      "<a href=\"./edt.php?delete&semestre=".$rs['semestre_grp']."\">Supprimer</a>";
 
   $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
   $cts->add($itemlst);
@@ -138,7 +139,9 @@ else
 
 /* autres emplois du temps disponibles */
 
-$cts->add_paragraph("<h2>Et les autres, qu'est ce qu'ils branlent ?</h2><br/>");
+/* remplacer à terme par un système de recherche d'emplois du temps */
+/*
+$cts->add_paragraph("<h2>Et les autres ?</h2><br/>");
 
 $req = new requete($site->db, "SELECT 
                                         `semestre_grp`
@@ -175,6 +178,7 @@ else
   $cts->add($itemlst);
 }
 
+*/
 
 $site->add_contents($cts);
 
