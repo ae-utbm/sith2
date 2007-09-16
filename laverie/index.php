@@ -484,12 +484,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 		$lst = new itemlist("Resultats :");
 
-		if($_REQUEST['action'] == "modifier")
-		{
-			
-
-		}
-		elseif($_REQUEST['action'] == "creneaux")
+		if($_REQUEST['action'] == "creneaux")
 		{
 			$sql = new requete($site->db, "SELECT *,
 				CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur,
@@ -517,6 +512,16 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		}
 		elseif($_REQUEST['action'] == "modifier_reservation")
 		{
+			$sql = new requete($site->db, "SELECT * FROM pl_gap
+				LEFT JOIN pl_gap_user ON pl_gap.id_gap = pl_gap_user.id_gap
+				WHERE pl_gap.id_gap = ".$_REQUEST['id_gap']);
+			$row = $sql->get_row();
+			$cts->add_paragraph("<strong>Début du créneau :</strong> ".$row['start_gap']);
+			$cts->add_paragraph("<strong>Fin du créneau</strong> ".$row['end_gap']);
+			$frm->add_user_fieldv2("id_utilisateur","Réservé par");
+			$planning = new planning($site->db);
+			$planning->load_by_id($_REQUEST['id_planning']);
+			$frm = new form("modifierreservation","index.php?view=planning&action=do_modifier_reservation",false,"POST","Modifier une réservation");
 
 		}
 		elseif($_REQUEST['action'] == "creer_planning")
@@ -550,10 +555,10 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$lieu->load_by_id($row['loc']);
 			
 			$frm = new form("ajoutplanning", "index.php?view=plannings&action=creer_planning",false,"POST","Ajouter un planning");
-			$frm->add_info("<strong>Lieu :</strong> ".$lieu->get_html_link());
-			$frm->add_info("<strong>Type de machine :</strong> machine à ".$row['type']);
-			$frm->add_info("<strong>Identifiant :</strong> ".$row['lettre']);
-			$frm->add_info("Vous ne pouvez ajouter un planning que pour la semaine en cours et la semaine suivante.");
+			$cts->add_paragraph("<strong>Lieu :</strong> ".$lieu->get_html_link());
+			$cts->add_paragraph("<strong>Type de machine :</strong> machine à ".$row['type']);
+			$cts->add_paragraph("<strong>Identifiant :</strong> ".$row['lettre']);
+			$cts->add_paragraph("Vous ne pouvez ajouter un planning que pour la semaine en cours et la semaine suivante.");
 			$frm->add_datetime_field("date_debut","Date de début",$next_week_start);
 			$frm->add_datetime_field("date_fin","Date de fin",$next_week_end);
 			$frm->add_hidden("id",$_REQUEST['id']);
