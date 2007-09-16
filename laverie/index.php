@@ -551,8 +551,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			
 			$frm = new form("ajoutplanning", "index.php?view=plannings&action=creer_planning",false,"POST","Ajouter un planning pour la machine à ".$row['type']." ".$row['lettre']." située à ".$row['nom_lieu']);
 			$frm->add_info("Vous ne pouvez ajouter un planning que pour la semaine en cours et la semaine suivante.");
-			$frm->add_date_field("date_debut","Date de début",$next_week_start);
-			$frm->add_date_field("date_fin","Date de fin",$next_week_end);
+			$frm->add_datetime_field("date_debut","Date de début",$next_week_start);
+			$frm->add_datetime_field("date_fin","Date de fin",$next_week_end);
 			$frm->add_hidden("id",$_REQUEST['id']);
 			$frm->add_submit("valid","Valider");
 			$frm->allow_only_one_usage();
