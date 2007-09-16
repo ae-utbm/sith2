@@ -121,7 +121,7 @@ class annonce extends stdentity
 
   function is_provided()
   {
-  	return $this->winner;
+  	return !( $this->nb_postes == count( explode(";", $this->winner) ) );
   }
   
   function set_winner($winner, $client)
