@@ -517,15 +517,27 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				LEFT JOIN pl_gap_user ON pl_gap.id_gap = pl_gap_user.id_gap
 				WHERE pl_gap.id_gap = ".$_REQUEST['id_gap']);
 			$row = $sql->get_row();
+
 			$cts->add_paragraph("<strong>Début du créneau :</strong> ".$row['start_gap']);
-			$cts->add_paragraph("<strong>Fin du créneau</strong> ".$row['end_gap']);
-			$planning = new planning($site->db);
-			$planning->load_by_id($_REQUEST['id_planning']);
+			$cts->add_paragraph("<strong>Fin du créneau :</strong> ".$row['end_gap']);
+
 			$frm = new form("modifierreservation","index.php?view=planning&action=do_modifier_reservation",false,"POST","Modifier une réservation");
-			$frm->add_user_fieldv2("id_utilisateur","Réservé par");
+			$frm->add_user_fieldv2("id_util","Réservé par");
+			$frm->add_hidden("id_old",$row['id_utilisateur']);
+			$frm->add_hidden("id_gap",$_REQUEST['id_gap']);
+			$frm->add_hidden("id_planning",$_REQUEST['id_planning']);
 			$frm->add_submit("valid","Valider");
 			$frm->allow_only_one_usage();
 			$cts->add($frm,true);
+		}
+		elseif($_REQUEST['action'] == "do_modifier_reservation"]
+		{
+			$planning = new planning($site->db);
+			$planning->load_by_id($_REQUEST['id_planning']);
+			if($_REQUEST['id_old'] != NULL)
+				$planning->remove_user_from_gap($_REQUEST['id_gap'],$_REQUEST['id_utilisateur'];
+			$planning->add_user_to_gap($_REQUEST['id_gap'],$_REQUEST['id_util']);
+			header( 'Location: index.php?view=plannings&id_planning='.$_REQUEST['id_planning'].'&action=creneaux');
 		}
 		elseif($_REQUEST['action'] == "creer_planning")
 		{
