@@ -126,7 +126,15 @@ class annonce extends stdentity
   
   function set_winner($winner, $client)
   {
-  	$sql = new update($this->dbrw, "job_annonces", array("id_select_etu" => $winner->id), array("id_annonce" => $this->id) );
+  	if($this->nb_postes > 1 && $this->winner )
+  	{
+  		$array_winner = explode(";", $this->winner);
+  		$array_winner[] = $winner->id;
+  		if( count( $array_winner ) <= $this->nb_postes )
+  			$sql = new update($this->dbrw, "job_annonces", array( "id_select_etu" => implode(";", $array_winner) ), array("id_annonce" => $this->id) );
+  	}
+  	else
+  		$sql = new update($this->dbrw, "job_annonces", array("id_select_etu" => $winner->id), array("id_annonce" => $this->id) );
   	
   	/**
   	 * Envois de mails
