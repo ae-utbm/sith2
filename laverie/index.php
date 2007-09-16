@@ -521,7 +521,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$cts->add_paragraph("<strong>Début du créneau :</strong> ".$row['start_gap']);
 			$cts->add_paragraph("<strong>Fin du créneau :</strong> ".$row['end_gap']);
 
-			$frm = new form("modifierreservation","index.php?view=planning&action=do_modifier_reservation",false,"POST","Modifier une réservation");
+			$frm = new form("modifierreservation","index.php?view=plannings&action=do_modifier_reservation",false,"POST","Modifier une réservation");
 			$frm->add_user_fieldv2("id_util","Réservé par");
 			$frm->add_hidden("id_old",$row['id_utilisateur']);
 			$frm->add_hidden("id_gap",$_REQUEST['id_gap']);
