@@ -705,8 +705,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 			$cts->add($table, true);
 		}
-		$frm = new form("reservercreneau", "index.php?view==do_reserver",false,"POST","Réserver un créneau");
-		$frm->
 	}
 	elseif( $_REQUEST['view'] == "vente" )
 	{
