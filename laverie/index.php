@@ -680,13 +680,10 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		{
 			$frm = new form("reservation","index.php?view=reserver&action=fin",false,"POST","Terminer la réservation");
 			if($site->is_admin)
-			{
 				$frm->add_user_fieldv2("id_util","Réservé pour");
-			}
 			else
-			{
 				$frm->add_hidden("id_util",$site->user->id);
-			}
+			
 			$frm->add_hidden("id_gap",$_REQUEST['iD']);
 			$frm->add_submit("valid","Valider");
 			/* Ajouter un bouton d'annulation et un truc boulet proof en js pour forcer à remplir la case */
@@ -741,6 +738,16 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		/* Mettre un texte d'explication avec des liens vers l'interface de 
 		 * réservation, les documentations, les CGU (/article.php?name=laverie-cgu)
 		 * etc... */
+
+		if($_REQUEST['action'] == "supprimer_reservation")
+		{
+			$sql = new requete($site->db, "SELECT id_planning FROM pl_gap
+				WHERE id_gap = '".$_REQUEST['id']."'");
+			$row = $sql->get_row();
+			$planning = new planning($site->db,$site->dbrw);
+			$planning->load_by_id($row['id_planning']);
+			$planning->remove_user_from_gap($_REQUEST['id_gap'],$site->user->id);
+		}
 		$list = new itemlist("Actions disponibles",false,array(
 			"<a href=\"index.php?view=reserver\">Réserver un créneau</a>"
 			));
@@ -767,7 +774,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				"lettre" => "Lettre",
 				"type" => "Type de la machine",
 				"nom_lieu" => "Lieu"),
-			array(),
+			array("supprimer_reservation" => "Supprimer ma réservation"),
 			array(),
 			array("type"=>$GLOBALS['types_jeton']) );
 
