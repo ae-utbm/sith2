@@ -25,6 +25,9 @@
 
 define("ID_ASSO_LAVERIE", 84);
 define("GRP_BLACKLIST", 29);
+define("CPT_MACHINES", 8);
+define("JET_LAVAGE", 224);
+define("JET_SECHAGE", 225);
 
 $topdir = "../";
 require_once($topdir. "laverie/include/laverie.inc.php");
@@ -33,6 +36,8 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/planning.inc.php");
 require_once($topdir. "include/entities/lieu.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
+require_once($topdir. "comptoir/include/comptoirs.inc.php");
+require_once($topdir. "comptoir/include/venteproduit.inc.php");
 
 $site = new sitelaverie ();
 
@@ -648,6 +653,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		/* Interface de sélection d'un créneau parmis ceux disponible (sqltable ?)
 		 * Possibilité pour l'admin de faire une réservation pour quelqu'un
 		 * d'autre */
+
 		if($_REQUEST['action'] == "choisir_machine")
 		{
 			$sql = new requete($site->db, "SELECT *,
@@ -727,6 +733,36 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 	{
 		/* Interface administrateur de retrait d'un jeton et assignation du 
 		 * retrait du jeton à un créneaux emploi du temps */
+
+		$sql = new requete($site->db,"SELECT *,
+			pl_gap.id_gap AS id
+			CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur,
+			FROM pl_gap
+			INNER JOIN pl_planning ON pl_gap.id_planning = pl_planning.id_planning
+			INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines.id
+			LEFT JOIN pl_gap_user ON pl_gap.id_gap = pl_gap_user.id_gap
+			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+			WHERE pl_planning.id_asso = '".ID_ASSO_LAVERIE."'
+			AND pl_gap_user.id_utilisateur IS NOT NULL
+			ORDER BY pl_gap.start_gap");
+
+		$table = new sqltable("listecreneauxutil",
+			"Liste des créneaux réservés",
+			$sql,
+			"index.php",
+			"id",
+			array("start_gap" => "Début du créneau",
+			  "end_gap" => "Fin du créneau",
+				"lettre" => "Lettre",
+				"type" => "Type de la machine",
+				"nom_lieu" => "Lieu",
+				"nom_utilisateur" => "Réservé par"),
+			array("retirer_jeton" => "Retirer le jeton"),
+			array(),
+			array("type"=>$GLOBALS['types_jeton']) );
+
+		$cts->add($table, true);
+
 	}
 	elseif( $_REQUEST['view'] == "recharger" || $_REQUEST['view'] == "cotiser" || $_REQUEST['view'] == "ajouter_util" )
 	{
@@ -735,10 +771,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 	}
 	else
 	{
-		/* Mettre un texte d'explication avec des liens vers l'interface de 
-		 * réservation, les documentations, les CGU (/article.php?name=laverie-cgu)
-		 * etc... */
-
 		if($_REQUEST['action'] == "supprimer_reservation")
 		{
 			$sql = new requete($site->db, "SELECT id_planning FROM pl_gap
