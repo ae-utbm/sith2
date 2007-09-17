@@ -693,7 +693,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$sql = new requete($site->db, "SELECT id_planning FROM pl_gap
 				WHERE id_gap = '".$_REQUEST['id_gap']."'");
 			$row = $sql->get_row();
-			$planning->new planning($site->db,$site->dbrw);
+
+			$planning = new planning($site->db,$site->dbrw);
 			$planning->load_by_id($row['id_planning']);
 			$planning->add_user_to_gap($_REQUEST['id_gap'];
 			header( 'Location: index.php' );
