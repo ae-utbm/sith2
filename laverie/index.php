@@ -746,7 +746,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$row = $sql->get_row();
 			$planning = new planning($site->db,$site->dbrw);
 			$planning->load_by_id($row['id_planning']);
-			$planning->remove_user_from_gap($_REQUEST['id_gap'],$site->user->id);
+			$planning->remove_user_from_gap($_REQUEST['id'],$site->user->id);
 		}
 		$list = new itemlist("Actions disponibles",false,array(
 			"<a href=\"index.php?view=reserver\">Réserver un créneau</a>"
