@@ -735,7 +735,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		 * retrait du jeton à un créneaux emploi du temps */
 
 		$sql = new requete($site->db,"SELECT *,
-			pl_gap.id_gap AS id
+			pl_gap.id_gap AS id,
 			CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur
 			FROM pl_gap
 			INNER JOIN pl_planning ON pl_gap.id_planning = pl_planning.id_planning
