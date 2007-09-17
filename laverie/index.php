@@ -746,7 +746,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			));
 		$cts->add($list,true);
 
-		$sql = new requete("SELECT *,
+		$sql = new requete($site->db,"SELECT *,
 			pl_gap.id_gap AS id
 			FROM pl_gap
 			INNER JOIN pl_planning ON pl_gap.id_planning = pl_planning.id_planning
