@@ -661,13 +661,13 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$table = new sqltable("listecreneauxdispo",
 				"Liste des créneaux disponibles",
 				$sql,
-				"index.php?view=plannings",
+				"index.php?view=reserver",
 				"id_gap",
 				array("start_gap" => "Début du créneau",
 					"end_gap" => "Fin du créneau"),
 				array("choisir_creneau" => "Choisir ce créneau"),
 				array(),
-				array("type"=>$GLOBALS['types_jeton'] ) );
+				array() );
 
 			$cts->add($table, true);
 		}	
