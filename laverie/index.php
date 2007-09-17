@@ -661,7 +661,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$table = new sqltale("listecreneauxdispo",
 				"Liste des créneaux disponibles",
 				$sql,
-				"index.php?view=plannings".,
+				"index.php?view=plannings",
 				"id_gap",
 				array("start_gap" => "Début du créneau",
 					"end_gap" => "Fin du créneau"),
