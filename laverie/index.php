@@ -682,13 +682,21 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			{
 				$frm->add_hidden("id_util",$site->user->id);
 			}
+			$frm->add_hidden("id_gap",$_REQUEST['id_gap']);
 			$frm->add_submit("valid","Valider");
-			/* Ajouter un bouton d'annulation */
+			/* Ajouter un bouton d'annulation et un truc boulet proof en js pour forcer à remplir la case */
 			$frm->allow_only_one_usage();
 			$cts->add($frm,true);
 		}
 		elseif($_REQUEST['action'] == "fin")
 		{
+			$sql = new requete($site->db, "SELECT id_planning FROM pl_gap
+				WHERE id_gap = '".$_REQUEST['id_gap']."'");
+			$row = $sql->get_row();
+			$planning->new planning($site->db,$site->dbrw);
+			$planning->load_by_id($row['id_planning']);
+			$planning->add_user_to_gap($_REQUEST['id_gap'];
+			header( 'Location: index.php' );
 		}
 		else
 		{
