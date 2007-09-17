@@ -763,7 +763,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			"index.php",
 			"id",
 			array("start_gap" => "Début du créneau",
-			  "end_gap" => "Fin du créneau"),
+			  "end_gap" => "Fin du créneau",
 				"lettre" => "Lettre",
 				"type" => "Type de la machine",
 				"nom_lieu" => "Lieu");
