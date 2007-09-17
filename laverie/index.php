@@ -745,6 +745,33 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			"<a href=\"index.php?view=reserver\">Réserver un créneau</a>"
 			));
 		$cts->add($list,true);
+
+		$sql = new requete("SELECT *,
+			pl_gap.id_gap AS id
+			FROM pl_gap
+			INNER JOIN pl_planning ON pl_gap.id_planning = pl_planning.id_planning
+			INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines.id
+			LEFT JOIN pl_gap_user ON pl_gap.id_gap = pl_gap_user.id_gap
+			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+			WHERE pl_planning.id_asso = '".ID_ASSO_LAVERIE."'
+			AND pl_gap_user.id_utilisateur = ".$site->user->id."
+			ORDER BY pl_gap.start_gap");
+
+		$table = new sqltable("listecreneauxutil",
+			"Liste des créneaux réservés",
+			$sql,
+			"index.php",
+			"id",
+			array("start_gap" => "Début du créneau",
+			  "end_gap" => "Fin du créneau"),
+				"lettre" => "Lettre",
+				"type" => "Type de la machine",
+				"nom_lieu" => "Lieu");
+			array(),
+			array(),
+			array("type"=>$GLOBALS['types_jeton']) );
+
+		$cts->add($table, true);
 	}
 }
 else
