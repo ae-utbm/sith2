@@ -678,6 +678,12 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			{
 				$frm->add_user_fieldv2("id_util","Réservé pour");
 			}
+			else
+			{
+				$frm->add_hidden("id_util",$site->user->id);
+			}
+			$frm->add_submit("valid","Valider");
+			/* Ajouter un bouton d'annulation */
 			$frm->allow_only_one_usage();
 			$cts->add($frm,true);
 		}
