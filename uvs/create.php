@@ -517,13 +517,28 @@ if (isset($_REQUEST['adduv_sbmt']))
   $c = $_REQUEST['adduv_c'] == 1 ? 1 : 0;
   $td = $_REQUEST['adduv_td'] == 1 ? 1 : 0;
   $tp = $_REQUEST['adduv_tp'] == 1 ? 1 : 0;
+  $ects = $_REQUEST['ects'];
 
-  $ret = $edt->create_uv($name, $intl, $c, $td, $tp);
-
-
+  $ret = $edt->create_uv($name, $intl, $c, $td, $tp, $ects);
 
   if ($ret >= 0)
-    $creationuv = true;
+    {
+      $creationuv = true;
+      if ($_REQUEST['Humas'] == 1)
+	$edt->assign_uv_to_dept($ret, "Humas");
+      if ($_REQUEST['TC'] == 1)
+	$edt->assign_uv_to_dept($ret, "TC");
+      if ($_REQUEST['GI'] == 1)
+	$edt->assign_uv_to_dept($ret, "GI");
+      if ($_REQUEST['GESC'] == 1)
+	$edt->assign_uv_to_dept($ret, "GESC");
+      if ($_REQUEST['IMAP'] == 1)
+	$edt->assign_uv_to_dept($ret, "IMAP");
+      if ($_REQUEST['GMC'] == 1)
+	$edt->assign_uv_to_dept($ret, "GMC");
+      if ($_REQUEST['EDIM'] == 1)
+	$edt->assign_uv_to_dept($ret, "EDIM");
+    }
   else
     $creationuv = false;
 }
@@ -742,7 +757,7 @@ $cts->add_paragraph("Une fois la liste des UVs suivies renseignées, <b>vous pou
 $cts->add_paragraph("Au cas où une UV n'existerait pas encore en base, "
                      . "vous avez la possibilité de renseigner ses caractéristiques ici.");
 
-$cts->add_title(2, "<a href=\"javascript:toggle_adduv();\">Ajout d'une UV</a>");
+$cts->add_title(2, "<a>Ajout d'une UV</a>");
 
 
 $adduv = new form("adduv", "create.php", true, "post", "Ajout d'une UV");
@@ -767,25 +782,37 @@ $adduv->add_checkbox('adduv_tp',
 		      "TP",
 		      true);
 
+$adduv->add_text_field('adduv_ects',
+		      "Credits ECTS",
+		      "");
+
+$adduv->add_checkbox('Humas',
+		      "Humanites",
+		      false);
+$adduv->add_checkbox('TC',
+		      "TC",
+		      false);
+$adduv->add_checkbox('GESC',
+		      "GESC",
+		      false);
+$adduv->add_checkbox('GI',
+		      "GI",
+		      false);
+$adduv->add_checkbox('IMAP',
+		      "IMAP",
+		      false);
+$adduv->add_checkbox('GMC',
+		      "GMC",
+		      false);
+$adduv->add_checkbox('GMC',
+		      "GMC",
+		      false);
+
 
 $adduv->add_submit('adduv_sbmt',
 		   "Ajouter");
 
 $cts->add($adduv);
-
-$cts->add_paragraph("<script language=\"javascript\">
-function toggle_adduv()
-{
-  obj = document.getElementById('adduv');
-
-  if (obj.style.display == 'none')
-     obj.style.display = 'block';
-  else
-     obj.style.display = 'none';
-}
-document.getElementById('adduv').style.display = 'none';
-
-</script>\n");
 
 $site->add_contents($cts);
 

@@ -138,7 +138,8 @@ class edt extends stdentity
 		      $intitule_uv,
 		      $cours_uv = 1,
 		      $td_uv = 1,
-		      $tp_uv = 1)
+		      $tp_uv = 1,
+		      $ects = 0)
   {
     
     if (!$this->dbrw)
@@ -150,7 +151,8 @@ class edt extends stdentity
 			    "intitule_uv" => $intitule_uv,
 			    "cours_uv"    => $cours_uv,
 			    "td_uv"       => $td_uv,
-			    "tp_uv"       => $tp_uv));
+			    "tp_uv"       => $tp_uv,
+			    "ects_uv"     => $ects));
 
     if ($sql->lines <= 0)
       return false;
@@ -260,7 +262,37 @@ class edt extends stdentity
 
   }
 		      
-		      
+  function assign_uv_to_dept($iduv, $nomdept)
+  {
+    $nomdept = mysql_real_escape_string($nomdept);
+
+    $sql = new insert($this->dbrw,
+		      "edu_uv_dept",
+		      array("id_uv"           => $iduv,
+			    "id_dept"         => $nomdept));
+    
+    if ($sql->lines <= 0)
+      return false;
+    
+    return true;
+
+  }
+  function remove_uv_from_dept($iduv, $nomdept)
+  {
+    $nomdept = mysql_real_escape_string($nomdept);
+
+    $sql = new delete($this->dbrw,
+		      "edu_uv_dept",
+		      array("id_uv"           => $iduv,
+			    "id_dept"         => $nomdept));
+    
+    if ($sql->lines <= 0)
+      return false;
+    
+    return true;
+
+
+  }
 }
 
 
