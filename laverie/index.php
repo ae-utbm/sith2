@@ -723,7 +723,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		 * etc... */
 		$list = new itemlist("Actions disponibles",false,array(
 			"<a href=\"index.php?view=reserver\">Réserver un créneau</a>"
-			);
+			));
 	}
 }
 else
