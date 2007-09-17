@@ -742,6 +742,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines.id
 			LEFT JOIN pl_gap_user ON pl_gap.id_gap = pl_gap_user.id_gap
 			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+			LEFT JOIN utilisateurs ON pl_gap_user.id_utilisateur = utilisateurs.id_utilisateur
 			WHERE pl_planning.id_asso = '".ID_ASSO_LAVERIE."'
 			AND pl_gap_user.id_utilisateur IS NOT NULL
 			ORDER BY pl_gap.start_gap");
