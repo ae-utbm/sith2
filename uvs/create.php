@@ -53,7 +53,6 @@ if (!$site->user->is_valid())
 if ($_REQUEST['step'] == 3)
 {
 
-
   $cts = new contents("Traitement de l'emploi du temps", "");
 
   $semestre = (date("m") > 6 ? "A" : "P") . date("y");
@@ -85,7 +84,7 @@ if ($_REQUEST['step'] == 3)
 				      $value['C']['hdeb'] . ":" . $value['C']['mdeb'].':00',
 				      $value['C']['hfin'] . ":" . $value['C']['mfin'].':00',
 				      $value['C']['jour'],
-				      $value['C']['freq'],
+				      $value['C']['freq'] == 0 ? 1 : $value['C']['freq'], /* une seance sera par défaut hebdomadaire */
 				      $semestre,
 				      $value['C']['salle']);
 
@@ -318,7 +317,7 @@ function toggleknownseance(obj, uv,type)
 		  $sccours = array(-1 => "--");
 		  while ($rs = $req->get_row())
 		    $sccours[$rs['id_uv_groupe']] = 'Cours N°'.$rs['numero_grp']." du ". 
-		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp']. " DEBUG UV $iduv";
+		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
 		  $frm->add_select_field("uv[$uv][C][selectlst]", 
                                          'Séances de cours connues', 
                                          $sccours,
@@ -346,7 +345,7 @@ function toggleknownseance(obj, uv,type)
 		  $sctd = array(-1 => "--");
 		  while ($rs = $req->get_row())
 		    $sctd[$rs['id_uv_groupe']] = 'TD N°'.$rs['numero_grp'] . " du ". 
-		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp']. " DEBUG UV $iduv";
+		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
 		  $frm->add_select_field("uv[$uv][TD][selectlst]", 
                                          'Séances de TD connues', 
                                          $sctd,
@@ -374,7 +373,7 @@ function toggleknownseance(obj, uv,type)
 		  $sctp = array(-1 => "--");
 		  while ($rs = $req->get_row())
 		    $sctp[$rs['id_uv_groupe']] = 'TP N°'.$rs['numero_grp']. " du ". 
-		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp']. " DEBUG UV $iduv";
+		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
 		 
                       $frm->add_select_field("uv[$uv][TP][selectlst]", 
                                              'Séances de TP connues', 
@@ -406,10 +405,10 @@ function add_seance_form($formcts, $uv, $type)
 {
   $formcts->puts("<h3>Ajout d'une séance horaire</h3>");
 
-  /* numéro groupe de TP */
+  /* numéro groupe */
   $formcts->add_text_field("uv[$uv][$type][numgrp]",
 			   'Numéro de groupe',
-			   '', false, 1);
+			   '1', false, 1);
   /* jour */
   global $jour;
   $formcts->add_select_field("uv[$uv][$type][jour]",
