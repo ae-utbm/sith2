@@ -468,6 +468,9 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 	}
 	elseif( $_REQUEST['view'] == "plannings" )
 	{
+		if ( !$site->is_admin )
+			error_403();
+
 		$now = date("Y-m-d H:i:s",time());
 
 		$date = getDate();
@@ -684,7 +687,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			{
 				$frm->add_hidden("id_util",$site->user->id);
 			}
-			$frm->add_hidden("id_gap",$_REQUEST['id']);
+			$frm->add_hidden("id_gap",$_REQUEST['iD']);
 			$frm->add_submit("valid","Valider");
 			/* Ajouter un bouton d'annulation et un truc boulet proof en js pour forcer à remplir la case */
 			$frm->allow_only_one_usage();
@@ -741,6 +744,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		$list = new itemlist("Actions disponibles",false,array(
 			"<a href=\"index.php?view=reserver\">Réserver un créneau</a>"
 			));
+		$cts->add($list,true);
 	}
 }
 else
