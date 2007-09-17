@@ -321,4 +321,41 @@
 	  	$this->buffer .= "</form>\n";	}
 	}
 	
+
+	/**
+	 * Classe générant des nuages de tags
+	 * @todo à déplacer et à généraliser
+	 * @param $values array($name => $qty) 
+	 * @param $link_title
+	 */
+	
+	class tagcloud extends stdcontents
+	{
+		function tagcloud($values, $link_title = false, $link_to = false, $min_size = 80, $max_size = 250)
+		{
+			$min_qty = min( array_values($values) );
+			$range = max( array_values($values) ) - $min_qty ;
+			if( $range == 0 ) $range = 1;
+			$step_size = ($max_size - $min_size) / $range;
+			
+			foreach($values as $name => $qty)
+			{
+				$size = ceil( $min_size + ($qty - $min_qty) * $step_size );
+				
+				($link_to) ? $link = str_replace(array("{name}", "{qty}"), array($name, $qty), $link_to) : $link = "#";
+				$this->buffer .= "<a href=\"$link\" style=\"font-size:".$size."%\"";
+				
+				if($link_title)
+				{
+					$title = str_replace(array("{name}", "{qty}"), array($name, $qty), $link_title);
+					$this->buffer .= " title=\"$title\"";
+				}
+				$this->buffer .= ">$name</a>";
+				$this->buffer .= " ";
+				   
+			}
+		}
+	}
+
+	
 ?>

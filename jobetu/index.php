@@ -26,6 +26,7 @@ $topdir = "../";
 require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/cts/board.inc.php");
 require_once("include/jobetu.inc.php");
+require_once("include/cts/jobetu.inc.php");
 require_once("include/jobuser_etu.inc.php");
 
 define("GRP_JOBETU_ETU", 36);
@@ -112,7 +113,24 @@ else
 	$board = new board();
 		$board->add($link_client, true);
 		$board->add($link_etu, true);
+		
 	$site->add_contents($board);
+	
+	
+	$tags = new contents("Compétences actuellement disponibles");
+/*	
+	$sql = new requete($site>db, "SELECT nom, COUNT(id_type) AS val
+																FROM `job_types_etu`
+																NATURAL JOIN `job_types`
+																WHERE id_utilisateur NOT IN (SELECT id_utilisateur FROM `job_annonces_etu` WHERE relation = 'selected')
+																GROUP BY id_type
+																ORDER BY nom DESC
+																");
+*/
+	$array_test = array("Lorem" => 5 , "ipsum" => 2 , "dolor" => 21 , "sit" => 8 , "amet" => 10 , "consectetuer" => 6 , "adipiscing" => 11 , "elit" => 4 , "Praesent" => 12 , "feugiat" => 5 , "posuere" => 20 );
+
+	$tags->add( new tagcloud($array_test, "{qty} étudiants sont actuellements disponibles pour {name}") );
+	$site->add_contents($tags, true);
 }
 	
 $site->end_page();
