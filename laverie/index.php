@@ -522,7 +522,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 			$cts->add_paragraph("<strong>Début du créneau :</strong> ".$row['start_gap']);
 			$cts->add_paragraph("<strong>Fin du créneau :</strong> ".$row['end_gap']);
-
+			/* Faire fonctionner l'autorefill (pas franchement urgent) */
 			$frm = new form("modifierreservation","index.php?view=plannings&action=do_modifier_reservation",true,"POST","Modifier une réservation");
 			$frm->add_user_fieldv2("id_util","Réservé par",$row['id_util_old'],true);
 			$frm->add_hidden("id_old",$row['id_util_old']);
@@ -538,7 +538,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$planning->load_by_id($_REQUEST['id_planning']);
 			if($_REQUEST['id_old'] != NULL)
 				$planning->remove_user_from_gap($_REQUEST['id_gap'],$_REQUEST['id_old']);
-			if($_REQUEST['id_util'] != NULL)
+			if($_REQUEST['id_util'] != 0)
 				$planning->add_user_to_gap($_REQUEST['id_gap'],$_REQUEST['id_util']);
 			header( 'Location: index.php?view=plannings&id_planning='.$_REQUEST['id_planning'].'&action=creneaux');
 		}
@@ -645,6 +645,68 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		/* Interface de sélection d'un créneau parmis ceux disponible (sqltable ?)
 		 * Possibilité pour l'admin de faire une réservation pour quelqu'un
 		 * d'autre */
+		if($_REQUEST['action'] == "choisir_machine")
+		{
+			$sql = new requete($site->db, "SELECT * FROM pl_gap
+				INNER JOIN pl_planning ON pl_gap.id_planning = pl_planning.id_planning
+				INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines.id
+				LEFT JOIN pl_gap_user ON pl_gap.id_gap = pl_gap_user.id_gap
+				INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+				WHERE pl_planning.id_asso = '".ID_ASSO_LAVERIE."'
+				AND pl_gap.start_gap < '".$now."'
+				AND pl_gap_utilisateur.id_utilisateur IS NULL
+				AND mc_machines.id = '".$_REQUEST['id']."'
+				ORDER BY mc_machines.lettre,mc_machines.type,pl_gap.start_gap");
+
+			$table = new sqltale("listecreneauxdispo",
+				"Liste des créneaux disponibles",
+				$sql,
+				"index.php?view=plannings".,
+				"id_gap",
+				array("start_gap" => "Début du créneau",
+					"end_gap" => "Fin du créneau"),
+				array("choisir_creneau" => "Choisir ce créneau"),
+				array(),
+				array("type"=>$GLOBALS['types_jeton'] ) );
+
+			$cts->add($table, true);
+		}	
+		elseif($_REQUEST['action'] == "choisir_creneau")
+		{
+			$frm = new form("reservation","index.php?view=reserver&action=fin",false,"POST","Terminer la réservation");
+			if($site->is_admin)
+			{
+				$frm->add_user_fieldv2("id_util","Réservé pour");
+			}
+			$frm->allow_only_one_usage();
+			$cts->add($frm,true);
+		}
+		elseif($_REQUEST['action'] == "fin")
+		{
+		}
+		else
+		{
+			$sql = new requete($site->db, "SELECT * FROM mc_machines
+				INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+				WHERE mc_machines.hs = 0
+				ORDER BY mc_machines.lettre,mc_machines.type");
+
+			$table = new sqltable("listmachine",
+				"Liste des machines",
+				$sql,
+				"index.php?view=reserver",
+				"id",
+				array("lettre" => "Lettre",
+					"type" => "Type de la machine",
+					"nom_lieu" => "Lieu"),
+				array("choisir_machine" => "Choisir cette machine"),
+				array(),
+				array("type"=>$GLOBALS['types_jeton'] ) );
+
+			$cts->add($table, true);
+		}
+		$frm = new form("reservercreneau", "index.php?view==do_reserver",false,"POST","Réserver un créneau");
+		$frm->
 	}
 	elseif( $_REQUEST['view'] == "vente" )
 	{
@@ -661,9 +723,9 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		/* Mettre un texte d'explication avec des liens vers l'interface de 
 		 * réservation, les documentations, les CGU (/article.php?name=laverie-cgu)
 		 * etc... */
-
-		$cts->add_paragraph("<br />Ici trônera joyeusement l'interface cotisant-machine à laver.");
-		$cts->add_paragraph("Le tout via un système révolutionnaire de responsables machines nourris au Bob AE et à la cancoillote afin de vous assurer une productivité parfaite dans le nettoyage de vos chaussettes sales et de vos caleçons dégueus (non rien pour les filles, elle sont juste un mythe à l'UTBM).");
+		$list = new itemlist("Actions disponibles",false,array(
+			"<a href=\"index.php?view=reserver\">Réserver un créneau</a>"
+			);
 	}
 }
 else
