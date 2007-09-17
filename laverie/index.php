@@ -647,7 +647,9 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		 * d'autre */
 		if($_REQUEST['action'] == "choisir_machine")
 		{
-			$sql = new requete($site->db, "SELECT * FROM pl_gap
+			$sql = new requete($site->db, "SELECT *,
+				pl_gap.id_gap AS id
+				FROM pl_gap
 				INNER JOIN pl_planning ON pl_gap.id_planning = pl_planning.id_planning
 				INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines.id
 				LEFT JOIN pl_gap_user ON pl_gap.id_gap = pl_gap_user.id_gap
@@ -662,7 +664,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				"Liste des créneaux disponibles",
 				$sql,
 				"index.php?view=reserver",
-				"id_gap",
+				"id",
 				array("start_gap" => "Début du créneau",
 					"end_gap" => "Fin du créneau"),
 				array("choisir_creneau" => "Choisir ce créneau"),
@@ -682,7 +684,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			{
 				$frm->add_hidden("id_util",$site->user->id);
 			}
-			$frm->add_hidden("id_gap",$_REQUEST['id_gap']);
+			$frm->add_hidden("id_gap",$_REQUEST['id']);
 			$frm->add_submit("valid","Valider");
 			/* Ajouter un bouton d'annulation et un truc boulet proof en js pour forcer à remplir la case */
 			$frm->allow_only_one_usage();
