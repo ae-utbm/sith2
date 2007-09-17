@@ -766,7 +766,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			  "end_gap" => "Fin du créneau",
 				"lettre" => "Lettre",
 				"type" => "Type de la machine",
-				"nom_lieu" => "Lieu");
+				"nom_lieu" => "Lieu"),
 			array(),
 			array(),
 			array("type"=>$GLOBALS['types_jeton']) );
