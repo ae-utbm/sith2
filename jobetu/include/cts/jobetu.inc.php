@@ -326,7 +326,8 @@
 	 * Classe générant des nuages de tags
 	 * @todo à déplacer et à généraliser
 	 * @param $values array($name => $qty) 
-	 * @param $link_title
+	 * @param $link_title titre associé au tag, utiliser '{name}' et '{qty}' comme pour les valeurs du tableau
+	 * @param $link_to lien associé au tag ('{name}' et '{qty}' utilisable)
 	 */
 	
 	class tagcloud extends stdcontents
@@ -339,17 +340,19 @@
 			$step_size = ($max_size - $min_size) / $range;
 			
 			foreach($values as $name => $qty)
+			//while( is_array($values) ? (list($name, $qty) = each($values)) : (list($name, $qty) = $values->get_row()) )
 			{
 				$size = ceil( $min_size + ($qty - $min_qty) * $step_size );
 				
 				($link_to) ? $link = str_replace(array("{name}", "{qty}"), array($name, $qty), $link_to) : $link = "#";
-				$this->buffer .= "<a href=\"$link\" style=\"font-size:".$size."%\"";
+					$this->buffer .= "<a href=\"$link\" style=\"font-size:".$size."%\"";
 				
 				if($link_title)
 				{
 					$title = str_replace(array("{name}", "{qty}"), array($name, $qty), $link_title);
 					$this->buffer .= " title=\"$title\"";
 				}
+				
 				$this->buffer .= ">$name</a>";
 				$this->buffer .= " ";
 				   

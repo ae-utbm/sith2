@@ -118,18 +118,20 @@ else
 	
 	
 	$tags = new contents("Compétences actuellement disponibles");
-/*	
-	$sql = new requete($site>db, "SELECT nom, COUNT(id_type) AS val
+	
+	$sql = new requete($site->db, "SELECT nom, COUNT(id_type) AS val
 																FROM `job_types_etu`
 																NATURAL JOIN `job_types`
-																WHERE id_utilisateur NOT IN (SELECT id_utilisateur FROM `job_annonces_etu` WHERE relation = 'selected')
+																WHERE id_utilisateur NOT IN (SELECT id_select_etu FROM `job_annonces` WHERE closed = '1')
 																GROUP BY id_type
 																ORDER BY nom DESC
 																");
-*/
-	$array_test = array("Lorem" => 5 , "ipsum" => 2 , "dolor" => 21 , "sit" => 8 , "amet" => 10 , "consectetuer" => 6 , "adipiscing" => 11 , "elit" => 4 , "Praesent" => 12 , "feugiat" => 5 , "posuere" => 20 );
-
-	$tags->add( new tagcloud($array_test, "{qty} étudiants sont actuellements disponibles pour {name}") );
+	
+	$array_tags = array();
+	while($row = $sql->get_row())
+		$array_tags[ $row['nom'] ] = $row['val'];
+	
+	$tags->add( new tagcloud($array_tags, "{qty} étudiants sont actuellements disponibles pour {name}") );
 	$site->add_contents($tags, true);
 }
 	
