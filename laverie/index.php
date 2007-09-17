@@ -696,7 +696,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 
 			$planning = new planning($site->db,$site->dbrw);
 			$planning->load_by_id($row['id_planning']);
-			$planning->add_user_to_gap($_REQUEST['id_gap']);
+			$planning->add_user_to_gap($_REQUEST['id_gap'],$site->user>id);
 			header( 'Location: index.php' );
 		}
 		else
