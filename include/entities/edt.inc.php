@@ -212,10 +212,6 @@ class edt extends stdentity
                                 id_uv_groupe 
                         FROM
                                 edu_uv_groupe
-                        INNER JOIN
-                                edu_uv
-                        USING   (`id_uv`)
-
                         WHERE
                                 type_grp = '". $typg ."'
                         AND
