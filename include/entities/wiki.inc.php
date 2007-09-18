@@ -429,16 +429,10 @@ class wiki extends basedb
     return $buffer;
   }
 
-  
-  function get_stdcontents()
+  function wikimacro($text)
   {
-    global $conf;
-    $conf["linkscontext"] = "wiki";
-    $conf["linksscope"] = $this->get_scope();
     
-    $cts = new wikicontents($this->rev_title,$this->rev_contents);
-    
-    if ( preg_match("#@@([^a-z0-9\-_:]*):pagesmap@@#",$cts->buffer,$match) )
+    if ( preg_match("#@@([^a-z0-9\-_:]*):pagesmap@@#",$text,$match) )
     {
       $wiki = $match[1];
       
@@ -457,10 +451,10 @@ class wiki extends basedb
         $buffer = "<ul>\n";
         $buffer .= $this->__map_childs($id);
         $buffer .= "</ul>\n";
-        $cts->buffer = str_replace("@@".$match[1].":pagesmap@@", $buffer, $cts->buffer);
+        return $buffer;
       }
     }
-    if ( preg_match("#@@([^a-z0-9\-_:]*):missingpages@@#",$cts->buffer,$match) )
+    else if ( preg_match("#@@([^a-z0-9\-_:]*):missingpages@@#",$text,$match) )
     {
       $wiki = $match[1];
       
@@ -485,10 +479,24 @@ class wiki extends basedb
         $buffer .= "</ul>\n";
       }
       
-      $cts->buffer = str_replace("@@".$match[1].":missingpages@@", $buffer, $cts->buffer);
+        return $buffer;
     }
+    
+    return $text;
+  }
+  
+  function get_stdcontents()
+  {
+    global $conf;
+    $conf["linkscontext"] = "wiki";
+    $conf["linksscope"] = $this->get_scope();
+    $conf["macrofunction"] = array($this,'wikimacro');
+    
+    $cts = new wikicontents($this->rev_title,$this->rev_contents);
+
     $conf["linksscope"]="";
     $conf["linkscontext"]="";
+    unset($conf["macrofunction"]);
     return $cts;
   }
   

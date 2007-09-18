@@ -112,7 +112,12 @@ function doku2xhtml($text,$summury=false)
   // les n'emails
   firstpass($table,$text,"#<([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)>#ie", "linkformat('\\1@\\2')");
 
+  if ( !$conf["macrofunction"] || !is_callable($conf["macrofunction"]) )
+    firstpass($table,$text,"#@@([^@]+)@@#ie","wikimacro('\\1')");
+
   $text = htmlspecialchars($text);
+
+
 
   //citation
   $text = str_replace( CHR(10), "__slash_n__" , $text );
@@ -158,6 +163,17 @@ function doku2xhtml($text,$summury=false)
 
   return $js.$text;
 }
+
+function wikimacro($match)
+{
+  global $conf;
+  
+  if ( !$conf["macrofunction"] || !is_callable($conf["macrofunction"]) )
+    return $match;
+  
+  return call_user_func( $conf["macrofunction"], $match );
+}
+
 
 /**
  * On préparse le texte ligne par ligne.
@@ -323,6 +339,9 @@ function format_headlines(&$table,&$hltable,&$text)
     $table[$token] = html_toc($content);
   }
 }
+
+
+
 
 function linkformat($match)
 {
