@@ -50,15 +50,13 @@ if (!$site->user->is_valid())
 }
 
 
-
 $edt = new edt($site->db, $site->dbrw);
 
 $semestre = mysql_real_escape_string($_REQUEST['semestre']);
 
 $edt->load($site->user->db, $semestre);
 
-
-$cts = new contents("Edition de l'emploi du temps", print_r($edt, true));
+$cts = new contents(print_r($edt, true));
 
 $site->add($cts);
 
