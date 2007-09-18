@@ -54,7 +54,7 @@ $edt = new edt($site->db, $site->dbrw);
 
 $semestre = mysql_real_escape_string($_REQUEST['semestre']);
 
-$edt->load($site->user->db, $semestre);
+$edt->load($site->user->id, $semestre);
 
 $cts = new contents(print_r($edt, true));
 
