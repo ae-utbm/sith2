@@ -727,9 +727,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
   }
   elseif( $_REQUEST['view'] == "vente" )
   {
-    if( $_REQUEST['action'] == "retirer_jeton" )
+    if( $_REQUEST['action'] == "retirer_jeton" || $_REQUEST['action'] =="valider" )
     {
-      print_r("debug");
       $lst = new itemlist("Résultats :");
 
       /* execution de la demande */
