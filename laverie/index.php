@@ -727,9 +727,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 	}
 	elseif( $_REQUEST['view'] == "vente" )
 	{
-		/* Interface administrateur de retrait d'un jeton et assignation du 
-		 * retrait du jeton à un créneaux emploi du temps */
-
 		if( $_REQUEST['action'] == "retirer_jeton" )
 		{
 		  $lst = new itemlist("Résultats :");
@@ -804,7 +801,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				      $ok = $debit->debitAE($utl, $site->user, $cpt, $caddie, false);
 				    }
 
-          
 		        if ( !$ok )
 		          $lst->add("Solde insuffisant", "ko");
 		        else
@@ -822,6 +818,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 	       	 	}
      		 }	
     	}
+			$cts->add($lst);
+
   	}
 			/* Donnée : gap_id
 			   Récupérer l'id de l'utilisateur ayant fait la réservation
@@ -845,7 +843,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$frm->add_text_field("numjetsecher","Numéro de jeton séchage");
 			$frm->add_submit("valid","Valider");
 			$frm->allow_only_one_usage();
-			$cts->add($lst);
 			$cts->add($frm,true);
 		}
 		else
