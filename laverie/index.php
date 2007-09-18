@@ -808,6 +808,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
               {
                 $jetlav->borrow_to_user($utl->id,$_REQUEST['id_gap']);
                 $lst->add("Le jeton n°$jetlav->nom (lavage) a bien ete prêté à $utl->prenom $utl->nom", "ok");
+								header( 'Location: index.php?view=reserver' );
               }
               if($jetsech)
               {
