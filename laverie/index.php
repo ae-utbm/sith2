@@ -872,9 +872,10 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 				array("retirer_jeton" => "Retirer le jeton"),
 				array(),
 				array("type"=>$GLOBALS['types_jeton']) );
+				$cts->add($table, true);
 		}
 
-		$cts->add($table, true);
+		//$cts->add($table, true);
 
 	}
 	elseif( $_REQUEST['view'] == "recharger" || $_REQUEST['view'] == "cotiser" || $_REQUEST['view'] == "ajouter_util" )
