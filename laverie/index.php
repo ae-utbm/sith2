@@ -840,7 +840,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 			$frm = new form("retirer_jeton","index.php?view=vente&action=valider",false,"POST","Retirer un jeton");
 			$frm->add_hidden("id_gap",$_REQUEST['id']);
 			$frm->add_hidden("id_util",$row['id_util']);
-			$frm->add_text_field("numjetlaver","Numéro de jeton de lavage"));
+			$frm->add_text_field("numjetlaver","Numéro de jeton de lavage");
 			$frm->add_info("ou");
 			$frm->add_text_field("numjetsecher","Numéro de jeton séchage");
 			$frm->add_submit("valid","Valider");
