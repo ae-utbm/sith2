@@ -752,12 +752,11 @@ if ( !$site->user->is_in_group("blacklist_machines") )
         if(!empty($error))
           $lst->add($error, "ko");
         else
-        {
+        {print_r("hdgfhgf".$_REQUEST['numjetlaver']);
           if(!empty($_REQUEST['numjetlaver']))
           {
             $jetlav = new jeton($site->db, $site->dbrw);
             $jetlav->load_by_nom($_REQUEST['numjetlaver'], "laver");
-   print_r("n°".$jetlav->id); 
             if($jetlav->id == -1)
               $error = "Le jeton de machine à laver est invalide";
             elseif($jetlav->is_borrowed())
