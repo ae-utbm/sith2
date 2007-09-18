@@ -204,7 +204,7 @@ elseif ( $_REQUEST['module']=="complete" )
 			"FROM `utl_etu_utbm` " .
 			"INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
 			"WHERE `surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$pattern."' " .
-			"GROUP by `id_utilisateur` ORDER BY 2 LIMIT 10");	
+			"ORDER BY 2 LIMIT 10");	
 	}
 	else
 	{
