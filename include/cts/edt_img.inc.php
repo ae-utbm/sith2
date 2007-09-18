@@ -575,28 +575,32 @@ class edt_img
   }
 
   /* visualisation */
-  function show_edt ()
+  function show_edt ($wm)
   {
     global $topdir;
     require_once ($topdir . "include/watermark.inc.php");
 
     header("Content-Type: image/png");
-    $wm_img = new img_watermark ($this->img);
-    imagepng ($wm_img->img);
-    $wm_img->destroy ();
+    if ($wm)
+      {
+	$wm_img = new img_watermark ($this->img);
+	imagepng ($wm_img->img);
+	$wm_img->destroy ();
+	return;
+      }
     imagepng($this->img);
     $this->destroy ();
   }
 
   /* generation des plages horaires */
-  function generate ()
+  function generate ($wm = true)
   {
     if (count($this->lines) > 0)
     {
       foreach ($this->lines as $line)
 	$this->draw_course ($line);
     }
-    $this->show_edt ();
+    $this->show_edt ($wm);
   }
 
   /* "destructeur"
