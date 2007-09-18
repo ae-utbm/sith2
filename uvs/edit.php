@@ -56,7 +56,11 @@ $semestre = mysql_real_escape_string($_REQUEST['semestre']);
 
 $edt->load($site->user->id, $semestre);
 
-$cts = new contents(print_r($edt, true));
+/* n'oublie pas le truc de kayak concernant la recherche dans le forum ... */
+
+$cts = new contents("Emploi du temps ...");
+
+$cts->add_paragraph("<pre>" . print_r($edt, true) . "</pre>");
 
 $site->add_contents($cts);
 
