@@ -752,7 +752,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
         if(!empty($error))
           $lst->add($error, "ko");
         else
-        {print_r("hdgfhgf".$_REQUEST['numjetlaver']);
+        {
           if(!empty($_REQUEST['numjetlaver']))
           {
             $jetlav = new jeton($site->db, $site->dbrw);

@@ -38,7 +38,7 @@ class jeton extends stdentity
 			return true;
 		}
 		
-		$this->id = null;	
+		$this->id = -1;	
 		return false;
 	}
 	
@@ -59,7 +59,7 @@ class jeton extends stdentity
 			return true;
 		}
 		
-		$this->id = null;	
+		$this->id = -1;	
 		return false;
 	}	
 	
