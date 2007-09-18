@@ -58,7 +58,7 @@ $edt->load($site->user->id, $semestre);
 
 $cts = new contents(print_r($edt, true));
 
-$site->add($cts);
+$site->add_contents($cts);
 
 $site->end_page();
 
