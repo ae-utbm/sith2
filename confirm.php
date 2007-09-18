@@ -31,10 +31,16 @@ $site->user->load_by_id($_REQUEST["id"]);
 if ( !$site->user->is_valid() || ($site->user->hash == "valid") || ($site->user->hash != $_REQUEST["hash"]) )
 {
 	$site->start_page("none","Erreur");
-	$site->add_contents(new error("Impossible d'activer votre compte","Merci de vérifier le lien dans l'email qui vous a été adressé"));
+	
+	if ($site->user->hash == "valid")
+	  $site->add_contents(new error("Compte déjà validée","Votre compte a déjà été validé. Vous pouvez vous connecter avec vos identifiants. Voir <a href=\"article.php?name=docs:connexion\">Documentation : Connexion</a>"));
+	else
+	  $site->add_contents(new error("Impossible d'activer votre compte","Merci de vérifier le lien dans l'email qui vous a été adressé"));
 	$site->end_page(); 	
 	exit();
 }
+
+
 
 $site->user->validate();
 $site->connect_user();

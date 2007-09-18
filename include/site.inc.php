@@ -357,7 +357,9 @@ class site extends interfaceweb
       {
         $lieu = "Belfort";
         $this->user->load_all_extra();
-        if ( $this->user->branche == "TC" || $this->user->branche == "GMC" )
+        if ( $this->user->departement == "tc" || 
+          $this->user->departement == "gmc" || 
+          $this->user->departement == "edim" )
           $lieu = "Sévenans";
 
         if ( $carte->etat_vie_carte == CETAT_AU_BUREAU_AE )
