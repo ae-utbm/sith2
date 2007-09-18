@@ -826,7 +826,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
         CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur
         FROM pl_gap_user
         LEFT JOIN utilisateurs ON pl_gap_user.id_utilisateur = utilisateurs.id_utilisateur
-				LEFT JOIN mc_jeton_utilisateur ON pl_gap_user.id_gap = mc_jeton_utilisateur.id_gap
         WHERE pl_gap_user.id_gap = '".$_REQUEST['id']."'
 ");
       $row = $sql->get_row();
@@ -852,6 +851,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
         LEFT JOIN pl_gap_user ON pl_gap.id_gap = pl_gap_user.id_gap
         INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
         LEFT JOIN utilisateurs ON pl_gap_user.id_utilisateur = utilisateurs.id_utilisateur
+				LEFT JOIN mc_jeton_utilisateur ON pl_gap_user.id_gap = mc_jeton_utilisateur.id_gap
         WHERE pl_planning.id_asso = '".ID_ASSO_LAVERIE."'
         AND pl_gap_user.id_utilisateur IS NOT NULL
 				AND mc_jeton_utilisateur.id_jeton IS NULL
