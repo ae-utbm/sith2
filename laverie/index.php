@@ -650,10 +650,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 	}
 	elseif( $_REQUEST['view'] == "reserver" )
 	{
-		/* Interface de sélection d'un créneau parmis ceux disponible (sqltable ?)
-		 * Possibilité pour l'admin de faire une réservation pour quelqu'un
-		 * d'autre */
-
 		if($_REQUEST['action'] == "choisir_machine")
 		{
 			$sql = new requete($site->db, "SELECT *,
@@ -734,33 +730,154 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 		/* Interface administrateur de retrait d'un jeton et assignation du 
 		 * retrait du jeton à un créneaux emploi du temps */
 
-		$sql = new requete($site->db,"SELECT *,
-			pl_gap.id_gap AS id,
-			CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur
-			FROM pl_gap
-			INNER JOIN pl_planning ON pl_gap.id_planning = pl_planning.id_planning
-			INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines.id
-			LEFT JOIN pl_gap_user ON pl_gap.id_gap = pl_gap_user.id_gap
-			INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
-			LEFT JOIN utilisateurs ON pl_gap_user.id_utilisateur = utilisateurs.id_utilisateur
-			WHERE pl_planning.id_asso = '".ID_ASSO_LAVERIE."'
-			AND pl_gap_user.id_utilisateur IS NOT NULL
-			ORDER BY pl_gap.start_gap");
+		if( $_REQUEST['action'] == "retirer_jeton" )
+		{
+		  $lst = new itemlist("Résultats :");
 
-		$table = new sqltable("listecreneauxutil",
-			"Liste des créneaux réservés",
-			$sql,
-			"index.php",
-			"id",
-			array("start_gap" => "Début du créneau",
-			  "end_gap" => "Fin du créneau",
-				"lettre" => "Lettre",
-				"type" => "Type de la machine",
-				"nom_lieu" => "Lieu",
-				"nom_utilisateur" => "Réservé par"),
-			array("retirer_jeton" => "Retirer le jeton"),
-			array(),
-			array("type"=>$GLOBALS['types_jeton']) );
+		  /* execution de la demande */
+		  if (isset($_REQUEST["magicform"]) && $_REQUEST["magicform"]["name"] == "retirer_jeton")
+		  {
+		    $utl = new utilisateur($site->db, $site->dbrw);
+		    $utl->load_by_id($_REQUEST['id_util']);
+	    
+		    if($utl->id == -1)
+		      $error = "Utilisateur inconnu";
+		
+		    elseif($utl->is_in_group("cpt_bloque"))
+		      $error = "Le compte de cet utilisateur est bloqué !";
+	    
+		    elseif($utl->is_in_group("blacklist_machines"))
+		      $error = "Cet utilisateur n'est pas autorisé à emprunter de jeton !";
+	
+		    elseif( !$utl->ae )
+		      $error = "Cotisation non renouvelée.";
+		
+		    if(!empty($error))
+		      $lst->add($error, "ko");
+		    else
+		    {
+		      if(!empty($_REQUEST['numjetlaver']))
+					{
+					  $jetlav = new jeton($site->db, $site->dbrw);
+					  $jetlav->load_by_nom($_REQUEST['numjetlaver'], "laver");
+	  
+					  if($jetlav->id == -1)
+					    $error = "Le jeton de machine à laver est invalide";
+					  elseif($jetlav->is_borrowed())
+					    $error = "Le jeton de machine à laver ($jetlav->nom) est censé etre emprunté, comment ce fait-ce ?";
+					}			
+		      if(!empty($_REQUEST['numjetsecher']))
+					{
+					  $jetsech = new jeton($site->db, $site->dbrw);
+					  $jetsech->load_by_nom($_REQUEST['numjetsecher'], "secher");
+
+				  if($jetsech->id == -1)
+				    $error = "Le jeton de seche-linge est invalide";      
+				  elseif($jetsech->is_borrowed())
+				    $error = "Le jeton de seche-linge ($jetsech->nom) est censé etre emprunté, comment ce fait-ce ?";
+					}		
+
+		      if(!empty($error))
+		        $cts->add_paragraph("Erreur : $error");
+		      else
+		      {
+	          $cpt = new comptoir ($site->db, $site->dbrw);
+	          $cpt->load_by_id (CPT_MACHINES);
+					  $caddie = array();
+	  
+					  if($jetlav)
+				    {
+				      $vente_lav = new venteproduit($site->db, $site->dbrw);
+				      $vente_lav->load_by_id(JET_LAVAGE, CPT_MACHINES);
+				      $caddie[] = array(1, $vente_lav);
+				    }
+					  if($jetsech)
+				    {
+				      $vente_sech = new venteproduit($site->db, $site->dbrw);
+				      $vente_sech->load_by_id(JET_SECHAGE, CPT_MACHINES);
+				      $caddie[] = array(1, $vente_sech);
+				    }
+  
+					  if($caddie)
+				    {
+				      $debit = new debitfacture($site->db, $site->dbrw);
+				      $ok = $debit->debitAE($utl, $site->user, $cpt, $caddie, false);
+				    }
+
+          
+		        if ( !$ok )
+		          $lst->add("Solde insuffisant", "ko");
+		        else
+		        {
+						  if($jetlav)
+					    {
+					      $jetlav->borrow_to_user($utl->id,$_REQUEST['id_gap']);
+					      $lst->add("Le jeton n°$jetlav->nom (lavage) a bien ete prêté à $utl->prenom $utl->nom", "ok");
+					    }
+						  if($jetsech)
+					    {
+					      $jetsech->borrow_to_user($utl->id,$_REQUEST['id_gap']);
+					      $lst->add("Le jeton n°$jetsech->nom (séchage) a bien ete prêté à $utl->prenom $utl->nom", "ok");
+					    }
+	       	 	}
+     		 }	
+    	}
+  	}
+			/* Donnée : gap_id
+			   Récupérer l'id de l'utilisateur ayant fait la réservation
+				 Affichage interface avec : nom du gugus, machine, lieu, horraires...
+				 Entrer le numéro du jeton
+				 Faire les vérifications
+			*/
+			$sql = new requete($site->db,"SELECT
+				pl_gap_user.id_utilisateur AS id_util,
+				CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur
+				FROM pl_gap_user
+				LEFT JOIN utilisateurs ON pl_gap_user.id_utilisateur = utilisateurs.id_utilisateur
+				WHERE pl_gap_user.id_gap = '".$_REQUEST['id']."'");
+			$row = $sql->get_row();
+
+			$frm = new form("retirer_jeton","index.php?view=vente&action=valider",false,"POST","Retirer un jeton");
+			$frm->add_hidden("id_gap",$_REQUEST['id']);
+			$frm->add_hidden("id_util",$row['id_util']);
+			$frm->add_text_field("numjetlaver","Numéro de jeton de lavage"));
+			$frm->add_info("ou");
+			$frm->add_text_field("numjetsecher","Numéro de jeton séchage");
+			$frm->add_submit("valid","Valider");
+			$frm->allow_only_one_usage();
+			$cts->add($lst);
+			$cts->add($frm,true);
+		}
+		else
+		{
+			$sql = new requete($site->db,"SELECT *,
+				pl_gap.id_gap AS id,
+				CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS nom_utilisateur
+				FROM pl_gap
+				INNER JOIN pl_planning ON pl_gap.id_planning = pl_planning.id_planning
+				INNER JOIN mc_machines ON pl_planning.name_planning = mc_machines.id
+				LEFT JOIN pl_gap_user ON pl_gap.id_gap = pl_gap_user.id_gap
+				INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+				LEFT JOIN utilisateurs ON pl_gap_user.id_utilisateur = utilisateurs.id_utilisateur
+				WHERE pl_planning.id_asso = '".ID_ASSO_LAVERIE."'
+				AND pl_gap_user.id_utilisateur IS NOT NULL
+				ORDER BY pl_gap.start_gap");
+
+			$table = new sqltable("listecreneauxutil",
+				"Liste des créneaux réservés",
+				$sql,
+				"index.php",
+				"id",
+				array("start_gap" => "Début du créneau",
+				  "end_gap" => "Fin du créneau",
+					"lettre" => "Lettre",
+					"type" => "Type de la machine",
+					"nom_lieu" => "Lieu",
+					"nom_utilisateur" => "Réservé par"),
+				array("retirer_jeton" => "Retirer le jeton"),
+				array(),
+				array("type"=>$GLOBALS['types_jeton']) );
+		}
 
 		$cts->add($table, true);
 

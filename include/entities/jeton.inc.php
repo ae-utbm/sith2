@@ -150,7 +150,7 @@ class jeton extends stdentity
    * Prête le jeton à un utilisateur.
    * @param $id_utilisateur Id de l'utilisateur
    */
-  function borrow_to_user ( $id_utilisateur )
+  function borrow_to_user ( $id_utilisateur,$id_gap=NULL )
   {
     if ( $this->is_borrowed() != 0 )
       $this->given_back();
@@ -160,6 +160,7 @@ class jeton extends stdentity
 			array(
 				"id_utilisateur" => $id_utilisateur,
 				"id_jeton" => $this->id,
+				"id_gap" => $id_gap,
 				"prise_jeton" => date("Y-m-d H:i:s"),
 				"retour_jeton" => NULL
 				)
