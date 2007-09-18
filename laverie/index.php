@@ -828,7 +828,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
         LEFT JOIN utilisateurs ON pl_gap_user.id_utilisateur = utilisateurs.id_utilisateur
 				LEFT JOIN mc_jeton_utilisateur ON pl_gap_user.id_gap = mc_jeton_utilisateur.id_gap
         WHERE pl_gap_user.id_gap = '".$_REQUEST['id']."'
-				AND mc_jeton_utilisateur.id_jeton IS NULL");
+");
       $row = $sql->get_row();
 
       $frm = new form("retirer_jeton","index.php?view=vente&action=valider",false,"POST","Retirer un jeton");
@@ -854,6 +854,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
         LEFT JOIN utilisateurs ON pl_gap_user.id_utilisateur = utilisateurs.id_utilisateur
         WHERE pl_planning.id_asso = '".ID_ASSO_LAVERIE."'
         AND pl_gap_user.id_utilisateur IS NOT NULL
+				AND mc_jeton_utilisateur.id_jeton IS NULL
         ORDER BY pl_gap.start_gap");
 
       $table = new sqltable("listecreneauxutil",
