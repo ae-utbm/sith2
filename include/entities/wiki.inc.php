@@ -432,7 +432,7 @@ class wiki extends basedb
   function wikimacro($text)
   {
     
-    if ( preg_match("#@@([^a-z0-9\-_:]*):pagesmap@@#",$text,$match) )
+    if ( preg_match("#^([^a-z0-9\-_:]*):pagesmap$#",$text,$match) )
     {
       $wiki = $match[1];
       
@@ -454,7 +454,7 @@ class wiki extends basedb
         return $buffer;
       }
     }
-    else if ( preg_match("#@@([^a-z0-9\-_:]*):missingpages@@#",$text,$match) )
+    else if ( preg_match("#^([^a-z0-9\-_:]*):missingpages$#",$text,$match) )
     {
       $wiki = $match[1];
       
