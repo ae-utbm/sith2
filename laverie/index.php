@@ -818,8 +818,6 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 	       	 	}
      		 }	
     	}
-			$cts->add($lst);
-
   	}
 			/* Donnée : gap_id
 			   Récupérer l'id de l'utilisateur ayant fait la réservation
