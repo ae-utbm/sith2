@@ -808,12 +808,12 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 						  if($jetlav)
 					    {
 					      $jetlav->borrow_to_user($utl->id,$_REQUEST['id_gap']);
-					      $lst->add("Le jeton n°$jetlav->nom (lavage) a bien ete prêté à $utl->prenom $utl->nom", "ok");
+					      $lst->puts("Le jeton n°$jetlav->nom (lavage) a bien ete prêté à $utl->prenom $utl->nom", "ok");
 					    }
 						  if($jetsech)
 					    {
 					      $jetsech->borrow_to_user($utl->id,$_REQUEST['id_gap']);
-					      $lst->add("Le jeton n°$jetsech->nom (séchage) a bien ete prêté à $utl->prenom $utl->nom", "ok");
+					      $lst->puts("Le jeton n°$jetsech->nom (séchage) a bien ete prêté à $utl->prenom $utl->nom", "ok");
 					    }
 	       	 	}
      		 }	
