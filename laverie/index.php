@@ -814,7 +814,8 @@ if ( !$site->user->is_in_group("blacklist_machines") )
                 $jetsech->borrow_to_user($utl->id,$_REQUEST['id_gap']);
                 $lst->add("Le jeton n°$jetsech->nom (séchage) a bien ete prêté à $utl->prenom $utl->nom", "ok");
               }
-              }
+            }
+	    $cts->add($lst);
           }  
       }
     }
