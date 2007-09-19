@@ -57,7 +57,7 @@ function log_add ($table,$values)
       }
       $log.=");\n";
       fwrite($handle, $log);
-      fclose($log_file);
+      fclose($handle);
     }
     return true;
   }
