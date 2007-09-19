@@ -22,7 +22,7 @@
  * 02111-1307, USA.
  */
 
-$log_file = "/var/www/ae/log.txt";
+$log_file = "/tmp/log.txt";
 function log_add ($table,$values)
 {
   if(!empty($table) && !empty($values))
