@@ -49,7 +49,7 @@ if ( $_REQUEST["action"] == "addparrain" )
         if(log_add("parrains",array("id_utilisateur"=>$user2->id,"id_utilisateur_fillot"=>$user->id)))
           $user->add_parrain($user2->id);
         else
-          $ErreurParrain = "Une erreur s'est produite lors de l'écriture des logs, veillez le signaler au responsable informatique");
+          $ErreurParrain = "Une erreur s'est produite lors de l'écriture des logs, veillez le signaler au responsable informatique";
       }
     }
     else
