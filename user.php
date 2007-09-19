@@ -47,16 +47,16 @@ if ( isset($_REQUEST['id_utilisateur']) )
   $user = new utilisateur($site->db,$site->dbrw);
   $user->load_by_id($_REQUEST["id_utilisateur"]);
   
-	if ( !$user->is_valid() )
-		$site->error_not_found("matmatronch");
+  if ( !$user->is_valid() )
+    $site->error_not_found("matmatronch");
 
   $can_edit = ( $user->id==$site->user->id || $site->user->is_in_group("gestion_ae") || $site->user->is_asso_role ( 27, 1 ));
 
   if ( $user->id != $site->user->id && !$site->user->utbm && !$site->user->ae )
-		$site->error_forbidden("matmatronch","group",10001);
+    $site->error_forbidden("matmatronch","group",10001);
     
   if ( !$user->publique && !$can_edit )
-		$site->error_forbidden("matmatronch","private");
+    $site->error_forbidden("matmatronch","private");
     
 }
 else
@@ -75,15 +75,15 @@ $pays_parents = new pays($site->db);
 if ( isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "pass_reinit" && $site->user->is_in_group("gestion_ae") )
 {
   if ( $GLOBALS["svalid_call"] && ( !empty($user->email_utbm) || !empty($user->email) ) )
-	{
-	  if ( $user->email_utbm )
-		  $email = $user->email_utbm;
-		else
-		  $email = $user->email;
-	  $pass = genere_pass(10);
-		$user->invalidate();
-		$user->change_password($pass);
-		$body = "Bonjour,
+  {
+    if ( $user->email_utbm )
+      $email = $user->email_utbm;
+    else
+      $email = $user->email;
+    $pass = genere_pass(10);
+    $user->invalidate();
+    $user->change_password($pass);
+    $body = "Bonjour,
 Votre mot de passe sur le site de l'Association des Étudiants de
 l'UTBM a été réinitialisé.
 
@@ -99,7 +99,7 @@ personnelles\".
 L'équipe info AE";
 
     $ret = mail($email, "[Site AE] Réinitialisation du mot de passe", $body);
-	}
+  }
 }
 
 if ( $_REQUEST["action"] == "delete" && $can_edit && isset($_REQUEST["id_membership"]))
@@ -235,10 +235,10 @@ elseif ( $_REQUEST["action"] == "addparrain" && $can_edit )
   $user2->load_by_id($_REQUEST["id_utilisateur_parrain"]);
   if ( $user2->id > 0 )
     {
-		  if ( $user2->id == $user->id )
-			  $ErreurParrain = "On joue pas au boulet !";
+      if ( $user2->id == $user->id )
+        $ErreurParrain = "On joue pas au boulet !";
       else
-			  $user->add_parrain($user2->id);
+        $user->add_parrain($user2->id);
     }
   else
     $ErreurParrain = "Utilisateur inconnu.";
@@ -250,9 +250,9 @@ elseif ( $_REQUEST["action"] == "addfillot" && $can_edit )
   $user2->load_by_id($_REQUEST["id_utilisateur_fillot"]);
   if ( $user2->id > 0 )
     {
-		  if ( $user2->id == $user->id )
-			  $ErreurParrain = "On joue pas au boulet !";
-		  else
+      if ( $user2->id == $user->id )
+        $ErreurParrain = "On joue pas au boulet !";
+      else
         $user->add_fillot($user2->id);
     }
   else
@@ -382,43 +382,43 @@ elseif ( $_REQUEST["action"] == "reprint" && $site->user->is_in_group("gestion_a
 
 if ( $_REQUEST["action"] == "setphotos" && $can_edit )
 {
-	$dest_idt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg";
-	/*if( isset($_REQUEST['delete_idt']) && file_exists($dest_idt))
-		unlink($dest_idt);*/
-	if ( is_uploaded_file($_FILES['idtfile']['tmp_name'])  )
+  $dest_idt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg";
+  if ( is_uploaded_file($_FILES['idtfile']['tmp_name'])  )
+  {
+    $src = $_FILES['idtfile']['tmp_name'];
+    if(file_exists($dest_idt) && ($site->user->is_asso_role ( 27, 1 ) || $site->user->is_in_group("gestion_ae")) )
     {
-      $src = $_FILES['idtfile']['tmp_name'];
-      $dest = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg";
       exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_idt");
     }
+  }
 
-	$dest_mmt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg";
-	if( isset($_REQUEST['delete_mmt']) && file_exists($dest_mmt))
-		unlink($dest_mmt);
-	if ( is_uploaded_file($_FILES['mmtfile']['tmp_name'])  )
-    {
-      $src = $_FILES['mmtfile']['tmp_name'];
-      exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_mmt");
-    }
-	$_REQUEST["page"] = "edit";
-	$_REQUEST["open"] = "photo";
+  $dest_mmt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg";
+  if( isset($_REQUEST['delete_mmt']) && file_exists($dest_mmt))
+    unlink($dest_mmt);
+  if ( is_uploaded_file($_FILES['mmtfile']['tmp_name'])  )
+  {
+    $src = $_FILES['mmtfile']['tmp_name'];
+    exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_mmt");
+  }
+  $_REQUEST["page"] = "edit";
+  $_REQUEST["open"] = "photo";
 }
 
 if ( $_REQUEST["action"] == "setblouse" && $can_edit )
 {
-	$dest = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.jpg";
-	$dest_mini = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.mini.jpg";
-	if( isset($_REQUEST['delete_blouse']) && file_exists($dest))
-	{
-		unlink($dest);
-		unlink($dest_mini);
-	}
-	if ( is_uploaded_file($_FILES['blousefile']['tmp_name'])  )
-    {
-      $src = $_FILES['blousefile']['tmp_name'];
-      exec("/usr/share/php5/exec/convert $src -thumbnail 1600x1600 -quality 80 $dest");
-      exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 -quality 90 $dest_mini");
-    }
+  $dest = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.jpg";
+  $dest_mini = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".blouse.mini.jpg";
+  if( isset($_REQUEST['delete_blouse']) && file_exists($dest))
+  {
+    unlink($dest);
+    unlink($dest_mini);
+  }
+  if ( is_uploaded_file($_FILES['blousefile']['tmp_name'])  )
+  {
+    $src = $_FILES['blousefile']['tmp_name'];
+    exec("/usr/share/php5/exec/convert $src -thumbnail 1600x1600 -quality 80 $dest");
+    exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 -quality 90 $dest_mini");
+  }
   $_REQUEST["page"] = "edit";
   $_REQUEST["open"] = "blouse";
 }
@@ -618,11 +618,11 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   
     $subfrm = new form("mmt",null,null,null,"Avatar");
     if ( file_exists( $topdir."var/img/matmatronch/".$user->id.".jpg") )
-  	{
-  		$subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".jpg?".filemtime($topdir."var/img/matmatronch/".$user->id.".jpg")."\" alt=\"\" width=\"100\" /><br/>");
+    {
+      $subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".jpg?".filemtime($topdir."var/img/matmatronch/".$user->id.".jpg")."\" alt=\"\" width=\"100\" /><br/>");
     }
-  	$subfrm->add_file_field ( "mmtfile", "Fichier" );
-  	$subfrm->add_checkbox("delete_mmt","Supprimer mon avatar");
+    $subfrm->add_file_field ( "mmtfile", "Fichier" );
+    $subfrm->add_checkbox("delete_mmt","Supprimer mon avatar");
     $frm->add ( $subfrm );
   
     $subfrm = new form("idt",null,null,null,"Photo identit&eacute; (carte AE et matmatronch)");
@@ -632,13 +632,13 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
       $subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".identity.jpg?".filemtime($topdir."var/img/matmatronch/".$user->id.".identity.jpg")."\" alt=\"\" width=\"100\" /><br/>");
       
       if ($site->user->is_asso_role ( 27, 1 ) || $site->user->is_in_group("gestion_ae"))
-  	  {
+      {
         $subfrm->add_file_field ( "idtfile", "Fichier" );
-  		  $carte = new carteae($site->db);
-  		  $carte->load_by_utilisateur($site->user->id);
-  		  if ( !$carte->is_validcard() )
-  			  $subfrm->add_checkbox("delete_idt","Supprimer la photo d'identit&eacute;");
-  	  }
+        $carte = new carteae($site->db);
+        $carte->load_by_utilisateur($site->user->id);
+        if ( !$carte->is_validcard() )
+          $subfrm->add_checkbox("delete_idt","Supprimer la photo d'identit&eacute;");
+      }
     }
     else
       $subfrm->add_file_field ( "idtfile", "Fichier" );
@@ -850,9 +850,9 @@ elseif ( ($_REQUEST["view"]=="groups") &&
 else
 {
   if ( $site->user->id != $user->id )
-	{
-	  $stats = new requete($site->dbrw, "UPDATE `utl_etu` SET `visites`=`visites`+1 WHERE `id_utilisateur`=".$user->id);
-	}
+  {
+    $stats = new requete($site->dbrw, "UPDATE `utl_etu` SET `visites`=`visites`+1 WHERE `id_utilisateur`=".$user->id);
+  }
   $user->load_all_extra();
   
   $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"));
@@ -910,9 +910,9 @@ else
 
                   $req2 = new requete($site->db,
                                       "SELECT `cpt_comptoir`.`nom_cpt`
-		  		FROM `cpt_mise_en_vente`
-		  		INNER JOIN `cpt_comptoir` ON `cpt_comptoir`.`id_comptoir` = `cpt_mise_en_vente`.`id_comptoir`
-		  		WHERE `cpt_mise_en_vente`.`id_produit` = '".$item['id_produit']."' AND `cpt_comptoir`.`type_cpt`!=1");
+          FROM `cpt_mise_en_vente`
+          INNER JOIN `cpt_comptoir` ON `cpt_comptoir`.`id_comptoir` = `cpt_mise_en_vente`.`id_comptoir`
+          WHERE `cpt_mise_en_vente`.`id_produit` = '".$item['id_produit']."' AND `cpt_comptoir`.`type_cpt`!=1");
 
                   if ( $req2->lines != 0 )
                     while ( list($nom) = $req2->get_row() )
@@ -998,13 +998,13 @@ else
     
   }
 
-	if ( $site->user->is_in_group("gestion_ae") )
-	{
-	  $frm = new form("pass_reinit", "user.php?id_utilisateur=".$user->id, true, "POST", "R&eacute;initialiser le mot de passe");
-		$frm->allow_only_one_usage();
-		$frm->add_submit("valid","R&eacute;initialiser !");
-		$cts->add($frm,true);
-	}
+  if ( $site->user->is_in_group("gestion_ae") )
+  {
+    $frm = new form("pass_reinit", "user.php?id_utilisateur=".$user->id, true, "POST", "R&eacute;initialiser le mot de passe");
+    $frm->allow_only_one_usage();
+    $frm->add_submit("valid","R&eacute;initialiser !");
+    $cts->add($frm,true);
+  }
 
 
 
