@@ -25,6 +25,7 @@
 $log_file = "/var/www/ae/log.txt";
 function log_add ($table,$values)
 {
+  global $log_file;
   if(!empty($table) && !empty($values))
   {
     if($handle = fopen($log_file,'a'))
