@@ -145,6 +145,14 @@ class edt extends stdentity
     if (!$this->dbrw)
       return false;
  
+    $code_uv = mysql_real_escape_string(str_replace(" ", "",$code_uv));
+    $intitule_uv = mysql_real_escape_string($intitule_uv);
+    $cours_uv = intval($cours_uv);
+    $td_uv = intval($td_uv);
+    $tp_uv = intval($tp_uv);
+    $ects  = intval($ects);
+
+
     $sql = new insert($this->dbrw,
 		      "edu_uv",
 		      array("code_uv"     => $code_uv,
@@ -208,7 +216,8 @@ class edt extends stdentity
     $hfg = mysql_real_escape_string($hfingrp);
     $sg = mysql_real_escape_string($semestre);
     $salleg = mysql_real_escape_string($sallegrp);
-    
+    $salleg = str_replace(array(" ","-","."), "", $salleg);
+
     $vfy = new requete($this->db,
 		       "SELECT 
                                 id_uv_groupe 
