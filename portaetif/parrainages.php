@@ -59,7 +59,7 @@ if ( $_REQUEST["action"] == "addparrain" )
     $ErreurParrain = "Utilisateur 'fillot' inconnu.";
 }
 
-
+$cts = new contents("Ajout de parrainage");
 $frm = new form("addparrain","parrainages.php",true,"POST","Ajouter un parrainage");
 $frm->add_hidden("action","addparrain");
 if ( $ErreurParrain ) $frm->error($ErreurParrain);
