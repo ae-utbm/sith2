@@ -195,12 +195,14 @@ elseif ( $_REQUEST["view"] == "retrait" )
 	$req = new requete($site->db, 
 			"SELECT " .
 			"`utilisateurs`.`id_utilisateur`, " .
+			   "`utl_etu_utbm`.`departement_utbm`, ".
 			"CONCAT(`utilisateurs`.`nom_utl`,' ',`utilisateurs`.`prenom_utl`) as `nom_utilisateur`, " .
 			"`ae_cotisations`.`date_fin_cotis`, " .
 			"`ae_carte`.`id_carte_ae` " .
 			"FROM `ae_carte` " .
 			"INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` " .
 			"INNER JOIN `utilisateurs` ON `ae_cotisations`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+			   "LEFT JOIN `utl_etu_utbm` USING(`id_utilisateur`)".
 			"WHERE `ae_carte`.`etat_vie_carte_ae` = '" . CETAT_AU_BUREAU_AE . "'" .
 			"ORDER BY `utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl`");	
 			
@@ -209,8 +211,9 @@ elseif ( $_REQUEST["view"] == "retrait" )
 		"Liste des utilisateurs qui ne sont pas venus retirer leur carte ae", $req, "cartesae.php", 
 		"id_utilisateur", 
 		array(
-			"id_carte_ae"=>"NÂ° carte",
-			"nom_utilisateur"=>utf8_encode("Nom & Prénom"),
+			"id_carte_ae"=>"N° carte",
+			"nom_utilisateur"=> "Nom & Prénom",
+			"departement_utbm" => "Département",
 			"date_fin_cotis"=>"Cotisation jusqu'au"), 
 		array("email_retrait_carte"=>"Envoyer email de rappel"), 
 		array("email_retrait_carte"=>"Envoyer email de rappel"),
