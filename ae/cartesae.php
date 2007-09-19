@@ -202,7 +202,7 @@ elseif ( $_REQUEST["view"] == "retrait" )
 			"FROM `ae_carte` " .
 			"INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` " .
 			"INNER JOIN `utilisateurs` ON `ae_cotisations`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
-			   "LEFT JOIN `utl_etu_utbm` USING(`id_utilisateur`)".
+			   "LEFT JOIN `utl_etu_utbm` ON `ae_cotisations`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur` ".
 			"WHERE `ae_carte`.`etat_vie_carte_ae` = '" . CETAT_AU_BUREAU_AE . "'" .
 			"ORDER BY `utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl`");	
 			
