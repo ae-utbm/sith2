@@ -448,8 +448,8 @@ function add_seance_form($formcts, $uv, $type)
 				   "B" => "Semaine B"));
 
   $formcts->add_text_field("uv[$uv][$type][salle]",
-                           'salle',
-                           "");
+                           'salle <b>sans espace, ex : "P103")</b>',
+                           "", false, 4);
 }
 
 
@@ -763,8 +763,8 @@ $cts->add_title(2, "<a>Ajout d'une UV</a>");
 $adduv = new form("adduv", "create.php", true, "post", "Ajout d'une UV");
 
 $adduv->add_text_field('adduv_name',
-		       "Code de l'UV",
-		       "", true);
+		       "Code de l'UV <b>sans espace, ex: 'MT42'</b>",
+		       "", true, 4);
 
 $adduv->add_text_area('adduv_intitule',
 		      "Intitulé de l'UV",
@@ -784,7 +784,7 @@ $adduv->add_checkbox('adduv_tp',
 
 $adduv->add_text_field('adduv_ects',
 		      "Credits ECTS",
-		      "");
+		      "", false, 1);
 
 $adduv->add_checkbox('Humas',
 		      "Humanites",
