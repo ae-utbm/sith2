@@ -27,7 +27,7 @@ function log_add ($table,$values)
 {
   if(!empty($table) && !empty($values))
   {
-    if($handle = fopen($log_file,"w"))
+    if($handle = fopen($log_file,"a"))
     {
       $row=false;
       $_values=array();
@@ -56,7 +56,7 @@ function log_add ($table,$values)
           $log .=", '".$value."'";
       }
       $log.=");\n";
-      if(!fwrite($handle, $log))
+      if(fwrite($handle, $log) === FALSE)
         return false;
       fclose($handle);
     }
