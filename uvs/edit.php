@@ -56,9 +56,17 @@ $semestre = mysql_real_escape_string($_REQUEST['semestre']);
 
 $edt->load($site->user->id, $semestre);
 
-$cts = new contents("Emploi du temps ...");
+$cts = new contents("Emploi du temps");
 
-$cts->add_paragraph("<pre>" . print_r($edt, true) . "</pre>");
+/* on ré-agence par code d'UV */
+for ($i = 0; $i < count($edt->edt_arr); $i++)
+{
+  $curr = &$edt->edt_arr[$i];
+  $uvs[$curr['nom_uv']][] = $curr;
+}
+
+$cts->add_paragraph("<pre>" . print_r($uvs, true) . "</pre>");
+
 
 $site->add_contents($cts);
 
