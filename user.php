@@ -736,7 +736,7 @@ if ( $_REQUEST["view"]=="parrain" )
 
 }
 
-elsif ( $_REQUEST["view"]=="edt" )
+elseif ( $_REQUEST["view"]=="edt" )
 {
   $cts->add_title(2, "Liste des emplois du temps");
   $cts->add_paragraph("Plouf coincoin ...");
