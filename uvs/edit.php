@@ -85,13 +85,13 @@ else
 	{
 	  $descr = "Séance de <b>".$seance['type_seance'] . "</b>".
 	    " n°".$seance['grp_seance']." le <b>".
-	    $seance['jour_seance'] . "</b> de " .
-	    $seance['hr_deb_seance'] . " à " . $seance['hr_fin_seance'].
-	    " en salle " . $seance['salle_seance'];
+	    $seance['jour_seance'] . "</b> de <b>" .
+	    $seance['hr_deb_seance'] . "</b> à <b>" . $seance['hr_fin_seance'].
+	    "</b> en salle <b>" . $seance['salle_seance']."</b>";
 	  if ($seance['semaine_seance'] == 'AB')
 	    $descr .= " - Fréquence 1 (hebdomadaire)";
 	  else
-	    $descr .= " - Semaine ".$seance['semaine_seance'] .
+	    $descr .= " - Fréquence 2, Semaine ".$seance['semaine_seance'] .
 	      " (bimensuelle)";
 
 	  $lst[] = $descr;

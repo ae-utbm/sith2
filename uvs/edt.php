@@ -98,7 +98,7 @@ $cts->add_paragraph("Sur cette page vous pouvez gérer vos emplois du temps.".
 
 $cts->add_paragraph("<h2>Vos emplois du temps disponibles</h2><br/>");
 
-$cts->puts("<script language=\"javascript\">
+$cts->add_paragraph("<script language=\"javascript\">
 function render(sem, iduser)
 {
   openInContents('cts2', './edt.php', 'showincts=1&semestre='+sem+'&id='+iduser);
