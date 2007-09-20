@@ -281,7 +281,7 @@ elseif ( $user->etudiant || $user->ancien_etudiant )
 
 $cts->add_paragraph("Choisissez le profil qui vous correspond, puis complétez les informations :");
 
-$frm = new form("majprofil","user.php",true,"POST","");
+$frm = new form("majprofil","majprofil.php",true,"POST","");
 $frm->add_hidden("action","majprofil");
 
 if ( $user->utbm )
