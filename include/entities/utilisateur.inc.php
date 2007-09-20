@@ -833,6 +833,24 @@ class utilisateur extends stdentity
                             "ancien_etudiant_utl"=>$this->ancien_etudiant),
                       array("id_utilisateur"=>$this->id));
   }
+  
+  function became_notetudiant ( )
+  {
+    $this->etudiant = 0;
+    $this->ancien_etudiant = 0;
+
+    new delete($this->dbrw,
+                        "utl_etu",
+                         array("id_utilisateur" => $this->id));
+
+    new update($this->dbrw,
+                      "utilisateurs",
+                      array("etudiant_utl"=>$this->etudiant,
+                            "ancien_etudiant_utl"=>$this->ancien_etudiant),
+                      array("id_utilisateur"=>$this->id));
+  }
+
+
 
   /** Gnration de mot de passe
    * Cette fonction va gnrer une chane alatoire de la longueur

@@ -30,6 +30,8 @@ $site->user->load_by_id($_REQUEST["id"]);
 
 if ( !$site->user->is_valid() || ($site->user->hash == "valid") || ($site->user->hash != $_REQUEST["hash"]) )
 {
+  $site->user->id=null;
+  
 	$site->start_page("none","Erreur");
 	
 	if ($site->user->hash == "valid")

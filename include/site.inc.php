@@ -307,6 +307,23 @@ class site extends interfaceweb
     return $sid;
   }
   
+  function create_token_for_user ( $id_utilisateur )
+  {
+    $sid = "T".$id_utilisateur."$".md5(rand(0,32000) . "TOKEN" . $id_utilisateur . rand(0,32000));
+
+    $req = new insert($this->dbrw, "site_sessions",
+            array(
+              "id_session"      => $sid,
+              "id_utilisateur"    => $id_utilisateur,
+              "date_debut_sess"  => date("Y-m-d H:i:s"),
+              "derniere_visite"  => date("Y-m-d H:i:s"),
+              "expire_sess" => date("Y-m-d H:i:s",time()+(24*60*60*60))
+              ));
+
+    return $sid;
+  }
+  
+  
   function create_session ($forever=true)
   {
     if ( $forever )

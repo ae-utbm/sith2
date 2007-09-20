@@ -479,7 +479,21 @@ class wiki extends basedb
         $buffer .= "</ul>\n";
       }
       
-        return $buffer;
+      return $buffer;
+    }
+    else if ( preg_match("#^([^a-z0-9\-_:]*):recentchanges$#",$text,$match) )
+    {
+      
+      $wiki = $match[1];
+      
+      if ( $wiki{0} == ':' )
+        $wiki = substr($wiki,1);
+      else
+        $wiki = $this->get_scope().$wiki;   
+        
+        
+      //TODO  
+      
     }
     
     return $text;
