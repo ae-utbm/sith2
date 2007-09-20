@@ -754,7 +754,7 @@ elseif ( $_REQUEST["view"]=="edt" )
                                         `utilisateurs` 
                                USING(`id_utilisateur`)
                                WHERE 
-                                        `id_utilisateur` != ".
+                                        `id_utilisateur` = ".
 		     intval($_REQUEST['id_utilisateur'])." 
                                GROUP BY 
                                         `semestre_grp`");
@@ -788,7 +788,7 @@ function edtopen(semestre, id)
 }
 </script>
               <p>
-                    <img id=\"edtrdr\" src=\"\" alt=\"\" />
+                    <center><img id=\"edtrdr\" src=\"\" alt=\"\" /></center>
               </p>\n");
 
 
