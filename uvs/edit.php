@@ -56,7 +56,7 @@ $semestre = mysql_real_escape_string($_REQUEST['semestre']);
 
 $edt->load($site->user->id, $semestre);
 
-$cts = new contents("Emploi du temps");
+$cts = new contents("Edition d'emploi du temps");
 
 /* on ré-agence par code d'UV */
 for ($i = 0; $i < count($edt->edt_arr); $i++)
@@ -65,7 +65,46 @@ for ($i = 0; $i < count($edt->edt_arr); $i++)
   $uvs[$curr['nom_uv']][] = $curr;
 }
 
-$cts->add_paragraph("<pre>" . print_r($uvs, true) . "</pre>");
+if (count($uvs) < 1)
+{
+  $cts->add_paragraph("Vous n'avez pas renseigné d'emploi du ".
+		      "temps ce semestre.");
+}
+
+else 
+{
+  foreach($uvs as $code => $values)
+    {
+      $cts->add_title(2, $code);
+      $cts->add_paragraph("Vous êtes inscrit aux séances ".
+			  "suivantes pour cette UV :");
+
+      $lst = array();
+      
+      foreach ($values as $seance)
+	{
+	  $descr = "Séance de <b>".$seance['type_seance'] . "</b>".
+	    " n°".$seance['grp_seance']." le <b>".
+	    $seance['jour_seance'] . "</b> de " .
+	    $seance['hr_deb_seance'] . " à " . $seance['hr_fin_seance'].
+	    " en salle " . $seance['salle_seance'];
+	  if ($seance['semaine_seance'] == 'AB')
+	    $descr .= " - Fréquence 1 (hebdomadaire)";
+	  else
+	    $descr .= " - Semaine ".$seance['semaine_seance'] .
+	      " (bimensuelle)";
+
+	  $lst[] = $descr;
+	} // fin passage en revue des séances
+      
+      $cts->add(new itemlist(false, false, $lst));
+
+    } // fin boucle uvs
+
+}
+
+
+//$cts->add_paragraph("<pre>" . print_r($uvs, true) . "</pre>");
 
 
 $site->add_contents($cts);
