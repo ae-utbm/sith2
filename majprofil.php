@@ -68,7 +68,9 @@ $pays->load_by_id($user->id_pays);
   
 if ( $_REQUEST["action"] == "setemailutbm" )
 {
-  if ( ( !CheckEmail($_POST["email_utbm"], 1) && !CheckEmail($_POST["email_utbm"], 2) ) || !$user->is_email_avaible($_POST["email_utbm"]) )
+  if ( ( !CheckEmail($_POST["email_utbm"], 1) 
+  && !CheckEmail($_POST["email_utbm"], 2) ) 
+  || !$user->is_email_avaible($_POST["email_utbm"]) )
   {
     $site->start_page("matmatronch","Mise à jour du profil");
     $cts = new contents($user->prenom." ".$user->nom);  
