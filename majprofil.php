@@ -214,7 +214,7 @@ if ( $_REQUEST["action"] == "majprofil" )
   
   if ( $user->ae )
   {
-    $carte = new carteae($this->db);
+    $carte = new carteae($site->db);
     $carte->load_by_utilisateur($user->id);
     
     if ( $carte->is_valid() )
