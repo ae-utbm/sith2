@@ -82,6 +82,7 @@ class edt extends stdentity
 
     while ($row = $req->get_row())
       {
+	$id_seance = $row['id_uv_groupe'];
 
 	if ($row['semaine_etu_grp'] == 'AB')
 	  $semaine_seance = 'AB';
@@ -102,7 +103,8 @@ class edt extends stdentity
 	$nomuv = $row['code_uv'];
 	$salle = $row['salle_grp'];
 
-	$this->edt_arr[] = array("semaine_seance" => $semaine_seance,
+	$this->edt_arr[] = array("id_seance"      => $id_seance,
+				 "semaine_seance" => $semaine_seance,
 				 "hr_deb_seance"  => $hrdeb,
 				 "hr_fin_seance"  => $hrfin,
 				 "jour_seance"    => $jsem,
