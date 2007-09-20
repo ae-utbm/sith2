@@ -132,7 +132,7 @@ else
   while ($rs = $req->get_row())
     $tab[] = "<a href=\"javascript:render('".$rs['semestre_grp']."', '".$site->user->id."')\">".
       "Emploi du temps du semestre ".$rs['semestre_grp'].
-      "</a> | <a href=\"./edt_ical.php?semestre=".$rs['semestre_grp']."&idusr=".$site->user->id."\">iCal</a> | ".
+      "</a> | <a href=\"".$topdir."edt_ical.php?semestre=".$rs['semestre_grp']."&id=".$site->user->id."\">iCal</a> | ".
       "<a href=\"./edit.php?semestre=".$rs['semestre_grp']."\">Editer</a> | ".
       "<a href=\"./edt.php?delete&semestre=".$rs['semestre_grp']."\">Supprimer</a>";
 
