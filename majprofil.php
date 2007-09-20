@@ -220,7 +220,7 @@ if ( $_REQUEST["action"] == "majprofil" )
     if ( $carte->is_valid() )
     {
       if ( $carte->etat_vie_carte == CETAT_ATTENTE &&
-        !file_exists("/var/www/ae/www/ae2/var/img/matmatronch/" . $this->user->id .".identity.jpg") )
+        !file_exists("/var/www/ae/www/ae2/var/img/matmatronch/" . $user->id .".identity.jpg") )
       {
         $cts->add_title(2,"Votre carte AE");
         $cts->add_paragraph("Vous devez ajouter une photo pour que votre carte AE soit imprimée.");
@@ -232,7 +232,6 @@ if ( $_REQUEST["action"] == "majprofil" )
         $cts->add_title(2,"Votre carte AE");
         
         $lieu = "Belfort";
-        $this->user->load_all_extra();
         if ( $this->user->departement == "tc" || 
           $this->user->departement == "gmc" || 
           $this->user->departement == "edim" )
