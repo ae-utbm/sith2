@@ -778,7 +778,7 @@ elseif ( $_REQUEST["view"]=="edt" )
       $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
       $cts->add($itemlst);
     }
-  $cts->puts("<script language=\"javascript\">
+  $cts->add_paragraph("<script language=\"javascript\">
 function edtopen(semestre, id)
 {
   myImg = document.getElementById('edtrdr');
