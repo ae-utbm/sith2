@@ -401,7 +401,7 @@ class interfaceweb
   		{
 	    	echo "<div id=\"hugealert\">";		
 	    	echo "<p>Veuillez mettre à jour votre profil : ".
-	    	     "<a href=\"majprofil.php\">Mettre à jour mon profil</a></p>";		
+	    	     "<a href=\"". $wwwtopdir ."majprofil.php\">Mettre à jour mon profil</a></p>";		
 	    	echo "</div>";		
   		}
 		}		
