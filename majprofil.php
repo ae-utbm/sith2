@@ -232,7 +232,7 @@ if ( $_REQUEST["action"] == "majprofil" )
     $user->became_notetudiant();
   }
   
-  $this->date_maj = time();
+  $user->date_maj = time();
   
   $user->saveinfos();
   
