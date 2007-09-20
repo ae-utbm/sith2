@@ -35,7 +35,7 @@ require_once ($topdir . "include/entities/edt.inc.php");
 $db = new mysqlae();
 $edt = new edt($db);
 
-$id_user = intval($_REQUEST['idusr']);
+$id_user = intval($_REQUEST['id']);
 
 isset($_REQUEST['semestre']) ? $semestre = $_REQUEST['semestre'] : $semestre = (date("m") > 6 ? "A" : "P") . date("y");
 
