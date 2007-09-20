@@ -65,6 +65,48 @@ $user->load_all_extra();
 $ville->load_by_id($user->id_ville);
 $pays->load_by_id($user->id_pays);
   
+  
+if ( $_REQUEST["action"] == "setemailutbm" )
+{
+  if ( !CheckEmail($_POST["email_utbm"], 1) && !CheckEmail($_POST["email_utbm"], 2) )
+  {
+    $site->start_page("matmatronch","Mise à jour du profil");
+    $cts = new contents($user->prenom." ".$user->nom);  
+      
+    $cts->add_paragraph("L'adresse e-mail (UTBM ou ASSIDU) que vous avez saisie n'est pas correcte.","error");
+      
+    $frm = new form("setemailutbm","majprofil.php",true,"POST","");
+    $frm->add_hidden("action","setemailutbm");
+    $frm->add_text_field("email_utbm","Adresse email",$_POST["email_utbm"],true);
+    $frm->add_submit("save","Enregistrer");
+    $cts->add($frm);
+    
+    $cts->add_paragraph("<b>ATTENTION</b> : Un e-mail d'activation vous sera adréssé à cette adresse, vous devrez cliquer sur un lien se trouvant dans cet e-mail pour pouvoir continuer à utiliser votre compte.");
+    $site->add_contents($cts);
+    $site->end_page();
+    exit();
+  }
+  elseif ( !$user->utbm )
+  {
+    $user->became_utbm($_POST["email_utbm"]);
+  }
+  else
+    $user->set_email_utbm($_POST["email_utbm"]);
+    
+    
+  $site->start_page("matmatronch","Mise à jour du profil");
+  $cts = new contents($user->prenom." ".$user->nom);  
+    
+  $cts->add_paragraph("Un e-mail d'activations vous a été envoyé à ".$_POST["email_utbm"]);
+    
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
+}
+  
+  
+  
+  
 if ( $_REQUEST["action"] == "majprofil" )
 {
   $type = intval($_REQUEST["type"]);
@@ -190,19 +232,19 @@ if ( $_REQUEST["action"] == "majprofil" )
   $site->start_page("matmatronch","Mise à jour du profil");
   $cts = new contents($user->prenom." ".$user->nom." : profil mis à jour");
   
+  $cts->add_paragraph("Vous venez de mettre à jour les informations vous concernant. Toute l'équipe du Matmatronch et du site de l'AE vous en remercie.");
   
-  $cts->add_title(2,"Mettre à jour les autres informations me concernant");
-  $cts->add_paragraph("<a href=\"user.php?page=edit\">Modification de mon profil</a>");
+  $cts->add_paragraph("Nous attirons votre attention sur les &eacute;l&eacute;ments suivants :");
   
-  if ( $user->utbm && !file_exists("/var/www/ae/www/ae2/var/img/matmatronch/" . $user->id .".identity.jpg") )
+  $cts->add_title(2,"Mettre à jour les autres informations vous concernant");
+  $cts->add_paragraph("<a href=\"user.php?page=edit\">Modification de votre profil</a>");
+  
+  if ( $user->utbm && !$user->ancien_etudiant && !file_exists("/var/www/ae/www/ae2/var/img/matmatronch/" . $user->id .".identity.jpg") )
   {
     $cts->add_title(2,"Vous n'avez pas de photo d'identité");
     
-    $cts->add_paragraph("Votre photo d'identité serait la bienvenue pour la prochaine édition du matmatronch.");
+    $cts->add_paragraph("Votre photo d'identité est indispensable pour la prochaine édition du matmatronch.");
     
-    if ( $user->ae )
-      $cts->add_paragraph("De plus elle est indispensable pour l'édition de votre carte AE.");
-      
     $cts->add_paragraph("Pour pouvoir mettre votre photo d'identité sur le site, vous avez deux possibilités :");
       
     $cts->add(new itemlist(false,false,array(
@@ -248,7 +290,38 @@ if ( $_REQUEST["action"] == "majprofil" )
     
   }
   
+  if ( ($type == 1 || $type == 4 ) && !CheckEmail($user->email_utbm, 1) )
+  {
+    $cts->add_title(2,"Votre adresse e-mail UTBM n'est pas renseignée");
+    $cts->add_paragraph("Merci de bien vouloir la renseigner :");
+    
+    $frm = new form("setemailutbm","majprofil.php",true,"POST","");
+    $frm->add_hidden("action","setemailutbm");
+    $frm->add_text_field("email_utbm","Adresse email","prenom.nom@utbm.fr",true);
+    $frm->add_submit("save","Enregistrer");
+    $cts->add($frm);
+    
+    $cts->add_paragraph("<b>ATTENTION</b> : Un e-mail d'activation vous sera adréssé à cette adresse, vous devrez cliquer sur un lien se trouvant dans cet e-mail pour pouvoir continuer à utiliser votre compte.");
+    
+  }
+  elseif ( $type == 2 && !CheckEmail($user->email_utbm, 2) )
+  {
+    $cts->add_title(2,"Votre adresse e-mail ASSIDU n'est pas renseignée");
+    
+    $cts->add_paragraph("Si vous ne possédez pas encore une adresse e-mail ASSIDU, allez sur le site : <a href=\"htttp://www.assidu-utbm.fr/\">assidu-utbm.fr</a>");
+    
+    $cts->add_paragraph("Merci de bien vouloir la renseigner :");
+    
+    $frm = new form("setemailutbm","majprofil.php",true,"POST","");
+    $frm->add_hidden("action","setemailutbm");
+    $frm->add_text_field("email_utbm","Adresse email","prenom.nom@assidu-utbm.fr",true);
+    $frm->add_submit("save","Enregistrer");
+    $cts->add($frm);
+    
+    $cts->add_paragraph("<b>ATTENTION</b> : Un e-mail d'activation vous sera adréssé à cette adresse, vous devrez cliquer sur un lien se trouvant dans cet e-mail pour pouvoir continuer à utiliser votre compte.");
+  }
   
+
   
   $site->add_contents($cts);
   $site->end_page();
@@ -277,6 +350,7 @@ elseif ( $user->utbm )
 elseif ( $user->etudiant || $user->ancien_etudiant )
   $type=5;
 
+$cts->add_paragraph("Merci de vérifier les informations vous concernant et de les rectifier si nécessaire, pour qu'elles soient à jour pour la prochaine édition du Matmatronch.");
 
 $cts->add_paragraph("Choisissez le profil qui vous correspond, puis complétez les informations :");
 

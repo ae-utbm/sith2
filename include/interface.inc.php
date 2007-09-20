@@ -224,6 +224,19 @@ class interfaceweb
 		
 		echo "<body>\n";
 				/* Generate the logo */
+				
+		if ( $this->user->is_valid() && !ereg("majprofil\.php$",$_SERVER['SCRIPT_FILENAME']) )
+		{
+			$lastforce = strtotime("2007-09-20 21:00:00"); // TODO:algo de génération
+  		if ( is_null($this->user->date_maj) || $this->user->date_maj < $lastforce )
+  		{
+	    	echo "<div id=\"hugealert\">";		
+	    	echo "<p>Veuillez mettre à jour votre profil : ".
+	    	     "<a href=\"majprofil.php\">Mettre à jour mon profil</a></p>";		
+	    	echo "</div>";		
+  		}
+		}
+				
 		echo "<div id=\"site\">";		
 				
 		if (!$this->compact )

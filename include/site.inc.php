@@ -464,9 +464,9 @@ class site extends interfaceweb
     }
 
     if (  is_null($this->user->date_maj) )
-        $elements[] = "<b>Vous n'avez pas r&eacute;cemment mis &agrave; jour votre fiche Matmatronch</b> : <a href=\"".$topdir."user.php?page=edit\">La mettre &agrave; jour</a>";
+        $elements[] = "<b>Vous n'avez pas r&eacute;cemment mis &agrave; jour votre fiche Matmatronch</b> : <a href=\"".$topdir."majprofil.php\">La mettre &agrave; jour</a>";
     elseif ( (time() - $this->user->date_maj) > (6*30*24*60*60) )
-        $elements[] = "<b>Vous n'avez pas mis &agrave; jour votre fiche Matmatronch depuis ".round((time() - $this->user->date_maj)/(24*60*60))." jours !</b> : <a href=\"".$topdir."user.php?page=edit\">La mettre &agrave; jour</a>";
+        $elements[] = "<b>Vous n'avez pas mis &agrave; jour votre fiche Matmatronch depuis ".round((time() - $this->user->date_maj)/(24*60*60))." jours !</b> : <a href=\"".$topdir."majprofil.php\">La mettre &agrave; jour</a>";
 
     if( $this->user->is_in_group("sas_admin") )
     {
