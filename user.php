@@ -6,6 +6,7 @@
  * - Laurent Colnat < laurent dot colnat at utbm dot fr >
  * - Julien Etelain < julien at pmad dot net >
  * - Benjamin Collet < bcollet at oxynux dot org >
+ * - Pierre Mauduit <pierre dot mauduit at utbm dot fr>
  *
  * Ce fichier fait partie du site de l'Association des étudiants
  * de l'UTBM, http://ae.utbm.fr.
@@ -28,6 +29,7 @@
 
 $topdir = "./";
 include($topdir. "include/site.inc.php");
+
 require_once($topdir . "include/cts/special.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
 require_once($topdir . "include/entities/asso.inc.php");
@@ -36,6 +38,7 @@ require_once($topdir . "include/entities/carteae.inc.php");
 require_once($topdir . "include/entities/cotisation.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
+require_once($topdir . "include/entities/edt.inc.php");
 
 $site = new site ();
 $site->add_css("css/userfullinfo.css");
@@ -732,6 +735,13 @@ if ( $_REQUEST["view"]=="parrain" )
   }
 
 }
+
+elsif ( $_REQUEST["view"]=="edt" )
+{
+  $cts->add_title(2, "Liste des emplois du temps");
+  $cts->add_paragraph("Plouf coincoin ...");
+}
+
 elseif ( $_REQUEST["view"]=="assos" )
 {
 

@@ -1732,7 +1732,8 @@ L'équipe info AE";
     $tabs = array(array("","user.php?id_utilisateur=".$this->id, "Informations"),
                   array("parrain","user.php?view=parrain&id_utilisateur=".$this->id, "Parrains"),
                   array("assos","user.php?view=assos&id_utilisateur=".$this->id, "Associations"),
-                  array("photos","user/photos.php?id_utilisateur=".$this->id, "Photos"));
+                  array("photos","user/photos.php?id_utilisateur=".$this->id, "Photos"),
+		  array("edt","uvs/user.php?view=edt&id_utilisateur=".$this->id, "Emploi du temps"));
 
     if (  $this->id==$user->id || $user->is_in_group("gestion_ae") )
     {
