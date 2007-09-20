@@ -739,7 +739,58 @@ if ( $_REQUEST["view"]=="parrain" )
 elseif ( $_REQUEST["view"]=="edt" )
 {
   $cts->add_title(2, "Liste des emplois du temps");
-  $cts->add_paragraph("Plouf coincoin ...");
+
+  $req = new requete($site->db, "SELECT 
+                                        `semestre_grp`
+                                        , `edu_uv_groupe_etudiant`.`id_utilisateur`
+                                        , `nom_utl`
+                                        , `prenom_utl` 
+                               FROM 
+                                        `edu_uv_groupe` 
+                               INNER JOIN 
+                                        `edu_uv_groupe_etudiant` 
+                               USING(`id_uv_groupe`) 
+                               INNER JOIN 
+                                        `utilisateurs` 
+                               USING(`id_utilisateur`)
+                               WHERE 
+                                        `id_utilisateur` != ".
+		     intval($_REQUEST['id_utilisateur'])." 
+                               GROUP BY 
+                                        `semestre_grp`");
+  if ($req->lines <= 0)
+    {
+      $cts->add_paragraph("<b>Cet utilisateur n'a pas renseigné d'emploi du temps.</b>");
+    } 
+
+  else
+    {
+      $tab = array();
+
+      while ($rs = $req->get_row())
+	$tab[] = "<a href=\"javascript:edtopen('".
+	  $rs['semestre_grp']."', '".
+	  $rs['id_utilisateur']."')\">".
+	  "Semestre ".$rs['semestre_grp']."</a>" . " | " .
+	  "<a href=\"/uvs/edt_ical.php?id=".$rs['id_utilisateur'] . 
+	  "&semestre=" . $rs['semestre_grp'].">iCal</a>";
+
+      $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
+      $cts->add($itemlst);
+    }
+  $cts->puts("<script language=\"javascript\">
+function edtopen(semestre, id)
+{
+  myImg = document.getElementById('edtrdr');
+  myImg.src = '/uvs/edt.php?render=1&id='+id+'&semestre='+semestre;
+
+}
+</script>
+              <p>
+                    <img id=\"edtrdr\" src=\"\" alt=\"\" />
+              </p>\n");
+
+
 }
 
 elseif ( $_REQUEST["view"]=="assos" )

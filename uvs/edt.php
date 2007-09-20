@@ -137,49 +137,6 @@ else
   $cts->add($itemlst);
 }
 
-/* autres emplois du temps disponibles */
-
-/* remplacer à terme par un système de recherche d'emplois du temps */
-/*
-$cts->add_paragraph("<h2>Et les autres ?</h2><br/>");
-
-$req = new requete($site->db, "SELECT 
-                                        `semestre_grp`
-                                        , `edu_uv_groupe_etudiant`.`id_utilisateur`
-                                        , `nom_utl`
-                                        , `prenom_utl` 
-                               FROM 
-                                        `edu_uv_groupe` 
-                               INNER JOIN 
-                                        `edu_uv_groupe_etudiant` 
-                               USING(`id_uv_groupe`) 
-                               INNER JOIN 
-                                        `utilisateurs` 
-                               USING(`id_utilisateur`)
-                               WHERE 
-                                        `id_utilisateur` != ".$site->user->id." 
-                               GROUP BY 
-                                        `semestre_grp`, `id_utilisateur`");
-if ($req->lines <= 0)
-{
-  $cts->add_paragraph("Personne ne fout rien ...");
-} 
-
-else
-{
-  $tab = array();
-
-  while ($rs = $req->get_row())
-    $tab[] = "<a href=\"javascript:render('".$rs['semestre_grp']."', '".$rs['id_utilisateur']."')\">".
-      "Emploi du temps de ".$rs['prenom_utl'] . " " .$rs['nom_utl'] 
-      ." du semestre ".$rs['semestre_grp']."</a>";
-
-  $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
-  $cts->add($itemlst);
-}
-
-*/
-
 $site->add_contents($cts);
 
 /* contents 2 */
