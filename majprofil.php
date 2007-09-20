@@ -68,12 +68,15 @@ $pays->load_by_id($user->id_pays);
   
 if ( $_REQUEST["action"] == "setemailutbm" )
 {
-  if ( !CheckEmail($_POST["email_utbm"], 1) && !CheckEmail($_POST["email_utbm"], 2) )
+  if ( ( !CheckEmail($_POST["email_utbm"], 1) && !CheckEmail($_POST["email_utbm"], 2) ) || !$user->is_email_avaible($_POST["email_utbm"]) )
   {
     $site->start_page("matmatronch","Mise à jour du profil");
     $cts = new contents($user->prenom." ".$user->nom);  
-      
-    $cts->add_paragraph("L'adresse e-mail (UTBM ou ASSIDU) que vous avez saisie n'est pas correcte.","error");
+    
+    if ( $_POST["email_utbm"] && !$user->is_email_avaible($_POST["email_utbm"]) )
+      $cts->add_paragraph("L'adresse e-mail (UTBM ou ASSIDU) est déjà utilisée par un autre utilisateur.","error");
+    else
+      $cts->add_paragraph("L'adresse e-mail (UTBM ou ASSIDU) que vous avez saisie n'est pas correcte.","error");
       
     $frm = new form("setemailutbm","majprofil.php",true,"POST","");
     $frm->add_hidden("action","setemailutbm");
