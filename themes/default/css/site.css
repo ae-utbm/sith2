@@ -2407,6 +2407,7 @@ div.partialclose
   position:absolute;
   top:0px;
   width:100%;
+  padding:0;
 }
 
 #hugealert p
@@ -2416,6 +2417,7 @@ div.partialclose
   text-align:center;
   padding:15px;
   border:5px solid red;
+  margin:0;
 }
 
 #hugealert p a
