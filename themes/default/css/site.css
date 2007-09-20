@@ -2406,7 +2406,8 @@ div.partialclose
   color:#ffffff;
   height:60px;
   position:absolute;
-  z-order:100;
+  width:100%;
+  top:0px;
 }
 
 #hugealert p
@@ -2421,4 +2422,5 @@ div.partialclose
 {
   font-size: 24px;
   color:#ffffff;
+  text-decoration:underline;
 }
