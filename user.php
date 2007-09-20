@@ -773,11 +773,12 @@ elseif ( $_REQUEST["view"]=="edt" )
 	  $rs['id_utilisateur']."')\">".
 	  "Semestre ".$rs['semestre_grp']."</a>" . " | " .
 	  "<a href=\"/uvs/edt_ical.php?id=".$rs['id_utilisateur'] . 
-	  "&semestre=" . $rs['semestre_grp'].">iCal</a>";
+	  "&semestre=" . $rs['semestre_grp']."\">iCal</a>";
 
       $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
       $cts->add($itemlst);
     }
+
   $cts->add_paragraph("<script language=\"javascript\">
 function edtopen(semestre, id)
 {
