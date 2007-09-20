@@ -232,9 +232,9 @@ if ( $_REQUEST["action"] == "majprofil" )
         $cts->add_title(2,"Votre carte AE");
         
         $lieu = "Belfort";
-        if ( $this->user->departement == "tc" || 
-          $this->user->departement == "gmc" || 
-          $this->user->departement == "edim" )
+        if ( $user->departement == "tc" || 
+          $user->departement == "gmc" || 
+          $user->departement == "edim" )
           $lieu = "Sévenans";
 
         if ( $carte->etat_vie_carte == CETAT_AU_BUREAU_AE )
