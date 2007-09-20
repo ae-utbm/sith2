@@ -630,9 +630,25 @@ if (isset($_REQUEST['refreshlistuv']))
 
 /** real code begins here */
 
+/* juste verifier que l'utilisateur ne tente pas
+ * de rentrer un nouvel emploi du temps ...
+ */
+$semestre = (date("m") > 6 ? "A" : "P") . date("y");
 
+$edt->load($site->user->id, $semestre);
 
+if (count($edt->edt_arr) > 0)
+{
+  $cts->add_paragraph("Il semblerait que vous ayez déjà saisi votre 
+                       emploi du temps du semestre.<br/><br/>
+                       Peut-être souhaitez-vous simplement <a href=\"".
+  $topdir."uvs/edit.php?semestre=".$semestre."\">l'éditer</a> ?");
+  
+  $site->add_contents($cts);
+  $site->end_page();
 
+  exit();
+}
 
 $cts = new contents("Emploi du temps",
 		    "Sur cette page, vous allez pouvoir ".
