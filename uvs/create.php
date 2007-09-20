@@ -637,6 +637,9 @@ $semestre = (date("m") > 6 ? "A" : "P") . date("y");
 
 $edt->load($site->user->id, $semestre);
 
+$cts = new contents("Emploi du temps",
+		    "Sur cette page, vous allez pouvoir ".
+		    "créer votre emploi du temps.");
 if (count($edt->edt_arr) > 0)
 {
   $cts->add_paragraph("Il semblerait que vous ayez déjà saisi votre 
@@ -650,9 +653,7 @@ if (count($edt->edt_arr) > 0)
   exit();
 }
 
-$cts = new contents("Emploi du temps",
-		    "Sur cette page, vous allez pouvoir ".
-		    "créer votre emploi du temps.");
+
 
 if (isset($retmod))
 {
