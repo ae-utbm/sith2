@@ -400,8 +400,8 @@ class interfaceweb
   		if ( is_null($this->user->date_maj) || $this->user->date_maj < $lastforce )
   		{
 	    	echo "<div id=\"hugealert\">";		
-	    	echo "<p>Veuillez mettre à jour votre profil : ".
-	    	     "<a href=\"". $wwwtopdir ."majprofil.php\">Mettre à jour mon profil</a></p>";		
+	    	echo "<p>Merci de mettre à jour votre profil : ".
+	    	     "<a href=\"". $wwwtopdir ."majprofil.php\">le mettre à jour</a></p>";		
 	    	echo "</div>";		
   		}
 		}		
