@@ -25,7 +25,7 @@ $convert_ccode = explode("\n", $convert_ccode);
 foreach($convert_ccode as $line)
 {
   $tmp = explode("\t", $line);
-  $countries[$tmp[0]] = $tmp[5];
+  $countries[$tmp[0]] = $tmp[4];
 }
 
 print_r($countries);
