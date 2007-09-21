@@ -28,7 +28,21 @@ foreach($convert_ccode as $line)
   $countries[$tmp[0]] = $tmp[4];
 }
 
-print_r($countries);
+
+foreach ($countries as $code => $name)
+{
+  $msql = new requete($db,
+		      "SELECT id_pays FROM loc_pays WHERE nomeng_pays LIKE '".
+		      mysql_real_escape_string($name) ."'");
+
+  if ($msql->lines > 0)
+    echo "Country $name found in MySQL table";
+  else
+    echo "$name Not found.";
+  
+}
+
+//print_r($countries);
 
 ?>
 
