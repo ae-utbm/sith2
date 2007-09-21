@@ -1,6 +1,7 @@
 <?
 
-$topdir = "../";
+$_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/ae2/temp";
+$topdir = $_SERVER['SCRIPT_FILENAME']."/../";
 
 require_once($topdir."include/site.inc.php");
 require_once($topdir."include/pgsqlae.inc.php");
