@@ -44,7 +44,7 @@ foreach ($countries as $code => $name)
 /* on tape dans postgresql */
 
 
-foreach ($ctoget as $contry)
+foreach ($ctoget as $country)
 {
 
   /* on a déja ... */
