@@ -8,6 +8,7 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
 require_once($topdir . "include/entities/carteae.inc.php");
+require_once($topdir . "include/entities/edt.inc.php");
 
 $site = new site ();
 
@@ -328,6 +329,25 @@ if ( $_REQUEST["action"] == "majprofil" )
     $cts->add_paragraph("<b>ATTENTION</b> : Un e-mail d'activation vous sera adréssé à cette adresse, vous devrez cliquer sur un lien se trouvant dans cet e-mail pour pouvoir continuer à utiliser votre compte.");
   }
   
+  if ( $type == 1 )
+  {
+    $semestre = (date("m") > 6 ? "A" : "P") . date("y");
+
+    $req = new requete($site->db, "SELECT `semestre_grp`, `edu_uv_groupe_etudiant`.`id_utilisateur` 
+                               FROM `edu_uv_groupe` 
+                               INNER JOIN `edu_uv_groupe_etudiant` 
+                               USING(`id_uv_groupe`) 
+                               WHERE `id_utilisateur` = '".$user->id."' 
+                               AND `semestre_grp`= '".$semestre."'
+                               GROUP BY semestre_grp`, `id_utilisateur`");
+    if ( $req->lines < 1 )
+    {
+      $cts->add_title(2,"Vous n'avez pas renseigné votre emploi du temps");
+      $cts->add_paragraph("Créez votre emploi du temps, pour en obtenir une version graphique, pour permettre à vos binomes de vous retrouver plus facilement, et pour trouver en tout simplicité des horraires pour vos réunions.");
+      
+      $cts->add_paragraph("<a href=\"uvs/create.php\">Ajouter votre emploi du temps</a>");
+    }
+  }
 
   
   $site->add_contents($cts);
