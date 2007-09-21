@@ -98,9 +98,11 @@ else
 	  /* desinscription */
 	  $links = "<a href=\"".$topdir.
 	    "uvs/edit.php?action=unsubscribe&idsceance=".
-	    $seance['id_seance']."&semestre=".$semestre."\">Désinscription de la séance</a><br/>";
+	    $seance['id_seance']."&semestre=".$semestre.
+	    "\">Désinscription de la séance</a><br/>";
+	  
 	  /* edition séance */
-	  "<a href=\"\">Edition de la séance</a>";
+	  $links .= "<a href=\"\">Edition de la séance</a>";
 
 	  $lst[] = $descr . "<br/>" . $links;
 	} // fin passage en revue des séances
