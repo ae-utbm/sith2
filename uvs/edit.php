@@ -102,7 +102,7 @@ else
 	  /* edition séance */
 	  "<a href=\"\">Edition de la séance</a>";
 
-	  $lst[] = $descr;
+	  $lst[] = $descr . "<br/>" . $links;
 	} // fin passage en revue des séances
       
       $cts->add(new itemlist(false, false, $lst));
