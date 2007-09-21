@@ -18,8 +18,17 @@ $pgrq = new pgrequete($pgdb,
 			      
 $bigarray = $pgrq->get_all_rows();
 
-print_r($bigarray);
 
+$convert_ccode = file_get_contents("./loc");
+$convert_ccode = explode("\n", $convert_ccode);
+
+foreach($convert_ccode as $line)
+{
+  $tmp = explode("\t", $line);
+  $countries[$tmp[0]] = $tmp[5];
+}
+
+print_r($countries);
 
 ?>
 
