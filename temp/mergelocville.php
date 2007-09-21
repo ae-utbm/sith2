@@ -66,7 +66,8 @@ foreach ($ctoget as $country)
   foreach ($bigarray as $location)
     {
       $idpays = $countries[$country]['id_pays'];
-      $nomville = $location['name_loc'];
+      $nomville = mysql_real_escape_string($location['name_loc']);
+      
       $coords = $location['pos'];
       $coords = str_replace(array("POINT(", ")"), "", $coords);
       list($lat, $long) = explode(" ", $coords);
