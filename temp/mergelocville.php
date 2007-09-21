@@ -25,7 +25,7 @@ $convert_ccode = explode("\n", $convert_ccode);
 foreach($convert_ccode as $line)
 {
   $tmp = explode("\t", $line);
-  $countries[$tmp[0]] = $tmp[4];
+  $countries[$tmp[0]]['engname'] = $tmp[4];
 }
 
 
@@ -33,16 +33,22 @@ foreach ($countries as $code => $name)
 {
   $msql = new requete($db,
 		      "SELECT id_pays FROM loc_pays WHERE nomeng_pays LIKE '".
-		      mysql_real_escape_string($name) ."'");
+		      mysql_real_escape_string($name['engname']) ."'");
 
   if ($msql->lines > 0)
-    echo "Country $name found in MySQL table\n";
+    {
+      echo "Country $name found in MySQL table\n";
+      $ret = $msql->get_row();
+      $ctoget[] = $ret['id_pays'];
+      $countries[$code]['id_pays'] = $ret['id_pays'];
+    }
   else
     echo "$name Not found.\n";
   
 }
 
-//print_r($countries);
+print_r($ctoget);
+print_r($countries);
 
 ?>
 
