@@ -244,9 +244,6 @@ if ( $_REQUEST["action"] == "majprofil" )
   
   $cts->add_paragraph("Nous attirons votre attention sur les &eacute;l&eacute;ments suivants :");
   
-  $cts->add_title(2,"Mettre à jour les autres informations vous concernant");
-  $cts->add_paragraph("<a href=\"user.php?page=edit\">Modification de votre profil</a>");
-  
   if ( $user->utbm && !$user->ancien_etudiant && !file_exists("/var/www/ae/www/ae2/var/img/matmatronch/" . $user->id .".identity.jpg") )
   {
     $cts->add_title(2,"Vous n'avez pas de photo d'identité");
@@ -349,6 +346,9 @@ if ( $_REQUEST["action"] == "majprofil" )
     }
   }
 
+  $cts->add_title(2,"Mettre à jour les autres informations vous concernant");
+  $cts->add_paragraph("<a href=\"user.php?page=edit\">Modification de votre profil</a>");
+  
   
   $site->add_contents($cts);
   $site->end_page();
