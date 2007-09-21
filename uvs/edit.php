@@ -94,6 +94,14 @@ else
 	    $descr .= " - Fréquence 2, Semaine ".$seance['semaine_seance'] .
 	      " (bimensuelle)";
 
+
+	  /* desinscription */
+	  $links = "<a href=\"".$topdir.
+	    "uvs/edit.php?action=unsubscribe&idsceance=".
+	    $seance['id_seance']."&semestre=".$semestre."\">Désinscription de la séance</a><br/>";
+	  /* edition séance */
+	  "<a href=\"\">Edition de la séance</a>";
+
 	  $lst[] = $descr;
 	} // fin passage en revue des séances
       
