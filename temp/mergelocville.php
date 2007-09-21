@@ -36,9 +36,9 @@ foreach ($countries as $code => $name)
 		      mysql_real_escape_string($name) ."'");
 
   if ($msql->lines > 0)
-    echo "Country $name found in MySQL table";
+    echo "Country $name found in MySQL table\n";
   else
-    echo "$name Not found.";
+    echo "$name Not found.\n";
   
 }
 
