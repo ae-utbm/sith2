@@ -10,15 +10,6 @@ header("Content-Type: text/plain");
 $db = new mysqlae();
 $pgdb = new pgsqlae();
 
-$pgrq = new pgrequete($pgdb, 
-		      "SELECT name_loc, countryc_loc,
-                              AsText(the_geom)
-                              FROM worldloc LIMIT 10");
-			      
-			      
-$bigarray = $pgrq->get_all_rows();
-
-
 $convert_ccode = file_get_contents("./loc");
 $convert_ccode = explode("\n", $convert_ccode);
 
@@ -31,24 +22,65 @@ foreach($convert_ccode as $line)
 
 foreach ($countries as $code => $name)
 {
+  if (($code == "") || ($code == " "))
+    continue;
+
   $msql = new requete($db,
 		      "SELECT id_pays FROM loc_pays WHERE nomeng_pays LIKE '".
 		      mysql_real_escape_string($name['engname']) ."'");
 
   if ($msql->lines > 0)
     {
-      echo "Country $name found in MySQL table\n";
       $ret = $msql->get_row();
-      $ctoget[] = $ret['id_pays'];
+      $ctoget[] = $code;
       $countries[$code]['id_pays'] = $ret['id_pays'];
     }
   else
-    echo "$name Not found.\n";
+    echo $name['engname'] ." Not found.\n";
   
 }
 
-print_r($ctoget);
-print_r($countries);
+
+/* on tape dans postgresql */
+
+
+foreach ($ctoget as $contry)
+{
+
+  /* on a déja ... */
+  if ($country == 'FR')
+    continue;
+
+  $pgrq = new pgrequete($pgdb, 
+			"SELECT 
+                              name_loc,
+                              countryc_loc,
+                              AsText(the_geom) AS pos
+                       FROM 
+                              worldloc 
+                       WHERE
+                              countryc_loc = '".$country."'");
+			      
+  
+  $bigarray = $pgrq->get_all_rows();
+
+  foreach ($bigarray as $location)
+    {
+      $idpays = $countries[$country]['id_pays'];
+      $nomville = $location['name_loc'];
+      $coords = $location['pos'];
+      $coords = str_replace(array("POINT(", ")"), "", $coords);
+      list($lat, $long) = explode(" ", $cooords);
+
+      echo "INSERT INTO `loc_ville` (`id_pays`, `nom_ville`, `lat_ville`, `long_ville`) VALUES ( ".$idpays.", '".$nomville."', '".deg2rad($long)."', '".deg2rad($lat)."');\n";
+
+    }
+
+}
+//print_r($ctoget);
+//print_r($countries);
+
+
 
 ?>
 
