@@ -72,6 +72,8 @@ foreach ($ctoget as $contry)
       $coords = str_replace(array("POINT(", ")"), "", $coords);
       list($lat, $long) = explode(" ", $cooords);
 
+      print_r($location);
+
       echo "INSERT INTO `loc_ville` (`id_pays`, `nom_ville`, `lat_ville`, `long_ville`) VALUES ( ".$idpays.", '".$nomville."', '".deg2rad($long)."', '".deg2rad($lat)."');\n";
 
     }
