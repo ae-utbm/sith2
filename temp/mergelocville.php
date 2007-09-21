@@ -70,13 +70,19 @@ foreach ($ctoget as $country)
       $nomville = $location['name_loc'];
       $coords = $location['pos'];
       $coords = str_replace(array("POINT(", ")"), "", $coords);
-      list($lat, $long) = explode(" ", $cooords);
+      list($lat, $long) = explode(" ", $coords);
 
       print_r($location);
 
       echo "INSERT INTO `loc_ville` (`id_pays`, `nom_ville`, `lat_ville`, `long_ville`) VALUES ( ".$idpays.", '".$nomville."', '".deg2rad($long)."', '".deg2rad($lat)."');\n";
 
     }
+
+
+  /* on s'arrete pour l'instant au premier pays, sinon ca va 
+   * tout tuer
+   */
+  exit();
 
 }
 //print_r($ctoget);
