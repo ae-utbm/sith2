@@ -339,7 +339,7 @@ if ( $_REQUEST["action"] == "majprofil" )
                                USING(`id_uv_groupe`) 
                                WHERE `id_utilisateur` = '".$user->id."' 
                                AND `semestre_grp`= '".$semestre."'
-                               GROUP BY semestre_grp`, `id_utilisateur`");
+                               GROUP BY `semestre_grp`, `id_utilisateur`");
     if ( $req->lines < 1 )
     {
       $cts->add_title(2,"Vous n'avez pas renseigné votre emploi du temps");
