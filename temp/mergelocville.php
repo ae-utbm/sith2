@@ -35,8 +35,6 @@ foreach ($countries as $code => $name)
       $ctoget[] = $code;
       $countries[$code]['id_pays'] = $ret['id_pays'];
     }
-  else
-    echo $name['engname'] ." Not found.\n";
   
 }
 
@@ -72,9 +70,13 @@ foreach ($ctoget as $country)
       $coords = str_replace(array("POINT(", ")"), "", $coords);
       list($lat, $long) = explode(" ", $coords);
 
-      print_r($location);
+      $lat = deg2rad($lat);
+      $long = deg2rad($long);
 
-      echo "INSERT INTO `loc_ville` (`id_pays`, `nom_ville`, `lat_ville`, `long_ville`) VALUES ( ".$idpays.", '".$nomville."', '".deg2rad($long)."', '".deg2rad($lat)."');\n";
+      $lat = str_replace(",", ".", $lat);
+      $long = str_replace(",", ".", $long);
+
+      echo "INSERT INTO `loc_ville` (`id_pays`, `nom_ville`, `lat_ville`, `long_ville`) VALUES ( ".$idpays.", '".$nomville."', '".$long."', '".$lat."');\n";
 
     }
 
@@ -82,7 +84,7 @@ foreach ($ctoget as $country)
   /* on s'arrete pour l'instant au premier pays, sinon ca va 
    * tout tuer
    */
-  exit();
+  //  exit();
 
 }
 //print_r($ctoget);
