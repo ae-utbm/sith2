@@ -37,24 +37,23 @@ while ( $row = $sql->get_row() )
 $cts = new contents("Gestion des doublons");
 foreach($names as $name => $firstnames)
 {
-  foreach($firstnames as $firstname => $num)
-    if(count($num)>1)
+  foreach($firstnames as $firstname => $ids)
+    if(count($ids)>1)
     {
-      if(count($num)==2)
+      if(count($ids)==2)
       {
         $frm = new form("discard","repair_users.php",true,"POST",$name." ".$firstname);
         $frm->add_info("Faut il merger les fiches suivantes :<br />");
         $frm->add_info("<ul>");
-        $frm->add_info("<li><a href='../user.php?id_utilisateur=".$num[0].">".$num[0]."</a></li>");
-        $frm->add_info("<li><a href='../user.php?id_utilisateur=".$num[1].">".$num[1]."</a></li>");
+        $frm->add_info("<li><a href='../user.php?id_utilisateur=".$ids[0]."'>".$num[0]."</a></li>");
+        $frm->add_info("<li><a href='../user.php?id_utilisateur=".$ids[1]."'>".$num[1]."</a></li>");
         $frm->add_info("</ul>");
         $frm->add_info("");
         $frm->add_hidden("action","merge");
-        $frm->add_hidden("id_1",$num[0]);
-        $frm->add_hidden("id_2",$num[1]);
+        $frm->add_hidden("id_1",$ids[0]);
+        $frm->add_hidden("id_2",$ids[1]);
         $frm->add_submit("save","Merger");
         $cts->add($frm,true);
-
       }
       else
       {
