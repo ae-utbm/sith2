@@ -45,8 +45,8 @@ foreach($names as $name => $firstnames)
         $frm = new form("discard","repair_users.php",true,"POST",$name." ".$firstname);
         $frm->add_info("Faut il merger les fiches suivantes :<br />");
         $frm->add_info("<ul>");
-        $frm->add_info("<li><a href='../user.php?id_utilisateur=".$ids[0]."'>".$num[0]."</a></li>");
-        $frm->add_info("<li><a href='../user.php?id_utilisateur=".$ids[1]."'>".$num[1]."</a></li>");
+        $frm->add_info("<li><a href='../user.php?id_utilisateur=".$ids[0]."'>".$ids[0]."</a></li>");
+        $frm->add_info("<li><a href='../user.php?id_utilisateur=".$ids[1]."'>".$ids[1]."</a></li>");
         $frm->add_info("</ul>");
         $frm->add_info("");
         $frm->add_hidden("action","merge");
