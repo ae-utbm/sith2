@@ -60,5 +60,6 @@ foreach($names as $name => $firstnames)
       }
     }
 }
-
+$site->add_contents($cts);
+$site->end_page ();
 ?>
