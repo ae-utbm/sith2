@@ -11,11 +11,11 @@ header("Content-Type: text/html; charset=utf-8");
  * Script de vérification des catégories des doublons utilisateurs
  */
 
-echo "<h1>AE2/USER: Auto repair</h1>\n
+echo "<h1>AE2/USER: Auto repair</h1>\n";
 
 $sql = new requete($site->db,"SELECT * FROM `utilisateurs`");
 
-echo "<h2>Vérification des potentiels doublons</h2>\n
+echo "<h2>Vérification des potentiels doublons</h2>\n";
 
 echo "<ul>\n";
 
