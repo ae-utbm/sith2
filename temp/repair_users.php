@@ -28,7 +28,7 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
       else
       {
         /* on merge tout vers $_id */
-        print_r("merging ".$id." on ".$_id." \n");
+        //print_r("merging ".$id." on ".$_id." \n");
       }
     }
   }
