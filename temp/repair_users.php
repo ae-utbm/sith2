@@ -11,8 +11,12 @@ $site->start_page("","Réparation de la base utilisateur");
 if(isset($_POST["action"]) && $_POST["action"]=="merge")
 {
   $_id=0;
-  print_r($_POST);
-  $ids=$_POST["ids"];
+  if(isset($_POST["ids"]))
+    $ids=$_POST["ids"];
+  elseif(isset($_POST["magicform"]))
+    $ids=$_POST["magicform"]["boolean"];
+  else
+    $ids=null;
   if(count($ids) >1)
   {
     foreach($ids as $id => $value)
@@ -83,7 +87,7 @@ foreach($names as $name => $firstnames)
         $frm = new form("discard","repair_users.php",true,"POST",$name." ".$firstname);
         $frm->add_info("Faut il merger les fiches suivantes :<br />");
         for ($i=0; $i<count($ids); $i++)
-          $frm->add_checkbox( "ids[".$ids[$i]."]","<a href='../user.php?id_utilisateur=".$ids[$i]."'>".$ids[$i]."</a>");
+          $frm->add_checkbox( $ids[$i],"<a href='../user.php?id_utilisateur=".$ids[$i]."'>".$ids[$i]."</a>");
         $frm->add_hidden("action","merge");
         $frm->add_submit("save","Merger");
         $cts->add($frm,true);
