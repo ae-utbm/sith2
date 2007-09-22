@@ -11,7 +11,7 @@ $site->start_page("","Réparation de la base utilisateur");
 if(isset($_POST["action"]) && $_POST["action"]=="merge")
 {
   $_id=0;
-  print_r($_POST["ids"]);
+  print_r($_POST);
   $ids=$_POST["ids"];
   if(count($ids) >1)
   {
