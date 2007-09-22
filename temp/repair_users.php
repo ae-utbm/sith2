@@ -19,16 +19,17 @@ while ( $row = $sql->get_row() )
   if(!isset($names[$row['nom_utl']]))
   {
     $names[$row['nom_utl']]=array();
-    $names[$row['nom_utl']][$row['prenom_utl']]=1;
+    $names[$row['nom_utl']][$row['prenom_utl']]=array();
+    $names[$row['nom_utl']][$row['prenom_utl']][]=$row['id_utilisateur'];
   }
   else
   {
-    /*if(!isset($names[$row['nom_utl']][$row['prenom_utl']]))
+    if(!isset($names[$row['nom_utl']][$row['prenom_utl']]))
     {
       $names[$row['nom_utl']][$row['prenom_utl']]=array();
       $names[$row['nom_utl']][$row['prenom_utl']][]=$row['id_utilisateur'];
     }
-    else*/
+    else
       $names[$row['nom_utl']][$row['prenom_utl']][]=$row['id_utilisateur'];
   }
 }
