@@ -60,7 +60,7 @@ foreach($names as $name => $firstnames)
         $frm = new form("discard","repair_users.php",true,"POST",$name." ".$firstname);
         $frm->add_info("Faut il merger les fiches suivantes :<br />");
         for ($i=0; $i<count($ids); $i++)
-          $frm->add_checkbox( "ids[".$id['0']."]","<a href='../user.php?id_utilisateur=".$ids[1]."'>".$ids[1]."</a>");
+          $frm->add_checkbox( "ids[".$ids[$i]."]","<a href='../user.php?id_utilisateur=".$ids[$i]."'>".$ids[$i]."</a>");
         $frm->add_hidden("action","merge");
         $frm->add_submit("save","Merger");
         $cts->add($frm,true);
