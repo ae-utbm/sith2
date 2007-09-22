@@ -23,12 +23,44 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
     {
       if($_id==0)
       {
+        $user = new utilisateur($site->db,$site->dbrw);
+        $user->load_by_id($id);
         $_id=$id;
       }
       else
       {
         /* on merge tout vers $_id */
-        //print_r("merging ".$id." on ".$_id." \n");
+        $user2 = new utilisateur($site->db,$site->dbrw);
+        $user2->load_by_id($id);
+        /* on merge les infos utilisateur */
+
+        /* on déplace les photos matmat */
+
+        /* on vérifie les cotises */
+
+        /* on vérifie les photos */
+
+        /* on vérifie les messages */
+
+        /* on vérifie les emprunts matériel */
+
+        /* on vérifie les réservations de salles */
+
+        /* on vérifie les asso */
+
+        /* on vérifie les groupes */
+
+        /* on vérifie les planings */
+
+        /* on vérifie les sondages */
+
+        /* on vérifie les votes */
+
+        /* on vérifie les factures */
+
+        /* on vérifie les cartes ae et la lettre clé */
+
+        /* on reset le mot de passe */
       }
     }
   }
