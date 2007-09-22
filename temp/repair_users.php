@@ -5,7 +5,7 @@ $topdir="../";
 require_once($topdir. "include/site.inc.php");
 $site = new site();
 
-$site->start_page("accueil","Réparation de la base utilisateur");
+$site->start_page("","Réparation de la base utilisateur");
 
 /**
  * Script de vérification des catégories des doublons utilisateurs
@@ -23,12 +23,12 @@ while ( $row = $sql->get_row() )
   }
   else
   {
-    if(!isset($names[$row['nom_utl']][$row['prenom_utl']]) || empty($names[$row['nom_utl']][$row['prenom_utl']]))
+    /*if(!isset($names[$row['nom_utl']][$row['prenom_utl']]))
     {
       $names[$row['nom_utl']][$row['prenom_utl']]=array();
       $names[$row['nom_utl']][$row['prenom_utl']][]=$row['id_utilisateur'];
     }
-    else
+    else*/
       $names[$row['nom_utl']][$row['prenom_utl']][]=$row['id_utilisateur'];
   }
 }
