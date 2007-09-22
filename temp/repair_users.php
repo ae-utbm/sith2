@@ -7,6 +7,27 @@ $site = new site();
 
 $site->start_page("","Réparation de la base utilisateur");
 
+
+if(isset($_POST["action"]) && $_POST["action"]=="merge")
+{
+  $_id=0;
+  $ids=$_POST["ids"];
+  if(count($ids) >1)
+  {
+    foreach($ids as $id => $value)
+    {
+      if($_id==0)
+      {
+        $_id=$id;
+      }
+      else
+      {
+        /* on merge tout vers $_id */
+      }
+    }
+  }
+}
+
 /**
  * Script de vérification des catégories des doublons utilisateurs
  */
@@ -50,8 +71,8 @@ foreach($names as $name => $firstnames)
         $frm->add_info("</ul>");
         $frm->add_info("");
         $frm->add_hidden("action","merge");
-        $frm->add_hidden("id_1",$ids[0]);
-        $frm->add_hidden("id_2",$ids[1]);
+        $frm->add_hidden("ids[".$ids[0]."]",$ids[0]);
+        $frm->add_hidden("ids[".$ids[1]."]",$ids[1]);
         $frm->add_submit("save","Merger");
         $cts->add($frm,true);
       }
