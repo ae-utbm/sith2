@@ -23,7 +23,7 @@ while ( $row = $sql->get_row() )
   }
   else
   {
-    if(!isset($names[$row['nom_utl']][$row['prenom_utl']]))
+    if(!isset($names[$row['nom_utl']][$row['prenom_utl']]) || empty($names[$row['nom_utl']][$row['prenom_utl']]))
     {
       $names[$row['nom_utl']][$row['prenom_utl']]=array();
       $names[$row['nom_utl']][$row['prenom_utl']][]=$row['id_utilisateur'];
