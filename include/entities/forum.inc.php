@@ -270,7 +270,7 @@ class forum extends basedb
 	  $query .= "ORDER BY frm_sujet.type_sujet=2 DESC, frm_message.date_message DESC ";
 	  $query .= "LIMIT $st, $npp";
 	  
-    $req = new requete($this->db,$query);
+    $req = new requete($this->db,$query, true);
     
 	  $rows = array();
 	  
