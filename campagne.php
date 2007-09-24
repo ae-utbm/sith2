@@ -33,7 +33,16 @@ if ( !$site->user->is_valid() )
   error_403();
   
 $cpg = new campagne($site->db,$site->dbrw);
-$cpg->load_lastest();
+
+if (!isset($_REQUEST['id_campagne']))
+{
+  $cpg->load_lastest();
+}    
+else
+{
+  $cpg->load_by_id($_REQUEST['id_campagne']);
+}
+
 if ( $cpg->id > 0 && !$cpg->a_repondu($site->user->id) && isset($_REQUEST["answord"]) )
 {
   if(isset($_REQUEST["discard"]) )
