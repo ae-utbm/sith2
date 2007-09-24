@@ -389,17 +389,16 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit )
   if ( is_uploaded_file($_FILES['idtfile']['tmp_name'])  )
   {
     $src = $_FILES['idtfile']['tmp_name'];
-    if(file_exists($dest_idt) && ($site->user->is_asso_role ( 27, 1 ) || $site->user->is_in_group("gestion_ae")) )
+    //    if(file_exists($dest_idt) && ($site->user->is_asso_role ( 27, 1 ) || $site->user->is_in_group("gestion_ae")) )
+    
+    // TODO : (pedrov) j'ai peut etre tort, mais ca risque de merder
+    // si les utilisateurs n'ont pas encore de photo d'identité
+
+    if (($site->user->is_asso_role ( 27, 1 )) || ($site->user->is_in_group("gestion_ae")))
     {
       exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_idt");
     }
-    else
-      echo "DEBUG : droits insuffisants";
   }
-  else
-    {
-      echo "DEBUG : soucis d'envoi de photos ?!?";
-    }
 
   $dest_mmt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg";
   if( isset($_REQUEST['delete_mmt']) && file_exists($dest_mmt))
