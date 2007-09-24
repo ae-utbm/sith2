@@ -393,7 +393,13 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit )
     {
       exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_idt");
     }
+    else
+      echo "DEBUG : droits insuffisants";
   }
+  else
+    {
+      echo "DEBUG : soucis d'envoi de photos ?!?";
+    }
 
   $dest_mmt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg";
   if( isset($_REQUEST['delete_mmt']) && file_exists($dest_mmt))
