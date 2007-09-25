@@ -135,7 +135,7 @@ else
 	  $links = "<a href=\"".$topdir.
 	    "uvs/edit.php?action=addseance&iduv=".
 	    $seance['id_uv']."&semestre=".$semestre.
-<	    "\">Ajout d'une séance horaire</a><br/>";
+	    "\">Ajout d'une séance horaire</a><br/>";
 	  /* desinscription */
 	  $links .= "<a href=\"".$topdir.
 	    "uvs/edit.php?action=unsubscribe&idseance=".
