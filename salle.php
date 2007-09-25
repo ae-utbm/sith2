@@ -40,7 +40,7 @@ $salle = new salle($site->db,$site->dbrw);
 if (isset($_REQUEST["id_salle"]))
 {
 	$salle->load_by_id($_REQUEST["id_salle"]);
-	if ( $salle->id < 1 )
+	if ( !$salle->is_valid() )
 	{
 		header("Location: 404.php");
 		exit();
@@ -233,7 +233,7 @@ if (isset($_REQUEST["id_salle"]))
 	if ( $_REQUEST["view"] == "pln" && $salle->reservable )
 	{
 		$cts->add_paragraph("<a href=\"?action=weekplanning&amp;id_salle=".$salle->id."\">Version PDF</a>");	
-		$planning = new weekplanning ( "Planning de reservation",$site->db, "SELECT * FROM sl_reservation WHERE id_salle='".$salle->id."'", "id_salres", "date_debut_salres", "date_fin_salres", "description_salres", "salle.php?view=pln&id_salle=".$salle->id, "reservation.php" );
+		$planning = new weekplanning ( "Planning de reservation",$site->db, "SELECT * FROM sl_reservation WHERE id_salle='".$salle->id."'", "id_salres", "date_debut_salres", "date_fin_salres", "description_salres", "salle.php?view=pln&id_salle=".$salle->id, "salres.php" );
 		$cts->add($planning);	
 	}
 	elseif ( $_REQUEST["view"] == "inv" && $site->user->is_in_group("gestion_ae") )
