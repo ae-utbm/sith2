@@ -74,10 +74,132 @@ if ($_REQUEST['action'] == 'unsubscribe')
   $site->add_contents($newcts);
 }
 
+/* confirmation ajout */
+else if ($_REQUEST['action'] == 'commitadd')
+{
+  $newcts = new contents("DEBUG", "<pre>" . print_r($_POST, true) . "</pre>");
+  $site->add_contents($newcts);
+}
+
 /* ajout */
 else if ($_REQUEST['action'] == 'addseance')
 {
   $newcts = new contents("Ajout d'une séance horaire");
+  
+  $frm = new form('frm', 'edit.php?action=commitadd');
+  
+  $req = new requete($site->db, "SELECT `cours_uv`, `td_uv`, `tp_uv`, `id_uv` 
+  FROM   `edu_uv` 
+  WHERE `code_uv` = '".mysql_real_escape_string($uv) . "'");
+  
+  $rs = $req->get_row();
+  $c    = $rs['cours_uv'];
+  $td   = $rs['td_uv'];
+  $tp   = $rs['tp_uv'];
+  $iduv = $rs['id_uv'];
+
+  if (($c==0) && ($td == 0) && ($tp == 0))
+    $frm->puts("<b>UV hors emploi du temps. En conséquence, elle n'apparaitra pas sur l'Emploi du temps.</b>");
+
+  
+  $req = new requete($site->db, 
+		     "SELECT  `id_uv_groupe`
+                            , `numero_grp`
+                            , `jour_grp`
+                            , `type_grp`
+                            , `heure_debut_grp`
+                            , `heure_fin_grp`
+                      FROM 
+                            `edu_uv_groupe`
+                      WHERE 
+                            `id_uv` = $iduv 
+                      AND 
+                            `semestre_grp` = '".$semestre."'");
+  
+  if ($req->lines <= 0)
+    $frm->puts("<p>Aucune séance connue pour cette UV. Vous êtes donc amené à ".
+	       "en renseigner les caractéristiques via le formulaire ci-dessous :<br/></p>");
+  else
+    {
+      $seances = array(-1 => "--");
+      while ($rs = $req->get_row())
+	$seances[$rs['id_uv_groupe']] = 'Seance de '.$rs['type_grp'].' N°'.$rs['numero_grp'].
+	  " du ". $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
+      
+      $frm->puts("<h3>Séances connues :</h3>");
+      
+      $frm->add_select_field("addfrm_scid", 
+			     'Séances connues', 
+			     $seances,
+			     false,
+			     "", false, true);
+    }
+  
+  $frm->puts("<h3>Ajout d'une séance horaire</h3>");
+  
+  /* type de séance */
+  $frm->add_select_field("addfrm_typeseance",
+			 'Type de séance',
+			 array("Cours", "TD", "TP"));
+  /* numéro groupe */
+  $frm->add_text_field("addfrm_numgrp",
+		       'Numéro de groupe',
+		       '1', false, 1);
+  /* jour */
+  global $jour;
+  $frm->add_select_field("addfrm_jour",
+			     'jour',
+			     $jour);
+  
+  /* horaires debut / fin */
+  /* horaires */
+  for ($i = 0; $i < 24; $i++)
+    {
+      $tmp = sprintf("%02d", $i);
+      $hours[$tmp] = $tmp; 
+    }
+  
+  for ($i = 0; $i < 60; $i++)
+    {
+      $tmp = sprintf("%02d", $i);
+      $minut[$tmp] = $tmp;
+    }
+
+  $frm->add_select_field("addfrm_hdeb",
+			 'Heure de début', $hours);
+  
+  $frm->add_select_field("addfrm_mdeb",
+			 'Minutes de début', $minut);
+  
+
+  $frm->add_select_field("addfrm_hfin",
+			 'Heure de fin', $hours);
+  
+  $frm->add_select_field("addfrm_mfin",
+			 'Minutes de fin', $minut);
+  
+  $frm->add_select_field("addfrm_freq",
+			 'Fréquence',
+			 array("0" => "--",
+			       "1" => "Hebdomadaire",
+			       "2" => "Bimensuelle"),
+			 false,
+			 "",
+			 false,
+			 true);
+  
+  $frm->add_select_field("addfrm_grpfreq",
+			 'Semaine',
+			 array("AB" => "Toutes les semaines",
+			       "A" => "Semaine A",
+			       "B" => "Semaine B"));
+  
+  $frm->add_text_field("addfrm_salle",
+		       'salle <b>sans espace, ex : "P103")</b>',
+		       "", false, 4);
+
+
+  $newcts->add($frm);
   $site->add_contents($newcts);
 }
 
