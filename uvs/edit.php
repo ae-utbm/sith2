@@ -206,6 +206,8 @@ else if ($_REQUEST['action'] == 'addseance')
 		       "", false, 4);
 
 
+  $frm->add_submit("addfrm_submit", "Ajouter");
+
   $newcts->add($frm);
   $site->add_contents($newcts);
 }
