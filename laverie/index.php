@@ -737,7 +737,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
         $utl = new utilisateur($site->db, $site->dbrw);
         $utl->load_by_id($_REQUEST['id_util']);
       
-        if($utl->id == -1)
+        if($utl->is_valid())
           $error = "Utilisateur inconnu";
     
         elseif($utl->is_in_group("cpt_bloque"))
@@ -757,7 +757,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
           {
             $jetlav = new jeton($site->db, $site->dbrw);
             $jetlav->load_by_nom($_REQUEST['numjetlaver'], "laver");
-            if($jetlav->id == -1)
+            if($jetlav->is_valid())
               $error = "Le jeton de machine à laver est invalide";
             elseif($jetlav->is_borrowed())
               $error = "Le jeton de machine à laver ($jetlav->nom) est censé etre emprunté, comment ce fait-ce ?";
@@ -767,7 +767,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
             $jetsech = new jeton($site->db, $site->dbrw);
             $jetsech->load_by_nom($_REQUEST['numjetsecher'], "secher");
 
-          if($jetsech->id == -1)
+          if($jetsech->is_valid())
             $error = "Le jeton de seche-linge est invalide";      
           elseif($jetsech->is_borrowed())
             $error = "Le jeton de seche-linge ($jetsech->nom) est censé etre emprunté, comment ce fait-ce ?";

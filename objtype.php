@@ -42,7 +42,7 @@ $objtype = new objtype($site->db,$site->dbrw);
 if ( isset($_REQUEST["id_objtype"]) )
 {
 	$objtype->load_by_id($_REQUEST["id_objtype"]);
-	if ( $objtype->id < 1 )
+	if ( !$objtype->is_valid() )
 	{
 		header("Location: 404.php");
 		exit();
@@ -111,7 +111,7 @@ if ( isset($_REQUEST["id_objtype"]) )
 				  "WHERE ".
 				  "inv_emprunt_objet.id_objet=`inv_objet`.`id_objet` ".
 				  "AND inv_emprunt_objet.retour_effectif_emp IS NULL ".
-				  "AND inv_emprunt.date_prise_emp IS NOT NULL )	 ) ".
+				  "AND inv_emprunt.date_prise_emp IS NOT NULL LIMIT 1)	 ) ".
 				"LEFT JOIN utilisateurs ON ( utilisateurs.id_utilisateur=inv_emprunt.id_utilisateur)".
 				
 				"WHERE `id_objtype`='".$objtype->id."' $filter" .

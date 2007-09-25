@@ -342,9 +342,9 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 			elseif ( $_REQUEST["emp"] == "email" )
 				$user->load_by_email($_REQUEST["email"]);
 				
-			if ( $_REQUEST["emp"] != "ext" && $user->id < 1 )
+			if ( $_REQUEST["emp"] != "ext" && !$user->is_valid() )
 				$Error="Utilisateur inconnu";
-			elseif ( $_REQUEST["asso"] == "asso" && $asso->id < 1 )
+			elseif ( $_REQUEST["asso"] == "asso" && !$asso->->is_valid() )
 				$Error="Association inconnue";
 			elseif ( $_REQUEST["endtime"] <= time() )
 				$Error="Date et heure de fin invalide";
@@ -355,8 +355,13 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 		else	if ( $Step > 0 )
 		{
 			$asso->load_by_id($_REQUEST["id_asso"]);
-			$user->load_by_id($_REQUEST["id_utilisateur"]);
-			if ( ($user->id < 1 && !$_REQUEST["emprunteur_ext"]) || $_REQUEST["endtime"] <= time() )
+			
+			if ( empty($_REQUEST["id_utilisateur"]) )
+			  $user->id=null;
+			else
+			  $user->load_by_id($_REQUEST["id_utilisateur"]);
+			  
+			if ( (!$user->is_valid() && !$_REQUEST["emprunteur_ext"]) || $_REQUEST["endtime"] <= time() )
 			{
 				$Step=0;
 				$Error="Erreur de passage de valeurs";	
@@ -390,7 +395,7 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 				$obj = new objet($site->db);
 				$obj->load_by_cbar($_REQUEST["cbar"]);
 	
-				if ( $obj->id < 1 )
+				if ( !$obj->is_valid() )
 					$Error = "Objet inconnu";
 				elseif ( !$obj->is_avaible(time(),$_REQUEST["endtime"]))
 					$Error = "Objet non disponible jusqu'a la fin de l'emprunt";
@@ -402,8 +407,8 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 		if ( $_REQUEST["step"] == 2 )
 		{
 			$Step=3;
-			if ( $asso->id < 1 ) $asso->id = null;
-			if ( $user->id < 1 ) $user->id = null;
+			//if ( !$asso->is_valid() ) $asso->id = null;
+			//if ( !$user->is_valid() ) $user->id = null;
 			
 			$emp->add_emprunt ( $user->id, $asso->id, $_REQUEST["emprunteur_ext"], time(), $_REQUEST["endtime"] );
 			
@@ -485,7 +490,7 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 		$frm->add_hidden("endtime",$_REQUEST["endtime"]);
 		$frm->add_hidden("id_asso",$asso->id);
 		$frm->add_hidden("id_utilisateur",$user->id);
-		if ( $user->id == -1)
+		if ( $user->is_valid() )
 			$frm->add_hidden("emprunteur_ext",$_REQUEST["emprunteur_ext"]);
 			
 		$cts->add_paragraph("Jusqu'au ".date("d/m/Y H:i",$_REQUEST["endtime"]));
