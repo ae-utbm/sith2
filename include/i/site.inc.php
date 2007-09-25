@@ -125,7 +125,7 @@ class isite
     $this->user->load_by_id($uid);
     
     if ($this->user->hash != "valid")
-      $this->user->id = -1;
+      $this->user->id = null;
     else
     {
       $this->user->visite();

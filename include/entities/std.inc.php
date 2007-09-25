@@ -47,7 +47,7 @@ class stdentity
    */
   function is_valid()
   {
-    return !is_null($this->id);
+    return !is_null($this->id) && ($this->id != -1);
   }
 
   /**

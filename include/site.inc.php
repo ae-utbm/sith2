@@ -222,7 +222,7 @@ class site extends interfaceweb
     
     if ($this->user->hash != "valid")
     {
-      $this->user->id = -1;
+      $this->user->id = null;
     }
     else
     {
