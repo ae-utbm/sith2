@@ -294,6 +294,8 @@ class form extends stdcontents
 	var $enctype;
 	var $error_contents;
 
+  var $work_variables;
+
 	/** Initialise un formulaire
 	 * @param $name			Nom du formulaire
 	 * @param $action		Fichier sur le quel le formulaire sera envoyé
@@ -1279,11 +1281,17 @@ class form extends stdcontents
 			if ( $onoff )
 			{
 				$on = $checked;
-				if ($checked )
-					$this->buffer .= "<script>".$name."_val='$value';</script>";
-			  else
-			    $this->buffer .= "<script>if ( typeOf(".$name."_val) == 'undefined' ) ".$name."_val='';</script>";
-
+				
+				if ( $checked )
+				{
+				  $this->work_variables[$name."_val"] = $value;
+				  $this->buffer .= "<script>".$name."_val='$value';</script>";
+				}
+				else if ( !isset($this->work_variables[$name."_val"]) )
+				{
+				  $this->work_variables[$name."_val"] = "";
+				  $this->buffer .= "<script>".$name."_val='';</script>";
+				}
 			}	
 			
 			if ( !$onoff )	
