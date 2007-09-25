@@ -33,10 +33,7 @@ if ( isset($_REQUEST["email"]) )
 {
 	$user = new utilisateur($site->db,$site->dbrw);
 	
-	$user->load_by_email($_REQUEST["email"]);
-	
-	print_r($user);
-	
+	$user->load_by_email($_REQUEST["email"]);	
 	
 	if ( $user->is_valid() )
 	{
@@ -72,7 +69,7 @@ L'équipe info AE";
 	}
 	else
 	{
-		$cts->add_paragraph("Adresse e-mail inconnue, veuillez la corriger.");
+		$cts->add_paragraph("<b>Adresse e-mail inconnue</b>, veuillez la corriger.");
 		$form = 1;	
 	}
 }
