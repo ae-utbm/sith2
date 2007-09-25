@@ -54,8 +54,14 @@ $cts = new contents("Edition d'emploi du temps");
 
 $edt = new edt($site->db, $site->dbrw);
 
-$semestre = mysql_real_escape_string($_REQUEST['semestre']);
-
+if ($semestre == '')
+{
+  $semestre = (date("m") > 6 ? "A" : "P") . date("y");
+}  
+else
+{
+  $semestre = mysql_real_escape_string($_REQUEST['semestre']);
+}
 /* passage en revue des actions */
 /* desinscription */
 if ($_REQUEST['action'] == 'unsubscribe')
