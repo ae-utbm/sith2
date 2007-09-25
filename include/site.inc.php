@@ -223,6 +223,7 @@ class site extends interfaceweb
     if ($this->user->hash != "valid")
     {
       $this->user->id = null;
+      new delete($this->dbrw,"site_sessions",array("id_session" => $sid));
     }
     else
     {
