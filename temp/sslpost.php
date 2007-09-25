@@ -199,7 +199,7 @@ function get_infos_from_ouaibe_mail($login, $password)
   $subj = $subj[1];
   $from = $from[1];
 
-  $str = "<h2>Mes mails récents :</h2>\n";
+  $str = "<h1>Mes mails récents</h1>\n";
   $str .= "<ul>\n";
 
 
