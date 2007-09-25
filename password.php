@@ -34,7 +34,11 @@ if ( isset($_REQUEST["email"]) )
 	$user = new utilisateur($site->db,$site->dbrw);
 	
 	$user->load_by_email($_REQUEST["email"]);
-	if ( $user->id != -1 )
+	
+	print_r($user);
+	
+	
+	if ( $user->is_valid() )
 	{
 		$pass = genere_pass(10);
 		
