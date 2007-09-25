@@ -1281,6 +1281,9 @@ class form extends stdcontents
 				$on = $checked;
 				if ($checked )
 					$this->buffer .= "<script>".$name."_val='$value';</script>";
+			  else
+			    $this->buffer .= "<script>if ( ".$name."_val == undefined ) ".$name."_val='';</script>";
+
 			}	
 			
 			if ( !$onoff )	
