@@ -1282,7 +1282,7 @@ class form extends stdcontents
 				if ($checked )
 					$this->buffer .= "<script>".$name."_val='$value';</script>";
 			  else
-			    $this->buffer .= "<script>if ( ".$name."_val == undefined ) ".$name."_val='';</script>";
+			    $this->buffer .= "<script>if ( typeOf(".$name."_val) == 'undefined' ) ".$name."_val='';</script>";
 
 			}	
 			
