@@ -94,9 +94,10 @@ else if ($_REQUEST['action'] == 'addseance')
   
   $frm = new form('frm', 'edit.php?action=commitadd');
   
+  $uv = intval($_REQUEST['iduv']);
   $req = new requete($site->db, "SELECT `cours_uv`, `td_uv`, `tp_uv`, `id_uv` 
   FROM   `edu_uv` 
-  WHERE `code_uv` = '".mysql_real_escape_string($uv) . "'");
+  WHERE `id_uv` = $uv");
   
   $rs = $req->get_row();
   $c    = $rs['cours_uv'];
@@ -118,7 +119,7 @@ else if ($_REQUEST['action'] == 'addseance')
                       FROM 
                             `edu_uv_groupe`
                       WHERE 
-                            `id_uv` = $iduv 
+                            `id_uv` = $uv 
                       AND 
                             `semestre_grp` = '".$semestre."'");
   
