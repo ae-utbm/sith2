@@ -50,13 +50,49 @@ if (!$site->user->is_valid())
 }
 
 
+$cts = new contents("Edition d'emploi du temps");
+
 $edt = new edt($site->db, $site->dbrw);
 
 $semestre = mysql_real_escape_string($_REQUEST['semestre']);
 
+/* passage en revue des actions */
+/* desinscription */
+if ($_REQUEST['action'] == 'unsubscribe')
+{
+  $ret = $edt->unsubscr_etu_from_grp($site->user->id,
+				     $_REQUEST['idseance']);
+
+  $newcts = new contents("Désinscription");
+
+  if ($ret)
+    $newcts->add_paragraph("Desinscription de la séance effectuée avec succès.");
+  else
+    $newcts->add_paragraph("Une erreur est survenue lors de la ".
+			"désinscription de la séance.");
+
+  $site->add_contents($newcts);
+}
+
+/* ajout */
+else if ($_REQUEST['action'] == 'addseance')
+{
+  $newcts = new contents("Ajout d'une séance horaire");
+  $site->add_contents($newcts);
+}
+
+/* modification */
+else if ($_REQUEST['action'] == 'modify')
+{
+  $newcts = new contents("Modification d'une séance horaire");
+  $site->add_contents($newcts);
+
+}
+
+
 $edt->load($site->user->id, $semestre);
 
-$cts = new contents("Edition d'emploi du temps");
+
 
 /* on ré-agence par code d'UV */
 for ($i = 0; $i < count($edt->edt_arr); $i++)
@@ -95,20 +131,28 @@ else
 	      " (bimensuelle)";
 
 
-	  /* desinscription */
+	  /* ajout d'une séance horaire */
 	  $links = "<a href=\"".$topdir.
-	    "uvs/edit.php?action=unsubscribe&idsceance=".
+	    "uvs/edit.php?action=addseance&iduv=".
+	    $seance['id_uv']."&semestre=".$semestre.
+<	    "\">Ajout d'une séance horaire</a><br/>";
+	  /* desinscription */
+	  $links .= "<a href=\"".$topdir.
+	    "uvs/edit.php?action=unsubscribe&idseance=".
 	    $seance['id_seance']."&semestre=".$semestre.
 	    "\">Désinscription de la séance</a><br/>";
-	  
-	  /* edition séance */
-	  $links .= "<a href=\"\">Edition de la séance</a>";
+	  /* modification de la séance */
+	  $links .= "<a href=\"".$topdir.
+	    "uvs/edit.php?action=modify&idseance=".
+	    $seance['id_seance']."&semestre=".$semestre.
+	    "\">Modification de la séance</a><br/>";
+	
+
 
 	  $lst[] = $descr . "<br/>" . $links;
 	} // fin passage en revue des séances
       
       $cts->add(new itemlist(false, false, $lst));
-
     } // fin boucle uvs
 
 }

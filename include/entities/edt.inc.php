@@ -63,6 +63,7 @@ class edt extends stdentity
                             , `edu_uv_groupe`.`salle_grp`
                             , `edu_uv_groupe_etudiant`.`semaine_etu_grp`
                             , `edu_uv`.`code_uv`
+                            , `edu_uv`.`id_uv`
                        FROM
                               `edu_uv_groupe_etudiant`
                        INNER JOIN
@@ -101,6 +102,7 @@ class edt extends stdentity
 	$type = ($row['type_grp'] == 'C' ? 'Cours' : $row['type_grp']);
 	$grp  = $row['numero_grp'];
 	$nomuv = $row['code_uv'];
+	$iduv  = $row['id_uv'];
 	$salle = $row['salle_grp'];
 
 	$this->edt_arr[] = array("id_seance"      => $id_seance,
@@ -110,6 +112,7 @@ class edt extends stdentity
 				 "jour_seance"    => $jsem,
 				 "type_seance"    => $type,
 				 "grp_seance"     => $grp,
+				 "id_uv"          => $iduv,
 				 "nom_uv"         => $nomuv,
 				 "salle_seance"   => $salle);
       }
@@ -123,16 +126,32 @@ class edt extends stdentity
       return false;
 
 
+    $freq = mysql_real_escape_string($freq);
+
     $sql = new insert($this->dbrw,
 		      "edu_uv_groupe_etudiant",
-		      array("id_uv_groupe"    => $id_group,
-			    "id_utilisateur"  => $id_etu,
+		      array("id_uv_groupe"    => intval($id_group),
+			    "id_utilisateur"  => intval($id_etu),
 			    "semaine_etu_grp" => $freq));
 
     if ($sql->lines <= 0)
       return false;
     
     return true;
+  }
+  function unsubscr_etu_from_grp($id_etu, $id_group)
+  {
+    if (!$this->dbrw)
+      return false;
+    $sql = new delete ($this->dbrw,
+		       "edu_uv_groupe_etudiant",
+		       array ("id_uv_groupe" => intval($id_group),
+			      "id_utilisateur" => intval($id_etu)));
+    if ($sql->lines <= 0)
+      return false;
+
+    return true;
+
   }
 
 
@@ -279,7 +298,7 @@ class edt extends stdentity
 
     $sql = new insert($this->dbrw,
 		      "edu_uv_dept",
-		      array("id_uv"           => $iduv,
+		      array("id_uv"           => intval($iduv),
 			    "id_dept"         => $nomdept));
     
     if ($sql->lines <= 0)
@@ -294,7 +313,7 @@ class edt extends stdentity
 
     $sql = new delete($this->dbrw,
 		      "edu_uv_dept",
-		      array("id_uv"           => $iduv,
+		      array("id_uv"           => intval($iduv),
 			    "id_dept"         => $nomdept));
     
     if ($sql->lines <= 0)
