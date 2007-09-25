@@ -130,7 +130,7 @@ else if ($_REQUEST['action'] == 'addseance')
     {
       $seances = array(-1 => "--");
       while ($rs = $req->get_row())
-	$seances[$rs['id_uv_groupe']] = 'Seance de '.($rs['type_grp'] = 'C' ? 'cours' : $rs['type_grp']) .' N°'.$rs['numero_grp'].
+	$seances[$rs['id_uv_groupe']] = 'Seance de '.($rs['type_grp'] == 'C' ? 'cours' : $rs['type_grp']) .' N°'.$rs['numero_grp'].
 	  " du ". $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
       
       $frm->puts("<h3>Séances connues :</h3>");
