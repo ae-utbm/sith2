@@ -252,6 +252,7 @@ if ( $salle->is_valid() )
 	
 	if ( ($_REQUEST["view"] == "pln" && $salle->reservable) || $resa->is_valid() )
 	{
+  $cts->add_paragraph("<a href=\"?view=pln&amp;id_salle=".$salle->id."\">Retour au planning</a>");	
 	  if ( $resa->is_valid() )
 	  {
       $user = new utilisateur($site->db);
