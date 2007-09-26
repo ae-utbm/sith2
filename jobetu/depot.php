@@ -46,7 +46,7 @@ $cts = new contents("Déposer une annonce");
 if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 {
 
-	$site->allow_only_logged_users("services");
+	$site->allow_only_logged_users("jobetu");
 	if(!$site->user->is_in_group("jobetu_client")) header("Location: depot.php?action=infos");
 	
 	$cts->add_paragraph("Veuillez à présent entrer la description de votre annonce.");

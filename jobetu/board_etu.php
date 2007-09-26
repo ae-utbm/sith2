@@ -46,6 +46,13 @@ $i18n = array("ar" => "Arabe",
 $site = new site();
 $site->allow_only_logged_users("services");
 if(!$site->user->is_in_group("jobetu_etu")) header("Location: index.php");
+
+$usr = new jobuser_etu($site->db, $site->dbrw);
+if(isset($_REQUEST['id_utilisateur']) && ($site->user->is_in_group("gestion_ae") ||$site->user->is_in_group("root") || $site->user->is_in_group("jobetu_admin") ) )
+	$usr->load_by_id($_REQUEST['id_utilisateur']);
+else
+	$usr->load_by_id($site->user->id);
+
 $site->add_css("jobetu/jobetu.css");
 $site->add_rss("Les dernières annonces de JobEtu","rss.php");
 
@@ -69,8 +76,6 @@ $cts->add(new tabshead($tabs, $_REQUEST['view']));
 if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 {
 		$jobetu = new jobetu($site->db, $site->dbrw);
-		$usr = new jobuser_etu($site->db, $site->dbrw);
-		$usr->load_by_id($site->user->id);
 		$usr->load_competences();
 
 		/**
@@ -162,9 +167,6 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
  */
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
 {
-	$usr = new jobuser_etu($site->db, $site->dbrw);
-	$usr->load_by_id($site->user->id);
-		
 	$sql = new requete($site->db, "SELECT `job_annonces_etu`.*,
 																	`job_annonces`.`titre`,
 																	DATE_FORMAT(`job_annonces`.`date`, '%e/%c/%Y') AS `date`,
@@ -230,9 +232,6 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 		}
 		else if($_REQUEST['action'] == "reject")
 		{
-			$usr = new jobuser_etu($site->db);
-			$usr->load_by_id($site->user->id);
-			
 			foreach ($ids as $id_annonce)
 			{
 				$annonce = new annonce($site->db, $site->dbrw);
@@ -246,10 +245,8 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 			$cts->add_paragraph("Namého ! tu te crois chez mémé ? ca se passe pas comme ça nondidiou !!");
 		}
 	}
-		$usr = new jobuser_etu($site->db, $site->dbrw);
-		$usr->load_by_id($site->user->id);
-	
-		$sql = new requete($site->db, "SELECT `job_annonces`.*,
+
+	$sql = new requete($site->db, "SELECT `job_annonces`.*,
 																		CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur`,
 																		`utilisateurs`.`id_utilisateur`,
 																		`job_types`.`nom` AS `job_nom`
@@ -301,9 +298,6 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
  */
 else
 {	
-	$usr = new jobuser_etu($site->db);
-	$usr->load_by_id($site->user->id);
-	
 	if( isset($_REQUEST['action']) )
 	{
 		$annonce = new annonce($site->db, $site->dbrw);
