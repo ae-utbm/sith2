@@ -46,7 +46,7 @@ if (isset($_REQUEST["id_salres"]))
 {
 	$resa->load_by_id($_REQUEST["id_salres"]);
 	
-	if ( $resa->id_valid() )
+	if ( $resa->is_valid() )
 	{
   	$salle->load_by_id($resa->id_salle);
   	$asso->load_by_id($resa->id_asso);
@@ -55,8 +55,6 @@ if (isset($_REQUEST["id_salres"]))
   	if ( $asso->is_valid() )
   		$can_edit = $can_edit || $asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU);
   		
-  	$_REQUEST["view"] = "pln";
-  	
     if ( $_REQUEST["action"] == "delete" && $can_edit )
     {
     	$resa->delete();
@@ -65,7 +63,7 @@ if (isset($_REQUEST["id_salres"]))
 	}
 }
 
-if ( $salle->id_valid() )
+if ( $salle->is_valid() )
 {	
 	$bat->load_by_id($salle->id_batiment);
 	$sitebat->load_by_id($bat->id_site);
@@ -252,9 +250,9 @@ if ( $salle->id_valid() )
 
 	$cts->add(new tabshead($tabs,$_REQUEST["view"]));	
 	
-	if ( $_REQUEST["view"] == "pln" && $salle->reservable )
+	if ( ($_REQUEST["view"] == "pln" && $salle->reservable) || $resa->is_valid() )
 	{
-	  if ( $resa->id_valid() )
+	  if ( $resa->is_valid() )
 	  {
       $user = new utilisateur($site->db);
       $userop = new utilisateur($site->db);
