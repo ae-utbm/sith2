@@ -248,7 +248,7 @@ if ( $salle->is_valid() )
 	
 	$cts = new contents(classlink($sitebat)." / ".classlink($bat)." / ".classlink($salle));
 
-	$cts->add(new tabshead($tabs,$_REQUEST["view"]));	
+	$cts->add(new tabshead($tabs,$resa->is_valid()?"pln":$_REQUEST["view"]));	
 	
 	if ( ($_REQUEST["view"] == "pln" && $salle->reservable) || $resa->is_valid() )
 	{
@@ -258,7 +258,7 @@ if ( $salle->is_valid() )
       $userop = new utilisateur($site->db);
     	$user->load_by_id($resa->id_utilisateur);
     	$userop->load_by_id($resa->id_utilisateur_op);
-    	$tbl = new table("Informations");
+    	$tbl = new table("Reservation n°".$resa->id);
     	$tbl->add_row(array("Demande faite le ",date("d/m/Y H:i",$resa->date_demande)));
     	$tbl->add_row(array("Période",date("d/m/Y H:i",$resa->date_debut)." au ".date("d/m/Y H:i",$resa->date_fin)));
     	$tbl->add_row(array("Demandeur",classlink($user)));
