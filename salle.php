@@ -36,15 +36,37 @@ $site = new site ();
 $sitebat = new sitebat($site->db,$site->dbrw);
 $bat = new batiment($site->db,$site->dbrw);
 $salle = new salle($site->db,$site->dbrw);
+$asso = new asso($site->db);
+$resa = new reservation($site->db, $site->dbrw);
 
 if (isset($_REQUEST["id_salle"]))
-{
 	$salle->load_by_id($_REQUEST["id_salle"]);
-	if ( !$salle->is_valid() )
+
+if (isset($_REQUEST["id_salres"]))
+{
+	$resa->load_by_id($_REQUEST["id_salres"]);
+	
+	if ( $resa->id_valid() )
 	{
-		header("Location: 404.php");
-		exit();
+  	$salle->load_by_id($resa->id_salle);
+  	$asso->load_by_id($resa->id_asso);
+  	$can_edit = $site->user->is_in_group("gestion_ae") || ($resa->id_utilisateur == $site->user->id);
+  
+  	if ( $asso->is_valid() )
+  		$can_edit = $can_edit || $asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU);
+  		
+  	$_REQUEST["view"] = "pln";
+  	
+    if ( $_REQUEST["action"] == "delete" && $can_edit )
+    {
+    	$resa->delete();
+    	$resa->id = null;
+    }  	
 	}
+}
+
+if ( $salle->id_valid() )
+{	
 	$bat->load_by_id($salle->id_batiment);
 	$sitebat->load_by_id($bat->id_site);
 	
@@ -232,9 +254,32 @@ if (isset($_REQUEST["id_salle"]))
 	
 	if ( $_REQUEST["view"] == "pln" && $salle->reservable )
 	{
-		$cts->add_paragraph("<a href=\"?action=weekplanning&amp;id_salle=".$salle->id."\">Version PDF</a>");	
-		$planning = new weekplanning ( "Planning de reservation",$site->db, "SELECT * FROM sl_reservation WHERE id_salle='".$salle->id."'", "id_salres", "date_debut_salres", "date_fin_salres", "description_salres", "salle.php?view=pln&id_salle=".$salle->id, "salres.php" );
-		$cts->add($planning);	
+	  if ( $resa->id_valid() )
+	  {
+      $user = new utilisateur($site->db);
+      $userop = new utilisateur($site->db);
+    	$user->load_by_id($resa->id_utilisateur);
+    	$userop->load_by_id($resa->id_utilisateur_op);
+    	$tbl = new table("Informations");
+    	$tbl->add_row(array("Demande faite le ",date("d/m/Y H:i",$resa->date_demande)));
+    	$tbl->add_row(array("Période",date("d/m/Y H:i",$resa->date_debut)." au ".date("d/m/Y H:i",$resa->date_fin)));
+    	$tbl->add_row(array("Demandeur",classlink($user)));
+    	if ( $asso->id > 0 )
+    		$tbl->add_row(array("Association",classlink($asso)));
+    	$tbl->add_row(array("Convention de locaux requise",$salle->convention?"Oui":"Non"));
+    	$tbl->add_row(array("Convention de locaux faite",$resa->convention?"Oui":"Non"));
+    	if( $resa->date_accord )
+    		$tbl->add_row(array("Accord","le ".date("d/m/Y H:i",$resa->date_accord)." par ".classlink($userop)));
+    	$tbl->add_row(array("Motif",htmlentities($resa->description,ENT_NOQUOTES,"UTF-8")));
+    	$tbl->add_row(array("Notes",htmlentities($resa->notes,ENT_NOQUOTES,"UTF-8")));
+    	$cts->add($tbl,true);
+	  }
+	  else
+	  {
+  		$cts->add_paragraph("<a href=\"?action=weekplanning&amp;id_salle=".$salle->id."\">Version PDF</a>");	
+  		$planning = new weekplanning ( "Planning de reservation",$site->db, "SELECT * FROM sl_reservation WHERE id_salle='".$salle->id."'", "id_salres", "date_debut_salres", "date_fin_salres", "description_salres", "salle.php?view=pln&id_salle=".$salle->id, "salle.php" );
+  		$cts->add($planning);	
+	  }
 	}
 	elseif ( $_REQUEST["view"] == "inv" && $site->user->is_in_group("gestion_ae") )
 	{
