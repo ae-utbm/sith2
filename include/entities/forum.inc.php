@@ -288,11 +288,23 @@ class forum extends basedb
     if ( $this->categorie )
     {
       $req = new requete($this->db, 
-        "SELECT SUM(nb_sujets_forum), MAX(id_sujet_dernier) ".
+        "SELECT frm_forum.id_sujet_dernier ".
+        "FROM `frm_forum` ".
+        "INNER JOIN `frm_sujet` ON ( `frm_sujet`.`id_sujet` = `frm_forum`.`id_sujet_dernier` ) ".
+        "INNER JOIN `frm_message` ON ( `frm_sujet`.`id_message_dernier` = `frm_message`.`id_message` ) ".
+  		  "WHERE `id_forum_parent` = '". mysql_real_escape_string($this->id) . "' ".
+  		  "ORDER BY `date_message` DESC ".
+  		  "LIMIT 1");
+
+      list($this->id_sujet_dernier) = $req->get_row();
+      
+      $req = new requete($this->db, 
+        "SELECT SUM(nb_sujets_forum) ".
         "FROM `frm_forum` ".
   		  "WHERE `id_forum_parent` = '". mysql_real_escape_string($this->id) . "' ");
       
-      list($this->nb_sujets,$this->id_sujet_dernier) = $req->get_row();
+      list($this->nb_sujets) = $req->get_row();      
+      
     }
     else
     {
