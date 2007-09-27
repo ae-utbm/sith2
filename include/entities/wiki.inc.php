@@ -506,19 +506,17 @@ class wiki extends basedb
         $buffer = "<ul>\n";
   		  while ( $row = $req->get_row() )
   		  {
-          $buffer .= "<li><a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".
-            $row['fullpath_wiki']."</a></li>\n";
             
           if ( $row['id_rev_last'] != $row['id_rev'] )
             $revlink = "?name=".$row['fullpath_wiki']."&amp;rev=".$row['id_rev'];
           else
             $revlink = "?name=".$row['fullpath_wiki'];
             
-          $list->add(
-            "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
+          $buffer .=
+            "<li><span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
             "<a class=\"wpage\" href=\"$revlink\">".$row['fullpath_wiki']."</a> ".
             "- <span class=\"wuser\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</span> ".
-            "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span>");
+            "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span></li>\n";
   		  }
         $buffer .= "</ul>\n";
       }
