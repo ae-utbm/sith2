@@ -138,9 +138,14 @@ class annonce extends stdentity
   		return false;
   }
   
+  function remaining_positions()
+  {
+  	return ($this->nb_postes - count($this->winner));
+  }
+  
   function set_winner($winner, $client)
   {
-  	if($this->nb_postes > 1 && $this->winner )
+  	/* if($this->nb_postes > 1 && $this->winner )
   	{
   		$array_winner = explode(";", $this->winner);
   		$array_winner[] = $winner->id;
@@ -149,6 +154,11 @@ class annonce extends stdentity
   	}
   	else
   		$sql = new update($this->dbrw, "job_annonces", array("id_select_etu" => $winner->id), array("id_annonce" => $this->id) );
+  	*/
+		if( $this->is_provided() )
+			return false;
+		else
+  		$sql = new insert($this->dbrw, "job_annonces_etu", array("id_annonce" => $this->id, "id_etu" => $winner->id, "relation" => "selected" ));
   	
   	/**
   	 * Envois de mails
@@ -184,6 +194,7 @@ Nous vous remerçions d'utiliser AE Job Etu et vous souhaitons bon courage pour 
 L'équipe AE et les responsables d'AE Job Etu	
 EOF;
 
+  	
   	$tel = telephone_display($winner->tel_portable);
 		$text_client = <<<EOF
 			Bonjour,
@@ -196,8 +207,12 @@ Lorsque la prestation sera terminée, n'oubliez pas ne clore l'annonce depuis vo
 Nous vous remerçions de votre confiance et espérons que votre satisfaction sera totale.
 
 L'équipe AE et les responsables d'AE Job Etu
+
 EOF;
-  	
+
+		if(!$this->is_provided())
+			$text_client .= "PS: il reste désormais ".$this->remaining_positions()." place(s) disponibles pour votre offre.";
+		  	
 		$mail_etu = mail($winner->email, utf8_decode("[AE JobEtu] Sélection pour l'annonce n°".$this->id), utf8_decode($text_etu), "From: \"AE Job Etu\" <ae-jobetu@utbm.fr>");
 		$mail_client = mail($client->email, utf8_decode("[AE JobEtu] Sélection de $winner->prenom $winner->nom pour l'annonce n°".$this->id), utf8_decode($text_client), "From: \"AE Job Etu\" <ae-jobetu@utbm.fr>");
 	
