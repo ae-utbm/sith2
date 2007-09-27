@@ -367,6 +367,8 @@ elseif ( 	$_REQUEST["view"] == "comptes" )
     
   $cts->add_title(2,"Solde rechargements");
   
+  $TypesPaiementsFull[-1] = "-";
+  
   $frm = new form ("cptrech","syscarteae.php?view=comptes",true);
   $frm->add_hidden("action","sumrech");
   $frm->add_datetime_field("debut","Date et heure de début");
@@ -390,7 +392,7 @@ elseif ( 	$_REQUEST["view"] == "comptes" )
   	if ( $_REQUEST["fin"] )
   		$conds[] = "cpt_rechargements.date_rech <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
   	
-  	if ( isset($comptoirs[$_REQUEST["id_comptoir"]]) && $_REQUEST["id_comptoir"] )
+  	if ( $_REQUEST["id_comptoir"] )
   		$conds[] = "cpt_rechargements.id_comptoir='".intval($_REQUEST["id_comptoir"])."'";
   
   	if ( $_REQUEST["banque_rech"] )
