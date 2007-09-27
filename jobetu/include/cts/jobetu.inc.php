@@ -140,7 +140,7 @@
 						break;  // <= ouh que c'est moche
 */
 				//$this->buffer .= "<p> Vous avez déjà sélectionné un candidat : "; // $usr->prenom $usr->nom</p>";
-				
+				print_r($annonce);
 				$list = new itemlist("Vous avez déjà sélectionné un candidat :");
 				
 				foreach($annonce->winner as $id_winner)

@@ -132,6 +132,9 @@ class annonce extends stdentity
 
   function is_provided()
   {
+  	echo "id : $this->id, nb : $this->nb_postes, selected : ".count($this->winner) ;
+  	
+  	
   	if( $this->winner != NULL && count($this->winner) == $this->nb_postes )
   		return true;
   	else 
