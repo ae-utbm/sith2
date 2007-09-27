@@ -272,6 +272,10 @@ if ( $salle->is_valid() )
     	$tbl->add_row(array("Motif",htmlentities($resa->description,ENT_NOQUOTES,"UTF-8")));
     	$tbl->add_row(array("Notes",htmlentities($resa->notes,ENT_NOQUOTES,"UTF-8")));
     	$cts->add($tbl,true);
+    	
+    	if ( $can_edit )
+    	  $cts->add_paragraph("<a href=\"?id_salres=".$resa->id."&amp;action=delete\">Supprimer</a>");
+    	
 	  }
 	  else
 	  {
