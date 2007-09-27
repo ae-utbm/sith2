@@ -67,7 +67,7 @@ class annonce extends stdentity
   	$this->id = $id;
   	$this->id_client = $line['id_client'];
   	$this->nom_client = $line['nom_client'];
-  	$this->winner = $line['id_select_etu'];
+//  	$this->winner = $line['id_select_etu'];  changeage de méthode pour supporter les postes multiples
   	$this->date_depot = $line['date'];
   	$this->titre = $line['titre'];
   	$this->id_type = $line['job_type'];
@@ -84,6 +84,11 @@ class annonce extends stdentity
   	$this->allow_diff = $line['allow_diff'];
   	$this->tel_client = $line['num_client'];
   	$this->closed = $line['closed'];
+  	
+  	/* Sélection du/des étudiant(s) choisis 'if any' */
+		$sql = new requete($this->db, "SELECT id_etu FROM `job_annonces_etu` WHERE id_annonce='$this->id' AND relation='selected'");
+		print_r($sql);
+		
   	
   	/* C'est pas beau mais j'arrive pas à le faire en une requete */
   	$sql = new requete($this->db, "SELECT `job_types`.`nom` FROM `job_annonces` LEFT JOIN `job_types` ON `job_types`.`id_type` = ". ($this->id_type - $this->id_type%100) ."");
