@@ -89,7 +89,7 @@ class annonce extends stdentity
 		$sql = new requete($this->db, "SELECT id_etu FROM `job_annonces_etu` WHERE id_annonce='$this->id' AND relation='selected'");
 		if($sql->lines > 0)
 		{
-			$this->winner[] = array();
+			$this->winner = array();
 			while($row = $sql->get_row())
 			{
 				$this->winner[] = $row[0];
