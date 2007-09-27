@@ -129,19 +129,19 @@
 	  	$n = 1; // Compteuràlacon
 
 
-	  	if( $annonce->is_closed() )
+	  	if( $annonce->is_closed() ) /* Ca c'est fait */
 	  	{
-	  		$this->buffer .= "<p class=\"error\">Annonce rangée</p>";
+	  		$this->buffer .= "<p class=\"error\">Annonce rangée :)</p>";
 	  	}
-			else if( $annonce->is_provided() )
+			else if( $annonce->is_provided() ) /* on attend que le contrat se fasse maintenant */
 			{
 				/*foreach($annonce->applicants_fullobj as $usr)
 					if($usr->id == $annonce->winner)
 						break;  // <= ouh que c'est moche
 */
-				$this->buffer .= "<p> Vous avez déjà sélectionné un/des candidat(s) : "; // $usr->prenom $usr->nom</p>";
-				$list = new itemlist(false);
-				
+				$this->buffer .= "<p> Vous avez déjà sélectionné un/des candidat(s) : </p>"; // $usr->prenom $usr->nom</p>";
+
+				$list = new itemlist(false);	/* liste des personnes sélectionnées */
 				foreach($annonce->winner as $id_winner)
 				{
 					$winner = new utilisateur($annonce->db);
@@ -166,18 +166,38 @@
 				$this->buffer .= $frm->html_render();
 				$this->buffer .= "</div>";
 			}
-			else if( empty($annonce->applicants) )
+			else if( empty($annonce->applicants) ) /* pas de bol mon gars */
 			{
 				$this->buffer .= "<p class=\"error\">Aucun candidat ne s'est pour l'instant présenté pour répondre à votre offre.</p>";
 			}
-			else
+			else /* et c'est là qu'on se marre */
 			{
 				$this->buffer .= "<p>Il y a pour l'instant ".count($annonce->applicants)." candidature(s) pour votre annonce </p>\n";
 				if( !$annonce->allow_diff )
 					$this->buffer .= "<p>Vous n'avez pas demandé la diffusion de votre numéro de téléphone, aussi pensez à prendre contact avec les candidats si vous souhaitez les rencontrer</p>";
 				
+				if( $annonce->nb_postes > 1 && !empty($annonce->winner) )
+				{
+					$this->buffer .= "<p> Vous avez déjà sélectionné un/des candidat(s) : </p>"; // $usr->prenom $usr->nom</p>";
+	
+					$list = new itemlist(false);	/* liste des personnes sélectionnées */
+					foreach($annonce->winner as $id_winner)
+					{
+						$winner = new utilisateur($annonce->db);
+						$winner->load_by_id($id_winner);
+						$list->add("$winner->prenom $winner->nom", "ok");	
+					}
+					$this->buffer .= $list->html_render();
+					$this->buffer .= "<p> Il reste actuellement ".$annonce->remaining_positions()." place(s) disponibles pour votre offre.</p>";
+					
+				}
+					
+				/* debut 'liste' des candidats */
 		  	foreach($annonce->applicants_fullobj as $usr)
 		  	{
+		  		if( in_array($usr->id, $annonce->winner) ) /* on passe les étudiants déjà sélectionnés */
+		  			continue;
+		  		
 					$usr->load_all_extra();
 					$usr->load_pdf_cv();
 					
@@ -229,6 +249,8 @@
 		  			$this->buffer .= "</div>\n";
 		  			$n++;
 		  	}
+		  	/* fin liste candidats */
+
 		  	$this->buffer .= "<p></p>";
 			}
 	  	
