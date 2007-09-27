@@ -87,12 +87,7 @@ class annonce extends stdentity
   	
   	/* Sélection du/des étudiant(s) choisis 'if any' */
 		$sql = new requete($this->db, "SELECT id_etu FROM `job_annonces_etu` WHERE id_annonce='$this->id' AND relation='selected'");
-		if($sql->lines == 0)
-		{
-			$row = $sql->get_row();
-			$this->winner = $row[0];
-		}
-		else if($sql->lines > 0)
+		if($sql->lines > 0)
 		{
 			$this->winner[] = array();
 			while($row = $sql->get_row())
@@ -137,7 +132,10 @@ class annonce extends stdentity
 
   function is_provided()
   {
-  	return !( $this->nb_postes == count( explode(";", $this->winner) ) );
+  	if( $this->winner != NULL && count($this->winner) == $this->nb_postes )
+  		return true;
+  	else 
+  		return false;
   }
   
   function set_winner($winner, $client)
