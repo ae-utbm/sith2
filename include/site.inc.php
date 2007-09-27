@@ -872,11 +872,11 @@ class site extends interfaceweb
     }
 
 
-    if ( $this->user->is_in_group("root") && $this->user->is_in_group("gestion_ae") )
+    if ( $this->user->is_in_group("root") && $this->user->is_in_group("gestion_syscarteae") )
       $req = new requete($this->db,"SELECT cpt_comptoir.id_comptoir,cpt_comptoir.nom_cpt " .
         "FROM cpt_comptoir " .
         "ORDER BY cpt_comptoir.nom_cpt");
-    elseif ( $this->user->is_in_group("gestion_ae") )
+    elseif ( $this->user->is_in_group("gestion_syscarteae") )
       $req = new requete($this->db,"SELECT cpt_comptoir.id_comptoir,cpt_comptoir.nom_cpt " .
         "FROM cpt_comptoir WHERE cpt_comptoir.nom_cpt != 'test' " .
         "ORDER BY cpt_comptoir.nom_cpt");
