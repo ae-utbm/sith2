@@ -107,6 +107,7 @@ else
 	{
 		$link_client->add_paragraph("Passez dès maintenant votre annonce sur AE JobEtu (inscription au site requise).");
 		$link_client->add_paragraph("<div align='center'><a href='depot.php'><img src=\"$topdir/images/jobetu/client_1.png\" alt=\"Passez votre annonce !\" /></a></div>");
+		$link_client->add_paragraph("<div align='center'><a href='board_client.php'>Ou connectez vous pour accéder à votre tableau de bord.</a></div>");
 	}
 	
 	
