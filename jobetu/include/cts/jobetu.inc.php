@@ -172,9 +172,11 @@
 			}
 			else /* et c'est là qu'on se marre */
 			{
-				$this->buffer .= "<p>Il y a pour l'instant ".count($annonce->applicants) - count($annonce->winner)." candidature(s) pour votre annonce </p>\n";
+				$list = new itemlist(false);
+				$list->add("Il y a pour l'instant ".(count($annonce->applicants) - count($annonce->winner))." candidature(s) pour votre annonce");
 				if( !$annonce->allow_diff )
-					$this->buffer .= "<p><img src=\"$topdir/images/icons/16/star.png\" /> Attention : Vous n'avez pas demandé la diffusion de votre numéro de téléphone, aussi pensez à prendre contact avec les candidats si vous souhaitez les rencontrer</p>";
+					$list->add("Attention : Vous n'avez pas demandé la diffusion de votre numéro de téléphone, aussi pensez à prendre contact avec les candidats si vous souhaitez les rencontrer", "ko");
+				$this->buffer .= $list->html_render();
 				
 				if( $annonce->nb_postes > 1 && !empty($annonce->winner) )
 				{
@@ -187,9 +189,8 @@
 						$winner->load_by_id($id_winner);
 						$list->add("$winner->prenom $winner->nom", "ok");	
 					}
+					$list->add("Il reste actuellement ".$annonce->remaining_positions()." place(s) disponibles pour votre offre.");
 					$this->buffer .= $list->html_render();
-					$this->buffer .= "<p> Il reste actuellement ".$annonce->remaining_positions()." place(s) disponibles pour votre offre.</p>";
-					
 				}
 					
 				/* debut 'liste' des candidats */
