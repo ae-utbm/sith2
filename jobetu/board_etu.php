@@ -179,7 +179,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
 																	ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
 																	WHERE `job_annonces_etu`.`id_etu` = $usr->id 
 																	AND `job_annonces_etu`.`relation` = 'apply'
-																	AND `job_annonces`.`id_select_etu` IS NULL
+																	AND `job_annonces`.`provided` = 'false'
 																");
 	//faudrait trouver aussi un moyen de compter le nombre de concurrents
 	$cts->add(new sqltable("candidatures", "Candidatures en cours", $sql, false, 'id_relation', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le", "nom_utilisateur" => "Par", "etat" => "Etat"), array(), array()), true);
@@ -201,7 +201,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
 																	NATURAL JOIN `job_annonces`
 																	WHERE `job_annonces_etu`.`id_etu` = $usr->id 
 																	AND `job_annonces_etu`.`relation` = 'apply'
-																	AND `job_annonces`.`id_select_etu` IS NOT NULL
+																	AND `job_annonces`.`provided` = 'true'
 																");
 	$cts->add(new sqltable("candidatures", "Candidatures perdues", $sql, false, 'id_relation', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le", "people" => "Etudiant sélectionné"), array(), array()), true);
 }

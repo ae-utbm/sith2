@@ -67,7 +67,6 @@ class annonce extends stdentity
   	$this->id = $id;
   	$this->id_client = $line['id_client'];
   	$this->nom_client = $line['nom_client'];
-//  	$this->winner = $line['id_select_etu'];  changeage de méthode pour supporter les postes multiples
   	$this->date_depot = $line['date'];
   	$this->titre = $line['titre'];
   	$this->id_type = $line['job_type'];
@@ -151,20 +150,14 @@ class annonce extends stdentity
   
   function set_winner($winner, $client)
   {
-  	/* if($this->nb_postes > 1 && $this->winner )
-  	{
-  		$array_winner = explode(";", $this->winner);
-  		$array_winner[] = $winner->id;
-  		if( count( $array_winner ) <= $this->nb_postes )
-  			$sql = new update($this->dbrw, "job_annonces", array( "id_select_etu" => implode(";", $array_winner) ), array("id_annonce" => $this->id) );
-  	}
-  	else
-  		$sql = new update($this->dbrw, "job_annonces", array("id_select_etu" => $winner->id), array("id_annonce" => $this->id) );
-  	*/
 		if( $this->is_provided() )
 			return false;
 		else
   		$sql = new insert($this->dbrw, "job_annonces_etu", array("id_annonce" => $this->id, "id_etu" => $winner->id, "relation" => "selected" ));
+  		
+  	$this->load_winner(); /* maj des gens sélectionnés */
+		if( $this->is_provided() )
+			$sql = new update($this->dbrw, "job_annonces", array("provided" => "true"), array("id_annonce" => $this->id));
   	
   	/**
   	 * Envois de mails
@@ -310,7 +303,6 @@ EOF;
 		if(!($client instanceof jobuser_client))	return -1;
 	 	
 		$this->id_client = $client->id;
-		$this->id_select_etu = null;
 		$this->titre = $titre;
 		$this->job_type	= $job_type;
 		$this->desc = $desc;
@@ -328,7 +320,6 @@ EOF;
 											"job_annonces",
 											array(
 														"id_client" => $this->id_client,
-														"id_select_etu" => $this->id_select_etu,
 														"titre" => $this->titre,
 														"date" => date("Y-m-d"),
 														"job_type" => $this->job_type,

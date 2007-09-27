@@ -126,16 +126,12 @@ else
 	$sql = new requete($site->db, "SELECT *, 
 																	`job_annonces`.`id_annonce` AS `id`,
 																	DATE_FORMAT(`date`, '%e/%c/%Y') AS `date`, 
-																	CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur`,
-																	`utilisateurs`.`id_utilisateur`
 																	FROM job_annonces
-																	LEFT JOIN `utilisateurs`
-																	ON `job_annonces`.`id_select_etu` = `utilisateurs`.`id_utilisateur`
 																	WHERE id_client = $user->id AND closed = '1'");
 	if( $sql->lines > 0 )
 	{
 		$cts->puts("<a name=\"closed\"></a>");
-		$table = new sqltable("closedlist", "Vos précédentes annonces", $sql, "board_client.php", "id", array("id" => "N°", "date" => "Date", "titre" => "Titre", "nom_utilisateur" => "Etudiant sélectionné"), array("detail" => "Détails"), array(), array() );
+		$table = new sqltable("closedlist", "Vos précédentes annonces", $sql, "board_client.php", "id", array("id" => "N°", "date" => "Date", "titre" => "Titre"), array("detail" => "Détails"), array(), array() );
 		$cts->add($table, true);
 	}
 }

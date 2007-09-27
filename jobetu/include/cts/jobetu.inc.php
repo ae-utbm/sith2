@@ -139,7 +139,7 @@
 					if($usr->id == $annonce->winner)
 						break;  // <= ouh que c'est moche
 */
-				$this->buffer .= "<p>Votre annonce fermée.</p>";
+				$this->buffer .= "<p>Votre annonce est fermée.</p>";
 				$this->buffer .= "<p>Candidat(s) sélectionnées : </p>"; // $usr->prenom $usr->nom</p>";
 
 				$list = new itemlist(false);	/* liste des personnes sélectionnées */
