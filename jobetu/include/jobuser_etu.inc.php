@@ -65,7 +65,7 @@ class jobuser_etu extends utilisateur
       {
       	$sql = new requete($this->db, "SELECT id_annonce FROM job_annonces 
 																				WHERE job_type IN ('".implode('\', \'', $this->competences)."')
-																				AND `job_annonces`.`id_annonce` = 'false'
+																				AND `job_annonces`.`provided` = 'false'
 																				AND `job_annonces`.`id_annonce` NOT IN (SELECT id_annonce FROM job_annonces_etu WHERE id_etu = $this->id)
 																				", false);
       	     	

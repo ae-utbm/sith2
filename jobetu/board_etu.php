@@ -326,7 +326,7 @@ else
 	{
 		$cts->add_paragraph("<b>Nous n'avons trouvé aucune annonce correspondant à votre profil</b>.");
 		$cts->add_paragraph("Vérifiez d'avoir correctement rempli votre tableau de compétences dans la <a href=\"board_etu.php?view=profil\">section \"profil\"</a>.");
-		$cts->add_paragraph("Si vous pensez avoir découvert un bug, merci de <a href=\"https://ae.utbm.fr/trac/ae2/newticket?component=jobetu\">le signaler</a>.");
+		// ou pas pour l instant $cts->add_paragraph("Si vous pensez avoir découvert un bug, merci de <a href=\"https://ae.utbm.fr/trac/ae2/newticket?component=jobetu\">le signaler</a>.");
 	}
 	else
 	{
