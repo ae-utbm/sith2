@@ -139,7 +139,8 @@
 					if($usr->id == $annonce->winner)
 						break;  // <= ouh que c'est moche
 */
-				$this->buffer .= "<p> Vous avez déjà sélectionné un/des candidat(s) : </p>"; // $usr->prenom $usr->nom</p>";
+				$this->buffer .= "<p>Votre annonce fermée.</p>";
+				$this->buffer .= "<p>Candidat(s) sélectionnées : </p>"; // $usr->prenom $usr->nom</p>";
 
 				$list = new itemlist(false);	/* liste des personnes sélectionnées */
 				foreach($annonce->winner as $id_winner)
@@ -192,7 +193,8 @@
 					$list->add("Il reste actuellement ".$annonce->remaining_positions()." place(s) disponibles pour votre offre.");
 					$this->buffer .= $list->html_render();
 				}
-					
+				
+				$this->buffer .= "<h3>Candidats :</h3>";
 				/* debut 'liste' des candidats */
 		  	foreach($annonce->applicants_fullobj as $usr)
 		  	{

@@ -85,18 +85,7 @@ class annonce extends stdentity
   	$this->tel_client = $line['num_client'];
   	$this->closed = $line['closed'];
   	
-  	/* Sélection du/des étudiant(s) choisis 'if any' */
-		$sql = new requete($this->db, "SELECT id_etu FROM `job_annonces_etu` WHERE id_annonce='$this->id' AND relation='selected'");
-		if($sql->lines > 0)
-		{
-			$this->winner = array();
-			while($row = $sql->get_row())
-			{
-				$this->winner[] = $row[0];
-			}
-		}
-		else
-			$this->winner = NULL;
+  	$this->load_winner();		
   	
   	/* C'est pas beau mais j'arrive pas à le faire en une requete */
   	$sql = new requete($this->db, "SELECT `job_types`.`nom` FROM `job_annonces` LEFT JOIN `job_types` ON `job_types`.`id_type` = ". ($this->id_type - $this->id_type%100) ."");
@@ -115,6 +104,21 @@ class annonce extends stdentity
   	return count($this->applicants);  	
   }
   
+  function load_winner()
+  {
+  	$sql = new requete($this->db, "SELECT id_etu FROM `job_annonces_etu` WHERE id_annonce='$this->id' AND relation='selected'");
+  	if($sql->lines > 0)
+  	{
+  		$this->winner = array();
+  		while($row = $sql->get_row())
+  		{
+  			$this->winner[] = $row[0];
+  		}
+  	}
+  	else
+			$this->winner = NULL;
+  }
+    
   function load_applicants_fullobj()
   {
   	$this->applicants = array();
