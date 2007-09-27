@@ -125,7 +125,7 @@ else
 	
 	$sql = new requete($site->db, "SELECT *, 
 																	`job_annonces`.`id_annonce` AS `id`,
-																	DATE_FORMAT(`date`, '%e/%c/%Y') AS `date`, 
+																	DATE_FORMAT(`date`, '%e/%c/%Y') AS `date`
 																	FROM job_annonces
 																	WHERE id_client = $user->id AND closed = '1'");
 	if( $sql->lines > 0 )
