@@ -491,12 +491,12 @@ class wiki extends basedb
       else
         $wiki = $this->get_scope().$wiki;   
         
-      $req = new requete($this->db,"SELECT alias_utl, fullpath_wiki, date_rev, comment_rev, id_rev_last, id_rev   ".
+      $req = new requete($this->db,"SELECT COALESCE(alias_utl,CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) AS `nom_utilisateur`, fullpath_wiki, date_rev, comment_rev, id_rev_last, id_rev   ".
         "FROM wiki_rev ".
         "INNER JOIN wiki USING(id_wiki) ".
         "INNER JOIN utilisateurs ON(wiki_rev.id_utilisateur_rev=utilisateurs.id_utilisateur) ".
         "WHERE fullpath_wiki LIKE '".mysql_real_escape_string($wiki)."%' ".
-    		"ORDER BY date_rev ".
+    		"ORDER BY date_rev DESC ".
     		"LIMIT 50");  
         
       if ( $req->lines== 0 )
@@ -511,6 +511,9 @@ class wiki extends basedb
             $revlink = "?name=".$row['fullpath_wiki']."&amp;rev=".$row['id_rev'];
           else
             $revlink = "?name=".$row['fullpath_wiki'];
+            
+          if ( empty($row['fullpath_wiki']) )
+            $row['fullpath_wiki'] = "(racine)";              
             
           $buffer .=
             "<li><span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
