@@ -455,7 +455,6 @@ elseif ( 	$_REQUEST["view"] == "comptes" )
       			"banque_rech"=>"Banque",
       			"nom_utilisateur_vendeur"=>"Operateur",
       			"nom_utilisateur_client"=>"Client",
-      			"nom_asso"=>"Asso.",
       			"total"=>"Som."), 
       		array(), 
       		array(),
