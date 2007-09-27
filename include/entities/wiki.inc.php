@@ -494,7 +494,7 @@ class wiki extends basedb
       $req = new requete($this->db,"SELECT alias_utl, fullpath_wiki, date_rev, comment_rev, id_rev_last, id_rev   ".
         "FROM wiki_rev ".
         "INNER JOIN wiki USING(id_wiki) ".
-        "INNER JOIN utilisateurs ON(wiki_rev.id_utilisateur=utilisateurs.id_utilisateur) ".
+        "INNER JOIN utilisateurs ON(wiki_rev.id_utilisateur_rev=utilisateurs.id_utilisateur) ".
         "WHERE fullpath_wiki LIKE '".mysql_real_escape_string($wiki)."%' ".
     		"ORDER BY date_rev ".
     		"LIMIT 50");  
