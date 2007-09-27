@@ -196,6 +196,7 @@
 				/* debut 'liste' des candidats */
 		  	foreach($annonce->applicants_fullobj as $usr)
 		  	{
+		  		var_dump($annonce->winner);
 		  		if( in_array($usr->id, $annonce->winner) ) /* on passe les étudiants déjà sélectionnés */
 		  			continue;
 		  		
