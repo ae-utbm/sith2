@@ -91,7 +91,10 @@ class annonce extends stdentity
 		{
 			$this->winner[] = array();
 			while($row = $sql->get_row())
+			{
 				$this->winner[] = $row[0];
+				print_r($row);
+			}
 		}
 		else
 			$this->winner = NULL;
@@ -135,7 +138,7 @@ class annonce extends stdentity
   	echo "id : $this->id, nb : $this->nb_postes, selected : ".count($this->winner) ;
   	
   	
-  	if( $this->winner != NULL && count($this->winner) == $this->nb_postes )
+  	if( $this->winner != NULL && count($this->winner) >= $this->nb_postes )
   		return true;
   	else 
   		return false;
