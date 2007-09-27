@@ -61,6 +61,61 @@ class ville extends stdentity
     return false;
   }
 
+  /* redéfinition du can_enumerate, spécifique aux recherches de lieux */
+  function enumerate ( $null=false, $conds = null )
+  {
+    $class = get_class($this);
+    
+    if ( !isset($GLOBALS["entitiescatalog"][$class][4]) )
+      return null;
+    
+		if ( $null ) 
+			$values=array(null=>"(aucun)");
+		else
+			$values=array();
+    
+		$sql = 
+		  "SELECT 
+                            `id_ville`
+                          , `nom_ville`
+                          , `nom_pays`
+                   FROM 
+                            `loc_ville`
+                   INNER JOIN 
+                            `loc_pays`
+                   USING (`id_pays`) ";
+      
+    if ( !is_null($conds) && count($conds) > 0 )
+    {
+      $firststatement=true;
+      
+      foreach ($conds as $key => $value)
+      {
+        if( $firststatement )
+        {
+          $sql .= " WHERE ";
+          $firststatement = false;
+        }
+        else
+          $sql .= " AND ";
+          
+        if ( is_null($value) )
+          $sql .= "(`" . $key . "` is NULL)";
+        else
+          $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
+      }
+    }
+    
+    $sql .= " ORDER BY 2";  
+    
+		$req = new requete($this->db,$sql);
+
+		while ( $row = $req->get_row() )
+		  $values[$row[0]] = $row[1] . " (" .$row[2] .")";
+
+    return $values;
+  }
+
   function load_by_pgid($id)
   {
     if (! $this->pgdb)
