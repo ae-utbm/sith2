@@ -172,9 +172,9 @@
 			}
 			else /* et c'est là qu'on se marre */
 			{
-				$this->buffer .= "<p>Il y a pour l'instant ".count($annonce->applicants)." candidature(s) pour votre annonce </p>\n";
+				$this->buffer .= "<p>Il y a pour l'instant ".count($annonce->applicants) - count($annonce->winner)." candidature(s) pour votre annonce </p>\n";
 				if( !$annonce->allow_diff )
-					$this->buffer .= "<p>Vous n'avez pas demandé la diffusion de votre numéro de téléphone, aussi pensez à prendre contact avec les candidats si vous souhaitez les rencontrer</p>";
+					$this->buffer .= "<p><img src=\"$topdir/images/icons/16/star.png\" /> Attention : Vous n'avez pas demandé la diffusion de votre numéro de téléphone, aussi pensez à prendre contact avec les candidats si vous souhaitez les rencontrer</p>";
 				
 				if( $annonce->nb_postes > 1 && !empty($annonce->winner) )
 				{
