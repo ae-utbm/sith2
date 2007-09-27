@@ -288,7 +288,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 	$frm = new form("prefs_utl", "board_etu.php?view=preferences", false, "POST");
 	//checkbox recevoir un mail dès qu'une annonce est déposée
 	//checkbox publier mes CVs dans le matmatronch
-	
+	//bouton pour envoyer "je fais des bisous à Pedrov" au 36375 (0.56cts par SMS plus cout d'un SMS)
 	$cts->add($frm);
 
 }
