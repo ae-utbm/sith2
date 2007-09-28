@@ -118,8 +118,6 @@ if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) 
   if ( $type < 5 && !$user->utbm )
     $type=6;
   
-  print_r($_REQUEST);
-  
   if ( isset($_REQUEST["setpassword"]) && $_REQUEST["setpassword"] )
     $user->change_password($_REQUEST["ae2_password"]);
   

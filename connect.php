@@ -49,7 +49,7 @@ switch ($_REQUEST["domain"])
 	break;
 }
 
-if ( $site->user->is_valid() )
+if ( !$site->user->is_valid() )
 {
 	header("Location: article.php?name=site-wrongpassoruser");
 	exit();
