@@ -473,9 +473,9 @@ $frm->add($sfrm,false,true, $type==6, 6,false,true);
   
 if ( isset($_REQUEST["hash"]) )
 {
-  $sfrm = new form("setpassword",null,null,null,"Choisir un mot de passe");
-  $frm->add_password_field("ae2_password","Nouveau mot de passe","",true);
-  $frm->add_password_field("ae2_password2","Repetez le nouveau mot de passe","",true);
+  $sfrm = new form("setpassword",null,null,null,"Choisir un nouveau mot de passe");
+  $sfrm->add_password_field("ae2_password","Nouveau mot de passe","",true);
+  $sfrm->add_password_field("ae2_password2","Repetez le nouveau mot de passe","",true);
   $frm->add($sfrm,true,false,true,true,false,true); 
 }
   
