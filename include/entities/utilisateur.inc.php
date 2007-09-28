@@ -1268,20 +1268,20 @@ L'équipe info AE";
   {
     $this->load_all_extra();
     
-    if ( $user->email_utbm && CheckEmail($user->email_utbm, 1) )
-      return "Connexion : UTBM\nIdentifiant : ".substr($user->email_utbm,0,-8);
+    if ( $this->email_utbm && CheckEmail($this->email_utbm, 1) )
+      return "Connexion : UTBM\nIdentifiant : ".substr($this->email_utbm,0,-8);
       
-    elseif ( $user->email_utbm && CheckEmail($user->email_utbm, 2) )
-      return "Connexion : ASSIDU\nIdentifiant : ".substr($user->email_utbm,0,-15);
+    elseif ( $this->email_utbm && CheckEmail($this->email_utbm, 2) )
+      return "Connexion : ASSIDU\nIdentifiant : ".substr($this->email_utbm,0,-15);
     
-    elseif ( $user->alias )
-      return "Connexion : Alias\nIdentifiant : ".$user->alias;
+    elseif ( $this->alias )
+      return "Connexion : Alias\nIdentifiant : ".$this->alias;
       
-    elseif ( $user->email )
-      return "Connexion : Autre\nIdentifiant : ".$user->email;
+    elseif ( $this->email )
+      return "Connexion : Autre\nIdentifiant : ".$this->email;
       
     else
-      return "Connexion : ID\nIdentifiant : ".$user->id;
+      return "Connexion : ID\nIdentifiant : ".$this->id;
   }
 
 
