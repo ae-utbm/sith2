@@ -305,6 +305,8 @@ class site extends interfaceweb
 
     $this->user->visite();
 
+    $this->add_box("connexion", $this->get_connection_contents());
+
     return $sid;
   }
   
