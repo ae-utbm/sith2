@@ -110,10 +110,8 @@ if ( $_REQUEST["action"] == "setemailutbm" )
   exit();
 }
   
-  
-  
-  
-if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) && $_REQUEST["setpassword"] ) || ( $_REQUEST["ae2_password"] && $_REQUEST["ae2_password"] == $_REQUEST["ae2_password2"] ) ) )
+    
+if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) || !$_REQUEST["setpassword"] ) || ( $_REQUEST["ae2_password"] && $_REQUEST["ae2_password"] == $_REQUEST["ae2_password2"] ) ) )
 {
   $type = intval($_REQUEST["type"]);
   
@@ -473,7 +471,7 @@ $sfrm = new form("type",null,null,null,"Autre (hors UTBM)");
 
 $frm->add($sfrm,false,true, $type==6, 6,false,true);
   
-if ( isset($_REQUEST["hash"]) )
+if ( isset($_REQUEST["hash"]) || isset($_REQUEST["setpassword"]) )
 {
   $sfrm = new form("setpassword",null,null,null,"Choisir un nouveau mot de passe");
   $sfrm->add_password_field("ae2_password","Nouveau mot de passe","",true);
