@@ -113,16 +113,18 @@ if ( $_REQUEST["action"] == "setemailutbm" )
   
   
   
-if ( $_REQUEST["action"] == "majprofil" && ( !isset($_REQUEST["setpassword"]) || ( $_REQUEST["ae2_password"] && $_REQUEST["ae2_password"] == $_REQUEST["ae2_password2"] ) ) )
+if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) && $_REQUEST["setpassword"] ) || ( $_REQUEST["ae2_password"] && $_REQUEST["ae2_password"] == $_REQUEST["ae2_password2"] ) ) )
 {
   $type = intval($_REQUEST["type"]);
   
   if ( $type < 5 && !$user->utbm )
     $type=6;
   
-  if ( isset($_REQUEST["setpassword"]) )
+  print_r($_REQUEST);
+  
+  if ( isset($_REQUEST["setpassword"]) && $_REQUEST["setpassword"] )
     $user->change_password($_REQUEST["ae2_password"]);
-
+  
   if ( $type == 1 ) // Etudiant
   {
     $user->became_etudiant ( "UTBM", false, true );
