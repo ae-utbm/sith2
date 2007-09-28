@@ -28,6 +28,8 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/pays.inc.php");
 require_once($topdir. "include/entities/ville.inc.php");
 require_once($topdir. "include/entities/lieu.inc.php");
+require_once($topdir. "include/pgsqlae.inc.php");
+require_once($topdir. "include/cts/imgloc.inc.php");
 
 $site = new site ();
 $lvl = IMGLOC_COUNTRY;
@@ -50,10 +52,9 @@ foreach ($idvilles as $idville)
 $loc->add_context();
 
 
-require_once ($topdir . "include/watermark.inc.php");  
 $img = $loc->generate_img();
-$wm_img = new img_watermark ($img->imgres);
-$wm_img->output();
+$img->output();
+
 exit();
 
 ?>
