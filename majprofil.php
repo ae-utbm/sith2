@@ -113,13 +113,16 @@ if ( $_REQUEST["action"] == "setemailutbm" )
   
   
   
-if ( $_REQUEST["action"] == "majprofil" )
+if ( $_REQUEST["action"] == "majprofil" && ( !isset($_REQUEST["setpassword"]) || ( $_REQUEST["ae2_password"] && $_REQUEST["ae2_password"] == $_REQUEST["ae2_password2"] ) ) )
 {
   $type = intval($_REQUEST["type"]);
   
   if ( $type < 5 && !$user->utbm )
     $type=6;
   
+  if ( isset($_REQUEST["setpassword"]) )
+    $user->change_password($_REQUEST["ae2_password"]);
+
   if ( $type == 1 ) // Etudiant
   {
     $user->became_etudiant ( "UTBM", false, true );
@@ -384,6 +387,9 @@ $cts->add_paragraph("Choisissez le profil qui vous correspond, puis complétez l
 $frm = new form("majprofil","majprofil.php",true,"POST","");
 $frm->add_hidden("action","majprofil");
 
+if ( isset($_REQUEST["setpassword"]) )
+  $frm->error("La répétition du mot de passe n'est pas conforme");
+
 if ( $user->utbm )
 {
   $sfrm = new form("type",null,null,null,"Etudiant à l'UTBM");
@@ -464,6 +470,14 @@ $frm->add($sfrm,false,true, $type==5, 5,false,true);
 $sfrm = new form("type",null,null,null,"Autre (hors UTBM)");
 
 $frm->add($sfrm,false,true, $type==6, 6,false,true);
+  
+if ( isset($_REQUEST["hash"]) )
+{
+  $sfrm = new form("setpassword",null,null,null,"Choisir un mot de passe");
+  $frm->add_password_field("ae2_password","Nouveau mot de passe","",true);
+  $frm->add_password_field("ae2_password2","Repetez le nouveau mot de passe","",true);
+  $frm->add($sfrm,true,false,true,true,false,true); 
+}
   
 $frm->add_submit("record","Enregistrer");
 
