@@ -32,7 +32,10 @@ require_once($topdir. "include/pgsqlae.inc.php");
 require_once($topdir. "include/cts/imgloc.inc.php");
 
 $site = new site ();
+$pgconn = new pgsqlae();
+
 $lvl = IMGLOC_COUNTRY;
+
 
 $loc = new imgloc(800, $lvl, $site->db, $pgconn);
 
