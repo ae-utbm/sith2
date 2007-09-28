@@ -123,7 +123,7 @@ else
 	$sql = new requete($site->db, "SELECT nom, COUNT(id_type) AS val
 																FROM `job_types_etu`
 																NATURAL JOIN `job_types`
-																WHERE id_utilisateur NOT IN (SELECT id_select_etu FROM `job_annonces` WHERE closed = '1')
+																WHERE id_utilisateur NOT IN (SELECT id_etu FROM `job_annonces_etu` NATURAL JOIN `job_annonces` WHERE closed = '0' AND relation = 'selected')
 																GROUP BY id_type
 																ORDER BY nom DESC
 																");
