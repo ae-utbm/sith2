@@ -1,6 +1,5 @@
 <?php
 /* Copyright 2007
- * - Julien Etelain < julien at pmad dot net >
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
@@ -21,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
-$topdir = "./";
+$topdir = "../";
 include($topdir. "include/site.inc.php");
 
 require_once($topdir. "include/cts/sqltable.inc.php");
