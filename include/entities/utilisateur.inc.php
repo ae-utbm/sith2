@@ -1229,10 +1229,11 @@ L'équipe info AE";
 
   $body = "Bonjour,
 Votre compte a été crée sur le site de l'AE
+".$this->_get_textual_identifier()."
 Votre mot de passe: $password
 
 Pour activer votre compte, veuillez vous rendre à l'adresse
-http://ae.utbm.fr/confirm.php?id=" . $this->id . "&hash=" . $this->hash . "
+http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&hash=" . $this->hash . "
 
 L'équipe info AE";
 
@@ -1242,6 +1243,47 @@ L'équipe info AE";
                 "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ae@utbm.fr");
 
   }
+
+  function send_autopassword_email ( $email, $password )
+  {
+
+  $body = "Bonjour,
+Votre compte a été réinitialisé.
+".$this->_get_textual_identifier()."
+Votre mot de passe: $password
+
+Pour activer votre compte, veuillez vous rendre à l'adresse
+http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&hash=" . $this->hash . "
+
+L'équipe info AE";
+
+    $ret = mail($email,
+                utf8_decode("[Site AE] Réinitilisation"),
+                utf8_decode($body),
+                "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ae@utbm.fr");
+
+  }
+
+  function _get_textual_identifier ( )
+  {
+    $user->load_all_extra();
+    
+    if ( $user->email_utbm && CheckEmail($user->email_utbm, 1) )
+      return "Connexion : UTBM\nIdentifiant : ".substr($user->email_utbm,0,-8);
+      
+    elseif ( $user->email_utbm && CheckEmail($user->email_utbm, 2) )
+      return "Connexion : ASSIDU\nIdentifiant : ".substr($user->email_utbm,0,-15);
+    
+    elseif ( $user->alias )
+      return "Connexion : Alias\nIdentifiant : ".$user->alias;
+      
+    elseif ( $user->email )
+      return "Connexion : Autre\nIdentifiant : ".$user->email;
+      
+    else
+      return "Connexion : ID\nIdentifiant : ".$user->id;
+  }
+
 
   /** Recharge le montant du compte de l'utilisateur courant
    *

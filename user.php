@@ -86,22 +86,9 @@ if ( isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "pass_re
     $pass = genere_pass(10);
     $user->invalidate();
     $user->change_password($pass);
-    $body = "Bonjour,
-Votre mot de passe sur le site de l'Association des Étudiants de
-l'UTBM a été réinitialisé.
-
-Votre nouveau mot de pass est : " . $pass . "
-
-Pour valider ce nouveau mot de passe, veuillez vous rendre à l'adresse
-http://ae.utbm.fr/confirm.php?id=" . $user->id . "&hash=" . $user->hash . "
-
-Vous pouvez changer votre mot de passe en vous connectant sur le site
-(http://ae.utbm.fr) puis en sélectionnant \"Informations
-personnelles\".
-
-L'équipe info AE";
-
-    $ret = mail($email, "[Site AE] Réinitialisation du mot de passe", $body);
+    
+    $user->send_autopassword_email($email,$pass);
+    
   }
 }
 

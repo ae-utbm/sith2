@@ -41,8 +41,9 @@ if ( isset($_REQUEST["email"]) )
 		
 		$user->invalidate();
 		$user->change_password($pass);
-		
-
+    
+    $user->send_autopassword_email($_REQUEST["email"],$pass);
+/*
   $body = "Bonjour,
 Votre mot de passe sur le site de l'Association des Étudiants de
 l'UTBM a été réinitialisé.
@@ -59,7 +60,7 @@ personnelles\".
 L'équipe info AE";
 
 		$ret = mail($_REQUEST["email"], "[Site AE] Réinitialisation du mot de passe", $body);		
-		
+		*/
 		
 		$cts->add_paragraph("Un nouveau mot de passe vous a été envoyé par " .
 				"courrier électronique. Dans ce courrier électronique, vous " .
