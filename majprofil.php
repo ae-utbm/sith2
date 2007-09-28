@@ -401,7 +401,7 @@ if ( $user->utbm )
   
   $sfrm->add_text_field("addresse_etu","Adresse personelle",$user->addresse);
 
-  $sfrm->add_entity_smartselect ("id_ville_etu","Ville (France)", $ville,true);
+  $sfrm->add_entity_smartselect ("id_ville_etu","Ville", $ville,true);
           
   $sfrm->add_text_field("tel_maison_etu","Telephone (fixe)",$user->tel_maison);
   $sfrm->add_text_field("tel_portable_etu","Telephone (portable)",$user->tel_portable);
@@ -422,7 +422,7 @@ if ( $user->utbm )
   
   $sfrm->add_text_field("addresse_dip","Adresse personelle",$user->addresse);
 
-  $sfrm->add_entity_smartselect ("id_ville_dip","Ville (France)", $ville,true);
+  $sfrm->add_entity_smartselect ("id_ville_dip","Ville", $ville,true);
   $sfrm->add_entity_smartselect ("id_pays_dip","ou pays", $pays,true);
   
   $sfrm->add_text_field("tel_maison_dip","Telephone (fixe)",$user->tel_maison);
@@ -439,7 +439,7 @@ if ( $user->utbm )
   
   $sfrm->add_text_field("addresse_anc","Adresse personelle",$user->addresse);
 
-  $sfrm->add_entity_smartselect ("id_ville_anc","Ville (France)", $ville,true);
+  $sfrm->add_entity_smartselect ("id_ville_anc","Ville", $ville,true);
   $sfrm->add_entity_smartselect ("id_pays_anc","ou pays", $pays,true);
   $sfrm->add_text_field("tel_maison_anc","Telephone (fixe)",$user->tel_maison);
   $sfrm->add_text_field("tel_portable_anc","Telephone (portable)",$user->tel_portable);
