@@ -1266,7 +1266,7 @@ L'équipe info AE";
 
   function _get_textual_identifier ( )
   {
-    $user->load_all_extra();
+    $this->load_all_extra();
     
     if ( $user->email_utbm && CheckEmail($user->email_utbm, 1) )
       return "Connexion : UTBM\nIdentifiant : ".substr($user->email_utbm,0,-8);
