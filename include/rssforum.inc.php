@@ -76,10 +76,10 @@ class rssfeedforum extends rssfeed
                                     DESC
                                     LIMIT ".$this->nb);
 
-    while ($res = $req->get_row())
+    while ($row = $req->get_row())
       {
 	echo "<item>\n";
-	echo "\t<title>![CDATA[". $row["titre_sujet"] . ", par <b>".$row['alias_utl']."</b>]]</title>\n";
+	echo "\t<title><![CDATA[". $row["titre_sujet"] . ", par <b>".($row['alias_utl'] == "" ? "???" : $row['alias_utl'])."</b>]]></title>\n";
 	echo "\t<link>".$this->pubUrl."/?id_message=".$row["id_message"]."#msg".$row['id_message']."</link>\n";
 	
 	if ($row['syntaxengine_message'] == 'doku')
@@ -88,7 +88,7 @@ class rssfeedforum extends rssfeed
 	elseif ($row['syntaxengine_message'] == 'bbcode')
 	  $content = bbcode($row['contenu_message']);
 
-	echo "\t<description><![CDATA[".$content."]]</description>\n";
+	echo "\t<description><![CDATA[".$content."]]></description>\n";
 	echo "\t<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date_message"]))."</pubDate>\n";
 	echo "\t<guid>http://ae.utbm.fr/forum2/?id_sujet=".$row["id_sujet"]."</guid>\n";
 	echo "</item>\n";	
