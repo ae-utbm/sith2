@@ -54,6 +54,7 @@ if ( $_REQUEST["action"] == "process")
   
 	$lines = explode("\n",$_REQUEST["data"]);
 	
+	echo "<ul>";
 
 	foreach ( $lines as $line)
 	{
@@ -87,6 +88,8 @@ if ( $_REQUEST["action"] == "process")
     {
       $user->_load($req->get_row());
       $user->load_all_extra();
+      if ( $naissance != $user->date_naissance )
+        $user->date_naissance = $naissance;
       $user->role="etu";
       $user->departement = $traduc[trim($data[3])];  
       $user->filiere = strtolower(trim($data[4]));  
@@ -94,13 +97,19 @@ if ( $_REQUEST["action"] == "process")
       $user->became_etudiant ( "UTBM", true, true );
       $user->saveinfos();
       echo " : Updated";
+      $updated++;
     }
     else
+    {
       echo " : Not found";
-
+      $notfound++;
+    }
     echo "</li>";
 
 	}
+	
+	echo "<li>$updated Updated, $notfound Not found</li>";
+	echo "</ul>";
 	
 	exit();
 }
