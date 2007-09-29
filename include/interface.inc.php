@@ -399,7 +399,7 @@ class interfaceweb
 			$lastforce = strtotime("2007-09-20 21:00:00"); // TODO:algo de génération
   		if ( is_null($this->user->date_maj) || $this->user->date_maj < $lastforce )
   		{
-  		  print_r($this->user);
+  		  //print_r($this->user);
 	    	echo "<div id=\"hugealert\">";		
 	    	echo "<p>Merci de mettre à jour votre profil : ".
 	    	     "<a href=\"". $wwwtopdir ."majprofil.php\">le mettre à jour</a></p>";		

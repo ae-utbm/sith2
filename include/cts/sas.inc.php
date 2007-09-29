@@ -325,16 +325,16 @@ class sasphoto extends contents
     
     if ( $photo->is_admin($user) )
     {
-      $user = new utilisateur($photo->db);
+      $userinfo = new utilisateur($photo->db);
       if ( $photo->id_utilisateur_moderateur )
       {
-        $user->load_by_id($photo->id_utilisateur_moderateur);
-        $subcts->add_paragraph("Modéré par: ".classlink($user));  
+        $userinfo->load_by_id($photo->id_utilisateur_moderateur);
+        $subcts->add_paragraph("Modéré par: ".classlink($userinfo));  
       }
       if ( $photo->id_utilisateur )
       {
-        $user->load_by_id($photo->id_utilisateur);
-        $subcts->add_paragraph("Proposé par: ".classlink($user));  
+        $userinfo->load_by_id($photo->id_utilisateur);
+        $subcts->add_paragraph("Proposé par: ".classlink($userinfo));  
       }
     }
     
