@@ -90,7 +90,7 @@ class rssfeedforum extends rssfeed
 
 	echo "\t<description><![CDATA[".$content."]]></description>\n";
 	echo "\t<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date_message"]))."</pubDate>\n";
-	echo "\t<guid>http://ae.utbm.fr/forum2/?id_sujet=".$row["id_sujet"]."</guid>\n";
+	echo "\t<guid>http://ae.utbm.fr/forum2/?id_sujet=".$row["id_sujet"]."#msg".$row['id_message']."</guid>\n";
 	echo "</item>\n";	
 	
       }
