@@ -90,6 +90,8 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 			$i = 1;
 			foreach($_FILES as $file)
 			{
+				if( in_array($_REQUEST['lang_'.$i], $usr->pdf_cvs) )
+					$usr->del_pdf_cv($_REQUEST['lang_'.$i]);
 				if( $usr->add_pdf_cv($file, $_REQUEST['lang_'.$i]) )
 					$cts->add_paragraph("Votre CV en ".$i18n[ $_REQUEST['lang_'.$i] ]." a été correctement envoyé");
 				else
