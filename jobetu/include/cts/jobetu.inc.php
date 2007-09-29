@@ -72,6 +72,19 @@
 
 						$this->buffer .= "<br />";
 						
+						global $usr;
+						$lst = new itemlist(false);
+						if( $annonce->is_closed() )
+							$lst->add("Cette annonce est cloturée.", "ko");
+						
+						if( $annonce->id_provided() )
+							$lst->add("Tous les postes pour cette annonce sont pourvus.", "ko");
+						 
+						if( in_array($usr->id, $annonce->applicants) )
+							$lst->add("Vous êtes déjà candidat à cette offre.", "ok");
+						
+						if( !$annonce->is_closed() && !$annonce->id_provided() && !( in_array($usr->id, $annonce->applicants) ) )
+						{
 	  					$frm = new form("apply_".$annonce->id."", false, true, "POST");
 		  					$frm->add_submit("clic", "Se porter candidat");
 		  				$this->buffer .= "<div onClick=\"javascript:on_off('apply_".$annonce->id."');\">" . $frm->buffer . "</div>";
@@ -88,6 +101,7 @@
 		  				$this->buffer .= "</div>";
 	  				  				
 	  				$this->buffer .= "</div>";
+						}
 	  		/************************************************************************/			
 	  		$this->buffer .= "</div>";
 
