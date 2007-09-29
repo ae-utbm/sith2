@@ -36,82 +36,122 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
 
         /* on déplace les photos matmat */
 
-	/* avatar forum */
-	$photo  = "/var/www/ae/www/var/matmatronch/" . $id . ".jpg";
-	$photo_ =  "/var/www/ae/www/var/matmatronch/" . $id_ . ".jpg";
-	@copy($photo, $photo_);
-	@unlink($photo);
-	/* photo mmt */
-	$identity  = "/var/www/ae/www/var/matmatronch/" . $id . ".identity.jpg";
-	$identity_ =  "/var/www/ae/www/var/matmatronch/" . $id_ . ".identity.jpg";
-	@copy($identity, $identity_);
-	@unlink($identity);
-	/* photo mmt i (?!?) */
-	$identityi  = "/var/www/ae/www/var/matmatronch/" . $id . ".identity.i.jpg";
-	$identityi_ =  "/var/www/ae/www/var/matmatronch/" . $id_ . ".identity.i.jpg";
-	@copy($identityi, $identityi_);
-	@unlink($identityi);
-	/* blouse */
-	$blouse  = "/var/www/ae/www/var/matmatronch/" . $id . ".blouse.jpg";
-	$blouse_ =  "/var/www/ae/www/var/matmatronch/" . $id_ . ".blouse.jpg";
-	@copy($blouse, $blouse_);
-	@unlink($blouse);
-	/* blouse mini */
-	$blousemini  = "/var/www/ae/www/var/matmatronch/" . $id . ".blouse.mini.jpg";
-	$blousemini_ =  "/var/www/ae/www/var/matmatronch/" . $id_ . ".blouse.mini.jpg";
-	@copy($blousemini, $blousemini_);
-	@unlink($blousemini);
+        /* avatar forum */
+        $photo  = "/var/www/ae/www/var/matmatronch/" . $_id . ".jpg";
+        $_photo =  "/var/www/ae/www/var/matmatronch/" . $id . ".jpg";
+        if(file_exists($photo) && file_exists($_photo))
+        {
+          if( filemtime($photo) > filemtime($photo_) )
+            @unlink($_photo);
+          else
+          {
+            @copy($_photo, $photo);
+            @unlink($_photo);
+          }
+        }
+        elseif(file_exists($_photo))
+        {
+          @copy($_photo, $photo);
+          @unlink($_photo);
+        }
+        
+        /* photo mmt */
+        $photo  = "/var/www/ae/www/var/matmatronch/" . $_id . ".identity.jpg";
+        $_photo =  "/var/www/ae/www/var/matmatronch/" . $id . ".identity.jpg";
+        $identityi  = "/var/www/ae/www/var/matmatronch/" . $_id . ".identity.i.jpg";
+        $_identityi =  "/var/www/ae/www/var/matmatronch/" . $id . ".identity.i.jpg";
+        if(file_exists($photo) && file_exists($_photo))
+        {
+          if( filemtime($photo) > filemtime($photo_) )
+          {
+            @unlink($_photo);
+            @unlink($_identityi);
+          }
+          else
+          {
+            @copy($_photo, $photo);
+            @copy($_identityi, $identityi);
+            @unlink($_photo);
+            @unlink($_identityi);
+          }
+        }
+        elseif(file_exists($_photo))
+        {
+          @copy($_photo, $photo);
+          @copy($_identityi, $identityi);
+          @unlink($_photo);
+          @unlink($_identityi);
+        }
+        
+        /* blouse */
+        $photo  = "/var/www/ae/www/var/matmatronch/" . $_id . ".blouse.jpg";
+        $_photo =  "/var/www/ae/www/var/matmatronch/" . $id . ".blouse.jpg";
+        $blousemini  = "/var/www/ae/www/var/matmatronch/" . $_id . ".blouse.mini.jpg";
+        $_blousemini =  "/var/www/ae/www/var/matmatronch/" . $id . ".blouse.mini.jpg";
+        if(file_exists($photo) && file_exists($_photo))
+        {
+          if( filemtime($photo) > filemtime($photo_) )
+          {
+            @unlink($_photo);
+            @unlink($_blousemini);
+          }
+          else
+          {
+            @copy($_photo, $photo);
+            @copy($_blousemini, $blousemini);
+            @unlink($_photo);
+            @unlink($_blousemini);
+          }
+        }
+        elseif(file_exists($_photo))
+        {
+          @copy($_photo, $photo);
+          @copy($_blousemini, $blousemini);
+          @unlink($_photo);
+          @unlink($_blousemini);
+        }
 
         /* on vérifie les cotises */
-	$infocotises = get_user_bordel($id, "ae_cotisations");
-
-	for ($i = 0; $i < count($infocotises); $i++)
-	  {
-	    new update($site->dbrw, 
-		       "ae_cotisations", 
-		       array('id_utilisateur' => $_id),
-		       array('id_cotisation'  => $infocotises[$i]['id_cotisation']), true);
-	  }
+        new update($site->dbrw, 
+                   "ae_cotisations", 
+                   array('id_utilisateur' => $_id),
+                   array('id_utilisateur'  => $id));//, true);
 
         /* on vérifie les photos */
 
         /* on vérifie les messages forum */
-	$messagesforum = get_user_bordel($id, "frm_message");
-	for ($i = 0; $i < count($messagesforum); $i++)
-	  {
-	    new update($site->dbrw, 
-		       "frm_message", 
-		       array('id_utilisateur' => $_id),
-		       array('id_message'  => $messagesforum[$i]['id_message']), true);
-	  }
-	/* TODO : propositions de sujets sur le forum ? */
-	
+        new update($site->dbrw, 
+                   "frm_message", 
+                   array('id_utilisateur' => $_id),
+                   array('id_utilisateur'  => $id));//, true);
+        /* TODO : propositions de sujets sur le forum ? */
+  
 
 
         /* on vérifie les emprunts matériel */
-	$empruntsmatos = get_user_bordel($id, "inv_emprunt");
-	for ($i = 0; $i < count($empruntsmatos); $i++)
-	  {
-	    new update($site->dbrw, 
-		       "inv_emprunt", 
-		       array('id_utilisateur' => $_id),
-		       array('id_emprunt'  => $empruntsmatos[$i]['id_emprunt']), true);
-	  }
+        new update($site->dbrw, 
+                   "inv_emprunt", 
+                   array('id_utilisateur' => $_id),
+                   array('id_utilisateur'  => $id));//, true);
 
         /* on vérifie les réservations de salles */
-	$resasalles = get_user_bordel($id, "sl_reservation");
-	for ($i = 0; $i < count($resasalles); $i++)
-	  {
-	    new update($site->dbrw, 
-		       "sl_reservation", 
-		       array('id_utilisateur' => $_id),
-		       array('id_salres'  => $empruntsmatos[$i]['id_salres']), true);
-	  }
-	
+        new update($site->dbrw, 
+                   "sl_reservation", 
+                   array('id_utilisateur' => $_id),
+                   array('id_utilisateur'  => $id));//, true);
+  
         /* on vérifie les asso */
-	
-
+        new update($site->dbrw,
+                   "asso_membre",
+                   array('id_utilisateur' => $_id),
+                   array('id_utilisateur' => $id));
+  
         /* on vérifie les groupes */
+        /*
+          is_in_group_id();
+          add_to_group();
+        */
+
 
         /* on vérifie les planings */
 
@@ -123,6 +163,8 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
 
         /* on vérifie les cartes ae et la lettre clé */
 
+        /* on supprimme le doublon */
+
         /* on reset le mot de passe */
       }
     }
@@ -132,7 +174,7 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
 function get_user_bordel($id, $nomtable, $champtable = "id_utilisateur")
 {
   $sql = new requete($site->db,
-		     "SELECT * FROM $nomtable WHERE $champtable = $id LIMIT 1");
+         "SELECT * FROM $nomtable WHERE $champtable = $id LIMIT 1");
   while ($res = $sql->get_row())
     $ret[] = $res;
   return $ret;

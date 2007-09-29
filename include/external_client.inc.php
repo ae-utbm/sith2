@@ -178,7 +178,7 @@ class external_client
 
 		$user = new utilisateur($this->db);
 
-		if ($user->load_by_email($email) == -1)
+		if (!$user->load_by_email($email))
 			$this->error ("Utilisateur INTROUVABLE");
 		
 		if ($ae_user_required && !$user->ae)
