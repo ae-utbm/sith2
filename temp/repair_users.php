@@ -41,7 +41,7 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         $_photo =  "/var/www/ae/www/var/matmatronch/" . $id . ".jpg";
         if(file_exists($photo) && file_exists($_photo))
         {
-          if( filemtime($photo) > filemtime($photo_) )
+          if( filemtime($photo) > filemtime($_photo) )
             @unlink($_photo);
           else
           {
@@ -62,7 +62,7 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         $_identityi =  "/var/www/ae/www/var/matmatronch/" . $id . ".identity.i.jpg";
         if(file_exists($photo) && file_exists($_photo))
         {
-          if( filemtime($photo) > filemtime($photo_) )
+          if( filemtime($photo) > filemtime($_photo) )
           {
             @unlink($_photo);
             @unlink($_identityi);
@@ -90,7 +90,7 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         $_blousemini =  "/var/www/ae/www/var/matmatronch/" . $id . ".blouse.mini.jpg";
         if(file_exists($photo) && file_exists($_photo))
         {
-          if( filemtime($photo) > filemtime($photo_) )
+          if( filemtime($photo) > filemtime($_photo) )
           {
             @unlink($_photo);
             @unlink($_blousemini);
@@ -112,6 +112,8 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         }
 
         /* on vérifie les cotises */
+        /* en bougeant les "cotises" on bouge les carte */
+        /* TODO : vérifier qu'il n'existe qu'une carte */
         new update($site->dbrw, 
                    "ae_cotisations", 
                    array('id_utilisateur' => $_id),
@@ -119,12 +121,30 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
 
         /* on vérifie les photos */
 
-        /* on vérifie les messages forum */
+        /* on vérifie le forum */
         new update($site->dbrw, 
                    "frm_message", 
                    array('id_utilisateur' => $_id),
                    array('id_utilisateur'  => $id));//, true);
-        /* TODO : propositions de sujets sur le forum ? */
+        new update($site->dbrw,
+                   "frm_forum",
+                   array('id_utilisateur' => $_id),
+                   array('id_utilisateur'  => $id));
+        new update($site->dbrw,
+                   "frm_sujet",
+                   array('id_utilisateur' => $_id),
+                   array('id_utilisateur'  => $id));
+        new update($site->dbrw,
+                   "frm_sujet",
+                   array('id_utilisateur_moderateur' => $_id)
+                   array('id_utilisateur_moderateur'  => $id));
+        new update($site->dbrw,
+                   "frm_sujet_utilisateur",
+                   array('id_utilisateur' => $_id),
+                   array('id_utilisateur'  => $id));
+        new delete($site->dbrw,
+                   "frm_sujet_utilisateur",
+                   array('id_utilisateur'  => $id));
   
 
 
