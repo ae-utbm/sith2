@@ -39,24 +39,17 @@ require_once($topdir. "include/entities/pays.inc.php");
 require_once($topdir. "include/graph.inc.php");
 require_once($topdir. "include/cts/imgcarto.inc.php");
 require_once($topdir. "include/pgsqlae.inc.php");
+require_once("include/entities/commentaire.inc.php");
+require_once("include/cts/commentaire.inc.php");
 
 $site = new site();
+$cmt = new commentaire($site->db, $site->dbrw);
 
 $site->add_css("css/userfullinfo.css");
 
 if (!$site->user->id)
   error_403();
-
-$site->start_page ("none", "Trombi Promo ".sprintf("%02d",$site->user->promo_utbm));
-
-$tabs = array(array("","trombi/index.php", "Informations"),
-              //array("board","trombi/index.php?view=board", "Messages"),
-              array("listing","trombi/index.php?view=listing", "La promo"),
-              array("stats","trombi/index.php?view=stats", "Des chiffres")
-             );
-$cts = new contents("Trombinoscope, Promo ".sprintf("%02d",$site->user->promo_utbm));
-$cts->add(new tabshead($tabs,$_REQUEST["view"]));
-
+  
 
 if (isset($_REQUEST['id_utilisateur']))
 {
@@ -66,6 +59,7 @@ if (isset($_REQUEST['id_utilisateur']))
   if (!$user->is_valid())
     $site->error_not_found("matmatronch");
     
+  $is_user_page = (!$user->id==$site->user->id);
   $can_edit = ($user->id==$site->user->id || $site->user->is_in_group("gestion_ae") || $site->user->is_asso_role ( 27, 1 ));
   
   if ($user->id != $site->user->id && !$site->user->utbm && !$site->user->ae)
@@ -82,8 +76,62 @@ if (isset($_REQUEST['id_utilisateur']))
 else
 {
   $user = &$site->user;
+  $is_user_page = false;
   $can_edit = true;
 }
+
+  
+if ( $_REQUEST["page"]  == "edit" && $can_edit )
+{
+  if ( isset($_REQUEST["id_commentaire"]) )
+  {
+    $cmt->load_by_id($_REQUEST["id_commentaire"]);
+    if ( $cmt->id < 1 )
+    {
+      header("Location: 404.php");
+      exit();
+    }
+    
+    $site->start_page ("services", "Edition d'un commentaire");
+    $cts = new contents("Editer");
+
+    $frm = new form("editcomment", "index.php", false, "POST", "Edition d'un commentaire");
+    $frm->add_hidden("action","edit");
+    $frm->add_hidden("id_commentaire",$cmt->id);
+    $frm->add_info("<b>ATTENTION</b>Votre commentaire peut &ecirc;tre mod&eacute;r&eacute;");
+    $frm->add_dokuwiki_toolbar('comment');
+    $frm->add_text_area ("comment","Commentaire",$cmt->commentaire);
+    $frm->add_submit("valid","Enregistrer");
+
+    $site->add_contents ($frm);
+
+    $site->add_contents (new wikihelp());
+    $site->end_page ();
+    exit();
+  }
+}
+
+
+if ( ($_REQUEST["action"] == "create") && (!$is_user_page || $can_edit) )
+{
+  //add_comment
+}
+elseif ( ($_REQUEST["action"] == "edit") && (!$is_user_page || $can_edit) )
+{
+  
+}
+
+
+$site->start_page ("none", "Trombi Promo ".sprintf("%02d",$site->user->promo_utbm));
+
+$tabs = array(array("","trombi/index.php", "Informations"),
+              //array("board","trombi/index.php?view=board", "Messages"),
+              array("listing","trombi/index.php?view=listing", "La promo"),
+              array("stats","trombi/index.php?view=stats", "Des chiffres")
+             );
+$cts = new contents("Trombinoscope, Promo ".sprintf("%02d",$site->user->promo_utbm));
+$cts->add(new tabshead($tabs,$_REQUEST["view"]));
+
 
 if(isset($_REQUEST["stats"]))
 {
@@ -333,9 +381,13 @@ elseif($_REQUEST["view"]=="stats")
 }
 else
 {
+
   $cts->add_title(2, "Informations personnelles");
   $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"), "trombi/index.php");
   $cts->add($info);
+  
+  /* renvois plus bas */
+  $cts->add_paragraph("<a href=\"comments\">Voir les commentaires</a>");
 
   /* photos */
   $grps = $site->user->get_groups_csv();
@@ -475,7 +527,60 @@ else
                        );
     $cts->add($tbl,true);
   }
+  
+  /* Commentaires */
+  $site->add_contents($cts);
+  $cts = new contents("Commentaires");
+  $cts->add_paragraph("<a name=\"comments\"></a>");
+  
+  $req = new requete($site->db,
+           "SELECT * FROM `trombi_commentaire`
+             WHERE `id_commente` = '" .
+		    mysql_real_escape_string($user->id) . "'
+             AND `id_commentateur` = '" .
+            mysql_real_escape_string($site->user->id) . "'
+             LIMIT 1"
+         );
+                     
+  $cmt_exists = false;
+  
+  if ( $req->lines == 0 )
+  {
+    $cts->add_paragraph( ($is_user_page ? "Vous n'avez" : "Cet utilisateur n'a") . " encore aucun commentaire.");
+  }
+  else
+  {
+    if ( !$is_user_page )
+    {
+      $cmt_exists = $cmt->comment_exists ( $user->id, $site->user->id );
+      
+      if ( $cmt_exists )
+      {
+        $cts->add_paragraph("<a href=\"#my_comment\">Aller à mon commentaire</a>");
+      }
+    }
+    
+    while ( $row = $req->get_row() )
+    {
+      $cts->add(new comment_contents(&$row, $user->id, $can_edit));
+    }
+    
+  }
+  
+  if ( !$is_user_page && !$cmt_exists )
+  {    
+    $frm = new form("createcomment", "index.php", false, "POST", "Ajouter mon commentaire");
+    $frm->add_hidden("action","create");
+    $frm->add_info("<b>ATTENTION</b>Votre commentaire peut &ecirc;tre mod&eacute;r&eacute;");
+    $frm->add_dokuwiki_toolbar('comment');
+    $frm->add_text_area ("comment","Commentaire");
+    $frm->add_submit("valid","Enregistrer");
+    
+    $cts->add($frm);
+    $cts->add(new wikihelp());
+  }
 }
+
 
 $site->add_contents($cts);
 
