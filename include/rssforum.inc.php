@@ -37,9 +37,9 @@ class rssfeedforum extends rssfeed
   function rssfeedforum(&$db, $nbmessage = 50)
   {
     $this->db = $db;
-    $this->nb = $nb;
     if (intval($nbmessage) < 0)
       $nbmessage = 50;
+    $this->nb = $nbmessage;
 
     $this->title = "Les " . $nbmessage . " messages du forum de l'AE";
     $this->pubUrl = "http://ae.utbm.fr/forum2/";
@@ -74,7 +74,7 @@ class rssfeedforum extends rssfeed
                                     ORDER BY
                                              `frm_message`.`id_message`
                                     DESC
-                                    LIMIT ".$this->nb, true);
+                                    LIMIT ".$this->nb);
 
     while ($res = $req->get_row())
       {
