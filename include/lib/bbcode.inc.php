@@ -110,7 +110,7 @@ function bbcode($text)
   }
   while( preg_match("/\[quote\](.+?)\[\/quote\]/i",$text) )
   {
-    $text = preg_replace("/\[quote\](.+?)\[\/quote\]/",
+    $text = preg_replace("/\[quote\](.+?)\[\/quote\]/i",
                          "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
   <b>Citation :</b>
   <div style=\"border: 1px #374a70 solid;
