@@ -313,8 +313,19 @@ class sasphoto extends contents
       $asso->load_by_id($photo->meta_id_asso);    
       $subcts->add_paragraph(classlink($asso));
     }
-    
-    if ( $photo->id_asso_photographe )
+
+    $userinfo = new utilisateur($photo->db);
+      
+    if ( $photo->id_utilisateur_photographe && $photo->id_asso_photographe )
+    {
+      $userinfo->load_by_id($photo->id_utilisateur_photographe);
+      $asso->load_by_id($photo->id_asso_photographe);    
+      if ( $photo->type_media == MEDIA_VIDEOFLV )
+        $subcts->add_paragraph("Réalisé par ".classlink($asso).", ".classlink($userinfo));
+      else
+        $subcts->add_paragraph("Photographie par ".classlink($asso).", ".classlink($userinfo));
+    }
+    elseif ( $photo->id_asso_photographe )
     {
       $asso->load_by_id($photo->id_asso_photographe);    
       if ( $photo->type_media == MEDIA_VIDEOFLV )
@@ -322,10 +333,15 @@ class sasphoto extends contents
       else
         $subcts->add_paragraph("Photographie par ".classlink($asso));
     }
+    elseif ( $photo->id_utilisateur_photographe && $photo->id_asso_photographe )
+    {
+      $userinfo->load_by_id($photo->id_utilisateur_photographe);
+      $subcts->add_paragraph("Photographe: ".classlink($userinfo));  
+    }
+    
     
     if ( $photo->is_admin($user) )
     {
-      $userinfo = new utilisateur($photo->db);
       if ( $photo->id_utilisateur_moderateur )
       {
         $userinfo->load_by_id($photo->id_utilisateur_moderateur);

@@ -314,13 +314,17 @@ if ( $photo->is_valid() )
     $phasso->load_by_id($_REQUEST["id_asso"]);
     $ptasso->load_by_id($_REQUEST["id_asso_photographe"]);
     
+    
+    $userinfo = new utilisateur($site->db);
+    $userinfo->load_by_id($_REQUEST["id_utilisateur_photographe"]);
+    
     $old = htmlentities($photo->get_display_name(),ENT_COMPAT,"UTF-8"); 
     
     $photo->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin'],false);
     $photo->update_photo(
       $_REQUEST["date"],
       $_REQUEST["comment"],
-      NULL,
+      $userinfo->id,
       $phasso->id,
       $_REQUEST["titre"],
       $ptasso->id
@@ -353,6 +357,9 @@ if ( $photo->is_valid() )
 
   if ( ($_REQUEST["page"] == "edit" || $_REQUEST["action"] == "edit") && $can_write )
   {
+    $userinfo = new utilisateur($site->db);
+    $userinfo->load_by_id($photo->id_utilisateur_photographe);    
+    
     $site->start_page("sas","Stock à Souvenirs");
 
     $cts = new contents($path." / Editer");
@@ -364,7 +371,9 @@ if ( $photo->is_valid() )
     $frm->add_text_area("comment","Commentaire",$photo->commentaire);
     $frm->add_checkbox("incomplet","Liste des personnes incomplète",$photo->incomplet);
     $frm->add_entity_select ( "id_asso", "Association/Club lié", $site->db, "asso",$photo->meta_id_asso,true);
-    $frm->add_entity_select ( "id_asso_photographe", "Photographe", $site->db, "asso",$photo->id_asso_photographe,true);
+    $frm->add_entity_select ( "id_asso_photographe", "Photographe (club)", $site->db, "asso",$photo->id_asso_photographe,true);
+    $frm->add_entity_smartselect ( "id_utilisateur_photographe", "Photographe", $userinfo, true );
+    
     $frm->add_rights_field($photo,false,$photo->is_admin($site->user));
     $frm->add_submit("valid","Enregistrer");
 
