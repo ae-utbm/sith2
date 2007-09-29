@@ -77,6 +77,7 @@ class jobuser_etu extends utilisateur
 	function load_pdf_cv()
 	{
 		$sql = new requete($this->db, "SELECT `lang` FROM `job_pdf_cv` WHERE id_utl = $this->id");
+		$this->pdf_cvs = array(); /* remise a 0 */
 		
 		while($line = $sql->get_row())
 			    $this->pdf_cvs[] = $line[0];
