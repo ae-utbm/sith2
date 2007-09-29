@@ -78,6 +78,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 		$jobetu = new jobetu($site->db, $site->dbrw);
 		$usr->load_competences();
 
+		$lst = new itemlist("Résultats");
 		/**
 		 * Gestion des données recues sur la mise à jour du profil
 		 */
@@ -93,10 +94,12 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 				$usr->load_pdf_cv();
 				if( in_array($_REQUEST['lang_'.$i], $usr->pdf_cvs) )
 					$usr->del_pdf_cv($_REQUEST['lang_'.$i]);
-				if( $usr->add_pdf_cv($file, $_REQUEST['lang_'.$i]) )
-					$cts->add_paragraph("Votre CV en ".$i18n[ $_REQUEST['lang_'.$i] ]." a été correctement envoyé");
+				if( $file['type'] != "application/pdf")
+					$lst->add("Veuillez envoyer un fichier au format PDF.", "ko");
+				else if( $usr->add_pdf_cv($file, $_REQUEST['lang_'.$i]) )
+					$lst->add("Votre CV en ".$i18n[ $_REQUEST['lang_'.$i] ]." a été correctement envoyé", "ok");
 				else
-					$cts->add_paragraph("Une erreur s'est produite");
+					$lst->add("Une erreur s'est produite", "ko");
 					
 				$i++;
 			}
@@ -104,11 +107,12 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 		else if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 		{
 			if( $usr->del_pdf_cv($_REQUEST['cv']) )
-				$cts->add_paragraph("Votre CV en ".$i18n[ $_REQUEST['cv'] ] ." à bien été supprimé.");
+				$lst->add("Votre CV en ".$i18n[ $_REQUEST['cv'] ] ." à bien été supprimé.", "ok");
 			else
-				$cts->add_paragraph("Une erreur s'est produite.");
+				$lst->add("Une erreur s'est produite.", "ko");
 		}
 		
+		$cts->add($lst);
 		
 		$cts->add_title(2, "Modifiez vos informations");
 	  $cts->add_paragraph("Toutes vos informations personnelles, telles que votre adresse, téléphone, date de naissance... sont celles de votre fiche Matmatronch, pour les modifier, <a href=\"$topdir./user.php?id_utilisateur=$usr->id&page=edit\">cliquez ici</a>");
