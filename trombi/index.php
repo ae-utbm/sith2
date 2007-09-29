@@ -387,7 +387,7 @@ else
   $cts->add($info);
   
   /* renvois plus bas */
-  $cts->add_paragraph("<a href=\"comments\">Voir les commentaires</a>");
+  $cts->add_paragraph("<a href=\"#comments\">Voir les commentaires</a>");
 
   /* photos */
   $grps = $site->user->get_groups_csv();
