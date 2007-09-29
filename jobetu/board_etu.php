@@ -189,7 +189,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
 																	AND `job_annonces`.`provided` = 'false'
 																");
 	//faudrait trouver aussi un moyen de compter le nombre de concurrents
-	$cts->add(new sqltable("candidatures", "Candidatures en cours", $sql, "board_etu.php?view=general", 'id_relation', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le", "nom_utilisateur" => "Par", "etat" => "Etat"), array("detail" => "Détails"), array("detail" => "Détails")), true);
+	$cts->add(new sqltable("candidatures", "Candidatures en cours", $sql, "board_etu.php?view=general", 'id_annonce', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le", "nom_utilisateur" => "Par", "etat" => "Etat"), array("detail" => "Détails"), array("detail" => "Détails")), true);
 	
 	$sql = new requete($site->db, "SELECT `job_annonces_etu`.*,
 																	`job_annonces`.`titre`,
@@ -198,7 +198,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
 																	NATURAL JOIN `job_annonces`
 																	WHERE `job_annonces`.`id_select_etu` = $usr->id
 																");
-	$cts->add(new sqltable("candidatures", "Candidatures victorieuses", $sql, "board_etu.php?view=general", 'id_relation', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le"), array("detail" => "Détails"), array("detail" => "Détails")), true);
+	$cts->add(new sqltable("candidatures", "Candidatures victorieuses", $sql, "board_etu.php?view=general", 'id_annonce', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le"), array("detail" => "Détails"), array("detail" => "Détails")), true);
 	
 	$sql = new requete($site->db, "SELECT `job_annonces_etu`.*,
 																	`job_annonces`.`titre`,
@@ -210,7 +210,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
 																	AND `job_annonces_etu`.`relation` = 'apply'
 																	AND `job_annonces`.`provided` = 'true'
 																");
-	$cts->add(new sqltable("candidatures", "Candidatures perdues", $sql, "board_etu.php?view=general", 'id_relation', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le", "people" => "Etudiant sélectionné"), array("detail" => "Détails"), array("detail" => "Détails")), true);
+	$cts->add(new sqltable("candidatures", "Candidatures perdues", $sql, "board_etu.php?view=general", 'id_annonce', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le", "people" => "Etudiant sélectionné"), array("detail" => "Détails"), array("detail" => "Détails")), true);
 }
 
 /*******************************************************************************
