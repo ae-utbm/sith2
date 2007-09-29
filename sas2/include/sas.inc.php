@@ -46,7 +46,7 @@ class sas extends site
     $frm->add_submit("valid","Voir");
     $this->add_box("sasuser",$frm);
 
-    if( $this->user->id > 0 )
+    if( $this->user->is_valid() )
     {
 
       $box = new contents("SAS");
