@@ -90,8 +90,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 			$i = 1;
 			foreach($_FILES as $file)
 			{
-				print_r($_REQUEST);
-				print_r($usr->pdf_cvs);
+				$usr->load_pdf_cv();
 				if( in_array($_REQUEST['lang_'.$i], $usr->pdf_cvs) )
 					$usr->del_pdf_cv($_REQUEST['lang_'.$i]);
 				if( $usr->add_pdf_cv($file, $_REQUEST['lang_'.$i]) )
