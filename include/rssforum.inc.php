@@ -74,7 +74,7 @@ class rssfeedforum extends rssfeed
                                     ORDER BY
                                              `frm_message`.`id_message`
                                     DESC
-                                    LIMIT ".$this->nb);
+                                    LIMIT ".$this->nb, true);
 
     while ($res = $req->get_row())
       {
