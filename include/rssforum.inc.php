@@ -42,7 +42,10 @@ class rssfeedforum extends rssfeed
     $this->nb = $nbmessage;
 
     $this->title = "Les " . $nbmessage . " messages du forum de l'AE";
+    $this->description = $this->title;
     $this->pubUrl = "http://ae.utbm.fr/forum2/";
+    $this->link = $this->pubUrl;
+
     $this->rssfeed();
   }
 
@@ -79,8 +82,8 @@ class rssfeedforum extends rssfeed
     while ($row = $req->get_row())
       {
 	echo "<item>\n";
-	echo "\t<title><![CDATA[". $row["titre_sujet"] . ", par <b>".($row['alias_utl'] == "" ? "???" : $row['alias_utl'])."</b>]]></title>\n";
-	echo "\t<link>".$this->pubUrl."/?id_message=".$row["id_message"]."#msg".$row['id_message']."</link>\n";
+	echo "\t<title><![CDATA[". $row["titre_sujet"] . ", par ".($row['alias_utl'] == "" ? "???" : $row['alias_utl'])."]]></title>\n";
+	echo "\t<link>".$this->pubUrl."?id_message=".$row["id_message"]."#msg".$row['id_message']."</link>\n";
 	
 	if ($row['syntaxengine_message'] == 'doku')
 	  $content = doku2xhtml($row['contenu_message']);
@@ -90,12 +93,40 @@ class rssfeedforum extends rssfeed
 
 	echo "\t<description><![CDATA[".$content."]]></description>\n";
 	echo "\t<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date_message"]))."</pubDate>\n";
-	echo "\t<guid>http://ae.utbm.fr/forum2/?id_sujet=".$row["id_sujet"]."#msg".$row['id_message']."</guid>\n";
+	echo "\t<guid>".$this->pubUrl."?id_sujet=".$row["id_sujet"]."#msg".$row['id_message']."</guid>\n";
 	echo "</item>\n";	
 	
       }
 
   }
+
+  function output ()
+  {
+    header("Content-Type: text/xml; charset=utf-8");
+    echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+    echo "<?xml-stylesheet type=\"text/css\" href=\"http://ae.utbm.fr/themes/default/css/site.css\" ?>";
+    echo "<rss version=\"2.0\" xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\">\n";
+    echo "<channel>\n";
+    
+    if ( !empty($this->title) )
+      echo "<title>".htmlspecialchars($this->title,ENT_NOQUOTES,"UTF-8")."</title>\n";
+      
+    if ( !empty($this->link) )
+      echo "<link>".htmlspecialchars($this->link,ENT_NOQUOTES,"UTF-8")."</link>\n";      
+      
+    if ( !empty($this->description) )
+      echo "<description>".htmlspecialchars($this->description,ENT_NOQUOTES,"UTF-8")."</description>\n";
+      
+    if ( !empty($this->generator) )
+      echo "<generator>".htmlspecialchars($this->generator,ENT_NOQUOTES,"UTF-8")."</generator>\n";    
+    
+    echo "<pubDate>".gmdate("D, j M Y G:i:s T",$this->pubDate)."</pubDate>\n";
+    
+    $this->output_items();
+        
+    echo "</channel>\n";
+    echo "</rss>\n";
+  }  
 }
 
 
