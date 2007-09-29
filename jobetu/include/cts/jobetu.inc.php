@@ -99,9 +99,10 @@
 		  				$this->buffer .= $frm->html_render();
 		  				
 		  				$this->buffer .= "</div>";
-	  				  				
-	  				$this->buffer .= "</div>";
-						}
+						}  				
+
+						$this->buffer .= "</div>";
+						
 	  		/************************************************************************/			
 	  		$this->buffer .= "</div>";
 
