@@ -76,7 +76,7 @@ if (isset($_REQUEST['id_utilisateur']))
 else
 {
   $user = &$site->user;
-  $is_user_page = false;
+  $is_user_page = true;
   $can_edit = true;
 }
 
@@ -99,8 +99,8 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
     $frm->add_hidden("action","edit");
     $frm->add_hidden("id_commentaire",$cmt->id);
     $frm->add_info("<b>ATTENTION</b>Votre commentaire peut &ecirc;tre mod&eacute;r&eacute;");
-    $frm->add_dokuwiki_toolbar('comment');
-    $frm->add_text_area ("comment","Commentaire",$cmt->commentaire);
+    $frm->add_dokuwiki_toolbar('commentaire');
+    $frm->add_text_area ("commentaire","Commentaire",$cmt->commentaire);
     $frm->add_submit("valid","Enregistrer");
 
     $site->add_contents ($frm);
@@ -114,11 +114,18 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
 
 if ( ($_REQUEST["action"] == "create") && (!$is_user_page || $can_edit) )
 {
-  //add_comment
+  if ( isset($_REQUEST["commentaire"]) )
+  {
+    $cmt->create($user->id, $site->user->id, $_REQUEST["commentaire"]);
+  }
 }
 elseif ( ($_REQUEST["action"] == "edit") && (!$is_user_page || $can_edit) )
 {
-  
+  if ( isset($_REQUEST["id_commentaire"]) && isset($_REQUEST["commentaire"]) )
+  {
+    $cmt->load_by_id($_REQUEST["id_commentaire"]);
+    $cmt->update($_REQUEST["commentaire"]);
+  }
 }
 
 
@@ -572,8 +579,8 @@ else
     $frm = new form("createcomment", "index.php", false, "POST", "Ajouter mon commentaire");
     $frm->add_hidden("action","create");
     $frm->add_info("<b>ATTENTION</b>Votre commentaire peut &ecirc;tre mod&eacute;r&eacute;");
-    $frm->add_dokuwiki_toolbar('comment');
-    $frm->add_text_area ("comment","Commentaire");
+    $frm->add_dokuwiki_toolbar('commentaire');
+    $frm->add_text_area ("commentaire","Commentaire");
     $frm->add_submit("valid","Enregistrer");
     
     $cts->add($frm);
