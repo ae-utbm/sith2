@@ -129,9 +129,9 @@ class commentaire extends stdentity
    
     $req = new insert ($this->dbrw,
              "trombi_commentaire", array(
-               "id_commente"=>$this->id_utilisateur,
-               "id_commentateur"=>$this->id_sujet,
-               "commentaire"=>$this->titre,
+               "id_commente"=>$this->id_commente,
+               "id_commentateur"=>$this->id_commentateur,
+               "commentaire"=>$this->commentaire,
                "date_commentaire"=>date("Y-m-d H:i:s",$this->date),
                "modere_commentaire"=>$this->modere,
                "id_utilisateur_moderateur"=>$this->id_utilisateur_moderateur
