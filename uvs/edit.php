@@ -62,6 +62,7 @@ else
 {
   $semestre = mysql_real_escape_string($_REQUEST['semestre']);
 }
+
 /* passage en revue des actions */
 /* desinscription */
 if ($_REQUEST['action'] == 'unsubscribe')
@@ -90,20 +91,23 @@ else if ($_REQUEST['action'] == 'commitadd')
 /* ajout */
 else if ($_REQUEST['action'] == 'addseance')
 {
-  $newcts = new contents("Ajout d'une séance horaire");
-  
-  $frm = new form('frm', 'edit.php?action=commitadd');
-  
   $uv = intval($_REQUEST['iduv']);
-  $req = new requete($site->db, "SELECT `cours_uv`, `td_uv`, `tp_uv`, `id_uv` 
+
+  $req = new requete($site->db, "SELECT `code_uv`, `cours_uv`, `td_uv`, `tp_uv`, `id_uv` 
   FROM   `edu_uv` 
   WHERE `id_uv` = $uv");
   
   $rs = $req->get_row();
-  $c    = $rs['cours_uv'];
-  $td   = $rs['td_uv'];
-  $tp   = $rs['tp_uv'];
-  $iduv = $rs['id_uv'];
+  $nomuv = $rs['code_uv'];
+  $c     = $rs['cours_uv'];
+  $td    = $rs['td_uv'];
+  $tp    = $rs['tp_uv'];
+  $iduv  = $rs['id_uv'];
+
+  $newcts = new contents($nomuv ." - Ajout d'une séance horaire");
+  
+  $frm = new form('frm', 'edit.php?action=commitadd');
+  
 
   if (($c==0) && ($td == 0) && ($tp == 0))
     $frm->puts("<b>UV hors emploi du temps. En conséquence, elle n'apparaitra pas sur l'Emploi du temps.</b>");
@@ -130,8 +134,10 @@ else if ($_REQUEST['action'] == 'addseance')
     {
       $seances = array(-1 => "--");
       while ($rs = $req->get_row())
-	$seances[$rs['id_uv_groupe']] = 'Seance de '.($rs['type_grp'] == 'C' ? 'cours' : $rs['type_grp']) .' N°'.$rs['numero_grp'].
-	  " du ". $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
+	$seances[$rs['id_uv_groupe']] = 'Seance de '.
+	  ($rs['type_grp'] == 'C' ? 'cours' : $rs['type_grp']) .
+	  ' N°'.$rs['numero_grp']. " du ". $jour[$rs['jour_grp']] . 
+	  " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
       
       $frm->puts("<h3>Séances connues :</h3>");
       
@@ -142,7 +148,7 @@ else if ($_REQUEST['action'] == 'addseance')
 			     "", false, true);
     }
   
-  $frm->puts("<h3>Ajout d'une séance horaire</h3>");
+  $frm->puts("<h3>Création d'une séance horaire inexistante</h3>");
   
   /* type de séance */
   $frm->add_select_field("addfrm_typeseance",

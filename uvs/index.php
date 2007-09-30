@@ -65,8 +65,8 @@ $lst = array();
 
 $lst[] = "<a href=\"./uvs.php\">guide des UVs format \"site AE\"</a>";
 $lst[] = "<a
-href=\"http://www.utbm.fr/upload/gestionFichiers/GUIDEUV_1370.pdf\"><b>guide
-des UVs officiel</b> (édition 2006/2007, format PDF)</a>";
+href=\"http://www.utbm.fr/upload/gestionFichiers/GUIDEUV_1941.pdf\"><b>guide
+des UVs officiel</b> (édition 2007 / 2008, format PDF)</a>";
 
 foreach ($depts as $dept)
      $lst[] = "<a href=\"./uvs.php?iddept=".$dept."\">UVs du département $dept</a>";
@@ -77,4 +77,5 @@ $cts->add($itemlst);
 
 $site->add_contents($cts);
 $site->end_page();
+
 ?>
