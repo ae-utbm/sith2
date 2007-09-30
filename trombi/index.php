@@ -564,7 +564,8 @@ else
              LEFT JOIN `utilisateurs`
                ON `trombi_commentaire`.`id_commentateur` = `utilisateurs`.`id_utilisateur`
              WHERE `id_commente` = '" .
-            mysql_real_escape_string($user->id) . "'"
+            mysql_real_escape_string($user->id) . "'
+             ORDER BY date_commentaire ASC"
          );
 
   $cmt_exists = false;
