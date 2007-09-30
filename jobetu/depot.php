@@ -73,7 +73,37 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	$cts->add($frm, true);
 }
 
+/*******************************************************************************************************
+ * Formulaire inscription/connexion 
+ */
+else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
+{
+	$site->allow_only_logged_users("jobetu");
+	if(!$site->user->is_in_group("jobetu_client")) header("Location: depot.php?action=infos");
+	
+	$cts->add_paragraph("Veuillez à présent entrer la description de votre annonce.");
+	$cts->add_paragraph("Soyez aussi précis que possible dans la description de vos besoins afin que nous puissions pleinement vous satisfaire.");
+	
+	$jobetu = new jobetu($site->db, $site->dbrw);
+	$jobetu->get_job_types();
 
+	$frm = new form("jobs", "depot.php?action=add", false, "POST", "Contenu de l'annonce");
+	
+	$frm->add_text_field("titre_ann", "Titre de l'annonce", false, true, 60);
+	$frm->add( new jobtypes_select_field($jobetu, "job_type", "Catégorie") );
+	$frm->add_info("<i>Si vous ne trouvez pas de categorie adequate, n'hesitez pas a <a href=''>le signaler</a></i>");
+	$frm->add_text_area("desc_ann", "Description de l'annonce", false, 60, 8, true);
+	$frm->add_text_area("profil", "Profil recherche", false, 60, 3, true);
+	$frm->add_date_field("date_debut", "Date de debut (facultatif)");
+	$frm->add_text_field("duree", "Duree (facultatif)");
+	$frm->add_text_field("remuneration", "Rémuneration (facultatif)");
+	$frm->add_text_field("nb_postes", "Nombre de postes disponibles", "1", true, 4);
+	$frm->add_text_area("divers", "Autres informations", false, 60, 3);
+	$frm->add_checkbox("allow_diff", "Diffuser mon numéro de téléphone aux candidats afin qu'ils puissent me contacter");
+	$frm->add_submit("go", "Enregistrer mon annonce");
+	
+	$cts->add($frm, true);
+}
 /*******************************************************************************************************
  * Formulaire inscription/connexion 
  */
