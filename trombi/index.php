@@ -61,7 +61,8 @@ if (isset($_REQUEST['id_utilisateur']))
   if (!$user->is_valid())
     $site->error_not_found("matmatronch");
     
-  $is_user_page = (!$user->id==$site->user->id);
+  $is_user_page = ($user->id==$site->user->id);
+  
   $can_edit = ($user->id==$site->user->id || $is_user_moderator);
   
   if ($user->id != $site->user->id && !$site->user->utbm && !$site->user->ae)

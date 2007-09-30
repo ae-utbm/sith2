@@ -41,11 +41,11 @@ class comment_contents extends stdcontents
     $separator = false;
     
     if ( $is_user_comment || $is_user_moderator )
-      $header .= "<a href=\"?page=edit&amp;id_commentaire=".$comment["id_commentaire"]."\">Editer</a>";
+      $header .= "<a href=\"?page=edit&amp;id_commentaire=".$comment["id_commentaire"]."&amp;id_utilisateur=".$comment["id_commente"]."\">Editer</a>";
       $separator = true;
       
     if ( $is_user_moderator )
-      $header .= ($separator ? " | " : "") . "<a href=\"?action=moderate&amp;id_commentaire=".$comment["id_commentaire"]."\">".($comment["modere_commentaire"] ? "Restaurer" : "Modérer")."</a>";
+      $header .= ($separator ? " | " : "") . "<a href=\"?action=moderate&amp;id_commentaire=".$comment["id_commentaire"]."&amp;id_utilisateur=".$comment["id_commente"]."\">".($comment["modere_commentaire"] ? "Restaurer" : "Modérer")."</a>";
       
     $header .= "</div>\n";
     return $header;
