@@ -46,6 +46,7 @@ $site = new site();
 $cmt = new commentaire($site->db, $site->dbrw);
 
 $site->add_css("css/userfullinfo.css");
+$site->add_css("css/trombicomment.css");
 
 if (!$site->user->id)
   error_403();

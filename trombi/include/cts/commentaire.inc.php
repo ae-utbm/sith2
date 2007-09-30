@@ -9,55 +9,53 @@ class comment_contents extends stdcontents
     
     if ( !$is_user_moderator && $comment["modere_commentaire"] )
       return false;
+     
+    $is_user_comment = ( $comment["id_commentateur"] == $user_id ); 
     
-    $this->buffer .= "<div class=\"commentaire\">\n";
+    
+    $this->buffer .= "<div class=\"trombicomment\">\n";
     
     $this->buffer .= "\t<a name=\"c".$comment["id_commentaire"]."\"></a>\n";
-    
     if ( $user_id == $comment["id_commentateur"] )
       $this->buffer .= "\t<a name=\"mycomment\"></a>\n";
     
-    $this->buffer .= $this->comment_header( $comment, ( $comment["id_commentateur"] == $user_id ), $is_user_moderator );
+    $this->buffer .= "\t<p class=\"date\">".human_date(strtotime($comment["date_commentaire"]))."</p>\n";
     
-    $this->buffer .= "\t<div><a href=\"?id_utilisateur=".$comment["id_commentateur"]."\">" . (
-        (isset($comment["alias_utl"]) && $comment["alias_utl"] != "") ?
-        $comment["alias_utl"] :
-        $comment["prenom_utl"]." ".$comment["nom_utl"]
-      )."</a></div>\n";
-      
-    $this->buffer .= "\t<div class=\"author_avatar\">";
-    if (file_exists($topdir."var/img/matmatronch/".$comment['id_commentateur'].".jpg"))
-      $img = $wwwtopdir."var/img/matmatronch/".$comment['id_commentateur'].".jpg";
-    $this->buffer .= "<img src=\"".htmlentities($img,ENT_NOQUOTES,"UTF-8")."\" />";
-    $this->buffer .= "</div>\n";
-    
-    $this->buffer .= "\t<div class=\"comment_content\">\n";
-    $this->buffer .= doku2xhtml($comment['commentaire']);
-    $this->buffer .= "\t</div>\n";
-    
-    $this->buffer .= "\t<div class=\"clearboth\"></div>\n";
-    $this->buffer .= "</div>\n";
-  }
-  
-  function comment_header ($comment, $is_user_comment, $is_user_moderator)
-  {
-    $header = "\t<div class=\"comment_header\">";
-    $header .= "<span>".$comment["date_commentaire"]."</span>";
-    
+    $this->buffer .= "\t<p class=\"actions\">";
     $separator = false;
     
     if ( $is_user_comment || $is_user_moderator )
-      $header .= "<a href=\"?page=edit&amp;id_commentaire=".$comment["id_commentaire"]."\">Editer</a>";
+      $this->buffer .= "<a href=\"?page=edit&amp;id_commentaire=".$comment["id_commentaire"]."\">Editer</a>";
       $separator = true;
       
     if ( $is_user_moderator )
     {
       //la variable "m" ne sert qu'à fournir une adresse différente pour que le navigateur recharge bien la page
-      $header .= ($separator ? " | " : "") . "<a href=\"?action=moderate&amp;id_commentaire=".$comment["id_commentaire"]."&amp;id_utilisateur=".$comment["id_commente"].($comment["modere_commentaire"] ? "" : "&amp;m")."#c".$comment["id_commentaire"]."\">".($comment["modere_commentaire"] ? "Restaurer" : "Modérer")."</a>";
+      $this->buffer .= ($separator ? " | " : "") . "<a href=\"?action=moderate&amp;id_commentaire=".$comment["id_commentaire"]."&amp;id_utilisateur=".$comment["id_commente"].($comment["modere_commentaire"] ? "" : "&amp;m")."#c".$comment["id_commentaire"]."\">".($comment["modere_commentaire"] ? "Restaurer" : "Modérer")."</a>";
     }
+    
+    $this->buffer .= "</p>\n";
+    
+    $this->buffer .= "\t<div class=\"author\">\n";
+    $this->buffer .= "\t\t<p class=\"tuname\"><a href=\"?id_utilisateur=".$comment["id_commentateur"]."\">" . (
+        (isset($comment["alias_utl"]) && $comment["alias_utl"] != "") ?
+        $comment["alias_utl"] :
+        $comment["prenom_utl"]." ".$comment["nom_utl"]
+      )."</a></p>\n";
       
-    $header .= "</div>\n";
-    return $header;
+    if (file_exists($topdir."var/img/matmatronch/".$comment['id_commentateur'].".jpg"))
+    {
+      $img = $wwwtopdir."var/img/matmatronch/".$comment['id_commentateur'].".jpg";
+      $this->buffer .= "\t\t<p class=\"tuimg\"><img src=\"".htmlentities($img,ENT_NOQUOTES,"UTF-8")."\" /></p>";
+    }
+    $this->buffer .= "\t</div>\n";
+    
+    $this->buffer .= "\t<div class=\"commentcontent\">\n";
+    $this->buffer .= doku2xhtml($comment['commentaire']);
+    $this->buffer .= "\t</div>\n";
+    
+    $this->buffer .= "\t<div class=\"clearboth\"></div>\n";
+    $this->buffer .= "</div>\n";
   }
 
 }
