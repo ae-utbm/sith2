@@ -554,17 +554,28 @@ else
   $cts->add_paragraph("<a name=\"comments\"></a>");
   
   $req = new requete($site->db,
-           "SELECT * FROM `trombi_commentaire`
+           "SELECT `trombi_commentaire`.*, `utilisateurs`.*
+             FROM `trombi_commentaire`
+             LEFT JOIN `utilisateurs`
+               ON `trombi_commentaire`.`id_commentateur` = `utilisateurs`.`id_utilisateur`
              WHERE `id_commente` = '" .
-		    mysql_real_escape_string($user->id) . "'
-             AND `id_commentateur` = '" .
-            mysql_real_escape_string($site->user->id) . "'
-             LIMIT 1"
+            mysql_real_escape_string($user->id) . "'"
          );
-                     
+
   $cmt_exists = false;
+  $are_comments = false;
+  $commentaires = array();
+  while ( $row = $sql->get_row() )
+  {
+    $commentaires[$row["id_commentaire"]] = $row;
+    
+    if ( $row["id_commentateur"] == $site->user->id )
+      $cmt_exists = true;
+  }
   
-  if ( $req->lines == 0 )
+  $are_comments = ( count($commentaires) > 0 );
+  
+  if ( !$are_comments )
   {
     $cts->add_paragraph( ($is_user_page ? "Vous n'avez" : "Cet utilisateur n'a") . " encore aucun commentaire.");
   }
@@ -572,7 +583,6 @@ else
   {
     if ( !$is_user_page )
     {
-      $cmt_exists = $cmt->comment_exists ( $user->id, $site->user->id );
       
       if ( $cmt_exists )
       {
@@ -580,7 +590,7 @@ else
       }
     }
     
-    while ( $row = $req->get_row() )
+    foreach ( $commentaires as $row )
     {
       $cts->add(new comment_contents(&$row, $site->user->id, $is_user_moderator));
     }
