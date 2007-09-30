@@ -575,7 +575,12 @@ else
     $commentaires[$row["id_commentaire"]] = $row;
     
     if ( $row["id_commentateur"] == $site->user->id )
+    {
       $cmt_exists = true;
+      $cmt_is_moderated = $row["modere_commentaire"];
+      $cts->add_paragraph("1:".$cmt_is_moderated);
+      $cts->add_paragraph("2:".($cmt_is_moderated?"true":"false"));
+    }
   }
   
   $are_comments = ( count($commentaires) > 0 );
