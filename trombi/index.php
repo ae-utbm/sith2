@@ -84,7 +84,7 @@ else
 }
 
   
-if ( $_REQUEST["page"]  == "edit" && $can_edit )
+if ( $_REQUEST["page"]  == "edit" )
 {
   if ( isset($_REQUEST["id_commentaire"]) )
   {
@@ -95,23 +95,26 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
       exit();
     }
     
-    $site->start_page ("services", "Edition d'un commentaire");
-    $cts = new contents("Editer");
+    if ( $is_user_moderator || $cmt->id_commentateur == $site->user->id )
+    {
+      $site->start_page ("services", "Edition d'un commentaire");
+      $cts = new contents("Editer");
 
-    $frm = new form("editcomment", "index.php#mycomment", false, "POST", "Edition d'un commentaire");
-    $frm->add_hidden("action","edit");
-    $frm->add_hidden("id_commentaire",$cmt->id);
-    $frm->add_hidden("id_utilisateur",$cmt->id_commente);
-    $frm->add_info("<b>ATTENTION</b>Votre commentaire peut &ecirc;tre mod&eacute;r&eacute;");
-    $frm->add_dokuwiki_toolbar('commentaire');
-    $frm->add_text_area ("commentaire","Commentaire",$cmt->commentaire);
-    $frm->add_submit("valid","Enregistrer");
+      $frm = new form("editcomment", "index.php?id_utilisateur=".$cmt->id_commente."#c".$cmt->id, false, "POST", "Edition d'un commentaire");
+      $frm->add_hidden("action","edit");
+      $frm->add_hidden("id_commentaire",$cmt->id);
+      $frm->add_hidden("id_utilisateur",$cmt->id_commente);
+      $frm->add_info("<b>ATTENTION</b>Votre commentaire peut &ecirc;tre mod&eacute;r&eacute;");
+      $frm->add_dokuwiki_toolbar('commentaire');
+      $frm->add_text_area ("commentaire","Commentaire",$cmt->commentaire);
+      $frm->add_submit("valid","Enregistrer");
 
-    $site->add_contents ($frm);
+      $site->add_contents ($frm);
 
-    $site->add_contents (new wikihelp());
-    $site->end_page ();
-    exit();
+      $site->add_contents (new wikihelp());
+      $site->end_page ();
+      exit();
+    }
   }
 }
 
