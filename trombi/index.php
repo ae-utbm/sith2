@@ -565,7 +565,7 @@ else
   $cmt_exists = false;
   $are_comments = false;
   $commentaires = array();
-  while ( $row = $sql->get_row() )
+  while ( $row = $req->get_row() )
   {
     $commentaires[$row["id_commentaire"]] = $row;
     
