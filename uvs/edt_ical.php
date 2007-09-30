@@ -97,6 +97,16 @@ foreach ($edt->edt_arr as $seance)
     case 'AB':
       $freq = 1;
       break;
+    case 'B':
+      /* semaine B - on commence la semaine d'apres */
+      if ($start[7] == 1)
+	$start[7] = 8;
+      else
+	{
+	  $start[6] = 2;
+	  $start[7] = 2;
+	}
+      break;
     default:
       $freq = 2;
     }
