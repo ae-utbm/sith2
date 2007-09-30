@@ -41,7 +41,7 @@ class rssfeedforum extends rssfeed
       $nbmessage = 50;
     $this->nb = $nbmessage;
 
-    $this->title = "Les " . $nbmessage . " messages du forum de l'AE";
+    $this->title = "Les " . $nbmessage . " derniers messages du forum de l'AE";
     $this->description = $this->title;
     $this->pubUrl = "http://ae.utbm.fr/forum2/";
     $this->link = $this->pubUrl;
