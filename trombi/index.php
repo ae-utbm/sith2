@@ -578,8 +578,6 @@ else
     {
       $cmt_exists = true;
       $cmt_is_moderated = $row["modere_commentaire"];
-      $cts->add_paragraph("1:".$cmt_is_moderated);
-      $cts->add_paragraph("2:".($cmt_is_moderated?"true":"false"));
     }
   }
   
@@ -596,7 +594,10 @@ else
       
       if ( $cmt_exists )
       {
-        $cts->add_paragraph("<a href=\"#mycomment\">Aller à mon commentaire</a>");
+        if ( !$cmt_is_moderated )
+          $cts->add_paragraph("<a href=\"#mycomment\">Aller à mon commentaire</a>");
+        else
+          $cts->add_paragraph("Votre commentaire a été modéré. Peut-être contenait-il un contenu offensant.<br />Contactez un responsable de vore promo pour toute réclamation.");
       }
     }
     
