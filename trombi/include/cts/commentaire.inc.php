@@ -54,7 +54,10 @@ class comment_contents extends stdcontents
       $separator = true;
       
     if ( $is_user_moderator )
-      $header .= ($separator ? " | " : "") . "<a href=\"?action=moderate&amp;id_commentaire=".$comment["id_commentaire"]."&amp;id_utilisateur=".$comment["id_commente"]."#c".$comment["id_commentaire"]."\">".($comment["modere_commentaire"] ? "Restaurer" : "Modérer")."</a>";
+    {
+      //attention : changer le nom de l'ancre en cas de modération, ou le lien ne fonctionnera plus
+      $header .= ($separator ? " | " : "") . "<a href=\"?action=moderate&amp;id_commentaire=".$comment["id_commentaire"]."&amp;id_utilisateur=".$comment["id_commente"]."#c".$comment["id_commentaire"].($comment["modere_commentaire"] ? "" : "m")."\">".($comment["modere_commentaire"] ? "Restaurer" : "Modérer")."</a>";
+    }
       
     $header .= "</div>\n";
     return $header;
