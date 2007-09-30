@@ -95,9 +95,10 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
     $site->start_page ("services", "Edition d'un commentaire");
     $cts = new contents("Editer");
 
-    $frm = new form("editcomment", "index.php", false, "POST", "Edition d'un commentaire");
+    $frm = new form("editcomment", "index.php#mycomment", false, "POST", "Edition d'un commentaire");
     $frm->add_hidden("action","edit");
     $frm->add_hidden("id_commentaire",$cmt->id);
+    $frm->add_hidden("id_utilisateur",$cmt->id_commente);
     $frm->add_info("<b>ATTENTION</b>Votre commentaire peut &ecirc;tre mod&eacute;r&eacute;");
     $frm->add_dokuwiki_toolbar('commentaire');
     $frm->add_text_area ("commentaire","Commentaire",$cmt->commentaire);
@@ -563,7 +564,7 @@ else
       
       if ( $cmt_exists )
       {
-        $cts->add_paragraph("<a href=\"#my_comment\">Aller à mon commentaire</a>");
+        $cts->add_paragraph("<a href=\"#mycomment\">Aller à mon commentaire</a>");
       }
     }
     
@@ -576,8 +577,9 @@ else
   
   if ( !$is_user_page && !$cmt_exists )
   {    
-    $frm = new form("createcomment", "index.php", false, "POST", "Ajouter mon commentaire");
+    $frm = new form("createcomment", "index.php#mycomment", false, "POST", "Ajouter mon commentaire");
     $frm->add_hidden("action","create");
+    $frm->add_hidden("id_utilisateur",$user->id);
     $frm->add_info("<b>ATTENTION</b>Votre commentaire peut &ecirc;tre mod&eacute;r&eacute;");
     $frm->add_dokuwiki_toolbar('commentaire');
     $frm->add_text_area ("commentaire","Commentaire");
