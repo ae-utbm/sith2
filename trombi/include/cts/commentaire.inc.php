@@ -19,7 +19,7 @@ class comment_contents extends stdcontents
     if ( $user_id == $comment["id_commentateur"] )
       $this->buffer .= "\t<a name=\"mycomment\"></a>\n";
     
-    $this->buffer .= "\t<p class=\"date\">".human_date(strtotime($comment["date_commentaire"]))."</p>\n";
+    $this->buffer .= "\t<p class=\"date\">".$this->human_date(strtotime($comment["date_commentaire"]))."</p>\n";
     
     $this->buffer .= "\t<p class=\"actions\">";
     $separator = false;
@@ -56,6 +56,17 @@ class comment_contents extends stdcontents
     
     $this->buffer .= "\t<div class=\"clearboth\"></div>\n";
     $this->buffer .= "</div>\n";
+  }
+  
+  function human_date ( $timestamp )
+  {
+    if ( date("d/m/Y",$timestamp) == date("d/m/Y",time()) )
+      return "Aujourd'hui ".date("H:i",$timestamp);
+    
+    if ( date("d/m/Y",$timestamp) == date("d/m/Y",time()-86400 ) )
+      return "Hier ".date("H:i",$timestamp);  
+    
+    return date("d/m/Y H:i",$timestamp);
   }
 
 }
