@@ -130,12 +130,16 @@ else
   $tab = array();
 
   while ($rs = $req->get_row())
-    $tab[] = "<a href=\"javascript:render('".$rs['semestre_grp']."', '".$site->user->id."')\">".
-      "Emploi du temps du semestre ".$rs['semestre_grp'].
-      "</a> | <a href=\"".$topdir."uvs/edt_ical.php?semestre=".$rs['semestre_grp']."&id=".$site->user->id."\">iCal</a> | ".
-      "<a href=\"./edit.php?semestre=".$rs['semestre_grp']."\">Editer</a> | ".
-      "<a href=\"./edt.php?delete&semestre=".$rs['semestre_grp']."\">Supprimer</a>";
+    {
+      if (!$first)
+	$first = $rs['semestre_grp'];
 
+      $tab[] = "<a href=\"javascript:render('".$rs['semestre_grp']."', '".$site->user->id."')\">".
+	"Emploi du temps du semestre ".$rs['semestre_grp'].
+	"</a> | <a href=\"".$topdir."uvs/edt_ical.php?semestre=".$rs['semestre_grp']."&id=".$site->user->id."\">iCal</a> | ".
+	"<a href=\"./edit.php?semestre=".$rs['semestre_grp']."\">Editer</a> | ".
+	"<a href=\"./edt.php?delete&semestre=".$rs['semestre_grp']."\">Supprimer</a>";
+    }
   $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
   $cts->add($itemlst);
 }
@@ -146,11 +150,18 @@ $site->add_contents($cts);
 
 $cts2 = new contents("", "");
 
-
-$cts2->puts("<script language=\"javascript\">
+if (!$first)
+{
+  $cts2->puts("<script language=\"javascript\">
 document.getElementById('cts2').style.display = 'none';
 </script>");
-
+}
+else
+{
+  $cts2->puts("<script language=\"javascript\">
+  render('".$first."', '".$site->user->id."');
+</script>");
+}
 
 $site->add_contents($cts2);
 
