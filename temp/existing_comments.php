@@ -18,7 +18,13 @@ $req = new requete($site->db,"SELECT * FROM trombi_commentaire WHERE 1");
 $tbl = new sqltable("listcomment",
                       "Commentaires", $req, "",
                       "id_commentaire",
-                      array("commentaire"=>"Commentaire"),
+                      array("id_commentaire"=>"ID",
+                        "id_commente"=>"Personne commentée",
+                        "id_commentateur"=>"Auteur",
+                        "commentaire"=>"Commentaire",
+                        "date_commentaire"=>"Date",
+						"modere"=>"Modéré ?",
+						"id_utilisateur_moderateur"=>"Modérateur"),
                       array(), array(), array( )
                     );
                     

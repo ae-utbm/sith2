@@ -51,6 +51,8 @@ if (!$site->user->id)
   error_403();
   
 
+$is_user_moderator = ( $site->user->is_in_group("gestion_ae") || $site->user->is_asso_role ( 27, 1 ) );
+
 if (isset($_REQUEST['id_utilisateur']))
 {
   $user = new utilisateur($site->db,$site->dbrw);
@@ -60,7 +62,7 @@ if (isset($_REQUEST['id_utilisateur']))
     $site->error_not_found("matmatronch");
     
   $is_user_page = (!$user->id==$site->user->id);
-  $can_edit = ($user->id==$site->user->id || $site->user->is_in_group("gestion_ae") || $site->user->is_asso_role ( 27, 1 ));
+  $can_edit = ($user->id==$site->user->id || $is_user_moderator);
   
   if ($user->id != $site->user->id && !$site->user->utbm && !$site->user->ae)
     $site->error_forbidden("matmatronch","group",10001);
@@ -113,19 +115,29 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
 }
 
 
-if ( ($_REQUEST["action"] == "create") && (!$is_user_page || $can_edit) )
+if ( ($_REQUEST["action"] == "create") && (!$is_user_page) )
 {
   if ( isset($_REQUEST["commentaire"]) )
   {
     $cmt->create($user->id, $site->user->id, $_REQUEST["commentaire"]);
   }
 }
-elseif ( ($_REQUEST["action"] == "edit") && (!$is_user_page || $can_edit) )
+elseif ( ($_REQUEST["action"] == "edit") && (!$is_user_page || $is_user_moderator) )
 {
   if ( isset($_REQUEST["id_commentaire"]) && isset($_REQUEST["commentaire"]) )
   {
     $cmt->load_by_id($_REQUEST["id_commentaire"]);
-    $cmt->update($_REQUEST["commentaire"]);
+    
+    if ( $site->user->id == $cmt->id_commentateur || $is_user_moderator)
+      $cmt->update($_REQUEST["commentaire"]);
+  }
+}
+elseif ( ($_REQUEST["action"] == "moderate") && ($is_user_moderator) )
+{
+  if ( isset($_REQUEST["id_commentaire"]) )
+  {
+    $cmt->load_by_id($_REQUEST["id_commentaire"]);
+    $cmt->set_modere($site->user->id);
   }
 }
 
@@ -570,7 +582,7 @@ else
     
     while ( $row = $req->get_row() )
     {
-      $cts->add(new comment_contents(&$row, $user->id, $can_edit));
+      $cts->add(new comment_contents(&$row, $site->user->id, $is_user_moderator));
     }
     
   }
