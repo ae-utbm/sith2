@@ -40,6 +40,9 @@ require_once($topdir . "include/cts/forum.inc.php");
 
 $site = new site ();
 $site->add_css("css/forum.css");
+$site->add_rss("Les 40 derniers messages du forum de l'AE", 
+	       "rss.php");
+
 
 if($site->user->is_in_group("ban_forum"))
 {
