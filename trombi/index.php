@@ -590,10 +590,11 @@ else
   
   if ( !$are_comments )
   {
-    if ( !$all_cmt_moderated )
-      $cts->add_paragraph( ($is_user_page ? "Vous n'avez" : "Cet utilisateur n'a") . " encore aucun commentaire.");
-    else
-      $cts->add_paragraph( ($is_user_page ? "Vous avez" : "Cet utilisateur a") . " des commentaires, mais ils ont tous été modérés.");
+    $cts->add_paragraph( ($is_user_page ? "Vous n'avez" : "Cet utilisateur n'a") . " encore aucun commentaire.");
+  }
+  elseif ($all_cmt_moderated )
+  {
+    $cts->add_paragraph( ($is_user_page ? "Vous avez" : "Cet utilisateur a") . " des commentaires, mais ils ont tous été modérés.");
   }
   else
   {
