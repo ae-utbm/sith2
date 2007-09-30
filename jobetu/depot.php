@@ -91,18 +91,18 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 	$jobetu = new jobetu($site->db, $site->dbrw);
 	$jobetu->get_job_types();
 
-	$frm = new form("jobs", "depot.php?action=add", false, "POST", "Contenu de l'annonce");
+	$frm = new form("jobs", "depot.php?action=save", false, "POST", "Contenu de l'annonce");
 	
-	$frm->add_text_field("titre_ann", "Titre de l'annonce", false, true, 60);
-	$frm->add( new jobtypes_select_field($jobetu, "job_type", "Catégorie") );
+	$frm->add_text_field("titre_ann", "Titre de l'annonce", $annonce->titre, true, 60);
+	$frm->add( new jobtypes_select_field($jobetu, "job_type", "Catégorie", $annonce->id_type) );
 	$frm->add_info("<i>Si vous ne trouvez pas de categorie adequate, n'hesitez pas a <a href=''>le signaler</a></i>");
-	$frm->add_text_area("desc_ann", "Description de l'annonce", false, 60, 8, true);
-	$frm->add_text_area("profil", "Profil recherche", false, 60, 3, true);
-	$frm->add_date_field("date_debut", "Date de debut (facultatif)");
-	$frm->add_text_field("duree", "Duree (facultatif)");
-	$frm->add_text_field("remuneration", "Rémuneration (facultatif)");
-	$frm->add_text_field("nb_postes", "Nombre de postes disponibles", "1", true, 4);
-	$frm->add_text_area("divers", "Autres informations", false, 60, 3);
+	$frm->add_text_area("desc_ann", "Description de l'annonce", $annonce->desc, 60, 8, true);
+	$frm->add_text_area("profil", "Profil recherche", $annonce->profil, 60, 3, true);
+	$frm->add_date_field("date_debut", "Date de debut (facultatif)", $annonce->start_date);
+	$frm->add_text_field("duree", "Duree (facultatif)", $annonce->duree);
+	$frm->add_text_field("remuneration", "Rémuneration (facultatif)", $annonce->indemnite);
+	$frm->add_text_field("nb_postes", "Nombre de postes disponibles", $annonce->nb_postes, true, 4);
+	$frm->add_text_area("divers", "Autres informations", $annonce->divers, 60, 3);
 	$frm->add_checkbox("allow_diff", "Diffuser mon numéro de téléphone aux candidats afin qu'ils puissent me contacter");
 	$frm->add_submit("go", "Enregistrer mon annonce");
 	

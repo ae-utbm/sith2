@@ -343,6 +343,14 @@ EOF;
 
 		return $this->id;
   }
+  
+  /**
+   * Edition d'une annonce
+   */
+  function save()
+  {
+  	
+  }
 
 }
 
