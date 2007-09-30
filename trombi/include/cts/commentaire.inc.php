@@ -11,7 +11,11 @@ class comment_contents extends stdcontents
       return false;
     
     $this->buffer .= "<div class=\"commentaire\">\n";
-    $this->buffer .= "\t<a name=\"c".$comment["id_commentaire"]."\"></a>\n";
+    
+    //attention : changer le nom de l'ancre en cas de modération, ou le lien ne fonctionnera plus
+    $anchor_end = ( $comment["modere_commentaire"] ? "m" : "");
+    
+    $this->buffer .= "\t<a name=\"c".$comment["id_commentaire"].$anchor_end."\"></a>\n";
     
     if ( $user_id == $comment["id_commentateur"] )
       $this->buffer .= "\t<a name=\"mycomment\"></a>\n";
