@@ -569,6 +569,7 @@ else
 
   $cmt_exists = false;
   $are_comments = false;
+  $all_cmt_moderated = true;
   $commentaires = array();
   while ( $row = $req->get_row() )
   {
@@ -579,13 +580,19 @@ else
       $cmt_exists = true;
       $cmt_is_moderated = $row["modere_commentaire"];
     }
+    
+    if ( !$row["modere_commentaire"] )
+      $all_cmt_moderated = false; 
   }
   
   $are_comments = ( count($commentaires) > 0 );
   
   if ( !$are_comments )
   {
-    $cts->add_paragraph( ($is_user_page ? "Vous n'avez" : "Cet utilisateur n'a") . " encore aucun commentaire.");
+    if ( !$all_cmt_moderated )
+      $cts->add_paragraph( ($is_user_page ? "Vous n'avez" : "Cet utilisateur n'a") . " encore aucun commentaire.");
+    else
+      $cts->add_paragraph( ($is_user_page ? "Vous avez" : "Cet utilisateur a") . " des commentaires, mais ils ont tous été modérés.");
   }
   else
   {
@@ -597,7 +604,7 @@ else
         if ( !$cmt_is_moderated )
           $cts->add_paragraph("<a href=\"#mycomment\">Aller à mon commentaire</a>");
         else
-          $cts->add_paragraph("Votre commentaire a été modéré. Peut-être contenait-il un contenu offensant.<br />Contactez un responsable de vore promo pour toute réclamation.");
+          $cts->add_paragraph("<strong>Attention :</strong> Votre commentaire a été modéré. Peut-être contenait-il un contenu offensant.<br />Contactez un responsable de vore promo pour toute réclamation.");
       }
     }
     
