@@ -13,7 +13,7 @@ class comment_contents extends stdcontents
     $is_user_comment = ( $comment["id_commentateur"] == $user_id ); 
     
     
-    $this->buffer .= "<div class=\"trombicomment\">\n";
+    $this->buffer .= "<div class=\"trombicomment".( $is_user_comment ? " mycomment" : "" )."\">\n";
     
     $this->buffer .= "\t<a name=\"c".$comment["id_commentaire"]."\"></a>\n";
     if ( $user_id == $comment["id_commentateur"] )
