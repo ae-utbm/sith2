@@ -11,6 +11,11 @@ class comment_contents extends stdcontents
       return false;
     
     $this->buffer .= "<div class=\"commentaire\">\n";
+    $this->buffer .= "\t<a name=\"c".$comment["id_commentaire"]."\"></a>\n";
+    
+    if ( $user_id == $comment["id_commentateur"] )
+      $this->buffer .= "\t<a name=\"mycomment\"></a>\n";
+    
     $this->buffer .= $this->comment_header( $comment, ( $comment["id_commentateur"] == $user_id ), $is_user_moderator );
     
     $this->buffer .= "\t<div><a href=\"?id_utilisateur=".$comment["id_commentateur"]."\">" . (
@@ -41,11 +46,11 @@ class comment_contents extends stdcontents
     $separator = false;
     
     if ( $is_user_comment || $is_user_moderator )
-      $header .= "<a href=\"?page=edit&amp;id_commentaire=".$comment["id_commentaire"]."&amp;id_utilisateur=".$comment["id_commente"]."\">Editer</a>";
+      $header .= "<a href=\"?page=edit&amp;id_commentaire=".$comment["id_commentaire"]."&amp;id_utilisateur=".$comment["id_commente"]."#c".$comment["id_commentaire"]."\">Editer</a>";
       $separator = true;
       
     if ( $is_user_moderator )
-      $header .= ($separator ? " | " : "") . "<a href=\"?action=moderate&amp;id_commentaire=".$comment["id_commentaire"]."&amp;id_utilisateur=".$comment["id_commente"]."\">".($comment["modere_commentaire"] ? "Restaurer" : "Modérer")."</a>";
+      $header .= ($separator ? " | " : "") . "<a href=\"?action=moderate&amp;id_commentaire=".$comment["id_commentaire"]."&amp;id_utilisateur=".$comment["id_commente"]."#c".$comment["id_commentaire"]."\">".($comment["modere_commentaire"] ? "Restaurer" : "Modérer")."</a>";
       
     $header .= "</div>\n";
     return $header;
