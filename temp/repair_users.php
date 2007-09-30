@@ -183,6 +183,8 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
 
         /* on vérifie les cartes ae et la lettre clé */
 
+        /* on vérifie les edt */
+
         /* on supprimme le doublon */
 
         /* on reset le mot de passe */
