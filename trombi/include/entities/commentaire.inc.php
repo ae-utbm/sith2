@@ -58,9 +58,8 @@ class commentaire extends stdentity
       $this->_load($req->get_row());
       return true;
     }
-		
-    $this->id_commente = null;
-    $this->id_commentateur = null;	
+
+    $this->id = null;
     return false;
   }
   
