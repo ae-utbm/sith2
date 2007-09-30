@@ -81,8 +81,12 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 	$site->allow_only_logged_users("jobetu");
 	if(!$site->user->is_in_group("jobetu_client")) header("Location: depot.php?action=infos");
 	
-	$cts->add_paragraph("Veuillez à présent entrer la description de votre annonce.");
-	$cts->add_paragraph("Soyez aussi précis que possible dans la description de vos besoins afin que nous puissions pleinement vous satisfaire.");
+	$annonce = new annonce($site->db, $site->dbrw);
+	$annonce->load_by_id($_REQUEST['id']);
+	if( !$annonce->id || !($site->user->id == $annonce->id_client || $site->user->is_in_group("gestion_ae") || $site->user->is_in_group("jobetu_admin") ))
+		header("Location: index.php");
+	
+	$cts->add_paragraph("Edition de l'annonce n°$annonce->id : \"$annonce->titre\" ");
 	
 	$jobetu = new jobetu($site->db, $site->dbrw);
 	$jobetu->get_job_types();
