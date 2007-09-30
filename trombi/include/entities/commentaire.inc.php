@@ -102,7 +102,7 @@ class commentaire extends stdentity
   
   function comment_exists ($id_commente, $id_commentateur)
   {
-    $req = new requete($this->db, "SELECT id FROM `trombi_commentaire`
+    $req = new requete($this->db, "SELECT id_commentaire FROM `trombi_commentaire`
 				WHERE `id_commente` = '" .
 		       mysql_real_escape_string($id_commente) . "'
                 AND `id_commentateur` = '" .
