@@ -10,26 +10,19 @@ class comment_contents extends stdcontents
     if ( !$is_user_moderator && $comment["modere_commentaire"] )
       return false;
     
-    /*$this->buffer .= "<dl>";
-    foreach ($comment as $key=>$val)
-    {
-      $this->buffer .= "<dt>".$key."</dt><dd>".$val."</dd>";
-    }
-    $this->buffer .= "</dl>";*/
-    
     $this->buffer .= "<div class=\"commentaire\">\n";
     $this->buffer .= $this->comment_header( $comment, ( $comment["id_commentateur"] == $user_id ), $is_user_moderator );
     
-    $this->buffer .= "\t<div>" . (
+    $this->buffer .= "\t<div><a href=\"?id_utilisateur=".$comment["id_commentateur"]."\">" . (
         (isset($comment["alias_utl"]) && $comment["alias_utl"] != "") ?
         $comment["alias_utl"] :
         $comment["prenom_utl"]." ".$comment["nom_utl"]
-      )."</div>\n";
+      )."</a></div>\n";
       
     $this->buffer .= "\t<div class=\"author_avatar\">";
     if (file_exists($topdir."var/img/matmatronch/".$comment['id_commentateur'].".jpg"))
       $img = $wwwtopdir."var/img/matmatronch/".$comment['id_commentateur'].".jpg";
-    $this->buffer .= "<img src=\"".$img."\" />";
+    $this->buffer .= "<img src=\"".htmlentities($img,ENT_NOQUOTES,"UTF-8")."\" />";
     $this->buffer .= "</div>\n";
     
     $this->buffer .= "\t<div class=\"comment_content\">\n";
@@ -52,7 +45,7 @@ class comment_contents extends stdcontents
       $separator = true;
       
     if ( $is_user_moderator )
-      $header .= ($separator ? " | " : "") . "<a href=\"?action=moderate&amp;id_commentaire=".$comment["id_commentaire"]."\">Modérer</a>";
+      $header .= ($separator ? " | " : "") . "<a href=\"?action=moderate&amp;id_commentaire=".$comment["id_commentaire"]."\">".($comment["modere_commentaire"] ? "Restaurer" : "Modérer")."</a>";
       
     $header .= "</div>\n";
     return $header;

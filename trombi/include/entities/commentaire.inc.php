@@ -169,8 +169,12 @@ class commentaire extends stdentity
     if ( !$this->dbrw )
       return;
       
-    $this->modere = true;
-    $this->id_utilisateur_moderateur = $id_moderateur;   
+    $this->modere = !$this->modere;
+    if ( $this->modere )
+      $this->id_utilisateur_moderateur = $id_moderateur;
+    else
+      $this->id_utilisateur_moderateur = null;
+         
     $req = new update ($this->dbrw,
              "trombi_commentaire", 
              array(
