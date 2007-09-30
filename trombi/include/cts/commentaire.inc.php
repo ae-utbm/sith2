@@ -7,6 +7,16 @@ class comment_contents extends stdcontents
   {
     global $topdir, $wwwtopdir;
     
+    if ( !$is_user_moderator && $comment["modere_commentaire"] )
+      return false;
+    
+    $this->buffer .= "<dl>";
+    foreach ($comment as $key=>$val)
+    {
+      $this->buffer .= "<dt>".$key."</dt><dd>".$val."</dd>";
+    }
+    $this->buffer .= "</dl>";
+    
     $this->buffer .= "<div class=\"commentaire\">\n";
     $this->buffer .= $this->comment_header( $comment["id_commentaire"], ( $comment["id_commentateur"] == $user_id ), $is_user_moderator );
     
