@@ -81,10 +81,30 @@ if ($_REQUEST['action'] == 'unsubscribe')
   $site->add_contents($newcts);
 }
 
+/* confirmation modif */
+else if ($_REQUEST['action'] == 'commitmod')
+{
+  $newcts = new contents("Modification d'une séance horaire");
+
+  $ret = $edt->unsubscr_etu_from_grp($site->user->id, $_REQUEST['modfrm_idseance']);
+
+  if ($ret)
+    $ret = $edt->assign_etu_to_grp($site->user->id, 
+				   $_REQUEST['modfrm_idseance'], 
+				   $_REQUEST['modfrm_grpfreq']);
+  if ($ret)
+    $newcts->add_paragraph("Modification prise en compte.");
+  else
+    $newcts->add_paragraph("<b>Une erreur est survenue lors de la modification de séance.</b>");
+
+  $site->add_contents($newcts);
+
+}
+
 /* confirmation ajout */
 else if ($_REQUEST['action'] == 'commitadd')
 {
-  $newcts = new contents("DEBUG", "<pre>" . print_r($_POST, true) . "</pre>");
+  $newcts = new contents("Inscription à une séance");
   /* une séance existante a été sélectionnée */
   if ($_REQUEST['addfrm_scid'] != -1)
     {
@@ -204,8 +224,8 @@ else if ($_REQUEST['action'] == 'addseance')
   /* jour */
   global $jour;
   $frm->add_select_field("addfrm_jour",
-			     'jour',
-			     $jour);
+			 'jour',
+			 $jour);
   
   /* horaires debut / fin */
   /* horaires */
@@ -268,13 +288,29 @@ else if ($_REQUEST['action'] == 'modify')
   
   $frm = new form('frm', 'edit.php?action=commitmod');
   $frm->add_hidden('modfrm_idseance', $_REQUEST['idseance']);
-  $frm->add_select_field("addfrm_grpfreq",
+
+  $found = false;
+
+  for ($i = 0; $i < count($edt->edt_arr); $i++)
+    {
+      /* on trouve la séance dans l'edt */
+      $mys = &$edt->edt_arr[$i];
+      if ($mys['id_seance'] == $_REQUEST['idseance'])
+	{
+	  $found = true;
+	  break;
+	}
+    }
+  
+  $frm->add_select_field("modfrm_grpfreq",
 			 'Semaine',
 			 array("AB" => "Toutes les semaines",
 			       "A" => "Semaine A",
-			       "B" => "Semaine B"));
+			       "B" => "Semaine B"),
+			 $found == true ? $mys['semaine_seance'] : "AB");
   
   $frm->add_submit("modfrm_submit", "Modifier");
+  $newcts->add($frm);
 
   $site->add_contents($newcts);
 
