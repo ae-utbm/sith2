@@ -85,6 +85,40 @@ if ($_REQUEST['action'] == 'unsubscribe')
 else if ($_REQUEST['action'] == 'commitadd')
 {
   $newcts = new contents("DEBUG", "<pre>" . print_r($_POST, true) . "</pre>");
+  /* une séance existante a été sélectionnée */
+  if ($_REQUEST['addfrm_scid'] != -1)
+    {
+      $ret = $edt->assign_etu_to_grp($site->user->id,
+				     $_REQUEST['addfrm_scid'],
+				     $_REQUEST['addfrm_ex_freq']);
+      if ($ret == true)
+	$newcts->add_paragraph("Inscription à la séance réussie.");
+      else
+	$newcts->add_paragraph("<b>Echec à l'inscription ".
+			       "de la séance existante</b>");
+    }
+  /* création d'une nouvelle séance */
+  else
+    {
+      $ret = $edt->create_grp($_REQUEST['addfrm_iduv'],
+			      $_REQUEST['addfrm_typseance'],
+			      $_REQUEST['addfrm_numgrp'],
+			      $_REQUEST['addfrm_hdeb'] . ":" .$_REQUEST['addfrm_mdeb'] . ":00",
+			      $_REQUEST['addfrm_hfin'] . ":" .$_REQUEST['addfrm_mfin'] . ":00",
+			      $_REQUEST['addfrm_jour'],
+			      $_REQUEST['addfrm_grpfreq'],
+			      $semestre,
+			      $_REQUEST['addfrm_salle']);
+      if (($ret != false) && ($ret > 0))
+	$ret2 = $edt->assign_etu_to_grp($site->user->id,
+					$ret,
+					$_REQUEST['addfrm_freq']);
+      if ($ret2 == true)
+	$newcts->add_paragraph("Création et inscription à la nouvelle séance effectuée avec succès.");
+      else
+	$newcts->add_paragraph("<b>Une erreur est survenue lors de la création de la séance.");
+    }
+
   $site->add_contents($newcts);
 }
 
@@ -146,8 +180,17 @@ else if ($_REQUEST['action'] == 'addseance')
 			     $seances,
 			     false,
 			     "", false, true);
+      $frm->add_select_field("addfrm_ex_freq",
+			     'Semaine',
+			     array("AB" => "Toutes les semaines",
+				   "A" => "Semaine A",
+				   "B" => "Semaine B"));
+      
+      $frm->add_submit("addfrm_submit", "Ajouter la séance existante");
     }
-  
+
+  $frm->add_hidden("addfrm_iduv", $uv);
+
   $frm->puts("<h3>Création d'une séance horaire inexistante</h3>");
   
   /* type de séance */
@@ -222,6 +265,17 @@ else if ($_REQUEST['action'] == 'addseance')
 else if ($_REQUEST['action'] == 'modify')
 {
   $newcts = new contents("Modification d'une séance horaire");
+  
+  $frm = new form('frm', 'edit.php?action=commitmod');
+  $frm->add_hidden('modfrm_idseance', $_REQUEST['idseance']);
+  $frm->add_select_field("addfrm_grpfreq",
+			 'Semaine',
+			 array("AB" => "Toutes les semaines",
+			       "A" => "Semaine A",
+			       "B" => "Semaine B"));
+  
+  $frm->add_submit("modfrm_submit", "Modifier");
+
   $site->add_contents($newcts);
 
 }
