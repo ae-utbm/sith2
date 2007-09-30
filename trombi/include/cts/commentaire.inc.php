@@ -12,10 +12,7 @@ class comment_contents extends stdcontents
     
     $this->buffer .= "<div class=\"commentaire\">\n";
     
-    //attention : changer le nom de l'ancre en cas de modération, ou le lien ne fonctionnera plus
-    $anchor_end = ( $comment["modere_commentaire"] ? "m" : "");
-    
-    $this->buffer .= "\t<a name=\"c".$comment["id_commentaire"].$anchor_end."\"></a>\n";
+    $this->buffer .= "\t<a name=\"c".$comment["id_commentaire"]."\"></a>\n";
     
     if ( $user_id == $comment["id_commentateur"] )
       $this->buffer .= "\t<a name=\"mycomment\"></a>\n";
@@ -55,8 +52,8 @@ class comment_contents extends stdcontents
       
     if ( $is_user_moderator )
     {
-      //attention : changer le nom de l'ancre en cas de modération, ou le lien ne fonctionnera plus
-      $header .= ($separator ? " | " : "") . "<a href=\"?action=moderate&amp;id_commentaire=".$comment["id_commentaire"]."&amp;id_utilisateur=".$comment["id_commente"]."#c".$comment["id_commentaire"].($comment["modere_commentaire"] ? "" : "m")."\">".($comment["modere_commentaire"] ? "Restaurer" : "Modérer")."</a>";
+      //la variable "m" ne sert qu'à fournir une adresse différente pour que le navigateur recharge bien la page
+      $header .= ($separator ? " | " : "") . "<a href=\"?action=moderate&amp;id_commentaire=".$comment["id_commentaire"]."&amp;id_utilisateur=".$comment["id_commente"].($comment["modere_commentaire"] ? "" : "&amp;m")."#c".$comment["id_commentaire"]."\">".($comment["modere_commentaire"] ? "Restaurer" : "Modérer")."</a>";
     }
       
     $header .= "</div>\n";
