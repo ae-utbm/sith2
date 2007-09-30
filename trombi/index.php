@@ -406,13 +406,12 @@ elseif($_REQUEST["view"]=="stats")
 }
 else
 {
-
   $cts->add_title(2, "Informations personnelles");
   $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"), "trombi/index.php");
   $cts->add($info);
   
-  /* renvois plus bas */
-  $cts->add_paragraph("<a href=\"#comments\">Voir les commentaires</a>");
+  /* renvoie plus bas */
+  $cts->add_paragraph("<a name=\"trombicard\"></a><a href=\"#comments\">Voir les commentaires</a>");
 
   /* photos */
   $grps = $site->user->get_groups_csv();
@@ -556,7 +555,7 @@ else
   /* Commentaires */
   $site->add_contents($cts);
   $cts = new contents("Commentaires");
-  $cts->add_paragraph("<a name=\"comments\"></a>");
+  $cts->add_paragraph("<a name=\"comments\"></a><a href=\"trombicard\">Remonter jusqu'aux informations personnelles</a>");
   
   $req = new requete($site->db,
            "SELECT `trombi_commentaire`.*, `utilisateurs`.*

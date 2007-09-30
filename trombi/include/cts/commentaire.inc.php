@@ -45,7 +45,7 @@ class comment_contents extends stdcontents
       
     if (file_exists($topdir."var/img/matmatronch/".$comment['id_commentateur'].".jpg"))
     {
-      $img = $wwwtopdir."var/img/matmatronch/".$comment['id_commentateur'].".jpg";
+      $img = $wwwtopdir."var/img/matmatronch/".$comment['id_commentateur'].".identity.jpg";
       $this->buffer .= "\t\t<p class=\"tuimg\"><img src=\"".htmlentities($img,ENT_NOQUOTES,"UTF-8")."\" /></p>";
     }
     $this->buffer .= "\t</div>\n";
