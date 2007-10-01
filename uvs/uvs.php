@@ -92,8 +92,6 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 
   $cts = new contents('');
 
-  $rs = $req->get_row();
-
   /* Code + intitulé + crédits ECTS */
   $cts->add_title(1, $uv->code);
   $cts->add_paragraph("<center><i>\"".$uv->intitule."\"</i></center>");
