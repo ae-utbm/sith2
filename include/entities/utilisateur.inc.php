@@ -1,4 +1,28 @@
 <?php
+/* Copyright 2005,2006,2007
+ *
+ * Ce fichier fait partie du site de l'Association des Étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+$topdir = "../";
+
+require_once($topdir. "include/site.inc.php");
+
 /** @file Gestion des utilisateurs
  *
  *
@@ -1845,6 +1869,38 @@ L'équipe info AE";
 		return $promos;
   }
 
+  function send_majprofil_email ( &$site, $email=null )
+  {
+    if ( is_null($email) )
+    {
+      if ( $this->email_utbm )
+        $email = $this->email_utbm;
+      else
+        $email = $this->email;
+    }
+    
+    if ( $this->hash != "valid" )
+      $body = "Bonjour,\n".
+        "Votre compte n'est pas toujours pas activé, de plus il faudrais mettre à jour votre profil.\n".
+        "\n".
+        "Pour mettre à jour votre profil et activer votre compte, allez à l'adresse suivante :\n".
+        "http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&hash=" . $this->hash . "\n".
+        "\n".
+        "L'équipe info AE";
+    else
+      $body = "Bonjour,\n".
+        "Il faudrais mettre à jour votre profil.\n".
+        "\n".
+        "Pour mettre à jour votre profil, allez à l'adresse suivante :\n".
+        "http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&token=" . $site->create_token_for_user($this->id) . "\n".
+        "\n".
+        "L'équipe info AE";
+    
+    $ret = mail($email,
+                utf8_decode("[Site AE] Mise à jour de votre profil"),
+                utf8_decode($body),
+                "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ae@utbm.fr");
+  }
 }
 
 ?>
