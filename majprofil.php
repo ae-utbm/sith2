@@ -41,7 +41,7 @@ if ( isset($_REQUEST["id_utilisateur"]) &&
   elseif ( isset($_REQUEST["token"]) )
   {
     $site->user->id=null;
-    $this->load_session($_REQUEST["token"]);  
+    $site->load_session($_REQUEST["token"]);  
     if ( $site->user->is_valid() )
     {
       new delete($site->dbrw, "site_sessions", array("id_session"=>$_REQUEST["token"]) );
