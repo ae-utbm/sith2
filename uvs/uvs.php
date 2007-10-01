@@ -72,9 +72,7 @@ if (($site->user->is_in_group('gestion_ae'))
 	      $_REQUEST['td'],
 	      $_REQUEST['tp'],
 	      $_REQUEST['ects'],
-	      $departements);
-  
-  $site->add_contents($cts);  
+	      $departements);  
 }
 
 if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
