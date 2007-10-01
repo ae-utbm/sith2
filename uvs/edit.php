@@ -357,29 +357,31 @@ else
 	    $descr .= " - Fréquence 2, Semaine ".$seance['semaine_seance'] .
 	      " (bimensuelle)";
 
-
-	  /* ajout d'une séance horaire */
-	  $links = "<a href=\"".$topdir.
-	    "uvs/edit.php?action=addseance&iduv=".
-	    $seance['id_uv']."&semestre=".$semestre.
-	    "\">Ajout d'une séance horaire</a><br/>";
-	  /* desinscription */
-	  $links .= "<a href=\"".$topdir.
-	    "uvs/edit.php?action=unsubscribe&idseance=".
-	    $seance['id_seance']."&semestre=".$semestre.
-	    "\">Désinscription de la séance</a><br/>";
 	  /* modification de la séance */
-	  $links .= "<a href=\"".$topdir.
+	  $links = "<a href=\"".$topdir.
 	    "uvs/edit.php?action=modify&idseance=".
 	    $seance['id_seance']."&semestre=".$semestre.
 	    "\">Modification de la séance</a><br/>";
-	
+	  $links .= "<a href=\"".$topdir.
+	    "uvs/edit.php?action=unsubscribe&idseance=".
+	    $seance['id_seance']."&semestre=".$semestre.
+	    "\">Désinscription de la séance</a>";
 
 
 	  $lst[] = $descr . "<br/>" . $links;
 	} // fin passage en revue des séances
       
       $cts->add(new itemlist(false, false, $lst));
+
+      /* autres options générales sur l'UV */
+      
+      $cts->add_title(3, "Autre option");
+      $cts->add_paragraph("<ul><li><a href=\"".$topdir.
+			  "uvs/edit.php?action=addseance&iduv=".
+			  $seance['id_uv']."&semestre=".$semestre.
+			  "\">Ajout d'une séance horaire</a></li></ul>");      
+      
+
     } // fin boucle uvs
 
 }
