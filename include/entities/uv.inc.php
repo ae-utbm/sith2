@@ -25,6 +25,8 @@
  /**
  * @file
  */
+
+$departements = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
  
 class uv extends stdentity
 {
@@ -101,6 +103,53 @@ class uv extends stdentity
     $this->load_depts ();
   }
 
+  function modify($code_uv, $intitule, $c, $td, $tp, $ects, $depts)
+  {
+    if ($this->id <= 0)
+      return false;
+
+    $this->code     = $code_uv;
+    $this->intitule = $intitule;
+    $this->ects     = $ects;
+    $this->cours    = $c;
+    $this->td       = $td;
+    $this->tp       = $tp;
+    
+    $req = new update ($this->dbrw,
+		       'edu_uv',
+		       array('code_uv' => $this->code,
+			     'intitule_uv' => $this->intitule,
+			     'cours_uv' => $this->cours,
+			     'td_uv' => $this->td,
+			     'tp_uv' => $this->tp,
+			     'ects_uv' => $this->ects),
+		       array('id_uv' => $this->id));
+    
+
+    /* suppression des départements */
+    $req = new delete($this->dbrw,
+		      'edu_uv_dept',
+		      array('id_uv' => $this->id));
+
+    global $departements;
+
+    for ($i = 0; $i < count($depts); $i++)
+      {
+	$dept = mysql_real_escape_string($depts[$i]);
+	if (in_array($dept, $departements))
+	  $req = new insert($this->dbrw,
+			    'edu_uv_dept',
+			    array("id_uv" => $this->id,
+				  "id_dept" => $dept));
+      }
+
+    $this->reload_depts();
+
+    return;
+  }
+  
+
+
   function create ($code_uv, $intitule, $c, $td, $tp, $ects, $depts)
   {
     $this->code     = $code_uv;
@@ -130,14 +179,17 @@ class uv extends stdentity
 	return false;
       }
 
+    global $departements;
+
     /* ajout des départements */
     for ($i = 0; $i < count($depts); $i++)
       {
 	$dept = mysql_real_escape_string($depts[$i]);
-	$req = new insert($this->dbrw,
-			  'edu_uv_dept',
-			  array("id_uv" => $this->id,
-				"id_dept" => $dept));
+	if (in_array($dept, $departements))
+	  $req = new insert($this->dbrw,
+			    'edu_uv_dept',
+			    array("id_uv" => $this->id,
+				  "id_dept" => $dept));
       }
     
     return true;

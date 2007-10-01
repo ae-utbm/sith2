@@ -30,6 +30,7 @@
 $topdir = "../";
 
 include($topdir. "include/site.inc.php");
+require_once($topdir . "include/entities/uv.php");
 
 
 $site = new site();
@@ -40,9 +41,40 @@ $depts = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
 
 
 /* modification d'uv */
-if (($site->user->is_in_group('gestion_ae')))
+
+if (($site->user->is_in_group('gestion_ae')) 
+    && (isset($_REQUEST['edituvsubmit'])))
 {
   $cts = new contents("DEBUG", "<pre>" . print_r($_REQUEST, true) . "</pre>");
+  $uv = new uv($site->db, $site->dbrw);
+  $uv->load_by_id($_REQUEST['iduv']);
+
+  $departements = array();
+
+  if ($_REQUEST['Humas'] == 1)
+    $departements[] = 'Humas';
+  if ($_REQUEST['TC'] == 1)
+    $departements[] = 'TC';
+  if ($_REQUEST['GESC'] == 1)
+    $departements[] = 'GESC';
+  if ($_REQUEST['GI'] == 1)
+    $departements[] = 'GI';
+  if ($_REQUEST['IMAP'] == 1)
+    $departements[] = 'IMAP';
+  if ($_REQUEST['GMC'] == 1)
+    $departements[] = 'GMC';
+  if ($_REQUEST['EDIM'] == 1)
+    $departements[] = 'EDIM';
+
+
+  $uv->modify($_REQUEST['name'],
+	      $_REQUEST['intitule'],
+	      $_REQUEST['cours'],
+	      $_REQUEST['td'],
+	      $_REQUEST['tp'],
+	      $_REQUEST['ects'],
+	      $departements);
+  
   $site->add_contents($cts);  
 }
 
@@ -219,7 +251,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
       $cts->add_title(2, "Modification d'UV");
 
       $edituv = new form("edituv", 
-			 "uvs.php",
+			 "uvs.php?id_uv=".$iduv,
 			 true,
 			 "post",
 			 "Modification del'UV");
@@ -233,19 +265,19 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 			     "Intitulé de l'UV",
 			     $intituleuv);
   
-      $edituv->add_checkbox('adduv_c',
+      $edituv->add_checkbox('cours',
 			    "Cours",
 			    $coursuv);
   
-      $edituv->add_checkbox('adduv_td',
+      $edituv->add_checkbox('td',
 			    "TD",
 			    $tduv);
   
-      $edituv->add_checkbox('adduv_tp',
+      $edituv->add_checkbox('tp',
 			    "TP",
 			    $tpuv);
   
-      $edituv->add_text_field('adduv_ects',
+      $edituv->add_text_field('ects',
 			      "Credits ECTS",
 			      $ectsuv, false, 1);
   
