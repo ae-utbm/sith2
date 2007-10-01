@@ -108,7 +108,7 @@ if ( $_REQUEST["action"] == "search" )
   {
     $elements[] = "`departement_utbm`='".mysql_escape_string($_REQUEST["departement"])."'";
     if ( $_REQUEST["semestre"])
-      $elements[] = "`semestre_utbm`='".mysql_escape_string($_REQUEST["semestre"])."'";  
+      $elements[] = "`semestre_utbm`='".intval($_REQUEST["semestre"])."'";  
   }
   if ( $_REQUEST["promo"])
     $elements[] = "`promo_utbm`='".mysql_escape_string($_REQUEST["promo"])."'";
