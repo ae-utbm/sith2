@@ -115,11 +115,67 @@ class ville extends stdentity
     while ( $row = $req->get_row() )
       $values[$row[0]] = $row[1] . " (" .$row[2] .")";
 
-    /* debug (ca va merder, mais c'est temporaire) */
-    print_r($values);
+    return $values;
+  }
+
+  /**
+   * Redéfinition de _fsearch spécifique aux villes
+   */
+  function _fsearch ($sqlpattern, $limit=10, $count=false, $conds = null)
+  {
+    $class = get_class($this);
+    
+    if ( !isset($GLOBALS["entitiescatalog"][$class][4]) || !$GLOBALS["entitiescatalog"][$class][4] )
+      //return null;
+      return array(0=>"Calsse $class non suportée");
+    if ( $count )
+      {
+	$sql = "SELECT COUNT(*) ";
+	$limit=null;
+      }
+    else
+      $sql = "SELECT `id_ville`,`nom_ville`, `nom_pays` ";
+      
+    $sql .= "FROM `loc_ville` INNER JOIN `loc_pays` USING (`id_pays`) ".
+      "WHERE `".$GLOBALS["entitiescatalog"][$class][1]."` REGEXP '^$sqlpattern'";	
+    
+    if ( !is_null($conds) && count($conds) > 0 )
+      {
+	foreach ($conds as $key => $value)
+	  {
+	    $sql .= " AND ";
+	    if ( is_null($value) )
+	      $sql .= "(`" . $key . "` is NULL)";
+	    else
+	      $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
+	  }
+      }
+    
+    $sql .= " ORDER BY 1";
+    
+    if ( !is_null($limit) && $limit > 0 )
+      $sql .= " LIMIT ".$limit;
+      
+    $req = new requete($this->db,$sql);
+
+    if ( $count )
+    {
+      list($nb) = $req->get_row();
+      return $nb;
+    }
+    
+    if ( !$req || $req->errno != 0 )
+      //return null;
+      return array(0=>$sql);
+
+    $values=array();
+    
+    while ( $row = $req->get_row() )
+      $values[$row[0]] = $row[1] . " (" . $row[2] . ")";
 
     return $values;
   }
+
 
   function load_by_pgid($id)
   {
