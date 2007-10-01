@@ -99,6 +99,7 @@ if ( $_REQUEST["page"]  == "edit" )
     if ( $is_user_moderator || $cmt->id_commentateur == $site->user->id )
     {
       $site->start_page ("services", "Edition d'un commentaire");
+      $cts = new contents("Edition d'un commentaire");
 
       $frm = new form("editcomment", "index.php?id_utilisateur=".$cmt->id_commente."#c".$cmt->id, false, "POST", "Edition d'un commentaire");
       $frm->add_hidden("action","edit");
@@ -109,9 +110,10 @@ if ( $_REQUEST["page"]  == "edit" )
       $frm->add_text_area ("commentaire","Commentaire",$cmt->commentaire);
       $frm->add_submit("valid","Enregistrer");
 
-      $site->add_contents ($frm);
-
-      $site->add_contents (new wikihelp());
+      $cts->add ($frm);
+      $cts->add_paragraph ("<a href=\"index.php?id_utilisateur=".$cmt->id_commente."#c".$cmt->id."\">Annuler</a>");
+      $cts->add (new wikihelp());
+      $site->add_contents($cts);
       $site->end_page ();
       exit();
     }
@@ -131,7 +133,8 @@ elseif ( $_REQUEST["page"]  == "del" )
     if ( $cmt->id_commentateur == $site->user->id )
     {
       $site->start_page ("services", "Suppression d'un commentaire");
-      $cts = new contents("Supprimer");
+      $cts = new contents("Supprimer d'un commentaire");
+      $cts->add_paragraph("Supprimer le commentaire ?");
 
       $frm = new form("delcomment", "index.php?id_utilisateur=".$cmt->id_commente."#comments", false, "POST", "Suppression d'un commentaire");
       $frm->add_hidden("action","delete");
