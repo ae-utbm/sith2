@@ -121,8 +121,11 @@ class ville extends stdentity
   /**
    * Redéfinition de _fsearch spécifique aux villes
    */
-  function _fsearch ($sqlpattern, $limit=10, $count=false, $conds = null)
+  function _fsearch ($sqlpattern, $limit = 10, $count=false, $conds = null)
   {
+    /* limite forcée à 10 */
+    $limit = 10;
+
     $class = get_class($this);
     
     if ( !isset($GLOBALS["entitiescatalog"][$class][4]) || !$GLOBALS["entitiescatalog"][$class][4] )
