@@ -543,7 +543,7 @@ class userinfov2 extends stdcontents
       $this->buffer .= htmlentities($user->addresse,ENT_COMPAT,"UTF-8");
       
       if ( $ville->is_valid() )
-	$this->buffer .= "<br/>".$ville->get_html_link()." (".sprintf("%05d", $ville->cpostal).")";
+       $this->buffer .= "<br/>".$ville->get_html_link()." (".sprintf("%05d", $ville->cpostal).")";
       
       if ( $pays->is_valid() && $pays->id != 1)
         $this->buffer .= "<br/>".$pays->get_html_link();

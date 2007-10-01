@@ -747,7 +747,7 @@ elseif ( $_REQUEST["view"]=="edt" )
                                USING(`id_utilisateur`)
                                WHERE 
                                         `id_utilisateur` = ".
-		     intval($_REQUEST['id_utilisateur'])." 
+         intval($_REQUEST['id_utilisateur'])." 
                                GROUP BY 
                                         `semestre_grp`");
   if ($req->lines <= 0)
@@ -760,12 +760,12 @@ elseif ( $_REQUEST["view"]=="edt" )
       $tab = array();
 
       while ($rs = $req->get_row())
-	$tab[] = "<a href=\"javascript:edtopen('".
-	  $rs['semestre_grp']."', '".
-	  $rs['id_utilisateur']."')\">".
-	  "Semestre ".$rs['semestre_grp']."</a>" . " | " .
-	  "<a href=\"".$topdir."uvs/edt_ical.php?id=".$rs['id_utilisateur'] . 
-	  "&semestre=" . $rs['semestre_grp']."\">Format iCal</a>";
+  $tab[] = "<a href=\"javascript:edtopen('".
+    $rs['semestre_grp']."', '".
+    $rs['id_utilisateur']."')\">".
+    "Semestre ".$rs['semestre_grp']."</a>" . " | " .
+    "<a href=\"".$topdir."uvs/edt_ical.php?id=".$rs['id_utilisateur'] . 
+    "&semestre=" . $rs['semestre_grp']."\">Format iCal</a>";
 
       $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
       $cts->add($itemlst);

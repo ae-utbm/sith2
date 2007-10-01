@@ -82,6 +82,7 @@ require_once( MAGPIE_EXTLIB . 'Snoopy.class.inc.php');
 \*=======================================================================*/
 
 define('MAGPIE_VERSION', '0.72');
+define('MAGPIE_FETCH_TIME_OUT', 5);
 
 $MAGPIE_ERROR = "";
 
