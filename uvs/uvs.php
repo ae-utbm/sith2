@@ -79,99 +79,50 @@ if (($site->user->is_in_group('gestion_ae'))
 
 if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 {
+  $uv = new uv($site->db);
+
   if (isset($_REQUEST['id_uv']))
     {
-      $iduv = intval($_REQUEST['id_uv']);
-  
-      $req = new requete($site->db,
-			 "SELECT 
-                             `edu_uv`.`code_uv`
-                             , `edu_uv`.`intitule_uv`
-                             , `edu_uv`.`cours_uv`
-                             , `edu_uv`.`td_uv`
-                             , `edu_uv`.`tp_uv`
-                             , `edu_uv`.`ects_uv`
-
-                      FROM
-                             `edu_uv`
-                      WHERE
-                             `edu_uv`.`id_uv` = $iduv
-                      ORDER BY
-                             `edu_uv`.`code_uv`");
+      $uv->load_by_id($_REQUEST['id_uv']);
     }
   else
     {
-      $codeuv = mysql_real_escape_string($_REQUEST['code_uv']);
-  
-      $req = new requete($site->db,
-			 "SELECT 
-                             `edu_uv`.`code_uv`
-                             , `edu_uv`.`id_uv`
-                             , `edu_uv`.`intitule_uv`
-                             , `edu_uv`.`cours_uv`
-                             , `edu_uv`.`td_uv`
-                             , `edu_uv`.`tp_uv`
-                             , `edu_uv`.`ects_uv`
-
-                      FROM
-                             `edu_uv`
-                      WHERE
-                             `edu_uv`.`code_uv` = '".$codeuv."'
-                      ORDER BY
-                             `edu_uv`.`code_uv`");
+      $uv->load_by_code($_REQUEST['code_uv']);
     }
 
   $cts = new contents('');
 
   $rs = $req->get_row();
 
-  if (isset($_REQUEST['code_uv']))
-    $iduv = $rs['id_uv'];
-
-  $codeuv = $rs['code_uv'];
-  $ectsuv = $rs['ects_uv'];
-  $intituleuv = $rs['intitule_uv'];
   /* Code + intitulé + crédits ECTS */
-  $cts->add_title(1, $rs['code_uv']);
-  $cts->add_paragraph("<center><i>\"".$rs['intitule_uv']."\"</i></center>");
-  $cts->add_paragraph("Cette UV équivaut à <b>".$rs['ects_uv']."</b> crédits ECTS");
-
-  
+  $cts->add_title(1, $uv->code);
+  $cts->add_paragraph("<center><i>\"".$uv->intitule."\"</i></center>");
+  $cts->add_paragraph("Cette UV équivaut à <b>".$uv->ects."</b> crédits ECTS");
 
   /* format horaire */
   $cts->add_title(2, "Formats horaires");
   
   $parag = "<ul>";
 
-  if ($rs['cours_uv'] == 1)
+  if ($uv->cours == 1)
     {
-      $coursuv = true;
       $parag .= "<li>Cours</li>\n";
     }
-  else
-    $coursuv = false;
-
-  if ($rs['td_uv'] == 1)
+  if ($uv->td == 1)
     {
-      $tduv = true;
       $parag .= "<li>TD</li>\n";
     }
-  else 
-    $tduv = false;
-
-  if ($rs['tp_uv'] == 1)
+  if ($uv->tp == 1)
     {
-      $tpuv = true;
       $parag .= "<li>TP</li>\n";
     }
-  else
-    $tpuv = false;
+  $tpuv = false;
 
   $parag .= "</ul>\n";
 
-  if (($rs['cours_uv']== 0) 
-      && ($rs['td_uv']== 0) 
-      && ($rs['tp_uv']== 0)) 
+  if (($uv->cours == 0) 
+      && ($uv->td == 0) 
+      && ($uv->tp == 0)) 
     $parag = "<b>UV Hors Emploi du Temps (HET)</b>";
 
   
@@ -180,20 +131,14 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
   /* départements concernés */
   $cts->add_title(2, "Départements dans lequel l'UV est enseignée");
 
-  $req = new requete($site->db,
-		     "SELECT 
-                             `id_dept`
-                      FROM
-                             `edu_uv_dept`
-                      WHERE
-                              `id_uv` = $iduv");
-
-
-  while ($rs = $req->get_row())
+  for ($i = 0 ; $i < count($uv->depts); $i++)
     {
-      $myuvdpts[] = "<a href=\"./uvs.php?iddept=".$rs['id_dept']."\">".$rs['id_dept']."</a>\n";
-      $uvdept[] = $rs['id_dept'];
+
+      $myuvdpts[] = "<a href=\"./uvs.php?iddept=".
+	$uv->depts[$i]."\">".$uv->depts[$i]."</a>\n";
+      $uvdept[] = $uv->depts[$i];
     }
+
   $lst = new itemlist("Départements",
 		      false,
 		      $myuvdpts);
@@ -201,6 +146,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 
   /* listing des personnes ayant suivi l'UV */
   
+  /* a migrer dans uv.inc.php ? */
   $suivrq = new requete ($site->db,
 			 "SELECT 
                                   `id_utilisateur` 
@@ -240,9 +186,11 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 			   array());
       $cts->add_title(2, "Ils suivent ou ont suivi cette UV");
       $cts->add($sqlt);
-
     }
+
+
   /* commentaires sur les uvs ? */
+  /* TODO ! */
 
   /* édition */
   if ($site->user->is_in_group("gestion_ae"))
@@ -250,35 +198,35 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
       $cts->add_title(2, "Modification d'UV");
 
       $edituv = new form("edituv", 
-			 "uvs.php?id_uv=".$iduv,
+			 "uvs.php?id_uv=".$uv->id,
 			 true,
 			 "post",
 			 "Modification del'UV");
 
-      $edituv->add_hidden('iduv', $iduv);
+      $edituv->add_hidden('iduv', $uv->id);
       $edituv->add_text_field('name',
 			      "Code de l'UV <b>sans espace, ex: 'MT42'</b>",
-			      $codeuv, true, 4);
+			      $uv->code, true, 4);
   
       $edituv->add_text_area('intitule',
 			     "Intitulé de l'UV",
-			     $intituleuv);
+			     $uv->intitule);
   
       $edituv->add_checkbox('cours',
 			    "Cours",
-			    $coursuv);
+			    $uv->cours == 1);
   
       $edituv->add_checkbox('td',
 			    "TD",
-			    $tduv);
+			    $uv->td == 1);
   
       $edituv->add_checkbox('tp',
 			    "TP",
-			    $tpuv);
+			    $uv->tp == 1);
   
       $edituv->add_text_field('ects',
 			      "Credits ECTS",
-			      $ectsuv, false, 1);
+			      $uv->ects, false, 1);
   
       $edituv->add_checkbox('Humas',
 			    "Humanités",
