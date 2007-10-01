@@ -441,51 +441,6 @@ function switchphoto (dest,src)
 
 }
 
-function floatfrm_close()
-{
-
-  //me = document.getElementById("floatfrm");
-  me = document.getElementById("cts1");
-  me.style.display = "none";
-}
-
-
-function floatfrm_load(me,idfrm, page)
-{
- me.style.display = "block";
- me.innerHTML = "<b>Chargement en cours, veuillez patienter ...</b>";
- document.location.href = "#important";
- openInContents(me.id, "./oldforum.php","f="+idfrm+"&page="+page);
-}
-
-function forum_display(idfrm, page)
-{
-  //floatfrm_load(document.getElementById("floatfrm"), idfrm, page);
-  floatfrm_load(document.getElementById("cts1"), idfrm, page);
-}
-
-
-function thread_display(idtopic, page)
-{
-//  divthrd = document.getElementById("floatthrd");
-  divthrd = document.getElementById("cts1");
-  divthrd.style.display = "block";
-  document.location.href = "#important";
-  divthrd.innerHTML = "<b>Chargement en cours, veuillez patienter ...</b>";
-  openInContents(divthrd.id, "./oldforum.php", "t="+idtopic+"&page="+page);
-}
-
-function thread_close()
-{
-  //divthrd = document.getElementById("floatthrd");
-  divthrd = document.getElementById("cts1");
-  
-  divthrd.style.display = "none";
-  return;
-}
-
-
-
 function toggle(id_tglnum,id)
 {
 
