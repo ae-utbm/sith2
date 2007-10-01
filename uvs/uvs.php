@@ -38,6 +38,14 @@ $site->start_page("services", "Informations UV");
 
 $depts = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
 
+
+/* modification d'uv */
+if (($site->user->is_in_group('gestion_ae')) && (isset($_REQUEST['edituv'])))
+{
+  $cts = new contents("DEBUG", "<pre>" . print_r($_REQUEST, true) . "</pre>");
+  $site->add_contents($cts);  
+}
+
 if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 {
   if (isset($_REQUEST['id_uv']))
@@ -89,10 +97,15 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
   if (isset($_REQUEST['code_uv']))
     $iduv = $rs['id_uv'];
 
+  $codeuv = $rs['code_uv'];
+  $ectsuv = $rs['ects_uv'];
+  $intituleuv = $rs['intitule_uv'];
   /* Code + intitulé + crédits ECTS */
   $cts->add_title(1, $rs['code_uv']);
   $cts->add_paragraph("<center><i>\"".$rs['intitule_uv']."\"</i></center>");
   $cts->add_paragraph("Cette UV équivaut à <b>".$rs['ects_uv']."</b> crédits ECTS");
+
+  
 
   /* format horaire */
   $cts->add_title(2, "Formats horaires");
@@ -100,11 +113,29 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
   $parag = "<ul>";
 
   if ($rs['cours_uv'] == 1)
-    $parag .= "<li>Cours</li>\n";
+    {
+      $coursuv = true;
+      $parag .= "<li>Cours</li>\n";
+    }
+  else
+    $coursuv = false;
+
   if ($rs['td_uv'] == 1)
-    $parag .= "<li>TD</li>\n";
+    {
+      $tduv = true;
+      $parag .= "<li>TD</li>\n";
+    }
+  else 
+    $tduv = false;
+
   if ($rs['tp_uv'] == 1)
-    $parag .= "<li>TP</li>\n";
+    {
+      $tpuv = true;
+      $parag .= "<li>TP</li>\n";
+    }
+  else
+    $tpuv = false;
+
   $parag .= "</ul>\n";
 
   if (($rs['cours_uv']== 0) 
@@ -182,9 +213,73 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
     }
   /* commentaires sur les uvs ? */
 
-  /* TODO : prévoir une table, l'ajout de commentaires, la modération
-   * éventuellement un lien vers le forum */
+  /* édition */
+  if ($site->user->is_in_group("gestion_ae"))
+    {
+      $edituv = new form("edituv", 
+			 "uvs.php",
+			 true,
+			 "post",
+			 "Modification del'UV");
 
+      $edituv->add_text_field('iduv', $iduv);
+      $edituv->add_text_field('name',
+			      "Code de l'UV <b>sans espace, ex: 'MT42'</b>",
+			      $codeuv, true, 4);
+  
+      $edituv->add_text_area('intitule',
+			     "Intitulé de l'UV",
+			     $intituleuv);
+  
+      $edituv->add_checkbox('adduv_c',
+			    "Cours",
+			    $coursuv);
+  
+      $edituv->add_checkbox('adduv_td',
+			    "TD",
+			    $tduv);
+  
+      $edituv->add_checkbox('adduv_tp',
+			    "TP",
+			    $tpuv);
+  
+      $edituv->add_text_field('adduv_ects',
+			      "Credits ECTS",
+			      $ectsuv, false, 1);
+  
+      $edituv->add_checkbox('Humas',
+			    "Humanités",
+			    in_array('Humas', $uvdept));
+  
+      $edituv->add_checkbox('TC',
+			    "TC",
+			    in_array('TC', $uvdept));
+
+      $edituv->add_checkbox('GESC',
+			    "GESC",
+			    in_array('GESC', $uvdept));
+
+      $edituv->add_checkbox('GI',
+			    "GI",
+			    in_array('GI', $uvdept));
+
+      $edituv->add_checkbox('IMAP',
+			    "IMAP",
+			    in_array('IMAP', $uvdept));
+
+      $edituv->add_checkbox('GMC',
+			    "GMC",
+			    in_array('GMC', $uvdept));
+
+      $edituv->add_checkbox('EDIM',
+			    "EDIM",
+			    in_array('EDIM', $uvdept));
+
+      $edituv->add_submit('edituvsubmit',
+			  "Modifier");
+  
+      $cts->add($edituv);
+    }
 
   /* Ressources externes */
   $cts->add_title(2, "Ailleurs sur le net ...");
