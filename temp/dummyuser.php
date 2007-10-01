@@ -23,7 +23,7 @@
 $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
-
+$site = new site ();
 
 $site->start_page("root","utilisateur");
 $cts = new contents("Utilisateur dummy");
