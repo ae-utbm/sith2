@@ -25,8 +25,16 @@ class comment_contents extends stdcontents
     $separator = false;
     
     if ( $is_user_comment || $is_user_moderator )
+    {
       $this->buffer .= "<a href=\"?page=edit&amp;id_commentaire=".$comment["id_commentaire"]."\">Editer</a>";
       $separator = true;
+    }
+    
+    if ( $is_user_comment )
+    {
+      $this->buffer .= " | <a href=\"?page=del&amp;id_commentaire=".$comment["id_commentaire"]."\">Supprimer</a>";
+      $separator = true;
+    }
       
     if ( $is_user_moderator )
     {

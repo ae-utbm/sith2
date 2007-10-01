@@ -118,6 +118,36 @@ if ( $_REQUEST["page"]  == "edit" )
     }
   }
 }
+elseif ( $_REQUEST["page"]  == "del" )
+{
+  if ( isset($_REQUEST["id_commentaire"]) )
+  {
+    $cmt->load_by_id($_REQUEST["id_commentaire"]);
+    if ( $cmt->id < 1 )
+    {
+      header("Location: 404.php");
+      exit();
+    }
+    
+    if ( $cmt->id_commentateur == $site->user->id )
+    {
+      $site->start_page ("services", "Suppression d'un commentaire");
+      $cts = new contents("Supprimer");
+
+      $frm = new form("delcomment", "index.php?id_utilisateur=".$cmt->id_commente."#comments", false, "POST", "Suppression d'un commentaire");
+      $frm->add_hidden("action","delete");
+      $frm->add_hidden("id_commentaire",$cmt->id);
+      $frm->add_hidden("id_utilisateur",$cmt->id_commente);
+      $frm->add_submit("valid","Supprimer");
+      $frm->add_submit("cancel","Annuler");
+
+      $site->add_contents ($frm);
+
+      $site->end_page ();
+      exit();
+    }
+  }
+}
 
 
 if ( ($_REQUEST["action"] == "create") && (!$is_user_page) )
@@ -135,6 +165,16 @@ elseif ( ($_REQUEST["action"] == "edit") && (!$is_user_page || $is_user_moderato
     
     if ( $site->user->id == $cmt->id_commentateur || $is_user_moderator)
       $cmt->update($_REQUEST["commentaire"]);
+  }
+}
+elseif ( ($_REQUEST["action"] == "delete") && (!$is_user_page) )
+{
+  if ( isset($_REQUEST["id_commentaire"]) )
+  {
+    $cmt->load_by_id($_REQUEST["id_commentaire"]);
+    
+    if ( $site->user->id == $cmt->id_commentateur )
+      $cmt->delete();
   }
 }
 elseif ( ($_REQUEST["action"] == "moderate") && ($is_user_moderator) )
