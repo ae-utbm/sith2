@@ -99,7 +99,6 @@ if ( $_REQUEST["page"]  == "edit" )
     if ( $is_user_moderator || $cmt->id_commentateur == $site->user->id )
     {
       $site->start_page ("services", "Edition d'un commentaire");
-      $cts = new contents("Editer");
 
       $frm = new form("editcomment", "index.php?id_utilisateur=".$cmt->id_commente."#c".$cmt->id, false, "POST", "Edition d'un commentaire");
       $frm->add_hidden("action","edit");
@@ -139,9 +138,10 @@ elseif ( $_REQUEST["page"]  == "del" )
       $frm->add_hidden("id_commentaire",$cmt->id);
       $frm->add_hidden("id_utilisateur",$cmt->id_commente);
       $frm->add_submit("valid","Supprimer");
-      $frm->add_submit("cancel","Annuler");
 
-      $site->add_contents ($frm);
+      $cts->add($frm);
+      $cts->add_paragraph("<a href=\"index.php?id_utilisateur=".$cmt->id_commente."#c".$cmt->id."\">Annuler</a>");
+      $site->add_contents ($cts);
 
       $site->end_page ();
       exit();
