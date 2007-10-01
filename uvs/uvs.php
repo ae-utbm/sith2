@@ -167,7 +167,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
                                     `utl_etu_utbm`
                           USING (`id_utilisateur`)
                           WHERE 
-                                `id_uv` = $iduv
+                                `id_uv` = ".$uv->id."
                           GROUP BY `code_uv`, `id_utilisateur`");
 
   if ($suivrq->lines > 0)
