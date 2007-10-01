@@ -42,16 +42,16 @@ if ( $_REQUEST["action"] == "init" )
     $user->validate();
     
   $user->utbm = false;
-  new delete($this->dbrw,"utl_etu_utbm",array("id_utilisateur"=>$user->id));
+  new delete($user->dbrw,"utl_etu_utbm",array("id_utilisateur"=>$user->id));
   
   if ( isset($_REQUEST["utbm"]) )
   {
     $user->utbm = true;
-    new update($this->user,"utilisateurs",array("utbm_utl"=>$user->utbm),array("id_utilisateur"=>$user->id));
-    new insert($this->dbrw,"utl_etu_utbm",array("id_utilisateur"=>$user->id,"email_utbm"=>$user->email));
+    new update($user->user,"utilisateurs",array("utbm_utl"=>$user->utbm),array("id_utilisateur"=>$user->id));
+    new insert($user->dbrw,"utl_etu_utbm",array("id_utilisateur"=>$user->id,"email_utbm"=>$user->email));
   }
   else
-    new update($this->user,"utilisateurs",array("utbm_utl"=>$user->utbm),array("id_utilisateur"=>$user->id));
+    new update($user->user,"utilisateurs",array("utbm_utl"=>$user->utbm),array("id_utilisateur"=>$user->id));
   
   if ( isset($_REQUEST["etudiant"]) || isset($_REQUEST["ancien"]) )
     $user->became_etudiant(isset($_REQUEST["utbm"])?"UTBM":"Autre",isset($_REQUEST["ancien"]),true);
