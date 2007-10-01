@@ -30,7 +30,7 @@
 $topdir = "../";
 
 include($topdir. "include/site.inc.php");
-require_once($topdir . "include/entities/uv.php");
+require_once($topdir . "include/entities/uv.inc.php");
 
 
 $site = new site();
