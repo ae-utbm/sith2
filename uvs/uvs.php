@@ -45,7 +45,6 @@ $depts = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
 if (($site->user->is_in_group('gestion_ae')) 
     && (isset($_REQUEST['edituvsubmit'])))
 {
-  $cts = new contents("DEBUG", "<pre>" . print_r($_REQUEST, true) . "</pre>");
   $uv = new uv($site->db, $site->dbrw);
   $uv->load_by_id($_REQUEST['iduv']);
 
