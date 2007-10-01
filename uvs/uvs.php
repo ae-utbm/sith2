@@ -216,13 +216,15 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
   /* édition */
   if ($site->user->is_in_group("gestion_ae"))
     {
+      $cts->add_title(2, "Modification d'UV");
+
       $edituv = new form("edituv", 
 			 "uvs.php",
 			 true,
 			 "post",
 			 "Modification del'UV");
 
-      $edituv->add_text_field('iduv', $iduv);
+      $edituv->add_hidden('iduv', $iduv);
       $edituv->add_text_field('name',
 			      "Code de l'UV <b>sans espace, ex: 'MT42'</b>",
 			      $codeuv, true, 4);
