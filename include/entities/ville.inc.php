@@ -62,6 +62,8 @@ class ville extends stdentity
   }
 
   /* redéfinition du can_enumerate, spécifique aux recherches de lieux */
+  function can_enumerate() { return true; }
+
   function enumerate ( $null=false, $conds = null )
   {
     $class = get_class($this);
@@ -108,10 +110,13 @@ class ville extends stdentity
     
     $sql .= " ORDER BY 2";  
     
-		$req = new requete($this->db,$sql);
+    $req = new requete($this->db,$sql);
 
-		while ( $row = $req->get_row() )
-		  $values[$row[0]] = $row[1] . " (" .$row[2] .")";
+    while ( $row = $req->get_row() )
+      $values[$row[0]] = $row[1] . " (" .$row[2] .")";
+
+    /* debug (ca va merder, mais c'est temporaire) */
+    print_r($values);
 
     return $values;
   }

@@ -50,6 +50,36 @@ class uv extends stdentity
   var $comments;
 
 
+  function load_by_code($code)
+  {
+    $req = new requete($this->db, "SELECT * 
+                                   FROM 
+                                          `edu_uv`
+				   WHERE 
+                                           `code_uv` = '" .
+		       mysql_real_escape_string($code) . "'
+				LIMIT 1");
+
+    if ($req->lines == 1)
+      {
+	$row = $req->get_row();
+	
+	$this->id       = $row['id_uv'];
+	$this->code     = $row['code_uv'];
+	$this->intitule = $row['intitule_uv'];
+	$this->ects     = $row['ects_uv'];
+	$this->cours    = $row['cours_uv'];
+	$this->td       = $row['td_uv'];
+	$this->tp       = $row['tp_uv'];
+	
+	$this->load_depts();
+	
+	return true;
+      }
+    
+    $this->id = null;	
+    return false;
+  }
 
   function load_by_id ($id)
   {
