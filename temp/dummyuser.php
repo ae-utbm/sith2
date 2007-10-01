@@ -47,7 +47,7 @@ if ( $_REQUEST["action"] == "init" )
   if ( isset($_REQUEST["utbm"]) )
   {
     $user->utbm = true;
-    new update($user->user,"utilisateurs",array("utbm_utl"=>$user->utbm),array("id_utilisateur"=>$user->id));
+    new update($user->dbrw,"utilisateurs",array("utbm_utl"=>$user->utbm),array("id_utilisateur"=>$user->id));
     new insert($user->dbrw,"utl_etu_utbm",array("id_utilisateur"=>$user->id,"email_utbm"=>$user->email));
   }
   else
