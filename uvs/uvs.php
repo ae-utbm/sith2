@@ -40,7 +40,7 @@ $depts = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
 
 
 /* modification d'uv */
-if (($site->user->is_in_group('gestion_ae')) && (isset($_REQUEST['edituv'])))
+if (($site->user->is_in_group('gestion_ae')))
 {
   $cts = new contents("DEBUG", "<pre>" . print_r($_REQUEST, true) . "</pre>");
   $site->add_contents($cts);  
