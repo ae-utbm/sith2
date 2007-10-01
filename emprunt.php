@@ -344,7 +344,7 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 				
 			if ( $_REQUEST["emp"] != "ext" && !$user->is_valid() )
 				$Error="Utilisateur inconnu";
-			elseif ( $_REQUEST["asso"] == "asso" && !$asso->->is_valid() )
+			elseif ( $_REQUEST["asso"] == "asso" && !$asso->is_valid() )
 				$Error="Association inconnue";
 			elseif ( $_REQUEST["endtime"] <= time() )
 				$Error="Date et heure de fin invalide";
