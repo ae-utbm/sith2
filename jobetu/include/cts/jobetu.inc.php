@@ -83,7 +83,7 @@
 						if( $annonce->is_applicant($usr->id) )
 							$lst->add("Vous êtes déjà candidat à cette offre.", "ok");
 						
-						$cts->add($lst);
+						$this->buffer .= $lst->html_render();
 						
 						print_r($annonce->applicants);
 						echo "\n\n";
