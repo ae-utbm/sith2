@@ -294,7 +294,16 @@ EOF;
   
   function is_applicant($id_etu)
   {
+  	$val = false;
   	
+  	if(empty($this->applicants))
+  		return false;
+  	
+  	foreach($this->applicants as $tmp)
+  		if($tmp['id_etu'] == $id_etu)
+  			$val = true;
+  	
+  	return $val;
   }
 
   /**

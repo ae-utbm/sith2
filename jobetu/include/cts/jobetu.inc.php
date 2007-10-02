@@ -80,10 +80,10 @@
 						if( $annonce->is_provided() )
 							$lst->add("Tous les postes pour cette annonce sont pourvus.", "ko");
 						 
-						if( sizeof($annonce->winner) != 0 && !(array_search($usr->id, $annonce->applicants) === FALSE) )
+						if( $annonce->is_provided($usr->id) )
 							$lst->add("Vous êtes déjà candidat à cette offre.", "ok");
 						
-						if( !$annonce->is_closed() && !$annonce->is_provided() && !( sizeof($annonce->winner) != 0 && !(array_search($usr->id, $annonce->applicants) === FALSE)) )
+						if( !$annonce->is_closed() && !$annonce->is_provided() && !$annonce->is_provided($usr->id) )
 						{
 	  					$frm = new form("apply_".$annonce->id."", false, true, "POST");
 		  					$frm->add_submit("clic", "Se porter candidat");
