@@ -64,7 +64,7 @@ if ( $req->lines )
 {	
 $cts->add(new sqltable(
 		"modereres", 
-		"Reservation de salle en attente (de validation ou de convention)", $req, "reservation.php", 
+		"Reservation de salle en attente (de validation ou de convention)", $req, "reservations.php", 
 		"id_salres", 
 		array(
 			"nom_salle"=>"Salle",
@@ -125,7 +125,7 @@ $req = new requete($site->db,"SELECT `utilisateurs`.`id_utilisateur` as `id_util
 if ( $req->lines )
 $cts->add(new sqltable(
 		"modereres", 
-		"Reservations de salle validés", $req, "reservation.php", 
+		"Reservations de salle validés", $req, "reservations.php", 
 		"id_salres", 
 		array(
 			"nom_salle"=>"Salle",
