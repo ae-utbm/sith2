@@ -85,10 +85,6 @@
 						
 						$this->buffer .= $lst->html_render();
 						
-						print_r($annonce->applicants);
-						echo "\n\n";
-						print_r($usr->id);
-							
 						if( !$annonce->is_closed() && !$annonce->is_provided() && !$annonce->is_applicant($usr->id) )
 						{
 	  					$frm = new form("apply_".$annonce->id."", false, true, "POST");
@@ -156,10 +152,6 @@
 	  	}
 			else if( $annonce->is_provided() ) /* on attend que le contrat se fasse maintenant */
 			{
-				/*foreach($annonce->applicants_fullobj as $usr)
-					if($usr->id == $annonce->winner)
-						break;  // <= ouh que c'est moche
-*/
 				$this->buffer .= "<p>Votre annonce est fermée.</p>";
 				$this->buffer .= "<p>Candidat(s) sélectionnées : </p>"; // $usr->prenom $usr->nom</p>";
 
