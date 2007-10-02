@@ -288,7 +288,7 @@ class ville extends stdentity
     if ( ereg("^([0-9][0-9AB]*) ?(.*)$",$pattern,$match) )
     {
       // Recherche par code postal
-      $cp = mysql_escape_string($match[2]);
+      $cp = mysql_escape_string($match[1]);
       $pattern = mysql_escape_joker_string($match[2]);
       
       if ( empty($pattern) )
