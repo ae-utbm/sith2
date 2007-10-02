@@ -631,8 +631,9 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
         $subfrm->add_file_field ( "idtfile", "Fichier" );
         $carte = new carteae($site->db);
         $carte->load_by_utilisateur($site->user->id);
-        if ( !$carte->is_validcard() )
-          $subfrm->add_checkbox("delete_idt","Supprimer la photo d'identit&eacute;");
+        // feature request tatid : suppression de la photo d'identité
+	//if ( !$carte->is_validcard() )
+	$subfrm->add_checkbox("delete_idt","Supprimer la photo d'identit&eacute;");
       }
     }
     else
