@@ -397,7 +397,9 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit )
   }
 
   $dest_idt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg";
-  if( isset($_REQUEST['delete_idt']) && file_exists($dest_idt))
+  if(isset($_REQUEST['delete_idt']) && file_exists($dest_idt)
+     && ($site->user->is_asso_role ( 27, 1 ) 
+	 || $site->user->is_in_group("gestion_ae")))
     unlink($dest_idt);
   
   $_REQUEST["page"] = "edit";
