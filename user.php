@@ -395,6 +395,11 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit )
     $src = $_FILES['mmtfile']['tmp_name'];
     exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_mmt");
   }
+
+  $dest_idt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg";
+  if( isset($_REQUEST['delete_idt']) && file_exists($dest_idt))
+    unlink($dest_idt);
+  
   $_REQUEST["page"] = "edit";
   $_REQUEST["open"] = "photo";
 }
