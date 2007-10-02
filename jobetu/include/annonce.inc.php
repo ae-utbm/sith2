@@ -291,6 +291,11 @@ EOF;
 		else
 			return false;
   }
+  
+  function is_applicant($id_etu)
+  {
+  	
+  }
 
   /**
    * Ajoute une nouvelle annonce
@@ -347,9 +352,45 @@ EOF;
   /**
    * Edition d'une annonce
    */
-  function save()
+  function save($client, $titre, $job_type, $desc, $profil, $divers = null, $start_date = null, $duree = null, $nb_postes = 1, $indemnite = null, $ville = null, $type_contrat = null, $allow_diff = 0 )
   {
-  	
+  	if(!($client instanceof jobuser_client))	return -1;
+		
+		$this->titre = $titre;
+		$this->job_type	= $job_type;
+		$this->desc = $desc;
+		$this->divers = $divers;
+		$this->profil = $profil;
+		$this->start_date = $start_date;
+		$this->duree = $duree;
+		$this->nb_postes = $nb_postes;
+		$this->indemnite = $indemnite;
+		$this->ville = $ville;
+		$this->type_contrat = $type_contrat;
+		$this->allow_diff = $allow_diff;  
+			
+  	$sql = new update($this->dbrw,
+											"job_annonces",
+											array("id_annonce", $this->id),
+											array(
+														"titre" => $this->titre,
+														"job_type" => $this->job_type,
+														"desc" => $this->desc,
+														"divers" => $this->divers,
+														"profil" => $this->profil,
+														"start_date" => $this->start_date,
+														"duree" => $this->duree,
+														"nb_postes" => $this->nb_postes,
+														"indemnite" => $this->indemnite,
+														"ville" => $this->ville,
+														"type_contrat" => $this->type_contrat,
+														"allow_diff" => $this->allow_diff								
+											)
+											);
+		if($sql)
+			return $this->id;
+		else 
+			return false;
   }
 
 }
