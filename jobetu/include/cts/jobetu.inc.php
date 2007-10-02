@@ -83,6 +83,12 @@
 						if( $annonce->is_applicant($usr->id) )
 							$lst->add("Vous êtes déjà candidat à cette offre.", "ok");
 						
+						$cts->add($lst);
+						
+						print_r($annonce->applicants);
+						echo "\n\n";
+						print_r($usr->id);
+							
 						if( !$annonce->is_closed() && !$annonce->is_provided() && !$annonce->is_applicant($usr->id) )
 						{
 	  					$frm = new form("apply_".$annonce->id."", false, true, "POST");
