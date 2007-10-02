@@ -276,6 +276,80 @@ class ville extends stdentity
   }
 
 
+  /**
+   * Version otpmimisée de fsearch (sans regexp, seul un LIKE)
+   *
+   */
+  function fsearch ( $pattern, $limit=5, $conds = null )
+  {
+    if ( $limit < 10 )
+      $limit = 10;
+
+    if ( ereg("^([0-9][0-9AB]*) ?(.*)$",$pattern,$match) )
+    {
+      // Recherche par code postal
+      $cp = mysql_escape_string($match[2]);
+      $pattern = mysql_escape_joker_string($match[2]);
+      
+      if ( empty($pattern) )
+      {
+        $sql = "SELECT `id_ville`,`nom_ville`, `nom_pays`, `cpostal_ville` ".
+          "FROM `loc_ville` INNER JOIN `loc_pays` USING (`id_pays`) ".
+          "WHERE `cpostal_ville` LIKE '$cp%'";	        
+      }
+      else
+      {
+        $sql = "SELECT `id_ville`,`nom_ville`, `nom_pays`, `cpostal_ville` ".
+          "FROM `loc_ville` INNER JOIN `loc_pays` USING (`id_pays`) ".
+          "WHERE `cpostal_ville`='$cp' AND `nom_ville` LIKE '$pattern%'";	
+      }
+    }
+    else
+    {
+      $pattern = mysql_escape_joker_string($pattern);
+  
+      $sql = "SELECT `id_ville`,`nom_ville`, `nom_pays` ".
+        "FROM `loc_ville` INNER JOIN `loc_pays` USING (`id_pays`) ".
+        "WHERE `nom_ville` LIKE '$pattern%'";	
+    }
+    
+    if ( !is_null($conds) && count($conds) > 0 )
+    {
+      foreach ($conds as $key => $value)
+      {
+        $sql .= " AND ";
+        if ( is_null($value) )
+          $sql .= "(`" . $key . "` is NULL)";
+        else
+          $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
+      }
+    }
+    
+    if ( isset($cp) && empty($pattern) )
+      $sql .= " ORDER BY cpostal_ville, nom_ville";
+    else
+      $sql .= " ORDER BY 1";
+    
+    if ( !is_null($limit) && $limit > 0 )
+      $sql .= " LIMIT ".$limit;
+      
+    $req = new requete($this->db,$sql);
+
+    if ( !$req || $req->errno != 0 )
+      return null;
+
+    $values=array();
+    
+    while ( $row = $req->get_row() )
+    {
+      if ( isset($row["cpostal_ville"]) )
+        $values[$row[0]] = $row["cpostal_ville"]." ".$row[1] . " (" . $row[2] . ")";
+      else
+        $values[$row[0]] = $row[1] . " (" . $row[2] . ")";
+    }
+    return $values;
+  }
+
 }
 
 ?>
