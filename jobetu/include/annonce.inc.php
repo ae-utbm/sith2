@@ -90,6 +90,8 @@ class annonce extends stdentity
   	$sql = new requete($this->db, "SELECT `job_types`.`nom` FROM `job_annonces` LEFT JOIN `job_types` ON `job_types`.`id_type` = ". ($this->id_type - $this->id_type%100) ."");
 		$line = $sql->get_row();
 		$this->nom_main_cat = $line['nom'];
+		
+		$this->load_applicants();
   }
 
   function load_applicants()
