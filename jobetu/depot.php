@@ -89,8 +89,6 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 	
 	$cts->add_paragraph("Edition de l'annonce n°$annonce->id : \"$annonce->titre\" ");
 	
-	$cts->puts("<input type=\"button\" class=\"isubmit\" onClick=\"javascript: window.location.replace('board_client.php');\" value=\"Revenir en arrière\" />");
-	
 	$jobetu = new jobetu($site->db, $site->dbrw);
 	$jobetu->get_job_types();
 
@@ -108,6 +106,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 	$frm->add_text_area("divers", "Autres informations", $annonce->divers, 60, 3);
 	$frm->add_checkbox("allow_diff", "Diffuser mon numéro de téléphone aux candidats afin qu'ils puissent me contacter");
 	$frm->add_submit("go", "Enregistrer mon annonce");
+	$frm->puts("<input type=\"button\" class=\"isubmit\" onClick=\"javascript: window.location.replace('board_client.php');\" value=\"Revenir au tableau de bord\" />");
 	$frm->add_info("Les champs marqués d'une astérisque (*) doivent être remplis.");
 	
 	$cts->add($frm, true);
