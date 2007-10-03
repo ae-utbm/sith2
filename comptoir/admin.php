@@ -478,7 +478,7 @@ if ( $_REQUEST["page"] == "produits" )
 	 
 	$tbl = new sqltable(
 			"lstproduits", 
-			"Produits (hors archivés)", $req, "admin.php?", 
+			"Produits (hors archivés)", $req, "admin.php", 
 			"id_produit", 
 			array(
 			"nom_typeprod"=>"Type",
