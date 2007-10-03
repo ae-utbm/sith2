@@ -666,6 +666,10 @@ class site extends interfaceweb
     $sublist->add("<a href=\"".$topdir."user.php?view=parrain\">Parrains et fillots</a>");
     $sublist->add("<a href=\"".$topdir."user/compteae.php\">Compte AE</a>");
 
+    $cts->add($sublist,true, true, "accountbox", "boxlist", true, true);
+
+    $sublist = new itemlist("Infos et r&eacute;servations","boxlist");
+    
     $req = new requete($this->db,"SELECT  " .
       "COUNT(*) " .
       "FROM sl_reservation " .
@@ -680,10 +684,10 @@ class site extends interfaceweb
       $sublist->add("<a href=\"".$topdir."user/reservations.php\"><b>Mes reservations de salles : $nb en attente</b></a>");
     else
       $sublist->add("<a href=\"".$topdir."user/reservations.php\">Mes reservations de salles</a>");
-      
+
     $req = new requete($this->db,"SELECT COUNT(*) " .
-        "FROM inv_emprunt " .
-        "WHERE id_utilisateur='".$this->user->id."' AND etat_emprunt<=1");  
+      "FROM inv_emprunt " .
+      "WHERE id_utilisateur='".$this->user->id."' AND etat_emprunt<=1");
     list($nb) = $req->get_row();
 
     if ( $nb )
@@ -691,9 +695,6 @@ class site extends interfaceweb
     else
       $sublist->add("<a href=\"".$topdir."user/emprunts.php\">Mes emprunts de matériel</a>");
 
-    $cts->add($sublist,true, true, "accountbox", "boxlist", true, true);
-
-    $sublist = new itemlist("Infos et r&eacute;servations","boxlist");
     $sublist->add("<a href=\"".$topdir."news.php\">Proposer une nouvelle</a>");
     $sublist->add("<a href=\"".$topdir."salle.php?page=reservation\">Reserver une salle</a>");
     $sublist->add("<a href=\"".$topdir."emprunt.php\">Reserver du matériel</a>");
