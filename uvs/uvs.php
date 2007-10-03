@@ -184,20 +184,34 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
       $cts->add($sqlt);
     }
 
+  /* COMMENTAIRES UV */
 
-  /* commentaires sur les uvs ? */
-  /* TODO ! */
+  /* l'utilisateur est étudiant UTBM */
+  if ($site->user->is_in_group_id(10004))
+    {
+      $commcts = new contents("Commentaires sur les UVs");
+      $commform = new form('commform',
+			   "uvs.php?id_uv=".$uv->id,
+			   true,
+			   "post",
+			   "Ajout d'un commentaire");
+
+      $commform->add_hidden('taiste', "to be continued.");
+
+      $commcts->add($commform);
+      
+    }
 
   /* édition */
   if ($site->user->is_in_group("gestion_ae"))
     {
-      $cts->add_title(2, "Modification d'UV");
+      $cts2 = new contents("Modification d'UV");
 
       $edituv = new form("edituv", 
 			 "uvs.php?id_uv=".$uv->id,
 			 true,
 			 "post",
-			 "Modification del'UV");
+			 "Modification de l'UV");
 
       $edituv->add_hidden('iduv', $uv->id);
       $edituv->add_text_field('name',
@@ -255,7 +269,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
       $edituv->add_submit('edituvsubmit',
 			  "Modifier");
   
-      $cts->add($edituv);
+      $cts2->add($edituv);
     }
 
   /* Ressources externes */
@@ -291,6 +305,16 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
   $cts->add($itmlst);
 
   $site->add_contents($cts);
+
+  /* commentaire sur l'UV */
+  if ($commcts)
+    $site->add_contents($commcts);
+
+
+  /* modification d'une uv (gestion AE) */
+  if ($cts2)
+    $site->add_contents($cts2);
+
   $site->end_page();
 
   exit();
