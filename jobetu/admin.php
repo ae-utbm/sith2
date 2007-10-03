@@ -97,8 +97,8 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "clients")
 																	CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`
 																	FROM `utilisateurs`
 																	NATURAL JOIN `utl_groupe`
-																	WHERE id_groupe = GRP_JOBETU_CLIENT
-																	GROUP BY utilisateurs.id_utilisateur", true);
+																	WHERE id_groupe = ."GRP_JOBETU_CLIENT."
+																	GROUP BY utilisateurs.id_utilisateur", false);
 	
 	$cts->add( new sqltable("list_clients", "Clients de AE JobEtu", $sql, "admin.php", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array(), array()), true );
 }
@@ -108,7 +108,14 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "clients")
  */
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "etudiants")
 {
+	$sql = new requete($site->db, "SELECT utilisateurs.id_utilisateur,
+																	CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`
+																	FROM `utilisateurs`
+																	NATURAL JOIN `utl_groupe`
+																	WHERE id_groupe = ."GRP_JOBETU_ETU."
+																	GROUP BY utilisateurs.id_utilisateur", false);
 	
+	$cts->add( new sqltable("list_clients", "Etudiants inscrits à AE JobEtu", $sql, "admin.php", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array(), array()), true );
 }
 
 /***************************************************************
