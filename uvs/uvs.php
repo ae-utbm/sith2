@@ -224,7 +224,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 				  $uvcomm_travail);
 			       
 
-      $comform->add_submit('comm_sbmt', 'Commenter');
+      $commform->add_submit('comm_sbmt', 'Commenter');
 
       $commcts->add($commform);
       
