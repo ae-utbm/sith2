@@ -1,11 +1,11 @@
 div.uvcomment
 {
-  border: ;
+  padding: 30px;
+  border: 1px solid #d8e7f3;
 }
 
 div.uvcomment.pair
 {
-  border: ;
   background:#eff7ff;
 }
 
@@ -26,6 +26,6 @@ span.uvcdate
 
 div.uvcontent
 {
-   border-top: 90% black solid;
-   border-bottom: 90% black solid;
+   border-top: 90% #d8e7f3 solid;
+   border-bottom: 90% #d8e7f3 solid;
 }
