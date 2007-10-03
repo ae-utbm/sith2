@@ -18,7 +18,7 @@
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
+ * along with site program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
@@ -47,18 +47,18 @@ $board->add($sublist,true);
 
 $sublist = new itemlist("Modération"); 
 
-$req = new requete($this->db,"SELECT COUNT(*) FROM `nvl_nouvelles`  WHERE `modere_nvl`='0' ");
+$req = new requete($site->db,"SELECT COUNT(*) FROM `nvl_nouvelles`  WHERE `modere_nvl`='0' ");
 list($nbnews) = $req->get_row();
 
-$req = new requete($this->db,"SELECT COUNT(*) FROM `d_file`  WHERE `modere_file`='0' ");
+$req = new requete($site->db,"SELECT COUNT(*) FROM `d_file`  WHERE `modere_file`='0' ");
 list($nbfichiers) = $req->get_row();
-$req = new requete($this->db,"SELECT COUNT(*) FROM `d_folder`  WHERE `modere_folder`='0' ");
+$req = new requete($site->db,"SELECT COUNT(*) FROM `d_folder`  WHERE `modere_folder`='0' ");
 list($nbdossiers) = $req->get_row();
 $nbfichiers+=$nbdossiers;
 
-$req = new requete($this->db,"SELECT COUNT(*) FROM `planet_flux`  WHERE `modere`='0' ");
+$req = new requete($site->db,"SELECT COUNT(*) FROM `planet_flux`  WHERE `modere`='0' ");
 list($nbflux) = $req->get_row();
-$req = new requete($this->db,"SELECT COUNT(*) FROM `planet_tags`  WHERE `modere`='0' ");
+$req = new requete($site->db,"SELECT COUNT(*) FROM `planet_tags`  WHERE `modere`='0' ");
 list($nbtags) = $req->get_row();
 $nbflux+=$nbtags;
 
