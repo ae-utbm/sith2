@@ -289,7 +289,8 @@ class uv extends stdentity
 
     while ($rs = $rq->get_row())
       {
-	$this->comments[] = $comment->load_by_id($rs['id_comment']);
+	$comment->load_by_id($rs['id_comment']);
+	$this->comments[] = $comment;
       }
     return;
   }
