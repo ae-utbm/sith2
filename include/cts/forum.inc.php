@@ -272,12 +272,18 @@ class sujetforum extends stdcontents
           $firstunread=false;  
           $this->buffer .= "<div id=\"firstunread\"></div>";
         }
+
+	/* permalink */
+	$this->buffer .= "<a href=\"./?id_message=".
+	  $row['id_message']."#msg".$row['id_message']."\">";
         
         if ( $row['titre_message'] )
           $this->buffer .= "<h2 class=\"frmt\">Message non lu: ".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";      
         else
           $this->buffer .= "<h2 class=\"frmt\">Message non lu</h2>\n";  
-        
+
+        $this->buffer .= "</a>";
+
       }
       else
       {
