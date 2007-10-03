@@ -59,12 +59,12 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	
 	$frm->add_text_field("titre_ann", "Titre de l'annonce", false, true, 60);
 	$frm->add( new jobtypes_select_field($jobetu, "job_type", "Catégorie") );
-	$frm->add_info("<i>Si vous ne trouvez pas de categorie adequate, n'hesitez pas a <a href=''>le signaler</a></i>");
+	$frm->add_info("<i>Si vous ne trouvez pas de categorie adequate, n'hesitez pas a <a href=\"mailto:ae-jobetu@utbm.fr?subject=Demande d\'ajout de catégorie\">le signaler</a></i>");
 	$frm->add_text_area("desc_ann", "Description de l'annonce", false, 60, 8, true);
-	$frm->add_text_area("profil", "Profil recherche", false, 60, 3, true);
+	$frm->add_text_area("profil", "Profil recherché", false, 60, 3, true);
 	$frm->add_date_field("date_debut", "Date de debut");
-	$frm->add_text_field("duree", "Duree");
-	$frm->add_text_field("remuneration", "Rémuneration");
+	$frm->add_text_field("duree", "Durée");
+	$frm->add_text_field("remuneration", "Rémunération");
 	$frm->add_text_field("nb_postes", "Nombre de postes disponibles", "1", true, 4);
 	$frm->add_text_area("divers", "Autres informations", false, 60, 3);
 	$frm->add_checkbox("allow_diff", "Diffuser mon numéro de téléphone aux candidats afin qu'ils puissent me contacter");
