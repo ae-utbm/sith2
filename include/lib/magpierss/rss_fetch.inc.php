@@ -230,14 +230,15 @@ function error ($errormsg, $lvl=E_USER_WARNING) {
         global $MAGPIE_ERROR;
         
         // append PHP's error message if track_errors enabled
-        if ( isset($php_errormsg) ) { 
+        // RAF : plus de message d'erreur à la con !!!!!
+        /*if ( isset($php_errormsg) ) { 
             $errormsg .= " ($php_errormsg)";
         }
         if ( $errormsg ) {
             $errormsg = "MagpieRSS: $errormsg";
             $MAGPIE_ERROR = $errormsg;
             trigger_error( $errormsg, $lvl);                
-        }
+        }*/
 }
 
 function debug ($debugmsg, $lvl=E_USER_NOTICE) {
