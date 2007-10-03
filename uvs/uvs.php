@@ -212,23 +212,13 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
   /* TODO note : pourquoi ne pas créer par la suite un groupe
    * spécifique à la modération des commentaires ? 
    */
-
   $uv->load_comments($site->user->is_in_group("gestion_ae"));
 
   if (count($uv->comments) > 0)
     {
+      require_once($topdir . "include/cts/uvcomment.inc.php");
       $cts->add_title(2, "Commentaires d'étudiants ayant suivi l'UV");
-
-      require_once($topdir . "include/lib/dokusyntax.inc.php");
-
-      /* TODO : content spécifique ? */
-      foreach ($uv->comments as &$comment)
-	{
-	  $ctscomment = new contents();
-	  $ctscomment->add_paragraph("<pre>".print_r($comment, true) . "</pre>");
-	  $cts->add($ctscomment);
-	}
-
+      $cts->add(new uvcomment_contents($uv->comments, $site->db));
     }
 
 
