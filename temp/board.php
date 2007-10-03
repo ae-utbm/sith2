@@ -50,7 +50,7 @@ $board->add($subboard);
 
 $subboard = new board();
 //$subboard->add($site->get_weekly_photo_contents(),true);
-//$subboard->add($site->get_anniv_contents(),true);
+$subboard->add($site->get_anniv_contents(),true);
 $board->add($subboard);
 
 $cts->add($board);
