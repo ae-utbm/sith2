@@ -196,7 +196,35 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 			   "post",
 			   "Ajout d'un commentaire");
 
-      $commform->add_hidden('taiste', "to be continued.");
+      $commform->add_select_field('comm_obtention', 'UV obtenue', 
+				  array (NULL => 'Non renseigné',
+					 'A'  => 'Admis : A',
+					 'B'  => 'Admis : B',
+					 'C'  => 'Admis : C',
+					 'D'  => 'Admis : D',
+					 'E'  => 'Admis : E',
+					 'Fx' => 'Insuffisant : Fx',
+					 'F'  => 'Insuffisant : F'), NULL);
+
+      $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)');
+      $commform->add_select_field('comm_interest', 
+				  'Intéret de l\'UV (dans le cadre de la formation)', 
+				  $uvcomm_interet);
+
+      $commform->add_select_field('comm_utilite', 
+				  'Utilité de l\'UV (culture générale ou autres)', 
+				  $uvcomm_utilite);
+
+      $commform->add_select_field('comm_travail', 
+				  'Charge de travail', 
+				  $uvcomm_travail);
+
+      $commform->add_select_field('comm_note_glbl', 
+				  'Evalutation globale de l\'UV', 
+				  $uvcomm_travail);
+			       
+
+      $comform->add_submit('comm_sbmt', 'Commenter');
 
       $commcts->add($commform);
       

@@ -34,6 +34,36 @@ define('UVCOMMENT_ABUSE', 1);
 /* supprimé */
 define('UVCOMMENT_DELETED', 2);
 
+$uvcomm_utilite = array(
+			'-1' => 'Non renseigné',
+			'0' => 'Inutile',
+			'1' => 'Pas très utile',
+			'2' => 'Utile',
+			'3' => 'Tres importante',
+			'4' => 'Indispensable');
+
+$uvcomm_interet = array('-1' => 'Non renseigné',
+			'0'  => 'Aucun',
+			'1' => 'Faible',
+			'2' => 'Bof',
+			'3' => 'Intéressant',
+			'4' =>'Tres intéressant');
+
+$uvcomm_travail = array ('-1' =>'Non renseigné',
+			 '0'=>'Symbolique',
+			 '1'=>'Faible',
+			 '2'=>'Moyenne',
+			 '3'=>'Importante',
+			 '4'=>'Très importante');
+
+$uvcomm_note = array ('-1' => 'Sans avis',
+		      '0'=>'Nul',
+		      '1'=>'Pas terrible',
+		      '2'=>'Neutre',
+		      '3'=>'Pas mal',
+		      '4'=>'Génial');
+
+
 
 $departements = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
  
