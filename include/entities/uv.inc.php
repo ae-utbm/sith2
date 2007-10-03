@@ -285,7 +285,7 @@ class uv extends stdentity
 		      $sql);
 
 
-
+    $i = 0;
     while ($rs = $rq->get_row())
       {
 	$this->comments[$i] = new uvcomment($this->db);
