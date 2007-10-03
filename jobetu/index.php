@@ -45,7 +45,7 @@ A lire :
   * [[http://ae.utbm.fr/article.php?name=docs:jobetu:cgu|Conditions Générales d'Utilisation]]
   * [[http://ae.utbm.fr/article.php?name=docs:jobetu:faq|F.A.Q. Générale]]
   * [[http://ae.utbm.fr/article.php?name=docs:jobetu:faq-recruteurs|F.A.Q. Recruteurs]]
-  * [[http://ae.utbm.fr/article.php?name=docs:jobetu:faq-etudiants|F.A.Q. Etudiants]]
+  * [[http://ae.utbm.fr/article.php?name=docs:jobetu:faq-candidats|F.A.Q. Etudiants]]
 
 //AE Job Etu est un service proposé par l'Association des Etudiants de l'UTBM.//
 EOF;

@@ -66,8 +66,12 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "categories")
 	$jobetu->get_job_types();
 //	$cts->add($jobetu->job_types);
 
-	$sql = new requete($site->db, "SELECT *  FROM job_types ORDER BY id_type ASC");
-	$table = new sqltable("typetable", "Catégorie des jobs", $sql, null, "id_types", array("id_type" => "Num", "nom" => "Nom de la catégorie"), array(), array(), array());
+$sql = new requete($site->db, "SELECT id_types, nom, COUNT(id_type) AS nb_etu
+																FROM `job_types_etu`
+																NATURAL JOIN `job_types`
+																GROUP BY id_type
+																ORDER BY nom DESC");
+	$table = new sqltable("typetable", "Catégorie des jobs", $sql, null, "id_types", array("id_type" => "Num", "nom" => "Nom de la catégorie", "nb_etu" => "Nb d'étudiant"), array(), array(), array());
 	$cts->add($table);
 	
 	
@@ -84,7 +88,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "categories")
 	$frm->add($sfrm,false,true,0,"sub",false,true);
 	
 
-	$cts->add($frm, true);
+	$cts->add($frm, true);	
 
 }
 

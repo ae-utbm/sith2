@@ -41,7 +41,7 @@
 	  			$this->buffer .= "</div>\n";
 	  			
 	  			$this->buffer .= "<div class=\"icons\">\n";
-	  				$this->buffer .= "<a href=\"$topdir"."article.php?page=docs:jobetu:candidats\" title=\"Aide\"><img src=\"../images/actions/info.png\" /></a> &nbsp;";
+	  				$this->buffer .= "<a href=\"$topdir"."article.php?page=docs:jobetu:faq-candidats\" title=\"Aide\"><img src=\"../images/actions/info.png\" /></a> &nbsp;";
 	  				$this->buffer .= "<a href=\"board_etu.php?action=reject&id=".$annonce->id."\" title=\"Ne plus me proposer\"><img src=\"../images/actions/delete.png\" /></a>";
 	  			$this->buffer .= "</div>\n";
 	  		$this->buffer .= "</div>";
@@ -134,7 +134,7 @@
 	  	$this->buffer .= "</div>\n";
 	  		
 	  	$this->buffer .= "<div class=\"icons\">";
-	  	$this->buffer .= "<a href=\"../article.php?name=docs:jobetu:recruteurs\" title=\"Aide\"><img src=\"../images/actions/info.png\" /></a> &nbsp;";
+	  	$this->buffer .= "<a href=\"../article.php?name=docs:jobetu:faq-recruteurs\" title=\"Aide\"><img src=\"../images/actions/info.png\" /></a> &nbsp;";
 	  	$this->buffer .= "<a href=\"depot.php?action=edit&id=".$annonce->id."\" title=\"Editer l'annonce\"><img src=\"../images/actions/edit.png\" /></a> &nbsp;";
 	  	$this->buffer .= "<a href=\"#\" title=\"Clore cette annonce\" onClick=\"location.href = confirm('Etes vous sûr de vouloir clore cette annonce ?') ? 'board_client.php?action=close&id=".$annonce->id."' : '#' \"><img src=\"../images/actions/lock.png\" /></a>";
 	  	$this->buffer .= "</div>\n";
