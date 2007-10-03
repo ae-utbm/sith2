@@ -106,7 +106,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 	$frm->add_text_area("divers", "Autres informations", $annonce->divers, 60, 3);
 	$frm->add_checkbox("allow_diff", "Diffuser mon numéro de téléphone aux candidats afin qu'ils puissent me contacter");
 	$frm->add_submit("go", "Enregistrer mon annonce");
-	$frm->puts("<input type=\"button\" class=\"isubmit\" onClick=\"javascript: window.location.replace('board_client.php');\" value=\"Revenir au tableau de bord\" />");
+	$frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" class=\"isubmit\" onClick=\"javascript: window.location.replace('board_client.php');\" value=\"Revenir au tableau de bord\" /></div></div>");
 	$frm->add_info("Les champs marqués d'une astérisque (*) doivent être remplis.");
 	
 	$cts->add($frm, true);
