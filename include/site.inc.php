@@ -798,8 +798,6 @@ class site extends interfaceweb
     {
       $sublist = new itemlist("Equipe info","boxlist");
       $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Rootplace</a>");
-      $sublist->add("<a href=\"".$topdir."group.php\">Gestion des groupes</a>");
-      $sublist->add("<a href=\"".$topdir."ae/pollcoti.php\">Expiration des cotisations (sem.)</a>");
       $cts->add($sublist,true, true, "rootadminbox", "boxlist", true, false);
     }
 
