@@ -49,7 +49,11 @@ $board->add($subboard);
 
 
 $subboard = new board();
-//$subboard->add($site->get_weekly_photo_contents(),true);
+$weekly = $site->get_weekly_photo_contents();
+if($weekly!=null)
+  $subboard->add($site->get_weekly_photo_contents(),true);
+else
+  $subboard->add(new contents("Pas de photo"));
 $subboard->add($site->get_anniv_contents(),true);
 $board->add($subboard);
 
