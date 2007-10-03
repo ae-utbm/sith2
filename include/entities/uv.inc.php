@@ -380,7 +380,7 @@ class uvcomment extends stdentity
 			     'utilite_uv' => $utilite,
 			     'note_uv'    => $note,
 			     'travail_uv' => $travail,
-			     'date_commentaire' => date(),
+			     'date_commentaire' => date("Y-m-d H:i:s")),
 			     'state_comment' => 0));
 
     if ($sql->lines <= 0)
