@@ -26,6 +26,15 @@
  * @file
  */
 
+
+/* statut normal */
+define('UVCOMMENT_NOTMODERATED', 0);
+/* reporté comme abusif par un utilisateur */
+define('UVCOMMENT_ABUSE', 1);
+/* supprimé */
+define('UVCOMMENT_DELETED', 2);
+
+
 $departements = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
  
 class uv extends stdentity
@@ -231,12 +240,33 @@ class uv extends stdentity
 
 class uvcomment extends stdentity
 {
+
+  /* l'identifiant de l'UV */
   var $id_uv;
+  /* l'identifiant de l'utilisateur ayant commenté */
   var $id_commentateur;
+  /* note d'obtention (Format UTBM : A, B ...) */
   var $note_obtention;
-  var $note_uv;
-  var $comment;
+
+  /* note sur l'intéret de l'UV */
+  /* Est-ce que l'UV vaut le coup d'être suivie ?
+   * (Réflexions sur la qualité de l'enseignement, 
+   *  moyens mis à disposition ...) */
+  var $interet;
+  /* note sur l'utilité de l'UV */
+  /* est-ce que l'UV est utile dans le cadre 
+   * de la formation d'ingénieur ? */
+  var $utilite;
+  /* note sur la charge de travail */
   var $charge_travail;
+  /* note générale que donne l'étudiant sur l'UV */
+  var $note;
+
+  /* commentaire dokuwiki */
+  var $comment;
+
+  /* date du commentaire */
+  var $date;
 
 
   function load_by_id($id)
@@ -252,12 +282,69 @@ class uvcomment extends stdentity
     if ($req->lines == 1)
       {
 	$row = $req->get_row();
+
+	$this->id              = $row['id_comment'];
+ 
+	$this->id_uv           = $row['id_uv'];
+	$this->id_commentateur = $row['id_utilisateur'];
+	$this->note_obtention  = $row['note_obtention_uv'];
+
+	$this->interet         = $row['interet_uv'];
+	$this->utilite         = $row['utilite_uv'];
+	$this->charge_travail  = $row['travail_uv'];
+	$this->note            = $row['note_uv'];
 	
+	$this->comment         = $row['comment_uv'];
+	
+	$this->date            = $row['date_commentaire'];
+
 	return true;
-      }
-    
+      }  
   }
 
+  function create($id_uv,
+		  $id_commentateur,
+		  $commentaire,
+		  $note_obtention = null,
+		  $interet = 3,
+		  $utilite = 3,
+		  $note    = 3,
+		  $travail = 3)
+  {
+    $sql = new insert($this->dbrw,
+		      'edu_uv_comments',
+		      array ('id_uv' => $id_uv,
+			     'id_commentateur' => $id_utilisateur,
+			     'note_obtention_uv' => $note_obtention,
+			     'comment_uv' => $commentaire,
+			     'interet_uv' => $interet,
+			     'utilite_uv' => $utilite,
+			     'note_uv'    => $note,
+			     'travail_uv' => $travail,
+			     'date_commentaire' => date(),
+			     'state_comment' => 0));
+
+    if ($sql->lines <= 0)
+      return false;
+    else
+      $this->load_by_id($sql->get_id());
+    return true;
+
+  }
+
+  function modere($level = UVCOMMENT_ABUSE)
+  {
+    if ($this->id <= 0)
+      return false;
+    
+    $req = new update($this->dbrw,
+		      'edu_uv_comments',
+		      array('state_comment' => $level),
+		      array('id_comment' => $this->id));
+
+    return ($req->lines > 0);
+  }
+		  
 }
 
 ?>
