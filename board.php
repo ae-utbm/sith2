@@ -42,9 +42,13 @@ $cts = new contents("Page personelle");
 
 $board = new board();
 
-$board->add(new calendar($site->db),true);
+$subboard = new board();
 
-$board->add($site->get_forum_box(),true);
+$subboard->add(new calendar($site->db),true);
+
+$subboard->add($site->get_forum_box(),true);
+
+$board->add($subboard,true);
 
 $cts->add($board);
 
