@@ -43,11 +43,13 @@ $cts = new contents("Page personelle");
 $board = new board();
 
 $subboard = new board();
-
 $subboard->add(new calendar($site->db),true);
-
 $subboard->add($site->get_forum_box(),true);
+$board->add($subboard);
 
+$subboard = new board();
+$subboard->add($site->get_weekly_photo_contents(),true);
+$subboard->add($site->get_anniv_contents(),true);
 $board->add($subboard);
 
 $cts->add($board);
