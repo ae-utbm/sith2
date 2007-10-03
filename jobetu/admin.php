@@ -66,7 +66,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "categories")
 	$jobetu->get_job_types();
 //	$cts->add($jobetu->job_types);
 
-$sql = new requete($site->db, "SELECT id_types, nom, COUNT(id_type) AS nb_etu
+$sql = new requete($site->db, "SELECT id_type, nom, COUNT(id_type) AS nb_etu
 																FROM `job_types_etu`
 																NATURAL JOIN `job_types`
 																GROUP BY id_type
