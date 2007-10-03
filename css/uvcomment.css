@@ -1,0 +1,31 @@
+div.uvcomment
+{
+  border: ;
+}
+
+div.uvcomment.pair
+{
+  border: ;
+  background:#eff7ff;
+}
+
+span.uvcriteria
+{
+  width: 100%;
+}
+
+span.uvcauthor
+{
+  width: 100%;
+}
+span.uvcdate
+{
+  width: 20%;
+  float: right;
+}
+
+div.uvcontent
+{
+   border-top: 90% black solid;
+   border-bottom: 90% black solid;
+}
