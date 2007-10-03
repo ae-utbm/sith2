@@ -52,8 +52,7 @@ A lire :
 AE Job Etu est un service proposé par l'Association des Etudiants de l'UTBM.
 EOF;
 
-$header->add_paragraph("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Vestibulum diam augue, vestibulum sit amet, hendrerit in, vehicula et, libero. Aliquam nisl elit, vehicula sed, porttitor ac, tempor aliquam, risus. Donec consectetuer sagittis turpis. Aenean elit mauris, tincidunt ac, tristique vitae, porttitor et, lacus. Nam non leo in augue dignissim euismod. Vivamus consectetuer. Praesent adipiscing. Vestibulum laoreet semper diam. Aliquam varius arcu ac lectus. Sed ultrices risus vitae massa. Integer suscipit aliquet turpis. Pellentesque varius libero in velit dapibus consectetuer. Phasellus fermentum. Sed a neque vitae diam tristique lacinia. In hac habitasse platea dictumst. Curabitur vel nisi. Maecenas quis nunc a erat pellentesque consequat.");
-$header->add_paragraph("Lisez les CGU : http://ae.utbm.fr/article.php?name=legals-jobetu-cgu");
+$header->add_paragraph(doku2xhtml($intro));
 $site->add_contents($header);
 
 if( isset($_REQUEST['activate']) )
