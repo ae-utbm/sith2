@@ -61,6 +61,13 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "categories")
 			else if($_REQUEST['type_cat'] == "sub")
 				$jobetu->add_subtype($_REQUEST['name_sub'], $_REQUEST['mama_cat']);
 		}
+		if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
+		{
+			if( $usr->del_pdf_cv($_REQUEST['cv']) )
+				$lst->add("Votre CV en ".$i18n[ $_REQUEST['cv'] ] ." à bien été supprimé.", "ok");
+			else
+				$lst->add("Une erreur s'est produite.", "ko");
+		}
 	
 	$cts->add_title(2, "Gestion de la liste des catégories");
 	$jobetu->get_job_types();
@@ -70,8 +77,8 @@ $sql = new requete($site->db, "SELECT id_type, nom, COUNT(id_type) AS nb_etu
 																FROM `job_types_etu`
 																NATURAL JOIN `job_types`
 																GROUP BY id_type
-																ORDER BY nom DESC");
-	$table = new sqltable("typetable", "Catégorie des jobs", $sql, null, "id_types", array("id_type" => "Num", "nom" => "Nom de la catégorie", "nb_etu" => "Nb d'étudiant"), array(), array(), array());
+																ORDER BY id_type ASC");
+	$table = new sqltable("typetable", "Catégorie des jobs", $sql, null, "id_types", array("id_type" => "Num", "nom" => "Nom de la catégorie", "nb_etu" => "Nb d'étudiant"), array("delete" => "Supprimer"), array(), array());
 	$cts->add($table);
 	
 	
