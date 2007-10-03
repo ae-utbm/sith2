@@ -282,7 +282,6 @@ class sujetforum extends stdcontents
         else
           $this->buffer .= "<h2 class=\"frmt\">Message non lu</h2>\n";  
 
-        $this->buffer .= "</a>";
 
       }
       else
