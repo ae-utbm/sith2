@@ -41,7 +41,7 @@ $board = new board();
 
 $sublist = new itemlist("Contenu paramétrable");
 $sublist->add("<a href=\"site.php\">Textes paramétrables</a>");
-$sublist->add("<a href=\"weekly_upload.php\">Planning/Photo de la semaine");
+$sublist->add("<a href=\"weekly_upload.php\">Planning/Photo de la semaine</a>");
 
 $board->add($sublist,true);
 
