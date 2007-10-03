@@ -36,6 +36,22 @@ $site->start_page("services", "AE Job Etu");
 
 
 $header = new contents("Bienvenue sur AE Job Etu");
+
+$intro = <<<EOF
+Bienvenue sur AE Job Etu
+
+AE Job Etu aide étudiants et employeurs (particuliers ou entreprises) à entrer en relation afin de contractualiser des jobs.
+Les étudiants peuvent donc offrir leurs services et les employeurs en demander, AE Job Etu les met en correspondance.
+
+A lire :
+  * [[http://ae.utbm.fr/article.php?name=docs:jobetu:cgu|Conditions Générales d'Utilisation]]
+  * [[http://ae.utbm.fr/article.php?name=docs:jobetu:faq|F.A.Q. Générale]]
+  * [[http://ae.utbm.fr/article.php?name=docs:jobetu:faq-recruteurs|F.A.Q. Recruteurs]]
+  * [[http://ae.utbm.fr/article.php?name=docs:jobetu:faq-etudiants|F.A.Q. Etudiants]]
+
+AE Job Etu est un service proposé par l'Association des Etudiants de l'UTBM.
+EOF;
+
 $header->add_paragraph("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Vestibulum diam augue, vestibulum sit amet, hendrerit in, vehicula et, libero. Aliquam nisl elit, vehicula sed, porttitor ac, tempor aliquam, risus. Donec consectetuer sagittis turpis. Aenean elit mauris, tincidunt ac, tristique vitae, porttitor et, lacus. Nam non leo in augue dignissim euismod. Vivamus consectetuer. Praesent adipiscing. Vestibulum laoreet semper diam. Aliquam varius arcu ac lectus. Sed ultrices risus vitae massa. Integer suscipit aliquet turpis. Pellentesque varius libero in velit dapibus consectetuer. Phasellus fermentum. Sed a neque vitae diam tristique lacinia. In hac habitasse platea dictumst. Curabitur vel nisi. Maecenas quis nunc a erat pellentesque consequat.");
 $header->add_paragraph("Lisez les CGU : http://ae.utbm.fr/article.php?name=legals-jobetu-cgu");
 $site->add_contents($header);
@@ -68,7 +84,7 @@ Quelques mots sur le fonctionnement du service :
   * Le client recevra alors toutes les candidatures qui lui sont offertes et pourra faire son choix parmi celles ci, vous serez tenu au courant de cette évolution via votre tableau de bord, ou bien même par mail si vous le souhaitez
   * A la fin du contrat, le demandeur pourra mettre une appréciation à votre prestation (positive, négative ou neutre) s'il le souhaite, afin de vous permettre de mettre en avant votre sérieux pour de futures candidatures. 
 
-Rappelons que l'inscription à AE Job Etu est soumise à l'acceptation des [[http://ae.utbm.fr/article.php?name=legals-jobetu-cgu|conditions générales d'utilisation]].
+Rappelons que l'inscription à AE Job Etu est soumise à l'acceptation des [[http://ae.utbm.fr/article.php?name=docs:jobetu:cgu|conditions générales d'utilisation]].
 EOF;
 	$cts->add_paragraph(doku2xhtml($text));
 	
