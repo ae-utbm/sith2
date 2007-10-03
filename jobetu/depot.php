@@ -89,7 +89,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 	
 	$cts->add_paragraph("Edition de l'annonce n°$annonce->id : \"$annonce->titre\" ");
 	
-	$cts->puts("<button class=\isubmit\" onClick=\"javascript:history.go(-1);\" value=\"Revenir en arrière\" />");
+	$cts->puts("<button class=\"isubmit\" onClick=\"javascript:history.go(-1);\" value=\"Revenir en arrière\" />");
 	
 	$jobetu = new jobetu($site->db, $site->dbrw);
 	$jobetu->get_job_types();
