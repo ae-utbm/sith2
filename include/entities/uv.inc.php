@@ -285,12 +285,12 @@ class uv extends stdentity
 		      $sql);
 
 
-    $comment = new uvcomment($this->db);
 
     while ($rs = $rq->get_row())
       {
-	$comment->load_by_id($rs['id_comment']);
-	$this->comments[] = $comment;
+	$this->comments[$i] = new uvcomment($this->db);
+	$this->comments[$i]->load_by_id($rs['id_comment']);
+	$i++;
       }
     return;
   }
