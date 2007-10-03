@@ -40,6 +40,16 @@ $site->start_page("services", "Informations UV");
 $depts = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
 
 
+/* commentaire sur les uvs */
+if (($site->user->is_in_group_id(10004))
+    && (isset_$_REQUEST['comm_sbmt']))
+{
+  $cts = new contents();
+  $cts->add_paragraph("<pre>" . print_r($_REQUEST, true) . "</pre>");
+  $site->add_contents($cts);
+
+
+}
 /* modification d'uv */
 
 if (($site->user->is_in_group('gestion_ae')) 
@@ -208,20 +218,24 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 
       $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)');
       $commform->add_select_field('comm_interest', 
-				  'Intéret de l\'UV (dans le cadre de la formation)', 
-				  $uvcomm_interet);
+				  'Intéret de l\'UV (pour un ingénieur)', 
+				  $uvcomm_interet,
+				  2);
 
       $commform->add_select_field('comm_utilite', 
 				  'Utilité de l\'UV (culture générale ou autres)', 
-				  $uvcomm_utilite);
+				  $uvcomm_utilite,
+				  2);
 
       $commform->add_select_field('comm_travail', 
 				  'Charge de travail', 
-				  $uvcomm_travail);
+				  $uvcomm_travail,
+				  2);
 
       $commform->add_select_field('comm_note_glbl', 
 				  'Evalutation globale de l\'UV', 
-				  $uvcomm_note);
+				  $uvcomm_note,
+				  2);
 			       
 
       $commform->add_submit('comm_sbmt', 'Commenter');
