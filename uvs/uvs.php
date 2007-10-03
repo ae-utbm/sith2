@@ -40,14 +40,28 @@ $site->start_page("services", "Informations UV");
 $depts = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
 
 
-/* commentaire sur les uvs */
+/* Postage commentaire sur les uvs */
 if (($site->user->is_in_group_id(10004))
     && (isset($_REQUEST['comm_sbmt'])))
 {
-  $cts = new contents();
-  $cts->add_paragraph("<pre>" . print_r($_REQUEST, true) . "</pre>");
-  $site->add_contents($cts);
+  $comm = new uvcomment($site->db, $site->dbrw);
+  $ret =   $comm->create($_REQUEST['id_uv'],
+			 $site->user->id,
+			 $_REQUEST['comm_comm'],
+			 $_REQUEST['comm_obtention'],
+			 $_REQUEST['comm_interest'], /* interet */
+			 $_REQUEST['comm_utilite'], /* utilite */
+			 $_REQUEST['comm_note_glbl'], /*note */
+			 $_REQUEST['comm_travail']); /*travail */
 
+  $cts = new contents();
+
+  if ($ret)
+    $cts->add_paragraph("UV commentée avec succès !");
+  else
+    $cts->add_paragraph("<b>Erreur lors de l'enregistrement ".
+			"du commentaire.</b>");
+  $site->add_contents($cts);
 
 }
 /* modification d'uv */
@@ -195,6 +209,29 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
     }
 
   /* COMMENTAIRES UV */
+  /* TODO note : pourquoi ne pas créer par la suite un groupe
+   * spécifique à la modération des commentaires ? 
+   */
+
+  $uv->load_comments($site->user->is_in_group("gestion_ae"));
+
+  if (count($uv->comments) > 0)
+    {
+      $cts->add_title(2, "Commentaires d'étudiants ayant suivi l'UV");
+
+      require_once($topdir . "include/lib/dokusyntax.inc.php");
+
+      /* TODO : content spécifique ? */
+      foreach ($uv->comments as &$comment)
+	{
+	  $ctscomment = new contents();
+	  $ctscomment->add_paragraph(doku2xhtml($comment->comment));
+	  $cts->add($ctscomment);
+	}
+
+    }
+
+
 
   /* l'utilisateur est étudiant UTBM */
   if ($site->user->is_in_group_id(10004))

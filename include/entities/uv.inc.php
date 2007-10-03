@@ -265,7 +265,36 @@ class uv extends stdentity
   }
   
 
+  function load_comments($all = false)
+  {
+    if (!$this->id)
+      return false;
+
+    $this->comments = array();
+
+    $sql = 'SELECT 
+                                `id_comment` 
+                       FROM
+                                `edu_uv_comments`
+                       WHERE
+                                `id_uv` = '.$this->id;
+    if ($all == false)
+      $sql .= " AND state_comment = 0";
+
+    $rq = new requete($this->db,
+		      $sql);
+
+
+    $comment = new uvcomment($this->db);
+
+    while ($rs = $rq->get_row())
+      {
+	$this->comments[] = $comment->load_by_id($rs['id_comment']);
+      }
+    return;
+  }
 }
+
 
 
 class uvcomment extends stdentity
