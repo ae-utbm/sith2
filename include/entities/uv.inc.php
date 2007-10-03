@@ -373,7 +373,7 @@ class uvcomment extends stdentity
     $sql = new insert($this->dbrw,
 		      'edu_uv_comments',
 		      array ('id_uv' => $id_uv,
-			     'id_utilisateur' => $id_utilisateur,
+			     'id_utilisateur' => $id_commentateur,
 			     'note_obtention_uv' => $note_obtention,
 			     'comment_uv' => $commentaire,
 			     'interet_uv' => $interet,
