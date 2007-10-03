@@ -1,6 +1,6 @@
 div.uvcomment
 {
-  padding: 30px;
+  padding: 10px;
   border: 1px solid #d8e7f3;
 }
 
@@ -12,19 +12,23 @@ div.uvcomment.pair
 span.uvcriteria
 {
   width: 100%;
+  margin-bottom: 20px;
+
 }
 
 span.uvcauthor
 {
-  width: 100%;
+  float: left;
+  margin-lef: 10px;
 }
 span.uvcdate
 {
-  width: 20%;
+  margin-right: 10px;
   float: right;
 }
 
-div.uvcontent
+
+div.uvccontent
 {
    border-top: 90% #d8e7f3 solid;
    border-bottom: 90% #d8e7f3 solid;
