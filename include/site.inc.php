@@ -703,41 +703,9 @@ class site extends interfaceweb
 
     if( $this->user->is_in_group("moderateur_site") )
     {
-      $req = new requete($this->db,"SELECT COUNT(*) FROM `nvl_nouvelles`  WHERE `modere_nvl`='0' ");
-      list($nbnews) = $req->get_row();
-
-      $req = new requete($this->db,"SELECT COUNT(*) FROM `d_file`  WHERE `modere_file`='0' ");
-      list($nbfichiers) = $req->get_row();
-      $req = new requete($this->db,"SELECT COUNT(*) FROM `d_folder`  WHERE `modere_folder`='0' ");
-      list($nbdossiers) = $req->get_row();
-      $nbfichiers+=$nbdossiers;
-
-      $req = new requete($this->db,"SELECT COUNT(*) FROM `planet_flux`  WHERE `modere`='0' ");
-      list($nbflux) = $req->get_row();
-      $req = new requete($this->db,"SELECT COUNT(*) FROM `planet_tags`  WHERE `modere`='0' ");
-      list($nbtags) = $req->get_row();
-      $nbflux+=$nbtags;
-
       $sublist = new itemlist("Equipe com'","boxlist");
 
-      $sublist->add("<a href=\"".$topdir."ae/site.php\">Textes paramètrables</a>");
-      $sublist->add("<a href=\"".$topdir."ae/sondage.php\">Sondages</a>");
-      $sublist->add("<a href=\"".$topdir."ae/weekly_upload.php\">Planning/Photo de la semaine</a>");
-
-      if ( $nbnews > 0 )
-        $sublist->add("<a href=\"".$topdir."ae/moderenews.php\"><b>Modération des nouvelles ($nbnews)</b></a>");
-      else
-        $sublist->add("<a href=\"".$topdir."ae/moderenews.php\">Modération des nouvelles (Aucune)</a>");
-
-      if ( $nbfichiers > 0 )
-        $sublist->add("<a href=\"".$topdir."ae/moderedrive.php\"><b>Modération des fichiers et dossiers ($nbfichiers)</b></a>");
-      else
-        $sublist->add("<a href=\"".$topdir."ae/moderedrive.php\">Modération des fichiers et dossiers (Aucun)</a>");
-
-      if ( $nbflux > 0 )
-        $sublist->add("<a href=\"".$topdir."planet/index.php?view=modere\"><b>Modération des flux ($nbflux)</b></a>");
-      else
-        $sublist->add("<a href=\"".$topdir."planet/index.php?view=modere\">Modération des flux (Aucun)</a>");
+      $sublist->add("<a href=\"".$topdir."ae/com.php\">Tâches usuelles</a>");
 
       $cts->add($sublist,true, true, "siteadminbox", "boxlist", true, false);
     }
