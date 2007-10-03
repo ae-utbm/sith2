@@ -42,9 +42,9 @@ $cts = new contents("Page personelle");
 
 $board = new board();
 
-$board->add(new calendar($site->db));
+$board->add(new calendar($site->db),true);
 
-$board->add($site->get_forum_box());
+$board->add($site->get_forum_box(),true);
 
 $cts->add($board);
 
