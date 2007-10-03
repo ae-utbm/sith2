@@ -48,7 +48,7 @@ $subboard->add(new calendar($site->db),true);
 
 $subboard->add($site->get_forum_box(),true);
 
-$board->add($subboard,true);
+$board->add($subboard);
 
 $cts->add($board);
 
