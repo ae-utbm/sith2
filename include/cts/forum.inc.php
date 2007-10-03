@@ -286,7 +286,11 @@ class sujetforum extends stdcontents
         else
           $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$row['id_message']."\">\n";
         $n=($n+1)%2;
-        
+ 
+	/* permalink */
+	$this->buffer .= "<a href=\"./?id_message=".
+	  $row['id_message']."#msg".$row['id_message']."\">";
+
         if ( $row['titre_message'] )
           $this->buffer .= "<h2 class=\"frmt\">".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";
         else
@@ -294,6 +298,7 @@ class sujetforum extends stdcontents
       }
 
       $this->buffer .= "<p class=\"date\">".human_date($t)."</p>\n";
+      $this->buffer .= "</a>";
 
        /* actions sur un message */
       $this->buffer .= "<p class=\"actions\">";
