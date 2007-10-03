@@ -42,7 +42,7 @@ $depts = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
 
 /* commentaire sur les uvs */
 if (($site->user->is_in_group_id(10004))
-    && (isset_$_REQUEST['comm_sbmt']))
+    && (isset($_REQUEST['comm_sbmt'])))
 {
   $cts = new contents();
   $cts->add_paragraph("<pre>" . print_r($_REQUEST, true) . "</pre>");
