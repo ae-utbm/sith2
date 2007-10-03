@@ -93,6 +93,11 @@ class jobetu extends stdentity
     else
       return -1;   
   }
+  
+  function del_subtype($id)
+  {
+  	
+  }
 
 }
 

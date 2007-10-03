@@ -63,17 +63,14 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "categories")
 		}
 		if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 		{
-			if( $usr->del_pdf_cv($_REQUEST['cv']) )
-				$lst->add("Votre CV en ".$i18n[ $_REQUEST['cv'] ] ." à bien été supprimé.", "ok");
-			else
-				$lst->add("Une erreur s'est produite.", "ko");
+			$jobetu->del_subtype($_REQUEST['id_types']);
 		}
 	
 	$cts->add_title(2, "Gestion de la liste des catégories");
 	$jobetu->get_job_types();
 //	$cts->add($jobetu->job_types);
 
-$sql = new requete($site->db, "SELECT id_type, nom, COUNT(id_type) AS nb_etu
+	$sql = new requete($site->db, "SELECT id_type, nom, COUNT(id_type) AS nb_etu
 																FROM `job_types_etu`
 																NATURAL JOIN `job_types`
 																GROUP BY id_type
