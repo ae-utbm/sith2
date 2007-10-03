@@ -221,7 +221,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 
       $commform->add_select_field('comm_note_glbl', 
 				  'Evalutation globale de l\'UV', 
-				  $uvcomm_travail);
+				  $uvcomm_note);
 			       
 
       $commform->add_submit('comm_sbmt', 'Commenter');
