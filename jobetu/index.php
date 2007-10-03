@@ -38,8 +38,6 @@ $site->start_page("services", "AE Job Etu");
 $header = new contents("Bienvenue sur AE Job Etu");
 
 $intro = <<<EOF
-Bienvenue sur AE Job Etu
-
 AE Job Etu aide étudiants et employeurs (particuliers ou entreprises) à entrer en relation afin de contractualiser des jobs.
 Les étudiants peuvent donc offrir leurs services et les employeurs en demander, AE Job Etu les met en correspondance.
 
@@ -49,7 +47,7 @@ A lire :
   * [[http://ae.utbm.fr/article.php?name=docs:jobetu:faq-recruteurs|F.A.Q. Recruteurs]]
   * [[http://ae.utbm.fr/article.php?name=docs:jobetu:faq-etudiants|F.A.Q. Etudiants]]
 
-AE Job Etu est un service proposé par l'Association des Etudiants de l'UTBM.
+//AE Job Etu est un service proposé par l'Association des Etudiants de l'UTBM.//
 EOF;
 
 $header->add_paragraph(doku2xhtml($intro));

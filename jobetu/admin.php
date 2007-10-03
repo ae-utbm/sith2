@@ -27,6 +27,9 @@ require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
 require_once("include/jobetu.inc.php");
 
+define("GRP_JOBETU_CLIENT", 35);
+define("GRP_JOBETU_ETU", 36);
+
 $site = new site();
 $site->start_page("services", "AE Job Etu");
 
@@ -35,10 +38,10 @@ $cts = new contents("Administration AE Job Etu");
 $jobetu = new jobetu($site->db, $site->dbrw);
 
 $tabs = array(
-	      array("", "jobetu/admin.php", "vue générale"),
-	      array("categories", "jobetu/admin.php?view=categories", "catégories"),
-	      array("clients", "jobetu/admin.php?view=clients", "clients"),
-	      array("etudiants", "jobetu/admin.php?view=etudiants", "étudiants")
+		      array("", "jobetu/admin.php", "vue générale"),
+		      array("categories", "jobetu/admin.php?view=categories", "catégories"),
+		      array("clients", "jobetu/admin.php?view=clients", "clients"),
+		      array("etudiants", "jobetu/admin.php?view=etudiants", "étudiants")
 	      );
 $cts->add(new tabshead($tabs, $_REQUEST['view']));
 
@@ -85,7 +88,36 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "categories")
 
 }
 
+/***************************************************************
+ * Onglet des recruteurs
+ */
+else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "clients")
+{
+	$sql = new requete($site->db, "SELECT utilisateurs.id_utilisateur,
+																	CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`,
+																	FROM utilisateurs
+																	NATURAL JOIN `utl_groupe`
+																	WHERE id_groupe = '".GRP_JOBETU_CLIENT."'
+																	GROUP BY utilisateurs.id_utilisateur", true);
+	
+	$cts->add( new sqltable("list_clients", "Clients de AE JobEtu", $sql, "admin.php", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array(), array()), true );
+}
 
+/***************************************************************
+ * Onglet de gestion des étudiants 
+ */
+else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "etudiants")
+{
+	
+}
+
+/***************************************************************
+ * Onglet d'accueil
+ */
+else
+{
+	
+}
 
 
 
