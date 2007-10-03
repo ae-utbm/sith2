@@ -225,7 +225,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
       foreach ($uv->comments as &$comment)
 	{
 	  $ctscomment = new contents();
-	  $ctscomment->add_paragraph(doku2xhtml($comment->comment));
+	  $ctscomment->add_paragraph("<pre>".print_r($comment, true) . "</pre>");
 	  $cts->add($ctscomment);
 	}
 
