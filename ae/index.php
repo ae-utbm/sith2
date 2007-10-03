@@ -77,6 +77,7 @@ $board->add($sublist,true);
 
 $sublist = new itemlist("Divers"); 
 $sublist->add("<a href=\"tableauresp.php\">Listing activités/responsable</a>");
+$sublist->add("<a href=\"".$topdir."asso/sendfax.php?id_asso=1\">Envoyer des fax</a>");
 $board->add($sublist,true);
 
 $cts->add($board);
