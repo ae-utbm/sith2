@@ -82,7 +82,7 @@ class uvcomment_contents extends stdcontents
 	  {
 	    $links[] = "<a href=\"".$page."?action=editcomm&id=".
 	      $comment->id."\">Editer</a>";
-	    $links[] = "<a href=\"".$page."?action=deletecomm&id".
+	    $links[] = "<a href=\"".$page."?action=deletecomm&id=".
 	      $comment->id."\">Supprimer</a>";
 	  }
 	/* sinon, n'importe qui peut signaler un abus */
