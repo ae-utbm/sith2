@@ -68,7 +68,7 @@ $lst[] = "<a
 href=\"http://www.utbm.fr/upload/gestionFichiers/GUIDEUV_1941.pdf\"><b>guide
 des UVs officiel</b> (édition 2007 / 2008, format PDF)</a>";
 
-foreach ($deptartements as $dept)
+foreach ($departements as $dept)
      $lst[] = "<a href=\"./uvs.php?iddept=".$dept."\">UVs du département $dept</a>";
 
 $itemlst = new itemlist("edt_lst", false, $lst);
