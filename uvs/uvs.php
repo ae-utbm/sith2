@@ -45,13 +45,14 @@ if ($_REQUEST['action'] == 'deletecomm')
 
   $cts = new contents("Suppression de commentaire");
   
-  if (($comm->is_valid()) && ($comm->id == $site->user->id))
+  if (($comm->is_valid()) && ($comm->id_commentateur == $site->user->id))
     {
       $ret = $comm->delete();
       if ($ret)
 	$cts->add_paragraph("Le commentaire a été supprimé");
       else
-	$cts->add_paragraph("<b>Erreur lors de la suppression du commentaire");
+	$cts->add_paragraph("<b>Erreur lors de la suppression ".
+			    "du commentaire</b>");
     }
 
   $site->add_contents($cts);
