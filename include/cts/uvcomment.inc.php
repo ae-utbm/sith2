@@ -35,7 +35,7 @@ function p_stars($note)
   $str = "";
   for ($i = 0; $i < 5; $i++)
     {
-      if ($i <= $note)
+      if ($i+1 <= $note)
 	$str .= "<img src=\"/images/icons/16/star.png\" alt=\"star\" />\n";
       else
 	$str .= "<img src=\"/images/icons/16/unstar.png\" alt=\"unstar\" />\n";
@@ -95,7 +95,7 @@ class uvcomment_contents extends stdcontents
 	
 	$this->buffer .= "<span class=\"uvcriteria\">Charge de travail :\n";
 	$this->buffer .= p_stars($comment->charge_travail);
-	$this->buffer .= "</span><br/>\n";
+	$this->buffer .= "</span>\n";
 
 	$this->buffer .= "<span class=\"uvcriteria\">Qualité ".
 	  "de l'enseignement :\n";
