@@ -46,7 +46,7 @@ function p_stars($note)
 class uvcomment_contents extends stdcontents
 {
   
-  function uvcomment_contents (&$comments, &$db, $admin = false)
+  function uvcomment_contents (&$comments, &$db, &$user, $admin = false)
   {
     $author = new utilisateur($db);
 
@@ -65,7 +65,31 @@ class uvcomment_contents extends stdcontents
 	$this->buffer .= "<div class=\"uvcheader\">\n";
 
 	$this->buffer .= "<span class=\"uvcdate\"><b>Le ".
-	  HumanReadableDate($comment->date). "</b></span><br/>\n";
+	  HumanReadableDate($comment->date). "</b></span>\n";
+
+	/* options (modération, ...) */
+	$this->buffer .= "<span class=\"uvcoptions\">";
+	$links = array();
+
+	/* l'auteur peut toujours décider de supprimer son message */
+	if ($user->id == $comment->id_commentateur)
+	  {
+	    $links[] = "<a href=\"#\">Editer</a>";
+	    $links[] = "<a href=\"#\">Supprimer</a>";
+	  }
+	/* sinon, n'importe qui peut signaler un abus */
+	else
+	  $links[] = "<a href=\"#\">Signaler un abus</a>";
+
+	/* mise en "quarantaine" par un admin 
+	 * (demande de modération)
+	 */
+	if (($admin) && ($user->id != $comment->id_commentateur))
+	  $links[] = "<a href=\"#\">Mise en modération</a>";
+
+	$this->buffer .= implode(" | ", $links);
+
+	$this->buffer .= "</span>\n<br/>\n"; // fin span modération
 
 	$author->load_by_id($comment->id_commentateur);
 
