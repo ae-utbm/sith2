@@ -51,11 +51,18 @@ function p_stars($note)
 class uvcomment_contents extends stdcontents
 {
   
-  function uvcomment_contents (&$comments, &$db, &$user, $admin = false, 
+  function uvcomment_contents (&$comments, 
+			       &$db, 
+			       &$user, 
 			       $page = "uvs.php")
   {
     $author = new utilisateur($db);
 
+    /* TODO : meme remarque concernant 
+     * l'éventuelle mise en place d'un groupe de modérateurs 
+     */
+    $admin = $user->is_in_group("gestion_ae");
+    
     $i = 0;
     for ($i = 0 ; $i < count($comments); $i++)
       {
@@ -94,7 +101,9 @@ class uvcomment_contents extends stdcontents
 	      $comment->id."\">Supprimer</a>";
 	  }
 	/* sinon, n'importe qui peut signaler un abus */
-	else
+	/* sous reserve que ce ne soit pas deja le cas ... */
+
+	else if ($comment->etat != 1)
 	  $links[] = "<a href=\"".$page."?action=reportabuse&id=".$comment->id."\">Signaler un abus</a>";
 
 	/* mise en "quarantaine" par un admin 

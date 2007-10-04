@@ -410,7 +410,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  require_once($topdir . "include/cts/uvcomment.inc.php");
 	  $site->add_css("css/uvcomment.css");
 	  $cts->add_title(2, "Commentaires d'étudiants ayant suivi l'UV");
-	  $cts->add(new uvcomment_contents($uv->comments, $site->db, $site->user));
+	  $cts->add(new uvcomment_contents($uv->comments, 
+					   $site->db, 
+					   $site->user,
+					   $site->user->is_in_group('gestion_ae')));
 	}
     
       /* formulaire de postage de commentaires */
