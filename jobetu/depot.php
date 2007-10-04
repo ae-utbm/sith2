@@ -59,7 +59,7 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	
 	$frm->add_text_field("titre_ann", "Titre de l'annonce", false, true, 60);
 	$frm->add( new jobtypes_select_field($jobetu, "job_type", "Catégorie") );
-	$frm->add_info("<i>Si vous ne trouvez pas de categorie adequate, n'hesitez pas a <a href=\"mailto:ae-jobetu@utbm.fr?subject=Demande d\'ajout de catégorie\">le signaler</a></i>");
+	$frm->add_info("<i>Si vous ne trouvez pas de categorie adequate, n'hesitez pas a <a href=\"mailto:ae.jobetu@utbm.fr?subject=Demande d'ajout de catégorie\">le signaler</a></i>");
 	$frm->add_text_area("desc_ann", "Description de l'annonce", false, 60, 8, true);
 	$frm->add_text_area("profil", "Profil recherché", false, 60, 3, true);
 	$frm->add_date_field("date_debut", "Date de debut");
