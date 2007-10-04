@@ -1052,7 +1052,7 @@ else
   if ( $can_edit )
   {
     $cts->add(new itemlist("Modification du profil",false,array(
-    "<a href=\"user.php?page=edit&amp;id_utilisateur=".$user->id."\">Informations personelle</a>",
+    "<a href=\"user.php?page=edit&amp;id_utilisateur=".$user->id."\">Informations personelles</a>",
     "<a href=\"user.php?see=email&amp;page=edit&amp;id_utilisateur=".$user->id."\">Adresses e-mail (personelle et utbm)</a>",
     "<a href=\"user.php?see=passwd&amp;page=edit&amp;id_utilisateur=".$user->id."\">Mot de passe</a>",
     "<a href=\"user.php?see=photos&amp;page=edit&amp;id_utilisateur=".$user->id."\">Photo d'identité, avatar et blouse</a>"
