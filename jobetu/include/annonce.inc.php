@@ -398,7 +398,7 @@ EOF;
 											),
 											array("id_annonce", $this->id)
 											);
-										
+										print_r($sql);
 		if($sql)
 			return $this->id;
 		else 
