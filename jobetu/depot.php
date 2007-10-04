@@ -96,7 +96,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 	
 	$frm->add_text_field("titre_ann", "Titre de l'annonce", $annonce->titre, true, 60);
 	$frm->add( new jobtypes_select_field($jobetu, "job_type", "Catégorie", $annonce->id_type) );
-	$frm->add_info("<i>Si vous ne trouvez pas de categorie adequate, n'hesitez pas a <a href=\"mailto:ae-jobetu@utbm.fr?subject=Demande d\'ajout de catégorie\">le signaler</a></i>");
+	$frm->add_info("<i>Si vous ne trouvez pas de categorie adequate, n'hesitez pas a <a href=\"mailto:ae.jobetu@utbm.fr?subject=Demande d'ajout de catégorie\">le signaler</a></i>");
 	$frm->add_text_area("desc_ann", "Description de l'annonce", $annonce->desc, 60, 8, true);
 	$frm->add_text_area("profil", "Profil recherché", $annonce->profil, 60, 3, true);
 	$frm->add_date_field("date_debut", "Date de debut (facultatif)", $annonce->start_date);
@@ -104,7 +104,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 	$frm->add_text_field("remuneration", "Rémunération", $annonce->indemnite);
 	$frm->add_text_field("nb_postes", "Nombre de postes disponibles", $annonce->nb_postes, true, 4);
 	$frm->add_text_area("divers", "Autres informations", $annonce->divers, 60, 3);
-	$frm->add_checkbox("allow_diff", "Diffuser mon numéro de téléphone aux candidats afin qu'ils puissent me contacter");
+	$frm->add_checkbox("allow_diff", "Diffuser mon numéro de téléphone aux candidats afin qu'ils puissent me contacter", (bool)$annonce->allow_diff);
 	$frm->add_submit("go", "Enregistrer mon annonce");
 	$frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" class=\"isubmit\" onClick=\"javascript: window.location.replace('board_client.php');\" value=\"Revenir au tableau de bord\" /></div></div>");
 	$frm->add_info("Les champs marqués d'une astérisque (*) doivent être remplis.");
