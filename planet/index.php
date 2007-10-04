@@ -304,8 +304,8 @@ elseif($_REQUEST["view"]=="add")
   if(isset($add))
     $cts->add_paragraph($add);
   $site->add_contents($cts);
-  $cts = new contents("Proposer un nouveau flux");
-  $frm = new form("addflux","index.php?view=add&action=addtag",false,"POST","");
+  $cts = new contents("Proposer un nouveau tag");
+  $frm = new form("addtag","index.php?view=add&action=addtag",false,"POST","");
   $frm->add_text_field("tag","Tag",false,true);
   $frm->add_submit("save","Envoyer");
   $cts->add($frm,false);
