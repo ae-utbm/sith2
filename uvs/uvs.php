@@ -210,80 +210,78 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
     }
 
   /* COMMENTAIRES UV */
-  /* TODO note : pourquoi ne pas créer par la suite un groupe
-   * spécifique à la modération des commentaires ? 
-   */
-  $uv->load_comments($site->user->is_in_group("gestion_ae"));
-
-  if (count($uv->comments) > 0)
+  if ($site->user->is_in_group("etudiants-utbm-actuels"))
     {
-      $commented = false;
-
-      foreach ($uv->comments as $comm)
+      /* TODO note : pourquoi ne pas créer par la suite un groupe
+       * spécifique à la modération des commentaires ? 
+       */
+      $uv->load_comments($site->user->is_in_group("gestion_ae"));
+      
+      if (count($uv->comments) > 0)
 	{
-	  if ($site->user->id == $comm->id_commentateur)
+	  $commented = false;
+	  
+	  foreach ($uv->comments as $comm)
 	    {
-	      $commented = true;
-	      break;
+	      if ($site->user->id == $comm->id_commentateur)
+		{
+		  $commented = true;
+		  break;
+		}
 	    }
+	  require_once($topdir . "include/cts/uvcomment.inc.php");
+	  $site->add_css("css/uvcomment.css");
+	  $cts->add_title(2, "Commentaires d'étudiants ayant suivi l'UV");
+	  $cts->add(new uvcomment_contents($uv->comments, $site->db, $site->user));
 	}
-      require_once($topdir . "include/cts/uvcomment.inc.php");
-      $site->add_css("css/uvcomment.css");
-      $cts->add_title(2, "Commentaires d'étudiants ayant suivi l'UV");
-      $cts->add(new uvcomment_contents($uv->comments, $site->db, $site->user));
-    }
+    
+      /* formulaire de postage de commentaires */
+      if ($commented == false)
+	{
+	  $commcts = new contents("Commentaires sur les UVs");
+	  $commform = new form('commform',
+			       "uvs.php?id_uv=".$uv->id,
+			       true,
+			       "post",
+			       "Ajout d'un commentaire");
 
+	  $commform->add_select_field('comm_obtention', 'UV obtenue', 
+				      array (NULL => 'Non renseigné',
+					     'A'  => 'Admis : A',
+					     'B'  => 'Admis : B',
+					     'C'  => 'Admis : C',
+					     'D'  => 'Admis : D',
+					     'E'  => 'Admis : E',
+					     'Fx' => 'Insuffisant : Fx',
+					     'F'  => 'Insuffisant : F'), NULL);
 
+	  $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)');
+	  $commform->add_select_field('comm_interest', 
+				      'Intéret de l\'UV (pour un ingénieur)', 
+				      $uvcomm_interet,
+				      2);
+	  
+	  $commform->add_select_field('comm_utilite', 
+				      'Utilité de l\'UV (culture générale ou autres)', 
+				      $uvcomm_utilite,
+				      2);
 
-  /* l'utilisateur est étudiant UTBM */
-  if (($site->user->is_in_group_id(10004)) && ($commented == false))
-    {
-      $commcts = new contents("Commentaires sur les UVs");
-      $commform = new form('commform',
-			   "uvs.php?id_uv=".$uv->id,
-			   true,
-			   "post",
-			   "Ajout d'un commentaire");
+	  $commform->add_select_field('comm_travail', 
+				      'Charge de travail', 
+				      $uvcomm_travail,
+				      2);
+	  $commform->add_select_field('comm_qualite', 
+				      'Qualité de l\'enseignement', 
+				      $uvcomm_qualite,
+				      2);
 
-      $commform->add_select_field('comm_obtention', 'UV obtenue', 
-				  array (NULL => 'Non renseigné',
-					 'A'  => 'Admis : A',
-					 'B'  => 'Admis : B',
-					 'C'  => 'Admis : C',
-					 'D'  => 'Admis : D',
-					 'E'  => 'Admis : E',
-					 'Fx' => 'Insuffisant : Fx',
-					 'F'  => 'Insuffisant : F'), NULL);
-
-      $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)');
-      $commform->add_select_field('comm_interest', 
-				  'Intéret de l\'UV (pour un ingénieur)', 
-				  $uvcomm_interet,
-				  2);
-
-      $commform->add_select_field('comm_utilite', 
-				  'Utilité de l\'UV (culture générale ou autres)', 
-				  $uvcomm_utilite,
-				  2);
-
-      $commform->add_select_field('comm_travail', 
-				  'Charge de travail', 
-				  $uvcomm_travail,
-				  2);
-      $commform->add_select_field('comm_qualite', 
-				  'Qualité de l\'enseignement', 
-				  $uvcomm_qualite,
-				  2);
-
-      $commform->add_select_field('comm_note_glbl', 
-				  'Evalutation globale de l\'UV', 
-				  $uvcomm_note,
-				  2);
+	  $commform->add_select_field('comm_note_glbl', 
+				      'Evalutation globale de l\'UV', 
+				      $uvcomm_note,
+				      2);
 			       
-
-      $commform->add_submit('comm_sbmt', 'Commenter');
-
-      $commcts->add($commform);
+	  $commform->add_submit('comm_sbmt', 'Commenter');
+	  $commcts->add($commform);
       
     }
 
