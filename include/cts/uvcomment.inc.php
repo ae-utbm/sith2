@@ -80,9 +80,10 @@ class uvcomment_contents extends stdcontents
 	      $this->buffer .= "<span class=\"uvcnote\">obtenu avec " . 
 		$comment->note_obtention;
 	    else
-	      $this->buffer .= "échec (" . $comment->note_obtention . ")";
+	      $this->buffer .= "<span class=\"uvcnote\">échec (" . 
+		$comment->note_obtention . ")";
+	    $this->buffer .= "</span>";
 	  }
-	$this->buffer .= "</span>";
 
 	$this->buffer .= "<span class=\"uvcriteria\">Intérêt :\n";
 	$this->buffer .= p_stars($comment->interet);
