@@ -86,7 +86,7 @@ if (isset($_REQUEST['comm_mod_sbmt']))
     error_403();
 
   $site->add_contents($cts);
-  $_REQUEST['id_uv'] = $comm->id_uv;
+  $_id_uv = $comm->id_uv;
 
 }
 /* modification de commentaire */
@@ -215,14 +215,17 @@ if (($site->user->is_in_group('gestion_ae'))
 	      $departements);  
 }
 
-if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
+if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
+    || (isset($_id_uv)))
 {
   $uv = new uv($site->db);
 
   if (isset($_REQUEST['id_uv']))
     {
-      $uv->load_by_id($_REQUEST['id_uv']);
+	$uv->load_by_id($_REQUEST['id_uv']);
     }
+  else if (isset($_id_uv))
+    $uv->load_by_id($_id_uv)
   else
     {
       $uv->load_by_code($_REQUEST['code_uv']);
