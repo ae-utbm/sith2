@@ -37,8 +37,6 @@ $site = new site();
 
 $site->start_page("services", "Informations UV");
 
-$depts = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
-
 
 /* Postage commentaire sur les uvs */
 if (($site->user->is_in_group_id(10004))
@@ -408,7 +406,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 
 if (isset($_REQUEST['iddept']))
 {
-  if (in_array($_REQUEST['iddept'], $depts))
+  if (in_array($_REQUEST['iddept'], $departements))
     {
       $cts = new contents ("UVs - Département " . $_REQUEST['iddept']);
       
@@ -451,7 +449,7 @@ if (isset($_REQUEST['iddept']))
 $cts = new contents("Guide - Informations sur les UVs");
 
 
-foreach ($depts as $dept)
+foreach ($departements as $dept)
 {
   $req = new requete($site->db,
 		     "SELECT 
@@ -484,8 +482,6 @@ foreach ($depts as $dept)
 
 $site->add_contents($cts);
 
-
 $site->end_page();
-
 
 ?>

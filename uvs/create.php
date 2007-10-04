@@ -524,8 +524,8 @@ if (isset($_REQUEST['adduv_sbmt']))
   if ($ret >= 0)
     {
       $creationuv = true;
-      if ($_REQUEST['Humas'] == 1)
-	$edt->assign_uv_to_dept($ret, "Humas");
+      if ($_REQUEST['Humanites'] == 1)
+	$edt->assign_uv_to_dept($ret, "Humanites");
       if ($_REQUEST['TC'] == 1)
 	$edt->assign_uv_to_dept($ret, "TC");
       if ($_REQUEST['GI'] == 1)
@@ -803,8 +803,8 @@ $adduv->add_text_field('adduv_ects',
 		      "Credits ECTS",
 		      "", false, 1);
 
-$adduv->add_checkbox('Humas',
-		      "Humanites",
+$adduv->add_checkbox('Humanites',
+		      "Humanités",
 		      false);
 $adduv->add_checkbox('TC',
 		      "TC",
@@ -821,8 +821,8 @@ $adduv->add_checkbox('IMAP',
 $adduv->add_checkbox('GMC',
 		      "GMC",
 		      false);
-$adduv->add_checkbox('GMC',
-		      "GMC",
+$adduv->add_checkbox('EDIM',
+		      "EDIM",
 		      false);
 
 
