@@ -92,7 +92,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 	$jobetu = new jobetu($site->db, $site->dbrw);
 	$jobetu->get_job_types();
 
-	$frm = new form("jobs", "depot.php?action=save", false, "POST", "Edition de l'annonce");
+	$frm = new form("jobs", "depot.php?action=save&id=$annonce->id", false, "POST", "Edition de l'annonce");
 	
 	$frm->add_text_field("titre_ann", "Titre de l'annonce", $annonce->titre, true, 60);
 	$frm->add( new jobtypes_select_field($jobetu, "job_type", "Catégorie", $annonce->id_type) );
@@ -204,9 +204,10 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="add" && $_REQUEST['
 else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="save" && $_REQUEST['magicform']['name'] == "jobs")
 {	
 	$jobuser = new jobuser_client($site->db);
-	$annonce = new annonce($site->db, $site->dbrw);
 	$jobuser->load_by_id($annonce->id_client);
-		
+	$annonce = new annonce($site->db, $site->dbrw);
+	$annonce->load_by_id($_REQUEST['id']);
+			
 	$result = $annonce->save($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['divers'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['nb_postes'], $_REQUEST['remuneration'], $_REQUEST['allow_diff']);
 	
 	if($result)
