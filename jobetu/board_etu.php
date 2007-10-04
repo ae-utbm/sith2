@@ -294,7 +294,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 	
 	if(isset($_REQUEST['action']) && $_REQUEST['action'] == "save_prefs")
 	{
-		$yeah = $usr->update_prefs( (bool)$_REQUEST['pub_cv'], (bool)$_REQUEST['mail_prefs'] );
+		$yeah = $usr->update_prefs( (bool)$_REQUEST['pub_cv'], $_REQUEST['mail_prefs'] );
 		if(yeah)
 		{
 			$lst = new itemlist(false);
@@ -304,10 +304,10 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 	}
 	
 	$frm = new form("prefs_utl", "board_etu.php?view=preferences&action=save_prefs", false, "POST", "Préférences");
-	$frm->add_checkbox("pub_cv", "Autoriser la diffusion de mon CV (lien sur la fiche Matmatronch)");
+	$frm->add_checkbox("pub_cv", "Autoriser la diffusion de mon CV (lien sur la fiche Matmatronch)", $usr->prefs['pub_cv']);
 	//checkbox recevoir un mail dès qu'une annonce est déposée
 	$mail_prefs_val = array("part" => "Faible (uniquement lorsque je suis sélectionné pour une annonce)", "full" => "Fréquent (à chaque annonce me concernant ou tout évènement sur mon compte");
-	$frm->add_radiobox_field("mail_prefs", "Envoi de mails", $mail_prefs_val);
+	$frm->add_radiobox_field("mail_prefs", "Envoi de mails", $mail_prefs_val, $usr->prefs['mail_prefs']);
 	//bouton pour envoyer "je fais des bisous à Pedrov" au 36375 (0.56cts par SMS plus cout d'un SMS)
 	$frm->add_submit("go", "Enregistrer");
 	$cts->add($frm, true);
