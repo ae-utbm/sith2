@@ -398,6 +398,7 @@ EOF;
 														"allow_diff" => $this->allow_diff								
 											)
 											);
+		print_r($sql);											
 		if($sql)
 			return $this->id;
 		else 

@@ -206,14 +206,12 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="save" && $_REQUEST[
 	$jobuser = new jobuser_client($site->db);
 	$annonce = new annonce($site->db, $site->dbrw);
 	$jobuser->load_by_id($annonce->id_client);
-	
+	print_r($_REQUEST);	
 	$result = $annonce->save($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['divers'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['nb_postes'], $_REQUEST['remuneration'], $_REQUEST['allow_diff']);
 	
 	if($result)
 	{
-		$cts->add_paragraph("Votre annonce a bien été enregistrée sous le numéro $result. Elle sera désormais soumise aux candidatures des étudiants.");
-		$cts->add_paragraph("Vous pouvez désormais gérer l'avancée de votre offre dans votre tableau de bord, les différents candidats vous y seront proposés à mesure que leurs candidatures nous parviennent, vous pourrez alors en sélectionner une pour répondre à votre attente");
-		
+		$cts->add_paragraph("Votre annonce (n°$result) à bien été éditée.");
 		$frm = new form("go", "board_client.php", false, "POST", false);
 		$frm->add_submit("next", "Aller à mon tableau de bord");
 		$cts->add($frm);	
