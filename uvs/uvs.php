@@ -216,6 +216,15 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 
   if (count($uv->comments) > 0)
     {
+      $commented = false;
+      foreach ($uv->comments as $comm)
+	{
+	  if ($site->user->id == $comm->id_commentateur)
+	    {
+	      $commented = true;
+	      break;
+	    }
+	}
       require_once($topdir . "include/cts/uvcomment.inc.php");
       $site->add_css("css/uvcomment.css");
       $cts->add_title(2, "Commentaires d'étudiants ayant suivi l'UV");
@@ -225,7 +234,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 
 
   /* l'utilisateur est étudiant UTBM */
-  if ($site->user->is_in_group_id(10004))
+  if ($site->user->is_in_group_id(10004) && $commented)
     {
       $commcts = new contents("Commentaires sur les UVs");
       $commform = new form('commform',
