@@ -68,7 +68,7 @@ if (isset($_REQUEST['comm_mod_sbmt']))
 if ($_REQUEST['action'] == 'editcomm')
 {
   $idcomment = intval($_REQUEST['id']);
-  $comm = new uvcomment($site->db, null);
+  $comm = new uvcomment($site->db);
   $comm->load_by_id($idcomment);
 
   
