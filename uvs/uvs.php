@@ -96,27 +96,27 @@ if ($_REQUEST['action'] == 'editcomm')
       $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)');
       $commform->add_select_field('comm_interest', 
 				  'Intéret de l\'UV (pour un ingénieur)', 
-				  $comm->interet,
+				  $uvcomm_interet,
 				  2);
 	  
       $commform->add_select_field('comm_utilite', 
 				  'Utilité de l\'UV (culture'.
 				  ' générale ou autres)', 
-				  $comm->utilite,
+				  $uvcomm_utilite,
 				  2);
 
       $commform->add_select_field('comm_travail', 
 				  'Charge de travail', 
-				  $comm->charge_travail,
+				  $uvcomm_travail,
 				  2);
       $commform->add_select_field('comm_qualite', 
 				  'Qualité de l\'enseignement', 
-				  $comm->qualite_ens,
+				  $uvcomm_qualite,
 				  2);
   
       $commform->add_select_field('comm_note_glbl', 
 				  'Evalutation globale de l\'UV', 
-				  $comm->note,
+				  $uvcomm_note,
 				  2);
   
       $commform->add_submit('comm_mod_sbmt', 'Modifier');

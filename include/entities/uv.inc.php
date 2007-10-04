@@ -65,7 +65,7 @@ $uvcomm_note = array ('-1' => 'Sans avis',
 
 $uvcomm_qualite = array ('-1' => 'Sans avis',
 			 '0'=>'Inexistante',
-			 '1'=>'Très mauvaise',
+			 '1'=>'Mauvaise',
 			 '2'=>'Moyenne',
 			 '3'=>'Bonne',
 			 '4'=>'Excellente');
