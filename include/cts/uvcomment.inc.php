@@ -32,7 +32,12 @@ require_once($topdir . "include/lib/dokusyntax.inc.php");
 
 function p_stars($note)
 {
+
+  if ($note == null)
+    return "<b>non renseigné</b>";
+
   $str = "";
+
   for ($i = 0; $i < 5; $i++)
     {
       if ($i+1 <= $note)
