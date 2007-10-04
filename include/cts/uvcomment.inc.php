@@ -51,7 +51,8 @@ function p_stars($note)
 class uvcomment_contents extends stdcontents
 {
   
-  function uvcomment_contents (&$comments, &$db, &$user, $admin = false)
+  function uvcomment_contents (&$comments, &$db, &$user, $admin = false, 
+			       $page = "uvs.php")
   {
     $author = new utilisateur($db);
 
@@ -79,7 +80,8 @@ class uvcomment_contents extends stdcontents
 	/* l'auteur peut toujours décider de supprimer son message */
 	if ($user->id == $comment->id_commentateur)
 	  {
-	    $links[] = "<a href=\"#\">Editer</a>";
+	    $links[] = "<a href=\"".$page."?action=editcomm&id=".
+	      $comment->id."\">Editer</a>";
 	    $links[] = "<a href=\"#\">Supprimer</a>";
 	  }
 	/* sinon, n'importe qui peut signaler un abus */

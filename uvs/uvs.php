@@ -37,7 +37,94 @@ $site = new site();
 
 $site->start_page("services", "Informations UV");
 
+/* validation modifications */
+if (isset($_REQUEST['comm_mod_sbmt']))
+{
+  $comm = new uvcomment($site->db, $site->dbrw);
+  $comm->load_by_id($idcomment);
 
+  $cts = new contents("Modification de commentaire");
+
+  if (($comm->is_valid()) 
+      && ($comm->id_commentateur == $site->user->id))
+    {
+      $ret = $comm->modify($_REQUEST['comm_comm'],
+			   $_REQUEST['comm_obtention'],
+			   $_REQUEST['comm_interest'],
+			   $_REQUEST['comm_utilite'],
+			   $_REQUEST['comm_note_glbl'],
+			   $_REQUEST['comm_travail'],
+			   $_REQUEST['comm_qualite']);
+      if ($ret)
+	$cts->add_paragraph('Commentaire modifié avec succès');
+      else
+	$cts->add_paragraph('<b>Une erreur est survenue lors de la modification'.
+			    ' du commentaire</b>');
+    }
+  else
+    error_403();
+}
+/* modification de commentaire */
+if ($_REQUEST['action'] == 'editcomm')
+{
+  $idcomment = intval($_REQUEST['id']);
+  $comm = new uvcomment($site->db, null);
+  $comm->load_by_id($idcomment);
+
+  
+  if (($comm->is_valid()) 
+      && ($comm->id_commentateur == $site->user->id))
+    {
+      $commcts = new contents("Modification de votre commentaire");
+      $commform = new form('editcomm',
+			   "uvs.php?action=postmodifcomm&id=".$comm->id,
+			   true,
+			   "post",
+			   "Modification d'un commentaire");
+
+      $commform->add_select_field('comm_obtention', 'UV obtenue', 
+				  array (NULL => 'Non renseigné',
+					 'A'  => 'Admis : A',
+					 'B'  => 'Admis : B',
+					 'C'  => 'Admis : C',
+					 'D'  => 'Admis : D',
+					 'E'  => 'Admis : E',
+					 'Fx' => 'Insuffisant : Fx',
+					 'F'  => 'Insuffisant : F'),
+				  $comm->note_obtention);
+
+      $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)');
+      $commform->add_select_field('comm_interest', 
+				  'Intéret de l\'UV (pour un ingénieur)', 
+				  $comm->interet,
+				  2);
+	  
+      $commform->add_select_field('comm_utilite', 
+				  'Utilité de l\'UV (culture'.
+				  ' générale ou autres)', 
+				  $comm->utilite,
+				  2);
+
+      $commform->add_select_field('comm_travail', 
+				  'Charge de travail', 
+				  $comm->charge_travail,
+				  2);
+      $commform->add_select_field('comm_qualite', 
+				  'Qualité de l\'enseignement', 
+				  $comm->qualite_ens,
+				  2);
+  
+      $commform->add_select_field('comm_note_glbl', 
+				  'Evalutation globale de l\'UV', 
+				  $comm->note,
+				  2);
+  
+      $commform->add_submit('comm_mod_sbmt', 'Modifier');
+      $commcts->add($commform);
+
+      $site->add_contents($commform);
+    }
+}
 /* Postage commentaire sur les uvs */
 if (($site->user->is_in_group_id(10004))
     && (isset($_REQUEST['comm_sbmt'])))

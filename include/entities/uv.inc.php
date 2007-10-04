@@ -371,6 +371,29 @@ class uvcomment extends stdentity
       }  
   }
 
+  function modify($commentaire,
+		  $note_obtention = null,
+		  $interet = 3,
+		  $utilite = 3,
+		  $note    = 3,
+		  $travail = 3,
+		  $qualite = 3)
+  {
+    $sql = new update($this->dbrw,
+		      'edu_uv_comment',
+		      array('note_obtention_uv' => $note_obtention,
+			    'comment_uv' => $commentaire,
+			    'interet_uv' => $interet,
+			    'utilite_uv' => $utilite,
+			    'note_uv'    => $note,
+			    'travail_uv' => $travail,
+			    'qualite_uv' => $qualite,
+			    'date_commentaire' => date("Y-m-d H:i:s")),
+		      array ("id_comment" => $this->id));
+    
+    return ($sql->lines == 1);
+  }
+
   function create($id_uv,
 		  $id_commentateur,
 		  $commentaire,
