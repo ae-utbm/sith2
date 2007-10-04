@@ -38,7 +38,7 @@ function p_stars($note)
 
   $str = "";
 
-  for ($i = 0; $i < 5; $i++)
+  for ($i = 0; $i < 4; $i++)
     {
       if ($i+1 <= $note)
 	$str .= "<img src=\"/images/icons/16/star.png\" alt=\"star\" />\n";
