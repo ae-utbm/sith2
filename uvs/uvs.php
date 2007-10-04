@@ -41,7 +41,7 @@ $site->start_page("services", "Informations UV");
 if (isset($_REQUEST['comm_mod_sbmt']))
 {
   $comm = new uvcomment($site->db, $site->dbrw);
-  $comm->load_by_id($idcomment);
+  $comm->load_by_id($_REQUEST['id']);
 
   $cts = new contents("Modification de commentaire");
 
