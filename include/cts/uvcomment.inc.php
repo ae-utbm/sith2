@@ -64,6 +64,25 @@ class uvcomment_contents extends stdcontents
 	
 	$this->buffer .= "<div class=\"uvcheader\">\n";
 
+	$author->load_by_id($comment->id_commentateur);
+
+	$this->buffer .= "<span class=\"uvcauthor\"> Par ".  
+	  $author->get_html_extended_info() . "</span>";
+
+
+	if ($comment->note_obtention != null)
+	  {
+	    if (($comment->note_obtention != 'F') 
+		&& ($comment->note_obtention != 'Fx'))
+	      $this->buffer .= "<span class=\"uvcnote\">obtenu avec " . 
+		$comment->note_obtention;
+	    else
+	      $this->buffer .= ", échec (" . $comment->note_obtention . ")";
+	  }
+	$this->buffer .= "</span>";
+	$this->buffer .= "<span class=\"uvcdate\"><b>UV Commentée le ".
+	  HumanReadableDate($comment->date). "</b></span>\n";
+
 	$this->buffer .= "<span class=\"uvcriteria\">Intérêt :\n";
 	$this->buffer .= p_stars($comment->interet);
 	$this->buffer .= "</span>\n";
@@ -80,17 +99,6 @@ class uvcomment_contents extends stdcontents
 	$this->buffer .= p_stars($comment->note);
 	$this->buffer .= "</span><br/>\n";
 	
-	$author->load_by_id($comment->id_commentateur);
-
-	$this->buffer .= "<span class=\"uvcauthor\"> Par ".  
-	  $author->get_html_extended_info();
-
-	if ($comment->note_obtention != null)
-	  $this->buffer .= ", obtenu avec " . $comment->note_obtention;
-
-	$this->buffer .= "</span>";
-	$this->buffer .= "<span class=\"uvcdate\"><b>UV Commentée le ".
-	  HumanReadableDate($comment->date). "</b></span>\n";
 	$this->buffer .= "</div><br/>"; // fin du header
 	
 	$this->buffer .= "<div class=\"uvccontent\">\n";

@@ -18,8 +18,8 @@ span.uvcriteria
 
 span.uvcauthor
 {
-  float: left;
-  margin-lef: 10px;
+  float: right;
+  top : 0;
 }
 span.uvcdate
 {
@@ -31,6 +31,9 @@ span.uvcdate
 div.uvccontent
 {
    margin-top: 30px;
-   border-top: 90% #d8e7f3 solid;
-   border-bottom: 90% #d8e7f3 solid;
+   padding-top: 10px;
+   padding-bottom: 10px;
+   padding-left: 80px;
+   border-top: 1px #d8e7f3 solid;
+   border-bottom: 1px #d8e7f3 solid;
 }
