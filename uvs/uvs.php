@@ -222,10 +222,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
   if (isset($_REQUEST['id_uv']))
     {
-	$uv->load_by_id($_REQUEST['id_uv']);
+      $uv->load_by_id($_REQUEST['id_uv']);
     }
   else if (isset($_id_uv))
-    $uv->load_by_id($_id_uv)
+    $uv->load_by_id($_id_uv);
   else
     {
       $uv->load_by_code($_REQUEST['code_uv']);
