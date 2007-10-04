@@ -412,8 +412,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $cts->add_title(2, "Commentaires d'étudiants ayant suivi l'UV");
 	  $cts->add(new uvcomment_contents($uv->comments, 
 					   $site->db, 
-					   $site->user,
-					   $site->user->is_in_group('gestion_ae')));
+					   $site->user));
 	}
     
       /* formulaire de postage de commentaires */
