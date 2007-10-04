@@ -66,11 +66,11 @@ class uvcomment_contents extends stdcontents
 
 	$this->buffer .= "<span class=\"uvcriteria\">Intérêt :\n";
 	$this->buffer .= p_stars($comment->interet);
-	$this->buffer .= "</span><br/>\n";
+	$this->buffer .= "</span>\n";
 
 	$this->buffer .= "<span class=\"uvcriteria\">Utilité :\n";
 	$this->buffer .= p_stars($comment->utilite);
-	$this->buffer .= "</span><br/>\n";
+	$this->buffer .= "</span>\n";
 	
 	$this->buffer .= "<span class=\"uvcriteria\">Charge de travail :\n";
 	$this->buffer .= p_stars($comment->charge_travail);
@@ -89,9 +89,9 @@ class uvcomment_contents extends stdcontents
 	  $this->buffer .= ", obtenu avec " . $comment->note_obtention;
 
 	$this->buffer .= "</span>";
-	$this->buffer .= "<span class=\"uvcdate\">Le ".
-	  HumanReadableDate($comment->date). "</span>\n";
-	$this->buffer .= "</div>"; // fin du header
+	$this->buffer .= "<span class=\"uvcdate\"><b>UV Commentée le ".
+	  HumanReadableDate($comment->date). "</b></span>\n";
+	$this->buffer .= "</div><br/>"; // fin du header
 	
 	$this->buffer .= "<div class=\"uvccontent\">\n";
 
