@@ -74,7 +74,10 @@ class annonce extends stdentity
   	$this->desc = $line['desc'];
   	$this->profil = $line['profil'];
   	$this->divers = $line['divers'];
-  	$this->start_date = $line['s_date'];
+  	if($line['s_date'] == '0/0/0000' || $line['s_date'] == '01/01/1970')
+  		$this->start_date = null;
+  	else
+  		$this->start_date = $line['s_date'];
   	$this->duree = $line['duree'];
   	$this->nb_postes = $line['nb_postes'];
   	$this->indemnite = $line['indemnite'];
