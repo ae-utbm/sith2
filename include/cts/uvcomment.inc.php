@@ -63,7 +63,10 @@ class uvcomment_contents extends stdcontents
 
 	$parity = (($i %2) == 0);
 	
-	if ($parity)
+	/* commentaire "abusé" */
+	if ($comment->etat == 1)
+	  $this->buffer .= "<div class=\"uvcomment abuse\">\n";
+	else if ($parity)
 	  $this->buffer .= "<div class=\"uvcomment pair\">\n";
 	else
 	  $this->buffer .= "<div class=\"uvcomment\">\n";
@@ -71,7 +74,12 @@ class uvcomment_contents extends stdcontents
 	$this->buffer .= "<div class=\"uvcheader\">\n";
 
 	$this->buffer .= "<span class=\"uvcdate\"><b>Le ".
-	  HumanReadableDate($comment->date). "</b></span>\n";
+	  HumanReadableDate($comment->date). "\n";
+
+	if ($comment->etat == 1)
+	  $this->buffer .= "(Commentaire jugé abusif !)";
+
+	$this->buffer .= "</b></span>\n";
 
 	/* options (modération, ...) */
 	$this->buffer .= "<span class=\"uvcoptions\">";

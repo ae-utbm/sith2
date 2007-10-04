@@ -29,10 +29,20 @@
 
 /* statut normal */
 define('UVCOMMENT_NOTMODERATED', 0);
+
 /* reporté comme abusif par un utilisateur */
 define('UVCOMMENT_ABUSE', 1);
+
 /* "Mis en quarantaine" par l'équipe de modération */
 define('UVCOMMENT_QUARANTINE', 2);
+
+/* accepté définitivement(après mise en quarantaine)
+ * stade apres lequel un utilisateur normal ne peut
+ * plus le rapporter comme abusif
+ *
+ * (l'équipe de modération reste toutefois maitre du statut)
+ */
+define('UVCOMMENT_ACCEPTED', 3);
 
 
 
@@ -273,7 +283,7 @@ class uv extends stdentity
   }
   
 
-  function load_comments($all = false)
+  function load_comments($admin = false)
   {
     if (!$this->id)
       return false;
@@ -287,7 +297,7 @@ class uv extends stdentity
                        WHERE
                                 `id_uv` = '.$this->id;
     if ($all == false)
-      $sql .= " AND state_comment = 0";
+      $sql .= " AND state_comment IN (0, 1, 3)";
 
     $rq = new requete($this->db,
 		      $sql);
@@ -338,6 +348,8 @@ class uvcomment extends stdentity
   /* date du commentaire */
   var $date;
 
+  /* etat du commentaire */
+  var $etat;
 
   function load_by_id($id)
   {
@@ -369,6 +381,8 @@ class uvcomment extends stdentity
 	
 	$this->date            = $row['date_commentaire'];
 
+	$this->etat            = $row['state_comment'];
+	
 	return true;
       }  
   }
