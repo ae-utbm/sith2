@@ -99,27 +99,27 @@ if ($_REQUEST['action'] == 'editcomm')
       $commform->add_select_field('comm_interest', 
 				  'Intéret de l\'UV (pour un ingénieur)', 
 				  $uvcomm_interet,
-				  2);
+				  $comm->interet);
 	  
       $commform->add_select_field('comm_utilite', 
 				  'Utilité de l\'UV (culture'.
 				  ' générale ou autres)', 
 				  $uvcomm_utilite,
-				  2);
+				  $comm->utilite);
 
       $commform->add_select_field('comm_travail', 
 				  'Charge de travail', 
 				  $uvcomm_travail,
-				  2);
+				  $comm->charge_travail);
       $commform->add_select_field('comm_qualite', 
 				  'Qualité de l\'enseignement', 
 				  $uvcomm_qualite,
-				  2);
+				  $comm->qualite_ens);
   
       $commform->add_select_field('comm_note_glbl', 
 				  'Evalutation globale de l\'UV', 
 				  $uvcomm_note,
-				  2);
+				  $comm->note);
   
       $commform->add_submit('comm_mod_sbmt', 'Modifier');
       $commcts->add($commform);
