@@ -283,8 +283,9 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 	  $commform->add_submit('comm_sbmt', 'Commenter');
 	  $commcts->add($commform);
       
-    }
-
+	}
+    } // fin commentage uvs
+  
   /* édition */
   if ($site->user->is_in_group("gestion_ae"))
     {
