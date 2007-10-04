@@ -380,7 +380,7 @@ class uvcomment extends stdentity
 		  $qualite = 3)
   {
     $sql = new update($this->dbrw,
-		      'edu_uv_comment',
+		      'edu_uv_comments',
 		      array('note_obtention_uv' => $note_obtention,
 			    'comment_uv' => $commentaire,
 			    'interet_uv' => $interet,
@@ -405,7 +405,7 @@ class uvcomment extends stdentity
 		  $qualite = 3)
   {
     $sql = new insert($this->dbrw,
-		      'edu_uv_comment',
+		      'edu_uv_comments',
 		      array ('id_uv' => $id_uv,
 			     'id_utilisateur' => $id_commentateur,
 			     'note_obtention_uv' => $note_obtention,
