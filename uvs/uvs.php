@@ -56,6 +56,8 @@ if ($_REQUEST['action'] == 'deletecomm')
     }
 
   $site->add_contents($cts);
+  $_id_uv = $comm->id_uv;
+
 }
 
 /* validation modifications */
