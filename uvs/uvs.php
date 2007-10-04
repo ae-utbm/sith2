@@ -37,6 +37,26 @@ $site = new site();
 
 $site->start_page("services", "Informations UV");
 
+/* suppression d'un commentaire */
+if ($_REQUEST['action'] == 'deletecomm')
+{
+  $comm = new uvcomment($site->db, $site->dbrw);
+  $comm->load_by_id($_REQUEST['id']);
+
+  $cts = new contents("Suppression de commentaire");
+  
+  if (($comm->is_valid()) && ($comm->id == $site->user->id))
+    {
+      $ret = $comm->delete();
+      if ($ret)
+	$cts->add_paragraph("Le commentaire a été supprimé");
+      else
+	$cts->add_paragraph("<b>Erreur lors de la suppression du commentaire");
+    }
+
+  $site->add_contents($cts);
+}
+
 /* validation modifications */
 if (isset($_REQUEST['comm_mod_sbmt']))
 {
@@ -65,6 +85,7 @@ if (isset($_REQUEST['comm_mod_sbmt']))
     error_403();
 
   $site->add_contents($cts);
+  $_REQUEST['id_uv'] = $comm->id_uv;
 
 }
 /* modification de commentaire */
@@ -80,7 +101,8 @@ if ($_REQUEST['action'] == 'editcomm')
     {
       $commcts = new contents("Modification de votre commentaire");
       $commform = new form('editcomm',
-			   "uvs.php?action=postmodifcomm&id=".$comm->id,
+			   "uvs.php?action=postmodifcomm&id=".$comm->id.
+			   "$id_uv".$comm->id_uv,
 			   true,
 			   "post",
 			   "Modification d'un commentaire");
@@ -128,6 +150,8 @@ if ($_REQUEST['action'] == 'editcomm')
       $commcts->add($commform);
 
       $site->add_contents($commform);
+      $site->end_page();
+      exit();
     }
 }
 /* Postage commentaire sur les uvs */

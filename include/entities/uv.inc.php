@@ -423,7 +423,17 @@ class uvcomment extends stdentity
     else
       $this->load_by_id($sql->get_id());
     return true;
+  }
+  function delete()
+  {
+    if (!$this->id)
+      return false;
 
+    $req = new delete($this->dbrw,
+		      'edu_uv_comments',
+		      array('id_comment' => $this->id));
+
+    return ($req->lines == 1);
   }
 
   function modere($level = UVCOMMENT_ABUSE)
