@@ -63,7 +63,7 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	$frm->add_text_area("desc_ann", "Description de l'annonce", false, 60, 8, true);
 	$frm->add_text_area("profil", "Profil recherché", false, 60, 3, true);
 	$frm->add_date_field("date_debut", "Date de debut");
-	$frm->add_text_field("duree", "Durée");
+	$frm->add_text_field("duree", "Durée & nombre d'heures");
 	$frm->add_text_field("remuneration", "Rémunération");
 	$frm->add_text_field("nb_postes", "Nombre de postes disponibles", "1", true, 4);
 	$frm->add_text_area("divers", "Autres informations", false, 60, 3);
@@ -100,7 +100,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 	$frm->add_text_area("desc_ann", "Description de l'annonce", $annonce->desc, 60, 8, true);
 	$frm->add_text_area("profil", "Profil recherché", $annonce->profil, 60, 3, true);
 	$frm->add_date_field("date_debut", "Date de debut (facultatif)", $annonce->start_date);
-	$frm->add_text_field("duree", "Duree", $annonce->duree);
+	$frm->add_text_field("duree", "Duree & nombre d'heures", $annonce->duree);
 	$frm->add_text_field("remuneration", "Rémunération", $annonce->indemnite);
 	$frm->add_text_field("nb_postes", "Nombre de postes disponibles", $annonce->nb_postes, true, 4);
 	$frm->add_text_area("divers", "Autres informations", $annonce->divers, 60, 3);
@@ -155,8 +155,8 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 		
 		
 	$cts->add_paragraph("Vous êtes à présent inscrit sur le site de l'AE, nous vous remerçions de votre confiance.");
-	$cts->add_paragraph("Afin de compléter votre profil dans le but de passer votre annonce, nous vous remerçions de bien vouloir prendre le temps de remplir les champs ci-dessous.<br />
-												Vous devrez ensuite également les conditions générales d'utilisation du service AE Job Etu pour valider cette inscription. <br />
+	$cts->add_paragraph("Afin de compléter votre profil, nous vous remerçions de bien vouloir prendre le temps de remplir les champs ci-dessous.<br />
+												Vous devrez également accepter les conditions générales d'utilisation du service AE Job Etu pour valider cette inscription. <br />
 												Vous pourrez passer votre annonce à la prochaine étape.");
 	
 	$frm = new form("user_info", "depot.php?action=infos", true, "POST", "Informations complémentaires (".$site->user->prenom." ".$site->user->nom.")");
@@ -212,7 +212,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="save" && $_REQUEST[
 	
 	if($result)
 	{
-		$cts->add_paragraph("Votre annonce (n°$result) à bien été éditée.");
+		$cts->add_paragraph("Votre annonce \"$annonce->titre\" (n°$result) à bien été éditée.");
 		$frm = new form("go", "board_client.php", false, "POST", false);
 		$frm->add_submit("next", "Aller à mon tableau de bord");
 		$cts->add($frm);	

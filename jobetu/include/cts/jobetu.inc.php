@@ -376,11 +376,13 @@
 	 * @param $values array($name => $qty) 
 	 * @param $link_title titre associé au tag, utiliser '{name}' et '{qty}' comme pour les valeurs du tableau
 	 * @param $link_to lien associé au tag ('{name}' et '{qty}' utilisable)
+	 * @param $min_size taille en % du plus petit tag
+	 * @param $max_size taille en % du plus gros tag
 	 */
 	
 	class tagcloud extends stdcontents
 	{
-		function tagcloud($values, $link_title = false, $link_to = false, $min_size = 80, $max_size = 250)
+		function tagcloud($values, $link_title = false, $link_to = false, $min_size = 60, $max_size = 200)
 		{
 			$min_qty = min( array_values($values) );
 			$range = max( array_values($values) ) - $min_qty ;
