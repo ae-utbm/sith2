@@ -18,15 +18,21 @@ span.uvcriteria
 
 span.uvcauthor
 {
+  text-align: right;
+  display: block;
   float: right;
   top : 0;
 }
 span.uvcdate
 {
-  margin-right: 10px;
-  float: right;
+  display: block;
 }
 
+span.uvcnote
+{
+  display: block;
+
+}
 
 div.uvccontent
 {

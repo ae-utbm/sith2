@@ -64,6 +64,9 @@ class uvcomment_contents extends stdcontents
 	
 	$this->buffer .= "<div class=\"uvcheader\">\n";
 
+	$this->buffer .= "<span class=\"uvcdate\"><b>Le ".
+	  HumanReadableDate($comment->date). "</b></span><br/>\n";
+
 	$author->load_by_id($comment->id_commentateur);
 
 	$this->buffer .= "<span class=\"uvcauthor\"> Par ".  
@@ -77,11 +80,9 @@ class uvcomment_contents extends stdcontents
 	      $this->buffer .= "<span class=\"uvcnote\">obtenu avec " . 
 		$comment->note_obtention;
 	    else
-	      $this->buffer .= ", échec (" . $comment->note_obtention . ")";
+	      $this->buffer .= "échec (" . $comment->note_obtention . ")";
 	  }
 	$this->buffer .= "</span>";
-	$this->buffer .= "<span class=\"uvcdate\"><b>UV Commentée le ".
-	  HumanReadableDate($comment->date). "</b></span>\n";
 
 	$this->buffer .= "<span class=\"uvcriteria\">Intérêt :\n";
 	$this->buffer .= p_stars($comment->interet);
