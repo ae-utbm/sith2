@@ -63,6 +63,12 @@ $uvcomm_note = array ('-1' => 'Sans avis',
 		      '3'=>'Pas mal',
 		      '4'=>'Génial');
 
+$uvcomm_qualite = array ('-1' => 'Sans avis',
+			 '0'=>'Inexistante',
+			 '1'=>'Très mauvaise',
+			 '2'=>'Moyenne',
+			 '3'=>'Bonne',
+			 '4'=>'Excellente');
 
 
 $departements = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
@@ -319,6 +325,8 @@ class uvcomment extends stdentity
   var $utilite;
   /* note sur la charge de travail */
   var $charge_travail;
+  /* note sur la qualité de l'enseignement */
+  var $qualite_ens;
   /* note générale que donne l'étudiant sur l'UV */
   var $note;
 
@@ -352,6 +360,7 @@ class uvcomment extends stdentity
 	$this->interet         = $row['interet_uv'];
 	$this->utilite         = $row['utilite_uv'];
 	$this->charge_travail  = $row['travail_uv'];
+	$this->qualite_ens     = $row['qualite_uv'];
 	$this->note            = $row['note_uv'];
 	
 	$this->comment         = $row['comment_uv'];
@@ -369,7 +378,8 @@ class uvcomment extends stdentity
 		  $interet = 3,
 		  $utilite = 3,
 		  $note    = 3,
-		  $travail = 3)
+		  $travail = 3,
+		  $qualite = 3)
   {
     $sql = new insert($this->dbrw,
 		      'edu_uv_comments',
@@ -381,6 +391,7 @@ class uvcomment extends stdentity
 			     'utilite_uv' => $utilite,
 			     'note_uv'    => $note,
 			     'travail_uv' => $travail,
+			     'qualite_uv' => $qualite,
 			     'date_commentaire' => date("Y-m-d H:i:s"),
 			     'state_comment' => 0));
 

@@ -97,6 +97,11 @@ class uvcomment_contents extends stdcontents
 	$this->buffer .= p_stars($comment->charge_travail);
 	$this->buffer .= "</span><br/>\n";
 
+	$this->buffer .= "<span class=\"uvcriteria\">Qualité ".
+	  "de l'enseignement :\n";
+	$this->buffer .= p_stars($comment->qualite_ens);
+	$this->buffer .= "</span><br/>\n";
+
 	$this->buffer .= "<span class=\"uvcriteria\"><b>Note globale :</b>\n";
 	$this->buffer .= p_stars($comment->note);
 	$this->buffer .= "</span><br/>\n";
