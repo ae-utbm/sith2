@@ -63,6 +63,9 @@ if (isset($_REQUEST['comm_mod_sbmt']))
     }
   else
     error_403();
+
+  $site->add_contents($cts);
+
 }
 /* modification de commentaire */
 if ($_REQUEST['action'] == 'editcomm')
