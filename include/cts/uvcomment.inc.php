@@ -87,13 +87,13 @@ class uvcomment_contents extends stdcontents
 	  }
 	/* sinon, n'importe qui peut signaler un abus */
 	else
-	  $links[] = "<a href=\"#\">Signaler un abus</a>";
+	  $links[] = "<a href=\"".$page."?action=reportabuse&id=".$comment->id."\">Signaler un abus</a>";
 
 	/* mise en "quarantaine" par un admin 
 	 * (demande de modération)
 	 */
 	if (($admin) && ($user->id != $comment->id_commentateur))
-	  $links[] = "<a href=\"#\">Mise en modération</a>";
+	  $links[] = "<a href=\"".$page."?action=quarantine&id=".$comment->id."\">Mise en modération</a>";
 
 	$this->buffer .= implode(" | ", $links);
 

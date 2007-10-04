@@ -31,8 +31,10 @@
 define('UVCOMMENT_NOTMODERATED', 0);
 /* reporté comme abusif par un utilisateur */
 define('UVCOMMENT_ABUSE', 1);
-/* supprimé */
-define('UVCOMMENT_DELETED', 2);
+/* "Mis en quarantaine" par l'équipe de modération */
+define('UVCOMMENT_QUARANTINE', 2);
+
+
 
 $uvcomm_utilite = array(
 			'-1' => 'Non renseigné',

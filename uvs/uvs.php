@@ -37,6 +37,64 @@ $site = new site();
 
 $site->start_page("services", "Informations UV");
 
+
+if ($_REQUEST['action'] == 'reportabuse')
+{
+  $comm = new uvcomment($site->db, $site->dbrw);
+  $comm->load_by_id($_REQUEST['id']);
+
+  $cts = new contents("Rapporter un commentaire jugé inapproprié");
+
+  /* groupe des étudiants utbm actuels */
+  if ($site->user->is_in_group_id(10004))
+    {
+      $ret = $comm->modere(UVCOMMENT_ABUSE);
+      if ($ret)
+	$cts->add_paragraph("Le commentaire a été marqué comme ".
+			    "abusif. Il continuera à s'afficher ".
+			    "aux étudiants jusqu'à modération par ".
+			    "l'équipe de modération.");
+      else
+	$cts->add_paragraph("<b>Une erreur est survenue lors ".
+			    "de la modération</b>");
+    }
+  else
+    error_403();
+  $site->add_contents($cts);
+
+  $_id_uv = $comm->id_uv;
+}
+
+
+if ($_REQUEST['action'] == 'quarantine')
+{
+  $comm = new uvcomment($site->db, $site->dbrw);
+  $comm->load_by_id($_REQUEST['id']);
+
+  $cts = new contents("Modération du commentaire");
+
+  /* groupe des étudiants utbm actuels */
+  if ($site->user->is_in_group_id(10004))
+    {
+      $ret = $comm->modere(UVCOMMENT_QUARANTINE);
+      if ($ret)
+	$cts->add_paragraph("Le commentaire a été mis en ".
+			    "\"quarantaine\". Cela signifie qu'il ".
+			    "n'est plus visible, mais que l'équipe ".
+			    " chargée de la modération peut prendre une ".
+			    "décision.");
+      else
+	$cts->add_paragraph("<b>Une erreur est survenue lors ".
+			    "de la modération.</b>");
+    }
+  else
+    error_403();
+
+  $site->add_contents($cts);
+  
+  $_id_uv = $comm->id_uv;
+}
+
 /* suppression d'un commentaire */
 if ($_REQUEST['action'] == 'deletecomm')
 {

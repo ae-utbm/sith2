@@ -30,8 +30,8 @@
 $topdir = "../";
 
 include($topdir. "include/site.inc.php");
+include($topdir. "include/entities/uv.inc.php");
 
-$depts = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
 
 $site = new site();
 
@@ -58,7 +58,7 @@ du temps en graphique, et ainsi le partager facilement.");
 $cts->add_title(1, "Informations sur les UVs");
 $cts->add_paragraph("Grâce à cette section, vous pouvez consulter les UVs dispensées à
 l'UTBM. Ces informations ont été copiées du <a href=\"http://www.utbm.fr/upload/gestionFichiers/GUIDEUV_1370.pdf\">Guide
-officiel des UVs</a>, et aucune garantie n'est donnée quant à la
+officiel des UVs 2006</a>, complétées par les étudiants / pour les étudiants, et aucune garantie n'est donnée quant à la
 justesse des informations.");
 
 $lst = array();
@@ -68,7 +68,7 @@ $lst[] = "<a
 href=\"http://www.utbm.fr/upload/gestionFichiers/GUIDEUV_1941.pdf\"><b>guide
 des UVs officiel</b> (édition 2007 / 2008, format PDF)</a>";
 
-foreach ($depts as $dept)
+foreach ($deptartements as $dept)
      $lst[] = "<a href=\"./uvs.php?iddept=".$dept."\">UVs du département $dept</a>";
 
 $itemlst = new itemlist("edt_lst", false, $lst);
