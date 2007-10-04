@@ -74,7 +74,7 @@ if (($site->user->is_in_group('gestion_ae'))
   $departements = array();
 
   if ($_REQUEST['Humas'] == 1)
-    $departements[] = 'Humas';
+    $departements[] = 'Humanites';
   if ($_REQUEST['TC'] == 1)
     $departements[] = 'TC';
   if ($_REQUEST['GESC'] == 1)
@@ -359,7 +359,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 
   foreach ($uvdept as $departement)
     {
-      if ($departement == 'Humas')
+      if ($departement == 'Humanites')
 	$exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=207\"><b>Site de l'UTBM</b>, information sur le département des Humanités</a>";
       if ($departement == 'TC')
 	$exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=205\"><b>Site de l'UTBM</b>, information sur le département de Tronc Commun</a>";

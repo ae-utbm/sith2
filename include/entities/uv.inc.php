@@ -71,7 +71,7 @@ $uvcomm_qualite = array ('-1' => 'Sans avis',
 			 '4'=>'Excellente');
 
 
-$departements = array('Humas', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
+$departements = array('Humanites', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
  
 class uv extends stdentity
 {

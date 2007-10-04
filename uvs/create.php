@@ -31,6 +31,7 @@ $topdir = "../";
 
 include($topdir. "include/site.inc.php");
 
+require_once ($topdir . "include/entities/uv.inc.php");
 require_once ($topdir . "include/entities/edt.inc.php");
 require_once ($topdir . "include/cts/edt_img.inc.php");
 
