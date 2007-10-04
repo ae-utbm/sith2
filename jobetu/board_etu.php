@@ -292,7 +292,18 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 {
 	if( empty($usr->prefs) ) $usr->load_prefs();
 	
-	$frm = new form("prefs_utl", "board_etu.php?view=preferences", false, "POST", "Préférences");
+	if(isset($_REQUEST['action']) && $_REQUEST['action'] == "save_prefs")
+	{
+		$yeah = $usr->update_prefs( (bool)$_REQUEST['pub_cv'], (bool)$_REQUEST['mail_prefs'] );
+		if(yeah)
+		{
+			$lst = new itemlist(false);
+			$lst->add("Préférences correctements enregistrées", "ok");
+			$cts->add($lst);
+		}
+	}
+	
+	$frm = new form("prefs_utl", "board_etu.php?view=preferences&action=save_prefs", false, "POST", "Préférences");
 	$frm->add_checkbox("pub_cv", "Autoriser la diffusion de mon CV (lien sur la fiche Matmatronch)");
 	//checkbox recevoir un mail dès qu'une annonce est déposée
 	$mail_prefs_val = array("part" => "Faible (uniquement lorsque je suis sélectionné pour une annonce)", "full" => "Fréquent (à chaque annonce me concernant ou tout évènement sur mon compte");

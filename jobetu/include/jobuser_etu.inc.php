@@ -137,6 +137,11 @@ class jobuser_etu extends utilisateur
 	{
 		$sql = new update($this->dbrw, "job_prefs", array("pub_cv" => $new_pub_cv, "mail_prefs" => $new_mail_prefs), array("id_utilisateur" => $this->id));
 		$this->load_prefs();
+		
+		if($sql)
+			return true;
+		else
+			return false;
 	}
 
 }
