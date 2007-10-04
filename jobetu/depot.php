@@ -186,7 +186,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="add" && $_REQUEST['
 	$annonce = new annonce($site->db, $site->dbrw);
 	$jobuser->load_by_id($site->user->id);
 	
-	$result = $annonce->add($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['divers'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['nb_postes'], $_REQUEST['remuneration'], $_REQUEST['allow_diff']);
+	$result = $annonce->add($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['divers'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['nb_postes'], $_REQUEST['remuneration'], null, null, $_REQUEST['allow_diff']);
 	
 	if($result)
 	{
@@ -208,7 +208,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="save" && $_REQUEST[
 	$annonce = new annonce($site->db, $site->dbrw);
 	$annonce->load_by_id($_REQUEST['id']);
 			
-	$result = $annonce->save($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['divers'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['nb_postes'], $_REQUEST['remuneration'], $_REQUEST['allow_diff']);
+	$result = $annonce->save($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['divers'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['nb_postes'], $_REQUEST['remuneration'], null, null, $_REQUEST['allow_diff']);
 	
 	if($result)
 	{

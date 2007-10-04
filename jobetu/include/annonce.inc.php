@@ -363,7 +363,7 @@ EOF;
   /**
    * Edition d'une annonce
    */
-  function save($client, $titre, $job_type, $desc, $profil, $divers = null, $start_date = null, $duree = null, $nb_postes = 1, $indemnite = null, $ville = null, $type_contrat = null, $allow_diff = 0 )
+  function save($client, $titre, $job_type, $desc, $profil = null, $divers = null, $start_date = null, $duree = null, $nb_postes = 1, $indemnite = null, $ville = null, $type_contrat = null, $allow_diff = 0 )
   {
   	if(!($client instanceof jobuser_client))	return -1;
 		
