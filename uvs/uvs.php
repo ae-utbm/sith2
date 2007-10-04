@@ -93,7 +93,9 @@ if ($_REQUEST['action'] == 'editcomm')
 					 'F'  => 'Insuffisant : F'),
 				  $comm->note_obtention);
 
-      $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)');
+      $commform->add_text_area('comm_comm',
+			       'Commentaire (syntaxe Doku)',
+			       $comm->comment);
       $commform->add_select_field('comm_interest', 
 				  'Intéret de l\'UV (pour un ingénieur)', 
 				  $uvcomm_interet,
