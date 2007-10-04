@@ -382,7 +382,6 @@ EOF;
 			
   	$sql = new update($this->dbrw,
 											"job_annonces",
-											array("id_annonce", $this->id),
 											array(
 														"titre" => $this->titre,
 														"job_type" => $this->job_type,
@@ -396,9 +395,10 @@ EOF;
 														"ville" => $this->ville,
 														"type_contrat" => $this->type_contrat,
 														"allow_diff" => $this->allow_diff								
-											)
+											),
+											array("id_annonce", $this->id)
 											);
-		print_r($sql);											
+										
 		if($sql)
 			return $this->id;
 		else 

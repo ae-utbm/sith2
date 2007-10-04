@@ -206,7 +206,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="save" && $_REQUEST[
 	$jobuser = new jobuser_client($site->db);
 	$annonce = new annonce($site->db, $site->dbrw);
 	$jobuser->load_by_id($annonce->id_client);
-	print_r($_REQUEST);	
+		
 	$result = $annonce->save($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['divers'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['nb_postes'], $_REQUEST['remuneration'], $_REQUEST['allow_diff']);
 	
 	if($result)
