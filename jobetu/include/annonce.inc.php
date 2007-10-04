@@ -396,9 +396,9 @@ EOF;
 														"type_contrat" => $this->type_contrat,
 														"allow_diff" => $this->allow_diff								
 											),
-											array("id_annonce", $this->id)
+											array("id_annonce" => $this->id)
 											);
-										print_r($sql);
+										
 		if($sql)
 			return $this->id;
 		else 
