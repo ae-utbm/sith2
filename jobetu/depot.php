@@ -63,7 +63,7 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	$frm->add_text_area("desc_ann", "Description de l'annonce", false, 60, 8, true);
 	$frm->add_text_area("profil", "Profil recherché", false, 60, 3, true);
 	$frm->add_date_field("date_debut", "Date de debut");
-	$frm->add_text_field("duree", "Durée & nombre d'heures");
+	$frm->add_text_field("duree", "Durée");
 	$frm->add_text_field("remuneration", "Rémunération");
 	$frm->add_text_field("nb_postes", "Nombre de postes disponibles", "1", true, 4);
 	$frm->add_text_area("divers", "Autres informations", false, 60, 3);
@@ -100,7 +100,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 	$frm->add_text_area("desc_ann", "Description de l'annonce", $annonce->desc, 60, 8, true);
 	$frm->add_text_area("profil", "Profil recherché", $annonce->profil, 60, 3, true);
 	$frm->add_date_field("date_debut", "Date de debut (facultatif)", $annonce->start_date);
-	$frm->add_text_field("duree", "Duree & nombre d'heures", $annonce->duree);
+	$frm->add_text_field("duree", "Durée", $annonce->duree);
 	$frm->add_text_field("remuneration", "Rémunération", $annonce->indemnite);
 	$frm->add_text_field("nb_postes", "Nombre de postes disponibles", $annonce->nb_postes, true, 4);
 	$frm->add_text_area("divers", "Autres informations", $annonce->divers, 60, 3);
