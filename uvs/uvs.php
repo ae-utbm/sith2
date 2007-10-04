@@ -52,7 +52,8 @@ if (($site->user->is_in_group_id(10004))
 			 $_REQUEST['comm_interest'], /* interet */
 			 $_REQUEST['comm_utilite'], /* utilite */
 			 $_REQUEST['comm_note_glbl'], /*note */
-			 $_REQUEST['comm_travail']); /*travail */
+			 $_REQUEST['comm_travail'], /* travail */
+			 $_REQUEST['comm_qualite']); /* qualité enseignement */
 
   $cts = new contents();
 
@@ -235,7 +236,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
 
 
   /* l'utilisateur est étudiant UTBM */
-  if (($site->user->is_in_group_id(10004)) && ($commented))
+  if (($site->user->is_in_group_id(10004)) && ($commented == false))
     {
       $commcts = new contents("Commentaires sur les UVs");
       $commform = new form('commform',
@@ -268,6 +269,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv'])))
       $commform->add_select_field('comm_travail', 
 				  'Charge de travail', 
 				  $uvcomm_travail,
+				  2);
+      $commform->add_select_field('comm_qualite', 
+				  'Qualité de l\'enseignement', 
+				  $uvcomm_qualite,
 				  2);
 
       $commform->add_select_field('comm_note_glbl', 
