@@ -120,7 +120,7 @@ else
 		
 	$cts->add_title(3, "Vous avez ".count($user->annonces)." annonce(s) en cours");
 	
-	foreach($user->annonces as $ann)
+	foreach($usr->annonces as $ann)
 	{		
 		$annonce = new annonce($site->db);
 		$annonce->load_by_id($ann['id_annonce']);
