@@ -53,6 +53,12 @@ $site->add_css("jobetu/jobetu.css");
 $site->add_css("css/mmt.css");
 $site->start_page("services", "AE Job Etu");
 
+$usr = new jobuser_client($site->db, $site->dbrw);
+if(isset($_REQUEST['id_utilisateur']) && ($site->user->is_in_group("gestion_ae") ||$site->user->is_in_group("root") || $site->user->is_in_group("jobetu_admin") ) )
+	$usr->load_by_id($_REQUEST['id_utilisateur']);
+else
+	$usr->load_by_id($site->user->id);
+
 $path = "<a href=\"".$topdir."jobetu/\" title=\"AE JobEtu\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" /> AE JobEtu</a>";
 $path .= " / "."<a href=\"".$topdir."jobetu/board_client.php\" title=\"Tableau de bord\"><img src=\"".$topdir."images/icons/16/board.png\" class=\"icon\" /> Tableau de bord recruteur</a>";
 $path .= " / "."<a href=\"".$topdir."user.php?id_utilisateur=$usr->id\" title=\"$usr->prenom $usr->nom\"><img src=\"".$topdir."images/icons/16/user.png\" class=\"icon\" /> $usr->prenom $usr->nom</a>";
@@ -79,16 +85,14 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
  */
 else
 {
-	$user = new jobuser_client($site->db);
-	$user->load_by_id($site->user->id);
-	$user->load_annonces();
+	$usr->load_annonces();
 	
 	if( isset($_REQUEST['action']) )
 	{
 		$annonce = new annonce($site->db, $site->dbrw);
 		$annonce->load_by_id($_REQUEST['id']);
 		
-			if( $annonce->id_client != $user->id )
+			if( $annonce->id_client != $usr->id )
 			{
 				$site->add_contents(new error("Erreur", "Soit vous essayez de frauder soit ya un bug, mais dans tout les cas ça peut pas se passer comme ça !"));
 				$site->end_page();
@@ -100,7 +104,7 @@ else
 				{
 					$etu = new jobuser_client($site->db);
 					$etu->load_by_id($_REQUEST['etu']);
-					$annonce->set_winner($etu, $user);
+					$annonce->set_winner($etu, $usr);
 				}
 				else if( $_REQUEST['action'] == "close" )
 				{
