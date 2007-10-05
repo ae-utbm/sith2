@@ -135,10 +135,13 @@ class jobuser_etu extends utilisateur
 	
 	function update_prefs($new_pub_cv, $new_mail_prefs)
 	{
+		if(empty($this->prefs))
+			$sql = new insert($this->dbrw, "job_prefs", array("id_utilisateur" => $this->id, "pub_cv" => $new_pub_cv, "mail_prefs" => $new_mail_prefs));
+		else
+			$sql = new update($this->dbrw, "job_prefs", array("pub_cv" => $new_pub_cv, "mail_prefs" => $new_mail_prefs), array("id_utilisateur" => $this->id));
 		
-		$sql = new update($this->dbrw, "job_prefs", array("pub_cv" => $new_pub_cv, "mail_prefs" => $new_mail_prefs), array("id_utilisateur" => $this->id));
 		$this->load_prefs();
-		print_r($sql);
+		
 		if($sql)
 			return true;
 		else
