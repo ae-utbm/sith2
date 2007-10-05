@@ -39,9 +39,10 @@ $jobetu = new jobetu($site->db, $site->dbrw);
 
 $tabs = array(
 		      array("", "jobetu/admin.php", "vue générale"),
-		      array("categories", "jobetu/admin.php?view=categories", "catégories"),
+		      array("categories", "jobetu/admin.php?view=annonces", "annonces"),
 		      array("clients", "jobetu/admin.php?view=clients", "clients"),
-		      array("etudiants", "jobetu/admin.php?view=etudiants", "étudiants")
+		      array("etudiants", "jobetu/admin.php?view=etudiants", "étudiants"),
+		      array("categories", "jobetu/admin.php?view=categories", "catégories")
 	      );
 $cts->add(new tabshead($tabs, $_REQUEST['view']));
 

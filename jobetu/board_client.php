@@ -134,7 +134,7 @@ else
 																	`job_annonces`.`id_annonce` AS `id`,
 																	DATE_FORMAT(`date`, '%e/%c/%Y') AS `date`
 																	FROM job_annonces
-																	WHERE id_client = $user->id AND closed = '1'");
+																	WHERE id_client = $usr->id AND closed = '1'");
 	if( $sql->lines > 0 )
 	{
 		$cts->puts("<a name=\"closed\"></a>");
