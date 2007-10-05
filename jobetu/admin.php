@@ -39,7 +39,7 @@ $jobetu = new jobetu($site->db, $site->dbrw);
 
 $tabs = array(
 		      array("", "jobetu/admin.php", "vue générale"),
-		      array("categories", "jobetu/admin.php?view=annonces", "annonces"),
+		      array("annonces", "jobetu/admin.php?view=annonces", "annonces"),
 		      array("clients", "jobetu/admin.php?view=clients", "clients"),
 		      array("etudiants", "jobetu/admin.php?view=etudiants", "étudiants"),
 		      array("categories", "jobetu/admin.php?view=categories", "catégories")
@@ -98,6 +98,21 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "categories")
 }
 
 /***************************************************************
+ * Onglet de gestion des annonces 
+ */
+else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
+{
+	$sql = new requete($site->db, "SELECT utilisateurs.id_utilisateur,
+																	CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`
+																	FROM `utilisateurs`
+																	NATURAL JOIN `utl_groupe`
+																	WHERE id_groupe = ".GRP_JOBETU_ETU."
+																	GROUP BY utilisateurs.id_utilisateur", false);
+	
+	$cts->add( new sqltable("list_clients", "Etudiants inscrits à AE JobEtu", $sql, "admin.php", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array(), array()), true );
+}
+
+/***************************************************************
  * Onglet des recruteurs
  */
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "clients")
@@ -109,7 +124,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "clients")
 																	WHERE id_groupe = ".GRP_JOBETU_CLIENT."
 																	GROUP BY utilisateurs.id_utilisateur", false);
 	
-	$cts->add( new sqltable("list_clients", "Clients de AE JobEtu", $sql, "admin.php", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array(), array()), true );
+	$cts->add( new sqltable("list_clients", "Clients de AE JobEtu", $sql, "admin.php?view=clients", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array("mailto" => "Envoyer un mail", "del_account" => "Désactiver compte", "edit_prefs" => "Préférences"), array("mailto" => "Mail", "del_account" => "Désactiver compte")), true );
 }
 
 /***************************************************************
@@ -124,7 +139,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "etudiants")
 																	WHERE id_groupe = ".GRP_JOBETU_ETU."
 																	GROUP BY utilisateurs.id_utilisateur", false);
 	
-	$cts->add( new sqltable("list_clients", "Etudiants inscrits à AE JobEtu", $sql, "admin.php", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array(), array()), true );
+	$cts->add( new sqltable("list_clients", "Etudiants inscrits à AE JobEtu", $sql, "admin.php?view=etudiants", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array("mailto" => "Envoyer un mail", "del_account" => "Désactiver compte", "edit_profil" => "Profil", "edit_prefs" => "Préférences"), array("mailto" => "Mail", "del_account" => "Désactiver compte")), true );
 }
 
 /***************************************************************
