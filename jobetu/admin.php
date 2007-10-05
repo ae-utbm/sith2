@@ -64,7 +64,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "convention") // vieux t
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 {
 } 
-
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
+{
+} 
 
 /***************************************************************
  * Onglet de gestion des catégories et sous catégories
