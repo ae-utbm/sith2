@@ -58,9 +58,9 @@ $site->add_rss("Les dernières annonces de JobEtu","rss.php");
 
 $site->start_page("services", "AE Job Etu");
 
-$path = "<a href=\"".$topdir."jobetu/\" title=\"AE JobEtu\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />AE JobEtu</a>";
-$path .= "&nbsp;/$nbsp;"."<a href=\"".$topdir."jobetu/board.etu.php\" title=\"Tableau de bord\"><img src=\"".$topdir."images/icons/16/board.png\" class=\"icon\" />Tableau de bord candidat</a>";
-$path .= "&nbsp;/$nbsp;"."<a href=\"".$topdir."user.php?id_utilisateur=$usr->id\" title=\"$usr->prenom $usr->nom\"><img src=\"".$topdir."images/icons/16/user.png\" class=\"icon\" />$usr->prenom $usr->nom</a>";
+$path = "<a href=\"".$topdir."jobetu/\" title=\"AE JobEtu\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" /> AE JobEtu</a>";
+$path .= " / "."<a href=\"".$topdir."jobetu/board.etu.php\" title=\" Tableau de bord\"><img src=\"".$topdir."images/icons/16/board.png\" class=\"icon\" />Tableau de bord candidat</a>";
+$path .= " / "."<a href=\"".$topdir."user.php?id_utilisateur=$usr->id\" title=\" $usr->prenom $usr->nom\"><img src=\"".$topdir."images/icons/16/user.png\" class=\"icon\" />$usr->prenom $usr->nom</a>";
 $cts = new contents($path);
 
 $tabs = array(
