@@ -53,7 +53,10 @@ $site->add_css("jobetu/jobetu.css");
 $site->add_css("css/mmt.css");
 $site->start_page("services", "AE Job Etu");
 
-$cts = new contents("Tableau de bord AE Job Etu");
+$path = "<a href=\"".$topdir."jobetu/\" title=\"AE JobEtu\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" /> AE JobEtu</a>";
+$path .= " / "."<a href=\"".$topdir."jobetu/board_client.php\" title=\"Tableau de bord\"><img src=\"".$topdir."images/icons/16/board.png\" class=\"icon\" /> Tableau de bord recruteur</a>";
+$path .= " / "."<a href=\"".$topdir."user.php?id_utilisateur=$usr->id\" title=\"$usr->prenom $usr->nom\"><img src=\"".$topdir."images/icons/16/user.png\" class=\"icon\" /> $usr->prenom $usr->nom</a>";
+$cts = new contents($path);
 
 $tabs = array(
 		      array("", "jobetu/board_client.php", "annonces"),
