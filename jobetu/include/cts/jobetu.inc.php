@@ -221,11 +221,11 @@
 					$ville->load_by_id($usr->id_ville);
 					
 		  		$this->buffer .= "<div class=\"apply_table\">\n";
-	  				$this->buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_".$n."');\">";
+				$this->buffer .= "<div class=\"apply_title\" onClick=\"javascript:on_off('applicant_".$annonce->id."_".$n."');\">";
 	  				$this->buffer .= $usr->prenom." ".$usr->nom." (département ".strtoupper($usr->departement).")";
 	  				$this->buffer .= "</div>\n";
 	  					
-	  				$this->buffer .= "<div id=\"applicant_".$n."\" class=\"apply_content\">";
+	  				$this->buffer .= "<div id=\"applicant_".$annonce->id."_".$n."\" class=\"apply_content\">";
 	  				$this->buffer .= "<p>Votre annonce à reçu la candidature de cet étudiant :</p>";
 	  
 	  				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Nom </div> \n <div class=\"desc_content\"><b>".$usr->prenom ." ". $usr->nom."</b></div> \n</div>";
