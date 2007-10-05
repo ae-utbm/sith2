@@ -129,8 +129,13 @@ class jobuser_etu extends utilisateur
 		$sql = new requete($this->db, "SELECT pub_cv, mail_prefs FROM `job_prefs` WHERE `id_utilisateur` = $this->id LIMIT 1");
 		$row = $sql->get_row();
 		
-		$this->prefs['pub_cv'] = $row['pub_cv'];
-		$this->prefs['mail_prefs'] = $row['mail_prefs'];
+		if($sql->lines == 0)
+			$this->prefs = null;
+		else
+		{		
+			$this->prefs['pub_cv'] = $row['pub_cv'];
+			$this->prefs['mail_prefs'] = $row['mail_prefs'];
+		}
 	}
 	
 	function update_prefs($new_pub_cv, $new_mail_prefs)
