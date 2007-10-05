@@ -47,6 +47,22 @@ $tabs = array(
 $cts->add(new tabshead($tabs, $_REQUEST['view']));
 
 
+/*
+ * Actions
+ */
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == "edit")  // edition préférences => redirection
+{
+  if($_REQUEST['view'] == "client")
+    header("Location: board_client.php?view=preferences&id_utilisateur=".$_REQUEST['id_utilisateur']);
+}
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == "convention") // vieux truandage => convention = profil
+{
+}
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == "edit")
+{
+} 
+
+
 /***************************************************************
  * Onglet de gestion des catégories et sous catégories
  */
