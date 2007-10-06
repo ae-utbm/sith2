@@ -217,8 +217,8 @@ EOF;
 		if(!$this->is_provided())
 			$text_client .= "PS: il reste désormais ".$this->remaining_positions()." place(s) disponibles pour votre offre.";
 		  	
-		$mail_etu = mail($winner->email, utf8_decode("[AE JobEtu] Sélection pour l'annonce n°".$this->id), utf8_decode($text_etu), "From: \"AE Job Etu\" <ae-jobetu@utbm.fr>");
-		$mail_client = mail($client->email, utf8_decode("[AE JobEtu] Sélection de $winner->prenom $winner->nom pour l'annonce n°".$this->id), utf8_decode($text_client), "From: \"AE Job Etu\" <ae-jobetu@utbm.fr>");
+		$mail_etu = mail($winner->email, utf8_decode("[AE JobEtu] Sélection pour l'annonce n°".$this->id), utf8_decode($text_etu), "From: \"AE Job Etu\" <ae.jobetu@utbm.fr>");
+		$mail_client = mail($client->email, utf8_decode("[AE JobEtu] Sélection de $winner->prenom $winner->nom pour l'annonce n°".$this->id), utf8_decode($text_client), "From: \"AE Job Etu\" <ae.jobetu@utbm.fr>");
 	
 		if($mail_etu && $mail_client)
 			return true;

@@ -63,6 +63,18 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "convention") // vieux t
 }
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 {
+	if($_REQUEST['send'])
+	{
+		$ret = mail(utf8_decode($_REQUEST['mailto']), utf8_decode($_REQUEST['subject']), utf8_decode($_REQUEST['content']), "From: \"AE Job Etu\" <ae.jobetu@utbm.fr>");
+		$lst = new itemlist(false);
+		if($ret)
+			$lst->add("Le mail à été correctement envoyé", "ok");
+		else
+			$lst->add("Erreur lors de l'envoi du mail", "ko");
+		$cts->add($lst);		
+	}
+	else
+	{
 	if($_REQUEST['id_utilisateur'])
 	{
 		$sql = new requete($site->db, "SELECT email_utl FROM utilisateurs WHERE id_utilisateur = '".$_REQUEST['id_utilisateur']."'");
@@ -76,12 +88,14 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 	}
 
 	$frm = new form("job_mail", "admin.php?view=".$_REQUEST['view']."&action=mail", false, "post", "Envoi de mail");
+	$frm->add_hidden("send", true);
 	$frm->add_text_field("subject", "Sujet", "[AE JobEtu] ...", true, 80);
-	$frm->add_text_field("to", "Destinataire(s)", $mailto, true, 80, false, false);
-	$frm->add_text_area("content", "Contenu", 80, 20, true);
+	$frm->add_text_field("mailto", "Destinataire(s)", $mailto, true, 80, false, false);
+	$frm->add_text_area("content", "Contenu", "", 80, 20, true);
 	$frm->add_submit("send", "Envoyer");
 
 	$cts->add($frm, true);
+	}
 	
 } 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
