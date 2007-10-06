@@ -891,8 +891,8 @@ class form extends stdcontents
 				  $this->buffer .= $item;
 		  }
 		  
-		  if(!$inline && $ $i == count($values) )
-		  	$this->buffer .= "<br />";
+		  if(!$inline && $i != count($values) )
+		  	$this->buffer .= "<br />\n";
 		  
 		  $i++;
 	  }
