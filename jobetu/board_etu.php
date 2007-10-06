@@ -309,7 +309,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 	$frm = new form("prefs_utl", "board_etu.php?view=preferences&action=save_prefs", false, "POST", "Préférences");
 	$frm->add_checkbox("pub_cv", "Autoriser la diffusion de mon CV (lien sur la fiche Matmatronch)", $usr->prefs['pub_cv']);
 	//checkbox recevoir un mail dès qu'une annonce est déposée
-	$mail_prefs_val = array("part" => "Faible (uniquement lorsque je suis sélectionné pour une annonce)", "full" => "Fréquent (à chaque annonce me concernant ou tout évènement sur mon compte");
+	$mail_prefs_val = array("part" => "Faible (uniquement en confirmation d'actions importantes)", "full" => "Fréquent (à chaque candidature ou autre évenement)");
 	$frm->add_radiobox_field("mail_prefs", "Envoi de mails", $mail_prefs_val, ($usr->prefs['mail_prefs']) ? $usr->prefs['mail_prefs'] : "part");
 	//bouton pour envoyer "je fais des bisous à Pedrov" au 36375 (0.56cts par SMS plus cout d'un SMS)
 	$frm->add_submit("go", "Enregistrer");

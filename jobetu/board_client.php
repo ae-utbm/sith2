@@ -77,7 +77,29 @@ $cts->add(new tabshead($tabs, $_REQUEST['view']));
  */
 if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 {
+	if( empty($usr->prefs) ) $usr->load_prefs();
 	
+	if(isset($_REQUEST['action']) && $_REQUEST['action'] == "save_prefs")
+	{
+		$yeah = $usr->update_prefs( (bool)$_REQUEST['pub_profil'], $_REQUEST['mail_prefs'] );
+		if(yeah)
+		{
+			$lst = new itemlist(false);
+			$lst->add("Préférences correctements enregistrées", "ok");
+			$cts->add($lst);
+		}
+	}
+
+	$frm = new form("prefs_utl", "board_client.php?view=preferences&action=save_prefs", false, "POST", "Préférences");
+	$frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" class=\"isubmit\" onClick=\"javascript: window.location.replace('../user.php?id_utilisateur=$usr->id&page=edit');\" value=\"Editer mon profil\" /></div></div>");
+	$frm->add_checkbox("pub_profil", "Autoriser la consultation de mon profil sur le site", $usr->prefs['pub_profil']);
+	//checkbox recevoir un mail dès qu'une annonce est déposée
+	$mail_prefs_val = array("part" => "Faible (uniquement lorsque je suis sélectionné pour une annonce)", "full" => "Fréquent (à chaque annonce me concernant ou tout évènement sur mon compte");
+	$frm->add_radiobox_field("mail_prefs", "Envoi de mails", $mail_prefs_val, ($usr->prefs['mail_prefs']) ? $usr->prefs['mail_prefs'] : "full");
+	//bouton pour envoyer "je fais des bisous à Pedrov" au 36375 (0.56cts par SMS plus cout d'un SMS)
+	$frm->add_submit("go", "Enregistrer");
+	$cts->add($frm, true);
+
 }
 
 /*******************************************************************************

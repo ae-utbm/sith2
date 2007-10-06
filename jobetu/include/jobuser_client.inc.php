@@ -26,6 +26,7 @@ require_once($topdir. "include/cts/user.inc.php");
 class jobuser_client extends utilisateur
 {
 	var $annonces = array();
+	var $prefs = array();
 	
   function new_particulier( $nom, $prenom, $alias, $email, $password, $droit_image, $date_naissance, $sexe)
   {
@@ -65,5 +66,34 @@ class jobuser_client extends utilisateur
 			    $this->annonces[] = $line;
 	    }
   }
+  
+	function load_prefs()
+	{
+		$sql = new requete($this->db, "SELECT pub_cv, mail_prefs FROM `job_prefs` WHERE `id_utilisateur` = $this->id LIMIT 1");
+		$row = $sql->get_row();
+		
+		if($sql->lines == 0)
+			$this->prefs = null;
+		else
+		{		
+			$this->prefs['pub_profil'] = $row['pub_profil'];
+			$this->prefs['mail_prefs'] = $row['mail_prefs'];
+		}
+	}
+
+	function update_prefs($new_pub_cv, $new_mail_prefs)
+	{
+		if(empty($this->prefs))
+			$sql = new insert($this->dbrw, "job_prefs", array("id_utilisateur" => $this->id, "pub_cv" => $new_pub_cv, "mail_prefs" => $new_mail_prefs));
+		else
+			$sql = new update($this->dbrw, "job_prefs", array("pub_cv" => $new_pub_cv, "mail_prefs" => $new_mail_prefs), array("id_utilisateur" => $this->id));
+		
+		$this->load_prefs();
+		
+		if($sql)
+			return true;
+		else
+			return false;
+	}
 }   	
 ?>
