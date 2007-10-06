@@ -65,7 +65,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 {
 	if($_REQUEST['send'])
 	{
-print_r($_REQUEST);
 		$ret = mail( utf8_decode($_REQUEST['mailto']), utf8_decode($_REQUEST['subject']), utf8_decode($_REQUEST['content']), "From: \"AE JobEtu\" <ae.jobetu@utbm.fr>" );
 		$lst = new itemlist(false);
 		if($ret)
@@ -89,9 +88,9 @@ print_r($_REQUEST);
 	}
 
 	$frm = new form("job_mail", "admin.php?view=".$_REQUEST['view']."&action=mail", false, "post", "Envoi de mail");
-	$frm->add_hidden("send", true);
 	$frm->add_text_field("subject", "Sujet", "[AE JobEtu] ...", true, 80);
-	$frm->add_text_field("mailto", "Destinataire(s)", $mailto, true, 80, false, false);
+	$frm->add_text_field("__mailto", "Destinataire(s)", $mailto, true, 80, false, false);
+	$frm->add_hidden("mailto", $mailto);
 	$frm->add_text_area("content", "Contenu", "", 80, 20, true);
 	$frm->add_submit("send", "Envoyer");
 
