@@ -892,7 +892,7 @@ class form extends stdcontents
 		  }
 		  
 		  if(!$inline && $ $i == count($values) )
-		  	$buffer .= "<br />";
+		  	$this->buffer .= "<br />";
 		  
 		  $i++;
 	  }
