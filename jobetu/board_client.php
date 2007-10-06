@@ -81,7 +81,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 	
 	if(isset($_REQUEST['action']) && $_REQUEST['action'] == "save_prefs")
 	{
-		$yeah = $usr->update_prefs( (bool)$_REQUEST['pub_profil'], $_REQUEST['mail_prefs'] );
+		$yeah = $usr->update_prefs( isset($_REQUEST['pub_profil']), $_REQUEST['mail_prefs'] );
 		if(yeah)
 		{
 			$lst = new itemlist(false);
