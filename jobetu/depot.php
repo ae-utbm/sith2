@@ -48,6 +48,9 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 
 	$site->allow_only_logged_users("jobetu");
 	if(!$site->user->is_in_group("jobetu_client")) header("Location: depot.php?action=infos");
+	$jobuser = new jobuser_client($site->db);
+	$jobuser->load_by_id($site->user->id);
+	$jobuser->load_prefs();
 	
 	$cts->add_paragraph("Veuillez à présent entrer la description de votre annonce.");
 	$cts->add_paragraph("Soyez aussi précis que possible dans la description de vos besoins afin que nous puissions pleinement vous satisfaire.");
@@ -67,7 +70,7 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	$frm->add_text_field("remuneration", "Rémunération");
 	$frm->add_text_field("nb_postes", "Nombre de postes disponibles", "1", true, 4);
 	$frm->add_text_area("divers", "Autres informations", false, 60, 3);
-	$frm->add_checkbox("allow_diff", "Diffuser mon numéro de téléphone aux candidats afin qu'ils puissent me contacter");
+	$frm->add_checkbox("allow_diff", "Diffuser mon numéro de téléphone aux candidats afin qu'ils puissent me contacter", ($usr->prefs) ? $usr->prefs['pub_num'] : false );
 	$frm->add_submit("go", "Enregistrer mon annonce");
 	$frm->add_info("Les champs marqués d'une astérisque (*) doivent être remplis.");
 	
