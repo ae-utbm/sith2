@@ -89,7 +89,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 			$cts->add($lst);
 		}
 	}
-
+print_r($usr);
 	$frm = new form("prefs_utl", "board_client.php?view=preferences&action=save_prefs", false, "POST", "Préférences");
 //	$frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" class=\"isubmit\" onClick=\"javascript: window.location.replace('../user.php?id_utilisateur=$usr->id&page=edit');\" value=\"Editer mon profil\" /></div></div>");
 	$frm->add_checkbox("pub_profil", "Autoriser la consultation de mon profil sur le site", $usr->prefs['pub_profil']);
