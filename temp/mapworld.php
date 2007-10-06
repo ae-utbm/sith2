@@ -49,10 +49,10 @@ $statscotis = new requete($site->db, "SELECT `utl_etu`.`id_ville`
 $idloc=array();
 while (list($id_ville) = $statscotis->get_row())
 {
-  if(!isset($idloc[$id_ville])
+  if(!isset($idloc[$id_ville]))
   {
     $idloc[$id_ville]=1;
-    $loc->add_location_by_idville($idville,false);
+    $loc->add_location_by_idville($id_ville,false);
   }
 }
 $loc->add_context();
