@@ -63,6 +63,26 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "convention") // vieux t
 }
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 {
+	if($_REQUEST['id_utilisateur'])
+	{
+		$sql = new requete($site->db, "SELECT email_utl FROM utilisateurs WHERE id_utilisateur = '".$_REQUEST['id_utilisateur']."'");
+		list($mailto) = $sql->get_row();
+	}
+	else if($_REQUEST['id_utilisateurs'])
+	{
+		$sql = new requete($site->db, "SELECT email_utl FROM utilisateurs WHERE id_utilisateur IN('".implode('\', \'', $_REQUEST['id_utilisateurs'])."')");
+		while( list($tmpto) = $sql->get_row() )
+			$mailto .= $tmpto."; ";
+	}
+
+	$frm = new form("job_mail", "admin.php?view=".$_REQUEST['view']."&action=mail", false, "post", "Envoi de mail");
+	$frm->add_text_field("subject", "Sujet", "[AE JobEtu] ...", true, 80);
+	$frm->add_text_field("to", "Destinataire(s)", $mailto, true, 80, false, false);
+	$frm->add_text_area("content", "Contenu", 80, 20, true);
+	$frm->add_submit("send", "Envoyer");
+
+	$cts->add($frm, true);
+	
 } 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 {
