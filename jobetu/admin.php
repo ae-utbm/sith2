@@ -57,10 +57,12 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "edit")  // edition pré
   else if($_REQUEST['view'] == "etudiants")
     header("Location: board_etu.php?view=preferences&id_utilisateur=".$_REQUEST['id_utilisateur']);
 }
+
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "convention") // vieux truandage => convention = profil
 {
   header("Location: board_etu.php?view=profil&id_utilisateur=".$_REQUEST['id_utilisateur']);
 }
+
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "set_ozone_hole")
 {
 	if($_REQUEST['set'])
@@ -74,8 +76,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "set_ozone_hole")
 	$val = array("the" => "Piti", "big" => "Moyen", "leb" => "Normal", "ow" => "Moult", "ski" => "Gargantuesque");
 	$frm->add_radiobox_field("hole", "Taille", $val, ($_REQUEST['hole'])?$_REQUEST['hole']:"ow", false, false, null, false);
 	$frm->add_submit("set", "Régler");
-	$cts->add($frm);
+	$cts->add($frm, true);
 }
+
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 {
 	if($_REQUEST['send'])
@@ -113,8 +116,16 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 	}
 	
 } 
+
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 {
+	$header = new contents("Désactivation comptes AE JobEtu");
+	if($_REQUEST['id_utilisateur']) $users[] = $_REQUEST['id_utilisateur'];
+	if($_REQUEST['id_utilisateurs'])
+		foreach($_REQUEST['id_utilisateurs'] as $people) $users[] = $people;
+	$lst = new itemlist("Vous vous appretez à désactiver le compte JobEtu de :", false, $users);
+	$header->add($lst, true);
+	$site->add($header, true);
 } 
 
 /***************************************************************
