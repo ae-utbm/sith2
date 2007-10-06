@@ -737,7 +737,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
         $utl = new utilisateur($site->db, $site->dbrw);
         $utl->load_by_id($_REQUEST['id_util']);
       
-        if($utl->is_valid())
+        if(!$utl->is_valid())
           $error = "Utilisateur inconnu";
     
         elseif($utl->is_in_group("cpt_bloque"))
