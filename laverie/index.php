@@ -817,9 +817,10 @@ if ( !$site->user->is_in_group("blacklist_machines") )
 								header( 'Location: index.php?view=vente' );
               }
             }
-	    $cts->add($lst);
+	    
           }  
       }
+      $cts->add($lst);
     }
       $sql = new requete($site->db,"SELECT
         pl_gap_user.id_utilisateur AS id_util,
