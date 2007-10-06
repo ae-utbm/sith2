@@ -65,7 +65,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 {
 	if($_REQUEST['send'])
 	{
-		$ret = mail(utf8_decode($_REQUEST['mailto']), utf8_decode($_REQUEST['subject']), utf8_decode($_REQUEST['content']), "From: \"AE Job Etu\" <ae.jobetu@utbm.fr>");
+print_r($_REQUEST);
+		$ret = mail( utf8_decode($_REQUEST['mailto']), utf8_decode($_REQUEST['subject']), utf8_decode($_REQUEST['content']), "From: \"AE JobEtu\" <ae.jobetu@utbm.fr>" );
 		$lst = new itemlist(false);
 		if($ret)
 			$lst->add("Le mail à été correctement envoyé", "ok");
