@@ -757,7 +757,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
           {
             $jetlav = new jeton($site->db, $site->dbrw);
             $jetlav->load_by_nom($_REQUEST['numjetlaver'], "laver");
-            if($jetlav->is_valid())
+            if(!$jetlav->is_valid())
               $error = "Le jeton de machine à laver est invalide";
             elseif($jetlav->is_borrowed())
               $error = "Le jeton de machine à laver ($jetlav->nom) est censé etre emprunté, comment ce fait-ce ?";
@@ -767,7 +767,7 @@ if ( !$site->user->is_in_group("blacklist_machines") )
             $jetsech = new jeton($site->db, $site->dbrw);
             $jetsech->load_by_nom($_REQUEST['numjetsecher'], "secher");
 
-          if($jetsech->is_valid())
+          if(!$jetsech->is_valid())
             $error = "Le jeton de seche-linge est invalide";      
           elseif($jetsech->is_borrowed())
             $error = "Le jeton de seche-linge ($jetsech->nom) est censé etre emprunté, comment ce fait-ce ?";
