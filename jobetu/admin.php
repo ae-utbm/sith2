@@ -61,6 +61,21 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "convention") // vieux t
 {
   header("Location: board_etu.php?view=profil&id_utilisateur=".$_REQUEST['id_utilisateur']);
 }
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == "set_ozone_hole")
+{
+	if($_REQUEST['set'])
+	{
+		$lst = new itemlist(false);
+		$lst->add("Le trou de la couche d'ozone a été correctement réglé", "ok");
+		$cts->add($lst);
+	}
+
+	$frm = new form("ozone", "admin.php", false, "post", "Régler le trou de la couche d'ozone");
+	$val = array("the" => "Piti", "big" => "Moyen", "leb" => "Normal", "ow" => "Moult", "ski" => "Gargantuesque");
+	$frm->add_radiobox_field("hole", "Taille", $val, "ow", false, false, null, false);
+	$frm->add_submit("set", "Régler");
+	$cts->add($frm);
+}
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 {
 	if($_REQUEST['send'])
