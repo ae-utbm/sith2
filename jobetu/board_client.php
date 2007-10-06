@@ -96,7 +96,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 	$frm->add_checkbox("pub_num", "Publier mon numéro de téléphone dans mes annonces par défaut", ($usr->prefs) ? $usr->prefs['pub_num'] : "false");
 
 	$mail_prefs_val = array("part" => "Faible (uniquement pour une action importante)", "full" => "Fréquent (à chaque candidature ou autre évenement)");
-	$frm->add_radiobox_field("mail_prefs", "Envoi de mails", $mail_prefs_val, ($usr->prefs) ? $usr->prefs['mail_prefs'] : "full");
+	$frm->add_radiobox_field("mail_prefs", "Envoi de mails", $mail_prefs_val, ($usr->prefs) ? $usr->prefs['mail_prefs'] : "full", false, false, null, true);
 	//bouton pour envoyer "je fais des bisous à Pedrov" au 36375 (0.56cts par SMS plus cout d'un SMS)
 	$frm->add_submit("go", "Enregistrer");
 	$cts->add($frm, true);
