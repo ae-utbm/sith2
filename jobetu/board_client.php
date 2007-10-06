@@ -93,7 +93,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 	$frm = new form("prefs_utl", "board_client.php?view=preferences&action=save_prefs", false, "POST", "Préférences");
 	$frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" class=\"isubmit\" onClick=\"javascript: window.location.replace('../user.php?id_utilisateur=$usr->id&page=edit');\" value=\"Editer mon profil\" /></div></div>");
 	$frm->add_checkbox("pub_profil", "Autoriser la consultation de mon profil sur le site", $usr->publique);
-	$frm->add_checkbox("pub_profil", "Publier mon numéro de téléphone dans mes annonces par défaut", $usr->prefs['pub_num']);
+	$frm->add_checkbox("pub_num", "Publier mon numéro de téléphone dans mes annonces par défaut", ($usr->prefs['pub_num']) ? $usr->prefs['pub_num'] : "false");
 
 	$mail_prefs_val = array("part" => "Faible (uniquement pour une action importante)", "full" => "Fréquent (à chaque candidature ou autre évenement)");
 	$frm->add_radiobox_field("mail_prefs", "Envoi de mails", $mail_prefs_val, ($usr->prefs['mail_prefs']) ? $usr->prefs['mail_prefs'] : "full");
