@@ -70,9 +70,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "set_ozone_hole")
 		$cts->add($lst);
 	}
 
-	$frm = new form("ozone", "admin.php", false, "post", "Régler le trou de la couche d'ozone");
+	$frm = new form("ozone", "admin.php?action=set_ozone_hole", false, "post", "Régler le trou de la couche d'ozone");
 	$val = array("the" => "Piti", "big" => "Moyen", "leb" => "Normal", "ow" => "Moult", "ski" => "Gargantuesque");
-	$frm->add_radiobox_field("hole", "Taille", $val, "ow", false, false, null, false);
+	$frm->add_radiobox_field("hole", "Taille", $val, ($_REQUEST['hole'])?$_REQUEST['hole']:"ow", false, false, null, false);
 	$frm->add_submit("set", "Régler");
 	$cts->add($frm);
 }
