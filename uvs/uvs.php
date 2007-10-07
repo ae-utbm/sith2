@@ -504,8 +504,8 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   
       $edituv->add_checkbox('Humas',
 			    "Humanités",
-			    in_array('Humas', $uvdept));
-  
+			    in_array('Humanites', $uvdept));
+      
       $edituv->add_checkbox('TC',
 			    "TC",
 			    in_array('TC', $uvdept));
