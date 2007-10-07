@@ -119,7 +119,7 @@ if ( $_REQUEST["action"] == "search" )
         "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
         "WHERE "  .implode(" AND ",$elements)." $order LIMIT $st,$npp");
       
-      $user = new utilisateur():
+      $user = new utilisateur();
         
       $gal = new gallery();
       
