@@ -333,7 +333,7 @@ class sasphoto extends contents
       else
         $subcts->add_paragraph("Photographie par ".classlink($asso));
     }
-    elseif ( $photo->id_utilisateur_photographe && $photo->id_asso_photographe )
+    elseif ( $photo->id_utilisateur_photographe )
     {
       $userinfo->load_by_id($photo->id_utilisateur_photographe);
       $subcts->add_paragraph("Photographe: ".classlink($userinfo));  
