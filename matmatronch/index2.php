@@ -169,7 +169,7 @@ if ( $_REQUEST["action"] == "search" )
         $tabs = array();
         $i=0;
         $n=0;
-        while ( $i < $nb )
+        while ( $i < $count )
         {
           $tabs[]=array($n,"matmatronch/index2.php?action=search&page=".$n.$params,$n+1 );
           $i+=$count;
