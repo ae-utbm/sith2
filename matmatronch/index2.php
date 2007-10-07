@@ -175,10 +175,9 @@ if ( $_REQUEST["action"] == "search" )
           $i+=$count;
           $n++;  
         }
-        $tbl->add(new tabshead($tabs, $page, "_bottom"));
+        $cts->add(new tabshead($tabs, $page, "_bottom"));
       } 
       
-      //TODO:pagination
     }
   }
 }
