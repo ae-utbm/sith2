@@ -287,6 +287,9 @@ class photo extends basedb
     $this->titre = $titre;
     $this->id_asso_photographe = $id_asso_photographe;
     
+    if ( is_null($this->id_utilisateur_photographe) )
+      $this->id_utilisateur_photographe = $this->id_utilisateur;
+    
     $sql = new insert ($this->dbrw,
       "sas_photos",
       array(
@@ -376,6 +379,9 @@ class photo extends basedb
     $this->type_media = MEDIA_VIDEOFLV;
     $this->titre = $titre;
     $this->id_asso_photographe = $id_asso_photographe;
+    
+    if ( is_null($this->id_utilisateur_photographe) )
+      $this->id_utilisateur_photographe = $this->id_utilisateur;
     
     $sql = new insert ($this->dbrw,
       "sas_photos",
