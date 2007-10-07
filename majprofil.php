@@ -128,7 +128,8 @@ if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) 
     $user->role = "etu";
     $user->promo_utbm=$_REQUEST["promo_etu"];
     $user->departement=$_REQUEST["departement_etu"];
-  
+    $user->semestre = $_REQUEST['semestre'];
+    
     $user->surnom=$_REQUEST["surnom_etu"];
     $user->sexe=$_REQUEST["sexe_etu"];
     $user->date_naissance=$_REQUEST["date_naissance_etu"];
@@ -394,7 +395,8 @@ if ( $user->utbm )
 
   $sfrm->add_select_field("promo_etu","Promo",$user->liste_promos("-"),$user->promo_utbm);
   $sfrm->add_select_field("departement_etu","Departement",$GLOBALS["utbm_departements"],$user->departement);
-
+  $sfrm->add_text_field("semestre","Semestre",$user->semestre);
+  
   $sfrm->add_text_field("surnom_etu","Surnom (utbm)",$user->surnom);
   $sfrm->add_select_field("sexe_etu","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
   $sfrm->add_date_field("date_naissance_etu","Date de naissance",$user->date_naissance);
