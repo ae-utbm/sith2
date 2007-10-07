@@ -172,7 +172,7 @@ if ( $_REQUEST["action"] == "search" )
         while ( $i < $count )
         {
           $tabs[]=array($n,"matmatronch/index2.php?action=search&page=".$n.$params,$n+1 );
-          $i+=$count;
+          $i+=$npp;
           $n++;  
         }
         $cts->add(new tabshead($tabs, $page, "_bottom"));
