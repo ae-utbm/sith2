@@ -31,12 +31,23 @@ $site->start_page("matmatronch","MatMaTronch");
 $cts = new contents("Recherche Mat'Matronch");
 
 
-if ( $_REQUEST["action"] == "search" )
+if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
 {
   $elements = array();
   $order = "ORDER BY `nom_utl`,`prenom_utl`";
   
   $params="";
+  
+  if ( $_REQUEST["pattern"] )
+  {
+    $pattern = stdentity::_fsearch_prepare_sql_pattern($_REQUEST["pattern"]);
+    $elements[] =
+      "( CONCAT(`prenom_utl`,' ',`nom_utl`) REGEXP '^".$pattern."' " .
+      "OR CONCAT(`nom_utl`,' ',`prenom_utl`) REGEXP '^".$pattern."'  " .
+      "OR (`alias_utl`!='' AND `alias_utl` REGEXP '^".$pattern."') " .
+      "OR (`surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$pattern."'))";
+    $params.="&pattern=".rawurlencode($_REQUEST["pattern"]);
+  }
   
   if ( $_REQUEST["nom"] )
   {
@@ -53,7 +64,7 @@ if ( $_REQUEST["action"] == "search" )
   if ( $_REQUEST["surnom"] )
   {
     $p = stdentity::_fsearch_prepare_sql_pattern($_REQUEST["surnom"]);
-    $elements[] = "`surnom_utbm` REGEXP '$p' OR `alias_utl` REGEXP '$p'";
+    $elements[] = "(`surnom_utbm` REGEXP '$p' OR `alias_utl` REGEXP '$p')";
     $order = "ORDER BY `surnom_utbm`,`alias_utl`,`nom_utl`,`prenom_utl`";
     $params.="&surnom=".rawurlencode($_REQUEST["surnom"]);
   }
@@ -97,19 +108,19 @@ if ( $_REQUEST["action"] == "search" )
   if ( !empty($_REQUEST["numtel"]) )
   {
     $tel = mysql_escape_string(telephone_userinput($_REQUEST["numtel"]));
-    $elements[] = "`tel_maison_utl`='$tel' OR `tel_portable_utl`='$tel'";
+    $elements[] = "(`tel_maison_utl`='$tel' OR `tel_portable_utl`='$tel')";
     $params.="&numtel=".rawurlencode($_REQUEST["numtel"]);
   }
 
   if ( count($elements) > 0 )
   {
     
-    if ( !isset($_REQUEST["inclus_ancien"]) )
+    if ( !isset($_REQUEST["inclus_ancien"]) &&  $_REQUEST["action"] != "simplesearch" )
       $elements[] = "`ancien_etudiant_utl`='0'";
     else
       $params.= "&inclus_ancien";
       
-    if ( !isset($_REQUEST["inclus_nutbm"]) )
+    if ( !isset($_REQUEST["inclus_nutbm"]) &&  $_REQUEST["action"] != "simplesearch" )
       $elements[] = "`utbm_utl`='1'";
     else
       $params.= "&inclus_nutbm";
