@@ -26,6 +26,7 @@ $GLOBALS["utbm_departements"][""]="Tous";
 
 $is_admin = ( $site->user->is_in_group("gestion_ae") || $site->user->is_asso_role ( 27, 1 ));
 
+$site->add_css("css/mmt.css");
 $site->start_page("matmatronch","MatMaTronch");
 $cts = new contents("Recherche Mat'Matronch");
 
