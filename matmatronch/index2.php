@@ -36,53 +36,83 @@ if ( $_REQUEST["action"] == "search" )
   $elements = array();
   $order = "ORDER BY `nom_utl`,`prenom_utl`";
   
+  $params="";
   
   if ( $_REQUEST["nom"] )
+  {
     $elements[] = "`nom_utl` REGEXP '". stdentity::_fsearch_prepare_sql_pattern($_REQUEST["nom"])."'";
+    $params.="&nom=".rawurlencode($_REQUEST["nom"]);
+  }
     
   if ( $_REQUEST["prenom"] )
+  {
     $elements[] = "`prenom_utl` REGEXP '". stdentity::_fsearch_prepare_sql_pattern($_REQUEST["prenom"])."'";
+    $params.="&prenom=".rawurlencode($_REQUEST["prenom"]);
+  }
     
   if ( $_REQUEST["surnom"] )
   {
     $p = stdentity::_fsearch_prepare_sql_pattern($_REQUEST["surnom"]);
     $elements[] = "`surnom_utbm` REGEXP '$p' OR `alias_utl` REGEXP '$p'";
     $order = "ORDER BY `surnom_utbm`,`alias_utl`,`nom_utl`,`prenom_utl`";
+    $params.="&surnom=".rawurlencode($_REQUEST["surnom"]);
   }
    
   if ( $_REQUEST["date_naissance"] > 1 )
+  {
     $elements[] = "`date_naissance_utl`='".date("Y-m-d",$_REQUEST["date_naissance"])."'";
+    $params.="&date_naissance=".rawurlencode($_REQUEST["date_naissance"]);
+  }
   
   if ( $_REQUEST["sexe"] && $_REQUEST["sexe"] > 0 )
+  {
     $elements[] = "`sexe_utl`='".mysql_escape_string($_REQUEST["sexe"])."'";
-    
+    $params.="&sexe=".rawurlencode($_REQUEST["sexe"]);
+  }
+  
   if ( $_REQUEST["role"] )
+  {
     $elements[] = "`role_utbm`='".mysql_escape_string($_REQUEST["role"])."'";
-
+    $params.="&role=".rawurlencode($_REQUEST["role"]);
+  }
+  
   if ( $_REQUEST["departement"] )
+  {
     $elements[] = "`departement_utbm`='".mysql_escape_string($_REQUEST["departement"])."'";
-
+    $params.="&departement=".rawurlencode($_REQUEST["departement"]);
+  }
+  
   if ( $_REQUEST["semestre"] && $_REQUEST["role"] == "etu" )
+  {
     $elements[] = "`semestre_utbm`='".intval($_REQUEST["semestre"])."'";  
-      
+    $params.="&semestre=".rawurlencode($_REQUEST["semestre"]);
+  }
+  
   if ( !empty($_REQUEST["promo"]) && $_REQUEST["promo"] > 0 )
+  {
     $elements[] = "`promo_utbm`='".mysql_escape_string($_REQUEST["promo"])."'";
+    $params.="&promo=".rawurlencode($_REQUEST["promo"]);
+  }
   
   if ( !empty($_REQUEST["numtel"]) )
   {
     $tel = mysql_escape_string(telephone_userinput($_REQUEST["numtel"]));
     $elements[] = "`tel_maison_utl`='$tel' OR `tel_portable_utl`='$tel'";
+    $params.="&numtel=".rawurlencode($_REQUEST["numtel"]);
   }
 
   if ( count($elements) > 0 )
   {
-    $cts->add_title(2,"Résultats");
     
     if ( !isset($_REQUEST["inclus_ancien"]) )
       $elements[] = "`ancien_etudiant_utl`='0'";
-
+    else
+      $params.= "&inclus_ancien";
+      
     if ( !isset($_REQUEST["inclus_nutbm"]) )
       $elements[] = "`utbm_utl`='1'";
+    else
+      $params.= "&inclus_nutbm";
       
     if ( !$is_admin )
       $elements[] = "`publique_utl`='1'";    
@@ -94,16 +124,18 @@ if ( $_REQUEST["action"] == "search" )
         "WHERE "  .implode(" AND ",$elements));
         
     list($count) = $req->get_row();
-      
+    
+    $cts->add_title(2,"Résultat : $count personne(s)");
+
     if ( $count == 0 )
-      $cts->add_paragraph("Aucun resultat ne correspond aux critères.");
+      $cts->add_paragraph("Aucune personne ne correspond aux critères.");
       
     elseif ( $count > 350 )
-      $cts->add_paragraph("Votre recherche est trop imprécise, $count personnes correspondent aux critères.");
+      $cts->add_paragraph("Votre recherche est trop imprécise, il y a plus de 350 personnes correspondantes.");
       
     else
     {
-      $npp=18;
+      $npp=24;
       $page = intval($_REQUEST["page"]);
       
       if ( $page)
@@ -131,7 +163,21 @@ if ( $_REQUEST["action"] == "search" )
       }
       
       $cts->add($gal);
-        
+      
+      if ( $count > $npp )
+      {
+        $tabs = array();
+        $i=0;
+        $n=0;
+        while ( $i < $nb )
+        {
+          $tabs[]=array($n,"matmatronch/index2.php?action=search&page=".$n.$params,$n+1 );
+          $i+=$count;
+          $n++;  
+        }
+        $tbl->add(new tabshead($tabs, $page, "_bottom"));
+      } 
+      
       //TODO:pagination
     }
   }
