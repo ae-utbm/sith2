@@ -137,7 +137,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
       $lst->add("N°".$row['id_annonce']." : \"".$row['titre']."\"", "ko");
     $header->add($lst, true);
      	
-    $frm = new form(false, "?".$_REQUEST['action']."&".$_REQUEST['view']".&confirm");
+    $frm = new form(false, "?".$_REQUEST['action']."&".$_REQUEST['view']."&confirm");
   	$frm->add_hidden("ids", $_REQUEST['id_annonces']);
   	$frm->add_submit(false, "Confirmer");
   	
@@ -158,7 +158,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 	    
   	$header->add($lst, true);
   	
-  	$frm = new form(false, "?".$_REQUEST['action']."&".$_REQUEST['view']".&confirm");
+  	$frm = new form(false, "?".$_REQUEST['action']."&".$_REQUEST['view']."&confirm");
   	$frm->add_hidden("ids", $_REQUEST['id_utilisateurs']);
   	$frm->add_submit(false, "Confirmer");
   	
