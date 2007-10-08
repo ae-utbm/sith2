@@ -341,8 +341,6 @@ if ( $req->lines < 1 )
 }
 else
 {
-
-
   $type = 1;
   if ( $_REQUEST["action"] == "searchedt" && $_REQUEST["type"] > 0 )
     $type = intval($_REQUEST["type"]);
@@ -374,6 +372,11 @@ $frm->add_text_field("numtel","Numéro de téléphone");
 $frm->add_submit("go","Rechercher");
 $cts->add($frm,true);
 
+$frm = new form("mmtpat","index2.php",true,"POST","Recherche simple");
+$frm->add_hidden("action","search");
+$frm->add_text_field("pattern","Nom/Prenom ou Surnom",$_REQUEST["pattern"]);
+$frm->add_submit("go","Rechercher");
+$cts->add($frm,true);
 
 $site->add_contents($cts);
 $site->end_page();
