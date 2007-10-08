@@ -330,15 +330,15 @@ $frm = new form("mmtedt","index2.php",true,"POST","Recherche par emploi du temps
 $frm->add_hidden("action","searchedt");
 $frm->add_entity_smartselect ( "id_uv", "UV", $uv );
 
-$sfrm = new form("type",null,null,null,"Tous");
+$sfrm = new form("type",null,true,null,"Tous");
 $frm->add($sfrm,false,true, true , 1,false,true);
 
-$sfrm = new form("type",null,null,null,"TD");
+$sfrm = new form("type",null,true,null,"TD");
 $sfrm->add_select_field("td_jour","Jour",$jours);
 $sfrm->add_select_field("td_heure","Heure (début)",$heures);
 $frm->add($sfrm,false,true, false , 2,false,true);
 
-$sfrm = new form("type",null,null,null,"TP");
+$sfrm = new form("type",null,true,null,"TP");
 $sfrm->add_select_field("tp_jour","Jour",$jours);
 $sfrm->add_select_field("tp_heure","Heure (début)",$heures);
 $frm->add($sfrm,false,true, false , 3,false,true);
