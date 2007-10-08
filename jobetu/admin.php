@@ -193,8 +193,13 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
 																	LEFT JOIN `job_types`
 																	ON `job_types`.`id_type` = `job_annonces`.`job_type`
 																	", false);
-	
-	$cts->add( new sqltable("list_clients", "Annonces présentes sur AE JobEtu", $sql, "admin.php?view=annonces", "id_annonce", array("id_annonce" => "ID", "titre" => "Titre", "nom_utilisateur" => "Client", "nom_type" => "Catégorie", "nb_postes" => "Nb postes", "provided" => "Pourvue", "closed" => "Etat"), array(), array(), array("provided" => array("true" => "Oui", "false" => "Non"), "closed" => array('0' => "Ouverte", '1' => "Fermée"))), true );
+	$table = new sqltable("list_clients", "Annonces présentes sur AE JobEtu", $sql, "admin.php?view=annonces", "id_annonce", 
+	                      array("id_annonce" => "ID", "titre" => "Titre", "nom_utilisateur" => "Client", "nom_type" => "Catégorie", "nb_postes" => "Nb postes", "provided" => "Pourvue", "closed" => "Etat"),
+	                      array("info" => "Détails", "edit" => "Editer", "delete" => "Supprimer"), 
+	                      array("info" => "Détails", "delete" => "Supprimer"), 
+	                      array("provided" => array("true" => "Oui", "false" => ""), "closed" => array('0' => "", '1' => "Fermée"))
+	                      );
+	$cts->add( $table, true );
 }
 
 /***************************************************************
