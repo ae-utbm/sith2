@@ -320,7 +320,7 @@ $frm->add_checkbox("inclus_nutbm","Inclure les non-utbm",false);
 //TODO:recherche par ville/dep/region/pays d'origine ?
 
 $frm->add_submit("go","Rechercher");
-if ( isset($_REQUEST["action"]) && (isset($_REQUEST["numtel"]) || isset($_REQUEST["pattern"])) )
+if ( isset($_REQUEST["action"]) && (isset($_REQUEST["numtel"]) || isset($_REQUEST["pattern"])||$_REQUEST["action"]=="searchedt") )
 $cts->add($frm, true, true, "bxnor", false, true, false);
 else
 $cts->add($frm,true);
