@@ -33,7 +33,7 @@ $cts = new contents("Recherche Mat'Matronch");
 $uv = new uv($site->db);
 
 $jours = array("Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche");
-$heures = array(8,9,10,11,13,14,15,16,17,18,19);
+$heures = array(8=>8,9=>9,10=>10,11=>11,13=>13,14=>14,15=>15,16=>16,17=>17,18=>18,19=>19);
 
 if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
 {
