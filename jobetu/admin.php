@@ -60,7 +60,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "edit")  // edition pré
     header("Location: depot.php?action=edit&id=".$_REQUEST['id_annonce']);
 }
 
-if(isset($_REQUEST['action']) && $_REQUEST['action'] == "edit")
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == "info")
 {
   $header = new contents("Détails des annonces");
   
