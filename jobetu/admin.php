@@ -35,6 +35,9 @@ define("GRP_JOBETU_ETU", 36);
 $site = new site();
 $site->start_page("services", "AE Job Etu");
 
+$site->add_css("jobetu/jobetu.css");
+$site->add_rss("Les dernières annonces de JobEtu","rss.php");
+
 $cts = new contents("Administration AE Job Etu");
 
 $jobetu = new jobetu($site->db, $site->dbrw);
