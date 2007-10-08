@@ -210,7 +210,7 @@ elseif ( $_REQUEST["action"] == "searchedt" )
     $params.="&td_jour=".$_REQUEST["td_jour"]."&td_heure=".$_REQUEST["td_heure"];
     $cond = 
       "AND jour_grp='".$_REQUEST["td_jour"]."' ".
-      "AND TIME_FORMAT(heure_debut_grp,'%T')='".$_REQUEST["td_heure"]."' ";
+      "AND TIME_FORMAT(heure_debut_grp,'%k')='".$_REQUEST["td_heure"]."' ";
   }
   elseif ( $_REQUEST["type"] == 3 )
   {
@@ -218,7 +218,7 @@ elseif ( $_REQUEST["action"] == "searchedt" )
     $params.="&tp_jour=".$_REQUEST["tp_jour"]."&tp_heure=".$_REQUEST["tp_heure"];    
     $cond = 
       "AND jour_grp='".$_REQUEST["tp_jour"]."' ".
-      "AND TIME_FORMAT(heure_debut_grp,'%T')='".$_REQUEST["tp_heure"]."' ";
+      "AND TIME_FORMAT(heure_debut_grp,'%k')='".$_REQUEST["tp_heure"]."' ";
   }
   else
   {
@@ -226,11 +226,8 @@ elseif ( $_REQUEST["action"] == "searchedt" )
     $cond="";
   }  
   
-  //1- Recherche des groupes
   $req = new requete($site->db,"SELECT id_uv_groupe FROM edu_uv_groupe WHERE semestre_grp='".$semestre."' AND id_uv='".$uv->id."' AND type_grp='".$t."'  $cond");
-  
-  echo "SELECT id_uv_groupe FROM edu_uv_groupe WHERE semestre_grp='".$semestre."' AND id_uv='".$uv->id."' AND type_grp='".$t."'  $cond";
-  
+
   if ( $req->lines < 1 )
   {
     $cts->add_title(2,"Résultat : Aucun groupe n'a été trouvé");
@@ -336,17 +333,17 @@ $frm->add_hidden("action","searchedt");
 $frm->add_entity_smartselect ( "id_uv", "UV", $uv );
 
 $sfrm = new form("type",null,true,null,"Tous");
-$frm->add($sfrm,false,true, true , 1,false,true);
+$frm->add($sfrm,false,true, $type==1 , 1,false,true);
 
 $sfrm = new form("type",null,true,null,"TD");
 $sfrm->add_select_field("td_jour","Jour",$jours);
 $sfrm->add_select_field("td_heure","Heure (début)",$heures);
-$frm->add($sfrm,false,true, false , 2,false,true);
+$frm->add($sfrm,false,true, $type==2 , 2,false,true);
 
 $sfrm = new form("type",null,true,null,"TP");
 $sfrm->add_select_field("tp_jour","Jour",$jours);
 $sfrm->add_select_field("tp_heure","Heure (début)",$heures);
-$frm->add($sfrm,false,true, false , 3,false,true);
+$frm->add($sfrm,false,true, $type==3 , 3,false,true);
 
 $frm->add_submit("go","Rechercher");
 $cts->add($frm,true);
