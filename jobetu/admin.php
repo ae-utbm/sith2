@@ -121,21 +121,25 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 {
-  if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
+  if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces") //Suppression annonces
   {
     $header = new contents("Suppression d'annonces");
     if($_REQUEST['id_annonce']) $annonces[] = $_REQUEST['id_annonce'];
 	  if($_REQUEST['id_annonces'])
 	  	foreach($_REQUEST['id_annonces'] as $ann) $annonces[] = $ann;
-	  $lst = new itemlist("Vous vous appretez à supprimer les annnonces :", false, $annonces);
+	  $lst = new itemlist("Vous vous appretez à supprimer les annonces :", false, $annonces);
 	  $header->add($lst, true);
   }
-  else
+  else //Désactivation de comptes
   {
     $header = new contents("Désactivation comptes AE JobEtu");
-  	if($_REQUEST['id_utilisateur']) $users[] = $_REQUEST['id_utilisateur'];
-	  if($_REQUEST['id_utilisateurs'])
-	  	foreach($_REQUEST['id_utilisateurs'] as $people) $users[] = $people;
+  	if($_REQUEST['id_utilisateur'])
+  	  $sql = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur = '".$_REQUEST['id_utilisateur']."'");
+	  else if($_REQUEST['id_utilisateurs'])
+	  	$sql = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur IN('".implode('\', \'', $_REQUEST['id_utilisateurs'])."')");
+	  
+	  while( list($users[]) = $sql->get_row() );
+  	
   	$lst = new itemlist("Vous vous appretez à désactiver le compte JobEtu de :", false, $users);
 	  $header->add($lst, true);
   }
@@ -228,7 +232,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "clients")
 																	WHERE id_groupe = ".GRP_JOBETU_CLIENT."
 																	GROUP BY utilisateurs.id_utilisateur", false);
 	
-	$cts->add( new sqltable("list_clients", "Clients de AE JobEtu", $sql, "admin.php?view=clients", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array("mail" => "Envoyer un mail", "delete" => "Désactiver compte", "edit" => "Editer préférences"), array("mail" => "Envoyer un mail", "del_account" => "Désactiver compte")), true );
+	$cts->add( new sqltable("list_clients", "Clients de AE JobEtu", $sql, "admin.php?view=clients", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array("mail" => "Envoyer un mail", "delete" => "Désactiver compte", "edit" => "Editer préférences"), array("mail" => "Envoyer un mail", "delete" => "Désactiver compte")), true );
 }
 
 /***************************************************************
@@ -243,7 +247,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "etudiants")
 																	WHERE id_groupe = ".GRP_JOBETU_ETU."
 																	GROUP BY utilisateurs.id_utilisateur", false);
 	
-	$cts->add( new sqltable("list_clients", "Etudiants inscrits à AE JobEtu", $sql, "admin.php?view=etudiants", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array("mail" => "Envoyer un mail", "convention" => "Editer profil", "edit" => "Editer préférences", "delete" => "Désactiver le compte"), array("mail" => "Envoyer un mail", "del_account" => "Désactiver compte")), true );
+	$cts->add( new sqltable("list_clients", "Etudiants inscrits à AE JobEtu", $sql, "admin.php?view=etudiants", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array("mail" => "Envoyer un mail", "convention" => "Editer profil", "edit" => "Editer préférences", "delete" => "Désactiver le compte"), array("mail" => "Envoyer un mail", "delete" => "Désactiver compte")), true );
 }
 
 /***************************************************************
