@@ -310,6 +310,13 @@ EOF;
   	
   	return $val;
   }
+  
+  /**
+   *  Détruit une annonce et les candidatures associées a condition qu'il n'y ait pas eu d'étudiants sélectionnés
+   */
+  function destroy()
+  {
+  }
 
   /**
    * Ajoute une nouvelle annonce
