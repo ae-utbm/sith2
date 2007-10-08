@@ -128,7 +128,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     if( isset($_REQUEST['confirm']) ) //on passe a l'attaque
     {
       $id_annonces = unserialize($_REQUEST['ids']);
-        if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : __FILE__ \t __LINE__ ");
+      print_r($id_annonces);
+      
+       // if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : __FILE__ \t __LINE__ ");
       
       foreach($id_annonces as $tmp)
       {
@@ -170,7 +172,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     if( isset($_REQUEST['confirm']) ) //on passe a l'attaque
     {
       $id_utilisateurs = unserialize($_REQUEST['ids']);
-        if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : __FILE__ \t __LINE__ ");
+      print_r($id_annonces);
+     //   if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : __FILE__ \t __LINE__ ");
         
       foreach($id_utilisateurs as $tmp)
       {
