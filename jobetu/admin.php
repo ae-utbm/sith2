@@ -123,14 +123,23 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 {
   if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces") //Suppression annonces
   {
-    if($_REQUEST['confirm']) //on passe a l'attaque
+    $header = new contents("Suppression d'annonces");
+    
+    if( isset($_REQUEST['confirm']) ) //on passe a l'attaque
     {
+      $id_annonces = unserialize($_REQUEST['ids']);
+        if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : __FILE__ \t __LINE__ ");
       
+      foreach($id_annonces as $tmp)
+      {
+        $annonce = new annonce($site->db, $site->dbrw);
+        $annonce->load_by_id($tmp);
+       // $annonce->destroy();
+      }
+      $header->add(new itemlist(false, false, "Opération effectuée"));
     }
     else //on demande confirmation (boolay proofing)
     {
-  
-      $header = new contents("Suppression d'annonces");
       
       $header->add_paragraph("Merci de ne supprimer d'annonce que vous si vous êtes sûr de ce que vous faites. Seules les annonces pour lesquelles aucune sélection de candidat n'aura été faite pourront être supprimées, s'il y a des candidats, ceux-ci seront avertis de la suppression de l'offre (à condition qu'ils aient réglé l'envoi des mails sur `full`)");
       
@@ -158,7 +167,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
   {
     $header = new contents("Désactivation comptes AE JobEtu");
     
-    if($_REQUEST['confirm']) //on passe a l'attaque
+    if( isset($_REQUEST['confirm']) ) //on passe a l'attaque
     {
       $id_utilisateurs = unserialize($_REQUEST['ids']);
         if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : __FILE__ \t __LINE__ ");
@@ -166,7 +175,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
       foreach($id_utilisateurs as $tmp)
       {
         $usr = new utilisateur($site->db, $site->dbrw);
-        $usr->remove_from_group( ($_REQUEST['view'] == "client") ? GRP_JOBETU_CLIENT : GRP_JOBETU_ETU );
+        $usr->load_by_id($tmp);
+        $usr->remove_from_group( ($_REQUEST['view'] == "clients") ? GRP_JOBETU_CLIENT : GRP_JOBETU_ETU );
       }
       
       $header->add(new itemlist(false, false, "Opération effectuée"));
