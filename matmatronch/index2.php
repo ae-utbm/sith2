@@ -202,7 +202,7 @@ elseif ( $_REQUEST["action"] == "searchedt" )
   
   $uv->load_by_id($_REQUEST["id_uv"]);
   
-  $params="&id_uv=".$uv->id;
+  $params="&id_uv=".$uv->id."&type=".$_REQUEST["type"];
 
   if ( $_REQUEST["type"] == 2 )
   {
