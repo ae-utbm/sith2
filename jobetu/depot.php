@@ -110,6 +110,8 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 	$frm->add_checkbox("allow_diff", "Diffuser mon numéro de téléphone aux candidats afin qu'ils puissent me contacter", (bool)$annonce->allow_diff);
 	$frm->add_submit("go", "Sauvegarder mon annonce");
 	$frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" class=\"isubmit\" onClick=\"javascript: window.location.replace('board_client.php');\" value=\"Revenir au tableau de bord\" /></div></div>");
+	if($site->user->is_in_group("jobetu_admin"))
+	  $frm->puts("<div class=\"formrow\"><div class=\"formlabel error\">admin</div><div class=\"formfield\"><input type=\"button\" class=\"isubmit\" onClick=\"javascript: window.location.replace('admin.php?view=annonces');\" value=\"Revenir à l'administration\" /></div></div>");
 	$frm->add_info("Les champs marqués d'une astérisque (*) doivent être remplis.");
 	
 	$cts->add($frm, true);

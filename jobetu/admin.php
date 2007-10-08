@@ -56,6 +56,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "edit")  // edition pré
     header("Location: board_client.php?view=preferences&id_utilisateur=".$_REQUEST['id_utilisateur']);
   else if($_REQUEST['view'] == "etudiants")
     header("Location: board_etu.php?view=preferences&id_utilisateur=".$_REQUEST['id_utilisateur']);
+  else if($_REQUEST['view'] == "etudiants")
+    header("Location: depot.php?action=edit&id=".$_REQUEST['id_annonce']);
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "convention") // vieux truandage => convention = profil
