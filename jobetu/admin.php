@@ -138,9 +138,14 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 	  else if($_REQUEST['id_utilisateurs'])
 	  	$sql = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur IN('".implode('\', \'', $_REQUEST['id_utilisateurs'])."')");
 	  
-	  while( list($users[]) = $sql->get_row() );
+	  $lst = new itemlist("Vous vous appretez à désactiver le compte JobEtu de :");
+	  while( list($tmp) = $sql->get_row() );
+	    $lst->add($tmp, "ko");
   	
-  	$lst = new itemlist("Vous vous appretez à désactiver le compte JobEtu de :", false, $users);
+  	$frm = new form(false, "?confirm");
+  	$frm->add_submit(false, "Confirmer");
+  	$header->add($frm);
+  	
 	  $header->add($lst, true);
   }
 	$site->add_contents($header, true);
