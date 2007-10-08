@@ -303,7 +303,6 @@ elseif ( $_REQUEST["action"] == "searchedt" )
     }
   }
 }
-//TODO:implémenter la recherche par edt
 
 $frm = new form("mmtprofil","index2.php",true,"POST","Recherche par profil");
 $frm->add_hidden("action","search");
@@ -332,7 +331,7 @@ $frm = new form("mmtedt","index2.php",true,"POST","Recherche par emploi du temps
 $frm->add_hidden("action","searchedt");
 $frm->add_entity_smartselect ( "id_uv", "UV", $uv );
 
-$sfrm = new form("type",null,true,null,"Tous");
+$sfrm = new form("type",null,true,null,"Tous / Cours");
 $frm->add($sfrm,false,true, $type==1 , 1,false,true);
 
 $sfrm = new form("type",null,true,null,"TD");
