@@ -201,23 +201,23 @@ elseif ( $_REQUEST["action"] == "searchedt" )
 {
   $uv->load_by_id($_REQUEST["id_uv"]);
   
-  $params="&id_uv=".$uv->id."&type=".$_REQUEST["type"];
+  $params="&id_uv=".rawurlencode($uv->id)."&type=".rawurlencode($_REQUEST["type"]);
 
   if ( $_REQUEST["type"] == 2 )
   {
     $t = "TD";
-    $params.="&td_jour=".$_REQUEST["td_jour"]."&td_heure=".$_REQUEST["td_heure"];
+    $params.="&td_jour=".rawurlencode($_REQUEST["td_jour"])."&td_heure=".rawurlencode($_REQUEST["td_heure"]);
     $cond = 
-      "AND jour_grp='".$_REQUEST["td_jour"]."' ".
-      "AND TIME_FORMAT(heure_debut_grp,'%k')='".$_REQUEST["td_heure"]."' ";
+      "AND jour_grp='".mysql_escape_string($_REQUEST["td_jour"])."' ".
+      "AND TIME_FORMAT(heure_debut_grp,'%k')='".mysql_escape_string($_REQUEST["td_heure"])."' ";
   }
   elseif ( $_REQUEST["type"] == 3 )
   {
     $t = "TP";
-    $params.="&tp_jour=".$_REQUEST["tp_jour"]."&tp_heure=".$_REQUEST["tp_heure"];    
+    $params.="&tp_jour=".rawurlencode($_REQUEST["tp_jour"])."&tp_heure=".rawurlencode($_REQUEST["tp_heure"]);    
     $cond = 
-      "AND jour_grp='".$_REQUEST["tp_jour"]."' ".
-      "AND TIME_FORMAT(heure_debut_grp,'%k')='".$_REQUEST["tp_heure"]."' ";
+      "AND jour_grp='".mysql_escape_string($_REQUEST["tp_jour"])."' ".
+      "AND TIME_FORMAT(heure_debut_grp,'%k')='".mysql_escape_string($_REQUEST["tp_heure"])."' ";
   }
   else
   {
@@ -225,7 +225,7 @@ elseif ( $_REQUEST["action"] == "searchedt" )
     $cond="";
   }  
   
-  $req = new requete($site->db,"SELECT id_uv_groupe FROM edu_uv_groupe WHERE semestre_grp='".$semestre."' AND id_uv='".$uv->id."' AND type_grp='".$t."'  $cond");
+  $req = new requete($site->db,"SELECT id_uv_groupe FROM edu_uv_groupe WHERE semestre_grp='".$semestre."' AND id_uv='".mysql_escape_string($uv->id)."' AND type_grp='".$t."' $cond");
 
   if ( $req->lines < 1 )
   {
@@ -328,7 +328,7 @@ $req = new requete($site->db, "SELECT `semestre_grp`, `edu_uv_groupe_etudiant`.`
                             FROM `edu_uv_groupe` 
                             INNER JOIN `edu_uv_groupe_etudiant` 
                             USING(`id_uv_groupe`) 
-                            WHERE `id_utilisateur` = '".$user->id."' 
+                            WHERE `id_utilisateur` = '".$site->user->id."' 
                             AND `semestre_grp`= '".$semestre."'
                             GROUP BY `semestre_grp`, `id_utilisateur`");
 if ( $req->lines < 1 )
@@ -349,8 +349,8 @@ else
   
   $frm = new form("mmtedt","index2.php",true,"POST","Recherche par emploi du temps");
   $frm->add_hidden("action","searchedt");
-  $frm->add_entity_smartselect ( "id_uv", "UV", $uv );
   $frm->add_info("Remarque: Cet outil ne fonctionne que pour les personnes ayant renseigné leur emploi du temps sur le site.");
+  $frm->add_entity_smartselect ( "id_uv", "UV", $uv );
   $sfrm = new form("type",null,true,null,"Tous / Cours");
   $frm->add($sfrm,false,true, $type==1 , 1,false,true);
   
