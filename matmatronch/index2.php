@@ -32,6 +32,9 @@ $site->start_page("matmatronch","MatMaTronch");
 $cts = new contents("Recherche Mat'Matronch");
 $uv = new uv($site->db);
 
+$jours = array("Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche");
+$heures = array(8,9,10,11,13,14,15,16,17,18,19);
+
 if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
 {
   $elements = array();
@@ -214,11 +217,24 @@ $frm->add_checkbox("inclus_nutbm","Inclure les non-utbm",false);
 $frm->add_submit("go","Rechercher");
 $cts->add($frm,true);
 
+
+
 $frm = new form("mmtedt","index2.php",true,"POST","Recherche par emploi du temps");
-$frm->add_hidden("action","search");
+$frm->add_hidden("action","searchedt");
 $frm->add_entity_smartselect ( "id_uv", "UV", $uv );
 
+$sfrm = new form("type",null,null,null,"Tous");
+$frm->add($sfrm,false,true, true , 1,false,true);
 
+$sfrm = new form("type",null,null,null,"TD");
+$sfrm->add_select_field("td_jour","Jour",$jours);
+$sfrm->add_select_field("td_heure","Heure (début)",$heures);
+$frm->add($sfrm,false,true, true , 2,false,true);
+
+$sfrm = new form("type",null,null,null,"TP");
+$sfrm->add_select_field("tp_jour","Jour",$jours);
+$sfrm->add_select_field("tp_heure","Heure (début)",$heures);
+$frm->add($sfrm,false,true, true , 3,false,true);
 
 //TODO:le formulaire
 $frm->add_submit("go","Rechercher");
