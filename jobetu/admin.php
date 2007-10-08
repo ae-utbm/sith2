@@ -134,11 +134,14 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
   
     $lst = new itemlist("Vous vous appretez à supprimer les annonces :");
     while($row = $sql->get_row())
+    {
       $lst->add("N°".$row['id_annonce']." : \"".$row['titre']."\"", "ko");
+      $ids[] = $row['id_annonce'];
+    }
     $header->add($lst, true);
      	
-    $frm = new form(false, "?".$_REQUEST['action']."&".$_REQUEST['view']."&confirm");
-  	$frm->add_hidden("ids", $_REQUEST['id_annonces']);
+    $frm = new form(false, "?action=".$_REQUEST['action']."&view=".$_REQUEST['view']."&confirm");
+  	$frm->add_hidden("ids", serialize($ids) );
   	$frm->add_submit(false, "Confirmer");
   	
   	$header->add($frm);
@@ -148,18 +151,21 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     $header = new contents("Désactivation comptes AE JobEtu");
     
   	if($_REQUEST['id_utilisateur'])
-  	  $sql = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur = '".$_REQUEST['id_utilisateur']."'");
+  	  $sql = new requete($site->db, "SELECT id_utilisateur, CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur = '".$_REQUEST['id_utilisateur']."'");
 	  else if($_REQUEST['id_utilisateurs'])
-	  	$sql = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur IN('".implode('\', \'', $_REQUEST['id_utilisateurs'])."')");
+	  	$sql = new requete($site->db, "SELECT id_utilisateur, CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur IN('".implode('\', \'', $_REQUEST['id_utilisateurs'])."')");
 	  
 	  $lst = new itemlist("Vous vous appretez à désactiver le compte JobEtu de :");
-	  while( $tmp = $sql->get_row() )
-	    $lst->add($tmp[0], "ko");
+	  while( $row = $sql->get_row() )
+	  {
+	    $lst->add($row['nom_utilisateur'], "ko");
+	    $ids[] = $row['id_utilisateur'];
+	  }
 	    
   	$header->add($lst, true);
   	
-  	$frm = new form(false, "?".$_REQUEST['action']."&".$_REQUEST['view']."&confirm");
-  	$frm->add_hidden("ids", $_REQUEST['id_utilisateurs']);
+  	$frm = new form(false, "?action=".$_REQUEST['action']."&view=".$_REQUEST['view']."&confirm");
+  	$frm->add_hidden("ids", serialize($ids) );
   	$frm->add_submit(false, "Confirmer");
   	
   	$header->add($frm);
