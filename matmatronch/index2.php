@@ -229,12 +229,12 @@ $frm->add($sfrm,false,true, true , 1,false,true);
 $sfrm = new form("type",null,null,null,"TD");
 $sfrm->add_select_field("td_jour","Jour",$jours);
 $sfrm->add_select_field("td_heure","Heure (début)",$heures);
-$frm->add($sfrm,false,true, true , 2,false,true);
+$frm->add($sfrm,false,true, false , 2,false,true);
 
 $sfrm = new form("type",null,null,null,"TP");
 $sfrm->add_select_field("tp_jour","Jour",$jours);
 $sfrm->add_select_field("tp_heure","Heure (début)",$heures);
-$frm->add($sfrm,false,true, true , 3,false,true);
+$frm->add($sfrm,false,true, false , 3,false,true);
 
 //TODO:le formulaire
 $frm->add_submit("go","Rechercher");
