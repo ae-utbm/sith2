@@ -196,7 +196,113 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
     }
   }
 }
+elseif ( $_REQUEST["action"] == "searchedt" )
+{
+  $semestre = (date("m") > 6 ? "A" : "P") . date("y");
+  
+  $uv->load_by_id($_REQUEST["id_uv"]);
+  
+  $params="&id_uv=".$uv->id;
 
+  if ( $_REQUEST["type"] == 2 )
+  {
+    $t = "TD";
+    $params.="&td_jour=".$_REQUEST["td_jour"]."&td_heure=".$_REQUEST["td_heure"];
+    $cond = 
+      "AND jour_grp='".$_REQUEST["td_jour"]."' ".
+      "AND TIME_FORMAT(heure_debut_grp,'%T')='".$_REQUEST["td_heure"]."' ";
+  }
+  elseif ( $_REQUEST["type"] == 2 )
+  {
+    $t = "TP";
+    $params.="&tp_jour=".$_REQUEST["tp_jour"]."&tp_heure=".$_REQUEST["tp_heure"];    
+    $cond = 
+      "AND jour_grp='".$_REQUEST["tp_jour"]."' ".
+      "AND TIME_FORMAT(heure_debut_grp,'%T')='".$_REQUEST["tp_heure"]."' ";
+  }
+  else
+  {
+    $t = "C";
+    $cond="";
+  }  
+  
+  //1- Recherche des groupes
+  $req = new requete($site->db,"SELECT id_uv_groupe FROM edu_uv_groupe WHERE semestre_grp='".$semestre."' AND id_uv='".$uv->id."' AND type_grp='".$t."'  $cond");
+  
+  if ( $req->lines < 1 )
+  {
+    $cts->add_title(2,"Résultat : Aucun groupe n'a été trouvé");
+    $cts->add_paragraph("Aucun groupe n'a été trouvé ($semestre).");
+  }
+  else
+  {
+    $groupes=array();
+    while(list($id)=$req->get_row()) $groupes[]=$id;
+    
+    $req = new requete($site->db,"SELECT COUNT(`utilisateurs`.`id_utilisateur`) " .
+        "FROM `edu_uv_groupe_etudiant` " .
+        "INNER JOIN `utilisateurs` USING(id_utilisateur) " .
+        "LEFT JOIN `utl_etu` ON `utl_etu`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
+        "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
+        "WHERE id_uv_groupe IN (".implode(",",$groupes).")");
+        
+    list($count) = $req->get_row();
+    
+    $cts->add_title(2,"Résultat : $count personne(s)");
+
+    if ( $count == 0 )
+      $cts->add_paragraph("Aucune personne ne correspond aux critères.");
+      
+    elseif ( $count > 350 )
+      $cts->add_paragraph("Votre recherche est trop imprécise, il y a plus de 350 personnes correspondantes.");
+      
+    else
+    {
+      $npp=24;
+      $page = intval($_REQUEST["page"]);
+      
+      if ( $page)
+        $st=$page*$npp;
+      else
+        $st=0;
+        
+      if ( $st > $count )
+        $st = floor($count/$npp)*$npp;   
+        
+      $req = new requete($site->db,"FROM `edu_uv_groupe_etudiant` " .
+        "INNER JOIN `utilisateurs` USING(id_utilisateur) " .
+        "LEFT JOIN `utl_etu` ON `utl_etu`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
+        "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
+        "WHERE id_uv_groupe IN (".implode(",",$groupes).") ORDER BY `nom_utl`,`prenom_utl` LIMIT $st,$npp");
+      
+      $user = new utilisateur($site->db);
+        
+      $gal = new gallery();
+      
+      while ( $row = $req->get_row() )
+      {
+        $user->_load_all($row);
+        $gal->add_item(new userinfov2($user));
+      }
+      
+      $cts->add($gal);
+      
+      if ( $count > $npp )
+      {
+        $tabs = array();
+        $i=0;
+        $n=0;
+        while ( $i < $count )
+        {
+          $tabs[]=array($n,"matmatronch/index2.php?action=searchedt&page=".$n.$params,$n+1 );
+          $i+=$npp;
+          $n++;  
+        }
+        $cts->add(new tabshead($tabs, $page, "_bottom"));
+      } 
+    }
+  }
+}
 //TODO:implémenter la recherche par edt
 
 $frm = new form("mmtprofil","index2.php",true,"POST","Recherche par profil");
@@ -236,7 +342,6 @@ $sfrm->add_select_field("tp_jour","Jour",$jours);
 $sfrm->add_select_field("tp_heure","Heure (début)",$heures);
 $frm->add($sfrm,false,true, false , 3,false,true);
 
-//TODO:le formulaire
 $frm->add_submit("go","Rechercher");
 $cts->add($frm,true);
 
