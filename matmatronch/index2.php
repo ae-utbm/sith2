@@ -318,21 +318,6 @@ $frm->add_checkbox("inclus_ancien","Inclure les anciens",false);
 $frm->add_checkbox("inclus_nutbm","Inclure les non-utbm",false);
 //TODO:améliorer la présentation
 //TODO:recherche par ville/dep/region/pays d'origine ?
-  
-$origine=1;
-if ( isset($_REQUEST["origine"]) && $_REQUEST["origine"] > 0 )
-  $origine=intval($_REQUEST["origine"]);
-  
-$sfrm = new form(null,null,true,null,"Origine");
-$ssfrm = new form("origine",null,true,null,"Toutes");
-$sfrm->add($ssfrm,false,true,$origine==1,1,false,true);
-$ssfrm = new form("origine",null,true,null,"Ville");
-$sfrm->add($ssfrm,false,true,$origine==2,2,false,true);
-$ssfrm = new form("origine",null,true,null,"Departement");
-$sfrm->add($ssfrm,false,true,$origine==3,3,false,true);
-$ssfrm = new form("origine",null,true,null,"Pays");
-$sfrm->add($ssfrm,false,true,$origine==4,4,false,true);
-$frm->add($sfrm, false, false, false, false, true );
 
 $frm->add_submit("go","Rechercher");
 if ( isset($_REQUEST["action"]) && (isset($_REQUEST["numtel"]) || isset($_REQUEST["pattern"])) )
