@@ -124,11 +124,24 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
   if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces") //Suppression annonces
   {
     $header = new contents("Suppression d'annonces");
-    if($_REQUEST['id_annonce']) $annonces[] = $_REQUEST['id_annonce'];
-	  if($_REQUEST['id_annonces'])
-	  	foreach($_REQUEST['id_annonces'] as $ann) $annonces[] = $ann;
-	  $lst = new itemlist("Vous vous appretez à supprimer les annonces :", false, $annonces);
-	  $header->add($lst, true);
+    
+    $header->add_paragraph("Merci de ne supprimer d'annonce que vous si vous êtes sûr de ce que vous faites. Seules les annonces pour lesquelles aucune sélection de candidat n'aura été faite pourront être supprimées, s'il y a des candidats, ceux-ci seront avertis de la suppression de l'offre (à condition qu'ils aient réglé l'envoi des mails sur `full`)");
+    
+    if($_REQUEST['id_annonce'])
+  	  $sql = new requete($site->db, "SELECT id_annonce, titre FROM job_annonces WHERE id_annonce = '".$_REQUEST['id_annonce']."'");
+	  else if($_REQUEST['id_annonces'])
+	  	$sql = new requete($site->db, "SELECT id_annonce, titre FROM utilisateurs WHERE id_annonce IN('".implode('\', \'', $_REQUEST['id_annonces'])."')");
+  
+    $lst = new itemlist("Vous vous appretez à supprimer les annonces :");
+    while($row = sql->get_row())
+      $lst->add("N°".$row['id_annonce']." : \"".$row['titre']."\"", "ko");
+    $header->add($lst, true);
+     	
+    $frm = new form(false, "?".$_REQUEST['action']."&".$_REQUEST['view']".&confirm");
+  	$frm->add_hidden("ids", $_REQUEST['id_annonces']);
+  	$frm->add_submit(false, "Confirmer");
+  	
+  	$header->add($frm);
   }
   else //Désactivation de comptes
   {
@@ -145,7 +158,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 	    
   	$header->add($lst, true);
   	
-  	$frm = new form(false, "?."$_REQUEST['action']."&".$_REQUEST['view']".&confirm");
+  	$frm = new form(false, "?".$_REQUEST['action']."&".$_REQUEST['view']".&confirm");
   	$frm->add_hidden("ids", $_REQUEST['id_utilisateurs']);
   	$frm->add_submit(false, "Confirmer");
   	
