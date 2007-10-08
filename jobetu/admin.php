@@ -139,7 +139,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
   	$lst = new itemlist("Vous vous appretez à désactiver le compte JobEtu de :", false, $users);
 	  $header->add($lst, true);
   }
-	$site->add($header, true);
+	$site->add_contents($header, true);
 } 
 
 /***************************************************************
