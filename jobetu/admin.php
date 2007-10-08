@@ -60,6 +60,25 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "edit")  // edition pré
     header("Location: depot.php?action=edit&id=".$_REQUEST['id_annonce']);
 }
 
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == "edit")
+{
+  $header = new contents("Détails des annonces");
+  
+		if(isset($_REQUEST['id_annonce']))
+			$ids[] = $_REQUEST['id_annonce'];
+		if(isset($_REQUEST['id_annonces']))
+			foreach ($_REQUEST['id_annonces'] as $id)
+				$ids[] = $id;
+  
+		foreach ($ids as $id_annonce)
+		{
+			$annonce = new annonce($site->db);
+			$annonce->load_by_id($id_annonce);
+			$header->add( new apply_annonce_box($annonce) );
+		}
+  $cts->add($header);
+}
+
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "convention") // vieux truandage => convention = profil
 {
   header("Location: board_etu.php?view=profil&id_utilisateur=".$_REQUEST['id_utilisateur']);
@@ -128,8 +147,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     if( isset($_REQUEST['confirm']) ) //on passe a l'attaque
     {
       $id_annonces = explode("|", $_REQUEST['ids']);
-      
-       // if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : __FILE__ \t __LINE__ ");
+      if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : ".__FILE__." \t ".__LINE__);
       
       foreach($id_annonces as $tmp)
       {
@@ -137,7 +155,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
         $annonce->load_by_id($tmp);
        // $annonce->destroy();
       }
-      $header->add(new itemlist(false, false, "Opération effectuée"));
+      $header->add(new itemlist(false, false, array("Opération effectuée")));
     }
     else //on demande confirmation (boolay proofing)
     {
@@ -171,9 +189,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     if( isset($_REQUEST['confirm']) ) //on passe a l'attaque
     {
       $id_utilisateurs = explode("|", $_REQUEST['ids']);
-      print_r($_REQUEST['ids']);
-      print_r($id_utilisateurs);
-     //   if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : __FILE__ \t __LINE__ ");
+      if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : ".__FILE__." \t ".__LINE__);
         
       foreach($id_utilisateurs as $tmp)
       {
@@ -182,7 +198,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
         $usr->remove_from_group( ($_REQUEST['view'] == "clients") ? GRP_JOBETU_CLIENT : GRP_JOBETU_ETU );
       }
       
-      $header->add(new itemlist(false, false, "Opération effectuée"));
+      $header->add(new itemlist(false, false, array("Opération effectuée")));
         
     }
     else //on demande confirmation (boolay proofing)

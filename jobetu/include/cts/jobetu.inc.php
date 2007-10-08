@@ -85,7 +85,7 @@
 						
 						$this->buffer .= $lst->html_render();
 						
-						if( !$annonce->is_closed() && !$annonce->is_provided() && !$annonce->is_applicant($usr->id) )
+						if( !$annonce->is_closed() && !$annonce->is_provided() && !$annonce->is_applicant($usr->id) && !(basename($_SERVER['PHP_SELF']) == "admin.php") )
 						{
 	  					$frm = new form("apply_".$annonce->id."", false, true, "POST");
 		  					$frm->add_submit("clic", "Se porter candidat");
