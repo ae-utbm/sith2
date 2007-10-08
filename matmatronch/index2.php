@@ -212,7 +212,7 @@ elseif ( $_REQUEST["action"] == "searchedt" )
       "AND jour_grp='".$_REQUEST["td_jour"]."' ".
       "AND TIME_FORMAT(heure_debut_grp,'%T')='".$_REQUEST["td_heure"]."' ";
   }
-  elseif ( $_REQUEST["type"] == 2 )
+  elseif ( $_REQUEST["type"] == 3 )
   {
     $t = "TP";
     $params.="&tp_jour=".$_REQUEST["tp_jour"]."&tp_heure=".$_REQUEST["tp_heure"];    
@@ -327,6 +327,9 @@ $frm->add_submit("go","Rechercher");
 $cts->add($frm,true);
 
 
+$type == 1;
+if ( $_REQUEST["action"] == "searchedt" && $_REQUEST["type"] > 0 )
+  $type = intval($_REQUEST["type"]);
 
 $frm = new form("mmtedt","index2.php",true,"POST","Recherche par emploi du temps");
 $frm->add_hidden("action","searchedt");
