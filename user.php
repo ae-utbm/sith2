@@ -376,12 +376,9 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit )
   if ( is_uploaded_file($_FILES['idtfile']['tmp_name'])  )
   {
     $src = $_FILES['idtfile']['tmp_name'];
-    //    if(file_exists($dest_idt) && ($site->user->is_asso_role ( 27, 1 ) || $site->user->is_in_group("gestion_ae")) )
-    
-    // TODO : (pedrov) j'ai peut etre tort, mais ca risque de merder
-    // si les utilisateurs n'ont pas encore de photo d'identité
-
-    if (($site->user->is_asso_role ( 27, 1 )) || ($site->user->is_in_group("gestion_ae")))
+    if ( !file_exists($dest_idt) || // S'il n'y a pas de photo
+         ($site->user->is_asso_role ( 27, 1 )) || // ou MMT
+         ($site->user->is_in_group("gestion_ae"))) // ou gestion_ae
     {
       exec("/usr/share/php5/exec/convert $src -thumbnail 225x300 $dest_idt");
     }
