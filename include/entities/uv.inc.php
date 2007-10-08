@@ -312,6 +312,13 @@ class uv extends stdentity
       }
     return;
   }
+  
+  function prefer_list()
+  {
+    return true;  
+  }
+  
+  
 }
 
 

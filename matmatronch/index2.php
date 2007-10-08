@@ -6,6 +6,7 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir. "include/cts/gallery.inc.php");
 require_once($topdir. "include/cts/special.inc.php");
+require_once($topdir. "include/entities/uv.inc.php");
 
 $site = new site ();
 
@@ -29,7 +30,7 @@ $is_admin = ( $site->user->is_in_group("gestion_ae") || $site->user->is_asso_rol
 $site->add_css("css/mmt.css");
 $site->start_page("matmatronch","MatMaTronch");
 $cts = new contents("Recherche Mat'Matronch");
-
+$uv = new uv($site->db);
 
 if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
 {
@@ -215,6 +216,10 @@ $cts->add($frm,true);
 
 $frm = new form("mmtedt","index2.php",true,"POST","Recherche par emploi du temps");
 $frm->add_hidden("action","search");
+$frm->add_entity_smartselect ( "id_uv", "UV", $uv );
+
+
+
 //TODO:le formulaire
 $frm->add_submit("go","Rechercher");
 $cts->add($frm,true);
