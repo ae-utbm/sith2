@@ -179,8 +179,8 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
       
       $cts->add($gal);
       
-      if ( $count > $npp )
-      {
+      //if ( $count > $npp )
+      //{
         $tabs = array();
         $i=0;
         $n=0;
@@ -191,7 +191,7 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
           $n++;  
         }
         $cts->add(new tabshead($tabs, $page, "_bottom"));
-      } 
+      //} 
       
     }
   }
@@ -287,8 +287,8 @@ elseif ( $_REQUEST["action"] == "searchedt" )
       
       $cts->add($gal);
       
-      if ( $count > $npp )
-      {
+      //if ( $count > $npp )
+      //{
         $tabs = array();
         $i=0;
         $n=0;
@@ -299,7 +299,7 @@ elseif ( $_REQUEST["action"] == "searchedt" )
           $n++;  
         }
         $cts->add(new tabshead($tabs, $page, "_bottom"));
-      } 
+      //} 
     }
   }
 }
