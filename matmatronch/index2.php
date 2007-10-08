@@ -229,6 +229,8 @@ elseif ( $_REQUEST["action"] == "searchedt" )
   //1- Recherche des groupes
   $req = new requete($site->db,"SELECT id_uv_groupe FROM edu_uv_groupe WHERE semestre_grp='".$semestre."' AND id_uv='".$uv->id."' AND type_grp='".$t."'  $cond");
   
+  echo "SELECT id_uv_groupe FROM edu_uv_groupe WHERE semestre_grp='".$semestre."' AND id_uv='".$uv->id."' AND type_grp='".$t."'  $cond";
+  
   if ( $req->lines < 1 )
   {
     $cts->add_title(2,"Résultat : Aucun groupe n'a été trouvé");
