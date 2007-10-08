@@ -336,13 +336,13 @@ $sfrm = new form("type",null,true,null,"Tous");
 $frm->add($sfrm,false,true, $type==1 , 1,false,true);
 
 $sfrm = new form("type",null,true,null,"TD");
-$sfrm->add_select_field("td_jour","Jour",$jours);
-$sfrm->add_select_field("td_heure","Heure (début)",$heures);
+$sfrm->add_select_field("td_jour","Jour",$jours,$_REQUEST["td_jour"]);
+$sfrm->add_select_field("td_heure","Heure (début)",$heures,$_REQUEST["td_heure"]);
 $frm->add($sfrm,false,true, $type==2 , 2,false,true);
 
 $sfrm = new form("type",null,true,null,"TP");
-$sfrm->add_select_field("tp_jour","Jour",$jours);
-$sfrm->add_select_field("tp_heure","Heure (début)",$heures);
+$sfrm->add_select_field("tp_jour","Jour",$jours,$_REQUEST["tp_jour"]);
+$sfrm->add_select_field("tp_heure","Heure (début)",$heures,$_REQUEST["tp_heure"]);
 $frm->add($sfrm,false,true, $type==3 , 3,false,true);
 
 $frm->add_submit("go","Rechercher");
