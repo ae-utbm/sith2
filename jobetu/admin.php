@@ -133,18 +133,20 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
   else //Désactivation de comptes
   {
     $header = new contents("Désactivation comptes AE JobEtu");
+    
   	if($_REQUEST['id_utilisateur'])
   	  $sql = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur = '".$_REQUEST['id_utilisateur']."'");
 	  else if($_REQUEST['id_utilisateurs'])
 	  	$sql = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur IN('".implode('\', \'', $_REQUEST['id_utilisateurs'])."')");
 	  
 	  $lst = new itemlist("Vous vous appretez à désactiver le compte JobEtu de :");
-	  while( list($tmp) = $sql->get_row() );
-	    $lst->add($tmp, "ko");
+	  while( $tmp = $sql->get_row() )
+	    $lst->add($tmp[0], "ko");
   	
   	$frm = new form(false, "?confirm");
   	$frm->add_submit(false, "Confirmer");
-  	$header->add($frm);
+  	
+  	$header->add($frm, true);
   	
 	  $header->add($lst, true);
   }
