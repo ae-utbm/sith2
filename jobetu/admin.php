@@ -26,6 +26,7 @@ $topdir = "../";
 require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
 require_once("include/jobetu.inc.php");
+require_once("include/annonce.inc.php");
 
 define("GRP_JOBETU_CLIENT", 35);
 define("GRP_JOBETU_ETU", 36);
