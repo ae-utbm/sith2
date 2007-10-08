@@ -376,7 +376,7 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit )
   if ( is_uploaded_file($_FILES['idtfile']['tmp_name'])  )
   {
     $src = $_FILES['idtfile']['tmp_name'];
-    if ( !file_exists($dest_idt) || // S'il n'y a pas de photo
+    if ( !file_exists($dest_idt) ||  // S'il n'y a pas de photo
          ($site->user->is_asso_role ( 27, 1 )) || // ou MMT
          ($site->user->is_in_group("gestion_ae"))) // ou gestion_ae
     {
