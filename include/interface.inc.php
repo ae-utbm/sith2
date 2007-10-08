@@ -235,16 +235,15 @@ class interfaceweb
       echo "</div>\n";
       
       echo "</div>\n";
-      if ( $this->user->ae )
-      {
-        echo "<div id=\"fsearchbox\">\n";
-        echo "<form action=\"".$wwwtopdir."fsearch.php\" method=\"POST\">";
-        echo "<input type=\"text\" id=\"fsearchpattern\" name=\"pattern\" onblur=\"fsearch_stop_delayed();\" onkeyup=\"fsearch_keyup(event,'$wwwtopdir');\" value=\"\" />\n";
-        echo "</form>";
-        echo "<div class=\"fend\"></div></div>\n";
       
-        echo "<div id=\"fsearchres\"></div>\n";
-      }  
+      echo "<div id=\"fsearchbox\">\n";
+      echo "<form action=\"".$wwwtopdir."fsearch.php\" method=\"POST\">";
+      echo "<input type=\"text\" id=\"fsearchpattern\" name=\"pattern\" onblur=\"fsearch_stop_delayed();\" onkeyup=\"fsearch_keyup(event,'$wwwtopdir');\" value=\"\" />\n";
+      echo "</form>";
+      echo "<div class=\"fend\"></div></div>\n";
+    
+      echo "<div id=\"fsearchres\"></div>\n";
+      
       echo "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/Ae.jpg\" height=\"60\" width=\"218\" alt=\"Logo AE\"/></a></div>";          
 
     }
