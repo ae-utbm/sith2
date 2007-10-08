@@ -16,7 +16,7 @@ if ( !$site->user->ae )
 {
   $site->start_page("matmatronch","MatMaTronch");
   $cts = new contents("Accès limité");
-  $cts->add_paragraph("L'accès à la recherche avancée du matmatronch est réservée aux cotisants AE. Vous pouvez tout de même utiliser le moteur de recherche rapide se trouvant en haut à gauche de la page.");
+  $cts->add_paragraph("L'accès à la recherche avancée du matmatronch est réservée aux cotisants AE.");
   $site->add_contents($cts);
   $site->end_page(); 
   exit();
@@ -27,6 +27,15 @@ $GLOBALS["utbm_departements"][""]="Tous";
 $semestre = (date("m") > 6 ? "A" : "P") . date("y");
 
 $is_admin = ( $site->user->is_in_group("gestion_ae") || $site->user->is_asso_role ( 27, 1 ));
+
+$info = new contents("Mat'Matronch");
+$info->add_paragraph("Le Mat'Matronch donne enfin un nom a un visage, le numero de portable du binome fantome, l'adresse de ce confrere que l'on recherche tant depuis cette fameuse soiree ...");
+$info->add_paragraph("<a href=\"".$topdir."e-boutic/?id_typeprod=25\">Acheter la version papier</a>");
+$info->add_paragraph("Extension Firefox : <a href=\"".$topdir."matmatronch/matmatronch.src\">ici</a>");
+$info->add_paragraph("La version mobile : <a href=\"http://ae.utbm.fr/i/\">http://ae.utbm.fr/i/</a> <a href=\"".$topdir."iinfo.php\">Informations</a>","center");
+$site->add_box("mmtinfo",$info);
+
+$site->set_side_boxes("right",array("mmtinfo"),"mmt2_right");
 
 $site->add_css("css/mmt.css");
 $site->start_page("matmatronch","MatMaTronch");
