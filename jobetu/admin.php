@@ -121,12 +121,24 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 {
-	$header = new contents("Désactivation comptes AE JobEtu");
-	if($_REQUEST['id_utilisateur']) $users[] = $_REQUEST['id_utilisateur'];
-	if($_REQUEST['id_utilisateurs'])
-		foreach($_REQUEST['id_utilisateurs'] as $people) $users[] = $people;
-	$lst = new itemlist("Vous vous appretez à désactiver le compte JobEtu de :", false, $users);
-	$header->add($lst, true);
+  if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
+  {
+    $header = new contents("Suppression d'annonces");
+    if($_REQUEST['id_annonce']) $annonces[] = $_REQUEST['id_annonce'];
+	  if($_REQUEST['id_annonces'])
+	  	foreach($_REQUEST['id_annonces'] as $ann) $annonces[] = $ann;
+	  $lst = new itemlist("Vous vous appretez à supprimer les annnonces :", false, $annonces);
+	  $header->add($lst, true);
+  }
+  else
+  {
+    $header = new contents("Désactivation comptes AE JobEtu");
+  	if($_REQUEST['id_utilisateur']) $users[] = $_REQUEST['id_utilisateur'];
+	  if($_REQUEST['id_utilisateurs'])
+	  	foreach($_REQUEST['id_utilisateurs'] as $people) $users[] = $people;
+  	$lst = new itemlist("Vous vous appretez à désactiver le compte JobEtu de :", false, $users);
+	  $header->add($lst, true);
+  }
 	$site->add($header, true);
 } 
 
