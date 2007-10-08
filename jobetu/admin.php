@@ -78,7 +78,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "info")
 			$annonce->load_by_id($id_annonce);
 			$header->add( new apply_annonce_box($annonce) );
 		}
-  $cts->add_contents($header);
+  $site->add_contents($header);
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "convention") // vieux truandage => convention = profil
