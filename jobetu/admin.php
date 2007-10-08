@@ -158,7 +158,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
       $header->add($lst, true);
        	
       $frm = new form(false, "?action=".$_REQUEST['action']."&view=".$_REQUEST['view']."&confirm");
-    	$frm->add_hidden("ids", serialize($ids) );
+    	$frm->add_hidden("ids", addslashes(serialize($ids)) );
     	$frm->add_submit(false, "Confirmer");
   	
     	$header->add($frm);
@@ -205,7 +205,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     	$header->add($lst, true);
     	
     	$frm = new form(false, "?action=".$_REQUEST['action']."&view=".$_REQUEST['view']."&confirm");
-    	$frm->add_hidden("ids", serialize($ids) );
+    	$frm->add_hidden("ids", addslashes(serialize($ids)) );
     	$frm->add_submit(false, "Confirmer");
     	
     	$header->add($frm);
