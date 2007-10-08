@@ -335,7 +335,7 @@ if ( $req->lines < 1 )
 {
   $cts->add_title(2,"Recherche par emploi du temps");
   
-  $cts->add_paragraph("Pour pouvoir utiliser la recherche par exmploi du temps, vous devez avoir rensigné votre emploi du temps sur le site.","error");
+  $cts->add_paragraph("Pour pouvoir utiliser la recherche par emploi du temps, vous devez avoir renseigné votre emploi du temps sur le site.","error");
   $cts->add_paragraph("Créez votre emploi du temps, pour en obtenir une version graphique, pour permettre à vos binomes de vous retrouver plus facilement, et pour trouver en tout simplicité des horraires pour vos réunions.");
   $cts->add_paragraph("<a href=\"../uvs/create.php\">Ajouter votre emploi du temps</a>");
 }
