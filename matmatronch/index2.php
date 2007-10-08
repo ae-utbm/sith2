@@ -24,6 +24,7 @@ if ( !$site->user->ae )
 
 $GLOBALS["utbm_roles"][""]="Tous";
 $GLOBALS["utbm_departements"][""]="Tous";
+$semestre = (date("m") > 6 ? "A" : "P") . date("y");
 
 $is_admin = ( $site->user->is_in_group("gestion_ae") || $site->user->is_asso_role ( 27, 1 ));
 
@@ -198,8 +199,6 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
 }
 elseif ( $_REQUEST["action"] == "searchedt" )
 {
-  $semestre = (date("m") > 6 ? "A" : "P") . date("y");
-  
   $uv->load_by_id($_REQUEST["id_uv"]);
   
   $params="&id_uv=".$uv->id."&type=".$_REQUEST["type"];
@@ -323,29 +322,51 @@ $frm->add_submit("go","Rechercher");
 $cts->add($frm,true);
 
 
-$type == 1;
-if ( $_REQUEST["action"] == "searchedt" && $_REQUEST["type"] > 0 )
-  $type = intval($_REQUEST["type"]);
+$semestre = (date("m") > 6 ? "A" : "P") . date("y");
 
-$frm = new form("mmtedt","index2.php",true,"POST","Recherche par emploi du temps");
-$frm->add_hidden("action","searchedt");
-$frm->add_entity_smartselect ( "id_uv", "UV", $uv );
+$req = new requete($site->db, "SELECT `semestre_grp`, `edu_uv_groupe_etudiant`.`id_utilisateur` 
+                            FROM `edu_uv_groupe` 
+                            INNER JOIN `edu_uv_groupe_etudiant` 
+                            USING(`id_uv_groupe`) 
+                            WHERE `id_utilisateur` = '".$user->id."' 
+                            AND `semestre_grp`= '".$semestre."'
+                            GROUP BY `semestre_grp`, `id_utilisateur`");
+if ( $req->lines < 1 )
+{
+  $cts->add_title(2,"Recherche par emploi du temps");
+  
+  $cts->add_paragraph("Pour pouvoir utiliser la recherche par exmploi du temps, vous devez avoir rensigné votre emploi du temps sur le site.","error");
+  $cts->add_paragraph("Créez votre emploi du temps, pour en obtenir une version graphique, pour permettre à vos binomes de vous retrouver plus facilement, et pour trouver en tout simplicité des horraires pour vos réunions.");
+  $cts->add_paragraph("<a href=\"../uvs/create.php\">Ajouter votre emploi du temps</a>");
+}
+else
+{
 
-$sfrm = new form("type",null,true,null,"Tous / Cours");
-$frm->add($sfrm,false,true, $type==1 , 1,false,true);
 
-$sfrm = new form("type",null,true,null,"TD");
-$sfrm->add_select_field("td_jour","Jour",$jours,$_REQUEST["td_jour"]);
-$sfrm->add_select_field("td_heure","Heure (début)",$heures,$_REQUEST["td_heure"]);
-$frm->add($sfrm,false,true, $type==2 , 2,false,true);
-
-$sfrm = new form("type",null,true,null,"TP");
-$sfrm->add_select_field("tp_jour","Jour",$jours,$_REQUEST["tp_jour"]);
-$sfrm->add_select_field("tp_heure","Heure (début)",$heures,$_REQUEST["tp_heure"]);
-$frm->add($sfrm,false,true, $type==3 , 3,false,true);
-
-$frm->add_submit("go","Rechercher");
-$cts->add($frm,true);
+  $type == 1;
+  if ( $_REQUEST["action"] == "searchedt" && $_REQUEST["type"] > 0 )
+    $type = intval($_REQUEST["type"]);
+  
+  $frm = new form("mmtedt","index2.php",true,"POST","Recherche par emploi du temps");
+  $frm->add_hidden("action","searchedt");
+  $frm->add_entity_smartselect ( "id_uv", "UV", $uv );
+  $frm->add_info("Remarque: Cet outil ne fonctionne que pour les personnes ayant renseigné leur emploi du temps sur le site.");
+  $sfrm = new form("type",null,true,null,"Tous / Cours");
+  $frm->add($sfrm,false,true, $type==1 , 1,false,true);
+  
+  $sfrm = new form("type",null,true,null,"TD");
+  $sfrm->add_select_field("td_jour","Jour",$jours,$_REQUEST["td_jour"]);
+  $sfrm->add_select_field("td_heure","Heure (début)",$heures,$_REQUEST["td_heure"]);
+  $frm->add($sfrm,false,true, $type==2 , 2,false,true);
+  
+  $sfrm = new form("type",null,true,null,"TP");
+  $sfrm->add_select_field("tp_jour","Jour",$jours,$_REQUEST["tp_jour"]);
+  $sfrm->add_select_field("tp_heure","Heure (début)",$heures,$_REQUEST["tp_heure"]);
+  $frm->add($sfrm,false,true, $type==3 , 3,false,true);
+  
+  $frm->add_submit("go","Rechercher");
+  $cts->add($frm,true);
+}
 
 $frm = new form("mmtinv","index2.php",true,"POST","Recherche inversée");
 $frm->add_hidden("action","search");
