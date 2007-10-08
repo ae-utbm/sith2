@@ -269,7 +269,8 @@ elseif ( $_REQUEST["action"] == "searchedt" )
       if ( $st > $count )
         $st = floor($count/$npp)*$npp;   
         
-      $req = new requete($site->db,"FROM `edu_uv_groupe_etudiant` " .
+      $req = new requete($site->db,"SELECT `utilisateurs`.*, `utl_etu`.*, `utl_etu_utbm`.*, `utilisateurs`.`id_ville` as `id_ville`, `utl_etu`.`id_ville` as `ville_parents`, `utilisateurs`.`id_pays` as `id_pays`, `utl_etu`.`id_pays` as `pays_parents` " .
+        "FROM `edu_uv_groupe_etudiant` " .
         "INNER JOIN `utilisateurs` USING(id_utilisateur) " .
         "LEFT JOIN `utl_etu` ON `utl_etu`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
         "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
