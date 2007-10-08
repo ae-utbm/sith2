@@ -319,6 +319,9 @@ $frm->add_checkbox("inclus_nutbm","Inclure les non-utbm",false);
 //TODO:améliorer la présentation
 //TODO:recherche par ville/dep/region/pays d'origine ?
 $frm->add_submit("go","Rechercher");
+if ( isset($_REQUEST["action"]) && (isset($_REQUEST["numtel"]) || isset($_REQUEST["pattern"])) )
+$cts->add($frm, true, true, "bxnor", false, true, false);
+else
 $cts->add($frm,true);
 
 
@@ -363,6 +366,10 @@ else
   $frm->add($sfrm,false,true, $type==3 , 3,false,true);
   
   $frm->add_submit("go","Rechercher");
+  
+  if ( isset($_REQUEST["action"]) && $_REQUEST["action"]!="searchedt" )
+  $cts->add($frm, true, true, "bxedt", false, true, false);
+  else
   $cts->add($frm,true);
 }
 
@@ -370,13 +377,23 @@ $frm = new form("mmtinv","index2.php",true,"POST","Recherche inversée");
 $frm->add_hidden("action","search");
 $frm->add_text_field("numtel","Numéro de téléphone");
 $frm->add_submit("go","Rechercher");
+if ( isset($_REQUEST["action"]) && !isset($_REQUEST["numtel"]) )
+$cts->add($frm, true, true, "bxtel", false, true, false);
+else
 $cts->add($frm,true);
 
 $frm = new form("mmtpat","index2.php",true,"POST","Recherche simple");
 $frm->add_hidden("action","search");
 $frm->add_text_field("pattern","Nom/Prenom ou Surnom",$_REQUEST["pattern"]);
 $frm->add_submit("go","Rechercher");
+
+if ( isset($_REQUEST["action"]) && !isset($_REQUEST["pattern"]) )
+$cts->add($frm, true, true, "bxpat", false, true, false);
+else
 $cts->add($frm,true);
+
+
+
 
 $site->add_contents($cts);
 $site->end_page();
