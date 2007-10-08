@@ -207,7 +207,7 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
         $n=0;
         while ( $i < $count )
         {
-          $tabs[]=array($n,"matmatronch/index2.php?action=search&page=".$n.$params,$n+1 );
+          $tabs[]=array($n,"matmatronch/index.php?action=search&page=".$n.$params,$n+1 );
           $i+=$npp;
           $n++;  
         }
@@ -313,7 +313,7 @@ elseif ( $_REQUEST["action"] == "searchedt" )
         $n=0;
         while ( $i < $count )
         {
-          $tabs[]=array($n,"matmatronch/index2.php?action=searchedt&page=".$n.$params,$n+1 );
+          $tabs[]=array($n,"matmatronch/index.php?action=searchedt&page=".$n.$params,$n+1 );
           $i+=$npp;
           $n++;  
         }
@@ -323,7 +323,7 @@ elseif ( $_REQUEST["action"] == "searchedt" )
   }
 }
 
-$frm = new form("mmtprofil","index2.php",true,"POST","Recherche par profil");
+$frm = new form("mmtprofil","index.php",true,"POST","Recherche par profil");
 $frm->add_hidden("action","search");
 $frm->add_text_field("nom","Nom");  
 $frm->add_text_field("prenom","Prenom");
@@ -369,7 +369,7 @@ else
   if ( $_REQUEST["action"] == "searchedt" && $_REQUEST["type"] > 0 )
     $type = intval($_REQUEST["type"]);
   
-  $frm = new form("mmtedt","index2.php",true,"POST","Recherche par emploi du temps");
+  $frm = new form("mmtedt","index.php",true,"POST","Recherche par emploi du temps");
   $frm->add_hidden("action","searchedt");
   $frm->add_info("Remarque: Cet outil ne fonctionne que pour les personnes ayant renseigné leur emploi du temps sur le site.");
   $frm->add_entity_smartselect ( "id_uv", "UV", $uv );
@@ -394,7 +394,7 @@ else
   $cts->add($frm,true);
 }
 
-$frm = new form("mmtinv","index2.php",true,"POST","Recherche inversée");
+$frm = new form("mmtinv","index.php",true,"POST","Recherche inversée");
 $frm->add_hidden("action","search");
 $frm->add_text_field("numtel","Numéro de téléphone");
 $frm->add_submit("go","Rechercher");
@@ -403,7 +403,7 @@ $cts->add($frm, true, true, "bxtel", false, true, false);
 else
 $cts->add($frm,true);
 
-$frm = new form("mmtpat","index2.php",true,"POST","Recherche simple");
+$frm = new form("mmtpat","index.php",true,"POST","Recherche simple");
 $frm->add_hidden("action","search");
 $frm->add_text_field("pattern","Nom/Prenom ou Surnom",$_REQUEST["pattern"]);
 $frm->add_submit("go","Rechercher");
