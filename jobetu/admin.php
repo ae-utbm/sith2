@@ -133,7 +133,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 	  	$sql = new requete($site->db, "SELECT id_annonce, titre FROM utilisateurs WHERE id_annonce IN('".implode('\', \'', $_REQUEST['id_annonces'])."')");
   
     $lst = new itemlist("Vous vous appretez à supprimer les annonces :");
-    while($row = sql->get_row())
+    while($row = $sql->get_row())
       $lst->add("N°".$row['id_annonce']." : \"".$row['titre']."\"", "ko");
     $header->add($lst, true);
      	
