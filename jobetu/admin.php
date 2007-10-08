@@ -115,7 +115,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 	$cts->add($frm, true);
 	}
 	
-} 
+} 		
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 {
@@ -184,13 +184,17 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "categories")
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
 {
 	$sql = new requete($site->db, "SELECT utilisateurs.id_utilisateur,
-																	CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`
-																	FROM `utilisateurs`
-																	NATURAL JOIN `utl_groupe`
-																	WHERE id_groupe = ".GRP_JOBETU_ETU."
-																	GROUP BY utilisateurs.id_utilisateur", false);
+																	CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`,
+																	id_annonce, titre, provided, closed, nb_postes,
+																	`job_types`.`nom` as `nom_type`
+																	FROM `job_annonces`
+																	LEFT JOIN `utilisateurs`
+																	ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
+																	LEFT JOIN `job_types`
+																	ON `job_types`.`id_type` = `job_annonces`.`job_type`
+																	", false);
 	
-	$cts->add( new sqltable("list_clients", "Etudiants inscrits à AE JobEtu", $sql, "admin.php", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array(), array()), true );
+	$cts->add( new sqltable("list_clients", "Annonces présentes sur AE JobEtu", $sql, "admin.php?view=annonces", "id_annonce", array("id_annonce" => "ID", "titre" => "Titre", "nom_utilisateur" => "Client", "nom_type" => "Catégorie", "nb_postes" => "Nb postes", "provided" => "Pourvue", "closed" => "Etat"), array(), array(), array("provided" => array("true" => "Oui", "false" => "Non"), "closed" => array('0' => "Ouverte", '1' => "Fermée"))), true );
 }
 
 /***************************************************************
