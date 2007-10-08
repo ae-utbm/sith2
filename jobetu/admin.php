@@ -127,7 +127,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     
     if( isset($_REQUEST['confirm']) ) //on passe a l'attaque
     {
-      $id_annonces = unserialize(stripslashes($_REQUEST['ids']));
+      $id_annonces = explode("|", $_REQUEST['ids']);
       
        // if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : __FILE__ \t __LINE__ ");
       
@@ -158,7 +158,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
       $header->add($lst, true);
        	
       $frm = new form(false, "?action=".$_REQUEST['action']."&view=".$_REQUEST['view']."&confirm");
-    	$frm->add_hidden("ids", addslashes(serialize($ids)) );
+    	$frm->add_hidden("ids", implode("|", $ids) );
     	$frm->add_submit(false, "Confirmer");
   	
     	$header->add($frm);
@@ -170,9 +170,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     
     if( isset($_REQUEST['confirm']) ) //on passe a l'attaque
     {
-      $id_utilisateurs = unserialize(stripslashes($_REQUEST['ids']));
+      $id_utilisateurs = explode("|", $_REQUEST['ids']);
       print_r($_REQUEST['ids']);
-      print_r($id_annonces);
+      print_r($id_utilisateurs);
      //   if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : __FILE__ \t __LINE__ ");
         
       foreach($id_utilisateurs as $tmp)
@@ -205,7 +205,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     	$header->add($lst, true);
     	
     	$frm = new form(false, "?action=".$_REQUEST['action']."&view=".$_REQUEST['view']."&confirm");
-    	$frm->add_hidden("ids", addslashes(serialize($ids)) );
+    	$frm->add_hidden("ids", implode("|", $ids) );
     	$frm->add_submit(false, "Confirmer");
     	
     	$header->add($frm);
