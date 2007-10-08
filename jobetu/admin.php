@@ -50,13 +50,13 @@ $cts->add(new tabshead($tabs, $_REQUEST['view']));
 /*
  * Actions
  */
-if(isset($_REQUEST['action']) && $_REQUEST['action'] == "edit")  // edition préférences => redirection
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == "edit")  // edition préférences/annonce => redirection
 {
   if($_REQUEST['view'] == "clients")
     header("Location: board_client.php?view=preferences&id_utilisateur=".$_REQUEST['id_utilisateur']);
   else if($_REQUEST['view'] == "etudiants")
     header("Location: board_etu.php?view=preferences&id_utilisateur=".$_REQUEST['id_utilisateur']);
-  else if($_REQUEST['view'] == "etudiants")
+  else if($_REQUEST['view'] == "annonces")
     header("Location: depot.php?action=edit&id=".$_REQUEST['id_annonce']);
 }
 
