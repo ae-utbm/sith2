@@ -123,54 +123,82 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 {
   if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces") //Suppression annonces
   {
-    $header = new contents("Suppression d'annonces");
-    
-    $header->add_paragraph("Merci de ne supprimer d'annonce que vous si vous êtes sûr de ce que vous faites. Seules les annonces pour lesquelles aucune sélection de candidat n'aura été faite pourront être supprimées, s'il y a des candidats, ceux-ci seront avertis de la suppression de l'offre (à condition qu'ils aient réglé l'envoi des mails sur `full`)");
-    
-    if($_REQUEST['id_annonce'])
-  	  $sql = new requete($site->db, "SELECT id_annonce, titre FROM job_annonces WHERE id_annonce = '".$_REQUEST['id_annonce']."'");
-	  else if($_REQUEST['id_annonces'])
-	  	$sql = new requete($site->db, "SELECT id_annonce, titre FROM utilisateurs WHERE id_annonce IN('".implode('\', \'', $_REQUEST['id_annonces'])."')");
-  
-    $lst = new itemlist("Vous vous appretez à supprimer les annonces :");
-    while($row = $sql->get_row())
+    if($_REQUEST['confirm']) //on passe a l'attaque
     {
-      $lst->add("N°".$row['id_annonce']." : \"".$row['titre']."\"", "ko");
-      $ids[] = $row['id_annonce'];
+      
     }
-    $header->add($lst, true);
-     	
-    $frm = new form(false, "?action=".$_REQUEST['action']."&view=".$_REQUEST['view']."&confirm");
-  	$frm->add_hidden("ids", serialize($ids) );
-  	$frm->add_submit(false, "Confirmer");
+    else //on demande confirmation (boolay proofing)
+    {
+  
+      $header = new contents("Suppression d'annonces");
+      
+      $header->add_paragraph("Merci de ne supprimer d'annonce que vous si vous êtes sûr de ce que vous faites. Seules les annonces pour lesquelles aucune sélection de candidat n'aura été faite pourront être supprimées, s'il y a des candidats, ceux-ci seront avertis de la suppression de l'offre (à condition qu'ils aient réglé l'envoi des mails sur `full`)");
+      
+      if($_REQUEST['id_annonce'])
+    	  $sql = new requete($site->db, "SELECT id_annonce, titre FROM job_annonces WHERE id_annonce = '".$_REQUEST['id_annonce']."'");
+	    else if($_REQUEST['id_annonces'])
+	    	$sql = new requete($site->db, "SELECT id_annonce, titre FROM utilisateurs WHERE id_annonce IN('".implode('\', \'', $_REQUEST['id_annonces'])."')");
+    
+      $lst = new itemlist("Vous vous appretez à supprimer les annonces :");
+      while($row = $sql->get_row())
+      {
+        $lst->add("N°".$row['id_annonce']." : \"".$row['titre']."\"", "ko");
+        $ids[] = $row['id_annonce'];
+      }
+      $header->add($lst, true);
+       	
+      $frm = new form(false, "?action=".$_REQUEST['action']."&view=".$_REQUEST['view']."&confirm");
+    	$frm->add_hidden("ids", serialize($ids) );
+    	$frm->add_submit(false, "Confirmer");
   	
-  	$header->add($frm);
+    	$header->add($frm);
+  	}
   }
   else //Désactivation de comptes
   {
     $header = new contents("Désactivation comptes AE JobEtu");
     
-  	if($_REQUEST['id_utilisateur'])
-  	  $sql = new requete($site->db, "SELECT id_utilisateur, CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur = '".$_REQUEST['id_utilisateur']."'");
-	  else if($_REQUEST['id_utilisateurs'])
-	  	$sql = new requete($site->db, "SELECT id_utilisateur, CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur IN('".implode('\', \'', $_REQUEST['id_utilisateurs'])."')");
-	  
-	  $lst = new itemlist("Vous vous appretez à désactiver le compte JobEtu de :");
-	  while( $row = $sql->get_row() )
-	  {
-	    $lst->add($row['nom_utilisateur'], "ko");
-	    $ids[] = $row['id_utilisateur'];
-	  }
+    if($_REQUEST['confirm']) //on passe a l'attaque
+    {
+      $id_utilisateurs = unserialize($_REQUEST['ids']);
+        if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : __FILE__ \t __LINE__ ");
+        
+      foreach($id_utilisateurs as $tmp)
+      {
+        $usr = new utilisateur($site->db, $site->dbrw);
+        $usr->remove_from_group( ($_REQUEST['view'] == "client") ? GRP_JOBETU_CLIENT : GRP_JOBETU_ETU );
+      }
+      
+      $header->add(new itemlist(false, false, "Opération effectuée"));
+        
+    }
+    else //on demande confirmation (boolay proofing)
+    {
+      
+    	if($_REQUEST['id_utilisateur'])
+    	  $sql = new requete($site->db, "SELECT id_utilisateur, CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur = '".$_REQUEST['id_utilisateur']."'");
+	    else if($_REQUEST['id_utilisateurs'])
+	    	$sql = new requete($site->db, "SELECT id_utilisateur, CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur IN('".implode('\', \'', $_REQUEST['id_utilisateurs'])."')");
+	    else
+	      exit("Erreur arguments");
 	    
-  	$header->add($lst, true);
-  	
-  	$frm = new form(false, "?action=".$_REQUEST['action']."&view=".$_REQUEST['view']."&confirm");
-  	$frm->add_hidden("ids", serialize($ids) );
-  	$frm->add_submit(false, "Confirmer");
-  	
-  	$header->add($frm);
+	    $lst = new itemlist("Vous vous appretez à désactiver le compte JobEtu de :");
+	    while( $row = $sql->get_row() )
+	    {
+	      $lst->add($row['nom_utilisateur'], "ko");
+	      $ids[] = $row['id_utilisateur'];
+	    }
+	      
+    	$header->add($lst, true);
+    	
+    	$frm = new form(false, "?action=".$_REQUEST['action']."&view=".$_REQUEST['view']."&confirm");
+    	$frm->add_hidden("ids", serialize($ids) );
+    	$frm->add_submit(false, "Confirmer");
+    	
+    	$header->add($frm);
+  	}
   }
-	$site->add_contents($header, true);
+	$site->add_contents($header, true); //$header section 'delete'
 } 
 
 /***************************************************************
