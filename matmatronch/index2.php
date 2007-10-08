@@ -343,7 +343,7 @@ else
 {
 
 
-  $type == 1;
+  $type = 1;
   if ( $_REQUEST["action"] == "searchedt" && $_REQUEST["type"] > 0 )
     $type = intval($_REQUEST["type"]);
   
