@@ -62,7 +62,7 @@ $statscotis = new requete($site->db, "SELECT
                                       , substring(cpostal_ville,1,2) AS cpostal 
                                       FROM `utl_etu`
                                       INNER JOIN `loc_ville` ON `loc_ville`.`id_ville` = `utl_etu`.`id_ville` 
-                                      WHERE `utl_etu`.`id_ville` IS NOT NULL
+                                      WHERE `utl_etu`.`id_ville` IS NOT NULL AND `loc_ville`.`id_pays`=1
                                       GROUP BY substring(cpostal_ville,1,2)");
 
 while ($rs = $statscotis->get_row())

@@ -721,6 +721,7 @@ class site extends interfaceweb
     {
       $sublist = new itemlist("AE : Administration","boxlist");
       $sublist->add("<a href=\"".$topdir."ae/\">Tâches usuelles</a>");
+      $sublist->add("<a href=\"".$topdir."ae/cartesae.php\">Cartes AE</a>");
       $sublist->add("<a href=\"".$topdir."asso.php\">Associations et clubs</a>");
       $cts->add($sublist,true, true, "aeadminbox", "boxlist", true, false);
     

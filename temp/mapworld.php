@@ -52,7 +52,7 @@ while (list($id_ville) = $statscotis->get_row())
   if(!isset($idloc[$id_ville]))
   {
     $idloc[$id_ville]=1;
-    $loc->add_location_by_idville($id_ville,false);
+    $loc->add_location_by_idville($id_ville);
   }
 }
 $loc->add_context();
