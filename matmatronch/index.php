@@ -166,9 +166,9 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
     if ( $count == 0 )
       $cts->add_paragraph("Aucune personne ne correspond aux critères.");
       
-    elseif ( $count > 350 )
+    /*elseif ( $count > 350 )
       $cts->add_paragraph("Votre recherche est trop imprécise, il y a plus de 350 personnes correspondantes.");
-      
+    */  
     else
     {
       $npp=24;
@@ -271,9 +271,9 @@ elseif ( $_REQUEST["action"] == "searchedt" )
     if ( $count == 0 )
       $cts->add_paragraph("Aucune personne ne correspond aux critères.");
       
-    elseif ( $count > 350 )
+    /*elseif ( $count > 350 )
       $cts->add_paragraph("Votre recherche est trop imprécise, il y a plus de 350 personnes correspondantes.");
-      
+    */  
     else
     {
       $npp=24;
