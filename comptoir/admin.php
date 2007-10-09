@@ -432,21 +432,21 @@ elseif ( $_REQUEST["page"] == "addproduit" )
 	exit();
 }
 
-
+if ( ereg("^settypeprod=([0-9]*)$",$_REQUEST["action"],$regs) )
+{
+  $typeprod->load_by_id( $regs[1]);
+  foreach($_REQUEST["id_produits"] as $id)
+  {
+    $produit->load_by_id($id);
+    if ( $produit->is_valid() )
+        $produit->modifier_typeprod ($typeprod->id); 
+  }	
+  $_REQUEST["page"] = "produits";
+}
 
 if ( $_REQUEST["page"] == "produits" )
 {
-  if ( ereg("^settypeprod=([0-9]*)$",$_REQUEST["action"],$regs) )
-  {
-    $typeprod->load_by_id( $regs[1]);
-  
-    foreach($_REQUEST["id_produits"] as $id)
-    {
-      $produit->load_by_id($id);
-      if ( $produit->is_valid() )
-         $produit->modifier_typeprod ($typeprod->id); 
-    }	
-  }
+
   
   $batch = array();
   
