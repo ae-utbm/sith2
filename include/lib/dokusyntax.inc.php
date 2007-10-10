@@ -948,8 +948,8 @@ function mediaformat($text)
       else
         $img = "../../".$img;
     }  
-    $ret .= "<object type=\"application/x-shockwave-flash\" data=\"".$wwwtopdir."images/flash/flvplayer.swf\" width=\"400\" height=\"300\" class=\"media".$format["align"]."\">".
-    $ret .="<param name=\"movie\" value=\"".$wwwtopdir."images/flash/flvplayer.swf\" />".    $ret .="<param name=\"FlashVars\" value=\"flv=".$img."\" />".    $ret .="<param name=\"wmode\" value=\"transparent\" />".    $ret .="</object>";
+    $ret .= "<object type=\"application/x-shockwave-flash\" data=\"".$wwwtopdir."images/flash/flvplayer.swf\" width=\"400\" height=\"300\" class=\"media".$format["align"]."\">";
+    $ret .="<param name=\"movie\" value=\"".$wwwtopdir."images/flash/flvplayer.swf\" />";    $ret .="<param name=\"FlashVars\" value=\"flv=".$img."\" />";    $ret .="<param name=\"wmode\" value=\"transparent\" />";    $ret .="</object>";
     return $ret;
   }
   
