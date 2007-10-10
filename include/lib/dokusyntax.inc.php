@@ -216,8 +216,7 @@ function preparse($text,&$hltable)
         $noparse = '</'.$noparse.'>';
         continue;
       }
-      elseif(
-      ('#^.*?%%#',$line))
+      elseif(preg_match('#^.*?%%#',$line))
       {
         $noparse = '%%';
         continue;
