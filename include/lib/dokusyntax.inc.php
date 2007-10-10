@@ -216,7 +216,8 @@ function preparse($text,&$hltable)
         $noparse = '</'.$noparse.'>';
         continue;
       }
-      elseif(preg_match('#^.*?%%#',$line))
+      elseif(
+      ('#^.*?%%#',$line))
       {
         $noparse = '%%';
         continue;
@@ -931,6 +932,24 @@ function mediaformat($text)
   $img = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$wwwtopdir."d.php?action=download&download=preview&id_file=$1",$img);
   $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$wwwtopdir."d.php?action=download&download=thumb&id_file=$1",$img);
   $img = preg_replace("/dfile:\/\//i",$wwwtopdir."d.php?action=download&id_file=",$img);
+  $img = preg_replace("/sas:\/\//i",$wwwtopdir."sas2/images.php/",$img);
+  
+  if ( preg_match("/\.flv$/i",$img) )
+  {
+    if ( !$width )
+      $width=400;
+      
+    if ( !$height )
+      $height=300;
+      
+    if ( !preg_match("/([a-z0-9]+):\/\//",$img) )  
+      $img = "../../".$img;
+      
+    $ret .= "<object type=\"application/x-shockwave-flash\" data=\"".$wwwtopdir."images/flash/flvplayer.swf\" width=\"400\" height=\"300\" class=\"media".$format["align"]."\">".
+    $ret .="<param name=\"movie\" value=\"".$wwwtopdir."images/flash/flvplayer.swf\" />".    $ret .="<param name=\"FlashVars\" value=\"flv=".$img."\" />".    $ret .="<param name=\"wmode\" value=\"transparent\" />".    $ret .="</object>";
+    return $ret;
+  }
+  
   $ret .= '<img src="'.$img.'"';
   $ret .= ' class="media'.$format['align'].'"';
   $ret .= ' width="'.$width.'"';
