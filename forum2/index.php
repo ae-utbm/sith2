@@ -496,6 +496,18 @@ if ( $sujet->is_valid() )
     $site->start_page("forum",$sujet->titre);
 
     $cts = new contents($path." / <a href=\"?id_sujet=".$sujet->id."&amp;page=reply\">Répondre</a>");    
+    
+    $cts->add_paragraph("<script language=\"javascript\">
+      function make_preview()
+      {
+        title = document.frmreply.rpltitle.value;
+        content = document.frmreply.rpltext.value;
+        user = ".$site->user->id.";
+        syntaxengine = document.frmreply.synengine.value;
+        
+        alert(title+' '+content+' '+user+' '+syntaxengine);
+      }
+      </script>\n");
   
     /* formulaire d'invite à postage de réponse */
     $frm = new form("frmreply", "?page=commit&amp;id_sujet=".$sujet->id."#lastmessage", true);
@@ -529,6 +541,7 @@ if ( $sujet->is_valid() )
     $frm->add_text_area("rpltext", "Texte du message : ",$rpltext,80,20);
     $frm->add_checkbox ( "star", "Ajouter à mes sujets favoris.", true );
     $frm->add_submit("rplsubmit", "Poster");
+    $frm->puts("<a href=\"#\" onClick=\"javascript:make_preview();\"");
     
     $frm->allow_only_one_usage();
     $cts->add($frm);
