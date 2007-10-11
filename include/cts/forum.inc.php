@@ -399,7 +399,7 @@ class simplemessageforum extends stdcontents
       $this->title = "Prévisualisation";
       
       $t = $message->date;
-
+print_r($message);
       $sql = new requete($site->db, "SELECT `alias_utl`, `signature_utl` FROM `utilisateurs` WHERE id_utilisateur=$message->id_utilisateur LIMIT 1");
       $row = $sql->get_row();
 
@@ -451,12 +451,12 @@ class simplemessageforum extends stdcontents
       else // text
         $this->buffer .= nl2br(htmlentities($message->contenu,ENT_NOQUOTES,"UTF-8"));
         
-//      if ( !is_null($row['signature_utl']) )  
-//      {
+      if ( !is_null($row['signature_utl']) )  
+      {
         $this->buffer .= "<div class=\"signature\">\n";      
         $this->buffer .= doku2xhtml($row['signature_utl']);
         $this->buffer .= "</div>\n";      
-//      }
+      }
       
       $this->buffer .= "</div>\n";      
       $this->buffer .= "<div class=\"clearboth\"></div>\n";
