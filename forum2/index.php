@@ -541,7 +541,7 @@ if ( $sujet->is_valid() )
     $frm->add_text_area("rpltext", "Texte du message : ",$rpltext,80,20);
     $frm->add_checkbox ( "star", "Ajouter à mes sujets favoris.", true );
     $frm->add_submit("rplsubmit", "Poster");
-    $frm->puts("<a href=\"#\" onClick=\"javascript:make_preview();\"");
+    $frm->puts("<a href=\"#\" onClick=\"javascript:make_preview();\">gnaaaa</a>");
     
     $frm->allow_only_one_usage();
     $cts->add($frm);
