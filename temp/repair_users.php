@@ -7,7 +7,7 @@ $site = new site();
 
 $site->start_page("","Réparation de la base utilisateur");
 
-
+$echec="";
 if(isset($_POST["action"]) && $_POST["action"]=="merge")
 {
   $_id=0;
@@ -19,94 +19,126 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
     $ids=null;
   if(count($ids) >1)
   {
+    $ae=false;
+    $utbm=false;
+    $user = new utilisateur($site->db,$site->dbrw);
+    foreach($ids as $id => $value)
+    {
+      $user->load_by_id($id);
+      if($user->ae && $user->utbm)
+      {
+        $_id=$user->id;
+        break;
+      }
+      elseif($user->ae)
+        $ae=true;
+      elseif($user->utbm)
+        $utbm=true;
+    }
+    if($_id==0 && ($ae||$utbm))
+    {
+      foreach($ids as $id => $value)
+      {
+        $user->load_by_id($id);
+        if($ae && !$utbm && $user->ae)
+        {
+          $_id=$user->id;
+          break;
+        }
+        elseif(!$ae && $utbm && $user->utbm)
+        {
+          $_id=$user->id;
+          break;
+        }
+      }
+    }
+    elseif($_id==0 && $ae && $utbm)
+    {
+      print_r("échec relou");
+      exit();
+    }
     foreach($ids as $id => $value)
     {
       if($_id==0)
       {
-        $user = new utilisateur($site->db,$site->dbrw);
         $user->load_by_id($id);
         $_id=$id;
       }
+      elseif($_id==$id)
+        continue;
       else
       {
         /* on merge tout vers $_id */
         $user2 = new utilisateur($site->db,$site->dbrw);
         $user2->load_by_id($id);
         /* on merge les infos utilisateur */
+        //email
+        //$user->set_email($email);
+        //$user->set_email_utbm($email);
+        //sexe
+        if($user->sexe < $user2->sexe)
+          $user->sexe=2;
+        //date_naissance
+        if($user->date_naissance == strtotime("1970-01-01"))
+          $user->date_naissance=$user2->date_naissance;
+        // else comment je fais moi ???
+        //addresse
+        $user->addresse = "";
+        //id_ville
+        $user->id_ville=null;
+        //id_pays
+        $user->id_pays=null;
+        //tel_maison
+        $user->tel_maison=null;
+        //tel_portable
+        $user->tel_portable=null;
+        //alias
+        $user->alias=null;
+        //droit_image(true or false)
+        $user->droit_image=true;
+        //site_web ???
+        $user->site_web=null;
+        //publique
+        $user->publique=true; //nazi :P
+        //publique_mmtpapier
+        $user->publique_mmtpapier=true; //nazi aussi :P
+        //signature_utl
+        $user->signalure_utl="l'AE c'est bien";;
+        //citation
+        $user->citation="";
+        //adresse_parents
+        $user->adresse_parents="";
+        //id_ville_parents
+        $user->id_ville_parents=null;
+        //id_pays_parents
+        $user->id_pays_parents=null;
+        //tel_parents
+        $user->tel_parents="";
+
+        // on sauvegarde
+        $user->saveinfos();
 
         /* on déplace les photos matmat */
 
         /* avatar forum */
-        $photo  = "/var/www/ae/www/var/matmatronch/" . $_id . ".jpg";
         $_photo =  "/var/www/ae/www/var/matmatronch/" . $id . ".jpg";
-        if(file_exists($photo) && file_exists($_photo))
-        {
-          if( filemtime($photo) > filemtime($_photo) )
-            @unlink($_photo);
-          else
-          {
-            @copy($_photo, $photo);
-            @unlink($_photo);
-          }
-        }
-        elseif(file_exists($_photo))
-        {
-          @copy($_photo, $photo);
+        if(file_exists($_photo))
           @unlink($_photo);
-        }
         
         /* photo mmt */
-        $photo  = "/var/www/ae/www/var/matmatronch/" . $_id . ".identity.jpg";
         $_photo =  "/var/www/ae/www/var/matmatronch/" . $id . ".identity.jpg";
-        $identityi  = "/var/www/ae/www/var/matmatronch/" . $_id . ".identity.i.jpg";
         $_identityi =  "/var/www/ae/www/var/matmatronch/" . $id . ".identity.i.jpg";
-        if(file_exists($photo) && file_exists($_photo))
+        if(file_exists($_photo))
         {
-          if( filemtime($photo) > filemtime($_photo) )
-          {
-            @unlink($_photo);
-            @unlink($_identityi);
-          }
-          else
-          {
-            @copy($_photo, $photo);
-            @copy($_identityi, $identityi);
-            @unlink($_photo);
-            @unlink($_identityi);
-          }
-        }
-        elseif(file_exists($_photo))
-        {
-          @copy($_photo, $photo);
-          @copy($_identityi, $identityi);
           @unlink($_photo);
           @unlink($_identityi);
         }
         
         /* blouse */
-        $photo  = "/var/www/ae/www/var/matmatronch/" . $_id . ".blouse.jpg";
         $_photo =  "/var/www/ae/www/var/matmatronch/" . $id . ".blouse.jpg";
-        $blousemini  = "/var/www/ae/www/var/matmatronch/" . $_id . ".blouse.mini.jpg";
         $_blousemini =  "/var/www/ae/www/var/matmatronch/" . $id . ".blouse.mini.jpg";
-        if(file_exists($photo) && file_exists($_photo))
+        if(file_exists($_photo))
         {
-          if( filemtime($photo) > filemtime($_photo) )
-          {
-            @unlink($_photo);
-            @unlink($_blousemini);
-          }
-          else
-          {
-            @copy($_photo, $photo);
-            @copy($_blousemini, $blousemini);
-            @unlink($_photo);
-            @unlink($_blousemini);
-          }
-        }
-        elseif(file_exists($_photo))
-        {
-          @copy($_photo, $photo);
-          @copy($_blousemini, $blousemini);
           @unlink($_photo);
           @unlink($_blousemini);
         }
@@ -114,10 +146,12 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         /* on vérifie les cotises */
         /* en bougeant les "cotises" on bouge les carte */
         /* TODO : vérifier qu'il n'existe qu'une carte */
-        new update($site->dbrw, 
+        if($user2->ae)
+          $echec.="$user2->id => vérifier les cotisations\n";
+        /*new update($site->dbrw, 
                    "ae_cotisations", 
                    array('id_utilisateur' => $_id),
-                   array('id_utilisateur'  => $id));//, true);
+                   array('id_utilisateur'  => $id));//, true);*/
 
         /* on vérifie les photos */
 
@@ -186,26 +220,31 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         /* on vérifie les edt */
 
         /* on supprimme le doublon */
+        new delete($site->dbrw,"utilisateurs",array("id_utilisateur" => $id));
+        new delete($site->dbrw,"utl_etu",array("id_utilisateur" => $id));
+        new delete($site->dbrw,"utl_etu_utbm",array("id_utilisateur" => $id));
+        new delete($site->dbrw,"utl_extra",array("id_utilisateur" => $id));
+        new delete($site->dbrw,"utl_groupe",array("id_utilisateur" => $id));
+        new delete($site->dbrw,"utl_joue_instru",array("id_utilisateur" => $id));
+        new delete($site->dbrw,"utl_parametres",array("id_utilisateur" => $id));
 
         /* on reset le mot de passe */
+
       }
     }
+    $pass = genere_pass(10);
+    $user->send_autopassword_email($_REQUEST["email"],$pass);
+    $user->invalidate();
+    $user->change_password($pass);
   }
 }
 
-function get_user_bordel($id, $nomtable, $champtable = "id_utilisateur")
+if(!empty($echec))
 {
-  $sql = new requete($site->db,
-         "SELECT * FROM $nomtable WHERE $champtable = $id LIMIT 1");
-  while ($res = $sql->get_row())
-    $ret[] = $res;
-  return $ret;
+  $cts = new contents("y'a eu des merdes");
+  $cts->add_paragraph($echec);
+  $site->add_contents($cts);
 }
-
-/**
- * Script de vérification des catégories des doublons utilisateurs
- */
-
 
 $sql = new requete($site->db,"SELECT * FROM `utilisateurs`");
 
