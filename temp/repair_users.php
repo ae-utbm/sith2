@@ -170,7 +170,7 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
                    array('id_utilisateur'  => $id));
         new update($site->dbrw,
                    "frm_sujet",
-                   array('id_utilisateur_moderateur' => $_id)
+                   array('id_utilisateur_moderateur' => $_id),
                    array('id_utilisateur_moderateur'  => $id));
         new update($site->dbrw,
                    "frm_sujet_utilisateur",
