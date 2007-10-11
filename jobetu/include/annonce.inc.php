@@ -158,7 +158,7 @@ class annonce extends stdentity
 		if( $this->is_provided() )
 			return false;
 		else
-  		$sql = new insert($this->dbrw, "job_annonces_etu", array("id_annonce" => $this->id, "id_etu" => $winner->id, "relation" => "selected" ));
+  		$sql = new update($this->dbrw, "job_annonces_etu", array("relation" => "selected"), array("id_annonce" => $this->id, "id_etu" => $winner->id, "relation" => "apply"));
   		
   	$this->load_winner(); /* maj des gens sélectionnés */
 		if( $this->is_provided() )
