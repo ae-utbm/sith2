@@ -411,7 +411,7 @@ class simplemessageforum extends stdcontents
           $this->buffer .= "<h2 class=\"frmt\">".htmlentities($message->titre, ENT_NOQUOTES, "UTF-8")."</h2>\n";
         else
           $this->buffer .= "<h2 class=\"frmt\">&nbsp;</h2>\n";  
-      }
+
 
       $this->buffer .= "<p class=\"date\">".human_date($t)."</p>\n";
       $this->buffer .= "</a>";
