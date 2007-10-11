@@ -170,6 +170,7 @@ if( isset($_REQUEST['get_preview']) )
   $preview = new simplemessageforum($message);
   echo "<h2>Prévisualisation</h2>";
   echo( $preview->html_render() );
+  echo "<h2>Historique</h2>";
   
   exit();
 }
