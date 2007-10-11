@@ -252,8 +252,13 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
    */
   else if( isset($_REQUEST['id_relation']) ) //Désactivation de comptes
   {
+    $header = new contents("Suppression de relation");
+      
     $annonce = new annonce($site->db, $site->dbrw);
-    $annonce->delete_relation($_REQUEST['id_relation']);
+    $res = $annonce->delete_relation($_REQUEST['id_relation']);
+    
+    if( !$res ) $header->add( new itemlist(false, false, array("L'enregistrement (n°".$_REQUEST['id_relation'].") à bien été supprimé.")) );
+    else $header->add( new itemlist(false, false, array("Erreur lors de la suppression de l'enregistrement n°".$_REQUEST['id_relation'].".")) );
   }
   
 	$site->add_contents($header, true); //$header section 'delete'
