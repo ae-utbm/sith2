@@ -129,7 +129,14 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         
         /* photo mmt */
         $_photo =  "/var/www/ae/www/var/matmatronch/" . $id . ".identity.jpg";
+        $photo = "/var/www/ae/www/var/matmatronch/" . $_id . ".identity.jpg";
         $_identityi =  "/var/www/ae/www/var/matmatronch/" . $id . ".identity.i.jpg";
+        $identityi = "/var/www/ae/www/var/matmatronch/" . $_id . ".identity.i.jpg";
+        if(!file_exists($photo) && file_exists($_photo))
+        {
+          @copy($_photo, $photo);
+          @copy($_identityi, $identityi);
+        }
         if(file_exists($_photo))
         {
           @unlink($_photo);
