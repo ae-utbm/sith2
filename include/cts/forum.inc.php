@@ -391,5 +391,102 @@ class sujetforum extends stdcontents
 }
 
 
+class simplemessageforum extends stdcontents
+{
+  function simplemessageforum($message)
+  {
+      global $topdir, $wwwtopdir;
+      $this->title = "Prévisualisation";
+      
+      $t = $message->date;
+      
+/*      if ( $user->is_valid() && 
+      ( is_null($last_read) || $last_read < $row['id_message'] ) && 
+      ( is_null($user->tout_lu_avant) || $t > $user->tout_lu_avant ) )
+      {
+        $this->buffer .= "<div class=\"forummessageentry nonlu\" id=\"msg".$row['id_message']."\">\n";
+        if ( $firstunread )
+        {
+          $firstunread=false;  
+          $this->buffer .= "<div id=\"firstunread\"></div>";
+        }
+
+	$this->buffer .= "<a href=\"./?id_message=".
+	  $row['id_message']."#msg".$row['id_message']."\">";
+        
+        if ( $row['titre_message'] )
+          $this->buffer .= "<h2 class=\"frmt\">Message non lu: ".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";      
+        else
+          $this->buffer .= "<h2 class=\"frmt\">Message non lu</h2>\n";  
+
+
+      }
+      else */
+      {
+  //      if ( $n )
+  //        $this->buffer .= "<div class=\"forummessageentry pair\" id=\"msg".$row['id_message']."\">\n";
+  //      else
+          $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$message->id."\">\n";
+  //      $n=($n+1)%2;
+ 
+	/* permalink */
+	$this->buffer .= "<a href=\"./?id_message=".
+	  $message->id."#msg".$message->id."\">";
+
+        if ( $message->titre )
+          $this->buffer .= "<h2 class=\"frmt\">".htmlentities($message->titre, ENT_NOQUOTES, "UTF-8")."</h2>\n";
+        else
+          $this->buffer .= "<h2 class=\"frmt\">&nbsp;</h2>\n";  
+      }
+
+      $this->buffer .= "<p class=\"date\">".human_date($t)."</p>\n";
+      $this->buffer .= "</a>";
+
+/* ici ont été supprimées les actions sur le message */
+          
+      $this->buffer .= "<div class=\"auteur\">\n";
+      
+      $this->buffer .= "<p class=\"funame\"><a href=\"".$wwwtopdir."user.php?id_utilisateur=".$message->id_utilisateur."\">".htmlentities("<i>alias ?</i>", ENT_NOQUOTES,"UTF-8")."</a></p>\n";
+      
+      $img=null;
+      if (file_exists($topdir."var/img/matmatronch/".$message->id_utilisateur.".jpg"))
+        $img = $wwwtopdir."var/img/matmatronch/".$message->id_utilisateur.".jpg";
+
+      if ( !is_null($img) )
+        $this->buffer .= "<p class=\"fuimg\"><img src=\"".htmlentities($img,ENT_NOQUOTES,"UTF-8")."\" /></p>\n";
+      
+      
+      $this->buffer .= "</div>\n";
+      $this->buffer .= "<div class=\"forummessage\">\n";
+      
+      if ( isset($_COOKIE["nosecret"]) && $_COOKIE["nosecret"] == 1 )
+        $message->contenu = nosecret($message->contenu);
+      
+      if ( $message->syntaxengine == "bbcode" )
+        $this->buffer .= bbcode($message->contenu);
+        
+      elseif ( $message->syntaxengine == "doku" )
+        $this->buffer .= doku2xhtml($message->contenu);
+        
+      elseif ( $message->syntaxengine == "plain" )
+        $this->buffer .= "<pre>".htmlentities($message->contenu,ENT_NOQUOTES,"UTF-8")."</pre>";
+      
+      else // text
+        $this->buffer .= nl2br(htmlentities($message->contenu,ENT_NOQUOTES,"UTF-8"));
+        
+//      if ( !is_null($row['signature_utl']) )  
+//      {
+        $this->buffer .= "<div class=\"signature\">\n";      
+        $this->buffer .= doku2xhtml("//Signature ?//");
+        $this->buffer .= "</div>\n";      
+//      }
+      
+      $this->buffer .= "</div>\n";      
+      $this->buffer .= "<div class=\"clearboth\"></div>\n";
+      $this->buffer .= "</div>\n";
+  }
+}
+
+
 
 ?>
