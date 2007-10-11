@@ -166,6 +166,7 @@ if( isset($_REQUEST['get_preview']) && isset($_REQUEST['id_message']) )
     $preview = new simplemessageforum($message);
     echo( $preview->html_render() );
   }
+  exit();
 }
 
 if ( $_REQUEST["action"] == "setallread" )
