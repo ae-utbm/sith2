@@ -163,7 +163,8 @@ if( isset($_REQUEST['get_preview']) && isset($_REQUEST['id_message']) )
   $message->load_by_id($_REQUEST['id_message']);
   if($message->is_valid())
   {
-    echo( new simplemessageforum($message) );
+    $preview = new simplemessageforum($message);
+    echo( $preview->html_render() );
   }
 }
 
