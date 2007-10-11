@@ -165,7 +165,7 @@ if( isset($_REQUEST['taistepreview']) && isset($_REQUEST['id_message']) )
   {
     $taiste = new contents();
     $taiste->add( new simplemessageforum($message), true);
-    $site->add($taiste);
+    $site->add_contents($taiste);
   }
 }
 
