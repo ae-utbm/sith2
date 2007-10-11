@@ -52,11 +52,6 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         }
       }
     }
-    elseif($_id==0 && $ae && $utbm)
-    {
-      print_r("échec relou");
-      exit();
-    }
     foreach($ids as $id => $value)
     {
       if($_id==0)
@@ -75,6 +70,13 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         //email
         //$user->set_email($email);
         //$user->set_email_utbm($email);
+        if(!$user->utbm && $user2->utbm)
+        {
+          $user->became_utbm($user2->email_utbm,true);
+          $user->etudiant( $user2->nom_ecole_etudiant, $user2->ancien_etudiant, true);
+        }
+        if(!$user->etudiant && $user2->etudiant)
+          $user->etudiant( $ecole, false, true);
         //sexe
         if($user->sexe < $user2->sexe)
           $user->sexe=2;
