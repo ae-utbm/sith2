@@ -277,6 +277,11 @@ EOF;
 			return false;
   }
   
+  function delete_relation($id_relation)
+  {
+    $sql = new delete($this->dbrw, "job_annonces_etu", array("id_relation" => $id_relation));
+  }
+  
   function reject($etu)
   {
   	if( !($etu instanceof jobuser_etu) ) exit("NIET !");

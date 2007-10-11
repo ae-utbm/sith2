@@ -35,6 +35,9 @@ define("GRP_JOBETU_ETU", 36);
 $site = new site();
 $site->start_page("services", "AE Job Etu");
 
+if( !$site->user->is_in_group("jobetu_admin") )
+  header("Location: ../403.php");
+
 $site->add_css("jobetu/jobetu.css");
 $site->add_rss("Les dernières annonces de JobEtu","rss.php");
 
@@ -52,7 +55,7 @@ $tabs = array(
 $cts->add(new tabshead($tabs, $_REQUEST['view']));
 
 
-/*
+/**
  * Actions
  */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "edit")  // edition préférences/annonce => redirection
@@ -83,7 +86,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "info")
 			
 			$sql = new requete($site->db, "SELECT `job_annonces_etu`.*, `id_utilisateur`, CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM `job_annonces_etu` LEFT JOIN `utilisateurs` ON `id_utilisateur`=`id_etu` WHERE id_annonce = $annonce->id");
 			$table = new sqltable("annonce_etu", "Enregistrements", $sql, "admin.php?view=annonces", "id_relation", array("id_relation" => "Id", "nom_utilisateur" => "Utilisateur", "relation" => "Relation"), array("delete" => "Supprimer"), array(), array("relation" => array("apply" => "Candidat", "reject" => "Rejet", "selected" => "Sélectionné")));
-			$header->add($table);
+			$header->add($table, true);
 		}
   $site->add_contents($header);
 }
@@ -149,7 +152,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 {
-  if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces") //Suppression annonces
+  /**
+   * Suppression annonces
+   */
+  if( isset($_REQUEST['id_annonce']) || isset($_REQUEST['id_annonces']) ) 
   {
     $header = new contents("Suppression d'annonces");
     
@@ -191,7 +197,11 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     	$header->add($frm);
   	}
   }
-  else //Désactivation de comptes
+  
+  /**
+   * Désactivation de compte JobEtu
+   */
+  else if( isset($_REQUEST['id_utilisateur']) || isset($_REQUEST['id_utilisateurs']) )
   {
     $header = new contents("Désactivation comptes AE JobEtu");
     
@@ -236,6 +246,16 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     	$header->add($frm);
   	}
   }
+  
+  /**
+   * Suppression de relations annonce-etudiant (candidature, rejet...)
+   */
+  else if( isset($_REQUEST['id_relation']) ) //Désactivation de comptes
+  {
+    $annonce = new annonce($site->db, $site->dbrw);
+    $annonce->delete_relation($_REQUEST['id_relation']);
+  }
+  
 	$site->add_contents($header, true); //$header section 'delete'
 } 
 
