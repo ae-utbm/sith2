@@ -401,7 +401,7 @@ class simplemessageforum extends stdcontents
       $t = $message->date;
 
       $sql = new requete($site->db, "SELECT `alias_utl`, `signature_utl` FROM `utilisateurs` WHERE id_utilisateur=$message->id_utilisateur LIMIT 1");
-      $row = sql->get_row();
+      $row = $sql->get_row();
 
       $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$message->id."\">\n";
 
