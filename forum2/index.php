@@ -500,12 +500,12 @@ if ( $sujet->is_valid() )
     $cts->add_paragraph("<script language=\"javascript\">
       function make_preview()
       {
-        title = document.frmreply.rpltitle.innerHTML;
-        content = document.frmreply.rpltext.innertHTML;
+        title = document.frmreply.rpltitle.value;
+        content = document.frmreply.rpltext.value;
         user = ".$site->user->id.";
         syntaxengine = document.frmreply.synengine.value;
         
-        alert(title+' '+content+' '+user+' '+syntaxengine);
+        openInContents('msg_preview', './index.php', 'title='+title+'&content='+content+'&user='+user+'&syntaxengine='+syntaxengine);
       }
       </script>\n");
   
@@ -541,11 +541,12 @@ if ( $sujet->is_valid() )
     $frm->add_text_area("rpltext", "Texte du message : ",$rpltext,80,20);
     $frm->add_checkbox ( "star", "Ajouter à mes sujets favoris.", true );
     $frm->add_submit("rplsubmit", "Poster");
-    $frm->puts("<a href=\"#\" onClick=\"javascript:make_preview();\">gnaaaa</a>");
+    $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:make_preview();\" /></div></div>\n");
     
     $frm->allow_only_one_usage();
     $cts->add($frm);
 
+    $cts->puts("<div id=\"msg_preview\"></div>");
     
     $npp=40;
     $nbpages = ceil($sujet->nb_messages / $npp);
