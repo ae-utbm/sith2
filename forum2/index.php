@@ -337,7 +337,7 @@ if ( $sujet->is_valid() )
         $frm->add_dokuwiki_toolbar('text');
       $frm->add_text_area("text", "Texte du message : ",$message->contenu,80,20);
       $frm->add_submit("submit", "Modifier");
-      $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:openInContent('msg_preview', './index.php', 'get_preview&id_message=".$message->id."')\" /></div></div>\n");
+      $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:openInContents('msg_preview', './index.php', 'get_preview&id_message=".$message->id."')\" /></div></div>\n");
       $frm->allow_only_one_usage();
       
       $cts = new contents($path." / Edition");
