@@ -399,7 +399,7 @@ class simplemessageforum extends stdcontents
       $this->title = "Prévisualisation";
       
       $t = $message->date;
-print_r($message);
+
       $sql = new requete($site->db, "SELECT `alias_utl`, `signature_utl` FROM `utilisateurs` WHERE id_utilisateur=$message->id_utilisateur LIMIT 1");
       $row = $sql->get_row();
 
