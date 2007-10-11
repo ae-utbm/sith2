@@ -158,14 +158,17 @@ if ( !$forum->is_right($site->user,DROIT_LECTURE) )
   exit();
 }
 
-if( isset($_REQUEST['get_preview']) && isset($_REQUEST['id_message']) )
+if( isset($_REQUEST['get_preview']) )
 {
-  $message->load_by_id($_REQUEST['id_message']);
-  if($message->is_valid())
-  {
-    $preview = new simplemessageforum($message);
-    echo( $preview->html_render() );
-  }
+  $message->titre = $_REQUEST['title'];
+  $message->contenu = $_REQUEST['content'];
+  $message->id_utilisateur = $_REQUEST['user'];
+  $message->syntaxengine = $_REQUEST['syntaxengine'];
+  
+  
+  $preview = new simplemessageforum($message);
+  echo( $preview->html_render() );
+  
   exit();
 }
 
@@ -505,7 +508,7 @@ if ( $sujet->is_valid() )
         user = ".$site->user->id.";
         syntaxengine = document.frmreply.synengine.value;
         
-        openInContents('msg_preview', './index.php', 'title='+title+'&content='+content+'&user='+user+'&syntaxengine='+syntaxengine);
+        openInContents('msg_preview', './index.php', 'get_preview&title='+title+'&content='+content+'&user='+user+'&syntaxengine='+syntaxengine);
       }
       </script>\n");
   
