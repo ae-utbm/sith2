@@ -399,38 +399,12 @@ class simplemessageforum extends stdcontents
       $this->title = "Prévisualisation";
       
       $t = $message->date;
-      
-/*      if ( $user->is_valid() && 
-      ( is_null($last_read) || $last_read < $row['id_message'] ) && 
-      ( is_null($user->tout_lu_avant) || $t > $user->tout_lu_avant ) )
-      {
-        $this->buffer .= "<div class=\"forummessageentry nonlu\" id=\"msg".$row['id_message']."\">\n";
-        if ( $firstunread )
-        {
-          $firstunread=false;  
-          $this->buffer .= "<div id=\"firstunread\"></div>";
-        }
 
-	$this->buffer .= "<a href=\"./?id_message=".
-	  $row['id_message']."#msg".$row['id_message']."\">";
-        
-        if ( $row['titre_message'] )
-          $this->buffer .= "<h2 class=\"frmt\">Message non lu: ".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";      
-        else
-          $this->buffer .= "<h2 class=\"frmt\">Message non lu</h2>\n";  
+      $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$message->id."\">\n";
 
-
-      }
-      else */
-      {
-  //      if ( $n )
-  //        $this->buffer .= "<div class=\"forummessageentry pair\" id=\"msg".$row['id_message']."\">\n";
-  //      else
-          $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$message->id."\">\n";
-  //      $n=($n+1)%2;
  
-	/* permalink */
-	$this->buffer .= "<a href=\"./?id_message=".
+	  /* permalink */
+   	$this->buffer .= "<a href=\"./?id_message=".
 	  $message->id."#msg".$message->id."\">";
 
         if ( $message->titre )
@@ -442,7 +416,7 @@ class simplemessageforum extends stdcontents
       $this->buffer .= "<p class=\"date\">".human_date($t)."</p>\n";
       $this->buffer .= "</a>";
 
-/* ici ont été supprimées les actions sur le message */
+  /* ici ont été supprimées les actions sur le message */
           
       $this->buffer .= "<div class=\"auteur\">\n";
       

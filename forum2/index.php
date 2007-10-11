@@ -158,14 +158,12 @@ if ( !$forum->is_right($site->user,DROIT_LECTURE) )
   exit();
 }
 
-if( isset($_REQUEST['taistepreview']) && isset($_REQUEST['id_message']) )
+if( isset($_REQUEST['get_preview']) && isset($_REQUEST['id_message']) )
 {
   $message->load_by_id($_REQUEST['id_message']);
   if($message->is_valid())
   {
-    $taiste = new contents();
-    $taiste->add( new simplemessageforum($message), true);
-    $site->add_contents($taiste);
+    echo( new simplemessageforum($message) );
   }
 }
 
@@ -339,12 +337,15 @@ if ( $sujet->is_valid() )
         $frm->add_dokuwiki_toolbar('text');
       $frm->add_text_area("text", "Texte du message : ",$message->contenu,80,20);
       $frm->add_submit("submit", "Modifier");
+      $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:openInContent('msg_preview', './index.php', 'get_preview&id_message=".$message->id."')\" /></div></div>\n");
       $frm->allow_only_one_usage();
       
       $cts = new contents($path." / Edition");
     
       $cts->add($frm);
-
+      
+      $cts->puts("<div id=\"msg_preview\"></div>");
+      
       $site->add_contents($cts);
       $site->end_page();
       exit();
@@ -526,9 +527,10 @@ if ( $sujet->is_valid() )
     $frm->add_text_area("rpltext", "Texte du message : ",$rpltext,80,20);
     $frm->add_checkbox ( "star", "Ajouter à mes sujets favoris.", true );
     $frm->add_submit("rplsubmit", "Poster");
+    
     $frm->allow_only_one_usage();
     $cts->add($frm);
-    
+
     
     $npp=40;
     $nbpages = ceil($sujet->nb_messages / $npp);
