@@ -72,6 +72,10 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         //$user->set_email_utbm($email);
         if(!$user->utbm && $user2->utbm)
         {
+          if($user2->email_utbm)
+            $email==$user2->email_utbm;
+          else
+            $email==$user2->email;
           $user->became_utbm($user2->email_utbm,true);
           $user->became_etudiant( $user2->nom_ecole_etudiant, $user2->ancien_etudiant, true);
         }
@@ -84,38 +88,14 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         if($user->date_naissance == strtotime("1970-01-01"))
           $user->date_naissance=$user2->date_naissance;
         // else comment je fais moi ???
-        //addresse
-        $user->addresse = "";
-        //id_ville
-        $user->id_ville=null;
-        //id_pays
-        $user->id_pays=null;
-        //tel_maison
-        $user->tel_maison=null;
-        //tel_portable
-        $user->tel_portable=null;
-        //alias
-        $user->alias=null;
         //droit_image(true or false)
         $user->droit_image=true;
-        //site_web ???
-        $user->site_web=null;
         //publique
         $user->publique=true; //nazi :P
         //publique_mmtpapier
         $user->publique_mmtpapier=true; //nazi aussi :P
         //signature_utl
         $user->signalure_utl="l'AE c'est bien";;
-        //citation
-        $user->citation="";
-        //adresse_parents
-        $user->adresse_parents="";
-        //id_ville_parents
-        $user->id_ville_parents=null;
-        //id_pays_parents
-        $user->id_pays_parents=null;
-        //tel_parents
-        $user->tel_parents="";
 
         // on sauvegarde
         $user->saveinfos();
