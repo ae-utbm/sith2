@@ -164,9 +164,11 @@ if( isset($_REQUEST['get_preview']) )
   $message->contenu = $_REQUEST['content'];
   $message->id_utilisateur = $_REQUEST['user'];
   $message->syntaxengine = $_REQUEST['syntaxengine'];
+  $message->date = time();
   
   
   $preview = new simplemessageforum($message);
+  echo "<h2>Prévisualisation</h2>";
   echo( $preview->html_render() );
   
   exit();
@@ -342,11 +344,23 @@ if ( $sujet->is_valid() )
         $frm->add_dokuwiki_toolbar('text');
       $frm->add_text_area("text", "Texte du message : ",$message->contenu,80,20);
       $frm->add_submit("submit", "Modifier");
-      $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:openInContents('msg_preview', './index.php', 'get_preview&id_message=".$message->id."')\" /></div></div>\n");
+      $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:make_preview();\" /></div></div>\n");
       $frm->allow_only_one_usage();
       
       $cts = new contents($path." / Edition");
     
+      $cts->add_paragraph("<script language=\"javascript\">
+      function make_preview()
+      {
+        title = document.frmreply.rpltitle.value;
+        content = document.frmreply.rpltext.value;
+        user = ".$site->user->id.";
+        syntaxengine = document.frmreply.synengine.value;
+        
+        openInContents('msg_preview', './index.php', 'get_preview&title='+title+'&content='+content+'&user='+user+'&syntaxengine='+syntaxengine);
+      }
+      </script>\n");
+      
       $cts->add($frm);
       
       $cts->puts("<div id=\"msg_preview\"></div>");
