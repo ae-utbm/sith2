@@ -395,10 +395,13 @@ class simplemessageforum extends stdcontents
 {
   function simplemessageforum($message)
   {
-      global $topdir, $wwwtopdir;
+      global $topdir, $wwwtopdir, $site;
       $this->title = "Prévisualisation";
       
       $t = $message->date;
+
+      $sql = new requete($site->db, "SELECT `alias_utl`, `signature_utl` FROM `utilisateurs` WHERE id_utilisateur=$message->id_utilisateur LIMIT 1");
+      $row = sql->get_row();
 
       $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$message->id."\">\n";
 
@@ -420,7 +423,7 @@ class simplemessageforum extends stdcontents
           
       $this->buffer .= "<div class=\"auteur\">\n";
       
-      $this->buffer .= "<p class=\"funame\"><a href=\"".$wwwtopdir."user.php?id_utilisateur=".$message->id_utilisateur."\">".htmlentities("<i>alias ?</i>", ENT_NOQUOTES,"UTF-8")."</a></p>\n";
+      $this->buffer .= "<p class=\"funame\"><a href=\"".$wwwtopdir."user.php?id_utilisateur=".$message->id_utilisateur."\">".htmlentities($row['alias_utl'], ENT_NOQUOTES,"UTF-8")."</a></p>\n";
       
       $img=null;
       if (file_exists($topdir."var/img/matmatronch/".$message->id_utilisateur.".jpg"))
@@ -451,7 +454,7 @@ class simplemessageforum extends stdcontents
 //      if ( !is_null($row['signature_utl']) )  
 //      {
         $this->buffer .= "<div class=\"signature\">\n";      
-        $this->buffer .= doku2xhtml("//Signature ?//");
+        $this->buffer .= doku2xhtml($row['signature_utl']);
         $this->buffer .= "</div>\n";      
 //      }
       
