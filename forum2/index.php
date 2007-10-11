@@ -160,7 +160,7 @@ if ( !$forum->is_right($site->user,DROIT_LECTURE) )
 
 if( isset($_REQUEST['taistepreview']) && isset($_REQUEST['id_message']) )
 {
-  $message->load_by_id($_REQUEST['id_message');
+  $message->load_by_id($_REQUEST['id_message']);
   if($message->is_valid())
   {
     $taiste = new contents();
