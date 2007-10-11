@@ -73,7 +73,7 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         if(!$user->utbm && $user2->utbm)
         {
           $user->became_utbm($user2->email_utbm,true);
-          $user->etudiant( $user2->nom_ecole_etudiant, $user2->ancien_etudiant, true);
+          $user->became_etudiant( $user2->nom_ecole_etudiant, $user2->ancien_etudiant, true);
         }
         if(!$user->etudiant && $user2->etudiant)
           $user->etudiant( $ecole, false, true);
