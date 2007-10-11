@@ -25,6 +25,7 @@ $topdir = "../";
 
 require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/cts/board.inc.php");
+require_once($topdir . "include/cts/tagcloud.inc.php");
 require_once("include/jobetu.inc.php");
 require_once("include/cts/jobetu.inc.php");
 require_once("include/jobuser_etu.inc.php");
@@ -145,7 +146,7 @@ else
 	while($row = $sql->get_row())
 		$array_tags[ $row['nom'] ] = $row['val'];
 	
-	$tags->add( new tagcloud($array_tags, "{qty} étudiants sont actuellements disponibles pour {name}") );
+	$tags->add( new tagcloud($array_tags, null, "{qty} étudiants sont actuellements disponibles pour {name}") );
 	$site->add_contents($tags, true);
 }
 	
