@@ -80,6 +80,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "info")
 			$annonce = new annonce($site->db);
 			$annonce->load_by_id($id_annonce);
 			$header->add( new apply_annonce_box($annonce) );
+			
+			$sql = new requete($site->db, "SELECT `job_annonces_etu`.*, `id_utilisateur`, CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM `job_annonces_etu` LEFT JOIN `utilisateurs` ON `id_utilisateur`=`id_etu` WHERE id_annonce = $annonce->id");
+			$table = new sqltable("annonce_etu", "Enregistrements", $sql, "admin.php?view=annonces", "id_relation", array("id_relation" => "Id", "nom_utilisateur" => "Utilisateur", "relation" => "Relation"), array("delete" => "Supprimer"), array(), array("relation" => array("apply" => "Candidat", "reject" => "Rejet", "selected" => "Sélectionné")));
+			$header->add($table);
 		}
   $site->add_contents($header);
 }
