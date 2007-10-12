@@ -353,8 +353,8 @@ if ( $sujet->is_valid() )
       $cts->add_paragraph("<script language=\"javascript\">
       function make_preview()
       {
-        title = document.frmreply.rpltitle.value;
-        content = document.frmreply.rpltext.value;
+        title = document.frmreply.title.value;
+        content = document.frmreply.text.value;
         user = ".$site->user->id.";
         syntaxengine = document.frmreply.synengine.value;
         
