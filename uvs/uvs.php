@@ -659,7 +659,7 @@ foreach ($departements as $dept)
       $uvs[] = "<a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">". 
 	$rs['code_uv'] . " - " . $rs['intitule_uv'] . "</a>";
 	   
-	    $uvs_taiste[$dept][] = "[[./uvs.php?id_uv=".$rs['id_uv']." | **".$rs['code_uv']."**]]";
+	    $uvs_taiste[$dept][] = "**[[./uvs.php?id_uv=".$rs['id_uv']." | ".$rs['code_uv']."]]**";
     }
 
 
