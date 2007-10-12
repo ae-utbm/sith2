@@ -631,6 +631,8 @@ if (isset($_REQUEST['iddept']))
 $cts = new contents("Guide - Informations sur les UVs");
 $taiste = new contents("Et en tableau ça donne quoi ?");
 
+  $uvs_taiste = array();
+  
 foreach ($departements as $dept)
 {
   $req = new requete($site->db,
@@ -648,7 +650,7 @@ foreach ($departements as $dept)
                       ORDER BY
                              `edu_uv`.`code_uv`");
 
-  $uvs_taiste = array();
+
   $uvs_taiste[$dept] = array();
 
   $uvs = array();
@@ -659,7 +661,7 @@ foreach ($departements as $dept)
 	   
 	    $uvs_taiste[$dept][] = "[[./uvs.php?id_uv=".$rs['id_uv']." |**".$rs['code_uv']."**]]";
     }
-  var_dump($uvs_taiste[$dept]);
+
 
   $lst = new itemlist($dept,
 		      false,
@@ -689,8 +691,7 @@ foreach ($departements as $dept)
     $i++;
   }
   $taiste->add_paragraph(doku2xhtml($text));
-print_r($uvs_taiste);
-print_r($text);
+  
 $site->add_contents($cts);
 
 $site->add_contents($taiste);
