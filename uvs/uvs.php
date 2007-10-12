@@ -688,7 +688,8 @@ foreach ($departements as $dept)
     $i++;
   }
   $taiste->add_paragraph(doku2xhtml($text));
-
+print_r($uvs_taiste);
+print_r($text);
 $site->add_contents($cts);
 
 $site->add_contents($taiste);
