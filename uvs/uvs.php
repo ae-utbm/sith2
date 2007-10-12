@@ -34,6 +34,7 @@ require_once($topdir . "include/entities/uv.inc.php");
 
 
 $site = new site();
+$site->add_css($topdir."css/doku.css");
 
 $site->start_page("services", "Informations UV");
 
