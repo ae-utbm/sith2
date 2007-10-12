@@ -353,10 +353,10 @@ if ( $sujet->is_valid() )
       $cts->add_paragraph("<script language=\"javascript\">
       function make_preview()
       {
-        title = document.frmreply.title.value;
-        content = document.frmreply.text.value;
+        title = document.frmedit.title.value;
+        content = document.frmedit.text.value;
         user = ".$site->user->id.";
-        syntaxengine = document.frmreply.synengine.value;
+        syntaxengine = document.frmedit.synengine.value;
         
         openInContents('msg_preview', './index.php', 'get_preview&title='+title+'&content='+content+'&user='+user+'&syntaxengine='+syntaxengine);
       }
