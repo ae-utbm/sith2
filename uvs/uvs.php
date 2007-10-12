@@ -629,7 +629,7 @@ if (isset($_REQUEST['iddept']))
 }
 
 $cts = new contents("Guide - Informations sur les UVs");
-
+$taiste = new contents("Et en tableau ça donne quoi ?");
 
 foreach ($departements as $dept)
 {
@@ -648,12 +648,17 @@ foreach ($departements as $dept)
                       ORDER BY
                              `edu_uv`.`code_uv`");
 
+  $uvs_taiste = array();
+  $uvs_taiste[$dept] = array();
+
   $uvs = array();
   while ($rs = $req->get_row())
     {
       $uvs[] = "<a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">". 
 	$rs['code_uv'] . " - " . $rs['intitule_uv'] . "</a>";
+	    $uvs_taiste[$dept][] = "[[./uvs.php?id_uv=".$rs['id_uv']." |**".$rs['code_uv']."**]]";
     }
+  
 
   $lst = new itemlist($dept,
 		      false,
@@ -662,7 +667,33 @@ foreach ($departements as $dept)
   $cts->add($lst);
 }
 
+  foreach($uvs_taiste as $tmp)
+    $count[] = count($tmp);
+  $max = max($count);
+
+  $text = "^";
+  foreach ($departements as $dept)
+    $text .= " $dept ^";
+  $text .= "\n";
+  
+  $i=0;
+  while($i < $max)
+  {
+    $text = "|";
+    foreach($uvs_taiste as $dep)
+    {
+      $text .= " $dep[$i] |";
+    }
+    $text .= "\n";
+    $i++;
+  }
+  $taiste->add_paragraph(doku2xhtml($text));
+
 $site->add_contents($cts);
+
+$site->add_contents($taiste);
+
+
 
 $site->end_page();
 
