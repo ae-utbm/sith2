@@ -98,7 +98,7 @@ div.desc_row
 	margin: 0px;
 	padding: 0;
 	border: 0;
-	position: relative;
+ 	position: relative; 
 }
 
 div.desc_label
@@ -107,18 +107,18 @@ div.desc_label
 	padding: 3px;
 	border: 0;
 	position: absolute; 
-	width: 15%;
+	width: 150px;
 	overflow: hidden;
 	vertical-align: top;
+	border-right: 1px solid #D8E7F3;
 }
 
 div.desc_content
 {
 	margin: 0;
-	margin-left: 15%;
+	margin-left: 15px;
 	padding: 3px;
-	padding-left: 15px;
-	border-left: 1px solid #D8E7F3;
+	padding-left: 160px;
 }
 
 div.desc_user_photo
