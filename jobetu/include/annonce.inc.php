@@ -41,7 +41,7 @@ class annonce extends stdentity
 	var $duree;
 	var $nb_postes;
 	var $indemnite;
-	var $ville;
+	var $lieu;
 	var $type_contrat;
 	var $allow_diff;
 	var $tel_client;
@@ -81,7 +81,7 @@ class annonce extends stdentity
   	$this->duree = $line['duree'];
   	$this->nb_postes = $line['nb_postes'];
   	$this->indemnite = $line['indemnite'];
-  	$this->ville = $line['ville'];
+  	$this->lieu = $line['lieu'];
   	$this->type_contrat = $line['type_contrat'];
   	$this->allow_diff = $line['allow_diff'];
   	$this->tel_client = $line['num_client'];
@@ -329,7 +329,7 @@ EOF;
    * @param $client objet jobuser_client
    * @param $titre titre de l'annonce 
    */
-  function add($client, $titre, $job_type, $desc, $profil, $divers = null, $start_date = null, $duree = null, $nb_postes = 1, $indemnite = null, $ville = null, $type_contrat = null, $allow_diff = 0 )
+  function add($client, $titre, $job_type, $desc, $profil, $divers = null, $start_date = null, $duree = null, $nb_postes = 1, $indemnite = null, $lieu = null, $type_contrat = null, $allow_diff = 0 )
   {
 		if(!($client instanceof jobuser_client))	return -1;
 	 	
@@ -343,7 +343,7 @@ EOF;
 		$this->duree = $duree;
 		$this->nb_postes = $nb_postes;
 		$this->indemnite = $indemnite;
-		$this->ville = $ville;
+		$this->lieu = $lieu;
 		$this->type_contrat = $type_contrat;
 		$this->allow_diff = $allow_diff;
 
@@ -361,7 +361,7 @@ EOF;
 														"duree" => $this->duree,
 														"nb_postes" => $this->nb_postes,
 														"indemnite" => $this->indemnite,
-														"ville" => $this->ville,
+														"lieu" => $this->lieu,
 														"type_contrat" => $this->type_contrat,
 														"allow_diff" => $this->allow_diff,
 														"closed" => 0										
@@ -378,7 +378,7 @@ EOF;
   /**
    * Edition d'une annonce
    */
-  function save($client, $titre, $job_type, $desc, $profil = null, $divers = null, $start_date = null, $duree = null, $nb_postes = 1, $indemnite = null, $ville = null, $type_contrat = null, $allow_diff = 0 )
+  function save($client, $titre, $job_type, $desc, $profil = null, $divers = null, $start_date = null, $duree = null, $nb_postes = 1, $indemnite = null, $lieu = null, $type_contrat = null, $allow_diff = 0 )
   {
   	if(!($client instanceof jobuser_client))	return -1;
 		
@@ -391,7 +391,7 @@ EOF;
 		$this->duree = $duree;
 		$this->nb_postes = $nb_postes;
 		$this->indemnite = $indemnite;
-		$this->ville = $ville;
+		$this->lieu = $lieu;
 		$this->type_contrat = $type_contrat;
 		$this->allow_diff = $allow_diff;  
 			
@@ -407,7 +407,7 @@ EOF;
 														"duree" => $this->duree,
 														"nb_postes" => $this->nb_postes,
 														"indemnite" => $this->indemnite,
-														"ville" => $this->ville,
+														"lieu" => $this->lieu,
 														"type_contrat" => $this->type_contrat,
 														"allow_diff" => $this->allow_diff								
 											),
