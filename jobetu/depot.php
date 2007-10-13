@@ -67,7 +67,7 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	$frm->add_text_area("profil", "Profil recherché", false, 60, 3, true);
 	$frm->add_date_field("date_debut", "Date de debut");
 	$frm->add_text_field("duree", "Durée");
-	$frm->add_text_field("lieu", "Durée");
+	$frm->add_text_field("lieu", "Lieu");
 	$frm->add_text_field("remuneration", "Rémunération");
 	$frm->add_text_field("nb_postes", "Nombre de postes disponibles", "1", true, 4);
 	$frm->add_text_area("divers", "Autres informations", false, 60, 3);
@@ -105,7 +105,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 	$frm->add_text_area("profil", "Profil recherché", $annonce->profil, 60, 3, true);
 	$frm->add_date_field("date_debut", "Date de debut (facultatif)", $annonce->start_date);
 	$frm->add_text_field("duree", "Durée", $annonce->duree);
-	$frm->add_text_field("lieu", "Durée", $annonce->lieu);
+	$frm->add_text_field("lieu", "Lieu", $annonce->lieu);
 	$frm->add_text_field("remuneration", "Rémunération", $annonce->indemnite);
 	$frm->add_text_field("nb_postes", "Nombre de postes disponibles", $annonce->nb_postes, true, 4);
 	$frm->add_text_area("divers", "Autres informations", $annonce->divers, 60, 3);
@@ -215,7 +215,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="save" && $_REQUEST[
 	$annonce = new annonce($site->db, $site->dbrw);
 	$annonce->load_by_id($_REQUEST['id']);
 			
-	$result = $annonce->save($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['divers'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['nb_postes'], $_REQUEST['remuneration'], null, null, $_REQUEST['allow_diff']);
+	$result = $annonce->save($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['divers'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['nb_postes'], $_REQUEST['remuneration'], $_REQUEST['lieu'], null, $_REQUEST['allow_diff']);
 	
 	if($result)
 	{

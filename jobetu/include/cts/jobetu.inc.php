@@ -61,8 +61,10 @@
 						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Date de début </div> \n <div class=\"desc_content\">".$annonce->start_date."</div> \n</div>";
 				if( !empty($annonce->indemnite) )
 						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Rémunération (€)</div> \n <div class=\"desc_content\">". $annonce->indemnite ."</div> \n</div>";
+			  if( !empty($annonce->lieu) )
+						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Lieu </div> \n <div class=\"desc_content\">". $annonce->lieu ."</div> \n</div>";
 				if( $annonce->nb_postes != 1 )
-				$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Nombre de postes </div> \n <div class=\"desc_content\">".$annonce->nb_postes." (".$annonce->remaining_positions()." places restantes)</div> \n</div>";
+				    $this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Nombre de postes </div> \n <div class=\"desc_content\">".$annonce->nb_postes." (".$annonce->remaining_positions()." places restantes)</div> \n</div>";
 				if( !empty($annonce->duree) )
 						$this->buffer .= "<div class=\"desc_row\"> \n<div class=\"desc_label\"> Durée </div> \n <div class=\"desc_content\">".$annonce->duree."</div> \n</div>";
 				if( !empty($annonce->desc) ) //enfin en théorie ça peut pas l'être
