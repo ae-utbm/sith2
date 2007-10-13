@@ -695,7 +695,7 @@ foreach ($departements as $dept)
   
 $site->add_contents($cts);
 
-$site->add_contents($taiste);
+/* site->add_contents($taiste); */
 
 
 
