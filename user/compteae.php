@@ -147,7 +147,7 @@ elseif ( $_REQUEST["page"] == "rech" )
 	
 	$cts->add(new sqltable(
 		"listresp", 
-		"Depenses", $req, "compteae.php?id_utilisateur=".$user->id,
+		$user->type=="srv"?"Paiements":"Rechargements", $req, "compteae.php?id_utilisateur=".$user->id,
 		"id_rechargement", 
 		array(
 			"id_rechargement"=>"Rechargement",
@@ -216,7 +216,7 @@ while ( list($sum,$month) = $req->get_row() )
 if(!empty($report))
 {
   $tbl = new table(false,"sqltable");
-  $tbl->add_row(array("Mois","Depenses","Rechargements"),"head");
+  $tbl->add_row(array("Mois","Depenses",$user->type=="srv"?"Paiements":"Rechargements"),"head");
   $t=0;
   foreach( $report as $month => $data )
   {
@@ -343,7 +343,7 @@ $cts->add(new sqltable("eblstcb",
 
 
 $cts->add(new sqltable("eblstae",
-         "E-boutic, Commandes payées par carte AE",
+         $user->type=="srv"?"E-boutic, Commandes sur facturation":"E-boutic, Commandes payées par carte AE",
          $req2,
          "moncompte.php",
          "id_facture",
