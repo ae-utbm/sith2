@@ -23,7 +23,7 @@
 
 require_once($topdir."include/entities/basedb.inc.php");
 
-define("WIKI_LOCKTIME",60);
+define("WIKI_LOCKTIME",600);
 
 /**
  * @file
