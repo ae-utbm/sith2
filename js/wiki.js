@@ -53,4 +53,7 @@ function wiki_lock_maintain ( topdir, locktime, pagename )
   
 	var obj = document.getElementById("textarea_revisewiki_contents");
   obj.onchange=wiki_modified;
+  obj.onkeyup=wiki_modified;
+  obj.onmouseup=wiki_modified;
+
 }
