@@ -295,6 +295,7 @@ foreach($names as $name => $firstnames)
         $cts->add($frm,true);
       }
     }
+  }
 }
 $site->add_contents($cts);
 $site->end_page ();
