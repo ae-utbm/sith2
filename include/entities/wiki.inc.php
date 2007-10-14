@@ -23,6 +23,8 @@
 
 require_once($topdir."include/entities/basedb.inc.php");
 
+define("WIKI_LOCKTIME",60);
+
 /**
  * @file
  */
@@ -575,7 +577,7 @@ class wiki extends basedb
 	  $req = new requete($this->dbrw,
       "SELECT id_utilisateur FROM wiki_lock ".
       "WHERE `id_wiki` = '" . mysql_real_escape_string($this->id) . "' ".
-      "AND time_lock >= '".date("Y-m-d H:i:s",time()-900)."' ".
+      "AND time_lock >= '".date("Y-m-d H:i:s",time()-WIKI_LOCKTIME)."' ".
       "LIMIT 1");
     
     if ( $req->lines == 0 )
@@ -590,6 +592,18 @@ class wiki extends basedb
       return false;
     
 	  return $uid; 
+	}
+	
+	function lock_renew(&$user)
+	{
+	  new requete($this->dbrw,
+      "UPDATE wiki_lock SET time_lock='".date("Y-m-d H:i:s")."' ".
+      "WHERE `id_wiki` = '" . mysql_real_escape_string($this->id) . "' ".
+      "AND id_utilisateur = '".mysql_real_escape_string($user->id)."' ".
+      "AND time_lock >= '".date("Y-m-d H:i:s",time()-WIKI_LOCKTIME)."'");
+      
+      
+    return true;
 	}
 	
 	function lock(&$user)

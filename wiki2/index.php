@@ -225,7 +225,13 @@ $can_edit = $site->user->is_valid() && $wiki->is_right($site->user,DROIT_ECRITUR
 $is_admin = $wiki->is_admin($site->user);
 
 
-if ( $_REQUEST["action"] == "revision" && $can_edit )
+if ( $_REQUEST["action"] == "lockrenew" && $can_edit )
+{
+  $wiki->lock_renew($site->user);
+  echo "wiki_renewed();";
+  exit();
+}
+else if ( $_REQUEST["action"] == "revision" && $can_edit )
 {
   $wiki->unlock($site->user);
 
@@ -310,6 +316,8 @@ elseif ( $can_edit && $_REQUEST["view"] == "edit" )
   }
   else
   {
+    $site->add_js("js/wiki.js");
+    
     if ( isset($Erreur) )
     {
       // TODO: tenter un merge? (sur $_REQUEST["contents"] et $_REQUEST["title"])
@@ -332,7 +340,8 @@ elseif ( $can_edit && $_REQUEST["view"] == "edit" )
     $frm->add_text_field("comment","Log","");
     $frm->add_submit("save","Enregistrer"); 
     $cts->add($frm);
-    //TODO: faire un unock quand on va sur une autre page sans enregistrer
+    $cts->puts("<script>wiki_lock_maintain('".$topdir."',".WIKI_LOCKTIME.",'".$pagepath."');</script>");
+
   }
 }
 elseif ( $_REQUEST["view"] == "srcs" ) 
