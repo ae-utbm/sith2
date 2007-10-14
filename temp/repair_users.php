@@ -263,12 +263,15 @@ while ( $row = $sql->get_row() )
 $cts = new contents("Gestion des doublons");
 foreach($names as $name => $firstnames)
 {
+  $num=0;
   foreach($firstnames as $firstname => $ids)
+  {
+    $num++;
     if(count($ids)>1)
     {
       if(count($ids)==2)
       {
-        $frm = new form("discard","repair_users.php",true,"POST",$name." ".$firstname);
+        $frm = new form("discard","repair_users.php",true,"POST",$num." - ".$name." ".$firstname);
         $frm->add_info("Faut il merger les fiches suivantes :<br />");
         $frm->add_info("<ul>");
         $frm->add_info("<li><a href='../user.php?id_utilisateur=".$ids[0]."'>".$ids[0]."</a></li>");
@@ -283,7 +286,7 @@ foreach($names as $name => $firstnames)
       }
       else
       {
-        $frm = new form("discard","repair_users.php",true,"POST",$name." ".$firstname);
+        $frm = new form("discard","repair_users.php",true,"POST",$num." - ".$name." ".$firstname);
         $frm->add_info("Faut il merger les fiches suivantes :<br />");
         for ($i=0; $i<count($ids); $i++)
           $frm->add_checkbox( $ids[$i],"<a href='../user.php?id_utilisateur=".$ids[$i]."'>".$ids[$i]."</a>");
