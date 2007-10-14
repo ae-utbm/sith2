@@ -100,7 +100,7 @@ while ($line = $query->get_row ())
   $total += intval($line['quantite']) * $line['prix_unit'];
 }
 
-if ( $fact->mode == "AE" )
+if ( $fact->mode == "AE" && $user->type != "srv" )
 {
   $lines[] = array('nom' => utf8_decode("Reprise sur accompte"),
 		   'quantite' => 1,
