@@ -25,6 +25,7 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
     foreach($ids as $id => $value)
     {
       $user->load_by_id($id);
+      $user->load_all_extra();
       if($user->ae && $user->utbm)
       {
         $_id=$user->id;
@@ -40,6 +41,7 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
       foreach($ids as $id => $value)
       {
         $user->load_by_id($id);
+        $user->load_all_extra();
         if($ae && !$utbm && $user->ae)
         {
           $_id=$user->id;
@@ -57,6 +59,7 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
       if($_id==0)
       {
         $user->load_by_id($id);
+        $user->load_all_extra();
         $_id=$id;
       }
       elseif($_id==$id)
