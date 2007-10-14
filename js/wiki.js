@@ -9,6 +9,7 @@ var wiki_edit_going_to_expire;
 
 function wiki_modified ()
 {
+  alert("bleh");
   wiki_edit_modified_since_renew=true;
   wiki_edit_modified=true;
   
