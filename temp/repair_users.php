@@ -98,8 +98,9 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         //publique_mmtpapier
         $user->publique_mmtpapier=true; //nazi aussi :P
         //signature_utl
-        $user->signalure_utl="l'AE c'est bien";;
+        $user->signalure_utl="l'AE c'est bien";
 
+        $user->montant_compte=$user->montant_compte+$user2->montant_compte;
         // on sauvegarde
         $user->saveinfos();
 
@@ -206,6 +207,12 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         /* on vérifie les votes */
 
         /* on vérifie les factures */
+        new update($site->dbrw,"cpt_rechargements",array('id_utilisateur' => $_id),array('id_utilisateur' => $id));
+        new update($site->dbrw,"cpt_rechargements",array('id_utilisateur_operateur' => $_id),array('id_utilisateur_operateur' => $id));
+        new update($site->dbrw,"cpt_debitfacture",array('id_utilisateur' => $_id),array('id_utilisateur' => $id));
+        new update($site->dbrw,"cpt_debitfacture",array('id_utilisateur_client' => $_id),array('id_utilisateur_client' => $id));
+        new update($site->dbrw,"cpt_rechargements",array('id_utilisateur' => $_id),array('id_utilisateur' => $id));
+
 
         /* on vérifie les cartes ae et la lettre clé */
 
