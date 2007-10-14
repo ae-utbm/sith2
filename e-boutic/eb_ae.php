@@ -57,7 +57,11 @@ $site->allow_only_logged_users();
 
 $site->start_page ("Panier e-boutic", "Etat du panier");
 
-$accueil = new contents ("E-boutic : Paiement par carte AE");
+$modal = "par carte AE";
+if ( $site->user->type == "srv" )
+  $modal = "sur facturation";
+
+$accueil = new contents ("E-boutic : Paiement $modal");
 
 
 /* panier vide */
@@ -71,7 +75,11 @@ else
   if (!isset($_POST['confirm_payment']))
   {
 
-    $accueil->add_paragraph("Vous etes sur le point de ".
+    if ( $site->user->type == "srv" )
+      $accueil->add_paragraph("Vous etes sur le point de ".
+       "confirmer l'achat des articles suivants<br/><br/>");
+     else
+      $accueil->add_paragraph("Vous etes sur le point de ".
        "confirmer l'achat des articles suivants ".
        "a l'aide de votre compte AE (hors systeme ".
        "bancaire)<br/><br/>");
@@ -148,7 +156,7 @@ else
                          $cpt_cart,
                          false);
       $accueil->add_paragraph ("<h1>Vente effectuee</h1>".
-                               "<p>Vos achats par carte AE ont ".
+                               "<p>Vos achats $modal ont ".
                                "&eacute;t&eacute; effectu&eacute;s.<br/><br/>".
                                "Merci d'avoir utilis&eacute; e-boutic !".
                                "<br/><br/>".
@@ -168,7 +176,7 @@ else
     if (isset($_POST["payment_ae_cancel"]))
     {
       $accueil->add_paragraph ("<h1>Vente annulee</h1>".
-                               "<p>Vos achats par carte AE ont ".
+                               "<p>Vos achats $modal ont ".
                                "ete annules.<br/><br/>".
                                "<a href=\"./\">Retour accueil ".
                                "e-boutic</a></p>");

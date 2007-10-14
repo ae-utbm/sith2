@@ -189,8 +189,13 @@ else
                                "desactive.</p>");
     else
     {
+      if ( $site->user->type == "srv" )
+        $accueil->add_paragraph ("<h1>Paiement sur facture</h1>\n" .
+                                 "<p>Cliquez sur le lien pour valider la commande</p>\n<p class=\"center\">\n".
+                                 " <a href=\"./eb_ae.php\">Paiement sur facture</a></p>\n");
+                                 
       /* controle si suffisemment sur carte AE pour envisager un paiement */
-      if ($site->user->montant_compte < $site->total)
+      elseif (!$site->user->credit_suffisant($site->total) )
         $accueil->add_paragraph ("<h1>Paiement par carte AE : Solde de ".
                                  sprintf("%.2f", $site->user->montant_compte / 100) .
                                  " Euros insuffisant </h1>".
