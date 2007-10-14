@@ -150,7 +150,7 @@ elseif ( $_REQUEST["page"] == "rech" )
 		$user->type=="srv"?"Paiements":"Rechargements", $req, "compteae.php?id_utilisateur=".$user->id,
 		"id_rechargement", 
 		array(
-			"id_rechargement"=>"Rechargement",
+			"id_rechargement"=>$user->type=="srv"?"Paiement":"Rechargement",
 			"date_rech"=>"Date",
 			"montant_rech"=>"Montant",
 			"type_paiement_rech"=>"Type",
@@ -174,7 +174,8 @@ $site->start_page("matmatronch", $user->prenom . " " . $user->nom );
 $cts = new contents( $user->prenom . " " . $user->nom );
 $cts->add(new tabshead($user->get_tabs($site->user),"compte"));
 
-$cts->puts("<a href=\"".$topdir."e-boutic/?cat=11\"><img src=\"".$topdir."images/comptoir/eboutic/pub-eb-rech.png\" border=\"0\" alt=\"Recharger par carte bleue\" class=\"imgright\" /></a>");
+if ( $user->type!="srv" )
+  $cts->puts("<a href=\"".$topdir."e-boutic/?cat=11\"><img src=\"".$topdir."images/comptoir/eboutic/pub-eb-rech.png\" border=\"0\" alt=\"Recharger par carte bleue\" class=\"imgright\" /></a>");
 
 $cts->add_title(2,"Carte AE");
 
