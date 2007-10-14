@@ -83,7 +83,7 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
           $user->became_etudiant( $user2->nom_ecole_etudiant, $user2->ancien_etudiant, true);
         }
         if(!$user->etudiant && $user2->etudiant)
-          $user->etudiant( $ecole, false, true);
+          $user->became_etudiant( $user2->nom_ecole_etudiant, $user2->ancien_etudiant, true);
         //sexe
         if($user->sexe < $user2->sexe)
           $user->sexe=2;
