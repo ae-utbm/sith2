@@ -261,14 +261,14 @@ while ( $row = $sql->get_row() )
 }
 
 $cts = new contents("Gestion des doublons");
+$num=0;
 foreach($names as $name => $firstnames)
 {
-  $num=0;
   foreach($firstnames as $firstname => $ids)
   {
-    $num++;
     if(count($ids)>1)
     {
+      $num++;
       if(count($ids)==2)
       {
         $frm = new form("discard","repair_users.php",true,"POST",$num." - ".$name." ".$firstname);
