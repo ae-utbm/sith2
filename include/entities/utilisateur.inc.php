@@ -48,6 +48,7 @@ class utilisateur extends stdentity
   var $params;
 
   /* table utilisateurs */
+  var $type;
   var $nom;
   var $prenom;
   var $email;
@@ -315,6 +316,7 @@ class utilisateur extends stdentity
   function _load ( $row )
   {
     $this->id = $row['id_utilisateur'];
+    $this->type = $row['type_utl'];
     $this->nom = $row['nom_utl'];
     $this->prenom = $row['prenom_utl'];
     $this->email = $row['email_utl'];
@@ -335,7 +337,6 @@ class utilisateur extends stdentity
     $this->modere = $row['modere_utl'];
     $this->droit_image = $row['droit_image_utl'];
     $this->montant_compte = $row['montant_compte'];
-    $this->site_web = $row['site_web'];
     if ( $row['date_maj_utl'] )
       $this->date_maj = strtotime($row['date_maj_utl']);
     else
@@ -413,6 +414,7 @@ class utilisateur extends stdentity
     $this->hab_elect = $row["hab_elect_utl"];
     $this->afps = $row["afps_utl"];
     $this->sst = $row["sst_utl"];
+    $this->site_web = $row['site_web'];
   }
 
   function _load_all ( $row )
@@ -701,7 +703,6 @@ class utilisateur extends stdentity
                             'tel_portable_utl' => $this->tel_portable,
                             'alias_utl' => $this->alias,
                             'droit_image_utl' => $this->droit_image==true,
-                            'site_web' => $this->site_web,
                             'date_maj_utl' => date("Y-m-d H:i:s",$this->date_maj),
                             'publique_utl'=> $this->publique,
                             'publique_mmtpapier_utl'=>$this->publique_mmtpapier,
@@ -742,6 +743,7 @@ class utilisateur extends stdentity
                       "utl_extra",
                       array(
                       'id_utilisateur' => $this->id,
+                      'site_web' => $this->site_web,
                       'musicien_utl'=>$this->musicien,
                       'taille_tshirt_utl'=>$this->taille_tshirt,
                       'permis_conduire_utl'=>$this->permis_conduire,
@@ -753,6 +755,7 @@ class utilisateur extends stdentity
       new update($this->dbrw,
                     "utl_extra",
                     array(
+                    'site_web' => $this->site_web,
                     'musicien_utl'=>$this->musicien,
                     'taille_tshirt_utl'=>$this->taille_tshirt,
                     'permis_conduire_utl'=>$this->permis_conduire,
@@ -944,6 +947,7 @@ class utilisateur extends stdentity
                          $_utbm=false,
                          $_etudiant=false)
   {
+    $this->type = "std";
     $this->nom = convertir_nom($nom);
     $this->prenom = convertir_prenom($prenom);
     $this->email = $email;
@@ -963,7 +967,8 @@ class utilisateur extends stdentity
 
     $sql = new insert ($this->dbrw,
                        "utilisateurs",
-                        array("nom_utl" => $this->nom,
+                        array("type_utl"=>$this->type,
+                              "nom_utl" => $this->nom,
                               "prenom_utl" => $this->prenom,
                               "email_utl" => $this->email,
                               "alias_utl" => $this->alias,
@@ -1090,6 +1095,8 @@ class utilisateur extends stdentity
    */
   function new_utbm_user ( $nom, $prenom, $email, $emailutbm, $alias, $password, $semestre, $branche, $promo, $etudiant, $droit_image, $nom_ecole, $date_naissance = null , $sexe = 1)
   {
+    $this->type="std";
+    
     $this->nom = convertir_nom($nom);
     $this->prenom = convertir_prenom($prenom);
 
@@ -1120,7 +1127,8 @@ class utilisateur extends stdentity
 
     $sql = new insert ($this->dbrw,
                        "utilisateurs",
-                       array("nom_utl" => $this->nom,
+                       array("type_utl"=>$this->type,
+                             "nom_utl" => $this->nom,
                              "prenom_utl" => $this->prenom,
                              "email_utl" => $this->email,
                              "alias_utl" => $this->alias,
@@ -1412,6 +1420,9 @@ L'équipe info AE";
 
   function credit_suffisant ( $prix )
   {
+    if ( $this->type == "srv" )
+      return true;
+    
     return $this->montant_compte >= $prix;
   }
 
