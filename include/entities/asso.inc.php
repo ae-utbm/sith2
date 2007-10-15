@@ -180,6 +180,12 @@ class asso extends stdentity
 			$this->id = $sql->get_id();
 		else
 			$this->id = null;
+			
+	  if ( $this->nom_unix )
+	  {
+		  $this->_ml_create($this->nom_unix."-membres");	
+		  $this->_ml_create($this->nom_unix."-bureau");	
+	  }
 	}
 	
 	/** Modifie l'association
@@ -189,6 +195,8 @@ class asso extends stdentity
 	 */
 	function update_asso ( $nom, $nom_unix, $id_parent = null, $adresse_postale="", $email=null, $siteweb=null, $login_email=null, $passwd_email=null )
 	{
+	  $old_unix = $this->nom_unix;
+	 
 		if ( is_null($this->dbrw) ) return; // "Read Only" mode
 		
 		$this->nom = $nom;
@@ -223,6 +231,20 @@ class asso extends stdentity
 			array ( "id_asso" => $this->id )
 			
 			);
+			
+    if ( $old_unix != $this->nom_unix )
+    {
+      if ( !$old_unix )
+      {
+		    $this->_ml_create($this->nom_unix."-membres");	
+		    $this->_ml_create($this->nom_unix."-bureau");
+		  }
+      else
+      {
+		    $this->_ml_rename($old_unix."-membres",$this->nom_unix."-membres");	
+		    $this->_ml_rename($old_unix."-bureau",$this->nom_unix."-bureau");	        
+      }
+    }
 
 	}
 	
@@ -507,17 +529,23 @@ class asso extends stdentity
   
   static function _ml_subscribe ( $ml, $email )
   {
-    
     //TODO: subscribe $email to $ml
   }
   
   static function _ml_unsubscribe ( $ml, $email )
   {
-    
     //TODO: unsubscribe $email from $ml
   }
   
+  function _ml_create ( $ml )
+  {
+    //TODO: create $ml
+  }
   
+  function _ml_rename ( $old, $new )
+  {
+    //TODO: rename mailing $old to $new
+  }
 }
  
  
