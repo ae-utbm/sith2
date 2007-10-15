@@ -293,7 +293,7 @@ else if ( isset($_REQUEST["id_asso"]) )
 		
 	$cts->puts("<div class=\"clearboth\"></div>");
 
-  if ( !is_null($asso->id_parent) && (!$site->user->valid() || !$asso->is_member($site->user->id)) )
+  if ( !is_null($asso->id_parent) && (!$site->user->is_valid() || !$asso->is_member($site->user->id)) )
   {
      $cts->add_title(2,"Inscrivez vous pour en savoir plus");  
     
