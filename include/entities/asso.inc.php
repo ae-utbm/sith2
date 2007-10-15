@@ -265,12 +265,18 @@ class asso extends stdentity
 	
 		if ( !$date_debut )
 			$date_debut = time();		
-	
-		if ( $this->is_member_role($id_utl,$role) )
-			return;
-			
-		if ( $this->is_member($id_utl) )
-			$this->make_former_member($id_utl,$date_debut);
+
+		$prevrole = $this->member_role($id_utl);
+		
+		if ( is_null($prevrole) )
+			$this->_ml_all_subscribe_user($id_utl,$role);
+		elseif ( $role == $prevrole )
+		  return;
+		else
+		{
+			$this->make_former_member($id_utl,$date_debut,true);
+	    $this->_ml_all_delta_user($id_utl,$prevrole,$role);
+		}
 			
 		$sql = new insert ($this->dbrw,
 			"asso_membre",
@@ -282,9 +288,6 @@ class asso extends stdentity
 				"desc_role" => $description
 				)
 			);	
-	
-	  $this->_ml_all_subscribe_user($id_utl,$role);
-	
 	}
 	
 	/** Ajoute un ancien membre de l'association
@@ -317,14 +320,15 @@ class asso extends stdentity
 	 * @param $id_utl	ID de l'utilisateur
 	 * @param $date_fin	Date de fin (timestamp unix) 
 	 */
-	function make_former_member ( $id_utl, $date_fin )
+	function make_former_member ( $id_utl, $date_fin, $ignore_ml=false )
 	{
 		if ( is_null($this->dbrw) ) return; // "Read Only" mode
 	
 		if ( !$date_fin )
 			$date_fin = time();
 	
-	  $this->_ml_all_unsubscribe_user($id_utl);
+	  if ( !$ignore_ml )
+	    $this->_ml_all_unsubscribe_user($id_utl);
 	
 		$sql = new update ($this->dbrw,
 			"asso_membre",
@@ -380,7 +384,7 @@ class asso extends stdentity
 	function member_role ( $id_utl )
 	{
     if ( is_null($id_utl) )
-      return false;
+      return NULL;
 	
 		$req = new requete($this->db, "SELECT role FROM `asso_membre`
 				WHERE `id_asso` = '" . mysql_real_escape_string($this->id) . "'
@@ -420,10 +424,7 @@ class asso extends stdentity
 		if ( is_null($newrole) )
 	    $this->_ml_all_unsubscribe_user($id_utl,$prevrole);
 	  elseif ( $newrole != $prevrole ) 
-	  {
-	    $this->_ml_all_unsubscribe_user($id_utl,$prevrole);
-	    $this->_ml_all_subscribe_user($id_utl,$newrole);
-	  }
+	    $this->_ml_all_delta_user($id_utl,$prevrole,$newrole);
 	}
 	
 	
@@ -527,6 +528,21 @@ class asso extends stdentity
       $this->_ml_unsubscribe($this->nom_unix."-bureau",$user->email);
   }
   
+  function _ml_all_delta_user ( $id_utl, $oldrole, $newrole )
+  {
+    $user = new utilisateur($this->db);
+    $user->load_by_id($id_utl);
+    
+    if ( !$user->is_valid() )
+      return;
+
+    if ( $oldrole > ROLEASSO_MEMBREACTIF && $newrole <= ROLEASSO_MEMBREACTIF )
+      $this->_ml_unsubscribe($this->nom_unix."-bureau",$user->email);
+    elseif ( $oldrole <= ROLEASSO_MEMBREACTIF && $newrole > ROLEASSO_MEMBREACTIF )
+      $this->_ml_subscribe($this->nom_unix."-bureau",$user->email);
+    
+  }
+    
   static function _ml_subscribe ( $ml, $email )
   {
     //TODO: subscribe $email to $ml
