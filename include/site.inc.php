@@ -243,11 +243,11 @@ class site extends interfaceweb
 
     if ( $section == "accueil" )
     {
+      $this->add_box("photo",$this->get_weekly_photo_contents());
       $this->add_box("anniv", $this->get_anniv_contents());
       $this->add_box("planning", $this->get_planning_contents());
       if ( preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
         $this->add_box("stream",$this->get_stream_box());
-      $this->add_box("photo",$this->get_weekly_photo_contents());
       
       if ($this->user->is_valid())
       {
@@ -664,11 +664,11 @@ class site extends interfaceweb
       $sublist->add("<a href=\"".$topdir."trombi/index.php\">Trombinoscope</a>");
     $sublist->add("<a href=\"".$topdir."user.php?view=assos\">Associations et clubs</a>");
 /*    if( $this->user->is_in_group("jobetu_etu") )
-    	$sublist->add("<a href=\"".$topdir."jobetu/board_etu.php\">Mon compte JobEtu</a>");
+      $sublist->add("<a href=\"".$topdir."jobetu/board_etu.php\">Mon compte JobEtu</a>");
     else if( $this->user->is_in_group("jobetu_client") )
-    	$sublist->add("<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>");
+      $sublist->add("<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>");
     else
-    	$sublist->add("<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>"); */
+      $sublist->add("<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>"); */
     $sublist->add("<a href=\"".$topdir."user.php?view=parrain\">Parrains et fillots</a>");
     $sublist->add("<a href=\"".$topdir."user/compteae.php\">Compte AE</a>");
 
