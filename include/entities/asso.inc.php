@@ -261,6 +261,8 @@ class asso extends stdentity
 				)
 			);	
 	
+	  $this->_ml_all_subscribe_user($id_utl,$role);
+	
 	}
 	
 	/** Ajoute un ancien membre de l'association
@@ -299,6 +301,8 @@ class asso extends stdentity
 	
 		if ( !$date_fin )
 			$date_fin = time();
+	
+	  $this->_ml_all_unsubscribe_user($id_utl);
 	
 		$sql = new update ($this->dbrw,
 			"asso_membre",
@@ -351,6 +355,26 @@ class asso extends stdentity
 		return ($req->lines == 1);	
 	}	
 	
+	function member_role ( $id_utl )
+	{
+    if ( is_null($id_utl) )
+      return false;
+	
+		$req = new requete($this->db, "SELECT role FROM `asso_membre`
+				WHERE `id_asso` = '" . mysql_real_escape_string($this->id) . "'
+				AND `id_utilisateur` = '" . mysql_real_escape_string($id_utl) . "'
+				AND `date_fin` is NULL
+				LIMIT 1");
+		
+		if ( $req->lines != 1 )
+		  return NULL;
+		  
+		list($role) = $req->get_row();
+		
+		return $role;	
+	}	
+	
+	
 	/** Enlève une 'participation' d'un membre de l'association actuelle
 	 * @param $id_utl		ID de l'utilisateur
 	 * @param $date_debut	Date de debut de la 'participation' (timestamp unix)
@@ -358,6 +382,8 @@ class asso extends stdentity
 	function remove_member ( $id_utl, $date_debut )
 	{
 		if ( is_null($this->dbrw) ) return; // "Read Only" mode
+	
+	  $prevrole = $this->member_role($id_utl);
 	
 		$sql = new delete ($this->dbrw,
 			"asso_membre",
@@ -367,6 +393,15 @@ class asso extends stdentity
 				"date_debut" => strftime("%Y-%m-%d", $date_debut)
 				)
 			);	
+			
+	  $newrole = $this->member_role($id_utl);		
+		if ( is_null($newrole) )
+	    $this->_ml_all_unsubscribe_user($id_utl,$prevrole);
+	  elseif ( $newrole != $prevrole ) 
+	  {
+	    $this->_ml_all_unsubscribe_user($id_utl,$prevrole);
+	    $this->_ml_all_subscribe_user($id_utl,$newrole);
+	  }
 	}
 	
 	
@@ -433,6 +468,55 @@ class asso extends stdentity
   {
     return true;  
   }  
+  
+  function _ml_all_subscribe_user ( $id_utl, $role=null )
+  {
+    $user = new utilisateur($this->db);
+    $user->load_by_id($id_utl);
+    
+    if ( !$user->is_valid() )
+      return;
+    
+    if ( is_null($role) )
+      $role = $this->member_role($user->id);
+    
+    if ( !is_null($this->id_parent) )
+      $this->_ml_subscribe_user($this->nom_unix."-membres",$user->email);
+    
+    if ( $role > ROLEASSO_MEMBREACTIF )
+      $this->_ml_subscribe_user($this->nom_unix."-bureau",$user->email);
+  }
+  
+  function _ml_all_unsubscribe_user ( $id_utl, $role=null )
+  {
+    $user = new utilisateur($this->db);
+    $user->load_by_id($id_utl);
+    
+    if ( !$user->is_valid() )
+      return;
+    
+    if ( is_null($role) )
+      $role = $this->member_role($user->id);
+      
+    if ( !is_null($this->id_parent) )
+      $this->_ml_unsubscribe_user($this->nom_unix."-membres",$user->email);
+    
+    if ( $role > ROLEASSO_MEMBREACTIF )
+      $this->_ml_unsubscribe_user($this->nom_unix."-bureau",$user->email);
+  }
+  
+  static function _ml_subscribe ( $ml, $email )
+  {
+    
+    //TODO: subscribe $email to $ml
+  }
+  
+  static function _ml_unsubscribe ( $ml, $email )
+  {
+    
+    //TODO: unsubscribe $email from $ml
+  }
+  
   
 }
  

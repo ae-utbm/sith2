@@ -613,6 +613,41 @@ class utilisateur extends stdentity
       $this->groupes[$this->promo_utbm+40000] = "promo".sprintf("%02d",$this->promo_utbm)."-membres";
 
   }
+  
+  function _update_mailings ( $oldemail, $newemail )
+  {
+    require_once($topdir."include/entities/asso.inc.php");
+    
+    $req = new requete($this->db,
+                       "SELECT ".
+                       "`asso`.`nom_unix_asso`, ".
+                       "`asso_membre`.`role`, ".
+                       "`asso`.`id_asso_parent` " .
+                       "FROM `asso_membre` " .
+                       "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
+                       "WHERE `asso_membre`.`id_utilisateur`='".$this->id."' " .
+                       "AND `asso_membre`.`date_fin` is NULL " .
+                       "AND (`asso`.`id_asso_parent` IS NOT NULL OR `asso_membre`.`role` > 1 ) " .
+                       "ORDER BY `asso`.`nom_asso`");
+
+    while ( list($name,$role,$parent) = $req->get_row() )
+    {
+      if ( $role > 1 )
+      {
+        asso::_ml_unsubscribe($name."-bureau",$oldemail);
+        asso::_ml_subscribe($name."-bureau",$newemail);
+      }
+      if( !is_null($parent) )
+      {
+        asso::_ml_unsubscribe($name."-membres",$oldemail);
+        asso::_ml_subscribe($name."-membres",$newemail);
+      }
+    } 
+    
+  }
+  
+  
+  
   /** Determine si l'utilisateur est membre du groupe précisé.
    * (Charge automatiquement les groupes)
    * @param $name nom du groupe
@@ -1204,6 +1239,8 @@ class utilisateur extends stdentity
 
   function set_email ( $email, $admin=false )
   {
+    $this->_update_mailings($this->email,$email);
+    
     $this->email = $email;
 
     $req = new update($this->dbrw,
