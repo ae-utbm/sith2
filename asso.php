@@ -188,6 +188,25 @@ else if ( isset($_REQUEST["id_asso"]) )
 	
 	$cts->add(new tabshead($asso->get_tabs($site->user),"info"));	
 
+
+  if ( $_REQUEST["action"] == "selfenroll" && !is_null($asso->id_parent) )
+  {
+    $site->allow_only_logged_users("presentation");
+    
+    if ( $asso->is_member($site->user->id) )
+    {
+      $cts->add_title(2,"Inscription enregistrée");
+      $cts->add_paragraph("Votre inscription était déjà enregistré, vous receverez déjà par e-mail les nouvelles de ".$asso->nom);
+    }
+    else
+    {
+      $asso->add_actual_member ( $site->user->id, time(), ROLEASSO_MEMBRE, "" );		
+      $cts->add_title(2,"Inscription enregistrée");
+      $cts->add_paragraph("Votre inscription a été enregistré, vous receverez désormais par e-mail les nouvelles de ".$asso->nom);
+    }
+  }
+
+
 	/*$img = "/var/img/logos/".$asso->nom_unix.".small.png";
 	if ( file_exists("/var/www/ae/www/ae2".$img) )
 		$cts->add(new image($asso->nom, $img, "newsimg"));*/
@@ -274,6 +293,13 @@ else if ( isset($_REQUEST["id_asso"]) )
 		
 	$cts->puts("<div class=\"clearboth\"></div>");
 
+  if ( !is_null($asso->id_parent) && (!$site->user->valid() || !$asso->is_member($site->user->id)) )
+  {
+     $cts->add_title(2,"Inscrivez vous pour en savoir plus");  
+    
+     $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail, c'est simple et rapide : <a href=\"asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");
+  }
+  
 	$site->add_contents($cts);
 	$site->end_page();
 	exit();
