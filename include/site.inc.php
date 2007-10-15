@@ -260,7 +260,7 @@ class site extends interfaceweb
       } 
       else
         $this->set_side_boxes("right",
-          array("planning","anniv","stream","photo"),"accueil_nc_right");
+          array("planning","photo","anniv","stream"),"accueil_nc_right");
       
     }
     elseif ( $section == "pg" )
