@@ -503,10 +503,10 @@ class asso extends stdentity
       $role = $this->member_role($user->id);
     
     if ( !is_null($this->id_parent) )
-      $this->_ml_subscribe_user($this->nom_unix."-membres",$user->email);
+      $this->_ml_subscribe($this->nom_unix."-membres",$user->email);
     
     if ( $role > ROLEASSO_MEMBREACTIF )
-      $this->_ml_subscribe_user($this->nom_unix."-bureau",$user->email);
+      $this->_ml_subscribe($this->nom_unix."-bureau",$user->email);
   }
   
   function _ml_all_unsubscribe_user ( $id_utl, $role=null )
@@ -521,10 +521,10 @@ class asso extends stdentity
       $role = $this->member_role($user->id);
       
     if ( !is_null($this->id_parent) )
-      $this->_ml_unsubscribe_user($this->nom_unix."-membres",$user->email);
+      $this->_ml_unsubscribe($this->nom_unix."-membres",$user->email);
     
     if ( $role > ROLEASSO_MEMBREACTIF )
-      $this->_ml_unsubscribe_user($this->nom_unix."-bureau",$user->email);
+      $this->_ml_unsubscribe($this->nom_unix."-bureau",$user->email);
   }
   
   static function _ml_subscribe ( $ml, $email )
