@@ -51,8 +51,8 @@ if ( $cpg->id > 0 && !$cpg->a_repondu($site->user->id) && isset($_REQUEST["answo
   if ( $_REQUEST["id_campagne"] == $cpg->id )
     $cpg->repondre($site->user->id,$_REQUEST["reponses"]);
 
-	$res = new contents("Merci","Votre participation.");
-	unset($_REQUEST['id_campagne']);
+  $res = new contents("Merci","Votre participation.");
+  unset($_REQUEST['id_campagne']);
 }  
 
 if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repondu($site->user->id) )
@@ -96,6 +96,7 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
         foreach($values as $value)
         {  
           $value=explode("|", $value,2);
+          $keys=array();
           $keys[$value[0]]=$value[1];
         }
         $frm->add_select_field( "reponses[$id]", "", $keys);

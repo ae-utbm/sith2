@@ -37,6 +37,7 @@ require_once($topdir. "include/lib/magpierss/rss_fetch.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/globals.inc.php");
 require_once($topdir . "include/graph.inc.php");
+require_once("include/planet.inc.php");
 
 $site = new site();
 
@@ -45,71 +46,29 @@ if (!$site->user->id || !$site->user->utbm)
 
 $site->start_page ("none", "Planet AE ");
 
-if($site->user->is_in_group("moderateur_site"))
-{
-  $tabs = array(array("","planet/index.php", "Planet"),
-                array("perso","planet/index.php?view=perso", "Personnaliser"),
-                array("add","planet/index.php?view=add", "Proposer"),
-                array("modere","planet/index.php?view=modere", "Modération")
-               );
-}
-else
-{
-  $tabs = array(array("","planet/index.php", "Planet"),
-                array("perso","planet/index.php?view=perso", "Personnaliser"),
-                array("add","planet/index.php?view=add", "Proposer")
-               );
-}
+$planet = new planet($site);
+
+$tabs = $planet->get_tapbs();
+
 
 $cts = new contents("Planet AE ");
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
+
 if($_REQUEST["action"]=="delete" && isset($_REQUEST["id_flux"]))
 {
-  $sql="";
-  if(!$site->user->is_in_group("moderateur_site"))
-  {
-    $sql="AND `id_utilisateur`='".$site->user->id."'";
-  }
-  $req = new requete($site->db,"SELECT `id_flux` FROM `planet_flux` WHERE `id_flux`='".$_REQUEST["id_flux"]."' ".$sql." LIMIT 1");
-  if($req->lines==1)
-  {
-    $_req = new delete($site->dbrw, "planet_flux", array("id_flux" => $_REQUEST["id_flux"]));
-    $_req = new delete($site->dbrw, "planet_flux_tags", array("id_flux" => $_REQUEST["id_flux"]));
-    $_req = new delete($site->dbrw, "planet_user_flux", array("id_flux" => $_REQUEST["id_flux"]));
-  }
+	$planet->delete(intval($_REQUEST["id_flux"]));
 }
 elseif($_REQUEST["action"]=="addflux" && !empty($_REQUEST["url"]) && !empty($_REQUEST["nom"]))
 {
-  $req = new requete($site->db,"SELECT `id_flux` FROM `planet_flux` WHERE `url`='".$_REQUEST["url"]."' LIMIT 1");
-  if($req->lines==1)
-  {
-    $add="Le flux \"".$_REQUEST["url"]."\" est déjà présent.";
-  }
-  else
-  {
-    $_req = new insert($site->dbrw,"planet_flux", array('url'=>$_REQUEST["url"],'nom'=>$_REQUEST["nom"],'id_utilisateur' => $site->user->id,'modere'=>0));
-    $add="Le flux \"".$_REQUEST["nom"]."\" (".$_REQUEST["url"].") a bien été ajouté.";
-    if(isset($_REQUEST['tags_']))
-    {
-      $fluxid=$_req->get_id();
-      $req = new requete($site->db,"SELECT `id_tag` FROM `planet_tags`");
-      while ( list($id) = $req->get_row() )
-        if(isset($_REQUEST['tags'][$id]))
-          $_req = new insert($site->dbrw,"planet_flux_tags", array('id_flux'=>$fluxid,'id_tag'=>$id));
-    }
-  }
+	if(isset($_REQUEST['tags_']))
+		$add = $planet->add_flux($_REQUEST["url"],$_REQUEST["nom"],$_REQUEST['tags']);
+	else
+		$add = $planet->add_flux($_REQUEST["url"],$_REQUEST["nom"]);
 }
 elseif($_REQUEST["action"]=="addtag" && !empty($_REQUEST["tag"]))
 {
-  $req = new requete($site->db,"SELECT `id_tag` FROM `planet_tags` WHERE `tag`='".strtoupper($_REQUEST["tag"])."' LIMIT 1");
-  if($req->lines==1)
-    $add="Le tag \"".strtoupper($_REQUEST["tag"])."\" existe déjà.";
-  else
-  {
-    $_req = new insert($site->dbrw,"planet_tags", array('tag'=>strtoupper($_REQUEST["tag"]),'modere'=>0));
-    $add="Le tag \"".strtoupper($_REQUEST["tag"])."\" a été ajouté.";
-  }
+	$add = $planet->add_tag($_REQUEST["tag"]);
 }
 elseif($_REQUEST["action"]=="tagperso")
 {
