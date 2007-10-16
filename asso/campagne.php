@@ -44,9 +44,10 @@ $cts = new contents($asso->get_html_path());
 $cts->add(new tabshead($asso->get_tabs($site->user),"cpg"));
 $site->add_contents($cts);
 
+$cpg = new campagne($site->db,$site->dbrw);
+
 if(isset($_REQUEST["action"]) && $_REQUEST["action"]="delete" && isset($_REQUEST["id_campagne"]))
 {
-  $cpg = new campagne($site->db,$site->dbrw);
   if($cpg->load_by_id($_REQUEST["id_campagne"]) && $cpg->asso==$_REQUEST["id_asso"])
   {
     new delete($site->dbrw,"cpg_campagne",array("id_campagne"=>$_REQUEST["id_campagne"]));
@@ -55,12 +56,12 @@ if(isset($_REQUEST["action"]) && $_REQUEST["action"]="delete" && isset($_REQUEST
     new delete($site->dbrw,"cpg_reponse",array("id_campagne"=>$_REQUEST["id_campagne"]));
   }
   unset($_REQUEST["action"]);
+  unset($_REQUEST['id_campagne']);
 }
 
 if (isset($_REQUEST["addcpg"]) && isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) && isset($_REQUEST["end_date"]) && isset($_REQUEST["description"]) && isset($_REQUEST["questions"]) )
 {
   $cts = new contents("Campagne ajoutée avec succès");
-  $cpg = new campagne($site->db,$site->dbrw);
   $cpg->new_campagne($_REQUEST["nom"], $_REQUEST["description"], $_REQUEST["end_date"], $_REQUEST["id_groupe"]);
   foreach ( $_REQUEST["questions"] as $rep )
   {
@@ -176,6 +177,50 @@ if($_REQUEST["action"]=="add")
   $frm->add_submit("addcpg","Ajouter","Le campagne sera immédiatement pris en compte et affichéé le site");
 
   $site->add_contents($frm);
+}
+elseif($_REQUEST["action"]=="results" && $cpg->load_by_id($_REQUEST["id_campagne"]) && $cpg->asso==$_REQUEST["id_asso"])
+{
+  $cts=new contents("Résultats");
+  $cts->add_paragraph($cpg->nom." :<br />".$cpg->description);
+
+  $questions = $cpg->get_questions();
+  /* c'est porc mais on va créer un array(array(field=>value)) au lieu d'un $req pour le sqltable) */
+  $req = new requete ( $site->db,
+                       "SELECT `utilisateurs`.`id_utilisateur`, ".
+                       "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
+                       "FROM `cpg_reponse` ".
+                       "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
+                       "WHERE `id_campagne`='".$cpg->id."' ".
+                       "GROUP BY `cpg_reponse`.`id_utilisateur`");
+  $answers=array();
+  while(list($id_utl,$nom)=$req->get_row())
+  {
+    $_answers_utl=$cpg->get_user_results($id_utl);
+    $_answers=array("id_utilisateur"=>$id_utl,"nom_utilisateur"=>$nom);
+    foreach($questions as $id => $question)
+    {
+      if(isset($_answers_utl[$id]))
+        $_answers=[$id]=$_answers_utl[$id]);
+      else
+        $_answers[$id]="";
+    }
+    $answers[]=$_answers;
+  }
+  $answers_champs=array("nom_utilisateur"=>"Utilisateur");
+  foreach($questions as $id => $question)
+  {
+    $answers_champs[$id]=$question["description"];
+  }
+  $tbl = new sqltable("results",
+                      "Résultats",
+                      $answers,
+                      "campagne.php",
+                      $answers_champs,
+                      array(),
+                      array(),
+                      array() );
+  $cts->add($tbl);
+  $site->add_contents($cts);
 }
 else
 {
