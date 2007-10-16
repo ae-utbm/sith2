@@ -217,6 +217,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                       "Résultats",
                       $answers,
                       "campagne.php",
+                      "id_utilisateur",
                       $answers_champs,
                       array(),
                       array(),
