@@ -440,9 +440,9 @@ class asso extends stdentity
 			);	
 			
 	  $newrole = $this->member_role($id_utl);		
-		if ( is_null($newrole) )
+		if ( is_null($newrole) && !is_null($prevrole) )
 	    $this->_ml_all_unsubscribe_user($id_utl,$prevrole);
-	  elseif ( $newrole != $prevrole ) 
+	  elseif ( $newrole != $prevrole && !is_null($prevrole) && !is_null($newrole) ) 
 	    $this->_ml_all_delta_user($id_utl,$prevrole,$newrole);
 	}
 	
