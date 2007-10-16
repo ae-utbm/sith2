@@ -66,7 +66,7 @@ class sqltable extends stdcontents
     
     if ( is_array($sql) )
     {
-      print_r("debug");
+      print_r(count($sql));
       if (count($sql) < 1 )
       {
         $this->buffer = "<p>(vide)</p>\n";
