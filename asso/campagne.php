@@ -183,7 +183,7 @@ if($_REQUEST["action"]=="add")
 elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQUEST["id_asso"])
 {
   $cts=new contents("Résultats");
-  $cts->add_paragraph($cpg->nom." :<br />".$cpg->description);
+  $cts->add_paragraph($cpg->nom);
 
   $questions = $cpg->get_questions();
   /* c'est porc mais on va créer un array(array(field=>value)) au lieu d'un $req pour le sqltable) */
@@ -208,6 +208,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
     }
     $answers[]=$_answers;
   }
+  print_r($answers);
   $answers_champs=array("nom_utilisateur"=>"Utilisateur");
   foreach($questions as $id => $question)
   {
