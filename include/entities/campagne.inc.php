@@ -102,6 +102,7 @@ class campagne extends stdentity
     $this->group = $row["id_groupe"];
     $this->date  = $row['date_debut_campagne'];
     $this->end_date  = $row['date_fin_campagne'];
+    $this->asso = $row['id_asso'];
   }
   
   function new_campagne ( $nom, $description, $end_date, $group , $asso=1)
