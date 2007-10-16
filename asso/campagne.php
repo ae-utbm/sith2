@@ -208,6 +208,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
     }
     $answers[]=$_answers;
   }
+  print_r($answers);
   $answers_champs=array("nom_utilisateur"=>"Utilisateur");
   foreach($questions as $id => $question)
   {
