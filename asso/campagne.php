@@ -197,7 +197,9 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   $answers=array();
   while(list($id_utl,$nom)=$req->get_row())
   {
+    print_r("debug:$nom\n");
     $_answers_utl=$cpg->get_user_results($id_utl);
+    print_r($_answers_utl);
     $_answers=array("id_utilisateur"=>$id_utl,"nom_utilisateur"=>$nom);
     foreach($questions as $id => $question)
     {
