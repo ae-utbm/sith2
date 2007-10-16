@@ -46,10 +46,15 @@ $site->add_contents($cts);
 
 if(isset($_REQUEST["action"]) && $_REQUEST["action"]="delete" && isset($_REQUEST["id_campagne"]))
 {
-  new delete($site->dbrw,"cpg_campagne",array("id_campagne"=>$_REQUEST["id_campagne"]));
-  new delete($site->dbrw,"cpg_participe",array("id_campagne"=>$_REQUEST["id_campagne"]));
-  new delete($site->dbrw,"cpg_question",array("id_campagne"=>$_REQUEST["id_campagne"]));
-  new delete($site->dbrw,"cpg_reponse",array("id_campagne"=>$_REQUEST["id_campagne"]));
+  $cpg = new campagne($site->db,$site->dbrw);
+  if($cpg->load_by_id($_REQUEST["id_campagne"]) && $cpg->asso==$_REQUEST["id_asso"])
+  {
+    new delete($site->dbrw,"cpg_campagne",array("id_campagne"=>$_REQUEST["id_campagne"]));
+    new delete($site->dbrw,"cpg_participe",array("id_campagne"=>$_REQUEST["id_campagne"]));
+    new delete($site->dbrw,"cpg_question",array("id_campagne"=>$_REQUEST["id_campagne"]));
+    new delete($site->dbrw,"cpg_reponse",array("id_campagne"=>$_REQUEST["id_campagne"]));
+  }
+  unset($_REQUEST["action"]);
 }
 
 if (isset($_REQUEST["addcpg"]) && isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) && isset($_REQUEST["end_date"]) && isset($_REQUEST["description"]) && isset($_REQUEST["questions"]) )
