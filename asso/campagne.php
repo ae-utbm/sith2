@@ -193,13 +193,11 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                        "FROM `cpg_reponse` ".
                        "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
                        "WHERE `id_campagne`='".$cpg->id."' ".
-                       "GROUP BY `cpg_reponse`.`id_utilisateur`");
+                       "GROUP BY `cpg_reponse`.`id_utilisateur`",1);
   $answers=array();
   while(list($id_utl,$nom)=$req->get_row())
   {
-    print_r("debug:$nom\n");
     $_answers_utl=$cpg->get_user_results($id_utl);
-    print_r($_answers_utl);
     $_answers=array("id_utilisateur"=>$id_utl,"nom_utilisateur"=>$nom);
     foreach($questions as $id => $question)
     {
