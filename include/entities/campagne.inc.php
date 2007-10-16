@@ -121,7 +121,7 @@ class campagne extends stdentity
         "id_groupe" => $this->group,
         "date_debut_campagne" => date("Y-m-d H:i:s"),
         "date_fin_campagne" => date("Y-m-d",$this->end_date),
-        "id_asso"=>$this->asso;
+        "id_asso"=>$this->asso
         )
       );
         
