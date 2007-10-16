@@ -225,7 +225,7 @@ class campagne extends stdentity
   {
     $sql = new requete($this->db, "SELECT `id_question`, `valeur_reponse` " .
             "FROM `cpg_reponse` " .
-            "WHERE id_campagne='".mysql_escape_string($this->id)."' " .
+            "WHERE `id_campagne`='".mysql_escape_string($this->id)."' && `id_utilisateur`='".$id_utilisateur."'" .
             "ORDER BY `id_question`");
     
     $resultats = array();
