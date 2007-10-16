@@ -177,7 +177,7 @@ else
                       $topdir."campagne.php?id_asso=".$asso->id,
                       "id_campagne",
                       array("nom_campagne"=>"Intitulé","date_debut_campagne"=>"Début","date_fin_campagne"=>"Fin"),
-                      array(),
+                      array("edit","Editer"),
                       array(),
                       array() );
   $cts->add($tbl);
