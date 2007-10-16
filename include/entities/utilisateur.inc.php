@@ -628,7 +628,7 @@ class utilisateur extends stdentity
                        "WHERE `asso_membre`.`id_utilisateur`='".$this->id."' " .
                        "AND `asso_membre`.`date_fin` is NULL " .
                        "AND (`asso`.`id_asso_parent` IS NOT NULL OR `asso_membre`.`role` > 1 ) " .
-                       "ORDER BY `asso`.`nom_asso`");
+                       "ORDER BY `asso`.`nom_unix_asso`");
 
     while ( list($name,$role,$parent) = $req->get_row() )
     {

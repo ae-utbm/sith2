@@ -183,7 +183,8 @@ class asso extends stdentity
 			
 	  if ( $this->nom_unix )
 	  {
-		  $this->_ml_create($this->nom_unix."-membres");	
+	    if ( !is_null($this->id_parent) )
+		    $this->_ml_create($this->nom_unix."-membres");	
 		  $this->_ml_create($this->nom_unix."-bureau");	
 	  }
 	}
@@ -198,6 +199,36 @@ class asso extends stdentity
 	  $old_unix = $this->nom_unix;
 	 
 		if ( is_null($this->dbrw) ) return; // "Read Only" mode
+		
+		
+    if ( $this->nom_unix != $this->nom_unix )
+    {
+      if ( !$this->nom_unix )
+      {
+        if ( !is_null($id_parent) )
+		      $this->_ml_create($nom_unix."-membres");	
+		      
+		    $this->_ml_create($nom_unix."-bureau");
+		  }
+      else
+      {
+        if (!is_null($this->id_parent) && is_null($id_parent) )
+  		    $this->_ml_remove($this->nom_unix."-membres");
+  		  elseif (is_null($this->id_parent) && !is_null($id_parent) )
+  		    $this->_ml_create($nom_unix."-membres");
+  		  else
+		      $this->_ml_rename($this->nom_unix."-membres",$nom_unix."-membres");	
+		      
+		    $this->_ml_rename($this->nom_unix."-bureau",$nom_unix."-bureau");	        
+      }
+    }		
+		elseif ( $this->nom_unix )
+		{
+  		if (!is_null($this->id_parent) && is_null($id_parent) )
+  		  $this->_ml_remove($this->nom_unix."-membres");
+  		elseif (is_null($this->id_parent) && !is_null($id_parent) )
+  		  $this->_ml_create($this->nom_unix."-membres");
+		}
 		
 		$this->nom = $nom;
 		$this->nom_unix = $nom_unix;
@@ -232,19 +263,7 @@ class asso extends stdentity
 			
 			);
 			
-    if ( $old_unix != $this->nom_unix )
-    {
-      if ( !$old_unix )
-      {
-		    $this->_ml_create($this->nom_unix."-membres");	
-		    $this->_ml_create($this->nom_unix."-bureau");
-		  }
-      else
-      {
-		    $this->_ml_rename($old_unix."-membres",$this->nom_unix."-membres");	
-		    $this->_ml_rename($old_unix."-bureau",$this->nom_unix."-bureau");	        
-      }
-    }
+
 
 	}
 	
@@ -546,22 +565,32 @@ class asso extends stdentity
   static function _ml_subscribe ( $ml, $email )
   {
     //TODO: subscribe $email to $ml
+    echo "$ml SUBSCRIBE $email<br/>";
   }
   
   static function _ml_unsubscribe ( $ml, $email )
   {
     //TODO: unsubscribe $email from $ml
+    echo "$ml UNSUBSCRIBE $email<br/>";
   }
   
-  function _ml_create ( $ml )
+  static function _ml_create ( $ml )
   {
     //TODO: create $ml
+    echo "CREATE $ml<br/>";
   }
   
-  function _ml_rename ( $old, $new )
+  static function _ml_rename ( $old, $new )
   {
     //TODO: rename mailing $old to $new
+    echo "MOVE $old TO $new<br/>";
   }
+  
+  static function _ml_remove ( $ml )
+  {
+    //TODO: destroy $ml
+    echo "DESTROY $ml<br/>";
+  }  
 }
  
  
