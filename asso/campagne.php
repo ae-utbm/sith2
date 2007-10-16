@@ -44,6 +44,14 @@ $cts = new contents($asso->get_html_path());
 $cts->add(new tabshead($asso->get_tabs($site->user),"cpg"));
 $site->add_contents($cts);
 
+if(isset($_REQUEST["action"]) && $_REQUEST["action"]="delete" && isset($_REQUEST["id_campagne"]))
+{
+  new delete($site->dbrw,"cpg_campagne",array("id_campagne"=>$_REQUEST["id_campagne"]));
+  new delete($site->dbrw,"cpg_participe",array("id_campagne"=>$_REQUEST["id_campagne"]));
+  new delete($site->dbrw,"cpg_question",array("id_campagne"=>$_REQUEST["id_campagne"]));
+  new delete($site->dbrw,"cpg_reponse",array("id_campagne"=>$_REQUEST["id_campagne"]));
+}
+
 if (isset($_REQUEST["addcpg"]) && isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) && isset($_REQUEST["end_date"]) && isset($_REQUEST["description"]) && isset($_REQUEST["questions"]) )
 {
   $cts = new contents("Campagne ajoutée avec succès");
@@ -174,10 +182,10 @@ else
   $tbl = new sqltable("listcampagne",
                       "Campagnes",
                       $req,
-                      $topdir."campagne.php?id_asso=".$asso->id,
+                      "asso/campagne.php?id_asso=".$asso->id,
                       "id_campagne",
                       array("nom_campagne"=>"Intitulé","date_debut_campagne"=>"Début","date_fin_campagne"=>"Fin"),
-                      array("edit"=>"Editer"),
+                      array("results"=>"Résultats","delete"=>"Supprimer"),
                       array(),
                       array() );
   $cts->add($tbl);
