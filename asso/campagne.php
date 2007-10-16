@@ -200,7 +200,7 @@ elseif($_REQUEST["action"]=="results" && $cpg->load_by_id($_REQUEST["id_campagne
     foreach($questions as $id => $question)
     {
       if(isset($_answers_utl[$id]))
-        $_answers=[$id]=$_answers_utl[$id]);
+        $_answers=[$id]=$_answers_utl[$id];
       else
         $_answers[$id]="";
     }
