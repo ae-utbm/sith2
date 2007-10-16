@@ -631,6 +631,7 @@ class site extends interfaceweb
   function get_connection_contents ()
   {
     global $topdir;
+    global $wwwtopdir;
 
     if ( !$this->user->is_valid() )
     {
