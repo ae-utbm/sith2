@@ -213,6 +213,9 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   {
     $answers_champs[$id]=$question["description"];
   }
+  if ( is_array($answers) )
+    if (count($sql) < 1 )
+      print_r("bleh");
   $tbl = new sqltable("results",
                       "Résultats",
                       $answers,
