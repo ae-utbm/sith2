@@ -204,7 +204,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
       if(isset($_answers_utl[$id]))
         $_answers[$id]=$_answers_utl[$id];
       else
-        $_answers[$id]="";
+        $_answers[$id]=" ";
     }
     $answers[]=$_answers;
   }
