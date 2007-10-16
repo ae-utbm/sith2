@@ -48,6 +48,9 @@ class campagne extends stdentity
 
   /** groupe concerné */
   var $group;
+
+  /** asso recrutante */
+  var $asso;
   
   /** Charge une campagne en fonction de son id
    * $this->id est égal à -1 en cas d'erreur
@@ -101,13 +104,14 @@ class campagne extends stdentity
     $this->end_date  = $row['date_fin_campagne'];
   }
   
-  function new_campagne ( $nom, $description, $end_date, $group )
+  function new_campagne ( $nom, $description, $end_date, $group , $asso=1)
   {
     $this->nom = $nom;
     $this->end_date = $end_date;
     $this->description = $description;
     $this->date = time();
     $this->group = $group;
+    $this->asso= $asso;
     
     $sql = new insert ($this->dbrw,
       "cpg_campagne",
@@ -116,7 +120,8 @@ class campagne extends stdentity
         "description_campagne" => $this->description,
         "id_groupe" => $this->group,
         "date_debut_campagne" => date("Y-m-d H:i:s"),
-        "date_fin_campagne" => date("Y-m-d",$this->end_date)
+        "date_fin_campagne" => date("Y-m-d",$this->end_date),
+        "id_asso"=>$this->asso;
         )
       );
         
