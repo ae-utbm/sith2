@@ -46,7 +46,7 @@ $site->add_contents($cts);
 
 $cpg = new campagne($site->db,$site->dbrw);
 
-if(isset($_REQUEST["action"]) && $_REQUEST["action"]="delete" && isset($_REQUEST["id_campagne"]))
+if(isset($_REQUEST["action"]) && $_REQUEST["action"]=="delete" && isset($_REQUEST["id_campagne"]))
 {
   if($cpg->load_by_id($_REQUEST["id_campagne"]) && $cpg->asso==$_REQUEST["id_asso"])
   {
