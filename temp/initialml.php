@@ -4,8 +4,9 @@ $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 
+$db = new mysqlae ("rw");
 
-$req = new requete($this->db,
+$req = new requete($db,
     "SELECT ".
     "`asso`.`nom_unix_asso`, ".
     "`asso`.`id_asso_parent` " .
@@ -20,7 +21,7 @@ while ( list($name,$parent) = $req->get_row() )
 	asso::_ml_create($name."-bureau");	
 }
 
-$req = new requete($this->db,
+$req = new requete($db,
     "SELECT ".
     "`utilisateurs`.email_utl, ".
     "`asso`.`nom_unix_asso`, ".
