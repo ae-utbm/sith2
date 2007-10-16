@@ -38,7 +38,7 @@ class campagne extends stdentity
   var $end_date;
 
   /** id de la campagne */
-  var $id;
+  var $id=null;
 
   /** nom de la campagne */
   var $nom;

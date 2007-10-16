@@ -45,10 +45,12 @@ $cts->add(new tabshead($asso->get_tabs($site->user),"cpg"));
 $site->add_contents($cts);
 
 $cpg = new campagne($site->db,$site->dbrw);
+if(isset($_REQUEST["id_campagne"]))
+  $cpg->load_by_id($_REQUEST["id_campagne"]);
 
-if(isset($_REQUEST["action"]) && $_REQUEST["action"]=="delete" && isset($_REQUEST["id_campagne"]))
+if(!is_null($cpg->id) && isset($_REQUEST["action"]) && $_REQUEST["action"]=="delete")
 {
-  if($cpg->load_by_id($_REQUEST["id_campagne"]) && $cpg->asso==$_REQUEST["id_asso"])
+  if($cpg->asso==$_REQUEST["id_asso"])
   {
     new delete($site->dbrw,"cpg_campagne",array("id_campagne"=>$_REQUEST["id_campagne"]));
     new delete($site->dbrw,"cpg_participe",array("id_campagne"=>$_REQUEST["id_campagne"]));
@@ -178,7 +180,7 @@ if($_REQUEST["action"]=="add")
 
   $site->add_contents($frm);
 }
-elseif($_REQUEST["action"]=="results" && $cpg->load_by_id($_REQUEST["id_campagne"]) && $cpg->asso==$_REQUEST["id_asso"])
+elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQUEST["id_asso"])
 {
   $cts=new contents("Résultats");
   $cts->add_paragraph($cpg->nom." :<br />".$cpg->description);
