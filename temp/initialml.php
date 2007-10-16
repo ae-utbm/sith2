@@ -10,7 +10,7 @@ $req = new requete($db,
     "SELECT ".
     "`asso`.`nom_unix_asso`, ".
     "`asso`.`id_asso_parent` " .
-    "FROM `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
+    "FROM `asso` " .
     "ORDER BY `asso`.`nom_unix_asso`");
 
 while ( list($name,$parent) = $req->get_row() )
