@@ -182,7 +182,7 @@ else
   $tbl = new sqltable("listcampagne",
                       "Campagnes",
                       $req,
-                      "asso/campagne.php?id_asso=".$asso->id,
+                      "campagne.php?id_asso=".$asso->id,
                       "id_campagne",
                       array("nom_campagne"=>"Intitulé","date_debut_campagne"=>"Début","date_fin_campagne"=>"Fin"),
                       array("results"=>"Résultats","delete"=>"Supprimer"),
