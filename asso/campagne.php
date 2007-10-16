@@ -87,80 +87,102 @@ if (isset($_REQUEST["addcpg"]) && isset($_REQUEST["nom"]) && !empty($_REQUEST["n
 
 }
 
-$frm = new form ("nvcampagne","campagne.php?id_asso=".$asso->id,false,"POST","Nouvelle campagne");
-
-/* Duree de validite d'une campagne = 15 jours par defaut */
-
-$default_valid = time() + (15 * 24 * 60 * 60);
-
-if ($_REQUEST["end_date"])
-  $frm->add_date_field("end_date", "Date de fin de validite : ",$_REQUEST["end_date"],true);
-else
-  $frm->add_date_field("end_date", "Date de fin de validite : ",$default_valid,true);
-
-$frm->add_text_field("nom", "Nom de la campagne",$_REQUEST["nom"],true,80);    
-
-$frm->add_text_area("description", "Description de la campagne",$_REQUEST["description"]);
-$frm->add_entity_smartselect("id_groupe","Groupe",new group($site->db));
-
-$frm->add_info("Pour supprimer une question, il suffit de laisser son nom vide !<br />");
-$frm->add_info("Pour une question de type liste ou bouton radio, complétez impérativement le champ \"Réponses possibles\".");
-$frm->add_info("Formatage du champ \"Réponses possibles\" : valeur_1|La valeur 1;valeur_2|La valeur 2;...;valeur_z|La dernière valeur");
-
-if (isset($_REQUEST["questions"]))
+if($_REQUEST["action"]=="add")
 {
-  $n = 1;
-  foreach ( $_REQUEST["questions"] as $num=>$question )
+  $frm = new form ("nvcampagne","campagne.php?id_asso=".$asso->id,false,"POST","Nouvelle campagne");
+
+  /* Duree de validite d'une campagne = 15 jours par defaut */
+
+  $default_valid = time() + (15 * 24 * 60 * 60);
+
+  if ($_REQUEST["end_date"])
+    $frm->add_date_field("end_date", "Date de fin de validite : ",$_REQUEST["end_date"],true);
+  else
+    $frm->add_date_field("end_date", "Date de fin de validite : ",$default_valid,true);
+
+  $frm->add_text_field("nom", "Nom de la campagne",$_REQUEST["nom"],true,80);    
+
+  $frm->add_text_area("description", "Description de la campagne",$_REQUEST["description"]);
+  $frm->add_entity_smartselect("id_groupe","Groupe",new group($site->db));
+
+  $frm->add_info("Pour supprimer une question, il suffit de laisser son nom vide !<br />");
+  $frm->add_info("Pour une question de type liste ou bouton radio, complétez impérativement le champ \"Réponses possibles\".");
+  $frm->add_info("Formatage du champ \"Réponses possibles\" : valeur_1|La valeur 1;valeur_2|La valeur 2;...;valeur_z|La dernière valeur");
+
+  if (isset($_REQUEST["questions"]))
   {
-    if ( !empty($question) )
+    $n = 1;
+    foreach ( $_REQUEST["questions"] as $num=>$question )
     {
-      $subfrm = new form("questions".$num,null,null,null,"Question $n");
-      $subfrm->add_text_field("questions[$num][nom_question]", "Nom question",$question["nom_question"],false,80);
-      $subfrm->add_text_area("questions[$num][description_question]", "Description",$question["description_question"]);
-      if(isset($question["type_question"]))
-        $type = $question["type_question"];
-      else
-        $type="text";
-      $subfrm->add_select_field("questions[$num][type_question]","Type de question",array("text"=>"Texte","checkbox"=>"Boite à cocher","list"=>"Liste", "radio"=>"Bouton radio"),$type);
-      $subfrm->add_text_field("questions[$num][reponses_question]", "Réponses possibles",$question["reponses_question"],false,80);
+      if ( !empty($question) )
+      {
+        $subfrm = new form("questions".$num,null,null,null,"Question $n");
+        $subfrm->add_text_field("questions[$num][nom_question]", "Nom question",$question["nom_question"],false,80);
+        $subfrm->add_text_area("questions[$num][description_question]", "Description",$question["description_question"]);
+        if(isset($question["type_question"]))
+          $type = $question["type_question"];
+        else
+          $type="text";
+        $subfrm->add_select_field("questions[$num][type_question]","Type de question",array("text"=>"Texte","checkbox"=>"Boite à cocher","list"=>"Liste", "radio"=>"Bouton radio"),$type);
+        $subfrm->add_text_field("questions[$num][reponses_question]", "Réponses possibles",$question["reponses_question"],false,80);
+        $frm->add ( $subfrm, false, false, false, false, false, false, true );
+        $n++;
+      }
+    }
+    if (isset($_REQUEST["newques"]))
+    {
+      $i=$n-1;
+      $subfrm = new form("questions".$i,null,null,null,"Question $n");
+      $subfrm->add_text_field("questions[$i][nom_question]", "Nom question","",false,80);
+      $subfrm->add_text_area("questions[$i][description_question]", "Description");
+      $subfrm->add_select_field("questions[$i][type_question]","Type de question",array("text"=>"Texte","checkbox"=>"Boite à cocher","list"=>"Liste", "radio"=>"Bouton radio"),"text");
+      $subfrm->add_text_field("questions[$i][reponses_question]", "Réponses possibles","",false,80);
+      $frm->add ( $subfrm, false, false, false, false, false, false, true );
+    }
+  }
+  else
+  {
+    $n=1;
+    for($i=0;$i<6;$i++)
+    {
+      $subfrm = new form("questions".$i,null,null,null,"Question $n");
+      $subfrm->add_text_field("questions[$i][nom_question]", "Nom question","",false,80);
+      $subfrm->add_text_area("questions[$i][description_question]", "Description");
+      $subfrm->add_select_field("questions[$i][type_question]","Type de question",array("text"=>"Texte","checkbox"=>"Boite à cocher","list"=>"Liste", "radio"=>"Bouton radio"),"text");
+      $subfrm->add_text_field("questions[$i][reponses_question]", "Réponses possibles","",false,80);
       $frm->add ( $subfrm, false, false, false, false, false, false, true );
       $n++;
     }
   }
-  if (isset($_REQUEST["newques"]))
-  {
-    $i=$n-1;
-    $subfrm = new form("questions".$i,null,null,null,"Question $n");
-    $subfrm->add_text_field("questions[$i][nom_question]", "Nom question","",false,80);
-    $subfrm->add_text_area("questions[$i][description_question]", "Description");
-    $subfrm->add_select_field("questions[$i][type_question]","Type de question",array("text"=>"Texte","checkbox"=>"Boite à cocher","list"=>"Liste", "radio"=>"Bouton radio"),"text");
-    $subfrm->add_text_field("questions[$i][reponses_question]", "Réponses possibles","",false,80);
-    $frm->add ( $subfrm, false, false, false, false, false, false, true );
-  }
+
+  $frm->add_hidden("text_submit",$text_submit);
+  $frm->add_hidden("date_campagne",$_REQUEST['date_campagne']);
+
+  $frm->add_submit("newques","Question supplémentaire");
+
+  $frm->add_submit("addcpg","Ajouter","Le campagne sera immédiatement pris en compte et affichéé le site");
+
+  $site->add_contents($frm);
 }
 else
 {
-  $n=1;
-  for($i=0;$i<6;$i++)
-  {
-    $subfrm = new form("questions".$i,null,null,null,"Question $n");
-    $subfrm->add_text_field("questions[$i][nom_question]", "Nom question","",false,80);
-    $subfrm->add_text_area("questions[$i][description_question]", "Description");
-    $subfrm->add_select_field("questions[$i][type_question]","Type de question",array("text"=>"Texte","checkbox"=>"Boite à cocher","list"=>"Liste", "radio"=>"Bouton radio"),"text");
-    $subfrm->add_text_field("questions[$i][reponses_question]", "Réponses possibles","",false,80);
-    $frm->add ( $subfrm, false, false, false, false, false, false, true );
-    $n++;
-  }
+  $cts=new contents();
+  $cts->add_paragraph("<a href=\"./campagne.php?id_asso=".$asso->id."&action=add\">Ajouter une campagne</a>");
+  $req = new requete ( $site->db,
+                       "SELECT `id_campagne`, `nom_campagne`, `date_debut_campagne`, `date_fin_campagne` ".
+                       "FROM `cpg_campagne` WHERE `id_asso`='".$asso->id."'" );
+  $tbl = new sqltable("listcampagne",
+                      "Campagnes",
+                      $req,
+                      $topdir."campagne.php?id_asso=".$asso->id,
+                      "id_campagne",
+                      array("nom_campagne"=>"Intitulé","date_debut_campagne"=>"Début","date_fin_campagne"=>"Fin"),
+                      array(),
+                      array(),
+                      array() );
+  $cts->add($tbl);
+  $site->add_contents($cts);
 }
-
-$frm->add_hidden("text_submit",$text_submit);
-$frm->add_hidden("date_campagne",$_REQUEST['date_campagne']);
-
-$frm->add_submit("newques","Question supplémentaire");
-
-$frm->add_submit("addcpg","Ajouter","Le campagne sera immédiatement pris en compte et affichéé le site");
-
-$site->add_contents($frm);
 
 $site->end_page ();
 
