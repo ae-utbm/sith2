@@ -93,10 +93,10 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
       {
         $frm->add_info("<b>".$question["description"]."</b><br />");
         $values=explode(";",$question["reponses"]);
+        $keys=array();
         foreach($values as $value)
         {  
           $value=explode("|", $value,2);
-          $keys=array();
           $keys[$value[0]]=$value[1];
         }
         $frm->add_select_field( "reponses[$id]", "", $keys);
@@ -106,10 +106,10 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
       {
         $frm->add_info("<b>".$question["description"]."</b><br />");
         $values=explode(";",$question["reponses"]);
+        $keys=array();
         foreach($values as $value)
         {
           $value=explode("|", $value, 2);
-          $keys=array();
           $keys[$value[0]]=$value[1];
           $frm->add_radiobox_field( "reponses[$id]", "", $keys, "", false, false );
         }
