@@ -1,12 +1,7 @@
 <?php
-
 /** @file
  *
- * @brief Connexion aux ae2s MySQL de l'AE.
- *
- * Cette version du fichier est celle distribuée avec le code source :
- * elle ne contient pas les mots de passe de connexion aux ae2s de
- * données.
+ * @brief Connexion aux bases MySQL de l'AE.
  *
  */
 
@@ -34,34 +29,37 @@
  */
 
 /* On interdit le chargement de ce script si il ne vient pas du site
-   officiel et qu'il n'y a pas de conf personnelle */
-
+   officiel */
+   
 if( !preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21|ae2)\//', $_SERVER['SCRIPT_FILENAME'])
     && !ereg("^/var/www/ae/accounts/([a-z0-9]*)/aecms",$_SERVER['SCRIPT_FILENAME']) )
 {
-  /* On est peut_etre dans le cas d'une utilisation "home" */
-  if (file_exists($topdir . "include/mysqlae_home.inc.php"))
-    require_once($topdir . "include/mysqlae_home.inc.php");
-  else
-    die("denied");
-
+	/* On est peut_etre dans le cas d'une utilisation "home" */
+	if (file_exists($topdir . "include/mysqlae_home.inc.php"))
+		require_once($topdir . "include/mysqlae_home.inc.php");
+	else
+		die("denied");
+		
 }
 else
 {
-  /** Classe permettant de se connecter à la ae2 de l'ae. Permet de
-    créer une ae2 qui se connecte sur la ae2 de l'ae. En passant en
-    paramètre "rw", on obtient une ae2 en lecture écriture pour tout
-    autre paramètre, la ae2 est en lecture seule. */
+  /** Classe permettant de se connecter à la base de l'ae. Permet de
+    créer une base qui se connecte sur la base de l'ae. En passant en
+    paramètre "rw", on obtient une base en lecture écriture pour tout
+    autre paramètre, la base est en lecture seule. */
+
   class mysqlae extends mysql {
+
     function mysqlae ($type = "ro") {
+
       if ($type == "rw") {
-        if ( ! $this->mysql('ae_read_write', 'F8io]fiPh?e6ae', 'localhost', 'ae2')) {
-          return FALSE;
-        }
+	if ( ! $this->mysql('ae_read_write', 'NwCkpDc', 'localhost', 'ae2')) {
+	  return FALSE;
+	}
       } else {
-        if ( ! $this->mysql('ae_read_only', 'C?ier7xooJ4ie', 'localhost', 'ae2')) {
-          return FALSE;
-        }
+	if ( ! $this->mysql('ae_read_only', 'ljjTutG', 'localhost', 'ae2')) {
+	  return FALSE;
+	}
       }
     }
   }
@@ -71,8 +69,8 @@ else
     function mysqlforum ()
     {
       // Tschuut on a rien vu ...
-      if ( ! $this->mysql('importforum', 'importequoi', 'localhost', 'UTBM'))
-        return FALSE;
+      if ( ! $this->mysql('forum', '7v6nfzlihaolq847', 'localhost', 'UTBM'))
+	return FALSE;
     }
   }
 }
