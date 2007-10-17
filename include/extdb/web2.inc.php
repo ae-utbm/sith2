@@ -53,7 +53,7 @@ class flickr_info
     $xml = new u007xml($xmlcts);
     print_r($xml);
 
-    $this->flickr_id = $xml->arrOutput[0]['childrens'][0]['attributes']['id'];
+    $this->flickr_id = $xml->arrOutput[0]['childrens'][0]['attributes']['ID'];
 
   }
 }
