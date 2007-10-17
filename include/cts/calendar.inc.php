@@ -80,7 +80,7 @@ class calendar extends stdcontents
 		
 		//
 		if ( $topdir == $wwwtopdir )
-		  $this->buffer = "<p class=\"ical\"><a href=\"".$wwwtopdir."article.php?name=ical\"><img src=\"".$wwwtopdir."images/icons/22/ical.png\" alt=\"iCalendar\" /></a></p>";
+		  $this->buffer = "<p class=\"ical\"><a href=\"".$wwwtopdir."article.php?name=ical\"><img src=\"".$wwwtopdir."images/icons/16/ical.png\" alt=\"iCalendar\" /></a></p>";
 		else
 		  $this->buffer = "";
 		$this->buffer .= "<div class=\"calendarhead\">\n";
