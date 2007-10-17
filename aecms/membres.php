@@ -38,11 +38,32 @@ else
   $GLOBALS['ROLEASSO'][ROLEASSO_VICEPRESIDENT] = "Vice-président";
 }
 
+
+
 $site->start_page ( CMS_PREFIX."membres", "Membres" );
 
 $cts = new contents("Membres");
 
 $site->add_css("css/sas.css");
+
+if ( $_REQUEST["action"] == "selfenroll" && !is_null($site->asso->id_parent) )
+{
+  $site->allow_only_logged_users(CMS_PREFIX."membres");
+  
+  if ( $site->asso->is_member($site->user->id) )
+  {
+    $cts->add_title(2,"Inscription enregistrée");
+    $cts->add_paragraph("Votre inscription était déjà enregistrée. Pour modifier à tout moment votre inscription, allez sur le site de l'AE dans <a href=\"/user.php?view=assos\">votre profil</a>.");
+  }
+  else
+  {
+    $site->asso->add_actual_member ( $site->user->id, time(), ROLEASSO_MEMBRE, "" );		
+    $cts->add_title(2,"Inscription enregistrée");
+    $cts->add_paragraph("Votre inscription a été enregistrée. Pour modifier à tout moment votre inscription, allez sur le site de l'AE dans <a href=\"/user.php?view=assos\">votre profil</a>.");
+  }
+}
+
+
 
 $req = new requete($site->db,
 	"SELECT `utilisateurs`.`id_utilisateur`, " .
@@ -77,14 +98,10 @@ while ( $row = $req->get_row() )
 }
 $cts->add($gal);
 
-if ( $site->config["membres.allowjoinus"] == 1 )
+if ( $site->config["membres.allowjoinus"] == 1 && !is_null($asso->id_parent) && (!$site->user->is_valid() || !$asso->is_member($site->user->id)) )
 {
-  $cts->add_title(2,"Rejoignez-nous");
-
-
-
-
-
+  $cts->add_title(2,"Rejoignez-nous");  
+  $cts->add_paragraph("Inscrivez vous pour recevoir toutes les nouvelles par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"membres.php?action=selfenroll\">cliquez ici</a>.");
 }
 	
 $site->add_contents($cts);  

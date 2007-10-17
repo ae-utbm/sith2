@@ -809,13 +809,27 @@ elseif ( $_REQUEST["view"]=="assos" )
   {
     $tbl = new sqltable(
       "listasso",
-      "Associations et clubs actuels", $req, "user.php?id_utilisateur=".$user->id,
+      "Associations et activités actuelles", $req, "user.php?id_utilisateur=".$user->id,
       "id_membership",
       array("nom_asso"=>"Association","role"=>"Role","desc_role"=>"","date_debut"=>"Depuis"), 
       $can_edit?array("delete"=>"Supprimer","stop"=>"Arreter à la date de ce jour"):array(),
       array(), array("role"=>$GLOBALS['ROLEASSO100'])
       );
     $cts->add($tbl,true);
+  }
+
+  if ( $can_edit )
+  {
+    $frm = new form("addme","user.php?view=assos&id_utilisateur=".$user->id,false,"POST","S'inscire à une activité");
+    if ( $ErreurAddMe )
+      $frm->error($ErreurAddMe);
+    $frm->add_hidden("action","addme");
+    $frm->add_info("<b>Attention</b> : Si vous &ecirc;tes membre du bureau (tresorier, secretaire...) ou membre actif veuillez vous adresser au responsable de l'association/du club. Si vous &ecirc;tes le responsable, merci de vous adresser à l'équipe informatique.");
+    $frm->add_info("En tant que membre vous serez inscrit à la mailing liste de l'activité, vous receverez donc par e-mail toutes les informations sur l'activité.");
+    $frm->add_entity_select ( "id_asso", "Association/Club", $site->db, "asso");
+    $frm->add_date_field("date_debut","Depuis le",time(),true);
+    $frm->add_submit("valid","Ajouter");
+    $cts->add($frm,true);
   }
 
   /* Anciennes assos */
@@ -833,7 +847,7 @@ elseif ( $_REQUEST["view"]=="assos" )
   {
     $tbl = new sqltable(
       "listassoformer",
-      "Associations et clubs (anciennes participations)", $req, "user.php?id_utilisateur=".$user->id,
+      "Anciennes participation aux associations et activités", $req, "user.php?id_utilisateur=".$user->id,
       "id_membership",
       array("nom_asso"=>"Association","role"=>"Role","desc_role"=>"","date_debut"=>"Date de début","date_fin"=>"Date de fin"),
       $can_edit?array("delete"=>"Supprimer"):array(), array(), array("role"=>$GLOBALS['ROLEASSO100'] )
@@ -841,20 +855,9 @@ elseif ( $_REQUEST["view"]=="assos" )
     $cts->add($tbl,true);
   }
 
-
   if ( $can_edit )
   {
-    $frm = new form("addme","user.php?view=assos&id_utilisateur=".$user->id,false,"POST","Ajouter comme membre");
-    if ( $ErreurAddMe )
-      $frm->error($ErreurAddMe);
-    $frm->add_hidden("action","addme");
-    $frm->add_info("<b>Attention</b> : Si vous &ecirc;tes membre du bureau (tresorier, secretaire...) ou membre actif veuillez vous adresser au responsable de l'association/du club. Si vous &ecirc;tes le responsable, merci de vous adresser au bureau de l'AE.");
-    $frm->add_entity_select ( "id_asso", "Association/Club", $site->db, "asso");
-    $frm->add_date_field("date_debut","Depuis le",time(),true);
-    $frm->add_submit("valid","Ajouter");
-    $cts->add($frm,true);
-
-    $frm = new form("addmeformer","user.php?view=assos&id_utilisateur=".$user->id,false,"POST","Ajouter comme un ancien membre");
+    $frm = new form("addmeformer","user.php?view=assos&id_utilisateur=".$user->id,false,"POST","Ajouter une ancienne participation");
     $frm->add_hidden("action","addmeformer");
     if ( $ErreurAddMeFormer )
       $frm->error($ErreurAddMeFormer);

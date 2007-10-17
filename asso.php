@@ -295,9 +295,9 @@ else if ( isset($_REQUEST["id_asso"]) )
 
   if ( !is_null($asso->id_parent) && (!$site->user->is_valid() || !$asso->is_member($site->user->id)) )
   {
-     $cts->add_title(2,"Inscrivez vous pour en savoir plus");  
-    
-     $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail, c'est simple et rapide : <a href=\"asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");
+    $cts->add_title(2,"Inscrivez vous pour en savoir plus");  
+  
+    $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");
   }
   
 	$site->add_contents($cts);
