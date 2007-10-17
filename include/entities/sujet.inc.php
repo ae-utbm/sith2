@@ -233,7 +233,7 @@ class sujet extends stdentity
       
     $req = new requete($this->db, 
   		"SELECT `id_utilisateur` FROM `asso_membre` " .
-  		"WHERE `asso_membre`.`date_fin` IS NULL AND `asso_membre`.`id_asso`='".$asso->id."' ");
+  		"WHERE `asso_membre`.`date_fin` IS NULL AND `asso_membre`.`id_asso`='".$forum->id_asso."' ");
     
     while ( list($id_utilisateur) = $req->get_row() )
     {
