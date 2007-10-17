@@ -39,6 +39,8 @@ class flickr_info
   var $user;
   var $flickr_id;
 
+  var $xml;
+
   function flickr_info(&$user, $user_id)
   {
     $this->user = $user;
@@ -46,7 +48,7 @@ class flickr_info
     $xmlcts = file_get_contents("http://api.flickr.com/services/rest/?method=flickr.people.findByUsername".
 				"&api_key=".$flickr_api_key."&username=" . $user_id);
 
-    $xml = new u007xml($xmlcts);
+    $this->xml = new u007xml($xmlcts);
   }
 }
 
