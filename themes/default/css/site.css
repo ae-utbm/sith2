@@ -2239,12 +2239,12 @@ p.text-footer a:hover
  */
 #sbox_alerts
 {
-	background-image: url("../images/box-top.png") ;
+	background-image: url("../images/redbox-top.png") ;
 }
 
 #sbox_alerts div.body
 {
-	background-image: url("../images/box-bottom.png") ;
+	background-image: url("../images/redbox-bottom.png") ;
 
 }
 
