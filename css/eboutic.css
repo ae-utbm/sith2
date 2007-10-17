@@ -23,20 +23,23 @@
 
 .galitem .ebv h2
 {
+  height:18px;
+  overflow:hidden;
+  margin:0;
+  padding:0;
+  border:0;
   border-bottom:1px solid #c0c0c0;
-  height:14px;
-  padding-top:0px;
-  margin-top:0px;
 }
 
 .galitem .ebv p.image
 {
   position:absolute;
-  top:22px;
+  top:24px;
   left:0px;  
   height:60px;
   width:80px;
   overflow:hidden;
+  margin:0;
 }
 
 .galitem .ebv p.image img
@@ -47,11 +50,13 @@
 .galitem .ebv p.description
 {
   position:absolute;
-  top:22px;
+  top:24px;
   left:89px; 
   width:135px; 
-  height:65px;
+  height:62px;
   overflow:hidden;
+  margin:0;
+  background:red;
 }
 
 .galitem .ebv p.details
@@ -62,6 +67,7 @@
   width:135px; 
   height:13px;
   text-align:center;
+  margin:0;
 }
 
 .galitem .ebv p.prixunit
@@ -74,6 +80,7 @@
   text-align:center;
   font-weight:bold;
   font-height:120%;
+  margin:0;
 }
 
 .ebficheprod
@@ -86,6 +93,8 @@
 {
   font-size:200%; 
   border-bottom:1px solid #c0c0c0; 
+  margin:0;
+  margin-bottom:20px;
 }
 
 .ebficheprod .description
@@ -112,6 +121,7 @@
   top:40px;
   left:0px;
   overflow:hidden;
+  background:red;
 }
 
 .ebficheprod .image img
@@ -121,10 +131,10 @@
 
 .ebficheprod .prix
 {
-  position:absolute;
+  /*position:absolute;*/
   font-size:400%;
-  top:0px;
-  right:0px;
+  /*top:0px;
+  right:0px;*/
   background:white;
   text-align:right;
   border:1px solid #c0c0c0;
@@ -132,6 +142,8 @@
   padding-left:10px;
   padding-right:10px;
   padding-top:5px;
+  float:right;
+  margin:0;
 }
 
 
