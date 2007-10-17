@@ -79,8 +79,11 @@ class calendar extends stdcontents
 		$days = date("t", $this->date);
 		
 		//
-		
-		$this->buffer = "<div class=\"calendarhead\">\n";
+		if ( $topdir == $wwwtopdir )
+		  $this->buffer = "<p class=\"ical\"><a href=\"".$wwwtopdir."article.php?name=ical\"><img src=\"".$wwwtopdir."images/icons/16/ical.png\" alt=\"iCalendar\" /></a></p>";
+		else
+		  $this->buffer = "";
+		$this->buffer .= "<div class=\"calendarhead\">\n";
 		$this->buffer .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"99%\">\n";
 		
 		$prevmonth = $month - 1;

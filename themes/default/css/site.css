@@ -758,6 +758,14 @@ div.news-footer a.link {
 /*
  * Calendrier
  */
+p.ical
+{
+  width:16px;
+  height:16px;
+  top:10px;
+  right:10px;
+}
+
 div.calendarhead
 {
   text-align: center;
