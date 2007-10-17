@@ -13,8 +13,8 @@ $user->load_by_id(2626);
 $flick = new flickr_info($user, "justpearly");
 
 
+$site->add_contents($flick->get_cts_latest_photos());
 
-$site->add_contents(new contents("debug", $flick->flickr_id));
 
 $site->end_page();
 

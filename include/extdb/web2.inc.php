@@ -51,10 +51,48 @@ class flickr_info
 				"&username=" . $user_id);
 
     $xml = new u007xml($xmlcts);
-    print_r($xml);
 
     $this->flickr_id = $xml->arrOutput[0]['childrens'][0]['attributes']['ID'];
 
+  }
+
+  function get_cts_latest_photos($nb = 5)
+  {
+    if (!$this->user)
+      return false;
+    if (!$this->flickr_id)
+      return false;
+
+    global $flickr_api_key;
+
+    $photoscts = file_get_contents("http://api.flickr.com/services/rest/".
+				   "?method=flickr.people.getPublicPhotos".
+				   "&api_key=".$flickr_api_key.
+				   "&user_id=" . $this->flickr_id.
+				   "&per_page=".$nb);
+
+    $xml = new u007xml($photoscts);
+
+    
+
+
+    $cts = new contents("Les dernières photographies flickr de " .
+			$this->user->prenom . " " . 
+			$this->user->nom);
+
+    if (count($xml->arrOutput[0]['childrens'][0]['childrens']) > 0)
+      {
+	foreach ($xml->arrOutput[0]['childrens'][0]['childrens'] as &$photo)
+	  {
+	    $imgurl = "<img alt=\"".$photo['attributes']['TITLE']."\" ".
+	      " src=\"http://farm".$photo['attributes']['FARM'].
+	      ".static.flickr.com/".
+	      $photo['attributes']['SERVER']."/".$photo['attributes']['ID'].
+	      "_".$photo['attributes']['SECRET']."_m.jpg\" />";
+	    $cts->puts($imgurl);
+	  }
+      }
+	return $cts;
   }
 }
 
