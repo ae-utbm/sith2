@@ -760,6 +760,7 @@ div.news-footer a.link {
  */
 p.ical
 {
+  position:absolute;
   width:16px;
   height:16px;
   top:10px;
