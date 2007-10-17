@@ -135,7 +135,7 @@ $tbl = new sqltable(
 		"listgrp", 
 		"Groupes", $req, "group.php", 
 		"id_groupe", 
-		array("nom_groupe"=>"Groupe","description_groupe"=>"Description"), 
+		array("id_groupe" => "ID", "nom_groupe"=>"Groupe","description_groupe"=>"Description"), 
 		array("delete"=>"Supprimer"), 
 		array(),
 		array( )
