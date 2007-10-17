@@ -14,7 +14,8 @@ $flick = new flickr_info($user, "maximeh");
 
 
 
-$site->add_contents(new contents("debug", $flick->xml->arrOutput));
+$site->add_contents(new contents("debug", 
+				 print_r($flick->xml->arrOutput, true)));
 
 $site->end_page();
 
