@@ -260,8 +260,9 @@ div.emptysectionlinks
  */
 div.contents
 {
-  padding-top: 1.25em;
-  padding-bottom: 0;
+  margin-top: 10px;
+  padding: 0;
+  position:relative;
 }
 
 /**
@@ -271,7 +272,7 @@ div.contents
 {
   position: absolute;
   left: 6px;
-  top: 13em;
+  top: 0em;
   width: 202px;
 }
 
@@ -279,7 +280,7 @@ div.contents
 {
   position: absolute;
   right: 6px;
-  top: 13em;
+  top: 0em;
   width: 202px;
 }
 
@@ -412,7 +413,7 @@ div.box div.body div.boxlist a
 {
    text-decoration: none;
    font-weight: normal;
-   /*color: black;*/
+   color: black;
 }
 */
 div.box ul.annif li.title
@@ -458,8 +459,6 @@ div.box ul.boxlist li.title
 div.box h2, div.box h3
 {
 	background:url("../images/box-title.png");
-	height:18px;
-	padding-top:4px;
 	padding-left:25px;
 	margin-left:2px;
 	margin-right:2px;
@@ -467,8 +466,14 @@ div.box h2, div.box h3
 	position:relative;
 	font-weight:normal;
 
-  margin-bottom:5px;
-  margin-top:5px;
+  margin-bottom:7px;
+  margin-top:7px;
+  
+	padding-top:5px;
+  font-size:12px;
+  line-height:12px;
+	padding-bottom:5px;
+  
 }
 
 div.box ul
@@ -487,6 +492,8 @@ div.box h2 a
 {
 	color:#000;
 	text-decoration:none;
+  font-size:12px;
+  line-height:12px;
 }
 
 
@@ -1683,12 +1690,12 @@ td.moneycell
 #fsearchres
 {
   position: absolute;
-  top: 114px;
-  right: 9px;
+  top: 112px;
+  right: 8px;
   width:400px;
   display:none;
   background:#ffffff;
-  border:1px solid #F4BA1A;
+  border:2px solid #F4BA1A;
   padding:0.5em;
 }
 
