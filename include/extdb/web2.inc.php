@@ -45,13 +45,15 @@ class flickr_info
     global $flickr_api_key;
     $this->user = $user;
 
-    $xmlcts = file_get_contents("http://api.flickr.com/services/rest/?method=flickr.people.findByUsername".
-				"&api_key=".$flickr_api_key."&username=" . $user_id);
+    $xmlcts = file_get_contents("http://api.flickr.com/services/rest/".
+				"?method=flickr.people.findByUsername".
+				"&api_key=".$flickr_api_key.
+				"&username=" . $user_id);
 
     $xml = new u007xml($xmlcts);
     print_r($xml);
 
-    $this->flickr_id = $xml->arrOutput[0]['firstchild']['attributes']['id'];
+    $this->flickr_id = $xml->arrOutput[0]['childrens'][0]['attributes']['id'];
 
   }
 }
