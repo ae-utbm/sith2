@@ -29,7 +29,7 @@
  */
 
 
-require_once($topdir . "inclde/extdb/xml.inc.php");
+require_once($topdir . "include/extdb/xml.inc.php");
 
 
 $flickr_api_key = "FLICKR_API_KEY";
