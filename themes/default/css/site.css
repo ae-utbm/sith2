@@ -270,7 +270,7 @@ div.contents
 #left
 {
   position: absolute;
-  left: 1em;
+  left: 6px;
   top: 13em;
   width: 16em;
 }
@@ -278,7 +278,7 @@ div.contents
 #right
 {
   position: absolute;
-  right: 1em;
+  right: 6px;
   top: 13em;
   width: 16em;
 }
@@ -531,8 +531,8 @@ div.box div.body ul li a
  */
 div.article
 {
-  /*border: 1px solid #c0c0c0;
-  background: white;*/
+  border: 1px solid #c0c0c0;
+  background: white;
   padding: 1em;
   margin-bottom: 1em;
 	clear: both;
