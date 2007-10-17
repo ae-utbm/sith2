@@ -38,6 +38,9 @@ if ( $_REQUEST["page"] == "unread" )
   $cts = new contents($forum->get_html_link()." / <a href=\"search.php?page=unread\">Messages non lus</a>");
     
   $cts->add_paragraph(
+  "<a href=\"search.php?page=unread\">".
+    "<img src=\"".$wwwtopdir."images/icons/16/unread.png\" class=\"icon\" alt=\"\" />Actualiser".
+  "</a> ".
   "<a href=\"./?action=setallread\">".
     "<img src=\"".$wwwtopdir."images/icons/16/valid.png\" class=\"icon\" alt=\"\" />Marquer tout comme lu".
   "</a> ".
