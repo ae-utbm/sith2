@@ -35,12 +35,6 @@
   font-family: sans-serif;
 }
 
-input.isubmit
-{
-	background: #d8e7f3 url("../../../images/linkTransparent.gif") 3px no-repeat;
-	padding-left: 10px;
-}
-
 body
 {
   background: #ffffff;
@@ -768,7 +762,7 @@ div.calendarhead
 {
   text-align: center;
   margin-bottom: 0.5em;
-  width:14.5em;
+  width:184px;
 }
 
 div.calendarhead td.month
@@ -792,7 +786,7 @@ div.calendar
   background: #ffffff;
   text-align: center;
   padding: 1px;
-	width:14.5em;  
+	width:184px;  
 }
 
 div.calendar td
@@ -801,6 +795,16 @@ div.calendar td
   width: 14%;
   padding: 3px;
   text-align:center;
+}
+
+div.calendar td a
+{
+  color: #c0c0c0;  
+}
+
+div.calendar td.event1 a, div.calendar td.event2 a, div.calendar td.event3 a
+{
+  color:black;
 }
 
 div.calendar td.active
