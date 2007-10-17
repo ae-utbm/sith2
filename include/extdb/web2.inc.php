@@ -49,6 +49,8 @@ class flickr_info
 				"&api_key=".$flickr_api_key."&username=" . $user_id);
 
     $xml = new u007xml($xmlcts);
+    print_r($xml);
+
     $this->flickr_id = $xml->arrOutput[0]['firstchild']['attributes']['id'];
 
   }
