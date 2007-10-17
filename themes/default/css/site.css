@@ -257,6 +257,7 @@ div.contents
   margin-top: 15px;
   padding: 0;
   position:relative;
+  border:1px solid red;
 }
 
 /**
