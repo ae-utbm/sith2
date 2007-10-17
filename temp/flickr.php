@@ -9,8 +9,8 @@ $site = new site ();
 $site->start_page("accueil","Bienvenue");
 
 $user = new utilisateur($site->db);
-$user->load_by_id(2989);
-$flick = new flickr_info($user, "maximeh");
+$user->load_by_id(2626);
+$flick = new flickr_info($user, "justpearly");
 
 
 
