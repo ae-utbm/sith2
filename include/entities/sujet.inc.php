@@ -144,6 +144,7 @@ class sujet extends stdentity
 		if ( $req )
 		{
 			$this->id = $req->get_id();
+			$this->auto_user_star($forum,true);
 		  return true;
 		}
 		
@@ -199,6 +200,7 @@ class sujet extends stdentity
          
     $forum_old->update_last_sujet();
     $forum_new->update_last_sujet();
+    $this->auto_user_star($forum_new);
   }
   
   /**
@@ -216,6 +218,31 @@ class sujet extends stdentity
     $this->id = null;
     
     $forum->update_last_sujet();
+  }
+
+  /**
+   * Etoile le sujet pour tous les membres de l'asso/activité qui est liée
+   * au forum où a été posté le message.
+   * @param $forum Instance du forum où a été posté le messgae
+   * @param $fresh true si le sujet vient juste d'être ajouté (frm_sujet_utilisateur vide pour le sujet)
+   */
+  function auto_user_star ( &$forum, $fresh=false )
+  {
+    if ( is_null($forum->id_asso) )
+      return;
+      
+    $req = new requete($this->db, 
+  		"SELECT `id_utilisateur` FROM `asso_membre` " .
+  		"WHERE `asso_membre`.`date_fin` IS NULL AND `asso_membre`.`id_asso`='".$asso->id."' ");
+    
+    while ( list($id_utilisateur) = $req->get_row() )
+    {
+      if ( $fresh )
+        new insert ($this->dbrw,"frm_sujet_utilisateur", 
+          array("etoile_sujet"=>true,"id_sujet"=>$this->id,"id_utilisateur"=>$id_utilisateur) );        
+      else
+        $this->set_user_star ( $id_utilisateur, true );
+    }
   }
 
   /**
