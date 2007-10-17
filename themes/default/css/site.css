@@ -1671,7 +1671,7 @@ td.moneycell
 {
   position: absolute;
   top: 87px;
-  right: 10px;
+  right: 20px;
   
   width:213px;
   height:24px;
@@ -1704,7 +1704,7 @@ td.moneycell
 {
   position: absolute;
   top: 112px;
-  right: 8px;
+  right: 18px;
   width:400px;
   display:none;
   background:#ffffff;
@@ -2210,8 +2210,8 @@ div.article div.subtab a
 {
   position: absolute;
   top: 16px;
-  right: 20px;
-  width:309px;
+  right: 10px;
+  width:339px;
   height:44px;
   background: url("../images/infobox.png");
   padding:0;
