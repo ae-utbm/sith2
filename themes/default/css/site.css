@@ -193,7 +193,7 @@ ul li.info
 div.tabsv2
 {
 	background: #F4BA1A;
-	height:35px;
+	height:28px;
 	padding-left:25px;
 }
 
@@ -209,8 +209,8 @@ div.tabsv2 span a
   border-left:1px solid #ffffff;
   border-right:1px solid #ffffff;
   margin-right:-1px;
-  padding-top:11px;
-  padding-bottom:12px;
+  padding-top:8px;
+  padding-bottom:8px;
   padding-left:10px; 
   padding-right:10px;
   font-weight:bold;
@@ -369,6 +369,7 @@ div.box div.body
 div.box p
 {
   margin: 0px;
+  padding-bottom: 5px;
 }
 /*
 div.box ul.boxlist
@@ -1649,7 +1650,7 @@ td.moneycell
 #fsearchbox
 {
   position: absolute;
-  top: 91px;
+  top: 87px;
   right: 10px;
   
   width:213px;
@@ -2189,8 +2190,8 @@ div.article div.subtab a
 {
   position: absolute;
   top: 16px;
-  right: 50px;
-  width:269px;
+  right: 20px;
+  width:309px;
   height:44px;
   background: url("../images/infobox.png");
   padding:0;
@@ -2206,7 +2207,7 @@ div.article div.subtab a
   margin:0;
   border:0;
   padding-top:8px;
-  padding-left:8px;
+  padding-left:20px;
   padding-right:8px;
 }
 
