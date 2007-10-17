@@ -761,10 +761,10 @@ div.news-footer a.link {
 p.ical
 {
   position:absolute;
-  width:22px;
-  height:22px;
-  top:-17px;
-  right:10px;
+  width:15px;
+  height:15px;
+  top:-15px;
+  right:20px;
 }
 
 div.calendarhead
