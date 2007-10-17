@@ -43,6 +43,7 @@ class flickr_info
 
   function flickr_info(&$user, $user_id)
   {
+    global $flickr_api_key;
     $this->user = $user;
 
     $xmlcts = file_get_contents("http://api.flickr.com/services/rest/?method=flickr.people.findByUsername".
