@@ -39,7 +39,7 @@ if ( $_REQUEST["page"] == "unread" )
     
   $cts->add_paragraph(
   "<a href=\"search.php?page=unread\">".
-    "<img src=\"".$wwwtopdir."images/icons/16/unread.png\" class=\"icon\" alt=\"\" />Actualiser".
+    "<img src=\"".$wwwtopdir."images/icons/16/reload.png\" class=\"icon\" alt=\"\" />Actualiser".
   "</a> ".
   "<a href=\"./?action=setallread\">".
     "<img src=\"".$wwwtopdir."images/icons/16/valid.png\" class=\"icon\" alt=\"\" />Marquer tout comme lu".
