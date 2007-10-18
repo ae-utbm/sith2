@@ -50,7 +50,6 @@ class mysql {
 
   function mysql ($my_user, $my_pass, $my_serveur, $my_base) {
     $this->user = $my_user;
-    $this->pass = $my_pass;
     $this->serveur = $my_serveur;
     $this->base = $my_base;
     return FALSE;
@@ -61,7 +60,6 @@ class mysql {
       return FALSE;
     }
     /* une fois la connexion etablie, on peut oublier les mots de passe */
-    unset($this->pass);
 
     if (!@mysql_select_db($my_base, $my_dbh)) {
       $this->errmsg = "S&eacute;lection de la base de donn&eacute;es impossible.";

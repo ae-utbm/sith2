@@ -51,13 +51,11 @@ class site extends interfaceweb
   {
     $dbro = new mysqlae ();
     
-    print_r($dbro);
-    
-    if (!$dbro)
+    if (!$dbro->dbh)
       $this->fatal("no db");
 
     $dbrw = new mysqlae ("rw");
-    if (!$dbrw)
+    if (!$dbrw->dbh)
       $this->fatal("no dbrw");
 
     $this->interfaceweb($dbro, $dbrw);
