@@ -95,7 +95,7 @@ class edt_img
 
     /* taille totale de l'image : 800x782 */
     $this->dim['width'] = 800;
-    $this->dim['height'] = 782;
+    $this->dim['height'] = 882;
 
     /* police */
     $this->font = $topdir ."font/verdana.ttf";
