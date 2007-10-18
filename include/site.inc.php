@@ -159,16 +159,17 @@ class site extends interfaceweb
 
   function fatal ($debug="fatal")
   {
+    global $wwwtopdir;
     echo "<?xml version=\"1.0\"?>\n";
     echo "<!DOCTYPE html PUBLIC \"--//W3C//DTD XHTML 1.1//EN\" ";
     echo "\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n\n";
     echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n";
     echo " <head>\n";
     echo "  <title>AE UTBM</title>\n";
-    echo "  <link rel=\"stylesheet\" href=\"css/fatal.css\" title=\"fatal\" />\n";
+    echo "  <link rel=\"stylesheet\" href=\"".$wwwtopdir."css/fatal.css\" title=\"fatal\" />\n";
     echo " </head>\n\n";
     echo " <body><!-- DEBUG INFO: $debug -->\n";
-    echo "  <p><img src=\"images/fatalerror.jpg\" alt=\"Site en maintenance\" /></p>\n";
+    echo "  <p><img src=\"".$wwwtopdir."images/fatalerror.jpg\" alt=\"Site en maintenance\" /></p>\n";
     echo " </body>\n";
     echo "</html>\n";
     exit(); 
