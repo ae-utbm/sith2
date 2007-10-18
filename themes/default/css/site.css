@@ -2115,10 +2115,10 @@ div.article div.subtab
 {
   padding:0;
   margin:0;
-  padding-bottom:0.15em;
-  margin-bottom:0.25em;
+  padding-bottom:3px;
+  margin-bottom:4px;
 	text-align: center;
-	border-bottom: 1px solid #f0f0f0;
+	border-bottom: 1px solid #F4BA1A;
   font-size: 11px;
 }
 
