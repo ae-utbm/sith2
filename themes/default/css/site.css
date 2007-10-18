@@ -1258,120 +1258,80 @@ table.ctstable
  */
 div.article div.tabs_lg
 {
-  padding: 0;
-  padding-left: 0.5em;
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-	background: #ffffff;
-	border-bottom: 1px solid #364970;
+  clear:both;
+	background:#F4BA1A;
+	padding-left:10px;
+  margin-top:7px;
+  margin-bottom:7px;
+  border-bottom:1px solid white;
 }
 
 div.article div.tabs_lg a
 {
-  background: #d8e7f3;
-  height: 1.2em;
-  text-transform: lowercase;
-  padding-left: 0.3em;
-  padding-right: 0.3em;
-  padding-top: 2px;
-  margin-left: 0.1em;
-  margin-right: 0.1em;
-  border: 1px #364970 solid;
+  float:left;
+  color:#ffffff;
+  font-size:12px;
+  border-left:1px solid #ffffff;
+  border-right:1px solid #ffffff;
+  margin-right:-1px;
+  padding-top:4px;
+  padding-bottom:4px;
+  padding-left:4px; 
+  padding-right:4px;
+  font-weight:normal;
+  line-height:12px;
+  border-bottom:1px solid #ffffff;
+  margin-bottom:-1px;
 }
 
-div.article div.tabs_lg a.selected
+div.article div.tabs_lg a.selected, div.article div.tabs_lg a:hover
 {
-  background: #ffffff;
-  border-bottom-color: #ffffff;
-}
-
-div.article div.tabs_lg a:hover
-{
-  background: #ffffff;
-  text-decoration: none;
+  background:#ffffff;
+  color:#000000;
+  text-decoration:none;
 }
 
 /*
  * Onglets au sein d'un article (cadre au centre)
  */
-div.article div.tabs_bottom
+
+div.article div.tabs_top, div.article div.tabs_bottom
 {
-	padding: 0;
-	padding-left: 0.9em;
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
-	background: #ffffff;
-	border-top: 1px solid #364970;
-	padding-top: 0.1em;
-	clear:both;
-	line-height:normal;
+  clear:both;
+	background:#F4BA1A;
+	padding-left:10px;
+  margin-top:7px;
+  margin-bottom:7px;
+  border-bottom:1px solid white;
 }
 
-div.article div.tabs_bottom a
+
+div.article div.tabs_top a, div.article div.tabs_bottom a
 {
-  background: #d8e7f3;
-  height: 1.2em;
-  text-transform: lowercase;
-  margin-top:0;
-  padding-left: 0.4em;
-  padding-right: 0.4em;
-  margin-left: 0.1em;
-  margin-right: 0.1em;
-  border: 1px #364970 solid;
-  -moz-border-radius: 0em 0em 0.30em 0.30em;
-  padding-top: 0.1em;
+  float:left;
+  color:#ffffff;
+  font-size:12px;
+  border-left:1px solid #ffffff;
+  border-right:1px solid #ffffff;
+  margin-right:-1px;
+  padding-top:4px;
+  padding-bottom:4px;
+  padding-left:8px; 
+  padding-right:8px;
+  font-weight:normal;
+  line-height:12px;
+  border-bottom:1px solid #ffffff;
+  margin-bottom:-1px;
 }
 
-div.article div.tabs_bottom a.selected
+div.article div.tabs_top a.selected, div.article div.tabs_top a:hover, div.article div.tabs_bottom a.selected, div.article div.tabs_bottom a:hover
 {
-  background: #ffffff;
-  border-top-color: #ffffff;
-}
-
-div.article div.tabs_bottom a:hover
-{
-  background: #ffffff;
-  text-decoration: none;
-}
-
-div.article div.tabs_top
-{
-	padding: 0;
-	padding-left: 0.9em;
-	margin-bottom: 0.5em;
-	margin-top: 0.5em;
-	background: #ffffff;
-	border-bottom: 1px solid #364970;
-	padding-bottom: 0.1em;
-	clear:both;
-	line-height:normal;
-}
-
-div.article div.tabs_top a
-{
-  background: #d8e7f3;
-  height: 1.2em;
-  text-transform: lowercase;
-  margin-bottom:0;
-  padding-left: 0.4em;
-  padding-right: 0.4em;
-  margin-left: 0.1em;
-  margin-right: 0.1em;
-  border: 1px #364970 solid;
-  -moz-border-radius: 0.30em 0.30em 0em 0em;
-  padding-bottom: 0.1em;
-}
-
-div.article div.tabs_top a.selected
-{
-  background: #ffffff;
-  border-bottom-color: #ffffff;
-}
-
-div.article div.tabs_top a:hover
-{
-  background: #ffffff;
-  text-decoration: none;
+  background:#ffffff;
+  color:#000000;
+  text-decoration:none;
+  
+  /*border-left:1px solid #F4BA1A;
+  border-right:1px solid #F4BA1A;*/
 }
 
 /*

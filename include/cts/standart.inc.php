@@ -1569,7 +1569,7 @@ class tabshead
 				$this->buffer .= " class=\"selected\"";
 			$this->buffer .= " title=\"" .  htmlentities($entry[2],ENT_QUOTES,"UTF-8") . "\">" . $entry[2] . "</a></span>\n";
 		}
-		
+		$this->buffer .= "<div class=\"clearboth\"></div>\n";	
 		$this->buffer .= "</div>\n";	
 		
 		return $this->buffer;
