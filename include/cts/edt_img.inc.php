@@ -284,7 +284,7 @@ class edt_img
 
 	$ecart = $hstd[$i][0] * 60 + $hstd[$i][1] - ($hstd[$i+1][0]*60+$hstd[$i+1][1]);
 
-	// Si les heures sont rapprochï¿½es, on dï¿½cale celle du dessus
+	// Si les heures sont rapprochées, on décale celle du dessus
 	if(($ecart > -5) && ($ecart < 0))
 	  $j=7;
 	else $j=0;
@@ -539,7 +539,7 @@ class edt_img
 		 $HrDebut1 * 60 + $HrDebut2 - $this->dim['dh'] + $this->dim['entete'] + $DVNum,
 		 $groupe_color,
 		 $this->font,
-		 $line['type_seance'] . $grps);
+		 $line['type_seance'] .' '. $grps);
 
     // Affichage du groupe
     if($line['semaine_seance']!="AB")
