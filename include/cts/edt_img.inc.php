@@ -93,9 +93,9 @@ class edt_img
     $this->name = $name . " - UTBM";
     $this->credits = "";
 
-    /* taille totale de l'image : 800x782 */
+    /* taille totale de l'image */
     $this->dim['width'] = 800;
-    $this->dim['height'] = 882;
+    $this->dim['height'] = 850;
 
     /* police */
     $this->font = $topdir ."font/verdana.ttf";
