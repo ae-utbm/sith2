@@ -35,6 +35,12 @@ $site = new site ();
 if ( !preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
   $site->fatal("taiste only");
 
+if ( $_REQUEST["action"] == "fatal" )
+  $site->fatal("test");
+elseif ( $_REQUEST["action"] == "partial" )
+  $site->fatal_partial("services");
+
+
 $site->start_page("test","Test / Debug");
 
 $cts = new contents("TEST / DEBUG");
