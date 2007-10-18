@@ -218,6 +218,7 @@ $cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche
 $frm = new form("frmsearch",$wwwtopdir."forum2/search.php");
 $frm->add_text_field("pattern","");
 $frm->add_submit("search","Rechercher");
+$frm->set_focus("pattern");
 $cts->add($frm);  
   
 $site->add_contents($cts);
