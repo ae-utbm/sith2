@@ -259,7 +259,9 @@ div.contents
   margin:0;
   padding: 0;
   margin-top: 15px;
+  border:1px solid white;
 }
+
 
 /**
  * Colones de boites
@@ -267,16 +269,16 @@ div.contents
 #left
 {
   position: absolute;
-  left: 6px;
-  top: 0em;
+  left: 5px;
+  top: 0px;
   width: 202px;
 }
 
 #right
 {
   position: absolute;
-  right: 6px;
-  top: 0em;
+  right: 5px;
+  top: 0px;
   width: 202px;
 }
 
@@ -537,8 +539,8 @@ div.article
 {
   border: 1px solid #c0c0c0;
   background: white;
-  padding: 1em;
-  margin-bottom: 1em;
+  padding: 10px;
+  margin-bottom: 10px;
 	clear: both;
 	position:relative;	
 }
@@ -2297,9 +2299,12 @@ div.board
 
 div.board div.panel
 {
-  width:50%;
+  width:49%;
   float:left;
   position:relative;
+  margin:0;
+  padding:0;
+  border:0;
 }
 
 div.board div.panel h2
