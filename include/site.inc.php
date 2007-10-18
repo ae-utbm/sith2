@@ -50,6 +50,9 @@ class site extends interfaceweb
   function site ($stats=true)
   {
     $dbro = new mysqlae ();
+    
+    print_r($dbro);
+    
     if (!$dbro)
       $this->fatal("no db");
 
