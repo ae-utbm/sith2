@@ -52,7 +52,6 @@ class mysql {
     $this->user = $my_user;
     $this->serveur = $my_serveur;
     $this->base = $my_base;
-    return FALSE;
     
     $my_dbh = @mysql_connect("$my_serveur", "$my_user", "$my_pass");
     if (!$my_dbh) {
