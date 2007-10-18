@@ -93,9 +93,9 @@ class edt_img
     $this->name = $name . " - UTBM";
     $this->credits = "";
 
-    /* taille totale de l'image : 800x762 */
+    /* taille totale de l'image : 800x782 */
     $this->dim['width'] = 800;
-    $this->dim['height'] = 762;
+    $this->dim['height'] = 782;
 
     /* police */
     $this->font = $topdir ."font/verdana.ttf";
@@ -106,8 +106,8 @@ class edt_img
     $this->dim['mg'] = 45;
     /* largeur de colone de 125 pixels */
     $this->dim['lj'] = 125;
-    /* Les journï¿½es commencent ï¿½ 8 heures du matin
-     * (60 * 8) - ï¿½chelle de 1px par minute          */
+    /* Les journées commencent à 8 heures du matin
+     * (60 * 8) - échelle de 1px par minute          */
     $this->dim['dh'] = 480;
     /* horaires */
     $this->horaires = array(array("8","00"),
@@ -123,7 +123,8 @@ class edt_img
 			    array("16","15"),
 			    array("17","15"),
 			    array("18","15"),
-			    array("19","15"));
+			    array("19","15"),
+			    array("20","15"));
     /* logo ? */
     if (file_exists($logo))
       {
@@ -134,7 +135,7 @@ class edt_img
 
     $this->lines = $lines;
 
-    /* on commence la generation de l'edt a proprement parler ici */
+    /* on commence la generation de l'edt à proprement parler ici */
 
     /* creation de l'image GD */
     $this->img = imagecreatetruecolor ($this->dim['width'],
@@ -170,7 +171,7 @@ class edt_img
     imagefill($this->img,0,0, $this->colors['blanc']);
 
 
-    // Trame de fond hachurï¿½e
+    // Trame de fond hachurée
     
     for($i = $this->dim['mg'] + 1, $j = $this->dim['entete'] + 1;
 	$i < $this->dim['width'] * 2, $j < $this->dim['height'] * 2;
@@ -328,10 +329,10 @@ class edt_img
 			 $this->dim['height'] - 18,
 			 $this->colors['bleu_clair']);
 
-    // Affichage de l'ï¿½tablissement
+    // Affichage de l'établissement
     //imagettftext($this->img,10,0,$this->dim['mg'],42,$noir,$police,$NomEtab);
 
-    // Date de gï¿½nï¿½ration
+    // Date de génération
   
     $date=date("d-m-Y");
     $heure=date("G\hi");
