@@ -1135,76 +1135,38 @@ div.toolbox a
  */
 div.article div.tabs
 {
-	padding: 0;
-	margin: 0;
-	border: 0;
-	height:21px;
-	padding-left:2em;
-	overflow:hidden;
-	background:url("../images/core-tabs-fond.png");
-	margin-bottom:0.5em;
-}
-
-div.article div.tabs span
-{
-	float:left;
-	background:url("../images/core-tabs-norm-st.png");
-	height:21px;
-	font-size: 12px;
-	padding-left:8px;
-	margin:0;
-	border:0;
-	color:black;
+  background:#F4BA1A;
+  height:20px;
+  overflow:hidden;
+  padding-left:15px;
 }
 
 div.article div.tabs span a
 {
-  text-transform: lowercase;
-	padding: 0;
-	margin: 0;
-	border: 0;
-	float:left;
-	background:url("../images/core-tabs-norm.png");
-	height:21px;
-	padding-right:18px;
-	padding-left:5px;
-	background-repeat: no-repeat;
-	background-position: right top;
-	vertical-align:bottom;
-	line-height:25px;
-	text-decoration: none;
+  float:left;
+  color:#ffffff;
+  font-size:12px;
+  border-left:1px solid #ffffff;
+  border-right:1px solid #ffffff;
+  margin-right:-1px;
+  padding-top:4px;
+  padding-bottom:4px;
+  padding-left:8px; 
+  padding-right:8px;
+  font-weight:normal;
+  line-height:12px;
 }
 
-div.article div.tabs span a:hover
+div.article div.tabs span.selected a, div.article div.tabs span a:hover
 {
-	background:url("../images/core-tabs-norm.png");
-	background-repeat: no-repeat;
-	background-position: right top;
+  background:#ffffff;
+  color:#000000;
+  text-decoration:none;
+  
+  border-left:1px solid #F4BA1A;
+  border-right:1px solid #F4BA1A;
 }
 
-div.article div.tabs span:hover
-{
-	background:url("../images/core-tabs-cur-st.png");
-}
-
-div.article div.tabs span:hover a
-{
-	background:url("../images/core-tabs-cur.png");
-	background-repeat: no-repeat;
-	background-position: right top;
-}
-
-div.article div.tabs span.selected
-{
-	background:url("../images/core-tabs-cur-st.png");
-}
-
-div.article div.tabs span.selected a
-{
-	background:url("../images/core-tabs-cur.png");
-	background-repeat: no-repeat;
-	background-position: right top;
-}
 
 /*
  * Affichage plan comptable (dans la compta)
