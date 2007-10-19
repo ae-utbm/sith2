@@ -34,11 +34,14 @@ class stdentity
   var $db;
   var $dbrw;
   
+  var $_tags;
+  
   function stdentity ( &$db, &$dbrw = null )
   {
     $this->db = &$db;
     $this->dbrw = &$dbrw;
     $this->id = null;
+    $this->_tags = null;
   } 
 
   /**
@@ -118,7 +121,7 @@ class stdentity
   function can_enumerate()
   {
     $class = get_class($this);
-    return isset($GLOBALS["entitiescatalog"][$class][4]);
+    return isset($GLOBALS["entitiescatalog"][$class][4]) && $GLOBALS["entitiescatalog"][$class][4];
   }
   
   /**
@@ -132,7 +135,7 @@ class stdentity
   {
     $class = get_class($this);
     
-    if ( !isset($GLOBALS["entitiescatalog"][$class][4]) )
+    if ( !isset($GLOBALS["entitiescatalog"][$class][4]) || !$GLOBALS["entitiescatalog"][$class][4] )
       return null;
     
 		if ( $null ) 
@@ -393,6 +396,123 @@ class stdentity
     return "";
   }
   
+  /**
+   * Return the list of tags associated to the instance if supported
+   * @return list of tags (id=>name), or null if unsupported
+   */
+  function get_tags_list()
+  {
+    $class = get_class($this);    
+    
+    if ( !isset($GLOBALS["entitiescatalog"][$class][6]) || !$GLOBALS["entitiescatalog"][$class][6] )
+      return null;
+      
+    if ( !is_null($this->_tags) )
+      return $this->_tags;
+      
+    $req = new requete($this->db,
+      "SELECT tag.id_tag, tag.nom_tag ".
+      "FROM ".$GLOBALS["entitiescatalog"][$class][6]." ".
+      "INNER JOIN tag USING(id_tag) ".
+      "WHERE ".$GLOBALS["entitiescatalog"][$class][0]."='".mysql_escape_string($this->id)."' ".
+      "ORDER BY nom_tag");  
+      
+    $this->_tags = array();
+    
+    while ( list($id,$tag) = $req->get_row() )
+      $this->_tags[$id] = $tag; 
+      
+    return $this->_tags;  
+  }
+  
+  /**
+   * Return the list of tags in ahuman readable format (if supported)
+   * @return a string, or null if unsupported
+   */
+  function get_tags()
+  {
+    $tags = $this->get_tags_list();
+    
+    if ( is_null($tags) )
+      return null;
+    
+    return implode(", ",$tags);
+  }
+  
+  /**
+   * Set tags of instance using a array of tags name. 
+   * Create missing tags if any.
+   * @param $tags Array of tags name : array("tag1","tag2"...)
+   */
+  function set_tags_array($tags)
+  {
+    $class = get_class($this);    
+    
+    if ( !isset($GLOBALS["entitiescatalog"][$class][6]) || !$GLOBALS["entitiescatalog"][$class][6] )
+      return null;
+    
+    $conds = array();
+    
+    $tocreate=array();
+    
+    foreach ( $tags as $tag )
+    {
+      $conds[] = "nom_tag='".mysql_escape_string($tag)."'";
+      $tocreate[$tag]=$tag;
+    }
+    
+    $tags = array();
+    
+    $req = new requete($this->db, "SELECT id_tag, nom_tag FROM tag WHERE ".implode(" OR ",$conds));
+          
+    while ( list($id,$tag) = $req->get_row() )
+    {
+      $tags[$id]=$tag;
+      unset($tocreate[$tag]);
+    }
+    
+    foreach ( $tocreate as $tag )
+    {
+      $crt = new insert($this->dbrw, "tag", array("nom_tag"=>$tag));
+      $tags[$crt->get_id()]=$tag;  
+    }
+    
+    $actual = $this->get_tags_list();
+    
+    foreach ( $tags as $id => $tag )
+    {
+      if ( !isset($actual[$id]) )
+        new insert($this->dbrw, $GLOBALS["entitiescatalog"][$class][6], 
+          array("id_tag"=>$id,$GLOBALS["entitiescatalog"][$class][0]=>$this->id));
+      else
+        unset($actual[$id]);
+    }
+    
+    foreach ( $actual as $id => $tag )
+      new delete($this->dbrw, $GLOBALS["entitiescatalog"][$class][6], 
+        array("id_tag"=>$id,$GLOBALS["entitiescatalog"][$class][0]=>$this->id));
+    
+    $this->_tags=$tags;
+  }
+  
+  /**
+   * Set tags using a human readable string
+   * Create missing tags if any.
+   * @param $tags String of tags : "tag1, tag2, tag3..."
+   */
+  function set_tags($tags)
+  {
+    $tags=strtolower($tags);
+    
+    $l1 = explode(",",$tags);
+    $l2 = array();  
+    foreach ( $l1 as $tag )
+    {
+      $l2[] = trim($l1);  
+    } 
+    
+    $this->set_tags_array($l2);
+  }
   
 }
 
