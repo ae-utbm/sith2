@@ -1,8 +1,8 @@
 <?php
 
 $topdir = "../";
-require_once("$topdir . "include/site.inc.php");
-require_once("$topdir . "include/entities/objet.inc.php");
+require_once($topdir . "include/site.inc.php");
+require_once($topdir . "include/entities/objet.inc.php");
 $site=new site();
 $user=new utilisateur($site->db);
 
