@@ -16,7 +16,8 @@ $user=new utilisateur($site->db);';
 $req=new requete($site->db,"SELECT * FROM `inv_emprunt` WHERE `date_demande_emp`>'207-09-22 00:00:00'");
 while(list($id_emp,$id_utl,$is_asso,$id_op,$date_demande_emp,$date_prise_emp,$date_retour_emp,$date_debut_emp,$date_fin_emp,$caution,$prix,$ext,$note,$etat) = $req->get_row() )
 {
-echo '$user->load_by_id('.$id_utl.');
+echo '
+$user->load_by_id('.$id_utl.');
 if(!$user->is_valid())
 echo "pb with : '.$id_emp.'\n";
 else
