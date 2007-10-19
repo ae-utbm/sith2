@@ -27,9 +27,9 @@ else
 $req2 = new requete($site->db,"SELECT `inv_objet`.`cbar_objet` FROM `inv_emprunt_objet` INNER JOIN `inv_objet` ON `inv_objet`.`id_objet`=`inv_emprunt_objet`.`id_objet` WHERE `id_emprunt`='".$id_emp."'");
 while(list($cbar)=$req2->get_row())
 {
-  $obj2 = new objet($site->db);
-  $obj2->load_by_cbar($cbar);
 echo '
+  $obj2 = new objet($site->db);
+  $obj2->load_by_cbar('.$cbar.');
   $emp->add_object('.$obj2->id.');
   $emp->retrait()
   $emp->full_back();
