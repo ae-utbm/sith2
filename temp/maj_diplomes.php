@@ -95,7 +95,7 @@ if ( $_REQUEST["action"] == "process")
     {
       $user->_load($req->get_row());
       $user->load_all_extra();
-      if ( $naissance != $user->date_naissance )
+      if ( !is_null($naissance) && $naissance != $user->date_naissance )
         $user->date_naissance = $naissance;
       $user->role="etu";
       $user->departement = $traduc[trim($data[3])];  
