@@ -229,7 +229,7 @@ if ( isset($_REQUEST["id_objet"]) )
 		$cts->add($frm);	
 
 	}
-	elseif ( $_REQUEST["view"] == "hist" )
+	elseif ( $_REQUEST["view"] == "hist" ) 
 	{
 		$req = new requete($site->db,"SELECT inv_emprunt.*, " .
 				"asso.nom_asso, asso.id_asso," .
@@ -237,8 +237,8 @@ if ( isset($_REQUEST["id_objet"]) )
 				"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`," .
 				"`utilisateurs`.`id_utilisateur` " .
 				"FROM inv_emprunt_objet " .
-				"INNER JOIN utilisateurs ON utilisateurs.id_utilisateur=inv_emprunt.id_utilisateur " .
 				"INNER JOIN inv_emprunt ON inv_emprunt_objet.id_emprunt=inv_emprunt.id_emprunt " .
+				"INNER JOIN utilisateurs ON utilisateurs.id_utilisateur=inv_emprunt.id_utilisateur " .
 				"LEFT JOIN asso ON inv_emprunt.id_asso=asso.id_asso " .
 				"WHERE inv_emprunt_objet.id_objet='".$objet->id."' AND inv_emprunt_objet.retour_effectif_emp IS NOT NULL " .
 				"ORDER BY inv_emprunt.date_debut_emp");		
