@@ -8,8 +8,8 @@ $user=new utilisateur($site->db);
 
 echo '<?php
 $topdir = "../";
-require_once("$topdir . "include/site.inc.php");
-require_once("$topdir . "include/entities/objet.inc.php");
+require_once($topdir . "include/site.inc.php");
+require_once($topdir . "include/entities/objet.inc.php");
 $site=new site();
 $user=new utilisateur($site->db);';
 
@@ -28,11 +28,11 @@ while(list($id)=$req2->get_row())
 echo '$emp->add_object('.$id.');
 $emp->retrait()
 $emp->full_back();
-}
-exit();
-?>';
+}';
 
 }
+echo 'exit();
+?';
 exit();
 ?>
 
