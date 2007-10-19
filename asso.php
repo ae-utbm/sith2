@@ -106,6 +106,9 @@ else if ( isset($_REQUEST["id_asso"]) )
           $asso->update_asso($asso->nom,$asso->nom_unix,$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email']);
         else
           $asso->update_asso($asso->nom,$asso->nom_unix,$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb']);
+          
+          
+        $asso->set_tags($_REQUEST['tags']);
         
       }
     }
@@ -152,6 +155,7 @@ else if ( isset($_REQUEST["id_asso"]) )
     
     $frm->add_text_field("email","Email",$asso->email);
     $frm->add_text_field("siteweb","Site web",$asso->siteweb);
+    $frm->add_text_field("tags","Mots clefs",$asso->get_tags());
     
     if ( $GLOBALS["is_using_ssl"] )
     {
