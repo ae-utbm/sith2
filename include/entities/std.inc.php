@@ -508,7 +508,7 @@ class stdentity
     $l2 = array();  
     foreach ( $l1 as $tag )
     {
-      $l2[] = trim($l1);  
+      $l2[] = trim($tag);  
     } 
     
     $this->set_tags_array($l2);
