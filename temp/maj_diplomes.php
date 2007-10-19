@@ -103,6 +103,7 @@ if ( $_REQUEST["action"] == "process")
       $user->date_diplome_utbm = datetime_to_timestamp(trim($data[5]));  
       $user->became_etudiant ( "UTBM", true, true );
       $user->saveinfos();
+      $user->add_to_group(42);//Nouveaux diplomé
       echo " : Updated";
       $updated++;
     }
