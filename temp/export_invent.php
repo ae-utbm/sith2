@@ -24,7 +24,7 @@ else
 {
   $emp = new emprunt($site->db,$site->dbrw);
   $obj->add_emprunt('.$id_utl.','.$id_asso.','.$ext.','.mktime(0,0,0,9,22,2007).','.mktime(0,0,0,9,23,2007).');';
-$req2 = new requete($site->db,"SELECT `inv_objet`.`cbar_objet` FROM `inv_emprunt_objet` WHERE `id_emprunt`='".$id_emp."' INNER JOIN `inv_objet` ON `inv_objet`.`id_objet`=`inv_emprunt_objet`.`id_objet`");
+$req2 = new requete($site->db,"SELECT `inv_objet`.`cbar_objet` FROM `inv_emprunt_objet` INNER JOIN `inv_objet` ON `inv_objet`.`id_objet`=`inv_emprunt_objet`.`id_objet` WHERE `id_emprunt`='".$id_emp."'");
 while(list($cbar)=$req2->get_row())
 {
   $obj2 = new objet($site->db);
