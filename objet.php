@@ -238,7 +238,7 @@ if ( isset($_REQUEST["id_objet"]) )
 				"`utilisateurs`.`id_utilisateur` " .
 				"FROM inv_emprunt_objet " .
 				"INNER JOIN inv_emprunt ON inv_emprunt_objet.id_emprunt=inv_emprunt.id_emprunt " .
-				"INNER JOIN utilisateurs ON utilisateurs.id_utilisateur=inv_emprunt.id_utilisateur " .
+				"LEFT JOIN utilisateurs ON utilisateurs.id_utilisateur=inv_emprunt.id_utilisateur " .
 				"LEFT JOIN asso ON inv_emprunt.id_asso=asso.id_asso " .
 				"WHERE inv_emprunt_objet.id_objet='".$objet->id."' AND inv_emprunt_objet.retour_effectif_emp IS NOT NULL " .
 				"ORDER BY inv_emprunt.date_debut_emp");		
