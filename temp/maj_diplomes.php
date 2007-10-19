@@ -64,18 +64,25 @@ if ( $_REQUEST["action"] == "process")
     
     $nom = strtolower(trim($data[0]));  
     $prenom = strtolower(trim($data[1]));  
-    $naissance = datetime_to_timestamp(trim($data[2]));  
+    
+    if ( trim($data[2]) )
+      $naissance = datetime_to_timestamp(trim($data[2]));  
+    else
+      $naissance = null;
     
     echo "<li>$nom $prenom : ";
 
-    $req = new requete($site->db, 
-      "SELECT * FROM `utilisateurs`
-      WHERE `nom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($nom)) . "$'
-      AND `prenom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($prenom)) . "$'
-      AND `date_naissance_utl` = '".date("Y-m-d",$naissance)."'");
-    echo $req->lines." line(s) ";
+    if ( !is_null($naissance) )
+    {
+      $req = new requete($site->db, 
+        "SELECT * FROM `utilisateurs`
+        WHERE `nom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($nom)) . "$'
+        AND `prenom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($prenom)) . "$'
+        AND `date_naissance_utl` = '".date("Y-m-d",$naissance)."'");
+      echo $req->lines." line(s) ";
+    }
     
-    if ( $req->lines == 0 )
+    if ( is_null($naissance) || $req->lines == 0 )
     {
       $req = new requete($site->db, 
         "SELECT * FROM `utilisateurs`
