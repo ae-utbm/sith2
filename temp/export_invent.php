@@ -31,7 +31,7 @@ echo '
   $obj2 = new objet($site->db);
   $obj2->load_by_cbar("'.$cbar.'");
   $emp->add_object($obj2->id);
-  $emp->retrait()
+  $emp->retrait();
   $emp->full_back();
 }';
 }
