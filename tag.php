@@ -40,6 +40,21 @@ if ( $tag->is_valid() )
   
   
   
+  // asso et clubs
+  $req = new requete($site->db,
+    "SELECT asso.* FROM asso_tag INNER JOIN asso WHERE id_tag='".$tag->id."' ORDER BY nom_asso");
+  if ( $req->lines > 0 )
+  {
+    $asso = new asso($site->db);
+    $lst = new itemlist("Association(s) et activité(s)");
+    while ( $row = $req->get_row() )
+    {
+      $asso->_load($row);
+      $lst->add($asso->get_html_link());
+    }
+    $cts->add($lst,true);
+  }
+  
   $site->add_contents($cts);
   $site->end_page ();
   exit();  
