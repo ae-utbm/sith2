@@ -356,7 +356,7 @@ if ( $photo->is_valid() )
       $ErrorSuggest="Personne inconnue...";
 
   }
-  elseif ( $_REQUEST["action"] == "setweekly" &&  $user->is_in_group ("moderateur_site") )
+  elseif ( $_REQUEST["action"] == "setweekly" &&  $site->user->is_in_group ("moderateur_site") )
   {
     copy($photo->get_abs_path().$photo->id.".jpg",
          "/var/www/ae/www/ae2/var/img/com/weekly_photo.jpg");
