@@ -4,6 +4,7 @@ class tag extends stdentity
 {
   var $nom;
   var $modere;
+  var $nombre;
   
   function load_by_id ( $id )
   {
@@ -26,6 +27,7 @@ class tag extends stdentity
     $this->id = $row["id_tag"];  
     $this->nom = $row["nom_tag"];  
     $this->modere = $row["modere_tag"];  
+    $this->nombre = $row["nombre_tag"];  
   }
   
 }

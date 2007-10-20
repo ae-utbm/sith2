@@ -485,15 +485,23 @@ class stdentity
     foreach ( $tags as $id => $tag )
     {
       if ( !isset($actual[$id]) )
+      {
         new insert($this->dbrw, $GLOBALS["entitiescatalog"][$class][6], 
           array("id_tag"=>$id,$GLOBALS["entitiescatalog"][$class][0]=>$this->id));
+        $id = mysql_escape_string($id);
+        new requete($this->dbrw, "UPDATE tag SET nombre_tag=nombre_tag+1 WHERE id_tag='$id'");
+      }
       else
         unset($actual[$id]);
     }
     
     foreach ( $actual as $id => $tag )
+    {
       new delete($this->dbrw, $GLOBALS["entitiescatalog"][$class][6], 
         array("id_tag"=>$id,$GLOBALS["entitiescatalog"][$class][0]=>$this->id));
+      $id = mysql_escape_string($id);
+      new requete($this->dbrw, "UPDATE tag SET nombre_tag=nombre_tag-1 WHERE id_tag='$id'");
+    }
     
     $this->_tags=$tags;
   }

@@ -81,6 +81,9 @@ $cts = new contents("Tags");
 
 
 
+
+
+
 $site->add_contents($cts);
 $site->end_page ();
 
