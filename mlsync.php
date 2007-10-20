@@ -6,11 +6,17 @@ require_once($topdir. "include/mysqlae.inc.php");
 
 if ( $_SERVER["REMOTE_ADDR"] != "127.0.1.1" )
 {
-  echo "ERROR: HTTPS REQUIRED";
+  echo "ERROR HTTPS REQUIRED";
   exit();
 }
 
 $db = new mysqlae ("rw");
+
+if ( !$db->dbh )
+{
+  echo "ERROR DB UNAVAILABLE";
+  exit();
+}
 
 $valid = new requete($db,
   "SELECT `key` ".
@@ -19,15 +25,26 @@ $valid = new requete($db,
 
 if ( $valid->lines != 1 )
 {
-  echo "ERROR: KEY NOT VALID\n";
+  echo "ERROR KEY NOT VALID\n";
   exit();
 }
 
 if ( isset($_REQUEST["done"]) )
 {
   $num = intval($_REQUEST["done"]);
-  new requete($db,"DELETE FROM ml_todo WHERE num_todo <= $num");
-  echo "ACK ".$num;
+  
+  $req = new requete($db,"SELECT num_todo FROM num_todo <= $num ORDER BY num_todo DESC LIMIT 1");
+
+  if ($req->lines!= 1 )
+  {
+    echo "ERROR ACK NONE";
+  }
+  else
+  {
+    list($real) = $req->get_row();
+    new requete($db,"DELETE FROM ml_todo WHERE num_todo <= $num");
+    echo "ACK ".$real;
+  }
   exit();  
 }
 
