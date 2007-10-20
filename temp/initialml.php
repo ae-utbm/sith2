@@ -9,16 +9,17 @@ $db = new mysqlae ("rw");
 $req = new requete($db,
     "SELECT ".
     "`asso`.`nom_unix_asso`, ".
-    "`asso`.`id_asso_parent` " .
+    "`asso`.`id_asso_parent`, " .
+    "`asso`.`email_asso` " .
     "FROM `asso` " .
     "ORDER BY `asso`.`nom_unix_asso`");
 
-while ( list($name,$parent) = $req->get_row() )
+while ( list($name,$parent,$email) = $req->get_row() )
 {
   if ( !is_null($parent) )
-	  asso::_ml_create($db,$name."-membres");	
+	  asso::_ml_create($db,$name."-membres",$email);	
 	  
-	asso::_ml_create($db,$name."-bureau");	
+	asso::_ml_create($db,$name."-bureau",$email);	
 }
 
 $req = new requete($db,

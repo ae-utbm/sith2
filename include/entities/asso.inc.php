@@ -184,8 +184,8 @@ class asso extends stdentity
 	  if ( $this->nom_unix )
 	  {
 	    if ( !is_null($this->id_parent) )
-		    $this->_ml_create($this->nom_unix."-membres");	
-		  $this->_ml_create($this->nom_unix."-bureau");	
+		    $this->_ml_create($this->nom_unix."-membres",$this->email);	
+		  $this->_ml_create($this->nom_unix."-bureau",$this->email);	
 	  }
 	}
 	
@@ -206,16 +206,16 @@ class asso extends stdentity
       if ( !$this->nom_unix )
       {
         if ( !is_null($id_parent) )
-		      $this->_ml_create($nom_unix."-membres");	
+		      $this->_ml_create($nom_unix."-membres",$this->email);	
 		      
-		    $this->_ml_create($nom_unix."-bureau");
+		    $this->_ml_create($nom_unix."-bureau",$this->email);
 		  }
       else
       {
         if (!is_null($this->id_parent) && is_null($id_parent) )
   		    $this->_ml_remove($this->nom_unix."-membres");
   		  elseif (is_null($this->id_parent) && !is_null($id_parent) )
-  		    $this->_ml_create($nom_unix."-membres");
+  		    $this->_ml_create($nom_unix."-membres",$this->email);
   		  else
 		      $this->_ml_rename($this->nom_unix."-membres",$nom_unix."-membres");	
 		      
@@ -227,7 +227,7 @@ class asso extends stdentity
   		if (!is_null($this->id_parent) && is_null($id_parent) )
   		  $this->_ml_remove($this->nom_unix."-membres");
   		elseif (is_null($this->id_parent) && !is_null($id_parent) )
-  		  $this->_ml_create($this->nom_unix."-membres");
+  		  $this->_ml_create($this->nom_unix."-membres",$this->email);
 		}
 		
 		$this->nom = $nom;
@@ -564,6 +564,8 @@ class asso extends stdentity
     
   static function _ml_subscribe ( $db, $ml, $email )
   {
+    if ( !$email )
+      return;
     //TODO: subscribe $email to $ml
     //echo "$ml SUBSCRIBE $email<br/>";
     new insert($db,"ml_todo",array("action_todo"=>"SUBSCRIBE","ml_todo"=>$ml,"email_todo"=>$email));
@@ -571,16 +573,21 @@ class asso extends stdentity
   
   static function _ml_unsubscribe ( $db, $ml, $email )
   {
+    if ( !$email )
+      return;
     //TODO: unsubscribe $email from $ml
     //echo "$ml UNSUBSCRIBE $email<br/>";
     new insert($db,"ml_todo",array("action_todo"=>"UNSUBSCRIBE","ml_todo"=>$ml,"email_todo"=>$email));
   }
   
-  static function _ml_create ( $db, $ml )
+  static function _ml_create ( $db, $ml, $owner="" )
   {
     //TODO: create $ml
     //echo "CREATE $ml<br/>";
-    new insert($db,"ml_todo",array("action_todo"=>"CREATE","ml_todo"=>$ml));
+    if ( empty($owner) )
+      $owner = "ae@utbm.fr";
+      
+    new insert($db,"ml_todo",array("action_todo"=>"CREATE","ml_todo"=>$ml,"email_todo"=>$owner));
   }
   
   static function _ml_rename ( $db, $old, $new )
