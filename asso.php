@@ -304,6 +304,8 @@ else if ( isset($_REQUEST["id_asso"]) )
     $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");
   }
   
+  $cts->add(new taglist($asso),true);
+
 	$site->add_contents($cts);
 	$site->end_page();
 	exit();
