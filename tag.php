@@ -23,6 +23,7 @@
 $topdir = "./";
 include($topdir. "include/site.inc.php");
 require_once($topdir. "include/entities/tag.inc.php");
+require_once($topdir. "include/entities/asso.inc.php");
 require_once($topdir. "include/cts/tagcloud.inc.php");
 
 $site = new site ();
