@@ -35,7 +35,7 @@ $req = new requete($db,"SELECT * FROM ml_todo ORDER BY num_todo");
 while ( $row = $req->get_row() )
 {
   echo $row["num_todo"]." ".$row["action_todo"]." ".$row["ml_todo"];
-  if ( !is_null($row["email_todo"] )
+  if ( !is_null($row["email_todo"]) )
     echo " ".$row["email_todo"];
   echo "\n";
 }
