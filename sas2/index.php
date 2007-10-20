@@ -368,7 +368,7 @@ if ( $photo->is_valid() )
          "/var/www/ae/www/ae2/var/img/com/weekly_photo-small.jpg");
 
     new update ($site->dbrw,"site_boites",
-      array ("contenu_boite" => $cat->nom),
+      array ("contenu_boite" => "[[/sas2/?id_photo=".$photo->id."|".$cat->nom."]]"),
       array ("nom_boite" => "Weekly_Photo"));
   }
   
