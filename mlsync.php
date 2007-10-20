@@ -4,7 +4,7 @@ $topdir = "./";
 require_once($topdir. "include/mysql.inc.php");
 require_once($topdir. "include/mysqlae.inc.php");
 
-if ( !$GLOBALS["is_using_ssl"] )
+if ( $_SERVER["REMOTE_ADDR"] != "127.0.1.1" )
 {
   echo "ERROR: HTTPS REQUIRED";
   exit();
