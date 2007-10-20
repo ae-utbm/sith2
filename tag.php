@@ -89,7 +89,7 @@ while ( list($id,$name,$qty) = $req->get_row() )
   $ids[$name]=$id;
 }
 
-$cts->add($values, null, false, "tag.php?id_tag={id}", 60, 200, $ids));
+$cts->add(new tagcloud($values, null, false, "tag.php?id_tag={id}", 60, 200, $ids));
 
 $site->add_contents($cts);
 $site->end_page ();
