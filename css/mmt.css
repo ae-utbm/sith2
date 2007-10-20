@@ -84,20 +84,6 @@ div.userinfo
  */
 
 
-input#mmtsubmit
-{
-	background: #d8e7f3 url("../images/linkTransparent.gif") 3px no-repeat;
-	padding-left: 10px;
-	float: right;
-}
-
-input#go
-{
-	background: #d8e7f3 url("../images/linkTransparent.gif") 3px no-repeat;
-	padding-left: 10px;
-	float: right;
-}
-
 div.gallery
 {
 	/*position:relative;*/
