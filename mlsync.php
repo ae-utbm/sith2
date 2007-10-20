@@ -1,6 +1,6 @@
 <?php
 
-$topdir = "../";
+$topdir = "./";
 require_once($topdir. "include/mysqlae.inc.php");
 
 if ( !$GLOBALS["is_using_ssl"] )
