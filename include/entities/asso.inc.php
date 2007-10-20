@@ -184,8 +184,8 @@ class asso extends stdentity
 	  if ( $this->nom_unix )
 	  {
 	    if ( !is_null($this->id_parent) )
-		    $this->_ml_create($this->nom_unix."-membres",$this->email);	
-		  $this->_ml_create($this->nom_unix."-bureau",$this->email);	
+		    $this->_ml_create($this->nom_unix.".membres",$this->email);	
+		  $this->_ml_create($this->nom_unix.".bureau",$this->email);	
 	  }
 	}
 	
@@ -206,28 +206,28 @@ class asso extends stdentity
       if ( !$this->nom_unix )
       {
         if ( !is_null($id_parent) )
-		      $this->_ml_create($nom_unix."-membres",$this->email);	
+		      $this->_ml_create($nom_unix.".membres",$this->email);	
 		      
-		    $this->_ml_create($nom_unix."-bureau",$this->email);
+		    $this->_ml_create($nom_unix.".bureau",$this->email);
 		  }
       else
       {
         if (!is_null($this->id_parent) && is_null($id_parent) )
-  		    $this->_ml_remove($this->nom_unix."-membres");
+  		    $this->_ml_remove($this->nom_unix.".membres");
   		  elseif (is_null($this->id_parent) && !is_null($id_parent) )
-  		    $this->_ml_create($nom_unix."-membres",$this->email);
+  		    $this->_ml_create($nom_unix.".membres",$this->email);
   		  else
-		      $this->_ml_rename($this->nom_unix."-membres",$nom_unix."-membres");	
+		      $this->_ml_rename($this->nom_unix.".membres",$nom_unix.".membres");	
 		      
-		    $this->_ml_rename($this->nom_unix."-bureau",$nom_unix."-bureau");	        
+		    $this->_ml_rename($this->nom_unix.".bureau",$nom_unix.".bureau");	        
       }
     }		
 		elseif ( $this->nom_unix )
 		{
   		if (!is_null($this->id_parent) && is_null($id_parent) )
-  		  $this->_ml_remove($this->nom_unix."-membres");
+  		  $this->_ml_remove($this->nom_unix.".membres");
   		elseif (is_null($this->id_parent) && !is_null($id_parent) )
-  		  $this->_ml_create($this->nom_unix."-membres",$this->email);
+  		  $this->_ml_create($this->nom_unix.".membres",$this->email);
 		}
 		
 		$this->nom = $nom;
@@ -526,10 +526,10 @@ class asso extends stdentity
       $role = $this->member_role($user->id);
     
     if ( !is_null($this->id_parent) )
-      $this->_ml_subscribe($this->dbrw,$this->nom_unix."-membres",$user->email);
+      $this->_ml_subscribe($this->dbrw,$this->nom_unix.".membres",$user->email);
     
     if ( $role > ROLEASSO_MEMBREACTIF )
-      $this->_ml_subscribe($this->dbrw,$this->nom_unix."-bureau",$user->email);
+      $this->_ml_subscribe($this->dbrw,$this->nom_unix.".bureau",$user->email);
   }
   
   function _ml_all_unsubscribe_user ( $id_utl, $role=null )
@@ -547,10 +547,10 @@ class asso extends stdentity
       $role = $this->member_role($user->id);
       
     if ( !is_null($this->id_parent) )
-      $this->_ml_unsubscribe($this->dbrw,$this->nom_unix."-membres",$user->email);
+      $this->_ml_unsubscribe($this->dbrw,$this->nom_unix.".membres",$user->email);
     
     if ( $role > ROLEASSO_MEMBREACTIF )
-      $this->_ml_unsubscribe($this->dbrw,$this->nom_unix."-bureau",$user->email);
+      $this->_ml_unsubscribe($this->dbrw,$this->nom_unix.".bureau",$user->email);
   }
   
   function _ml_all_delta_user ( $id_utl, $oldrole, $newrole )
@@ -565,9 +565,9 @@ class asso extends stdentity
       return;
 
     if ( $oldrole > ROLEASSO_MEMBREACTIF && $newrole <= ROLEASSO_MEMBREACTIF )
-      $this->_ml_unsubscribe($this->dbrw,$this->nom_unix."-bureau",$user->email);
+      $this->_ml_unsubscribe($this->dbrw,$this->nom_unix.".bureau",$user->email);
     elseif ( $oldrole <= ROLEASSO_MEMBREACTIF && $newrole > ROLEASSO_MEMBREACTIF )
-      $this->_ml_subscribe($this->dbrw,$this->nom_unix."-bureau",$user->email);
+      $this->_ml_subscribe($this->dbrw,$this->nom_unix.".bureau",$user->email);
     
   }
     
@@ -576,7 +576,7 @@ class asso extends stdentity
     if ( !$email )
       return;
 
-    new insert($db,"ml_todo",array("action_todo"=>"SUBSCRIBE","ml_todo"=>$ml,"email_todo"=>$email));
+    new insert($db,"ml_todo",array("action_todo"=>"SUBSCRIBE","ml_todo"=>strtolower($ml),"email_todo"=>$email));
   }
   
   static function _ml_unsubscribe ( $db, $ml, $email )
@@ -584,7 +584,7 @@ class asso extends stdentity
     if ( !$email )
       return;
       
-    new insert($db,"ml_todo",array("action_todo"=>"UNSUBSCRIBE","ml_todo"=>$ml,"email_todo"=>$email));
+    new insert($db,"ml_todo",array("action_todo"=>"UNSUBSCRIBE","ml_todo"=>strtolower($ml),"email_todo"=>$email));
   }
   
   static function _ml_create ( $db, $ml, $owner="" )
@@ -592,7 +592,7 @@ class asso extends stdentity
     if ( empty($owner) )
       $owner = "ae@utbm.fr";
       
-    new insert($db,"ml_todo",array("action_todo"=>"CREATE","ml_todo"=>$ml,"email_todo"=>$owner));
+    new insert($db,"ml_todo",array("action_todo"=>"CREATE","ml_todo"=>strtolower($ml),"email_todo"=>$owner));
   }
   
   static function _ml_rename ( $db, $old, $new )
