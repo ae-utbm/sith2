@@ -43,7 +43,7 @@ if ( $tag->is_valid() )
   
   // asso et clubs
   $req = new requete($site->db,
-    "SELECT asso.* FROM asso_tag INNER JOIN asso WHERE id_tag='".$tag->id."' ORDER BY nom_asso");
+    "SELECT asso.* FROM asso_tag INNER JOIN asso USING(id_asso) WHERE id_tag='".$tag->id."' ORDER BY nom_asso");
   if ( $req->lines > 0 )
   {
     $asso = new asso($site->db);
