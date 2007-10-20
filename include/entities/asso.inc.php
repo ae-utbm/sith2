@@ -519,6 +519,9 @@ class asso extends stdentity
     if ( !$user->is_valid() )
       return;
     
+    if ( !$this->nom_unix )
+      return;
+    
     if ( is_null($role) )
       $role = $this->member_role($user->id);
     
@@ -537,6 +540,9 @@ class asso extends stdentity
     if ( !$user->is_valid() )
       return;
     
+    if ( !$this->nom_unix )
+      return;    
+      
     if ( is_null($role) )
       $role = $this->member_role($user->id);
       
@@ -555,6 +561,9 @@ class asso extends stdentity
     if ( !$user->is_valid() )
       return;
 
+    if ( !$this->nom_unix )
+      return;
+
     if ( $oldrole > ROLEASSO_MEMBREACTIF && $newrole <= ROLEASSO_MEMBREACTIF )
       $this->_ml_unsubscribe($this->dbrw,$this->nom_unix."-bureau",$user->email);
     elseif ( $oldrole <= ROLEASSO_MEMBREACTIF && $newrole > ROLEASSO_MEMBREACTIF )
@@ -566,8 +575,7 @@ class asso extends stdentity
   {
     if ( !$email )
       return;
-    //TODO: subscribe $email to $ml
-    //echo "$ml SUBSCRIBE $email<br/>";
+
     new insert($db,"ml_todo",array("action_todo"=>"SUBSCRIBE","ml_todo"=>$ml,"email_todo"=>$email));
   }
   
@@ -575,15 +583,12 @@ class asso extends stdentity
   {
     if ( !$email )
       return;
-    //TODO: unsubscribe $email from $ml
-    //echo "$ml UNSUBSCRIBE $email<br/>";
+      
     new insert($db,"ml_todo",array("action_todo"=>"UNSUBSCRIBE","ml_todo"=>$ml,"email_todo"=>$email));
   }
   
   static function _ml_create ( $db, $ml, $owner="" )
   {
-    //TODO: create $ml
-    //echo "CREATE $ml<br/>";
     if ( empty($owner) )
       $owner = "ae@utbm.fr";
       
