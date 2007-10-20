@@ -52,7 +52,7 @@ if ( $tag->is_valid() )
   {
     $scat=new catphoto($site->db);
     $gal = new gallery(false,"cats",false,false,"id_catph",array("edit"=>"Editer","delete"=>"Supprimer"));
-    while ( $row = $sqlct->get_row() )
+    while ( $row = $photos->get_row() )
     {
       $img = $topdir."images/misc/sas-default.png";
       if ( $row['id_photo'] )
