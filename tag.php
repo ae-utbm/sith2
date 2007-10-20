@@ -24,6 +24,7 @@ $topdir = "./";
 include($topdir. "include/site.inc.php");
 require_once($topdir. "include/entities/tag.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
+require_once($topdir. "include/entities/files.inc.php");
 require_once($topdir. "include/cts/tagcloud.inc.php");
 
 $site = new site ();
@@ -38,8 +39,20 @@ if ( $tag->is_valid() )
   $site->start_page("presentation",$tag->nom);
   $cts = new contents($tag->nom);
   
-  
-  
+  // fichiers
+  $req = new requete($site->db,
+    "SELECT d_file.* FROM d_file_tag INNER JOIN d_file USING(id_file) WHERE id_tag='".$tag->id."' ORDER BY nom_asso");  
+  if ( $req->lines > 0 )
+  {
+    $dfile = new dfile($site->db);
+    $lst = new itemlist("Fichier(s)");
+    while ( $row = $req->get_row() )
+    {
+      $dfile->_load($row);
+      $lst->add($dfile->get_html_link());
+    }
+    $cts->add($lst,true);
+  }
   
   // asso et clubs
   $req = new requete($site->db,
