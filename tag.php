@@ -78,11 +78,18 @@ $site->start_page("presentation","Tags");
 
 $cts = new contents("Tags");
 
+$req = new requete($site->db,"SELECT id_tag, nom_tag, nombre_tag FROM tag ORDER BY nom_tag");
 
+$values=array();
+$ids=array();
 
+while ( list($id,$name,$qty) = $req->get_row() )
+{
+  $values[$name] = $qty;
+  $ids[$name]=$id;
+}
 
-
-
+$cts->add($values, null, false, "tag.php?id_tag={id}", 60, 200, $ids));
 
 $site->add_contents($cts);
 $site->end_page ();

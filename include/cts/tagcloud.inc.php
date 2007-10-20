@@ -21,6 +21,9 @@
  * 02111-1307, USA.
  */
  
+
+class tagcloud extends stdcontents
+{
  	/**
 	 * Classe générant des nuages de tags
 	 * @param $values ben le tableau de valeurs quoi : array($name => $qty) 
@@ -29,36 +32,49 @@
 	 * @param $min_size taille en % du plus petit tag
 	 * @param $max_size taille en % du plus gros tag
 	 */
-	
-	class tagcloud extends stdcontents
-	{
-		function tagcloud($values, $title = null, $link_title = false, $link_to = false, $min_size = 60, $max_size = 200)
-		{
-		  $this->title = $title;
-		
-			$min_qty = min( array_values($values) );
-			$range = max( array_values($values) ) - $min_qty ;
-			if( $range == 0 ) $range = 1;
-			$step_size = ($max_size - $min_size) / $range;
-			
-			foreach($values as $name => $qty)
-			{
-				$size = ceil( $min_size + ($qty - $min_qty) * $step_size );
-				
-				($link_to) ? $link = str_replace(array("{name}", "{qty}"), array($name, $qty), $link_to) : $link = "#";
-					$this->buffer .= "<a href=\"$link\" style=\"font-size:".$size."%\"";
-				
-				if($link_title)
-				{
-					$title = str_replace(array("{name}", "{qty}"), array($name, $qty), $link_title);
-					$this->buffer .= " title=\"$title\"";
-				}
-				
-				$this->buffer .= ">$name</a>";
-				$this->buffer .= " ";
-				   
-			}
-		}
-	}
+  
+  function tagcloud(
+    $values, 
+    $title = null, 
+    $link_title = false, 
+    $link_to = false, 
+    $min_size = 60, 
+    $max_size = 200, 
+    $ids=null)
+  {
+    $this->title = $title;
+    
+    $min_qty = min( array_values($values) );
+    $range = max( array_values($values) ) - $min_qty ;
+    if ( $range == 0 ) 
+      $range = 1;
+    $step_size = ($max_size - $min_size) / $range;
+    $id=null;
+    foreach($values as $name => $qty)
+    {
+      $size = ceil( $min_size + ($qty - $min_qty) * $step_size );
+      
+      if ( !is_null($ids) )
+        $id = $ids[$name];
+      
+      if ($link_to)
+        $link = str_replace(array("{name}", "{qty}", "{id}"), array($name, $qty,$id), $link_to)
+      else
+        $link = "#";
+      
+      $this->buffer .= "<a href=\"$link\" style=\"font-size:".$size."%\"";
+      
+      if($link_title)
+      {
+        $title = str_replace(array("{name}", "{qty}"), array($name, $qty), $link_title);
+        $this->buffer .= " title=\"$title\"";
+      }
+      
+      $this->buffer .= ">$name</a>";
+      $this->buffer .= " ";
+      
+    }
+  }
+}
 
 ?>
