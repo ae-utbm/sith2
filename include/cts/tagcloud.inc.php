@@ -58,7 +58,7 @@ class tagcloud extends stdcontents
         $id = $ids[$name];
       
       if ($link_to)
-        $link = str_replace(array("{name}", "{qty}", "{id}"), array($name, $qty,$id), $link_to)
+        $link = str_replace(array("{name}", "{qty}", "{id}"), array($name, $qty,$id), $link_to);
       else
         $link = "#";
       
