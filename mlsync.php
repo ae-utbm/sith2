@@ -1,6 +1,7 @@
 <?php
 
 $topdir = "./";
+require_once($topdir. "include/mysql.inc.php");
 require_once($topdir. "include/mysqlae.inc.php");
 
 if ( !$GLOBALS["is_using_ssl"] )
