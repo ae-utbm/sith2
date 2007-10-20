@@ -149,7 +149,7 @@ if ( $req->lines == 1 )
     "WHERE `sas_personnes_photos`.`id_photo`='".$photo->id."' " .
     "ORDER BY `nom_utilisateur`");
     
-  $frm = new form("peoples",$page,false,"POST","Est-ce que ces personne sont bien sur la photo ?");
+  $frm = new form("peoples",$page,false,"POST","Est-ce que ces personnes sont bien sur la photo ?");
 
   $frm->add_hidden("id_photo",$photo->id);
   $frm->add_hidden("action","modere");

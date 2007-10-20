@@ -1,6 +1,7 @@
 <?php
 
 require_once($topdir."include/cts/video.inc.php");
+require_once($topdir."include/cts/taglist.inc.php");
 
 /**
  * Index des sous-catégories d'une catégorie du SAS
@@ -180,7 +181,7 @@ class sasphoto extends contents
   
   function sasphoto ( $title, $page, &$cat, &$photo, &$user, $Message="", &$metacat=null )
   {
-    global $wwwtopdir;
+    global $wwwtopdir, $topdir;
     
     $sqlph = $cat->get_photos ( $cat->id, $user, $user->get_groups_csv(), "sas_photos.id_photo");
     $count=0;
@@ -354,6 +355,8 @@ class sasphoto extends contents
       }
     }
     
+    $subcts->add(new taglist($photo));
+    
     $req = new requete($photo->db,
       "SELECT `utilisateurs`.`id_utilisateur`, " .
       "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
@@ -441,6 +444,9 @@ class sasphoto extends contents
       $subcts->add_paragraph("<a href=\"images.php?/".$photo->id.".flv\">Télécharger la vidéo (format FLV)</a>");
       
     $subcts->add_paragraph("<a href=\"".$page."?id_photo=".$photo->id."&amp;page=askdelete\">Demander le retrait</a>");
+    
+    if ( $photo->type_media == MEDIA_PHOTO && $user->is_in_group ("moderateur_site") && $wwwtopdir == $topdir )
+      $subcts->add_paragraph("<a href=\"".$page."?id_photo=".$photo->id."&amp;action=setweekly\">Mettre en photo de la semaine</a>");    
 
     $this->add($subcts,false,true,"photoinfo");
     $this->puts("<div class=\"clearboth\"></div>");

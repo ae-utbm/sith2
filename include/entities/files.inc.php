@@ -507,7 +507,8 @@ class dfile extends fs
 		$f = $this->get_screensize_filename();
 		if ( file_exists($f)) unlink($f);
 
-		$sql = new delete($this->dbrw,"d_file",array("id_file"=>$this->id));
+		new delete($this->dbrw,"d_file",array("id_file"=>$this->id));
+		new delete($this->dbrw,"d_file_tag",array("id_file"=>$this->id));
 	}
 
   function delete()

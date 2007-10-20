@@ -463,20 +463,23 @@ class stdentity
     
     $tags = array();
     
-    $req = new requete($this->db, "SELECT id_tag, nom_tag FROM tag WHERE ".implode(" OR ",$conds));
-          
-    while ( list($id,$tag) = $req->get_row() )
+    if ( count($conds) > 0 )
     {
-      $tags[$id]=$tag;
-      unset($tocreate[$tag]);
+      $req = new requete($this->db, "SELECT id_tag, nom_tag FROM tag WHERE ".implode(" OR ",$conds));
+            
+      while ( list($id,$tag) = $req->get_row() )
+      {
+        $tags[$id]=$tag;
+        unset($tocreate[$tag]);
+      }
+      
+      foreach ( $tocreate as $tag )
+      {
+        $crt = new insert($this->dbrw, "tag", array("nom_tag"=>$tag));
+        $tags[$crt->get_id()]=$tag;  
+      }      
     }
-    
-    foreach ( $tocreate as $tag )
-    {
-      $crt = new insert($this->dbrw, "tag", array("nom_tag"=>$tag));
-      $tags[$crt->get_id()]=$tag;  
-    }
-    
+
     $actual = $this->get_tags_list();
     
     foreach ( $tags as $id => $tag )
@@ -502,7 +505,13 @@ class stdentity
    */
   function set_tags($tags)
   {
-    $tags=strtolower($tags);
+    $tags=trim(strtolower($tags));
+    
+    if ( empty($tags) )
+    {
+      $this->set_tags_array(array());
+      return;
+    }
     
     $l1 = explode(",",$tags);
     $l2 = array();  

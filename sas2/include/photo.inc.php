@@ -640,8 +640,9 @@ class photo extends basedb
     if ( $this->type_media == MEDIA_VIDEOFLV )
       unlink($this->get_abs_path().$this->id.".flv");
     
-    $sql = new delete($this->dbrw,"sas_photos",array("id_photo"=>$this->id) );
-    $sql = new delete($this->dbrw,"sas_personnes_photos",array("id_photo"=>$this->id) );
+    new delete($this->dbrw,"sas_photos",array("id_photo"=>$this->id) );
+    new delete($this->dbrw,"sas_personnes_photos",array("id_photo"=>$this->id) );
+    new delete($this->dbrw,"sas_photos_tag",array("id_photo"=>$this->id) );
    }
 
 

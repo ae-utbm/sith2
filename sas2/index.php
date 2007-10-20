@@ -332,6 +332,8 @@ if ( $photo->is_valid() )
 
     $photo->set_incomplet(isset($_REQUEST["incomplet"]));
     
+    $photo->set_tags($_REQUEST["tags"]);
+    
     // petit hack pour éviter de recalculer tout le chemin
     $new = htmlentities($photo->get_display_name(),ENT_COMPAT,"UTF-8"); 
     $path = str_replace($old,$new,$path);
@@ -354,7 +356,22 @@ if ( $photo->is_valid() )
       $ErrorSuggest="Personne inconnue...";
 
   }
+  elseif ( $_REQUEST["action"] == "setweekly" &&  $user->is_in_group ("moderateur_site") )
+  {
+    copy($photo->get_abs_path().$photo->id.".jpg",
+         "/var/www/ae/www/ae2/var/img/com/weekly_photo.jpg");
+         
+    copy($photo->get_abs_path().$photo->id.".diapo.jpg",
+         "/var/www/ae/www/ae2/var/img/com/weekly_photo-diapo.jpg");
+         
+    copy($photo->get_abs_path().$photo->id.".vignette.jpg",
+         "/var/www/ae/www/ae2/var/img/com/weekly_photo-small.jpg");
 
+    new update ($site->dbrw,"site_boites",
+      array ("contenu_boite" => $cat->nom),
+      array ("nom_boite" => "Weekly_Photo"));
+  }
+  
   if ( ($_REQUEST["page"] == "edit" || $_REQUEST["action"] == "edit") && $can_write )
   {
     $userinfo = new utilisateur($site->db);
@@ -368,6 +385,7 @@ if ( $photo->is_valid() )
     $frm->add_hidden("action","updatephoto");
     $frm->add_datetime_field("date","Date et heure de prise de vue",$photo->date_prise_vue);
     $frm->add_text_field("titre","Titre",$photo->titre);
+    $frm->add_text_field("tags","Tags",$photo->get_tags());
     $frm->add_text_area("comment","Commentaire",$photo->commentaire);
     $frm->add_checkbox("incomplet","Liste des personnes incomplète",$photo->incomplet);
     $frm->add_entity_select ( "id_asso", "Association/Club lié", $site->db, "asso",$photo->meta_id_asso,true);

@@ -36,6 +36,7 @@ require_once($topdir."include/site.inc.php");
 require_once($topdir."include/entities/asso.inc.php");
 require_once($topdir."include/entities/files.inc.php");
 require_once($topdir."include/entities/folder.inc.php");
+require_once($topdir."include/cts/taglist.inc.php");
 
 $site = new site();
 $file = new dfile($site->db, $site->dbrw);
@@ -277,6 +278,7 @@ elseif ( $_REQUEST["action"] == "addfile" && $folder->is_right($site->user,DROIT
     $file->herit($folder);
     $file->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
     $file->add_file ( $_FILES["file"], $_REQUEST["nom"], $folder->id, $_REQUEST["description"],$asso->id );
+    $file->set_tags($_REQUEST["tags"]);
   }
 }
 
@@ -293,6 +295,7 @@ if ( $file->is_valid() )
       $asso->load_by_id($_REQUEST["id_asso"]);
       $file->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
       $file->update_file( $_REQUEST["nom"], $_REQUEST["description"],$asso->id );
+      $file->set_tags($_REQUEST["tags"]);
     }
   }
   elseif ( $_REQUEST["action"] == "edit" && $file->is_right($site->user,DROIT_ECRITURE) )
@@ -303,7 +306,9 @@ if ( $file->is_valid() )
     $frm = new form("savefile","d.php?id_file=".$file->id);
     $frm->add_hidden("action","save");
     $frm->add_text_field("nom","Nom",$file->titre,true);
+    $frm->add_text_field("tags","tags",$file->get_tags());
     $frm->add_text_area("description","Description",$file->description);
+    
     $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$file->id_asso,true);
     $frm->add_rights_field($file,false,$file->is_admin($site->user),"files");
     $frm->add_submit("valid","Enregistrer");
@@ -334,10 +339,10 @@ if ( $file->is_valid() )
     $actions = array();
 
   $filename = $file->get_thumb_filename();
-  if ( ! file_exists($filename) )
+  if ( !file_exists($filename) )
     $filename = $topdir."images/icons/128/".$file->get_icon_name();
-    else
-        $actions[] = "<a href=\"d.php?id_file=".$file->id."&amp;action=download&amp;download=preview\">Voir</a>";
+  else
+    $actions[] = "<a href=\"d.php?id_file=".$file->id."&amp;action=download&amp;download=preview\">Voir</a>";
 
   $cts->add(new image("Miniature",$filename,"imgright"));
   $cts->add( new wikicontents ("Description",$file->description),true );
@@ -362,7 +367,7 @@ if ( $file->is_valid() )
         "Propos&eacute; par : ". classlink($user)
       )),true);
 
-
+  $cts->add(new taglist($file),true);
 
   $site->add_contents($cts);
   $site->end_page();
@@ -428,6 +433,7 @@ elseif ( $_REQUEST["page"] == "newfile" && $folder->is_right($site->user,DROIT_A
     $frm->error($ErreurAjout);
   $frm->add_file_field("file","Fichier",true);
   $frm->add_text_field("nom","Nom","",true);
+  $frm->add_text_field("tags","tags","");
   $frm->add_text_area("description","Description","");
   $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",false,true);
   $frm->add_rights_field($folder,false,$folder->is_admin($site->user),"files");

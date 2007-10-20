@@ -60,7 +60,7 @@ $GLOBALS["entitiescatalog"] = array (
 	"assocpt"		=> array ( "id_assocpt", "nom_asso", "asso.png", "asso.php"),
 	"typeproduit" 	=> array ( "id_typeprod", "nom_typeprod", "typeprod.png", "comptoir/admin.php", "cpt_type_produit" ),
 	"catphoto"		=> array ( "id_catph", "nom_catph", "catph.png", "sas2/", "sas_cat_photos" ),
-	"photo"			=> array ( "id_photo", "id_photo", "photo.png", "sas2/", "sas_photos" ),
+	"photo"			=> array ( "id_photo", "id_photo", "photo.png", "sas2/", "sas_photos", null, "sas_photos_tag" ),
 	"emprunt"		=> array ( "id_emprunt", "id_emprunt", "emprunt.png", "emprunt.php", "inv_emprunt" ),
 	"produit"		=> array ( "id_produit", "nom_prod", "produit.png", "comptoir/admin.php", "cpt_produits","produit.inc.php" ),
 	"facture"		=> array ( "id_facture", "id_facture", "emprunt.png", "comptoir/gen_fact.php", "cpt_debitfacture" ),
@@ -71,7 +71,7 @@ $GLOBALS["entitiescatalog"] = array (
 	"sondage"		=> array ( "id_sondage","question","sondage.png","sondage.php"),
 	"comptoir"		=> array ( "id_comptoir", "nom_cpt", "misc.png", false, "cpt_comptoir" ),
 	"compte_bancaire"=> array ( "id_cptbc","nom_cptbc","cptbc.png","compta/cptbc.php"),
-	"dfile"			=> array ( "id_file", "titre_file", "file.png", "d.php",false,"files.inc.php"),
+	"dfile"			=> array ( "id_file", "titre_file", "file.png", "d.php",false,"files.inc.php","d_file_tag"),
 	"dfolder"		=> array ( "id_folder", "titre_folder", "folder.png", "d.php",false,"folder.inc.php"),
 	"operation" => array( "id_op", "id_op", "file.png", "compta/classeur.php"),
 	
