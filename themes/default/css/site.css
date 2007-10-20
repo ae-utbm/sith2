@@ -1120,18 +1120,27 @@ div.toolbox
 {
 	float: right;
 	position:relative;
-	top:0.5em;
-	padding: 0.2em;
-	font-size: 100%;
-	background: #d8e7f3;
-	border: 1px #364970 solid;	
+	top:1px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 10px;
+	background: #afc7e0;
+	border:1px solid white;
 }
 
 div.toolbox a
 {
 	font-size: 10px;
+	color:black;
+	padding: 5px 10px;
+	border-left:1px solid white;
+	margin-left:-1px;
 }
-
+div.toolbox a:hover
+{
+	background:white;
+	text-decoration:none;
+}
 /*
  * Onglets au sein d'un article 
  */
@@ -1793,7 +1802,7 @@ div.newsnotices ul
 
 div.newsnotices
 {
-	background: #eff7ff;
+	background: #afc7e0;
 	padding:0.5em;
 	padding-right:1.5em;
 	margin-top:1em;

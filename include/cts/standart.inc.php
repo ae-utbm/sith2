@@ -1485,11 +1485,8 @@ class toolbox extends stdcontents
 	 */
 	function toolbox ( $tools )
 	{
-		$initial=1;
 		foreach( $tools as $link => $title )
 		{
-			if ( $initial==0) $this->buffer .=" - ";
-			else $initial=0;
 			$this->buffer .="<a href=\"".htmlentities($link,ENT_NOQUOTES,"UTF-8")."\">".htmlentities($title,ENT_NOQUOTES,"UTF-8")."</a>";
 		}
 	}
