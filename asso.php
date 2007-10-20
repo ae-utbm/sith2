@@ -157,7 +157,7 @@ else if ( isset($_REQUEST["id_asso"]) )
     
     $frm->add_text_field("email","Email",$asso->email);
     $frm->add_text_field("siteweb","Site web",$asso->siteweb);
-    $frm->add_text_field("tags","Mots clefs",$asso->get_tags());
+    $frm->add_text_field("tags","Tags (séparateur: virgule)",$asso->get_tags());
     
     if ( $GLOBALS["is_using_ssl"] )
     {

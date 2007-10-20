@@ -385,7 +385,7 @@ if ( $photo->is_valid() )
     $frm->add_hidden("action","updatephoto");
     $frm->add_datetime_field("date","Date et heure de prise de vue",$photo->date_prise_vue);
     $frm->add_text_field("titre","Titre",$photo->titre);
-    $frm->add_text_field("tags","Tags",$photo->get_tags());
+    $frm->add_text_field("tags","Tags (séparateur: virgule)",$photo->get_tags());
     $frm->add_text_area("comment","Commentaire",$photo->commentaire);
     $frm->add_checkbox("incomplet","Liste des personnes incomplète",$photo->incomplet);
     $frm->add_entity_select ( "id_asso", "Association/Club lié", $site->db, "asso",$photo->meta_id_asso,true);

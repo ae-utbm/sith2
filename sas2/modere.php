@@ -263,7 +263,7 @@ if ( $req->lines == 1 )
 
   $sfrm = new form("meta",null,null,null,"Meta-informations");
   $sfrm->add_text_field("titre","Titre",$photo->titre);
-  $sfrm->add_text_field("tags","Tags",$photo->get_tags());
+  $sfrm->add_text_field("tags","Tags (séparteur: virgule)",$photo->get_tags());
   $sfrm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$photo->meta_id_asso,true);
   $sfrm->add_entity_select("id_asso_photographe", "Photographe", $site->db, "asso",$photo->id_asso_photographe,true);
 	$frm->add($sfrm);

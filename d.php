@@ -306,7 +306,7 @@ if ( $file->is_valid() )
     $frm = new form("savefile","d.php?id_file=".$file->id);
     $frm->add_hidden("action","save");
     $frm->add_text_field("nom","Nom",$file->titre,true);
-    $frm->add_text_field("tags","tags",$file->get_tags());
+    $frm->add_text_field("tags","Tags (séparateur: virgule)",$file->get_tags());
     $frm->add_text_area("description","Description",$file->description);
     
     $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$file->id_asso,true);
@@ -433,7 +433,7 @@ elseif ( $_REQUEST["page"] == "newfile" && $folder->is_right($site->user,DROIT_A
     $frm->error($ErreurAjout);
   $frm->add_file_field("file","Fichier",true);
   $frm->add_text_field("nom","Nom","",true);
-  $frm->add_text_field("tags","tags","");
+  $frm->add_text_field("tags","Tags (séparateur: virgule)","");
   $frm->add_text_area("description","Description","");
   $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",false,true);
   $frm->add_rights_field($folder,false,$folder->is_admin($site->user),"files");
