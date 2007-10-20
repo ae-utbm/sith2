@@ -634,13 +634,13 @@ class utilisateur extends stdentity
     {
       if ( $role > 1 )
       {
-        asso::_ml_unsubscribe($name."-bureau",$oldemail);
-        asso::_ml_subscribe($name."-bureau",$newemail);
+        asso::_ml_unsubscribe($this->dbrw,$name."-bureau",$oldemail);
+        asso::_ml_subscribe($this->dbrw,$name."-bureau",$newemail);
       }
       if( !is_null($parent) )
       {
-        asso::_ml_unsubscribe($name."-membres",$oldemail);
-        asso::_ml_subscribe($name."-membres",$newemail);
+        asso::_ml_unsubscribe($this->dbrw,$name."-membres",$oldemail);
+        asso::_ml_subscribe($this->dbrw,$name."-membres",$newemail);
       }
     } 
     

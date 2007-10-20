@@ -16,9 +16,9 @@ $req = new requete($db,
 while ( list($name,$parent) = $req->get_row() )
 {
   if ( !is_null($parent) )
-	  asso::_ml_create($name."-membres");	
+	  asso::_ml_create($db,$name."-membres");	
 	  
-	asso::_ml_create($name."-bureau");	
+	asso::_ml_create($db,$name."-bureau");	
 }
 
 $req = new requete($db,
@@ -37,10 +37,10 @@ $req = new requete($db,
 while ( list($email,$name,$role,$parent) = $req->get_row() )
 {
   if ( $role > 1 )
-    asso::_ml_subscribe($name."-bureau",$email);
+    asso::_ml_subscribe($db,$name."-bureau",$email);
   
   if( !is_null($parent) )
-    asso::_ml_subscribe($name."-membres",$email);
+    asso::_ml_subscribe($db,$name."-membres",$email);
 }
 
 

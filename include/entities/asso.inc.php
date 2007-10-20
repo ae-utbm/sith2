@@ -523,10 +523,10 @@ class asso extends stdentity
       $role = $this->member_role($user->id);
     
     if ( !is_null($this->id_parent) )
-      $this->_ml_subscribe($this->nom_unix."-membres",$user->email);
+      $this->_ml_subscribe($this->dbrw,$this->nom_unix."-membres",$user->email);
     
     if ( $role > ROLEASSO_MEMBREACTIF )
-      $this->_ml_subscribe($this->nom_unix."-bureau",$user->email);
+      $this->_ml_subscribe($this->dbrw,$this->nom_unix."-bureau",$user->email);
   }
   
   function _ml_all_unsubscribe_user ( $id_utl, $role=null )
@@ -541,10 +541,10 @@ class asso extends stdentity
       $role = $this->member_role($user->id);
       
     if ( !is_null($this->id_parent) )
-      $this->_ml_unsubscribe($this->nom_unix."-membres",$user->email);
+      $this->_ml_unsubscribe($this->dbrw,$this->nom_unix."-membres",$user->email);
     
     if ( $role > ROLEASSO_MEMBREACTIF )
-      $this->_ml_unsubscribe($this->nom_unix."-bureau",$user->email);
+      $this->_ml_unsubscribe($this->dbrw,$this->nom_unix."-bureau",$user->email);
   }
   
   function _ml_all_delta_user ( $id_utl, $oldrole, $newrole )
@@ -556,40 +556,45 @@ class asso extends stdentity
       return;
 
     if ( $oldrole > ROLEASSO_MEMBREACTIF && $newrole <= ROLEASSO_MEMBREACTIF )
-      $this->_ml_unsubscribe($this->nom_unix."-bureau",$user->email);
+      $this->_ml_unsubscribe($this->dbrw,$this->nom_unix."-bureau",$user->email);
     elseif ( $oldrole <= ROLEASSO_MEMBREACTIF && $newrole > ROLEASSO_MEMBREACTIF )
-      $this->_ml_subscribe($this->nom_unix."-bureau",$user->email);
+      $this->_ml_subscribe($this->dbrw,$this->nom_unix."-bureau",$user->email);
     
   }
     
-  static function _ml_subscribe ( $ml, $email )
+  static function _ml_subscribe ( $db, $ml, $email )
   {
     //TODO: subscribe $email to $ml
-    echo "$ml SUBSCRIBE $email<br/>";
+    //echo "$ml SUBSCRIBE $email<br/>";
+    new insert($db,"ml_todo",array("action_todo"=>"SUBSCRIBE","ml_todo"=>$ml,"email_todo"=>$email));
   }
   
-  static function _ml_unsubscribe ( $ml, $email )
+  static function _ml_unsubscribe ( $db, $ml, $email )
   {
     //TODO: unsubscribe $email from $ml
-    echo "$ml UNSUBSCRIBE $email<br/>";
+    //echo "$ml UNSUBSCRIBE $email<br/>";
+    new insert($db,"ml_todo",array("action_todo"=>"UNSUBSCRIBE","ml_todo"=>$ml,"email_todo"=>$email));
   }
   
-  static function _ml_create ( $ml )
+  static function _ml_create ( $db, $ml )
   {
     //TODO: create $ml
-    echo "CREATE $ml<br/>";
+    //echo "CREATE $ml<br/>";
+    new insert($db,"ml_todo",array("action_todo"=>"CREATE","ml_todo"=>$ml));
   }
   
-  static function _ml_rename ( $old, $new )
+  static function _ml_rename ( $db, $old, $new )
   {
     //TODO: rename mailing $old to $new
-    echo "MOVE $old TO $new<br/>";
+    //echo "MOVE $old TO $new<br/>";
+    //>>> MAIL ADMIN
   }
   
-  static function _ml_remove ( $ml )
+  static function _ml_remove ( $db, $ml )
   {
     //TODO: destroy $ml
-    echo "DESTROY $ml<br/>";
+    //echo "DESTROY $ml<br/>";
+    //>>> MAIL ADMIN
   }  
 }
  

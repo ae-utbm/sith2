@@ -40,7 +40,7 @@ if ( isset($_REQUEST["id_tag"]) )
 if ( $tag->is_valid() )
 {
   $site->start_page("presentation",$tag->nom);
-  $cts = new contents($tag->nom);
+  $cts = new contents("<a href=\"tag.php\">Tags</a> / ".$tag->nom);
   
   $site->add_css("css/sas.css");
   // photos
