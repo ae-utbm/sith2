@@ -33,7 +33,7 @@ if ( isset($_REQUEST["done"]) )
 {
   $num = intval($_REQUEST["done"]);
   
-  $req = new requete($db,"SELECT num_todo FROM num_todo <= $num ORDER BY num_todo DESC LIMIT 1");
+  $req = new requete($db,"SELECT num_todo FROM ml_todo WHERE num_todo <= $num ORDER BY num_todo DESC LIMIT 1");
 
   if ($req->lines!= 1 )
   {
