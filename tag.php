@@ -50,29 +50,23 @@ if ( $tag->is_valid() )
   
   if ( $photos->lines > 0 )
   {
-    $scat=new catphoto($site->db);
-    $gal = new gallery(false,"cats",false,false,"id_catph",array("edit"=>"Editer","delete"=>"Supprimer"));
+    $photo = new photo($site->db);
+    
+    $gal = new gallery("Photo(s)","photos","phlist");
     while ( $row = $photos->get_row() )
     {
-      $img = $topdir."images/misc/sas-default.png";
-      if ( $row['id_photo'] )
-        $img = "images.php?/".$row['id_photo'].".vignette.jpg";
+      $photo->_load($row);
+      $img = "sas2/images.php?/".$photo->id.".vignette.jpg";
   
-      $scat->_load($row);
-      $acts=false;
-      if ( $scat->is_right($site->user,DROIT_ECRITURE) )
-        $acts = array("delete","edit");
-  
-      $gal->add_item(
-          "<a href=\"./?id_catph=".$row['id_catph']."\"><img src=\"$img\" alt=\"".$row['nom_catph']."\" /></a>",
-          "<a href=\"./?id_catph=".$row['id_catph']."\">".$row['nom_catph']."</a> (".$scat->get_short_semestre().")",
-          $row['id_catph'],
-          $acts);
+      if ( $row['type_media_ph'] == 1 )
+        $gal->add_item("<a href=\"sas2/?id_photo=".$photo->id."\"><img src=\"$img\" alt=\"Photo\">".
+            "<img src=\"".$wwwtopdir."images/icons/32/multimedia.png\" alt=\"Video\" class=\"ovideo\" /></a>");
+      else
+        $gal->add_item("<a href=\"sas2/?id_photo=".$photo->id."\"><img src=\"$img\" alt=\"Photo\"></a>");
     }
-    $cts->add_title(2,"Photo(s)");
     $cts->add($gal,true);
   
-  
+    $cts->add_paragraph("<a href=\"sas2/search.php?action=search&amp;id_tag=".$tag->id."\">Toutes les photos</a>");
   }
   
   // fichiers
