@@ -579,7 +579,7 @@ class catphoto extends basedb
         "ORDER BY type_media_ph DESC, date_prise_vue " .
         "$limit");
         
-    $grps = $user->get_groups_csv()
+    $grps = $user->get_groups_csv();
     
     return new requete($this->db,"SELECT $select " .
         "FROM sas_photos " .
