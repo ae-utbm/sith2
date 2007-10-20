@@ -61,7 +61,7 @@ if ( $_REQUEST["action"]=="getallvcards" && !$limited )
 	header("Content-Type: text/x-vcard");
 	header('Content-Disposition: attachment; filename="'.$asso->nom_unix.'-membres.vcf"');
 
-	$user = new utilisateur(null);
+	$user = new utilisateur($site->db);
 	
 	$req = new requete($site->db,
 		"SELECT `utilisateurs`.*,`utl_etu`.*,`utl_etu_utbm`.* " .
