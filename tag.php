@@ -41,7 +41,7 @@ if ( $tag->is_valid() )
   
   // fichiers
   $req = new requete($site->db,
-    "SELECT d_file.* FROM d_file_tag INNER JOIN d_file USING(id_file) WHERE id_tag='".$tag->id."' ORDER BY nom_asso");  
+    "SELECT d_file.* FROM d_file_tag INNER JOIN d_file USING(id_file) WHERE id_tag='".$tag->id."' ORDER BY titre_file");  
   if ( $req->lines > 0 )
   {
     $dfile = new dfile($site->db);
