@@ -26,6 +26,9 @@ require_once($topdir. "include/entities/tag.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 require_once($topdir. "include/entities/files.inc.php");
 require_once($topdir. "include/cts/tagcloud.inc.php");
+require_once($topdir. "sas2/include/cat.inc.php");
+require_once($topdir. "sas2/include/photo.inc.php");
+require_once($topdir."include/cts/gallery.inc.php");
 
 $site = new site ();
 
@@ -38,6 +41,39 @@ if ( $tag->is_valid() )
 {
   $site->start_page("presentation",$tag->nom);
   $cts = new contents($tag->nom);
+  
+  $site->add_css("css/sas.css");
+  // photos
+  $cat = new catphoto($site->db);
+  $cat->load_by_id(1);
+  $photos = $cat->get_photos_search ( $site->user, "id_tag='".$tag->id."'", "LEFT JOIN sas_photos_tag USING(id_photo)", "*", "LIMIT 6")
+  
+  if ( $photos->lines > 0 )
+  {
+    $scat=new catphoto($site->db);
+    $gal = new gallery(false,"cats",false,false,"id_catph",array("edit"=>"Editer","delete"=>"Supprimer"));
+    while ( $row = $sqlct->get_row() )
+    {
+      $img = $topdir."images/misc/sas-default.png";
+      if ( $row['id_photo'] )
+        $img = "images.php?/".$row['id_photo'].".vignette.jpg";
+  
+      $scat->_load($row);
+      $acts=false;
+      if ( $scat->is_right($site->user,DROIT_ECRITURE) )
+        $acts = array("delete","edit");
+  
+      $gal->add_item(
+          "<a href=\"./?id_catph=".$row['id_catph']."\"><img src=\"$img\" alt=\"".$row['nom_catph']."\" /></a>",
+          "<a href=\"./?id_catph=".$row['id_catph']."\">".$row['nom_catph']."</a> (".$scat->get_short_semestre().")",
+          $row['id_catph'],
+          $acts);
+    }
+    $cts->add_title(2,"Photo(s)");
+    $cts->add($gal,true);
+  
+  
+  }
   
   // fichiers
   $req = new requete($site->db,

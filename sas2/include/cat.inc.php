@@ -566,6 +566,45 @@ class catphoto extends basedb
   }
   
   
+  
+  function get_photos_search ( $user, $filter, $joins="", $select="*", $limit="")
+  {
+    
+    if ( $this->is_admin( $user ) )
+      return new requete($this->db,"SELECT $select " .
+        "FROM sas_photos " .
+        "$joins ".
+        "WHERE " .
+        "($filter) ".
+        "ORDER BY type_media_ph DESC, date_prise_vue " .
+        "$limit");
+        
+    $grps = $user->get_groups_csv()
+    
+    return new requete($this->db,"SELECT $select " .
+        "FROM sas_photos " .
+        "$joins ".
+        "LEFT JOIN sas_personnes_photos AS p1 ON " .
+          "(p1.id_photo=sas_photos.id_photo " .
+          "AND p1.id_utilisateur='".$user->id."' " .
+          "AND p1.modere_phutl='1') " .
+        "LEFT JOIN `asso_membre` ON ".
+          "(`asso_membre`.`id_asso` = `sas_photos`.`meta_id_asso_ph` ".
+          "AND `asso_membre`.`id_utilisateur` = '" . $user->id."' ".
+          "AND `asso_membre`.`date_fin` is NULL AND `asso_membre`.`role` >= '".ROLEASSO_MEMBREBUREAU."') ".
+        "WHERE " .
+        "($filter) AND " .
+        "((((droits_acces_ph & 0x1) OR " .
+        "((droits_acces_ph & 0x10) AND id_groupe IN ($grps))) " .
+          "AND droits_acquis='1' AND modere_ph='1' ) OR " .
+        "(id_groupe_admin IN ($grps)) OR " .
+        "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='".$user->id."') OR " .
+        "((droits_acces_ph & 0x100) AND p1.id_utilisateur IS NOT NULL) ) " .
+        "ORDER BY type_media_ph DESC, date_prise_vue " .
+        "$limit");
+
+  }
+  
 }
 
 
