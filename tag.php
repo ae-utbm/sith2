@@ -32,7 +32,7 @@ $tag = new tag ($site->db,$site->dbrw);
 if ( isset($_REQUEST["id_tag"]) )
   $tag->load_by_id($_REQUEST["id_tag"]);
   
-if ( $tag->id_valid() )
+if ( $tag->is_valid() )
 {
   $site->start_page("presentation",$tag->nom);
   $cts = new contents($tag->nom);
