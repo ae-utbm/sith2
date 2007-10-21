@@ -186,7 +186,7 @@ ul li.info
 
 div.tabsv2
 {
-	background: #F4BA1A;
+	background: #EEAC00;
 	height:28px;
 	padding-left:25px;
 }
@@ -217,8 +217,8 @@ div.tabsv2 span.selected a, div.tabsv2 span a:hover
   color:#000000;
   text-decoration:none;
   
-  border-left:1px solid #F4BA1A;
-  border-right:1px solid #F4BA1A;
+  border-left:1px solid #EEAC00;
+  border-right:1px solid #EEAC00;
 }
 
 
@@ -230,7 +230,7 @@ div.sectionlinks
 	padding-top: 0.25em;
 	padding-bottom: 0.25em;
 	text-align: center;
-	border-bottom: 1px solid #F4BA1A;
+	border-bottom: 1px solid #EEAC00;
 }
 
 div.sectionlinks a
@@ -1146,7 +1146,8 @@ div.toolbox a:hover
  */
 div.article div.tabs
 {
-  background:#F4BA1A;
+  /*background:#EEAC00;*/
+  background:#EEAC00;
   height:20px;
   overflow:hidden;
   padding-left:15px;
@@ -1175,8 +1176,8 @@ div.article div.tabs span.selected a, div.article div.tabs span a:hover
   color:#000000;
   text-decoration:none;
   
-  border-left:1px solid #F4BA1A;
-  border-right:1px solid #F4BA1A;
+  border-left:1px solid #EEAC00;
+  border-right:1px solid #EEAC00;
 }
 
 
@@ -1269,7 +1270,7 @@ table.ctstable
 div.article div.tabs_lg
 {
   clear:both;
-	background:#F4BA1A;
+	background:#EEAC00;
 	padding-left:10px;
   margin-top:7px;
   margin-bottom:7px;
@@ -1308,7 +1309,7 @@ div.article div.tabs_lg a.selected, div.article div.tabs_lg a:hover
 div.article div.tabs_top, div.article div.tabs_bottom
 {
   clear:both;
-	background:#F4BA1A;
+	background:#EEAC00;
 	padding-left:10px;
   margin-top:7px;
   margin-bottom:7px;
@@ -1340,8 +1341,8 @@ div.article div.tabs_top a.selected, div.article div.tabs_top a:hover, div.artic
   color:#000000;
   text-decoration:none;
   
-  /*border-left:1px solid #F4BA1A;
-  border-right:1px solid #F4BA1A;*/
+  /*border-left:1px solid #EEAC00;
+  border-right:1px solid #EEAC00;*/
 }
 
 /*
@@ -1644,7 +1645,7 @@ td.moneycell
   width:400px;
   display:none;
   background:#ffffff;
-  border:2px solid #F4BA1A;
+  border:2px solid #EEAC00;
   padding:0.5em;
 }
 
@@ -2127,7 +2128,7 @@ div.article div.subtab
   padding-bottom:4px;
   margin-bottom:4px;
 	text-align: center;
-	border-bottom: 1px solid #F4BA1A;
+	border-bottom: 1px solid #EEAC00;
   font-size: 11px;
 }
 
