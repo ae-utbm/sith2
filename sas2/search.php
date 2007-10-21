@@ -124,7 +124,7 @@ if ( $_REQUEST["action"] == "search" )
   
   if ( $_REQUEST["type"] )
   {
-    $conds[] = "sas_photos.type_media_ph='".$_REQUEST["type"]."'";
+    $conds[] = "sas_photos.type_media_ph='".($_REQUEST["type"]-1)."'";
     $params.="&type=".$_REQUEST["type"];
   }
   
