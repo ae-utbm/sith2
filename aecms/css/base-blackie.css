@@ -1,22 +1,6 @@
 @import url("/themes/default/css/site.css");
 
 
-div.box
-{
-  background-image: url("blackie-box.png");
-}
-
-div.box div.body
-{
-  background-image: url("blackie-box-bottom.png");
-}
-
-#sbox_calendrier
-{
-  background-image: url("blackie-box.png");
-}
-
-
 body
 {
   background:black;  
@@ -26,6 +10,7 @@ body
 
 div.contents
 {
+  border:0;
   background:white;  
   width:915px;
   margin:0;
@@ -57,8 +42,12 @@ div#logo a
   top:30px;
   left:20px;
     text-transform: lowercase;
-
+  background:none;
+  width:auto;
+  height:auto;
 }
+
+
 div#logo a:hover
 {
   text-decoration:none;
@@ -72,21 +61,24 @@ div.tabsv2
   margin-left:auto;
   margin-right:auto;
   text-align:left;
+  border:0;
 }
 
 div.tabsv2 span
 {
+  float:left;
   background:none;  
   margin-top:8px;
   margin-left:10px;
   height:26px;
 	padding-left:0px;
-
+  
 }
 
 
 div.tabsv2 span a
 {
+  float:none;
   background:none;  
   color:black;
   font-size:14px;
@@ -94,6 +86,8 @@ div.tabsv2 span a
 	padding-left:10px;   
   height:26px;
 	line-height:26px;
+	border:0;
+	margin:0;
 }
 
 
@@ -102,12 +96,14 @@ div.tabsv2 span a
 div.tabsv2 span.selected 
 {
   background:white;  
+
 }
 
 div.tabsv2 span.selected a
 {
   background:white;  
   color:black;
+  border:0;
 }
 
 div.tabsv2 span:hover
@@ -119,6 +115,7 @@ div.tabsv2 span:hover a
 {
   background:white;  
   color:black;
+  border:0;
 }
 
 
@@ -138,11 +135,12 @@ div.emptysectionlinks
 
 #right
 {
-  width:195px;
+  width:202px;
   float:right;
   position:relative;
-  top:0;
-  right:10px;
+  top:0px;
+  right:5px;
+  margin-top:5px;
 }
 
 div.article
