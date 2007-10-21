@@ -59,7 +59,9 @@ $site->add_css("css/sas.css");
 
 $site->start_page("sas","Recherche - Stock à Souvenirs");
 
-$cts = new contents("Recherche");
+$cat = new catphoto($site->db);
+
+$cts = new contents(classlink($cat)." / Recherche");
 
 $frm = new form("search","search.php",false,"POST","Paramètres de recherche");
 $frm->add_hidden("action","search");
@@ -177,8 +179,7 @@ if ( $_REQUEST["action"] == "search" )
   {
     if ( count($conds) == 0 )
       $conds[]="1";
-      
-    $cat = new catphoto($site->db);
+    
     $cat->load_by_id(1);
     $req = $cat->get_photos_search ( $site->user, implode(" AND ",$conds), implode(" ",$joins), "COUNT(*)");
   

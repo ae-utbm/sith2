@@ -740,6 +740,9 @@ if ( $metacat->is_valid() || $cat->meta_mode == CATPH_MODE_META_ASSO || !is_null
 else
   $cts = new contents($path);
 
+if ( $cat->id == 1 )
+  $cts->add_paragraph("<a href=\"search.php\">Recherche</a>");
+
 // Sous-catégories
 if ( $cat->is_right($site->user,DROIT_AJOUTCAT) )
   $cts->add_paragraph("<a href=\"./?id_catph=".$cat->id."&amp;page=subcat\">Ajouter une catégorie dans ".$cat->nom."</a>");
