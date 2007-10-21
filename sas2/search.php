@@ -226,7 +226,7 @@ if ( $_REQUEST["action"] == "search" )
     $n=0;
     while ( $i < $count )
     {
-      $tabs[]=array($n,"matmatronch/sas2.php?action=search&page=".$n.$params,$n+1 );
+      $tabs[]=array($n,"sas2/search.php?action=search&page=".$n.$params,$n+1 );
       $i+=$npp;
       $n++;  
     }
