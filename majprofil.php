@@ -315,7 +315,7 @@ if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) 
   {
     $cts->add_title(2,"Votre adresse e-mail ASSIDU n'est pas renseignée");
     
-    $cts->add_paragraph("Si vous ne possédez pas encore une adresse e-mail ASSIDU, allez sur le site : <a href=\"htttp://www.assidu-utbm.fr/\">assidu-utbm.fr</a>");
+    $cts->add_paragraph("Si vous ne possédez pas encore une adresse e-mail ASSIDU, allez sur le site : <a href=\"http://www.assidu-utbm.fr/\">assidu-utbm.fr</a>");
     
     $cts->add_paragraph("Merci de bien vouloir la renseigner :");
     
