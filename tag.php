@@ -66,7 +66,7 @@ if ( $tag->is_valid() )
     }
     $cts->add($gal,true);
   
-    $cts->add_paragraph("<a href=\"sas2/search.php?action=search&amp;id_tag=".$tag->id."\">Toutes les photos</a>");
+    $cts->add_paragraph("<a href=\"sas2/search.php?action=search&amp;tags=".$tag->nom."\">Toutes les photos</a>");
   }
   
   // fichiers
