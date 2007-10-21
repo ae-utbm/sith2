@@ -142,8 +142,6 @@ if ( $_REQUEST["action"] == "search" )
         $tconds[] = "nom_tag='".mysql_escape_string($tag)."'";
         $missing[$tag]=$tag;
       }
-      print_r($tconds);
-      print_r($missing);
       
       $tags=array();
       $req = new requete($site->db, "SELECT id_tag, nom_tag FROM tag WHERE ".implode(" OR ",$tconds));
@@ -152,13 +150,11 @@ if ( $_REQUEST["action"] == "search" )
         $tags[$id]=$tag;
         unset($missing[$tag]);
       }
-      print_r($missing);
-      print_r($tags);
       if ( count($missing) == 0 )
       {
         foreach ( $tags as $id => $tag )
         {
-          $joins[] = "LEFT JOIN sas_photos_tag AS tag$id ON ".
+          $joins[] = "INNER JOIN sas_photos_tag AS tag$id ON ".
                      "( tag".$id.".id_photo=sas_photos.id_photo ".
                        "AND tag".$id.".id_tag='".$id."' )";
         }
