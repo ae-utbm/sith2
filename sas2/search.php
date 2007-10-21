@@ -60,7 +60,7 @@ $site->add_css("css/sas.css");
 $site->start_page("sas","Recherche - Stock à Souvenirs");
 
 $cat = new catphoto($site->db);
-
+$cat->load_by_id(1);
 $cts = new contents(classlink($cat)." / Recherche");
 
 $frm = new form("search","search.php",false,"POST","Paramètres de recherche");
@@ -74,6 +74,15 @@ $frm->add_entity_smartselect ( "id_utilisateur_present", "Personne sur la photo"
 $frm->add_entity_smartselect ( "id_utilisateur_photographe", "Photographe", $userph, true );
 $frm->add_entity_smartselect ( "id_utilisateur_contributeur", "Contributeur", $userad, true );
 $frm->add_select_field("type","Type de média",array(0=>"Tous",MEDIA_PHOTO+1=>"Photo",MEDIA_VIDEOFLV+1=>"Video"),$_REQUEST["type"]);
+
+$frm->add_select_field("order","Tri",
+array(0=>"Type, Date de prise de vue (par défaut)",
+1=>"Date de prise de vue",
+2=>"Date de prise de vue inversée",
+3=>"Date d'ajout",
+4=>"Date d'ajout inversée"),$_REQUEST["order"]);
+
+
 $frm->add_submit("go","Rechercher");
 
 $cts->add($frm,true);
@@ -84,6 +93,17 @@ if ( $_REQUEST["action"] == "search" )
   $conds=array();
   $params="";
   $fail=false;
+  $order = "type_media_ph DESC, date_prise_vue";
+  
+  if ( $_REQUEST["order"] == 1 )
+    $order = "date_prise_vue";
+  elseif ( $_REQUEST["order"] == 2 )
+    $order = "date_prise_vue DESC";
+  elseif ( $_REQUEST["order"] == 3 )
+    $order = "date_ajout_ph";
+  elseif ( $_REQUEST["order"] == 4 )
+    $order = "date_ajout_ph DESC";
+  
   if ( $asso->is_valid() )
   {
     $conds[] = "sas_photos.meta_id_asso_ph='".mysql_escape_string($asso->id)."'";
@@ -180,7 +200,6 @@ if ( $_REQUEST["action"] == "search" )
     if ( count($conds) == 0 )
       $conds[]="1";
     
-    $cat->load_by_id(1);
     $req = $cat->get_photos_search ( $site->user, implode(" AND ",$conds), implode(" ",$joins), "COUNT(*)");
   
     list($count) = $req->get_row();

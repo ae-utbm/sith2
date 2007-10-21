@@ -567,7 +567,7 @@ class catphoto extends basedb
   
   
   
-  function get_photos_search ( $user, $filter, $joins="", $select="*", $limit="")
+  function get_photos_search ( $user, $filter, $joins="", $select="*", $limit="", $order="type_media_ph DESC, date_prise_vue")
   {
     
     if ( $this->is_admin( $user ) )
@@ -576,7 +576,7 @@ class catphoto extends basedb
         "$joins ".
         "WHERE " .
         "($filter) ".
-        "ORDER BY type_media_ph DESC, date_prise_vue " .
+        "ORDER BY $order " .
         "$limit");
         
     $grps = $user->get_groups_csv();
@@ -600,7 +600,7 @@ class catphoto extends basedb
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='".$user->id."') OR " .
         "((droits_acces_ph & 0x100) AND p1.id_utilisateur IS NOT NULL) ) " .
-        "ORDER BY type_media_ph DESC, date_prise_vue " .
+        "ORDER BY $order " .
         "$limit");
 
   }
