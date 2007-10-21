@@ -459,8 +459,8 @@ if($_REQUEST["view"] == "listing")
         }
 
 	$firstnamepage = substr($noms[$i], 0, 3);
-	if (($i + $npp) < count($noms))
-	  $lastnamepage  = substr($noms[$i + $npp], 0,3);
+	if (($i + $npp - 1) < count($noms))
+	  $lastnamepage  = substr($noms[$i + $npp - 1], 0,3);
 	else
 	  $lastnamepage  = substr($noms[count($noms) - 1], 0,3);
 
