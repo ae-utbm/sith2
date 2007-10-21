@@ -181,7 +181,7 @@ class asso extends stdentity
 		else
 			$this->id = null;
 			
-	  if ( $this->nom_unix )
+	  if ( $this->nom_unix && $this->is_mailing_allowed() )
 	  {
 	    if ( !is_null($this->id_parent) )
 		    $this->_ml_create($this->nom_unix.".membres",$this->email);	
@@ -200,39 +200,54 @@ class asso extends stdentity
 	 
 		if ( is_null($this->dbrw) ) return; // "Read Only" mode
 		
+		$old_allow = $this->is_mailing_allowed();
 		
-    if ( $this->nom_unix != $this->nom_unix )
-    {
-      if ( !$this->nom_unix )
-      {
-        if ( !is_null($id_parent) )
-		      $this->_ml_create($nom_unix.".membres",$this->email);	
-		      
-		    $this->_ml_create($nom_unix.".bureau",$this->email);
-		  }
-      else
-      {
-        if (!is_null($this->id_parent) && is_null($id_parent) )
-  		    $this->_ml_remove($this->nom_unix.".membres");
-  		  elseif (is_null($this->id_parent) && !is_null($id_parent) )
-  		    $this->_ml_create($nom_unix.".membres",$this->email);
-  		  else
-		      $this->_ml_rename($this->nom_unix.".membres",$nom_unix.".membres");	
-		      
-		    $this->_ml_rename($this->nom_unix.".bureau",$nom_unix.".bureau");	        
-      }
-    }		
-		elseif ( $this->nom_unix )
+		$this->id_parent = $id_parent;
+		
+		if ( $this->is_mailing_allowed() )
 		{
-  		if (!is_null($this->id_parent) && is_null($id_parent) )
-  		  $this->_ml_remove($this->nom_unix.".membres");
-  		elseif (is_null($this->id_parent) && !is_null($id_parent) )
-  		  $this->_ml_create($this->nom_unix.".membres",$this->email);
+  		if ( !$old_allow )
+  		{
+  		  if ( $nom_unix )
+  		  {
+          if ( !is_null($id_parent) )
+  		      $this->_ml_create($nom_unix.".membres",$this->email);	
+  		      
+  		    $this->_ml_create($nom_unix.".bureau",$this->email);
+  		  }
+  		}
+      elseif ( $this->nom_unix != $this->nom_unix )
+      {
+        if ( !$this->nom_unix )
+        {
+          if ( !is_null($id_parent) )
+  		      $this->_ml_create($nom_unix.".membres",$this->email);	
+  		      
+  		    $this->_ml_create($nom_unix.".bureau",$this->email);
+  		  }
+        else
+        {
+          if (!is_null($this->id_parent) && is_null($id_parent) )
+    		    $this->_ml_remove($this->nom_unix.".membres");
+    		  elseif (is_null($this->id_parent) && !is_null($id_parent) )
+    		    $this->_ml_create($nom_unix.".membres",$this->email);
+    		  else
+  		      $this->_ml_rename($this->nom_unix.".membres",$nom_unix.".membres");	
+  		      
+  		    $this->_ml_rename($this->nom_unix.".bureau",$nom_unix.".bureau");	        
+        }
+      }		
+  		elseif ( $this->nom_unix )
+  		{
+    		if (!is_null($this->id_parent) && is_null($id_parent) )
+    		  $this->_ml_remove($this->nom_unix.".membres");
+    		elseif (is_null($this->id_parent) && !is_null($id_parent) )
+    		  $this->_ml_create($this->nom_unix.".membres",$this->email);
+  		}
 		}
 		
 		$this->nom = $nom;
 		$this->nom_unix = $nom_unix;
-		$this->id_parent = $id_parent;
 		$this->adresse_postale = $adresse_postale;
 		
 		if ( !is_null($email) )
@@ -513,6 +528,9 @@ class asso extends stdentity
   
   function _ml_all_subscribe_user ( $id_utl, $role=null )
   {
+    if ( !$this->is_mailing_allowed() )
+      return;
+    
     $user = new utilisateur($this->db);
     $user->load_by_id($id_utl);
     
@@ -534,6 +552,9 @@ class asso extends stdentity
   
   function _ml_all_unsubscribe_user ( $id_utl, $role=null )
   {
+    if ( !$this->is_mailing_allowed() )
+      return;    
+    
     $user = new utilisateur($this->db);
     $user->load_by_id($id_utl);
     
@@ -575,24 +596,24 @@ class asso extends stdentity
   {
     if ( !$email )
       return;
-
-    new insert($db,"ml_todo",array("action_todo"=>"SUBSCRIBE","ml_todo"=>strtolower($ml),"email_todo"=>$email));
+    echo "SUBSCRIBE $ml $email<br/>";
+    //new insert($db,"ml_todo",array("action_todo"=>"SUBSCRIBE","ml_todo"=>strtolower($ml),"email_todo"=>$email));
   }
   
   static function _ml_unsubscribe ( $db, $ml, $email )
   {
     if ( !$email )
       return;
-      
-    new insert($db,"ml_todo",array("action_todo"=>"UNSUBSCRIBE","ml_todo"=>strtolower($ml),"email_todo"=>$email));
+    echo "UNSUBSCRIBE $ml $email<br/>";
+    //new insert($db,"ml_todo",array("action_todo"=>"UNSUBSCRIBE","ml_todo"=>strtolower($ml),"email_todo"=>$email));
   }
   
   static function _ml_create ( $db, $ml, $owner="" )
   {
     if ( empty($owner) )
       $owner = "ae@utbm.fr";
-      
-    new insert($db,"ml_todo",array("action_todo"=>"CREATE","ml_todo"=>strtolower($ml),"email_todo"=>$owner));
+    echo "CREATE $ml $owner<br/>";
+    //new insert($db,"ml_todo",array("action_todo"=>"CREATE","ml_todo"=>strtolower($ml),"email_todo"=>$owner));
   }
   
   static function _ml_rename ( $db, $old, $new )
@@ -608,6 +629,19 @@ class asso extends stdentity
     //echo "DESTROY $ml<br/>";
     //>>> MAIL ADMIN
   }  
+  
+  
+  function is_mailing_allowed()
+  {
+    if ( $this->id == 1 )
+     return true;
+    
+    if ( !is_null($this->id_parent) && $this->id_parent != 2 )
+     return true;
+    
+    return false;
+  }
+  
 }
  
  
