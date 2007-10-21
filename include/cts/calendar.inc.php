@@ -253,22 +253,22 @@ class calendar extends stdcontents
 		
 		$end = split(":", $end[1]);
 		
-		$idx=3;
 		if ( $ev["type_nvl"] == 1 )
 		  $idx = 1;
 		elseif ( $ev["type_nvl"] == 2 )
 			$idx = 2;		
-		
-		$this->events .= " <dt class=\"event$idx\">" . htmlentities($ev['titre_nvl'], ENT_QUOTES, "UTF-8") . "</dt>\n";
-		$this->events .= " <dd class=\"event$idx\">";
+		else
+		  return;
+		  
+		$this->events .= " <dt class=\"e$idx\">" . htmlentities($ev['titre_nvl'], ENT_QUOTES, "UTF-8") . "</dt>\n";
+		$this->events .= " <dd class=\"e$idx\">";
 		
 		if ( $dstart == $date && $dend == $date )
-		
-			$this->events .= $start[0] . ":" . $start[1] . "-" . $end[0] . ":" . $end[1];
+			$this->events .= "De ".$start[0] . ":" . $start[1] . " à " . $end[0] . ":" . $end[1];
 		else if ( $dstart == $date )
 			$this->events .= "A partir de ".$start[0] . ":" . $start[1];
 		else if ( $dend == $date )
-			$this->events .= "Jusqu'a ".$end[0] . ":" . $end[1];
+			$this->events .= "Jusqu'à ".$end[0] . ":" . $end[1];
 		
 		$this->events .= "</dd>\n";
 	}

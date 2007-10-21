@@ -841,41 +841,53 @@ div.calendar td.event3
   background: #ffe7ab;
 }
 
+
+
 /* 
  * Evenements du calendrier
  */
 dl.event
 {
-  border: 1px #364970 solid;
-  background: #eeac00;
   position: absolute;
   text-align: left;
-  padding: 3px;
   width: 15em;
   z-index: 10000;
-  margin: 0.5em 0 0 0;
   list-style: none;
   display: none;
+  padding:0;
+  border-bottom:1px solid white;
+  left:10px;
 }
 
 dl.event dt
 {
-  font-weight: bold;
-  font-size: 11px;
-  border: none;
-  padding: 0;
-  margin: 0;
-  margin-bottom: 0.2em;
-  text-decoration: underline;
+  padding:5px;
+  padding-bottom:2px;
+  margin:0;
+  border:0;
+  border-top:1px solid white;
+  font-size:11px;
+  font-weight:bold;
 }
 
 dl.event dd
 {
-  border: none;
-  padding: 0;
-  margin: 0;
-  font-weight: normal;
-  margin-bottom: 0.3em;
+  padding:5px;
+  padding-top:2px;
+  margin:0;
+  border:0;
+  font-size:10px;
+  
+}
+
+dl.event .e1
+{
+  background: #eeac00;
+}
+
+dl.event .e2
+{
+  background: #f5c753;
 }
 
 table.caddie
