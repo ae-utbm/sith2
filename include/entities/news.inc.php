@@ -136,7 +136,7 @@ class nouvelle extends stdentity
       $cts->puts("<div class=\"clearboth\"></div>");
       $cts->add_title(2,"");
       $cts->add_paragraph(classlink($asso));
-      if ( !is_null($asso->id_parent) )
+      if ( $asso->is_mailing_allowed() && !is_null($asso->id_parent) )
         $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"".$wwwtopdir."asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");      
     }
 
