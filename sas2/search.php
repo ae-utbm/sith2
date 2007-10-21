@@ -84,50 +84,50 @@ if ( $_REQUEST["action"] == "search" )
   $fail=false;
   if ( $asso->is_valid() )
   {
-    $conds[] = "sas_photos.meta_id_asso_ph='".$asso->id."'";
+    $conds[] = "sas_photos.meta_id_asso_ph='".mysql_escape_string($asso->id)."'";
     $params.="&id_asso=".$asso->id;
   }
   
   if ( $assoph->is_valid() )
   {
-    $conds[] = "sas_photos.id_asso_photographe='".$assoph->id."'";
+    $conds[] = "sas_photos.id_asso_photographe='".mysql_escape_string($assoph->id)."'";
     $params.="&id_asso_photographe=".$assoph->id;
   }
   
   if ( $user->is_valid() )
   {
-    $joins[] = "INNER JOIN sas_personnes_photos AS `p2` ON ( sas_photos.id_photo=p2.id_photo AND p2.id_utilisateur='".$user->id."') ";
+    $joins[] = "INNER JOIN sas_personnes_photos AS `p2` ON ( sas_photos.id_photo=p2.id_photo AND p2.id_utilisateur='".mysql_escape_string($user->id)."') ";
     $params.="&id_utilisateur_present=".$user->id;
   }
   
   if ( $userph->is_valid() )
   {
-    $conds[] = "sas_photos.id_utilisateur_photographe='".$userph->id."'";
+    $conds[] = "sas_photos.id_utilisateur_photographe='".mysql_escape_string($userph->id)."'";
     $params.="&id_utilisateur_photographe=".$userph->id;
   }
   
   if ( $userad->is_valid() )
   {
-    $conds[] = "sas_photos.id_utilisateur='".$userad->id."'";
+    $conds[] = "sas_photos.id_utilisateur='".mysql_escape_string($userad->id)."'";
     $params.="&id_utilisateur_contributeur=".$userad->id;
   }
   
   if ( $_REQUEST["date_debut"] )
   {
     $conds[] = "sas_photos.date_prise_vue>='".date("Y-m-d H:i",$_REQUEST["date_debut"])."'";
-    $params.="&date_debut=".date("Y-m-d H:i",$_REQUEST["date_debut"]);
+    $params.="&date_debut=".rawurlencode(date("Y-m-d H:i",$_REQUEST["date_debut"]));
   }
   
   if ( $_REQUEST["date_fin"] )
   {
     $conds[] = "sas_photos.date_prise_vue<='".date("Y-m-d H:i",$_REQUEST["date_fin"])."'";
-    $params.="&date_debut=".date("Y-m-d H:i",$_REQUEST["date_fin"]);
+    $params.="&date_debut=".rawurlencode(date("Y-m-d H:i",$_REQUEST["date_fin"]));
   }
   
   if ( $_REQUEST["type"] )
   {
-    $conds[] = "sas_photos.type_media_ph='".($_REQUEST["type"]-1)."'";
-    $params.="&type=".$_REQUEST["type"];
+    $conds[] = "sas_photos.type_media_ph='".mysql_escape_string($_REQUEST["type"]-1)."'";
+    $params.="&type=".rawurlencode($_REQUEST["type"]);
   }
   
   if ( $_REQUEST["tags"] )
@@ -156,6 +156,7 @@ if ( $_REQUEST["action"] == "search" )
       {
         foreach ( $tags as $id => $tag )
         {
+          $id = intval($id); // On est jamais trop prudent
           $joins[] = "INNER JOIN sas_photos_tag AS tag$id ON ".
                      "( tag".$id.".id_photo=sas_photos.id_photo ".
                        "AND tag".$id.".id_tag='".$id."' )";
@@ -213,11 +214,17 @@ if ( $_REQUEST["action"] == "search" )
       $photo->_load($row);
       $img = "images.php?/".$photo->id.".vignette.jpg";
       
+      $titre="";
+      
+      if ( $photo->titre )
+        $titre = htmlentities($photo->titre,ENT_COMPAT,"UTF-8");
+      
+      
       if ( $row['type_media_ph'] == 1 )
       $gal->add_item("<a href=\"./?id_photo=".$photo->id."\"><img src=\"$img\" alt=\"Photo\">".
-        "<img src=\"".$wwwtopdir."images/icons/32/multimedia.png\" alt=\"Video\" class=\"ovideo\" /></a>","",$photo->id);
+        "<img src=\"".$wwwtopdir."images/icons/32/multimedia.png\" alt=\"Video\" class=\"ovideo\" /></a>",$titre);
       else
-      $gal->add_item("<a href=\"./?id_photo=".$photo->id."\"><img src=\"$img\" alt=\"Photo\"></a>","",$photo->id );
+      $gal->add_item("<a href=\"./?id_photo=".$photo->id."\"><img src=\"$img\" alt=\"Photo\"></a>",$titre);
     }
     $cts->add($gal);
 
