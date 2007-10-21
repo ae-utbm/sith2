@@ -61,15 +61,15 @@ $cts = new contents("Recherche");
 
 $frm = new form("search","search.php",false,"POST","Paramètres de recherche");
 $frm->add_hidden("action","search");
-$frm->add_date_field("date_debut","Photos prisent après le");
-$frm->add_date_field("date_fin","Photos prisent avant le");
-$frm->add_text_field("tags","Tags");
+$frm->add_date_field("date_debut","Photos prisent après le",$_REQUEST["date_debut"]);
+$frm->add_date_field("date_fin","Photos prisent avant le",$_REQUEST["date_fin"]);
+$frm->add_text_field("tags","Tags",$_REQUEST["tags"]);
 $frm->add_entity_smartselect ( "id_asso", "Association/Club", $asso, true );
 $frm->add_entity_smartselect ( "id_asso_photographe", "Club photographe", $assoph, true );
 $frm->add_entity_smartselect ( "id_utilisateur_present", "Personne sur la photo", $user, true );
 $frm->add_entity_smartselect ( "id_utilisateur_photographe", "Photographe", $userph, true );
 $frm->add_entity_smartselect ( "id_utilisateur_contributeur", "Contributeur", $userad, true );
-$frm->add_select_field("type","Type de média",array(0=>"Tous",MEDIA_PHOTO+1=>"Photo",MEDIA_VIDEOFLV+1=>"Video"));
+$frm->add_select_field("type","Type de média",array(0=>"Tous",MEDIA_PHOTO+1=>"Photo",MEDIA_VIDEOFLV+1=>"Video"),$_REQUEST["type"]);
 $frm->add_submit("go","Rechercher");
 
 $cts->add($frm,true);
@@ -79,7 +79,7 @@ if ( $_REQUEST["action"] == "search" )
   $joins=array();
   $conds=array();
   $params="";
-  
+  $fail=false;
   if ( $asso->is_valid() )
   {
     $conds[] = "sas_photos.meta_id_asso_ph='".$asso->id."'";
@@ -158,23 +158,80 @@ if ( $_REQUEST["action"] == "search" )
                      "( tag".$id.".id_photo=sas_photos.id_photo ".
                        "AND tag".$id.".id_tag='".$id."' )";
         }
+        $params.="&tags=".rawurlencode($_REQUEST["tags"]);
+
       }
+      else
+        $fail=true;
     }
   }
   
-  if ( count($conds) == 0 )
-    $conds[]="1";
-    
-  print_r($conds);
-  print_r($joins);
-    
-  $cat = new catphoto($site->db);
-  $cat->load_by_id(1);
-  $req = $cat->get_photos_search ( $site->user, implode(" AND ",$conds), implode(" ",$joins), "COUNT(*)");
-
-  list($count) = $req->get_row();
+  if ( $fail )
+  {
+    $count=0;
+  }
+  else
+  {
+    if ( count($conds) == 0 )
+      $conds[]="1";
+      
+    $cat = new catphoto($site->db);
+    $cat->load_by_id(1);
+    $req = $cat->get_photos_search ( $site->user, implode(" AND ",$conds), implode(" ",$joins), "COUNT(*)");
   
-  $cts->add_paragraph("$count photos");
+    list($count) = $req->get_row();
+  }
+  
+  if ( $count == 0 )
+  {
+    $cts->add_title(2,"Aucun resultat");
+  }
+  else
+  {
+    $cts->add_title(2,"$count réponse(s)");
+    
+    $npp=SAS_NPP;
+    $page = intval($_REQUEST["page"]);
+    
+    if ( $page)
+      $st=$page*$npp;
+    else
+      $st=0;
+      
+    if ( $st > $count )
+      $st = floor($count/$npp)*$npp;   
+    
+    $req = $cat->get_photos_search ( $site->user, implode(" AND ",$conds), implode(" ",$joins), "sas_photos.*", "LIMIT $st,$npp");
+    
+    $photo = new photo($site->db);
+    
+    $gal = new gallery(false,"photos","phlist");
+    while ( $row = $req->get_row() )
+    {
+      $photo->_load($row);
+      $img = "images.php?/".$photo->id.".vignette.jpg";
+      
+      if ( $row['type_media_ph'] == 1 )
+      $gal->add_item("<a href=\"./?id_photo=".$photo->id."\"><img src=\"$img\" alt=\"Photo\">".
+        "<img src=\"".$wwwtopdir."images/icons/32/multimedia.png\" alt=\"Video\" class=\"ovideo\" /></a>","",$photo->id);
+      else
+      $gal->add_item("<a href=\"./?id_photo=".$photo->id."\"><img src=\"$img\" alt=\"Photo\"></a>","",$photo->id );
+    }
+    $cts->add($gal);
+
+    $tabs = array();
+    $i=0;
+    $n=0;
+    while ( $i < $count )
+    {
+      $tabs[]=array($n,"matmatronch/sas2.php?action=search&page=".$n.$params,$n+1 );
+      $i+=$npp;
+      $n++;  
+    }
+    $cts->add(new tabshead($tabs, $page, "_bottom"));
+        
+  }
+  
 
 
 }
