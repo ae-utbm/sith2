@@ -130,7 +130,7 @@ if ( $_REQUEST["action"] == "search" )
   
   if ( $_REQUEST["tags"] )
   {
-    $tags=trim(strtolower($tags));
+    $tags=trim(strtolower($_REQUEST["tags"]));
     if ( !empty($tags) )
     {
       $tags = explode(",",$tags);
@@ -142,6 +142,8 @@ if ( $_REQUEST["action"] == "search" )
         $tconds[] = "nom_tag='".mysql_escape_string($tag)."'";
         $missing[$tag]=$tag;
       }
+      print_r($tconds);
+      print_r($missing);
       
       $tags=array();
       $req = new requete($site->db, "SELECT id_tag, nom_tag FROM tag WHERE ".implode(" OR ",$tconds));
@@ -150,6 +152,8 @@ if ( $_REQUEST["action"] == "search" )
         $tags[$id]=$tag;
         unset($missing[$tag]);
       }
+      print_r($missing);
+      print_r($tags);
       if ( count($missing) == 0 )
       {
         foreach ( $tags as $id => $tag )
