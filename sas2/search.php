@@ -176,7 +176,7 @@ if ( $_REQUEST["action"] == "search" )
 
 }
 
-
+$site->add_contents($cts);
 
 $site->end_page ();
 
