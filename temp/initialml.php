@@ -12,7 +12,7 @@ $req = new requete($db,
     "`asso`.`id_asso_parent`, " .
     "`asso`.`email_asso` " .
     "FROM `asso` " .
-    "WHERE id_asso=1 OR (id_asso_parent IS NOT NULL AND id_asso_parent!=2) ".
+    "WHERE id_asso=1 OR (id_asso_parent IS NOT NULL AND id_asso_parent!=3) ".
     "ORDER BY `asso`.`nom_unix_asso`");
 
 while ( list($name,$parent,$email) = $req->get_row() )
@@ -34,7 +34,7 @@ $req = new requete($db,
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
     "WHERE `asso_membre`.`date_fin` is NULL " .
     "AND (`asso`.`id_asso_parent` IS NOT NULL OR `asso_membre`.`role` > 1 ) " .
-    "AND (asso.id_asso=1 OR (id_asso_parent IS NOT NULL AND id_asso_parent!=2))".
+    "AND (asso.id_asso=1 OR (id_asso_parent IS NOT NULL AND id_asso_parent!=3))".
     "ORDER BY `asso`.`nom_unix_asso`");
 
 while ( list($email,$name,$role,$parent) = $req->get_row() )

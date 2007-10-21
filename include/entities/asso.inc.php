@@ -636,7 +636,7 @@ class asso extends stdentity
     if ( $this->id == 1 )
      return true;
     
-    if ( !is_null($this->id_parent) && $this->id_parent != 2 )
+    if ( !is_null($this->id_parent) && $this->id_parent != 3 )
      return true;
     
     return false;
