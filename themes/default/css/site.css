@@ -847,7 +847,7 @@ div.calendar td.event3
 dl.event
 {
   border: 1px #364970 solid;
-  background: #ffcc2a;
+  background: #eeac00;
   position: absolute;
   text-align: left;
   padding: 3px;
@@ -1914,7 +1914,7 @@ li.nvlitm .nvlresume
 
 div.newssoon li.nvl1
 {
-	background:#FFF1C5;
+	background:#ffe7ab;
 }
 
 div.newsnotices li.nvl1
