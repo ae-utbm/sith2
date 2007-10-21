@@ -144,7 +144,7 @@ if ( $_REQUEST["action"] == "search" )
       }
       
       $tags=array();
-      $req = new requete($site->db, "SELECT id_tag, nom_tag FROM tag WHERE ".implode(" OR ",$conds));
+      $req = new requete($site->db, "SELECT id_tag, nom_tag FROM tag WHERE ".implode(" OR ",$tconds));
       while ( list($id,$tag) = $req->get_row() )
       {
         $tags[$id]=$tag;
@@ -164,6 +164,9 @@ if ( $_REQUEST["action"] == "search" )
   
   if ( count($conds) == 0 )
     $conds[]="1";
+    
+  print_r($conds);
+  print_r($joins);
     
   $cat = new catphoto($site->db);
   $cat->load_by_id(1);
