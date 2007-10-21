@@ -405,7 +405,7 @@ if($_REQUEST["view"] == "listing")
 
   $noms = array();
 
-  while ($res = $req->get_row())
+  while ($res = $reqnb->get_row())
     {
       $noms[] = $res['nom_utl'];
     }
