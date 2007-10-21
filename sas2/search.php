@@ -54,6 +54,8 @@ if ( isset($_REQUEST["id_utilisateur_photographe"]) )
   
 if ( isset($_REQUEST["id_utilisateur_contributeur"]) )
   $userad->load_by_id($_REQUEST["id_utilisateur_contributeur"]);  
+  
+$site->add_css("css/sas.css");
 
 $site->start_page("sas","Recherche - Stock à Souvenirs");
 
@@ -61,8 +63,8 @@ $cts = new contents("Recherche");
 
 $frm = new form("search","search.php",false,"POST","Paramètres de recherche");
 $frm->add_hidden("action","search");
-$frm->add_date_field("date_debut","Photos prisent après le",$_REQUEST["date_debut"]);
-$frm->add_date_field("date_fin","Photos prisent avant le",$_REQUEST["date_fin"]);
+$frm->add_date_field("date_debut","Photos prisent après le",$_REQUEST["date_debut"]?$_REQUEST["date_debut"]:null);
+$frm->add_date_field("date_fin","Photos prisent avant le",$_REQUEST["date_fin"]?$_REQUEST["date_fin"]:null);
 $frm->add_text_field("tags","Tags",$_REQUEST["tags"]);
 $frm->add_entity_smartselect ( "id_asso", "Association/Club", $asso, true );
 $frm->add_entity_smartselect ( "id_asso_photographe", "Club photographe", $assoph, true );
