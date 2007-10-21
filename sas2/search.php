@@ -46,8 +46,8 @@ if ( isset($_REQUEST["id_asso"]) )
 if ( isset($_REQUEST["id_asso_photographe"]) )
   $assoph->load_by_id($_REQUEST["id_asso_photographe"]);
   
-if ( isset($_REQUEST["id_utilisateur"]) )
-  $user->load_by_id($_REQUEST["id_utilisateur"]);
+if ( isset($_REQUEST["id_utilisateur_present"]) )
+  $user->load_by_id($_REQUEST["id_utilisateur_present"]);
   
 if ( isset($_REQUEST["id_utilisateur_photographe"]) )
   $userph->load_by_id($_REQUEST["id_utilisateur_photographe"]);
@@ -66,7 +66,7 @@ $frm->add_date_field("date_fin","Photos prisent avant le");
 $frm->add_text_field("tags","Tags");
 $frm->add_entity_smartselect ( "id_asso", "Association/Club", $asso, true );
 $frm->add_entity_smartselect ( "id_asso_photographe", "Club photographe", $assoph, true );
-$frm->add_entity_smartselect ( "id_utilisateur", "Personne sur la photo", $user, true );
+$frm->add_entity_smartselect ( "id_utilisateur_present", "Personne sur la photo", $user, true );
 $frm->add_entity_smartselect ( "id_utilisateur_photographe", "Photographe", $userph, true );
 $frm->add_entity_smartselect ( "id_utilisateur_contributeur", "Contributeur", $userad, true );
 $frm->add_select_field("type","Type de média",array(0=>"Tous",MEDIA_PHOTO+1=>"Photo",MEDIA_VIDEOFLV+1=>"Video"));
@@ -95,7 +95,7 @@ if ( $_REQUEST["action"] == "search" )
   if ( $user->is_valid() )
   {
     $joins[] = "INNER JOIN sas_personnes_photos AS `p2` ON ( sas_photos.id_photo=p2.id_photo AND p2.id_utilisateur='".$user->id."') ";
-    $params.="&id_utilisateur=".$user->id;
+    $params.="&id_utilisateur_present=".$user->id;
   }
   
   if ( $userph->is_valid() )
