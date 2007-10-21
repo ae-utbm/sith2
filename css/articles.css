@@ -22,32 +22,30 @@ div.article p.center
 	text-align: center;
 }
 
-/* Matma */
+/* Matma 
 div.article#cts1
 {
 	margin: auto;
 	padding: auto;
 }
-
+*/
 div.article h2
 {
 	clear:both;
 
 }
 
-/* IE6 considére que 100% c'est la largeur de la fenètre... 600px pour lui */
+
 table.services
 {
-	width:600px;
+	width:590px;
 }
 
-/* 100% pour les vrai navigateurs */
+
 html > * table.services
 {
 	width: 100%;
 }
-
-
 
 table.services td
 {
@@ -57,6 +55,11 @@ table.services td
 	text-align:center;
 }
 
+table.services td img
+{
+  width:190px;
+  height:110px;
+}
 
 
 

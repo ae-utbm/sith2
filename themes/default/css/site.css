@@ -482,9 +482,17 @@ div.box ul
 div.box h2 img
 {
   position:absolute;
+  top:6px;
+  left:-20px;
+}
+
+html > * div.box h2 img
+{
+  position:absolute;
   top:4px;
   left:5px;
 }
+
 
 div.box h2 a
 {
