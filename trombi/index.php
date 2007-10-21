@@ -370,6 +370,7 @@ if($_REQUEST["view"] == "listing")
     $st=$page*$npp;
   else
     $st=0;
+  /*
   $reqnb = new requete($site->db,
                        "SELECT COUNT(`utilisateurs`.`id_utilisateur`) "
                        ."FROM `utl_etu_utbm` "
@@ -378,6 +379,38 @@ if($_REQUEST["view"] == "listing")
                        ."WHERE `promo_utbm`='" . $site->user->promo_utbm . "' "
                        ."AND `publique_utl`='1'");
   list($nb) = $reqnb->get_row();
+
+  */
+
+  $reqnb = new requete($site->db,
+                       "SELECT 
+                               `utilisateurs`.`nom_utl`
+                        FROM
+                               `utl_etu_utbm`
+                        LEFT JOIN 
+                               `utilisateurs` 
+                        USING (`id_utilisateur`)
+                        LEFT JOIN 
+                               `utl_etu` 
+                        USING (`id_utilisateur`)
+                        WHERE 
+                               `promo_utbm`='" . $site->user->promo_utbm . "'
+                        AND 
+                               `publique_utl`='1'
+                        ORDER BY
+                               `nom_utl`
+                        ASC");
+
+  $nb = $reqnb->lines;
+
+  $noms = array();
+
+  while ($res = $req->get_row())
+    {
+      $noms[] = $res['nom_utl'];
+    }
+
+
 
   $req = new requete($site->db,
                      "SELECT `utilisateurs`.*, `utl_etu`.*, `utl_etu_utbm`.*, "
@@ -424,7 +457,16 @@ if($_REQUEST["view"] == "listing")
               $url .= $key."=".rawurlencode($value);
           }
         }
-        $tabs[]=array($n,$url,$n+1 );
+
+	$firstnamepage = substr($noms[$i], 0, 3);
+	if (($i + $npp) < count($noms))
+	  $lastnamepage  = substr($noms[$i + $npp], 0,3);
+	else
+	  $lastnamepage  = substr($noms[count($noms) - 1], 0,3);
+
+        /* $tabs[]=array($n,$url,$n+1 ); */
+	$tabs[] = array($n, $url, $firstnamepage . " - " . $lastnamepage);
+
         $i+=$npp;
       }
       $cts->add(new tabshead($tabs, $page, "_bottom"));
