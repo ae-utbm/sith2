@@ -253,8 +253,14 @@ class calendar extends stdcontents
 		
 		$end = split(":", $end[1]);
 		
-		$this->events .= " <dt>" . htmlentities($ev['titre_nvl'], ENT_QUOTES, "UTF-8") . "</dt>\n";
-		$this->events .= " <dd>";
+		$idx=3;
+		if ( $ev["type_nvl"] == 1 )
+		  $idx = 1;
+		elseif ( $ev["type_nvl"] == 2 )
+			$idx = 2;		
+		
+		$this->events .= " <dt class=\"event$idx\">" . htmlentities($ev['titre_nvl'], ENT_QUOTES, "UTF-8") . "</dt>\n";
+		$this->events .= " <dd class=\"event$idx\">";
 		
 		if ( $dstart == $date && $dend == $date )
 		
