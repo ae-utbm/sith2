@@ -91,7 +91,7 @@ if ( $_REQUEST["action"] == "search" )
 {
   $joins=array();
   $conds=array();
-  $params="";
+  $params="&order=".intval($_REQUEST["order"]);
   $fail=false;
   $order = "type_media_ph DESC, date_prise_vue";
   
