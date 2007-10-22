@@ -341,6 +341,7 @@ class sujetforum extends stdcontents
     	  }
     	}
 
+    	$this->buffer .= "&nbsp;<a href=\"#top\" title=\"Aller plus haut, Aller plus oooooo...\" ><img src=\"".$topdir."images/forum/top.png\" /></a>";
       $this->buffer .= "</p>\n";   
           
       $this->buffer .= "<div class=\"auteur\">\n";
