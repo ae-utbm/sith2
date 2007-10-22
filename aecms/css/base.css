@@ -34,7 +34,9 @@ div#logo a
   top:10px;
   left:40px;
     text-transform: lowercase;
-
+  background:none;
+  width:auto;
+  height:auto;
 }
 div#logo a:hover
 {
