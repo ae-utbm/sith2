@@ -224,7 +224,7 @@ if ( $_REQUEST["action"] == "search" )
     if ( $st > $count )
       $st = floor($count/$npp)*$npp;   
     
-    $req = $cat->get_photos_search ( $site->user, implode(" AND ",$conds), implode(" ",$joins), "sas_photos.*", "LIMIT $st,$npp");
+    $req = $cat->get_photos_search ( $site->user, implode(" AND ",$conds), implode(" ",$joins), "sas_photos.*", "LIMIT $st,$npp", $order);
     
     $photo = new photo($site->db);
     
