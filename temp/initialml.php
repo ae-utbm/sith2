@@ -5,7 +5,7 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 
 $db = new mysqlae ("rw");
-
+/*
 $req = new requete($db,
     "SELECT ".
     "`asso`.`nom_unix_asso`, ".
@@ -22,7 +22,7 @@ while ( list($name,$parent,$email) = $req->get_row() )
 	  
 	asso::_ml_create($db,$name.".bureau",$email);	
 }
-
+*/
 $req = new requete($db,
     "SELECT ".
     "`utilisateurs`.email_utl, ".
@@ -39,11 +39,18 @@ $req = new requete($db,
 
 while ( list($email,$name,$role,$parent) = $req->get_row() )
 {
+  /*
   if ( $role > 1 )
     asso::_ml_subscribe($db,$name.".bureau",$email);
   
   if( !is_null($parent) )
     asso::_ml_subscribe($db,$name.".membres",$email);
+  */  
+  if ( $role > 1 )
+    echo $name.".bureau > ".$email."<br/>";
+  
+  if( !is_null($parent) )
+    echo $name.".membres > ".$email."<br/>";
 }
 
 
