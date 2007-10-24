@@ -45,7 +45,7 @@ $req = new requete($site->db,
 		"SELECT `utilisateurs`.`id_utilisateur`, email_utl  ".
 		"FROM `utilisateurs` " .
 		"INNER JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur` ".
-		"WHERE utbm_utl=1 AND ancien_etudiant!=1 AND role_utbm='etu'");	
+		"WHERE utbm_utl=1 AND ancien_etudiant_utl!=1 AND role_utbm='etu'");	
 $count=0;
 while ( $row = $req->get_row() )
 {
