@@ -35,6 +35,10 @@ $site = new site ();
 if ( !$site->user->is_in_group("root") )
 	error_403();
 
+
+$title = "MatMaTronch: Votre photo";
+$infotext = "Nous n'avons toujours pas de photo de votre part pour la prochaine édition du matmatronch. Vous pouvez venir dans les prochains jours au bureau de l'AE à Sevenans, Belfort et Montbéliard pour pour vous faire prendre en photo, vous pouvez aussi mettre en ligne une photo de vous au format numérique, et dernier choix possible, vous pouvez nous faire parvenir au bureau de l'AE une photo papier avec votre nom, prénom, département et date de naissance au dos.";
+
 $site->start_page("none","Administration");
 
 $cts = new contents("<a href=\"./\">Administration</a> / Envoie de mail / Photos manquantes");
@@ -42,16 +46,21 @@ $cts = new contents("<a href=\"./\">Administration</a> / Envoie de mail / Photos
 $lst = new itemlist();
 
 $req = new requete($site->db, 
-		"SELECT `utilisateurs`.`id_utilisateur`, email_utl  ".
+		"SELECT * ".
 		"FROM `utilisateurs` " .
 		"INNER JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur` ".
 		"WHERE utbm_utl='1' AND ancien_etudiant_utl!='1' AND role_utbm='etu'");	
 $count=0;
+
+$user = new utilisateur($site->db);
 while ( $row = $req->get_row() )
 {
 	if ( !file_exists("../var/img/matmatronch/" . $row['id_utilisateur'] .".identity.jpg"))
 	{
-    $lst->add($row['email_utl']);
+    $user->_load_all($row);
+    $user->send_photo_email ( $site, $title, $infotext );
+    
+    $lst->add($row['email_utl']." : mail envoyé");
     $count++;
 	}
 }

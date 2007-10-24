@@ -1946,6 +1946,40 @@ L'équipe info AE";
                 utf8_decode($body),
                 "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ae@utbm.fr");
   }
+  
+  function send_photo_email ( &$site, $title, $infotext )
+  {
+    if ( $this->email_utbm )
+      $email = $this->email_utbm;
+    else
+      $email = $this->email;
+    
+    if ( $this->hash != "valid" )
+      $body = "Bonjour,\n".
+        $infotext.
+        "\n".
+        "Pour mettre à jour votre profil, et ajouter votre photo au format numérique en ligne, allez à l'adresse suivante :\n".
+        "http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&hash=" . $this->hash . "\n".
+        "\n".
+        "L'équipe info AE";
+    else
+      $body = "Bonjour,\n".
+        $infotext.
+        "\n".
+        "Pour mettre à jour votre profil, et ajouter votre photo au format numérique en ligne, allez à l'adresse suivante :\n".
+        "http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&token=" . $site->create_token_for_user($this->id) . "\n".
+        "\n".
+        "L'équipe info AE";
+    
+    $ret = mail($email,
+                utf8_decode($title),
+                utf8_decode($body),
+                "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ae@utbm.fr");    
+    
+  }
+  
+  
+  
 }
 
 ?>
