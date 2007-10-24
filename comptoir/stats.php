@@ -75,7 +75,8 @@ if ( $_REQUEST["action"] == "view" )
   if ( isset($comptoirs[$_REQUEST["id_comptoir"]]) && $_REQUEST["id_comptoir"] )
   {
     $conds[] = "`cpt_mise_en_vente`.`id_comptoir`='".intval($_REQUEST["id_comptoir"])."'";
-    $comptoir="INNER JOIN `cpt_mise_en_vente` ON `cpt_mise_en_vente`.`id_produit`=`cpt_produits`.`id_produit` ";
+    $comptoir_rqt="INNER JOIN `cpt_mise_en_vente` ON `cpt_mise_en_vente`.`id_produit`=`cpt_produits`.`id_produit` ";
+		$comptoir = true;
   }
   if ( $comptoir || $site->user->is_in_group("gestion_ae") )
   {
@@ -97,7 +98,7 @@ if ( $_REQUEST["action"] == "view" )
       "INNER JOIN `cpt_vendu` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
       "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
       "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
-			$comptoir .
+			$comptoir_rqt .
       "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
       "WHERE " .implode(" AND ",$conds).
       "GROUP BY `cpt_produits`.`id_produit` " .
