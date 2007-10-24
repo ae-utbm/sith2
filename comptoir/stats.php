@@ -82,10 +82,10 @@ if ( $_REQUEST["action"] == "view" )
   {
     if ( $_REQUEST["id_assocpt"] && !empty($_REQUEST["id_assocpt"]))
       $conds[] = "`cpt_produits`.`id_assocpt`='".intval($_REQUEST["id_assocpt"])."'";
-	}
 
-  if ( $_REQUEST["id_typeprod"] && !empty($_REQUEST["id_typeprod"]) )
-	  $conds[] = "`cpt_produits`.`id_typeprod`='".intval($_REQUEST["id_typeprod"])."'";
+    if ( $_REQUEST["id_typeprod"] && !empty($_REQUEST["id_typeprod"]) )
+	    $conds[] = "`cpt_produits`.`id_typeprod`='".intval($_REQUEST["id_typeprod"])."'";
+  }
 
   if ( count($conds) )
   {
