@@ -85,11 +85,6 @@ class rssfeedforum extends rssfeed
 	echo "\t<title><![CDATA[". $row["titre_sujet"] . ", par ".($row['alias_utl'] == "" ? "???" : $row['alias_utl'])."]]></title>\n";
 	echo "\t<link>".$this->pubUrl."?id_message=".$row["id_message"]."#msg".$row['id_message']."</link>\n";
 	
-
-	$row['contenu_message'] = htmlentities($row['contenu_message'],
-					       ENT_COMPAT,
-					       "UTF-8");
-
 	if ($row['syntaxengine_message'] == 'doku')
 	  $content = doku2xhtml($row['contenu_message']);
 
