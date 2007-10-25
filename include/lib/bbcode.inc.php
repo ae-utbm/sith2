@@ -104,7 +104,7 @@ function bbcode($text)
   <div style=\"border: 1px #374a70 solid;
   margin-top:2px;
   padding: 4px;
-  text-aling: justify;
+  text-align: justify;
   background-color: #ecf4fe;\">$2</div></div>",
            $text);
   }
@@ -116,7 +116,7 @@ function bbcode($text)
   <div style=\"border: 1px #374a70 solid;
   margin-top:2px;
   padding: 4px;
-  text-aling: justify;
+  text-align: justify;
   background-color: #ecf4fe;\">$1</div></div>",
                         $text);
   }
