@@ -241,7 +241,7 @@ class sujetforum extends stdcontents
 			$buffer = $site->user->alias;
 			return $buffer;
 		}
-		return $text;
+		return "bleh ".$text;
 	}
 
   function sujetforum (&$forum, &$sujet, &$user, $page, $start, $npp, $order = "ASC" )
