@@ -1,7 +1,8 @@
 <?php
 // ce fichier permet de mettre à jour les fiches matmatronch
+
 // tout d'abord, tout ceux qui ne sont pas dans le xml sont
-// ancien étudiant s'ils sont étudiants
+// ancien étudiants s'ils sont étudiants
 //
 
 $topdir = "../";
@@ -33,8 +34,10 @@ if( isset($_REQUEST["action"]) )
       fclose($fp);
       $i=0;
       $user = new utilisateur($site->db,$site->dbrw);
+
       $xml = simplexml_load_file($src);
-      foreach($xml->Etudiant as $student)
+
+      foreach($xml->Etudiant as &$student)
       {
         if($user->load_by_email($student->email))
         {
@@ -43,7 +46,7 @@ if( isset($_REQUEST["action"]) )
           $site->add_contents($cts);
         }
         $i++;
-        if($i==10)
+	if($i == 50)
           break;
       }
       $site->end_page();
