@@ -35,12 +35,14 @@ if( isset($_REQUEST["action"]) )
       foreach($xml->Etudiant as $student)
       {
         $user = new utilisateur($site->db,$site->dbrw);
+        $cts = new contents($student["email"]);
         if($user->load_by_email($student["email"]))
         {
-          $cts = new contents($user->prenom." ".$user->nom);
-          $cts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".$user->id."'>fiche matmat</a>");
-          $site->add_contents($cts);
+          $subcts = new contents($user->prenom." ".$user->nom);
+          $subcts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".$user->id."'>fiche matmat</a>");
+          $cts->add_contents($subcts);
         }
+        $site->add_contents($cts);
       }
       $site->end_page();
       exit();
