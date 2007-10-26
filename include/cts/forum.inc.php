@@ -203,13 +203,13 @@ class sujetslist extends stdcontents
       /* actions */
       if ( !is_array($forum) )
       if (($user->is_valid() && $user->id == $row['id_utilisateur']) ||($forum->is_admin($user)))
-	    {
+      {
         $this->buffer .= "<p class=\"actions\">";
         
         $this->buffer .= "<a href=\"?id_sujet=".$row['id_sujet']."&amp;page=delete\">Supprimer</a>";
         $this->buffer .= " | <a href=\"?id_sujet=".$row['id_sujet']."&amp;page=edit\">Editer</a>";
         $this->buffer .= "</p>\n";
-	    }
+      }
 
       if ( !$row['nom_utilisateur_premier_auteur'] )
         $this->buffer .= "<p class=\"auteur\">&nbsp;</p>\n";
@@ -234,22 +234,22 @@ class sujetslist extends stdcontents
 class sujetforum extends stdcontents
 {
  
- 	function wikimacro($text)
-	{
-		global $site;
-		if ( $text == "user" )
-		{
-			$buffer = $site->user->alias;
-			return $buffer;
-		}
-		return $text;
-	}
+   function wikimacro($text)
+  {
+    global $site;
+    if ( $text == "user" )
+    {
+      $buffer = $site->user->alias;
+      return $buffer;
+    }
+    return $text;
+  }
 
   function sujetforum (&$forum, &$sujet, &$user, $page, $start, $npp, $order = "ASC" )
   {
     global $topdir, $wwwtopdir, $conf;
 
-		$conf["macrofunction"] = array($this,'wikimacro');
+    $conf["macrofunction"] = array($this,'wikimacro');
     
     if ( $user->is_valid() )
       $last_read = $sujet->get_last_read_message ( $user->id );
@@ -286,9 +286,9 @@ class sujetforum extends stdcontents
           $this->buffer .= "<div id=\"firstunread\"></div>";
         }
 
-	/* permalink */
-	$this->buffer .= "<a href=\"./?id_message=".
-	  $row['id_message']."#msg".$row['id_message']."\">";
+  /* permalink */
+  $this->buffer .= "<a href=\"./?id_message=".
+    $row['id_message']."#msg".$row['id_message']."\">";
         
         if ( $row['titre_message'] )
           $this->buffer .= "<h2 class=\"frmt\">Message non lu: ".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";      
@@ -305,9 +305,9 @@ class sujetforum extends stdcontents
           $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$row['id_message']."\">\n";
         $n=($n+1)%2;
  
-	/* permalink */
-	$this->buffer .= "<a href=\"./?id_message=".
-	  $row['id_message']."#msg".$row['id_message']."\">";
+  /* permalink */
+  $this->buffer .= "<a href=\"./?id_message=".
+    $row['id_message']."#msg".$row['id_message']."\">";
 
         if ( $row['titre_message'] )
           $this->buffer .= "<h2 class=\"frmt\">".htmlentities($row['titre_message'], ENT_NOQUOTES, "UTF-8")."</h2>\n";
@@ -323,38 +323,38 @@ class sujetforum extends stdcontents
        
        /* utilisateur authentifié */
       if ($user->is_valid())
-    	{
-    	  $this->buffer .= "<a href=\"?page=reply&amp;id_forum=".
-    	     $forum->id.
-    	     "&amp;id_sujet=".
-    	     $sujet->id.
-    	     "&amp;id_message=".
-    	     $row['id_message'].
-    	     "&amp;quote=1\">Répondre en citant</a>";
-    	}
+      {
+        $this->buffer .= "<a href=\"?page=reply&amp;id_forum=".
+           $forum->id.
+           "&amp;id_sujet=".
+           $sujet->id.
+           "&amp;id_message=".
+           $row['id_message'].
+           "&amp;quote=1\">Répondre en citant</a>";
+      }
 
       if (($user->is_valid() && $user->id == $row['id_utilisateur']) ||($forum->is_admin($user)))
       {
-    	  if ( $initial ) // Pour le message initial, renvoie vers le sujet
-    	  {
-      	  $spage = ceil($start/$npp);
-      	  $this->buffer .= " | <a href=\"?page=edit&amp;id_sujet=".$sujet->id."\">Modifier</a> | ".
-      	     "<a href=\"?page=delete&amp;id_sujet=".$sujet->id."&amp;spage=$spage\">Supprimer</a>";    	     
-    	  }
-    	  else
-    	  {
-      	  $spage = ceil($start/$npp);
-      	  $this->buffer .= " | <a href=\"?page=edit&amp;id_forum=".
-      	     $forum->id.
-      	     "&amp;id_sujet=".
-      	     $sujet->id.
-      	     "&amp;id_message=".
-      	     $row['id_message']."\">Modifier</a> | ".
-      	     "<a href=\"?page=delete&amp;id_message=".$row['id_message']."&amp;spage=$spage\">Supprimer</a>";
-    	  }
-    	}
+        if ( $initial ) // Pour le message initial, renvoie vers le sujet
+        {
+          $spage = ceil($start/$npp);
+          $this->buffer .= " | <a href=\"?page=edit&amp;id_sujet=".$sujet->id."\">Modifier</a> | ".
+             "<a href=\"?page=delete&amp;id_sujet=".$sujet->id."&amp;spage=$spage\">Supprimer</a>";           
+        }
+        else
+        {
+          $spage = ceil($start/$npp);
+          $this->buffer .= " | <a href=\"?page=edit&amp;id_forum=".
+             $forum->id.
+             "&amp;id_sujet=".
+             $sujet->id.
+             "&amp;id_message=".
+             $row['id_message']."\">Modifier</a> | ".
+             "<a href=\"?page=delete&amp;id_message=".$row['id_message']."&amp;spage=$spage\">Supprimer</a>";
+        }
+      }
 
-    	$this->buffer .= "&nbsp;<a href=\"#top\" title=\"Aller plus haut, Aller plus oooooo...\" ><img src=\"".$topdir."images/forum/top.png\" /></a>";
+      $this->buffer .= "&nbsp;<a href=\"#top\" title=\"Aller plus haut, Aller plus oooooo...\" ><img src=\"".$topdir."images/forum/top.png\" /></a>";
       $this->buffer .= "</p>\n";   
           
       $this->buffer .= "<div class=\"auteur\">\n";
@@ -408,21 +408,22 @@ class sujetforum extends stdcontents
 class simplemessageforum extends stdcontents
 {
 
-	function macroforum($text)
-	{
-		if ( $text == "user" )
-		{
-			$buffer = $site->user->alias;
-			return $buffer;
-		}
-		return $text;
-	}
+  function macroforum($text)
+  {
+    global $site;
+    if ( $text == "user" )
+    {
+      $buffer = $site->user->alias;
+      return $buffer;
+    }
+    return $text;
+  }
 
   function simplemessageforum($message)
   {
       global $topdir, $wwwtopdir, $site;
 
-			$conf["macrofunction"] = array($this,'macroforum');
+      $conf["macrofunction"] = array($this,'macroforum');
 
       $this->title = "Prévisualisation";
       
@@ -434,9 +435,9 @@ class simplemessageforum extends stdcontents
       $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$message->id."\">\n";
 
  
-	  /* permalink */
-   	$this->buffer .= "<a href=\"./?id_message=".
-	  $message->id."#msg".$message->id."\">";
+    /* permalink */
+     $this->buffer .= "<a href=\"./?id_message=".
+    $message->id."#msg".$message->id."\">";
 
         if ( $message->titre )
           $this->buffer .= "<h2 class=\"frmt\">".htmlentities($message->titre, ENT_NOQUOTES, "UTF-8")."</h2>\n";
