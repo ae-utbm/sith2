@@ -34,6 +34,8 @@ if( isset($_REQUEST["action"]) )
       $xml = simplexml_load_file($src);
       foreach($xml->Etudiant as $student)
       {
+        print_r($student);
+        exit();
         $user = new utilisateur($site->db,$site->dbrw);
         $cts = new contents($student["email"]);
         if($user->load_by_email($student["email"]))
