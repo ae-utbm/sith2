@@ -108,14 +108,14 @@ if( isset($_REQUEST["action"]) )
 
 
 
-$frm = new form("upload","update_user_utbm.php"."#upload",true,"POST","Changer mes photos persos");
+$frm = new form("upload","update_user_utbm.php"."#upload",true,"POST","Envoi d'un fichier XML");
 $frm->add_hidden("action","upload");
 $frm->add_file_field ( "xmlfile", "Fichier" );
 $frm->add_submit("save","UPLOAD");
 
 $cts->add($frm,true);
 
-$frm = new form("frompath","update_user_utbm.php"."#frompath",true,"POST","Changer mes photos persos");
+$frm = new form("frompath","update_user_utbm.php"."#frompath",true,"POST","Chargement du XML depuis un fichier sur le serveur");
 $frm->add_hidden("action","frompath");
 $frm->add_text_field("path","Path : (ex : /tmp/truc.xml)");
 $frm->add_submit("save","Executer");
