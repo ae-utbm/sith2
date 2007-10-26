@@ -30,6 +30,7 @@ if( isset($_REQUEST["action"]) )
       $cts->add_paragraph("Impossible d'ouvrir le fichier XML");
     else
     {
+      $i=0;
       fclose($fp);
       $xml = simplexml_load_file($src);
       foreach($xml->Etudiant as $student)
@@ -43,6 +44,9 @@ if( isset($_REQUEST["action"]) )
           $cts->add($subcts);
         }
         $site->add_contents($cts);
+        $i++;
+        if($i==10)
+          break;
       }
       $site->end_page();
       exit();
