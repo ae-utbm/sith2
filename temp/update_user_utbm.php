@@ -27,12 +27,21 @@ if( isset($_REQUEST["action"]) )
   {
     $fp = fopen($src, "r");
     if (!$fp)
-      die("Impossible d'ouvrir le fichier XML");
+      $cts->add_paragraph("Impossible d'ouvrir le fichier XML");
     else
     {
+      $user = new utilisateur($site->db,$site->dbrw);
       fclose($fp);
       $xml = simplexml_load_file($src);
-      var_dump($xml);
+      foreach($xml->Etudiant as $student)
+      {
+        if($user->load_by_email($student["email"]))
+        {
+          $cts = new contents($user->prenom." ".$user->nom);
+          $site->add_contents($cts);
+        }
+      }
+      $site->end_page();
       exit();
     }
   }
