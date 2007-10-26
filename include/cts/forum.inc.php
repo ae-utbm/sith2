@@ -234,14 +234,14 @@ class sujetslist extends stdcontents
 class sujetforum extends stdcontents
 {
  
- 	function macroforum($text)
+ 	function wikimacro($text)
 	{
 		if ( $text == "user" )
 		{
 			$buffer = $site->user->alias;
 			return $buffer;
 		}
-		return "bleh ".$text;
+		return $text;
 	}
 
   function sujetforum (&$forum, &$sujet, &$user, $page, $start, $npp, $order = "ASC" )
