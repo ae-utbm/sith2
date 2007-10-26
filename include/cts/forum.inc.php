@@ -244,7 +244,7 @@ class sujetforum extends stdcontents
     }
     elseif ( $text = "stupid" )
     {
-      if ( !empty($site->user->alias)
+      if ( !empty($site->user->alias))
         $stupid_user = ", ".$site->user->alias;
 
       $buffer = "<a href=\"http://stupid.zebleh.org/".$site->user->alias.">It's cute how stupid you are".$stupid_user.".</a>";
@@ -426,7 +426,7 @@ class simplemessageforum extends stdcontents
     }
     elseif ( $text = "stupid" )
     {
-      if ( !empty($site->user->alias)
+      if ( !empty($site->user->alias))
         $stupid_user = ", ".$site->user->alias;
 
       $buffer = "<a href=\"http://stupid.zebleh.org/".$site->user->alias.">It's cute how stupid you are".$stupid_user.".</a>";
