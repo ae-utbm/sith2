@@ -41,10 +41,46 @@ if( isset($_REQUEST["action"]) )
       {
         if($user->load_by_email($student->email))
         {
+
+	  $user->load_all_extras();
+
           $cts = new contents($user->prenom." ".$user->nom);
-          $cts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".$user->id."'>fiche matmat</a>");
+          $cts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".
+			      $user->id."'>fiche matmat</a>");
+	  
+	  /* date naissance ? */
+	  if ($student->DateNaissance != date("d/m/Y", $user->date_naissance))
+	    {
+	      $cts->add_paragraph("<b>date de naissance non concordante</b>");
+	    }
+
+	  /* branche ? */
+	  if ($student->CodeDepartement != strtoupper($user->departement))
+	    {
+	      $cts->add_paragraph("<b>departement non concordant</b>");
+	    }
+	    
+	  /* filière ? */
+	  if ($student->CodeFiliere != strtoupper($user->filiere))
+	    {
+	      $cts->add_paragraph("<b>filiere non concordante</b>");
+	    }
+
+	  /* semestre ? */
+	  if ($student->Semestre != $user->semestre)
+	    {
+	      $cts->add_paragraph("<b>semestre non concordante</b>");
+	    }
+
           $site->add_contents($cts);
         }
+	else
+	  {
+	    $cts = new contents($student->email);
+	    $cts->add_paragraph("<b>NON TROUVE</b>");
+	    $site->add_contents($cts);
+	  }
+
         $i++;
 	if($i == 50)
           break;
