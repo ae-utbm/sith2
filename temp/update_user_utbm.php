@@ -30,20 +30,18 @@ if( isset($_REQUEST["action"]) )
       $cts->add_paragraph("Impossible d'ouvrir le fichier XML");
     else
     {
-      $i=0;
       fclose($fp);
+      $i=0;
+      $user = new utilisateur($site->db,$site->dbrw);
       $xml = simplexml_load_file($src);
       foreach($xml->Etudiant as $student)
       {
-        $user = new utilisateur($site->db,$site->dbrw);
-        $cts = new contents($student->email);
         if($user->load_by_email($student->email))
         {
-          $subcts = new contents($user->prenom." ".$user->nom);
-          $subcts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".$user->id."'>fiche matmat</a>");
-          $cts->add($subcts);
+          $cts = new contents($user->prenom." ".$user->nom);
+          $cts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".$user->id."'>fiche matmat</a>");
+          $site->add_contents($cts);
         }
-        $site->add_contents($cts);
         $i++;
         if($i==10)
           break;
