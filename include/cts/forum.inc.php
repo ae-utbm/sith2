@@ -233,10 +233,22 @@ class sujetslist extends stdcontents
 
 class sujetforum extends stdcontents
 {
-  
+ 
+ 	function macroforum($text)
+	{
+		if ( $text == "user" )
+		{
+			$buffer = $site->user->alias;
+			return $buffer;
+		}
+		return $text;
+	}
+
   function sujetforum (&$forum, &$sujet, &$user, $page, $start, $npp, $order = "ASC" )
   {
     global $topdir, $wwwtopdir;
+
+		$conf["macrofunction"] = array($this,'macroforum');
     
     if ( $user->is_valid() )
       $last_read = $sujet->get_last_read_message ( $user->id );
@@ -394,9 +406,23 @@ class sujetforum extends stdcontents
 
 class simplemessageforum extends stdcontents
 {
+
+	function macroforum($text)
+	{
+		if ( $text == "user" )
+		{
+			$buffer = $site->user->alias;
+			return $buffer;
+		}
+		return $text;
+	}
+
   function simplemessageforum($message)
   {
       global $topdir, $wwwtopdir, $site;
+
+			$conf["macrofunction"] = array($this,'macroforum');
+
       $this->title = "Prévisualisation";
       
       $t = $message->date;
