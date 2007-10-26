@@ -40,7 +40,7 @@ if( isset($_REQUEST["action"]) )
         {
           $subcts = new contents($user->prenom." ".$user->nom);
           $subcts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".$user->id."'>fiche matmat</a>");
-          $cts->add_contents($subcts);
+          $cts->add($subcts);
         }
         $site->add_contents($cts);
       }
