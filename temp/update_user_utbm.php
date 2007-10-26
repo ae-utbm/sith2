@@ -42,7 +42,7 @@ if( isset($_REQUEST["action"]) )
         if($user->load_by_email($student->email))
         {
 
-	  $user->load_all_extras();
+	  $user->load_all_extra();
 
           $cts = new contents($user->prenom." ".$user->nom);
           $cts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".
