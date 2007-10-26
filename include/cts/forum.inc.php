@@ -248,7 +248,7 @@ class sujetforum extends stdcontents
   {
     global $topdir, $wwwtopdir, $conf;
 
-		$conf["macrofunction"] = array($this,'macroforum');
+		$conf["macrofunction"] = array($this,'wikimacro');
     
     if ( $user->is_valid() )
       $last_read = $sujet->get_last_read_message ( $user->id );
