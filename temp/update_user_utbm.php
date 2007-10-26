@@ -32,7 +32,6 @@ if( isset($_REQUEST["action"]) )
     {
       fclose($fp);
       $xml = simplexml_load_file($src);
-      recursivite($xml);
       var_dump($xml);
       exit();
     }
