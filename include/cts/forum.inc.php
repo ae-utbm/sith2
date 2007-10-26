@@ -236,12 +236,13 @@ class sujetforum extends stdcontents
  
  	function wikimacro($text)
 	{
+		global $site;
 		if ( $text == "user" )
 		{
 			$buffer = $site->user->alias;
 			return $buffer;
 		}
-		return "bleh";
+		return $text;
 	}
 
   function sujetforum (&$forum, &$sujet, &$user, $page, $start, $npp, $order = "ASC" )
