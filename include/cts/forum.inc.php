@@ -247,7 +247,7 @@ class sujetforum extends stdcontents
       if ( !empty($site->user->alias))
         $stupid_user = ", ".$site->user->alias;
 
-      $buffer = "<a href=\"http://stupid.zebleh.org/".$site->user->alias.">It's cute how stupid you are".$stupid_user.".</a>";
+      $buffer = "<a href=\"http://stupid.zebleh.org/".$site->user->alias."\">It's cute how stupid you are".$stupid_user.".</a>";
       return $buffer;
     }
     return $text;
@@ -429,7 +429,7 @@ class simplemessageforum extends stdcontents
       if ( !empty($site->user->alias))
         $stupid_user = ", ".$site->user->alias;
 
-      $buffer = "<a href=\"http://stupid.zebleh.org/".$site->user->alias.">It's cute how stupid you are".$stupid_user.".</a>";
+      $buffer = "<a href=\"http://stupid.zebleh.org/".$site->user->alias."\">It's cute how stupid you are".$stupid_user.".</a>";
       return $buffer;
     }
     return $text;
