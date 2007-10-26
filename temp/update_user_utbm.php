@@ -37,7 +37,7 @@ if( isset($_REQUEST["action"]) )
 
       $xml = simplexml_load_file($src);
 
-      foreach($xml->Etudiant as &$student)
+      foreach($xml->Etudiant as $student)
       {
         if($user->load_by_email($student->email))
         {
