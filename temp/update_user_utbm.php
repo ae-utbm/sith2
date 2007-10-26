@@ -56,6 +56,7 @@ if( isset($_REQUEST["action"]) )
 				  $student->DateNaissance . "(CRI) /  ".
 				  date("d/m/Y", $user->date_naissance) . " (NOUS)");
 	      $error++;
+	      change_birthdate($user->id, $student->DateNaissance);
 	    }
 
 	  /* branche ? */
@@ -79,6 +80,7 @@ if( isset($_REQUEST["action"]) )
 	    {
 	      $cts->add_paragraph("<b>semestre non concordant</b> : <br/>".
 				  $student->Semestre . " (CRI) / " . $user->semestre . " (NOUS)");
+	      move_to_semester($user->id, $student->Semestre);
 	      $error++;
 	    }
 	  
@@ -106,7 +108,25 @@ if( isset($_REQUEST["action"]) )
   }
 }
 
+function move_to_semester($iduser, $sem)
+{
+  global $site;
+  
+  return new update($site->db, 
+		    "utl_etu_utbm", 
+		    array("semestre_utbm" => intval($sem)), 
+		    array("id_utilisateur" => $iduser), true);
+}
 
+function change_birthdate($iduser, $date)
+{
+  $timestp = strtotime($date);
+  global $site;
+  return new update($site->db,
+		    "utilisateurs",
+		    array("date_naissance_utl" => date("Y-m-d", $timestp)),
+		    array("id_utilisateur" => $iduser), true);
+}
 
 $frm = new form("upload","update_user_utbm.php"."#upload",true,"POST","Envoi d'un fichier XML");
 $frm->add_hidden("action","upload");
