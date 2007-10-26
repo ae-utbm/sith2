@@ -30,11 +30,11 @@ if( isset($_REQUEST["action"]) )
       $cts->add_paragraph("Impossible d'ouvrir le fichier XML");
     else
     {
-      $user = new utilisateur($site->db,$site->dbrw);
       fclose($fp);
       $xml = simplexml_load_file($src);
       foreach($xml->Etudiant as $student)
       {
+        $user = new utilisateur($site->db,$site->dbrw);
         if($user->load_by_email($student["email"]))
         {
           $cts = new contents($user->prenom." ".$user->nom);
