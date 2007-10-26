@@ -246,7 +246,7 @@ class sujetforum extends stdcontents
 
   function sujetforum (&$forum, &$sujet, &$user, $page, $start, $npp, $order = "ASC" )
   {
-    global $topdir, $wwwtopdir;
+    global $topdir, $wwwtopdir, $conf;
 
 		$conf["macrofunction"] = array($this,'macroforum');
     
