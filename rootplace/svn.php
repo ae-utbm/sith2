@@ -143,9 +143,9 @@ else
         list($right)=$req->get_row();
       else
         $right="";
-      $frm = new form("adduser","svn.php",false,"post","Modification des droits de ".$_REQUEST["svn_login"]." :");
+      $frm = new form("adduser","svn.php?id_depot=".$_REQUEST["id_depot"],false,"post","Modification des droits de ".$_REQUEST["svn_login"]." :");
       $frm->add_hidden("action","edituser");
-      $frm->add_hidden("id_depot",$_REQUEST["id_depot"]);
+      $frm->add_hidden("svn_login",$_REQUEST["svn_login"]);
       $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"),$right);
       $frm->add_submit("valid","Valider");
       $cts->add($frm,true);
