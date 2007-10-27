@@ -81,26 +81,101 @@ function private_svn ()
 $private = private_svn();
 asort($private);
 
+
+$tabs = array("depots"=>"Depots","user"=>"User");
 $site->start_page("none","Administration");
 $cts = new contents("<a href=\"./\">Administration</a> / SVN");
-$cts->add(new sqltable("svn_private",
-                       "Liste des SVN privés",
-                       $private,
-                       "svn.php",
-                       "type",
-                       array("name"=>"Nom"),
-                       array(),
-                       array(),
-                       array()
-                      ),true);
+$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
-$frm = new form("adduser","svn.php",false,"post","Créer un user :");
-$frm->add_hidden("action","adduser");
-$frm->add_user_fieldv2("id_utilisateur","Utilisateur");
-$frm->add_text_field("login","Login","",false);
-$frm->add_password_field("pass","Mot de passe","",false);
-$frm->add_submit("valid","Valider");
-$cts->add($frm,true);
+
+if ( $_REQUEST["view"]=="user" )
+{
+  $frm = new form("adduser","svn.php",false,"post","Créer un user :");
+  $frm->add_hidden("action","adduser");
+  $frm->add_user_fieldv2("id_utilisateur","Utilisateur");
+  $frm->add_text_field("login","Login","",false);
+  $frm->add_password_field("pass","Mot de passe","",false);
+  $frm->add_submit("valid","Valider");
+  $cts->add($frm,true);
+  $req = new requete($site->db,"SELECT * FROM `svn_login`");
+  $cts->add(new sqltable("svn_login",
+                         "Liste des Logins svn",
+                         $req,
+                         "svn.php?view=user",
+                         "id_utilisateur",
+                         array("login_svn"=>"Login"),
+                         array("delete"=>"Enlever"),
+                         array(),
+                         array()
+                        );
+  $cts->add($tbl,true);
+
+}
+
+else
+{
+  if(isset($_REQUEST["id_depot"]))
+  {
+    if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "delete")
+    {
+      if(isset($_REQUEST["svn_login"]))
+        new delete($site->dbrw,"svn_member_depot",array("id_depot"=>$_REQUEST["id_depot"],"svn_login"=>$_REQUEST["svn_login"]));
+      else
+        new delete($site->dbrw,"svn_depot",array("id_depot"=>$_REQUEST["id_depot"]));
+    }
+    if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "edit")
+    {
+    }
+    $req = new requete($site->db,"SELECT * FROM `svn_depot` WHERE `id_depot`='".$_REQUEST["id_depot"]."'");
+    if($req->lines==1)
+    {
+      list($id,$nom,$type)=$req->get_row();
+      $cts->add_paragraph("<b>Dépot : ".$nom."</b><br />type : ".$type);
+      $req2 = new requete($site->db,"SELECT * FROM `svn_member_depot` WHERE `id_depot`='".$_REQUEST["id_depot"]."'");
+      $cts->add(new sqltable("svn_member_depot",
+                             "Membres",
+                             $req2,
+                             "svn.php?id_depot=".$_REQUEST["id_depot"],
+                             "svn_login",
+                             array("svn_login"=>"Login","right"=>"Droits"),
+                             array("edit"=>"Modifier","delete"=>"Enlever"),
+                             array(),
+                             array()
+                            );
+
+
+    }
+    else
+    {
+      $req = new requete($site->db,"SELECT * FROM `svn_depot`");
+      $cts->add(new sqltable("svn_private",
+                             "Liste des SVN",
+                             $req,
+                             "svn.php",
+                             "id_depot",
+                             array("nom"=>"Nom","type"=>"Type"),
+                             array("detail"=>"Détail"),
+                             array(),
+                             array()
+                            );
+    }
+  }
+  else
+  {
+    $req = new requete($site->db,"SELECT * FROM `svn_depot`");
+    $cts->add(new sqltable("svn_private",
+                           "Liste des SVN",
+                           $req,
+                           "svn.php",
+                           "id_depot",
+                           array("nom"=>"Nom","type"=>"Type"),
+                           array("detail"=>"Détail"),
+                           array(),
+                           array()
+                          );
+  }
+
+}
 
 $site->add_contents($cts);
 
