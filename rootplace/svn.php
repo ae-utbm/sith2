@@ -82,7 +82,7 @@ $private = private_svn();
 asort($private);
 
 
-$tabs = array(array("",$topdir."rootplace/svn.php","Depots"),array("user",$topdir."rootplace/svn.php?view=user","Utilisateurs"));
+$tabs = array(array("","rootplace/svn.php","Depots"),array("user","rootplace/svn.php?view=user","Utilisateurs"));
 $site->start_page("none","Administration");
 $cts = new contents("<a href=\"./\">Administration</a> / SVN");
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
