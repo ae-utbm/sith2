@@ -23,9 +23,10 @@
  */
 
 #define("SVN_PATH","/var/lib/svn/");
-define("SVN_PATH","/var/lib/");
-define("PRIVATE_SVN","svn/");
-define("PUBLIC_SVN","svn-public/");
+define("PASSWORDFILE","svn.passwd");
+define("SVN_PATH","/var/lib/svn/");
+define("PRIVATE_SVN","");
+define("PUBLIC_SVN","");
 
 
 $topdir="../";
@@ -36,6 +37,30 @@ $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
   error_403();
+
+if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="adduser" )
+{
+  $req = new requete($site->db,"SELECT `id_utilisateur` FROM `svn_login` WHERE `login_svn` = '".$_REQUEST["login"]."'");
+  if($req->lines==0)
+  {
+    new insert($site->dbrw,
+               "svn_login",
+               array("id_utilisateur"=>$_REQUEST["id_utilisateur"],
+                     "login_svn"=>$_REQUEST["login"])
+              );
+    exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".$_REQUEST["login"]." ".$_REQUEST["pass"]);
+  }
+  else
+  {
+    list($id_user)=$req->get_row();
+    if($_REQUEST["id_utilisateur"] == $id_user)
+    {
+      exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".$_REQUEST["login"]." ".$_REQUEST["pass"]);
+    }
+  }
+}
+
+
 
 function private_svn ()
 {
@@ -56,17 +81,11 @@ function private_svn ()
   return $list;
 }
 
-$user="nayolo";
-$pass="supermotdelamortquitue";
-
-exec("/usr/bin/htpasswd -nsb ".$user." ".$pass, $sha);
-
 $private = private_svn();
 asort($private);
 
 $site->start_page("none","Administration");
 $cts = new contents("<a href=\"./\">Administration</a> / AECMS");
-$cts->add_paragraph($sha[0]);
 $cts->add(new sqltable("svn_private",
                        "Liste des SVN privés",
                        $private,
@@ -78,7 +97,15 @@ $cts->add(new sqltable("svn_private",
                        array()
                       ),true);
 
+$frm = new form("adduser","svn.php",false,"post","Créer un user :");
+$frm->add_hidden("action","adduser");
+$frm->add_text_field("login","Login","",true);
+$frm->add_user_fieldv2("id_utilisateur_achat","Utilisateur");
+$frm->add_submit("valid","Installer");
+$cts->add($frm,true);
+
 $site->add_contents($cts);
+
 $site->end_page();
 
 ?>
