@@ -190,7 +190,7 @@ else if ( isset($_REQUEST["id_asso"]) )
 
 	$cts = new contents($asso->get_html_path());
 	if ( $site->user->is_in_group("moderateur_site") || $asso->is_member_role( $site->user->id, ROLEASSO_MEMBREBUREAU ) )
-	  $cts->set_toolbox(new toolbox(array("article.php?page=edit&name=activites-".$asso->nom_unix=>"Editer Présentation","asso.php?page=edit&id_asso=".$asso->id=>"Editer")));
+	  $cts->set_toolbox(new toolbox(array("article.php?page=edit&name=activites:".$asso->nom_unix=>"Editer Présentation","asso.php?page=edit&id_asso=".$asso->id=>"Editer")));
 	
 	$cts->add(new tabshead($asso->get_tabs($site->user),"info"));	
 
@@ -218,7 +218,7 @@ else if ( isset($_REQUEST["id_asso"]) )
 		$cts->add(new image($asso->nom, $img, "newsimg"));*/
 
 	$page = new page($site->db);
-	$page->load_by_name("activites-".$asso->nom_unix);
+	$page->load_by_pagename("activites:".$asso->nom_unix);
 	if ( $page->id > 0 ) 
 	{
 		$cts->add_title(2,"Pr&eacute;sentation");
@@ -226,7 +226,7 @@ else if ( isset($_REQUEST["id_asso"]) )
 		
 	}
 	elseif ( $site->user->is_in_group("moderateur_site") )
-		$cts->add_paragraph("<a href=\"article.php?page=edit&amp;name=activites-".$asso->nom_unix."\">Creer l'article de pr&eacute;sentation</a>");
+		$cts->add_paragraph("<a href=\"article.php?page=edit&amp;name=activites:".$asso->nom_unix."\">Creer l'article de pr&eacute;sentation</a>");
 
 	$req = new requete($site->db,
 		"SELECT `id_asso`, `nom_asso`, `nom_unix_asso` " .

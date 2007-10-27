@@ -53,7 +53,7 @@ if ( !$site->user->is_valid() )
 {
 	require_once($topdir. "include/entities/page.inc.php");
 	$page = new page ($site->db);
-	$page->load_by_name("presentation-short");
+	$page->load_by_pagename("info:welcome");
 	$site->add_contents($page->get_contents());
 }
 	

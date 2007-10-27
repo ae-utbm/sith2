@@ -30,7 +30,7 @@ include($topdir. "include/entities/page.inc.php");
 
 $site = new site ();
 $page = new page ($site->db);
-$page->load_by_name("site-i-info");
+$page->load_by_pagename("info:imode");
 $site->start_page("services","Informations sur la version mobile du site");
 
 $cts = new contents();

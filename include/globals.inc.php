@@ -34,6 +34,9 @@
 
  define('XMLRPC_USE',true);
 
+/** 
+ * @deprecated Utiliser site::error_forbidden (non static)
+ */
 function error_403($reason="")
 {
 	global $topdir;

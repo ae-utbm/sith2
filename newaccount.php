@@ -125,7 +125,7 @@ if ( isset($_REQUEST["mode"]) )
     $frm->add_checkbox("droitimage","J'accorde mon droit à l'image");
 
     
-    $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",true);
+    $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals:rinfo\">réglement informatique</a>",true);
     $frm->add_submit("next","Etape suivante");
 
     $cts->add($frm);
@@ -171,7 +171,7 @@ if ( is_null($only_mode) || $only_mode == "utbm" )
   $frm->add_text_field("prenom","Votre prenom","",true);
   $frm->add_text_field("email","Votre adresse email utbm","@utbm.fr",true);
   $frm->add_select_field("role","Votre fonction",$GLOBALS["utbm_roles"]);
-  $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",false);
+  $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals:rinfo\">réglement informatique</a>",false);
   $frm->add_submit("next","Etape suivante");
   $ctsutbm->add($frm);
   $cts->add($ctsutbm,true,true, "secutbm", false, true, $mode == "utbm", false);
@@ -188,7 +188,7 @@ if ( is_null($only_mode) || $only_mode == "etu" )
   $frm->add_text_field("prenom","Votre prenom","",true);
   $frm->add_text_field("email","Votre adresse email (pas utbm.fr)","",true);
   $frm->add_select_field("ecole","Votre ecole",array("utt","utc","iut"));
-  $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",false);
+  $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals:rinfo\">réglement informatique</a>",false);
   $frm->add_submit("next","Etape suivante");
   $ctsetu->add($frm);
   $cts->add($ctsetu,true,true, "secetu", false, true, $mode == "etu", false);
@@ -204,7 +204,7 @@ if ( is_null($only_mode) || $only_mode == "nonutbm" )
   $frm->add_text_field("nom","Votre nom","",true);
   $frm->add_text_field("prenom","Votre prenom","",true);
   $frm->add_text_field("email","Votre adresse email (pas utbm.fr)","",true);
-  $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals-rinfo\">réglement informatique</a>",false);
+  $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals:rinfo\">réglement informatique</a>",false);
   $frm->add_submit("next","Etape suivante");
   $ctsnonutbm->add($frm);
   $cts->add($ctsnonutbm,true,true, "secnonutbm", false, true, $mode == "nonutbm", false);

@@ -68,7 +68,7 @@ class interfaceweb
            array (
               array ("article.php?name=presentation", "L'AE" ),
               array ("asso.php", "Associations et clubs" ),
-              array ("article.php?name=presentation-services", "Services quotidiens" )
+              array ("article.php?name=presentation:services", "Services quotidiens" )
              ) ),
         array ("services", "article.php?name=services", "Services",
            array ( 
@@ -82,7 +82,6 @@ class interfaceweb
         array ("matmatronch", "matmatronch/", "Matmatronch"),
         array ("sas", "sas2/", "SAS"),
         array ("forum", "forum2/", "Forum"),
-        /*array ("bdf", "bdf/", "BDF"),*/
         array ("fichiers", "d.php", "Fichiers",
            array (
               array ("d.php", "Fichiers de l'AE" ),

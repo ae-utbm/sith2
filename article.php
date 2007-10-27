@@ -42,12 +42,12 @@ if ( $site->user->is_valid()  && $site->user->is_in_group("moderateur_site") )
 
   if ( $_REQUEST['action'] == "new" )
     {
-      if ( !$_REQUEST["name"] || !$_REQUEST["title"] || !$_REQUEST["texte"] || $page->load_by_name($_REQUEST["name"]) )
+      if ( !$_REQUEST["name"] || !$_REQUEST["title"] || !$_REQUEST["texte"] || $page->load_by_pagename($_REQUEST["name"]) )
         $_REQUEST['page'] = "new";
       else
       {
         $page->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
-        $page->add($_REQUEST["name"], $_REQUEST["title"], $_REQUEST['texte'], $_REQUEST['section']);
+        $page->add($site->user, $_REQUEST["name"], $_REQUEST["title"], $_REQUEST['texte'], $_REQUEST['section']);
       }
     }
 
@@ -81,9 +81,9 @@ if ( $site->user->is_valid()  && $site->user->is_in_group("moderateur_site") )
 if ( isset($_REQUEST["name"]) ) 
 {
   if ( $_REQUEST["name"]{0} == ":" )
-    $page->load_by_name(substr($_REQUEST["name"],1));
+    $page->load_by_pagename(substr($_REQUEST["name"],1));
   else
-    $page->load_by_name($_REQUEST["name"]);
+    $page->load_by_pagename($_REQUEST["name"]);
 }
 
 if ( !$page->is_valid() )
@@ -117,7 +117,7 @@ if ( $page->is_right($site->user,DROIT_ECRITURE) )
   if ( $_REQUEST['action'] == "save" )
     {
       $page->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
-      $page->save( $_REQUEST['title'], $_REQUEST['texte'], $_REQUEST['section'] );
+      $page->save( $site->user, $_REQUEST['title'], $_REQUEST['texte'], $_REQUEST['section'] );
       $section = $page->section;
     }
   if ( $_REQUEST['page'] == "edit" )
@@ -153,7 +153,7 @@ if ( $page->nom == "services" /*|| $page->nom == "planning"*/ )
   $site->add_box("connexion", $site->get_connection_contents());
 }
 
-if ( ereg("^activites-(.*)$", $page->nom,$regs ))
+if ( ereg("^activites-(.*)$", $page->nom,$regs )) // LEGACY SUPPORT
 {
   $asso = new asso($site->db);
   $asso->load_by_unix_name($regs[1]);
@@ -163,6 +163,18 @@ if ( ereg("^activites-(.*)$", $page->nom,$regs ))
     exit();
   }
 }
+
+if ( ereg("^activites:(.*)$", $page->nom,$regs ))
+{
+  $asso = new asso($site->db);
+  $asso->load_by_unix_name($regs[1]);
+  if ( $asso->id > 0 )
+  {
+    header("Location: asso.php?id_asso=".$asso->id);
+    exit();
+  }
+}
+
 
 $site->start_page($section,$page->titre);
 $cts = $page->get_contents();

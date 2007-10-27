@@ -30,7 +30,7 @@ require_once($topdir."include/entities/asso.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
-	error_403();
+  $site->error_forbidden("none","group",7);
 	
 if( !preg_match('/^\/var\/www\/ae\/www\/ae2\//', $_SERVER['SCRIPT_FILENAME']) )
   $aecms_home = "/var/www/ae/www/taiste/aecms";

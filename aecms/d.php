@@ -37,10 +37,8 @@ if ( isset($_REQUEST["id_file"]))
   if ( $file->is_valid() )
   {
     if ( !$file->is_right($site->user,DROIT_LECTURE) )
-    {
-      Header("Location: index.php?name=403");
-      exit();
-    }
+      $site->error_forbidden(CMS_PREFIX."fichiers","group",$file->id_groupe);
+      
     $folder->load_by_id($file->id_folder);
   }
   else
@@ -108,7 +106,7 @@ if ( !$folder->is_valid() )
 }
 
 if ( !$folder->is_right($site->user,DROIT_LECTURE) )
-  error_403();
+  $site->error_forbidden(CMS_PREFIX."fichiers","group",$folder->id_groupe);
   
 if ( $_REQUEST["action"] == "cut" )
 {
@@ -142,7 +140,7 @@ elseif ( $folder->is_valid() && $_REQUEST["action"] == "delete" )
       if ( !$folder->is_valid() )
         $folder->load_by_id(1);
       if ( !$folder->is_right($site->user,DROIT_LECTURE) )
-        error_403();
+        $site->error_forbidden(CMS_PREFIX."fichiers","group",$folder->id_groupe);
     }
 }
 

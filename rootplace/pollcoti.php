@@ -27,7 +27,7 @@ require_once($topdir. "include/site.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
-	error_403();
+  $site->error_forbidden("none","group",7);
 	
 $site->start_page("none","Administration");
 

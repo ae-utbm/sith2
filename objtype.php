@@ -29,13 +29,12 @@ require_once($topdir. "include/entities/objet.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 $site = new site ();
 
-if ( !$site->user->is_valid() )
-	error_403();
+$site->allow_only_logged_users("services");
 
 $assos=$site->user->get_assos(ROLEASSO_MEMBREBUREAU);
 
 if ( !count($assos) && !$site->user->is_in_group("gestion_ae") )
-	error_403();
+	$site->error_forbidden("none","group",9);
 
 $objtype = new objtype($site->db,$site->dbrw);
 

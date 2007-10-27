@@ -20,14 +20,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
-
+ 
+/**
+ * @file
+ */
+ 
 require_once($topdir."include/entities/basedb.inc.php");
 
 define("WIKI_LOCKTIME",600);
 
-/**
- * @file
- */
 
 /**
  * Page wiki
@@ -42,6 +43,7 @@ class wiki extends basedb
   var $name;
   var $fullpath;
   var $namespace_behaviour;
+  var $section;
   
   var $rev_id;
   var $rev_id_utilisateur;
@@ -50,6 +52,11 @@ class wiki extends basedb
   var $rev_title;
   var $rev_comment;
   
+  
+  /**
+   * Charge une page wiki par id
+   * @param $id
+   */
 	function load_by_id ( $id )
 	{
 	 
@@ -173,7 +180,8 @@ class wiki extends basedb
     $this->name = $row['name_wiki'];
     $this->fullpath = $row['fullpath_wiki'];
     $this->namespace_behaviour = $row['namespace_behaviour'];
-  
+    $this->section = $row['section_wiki'];
+    
     $this->rev_id = $row['id_rev'];
     $this->rev_id_utilisateur = $row['id_utilisateur_rev'];
     $this->rev_date = strtotime($row['date_rev']);
@@ -182,7 +190,7 @@ class wiki extends basedb
     $this->rev_comment = $row['comment_rev'];
 	}
 	
-  function create ( $parent, $id_asso, $name, $namespace, $title, $contents, $comment="créée!")
+  function create ( $parent, $id_asso, $name, $namespace, $title, $contents, $comment="créée!", $section=null)
   {
 		if ( strlen($name) > 64 )
 		  return false;
@@ -192,7 +200,7 @@ class wiki extends basedb
     
     $this->name = $name;
     $this->namespace_behaviour = $namespace;
-    
+    $this->section = $section;
     if ( !empty($parent->fullpath) )
       $this->fullpath = $parent->fullpath.":".$this->name;
     else
@@ -211,7 +219,8 @@ class wiki extends basedb
       "id_rev_last" => null,
       "name_wiki" => $this->name,
       "fullpath_wiki" => $this->fullpath,
-      "namespace_behaviour" => $this->namespace_behaviour));
+      "namespace_behaviour" => $this->namespace_behaviour,
+      "section_wiki"=>$this->section));
 
 		if ( $req )
 			$this->id = $req->get_id();
@@ -283,7 +292,8 @@ class wiki extends basedb
       "id_groupe_admin" => $this->id_groupe_admin,
       "droits_acces_wiki" => $this->droits_acces,
       "id_asso" => $this->id_asso,
-      "namespace_behaviour" => $this->namespace_behaviour),array("id_wiki"=>$this->id));	 
+      "namespace_behaviour" => $this->namespace_behaviour,
+      "section_wiki"=>$this->section),array("id_wiki"=>$this->id));	 
 	}
 	
 	/**
@@ -630,7 +640,70 @@ class wiki extends basedb
     new delete($this->dbrw,"wiki_lock",array("id_wiki"=>$this->id));
 	}
 	
-	
+	/**
+	 * @todo: à tester
+	 */
+	function load_or_create_parent($pagepath, &$user, $rights=null, $id_group=null, $id_group_admin=null)
+	{
+    if ( !preg_match("#^([a-z0-9\-_:]+)$#",$pagepath) )
+    {
+      $this->id=null;
+      return null;	
+    }
+    
+    if ( strlen($pagepath) > 512 )
+    {
+      $this->id=null;
+      return null;	
+    } 
+	 
+    // Récupère les tokens et le nom de la page (dernier token du path)
+    $tokens = explode(":",$pagepath);
+    $pagename=array_pop($tokens); 
+    
+    if ( strlen($pagename) > 64 )
+    {
+      $this->id=null;
+      return null;	
+    } 
+         
+    // Cherche le dernier parent, crée les parents manquant si nécessaire
+    // Commençons par la racine
+    $this->load_by_id(1);
+    $can_create = $this->is_right($user,DROIT_AJOUTCAT);  
+    
+    // Poursuivons par les eventuel parents
+    $parentparent = clone $this;
+    foreach( $tokens as $token )
+    {
+      if ( $this->load_by_name($parentparent,$token) )
+        $can_create = $parent->is_right($user,DROIT_AJOUTCAT);
+        
+      elseif( $can_create ) // On a le droit de creer, on alors on crée le parent manquant
+      {
+        $this->herit($parentparent);
+        if ( !is_null($rights) && $this->is_admin($user) )
+           $this->set_rights($user,$rights,$id_group,$id_group_admin);
+        else
+          $this->id_utilisateur=$user->id;
+        $this->create ( $parentparent, null, $token, 0, $token, "Créée pour [[:$pagepath]]", $_REQUEST["comment"] );
+      }
+      else
+      {
+        $this->id=null;
+        return null;	
+      }  
+      $parentparent = clone $this;
+    }	 
+	 
+    if ( !$can_create )
+    {
+      $this->id=null;
+      return null;	
+    }
+      
+	  return $pagename;
+	}
 }
 
 

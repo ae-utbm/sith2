@@ -273,7 +273,7 @@ class serverwebdavaedrive extends webdavserverae
       $stat = "204 No Content"; 
         
       // Mise à jour du contenu  
-      $ent->_new_revision($this->user,$options["content_length"],$options["content_type"]);
+      $ent->_new_revision($this->user->id,$options["content_length"],$options["content_type"]);
     }
     else
     {

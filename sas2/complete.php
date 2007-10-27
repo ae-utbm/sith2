@@ -63,14 +63,14 @@ elseif ( $_REQUEST["mode"] == "adminzone" )
     $id_groupe_admin = intval($_REQUEST["id_groupe_admin"]);
 
   if ( !$site->user->is_in_group_id($id_groupe_admin) && !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("sas_admin"))
-    error_403();
+    $site->error_forbidden("sas","group",$id_groupe_admin);
   $page .= "mode=adminzone&id_groupe_admin=".$id_groupe_admin;
   $filter .= " AND `id_groupe_admin` ='".$id_groupe_admin."'";
 }
 else
 {
   if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("sas_admin"))
-    error_403();
+    $site->error_forbidden("sas","group",9);
   $page .= "mode=full";
 }
 

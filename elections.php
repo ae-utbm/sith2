@@ -2,7 +2,7 @@
 
 /** @file
  *
- * @brief la page des �lections
+ * @brief la page des Elections
  *
  */
 
@@ -58,7 +58,7 @@ if ( isset($_REQUEST["id_election"]))
 	if ( $_REQUEST["page"] == "results" )
 	{
 		if ( $elec->fin >= time() && !$site->user->is_in_group("gestion_ae") )
-			error_403();
+			$site->error_forbidden("none","group",9);
 		
 		$site->start_page("main","Resultats: ".$elec->nom);
 		
@@ -172,7 +172,7 @@ if ( isset($_REQUEST["id_election"]))
 	}
 	elseif( !$site->user->is_valid() )
 	{
-		error_403();
+		$site->allow_only_logged_users("main");
 	}
 	elseif ( !$site->user->is_in_group_id($elec->id_groupe) )
 	{

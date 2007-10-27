@@ -32,11 +32,7 @@ require_once($topdir. "include/entities/batiment.inc.php");
 require_once($topdir. "include/entities/salle.inc.php");
 $site = new site ();
 
-if ( !$site->user->is_valid() )
-{
- 	header("Location: 403.php?reason=session");
-	exit(); 	
-}
+$site->allow_only_logged_users("services");
 
 $objet = new objet($site->db,$site->dbrw);
 $asso_prop = new asso($site->db);
@@ -303,7 +299,7 @@ if ( isset($_REQUEST["id_asso"]))
 
 if ( !($asso_gest->id > 0 && $asso_gest->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU)) &&
 	!$site->user->is_in_group("gestion_ae")  )
-	error_403();
+	$site->error_forbidden("none","group",9);
 	
 if ( $_REQUEST["action"] == "addobjet" )
 {

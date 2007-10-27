@@ -249,7 +249,7 @@ class aecms extends site
 	function get_box ( $name )
 	{
     $page = new page ($this->db);
-    $page->load_by_name(CMS_PREFIX."boxes:".$name);
+    $page->load_by_pagename(CMS_PREFIX."boxes:".$name);
     
     if ( !$page->is_valid() || !$page->is_right($this->user,DROIT_LECTURE) )
       return null;

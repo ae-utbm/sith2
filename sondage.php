@@ -1,7 +1,7 @@
 <?php
 
 /* Copyright 2006
- * - Julien Etelian <julien CHEZ pmad POINT net>
+ * - Julien Etelain <julien CHEZ pmad POINT net>
  * 
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -31,8 +31,7 @@ require_once($topdir."include/cts/react.inc.php");
 
 $site = new site ();
 
-if ( !$site->user->is_valid() )
-	error_403();
+$site->allow_only_logged_users("accueil");
 	
 $sdn = new sondage($site->db,$site->dbrw);
 
@@ -48,7 +47,7 @@ if (  isset($_REQUEST["answord"]) )
 else if ( isset($_REQUEST["id_sondage"]) )
 	$sdn->load_by_id($_REQUEST["id_sondage"]);
 
-if ( $sdn->id > 0 )
+if ( $sdn->is_valid() )
 {
 
 	$site->start_page("accueil","Sondage");	

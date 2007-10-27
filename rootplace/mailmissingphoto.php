@@ -33,7 +33,7 @@ require_once($topdir. "include/entities/asso.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
-	error_403();
+  $site->error_forbidden("none","group",7);
 
 
 $title = "MatMaTronch: Votre photo";

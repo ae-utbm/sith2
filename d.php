@@ -49,11 +49,14 @@ $section="fichiers";
 
 if ( isset($_REQUEST["id_file"]))
 {
-  $file->load_by_id($_REQUEST["id_file"]);
+  if ( isset($_REQUEST["rev"]))
+    $file->load_by_id_and_rev($_REQUEST["id_file"],$_REQUEST["rev"]);
+  else
+    $file->load_by_id($_REQUEST["id_file"]);
   if ( $file->is_valid() )
   {
     if ( !$file->is_right($site->user,DROIT_LECTURE) )
-      $site->error_forbidden($section,"group",$file->id_groups);
+      $site->error_forbidden($section,"group",$file->id_groupe);
       
     $folder->load_by_id($file->id_folder);
   }
@@ -65,6 +68,7 @@ if ( isset($_REQUEST["id_file"]))
 // "Exception"
 if ( $_REQUEST["action"] == "download" && $file->is_valid() )
 {
+  session_write_close();
   if ( $_REQUEST["download"] == "thumb" )
   {
     $filename = $file->get_thumb_filename();
@@ -167,7 +171,7 @@ elseif ( $folder->is_valid() && $_REQUEST["action"] == "delete" )
       if ( !$folder->is_valid() )
         $folder->load_by_id(1);
       if ( !$folder->is_right($site->user,DROIT_LECTURE) )
-        error_403();
+        $site->error_forbidden($section,"group",$folder->id_groupe);
     }
 }
 
@@ -445,8 +449,55 @@ if ( $file->is_valid() )
     }  
   }      
       
+  $cts->add_title(2,"Historique");
 
-  $cts->add(new taglist($file),true);
+  $req = new requete($site->db,"SELECT ".
+  "id_rev_file, date_rev_file, comment_rev_file, ".
+  "COALESCE(alias_utl,CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) AS `nom_utilisateur` ".
+  "FROM d_file_rev ".
+  "INNER JOIN utilisateurs ON ( d_file_rev_file.id_utilisateur_rev=utilisateurs.id_utilisateur) ".
+  "WHERE id_file='".$file->id."' ".
+  "ORDER BY date_rev_file DESC");
+  
+  $list = new itemlist(false,"wikihist");
+  while ( $row = $req->get_row() )
+  {
+    $list->add(
+      "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev_file']))."</span> ".
+      "<a class=\"wpage\" href=\"?id_file=".$file->id."&amp;rev=".$row['id_rev_file']."&amp;action=download\">Révision ".$row['id_rev_file']."</a> ".
+      "- <span class=\"wuser\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</span> ".
+      "<span class=\"wlog\">".htmlentities($row['comment_rev_file'],ENT_NOQUOTES,"UTF-8")."</span>");
+  }
+  $cts->add($list);
+
+  $cts->add_title(2,"Références");
+
+  $req = new requete($site->db,"SELECT fullpath_wiki, title_rev ".
+    "FROM wiki_ref_file ".
+    "INNER JOIN wiki ON ( wiki.id_wiki=wiki_ref_wiki.id_wiki) ".
+    "INNER JOIN `wiki_rev` ON (".
+		      "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
+		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) ".
+		"WHERE wiki_ref_file.id_file='".$file->id."' ".
+		"ORDER BY fullpath_wiki");
+
+  if ( $req->lines )
+  {
+    $cts->add_title(3,"Pages wiki2");
+    $list = new itemlist(null,"wikirefpages");
+    while ( $row = $req->get_row() )
+    {
+      $list->add(
+        "<a class=\"wpage\" href=\"wiki2/?name=".$row['fullpath_wiki']."\">".
+        ($row['fullpath_wiki']?$row['fullpath_wiki']:"(racine)")."</a> ".
+        " : <span class=\"wtitle\">".htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8")."</span> ");      
+    }
+    $cts->add($list);
+  }
+  
+  $cts->add_title(3,"Tags");
+  $cts->add(new taglist($file));
+
 
   $site->add_contents($cts);
   $site->end_page();

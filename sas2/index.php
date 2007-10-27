@@ -66,7 +66,7 @@ if ( !$cat->is_valid() && !$cat->load_by_id(1) )
 }
 
 if ( !$cat->is_right($site->user,DROIT_LECTURE) )
-  $site->error_forbidden("matmatronch","group",$cat->id_groupe);
+  $site->error_forbidden("sas","group",$cat->id_groupe);
 
 if ( $metacat->is_valid() && !$metacat->is_right($site->user,DROIT_LECTURE) )
   $metacat->id=null;
@@ -663,7 +663,7 @@ function cats_produde_gallery ( $sqlct)
 if ( $cat->id == 1 )
 {
   $page = new page ($site->db);
-  $page->load_by_name("sas-indexinfo");
+  $page->load_by_pagename("info:sas");
 
   if ( !$page->is_valid() )
     $site->add_contents(new contents("Bienvenue dans le Stock à Souvenirs (SAS)"));
@@ -826,7 +826,7 @@ elseif ( $_REQUEST["view"] == "add" && $cat->is_right($site->user,DROIT_AJOUTITE
   $cts->add_paragraph("<br/>Si vous voulez ajouter de nombreuses photos, " .
       "nous vous conseillons d'utiliser le logiciel UBPT Transfert qui " .
       "vous permet d'envoyer plusieurs photos en même temps de façon automatisée.<br/> " .
-      "<a href=\"../article.php?name=sas-transfert\">Télécharger UBPT Transfert</a> (Disponible pour Windows, Mac OS X et Linux)");
+      "<a href=\"../article.php?name=sas:transfert\">Télécharger UBPT Transfert</a> (Disponible pour Windows, Mac OS X et Linux)");
 
   $cts->add_paragraph("Après avoir ajout&eactute; vos photos, il faut <b>IMPERATIVEMENT renseigner les noms des personnes</b> " .
       "se trouvant sur les photos pour que ces dernières puissent être visibles de tous.<br/>");

@@ -32,8 +32,8 @@ require_once($topdir. "include/entities/wiki.inc.php");
 $site = new site();
 
 /* temporairement, si t'es pas logué tu lis pas */
-if (!$site->user->id)
-  error_403();
+if (!$site->user->is_valid())
+  $site->error_forbidden();
 
 $wiki = new wiki($site->db,$site->dbrw);
 
@@ -63,7 +63,7 @@ function build_htmlpath ( $fullpath )
 if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
 {
   $parent = new wiki($site->db,$site->dbrw);
-
+  /*
   // Prepare les info
   $pagepath = $_REQUEST["name"];
   
@@ -104,9 +104,11 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
     $can_create = false;
     
   if ( strlen($pagepath) > 512 )
-    $can_create = false;
+    $can_create = false;*/
       
-  if ( $can_create && $parent->is_valid() && !$wiki->load_by_name($parent,$pagename) )
+  $pagename = $parent->load_or_create_parent($_REQUEST["name"], $site->user, $_REQUEST['rights'], $_REQUEST['rights_id_group'], $_REQUEST['rights_id_group_admin']);
+      
+  if ( !is_null($pagename) && $parent->is_valid() && !$wiki->load_by_name($parent,$pagename) )
   {
     $wiki->herit($parent);
     if ( $parent->is_admin($site->user) )

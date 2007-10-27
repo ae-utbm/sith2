@@ -470,7 +470,7 @@ if ( $_REQUEST["view"] == "add" && $cat->is_right($site->user,DROIT_AJOUTITEM) )
   $cts->add_paragraph("<br/>Si vous voulez ajouter de nombreuses photos, " .
       "nous vous conseillons d'utiliser le logiciel UBPT Transfert qui " .
       "vous permet d'envoyer plusieurs photos en même temps de façon automatisée.<br/> " .
-      "<a href=\"../article.php?name=sas-transfert\">Télécharger UBPT Transfert</a> (Disponible pour Windows, Mac OS X et Linux)");
+      "<a href=\"../article.php?name=sas:transfert\">Télécharger UBPT Transfert</a> (Disponible pour Windows, Mac OS X et Linux)");
 
   $cts->add_paragraph("Après avoir ajout&eactute; vos photos, il faut <b>IMPERATIVEMENT renseigner les noms des personnes</b> " .
       "se trouvant sur les photos pour que ces dernières puissent être visibles de tous.<br/>");

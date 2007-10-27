@@ -121,9 +121,8 @@ $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 if ( $_REQUEST["view"] == "cotisants" )
 {
   if (!$site->user->is_in_group ("gestion_ae"))
-  {
-    error_403();
-  }
+    $site->error_forbidden("none","group",9);
+  
   $req = new requete($site->db,"SELECT COUNT(*) FROM `utilisateurs` WHERE `ancien_etudiant_utl`='0'");
   list($total) = $req->get_row();
   
@@ -461,9 +460,7 @@ elseif ( $_REQUEST["view"] == "sas" )
 elseif ( $_REQUEST["view"] == "forum" )
 {
   if (!$site->user->is_in_group ("gestion_ae"))
-    { 
-      error_403();
-    }   
+    $site->error_forbidden("none","group",9);   
 
   if (isset($_REQUEST['toptenimg']))
     {

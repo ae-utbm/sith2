@@ -514,7 +514,7 @@ if ( $_REQUEST["view"] == "" )
 {
 	require_once($topdir."include/entities/page.inc.php");
 	$page = new page ($site->db);
-	$page->load_by_name("biblio-indexinfo");
+	$page->load_by_pagename("info:biblio");
 	if ( $page->id != -1 )
 		$site->add_contents($page->get_contents());
 }

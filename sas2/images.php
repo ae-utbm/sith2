@@ -24,11 +24,9 @@ $topdir="../";
 require_once("include/sas.inc.php");
 $site = new sas();
 
+$site->allow_only_logged_users("sas");
+
 session_write_close(); // on n'a plus besoin de la session, liberons le semaphore...
-
-if ( !$site->user->utbm && !$site->user->ae )
-  error_403("reservedutbm");
-
 
 if ( ereg("^(.*)/([0-9]*).jpg$",$_SERVER["argv"][0],$regs) )
 {

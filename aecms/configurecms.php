@@ -59,8 +59,8 @@ if ( $_REQUEST["action"] == "addonglet" )
     $name = $_REQUEST["nom_page"];
     
     $page = new page ($site->db,$site->dbrw);
-    $page->load_by_name(CMS_PREFIX.$_REQUEST["nom_page"]);
-    $page->save($page->title, $page->texte, CMS_PREFIX.$name );
+    $page->load_by_pagename(CMS_PREFIX.$_REQUEST["nom_page"]);
+    $page->save($site->user,$page->title, $page->texte, CMS_PREFIX.$name );
   }
   elseif ( $_REQUEST["typepage"] == "crearticle" && $_REQUEST["name"] != "accueil" )
   {
@@ -68,7 +68,7 @@ if ( $_REQUEST["action"] == "addonglet" )
     $name = $_REQUEST["name"];
     
     $page = new page ($site->db,$site->dbrw);
-    $page->load_by_name(CMS_PREFIX.$name);
+    $page->load_by_pagename(CMS_PREFIX.$name);
     
     if ( !$page->is_valid() )
     {
@@ -76,10 +76,10 @@ if ( $_REQUEST["action"] == "addonglet" )
       $page->id_groupe = $site->asso->get_membres_group_id();
       $page->id_groupe_admin = $site->asso->get_bureau_group_id();
       $page->droits_acces = 0x311;      
-      $page->add(CMS_PREFIX.$name, $_REQUEST["title"], "", CMS_PREFIX.$name);
+      $page->add($site->user,CMS_PREFIX.$name, $_REQUEST["title"], "", CMS_PREFIX.$name);
     }
     else
-      $page->save($page->title, $page->texte, CMS_PREFIX.$name );
+      $page->save($site->user,$page->title, $page->texte, CMS_PREFIX.$name );
   }
   elseif ( $_REQUEST["typepage"] == "aedrive" )
   {
@@ -121,17 +121,17 @@ elseif ( $_REQUEST["action"] == "addbox" )
   {
     $name = $_REQUEST["name"];
     $page = new page ($site->db,$site->dbrw);
-    $page->load_by_name(CMS_PREFIX."boxes:".$name);
+    $page->load_by_pagename(CMS_PREFIX."boxes:".$name);
     if ( !$page->is_valid() )
     {
       $page->id_utilisateur = $site->user->id;
       $page->id_groupe = $site->asso->get_membres_group_id();
       $page->id_groupe_admin = $site->asso->get_bureau_group_id();
       $page->droits_acces = 0x311;      
-      $page->add(CMS_PREFIX."boxes:".$name, $_REQUEST["title"], "", CMS_PREFIX."accueil");
+      $page->add($site->user,CMS_PREFIX."boxes:".$name, $_REQUEST["title"], "", CMS_PREFIX."accueil");
     }
     else
-      $page->save($_REQUEST["title"], $page->texte, CMS_PREFIX."accueil" );
+      $page->save($site->user,$_REQUEST["title"], $page->texte, CMS_PREFIX."accueil" );
 
   }
   else//if ( $_REQUEST["typebox"] == "calendrier" )
@@ -278,7 +278,7 @@ elseif ( $_REQUEST["action"] == "down" && isset($_REQUEST["box_name"]) )
 elseif ( $_REQUEST["action"] == "edit" )
 {
   $page = new page ($site->db,$site->dbrw);
-  $page->load_by_name(CMS_PREFIX."boxes:".$_REQUEST["box_name"]);
+  $page->load_by_pagename(CMS_PREFIX."boxes:".$_REQUEST["box_name"]);
   if ($page->is_valid() )
   {
     $site->start_page(CMS_PREFIX."config","Edition boite :".$page->titre);
@@ -297,12 +297,12 @@ elseif ( $_REQUEST["action"] == "edit" )
 elseif ( $_REQUEST["action"] == "save" )
 {
   $page = new page ($site->db,$site->dbrw);
-  $page->load_by_name(CMS_PREFIX."boxes:".$_REQUEST["box_name"]);
+  $page->load_by_pagename(CMS_PREFIX."boxes:".$_REQUEST["box_name"]);
   
   if ($page->is_valid() )
   {
     $page->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
-    $page->save( $_REQUEST['title'], $_REQUEST['texte'], CMS_PREFIX."accueil" );
+    $page->save($site->user, $_REQUEST['title'], $_REQUEST['texte'], CMS_PREFIX."accueil" );
   }
 }
 elseif( $_REQUEST["action"] == "setcss" )

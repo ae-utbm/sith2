@@ -41,18 +41,18 @@ if ( $site->is_user_admin() )
 
   if ( $_REQUEST['action'] == "new" )
   {
-    if ( !$_REQUEST["name"] || !$_REQUEST["title"] || !$_REQUEST["texte"] || $page->load_by_name($_REQUEST["name"]) )
+    if ( !$_REQUEST["name"] || !$_REQUEST["title"] || !$_REQUEST["texte"] || $page->load_by_pagename($_REQUEST["name"]) )
       $_REQUEST['page'] = "new";
     else
     {
       $page->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
-      $page->add(CMS_PREFIX.$_REQUEST["name"], $_REQUEST["title"], $_REQUEST['texte'], $_REQUEST['section']);
+      $page->add($site->user,CMS_PREFIX.$_REQUEST["name"], $_REQUEST["title"], $_REQUEST['texte'], $_REQUEST['section']);
     }
   }
 
   if ( $_REQUEST['action'] == "delete" )
   {
-    if ( $page->load_by_name(CMS_PREFIX.$_REQUEST["name"]) )
+    if ( $page->load_by_pagename(CMS_PREFIX.$_REQUEST["name"]) )
     {
       if ( $site->is_sure ( "","Suppression de la page ".$page->titre,"page".$page->nom, 1 ) )
       {
@@ -89,14 +89,14 @@ if ( isset($_REQUEST["name"]) )
 {
   if ( $_REQUEST["name"]{0} == ":" )
   {
-    $page->load_by_name(substr($_REQUEST["name"],1));
+    $page->load_by_pagename(substr($_REQUEST["name"],1));
     $noedit=true;
   }
   else
-    $page->load_by_name(CMS_PREFIX.$_REQUEST["name"]);
+    $page->load_by_pagename(CMS_PREFIX.$_REQUEST["name"]);
 }
 else
-  $page->load_by_name(CMS_PREFIX."home");
+  $page->load_by_pagename(CMS_PREFIX."home");
   
 if ( !$page->is_valid() )
 {
@@ -141,7 +141,7 @@ if ( ($page->is_right($site->user,DROIT_ECRITURE) || $site->is_user_admin()) && 
   if ( $_REQUEST['action'] == "save" )
   {
     $page->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
-    $page->save( $_REQUEST['title'], $_REQUEST['texte'], $_REQUEST['section'] );
+    $page->save( $site->user, $_REQUEST['title'], $_REQUEST['texte'], $_REQUEST['section'] );
     $section = $page->section;
   }
   if ( $_REQUEST['page'] == "edit" )

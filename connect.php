@@ -51,19 +51,19 @@ switch ($_REQUEST["domain"])
 
 if ( !$site->user->is_valid() )
 {
-	header("Location: article.php?name=site-wrongpassoruser");
+	header("Location: article.php?name=site:wrongpassoruser");
 	exit();
 }
 
 if ( $site->user->hash != "valid" )
 {
-	header("Location: article.php?name=site-activate");
+	header("Location: article.php?name=site:activate");
 	exit();
 }
 
 if ( !$site->user->is_password($_POST["password"]) )
 {
-	header("Location: article.php?name=site-wrongpassoruser");
+	header("Location: article.php?name=site:wrongpassorduser");
 	exit();
 }
 

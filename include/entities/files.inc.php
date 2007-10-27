@@ -55,16 +55,28 @@ class dfile extends fs
 	/** Taille en octets du fichier */
 	var $taille;
 
-  
+  /** ID de la revision en cours */
+  var $id_rev_file;
+  /** utilisateur ayant fait cette révision */
+  var $id_utilisateur_rev_file;
+  /** Date de la revision */
+  var $date_rev_file;
 
-	/** Charge un fichier par son ID
+
+	/** 
+	 * Charge un fichier par son ID
 	 * @param $id ID du fichier
+	 * @return false en cas d'erreur, sinon true
 	 */
 	function load_by_id ( $id )
 	{
-		$req = new requete($this->db, "SELECT * FROM `d_file`
-				WHERE `id_file` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");
+		$req = new requete($this->db, "SELECT * FROM `d_file` ".
+				"INNER JOIN d_file_rev ON ".
+		      "(d_file.id_file=d_file_rev.id_file ".
+		      "AND d_file_rev.id_rev_file=d_file.id_rev_file_last ) ".
+				"WHERE `id_file` = '" . mysql_real_escape_string($id) . "' ".
+				"LIMIT 1");
+				
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
@@ -75,9 +87,43 @@ class dfile extends fs
 		return false;
 	}
 	
+	/** 
+	 * Charge un fichier par son ID et sa revision
+	 * @param $id ID du fichier
+	* @param $rev Revision du fichier
+	 * @return false en cas d'erreur, sinon true
+	 */
+	function load_by_id_and_rev ( $id, $rev )
+	{
+		$req = new requete($this->db, "SELECT * FROM `d_file` ".
+				"INNER JOIN d_file_rev ON ".
+		      "(d_file.id_file=d_file_rev.id_file ".
+		      "AND d_file_rev.id_rev_file='".mysql_real_escape_string($rev)."' ) ".
+				"WHERE `id_file` = '".mysql_real_escape_string($id)."' ".
+				"LIMIT 1");
+				
+		if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
+	}
+	
+	/**
+	 * Charge un fichier par son nom "logique"
+	 * @param $id_parent Id du dossier parent
+	 * @param $nom_fichier Nom du fichier
+	 * @return false en cas d'erreur, sinon true
+	 */
 	function load_by_nom_fichier ( $id_parent, $nom_fichier )
 	{
 		$req = new requete($this->db, "SELECT * FROM `d_file` ".
+		    "INNER JOIN d_file_rev ON ".
+		      "(d_file.id_file=d_file_rev.id_file ".
+		      "AND d_file_rev.id_rev_file=d_file.id_rev_file_last ) ".
 				"WHERE `nom_fichier_file` = '" . mysql_real_escape_string($nom_fichier) . "' ".
 				"AND id_folder ='".mysql_real_escape_string($id_parent)."' ".
 				"LIMIT 1");	
@@ -96,6 +142,7 @@ class dfile extends fs
 	 */
 	function _load ( $row )
 	{
+	  // File
 		$this->id = $row['id_file'];
 		$this->nom_fichier = $row['nom_fichier_file'];
 		$this->titre = $row['titre_file'];
@@ -106,18 +153,24 @@ class dfile extends fs
 		$this->date_modif = strtotime($row['date_modif_file']);
 		$this->id_asso = $row['id_asso'];
 		$this->nb_telechargement = $row['nb_telechargement_file'];
-		$this->mime_type = $row['mime_type_file'];
-		$this->taille = $row['taille_file'];
+		/*$this->mime_type = $row['mime_type_file'];
+		$this->taille = $row['taille_file'];*/
 
+    // BaseDB
 		$this->id_utilisateur = $row['id_utilisateur'];
 		$this->id_groupe = $row['id_groupe'];
 		$this->id_groupe_admin = $row['id_groupe_admin'];
 		$this->droits_acces = $row['droits_acces_file'];
 		$this->modere = $row['modere_file'];
+		
+		// Revision
+    $this->id_rev_file = $row['id_rev_file'];
+    $this->id_utilisateur_rev_file = $row['id_utilisateur_rev_file'];
+    $this->date_rev_file = $row['date_rev_file'];
+		$this->mime_type = $row['mime_type_rev_file'];
+		$this->taille = $row['filesize_rev_file'];
+		
 	}
-
-
-
 
 	/**
 	 * Ajoute un fichier.
@@ -177,7 +230,9 @@ class dfile extends fs
 			$this->id = null;
 			return;
 		}
-
+		
+    $this->_new_revision ( $this->id_utilisateur, $filesize, $mime_type, "Created" );
+    
 		move_uploaded_file ( $file['tmp_name'], $this->get_real_filename() );
 
     $this->generate_thumbs();
@@ -249,13 +304,18 @@ class dfile extends fs
 			return;
 		}
 
+    $this->_new_revision ( $this->id_utilisateur, $filesize, $mime_type, "Import/Copy" );
+
 		copy ( $localfile, $this->get_real_filename() );
 
     $this->generate_thumbs();
 
 	}
 
-
+  /**
+   * Génère, si possible, les miniatures
+   *
+   */
   function generate_thumbs()
   {
 		if ( ereg("image/(.*)",$this->mime_type) )
@@ -296,32 +356,42 @@ class dfile extends fs
 	}
 	
 	/**
-	 * Insère une nouvelle révision du fichier à partir d'un élément de $_FILES (pas totalement implémenté)
+	 * Insère une nouvelle révision du fichier à partir d'un élément de $_FILES 
 	 * Fonction à usage interne
-	 * @param $user Utilisateur faisant la révision
+	 * @param $id_utilisateur Utilisateur faisant la révision
 	 * @param $filesize Taille du nouveau fichier
 	 * @param $mime_type Type MIME du nouveau fichier
 	 * @param $comment Commentaire
-	 * @todo Implementer la gestion des résivions (table d_file_rev)
 	 */
-	function _new_revision ( &$user, $filesize, $mime_type, $comment="" )
+	function _new_revision ( $id_utilisateur, $filesize, $mime_type, $comment="" )
 	{
-    $this->backup_for_overwrite();  
-	 
-		$this->date_modif = time();
-		$this->modere=0;
+	  $this->id_utilisateur_rev_file = $id_utilisateur;
+	  $this->date_rev_file = time();
 		$this->taille=$filesize;
 		$this->mime_type=$mime_type;
+		
+	  $sql = new insert($this->dbrw, "d_file_rev", array(
+  	  "id_file"=>$this->id,
+  	  "id_utilisateur_rev_file"=>$this->id_utilisateur_rev_file,
+  	  "date_rev_file"=>date("Y-m-d H:i:s",$this->date_rev_file),
+  	  "filesize_rev_file"=>$this->taille,
+  	  "mime_type_rev_file"=>$this->mime_type,
+		  "comment_rev_file"=>$comment));
+	 
+	  $this->id_rev_file = $sql->get_id();
+		$this->date_modif=time();
+		$this->modere=0;
 		$this->nb_telechargement=0;
 
 		$sql = new update ($this->dbrw,
 			"d_file",
 			array(
-				"mime_type_file"=>$this->mime_type,
+				"mime_type_file"=>$this->mime_type, // LEGACY SUPPORT
 				"date_modif_file"=>date("Y-m-d H:i:s",$this->date_modif),
-				"taille_file"=>$this->taille,
+				"taille_file"=>$this->taille, // LEGACY SUPPORT
 				"nb_telechargement_file"=>$this->nb_telechargement,
-				"modere_file"=>$this->modere
+				"modere_file"=>$this->modere,
+				"id_rev_file_last"=>$this->id_rev_file
 				),
 			array("id_file"=>$this->id)
 			);
@@ -329,7 +399,7 @@ class dfile extends fs
 	} 
 	
 	/**
-	 * Insère une nouvelle révision du fichier à partir d'un élément de $_FILES (pas totalement implémenté)
+	 * Insère une nouvelle révision du fichier à partir d'un élément de $_FILES
 	 * @param $file Element de $_FILES
 	 * @param $user Utilisateur faisant la révision
 	 * @param $comment Commentaire
@@ -343,7 +413,7 @@ class dfile extends fs
 		if ( !is_uploaded_file($file['tmp_name']) )
 			return false;
 
-    $this->_new_revision($user,$file['size'],$file['type'],$comment);
+    $this->_new_revision($user->id,$file['size'],$file['type'],$comment);
     
 		move_uploaded_file ( $file['tmp_name'], $this->get_real_filename() );
 
@@ -419,6 +489,8 @@ class dfile extends fs
 			$this->id = null;
 			return;
 		}
+		
+    $this->_new_revision ( $this->id_utilisateur, $filesize, $mime_type, "Created" );
 
 	}
 
@@ -454,13 +526,7 @@ class dfile extends fs
 	function get_real_filename()
 	{
 		global $topdir;
-		return $topdir."var/files/".$this->id;
-	}
-
-	function get_backup_filename($n)
-	{
-		global $topdir;
-		return $topdir."var/files/".$this->id.".bak$n";
+		return $topdir."var/files/".$this->id.".".$this->id_rev_file;
 	}
 
 	/**
@@ -483,6 +549,9 @@ class dfile extends fs
 		return $topdir."var/files/preview/".$this->id.".jpg";
 	}
 
+  /**
+   * Donne le nom de l'iconne à utiliser pour le fichier
+   */
 	function get_icon_name()
 	{
 		if ( ereg("image/(.*)",$this->mime_type) ) return "image.png";
@@ -526,28 +595,34 @@ class dfile extends fs
 	 */
 	function delete_file()
 	{
-		$f = $this->get_real_filename();
-		if ( file_exists($f)) unlink($f);
-		
-		$f = $this->get_backup_filename(1);
-		if ( file_exists($f)) unlink($f);
-		
-		$f = $this->get_backup_filename(2);
-		if ( file_exists($f)) unlink($f);
-		
-		$f = $this->get_backup_filename(3);
-		if ( file_exists($f)) unlink($f);
+	  $req = new requete($this->db,"SELECT id_rev_file ".
+	    "FROM d_file_rev ".
+	    "WHERE id_file='".mysql_real_escape_string($this->id)."'");
+	  while ( $row = $req->get_row() )
+	  {
+	    $this->id_rev_file = $row["id_rev_file"];
+  		$f = $this->get_real_filename();
+  		if ( file_exists($f))
+  		  unlink($f);
+	  }
 		
 		$f = $this->get_thumb_filename();
-		if ( file_exists($f)) unlink($f);
+		if ( file_exists($f))
+		  unlink($f);
 		
 		$f = $this->get_screensize_filename();
-		if ( file_exists($f)) unlink($f);
+		if ( file_exists($f))
+		  unlink($f);
 
 		new delete($this->dbrw,"d_file",array("id_file"=>$this->id));
 		new delete($this->dbrw,"d_file_tag",array("id_file"=>$this->id));
+		new delete($this->dbrw,"d_file_lock",array("id_file"=>$this->id));
+		new delete($this->dbrw,"d_file_rev",array("id_file"=>$this->id));
 	}
-
+	
+	/**
+	 * Supprime le fichier. fs support.
+	 */
   function delete()
   {
     $this->delete_file();  
@@ -588,26 +663,6 @@ class dfile extends fs
 
 		return parent::is_admin($user);
 	}
-  
-  function backup_for_overwrite()
-  {
-		$f1 = $this->get_backup_filename(1);
-		if ( file_exists($f1) )
-		{
-  		$f2 = $this->get_backup_filename(2);
-  		if ( file_exists($f2)) 
-  		{
-    		$f3 = $this->get_backup_filename(3);
-    		if ( file_exists($f3)) unlink($f);    
-          unlink($f3);
-    		rename ( $f2, $f3);
-  		}
-  		rename ( $f1, $f2);
-		}
-		$f = $this->get_real_filename();
-    rename ( $f, $f1);
-  }
-  
 
   function is_locked(&$user)
 	{
