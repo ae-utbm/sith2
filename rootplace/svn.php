@@ -56,8 +56,10 @@ function private_svn ()
   return $list;
 }
 
+$user="nayolo";
+$pass="supermotdelamortquitue";
 
-$sha=hash("sha1","test");
+$sha=exec("/usr/bin/htpasswd -nsb ".$user." ".$pass);
 
 $private = private_svn();
 asort($private);
