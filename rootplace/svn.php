@@ -108,7 +108,6 @@ if ( $_REQUEST["view"]=="user" )
                          array(),
                          array()
                         ));
-  $cts->add($tbl,true);
 
 }
 
