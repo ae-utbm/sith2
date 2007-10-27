@@ -58,7 +58,7 @@ function private_svn ()
 
 
 $sha=hash("sha1","test");
-
+print_r($sha);
 
 $private = private_svn();
 asort($private);
