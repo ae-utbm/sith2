@@ -1,5 +1,26 @@
 <?php
-
+/* Copyright 2005,2006,2007
+ * - Julien Etelain < julien at pmad dot net >
+ * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
+ *
+ * Ce fichier fait partie du site de l'Association des Étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ */
+ 
 /** @file
  * Gestion des nouvelles
  *
@@ -21,22 +42,43 @@ define("NEWS_TYPE_APPEL",3);
  * @}
  */
 
+/**
+ * Nouvelle du site
+ */
 class nouvelle extends stdentity
 {
+  /** Auteur de la nouvelle */
   var $id_utilisateur;
+  
+  /** Association/club concerné */
   var $id_asso;
+  
+  /** Titre */
   var $titre;
+  
+  /** Résumé */
   var $resume;
+  
+  /** Contenu */
   var $contenu;
+  
+  /** Date d'ajout */
   var $date;
+  
+  /** Etat de modération: true modéré, false non modéré */
   var $modere;
+  
+  /** Utilisateur ayant modéré la nouvelle */
   var $id_utilisateur_moderateur;
-
+  
+  /** Afficher seulement dans AECMS : true sur AECMS seulement, false sur le site général et AECMS */
   var $asso_seule;
+  
+  /** Lieu concerné par la nouvelle */
   var $id_lieu;
   
   /** Charge une nouvelle en fonction de son id
-   * $this->id est égal à -1 en cas d'erreur
+   * $this->id est égal à null en cas d'erreur
    * @param $id id de la fonction
    */
   function load_by_id ( $id )
@@ -263,7 +305,11 @@ class nouvelle extends stdentity
     return ($req != false);
   }
   
-  
+  /**
+   * Associe la nouvelle à une date
+   * @param $debut Timestamp de début
+   * @param $fin Timestamp de fin
+   */
 	function add_date($debut,$fin)
 	{
 		$req = new insert ($this->dbrw,
@@ -274,6 +320,10 @@ class nouvelle extends stdentity
 					));
 	}
 	
+  /**
+   * Desassocie la nouvelle à une date
+   * @param $id_date Numéro de date
+   */
 	function delete_date ( $id_date )
 	{
 		$req = new delete ($this->dbrw,
@@ -281,10 +331,12 @@ class nouvelle extends stdentity
 				array ("id_nouvelle" => $this->id,
 						"id_dates_nvl" => $id_date,
 					));
-		
-		
 	}
 	
+	/**
+	 * Modifie la nouvelle
+	 *
+	 */
 	function save_news(
 		    $id_asso = null,
 		    $titre,

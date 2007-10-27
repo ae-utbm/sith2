@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright 2006
+/* Copyright 2006,2007
  *
  * - Maxime Petazzoni < sam at bulix dot org >
  * - Laurent Colnat < laurent dot colnat at utbm dot fr >
@@ -206,7 +206,8 @@ if ( $_REQUEST["action"] == "davmount" )
   if ( $site->user->is_valid() 
        /*&& !preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME'])*/ )
     echo "  <dm:username>".htmlspecialchars($site->user->email,ENT_NOQUOTES,"UTF-8")."</dm:username>\n";
-    echo "</dm:mount>\n";
+  
+  echo "</dm:mount>\n";
      
   exit(); 
 }
@@ -287,7 +288,39 @@ elseif ( $_REQUEST["action"] == "addfile" && $folder->is_right($site->user,DROIT
 
 if ( $file->is_valid() )
 {
-  if ( $_REQUEST["action"] == "save" && $file->is_right($site->user,DROIT_ECRITURE) )
+  if ( $_REQUEST["action"] == "cancelborrow" && $file->is_right($site->user,DROIT_ECRITURE) )
+  {
+    $file->unlock($site->user);
+    $Notice = "Emprunt annulé";
+  }
+  elseif ( $_REQUEST["action"] == "returnfile" && $file->is_right($site->user,DROIT_ECRITURE) )
+  {
+    //ErreurReturn
+    
+    if ( $file->is_locked($site->user) )
+      $ErreurReturn="Impossible de restituer le fichier";
+    elseif( !is_uploaded_file($_FILES['file']['tmp_name']) || ($_FILES['file']['error'] != UPLOAD_ERR_OK ) )
+      $ErreurReturn="Erreur lors du transfert";
+    else
+    {
+      $file->new_revision ( $_FILES["file"], $site->user, $_REQUEST["comment"] );
+      $file->unlock($site->user);
+      $Notice = "Fichier restitué";
+    }
+    
+  }  
+  elseif ( $_REQUEST["action"] == "borrow" && $file->is_right($site->user,DROIT_ECRITURE) )
+  {
+    if ( $file->is_locked($site->user) )
+      $Notice="Impossible d'emprunter le fichier";    
+    else
+    {
+      $file->lock($site->user);
+      $Notice = "Fichier emprunté";
+      header("Location: d.php?id_file=".$file->id."&action=download");
+    }
+  }
+  elseif ( $_REQUEST["action"] == "save" && $file->is_right($site->user,DROIT_ECRITURE) )
   {
     if ( $_REQUEST["nom"] )
     {
@@ -364,8 +397,48 @@ if ( $file->is_valid() )
         "Date d'ajout: ".date("d/m/Y",$file->date_ajout),
         "Nom r&eacute;el: ".$file->nom_fichier,
         "Nombre de t&eacute;l&eacute;chargements: ".$file->nb_telechargement,
-        "Propos&eacute; par : ". classlink($user)
+        "Propos&eacute; par : ". $user->get_html_link()
       )),true);
+      
+      
+  if ( $file->is_right($site->user,DROIT_ECRITURE) )
+  {
+    $lock = $file->get_lock();
+    
+    if ( $lock )
+    {
+      if ( $lock['id_utilisateur'] == $site->user->id )
+      {
+        $cts->add_title(2,"Restituer le fichier");
+        
+        $frm = new form("addfile","d.php?id_file=".$file->id);
+        $frm->allow_only_one_usage();
+        $frm->add_hidden("action","returnfile");
+        if ( $ErreurReturn )
+          $frm->error($ErreurReturn);
+        $frm->add_file_field("file","Fichier",true);
+        $frm->add_text_area("commentaire","Commentaire","");
+        $frm->add_submit("valid","Restituer");
+        
+        $cts->add_paragraph("<a href=\"d.php?id_file=".$file->id."&amp;action=cancelborrow\">Annuler l'emprunt</a>");
+      }
+      else
+      {
+        $cts->add_title(2,"Fichier emprunté");
+        $user = new utilisateur($site->db);
+        $user->load_by_id($lock['id_utilisateur']);
+        $cts->add_paragraph(
+          "Emprunté par ".$user->get_html_link().
+          " depuis le ".date("d/m/Y H:i",strtotime($lock['time_file_lock'])));
+      }
+    }
+    else
+    {
+      $cts->add_title(2,"Emprunter le fichier");
+      $cts->add_paragraph("<a href=\"d.php?id_file=".$file->id."&amp;action=borrow\">Emprunter et télécharger le fichier</a>");
+    }  
+  }      
+      
 
   $cts->add(new taglist($file),true);
 

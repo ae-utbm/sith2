@@ -1,5 +1,5 @@
 <?php
-/* Copyright 2006
+/* Copyright 2006,2007
  * - Julien Etelain < julien at pmad dot net >
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
@@ -33,7 +33,7 @@
  * Donnés sur les différents objets traités :
  * nom de la classe => array (
  *     0 nom du champ SQL d'identification
- *     1 nom du champ SQl du nom
+ *     1 nom du champ SQl du nom (ou alias systèmatiquement utilisé)
  *     2 url de l'icone associée
  *     3 url de la page d'information
  *     4 nom de table SQL (facultatif)
@@ -87,7 +87,9 @@ $GLOBALS["entitiescatalog"] = array (
 	
 	"efact"=>array("id_efact","titre_facture","file.png","compta/efact.php","cpta_facture","efact.inc.php"),
 	
-	"uv" 			=> array ( "id_uv", "code_uv", "misc.png", "uvs/uvs.php", "edu_uv", "uv.inc.php" )
+	"uv" 			=> array ( "id_uv", "code_uv", "misc.png", "uvs/uvs.php", "edu_uv", "uv.inc.php" ),
+	
+	"nouvelle"=>array("d_nouvelle", "titre_nvl", "misc.png", "news.php", "nvl_nouvelles", "news.inc.php", "nvl_nouvelles_tag")
 
 	
 	);

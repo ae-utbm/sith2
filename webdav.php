@@ -267,12 +267,13 @@ class serverwebdavaedrive extends webdavserverae
       if ( !$ent->is_right($this->user,DROIT_ECRITURE) )
         return "403 Forbidden";       
         
+      if ( $ent->is_locked($this->user) )
+        return "409 Conflict";
+        
       $stat = "204 No Content"; 
         
-      $ent->backup_for_overwrite();  
-        
       // Mise à jour du contenu  
-      $ent->update_contents($options["content_length"],$options["content_type"]);
+      $ent->_new_revision($this->user,$options["content_length"],$options["content_type"]);
     }
     else
     {

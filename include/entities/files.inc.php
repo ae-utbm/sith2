@@ -295,8 +295,19 @@ class dfile extends fs
 
 	}
 	
-	function update_contents ( $filesize, $mime_type )
+	/**
+	 * Insère une nouvelle révision du fichier à partir d'un élément de $_FILES (pas totalement implémenté)
+	 * Fonction à usage interne
+	 * @param $user Utilisateur faisant la révision
+	 * @param $filesize Taille du nouveau fichier
+	 * @param $mime_type Type MIME du nouveau fichier
+	 * @param $comment Commentaire
+	 * @todo Implementer la gestion des résivions (table d_file_rev)
+	 */
+	function _new_revision ( &$user, $filesize, $mime_type, $comment="" )
 	{
+    $this->backup_for_overwrite();  
+	 
 		$this->date_modif = time();
 		$this->modere=0;
 		$this->taille=$filesize;
@@ -314,7 +325,33 @@ class dfile extends fs
 				),
 			array("id_file"=>$this->id)
 			);
+	 
+	} 
+	
+	/**
+	 * Insère une nouvelle révision du fichier à partir d'un élément de $_FILES (pas totalement implémenté)
+	 * @param $file Element de $_FILES
+	 * @param $user Utilisateur faisant la révision
+	 * @param $comment Commentaire
+	 * @return false en cas d'erreur, sinon true
+	 */
+	function new_revision ( &$file, &$user, $comment="" )
+	{
+	  if ( $this->is_locked($user) )
+	    return false;
+	 
+		if ( !is_uploaded_file($file['tmp_name']) )
+			return false;
+
+    $this->_new_revision($user,$file['size'],$file['type'],$comment);
+    
+		move_uploaded_file ( $file['tmp_name'], $this->get_real_filename() );
+
+    $this->generate_thumbs();
+    
+    return true;
 	}
+	
 	
   function create_copy_of ( &$source, $id_parent, $new_nom_fichier=null, $depth=0 )
 	{
@@ -571,6 +608,69 @@ class dfile extends fs
     rename ( $f, $f1);
   }
   
+
+  function is_locked(&$user)
+	{
+	  $req = new requete($this->dbrw,
+      "SELECT id_utilisateur FROM d_file_lock ".
+      "WHERE `id_file` = '" . mysql_real_escape_string($this->id) . "' ".
+      /*"AND time_file_lock >= '".date("Y-m-d H:i:s",time()-WIKI_LOCKTIME)."' ".*/
+      "LIMIT 1");
+    
+    if ( $req->lines == 0 )
+    {
+      //new delete($this->dbrw,"d_file_lock",array("id_file"=>$this->id)); // Nettoyage      
+      return false;
+    }
+    
+    list($uid) = $req->get_row();
+    
+    if ( $uid == $user->id )
+      return false;
+    
+	  return $uid; 
+	}
+	
+  function get_lock()
+	{
+	  $req = new requete($this->dbrw,
+      "SELECT id_utilisateur, time_file_lock FROM d_file_lock ".
+      "WHERE `id_file` = '" . mysql_real_escape_string($this->id) . "' ".
+      "LIMIT 1");
+    
+    if ( $req->lines == 0 )
+    {
+      return false;
+    }
+    
+	  return $req->get_row(); 
+	}
+	
+	function lock(&$user)
+	{
+	  $this->unlock($user); // Supprime d'eventuels vieux verrous...
+    new insert($this->dbrw,"d_file_lock",
+      array(
+        "id_file"=>$this->id,
+        "id_utilisateur"=>$user->id,
+        "time_file_lock"=>date("Y-m-d H:i:s")));
+	}
+	
+	function unlock(&$user)
+	{
+    new delete($this->dbrw,"d_file_lock",
+      array(
+        "id_file"=>$this->id,
+        "id_utilisateur"=>$user->id
+        ));
+	}
+	
+	function force_unlock()
+	{
+    new delete($this->dbrw,"d_file_lock",array("id_file"=>$this->id));
+	}
+
+
   
 }
 

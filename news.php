@@ -89,12 +89,15 @@ elseif ( ($_REQUEST["action"] == "save") && $can_edit )
 
 
   if ( $_REQUEST["title"] && $_REQUEST["content"] )
+  {
     $news->save_news(
                      $_REQUEST['id_asso'],
                      $_REQUEST['title'],
                      $_REQUEST['resume'],
                      $_REQUEST['content'],
                      false,null,$_REQUEST["type"],false,$lieu->id);
+    $news->set_tags($_REQUEST["tags"]);
+  }
 }
 
 if ( $_REQUEST["page"]  == "edit" && $can_edit )
@@ -118,6 +121,7 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
   $frm->add_text_field("title", "Titre",$news->titre,true);
   $frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$news->id_asso,true);
   $frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",$news->id_lieu,true);
+  $frm->add_text_field("tags", "Tags",$news->get_tags());
   $frm->add_text_area ("resume","Resume",$news->resume);
   $frm->add_dokuwiki_toolbar('content');
   $frm->add_text_area ("content", "Contenu",$news->contenu,80,10,true);
@@ -299,7 +303,9 @@ if ( $suitable && isset($_REQUEST["submit"]) )
                   $_REQUEST['resume'],
                   $_REQUEST['content'],
                   $_REQUEST['type'],false,$lieu->id);
-
+                  
+  $news->set_tags($_REQUEST["tags"]);
+  
   if ( $_REQUEST["type"] == 3  )
     $news->add_date($_REQUEST["t3_debut"],$_REQUEST["t3_fin"]);
   elseif ( $_REQUEST["type"] == 1  )
@@ -422,6 +428,7 @@ $frm->add($sfrm,false,true, $type==0 ,0 ,false,true);
 $frm->add_text_field("title", "Titre de la nouvelle",$_REQUEST["title"],true);
 $frm->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$_REQUEST["id_asso"],true);
 $frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",false,true);
+$frm->add_text_field("tags", "Tags",$_REQUEST["tags"]);
 $frm->add_text_area ("resume","Resum&eacute;",$_REQUEST["resume"]);
 $frm->add_dokuwiki_toolbar('content');
 $frm->add_text_area ("content", "Contenu",$_REQUEST["content"],80,10,true);
