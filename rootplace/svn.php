@@ -57,7 +57,7 @@ function private_svn ()
 }
 
 $private = private_svn();
-
+asort($private);
 
 $site->start_page("none","Administration");
 $cts = new contents("<a href=\"./\">Administration</a> / AECMS");
