@@ -677,7 +677,7 @@ class wiki extends basedb
     foreach( $tokens as $token )
     {
       if ( $this->load_by_name($parentparent,$token) )
-        $can_create = $parent->is_right($user,DROIT_AJOUTCAT);
+        $can_create = $this->is_right($user,DROIT_AJOUTCAT);
         
       elseif( $can_create ) // On a le droit de creer, on alors on crée le parent manquant
       {
