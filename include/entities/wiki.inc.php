@@ -415,7 +415,7 @@ class wiki extends basedb
   
   function __map_childs($id_wiki)
   {
-		$req = new requete($this->db, "SELECT wiki.id_wiki, name_wiki, title_rev
+		$req = new requete($this->db, "SELECT wiki.id_wiki, name_wiki, title_rev, fullpath_wiki
 		    FROM `wiki`
 		    INNER JOIN `wiki_rev` 
 		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
@@ -429,7 +429,7 @@ class wiki extends basedb
 		while ( $row = $req->get_row() )
 		{
       $buffer .= "<li>".
-        "<a class=\"wpage\" href=\"?name=".$row['name_wiki']."\">".
+        "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".
         ($row['name_wiki']?$row['name_wiki']:"(sans nom)")."</a> ".
         " : <span class=\"wtitle\">".
         htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8").
