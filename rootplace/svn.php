@@ -90,6 +90,16 @@ $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 if ( $_REQUEST["view"]=="user" )
 {
+  if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "delete")
+  {
+    $req = new requete($site->db,"SELECT * FROM `svn_login` WHERE `id_utilisateur`='".$_REQUEST["id_utilisateur"]."'");
+    if($req->lines==1)
+    {
+      list($login,$id)=$req->get_row();
+      new delete($site->dbrw,"svn_member_login",array("svn_login"=>$login));
+      new delete($site->dbrw,"svn_login",array("id_utilisateur"=>$_REQUEST["id_utilisateur"]));
+    }
+  }
   $frm = new form("adduser","svn.php",false,"post","Créer un user :");
   $frm->add_hidden("action","adduser");
   $frm->add_user_fieldv2("id_utilisateur","Utilisateur");
