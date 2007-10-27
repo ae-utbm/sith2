@@ -98,7 +98,7 @@ $frm = new form("adduser","svn.php",false,"post","Créer un user :");
 $frm->add_hidden("action","adduser");
 $frm->add_user_fieldv2("id_utilisateur","Utilisateur");
 $frm->add_text_field("login","Login","",true);
-$frm->add_password_field("password","Mot de passe","",true);
+$frm->add_password_field("pass","Mot de passe","",true);
 $frm->add_submit("valid","Valider");
 $cts->add($frm,true);
 
