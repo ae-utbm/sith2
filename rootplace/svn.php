@@ -45,7 +45,7 @@ function private_svn ()
   {
     while (($file = readdir($dh)) !== false)
     {
-      if ( is_dir(SVN_PATH.PRIVATE_SVN.$file) )
+      if ( $file != "." && $file != ".." && is_dir(SVN_PATH.PRIVATE_SVN.$file) )
       {
         $list[] = array("name"=>$file );
       }
