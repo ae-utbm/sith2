@@ -58,14 +58,13 @@ function private_svn ()
 
 
 $sha=hash("sha1","test");
-print_r($sha);
 
 $private = private_svn();
 asort($private);
 
 $site->start_page("none","Administration");
 $cts = new contents("<a href=\"./\">Administration</a> / AECMS");
-$cts->add_paragraph($private);
+$cts->add_paragraph($sha);
 $cts->add(new sqltable("svn_private",
                        "Liste des SVN privés",
                        $private,
