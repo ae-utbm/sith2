@@ -43,6 +43,7 @@ if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="adduser" )
   $req = new requete($site->db,"SELECT `id_utilisateur` FROM `svn_login` WHERE `login_svn` = '".$_REQUEST["login"]."'");
   if($req->lines==0)
   {
+    new delete($site->dbrw,"svn_login",array("id_utilisateur"=>$_REQUEST["id_utilisateur"]));
     new insert($site->dbrw,
                "svn_login",
                array("id_utilisateur"=>$_REQUEST["id_utilisateur"],
