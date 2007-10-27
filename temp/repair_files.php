@@ -20,7 +20,7 @@ while ( $row = $req->get_row() )
 
   else
   {
-    if ( $row["taille_file"] != file_size($file) )
+    if ( $row["taille_file"] != filesize($file) )
     echo "<li><b>problème</b> : Fichier ".$row["id_file"]." taille invalide.</li>\n";
   }
 }
