@@ -125,6 +125,10 @@ else
 {
   if(isset($_REQUEST["id_depot"]))
   {
+    if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "edituser")
+    {
+      new update($site->dbrw,"svn_member_depot",array("right"=>$_REQUEST["right"]),array("id_depot"=>$_REQUEST["id_depot"],"svn_login"=>$_REQUEST["svn_login"]));
+    }
     if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "delete")
     {
       if(isset($_REQUEST["svn_login"]))
@@ -132,8 +136,19 @@ else
       /*else
         new delete($site->dbrw,"svn_depot",array("id_depot"=>$_REQUEST["id_depot"]));*/
     }
-    if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "edit")
+    if( isset($_REQUEST["action"]) && $_REQUEST["action"] == "edit" && isset($_REQUEST["svn_login"]) )
     {
+      $req = new requete($site->db,"SELECT `right` FROM `svn_member_depot` WHERE `id_depot`='".$_REQUEST["id_depot"]."' AND `svn_login`='".$_REQUEST["svn_login"]."'");
+      if($req->lines==1)
+        list($right)=$req->get_row();
+      else
+        $right="";
+      $frm = new form("adduser","svn.php",false,"post","Modification des droits :");
+      $frm->add_hidden("action","edituser");
+      $frm->add_hidden("id_depot",$_REQUEST["id_depot"]);
+      $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"),$right);
+      $frm->add_submit("valid","Valider");
+      $cts->add($frm,true);
     }
     $req = new requete($site->db,"SELECT * FROM `svn_depot` WHERE `id_depot`='".$_REQUEST["id_depot"]."'");
     if($req->lines==1)
