@@ -60,14 +60,13 @@ $user="nayolo";
 $pass="supermotdelamortquitue";
 
 exec("/usr/bin/htpasswd -nsb ".$user." ".$pass, $sha);
-print_r($sha);
 
 $private = private_svn();
 asort($private);
 
 $site->start_page("none","Administration");
 $cts = new contents("<a href=\"./\">Administration</a> / AECMS");
-$cts->add_paragraph($sha);
+$cts->add_paragraph($sha[0]);
 $cts->add(new sqltable("svn_private",
                        "Liste des SVN privés",
                        $private,
