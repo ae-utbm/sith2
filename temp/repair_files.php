@@ -6,6 +6,8 @@ require_once($topdir . "include/mysqlae.inc.php");
 
 $dbrw = new mysqlae ("rw");
 
+header("Content-Type: text/html; charset=utf-8");
+
 echo "<h2>Vérification des fichiers</h2>";
 
 echo "<ul>\n";
@@ -21,7 +23,7 @@ while ( $row = $req->get_row() )
   else
   {
     if ( $row["taille_file"] != filesize($file) )
-    echo "<li><b>problème</b> : Fichier ".$row["id_file"]." taille invalide.</li>\n";
+    echo "<li><b>problème</b> : Fichier ".$row["id_file"]." taille invalide (".$row["taille_file"]." attendu, ". filesize($file)." trouvé).</li>\n";
   }
 }
 echo "</ul>\n";
