@@ -129,8 +129,8 @@ else
     {
       if(isset($_REQUEST["svn_login"]))
         new delete($site->dbrw,"svn_member_depot",array("id_depot"=>$_REQUEST["id_depot"],"svn_login"=>$_REQUEST["svn_login"]));
-      else
-        new delete($site->dbrw,"svn_depot",array("id_depot"=>$_REQUEST["id_depot"]));
+      /*else
+        new delete($site->dbrw,"svn_depot",array("id_depot"=>$_REQUEST["id_depot"]));*/
     }
     if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "edit")
     {
