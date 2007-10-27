@@ -96,7 +96,7 @@ if ( $_REQUEST["view"]=="user" )
     if($req->lines==1)
     {
       list($login,$id)=$req->get_row();
-      new delete($site->dbrw,"svn_member_login",array("svn_login"=>$login));
+      new delete($site->dbrw,"svn_member_depot",array("svn_login"=>$login));
       new delete($site->dbrw,"svn_login",array("id_utilisateur"=>$_REQUEST["id_utilisateur"]));
     }
   }
