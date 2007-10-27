@@ -369,6 +369,10 @@ if ( $file->is_valid() )
   else
     $cts = new contents($path);
 
+
+  if ( isset($Notice) )
+    $cts->add_paragraph("<b>$Notice</b>");
+  
     $actions = array();
 
   $filename = $file->get_thumb_filename();
@@ -419,6 +423,8 @@ if ( $file->is_valid() )
         $frm->add_file_field("file","Fichier",true);
         $frm->add_text_area("commentaire","Commentaire","");
         $frm->add_submit("valid","Restituer");
+        
+        $cts->add($frm);
         
         $cts->add_paragraph("<a href=\"d.php?id_file=".$file->id."&amp;action=cancelborrow\">Annuler l'emprunt</a>");
       }
