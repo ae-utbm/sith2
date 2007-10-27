@@ -74,7 +74,7 @@ class dfile extends fs
 				"INNER JOIN d_file_rev ON ".
 		      "(d_file.id_file=d_file_rev.id_file ".
 		      "AND d_file_rev.id_rev_file=d_file.id_rev_file_last ) ".
-				"WHERE `id_file` = '" . mysql_real_escape_string($id) . "' ".
+				"WHERE d_file.`id_file` = '" . mysql_real_escape_string($id) . "' ".
 				"LIMIT 1");
 				
 		if ( $req->lines == 1 )
@@ -99,7 +99,7 @@ class dfile extends fs
 				"INNER JOIN d_file_rev ON ".
 		      "(d_file.id_file=d_file_rev.id_file ".
 		      "AND d_file_rev.id_rev_file='".mysql_real_escape_string($rev)."' ) ".
-				"WHERE `id_file` = '".mysql_real_escape_string($id)."' ".
+				"WHERE d_file.`id_file` = '".mysql_real_escape_string($id)."' ".
 				"LIMIT 1");
 				
 		if ( $req->lines == 1 )
