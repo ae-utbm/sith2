@@ -100,7 +100,7 @@ if ( $_REQUEST["view"]=="user" )
       new delete($site->dbrw,"svn_login",array("id_utilisateur"=>$_REQUEST["id_utilisateur"]));
     }
   }
-  $frm = new form("adduser","svn.php",false,"post","Créer un user :");
+  $frm = new form("adduser","svn.php?view=user",false,"post","Créer un user :");
   $frm->add_hidden("action","adduser");
   $frm->add_user_fieldv2("id_utilisateur","Utilisateur");
   $frm->add_text_field("login","Login","",false);
