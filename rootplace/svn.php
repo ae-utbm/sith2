@@ -38,17 +38,13 @@ $site = new site ();
 if ( !$site->user->is_in_group("root") )
   error_403();
 
-if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="adduser" )
+if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="adduser" && !empty($_REQUEST["login"]) && !empty($_REQUEST["pass"]) && !empty($_REQUEST["id_utilisateur"]))
 {
   $req = new requete($site->db,"SELECT `id_utilisateur` FROM `svn_login` WHERE `login_svn` = '".$_REQUEST["login"]."'");
   if($req->lines==0)
   {
     new delete($site->dbrw,"svn_login",array("id_utilisateur"=>$_REQUEST["id_utilisateur"]));
-    new insert($site->dbrw,
-               "svn_login",
-               array("id_utilisateur"=>$_REQUEST["id_utilisateur"],
-                     "login_svn"=>$_REQUEST["login"])
-              );
+    new insert($site->dbrw,"svn_login",array("id_utilisateur"=>$_REQUEST["id_utilisateur"],"login_svn"=>$_REQUEST["login"]));
     exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".$_REQUEST["login"]." ".$_REQUEST["pass"]);
   }
   else
@@ -100,9 +96,10 @@ $cts->add(new sqltable("svn_private",
 
 $frm = new form("adduser","svn.php",false,"post","Créer un user :");
 $frm->add_hidden("action","adduser");
+$frm->add_user_fieldv2("id_utilisateur","Utilisateur");
 $frm->add_text_field("login","Login","",true);
-$frm->add_user_fieldv2("id_utilisateur_achat","Utilisateur");
-$frm->add_submit("valid","Installer");
+$frm->add_password_field("password","Mot de passe","",true);
+$frm->add_submit("valid","Valider");
 $cts->add($frm,true);
 
 $site->add_contents($cts);
