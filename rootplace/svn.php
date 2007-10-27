@@ -107,7 +107,7 @@ if ( $_REQUEST["view"]=="user" )
                          array("delete"=>"Enlever"),
                          array(),
                          array()
-                        );
+                        ));
   $cts->add($tbl,true);
 
 }
@@ -141,7 +141,7 @@ else
                              array("edit"=>"Modifier","delete"=>"Enlever"),
                              array(),
                              array()
-                            );
+                            ));
 
 
     }
@@ -157,7 +157,7 @@ else
                              array("detail"=>"Détail"),
                              array(),
                              array()
-                            );
+                            ));
     }
   }
   else
@@ -172,7 +172,7 @@ else
                            array("detail"=>"Détail"),
                            array(),
                            array()
-                          );
+                          ));
   }
 
 }
