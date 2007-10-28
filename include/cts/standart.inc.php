@@ -658,11 +658,14 @@ class form extends stdcontents
     }
     
     $this->buffer .= 
-      "<a onclick=\"selectWikiFile('".$wwwtopdir."','".$id."');\" />".
-      "<img src=\"".$wwwtopdir."/images/toolbar/image.png\" alt=\"Parcourir image\" title=\"Parcourir image\" />".
+      "<a onclick=\"selectWikiImage('".$wwwtopdir."','".$id."');\" />".
+      "<img src=\"".$wwwtopdir."/images/toolbar/browse_image.png\" alt=\"Parcourir image\" title=\"Parcourir image\" />".
       "</a> \n";
     
-    
+    $this->buffer .= 
+      "<a onclick=\"selectWikiFile('".$wwwtopdir."','".$id."');\" />".
+      "<img src=\"".$wwwtopdir."/images/toolbar/attach.png\" alt=\"Attacher un fichier\" title=\"Attacher un fichier\" />".
+      "</a> \n";
     
     $this->buffer .= " - <a href=\"".$wwwtopdir."article.php?name=docs:syntax\" target=\"_blank\">aide sur la syntaxe</a>";
     

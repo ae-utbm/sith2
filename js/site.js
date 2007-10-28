@@ -629,17 +629,17 @@ var onSelectedFileFieldName;
 
 function onSelectedWikiFile ( id  )
 {
-  insert_tags2(onSelectedFileFieldName, "[[", "]]", "dfile//"+id);
+  insert_tags2(onSelectedFileFieldName, "[[", "]]", "dfile://"+id);
 }
 
 function onSelectedWikiImage ( id  )
 {
-  insert_tags2(onSelectedFileFieldName, "{{", "}}", "dfile//"+id);
+  insert_tags2(onSelectedFileFieldName, "{{", "}}", "dfile://"+id);
 }
 
 function _selectFile ( topdir )
 {
-  window.open(topdir+"explorer.php", "fileselector", "width=500,height=400,status=no,scrollbars=yes,resizable=yes");
+  window.open(topdir+"explorer.php", "fileselector", "width=600,height=400,status=no,scrollbars=yes,resizable=yes");
 }
 
 function selectWikiImage(topdir,field)
