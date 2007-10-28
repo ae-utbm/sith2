@@ -109,6 +109,7 @@ $req = $folder->get_files ( $site->user);
 $fd = new dfile($site->db);
 while ( $row = $req->get_row() )
 {
+  $fd->_load($row);
   if ( !file_exists($fd->get_thumb_filename()) )
     $img = $topdir."images/icons/128/".$fd->get_icon_name();
   else
@@ -173,7 +174,7 @@ $cts = new contents();
 
 $sub = new contents();
 $frm = new form("chspace","explorer.php");
-$frm->add_select_field("id_folder","Espace",$root_folders,$pfolder->id);
+$frm->add_select_field("id_folder","Espace",$root_folders,$path[0]->id);
 $frm->add_submit("ok","OK");
 $cts->add( $frm, false, true, "spaces" );
 

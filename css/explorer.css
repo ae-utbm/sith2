@@ -29,7 +29,67 @@
   
   width:70%;
   position:absolute;
-  top:50px;
+  top:0px;
   left:30%;    
   
+}
+
+div.gallery
+{
+	position:relative;
+}
+
+div.gallery div.galitem
+{
+	float:left;
+	width:25em;
+	height:4em;
+	margin-right:1em;
+	margin-bottom:0.5em;
+	overflow:hidden;
+	border:1px solid #c0c0c0;
+	position:relative;
+}
+
+div.gallery div.galitemdata
+{
+	width:3em;
+	height:3em;
+	float:left;
+	margin:0.5em;
+	margin-right:1em;
+	
+}
+
+div.gallery div.galitemdata img
+{
+	width:3em;
+	height:3em;
+	
+}
+
+div.gallery div.galiteminfo
+{
+	margin:0.5em;
+	height:3em;
+	position:relative;
+}
+
+div.gallery div.galiteminfo .itmttl
+{
+	font-weight:bold;
+}
+
+div.gallery div.galiteminfo .itmdsc
+{
+	font-size:80%;
+}
+
+div.gallery div.galitem div.tooldep
+{
+	position:absolute;
+	bottom:2px;
+	right:0;
+	text-align:right;
+	width:150px;
 }
