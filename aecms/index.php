@@ -41,16 +41,20 @@ if ( $site->is_user_admin() )
 
   if ( $_REQUEST['action'] == "new" )
   {
-    if ( !$_REQUEST["name"] || !$_REQUEST["title"] || !$_REQUEST["texte"] || $page->load_by_pagename($_REQUEST["name"]) )
-      $_REQUEST['page'] = "new";
-    else
+    if ( !$_REQUEST["name"] || !preg_match("#^([a-z0-9\-_:]+)$#",$_REQUEST["name"]) )
+      $Erreur = "Nom invalide";
+    elseif ( !$_REQUEST["title"] || !$_REQUEST["texte"] )
+      $Erreur = "Veuillez préciser un titre et/ou un contenu";
+    elseif ( $page->load_by_pagename(CMS_PREFIX.$_REQUEST["name"]) )  
+      $Erreur = "Cette page existe déjà";
+    else      
     {
       $page->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
       $page->add($site->user,CMS_PREFIX.$_REQUEST["name"], $_REQUEST["title"], $_REQUEST['texte'], $_REQUEST['section']);
     }
   }
 
-  if ( $_REQUEST['action'] == "delete" )
+  /*if ( $_REQUEST['action'] == "delete" )
   {
     if ( $page->load_by_pagename(CMS_PREFIX.$_REQUEST["name"]) )
     {
@@ -60,9 +64,9 @@ if ( $site->is_user_admin() )
         $_REQUEST['page'] = "new";
       }
     }
-  }
+  }*/
 
-  if ( $_REQUEST['page'] == "new" )
+  if ( $_REQUEST['page'] == "new" || isset($Erreur) )
   {
     foreach ($site->tab_array as $entry)
       $sections[$entry[0]] = $entry[2];
@@ -70,6 +74,8 @@ if ( $site->is_user_admin() )
     $site->start_page("none","Nouveau");
     $frm = new form("newarticle","index.php",true,"POST","Nouvelle page");
     $frm->add_hidden("action","new");
+    if ( isset($Erreur) )
+      $frm->error($Erreur);
     $frm->add_text_field("name","Nom",$_REQUEST["name"],true);
     $frm->add_text_field("title","Titre","",true);
     $frm->add_select_field("section","Section",$sections,"presentation");
@@ -174,8 +180,8 @@ $cts = $page->get_contents();
 $site->add_contents($cts);
 
 if ( $can_edit )
-  $cts->set_toolbox(new toolbox(array("index.php?page=edit&name=".substr($page->nom,strlen(CMS_PREFIX))=>"Editer",
-                                      "index.php?action=delete&name=".substr($page->nom,strlen(CMS_PREFIX))=>"Supprimer")));
+  $cts->set_toolbox(new toolbox(array("index.php?page=edit&name=".substr($page->nom,strlen(CMS_PREFIX))=>"Editer"/*,
+                                      "index.php?action=delete&name=".substr($page->nom,strlen(CMS_PREFIX))=>"Supprimer")*/));
 
 if ( $page->nom == CMS_PREFIX."home" && $site->config["home.news"] == 1 )
 {

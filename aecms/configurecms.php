@@ -53,7 +53,11 @@ if ( !isset($pages["home"]) )
   
 if ( $_REQUEST["action"] == "addonglet" )
 {
-  if ( $_REQUEST["typepage"] == "article" )
+  $name = null;
+  
+  if ( !$_REQUEST["title"] )
+    $ErreurAddOnglet = "Veuillez choisir un titre";
+  elseif ( $_REQUEST["typepage"] == "article" )
   {
     $lien = "index.php?name=".$_REQUEST["nom_page"];
     $name = $_REQUEST["nom_page"];
@@ -64,22 +68,27 @@ if ( $_REQUEST["action"] == "addonglet" )
   }
   elseif ( $_REQUEST["typepage"] == "crearticle" && $_REQUEST["name"] != "accueil" )
   {
-    $lien = "index.php?name=".$_REQUEST["name"];
-    $name = $_REQUEST["name"];
-    
-    $page = new page ($site->db,$site->dbrw);
-    $page->load_by_pagename(CMS_PREFIX.$name);
-    
-    if ( !$page->is_valid() )
-    {
-      $page->id_utilisateur = $site->user->id;
-      $page->id_groupe = $site->asso->get_membres_group_id();
-      $page->id_groupe_admin = $site->asso->get_bureau_group_id();
-      $page->droits_acces = 0x311;      
-      $page->add($site->user,CMS_PREFIX.$name, $_REQUEST["title"], "", CMS_PREFIX.$name);
-    }
+    if ( !$_REQUEST["name"] || !preg_match("#^([a-z0-9\-_:]+)$#",$_REQUEST["name"]) )
+      $ErreurAddOnglet = "Nom invalide";
     else
-      $page->save($site->user,$page->title, $page->texte, CMS_PREFIX.$name );
+    {    
+      $lien = "index.php?name=".$_REQUEST["name"];
+      $name = $_REQUEST["name"];
+      
+      $page = new page ($site->db,$site->dbrw);
+      $page->load_by_pagename(CMS_PREFIX.$name);
+      
+      if ( !$page->is_valid() )
+      {
+        $page->id_utilisateur = $site->user->id;
+        $page->id_groupe = $site->asso->get_membres_group_id();
+        $page->id_groupe_admin = $site->asso->get_bureau_group_id();
+        $page->droits_acces = 0x311;      
+        $page->add($site->user,CMS_PREFIX.$name, $_REQUEST["title"], "", CMS_PREFIX.$name);
+      }
+      else
+        $page->save($site->user,$page->title, $page->texte, CMS_PREFIX.$name );
+    }
   }
   elseif ( $_REQUEST["typepage"] == "aedrive" )
   {
@@ -117,31 +126,40 @@ elseif ( $_REQUEST["action"] == "addbox" )
   else
     $boxes = explode(",",$site->config["boxes.names"]);
   
+  $name = null;
+  
   if ( $_REQUEST["typebox"] == "custom" )
   {
-    $name = $_REQUEST["name"];
-    $page = new page ($site->db,$site->dbrw);
-    $page->load_by_pagename(CMS_PREFIX."boxes:".$name);
-    if ( !$page->is_valid() )
-    {
-      $page->id_utilisateur = $site->user->id;
-      $page->id_groupe = $site->asso->get_membres_group_id();
-      $page->id_groupe_admin = $site->asso->get_bureau_group_id();
-      $page->droits_acces = 0x311;      
-      $page->add($site->user,CMS_PREFIX."boxes:".$name, $_REQUEST["title"], "", CMS_PREFIX."accueil");
-    }
+    if ( !$_REQUEST["name"] || !preg_match("#^([a-z0-9\-_:]+)$#",$_REQUEST["name"]) )
+      $ErreurAddBox = "Nom invalide";
     else
-      $page->save($site->user,$_REQUEST["title"], $page->texte, CMS_PREFIX."accueil" );
-
+    {
+      $name = $_REQUEST["name"];
+      $page = new page ($site->db,$site->dbrw);
+      $page->load_by_pagename(CMS_PREFIX."boxes:".$name);
+      if ( !$page->is_valid() )
+      {
+        $page->id_utilisateur = $site->user->id;
+        $page->id_groupe = $site->asso->get_membres_group_id();
+        $page->id_groupe_admin = $site->asso->get_bureau_group_id();
+        $page->droits_acces = 0x311;      
+        $page->add($site->user,CMS_PREFIX."boxes:".$name, $_REQUEST["title"], "", CMS_PREFIX."accueil");
+      }
+      else
+        $page->save($site->user,$_REQUEST["title"], $page->texte, CMS_PREFIX."accueil" );
+    }
   }
   else//if ( $_REQUEST["typebox"] == "calendrier" )
     $name = "calendrier";
   
-  if ( !in_array($name,$boxes) )
-  $boxes[] = $name;
-  
-  $site->config["boxes.names"] = implode(",",$boxes);
-  $site->save_conf();
+  if ( !is_null($name) )
+  {
+    if ( !in_array($name,$boxes) )
+    $boxes[] = $name;
+    
+    $site->config["boxes.names"] = implode(",",$boxes);
+    $site->save_conf();
+  }
 }
 elseif ( $_REQUEST["action"] == "setconfig" )
 {
@@ -404,6 +422,9 @@ if ( $_REQUEST["view"] == "" )
   
   
   $frm->add_hidden("action","addonglet");
+  if ( $ErreurAddOnglet )
+    $frm->error($ErreurAddOnglet);
+  
   $frm->add_text_field("title","Titre","",true);
   
   unset($pages["home"]);
@@ -479,7 +500,9 @@ else if ( $_REQUEST["view"] == "boxes" )
   
   $frm = new form("newbox","configurecms.php?view=boxes",false,"POST","Nouvelle boite");
   $frm->add_hidden("action","addbox");
-  
+  if ( $ErreurAddBox )
+    $frm->error($ErreurAddBox);
+    
   $sfrm = new form("typebox",null,null,null,"Personnalisée");
   $sfrm->add_text_field("name","Code (nom)","",true);
   $sfrm->add_text_field("title","Titre","",true);

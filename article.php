@@ -41,39 +41,45 @@ if ( $site->user->is_valid()  && $site->user->is_in_group("moderateur_site") )
   $page->droits_acces = 0x311;
 
   if ( $_REQUEST['action'] == "new" )
+  {
+    if ( !$_REQUEST["name"] || !preg_match("#^([a-z0-9\-_:]+)$#",$_REQUEST["name"]) )
+      $Erreur = "Nom invalide";
+    elseif ( !$_REQUEST["title"] || !$_REQUEST["texte"] )
+      $Erreur = "Veuillez préciser un titre et/ou un contenu";
+    elseif ( $page->load_by_pagename($_REQUEST["name"]) )  
+      $Erreur = "Cette page existe déjà";
+    else
     {
-      if ( !$_REQUEST["name"] || !$_REQUEST["title"] || !$_REQUEST["texte"] || $page->load_by_pagename($_REQUEST["name"]) )
-        $_REQUEST['page'] = "new";
-      else
-      {
-        $page->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
-        $page->add($site->user, $_REQUEST["name"], $_REQUEST["title"], $_REQUEST['texte'], $_REQUEST['section']);
-      }
+      $page->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
+      $page->add($site->user, $_REQUEST["name"], $_REQUEST["title"], $_REQUEST['texte'], $_REQUEST['section']);
     }
+  }
 
-  if ( $_REQUEST['page'] == "new" )
-    {
-      foreach ($site->tab_array as $entry)
-        $sections[$entry[0]] = $entry[2];
+  if ( $_REQUEST['page'] == "new" || isset($Erreur) )
+  {
+    foreach ($site->tab_array as $entry)
+      $sections[$entry[0]] = $entry[2];
 
-      $site->start_page("none","Nouveau");
-      $frm = new form("newarticle","article.php",true,"POST","Nouvelle page");
-      $frm->add_hidden("action","new");
-      $frm->add_text_field("name","Nom",$_REQUEST["name"],true);
-      $frm->add_text_field("title","Titre","",true);
-      //$frm->add_entity_select("groupid","Groupe",$site->db,"group" );
-      $frm->add_select_field("section","Section",$sections,"presentation");
-      
-      $frm->add_rights_field($page,false,$page->is_admin($site->user),"pages");
-      $frm->add_dokuwiki_toolbar('texte');
-      $frm->add_text_area("texte","Contenu","",80,20,true);
-      
-      $frm->add_submit("save","Ajouter");
-      $site->add_contents($frm);
-      $site->add_contents(new wikihelp());
-      $site->end_page();
-      exit();
-    }
+    $site->start_page("none","Nouveau");
+    $frm = new form("newarticle","article.php",true,"POST","Nouvelle page");
+    if ( isset($Erreur) )
+      $frm->error($Erreur);
+    $frm->add_hidden("action","new");
+    $frm->add_text_field("name","Nom",$_REQUEST["name"],true);
+    $frm->add_text_field("title","Titre","",true);
+    //$frm->add_entity_select("groupid","Groupe",$site->db,"group" );
+    $frm->add_select_field("section","Section",$sections,"presentation");
+    
+    $frm->add_rights_field($page,false,$page->is_admin($site->user),"pages");
+    $frm->add_dokuwiki_toolbar('texte');
+    $frm->add_text_area("texte","Contenu","",80,20,true);
+    
+    $frm->add_submit("save","Ajouter");
+    $site->add_contents($frm);
+    $site->add_contents(new wikihelp());
+    $site->end_page();
+    exit();
+  }
 
 }
 
