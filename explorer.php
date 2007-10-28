@@ -98,7 +98,7 @@ if ( $_REQUEST["get"] == "folderchilds" )
   exit();  
 }
 
-$fcts = new contents($folder->nom);
+$fcts = new contents(htmlspecialchars($folder->titre));
 
 $fcts->add_title(2,"Fichiers");
 
