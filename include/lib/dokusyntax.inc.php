@@ -957,7 +957,7 @@ function mediaformat($text)
   $ret .= ' class="media'.$format['align'].'"';
   $ret .= ' width="'.$width.'"';
   $ret .= ' height="'.$height.'"';
-  $ret .= ' alt="'.$name.'" />';
+  $ret .= ' alt="'.$name.'" title="'.$name.'" />';
   return $ret;
 }
 
