@@ -645,19 +645,15 @@ class wiki extends basedb
 	 */
 	function load_or_create_parent($pagepath, &$user, $rights=null, $id_group=null, $id_group_admin=null)
 	{
-      echo "$pagepath # ";
-	 
     if ( !preg_match("#^([a-z0-9\-_:]+)$#",$pagepath) )
     {
       $this->id=null;
-      echo "wrong path, ";
       return null;	
     }
     
     if ( strlen($pagepath) > 512 )
     {
       $this->id=null;
-      echo "path too long, ";
       return null;	
     } 
 	 
@@ -668,7 +664,6 @@ class wiki extends basedb
     if ( strlen($pagename) > 64 )
     {
       $this->id=null;
-      echo "wrong pagename, ";
       return null;	
     } 
          
@@ -696,7 +691,6 @@ class wiki extends basedb
       else
       {
         $this->id=null;
-        echo "failed creation of token $token, ";
         return null;	
       }  
       $parentparent = clone $this;
@@ -704,7 +698,6 @@ class wiki extends basedb
 	 
     if ( !$can_create )
     {
-      echo "failed creation of token $pagename, ";
       $this->id=null;
       return null;	
     }
