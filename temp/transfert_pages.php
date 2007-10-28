@@ -21,8 +21,12 @@ while ( $row = $req->get_row() )
   $newpage->id_groupe_admin = $oldpage->id_groupe_admin;
   $newpage->droits_acces = $oldpage->droits_acces;
 
-  $newpage->add ( $site->user, $oldpage->nom, $oldpage->titre, $oldpage->texte, $oldpage->section );
+  $res = $newpage->add ( $site->user, $oldpage->nom, $oldpage->titre, $oldpage->texte, $oldpage->section );
   
+  if ( $res )
+    echo $oldpage->nom." : Sucessfully imported<br/>";
+  else
+    echo $oldpage->nom." : Error<br/>";
 }
 
 
