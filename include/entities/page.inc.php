@@ -8,7 +8,7 @@ require_once($topdir."include/entities/wiki.inc.php");
 
 /** Classe gérant les pages "wiki" 
  */
-class legacy_page extends basedb
+class page extends basedb
 {
   var $nom;
   var $texte;
@@ -180,7 +180,7 @@ class legacy_page extends basedb
  * Remplacera à court terme la classe page. Ceci dans l'objectif de fusionner
  * le wiki et les pages/articles.
  */
-class page/*_wikized*/ extends wiki
+class page_wikized extends wiki
 {
   var $nom;
   var $texte;
