@@ -657,6 +657,13 @@ class form extends stdcontents
         "</a> \n";
     }
     
+    $this->buffer .= 
+      "<a onclick=\"selectWikiFile('".$wwwtopdir."','".$id."');\" />".
+      "<img src=\"".$wwwtopdir."/images/toolbar/image.png\" alt=\"Parcourir image\" title=\"Parcourir image\" />".
+      "</a> \n";
+    
+    
+    
     $this->buffer .= " - <a href=\"".$wwwtopdir."article.php?name=docs:syntax\" target=\"_blank\">aide sur la syntaxe</a>";
     
     $this->buffer .= "</div>\n";

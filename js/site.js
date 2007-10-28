@@ -623,3 +623,38 @@ function popUpStream(topdir)
   window.open(topdir+"stream.php?get=popup", "stream", "width=300,height=350,status=no,scrollbars=yes,resizable=yes");
   return false;  
 }
+
+var onSelectedFile;
+var onSelectedFileFieldName;
+
+function onSelectedWikiFile ( id  )
+{
+  insert_tags2(onSelectedFileFieldName, "[[", "]]", "dfile//"+id);
+}
+
+function onSelectedWikiImage ( id  )
+{
+  insert_tags2(onSelectedFileFieldName, "{{", "}}", "dfile//"+id);
+}
+
+function _selectFile ( topdir )
+{
+  window.open(topdir+"explorer.php", "fileselector", "width=500,height=400,status=no,scrollbars=yes,resizable=yes");
+}
+
+function selectWikiImage(topdir,field)
+{
+  onSelectedFileFieldName = field;
+  onSelectedFile = onSelectedWikiImage;
+  _selectFile(topdir);
+}
+
+function selectWikiFile(topdir,field)
+{
+  onSelectedFileFieldName = field;
+  onSelectedFile = onSelectedWikiFile;
+  _selectFile(topdir);
+}
+
+
+

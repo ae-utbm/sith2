@@ -9,3 +9,9 @@ function explore ( id )
     
   openInContents("foldercontents", "explorer.php", "get=foldercontents&id_folder="+id);
 }
+
+function select_file ( id )
+{
+  window.opener.onSelectedFile(id);
+  window.close();
+}
