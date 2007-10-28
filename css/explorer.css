@@ -34,6 +34,11 @@
   
 }
 
+h2
+{
+  clear:both;  
+}
+
 div.gallery
 {
 	position:relative;
@@ -42,7 +47,7 @@ div.gallery
 div.gallery div.galitem
 {
 	float:left;
-	width:25em;
+	width:20em;
 	height:4em;
 	margin-right:1em;
 	margin-bottom:0.5em;
