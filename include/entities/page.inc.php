@@ -234,7 +234,7 @@ class page_wikized extends wiki
     
     $parent = new wiki($this->db,$this->dbrw);
     
-    $pagename = $parent->load_or_create_parent($path, $site->user, $this->droits_acces, $this->id_groupe, $this->id_groupe_admin);
+    $pagename = $parent->load_or_create_parent($path, $user, $this->droits_acces, $this->id_groupe, $this->id_groupe_admin);
         
     if ( is_null($pagename) || !$parent->is_valid() || $this->load_by_name($parent,$pagename) )
       return false;
