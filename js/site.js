@@ -639,7 +639,7 @@ function onSelectedWikiImage ( id  )
 
 function _selectFile ( topdir )
 {
-  window.open(topdir+"explorer.php", "fileselector", "width=600,height=400,status=no,scrollbars=yes,resizable=yes");
+  window.open(topdir+"explorer.php", "fileselector", "width=750,height=500,status=no,scrollbars=yes,resizable=yes");
 }
 
 function selectWikiImage(topdir,field)
