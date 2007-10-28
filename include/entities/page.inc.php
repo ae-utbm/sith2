@@ -203,7 +203,7 @@ class page/*_wikized*/ extends wiki
   {
     parent::_load($row);
     
-    $this->nom = $this->fullpath;
+    $this->nom = substr($this->fullpath,9);
     $this->texte = $this->rev_contents;
     $this->date = $this->rev_date;
     $this->titre = $this->rev_title;
