@@ -73,15 +73,15 @@ function explore_folders ( &$user, $path )
   while ( $row = $req->get_row() )
   {
     $buffer .= "<li>"; 
-    $buffer .= "<a href=\"#\" onclick=\"explore('".$req["id_folder"]."'); return false;\">";
+    $buffer .= "<a href=\"#\" onclick=\"explore('".$row["id_folder"]."'); return false;\">";
     $buffer .= "<img src=\"".$wwwtopdir."images/icons/16/".
          $GLOBALS["entitiescatalog"]["folder"][2]."\" alt=\"\" />";
-    $buffer .= htmlspecialchars($req["titre_folder"]);
+    $buffer .= htmlspecialchars($row["titre_folder"]);
     $buffer .= "</a>";
     $buffer .= "</li>"; 
     
-    $buffer .= "<ul id=\"folder_".$req["id_folder"]."\">";
-    if ( !empty($path) && $path[0]->id == $req["id_folder"] )
+    $buffer .= "<ul id=\"folder_".$row["id_folder"]."\">";
+    if ( !empty($path) && $path[0]->id == $row["id_folder"] )
       $buffer .= explore_folders($user,$path);
     $buffer .= "</ul>";
   }
