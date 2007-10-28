@@ -83,6 +83,16 @@ if ( $site->user->is_valid()  && $site->user->is_in_group("moderateur_site") )
 
 }
 
+if ( isset($_REQUEST["name"]) && ereg("^activites-(.*)$",$_REQUEST["name"],$regs )) // LEGACY SUPPORT
+{
+  $asso = new asso($site->db);
+  $asso->load_by_unix_name($regs[1]);
+  if ( $asso->id > 0 )
+  {
+    header("Location: asso.php?id_asso=".$asso->id);
+    exit();
+  }
+}
 
 if ( isset($_REQUEST["name"]) ) 
 {
@@ -157,17 +167,6 @@ if ( $page->nom == "services" /*|| $page->nom == "planning"*/ )
   $site->set_side_boxes("left",array("calendrier","connexion"));
   $site->add_box("calendrier",new calendar($site->db));
   $site->add_box("connexion", $site->get_connection_contents());
-}
-
-if ( ereg("^activites-(.*)$", $page->nom,$regs )) // LEGACY SUPPORT
-{
-  $asso = new asso($site->db);
-  $asso->load_by_unix_name($regs[1]);
-  if ( $asso->id > 0 )
-  {
-    header("Location: asso.php?id_asso=".$asso->id);
-    exit();
-  }
 }
 
 if ( ereg("^activites:(.*)$", $page->nom,$regs ))
