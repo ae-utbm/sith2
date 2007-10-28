@@ -66,7 +66,7 @@ function explore_folders ( &$user, $path )
 {
   $folder = array_shift($path);
   
-  $req = $folder->get_folders($site->user,"id_folder, nom_fichier_folder, titre_folder");
+  $req = $folder->get_folders($user,"id_folder, nom_fichier_folder, titre_folder");
   
   $buffer="";
   
