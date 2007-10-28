@@ -98,8 +98,8 @@ if ( $_REQUEST["get"] == "folderchilds" )
   exit();  
 }
 
-$fcts = new contents(htmlspecialchars($folder->titre));
-
+$fcts = new contents();
+$fcts->add_title(1,htmlspecialchars($folder->titre));
 $fcts->add_title(2,"Fichiers");
 
 
