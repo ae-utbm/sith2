@@ -411,6 +411,79 @@ class interfaceweb
     echo "</html>\n";
       
   }
+  
+  /**
+   * Rendu de la page en mode popup (sans header, sans boites laterales)
+   */
+  function popup_end_page ()
+  {
+    global $wwwtopdir ;
+    
+    header("Content-Type: text/html; charset=utf-8");
+    
+    //echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">";
+    
+    echo "<html>\n";
+    echo "<head>\n";
+    echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+    echo "<title>".$this->title." - association des etudiants de l'utbm</title>\n";
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css\" title=\"AE2-NEW Base\" />\n";
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/popup.css\" title=\"AE2-NEW Base\" />\n";
+    foreach ( $this->extracss as $url ) 
+      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
+    
+    foreach ( $this->rss as $title => $url ) 
+      echo "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_NOQUOTES,"UTF-8")."\" href=\"".htmlentities($url,ENT_NOQUOTES,"UTF-8")."\" />";
+    
+    echo "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico\" />\n";
+    echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js\">var site_topdir='$wwwtopdir';</script>\n";
+    echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js\"></script>\n";
+    echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js\"></script>\n";
+    
+    foreach ( $this->extrajs as $url ) 
+      echo "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
+        
+    echo "</head>\n";
+    
+    echo "<body>\n";
+    /* Generate the logo */
+        
+    echo "<div id=\"popup\">";    
+    
+    $i=0;
+    foreach ( $this->contents as $cts )
+    {
+      $cssclass = "article";
+      
+      if ( !is_null($cts->cssclass) )
+        $cssclass = $cts->cssclass;      
+      
+      $i++;
+      echo "<div class=\"$cssclass\"";
+      if ( $cts->divid )
+        echo " id=\"".$cts->divid."\"";
+      else
+        echo " id=\"cts$i\"";
+      echo ">\n";
+      
+      if ( $cts->toolbox )
+      {
+        echo "<div class=\"toolbox\">\n";    
+        echo $cts->toolbox->html_render()."\n";
+        echo "</div>\n";  
+      }        
+      
+      if ( $cts->title )
+        echo "<h1>".$cts->title."</h1>\n";
+
+      echo $cts->html_render();
+      echo "</div>\n";
+    }
+    
+    echo "</div>\n";
+    echo "</body>\n";
+    echo "</html>\n";
+  }
 
   /** Charge tous les paramètres du site.
    * ATTENTION: ceci est UNIQUEMENT concu pour stocker des paramètres.

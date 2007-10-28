@@ -1,0 +1,35 @@
+#spaces
+{
+  border:1px solid blue;
+  
+  width:30%;
+  height:50px;
+  
+  position:absolute;
+  top:0px;
+  left:0px;
+  
+  
+}
+
+#folders
+{
+  border:1px solid green;
+  
+  width:30%;
+  position:absolute;
+  top:50px;
+  left:0px;  
+}
+
+
+#foldercontents
+{
+  border:1px solid red;
+  
+  width:70%;
+  position:absolute;
+  top:50px;
+  left:30%;    
+  
+}

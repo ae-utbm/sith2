@@ -537,7 +537,6 @@ if ( $_REQUEST['class'] == "calendar" )
 else
 	$cts = new contents();	
 
-
 echo $cts->html_render();
 
 ?>

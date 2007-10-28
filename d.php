@@ -121,8 +121,8 @@ if ( !$folder->is_valid() )
       $folder->load_root_by_asso($asso_folder->id);
       if ( !$folder->is_valid() ) // Le dossier racine n'existe pas... on va le creer :)
       {
-        $folder->id_groupe_admin = $asso_folder->id + 20000; // asso-bureau
-        $folder->id_groupe = $asso_folder->id + 30000; // asso-membres
+        $folder->id_groupe_admin = $asso_folder->get_bureau_group_id(); // asso-bureau
+        $folder->id_groupe = $asso_folder->get_membres_group_id(); // asso-membres
         $folder->droits_acces = 0xDDD;
         $folder->id_utilisateur = null;
         $folder->add_folder ( $section, null, null, $asso_folder->id );
