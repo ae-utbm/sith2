@@ -686,7 +686,7 @@ class wiki extends basedb
            $this->set_rights($user,$rights,$id_group,$id_group_admin);
         else
           $this->id_utilisateur=$user->id;
-        $this->create ( $parentparent, null, $token, 0, $token, "Créée pour [[:$pagepath]]", $_REQUEST["comment"] );
+        $this->create ( $parentparent, null, $token, 0, $token, "Créée pour [[:$pagepath]]", "Créée" );
       }
       else
       {
