@@ -455,7 +455,7 @@ if ( $file->is_valid() )
   "id_rev_file, date_rev_file, comment_rev_file, ".
   "COALESCE(alias_utl,CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) AS `nom_utilisateur` ".
   "FROM d_file_rev ".
-  "INNER JOIN utilisateurs ON ( d_file_rev_file.id_utilisateur_rev=utilisateurs.id_utilisateur) ".
+  "INNER JOIN utilisateurs ON ( d_file_rev.id_utilisateur_rev=utilisateurs.id_utilisateur) ".
   "WHERE id_file='".$file->id."' ".
   "ORDER BY date_rev_file DESC");
   
@@ -474,7 +474,7 @@ if ( $file->is_valid() )
 
   $req = new requete($site->db,"SELECT fullpath_wiki, title_rev ".
     "FROM wiki_ref_file ".
-    "INNER JOIN wiki ON ( wiki.id_wiki=wiki_ref_wiki.id_wiki) ".
+    "INNER JOIN wiki ON ( wiki.id_wiki=wiki_ref_file.id_wiki) ".
     "INNER JOIN `wiki_rev` ON (".
 		      "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
 		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) ".
