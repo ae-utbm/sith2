@@ -199,7 +199,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
 																	FROM `job_annonces_etu`
 																	NATURAL JOIN `job_annonces`
 																	WHERE `job_annonces_etu`.`id_etu` = $usr->id
-																	AND `job_annonces_etu`.`relation` = 'apply'
+																	AND `job_annonces_etu`.`relation` = 'selected'
 																");
 	$cts->add(new sqltable("candidatures", "Candidatures victorieuses", $sql, "board_etu.php?view=general", 'id_annonce', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le"), array("detail" => "Détails"), array("detail" => "Détails")), true);
 	
