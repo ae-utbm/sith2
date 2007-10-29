@@ -25,6 +25,8 @@ $topdir = "./";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir."include/entities/files.inc.php");
 require_once($topdir."include/entities/folder.inc.php");
+require_once($topdir."include/entities/asso.inc.php");
+
 require_once($topdir."include/cts/gallery.inc.php");
 $site = new site();
 $site->add_css("css/explorer.css");
