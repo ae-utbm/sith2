@@ -37,7 +37,7 @@ if ( !$site->user->is_in_group("root") )
 
 
 $title = "MatMaTronch: Votre photo";
-$infotext = "Nous n'avons toujours pas de photo de votre part pour la prochaine édition du matmatronch. Vous pouvez venir dans les prochains jours au bureau de l'AE à Sevenans, Belfort et Montbéliard pour pour vous faire prendre en photo, vous pouvez aussi mettre en ligne une photo de vous au format numérique, et dernier choix possible, vous pouvez nous faire parvenir au bureau de l'AE une photo papier avec votre nom, prénom, département et date de naissance au dos.";
+$infotext = "Nous n'avons toujours pas de photo de votre part pour la prochaine édition du matmatronch. Nous vous invitons, de nouveau, à mettre en ligne une photo de vous au format numérique.\n\n";
 
 $site->start_page("none","Administration");
 
