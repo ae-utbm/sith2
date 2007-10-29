@@ -494,6 +494,24 @@ if ( $file->is_valid() )
     }
     $cts->add($list);
   }
+
+  $req = new requete($site->db,"SELECT nvl_nouvelles.id_nouvelle, titre_nvl ".
+    "FROM nvl_nouvelles_files ".
+    "INNER JOIN nvl_nouvelles USING(id_nouvelle) ".
+		"WHERE nvl_nouvelles_files.id_file='".$file->id."' ".
+		"ORDER BY titre_nvl");
+
+  if ( $req->lines )
+  {
+    $cts->add_title(3,"Nouvelles");
+    $list = new itemlist(null,"newsrefs");
+    while ( $row = $req->get_row() )
+    {
+      $list->add(
+        "<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".htmlentities($row['titre_nvl'],ENT_NOQUOTES,"UTF-8")."</a>");      
+    }
+    $cts->add($list);
+  }
   
   $cts->add_title(3,"Tags");
   $cts->add(new taglist($file));
