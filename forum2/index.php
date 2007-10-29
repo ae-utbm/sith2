@@ -168,6 +168,7 @@ if( isset($_REQUEST['get_preview']) )
   
   
   $preview = new simplemessageforum($message);
+  header("Content-Type: text/javascript; charset=utf-8");
   echo "<h2>Prévisualisation</h2>";
   echo( $preview->html_render() );
   echo "<h2>Historique</h2>";
@@ -358,10 +359,10 @@ if ( $sujet->is_valid() )
         user = ".$site->user->id.";
         syntaxengine = document.frmedit.synengine.value;
         
-        openInContents('msg_preview', './index.php', 'get_preview&title='+title+'&content='+content+'&user='+user+'&syntaxengine='+syntaxengine);
+        openInContents('msg_preview', './index.php', 'get_preview&title='+escape(title)+'&content='+escape(content)+'&user='+user+'&syntaxengine='+syntaxengine);
       }
       </script>\n");
-      
+     
       $cts->add($frm);
       
       $cts->puts("<div id=\"msg_preview\"></div>");
@@ -438,7 +439,7 @@ if ( $sujet->is_valid() )
         user = ".$site->user->id.";
         syntaxengine = document.frmedit.synengine.value;
         
-        openInContents('msg_preview', './index.php', 'get_preview&title='+title+'&content='+content+'&user='+user+'&syntaxengine='+syntaxengine);
+        openInContents('msg_preview', './index.php', 'get_preview&title='+escape(title)+'&content='+escape(content)+'&user='+user+'&syntaxengine='+syntaxengine);
       }
       </script>\n");
     
@@ -537,7 +538,7 @@ if ( $sujet->is_valid() )
         user = ".$site->user->id.";
         syntaxengine = document.frmreply.synengine.value;
         
-        openInContents('msg_preview', './index.php', 'get_preview&title='+title+'&content='+content+'&user='+user+'&syntaxengine='+syntaxengine);
+        openInContents('msg_preview', './index.php', 'get_preview&title='+escape(title)+'&content='+escape(content)+'&user='+user+'&syntaxengine='+syntaxengine);
       }
       </script>\n");
   
@@ -985,9 +986,20 @@ if ( $_REQUEST["page"] == "post" && !$forum->categorie )
   
   
   $frm->add_submit("subjsubmit", "Poster");
-
+  $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:make_preview();\" /></div></div>\n");
+  $cts->add_paragraph("<script language=\"javascript\">
+      function make_preview()
+      {
+        title = document.newsbj.titre_sujet.value;
+        content = document.newsbj.subjtext.value;
+        user = ".$site->user->id.";
+        syntaxengine = document.newsbj.synengine.value;
+        
+        openInContents('msg_preview', './index.php', 'get_preview&title='+escape(title)+'&content='+escape(content)+'&user='+user+'&syntaxengine='+syntaxengine);
+      }
+      </script>\n");
   $cts->add($frm);
-  
+  $cts->puts("<div id=\"msg_preview\"></div>");
   $site->add_contents($cts);
   
   $site->end_page();  
