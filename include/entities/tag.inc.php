@@ -68,7 +68,7 @@ class tag extends stdentity
   function set_modere ( $modere=true )
   {
     $this->modere = $modere;
-    new requete($this->dbrw, "tag", array("modere_tag"=>$this->modere));
+    new update($this->dbrw, "tag", array("modere_tag"=>$this->modere), array("id_wiki"=>$this->id));
   }
   
   /**
