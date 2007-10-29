@@ -588,12 +588,14 @@ class wiki extends basedb
     $conf["linkscontext"] = "wiki";
     $conf["linksscope"] = $this->get_scope();
     $conf["macrofunction"] = array($this,'wikimacro');
+    $conf["db"] = &$this->db;
     
     $cts = new wikicontents($this->rev_title,$this->rev_contents);
 
     $conf["linksscope"]="";
     $conf["linkscontext"]="";
     unset($conf["macrofunction"]);
+    unset($conf["db"]);
     return $cts;
   }
   

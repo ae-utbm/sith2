@@ -346,7 +346,7 @@ function format_headlines(&$table,&$hltable,&$text)
 function linkformat($match)
 {
   global $conf;
-  global $wwwtopdir;
+  global $wwwtopdir,$topdir;
   $ret = '';
   $match = str_replace('\\"','"',$match);
 
@@ -372,13 +372,32 @@ function linkformat($match)
     
   if( preg_match('/^([a-zA-Z]+):\/\//',$link) ) // liens externe et spéciaux
   {
-    $link = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$wwwtopdir."d.php?action=download&download=preview&id_file=$1",$link);
-    $link = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$wwwtopdir."d.php?action=download&download=thumb&id_file=$1",$link);
-    $link = preg_replace("/dfile:\/\/([0-9]*)/i",$wwwtopdir."d.php?action=download&id_file=$1",$link);
+    if ( preg_match('/dfile:\/\/([0-9]*)(\/preview|\/info|\/download|\/thumb)?/i',$link,$match) )
+    {
+      if ( $no_name && isset($conf["db"]) )
+      {
+        require_once($topdir."include/entities/files.inc.php");
+        $file = new dfile($conf["db"]);
+        $file->load_by_id($match[1]);
+        return $file->get_html_link();
+      }
+      elseif ( !isset($match[2]) || $match[2] == "/download" )
+        $link = $wwwtopdir."d.php?action=download&id_file=".$match[1];
+      elseif ( $match[2] == "/preview" )
+        $link = $wwwtopdir."d.php?action=download&download=preview&id_file=".$match[1];
+      elseif ( $match[2] == "/thumb" )
+        $link = $wwwtopdir."d.php?action=download&download=thumb&id_file=".$match[1];
+      elseif ( $match[2] == "/info" )
+        $link = $wwwtopdir."d.php?id_file=".$match[1];      
+    }
+    else
+    {
     //les article://
     $link = preg_replace("/article:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
     //les wiki://
     $link = preg_replace("/wiki:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link); 
+    $link = preg_replace("/sas:\/\//i",$wwwtopdir."sas2/images.php?/",$link);
+    }
   }
   elseif ( !preg_match("#(\.|/)#",$link) )
   {  
