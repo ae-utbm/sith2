@@ -13,7 +13,7 @@
 #chspace  div.form
 {
 	margin:2px;
-	margin-left:15px;
+	margin-left:5px;
 }
 
 
@@ -29,8 +29,13 @@
 	display:inline;
 	width: auto;
 	position:static;
-	margin-right:15px;
 }
+
+#chspace select
+{
+  margin-left:3px;  
+}
+
 
 #chspace  div.formrow
 {

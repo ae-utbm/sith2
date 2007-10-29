@@ -179,7 +179,7 @@ $frm->add_submit("ok","OK");
 $cts->add( $frm, false, true, "spaces" );
 
 $sub = new contents();
-$sub->buffer = explore_folders($site->user,$path);
+$sub->buffer = "<ul>".explore_folders($site->user,$path)."</ul>";
 $cts->add( $sub, false, true, "folders" );
 
 $cts->add( $fcts, false, true, "foldercontents" );
