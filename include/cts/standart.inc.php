@@ -1075,6 +1075,16 @@ class form extends stdcontents
                     array( 0x4 => "Ajout de cat&eacute;gories"),$add );
 			}
 		}
+		elseif ( $context =="files")
+		{
+  		$this->add_radiobox_field ( "__rights_ecrt", "Droits d'écriture",
+              array( 0x200 => "Ecriture par uniquement le propriétaire"),
+              $basedb->droits_acces & 0x200 );
+  		$this->add_radiobox_field ( "__rights_ecrt", "",
+              array( 0x220 => "Ecriture par les membres du groupe s&eacute;lectionn&eacute;"),
+              $basedb->droits_acces & 0x222 );
+		  
+		}
 		
 		$this->add_info("<a href=\"".$wwwtopdir."article.php?name=docs:basedb\">Aide sur les droits d'accés</a>");
 		
@@ -1713,6 +1723,8 @@ if ( isset($_REQUEST["magicform"]) )
 	{
 		if ( isset($_REQUEST["__rights_ecrt"]) && isset($_REQUEST["__rights_ajout"]) ) 
 		  $_REQUEST["rights"] = 0x200 | $_REQUEST["__rights_lect"] | $_REQUEST["__rights_ecrt"] | $_REQUEST["__rights_ajout"];
+		elseif ( isset($_REQUEST["__rights_ecrt"]) ) 
+		  $_REQUEST["rights"] = $_REQUEST["__rights_lect"] | $_REQUEST["__rights_ecrt"]
 		else
 		  $_REQUEST["rights"] = 0x200 | $_REQUEST["__rights_lect"] | 
 							($_REQUEST["__rights_lect"]*$_REQUEST["__rights_ajoutsub"]);

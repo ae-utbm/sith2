@@ -10,7 +10,7 @@ $site = new site();
 $oldpage= new page($site->db);
 $newpage = new page_wikized($site->db,$site->dbrw);
 
-$req = new requete($site->db,"SELECT * FROM pages");
+$req = new requete($site->db,"SELECT * FROM pages ORDER BY nom_page");
 
 while ( $row = $req->get_row() )
 {

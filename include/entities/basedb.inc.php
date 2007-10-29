@@ -40,8 +40,8 @@ define("DROIT_AJOUTITEM",0x8);
  * @}
  */
 
-define("DROIT_MASKCAT",0xFDD);
-define("DROIT_MASKITEM",0x311);
+define("DROIT_MASKCAT",0xFFD);
+define("DROIT_MASKITEM",0x331);
 
 /**
  * Gère un objet à droits d'accés et modéré

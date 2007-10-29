@@ -284,6 +284,41 @@ class wiki extends basedb
     return true;
 	}
 	
+	/** 
+	 * Deplace la page dans un autre parent
+	 * @param Instance de la classe wiki, avec le parent chargé
+	 */
+	function move_to ( &$parent )
+	{
+	  $oldpath = $this->fullpath;
+	  
+		$this->id_wiki_parent = $parent->id;
+	  
+    if ( !empty($parent->fullpath) )
+      $this->fullpath = $parent->fullpath.":".$this->name;
+    else
+      $this->fullpath =$this->name;	 
+	 
+    new update($this->dbrw,"wiki", array (
+      "id_wiki_parent" => $this->id_wiki_parent,
+      "fullpath_wiki" => $this->fullpath),array("id_wiki"=>$this->id));	 
+      
+		$req = new requete($this->db, "SELECT id_wiki, fullpath_wiki  FROM `wiki`
+				WHERE `fullpath_wiki` LIKE '" . mysql_real_escape_string($fullpath) . ":%'");
+      
+    while ( $row = $req->get_row() )
+    {
+      new update($this->dbrw,"wiki", array (
+        "fullpath_wiki" => $this->fullpath.substr($row["fullpath_wiki"],strlen($oldpath))),
+        array("id_wiki"=>$row["id_wiki"]));	       
+    }  
+      
+	}
+	
+	/**
+	 * Inscrit dans la base de données les valeurs de certains champs de cette instance.
+	 * (id_utilisateur, id_groupe, id_groupe_admin, droits_acces, id_asso, namespace_behaviour, section)
+	 */
 	function update()
 	{
     new update($this->dbrw,"wiki", array (
@@ -297,8 +332,7 @@ class wiki extends basedb
 	}
 	
 	/**
-	 * Met à jours les réfences de la page sur
-	 * la base du contenu fourni.
+	 * Met à jours les réfences de la page sur la base du contenu fourni.
 	 * @param $contents Contenu à analyser
 	 */
   function update_references($contents)

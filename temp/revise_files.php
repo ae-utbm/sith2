@@ -25,7 +25,7 @@ while ( $row = $req->get_row() )
 
   new update ($dbrw,"d_file",array("id_rev_file_last"=>$id_rev_file),array("id_file"=>$row["id_file"]));
 
-  if ( file_exists($topdir."var/files/".$row["id_file"]) )
+  /*if ( file_exists($topdir."var/files/".$row["id_file"]) )
   {
     if ( file_exists($topdir."var/files/".$row["id_file"].".".$id_rev_file))
       unlink($topdir."var/files/".$row["id_file"].".".$id_rev_file);
@@ -33,7 +33,7 @@ while ( $row = $req->get_row() )
     copy($topdir."var/files/".$row["id_file"],$topdir."var/files/".$row["id_file"].".".$id_rev_file);
   }
   else
-    echo "WARNING: no such file<br/>";
+    echo "WARNING: no such file<br/>";*/
 }
 
 ?>

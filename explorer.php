@@ -98,6 +98,27 @@ if ( $_REQUEST["get"] == "folderchilds" )
   exit();  
 }
 
+if ( $_REQUEST["action"] == "addfile" && $folder->is_right($site->user,DROIT_AJOUTITEM) )
+{
+  if ( !$_REQUEST["nom"] )
+  {
+    $ErreurAjout="Veuillez préciser un nom pour le fichier.";
+  }
+  elseif( !is_uploaded_file($_FILES['file']['tmp_name']) || ($_FILES['file']['error'] != UPLOAD_ERR_OK ) )
+  {
+    $ErreurAjout="Erreur lors du transfert.";
+  }
+  else
+  {
+    $asso = new asso($site->db);
+    $asso->load_by_id($_REQUEST["id_asso"]);
+    $file->herit($folder);
+    $file->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
+    $file->add_file ( $_FILES["file"], $_REQUEST["nom"], $folder->id, $_REQUEST["description"],$asso->id );
+    $file->set_tags($_REQUEST["tags"]);
+  }
+}
+
 $fcts = new contents();
 $fcts->add_title(1,htmlspecialchars($folder->titre));
 $fcts->add_title(2,"Fichiers");
@@ -129,6 +150,8 @@ if ( $folder->is_right($site->user,DROIT_AJOUTITEM) )
   
   $frm = new form("addfile","explorer.php");
   $frm->allow_only_one_usage();
+  if ( $ErreurAjout )
+    $frm->error($ErreurAjout);
   $frm->add_hidden("action","addfile");
   $frm->add_hidden("id_folder",$folder->id);
   if ( $ErreurAjout )
