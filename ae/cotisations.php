@@ -23,6 +23,11 @@
  */
 $topdir = "../";
 
+/**
+ * @deprecated
+ * @todo à refaire complétement
+ */
+
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/cotisation.inc.php");
