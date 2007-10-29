@@ -1,5 +1,5 @@
 <?php
-/* Copyright 2006
+/* Copyright 2006,2007
  * - Julien Etelain < julien at pmad dot net >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
@@ -231,7 +231,7 @@ class dfile extends fs
 			return;
 		}
 		
-    $this->_new_revision ( $this->id_utilisateur, $filesize, $mime_type, "Created" );
+    $this->_new_revision ( $this->id_utilisateur, $file['size'], $file['type'], "Created" );
     
 		move_uploaded_file ( $file['tmp_name'], $this->get_real_filename() );
 
