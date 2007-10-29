@@ -181,7 +181,7 @@ $site->add_contents($cts);
 
 if ( $can_edit )
   $cts->set_toolbox(new toolbox(array("index.php?page=edit&name=".substr($page->nom,strlen(CMS_PREFIX))=>"Editer"/*,
-                                      "index.php?action=delete&name=".substr($page->nom,strlen(CMS_PREFIX))=>"Supprimer")*/));
+                                      "index.php?action=delete&name=".substr($page->nom,strlen(CMS_PREFIX))=>"Supprimer"*/)));
 
 if ( $page->nom == CMS_PREFIX."home" && $site->config["home.news"] == 1 )
 {
