@@ -57,7 +57,7 @@ while ( $row = $req->get_row() )
   }
 }
 
-$lst->add(count($excpeted)." fichiers attendus");
+$lst->add(count($excepted)." fichiers attendus");
 $lst->add(count($excepted_thumb)." fichiers thumb attendus");
 $lst->add(count($excepted_preview)." fichiers preview attendus");
 
@@ -68,7 +68,7 @@ function checkup_dir(&$lst,&$excepted,$folder)
   $found=0;
   $excepted_found=0;
   $unexcepted_found=0;
-  if ($dh = opendir($dir))
+  if ($dh = opendir($folder))
   {
     while (($file = readdir($dh)) !== false)
     {
