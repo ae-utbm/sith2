@@ -89,7 +89,7 @@ $GLOBALS["entitiescatalog"] = array (
 	
 	"uv" 			=> array ( "id_uv", "code_uv", "misc.png", "uvs/uvs.php", "edu_uv", "uv.inc.php" ),
 	
-	"nouvelle"=>array("d_nouvelle", "titre_nvl", "misc.png", "news.php", "nvl_nouvelles", "news.inc.php", "nvl_nouvelles_tag")
+	"nouvelle"=>array("id_nouvelle", "titre_nvl", "misc.png", "news.php", "nvl_nouvelles", "news.inc.php", "nvl_nouvelles_tag")
 
 	
 	);
