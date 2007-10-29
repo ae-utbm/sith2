@@ -455,7 +455,7 @@ if ( $file->is_valid() )
   "id_rev_file, date_rev_file, comment_rev_file, ".
   "COALESCE(alias_utl,CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) AS `nom_utilisateur` ".
   "FROM d_file_rev ".
-  "INNER JOIN utilisateurs ON ( d_file_rev.id_utilisateur_rev=utilisateurs.id_utilisateur) ".
+  "INNER JOIN utilisateurs ON ( d_file_rev.id_utilisateur_rev_file=utilisateurs.id_utilisateur) ".
   "WHERE id_file='".$file->id."' ".
   "ORDER BY date_rev_file DESC");
   
