@@ -1724,7 +1724,7 @@ if ( isset($_REQUEST["magicform"]) )
 		if ( isset($_REQUEST["__rights_ecrt"]) && isset($_REQUEST["__rights_ajout"]) ) 
 		  $_REQUEST["rights"] = 0x200 | $_REQUEST["__rights_lect"] | $_REQUEST["__rights_ecrt"] | $_REQUEST["__rights_ajout"];
 		elseif ( isset($_REQUEST["__rights_ecrt"]) ) 
-		  $_REQUEST["rights"] = $_REQUEST["__rights_lect"] | $_REQUEST["__rights_ecrt"]
+		  $_REQUEST["rights"] = $_REQUEST["__rights_lect"] | $_REQUEST["__rights_ecrt"];
 		else
 		  $_REQUEST["rights"] = 0x200 | $_REQUEST["__rights_lect"] | 
 							($_REQUEST["__rights_lect"]*$_REQUEST["__rights_ajoutsub"]);
