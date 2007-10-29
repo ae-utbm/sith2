@@ -60,7 +60,7 @@ if ( isset($_REQUEST["mode"]) )
         $Erreur = "Veuillez préciser un mot de passe";
       elseif ( $_REQUEST["password"] != $_REQUEST["password_repeat"] )
         $Erreur = "Les deux saisies du mot de passe ne dont pas identiques";    
-      elseif ( $_REQUEST["alias"] && !ereg("^([A-Za-z0-9\._-]+)$",$_REQUEST["alias"]) )
+      elseif ( $_REQUEST["alias"] && !preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",$_REQUEST["alias"]) )
         $Erreur = "L'alias choisi comporte des caractères non autorisés";        
       elseif ( $_REQUEST["alias"] && !$user->is_alias_avaible ($_REQUEST["alias"]) )
         $Erreur = "L'alias que vous avez choisi est déjà utilisé, veuillez en choisir un autre";        

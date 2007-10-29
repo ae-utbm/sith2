@@ -110,7 +110,12 @@ elseif ( $_REQUEST["action"] == "stop" && $can_edit && isset($_REQUEST["id_membe
 }
 elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
 {
-  if ( $_REQUEST["alias"] && !$user->is_alias_avaible($_REQUEST["alias"]) )
+  if ( $_REQUEST["alias"] && !preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",$_REQUEST["alias"]) )
+  {
+    $ErreurMAJ = "Alias invalide, utilisez seulement des lettres, des chiffres, des tirets, des points, et des underscore.";
+    $_REQUEST["page"] = "edit";
+  }
+  elseif ( $_REQUEST["alias"] && !$user->is_alias_avaible($_REQUEST["alias"]) )
   {
     $ErreurMAJ = "Alias d&eacute;j&agrave;  utilis&eacute;";
     $_REQUEST["page"] = "edit";
