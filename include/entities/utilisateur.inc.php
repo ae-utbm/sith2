@@ -726,6 +726,10 @@ class utilisateur extends stdentity
   function saveinfos ()
   {
     global $topdir;
+    
+    if ( empty($this->alias) )
+      $this->alias = null;
+    
     new update($this->dbrw,
                       "utilisateurs",
                       array('nom_utl' => $this->nom,
@@ -987,7 +991,10 @@ class utilisateur extends stdentity
     $this->nom = convertir_nom($nom);
     $this->prenom = convertir_prenom($prenom);
     $this->email = $email;
-    $this->alias = $alias;
+    if ( empty($alias) )
+      $this->alias = null;
+    else
+      $this->alias = $alias;
     $this->pass = crypt($password, "ae");
     $this->sexe = $sexe;
     $this->date_naissance = $date_naissance;
@@ -1143,7 +1150,10 @@ class utilisateur extends stdentity
 
     $this->email = $email;
 
-    $this->alias = $alias;
+    if ( empty($alias) )
+      $this->alias = null;
+    else
+      $this->alias = $alias;
 
     if (!$password)
       $password = genere_pass(7);
