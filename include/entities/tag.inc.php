@@ -68,7 +68,7 @@ class tag extends stdentity
   function set_modere ( $modere=true )
   {
     $this->modere = $modere;
-    new update($this->dbrw, "tag", array("modere_tag"=>$this->modere), array("id_wiki"=>$this->id));
+    new update($this->dbrw, "tag", array("modere_tag"=>$this->modere), array("id_tag"=>$this->id));
   }
   
   /**
@@ -79,10 +79,10 @@ class tag extends stdentity
     foreach ( $GLOBALS["entitiescatalog"] as $row )
     {
       if ( isset($row[6]) && !empty($row[6]) )  
-        new delete($this->dbrw, $row[6], array("id_wiki"=>$this->id));
+        new delete($this->dbrw, $row[6], array("id_tag"=>$this->id));
     }
     
-    new delete($this->dbrw, "tag", array("id_wiki"=>$this->id));
+    new delete($this->dbrw, "tag", array("id_tag"=>$this->id));
   }
   
   
