@@ -102,7 +102,7 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
                           ,$news->type);
 
   $frm->add_text_field("title", "Titre",$news->titre,true);
-  $frm->add_checkbox ( "non_asso_seule", "Publier aussi sur le site de l'AE (sera soumis à modération)", $news->asso_seule);
+  $frm->add_checkbox ( "non_asso_seule", "Publier aussi sur le site de l'AE (sera soumis à modération)", !$news->asso_seule);
   $frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",$news->id_lieu,true);
   $frm->add_text_field("tags", "Tags",$news->get_tags());
   $frm->add_text_area ("resume","Resume",$news->resume);
