@@ -374,7 +374,7 @@ function linkformat($match)
   {
     if ( preg_match('/dfile:\/\/([0-9]*)(\/preview|\/info|\/download|\/thumb)?/i',$link,$match) )
     {
-      if ( $no_name && isset($conf["db"]) )
+      if ( empty($realname) && isset($conf["db"]) )
       {
         require_once($topdir."include/entities/files.inc.php");
         $file = new dfile($conf["db"]);
