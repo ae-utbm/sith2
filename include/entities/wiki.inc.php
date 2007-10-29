@@ -396,6 +396,8 @@ class wiki extends basedb
       
       list($link,$dummy) = explode("|",$link,2);
       
+      list($link,$dummy) = explode("#",$link,2);
+      
       if ( $media )
         list($link,$dummy) = explode("?",$link,2);
         
@@ -405,9 +407,13 @@ class wiki extends basedb
           $this->add_rel_file($match[2]);
         
         elseif ( !$media && preg_match("#^wiki:\/\/(.*)$#i",$link,$match) )
-          $id_wiki = $this->get_id_fullpath($match[1]);
+          $this->add_rel_wiki($match[1]);
+          
+        elseif ( !$media && preg_match("#^article:\/\/(.*)$#i",$link,$match) )
+          $this->add_rel_wiki("articles:".
+            preg_replace("/[^a-z0-9\-_:#]/","_",strtolower(utf8_enleve_accents($match[1]))));          
       }
-      elseif ( !preg_match("#(\.|/)#",$link) && $link{0} != '#' )
+      elseif ( !preg_match("#(\.|/)#",$link) && !empty($link) )
       {
         $wiki = preg_replace("/[^a-z0-9\-_:#]/","_",strtolower(utf8_enleve_accents($link)));
         
