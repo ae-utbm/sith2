@@ -54,7 +54,7 @@ $site->start_page ("none", "Modération des tags");
 
 $cts = new contents("Modération des tags");  
 
-$req = new requete($site->db,"SELECT * FROM tag WHERE modere_tag='0' ORDER BY tag_nom");
+$req = new requete($site->db,"SELECT * FROM tag WHERE modere_tag='0' ORDER BY nom_tag");
 
 
 $tbl = new sqltable ("moderetag_list",
