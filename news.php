@@ -113,8 +113,8 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
   $frm->add_select_field ("type",
                           "Type de nouvelle",
                           array(NEWS_TYPE_APPEL => "Appel/concours",
-                                NEWS_TYPE_EVENT => utf8_encode("Événement ponctuel"),
-                                NEWS_TYPE_HEBDO => utf8_encode("Séance hebdomadaire"),
+                                NEWS_TYPE_EVENT => "Événement ponctuel",
+                                NEWS_TYPE_HEBDO => "Séance hebdomadaire",
                                 NEWS_TYPE_NOTICE => "Info/resultat")
                           ,$news->type);
 

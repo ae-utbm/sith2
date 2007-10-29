@@ -45,8 +45,108 @@ if ( isset($_REQUEST["id_nouvelle"]) )
 
 }
 
+if ( ($_REQUEST["action"] == "adddate") && $can_edit )
+{
+  if ( $_REQUEST["debut"] && ( $_REQUEST["debut"]  < $_REQUEST["fin"] ) )
+    $news->add_date($_REQUEST["debut"],$_REQUEST["fin"]);
+
+}
+elseif ( ($_REQUEST["action"] == "delete") && isset($_REQUEST["id_dates_nvl"]) && $can_edit )
+{
+  $news->delete_date($_REQUEST["id_dates_nvl"]);
+}
+elseif ( ($_REQUEST["action"] == "delete") && !isset($_REQUEST["id_dates_nvl"]) && $can_edit )
+{
+  if ( $site->is_sure("accueil","Supprimer la nouvelle ?","delnws".$news->id) )
+    {
+      $news->delete();
+      $cts_success = new contents("Suppression de nouvelles",
+                                  "<p>Votre nouvelle a &eacute;t&eacute; supprim&eacute;e ".
+                                  "avec succ&egrave;s</p>");
+    }
+}
+elseif ( ($_REQUEST["action"] == "save") && $can_edit )
+{
+  $modere = false;
+  $lieu->load_by_id($_REQUEST["id_lieu"]);
+
+
+  if ( $_REQUEST["title"] && $_REQUEST["content"] )
+  {
+    $news->save_news($site->asso->id,
+                     $_REQUEST['title'],
+                     $_REQUEST['resume'],
+                     $_REQUEST['content'],
+                     false,null,$_REQUEST["type"],!isset($_REQUEST['non_asso_seule']),$lieu->id);
+    $news->set_tags($_REQUEST["tags"]);
+  }
+}
+
+if ( $_REQUEST["page"]  == "edit" && $can_edit )
+{
+  $site->start_page (CMS_PREFIX."accueil", $news->titre);
+  $cts = new contents("Editer");
+
+  $frm = new form ("editnews","news.php",false,"POST","Edition d'une nouvelle");
+  $frm->add_hidden("action","save");
+  $frm->add_hidden("id_nouvelle",$news->id);
+  $frm->add_info("<b>ATTENTION</b> La nouvelle sera soumise &agrave; nouveau &agrave; mod&eacute;ration");
+
+  $frm->add_select_field ("type",
+                          "Type de nouvelle",
+                          array(NEWS_TYPE_APPEL => "Appel/concours",
+                                NEWS_TYPE_EVENT => "Événement ponctuel",
+                                NEWS_TYPE_HEBDO => "Séance hebdomadaire",
+                                NEWS_TYPE_NOTICE => "Info/resultat")
+                          ,$news->type);
+
+  $frm->add_text_field("title", "Titre",$news->titre,true);
+  $frm->add_checkbox ( "non_asso_seule", "Publier aussi sur le site de l'AE (sera soumis à modération)", $news->asso_seule);
+  $frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",$news->id_lieu,true);
+  $frm->add_text_field("tags", "Tags",$news->get_tags());
+  $frm->add_text_area ("resume","Resume",$news->resume);
+  $frm->add_dokuwiki_toolbar('content');
+  $frm->add_text_area ("content", "Contenu",$news->contenu,80,10,true);
+
+  $frm->add_submit("valid","Enregistrer");
+
+  $site->add_contents ($frm);
+
+
+  $req = new requete ( $site->db,"SELECT * FROM nvl_dates WHERE id_nouvelle='".$news->id."' ORDER BY date_debut_eve");
+
+  $cts = new contents("Dates");
+
+  if ( $req->lines > 0 )
+    {
+      $tbl = new sqltable(
+                          "listsalles",
+                          "Liste actuelle", $req, "news.php?page=edit&id_nouvelle=".$news->id,
+                          "id_dates_nvl",
+                          array("date_debut_eve"=>"De","date_fin_eve"=>"Au"),
+                          array("delete"=>"Supprimer"), array(),array()
+                          );
+      $cts->add($tbl,true);
+    }
+
+  $frm = new form("selectdateresa","news.php?page=edit&id_nouvelle=".$news->id,false,"POST","Associer une date");
+  $frm->add_hidden("action","adddate");
+  $frm->add_datetime_field("debut","Date et heure de d&eacute;but");
+  $frm->add_datetime_field("fin","Date et heure de fin");
+  $frm->add_submit("valid","Ajouter");
+  $cts->add($frm,true);
+
+  $site->add_contents($cts);
+
+  $site->add_contents (new wikihelp());
+  $site->end_page ();
+  exit();
+}
+
 if ( $news->is_valid() )
 {
+
+
 
   $site->start_page (CMS_PREFIX."accueil", $news->titre);
 	
@@ -164,7 +264,10 @@ if ( $suitable && isset($_REQUEST["submit"]) )
                   $_REQUEST['resume'],
                   $_REQUEST['content'],
                   $_REQUEST['type'],
-                  !isset($_REQUEST['non_asso_seule'],$lieu->id));
+                  !isset($_REQUEST['non_asso_seule']),$lieu->id);
+
+  $news->set_tags($_REQUEST["tags"]);
+
 
   if ( !isset($_REQUEST['non_asso_seule']) ) // Auto-modération si affiché seulement dans le CMS
     $news->validate($site->user->id);
@@ -288,6 +391,7 @@ $frm->add($sfrm,false,true, $type==0 ,0 ,false,true);
 $frm->add_text_field("title", "Titre de la nouvelle",$_REQUEST["title"],true);
 $frm->add_checkbox ( "non_asso_seule", "Publier aussi sur le site de l'AE (sera soumis à modération)", true);
 $frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",false,true);
+$frm->add_text_field("tags", "Tags",$_REQUEST["tags"]);
 $frm->add_text_area ("resume","Resum&eacute;",$_REQUEST["resume"]);
 $frm->add_text_area ("content", "Contenu",$_REQUEST["content"],80,10,true);
 
