@@ -169,6 +169,8 @@ $req = $root->get_folders($site->user,"id_folder, nom_fichier_folder");
 while ( list($id,$name) = $req->get_row() )
   $root_folders[$id]=$name;
 
+asort($root_folders);
+
 $site->start_page("na","Explorer");
 $cts = new contents();
 
