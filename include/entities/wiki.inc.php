@@ -392,6 +392,8 @@ class wiki extends basedb
     
     foreach( $matches[1] as $link )
     {
+      $link = trim($link);
+      
       list($link,$dummy) = explode("|",$link,2);
       
       if ( $media )
