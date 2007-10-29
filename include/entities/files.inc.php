@@ -614,8 +614,9 @@ class dfile extends fs
 		if ( file_exists($f))
 		  unlink($f);
 
+    $this->set_tags_array(array());
+
 		new delete($this->dbrw,"d_file",array("id_file"=>$this->id));
-		new delete($this->dbrw,"d_file_tag",array("id_file"=>$this->id));
 		new delete($this->dbrw,"d_file_lock",array("id_file"=>$this->id));
 		new delete($this->dbrw,"d_file_rev",array("id_file"=>$this->id));
 	}

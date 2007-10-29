@@ -233,8 +233,12 @@ class nouvelle extends stdentity
   function delete ()
   {
     if ( !$this->dbrw ) return;
+    
+    $this->set_tags_array(array());
+    
     new delete($this->dbrw,"nvl_nouvelles",array("id_nouvelle"=>$this->id));
     new delete($this->dbrw,"nvl_dates",array("id_nouvelle"=>$this->id));
+    new delete($this->dbrw,"nvl_nouvelles_files",array("id_nouvelle"=>$this->id));
     $this->id = null;
   }
 
