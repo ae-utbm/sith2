@@ -58,6 +58,8 @@ while ( $row = $req->get_row() )
 }
 
 $lst->add(count($excpeted)." fichiers attendus");
+$lst->add(count($excepted_thumb)." fichiers thumb attendus");
+$lst->add(count($excepted_preview)." fichiers preview attendus");
 
 function checkup_dir(&$lst,&$excepted,$folder)
 {
