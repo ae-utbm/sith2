@@ -59,7 +59,7 @@ while ( $row = $req->get_row() )
 
 $lst->add(count($excpeted)." fichiers attendus");
 
-function checkup_dir(&$lst,&$excepted,&$folder)
+function checkup_dir(&$lst,&$excepted,$folder)
 {
   $lst->add("<b>Liste tous les fichiers de $folder</b>");
   
