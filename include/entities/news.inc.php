@@ -301,7 +301,9 @@ class nouvelle extends stdentity
 			$this->id = $req->get_id();
 		else
 			$this->id = null;
-			      
+			
+    $this->update_references($this->resume."\n".$this->contenu);
+          
     return ($req != false);
   }
   
@@ -376,8 +378,49 @@ class nouvelle extends stdentity
 			   array(
 			   	"id_nouvelle"=>$this->id
 			   	));
-
+    $this->update_references($this->resume."\n".$this->contenu);
 	}
+	
+  function update_references($contents)
+  {
+    new requete($this->dbrw,
+      "DELETE FROM nvl_nouvelles_files ".
+      "WHERE `id_nouvelle` = '" . mysql_real_escape_string($this->id) . "'");
+
+    $this->_ref_cache=array();
+
+    $this->_update_references($contents,"#\[\[([^\]]+?)\]\]#i");
+    $this->_update_references($contents,"#\{\{([^\}]+?)\}\}#i",true);
+  }
+
+  function add_rel_file ( $id_file )
+  {
+    if ( !isset($this->_ref_cache[$id_file]) ) 
+    {
+      new insert($this->dbrw,"nvl_nouvelles_files",array("id_nouvelle"=>$this->id,"id_file"=>$id_file));
+      $this->_ref_cache[$id_file]=1;
+    }
+  }
+  
+  function _update_references( $contents, $regexp, $media=false )
+  {
+    if ( !preg_match_all ( $regexp, $contents, $matches ) ) return;
+    foreach( $matches[1] as $link )
+    {
+      $link = trim($link);
+      
+      list($link,$dummy) = explode("|",$link,2);
+      list($link,$dummy) = explode("#",$link,2);
+      if ( $media )
+        list($link,$dummy) = explode("?",$link,2);
+      if( preg_match('/^([a-zA-Z]+):\/\//',$link) )
+      {
+        if ( preg_match("#^(dfile:\/\/|.*d\.php\?id_file=)([0-9]*)(.*)$#i",$link,$match) )
+          $this->add_rel_file($match[2]);
+      }
+    }
+  }
+	
 }
 
 

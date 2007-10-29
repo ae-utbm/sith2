@@ -312,7 +312,7 @@ class wiki extends basedb
         "fullpath_wiki" => $this->fullpath.substr($row["fullpath_wiki"],strlen($oldpath))),
         array("id_wiki"=>$row["id_wiki"]));	       
     }  
-    /**@todo Mettre à jour les références */
+    $this->update_references($this->rev_contents);
 	}
 	
 	/**
