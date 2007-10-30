@@ -125,6 +125,6 @@ $table = new sqltable("listjeton",
 
 $cts->add($table, true);  
 
-$site->add_content($cts);
+$site->add_contents($cts);
 $site->end_page();
 ?>
