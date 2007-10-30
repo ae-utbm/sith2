@@ -102,8 +102,8 @@ class sitelaverie extends site
 																										  
 			  $list = new itemlist("Vous devez rendre les jetons suivants :",false,$jetons);
 
-				$cts->add($list,true); */
-			}
+				$cts->add($list,true); 
+			}*/
 			$this->page_end();
 			exit();
 		}
