@@ -30,7 +30,7 @@ define("JET_LAVAGE", 224);
 define("JET_SECHAGE", 225);
 
 $topdir = "../";
-require_once($tpodir. "include/site.inc.php");
+require_once($topdir. "include/site.inc.php");
 require_once($topdir. "laverie/include/laverie.inc.php");
 require_once($topdir. "include/entities/jeton.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
