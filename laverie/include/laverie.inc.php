@@ -22,8 +22,6 @@
  * 02111-1307, USA.
  */
  
-require_once($topdir."include/site.inc.php");
-
 class sitelaverie extends site
 {
 	var $user_is_admin;
