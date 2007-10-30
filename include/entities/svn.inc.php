@@ -24,8 +24,9 @@
 
 define("PASSWORDFILE","svn.passwd");
 define("SVN_PATH","/var/lib/svn/");
-define("PRIVATE_SVN","");
-define("PUBLIC_SVN","");
+define("PRIVATE_SVN","private/");
+define("PUBLIC_SVN","public/");
+define("AEINFO_SVN","aeinfo/");
 
 
 class svn_depot extends stdentity
@@ -91,7 +92,7 @@ class svn_depot extends stdentity
   }
 
   /* change the repository type */
-  function change_type($type)
+  function change_repo_type($type)
   {
     if( !in_array($type,$this->type_depot) )
       return false;
@@ -114,7 +115,7 @@ class svn_depot extends stdentity
   // TODO : vérifier qu'il y'ai un putain d'alias
 
   /* add an user to the repository with specified level */
-  function add_user($user,$level)
+  function add_user_access($user,$level)
   {
     if( !in_array($level,$this->valid_rights) )
       return false;
@@ -144,7 +145,7 @@ class svn_depot extends stdentity
   }
 
   /* delete acces for specified user */
-  function del_user($user)
+  function del_user_access($user)
   {
     if( $user->is_valid() )
     {
@@ -155,7 +156,7 @@ class svn_depot extends stdentity
   }
 
   /* update user access level */
-  function update_user($user,$level)
+  function update_user_access($user,$level)
   {
     if ( !in_array($level,$this->valid_rights) )
       return false;
