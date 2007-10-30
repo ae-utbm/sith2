@@ -105,6 +105,10 @@ class svn_depot extends stdentity
       @mkdir("/tmp/".$name."/trunk",0777);
       if(is_dir("/tmp/".$name))
         exec("svn import /tmp/".$name." file://".$dest." -m 'Initial import'");
+      @rmdir("/tmp/".$name."/branches");
+      @rmdir("/tmp/".$name."/tags");
+      @rmdir("/tmp/".$name."/trunk");
+      @rmdir("/tmp/".$name);
 
       return true;
     }
