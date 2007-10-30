@@ -22,7 +22,6 @@
  * 02111-1307, USA.
  */
 
-#define("SVN_PATH","/var/lib/svn/");
 define("PASSWORDFILE","svn.passwd");
 define("SVN_PATH","/var/lib/svn/");
 define("PRIVATE_SVN","");
@@ -33,11 +32,16 @@ $topdir="../";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
+require_once($topdir."include/entities/svn.inc.php");
+
+
 $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
   error_403();
 
+
+/*
 if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="adduser" && !empty($_REQUEST["login"]) && !empty($_REQUEST["pass"]) && !empty($_REQUEST["id_utilisateur"]))
 {
   $req = new requete($site->db,"SELECT `id_utilisateur` FROM `svn_login` WHERE `login_svn` = '".$_REQUEST["login"]."'");
@@ -55,77 +59,18 @@ if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="adduser" && !empty($_REQ
       exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".$_REQUEST["login"]." ".$_REQUEST["pass"]);
     }
   }
-}
-
-
-
-function private_svn ()
-{
-  $list = array();
-
-  if ($dh = opendir(SVN_PATH.PRIVATE_SVN))
-  {
-    while (($file = readdir($dh)) !== false)
-    {
-      if ( $file != "." && $file != ".." && is_dir(SVN_PATH.PRIVATE_SVN.$file) )
-      {
-        $list[] = array("name"=>$file );
-      }
-    }
-    closedir($dh);
-  }
-
-  return $list;
-}
-
-$private = private_svn();
-asort($private);
+}*/
 
 
 $tabs = array(array("","rootplace/svn.php","Depots"),array("user","rootplace/svn.php?view=user","Utilisateurs"));
-$site->start_page("none","Administration");
+$site->start_page("none","Administration / SVN");
 $cts = new contents("<a href=\"./\">Administration</a> / SVN");
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 
-if ( $_REQUEST["view"]=="user" )
-{
-  if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "delete")
-  {
-    $req = new requete($site->db,"SELECT * FROM `svn_login` WHERE `id_utilisateur`='".$_REQUEST["id_utilisateur"]."'");
-    if($req->lines==1)
-    {
-      list($login,$id)=$req->get_row();
-      new delete($site->dbrw,"svn_member_depot",array("svn_login"=>$login));
-      new delete($site->dbrw,"svn_login",array("id_utilisateur"=>$_REQUEST["id_utilisateur"]));
-    }
-  }
-  $frm = new form("adduser","svn.php?view=user",false,"post","Créer un user :");
-  $frm->add_hidden("action","adduser");
-  $frm->add_user_fieldv2("id_utilisateur","Utilisateur");
-  $frm->add_text_field("login","Login","",false);
-  $frm->add_password_field("pass","Mot de passe","",false);
-  $frm->add_submit("valid","Valider");
-  $cts->add($frm,true);
-  $req = new requete($site->db,"SELECT * FROM `svn_login`");
-  $cts->add(new sqltable("svn_login",
-                         "Liste des Logins svn",
-                         $req,
-                         "svn.php?view=user",
-                         "id_utilisateur",
-                         array("login_svn"=>"Login"),
-                         array("delete"=>"Enlever"),
-                         array(),
-                         array()
-                        ));
-
-}
-
-else
-{
   if(isset($_REQUEST["id_depot"]))
   {
-    if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "edituser")
+    /*if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "edituser")
     {
       new update($site->dbrw,"svn_member_depot",array("right"=>$_REQUEST["right"]),array("id_depot"=>$_REQUEST["id_depot"],"svn_login"=>$_REQUEST["svn_login"]));
     }
@@ -133,8 +78,6 @@ else
     {
       if(isset($_REQUEST["svn_login"]))
         new delete($site->dbrw,"svn_member_depot",array("id_depot"=>$_REQUEST["id_depot"],"svn_login"=>$_REQUEST["svn_login"]));
-      /*else
-        new delete($site->dbrw,"svn_depot",array("id_depot"=>$_REQUEST["id_depot"]));*/
     }
     if( isset($_REQUEST["action"]) && $_REQUEST["action"] == "edit" && isset($_REQUEST["svn_login"]) )
     {
@@ -149,7 +92,7 @@ else
       $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"),$right);
       $frm->add_submit("valid","Valider");
       $cts->add($frm,true);
-    }
+    }*/
     $req = new requete($site->db,"SELECT * FROM `svn_depot` WHERE `id_depot`='".$_REQUEST["id_depot"]."'");
     if($req->lines==1)
     {
@@ -160,14 +103,12 @@ else
                              "Membres",
                              $req2,
                              "svn.php?id_depot=".$_REQUEST["id_depot"],
-                             "svn_login",
-                             array("svn_login"=>"Login","right"=>"Droits"),
+                             "id_utilisateur",
+                             array("id_utilisateur"=>"Id_utilisateur","right"=>"Droits"),
                              array("edit"=>"Modifier","delete"=>"Enlever"),
                              array(),
                              array()
                             ));
-
-
     }
     else
     {
@@ -199,7 +140,6 @@ else
                           ));
   }
 
-}
 
 $site->add_contents($cts);
 
