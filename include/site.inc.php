@@ -1266,6 +1266,8 @@ class site extends interfaceweb
     }
     elseif ( $reason == "private" && $section =="matmatronch" )
       $this->add_contents(new contents("Accés refusé","<p>Cette fiche est privée, la personne concernée a souhaité que les informations la concernant ne soit pas rendues publiques.</p>"));
+		elseif ( $reason == "blacklist_machines" )
+			$this->add_contents(new contents("Accès refusé","<p>Vous n'avez pas le droit d'utiliser les machines à laver de l'AE, car vous n'avez pas respecté les confitions d'utilisations.</p>"));
     else
       $this->add_contents(new contents("Accés refusé","<p>Vos droits sont insuffisant pour accéder à cette page.</p>"));
     $this->end_page();     

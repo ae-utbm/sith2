@@ -82,9 +82,10 @@ class sitelaverie extends site
 		}
 		elseif ( $this->user->is_in_group("blacklist_machines") )
 		{
-		  $cts->add_paragraph("Vous n'avez pas le droit d'utiliser les machines de l'AE, car vous n'avez pas respecté les conditions d'utilisation.");
+			$this->error_forbidden("services","blacklist_machines");
+		  /*$cts->add_paragraph("Vous n'avez pas le droit d'utiliser les machines de l'AE, car vous n'avez pas respecté les conditions d'utilisation.");*/
 			/* Remplacer cette "chose" par une fonction dans la classe jeton */
-		  $sql = new requete($site->db, "SELECT 
+		  /*$sql = new requete($site->db, "SELECT 
 				    `mc_jeton_utilisateur`.`id_jeton`
 				    , `mc_jeton`.`nom_jeton`
 				    , DATEDIFF(CURDATE(), `mc_jeton_utilisateur`.`prise_jeton`) AS `duree` 
@@ -101,7 +102,7 @@ class sitelaverie extends site
 																										  
 			  $list = new itemlist("Vous devez rendre les jetons suivants :",false,$jetons);
 
-				$cts->add($list,true); 
+				$cts->add($list,true); */
 			}
 			$this->page_end();
 			exit();
