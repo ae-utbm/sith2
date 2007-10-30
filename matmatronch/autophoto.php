@@ -35,6 +35,36 @@ $site = new site ();
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("matmatronch","group",7);
 
+if ( $_REQUEST["page"] == "avatars" )
+{
+  $ids = explode(",",$_REQUEST["id_utilisateurs"]);
+  
+  if ( $_REQUEST["action"] == "agree" )
+  {
+    $id = intval(array_shift[$ids]);
+    copy("../var/img/matmatronch/".$id.".jpg","../var/img/matmatronch/".$id.".identity.jpg");
+  }
+  elseif ( $_REQUEST["action"] == "reject" )
+  {
+    array_shift[$ids];
+  }
+  
+  $id = intval($ids[0]);
+  $ids = implode(",",$ids);
+  
+  $site->start_page("matmatronch","Administration");
+  
+  $cts = new contents("Photos manquantes");
+  $cts->add_paragraph("<img src=\"../var/img/matmatronch/".$id.".jpg\" />");  
+    
+  $cts->add_paragraph("<a href=\"?page=sas&action=reject&id_utilisateurs=$ids\">Refuser</a>");  
+  $cts->add_paragraph("<a href=\"?page=sas&action=agree&id_utilisateurs=$ids\">Accepter</a>");  
+    
+  $site->add_contents($cts);
+  $site->end_page();
+  
+  exit();
+}
 
 
 $site->start_page("matmatronch","Administration");
@@ -100,10 +130,10 @@ if ( count($avatar_todo) || count($sas_todo) )
   $cts->add_title(2,"Resolution");
   
   if ( count($avatar_todo) )
-    $cts->add_paragraph("<a href=\"?action=avatars&id_utilisateurs=".implode(",",$avatar_todo)."\">Passer en revue les avatars pour en utiliser en photo d'identité</a>");
+    $cts->add_paragraph("<a href=\"?page=avatars&id_utilisateurs=".implode(",",$avatar_todo)."\">Passer en revue les avatars pour en utiliser en photo d'identité</a>");
   
   if ( count($sas_todo) )
-    $cts->add_paragraph("<a href=\"?action=avatars&id_utilisateurs=".implode(",",$sas_todo)."\">Decouper des photos dans le SAS pour les utiliser en photo d'identité</a>");
+    $cts->add_paragraph("<a href=\"?page=sas&id_utilisateurs=".implode(",",$sas_todo)."\">Decouper des photos dans le SAS pour les utiliser en photo d'identité</a>");
 }
 
 $cts->add_title(2,"Liste");
