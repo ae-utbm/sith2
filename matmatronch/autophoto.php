@@ -41,7 +41,7 @@ if ( $_REQUEST["page"] == "avatars" )
   
   if ( $_REQUEST["action"] == "agree" )
   {
-    $id = intval(array_shift[$ids]);
+    $id = intval(array_shift($ids));
     copy("../var/img/matmatronch/".$id.".jpg","../var/img/matmatronch/".$id.".identity.jpg");
   }
   elseif ( $_REQUEST["action"] == "reject" )
@@ -57,8 +57,8 @@ if ( $_REQUEST["page"] == "avatars" )
   $cts = new contents("Photos manquantes");
   $cts->add_paragraph("<img src=\"../var/img/matmatronch/".$id.".jpg\" />");  
     
-  $cts->add_paragraph("<a href=\"?page=sas&action=reject&id_utilisateurs=$ids\">Refuser</a>");  
-  $cts->add_paragraph("<a href=\"?page=sas&action=agree&id_utilisateurs=$ids\">Accepter</a>");  
+  $cts->add_paragraph("<a href=\"?page=avatars&amp;action=reject&amp;id_utilisateurs=$ids\">Refuser</a>");  
+  $cts->add_paragraph("<a href=\"?page=avatars&amp;action=agree&amp;id_utilisateurs=$ids\">Accepter</a>");  
     
   $site->add_contents($cts);
   $site->end_page();
@@ -130,10 +130,10 @@ if ( count($avatar_todo) || count($sas_todo) )
   $cts->add_title(2,"Resolution");
   
   if ( count($avatar_todo) )
-    $cts->add_paragraph("<a href=\"?page=avatars&id_utilisateurs=".implode(",",$avatar_todo)."\">Passer en revue les avatars pour en utiliser en photo d'identité</a>");
+    $cts->add_paragraph("<a href=\"?page=avatars&amp;id_utilisateurs=".implode(",",$avatar_todo)."\">Passer en revue les avatars pour en utiliser en photo d'identité</a>");
   
   if ( count($sas_todo) )
-    $cts->add_paragraph("<a href=\"?page=sas&id_utilisateurs=".implode(",",$sas_todo)."\">Decouper des photos dans le SAS pour les utiliser en photo d'identité</a>");
+    $cts->add_paragraph("<a href=\"?page=sas&amp;id_utilisateurs=".implode(",",$sas_todo)."\">Decouper des photos dans le SAS pour les utiliser en photo d'identité</a>");
 }
 
 $cts->add_title(2,"Liste");
