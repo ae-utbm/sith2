@@ -58,9 +58,9 @@ while ( $row = $req->get_row() )
 	if ( !file_exists("../var/img/matmatronch/" . $row['id_utilisateur'] .".identity.jpg"))
 	{
     $user->_load_all($row);
-    $user->send_photo_email ( $site, $title, $infotext );
+    /*$user->send_photo_email ( $site, $title, $infotext );*/
     
-    $lst->add($row['email_utl']." : mail envoyé");
+    $lst->add($user->get_html_link()/*$row['email_utl']." : mail envoyé"*/);
     $count++;
 	}
 }
