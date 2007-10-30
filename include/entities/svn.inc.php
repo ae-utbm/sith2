@@ -41,6 +41,7 @@ class svn_depot extends stdentity
    */
   var $id;
 
+  /* this function load an svn repository using an id */
   function load_by_id( $id )
   {
     $req = new requete($this->db, "SELECT * FROM `svn_depot` WHERE `id_depot`='".mysql_real_escape_string($id)."' LIMIT 1");
@@ -56,6 +57,7 @@ class svn_depot extends stdentity
     }
   }
 
+  /* load the svn values */
   function _load( $row )
   {
     $this->id = $row['id_depot'];
@@ -63,6 +65,7 @@ class svn_depot extends stdentity
     $this->type = $row['type'];
   }
 
+  /* create the svn repository */
   function init_depot($nom,$type)
   {
     if( !in_array($type,$this->type_depot) )
@@ -87,6 +90,7 @@ class svn_depot extends stdentity
     }
   }
 
+  /* change the repository type */
   function change_type($type)
   {
     if( !in_array($type,$this->type_depot) )
@@ -94,11 +98,13 @@ class svn_depot extends stdentity
     // TODO
   }
 
+  /* create associated trac */
   function init_trac()
   {
     // TODO
   }
 
+  /* delete associated trac */
   function delete_trac()
   {
     // TODO
@@ -106,6 +112,8 @@ class svn_depot extends stdentity
 
 
   // TODO : vérifier qu'il y'ai un putain d'alias
+
+  /* add an user to the repository with specified level */
   function add_user($user,$level)
   {
     if( !in_array($level,$this->valid_rights) )
@@ -135,6 +143,7 @@ class svn_depot extends stdentity
       return false;
   }
 
+  /* delete acces for specified user */
   function del_user($user)
   {
     if( $user->is_valid() )
@@ -145,6 +154,7 @@ class svn_depot extends stdentity
       return false;
   }
 
+  /* update user access level */
   function update_user($user,$level)
   {
     if ( !in_array($level,$this->valid_rights) )
@@ -176,11 +186,13 @@ class svn_depot extends stdentity
       return false;
   }
 
+  /* create auth file */
   function create_auth_file()
   {
     // TODO
   }
 
+  /* delete auth file */
   function delete_auth_file()
   {
     // TODO
