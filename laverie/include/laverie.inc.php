@@ -80,7 +80,7 @@ class sitelaverie extends site
 		
 			$this->add_box("laverie",$admcts);
 		}
-		elseif ( $site->user->is_in_group("blacklist_machines") )
+		elseif ( $this->user->is_in_group("blacklist_machines") )
 		{
 		  $cts->add_paragraph("Vous n'avez pas le droit d'utiliser les machines de l'AE, car vous n'avez pas respecté les conditions d'utilisation.");
 			/* Remplacer cette "chose" par une fonction dans la classe jeton */
@@ -103,12 +103,12 @@ class sitelaverie extends site
 
 				$cts->add($list,true); 
 			}
-			$site->page_end();
+			$this->page_end();
 			exit();
 		}
 		elseif ( !$public )
 		{
-			$site->error_forbidden("none","group",30);
+			$this->error_forbidden("none","group",30);
 		}
 	}
 }
