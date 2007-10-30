@@ -1728,7 +1728,11 @@ if ( isset($_REQUEST["magicform"]) )
     else
       $_REQUEST["rights"] = 0x200 | $_REQUEST["__rights_lect"] | 
               ($_REQUEST["__rights_lect"]*$_REQUEST["__rights_ajoutsub"]);
-
+              
+    echo sprintf("%x",$_REQUEST["rights"])."\n";
+    echo sprintf("%x",$_REQUEST["__rights_ecrt"])."\n";
+    echo sprintf("%x",$_REQUEST["__rights_lect"])."\n";
+    print_r($_REQUEST);
   }
   
   if ( isset($_REQUEST["magicform"]["geo"]) && count($_REQUEST["magicform"]["geo"]) > 0  )
