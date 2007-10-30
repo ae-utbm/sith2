@@ -401,7 +401,7 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit )
   $dest_idt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg";
   if(isset($_REQUEST['delete_idt']) && file_exists($dest_idt)
      && ($site->user->is_asso_role ( 27, 1 ) 
-	 || $site->user->is_in_group("gestion_ae")))
+   || $site->user->is_in_group("gestion_ae")))
     unlink($dest_idt);
   
   $_REQUEST["page"] = "edit";
@@ -641,8 +641,8 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
         $carte = new carteae($site->db);
         $carte->load_by_utilisateur($site->user->id);
         // feature request tatid : suppression de la photo d'identité
-	//if ( !$carte->is_validcard() )
-	$subfrm->add_checkbox("delete_idt","Supprimer la photo d'identit&eacute;");
+        //if ( !$carte->is_validcard() )
+        $subfrm->add_checkbox("delete_idt","Supprimer la photo d'identit&eacute;");
       }
     }
     else
