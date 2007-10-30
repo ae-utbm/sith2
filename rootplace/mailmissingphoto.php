@@ -59,7 +59,9 @@ while ( $row = $req->get_row() )
 	{
     $user->_load_all($row);
     /*$user->send_photo_email ( $site, $title, $infotext );*/
-    
+	  if ( file_exists("../var/img/matmatronch/" . $row['id_utilisateur'] .".jpg"))
+    $lst->add($user->get_html_link()." mais avartar disponible");
+	  else
     $lst->add($user->get_html_link()/*$row['email_utl']." : mail envoyé"*/);
     $count++;
 	}
