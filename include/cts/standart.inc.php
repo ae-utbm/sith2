@@ -1722,12 +1722,12 @@ if ( isset($_REQUEST["magicform"]) )
   if ( $_REQUEST["magicform"]["processrights"] )
   {
     if ( isset($_REQUEST["__rights_ecrt"]) && isset($_REQUEST["__rights_ajout"]) ) 
-      $_REQUEST["rights"] = 0x200 | $_REQUEST["__rights_lect"] | $_REQUEST["__rights_ecrt"] | $_REQUEST["__rights_ajout"];
+      $_REQUEST["rights"] = 0x200 | intval($_REQUEST["__rights_lect"]) | intval($_REQUEST["__rights_ecrt"]) | intval($_REQUEST["__rights_ajout"]);
     elseif ( isset($_REQUEST["__rights_ecrt"]) ) 
-      $_REQUEST["rights"] = $_REQUEST["__rights_lect"] | $_REQUEST["__rights_ecrt"];
+      $_REQUEST["rights"] = intval($_REQUEST["__rights_lect"]) | intval($_REQUEST["__rights_ecrt"]);
     else
-      $_REQUEST["rights"] = 0x200 | $_REQUEST["__rights_lect"] | 
-              ($_REQUEST["__rights_lect"]*$_REQUEST["__rights_ajoutsub"]);
+      $_REQUEST["rights"] = 0x200 | intval($_REQUEST["__rights_lect"]) | 
+              (intval($_REQUEST["__rights_lect"])*intval($_REQUEST["__rights_ajoutsub"]));
               
     echo sprintf("%x",$_REQUEST["rights"])."\n";
     echo sprintf("%x",$_REQUEST["__rights_ecrt"])."\n";
