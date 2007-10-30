@@ -208,6 +208,7 @@ class dfolder extends fs
 		$this->date_ajout = time();
 		$this->date_modif = time();
 		$this->modere=(is_null($id_folder_parent) && !is_null($id_asso))?true:false;
+		$this->auto_modere();
 		
 		$this->_compute_nom_fichier();	
 		
@@ -598,6 +599,25 @@ class dfolder extends fs
 
 		return parent::is_admin($user);
 	}  
+  
+  /**
+   * Procède à l'auto-modération du dossier si possible.
+   * L'auto modération est possible sur les fichiers à accès "restreint".
+   */
+  function auto_modere()
+  {
+    if ( $this->modere )
+      return;
+    
+    if ( $this->droits_acces & 1 )
+      return;
+      
+    if ( $this->id_groupe >= 10000 && $this->id_groupe < 20000 )
+      return; 
+      
+    $this->modere = true;
+  }
+  
   
 }
 
