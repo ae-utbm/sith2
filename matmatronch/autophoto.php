@@ -46,7 +46,7 @@ if ( $_REQUEST["page"] == "avatars" )
   }
   elseif ( $_REQUEST["action"] == "reject" )
   {
-    array_shift[$ids];
+    array_shift($ids);
   }
   
   $id = intval($ids[0]);
