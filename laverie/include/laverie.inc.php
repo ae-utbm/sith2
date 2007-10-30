@@ -26,7 +26,7 @@ require_once($topdir."include/site.inc.php");
 
 class sitelaverie extends site
 {
-	var $is_admin;
+	var $user_is_admin;
 	
 	function sitelaverie()
 	{
@@ -54,9 +54,9 @@ class sitelaverie extends site
 
 	function get_rights($public=false)
 	{
-		$site->is_user_admin();
+		$this->is_user_admin();
 
-		if ( $site->user_is_admin )
+		if ( $this->user_is_admin )
 		{
 			$admcts = new contents("Laverie");
 		
