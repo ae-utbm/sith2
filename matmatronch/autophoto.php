@@ -90,7 +90,7 @@ while ( $row = $req->get_row() )
     $count++;
 	}
 }
-$lst->add("<b>$count</b> photos manquantes sur un total de ".$req->lines." );
+$lst->add("<b>$count</b> photos manquantes sur un total de ".$req->lines."" );
 $lst->add("<b>".count($avatar_todo)."</b> ont un avatar disponible" );
 $lst->add("<b>".count($sas_todo)."</b> ont des photos disponibles dans le SAS" );
 $lst->add("<b>$noway</b> sans solution possible" );
