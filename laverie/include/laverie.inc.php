@@ -54,7 +54,7 @@ class sitelaverie extends site
 
 	function get_rights($public=false)
 	{
-		$site->is_user_admin()
+		$site->is_user_admin();
 
 		if ( $site->user_is_admin )
 		{
