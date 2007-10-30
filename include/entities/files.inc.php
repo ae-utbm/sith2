@@ -322,8 +322,19 @@ class dfile extends fs
   {
 		if ( ereg("image/(.*)",$this->mime_type) )
 		{
-			exec("/usr/share/php5/exec/convert ".$this->get_real_filename()." -thumbnail 128x128 -quality 95 ".$this->get_thumb_filename());
-			exec("/usr/share/php5/exec/convert ".$this->get_real_filename()." -thumbnail 500x1000 -quality 95 ".$this->get_screensize_filename());
+		  $f = $this->get_thumb_filename();
+		  
+		  if ( file_exists($f) )
+		    unlink($f);
+		  
+			exec("/usr/share/php5/exec/convert ".$this->get_real_filename()." -thumbnail 128x128 -quality 95 $f");
+			
+		  $f = $this->get_screensize_filename();
+		  
+		  if ( file_exists($f) )
+		    unlink($f);			
+			
+			exec("/usr/share/php5/exec/convert ".$this->get_real_filename()." -thumbnail 500x1000 -quality 95 $f");
 		}    
   }
 
