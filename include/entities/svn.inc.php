@@ -23,6 +23,7 @@
  */
 
 define("PASSWORDFILE","svn.passwd");
+define("AUTHFILE","svn.auth");
 define("SVN_PATH","/var/lib/svn/");
 define("PRIVATE_SVN","private/");
 define("PUBLIC_SVN","public/");
@@ -87,7 +88,25 @@ class svn_depot extends stdentity
       $this->id = $req->get_id();
       $this->nom = mysql_real_escape_string($nom);
       $this->type = $type;
-      // TODO create effective svn repository with associated auth file
+
+      if($type == "private")
+        $dest = SVN_PATH.PRIVATE_SVN;
+      elseif($type == "public")
+        $dest == SVN_PATH.PUBLIC_SVN;
+      elseif($type == "aeinfo")
+        $dest == SVN_PATH.AEINFO_SVN;
+
+      if(!exec("svnadmin create ".$dest.$name))
+        return false;
+
+      @mkdir("/tmp/".$name,0777);
+      @mkdir("/tmp/".$name."/branches",0777);
+      @mkdir("/tmp/".$name."/tags",0777);
+      @mkdir("/tmp/".$name."/trunk",0777);
+      if(is_dir("/tmp/".$name))
+        exec("svn import /tmp/".$name." file://".$dest." -m 'Initial import'");
+
+      return true;
     }
   }
 
@@ -96,7 +115,51 @@ class svn_depot extends stdentity
   {
     if( !in_array($type,$this->type_depot) )
       return false;
-    // TODO
+
+    if($type == $this->$type)
+      return false;
+
+    if($this->type == "private")
+      $from == SVN_PATH.PRIVATE_SVN;
+    elseif($this->type == "public")
+      $from == SVN_PATH.PUBLIC_SVN;
+    elseif($this->type == "aeinfo")
+      $from == SVN_PATH.AEINFO_SVN;
+
+    if($type == "private")
+      $dest = SVN_PATH.PRIVATE_SVN;
+    elseif($type == "public")
+      $dest == SVN_PATH.PUBLIC_SVN;
+    elseif($type == "aeinfo")
+      $dest == SVN_PATH.AEINFO_SVN;
+
+    if(file_exists($dest.$name) || is_dir($dest.$name))
+      return false;
+
+    $req = new update($this->dbrw,
+                      "svn_depot",
+                      array("type"=>$type),
+                      array("id_depot"=>$this->id)
+                    );
+    if (!$req)
+      return false;
+
+    if(rename($from.$this->name,$dest.$this->name))
+    {
+      $this->delete_auth_file();
+      $this->type=$type;
+      $this->create_auth_file();
+      return true;
+    }
+    else
+    {
+      $req = new update($this->dbrw,
+                        "svn_depot",
+                        array("type"=>$this->type),
+                        array("id_depot"=>$this->id)
+                      );
+      return false;
+    }
   }
 
   /* create associated trac */
@@ -110,9 +173,6 @@ class svn_depot extends stdentity
   {
     // TODO
   }
-
-
-  // TODO : vérifier qu'il y'ai un putain d'alias
 
   /* add an user to the repository with specified level */
   function add_user_access($user,$level)
@@ -187,16 +247,198 @@ class svn_depot extends stdentity
       return false;
   }
 
+
   /* create auth file */
   function create_auth_file()
   {
-    // TODO
+    if($this->type == "private")
+      $path == SVN_PATH.PRIVATE_SVN;
+    elseif($this->type == "public")
+      $path == SVN_PATH.PUBLIC_SVN;
+    elseif($this->type == "aeinfo")
+      $path == SVN_PATH.AEINFO_SVN;
+
+    if(!$handle = @fopen($path.AUTHFILE, "r"))
+      return false;
+
+
+    $req = new requete($this->db,
+                       "SELECT `id_utilisateur`, `right` ".
+                       "FROM `svn_member_depot` ".
+                       "WHERE `id_depot`='".$this->id."'");
+
+    if($req->lines == 0)
+      return true;
+
+    else
+    {
+      $readwrite=array();
+      $readonly=array();
+      $user = new utilisateur($this->db,$this->dbrw);
+      while(list($id,$right)=$req->get_row())
+      {
+        if($user->load_by_id($id))
+        {
+          if(!is_null($user->alias))
+          {
+            if($right=="rw")
+              $readwrite[]=$user->alias;
+            elseif($right=="r")
+              $readonly[]=$user->alias;
+          }
+          else
+          {
+            //ici soit on génère un alias soit on mail bombe !
+          }
+        }
+      }
+      if(empty($read) && empty($readwrite))
+        return true;
+    }
+
+    $contents = @fread($handle, @filesize($path."svn.auth"));
+    @fclose($handle);
+
+    $render="";
+    if(!preg_match("#\n".$this->name."(rw|ro) \= (.*?)\n#",$contents))
+    {
+      $con = explode("\n", $contents);
+      $i=0;
+      while($i<count($con))
+      {
+        if($i==1)
+        {
+          if(!empty($readonly))
+          {
+            for($i=0;$i<count($readonly);$i++)
+            {
+              if($i==0)
+                $_ro=$readonly[$i];
+              else
+                $_ro.=", ".$readonly[$i];
+            }
+            $render.=$this->name."ro = ".$_ro."\n";
+          }
+          else
+            $render.=$this->name."ro = \n";
+          if(!empty($readwrite))
+          {
+            for($i=0;$i<count($readwrite);$i++)
+            {
+              if($i==0)
+                $_rw=$readwrite[$i];
+              else
+                $_rw.=", ".$readwrite[$i];
+            }
+            $render.=$this->name."rw = ".$_rw."\n";
+          }
+          else
+            $render.=$this->name."rw = \n";
+        }
+        if( $i==0 || $con[$i-1]!=$con[$i] )
+          $render.=$con[$i]."\n";
+        $i++;
+      }
+      $render .="[".$this->name.":/]\n@".$this->name."rw = rw\n@".$this->name."ro = r\n* =";
+    }
+    else
+    {
+      $con = explode("\n", $contents);
+      for($i=0;$i<count($con);$i++)
+      {
+        if(preg_match("#^".$this->name."rw \= (.*?)$#",$con[$i]))
+        {
+          if(!empty($readwrite))
+          {
+            for($i=0;$i<count($readwrite);$i++)
+            {
+              if($i==0)
+                $_rw=$readwrite[$i];
+              else
+                $_rw.=", ".$readwrite[$i];
+            }
+            $render.=$this->name."rw = ".$_rw."\n";
+          }
+          else
+            $render.=$this->name."rw = \n";
+        }
+        elseif(preg_match("#^".$this->name."ro \= (.*?)$#",$con[$i]))
+        {
+          if(!empty($readonly))
+          {
+            for($i=0;$i<count($readonly);$i++)
+            {
+              if($i==0)
+                $_ro=$readonly[$i];
+              else
+                $_ro.=", ".$readonly[$i];
+            }
+            $render.=$this->name."ro = ".$_ro."\n";
+          }
+          else
+            $render.=$this->name."ro = \n";
+        }
+        else
+          $render.=$con[$i]."\n";
+      }
+    }
+    if(!$handle = @fopen($path.AUTHFILE, "w"))
+      return false;
+    @fwrite($handle,$render);
+    @fclose ($handle);
+    return true;
   }
 
   /* delete auth file */
   function delete_auth_file()
   {
-    // TODO
+    if($this->type == "private")
+      $path == SVN_PATH.PRIVATE_SVN;
+    elseif($this->type == "public")
+      $path == SVN_PATH.PUBLIC_SVN;
+    elseif($this->type == "aeinfo")
+      $path == SVN_PATH.AEINFO_SVN;
+
+    $handle = @fopen($path."svn.auth", "r");
+    $contents = @fread($handle, @filesize($path."svn.auth"));
+    @fclose($handle);
+    $con = explode("\n", $contents);
+    $find=false;
+    $render="";
+    for ( $i=0; $i<count($con);$i++)
+    {
+      if($find)
+      {
+        if(preg_match("#\* =$#",$con[$i]))
+        {
+          $find=false;
+          continue;
+        }
+        else
+          continue;
+      }
+      elseif(preg_match("#^".$this->name."(rw|ro) \= (.*?)$#",$con[$i]))
+        continue;
+      elseif(preg_match("#^\[".$this->name.":/\]$#",$con[$i]))
+      {
+        $find=true;
+        continue;
+      }
+      else
+        $render .= $con[$i]."\n";
+    }
+
+    $handle = @fopen($path."svn.auth", "w");
+    @fwrite($handle,$render);
+    @fclose ($handle);
+
+    return true;
+  }
+
+  /* update auth file */
+  function update_auth_file()
+  {
+    return $this->create_auth_file();
   }
 
 }
