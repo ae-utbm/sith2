@@ -52,7 +52,7 @@ class sitelaverie extends site
 		  $this->user_is_admin = true;
 	}
 
-	function get_rights($public=false)
+	function get_rights($public = false)
 	{
 		$this->is_user_admin();
 
