@@ -425,7 +425,7 @@ if ( $file->is_valid() )
         if ( $ErreurReturn )
           $frm->error($ErreurReturn);
         $frm->add_file_field("file","Fichier",true);
-        $frm->add_text_area("commentaire","Commentaire","");
+        $frm->add_text_area("comment","Commentaire","");
         $frm->add_submit("valid","Restituer");
         
         $cts->add($frm);

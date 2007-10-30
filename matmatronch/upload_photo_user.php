@@ -2,7 +2,7 @@
 /* Copyright 2006
  * - Laurent COLNAT < laurent DOT colnat AT utbm DOT FR >
  *
- * Ce fichier fait partie du site de l'Association des Ã‰tudiants de
+ * Ce fichier fait partie du site de l'Association des ÃƒÂ‰tudiants de
  * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
@@ -47,7 +47,7 @@ if ( $_REQUEST["action"] == "setphotosmmt")
 		$success = 1;
 		$page = "default";
 	}
-	/* Ici, si l'utilisateur n'a pas de photo d'identité à son actif, on ne lui en met pas une automatiquement 
+	/* Ici, si l'utilisateur n'a pas de photo d'identitÃ© Ã  son actif, on ne lui en met pas une automatiquement 
 	  * car on est pas sur de la qualite de la photo matmatronch */
 }
 
@@ -61,7 +61,7 @@ if ( $_REQUEST["action"] == "setphotosident")
 		$success = 2;
 		$page = "default";
 	}
-	/* Si l'utilisateur n'a pas de photo mat'matronch à son actif, on lui en met une */
+	/* Si l'utilisateur n'a pas de photo mat'matronch Ã  son actif, on lui en met une */
 	if ( !file_exists($topdir."var/img/matmatronch/".$user->id.".jpg") )
 	{
 		$src = $_FILES['idtfile']['tmp_name'];
@@ -101,14 +101,14 @@ if ($page == "upload_photos")
 	{
 		$warning_cts = new contents("ATTENTION");
 		$warning_cts->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']=>"Retour")));
-		$warning_cts->add_paragraph(utf8_encode("<font color=\"red\"><b>Il est impossible de modifier la photo d'un étudiant non UTBM !</b></font><br/><br/><font color=\"green\"> L'opération doit être effectuée à partir de la session de l'utilisateur concerné !</font>"));
+		$warning_cts->add_paragraph(utf8_encode("<font color=\"red\"><b>Il est impossible de modifier la photo d'un Ã©tudiant non UTBM !</b></font><br/><br/><font color=\"green\"> L'opÃ©ration doit Ãªtre effectuÃ©e Ã  partir de la session de l'utilisateur concernÃ© !</font>"));
 		$site->add_contents($warning_cts);
 	}
 	else if (!$can_edit)
 	{
 		$warning_cts = new contents("ATTENTION");
 		$warning_cts->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']=>"Retour")));
-		$warning_cts->add_paragraph(utf8_encode("<font color=\"red\"><b>Il est impossible de modifier votre propre photo d'identité.</b></font><br/><br/><font color=\"green\"> L'opération doit être effectuée par l'intermédiaire d'une autre personne de l'équipe matmatronch !</font>"));
+		$warning_cts->add_paragraph(utf8_encode("<font color=\"red\"><b>Il est impossible de modifier votre propre photo d'identitÃ©.</b></font><br/><br/><font color=\"green\"> L'opÃ©ration doit Ãªtre effectuÃ©e par l'intermÃ©diaire d'une autre personne de l'Ã©quipe matmatronch !</font>"));
 		$site->add_contents($warning_cts);
 	}
 	else
@@ -164,33 +164,33 @@ else
 
 	if ($success == 1)
 	{
-		// Réussite de l'upload photo mat'matronch
+		// RÃ©ussite de l'upload photo mat'matronch
 			$congratulation = new contents("Upload Photo mat'matronch");
-			$congratulation->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']."?page=upload_photos&open=idtbx&id=".$_REQUEST['id']=>utf8_encode("Changer sa photo d'identité"))));
-			$congratulation->add_paragraph(utf8_encode("<p><img src=\"".$topdir."images/actions/done.png\">La photo mat'matronch de ".$_REQUEST['nom']. " " .$_REQUEST['prenom']." a été correctement mis à jour.</p>"));
+			$congratulation->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']."?page=upload_photos&open=idtbx&id=".$_REQUEST['id']=>utf8_encode("Changer sa photo d'identitÃ©"))));
+			$congratulation->add_paragraph(utf8_encode("<p><img src=\"".$topdir."images/actions/done.png\">La photo mat'matronch de ".$_REQUEST['nom']. " " .$_REQUEST['prenom']." a Ã©tÃ© correctement mis Ã  jour.</p>"));
 			$site->add_contents($congratulation);
 	}
 	else if ($success > 1)
 	{
 		if ($success == 4)
 		{
-		// Réussite de l'upload photo identité et mat'matronch
-			$congratulation = new contents(utf8_encode("Upload Photo identité & mat'matronch"));
+		// RÃ©ussite de l'upload photo identitÃ© et mat'matronch
+			$congratulation = new contents(utf8_encode("Upload Photo identitÃ© & mat'matronch"));
 			$congratulation->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']."?page=upload_photos&open=mmtbx&id=".$_REQUEST['id']=>utf8_encode("Changer sa photo d'mat'matronch"))));
-			$congratulation->add_paragraph(utf8_encode("<p><img src=\"".$topdir."images/actions/done.png\">La photo d'identit&eacute; de ".$_REQUEST['nom']. " ".$_REQUEST['prenom']. " a été correctement mis &agrave; jour.</p>"));
-			$congratulation->add_paragraph(utf8_encode("<br><p><img src=\"".$topdir."images/actions/info.png\">L'utilisateur ne possédnat pas de photo mat'matronch, la photo d'indentité sera utilisée comme photo mat'matronch</p>"));
+			$congratulation->add_paragraph(utf8_encode("<p><img src=\"".$topdir."images/actions/done.png\">La photo d'identit&eacute; de ".$_REQUEST['nom']. " ".$_REQUEST['prenom']. " a Ã©tÃ© correctement mis &agrave; jour.</p>"));
+			$congratulation->add_paragraph(utf8_encode("<br><p><img src=\"".$topdir."images/actions/info.png\">L'utilisateur ne possÃ©dnat pas de photo mat'matronch, la photo d'indentitÃ© sera utilisÃ©e comme photo mat'matronch</p>"));
 			$site->add_contents($congratulation);
 		}
 		else
 		{
-		// Réussite de l'upload photo identité
-			$congratulation = new contents(utf8_encode("Upload Photo identité"));
+		// RÃ©ussite de l'upload photo identitÃ©
+			$congratulation = new contents(utf8_encode("Upload Photo identitÃ©"));
 			$congratulation->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']."?page=upload_photos&open=mmtbx&id=".$_REQUEST['id']=>utf8_encode("Changer sa photo d'mat'matronch"))));
-			$congratulation->add_paragraph(utf8_encode("<p><img src=\"".$topdir."images/actions/done.png\">La photo d'identit&eacute; de ".$_REQUEST['nom']. " ".$_REQUEST['prenom']. " a été correctement mis &agrave; jour.</p>"));
+			$congratulation->add_paragraph(utf8_encode("<p><img src=\"".$topdir."images/actions/done.png\">La photo d'identit&eacute; de ".$_REQUEST['nom']. " ".$_REQUEST['prenom']. " a Ã©tÃ© correctement mis &agrave; jour.</p>"));
 			$site->add_contents($congratulation);
 		}
 	}
-	$cts = new contents(utf8_encode("Identification de l'étudiant :"));
+	$cts = new contents(utf8_encode("Identification de l'Ã©tudiant :"));
 
 			$frm_ident_email = new form("id_user_by_mail",$_SERVER["SCRIPT_NAME"],false,"POST","Par l'email :");
 				$frm_ident_email->add_hidden("page","upload_photos");
