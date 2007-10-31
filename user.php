@@ -643,7 +643,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add_submit("save","Enregistrer");
     $cts->add($frm,true);
   
-    $cts->add_paragraph("<b>Remarque:</b> Votre adresse e-mail principale est utilisée pour les mailing listes. Si vouc changer votre adresse, les mailing listes seront mise à jours au bout de 60 minutes environs.");
+    $cts->add_paragraph("<b>Remarque:</b> Votre adresse e-mail principale est utilisée pour les mailing listes. Si vous changer votre adresse, les mailing listes seront mises à jours au bout de 60 minutes environs.");
     $cts->add_paragraph("<b>Attention:</b> Pour envoyer des messages sur les mailing listes vous devez le faire depuis votre adresse e-mail principale.");
   
     $frm = new form("changeemailutbm","user.php?id_utilisateur=".$user->id,true,"POST","Adresse email UTBM ou ASSIDU");
