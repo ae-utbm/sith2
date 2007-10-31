@@ -166,6 +166,8 @@ elseif ( $_REQUEST["action"] == "setconfig" )
   $site->config["membres.upto"] = intval($_REQUEST["membres_upto"]);
   $site->config["membres.allowjoinus"] = isset($_REQUEST["membres_allowjoinus"])?1:0;
   $site->config["home.news"] = isset($_REQUEST["home_news"])?1:0;
+  $site->config["home.excludenewssiteae"] = isset($_REQUEST["home_excludenewssiteae"])?1:0;
+  
   $site->save_conf();
 }
 elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["nom_onglet"]) )
@@ -542,6 +544,10 @@ else if ( $_REQUEST["view"] == "options" )
   
   $sfrm = new form("typebox",null,null,null,"Page accueil");
   $sfrm->add_checkbox("home_news","Afficher les nouvelles",$site->config["home.news"]);
+  $sfrm->add_checkbox("home_excludenewssiteae","Afficher seulement les nouvelles spécifiques à AECMS",$site->config["home.excludenewssiteae"]);
+  
+  
+  //excludenewssiteae
   $frm->add($sfrm);
   
   

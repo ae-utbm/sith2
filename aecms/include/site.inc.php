@@ -122,6 +122,7 @@ class aecms extends site
       "boxes.sections"=> CMS_PREFIX."accueil",
       "boxes.names"=>"calendrier",
       "home.news"=>1,
+      "home.excludenewssiteae"=>0,
       "css.base"=>"base.css"
     );
     

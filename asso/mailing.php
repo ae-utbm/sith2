@@ -86,7 +86,7 @@ if ( $asso->id < 1 )
 }
 
 if ( !$site->user->is_in_group("gestion_ae")&&!$asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU))
-  error_403("reservedutbm");
+  $site->error_forbidden("presentation","role","bureau");
 
 $sucess=null;
 
@@ -158,7 +158,7 @@ if ( $_REQUEST["action"] == "sendmail")
     }
 }
 
-$site->start_page("services", "Mailing: " . $asso->nom);
+$site->start_page("presentation", "Mailing: " . $asso->nom);
 
 $cts = new contents($asso->nom);
 
@@ -172,10 +172,70 @@ $subtabs[] = array("anciens","asso/membres.php?view=anciens&id_asso=".$asso->id,
 
 $cts->add(new tabshead($subtabs,"mailing","","subtab"));
 
+if ( $asso->is_mailing_allowed() )
+{
+  $mailings = array($asso->nom_unix.".bureau");
+
+  $cts->add_title(2,"Mailing listes");
+
+  if ( !is_null($asso->id_parent) )
+  {
+    $cts->add_paragraph($asso->nom_unix.".membres@ml.aeinfo.net : Mailing liste de tous les membres (inscription libre).");
+    $cts->add_paragraph($asso->nom_unix.".bureau@ml.aeinfo.net : Mailing liste de tous les membres ayant un role supérieur ou égal à \"Membre du bureau\".");
+    
+    $cts->add_paragraph("Pour utiliser les mailing listes, chaque utilisateur doit envoyer ses messages depuis son adresse principale configuré sur le site, il peut la changer si elle ne convient pas. Cette adresse peut être différente de votre adresse utbm.");
+        
+    $cts->add_paragraph("Votre adresse principale est ".$site->user->email.". <a href=\"../user.php?page=edit&amp;see=email\">Changer d'adresse principale</a>");
+        
+    $mailings[] = $asso->nom_unix.".membres";
+  }
+  
+  $cts->add_title(2,"Inscription manuelle");
+  if ( $_REQUEST["action"] == "subscribe" )
+  {
+    if ( !CheckEmail($_REQUEST["email"],3) )
+      $cts->add_paragraph("Adresse e-mail invalide","error");
+    elseif ( in_array($_REQUEST["liste"],$mailings) )
+    {
+      asso::_ml_subscribe ( $site->db, $_REQUEST["liste"], $_REQUEST["email"] );
+      $cts->add_paragraph("Demande d'inscription de ".$_REQUEST["email"]." à ".$_REQUEST["liste"]." enregistrée.");
+    }
+  }  
+  $cts->add_paragraph("Comptez un délai de 60 minutes pour que l'inscription soit effective.");
+  $frm = new form("subscribe","mailing.php?id_asso=".$asso->id,is_null($sucess),"POST");
+  $frm->add_hidden("action","subscribe");
+  $frm->add_select_field("liste","Liste",$mailings);
+  $frm->add_text_field("email","Adresse e-mail","",true);
+  $frm->add_submit("valid","Inscrire");
+  $cts->add($frm);
+
+  $cts->add_title(2,"Desinscription manuelle");
+  if ( $_REQUEST["action"] == "unsubscribe" )
+  {
+    if ( !CheckEmail($_REQUEST["email"],3) )
+      $cts->add_paragraph("Adresse e-mail invalide","error");
+    elseif ( in_array($_REQUEST["liste"],$mailings) )
+    {
+      asso::_ml_unsubscribe ( $site->db, $_REQUEST["liste"], $_REQUEST["email"] );
+      $cts->add_paragraph("Demande de desinscription de ".$_REQUEST["email"]." à ".$_REQUEST["liste"]." enregistrée.");
+    }
+  }
+  $cts->add_paragraph("Comptez un délai de 60 minutes pour que la desinscription soit effective.");
+  $frm = new form("unsubscribe","mailing.php?id_asso=".$asso->id,is_null($sucess),"POST");
+  $frm->add_hidden("action","unsubscribe");
+  $frm->add_select_field("liste","Liste",$mailings);
+  $frm->add_text_field("email","Adresse e-mail","",true);
+  $frm->add_submit("valid","Desinscrire");
+  $cts->add($frm);
+
+}
+
+$cts->add_title(2,"Envoyer un message");
+
 if ( $sucess )
   $cts->add($sucess,true);
 
-$frm = new form("add","mailing.php?id_asso=".$asso->id,is_null($sucess),"POST","Envoyer un message");
+$frm = new form("sendmembers","mailing.php?id_asso=".$asso->id,is_null($sucess),"POST");
 $frm->add_hidden("action","sendmail");
 if ( $Error )
   $frm->error($Error);
@@ -185,7 +245,7 @@ $frm->add_text_field("title","Titre du message","",true,80);
 $frm->add_text_area("contents","Contenu du message","",80,20,true);
 $frm->add_file_field("file","Fichier joint",false);
 $frm->add_submit("valid","Envoyer");
-$cts->add($frm,true);
+$cts->add($frm);
 
 $site->add_contents($cts);
 $site->end_page();

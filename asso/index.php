@@ -1,5 +1,5 @@
 <?php
-/* Copyright 2006
+/* Copyright 2006,2007
  * - Julien Etelain < julien at pmad dot net >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
@@ -47,20 +47,19 @@ if ( isset($_REQUEST["id_asso"]) )
 		
 	$cts = new contents($asso->get_html_path());
 			
-$cts->add(new tabshead($asso->get_tabs($site->user),"tools"));
-	
-	$sublist = new itemlist("A lire avant tout"); 
-	$sublist->add(wikilink("presentation-siteae-respclub","Le site de l'AE pour les responsable de club"));
-	$sublist->add(wikilink("asso-guides","Guides"));
-	$cts->add($sublist,true);
+  $cts->add(new tabshead($asso->get_tabs($site->user),"tools"));
 
-	$sublist = new itemlist("Les outils et les guides"); 
-	$sublist->add("<a href=\"../salle.php?page=reservation&amp;id_asso=".$asso->id."\">Reserver une salle</a>");
-	$sublist->add("<a href=\"../emprunt.php?id_asso=".$asso->id."\">Reserver du matériel</a>");
-	$sublist->add("<a href=\"../news.php?id_asso=".$asso->id."\">Ajouter une nouvelle</a>");
-	$sublist->add("<a href=\"reservations.php?id_asso=".$asso->id."\">Suivre les reservations de salle et emprunts de matériel</a>");
-	$sublist->add("<a href=\"sendfax.php?id_asso=".$asso->id."\">Envoyer un fax</a>");
-	$cts->add($sublist,true);
+  $brd = new board();
+
+	$lst = new itemlist("Outils"); 
+	$lst->add("<a href=\"../salle.php?page=reservation&amp;id_asso=".$asso->id."\">Reserver une salle</a>");
+	$lst->add("<a href=\"../emprunt.php?id_asso=".$asso->id."\">Reserver du matériel</a>");
+	$lst->add("<a href=\"../news.php?id_asso=".$asso->id."\">Proposer une nouvelle</a>");
+	$lst->add("<a href=\"reservations.php?id_asso=".$asso->id."\">Suivre les reservations de salle et emprunts de matériel</a>");
+	$lst->add("<a href=\"sendfax.php?id_asso=".$asso->id."\">Envoyer un fax</a>");
+	$lst->add("<a href=\"../entreprise.php\">Carnet d'adresse des entreprises</a>");
+
+	$brd->add($lst,true);
 	
 	$req = new requete ($site->db,
 			"SELECT DISTINCTROW cpta_cpbancaire.nom_cptbc, cpta_cpasso.id_cptasso " .
@@ -70,7 +69,7 @@ $cts->add(new tabshead($asso->get_tabs($site->user),"tools"));
 			"WHERE cpta_cpasso.id_asso='".$asso->id."' AND `cpta_classeur`.`ferme`='0'" .
 			"ORDER BY `cpta_classeur`.`date_debut_classeur` DESC");	
 			
-	$sublist = new itemlist("La comptabilité"); 
+	$lst = new itemlist("Comptabilité"); 
 	
 	if ( $req->lines == 1 )
 	{	
@@ -85,29 +84,30 @@ $cts->add(new tabshead($asso->get_tabs($site->user),"tools"));
 		if ( $reqa->lines == 1 )
 		{
 			list($id,$nom) = $reqa->get_row();
-			$sublist->add("<a href=\"../compta/classeur.php?id_classeur=$id\">Consulter le classeur $nom</a>");
-			$sublist->add("<a href=\"../compta/classeur.php?id_classeur=$id&amp;page=types\">Obtenir le bilan du classeur $nom</a>");
-			$sublist->add("<a href=\"../compta/classeur.php?id_classeur=$id&amp;page=new\">Ajouter une opération dans le classeur $nom</a>");
-			$sublist->add("<a href=\"../compta/classeur.php?id_classeur=$id&amp;view=budget\">Proposer un budget pour le classeur $nom</a>");
+			$lst->add("<a href=\"../compta/classeur.php?id_classeur=$id\">Consulter le classeur $nom</a>");
+			$lst->add("<a href=\"../compta/classeur.php?id_classeur=$id&amp;page=types\">Obtenir le bilan du classeur $nom</a>");
+			$lst->add("<a href=\"../compta/classeur.php?id_classeur=$id&amp;page=new\">Ajouter une opération dans le classeur $nom</a>");
+			$lst->add("<a href=\"../compta/classeur.php?id_classeur=$id&amp;view=budget\">Proposer un budget pour le classeur $nom</a>");
 			
 		}
-		$sublist->add("<a href=\"../compta/cptasso.php?id_cptasso=$id_cptasso\">Gestion des classeurs $nom_cpbc</a>");
+		$lst->add("<a href=\"../compta/cptasso.php?id_cptasso=$id_cptasso\">Gestion des classeurs $nom_cpbc</a>");
 	}
-	$sublist->add("<a href=\"../compta/\">Accès la comptabilité</a>");
-	$sublist->add(wikilink("compta","Aide de la comptabilité"));
-	$cts->add($sublist,true);
+	$lst->add("<a href=\"../compta/\">Accès la comptabilité</a>");
+	$brd->add($lst,true);
 	
-	$sublist = new itemlist("L'inventaire"); 
-	$sublist->add("<a href=\"../objet.php?id_asso=".$asso->id."\">Ajouter un objet</a>");
-	$sublist->add("<a href=\"inventaire.php?id_asso=".$asso->id."\">Consulter</a>");
-	$sublist->add("Preter un objet");
-	$cts->add($sublist,true);
+	$lst = new itemlist("Inventaire"); 
+	$lst->add("<a href=\"../objet.php?id_asso=".$asso->id."\">Ajouter un objet</a>");
+	$lst->add("<a href=\"inventaire.php?id_asso=".$asso->id."\">Consulter</a>");
+	$brd->add($lst,true);
 	
-	$sublist = new itemlist("Les membres"); 
-	$sublist->add("<a href=\"membres.php?id_asso=".$asso->id."#add\">Ajouter un membre</a>");
-	$sublist->add("<a href=\"membres.php?id_asso=".$asso->id."\">Consulter</a>");
-	$sublist->add("<a href=\"mailing.php?id_asso=".$asso->id."\"><b>Envoyer un email à tous les membres</b></a>");
-	$cts->add($sublist,true);
+	$lst = new itemlist("Membres et mailing"); 
+	$lst->add("<a href=\"membres.php?id_asso=".$asso->id."#add\">Ajouter un membre</a>");
+	$lst->add("<a href=\"membres.php?id_asso=".$asso->id."\">Consulter</a>");
+	$lst->add("<a href=\"mailing.php?id_asso=".$asso->id."#sendmembers\"><b>Envoyer un email à tous les membres</b></a>");
+	if ( $asso->is_mailing_allowed() )
+	  $lst->add("<a href=\"mailing.php?id_asso=".$asso->id."\">Mailing listes, inscription/desinscription manuelle.</a>");
+	
+	$brd->add($lst,true);
 	
 	
 	require_once($topdir."sas2/include/cat.inc.php");
@@ -127,38 +127,17 @@ $cts->add(new tabshead($asso->get_tabs($site->user),"tools"));
 	}
 	
 	if ( count($seealso) > 0)
-		$cts->add(new itemlist("A voir aussi",false,$seealso),true);
+		$brd->add(new itemlist("A voir aussi",false,$seealso),true);
+	
+	$cts->add($brd);
+	
+	$lst = new itemlist("Documentation utile"); 
+	$lst->add("<a href=\"../article.php?name=docs:index\">Documentation du site</a>");
+	$lst->add("<a href=\"../wiki2/?name=guide_resp\">Guide des responsables d'activités</a>");
+	$brd->add($lst,true);
 	
 	$site->add_contents($cts);
-	
-	$cts = new contents("Informations administratives");
-	
-	$req = new requete ($site->db,
-				"SELECT id_cptasso,CONCAT(asso.nom_asso,' sur ',cpta_cpbancaire.nom_cptbc) as nom_cptasso, " .
-				"asso.id_asso, asso.nom_asso,  cpta_cpbancaire.nom_cptbc, cpta_cpbancaire.id_cptbc " .
-				"FROM `cpta_cpasso` " .
-				"INNER JOIN asso ON asso.id_asso=cpta_cpasso.id_asso " .
-				"INNER JOIN cpta_cpbancaire ON cpta_cpbancaire.id_cptbc=cpta_cpasso.id_cptbc " .
-				"WHERE `asso`.`id_asso`='".$asso->id."' " .
-				"ORDER BY `cpta_cpbancaire`.`nom_cptbc`");
-	if ( $req->lines > 0 )
-	{			
-		$tbl = new sqltable ("cpta_cptasso",
-					       "Comptes",
-					       $req,
-					       "./index.php",
-					       "id_cptasso",
-					       array("nom_cptasso" => "Compte association",
-						     "nom_cptbc" => "Compte bancaire"),
-					       array(),
-					       array(),
-					       array());
-		
-		$cts->add($tbl,true);	
-	}
-	
-	$site->add_contents($cts);
-		
+			
 	$site->end_page();
 	exit();
 }
