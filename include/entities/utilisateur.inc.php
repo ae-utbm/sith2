@@ -2001,6 +2001,7 @@ L'équipe info AE";
     
     $no_matter = array(
       "utilisateurs",
+      "utl_etu",
       "utl_etu_utbm",
       "utl_extra",
       "utl_groupe",
