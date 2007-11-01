@@ -2023,7 +2023,7 @@ L'équipe info AE";
           if ( ereg("^id_utilisateur",$row[0]) )
           {
             // Recherche s'il y a des enregistrements pour l'utilisateur 
-            $req3 = new requete($this->db, "SELECT $row[0] WHERE ".$row[0]."='".$this->id."'");
+            $req3 = new requete($this->db, "SELECT $row[0] FROM $table WHERE ".$row[0]."='".$this->id."'");
             if ( $req3->lines != 0 )
             {
               // Si oui, alors suppression impossible
