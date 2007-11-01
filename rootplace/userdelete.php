@@ -33,7 +33,7 @@ if ( !$site->user->is_in_group("root") )
 	
 if ( $_REQUEST["action"] == "delete" && $GLOBALS["svalid_call"] )
 {
-  $user = new utilisateur($site->db/*,$site->dbrw*/);  
+  $user = new utilisateur($site->db,$site->dbrw);  
   $user->load_by_id($_REQUEST["id_utilisateur"]);
       
   if ( $site->is_sure ( "","Suppression de l'utilisateur N°".$user->id." : ".$user->get_html_link(),"delusr".$user->id, 2 ) )	
