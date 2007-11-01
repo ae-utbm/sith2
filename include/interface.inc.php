@@ -585,9 +585,11 @@ class interfaceweb
     $frm->allow_only_one_usage();
     
     foreach ( $_POST as $key => $val )
-      $frm->add_hidden($key,$val);
+      if ( $key != "magicform" )
+        $frm->add_hidden($key,$val);
     foreach ( $_GET as $key => $val )
-      $frm->add_hidden($key,$val);
+      if ( $key != "magicform" )
+        $frm->add_hidden($key,$val);
       
     $frm->add_submit("___i_am_really_sure","OUI");  
     $frm->add_submit("___finally_i_want_to_cancel","NON");  
