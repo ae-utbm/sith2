@@ -2043,6 +2043,75 @@ L'équipe info AE";
     return true;
   }
   
+  /**
+   * Remplace l'utilisateur par un autre, et le supprime
+   * Analyse la base de données pour procéder aux différents opérations
+   * de remplacement et de fusion. Si une fusion de tables n'est pas supportée,
+   * alors la fonction échoue.
+   * @param $replacement Instance de utilisateur qui va remplacer celle-ci
+   * @return true en cas de succès, sinon false
+   */
+  function replace_and_remove ( &$replacement )   
+  {
+    global $Erreur;
+    
+    // 1- Analyse de la base de données
+    $updates = array(); // Remplacements de valeurs 
+    $fusions = array(); // Fusions
+    
+    $req1 = new requete($this->db,"SHOW TABLES");
+    while ( list($table) = $req1->get_row() )
+    {
+      // Si la table n'est pas dansles tables ignorées
+      if ( !in_array($table,$no_matter) )
+      {
+        $primary=array();
+        
+        // Extrait la clé primaire
+        $req2 = new requete($this->db,"SHOW INDEX FROM $table"); 
+        while ( $row = $req2->get_row() )
+        {
+          if ( $row[2] == "PRIMARY" )
+            $primary[] = $row[4];
+        }        
+        
+        // Liste les champs de la table
+        $req2 = new requete($this->db, "DESCRIBE $table");
+        while ( $row = $req2->get_row() )
+        {
+          // S'il s'agit d'un champ utilisateur
+          if ( ereg("^id_utilisateur",$row[0]) )
+          {
+            // Si le champ est la clé primaire, alors c'est une fusion
+            if ( in_array($row[0],$primary) && count($primary) == 1 )
+              $fusions[] = array($table,$row[0]);
+            // Sinon, il s'agit d'un simple remplacement de valeur
+            else
+              $updates[] = array($table,$row[0]);
+          }
+        }
+      }
+    }    
+    
+    print_r($fusions);
+    print_r($updates);
+    
+    // 2- Verifie qu'il existe des stratégies pour toutes les fusions requises
+    $known_fusions = array("utilisateurs","utl_etu_utbm","utl_etu","utl_extra","job_prefs");
+    foreach ( $fusions as $fusion )
+    {
+      if ( !in_array($fusion[0],$known_fusions) )
+      {
+        $Erreur = "Aucune stratégie de fusion connue pour la table ".$fusion[0];
+        return false;  
+      }
+    }
+    
+    
+    
+    
+    
+  }
 }
 
 ?>
