@@ -31,10 +31,14 @@ $site = new site ();
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
 	
-if ( $_REQUEST["action"] == "delete"  )
+if ( $_REQUEST["action"] == "delete" && $GLOBALS["svalid_call"] )
 {
   $user = new utilisateur($site->db/*,$site->dbrw*/);  
   $user->load_by_id($_REQUEST["id_utilisateur"]);
+      
+      
+  print_r($user);
+  print_r($_REQUEST);    
       
   if ( $site->is_sure ( "","Suppression de l'utilisateur N°".$user->id." : ".$user->get_html_link(),"delusr".$user->id, 2 ) )	
     $Success = $user->delete_utilisateur();
@@ -49,6 +53,7 @@ if ( $Success )
   $cts->add_paragraph("Utilisateur ".$user->id." supprimé avec succès");
 
 $frm = new form("rmuser", "userdelete.php", false, "POST", "Supprimer");
+$frm->allow_only_one_usage();
 $frm->add_hidden("action","delete");
 if ( $Erreur )
   $frm->error($Erreur);
