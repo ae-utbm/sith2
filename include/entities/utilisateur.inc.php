@@ -2005,7 +2005,8 @@ L'équipe info AE";
       "utl_extra",
       "utl_groupe",
       "utl_joue_instru",
-      "utl_parametres");
+      "utl_parametres",
+      "site_sessions");
     
     // Liste toutes les tables
     $req1 = new requete($this->db,"SHOW TABLES");
