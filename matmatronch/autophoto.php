@@ -49,21 +49,24 @@ if ( $_REQUEST["page"] == "avatars" )
     array_shift($ids);
   }
   
-  $id = intval($ids[0]);
-  $ids = implode(",",$ids);
-  
-  $site->start_page("matmatronch","Administration");
-  
-  $cts = new contents("Photos manquantes");
-  $cts->add_paragraph("<img src=\"../var/img/matmatronch/".$id.".jpg\" />");  
+  if ( count($ids) > 0 )
+  {
+    $id = intval($ids[0]);
+    $ids = implode(",",$ids);
     
-  $cts->add_paragraph("<a href=\"?page=avatars&amp;action=reject&amp;id_utilisateurs=$ids\">Refuser</a>");  
-  $cts->add_paragraph("<a href=\"?page=avatars&amp;action=agree&amp;id_utilisateurs=$ids\">Accepter</a>");  
+    $site->start_page("matmatronch","Administration");
     
-  $site->add_contents($cts);
-  $site->end_page();
-  
-  exit();
+    $cts = new contents("Photos manquantes");
+    $cts->add_paragraph("<img src=\"../var/img/matmatronch/".$id.".jpg\" />");  
+      
+    $cts->add_paragraph("<a href=\"?page=avatars&amp;action=reject&amp;id_utilisateurs=$ids\">Refuser</a>");  
+    $cts->add_paragraph("<a href=\"?page=avatars&amp;action=agree&amp;id_utilisateurs=$ids\">Accepter</a>");  
+      
+    $site->add_contents($cts);
+    $site->end_page();
+    
+    exit();
+  }
 }
 
 
