@@ -1990,6 +1990,55 @@ L'équipe info AE";
   }
   
   
+  /** 
+   * Supprime un utilisateur **si possible**
+   *
+   * @return true si l'utilisateur a été supprimé, false si impossible
+   */
+  function delete_utilisateur()
+  {
+    global $Erreur;
+    
+    $no_matter = array(
+      "utilisateurs",
+      "utl_etu_utbm",
+      "utl_extra",
+      "utl_groupe",
+      "utl_joue_instru",
+      "utl_parametres");
+    
+    // Liste toutes les tables
+    $req1 = new requete($this->db,"SHOW TABLES");
+    while ( list($table) = $req1->get_row() )
+    {
+      // Si la table n'est pas dansles tables ignorées
+      if ( !in_array($table,$no_matter) )
+      {
+        // Liste les champs de la table
+        $req2 = new requete($this->db, "DESCRIBE $table");
+        while ( $row = $req2->get_row() )
+        {
+          // S'il s'agit d'un champ utilisateur
+          if ( ereg("^id_utilisateur",$row[0]) )
+          {
+            // Recherche s'il y a des enregistrements pour l'utilisateur 
+            $req3 = new requete($this->db, "SELECT $row[0] WHERE ".$row[0]."='".$this->id."'");
+            if ( $req3->lines != 0 )
+            {
+              // Si oui, alors suppression impossible
+              $Erreur = "utlisateur ".$this->id." trouvé dans la table $table, champ ".$row[0];
+              return false;
+            }
+          }
+        }
+      }
+    }
+    
+    //foreach($no_matter as $table)
+    //  new delete($site->dbrw,$table,array("id_utilisateur"=>$this->id));
+    
+    return true;
+  }
   
 }
 
