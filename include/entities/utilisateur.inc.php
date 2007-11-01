@@ -2037,7 +2037,7 @@ L'équipe info AE";
     }
     
     foreach($no_matter as $table)
-      new delete($site->dbrw,$table,array("id_utilisateur"=>$this->id));
+      new delete($this->dbrw,$table,array("id_utilisateur"=>$this->id));
     
     return true;
   }
