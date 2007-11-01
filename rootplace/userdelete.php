@@ -31,6 +31,9 @@ $site = new site ();
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
 	
+  print_r($_REQUEST);    
+
+	
 if ( $_REQUEST["action"] == "delete" && $GLOBALS["svalid_call"] )
 {
   $user = new utilisateur($site->db/*,$site->dbrw*/);  
@@ -38,7 +41,6 @@ if ( $_REQUEST["action"] == "delete" && $GLOBALS["svalid_call"] )
       
       
   print_r($user);
-  print_r($_REQUEST);    
       
   if ( $site->is_sure ( "","Suppression de l'utilisateur N°".$user->id." : ".$user->get_html_link(),"delusr".$user->id, 2 ) )	
     $Success = $user->delete_utilisateur();
