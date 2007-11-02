@@ -2156,7 +2156,7 @@ L'équipe info AE";
       }
       elseif ( $req1->lines == 1 ) // Un simplement remplacement
         //new update($this->dbrw,$fusion[0],array($fusion[1]=>$replacement->id),array($fusion[1]=>$this->id));
-        echo "update(".$fusion[0].",array(".$fusion[1]."=>".$replacement->id."),array(".$fusion[1]."=>".this->id."));\n";      
+        echo "update(".$fusion[0].",array(".$fusion[1]."=>".$replacement->id."),array(".$fusion[1]."=>".$this->id."));\n";      
       
       // Dans les autres cas, il n'y a rien à faire
     }
@@ -2164,7 +2164,7 @@ L'équipe info AE";
     //4- Procéde aux remplacements
     foreach( $updates as $update )
       //new update($this->dbrw,$update[0],array($update[1]=>$replacement->id),array($update[1]=>$this->id));
-      echo "update(".$update[0].",array(".$update[1]."=>".$replacement->id."),array(".$update[1]."=>".this->id."));\n";
+      echo "update(".$update[0].",array(".$update[1]."=>".$replacement->id."),array(".$update[1]."=>".$this->id."));\n";
       
     //5- Procède aux opérations sur fichiers
     
