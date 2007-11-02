@@ -2053,7 +2053,7 @@ L'équipe info AE";
    */
   function replace_and_remove ( &$replacement )   
   {
-    global $Erreur;
+    global $Erreur, $topdir;
     
     // 1- Analyse de la base de données
     $updates = array(); // Remplacements de valeurs 
@@ -2111,7 +2111,8 @@ L'équipe info AE";
       "utilisateurs.email_utl" => "noop", 
       "utilisateurs.hash_utl"=>"noop",
       "utilisateurs.tovalid_utl"=>"noop",
-      "utilisateurs.pass_utl"=>"noop");
+      "utilisateurs.pass_utl"=>"noop",
+      "utilisateurs.ae_utl"=>"or");
 
     // Fusion par fusion
     foreach ( $fusions as $fusion )
@@ -2141,6 +2142,8 @@ L'équipe info AE";
           {
             if ( $special[$n] == "sum" )
               $row[$key] = $value2+$value1; 
+            elseif ( $special[$n] == "or" )
+              $row[$key] = intval($value2)|intval($value1); 
           }
           // Stratégie par défaut: On ne comble que le trous de l'utilisateur 2 
           // par les données l'utilisateur 1
@@ -2168,8 +2171,30 @@ L'équipe info AE";
       
     //5- Procède aux opérations sur fichiers
     
+    $p1 = $topdir."var/img/matmatronch/".$this->id.".identity.jpg";
+    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".identity.jpg"; 
     
+    if ( !file_exists($p2) && file_exists($p1) )
+      move($p1,$p2);  
     
+    $p1 = $topdir."var/img/matmatronch/".$this->id.".jpg";
+    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".jpg"; 
+    
+    if ( !file_exists($p2) && file_exists($p1) )
+      move($p1,$p2); 
+      
+    $p1 = $topdir."var/img/matmatronch/".$this->id.".blouse.jpg";
+    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".blouse.jpg"; 
+    
+    if ( !file_exists($p2) && file_exists($p1) )
+      move($p1,$p2); 
+      
+    $p1 = $topdir."var/img/matmatronch/".$this->id.".blouse.mini.jpg";
+    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".blouse.mini.jpg"; 
+    
+    if ( !file_exists($p2) && file_exists($p1) )
+      move($p1,$p2); 
+                  
     return true;
   }
 }
