@@ -229,7 +229,6 @@ class calendar extends stdcontents
   				$js = " onmouseover=\"show_obj_top('calev-$date'); \"";
   				$js .= " onmouseout=\"hide_obj('calev-$date');\"";
   			}
-  			$style .= " event$idx";
   			$this->events .= "</dl>\n";
 		  }
 		}
@@ -238,7 +237,7 @@ class calendar extends stdcontents
 		if ($date == $this->sql_date (time()))
 		$style .= " active";
 		
-		/* On affiche la case */
+		/* On affiche la case */ 
 		if($event->lines > 0)
 		{
 			$this->buffer .= "<td class=\"$style\"$js><a href=\"" . $wwwtopdir . "events.php?day=" . $date . "\">" . $day . "</a></td>";
