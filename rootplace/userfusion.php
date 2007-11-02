@@ -31,31 +31,36 @@ $site = new site ();
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
 	
-if ( $_REQUEST["action"] == "delete" && $GLOBALS["svalid_call"] )
+if ( $_REQUEST["action"] == "fusion" && $GLOBALS["svalid_call"] )
 {
-  $user = new utilisateur($site->db,$site->dbrw);  
-  $user->load_by_id($_REQUEST["id_utilisateur"]);
-     
-  if ( !$user->is_valid() )
+  $user1 = new utilisateur($site->db,$site->dbrw);  
+  $user1->load_by_id($_REQUEST["id_utilisateur1"]);
+  
+  $user2 = new utilisateur($site->db);  
+  $user2->load_by_id($_REQUEST["id_utilisateur2"]);
+      
+  if ( !$user1->is_valid() || !$user2->is_valid() )
     $Erreur="ID invalide";   
-  elseif ( $site->is_sure ( "","Suppression de l'utilisateur N°".$user->id." : ".$user->get_html_link(),"delusr".$user->id, 2 ) )	
-    $Success = $user->delete_utilisateur();
+  elseif ( $site->is_sure ( "","Suppression de l'utilisateur N°".$user1->id." : ".$user1->get_html_link()." en faveur de l'utilisateur N°".$user2->id." : ".$user2->get_html_link(),"fusionusr".$user->id, 2 ) )	
+    $Success = $user1->replace_and_remove($user2);
   
 }
 	
 $site->start_page("none","Administration");
 
-$cts = new contents("Administration / Outil / Suppression d'un utilisateur");
+$cts = new contents("Administration / Outil / Fusion de deux utilisateurs");
 
 if ( $Success )
-  $cts->add_paragraph("Utilisateur ".$user->id." supprimé avec succès");
+  $cts->add_paragraph("Utilisateurs fusionnés avec succès : ".$user2->get_html_link());
 
-$frm = new form("rmuser", "userdelete.php", false, "POST", "Supprimer");
+$frm = new form("rmuser", "userfusion.php", false, "POST", "Fusion");
 $frm->allow_only_one_usage();
-$frm->add_hidden("action","delete");
+$frm->add_hidden("action","fusion");
 if ( $Erreur )
   $frm->error($Erreur);
-$frm->add_text_field("id_utilisateur","ID Utilisateur");
+$frm->add_text_field("id_utilisateur1","ID qui sera supprimé");
+$frm->add_text_field("id_utilisateur2","ID sui sera conservé");
+
 $frm->add_submit("valid","Supprimer");
 $cts->add($frm,true);
 

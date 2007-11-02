@@ -60,6 +60,8 @@ $cts->add($lst);
 $cts->add_title(2,"Outils");
 $lst = new itemlist();
 $lst->add("<a href=\"userdelete.php\">Supprimer un utilisateur</a>");
+$lst->add("<a href=\"userfusion.php\">Fusionner des utilisateurs</a>");
+
 $cts->add($lst);
 
 $site->add_contents($cts);

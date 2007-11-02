@@ -2040,6 +2040,22 @@ L'équipe info AE";
     foreach($no_matter as $table)
       new delete($this->dbrw,$table,array("id_utilisateur"=>$this->id));
     
+    $p1 = $topdir."var/img/matmatronch/".$this->id.".identity.jpg";
+    if ( file_exists($p1) )
+      unlink($p1);  
+    
+    $p1 = $topdir."var/img/matmatronch/".$this->id.".jpg";
+    if ( file_exists($p1) )
+      unlink($p1); 
+      
+    $p1 = $topdir."var/img/matmatronch/".$this->id.".blouse.jpg";
+    if ( file_exists($p1) )
+      unlink($p1); 
+      
+    $p1 = $topdir."var/img/matmatronch/".$this->id.".blouse.mini.jpg";
+    if ( file_exists($p1) )
+      unlink($p1); 
+    
     return true;
   }
   
@@ -2152,22 +2168,18 @@ L'équipe info AE";
 
         }
         
-        print_r($row);
-        
-        //new update($this->dbrw,$fusion[0],$row,array($fusion[1]=>$replacement->id));
-        //new delete($this->dbrw,$fusion[0],array($fusion[1]=>$this->id));
+        new update($this->dbrw,$fusion[0],$row,array($fusion[1]=>$replacement->id));
+        new delete($this->dbrw,$fusion[0],array($fusion[1]=>$this->id));
       }
       elseif ( $req1->lines == 1 ) // Un simplement remplacement
-        //new update($this->dbrw,$fusion[0],array($fusion[1]=>$replacement->id),array($fusion[1]=>$this->id));
-        echo "update(".$fusion[0].",array(".$fusion[1]."=>".$replacement->id."),array(".$fusion[1]."=>".$this->id."));\n";      
+        new update($this->dbrw,$fusion[0],array($fusion[1]=>$replacement->id),array($fusion[1]=>$this->id));
       
       // Dans les autres cas, il n'y a rien à faire
     }
     
     //4- Procéde aux remplacements
     foreach( $updates as $update )
-      //new update($this->dbrw,$update[0],array($update[1]=>$replacement->id),array($update[1]=>$this->id));
-      echo "update(".$update[0].",array(".$update[1]."=>".$replacement->id."),array(".$update[1]."=>".$this->id."));\n";
+      new update($this->dbrw,$update[0],array($update[1]=>$replacement->id),array($update[1]=>$this->id));
       
     //5- Procède aux opérations sur fichiers
     

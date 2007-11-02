@@ -35,14 +35,6 @@ $site = new site ();
 if ( !preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
   $site->fatal("taiste only");
 
-$user1 = new utilisateur($site->db);
-$user2 = new utilisateur($site->db);
-
-$user1->load_by_id(4030);
-$user2->load_by_id(4004);
-
-$user1->replace_and_remove($user2);
-
 
 if ( $_REQUEST["action"] == "fatal" )
   $site->fatal("test");
