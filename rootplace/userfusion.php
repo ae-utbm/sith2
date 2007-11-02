@@ -61,7 +61,7 @@ if ( $Erreur )
 $frm->add_text_field("id_utilisateur1","ID qui sera supprimé");
 $frm->add_text_field("id_utilisateur2","ID sui sera conservé");
 
-$frm->add_submit("valid","Supprimer");
+$frm->add_submit("valid","Fusion");
 $cts->add($frm,true);
 
 $site->add_contents($cts);
