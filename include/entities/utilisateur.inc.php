@@ -2123,8 +2123,8 @@ L'équipe info AE";
       
       if ( $req1->lines == 1 && $req2->lines == 1 ) // Une fusion une vrai
       {
-        $row1 = $req->get_row();
-        $row2 = $req->get_row();
+        $row1 = $req1->get_row();
+        $row2 = $req2->get_row();
         $row = array();
         
         unset($row1[$fusion[1]]);
