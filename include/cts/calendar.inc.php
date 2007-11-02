@@ -222,12 +222,12 @@ class calendar extends stdcontents
 		  {
 		    $event->go_first();
 		    
-  			$this->events .= "<dl class=\"event\" id=\"calendar-event-$date\">\n";
+  			$this->events .= "<dl class=\"event\" id=\"calev-$date\">\n";
   			while ($ev = $event->get_row ())
   			{
   				$this->event_add ($ev,$date);
-  				$js = " onMouseOver=\"javascript:show_obj_top('calendar-event-$date'); \"";
-  				$js .= " onMouseOut=\"javascript:hide_obj('calendar-event-$date');\"";
+  				$js = " onmouseover=\"show_obj_top('calev-$date'); \"";
+  				$js .= " onmouseout=\"hide_obj('calev-$date');\"";
   			}
   			$style .= " event$idx";
   			$this->events .= "</dl>\n";
