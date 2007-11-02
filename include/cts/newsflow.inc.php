@@ -221,7 +221,7 @@ class newslister extends stdcontents
   			
   			if ( $row['id_asso'] )
   			{
-  				$img = "<a href=\"asso.php?id_asso=".$row['id_asso']."\"><img src=\"/var/img/logos/".$row['nom_unix_asso'].".icon.png\" alt=\"\"/>";
+  				$img = "<a href=\"asso.php?id_asso=".$row['id_asso']."\"><img src=\"/var/img/logos/".$row['nom_unix_asso'].".icon.png\" alt=\"\"/></a>";
   				if ( !file_exists("/var/www/ae/www/ae2/var/img/logos/".$row['nom_unix_asso'].".icon.png") )
   					$img = "<a href=\"asso.php?id_asso=".$row['id_asso']."\"><img src=\"images/default/news.icon.png\" alt=\"\"/></a>";		
   			}

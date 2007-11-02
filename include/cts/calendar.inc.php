@@ -206,9 +206,6 @@ class calendar extends stdcontents
 		/* Si oui, on change le style de la case, et on ajoute l'évenement */
 		if ($event->lines > 0)
 		{
-			$this->events .= "<dl class=\"event\" id=\"calendar-event-$date\">\n";
-			
-			
 			$idx=3;
 			
 			while ($ev = $event->get_row ())
@@ -217,15 +214,24 @@ class calendar extends stdcontents
 					$idx = 1;
 				elseif ( $ev["type_nvl"] == 2 && $idx == 3 )
 					$idx = 2;
-					
-				$this->event_add ($ev,$date);
-				$js = " onMouseOver=\"javascript:show_obj_top('calendar-event-$date'); \"";
-				$js .= " onMouseOut=\"javascript:hide_obj('calendar-event-$date');\"";
 			}
 			
-			$style .= " event$idx";
-			
-			$this->events .= "</dl>\n";
+			$style .= " event$idx";		  
+		  
+		  if ( $idx != 3 )
+		  {
+		    $event->go_first();
+		    
+  			$this->events .= "<dl class=\"event\" id=\"calendar-event-$date\">\n";
+  			while ($ev = $event->get_row ())
+  			{
+  				$this->event_add ($ev,$date);
+  				$js = " onMouseOver=\"javascript:show_obj_top('calendar-event-$date'); \"";
+  				$js .= " onMouseOut=\"javascript:hide_obj('calendar-event-$date');\"";
+  			}
+  			$style .= " event$idx";
+  			$this->events .= "</dl>\n";
+		  }
 		}
 		
 		/* Si le jour demandé est aujourd'hui, on active la case */

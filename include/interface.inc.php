@@ -382,7 +382,7 @@ class interfaceweb
     echo "<p class=\"text-footer\">";
     echo "<a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a>";
     echo " - <a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a>";
-    echo " - <a href=\"". $wwwtopdir ."article.php?name=rd\">R&D</a>";
+    echo " - <a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a>";
     echo " - <a href=\"". $wwwtopdir ."equipeinfo\">Equipe info</a>";
     echo "<br/>\n"; 
     
