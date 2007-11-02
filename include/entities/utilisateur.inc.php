@@ -2125,7 +2125,8 @@ L'équipe info AE";
       "utilisateurs.hash_utl"=>"noop",
       "utilisateurs.tovalid_utl"=>"noop",
       "utilisateurs.pass_utl"=>"noop",
-      "utilisateurs.ae_utl"=>"or");
+      "utilisateurs.ae_utl"=>"or",
+      "utl_etu_utbm.email_utbm"=>"validutbm");
 
     // Fusion par fusion
     foreach ( $fusions as $fusion )
@@ -2157,6 +2158,12 @@ L'équipe info AE";
               $row[$key] = $value2+$value1; 
             elseif ( $special[$n] == "or" )
               $row[$key] = intval($value2)|intval($value1); 
+            elseif ( $special[$n] == "validutbm" )
+            {
+              if ( (CheckEmail($value1, 1) || CheckEmail($value1, 2)) 
+                 && !(CheckEmail($value2, 1) || CheckEmail($value2, 2)) )
+                $row[$key] = $value1; 
+            }
           }
           // Stratégie par défaut: On ne comble que le trous de l'utilisateur 2 
           // par les données l'utilisateur 1
