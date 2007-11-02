@@ -184,8 +184,8 @@ class asso extends stdentity
 	  if ( $this->nom_unix && $this->is_mailing_allowed() )
 	  {
 	    if ( !is_null($this->id_parent) )
-		    $this->_ml_create($this->nom_unix.".membres",$this->email);	
-		  $this->_ml_create($this->nom_unix.".bureau",$this->email);	
+		    $this->_ml_create($this->dbrw,$this->nom_unix.".membres",$this->email);	
+		  $this->_ml_create($this->dbrw,$this->nom_unix.".bureau",$this->email);	
 	  }
 	}
 	
@@ -211,9 +211,9 @@ class asso extends stdentity
   		  if ( $nom_unix )
   		  {
           if ( !is_null($id_parent) )
-  		      $this->_ml_create($nom_unix.".membres",$this->email);	
+  		      $this->_ml_create($this->dbrw,$nom_unix.".membres",$this->email);	
   		      
-  		    $this->_ml_create($nom_unix.".bureau",$this->email);
+  		    $this->_ml_create($this->dbrw,$nom_unix.".bureau",$this->email);
   		  }
   		}
       elseif ( $this->nom_unix != $this->nom_unix )
@@ -221,28 +221,28 @@ class asso extends stdentity
         if ( !$this->nom_unix )
         {
           if ( !is_null($id_parent) )
-  		      $this->_ml_create($nom_unix.".membres",$this->email);	
+  		      $this->_ml_create($this->dbrw,$nom_unix.".membres",$this->email);	
   		      
-  		    $this->_ml_create($nom_unix.".bureau",$this->email);
+  		    $this->_ml_create($this->dbrw,$nom_unix.".bureau",$this->email);
   		  }
         else
         {
           if (!is_null($this->id_parent) && is_null($id_parent) )
-    		    $this->_ml_remove($this->nom_unix.".membres");
+    		    $this->_ml_remove($this->dbrw,$this->nom_unix.".membres");
     		  elseif (is_null($this->id_parent) && !is_null($id_parent) )
-    		    $this->_ml_create($nom_unix.".membres",$this->email);
+    		    $this->_ml_create($this->dbrw,$nom_unix.".membres",$this->email);
     		  else
-  		      $this->_ml_rename($this->nom_unix.".membres",$nom_unix.".membres");	
+  		      $this->_ml_rename($this->dbrw,$this->nom_unix.".membres",$nom_unix.".membres");	
   		      
-  		    $this->_ml_rename($this->nom_unix.".bureau",$nom_unix.".bureau");	        
+  		    $this->_ml_rename($this->dbrw,$this->nom_unix.".bureau",$nom_unix.".bureau");	        
         }
       }		
   		elseif ( $this->nom_unix )
   		{
     		if (!is_null($this->id_parent) && is_null($id_parent) )
-    		  $this->_ml_remove($this->nom_unix.".membres");
+    		  $this->_ml_remove($this->dbrw,$this->nom_unix.".membres");
     		elseif (is_null($this->id_parent) && !is_null($id_parent) )
-    		  $this->_ml_create($this->nom_unix.".membres",$this->email);
+    		  $this->_ml_create($this->dbrw,$this->nom_unix.".membres",$this->email);
   		}
 		}
 		
