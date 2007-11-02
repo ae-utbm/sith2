@@ -115,6 +115,12 @@ while ( $row = $req->get_row() )
       $sas_todo[] = $user->id;
 	  }
 	  
+	  if ( $_REQUEST["action"] == "sendmail" )
+	  {
+	    $user->send_photo_email ( $site, $_REQUEST["title"], $_REQUEST["message"] );
+      $info .= ", e-mail envoyé";
+	  }
+	  
     $lst->add($user->get_html_link().$info);
     
     if ( empty($info) )
@@ -142,6 +148,21 @@ if ( count($avatar_todo) || count($sas_todo) )
 $cts->add_title(2,"Liste");
 
 $cts->add($lst);
+
+$cts->add_title(2,"Envoyer un e-mail à tous");
+
+$frm = new form("sendall","autophoto.php");
+$frm->add_hidden("action","sendmail");
+$frm->add_text_field("title","Titre du message");
+$frm->add_info("Bonjour,");
+$frm->add_text_area("message","Message","");
+$frm->add_info("Pour mettre à jour votre profil, et ajouter votre photo au format numérique en ligne, allez à l'adresse suivante :<br/>".
+        "http://ae.utbm.fr/majprofil.php?...<br/>".
+        "<br/>".
+        "L'équipe info AE");
+$frm->add_submit("valid","Envoyer");
+
+$cts->add($frm);
 
 
 $site->add_contents($cts);

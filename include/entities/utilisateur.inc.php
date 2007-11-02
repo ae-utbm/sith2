@@ -1968,7 +1968,7 @@ L'équipe info AE";
     if ( $this->hash != "valid" )
       $body = "Bonjour,\n".
         $infotext.
-        "\n".
+        "\n\n".
         "Pour mettre à jour votre profil, et ajouter votre photo au format numérique en ligne, allez à l'adresse suivante :\n".
         "http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&hash=" . $this->hash . "\n".
         "\n".
@@ -1976,7 +1976,7 @@ L'équipe info AE";
     else
       $body = "Bonjour,\n".
         $infotext.
-        "\n".
+        "\n\n".
         "Pour mettre à jour votre profil, et ajouter votre photo au format numérique en ligne, allez à l'adresse suivante :\n".
         "http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&token=" . $site->create_token_for_user($this->id) . "\n".
         "\n".
