@@ -2118,8 +2118,8 @@ L'équipe info AE";
     foreach ( $fusions as $fusion )
     {
       // Recherche les données sur les deux instances
-      $req1 = new requete("SELECT * FROM ".$fusion[0]." WHERE ".$fusion[1]."='".$this->id."'");      
-      $req2 = new requete("SELECT * FROM ".$fusion[0]." WHERE ".$fusion[1]."='".$replacement->id."'");      
+      $req1 = new requete($this->db,"SELECT * FROM ".$fusion[0]." WHERE ".$fusion[1]."='".$this->id."'");      
+      $req2 = new requete($this->db,"SELECT * FROM ".$fusion[0]." WHERE ".$fusion[1]."='".$replacement->id."'");      
       
       if ( $req1->lines == 1 && $req2->lines == 1 ) // Une fusion une vrai
       {
