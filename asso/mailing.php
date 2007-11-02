@@ -174,7 +174,7 @@ $cts->add(new tabshead($subtabs,"mailing","","subtab"));
 
 if ( $asso->is_mailing_allowed() )
 {
-  $mailings = array($asso->nom_unix.".bureau");
+  $mailings = array($asso->nom_unix.".bureau"=>$asso->nom_unix.".bureau");
 
   $cts->add_title(2,"Mailing listes");
 
@@ -187,7 +187,7 @@ if ( $asso->is_mailing_allowed() )
         
     $cts->add_paragraph("Votre adresse principale est ".$site->user->email.". <a href=\"../user.php?page=edit&amp;see=email\">Changer d'adresse principale</a>");
         
-    $mailings[] = $asso->nom_unix.".membres";
+    $mailings[$asso->nom_unix.".membres"] = $asso->nom_unix.".membres";
   }
   
   $cts->add_title(2,"Inscription manuelle");
@@ -197,7 +197,7 @@ if ( $asso->is_mailing_allowed() )
       $cts->add_paragraph("Adresse e-mail invalide","error");
     elseif ( in_array($_REQUEST["liste"],$mailings) )
     {
-      asso::_ml_subscribe ( $site->db, $_REQUEST["liste"], $_REQUEST["email"] );
+      asso::_ml_subscribe ( $site->dbrw, $_REQUEST["liste"], $_REQUEST["email"] );
       $cts->add_paragraph("Demande d'inscription de ".$_REQUEST["email"]." à ".$_REQUEST["liste"]." enregistrée.");
     }
   }  
@@ -216,7 +216,7 @@ if ( $asso->is_mailing_allowed() )
       $cts->add_paragraph("Adresse e-mail invalide","error");
     elseif ( in_array($_REQUEST["liste"],$mailings) )
     {
-      asso::_ml_unsubscribe ( $site->db, $_REQUEST["liste"], $_REQUEST["email"] );
+      asso::_ml_unsubscribe ( $site->dbrw, $_REQUEST["liste"], $_REQUEST["email"] );
       $cts->add_paragraph("Demande de desinscription de ".$_REQUEST["email"]." à ".$_REQUEST["liste"]." enregistrée.");
     }
   }
