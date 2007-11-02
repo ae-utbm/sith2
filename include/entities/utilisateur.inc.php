@@ -2147,7 +2147,7 @@ L'équipe info AE";
           }
           // Stratégie par défaut: On ne comble que le trous de l'utilisateur 2 
           // par les données l'utilisateur 1
-          elseif ( empty($value2) ) 
+          elseif ( is_string($key) && empty($value2) ) 
             $row[$key] = $value1; 
 
         }
