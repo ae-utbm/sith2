@@ -2103,8 +2103,66 @@ L'équipe info AE";
       }
     }
     
+    //3- Procéde aux fusions
     
+    // Champs avec stratégie spéciale
+    $special = array ( 
+      "utilisateurs.montant_compte" => "sum", 
+      "utilisateurs.email_utl" => "noop", 
+      "utilisateurs.hash_utl"=>"noop",
+      "utilisateurs.tovalid_utl"=>"noop",
+      "utilisateurs.pass_utl"=>"noop");
+
+    // Fusion par fusion
+    foreach ( $fusions as $fusion )
+    {
+      // Recherche les données sur les deux instances
+      $req1 = new requete("SELECT * FROM ".$fusion[0]." WHERE ".$fusion[1]."='".$this->id."'");      
+      $req2 = new requete("SELECT * FROM ".$fusion[0]." WHERE ".$fusion[1]."='".$replacement->id."'");      
+      
+      if ( $req1->lines == 1 && $req2->lines == 1 ) // Une fusion une vrai
+      {
+        $row1 = $req->get_row();
+        $row2 = $req->get_row();
+        $row = array();
+        
+        unset($row1[$fusion[1]]);
+        unset($row2[$fusion[1]]);
+        
+        // Prepare les mises à jours à procéder sur l'utilisateur 2
+        foreach ( $row1 as $key => $value1 )
+        {
+          $value2 = $row2[$key];
+          
+          $n = $fusion[0].".".$key;
+          
+          // Cas spéciaux
+          if ( isset($special[$n]) )
+          {
+            if ( $special[$n] == "sum" )
+              $row[$key] = $value2+$value1; 
+          }
+          // Stratégie par défaut: On ne comble que le trous de l'utilisateur 2 
+          // par les données l'utilisateur 1
+          elseif ( empty($value2) ) 
+            $row[$key] = $value1; 
+
+        }
+        
+        new update($this->dbrw,$fusion[0],$row,array($fusion[1]=>$replacement->id));
+        new delete($this->dbrw,$fusion[0],array($fusion[1]=>$this->id));
+      }
+      elseif ( $req1->lines == 1 ) // Un simplement remplacement
+        new update($this->dbrw,$fusion[0],array($fusion[1]=>$replacement->id),array($fusion[1]=>$this->id));
+      
+      // Dans les autres cas, il n'y a rien à faire
+    }
     
+    //4- Procéde aux remplacements
+    foreach( $updates as $update )
+      new update($this->dbrw,$update[0],array($update[1]=>$replacement->id),array($update[1]=>$this->id));
+    
+    //5- Procède aux opérations sur fichiers
     
     return true;
   }
