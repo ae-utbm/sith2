@@ -141,7 +141,7 @@ function move_to_branche($iduser, $branche)
 
   $branche = strtolower($branche);
   
-  return new update($site->db, 
+  return new update($site->dbrw, 
 		    "utl_etu_utbm", 
 		    array("departement_utbm" => $branche), 
 		    array("id_utilisateur" => $iduser), true);
@@ -152,7 +152,7 @@ function move_to_filiere($iduser, $filiere)
 
   $filiere = strtolower($filiere);
   
-  return new update($site->db, 
+  return new update($site->dbrw, 
 		    "utl_etu_utbm", 
 		    array("filiere_utbm" => $filiere), 
 		    array("id_utilisateur" => $iduser), true);
@@ -163,7 +163,7 @@ function change_birthdate($iduser, $date)
 {
   $timestp = strtotime($date);
   global $site;
-  return new update($site->db,
+  return new update($site->dbrw,
 		    "utilisateurs",
 		    array("date_naissance_utl" => date("Y-m-d", $timestp)),
 		    array("id_utilisateur" => $iduser), true);
