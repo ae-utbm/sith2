@@ -91,7 +91,9 @@ if( isset($_REQUEST["action"]) )
           
           $user->load_all_extra();
           
-          if ( ! $user->became_utbm($student->email, true) )
+      	  $error = 0;
+      	  
+          if ( !$user->became_utbm($student->email, true) )
           {
             $cts->add_paragraph("Erreur passage UTBM");
             $error++;            
@@ -102,7 +104,6 @@ if( isset($_REQUEST["action"]) )
           $cts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".
 			      $user->id."'>fiche matmat</a>");
 	  
-      	  $error = 0;
       	  /* date naissance ? */
       	  if ($student->DateNaissance != date("d/m/Y", $user->date_naissance))
           {
