@@ -838,7 +838,7 @@ class utilisateur extends stdentity
     $req = new requete($this->db,
                        "SELECT id_utilisateur ".
                        "FROM `utl_etu_utbm` ".
-                       "WHERE `email_utbm`='".mysql_real_escape_string($email_utbm)."' "
+                       "WHERE `email_utbm`='".mysql_real_escape_string($email_utbm)."' ".
                        "AND id_utilisateur`!='".mysql_real_escape_string($this->id)."' ");
 
     if ( $req->lines > 0 )
