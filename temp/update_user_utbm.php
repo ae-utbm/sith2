@@ -77,7 +77,7 @@ if( isset($_REQUEST["action"]) )
 				  $student->CodeFiliere . " (CRI) / " . strtoupper($user->filiere) . " (NOUS)");
 	      $error++;
 
-	      move_to_filiere($user->id, $filiere);
+	      move_to_filiere($user->id, $student->CodeFiliere);
 	    }
 
 	  /* semestre ? */
