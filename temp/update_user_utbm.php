@@ -71,7 +71,7 @@ if( isset($_REQUEST["action"]) )
               AND `prenom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($prenom)) . "$'
               AND `date_naissance_utl` = '".date("Y-m-d",$naissance)."'");
           }
-          
+          /*
           if ( is_null($naissance) || $req->lines == 0 )
           {
             $req = new requete($site->db, 
@@ -79,7 +79,7 @@ if( isset($_REQUEST["action"]) )
               WHERE `nom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($nom)) . "$'
               AND `prenom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($prenom)) . "$'");
           }          
-          
+          */
           if ( $req->lines == 1 )
             $user->_load($req->get_row());
           
