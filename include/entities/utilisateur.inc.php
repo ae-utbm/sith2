@@ -843,12 +843,20 @@ class utilisateur extends stdentity
     if ( $req->lines > 0 )
       return false;
 
-    // Crée l'entrée dans la table utl_etu_utbm (qui a vocation à devenir utl_utbm)
-    $req = new insert($this->dbrw,
-                      "utl_etu_utbm",
-                      array("id_utilisateur" => $this->id,
-                            "email_utbm"=>$email_utbm));
-
+    // 3- Vérifions qu'il n'y pas d'entrée pour l'utilisateur
+    $req = new requete($this->db,
+                       "SELECT id_utilisateur ".
+                       "FROM `utl_etu_utbm` ".
+                       "WHERE `utl_etu_utbm`.`id_utilisateur` = '" . mysql_real_escape_string($this->id) . "'");
+    if ( $req->lines == 0 )
+    {
+      // Crée l'entrée dans la table utl_etu_utbm (qui a vocation à devenir utl_utbm)
+      $req = new insert($this->dbrw,
+                        "utl_etu_utbm",
+                        array("id_utilisateur" => $this->id,
+                              "email_utbm"=>$email_utbm));
+    }
+    
     // Si c'est un admin qui fait l'opération, on considère que la vérification par email n'est pas requise
     if ( $admin )
     {
@@ -896,6 +904,15 @@ class utilisateur extends stdentity
                             "etudiant_utl"=>$this->etudiant,
                             "ancien_etudiant_utl"=>$this->ancien_etudiant),
                       array("id_utilisateur"=>$this->id));
+                      
+    // Force le role à "etu" si l'utilisateur est utbm 
+    if ( $this->utbm )
+    {
+      $this->role = "etu";               
+      new update($this->dbrw,"utl_etu_utbm",
+        array('role_utbm' => $this->role),
+        array('id_utilisateur' => $this->id));
+    }                        
   }
   
   function became_notetudiant ( )
