@@ -42,7 +42,11 @@ if( isset($_REQUEST["action"]) )
         if($user->load_by_email($student->email))
         {
 
+
 	  $user->load_all_extra();
+
+	  $user->became_utbm($student->email, true);
+	  $user->became_etudiant("UTBM", false, true);
 
           $cts = new contents($user->prenom." ".$user->nom);
           $cts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".
