@@ -13,6 +13,18 @@ $site = new site ();
 
 $cts = new contents();
 
+
+  function regaccent ($mot)
+  {
+    $pattern2 = str_replace("e","(e|é|è|ê|ë|É|È|Ê|Ë)",$mot);
+    $pattern2 = str_replace("a","(a|à|â|ä|À|Â|Ä)",$pattern2);
+    $pattern2 = str_replace("i","(i|ï|î|Ï|Î)",$pattern2);
+    $pattern2 = str_replace("c","(c|ç|Ç)",$pattern2);
+    $pattern2 = str_replace("u","(u|ù|ü|û|Ü|Û|Ù)",$pattern2);
+    $pattern2 = str_replace("n","(n|ñ|Ñ)",$pattern2);
+    return $pattern2;
+  }
+
 if( isset($_REQUEST["action"]) )
 {
   if ( $_REQUEST["action"]=="upload" )
@@ -37,87 +49,111 @@ if( isset($_REQUEST["action"]) )
 
       $xml = simplexml_load_file($src);
 
+      $notfound = array();
+      $updated = array();
+      
+
       foreach($xml->Etudiant as $student)
       {
-        if($user->load_by_email($student->email))
+        $user->load_by_email($student->email);
+        
+        if ( !$user->is_valid() ) // Non trouvé... essayons par nom/prenom/date de naissance
         {
-
-
-	  $user->load_all_extra();
-
-	  $user->became_utbm($student->email, true);
-	  $user->became_etudiant("UTBM", false, true);
+          $naissance = datetime_to_timestamp($student->DateNaissance);  
+          $nom = $student->Nom;
+          $prenom = $student->Prenom;
+          
+          if ( !is_null($naissance) )
+          {
+            $req = new requete($site->db, 
+              "SELECT * FROM `utilisateurs`
+              WHERE `nom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($nom)) . "$'
+              AND `prenom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($prenom)) . "$'
+              AND `date_naissance_utl` = '".date("Y-m-d",$naissance)."'");
+          }
+          
+          if ( is_null($naissance) || $req->lines == 0 )
+          {
+            $req = new requete($site->db, 
+              "SELECT * FROM `utilisateurs`
+              WHERE `nom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($nom)) . "$'
+              AND `prenom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($prenom)) . "$'");
+          }          
+          
+          if ( $req->lines == 1 )
+            $user->_load($req->get_row());
+          
+        }
+        
+        if($user->is_valid())
+        {
+          $updated[] = $user->id;
+          
+          $user->load_all_extra();
+          
+          $user->became_utbm($student->email, true);
+          $user->became_etudiant("UTBM", false, true);
 
           $cts = new contents($user->prenom." ".$user->nom);
           $cts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".
 			      $user->id."'>fiche matmat</a>");
 	  
-	  $error = 0;
-	  /* date naissance ? */
-	  if ($student->DateNaissance != date("d/m/Y", $user->date_naissance))
-	    {
-	      $cts->add_paragraph("<b>date de naissance non concordante</b> : <br/>".
-				  $student->DateNaissance . "(CRI) /  ".
-				  date("d/m/Y", $user->date_naissance) . " (NOUS)");
-	      $error++;
-	      change_birthdate($user->id, $student->DateNaissance);
-	    }
-
-	  /* branche ? */
-	  if ($student->CodeDepartement != strtoupper($user->departement))
-	    {
-	      $cts->add_paragraph("<b>departement non concordant</b> : ".
-				  $student->CodeDepartement . " (CRI) / " . strtoupper($user->departement) . " (NOUS)");
-	      $error++;
-
-	      move_to_branche($user->id, $student->CodeDepartement);
-
-	    }
-	    
-	  /* filière ? */
-	  if ($student->CodeFiliere != strtoupper($user->filiere))
-	    {
-	      $cts->add_paragraph("<b>filiere non concordante</b> : <br/>".
-				  $student->CodeFiliere . " (CRI) / " . strtoupper($user->filiere) . " (NOUS)");
-	      $error++;
-
-	      move_to_filiere($user->id, $student->CodeFiliere);
-	    }
-
-	  /* semestre ? */
-	  if ($student->Semestre != $user->semestre)
-	    {
-	      $cts->add_paragraph("<b>semestre non concordant</b> : <br/>".
-				  $student->Semestre . " (CRI) / " . $user->semestre . " (NOUS)");
-	      $error++;
-	      move_to_semester($user->id, $student->Semestre);
-	    }
-	  
-	  //	  if ($error == 0)
-	  //  $cts->add_paragraph("L'utilisateur semble être à jour.");
-	  
-
-	  if ($error > 0)
-	    {
-	      $cts->add_paragraph("<b>$error erreurs.</b>");
-
-	      $site->add_contents($cts);
-	    }
+      	  $error = 0;
+      	  /* date naissance ? */
+      	  if ($student->DateNaissance != date("d/m/Y", $user->date_naissance))
+          {
+            $cts->add_paragraph("<b>date de naissance non concordante</b> : <br/>".
+      			  $student->DateNaissance . "(CRI) /  ".
+      			  date("d/m/Y", $user->date_naissance) . " (NOUS)");
+            $error++;
+            change_birthdate($user->id, $student->DateNaissance);
+          }
+      
+      	  /* branche ? */
+      	  if ($student->CodeDepartement != strtoupper($user->departement))
+          {
+            $cts->add_paragraph("<b>departement non concordant</b> : ".
+      			  $student->CodeDepartement . " (CRI) / " . strtoupper($user->departement) . " (NOUS)");
+            $error++;
+      
+            move_to_branche($user->id, $student->CodeDepartement);
+          }
+      	    
+      	  /* filière ? */
+      	  if ($student->CodeFiliere != strtoupper($user->filiere))
+          {
+            $cts->add_paragraph("<b>filiere non concordante</b> : <br/>".
+      			  $student->CodeFiliere . " (CRI) / " . strtoupper($user->filiere) . " (NOUS)");
+            $error++;
+      
+            move_to_filiere($user->id, $student->CodeFiliere);
+          }
+      
+      	  /* semestre ? */
+      	  if ($student->Semestre != $user->semestre)
+          {
+            $cts->add_paragraph("<b>semestre non concordant</b> : <br/>".
+      			  $student->Semestre . " (CRI) / " . $user->semestre . " (NOUS)");
+            $error++;
+            move_to_semester($user->id, $student->Semestre);
+          }
+      	  
+      
+      	  if ($error > 0)
+          {
+            $cts->add_paragraph("$error erreurs.","error");
+      
+            $site->add_contents($cts);
+          }
         }
-
-	/*
-	else
-	  {
-	    $cts = new contents($student->email);
-	    $cts->add_paragraph("<b>NON TROUVE</b>");
-	    $site->add_contents($cts);
-	  }
-	*/
-	// Not limit !
-	//        $i++;
-	//	if($i == 50)
-	//          break;
-
+        else
+        {
+          $cts = new contents($student->Prenom." ".$student->Nom);
+          $cts->add_paragraph($req->lines." trouvé(s)","error");
+          $cts->add_paragraph(print_r($student,true));
+          $site->add_contents($cts);
+          $notfound[] = $student;
+        }
       }
       $site->end_page();
       exit();
@@ -161,8 +197,9 @@ function move_to_filiere($iduser, $filiere)
 
 function change_birthdate($iduser, $date)
 {
-  $timestp = strtotime($date);
   global $site;
+
+  $timestp = datetime_to_timestamp($date);
   return new update($site->dbrw,
 		    "utilisateurs",
 		    array("date_naissance_utl" => date("Y-m-d", $timestp)),
