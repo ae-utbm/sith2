@@ -838,7 +838,8 @@ class utilisateur extends stdentity
     $req = new requete($this->db,
                        "SELECT id_utilisateur ".
                        "FROM `utl_etu_utbm` ".
-                       "WHERE `utl_etu_utbm`.`email_utbm` = '" . mysql_real_escape_string($email_utbm) . "'");
+                       "WHERE `email_utbm`='".mysql_real_escape_string($email_utbm)."' "
+                       "AND id_utilisateur`!='".mysql_real_escape_string($this->id)."' ");
 
     if ( $req->lines > 0 )
       return false;
@@ -847,7 +848,7 @@ class utilisateur extends stdentity
     $req = new requete($this->db,
                        "SELECT id_utilisateur ".
                        "FROM `utl_etu_utbm` ".
-                       "WHERE `utl_etu_utbm`.`id_utilisateur` = '" . mysql_real_escape_string($this->id) . "'");
+                       "WHERE `id_utilisateur` = '" . mysql_real_escape_string($this->id) . "'");
     if ( $req->lines == 0 )
     {
       // Crée l'entrée dans la table utl_etu_utbm (qui a vocation à devenir utl_utbm)
