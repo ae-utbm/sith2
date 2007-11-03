@@ -129,7 +129,7 @@ function move_to_semester($iduser, $sem)
 {
   global $site;
   
-  return new update($site->db, 
+  return new update($site->dbrw, 
 		    "utl_etu_utbm", 
 		    array("semestre_utbm" => strtolower($sem)), 
 		    array("id_utilisateur" => $iduser), true);
