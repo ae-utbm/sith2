@@ -4,6 +4,7 @@
  *
  * - Sebastien WATTIEZ < webast2 at gmail dot com >
  * - Simon Lopez < simon DOT lopez AT ayolo DOT org >
+ * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
  * Ce fichier fait partie du site de l'Association des étudiants
  * de l'UTBM, http://ae.utbm.fr.
@@ -71,7 +72,9 @@ if (isset($_REQUEST['id_utilisateur']))
  
   if (!$user->publique && !$can_edit)
     $site->error_forbidden("matmatronch","private");
-  if(!$user->promo_utbm != $site->user->promo_utbm && $site->user->is_in_group("gestion_ae"))
+
+  if(($user->promo_utbm != $site->user->promo_utbm) 
+     && ($site->user->is_in_group("gestion_ae"))
   {
     $user = &$site->user;
     $can_edit = true;
