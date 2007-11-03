@@ -162,6 +162,15 @@ if( isset($_REQUEST["action"]) )
           $notfound[] = $student;
         }
       }
+      
+      // Passe en ancien les autres
+      new requete($site->dbrw, "UPDATE utilisateurs SET 
+      `ancien_etudiant_utl` = '1', `etudiant_utl` = '0'
+      WHERE id_utilisateur NOT IN (".implode(",",$updated).") AND `utbm_utl` = '1' AND `etudiant_utl` = '1' AND `ancien_etudiant_utl` = '0'");  
+      
+      
+      
+      
       $site->end_page();
       exit();
     }
