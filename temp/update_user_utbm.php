@@ -65,6 +65,9 @@ if( isset($_REQUEST["action"]) )
 	      $cts->add_paragraph("<b>departement non concordant</b> : ".
 				  $student->CodeDepartement . " (CRI) / " . $strtoupper($user->departement) . " (NOUS)");
 	      $error++;
+
+	      move_to_branche($user->id, $student->CodeDepartement);
+
 	    }
 	    
 	  /* filière ? */
@@ -73,6 +76,8 @@ if( isset($_REQUEST["action"]) )
 	      $cts->add_paragraph("<b>filiere non concordante</b> : <br/>".
 				  $student->CodeFiliere . " (CRI) / " . strtoupper($user->filiere) . " (NOUS)");
 	      $error++;
+
+	      move_to_filiere($user->id, $filiere);
 	    }
 
 	  /* semestre ? */
@@ -80,27 +85,35 @@ if( isset($_REQUEST["action"]) )
 	    {
 	      $cts->add_paragraph("<b>semestre non concordant</b> : <br/>".
 				  $student->Semestre . " (CRI) / " . $user->semestre . " (NOUS)");
-	      move_to_semester($user->id, $student->Semestre);
 	      $error++;
+	      move_to_semester($user->id, $student->Semestre);
 	    }
 	  
-	  if ($error == 0)
-	    $cts->add_paragraph("L'utilisateur semble être à jour.");
-	  else
-	    $cts->add_paragraph("<b>$error erreurs.</b>");
+	  //	  if ($error == 0)
+	  //  $cts->add_paragraph("L'utilisateur semble être à jour.");
+	  
 
-          $site->add_contents($cts);
+	  if ($error > 0)
+	    {
+	      $cts->add_paragraph("<b>$error erreurs.</b>");
+
+	      $site->add_contents($cts);
+	    }
         }
+
+	/*
 	else
 	  {
 	    $cts = new contents($student->email);
 	    $cts->add_paragraph("<b>NON TROUVE</b>");
 	    $site->add_contents($cts);
 	  }
+	*/
+	// Not limit !
+	//        $i++;
+	//	if($i == 50)
+	//          break;
 
-        $i++;
-	if($i == 50)
-          break;
       }
       $site->end_page();
       exit();
@@ -114,9 +127,33 @@ function move_to_semester($iduser, $sem)
   
   return new update($site->db, 
 		    "utl_etu_utbm", 
-		    array("semestre_utbm" => intval($sem)), 
+		    array("semestre_utbm" => strtolower($sem)), 
 		    array("id_utilisateur" => $iduser), true);
 }
+
+function move_to_branche($iduser, $branche)
+{
+  global $site;
+
+  $branche = strtolower($branche);
+  
+  return new update($site->db, 
+		    "utl_etu_utbm", 
+		    array("departement_utbm" => $branche), 
+		    array("id_utilisateur" => $iduser), true);
+}
+function move_to_filiere($iduser, $filiere)
+{
+  global $site;
+
+  $filiere = strtolower($filiere);
+  
+  return new update($site->db, 
+		    "utl_etu_utbm", 
+		    array("filiere_utbm" => $filiere), 
+		    array("id_utilisateur" => $iduser), true);
+}
+
 
 function change_birthdate($iduser, $date)
 {
