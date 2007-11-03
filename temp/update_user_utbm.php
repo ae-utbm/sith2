@@ -91,7 +91,7 @@ if( isset($_REQUEST["action"]) )
           
           $user->load_all_extra();
           
-          $cts = new contents($user->prenom." ".$user->nom);
+          $cts = new contents($user->prenom." ".$user->nom." ".$student->email);
           $cts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".
 			      $user->id."'>fiche matmat</a>");
 			                
