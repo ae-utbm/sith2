@@ -164,12 +164,18 @@ if( isset($_REQUEST["action"]) )
       }
       
       // Passe en ancien les autres
-      new requete($site->dbrw, "UPDATE utilisateurs SET 
+      $req = new requete($site->dbrw, "UPDATE utilisateurs SET 
       `ancien_etudiant_utl` = '1', `etudiant_utl` = '0'
       WHERE id_utilisateur NOT IN (".implode(",",$updated).") AND `utbm_utl` = '1' AND `etudiant_utl` = '1' AND `ancien_etudiant_utl` = '0'");  
       
+      $cts = new contents("Passage en ancien");
+      $cts->add_paragraph($req->lines." utilisateur(s) affecté(s)");
+      $site->add_contents($cts);
       
-      
+      $cts = new contents("Stats");
+      $cts->add_paragraph(count($updated)." etudiants mise à jour");
+      $cts->add_paragraph(count($notfound)." inconnus");
+      $site->add_contents($cts);
       
       $site->end_page();
       exit();
@@ -184,7 +190,7 @@ function move_to_semester($iduser, $sem)
   return new update($site->dbrw, 
 		    "utl_etu_utbm", 
 		    array("semestre_utbm" => strtolower($sem)), 
-		    array("id_utilisateur" => $iduser), true);
+		    array("id_utilisateur" => $iduser));
 }
 
 function move_to_branche($iduser, $branche)
@@ -196,7 +202,7 @@ function move_to_branche($iduser, $branche)
   return new update($site->dbrw, 
 		    "utl_etu_utbm", 
 		    array("departement_utbm" => $branche), 
-		    array("id_utilisateur" => $iduser), true);
+		    array("id_utilisateur" => $iduser));
 }
 function move_to_filiere($iduser, $filiere)
 {
@@ -207,7 +213,7 @@ function move_to_filiere($iduser, $filiere)
   return new update($site->dbrw, 
 		    "utl_etu_utbm", 
 		    array("filiere_utbm" => $filiere), 
-		    array("id_utilisateur" => $iduser), true);
+		    array("id_utilisateur" => $iduser));
 }
 
 
@@ -219,7 +225,7 @@ function change_birthdate($iduser, $date)
   return new update($site->dbrw,
 		    "utilisateurs",
 		    array("date_naissance_utl" => date("Y-m-d", $timestp)),
-		    array("id_utilisateur" => $iduser), true);
+		    array("id_utilisateur" => $iduser));
 }
 
 $frm = new form("upload","update_user_utbm.php"."#upload",true,"POST","Envoi d'un fichier XML");
