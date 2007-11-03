@@ -63,7 +63,7 @@ if( isset($_REQUEST["action"]) )
 	  if ($student->CodeDepartement != strtoupper($user->departement))
 	    {
 	      $cts->add_paragraph("<b>departement non concordant</b> : ".
-				  $student->CodeDepartement . " (CRI) / " . $strtoupper($user->departement) . " (NOUS)");
+				  $student->CodeDepartement . " (CRI) / " . strtoupper($user->departement) . " (NOUS)");
 	      $error++;
 
 	      move_to_branche($user->id, $student->CodeDepartement);
