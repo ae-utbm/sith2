@@ -91,6 +91,10 @@ if( isset($_REQUEST["action"]) )
           
           $user->load_all_extra();
           
+          $cts = new contents($user->prenom." ".$user->nom);
+          $cts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".
+			      $user->id."'>fiche matmat</a>");
+			                
       	  $error = 0;
       	  
           if ( !$user->became_utbm($student->email, true) )
@@ -100,9 +104,7 @@ if( isset($_REQUEST["action"]) )
           }
           $user->became_etudiant("UTBM", false, true);
 
-          $cts = new contents($user->prenom." ".$user->nom);
-          $cts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".
-			      $user->id."'>fiche matmat</a>");
+
 	  
       	  /* date naissance ? */
       	  if ($student->DateNaissance != date("d/m/Y", $user->date_naissance))
