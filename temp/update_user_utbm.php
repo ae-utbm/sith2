@@ -91,7 +91,11 @@ if( isset($_REQUEST["action"]) )
           
           $user->load_all_extra();
           
-          $user->became_utbm($student->email, true);
+          if ( ! $user->became_utbm($student->email, true) )
+          {
+            $cts->add_paragraph("Erreur passage UTBM");
+            $error++;            
+          }
           $user->became_etudiant("UTBM", false, true);
 
           $cts = new contents($user->prenom." ".$user->nom);
