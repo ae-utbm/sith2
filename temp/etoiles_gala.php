@@ -31,7 +31,7 @@ class etoiles extends FPDF
 		$this->width = 105; // Largeur d'une carte
 		$this->height = 105; // Hauteur d'une carte
 		$this->xmargin = 0; // Marge X
-		$this->ymargin = 0; // Marge Y
+		$this->ymargin = 30; // Marge Y
 		$this->npp = 4; // Nombre par page
 		$this->npl = 2; // Nombre par ligne
 		$this->fontsize = 16; // Nombre par ligne
