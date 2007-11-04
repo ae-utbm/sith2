@@ -117,7 +117,7 @@ if( isset($_REQUEST["action"]) )
           }
       
       	  /* branche ? */
-      	  if ($student->CodeDepartement != strtoupper($user->departement))
+      	  if (is_null($user->departement) || $student->CodeDepartement != strtoupper($user->departement))
           {
             $cts->add_paragraph("<b>departement non concordant</b> : ".
       			  $student->CodeDepartement . " (CRI) / " . strtoupper($user->departement) . " (NOUS)");
@@ -127,7 +127,7 @@ if( isset($_REQUEST["action"]) )
           }
       	    
       	  /* filière ? */
-      	  if ($student->CodeFiliere != strtoupper($user->filiere))
+      	  if (is_null($user->filiere) || $student->CodeFiliere != strtoupper($user->filiere))
           {
             $cts->add_paragraph("<b>filiere non concordante</b> : <br/>".
       			  $student->CodeFiliere . " (CRI) / " . strtoupper($user->filiere) . " (NOUS)");
@@ -137,7 +137,7 @@ if( isset($_REQUEST["action"]) )
           }
       
       	  /* semestre ? */
-      	  if ($student->Semestre != $user->semestre)
+      	  if (is_null($user->semestre) || $student->Semestre != $user->semestre)
           {
             $cts->add_paragraph("<b>semestre non concordant</b> : <br/>".
       			  $student->Semestre . " (CRI) / " . $user->semestre . " (NOUS)");
@@ -175,7 +175,6 @@ if( isset($_REQUEST["action"]) )
       $cts = new contents("Stats");
       $cts->add_paragraph(count($updated)." etudiants mise à jour");
       $cts->add_paragraph(count($notfound)." inconnus");
-      $cts->add_paragraph(implode(",",$updated));
       $site->add_contents($cts);
       
       $site->end_page();
