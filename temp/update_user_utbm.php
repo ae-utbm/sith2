@@ -166,7 +166,7 @@ if( isset($_REQUEST["action"]) )
       // Passe en ancien les autres
       $req = new requete($site->dbrw, "UPDATE utilisateurs SET 
       `ancien_etudiant_utl` = '1', `etudiant_utl` = '0'
-      WHERE id_utilisateur NOT IN (".implode(",",$updated).") AND `utbm_utl` = '1' AND `etudiant_utl` = '1' AND `ancien_etudiant_utl` = '0'");  
+      WHERE id_utilisateur NOT IN (".implode(",",$updated).") AND `utbm_utl` = '1' AND `etudiant_utl` = '1'");  
       
       $cts = new contents("Passage en ancien");
       $cts->add_paragraph($req->lines." utilisateur(s) affecté(s)");
