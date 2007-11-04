@@ -54,8 +54,9 @@ while ( $row = $req->get_row() )
   if ( $promo )
   {
     echo $user->departement.$user->semestre." => $promo <br/>\n";
-    new update($site->dbrw,"utl_etu_utbm",
+    $req = new update($site->dbrw,"utl_etu_utbm",
       array('promo_utbm' => $promo),array( 'id_utilisateur' => $user->id));
+    print_r($req);
   }
   else
     echo $user->departement.$user->semestre." ?<br/>\n";
