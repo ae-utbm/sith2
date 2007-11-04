@@ -22,7 +22,7 @@ class etoiles extends FPDF
 	
 	var $i;
 	
-	function pdfetiquette()
+	function etoiles()
 	{
 		global $topdir;
 		
@@ -77,7 +77,7 @@ if ( isset($_REQUEST["data"]) )
     $etoiles->add($line);
   }
   
-  $pdf->Output();
+  $etoiles->Output();
 
   exit();
 }
