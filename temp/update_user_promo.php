@@ -15,7 +15,8 @@ $req = new requete($site->db,
   "WHERE ".
   "(`utl_etu_utbm`.`promo_utbm` = '0' OR `utl_etu_utbm`.`promo_utbm` IS NULL) ".
   "AND `utl_etu_utbm`.`role_utbm` = 'etu' ".
-  "AND `date_diplome_utbm` IS NULL");
+  "AND `date_diplome_utbm` IS NULL ".
+  "AND  etudiant_utl='1'");
 
 $user = new utilisateur($site->db,$site->dbrw);
 
@@ -56,8 +57,8 @@ while ( $row = $req->get_row() )
     new update($site->dbrw,"utl_etu_utbm",
       array('promo_utbm' => $promo),array( 'id_utilisateur' => $user->id));
   }
-
-  
+  else
+    echo $user->departement.$user->semestre." ?<br/>\n";
 }
 
 
