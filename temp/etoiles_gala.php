@@ -6,6 +6,7 @@ require_once($topdir. "include/site.inc.php");
 $site = new site();
 
 define('FPDF_FONTPATH', $topdir . 'font/');
+require_once($topdir . "include/lib/barcodefpdf.inc.php");
 
 
 class etoiles extends FPDF
