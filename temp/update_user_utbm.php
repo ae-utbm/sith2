@@ -116,8 +116,14 @@ if( isset($_REQUEST["action"]) )
             change_birthdate($user->id, $student->DateNaissance);
           }
       
+          if ( !trim($student->CodeDepartement) )
+          {
+            $cts->add_paragraph("<b>cri=boulets?</b> : departement selon le CRI ".$student->CodeDepartement);
+            $error++;
+          }
+      
       	  /* branche ? */
-      	  if (is_null($user->departement) || $student->CodeDepartement != strtoupper($user->departement))
+      	  if ($student->CodeDepartement != strtoupper($user->departement))
           {
             $cts->add_paragraph("<b>departement non concordant</b> : ".
       			  $student->CodeDepartement . " (CRI) / " . strtoupper($user->departement) . " (NOUS)");
@@ -127,7 +133,7 @@ if( isset($_REQUEST["action"]) )
           }
       	    
       	  /* filière ? */
-      	  if (is_null($user->filiere) || $student->CodeFiliere != strtoupper($user->filiere))
+      	  if ($student->CodeFiliere != strtoupper($user->filiere))
           {
             $cts->add_paragraph("<b>filiere non concordante</b> : <br/>".
       			  $student->CodeFiliere . " (CRI) / " . strtoupper($user->filiere) . " (NOUS)");
@@ -137,7 +143,7 @@ if( isset($_REQUEST["action"]) )
           }
       
       	  /* semestre ? */
-      	  if (is_null($user->semestre) || $student->Semestre != $user->semestre)
+      	  if ($student->Semestre != $user->semestre)
           {
             $cts->add_paragraph("<b>semestre non concordant</b> : <br/>".
       			  $student->Semestre . " (CRI) / " . $user->semestre . " (NOUS)");
