@@ -53,10 +53,10 @@ while ( $row = $req->get_row() )
   if ( $promo )
   {
     echo $user->departement.$user->semestre." => $promo <br/>\n";
-    
+    new update($this->dbrw,"utl_etu_utbm",
+      array('promo_utbm' => $promo),array( 'id_utilisateur' => $user->id));
   }
-  /*  new update($this->dbrw,"utl_etu_utbm",
-      array('promo_utbm' => $promo),array( 'id_utilisateur' => $user->id)); */   
+
   
 }
 
