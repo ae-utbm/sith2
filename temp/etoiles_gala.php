@@ -28,13 +28,13 @@ class etoiles extends FPDF
 		
 		$this->FPDF();
 
-		$this->width = 90; // Largeur d'une carte
-		$this->height = 90; // Hauteur d'une carte
-		$this->xmargin = 20; // Marge X
-		$this->ymargin = 20; // Marge Y
+		$this->width = 105; // Largeur d'une carte
+		$this->height = 105; // Hauteur d'une carte
+		$this->xmargin = 0; // Marge X
+		$this->ymargin = 0; // Marge Y
 		$this->npp = 4; // Nombre par page
 		$this->npl = 2; // Nombre par ligne
-		$this->fontsize = 20; // Nombre par ligne
+		$this->fontsize = 18; // Nombre par ligne
 		$this->SetAutoPageBreak(false);
 		
 		$this->i = 0;
@@ -57,7 +57,7 @@ class etoiles extends FPDF
 	  
 		$this->SetFont('Arial','',$this->fontsize);
 		$this->SetXY($x, $y+($this->height/2)/*$x,$y+(($this->height-$this->fontsize)/2)*/);
-		$this->Cell($this->width,0,utf8_decode($name." => $y"),0,0,'C');
+		$this->Cell($this->width,0,utf8_decode(str_replace(";","\n",$name." => $y"),0,0,'C');
 
 			
 		$this->i++;
