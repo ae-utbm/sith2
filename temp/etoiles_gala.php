@@ -54,6 +54,8 @@ class etoiles extends FPDF
 		$y = intval ($this->i / $this->npl) * $this->height + $this->ymargin;
 			
 			
+		echo $name;	
+			
 		$this->SetFont('Arial','',$this->fontsize);
 		$this->SetXY($x,$y+(($this->height-$this->fontsize)/2));
 		$this->Cell($this->width,$this->fontsize,utf8_decode($name),0,0,'C');
