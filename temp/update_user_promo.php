@@ -15,8 +15,7 @@ $req = new requete($site->db,
   "WHERE ".
   "(`utl_etu_utbm`.`promo_utbm` = '0' OR `utl_etu_utbm`.`promo_utbm` IS NULL) ".
   "AND `utl_etu_utbm`.`role_utbm` = 'etu' ".
-  "AND `date_diplome_utbm` IS NULL ".
-  "LIMIT 1");
+  "AND `date_diplome_utbm` IS NULL");
 
 $user = new utilisateur($site->db,$site->dbrw);
 
