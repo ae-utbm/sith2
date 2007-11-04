@@ -127,7 +127,7 @@ if( isset($_REQUEST["action"]) )
           }
       	    
       	  /* filière ? */
-      	  if (is_null($user->filiere) || $student->CodeFiliere != strtoupper($user->filiere))
+      	  if (is_null($user->filiere) || $student->CodeFiliere != strtoupper($user->filiere))
           {
             $cts->add_paragraph("<b>filiere non concordante</b> : <br/>".
       			  $student->CodeFiliere . " (CRI) / " . strtoupper($user->filiere) . " (NOUS)");
