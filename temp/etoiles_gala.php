@@ -34,7 +34,7 @@ class etoiles extends FPDF
 		$this->ymargin = 0; // Marge Y
 		$this->npp = 4; // Nombre par page
 		$this->npl = 2; // Nombre par ligne
-		$this->fontsize = 18; // Nombre par ligne
+		$this->fontsize = 16; // Nombre par ligne
 		$this->SetAutoPageBreak(false);
 		
 		$this->i = 0;
