@@ -175,6 +175,7 @@ if( isset($_REQUEST["action"]) )
       $cts = new contents("Stats");
       $cts->add_paragraph(count($updated)." etudiants mise à jour");
       $cts->add_paragraph(count($notfound)." inconnus");
+      $cts->add_paragraph(implode(",",$updated));
       $site->add_contents($cts);
       
       $site->end_page();
