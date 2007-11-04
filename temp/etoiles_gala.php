@@ -55,8 +55,8 @@ class etoiles extends FPDF
 			
 						
 		$this->SetFont('Arial','',$this->fontsize);
-		$this->SetXY($x, $y/*$x,$y+(($this->height-$this->fontsize)/2)*/);
-		$this->Cell($this->width,$this->fontsize,utf8_decode($name),0,0,'C');
+		$this->SetXY($x, 0/*$x,$y+(($this->height-$this->fontsize)/2)*/);
+		$this->Cell($this->width,$this->fontsize,utf8_decode($name." => $y"),0,0,'C');
 
 	  $this->Image("etoile.jpg",$x,$y,$this->width,$this->height);
 			
