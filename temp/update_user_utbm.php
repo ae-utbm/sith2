@@ -137,7 +137,7 @@ if( isset($_REQUEST["action"]) )
           }
       
       	  /* semestre ? */
-      	  if (is_null($user->semestre) || $student->Semestre != $user->semestre)
+      	  if (is_null($user->semestre) || $student->Semestre != $user->semestre)
           {
             $cts->add_paragraph("<b>semestre non concordant</b> : <br/>".
       			  $student->Semestre . " (CRI) / " . $user->semestre . " (NOUS)");
