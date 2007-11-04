@@ -10,8 +10,6 @@ $req = new requete($site->db,
   "SELECT `utilisateurs`.*, `utl_etu`.*, `utl_etu_utbm`.*, `utl_extra`.* ".
   "FROM utilisateurs ".
   "INNER JOIN `utl_etu_utbm` ON (`utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur`) ".
-  "LEFT JOIN `utl_etu` ON (`utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur`) ".
-  "LEFT JOIN `utl_extra` ON (`utilisateurs`.`id_utilisateur`=`utl_extra`.`id_utilisateur`) ".
   "WHERE ".
   "(`utl_etu_utbm`.`promo_utbm` = '0' OR `utl_etu_utbm`.`promo_utbm` IS NULL) ".
   "AND `utl_etu_utbm`.`role_utbm` = 'etu' ".
@@ -54,9 +52,8 @@ while ( $row = $req->get_row() )
   if ( $promo )
   {
     echo $user->departement.$user->semestre." => $promo <br/>\n";
-    $req = new update($site->dbrw,"utl_etu_utbm",
+    new update($site->dbrw,"utl_etu_utbm",
       array('promo_utbm' => $promo),array( 'id_utilisateur' => $user->id));
-    print_r($req);
   }
   else
     echo $user->departement.$user->semestre." ?<br/>\n";
