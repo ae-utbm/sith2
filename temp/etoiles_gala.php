@@ -58,8 +58,9 @@ class etoiles extends FPDF
 	  list($nom,$prenom) = explode(";",$name);
 	  
 		$this->SetFont('Arial','',$this->fontsize);
-		$this->SetXY($x, $y+($this->height/2)/*$x,$y+(($this->height-$this->fontsize)/2)*/);
+		$this->SetXY($x, $y+($this->height/2)-$this->fontsize/*$x,$y+(($this->height-$this->fontsize)/2)*/);
 		$this->Cell($this->width,$this->fontsize,utf8_decode($nom),0,0,'C');
+		$this->SetXY($x, $y+($this->height/2));
 		$this->Cell($this->width,$this->fontsize,utf8_decode($prenom),0,0,'C');
 
 
