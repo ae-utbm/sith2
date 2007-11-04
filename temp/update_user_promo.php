@@ -7,7 +7,7 @@ include($topdir. "include/site.inc.php");
 $site = new site ();
 
 $req = new requete($site->db,
-  "SELECT `utilisateurs`.*, `utl_etu`.*, `utl_etu_utbm`.*, `utl_extra`.* ".
+  "SELECT `utilisateurs`.*, `utl_etu_utbm`.* ".
   "FROM utilisateurs ".
   "INNER JOIN `utl_etu_utbm` ON (`utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur`) ".
   "WHERE ".
