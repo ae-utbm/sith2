@@ -130,6 +130,11 @@ class requete {
   	if ($this->lines > 0 )
   	mysql_data_seek($this->result, 0);
   }
+  
+  function is_sucess()
+  {
+    return $this->errno == 0;
+  }
 }
 
 /** Classe d'insertion dans une base de données.
