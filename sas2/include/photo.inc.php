@@ -322,7 +322,7 @@ class photo extends basedb
         )
       );
 
-    if ( $sql->is_sucess() )
+    if ( $sql->is_success() )
       $this->id = $sql->get_id();
     else
     {

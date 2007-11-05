@@ -131,7 +131,7 @@ class requete {
   	mysql_data_seek($this->result, 0);
   }
   
-  function is_sucess()
+  function is_success()
   {
     return $this->errno == 0;
   }
