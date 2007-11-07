@@ -7,7 +7,7 @@
 
 #logo a
 {
-	width:682px;
+	width:231px;
 	height:85px;
 	display: block;
   background: url("../images/top-logo.png");
@@ -31,4 +31,8 @@ div.tabsv2 span.selected a, div.tabsv2 span a:hover
   color:#000000;
   border-left:1px solid #000000;
   border-right:1px solid #000000;
+}
+div.sectionlinks
+{
+	border-bottom: 1px solid #000000;
 }
