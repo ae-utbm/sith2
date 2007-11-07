@@ -15,7 +15,7 @@
 
 div.tabsv2
 {
-	background: black;
+	background: #0f3849;
 }
 
 div.tabsv2 span a
@@ -34,5 +34,5 @@ div.tabsv2 span.selected a, div.tabsv2 span a:hover
 }
 div.sectionlinks
 {
-	border-bottom: 1px solid #000000;
+	border-bottom: 1px solid #0f3849;
 }
