@@ -98,7 +98,7 @@ if (!empty($_REQUEST["lettre_machine"]) )
 
 $cts->add($lst);
     
-$frm = new form("ajoutmachine", "index.php?view=machines", false, "POST", "Ajouter une machine");
+$frm = new form("ajoutmachine", "machines.php", false, "POST", "Ajouter une machine");
 
 $frm->add_text_field("lettre_machine", "Lettre de la machine :");
 $frm->add_select_field("typemachine", "Type de la machine :", $GLOBALS['types_jeton']);
@@ -116,7 +116,7 @@ $sql = new requete($site->db, "SELECT * FROM mc_machines
 $table = new sqltable("listmachinesok",
                       "Liste des machines en service",
                       $sql,
-                      "index.php?view=machines",
+                      "machines.php",
                       "id",
                       array("lettre" => "Lettre",
                             "type" => "Type de la machine",
@@ -137,7 +137,7 @@ $sql = new requete($site->db, "SELECT * FROM mc_machines
 $table = new sqltable("listmachineshs",
                       "Liste des machines hors service",
                       $sql,
-                      "index.php?view=machines",
+                      "machines.php",
                       "id",
                       array("lettre" => "Lettre",
                             "type" => "Type de la machine",
