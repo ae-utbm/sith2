@@ -674,7 +674,7 @@ function onSelectedListFile ( id, titre )
   
   elem.innerHTML= "<a href=\""+listFileTopDir+"/dfile.php?id_file="+id+"\"><img src=\""+listFileTopDir+"images/icons/16/file.png\" /> "+titre+"</a> <a onclick=\"removeListFile('"+listFileTopDir+"','"+listFileField+"',"+id+"); return false;\"><img src=\""+listFileTopDir+"images/actions/delete.png\" /></a>";
   
-  contener.insert(elem);
+  contener.insertBefore(elem,null);
   
   // Données
   if ( values.value == "" )
