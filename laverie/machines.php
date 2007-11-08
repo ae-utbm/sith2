@@ -27,6 +27,7 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir. "laverie/include/laverie.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/lieu.inc.php");
+require_once($topdir. "include/entities/jeton.inc.php");
 
 $site = new sitelaverie();
 $site->allow_only_logged_users("services");
