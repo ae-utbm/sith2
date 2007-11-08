@@ -701,7 +701,7 @@ function removeListFile(topdir,field,id)
     if ( ids[i] != id )
     {
       if ( nouv != "" )
-        nouv + ",";
+        nouv = nouv + ",";
       nouv = nouv + id;
     }
     
