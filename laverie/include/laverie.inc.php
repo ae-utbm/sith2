@@ -72,7 +72,7 @@ class sitelaverie extends site
 			$lst_admin->add("<a href=\"inventaire.php\">Inventaire des jetons</a>");
 			$lst_util = new itemlist("Utilisateurs","boxlist");
 			$lst_util->add("<a href=\"index.php?view=mauvais\">Mauvais clients</a>");
-			$lst_util->add("<a href=\"comptoir/bureau.php?id_comptoir=".CPT_LAVERIE."\">Rechargement</a>");
+			$lst_util->add("<a href=\"../comptoir/bureau.php?id_comptoir=".CPT_LAVERIE."\">Rechargement</a>");
 
 			$admcts->add($lst_taches,true, true, "tachesbox", "boxlist", true, true);
 			$admcts->add($lst_admin,true, true, "adminbox", "boxlist", true, true);
