@@ -49,10 +49,11 @@ if($_REQUEST['action'] == "hs")
 {
   foreach ( $ids as $id )
   {
-    $sql = new requete($site->dbrw, "UPDATE mc_machines 
+    $sql = new requete($site->dbrw,
+		      "UPDATE mc_machines 
           SET mc_machines.hs = 1
           WHERE mc_machines.id = $id");
-
+	
     $lst->add("La machine $id a bien été mise hors service","ok");
   }
   /* Cloturer le planning de la machine
@@ -63,7 +64,8 @@ if($_REQUEST['action'] == "es")
 {
   foreach ( $ids as $id )
   {
-    $sql = new requete($site->dbrw, "UPDATE mc_machines 
+    $sql = new requete($site->dbrw,
+		      "UPDATE mc_machines 
           SET mc_machines.hs = 0
           WHERE mc_machines.id = $id");
 
@@ -77,7 +79,8 @@ if($_REQUEST['action'] == "supprimer")
 {
   foreach ( $ids as $id )
   {
-    $sql = new requete($site->dbrw, "DELETE FROM mc_machines 
+    $sql = new requete($site->dbrw,
+		      "DELETE FROM mc_machines 
           WHERE mc_machines.id = $id");
 
     $lst->add("La machine $id  a bien été supprimée","ok");
@@ -108,10 +111,11 @@ $frm->allow_only_one_usage();
 $cts->add($frm,true);
 
 /* Liste des machines */
-$sql = new requete($site->db, "SELECT * FROM mc_machines
-  INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
-  WHERE mc_machines.hs = 0
-  ORDER BY mc_machines.lettre,mc_machines.type");
+$sql = new requete($site->db,
+                   "SELECT * FROM mc_machines
+									 INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
+									 WHERE mc_machines.hs = 0
+									 ORDER BY mc_machines.lettre,mc_machines.type");
 
 $table = new sqltable("listmachinesok",
                       "Liste des machines en service",
@@ -129,7 +133,8 @@ $table = new sqltable("listmachinesok",
 
 $cts->add($table, true);
 
-$sql = new requete($site->db, "SELECT * FROM mc_machines
+$sql = new requete($site->db,
+                   "SELECT * FROM mc_machines
                    INNER JOIN loc_lieu ON mc_machines.loc = loc_lieu.id_lieu
                    WHERE mc_machines.hs = 1
                    ORDER BY mc_machines.lettre,mc_machines.type");
