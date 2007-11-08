@@ -637,19 +637,19 @@ function onSelectedWikiImage ( id, titre  )
   insert_tags2(onSelectedFileFieldName, "{{", "}}", "dfile://"+id);
 }
 
-function _selectFile ( topdir,context="" )
+function _selectFile ( topdir,context )
 {
   window.open(topdir+"explorer.php?"+context, "fileselector", "width=750,height=500,status=no,scrollbars=yes,resizable=yes");
 }
 
-function selectWikiImage(topdir,field,context="")
+function selectWikiImage(topdir,field,context)
 {
   onSelectedFileFieldName = field;
   onSelectedFile = onSelectedWikiImage;
   _selectFile(topdir,context);
 }
 
-function selectWikiFile(topdir,field,context="")
+function selectWikiFile(topdir,field,context)
 {
   onSelectedFileFieldName = field;
   onSelectedFile = onSelectedWikiFile;
