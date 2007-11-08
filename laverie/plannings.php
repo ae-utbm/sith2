@@ -158,10 +158,21 @@ else
 {
   if($_REQUEST['action'] == "supprimer")
   {
-    $planning = new planning($site->db,$site->dbrw);
-    $planning->load_by_id( $_REQUEST['id_planning'] );
-    $planning->remove();
-    $lst->add("Le planning a bien été supprimé");
+		$sql = new requete($site->db,
+		                   "SELECT * FROM pl_gap_user
+											 WHERE id_planning = ".$_REQUEST['id_planning']);
+
+		if($sql->lines < 1)
+		{
+			$lst->add("Le planning contient des créneaux réservés, impossible de le supprimer");
+		}
+		else
+		{
+      $planning = new planning($site->db,$site->dbrw);
+      $planning->load_by_id( $_REQUEST['id_planning'] );
+      $planning->remove();
+      $lst->add("Le planning a bien été supprimé");
+		}
   }
   
   $cts->add($lst);
