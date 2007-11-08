@@ -143,7 +143,7 @@ while ( $row = $req->get_row() )
   if ( strlen($desc) > 72 )
     $desc = substr($desc,0,72)."...";
 
-  $gal->add_item ( "<img src=\"$img\" alt=\"fichier\" />","<a href=\"#\" onclick=\"select_file('".$fd->id."','".$fd->titre."'); return false;\" class=\"itmttl\">".$fd->titre."</a><br/><span class=\"itmdsc\">".$desc."</span>" );
+  $gal->add_item ( "<img src=\"$img\" alt=\"fichier\" />","<a href=\"#\" onclick=\"select_file('".$fd->id."','".htmlentities($fd->titre,ENT_QUOTES,"UTF-8")."'); return false;\" class=\"itmttl\">".htmlentities($fd->titre,ENT_QUOTES,"UTF-8")."</a><br/><span class=\"itmdsc\">".$desc."</span>" );
 }
 $fcts->add($gal);
 
