@@ -118,6 +118,7 @@ if ( $_REQUEST["action"] == "addfile" && $folder->is_right($site->user,DROIT_AJO
     $file->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
     $file->add_file ( $_FILES["file"], $_REQUEST["nom"], $folder->id, $_REQUEST["description"],$asso->id );
     $file->set_tags($_REQUEST["tags"]);
+    
   }
 }
 
@@ -142,7 +143,7 @@ while ( $row = $req->get_row() )
   if ( strlen($desc) > 72 )
     $desc = substr($desc,0,72)."...";
 
-  $gal->add_item ( "<img src=\"$img\" alt=\"fichier\" />","<a href=\"#\" onclick=\"select_file('".$fd->id."'); return false;\" class=\"itmttl\">".$fd->titre."</a><br/><span class=\"itmdsc\">".$desc."</span>" );
+  $gal->add_item ( "<img src=\"$img\" alt=\"fichier\" />","<a href=\"#\" onclick=\"select_file('".$fd->id."','".$fd->titre."'); return false;\" class=\"itmttl\">".$fd->titre."</a><br/><span class=\"itmdsc\">".$desc."</span>" );
 }
 $fcts->add($gal);
 

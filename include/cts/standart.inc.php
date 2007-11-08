@@ -392,16 +392,7 @@ class form extends stdcontents
   {
     $this->add_suggested_text_field( $name, $title, "email", $value, $required , $size);
   }
-  
-  /**
-   * Fonction dépréciée, utiliser add_user_fieldv2 à la place
-   */
-  function add_user_field ( $name, $title, $value = "", $required = false , $size = false)
-  {
-    $this->add_suggested_text_field( $name, $title, "user", $value, $required , $size);
-  }
-  
-  
+
   function add_user_fieldv2 ( $name, $title, $value = "", $required = false )
   {
     global $topdir;
@@ -619,11 +610,23 @@ class form extends stdcontents
   
   
   /** Ajoute une barre de bouton de syntaxe DokuWiki
-   * @param nom du textarea concerné (attribut 'name' et non pas 'id' !)
+   * @param $area_name nom du textarea concerné (attribut 'name' et non pas 'id' !)
    */
-  function add_dokuwiki_toolbar($area_name)
+  function add_dokuwiki_toolbar($area_name,$id_asso=null,$folder=null)
   {
     global $wwwtopdir;
+    
+    $context="";
+    
+    if ( !is_null($id_asso) )
+      $context="id_asso=".$id_asso;
+      
+    if ( !is_null($folder) )
+    {
+      if ( !empty($context) )
+        $context.= "&amp;";
+      $context.="folder=".rawurlencode($folder);
+    }
     
     $id = "textarea_".$this->name."_".$area_name;
 
@@ -658,12 +661,12 @@ class form extends stdcontents
     }
     
     $this->buffer .= 
-      "<a onclick=\"selectWikiImage('".$wwwtopdir."','".$id."');\" />".
+      "<a onclick=\"selectWikiImage('".$wwwtopdir."','".$id."','$context');\" />".
       "<img src=\"".$wwwtopdir."/images/toolbar/browse_image.png\" alt=\"Parcourir image\" title=\"Parcourir image\" />".
       "</a> \n";
     
     $this->buffer .= 
-      "<a onclick=\"selectWikiFile('".$wwwtopdir."','".$id."');\" />".
+      "<a onclick=\"selectWikiFile('".$wwwtopdir."','".$id."','$context');\" />".
       "<img src=\"".$wwwtopdir."/images/toolbar/attach.png\" alt=\"Attacher un fichier\" title=\"Attacher un fichier\" />".
       "</a> \n";
     
@@ -671,24 +674,72 @@ class form extends stdcontents
     
     $this->buffer .= "</div>\n";
     $this->buffer .= "</div>\n";
-    /*
-    $this->buffer .= "<div class=\"formrow\">\n";
-    $this->buffer .= "<div class=\"formlabel\"></div>\n";
-    $this->buffer .= "<div class=\"formfield\">\n";
-    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/bold.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'**','**');\" /> \n";
-    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/italic.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'//','//');\" />\n";
-    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/underline.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'__','__');\" />\n";
-    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/strike.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'<del>','</del>');\" />\n";
-    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h1.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'======','======');\" />\n";
-    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h2.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'=====','=====');\" />\n";
-    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h3.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'====','====');\" />\n";
-    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h4.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'===','===');\" />\n";
-    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/h5.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'==','==');\" />\n";
-    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/link.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'[[',']]');\" />\n";
-    $this->buffer .= "<input type=\"button\" class=\"toolbutton\" style=\"background: url('".$wwwtopdir."/images/toolbar/image.png') no-repeat;\" onclick=\"insert_tags(".$area_name.",'{{','}}');\" />\n";
-    $this->buffer .= "</div>\n";
-    $this->buffer .= "</div>\n";*/
   }
+
+  /**
+   * Ajout un champs pour joindre un ou plusieurs fichiers
+   * @param $name Nom du champs dans le quel sera placé la liste des fichiers (array de dfile)
+   * @param $tilte Libéllé du champ
+   * @param $file Liste des fichiers initiaux (array de dfile)
+   * @param $id_asso Association/Club de l'espace de fichier à proposer par défaut
+   * @param $folder Dossier à proposer par défaut pour l'ajout de fichiers
+   */
+
+  function add_attached_files_field ( $name, $title, $files, $id_asso=null, $folder=null )
+  {
+    global $wwwtopdir;
+
+    $name = fname_protect($name);
+
+    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];  
+    
+    $context="";
+    
+    if ( !is_null($id_asso) )
+      $context="id_asso=".$id_asso;
+      
+    if ( !is_null($folder) )
+    {
+      if ( !empty($context) )
+        $context.= "&amp;";
+      $context.="folder=".rawurlencode($folder);
+    }
+    
+    $this->buffer .= "<div class=\"formrow\">\n";
+    $this->_render_name($name,$title,$required);
+    $this->buffer .= "<div class=\"formfield\">";
+
+    $ids=array();
+
+    $this->buffer .= "<div class=\"filesselect\" id=\"_files_".$name."_items\">";
+
+    if ( !empty($files) )
+    {
+      foreach ( $files as $file )
+      {
+        $ids[] = $file->id;  
+        
+        /* ATTENTION, toute modification du code HTML doit être faite aussi dans site.js */
+        
+        $this->buffer .= "<div class=\"slsitem\" id=\"_files_".$name."_".$file->id."\">";
+        $this->buffer .= "<a href=\"".$wwwtopdir."/dfile.php?id_file=".$file->id."\"><img src=\"".$wwwtopdir."images/icons/16/file.png\" /> ".htmlentities($file->titre,ENT_NOQUOTES,"UTF-8")."</a> ";
+        
+        $this->buffer .= "<a onclick=\"removeListFile('$wwwtopdir','$name',".$file->id."); return false;\"><img src=\"".$wwwtopdir."images/actions/delete.png\" /></a>";
+        $this->buffer .= "</div>\n";
+      }
+    }
+    $this->buffer .= "</div>\n";
+
+    $this->buffer .= "<div class=\"filesselectbutton\">";
+    $this->buffer .= "<a href=\"#\" onclick=\"selectListFile('$wwwtopdir','$name','$context'); return false;\">Ajouter un fichier</a>";
+    $this->buffer .= "</div>\n";
+
+    $this->buffer .= "<input type=\"hidden\" name=\"magicform[files][$name]\" id=\"_files_".$name."_ids\" value=\"".implode(",",$ids)."\" />";
+
+    $this->buffer .= "</div>\n";
+    $this->buffer .= "</div>\n";
+  }
+
 
   
   /** Ajoute un champ mot de passe au formulaire
@@ -1717,6 +1768,28 @@ if ( isset($_REQUEST["magicform"]) )
   {
     foreach ( $_REQUEST["magicform"]["boolean"] as $name => $value )
       set_request_fname_unprotect($name,($value == "true"));
+  }
+  
+  if ( $_REQUEST["magicform"]["files"] )
+  {
+    require_once($topdir . "include/entities/files.inc.php");
+    $db = new mysqlae(); // $site n'est pas encore dispo...
+    foreach ( $_REQUEST["magicform"]["files"] as $name => $value )
+    {
+      $files = array();
+      if ( !empty($value) )
+      {
+        $ids = explode(",",$value);
+        foreach( $ids as $id )
+        {
+          $file = new dfile($db);  
+          if ( $file->load_by_id($id) )
+            $files[] = $file;
+        }
+      }
+      set_request_fname_unprotect($name,$files);
+    }
+    unset($db);
   }
   
   if ( $_REQUEST["magicform"]["processrights"] )

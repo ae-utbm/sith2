@@ -627,34 +627,80 @@ function popUpStream(topdir)
 var onSelectedFile;
 var onSelectedFileFieldName;
 
-function onSelectedWikiFile ( id  )
+function onSelectedWikiFile ( id, titre  )
 {
   insert_tags2(onSelectedFileFieldName, "[[", "]]", "dfile://"+id);
 }
 
-function onSelectedWikiImage ( id  )
+function onSelectedWikiImage ( id, titre  )
 {
   insert_tags2(onSelectedFileFieldName, "{{", "}}", "dfile://"+id);
 }
 
-function _selectFile ( topdir )
+function _selectFile ( topdir,context="" )
 {
-  window.open(topdir+"explorer.php", "fileselector", "width=750,height=500,status=no,scrollbars=yes,resizable=yes");
+  window.open(topdir+"explorer.php?"+context, "fileselector", "width=750,height=500,status=no,scrollbars=yes,resizable=yes");
 }
 
-function selectWikiImage(topdir,field)
+function selectWikiImage(topdir,field,context="")
 {
   onSelectedFileFieldName = field;
   onSelectedFile = onSelectedWikiImage;
-  _selectFile(topdir);
+  _selectFile(topdir,context);
 }
 
-function selectWikiFile(topdir,field)
+function selectWikiFile(topdir,field,context="")
 {
   onSelectedFileFieldName = field;
   onSelectedFile = onSelectedWikiFile;
-  _selectFile(topdir);
+  _selectFile(topdir,context);
+}
+
+var listFileTopDir;
+var listFileField;
+
+function onSelectedListFile ( id, titre )
+{
+  var contener = document.getElementById("_files_"+listFileField+"_items");
+  var values = document.getElementById("_files_"+listFileField+"_ids");
+  
+  //Visuel
+  
+  var elem = document.createElement("div");
+  var buffer = "";
+  
+  elem.setAttribute("id","_files_"+listFileField+"_"+id);
+  elem.setAttribute("class","slsitem");
+  
+  elem.innerHTML= "<a href=\""+listFileTopDir+"/dfile.php?id_file="+id+"\"><img src=\""+listFileTopDir+"images/icons/16/file.png\" /> "+titre+"</a> <a onclick=\"removeListFile('"+listFileTopDir+"','"+listFileField+"',"+id+"); return false;\"><img src=\""+listFileTopDir+"images/actions/delete.png\" /></a>";
+  
+  contener.insert(elem);
+  
+  // Données
+  if ( values.value == "" )
+    values.value = id;
+  else
+    values.value = values.value + "," + id;
 }
 
 
+function removeListFile(topdir,field,id)
+{
+  var element = document.getElementById("_files_"+field+"_"+id);
+  var values = document.getElementById("_files_"+field+"_ids");
+  
+  // Visuel
+	var contener = element.parentNode;
+	parent.removeChild(element);
+  
+  // Données
+  var ids = values.value.split(",");
+}
 
+function selectListFile(topdir,field,context)
+{
+  listFileTopDir=topdir;
+  listFileField=field;
+  onSelectedFile = onSelectedListFile;
+  _selectFile(topdir,context);
+}
