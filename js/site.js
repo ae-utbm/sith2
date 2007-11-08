@@ -695,6 +695,18 @@ function removeListFile(topdir,field,id)
 	
   // Données
   var ids = values.value.split(",");
+  var nouv = "";
+  for(i=0;i<ids.length;i++)
+  {
+    if ( ids[i] != id )
+    {
+      if ( nouv != "" )
+        nouv + ",";
+      nouv = nouv + id;
+    }
+    
+  }
+  values.value=nouv;
 }
 
 function selectListFile(topdir,field,context)
