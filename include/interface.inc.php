@@ -75,6 +75,7 @@ class interfaceweb
               array("e-boutic/","E-Boutic"),
               array("emprunt.php","Pret de matériel"),
               array("jobetu/","AE Job-étu"),
+							array("laverie/","Laverie"),
               array("article.php?name=weekmail","Weekmail"),
               array("article.php?name=covoiturage","Co-voiturage")
             ) ),
