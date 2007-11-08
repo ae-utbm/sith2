@@ -10,8 +10,8 @@ function explore ( id )
   openInContents("foldercontents", "explorer.php", "get=foldercontents&id_folder="+id);
 }
 
-function select_file ( id )
+function select_file ( id, titre )
 {
-  window.opener.onSelectedFile(id);
+  window.opener.onSelectedFile(id, titre);
   window.close();
 }
