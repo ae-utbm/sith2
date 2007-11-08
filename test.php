@@ -54,7 +54,7 @@ $cts->add_paragraph("id: ".$site->user->id);
 $cts->add_paragraph("groupes: ".implode(", ",$site->user->groupes));
 $cts->add_paragraph("id groupes: ".$site->user->get_groups_csv());
 
-$frm = new form("test.php");
+$frm = new form("test","test.php");
 $frm->add_attached_files_field("files","Fichiers",$_REQUEST["files"]);
 $frm->add_submit("bleh","Valider");
 $cts->add($frm);
