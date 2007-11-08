@@ -691,8 +691,8 @@ function removeListFile(topdir,field,id)
   
   // Visuel
 	var contener = element.parentNode;
-	parent.removeChild(element);
-  
+	contener.removeChild(element);
+	
   // Données
   var ids = values.value.split(",");
 }
