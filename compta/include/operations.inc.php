@@ -175,16 +175,11 @@ class operation extends stdentity
 	function delete ( )
 	{
 		if ( $this->id_op_liee )
-		{
-			$req = new delete($this->dbrw,
-						"cpta_operation",
-						array("id_op"=>$this->id_op_liee));	
-		}
-		$req = new delete($this->dbrw,
-					"cpta_operation",
-					array("id_op"=>$this->id));		
-					
-    $req = new update($this->dbrw,"cpta_facture",array("id_op"=>null),array("id_op"=>$this->id));
+			new delete($this->dbrw,"cpta_operation",array("id_op"=>$this->id_op_liee));	
+		
+		new delete($this->dbrw, "cpta_operation", array("id_op"=>$this->id));		
+		new delete($this->dbrw, "cpta_operation_files",array("id_op"=>$this->id));		
+    new update($this->dbrw, "cpta_facture",array("id_op"=>null),array("id_op"=>$this->id));
 	}
 	
 	/**
