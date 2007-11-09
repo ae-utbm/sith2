@@ -52,6 +52,7 @@ if ( !$folder->is_valid() )
         $folder->create_or_load_asso($_REQUEST["folder"],$asso);
       else
         $folder->load_or_create_root_by_asso($asso);
+      print_r($folder);
     }
     else
       $folder->load_by_id(1);

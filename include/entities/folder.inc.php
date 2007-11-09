@@ -578,6 +578,7 @@ class dfolder extends fs
       {
         $this->herit($this);
         $this->add_folder ( $titre, $id_parent, "", $id_asso );
+        print_r($this);
       }
       $id_parent = $this->id;
     }
