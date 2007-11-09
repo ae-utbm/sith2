@@ -179,14 +179,17 @@ $path = array(&$folder);
 
 $pfolder = new dfolder($site->db);
 $pfolder->load_by_id($folder->id_folder_parent);
-
+print_r($pfolder);
 while ( $pfolder->is_valid() )
 {
   array_unshift ($path,$pfolder);
   
   $pfolder = new dfolder($site->db);
   $pfolder->load_by_id($pfolder->id_folder_parent);
+  print_r($pfolder);
 }
+
+print_r($path);
 
 $root = new dfolder($site->db);
 $root_folders = array();
