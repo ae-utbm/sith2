@@ -346,7 +346,7 @@ class asso extends stdentity
 		if ( is_null($date_fin))
 		  return;
 
-    if ( $date_fin >= $date_debut ) // Boulet proof
+    if ( $date_fin <= $date_debut ) // Boulet proof
       return;
 
 		// Boulet-proof	
