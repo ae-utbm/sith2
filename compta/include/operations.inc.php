@@ -293,6 +293,8 @@ class operation extends stdentity
 	
 	function get_files()
 	{
+	  global $topdir;
+    require_once($topdir . "include/entities/files.inc.php");
 	  $list = $this->get_files_ids();
 	  $files = array();
 	  foreach ( $list as $id )
