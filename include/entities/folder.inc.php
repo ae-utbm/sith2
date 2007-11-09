@@ -535,6 +535,7 @@ class dfolder extends fs
 
 	function create_or_load ( $path, $id_asso=null )
 	{
+	 
 	  $this->load_root_by_asso ( $id_asso );
 
     if ( !$this->is_valid() )
@@ -545,6 +546,26 @@ class dfolder extends fs
       $this->id_utilisateur = null;
       $this->add_folder ( "Fichiers", null, null, $id_asso );
     }
+
+    $tokens = explode("/",$path);
+    
+    $id_parent = $this->id;
+    
+    foreach( $tokens as $titre )
+    {
+      $this->load_by_titre ( $id_parent, $titre );
+      if ( !$this->is_valid() )
+      {
+        $this->herit($this);
+        $this->add_folder ( $titre, $id_parent, "", $id_asso );
+      }
+      $id_parent = $this->id;
+    }
+	}
+	
+	function create_or_load_asso ( $path, &$asso )
+	{
+	  $this->load_or_create_root_by_asso ( $asso );
 
     $tokens = explode("/",$path);
     

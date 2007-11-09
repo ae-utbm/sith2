@@ -48,9 +48,10 @@ if ( !$folder->is_valid() )
     $asso->load_by_id($_REQUEST["id_asso"]);
     if ( $asso->is_valid() ) // L'association existe, chouette
     {
-      $folder->load_or_create_root_by_asso($asso->id);
       if ( isset($_REQUEST["folder"]) )
-        $folder->create_or_load($_REQUEST["folder"]);
+        $folder->create_or_load_asso($_REQUEST["folder"],$asso);
+      else
+        $folder->load_or_create_root_by_asso($asso);
     }
     else
       $folder->load_by_id(1);
