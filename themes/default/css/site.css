@@ -995,6 +995,22 @@ div.article div.formrow img
 	vertical-align: middle;
 }
 
+
+div.form div.filesselect
+{
+  padding:2px;
+}
+
+div.form div.filesselect div.slsitem
+{
+  margin:2px;
+}
+
+div.form div.filesselectbutton
+{
+  margin:4px;
+}
+
 /*
  * Completion des les formulaires
  */
