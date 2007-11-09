@@ -730,7 +730,7 @@ class form extends stdcontents
     $this->buffer .= "</div>\n";
 
     $this->buffer .= "<div class=\"filesselectbutton\">";
-    $this->buffer .= "<a href=\"#\" onclick=\"selectListFile('$wwwtopdir','$name','$context'); return false;\"><img src=\"".$wwwtopdir."images/toolbar/attach.png\" alt=\"Ajouter\" /> Ajouter un fichier</a>";
+    $this->buffer .= "<a href=\"#\" onclick=\"selectListFile('$wwwtopdir','$name','$context'); return false;\"><img src=\"".$wwwtopdir."images/toolbar/attach.png\" alt=\"Ajouter\" /> Joindre un fichier</a>";
     $this->buffer .= "</div>\n";
 
     $this->buffer .= "<input type=\"hidden\" name=\"magicform[files][$name]\" id=\"_files_".$name."_ids\" value=\"".implode(",",$ids)."\" />";
