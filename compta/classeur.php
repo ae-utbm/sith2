@@ -133,6 +133,7 @@ if ( $_REQUEST["action"] == "newop" && $GLOBALS["svalid_call"] )
 					$_REQUEST["mode"], $_REQUEST["num_cheque"],
 					$_REQUEST["id_libelle"]?$_REQUEST["id_libelle"]:NULL
 					);
+	  $op->set_files($_REQUEST["files"]);
 		$succes = true;
 		$_REQUEST["page"] = "new";
 		
@@ -162,7 +163,8 @@ if ( $_REQUEST["action"] == "newop" && $GLOBALS["svalid_call"] )
 			if ( $site->user->is_in_group("compta_admin") )
 				$frm->add_select_field("id_opstd","...ou type comptable",$site->get_typeop_std(true,$type_mouvement*-1));
 			$frm->add_checkbox("effectue","Opération éffectuée",$_REQUEST["effectue"]);
-			$frm->add_submit("newopjum","Ajouter");
+      $frm->add_attached_files_field("files","Fichiers",$_REQUEST["files"],$asso->id,"Comptabilité/".$cla->nom."/Justificatifs");
+      $frm->add_submit("newopjum","Ajouter");
 			$site->add_contents($frm);
 			$site->end_page ();
 		
@@ -235,7 +237,7 @@ elseif ( $_REQUEST["action"] == "save" )
 					$_REQUEST["mode"], $_REQUEST["num_cheque"],
 					$_REQUEST["id_libelle"]?$_REQUEST["id_libelle"]:NULL
 					);	
-					
+	  $op->set_files($_REQUEST["files"]);
 	  if ( $_REQUEST["id_efact"] )
 	  {
 	    $efact->load_by_id($_REQUEST["id_efact"]);
@@ -279,6 +281,7 @@ else if ( $_REQUEST["action"] == "newoplinked" && ($op->is_valid()) && $GLOBALS[
 		if ( $site->user->is_in_group("compta_admin") )
 			$frm->add_select_field("id_opstd","...ou type comptable",$site->get_typeop_std(true,$type_mouvement*-1));
 		$frm->add_checkbox("effectue","Opération éffectuée",$_REQUEST["effectue"]);
+    $frm->add_attached_files_field("files","Fichiers",$_REQUEST["files"],$asso->id,"Comptabilité/".$cla->nom."/Justificatifs");
 		$frm->add_submit("newopjum","Ajouter");
 		$site->add_contents($frm);
 		$site->end_page ();
@@ -295,6 +298,7 @@ else if ( $_REQUEST["action"] == "newoplinked" && ($op->is_valid()) && $GLOBALS[
 					$op->montant, $op->date, $_REQUEST["commentaire"], $_REQUEST["effectue"]!=NULL,
 					$op->mode, $op->num_cheque
 					);
+	  $op2->set_files($_REQUEST["files"]);
 		$op->link_op($op2);
 		
 		$succes = true;
@@ -480,6 +484,7 @@ if( $_REQUEST["action"] == "edit" && ($op->is_valid()))
 	$frm->add_select_field("id_libelle","Etiquette",$site->get_libelles($cptasso->id_asso),$op->id_libelle);
 	$frm->add_entity_smartselect ("id_efact","Facture", $efact, true, false,array("id_classeur"=>$cla->id));
 
+  $frm->add_attached_files_field("files","Fichiers",$op->get_files(),$asso->id,"Comptabilité/".$cla->nom."/Justificatifs");
 
 	$frm->add_checkbox("effectue","Opération éffectuée",$op->effectue);
 	
@@ -958,6 +963,7 @@ elseif ( $_REQUEST["page"] == "new" )
 	$frm->add_text_field("commentaire","Commentaire","",false);	
 	$frm->add_select_field("id_libelle","Etiquette",$site->get_libelles($cptasso->id_asso),null);
 	$frm->add_entity_smartselect ("id_efact","Facture", $efact, true, false, array("id_classeur"=>$cla->id));
+  $frm->add_attached_files_field("files","Fichiers",array(),$asso->id,"Comptabilité/".$cla->nom."/Justificatifs");	
 	$frm->add_checkbox("effectue","Opération éffectuée");
 	
 	$cfrm = new form(null,null,null,null,"Type");

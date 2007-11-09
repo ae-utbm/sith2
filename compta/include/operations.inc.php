@@ -282,6 +282,45 @@ class operation extends stdentity
 			);
 	}
 	
+	function get_files_ids()
+	{
+	  $list = new array();
+	  $req = new requete($site->db,"SELECT id_file FROM cpta_operation_files WHERE id_op='".intval($this->id)."'");
+	  while ( list($id) = $req->get_row() )
+	    $list[$id] = $id;
+	  return $list;
+	}
+	
+	function get_files()
+	{
+	  $list = $this->get_files_ids();
+	  $files = array();
+	  foreach ( $list as $id )
+	  {
+	    $file = new dfile($this->db,$this->dbrw);
+	    if ( $file->load_by_id($id) )
+	      $files[] = $file;
+	  }
+	  return $files;
+	}
+	
+	function set_files ( &$files )
+	{
+	  $actual = $this->get_files_ids();
+	  
+	  foreach ( $files as $file )
+	  {
+	    if ( !isset($actual[$file->id]) )
+	      new insert($this->dbrw,"cpta_operation_files",array("id_op"=>$this->id,"id_file"=>$file->id));
+	    else
+	      unset($actual[$file->id]);
+	  }
+	 
+	  foreach ( $actual as $id )
+	    new delete($this->dbrw,"cpta_operation_files",array("id_op"=>$this->id,"id_file"=>$id));
+	  
+	}
+	
 	
 }
 
