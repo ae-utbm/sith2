@@ -376,7 +376,7 @@ L'équipe info AE";
   $print = new contents("PDFs &agrave; imprimer ");
   $print->add_paragraph(count($printable['sev'])." carte(s) imprimable(s) pour Sevenans : <a href=\"cartesae.php?action=pdf&ids=".implode(",",$printable['sev'])."\">Imprimer</a>");
   $print->add_paragraph(count($printable['bel'])." carte(s) imprimable(s) pour Belfort : <a href=\"cartesae.php?action=pdf&ids=".implode(",",$printable['bel'])."\">Imprimer</a>");
-  $print->add_paragraph(count($printable['bel'])." carte(s) imprimable(s) pour Montbéliard : <a href=\"cartesae.php?action=pdf&ids=".implode(",",$printable['mon'])."\">Imprimer</a>");
+  $print->add_paragraph(count($printable['mon'])." carte(s) imprimable(s) pour Montbéliard : <a href=\"cartesae.php?action=pdf&ids=".implode(",",$printable['mon'])."\">Imprimer</a>");
   $cts->add($print,true);
 
   $req = new requete($site->db, 
