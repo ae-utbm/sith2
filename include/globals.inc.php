@@ -84,7 +84,7 @@ function aeerror ($text)
  * @return Une chaÃ®ne de caractÃ¨re humainement lisible de la date ou
  * de l'intervalle de date.
  */
-function HumanReadableDate($start, $end="", $time = true)
+function HumanReadableDate($start, $end="", $time = true, $year = false)
 {
   $start = split("[-: ]", $start);
   $timestamp = mktime($start[3], $start[4], $start[5], $start[1], $start[2], $start[0]);
@@ -102,20 +102,39 @@ function HumanReadableDate($start, $end="", $time = true)
   if($end == "")
     {
 	  if ($time)
-	    return strftime("%A %e %B &agrave; %Hh%M", $timestamp);
+	    {
+	      if ($year)
+		return strftime("%A %e %B %Y &agrave; %Hh%M", $timestamp);
+	      else
+		return strftime("%A %e %B &agrave; %Hh%M", $timestamp);
+	    }
 	  else
-	    return strftime("%A %e %B", $timestamp);
+	    {
+	      if ($year)
+		return strftime("%A %e %B %Y", $timestamp);
+	      else
+		return strftime("%A %e %B", $timestamp);
+	    }
     }
   else
     {
       /* Si les dates de dÃ©but et de fin sont le mÃªme jour,
          on affiche un truc du style "lundi 4 mai de 14h00 Ã  18h00" */
       if($start[2] == $end[2] && $start[1] == $end[1] && $start[0] == $end[0])
+	{
+	  if ($year)
+	    return (strftime("%A %e %B %Y de %Hh%M", $timestamp) . strftime(" &agrave; %Hh%M", $timestampend));
+	  else
 	    return (strftime("%A %e %B de %Hh%M", $timestamp) . strftime(" &agrave; %Hh%M", $timestampend));
-
+	}
       /* Sinon, on affiche un truc du style "du lundi 4 mai Ã  14h00 au mardi 5 mai Ã  15h00" */
       else
+	{
+	  if ($year)
+	    return (strftime("du %A %e %B %Y à %Hh%M", $timestamp) . strftime(" au %A %e %B à %Hh%M", $timestampend));
+	  else
 	    return (strftime("du %A %e %B à %Hh%M", $timestamp) . strftime(" au %A %e %B à %Hh%M", $timestampend));
+	}
     }
 }
 
