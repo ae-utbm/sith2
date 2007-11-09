@@ -44,10 +44,11 @@ if ( !$folder->is_valid() )
   $file->id = null;
   if ( isset($_REQUEST["id_asso"]) ) // On veut le dossier racine d'une association
   {
-    $asso_folder->load_by_id($_REQUEST["id_asso"]);
-    if ( $asso_folder->is_valid() ) // L'association existe, chouette
+    $asso = new asso($site->db);
+    $asso->load_by_id($_REQUEST["id_asso"]);
+    if ( $asso->is_valid() ) // L'association existe, chouette
     {
-      $folder->load_or_create_root_by_asso($asso_folder->id);
+      $folder->load_or_create_root_by_asso($asso->id);
       if ( isset($_REQUEST["folder"]) )
         $folder->create_or_load($_REQUEST["folder"]);
     }
