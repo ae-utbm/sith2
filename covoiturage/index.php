@@ -94,7 +94,7 @@ if ($sql->lines > 0)
 	    {
 	      if (strtotime($date) > time())
 		$dates[] = "<a href=\"./details.php?id_trajet=".$trajet->id
-		  ."&amp;date=".$date."\">Le " .HumanReadableDate($date, "", false) . "</a>";
+		  ."&amp;date=".$date."\">Le " .HumanReadableDate($date, "", false, true) . "</a>";
 	    }
 	  if (count($dates))
 	    $accueil->add(new itemlist(false, false, $dates));
