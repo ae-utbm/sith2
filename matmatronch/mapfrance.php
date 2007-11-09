@@ -139,10 +139,10 @@ if (isset($_REQUEST['getinfodepts']))
 {
   $cp = mysql_real_escape_string($_REQUEST['getinfodepts']);
 
-  echo "<h1>Ils viennent de ce département ($cp) :</h1>";
+  echo "<h1>Ils viennent de ce département (".sprintf('%2',$cp).") :</h1>";
 
   echo "<center>\n";
-  $cp .= '___';
+  $cp = sprintf('%2',$cp).'___';
 
   $req = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`
                                         , `utilisateurs`.`prenom_utl`
