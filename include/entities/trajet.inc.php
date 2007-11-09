@@ -54,7 +54,11 @@ class trajet extends stdentity
 
   var $commentaires;
 
+  var $nouvelle;
+
   var $pgdb;
+
+
 
   function trajet($db, $dbrw, $pgdb)
   {
@@ -143,6 +147,8 @@ class trajet extends stdentity
       $this->ville_arrivee->load_by_id($arr[1]);
     else
       $this->ville_arrivee->load_by_pgid($arr[1]);
+
+    $this->nouvelle = $row['id_nouvelle'];
   }
 
   function create ($user, $villedepart, $villearrivee, $comments)
