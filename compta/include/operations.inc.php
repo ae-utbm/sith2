@@ -284,8 +284,8 @@ class operation extends stdentity
 	
 	function get_files_ids()
 	{
-    $list = new array();
-	  $req = new requete($site->db,"SELECT id_file FROM cpta_operation_files WHERE id_op='".intval($this->id)."'");
+    $list = array();
+    $req = new requete($site->db,"SELECT id_file FROM cpta_operation_files WHERE id_op='".intval($this->id)."'");
 	  while ( list($id) = $req->get_row() )
 	    $list[$id] = $id;
 	  return $list;
