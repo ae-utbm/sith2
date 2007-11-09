@@ -55,7 +55,7 @@ $cts->add_paragraph("groupes: ".implode(", ",$site->user->groupes));
 $cts->add_paragraph("id groupes: ".$site->user->get_groups_csv());
 
 $frm = new form("test","test.php");
-$frm->add_attached_files_field("files","Fichiers",$_REQUEST["files"]);
+$frm->add_attached_files_field("files","Fichiers",$_REQUEST["files"],1,"Comptabilité/2007/Factures");
 $frm->add_submit("bleh","Valider");
 $cts->add($frm);
 

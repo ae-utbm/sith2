@@ -83,15 +83,30 @@ class dfolder extends fs
 			$req = new requete($this->db, "SELECT * FROM `d_folder`
 				WHERE `id_asso` = '" . mysql_real_escape_string($id_asso) . "' AND id_folder_parent IS NULL
 				LIMIT 1");	
+				
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
+
 		$this->id = null;	
 		return false;
 	} 
+	
+	function load_or_create_root_by_asso ( &$asso )
+	{
+		if ( $this->load_root_by_asso($asso->id) )
+		  return true;
+		  
+    $this->id_groupe_admin = $asso->get_bureau_group_id();
+    $this->id_groupe = $asso->get_membres_group_id();
+    $this->droits_acces = 0xDDD;
+    $this->id_utilisateur = null;
+    $this->add_folder ( $section, null, null, $asso->id );
+        
+		return true;
+	}
 	
 	/** Charge un dossier par son titre et son dossier parent
 	 * @param $id_parent Id du dossier parent

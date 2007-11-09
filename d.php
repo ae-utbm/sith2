@@ -571,6 +571,7 @@ elseif ( $_REQUEST["page"] == "newfolder" && $folder->is_right($site->user,DROIT
 }
 elseif ( $_REQUEST["page"] == "newfile" && $folder->is_right($site->user,DROIT_AJOUTITEM) )
 {
+  $folder->droits_acces |= 0x200;
   $site->start_page($section,"Fichiers");
   $cts = new contents($path." / Ajouter un fichier");
 

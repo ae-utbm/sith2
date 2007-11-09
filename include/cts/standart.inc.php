@@ -684,7 +684,6 @@ class form extends stdcontents
    * @param $id_asso Association/Club de l'espace de fichier à proposer par défaut
    * @param $folder Dossier à proposer par défaut pour l'ajout de fichiers
    */
-
   function add_attached_files_field ( $name, $title, $files, $id_asso=null, $folder=null )
   {
     global $wwwtopdir;

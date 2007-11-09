@@ -47,15 +47,9 @@ if ( !$folder->is_valid() )
     $asso_folder->load_by_id($_REQUEST["id_asso"]);
     if ( $asso_folder->is_valid() ) // L'association existe, chouette
     {
-      $folder->load_root_by_asso($asso_folder->id);
-      if ( !$folder->is_valid() ) // Le dossier racine n'existe pas... on va le creer :)
-      {
-        $folder->id_groupe_admin = $asso_folder->get_bureau_group_id(); // asso-bureau
-        $folder->id_groupe = $asso_folder->get_membres_group_id(); // asso-membres
-        $folder->droits_acces = 0xDDD;
-        $folder->id_utilisateur = null;
-        $folder->add_folder ( $section, null, null, $asso_folder->id );
-      }
+      $folder->load_or_create_root_by_asso($asso_folder->id);
+      if ( isset($_REQUEST["folder"]) )
+        $folder->create_or_load($_REQUEST["folder"]);
     }
     else
       $folder->load_by_id(1);
@@ -149,6 +143,8 @@ $fcts->add($gal);
 
 if ( $folder->is_right($site->user,DROIT_AJOUTITEM) )
 {
+  $folder->droits_acces |= 0x200;
+  
   $fcts->add_title(2,"Nouveau fichier");
   
   $frm = new form("addfile","explorer.php");
