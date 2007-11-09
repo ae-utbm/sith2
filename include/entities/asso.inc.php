@@ -45,7 +45,7 @@ $GLOBALS['ROLEASSO'] = array
 	ROLEASSO_RESPCOM=>"Responsable communication",
   ROLEASSO_SECRETAIRE=>"Secrétaire",
   ROLEASSO_RESPINFO=>"Responsable informatique",
-	ROLEASSO_MEMBREBUREAU=>"Membre du bureau",
+	ROLEASSO_MEMBREBUREAU=>"Membre du bureau/de l'équipe",
 	ROLEASSO_MEMBREACTIF=>"Membre actif",
 	ROLEASSO_MEMBRE=>"Membre"	
 ); 
@@ -58,7 +58,7 @@ $GLOBALS['ROLEASSO100'] = array
 	(ROLEASSO_RESPCOM+100)=>"Responsable communication",
   (ROLEASSO_SECRETAIRE+100)=>"Secrétaire",
   (ROLEASSO_RESPINFO+100)=>"Responsable informatique",
-	(ROLEASSO_MEMBREBUREAU+100)=>"Membre du bureau",
+	(ROLEASSO_MEMBREBUREAU+100)=>"Membre du bureau/de l'équipe",
 	(ROLEASSO_MEMBREACTIF+100)=>"Membre actif",
 	(ROLEASSO_MEMBRE+100)=>"Membre",
 	ROLEASSO_PRESIDENT=>"Responsable",
@@ -67,7 +67,7 @@ $GLOBALS['ROLEASSO100'] = array
 	ROLEASSO_RESPCOM=>"Responsable communication",
   ROLEASSO_SECRETAIRE=>"Secrétaire",
   ROLEASSO_RESPINFO=>"Responsable informatique",
-	ROLEASSO_MEMBREBUREAU=>"Membre du bureau",
+	ROLEASSO_MEMBREBUREAU=>"Membre du bureau/de l'équipe",
 	ROLEASSO_MEMBREACTIF=>"Membre actif",
 	ROLEASSO_MEMBRE=>"Membre"	
 ); 
@@ -312,6 +312,13 @@ class asso extends stdentity
 	    $this->_ml_all_delta_user($id_utl,$prevrole,$role);
 		}
 			
+		// Boulet-proof	
+		// Enlève toute participation qui est après la date de debut
+		new requete($this->dbrw,"DELETE FROM asso_membre ".
+  	  "WHERE date_debut >= '".strftime("%Y-%m-%d", $date_debut)."' ".
+  	  "AND id_utilisateur='".mysql_real_escape_string($id_utl)."' ".
+  	  "AND id_asso='".mysql_real_escape_string($this->id)."'");	
+			
 		$sql = new insert ($this->dbrw,
 			"asso_membre",
 			array(
@@ -363,6 +370,32 @@ class asso extends stdentity
 	
 	  if ( !$ignore_ml )
 	    $this->_ml_all_unsubscribe_user($id_utl);
+	
+	  // Boulet-proof
+    // Verifie que l'action ne gènère par une durée nulle ou négative
+	  $req = new requete($this->db,"SELECT date_debut FROM asso_membre ".
+  	  "WHERE date_fin IS NULL ".
+  	  "AND id_utilisateur='".$id_utl."' ".
+  	  "AND id_asso='".$this->id."'");
+	  if ( $req->lines == 1 )
+	  {
+	    list($date_debut) = $req->get_row();
+	    $date_debut = strtotime($date_debut);
+	   
+	    if ( $date_debut >= $date_fin ) // un debut après la fin ? 
+      {
+        // On oublie la "précédente" participation
+  		  new delete ($this->dbrw,
+    			"asso_membre",
+    			array( 
+    				"id_asso" => $this->id,			
+    				"id_utilisateur" => $id_utl,
+    				"date_fin" => NULL
+    				)
+    			);	
+        return;
+      }
+	  }
 	
 		$sql = new update ($this->dbrw,
 			"asso_membre",
@@ -646,5 +679,4 @@ class asso extends stdentity
  
  
  
- 
- ?>
+?>
