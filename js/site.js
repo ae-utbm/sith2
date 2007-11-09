@@ -672,7 +672,7 @@ function onSelectedListFile ( id, titre )
   elem.setAttribute("id","_files_"+listFileField+"_"+id);
   elem.setAttribute("class","slsitem");
   
-  elem.innerHTML= "<a href=\""+listFileTopDir+"/dfile.php?id_file="+id+"\"><img src=\""+listFileTopDir+"images/icons/16/file.png\" /> "+titre+"</a> <a onclick=\"removeListFile('"+listFileTopDir+"','"+listFileField+"',"+id+"); return false;\"><img src=\""+listFileTopDir+"images/actions/delete.png\" /></a>";
+  elem.innerHTML= "<a href=\""+listFileTopDir+"/dfile.php?id_file="+id+"\"><img src=\""+listFileTopDir+"images/icons/16/file.png\" /> "+titre+"</a> <a href=\"\" onclick=\"removeListFile('"+listFileTopDir+"','"+listFileField+"',"+id+"); return false;\"><img src=\""+listFileTopDir+"images/actions/delete.png\" alt=\"Enlever\" /></a>";
   
   contener.insertBefore(elem,null);
   

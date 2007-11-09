@@ -724,14 +724,14 @@ class form extends stdcontents
         $this->buffer .= "<div class=\"slsitem\" id=\"_files_".$name."_".$file->id."\">";
         $this->buffer .= "<a href=\"".$wwwtopdir."/dfile.php?id_file=".$file->id."\"><img src=\"".$wwwtopdir."images/icons/16/file.png\" /> ".htmlentities($file->titre,ENT_NOQUOTES,"UTF-8")."</a> ";
         
-        $this->buffer .= "<a onclick=\"removeListFile('$wwwtopdir','$name',".$file->id."); return false;\"><img src=\"".$wwwtopdir."images/actions/delete.png\" /></a>";
+        $this->buffer .= "<a href=\"\" onclick=\"removeListFile('$wwwtopdir','$name',".$file->id."); return false;\"><img src=\"".$wwwtopdir."images/actions/delete.png\" alt=\"Enlever\" /></a>";
         $this->buffer .= "</div>\n";
       }
     }
     $this->buffer .= "</div>\n";
 
     $this->buffer .= "<div class=\"filesselectbutton\">";
-    $this->buffer .= "<a href=\"#\" onclick=\"selectListFile('$wwwtopdir','$name','$context'); return false;\">Ajouter un fichier</a>";
+    $this->buffer .= "<a href=\"#\" onclick=\"selectListFile('$wwwtopdir','$name','$context'); return false;\"><img src=\"".$wwwtopdir."images/toolbar/attach.png\" alt=\"Ajouter\" /> Ajouter un fichier</a>";
     $this->buffer .= "</div>\n";
 
     $this->buffer .= "<input type=\"hidden\" name=\"magicform[files][$name]\" id=\"_files_".$name."_ids\" value=\"".implode(",",$ids)."\" />";
