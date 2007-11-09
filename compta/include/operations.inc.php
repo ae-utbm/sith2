@@ -295,12 +295,14 @@ class operation extends stdentity
 	{
 	  $list = $this->get_files_ids();
 	  $files = array();
+	  print_r($list);
 	  foreach ( $list as $id )
 	  {
 	    $file = new dfile($this->db,$this->dbrw);
 	    if ( $file->load_by_id($id) )
 	      $files[] = $file;
 	  }
+	  print_r($files);
 	  return $files;
 	}
 	
