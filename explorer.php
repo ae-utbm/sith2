@@ -187,8 +187,6 @@ while ( $pfolder->is_valid() )
   $pfolder->load_by_id($id_parent);
 }
 
-print_r($path);
-
 $root = new dfolder($site->db);
 $root_folders = array();
 $req = $root->get_folders($site->user,"id_folder, nom_fichier_folder");
