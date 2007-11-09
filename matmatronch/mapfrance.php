@@ -139,7 +139,7 @@ if (isset($_REQUEST['getinfodepts']))
 {
   $cp = mysql_real_escape_string($_REQUEST['getinfodepts']);
 
-  echo "<h1>Ils viennent de ce département (".sprintf('%+02',$cp).") :</h1>";
+  echo "<h1>Ils viennent de ce département (".sprintf("%+02.0f",$cp).") :</h1>";
 
   echo "<center>\n";
   $cp = sprintf('%+02',$cp).'___';
