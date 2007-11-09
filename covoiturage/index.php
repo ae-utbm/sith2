@@ -49,6 +49,13 @@ $sql = new requete($site->db, "SELECT
                                       `id_trajet`
                                FROM
                                       `cv_trajet`
+                               INNER JOIN
+                                      `cv_trajet_date`
+                               USING (`id_trajet`)
+                               WHERE 
+                                      `trajet_date` >= DATE_FORMAT(NOW(), '%Y-%m-%d') 
+                               GROUP BY 
+                                       `id_trajet`
                                ORDER BY
                                        `id_trajet` DESC
                                LIMIT 5");
