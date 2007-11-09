@@ -340,9 +340,22 @@ class asso extends stdentity
 	 */	
 	function add_former_member ( $id_utl, $date_debut, $date_fin, $role, $description )
 	{
-		if ( is_null($this->dbrw) ) return; // "Read Only" mode
+		if ( is_null($this->dbrw) )
+		  return; // "Read Only" mode
 
-		if ( is_null($date_fin)) return;
+		if ( is_null($date_fin))
+		  return;
+
+    if ( $date_fin >= $date_debut ) // Boulet proof
+      return;
+
+		// Boulet-proof	
+		// Enlève toute participation qui est après la date de debut et avant la date de fin
+		new requete($this->dbrw,"DELETE FROM asso_membre ".
+  	  "WHERE date_debut >= '".strftime("%Y-%m-%d", $date_debut)."' ".
+  	  "AND date_debut < '".strftime("%Y-%m-%d", $date_fin)."' ".
+  	  "AND id_utilisateur='".mysql_real_escape_string($id_utl)."' ".
+  	  "AND id_asso='".mysql_real_escape_string($this->id)."'");	
 
 		$sql = new insert ($this->dbrw,
 			"asso_membre",
@@ -375,8 +388,8 @@ class asso extends stdentity
     // Verifie que l'action ne gènère par une durée nulle ou négative
 	  $req = new requete($this->db,"SELECT date_debut FROM asso_membre ".
   	  "WHERE date_fin IS NULL ".
-  	  "AND id_utilisateur='".$id_utl."' ".
-  	  "AND id_asso='".$this->id."'");
+  	  "AND id_utilisateur='".mysql_real_escape_string($id_utl)."' ".
+  	  "AND id_asso='".mysql_real_escape_string($this->id)."'");
 	  if ( $req->lines == 1 )
 	  {
 	    list($date_debut) = $req->get_row();
