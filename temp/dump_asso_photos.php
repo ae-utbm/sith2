@@ -87,11 +87,11 @@ $photo = new photo($site->db,$site->dbrw);
 
 $bouh = false;
 
-exec("/bin/mkdir /tmp/".$asso->nom_unix);
 
 if(empty($photos))
   exit();
 
+exec("/bin/mkdir /tmp/".$asso->nom_unix);
 foreach($photos as $id)
 {
   $photo->load_by_id($id);
