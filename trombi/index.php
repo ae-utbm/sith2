@@ -232,7 +232,7 @@ if(isset($_REQUEST["stats"]))
                        "SELECT `departement_utbm` , COUNT( `branche_utbm` ) ".
                        "FROM `utl_etu_utbm` ".
                        "WHERE `promo_utbm` = '" . $site->user->promo_utbm . "'".
-                       "GROUP BY `branche_utbm`");
+                       "GROUP BY `departement_utbm`");
     while(list($branche,$nb)=$req->get_row())
       $cam->data($nb, $branche);
     $cam->png_render();
