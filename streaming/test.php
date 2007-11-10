@@ -51,7 +51,17 @@ $cts->add_paragraph("La cérémonie a lieu le ".$event["date"]." de ".$event["h-
 $cts->add_paragraph($event["remerciements"]);
 
 $site->add_contents($cts);
-    
-$site->end_page();  
+
+$cts = new contents("Regarder la cérémonie en direct");
+$cts->add_paragraph("Pour profiter au mieux et de manière plus fiable de cette diffusion, nous vous recommandons l'utilisation du logiciel libre <a href=\"http://www.videolan.org\">VideoLan</a>. Ce logiciel est disponible au <a href=\"http://www.videolan.org/vlc/\">téléchargement</a> pour toutes les plateformes (Windows, Mac OS et Linux compris bien sûr).");
+$cts->add_paragraph("Pour les utilisateurs de <b>VideoLan</b>, lancez VLC puis dans le menu <i>Fichier</i> choisissez <i>Ouvrir un flux réseau ...</i>. Sélectionnez <i>HTTP/HTTPS/FTP/MMS</i> et rentrez l'URL <tt>mmsh://ae.utbm.fr:8080/</tt>");
+$cts->add_paragraph("Pour les utilisateurs de <b>Windows Media Player</b>, lancez Windows Media Player puis dans le menu <i>Fichier</i> choisissez <i>Ouvrir un flux video ...</i> et rentrez l'adresse suivante : <tt>http://ae.utbm.fr:8080/</tt>");
+$site->add_contents($cts);
+
+$cts = new contents("Powered by ...");
+$cts->add_paragraph("<img src=\"linux.png\" alt=\"GNU/Linux\" /> <img src=\"vlc.jpg\" alt=\"VideoLan\" /> <img src=\"debian.png\" alt=\"Debian\" />");
+$site->add_contents($cts);
+
+$site->end_page();
 
 ?>
