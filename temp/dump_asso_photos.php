@@ -50,7 +50,7 @@ function get_catphoto($id_catph)
   return $photos;
 }
 
-if(isset($_REQUEST["id_asso"]))
+if(isset($_REQUEST["id_asso"]) && !isset($_REQUEST["id_catph"]))
 {
   $asso = new asso($site->db,$site->dbrw);
   $asso->load_by_id($_REQUEST["id_asso"]);
@@ -64,8 +64,13 @@ if(isset($_REQUEST["id_asso"]))
     $photos[]=$id;
   }
 }
-elseif(isset($_REQUEST["id_catph"]))
+elseif(isset($_REQUEST["id_catph"]) && isset($_REQUEST["id_asso"]))
 {
+  $asso = new asso($site->db,$site->dbrw);
+  $asso->load_by_id($_REQUEST["id_asso"]);
+  if ( $asso->id < 1 )
+    exit();
+
   $cat = new catphoto($site->db,$site->dbrw);
   $cat->load_by_id($_REQUEST["id_catph"]);
   if ( !$cat->is_valid() )
@@ -84,10 +89,7 @@ $bouh = false;
 exec("/bin/mkdir /tmp/".$asso->nom_unix);
 
 if(empty($photos))
-{
-  echo "bleh";
   exit();
-}
 
 foreach($photos as $id)
 {
