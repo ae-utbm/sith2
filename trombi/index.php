@@ -229,7 +229,7 @@ if(isset($_REQUEST["stats"]))
   {
     $cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
     $req = new requete($site->db,
-                       "SELECT `departement_utbm` , COUNT( `branche_utbm` ) ".
+                       "SELECT `departement_utbm` , COUNT( `departement_utbm` ) ".
                        "FROM `utl_etu_utbm` ".
                        "WHERE `promo_utbm` = '" . $site->user->promo_utbm . "'".
                        "GROUP BY `departement_utbm`");
