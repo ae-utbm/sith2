@@ -59,7 +59,7 @@ $cts->add_paragraph("Pour les utilisateurs de <b>Windows Media Player</b>, lance
 $site->add_contents($cts);
 
 $cts = new contents("Powered by ...");
-$cts->add_paragraph("<img src=\"linux.png\" alt=\"GNU/Linux\" /> <img src=\"vlc.jpg\" alt=\"VideoLan\" /> <img src=\"debian.png\" alt=\"Debian\" />");
+$cts->add_paragraph("<img src=\"linux.png\" alt=\"GNU/Linux\" title=\"GNU/Linux\" /> <img src=\"vlc.jpg\" alt=\"VideoLan\" title=\"VideoLan\" /> <img src=\"debian.png\" alt=\"Debian\" title=\"Debian\" />");
 $site->add_contents($cts);
 
 $site->end_page();
