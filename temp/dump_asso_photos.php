@@ -89,7 +89,10 @@ $bouh = false;
 
 
 if(empty($photos))
+{
+  echo "debug";
   exit();
+}
 
 exec("/bin/mkdir /tmp/".$asso->nom_unix);
 foreach($photos as $id)
