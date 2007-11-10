@@ -25,6 +25,7 @@ function get_catphoto($id_catph)
 {
   global $user;
   global $grps;
+  global $site;
   $photos = array();
   $cat = new catphoto($site->db,$site->dbrw);
   $cat->load_by_id($id_catph);
