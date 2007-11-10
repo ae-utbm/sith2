@@ -92,7 +92,7 @@ $bouh = false;
 
 if(empty($photos))
   exit();
-
+print_r($photos);
 exec("/bin/mkdir /tmp/".$asso->nom_unix);
 foreach($photos as $id)
 {
