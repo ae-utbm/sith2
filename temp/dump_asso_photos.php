@@ -4,10 +4,13 @@
   licence agréée la-rache.com
  */
 
-$_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/taiste/temp";
-$topdir=$_SERVER['SCRIPT_FILENAME']."/../";
-
-$topdir = "../";
+if(!isset($_SERVER['SCRIPT_FILENAME']))
+{
+  $_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/taiste/temp";
+  $topdir=$_SERVER['SCRIPT_FILENAME']."/../";
+}
+else
+  $topdir = "../";
 
 if( !isset($_REQUEST["id_asso"]) || empty($_REQUEST["id_asso"]) )
   exit();
