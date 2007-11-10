@@ -19,10 +19,12 @@ $site = new site ();
 $user = new utilisateur($site->db,$site->dbrw);
 /* le lion, c'est notre utilisater de référence */
 $user->load_by_id(3538);
+$grps = $user->get_groups_csv();
 
 function get_catphoto($id_catph)
 {
   global $user;
+  global $grps;
   $photos = array();
   $cat = new catphoto($site->db,$site->dbrw);
   $cat->load_by_id($id_catph);
@@ -30,7 +32,7 @@ function get_catphoto($id_catph)
     return $photos;
 
   /* on récupère les photos de la catégorie */
-  $sqlph = $cat->get_photos ( $cat->id, $site->user, $grps, "sas_photos.id_photo");
+  $sqlph = $cat->get_photos ( $cat->id, $user, $grps, "sas_photos.id_photo");
   while ( list($id) = $sqlph->get_row() )
     $photos[] = $id;
 
@@ -89,10 +91,7 @@ $bouh = false;
 
 
 if(empty($photos))
-{
-  echo "debug";
   exit();
-}
 
 exec("/bin/mkdir /tmp/".$asso->nom_unix);
 foreach($photos as $id)
