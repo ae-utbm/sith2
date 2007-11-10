@@ -11,6 +11,7 @@ if( !isset($_REQUEST["id_asso"]) || empty($_REQUEST["id_asso"]) )
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "sas2/include/photo.inc.php");
+require_once($topdir. "sas2/include/cat.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 require_once($topdir. "include/cts/sas.inc.php");
 $site = new site ();
