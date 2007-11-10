@@ -58,7 +58,7 @@ $cts->add_paragraph("Pour les utilisateurs de <b>VideoLan</b>, lancez VLC puis d
 $cts->add_paragraph("Pour les utilisateurs de <b>Windows Media Player</b>, lancez Windows Media Player puis dans le menu <i>Fichier</i> choisissez <i>Ouvrir un flux video ...</i> et rentrez l'adresse suivante : <tt>http://ae.utbm.fr:8080/</tt>");
 $site->add_contents($cts);
 
-$cts = new contents("Powered by ...");
+$cts = new contents("Propulsé par ...");
 $cts->add_paragraph("<img src=\"linux.png\" alt=\"GNU/Linux\" title=\"GNU/Linux\" /> <img src=\"vlc.jpg\" alt=\"VideoLan\" title=\"VideoLan\" /> <img src=\"debian.png\" alt=\"Debian\" title=\"Debian\" />");
 $site->add_contents($cts);
 
