@@ -42,7 +42,7 @@ function get_catphoto($id_catph)
     {
       foreach($subcatph as $id)
       {
-        if(!in_array($id,$photos)
+        if(!in_array($id,$photos))
           $photos[] = $id;
       }
     }
