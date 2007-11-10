@@ -69,7 +69,10 @@ elseif(isset($_REQUEST["id_catph"]))
   $cat = new catphoto($site->db,$site->dbrw);
   $cat->load_by_id($_REQUEST["id_catph"]);
   if ( !$cat->is_valid() )
+  {
+    echo "bleh";
     exit();
+  }
 
   $photos = array();
   $photos = get_catphoto($_REQUEST["id_catph"]);
