@@ -29,6 +29,16 @@ define('STEP_WAITING',  0);
 define('STEP_ACCEPTED', 1);
 define('STEP_REFUSED',  2);
 
+/* trajet ponctuel avec dates (table cv_trajet_date) */
+define('TRJ_PCT', 0);
+/* trajet lié à un événement du calendrier AE */
+define('TRJ_EVT', 1);
+/* trajet lié à une séance d'UV */
+define('TRJ_EDU', 2);
+
+
+
+
 class trajet extends stdentity
 {
   var $id_utilisateur;
