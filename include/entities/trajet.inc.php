@@ -76,11 +76,11 @@ class trajet extends stdentity
 				   LIMIT 1");
 
     if ( $req->lines == 1 )
-		{
-		  $this->_load($req->get_row());
-		  $this->load_dates();
-		  return true;
-		}
+      {
+	$this->_load($req->get_row());
+	$this->load_dates();
+	return true;
+      }
 		
     $this->id = null;	
     return false;
@@ -95,7 +95,7 @@ class trajet extends stdentity
 
     if ($this->id <= 0)
       return false;
-
+    
     switch ($this->type)
       {
 	/* trajet ponctuel avec dates */
@@ -167,7 +167,7 @@ class trajet extends stdentity
   {
     $this->id			= $row['id_trajet'];
     $this->id_utilisateur	= $row['id_utilisateur'];
-
+    
     $this->date_proposition     = $row['date_prop_trajet'];
     $this->commentaires         = $row['comments_trajet'];
 
@@ -183,12 +183,12 @@ class trajet extends stdentity
     $this->type = $row['type_trajet'];
     $this->id_ent = $row['id_ent'];
   }
-
+  
   function create ($user, $villedepart, $villearrivee, $comments, $type, $id_ent = NULL)
   {
     $comments = mysql_real_escape_string($comments);
     $user = intval($user);
-
+    
     
     $sql = new insert($this->dbrw,
 		      'cv_trajet',
@@ -204,9 +204,9 @@ class trajet extends stdentity
     $this->load_by_id($sql->get_id());
 
     return ($this->id > 0);
-
+    
   }
-
+  
   /*
    * Ajoute une date à un trajet
    * @param date un timestamp
@@ -245,7 +245,7 @@ class trajet extends stdentity
       {
 	return false;
       }
-
+    
     if (count($this->dates) == 0)
       return true;
     
@@ -408,7 +408,7 @@ class trajet extends stdentity
 	  {
 	    return false;
 	  }
-
+	
 	$req = new insert($this->dbrw,
 			  'cv_trajet_etape',
 			  array('id_trajet'        => $this->id,
@@ -466,6 +466,7 @@ class trajet extends stdentity
 	  }
       }
     return $ret;
+      }
   }
   /* acceptation / refus d'étapes */
   function accept_step($id, $date)
