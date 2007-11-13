@@ -37,22 +37,13 @@ define('TRJ_EVT', 1);
 define('TRJ_EDU', 2);
 
 
-
+require_once($topdir . "include/entities/edt.inc.php");
 
 class trajet extends stdentity
 {
   var $id_utilisateur;
 
-  /* identifiants de départ / arrivée 
-   *
-   * S'il s'agit d'une ville de France, le champ * meta_ville_*_trajet
-   * contiendra 'MYSQL:x' où x est l'identifiant * de la ville dans la
-   * table loc_villes (MySQL)
-   *
-   * Sinon, la table PostGreSQL sera utilisée : 'PGSQL:x'.
-   *
-   */
-
+  /* identifiants de départ / arrivée (loc_villes)  */
   var $ville_depart;
   var $ville_arrivee;
 
@@ -64,17 +55,10 @@ class trajet extends stdentity
 
   var $commentaires;
 
-  var $nouvelle;
-
-  var $pgdb;
-
-
-
-  function trajet($db, $dbrw, $pgdb)
-  {
-    $this->stdentity($db, $dbrw);
-    $this->pgdb = $pgdb;
-  }
+  /* un type de trajet */
+  var $type;
+  /* un identifiant d'entité liée (nouvelle ou séance d'emploi du temps) */
+  var $id_ent;
 
   /** Charge une nouvelle en fonction de son id
    * $this->id est égal à null en cas d'erreur
@@ -82,16 +66,20 @@ class trajet extends stdentity
    */
   function load_by_id ($id)
   {
-    $req = new requete($this->db, "SELECT * FROM `cv_trajet`
-				WHERE `id_trajet` = '" .
+    $req = new requete($this->db, "SELECT 
+                                            * 
+                                   FROM 
+                                            `cv_trajet`
+				   WHERE 
+                                            `id_trajet` = '" .
 		       mysql_real_escape_string($id) . "'
-				LIMIT 1");
+				   LIMIT 1");
 
     if ( $req->lines == 1 )
 		{
-			$this->_load($req->get_row());
-			$this->load_dates();
-			return true;
+		  $this->_load($req->get_row());
+		  $this->load_dates();
+		  return true;
 		}
 		
     $this->id = null;	
@@ -99,7 +87,6 @@ class trajet extends stdentity
   }
   /*
    * fonction de chargement des dates du trajet
-   *
    *
    */
   function load_dates()
@@ -109,15 +96,62 @@ class trajet extends stdentity
     if ($this->id <= 0)
       return false;
 
-    $sql = new requete($this->db, "SELECT `trajet_date` FROM `cv_trajet_date` WHERE `id_trajet` = $this->id");
+    switch ($this->type)
+      {
+	/* trajet ponctuel avec dates */
+      case TRJ_PCT:
+	$sql = new requete($this->db, "SELECT 
+                                            `trajet_date` 
+                                       FROM 
+                                            `cv_trajet_date` 
+                                       WHERE 
+                                             `id_trajet` = $this->id");
+	break;
+	
+	/* événement lié du calendrier */
+      case TRJ_EVT:
+	$sql = new requete($this->db, "SELECT 
+                                            `date_debut_eve` 
+                                       FROM 
+                                            `nvl_dates` 
+                                       WHERE 
+                                             `id_nouvelle` = $this->id_ent");
 
+	break;
+	/* séance de cours du calendrier */
+      case TRJ_EDU:
+	$sql = new requete($this->db, "SELECT 
+                                            `jour_grp`, `heure_debut_grp` 
+                                       FROM 
+                                            `edu_uv_groupe` 
+                                       WHERE 
+                                             `id_uv_groupe` = $this->id_ent");
+	break;
+	
+      }
     if ($sql->lines <= 0)
       {
 	return;
       }
+
+
     while ($res = $sql->get_row())
       {
-	$this->dates[] = $res['trajet_date'];
+	switch ($this->type)
+	  {
+	  case TRJ_PCT:
+	    $this->dates[] = $res['trajet_date'];
+	    break;
+
+	  case TRJ_EVT:
+	    $this->dates[] = $res['date_debut_eve'];
+	    break;
+
+	  case TRJ_EDU:
+	    global $jour;
+	    $this->dates[] = $jour[$res['jour_grp']] . ", " . $res['heure_debut_grp'] ;
+	    break;
+	  }
       }
     return;
   }
@@ -137,31 +171,20 @@ class trajet extends stdentity
     $this->date_proposition     = $row['date_prop_trajet'];
     $this->commentaires         = $row['comments_trajet'];
 
-    $dep = explode(":", $row['meta_ville_dep_trajet']);
-    $arr = explode(":", $row['meta_ville_arrivee_trajet']);
-
     $this->ville_depart = new ville($this->db, 
-				    $this->dbrw,
-				    $this->pgdb);
+				    $this->dbrw);
 
     $this->ville_arrivee = new ville($this->db, 
-				     $this->dbrw,
-				     $this->pgdb);
+				     $this->dbrw);
 
-    if ($dep[0] == "MYSQL")
-      $this->ville_depart->load_by_id($dep[1]);
-    else
-      $this->ville_depart->load_by_pgid($dep[1]);
-      
-    if ($arr[0] == "MYSQL")
-      $this->ville_arrivee->load_by_id($arr[1]);
-    else
-      $this->ville_arrivee->load_by_pgid($arr[1]);
-
-    $this->nouvelle = $row['id_nouvelle'];
+    $this->ville_depart->load_by_id($row['id_ville_dep_trajet']);  
+    $this->ville_arrivee->load_by_id($row['id_ville_arrivee_trajet']);
+    
+    $this->type = $row['type_trajet'];
+    $this->id_ent = $row['id_ent'];
   }
 
-  function create ($user, $villedepart, $villearrivee, $comments)
+  function create ($user, $villedepart, $villearrivee, $comments, $type, $id_ent = NULL)
   {
     $comments = mysql_real_escape_string($comments);
     $user = intval($user);
@@ -169,13 +192,17 @@ class trajet extends stdentity
     
     $sql = new insert($this->dbrw,
 		      'cv_trajet',
-		      array('id_utilisateur' => $user,
-			    'meta_ville_dep_trajet' => $villedepart,
-			    'meta_ville_arrivee_trajet' => $villearrivee,
-			    'date_prop_trajet' => date('Y-m-d H:i:s'),
-			    'comments_trajet' => $comments));
-    $this->load_by_id($sql->get_id());
+		      array('id_utilisateur'            => $user,
+			    'type_trajet'               => $type,
+			    'id_ville_dep_trajet'       => $villedepart,
+			    'id_ville_arrivee_trajet'   => $villearrivee,
+			    'date_prop_trajet'          => date('Y-m-d H:i:s'),
+			    'comments_trajet'           => $comments,
+			    'id_ent'                    => $id_ent));
     
+
+    $this->load_by_id($sql->get_id());
+
     return ($this->id > 0);
 
   }
@@ -190,12 +217,17 @@ class trajet extends stdentity
     if ($this->id <= 0)
       return false;
 
+    /* non approprié */
+    if ($this->type != TRJ_PCT)
+      return false;
+
     $date = intval($date);
 
     $sql = new insert($this->dbrw,
 		      'cv_trajet_date',
 		      array('id_trajet' => $this->id,
 			    'trajet_date' => date("Y-m-d H:i:s",$date)));
+    
     return ($sql->lines == 1);
   }
 
@@ -206,12 +238,17 @@ class trajet extends stdentity
    */
   function has_expired()
   {
-    if (count($this->dates) == 0)
-      $this->load_dates();
+    /* un trajet pour séance dans l'emploi du temps 
+     * est toujours valable
+     */
+    if ($this->type == TRJ_EDU)
+      {
+	return false;
+      }
 
     if (count($this->dates) == 0)
       return true;
-
+    
     foreach ($this->dates as $date)
       {
 	/* il existe des dates pour ce trajet dans le futur */
@@ -222,30 +259,53 @@ class trajet extends stdentity
   }
   function get_steps_by_date($date)
   {
-      
+
+    /* inutile dans le cas d'un trajet TRJ_EDU / TRJ_EVT */
+
+    /* TODO : reflechir la dessus ; il semblerait que ce code soit 
+     * un hack foireux dû à une mauvaise conception du système
+     * (pas prévu que les étapes seraient liées à des dates de trajet
+     * précises)
+     *
+     * Obsolétiser tout ca lui ferait le plus grand bien
+     */
+
+    if (($this->type == TRJ_EDU) || ($this->type == TRJ_EVT))
+      {
+	$this->load_steps();
+	return false;
+      }
+
     if (! in_array($date, $this->dates))
       return false;
 	
     /* tentative de chargement des étapes */
     if (! count($this->etapes))
-      $this->load_steps();
+      {
+	$this->load_steps();
+      }
 
     /* pas d'étapes */
     if (! count($this->etapes))
-      return false;
+      {
+	return false;
+      }
 
     foreach ($this->etapes as $etape)
       {
 	if ($etape['date_etape'] == $date)
 	  $ret[] = $etape;
       }
+
     return $ret;
   }
 
   /* chargement des étapes */
+
   function load_steps()
   {
     $this->etapes = array();
+
     $req = new requete($this->db, "SELECT * 
                                    FROM 
                                           `cv_trajet_etape` 
@@ -254,6 +314,7 @@ class trajet extends stdentity
 			         " ORDER BY 
                                           `date_prop_etape` 
                                    ASC");
+
     if ($req->lines <= 0)
       {
 	return false;
@@ -262,7 +323,7 @@ class trajet extends stdentity
     while ($res = $req->get_row())
       {
 	$step = array();
-	$step['ville'] = $res['meta_ville_etape'];
+	$step['ville'] = $res['id_ville_etape'];
 	$step['date_etape'] = $res['trajet_date'];
 	$step['id'] = $res['id_etape'];
 	$step['id_utilisateur'] = $res['id_utilisateur'];
@@ -271,13 +332,14 @@ class trajet extends stdentity
 	$step['etat'] = $res['accepted_etape'];     
 	$this->etapes[] = $step;
       }
+
     return true;
   }
 
   /* retourne si pour une date donnée,
    * l'utilisateur a déjà proposé une étape
    */
-  function already_proposed_step($user, $date)
+  function already_proposed_step($user, $date = NULL)
   {
 
     if (! count ($this->etapes))
@@ -291,6 +353,7 @@ class trajet extends stdentity
       {
 	if ($etape['date_etape'] != $date)
 	  continue;
+
 	if ($etape['id_utilisateur'] == $user)
 	  return true;
       }
@@ -299,36 +362,62 @@ class trajet extends stdentity
   /*
    * Fonction permettant d'ajouter une étape
    *
+   * Note : une étape avec une ville signifie que l'utilisateur
+   * veut participer au trajet, mais qu'il n'a pas d'obligation 
+   * précise en terme de modification du trajet. (explications 
+   * plus poussée en commentaires, ...)
+   *
    */
-  function add_step($user, $date, $ville, $comments)
+  function add_step($user, $comments, $date = NULL, $ville = NULL)
   {
     if ($this->id <= 0)
-      return false;
-
-    if (! in_array($date, $this->dates))
-      return false;
-
-    /* pour une date donnée, un utilisateur ne 
-     * peut pas proposer 2 étapes différentes
-     */
-    if (($this->already_proposed_step($user, $date))
-	&& ($user != $this->id_utilisateur))
-      return false;
+      {      
+	return false;
+      }
 
 
-    $date = mysql_real_escape_string($date);
-    $ville = mysql_real_escape_string($ville);
-    $comments = mysql_real_escape_string($comments);
+    if (($this->type == TRJ_EVT) || ($this->type == TRJ_EDU))
+      {
+	if (! already_proposed_step($user))
+	  {
+	    $req = new insert($this->dbrw,
+			      'cv_trajet_etape',
+			      array('id_trajet'        => $this->id,
+				    'trajet_date'      => $date,
+				    'id_utilisateur'   => $user,
+				    'id_ville_etape'   => $ville,
+				    'date_prop_etape'  => date('Y-m-d H:i:s'),
+				    'comments_etape'   => $comments));
+	  }
+	else
+	  return false;
+      }
 
-    $req = new insert($this->dbrw,
-		      'cv_trajet_etape',
-		      array('id_trajet'        => $this->id,
-			    'trajet_date'      => $date,
-			    'id_utilisateur'   => $user,
-			    'meta_ville_etape' => $ville,
-			    'date_prop_etape'  => date('Y-m-d H:i:s'),
-			    'comments_etape'   => $comments));
- 
+    else if ($this->type == TRJ_PCT)
+      {
+
+	if (! in_array($date, $this->dates))
+	  {
+	    return false;
+	  }
+	
+	/* pour une date donnée, un utilisateur ne 
+	 * peut pas proposer 2 étapes différentes
+	 */
+	if ($this->already_proposed_step($user, $date))
+	  {
+	    return false;
+	  }
+
+	$req = new insert($this->dbrw,
+			  'cv_trajet_etape',
+			  array('id_trajet'        => $this->id,
+				'trajet_date'      => $date,
+				'id_utilisateur'   => $user,
+				'id_ville_etape' => $ville,
+				'date_prop_etape'  => date('Y-m-d H:i:s'),
+				'comments_etape'   => $comments));
+      }
     return ($req->lines > 0);
   }
   /*
@@ -339,6 +428,7 @@ class trajet extends stdentity
   {
     if (! count($this->etapes))
       return false;
+
     foreach ($this->etapes as $etape)
       {
 	if ($etape['id'] == $id)
@@ -352,22 +442,29 @@ class trajet extends stdentity
    */
   function get_users_by_date($date)
   {
-    $req = new requete($this->db,
-		       "SELECT DISTINCT 
+    if ($this->type == TRJ_PCT)
+      { 
+	$req = new requete($this->db,
+			   "SELECT DISTINCT 
                                          `id_utilisateur`
-                        FROM
-                               `cv_trajet_etape`
-                        WHERE
-                                `id_trajet` = $this->id
-                        AND
-                                 `trajet_date` = '".$date."'");
+                            FROM
+                                         `cv_trajet_etape`
+                            WHERE
+                                         `id_trajet` = $this->id
+                            AND
+                                         `trajet_date` = '".$date."'");
 
     if ($req->lines <= 0)
-      return false;
+      {
+	return false;
+      }
     else
-      while ($res = $req->get_row())
-	$ret[] = $res['id_utilisateur'];
-    
+      {
+	while ($res = $req->get_row())
+	  {
+	    $ret[] = $res['id_utilisateur'];
+	  }
+      }
     return $ret;
   }
   /* acceptation / refus d'étapes */
