@@ -401,10 +401,12 @@ class trajet extends stdentity
 
     else if ($this->type == TRJ_PCT)
       {
-
+	
 	if (! in_array($date, $this->dates))
 	  {
-	    echo "pb date...";
+	    print_r($date);
+	    print_r($this->dates);
+
 	    return false;
 	  }
 	
