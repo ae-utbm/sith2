@@ -6,7 +6,7 @@
 /* Copyright 2007
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
- * Ce fichier fait partie du site de l'Association des Ãtudiants de
+ * Ce fichier fait partie du site de l'Association des étudiants de
  * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or

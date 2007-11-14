@@ -43,7 +43,7 @@ $accueil = new contents("Accueil - Covoiturage",
 			"Bienvenue sur le système de covoiturage de l'AE.<br/><br/>");
 
 
-/* 5 derniers trajets proposés */
+/* 5 derniers trajets TRJ_PCT proposés */
 
 $sql = new requete($site->db, "SELECT 
                                       `id_trajet`
@@ -53,7 +53,9 @@ $sql = new requete($site->db, "SELECT
                                       `cv_trajet_date`
                                USING (`id_trajet`)
                                WHERE 
-                                      `trajet_date` >= DATE_FORMAT(NOW(), '%Y-%m-%d') 
+                                      `trajet_date` >= DATE_FORMAT(NOW(), '%Y-%m-%d')
+                               AND
+                                       `type_trajet` = 0
                                GROUP BY 
                                        `id_trajet`
                                ORDER BY
@@ -66,7 +68,6 @@ if ($sql->lines > 0)
   $trajet = new trajet($site->db, null, null);
   $usrtrj = new utilisateur($site->db);
 
-      
   while ($res = $sql->get_row())
     {
       $trajet->load_by_id($res['id_trajet']);
@@ -75,7 +76,7 @@ if ($sql->lines > 0)
 	  if (!$firsttrj)
 	    {
 
-	      $accueil->add_title(2, "Derniers trajets proposés");
+	      $accueil->add_title(2, "Derniers trajets ponctuels proposés");
 
 	      $accueil->add_paragraph("Dans la liste ci-dessous, cliquez sur une date spécifique pour avoir ".
 				      "le détail du trajet, et éventuellement faire une demande de covoiturage");
@@ -102,6 +103,7 @@ if ($sql->lines > 0)
 	}  
     }
 }
+
 
 
 /* "Mes trajets proposés" */

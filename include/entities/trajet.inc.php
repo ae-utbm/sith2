@@ -186,10 +186,16 @@ class trajet extends stdentity
   
   function create ($user, $villedepart, $villearrivee, $comments, $type, $id_ent = NULL)
   {
-    $comments = mysql_real_escape_string($comments);
     $user = intval($user);
-    
-    
+
+    if (($villedepart < 0) || ($villearrivee < 0))
+      {
+	return false;
+      }
+    if (($type > TRJ_PCT) && ($id_ent < 0))
+      {
+	return false;
+      }
     $sql = new insert($this->dbrw,
 		      'cv_trajet',
 		      array('id_utilisateur'            => $user,

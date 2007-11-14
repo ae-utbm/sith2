@@ -73,7 +73,9 @@ if (isset($_REQUEST['step2']))
     $ret = $trajet->add_date($_REQUEST['date']);
 
   if (!$ret)
-    $cts = new contents("Proposition de trajet - Ajout de dates", "<b>Echec lors de l'ajout de date.</b>");
+    {
+      $cts = new contents("Proposition de trajet - Ajout de dates", "<b>Echec lors de l'ajout de date.</b>");
+    }
   else
     {
       $cts = new contents("Proposition de trajet - Ajout de dates", "Date ajoutée avec succès !");
@@ -94,8 +96,6 @@ if (isset($_REQUEST['step2']))
   
   $cts->add($frm);
       
-
-
   $site->add_contents($cts);
   $site->end_page();
   exit();
@@ -104,6 +104,10 @@ if (isset($_REQUEST['step2']))
 
 if (isset($_REQUEST['step1']))
 {
+  $type = (isset($_REQUEST['type']) ? $_REQUEST['type'] : TRJ_PCT);
+  $ident = (isset($_REQUEST['id_ent'])) ? intval($_REQUEST['id_ent']) : NULL;
+
+
   $dep = intval($_REQUEST['start']);
   $arr = intval($_REQUEST['stop']);
 
@@ -128,22 +132,30 @@ if (isset($_REQUEST['step1']))
 			  doku2xhtml($comments)."</pre></code>");
     }
   else
-    $cts->add_paragraph("Vous n'avez pas laissé d'observations sur le trajet. ".
-			"Pensez à préciser des informations sur l'effectif, ".
-			"les bagages, le coût estimé par personnes, etc ... ".
-			"lors de la prise de contacts avec vos voyageurs !");
-  
+    {
+      $cts->add_paragraph("Vous n'avez pas laissé d'observations sur le trajet. ".
+			  "Pensez à préciser des informations sur l'effectif, ".
+			  "les bagages, le coût estimé par personnes, etc ... ".
+			  "lors de la prise de contacts avec vos voyageurs !");
+    }
 
-  $ret = $trajet->create($site->user->id, "MYSQL:" . $vdep->id, "MYSQL:" . $varr->id, $comments);
+  $ret = $trajet->create($site->user->id, $vdep->id, $varr->id, $comments, $type, $ident);
   
   if ($ret)
     {
-      $frm = new form('trip_step2', "propose.php", true);
-      $frm->add_hidden('id_trajet', $trajet->id);
-      $frm->add_date_field('date', 'Date de voyage proposée');
-      $frm->add_submit('step2', 'Ajouter des dates de trajet');
+      if ($type == TRJ_PCT)
+	{
+	  $frm = new form('trip_step2', "propose.php", true);
+	  $frm->add_hidden('id_trajet', $trajet->id);
+	  $frm->add_date_field('date', 'Date de voyage proposée');
+	  $frm->add_submit('step2', 'Ajouter des dates de trajet');
 
-      $cts->add($frm);
+	  $cts->add($frm);
+	}
+      else
+	{
+	  $site->add(new contents("Ajout d'un trajet", "Votre trajet a été ajouté avec succès."));
+	}
 
     }
   else
@@ -167,6 +179,9 @@ $cts = new contents("Proposition d'un trajet",
 $frm = new form("trip_step1", "propose.php", true);
 
 $ville = new ville($site->db, null, $pgsql);
+
+$frm->add_hidden("type", $_REQUEST['type']);
+$frm->add_hidden("id_ent", $_REQUEST['id_ent']);
 
 $frm->add_entity_smartselect("start", "Ville de départ", $ville);
 $frm->add_entity_smartselect("stop", "Ville d'arrivée", $ville);
