@@ -404,6 +404,7 @@ class trajet extends stdentity
 
 	if (! in_array($date, $this->dates))
 	  {
+	    echo "pb date...";
 	    return false;
 	  }
 	
@@ -412,6 +413,7 @@ class trajet extends stdentity
 	 */
 	if ($this->already_proposed_step($user, $date))
 	  {
+	    echo "deja propose ...";
 	    return false;
 	  }
 	
