@@ -51,7 +51,7 @@ if (isset($_REQUEST['level']))
 
 $img = new imgloc(400, $level, $db, new pgsqlae());
 
-$trajet = new trajet($db, null, null);
+$trajet = new trajet($db);
 $trajet->load_by_id($_REQUEST['id_trajet']);
 
 $img->add_location_by_idville($trajet->ville_depart->id, false);
