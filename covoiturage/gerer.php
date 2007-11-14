@@ -103,36 +103,43 @@ if ($_REQUEST['action'] == "moderer")
   $propusr = new utilisateur ($site->db);
   $propusr->load_by_id($step['id_utilisateur']);
 
-  $villeetp = new ville($site->db, null, new pgsqlae());
-
-  $tp = explode(":", $step['ville']);
-  if ($tp[0] == "MYSQL")
-    $villeetp->load_by_id($tp[1]);
-  else if ($tp[0] == "PGSQL")
-    $villeetp->load_by_pgid($tp[1]);
-
-  $accueil->add_paragraph("<b><center>".$propusr->get_html_link() . " souhaiterait faire partie du trajet pour le ".
-			  HumanReadableDate($step['date_etape'], "", false) .", et demande un passage via ".
-			  $villeetp->nom . ".</center></b><br/><br/>");
+  if ($step['ville'] > 0)
+    {
+      $villeetp = new ville($site->db);
+      $villeetp->load_by_id($step['ville']);
+    }
+  else
+    $villeetp = NULL;
   
+  if ($villeetp != NULL)
+    {
+      $accueil->add_paragraph("<b><center>".$propusr->get_html_link() . " souhaiterait faire partie du trajet pour le ".
+			      HumanReadableDate($step['date_etape'], "", false) .", et demande un passage via ".
+			  $villeetp->nom . ".</center></b><br/><br/>");
+    }
+  else
+    $accueil->add_paragraph("<b><center>".$propusr->get_html_link() . " souhaiterait faire partie du trajet pour le ".
+			    HumanReadableDate($step['date_etape'], "", false) .".</center></b><br/><br/>");
+
   if (strlen($step['comments']) > 0)
     {
+      /* TODO : améliorer la présentation des commentaires */
       $accueil->add_paragraph("L'utilisateur a laissé le commentaire suivant :<br/>" . 
 			      "<blockquote>".
 			      doku2xhtml($step['comments']).
 			      "</blockquote>");
     }
   
+  if ($villeetp != NULL)
+    {
+      $accueil->add_paragraph("Ci-dessous un rendu du trajet en prenant en compte cette étape (la ville concernée apparaît en rouge) :");
+      $trjimg = "./imgtrajet.php?id_trajet=".$trajet->id."&amp;date=".$step['date_etape']."&amp;hlstp=".$step['id'];
 
-  $accueil->add_paragraph("Ci-dessous un rendu du trajet en prenant en compte cette étape (la ville concernée apparaît en rouge) :");
-  
-  $trjimg = "./imgtrajet.php?id_trajet=".$trajet->id."&amp;date=".$step['date_etape']."&amp;hlstp=".$step['id'];
-
-  $accueil->add_paragraph("<center><img src=\"$trjimg\" alt=\"rendu géographique\" /></center>");
-  
+      $accueil->add_paragraph("<center><img src=\"$trjimg\" alt=\"rendu géographique\" /></center>");
+    }
 
   $accueil->add_paragraph("Cliquez sur les liens ci-dessous pour accepter ou refuser l'étape. Vous pouvez en outre prendre contact avec ".
-			 "l'utilisateur afin de vous arranger à l'amiable");
+			  "l'utilisateur afin de vous arranger à l'amiable");
   
   $lnkaccept = "gerer.php?action=accept&id_trajet=".$trajet->id."&amp;date=".$step['date_etape']."&amp;id_etape=".$step['id'];
   $lnkrefuse = "gerer.php?action=refuse&id_trajet=".$trajet->id."&amp;date=".$step['date_etape']."&amp;id_etape=".$step['id'];
@@ -193,35 +200,38 @@ if (count($trajet->etapes))
 {
   foreach ($trajet->etapes as $etape)
     {
-	  $ville = explode(":", $etape['ville']);
-	  $idville = $ville[1];
-	  if ($ville[0] == "MYSQL")
-	    {
-	      $obville = new ville($site->db, null, null);
-	      $obville->load_by_id($ville[1]);
-	    }
-	  else if ($ville[0] == "PGSQL")
-	    {
-	      $obville = new ville($site->db, null, new pgsqlae());
-	      $obville->load_by_pgid($ville[1]);
-	    }
-	  $propuser = new utilisateur($site->db);
-	  $propuser->load_by_id($etape['id_utilisateur']);
       
-	  /* TODO : un tableau par étapes pour retrouver les
-	   *  statistiques par couples (trajet + dates) */
+      if ($etape['ville'] > 0)
+	{
+	  $obville = new ville($site->db);
+	  $obville->load_by_id($etape['ville']);
+	}
+      else
+	$obville = NULL;
 
-	  $trajetdate[$etape['date_etape']][] = &$etape;
+      $propuser = new utilisateur($site->db);
+      $propuser->load_by_id($etape['id_utilisateur']);
+      
 
-	  if ($etape['etat'] == STEP_ACCEPTED)
+      $trajetdate[$etape['date_etape']][] = &$etape;
+
+      if ($etape['etat'] == STEP_ACCEPTED)
+	{
+	  if ($obville != NULL)
 	    {
 	      $str = "Passage par <b>" . $obville->nom . "</b> suggéré par " . 
 		$propuser->get_html_link() . " le " . HumanReadableDate($etape['date_proposition'], "", true) .
 		" pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false)."</b>";
-
-	      $accepted[] = $str;
 	    }
-	  else if ($etape['etat'] == STEP_WAITING)
+	  else
+	    $str = $propuser->get_html_link() . 
+	      " accepté pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false)."</b>";
+
+	  $accepted[] = $str;
+	}
+      else if ($etape['etat'] == STEP_WAITING)
+	{
+	  if ($obville != NULL)
 	    {
 	      $str = "Passage par <b>" . 
 		$obville->nom . "</b> suggéré par " . 
@@ -229,9 +239,19 @@ if (count($trajet->etapes))
 		" pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false).
 		"</b> | <a href=\"./gerer.php?action=moderer&amp;id_trajet=".$trajet->id ."&amp;date_trajet=".
 		$etape['date_etape']
-   ."&amp;id_etape=".$etape['id']."\">Gérer la demande</a>";
-	      $proposed[] = $str;
+		."&amp;id_etape=".$etape['id']."\">Gérer la demande</a>";
 	    }
+	  else
+	    {
+	      $str = $propuser->get_html_link() . " en attente d'acceptation ".
+		" pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false).
+		"</b> | <a href=\"./gerer.php?action=moderer&amp;id_trajet=".$trajet->id ."&amp;date_trajet=".
+		$etape['date_etape']
+		."&amp;id_etape=".$etape['id']."\">Gérer la demande</a>";
+	    }
+
+	  $proposed[] = $str;
+	}
     }
   
 }
