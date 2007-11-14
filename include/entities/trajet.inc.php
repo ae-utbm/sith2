@@ -393,7 +393,7 @@ class trajet extends stdentity
 				    'id_utilisateur'   => $user,
 				    'id_ville_etape'   => $ville,
 				    'date_prop_etape'  => date('Y-m-d H:i:s'),
-				    'comments_etape'   => $comments));
+				    'comments_etape'   => $comments), true);
 	  }
 	else
 	  return false;
