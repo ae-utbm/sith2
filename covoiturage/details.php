@@ -60,9 +60,9 @@ if (isset($_REQUEST['add_step_sbmt']))
   $accueil->add_title(2, "Proposition d'une étape");
   
   $ret = $trajet->add_step($site->user->id,
+			   $_REQUEST['comments'],
 			   $_REQUEST['date'],
-			   $_REQUEST['mydest'],
-			   $_REQUEST['comments']);
+			   $_REQUEST['mydest']);
   if ($ret)
     {
       $steps = $trajet->get_steps_by_date($_REQUEST['date']);
