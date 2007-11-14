@@ -119,7 +119,7 @@ $sql = new requete($site->db, "SELECT
 if ($sql->lines)
 {
   
-  $trajet = new trajet($site->db, null, null);
+  $trajet = new trajet($site->db);
   $usrtrj = new utilisateur($site->db);
       
   while ($res = $sql->get_row())
