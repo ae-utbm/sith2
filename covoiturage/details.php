@@ -61,7 +61,7 @@ if (isset($_REQUEST['add_step_sbmt']))
   
   $ret = $trajet->add_step($site->user->id,
 			   $_REQUEST['date'],
-			   "MYSQL:" . $_REQUEST['mydest'],
+			   $_REQUEST['mydest'],
 			   $_REQUEST['comments']);
   if ($ret)
     {
