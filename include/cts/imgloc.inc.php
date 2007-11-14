@@ -410,7 +410,7 @@ class imgloc
 	    foreach($this->locs as &$loc)
 	      {
 		$loc[2] = $i;
-		/* note : les données pour le tracé des continents proviennente de la table
+		/* note : les données pour le tracé des continents proviennent de la table
 		 * worldadmgws dont les informations géographiques sont exprimées dans le SRID 4030
 		 * Il va donc falloir convertir ces données si elles ne sont pas dans le bon référentiel.
 		 */
@@ -627,6 +627,7 @@ class imgloc
     $myimg->addcolor("red", 255, 0, 0);
     $myimg->addcolor("grey", 210, 210, 210);
     $myimg->addcolor("pgreen", 184, 255, 184);
+    $myimg->addcolor("porange", 238, 172, 0);
     
     if (count($this->contexts))
       {
@@ -634,7 +635,7 @@ class imgloc
 	  {
 	    if (count($plg) >= 6)
 	      {
-		$myimg->addpolygon($plg, 'pgreen', true);
+		$myimg->addpolygon($plg, 'porange', true);
 		$myimg->addpolygon($plg, 'grey',   false);
 	      }
 	  }
