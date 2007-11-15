@@ -73,7 +73,7 @@ class jobuser_client extends utilisateur
 		{		
 			$this->prefs['mail_prefs'] = $row['mail_prefs'];
 			$this->prefs['pub_num'] = $row['pub_num'];
-		}15/0.11
+		}
 	}
 
 	function update_prefs($new_pub_profil, $new_mail_prefs, $new_pub_num)
