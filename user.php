@@ -854,7 +854,7 @@ function edtopen(semestre, id)
   $cts->add_title(2, "CVs");
   $jobuser = new jobuser_etu($site->db);
   $jobuser->load_by_id( intval($_REQUEST['id_utilisateur']) );
-  if( $jobuser_etu->is_jobetu_user() )
+  if( $jobuser->is_jobetu_user() )
   {
 		if( $jobuser->public_cv && $jobuser->load_pdf_cv() )
 		{
