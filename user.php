@@ -37,6 +37,7 @@ require_once($topdir . "include/entities/cotisation.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
 require_once($topdir . "include/entities/edt.inc.php");
+require_once($topdir . "jobetu/include/jobuser_etu.inc.php");
 
 $site = new site ();
 $site->add_css("css/userfullinfo.css");
@@ -850,15 +851,30 @@ function edtopen(semestre, id)
    * Affichage des CVs
    */
   $cts->add_title(2, "CVs");
-  $jobuser = new jobetu_etu($site->db);
+  $jobuser = new jobuser_etu($site->db);
   $jobuser->load_by_id( intval($_REQUEST['id_utilisateur']) );
   if( $jobuser_etu->is_jobetu_user() )
   {
 		if( $jobuser->public_cv && $jobuser->load_pdf_cv() )
 		{
-			$cts->add_paragraph("<p>Ouais il est ok</b>");
+			$i18n = array("ar" => "Arabe",
+							"cn" => "Chinois",
+							"de" => "Allemand",
+							"en" => "Anglais",
+							"es" => "Espagnol",
+							"fr" => "Français",
+							"it" => "Italien",
+							"kr" => "Coréen",
+							"pt" => "Portugais"
+							);
+							
+			$lst = new itemlist(sizeof($jobuser->pdf_cvs) . " CV(s) disponible(s)");
+			foreach($jobuser->pdf_cvs as $cv)
+				$st->add("<img src=\"$topdir/images/i18n/$cv.png\" />&nbsp; <a href=\"". $topdir . "var/cv/". $usr->id . "." . $cv .".pdf\"> CV en ". $i18n[ $cv ] ."</a>");
+			
+			$cts->add($lst);
 		}else{
-			$cts->add_paragraph("<p>Cet utilisateur n'a pas mis de CV en ligne</b>");	
+			$cts->add_paragraph("<p>Cet utilisateur n'a pas mis de CV en ligne ou n'a pas souhaité qu'ils soient publics</b>");	
 		}
   }else{
 		$cts->add_paragraph("<p>Cet utilisateur n'a pas activé son compte Jobetu</b>");
