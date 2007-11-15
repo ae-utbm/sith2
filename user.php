@@ -6,6 +6,7 @@
  * - Julien Etelain < julien at pmad dot net >
  * - Benjamin Collet < bcollet at oxynux dot org >
  * - Pierre Mauduit <pierre dot mauduit at utbm dot fr>
+ * - Manuel Vonthron <manuel dot vonthron at acadis dot org>
  *
  * Ce fichier fait partie du site de l'Association des étudiants
  * de l'UTBM, http://ae.utbm.fr.
