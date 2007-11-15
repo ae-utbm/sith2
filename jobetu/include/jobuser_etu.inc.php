@@ -27,6 +27,7 @@ class jobuser_etu extends utilisateur
 	var $competences =  array();
 	var $annonces = array();
 	var $pdf_cvs = array();
+	var $public_cv;
 	var $prefs = array();
 	
 	function is_jobetu_user()
@@ -82,6 +83,15 @@ class jobuser_etu extends utilisateur
 		
 		while($line = $sql->get_row())
 			    $this->pdf_cvs[] = $line[0];
+			    
+			    
+		$sql = new requete($this->db, "SELECT "1" FROM `job_prefs` WHERE `pub_cv`='true' LIMIT 1");
+		if( $sql->lines == 1)
+			$this->public_cv = true;
+		else
+			$this->public_cv = false;
+			    
+		return sizeof($this->pdf_cvs);
 	}
 	
 	function add_pdf_cv($file, $lang = 'fr')

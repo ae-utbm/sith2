@@ -792,7 +792,7 @@ if ( $_REQUEST["view"]=="parrain" )
 
 }
 
-elseif ( $_REQUEST["view"]=="edt" )
+elseif ( $_REQUEST["view"]=="pedagogie" )
 {
   $cts->add_title(2, "Liste des emplois du temps");
 
@@ -845,7 +845,24 @@ function edtopen(semestre, id)
               <p>
                     <center><img id=\"edtrdr\" src=\"\" alt=\"\" /></center>
               </p>\n");
-
+  
+  /** 
+   * Affichage des CVs
+   */
+  $cts->add_title(2, "CVs");
+  $jobuser = new jobetu_etu($site->db);
+  $jobuser->load_by_id( intval($_REQUEST['id_utilisateur']) );
+  if( $jobuser_etu->is_jobetu_user() )
+  {
+		if( $jobuser->public_cv && $jobuser->load_pdf_cv() )
+		{
+			$cts->add_paragraph("<p>Ouais il est ok</b>");
+		}else{
+			$cts->add_paragraph("<p>Cet utilisateur n'a pas mis de CV en ligne</b>");	
+		}
+  }else{
+		$cts->add_paragraph("<p>Cet utilisateur n'a pas activé son compte Jobetu</b>");
+  }
 
 }
 elseif ( $_REQUEST["view"]=="assos" )
