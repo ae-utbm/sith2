@@ -354,7 +354,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
   //$cts->puts("<div id=\"ann_table\" onLoad=\"openInContents('ann_table', './admin.php', 'get_ann_table&hide_closed=true');\"></div>\n");	                      
   $cts->puts("<div id=\"ann_table\"></div>".
 	     "<script language=\"javascript\">openInContents('ann_table', './admin.php', 'get_ann_table&hide_closed=true');</script>".
-	     ."\n");
+	     "\n");
   
   $cts->add_paragraph("<input type=\"checkbox\" name=\"hide_closed\" value=\"true\" checked=\"checked\" onClick=\"openInContents('ann_table', './admin.php', 'get_ann_table&hide_closed');\"/><label for=\"hide_closed\">Cacher les annonces fermées");
 }
