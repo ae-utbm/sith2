@@ -669,11 +669,10 @@ class site extends interfaceweb
     $sublist->add("<a href=\"".$topdir."user.php?view=assos\">Associations et clubs</a>");
     if( $this->user->is_in_group("jobetu_etu") )
     {
-      $jobuser = new jobuser_etu($site->db);
+      $jobuser = new jobuser_etu($this->db);
       $jobuser->load_by_id($this->user->id);
       $jobuser->load_annonces();
       $sublist->add("<a href=\"".$topdir."jobetu/board_etu.php\">Mon compte JobEtu (".count($jobuser->annonces).")</a>");
-      print_r($jobuser);
     }
     else if( $this->user->is_in_group("jobetu_client") )
       $sublist->add("<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>");
