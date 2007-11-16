@@ -85,7 +85,7 @@ class jobuser_etu extends utilisateur
 			    $this->pdf_cvs[] = $line[0];
 			    
 			    
-		$sql = new requete($this->db, "SELECT '1' FROM `job_prefs` WHERE `pub_cv`='true' LIMIT 1");
+		$sql = new requete($this->db, "SELECT '1' FROM `job_prefs` WHERE id_utl = $this->id AND `pub_cv`='true' LIMIT 1", true);
 		if( $sql->lines == 1)
 			$this->public_cv = true;
 		else
