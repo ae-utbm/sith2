@@ -170,13 +170,12 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
         $annonce->load_by_id($tmp);
         print_r($annonce);
         echo $annonce->destroy() ."\n";
-/*       if( $annonce->destroy() )
+       if( $annonce->destroy() )
         $msg = "Opération effectuée";
        else
         $msg = "La suppression n'a pu être réalisée. Peut-être un étudiant a-t-il déjà été sélectionnée. Dans ce cas veuillez prendre contact avec les différentes personnes pour clôre l'annonce";
-      */
       }
-   //   $header->add(new itemlist(false, false, array( $msg ))); 
+      $header->add(new itemlist(false, false, array( $msg ))); 
     }
     else //on demande confirmation (boolay proofing)
     {
@@ -197,7 +196,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
       $header->add($lst, true);
        	
       $frm = new form(false, "?action=".$_REQUEST['action']."&view=".$_REQUEST['view']."&confirm");
-    	$frm->add_hidden("ids", implode("|", $ids) );
+    	$frm->add_hidden("id_annonces", implode("|", $ids) );
     	$frm->add_submit(false, "Confirmer");
   	
     	$header->add($frm);
@@ -246,7 +245,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     	$header->add($lst, true);
     	
     	$frm = new form(false, "?action=".$_REQUEST['action']."&view=".$_REQUEST['view']."&confirm");
-    	$frm->add_hidden("ids", implode("|", $ids) );
+    	$frm->add_hidden("id_utilisateurs", implode("|", $ids) );
     	$frm->add_submit(false, "Confirmer");
     	
     	$header->add($frm);
