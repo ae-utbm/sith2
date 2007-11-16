@@ -35,7 +35,7 @@ define("GRP_JOBETU_ETU", 36);
 $site = new site();
 $site->start_page("services", "AE Job Etu");
 
-if( !$site->user->is_in_group("jobetu_admin") )
+if( !($site->user->is_in_group("jobetu_admin") || $site->user->is_in_group("gestion_ae") || $site->user->is_in_group("root") )
   header("Location: ../403.php");
 
 $site->add_css("jobetu/jobetu.css");
@@ -351,7 +351,7 @@ else if(isset($_REQUEST['get_ann_table']))
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
 {
   /* Affichage liste des annonces (cf plus haut) */
-  $cts->puts("<div id=\"ann_table\" onLoad=\"openInContents('ann_table', './admin.php', 'get_ann_table&hide_closed=true');\"></div>");	                      
+  $cts->puts("<div id=\"ann_table\" onLoad=\"openInContents('ann_table', './admin.php', 'get_ann_table&hide_closed=true');\"></div>\n");	                      
 	$cts->add_paragraph("<input type=\"checkbox\" name=\"hide_closed\" value=\"true\" checked=\"checked\" onClick=\"openInContents('ann_table', './admin.php', 'get_ann_table&hide_closed');\"/><label for=\"hide_closed\">Cacher les annonces fermées");
 }
 
