@@ -797,7 +797,7 @@ if ( $_REQUEST["view"]=="parrain" )
 elseif ( $_REQUEST["view"]=="pedagogie" )
 {
   $cts->add_title(2, "Liste des emplois du temps");
-
+  
   $req = new requete($site->db, "SELECT 
                                         `semestre_grp`
                                         , `edu_uv_groupe_etudiant`.`id_utilisateur`
@@ -813,7 +813,7 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
                                USING(`id_utilisateur`)
                                WHERE 
                                         `id_utilisateur` = ".
-         intval($_REQUEST['id_utilisateur'])." 
+         $user->id." 
                                GROUP BY 
                                         `semestre_grp`");
   if ($req->lines <= 0)
@@ -853,10 +853,10 @@ function edtopen(semestre, id)
    */
   $cts->add_title(2, "CVs");
   $jobuser = new jobuser_etu($site->db);
-  $jobuser->load_by_id( intval($_REQUEST['id_utilisateur']) );
+  $jobuser->load_by_id( $user->id );
   if( $jobuser->is_jobetu_user() )
   {
-		if( $jobuser->public_cv && $jobuser->load_pdf_cv() )
+		if($jobuser->load_pdf_cv() &&  $jobuser->public_cv)
 		{
 			$i18n = array("ar" => "Arabe",
 							"cn" => "Chinois",
