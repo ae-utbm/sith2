@@ -35,7 +35,7 @@ define("GRP_JOBETU_ETU", 36);
 $site = new site();
 $site->start_page("services", "AE Job Etu");
 
-if( !($site->user->is_in_group("jobetu_admin") || $site->user->is_in_group("gestion_ae") || $site->user->is_in_group("root") )
+if( !($site->user->is_in_group("jobetu_admin") || $site->user->is_in_group("gestion_ae") || $site->user->is_in_group("root") ) )
   header("Location: ../403.php");
 
 $site->add_css("jobetu/jobetu.css");
