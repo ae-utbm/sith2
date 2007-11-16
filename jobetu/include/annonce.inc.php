@@ -333,10 +333,15 @@ EOF;
     if( !empty($this->winner) ) return false;
     
     $sql_mail = new requete($this->db, "SELECT email_utl FROM `utilisateurs` NATURAL JOIN `job_annonces_etu` NATURAL JOIN `job_prefs` WHERE id_annonce = $this->id AND mail_prefs = 'full'");
-    if($sql_mail->lines > 0)
+    
+    $sql = new delete($this->dbrw, "job_annonces", array("id_annonce" => $this->id) ); // suppression annonce
+    $sql2 = new delete($this->dbrw, "job_annonces_etu", array("id_annonce" => $this->id) ); // suppression relations
+    
+    if( $sql->is_success() && $sql2->is_success() )
     {
-      while( list($email) = $sql_mail->get_row() )
-      {
+      if($sql_mail->lines > 0)
+        while( list($email) = $sql_mail->get_row() )
+         {
 $text = <<<EOF
 Bonjour,
 
@@ -353,14 +358,11 @@ http://ae.utbm.fr/
 
 
 EOF;
-      }
+          mail($email, utf8_decode("[AE JobEtu] Annulation de l'annonce n°".$this->id), utf8_decode($text), "From: \"AE Job Etu\" <ae-jobetu@utbm.fr>");
+        }
+      // mails envoyés      
+      return true;     
     }
-    
-    $sql = new delete($this->dbrw, "job_annonces", array("id_annonce" => $this->id) ); // suppression annonce
-    $sql2 = new delete($this->dbrw, "job_annonces_etu", array("id_annonce" => $this->id) ); // suppression relations
-    
-    if( $sql->is_success() && $sql2->is_success() )
-      return true;
     else
       return false;
     
