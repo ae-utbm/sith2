@@ -672,7 +672,8 @@ class site extends interfaceweb
       $jobuser = new jobuser_etu($site->db);
       $jobuser->load_by_id($this->user->id);
       $jobuser->load_annonces();
-      $sublist->add("<a href=\"".$topdir."jobetu/board_etu.php\">Mon compte JobEtu (".sizeof($jobuser->annonces).")</a>");
+      $sublist->add("<a href=\"".$topdir."jobetu/board_etu.php\">Mon compte JobEtu (".count($jobuser->annonces).")</a>");
+      print_r($jobuser);
     }
     else if( $this->user->is_in_group("jobetu_client") )
       $sublist->add("<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>");
