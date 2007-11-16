@@ -51,9 +51,10 @@ $site->start_page("none",$event["title"]);
 $cts = new contents("Présentation");
 if(isset($event["bandeau"]))
 {
-  $cts->add_paragraph("<img src=\"".$event["bandeau"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" />");
   if(isset($event["photo"]))
-    $cts->add_paragraph("<img src=\"".$event["photo"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" />");
+    $cts->add_paragraph("<img src=\"".$event["bandeau"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" /><br /><img src=\"".$event["photo"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" />");
+  else
+    $cts->add_paragraph("<img src=\"".$event["bandeau"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" />");
   $cts->add_paragraph(" ");
 }
 $cts->add_paragraph($event["intro"]);
