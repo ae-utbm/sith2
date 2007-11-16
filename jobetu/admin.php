@@ -360,17 +360,17 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
   $cts->add($frm);
   
   /** Listing vieilles annonces */
-  $sql = new requete($site->db, "SELECT utilisateurs.id_utilisateur,
-																	CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`,
-																	id_annonce, titre, nb_postes,
-																	`job_types`.`nom` as `nom_type`,
-																	TO_DAYS(NOW()) - TO_DAYS(date) AS `nb_jours`
-																	FROM `job_annonces`
-																	LEFT JOIN `utilisateurs`
-																	ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
-																	LEFT JOIN `job_types`
-																	ON `job_types`.`id_type` = `job_annonces`.`job_type`
-																	WHERE closed = '0' AND provided = '0' AND nb_jours >= 30", true);
+  $sql = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`,
+                                   CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`, 
+                                   id_annonce, titre, nb_postes,
+                                   `job_types`.`nom` as `nom_type`,
+                                   DATEDIFF(NOW(), `date`) AS `nb_jours`
+                                   FROM `job_annonces`
+                                   LEFT JOIN `utilisateurs`
+                                   ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
+                                   LEFT JOIN `job_types`
+                                   ON `job_types`.`id_type` = `job_annonces`.`job_type`
+                                   WHERE closed = '0' AND provided = 'false'  AND DATEDIFF(NOW(), `date`) >= 30", true);
   $cts->add_title(2, "");
   $cts->add_paragraph("Lorsqu'une annonce se fait vieille, prévenez par mail le dépositaire en cliquant sur \"Envoyer un mail\" pour trouver un arrangement. Si nécessaire vous pourrez par la suite supprimer l'annonce via la table ci dessus.");
   $table = new sqltable("list_ann_nclose_nprovided", "Annonces non pourvues et non closes de plus de 30 jours", $sql, "admin.php?view=clients", "id_utilisateur",
@@ -379,7 +379,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
                   array("mail" => "Envoyer un mail"),
                   array()
                   );
-  $cts->add($table);
+  $cts->add($table, true);
 }
 
 /***************************************************************
