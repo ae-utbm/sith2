@@ -32,8 +32,7 @@ $rdd=array("title"=>"remise des diplômes",
            "h-debut"=>"10",
            "h-fin"=>"12",
            "lieu"=>"au centre des expositions AirExpo d'Andelnans (entre Belfort et Sevenans)",
-           "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la cérémonie, nous vous offrons en direct les images montées afin de profiter, chez vous, de la cérémonie.<br /> <img src=\"utprod.png\" alt=\"UTBM Production\" title=\"UTBM Production\" />",
-           "partenaires"=>"logos_rdd.gif"
+           "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la cérémonie, nous vous offrons en direct les images montées afin de profiter, chez vous, de la cérémonie. Nous remercions aussi le CRI de l'UTBM ainsi que l'ensemble des bénévoles et partenaires.<br /> <img src=\"utprod.png\" alt=\"UTBM Production\" title=\"UTBM Production\" /> <img src=\"logos_rdd.gif\" alt=\"partenaires\ title=\"partenaires\" />"
           );
 
 $event=$rdd;
@@ -58,11 +57,7 @@ $cts->add_paragraph("Pour télécharger Videolan visitez ce site :<a href\"http:
 $site->add_contents($cts);
 
 $cts = new contents("Merci à");
-if(isset($event["partenaires"]))
-  $part=" <img src=\"".$event["partenaires"]."\" alt=\"partenaires\ title=\"partenaires\" />";
-else
-  $part=="";
-$cts->add_paragraph($event["remerciements"].$part);
+$cts->add_paragraph($event["remerciements"]);
 $site->add_contents($cts);
 
 $cts = new contents("Propulsé par ...");
