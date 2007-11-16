@@ -48,8 +48,6 @@ $site->start_page("none",$event["title"]);
 $cts = new contents("Présentation");
 $cts->add_paragraph($event["intro"]);
 $cts->add_paragraph("La cérémonie a lieu le ".$event["date"]." de ".$event["h-debut"]."h à ".$event["h-fin"]."h ".$event["lieu"].".");
-$cts->add_paragraph($event["remerciements"]);
-
 $site->add_contents($cts);
 
 $cts = new contents("Regarder la cérémonie en direct");
