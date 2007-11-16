@@ -60,7 +60,7 @@ $site->add_contents($cts);
 
 $cts = new contents("Merci à");
 $cts->add_paragraph($event["remerciements"]);
-$site->add_contents($cts)
+$site->add_contents($cts);
 
 $cts = new contents("Propulsé par ...");
 $cts->add_paragraph("<img src=\"linux.png\" alt=\"GNU/Linux\" title=\"GNU/Linux\" /> <img src=\"vlc.jpg\" alt=\"VideoLan\" title=\"VideoLan\" /> <img src=\"debian.png\" alt=\"Debian\" title=\"Debian\" />");
