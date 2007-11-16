@@ -407,7 +407,7 @@ AE JobEtu est un service de l'Association des Etudiants de l'UTBM
 http://ae.utbm.fr/
 
 EOF;
-          $mail = mail($row['email_utl'], utf8_decode("[AE JobEtu] Nouvelle annonce dans la catégorie ". $row['nom']), utf8_decode($text, "From: \"AE JobEtu\" <ae-jobetu@utbm.fr>"));
+          $mail = mail($row['email_utl'], utf8_decode("[AE JobEtu] Nouvelle annonce dans la catégorie ". $row['nom']), utf8_decode($text), "From: \"AE JobEtu\" <ae-jobetu@utbm.fr>");
         }
       }
     
