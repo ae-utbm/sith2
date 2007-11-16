@@ -388,10 +388,11 @@ EOF;
       if($sql->lines > 0)
         while( $row = $sql->get_row() )
         {
+          $nom_cat = $row['nom'];
           $text = <<<EOF
 Bonjour,
 
-Une nouvelle annonce à été postée dans la catégorie $row['nom'] que vous surveillez : "$this->titre".
+Une nouvelle annonce à été postée dans la catégorie $nom_cat que vous surveillez : "$this->titre".
 Pour plus de détails concernant cette annonce : http://ae.utbm.fr/jobetu/board_etu.php?view=general&action=detail&id_annonce=$this->id
 
 Cordialement,
