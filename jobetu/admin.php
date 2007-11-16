@@ -174,8 +174,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
         $msg = "Opération effectuée";
        else
         $msg = "La suppression n'a pu être réalisée. Peut-être un étudiant a-t-il déjà été sélectionnée. Dans ce cas veuillez prendre contact avec les différentes personnes pour clôre l'annonce";
+      */
       }
-      $header->add(new itemlist(false, false, array( $msg ))); */
+   //   $header->add(new itemlist(false, false, array( $msg ))); 
     }
     else //on demande confirmation (boolay proofing)
     {
