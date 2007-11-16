@@ -143,7 +143,11 @@ class jobuser_etu extends utilisateur
 			$this->prefs = null;
 		else
 		{		
-			$this->prefs['pub_cv'] = $row['pub_cv'];
+		  if($row['pub_cv'] == "true")
+		    $pub_cv = true;
+		  else
+		    $pub_cv = false;
+			$this->prefs['pub_cv'] = $pub_cv;
 			$this->prefs['mail_prefs'] = $row['mail_prefs'];
 		}
 	}
@@ -155,8 +159,6 @@ class jobuser_etu extends utilisateur
 		else
 			$sql = new update($this->dbrw, "job_prefs", array("pub_cv" => $new_pub_cv, "mail_prefs" => $new_mail_prefs), array("id_utilisateur" => $this->id));
 			
-		echo $new_pub_cv."\n". $new_mail_prefs."\n";
-		print_r($sql);
 		$this->load_prefs();
 		
 		if($sql)
