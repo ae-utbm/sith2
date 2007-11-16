@@ -320,10 +320,13 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "categories")
 /***************************************************************
  * Onglet de gestion des annonces 
  */
-else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
+else if(isset($_REQUEST['get_ann_table']))
 {
-  $cts->puts("<div align=\"right\"><input type=\"checkbox\" name=\"hide_closed\" value=\"true\" checked=\"checked\" onClick=\"alert('bleh !');\"/><label for=\"hide_closed\">Cacher les annonces fermées</div>");
-	$sql = new requete($site->db, "SELECT utilisateurs.id_utilisateur,
+  if( isset($_REQUEST['hide_closed']) && $_REQUEST['hide_closed'] == 'true')
+    $append_sql = "WHERE closed = '0'";
+  else $append_sql = "";
+   
+  $sql = new requete($site->db, "SELECT utilisateurs.id_utilisateur,
 																	CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`,
 																	id_annonce, titre, provided, closed, nb_postes,
 																	`job_types`.`nom` as `nom_type`
@@ -332,14 +335,24 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
 																	ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
 																	LEFT JOIN `job_types`
 																	ON `job_types`.`id_type` = `job_annonces`.`job_type`
-																	", false);
-	$table = new sqltable("list_clients", "Annonces présentes sur AE JobEtu", $sql, "admin.php?view=annonces", "id_annonce", 
+																	$append_sql ", false);
+  
+																	
+  $table = new sqltable("list_clients", "Annonces présentes sur AE JobEtu", $sql, "admin.php?view=annonces", "id_annonce", 
 	                      array("id_annonce" => "ID", "titre" => "Titre", "nom_utilisateur" => "Client", "nom_type" => "Catégorie", "nb_postes" => "Nb postes", "provided" => "Pourvue", "closed" => "Etat"),
 	                      array("info" => "Détails", "edit" => "Editer", "delete" => "Supprimer"), 
 	                      array("info" => "Détails", "delete" => "Supprimer"), 
 	                      array("provided" => array("true" => "Oui", "false" => ""), "closed" => array('0' => "", '1' => "Fermée"))
 	                      );
-	$cts->add( $table, true );
+
+  echo $table->html_render();
+  exit;
+}
+else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
+{
+  /* Affichage liste des annonces (cf plus haut) */
+  $cts->puts("<div id=\"ann_table\" onLoad=\"openInContents('ann_table', './admin.php', 'get_ann_table&hide_closed=true');\"></div>");	                      
+	$cts->add_paragraph("<input type=\"checkbox\" name=\"hide_closed\" value=\"true\" checked=\"checked\" onClick=\"openInContents('ann_table', './admin.php', 'get_ann_table&hide_closed');\"/><label for=\"hide_closed\">Cacher les annonces fermées");
 }
 
 /***************************************************************
