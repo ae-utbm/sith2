@@ -32,7 +32,9 @@ $rdd=array("title"=>"remise des diplômes",
            "h-debut"=>"10",
            "h-fin"=>"12",
            "lieu"=>"au centre des expositions AirExpo d'Andelnans (entre Belfort et Sevenans)",
-           "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la cérémonie, nous vous offrons en direct les images montées afin de profiter, chez vous, de la cérémonie. Nous remercions aussi le CRI de l'UTBM ainsi que l'ensemble des bénévoles et partenaires.<br /> <img src=\"utprod.png\" alt=\"UTBM Production\" title=\"UTBM Production\" /> <img src=\"logos_rdd.gif\" alt=\"partenaires\ title=\"partenaires\" />"
+           "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la cérémonie, nous vous offrons en direct les images montées afin de profiter, chez vous, de la cérémonie. Nous remercions aussi le CRI de l'UTBM ainsi que l'ensemble des bénévoles et partenaires.<br /> <img src=\"utprod.png\" alt=\"UTBM Production\" title=\"UTBM Production\" /> <img src=\"logos_rdd.gif\" alt=\"partenaires\ title=\"partenaires\" />",
+           "bandeau"=>"bandeau_rdd.png",
+           "photo"=>"photo_rdd.jpg"
           );
 
 $event=$rdd;
@@ -42,10 +44,18 @@ $site = new site ();
 $site->set_side_boxes("left",array());
 $site->set_side_boxes("right",array());
 
+if(isset($event["bandeau"]))
 
 $site->start_page("none",$event["title"]);
 
 $cts = new contents("Présentation");
+if(isset($event["bandeau"]))
+{
+  $cts->add_paragraph("<img src=\"".$event["bandeau"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" />");
+  if(isset($event["photo"]))
+    $cts->add_paragraph("<img src=\"".$event["photo"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" />");
+  $cts->add_paragraph(" ");
+}
 $cts->add_paragraph($event["intro"]);
 $cts->add_paragraph("La cérémonie a lieu le ".$event["date"]." de ".$event["h-debut"]."h à ".$event["h-fin"]."h ".$event["lieu"].".");
 $site->add_contents($cts);
@@ -53,7 +63,6 @@ $site->add_contents($cts);
 $cts = new contents("Regarder la cérémonie en direct");
 $cts->add_paragraph("Pour profiter au mieux et de manière plus fiable de cette diffusion, nous vous recommandons l'utilisation du logiciel libre <a href=\"http://www.videolan.org\">VideoLan</a>. Ce logiciel est disponible au <a href=\"http://www.videolan.org/vlc/\">téléchargement</a> pour toutes les plateformes (Windows, Mac OS et Linux compris bien sûr).");
 $cts->add_paragraph("Pour les utilisateurs de <b>VideoLan</b>, ouvrez le lien suivant : <a href=\"http://ae.utbm.fr/streaming/stream.m3u\">ici</a>");
-$cts->add_paragraph("Pour télécharger Videolan visitez ce site :<a href\"http://www.videolan.org/vlc/\">ici</a>. Il est disponible pour Windows, Mac OS X, BeOS, Linux.");
 $site->add_contents($cts);
 
 $cts = new contents("Merci à");
