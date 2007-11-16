@@ -297,8 +297,12 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 	
 	if(isset($_REQUEST['action']) && $_REQUEST['action'] == "save_prefs")
 	{
-	  print_r($_REQUEST);
-		$yeah = $usr->update_prefs( (bool)$_REQUEST['pub_cv'], $_REQUEST['mail_prefs'] );
+	  if(isset($_REQUEST['pub_cv']) && $_REQUEST['pub_cv'] == "1")
+	    $pub_cv = true;
+	  else
+	    $pub_cv = false;
+	  
+		$yeah = $usr->update_prefs($pub_cv, $_REQUEST['mail_prefs'] );
 		if($yeah)
 		{
 			$lst = new itemlist(false);
