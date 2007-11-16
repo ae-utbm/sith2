@@ -186,7 +186,7 @@ class annonce extends stdentity
 		
 		$tel = telephone_display($this->tel_client);
   	$text_etu = <<<EOF
-		Bonjour,
+Bonjour,
 
 Nous avons le plaisir de vous annoncer que vous avez été sélectionné par $genre_client $client->prenom $client->nom, client de AE Job Etu, pour son annonce "$this->titre" (numéro $this->id).
 Cette personne à été incitée à vous contacter, mais si cela devait tarder anormalement, n'hésitez pas à prendre les devants. 
@@ -206,7 +206,7 @@ EOF;
   	
   	$tel = telephone_display($winner->tel_portable);
 		$text_client = <<<EOF
-			Bonjour,
+Bonjour,
 
 Vous venez de sélectionner $genre_etu $winner->prenom $winner->nom afin de répondre à votre annonce "$this->titre" (numéro $this->id).
 Nous vous incitons à le contacter si cela n'a pas déjà été fait au $tel afin de convenir des modalités d'exécution du contrat.
@@ -330,6 +330,40 @@ EOF;
    */
   function destroy()
   {
+    if( !empty($this->winner) ) return false;
+    
+    $sql_mail = new requete($this->db, "SELECT email_utl FROM `utilisateurs` NATURAL JOIN `job_annonces_etu` NATURAL JOIN `job_prefs` WHERE id_annonce = $this->id AND mail_prefs = 'full'");
+    if($sql_mail->lines > 0)
+    {
+      while( list($email) = $sql_mail->get_row() )
+      {
+$text = <<<EOF
+Bonjour,
+
+Nous sommes au regret de vous annoncer que l'annonce "$this->title" à laquelle vous avez postulé vient d'être annulée et supprimer de notre base de donnée.
+Pour plus de renseignement, vous pouvez écrire en réponse à ce mail.
+
+Cordialement,
+
+L'équipe AE et les responsables d'AE Job Etu
+
+--
+AE JobEtu est un service de l'Association des Etudiants de l'UTBM.
+http://ae.utbm.fr/
+
+
+EOF;
+      }
+    }
+    
+    $sql = new delete($this->dbrw, "job_annonces", array("id_annonce" => $this->id) ); // suppression annonce
+    $sql2 = new delete($this->dbrw, "job_annonces_etu", array("id_annonce" => $this->id) ); // suppression annonce
+    
+    if( $sql->is_success() && $sql2->is_success() )
+      return true;
+    else
+      return false;
+    
   }
 
   /**

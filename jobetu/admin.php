@@ -162,15 +162,18 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     if( isset($_REQUEST['confirm']) ) //on passe a l'attaque
     {
       $id_annonces = explode("|", $_REQUEST['ids']);
-      if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : ".__FILE__." \t ".__LINE__);
+      if(!is_array($id_annonces)) exit("Fatal error (comme dirait l'autre) : ".__FILE__." \t ".__LINE__);
       
       foreach($id_annonces as $tmp)
       {
         $annonce = new annonce($site->db, $site->dbrw);
         $annonce->load_by_id($tmp);
-       // $annonce->destroy();
+       if( $annonce->destroy() )
+        $msg = "Opération effectuée";
+       else
+        $msg = "La suppression n'a pu être réalisée. Peut-être un étudiant a-t-il déjà été sélectionnée. Dans ce cas veuillez prendre contact avec les différentes personnes pour clôre l'annonce";
       }
-      $header->add(new itemlist(false, false, array("Opération effectuée")));
+      $header->add(new itemlist(false, false, array( $msg )));
     }
     else //on demande confirmation (boolay proofing)
     {
