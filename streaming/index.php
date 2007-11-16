@@ -54,7 +54,7 @@ if(isset($event["bandeau"]))
   if(isset($event["photo"]))
     $cts->add_paragraph("<div align=\"center\"><img src=\"".$event["bandeau"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" /><br /><img src=\"".$event["photo"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" /></div>");
   else
-    $cts->add_paragraph("<img src=\"".$event["bandeau"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" />");
+    $cts->add_paragraph("<div align=\"center\"><img src=\"".$event["bandeau"]."\" alt=\"".$event["title"]."\" title=\"".$event["title"]."\" /></div>");
   $cts->add_paragraph(" ");
 }
 $cts->add_paragraph($event["intro"]);
