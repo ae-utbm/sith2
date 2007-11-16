@@ -42,6 +42,7 @@ require_once($topdir . "include/cts/calendar.inc.php");
 require_once($topdir . "include/entities/sondage.inc.php");
 require_once($topdir . "include/entities/campagne.inc.php");
 require_once($topdir . "include/entities/cotisation.inc.php");
+require_once($topdir . "jobetu/include/jobuser_etu.inc.php");
 
 /** La classe principale du site */
 class site extends interfaceweb
@@ -666,12 +667,17 @@ class site extends interfaceweb
     if($this->user->utbm)
       $sublist->add("<a href=\"".$topdir."trombi/index.php\">Trombinoscope</a>");
     $sublist->add("<a href=\"".$topdir."user.php?view=assos\">Associations et clubs</a>");
-/*    if( $this->user->is_in_group("jobetu_etu") )
-      $sublist->add("<a href=\"".$topdir."jobetu/board_etu.php\">Mon compte JobEtu</a>");
+    if( $this->user->is_in_group("jobetu_etu") )
+    {
+      $jobuser = new jobuser_etu($site->db);
+      $jobuser->load_by_id($this->user->id);
+      $jobetu->load_annonces();
+      $sublist->add("<a href=\"".$topdir."jobetu/board_etu.php\">Mon compte JobEtu (".sizeof($jobetu->annonces).")</a>");
+    }
     else if( $this->user->is_in_group("jobetu_client") )
       $sublist->add("<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>");
     else
-      $sublist->add("<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>"); */
+      $sublist->add("<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>");
     $sublist->add("<a href=\"".$topdir."user.php?view=parrain\">Parrains et fillots</a>");
     $sublist->add("<a href=\"".$topdir."user/compteae.php\">Compte AE</a>");
 
