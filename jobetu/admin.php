@@ -338,7 +338,7 @@ else if(isset($_REQUEST['get_ann_table']))
 																	$append_sql ", false);
   
 																	
-  $table = new sqltable("list_clients", "Annonces présentes sur AE JobEtu", $sql, "admin.php?view=annonces", "id_annonce", 
+  $table = new sqltable("list_annonces", "Annonces présentes sur AE JobEtu", $sql, "admin.php?view=annonces", "id_annonce", 
 	                      array("id_annonce" => "ID", "titre" => "Titre", "nom_utilisateur" => "Client", "nom_type" => "Catégorie", "nb_postes" => "Nb postes", "provided" => "Pourvue", "closed" => "Etat"),
 	                      array("info" => "Détails", "edit" => "Editer", "delete" => "Supprimer"), 
 	                      array("info" => "Détails", "delete" => "Supprimer"), 
@@ -351,8 +351,6 @@ else if(isset($_REQUEST['get_ann_table']))
 }
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
 {
-  /* Affichage liste des annonces (cf plus haut) */
-  //$cts->puts("<div id=\"ann_table\" onLoad=\"openInContents('ann_table', './admin.php', 'get_ann_table&hide_closed=true');\"></div>\n");	                      
   $cts->puts("<div id=\"ann_table\"></div>".
 	     "<script language=\"javascript\">openInContents('ann_table', './admin.php', 'get_ann_table&hide_closed=true');</script>".
 	     "\n");
@@ -360,6 +358,28 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
   $frm = new form("hide_closed", null, false, null);
   $frm->puts("<input type=\"checkbox\" name=\"hide_box\" value=\"true\" checked=\"checked\" onClick=\"openInContents('ann_table', './admin.php', 'get_ann_table&hide_closed='+this.checked);\"/><label for=\"hide_box\">Cacher les annonces fermées");
   $cts->add($frm);
+  
+  /** Listing vieilles annonces */
+  $sql = new requete($site->db, "SELECT utilisateurs.id_utilisateur,
+																	CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`,
+																	id_annonce, titre, nb_postes,
+																	`job_types`.`nom` as `nom_type`,
+																	TO_DAYS(NOW()) - TO_DAYS(date) AS `nb_jours`
+																	FROM `job_annonces`
+																	LEFT JOIN `utilisateurs`
+																	ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
+																	LEFT JOIN `job_types`
+																	ON `job_types`.`id_type` = `job_annonces`.`job_type`
+																	WHERE closed = '0' AND provided = '0' AND nb_jours >= 30", true);
+  $cts->add_title(2, "");
+  $cts->add_paragraph("Lorsqu'une annonce se fait vieille, prévenez par mail le dépositaire en cliquant sur \"Envoyer un mail\" pour trouver un arrangement. Si nécessaire vous pourrez par la suite supprimer l'annonce via la table ci dessus.");
+  $table = new sqltable("list_ann_nclose_nprovided", "Annonces non pourvues et non closes de plus de 30 jours", $sql, "admin.php?view=clients", "id_utilisateur",
+                  array("id_annonce" => "ID", "titre" => "Titre", "nom_utilisateur" => "Client", "nom_type" => "Catégorie", "nb_jours" => "Jours"),
+                  array("mail" => "Envoyer un mail"),
+                  array("mail" => "Envoyer un mail"),
+                  array()
+                  );
+  $cts->add($table);
 }
 
 /***************************************************************
