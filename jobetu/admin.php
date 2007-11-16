@@ -371,8 +371,8 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
                                    LEFT JOIN `job_types`
                                    ON `job_types`.`id_type` = `job_annonces`.`job_type`
                                    WHERE closed = '0' AND provided = 'false'  AND DATEDIFF(NOW(), `date`) >= 30"); // c'est quand meme pas normal qu il veuille pas avec nb_jours
-  $cts->add_title(2, "");
-  $cts->add_paragraph("<b>Lorsqu'une annonce se fait vieille, prévenez par mail le dépositaire en cliquant sur \"Envoyer un mail\" pour trouver un arrangement. Si nécessaire vous pourrez par la suite supprimer l'annonce via la table ci dessus.</b>");
+  $cts->add_title(2, "Le coin M. Propre");
+  $cts->add_paragraph("<b>Lorsqu'une annonce se fait vieille, prévenez par mail le dépositaire en cliquant sur \"Envoyer un mail\" pour qu'il fasse le nécessaire (clore l'annonce, la laisser encore). Si nécessaire vous pourrez par la suite supprimer l'annonce via la table ci dessus.</b>");
   $table = new sqltable("list_ann_nclose_nprovided", "Annonces **non pourvues** et non closes de plus de 30 jours", $sql, "admin.php?view=clients", "id_utilisateur",
                   array("id_annonce" => "ID", "titre" => "Titre", "nom_utilisateur" => "Client", "nom_type" => "Catégorie", "nb_jours" => "Jours"),
                   array("mail" => "Envoyer un mail"),
@@ -391,9 +391,9 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
                                    ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
                                    LEFT JOIN `job_types`
                                    ON `job_types`.`id_type` = `job_annonces`.`job_type`
-                                   WHERE closed = '0' AND provided = 'true'  AND DATEDIFF(NOW(), `date`) >= 60"); // c'est quand meme pas normal qu il veuille pas avec nb_jours
+                                   WHERE closed = '0' AND provided = 'true'  AND DATEDIFF(NOW(), `date`) >= 90"); // c'est quand meme pas normal qu il veuille pas avec nb_jours
                                    
-  $table = new sqltable("list_ann_nclose_nprovided", "Annonces **pourvues** et non closes de plus de 60 jours", $sql, "admin.php?view=clients", "id_utilisateur",
+  $table = new sqltable("list_ann_nclose_nprovided", "Annonces **pourvues** et non closes de plus de 90 jours", $sql, "admin.php?view=clients", "id_utilisateur",
                   array("id_annonce" => "ID", "titre" => "Titre", "nom_utilisateur" => "Client", "nom_type" => "Catégorie", "nb_jours" => "Jours"),
                   array("mail" => "Envoyer un mail"),
                   array("mail" => "Envoyer un mail"),
