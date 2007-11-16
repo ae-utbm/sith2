@@ -196,6 +196,11 @@ Pour plus de renseignements, consultez sa fiche Matmatronch : http://ae.utbm.fr/
 Nous vous remerçions d'utiliser AE Job Etu et vous souhaitons bon courage pour cette nouvelle mission !
 
 L'équipe AE et les responsables d'AE Job Etu	
+
+--
+AE JobEtu est un service de l'Association des Etudiants de l'UTBM.
+http://ae.utbm.fr/
+
 EOF;
 
   	
@@ -212,13 +217,17 @@ Nous vous remerçions de votre confiance et espérons que votre satisfaction ser
 
 L'équipe AE et les responsables d'AE Job Etu
 
+--
+AE JobEtu est un service de l'Association des Etudiants de l'UTBM.
+http://ae.utbm.fr/
+
 EOF;
 
 		if(!$this->is_provided())
 			$text_client .= "PS: il reste désormais ".$this->remaining_positions()." place(s) disponibles pour votre offre.";
 		  	
-		$mail_etu = mail($winner->email, utf8_decode("[AE JobEtu] Sélection pour l'annonce n°".$this->id), utf8_decode($text_etu), "From: \"AE Job Etu\" <ae.jobetu@utbm.fr>");
-		$mail_client = mail($client->email, utf8_decode("[AE JobEtu] Sélection de $winner->prenom $winner->nom pour l'annonce n°".$this->id), utf8_decode($text_client), "From: \"AE Job Etu\" <ae.jobetu@utbm.fr>");
+		$mail_etu = mail($winner->email, utf8_decode("[AE JobEtu] Sélection pour l'annonce n°".$this->id), utf8_decode($text_etu), "From: \"AE Job Etu\" <ae-jobetu@utbm.fr>");
+		$mail_client = mail($client->email, utf8_decode("[AE JobEtu] Sélection de $winner->prenom $winner->nom pour l'annonce n°".$this->id), utf8_decode($text_client), "From: \"AE JobEtu\" <ae-jobetu@utbm.fr>");
 	
 		if($mail_etu && $mail_client)
 			return true;
@@ -372,6 +381,32 @@ EOF;
 		else
 			$this->id = false;
 
+    /**
+     * Envoi des mails
+     */    
+      $sql = new requete($this->db, "SELECT email_utl, nom FROM `utilisateurs` NATURAL JOIN `job_types_etu` NATURAL JOIN `job_types` NATURAL JOIN `job_prefs` WHERE id_type = $this->job_type AND mail_prefs = 'full'", false);
+      if($sql->lines > 0)
+        while( $row = $sql->get_row() )
+        {
+          $text = <<<EOF
+Bonjour,
+
+Une nouvelle annonce à été postée dans la catégorie $row['nom'] que vous surveillez : "$this->titre".
+Pour plus de détails concernant cette annonce : http://ae.utbm.fr/jobetu/board_etu.php?view=general&action=detail&id_annonce=$this->id
+
+Cordialement,
+
+L'équipe AE et les responsables d'AE Job Etu.
+
+--
+Pour ne plus recevoir ces mails : http://ae.utbm.fr/taiste/jobetu/board_etu.php?view=preferences
+AE JobEtu est un service de l'Association des Etudiants de l'UTBM
+http://ae.utbm.fr/
+
+EOF;
+          $mail = mail($row['email_utl'], utf8_decode("[AE JobEtu] Nouvelle annonce dans la catégorie ". $row['nom']), utf8_decode($text, "From: \"AE JobEtu\" <ae-jobetu@utbm.fr>");
+        }
+    
 		return $this->id;
   }
   
