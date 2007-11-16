@@ -124,7 +124,12 @@ class rssjobetu extends rssfeed
 			echo "<item>\n";
   		echo "<title>".htmlspecialchars($row["titre"],ENT_NOQUOTES,"UTF-8")."</title>\n";
   		echo "<link>http://ae.utbm.fr/jobetu/board_etu.php?view=general&amp;id_annonce=".$row["id_annonce"]."&amp;action=detail</link>\n";
-  		echo "<description>".htmlspecialchars("Catégorie : ".$row["job_nom"]."<br /><br />".$row["desc"], ENT_NOQUOTES,"UTF-8")."</description>\n";
+  		$buffer = "<b>Catégorie</b> : ".$row["job_nom"]."<br /><br />"
+  		$buffer .= "<b>Description</b> :<br />".$row["desc"];
+  		$buffer .= "<b>Profil recherché</b> :<br /><br />".$row["profil"];
+  		$buffer .= "<b>Nombre de postes</b> :<br />".$row["nb_postes"];
+  		$buffer .= "<b>Rémunération</b> :<br />".$row["indemnite"];
+  		echo "<description>".htmlspecialchars($buffer, ENT_NOQUOTES,"UTF-8")."</description>\n";
   		echo "<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date"]))."</pubDate>\n";
   		echo "<guid>http://ae.utbm.fr/jobetu/board_etu.php?view=general&amp;action=detail&amp;id_annonce=".$row["id_annonce"]."</guid>\n";
   		echo "</item>\n";	
