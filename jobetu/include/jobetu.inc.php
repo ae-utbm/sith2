@@ -117,7 +117,7 @@ class rssjobetu extends rssfeed
 	
 	function output_items()
 	{
-		$sql = new requete($this->db, "SELECT `id_annonce`, `titre`, `desc`, `date`, `job_types`.`nom` AS `job_nom` FROM `job_annonces` LEFT JOIN `job_types` ON `job_types`.`id_type` = `job_annonces`.`job_type` WHERE `closed` != '1' AND `id_select_etu` IS NULL ORDER BY `date` DESC LIMIT 15");
+		$sql = new requete($this->db, "SELECT `id_annonce`, `titre`, `desc`, `date`, `profil`, `nb_postes`, `indemnite`, `job_types`.`nom` AS `job_nom` FROM `job_annonces` LEFT JOIN `job_types` ON `job_types`.`id_type` = `job_annonces`.`job_type` WHERE `closed` != '1' AND `id_select_etu` IS NULL ORDER BY `date` DESC LIMIT 15");
 		
 		while( $row = $sql->get_row() )
 		{
@@ -125,7 +125,7 @@ class rssjobetu extends rssfeed
   		echo "<title>".htmlspecialchars($row["titre"],ENT_NOQUOTES,"UTF-8")."</title>\n";
   		echo "<link>http://ae.utbm.fr/jobetu/board_etu.php?view=general&amp;id_annonce=".$row["id_annonce"]."&amp;action=detail</link>\n";
   		$buffer = "<b>Catégorie</b> : ".$row["job_nom"]."<br /><br />";
-  		$buffer .= "<b>Description</b> :<br />".$row["desc"];
+  		$buffer .= "<b>Description</b> :<br />".$row["desc"]."<br />";
   		$buffer .= "<b>Profil recherché</b> :<br /><br />".$row["profil"];
   		$buffer .= "<b>Nombre de postes</b> :<br />".$row["nb_postes"];
   		$buffer .= "<b>Rémunération</b> :<br />".$row["indemnite"];
