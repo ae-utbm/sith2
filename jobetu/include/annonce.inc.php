@@ -385,7 +385,9 @@ EOF;
      * Envoi des mails
      */    
       $sql = new requete($this->db, "SELECT email_utl, nom FROM `utilisateurs` NATURAL JOIN `job_types_etu` NATURAL JOIN `job_types` NATURAL JOIN `job_prefs` WHERE id_type = $this->job_type AND mail_prefs = 'full'", false);
+      
       if($sql->lines > 0)
+      {
         while( $row = $sql->get_row() )
         {
           $nom_cat = $row['nom'];
@@ -405,8 +407,9 @@ AE JobEtu est un service de l'Association des Etudiants de l'UTBM
 http://ae.utbm.fr/
 
 EOF;
-          $mail = mail($row['email_utl'], utf8_decode("[AE JobEtu] Nouvelle annonce dans la catégorie ". $row['nom']), utf8_decode($text, "From: \"AE JobEtu\" <ae-jobetu@utbm.fr>");
+          $mail = mail($row['email_utl'], utf8_decode("[AE JobEtu] Nouvelle annonce dans la catégorie ". $row['nom']), utf8_decode($text, "From: \"AE JobEtu\" <ae-jobetu@utbm.fr>"));
         }
+      }
     
 		return $this->id;
   }
