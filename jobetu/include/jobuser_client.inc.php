@@ -39,11 +39,7 @@ class jobuser_client extends utilisateur
   	//En attente du flag sur la table utilisateur
   	$this->create_user( $nom, $prenom, "Société ". $nom_ste, $email, $password, $droit_image, $date_naissance, $sexe);
   }
-    
-  function connexion($email, $passwd)
-  {
 
-  }
 
   function is_jobetu_client()
   {
@@ -55,7 +51,7 @@ class jobuser_client extends utilisateur
   {
    // if( is_jobetu_client() )
       {
-      	$sql = new requete($this->db, "SELECT * FROM job_annonces WHERE id_client = $this->id AND closed <> '1'");
+      	$sql = new requete($this->db, "SELECT * FROM job_annonces WHERE id_client = $this->id AND closed <> '1' ORDER BY date DESC");
 				
         while($line = $sql->get_row())
 			    $this->annonces[] = $line;
