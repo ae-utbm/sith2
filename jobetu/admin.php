@@ -180,10 +180,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
       
       $header->add_paragraph("Merci de ne supprimer d'annonce que vous si vous êtes sûr de ce que vous faites. Seules les annonces pour lesquelles aucune sélection de candidat n'aura été faite pourront être supprimées, s'il y a des candidats, ceux-ci seront avertis de la suppression de l'offre (à condition qu'ils aient réglé l'envoi des mails sur `full`)");
       
-      if($_REQUEST['id_annonce'])
+      if( isset($_REQUEST['id_annonce']) )
     	  $sql = new requete($site->db, "SELECT id_annonce, titre FROM job_annonces WHERE id_annonce = '".$_REQUEST['id_annonce']."'");
-	    else if($_REQUEST['id_annonces'])
-	    	$sql = new requete($site->db, "SELECT id_annonce, titre FROM utilisateurs WHERE id_annonce IN('".implode('\', \'', $_REQUEST['id_annonces'])."')");
+	    else if( isset($_REQUEST['id_annonces']) )
+	    	$sql = new requete($site->db, "SELECT id_annonce, titre FROM job_annonces WHERE id_annonce IN('".implode('\', \'', $_REQUEST['id_annonces'])."')");
     
       $lst = new itemlist("Vous vous appretez à supprimer les annonces :");
       while($row = $sql->get_row())
@@ -322,6 +322,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "categories")
  */
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
 {
+  $cts->puts("<div align=\"right\"><input type=\"checkbox\" name=\"hide_closed\" value=\"true\" checked=\"checked\" onClick=\"alert('bleh !');\"/><label for=\"hide_closed\">Cacher les annonces fermées</div>")
 	$sql = new requete($site->db, "SELECT utilisateurs.id_utilisateur,
 																	CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`,
 																	id_annonce, titre, provided, closed, nb_postes,
@@ -376,7 +377,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "etudiants")
  */
 else
 {
-	
+	$cts->add_paragraph("Imagine ici le contenu que tu souhaites voir apparaitre.")
 }
 
 
