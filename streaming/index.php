@@ -63,7 +63,7 @@ $site->add_contents($cts);
 
 $cts = new contents("Regarder la cérémonie en direct");
 $cts->add_paragraph("Pour profiter au mieux et de manière plus fiable de cette diffusion, nous vous recommandons l'utilisation du logiciel libre <a href=\"http://www.videolan.org\">VideoLan</a>. Ce logiciel est disponible au <a href=\"http://www.videolan.org/vlc/\">téléchargement</a> pour toutes les plateformes (Windows, Mac OS et Linux compris bien sûr).");
-$cts->add_paragraph("Pour les utilisateurs de <b>VideoLan</b>, ouvrez le lien suivant : <a href=\"http://ae.utbm.fr/streaming/stream.m3u\">ici</a>");
+$cts->add_paragraph("Pour les utilisateurs de <b>VideoLan</b>, ouvrez le lien suivant : <b><a href=\"http://ae.utbm.fr/streaming/stream.m3u\">ici</a></b>");
 $site->add_contents($cts);
 
 $cts = new contents("Merci à");
