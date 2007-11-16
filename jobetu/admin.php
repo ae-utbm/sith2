@@ -161,7 +161,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     
     if( isset($_REQUEST['confirm']) ) //on passe a l'attaque
     {
-      $id_annonces = explode("|", $_REQUEST['ids']);
+      $id_annonces = explode("|", $_REQUEST['id_annonces']);
       if(!is_array($id_annonces)) exit("Fatal error (comme dirait l'autre) : ".__FILE__." \t ".__LINE__);
       
       foreach($id_annonces as $tmp)
@@ -212,7 +212,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
     
     if( isset($_REQUEST['confirm']) ) //on passe a l'attaque
     {
-      $id_utilisateurs = explode("|", $_REQUEST['ids']);
+      $id_utilisateurs = explode("|", $_REQUEST['id_utilisateurs']);
       if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : ".__FILE__." \t ".__LINE__);
         
       foreach($id_utilisateurs as $tmp)

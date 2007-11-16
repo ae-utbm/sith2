@@ -357,7 +357,7 @@ EOF;
     }
     
     $sql = new delete($this->dbrw, "job_annonces", array("id_annonce" => $this->id) ); // suppression annonce
-    $sql2 = new delete($this->dbrw, "job_annonces_etu", array("id_annonce" => $this->id) ); // suppression annonce
+    $sql2 = new delete($this->dbrw, "job_annonces_etu", array("id_annonce" => $this->id) ); // suppression relations
     
     if( $sql->is_success() && $sql2->is_success() )
       return true;
