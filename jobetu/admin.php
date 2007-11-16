@@ -322,7 +322,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "categories")
  */
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
 {
-  $cts->puts("<div align=\"right\"><input type=\"checkbox\" name=\"hide_closed\" value=\"true\" checked=\"checked\" onClick=\"alert('bleh !');\"/><label for=\"hide_closed\">Cacher les annonces fermées</div>")
+  $cts->puts("<div align=\"right\"><input type=\"checkbox\" name=\"hide_closed\" value=\"true\" checked=\"checked\" onClick=\"alert('bleh !');\"/><label for=\"hide_closed\">Cacher les annonces fermées</div>");
 	$sql = new requete($site->db, "SELECT utilisateurs.id_utilisateur,
 																	CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`,
 																	id_annonce, titre, provided, closed, nb_postes,
@@ -377,7 +377,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "etudiants")
  */
 else
 {
-	$cts->add_paragraph("Imagine ici le contenu que tu souhaites voir apparaitre.")
+	$cts->add_paragraph("Imagine ici le contenu que tu souhaites voir apparaitre.");
 }
 
 
