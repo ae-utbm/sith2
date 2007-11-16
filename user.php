@@ -871,7 +871,7 @@ function edtopen(semestre, id)
 							
 			$lst = new itemlist(sizeof($jobuser->pdf_cvs) . " CV(s) disponible(s)");
 			foreach($jobuser->pdf_cvs as $cv)
-				$lst->add("<img src=\"$topdir/images/i18n/$cv.png\" />&nbsp; <a href=\"". $topdir . "var/cv/". $usr->id . "." . $cv .".pdf\"> CV en ". $i18n[ $cv ] ."</a>");
+				$lst->add("<img src=\"$topdir/images/i18n/$cv.png\" />&nbsp; <a href=\"". $topdir . "var/cv/". $jobuser->id . "." . $cv .".pdf\"> CV en ". $i18n[ $cv ] ."</a>");
 			
 			$cts->add($lst);
 		}else{
