@@ -40,7 +40,7 @@ $header = new contents("Bienvenue sur AE Job Etu");
 
 $intro = <<<EOF
 AE Job Etu aide étudiants et employeurs (particuliers ou entreprises) à entrer en relation afin de contractualiser des jobs.
-Les étudiants peuvent donc offrir leurs services et les employeurs en demander, AE Job Etu les met en correspondance.
+Les étudiants peuvent donc offrir leurs services et les employeurs en demander, AE JobEtu les met en correspondance.
 
 A lire :
   * [[http://ae.utbm.fr/article.php?name=docs:jobetu:cgu|Conditions Générales d'Utilisation]]
@@ -48,7 +48,7 @@ A lire :
   * [[http://ae.utbm.fr/article.php?name=docs:jobetu:faq-recruteurs|F.A.Q. Recruteurs]]
   * [[http://ae.utbm.fr/article.php?name=docs:jobetu:faq-candidats|F.A.Q. Etudiants]]
 
-//AE Job Etu est un service proposé par l'Association des Etudiants de l'UTBM.//
+//AE JobEtu est un service proposé par l'Association des Etudiants de l'UTBM.//
 EOF;
 
 $header->add_paragraph(doku2xhtml($intro));
@@ -82,7 +82,7 @@ Quelques mots sur le fonctionnement du service :
   * Le client recevra alors toutes les candidatures qui lui sont offertes et pourra faire son choix parmi celles ci, vous serez tenu au courant de cette évolution via votre tableau de bord, ou bien même par mail si vous le souhaitez
   * A la fin du contrat, le demandeur pourra mettre une appréciation à votre prestation (positive, négative ou neutre) s'il le souhaite, afin de vous permettre de mettre en avant votre sérieux pour de futures candidatures. 
 
-Rappelons que l'inscription à AE Job Etu est soumise à l'acceptation des [[http://ae.utbm.fr/article.php?name=docs:jobetu:cgu|conditions générales d'utilisation]].
+Rappelons que l'inscription à AE JobEtu est soumise à l'acceptation des [[http://ae.utbm.fr/article.php?name=docs:jobetu:cgu|conditions générales d'utilisation]].
 EOF;
 	$cts->add_paragraph(doku2xhtml($text));
 	
@@ -108,7 +108,7 @@ else
 		$link_etu->add_paragraph("Inscrivez vous à AE JobEtu pour pouvoir répondre aux annonces disponibles.");
 		$link_etu->add_paragraph("<div align='center'><a href='index.php?activate'><img src=\"$topdir/images/jobetu/etu_1.png\" alt=\"Activez votre compte !\" /></a></div>");
 	}
-
+  $link_etu->add_paragraph("<div align='center'>Astuce : ne loupez aucune annonce grâce au <a href=\"rss.php\"> Flux RSS</a></div>");
 	
 	$link_client = new contents("Vous êtes un particulier, une entreprise ?");
 	
