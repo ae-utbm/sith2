@@ -168,12 +168,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
       {
         $annonce = new annonce($site->db, $site->dbrw);
         $annonce->load_by_id($tmp);
-        print_r($annonce);
-        echo $annonce->destroy() ."\n";
        if( $annonce->destroy() )
-        $msg = "Opération effectuée";
+          $msg = "Opération effectuée";
        else
-        $msg = "La suppression n'a pu être réalisée. Peut-être un étudiant a-t-il déjà été sélectionnée. Dans ce cas veuillez prendre contact avec les différentes personnes pour clôre l'annonce";
+          $msg = "La suppression n'a pu être réalisée. Peut-être un étudiant a-t-il déjà été sélectionnée. Dans ce cas veuillez prendre contact avec les différentes personnes pour clôre l'annonce";
       }
       $header->add(new itemlist(false, false, array( $msg ))); 
     }
