@@ -231,26 +231,30 @@ if (count($trajet->etapes))
 	}
       else if ($etape['etat'] == STEP_WAITING)
 	{
-	  if ($obville != NULL)
-	    {
-	      $str = "Passage par <b>" . 
-		$obville->nom . "</b> suggéré par " . 
-		$propuser->get_html_link() . " le " . HumanReadableDate($etape['date_proposition'], "", true) .
-		" pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false).
-		"</b> | <a href=\"./gerer.php?action=moderer&amp;id_trajet=".$trajet->id ."&amp;date_trajet=".
-		$etape['date_etape']
-		."&amp;id_etape=".$etape['id']."\">Gérer la demande</a>";
-	    }
-	  else
-	    {
-	      $str = $propuser->get_html_link() . " en attente d'acceptation ".
-		" pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false).
-		"</b> | <a href=\"./gerer.php?action=moderer&amp;id_trajet=".$trajet->id ."&amp;date_trajet=".
-		$etape['date_etape']
-		."&amp;id_etape=".$etape['id']."\">Gérer la demande</a>";
-	    }
+	  /* s'il n'est pas trop tard ... */
+	  if (strtotime($etape['date_etape']) > time())
+	    { 
+	      if ($obville != NULL)
+		{
+		  $str = "Passage par <b>" . 
+		    $obville->nom . "</b> suggéré par " . 
+		    $propuser->get_html_link() . " le " . HumanReadableDate($etape['date_proposition'], "", true) .
+		    " pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false).
+		    "</b> | <a href=\"./gerer.php?action=moderer&amp;id_trajet=".$trajet->id ."&amp;date_trajet=".
+		    $etape['date_etape']
+		    ."&amp;id_etape=".$etape['id']."\">Gérer la demande</a>";
+		}
+	      else
+		{
+		  $str = $propuser->get_html_link() . " en attente d'acceptation ".
+		    " pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false).
+		    "</b> | <a href=\"./gerer.php?action=moderer&amp;id_trajet=".$trajet->id ."&amp;date_trajet=".
+		    $etape['date_etape']
+		    ."&amp;id_etape=".$etape['id']."\">Gérer la demande</a>";
+		}
 
-	  $proposed[] = $str;
+	      $proposed[] = $str;
+	    }
 	}
     }
   
