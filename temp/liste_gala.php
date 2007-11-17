@@ -15,12 +15,13 @@ $req = new requete($site->db, "SELECT " .
       "`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
       "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
       "`cpt_produits`.`nom_prod` " .
-      "FROM `cpt_vendu` " .
+			"FROM `cpt_vendu` " .
+			"INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
       "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit`=`cpt_vendu`.`id_produit` " .
       "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
       "WHERE `id_utilisateur_client`='".$user->id."' ".
       "AND `cpt_vendu`.`a_retirer_vente`='1' AND (`cpt_produits`.`id_produit`='316' OR `cpt_produits`.`id_produit`='317' OR `cpt_produits`.`id_produit`='303' OR `cpt_produits`.`id_produit`='315' OR `cpt_produits`.`id_produit`='304'" .
-      "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
+      "ORDER BY `utilisateurs`.`nom_utl` ASC");
 
 
 if (isset($_REQUEST['action']) && $_REQUEST['action']=="getpdf")
