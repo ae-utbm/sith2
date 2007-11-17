@@ -47,7 +47,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="getpdf")
   $pdf->SetFont('Arial','B',11);
 
   //Header
-  $w=array(60,60,60,5);
+  $w=array(50,50,50,30);
 
   //Data
   $fill=0;
@@ -72,10 +72,10 @@ while ($res = $req->get_row())
   $pdf->SetLineWidth(.3);
   $pdf->SetFont('','B');
 
-  $pdf->Cell($w[0],7,"Nom", 1, 0, 'C', 1);
-  $pdf->Cell($w[1],7,"Prénom", 1, 0, 'C', 1);
-  $pdf->Cell($w[2],7,"Produit", 1, 0, 'C', 1);
-  $pdf->Cell($w[3],7,"Quantité", 1, 0, 'C', 1);
+  $pdf->Cell($w[0],7,"Nom", 1, 0, 'L', 1);
+  $pdf->Cell($w[1],7,"Prénom", 1, 0, 'L', 1);
+  $pdf->Cell($w[2],7,"Produit", 1, 0, 'L', 1);
+  $pdf->Cell($w[3],7,"Quantité", 1, 0, 'L', 1);
 
   $pdf->Ln();
 
