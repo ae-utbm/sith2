@@ -47,7 +47,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="getpdf")
   $pdf->SetFont('Arial','B',11);
 
   //Header
-  $w=array(90,90);
+  $w=array(60,60,60,5);
 
   //Data
   $fill=0;
