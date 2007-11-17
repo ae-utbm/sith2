@@ -38,10 +38,12 @@ $site = new site();
 
 $site->start_page ("services", "Covoiturage - Recherche");
 
-$accueil->add_title(1, "Tous les trajets ponctuels proposés : ");
 
 
 $accueil = new contents("Recherche", "");
+
+$accueil->add_title(1, "Tous les trajets ponctuels proposés : ");
+
 $sql = new requete($site->db, "SELECT 
                                       `id_trajet`
                                FROM
