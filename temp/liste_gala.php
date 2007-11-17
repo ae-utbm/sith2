@@ -19,8 +19,8 @@ $req = new requete($site->db, "SELECT " .
       "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit`=`cpt_vendu`.`id_produit` " .
       "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
       "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`cpt_debitfacture`.`id_utilisateur_client` ".
-      "WHERE `id_utilisateur_client`='".$user->id."' ".
-      "AND `cpt_vendu`.`a_retirer_vente`='1' AND (`cpt_vendu`.`id_produit`='316' OR `cpt_vendu`.`id_produit`='317' OR `cpt_vendu`.`id_produit`='303' OR `cpt_vendu`.`id_produit`='315' OR `cpt_vendu`.`id_produit`='304') " .
+      "WHERE `cpt_vendu`.`a_retirer_vente`='1' ".
+      "AND (`cpt_vendu`.`id_produit`='316' OR `cpt_vendu`.`id_produit`='317' OR `cpt_vendu`.`id_produit`='303' OR `cpt_vendu`.`id_produit`='315' OR `cpt_vendu`.`id_produit`='304') " .
       "ORDER BY `utilisateurs`.`nom_utl` ASC");
 
 
