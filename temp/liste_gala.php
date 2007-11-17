@@ -16,7 +16,7 @@ $req = new requete($site->db, "SELECT " .
       "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
       "`cpt_produits`.`nom_prod` " .
 			"FROM `cpt_vendu` " .
-			"INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
+			"INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`cpt_vendu`.`id_utilisateur_client` ".
       "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit`=`cpt_vendu`.`id_produit` " .
       "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
       "WHERE `id_utilisateur_client`='".$user->id."' ".
