@@ -74,7 +74,8 @@ while ($res = $req->get_row())
 
   $pdf->Cell($w[0],7,"Nom", 1, 0, 'C', 1);
   $pdf->Cell($w[1],7,"Prénom", 1, 0, 'C', 1);
-  //$pdf->Cell($w[2],7,"Surnom", 1, 0, 'C', 1);
+  $pdf->Cell($w[2],7,"Produit", 1, 0, 'C', 1);
+  $pdf->Cell($w[3],7,"Quantité", 1, 0, 'C', 1);
 
   $pdf->Ln();
 
@@ -96,7 +97,8 @@ while ($res = $req->get_row())
 
       $pdf->Cell($w[0],6,utf8_decode($res['nom_utilisateur']),$border,0,'C',$fill);
       $pdf->Cell($w[1],6,utf8_decode($res['prenom']),$border,0,'C',$fill);
-      //$pdf->Cell($w[2],6,utf8_decode($res['surnom']),$border,0,'L',$fill);
+      $pdf->Cell($w[2],6,utf8_decode($res['nom_prod']),$border,0,'L',$fill);
+      $pdf->Cell($w[3],6,utf8_decode($res['quantite']),$border,0,'L',$fill);
 
       $pdf->Ln();
 
