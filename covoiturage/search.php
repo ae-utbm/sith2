@@ -38,12 +38,54 @@ $site = new site();
 
 $site->start_page ("services", "Covoiturage - Recherche");
 
-
-$accueil = new contents("Recherche",
-			"<b>La recherche de trajet n'a pas encore été implémentée. Revenez plus tard !</b><br/><br/>");
+$accueil->add_title(1, "Tous les trajets ponctuels proposés : ");
 
 
+$accueil = new contents("Recherche", "");
+$sql = new requete($site->db, "SELECT 
+                                      `id_trajet`
+                               FROM
+                                      `cv_trajet`
+                               INNER JOIN
+                                      `cv_trajet_date`
+                               USING (`id_trajet`)
+                               WHERE 
+                                      `trajet_date` >= DATE_FORMAT(NOW(), '%Y-%m-%d')
+                               AND
+                                       `type_trajet` = 0
+                               GROUP BY 
+                                       `id_trajet`
+                               ORDER BY
+                                       `id_trajet` DESC");
 
+if ($sql->lines > 0)
+{
+  $trajet = new trajet($site->db);
+  
+  while ($req = $sql->get_row())
+    {
+      $trajet->load_by_id($req['id_trajet']);
+      $trj = "Trajet ". $trajet->ville_depart->nom . 
+	" / " . $trajet->ville_arrivee->nom ;
+	  
+      $accueil->add_title(3, $trj);
+
+      foreach ($trajet->dates as $date)
+	{
+	  if (strtotime($date) > time())
+	    $dates[] = "<a href=\"./details.php?id_trajet=".$trajet->id
+	      ."&amp;date=".$date."\">Le " .
+	      HumanReadableDate($date, "", false, true) . "</a>";
+	}
+      if (count($dates))
+	$accueil->add(new itemlist(false, false, $dates));
+	  
+
+    }
+}
+
+
+     
 $accueil->add_title(2, "Autres options");
 $opts[] = "<a href=\"./\">Retour à la page d'accueil du covoiturage</a>";
 $opts[] = "<a href=\"./propose.php\">Proposer un trajet</a>";
