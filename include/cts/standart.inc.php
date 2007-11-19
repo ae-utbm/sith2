@@ -90,7 +90,12 @@ class stdcontents
 
   function html_render ()
 	{
-		return preg_replace("/(pain au chocolat|petit pain)/i", "CHOCOLATINE", $this->buffer);
+		//return preg_replace("/(pain au chocolat|petit pain)/i", "CHOCOLATINE", $this->buffer);
+    global $stupid;
+    $stupid -= microtime(true);
+		$this->buffer = preg_replace("/(pain au chocolat|petit pain)/i", "CHOCOLATINE", $this->buffer);
+    $stupid += microtime(true);
+		return $this->buffer;
   }
 
 }

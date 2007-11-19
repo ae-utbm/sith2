@@ -410,7 +410,8 @@ class interfaceweb
     
     echo "</body>\n";
     echo "</html>\n";
-      
+    global $stupid;
+    echo $stupid;
   }
   
   /**
