@@ -513,7 +513,7 @@ class site extends interfaceweb
       list($count) = $sql->get_row();
 
       if ( $count > 0 )
-        $elements[] ="<a href=\"".$topdir."sas2/droitimage.php?page=process\"><b>$count photo(s)</b> nécessitent votre accord</a>");
+        $elements[] ="<a href=\"".$topdir."sas2/droitimage.php?page=process\"><b>$count photo(s)</b> nécessitent votre accord</a>";
       
     }
 
