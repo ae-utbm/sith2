@@ -4,7 +4,7 @@
  * @brief Fonctions générales du site.
  *
  */
-/* Copyright 2004,2005,2006
+/* Copyright 2004,2005,2006,2007
  * - Alexandre Belloni <alexandre POINT belloni CHEZ utbm POINT fr>
  * - Thomas Petazzoni <thomas POINT petazzoni CHEZ enix POINT org>
  * - Maxime Petazzoni <maxime POINT petazzoni CHEZ bulix POINT org>
@@ -35,7 +35,8 @@ if ( $_SERVER["REMOTE_ADDR"] == "127.0.1.1" )
   $GLOBALS["is_using_ssl"] = true;
 else
   $GLOBALS["is_using_ssl"] = false;
-
+  
+$timing["site"] -= microtime(true);
 require_once($topdir . "include/interface.inc.php");
 require_once($topdir . "include/globals.inc.php");
 require_once($topdir . "include/cts/calendar.inc.php");
@@ -50,6 +51,9 @@ class site extends interfaceweb
   /** Constructeur de la classe */
   function site ($stats=true)
   {
+    global $init;
+    $timing["init"] -= microtime(true);
+
     $dbro = new mysqlae ();
     
     if (!$dbro->dbh)
@@ -75,7 +79,7 @@ class site extends interfaceweb
     $this->add_box("connexion", $this->get_connection_contents());
 
     //$this->add_css("themes/gala/css/site.css");
-    
+    $timing["init"] += microtime(true);
   }
 
   function stats()
@@ -157,25 +161,12 @@ class site extends interfaceweb
     else
       $stats = new insert($this->dbrw, "stats_browser", array("browser"=>mysql_escape_string($browser), "visites"=>1));
   }
-
-  function fatal ($debug="fatal")
-  {
-    global $wwwtopdir;
-    echo "<?xml version=\"1.0\"?>\n";
-    echo "<!DOCTYPE html PUBLIC \"--//W3C//DTD XHTML 1.1//EN\" ";
-    echo "\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n\n";
-    echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n";
-    echo " <head>\n";
-    echo "  <title>AE UTBM</title>\n";
-    echo "  <link rel=\"stylesheet\" href=\"".$wwwtopdir."css/fatal.css\" title=\"fatal\" />\n";
-    echo " </head>\n\n";
-    echo " <body><!-- DEBUG INFO: $debug -->\n";
-    echo "  <p><img src=\"".$wwwtopdir."images/fatalerror.jpg\" alt=\"Site en maintenance\" /></p>\n";
-    echo " </body>\n";
-    echo "</html>\n";
-    exit(); 
-  }
   
+
+  /**
+   * Charge une session en fonction de son identidiant.
+   * @param $sid Identifiant de la session
+   */
   function load_session ( $sid )
   {
     $req = new requete($this->db, "SELECT `id_utilisateur`, `connecte_sess`, `expire_sess` FROM `site_sessions` WHERE `id_session` = '" .
@@ -237,55 +228,12 @@ class site extends interfaceweb
     }   
   }
 
-  function start_page ( $section, $title,$compact=false )
-  {
-    global $topdir;
-    $this->add_box("alerts",$this->get_alerts());
-
-    parent::start_page($section,$title,$compact);
-
-    if ( $section == "accueil" )
-    {
-      $this->add_box("photo",$this->get_weekly_photo_contents());
-      $this->add_box("anniv", $this->get_anniv_contents());
-      $this->add_box("planning", $this->get_planning_contents());
-      if ( preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
-        $this->add_box("stream",$this->get_stream_box());
-      
-      if ($this->user->is_valid())
-      {
-        $this->add_box("forum",$this->get_forum_box());
-        $this->add_box("comptoirs",$this->get_comptoirs_box());        
-        $this->add_box("sondage",$this->get_sondage());
-        $this->set_side_boxes("right",
-          array("planning","photo","anniv","stream",
-                "sondage","comptoirs","forum"),"accueil_c_right");
-      } 
-      else
-        $this->set_side_boxes("right",
-          array("planning","photo","anniv","stream"),"accueil_nc_right");
-      
-    }
-    elseif ( $section == "pg" )
-    {
-      $this->set_side_boxes("left",array("pg","connexion"),"pg_left");
-      $this->add_box("pg", $this->get_petit_geni());
-    }
-    elseif ( $section == "matmatronch" )
-    {
-      require_once($topdir . "include/cts/newsflow.inc.php");
-      
-      $this->set_side_boxes("left",array("mmt","lastnews","connexion"),"mmt_left");
-      $this->add_box("mmt", $this->get_mmt_box());
-      $this->add_box("lastnews",new newslist ( "Denières nouvelles", $this->db ) );
-    }
-    elseif ( $section == "forum" )
-    {
-      $this->set_side_boxes("left",array());
-      $this->set_side_boxes("right",array());
-    }
-  }
-
+  /**
+   * Connecte l'utilisateur chargé dans le champ user ($this->user) pour 
+   * 15 minutes, ou permanente, en créant une sessions et en envoyant un cookie.
+   * @param $forever Precise si la session doit être permanente
+   * @return l'identifiant de la session
+   */
   function connect_user ($forever=true)
   {
     if ( $forever )
@@ -313,6 +261,14 @@ class site extends interfaceweb
     return $sid;
   }
   
+  /**
+   * Crée un identifiant unique pour connecter ultérieurement un utilisateur.
+   * Utile pour envoyer un lien par e-mail avec authentification automatique.
+   * Le "token" est en fait un identifiant de session, il expire au bout de 60 jours.
+   * @param $id_utilisateur Id de l'utilisateur pour qui le "token" doit être généré
+   * @return le "token" (identifiant de session)
+   * @see load_token
+   */
   function create_token_for_user ( $id_utilisateur )
   {
     $sid = "T".$id_utilisateur."$".md5(rand(0,32000) . "TOKEN" . $id_utilisateur . rand(0,32000));
@@ -329,7 +285,33 @@ class site extends interfaceweb
     return $sid;
   }
   
-  
+  /**
+   * Ouvre une session pour l'utilisateur associé à un token donné.
+   * La session est ouverte par le biai de connect_user(). Le token n'est plus
+   * valable après l'appel à cette fonction.
+   * @param $token le "token"
+   * @return null en cas d'echec, ou l'identifiant de la session ouverte
+   * @see connect_user
+   * @see create_token_for_user
+   */
+  function load_token ( $token )
+  {
+    $this->user->id=null;
+    $this->load_session($token);  
+    if ( $this->user->is_valid() )
+    {
+      new delete($this->dbrw, "site_sessions", array("id_session"=>$token) );
+      return $this->connect_user();
+    }
+    return null;
+  }
+
+  /**
+   * Crée une session pour  l'utilisateur chargé dans le champ user ($this->user)  
+   * pour 15 minutes, ou permanente.
+   * @param $forever Precise si la session doit être permanente
+   * @return l'identifiant de la session
+   */
   function create_session ($forever=true)
   {
     if ( $forever )
@@ -350,13 +332,74 @@ class site extends interfaceweb
     return $sid;
   }
 
+  /**
+   * Demarre la page à rendre en spécifiant quelques informations clefs.
+   * Aucune donnée ne sera envoyé au client avant l'appel de end_page.
+   * Gènère la liste des boites en fonction de la section.
+   * @param $section Nom de la section
+   * @param $title Titre de la page
+   * @param $compact Cache le logo et la boite informations (utile pour augmenter la taille de contenu visisble sans scroll)
+   */
+  function start_page ( $section, $title,$compact=false )
+  {
+    global $topdir;
+
+    parent::start_page($section,$title,$compact);
+    
+    if ( $section != "pg" && $section != "matmatronch" && $section != "forum"  )
+      $this->add_box("alerts",$this->get_alerts());
+
+    if ( $section == "accueil" )
+    {
+      $this->add_box("photo",$this->get_weekly_photo_contents());
+      $this->add_box("anniv", $this->get_anniv_contents());
+      $this->add_box("planning", $this->get_planning_contents());
+      
+      if ( preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
+        $this->add_box("stream",$this->get_stream_box());
+      
+      if ($this->user->is_valid())
+      {
+        $this->add_box("forum",$this->get_forum_box());
+        $this->add_box("comptoirs",$this->get_comptoirs_box());        
+        $this->add_box("sondage",$this->get_sondage());
+        $this->set_side_boxes("right",
+          array("planning","photo","anniv","stream",
+                "sondage","comptoirs","forum"),"accueil_c_right");
+      } 
+      else
+        $this->set_side_boxes("right",
+          array("planning","photo","anniv","stream"),"accueil_nc_right");
+      
+    }
+    elseif ( $section == "pg" )
+    {
+      $this->set_side_boxes("left",array("pg","connexion"),"pg_left");
+      $this->add_box("pg", $this->get_petit_geni());
+    }
+    elseif ( $section == "matmatronch" )
+    {
+      require_once($topdir . "include/cts/newsflow.inc.php");
+      
+      $this->set_side_boxes("left",array("lastnews","connexion"),"mmt_left");
+      $this->add_box("lastnews",new newslist ( "Denières nouvelles", $this->db ) );
+    }
+    elseif ( $section == "forum" )
+    {
+      $this->set_side_boxes("left",array());
+      $this->set_side_boxes("right",array());
+    }
+  }
+
+  /**
+   * Gènère la boite "Attention".
+   * @param renvoie un stdcontents, ou null (si vide)
+   */
   function get_alerts()
   {
     global $topdir;
 
     if ( !$this->user->is_valid() ) return null;
-
-    $cts = new contents("Attention");
 
     $carte = new carteae($this->db);
     $carte->load_by_utilisateur($this->user->id);
@@ -518,6 +561,8 @@ class site extends interfaceweb
     }
 
     if ( count($elements) == 0 ) return null;
+    
+    $cts = new contents("Attention");
 
     if ( count($elements) == 1 )
       $cts->add_paragraph("Nous attirons votre attention sur l'&eacute;l&eacute;ment suivant:");
@@ -528,22 +573,10 @@ class site extends interfaceweb
     return $cts;
   }
 
-  function get_bdf_box()
-  {
-    $cts = new contents("");    
-    $cts->add_paragraph("<b>Bureau des<br/>festivités</b>");
-    $cts->add_paragraph("&nbsp;");
-    $cts->add_paragraph("&nbsp;");
-    $cts->add_paragraph("<a href=\"\">Les lieux: la MDE, le foyer</a>");
-    $cts->add_paragraph("<a href=\"\">Les services</a>");
-    $cts->add_paragraph("<a href=\"\">Les permanences</a>");
-    $cts->add_paragraph("<a href=\"\">Boite à idées</a>");
-    $cts->add_paragraph("<a href=\"\">L'équipe</a>");
-    $cts->add_paragraph("<a href=\"\">Les status</a>");
-    $cts->add_paragraph("<a href=\"\">Téléchargements</a>");
-    return $cts;
-  }
-
+  /**
+   * Gènère la boite sondage.
+   * @param renvoie un stdcontents, ou null (si vide)
+   */
   function get_sondage()
   {
     $sdn = new sondage($this->db,$this->dbrw);
@@ -624,29 +657,23 @@ class site extends interfaceweb
     return $cts;
   }
 
-
+  /**
+   * Gènère la boite petit geni.
+   * @param renvoie un stdcontents
+   */
   function get_petit_geni ()
   {
     global $topdir;
-
     $frm = new form("pgae",$topdir."pgae.php",true,"POST","Petit géni");
-      $frm->add_suggested_text_field("recherche","Faites un voeu :","pg");
-      $frm->add_submit("btnpgae","Exaucer!");
-      return $frm;
+    $frm->add_suggested_text_field("recherche","Faites un voeu :","pg");
+    $frm->add_submit("btnpgae","Exaucer!");
+    return $frm;
   }
 
-  function get_mmt_box ()
-  {
-    global $topdir;
-    $frm_mmt_simplebox = new contents("Mat'Matronch");
-    $frm = new form("mmtsimple",$topdir."user.php",true,"POST","Mat'Matronch Rapide");
-    $frm->add_user_fieldV2("id_utilisateur","Nom/Surnom");
-    $frm->add_submit("go","Voir");
-    $frm_mmt_simplebox->add($frm,false,true,"mmt_simple_box","fastsearch");
-    return $frm_mmt_simplebox;
-  }
-
-  /** La boite de connexion */
+  /**
+   * Gènère la boite de "Connexion" / "L'AE et Moi".
+   * @param renvoie un stdcontents, ou null (si vide)
+   */
   function get_connection_contents ()
   {
     global $topdir;
@@ -655,9 +682,6 @@ class site extends interfaceweb
     if ( !$this->user->is_valid() )
     {
       $cts = new contents("Connexion");
-      
-
-      
       $frm = new form("connect",$topdir."connect.php",true,"POST","Connexion");
       $frm->add_select_field("domain","Connexion",array("utbm"=>"UTBM","assidu"=>"Assidu","id"=>"ID","autre"=>"Autre","alias"=>"Alias"));
       $frm->add_text_field("username","Utilisateur","prenom.nom","",20,true);
@@ -670,7 +694,6 @@ class site extends interfaceweb
       
       return $cts;
     }
-
 
     $cts = new contents("L'AE et Moi");
     $cts->add_paragraph($this->get_textbox('Welcome')." <b>".$this->user->prenom." ".$this->user->nom."</b>");
@@ -894,17 +917,11 @@ class site extends interfaceweb
     {
       $sublist = new itemlist("Staff Mat'Matronch","boxlist");
        $sublist->add("<a href=\"".$topdir."mmt/wiki/\">Wiki Mat'Matronch</a>");
-      //$sublist->add("<a href=\"".$topdir."mmt/cotiz-mmt/\">Gestion des cotisations</a>");
       $sublist->add("<a href=\"".$topdir."matmatronch/upload_photo_user.php\">Upload des Photos</a>");
       $sublist->add("<a href=\"".$topdir."matmatronch/inscriptions.php\">Ajout utilisateur</a>");
       $cts->add($sublist,true, true, "matmatronchbox", "boxlist", true, false);
     }
-    /*elseif ( $this->user->is_in_group("matmatronch") )
-    {
-      $sublist = new itemlist("Staff Mat'Matronch","boxlist");
-      $sublist->add("<a href=\"".$topdir."mmt/cotiz-mmt/\">Gestion des cotisations</a>");
-      $cts->add($sublist,true, true, "matmatronchbox", "boxlist", true, false);
-    }*/
+
 
     /* Bouton de Deconnexion */
     $frm = new form("disconnect",$topdir."disconnect.php",false,"POST","Deconnexion");
@@ -993,7 +1010,11 @@ class site extends interfaceweb
       return $cts;
     }
   }
-
+  
+  /**
+   * Gènère la boite contenant la photo de la semaine.
+   * @param renvoie un stdcontents
+   */
   function get_weekly_photo_contents ()
   {
     global $topdir;
@@ -1010,26 +1031,10 @@ class site extends interfaceweb
     }
   }
 
-  /** Modifie une boite du site
-   * @param nom_boite le nom de la boite
-   * @param content le nouveau contenu
+  /**
+   * Gènère la boite d'information sur les comptoirs.
+   * @param renvoie un stdcontents
    */
-  function modify_textbox($nom_boite, $new_content)
-  {
-    //Protection
-    $new_content = mysql_real_escape_string($new_content);
-    $req = new update (new mysqlae("rw"),"ae_box",
-           array ("content" => $new_content),
-           array("name" => $nom_boite));
-    if ((!$req) || ($req->lines < 0)) {
-      $this->errmsg = $req->errmsg;
-      return -1;
-    }
-
-    else return 0;
-  }
-  
-  
   function get_comptoirs_box ()
   {
     global $topdir;
@@ -1084,6 +1089,10 @@ class site extends interfaceweb
   
   }
   
+  /**
+   * Gènère la boite d'information sur le forum
+   * @param renvoie un stdcontents
+   */
   function get_forum_box ()
   {  
     global $wwwtopdir, $topdir;
@@ -1178,6 +1187,10 @@ class site extends interfaceweb
     return $cts;
   }
   
+  /**
+   * Gènère la boite d'information Superflux
+   * @param renvoie un stdcontents
+   */
   function get_stream_box()
   {
     $cts = new contents("Superflux");
@@ -1230,11 +1243,36 @@ class site extends interfaceweb
     return $cts;  
   }
   
+  /** Modifie une boite du site
+   * @param nom_boite le nom de la boite
+   * @param content le nouveau contenu
+   */
+  function modify_textbox($nom_boite, $new_content)
+  {
+    //Protection
+    $new_content = mysql_real_escape_string($new_content);
+    $req = new update (new mysqlae("rw"),"ae_box",
+           array ("content" => $new_content),
+           array("name" => $nom_boite));
+    if ((!$req) || ($req->lines < 0)) {
+      $this->errmsg = $req->errmsg;
+      return -1;
+    }
+
+    else return 0;
+  }
   
-  
+  /**
+   * S'assure qu'a partir de ce point, seul les utilisateur connecté peuvent 
+   * accèder à la suite. Dans le cas d'un utilisateur connecté, affiche une 
+   * erreur avec la section précisé active, propose aussi de se connecter et/ou
+   * de créer un compte et arrête l'execution du script.
+   * @param $section Section à activer en cas d'utilisateur non connecté.
+   */
   function allow_only_logged_users($section="none")
   {
     global $topdir;
+    
     if ( $this->user->is_valid() )
       return;  
       
@@ -1246,6 +1284,35 @@ class site extends interfaceweb
     exit();
   }
   
+  /**
+   * Erreur "Fatale" (ensemble du site) : Arrête l'execution du script et
+   * affiche un message de maintenance.
+   * @param $debug Texte inséré en comentaire dans le message de maintenance. Utile pour déterminer la raison du problème.
+   */
+  function fatal ($debug="fatal")
+  {
+    global $wwwtopdir;
+    echo "<?xml version=\"1.0\"?>\n";
+    echo "<!DOCTYPE html PUBLIC \"--//W3C//DTD XHTML 1.1//EN\" ";
+    echo "\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n\n";
+    echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n";
+    echo " <head>\n";
+    echo "  <title>AE UTBM</title>\n";
+    echo "  <link rel=\"stylesheet\" href=\"".$wwwtopdir."css/fatal.css\" title=\"fatal\" />\n";
+    echo " </head>\n\n";
+    echo " <body><!-- DEBUG INFO: $debug -->\n";
+    echo "  <p><img src=\"".$wwwtopdir."images/fatalerror.jpg\" alt=\"Site en maintenance\" /></p>\n";
+    echo " </body>\n";
+    echo "</html>\n";
+    exit(); 
+  }
+  
+  /**
+   * Erreur "fatale" dans une section : Arrête l'execution du script et affiche 
+   * un message de maintenance dans l'interface du site avec la section précisé
+   * active.
+   * @param $section Section où se produit l'erreur.
+   */
   function fatal_partial($section="none")
   {
     global $wwwtopdir;
@@ -1262,8 +1329,13 @@ class site extends interfaceweb
     exit();
   }
   
-  
-  
+  /**
+   * Affiche une erreur "Accès refusé", en explique la raison si précisé et
+   * arrête l'execution du script.
+   * @param $section Section où s'est produite l'erreur
+   * @param $reason Raison du refus d'accés ("group","private")
+   * @param $id_group Si la raison est "group", groupe dont il aurai fallut faire partie pour accèder au contenu. (Utilisé par expliciter l'erreur)
+   */
   function error_forbidden($section="none",$reason=null,$id_group=null)
   {
     $this->start_page($section,"Accés refusé");
@@ -1297,6 +1369,13 @@ class site extends interfaceweb
     exit();
   }
   
+  /**
+   * Affiche une erreur "non trouvé", ou si possible redirige l'utilisateur, 
+   * arrête l'execution du script dans tous les cas. La redirection est soit 
+   * celle précisé, soit vers la page principale de la section.
+   * @param $section Section où s'est produite l'erreur.
+   * @param $redirect Redirection à faire.
+   */
   function error_not_found($section="none", $redirect=null)
   {
     global $wwwtopdir;
@@ -1329,4 +1408,5 @@ class site extends interfaceweb
     exit();
   }
 }
+$timing["site"] += microtime(true);
 ?>

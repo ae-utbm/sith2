@@ -82,9 +82,7 @@ class stdcontents
 
   function set_help_page ( $page )
   {
-  
     $this->set_toolbox(new contents(false,wikilink($page,"Aide")));
-  
   }
 
 
