@@ -53,7 +53,7 @@ if ( $_REQUEST["action"] == "genfact" )
     "SUM( `prix_unit` * `quantite` ) /100 as `somme` ".
     "FROM `cpt_vendu` ".
     "INNER JOIN cpt_debitfacture USING ( `id_facture` ) ".
-    "INNER JOIN asso ON asso.id_asso = cpt_vendu.id_assocpt ".
+    "LEFT JOIN asso ON asso.id_asso = cpt_vendu.id_assocpt ".
     "WHERE id_produit NOT IN ( 40, 41, 42, 43 ) AND " .
     "EXTRACT( YEAR_MONTH FROM `date_facture` ) ='".mysql_real_escape_string($month)."'  ".
     "GROUP BY `asso`.`id_asso` ".
@@ -88,7 +88,7 @@ if ( $_REQUEST["action"] == "genfact" )
         "`cpt_produits`.`nom_prod`," .
         "`cpt_type_produit`.`nom_typeprod`"  .
         "FROM `cpt_vendu` " .
-        "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
+        "LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
         "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
         "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
         "INNER JOIN `utilisateurs` ON `cpt_debitfacture`.`id_utilisateur` =`utilisateurs`.`id_utilisateur` " .
@@ -150,7 +150,7 @@ elseif ( $_REQUEST["action"] == "genonefact" )
 			"`cpt_produits`.`nom_prod`," .
 			"`cpt_type_produit`.`nom_typeprod`"  .
 			"FROM `cpt_vendu` " .
-			"INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
+			"LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
 			"INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
 			"INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
 			"INNER JOIN `utilisateurs` ON `cpt_debitfacture`.`id_utilisateur` =`utilisateurs`.`id_utilisateur` " .
@@ -282,7 +282,7 @@ else if ( 	$_REQUEST["view"] == "retrait" )
     "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur`, " .
     "IF(`cpt_vendu`.`a_retirer_vente`='1','a retirer','a expedier') AS `info` " .
     "FROM `cpt_vendu` " .
-    "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
+    "LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
     "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
     "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`cpt_debitfacture`.`id_utilisateur_client` " .
@@ -491,7 +491,7 @@ elseif ( 	$_REQUEST["view"] == "comptes" )
     			"`cpt_comptoir`.`id_comptoir`, " .
     			"`cpt_comptoir`.`nom_cpt`" .
     			"FROM `cpt_rechargements` " .
-    			"INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_rechargements`.`id_assocpt` " .
+    			"LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_rechargements`.`id_assocpt` " .
     			"INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_rechargements`.`id_utilisateur_operateur` =`vendeur`.`id_utilisateur` " .	
     			"INNER JOIN `utilisateurs` AS `client` ON `cpt_rechargements`.`id_utilisateur` =`client`.`id_utilisateur` " .
     			"INNER JOIN `cpt_comptoir` ON `cpt_rechargements`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
