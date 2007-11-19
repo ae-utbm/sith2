@@ -501,6 +501,22 @@ class site extends interfaceweb
       $elements[] = "<a href=\"".$topdir."e-boutic/?cat=23\"><b>Votre cotisation &agrave; l'AE est expir&eacute;e !</b> Renouvelez l&agrave; en ligne avec E-boutic.</a>";
     }
 
+    if ( !$this->user->droit_image )
+    {
+      $sql = new requete($this->db,
+        "SELECT COUNT(*) " .
+        "FROM sas_personnes_photos " .
+        "INNER JOIN sas_photos ON (sas_photos.id_photo=sas_personnes_photos.id_photo) " .
+        "WHERE sas_personnes_photos.id_utilisateur=".$this->user->id." " .
+        "AND sas_personnes_photos.accord_phutl='0' " .
+        "AND (droits_acces_ph & 0x100)");
+      list($count) = $sql->get_row();
+
+      if ( $count > 0 )
+        $elements[] ="<a href=\"".$topdir."sas2/droitimage.php?page=process\"><b>$count photo(s)</b> nécessitent votre accord</a>");
+      
+    }
+
     if ( count($elements) == 0 ) return null;
 
     if ( count($elements) == 1 )
