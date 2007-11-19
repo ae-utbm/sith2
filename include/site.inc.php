@@ -51,7 +51,7 @@ class site extends interfaceweb
   /** Constructeur de la classe */
   function site ($stats=true)
   {
-    global $init;
+    global $timing;
     $timing["init"] -= microtime(true);
 
     $dbro = new mysqlae ();
