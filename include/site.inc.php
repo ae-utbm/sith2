@@ -35,8 +35,7 @@ if ( $_SERVER["REMOTE_ADDR"] == "127.0.1.1" )
   $GLOBALS["is_using_ssl"] = true;
 else
   $GLOBALS["is_using_ssl"] = false;
-  
-$timing["site"] -= microtime(true);
+
 require_once($topdir . "include/interface.inc.php");
 require_once($topdir . "include/globals.inc.php");
 require_once($topdir . "include/cts/calendar.inc.php");
@@ -51,9 +50,6 @@ class site extends interfaceweb
   /** Constructeur de la classe */
   function site ($stats=true)
   {
-    global $timing;
-    $timing["init"] -= microtime(true);
-
     $dbro = new mysqlae ();
     
     if (!$dbro->dbh)
@@ -79,7 +75,7 @@ class site extends interfaceweb
     $this->add_box("connexion", $this->get_connection_contents());
 
     //$this->add_css("themes/gala/css/site.css");
-    $timing["init"] += microtime(true);
+    
   }
 
   function stats()
@@ -1408,5 +1404,4 @@ class site extends interfaceweb
     exit();
   }
 }
-$timing["site"] += microtime(true);
 ?>
