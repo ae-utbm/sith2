@@ -73,7 +73,7 @@ if ( $_REQUEST["page"] == "process" )
   "FROM sas_personnes_photos " .
   "INNER JOIN sas_photos ON (sas_photos.id_photo=sas_personnes_photos.id_photo) " .
   "WHERE sas_personnes_photos.id_utilisateur=".$site->user->id." " .
-  "AND sas_personnes_photos.accord_phutl=0 " .
+  "AND sas_personnes_photos.accord_phutl='0' " .
   "AND (droits_acces_ph & 0x100) " .
   "ORDER BY sas_photos.id_photo " .
   "LIMIT 1");
@@ -180,7 +180,7 @@ $sql = new requete($site->db,
   "FROM sas_personnes_photos " .
   "INNER JOIN sas_photos ON (sas_photos.id_photo=sas_personnes_photos.id_photo) " .
   "WHERE sas_personnes_photos.id_utilisateur=".$site->user->id." " .
-  "AND sas_personnes_photos.accord_phutl=0 " .
+  "AND sas_personnes_photos.accord_phutl='0' " .
   "AND (droits_acces_ph & 0x100) " .
   "ORDER BY sas_photos.id_photo");
 list($count) = $sql->get_row();
