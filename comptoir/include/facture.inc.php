@@ -257,7 +257,7 @@ class debitfacture extends stdentity
 				     ));
 				   
 			  /* Somme de controle utilise */
-			if ( $asso_sum && !is_null($vp->produit->id_assocpt) )
+			if ( $asso_sum && $vp->produit->id_assocpt )
 			  $sql = new requete($this->dbrw,"UPDATE `cpt_association`
 				                  SET `montant_ventes_asso` = `montant_ventes_asso` + ".($prix*$quantite)."
 						  WHERE `id_assocpt` = '" . $vp->produit->id_assocpt ."'");
