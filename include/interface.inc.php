@@ -413,8 +413,8 @@ class interfaceweb
     
     echo "</body>\n";
     echo "</html>\n";
-    $timing["render"] += microtime(true)
-    $timing["all"] += microtime(true)
+    $timing["render"] += microtime(true);
+    $timing["all"] += microtime(true);
     echo "<!-- ";
     print_r($timing);
     echo " -->";
