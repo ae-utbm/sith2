@@ -77,7 +77,7 @@ if ( $_REQUEST["page"] == "AE" || $_REQUEST["page"] == "SG" )
 			"`cpt_comptoir`.`nom_cpt`," .
 			"`cpt_produits`.`nom_prod` " .
 			"FROM `cpt_vendu` " .
-			"INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
+			"LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
 			"INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
 			"INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
 			"INNER JOIN `utilisateurs` ON `cpt_debitfacture`.`id_utilisateur` =`utilisateurs`.`id_utilisateur` " .
@@ -134,7 +134,7 @@ elseif ( $_REQUEST["page"] == "rech" )
 			"`cpt_comptoir`.`id_comptoir`, " .
 			"`cpt_comptoir`.`nom_cpt` " .
 			"FROM `cpt_rechargements` " .
-			"INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_rechargements`.`id_assocpt` " .
+			"LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_rechargements`.`id_assocpt` " .
 			"INNER JOIN `utilisateurs` ON `cpt_rechargements`.`id_utilisateur_operateur` =`utilisateurs`.`id_utilisateur` " .
 			"INNER JOIN `cpt_comptoir` ON `cpt_rechargements`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
 			"WHERE `cpt_rechargements`.`id_utilisateur`='".$user->id."' " .
@@ -278,7 +278,7 @@ $req1 = new requete($site->db,
         "`cpt_comptoir`.`nom_cpt`," .
         "`cpt_produits`.`nom_prod` " .
         "FROM `cpt_vendu` " .
-        "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
+        "LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
         "INNER JOIN `cpt_produits` ON ".
         "`cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
         "INNER JOIN `cpt_debitfacture` ON ".
@@ -312,7 +312,7 @@ $req2 = new requete($site->db,
         "`cpt_comptoir`.`nom_cpt`," .
         "`cpt_produits`.`nom_prod` " .
         "FROM `cpt_vendu` " .
-        "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
+        "LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
         "INNER JOIN `cpt_produits` ON ".
         "`cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
         "INNER JOIN `cpt_debitfacture` ON ".

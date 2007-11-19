@@ -229,6 +229,7 @@ if ( 	$_REQUEST["view"] == "remb" )
       $vp->load_by_id (338, 6);
       $vp->produit->prix_vente = $user->montant_compte;
       $vp->produit->prix_vente_barman = $user->montant_compte;
+      $vp->produit->id_assocpt = null;
       $cart[0][0] = 1;
       $cart[0][1] = $vp;
       
