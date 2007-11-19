@@ -90,7 +90,8 @@ class stdcontents
 
   function html_render ()
 	{
-		return preg_replace("/(pain au chocolat|petit pain)/i", "CHOCOLATINE", $this->buffer);
+		//return preg_replace("/(pain au chocolat|petit pain)/i", "CHOCOLATINE", $this->buffer);
+		return $this->buffer;
   }
 
 }
