@@ -788,6 +788,7 @@ class site extends interfaceweb
       $sublist->add("<a href=\"".$topdir."ae/syscarteae.php?view=factures\">Appels à facture</a>");
       $sublist->add("<a href=\"".$topdir."ae/syscarteae.php?view=comptes\">Comptes</a>");
       $sublist->add("<a href=\"".$topdir."ae/syscarteae.php?view=retrait\">Produits non retirés</a>");
+      $sublist->add("<a href=\"".$topdir."ae/syscarteae.php?view=remb\">Rembourser</a>");
       $cts->add($sublist,true, true, "syscarteaebox", "boxlist", true, false);
     }
     

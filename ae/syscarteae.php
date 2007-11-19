@@ -191,7 +191,7 @@ $tabs = array(array("","ae/syscarteae.php", "Résumé"),
 			array("factures","ae/syscarteae.php?view=factures", "Appels à facture"),
 			array("comptes","ae/syscarteae.php?view=comptes", "Comptes"),
 			array("retrait","ae/syscarteae.php?view=retrait", "Produits non retirés"),
-			array("remb","ae/syscarteae.php?view=remb", "Reboursement solder")
+			array("remb","ae/syscarteae.php?view=remb", "Reboursement")
 			);
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));	
 	
@@ -200,8 +200,8 @@ if ( 	$_REQUEST["view"] == "remb" )
   $user = new utilisateur($site->db,$site->dbrw);
   if ( $_REQUEST["action"] == "doremb" )
   {
-    $cts->add_title(2,"Reboursement de ".$user->get_html_link());
     $user->load_by_id($_REQUEST["id_utilisateur"]);
+    $cts->add_title(2,"Reboursement de ".$user->get_html_link());
     
     if ( $user->montant_compte < 500 )
     {
@@ -241,7 +241,7 @@ if ( 	$_REQUEST["view"] == "remb" )
   }
   
   
-  
+  $cts->add_title(2,"Solder un compte");
   $frm = new form ("genfact","syscarteae.php?view=remb",false);
   $frm->add_hidden("action","doremb");
   $frm->add_entity_smartselect ( "id_utilisateur", "Utilisateur", $user );
