@@ -200,7 +200,7 @@ if ( 	$_REQUEST["view"] == "remb" )
   $user = new utilisateur($site->db,$site->dbrw);
   if ( $_REQUEST["action"] == "doremb" )
   {
-    $cts->add_title("Reboursement de ".$user->get_html_link());
+    $cts->add_title(2,"Reboursement de ".$user->get_html_link());
     $user->load_by_id($_REQUEST["id_utilisateur"]);
     
     if ( $user->montant_compte < 500 )
@@ -218,14 +218,14 @@ if ( 	$_REQUEST["view"] == "remb" )
       require_once ($topdir . "comptoir/include/typeproduit.inc.php");
       require_once ($topdir . "comptoir/include/venteproduit.inc.php");
 
-      $debfact = new debitfacture ($this->db, $this->dbrw);
+      $debfact = new debitfacture ($site->db, $site->dbrw);
 
-      $cpt = new comptoir ($this->db, $this->dbrw);
+      $cpt = new comptoir ($site->db, $site->dbrw);
       $cpt->load_by_id (6);
 
       $cart = array();
       
-      $vp = new venteproduit ($this->db, $this->dbrw);
+      $vp = new venteproduit ($site->db, $site->dbrw);
       $vp->load_by_id (338, 6);
       $vp->produit->prix_vente = $user->montant_compte;
       $vp->produit->prix_vente_barman = $user->montant_compte;
@@ -239,6 +239,8 @@ if ( 	$_REQUEST["view"] == "remb" )
     
     $user->id = null;
   }
+  
+  
   
   $frm = new form ("genfact","syscarteae.php?view=remb",false);
   $frm->add_hidden("action","doremb");
