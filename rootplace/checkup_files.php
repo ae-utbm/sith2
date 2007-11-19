@@ -78,8 +78,9 @@ function checkup_dir(&$lst,&$excepted,$folder)
         $found++;
         if ( !isset($excepted[$name]) )
         {
-          $lst->add("Fichier inattendu : $name");
+          $lst->add("Fichier inattendu : $name Supprimé");
           $unexcepted_found++;
+          unlink($name);
         }
         else
         {
