@@ -25,6 +25,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
+ 
+$started_everything = microtime(true);
 
 setlocale(LC_ALL,"fr_FR.UTF8"); 
 
@@ -410,8 +412,8 @@ class interfaceweb
     
     echo "</body>\n";
     echo "</html>\n";
-    global $stupid;
-    echo $stupid;
+    global $started_everything;
+    echo "<!-- ".(microtime(true)-$started_everything)." -->";
   }
   
   /**
