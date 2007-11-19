@@ -190,12 +190,64 @@ $cts = new contents("Système carte AE");
 $tabs = array(array("","ae/syscarteae.php", "Résumé"),
 			array("factures","ae/syscarteae.php?view=factures", "Appels à facture"),
 			array("comptes","ae/syscarteae.php?view=comptes", "Comptes"),
-			array("retrait","ae/syscarteae.php?view=retrait", "Produits non retirés")
+			array("retrait","ae/syscarteae.php?view=retrait", "Produits non retirés"),
+			array("remb","ae/syscarteae.php?view=remb", "Reboursement solder")
 			);
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));	
 	
-	
-if ( 	$_REQUEST["view"] == "retrait" )
+if ( 	$_REQUEST["view"] == "remb" )
+{	
+  $user = new utilisateur($site->db,$site->dbrw);
+  if ( $_REQUEST["action"] == "doremb" )
+  {
+    $cts->add_title("Reboursement de ".$user->get_html_link());
+    $user->load_by_id($_REQUEST["id_utilisateur"]);
+    
+    if ( $user->montant_compte < 500 )
+    {
+      $cts->add_paragraph("Solde insuffisant : ".($user->montant_compte/100)." &euro;");
+    }
+    else
+    {
+      require_once ($topdir . "comptoir/include/comptoir.inc.php");
+      require_once ($topdir . "comptoir/include/comptoirs.inc.php");
+      require_once ($topdir . "comptoir/include/cptasso.inc.php");
+      require_once ($topdir . "comptoir/include/defines.inc.php");
+      require_once ($topdir . "comptoir/include/facture.inc.php");
+      require_once ($topdir . "comptoir/include/produit.inc.php");
+      require_once ($topdir . "comptoir/include/typeproduit.inc.php");
+      require_once ($topdir . "comptoir/include/venteproduit.inc.php");
+
+      $debfact = new debitfacture ($this->db, $this->dbrw);
+
+      $cpt = new comptoir ($this->db, $this->dbrw);
+      $cpt->load_by_id (6);
+
+      $cart = array();
+      
+      $vp = new venteproduit ($this->db, $this->dbrw);
+      $vp->load_by_id (338, 6);
+      $vp->produit->prix_vente = $user->montant_compte;
+      $vp->produit->prix_vente_barman = $user->montant_compte;
+      $cart[0][0] = 1;
+      $cart[0][1] = $vp;
+      
+      $debfact->debitAE ($user, $site->user, $cpt, $cart, false);
+        
+      $cts->add_paragraph("Compte soldé. <b>Etablir un chèque du compte carte AE de ".($user->montant_compte/100)." &euro; à l'ordre de ".$user->get_html_link()."</b>");
+    }
+    
+    $user->id = null;
+  }
+  
+  $frm = new form ("genfact","syscarteae.php?view=remb",false);
+  $frm->add_hidden("action","doremb");
+  $frm->add_entity_smartselect ( "id_utilisateur", "Utilisateur", $user );
+  $frm->add_submit("generate","Remboursement");
+  $cts->add($frm);
+  
+}
+else if ( 	$_REQUEST["view"] == "retrait" )
 {
   
 	if ( $_REQUEST["action"] == "retires")
