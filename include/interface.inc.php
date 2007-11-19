@@ -26,7 +26,7 @@
  * 02111-1307, USA.
  */
  
-$started_everything = microtime(true);
+$timing["all"] -= microtime(true);
 
 setlocale(LC_ALL,"fr_FR.UTF8"); 
 
@@ -197,8 +197,9 @@ class interfaceweb
    */
   function end_page () // <=> html_render
   {
-    global $wwwtopdir ;
-    
+    global $wwwtopdir,$timing ;
+    $timing["render"] -= microtime(true);
+
     header("Content-Type: text/html; charset=utf-8");
     
     //echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">";
@@ -412,8 +413,11 @@ class interfaceweb
     
     echo "</body>\n";
     echo "</html>\n";
-    global $started_everything;
-    echo "<!-- ".(microtime(true)-$started_everything)." -->";
+    $timing["render"] += microtime(true)
+    $timing["all"] += microtime(true)
+    echo "<!-- ";
+    print_r($timing);
+    echo " -->";
   }
   
   /**

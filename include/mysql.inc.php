@@ -82,7 +82,8 @@ class requete {
   var $lines;
 
   function requete ($base, $req_sql, $debug = 0) {
-
+    global $timing;
+    $timing["mysql"] -= microtime(true);
     $this->base = $base;
     $this->sql = $req_sql;
     $esql = explode(" ", $req_sql);
@@ -94,6 +95,7 @@ class requete {
       return FALSE;
     }
     $res = mysql_query($req_sql, $base->dbh);
+    $timing["mysql"] += microtime(true);
     $this->errno = mysql_errno($base->dbh);
     if ($this->errno != 0) {
       $this->errmsg = mysql_error($base->dbh);
