@@ -353,7 +353,12 @@ elseif ( $livre->id > 0 )
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,"livres"));
 	
-	$cts->add_paragraph(classlink($livre));
+	$cts->add_title(2,"<a href=\"./\">Bibliothèque</a> / ".classlink($objtype)." / ".classlink($livre));
+	
+	if ( $is_admin )
+	{
+	  $cts->add_paragraph("<a href=\"../objet.php?id_objet=".$livre->id."\">Voir fiche objet</a>");
+	}	
 	
 	$tbl = new table("Informations");
 	$tbl->add_row(array("Titre",$livre->nom));

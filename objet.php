@@ -316,14 +316,14 @@ if ( isset($_REQUEST["id_objet"]) )
   			$auteurs .= ", ".classlink($auteur);
   	}
 			
-		$tbl->add_row(array("Special","Cet objet est un livre : <a href=\"biblio/?id_livre=".$livre->id."\">Voir sa fiche livre</a>"));
+		$tbl->add_row(array("Special","<b>Cet objet est un livre</b> : <a href=\"biblio/?id_livre=".$livre->id."\">Voir sa fiche livre</a>"));
 		
-  	$tbl->add_row(array("Titre",$livre->nom));
-  	$tbl->add_row(array("Serie",classlink($serie)));
-  	$tbl->add_row(array("N°",$livre->num_livre));
-  	$tbl->add_row(array("Auteur(s)",$auteurs));
-  	$tbl->add_row(array("Editeur",classlink($editeur)));
-  	$tbl->add_row(array("ISBN",$livre->isbn));
+  	$tbl->add_row(array("Livre : Titre",$livre->nom));
+  	$tbl->add_row(array("Livre : Serie",classlink($serie)));
+  	$tbl->add_row(array("Livre : N°",$livre->num_livre));
+  	$tbl->add_row(array("Livre : Auteur(s)",$auteurs));
+  	$tbl->add_row(array("Livre : Editeur",classlink($editeur)));
+  	$tbl->add_row(array("Livre : ISBN",$livre->isbn));
 		
 	}
 	
