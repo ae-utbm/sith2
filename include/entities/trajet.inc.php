@@ -140,9 +140,7 @@ class trajet extends stdentity
 	switch ($this->type)
 	  {
 	  case TRJ_PCT:
-	    /* seulement les étapes futures */
-	    if (strtotime($rs['trajet_date']) > time())
-	      $this->dates[] = $res['trajet_date'];
+	    $this->dates[] = $res['trajet_date'];
 	    break;
 
 	  case TRJ_EVT:
