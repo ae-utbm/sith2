@@ -32,6 +32,7 @@ require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/pgsqlae.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/trajet.inc.php");
+require_once($topdir . "include/cts/sqltable.inc.php");
 
 
 $site = new site();
@@ -185,9 +186,12 @@ if (count($trajet->dates))
   $accueil->add_paragraph("Ci-dessous la liste des dates de trajet actuellement renseignées :");
   foreach($trajet->dates as $date)
     {
-      $datetrj[] = "Le " . HumanReadableDate($date, "", false, true);
+      $datetrj[] = array("id"    => $date . "&idtrj=".$trajet->id, 
+			 "dates" =>  "Le " . HumanReadableDate($date, "", false, true));
     }
-  $lst = new itemlist(false, false, $datetrj);
+
+  //  $lst = new itemlist(false, false, $datetrj);
+  $lst = new sqltable("managedatestrj", "Dates de trajet", $datetrj, "id", array("dates", "Les dates de trajet"), "delete", "delete");  
   $accueil->add($lst);
 }
 
