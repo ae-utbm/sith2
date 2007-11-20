@@ -25,6 +25,7 @@ $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/books.inc.php");
+require_once($topdir. "include/entities/jeu.inc.php");
 require_once($topdir. "include/entities/objet.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 require_once($topdir. "include/entities/sitebat.inc.php");
@@ -42,6 +43,7 @@ $editeur = new editeur($site->db,$site->dbrw);
 $serie = new serie($site->db,$site->dbrw);
 $auteur = new auteur($site->db,$site->dbrw);
 $livre = new livre($site->db,$site->dbrw);
+$jeu = new jeu($site->db,$site->dbrw);
 $salle = new salle($site->db);
 
 function get_lieux ()
@@ -71,7 +73,10 @@ if ( isset($_REQUEST["id_auteur"]))
 	
 if ( isset($_REQUEST["id_livre"]))
 	$livre->load_by_id($_REQUEST["id_livre"]);
-
+	
+if ( isset($_REQUEST["id_jeu"]))
+	$jeu->load_by_id($_REQUEST["id_jeu"]);
+	
 if ( isset($_REQUEST["id_salle"]))
 	$salle->load_by_id($_REQUEST["id_salle"]);
 
@@ -251,7 +256,8 @@ $tabs = array(array("","biblio/","Recherche"),
 			array("series","biblio/?view=series","Series"),
 			array("editeurs","biblio/?view=editeurs","Editeurs"),
 			array("lieux","biblio/?view=lieux","Lieux"),
-			array("livres","biblio/?view=livres","Livres")
+			array("livres","biblio/?view=livres","Livres"),
+			array("livres","biblio/?view=jeux","Jeux")
 			);
 
 if ( $is_admin ) $tabs[] = array("prets","biblio/?view=prets","Prets");
@@ -272,17 +278,17 @@ if ( $_REQUEST["action"] == "search" )
 	$frm->add_submit("valide","Rechercher");
 	$cts->add($frm,true);
 	
-	if ( $editeur->id > 0 )
+	if ( $editeur->is_valid() )
 		$conds[] = "`bk_book`.`id_editeur`='".$editeur->id."'";
 	
-	if ( $auteur->id > 0 )
+	if ( $auteur->is_valid() )
 		$conds[] = "`bk_livre_auteur`.`id_auteur`='".$auteur->id."'";	
 	
 	
-	if ( $salle->id > 0 )
+	if ( $salle->is_valid() )
 		$conds[] = "`inv_objet`.`id_salle`='".$salle->id."'";	
 		
-	if ( $serie->id > 0 )
+	if ( $serie->is_valid() )
 		$conds[] = "`bk_book`.`id_serie`='".$serie->id."'";	
 
 	if ( count($conds) || $_REQUEST["name"] )
@@ -314,6 +320,19 @@ if ( $_REQUEST["action"] == "search" )
 			);
 		$cts->add($tbl,true);
 	}
+	
+	$site->add_contents($cts);
+	$site->end_page();
+	exit();
+}
+elseif ( $_REQUEST["action"] == "searchjeu" )
+{
+	$site->start_page("services","Bibliothéque");
+	$cts = new contents("Bibliothèque");
+	$cts->add(new tabshead($tabs,""));
+	
+//TODO:recherche/jeu
+
 	
 	$site->add_contents($cts);
 	$site->end_page();
@@ -586,6 +605,13 @@ if ( $_REQUEST["view"] == "" )
 	$frm->add_submit("valide","Rechercher");
 	$cts->add($frm,true);
 	
+  $frm = new form("search","./",false,"POST","Recherche d'un jeu");
+	$frm->add_hidden("action","searchjeu");
+	$frm->add_text_field("name","Titre",$_REQUEST["name"]);
+	$frm->add_entity_select("id_serie", "Serie", $site->db, "serie", $serie->id,true);
+	$frm->add_select_field("id_salle","Lieu",get_lieux());
+	$frm->add_submit("valide","Rechercher");
+	$cts->add($frm,true);
 }
 elseif ( $_REQUEST["view"] == "auteurs" )
 {

@@ -78,6 +78,7 @@ class interfaceweb
               array("emprunt.php","Pret de matériel"),
               array("jobetu/","AE Job-étu"),
 							array("laverie/","Laverie"),
+							array("biblio/","Bibliothèque"),
               array("article.php?name=weekmail","Weekmail"),
               array("article.php?name=covoiturage","Co-voiturage")
             ) ),

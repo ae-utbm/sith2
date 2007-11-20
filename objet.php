@@ -328,7 +328,7 @@ if ( isset($_REQUEST["id_objet"]) )
 	}
 	
 	if ( $objet->is_jeu() )
-		$tbl->add_row(array("Special","Cet objet est un jeu : <a href=\"#\">Voir sa fiche jeu</a>"));
+		$tbl->add_row(array("Special","<b>Cet objet est un jeu</b> : <a href=\"biblio/?id_jeu=".$objet->id."\">Voir sa fiche jeu</a>"));
 	
 	$cts->add($tbl,true);
 	}
