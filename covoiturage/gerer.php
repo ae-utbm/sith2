@@ -126,9 +126,9 @@ if ($_REQUEST['action'] == "moderer")
     {
       /* TODO : améliorer la présentation des commentaires */
       $accueil->add_paragraph("L'utilisateur a laissé le commentaire suivant :<br/>" . 
-			      "<blockquote>".
+			      "<div class=\"forummessage\">".
 			      doku2xhtml($step['comments']).
-			      "</blockquote>");
+			      "</div>");
     }
   
   if ($villeetp != NULL)
