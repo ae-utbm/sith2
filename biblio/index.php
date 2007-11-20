@@ -716,9 +716,9 @@ elseif ( $_REQUEST["view"] == "livres" )
 		$frm->add_text_field("num","Numéro");
 		$frm->add_entity_select("id_serie", "Serie", $site->db, "serie",false,true);
 		$frm->add_entity_select("id_auteur", "Auteur", $site->db, "auteur",false,true);
-		$frm->add_entity_select("id_auteur1", "Co-auteur", $site->db, "auteur",false,true,true);
-		$frm->add_entity_select("id_auteur2", "Co-auteur", $site->db, "auteur",false,true,true);
-		$frm->add_entity_select("id_auteur3", "Co-auteur", $site->db, "auteur",false,true,true);
+		$frm->add_entity_select("id_auteur1", "Co-auteur", $site->db, "auteur",false,true);
+		$frm->add_entity_select("id_auteur2", "Co-auteur", $site->db, "auteur",false,true);
+		$frm->add_entity_select("id_auteur3", "Co-auteur", $site->db, "auteur",false,true);
 		$frm->add_entity_select("id_editeur", "Editeur", $site->db, "editeur",false,true);
 		$frm->add_entity_select("id_objtype", "Type", $site->db, "objtype", $objtype->id);
 		$frm->add_text_field("num_serie","Numéro de série");

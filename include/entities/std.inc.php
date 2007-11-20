@@ -151,7 +151,6 @@ class stdentity
     if ( !is_null($conds) && count($conds) > 0 )
     {
       $firststatement=true;
-      print_r($conds);
       foreach ($conds as $key => $value)
       {
         if( $firststatement )
