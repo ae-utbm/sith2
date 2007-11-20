@@ -467,7 +467,7 @@ elseif ( $jeu->is_valid() )
 		$frm->add_checkbox("empruntable","Reservable via le site internet",$jeu->empruntable);
 		$frm->add_checkbox("en_etat","En etat",$jeu->en_etat);
 		$frm->add_text_area("notes","Notes",$jeu->notes);
-		$frm->add_submit("valide","Ajouter");
+		$frm->add_submit("valide","Enregistrer");
 		$cts->add($frm,true);
     
   	$site->add_contents($cts);
@@ -572,8 +572,8 @@ elseif ( $livre->is_valid() )
 		$frm->add_text_field("nom","Nom",$livre->nom);
 		$frm->add_text_field("isbn","ISBN ou EAN13",$livre->isbn);
 		$frm->add_text_field("num","Numéro",$livre->num_livre);
-		$frm->add_entity_select("id_serie", "Serie", $site->db, "serie",false,$livre->id_serie);
-		$frm->add_entity_select("id_editeur", "Editeur", $site->db, "editeur",false,$livre->id_editeur);
+		$frm->add_entity_select("id_serie", "Serie", $site->db, "serie",$livre->id_serie,true);
+		$frm->add_entity_select("id_editeur", "Editeur", $site->db, "editeur",$livre->id_editeur,true);
 		$frm->add_entity_select("id_objtype", "Type", $site->db, "objtype", $livre->id_objtype);
 		$frm->add_text_field("num_serie","Numéro de série",$livre->num_serie);
 		$frm->add_date_field("date_achat","Date d'achat",$livre->date_achat);
@@ -586,7 +586,7 @@ elseif ( $livre->is_valid() )
 		$frm->add_checkbox("empruntable","Reservable via le site internet",$livre->empruntable);
 		$frm->add_checkbox("en_etat","En etat",$livre->en_etat);
 		$frm->add_text_area("notes","Notes",$livre->notes);
-		$frm->add_submit("valide","Ajouter");
+		$frm->add_submit("valide","Enregistrer");
 		$cts->add($frm,true);
     
   	$req = new requete ( $site->db, "SELECT " .
