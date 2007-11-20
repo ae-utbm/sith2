@@ -404,7 +404,11 @@ class stdentity
     $class = get_class($this);    
     
     if ( !isset($GLOBALS["entitiescatalog"][$class][6]) || !$GLOBALS["entitiescatalog"][$class][6] )
-      return null;
+    {
+      $class = get_parent_class($class);    
+      if ( !isset($GLOBALS["entitiescatalog"][$class][6]) || !$GLOBALS["entitiescatalog"][$class][6] )
+        return null;
+    }
       
     if ( !is_null($this->_tags) )
       return $this->_tags;
@@ -448,7 +452,11 @@ class stdentity
     $class = get_class($this);    
     
     if ( !isset($GLOBALS["entitiescatalog"][$class][6]) || !$GLOBALS["entitiescatalog"][$class][6] )
-      return null;
+    {
+      $class = get_parent_class($class);    
+      if ( !isset($GLOBALS["entitiescatalog"][$class][6]) || !$GLOBALS["entitiescatalog"][$class][6] )
+        return null;
+    }
     
     $conds = array();
     

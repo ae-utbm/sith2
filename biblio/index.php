@@ -144,9 +144,9 @@ elseif ( $_REQUEST["action"] == "borrowbooks" && $is_admin )
 	{
 		if ( $cbar )
 		{
-			$l = new livre($site->db);	
+			$l = new objet($site->db);	
 			$l->load_by_cbar(trim($cbar));
-			if ( $l->id > 0 )
+			if ( $l->is_valid() && ($l->is_book() || $l->is_jeu()) )
 				add_objet_once($livres,$l);
 			else
 				$ErreurEmprunt = "Un ou plusieurs codes barres sont inconnus.";
@@ -421,6 +421,44 @@ elseif ( $jeu->is_valid() )
 	$salle->load_by_id($jeu->id_salle);
 	$serie->load_by_id($jeu->id_serie);
   
+  if ( $_REQUEST["action"] == "edit" && $is_admin )
+  {
+  	$site->start_page("services","Bibliothéque");
+  	$cts = new contents("Bibliothèque");
+  	$cts->add(new tabshead($tabs,"jeux"));
+  	
+  	$cts->add_title(2,classlink($serie)." / ".classlink($jeu));
+    
+		$frm = new form("savejeu","./?id_jeu=".$jeu->id,false,"POST","EDITER");
+		$frm->add_hidden("action","save");
+		$frm->add_text_field("nom","Nom",$jeu->nom);
+		$frm->add_entity_select("id_serie", "Serie", $site->db, "serie", $jeu->id_serie, true);
+		$frm->add_text_field("etat","Etat",$jeu->etat);
+		$frm->add_text_field("nb_joueurs","Nombre de joueurs",$jeu->nb_joueurs);
+		$frm->add_text_field("duree","Durée moyenne d'une partie",$jeu->duree);
+		$frm->add_text_field("langue","Langue",$jeu->langue);
+		$frm->add_text_field("difficulte","Difficultée",$jeu->difficulte);
+		$frm->add_entity_select("id_objtype", "Type", $site->db, "objtype", $objtype->id);
+		$frm->add_text_field("num_serie","Numéro de série",$jeu->num);
+		$frm->add_date_field("date_achat","Date d'achat",$jeu->date_achat);
+		$frm->add_entity_select("id_asso_prop", "Propriètaire", $site->db, "asso", $jeu->id_asso_prop, false, array("id_asso_parent"=>NULL));
+		$frm->add_entity_select("id_asso", "Gestionnaire", $site->db, "asso", $jeu->id_asso);
+		$frm->add_entity_select("id_salle", "Salle", $site->db, "salle", $jeu->is_asso);
+		$frm->add_price_field("prix","Prix d'achat",$jeu->prix);
+		$frm->add_price_field("caution","Prix de la caution",$jeu->caution);
+		$frm->add_price_field("prix_emprunt","Prix d'un emprunt",$jeu->prix_emprunt);
+		$frm->add_checkbox("empruntable","Reservable via le site internet",$jeu->empruntable);
+		$frm->add_checkbox("en_etat","En etat",$jeu->en_etat);
+		$frm->add_text_area("notes","Notes",$jeu->notes);
+		$frm->add_submit("valide","Ajouter");
+		$cts->add($frm,true);
+    
+  	$site->add_contents($cts);
+  	$site->end_page();
+  	exit();
+	}
+  
+  
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,"jeux"));
@@ -430,6 +468,7 @@ elseif ( $jeu->is_valid() )
 	if ( $is_admin )
 	{
 	  $cts->add_paragraph("<a href=\"../objet.php?id_objet=".$jeu->id."\">Voir fiche objet</a>");
+	  $cts->add_paragraph("<a href=\"?action=edit&amp;id_jeu=".$jeu->id."\">Editer</a>");
 	}	
   
 	$tbl = new table("Informations");
@@ -777,7 +816,7 @@ if ( $_REQUEST["view"] == "" )
 	$frm->add_select_field("id_salle","Lieu",get_lieux());
 	$frm->add_submit("valide","Rechercher");
 	$cts->add($frm,true);
-	
+	/*
   $frm = new form("search","./",false,"POST","Recherche d'un jeu");
 	$frm->add_hidden("action","searchjeu");
 	$frm->add_text_field("name","Titre",$_REQUEST["name"]);
@@ -785,6 +824,10 @@ if ( $_REQUEST["view"] == "" )
 	$frm->add_select_field("id_salle","Lieu",get_lieux());
 	$frm->add_submit("valide","Rechercher");
 	$cts->add($frm,true);
+	*/
+	
+	$cts->add_title(2,"Jeux");
+	$cts->add_paragraph("<a href=\"?view=jeux\">Consulter la liste des jeux</a>");
 }
 elseif ( $_REQUEST["view"] == "auteurs" )
 {

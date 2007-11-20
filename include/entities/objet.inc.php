@@ -290,12 +290,20 @@ class objet extends stdentity
     
   }		
 
+  /**
+   * Determine si par ailleurs cet objet est un livre
+   * @see livre
+   */
   function is_book() 
   {
     $this->_determine_special();
     return $this->_is_book;
   }
   
+  /**
+   * Determine si par ailleurs cet objet est un jeu
+   * @see jeu
+   */
   function is_jeu() 
   {
     $this->_determine_special();
