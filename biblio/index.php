@@ -429,8 +429,8 @@ elseif ( $jeu->is_valid() )
   	$serie->load_by_id($_POST["id_serie"]);
   	
     $jeu->save_jeu ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $_POST["nom"],
-  				$_POST["num_serie"], $_POST["prix"], $_POST["caution"], $_POST["prix_emprunt"], $_POST["empruntable"],
-  				$_POST["en_etat"], $_POST["date_achat"], $_POST["notes"], $livre->cbar,
+  				$_POST["num_serie"], $_POST["prix"], $_POST["caution"], $_POST["prix_emprunt"], isset($_POST["empruntable"]),
+  				isset($_POST["en_etat"]), $_POST["date_achat"], $_POST["notes"], $livre->cbar,
   				$serie->id, $_POST["etat"], $_POST["nb_joueurs"], $_POST["duree"], $_POST["langue"], $_POST["difficulte"] );				
   }
   elseif ( $_REQUEST["action"] == "edit" && $is_admin )
@@ -548,8 +548,8 @@ elseif ( $livre->is_valid() )
   	$serie->load_by_id($_POST["id_serie"]);
 
     $livre->save_book ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $_POST["nom"],
-  				$_POST["num_serie"], $_POST["prix"], $_POST["caution"], $_POST["prix_emprunt"], $_POST["empruntable"],
-  				$_POST["en_etat"], $_POST["date_achat"], $_POST["notes"], $livre->cbar,
+  				$_POST["num_serie"], $_POST["prix"], $_POST["caution"], $_POST["prix_emprunt"], isset($_POST["empruntable"]),
+  				isset($_POST["en_etat"]), $_POST["date_achat"], $_POST["notes"], $livre->cbar,
   				$serie->id, $editeur->id, $_POST["num"], $_POST["isbn"] );				
   }
   elseif ( $_REQUEST["action"] == "edit" && $is_admin )
