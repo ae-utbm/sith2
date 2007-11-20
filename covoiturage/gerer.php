@@ -184,6 +184,7 @@ if ($trajet->id_utilisateur == $site->user->id)
 if (count($trajet->dates))
 {
   $accueil->add_paragraph("Ci-dessous la liste des dates de trajet actuellement renseignées :");
+
   foreach($trajet->dates as $date)
     {
       $datetrj[] = array("id"    => $date, 
@@ -193,7 +194,7 @@ if (count($trajet->dates))
   //  $lst = new itemlist(false, false, $datetrj);
   $lst = new sqltable("managedatestrj", "Dates de trajet", $datetrj, 
 		      "./gerer.php?idtrj=".$trajet->id,
-		      "id", array("dates", "Les dates de trajet"), "delete", "delete");  
+		      "id", array("dates", "Les dates de trajet"), array("delete"), array("delete"));  
   $accueil->add($lst);
 }
 
