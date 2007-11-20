@@ -114,12 +114,12 @@ if ($_REQUEST['action'] == "moderer")
   if ($villeetp != NULL)
     {
       $accueil->add_paragraph("<b><center>".$propusr->get_html_link() . " souhaiterait faire partie du trajet pour le ".
-			      HumanReadableDate($step['date_etape'], "", false) .", et demande un passage via ".
+			      HumanReadableDate($step['date_etape'], "", false, true) .", et demande un passage via ".
 			  $villeetp->nom . ".</center></b><br/><br/>");
     }
   else
     $accueil->add_paragraph("<b><center>".$propusr->get_html_link() . " souhaiterait faire partie du trajet pour le ".
-			    HumanReadableDate($step['date_etape'], "", false) .".</center></b><br/><br/>");
+			    HumanReadableDate($step['date_etape'], "", false, true) .".</center></b><br/><br/>");
 
   if (strlen($step['comments']) > 0)
     {
@@ -185,7 +185,7 @@ if (count($trajet->dates))
   $accueil->add_paragraph("Ci-dessous la liste des dates de trajet actuellement renseignées :");
   foreach($trajet->dates as $date)
     {
-      $datetrj[] = "Le " . HumanReadableDate($date, "", false);
+      $datetrj[] = "Le " . HumanReadableDate($date, "", false, true);
     }
   $lst = new itemlist(false, false, $datetrj);
   $accueil->add($lst);
@@ -221,11 +221,11 @@ if (count($trajet->etapes))
 	    {
 	      $str = "Passage par <b>" . $obville->nom . "</b> suggéré par " . 
 		$propuser->get_html_link() . " le " . HumanReadableDate($etape['date_proposition'], "", true) .
-		" pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false)."</b>";
+		" pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false, true)."</b>";
 	    }
 	  else
 	    $str = $propuser->get_html_link() . 
-	      " accepté pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false)."</b>";
+	      " accepté pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false, true)."</b>";
 
 	  $accepted[] = $str;
 	}
@@ -236,7 +236,7 @@ if (count($trajet->etapes))
 	      $str = "Passage par <b>" . 
 		$obville->nom . "</b> suggéré par " . 
 		    $propuser->get_html_link() . " le " . HumanReadableDate($etape['date_proposition'], "", true) .
-		" pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false).
+		" pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false, true).
 		"</b> | <a href=\"./gerer.php?action=moderer&amp;id_trajet=".$trajet->id ."&amp;date_trajet=".
 		$etape['date_etape']
 		    ."&amp;id_etape=".$etape['id']."\">Gérer la demande</a>";
@@ -244,7 +244,7 @@ if (count($trajet->etapes))
 	  else
 	    {
 	      $str = $propuser->get_html_link() . " en attente d'acceptation ".
-		" pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false).
+		" pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false, true).
 		"</b> | <a href=\"./gerer.php?action=moderer&amp;id_trajet=".$trajet->id ."&amp;date_trajet=".
 		$etape['date_etape']
 		."&amp;id_etape=".$etape['id']."\">Gérer la demande</a>";
@@ -287,7 +287,7 @@ if (count($trajet->dates))
       if ($idusers != false)
 	{
 
-	  $accueil->add_title(3, "Trajet du ". HumanReadableDate($date, "", false));
+	  $accueil->add_title(3, "Trajet du ". HumanReadableDate($date, "", false, true));
 	  $accueil->add_paragraph("<center><img src=\"./imgtrajet.php?id_trajet=".$trajet->id.
 				  "&amp;date=".$date."\" alt=\"\" /></center>");
 

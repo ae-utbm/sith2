@@ -126,8 +126,6 @@ if ($sql->lines)
     {
       $trajet->load_by_id($res['id_trajet']);
 
-      $accueil->add_paragraph("DEBUG :<br/><pre>" . print_r($trajet->dates, true) . "</pre>");
-
       if ($trajet->has_expired())
 	$mytrj[] = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom . 
 	  " / " . $trajet->ville_arrivee->nom . "<b> - TRAJET EXPIRE (cliquez pour ajouter une date)</b></a>";

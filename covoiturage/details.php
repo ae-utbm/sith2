@@ -87,7 +87,7 @@ $accueil->add_paragraph("Ce trajet <b>" . $trajet->ville_depart->nom . " / " .
 			$trajet->ville_arrivee->nom 
 			."</b> est proposé par <a href=\"../user.php?id_utilisateur=".
 			$respusr->id."\">" . $respusr->get_html_link() . 
-			"</a>, qui prévoit de le réaliser le ".HumanReadableDate($datetrj, "", false) . ".");
+			"</a>, qui prévoit de le réaliser le ".HumanReadableDate($datetrj, "", false, true) . ".");
 
 $accueil->add_paragraph("<center><img src=\"./imgtrajet.php?id_trajet=".
 			$trajet->id."&amp;date=".$datetrj."\" alt=\"Rendu géographique\" /></center>");
