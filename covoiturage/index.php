@@ -125,8 +125,12 @@ if ($sql->lines)
   while ($res = $sql->get_row())
     {
       $trajet->load_by_id($res['id_trajet']);
-      $mytrj[] = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom . 
-	" / " . $trajet->ville_arrivee->nom . "</a>";
+      if ($trajet->has_expired())
+	$mytrj[] = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom . 
+	  " / " . $trajet->ville_arrivee->nom . "<b> - TRAJET EXPIRE (cliquez pour ajouter une date)</b></a>";
+      else
+	$mytrj[] = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom . 
+	  " / " . $trajet->ville_arrivee->nom . "</a>";
     }  
 
   $accueil->add_title(2, "Mes trajets");                             
