@@ -128,8 +128,8 @@ if (isset($_REQUEST['step1']))
   
   if (strlen($_REQUEST['comments']))
     {
-      $cts->add_paragraph("Vous avez laissé les observations suivantes sur ce trajet : <code><pre>".
-			  doku2xhtml($comments)."</pre></code>");
+      $cts->add_paragraph("Vous avez laissé les observations suivantes sur ce trajet : <div class=\"comment\">".
+			  doku2xhtml($comments)."</div>");
     }
   else
     {

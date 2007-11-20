@@ -2336,6 +2336,17 @@ div.partialclose
 
 }
 
+div.comment
+{
+  border-top:1px solid #C0C0C0;
+  background:#eff7ff;
+  margin-left:160px;
+  padding-top:5px;
+  margin-top:3px;
+  padding-bottom:5px;
+  padding-right:5px;
+}
+
 
 .toolbutton
 {

@@ -126,7 +126,7 @@ if ($_REQUEST['action'] == "moderer")
     {
       /* TODO : améliorer la présentation des commentaires */
       $accueil->add_paragraph("L'utilisateur a laissé le commentaire suivant :<br/>" . 
-			      "<div class=\"forummessage\">".
+			      "<div class=\"comment\">".
 			      doku2xhtml($step['comments']).
 			      "</div>");
     }
