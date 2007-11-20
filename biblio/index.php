@@ -147,7 +147,7 @@ elseif ( $_REQUEST["action"] == "borrowbooks" && $is_admin )
 			if ( $l->id > 0 )
 				add_objet_once($livres,$l);
 			else
-				$ErreurEmprunt = "Un ou plusieurs codes barres ne sont inconnus.";
+				$ErreurEmprunt = "Un ou plusieurs codes barres sont inconnus.";
 		}
 	}
 		
@@ -194,7 +194,9 @@ elseif ( $_REQUEST["action"] == "addlivres" && $is_admin )
     	
     	if ( !empty($nserie) )
     	  $serie->load_or_create($nserie);
-      
+      else
+        $serie->id = null;
+        
       $livre->add_book ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $nom,
 				$objtype->code, "", $_POST["prix"], $_POST["caution"], 0, 0,
 				true, $_POST["date_achat"], "",
@@ -255,6 +257,70 @@ elseif ( $_REQUEST["action"] == "addlivre" && $is_admin )
     $livre->add_auteur($auteur3->id);
 
 }
+elseif ( $_REQUEST["action"] == "addjeu" && $is_admin )
+{
+	$objtype = new objtype($site->db);
+	$asso = new asso($site->db);
+	$asso_prop = new asso($site->db);
+  
+	$asso_prop->load_by_id($_POST["id_asso_prop"]);
+	$asso->load_by_id($_POST["id_asso"]);
+	$objtype->load_by_id($_POST["id_objtype"]);
+	$salle->load_by_id($_POST["id_salle"]);
+	$serie->load_by_id($_POST["id_serie"]);
+
+  $jeu->add_jeu ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $_POST["nom"],
+				$objtype->code, $_POST["num_serie"], $_POST["prix"], $_POST["caution"], 0, 0,
+				$_POST["en_etat"], $_POST["date_achat"], $_POST["notes"],
+				$serie->id, $_POST["etat"], $_POST["nb_joueurs"], $_POST["duree"], $_POST["langue"], $_POST["difficulte"] );
+
+}
+elseif ( $_REQUEST["action"] == "addjeux" && $is_admin )
+{
+	$objtype = new objtype($site->db);
+	$asso = new asso($site->db);
+	$asso_prop = new asso($site->db);
+  
+	$asso_prop->load_by_id($_POST["id_asso_prop"]);
+	$asso->load_by_id($_POST["id_asso"]);
+	$objtype->load_by_id($_POST["id_objtype"]);
+	$salle->load_by_id($_POST["id_salle"]);
+	
+	$lines = explode("\n",$_POST["data"]);
+		
+  foreach ( $lines as $line )
+  {
+    $rows = explode(";",$line);
+    
+    if ( $rows[0] != "Nom" )
+    {
+      $nom = trim($rows[0]);
+      $nserie = trim($rows[1]);
+      $etat = trim($rows[2]);
+      $nb_joueurs = trim($rows[3]);
+      $duree = trim($rows[4]);
+      $langue = trim($rows[5]);
+      $difficulte = trim($rows[6]);
+      
+      $prix = get_prix(trim($rows[7]));      
+      $caution = get_prix(trim($rows[8]));
+      
+      $reservable = trim($rows[9]) == "o";
+      
+    	if ( !empty($nserie) )
+    	  $serie->load_or_create($nserie);
+      else
+        $serie->id = null;
+        
+      $jeu->add_jeu ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $nom,
+				$objtype->code, "", $prix, $caution, 0, $reservable,
+				true, $_POST["date_achat"], $_POST["notes"],
+				$serie->id, $etat, $nb_joueurs, $duree, $langue, $difficulte );
+    }
+  }
+  
+}
+
 
 $tabs = array(array("","biblio/","Recherche"),
 			array("auteurs","biblio/?view=auteurs","Auteurs"),
@@ -364,8 +430,26 @@ elseif ( $jeu->is_valid() )
 	  $cts->add_paragraph("<a href=\"../objet.php?id_objet=".$jeu->id."\">Voir fiche objet</a>");
 	}	
   
-//TODO: afficher informations sur le jeu
-  
+	$tbl = new table("Informations");
+	$tbl->add_row(array("Titre",$jeu->nom));
+	$tbl->add_row(array("Type",classlink($objtype)));
+	$tbl->add_row(array("Serie",classlink($serie)));
+	$tbl->add_row(array("Etat",$jeu->etat));
+	$tbl->add_row(array("Nombre de joueurs",$jeu->nb_joueurs));
+	$tbl->add_row(array("Durée moyenne d'une partie",$jeu->duree));
+	$tbl->add_row(array("Langue",$jeu->langue));
+	$tbl->add_row(array("Difficultée",$jeu->difficulte));
+	$tbl->add_row(array("Association",classlink($asso_gest)));
+	$tbl->add_row(array("Emplacement",classlink($salle)));
+	if ($livre->date_achat) 
+	  $tbl->add_row(array("Date d'achat",date("d/m/Y",$jeu->date_achat)));
+	$tbl->add_row(array("En etat",$jeu->en_etat?"Oui":"Non"));
+	$tbl->add_row(array("Archive (sorti de l'inventaire)",$jeu->archive?"Oui":"Non"));
+	$tbl->add_row(array("Code barre",$jeu->cbar));
+	$cts->add($tbl,true);
+	
+	
+	  
 	$site->add_contents($cts);
 	$site->end_page();
 	exit();
@@ -895,14 +979,32 @@ elseif ( $_REQUEST["view"] == "prets" && $is_admin )
 elseif ( $_REQUEST["view"] == "jeux" )
 {
 
-//TODO:liste des jeux disponibles
-
-
+	$req = new requete ( $site->db, "SELECT `inv_objet`.`id_objet` AS `id_jeu`," .
+			"`bk_serie`.`id_serie`,`bk_serie`.`nom_serie`," .
+			"`inv_objet`.`nom_objet` AS `nom_jeu`, " .				
+			"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`, " .
+			"`inv_jeu`.`nb_joueurs_jeu`, " .
+			"`inv_jeu`.`duree_jeu`, " .
+			"`inv_jeu`.`difficulte_jeu`, " .
+			"`inv_jeu`.`langue_jeu` " .
+			"FROM `inv_objet` " .
+			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
+			"INNER JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".				
+			"LEFT JOIN `bk_serie` ON `inv_jeu`.`id_serie`=`bk_serie`.`id_serie` ".
+			"ORDER BY `bk_serie`.`nom_serie`,`inv_objet`.`nom_objet`" );
+			
+	$tbl = new sqltable(
+		"listjeux", 
+		"Jeux", $req, "./", 
+		"id_jeu", 
+		array("nom_jeu"=>"Titre", "nom_serie"=>"Serie", "nb_joueurs_jeu"=>"Nombre de joueurs", "duree_jeu"=>"Durée moyenne d'une partie", "difficulte_jeu"=>"Difficultée", "langue_jeu" => "Langue", "nom_salle"=>"Lieu"), 
+		array(), array(), array()
+		);
+	$cts->add($tbl,true);
+	
   if ( $is_admin )
 	{
 	 
-//TODO: formulaires d'ajout des jeux
-
 		$frm = new form("addjeu","./?view=jeux",false,"POST","Ajout d'un jeu");
 		$frm->add_hidden("action","addjeu");
 		$frm->add_text_field("nom","Nom");
@@ -932,9 +1034,7 @@ elseif ( $_REQUEST["view"] == "jeux" )
 		$frm->add_entity_select("id_asso_prop", "Propriètaire", $site->db, "asso", false, false, array("id_asso_parent"=>NULL));
 		$frm->add_entity_select("id_asso", "Gestionnaire", $site->db, "asso");
 		$frm->add_entity_select("id_salle", "Salle", $site->db, "salle");
-		$frm->add_price_field("prix","Prix d'achat");
-		$frm->add_price_field("caution","Prix de la caution");
-		$frm->add_text_area("data","Tableau CSV","Nom; Serie (facultatif); Etat; Nombre de joueurs; Durée moyenne; Langue; Difficultée\n",80,12);
+		$frm->add_text_area("data","Tableau CSV","Nom; Serie (facultatif); Etat; Nombre de joueurs; Durée moyenne; Langue; Difficultée; Prix; Caution; Reservable (o/n)\n",80,12);
 		$frm->add_submit("valide","Ajouter");
 		$cts->add($frm,true);	 
 	 
