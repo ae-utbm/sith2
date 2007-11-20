@@ -428,10 +428,10 @@ elseif ( $jeu->is_valid() )
   	$salle->load_by_id($_POST["id_salle"]);    
   	$serie->load_by_id($_POST["id_serie"]);
   	
-    $jeu->save_jeu ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $_POST["nom"],
-  				$_POST["num_serie"], $_POST["prix"], $_POST["caution"], $_POST["prix_emprunt"], isset($_POST["empruntable"]),
-  				isset($_POST["en_etat"]), $_POST["date_achat"], $_POST["notes"], $livre->cbar,
-  				$serie->id, $_POST["etat"], $_POST["nb_joueurs"], $_POST["duree"], $_POST["langue"], $_POST["difficulte"] );				
+    $jeu->save_jeu ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $_REQUEST["nom"],
+  				$_REQUEST["num_serie"], $_REQUEST["prix"], $_REQUEST["caution"], $_REQUEST["prix_emprunt"], isset($_REQUEST["empruntable"]),
+  				isset($_REQUEST["en_etat"]), $_REQUEST["date_achat"], $_REQUEST["notes"], $livre->cbar,
+  				$serie->id, $_REQUEST["etat"], $_REQUEST["nb_joueurs"], $_REQUEST["duree"], $_REQUEST["langue"], $_REQUEST["difficulte"] );				
   }
   elseif ( $_REQUEST["action"] == "edit" && $is_admin )
   {
@@ -460,7 +460,7 @@ elseif ( $jeu->is_valid() )
 		$frm->add_date_field("date_achat","Date d'achat",$jeu->date_achat);
 		$frm->add_entity_select("id_asso_prop", "Propriètaire", $site->db, "asso", $jeu->id_asso_prop, false, array("id_asso_parent"=>NULL));
 		$frm->add_entity_select("id_asso", "Gestionnaire", $site->db, "asso", $jeu->id_asso);
-		$frm->add_entity_select("id_salle", "Salle", $site->db, "salle", $jeu->is_asso);
+		$frm->add_entity_select("id_salle", "Salle", $site->db, "salle", $jeu->id_salle);
 		$frm->add_price_field("prix","Prix d'achat",$jeu->prix);
 		$frm->add_price_field("caution","Prix de la caution",$jeu->caution);
 		$frm->add_price_field("prix_emprunt","Prix d'un emprunt",$jeu->prix_emprunt);
@@ -547,10 +547,10 @@ elseif ( $livre->is_valid() )
   	$editeur->load_by_id($_POST["id_editeur"]);
   	$serie->load_by_id($_POST["id_serie"]);
 
-    $livre->save_book ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $_POST["nom"],
-  				$_POST["num_serie"], $_POST["prix"], $_POST["caution"], $_POST["prix_emprunt"], isset($_POST["empruntable"]),
-  				isset($_POST["en_etat"]), $_POST["date_achat"], $_POST["notes"], $livre->cbar,
-  				$serie->id, $editeur->id, $_POST["num"], $_POST["isbn"] );				
+    $livre->save_book ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $_REQUEST["nom"],
+  				$_REQUEST["num_serie"], $_REQUEST["prix"], $_REQUEST["caution"], $_REQUEST["prix_emprunt"], isset($_REQUEST["empruntable"]),
+  				isset($_REQUEST["en_etat"]), $_REQUEST["date_achat"], $_REQUEST["notes"], $livre->cbar,
+  				$serie->id, $editeur->id, $_REQUEST["num"], $_REQUEST["isbn"] );				
   }
   elseif ( $_REQUEST["action"] == "edit" && $is_admin )
   {
@@ -579,7 +579,7 @@ elseif ( $livre->is_valid() )
 		$frm->add_date_field("date_achat","Date d'achat",$livre->date_achat);
 		$frm->add_entity_select("id_asso_prop", "Propriètaire", $site->db, "asso", $livre->id_asso_prop, false, array("id_asso_parent"=>NULL));
 		$frm->add_entity_select("id_asso", "Gestionnaire", $site->db, "asso", $livre->id_asso);
-		$frm->add_entity_select("id_salle", "Salle", $site->db, "salle", $livre->is_asso);
+		$frm->add_entity_select("id_salle", "Salle", $site->db, "salle", $livre->id_salle);
 		$frm->add_price_field("prix","Prix d'achat",$livre->prix);
 		$frm->add_price_field("caution","Prix de la caution",$livre->caution);
 		$frm->add_price_field("prix_emprunt","Prix d'un emprunt",$livre->prix_emprunt);
