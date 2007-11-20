@@ -421,7 +421,7 @@ elseif ( $jeu->is_valid() )
   
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
-	$cts->add(new tabshead($tabs,"livres"));
+	$cts->add(new tabshead($tabs,"jeux"));
 	
 	$cts->add_title(2,classlink($serie)." / ".classlink($jeu));
 	
@@ -986,18 +986,20 @@ elseif ( $_REQUEST["view"] == "jeux" )
 			"`inv_jeu`.`nb_joueurs_jeu`, " .
 			"`inv_jeu`.`duree_jeu`, " .
 			"`inv_jeu`.`difficulte_jeu`, " .
-			"`inv_jeu`.`langue_jeu` " .
+			"`inv_jeu`.`langue_jeu`, " .
+	  	"`inv_type_objets`.`id_objtype`,`inv_type_objets`.`nom_objtype`  " .
 			"FROM `inv_objet` " .
 			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
-			"INNER JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".				
+			"INNER JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".	
+	  	"INNER JOIN `inv_type_objets` ON `inv_objet`.`id_objtype`=`inv_type_objets`.`id_objtype` " .
 			"LEFT JOIN `bk_serie` ON `inv_jeu`.`id_serie`=`bk_serie`.`id_serie` ".
-			"ORDER BY `bk_serie`.`nom_serie`,`inv_objet`.`nom_objet`" );
+			"ORDER BY `inv_type_objets`.`nom_objtype`,`bk_serie`.`nom_serie`,`inv_objet`.`nom_objet`" );
 			
 	$tbl = new sqltable(
 		"listjeux", 
 		"Jeux", $req, "./", 
 		"id_jeu", 
-		array("nom_jeu"=>"Titre", "nom_serie"=>"Serie", "nb_joueurs_jeu"=>"Nombre de joueurs", "duree_jeu"=>"Durée moyenne d'une partie", "difficulte_jeu"=>"Difficultée", "langue_jeu" => "Langue", "nom_salle"=>"Lieu"), 
+		array("nom_objtype"=>"Type","nom_jeu"=>"Titre", "nom_serie"=>"Serie", "nb_joueurs_jeu"=>"Nombre de joueurs", "duree_jeu"=>"Durée moyenne d'une partie", "difficulte_jeu"=>"Difficultée", "langue_jeu" => "Langue", "nom_salle"=>"Lieu"), 
 		array(), array(), array()
 		);
 	$cts->add($tbl,true);
