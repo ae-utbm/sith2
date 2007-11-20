@@ -53,7 +53,9 @@ function get_lieux ()
 			"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`  " .
 			"FROM `inv_objet` " .
 			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
-			"INNER JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".				
+			"LEFT JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".	
+			"LEFT JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".
+			"WHERE `inv_jeu`.`id_objet` IS NOT NULL OR `bk_book`.`id_objet` IS NOT NULL ".				
 			"GROUP BY `sl_salle`.`id_salle`" );
 	$values[0]="-";	
 	while ( list($id,$nom) = $req->get_row())
@@ -987,7 +989,7 @@ elseif ( $_REQUEST["view"] == "jeux" )
 			"`inv_jeu`.`duree_jeu`, " .
 			"`inv_jeu`.`difficulte_jeu`, " .
 			"`inv_jeu`.`langue_jeu`, " .
-	  	"`inv_type_objets`.`id_objtype`,`inv_type_objets`.`nom_objtype`  " .
+	  	"`inv_type_objets`.`nom_objtype`  " .
 			"FROM `inv_objet` " .
 			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
 			"INNER JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".	
