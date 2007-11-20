@@ -549,6 +549,34 @@ elseif ( $serie->is_valid() )
 		array(), array(), array()
 		);
 	$cts->add($tbl,true);
+	
+	$req = new requete ( $site->db, "SELECT `inv_objet`.`id_objet` AS `id_jeu`," .
+			"`bk_serie`.`id_serie`,`bk_serie`.`nom_serie`," .
+			"`inv_objet`.`nom_objet` AS `nom_jeu`, " .				
+			"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`, " .
+			"`inv_jeu`.`nb_joueurs_jeu`, " .
+			"`inv_jeu`.`duree_jeu`, " .
+			"`inv_jeu`.`difficulte_jeu`, " .
+			"`inv_jeu`.`langue_jeu`, " .
+	  	"`inv_type_objets`.`nom_objtype`  " .
+			"FROM `inv_objet` " .
+			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
+			"INNER JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".	
+	  	"INNER JOIN `inv_type_objets` ON `inv_objet`.`id_objtype`=`inv_type_objets`.`id_objtype` " .
+			"LEFT JOIN `bk_serie` ON `inv_jeu`.`id_serie`=`bk_serie`.`id_serie` ".
+		  "WHERE `inv_jeu`.`id_serie`='".$serie->id."' " .
+			"ORDER BY `inv_type_objets`.`nom_objtype`,`bk_serie`.`nom_serie`,`inv_objet`.`nom_objet`" );
+			
+	$tbl = new sqltable(
+		"listjeux", 
+		"Jeux", $req, "./", 
+		"id_jeu", 
+		array("nom_objtype"=>"Type","nom_jeu"=>"Titre", "nom_serie"=>"Serie", "nb_joueurs_jeu"=>"Nombre de joueurs", "duree_jeu"=>"Durée partie", "difficulte_jeu"=>"Difficultée", "langue_jeu" => "Langue", "nom_salle"=>"Lieu"), 
+		array(), array(), array()
+		);
+	$cts->add($tbl,true);	
+	
+	
 	$site->add_contents($cts);
 	
 	$site->end_page();
@@ -689,6 +717,33 @@ elseif ( $salle->is_valid() )
 			array(), array(), array()
 			);
 		$cts->add($tbl,true);
+		
+  	$req = new requete ( $site->db, "SELECT `inv_objet`.`id_objet` AS `id_jeu`," .
+  			"`bk_serie`.`id_serie`,`bk_serie`.`nom_serie`," .
+  			"`inv_objet`.`nom_objet` AS `nom_jeu`, " .				
+  			"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`, " .
+  			"`inv_jeu`.`nb_joueurs_jeu`, " .
+  			"`inv_jeu`.`duree_jeu`, " .
+  			"`inv_jeu`.`difficulte_jeu`, " .
+  			"`inv_jeu`.`langue_jeu`, " .
+  	  	"`inv_type_objets`.`nom_objtype`  " .
+  			"FROM `inv_objet` " .
+  			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
+  			"INNER JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".	
+  	  	"INNER JOIN `inv_type_objets` ON `inv_objet`.`id_objtype`=`inv_type_objets`.`id_objtype` " .
+  			"LEFT JOIN `bk_serie` ON `inv_jeu`.`id_serie`=`bk_serie`.`id_serie` ".
+  		  "WHERE `inv_objet`.`id_salle`='".$salle->id."' " .
+  			"ORDER BY `inv_type_objets`.`nom_objtype`,`bk_serie`.`nom_serie`,`inv_objet`.`nom_objet`" );
+  			
+  	$tbl = new sqltable(
+  		"listjeux", 
+  		"Jeux", $req, "./", 
+  		"id_jeu", 
+  		array("nom_objtype"=>"Type","nom_jeu"=>"Titre", "nom_serie"=>"Serie", "nb_joueurs_jeu"=>"Nombre de joueurs", "duree_jeu"=>"Durée partie", "difficulte_jeu"=>"Difficultée", "langue_jeu" => "Langue", "nom_salle"=>"Lieu"), 
+  		array(), array(), array()
+  		);
+  	$cts->add($tbl,true);
+		
 	}
 	$site->add_contents($cts);
 	$site->end_page();
@@ -799,7 +854,9 @@ elseif ( $_REQUEST["view"] == "lieux" )
 			"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`  " .
 			"FROM `inv_objet` " .
 			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
-			"INNER JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".				
+			"LEFT JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".	
+			"LEFT JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".
+			"WHERE `inv_jeu`.`id_objet` IS NOT NULL OR `bk_book`.`id_objet` IS NOT NULL ".			
 			"GROUP BY `sl_salle`.`id_salle`" );
 			
 	$cts->add(new sqltable(
@@ -1001,7 +1058,7 @@ elseif ( $_REQUEST["view"] == "jeux" )
 		"listjeux", 
 		"Jeux", $req, "./", 
 		"id_jeu", 
-		array("nom_objtype"=>"Type","nom_jeu"=>"Titre", "nom_serie"=>"Serie", "nb_joueurs_jeu"=>"Nombre de joueurs", "duree_jeu"=>"Durée moyenne d'une partie", "difficulte_jeu"=>"Difficultée", "langue_jeu" => "Langue", "nom_salle"=>"Lieu"), 
+		array("nom_objtype"=>"Type","nom_jeu"=>"Titre", "nom_serie"=>"Serie", "nb_joueurs_jeu"=>"Nombre de joueurs", "duree_jeu"=>"Durée partie", "difficulte_jeu"=>"Difficultée", "langue_jeu" => "Langue", "nom_salle"=>"Lieu"), 
 		array(), array(), array()
 		);
 	$cts->add($tbl,true);
