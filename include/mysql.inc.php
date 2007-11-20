@@ -69,6 +69,11 @@ class mysql {
     $this->dbh = $my_dbh;
   }
 
+  function close()
+  {
+    @mysql_close($this->dbh);
+  }
+
 }
 
 class requete {

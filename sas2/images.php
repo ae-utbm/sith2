@@ -27,7 +27,8 @@ $site = new sas();
 $site->allow_only_logged_users("sas");
 
 session_write_close(); // on n'a plus besoin de la session, liberons le semaphore...
-
+$site->dbrw->close();
+ 
 if ( ereg("^(.*)/([0-9]*).jpg$",$_SERVER["argv"][0],$regs) )
 {
   $id_photo = intval($regs[2]);
@@ -97,6 +98,8 @@ if ( $id_photo > 0 )
   $photo = new photo($site->db);
   $photo->load_by_id($id_photo);
 
+  $site->db->close();
+  
   if ( $photo->id < 1 || !$photo->is_right($site->user,DROIT_LECTURE) )
   {
     renvoyer_image($topdir."images/action.delete.png");
