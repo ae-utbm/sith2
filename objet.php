@@ -287,7 +287,45 @@ if ( isset($_REQUEST["id_objet"]) )
 	}
 	
 	if ( $objet->is_book() )
-		$tbl->add_row(array("Special","Cet objet est un livre : <a href=\"biblio/?id_livre=".$objet->id."\">Voir sa fiche livre</a>"));
+	{
+    require_once($topdir. "include/entities/books.inc.php");
+    
+    $editeur = new editeur($site->db);
+    $serie = new serie($site->db);
+    $livre = new livre($site->db);
+  	$auteur = new auteur($site->db);
+  	
+    $livre->load_by_id($objet->id);
+  	$editeur->load_by_id($livre->id_editeur);
+  	$serie->load_by_id($livre->id_serie);
+  	
+  	$req = new requete ( $site->db, "SELECT " .
+  			"`bk_auteur`.`id_auteur`,`bk_auteur`.`nom_auteur` " .
+  			"FROM `bk_livre_auteur` " .
+  			"INNER JOIN `bk_auteur` ON `bk_livre_auteur`.`id_auteur`=`bk_auteur`.`id_auteur` " .
+  			"WHERE id_objet='".$livre->id."'");
+  	
+  	$auteurs = null;
+  			
+  	while ( $row = $req->get_row() )		
+  	{
+  		$auteur->_load($row);
+  		if ( is_null($auteurs) )
+  			$auteurs .= classlink($auteur);
+  		else
+  			$auteurs .= ", ".classlink($auteur);
+  	}
+			
+		$tbl->add_row(array("Special","Cet objet est un livre : <a href=\"biblio/?id_livre=".$livre->id."\">Voir sa fiche livre</a>"));
+		
+  	$tbl->add_row(array("Titre",$livre->nom));
+  	$tbl->add_row(array("Serie",classlink($serie)));
+  	$tbl->add_row(array("N°",$livre->num_livre));
+  	$tbl->add_row(array("Auteur(s)",$auteurs));
+  	$tbl->add_row(array("Editeur",classlink($editeur)));
+  	$tbl->add_row(array("ISBN",$livre->isbn));
+		
+	}
 	
 	if ( $objet->is_jeu() )
 		$tbl->add_row(array("Special","Cet objet est un jeu : <a href=\"#\">Voir sa fiche jeu</a>"));
