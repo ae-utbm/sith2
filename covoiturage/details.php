@@ -111,7 +111,8 @@ if (! isset($_REQUEST['add_step_sbmt']))
       $ville = new ville($site->db);
       $frm->add_entity_smartselect("mydest","Ma destination", $ville);
 
-      $frm->add_text_area('comments', 'Commentaires (facultatif - Syntaxe DokuWiki)');
+      $frm->>add_dokuwiki_toolbar('comments');
+      $frm->add_text_area('comments', 'Commentaires (facultatif - Syntaxe DokuWiki)', null, 80, 20);
 
       $frm->add_submit('add_step_sbmt', 'Proposer');
       $accueil->add($frm);

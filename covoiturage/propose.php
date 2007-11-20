@@ -186,8 +186,10 @@ $frm->add_hidden("id_ent", $_REQUEST['id_ent']);
 $frm->add_entity_smartselect("start", "Ville de départ", $ville);
 $frm->add_entity_smartselect("stop", "Ville d'arrivée", $ville);
 
+$frm->add_dokuwiki_toolbar('comments');
 $frm->add_text_area("comments", 
-		    "Commentaires (facultatif - format DokuWiki)");
+		    "Commentaires (facultatif - format DokuWiki)",
+		    null, 80, 20);
 
 
 $frm->add_submit('step1', 'En voiture !');
