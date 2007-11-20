@@ -21,18 +21,27 @@
  * 02111-1307, USA.
  */
  
- require_once($topdir."include/entities/objet.inc.php");
+require_once($topdir."include/entities/objet.inc.php");
 
+/**
+ * Objet de l'inventaire de type jeu
+ * (utilisé nottament pour le troll penché)
+ * @see objet
+ */
 class jeu extends objet
 {
-	/** Id de la série */
+	/** Id de la série (pour les jeux de rôle) */
 	var $id_serie;
-	/** Id de l'éditeur */
-	var $id_editeur;
-	/** Numéro dans la série */
-	var $num_livre;
-
-	var $isbn;
+  /** Etat du jeu */
+  var $etat;
+  /** Nb de joueurs (champ texte) */
+  var $nb_joueurs;
+  /** Durée moyenne d'une partie (champ texte) */
+  var $duree;
+  /** Langue du jeu (champ texte) */
+  var $langue;
+  /** Difficultée du jeu (champ texte) */
+  var $difficulte;
   
   /** Charge un livre en fonction de son id
 	 * $this->id est égal à -1 en cas d'erreur
@@ -40,8 +49,8 @@ class jeu extends objet
 	 */
 	function load_by_id ( $id )
 	{
-		$req = new requete($this->db, "SELECT `inv_objet`.*, `bk_book`.* FROM `inv_objet`
-				INNER JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet`
+		$req = new requete($this->db, "SELECT `inv_objet`.*, `inv_jeu`.* FROM `inv_objet`
+				INNER JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet`
 				WHERE `inv_objet`.`id_objet` = '" . mysql_real_escape_string($id) . "'
 				LIMIT 1");	
 				
@@ -61,8 +70,8 @@ class jeu extends objet
 	 */
 	function load_by_cbar ( $cbar )
 	{
-		$req = new requete($this->db, "SELECT `inv_objet`.*, `bk_book`.* FROM `inv_objet`
-				INNER JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet`
+		$req = new requete($this->db, "SELECT `inv_objet`.*, `inv_jeu`.* FROM `inv_objet`
+				INNER JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet`
 				WHERE `inv_objet`.`cbar_objet` = '" . mysql_real_escape_string($cbar) . "'
 				LIMIT 1");	
 				
@@ -81,17 +90,25 @@ class jeu extends objet
 	function _load ( $row )
 	{
 		$this->id_serie = $row['id_serie'];	
-		$this->id_editeur = $row['id_editeur'];	
-		$this->num_livre = $row['num_livre'];
-		$this->isbn = $row['isbn_livre'];
+
+		$this->etat = $row['etat_jeu'];	
+		$this->nb_joueurs = $row['nb_joueurs_jeu'];	
+		$this->duree = $row['duree_jeu'];	
+		$this->langue = $row['langue_jeu'];	
+		$this->difficulte = $row['difficulte_jeu'];	
+		
 		parent::_load($row);
 	}
 	
-	
-	function add_book ( $id_asso, $id_asso_prop, $id_salle, $id_objtype, $id_op, $nom,
+	/**
+	 * Ajoute un jeu à l'inventaire
+	 * 
+	 * @see objet::add
+	 */
+	function add_jeu ( $id_asso, $id_asso_prop, $id_salle, $id_objtype, $id_op, $nom,
 				$code_objtype, $num_serie, $prix, $caution, $prix_emprunt, $empruntable,
 				$en_etat, $date_achat, $notes,
-				$id_serie, $id_editeur,$num_livre, $isbn="" )
+				$id_serie, $etat,$nb_joueurs,$duree,$langue,$difficulte )
 	{
 	
 		parent::add($id_asso, $id_asso_prop, $id_salle, $id_objtype, $id_op, $nom,
@@ -99,29 +116,39 @@ class jeu extends objet
 				$en_etat, $date_achat, $notes );
 	
 		$this->id_serie = $id_serie;	
-		$this->id_editeur = $id_editeur;	
-		$this->num_livre = $num_livre;	
-		$this->isbn = $isbn;
-		
+
+		$this->etat = $etat;	
+		$this->nb_joueurs = $nb_joueurs;	
+		$this->duree = $duree;	
+		$this->langue = $langue;	
+		$this->difficulte = $difficulte;	
+
 		if ( $this->is_valid() )
 		{
 			$sql = new insert ($this->dbrw,
-				"bk_jeu",
+				"inv_jeu",
 				array(
 					"id_objet" => $this->id,
 					"id_serie" => $this->id_serie,
-					"id_editeur" => $this->id_editeur,
-					"num_livre" => $this->num_livre,
-					"isbn_livre" => $this->isbn
+          'etat_jeu' => $this->etat,
+          'nb_joueurs_jeu' => $this->nb_joueurs,	
+          'duree_jeu' => $this->duree,	
+          'langue_jeu' => $this->langue,	
+          'difficulte_jeu' => $this->difficulte	
 					)
 				);
 		}
 	}
 	
-	function save_book ( $id_asso, $id_asso_prop, $id_salle, $id_objtype, $id_op, $nom,
+	/**
+	 * Modifie les informations sur le jeu
+	 * 
+	 * @see objet::save_objet
+	 */
+	function save_jeu ( $id_asso, $id_asso_prop, $id_salle, $id_objtype, $id_op, $nom,
 				$num_serie, $prix, $caution, $prix_emprunt, $empruntable,
 				$en_etat, $date_achat, $notes,$cbar,
-				$id_serie, $id_editeur,$num_livre, $isbn=""  )
+				$id_serie, $etat,$nb_joueurs,$duree,$langue,$difficulte  )
 	{
 		
 		$this->save_objet ( $id_asso, $id_asso_prop, $id_salle, $id_objtype, $id_op, $nom,
@@ -129,17 +156,23 @@ class jeu extends objet
 				$en_etat, $date_achat, $notes,$cbar );
 	
 		$this->id_serie = $id_serie;	
-		
-		$this->id_editeur = $id_editeur;	
-		$this->num_livre = $num_livre;	
+		$this->etat = $etat;	
+		$this->nb_joueurs = $nb_joueurs;	
+		$this->duree = $duree;	
+		$this->langue = $langue;	
+		$this->difficulte = $difficulte;	
+
 	
 		$sql = new update ($this->dbrw,
-			"bk_jeu",
+			"inv_jeu",
 			array(
 				"id_serie" => $this->id_serie,
-				"id_editeur" => $this->id_editeur,
-				"num_livre" => $this->num_livre,
-				"isbn_livre" => $this->isbn
+        'etat_jeu' => $this->etat,
+        'nb_joueurs_jeu' => $this->nb_joueurs,	
+        'duree_jeu' => $this->duree,	
+        'langue_jeu' => $this->langue,	
+        'difficulte_jeu' => $this->difficulte	
+
 				),
 			array("id_objet" => $this->id)
 			);
