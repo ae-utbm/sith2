@@ -96,6 +96,7 @@ class jeu extends objet
 		$this->duree = $row['duree_jeu'];	
 		$this->langue = $row['langue_jeu'];	
 		$this->difficulte = $row['difficulte_jeu'];	
+		$this->_is_jeu = true;
 		
 		parent::_load($row);
 	}
@@ -122,6 +123,7 @@ class jeu extends objet
 		$this->duree = $duree;	
 		$this->langue = $langue;	
 		$this->difficulte = $difficulte;	
+		$this->_is_jeu = true;
 
 		if ( $this->is_valid() )
 		{

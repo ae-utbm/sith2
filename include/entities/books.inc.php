@@ -47,6 +47,21 @@ class editeur extends stdentity
 		return false;
 	} 
 
+  function load_or_create( $nom )
+  {
+		$req = new requete($this->db, "SELECT * FROM `bk_editeur`
+				WHERE `nom_editeur` = '" . mysql_real_escape_string($nom) . "'
+				LIMIT 1");	
+				
+		if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return;
+		}
+    
+    $this->add_editeur($nom);
+  }
+
 	function _load ( $row )
 	{
 		$this->id = $row['id_editeur'];	
@@ -107,6 +122,21 @@ class serie extends stdentity
 		return false;
 	} 
 	
+	function load_or_create ( $nom )
+	{
+		$req = new requete($this->db, "SELECT * FROM `bk_serie`
+				WHERE `nom_serie` = '" . mysql_real_escape_string($nom) . "'
+				LIMIT 1");	
+				
+		if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return;
+		}
+		
+		$this->add_serie($nom);
+	} 
+	
 	function _load ( $row )
 	{
 		$this->id = $row['id_serie'];	
@@ -164,6 +194,21 @@ class auteur extends stdentity
 		
 		$this->id = null;	
 		return false;
+	} 	
+	
+	function load_or_create ( $nom )
+	{
+		$req = new requete($this->db, "SELECT * FROM `bk_auteur`
+				WHERE `nom_auteur` = '" . mysql_real_escape_string($nom) . "'
+				LIMIT 1");	
+				
+		if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return;
+		}
+		
+		$this->add_auteur($nom);
 	} 	
 	
 	function _load ( $row )
@@ -266,6 +311,7 @@ class livre extends objet
 		$this->id_editeur = $row['id_editeur'];	
 		$this->num_livre = $row['num_livre'];
 		$this->isbn = $row['isbn_livre'];
+		$this->_is_book = true;
 		parent::_load($row);
 	}
 	
@@ -284,6 +330,7 @@ class livre extends objet
 		$this->id_editeur = $id_editeur;	
 		$this->num_livre = $num_livre;	
 		$this->isbn = $isbn;
+		$this->_is_book = true;
 		
 		if ( $this->is_valid() )
 		{

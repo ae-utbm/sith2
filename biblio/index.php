@@ -159,6 +159,52 @@ elseif ( $_REQUEST["action"] == "borrowbooks" && $is_admin )
 		$Message = new contents("Pret enregistré.","<p>Pret de matériel n°".$emp->id."</p>");
 	}
 }
+elseif ( $_REQUEST["action"] == "addlivres" && $is_admin )
+{
+	$objtype = new objtype($site->db);
+	$asso = new asso($site->db);
+	$asso_prop = new asso($site->db);
+  
+	$asso->load_by_id($_POST["id_asso_prop"]);
+	$asso_gest->load_by_id($_POST["id_asso"]);
+	$objtype->load_by_id($_POST["id_objtype"]);
+	$salle->load_by_id($_POST["id_salle"]);
+		
+	$lines = explode("\n",$_POST["data"]);
+		
+  foreach ( $lines as $line )
+  {
+    $rows = explode(";",$line);
+    
+    if ( $rows[0] != "Serie" )
+    {
+      $serie = trim($rows[0]);
+      $nom = trim($rows[1]);
+      $num = trim($rows[2]);
+      $auteurs = trim($rows[3]);
+      $editeur = trim($rows[4]);
+      $isbn = trim($rows[5]);
+      
+    	$editeur->load_or_create($editeur);
+    	$serie->load_or_create($serie);
+      
+      $livre->add_book ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $nom,
+				$objtype->code, "", $_POST["prix"], $_POST["caution"], 0, 0,
+				true, $_POST["date_achat"], "",
+				$serie->id, $editeur->id, $num, $isbn );
+      
+      if ( !empty($auteurs) )
+      {
+        $auteurs = explode(",",$auteurs);
+        foreach ( $auteurs as $nom )
+        {
+        	$auteur->load_or_create($nom);
+        	$livre->add_auteur($auteur->id);
+        }
+      }
+    }
+  }
+}
 elseif ( $_REQUEST["action"] == "addlivre" && $is_admin )
 {
 
@@ -169,8 +215,8 @@ elseif ( $_REQUEST["action"] == "addlivre" && $is_admin )
   $auteur2 = new auteur($site->db);
   $auteur3 = new auteur($site->db);
 	
-	$asso->load_by_id($_POST["id_asso_prop"]);
-	$asso_gest->load_by_id($_POST["id_asso"]);
+	$asso_prop->load_by_id($_POST["id_asso_prop"]);
+	$asso->load_by_id($_POST["id_asso"]);
 	$objtype->load_by_id($_POST["id_objtype"]);
 	$salle->load_by_id($_POST["id_salle"]);
 	$editeur->load_by_id($_POST["id_editeur"]);
@@ -739,9 +785,10 @@ elseif ( $_REQUEST["view"] == "livres" )
 		$frm->add_entity_select("id_asso_prop", "Propriètaire", $site->db, "asso", false, false, array("id_asso_parent"=>NULL));
 		$frm->add_entity_select("id_asso", "Gestionnaire", $site->db, "asso");
 		$frm->add_entity_select("id_salle", "Salle", $site->db, "salle");
+		$frm->add_entity_select("id_objtype", "Type", $site->db, "objtype", $objtype->id);
 		$frm->add_price_field("prix","Prix d'achat");
 		$frm->add_price_field("caution","Prix de la caution");
-		$frm->add_text_area("data","Tableau CSV","Serie; Nom; Num; Auteur(s); Editeur; ISBN(ou EAN13)\n",80,12);
+		$frm->add_text_area("data","Tableau CSV","Serie; Nom; Num; Auteur 1, Auteur 2, Auteur 3; Editeur; ISBN(ou EAN13)\n",80,12);
 		$frm->add_submit("valide","Ajouter");
 		$cts->add($frm,true);
 	}

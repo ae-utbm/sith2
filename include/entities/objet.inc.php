@@ -182,6 +182,8 @@ class objet extends stdentity
 	var $archive;
 	var $notes;
 
+  var $_is_book;
+  var $_is_jeu;
 	
 	/** Charge un objet en fonction de son id
 	 * $this->id est égal à -1 en cas d'erreur
@@ -266,6 +268,39 @@ class objet extends stdentity
 		$this->date_achat	= strtotime($row['date_achat']);
 	}
 		
+  function _determine_special()
+  {
+    if ( !$this->is_valid() )
+      return;
+    
+    if ( !isset($this->_is_book) )
+    {
+		  $req = new requete($this->db, "SELECT id_objet FROM `bk_book`
+				WHERE `id_objet` = '" . mysql_real_escape_string($this->id) . "'
+				LIMIT 1");	      
+      
+      $this->_is_book = $req->lines == 1;
+      
+		  $req = new requete($this->db, "SELECT id_objet FROM `inv_jeu`
+				WHERE `id_objet` = '" . mysql_real_escape_string($this->id) . "'
+				LIMIT 1");	      
+      
+      $this->_is_jeu = $req->lines == 1;
+    }
+    
+  }		
+
+  function is_book() 
+  {
+    $this->_determine_special();
+    return $this->_is_book;
+  }
+  
+  function is_jeu() 
+  {
+    $this->_determine_special();
+    return $this->_is_jeu;
+  }
 	
 	function add ( $id_asso, $id_asso_prop, $id_salle, $id_objtype, $id_op, $nom,
 				$code_objtype, $num_serie, $prix, $caution, $prix_emprunt, $empruntable,
@@ -427,8 +462,14 @@ class objet extends stdentity
 	 */
 	function delete_objet()
 	{
-		$req = new delete($this->dbrw,"inv_objet",array("id_objet" => $this->id));
-		$req = new delete($this->dbrw,"inv_objet_evenement",array("id_objet" => $this->id));
+		new delete($this->dbrw,"inv_objet",array("id_objet" => $this->id));
+		new delete($this->dbrw,"inv_objet_evenement",array("id_objet" => $this->id));
+		
+		// Nettoyage des extentions
+		new delete($this->dbrw,"inv_jeu",array("id_objet" => $this->id));
+		new delete($this->dbrw,"bk_book",array("id_objet" => $this->id));
+		new delete($this->dbrw,"bk_livre_auteur",array("id_objet" => $this->id));
+		
 		$this->id=null;
 	}
 	

@@ -270,7 +270,7 @@ if ( isset($_REQUEST["id_objet"]) )
 	
 	$emp = new emprunt($site->db);
 	$emp->load_by_objet($objet->id);
-	if ( $emp->id > 0 )
+	if ( $emp->is_valid() )
 	{
 		$user = new utilisateur($site->db);
 		$user->load_by_id($emp->id_utilisateur);
@@ -285,6 +285,12 @@ if ( isset($_REQUEST["id_objet"]) )
 		$text .= " (Emprunt ".classlink($emp).")";
 		$tbl->add_row(array("Actuellment emprunté par",$text));
 	}
+	
+	if ( $objet->is_book() )
+		$tbl->add_row(array("Special","Cet objet est un livre : <a href=\"biblio/?id_livre=".$objet->id."\">Voir sa fiche livre</a>"));
+	
+	if ( $objet->is_jeu() )
+		$tbl->add_row(array("Special","Cet objet est un jeu : <a href=\"#\">Voir sa fiche jeu</a>"));
 	
 	$cts->add($tbl,true);
 	}
