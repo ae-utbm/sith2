@@ -649,6 +649,7 @@ elseif ( $livre->is_valid() )
 	if ( $is_admin )
 	{
 	  $cts->add_paragraph("<a href=\"../objet.php?id_objet=".$livre->id."\">Voir fiche objet</a>");
+	  $cts->add_paragraph("<a href=\"?action=edit&amp;id_livre=".$livre->id."\">Editer</a>");
 	}	
 	
 	$tbl = new table("Informations");
