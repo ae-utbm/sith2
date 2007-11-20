@@ -567,7 +567,7 @@ elseif ( $livre->is_valid() )
   	
   	$cts->add_title(2,classlink($serie)." / ".classlink($livre));
     
-		$frm = new form("savejeu","./?id_jeu=".$jeu->id,false,"POST","Modifier");
+		$frm = new form("savelivre","./?id_livre=".$livre->id,false,"POST","Modifier");
 		$frm->add_hidden("action","save");
 		$frm->add_text_field("nom","Nom",$livre->nom);
 		$frm->add_text_field("isbn","ISBN ou EAN13",$livre->isbn);
