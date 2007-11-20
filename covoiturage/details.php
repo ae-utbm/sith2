@@ -49,7 +49,7 @@ $trajet = new trajet($site->db, $site->dbrw, null);
 
 $trajet->load_by_id($_REQUEST['id_trajet']);
 
-if (! in_array($datetrj, $trajet->dates))
+if (($trajet->id <= 0) || (! in_array($datetrj, $trajet->dates)))
 {
   header("Location: ../404.php");
   exit();
