@@ -183,15 +183,17 @@ elseif ( $_REQUEST["action"] == "addlivres" && $is_admin )
     
     if ( $rows[0] != "Serie" )
     {
-      $serie = trim($rows[0]);
+      $nserie = trim($rows[0]);
       $nom = trim($rows[1]);
       $num = trim($rows[2]);
       $auteurs = trim($rows[3]);
-      $editeur = trim($rows[4]);
+      $nediteur = trim($rows[4]);
       $isbn = trim($rows[5]);
       
-    	$editeur->load_or_create($editeur);
-    	$serie->load_or_create($serie);
+    	$editeur->load_or_create($nediteur);
+    	
+    	if ( !empty($nserie) )
+    	  $serie->load_or_create($nserie);
       
       $livre->add_book ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $nom,
 				$objtype->code, "", $_POST["prix"], $_POST["caution"], 0, 0,
@@ -203,8 +205,11 @@ elseif ( $_REQUEST["action"] == "addlivres" && $is_admin )
         $auteurs = explode(",",$auteurs);
         foreach ( $auteurs as $nom )
         {
-        	$auteur->load_or_create($nom);
-        	$livre->add_auteur($auteur->id);
+          if ( !empty($nom) ) 
+          {
+          	$auteur->load_or_create($nom);
+          	$livre->add_auteur($auteur->id);
+          }
         }
       }
     }
@@ -257,7 +262,7 @@ $tabs = array(array("","biblio/","Recherche"),
 			array("editeurs","biblio/?view=editeurs","Editeurs"),
 			array("lieux","biblio/?view=lieux","Lieux"),
 			array("livres","biblio/?view=livres","Livres"),
-			array("livres","biblio/?view=jeux","Jeux")
+			array("jeux","biblio/?view=jeux","Jeux")
 			);
 
 if ( $is_admin ) $tabs[] = array("prets","biblio/?view=prets","Prets");
@@ -338,7 +343,34 @@ elseif ( $_REQUEST["action"] == "searchjeu" )
 	$site->end_page();
 	exit();
 }
-elseif ( $livre->id > 0 )
+elseif ( $jeu->is_valid() )
+{
+	$objtype = new objtype($site->db);
+	$asso_gest = new asso($site->db);
+	
+	$asso_gest->load_by_id($jeu->id_asso);
+	$objtype->load_by_id($jeu->id_objtype);
+	$salle->load_by_id($jeu->id_salle);
+	$serie->load_by_id($jeu->id_serie);
+  
+	$site->start_page("services","Bibliothéque");
+	$cts = new contents("Bibliothèque");
+	$cts->add(new tabshead($tabs,"livres"));
+	
+	$cts->add_title(2,classlink($serie)." / ".classlink($jeu));
+	
+	if ( $is_admin )
+	{
+	  $cts->add_paragraph("<a href=\"../objet.php?id_objet=".$jeu->id."\">Voir fiche objet</a>");
+	}	
+  
+//TODO: afficher informations sur le jeu
+  
+	$site->add_contents($cts);
+	$site->end_page();
+	exit();
+}
+elseif ( $livre->is_valid() )
 {
 	$objtype = new objtype($site->db);
 	$asso_gest = new asso($site->db);
@@ -399,7 +431,7 @@ elseif ( $livre->id > 0 )
 	$site->end_page();
 	exit();
 }
-elseif ( $serie->id > 0 )
+elseif ( $serie->is_valid() )
 {
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
@@ -436,7 +468,7 @@ elseif ( $serie->id > 0 )
 	$site->end_page();
 	exit();
 }
-elseif ( $auteur->id > 0 )
+elseif ( $auteur->is_valid() )
 {
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
@@ -471,7 +503,7 @@ elseif ( $auteur->id > 0 )
 	$site->end_page();
 	exit();
 }
-elseif ( $editeur->id > 0 )
+elseif ( $editeur->is_valid() )
 {
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
@@ -505,7 +537,7 @@ elseif ( $editeur->id > 0 )
 	$site->end_page();
 	exit();
 }
-elseif ( $salle->id > 0 )
+elseif ( $salle->is_valid() )
 {
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
@@ -826,7 +858,7 @@ elseif ( $_REQUEST["view"] == "livres" )
 
 	
 }
-else	if ( $_REQUEST["view"] == "prets" && $is_admin )
+elseif ( $_REQUEST["view"] == "prets" && $is_admin )
 {
 	if ( $Message )
 		$cts->add($Message,true);
@@ -860,6 +892,57 @@ else	if ( $_REQUEST["view"] == "prets" && $is_admin )
 	$cts->add($frm,true);	
 	
 }
+elseif ( $_REQUEST["view"] == "jeux" )
+{
+
+//TODO:liste des jeux disponibles
+
+
+  if ( $is_admin )
+	{
+	 
+//TODO: formulaires d'ajout des jeux
+
+		$frm = new form("addjeu","./?view=jeux",false,"POST","Ajout d'un jeu");
+		$frm->add_hidden("action","addjeu");
+		$frm->add_text_field("nom","Nom");
+		$frm->add_entity_select("id_serie", "Serie", $site->db, "serie",false,true);
+		$frm->add_text_field("etat","Etat");
+		$frm->add_text_field("nb_joueurs","Nombre de joueurs");
+		$frm->add_text_field("duree","Durée moyenne d'une partie");
+		$frm->add_text_field("langue","Langue");
+		$frm->add_text_field("difficulte","Difficultée");
+		$frm->add_entity_select("id_objtype", "Type", $site->db, "objtype", $objtype->id);
+		$frm->add_text_field("num_serie","Numéro de série");
+		$frm->add_date_field("date_achat","Date d'achat");
+		$frm->add_entity_select("id_asso_prop", "Propriètaire", $site->db, "asso", false, false, array("id_asso_parent"=>NULL));
+		$frm->add_entity_select("id_asso", "Gestionnaire", $site->db, "asso");
+		$frm->add_entity_select("id_salle", "Salle", $site->db, "salle");
+		$frm->add_price_field("prix","Prix d'achat");
+		$frm->add_price_field("caution","Prix de la caution");
+		$frm->add_checkbox("en_etat","En etat",true);
+		$frm->add_text_area("notes","Notes");
+		$frm->add_submit("valide","Ajouter");
+		$cts->add($frm,true);
+		
+		$frm = new form("addjeux","./?view=jeux",false,"POST","Ajout de jeux");
+		$frm->add_hidden("action","addjeux");
+		$frm->add_entity_select("id_objtype", "Type", $site->db, "objtype", $objtype->id);
+		$frm->add_date_field("date_achat","Date d'achat");
+		$frm->add_entity_select("id_asso_prop", "Propriètaire", $site->db, "asso", false, false, array("id_asso_parent"=>NULL));
+		$frm->add_entity_select("id_asso", "Gestionnaire", $site->db, "asso");
+		$frm->add_entity_select("id_salle", "Salle", $site->db, "salle");
+		$frm->add_price_field("prix","Prix d'achat");
+		$frm->add_price_field("caution","Prix de la caution");
+		$frm->add_text_area("data","Tableau CSV","Nom; Serie (facultatif); Etat; Nombre de joueurs; Durée moyenne; Langue; Difficultée\n",80,12);
+		$frm->add_submit("valide","Ajouter");
+		$cts->add($frm,true);	 
+	 
+	}
+
+}
+
+
 $site->add_contents($cts);
 $site->end_page();
 
