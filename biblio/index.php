@@ -353,7 +353,7 @@ elseif ( $livre->id > 0 )
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,"livres"));
 	
-	$cts->add_title(2,"<a href=\"./\">Bibliothèque</a> / ".classlink($objtype)." / ".classlink($livre));
+	$cts->add_title(2,classlink($serie)." / ".classlink($livre));
 	
 	if ( $is_admin )
 	{
