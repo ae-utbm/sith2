@@ -416,20 +416,37 @@ elseif ( $jeu->is_valid() )
 	$objtype = new objtype($site->db);
 	$asso_gest = new asso($site->db);
 	
-	$asso_gest->load_by_id($jeu->id_asso);
-	$objtype->load_by_id($jeu->id_objtype);
-	$salle->load_by_id($jeu->id_salle);
-	$serie->load_by_id($jeu->id_serie);
-  
-  if ( $_REQUEST["action"] == "edit" && $is_admin )
+  if ( $_REQUEST["action"] == "save" && $is_admin )
   {
+  	$objtype = new objtype($site->db);
+  	$asso = new asso($site->db);
+  	$asso_prop = new asso($site->db);
+    
+  	$asso_prop->load_by_id($_POST["id_asso_prop"]);
+  	$asso->load_by_id($_POST["id_asso"]);
+  	$objtype->load_by_id($_POST["id_objtype"]);
+  	$salle->load_by_id($_POST["id_salle"]);    
+  	$serie->load_by_id($_POST["id_serie"]);
+  	
+    $jeu->save_jeu ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $_POST["nom"],
+  				$_POST["num_serie"], $_POST["prix"], $_POST["caution"], $_POST["prix_emprunt"], $_POST["empruntable"],
+  				$_POST["en_etat"], $_POST["date_achat"], $_POST["notes"], $livre->cbar,
+  				$serie->id, $_POST["etat"], $_POST["nb_joueurs"], $_POST["duree"], $_POST["langue"], $_POST["difficulte"] );				
+  }
+  elseif ( $_REQUEST["action"] == "edit" && $is_admin )
+  {
+  	$asso_gest->load_by_id($jeu->id_asso);
+  	$objtype->load_by_id($jeu->id_objtype);
+  	$salle->load_by_id($jeu->id_salle);
+  	$serie->load_by_id($jeu->id_serie);
+	    
   	$site->start_page("services","Bibliothéque");
   	$cts = new contents("Bibliothèque");
   	$cts->add(new tabshead($tabs,"jeux"));
   	
   	$cts->add_title(2,classlink($serie)." / ".classlink($jeu));
     
-		$frm = new form("savejeu","./?id_jeu=".$jeu->id,false,"POST","EDITER");
+		$frm = new form("savejeu","./?id_jeu=".$jeu->id,false,"POST","Modifier");
 		$frm->add_hidden("action","save");
 		$frm->add_text_field("nom","Nom",$jeu->nom);
 		$frm->add_entity_select("id_serie", "Serie", $site->db, "serie", $jeu->id_serie, true);
@@ -438,8 +455,8 @@ elseif ( $jeu->is_valid() )
 		$frm->add_text_field("duree","Durée moyenne d'une partie",$jeu->duree);
 		$frm->add_text_field("langue","Langue",$jeu->langue);
 		$frm->add_text_field("difficulte","Difficultée",$jeu->difficulte);
-		$frm->add_entity_select("id_objtype", "Type", $site->db, "objtype", $objtype->id);
-		$frm->add_text_field("num_serie","Numéro de série",$jeu->num);
+		$frm->add_entity_select("id_objtype", "Type", $site->db, "objtype", $jeu->id_objtype);
+		$frm->add_text_field("num_serie","Numéro de série",$jeu->num_serie);
 		$frm->add_date_field("date_achat","Date d'achat",$jeu->date_achat);
 		$frm->add_entity_select("id_asso_prop", "Propriètaire", $site->db, "asso", $jeu->id_asso_prop, false, array("id_asso_parent"=>NULL));
 		$frm->add_entity_select("id_asso", "Gestionnaire", $site->db, "asso", $jeu->id_asso);
@@ -457,7 +474,11 @@ elseif ( $jeu->is_valid() )
   	$site->end_page();
   	exit();
 	}
-  
+	
+  $asso_gest->load_by_id($jeu->id_asso);
+	$objtype->load_by_id($jeu->id_objtype);
+	$salle->load_by_id($jeu->id_salle);
+	$serie->load_by_id($jeu->id_serie);
   
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
@@ -500,12 +521,106 @@ elseif ( $livre->is_valid() )
 	$objtype = new objtype($site->db);
 	$asso_gest = new asso($site->db);
 	
+	if ( $_REQUEST["action"] == "delete" && $is_admin && isset($_REQUEST["id_auteur"]) )
+  {
+    $livre->remove_auteur($_REQUEST["id_auteur"]);
+    $_REQUEST["action"] = "edit";
+  }
+	elseif ( $_REQUEST["action"] == "addauteur" && $is_admin && isset($_REQUEST["id_auteur"]) )
+  {
+	  $auteur->load_by_id($_POST["id_auteur"]);
+	  if ( $auteur->is_valid() ) 
+      $livre->add_auteur($auteur->id);
+    $_REQUEST["action"] = "edit";
+  }
+  
+  if ( $_REQUEST["action"] == "save" && $is_admin )
+  {
+  	$objtype = new objtype($site->db);
+  	$asso = new asso($site->db);
+  	$asso_prop = new asso($site->db);
+    
+  	$asso_prop->load_by_id($_POST["id_asso_prop"]);
+  	$asso->load_by_id($_POST["id_asso"]);
+  	$objtype->load_by_id($_POST["id_objtype"]);
+  	$salle->load_by_id($_POST["id_salle"]);
+  	$editeur->load_by_id($_POST["id_editeur"]);
+  	$serie->load_by_id($_POST["id_serie"]);
+
+    $livre->save_book ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $_POST["nom"],
+  				$_POST["num_serie"], $_POST["prix"], $_POST["caution"], $_POST["prix_emprunt"], $_POST["empruntable"],
+  				$_POST["en_etat"], $_POST["date_achat"], $_POST["notes"], $livre->cbar,
+  				$serie->id, $editeur->id, $_POST["num"], $_POST["isbn"] );				
+  }
+  elseif ( $_REQUEST["action"] == "edit" && $is_admin )
+  {
+   
+  	$asso_gest->load_by_id($livre->id_asso);
+  	$objtype->load_by_id($livre->id_objtype);
+  	$salle->load_by_id($livre->id_salle);
+  	$editeur->load_by_id($livre->id_editeur);
+  	$serie->load_by_id($livre->id_serie);
+	    
+  	$site->start_page("services","Bibliothéque");
+  	$cts = new contents("Bibliothèque");
+  	$cts->add(new tabshead($tabs,"livres"));
+  	
+  	$cts->add_title(2,classlink($serie)." / ".classlink($livre));
+    
+		$frm = new form("savejeu","./?id_jeu=".$jeu->id,false,"POST","Modifier");
+		$frm->add_hidden("action","save");
+		$frm->add_text_field("nom","Nom",$livre->nom);
+		$frm->add_text_field("isbn","ISBN ou EAN13",$livre->isbn);
+		$frm->add_text_field("num","Numéro",$livre->num_livre);
+		$frm->add_entity_select("id_serie", "Serie", $site->db, "serie",false,$livre->id_serie);
+		$frm->add_entity_select("id_editeur", "Editeur", $site->db, "editeur",false,$livre->id_editeur);
+		$frm->add_entity_select("id_objtype", "Type", $site->db, "objtype", $livre->id_objtype);
+		$frm->add_text_field("num_serie","Numéro de série",$livre->num_serie);
+		$frm->add_date_field("date_achat","Date d'achat",$livre->date_achat);
+		$frm->add_entity_select("id_asso_prop", "Propriètaire", $site->db, "asso", $livre->id_asso_prop, false, array("id_asso_parent"=>NULL));
+		$frm->add_entity_select("id_asso", "Gestionnaire", $site->db, "asso", $livre->id_asso);
+		$frm->add_entity_select("id_salle", "Salle", $site->db, "salle", $livre->is_asso);
+		$frm->add_price_field("prix","Prix d'achat",$livre->prix);
+		$frm->add_price_field("caution","Prix de la caution",$livre->caution);
+		$frm->add_price_field("prix_emprunt","Prix d'un emprunt",$livre->prix_emprunt);
+		$frm->add_checkbox("empruntable","Reservable via le site internet",$livre->empruntable);
+		$frm->add_checkbox("en_etat","En etat",$livre->en_etat);
+		$frm->add_text_area("notes","Notes",$livre->notes);
+		$frm->add_submit("valide","Ajouter");
+		$cts->add($frm,true);
+    
+  	$req = new requete ( $site->db, "SELECT " .
+  			"`bk_auteur`.`id_auteur`,`bk_auteur`.`nom_auteur` " .
+  			"FROM `bk_livre_auteur` " .
+  			"INNER JOIN `bk_auteur` ON `bk_livre_auteur`.`id_auteur`=`bk_auteur`.`id_auteur` " .
+  			"WHERE id_objet='".$livre->id."'");
+			
+  	$tbl = new sqltable(
+  		"listauteurs", 
+  		"Modifier les auteurs", $req, "./?id_livre=".$livre->id, 
+  		"id_auteur", 
+  		array("nom_auteur"=>"Auteur"), 
+  		array("delete"=>"Enlever auteur"), array(), array()
+  		);
+  	$cts->add($tbl,true);
+  	
+		$frm = new form("addauteur","./?id_livre=".$livre->id,false);
+		$frm->add_hidden("action","addauteur");
+		$frm->add_entity_select("id_auteur", "Auteur", $site->db, "auteur");
+		$frm->add_submit("valide","Ajouter auteur");
+		$cts->add($frm);
+		 
+  	$site->add_contents($cts);
+  	$site->end_page();
+  	exit();
+	}
+	
 	$asso_gest->load_by_id($livre->id_asso);
 	$objtype->load_by_id($livre->id_objtype);
 	$salle->load_by_id($livre->id_salle);
 	$editeur->load_by_id($livre->id_editeur);
 	$serie->load_by_id($livre->id_serie);
-	//$auteur->load_by_id($livre->id_auteur);
+	
 	
 	$req = new requete ( $site->db, "SELECT " .
 			"`bk_auteur`.`id_auteur`,`bk_auteur`.`nom_auteur` " .
