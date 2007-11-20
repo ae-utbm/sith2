@@ -604,11 +604,11 @@ elseif ( $livre->is_valid() )
   		);
   	$cts->add($tbl,true);
   	
-		$frm = new form("addauteur","./?id_livre=".$livre->id,false);
+		$frm = new form("addauteur","./?id_livre=".$livre->id,false,"POST","Ajouter un auteur");
 		$frm->add_hidden("action","addauteur");
 		$frm->add_entity_select("id_auteur", "Auteur", $site->db, "auteur");
 		$frm->add_submit("valide","Ajouter auteur");
-		$cts->add($frm);
+		$cts->add($frm,true);
 		 
   	$site->add_contents($cts);
   	$site->end_page();
