@@ -49,11 +49,7 @@ $trajet = new trajet($site->db, $site->dbrw, null);
 
 $trajet->load_by_id($_REQUEST['id_trajet']);
 
-if (($trajet->id <= 0) || (! in_array($datetrj, $trajet->dates)))
-{
-  header("Location: ../404.php");
-  exit();
-}
+
 
 /* demande de suppresion d'etapes */
 if ($_REQUEST['action'] == 'delete')
@@ -92,10 +88,32 @@ if ($_REQUEST['action'] == 'delete')
 	    {
 	      $accueil->add_title(2, "Suppression d'une étape");
 	      $accueil->add_paragraph("<b>Etape supprimée avec succès.</b>");
+
+	      /* options */
+
+	      $accueil->add_title(2, "Autres options");
+	      $opts[] = "<a href=\"./\">Retour à la page d'accueil du covoiturage</a>";
+	      $opts[] = "<a href=\"./propose.php\">Proposer un trajet</a>";
+	      $opts[] = "<a href=\"./search.php\">Rechercher un trajet</a>";
+	      
+	      $options = new itemlist(false, false, $opts);
+	      $accueil->add($options);
+
+
+	      $site->add_contents($accueil);
+	      $site->end_page();
+	      exit();
 	    }
 	}
       
     }
+}
+
+
+if (($trajet->id <= 0) || (! in_array($datetrj, $trajet->dates)))
+{
+  header("Location: ../404.php");
+  exit();
 }
 
 if (isset($_REQUEST['add_step_sbmt']))
