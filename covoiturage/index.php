@@ -192,7 +192,7 @@ if ($req->lines > 0)
 			     array("description" => "Description du trajet", 
 				   "date" => "Date",
 				   "state" => "Etat de la demande"), 
-			     array("delete" => "supprimer"), array("delete" => "supprimer")));
+			     array("delete" => "supprimer"), array()));
   
 } // fin "mes étapes"
 
