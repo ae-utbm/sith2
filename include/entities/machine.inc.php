@@ -35,7 +35,7 @@ class machine extends stdentity
 	
 	function load_by_id_creneau ( $id, &$debut )
 	{
-		$req = new requete($this->db, "SELECT mc_machines.*, mc_creneaux.date_debut  FROM mc_creneaux
+		$req = new requete($this->db, "SELECT mc_machines.*, mc_creneaux.debut_creneau  FROM mc_creneaux
 		    INNER JOIN `mc_machines` ON (mc_machines.id=mc_creneaux.id_machine)
 				WHERE `id_creneau` = '" . mysql_real_escape_string($id) . "'
 				LIMIT 1");	
@@ -43,7 +43,7 @@ class machine extends stdentity
 		if ( $req->lines == 1 )
 		{
 		  $row = $req->get_row();
-		  $debut = $row['date_debut'];
+		  $debut = strtotime($row['debut_creneau']);
 			$this->_load($row);
 			return true;
 		}
