@@ -106,6 +106,7 @@ class photo extends basedb
     //exif et puis nah ! :)
     $this->iso = $row["iso"];
     $this->focale = $row["focale"];
+    $this->ouverture=$row["ouverture"];
     $this->flash = $row["flash"];
     $this->exposuretime = $row["exposuretime"];
     $this->aperture = $row["aperture"];
@@ -182,6 +183,7 @@ class photo extends basedb
     $this->date_prise_vue=null;
     $this->iso=0;
     $this->focale=0;
+    $this->ouverture=0;
     $this->exposuretime=0;
     $this->flash=-1;
     $this->aperture=0;
@@ -209,6 +211,10 @@ class photo extends basedb
         //Focale
         if(isset($EXIF["FocalLengthIn35mmFilm"]))
           $this->focale=$EXIF["FocalLengthIn35mmFilm"];
+
+        //Ouverture
+        if(isset($EXIF["FNumber"]))
+          $this->ouverture=$EXIF["FNumber"];
 
         //Flash
         if(isset($EXIF["Flash"]))
@@ -314,6 +320,7 @@ class photo extends basedb
         "id_asso_photographe"=>$this->id_asso_photographe,
         "iso"=>$this->iso,
         "focale"=>$this->focale,
+        "ouverture"=>$this->ouverture,
         "flash"=>$this->flash,
         "exposuretime"=>$this->exposuretime,
         "aperture"=>$this->aperture,
