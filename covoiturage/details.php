@@ -78,56 +78,61 @@ if (isset($_REQUEST['add_step_sbmt']))
     {
       $accueil->add_paragraph("<b>Une erreur est survenue lors de l'ajout de l'étape.</b>");
     }
+
+
 }
-$respusr = new utilisateur($site->db);
-$respusr->load_by_id($trajet->id_utilisateur);
+else
+{
+  $respusr = new utilisateur($site->db);
+  $respusr->load_by_id($trajet->id_utilisateur);
 
-$accueil->add_title(2, "Informations");
-$accueil->add_paragraph("Ce trajet <b>" . $trajet->ville_depart->nom . " / " .
-			$trajet->ville_arrivee->nom 
-			."</b> est proposé par <a href=\"../user.php?id_utilisateur=".
-			$respusr->id."\">" . $respusr->get_html_link() . 
-			"</a>, qui prévoit de le réaliser le ".HumanReadableDate($datetrj, "", false, true) . ".");
+  $accueil->add_title(2, "Informations");
+  $accueil->add_paragraph("Ce trajet <b>" . $trajet->ville_depart->nom . " / " .
+			  $trajet->ville_arrivee->nom 
+			  ."</b> est proposé par <a href=\"../user.php?id_utilisateur=".
+			  $respusr->id."\">" . $respusr->get_html_link() . 
+			  "</a>, qui prévoit de le réaliser le ".HumanReadableDate($datetrj, "", false, true) . ".");
 
-$accueil->add_paragraph("<div class=\"comment\">".doku2xhtml($trajet->commentaires)."</div>");
+  $accueil->add_paragraph("<div class=\"comment\">".doku2xhtml($trajet->commentaires)."</div>");
 
-$accueil->add_paragraph("<center><img src=\"./imgtrajet.php?id_trajet=".
+  $accueil->add_paragraph("<center><img src=\"./imgtrajet.php?id_trajet=".
 			$trajet->id."&amp;date=".$datetrj."\" alt=\"Rendu géographique\" /></center>");
 
-$accueil->add_paragraph("Ci-dessus une vue du trajet, avec les étapes acceptées éventuelles");
+  $accueil->add_paragraph("Ci-dessus une vue du trajet, avec les étapes acceptées éventuelles");
 
 
 
-/* proposer de rejoindre le trajet */
-if ((! isset($_REQUEST['add_step_sbmt'])) && ($trajet->id_utilisateur != $site->user->id))
-{
-  if (! $trajet->already_proposed_step($site->user->id, $datetrj))
+  /* proposer de rejoindre le trajet */
+  if ((! isset($_REQUEST['add_step_sbmt'])) && ($trajet->id_utilisateur != $site->user->id))
     {
-      $accueil->add_title(2, "Vous souhaitez rejoindre ce trajet");
-      $accueil->add_paragraph("Veuillez remplir le formulaire ci-dessous. Après validation, ".
-			      "l'étape ainsi créée sera mise à appréciation du responsable du trajet.");
+      if (! $trajet->already_proposed_step($site->user->id, $datetrj))
+	{
+	  $accueil->add_title(2, "Vous souhaitez rejoindre ce trajet");
+	  $accueil->add_paragraph("Veuillez remplir le formulaire ci-dessous. Après validation, ".
+				  "l'étape ainsi créée sera mise à appréciation du responsable du trajet.");
       
-      $frm = new form('add_step', 'details.php', true);
-      $frm->add_hidden('id_trajet', $trajet->id);
-      $frm->add_hidden('date', $datetrj);
+	  $frm = new form('add_step', 'details.php', true);
+	  $frm->add_hidden('id_trajet', $trajet->id);
+	  $frm->add_hidden('date', $datetrj);
       
-      $ville = new ville($site->db);
-      $frm->add_entity_smartselect("mydest","Ma destination", $ville);
-
-      $frm->add_dokuwiki_toolbar('comments');
-      $frm->add_text_area('comments', 'Commentaires (facultatif - Syntaxe DokuWiki)', null, 80, 20);
-
-      $frm->add_submit('add_step_sbmt', 'Proposer');
-      $accueil->add($frm);
-      $accueil->add_paragraph("Une fois l'étape proposée, cette dernière pourra être acceptée ou refusée par ".
-			      "l'initiateur du trajet. Vos coordonnées (renseignées dans le matmatronch) lui ".
+	  $ville = new ville($site->db);
+	  $frm->add_entity_smartselect("mydest","Ma destination", $ville);
+	  
+	  $frm->add_dokuwiki_toolbar('comments');
+	  $frm->add_text_area('comments', 'Commentaires (facultatif - Syntaxe DokuWiki)', null, 80, 20);
+	  
+	  $frm->add_submit('add_step_sbmt', 'Proposer');
+	  $accueil->add($frm);
+	  $accueil->add_paragraph("Une fois l'étape proposée, cette dernière pourra être acceptée ou refusée par ".
+				  "l'initiateur du trajet. Vos coordonnées (renseignées dans le matmatronch) lui ".
 			      "seront fournies, au cas où il ait besoin de vous joindre.");
+	}
+      else 
+	$accueil->add_paragraph("Vous avez déjà proposé une étape pour ".
+				"ce trajet à la date choisie. Vous ne ".
+				"pouvez plus, en toute logique, proposer".
+				" d'étapes.");
     }
-  else 
-    $accueil->add_paragraph("Vous avez déjà proposé une étape pour ".
-  			    "ce trajet à la date choisie. Vous ne ".
-  			    "pouvez plus, en toute logique, proposer".
-  			    " d'étapes.");
 }
 /* options */
 $accueil->add_title(2, "Autres options");
