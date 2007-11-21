@@ -76,7 +76,7 @@ if (isset($_REQUEST['date']))
 	  if ($etape['etat'] == 1)
 	    $img->add_location_by_idville($idville, false);
 	  else if ($_REQUEST['id_etape'] == $etape['id'])
-	    $img->add_location_by_idville($idville, false);
+	    $img->add_location_by_idville($idville, false, true);
 	}
     }
 }
