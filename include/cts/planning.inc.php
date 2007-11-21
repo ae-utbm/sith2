@@ -75,7 +75,6 @@ class weekplanning extends stdcontents
 		if ( $n = strpos($endf,".") )
 		  $endf = substr($endf,$n+1); 
 		
-		echo $startf;
 		
 		while ( $row = $req->get_row() )
 		{

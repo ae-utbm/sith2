@@ -382,7 +382,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
     "SELECT 
      id_creneau,
      debut_creneau, fin_creneau
-     FROM mc_creneaux AS cl
+     FROM mc_creneaux
      INNER JOIN mc_machines ON ( mc_creneaux.id_machine = mc_machines.id  )
      WHERE mc_machines.type='".mysql_real_escape_string($type)."'
      AND mc_machines.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'";    
