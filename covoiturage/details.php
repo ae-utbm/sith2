@@ -99,10 +99,9 @@ $accueil->add_paragraph("Ci-dessus une vue du trajet, avec les étapes acceptée
 
 
 /* proposer de rejoindre le trajet */
-if (! isset($_REQUEST['add_step_sbmt']))
+if ((! isset($_REQUEST['add_step_sbmt'])) && ($trajet->id_utilisateur != $site->user->id))
 {
-  if (1)
-  // if (! $trajet->already_proposed_step($site->user->id, $datetrj))
+  if (! $trajet->already_proposed_step($site->user->id, $datetrj))
     {
       $accueil->add_title(2, "Vous souhaitez rejoindre ce trajet");
       $accueil->add_paragraph("Veuillez remplir le formulaire ci-dessous. Après validation, ".
@@ -124,11 +123,11 @@ if (! isset($_REQUEST['add_step_sbmt']))
 			      "l'initiateur du trajet. Vos coordonnées (renseignées dans le matmatronch) lui ".
 			      "seront fournies, au cas où il ait besoin de vous joindre.");
     }
-  //  else 
-  //  $accueil->add_paragraph("Vous avez déjà proposé une étape pour ".
-  //			    "ce trajet à la date choisie. Vous ne ".
-  //			    "pouvez plus, en toute logique, proposer".
-  //			    " d'étapes.");
+  else 
+    $accueil->add_paragraph("Vous avez déjà proposé une étape pour ".
+  			    "ce trajet à la date choisie. Vous ne ".
+  			    "pouvez plus, en toute logique, proposer".
+  			    " d'étapes.");
 }
 /* options */
 $accueil->add_title(2, "Autres options");
