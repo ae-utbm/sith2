@@ -175,7 +175,10 @@ if ($req->lines > 0)
       
       $date = HumanReadableDate($rs['trajet_date'], "", false, true);
       
-      $stepsarr[] = array("Description" => $desc, "Date" => $date ,"state" => $state);
+      $stepsarr[] = array("id" => $rs['id_etape'].','.$rs['id_trajet'].','.$rs['trajet_date'],
+			  "description" => $desc, 
+			  "date" => $date ,
+			  "state" => $state);
       
     }
   
@@ -185,7 +188,7 @@ if ($req->lines > 0)
   $accueil->add_paragraph("Cette partie liste les étapes sur les trajets que vous ".
 			  "souhaitez rejoindre, ainsi que l'état d'acceptation des étapes");
   
-  $accueil->add(new sqltable("mysteps", "Mes étapes", $stepsarr, "./details.php", "id_etape", 
+  $accueil->add(new sqltable("mysteps", "Mes étapes", $stepsarr, "./details.php", "id", 
 			     array("description" => "Description du trajet", 
 				   "date" => "Date",
 				   "state" => "Etat de la demande"), 
