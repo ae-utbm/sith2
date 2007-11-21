@@ -110,10 +110,10 @@ class weekplanning extends stdcontents
 		$height = floor((24*60*60/$scale)+20);
 		$this->buffer .= "<tr>\n<td class=\"day\" style=\"width:9%; height:".$height."px;\">\n";
 		$this->buffer .= "<div class=\"dayhead\" style=\"height:20px;\">&nbsp;</div>\n";
-			
+		
 		for($i=0;$i<24;$i++)
 		{
-			$ln = floor(60*60/$scale);
+			$ln = floor(($i+1)*60*60/$scale)-floor($i*60*60/$scale);
 			$this->buffer .= "<div style=\"border-top: 1px solid black; padding:1px; height:".($ln-3)."px; overflow:hidden;\">$i</div>\n";	
 		}
 		
