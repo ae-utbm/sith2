@@ -491,6 +491,11 @@ elseif ( $_REQUEST["action"] == "searchmc" )
   $frm->add_select_field("operation","Machines désirées",array(3=>"Lavage et sechage",1=>"Lavage seulement",2=>"Sechage seulement"));
   $frm->add_submit("search","Rechercher un créneau");
   $cts->add($frm,true);
+  
+  if ( $is_admin )
+    $cts->add_paragraph("<a href=\"?page=admin\">Administration</a>");
+    
+  $cts->add_paragraph("<a href=\"?\">Créneaux déjà réservés</a>");
     
   $site->add_contents($cts);
   $site->end_page();
