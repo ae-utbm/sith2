@@ -177,7 +177,7 @@ if ( $_REQUEST["page"] == "admin" && $is_admin )
         if ( !empty($nom_jeton) )
         {
           if ( !$jeton->load_by_nom_and_salle($nom_jeton,$_REQUEST["type"],$id_salle) )
-            $jeton->add ( $id_salle, $_REQUEST["type"], $nom_jeton )
+            $jeton->add ( $id_salle, $_REQUEST["type"], $nom_jeton );
           else
             $cts->add_paragraph("Jeton $nom_jeton déjà existant.");
         }
