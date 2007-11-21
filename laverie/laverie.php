@@ -363,7 +363,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
     $sql = 
     "SELECT 
      CONCAT(cl.id_creneau,',',cs.id_creneau) AS id_creneau,
-     cl.debut_creneau, cl.fin_creneau
+     cl.debut_creneau AS debut, cl.fin_creneau AS fin
      FROM mc_creneaux AS cl
      INNER JOIN mc_machines AS ml ON ( cl.id_machine = ml.id AND ml.type='laver' )
      INNER JOIN mc_creneaux AS cs ON ( cl.debut_creneau = cs.fin_creneau )
@@ -379,14 +379,14 @@ elseif ( $_REQUEST["action"] == "searchmc" )
     $sql = 
     "SELECT 
      id_creneau,
-     debut_creneau, fin_creneau
+     debut_creneau AS debut, fin_creneau AS fin
      FROM mc_creneaux AS cl
      INNER JOIN mc_machines ON ( mc_creneaux.id_machine = mc_machines.id  )
      WHERE mc_machines.type='".mysql_real_escape_string($type)."'
      AND mc_machines.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'";    
   }
     
-  $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "debut_creneau", "fin_creneau", "debut_creneau", "laverie.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"], "laverie.php?page=reserver" );
+  $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "debut", "fin", "debut", "laverie.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"], "laverie.php?page=reserver" );
   $cts->add($pl,true);
     
   $frm = new form("searchmc","laverie.php",false,"POST","Nouvelle recherche");
