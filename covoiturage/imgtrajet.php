@@ -60,12 +60,12 @@ if (isset($_REQUEST['date']))
 {
   $etapes = $trajet->get_steps_by_date($_REQUEST['date']);
 
+
   if (is_array($etapes) && (count($etapes)))
     {
       foreach ($etapes as $etape)
 	{
-	  $idville = explode(':', $etape['ville']);
-	  $idville = $idville[1];
+	  $idville = $etape['ville'];
 
 	  if ($_REQUEST['hlstp'] == $etape['id'])
 	    {
@@ -92,6 +92,6 @@ $img = $img->generate_img();
 require_once ($topdir . "include/watermark.inc.php");
 $wm_img = new img_watermark ($img->imgres);
 
-$wm_img->output();
+//$wm_img->output();
 
 ?>
