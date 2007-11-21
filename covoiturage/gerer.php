@@ -194,7 +194,7 @@ if (count($trajet->dates))
   //  $lst = new itemlist(false, false, $datetrj);
   $lst = new sqltable("managedatestrj", "Dates de trajet", $datetrj, 
 		      "./gerer.php?idtrj=".$trajet->id,
-		      "id", array("dates" => "Les dates de trajet"), 
+		      "id", array("dates" => "Dates de trajet"), 
 		      array("delete" => "Supprimer"), 
 		      array("delete" => "Supprimer"));  
   $accueil->add($lst);
