@@ -48,35 +48,43 @@ $trajet->load_by_id($_REQUEST['id_trajet']);
 /* suppression d'une date de trajet */
 if ($_REQUEST['action'] == "delete")
 {
-  $date = $_REQUEST['id'];
-
   if ($trajet->id_utilisateur == $site->user->id)
     {
-      /*
-      $req = new delete($site->dbrw,
-			 "cv_trajet_date", 
-			 array("id_trajet" => $trajet->id, 
-			       "trajet_date" => $date));
-      */    
-      $accueil->add_paragraph("<pre>".print_r($_REQUEST, true)."</pre>");
+      if (isset($_REQUEST['ids']))
+	$dates = &$_REQUEST['ids'];
+      else
+	$dates[] = $date;
 
-      if ($req->lines == 1)
+      if (count($dates) > 0)
 	{
-	  /* TODO : on prévient comment les gugus
-	   * déjà acceptés sur la date donnée ?
-	   *
-	   * - On saura déterminer si suppression (date d'étape pour un trajet pas prévu à la date donnée)
-	   * - On leur envoie un mail ?
-	   *
-	   * A réfléchir ...
-	   */
-
 	  $accueil->add_title(2, "Suppresion de dates");
-	  $accueil->add_paragraph("<b>Date supprimée avec succès.</b>");
+
+	  foreach ($dates as $date)
+	    {
+	      $req = new delete($site->dbrw,
+				"cv_trajet_date", 
+				array("id_trajet" => $trajet->id, 
+				      "trajet_date" => $date));
+	      
+	      if ($req->lines == 1)
+		{
+		  /* TODO : on prévient comment les gugus
+		   * déjà acceptés sur la date donnée ?
+		   *
+		   * - On saura déterminer si suppression (date d'étape pour un trajet pas prévu à la date donnée)
+		   * - On leur envoie un mail ?
+		   *
+		   * A réfléchir ...
+		   */
+
+		  $accueil->add_paragraph("<b>Date  du ".
+					  HumanReadableDate($date, "", false, true)
+					  ."supprimée avec succès.</b>");
+
+		}
+	    }
 	}
-
     }
-
 }
 
 /* Acceptation / refus */
