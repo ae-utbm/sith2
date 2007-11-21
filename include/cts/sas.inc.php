@@ -241,7 +241,7 @@ class sasphoto extends contents
       if($photo->exposuretime!=0)
       {
         $et=explode("/",$photo->exposuretime);
-        if(count($et)==2))
+        if(count($et)==2)
         {
           $et=((int)$et[0]/(int)$et[1]);
           $et=" (".$et." s)";
@@ -257,7 +257,7 @@ class sasphoto extends contents
       if(!empty($photo->ouverture))
       {
         $ouv=explode("/",$photo->ouverture);
-        if(count($ouv)==2))
+        if(count($ouv)==2)
         {
           $ouv=((int)$ouv[0]/(int)$ouv[1]);
           $ouv="(f/".sprintf("%.2f",$ouv).")";
