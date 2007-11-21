@@ -200,7 +200,34 @@ if ( $_REQUEST["page"] == "admin" && $is_admin )
     $frm->add_submit("valid","Valider");
     $cts->add($frm,true);
     
+    $req = new requete($site->db,"SELECT
+      mc_jeton.id_jeton,
+      mc_jeton.type_jeton,
+      mc_jeton.nom_jeton,
+      mc_jeton_utilisateur.prise_jeton,
+      CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS nom_utilisateur,
+      utilisateurs.id_utilisateur
+      FROM mc_jeton
+      LEFT JOIN mc_jeton_utilisateur ON ( mc_jeton.id_jeton=mc_jeton_utilisateur.id_jeton AND mc_jeton_utilisateur.retour_jeton IS NULL )
+      LEFT JOIN utilisateurs ON (mc_jeton_utilisateur.id_utilisateur=utilisateurs.id_utilisateur )
+      WHERE mc_jeton.id_salle=$id_salle 
+      ORDER BY type_jeton,nom_jeton ");
     
+    $tbl = new sqltable("invjt",
+      "Inventaire des jetons",
+      $req,
+      "index.php",
+      "id_jeton",
+      array(
+        "type_jeton" => "Type",
+        "nom_jeton" => "Numéro",
+        "nom_utilisateur" => "Emprunté par",
+        "prise_jeton" => "depuis le"),
+      array(),
+      array(),
+      array("type_jeton"=>$GLOBALS['types_jeton']) );
+      
+    $cts->add($tbl,true);
     
   }
   else // Vente
@@ -330,6 +357,7 @@ if ( $_REQUEST["page"] == "admin" && $is_admin )
     $frm->add_submit("search","Rechercher");
     $cts->add($frm,true);
     
+    $cts->add_paragraph("<a href=\"?\">Reservation d'un creneau</a>");
   }
   
   $site->add_contents($cts);
