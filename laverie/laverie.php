@@ -241,7 +241,7 @@ if ( $_REQUEST["page"] == "admin" && $is_admin )
         AND fin_creneau >= '".date("Y-m-d H:i:s")."'
         AND debut_creneau <= '".date("Y-m-d H:i:s",time()+(48*24*60*260))."'
         AND id_jeton IS NULL
-        AND mc_machines.id_salle = '".$id_salle."'
+        AND mc_machines.loc = '".$id_salle."'
         ORDER BY debut_creneau");      
       
       if ( $sql->lines == 0 )
