@@ -32,6 +32,7 @@ require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/pgsqlae.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/trajet.inc.php");
+require_once($topdir . "include/cts/sqltable.inc.php");
 
 
 $site = new site();
@@ -139,6 +140,30 @@ if ($sql->lines)
   $mytrjs = new itemlist(false, false, $mytrj);
   $accueil->add($mytrjs);
 }
+
+/* mes "étapes" proposées */
+
+
+$req = new requete($site->db, "SELECT 
+                                       * 
+                               FROM    
+                                       `cv_trajet_etape`
+                               INNER JOIN
+                                       `cv_trajet`
+                               USING (`id_trajet`)
+                               WHERE
+                                       `cv_trajet_etape`.`id_utilisateur` = " . $site->user->id);
+
+
+$accueil->add_title(2, "Mes étapes");                             
+
+$accueil->add_paragraph("Cette partie liste les étapes sur les trajets que vous ".
+			"souhaitez rejoindre, ainsi que l'état d'acceptation des étapes");
+
+$accueil->add(new sqltable("mysteps", "Mes étapes", $req, "./details.php", "id_etape", 
+	      array("trajet_date" => "date du trajet", "accepted_etape" => "Etat de la demande"), 
+	      array(), array()));
+
 
 /* options */
 $accueil->add_title(2, "Autres options");
