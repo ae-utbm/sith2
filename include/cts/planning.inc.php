@@ -69,6 +69,12 @@ class weekplanning extends stdcontents
 		else
 			$infopage = $infopage."?";		
 		
+		if ( $n = strpos($startf,".") )
+		  $startf = substr($startf,$n+1); 
+		  
+		if ( $n = strpos($endf,".") )
+		  $endf = substr($endf,$n+1); 
+		
 		while ( $row = $req->get_row() )
 		{
 			$st = strtotime($row[$startf]);
