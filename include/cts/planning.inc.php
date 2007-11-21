@@ -106,7 +106,7 @@ class weekplanning extends stdcontents
 		/*$this->buffer .= "<tr class=\"planninghead\">";
 		
 		$this->buffer .= "</tr>";*/	
-		$scale = 24*8;
+		$scale = 24*7;
 		$height = floor((24*60*60/$scale)+20);
 		$this->buffer .= "<tr>\n<td class=\"day\" style=\"width:9%; height:".$height."px;\">\n";
 		$this->buffer .= "<div class=\"dayhead\" style=\"height:20px;\">&nbsp;</div>\n";
@@ -130,14 +130,13 @@ class weekplanning extends stdcontents
 		  {
 			  foreach ( $day[date("Y-m-d",$i)] as $row )
 			  {
-				  $st = floor(((date("H",$row[0])*60+date("i",$row[0]))*60+date("s",$row[0]))/$scale);
-
-				  $ln = floor(((date("H",$row[1])*60+date("i",$row[1]))*60+date("s",$row[1]))/$scale)-$st;
+				  $st = floor(($row[0]-$i)/$scale);
+				  $ln = floor(($row[1]-$i)/$scale)-$st;
 				  
 				  if ( $st != $last )
 				    $this->buffer .= "<div style=\"height:".($st-$last)."px; overflow:hidden;\">&nbsp;</div>\n";
 				
-				  $this->buffer .= "<div style=\"border: 1px solid black; padding:1px; height:".($ln-4)."px; overflow:hidden;\"><a href=\"".$infopage.$idf."=".$row[2]."\"><i>".date("H:i",$row[0])."</i> ".$row[3]."</a></div>\n";
+				  $this->buffer .= "<!-- $last; $st, $ln --><div style=\"border: 1px solid black; padding:1px; height:".($ln-4)."px; overflow:hidden;\"><a href=\"".$infopage.$idf."=".$row[2]."\"><i>".date("H:i",$row[0])."</i> ".$row[3]."</a></div>\n";
 				  $last=$st+$ln;
 			  }
 		  }
