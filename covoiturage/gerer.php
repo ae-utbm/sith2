@@ -45,6 +45,40 @@ $trajet = new trajet($site->db, $site->dbrw, null);
 
 $trajet->load_by_id($_REQUEST['id_trajet']);
 
+/* suppression d'une date de trajet */
+if ($_REQUEST['action'] == "delete")
+{
+  $date = $_REQUEST['id'];
+
+  if ($trajet->id_utilisateur == $site->user->id)
+    {
+      /*
+      $req = new delete($site->dbrw,
+			 "cv_trajet_date", 
+			 array("id_trajet" => $trajet->id, 
+			       "trajet_date" => $date));
+      */    
+      $accueil->add_paragraph("<pre>".print_r($_REQUEST, true)."</pre>");
+
+      if ($req->lines == 1)
+	{
+	  /* TODO : on prévient comment les gugus
+	   * déjà acceptés sur la date donnée ?
+	   *
+	   * - On saura déterminer si suppression (date d'étape pour un trajet pas prévu à la date donnée)
+	   * - On leur envoie un mail ?
+	   *
+	   * A réfléchir ...
+	   */
+
+	  $accueil->add_title(2, "Suppresion de dates");
+	  $accueil->add_paragraph("<b>Date supprimée avec succès.</b>");
+	}
+
+    }
+
+}
+
 /* Acceptation / refus */
 if ($_REQUEST['action'] == "accept")
 {
