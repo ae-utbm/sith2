@@ -53,7 +53,7 @@ if ($_REQUEST['action'] == "delete")
       if (isset($_REQUEST['ids']))
 	$dates = &$_REQUEST['ids'];
       else
-	$dates[] = $date;
+	$dates[] = $_REQUEST['id'];
 
       if (count($dates) > 0)
 	{
@@ -85,6 +85,9 @@ if ($_REQUEST['action'] == "delete")
 	    }
 	}
     }
+
+  /* rechargement du trajet */
+  $trajet->load_by_id($trajet->id);
 }
 
 /* Acceptation / refus */
