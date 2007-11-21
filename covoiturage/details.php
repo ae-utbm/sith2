@@ -89,10 +89,14 @@ $accueil->add_paragraph("Ce trajet <b>" . $trajet->ville_depart->nom . " / " .
 			$respusr->id."\">" . $respusr->get_html_link() . 
 			"</a>, qui prévoit de le réaliser le ".HumanReadableDate($datetrj, "", false, true) . ".");
 
+$accueil->add_paragraph("<div class=\"comment\">".doku2xhtml($trajet->commentaires)."</div>");
+
 $accueil->add_paragraph("<center><img src=\"./imgtrajet.php?id_trajet=".
 			$trajet->id."&amp;date=".$datetrj."\" alt=\"Rendu géographique\" /></center>");
 
 $accueil->add_paragraph("Ci-dessus une vue du trajet, avec les étapes acceptées éventuelles");
+
+
 
 /* proposer de rejoindre le trajet */
 if (! isset($_REQUEST['add_step_sbmt']))
