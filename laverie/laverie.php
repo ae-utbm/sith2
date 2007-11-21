@@ -487,7 +487,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
     
   $frm = new form("searchmc","laverie.php",false,"POST","Nouvelle recherche");
   $frm->add_hidden("action","searchmc");
-  $frm->add_select_field("id_salle","Lieu",$salles);
+  $frm->add_select_field("id_salle","Lieu",$salles, $_REQUEST["id_salle"]);
   $frm->add_select_field("operation","Machines désirées",array(3=>"Lavage et sechage",1=>"Lavage seulement",2=>"Sechage seulement"));
   $frm->add_submit("search","Rechercher un créneau");
   $cts->add($frm,true);
@@ -504,7 +504,7 @@ $cts = new contents("Machines à laver de l'AE");
 
 $frm = new form("searchmc","laverie.php",false,"POST","Reserver un creneau");
 $frm->add_hidden("action","searchmc");
-$frm->add_select_field("id_salle","Lieu",$salles);
+$frm->add_select_field("id_salle","Lieu",$salles, $_REQUEST["id_salle"]);
 $frm->add_select_field("operation","Machines désirées",array(3=>"Lavage et sechage",1=>"Lavage seulement",2=>"Sechage seulement"));
 $frm->add_submit("search","Rechercher un créneau");
 $cts->add($frm,true);
