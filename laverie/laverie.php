@@ -363,7 +363,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
     $sql = 
     "SELECT 
      CONCAT(cl.id_creneau,',',cs.id_creneau) AS id_creneau,
-     cl.debut_creneau, SUBTIME(cl.fin_creneau,'00:00:01'),
+     cl.debut_creneau, SUBTIME(cl.fin_creneau,'00:00:01') AS fin_creneau,
      'Selectionner' AS texte
      FROM mc_creneaux AS cl
      INNER JOIN mc_machines AS ml ON ( cl.id_machine = ml.id AND ml.type='laver' )
@@ -382,7 +382,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
     $sql = 
     "SELECT 
      id_creneau,
-     debut_creneau, SUBTIME(fin_creneau,'00:00:01'),
+     debut_creneau, SUBTIME(fin_creneau,'00:00:01') as fin_creneau,
      'Selectionner' AS texte
      FROM mc_creneaux
      INNER JOIN mc_machines ON ( mc_creneaux.id_machine = mc_machines.id  )
