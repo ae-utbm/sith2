@@ -254,6 +254,8 @@ class sasphoto extends contents
         $exif.="<span class=\"exiftitle\">Ouverture</span> : ".$photo->aperture."<br />\n";
       if(!empty($photo->focale))
         $exif.="<span class=\"exiftitle\">Focale</span> : ".$photo->focale." mm<br />\n";
+      if(!empty($photo->ouverture))
+        $exif.="<span class=\"exiftitle\">Ouverture</span> : ".$photo->ouverture." mm<br />\n";
       if($photo->iso!=0)
         $exif.="<span class=\"exiftitle\">Iso</span> : ".$photo->iso."<br />\n";
       if($photo->flash==1)
