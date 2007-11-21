@@ -262,7 +262,7 @@ if ( $_REQUEST["page"] == "admin" && $is_admin )
               $vp->load_by_id(JET_LAVAGE, CPT_MACHINES);
             else
               $vp->load_by_id(JET_SECHAGE, CPT_MACHINES);
-            $caddie[$jeton->type] = array(1, $vente_lav);
+            $caddie[$jeton->type] = array(1, $vp);
           }
           else
             $caddie[$jeton->type][0]++;
