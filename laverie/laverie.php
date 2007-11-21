@@ -296,8 +296,6 @@ if ( $_REQUEST["action"] == "reserver" )
   $machine->load_by_id_creneau($_REQUEST["id_creneau1"],$debut);
   $machine->take_creneau($_REQUEST["id_creneau1"],$user->id);
   
-  print_r($machine);
-  
   if ( isset($_REQUEST["id_creneau2"]) )
   {
     $machine->load_by_id_creneau($_REQUEST["id_creneau2"],$debut);
@@ -446,6 +444,7 @@ $tbl = new sqltable("lstcrfutur",
   array(),
   array("type"=>$GLOBALS['types_machines'],"id_salle"=>$salles) );
 
+$cts->add($tbl,true);
 
 if ( $is_admin )
   $cts->add_paragraph("<a href=\"?page=admin\">Administration</a>");
