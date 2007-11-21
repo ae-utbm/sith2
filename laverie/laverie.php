@@ -371,7 +371,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
      WHERE ml.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
      AND ms.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'";
     
-    $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "cl.debut_creneau", "cl.fin_creneau", "debut_creneau", "laverie.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"], "laverie.php?page=reserver" );
+    $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "cl.debut_creneau", "cl.fin_creneau", "debut_creneau", "laverie.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"], "laverie.php?page=reserver", "GROUP BY cl.debut_creneau" );
     $cts->add($pl,true);    
   }
   else
