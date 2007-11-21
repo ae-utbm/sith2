@@ -86,7 +86,7 @@ class sqltable extends stdcontents
     
     $this->buffer .= "<table class=\"sqltable\">\n";
 
-    if ( count($cols) > 1 )
+    if ( count($cols) >= 1 )
     {
       $this->buffer .= "<tr class=\"head\">\n";
       if ( count($batch_actions) )

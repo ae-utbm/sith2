@@ -199,7 +199,7 @@ if (count($trajet->dates))
 		      $datetrj, 
 		      "./gerer.php?id_trajet=".$trajet->id,
 		      "id", 
-		      array("id" => "dates SQL","dates" => "Dates de trajet"), 
+		      array("dates" => "Dates de trajet"), 
 		      array("delete" => "Supprimer"), 
 		      array("delete" => "Supprimer"));  
   
