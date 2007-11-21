@@ -106,7 +106,7 @@ if ( $_REQUEST["page"] == "admin" && $is_admin )
     if ( $_REQUEST["action"] == "autoplanning" )
     {
       $machine = new machine($site->db,$site->dbrw);
-      $req = new requete("SELECT * FROM mc_machines WHERE loc='$id_salle'");
+      $req = new requete($site->db,"SELECT * FROM mc_machines WHERE loc='$id_salle'");
       while ( $row = $req->get_row() )
       {
         $machine->_load($row);
