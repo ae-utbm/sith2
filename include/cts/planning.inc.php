@@ -114,7 +114,7 @@ class weekplanning extends stdcontents
 		for($i=0;$i<24;$i++)
 		{
 			$ln = floor(60*60/$scale);
-			$this->buffer .= "<div style=\"border-top: 1px solid black; padding:1px; height:".($ln-3)."px; overflow:hidden;\">$i</div>\n";	
+			$this->buffer .= "<div style=\"height:".($ln-3)."px; overflow:hidden;\"><div style=\"border-top: 1px solid black; padding:1px; \">$i</div></div>\n";	
 		}
 		
 		
@@ -137,7 +137,7 @@ class weekplanning extends stdcontents
 				    $this->buffer .= "<div style=\"height:".($st-$last)."px; overflow:hidden;\">&nbsp;</div>\n";
 				
 				
-				  $this->buffer .= "<div style=\"border: 1px solid black; padding:1px; height:".($ln-4)."px; overflow:hidden;\"><a href=\"".$infopage.$idf."=".$row[2]."\"><i>".date("H:i",$row[0])."</i> ".$row[3]."</a></div>\n";
+				  $this->buffer .= "<div style=\"height:".($ln-4)."px; overflow:hidden;\"><div style=\"border: 1px solid black; padding:1px; height:100%;\"><a href=\"".$infopage.$idf."=".$row[2]."\"><i>".date("H:i",$row[0])."</i> ".$row[3]."</a></div></div>\n";
 				  $last=$st+$ln;
 			  }
 		  }
