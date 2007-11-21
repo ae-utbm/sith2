@@ -138,7 +138,7 @@ class weekplanning extends stdcontents
 				    $this->buffer .= "<div style=\"height:".($st-$last)."px; overflow:hidden;\">&nbsp;</div>\n";
 				
 				  $this->buffer .= "<div style=\"border: 1px solid black; padding:1px; height:".($ln-4)."px; overflow:hidden;\"><a href=\"".$infopage.$idf."=".$row[2]."\"><i>".date("H:i",$row[0])."</i> ".$row[3]."</a></div>\n";
-				  $last=$st+$ln+1;
+				  $last=$st+$ln;
 			  }
 		  }
 			
