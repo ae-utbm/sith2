@@ -170,7 +170,8 @@ if ($req->lines > 0)
       
       $trajet->load_by_id($rs['id_trajet']);
       
-      $desc = "Trajet $trajet->ville_depart->nom / $trajet->ville_arrivee->nom";
+      $desc = "Trajet ".$trajet->ville_depart->nom." / ".
+	$trajet->ville_arrivee->nom;
       
       $date = HumanReadableDate($rs['trajet_date'], "", false, true);
       
