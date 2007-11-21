@@ -63,6 +63,28 @@ class jeton extends stdentity
 		return false;
 	}	
 	
+	/** Charge un jeton en fonction de son nom
+	 * $this->id est égal à -1 en cas d'erreur
+	 * @param $id id du jeton
+	 */
+	function load_by_nom_and_salle ( $nom, $type, $id_salle )
+	{
+		$req = new requete($this->db, "SELECT * FROM `mc_jeton`
+			WHERE `nom_jeton` = '" . mysql_real_escape_string($nom) . "'
+			AND `type_jeton` = '" . mysql_real_escape_string($type) . "'
+			AND `id_salle` = '" . mysql_real_escape_string($id_salle) . "'
+			LIMIT 1");	
+				
+		if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = -1;	
+		return false;
+	}	
+		
 	function _load ( $row )
 	{
 		$this->id      = $row['id_jeton'];
