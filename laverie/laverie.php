@@ -477,7 +477,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
      AND mc_machines.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
      AND id_utilisateur IS NULL";    
      
-    $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "debut_creneau", "fin_creneau", "texte", "laverie.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"], "laverie.php?page=reserver", "GROUP BY cl.debut_creneau" );
+    $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "debut_creneau", "fin_creneau", "texte", "laverie.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"], "laverie.php?page=reserver", "GROUP BY debut_creneau" );
     $cts->add($pl,true);     
   }
     
