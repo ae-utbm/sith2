@@ -502,7 +502,6 @@ class trajet extends stdentity
     
     return ($sql->lines > 0);
   }
-  
 }
 
 
