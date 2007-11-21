@@ -130,9 +130,9 @@ class weekplanning extends stdcontents
 		  {
 			  foreach ( $day[date("Y-m-d",$i)] as $row )
 			  {
-				  $st = floor(((date("H",$row[0])*60+date("i",$row[0]))*60)/$scale);
+				  $st = floor(((date("H",$row[0])*60+date("i",$row[0]))*60+date("s",$row[0]))/$scale);
 
-				  $ln = floor(((date("H",$row[1])*60+date("i",$row[1]))*60)/$scale)-$st;
+				  $ln = floor(((date("H",$row[1])*60+date("i",$row[1]))*60+date("s",$row[1]))/$scale)-$st;
 				  
 				  if ( $st != $last )
 				    $this->buffer .= "<div style=\"height:".($st-$last)."px; overflow:hidden;\">&nbsp;</div>\n";
