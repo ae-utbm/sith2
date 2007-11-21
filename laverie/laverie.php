@@ -414,7 +414,7 @@ $frm->add_submit("search","Rechercher un créneau");
 $cts->add($frm,true);
 
 $sql = new requete($site->db,"
-      SELECT debut_creneau, fin_creneau, lettre, type, mc_machines.id_salle, nom_jeton
+      SELECT debut_creneau, fin_creneau, lettre, type, mc_machines.loc AS id_salle, nom_jeton
       FROM mc_creneaux
       INNER JOIN mc_machines ON mc_creneaux.id_machine = mc_machines.id
       LEFT JOIN mc_jeton ON mc_creneaux.id_jeton = mc_jeton.id_jeton
