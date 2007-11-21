@@ -48,7 +48,6 @@ class weekplanning extends stdcontents
 	{
 		$this->title=false;
 		
-		
 		if (isset($_REQUEST["pstartdate"]))
 			$start = strtotime($_REQUEST["pstartdate"]);
 	
@@ -107,7 +106,7 @@ class weekplanning extends stdcontents
 		/*$this->buffer .= "<tr class=\"planninghead\">";
 		
 		$this->buffer .= "</tr>";*/	
-		$scale = 24*10;
+		$scale = 24*14;
 		$height = floor((24*60*60/$scale)+20);
 		$this->buffer .= "<tr>\n<td class=\"day\" style=\"width:9%; height:".$height."px;\">\n";
 		$this->buffer .= "<div class=\"dayhead\" style=\"height:20px;\">&nbsp;</div>\n";
@@ -138,7 +137,7 @@ class weekplanning extends stdcontents
 				    $this->buffer .= "<div style=\"height:".($st-$last)."px; overflow:hidden;\">&nbsp;</div>\n";
 				
 				
-				  $this->buffer .= "<div style=\"border: 1px solid black; padding:1px; height:".($ln-4)."px; overflow:hidden;\">".date("H:i",$row[0]).": <a href=\"".$infopage.$idf."=".$row[2]."\">".$row[3]."</a></div>\n";
+				  $this->buffer .= "<div style=\"border: 1px solid black; padding:1px; height:".($ln-4)."px; overflow:hidden;\"><a href=\"".$infopage.$idf."=".$row[2]."\"><i>".date("H:i",$row[0])."</i> ".$row[3]."</a></div>\n";
 				  $last=$st+$ln-1;
 			  }
 		  }
