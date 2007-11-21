@@ -241,7 +241,7 @@ class sasphoto extends contents
       if($photo->exposuretime!=0)
       {
         $et=explode("/",$photo->exposuretime);
-        if(count($et==2))
+        if(count($et)==2))
         {
           $et=((int)$et[0]/(int)$et[1]);
           $et=" (".$et." s)";
@@ -255,7 +255,17 @@ class sasphoto extends contents
       if(!empty($photo->focale))
         $exif.="<span class=\"exiftitle\">Focale</span> : ".$photo->focale." mm<br />\n";
       if(!empty($photo->ouverture))
-        $exif.="<span class=\"exiftitle\">Ouverture</span> : ".$photo->ouverture."<br />\n";
+      {
+        $ouv=explode("/",$photo->ouverture);
+        if(count($ouv)==2))
+        {
+          $ouv=((int)$ouv[0]/(int)$ouv[1]);
+          $ouv="(f/".sprintf("%.2f",$ouv).")";
+        }
+        else
+          $ouv="";
+        $exif.="<span class=\"exiftitle\">Ouverture</span> : ".$photo->ouverture." ".$ouv."<br />\n";
+      }
       if($photo->iso!=0)
         $exif.="<span class=\"exiftitle\">Iso</span> : ".$photo->iso."<br />\n";
       if($photo->flash==1)
