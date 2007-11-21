@@ -48,6 +48,9 @@ $site = new site();
 
 $site->allow_only_logged_users();
 
+if ( $site->user->is_in_group("blacklist_machines") )
+  $site->error_forbidden("services","blacklist_machines");
+
 // En dure en attendant la correction de la base de donnés
 $salles = array(6=>"Laverie belfort",8=>"Laverie Sevenans");
 
@@ -140,8 +143,62 @@ if ( $_REQUEST["page"] == "admin" && $is_admin )
   }
   elseif ( $_REQUEST["view"] == "jt" ) // Jetons
   {
+    if ( $_REQUEST["action"] == "retjetons" )
+    {
+      $cts->add_title(2,"Retour des jetons");
+      
+      $jetons = explode(" ",$_REQUEST["data"]); 
+      $jeton = new jeton($site->db,$site->dbrw);
+      
+      foreach ( $jetons as $nom_jeton )
+      {
+        $nom_jeton = trim($nom_jeton);
+        if ( !empty($nom_jeton) )
+        {
+          if ( $jeton->load_by_nom_and_salle($nom_jeton,$_REQUEST["type"],$id_salle) )
+            $jeton->given_back();
+          else
+            $cts->add_paragraph("Jeton $nom_jeton inconnu.");
+        }
+      }
+      
+      $cts->add_paragraph("Fait.");
+    }
+    elseif ( $_REQUEST["action"] == "newjetons" )
+    {
+      $cts->add_title(2,"Ajout des jetons");
+      
+      $jetons = explode(" ",$_REQUEST["data"]); 
+      $jeton = new jeton($site->db,$site->dbrw);
+      
+      foreach ( $jetons as $nom_jeton )
+      {
+        $nom_jeton = trim($nom_jeton);
+        if ( !empty($nom_jeton) )
+        {
+          if ( !$jeton->load_by_nom_and_salle($nom_jeton,$_REQUEST["type"],$id_salle) )
+            $jeton->add ( $id_salle, $_REQUEST["type"], $nom_jeton )
+          else
+            $cts->add_paragraph("Jeton $nom_jeton déjà existant.");
+        }
+      }
+      
+      $cts->add_paragraph("Fait.");
+    }
     
+    $frm = new form("retjetons", "laverie.php?page=admin&id_salle=$id_salle&view=jt",false,"POST","Retour de jetons");
+    $frm->add_hidden("action","retjetons");
+    $frm->add_select_field("type","Type de jetons",$GLOBALS['types_jeton']);
+    $frm->add_text_area("data","Numéro des jetons (séparé par des espaces)");
+    $frm->add_submit("valid","Valider");
+    $cts->add($frm,true);
     
+    $frm = new form("newjetons", "laverie.php?page=admin&id_salle=$id_salle&view=jt",false,"POST","Ajouter des jetons");
+    $frm->add_hidden("action","newjetons");
+    $frm->add_select_field("type","Type de jetons",$GLOBALS['types_jeton']);
+    $frm->add_text_area("data","Numéro des jetons (séparé par des espaces)");
+    $frm->add_submit("valid","Valider");
+    $cts->add($frm,true);
     
     
     
