@@ -56,7 +56,7 @@ class weekplanning extends stdcontents
 			
 		$end = $start + (6*24*60*60)+1;
 		
-		$req = new requete($db, $sql." AND $startf >= '".date("Y-m-d 00:00:00",$start)."' AND $endf <= '".date("Y-m-d 23:59:59",$end)."' $extra ORDER BY $startf");
+		$req = new requete($db, $sql." AND $startf >= '".date("Y-m-d 00:00:00",$start)."' AND $startf <= '".date("Y-m-d 23:59:59",$end)."' $extra ORDER BY $startf");
 		
 		if ( strstr($page,"?"))
 			$page = $page."&amp;";
