@@ -55,6 +55,49 @@ if (($trajet->id <= 0) || (! in_array($datetrj, $trajet->dates)))
   exit();
 }
 
+/* demande de suppresion d'etapes */
+if ($_REQUEST['action'] == 'delete')
+{
+  $id = $_REQUEST['id'];
+  $id = explode(',', $id);
+  $id_etape     = intval($id[0]);
+  $id_trajet    = intval($id[1]);
+  $date_etape   = mysql_real_escape_string($id[2]); 
+
+  $req = new requete($site->db, "SELECT
+                                         `id_utilisateur` 
+                                 FROM 
+                                         `cv_trajet_etape` 
+                                 WHERE
+                                         `id_trajet`   = $id_trajet
+                                 AND
+                                         `id_etape`    = $id_etape
+                                 AND
+                                         `trajet_date` = '".$date_etape."'");
+
+  if ($req->lines == 1)
+    {
+      $idusr = $req->get_row();
+      $idusr = $idusr['id_utilisateur'];
+      
+      if ($site->user->id == $idusr)
+	{
+	  $req = new delete($site->dbrw, 
+			    'cv_trajet_etape',
+			    array('id_trajet' => $id_trajet,
+				  'id_etape'  =>$id_etape,
+				  'trajet_date' => $date_etape));
+
+	  if ($req->lines == 1)
+	    {
+	      $accueil->add_title(2, "Suppression d'une étape");
+	      $accueil->add_paragraph("<b>Etape supprimée avec succès.</b>");
+	    }
+	}
+      
+    }
+}
+
 if (isset($_REQUEST['add_step_sbmt']))
 {
   $accueil->add_title(2, "Proposition d'une étape");
