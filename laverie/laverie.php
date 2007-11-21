@@ -457,7 +457,8 @@ elseif ( $_REQUEST["action"] == "searchmc" )
      WHERE ml.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
      AND ms.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
      AND cs.id_utilisateur IS NULL
-     AND cl.id_utilisateur IS NULL";
+     AND cl.id_utilisateur IS NULL
+     AND cl.debut_creneau > NOW()";
     
     $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "cl.debut_creneau", "cl.fin_creneau", "texte", "laverie.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"], "laverie.php?page=reserver", "GROUP BY cl.debut_creneau" );
     $cts->add($pl,true);    
@@ -475,7 +476,8 @@ elseif ( $_REQUEST["action"] == "searchmc" )
      INNER JOIN mc_machines ON ( mc_creneaux.id_machine = mc_machines.id  )
      WHERE mc_machines.type='".mysql_real_escape_string($type)."'
      AND mc_machines.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
-     AND id_utilisateur IS NULL";    
+     AND id_utilisateur IS NULL
+     AND debut_creneau > NOW()";    
      
     $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "debut_creneau", "fin_creneau", "texte", "laverie.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"], "laverie.php?page=reserver", "GROUP BY debut_creneau" );
     $cts->add($pl,true);     
