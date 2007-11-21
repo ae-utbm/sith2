@@ -89,7 +89,7 @@ if ($sql->lines > 0)
 	  
 	  $accueil->add_title(3, $trj);
 
-	  $date = array();
+	  $dates = array();
 
 	  foreach ($trajet->dates as $date)
 	    {
