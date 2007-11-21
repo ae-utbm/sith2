@@ -283,7 +283,7 @@ if ( $_REQUEST["page"] == "admin" && $is_admin )
 
 if ( $_REQUEST["action"] == "reserver" )
 {
-  $machine = new machine($site->db);
+  $machine = new machine($site->db,$site->dbrw);
 
   $user = $site->user;
 
@@ -295,6 +295,8 @@ if ( $_REQUEST["action"] == "reserver" )
 
   $machine->load_by_id_creneau($_REQUEST["id_creneau1"],$debut);
   $machine->take_creneau($_REQUEST["id_creneau1"],$user->id);
+  
+  print_r($machine);
   
   if ( isset($_REQUEST["id_creneau2"]) )
   {
