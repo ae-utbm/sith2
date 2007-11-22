@@ -447,7 +447,7 @@ class trajet extends stdentity
 
     foreach ($this->etapes as $etape)
       {
-	if ($etape['id'] == $id)
+	if (($etape['id'] == $id) && ($etape['date_etape'] == $date))
 	  return $etape;
       }
     return false;
