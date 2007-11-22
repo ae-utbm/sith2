@@ -270,7 +270,36 @@ elseif( $_REQUEST['action'] == "ajoutmachine" && $_REQUEST['lettre_machine'] )
 {
   $machine->create_machine ( $_REQUEST['lettre_machine'], $_REQUEST['type_machine'], $id_salle);
 }
-
+elseif( $_REQUEST['action'] == "freeplanning" )
+{
+  $machine->load_by_id($_REQUEST['id_machine']);
+  if ( $machine->is_valid() )
+  {
+    $cts->add_title(2,"Liberation de creneaux");
+    $cts->add_paragraph($machine->get_html_link()." : creneaux libérés de ".date("d/m/Y H:i",$_REQUEST['date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['date_fin']));
+    $machine->free_all_creneaux_between($_REQUEST['date_debut'],$_REQUEST['date_fin']);
+  }
+}
+elseif( $_REQUEST['action'] == "removeplanning" )
+{
+  $machine->load_by_id($_REQUEST['id_machine']);
+  if ( $machine->is_valid() )
+  {
+    $cts->add_title(2,"Liberation de creneaux");
+    $cts->add_paragraph($machine->get_html_link()." : creneaux supprimés de ".date("d/m/Y H:i",$_REQUEST['date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['date_fin']));
+    $machine->remove_all_creneaux_between($_REQUEST['date_debut'],$_REQUEST['date_fin']);
+  }  
+}
+elseif( $_REQUEST['action'] == "genplanning" )
+{
+  $machine->load_by_id($_REQUEST['id_machine']);
+  if ( $machine->is_valid() )
+  {
+    $cts->add_title(2,"Liberation de creneaux");
+    $cts->add_paragraph($machine->get_html_link()." : creneaux générés de ".date("d/m/Y H:i",$_REQUEST['date_debut'])." à ".date("d/m/Y H:i",$_REQUEST['date_fin']));
+    $machine->create_all_creneaux_between($_REQUEST['date_debut'],$_REQUEST['date_fin'],3600);
+  }  
+}
 // Contenu des onglets
 if ( $_REQUEST["view"] == "mc" ) // Liste des machines
 {
@@ -403,9 +432,6 @@ elseif ( $_REQUEST["view"] == "pl" ) // Plannings
   $next_week_start = mktime(0, 0, 0, $date['mon'], $date['mday'] + $days_left +1, $date['year']);
   $next_week_end = mktime(0, 0, 0, $date['mon'], $date['mday'] + $days_left +8, $date['year']);
   
-  //TODO: formulaire de generation de planning par machine
-  //TODO: proposer la modification de creneaux
-  
   $sql = new requete($site->db, "SELECT id as id_machine, lettre, type, MAX(fin_creneau) as date_dernier
     FROM mc_machines
     LEFT JOIN mc_creneaux ON ( mc_creneaux.id_machine = mc_machines.id )
@@ -426,6 +452,10 @@ elseif ( $_REQUEST["view"] == "pl" ) // Plannings
     array("type"=>$GLOBALS['types_jeton'] ) );
   $cts->add($tbl,true);
   
+  $sql->go_first();
+  
+  while ( $row = $sql->get_row() )
+    $list_machines[$row['id_machine']] = $GLOBALS['types_jeton'][$row['type']]." ".$row['lettre'];
   
   $frm = new form("autoplanning", "admin.php?id_salle=$id_salle&view=pl",false,"POST","Generer les plannings pour toutes les machines (hors HS)");
   $frm->add_hidden("action","autoplanning");
@@ -434,6 +464,33 @@ elseif ( $_REQUEST["view"] == "pl" ) // Plannings
   $frm->add_submit("valid","Valider");
   $frm->allow_only_one_usage();
   $cts->add($frm,true);
+  
+  $frm = new form("freeplanning", "admin.php?id_salle=$id_salle&view=pl",false,"POST","Liberer les creneaux pour une machine");
+  $frm->add_hidden("action","freeplanning");
+  $frm->add_select_field("id_machine","Machine",$list_machines);
+  $frm->add_datetime_field("date_debut","Date de début",$next_week_start);
+  $frm->add_datetime_field("date_fin","Date de fin",$next_week_end);
+  $frm->add_submit("valid","Valider");
+  $frm->allow_only_one_usage();
+  $cts->add($frm,true);
+  
+  $frm = new form("removeplanning", "admin.php?id_salle=$id_salle&view=pl",false,"POST","Annuler les creneaux pour une machine");
+  $frm->add_hidden("action","removeplanning");
+  $frm->add_select_field("id_machine","Machine",$list_machines);
+  $frm->add_datetime_field("date_debut","Date de début");
+  $frm->add_datetime_field("date_fin","Date de fin");
+  $frm->add_submit("valid","Valider");
+  $frm->allow_only_one_usage();
+  $cts->add($frm,true);  
+    
+  $frm = new form("genplanning", "admin.php?id_salle=$id_salle&view=pl",false,"POST","Générer les creneaux pour une machine");
+  $frm->add_hidden("action","genplanning");
+  $frm->add_select_field("id_machine","Machine",$list_machines);
+  $frm->add_datetime_field("date_debut","Date de début",$next_week_start);
+  $frm->add_datetime_field("date_fin","Date de fin",$next_week_end);
+  $frm->add_submit("valid","Valider");
+  $frm->allow_only_one_usage();
+  $cts->add($frm,true);    
   
 }
 elseif ( $_REQUEST["view"] == "jt" ) // Jetons

@@ -120,6 +120,22 @@ class machine extends stdentity
     }
 	}
 	
+	function remove_all_creneaux_between ( $start, $end )
+	{
+    new requete($this->dbrw,"DELETE FROM mc_creneaux 
+    WHERE id_machine='".mysql_real_escape_string($this->id)."' 
+    AND debut_creneau >= '".date("Y-m-d H:i:s",$start)."'
+    AND debut_creneau < '".date("Y-m-d H:i:s",$end)."'");
+	}	
+	
+	function free_all_creneaux_between ( $start, $end )
+	{
+    new requete($this->dbrw,"UPDATE mc_creneaux SET id_utilisateur=NULL, id_jeton=NULL
+    WHERE id_machine='".mysql_real_escape_string($this->id)."' 
+    AND debut_creneau >= '".date("Y-m-d H:i:s",$start)."'
+    AND debut_creneau < '".date("Y-m-d H:i:s",$end)."'");
+	}	
+	
 	function take_creneau ( $id_creneau, $id_utilisateur, $force=false )
 	{
 	  if ( $force )
