@@ -43,10 +43,21 @@ $site->start_page ("services", "Covoiturage - Détails");
 $accueil = new contents("Covoiturage - Détails d'un trajet",
 			"");
 
+
+if ($_REQUEST['action'] == 'view')
+{
+  $id = $_REQUEST['id'];
+  $id = explode(',', $id);
+  
+  /* translation des données provenant du sqltable */
+
+  $_REQUEST['id_trajet'] = intval($id[1]);
+  $_REQUEST['date']      = mysql_real_escape_string($id[2]); 
+}
+
+
 $datetrj = $_REQUEST['date'];
-
 $trajet = new trajet($site->db, $site->dbrw, null);
-
 $trajet->load_by_id($_REQUEST['id_trajet']);
 
 
@@ -107,7 +118,7 @@ if ($_REQUEST['action'] == 'delete')
 	}
       
     }
-}
+} // fin suppresion d'étapes
 
 
 if (($trajet->id <= 0) || (! in_array($datetrj, $trajet->dates)))
