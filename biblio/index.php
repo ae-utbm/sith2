@@ -101,13 +101,16 @@ elseif ( $_REQUEST["action"] == "addediteur" && $is_admin)
 elseif ( $_REQUEST["action"] == "bookback" && $is_admin )
 {
 	$emp = new emprunt ( $site->db, $site->dbrw );
-	$livre->load_by_cbar($_REQUEST["cbar"]);
-	if ( $livre->id > 0)
+	
+	$obj = new objet($site->db);	
+	$obj->load_by_cbar($_REQUEST["cbar"]);
+	
+	if ( $obj->is_valid() && ($obj->is_book() || $obj->is_jeu()) )
 	{
-		$emp->load_by_objet($livre->id);
-		if ( $emp->id > 0 )
+		$emp->load_by_objet($obj->id);
+		if ( $emp->is_valid() )
 		{
-			$emp->back_objet($livre->id);
+			$emp->back_objet($obj->id);
 			$Message = new contents("Livre restitué",( $emp->etat == EMPRUNT_RETOURPARTIEL ) ? "<p><b>Attention: il reste des objets à restituer</b>.</p>" : "<p>Emprunt restitué en totalité.</p>");
 		}
 		else
@@ -115,8 +118,6 @@ elseif ( $_REQUEST["action"] == "bookback" && $is_admin )
 	}
 	else
 		$ErreurRetour="Objet inconnu.";
-	
-	
 	
 }
 elseif ( $_REQUEST["action"] == "borrowbooks" && $is_admin )
