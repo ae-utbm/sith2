@@ -474,7 +474,7 @@ elseif ( $_REQUEST["view"] == "pl" ) // Plannings
   $frm->allow_only_one_usage();
   $cts->add($frm,true);
   
-  $frm = new form("removeplanning", "admin.php?id_salle=$id_salle&view=pl",false,"POST","Annuler les creneaux pour une machine");
+  $frm = new form("removeplanning", "admin.php?id_salle=$id_salle&view=pl",false,"POST","Supprimer les creneaux pour une machine");
   $frm->add_hidden("action","removeplanning");
   $frm->add_select_field("id_machine","Machine",$list_machines);
   $frm->add_datetime_field("date_debut","Date de début");
