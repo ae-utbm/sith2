@@ -57,7 +57,7 @@ $salles = array(6=>"Laverie belfort",8=>"Laverie Sevenans");
 if ( !isset($_REQUEST["id_salle"]) )
 {
   $site->start_page("services","Laverie");
-  $cts = new contents("<a href=\"laverie.php\">Laverie</a> / <a href=\"admin.php\">Administration</a>");
+  $cts = new contents("<a href=\"index.php\">Laverie</a> / <a href=\"admin.php\">Administration</a>");
 
 	$lst = new itemlist("Veuillez choisir la laverie à administrer");
 	
@@ -73,7 +73,7 @@ if ( !isset($_REQUEST["id_salle"]) )
 $id_salle = intval($_REQUEST["id_salle"]);
 
 $site->start_page("services","Laverie");
-$cts = new contents("<a href=\"laverie.php\">Laverie</a> / <a href=\"admin.php\">Administration</a> / ".$salles[$id_salle]);
+$cts = new contents("<a href=\"index.php\">Laverie</a> / <a href=\"admin.php\">Administration</a> / ".$salles[$id_salle]);
 
 $cts->add(new tabshead(
       array(
@@ -670,7 +670,7 @@ else // Vente
   $frm->add_submit("search","Rechercher");
   $cts->add($frm,true);
   
-  $frm = new form("searchmc","laverie.php",false,"POST","Reserver un creneau");
+  $frm = new form("searchmc","index.php",false,"POST","Reserver un creneau");
   $frm->add_hidden("action","searchmc");
   $frm->add_hidden("fallback","admin");
   $frm->add_hidden("id_salle",$id_salle);

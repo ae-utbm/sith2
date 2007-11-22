@@ -127,7 +127,7 @@ if ( $_REQUEST["page"] == "reserver" )
     $machine2->load_by_id_creneau($id_creneau2,$debut2);
   
   $site->start_page("services","Laverie");
-  $cts = new contents("<a href=\"laverie.php\">Laverie</a> / ".$salles[$machine1->id_salle]." / Reservation");
+  $cts = new contents("<a href=\"index.php\">Laverie</a> / ".$salles[$machine1->id_salle]." / Reservation");
 
   $cts->add_title(2,"Confirmation de la reservation");
 
@@ -138,7 +138,7 @@ if ( $_REQUEST["page"] == "reserver" )
   if ( !is_null($id_creneau2) )
     $cts->add_paragraph("et reservation ".$blabla[$machine2->type]." ".$machine2->lettre." le ".date("d/m/Y",$debut2)." à partir de ".date("H:i",$debut2));
 
-  $frm = new form("reserver","laverie.php",false);
+  $frm = new form("reserver","index.php",false);
   $frm->add_hidden("action","reserver");
   $frm->add_hidden("id_creneau1",$id_creneau1);
   
@@ -166,7 +166,7 @@ if ( $_REQUEST["page"] == "reserver" )
 elseif ( $_REQUEST["action"] == "searchmc" )
 {
   $site->start_page("services","Laverie");
-  $cts = new contents("<a href=\"laverie.php\">Laverie</a> / ".$salles[$_REQUEST["id_salle"]]." / Recherche");
+  $cts = new contents("<a href=\"index.php\">Laverie</a> / ".$salles[$_REQUEST["id_salle"]]." / Recherche");
   
   $extraurl="";
   if ( isset($_REQUEST["fallback"]) )
@@ -189,7 +189,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
      AND cl.id_utilisateur IS NULL
      AND cl.debut_creneau > NOW()";
     
-    $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "cl.debut_creneau", "cl.fin_creneau", "texte", "laverie.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"].$extraurl, "laverie.php?page=reserver".$extraurl, "GROUP BY cl.debut_creneau" );
+    $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "cl.debut_creneau", "cl.fin_creneau", "texte", "index.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"].$extraurl, "index.php?page=reserver".$extraurl, "GROUP BY cl.debut_creneau" );
     $cts->add($pl,true);    
   }
   else
@@ -208,13 +208,13 @@ elseif ( $_REQUEST["action"] == "searchmc" )
      AND id_utilisateur IS NULL
      AND debut_creneau > NOW()";    
      
-    $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "debut_creneau", "fin_creneau", "texte", "laverie.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"].$extraurl, "laverie.php?page=reserver".$extraurl, "GROUP BY debut_creneau" );
+    $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "debut_creneau", "fin_creneau", "texte", "index.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"].$extraurl, "index.php?page=reserver".$extraurl, "GROUP BY debut_creneau" );
     $cts->add($pl,true);     
   }
     
 
     
-  $frm = new form("searchmc","laverie.php",false,"POST","Nouvelle recherche");
+  $frm = new form("searchmc","index.php",false,"POST","Nouvelle recherche");
   $frm->add_hidden("action","searchmc");
   if ( isset($_REQUEST["fallback"]) )
     $frm->add_hidden("fallback",$_REQUEST["fallback"]);
@@ -226,7 +226,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
   if ( $is_admin )
     $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
     
-  $cts->add_paragraph("<a href=\"laverie.php\">Créneaux déjà réservés</a>");
+  $cts->add_paragraph("<a href=\"index.php\">Créneaux déjà réservés</a>");
     
   $site->add_contents($cts);
   $site->end_page();
@@ -236,9 +236,9 @@ elseif ( $_REQUEST["action"] == "searchmc" )
 
 
 $site->start_page("services","Laverie");
-$cts = new contents("<a href=\"laverie.php\">Laverie</a>");
+$cts = new contents("<a href=\"index.php\">Laverie</a>");
 
-$frm = new form("searchmc","laverie.php",false,"POST","Reserver un creneau");
+$frm = new form("searchmc","index.php",false,"POST","Reserver un creneau");
 $frm->add_hidden("action","searchmc");
 $frm->add_select_field("id_salle","Lieu",$salles, $_REQUEST["id_salle"]);
 $frm->add_select_field("operation","Machines désirées",array(3=>"Lavage et sechage",1=>"Lavage seulement",2=>"Sechage seulement"));
@@ -256,7 +256,7 @@ $sql = new requete($site->db,"SELECT id_creneau, debut_creneau, fin_creneau, let
 $tbl = new sqltable("lstcrfutur",
   "Liste des créneaux réservés",
   $sql,
-  "laverie.php",
+  "index.php",
   "id_creneau",
   array(
     "debut_creneau" => "Début du créneau",
