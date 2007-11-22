@@ -116,8 +116,11 @@ if ($_REQUEST['action'] == "accept")
 
 else if ($_REQUEST['action'] == "refuse")
 {
-  $accueil->add_title(2, "Accpetation de l'étape");
-  if ( $trajet->refuse_step($_REQUEST['id_etape'], $_REQUEST['date']))
+  $accueil->add_title(2, "Acceptation de l'étape");
+  
+  echo "HERE !";
+
+  if ($trajet->refuse_step($_REQUEST['id_etape'], $_REQUEST['date']))
     $accueil->add_paragraph("Etape refusée avec succès !");
   else
     $accueil->add_paragraph("Erreur lors du refus de l'étape.");
@@ -133,7 +136,6 @@ else if ($_REQUEST['action'] == "refuse")
 
   $site->add_contents($accueil);
   $site->end_page();
-
   exit();
 }
 

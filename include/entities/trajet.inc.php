@@ -485,7 +485,7 @@ class trajet extends stdentity
   {
     $sql = new update($this->dbrw,
 		      'cv_trajet_etape',
-		      array('accepted_etape' => 1),
+		      array('accepted_etape' => "'". STEP_ACCEPTED . "'"),
 		      array('id_trajet' => $this->id,
 			    'trajet_date' => mysql_real_escape_string($date),
 			    'id_etape' => intval($id)));
@@ -497,7 +497,7 @@ class trajet extends stdentity
   {
     $sql = new update($this->dbrw,
 		      'cv_trajet_etape',
-		      array('accepted_etape' => STEP_DELETED),
+		      array('accepted_etape' => "'". STEP_DELETED ."'"),
 		      array('id_trajet' => $this->id,
 			    'trajet_date' => mysql_real_escape_string($date),
 			    'id_etape' => intval($id)));
@@ -510,7 +510,7 @@ class trajet extends stdentity
   {
     $sql = new update($this->dbrw,
 		      'cv_trajet_etape',
-		      array('accepted_etape' => 2),
+		      array('accepted_etape' => "'" . STEP_REFUSED . "'"),
 		      array('id_trajet' => $this->id,
 			    'trajet_date' => mysql_real_escape_string($date),
 			    'id_etape' => intval($id)));

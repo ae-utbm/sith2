@@ -72,7 +72,7 @@ if ($sql->lines)
 	  " / " . $trajet->ville_arrivee->nom . "</a>";
     }  
 
-  $accueil->add_title(2, "Mes trajets");                             
+  $accueil->add_title(2, "Mes trajets ponctuels proposés");
   $accueil->add_paragraph("Cliquez sur un lien ci-dessous pour passer sur la page de gestion du trajet concerné.");
   $mytrjs = new itemlist(false, false, $mytrj);
   $accueil->add($mytrjs);
