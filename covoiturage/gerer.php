@@ -263,7 +263,7 @@ if (count($trajet->etapes))
       /* date de trajet supprimée */
       if (! in_array($etape['date'], $trajet->etapes))
       {
-	$trajet->mark_as_deleted($etape['id'], $etape['date_etape']);
+	$trajet->mark_as_deleted_step($etape['id'], $etape['date_etape']);
 	continue;
       }
       if ($etape['ville'] > 0)
