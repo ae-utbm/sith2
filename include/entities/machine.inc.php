@@ -125,6 +125,20 @@ class machine extends stdentity
 	    array("id_machine"=>$this->id,"id_creneau"=>$id_creneau)); 
 	}
 	
+	function set_hs ( $hs = true )
+	{
+	  $this->hs = $hs;
+	  new update ( $this->dbrw, "mc_machines", 
+	    array("hs"=>$this->hs), 
+	    array("id_machine"=>$this->id)); 	 
+	}
+	
+	function delete ( )
+	{
+	  new delete ( $this->dbrw, "mc_machines", array("id_machine"=>$this->id)); 
+	  new delete ( $this->dbrw, "mc_creneaux", array("id_machine"=>$this->id)); 
+	  $this->id = null;	 
+	}
 }
 
 

@@ -85,12 +85,12 @@ $cts->add(new tabshead(
 			),$_REQUEST["view"]));	
 			
 $user = new utilisateur($site->db,$site->dbrw);
-
+$machine = new machine($site->db,$site->dbrw);
 // Traitement des actions
 if ( $_REQUEST["action"] == "autoplanning" )
 {
-  $machine = new machine($site->db,$site->dbrw);
-  $req = new requete($site->db,"SELECT * FROM mc_machines WHERE loc='$id_salle'");
+  
+  $req = new requete($site->db,"SELECT * FROM mc_machines WHERE loc='$id_salle' AND hs='0'");
   while ( $row = $req->get_row() )
   {
     $machine->_load($row);
@@ -222,14 +222,100 @@ Les responsables machines à laver";
   }
   $user->id = null;
 }
+elseif($_REQUEST['action'] == "hs")
+{
+  if ( !isset($_REQUEST['id_machines']) )
+    $_REQUEST['id_machines'] = array($_REQUEST['id_machine']);   
+  
+  foreach ( $_REQUEST['id_machines'] as $id )
+  {
+    $machine->load_by_id($id);
+    $machine->set_hs(true);
+    $lst->add($machine->get_html_link()." marquée hors service");
+  }
+}
+elseif($_REQUEST['action'] == "es")
+{
+  if ( !isset($_REQUEST['id_machines']) )
+    $_REQUEST['id_machines'] = array($_REQUEST['id_machine']);   
+      
+  foreach ( $_REQUEST['id_machines'] as $id )
+  {
+    $machine->load_by_id($id);
+    $machine->set_hs(false);
+    $lst->add($machine->get_html_link()." marquée en service");
+  }
+}
+elseif( $_REQUEST['action'] == "delete" 
+        && (isset($_REQUEST['id_machines']) || isset($_REQUEST['id_machine'])) )
+{
+  if ( !isset($_REQUEST['id_machines']) )
+    $_REQUEST['id_machines'] = array($_REQUEST['id_machine']);    
+     
+  foreach ( $_REQUEST['id_machines'] as $id )
+  {
+    $machine->load_by_id($id);
+    $machine->delete();
+    $lst->add($machine->get_html_link()." supprimée");
+  }
+
+}
 
 // Contenu des onglets
 if ( $_REQUEST["view"] == "mc" ) // Liste des machines
 {
+  /*
+  $frm = new form("ajoutmachine", "admin.php?id_salle=$id_salle&view=mc", false, "POST", "Ajouter une machine");
+  $frm->add_text_field("lettre_machine", "Lettre de la machine :");
+  $frm->add_select_field("typemachine", "Type de la machine :", $GLOBALS['types_jeton']);
+  $frm->add_select_field("locmachine", "Salle concernée :", $GLOBALS['salles_jeton']);
+  $frm->add_submit("valid","Valider");
+  $frm->allow_only_one_usage();
+  $cts->add($lst);
+  $cts->add($frm,true);
+  */
   
+  /* Liste des machines */
+  $sql = new requete($site->db, "SELECT id as id_machine, lettre, type FROM mc_machines
+    WHERE mc_machines.hs = 0
+    AND loc='$id_salle'
+    ORDER BY mc_machines.lettre,mc_machines.type");
   
+  $table = new sqltable("listmachinesok",
+    "Liste des machines en service",
+    $sql,
+    "admin.php?id_salle=$id_salle&view=mc",
+    "id_machine",
+    array("lettre" => "Lettre",
+      "type" => "Type de la machine"),
+    array("hs" => "Hors service",
+      "delete" => "Supprimer"),
+    array("hs" => "Hors service",
+      "delete" => "Supprimer"),
+    array("type"=>$GLOBALS['types_jeton'] ) );
   
+  $cts->add($table, true);
   
+  $sql = new requete($site->db, "SELECT id as id_machine, lettre, type FROM mc_machines
+    WHERE mc_machines.hs = 1
+    AND loc='$id_salle'
+    ORDER BY mc_machines.lettre,mc_machines.type");
+  
+  $table = new sqltable("listmachineshs",
+    "Liste des machines hors service",
+    $sql,
+    "admin.php?id_salle=$id_salle&view=mc",
+    "id_machine",
+    array("lettre" => "Lettre",
+      "type" => "Type de la machine"),
+    array("es" => "En service",
+      "delete" => "Supprimer"),
+    array("es" => "En service",
+      "delete" => "Supprimer"),
+    array("type"=>$GLOBALS['types_jeton'] ) );
+  
+  $cts->add($table, true);
+
   
 }
 elseif ( $_REQUEST["view"] == "bc" ) // Mauvais clients
@@ -328,14 +414,14 @@ elseif ( $_REQUEST["view"] == "jt" ) // Jetons
   $frm = new form("retjetons", "admin.php?id_salle=$id_salle&view=jt",false,"POST","Retour de jetons");
   $frm->add_hidden("action","retjetons");
   $frm->add_select_field("type","Type de jetons",$GLOBALS['types_jeton']);
-  $frm->add_text_area("data","Numéro des jetons (séparé par des espaces)");
+  $frm->add_text_area("data","Numéros (séparé par des espaces)");
   $frm->add_submit("valid","Valider");
   $cts->add($frm,true);
   
   $frm = new form("newjetons", "admin.php?id_salle=$id_salle&view=jt",false,"POST","Ajouter des jetons");
   $frm->add_hidden("action","newjetons");
   $frm->add_select_field("type","Type de jetons",$GLOBALS['types_jeton']);
-  $frm->add_text_area("data","Numéro des jetons (séparé par des espaces)");
+  $frm->add_text_area("data","Numéros (séparé par des espaces)");
   $frm->add_submit("valid","Valider");
   $cts->add($frm,true);
   
