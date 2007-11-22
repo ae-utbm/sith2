@@ -90,7 +90,7 @@ if ( $notefrais->is_valid() )
   {
     $site->start_page ("none", "Note de frais" );
     
-    $cts = new contents("Note de frais N°".$notefrais->id);    
+    $cts = new contents("<a href=\"notefrais.php\">Note de frais</a> / N°".$notefrais->id);    
     
     $frm = new form ("editnotefrais","notefrais.php?id_notefrais=".$notefrais->id,true,"POST","Modification");
     $frm->add_hidden("action","save");
@@ -119,7 +119,7 @@ if ( $notefrais->is_valid() )
   
   $site->start_page ("none", "Note de frais" );
   
-  $cts = new contents("Note de frais N°".$notefrais->id);    
+  $cts = new contents("<a href=\"notefrais.php\">Note de frais</a> / N°".$notefrais->id);    
   
   $cts->add_paragraph("Benevole : ".$user->get_html_link());
   $cts->add_paragraph("Activité : ".$asso->get_html_link());
@@ -181,7 +181,7 @@ if ( isset($_REQUEST["id_asso"]) )
 
 $site->start_page ("none", "Note de frais" );
 
-$cts = new contents("Note de frais");
+$cts = new contents("<a href=\"notefrais.php\">Note de frais</a>");
 
 $cts->add_title(2,"Informations sur les notes de frais");
 
