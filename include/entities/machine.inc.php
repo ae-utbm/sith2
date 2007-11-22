@@ -130,12 +130,12 @@ class machine extends stdentity
 	  $this->hs = $hs;
 	  new update ( $this->dbrw, "mc_machines", 
 	    array("hs"=>$this->hs), 
-	    array("id_machine"=>$this->id)); 	 
+	    array("id"=>$this->id)); 	 
 	}
 	
 	function delete ( )
 	{
-	  new delete ( $this->dbrw, "mc_machines", array("id_machine"=>$this->id)); 
+	  new delete ( $this->dbrw, "mc_machines", array("id"=>$this->id)); 
 	  new delete ( $this->dbrw, "mc_creneaux", array("id_machine"=>$this->id)); 
 	  $this->id = null;	 
 	}
