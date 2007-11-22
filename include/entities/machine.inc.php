@@ -71,7 +71,7 @@ class machine extends stdentity
 	  $req = new insert ( $this->dbrw, "mc_machines",
 	   array(
 	     "lettre"=>$this->lettre,
-	     "type"=$this->type,
+	     "type"=>$this->type,
 	     "loc"=>$this->id_salle,
 	     "hs"=>$this->hs));
 	     
@@ -95,7 +95,7 @@ class machine extends stdentity
 	  new update ( $this->dbrw, "mc_machines",
 	   array(
 	     "lettre"=>$this->lettre,
-	     "type"=$this->type,
+	     "type"=>$this->type,
 	     "loc"=>$this->id_salle,
 	     "hs"=>$this->hs),
 	   array("id"=>$this->id));
