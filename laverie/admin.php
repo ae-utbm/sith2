@@ -420,7 +420,7 @@ elseif ( $_REQUEST["view"] == "pl" ) // Plannings
     "id_machine",
     array("lettre" => "Lettre",
       "type" => "Type de la machine",
-      "date_dernier" => "Dernier creneau"),
+      "date_dernier" => "Fin du dernier creneau"),
     array(),
     array(),
     array("type"=>$GLOBALS['types_jeton'] ) );
