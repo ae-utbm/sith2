@@ -61,18 +61,44 @@ class machine extends stdentity
 	  $this->hs = $row['hs']; // devrai être hs_machine 
 	}
 	
-	function create_machine ( $lettre, $type, $id_lieu, $hs=false )
+	function create_machine ( $lettre, $type, $id_salle, $hs=false )
 	{
-	 
-	 
-	 
+	  $this->lettre = $lettre;
+	  $this->type = $type;
+	  $this->id_salle = $id_salle;
+	  $this->hs = $hs;
+	  
+	  $req = new insert ( $this->dbrw, "mc_machines",
+	   array(
+	     "lettre"=>$this->lettre,
+	     "type"=$this->type,
+	     "loc"=>$this->id_salle,
+	     "hs"=>$this->hs));
+	     
+		if ( $req->is_success() )
+		{
+			$this->id = $req->get_id();
+		  return true;
+		}
+		
+		$this->id = null;
+    return false;
 	}
 	
-	function update_machine ( $lettre, $type, $id_lieu, $hs=false )
+	function update_machine ( $lettre, $type, $id_salle, $hs=false )
 	{
-	 
-	 
-	 
+	  $this->lettre = $lettre;
+	  $this->type = $type;
+	  $this->id_salle = $id_salle;
+	  $this->hs = $hs;
+	  
+	  new update ( $this->dbrw, "mc_machines",
+	   array(
+	     "lettre"=>$this->lettre,
+	     "type"=$this->type,
+	     "loc"=>$this->id_salle,
+	     "hs"=>$this->hs),
+	   array("id"=>$this->id));
 	}
 	
 	function create_creaneau ( $debut, $fin )

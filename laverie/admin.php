@@ -227,6 +227,8 @@ elseif($_REQUEST['action'] == "hs")
   if ( !isset($_REQUEST['id_machines']) )
     $_REQUEST['id_machines'] = array($_REQUEST['id_machine']);   
   
+  $cts->add_title(2,"Hors service");
+  
   foreach ( $_REQUEST['id_machines'] as $id )
   {
     $machine->load_by_id($id);
@@ -238,6 +240,8 @@ elseif($_REQUEST['action'] == "es")
 {
   if ( !isset($_REQUEST['id_machines']) )
     $_REQUEST['id_machines'] = array($_REQUEST['id_machine']);   
+      
+  $cts->add_title(2,"En service");
       
   foreach ( $_REQUEST['id_machines'] as $id )
   {
@@ -252,6 +256,8 @@ elseif( $_REQUEST['action'] == "delete"
   if ( !isset($_REQUEST['id_machines']) )
     $_REQUEST['id_machines'] = array($_REQUEST['id_machine']);    
      
+  $cts->add_title(2,"Suppression");
+     
   foreach ( $_REQUEST['id_machines'] as $id )
   {
     $machine->load_by_id($id);
@@ -260,21 +266,15 @@ elseif( $_REQUEST['action'] == "delete"
   }
 
 }
+elseif( $_REQUEST['action'] == "ajoutmachine" && $_REQUEST['lettre_machine'] )
+{
+  $machine->create_machine ( $_REQUEST['lettre_machine'], $_REQUEST['type_machine'], $id_salle);
+}
 
 // Contenu des onglets
 if ( $_REQUEST["view"] == "mc" ) // Liste des machines
 {
-  /*
-  $frm = new form("ajoutmachine", "admin.php?id_salle=$id_salle&view=mc", false, "POST", "Ajouter une machine");
-  $frm->add_text_field("lettre_machine", "Lettre de la machine :");
-  $frm->add_select_field("typemachine", "Type de la machine :", $GLOBALS['types_jeton']);
-  $frm->add_select_field("locmachine", "Salle concernée :", $GLOBALS['salles_jeton']);
-  $frm->add_submit("valid","Valider");
-  $frm->allow_only_one_usage();
-  $cts->add($lst);
-  $cts->add($frm,true);
-  */
-  
+
   /* Liste des machines */
   $sql = new requete($site->db, "SELECT id as id_machine, lettre, type FROM mc_machines
     WHERE mc_machines.hs = 0
@@ -316,7 +316,15 @@ if ( $_REQUEST["view"] == "mc" ) // Liste des machines
   
   $cts->add($table, true);
 
-  
+
+  $frm = new form("ajoutmachine", "admin.php?id_salle=$id_salle&view=mc", false, "POST", "Ajouter une machine");
+  $frm->add_hidden("action","ajoutmachine");
+  $frm->add_text_field("lettre_machine", "Lettre de la machine :");
+  $frm->add_select_field("type_machine", "Type de la machine :", $GLOBALS['types_jeton']);
+  $frm->add_submit("valid","Valider");
+  $cts->add($frm,true);
+
+
 }
 elseif ( $_REQUEST["view"] == "bc" ) // Mauvais clients
 {
