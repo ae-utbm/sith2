@@ -68,14 +68,6 @@ if ($_REQUEST['action'] == "delete")
 	      
 	      if ($req->lines == 1)
 		{
-		  /* TODO : on prévient comment les gugus
-		   * déjà acceptés sur la date donnée ?
-		   *
-		   * - On saura déterminer si suppression (date d'étape pour un trajet pas prévu à la date donnée)
-		   * - On leur envoie un mail ?
-		   *
-		   * A réfléchir ...
-		   */
 
 		  $accueil->add_paragraph("<b>Date  du ".
 					  HumanReadableDate($date, "", false, true)
@@ -238,7 +230,6 @@ if (count($trajet->dates))
 			 "dates" =>  "Le " . HumanReadableDate($date, "", false, true));
     }
 
-  //  $lst = new itemlist(false, false, $datetrj);
   $lst = new sqltable("managedatestrj", 
 		      "Dates du trajet enregistrées", 
 		      $datetrj, 
@@ -319,6 +310,7 @@ if (count($trajet->etapes))
 	  $proposed[] = $str;
 	}
     }
+  $site->add_contents(new contents("DEBUG", "<pre>".print_r($trajet->etapes, true) . "</pre>"));
   
 }
 
