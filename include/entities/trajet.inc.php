@@ -28,6 +28,8 @@
 define('STEP_WAITING',  0);
 define('STEP_ACCEPTED', 1);
 define('STEP_REFUSED',  2);
+/* etape dont la date a été supprimée */
+define('STEP_DELETED',  3);
 
 /* trajet ponctuel avec dates (table cv_trajet_date) */
 define('TRJ_PCT', 0);
@@ -490,6 +492,19 @@ class trajet extends stdentity
     
     return ($sql->lines > 0);
   }
+
+  function mark_as_deleted_step($id, $date)
+  {
+    $sql = new update($this->dbrw,
+		      'cv_trajet_etape',
+		      array('accepted_etape' => STEP_DELETED),
+		      array('id_trajet' => $this->id,
+			    'trajet_date' => mysql_real_escape_string($date),
+			    'id_etape' => intval($id)));
+    
+    return ($sql->lines > 0);
+  }
+
 
   function refuse_step($id, $date)
   {

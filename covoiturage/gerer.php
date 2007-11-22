@@ -169,7 +169,6 @@ if ($_REQUEST['action'] == "moderer")
 
   if (strlen($step['comments']) > 0)
     {
-      /* TODO : améliorer la présentation des commentaires */
       $accueil->add_paragraph("L'utilisateur a laissé le commentaire suivant :<br/>" . 
 			      "<div class=\"comment\">".
 			      doku2xhtml($step['comments']).
@@ -260,7 +259,13 @@ if (count($trajet->etapes))
 {
   foreach ($trajet->etapes as $etape)
     {
-      
+
+      /* date de trajet supprimée */
+      if (! in_array($etape['date'], $trajet->etapes))
+      {
+	$trajet->mark_as_deleted($etape['id'], $etape['date_etape']);
+	continue;
+      }
       if ($etape['ville'] > 0)
 	{
 	  $obville = new ville($site->db);
