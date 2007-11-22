@@ -224,9 +224,9 @@ elseif ( $_REQUEST["action"] == "searchmc" )
   $cts->add($frm,true);
   
   if ( $is_admin )
-    $cts->add_paragraph("<a href=\"?page=admin\">Administration</a>");
+    $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
     
-  $cts->add_paragraph("<a href=\"?\">Créneaux déjà réservés</a>");
+  $cts->add_paragraph("<a href=\"laverie.php\">Créneaux déjà réservés</a>");
     
   $site->add_contents($cts);
   $site->end_page();
@@ -257,7 +257,7 @@ $sql = new requete($site->db,"
 $tbl = new sqltable("lstcrfutur",
   "Liste des créneaux réservés",
   $sql,
-  "index.php",
+  "laverie.php",
   "id_creneau",
   array(
     "debut_creneau" => "Début du créneau",

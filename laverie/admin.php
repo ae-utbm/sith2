@@ -57,7 +57,7 @@ $salles = array(6=>"Laverie belfort",8=>"Laverie Sevenans");
 if ( !isset($_REQUEST["id_salle"]) )
 {
   $site->start_page("services","Laverie");
-  $cts = new contents("Administration des laveries");
+  $cts = new contents("<a href=\"laverie.php\">Laverie</a> / <a href=\"admin.php\">Administration</a>");
 
 	$lst = new itemlist("Veuillez choisir la laverie à administrer");
 	
@@ -372,7 +372,6 @@ else // Vente
   $frm->add_submit("search","Rechercher un créneau");
   $cts->add($frm,true);
 
-  $cts->add_paragraph("<a href=\"laverie.php\">Reservation d'un creneau</a>");
 }
 
 $site->add_contents($cts);
