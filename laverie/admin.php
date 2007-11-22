@@ -636,7 +636,7 @@ else // Vente
       AND debut_creneau <= '".date("Y-m-d H:i:s",time()+(48*24*60*260))."'
       AND id_jeton IS NULL
       AND mc_machines.loc = '".$id_salle."'
-      ORDER BY debut_creneau");      
+      ORDER BY debut_creneau,lettre");      
     
     if ( $sql->lines == 0 )
     {

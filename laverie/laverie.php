@@ -251,7 +251,7 @@ $sql = new requete($site->db,"SELECT id_creneau, debut_creneau, fin_creneau, let
       LEFT JOIN mc_jeton ON mc_creneaux.id_jeton = mc_jeton.id_jeton
       WHERE mc_creneaux.id_utilisateur = '".$site->user->id."'
       AND fin_creneau >= NOW()
-      ORDER BY debut_creneau");
+      ORDER BY debut_creneau, lettre");
 
 $tbl = new sqltable("lstcrfutur",
   "Liste des créneaux réservés",
