@@ -440,7 +440,7 @@ class trajet extends stdentity
    * obtention des informations pour une étape spécifique
    *
    */
-  function get_step_by_id($id)
+  function get_step_by_id($id, $date)
   {
     if (! count($this->etapes))
       return false;

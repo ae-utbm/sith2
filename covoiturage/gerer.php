@@ -137,7 +137,7 @@ if ($_REQUEST['action'] == "moderer")
   
   $trajet->load_steps();
 
-  $step = $trajet->get_step_by_id($_REQUEST['id_etape']);
+  $step = $trajet->get_step_by_id($_REQUEST['id_etape'], $_REQUEST['date_trajet']);
   
   $propusr = new utilisateur ($site->db);
   $propusr->load_by_id($step['id_utilisateur']);
@@ -258,6 +258,7 @@ if (count($trajet->etapes))
 	$trajet->mark_as_deleted_step($etape['id'], $etape['date_etape']);
 	continue;
       }
+
       if ($etape['ville'] > 0)
 	{
 	  $obville = new ville($site->db);
@@ -269,9 +270,6 @@ if (count($trajet->etapes))
       $propuser = new utilisateur($site->db);
       $propuser->load_by_id($etape['id_utilisateur']);
       
-
-      $trajetdate[$etape['date_etape']][] = &$etape;
-
       if ($etape['etat'] == STEP_ACCEPTED)
 	{
 	  if ($obville != NULL)
@@ -286,6 +284,8 @@ if (count($trajet->etapes))
 
 	  $accepted[] = $str;
 	}
+
+      /* en attente */
       else if ($etape['etat'] == STEP_WAITING)
 	{
 	  if ($obville != NULL)
@@ -310,7 +310,6 @@ if (count($trajet->etapes))
 	  $proposed[] = $str;
 	}
     }
-  $site->add_contents(new contents("DEBUG", "<pre>".print_r($trajet->etapes, true) . "</pre>"));
   
 }
 
