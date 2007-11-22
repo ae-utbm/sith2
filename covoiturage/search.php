@@ -72,6 +72,8 @@ if ($sql->lines > 0)
 	  
       $accueil->add_title(3, $trj);
 
+      $dates = array();
+
       foreach ($trajet->dates as $date)
 	{
 	  if (strtotime($date) > time())
