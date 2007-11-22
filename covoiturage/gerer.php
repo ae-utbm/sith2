@@ -333,7 +333,11 @@ else
   $accueil->add_paragraph("<b>Aucune étape en attente de validation.</b>");
 }
 
-$accueil->add_title(2, "Récapitulatif des trajets par dates");
+$site->add_contents($accueil);
+
+$accueil = new contents("Récapitulatif des trajets par dates");
+
+//$accueil->add_title(2, "Récapitulatif des trajets par dates");
 
 if (count($trajet->dates))
 {
