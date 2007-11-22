@@ -63,7 +63,7 @@ if ( $notefrais->is_valid() )
        && $site->user->id != $notefrais->id_utilisateur )
     $site->error_forbidden("none","group");
     
-  $user = new utilisateur($this->bd);
+  $user = new utilisateur($site->bd);
   $user->load_by_id($notefrais->id_utilisateur);
   
   if ( $_REQUEST["action"] == "delete" && !$notefrais->valide )
