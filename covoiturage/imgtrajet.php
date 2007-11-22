@@ -54,7 +54,7 @@ $img = new imgloc(400, $level, $db, new pgsqlae());
 $trajet = new trajet($db);
 $trajet->load_by_id($_REQUEST['id_trajet']);
 
-$img->add_location_by_idville($trajet->ville_depart->id, false);
+$img->add_step_by_idville($trajet->ville_depart->id, false);
 
 if (isset($_REQUEST['date']))
 {
@@ -69,19 +69,19 @@ if (isset($_REQUEST['date']))
 
 	  if ($_REQUEST['hlstp'] == $etape['id'])
 	    {
-	      $img->add_location_by_idville($idville, false, true);
+	      $img->add_step_by_idville($idville, false, true);
 	      continue;
 	    }
 	  
 	  if ($etape['etat'] == 1)
-	    $img->add_location_by_idville($idville, false);
+	    $img->add_step_by_idville($idville, false);
 	  else if ($_REQUEST['id_etape'] == $etape['id'])
-	    $img->add_location_by_idville($idville, false, true);
+	    $img->add_step_by_idville($idville, false, true);
 	}
     }
 }
 
-$img->add_location_by_idville($trajet->ville_arrivee->id, false);
+$img->add_step_by_idville($trajet->ville_arrivee->id, false);
 
 
 $img->add_context();

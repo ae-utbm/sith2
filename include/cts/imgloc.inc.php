@@ -306,7 +306,7 @@ class imgloc
 	    foreach($this->locs as &$loc)
 	      {
 		$loc[2] = $i;
-		/* note : les données pour le tracé des continents proviennente de la table
+		/* note : les données pour le tracé des continents proviennent de la table
 		 * worldadmgws dont les informations géographiques sont exprimées dans le SRID 4030
 		 * Il va donc falloir convertir ces données si elles ne sont pas dans le bon référentiel.
 		 */
