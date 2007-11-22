@@ -90,7 +90,7 @@ $machine = new machine($site->db,$site->dbrw);
 if ( $_REQUEST["action"] == "autoplanning" )
 {
   
-  $req = new requete($site->db,"SELECT * FROM mc_machines WHERE loc='$id_salle' AND hs='0'");
+  $req = new requete($site->db,"SELECT * FROM mc_machines WHERE loc='$id_salle' AND hs='0' ORDER BY lettre");
   while ( $row = $req->get_row() )
   {
     $machine->_load($row);
