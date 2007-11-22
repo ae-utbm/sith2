@@ -245,8 +245,7 @@ $frm->add_select_field("operation","Machines désirées",array(3=>"Lavage et sec
 $frm->add_submit("search","Rechercher un créneau");
 $cts->add($frm,true);
 
-$sql = new requete($site->db,"
-      SELECT id_creneau, debut_creneau, fin_creneau, lettre, type, mc_machines.loc AS id_salle, nom_jeton
+$sql = new requete($site->db,"SELECT id_creneau, debut_creneau, fin_creneau, lettre, type, mc_machines.loc AS id_salle, nom_jeton
       FROM mc_creneaux
       INNER JOIN mc_machines ON mc_creneaux.id_machine = mc_machines.id
       LEFT JOIN mc_jeton ON mc_creneaux.id_jeton = mc_jeton.id_jeton
