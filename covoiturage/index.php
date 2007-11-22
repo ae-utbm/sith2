@@ -132,9 +132,8 @@ if ($req->lines > 0)
 
       $trajet->load_by_id($rs['id_trajet']);
       
-      $desc = "<a href=\"./details.php?id_trajet=".$trajet->id.
-	"&date=".$rs['trajet_date']."\">Trajet ".$trajet->ville_depart->nom." / ".	
-	$trajet->ville_arrivee->nom . "</a>";
+      $desc = "Trajet ".$trajet->ville_depart->nom." / ".	
+	$trajet->ville_arrivee->nom;
       
       $date = HumanReadableDate($rs['trajet_date'], "", false, true);
       
@@ -155,7 +154,7 @@ if ($req->lines > 0)
 			     array("description" => "Description du trajet", 
 				   "date" => "Date",
 				   "state" => "Etat de la demande"), 
-			     array("delete" => "supprimer"), array()));
+			     array("delete" => "supprimer", "view" => "Voir"), array()));
   
 } // fin "mes étapes"
 
