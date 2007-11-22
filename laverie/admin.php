@@ -650,7 +650,7 @@ else // Vente
         $frm->error($ErreurVente);
       $frm->add_hidden("action","vendre");
       $frm->add_hidden("id_utilisateur",$user->id);
-      $frm->add_info("Numéro de jeton");
+      $frm->add_info("Numéro de jeton (laisser vide pour reporter)");
       while ( $row = $sql->get_row() )
       {
         $frm->add_text_field("jeton[".$row["id_creneau"]."]",$blabla[$row["type"]]." ".$row["lettre"]." : ".date("H:i d/m",strtotime($row["debut_creneau"])) );
