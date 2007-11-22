@@ -644,7 +644,7 @@ else // Vente
     }
     else
     {
-      $blabla = array("laver"=>"Jeton lavage","secher"=>"Jeton sechage");
+      $blabla = array("laver"=>"J. Lavage","secher"=>"J. Sechage");
       $frm = new form("vendre","admin.php?id_salle=$id_salle",true);
       if ( $ErreurVente )
         $frm->error($ErreurVente);
@@ -652,7 +652,7 @@ else // Vente
       $frm->add_hidden("id_utilisateur",$user->id);
       while ( $row = $sql->get_row() )
       {
-        $frm->add_text_field("jeton[".$row["id_creneau"]."]",$blabla[$row["type"]]." pour ".date("d/m/Y H:i",strtotime($row["debut_creneau"]))." (".$row["lettre"].")" );
+        $frm->add_text_field("jeton[".$row["id_creneau"]."]",$blabla[$row["type"]]." pour ".date("H:i d/m",strtotime($row["debut_creneau"]))." (".$row["lettre"].")" );
       }
       $frm->add_submit("valid","Valider");
       $cts->add($frm);
