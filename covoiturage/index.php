@@ -102,9 +102,12 @@ if ($req->lines > 0)
 	$state = "Refusé";
       else if ($rs['accepted_etape'] == 1)
 	$state = "Acceptée";
+      else if ($rs['accepted_etape'] == 3)
+	$state = "DATE DE TRAJET SUPPRIMEE";
       else
 	$state = "En attente";
-      
+
+
       $trajet->load_by_id($rs['id_trajet']);
       
       $desc = "Trajet ".$trajet->ville_depart->nom." / ".
