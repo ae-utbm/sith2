@@ -403,9 +403,29 @@ elseif ( $_REQUEST["view"] == "pl" ) // Plannings
   $next_week_start = mktime(0, 0, 0, $date['mon'], $date['mday'] + $days_left +1, $date['year']);
   $next_week_end = mktime(0, 0, 0, $date['mon'], $date['mday'] + $days_left +8, $date['year']);
   
-  //TODO: afficher le dernier creneau pour toutes les machines
   //TODO: formulaire de generation de planning par machine
   //TODO: proposer la modification de creneaux
+  
+  $sql = new requete($site->db, "SELECT id as id_machine, lettre, type, MAX(fin_creneau) as date_dernier
+    FROM mc_machines
+    LEFT JOIN mc_creneaux ON ( mc_creneaux.id_machine = mc_machines.id )
+    WHERE loc='$id_salle'
+    GROUP BY mc_machines.id
+    ORDER BY mc_machines.lettre,mc_machines.type");
+  
+  $tbl = new sqltable("listmachinescreneaux",
+    "Liste des machines",
+    $sql,
+    "admin.php?id_salle=$id_salle&view=pl",
+    "id_machine",
+    array("lettre" => "Lettre",
+      "type" => "Type de la machine",
+      "date_dernier" => "Dernier creneau"),
+    array(),
+    array(),
+    array("type"=>$GLOBALS['types_jeton'] ) );
+  $cts->add($tbl,true);
+  
   
   $frm = new form("autoplanning", "admin.php?id_salle=$id_salle&view=pl",false,"POST","Generer les plannings pour toutes les machines (hors HS)");
   $frm->add_hidden("action","autoplanning");
