@@ -132,8 +132,9 @@ if ($req->lines > 0)
 
       $trajet->load_by_id($rs['id_trajet']);
       
-      $desc = "Trajet ".$trajet->ville_depart->nom." / ".
-	$trajet->ville_arrivee->nom;
+      $desc = "<a href=\"./details.php?id_trajet=".$trajet->id.
+	"&date=".$rs['trajet_date']."\">Trajet ".$trajet->ville_depart->nom." / ".	
+	$trajet->ville_arrivee->nom . "</a>";
       
       $date = HumanReadableDate($rs['trajet_date'], "", false, true);
       
