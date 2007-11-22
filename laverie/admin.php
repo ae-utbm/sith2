@@ -156,6 +156,7 @@ elseif($_REQUEST['action'] == "blacklist")
     $user->add_to_group(GRP_BLACKLIST);
     $cts->add_paragraph($user->get_html_link()." a bien été banni de l'usage des machines");
   }
+  $user->id = null;
 }
 elseif($_REQUEST['action'] == "unblacklist")
 {
@@ -170,6 +171,7 @@ elseif($_REQUEST['action'] == "unblacklist")
     $user->remove_from_group(GRP_BLACKLIST);
     $cts->add_paragraph($user->get_html_link()." a bien été débanni de l'usage des machines");
   }
+  $user->id = null;
 }
 elseif($_REQUEST['action'] == "mail_rappel")
 {
@@ -218,6 +220,7 @@ Les responsables machines à laver";
     else
       $cts->add_paragraph("Erreur lors de l'envoi du mail de rappel pour ".$user->get_html_link(),"error");
   }
+  $user->id = null;
 }
 
 // Contenu des onglets
