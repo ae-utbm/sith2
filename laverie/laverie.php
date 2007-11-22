@@ -253,8 +253,6 @@ $sql = new requete($site->db,"SELECT id_creneau, debut_creneau, fin_creneau, let
       AND fin_creneau >= NOW()
       ORDER BY debut_creneau");
 
-print_r($sql);
-
 $tbl = new sqltable("lstcrfutur",
   "Liste des créneaux réservés",
   $sql,
