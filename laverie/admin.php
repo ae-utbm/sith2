@@ -285,7 +285,7 @@ elseif ( $_REQUEST["view"] == "bc" ) // Mauvais clients
 
   $cts->add($table, true);
 
-  $frm = new form("blacklist","admin.php?id_salle=$id_salle",false,"POST","Bloquer une autre personne");
+  $frm = new form("blacklist","admin.php?id_salle=$id_salle&view=bc",false,"POST","Bloquer une autre personne");
   $frm->add_hidden("action","blacklist");
   $frm->add_entity_smartselect ( "id_utilisateur", "Utilisateur", $user );
   $frm->add_submit("blacklist","Bloquer");
