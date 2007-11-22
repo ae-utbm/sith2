@@ -118,7 +118,6 @@ else if ($_REQUEST['action'] == "refuse")
 {
   $accueil->add_title(2, "Acceptation de l'étape");
   
-  echo "HERE !";
 
   if ($trajet->refuse_step($_REQUEST['id_etape'], $_REQUEST['date']))
     $accueil->add_paragraph("Etape refusée avec succès !");
@@ -263,8 +262,9 @@ if (count($trajet->etapes))
     {
 
       /* date de trajet supprimée */
-      if (! in_array($etape['date'], $trajet->etapes))
+      if (! in_array($etape['date_etape'], $trajet->etapes))
       {
+	echo "DATE PLUS VALABLE ...";
 	$trajet->mark_as_deleted_step($etape['id'], $etape['date_etape']);
 	continue;
       }
