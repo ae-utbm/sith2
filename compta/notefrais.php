@@ -126,9 +126,15 @@ if ( $notefrais->is_valid() )
   $cts->add_paragraph("Date : ".date("d/m/Y",$notefrais->date));
   $cts->add_paragraph("Commentaire : ".$notefrais->commentaire);
   
+  $lines = $notefrais->get_lines();
+  
+  foreach($lines as $k => $d )
+    $lines[$k]["prix_ligne_notefrais"] = $d["prix_ligne_notefrais"]/100;
+  
+  
   $tbl = new sqltable("frais",
     "",
-    $notefrais->get_lines(),
+    $lines,
     "notefrais.php?id_notefrais=".$notefrais->id,
     "num_notefrais_ligne",
     array(
