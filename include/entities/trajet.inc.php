@@ -218,6 +218,24 @@ class trajet extends stdentity
     return ($this->id > 0);
     
   }
+
+  /* fonction déterminant si un trajet comporte des étapes non validées 
+   *
+   *
+   * @return true si oui, false sinon
+   *
+   */
+  function has_pending_steps()
+  {
+    if (count($this->steps) <= 0)
+      return false;
+    foreach ($this->steps as $step)
+      {
+	if ($step['etat'] == 0)
+	  return true;
+      }
+    return false;
+  }
   
   /*
    * Ajoute une date à un trajet

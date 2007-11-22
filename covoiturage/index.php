@@ -59,27 +59,48 @@ if ($sql->lines)
   
   $trajet = new trajet($site->db);
   $usrtrj = new utilisateur($site->db);
-      
+
+  $idtrjs = array();
+
   while ($res = $sql->get_row())
     {
+      $idtrjs[] = $res['id_trajet'];
+
       $trajet->load_by_id($res['id_trajet']);
+      $trajet->load_steps();
+
 
       if ($trajet->has_expired())
 	$mytrj[] = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom . 
 	  " / " . $trajet->ville_arrivee->nom . "<b> - TRAJET EXPIRE (cliquez pour ajouter une date)</b></a>";
       else
-	$mytrj[] = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom . 
-	  " / " . $trajet->ville_arrivee->nom . "</a>";
-    }  
+	{
+	  $str = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom . 
+	    " / " . $trajet->ville_arrivee->nom;
 
+	  if ($trajet->has_pending_steps())
+	    $str .= " <b>ETAPES EN ATTENTE DE VALIDATION</b>";
+
+	  $str .= "</a>";
+	  $mytrj[] = $str;
+	} 
+    }
+
+ 
   $accueil->add_title(2, "Mes trajets ponctuels proposés");
   $accueil->add_paragraph("Cliquez sur un lien ci-dessous pour passer sur la page de gestion du trajet concerné.");
   $mytrjs = new itemlist(false, false, $mytrj);
   $accueil->add($mytrjs);
+
+  $idtrjs = implode(",", $idtrjs);
+  $req = new requete($site->db, "SELECT `id_trajet` FROM `cv_trajet_etape` 
+                                 WHERE `id_trajet` IN (".$idtrjs.") AND `accepted_etape` = '0'");
+
 }
 
-/* mes "étapes" proposées */
 
+
+/* mes "étapes" proposées */
 
 $req = new requete($site->db, "SELECT 
                                        * 
