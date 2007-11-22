@@ -264,7 +264,6 @@ if (count($trajet->etapes))
       /* date de trajet supprimée */
       if (! in_array($etape['date_etape'], $trajet->dates))
       {
-	echo "DATE PLUS VALABLE ...";
 	$trajet->mark_as_deleted_step($etape['id'], $etape['date_etape']);
 	continue;
       }
