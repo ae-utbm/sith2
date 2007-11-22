@@ -170,7 +170,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
   
   $extraurl="";
   if ( isset($_REQUEST["fallback"]) )
-    $extraurl = "&fallback=".urlrawencode($_REQUEST["fallback"]);
+    $extraurl = "&fallback=".rawurlencode($_REQUEST["fallback"]);
     
   if ( $_REQUEST["operation"] ==  3 )
   {
