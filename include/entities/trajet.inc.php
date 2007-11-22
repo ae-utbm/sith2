@@ -25,11 +25,15 @@
  * 02111-1307, USA.
  */
 
+/* constantes d'état des étapes ; Nb : si besoin d'en rajouter, ne pas
+ * oublier de changer la structure de la table SQL (enum)
+ */
 define('STEP_WAITING',  0);
 define('STEP_ACCEPTED', 1);
 define('STEP_REFUSED',  2);
-/* etape dont la date a été supprimée */
 define('STEP_DELETED',  3);
+
+/* etape dont la date a été supprimée */
 
 /* trajet ponctuel avec dates (table cv_trajet_date) */
 define('TRJ_PCT', 0);
@@ -485,7 +489,7 @@ class trajet extends stdentity
   {
     $sql = new update($this->dbrw,
 		      'cv_trajet_etape',
-		      array('accepted_etape' => "'". STEP_ACCEPTED . "'"),
+		      array('accepted_etape' => STEP_ACCEPTED),
 		      array('id_trajet' => $this->id,
 			    'trajet_date' => mysql_real_escape_string($date),
 			    'id_etape' => intval($id)));
@@ -497,7 +501,7 @@ class trajet extends stdentity
   {
     $sql = new update($this->dbrw,
 		      'cv_trajet_etape',
-		      array('accepted_etape' => "'". STEP_DELETED ."'"),
+		      array('accepted_etape' => STEP_DELETED),
 		      array('id_trajet' => $this->id,
 			    'trajet_date' => mysql_real_escape_string($date),
 			    'id_etape' => intval($id)));
@@ -510,7 +514,7 @@ class trajet extends stdentity
   {
     $sql = new update($this->dbrw,
 		      'cv_trajet_etape',
-		      array('accepted_etape' => "'" . STEP_REFUSED . "'"),
+		      array('accepted_etape' => STEP_REFUSED),
 		      array('id_trajet' => $this->id,
 			    'trajet_date' => mysql_real_escape_string($date),
 			    'id_etape' => intval($id)));
