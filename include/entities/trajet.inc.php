@@ -458,6 +458,8 @@ class trajet extends stdentity
    */
   function get_users_by_date($date)
   {
+    $date = mysql_real_escape_string($date);
+
     if ($this->type == TRJ_PCT)
       { 
 	$req = new requete($this->db,
@@ -468,7 +470,10 @@ class trajet extends stdentity
                             WHERE
                                          `id_trajet` = $this->id
                             AND
-                                         `trajet_date` = '".$date."'");
+                                         `trajet_date` = '".$date."'
+                            AND
+                                         (`accepted_etape` = " . STEP_ACCEPTED."
+                                     OR    `accepted_etape` = " . STEP_WAITING . ")");
 
     if ($req->lines <= 0)
       {

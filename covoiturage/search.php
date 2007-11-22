@@ -42,7 +42,7 @@ $site->start_page ("services", "Covoiturage - Recherche");
 
 $accueil = new contents("Recherche", "");
 
-$accueil->add_title(1, "Tous les trajets ponctuels proposés : ");
+$accueil->add_title(1, "Trajets ponctuels proposés : ");
 
 $sql = new requete($site->db, "SELECT 
                                       `id_trajet`
@@ -63,12 +63,16 @@ $sql = new requete($site->db, "SELECT
 if ($sql->lines > 0)
 {
   $trajet = new trajet($site->db);
+  $propusr = new utilisateur($site->db);
+  
   
   while ($req = $sql->get_row())
     {
       $trajet->load_by_id($req['id_trajet']);
+      $propusr->load_by_id($trajet->id_utilisateur);
       $trj = "Trajet ". $trajet->ville_depart->nom . 
-	" / " . $trajet->ville_arrivee->nom ;
+	" / " . $trajet->ville_arrivee->nom .
+	", par " . $propusr->get_html_link();
 	  
       $accueil->add_title(3, $trj);
 
