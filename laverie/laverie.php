@@ -176,7 +176,7 @@ elseif ( $_REQUEST["action"] == "searchmc" )
   {
     $sql = 
     "SELECT 
-     CONCAT(cl.id_creneau,',',cs.id_creneau) AS id_creneau,
+     CONCAT(MIN(cl.id_creneau),',',MIN(cs.id_creneau)) AS id_creneau,
      cl.debut_creneau, SUBTIME(cl.fin_creneau,'00:00:01') AS fin_creneau,
      'Choisir' AS texte
      FROM mc_creneaux AS cl
