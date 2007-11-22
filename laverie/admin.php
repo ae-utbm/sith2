@@ -154,7 +154,7 @@ elseif($_REQUEST['action'] == "blacklist")
     $user = new utilisateur($site->db, $site->dbrw);
     $user->load_by_id($id);
     $user->add_to_group(GRP_BLACKLIST);
-    $lst->add_paragraph($user->get_html_link()." a bien été banni de l'usage des machines");
+    $cts->add_paragraph($user->get_html_link()." a bien été banni de l'usage des machines");
   }
 }
 elseif($_REQUEST['action'] == "unblacklist")
