@@ -227,13 +227,18 @@ class trajet extends stdentity
    */
   function has_pending_steps()
   {
-    if (count($this->steps) <= 0)
+    if (count($this->etapes) <= 0)
+      $this->load_steps();
+
+    if (count($this->etapes) <= 0)
       return false;
-    foreach ($this->steps as $step)
+
+    foreach ($this->etapes as &$step)
       {
 	if ($step['etat'] == 0)
 	  return true;
       }
+
     return false;
   }
   

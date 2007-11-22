@@ -79,7 +79,7 @@ if ($sql->lines)
 	    " / " . $trajet->ville_arrivee->nom;
 
 	  if ($trajet->has_pending_steps())
-	    $str .= " <b>ETAPES EN ATTENTE DE VALIDATION</b>";
+	    $str .= " <b>ETAPES EN ATTENTE DE VALIDATION !</b>";
 
 	  $str .= "</a>";
 	  $mytrj[] = $str;
