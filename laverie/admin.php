@@ -628,8 +628,7 @@ else // Vente
   {
     $cts->add_title(2,$user->get_html_link());
     
-    $sql = new requete($site->db,"
-      SELECT id_creneau, debut_creneau, lettre, type
+    $sql = new requete($site->db,"SELECT id_creneau, debut_creneau, lettre, type
       FROM mc_creneaux
       INNER JOIN mc_machines ON mc_creneaux.id_machine = mc_machines.id
       WHERE mc_creneaux.id_utilisateur = ".$user->id."
