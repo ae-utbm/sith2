@@ -109,6 +109,15 @@ class machine extends stdentity
 	    array("id_machine"=>$this->id,"id_creneau"=>$id_creneau,"id_utilisateur"=>null)); 
 	}
 	
+
+	function free_creneau ( $id_creneau, $id_utilisateur )
+	{
+	  new update ( $this->dbrw, "mc_creneaux", 
+	    array("id_utilisateur"=>null), 
+	    array("id_machine"=>$this->id,"id_creneau"=>$id_creneau,"id_utilisateur"=>$id_utilisateur, "id_jeton"=>null)); 
+	}
+	
+	
 	function affect_jeton_creneau ( $id_creneau, $id_utilisateur, $id_jeton )
 	{
 	  new update ( $this->dbrw, "mc_creneaux", 
