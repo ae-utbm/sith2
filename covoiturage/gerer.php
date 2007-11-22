@@ -354,8 +354,8 @@ if (count($trajet->dates))
 	{
 
 	  $accueil->add_title(3, "Trajet du ". HumanReadableDate($date, "", false, true));
-	  $accueil->add_paragraph("<center><img src=\"./imgtrajet.php?id_trajet=".$trajet->id.
-				  "&amp;date=".$date."\" alt=\"\" /></center>");
+	  $accueil->add_paragraph("<i><a href=\"./imgtrajet.php?id_trajet=".$trajet->id.
+				  "&amp;date=".$date."\">Image du trajet</a></i>");
 
 	  $accueil->add_paragraph(count($idusers) . " utilisateur(s) intéressé(s) par le trajet");
 	  $passager = new utilisateur($site->db);
