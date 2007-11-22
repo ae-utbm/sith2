@@ -87,8 +87,11 @@ $GLOBALS["entitiescatalog"] = array (
 	"secteur" => array( "id_secteur", "nom_secteur", "lieu.png", "entreprise.php", "secteur"),
 	
 	"efact"=>array("id_efact","titre_facture","file.png","compta/efact.php","cpta_facture","efact.inc.php"),
+	"notefrais"=>array("id_notefrais","id_notefrais","file.png","compta/notefrais.php","cpta_notefrais","noetfrais.inc.php"),
 	
 	"uv" 			=> array ( "id_uv", "code_uv", "misc.png", "uvs/uvs.php", "edu_uv", "uv.inc.php" ),
+	
+
 	
 	"nouvelle"=>array("id_nouvelle", "titre_nvl", "misc.png", "news.php", "nvl_nouvelles", "news.inc.php", "nvl_nouvelles_tag")
 

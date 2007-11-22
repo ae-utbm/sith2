@@ -167,7 +167,16 @@ class notefrais extends stdentity
             ));	
     $this->update_fields();	 
 	}
-
+	
+	function delete_all_lines ( )
+	{
+    $req = new delete ($this->dbrw,
+            "cpta_notefrais_ligne", array(
+              "id_notefrais"=>$this->id
+            ));	
+    $this->update_fields();	 
+	}
+	
   function update_fields()
   {
 		$req = new requete($this->db, "SELECT SUM(prix_ligne_notefrais) FROM `cpta_notefrais_ligne`
@@ -185,6 +194,18 @@ class notefrais extends stdentity
             ),
             array("id_notefrais"=>$this->id));
   }
+	
+	function get_lines()
+	{
+	  $lines = array(); 
+		$req = new requete($this->db, "SELECT * FROM `cpta_notefrais_ligne`
+				WHERE `id_notefrais` = '" . mysql_real_escape_string($this->id) . "'");
+		while ( $row = $req->get_row() )
+		  $lines[]=$row;		
+				
+	  return $lines;
+	}
+	
 	
 }
 
