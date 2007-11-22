@@ -245,8 +245,6 @@ $frm->add_select_field("operation","Machines désirées",array(3=>"Lavage et sec
 $frm->add_submit("search","Rechercher un créneau");
 $cts->add($frm,true);
 
-print_r($site->user);
-
 $sql = new requete($site->db,"
       SELECT id_creneau, debut_creneau, fin_creneau, lettre, type, mc_machines.loc AS id_salle, nom_jeton
       FROM mc_creneaux
@@ -255,6 +253,8 @@ $sql = new requete($site->db,"
       WHERE mc_creneaux.id_utilisateur = '".$site->user->id."'
       AND fin_creneau >= NOW()
       ORDER BY debut_creneau");
+
+print_r($sql);
 
 $tbl = new sqltable("lstcrfutur",
   "Liste des créneaux réservés",
