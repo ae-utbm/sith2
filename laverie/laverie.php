@@ -216,6 +216,8 @@ elseif ( $_REQUEST["action"] == "searchmc" )
     
   $frm = new form("searchmc","laverie.php",false,"POST","Nouvelle recherche");
   $frm->add_hidden("action","searchmc");
+  if ( isset($_REQUEST["fallback"]) )
+    $frm->add_hidden("fallback",$_REQUEST["fallback"]);
   $frm->add_select_field("id_salle","Lieu",$salles, $_REQUEST["id_salle"]);
   $frm->add_select_field("operation","Machines désirées",array(3=>"Lavage et sechage",1=>"Lavage seulement",2=>"Sechage seulement"));
   $frm->add_submit("search","Rechercher un créneau");
