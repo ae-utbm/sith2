@@ -76,10 +76,12 @@ if ($sql->lines)
       else
 	{
 	  $str = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom . 
-	    " / " . $trajet->ville_arrivee->nom . "</a>";
+	    " / " . $trajet->ville_arrivee->nom;
 
 	  if ($trajet->has_pending_steps())
-	    $str .= " <b>- ETAPES EN ATTENTE DE VALIDATION !</b>";
+	    $str .= "<b> - ETAPES EN ATTENTE DE VALIDATION !</b>";
+
+	  $str .= "</a>";
 
 	  $mytrj[] = $str;
 	} 
