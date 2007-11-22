@@ -231,7 +231,7 @@ elseif($_REQUEST['action'] == "hs")
   {
     $machine->load_by_id($id);
     $machine->set_hs(true);
-    $lst->add($machine->get_html_link()." marquée hors service");
+    $lst->add_paragraph($machine->get_html_link()." marquée hors service");
   }
 }
 elseif($_REQUEST['action'] == "es")
@@ -243,7 +243,7 @@ elseif($_REQUEST['action'] == "es")
   {
     $machine->load_by_id($id);
     $machine->set_hs(false);
-    $lst->add($machine->get_html_link()." marquée en service");
+    $lst->add_paragraph($machine->get_html_link()." marquée en service");
   }
 }
 elseif( $_REQUEST['action'] == "delete" 
@@ -256,7 +256,7 @@ elseif( $_REQUEST['action'] == "delete"
   {
     $machine->load_by_id($id);
     $machine->delete();
-    $lst->add($machine->get_html_link()." supprimée");
+    $lst->add_paragraph($machine->get_html_link()." supprimée");
   }
 
 }
