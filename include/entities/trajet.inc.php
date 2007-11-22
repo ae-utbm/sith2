@@ -473,7 +473,7 @@ class trajet extends stdentity
                                          `trajet_date` = '".$date."'
                             AND
                                          (`accepted_etape` = " . STEP_ACCEPTED."
-                                     OR    `accepted_etape` = " . STEP_WAITING . ")");
+                                     OR    `accepted_etape` = " . STEP_WAITING . ")", true);
 
     if ($req->lines <= 0)
       {
