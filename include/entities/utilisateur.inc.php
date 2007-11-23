@@ -166,11 +166,22 @@ class utilisateur extends stdentity
       return;
     }*/
 
-    $req = new requete($this->db, "SELECT `utilisateurs`.* FROM `utilisateurs` " .
-                                  "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
-                                  "WHERE `utilisateurs`.`email_utl` = '" . mysql_real_escape_string($email) . "' OR " .
-                                  "`utl_etu_utbm`.`email_utbm` = '" . mysql_real_escape_string($email) . "' " .
-                                  "LIMIT 1");
+    if (ereg("^([A-Za-z0-9\._-]+)@(utbm\.fr|assidu-utbm\.fr)$", $email, $regs))
+      $req = new requete($this->db, 
+        "SELECT `utilisateurs`.* FROM `utilisateurs` " .
+        "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
+        "WHERE `utilisateurs`.`email_utl` = '".mysql_real_escape_string($regs[1]."@utbm.fr")."' " .
+        "OR `utilisateurs`.`email_utl` = '".mysql_real_escape_string($regs[1]."@assidu-utbm.fr")."' " .
+        "OR `utl_etu_utbm`.`email_utbm` = '".mysql_real_escape_string($regs[1]."@utbm.fr")."' " .
+        "OR `utl_etu_utbm`.`email_utbm` = '".mysql_real_escape_string($regs[1]."@assidu-utbm.fr")."' " .
+        "LIMIT 1");
+    else
+      $req = new requete($this->db, 
+        "SELECT `utilisateurs`.* FROM `utilisateurs` " .
+        "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
+        "WHERE `utilisateurs`.`email_utl` = '" . mysql_real_escape_string($email) . "' OR " .
+        "`utl_etu_utbm`.`email_utbm` = '" . mysql_real_escape_string($email) . "' " .
+        "LIMIT 1");
 
     if ( $req->lines == 1 )
     {
@@ -304,11 +315,22 @@ class utilisateur extends stdentity
    */
   function is_email_avaible ( $email )
   {
-    $req = new requete($this->db, "SELECT `utilisateurs`.* FROM `utilisateurs` " .
-                                  "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
-                                  "WHERE `utilisateurs`.`email_utl` = '" . mysql_real_escape_string($email) . "' OR " .
-                                  "`utl_etu_utbm`.`email_utbm` = '" . mysql_real_escape_string($email) . "' " .
-                                  "AND `utilisateurs`.`id_utilisateur`!='".$this->id."'");
+    if (ereg("^([A-Za-z0-9\._-]+)@(utbm\.fr|assidu-utbm\.fr)$", $email, $regs))
+      $req = new requete($this->db, 
+        "SELECT `utilisateurs`.* FROM `utilisateurs` " .
+        "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
+        "WHERE (`utilisateurs`.`email_utl` = '".mysql_real_escape_string($regs[1]."@utbm.fr")."' " .
+        "OR `utilisateurs`.`email_utl` = '".mysql_real_escape_string($regs[1]."@assidu-utbm.fr")."' " .
+        "OR `utl_etu_utbm`.`email_utbm` = '".mysql_real_escape_string($regs[1]."@utbm.fr")."' " .
+        "OR `utl_etu_utbm`.`email_utbm` = '".mysql_real_escape_string($regs[1]."@assidu-utbm.fr")."') " .
+        "AND `utilisateurs`.`id_utilisateur`!='".$this->id."'");
+    else
+      $req = new requete($this->db, 
+        "SELECT `utilisateurs`.* FROM `utilisateurs` " .
+        "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
+        "WHERE (`utilisateurs`.`email_utl`='" . mysql_real_escape_string($email) . "' OR " .
+        "`utl_etu_utbm`.`email_utbm`='" . mysql_real_escape_string($email) . "') " .
+        "AND `utilisateurs`.`id_utilisateur`!='".$this->id."'");
 
     return ( $req->lines == 0 );
   }
