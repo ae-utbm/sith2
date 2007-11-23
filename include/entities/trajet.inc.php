@@ -579,7 +579,31 @@ class trajet extends stdentity
     return false;
   }
 
+  /* fonction de suppression de date de trajet
+   *
+   * @param id_destroyer l'identifiant de l'utilisateur demandant la
+   * suppression
+   * @param $date la date de trajet à supprimer
+   *
+   * @return true si succès, false sinon
+   *
+   */
+  function delete_date($id_destroyer, $date)
+  {
+    if ($this->id_utilisateur != $id_destroyer)
+      return false;
 
+    if (! $this->dbrw)
+      return false;
+
+    $req = new delete($site->dbrw,
+		      "cv_trajet_date", 
+		      array("id_trajet" => $this->id, 
+			    "trajet_date" => $date));
+
+    return ($req->lines == 1);
+  }
+  
 }
 
 

@@ -79,7 +79,7 @@ if ($_REQUEST['action'] == 'delete')
 			      $id_etape,
 			      $date_etape);
 
-  if ($ret == 1)
+  if ($ret == true)
     {
       $accueil->add_title(2, "Suppression d'une étape");
       $accueil->add_paragraph("<b>Etape supprimée avec succès.</b>");

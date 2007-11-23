@@ -61,23 +61,21 @@ if ($_REQUEST['action'] == "delete")
 
 	  foreach ($dates as $date)
 	    {
-	      $req = new delete($site->dbrw,
-				"cv_trajet_date", 
-				array("id_trajet" => $trajet->id, 
-				      "trajet_date" => $date));
 	      
-	      if ($req->lines == 1)
+	      $ret = $trajet->delete_date($site->user->id, $date);
+	      
+	      if ($ret == true)
 		{
-
+		  
 		  $accueil->add_paragraph("<b>Date  du ".
 					  HumanReadableDate($date, "", false, true)
 					  ."supprimée avec succès.</b>");
-
+		  
 		}
 	    }
 	}
     }
-
+  
   /* rechargement du trajet */
   $trajet->load_by_id($trajet->id);
 }
