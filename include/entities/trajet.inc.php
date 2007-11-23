@@ -85,6 +85,7 @@ class trajet extends stdentity
       {
 	$this->_load($req->get_row());
 	$this->load_dates();
+	$this->load_steps();
 	return true;
       }
 		
@@ -228,9 +229,6 @@ class trajet extends stdentity
   function has_pending_steps()
   {
     if (count($this->etapes) <= 0)
-      $this->load_steps();
-
-    if (count($this->etapes) <= 0)
       return false;
 
     foreach ($this->etapes as &$step)
@@ -307,19 +305,12 @@ class trajet extends stdentity
 
     if (($this->type == TRJ_EDU) || ($this->type == TRJ_EVT))
       {
-	$this->load_steps();
 	return false;
       }
 
     if (! in_array($date, $this->dates))
       return false;
 	
-    /* tentative de chargement des étapes */
-    if (! count($this->etapes))
-      {
-	$this->load_steps();
-      }
-
     /* pas d'étapes */
     if (! count($this->etapes))
       {
@@ -376,13 +367,8 @@ class trajet extends stdentity
    */
   function already_proposed_step($user, $date = NULL)
   {
-
-    if (! count ($this->etapes))
-      $this->load_steps();
-
     if (! count($this->etapes))
       return false;
-
 
     foreach($this->etapes as $etape)
       {
@@ -397,10 +383,10 @@ class trajet extends stdentity
   /*
    * Fonction permettant d'ajouter une étape
    *
-   * Note : une étape avec une ville signifie que l'utilisateur
-   * veut participer au trajet, mais qu'il n'a pas d'obligation 
-   * précise en terme de modification du trajet. (explications 
-   * plus poussée en commentaires, ...)
+   * Note : une étape avec une ville nulle signifie que l'utilisateur
+   * veut participer au trajet, mais qu'il n'a pas d'obligation
+   * précise en terme de modification du trajet. (explications plus
+   * poussée en commentaires, ...)
    *
    */
   function add_step($user, $comments, $date = NULL, $ville = NULL)
@@ -444,7 +430,6 @@ class trajet extends stdentity
 	 */
 	if ($this->already_proposed_step($user, $date))
 	  {
-	    echo "deja propose ...";
 	    return false;
 	  }
 	
@@ -549,7 +534,57 @@ class trajet extends stdentity
     
     return ($sql->lines > 0);
   }
+
+  /* fonction de suppression d'une étape.  
+   *
+   * @param id_destroyer l'identifiant de l'utilisateur souhaitant
+   * supprimer l'étape.
+   * @param id_etape l'identifiant d'étape.
+   * @param date_etape la date de l'étape.
+   *
+   * @return true si ok, false sinon.
+   *
+   */
+  function delete_step($id_destroyer, $id_etape, $date_etape)
+  {
+    if (! $this->dbrw)
+      return false;
+
+    if (count($this->etapes) <= 0)
+      return false;
+
+    foreach($this->etapes as &$etape)
+      {
+	// l'étape est trouvée
+	if (($etape['id'] == $id_etape) && ($etape['date_etape'] == $date_etape))
+	  {
+	    if ($id_destroyer != $etape['id_utilisateur'])
+	      {
+		return false;
+	      }
+
+	    /* else : on supprime l'étape */
+	    $req = new delete($this->dbrw, 'cv_trajet_etape',
+			      array('id_trajet' => $this->id,
+				    'id_etape'  =>$id_etape,
+				    'trajet_date' => $date_etape));
+
+	    /* rechargement des étapes */
+	    $this->load_steps();
+
+	    return ($req->lines == 1);
+	  }
+      } // fin foreach
+
+    return false;
+  }
+
+
 }
 
+
+/* fonctions globales, relatives au système du covoiturage */
+
+ 
 
 ?>
