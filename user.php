@@ -849,6 +849,8 @@ function edtopen(semestre, id)
               </p>\n");
   
   /** afichage des uvs suivies */
+  $cts->add_title(2, "Il suit / a suivi les UVs suivantes :");
+
   $sql = new requete($site->db, "SELECT 
                                           `edu_uv`.`id_uv`
                                         , `edu_uv_groupe`.`semestre_grp`
