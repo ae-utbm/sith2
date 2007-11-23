@@ -848,6 +848,27 @@ function edtopen(semestre, id)
                     <center><img id=\"edtrdr\" src=\"\" alt=\"\" /></center>
               </p>\n");
   
+  /** afichage des uvs suivies */
+  $sql = new requete($site->db, "SELECT 
+                                          `edu_uv`.`id_uv`
+                                        , `edu_uv_groupe`.`semestre_grp`
+                                        , `edu_uv`.`code_uv` 
+                                 FROM 
+                                          `edu_uv_groupe_etudiant` 
+                                 INNER JOIN 
+                                          `edu_uv_groupe` 
+                                 ON 
+                                          `edu_uv_groupe`.`id_uv_groupe` = `edu_uv_groupe_etudiant`.`id_uv_groupe` 
+
+                                 INNER JOIN 
+                                          `edu_uv` USING (`id_uv`) 
+                                 WHERE `id_utilisateur` = ".$user->id." GROUP BY `id_uv`");
+
+
+  $cts->add(new sqltable("uvf", "UVs suivies", $sql, $topdir. "uvs/uvs.php", "id_uv", 
+			 array("code_uv" => "Code de l'UV",
+			       "semestre_grp" => "Semestre suivi"),
+			 array("view" => "visualiser l'UV"), array()));
   /** 
    * Affichage des CVs
    */
