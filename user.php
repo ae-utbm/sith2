@@ -864,7 +864,12 @@ function edtopen(semestre, id)
 
                                  INNER JOIN 
                                           `edu_uv` USING (`id_uv`) 
-                                 WHERE `id_utilisateur` = ".$user->id." GROUP BY `id_uv`");
+                                 WHERE 
+                                          `id_utilisateur` = ".$user->id." 
+                                 GROUP BY 
+                                          `id_uv`
+                                 ORDER BY
+                                          `semestre_grp`");
 
 
   $cts->add(new sqltable("uvf", "UVs suivies", $sql, $topdir. "uvs/uvs.php", "id_uv", 
