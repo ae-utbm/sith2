@@ -26,7 +26,7 @@
  * @file
  */
  
- 
+/* 
 class lieu extends stdentity
 {
   
@@ -125,7 +125,114 @@ class lieu extends stdentity
     $this->id = null;
   }
 
+}*/
+
+require_once($topdir."include/entities/geopoint.inc.php");
+
+/**
+ * Lieu geolocalisé.
+ * Les lieux sont des geopoint particuliers, dans le sens, ou tout geopoint, 
+ * quelque soit son type peut être, en plus, un lieu.
+ *
+ * ATTENTION: dans le cas de jointure avec loc_lieu, il faut faire un jointure
+ * "facultative" (LEFT JOIN) avec loc_lieu (id_lieu=id_lieu) et une jointure 
+ * "normale" (INNER JOIN) avec geopoint (id_lieu=id_geopoint). Si la connaissance
+ * de id_lieu_parent n'est pas requise, seul la jointure avec geopoint est requise.
+ *
+ * @see geopoint
+ */
+class lieu extends geopoint
+{
+  var $id_lieu_parent;
+
+  /**
+   * Charge un lieu, ou un geopoint en tant que lieu, dans l'instance.
+   * @param $id Id du lieu ou de geopoint
+   * @return false si non trouvé, true si chargé
+   */
+  function load_by_id ( $id )
+  {
+    $req = new requete($this->db, "SELECT * 
+        FROM `geopoint`
+        LEFT JOIN `loc_lieu` ON ( loc_lieu.id_lieu = geopoint.id_geopoint )
+				WHERE `id_lieu` = '".mysql_real_escape_string($id)."'
+				LIMIT 1");
+
+    if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
+  }
+  
+  function _load ( $row )
+  {
+    $this->geopoint_load($row);
+    $this->id_lieu_parent = $row['id_lieu_parent'];
+  }
+  
+  /**
+   * Creer un nouveau lieu
+   * @param $id_ville Id de la ville dans le quel le lieu se trouve (null si aucun)
+   * @param $id_lieu_parent Id du lieu parent (null si aucun)
+   * @param $nom Nom du point
+   * @param $lat Latitude
+   * @param $long Longitude
+   * @param $eloi Eloignement
+   * @return true si crée, false sinon
+   */
+  function create ( $id_ville, $id_lieu_parent, $nom, $lat, $long, $eloi )
+  {
+    if ( strpos($nom,",") !== false )
+      return false;
+      
+    if ( !$this->geopoint_create ( $nom, $lat, $long, $eloi, $id_ville ) )
+      return false;
+      
+    $this->id_lieu_parent = $id_lieu_parent;
+    $req = new insert ($this->dbrw,
+            "loc_lieu", array(
+              "id_lieu"=>$this->id,
+              "id_lieu_parent"=>$this->id_lieu_parent
+            ));
+            
+    return true;        
+  }
+  
+  /**
+   * Met à jour les informations relatives au lieu
+   * @param $id_ville Id de la ville dans le quel le lieu se trouve (null si aucun)
+   * @param $id_lieu_parent Id du lieu parent (null si aucun)
+   * @param $nom Nom du point
+   * @param $lat Latitude
+   * @param $long Longitude
+   * @param $eloi Eloignement
+   */
+  function update ( $id_ville, $id_lieu_parent, $nom, $lat, $long, $eloi )
+  {
+    $this->id_lieu_parent = $id_lieu_parent;
+    $this->geopoint_update ( $nom, $lat, $long, $eloi, $id_ville );
+    $req = new update ($this->dbrw,
+            "loc_lieu", array(
+              "id_lieu_parent"=>$this->id_lieu_parent
+            ),
+            array("id_lieu"=>$this->id) );
+  }
+
+  /**
+   * Supprime le lieu, s'il s'agit bien d'un lieu, sinon supprime simplement
+   * les informations spécifiques au type lieu.
+   */
+  function delete ( )
+  {
+    new delete($this->dbrw,"loc_lieu",array("id_lieu"=>$this->id));
+    
+    if ( $this->type == "lieu" )
+      $this->geopoint_delete();
+  }
 
 }
-
 ?>
