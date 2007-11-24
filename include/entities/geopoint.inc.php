@@ -153,7 +153,7 @@ class geopoint extends stdentity
       
     if ( $class != "lieu" )
     {
-      if ( is_null($conds) || !is_array($conds) )
+      if ( is_null($conds) || !is_array($conds) )
         $conds = array();
         
       $conds["type_geopoint"] = $class;
@@ -209,7 +209,7 @@ class geopoint extends stdentity
       
     if ( $class != "lieu" )
     {
-      if ( is_null($conds) || !is_array($conds) )
+      if ( is_null($conds) || !is_array($conds) )
         $conds = array();
         
       $conds["type_geopoint"] = $class;
