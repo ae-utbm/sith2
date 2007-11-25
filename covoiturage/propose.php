@@ -47,7 +47,7 @@ $site->start_page("services",
 
 if ($site->user->id <= 0)
 {
-  error_403();
+  $site->error_forbidden();
   exit();
 }
 
