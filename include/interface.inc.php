@@ -80,7 +80,7 @@ class interfaceweb
 							array("laverie/","Laverie"),
 							array("biblio/","Bibliothèque"),
               array("article.php?name=weekmail","Weekmail"),
-              array("article.php?name=covoiturage","Co-voiturage")
+              array("covoiturage/","Co-voiturage")
             ) ),
         array ("pg", "pgae.php", "Petit géni"),
         array ("matmatronch", "matmatronch/", "Matmatronch"),
