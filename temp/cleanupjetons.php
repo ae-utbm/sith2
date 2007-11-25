@@ -17,10 +17,10 @@ while ( $row = $req->get_row() )
 {
   if ( isset($done[$row['id_salle']][$row['type_jeton']][$row['nom_jeton']]))
   {
-    echo "Doublons !<br/>\n";
+    echo "Doublons ! : ".$row[0]."<br/>\n";
     
-    if ( !$row['id_utilisateur'] )
-    new delete($dbrw,"mc_jeton",array("id_jeton"=>$row['id_jeton']));
+    if ( is_null($row['id_utilisateur']) )
+      new delete($dbrw,"mc_jeton",array("id_jeton"=>$row[0]));
     
     
   }
