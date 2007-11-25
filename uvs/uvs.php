@@ -539,7 +539,6 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
     }
 
   /* Ressources spécifiques - Bankexam */
-  $cts->add_title(2, "Sur <a href=\"http://www.bankexam.fr/\">Bankexam.fr</a>");
   $xml = file_get_contents("http://www.bankexam.fr/rss/etablissement?code=UTBM");
   
   $uvsbe = new u007xml($xml);
@@ -559,6 +558,8 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
       if (strlen($annaleslink) > 0)
 	{
+	  $cts->add_title(2, "Sur <a href=\"http://www.bankexam.fr/\">Bankexam.fr</a>");
+
 	  $cts->add_paragraph("Il existe des annales d'examen sur Bankexam. <a href=\"".
 			      $annaleslink."\">Cliquez ici pour y accéder.</a>");
 	  break;
