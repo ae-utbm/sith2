@@ -40,17 +40,17 @@ if ( $_REQUEST["action"] == "kml" )
   echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
   echo "<kml xmlns=\"http://earth.google.com/kml/2.1\">";
   
-  echo "<Document id=\"ae_utbm_fr_lieux\">";
+  echo "<Document id=\"ae_utbm_fr_geopoints\">";
   echo "<name>ae utbm</name>";
-  $req = new requete($site->db, "SELECT * FROM loc_lieu");
+  $req = new requete($site->db, "SELECT * FROM geopoint");
   while ( $row = $req->get_row() )
   {   
-    echo "<Placemark id=\"ae_utbm_fr_lieu_".$row['id_lieu']."\">";
-    echo "<name>".htmlspecialchars($row['nom_lieu'])."</name>";
+    echo "<Placemark id=\"ae_utbm_fr_geopoint_".$row['id_geopoint']."\">";
+    echo "<name>".htmlspecialchars($row['nom_geopoint'])."</name>";
     echo "<description></description>";
     echo "<Point>";
-    echo "<coordinates>".sprintf("%.12F",$row['long_lieu']*360/2/M_PI).",".
-      sprintf("%.12F",$row['lat_lieu']*360/2/M_PI)."</coordinates>";
+    echo "<coordinates>".sprintf("%.12F",$row['long_geopoint']*360/2/M_PI).",".
+      sprintf("%.12F",$row['lat_geopoint']*360/2/M_PI)."</coordinates>";
     echo "</Point>";
     echo "</Placemark>";
   } 
@@ -230,7 +230,10 @@ if ( $lieu->is_valid() )
   $cts->add_paragraph("Ville: ".$ville->get_html_link());
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($lieu->lat)."N , ".geo_radians_to_degrees($lieu->long)."E");
 
-  $req = new requete($site->db, "SELECT * FROM loc_lieu WHERE id_lieu_parent='".mysql_real_escape_string($lieu->id)."' ORDER BY nom_lieu");
+  $req = new requete($site->db, "SELECT id_lieu, nom_geopoint FROM loc_lieu 
+  INNER JOIN geopoint ON (geopoint.id_geopoint=loc_lieu.id_lieu)
+  WHERE id_lieu_parent='".mysql_real_escape_string($lieu->id)."' ORDER BY nom_geopoint");
+  
   if (!isset($_REQUEST['level']))
     $level = 5;
   else
@@ -240,7 +243,7 @@ if ( $lieu->is_valid() )
   if ( $req->lines > 0 )
     $cts->add(new sqltable("listsublieux", "Sous-lieux", $req, "loc.php", 
                            "id_lieu", 
-                           array("nom_lieu"=>"Nom"), 
+                           array("nom_geopoint"=>"Nom"), 
                            array(), array(),array()),true); 
 
   if ( $site->user->is_in_group("gestion_ae") )
@@ -311,11 +314,15 @@ $site->start_page("none","Lieux");
 
 $cts = new contents("Gestion des lieux");
 
-$req = new requete($site->db, "SELECT * FROM loc_lieu LEFT JOIN loc_ville USING(id_ville) WHERE id_lieu_parent IS NULL ORDER BY nom_lieu");
+$req = new requete($site->db, "SELECT * 
+FROM loc_lieu 
+INNER JOIN geopoint ON (loc_lieu.id_lieu=geopoint.id_geopoint)
+LEFT JOIN loc_ville ON (geopoint.id_ville=loc_ville.id_ville) 
+WHERE id_lieu_parent IS NULL ORDER BY nom_geopoint");
 
 $cts->add(new sqltable("listsublieux", "Lieux racines", $req, "loc.php", 
                        "id_lieu", 
-                       array("nom_lieu"=>"Nom","nom_ville"=>"Ville"), 
+                       array("nom_geopoint"=>"Nom","nom_ville"=>"Ville"), 
                        array(), array(),array()),true); 
 
 if ( $site->user->is_in_group("gestion_ae") )

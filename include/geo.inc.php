@@ -46,7 +46,7 @@ function geo_radians_to_degrees ( $rad )
 
 /**
  * Converti une latitude/longitude exprimé en degrés en radians
- * @param $deg Texte representant la valeur en degrés (NN°NN'NN")
+ * @param $deg Texte representant la valeur en degrés (NN°NN'NN" ou NN,NNNN)
  * @return la valeur en radians
  */
 function geo_degrees_to_radians ( $deg )
@@ -60,9 +60,17 @@ function geo_degrees_to_radians ( $deg )
     
     return $res;
   }  
-  else if ( ereg("^([0-9]+)°([0-9]+)'([0-9,\.]+)\"$",$deg,$regs) )
+  elseif ( ereg("^([0-9]+)°([0-9]+)'([0-9,\.]+)\"$",$deg,$regs) )
     return ((((str_replace(",",".",$regs[3])/60)+$regs[2])/60)+$regs[1])*2*M_PI/360;  
-  
+  elseif ( ereg("^([0-9]+)([,\.])([0-9]+)([ENSOW]?)$",$deg,$regs) )
+  {
+    $res = floatval($regs[1].".".$regs[3]);
+    
+    if ( $regs[4] == "O" || $regs[4] == "S" || $regs[4] == "W" )
+      return -1*$res;
+    
+    return $res;
+  }
   return NULL;
 }
 

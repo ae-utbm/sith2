@@ -45,7 +45,69 @@ class lignebus extends stdentity
 
 class arretbus extends geopoint
 {
+  /**
+   * Charge un arret de bus.
+   * @param $id Id de l'arret de bus
+   * @return false si non trouvé, true si chargé
+   */
+  function load_by_id ( $id )
+  {
+    $req = new requete($this->db, "SELECT * 
+        FROM `geopoint`
+				WHERE `id_geopoint` = '".mysql_real_escape_string($id)."'
+				AND type_geopoint='arretbus'
+				LIMIT 1");
+
+    if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
+  }
   
+  function _load ( $row )
+  {
+    $this->geopoint_load($row);
+  }
+  
+  /**
+   * Creer un nouvel arret de bus
+   * @param $id_ville Id de la ville dans le quel l'arret de bus se trouve (null si aucun)
+   * @param $nom Nom de l'arret de bus
+   * @param $lat Latitude
+   * @param $long Longitude
+   * @param $eloi Eloignement
+   * @return true si crée, false sinon
+   */
+  function create ( $id_ville,  $nom, $lat, $long, $eloi )
+  {
+    return $this->geopoint_create ( $nom, $lat, $long, $eloi, $id_ville );        
+  }
+  
+  /**
+   * Met à jour les informations relatives à l'arret de bus
+   * @param $id_ville Id de la ville dans le quel l'arret de bus se trouve (null si aucun)
+   * @param $nom Nom de l'arret de bus
+   * @param $lat Latitude
+   * @param $long Longitude
+   * @param $eloi Eloignement
+   */
+  function update ( $id_ville, $nom, $lat, $long, $eloi )
+  {
+    $this->geopoint_update ( $nom, $lat, $long, $eloi, $id_ville );
+  }
+
+  /**
+   * Supprime l'arret de bus
+   */
+  function delete ( )
+  {
+    $this->geopoint_delete();
+  }
+
 } 
  
 ?>
