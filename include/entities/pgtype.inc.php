@@ -37,7 +37,7 @@ class typereduction extends stdentity
 class typetarif extends stdentity
 {
   var $nom;
-
+  var $description;
   
 }
 

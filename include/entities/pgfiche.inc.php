@@ -33,8 +33,15 @@ class pgcategory extends stdentity
   var $id_pgcategory_parent;
   var $nom;
   var $description;
+  var $ordre;
   
+  var $couleur_bordure_web;
+  var $couleur_titre_web;
+  var $couleur_contraste_web;
   
+  var $couleur_bordure_print;
+  var $couleur_titre_print;
+  var $couleur_contraste_print;
 }
 
 
@@ -52,6 +59,8 @@ class pgfiche extends geopoint
   var $numrue;
   var $adressepostal;
   
+  var $placesurcarte;
+  
   var $date_maj;
   var $date_validite;
   
@@ -60,12 +69,17 @@ class pgfiche extends geopoint
     
   }
   
-  function add_tarif ( $id_typetarif, $min_tarif, $max_tarif, $date_maj=null, $date_validite=null )
+  function add_tarif ( $id_typetarif, $min_tarif, $max_tarif, $commentaire, $date_maj=null, $date_validite=null )
   {
     
   }
   
-  function add_reduction ( $id_typereduction, $valeur, $unite, $date_maj=null, $date_validite=null )
+  function add_reduction ( $id_typereduction, $valeur, $unite, $commentaire, $date_maj=null, $date_validite=null )
+  {
+    
+  }
+  
+  function add_service ( $id_service, $commentaire, $date_maj=null, $date_validite=null )
   {
     
   }
