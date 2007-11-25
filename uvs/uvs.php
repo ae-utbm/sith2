@@ -544,7 +544,6 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   
   $uvsbe = new u007xml($xml);
 
-  //  $cts->add(new contents("Debug", "<pre>" . print_r($uvsbe->arrOutput, true) . "</pre>"));
   
   foreach ($uvsbe->arrOutput[0]['childrens'][0]['childrens'] as $key => $value)
     {
@@ -553,6 +552,9 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	continue;
       
       $codeuv = $value['childrens'][2]['nodevalue'];
+      if ($codeuv != $uv->code) 
+	continue;
+
       $annaleslink = $value['childrens'][4]['nodevalue'];
 
       if (strlen($annaleslink) > 0)
