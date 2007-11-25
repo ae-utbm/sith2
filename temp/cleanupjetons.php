@@ -9,7 +9,7 @@ $req = new requete($dbrw, "SELECT *
 FROM `mc_jeton` 
 LEFT JOIN mc_jeton_utilisateur ON ( mc_jeton.id_jeton = mc_jeton_utilisateur.id_jeton
 AND retour_jeton IS NULL ) 
-ORDER BY id_salle, type_jeton, nom_jeton, id_utilisateur");
+ORDER BY id_salle, type_jeton, nom_jeton, id_utilisateur DESC");
 
 
 
