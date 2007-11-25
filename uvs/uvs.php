@@ -31,6 +31,7 @@ $topdir = "../";
 
 include($topdir. "include/site.inc.php");
 require_once($topdir . "include/entities/uv.inc.php");
+require_once($topdir . "include/extdb/xml.inc.php");
 
 
 $site = new site();
@@ -536,6 +537,15 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   
       $cts2->add($edituv);
     }
+
+  /* Ressources spécifiques - Bankexam */
+  $cts->add_title(2, "Chez <a href=\"http://www.bankexam.fr/\">Bankexam ...</a>");
+  $xml = file_get_contents("http://www.bankexam.fr/rss/etablissement?code=UTBM");
+  
+  $uvsbe = new u007xml($xml);
+
+  $cts->add(new contents("Debug", "<pre>" . print_r($uvsbe->arrOutput, true) . "</pre>"));
+
 
   /* Ressources externes */
   $cts->add_title(2, "Ailleurs sur le net ...");
