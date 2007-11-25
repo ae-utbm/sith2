@@ -39,6 +39,12 @@ $site = new site();
 
 $site->start_page ("services", "Covoiturage - Accueil");
 
+if ($site->user->id <= 0)
+{
+  error_403();
+  exit();
+
+}
 
 $accueil = new contents("Accueil - Covoiturage",
 			"Bienvenue sur le système de covoiturage de l'AE.<br/><br/>");
@@ -163,8 +169,8 @@ if ($req->lines > 0)
 
 /* options */
 $accueil->add_title(2, "Autres options");
-if ($site->user->id > 0)
-     $opts[] = "<a href=\"./propose.php\">Proposer un trajet</a>";
+
+$opts[] = "<a href=\"./propose.php\">Proposer un trajet</a>";
 
 $opts[] = "<a href=\"./search.php\">Rechercher un trajet</a>";
 
