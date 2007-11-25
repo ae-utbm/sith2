@@ -44,6 +44,13 @@ $trajet = new trajet($site->db, $site->dbrw, $pgsql);
 $site->start_page("services", 
 		  "Covoiturage - proposition d'un trajet");
 
+
+if ($site->user->id <= 0)
+{
+  error_403();
+  exit();
+}
+
 if (isset($_REQUEST['finalizetrip']))
 {
   $cts = new contents("Proposition de trajet",

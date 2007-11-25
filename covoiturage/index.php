@@ -87,16 +87,19 @@ if ($sql->lines)
 	} 
     }
 
- 
-  $accueil->add_title(2, "Mes trajets ponctuels proposés");
-  $accueil->add_paragraph("Cliquez sur un lien ci-dessous pour passer sur la page de gestion du trajet concerné.");
-  $mytrjs = new itemlist(false, false, $mytrj);
-  $accueil->add($mytrjs);
+  if (count($mytrj) > 0)
+    {
+      $accueil->add_title(2, "Mes trajets ponctuels proposés");
+      $accueil->add_paragraph("Cliquez sur un lien ci-dessous pour passer sur la page de gestion du trajet concerné.");
+      $mytrjs = new itemlist(false, false, $mytrj);
+      $accueil->add($mytrjs);
+    }
+
 
   $idtrjs = implode(",", $idtrjs);
   $req = new requete($site->db, "SELECT `id_trajet` FROM `cv_trajet_etape` 
                                  WHERE `id_trajet` IN (".$idtrjs.") AND `accepted_etape` = '0'");
-
+  
 }
 
 
@@ -160,7 +163,9 @@ if ($req->lines > 0)
 
 /* options */
 $accueil->add_title(2, "Autres options");
-$opts[] = "<a href=\"./propose.php\">Proposer un trajet</a>";
+if ($site->user->id > 0)
+     $opts[] = "<a href=\"./propose.php\">Proposer un trajet</a>";
+
 $opts[] = "<a href=\"./search.php\">Rechercher un trajet</a>";
 
 $options = new itemlist(false, false, $opts);
