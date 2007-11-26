@@ -849,7 +849,7 @@ function edtopen(semestre, id)
               </p>\n");
   
   /** afichage des uvs suivies */
-  if ($site->user->sexe == 2)
+  if ($user->sexe == 2)
     $cts->add_title(2, "Elle suit / a suivi les UVs suivantes :");
   else
     $cts->add_title(2, "Il suit / a suivi les UVs suivantes :");
