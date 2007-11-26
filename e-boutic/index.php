@@ -143,7 +143,7 @@ elseif ( !$typeproduit->is_valid() )
         "Une fois votre panier rempli, vous pourrez ".
         "passer a l'achat, en basculant sur les serveurs".
         " securises de notre partenaire.<br/><br/>".
-        "Ce service vous est offert grace au soutient de la <a href=\"http://jeunes.societegenerale.fr/\">Société Générale</a>.<br/>");
+        "Ce service vous est offert grâce au soutien de la <a href=\"http://jeunes.societegenerale.fr/\">Société Générale</a>.<br/>");
   
   $site->add_contents ($accueil);
 
