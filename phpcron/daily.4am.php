@@ -42,5 +42,13 @@ new requete($site->dbrw,"DELETE FROM `cpt_type_produit` WHERE NOT EXISTS ( SELEC
 
 new requete($site->dbrw,"DELETE FROM `pl_gap` WHERE NOT EXISTS ( SELECT * FROM pl_gap_user WHERE pl_gap_user.id_gap = pl_gap.id_gap AND pl_gap_user.id_planning = pl_gap.id_planning ) AND end_gap < NOW( )");
 
+// Tâche 4 : Nettoyages des sessions expirés
+
+new requete($site->dbrw, "DELETE FROM `site_sessions` WHERE expire_sess < NOW() AND expire_sess IS NOT NULL");
+
+// Tâche 5 : Nettoyages des sessions trop vieilles
+
+new requete($site->dbrw, "DELETE FROM `site_sessions` WHERE datediff(NOW(),derniere_visite) > 120");
+
 
 ?>

@@ -60,6 +60,9 @@ class pgfiche extends geopoint
   var $adressepostal;
   
   var $placesurcarte;
+  var $contraste;
+  var $appreciation;
+  var $commentaire;
   
   var $date_maj;
   var $date_validite;
@@ -119,6 +122,7 @@ class pgfichemaj extends stdentity
   var $arretsbus; // (données sérialisés)
   var $tarifs; // (données sérialisés)
   var $reductions; // (données sérialisés)
+  var $services; // (données sérialisés)
   var $tags; // (données sérialisés)
 
   var $date_soumission;
