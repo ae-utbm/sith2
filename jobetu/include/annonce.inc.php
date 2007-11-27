@@ -345,7 +345,7 @@ EOF;
 $text = <<<EOF
 Bonjour,
 
-Nous sommes au regret de vous annoncer que l'annonce "$this->titre" à laquelle vous avez postulé vient d'être annulée et supprimer de notre base de donnée.
+Nous sommes au regret de vous annoncer que l'annonce "$this->titre" à laquelle vous avez postulé vient d'être annulée et supprimée de notre base de donnée.
 Pour plus de renseignement, vous pouvez écrire en réponse à ce mail.
 
 Cordialement,
