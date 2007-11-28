@@ -25,6 +25,14 @@ $topdir = "./";
 require_once($topdir. "include/site.inc.php");
 
 $site = new site();
+/*HTTP/1.1 200 OK
+Content-Type: text/calendar; charset=UTF-8
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: Fri, 01 Jan 1990 00:00:00 GMT
+Transfer-Encoding: chunked
+Date: Wed, 28 Nov 2007 07:46:17 GMT
+Server: GFE/1.3*/
 
 header("Content-Type: text/calendar; charset=utf-8");
 header("Content-Disposition: filename=ae-events.ics");
@@ -67,10 +75,10 @@ $events = new requete ($site->db,
 
 function escape_ical ( $str )
 {
-  $str = str_replace("\r","",$str);
-  $str = str_replace("\\","\\\\",$str);
-  $str = str_replace("\n","\\n",$str);
-  return str_replace(",","\\,",$str);
+  $str=preg_replace('/([\,\\\\])/u','\\\\$1', $str);
+  $str=preg_replace('/\n/u','\\n', $str);
+  $str=preg_replace('/\r/u','', $str);
+  return $str;
 }
 
 while ($ev = $events->get_row ())
@@ -83,7 +91,7 @@ while ($ev = $events->get_row ())
   $st = strtotime($ev['date_debut_eve']);
   $end = strtotime($ev['date_fin_eve']);
   
-  if ( $ev["type_nvl"] == 3 )
+  if ( $ev["type_nvl"] == 3 || ($end-$st) > (60*60*24) )
   {
     echo "DTSTART;TZID=Europe/Paris;VALUE=DATE:".date("Ymd",$st)."\n";
     echo "DTEND;TZID=Europe/Paris;VALUE=DATE:".date("Ymd",$end)."\n";
