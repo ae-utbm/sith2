@@ -45,6 +45,31 @@ $trajet = new trajet($site->db, $site->dbrw, null);
 
 $trajet->load_by_id($_REQUEST['id_trajet']);
 
+/* edition du commentaire */
+if ($_REQUEST['action'] == "commitnewcomm")
+{
+  if ($site->user->id == $trajet->id_utilisateur)
+    {
+      $ret = $trajet->set_comment($_REQUEST['comments']);
+      if (! $ret)
+	$accueil->add_paragraph("<b>Erreur lors de la modification du commentaire.</b>");
+    }
+}
+if ($_REQUEST['action'] == "modcomm")
+{
+  $accueil->add_paragraph("Vous pouvez modifier le commentaire à l'aide du formulaire suivant :");
+  
+  $frm = new form('modify_comment', 'gerer.php?action=commitnewcomm&id_trajet=' .$trajet->id, true);
+  $frm->add_dokuwiki_toolbar('comments');
+  $frm->add_text_area('comments', 'Commentaires (Syntaxe DokuWiki)', $trajet->commentaires, 80, 20);
+  $frm->add_submit('commit_modification_comment', 'Modifier');
+  $accueil->add($frm);
+  $site->add_contents($accueil);
+  $site->end_page();
+  exit();
+}
+
+
 /* suppression d'une date de trajet */
 if ($_REQUEST['action'] == "delete")
 {
@@ -188,6 +213,17 @@ if ($_REQUEST['action'] == "moderer")
   
   exit();
 }
+
+/* infos sur le trajet */
+$accueil->add_paragraph("Trajet ".$trajet->ville_depart->nom." / ".$trajet->ville_arrivee->nom);
+
+$accueil->add_paragraph("<span style=\"float: right;\">".
+			"<a href=\"./gerer.php?action=modcomm&id_trajet=". $trajet->id
+			."\">Modifier</a></span>");
+
+$accueil->add_paragraph("Vous avez laissé le commentaire suivant :".
+			"<div class=\"comment\">"
+			.doku2xhtml($trajet->commentaires)."</div>");
 
 
 /* évidemment, seul le responsable du trajet peut ajouter une date */

@@ -603,7 +603,28 @@ class trajet extends stdentity
 
     return ($req->lines == 1);
   }
-  
+
+  /*
+   * Modification du commentaire
+   *
+   *
+   */
+  function set_comment($newcomment)
+  {
+    if (($this->id < 0) || (! $this->dbrw))
+      return false;
+
+
+    $q = new update($this->dbrw,
+		    "cv_trajet",
+		    array("comments_trajet" => $newcomment),
+		    array("id_trajet" => $this->id));
+
+    $this->commentaires = $newcomment;
+
+
+    return ($q->lines == 1);
+  }
 }
 
 
