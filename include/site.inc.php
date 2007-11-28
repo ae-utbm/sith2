@@ -29,7 +29,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
-session_start();
+ 
+if ( !isset($GLOBALS['nosession']) )
+  session_start();
 
 if ( $_SERVER["REMOTE_ADDR"] == "127.0.1.1" )
   $GLOBALS["is_using_ssl"] = true;
@@ -1408,7 +1410,8 @@ class site extends interfaceweb
   function return_file (  $uid, $mime_type, $mtime, $size, $file )
   {
     // Ferme la session si elle est encore ouverte
-    session_write_close();
+    if ( !isset($GLOBALS['nosession']) )
+      session_write_close();
     
     // Ferme les accès à la base de donnés
     $this->db->close();

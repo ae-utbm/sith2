@@ -20,6 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
+$GLOBALS['nosession'] = true; 
+ 
 $topdir="../";
 require_once("include/sas.inc.php");
 $site = new sas();
