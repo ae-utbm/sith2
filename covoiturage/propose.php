@@ -101,6 +101,8 @@ if (isset($_REQUEST['step2']))
   $frm->add_submit('step2', 'Ajouter des dates de trajet');
   $frm->add_submit('finalizetrip', 'Finaliser la proposition');
   
+  if (isset($_REQUEST['']))
+
   $cts->add($frm);
       
   $site->add_contents($cts);
@@ -167,11 +169,36 @@ if (isset($_REQUEST['step1']))
     }
   else
     {
-      $cts->add_paragraph("<b>Une erreur est survenue lors de l'ajout du trajet.");
+      $cts->add_paragraph("<b>Une erreur est survenue lors de l'ajout du trajet.</b>");
     }
 
-      $site->add_contents ($cts);
 
+  $site->add_contents ($cts);
+
+  // trajet retour
+  if ($_REQUEST['retour'] == true)
+    {
+      $ret = $trajet->create($site->user->id, $varr->id, $vdep->id, "Trajet de retour, ".
+			     "voir trajet aller pour de plus amples informations", $type, $ident);
+  
+      if ($ret)
+	{
+	  if ($type == TRJ_PCT)
+	    {
+	      $frm = new form('trip_step2_ret', "propose.php", true);
+	      $frm->add_hidden('id_trajet_ret', $trajet->id);
+	      $frm->add_date_field('date_ret', 'Date de voyage proposée');
+	      $frm->add_submit('step2_ret', 'Ajouter des dates de trajet');
+
+	      $cts->add($frm);
+	    }
+
+	}
+      else
+	{
+	  $cts->add_paragraph("<b>Une erreur est survenue lors de l'ajout du trajet de retour.</b>");
+	}
+    }
   $site->end_page ();
   exit();
 }
@@ -198,8 +225,12 @@ $frm->add_text_area("comments",
 		    "Commentaires (facultatif - format DokuWiki)",
 		    null, 80, 20);
 
+$frm->add_checkbox("retour", "Prévoir un trajet inverse (retour)");
+
 
 $frm->add_submit('step1', 'En voiture !');
+
+$cts->add_paragraph("Note : Une fois ce trajet établi, vous serez dirigé sur la page suivante qui vous permettra d'ajouter des dates à ce trajet");
 
 
 $cts->add($frm);
