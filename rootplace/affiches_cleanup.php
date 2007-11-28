@@ -55,9 +55,8 @@ AND wiki_ref_file.id_wiki IS NULL");
 while ( $row = $req->get_row() )
 {
   $dfile->_load($row);
-  $lst->add($dfile->get_html_link()." : A supprimer");
-  
-  //$dfile->delete_file();
+  $lst->add($dfile->get_html_link()." : Supprimée");
+  $dfile->delete_file();
 }
 
 $cts->add($lst);
