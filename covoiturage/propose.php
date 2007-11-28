@@ -82,6 +82,7 @@ if (isset($_REQUEST['step2']))
   if (!$ret)
     {
       $cts = new contents("Proposition de trajet - Ajout de dates", "<b>Echec lors de l'ajout de date.</b>");
+      echo "FOIREAIZE TRAJET INITIAL";
     }
   else
     {
@@ -107,9 +108,10 @@ if (isset($_REQUEST['step2']))
       $trajet_ret = new trajet($site->db, $site->dbrw);
       $trajet->load_by_id($_REQUEST['id_trajet_ret']);
       $ret = false;
-      if ($site->user->id == $trajet->id_utilisateur)
+      if ($site->user->id == $trajet_ret->id_utilisateur)
 	{
 	  $ret = $trajet_ret->add_date($_REQUEST['date_ret']);
+	  echo "FOIREAIZE TRAJET RETOUR";
 	}
       if (!$ret)
 	{
