@@ -82,6 +82,8 @@ if (isset($_REQUEST['step2']))
   if (!$ret)
     {
       $cts = new contents("Proposition de trajet - Ajout de dates", "<b>Echec lors de l'ajout de date.</b>");
+      print_r($_REQUEST);
+
       echo "FOIREAIZE TRAJET INITIAL";
     }
   else
