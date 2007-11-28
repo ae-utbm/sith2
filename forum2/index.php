@@ -727,18 +727,19 @@ if ( $sujet->is_valid() )
   }
   
   /**@todo:bouttons+infos*/
-
+  
+  $buttons= "<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a>";
+    
   if ( $site->user->is_valid() )
   {
     $row = $sujet->get_user_infos($site->user->id);
     if ( is_null($row) || !$row['etoile_sujet'] )
-      $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a> <a href=\"?id_sujet=".$sujet->id."&amp;action=star\"><img src=\"".$wwwtopdir."images/icons/16/star.png\" class=\"icon\" alt=\"\" />Ajouter aux sujets favoris</a>","frmtools");
+      $buttons .= " <a href=\"?id_sujet=".$sujet->id."&amp;action=star\"><img src=\"".$wwwtopdir."images/icons/16/star.png\" class=\"icon\" alt=\"\" />Ajouter aux sujets favoris</a>";
     else
-      $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a> <a href=\"?id_sujet=".$sujet->id."&amp;action=unstar\"><img src=\"".$wwwtopdir."images/icons/16/unstar.png\" class=\"icon\" alt=\"\" />Enlever des sujets favoris</a>","frmtools");
-    
+      $buttons .= " <a href=\"?id_sujet=".$sujet->id."&amp;action=unstar\"><img src=\"".$wwwtopdir."images/icons/16/unstar.png\" class=\"icon\" alt=\"\" />Enlever des sujets favoris</a>";
   }
-  else
-    $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a>","frmtools");
+
+  $cts->add_paragraph($buttons,"frmtools");
 
   if ( $start == 0 )
   {
@@ -854,7 +855,8 @@ if ( $sujet->is_valid() )
     
   $cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
 
-  $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a>","frmtools");
+  $cts->add_paragraph($buttons,"frmtools");
+
   $cts->add_paragraph($path);
   
 
