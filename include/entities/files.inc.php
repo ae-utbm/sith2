@@ -749,8 +749,8 @@ class dfile extends fs
     if ( $this->modere )
       return;
     
-    if ( $this->droits_acces & 1 )
-      return;
+		if ( (DROIT_LECTURE & ($this->droits_acces)) == DROIT_LECTURE )
+		  return;
       
     if ( $this->id_groupe >= 10000 && $this->id_groupe < 20000 )
       return; 

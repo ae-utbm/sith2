@@ -379,7 +379,7 @@ if ( $file->is_valid() )
   if ( !file_exists($filename) )
     $filename = $topdir."images/icons/128/".$file->get_icon_name();
   else
-    $actions[] = "<a href=\"d.php?id_file=".$file->id."&amp;action=download&amp;download=preview\">Voir</a>";
+    $actions[] = "<a href=\"d.php?id_file=".$file->id."&amp;action=download&amp;download=preview\">Aperçu</a>";
 
   $cts->add(new image("Miniature",$filename,"imgright"));
   $cts->add( new wikicontents ("Description",$file->description),true );
@@ -393,6 +393,12 @@ if ( $file->is_valid() )
   }
 
   $cts->add(new itemlist(false,false,$actions));
+
+  if ($file->mime_type == "audio/mpeg" )
+  {
+    require_once($topdir."include/cts/player.inc.php");
+    $cts->add(new mp3player("Ecouter","../../d.php?id_file=".$file->id."&action=download"),true);
+  }
 
   $cts->add(new itemlist("Informations",false,
       array(
