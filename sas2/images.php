@@ -66,7 +66,6 @@ if ( $id_photo > 0 )
   if ( !$photo->is_valid() || !$photo->is_right($site->user,DROIT_LECTURE) )
   {
     $site->return_simplefile( "pherror", "image/png", $topdir."images/action.delete.png");
-    exit();
   }
 
   $abs_file = $photo->get_abs_path().$photo->id;
@@ -75,7 +74,6 @@ if ( $id_photo > 0 )
   {
     header("Content-Disposition: file; filename=\"".$photo->id.".flv\"");
     $site->return_simplefile( "sasflv".$photo->id, "video/x-flv", $abs_file.".flv" );
-    exit(); 
   }
 
   if ( $mode == "vignette" )
@@ -86,8 +84,6 @@ if ( $id_photo > 0 )
     $abs_file.=".jpg";
   
   $site->return_simplefile( "sas".$mode.$photo->id, "image/jpeg", $abs_file );
-
-  exit(); 
 }
 
 ?>

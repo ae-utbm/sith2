@@ -1430,7 +1430,7 @@ class site extends interfaceweb
         $asked = str_replace('"', '',stripslashes($_SERVER['HTTP_IF_NONE_MATCH']));
         if ( $asked == $etag )
         {
-  	      file_put_contents("counter",intval(@file_get_contents("counter"))+1);
+  	      //file_put_contents("counter",intval(@file_get_contents("counter"))+1);
           header("HTTP/1.1 304 Not Modified", true, 304);
           exit();
         }
@@ -1440,7 +1440,7 @@ class site extends interfaceweb
   	    $asked = strtotime($_SERVER["HTTP_IF_MODIFIED_SINCE"]);
   	    if ( $mtime <= $asked )
   	    {
-  	      file_put_contents("counter",intval(@file_get_contents("counter"))+1);
+  	      //file_put_contents("counter",intval(@file_get_contents("counter"))+1);
     		  header("HTTP/1.1 304 Not Modified", true, 304);
     		  exit();
   	    }

@@ -68,18 +68,16 @@ if ( isset($_REQUEST["id_file"]))
 // "Exception"
 if ( $_REQUEST["action"] == "download" && $file->is_valid() )
 {
-  session_write_close();
   if ( $_REQUEST["download"] == "thumb" )
   {
     $filename = $file->get_thumb_filename();
     if ( ! file_exists($filename) )
     {
-      header("Content-type: image/png");
-      $filename = $topdir."images/icons/128/".$file->get_icon_name();
+      $icon = $file->get_icon_name();
+      $site->return_simplefile( "icon128".$icon, "image/png", $topdir."images/icons/128/".$icon );
     }
     else
-      header("Content-type: image/jpeg");
-    readfile($filename);
+      $site->return_simplefile( "dthumb".$file->id, "image/jpeg", $filename );
     exit();
   }
   elseif ( $_REQUEST["download"] == "preview" )
@@ -87,23 +85,21 @@ if ( $_REQUEST["action"] == "download" && $file->is_valid() )
     $filename = $file->get_screensize_filename();
     if ( ! file_exists($filename) )
     {
-      header("Content-type: image/png");
-      $filename = $topdir."images/icons/128/".$file->get_icon_name();
+      $icon = $file->get_icon_name();
+      $site->return_simplefile( "icon128".$icon, "image/png", $topdir."images/icons/128/".$icon );
     }
     else
-      header("Content-type: image/jpeg");
-    readfile($filename);
+      $site->return_simplefile( "dpreview".$file->id, "image/jpeg", $filename );
     exit();
   }
   $file->increment_download();
   $filename = $file->get_real_filename();
-  header("Content-type: ".$file->mime_type);
+  
   header("Content-Disposition: filename=".$file->nom_fichier);
+  
   if ( file_exists($filename) )
-  {
-      header("Content-Length: ".filesize($filename));
-      readfile($filename);
-  }
+    $site->return_simplefile( "d".$file->id, $file->mime_type, $filename );
+  
   exit();
 }
 
