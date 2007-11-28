@@ -66,62 +66,64 @@ if (isset($_REQUEST['finalizetrip']))
 
 if (isset($_REQUEST['step2']))
 {
-  $idtrj = $_REQUEST['id_trajet'];
+  $trajet->load_by_id($_REQUEST['id_trajet']);
+  $trajet->load_dates();
 
-  $trajet->load_by_id($idtrj);
+  /* trajet retour ? */
+  if (isset($_REQUEST['id_trajet_ret']))
+    {
+      $trajet_ret = new trajet($site->db, $site->dbrw);
+      $trajet_ret->load_by_id($_REQUEST['id_trajet_ret']);
+    }
+
+  $ret = false;
 
   /* il est évident que seul le responsable d'un trajet
    * peut ajouter des dates ...
    */
-
-  $ret = false;
-
   if ($site->user->id ==  $trajet->id_utilisateur)
-    $ret = $trajet->add_date($_REQUEST['date']);
-
-  if (!$ret)
     {
-      $cts = new contents("Proposition de trajet - Ajout de dates", "<b>Echec lors de l'ajout de date.</b>");
-      print_r($_REQUEST);
+      $ret = $trajet->add_date($_REQUEST['date']);
+    }
 
-      echo "FOIREAIZE TRAJET INITIAL";
+  if (! $ret)
+    {
+      $cts = new contents("Ajout de dates", "<b>Echec lors de l'ajout de date.</b>");
     }
   else
     {
-      $cts = new contents("Proposition de trajet - Ajout de dates", "Date ajoutée avec succès !");
+      $cts = new contents("Ajout de dates", "Date ajoutée avec succès !");
       $trajet->load_dates();
     }
+  
+  $site->add_contents($cts);
 
+  /* affichage des dates du trajet */
   if (count($trajet->dates))
     {
       $itmlst = new itemlist("Dates proposées :",false, $trajet->dates);
       $cts->add($itmlst);
     }
 
-  $frm = new form('trip_step2', "propose.php", true);
-  $frm->add_hidden('id_trajet', $trajet->id);
-  $frm->add_date_field('date', 'Date de voyage proposée');
-  $frm->add_submit('step2', 'Ajouter des dates de trajet');
-  $frm->add_submit('finalizetrip', 'Finaliser la proposition');
-
-  /* existence d'un trajet retour */
-  if (isset($_REQUEST['trajet_ret']))
+  if (isset($trajet_ret))
     {
-      $trajet_ret = new trajet($site->db, $site->dbrw);
-      $trajet->load_by_id($_REQUEST['id_trajet_ret']);
+      /* tentative d'ajout de dates pour le trajet de retour */
       $ret = false;
       if ($site->user->id == $trajet_ret->id_utilisateur)
 	{
 	  $ret = $trajet_ret->add_date($_REQUEST['date_ret']);
-	  echo "FOIREAIZE TRAJET RETOUR";
 	}
+
       if (!$ret)
 	{
-	  $cts = new contents("Proposition de trajet - Ajout de dates", "<b>Echec lors de l'ajout de date.</b>");
+	  $cts = new contents("Ajout de dates sur trajet retour", 
+			      "<b>Echec lors de l'ajout de date sur le trajet de retour.</b>");
 	}
+
       else
 	{
-	  $cts = new contents("Proposition de trajet - Ajout de dates", "Date ajoutée avec succès !");
+	  $cts = new contents("Ajout de dates sur trajet retour", 
+			      "Date sur trajet de retour ajoutée avec succès !");
 	  $trajet_ret->load_dates();
 	}
       
@@ -131,6 +133,23 @@ if (isset($_REQUEST['step2']))
 	  $cts->add($itmlst);
 	}
     }
+
+  $site->add_contents($cts);
+
+  $cts = new contents('Ajout de dates');
+  $frm = new form('trip_step2', "propose.php", true);
+  $frm->add_hidden('id_trajet', $trajet->id);
+  $frm->add_date_field('date', 'Date de voyage proposée');
+  
+  /* trajet retour */
+  if (isset($trajet_ret))
+    {
+      $frm->add_hidden('id_trajet_ret', $trajet_ret->id);
+      $frm->add_date_field('date_ret', 'Date de voyage retour proposée');
+    }
+  $frm->add_submit('step2', 'Ajouter des dates de trajet');
+  $frm->add_submit('finalizetrip', 'Finaliser la proposition');
+  
 
   $cts->add($frm);
       
@@ -220,7 +239,7 @@ if (isset($_REQUEST['step1']))
 	    {
 	      $frm->add("<h3>Dates pour le trajet de retour</h3>");
 	      $frm->add_hidden('id_trajet_ret', $trajet->id);
-	      $frm->add_date_field('date_ret', 'Date de voyage proposée');
+	      $frm->add_date_field('date_ret', 'Date de voyage retour');
 	      $frm->add_submit('step2', 'Ajouter des dates de trajet');
 
 	      $cts->add($frm);
