@@ -219,49 +219,6 @@ function genere_pass ($nameLength=12)
 
   return $Name;
 }
-/** Conversion des dates
- *
- * @param date La date a convertir
- *
- * @return -1 si probleme, la date convertie sinon
- */
-function jj_mm_aaaa__to__aaaa_mm_jj($date)
-{
-  //Controle sur la longueur
-  //un peu fÃ©blard !
-  if (strlen($date)==10) {
-  $ret =
-    //AnnÃ©e
-    substr($date,6,4). "-".
-    //Mois
-    substr($date,3,2). "-".
-    //Jour
-    substr($date,0,2);
-  return $ret;
-  }
-  else return -1;
-}
-/** Conversion des dates
- *
- *
- * @param date La date a convertir
- *
- * @return -1 si probleme, la date convertie sinon
- */
-function aaaa_mm_jj__to__jj_mm_aaaa($date, $char = "/")
-{
- if (strlen($date)==10) {
-  $ret =
-    //Jour
-    substr($date,8,2). $char.
-    //Mois
-    substr($date,5,2). $char.
-    //AnnÃ©e
-      substr($date,0,4);
-  return $ret;
-  }
-  else return -1;
-}
 /** VÃ©rification de l'email
  *
  * @param email L'email Ã  vÃ©rifier
@@ -327,41 +284,6 @@ function URLCourante()
     $url = strstr(substr($_SERVER['SCRIPT_URL'], 1), '/');
 
   return $url;
-}
-
-/** GÃ©nÃ©ration d'une date situÃ©e n jours aprÃ¨s (si n > 0)
- *                               (n jours avant si n < 0)
- *
- * @param date la date Ã  prendre comme point de repÃ¨re
- *
- * @param format_parm le format de la date passÃ© en argument
- *                    timestamp ou date (Y-m-d)
- *
- * @param n le nombre de jours Ã  Ã©valuer.  (exemple : n = -1 renverra
- * la veille de $date n = 1 renverra le lendemain).
- *
- * @param format_ret le format de la date Ã  renvoyer
- * si = date la fonction renverra au format "Y-m-d"
- * si = timestamp, la fonction renverra un timestamp
- *
- * @return la date voulue (format Y-m-d)
- */
-function relative_date($date, $format_parm, $format_ret, $n)
-{
-  if ($format_parm == "date")
-    {
-      if ($format_ret == "date")
-	return date("Y-m-d", strtotime($date) + 24 * 3600 * $n);
-      if ($format_ret == "timestamp")
-	return strtotime($date) + 24 * 3600 * $n;
-    }
-  if ($format_parm == "timestamp")
-    {
-      if ($format_ret == "timestamp")
-	return $date + 24 * 3600 * $n;
-      if ($format_ret == "date")
-	return date("Y-m-d", $date + 24 * 3600 * $n);
-    }
 }
 
 function close_session ()
