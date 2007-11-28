@@ -27,7 +27,7 @@ class icalendar
 
   function add_event ( $uid, $summary, $description, $start, $end, $dateonly=false, $url=null, $location=null, $lat=null, $long=null )
   {
-    $events[] = array(
+    $this->events[] = array(
       "uid" => $uid,
       "summary" => $summary,
       "description" => $description,
@@ -103,7 +103,7 @@ END:VTIMEZONE
       
       echo "END:VEVENT\n";
     }
-    
+    echo "END:VCALENDAR\n";
   }  
   
   
