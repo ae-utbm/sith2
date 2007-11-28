@@ -13,7 +13,7 @@ class mp3player extends stdcontents
 	 * @param $title 
 	 * @param $src 
 	 */
-	function flvideo ( $title, $src)
+	function mp3player ( $title, $src)
 	{
 		$this->title = $title;
 		$this->src = $src;
