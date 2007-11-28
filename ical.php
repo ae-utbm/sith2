@@ -91,7 +91,7 @@ while ($ev = $events->get_row ())
   $st = strtotime($ev['date_debut_eve']);
   $end = strtotime($ev['date_fin_eve']);
   
-  if ( $ev["type_nvl"] == 3 || ($end-$st) > (60*60*24) )
+  if ( $ev["type_nvl"] == 3 || ($end-$st) > (60*60*24) )
   {
     echo "DTSTART;TZID=Europe/Paris;VALUE=DATE:".date("Ymd",$st)."\n";
     echo "DTEND;TZID=Europe/Paris;VALUE=DATE:".date("Ymd",$end)."\n";
