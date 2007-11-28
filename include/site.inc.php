@@ -71,8 +71,6 @@ class site extends interfaceweb
       $this->fatal("closed");
 
     $this->set_side_boxes("left",array("calendrier","alerts","connexion"),"default_left");
-    $this->add_box("calendrier",new calendar($this->db));
-    $this->add_box("connexion", $this->get_connection_contents());
 
     //$this->add_css("themes/gala/css/site.css");
     
@@ -344,7 +342,10 @@ class site extends interfaceweb
     
     if ( $section != "pg" && $section != "matmatronch" && $section != "forum"  )
       $this->add_box("alerts",$this->get_alerts());
-
+      
+    $this->add_box("calendrier",new calendar($this->db));
+    $this->add_box("connexion", $this->get_connection_contents());
+    
     if ( $section == "accueil" )
     {
       $this->add_box("photo",$this->get_weekly_photo_contents());
@@ -1403,5 +1404,59 @@ class site extends interfaceweb
     
     exit();
   }
+  
+  function return_file (  $uid, $mime_type, $mtime, $size, $file )
+  {
+    // Ferme la session si elle est encore ouverte
+    if ( !empty(session_id()) )
+      session_write_close();
+    
+    // Ferme les accès à la base de donnés
+    $this->db->close();
+    $this->dbrw->close();
+      
+      
+    $etag = $uid."M".$mtime;
+    
+    header('ETag: "'.$etag.'"', true);
+    header("Cache-Control: public, must-revalidate", true);
+    
+    if ( !isset($_SERVER["HTTP_CACHE_CONTROL"]) )
+    {
+      if ( isset($_SERVER["HTTP_IF_NONE_MATCH"]) )
+      {
+        $asked = str_replace('"', '',stripslashes($_SERVER['HTTP_IF_NONE_MATCH']));
+        if ( $asked == $etag )
+        {
+          header("HTTP/1.1 304 Not Modified", true, 304);
+          exit();
+        }
+      }
+  	  elseif ( isset($_SERVER["HTTP_IF_MODIFIED_SINCE"]) )
+  	  {
+  	    $asked = strtotime($_SERVER["HTTP_IF_MODIFIED_SINCE"]);
+  	    if ( $mtime <= $asked )
+  	    {
+    		  header("HTTP/1.1 304 Not Modified", true, 304);
+    		  exit();
+  	    }
+    	}
+    }
+    
+    $modified = gmdate("D, d M Y H:i:s \G\M\T",$mtime);
+    
+    header("Last-Modified: ".$modified, true);
+    header("Content-Length: ".$size, true);
+    header("Content-type: ".$mime_type);
+    
+    readfile($file);
+    exit();
+  }
+  
+  function return_simplefile (  $uid, $mime_type, $file )
+  {
+    $this->return_file (  $uid, $mime_type, filemtime($file), filesize($file), $file ),
+  }
+
 }
 ?>

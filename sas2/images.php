@@ -26,8 +26,6 @@ $site = new sas();
 
 $site->allow_only_logged_users("sas");
 
-session_write_close(); // on n'a plus besoin de la session, liberons le semaphore...
-
 if ( ereg("^(.*)/([0-9]*).jpg$",$_SERVER["argv"][0],$regs) )
 {
   $id_photo = intval($regs[2]);
@@ -60,61 +58,21 @@ else
 
 if ( $id_photo > 0 )
 {
-  function renvoyer_image ( $file )
-  {
-  
-    $lastModified = gmdate('D, d M Y H:i:s', filemtime($file) ) . ' GMT';    
-    $etag=md5($file.'#'.$lastModified);
- 
-    if ( isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) )
-    {
-      $ifModifiedSince = preg_replace('/;.*$/', '', $_SERVER['HTTP_IF_MODIFIED_SINCE']);
-      if ($lastModified == $ifModifiedSince)
-      {
-        header("HTTP/1.0 304 Not Modified");
-        header('ETag: "'.$etag.'"');
-        exit();
-      }
-    }
-    
-    if ( isset($_SERVER['HTTP_IF_NONE_MATCH']) )    {      if ( $etag == str_replace('"', '',stripslashes($_SERVER['HTTP_IF_NONE_MATCH'])) )
-      {
-        header("HTTP/1.0 304 Not Modified");
-        header('ETag: "'.$etag.'"');
-        exit();
-      }
-    }
-    header("Cache-Control: must-revalidate");    header("Pragma: cache");
-    header("Last-Modified: ".$lastModified);
-    header("Cache-Control: public");
-    header("Content-type: image/jpeg");
-    header('Content-length: '.filesize($file));  
-    header('ETag: "'.$etag.'"');
-    readfile($file);
-    exit();
-  }
-
   $photo = new photo($site->db);
   $photo->load_by_id($id_photo);
-
-  $site->db->close();
-  $site->dbrw->close();
   
-  if ( $photo->id < 1 || !$photo->is_right($site->user,DROIT_LECTURE) )
+  if ( !$photo->is_valid() || !$photo->is_right($site->user,DROIT_LECTURE) )
   {
-    renvoyer_image($topdir."images/action.delete.png");
+    $site->return_simplefile( "pherror", "image/png", $topdir."images/action.delete.png");
     exit();
   }
 
   $abs_file = $photo->get_abs_path().$photo->id;
 
-
   if ( $mode == "flv" && $photo->type_media == MEDIA_VIDEOFLV )
   {
-    header('Content-length: '.filesize($abs_file.".flv")); 
-    header("Content-type: video/x-flv");
     header("Content-Disposition: file; filename=\"".$photo->id.".flv\"");
-    readfile($abs_file.".flv");
+    $site->return_simplefile( "sasflv".$photo->id, "video/x-flv", $abs_file.".flv" );
     exit(); 
   }
 
@@ -124,12 +82,10 @@ if ( $id_photo > 0 )
     $abs_file.=".diapo.jpg";
   else
     $abs_file.=".jpg";
+  
+  $site->return_simplefile( "sas".$mode.$photo->id, "image/jpeg", $abs_file );
 
-  renvoyer_image($abs_file);
-
-  exit();
+  exit(); 
 }
-
-
 
 ?>
