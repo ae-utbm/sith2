@@ -218,11 +218,7 @@ if (isset($_REQUEST['step1']))
 	{
 	  if ($type == TRJ_PCT)
 	    {
-	      $cts->add_title(3, "Dates pour le trajet de retour");
-	      // on colle l'ancien formulaire dans le cts ...
-	      $cts->add($frm);
-	      // ... et on en crée un nouveau
-	      $frm = new form('trip_step2_ret', "propose.php", true);
+	      $frm->add("<h3>Dates pour le trajet de retour</h3>");
 	      $frm->add_hidden('id_trajet_ret', $trajet->id);
 	      $frm->add_date_field('date_ret', 'Date de voyage proposée');
 	      $frm->add_submit('step2', 'Ajouter des dates de trajet');
