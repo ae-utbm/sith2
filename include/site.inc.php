@@ -559,6 +559,17 @@ class site extends interfaceweb
       
     }
 
+    /* alertes covoiturage */
+    $nbsteps = $this->user->covoiturage_steps_moderation(); 
+    
+    if ($nbsteps == 1)
+      {
+	$elements[] = "<a href=\"".$topdir."covoiturage/\">$nbsteps étape de covoiturage à modérer<b></a>";
+      }
+    else if ($nbsteps > 1)
+      $elements[] = "<a href=\"".$topdir."covoiturage/\">$nbsteps étapes de covoiturage à modérer<b></a>";
+
+
     if ( count($elements) == 0 ) return null;
     
     $cts = new contents("Attention");

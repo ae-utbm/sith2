@@ -2253,6 +2253,35 @@ L'équipe info AE";
                   
     return true;
   }
+
+  /*
+   * Covoiturage
+   * 
+   */
+
+  /*
+   * Recherche si l'utilisateur a des étapes de trajet à modérer
+   * @return nb le nombre d'étapes en attente de modération.
+   *
+   */
+  function covoiturage_steps_moderation()
+  {
+    $req = new requete($this->db, "SELECT 
+                                          COUNT(`cv_trajet_etape`.`id_trajet`) AS `nb`
+                                   FROM
+                                          `cv_trajet_etape`
+                                   LEFT JOIN
+                                          `cv_trajet`
+                                   ON
+                                          `cv_trajet`.`id_trajet` = `cv_trajet_etape`.`id_trajet`
+                                   WHERE
+                                          `cv_trajet`.`id_utilisateur` = $this->id
+                                   AND
+                                          `cv_trajet_etape`.`accepted_etape` = '0'");
+    $rs = $req->get_row();
+
+    return $rs['nb'];
+  }  
 }
 
 ?>
