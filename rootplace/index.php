@@ -52,8 +52,9 @@ $cts->add($lst);
 $cts->add_title(2,"Maintenance");
 $lst = new itemlist();
 $lst->add("<a href=\"pollcoti.php\">Expiration des cotisations</a>");
-$lst->add("<a href=\"repairdb.php\">Auto-Reparation de la base de données</a>");
+//$lst->add("<a href=\"repairdb.php\">Auto-Reparation de la base de données</a>");
 $lst->add("<a href=\"affiches_cleanup.php\">Nettoyage des affiches</a>");
+$lst->add("<a href=\"checkup_files.php\">Verification des fichiers</a>");
 
 $cts->add($lst);
 

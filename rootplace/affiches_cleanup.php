@@ -34,7 +34,7 @@ if ( !$site->user->is_in_group("root") )
 	
 $site->start_page("none","Administration");
 
-$cts = new contents("Administration / Maintenance / Nettoyage affiches");
+$cts = new contents("<a href=\"index.php\">Administration</a> / Maintenance / Nettoyage affiches");
 
 $dfile = new dfile($site->db,$site->dbrw);
 
