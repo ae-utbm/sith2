@@ -262,6 +262,12 @@ $cts = new contents("Proposition d'un trajet",
 		    "un trajet aux autres utilisateurs du site. ".
 		    "Veuillez remplir le formulaire ci-dessous :<br/><br/>");
 
+$cts->add_paragraph("<b>Attention : Cette page est destinée aux utilisateurs.".
+		    " prévoyant de réaliser un trajet avec leur voiture, et ".
+		    "souhaitant proposer ce trajet. Pour rechercher un ".
+		    "trajet, merci de vous rendre sur la <a href=\".".
+		    "/search.php\">page prévue à cet effet.</a></b>");
+
 $frm = new form("trip_step1", "propose.php", true);
 
 $ville = new ville($site->db, null, $pgsql);
