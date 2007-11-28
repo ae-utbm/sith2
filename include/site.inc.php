@@ -1408,8 +1408,7 @@ class site extends interfaceweb
   function return_file (  $uid, $mime_type, $mtime, $size, $file )
   {
     // Ferme la session si elle est encore ouverte
-    if ( !empty(session_id()) )
-      session_write_close();
+    session_write_close();
     
     // Ferme les accès à la base de donnés
     $this->db->close();
