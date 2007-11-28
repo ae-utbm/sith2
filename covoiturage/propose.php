@@ -100,8 +100,33 @@ if (isset($_REQUEST['step2']))
   $frm->add_date_field('date', 'Date de voyage proposée');
   $frm->add_submit('step2', 'Ajouter des dates de trajet');
   $frm->add_submit('finalizetrip', 'Finaliser la proposition');
-  
-  if (isset($_REQUEST['']))
+
+  /* existence d'un trajet retour */
+  if (isset($_REQUEST['trajet_ret']))
+    {
+      $trajet_ret = new trajet($site->db, $site->dbrw);
+      $trajet->load_by_id($_REQUEST['id_trajet_ret']);
+      $ret = false;
+      if ($site->user->id == $trajet->id_utilisateur)
+	{
+	  $ret = $trajet_ret->add_date($_REQUEST['date_ret']);
+	}
+      if (!$ret)
+	{
+	  $cts = new contents("Proposition de trajet - Ajout de dates", "<b>Echec lors de l'ajout de date.</b>");
+	}
+      else
+	{
+	  $cts = new contents("Proposition de trajet - Ajout de dates", "Date ajoutée avec succès !");
+	  $trajet_ret->load_dates();
+	}
+      
+      if (count($trajet_ret->dates))
+	{
+	  $itmlst = new itemlist("Dates proposées pour le trajet de retour :",false, $trajet_ret->dates);
+	  $cts->add($itmlst);
+	}
+    }
 
   $cts->add($frm);
       
@@ -157,10 +182,14 @@ if (isset($_REQUEST['step1']))
 	  $frm = new form('trip_step2', "propose.php", true);
 	  $frm->add_hidden('id_trajet', $trajet->id);
 	  $frm->add_date_field('date', 'Date de voyage proposée');
-	  $frm->add_submit('step2', 'Ajouter des dates de trajet');
 
-	  $cts->add($frm);
+	  if (!isset($_REQUEST['retour']))
+	    {
+	      $frm->add_submit('step2', 'Ajouter des dates de trajet');
+	      $cts->add($frm);
+	    }
 	}
+
       else
 	{
 	  $site->add(new contents("Ajout d'un trajet", "Votre trajet a été ajouté avec succès."));
@@ -185,10 +214,14 @@ if (isset($_REQUEST['step1']))
 	{
 	  if ($type == TRJ_PCT)
 	    {
+	      $cts->add_title(3, "Dates pour le trajet de retour");
+	      // on colle l'ancien formulaire dans le cts ...
+	      $cts->add($frm);
+	      // ... et on en crée un nouveau
 	      $frm = new form('trip_step2_ret', "propose.php", true);
 	      $frm->add_hidden('id_trajet_ret', $trajet->id);
 	      $frm->add_date_field('date_ret', 'Date de voyage proposée');
-	      $frm->add_submit('step2_ret', 'Ajouter des dates de trajet');
+	      $frm->add_submit('step2', 'Ajouter des dates de trajet');
 
 	      $cts->add($frm);
 	    }
