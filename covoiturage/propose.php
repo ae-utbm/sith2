@@ -176,7 +176,7 @@ if (isset($_REQUEST['step1']))
   $site->add_contents ($cts);
 
   // trajet retour
-  if ($_REQUEST['retour'] == true)
+  if (isset($_REQUEST['retour']))
     {
       $ret = $trajet->create($site->user->id, $varr->id, $vdep->id, "Trajet de retour, ".
 			     "voir trajet aller pour de plus amples informations", $type, $ident);
