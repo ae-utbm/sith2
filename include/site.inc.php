@@ -1454,7 +1454,7 @@ class site extends interfaceweb
   
   function return_simplefile (  $uid, $mime_type, $file )
   {
-    $this->return_file (  $uid, $mime_type, filemtime($file), filesize($file), $file ),
+    $this->return_file (  $uid, $mime_type, filemtime($file), filesize($file), $file );
   }
 
 }
