@@ -132,9 +132,9 @@ if (isset($_REQUEST['step2']))
 	  $itmlst = new itemlist("Dates proposées pour le trajet de retour :",false, $trajet_ret->dates);
 	  $cts->add($itmlst);
 	}
-    }
+      $site->add_contents($cts);
+    } // fin trajet retour
 
-  $site->add_contents($cts);
 
   $cts = new contents('Ajout de dates');
   $frm = new form('trip_step2', "propose.php", true);
