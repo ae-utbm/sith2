@@ -47,7 +47,7 @@ class icalendar
 
     echo "BEGIN:VCALENDAR\n";
     echo "VERSION:2.0\n";
-    echo "X-WR-CALNAME:".iescape($this->name)."\n";
+    echo "X-WR-CALNAME:".$this->iescape($this->name)."\n";
     echo "PRODID:-//AE UTBM//AE2 v1//EN\n";
     echo "X-WR-RELCALID:http://ae.utbm.fr/ical.php\n";
     echo "X-WR-TIMEZONE:Europe/Paris\n";
@@ -77,9 +77,9 @@ END:VTIMEZONE
     foreach ( $this->events as $event )
     {
       echo "BEGIN:VEVENT\n";
-      echo "UID:".iescape($event["uid"])."\n";
-      echo "SUMMARY:".iescape($event['summary'])."\n";
-      echo "DESCRIPTION:".iescape($event['description'])."\n";
+      echo "UID:".$this->iescape($event["uid"])."\n";
+      echo "SUMMARY:".$this->iescape($event['summary'])."\n";
+      echo "DESCRIPTION:".$this->iescape($event['description'])."\n";
       
       if ( isset($event['dateonly'])  && $event['dateonly'] )
       {
@@ -93,13 +93,13 @@ END:VTIMEZONE
       }
       
       if ( isset($event['location']) && $event['location'] )
-        echo "LOCATION:".iescape($event['location'])."\n";
+        echo "LOCATION:".$this->iescape($event['location'])."\n";
         
       if ( isset($event['lat']) && isset($event['long']) && !is_null($event['lat']) && !is_null($event['long'])  )
         echo "GEO:".sprintf("%.12F",$event['lat']*360/2/M_PI).";".sprintf("%.12F",$event['long']*360/2/M_PI)."\n";      
       
       if ( isset($event['url']) && $event['url'] )
-        echo "URL:".iescape($event["url"])."\n";
+        echo "URL:".$this->iescape($event["url"])."\n";
       
       echo "END:VEVENT\n";
     }
