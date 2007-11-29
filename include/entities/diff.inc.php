@@ -540,7 +540,7 @@ class MappedDiff extends Diff
         $closing = array_slice($to_lines, $yi, sizeof($closing));
         $yi += sizeof($closing);
       }
-    }print_r($to_lines);
+    }print_r($closing);
   } 
 }
 
