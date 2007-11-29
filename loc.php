@@ -29,6 +29,7 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/pays.inc.php");
 require_once($topdir. "include/entities/ville.inc.php");
 require_once($topdir. "include/entities/lieu.inc.php");
+require_once($topdir. "include/cts/gmap.inc.php");
 
 $site = new site ();
 
@@ -246,6 +247,15 @@ if ( $lieu->is_valid() )
                            array("nom_geopoint"=>"Nom"), 
                            array(), array(),array()),true); 
 
+
+  $map = new gmap("map");
+
+  $map->add_marker("lieu",$lieu->lat,$lieu->long);
+
+  $cts->add($map);
+
+
+
   if ( $site->user->is_in_group("gestion_ae") )
   {
     $frm = new form("editlieu","loc.php?id_lieu=".$lieu->id,true,"POST","Editer");
@@ -259,6 +269,9 @@ if ( $lieu->is_valid() )
     $frm->add_submit("valid","Enregistrer");
     $cts->add($frm,true);
   }
+
+
+
 
   $site->add_contents($cts);
 

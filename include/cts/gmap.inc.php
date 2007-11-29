@@ -31,15 +31,18 @@ class gmap extends stdcontents
 
   var $key = "ABQIAAAAJorv5o0HbErTOq4bRd4i4xQK4V3DXlfwDoXGfM1MfzyVC2ZQMBQlI3Dxb04trtSj-G5duv7flKy7Ag";
 
+  var $markers = array();
+
+
 	function gmap ( $name )
 	{
 		$this->name = $name;
 		
 	}
 
-  function add_marker ( $lat, $long )
+  function add_marker ( $name, $lat, $long, $draggable=false, $dragend=null )
   {
-    
+    $this->markers[] = array("lat"=>$lat, "long"=>$long, "draggable"=>$draggable, "dragend"=>$dragend );
     
   }
 
@@ -52,22 +55,36 @@ class gmap extends stdcontents
     function initialize() {
       if (GBrowserIsCompatible()) {
         var map = new GMap2(document.getElementById(\"".$this->name."_canvas\"));
-        var center = new GLatLng(37.4419, -122.1419);
-        map.setCenter(center, 13);
-
-        var marker = new GMarker(center, {draggable: true});
-
-        GEvent.addListener(marker, \"dragstart\", function() {
-          map.closeInfoWindow();
-        });
-
-        GEvent.addListener(marker, \"dragend\", function() {
-          marker.openInfoWindowHtml(\"Just bouncing along...\");
-        });
-
-        map.addOverlay(marker);
-
+      ";
+        
+        
+    $first = true;
+    
+    foreach ( $this->markers as $marker )
+    {
+      $this->buffer .= "var ".$marker["name"]."_point = new GLatLng(".sprintf("%.12F",$marker['lat']*360/2/M_PI).", ".sprintf("%.12F",$marker['long']*360/2/M_PI).");\n";
+      
+      
+      if ( $first )
+      {
+        $this->buffer .= "map.setCenter(".$marker["name"]."_point, 13);\n";
+        $first = false;
       }
+      
+      if ( $marker["draggable"] )
+      {
+        $this->buffer .= "var ".$marker["name"]." = new GMarker(".$marker["name"]."_point, {draggable: true});\n";
+        if ( !is_null($marker["dragend"]) )
+          $this->buffer .= "GEvent.addListener(marker, \"dragend\", ".$marker["dragend"]." );\n";
+      }
+      else
+        $this->buffer .= "var ".$marker["name"]."= new GMarker(".$marker["name"]."_point);\n";
+      
+      $this->buffer .= "map.addOverlay(".$marker["name"].");\n";
+      
+    }
+
+    $this->buffer .= "   }
     }
     
     document.onload=initialize;
