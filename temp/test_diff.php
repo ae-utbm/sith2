@@ -7,6 +7,8 @@ require_once($topdir. "include/entities/diff.inc.php");
 
 $site = new site ();
 
+$site->add_css("css/diff.css");
+
 $site->start_page("services","AE - Recherche et Développement");
 
 $intro = new contents("Edition liste au format pdf");
