@@ -30,6 +30,8 @@
  
 $topdir = "./";
 require_once($topdir. "include/site.inc.php");
+require_once($topdir. "include/cts/gmap.inc.php");
+
 $site = new site ();
 
 if ( !preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
@@ -60,6 +62,9 @@ $frm->add_submit("bleh","Valider");
 $cts->add($frm);
 
 $site->add_contents($cts);
+
+$site->add_contents(new gmap("map"));
+
 
 $site->end_page();
 
