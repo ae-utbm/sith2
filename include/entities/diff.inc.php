@@ -534,13 +534,13 @@ class MappedDiff extends Diff
         $xi += sizeof($orig);
       }
     
-      $closing = &$this->edits[$i]->closing;
+      $closing = &$this->edits[$i]->closing;print_r($closing);
       if (is_array($closing))
       {
         $closing = array_slice($to_lines, $yi, sizeof($closing));
         $yi += sizeof($closing);
       }
-    }print_r($closing);
+    }
   } 
 }
 
