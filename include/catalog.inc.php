@@ -82,7 +82,7 @@ $GLOBALS["entitiescatalog"] = array (
 	
 	"pays" => array( "id_pays", "nom_pays", "pays.png", "loc.php", "loc_pays","pays.inc.php"),
 	"ville" => array( "id_ville", "nom_ville", "ville.png", "loc.php", "loc_ville","ville.inc.php"),
-	"lieu" => array( "id_lieu", "nom_lieu", "lieu.png", "loc.php", "loc_lieu","lieu.inc.php"),
+	"lieu" => array( "id_geopoint", "nom_geopoint", "lieu.png", "loc.php", "loc_lieu","lieu.inc.php"),
 	
 	"secteur" => array( "id_secteur", "nom_secteur", "lieu.png", "entreprise.php", "secteur"),
 	

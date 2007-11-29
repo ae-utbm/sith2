@@ -184,7 +184,10 @@ $lieu = new lieu($site->db,$site->dbrw);
 
 if ( isset($_REQUEST["id_lieu"]) )
   $lieu->load_by_id($_REQUEST["id_lieu"]);
-
+  
+elseif ( isset($_REQUEST["id_geopoint"]) )
+  $lieu->load_by_id($_REQUEST["id_geopoint"]);
+  
 elseif ( isset($_REQUEST["id_ville"]) )
   $ville->load_by_id($_REQUEST["id_ville"]);
   
