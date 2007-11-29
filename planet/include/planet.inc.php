@@ -101,7 +101,7 @@ class planet extends stdentity
       $_req = new insert($this->site->dbrw,"planet_tags", array('tag'=>strtoupper($tag),'modere'=>0));
       return "Le tag \"".strtoupper($_REQUEST["tag"])."\" a été ajouté.";
     }
-	}
+  }
 
 }
 
