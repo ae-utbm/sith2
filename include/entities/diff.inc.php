@@ -896,7 +896,7 @@ class TableDiffFormatter extends DiffFormatter
   } 
  
   function _deleted($lines)
-  {print_r($lines);
+  {
     foreach ($lines as $line)
       print( '<tr>' . $this->deletedLine( $line ) . $this->emptyLine() . "</tr>\n" );
   } 
@@ -913,7 +913,7 @@ class TableDiffFormatter extends DiffFormatter
     $del = $diff->orig(); 
     $add = $diff->closing();
     while ( $line = array_shift( $del ) )
-    {
+    {print_r($del);
       $aline = array_shift( $add );
       print( '<tr>' . $this->deletedLine( $line ) . $this->addedLine( $aline ) . "</tr>\n" );
     }
