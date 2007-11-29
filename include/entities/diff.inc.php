@@ -872,7 +872,7 @@ class TableDiffFormatter extends DiffFormatter
   } 
 
   function deletedLine( $line )
-  {print_r($line); 
+  { 
     $line = str_replace('  ','&nbsp; ',$line);
     return '<td>-</td><td class="diff-deletedline">' .
       $line.'</td>'; 
@@ -896,7 +896,7 @@ class TableDiffFormatter extends DiffFormatter
   } 
  
   function _deleted($lines)
-  {
+  {print_r($lines);
     foreach ($lines as $line)
       print( '<tr>' . $this->deletedLine( $line ) . $this->emptyLine() . "</tr>\n" );
   } 
