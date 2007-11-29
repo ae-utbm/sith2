@@ -739,7 +739,7 @@ class _HWLDF_WordAccumulator
   }
   
   function getLines()
-  {print_r($this->_lines);
+  {print_r($this->line);
     $this->_flushLine('~done');
     return $this->_lines;
   }
