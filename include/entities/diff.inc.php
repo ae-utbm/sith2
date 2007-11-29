@@ -623,10 +623,7 @@ class DiffFormatter
       elseif ($edit->type == 'delete')
         $this->_deleted($edit->orig);
       elseif ($edit->type == 'change')
-      {
-        print_r($edit->orig);
         $this->_changed($edit->orig, $edit->closing);
-      }
       else
         trigger_error("Unknown edit type", E_USER_ERROR);
     }
@@ -681,7 +678,7 @@ class DiffFormatter
   }
 
   function _changed($orig, $closing)
-  {
+  {print_r($orig);
     $this->_deleted($orig);
     echo "---\n";
     $this->_added($closing);
