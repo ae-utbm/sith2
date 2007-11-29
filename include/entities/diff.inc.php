@@ -769,7 +769,7 @@ class WordLevelDiff extends MappedDiff
     $orig = new _HWLDF_WordAccumulator;
     
     foreach ($this->edits as $edit)
-    {
+    {print_r($edit);
       if ($edit->type == 'copy')
         $orig->addWords($edit->orig);
       elseif ($edit->orig)
@@ -912,7 +912,6 @@ class TableDiffFormatter extends DiffFormatter
     $diff = new WordLevelDiff( $orig, $closing );
     $del = $diff->orig(); 
     $add = $diff->closing();
-    print_r($add);
     while ( $line = array_shift( $del ) )
     {
       $aline = array_shift( $add );
