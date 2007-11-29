@@ -907,6 +907,7 @@ class TableDiffFormatter extends DiffFormatter
       print( '<tr>' . $this->contextLine( $line ) . $this->contextLine( $line ) . "</tr>\n" );
   }
 
+  /* cette fonction pose pb, faudra chercher pourquoi */
   function _changed( $orig, $closing )
   {
     $diff = new WordLevelDiff( $orig, $closing );
