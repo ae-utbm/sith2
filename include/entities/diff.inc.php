@@ -759,7 +759,7 @@ class WordLevelDiff extends MappedDiff
   function _split($lines)
   {
     if (!preg_match_all('/ ( [^\S\n]+ | [0-9_A-Za-z\x80-\xff]+ | . ) (?: (?!< \n) [^\S\n])? /xs', implode("\n", $lines), $m) 
-        && !preg_match_all('/ ( [^\S\n]+ | [0-9_A-Za-z\x80-\xff]+ | . ) (?: (?!< \n) [^\S\n])? /xs', implode(CHR(10), $lines), $m) )
+        && !preg_match_all('/ ( [^\S\n]+ | [0-9_A-Za-z\x80-\xff]+ | . ) (?: (?!< \n) [^\S\n])? /xs', implode("\n", $lines), $m) )
       return array(array(''), array(''));
     return array($m[0], $m[1]);
   }
@@ -914,7 +914,7 @@ class TableDiffFormatter extends DiffFormatter
     $add = $diff->closing();
     
     while ( $line = array_shift( $del ) )
-    {print_r($line);
+    {
       $aline = array_shift( $add );
       print( '<tr>' . $this->deletedLine( $line ) . $this->addedLine( $aline ) . "</tr>\n" );
     }
