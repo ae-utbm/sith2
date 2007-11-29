@@ -102,7 +102,7 @@ class _DiffOp_Change extends _DiffOp
   var $type = 'change';
 
   function _DiffOp_Change ($orig, $closing)
-  {
+  {print_r($orig);
     $this->orig = $orig;
     $this->closing = $closing;
   }
@@ -767,7 +767,7 @@ class WordLevelDiff extends MappedDiff
   function orig ()
   {
     $orig = new _HWLDF_WordAccumulator;
-    print_r($this->edits);
+    
     foreach ($this->edits as $edit)
     {
       if ($edit->type == 'copy')
