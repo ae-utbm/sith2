@@ -53,12 +53,17 @@ class gmap extends stdcontents
     
     $this->buffer .= "
     <script src=\"http://maps.google.com/maps?file=api&amp;v=2&amp;key=".$this->key."\" type=\"text/javascript\"></script>
-    <script type=\"text/javascript\">
+    <script type=\"text/javascript\">\n";
+    
+    $this->buffer .="var ".$this->name.";\n";
+    
+    foreach ( $this->markers as $marker )
+      $this->buffer .= "var ".$marker["name"].";\n";
 
-    function initialize() {
-      if (GBrowserIsCompatible()) {
-        var map = new GMap2(document.getElementById(\"".$this->name."_canvas\"));
-      ";
+
+    $this->buffer .="function initialize() {\n";
+    $this->buffer .="if (GBrowserIsCompatible()) {\n";
+    $this->buffer .= $this->name." = new GMap2(document.getElementById(\"".$this->name."_canvas\"));\n";
         
         
     $first = true;
@@ -70,7 +75,7 @@ class gmap extends stdcontents
       
       if ( $first )
       {
-        $this->buffer .= "map.setCenter(".$marker["name"]."_point, 13);\n";
+        $this->buffer .= $this->name.".setCenter(".$marker["name"]."_point, 15);\n";
         $first = false;
       }
       
@@ -81,15 +86,15 @@ class gmap extends stdcontents
           $this->buffer .= "GEvent.addListener(marker, \"dragend\", ".$marker["dragend"]." );\n";
       }
       else
-        $this->buffer .= "var ".$marker["name"]."= new GMarker(".$marker["name"]."_point);\n";
+        $this->buffer .= $marker["name"]."= new GMarker(".$marker["name"]."_point);\n";
       
-      $this->buffer .= "map.addOverlay(".$marker["name"].");\n";
+      $this->buffer .= $this->name.".addOverlay(".$marker["name"].");\n";
       
     }
 
 
-    $this->buffer .= "map.addControl(new GSmallMapControl());\n";
-    $this->buffer .= "map.addControl(new GMapTypeControl());\n";
+    $this->buffer .= $this->name.".addControl(new GSmallMapControl());\n";
+    $this->buffer .= $this->name.".addControl(new GMapTypeControl());\n";
 
     $this->buffer .= "   }
     }

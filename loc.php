@@ -233,7 +233,11 @@ if ( $lieu->is_valid() )
   $cts = new contents("<a href=\"loc.php\">Lieux</a> / ".$path);
   $cts->add_paragraph("Ville: ".$ville->get_html_link());
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($lieu->lat)."N , ".geo_radians_to_degrees($lieu->long)."E");
-
+  
+  $map = new gmap("map");
+  $map->add_marker("lieu",$lieu->lat,$lieu->long);
+  $cts->add($map);
+  
   $req = new requete($site->db, "SELECT id_lieu, nom_geopoint FROM loc_lieu 
   INNER JOIN geopoint ON (geopoint.id_geopoint=loc_lieu.id_lieu)
   WHERE id_lieu_parent='".mysql_real_escape_string($lieu->id)."' ORDER BY nom_geopoint");
@@ -252,11 +256,7 @@ if ( $lieu->is_valid() )
                            array(), array(),array()),true); 
 
 
-  $map = new gmap("map");
 
-  $map->add_marker("lieu",$lieu->lat,$lieu->long);
-
-  $cts->add($map);
 
 
 
