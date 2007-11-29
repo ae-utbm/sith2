@@ -739,7 +739,7 @@ class _HWLDF_WordAccumulator
   }
   
   function getLines()
-  {
+  {print_r($this->_lines);
     $this->_flushLine('~done');
     return $this->_lines;
   }
@@ -765,7 +765,7 @@ class WordLevelDiff extends MappedDiff
   }
     
   function orig ()
-  {/*
+  {
     $orig = new _HWLDF_WordAccumulator;
     
     foreach ($this->edits as $edit)
@@ -775,7 +775,7 @@ class WordLevelDiff extends MappedDiff
       elseif ($edit->orig)
         $orig->addWords($edit->orig, 'mark');
     }
-		return $orig->getLines();*/ return "bleh";
+    return $orig->getLines();
   } 
     
   function closing ()
