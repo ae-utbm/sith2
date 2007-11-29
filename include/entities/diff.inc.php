@@ -619,9 +619,9 @@ class DiffFormatter
       if ($edit->type == 'copy')
         $this->_context($edit->orig);
       elseif ($edit->type == 'add')
-        $this->_added($edit->closing);
+        $this->_added2($edit->closing);
       elseif ($edit->type == 'delete')
-        $this->_deleted($edit->orig);
+        $this->_deleted2($edit->orig);
       elseif ($edit->type == 'change')
         $this->_changed2($edit->orig, $edit->closing);
       else
