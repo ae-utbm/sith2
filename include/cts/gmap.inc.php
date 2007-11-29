@@ -29,7 +29,7 @@ class gmap extends stdcontents
 {
 	var $name;
 
-  var $key = "ABQIAAAAJorv5o0HbErTOq4bRd4i4xQK4V3DXlfwDoXGfM1MfzyVC2ZQMBQlI3Dxb04trtSj-G5duv7flKy7Ag";
+  var $key = "__GMAP_KEY__";
 
   var $markers = array();
 

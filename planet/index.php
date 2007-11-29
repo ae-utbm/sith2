@@ -39,6 +39,17 @@ require_once($topdir. "include/globals.inc.php");
 require_once($topdir . "include/graph.inc.php");
 require_once("include/planet.inc.php");
 
+require_once($topdir. "include/entities/tag.inc.php");
+require_once($topdir. "include/cts/tagcloud.inc.php");
+
+$tag = new tag ($site->db,$site->dbrw);
+/*
+if ( isset($_REQUEST["id_tag"]) )
+	  $tag->load_by_id($_REQUEST["id_tag"]);
+
+if ( $tag->is_valid() )
+ */
+
 $site = new site();
 
 if (!$site->user->id || !$site->user->utbm)
