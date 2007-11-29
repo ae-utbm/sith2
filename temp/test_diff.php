@@ -25,6 +25,7 @@ par les vilains luttins de la foret
 c'est un fait.";
 
 $df  = new Diff($_old,$_new);
+print_r($_old);
 $tdf = new TableDiffFormatter();
 
 $intro->add_paragraph("<table class=\"diff\">\n".$tdf->format($df)."</table>");
