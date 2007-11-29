@@ -748,7 +748,7 @@ class _HWLDF_WordAccumulator
 class WordLevelDiff extends MappedDiff
 { 
   function WordLevelDiff ($orig_lines, $closing_lines)
-  {
+  {print_r($orig_lines);
     list ($orig_words, $orig_stripped) = $this->_split($orig_lines);
     list ($closing_words, $closing_stripped) = $this->_split($closing_lines);
 
@@ -769,7 +769,7 @@ class WordLevelDiff extends MappedDiff
     $orig = new _HWLDF_WordAccumulator;
     
     foreach ($this->edits as $edit)
-    {print_r($edit);
+    {
       if ($edit->type == 'copy')
         $orig->addWords($edit->orig);
       elseif ($edit->orig)
