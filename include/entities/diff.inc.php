@@ -816,7 +816,7 @@ class UnifiedDiffFormatter extends DiffFormatter
   }
 
   function _deleted($lines)
-  {print_r($lines);
+  {
     $this->_lines($lines, "-");
   }
 
@@ -896,7 +896,7 @@ class TableDiffFormatter extends DiffFormatter
   } 
  
   function _deleted($lines)
-  {
+  {print_r($lines);
     foreach ($lines as $line)
       print( '<tr>' . $this->deletedLine( $line ) . $this->emptyLine() . "</tr>\n" );
   } 
