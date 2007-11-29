@@ -17,7 +17,7 @@ $intro = new contents("Edition liste au format pdf");
 $_old = "Feu est un génie, mais faut pa le dire
 sinon il va se faire exploiter
 par les vilains luttins de la foret";
-$_new = "Feu est un génie, mais faut pas le dire
+$_new = "Feu fgjsdg est un génie, mais faut pas le dire
 sinon il va se faire exploiter
 comme ça devrait être interdit
 par les vilains luttins de la foret";
