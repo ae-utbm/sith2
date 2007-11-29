@@ -102,7 +102,7 @@ class _DiffOp_Change extends _DiffOp
   var $type = 'change';
 
   function _DiffOp_Change ($orig, $closing)
-  {print_r($orig);
+  {
     $this->orig = $orig;
     $this->closing = $closing;
   }
@@ -623,7 +623,10 @@ class DiffFormatter
       elseif ($edit->type == 'delete')
         $this->_deleted($edit->orig);
       elseif ($edit->type == 'change')
+      {
+        print_r($edit->orig);
         $this->_changed($edit->orig, $edit->closing);
+      }
       else
         trigger_error("Unknown edit type", E_USER_ERROR);
     }
