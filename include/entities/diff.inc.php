@@ -523,7 +523,7 @@ class MappedDiff extends Diff
     assert(sizeof($to_lines) == sizeof($mapped_to_lines));
    
     $this->Diff($mapped_from_lines, $mapped_to_lines);
-print_r($this->edits);   
+   
     $xi = $yi = 0;
     for ($i = 0; $i < sizeof($this->edits); $i++)
     {
@@ -540,7 +540,7 @@ print_r($this->edits);
         $closing = array_slice($to_lines, $yi, sizeof($closing));
         $yi += sizeof($closing);
       }
-    }
+    }print_r($to_lines);
   } 
 }
 
