@@ -739,7 +739,7 @@ class _HWLDF_WordAccumulator
   }
   
   function getLines()
-  {print_r($this->line);
+  {
     $this->_flushLine('~done');
     return $this->_lines;
   }
@@ -907,7 +907,7 @@ class TableDiffFormatter extends DiffFormatter
       print( '<tr>' . $this->contextLine( $line ) . $this->contextLine( $line ) . "</tr>\n" );
   }
 
-  function _changed2( $orig, $closing )
+  function _changed( $orig, $closing )
   {
     $diff = new WordLevelDiff( $orig, $closing );
     $del = $diff->orig();
