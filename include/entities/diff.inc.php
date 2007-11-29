@@ -816,7 +816,7 @@ class UnifiedDiffFormatter extends DiffFormatter
   }
 
   function _deleted($lines)
-  {
+  {print_r($lines);
     $this->_lines($lines, "-");
   }
 
