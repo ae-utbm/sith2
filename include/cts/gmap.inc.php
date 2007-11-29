@@ -42,7 +42,7 @@ class gmap extends stdcontents
 
   function add_marker ( $name, $lat, $long, $draggable=false, $dragend=null )
   {
-    $this->markers[] = array("lat"=>$lat, "long"=>$long, "draggable"=>$draggable, "dragend"=>$dragend );
+    $this->markers[] = array("name"=>$name,"lat"=>$lat, "long"=>$long, "draggable"=>$draggable, "dragend"=>$dragend );
     
   }
 
