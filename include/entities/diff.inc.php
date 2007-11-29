@@ -619,9 +619,9 @@ class DiffFormatter
       if ($edit->type == 'copy')
         $this->_context($edit->orig);
       elseif ($edit->type == 'add')
-        $this->_added2($edit->closing);
+        $this->_added($edit->closing);
       elseif ($edit->type == 'delete')
-        $this->_deleted2($edit->orig);
+        $this->_deleted($edit->orig);
       elseif ($edit->type == 'change')
         $this->_changed2($edit->orig, $edit->closing);
       else
@@ -679,9 +679,9 @@ class DiffFormatter
 
   function _changed2($orig, $closing)
   {
-    $this->_deleted2($orig);
+    $this->_deleted($orig);
     //echo "---\n";
-    $this->_added2($closing);
+    $this->_added($closing);
   }
 }
 
@@ -889,13 +889,13 @@ class TableDiffFormatter extends DiffFormatter
     return '<td> </td><td class="diff-context">'.$line.'</td>';
   } 
 
-  function _added2($lines)
+  function _added($lines)
   {
     foreach ($lines as $line)
       print( '<tr>' . $this->emptyLine() . $this->addedLine( $line ) . "</tr>\n" );
   } 
  
-  function _deleted2($lines)
+  function _deleted($lines)
   {
     foreach ($lines as $line)
       print( '<tr>' . $this->deletedLine( $line ) . $this->emptyLine() . "</tr>\n" );
@@ -917,6 +917,6 @@ class TableDiffFormatter extends DiffFormatter
       $aline = array_shift( $add );
       print( '<tr>' . $this->deletedLine( $line ) . $this->addedLine( $aline ) . "</tr>\n" );
     }
-    $this->_added2( $add );
+    $this->_added( $add );
   }
 }
