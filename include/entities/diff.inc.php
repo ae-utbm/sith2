@@ -866,14 +866,14 @@ class TableDiffFormatter extends DiffFormatter
 
   function addedLine( $line )
   {
-    $line = str_replace('  ','&nbsp; ',$line);
+    //$line = str_replace('  ','&nbsp; ',$line);
     return '<td>+</td><td class="diff-addedline">' .
       $line.'</td>';
   } 
 
   function deletedLine( $line )
   { 
-    $line = str_replace('  ','&nbsp; ',$line);
+    //$line = str_replace('  ','&nbsp; ',$line);
     return '<td>-</td><td class="diff-deletedline">' .
       $line.'</td>'; 
   }
