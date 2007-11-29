@@ -150,15 +150,18 @@ class nouvelle extends stdentity
         "SELECT * FROM nvl_dates ".
         "WHERE id_nouvelle='".$this->id."' ORDER BY date_debut_eve");
   
+    if ( $req->lines || !is_null($this->id_lieu) )
+      $cts->add_title(2,"Informations pratiques");
+
     if ( $req->lines == 1 )
     {
       $row = $req->get_row();
-      $cts->add_paragraph("Date : le ".textual_plage_horraire(strtotime($row['date_debut_eve']),
+      $cts->add_paragraph("<b>Date</b> : le ".textual_plage_horraire(strtotime($row['date_debut_eve']),
             strtotime($row['date_fin_eve'])));
     }
     elseif ( $req->lines > 1 )
     {
-      $cts->add_paragraph("Dates :");
+      $cts->add_paragraph("<b>Dates</b> :");
       $lst = new itemlist();
       while ( $row = $req->get_row() )
         $lst->add("Le ".textual_plage_horraire(strtotime($row['date_debut_eve']),
@@ -173,7 +176,7 @@ class nouvelle extends stdentity
       
       $lieu = new lieu($this->db);
       $lieu->load_by_id($this->id_lieu);
-      $cts->add_paragraph("Lieu : ".$lieu->get_html_link());
+      $cts->add_paragraph("<b>Lieu</b> : ".$lieu->get_html_link());
       
       $map = new gmap("map");
       $map->add_marker("lieu",$lieu->lat,$lieu->long);
@@ -183,8 +186,8 @@ class nouvelle extends stdentity
     if ( $asso->is_valid() )
     {
       $cts->puts("<div class=\"clearboth\"></div>");
-      $cts->add_title(2,"");
-      $cts->add_paragraph(classlink($asso));
+      $cts->add_title(2,"Pour en savoir plus");
+      $cts->add_paragraph($asso->get_html_link());
       if ( $asso->is_mailing_allowed() && !is_null($asso->id_parent) )
         $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"".$wwwtopdir."asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");      
     }
@@ -210,27 +213,39 @@ class nouvelle extends stdentity
         
     $cts->add_paragraph("Posté le ".date("d/m/Y",$this->date));
             
+    if ( $req->lines || !is_null($this->id_lieu) )
+      $cts->add_title(2,"Informations pratiques");
+
     if ( $req->lines == 1 )
     {
       $row = $req->get_row();
-      $cts->add_paragraph("Date : le ".textual_plage_horraire(strtotime($row['date_debut_eve']),
+      $cts->add_paragraph("<b>Date</b> : le ".textual_plage_horraire(strtotime($row['date_debut_eve']),
             strtotime($row['date_fin_eve'])));
     }
     elseif ( $req->lines > 1 )
     {
-      $cts->add_paragraph("Dates :");
+      $cts->add_paragraph("<b>Dates</b> :");
       $lst = new itemlist();
       while ( $row = $req->get_row() )
         $lst->add("Le ".textual_plage_horraire(strtotime($row['date_debut_eve']),
             strtotime($row['date_fin_eve'])));
       $cts->add($lst);
     }
-    if ( !is_null($this->id_lieu) && class_exists("lieu") )
+      
+    if ( !is_null($this->id_lieu) )
     {
+      require_once($topdir. "include/entities/lieu.inc.php");
+      require_once($topdir. "include/cts/gmap.inc.php");
+      
       $lieu = new lieu($this->db);
       $lieu->load_by_id($this->id_lieu);
-      $cts->add_paragraph("Lieu : ".$lieu->get_html_link());
+      $cts->add_paragraph("<b>Lieu</b> : ".$lieu->get_html_link());
+      
+      $map = new gmap("map");
+      $map->add_marker("lieu",$lieu->lat,$lieu->long);
+      $cts->add($map);
     }
+
 
     return $cts;
   }
