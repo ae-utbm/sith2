@@ -524,10 +524,10 @@ class MappedDiff extends Diff
    
     $this->Diff($mapped_from_lines, $mapped_to_lines);
    
-    $xi = $yi = 0;print_r($this->edits);
+    $xi = $yi = 0;
     for ($i = 0; $i < sizeof($this->edits); $i++)
     {
-      $orig = &$this->edits[$i]->orig;
+      $orig = &$this->edits[$i]->orig;print_r($orig);
       if (is_array($orig))
       { 
         $orig = array_slice($from_lines, $xi, sizeof($orig));
