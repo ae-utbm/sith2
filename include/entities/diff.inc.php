@@ -889,7 +889,7 @@ class TableDiffFormatter extends DiffFormatter
     return '<td> </td><td class="diff-context">'.$line.'</td>';
   } 
 
-  function _added2($lines)
+  function _added($lines)
   {
     foreach ($lines as $line)
       print( '<tr>' . $this->emptyLine() . $this->addedLine( $line ) . "</tr>\n" );
@@ -907,7 +907,7 @@ class TableDiffFormatter extends DiffFormatter
       print( '<tr>' . $this->contextLine( $line ) . $this->contextLine( $line ) . "</tr>\n" );
   }
 
-  function _changed( $orig, $closing )
+  function _changed2( $orig, $closing )
   {
     $diff = new WordLevelDiff( $orig, $closing );
     $del = $diff->orig();
