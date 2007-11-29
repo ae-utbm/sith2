@@ -909,8 +909,8 @@ class TableDiffFormatter extends DiffFormatter
 
   function _changed2( $orig, $closing )
   {
-    $diff = new WordLevelDiff( $orig, $closing );print_r($orig);
-    $del = $diff->orig();
+    $diff = new WordLevelDiff( $orig, $closing );
+    $del = $diff->orig();print_r($diff->orig());
     $add = $diff->closing();
     while ( $line = array_shift( $del ) )
     {
