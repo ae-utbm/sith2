@@ -866,14 +866,14 @@ class TableDiffFormatter extends DiffFormatter
 
   function addedLine( $line )
   {
-    //$line = str_replace('  ','&nbsp; ',$line);
+    $line = str_replace('  ','&nbsp; ',$line);
     return '<td>+</td><td class="diff-addedline">' .
       $line.'</td>';
   } 
 
   function deletedLine( $line )
   { 
-    //$line = str_replace('  ','&nbsp; ',$line);
+    $line = str_replace('  ','&nbsp; ',$line);
     return '<td>-</td><td class="diff-deletedline">' .
       $line.'</td>'; 
   }
@@ -914,7 +914,7 @@ class TableDiffFormatter extends DiffFormatter
     $add = $diff->closing();
     
     while ( $line = array_shift( $del ) )
-    {
+    {print_r($line);
       $aline = array_shift( $add );
       print( '<tr>' . $this->deletedLine( $line ) . $this->addedLine( $aline ) . "</tr>\n" );
     }
