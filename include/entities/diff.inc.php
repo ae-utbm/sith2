@@ -527,14 +527,14 @@ class MappedDiff extends Diff
     $xi = $yi = 0;
     for ($i = 0; $i < sizeof($this->edits); $i++)
     {
-      $orig = &$this->edits[$i]->orig;print_r($orig);
+      $orig = &$this->edits[$i]->orig;
       if (is_array($orig))
       { 
         $orig = array_slice($from_lines, $xi, sizeof($orig));
         $xi += sizeof($orig);
       }
     
-      $closing = &$this->edits[$i]->closing;
+      $closing = &$this->edits[$i]->closing;print_r($closing);
       if (is_array($closing))
       {
         $closing = array_slice($to_lines, $yi, sizeof($closing));
