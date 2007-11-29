@@ -235,12 +235,13 @@ if ( $lieu->is_valid() )
   INNER JOIN geopoint ON (geopoint.id_geopoint=loc_lieu.id_lieu)
   WHERE id_lieu_parent='".mysql_real_escape_string($lieu->id)."' ORDER BY nom_geopoint");
   
-  if (!isset($_REQUEST['level']))
+/*  if (!isset($_REQUEST['level']))
     $level = 5;
   else
     $level = $_REQUEST['level'];
   $cts->add_paragraph("<center><img src=\"loc.php?action=genimglieu&id_lieu=".
-		      $lieu->id."&level=$level\" alt=\"loc lieu\" /></center>");
+		      $lieu->id."&level=$level\" alt=\"loc lieu\" /></center>");*/
+		      
   if ( $req->lines > 0 )
     $cts->add(new sqltable("listsublieux", "Sous-lieux", $req, "loc.php", 
                            "id_lieu", 
