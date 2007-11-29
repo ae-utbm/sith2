@@ -892,7 +892,7 @@ class TableDiffFormatter extends DiffFormatter
   function _added($lines)
   {
     foreach ($lines as $line)
-      print( '<tr>' . $this->emptyLine() . $this->addedLine( $line ) . "</tr>\n" );
+      print( '<tr>' . $this->emptyLine() . $this->addedLine2( $line ) . "</tr>\n" );
   } 
  
   function _deleted($lines)
