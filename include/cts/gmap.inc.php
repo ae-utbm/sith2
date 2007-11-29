@@ -48,7 +48,10 @@ class gmap extends stdcontents
 
   function html_render()
   {
-    $this->buffer="
+    $this->buffer .= "<div id=\"".$this->name."_canvas\" style=\"width: 500px; height: 300px\"></div>";
+    
+    
+    $this->buffer .= "
     <script src=\"http://maps.google.com/maps?file=api&amp;v=2&amp;key=".$this->key."\" type=\"text/javascript\"></script>
     <script type=\"text/javascript\">
 
@@ -91,12 +94,11 @@ class gmap extends stdcontents
     $this->buffer .= "   }
     }
     
-    document.onload=initialize;
+    initialize();
     document.onunload=GUnload;
     
     </script>";  
     
-    $this->buffer .= "<div id=\"".$this->name."_canvas\" style=\"width: 500px; height: 300px\"></div>";
     
     return $this->buffer;
   }
