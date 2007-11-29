@@ -27,18 +27,19 @@
 
 class gmap extends stdcontents
 {
-	var $name;
+  var $name;
 
+  /* google map api key */
   var $key = "__GMAP_KEY__";
 
   var $markers = array();
 
 
-	function gmap ( $name )
-	{
-		$this->name = $name;
-		
-	}
+  function gmap ( $name )
+  {
+    $this->name = $name;
+    
+  }
 
   function add_marker ( $name, $lat, $long, $draggable=false, $dragend=null )
   {
