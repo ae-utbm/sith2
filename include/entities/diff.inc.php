@@ -524,7 +524,7 @@ class MappedDiff extends Diff
    
     $this->Diff($mapped_from_lines, $mapped_to_lines);
    
-    $xi = $yi = 0;
+    $xi = $yi = 0;print_r(sizeof($this->edits));
     for ($i = 0; $i < sizeof($this->edits); $i++)
     {
       $orig = &$this->edits[$i]->orig;
@@ -534,7 +534,7 @@ class MappedDiff extends Diff
         $xi += sizeof($orig);
       }
     
-      $closing = &$this->edits[$i]->closing;print_r($closing);
+      $closing = &$this->edits[$i]->closing;
       if (is_array($closing))
       {
         $closing = array_slice($to_lines, $yi, sizeof($closing));
