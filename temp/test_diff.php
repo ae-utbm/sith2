@@ -7,17 +7,17 @@ require_once($topdir. "include/entities/diff.inc.php");
 
 $site = new site ();
 
-$site->start_page("services","AE - Recherche et Développement");
+$site->start_page("services","AE - Recherche et DÃ©veloppement");
 
 $intro = new contents("Edition liste au format pdf");
 
 
-$_old = "Feu est un génie, mais faut pa le dire
+$_old = "Feu est un gÃ©nie, mais faut pa le dire
 sinon il va se faire exploiter
 par les vilains luttins de la foret";
-$_new = "Feu est un génie, mais faut pas le dire
+$_new = "Feu est un gÃ©nie, mais faut pas le dire
 sinon il va se faire exploiter
-comme ça devrait être interdit
+comme Ã§a devrait Ãªtre interdit
 par les vilains luttins de la foret";
 
 $df  = new Diff($_old,$_new);
@@ -27,7 +27,6 @@ $intro->add_paragraph("<table class=\"diff\">\n".$tdf->format($df)."</table>");
 
 
 $site->add_contents($intro);
-$site->add_contents($cts);
 $site->end_page();
 
 
