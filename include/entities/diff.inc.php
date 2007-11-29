@@ -679,9 +679,9 @@ class DiffFormatter
 
   function _changed2($orig, $closing)
   {
-    $this->_deleted($orig);
+    $this->_deleted2($orig);
     //echo "---\n";
-    $this->_added($closing);
+    $this->_added2($closing);
   }
 }
 
@@ -895,7 +895,7 @@ class TableDiffFormatter extends DiffFormatter
       print( '<tr>' . $this->emptyLine() . $this->addedLine( $line ) . "</tr>\n" );
   } 
  
-  function _deleted($lines)
+  function _deleted2($lines)
   {
     foreach ($lines as $line)
       print( '<tr>' . $this->deletedLine( $line ) . $this->emptyLine() . "</tr>\n" );
