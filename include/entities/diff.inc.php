@@ -898,7 +898,7 @@ class TableDiffFormatter extends DiffFormatter
   function _deleted($lines)
   {
     foreach ($lines as $line)
-      print( '<tr>' . $this->deletedLine( $line ) . $this->emptyLine() . "</tr>\n" );
+      print( '<tr>' . $this->deletedLine2( $line ) . $this->emptyLine() . "</tr>\n" );
   } 
   
   function _context( $lines )
