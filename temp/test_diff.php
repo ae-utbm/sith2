@@ -16,11 +16,13 @@ $intro = new contents("Edition liste au format pdf");
 
 $_old = "Feu est un génie, mais faut pa le dire
 sinon il va se faire exploiter
-par les vilains luttins de la foret";
-$_new = "Feu fgjsdg est un génie, mais faut pas le dire
+par les vilains luttins de la foret
+c'est la fête.";
+$_new = "Feu est un génie, mais faut pas le dire
 sinon il va se faire exploiter
 comme ça devrait être interdit
-par les vilains luttins de la foret";
+par les vilains luttins de la foret
+c'est un fait.";
 
 $df  = new Diff($_old,$_new);
 $tdf = new TableDiffFormatter();
