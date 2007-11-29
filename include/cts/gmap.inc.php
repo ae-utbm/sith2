@@ -84,6 +84,10 @@ class gmap extends stdcontents
       
     }
 
+
+    $this->buffer .= "map.addControl(new GSmallMapControl());\n";
+    $this->buffer .= "map.addControl(new GMapTypeControl());\n";
+
     $this->buffer .= "   }
     }
     
