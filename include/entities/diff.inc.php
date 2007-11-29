@@ -540,7 +540,7 @@ class MappedDiff extends Diff
         $closing = array_slice($to_lines, $yi, sizeof($closing));
         $yi += sizeof($closing);
       }
-    }print_r($mapped_from_lines);
+    }
   } 
 }
 
@@ -872,7 +872,7 @@ class TableDiffFormatter extends DiffFormatter
   } 
 
   function deletedLine( $line )
-  { 
+  {print_r($line) 
     $line = str_replace('  ','&nbsp; ',$line);
     return '<td>-</td><td class="diff-deletedline">' .
       $line.'</td>'; 
