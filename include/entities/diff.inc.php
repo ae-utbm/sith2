@@ -680,7 +680,7 @@ class DiffFormatter
   function _changed2($orig, $closing)
   {
     $this->_deleted($orig);
-    echo "---\n";
+    //echo "---\n";
     $this->_added($closing);
   }
 }
