@@ -764,8 +764,8 @@ class WordLevelDiff extends MappedDiff
     return array($m[0], $m[1]);
   }
     
-  function orig2 ()
-  {
+  function orig ()
+  {/*
     $orig = new _HWLDF_WordAccumulator;
     
     foreach ($this->edits as $edit)
@@ -775,10 +775,10 @@ class WordLevelDiff extends MappedDiff
       elseif ($edit->orig)
         $orig->addWords($edit->orig, 'mark');
     }
-    return $orig->getLines();
+		return $orig->getLines();*/ return "bleh";
   } 
     
-  function closing2 ()
+  function closing ()
   { 
     $closing = new _HWLDF_WordAccumulator;
   
@@ -910,8 +910,8 @@ class TableDiffFormatter extends DiffFormatter
   function _changed2( $orig, $closing )
   {
     $diff = new WordLevelDiff( $orig, $closing );
-    $del = $diff->orig2();
-    $add = $diff->closing2();
+    $del = $diff->orig();
+    $add = $diff->closing();
     while ( $line = array_shift( $del ) )
     {
       $aline = array_shift( $add );
