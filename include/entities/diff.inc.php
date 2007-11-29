@@ -889,7 +889,7 @@ class TableDiffFormatter extends DiffFormatter
     return '<td> </td><td class="diff-context">'.$line.'</td>';
   } 
 
-  function _added($lines)
+  function _added2($lines)
   {
     foreach ($lines as $line)
       print( '<tr>' . $this->emptyLine() . $this->addedLine( $line ) . "</tr>\n" );
@@ -917,6 +917,6 @@ class TableDiffFormatter extends DiffFormatter
       $aline = array_shift( $add );
       print( '<tr>' . $this->deletedLine( $line ) . $this->addedLine( $aline ) . "</tr>\n" );
     }
-    $this->_added( $add );
+    $this->_added2( $add );
   }
 }
