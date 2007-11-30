@@ -281,7 +281,7 @@ if ( $lieu->is_valid() )
   {
     $lst = new itemlist("Nouvelles liées à ce lieu");
   	while ( $row = $sql->get_row() )
-  	  $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date_debut_eve']))."</span>");	
+  	  $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))."</span>");	
   	$cts->add($lst,true);
   }			
   			
