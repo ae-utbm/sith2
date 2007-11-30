@@ -271,7 +271,7 @@ if ( $lieu->is_valid() )
   //TODO: Lister les informations liées à ce lieu
   // - Catégories du SAS
   
-  $sql = new requete($site->db,"SELECT MIN(nvl_dates.date_debut_eve) AS date, nvl_nouvelles.* FROM nvl_nouvelles " .
+  $sql = new requete($site->db,"SELECT MIN(nvl_dates.date_debut_eve) AS date, COUNT(nvl_dates.id_nouvelle) AS cnt, nvl_nouvelles.* FROM nvl_nouvelles " .
   			"LEFT JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
   			"WHERE id_lieu='".$lieu->id."' AND modere_nvl='1' " .
   			"GROUP BY nvl_dates.id_nouvelle ".
@@ -281,7 +281,14 @@ if ( $lieu->is_valid() )
   {
     $lst = new itemlist("Nouvelles liées à ce lieu");
   	while ( $row = $sql->get_row() )
-  	  $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))."</span>");	
+  	{
+  	  if ( is_null($row['date']) )
+  	    $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))."</span>");	
+  	  elseif ( $row["cnt"] == 1 )
+  	    $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))."</span>");	
+  	  else
+  	    $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))." (ainsi que d'autres dates ensuite)</span>");	
+  	}
   	$cts->add($lst,true);
   }			
   			
