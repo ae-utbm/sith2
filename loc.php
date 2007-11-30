@@ -33,7 +33,7 @@ require_once($topdir. "include/cts/gmap.inc.php");
 
 $site = new site ();
 
-if ( $_REQUEST["action"] == "kml" )
+if ( $_REQUEST["action"] == "allkml" )
 {
   header("Content-type: application/vnd.google-earth.kml+xml");
   header("Content-Disposition: filename=ae_utbm.kml");
@@ -218,6 +218,26 @@ elseif ( $_REQUEST["action"] == "editlieu" && $site->user->is_in_group("gestion_
 
 if ( $lieu->is_valid() )
 {
+  if ( $_REQUEST["action"] == "kml" )
+  {
+    header("Content-type: application/vnd.google-earth.kml+xml");
+    header("Content-Disposition: filename=ae_utbm_".$lieu->id.".kml");
+    echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+    echo "<kml xmlns=\"http://earth.google.com/kml/2.1\">";
+    echo "<Placemark id=\"ae_utbm_fr_geopoint_".$lieu->id_geopoint."\">";
+    echo "<name>".htmlspecialchars($lieu->nom)."</name>";
+    echo "<description>http://ae.utbm.fr/lieu.php?id_lieu=".$lieu->id."</description>";
+    echo "<Point>";
+    echo "<coordinates>".sprintf("%.12F",$lieu->long*360/2/M_PI).",".
+      sprintf("%.12F",$lieu->lat*360/2/M_PI)."</coordinates>";
+    echo "</Point>";
+    echo "</Placemark>";
+    echo "</kml>";
+    exit();
+  }
+  
+  
+  
   $lieu_parent = new lieu($site->db);
   $lieu_parent->load_by_id($lieu->id_lieu_parent);
   $path = $lieu->get_html_link();
@@ -241,13 +261,6 @@ if ( $lieu->is_valid() )
   $req = new requete($site->db, "SELECT id_lieu, nom_geopoint FROM loc_lieu 
   INNER JOIN geopoint ON (geopoint.id_geopoint=loc_lieu.id_lieu)
   WHERE id_lieu_parent='".mysql_real_escape_string($lieu->id)."' ORDER BY nom_geopoint");
-  
-/*  if (!isset($_REQUEST['level']))
-    $level = 5;
-  else
-    $level = $_REQUEST['level'];
-  $cts->add_paragraph("<center><img src=\"loc.php?action=genimglieu&id_lieu=".
-		      $lieu->id."&level=$level\" alt=\"loc lieu\" /></center>");*/
 		      
   if ( $req->lines > 0 )
     $cts->add(new sqltable("listsublieux", "Sous-lieux", $req, "loc.php", 
@@ -255,11 +268,23 @@ if ( $lieu->is_valid() )
                            array("nom_geopoint"=>"Nom"), 
                            array(), array(),array()),true); 
 
-
-
-
-
-
+  //TODO: Lister les informations liées à ce lieu
+  // - Catégories du SAS
+  
+  $sql = new requete($site->db,"SELECT MIN(nvl_dates.date_debut_eve) AS date, nvl_nouvelles.* FROM nvl_nouvelles " .
+  			"LEFT JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
+  			"WHERE id_lieu='".$lieu->id."' AND modere_nvl='1' " .
+  			"GROUP BY nvl_dates.id_nouvelle ".
+  			"ORDER BY 1 DESC");
+  
+  if ( $sql->lines > 0 )
+  {
+    $lst = new itemlist("Nouvelles liées à ce lieu");
+  	while ( $row = $sql->get_row() )
+  	  $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date_debut_eve']))."</span>");	
+  	$cts->add($lst,true);
+  }			
+  			
   if ( $site->user->is_in_group("gestion_ae") )
   {
     $frm = new form("editlieu","loc.php?id_lieu=".$lieu->id,true,"POST","Editer");
@@ -274,12 +299,9 @@ if ( $lieu->is_valid() )
     $cts->add($frm,true);
   }
 
-
-
-
   $site->add_contents($cts);
-
   $site->end_page();
+  
   exit();
 }
 elseif ( $ville->is_valid() )

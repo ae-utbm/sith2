@@ -132,8 +132,6 @@ class newslist extends itemlist
 
 /**
  * Permet de lister des nouvelles
- *
- *
  */
 class newslister extends stdcontents
 {
