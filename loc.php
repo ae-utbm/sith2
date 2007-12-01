@@ -44,11 +44,13 @@ if ( $_REQUEST["action"] == "allkml" )
   echo "<Document id=\"ae_utbm_fr_geopoints\">";
   echo "<name>ae utbm</name>";
   $req = new requete($site->db, "SELECT * FROM geopoint");
+  $lieu = new lieu($site->db);
   while ( $row = $req->get_row() )
   {   
+    $lieu->_load($row);
     echo "<Placemark id=\"ae_utbm_fr_geopoint_".$row['id_geopoint']."\">";
     echo "<name>".htmlspecialchars($row['nom_geopoint'])."</name>";
-    echo "<description></description>";
+    echo "<description>".htmlspecialchars($lieu->get_html_extended_info())."</description>";
     echo "<Point>";
     echo "<coordinates>".sprintf("%.12F",$row['long_geopoint']*360/2/M_PI).",".
       sprintf("%.12F",$row['lat_geopoint']*360/2/M_PI)."</coordinates>";
@@ -226,7 +228,7 @@ if ( $lieu->is_valid() )
     echo "<kml xmlns=\"http://earth.google.com/kml/2.1\">";
     echo "<Placemark id=\"ae_utbm_fr_geopoint_".$lieu->id_geopoint."\">";
     echo "<name>".htmlspecialchars($lieu->nom)."</name>";
-    echo "<description>http://ae.utbm.fr/lieu.php?id_lieu=".$lieu->id."</description>";
+    echo "<description>".htmlspecialchars($lieu->get_html_extended_info())."</description>";
     echo "<Point>";
     echo "<coordinates>".sprintf("%.12F",$lieu->long*360/2/M_PI).",".
       sprintf("%.12F",$lieu->lat*360/2/M_PI)."</coordinates>";
