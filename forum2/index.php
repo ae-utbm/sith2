@@ -41,7 +41,7 @@ require_once($topdir . "include/cts/forum.inc.php");
 $site = new site ();
 $site->add_css("css/forum.css");
 $site->add_rss("Les 40 derniers messages du forum de l'AE", 
-	       "rss.php");
+         "rss.php");
 
 
 if($site->user->is_in_group("ban_forum"))
@@ -160,8 +160,8 @@ if ( !$forum->is_right($site->user,DROIT_LECTURE) )
 
 if( isset($_REQUEST['get_preview']) )
 {
-  $message->titre = $_REQUEST['title'];
-  $message->contenu = $_REQUEST['content'];
+  $message->titre = html_entity_decode($_REQUEST['title'], ENT_NOQUOTES, 'UTF-8');
+  $message->contenu = html_entity_decode($_REQUEST['content'], ENT_NOQUOTES, 'UTF-8');
   $message->id_utilisateur = $_REQUEST['user'];
   $message->syntaxengine = $_REQUEST['syntaxengine'];
   $message->date = time();
@@ -359,7 +359,7 @@ if ( $sujet->is_valid() )
         user = ".$site->user->id.";
         syntaxengine = document.frmedit.synengine.value;
         
-        openInContents('msg_preview', './index.php', 'get_preview&title='+escape(title)+'&content='+escape(content)+'&user='+user+'&syntaxengine='+syntaxengine);
+        openInContents('msg_preview', './index.php', 'get_preview&title='+encodeURIComponent(title)+'&content='+encodeURIComponent(content)+'&user='+user+'&syntaxengine='+syntaxengine);
       }
       </script>\n");
      
@@ -430,7 +430,7 @@ if ( $sujet->is_valid() )
     $frm->add_submit("submit", "Modifier");
     $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:make_preview();\" /></div></div>\n");
     $frm->allow_only_one_usage();
-		
+    
     $cts->add_paragraph("<script language=\"javascript\">
       function make_preview()
       {
@@ -439,7 +439,7 @@ if ( $sujet->is_valid() )
         user = ".$site->user->id.";
         syntaxengine = document.frmedit.synengine.value;
         
-        openInContents('msg_preview', './index.php', 'get_preview&title='+escape(title)+'&content='+escape(content)+'&user='+user+'&syntaxengine='+syntaxengine);
+        openInContents('msg_preview', './index.php', 'get_preview&title='+encodeURIComponent(title)+'&content='+encodeURIComponent(content)+'&user='+user+'&syntaxengine='+syntaxengine);
       }
       </script>\n");
     
@@ -538,7 +538,7 @@ if ( $sujet->is_valid() )
         user = ".$site->user->id.";
         syntaxengine = document.frmreply.synengine.value;
         
-        openInContents('msg_preview', './index.php', 'get_preview&title='+escape(title)+'&content='+escape(content)+'&user='+user+'&syntaxengine='+syntaxengine);
+        openInContents('msg_preview', './index.php', 'get_preview&title='+encodeURIComponent(title)+'&content='+encodeURIComponent(content)+'&user='+user+'&syntaxengine='+syntaxengine);
       }
       </script>\n");
   
