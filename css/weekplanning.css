@@ -47,8 +47,8 @@ div.daycount{
 	background: #E8EEF7;
 	font-weight: bold;
 	text-align: right;
-	border-bottom: 1px white;
-	border-left: 0px white;
+	border-color: #ffffff;
+
 }
 
 span.itemhour{
