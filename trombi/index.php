@@ -62,7 +62,9 @@ if (isset($_REQUEST['id_utilisateur']))
   
   if (!$user->is_valid())
     $site->error_not_found("matmatronch");
-    
+  
+  $user->load_all_extra();
+
   $is_user_page = ($user->id==$site->user->id);
   
   $can_edit = ($user->id==$site->user->id || $is_user_moderator);
@@ -72,7 +74,7 @@ if (isset($_REQUEST['id_utilisateur']))
  
   if (!$user->publique && !$can_edit)
     $site->error_forbidden("matmatronch","private");
-print_r($user->promo_utbm ." ".$site->user->promo_utbm);
+  
   if ($user->promo_utbm != $site->user->promo_utbm) 
     $user = &$site->user;
 
