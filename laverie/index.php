@@ -45,6 +45,7 @@ require_once($topdir. "comptoir/include/comptoirs.inc.php");
 require_once($topdir. "comptoir/include/venteproduit.inc.php");
 
 $site = new site();
+$site->add_css("css/weekplanning.css");
 
 $site->allow_only_logged_users();
 

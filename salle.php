@@ -33,6 +33,7 @@ require_once($topdir. "include/entities/asso.inc.php");
 require_once($topdir. "include/cts/planning.inc.php");
 
 $site = new site ();
+$site->add_css($topdir . "css/weekplanning.css");
 $sitebat = new sitebat($site->db,$site->dbrw);
 $bat = new batiment($site->db,$site->dbrw);
 $salle = new salle($site->db,$site->dbrw);
