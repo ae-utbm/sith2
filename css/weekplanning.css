@@ -36,16 +36,22 @@ td.head_larrow:hover, td.head_rarrow:hover{
 	margin-right: 0px;
 }
 
+div.dayitem{
+	border: 1px solid #eeac00;
+	background: #ffffcc;
+	padding: 1px;
+	overflow: hidden;
+}
+
 div.daycount{
 	background: #E8EEF7;
 	font-weight: bold;
 	text-align: right;
-	border-bottom: 1px !important;
-	border-left: 0px !important;
+	border-bottom: 1px white;
+	border-left: 0px white;
 }
 
-div.dayitem{
-	border: 1px solid #eeac00;
-	padding: 1px;
-	overflow:hidden;
+span.itemhour{
+	font-bold: bold;
+	font-size: 80%;
 }
