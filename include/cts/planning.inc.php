@@ -95,10 +95,10 @@ class weekplanning extends stdcontents
 		
 		
 		
-		$this->buffer .= "<table class=\"weekplanning\" width=\"100%\">\n<tr>\n";		
-		$this->buffer .= "<td style=\"width:10%; text-align:center;\"><a href=\"".$page."pstartdate=".date("Y-m-d",strtotime(date("Y-m-d",$start)." -1 week"))."\">&laquo;</a></td>\n";
-		$this->buffer .= "<td style=\"width:80%; text-align:center;\">$titre (".strftime("%A %d %B %G",$start).")</td>\n";
-		$this->buffer .= "<td style=\"width:10%; text-align:center;\"><a href=\"".$page."pstartdate=".date("Y-m-d",strtotime(date("Y-m-d",$start)." +1 week"))."\">&raquo;</a></td>\n";
+		$this->buffer .= "<table class=\"weekplanning\" width=\"100%\">\n<tr class=\"head\">\n";		
+		$this->buffer .= "<td class=\"head_larrow\"><a href=\"".$page."pstartdate=".date("Y-m-d",strtotime(date("Y-m-d",$start)." -1 week"))."\">&lArr;</a></td>\n";
+		$this->buffer .= "<td class=\"head_title\">$titre (".strftime("%A %d %B %G",$start).")</td>\n";
+		$this->buffer .= "<td class=\"head_rarrow\"><a href=\"".$page."pstartdate=".date("Y-m-d",strtotime(date("Y-m-d",$start)." +1 week"))."\">&rArr;</a></td>\n";
 		$this->buffer .= "</tr>\n</table>\n";		
 				
 					
@@ -109,12 +109,12 @@ class weekplanning extends stdcontents
 		$scale = 24*7;
 		$height = floor((24*60*60/$scale)+20);
 		$this->buffer .= "<tr>\n<td class=\"day\" style=\"width:9%; height:".$height."px;\">\n";
-		$this->buffer .= "<div class=\"dayhead\" style=\"height:20px;\">&nbsp;</div>\n";
+		$this->buffer .= "<div class=\"dayhead\">&nbsp;</div>\n";
 		
 		for($i=0;$i<24;$i++)
 		{
 			$ln = floor(($i+1)*60*60/$scale)-floor($i*60*60/$scale);
-			$this->buffer .= "<div style=\"border-top: 1px solid black; padding:1px; height:".($ln-3)."px; overflow:hidden;\">$i</div>\n";	
+			$this->buffer .= "<div class=\"dayitem daycount\" style=\"height:".($ln-3)."px;\">$i</div>\n";	
 		}
 		
 		
@@ -136,7 +136,7 @@ class weekplanning extends stdcontents
 				  if ( $st != $last )
 				    $this->buffer .= "<div style=\"height:".($st-$last)."px; overflow:hidden;\">&nbsp;</div>\n";
 				
-				  $this->buffer .= "<div style=\"border: 1px solid black; padding:1px; height:".($ln-4)."px; overflow:hidden;\"><a href=\"".$infopage.$idf."=".$row[2]."\"><i>".date("H:i",$row[0])."</i> ".$row[3]."</a></div>\n";
+				  $this->buffer .= "<div class=\"dayitem\" style=\"height:".($ln-4)."px;\"><a href=\"".$infopage.$idf."=".$row[2]."\"><i>".date("H:i",$row[0])."</i> ".$row[3]."</a></div>\n";
 				  $last=$st+$ln;
 			  }
 		  }
