@@ -72,7 +72,7 @@ if (isset($_REQUEST['id_utilisateur']))
  
   if (!$user->publique && !$can_edit)
     $site->error_forbidden("matmatronch","private");
-
+print_r($user->promo_utbm);
   if (($user->promo_utbm != $site->user->promo_utbm)) 
     $user = &$site->user;
 
