@@ -57,6 +57,7 @@ $is_user_moderator = ( $site->user->is_in_group("gestion_ae") || $site->user->is
 
 if (isset($_REQUEST['id_utilisateur']))
 {
+  print_r("debug");
   $user = new utilisateur($site->db,$site->dbrw);
   $user->load_by_id($_REQUEST["id_utilisateur"]);
   
