@@ -74,11 +74,12 @@ if (isset($_REQUEST['id_utilisateur']))
     $site->error_forbidden("matmatronch","private");
 
   if (($user->promo_utbm != $site->user->promo_utbm) 
-     && ($site->user->is_in_group("gestion_ae")))
+     && !($site->user->is_in_group("gestion_ae")))
   {
     $user = &$site->user;
+  }
+  if ($site->user->is_in_group("gestion_ae"))
     $can_edit = true;
-  }print_r($user->id);
 }
 else
 {
@@ -461,14 +462,14 @@ if($_REQUEST["view"] == "listing")
           }
         }
 
-	$firstnamepage = substr($noms[$i], 0, 3);
-	if (($i + $npp - 1) < count($noms))
-	  $lastnamepage  = substr($noms[$i + $npp - 1], 0,3);
-	else
-	  $lastnamepage  = substr($noms[count($noms) - 1], 0,3);
+  $firstnamepage = substr($noms[$i], 0, 3);
+  if (($i + $npp - 1) < count($noms))
+    $lastnamepage  = substr($noms[$i + $npp - 1], 0,3);
+  else
+    $lastnamepage  = substr($noms[count($noms) - 1], 0,3);
 
         /* $tabs[]=array($n,$url,$n+1 ); */
-	$tabs[] = array($n, $url, $firstnamepage . " - " . $lastnamepage);
+  $tabs[] = array($n, $url, $firstnamepage . " - " . $lastnamepage);
 
         $i+=$npp;
       }
