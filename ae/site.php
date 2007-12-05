@@ -106,7 +106,7 @@ if (isset($_REQUEST['action']))
   if ((isset($_REQUEST['nom_boite'])) &&
       (!isset($_REQUEST['nom_boites'])))
   {
-    if( $_REQUEST['nom_boite'] == "important" )
+    if( $_REQUEST['nom_boite'] == "Important" )
       $frm_edit_box->add_dokuwiki_toolbar("frm_edit_box_ct[".$ct['nom_boite']."]");
     $req = new requete ($site->db,
       "SELECT `contenu_boite`, `nom_boite` FROM `site_boites` ".
