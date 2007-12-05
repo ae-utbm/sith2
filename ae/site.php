@@ -106,14 +106,14 @@ if (isset($_REQUEST['action']))
   if ((isset($_REQUEST['nom_boite'])) &&
       (!isset($_REQUEST['nom_boites'])))
   {
-    if( $_REQUEST['nom_boite'] == "Important" )
-      $frm_edit_box->add_dokuwiki_toolbar("frm_edit_box_ct[".$ct['nom_boite']."]");
     $req = new requete ($site->db,
       "SELECT `contenu_boite`, `nom_boite` FROM `site_boites` ".
       "WHERE `nom_boite` = '".
       mysql_real_escape_string($_REQUEST['nom_boite'])
       ."'");
     $ct = $req->get_row ();
+    if( $_REQUEST['nom_boite'] == "Important" )
+      $frm_edit_box->add_dokuwiki_toolbar("frm_edit_box_ct[".$ct['nom_boite']."]");
     /* un seul resultat */
     $frm_edit_box->add_text_area ("frm_edit_box_ct[".$ct['nom_boite']."]",
         "Contenu de la boite " .
