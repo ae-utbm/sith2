@@ -169,7 +169,7 @@ class nouvelle extends stdentity
       $cts->add($lst);
     }
       
-    if ( !is_null($this->id_lieu) && displaymap == true)
+    if ( !is_null($this->id_lieu) )
     {
       require_once($topdir. "include/entities/lieu.inc.php");
       require_once($topdir. "include/cts/gmap.inc.php");
@@ -177,10 +177,13 @@ class nouvelle extends stdentity
       $lieu = new lieu($this->db);
       $lieu->load_by_id($this->id_lieu);
       $cts->add_paragraph("<b>Lieu</b> : ".$lieu->get_html_link());
-      
-      $map = new gmap("map");
-      $map->add_marker("lieu",$lieu->lat,$lieu->long);
-      $cts->add($map);
+    
+      if ( $displaymap )
+      {
+        $map = new gmap("map");
+        $map->add_marker("lieu",$lieu->lat,$lieu->long);
+        $cts->add($map);
+      }
     }
       
     if ( $asso->is_valid() )
