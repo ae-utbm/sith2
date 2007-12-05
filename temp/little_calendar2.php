@@ -25,11 +25,77 @@ $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 
 $site = new site();
+/*$site->add_css("temp/calendar.css");
+$site->add_js("temp/calendar.js");*/
+
+if( isset($_REQUEST['get_cal']) )
+{
+	$cal = new calendar($site->db);
+	echo $cal->html_render();
+	exit;
+}
+
 
 $cal = new calendar($site->db);
 
 $cts = new contents();
-$cts->add($cal);
+$cts->puts("<style>
+.call
+{
+	position: absolute;
+	align: center;
+	top: 50px;
+	cursor:pointer; 
+	text-align: center;
+	z-index: 500;
+}
+
+.closecal
+{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	cursor: pointer;
+}
+
+.container
+{
+	position: absolute;
+	background: #eeeeee;
+	border: 1px solid blue;
+	display: none;
+}
+</style>");
+
+$cts->puts("
+<script language='javascript'>
+function opencal(_ref)
+{
+	var ref = document.getElementById(_ref);
+	var elem = document.getElementById('calendar');
+	var pos = findPos(ref);
+	
+	elem.style.display = 'block';
+	elem.style.left = pos[0] + 20;
+	elem.style.top = pos[1];
+	openInContents('calendar', './little_calendar2.php', 'get_cal'); 
+}
+
+function closecal()
+{
+	var elem = document.getElementById('calendar');
+	elem.style.display = 'none';
+
+	return true;
+}
+</script>
+");
+
+$cts->puts("
+<div id=\"calendar\" class=\"container\">&nbsp;</div>
+<div id=\"call\" class=\"call\" onclick=\"opencal('call'); openInContents('calendar', './little_calendar2.php', 'get_cal');\"> <img src=\"".$topdir."images/icons/16/ical.png\" /> </div>
+");
+
 
 $site->add_contents($cts);
 
