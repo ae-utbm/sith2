@@ -788,7 +788,7 @@ if ( $sujet->is_valid() )
     {
       $news = new nouvelle ($site->db);
       $news->load_by_id($sujet->id_nouvelle);
-      $cts->add($news->get_contents(),true,true,"newsboxed","sujetcontext");
+      $cts->add($news->get_contents(false),true,true,"newsboxed","sujetcontext");
     }
     if ( !is_null($sujet->id_catph) )
     {

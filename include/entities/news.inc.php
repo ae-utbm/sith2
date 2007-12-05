@@ -123,7 +123,7 @@ class nouvelle extends stdentity
 
   /** Construit un stdcontents avec le contenu de la nouvelle
    */
-  function get_contents ()
+  function get_contents ($displaymap=true)
   {
     global $wwwtopdir,$topdir;
     
@@ -169,7 +169,7 @@ class nouvelle extends stdentity
       $cts->add($lst);
     }
       
-    if ( !is_null($this->id_lieu) )
+    if ( !is_null($this->id_lieu) && displaymap == true)
     {
       require_once($topdir. "include/entities/lieu.inc.php");
       require_once($topdir. "include/cts/gmap.inc.php");
