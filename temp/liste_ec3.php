@@ -20,7 +20,7 @@ $req = new requete($site->db, "SELECT " .
       "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
       "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`cpt_debitfacture`.`id_utilisateur_client` ".
       "WHERE `cpt_vendu`.`a_retirer_vente`='1' ".
-      "AND (`cpt_vendu`.`id_produit`='316' OR `cpt_vendu`.`id_produit`='317' OR `cpt_vendu`.`id_produit`='303' OR `cpt_vendu`.`id_produit`='315' OR `cpt_vendu`.`id_produit`='304') " .
+      "AND (`cpt_vendu`.`id_produit`='339' OR `cpt_vendu`.`id_produit`='340') " .
       "ORDER BY `utilisateurs`.`nom_utl` ASC");
 
 
@@ -41,7 +41,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="getpdf")
   $pdf->Ln();
 
   $pdf->SetFont('Arial','B',14);
-  $pdf->Cell('', 20, "Liste des étudiants extérieurs non cotisants à l'AE",'','','C');
+  $pdf->Cell('', 20, "Listing prévente EC3",'','','C');
   $pdf->Ln();
 
   $pdf->SetFont('Arial','B',11);
