@@ -254,6 +254,11 @@ if ( $req->lines == 1 )
   $frm = new form("accord",$page,false,"POST","Photo acceptable: informations");
   $frm->add_hidden("id_photo",$photo->id);
   $frm->add_hidden("action","modere");
+
+  $sfrm = new form("valid",null,null,null,"Validation");
+  $sfrm->add_submit("modere","Accepter");
+	$frm->add($sfrm);
+
     
   $sfrm = new form("people",null,null,null,"Personnes sur la photo");
   while ( list($id,$nom) = $req->get_row() )
@@ -276,10 +281,6 @@ if ( $req->lines == 1 )
   $ssfrm = new form("restrict",null,null,null,"Limiter l'accés au groupe");
 	$ssfrm->add_entity_select( "id_group", "Groupe", $site->db, "group", $photo->id_groupe );
 	$sfrm->add($ssfrm,false,true,!($photo->droits_acces & 1),"limittogroup",false,true);
-	$frm->add($sfrm);
-
-  $sfrm = new form("valid",null,null,null,"Validation");
-  $sfrm->add_submit("modere","Accepter");
 	$frm->add($sfrm);
 	
   $subcts->add($frm,true);
