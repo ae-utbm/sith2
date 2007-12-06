@@ -185,12 +185,12 @@ if ( $req->lines == 1 )
     $frm->add_hidden("id_photo",$photo->id);
     $frm->add_hidden("action","complete");
     $frm->add_hidden("complet",1);
-    $frm->add_info("Il n'y a personnes sur cette photo (de reconaissable).");
+    $frm->add_info("Il n'y a personne sur cette photo (de reconaissable).");
     $frm->add_submit("valid","Oui/Suivant");
     $subcts->add($frm,true);
   }
 
-  $frm = new form("peoples",$page,false,"POST","Personnes reconnaissable");
+  $frm = new form("peoples",$page,false,"POST","Personnes reconnaissables");
   $frm->add_hidden("id_photo",$photo->id);
   $frm->add_hidden("action","complete");
   if ( $error> 0 )
