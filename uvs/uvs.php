@@ -502,10 +502,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			     $uv->intitule);
       $edituv->add_text_area('objectifs',
 			     "Objectifs",
-			     $uv->objectifs);
+			     $uv->objectifs, 80, 20);
       $edituv->add_text_area('programme',
 			     "Programme de l'UV",
-			     $uv->programme);
+			     $uv->programme, 80, 20);
       $edituv->add_checkbox('cours',
 			    "Cours",
 			    $uv->cours == 1);
