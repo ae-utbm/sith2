@@ -299,18 +299,21 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
   /* Code + intitulé + crédits ECTS */
   $cts->add_title(1, $uv->code);
-  $cts->add_paragraph("<center><i>\"".$uv->intitule."\"</i></center>");
+  $cts->add_paragraph("<center><i style=\"font-size: 20px;\">\"".
+		      $uv->intitule."\"</i></center>");
   
   if (strlen($uv->objectifs) > 4)
     {
-      $cts->add_title(4, "Objectifs");
+      $cts->add_title(2, "Objectifs");
       $cts->add_paragraph(doku2xhtml($uv->objectifs));
     }
   if (strlen($uv->programme) > 4)
     {
-      $cts->add_title(4, "Programme");
+      $cts->add_title(2, "Programme");
       $cts->add_paragraph(doku2xhtml($uv->programme));
     }
+
+  $cts->add_title(2, "Crédits");
   $cts->add_paragraph("Cette UV équivaut à <b>".$uv->ects."</b> crédits ECTS");
 
   /* format horaire */
