@@ -288,9 +288,10 @@ class calendar extends stdcontents
 	{
 		return strftime("%Y-%m-%d", $time);
 	}
-	
-	
+}
 
+class frm_calendar extends calendar
+{
 }
 
 ?>
