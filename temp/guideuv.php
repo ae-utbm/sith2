@@ -280,7 +280,9 @@ function update_prog_obj($code, $objs, $prog)
   if ($code == '')
     return false;
 
-  new update($dbrw, array('objectifs_uv' => $objs,
+  new update($dbrw, 
+	     'edu_uv',
+	     array('objectifs_uv' => $objs,
 			  'programme_uv' => $prog),
 	     array('code_uv' => $code));
 
