@@ -22,10 +22,10 @@
  */
  
 $topdir="../";
-require_once($topdir."include/site.inc.php");
+require_once("include/site.inc.php");
 require_once($topdir."include/entities/bus.inc.php");
 
-$site = new site();
+$site = new pgsite();
 
 $reseaubus = new reseaubus($site->db,$site->dbrw);
 $lignebus = new lignebus($site->db,$site->dbrw);
@@ -43,7 +43,7 @@ elseif ( isset($_REQUEST["id_reseaubus"]) )
   $reseaubus->load_by_id($_REQUEST["id_reseaubus"]);
   
   
-$site->start_page("pg","Reseaux de bus");
+$site->start_page("pgbus","Reseaux de bus");
   
   
 $site->end_page();
