@@ -62,7 +62,7 @@ if ( $reseaubus->is_valid() )
   $reseaubusparent = new reseaubus($site->db);
   $reseaubusparent->id_reseaubus_parent = $reseaubus->id_reseaubus_parent;
   
-  while ( !is_null($reseaubusparent->id_reseaubus_paren) 
+  while ( !is_null($reseaubusparent->id_reseaubus_parent) 
     && $reseaubusparent->load_by_id($reseaubusparent->id_reseaubus_parent) )
     $path = $reseaubusparent->get_html_link()." / ".$path;
 
