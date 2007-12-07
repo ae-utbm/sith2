@@ -44,6 +44,17 @@ class pgcategory extends stdentity
   var $couleur_contraste_print;
 }
 
+define("HR_DIMANCHE",   0x01);
+define("HR_LUNDI",      0x02);
+define("HR_MARDI",      0x04);
+define("HR_MERCREDI",   0x08);
+define("HR_JEUDI",      0x10);
+define("HR_VENDREDI",   0x20);
+define("HR_SAMEDI",     0x40);
+
+define("HR_OUVERTURE",      0);
+define("HR_EXCP_OUVERTURE", 1);
+define("HR_EXCP_FERMETURE", 2);
 
 class pgfiche extends geopoint
 {
@@ -86,6 +97,16 @@ class pgfiche extends geopoint
   {
     
   }
+  
+  function add_horraire ( $datevaldebut, $datevalfin, $type, $jours, $heuredebut, $heurefin )
+  {
+    
+    $ouvert = 1;
+    if ( $type == HR_EXCP_FERMETURE )
+      $ouvert = -1;
+    
+    
+  } 
   
   function integrate_update ( &$pgfichemaj )
   {

@@ -28,21 +28,220 @@
 
 require_once($topdir."include/entities/geopoint.inc.php");
 
+/**
+ * Un reseau de bus.
+ * Un reseau peut se décomposer en sous-réseaux.
+ * @see lignebus
+ */
 class reseaubus extends stdentity
 {
   var $nom;
   var $siteweb;
   var $id_reseaubus_parent;
   
+  /**
+   * Charge un élément par son id
+   * @param $id Id de l'élément
+   * @return false si non trouvé, true si chargé
+   */
+  function load_by_id ( $id )
+  {
+    $req = new requete($this->db, "SELECT * 
+        FROM `pg_reseaubus`
+				WHERE `id_reseaubus` = '".mysql_real_escape_string($id)."'
+				LIMIT 1");
+
+    if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
+  }
+  
+  function _load ( $row )
+  {
+    $this->id = $row['id_reseaubus'];
+    $this->nom = $row['nom_reseaubus'];
+    $this->siteweb = $row['siteweb_reseaubus'];
+    $this->id_reseaubus_parent = $row['id_reseaubus_parent'];
+  }
+  
+  function create ( $nom, $siteweb, $id_reseaubus_parent=null )
+  {
+    $this->nom = $nom;
+    $this->siteweb = $siteweb;    
+    $this->id_reseaubus_parent = $id_reseaubus_parent;    
+    
+    $req = new insert ( $this->dbrw, "pg_reseaubus", 
+      array( 
+      "nom_reseaubus" => $this->nom,
+      "siteweb_reseaubus" => $this->siteweb,
+      "id_reseaubus_parent" => $this->id_reseaubus_parent
+      ) );
+    
+    if ( !$req->is_success() )
+    {
+      $this->id = null;
+      return false;
+    }
+    
+	  $this->id = $req->get_id();
+    return true;
+  }
+  
+  function update ( $nom, $siteweb, $id_reseaubus_parent=null )
+  {
+    $this->nom = $nom;
+    $this->id_lignebus_parent = $id_lignebus_parent;    
+
+    new update ( $this->dbrw, "pg_reseaubus", 
+      array( 
+      "nom_reseaubus" => $this->nom,
+      "siteweb_reseaubus" => $this->siteweb,
+      "id_reseaubus_parent" => $this->id_reseaubus_parent
+      ),
+      array("id_reseaubus"=>$this->id) );
+  }
+  
+  function delete ()
+  {
+    new delete($this->dbrw, "pg_reseaubus",array("id_reseaubus"=>$this->id));
+    $this->id=null; 
+  }
+  
 }
 
+/**
+ * Une ligne de bus. 
+ * Une ligne appartient à un réseau ou sous réseau.
+ * Une ligne comporte une liste d'arrets ordonnées.
+ * Une ligne peut être une "sous-ligne", dans ce cas, la ligne "principale" 
+ * contient uniquement les arrets communs aux sous-lignes, chaque sous ligne 
+ * contiennent tous les arrets.
+ * @see arretbus
+ */
 class lignebus extends stdentity
 {
   var $nom;
   var $id_lignebus_parent;
+  var $id_reseaubus;
+  
+  /**
+   * Charge un élément par son id
+   * @param $id Id de l'élément
+   * @return false si non trouvé, true si chargé
+   */
+  function load_by_id ( $id )
+  {
+    $req = new requete($this->db, "SELECT * 
+        FROM `pg_lignebus`
+				WHERE `id_lignebus` = '".mysql_real_escape_string($id)."'
+				LIMIT 1");
+
+    if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
+  }
+  
+  function _load ( $row )
+  {
+    $this->id = $row['id_lignebus'];
+    $this->nom = $row['nom_lignebus'];
+    $this->id_lignebus_parent = $row['id_lignebus_parent'];
+    $this->id_reseaubus = $row['id_reseaubus'];
+  }
+  
+  function create ( $nom, $id_reseaubus, $id_lignebus_parent=null )
+  {
+    $this->nom = $nom;
+    $this->id_lignebus_parent = $id_lignebus_parent;    
+    $this->id_reseaubus = $id_reseaubus;
+    
+    $req = new insert ( $this->dbrw, "pg_lignebus", 
+      array( 
+      "nom_lignebus" => $this->nom,
+      "id_lignebus_parent" => $this->id_lignebus_parent,
+      "id_reseaubus" => $this->id_reseaubus
+      ) );
+    
+    if ( !$req->is_success() )
+    {
+      $this->id = null;
+      return false;
+    }
+    
+	  $this->id = $req->get_id();
+    return true;
+  }
+  
+  function update ( $nom, $id_reseaubus, $id_lignebus_parent=null )
+  {
+    $this->nom = $nom;
+    $this->id_lignebus_parent = $id_lignebus_parent;    
+    $this->id_reseaubus = $id_reseaubus;
+
+    new update ( $this->dbrw, "pg_lignebus", 
+      array( 
+      "nom_lignebus" => $this->nom,
+      "id_lignebus_parent" => $this->id_lignebus_parent,
+      "id_reseaubus" => $this->id_reseaubus
+      ),
+      array("id_lignebus"=>$this->id) );
+  }
+  
+  function delete ()
+  {
+    new delete($this->dbrw, "pg_lignebus",array("id_lignebus"=>$this->id));
+    new delete($this->dbrw, "pg_lignebus_arrets",array("id_lignebus"=>$this->id));
+    $this->id=null; 
+  }
+  
+  function add_arret ( $id_arretbus, $num_passage )
+  {
+    new insert ( $this->dbrw, "pg_lignebus_arrets", 
+      array(
+      "id_lignebus"=>$this->id,
+      "id_arretbus"=>$id_arretbus,
+      "num_passage_arret"=>$num_passage
+      ));
+  }
+  
+  function update_arret ( $id_arretbus, $num_passage )
+  {
+    new update ( $this->dbrw, "pg_lignebus_arrets", 
+      array(
+      "num_passage_arret"=>$num_passage
+      ),
+      array(
+      "id_lignebus"=>$this->id,
+      "id_arretbus"=>$id_arretbus
+      ));
+  }  
+  
+  function remove_arret ( $id_arretbus )
+  {
+    new delete ( $this->dbrw, "pg_lignebus_arrets", 
+      array(
+      "id_lignebus"=>$this->id,
+      "id_arretbus"=>$id_arretbus
+      ));
+  }
   
 }
 
+/**
+ * Un arret de bus
+ * Il s'agit tout bêtement d'un point geographique.
+ * @see geopoint
+ */
 class arretbus extends geopoint
 {
   /**
@@ -105,6 +304,7 @@ class arretbus extends geopoint
    */
   function delete ( )
   {
+    new delete($this->dbrw, "pg_lignebus_arrets",array("id_arretbus"=>$this->id));
     $this->geopoint_delete();
   }
 
