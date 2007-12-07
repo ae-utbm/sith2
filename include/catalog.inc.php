@@ -91,10 +91,13 @@ $GLOBALS["entitiescatalog"] = array (
 	
 	"uv" 			=> array ( "id_uv", "code_uv", "misc.png", "uvs/uvs.php", "edu_uv", "uv.inc.php" ),
 	
+	"nouvelle"=>array("id_nouvelle", "titre_nvl", "misc.png", "news.php", "nvl_nouvelles", "news.inc.php", "nvl_nouvelles_tag"),
 
+  // Petit Géni 2 : Reseaux de bus
+	"reseaubus"=>array("id_reseaubus", "nom_reseaubus", "misc.png", "pg2/bus.php", "pg_reseaubus", "bus.inc.php" ),
+	"lignebus"=>array("id_lignebus", "nom_lignebus", "misc.png", "pg2/bus.php", "pg_lignebus", "bus.inc.php" ),
+	"arretbus"=>array("id_arretbus", "nom_geopoint", "misc.png", "pg2/bus.php", "geopoint", "bus.inc.php" )
 	
-	"nouvelle"=>array("id_nouvelle", "titre_nvl", "misc.png", "news.php", "nvl_nouvelles", "news.inc.php", "nvl_nouvelles_tag")
-
 	
 	);
 

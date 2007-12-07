@@ -38,6 +38,12 @@ class pgsite extends site
     $this->add_box("connexion", $this->get_connection_contents());
   }
   
+  function is_admin()
+  {
+    return $site->user->is_in_group("root");  
+  }
+  
+  
   function get_connection_contents ()
   {
     global $topdir;

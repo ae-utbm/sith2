@@ -25,8 +25,18 @@
  * @file
  */
  
-
 require_once($topdir."include/entities/geopoint.inc.php");
+
+if ( !defined("HR_DIMANCHE") )
+{
+  define("HR_DIMANCHE",   0x01);
+  define("HR_LUNDI",      0x02);
+  define("HR_MARDI",      0x04);
+  define("HR_MERCREDI",   0x08);
+  define("HR_JEUDI",      0x10);
+  define("HR_VENDREDI",   0x20);
+  define("HR_SAMEDI",     0x40);
+}
 
 /**
  * Un reseau de bus.
@@ -233,6 +243,40 @@ class lignebus extends stdentity
       "id_lignebus"=>$this->id,
       "id_arretbus"=>$id_arretbus
       ));
+  }
+  
+  function add_passage ( $jours, $datedebut, $datefin, $heures )
+  {
+    $req = new insert ( $this->dbrw, "pg_lignebus_passage", 
+      array( 
+      "id_lignebus" => $this->id,
+      "jours_passage" => $jours,
+      "debut_passage" => date("Y-m-d H:i:s",$datedebut),
+      "fin_passage" => date("Y-m-d H:i:s",$datefin)
+      ) );
+    
+    if ( !$req->is_success() )
+      return false;
+    
+	  $id_lignebus_passage = $req->get_id();
+	  
+	  foreach ( $heures as $id_arretbus => $heure )
+	  {
+      new insert ( $this->dbrw, "pg_lignebus_passage_arretbus", 
+        array( 
+        "id_lignebus_passage" => $id_lignebus_passage,
+        "id_arretbus" => $id_arretbus,
+        "heure_passage" => date("H:i:s",$heure),
+        ) );
+ 	  }
+	  
+    return true;
+  }
+  
+  function remove_passage ( $id_lignebus_passage )
+  {
+    new delete($this->dbrw, "pg_lignebus_passage",array("id_lignebus_passage" => $id_lignebus_passage));
+    new delete($this->dbrw, "pg_lignebus_passage_arretbus", array("id_lignebus_passage" => $id_lignebus_passage));
   }
   
 }
