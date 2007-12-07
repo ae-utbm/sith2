@@ -300,10 +300,17 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   /* Code + intitulé + crédits ECTS */
   $cts->add_title(1, $uv->code);
   $cts->add_paragraph("<center><i>\"".$uv->intitule."\"</i></center>");
-  $cts->add_title(4, "Objectifs");
-  $cts->add_paragraph($uv->objectifs);
-  $cts->add_title(4, "Programme");
-  $cts->add_paragraph($uv->programme);
+  
+  if (strlen($uv->objectifs) > 4)
+    {
+      $cts->add_title(4, "Objectifs");
+      $cts->add_paragraph($uv->objectifs);
+    }
+  if (strlen($uv->programme) > 4)
+    {
+      $cts->add_title(4, "Programme");
+      $cts->add_paragraph($uv->programme);
+    }
   $cts->add_paragraph("Cette UV équivaut à <b>".$uv->ects."</b> crédits ECTS");
 
   /* format horaire */
@@ -495,10 +502,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			     $uv->intitule);
       $edituv->add_text_area('objectifs',
 			     "Objectifs",
-			     $uv->intitule);
+			     $uv->objectifs);
       $edituv->add_text_area('programme',
 			     "Programme de l'UV",
-			     $uv->intitule);
+			     $uv->programme);
       $edituv->add_checkbox('cours',
 			    "Cours",
 			    $uv->cours == 1);
