@@ -40,7 +40,7 @@ class pgsite extends site
   
   function is_admin()
   {
-    return $site->user->is_in_group("root");  
+    return $this->user->is_in_group("root");  
   }
   
   
