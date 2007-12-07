@@ -49,7 +49,7 @@ if ( $site->is_admin() && isset($_REQUEST["action"]) )
   if ( $_REQUEST["action"] == "createreseaubus" ) 
   {
     $reseaubusparent = new reseaubus($site->db);
-    $reseaubusparent->load_by_id($_REQUEST["id_reseaubus_parent"]),
+    $reseaubusparent->load_by_id($_REQUEST["id_reseaubus_parent"]);
     $reseaubus->create ( $_REQUEST["nom"], $_REQUEST["siteweb"], $reseaubusparent->id );
   }
 }
