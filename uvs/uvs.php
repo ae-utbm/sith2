@@ -270,6 +270,8 @@ if (($site->user->is_in_group('gestion_ae'))
 
   $uv->modify($_REQUEST['name'],
 	      $_REQUEST['intitule'],
+	      $_REQUEST['objectifs'],
+	      $_REQUEST['programme'],
 	      $_REQUEST['cours'],
 	      $_REQUEST['td'],
 	      $_REQUEST['tp'],
@@ -298,6 +300,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   /* Code + intitulé + crédits ECTS */
   $cts->add_title(1, $uv->code);
   $cts->add_paragraph("<center><i>\"".$uv->intitule."\"</i></center>");
+  $cts->add_title(4, "Objectifs");
+  $cts->add_paragraph($uv->objectifs);
+  $cts->add_title(4, "Programme");
+  $cts->add_paragraph($uv->programme);
   $cts->add_paragraph("Cette UV équivaut à <b>".$uv->ects."</b> crédits ECTS");
 
   /* format horaire */
@@ -487,7 +493,12 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       $edituv->add_text_area('intitule',
 			     "Intitulé de l'UV",
 			     $uv->intitule);
-  
+      $edituv->add_text_area('objectifs',
+			     "Objectifs",
+			     $uv->intitule);
+      $edituv->add_text_area('programme',
+			     "Programme de l'UV",
+			     $uv->intitule);
       $edituv->add_checkbox('cours',
 			    "Cours",
 			    $uv->cours == 1);

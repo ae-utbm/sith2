@@ -1,5 +1,12 @@
 <?
+$topdir = "../";
+
+require_once($topdir. "include/site.inc.php");
+
 include("../include/extdb/xml.inc.php");
+
+$dbrw = new mysqlae('rw');
+
 
 $cts = file_get_contents("http://webct.utbm.fr/wct_files/Referentiel/GuideUv.xml");
 
@@ -52,7 +59,9 @@ foreach ($table as $array)
   echo $objs_uv . "\n";
   echo $prog_uv . "\n";
   echo "\n</pre>\n";
-  
+
+  update_prog_obj($code_uv, $objs_uv, $prog_uv);
+
 }
 
 
@@ -104,6 +113,8 @@ foreach ($table as $array)
   echo "\n</pre>";
   
 
+  update_prog_obj($code_uv, $objs_uv, $prog_uv);
+
 }
 
 // TC
@@ -153,6 +164,8 @@ foreach ($table as $array)
   echo "\n</pre>";
   
 
+  update_prog_obj($code_uv, $objs_uv, $prog_uv);
+
 }
 
 
@@ -201,6 +214,8 @@ foreach ($table as $array)
   echo $objs_uv . "\n";
   echo $prog_uv . "\n";
   echo "\n</pre>";
+
+  update_prog_obj($code_uv, $objs_uv, $prog_uv);
   
 }
 
@@ -249,6 +264,8 @@ foreach ($table as $array)
   echo $objs_uv . "\n";
   echo $prog_uv . "\n";
   echo "\n</pre>";
+
+  update_prog_obj($code_uv, $objs_uv, $prog_uv);
   
 }
 
@@ -258,7 +275,17 @@ echo "<h1>IMAP</h1>";
 echo "Les imaps, ca merde en xml ...\n";
 
   
+function update_prog_obj($code, $objs, $prog)
+{
+  if ($code == '')
+    return false;
 
+  new update($dbrw, array('objectifs_uv' => $objs,
+			  'programme_uv' => $prog),
+	     array('code_uv' => $code));
+
+  return true;
+}
 
 
 ?>

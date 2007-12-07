@@ -51,7 +51,7 @@ $uvcomm_utilite = array(
 			'0' => 'Inutile',
 			'1' => 'Pas très utile',
 			'2' => 'Utile',
-			'3' => 'Tres importante',
+			'3' => 'Très utile',
 			'4' => 'Indispensable');
 
 $uvcomm_interet = array('-1' => 'Non renseigné',
@@ -90,6 +90,8 @@ class uv extends stdentity
   
   var $code;
   var $intitule;
+  var $objectifs;
+  var $programme;
   var $ects;
 
   /* booléens indiquant si des cours / tds / tps sont dispensés dans
@@ -121,13 +123,15 @@ class uv extends stdentity
       {
 	$row = $req->get_row();
 	
-	$this->id       = $row['id_uv'];
-	$this->code     = $row['code_uv'];
-	$this->intitule = $row['intitule_uv'];
-	$this->ects     = $row['ects_uv'];
-	$this->cours    = $row['cours_uv'];
-	$this->td       = $row['td_uv'];
-	$this->tp       = $row['tp_uv'];
+	$this->id        = $row['id_uv'];
+	$this->code      = $row['code_uv'];
+	$this->intitule  = $row['intitule_uv'];
+	$this->objectifs = $row['objectifs_uv'];
+	$this->programme = $row['programme_uv'];
+	$this->ects      = $row['ects_uv'];
+	$this->cours     = $row['cours_uv'];
+	$this->td        = $row['td_uv'];
+	$this->tp        = $row['tp_uv'];
 	
 	$this->load_depts();
 	
@@ -155,6 +159,8 @@ class uv extends stdentity
 	$this->id       = $row['id_uv'];
 	$this->code     = $row['code_uv'];
 	$this->intitule = $row['intitule_uv'];
+	$this->objectifs = $row['objectifs_uv'];
+	$this->programme = $row['programme_uv'];
 	$this->ects     = $row['ects_uv'];
 	$this->cours    = $row['cours_uv'];
 	$this->td       = $row['td_uv'];
@@ -190,22 +196,26 @@ class uv extends stdentity
     $this->load_depts ();
   }
 
-  function modify($code_uv, $intitule, $c, $td, $tp, $ects, $depts)
+  function modify($code_uv, $intitule, $obj, $prog, $c, $td, $tp, $ects, $depts)
   {
     if ($this->id <= 0)
       return false;
 
-    $this->code     = $code_uv;
-    $this->intitule = $intitule;
-    $this->ects     = $ects;
-    $this->cours    = $c;
-    $this->td       = $td;
-    $this->tp       = $tp;
+    $this->code      = $code_uv;
+    $this->intitule  = $intitule;
+    $this->programme = $prog;
+    $this->objectifs = $obj
+    $this->ects      = $ects;
+    $this->cours     = $c;
+    $this->td        = $td;
+    $this->tp        = $tp;
     
     $req = new update ($this->dbrw,
 		       'edu_uv',
 		       array('code_uv' => $this->code,
 			     'intitule_uv' => $this->intitule,
+			     'objectifs_uv' => $this->objectifs,
+			     'programme_uv' => $this->programme,
 			     'cours_uv' => $this->cours,
 			     'td_uv' => $this->td,
 			     'tp_uv' => $this->tp,
