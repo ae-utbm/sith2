@@ -204,7 +204,7 @@ class uv extends stdentity
     $this->code      = $code_uv;
     $this->intitule  = $intitule;
     $this->programme = $prog;
-    $this->objectifs = $obj
+    $this->objectifs = $obj;
     $this->ects      = $ects;
     $this->cours     = $c;
     $this->td        = $td;
