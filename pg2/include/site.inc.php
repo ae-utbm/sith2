@@ -10,18 +10,32 @@ class pgsite extends site
   {
     $this->site();
     
-    
     $this->tab_array = array (
         array ("pg", "pg2/index.php", "Accueil"),
         array ("pgsearch", "pg2/search.php", "Recherche" ),
         array ("pgagenda", "pg2/agenda.php", "Agenda" ),
         array ("pgbplans", "pg2/bplans.php", "Bons plans" ),
         array ("pgbus",    "pg2/bus.php", "Bus" ),
+        array ("jobetu",   "jobetu/", "Job-étu" ),
         array ("retour","index.php","Site AE UTBM")
         );
+        
+    $this->add_css("themes/pg/css/site.css");        
+        
+  }
+  
+  function start_page ( $section, $title,$compact=false )
+  {
+    global $topdir;
+
+    interfaceweb::start_page($section,$title,$compact);
     
+    //$this->add_box("calendrier",new calendar($this->db));
+
+    $this->set_side_boxes("left",array("pg","connexion"),"pg_left");
     
-    
+    $this->add_box("pg", $this->get_petit_geni());
+    $this->add_box("connexion", $this->get_connection_contents());
   }
   
   function get_connection_contents ()
