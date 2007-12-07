@@ -277,6 +277,8 @@ echo "Les imaps, ca merde en xml ...\n";
   
 function update_prog_obj($code, $objs, $prog)
 {
+  global $dbrw;
+
   if ($code == '')
     return false;
 
@@ -284,7 +286,7 @@ function update_prog_obj($code, $objs, $prog)
 	     'edu_uv',
 	     array('objectifs_uv' => $objs,
 			  'programme_uv' => $prog),
-	     array('code_uv' => $code));
+	     array('code_uv' => $code), true);
 
   return true;
 }
