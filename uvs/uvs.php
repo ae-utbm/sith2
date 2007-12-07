@@ -304,12 +304,12 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   if (strlen($uv->objectifs) > 4)
     {
       $cts->add_title(4, "Objectifs");
-      $cts->add_paragraph($uv->objectifs);
+      $cts->add_paragraph(doku2xhtml($uv->objectifs));
     }
   if (strlen($uv->programme) > 4)
     {
       $cts->add_title(4, "Programme");
-      $cts->add_paragraph($uv->programme);
+      $cts->add_paragraph(doku2xhtml($uv->programme));
     }
   $cts->add_paragraph("Cette UV équivaut à <b>".$uv->ects."</b> crédits ECTS");
 
