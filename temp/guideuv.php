@@ -282,6 +282,15 @@ function update_prog_obj($code, $objs, $prog)
   if ($code == '')
     return false;
 
+  $objs = explode(" ", $objs);
+  unset($objs[0]);
+  $objs = implode(" ", $objs);
+
+  $prog = explode(" ", $prog);
+  unset($prog[0]);
+  $prog = implode(" ", $prog);
+
+
   new update($dbrw, 
 	     'edu_uv',
 	     array('objectifs_uv' => $objs,
