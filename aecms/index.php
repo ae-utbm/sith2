@@ -193,7 +193,7 @@ if ( $page->nom == CMS_PREFIX."home" && $site->config["home.news"] == 1 )
   $newscount = 0;
   
   if ( $site->config["home.excludenewssiteae"] == 1 )
-  $req = new requete($site->db,"SELECT COUNT(*) FROM nvl_nouvelles WHERE id_asso='".mysql_real_escape_string($site->asso->id)."' AND `modere_nvl`='1' AND asso_seule_nvl='1'");
+  $req = new requete($site->db,"SELECT COUNT(*) FROM nvl_nouvelles WHERE id_asso='".mysql_real_escape_string($site->asso->id)."' AND `modere_nvl`='1' AND id_canal='".NEWS_CANAL_AECMS."'");
   else
   $req = new requete($site->db,"SELECT COUNT(*) FROM nvl_nouvelles WHERE id_asso='".mysql_real_escape_string($site->asso->id)."' AND `modere_nvl`='1'");
   list($newscount) = $req->get_row();
@@ -216,7 +216,7 @@ if ( $page->nom == CMS_PREFIX."home" && $site->config["home.news"] == 1 )
   $st = $page*$npp;
   
   if ( $site->config["home.excludenewssiteae"] == 1 )
-  $req = new requete($site->db,"SELECT * FROM nvl_nouvelles WHERE id_asso='".mysql_real_escape_string($site->asso->id)."' AND `modere_nvl`='1' AND asso_seule_nvl='1' ".
+  $req = new requete($site->db,"SELECT * FROM nvl_nouvelles WHERE id_asso='".mysql_real_escape_string($site->asso->id)."' AND `modere_nvl`='1' AND id_canal='".NEWS_CANAL_AECMS."' ".
   "ORDER BY date_nvl DESC ".
   "LIMIT $st,$npp");
   else

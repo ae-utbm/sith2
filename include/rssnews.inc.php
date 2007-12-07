@@ -111,7 +111,7 @@ class rssfeednewshome extends rssfeednews
     $sql = new requete($this->db,"SELECT * FROM nvl_nouvelles " .
     		"INNER JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
     		"LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
-    		"WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND asso_seule_nvl='0' AND " .
+    		"WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
     		"NOW() > nvl_dates.date_debut_eve AND NOW() < nvl_dates.date_fin_eve");
     
     $this->output_news($sql,$ids);
@@ -119,7 +119,7 @@ class rssfeednewshome extends rssfeednews
     $sql = new requete($this->db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso,geopoint.* FROM nvl_nouvelles " .
     		"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
     		"LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
-    		"WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND asso_seule_nvl='0' AND " .
+    		"WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
     		"DATEDIFF(NOW(),date_nvl) < 14 " .
     		"LIMIT 3");
     		
@@ -132,7 +132,7 @@ class rssfeednewshome extends rssfeednews
     		"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
     		"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
     		"LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
-    		"WHERE (type_nvl='".NEWS_TYPE_EVENT."' "./*OR type_nvl='".NEWS_TYPE_HEBDO."'*/") AND  modere_nvl='1' AND asso_seule_nvl='0' AND " .
+    		"WHERE (type_nvl='".NEWS_TYPE_EVENT."' "./*OR type_nvl='".NEWS_TYPE_HEBDO."'*/") AND  modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
     		"NOW() < nvl_dates.date_fin_eve " .
     		"ORDER BY nvl_dates.date_debut_eve " .
     		"LIMIT 5");
@@ -144,7 +144,7 @@ class rssfeednewshome extends rssfeednews
     		"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
     		"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
     		"LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
-    		"WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND asso_seule_nvl='0' AND " .
+    		"WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
     		"nvl_dates.id_nouvelle NOT IN (".implode(",",$ids).") AND " .
     		"NOW() < nvl_dates.date_debut_eve " .
     		"ORDER BY nvl_dates.date_debut_eve " .

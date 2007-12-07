@@ -26,6 +26,7 @@ $GLOBALS['nosession'] = true;
 $topdir = "./";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/ical.inc.php");
+require_once($topdir. "include/entities/news.inc.php");
 
 $site = new site();
 
@@ -37,7 +38,7 @@ $events = new requete ($site->db,
   "LEFT JOIN geopoint ON (geopoint.id_geopoint=nvl_nouvelles.id_lieu) " .
   "WHERE `date_fin_eve` >= '" . date("Y-m-d",time()-(60*60*24*30)) ." 00:00:00' ".
   "AND `nvl_nouvelles`.`modere_nvl` > 0 ".
-  "AND `asso_seule_nvl`='0'");
+  "AND id_canal='".NEWS_CANAL_SITE."'");
 
 while ($row = $events->get_row ())
 {

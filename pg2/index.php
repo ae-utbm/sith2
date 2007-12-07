@@ -29,6 +29,12 @@ $site = new pgsite();
 $site->start_page("pg","Petit Géni 2.0");
   
   
+$cts = new contents("Bienvenue");
+
+
+$site->add_contents($cts);
+  
+  
 $site->end_page();
 
 ?>

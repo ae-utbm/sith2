@@ -42,6 +42,58 @@ define("NEWS_TYPE_APPEL",3);
  * @}
  */
 
+
+/**
+ * Canal de nouvelles
+ * Une news appartient à un canal de nouvelles.
+ * Le canal 1, NEWS_CANAL_SITE, corresponds à toutes les nouvelles du site.
+ * Le canal 2, NEWS_CANAL_AECMS, corresponds à toutes les nouvelles spécifiques à AECMS.
+ */
+class canalnouvelles extends stdentity
+{
+  /** Nom du canal */
+  var $nom;
+  
+  /** Association/Club administrant le canal (null si moderateur_site) */
+  var $id_asso;
+
+  function load_by_id ( $id )
+  {
+    $req = new requete($this->db, "SELECT * FROM `nvl_canal`
+				WHERE `id_canal` = '" . mysql_real_escape_string($id) . "'
+				LIMIT 1");
+
+    if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
+  }
+
+  function _load ( $row )
+  {
+    $this->id = $row['id_canal'];
+    $this->nom = $row['nom_canal'];
+    $this->id_asso = $row['id_asso'];
+  }
+  
+  
+  function is_admin(&$user)
+  {
+    if ( is_null($this->id_asso) )
+      return $user->is_in_group("moderateur_site");
+      
+    return $user->is_asso_role($this->id_asso,2);
+  }
+  
+}
+
+define("NEWS_CANAL_SITE",1);
+define("NEWS_CANAL_AECMS",2);
+
 /**
  * Nouvelle du site
  */
@@ -71,8 +123,8 @@ class nouvelle extends stdentity
   /** Utilisateur ayant modéré la nouvelle */
   var $id_utilisateur_moderateur;
   
-  /** Afficher seulement dans AECMS : true sur AECMS seulement, false sur le site général et AECMS */
-  var $asso_seule;
+  /** Canal au quel la news appartient */
+  var $id_canal;
   
   /** Lieu concerné par la nouvelle */
   var $id_lieu;
@@ -117,8 +169,8 @@ class nouvelle extends stdentity
     $this->modere		= $row['modere_nvl'];
     $this->id_utilisateur_moderateur	= $row['id_utilisateur_moderateur'];
     $this->type	= $row['type_nvl'];
-    $this->asso_seule = $row['asso_seule_nvl'];
     $this->id_lieu = $row['id_lieu'];
+    $this->id_canal = $row['id_canal'];
   }
 
   /** Construit un stdcontents avec le contenu de la nouvelle
@@ -303,15 +355,15 @@ class nouvelle extends stdentity
 		    $resume,
 		    $contenu,
 		    $type=NEWS_TYPE_EVENT,
-		    $asso_seule=false,
-		    $id_lieu=NULL)
+		    $id_lieu=NULL,
+		    $id_canal=NEWS_CANAL_SITE)
   {
     if (!$this->dbrw)
       return false;
       
-    $this->asso_seule = $asso_seule;
     $this->id_lieu = $id_lieu;
-
+    $this->id_canal = $id_canal;
+    
     $req = new insert ($this->dbrw,
 		       "nvl_nouvelles",
 		       array ("id_utilisateur" => $id_utilisateur,
@@ -323,8 +375,9 @@ class nouvelle extends stdentity
 			      "modere_nvl" =>  false,
 			      "id_utilisateur_moderateur"=>null,
 			      "type_nvl"=>$type,
-			      "asso_seule_nvl" => $this->asso_seule,
-			      "id_lieu"=>$this->id_lieu));
+			      "id_lieu"=>$this->id_lieu,
+			      "id_canal" => $this->id_canal
+			      ));
 			      
 		if ( $req )
 			$this->id = $req->get_id();
@@ -376,8 +429,8 @@ class nouvelle extends stdentity
 		    $modere,
 		    $id_utilisateur_moderateur,
 		    $type=NEWS_TYPE_EVENT,
-		    $asso_seule=0,
-		    $id_lieu=NULL)
+		    $id_lieu=NULL,
+		    $id_canal=NEWS_CANAL_SITE)
 	{
 		if (!$this->dbrw)
 			return false;
@@ -389,9 +442,9 @@ class nouvelle extends stdentity
 		$this->id_asso = $id_asso;
 		$this->type = $type;
 		$this->id_utilisateur_moderateur = $id_utilisateur_moderateur;
-    $this->asso_seule = $asso_seule;
     $this->id_lieu = $id_lieu;
-
+    $this->id_canal = $id_canal;
+    
 		$req = new update ($this->dbrw,
 		       "nvl_nouvelles",
 		       array (
@@ -402,8 +455,8 @@ class nouvelle extends stdentity
 			      "modere_nvl" =>  $modere,
 			      "id_utilisateur_moderateur"=>$id_utilisateur_moderateur,
 			      "type_nvl"=>$type,
-			      "asso_seule_nvl" => $this->asso_seule,
-			      "id_lieu"=>$this->id_lieu),
+			      "id_lieu"=>$this->id_lieu,
+			      "id_canal" => $this->id_canal),
 			   array(
 			   	"id_nouvelle"=>$this->id
 			   	));

@@ -95,7 +95,7 @@ elseif ( ($_REQUEST["action"] == "save") && $can_edit )
                      $_REQUEST['title'],
                      $_REQUEST['resume'],
                      $_REQUEST['content'],
-                     false,null,$_REQUEST["type"],false,$lieu->id);
+                     false,null,$_REQUEST["type"],$lieu->id,NEWS_CANAL_SITE);
     $news->set_tags($_REQUEST["tags"]);
   }
 }
@@ -302,7 +302,7 @@ if ( $suitable && isset($_REQUEST["submit"]) )
                   $_REQUEST['title'],
                   $_REQUEST['resume'],
                   $_REQUEST['content'],
-                  $_REQUEST['type'],false,$lieu->id);
+                  $_REQUEST['type'],$lieu->id,NEWS_CANAL_SITE);
                   
   $news->set_tags($_REQUEST["tags"]);
   

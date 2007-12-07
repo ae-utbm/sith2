@@ -30,6 +30,8 @@
  * 02111-1307, USA.
  */
 
+require_once($topdir."include/entities/news.inc.php");
+
 /** Classe d'affichage du calendrier */
 class calendar extends stdcontents
 {
@@ -197,7 +199,7 @@ class calendar extends stdcontents
 			"AND `nvl_dates`.`date_fin_eve` >= '" . mysql_escape_string($date) ." 06:00:00' ";
 		
 		if ( is_null($this->id_asso) )
-		  $sql .= "AND asso_seule_nvl='0' ";
+		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
 		else
 		  $sql .= "AND id_asso='".mysql_real_escape_string($this->id_asso)."' ";
 

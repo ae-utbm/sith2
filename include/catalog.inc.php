@@ -50,10 +50,6 @@ $GLOBALS["entitiescatalog"] = array (
 	"sitebat" 		=> array ( "id_site", "nom_site", "site.png", "sitebat.php" ),
 	"salle" 			=> array ( "id_salle", "nom_salle", "salle.png", "salle.php" ),
 	"batiment" 		=> array ( "id_batiment", "nom_bat", "batiment.png", "batiment.php" ),
-	"entreprise" 	=> array ( "id_ent", "nom_entreprise", "entreprise.png", "entreprise.php", "entreprise","entreprise.inc.php" ),
-	"classeur_compta"=> array ( "id_classeur", "nom_classeur", "classeur.png", "compta/classeur.php"),
-	"compte_asso"    => array ( "id_cptasso", "nom_cptasso","compte.png","compta/cptasso.php"),
-	"budget"			=> array ( "id_budget","nom_budget","budget.png","compta/budget.php"),
 	"objtype"		=> array ( "id_objtype","nom_objtype","objtype.png","objtype.php", "inv_type_objets" ),
 	"objet"			=> array ( "id_objet","nom_objet","objet.png","objet.php"),
 	"reservation"	=> array ( "id_salres","id_salres","reservation.png","reservation.php"),
@@ -71,28 +67,40 @@ $GLOBALS["entitiescatalog"] = array (
 	"jeu"			=> array ( "id_jeu", "nom_jeu", "jeu.png", "biblio/"),
 	"sondage"		=> array ( "id_sondage","question","sondage.png","sondage.php"),
 	"comptoir"		=> array ( "id_comptoir", "nom_cpt", "misc.png", false, "cpt_comptoir" ),
-	"compte_bancaire"=> array ( "id_cptbc","nom_cptbc","cptbc.png","compta/cptbc.php"),
 	"dfile"			=> array ( "id_file", "titre_file", "file.png", "d.php",false,"files.inc.php","d_file_tag"),
 	"dfolder"		=> array ( "id_folder", "titre_folder", "folder.png", "d.php",false,"folder.inc.php"),
-	"operation" => array( "id_op", "id_op", "file.png", "compta/classeur.php"),
 	
+	// Forum
 	"forum" => array( "id_forum", "titre_forum", "forum.png", "forum2/"),
 	"sujet" => array( "id_sujet", "titre_sujet", "sujet.png", "forum2/"),
 	"message" => array( "id_message", "id_message", "message.png", "forum2/"),
 	
+	// Localisation
 	"pays" => array( "id_pays", "nom_pays", "pays.png", "loc.php", "loc_pays","pays.inc.php"),
 	"ville" => array( "id_ville", "nom_ville", "ville.png", "loc.php", "loc_ville","ville.inc.php"),
 	"lieu" => array( "id_lieu", "nom_geopoint", "lieu.png", "loc.php", "loc_lieu","lieu.inc.php"),
 	
+	
+	// Compta : Entreprises
+	"entreprise" 	=> array ( "id_ent", "nom_entreprise", "entreprise.png", "entreprise.php", "entreprise","entreprise.inc.php" ),
 	"secteur" => array( "id_secteur", "nom_secteur", "lieu.png", "entreprise.php", "secteur"),
 	
+	// Compta : Classeurs
+	"classeur_compta"=> array ( "id_classeur", "nom_classeur", "classeur.png", "compta/classeur.php"),
+	"compte_asso"    => array ( "id_cptasso", "nom_cptasso","compte.png","compta/cptasso.php"),
+	"budget"			=> array ( "id_budget","nom_budget","budget.png","compta/budget.php"),
+	"compte_bancaire"=> array ( "id_cptbc","nom_cptbc","cptbc.png","compta/cptbc.php"),
+	"operation" => array( "id_op", "id_op", "file.png", "compta/classeur.php"),
 	"efact"=>array("id_efact","titre_facture","file.png","compta/efact.php","cpta_facture","efact.inc.php"),
 	"notefrais"=>array("id_notefrais","id_notefrais","file.png","compta/notefrais.php","cpta_notefrais","notefrais.inc.php"),
 	
+	// Pedagogie
 	"uv" 			=> array ( "id_uv", "code_uv", "misc.png", "uvs/uvs.php", "edu_uv", "uv.inc.php" ),
 	
+	// Nouvelles
 	"nouvelle"=>array("id_nouvelle", "titre_nvl", "misc.png", "news.php", "nvl_nouvelles", "news.inc.php", "nvl_nouvelles_tag"),
-
+	"canalnouvelles"=>array("id_canal", "nom_canal", "misc.png", "news.php", "nvl_canal", "news.inc.php"),
+	
   // Petit Géni 2 : Reseaux de bus
 	"reseaubus"=>array("id_reseaubus", "nom_reseaubus", "misc.png", "pg2/bus.php", "pg_reseaubus", "bus.inc.php" ),
 	"lignebus"=>array("id_lignebus", "nom_lignebus", "misc.png", "pg2/bus.php", "pg_lignebus", "bus.inc.php" ),

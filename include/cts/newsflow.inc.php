@@ -45,7 +45,7 @@ class newslist extends itemlist
 		
 		$sql = new requete($db,"SELECT * FROM nvl_nouvelles " .
 				"INNER JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
-				"WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND asso_seule_nvl='0' AND " .
+				"WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
 				"NOW() > nvl_dates.date_debut_eve AND NOW() < nvl_dates.date_fin_eve");
 		
 		while ( $row = $sql->get_row() )
@@ -62,7 +62,7 @@ class newslist extends itemlist
 		
 		$sql = new requete($db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso FROM nvl_nouvelles " .
 				"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-				"WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND asso_seule_nvl='0' AND " .
+				"WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
 				"DATEDIFF(NOW(),date_nvl) < 14 " .
 				"LIMIT 3");
 				
@@ -84,7 +84,7 @@ class newslist extends itemlist
 				"FROM nvl_dates " .
 				"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
 				"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-				"WHERE (type_nvl='".NEWS_TYPE_EVENT."' "./*OR type_nvl='".NEWS_TYPE_HEBDO."'*/") AND  modere_nvl='1' AND asso_seule_nvl='0' AND " .
+				"WHERE (type_nvl='".NEWS_TYPE_EVENT."' "./*OR type_nvl='".NEWS_TYPE_HEBDO."'*/") AND  modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
 				"NOW() < nvl_dates.date_fin_eve " .
 				"ORDER BY nvl_dates.date_debut_eve " .
 				"LIMIT 5");
@@ -107,7 +107,7 @@ class newslist extends itemlist
 				"FROM nvl_dates " .
 				"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
 				"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-				"WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND asso_seule_nvl='0' AND " .
+				"WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
 				"nvl_dates.id_nouvelle NOT IN (".implode(",",$ids).") AND " .
 				"NOW() < nvl_dates.date_debut_eve " .
 				"ORDER BY nvl_dates.date_debut_eve " .
@@ -306,14 +306,14 @@ class newsfront extends newslister
   	
   	$sql = new requete($db,"SELECT * FROM nvl_nouvelles " .
   			"INNER JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
-  			"WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND asso_seule_nvl='0' AND " .
+  			"WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
   			"NOW() > nvl_dates.date_debut_eve AND NOW() < nvl_dates.date_fin_eve");
   					
     $this->appel_list($sql);
   	
   	$sql = new requete($db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso FROM nvl_nouvelles " .
   			"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-  			"WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND asso_seule_nvl='0' AND " .
+  			"WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
   			"DATEDIFF(NOW(),date_nvl) < 14 " .
   			"LIMIT 3");
   			
@@ -326,7 +326,7 @@ class newsfront extends newslister
   			"FROM nvl_dates " .
   			"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
   			"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-  			"WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND asso_seule_nvl='0' AND " .
+  			"WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
   			"NOW() < nvl_dates.date_fin_eve " .
   			"AND DATEDIFF(nvl_dates.date_debut_eve,NOW()) < 14 " .
   			"ORDER BY nvl_dates.date_debut_eve " .
@@ -339,7 +339,7 @@ class newsfront extends newslister
   			"FROM nvl_dates " .
   			"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
   			"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-  			"WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND asso_seule_nvl='0' AND " .
+  			"WHERE type_nvl='".NEWS_TYPE_EVENT."' AND  modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
   			"nvl_dates.id_nouvelle NOT IN (".implode(",",$this->ids).") AND " .
   			"NOW() < nvl_dates.date_debut_eve " .
   			"ORDER BY nvl_dates.date_debut_eve " .
@@ -372,7 +372,7 @@ class newsday extends newslister
   			"AND `nvl_dates`.`date_fin_eve` >= '" . date("Y-m-d",$day) ." 06:00:00' ";
 
 		if ( is_null($id_asso) )
-		  $sql .= "AND asso_seule_nvl='0' ";
+		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
 		else
 		  $sql .= "AND nvl_nouvelles.id_asso='".mysql_real_escape_string($id_asso)."' ";
 

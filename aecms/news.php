@@ -78,7 +78,11 @@ elseif ( ($_REQUEST["action"] == "save") && $can_edit )
                      $_REQUEST['title'],
                      $_REQUEST['resume'],
                      $_REQUEST['content'],
-                     false,null,$_REQUEST["type"],!isset($_REQUEST['non_asso_seule']),$lieu->id);
+                     false,
+                     null,
+                     $_REQUEST["type"],
+                     $lieu->id, 
+                     !isset($_REQUEST['non_asso_seule']) ? NEWS_CANAL_AECMS : NEWS_CANAL_SITE);
     $news->set_tags($_REQUEST["tags"]);
   }
 }
@@ -102,7 +106,7 @@ if ( $_REQUEST["page"]  == "edit" && $can_edit )
                           ,$news->type);
 
   $frm->add_text_field("title", "Titre",$news->titre,true);
-  $frm->add_checkbox ( "non_asso_seule", "Publier aussi sur le site de l'AE (sera soumis à modération)", !$news->asso_seule);
+  $frm->add_checkbox ( "non_asso_seule", "Publier aussi sur le site de l'AE (sera soumis à modération)", $news->id_canal==NEWS_CANAL_SITE);
   $frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",$news->id_lieu,true);
   $frm->add_text_field("tags", "Tags",$news->get_tags());
   $frm->add_text_area ("resume","Resume",$news->resume);
@@ -265,7 +269,8 @@ if ( $suitable && isset($_REQUEST["submit"]) )
                   $_REQUEST['resume'],
                   $_REQUEST['content'],
                   $_REQUEST['type'],
-                  !isset($_REQUEST['non_asso_seule']),$lieu->id);
+                  $lieu->id,
+                  !isset($_REQUEST['non_asso_seule']) ? NEWS_CANAL_AECMS : NEWS_CANAL_SITE );
 
   $news->set_tags($_REQUEST["tags"]);
 
