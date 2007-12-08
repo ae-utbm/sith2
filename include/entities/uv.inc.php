@@ -549,8 +549,6 @@ function get_creds_cts($id_etu, $db)
                                    `edu_uv_obtention`
                            USING (`id_uv`)
                            WHERE
-                                 `edu_uv_obtention`.`note_obtention` IN ('A', 'B', 'C', 'D', 'E')
-                           AND
                                  `edu_uv_obtention`.`id_etudiant` = ".intval($id_etu) . 
 		         " GROUP BY
                                  `code_uv`
@@ -560,12 +558,38 @@ function get_creds_cts($id_etu, $db)
   
   $cts = new contents("Détails des crédits obtenus");
 
-  $cts->add(new sqltable('details_uv', "", $req, "./index.php", "id_uv",
-			 array("code_uv" => "Code de l'UV", 
-			       "intitule_uv" => "Intitulé de l'UV", 
-			       "note_obtention"=> "Note d'obtention",
-			       "semestre_obtention" => "Semestre d'obtention",
-			       "ects_uv"     => "Crédits ECTS obtenus"), array (), array()));
+
+  if ($req->lines > 0)
+    {
+      $totcreds = 0;
+
+      /* on découpe par semestre */
+      while ($rs = $req->get_row())
+	{
+	  $stats_by_sem[$rs['semestre_obtention']][] = $rs;
+	  if (($rs['note_obtention'] == 'F') || ($rs['note_obtention'] == 'Fx'))
+	    continue;
+
+	  $totcreds += $rs['ects_uv'];
+	}
+      foreach ($stats_by_sem as $key => $semestre)
+	{
+	  $cts->add_title(2, "Semestre " . $key);
+	  $cts->add(new sqltable('details_uv', "", $semestre, "./index.php", "id_uv",
+				 array("code_uv" => "Code de l'UV", 
+				       "intitule_uv" => "Intitulé de l'UV", 
+				       "note_obtention"=> "Note d'obtention",
+				       "ects_uv"     => "Crédits ECTS obtenus"), array (), array()));
+	}
+      if ($totcreds > 0)
+	{
+	  $cts->add_title(2, "Récapitulatif");
+	  $cts->add_paragraph("<b>".$totcreds . 
+			      " crédits ECTS</b> obtenus au long de votre scolarité.");
+      }
+    }
+
+
   
 
   $cts->add_paragraph("<br/>");
