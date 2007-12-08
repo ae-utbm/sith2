@@ -453,7 +453,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 					     'Fx' => 'Insuffisant : Fx',
 					     'F'  => 'Insuffisant : F'), NULL);
 
-	  $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)');
+	  $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)', null, 80, 20);
 	  $commform->add_select_field('comm_interest', 
 				      'Intéret de l\'UV (pour un ingénieur)', 
 				      $uvcomm_interet,
