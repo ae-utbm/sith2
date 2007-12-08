@@ -43,6 +43,7 @@ $cts->add_paragraph("Bienvenue sur la partie Pédagogie du site de l'AE");
 
 if ($site->user->id > 0)
 {
+  $cts->add_title(1, "Mon parcours pédagogique");
   $cts->add(get_creds_cts($site->user->id, $site->db));
 }
 

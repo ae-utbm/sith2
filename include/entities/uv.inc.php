@@ -529,7 +529,7 @@ function get_creds_cts($id_etu, $db)
 			 array("code_uv" => "Code de l'UV", 
 			       "intitule_uv" => "Intitulé de l'UV", 
 			       "semestre_grp"=> "Semestre d'obtention", 
-			       "ects_uv"     => "Crédits ECTS obtenus"), array ()));
+			       "ects_uv"     => "Crédits ECTS obtenus"), array (), array()));
   return $cts;
 }
 
