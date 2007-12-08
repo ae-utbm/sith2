@@ -391,6 +391,45 @@ class frm_calendar extends calendar
 		
 		return $this->buffer;
 	}
+	
+function day ($year, $month, $day)
+	{
+		global $topdir,$wwwtopdir;
+		
+				
+		$style = "day";
+		
+		/* on construit une date mysql */
+		$date = $this->sql_date(mktime(0, 0, 0, $month, $day, $year));
+		
+		/* le jour suivant */
+		$date2 = $this->sql_date(mktime(0, 0, 0, $month, $day + 1, $year));
+		
+		/* Si oui, on change le style de la case, et on ajoute l'évenement */
+		if ($event->lines > 0)
+		{
+			$idx=3;
+			
+			
+			$style .= " event$idx";		  
+		  
+		}
+		
+		/* Si le jour demandé est aujourd'hui, on active la case */
+		if ($date == $this->sql_date (time()))
+		$style .= " active";
+		
+		/* On affiche la case */ 
+		if($event->lines > 0)
+		{
+			$this->buffer .= "<td class=\"$style\"$js><a href=\"" . $wwwtopdir . "events.php?day=" . $date . "\">" . $day . "</a></td>";
+		}
+		else
+		{
+			$this->buffer .= "<td class=\"$style\"$js>" . $day . "</td>";
+		}
+	}
+	
 }
 
 ?>
