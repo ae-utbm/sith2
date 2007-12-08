@@ -128,8 +128,7 @@ if (isset($_REQUEST['comm_mod_sbmt']))
 
   $cts = new contents("Modification de commentaire");
 
-  if (($comm->is_valid()) 
-      && ($comm->id_commentateur == $site->user->id))
+  if ($comm->id_commentateur == $site->user->id)
     {
       $ret = $comm->modify($_REQUEST['comm_comm'],
 			   $_REQUEST['comm_obtention'],
