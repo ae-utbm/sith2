@@ -43,7 +43,7 @@ $cts->add_paragraph("Bienvenue sur la partie Pédagogie du site de l'AE");
 
 if ($site->user->id > 0)
 {
-  $cts->add(get_creds_ects($site->user->id, $site->db));
+  $cts->add(get_creds_cts($site->user->id, $site->db));
 }
 
 if ($site->user->utbm)
