@@ -140,7 +140,7 @@ else
 	"Emploi du temps du semestre ".$rs['semestre_grp'].
 	"</a> | <a href=\"".$topdir."uvs/edt_ical.php?semestre=".$rs['semestre_grp']."&id=".$site->user->id."\">iCal</a> | ".
 	"<a href=\"./edit.php?semestre=".$rs['semestre_grp']."\">Editer</a> | ".
-	"<a href=\"./edt.php?delete&semestre=".$rs['semestre_grp']."\">Supprimer</a>";
+	"<a href=\"\" onClick=\"javascript:if(confirm('Etes vous sûr de souhaiter supprimer cet emploi du temps ?')) window.location = './edt.php?delete&semestre=".$rs['semestre_grp']."'\">Supprimer</a>";
     }
   $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
   $cts->add($itemlst);
