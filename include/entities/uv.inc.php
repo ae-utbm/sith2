@@ -532,7 +532,7 @@ function get_creds_cts($id_etu, $db)
 			       "ects_uv"     => "Crédits ECTS obtenus"), array (), array()));
   
 
-  if ($sql->lines > 0)
+  if ($req->lines > 0)
     {
       $totects = 0;
       while ($line = $req->get_row)
@@ -542,7 +542,7 @@ function get_creds_cts($id_etu, $db)
 
       $cts->add_paragraph("Total des crédits ECTS obtenus : ".
 			  "<b>$totects</b> crédits");
-
+      
     }
 
   return $cts;
