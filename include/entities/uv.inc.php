@@ -572,14 +572,35 @@ function get_creds_cts($id_etu, $db)
 
 	  $totcreds += $rs['ects_uv'];
 	}
-      foreach ($stats_by_sem as $key => $semestre)
+
+      /* on trie */
+      foreach ($stats_by_sem as $key =>$uvsemestre)
+	{
+	  $ap = substr($key, 0, 1);
+	  $annee = substr($key, 1, 2);
+	  
+	  /* semestre d'automne, on regarde s'il n'y a pas un semestre de printemps avant de dispo */
+	  if ($ap == 'A')
+	    {
+	      if isset($stats_by_sem['P' . $annee])
+		{
+		  $stats_by_sem_sorted['P' . $annee] = $stats_by_sem['P' . $annee];
+		}
+	      $stats_by_sem_sorted["A" . $annee] = $uvsemestre;
+	    }
+	  /* sinon, on ajoute le semestre normal */
+	  else
+	    $stats_by_sem_sorted['P' . $annee] = $uvsemestre;
+	}
+
+      foreach ($stats_by_sem_sorted as $key => $semestre)
 	{
 	  $cts->add_title(2, "Semestre " . $key);
 	  $cts->add(new sqltable('details_uv', "", $semestre, "./index.php", "id_uv",
 				 array("code_uv" => "Code de l'UV", 
 				       "intitule_uv" => "Intitulé de l'UV", 
 				       "note_obtention"=> "Note d'obtention",
-				       "ects_uv"     => "Crédits ECTS obtenus"), array (), array()));
+				       "ects_uv"     => "Crédits ECTS"), array (), array()));
 	}
       if ($totcreds > 0)
 	{
