@@ -22,3 +22,11 @@ function closecal()
 
 	return true;
 }
+
+function return_val(target_id, value)
+{
+	target = document.getElementById(target_id);
+	target.value = value;
+	closecal();
+	return true;
+}

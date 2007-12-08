@@ -410,7 +410,7 @@ function day ($year, $month, $day)
 		if ($date == $this->sql_date (time()))
 		$style .= " active";
 
-		$js = "onclick=\"alert($day + '/' + $month + '/' + $year + ' 20:00');\"";
+		$js = "onclick=\"return_val('input_1', $day + '/' + $month + '/' + $year + ' 20:00');\"";
 		
 		$this->buffer .= "<td class=\"$style\" style=\"cursor: pointer;\" $js >" . $day . "</td>";
 	}
