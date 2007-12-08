@@ -386,7 +386,20 @@ class uvcomment extends stdentity
  
 	$this->id_uv           = $row['id_uv'];
 	$this->id_commentateur = $row['id_utilisateur'];
-	$this->note_obtention  = $row['note_obtention_uv'];
+	
+	$req2 = new requete($this->db, "SELECT * FROM `edu_uv_obtention`
+             WHERE `id_utilisateur` = ".intval($this->id_commentateur).
+			    " AND `id_uv` = ".intval($this->id_uv) .
+			    " LIMIT 1");
+	/* Note : TODO pour les gens qui ont redoublé,
+	 * on fait quoi ? l'utilisation des semestres
+	 * n'est pas optimal pour "trier" en SQL
+	 */
+	if ($req2->lines == 1)
+	  {
+	    $row2 = $req2->get_row();
+	    $this->note_obtention  = $row2['note_obtention'];
+	  }
 
 	$this->interet         = $row['interet_uv'];
 	$this->utilite         = $row['utilite_uv'];
@@ -412,6 +425,8 @@ class uvcomment extends stdentity
 		  $travail = 3,
 		  $qualite = 3)
   {
+
+    /* Champ `edu_uv_comment`.`obtention_uv` DEPRECIE ! */
     $sql = new update($this->dbrw,
 		      'edu_uv_comments',
 		      array('note_obtention_uv' => $note_obtention,
@@ -424,7 +439,15 @@ class uvcomment extends stdentity
 			    'date_commentaire' => date("Y-m-d H:i:s")),
 		      array ("id_comment" => $this->id));
     
-    return ($sql->lines == 1);
+
+    $sql2 = new update($this->dbrw,
+		       'edu_uv_obtention',
+		       array('note_obtention_uv' => $note_obtention),
+		       array('id_uv' => $this->id_uv,
+			     'id_utilisateur' => $this->id_commentateur));
+
+
+    return (($sql->lines == 1) && ($sql2->lines == 1));
   }
 
   function create($id_uv,
@@ -451,7 +474,13 @@ class uvcomment extends stdentity
 			     'date_commentaire' => date("Y-m-d H:i:s"),
 			     'state_comment' => 0));
 
-    if ($sql->lines <= 0)
+    $sql2 = new insert($this->dbrw,
+		       'edu_uv_obtention',
+		       array ('id_uv' => $id_uv,
+			      'id_etudiant' => $id_commentateur,
+			      'note_obtention_uv' => $note_obtention));
+		       
+    if (($sql->lines <= 0) || ($sql2->lines <= 0))
       return false;
     else
       $this->load_by_id($sql->get_id());
