@@ -146,8 +146,9 @@ if (isset($_REQUEST['comm_mod_sbmt']))
 			    ' du commentaire</b>');
     }
   else
-    error_403();
-
+    {
+      $site->error_forbidden();
+    }
   $site->add_contents($cts);
   $_id_uv = $comm->id_uv;
 
@@ -166,7 +167,7 @@ if ($_REQUEST['action'] == 'editcomm')
       $commcts = new contents("Modification de votre commentaire");
       $commform = new form('editcomm',
 			   "uvs.php?action=postmodifcomm&id=".$comm->id.
-			   "$id_uv".$comm->id_uv,
+			   "&id_uv=".$comm->id_uv,
 			   true,
 			   "post",
 			   "Modification d'un commentaire");
@@ -184,7 +185,7 @@ if ($_REQUEST['action'] == 'editcomm')
 
       $commform->add_text_area('comm_comm',
 			       'Commentaire (syntaxe Doku)',
-			       $comm->comment);
+			       $comm->comment, 80, 20);
       $commform->add_select_field('comm_interest', 
 				  'Intéret de l\'UV (pour un ingénieur)', 
 				  $uvcomm_interet,
