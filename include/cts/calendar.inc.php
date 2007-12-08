@@ -294,6 +294,103 @@ class calendar extends stdcontents
 
 class frm_calendar extends calendar
 {
+	function html_render()
+	{
+
+		global $topdir,$wwwtopdir;
+		
+		/* On extrait le jour, le mois, l'année et le nombre du jours du
+		* mois courant a partir du timestamp */
+		$day = date("j", $this->date);
+		$month = date("n", $this->date);
+		$year = date("Y", $this->date);
+		$days = date("t", $this->date);
+		
+	  $this->buffer = "<div class=\"closecal\" onclick=\"closecal();\" >X</div>";
+		$this->buffer .= "<div class=\"calendarhead\">\n";
+		$this->buffer .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"99%\">\n";
+		
+		$prevmonth = $month - 1;
+		$nextmonth = $month + 1;
+		
+		if ($prevmonth < 10)
+			$prevmonth = "0" . $prevmonth;
+			
+		if ($nextmonth < 10)
+			$nextmonth = "0" . $nextmonth;
+		
+		$prevdate = $year . "-" . $prevmonth . "-" . $day;
+		$nextdate = $year . "-" . $nextmonth . "-" . $day;
+		
+		if ($month == 1)
+			$prevdate = $year-1 . "-" . "12" . "-" . $day;
+			
+		if ($month == 12)
+			$nextdate = $year+1 . "-" . "1"  . "-" . $day;
+		
+		$this->buffer .= "<tr>\n";
+		$this->buffer .= "<td class=\"month\"><a href=\"?caldate=$prevdate\" onclick=\"return !openInContents('calendar','".$wwwtopdir."temp/little_calendar2.php','get_cal&amp;caldate=$prevdate');\">&laquo;</a></td>\n";
+		$this->buffer .= "<td class=\"month\" colspan=\"5\">" . $this->months[$month-1] . " " . $year . "</td>\n";
+		$this->buffer .= "<td class=\"month\"><a href=\"?caldate=$nextdate\" onclick=\"return !openInContents('calendar','".$wwwtopdir."temp/little_calendar2.php','get_cal&amp;caldate=$nextdate');\">&raquo;</a></td>\n";
+		$this->buffer .= "</tr>\n";
+		
+		/* Affichage des jours de la semaine */
+		$this->buffer .= "<tr>";
+		foreach ($this->weekdays as $day)
+			$this->buffer .= "<td class=\"weekday\">$day</td>";
+		$this->buffer .= "</tr>\n";
+		
+		$this->buffer .= "</table>\n";
+		$this->buffer .= "</div>\n";
+		
+		/* Partie principale du calendrier : les jours du mois */
+		$this->buffer .= "<div class=\"calendar\">\n";
+		$this->buffer .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"99%\">\n";
+		
+		/* On cherche le premier jour du mois dans la semaine */
+		$first = date("w", mktime(0, 0, 0, $month, 1, $year)) - 1;
+		
+		if($first < 0)
+		$first += 7;
+		
+		$current_day = 0;
+		
+		/* La première semaine */
+		$this->buffer .= "<tr>";
+		for ($i=0 ; $i<$first ; $i++)
+			$this->buffer .= "<td class=\"day\"></td>";
+		for ($i=0 ; $i< 7-$first ; $i++)
+			$this->day ($year, $month, ++$current_day);
+		$this->buffer .= "</tr>\n";
+		
+		/* Les autres jours du mois */
+		while (($days - $current_day > 0) &&
+		($days - $current_day > 6))
+		{
+			$this->buffer .= "<tr>";
+			for ($i=0 ; $i < 7 ; $i++)
+				$this->day ($year, $month, ++$current_day);
+			$this->buffer .= "</tr>\n";
+		}
+		
+		/* last week */
+		$this->buffer .= "<tr>";
+		
+		for ($i=$current_day ; $i < $days ; $i++)
+			$this->day ($year, $month, ++$current_day);
+			
+		for ($j=0 ; $j < 7-$i ; $j++)
+			$this->buffer .= "<td class=\"day\"></td>";
+			
+		$this->buffer .= "</tr>\n";
+		$this->buffer .= "</table>\n";
+		
+		/* On affiche les evenements */
+		$this->buffer .= $this->events;
+		$this->buffer .= "</div>\n";
+		
+		return $this->buffer;
+	}
 }
 
 ?>
