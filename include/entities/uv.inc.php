@@ -478,7 +478,7 @@ class uvcomment extends stdentity
 		       'edu_uv_obtention',
 		       array ('id_uv' => $id_uv,
 			      'id_etudiant' => $id_commentateur,
-			      'note_obtention_uv' => $note_obtention));
+			      'note_obtention' => $note_obtention));
 		       
     if (($sql->lines <= 0) || ($sql2->lines <= 0))
       return false;
