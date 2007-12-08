@@ -574,47 +574,58 @@ function get_creds_cts($id_etu, $db)
 	}
 
       /* on trie */
-      foreach ($stats_by_sem as $key =>$uvsemestre)
+      if (count($stats_by_sem) > 0)
 	{
-	  $ap = substr($key, 0, 1);
-	  $annee = substr($key, 1, 2);
-	  
-	  /* semestre d'automne, on regarde s'il n'y a pas un semestre de printemps avant de dispo */
-	  if ($ap == 'A')
+	  foreach ($stats_by_sem as $key =>$uvsemestre)
 	    {
-	      if (isset($stats_by_sem['P' . $annee]))
+	      $ap = substr($key, 0, 1);
+	      $annee = substr($key, 1, 2);
+	      
+	      /* semestre d'automne, on regarde s'il n'y a pas un semestre de printemps avant de dispo */
+	      if ($ap == 'A')
 		{
-		  $stats_by_sem_sorted['P' . $annee] = $stats_by_sem['P' . $annee];
+		  if (isset($stats_by_sem['P' . $annee]))
+		    {
+		      $stats_by_sem_sorted['P' . $annee] = $stats_by_sem['P' . $annee];
+		    }
+		  $stats_by_sem_sorted["A" . $annee] = $uvsemestre;
 		}
-	      $stats_by_sem_sorted["A" . $annee] = $uvsemestre;
+	      /* sinon, on ajoute le semestre normal */
+	      else
+		$stats_by_sem_sorted['P' . $annee] = $uvsemestre;
 	    }
-	  /* sinon, on ajoute le semestre normal */
-	  else
-	    $stats_by_sem_sorted['P' . $annee] = $uvsemestre;
 	}
-
-      foreach ($stats_by_sem_sorted as $key => $semestre)
+      if (count($stats_by_sem_sorted) > 0)
 	{
-	  $cts->add_title(2, "Semestre " . $key);
-	  $cts->add(new sqltable('details_uv', "", $semestre, "./index.php", "id_uv",
-				 array("code_uv" => "Code de l'UV", 
-				       "intitule_uv" => "Intitulé de l'UV", 
-				       "note_obtention"=> "Note d'obtention",
-				       "ects_uv"     => "Crédits ECTS"), array (), array()));
+	  foreach ($stats_by_sem_sorted as $key => $semestre)
+	    {
+	      $ap = substr($key, 0, 1);
+	      $annee = substr($key, 1, 2);
+	      if ($ap == "A")
+		$sm = "d'Automne ";
+	      else
+		$sm = "de Printemps ";
+	      
+	      $sm .= $annee;
+	      
+	      $cts->add_title(3, "Semestre " . $sm);
+	      $cts->add(new sqltable('details_uv', "", $semestre, "./index.php", "id_uv",
+				     array("code_uv" => "Code de l'UV", 
+					   "intitule_uv" => "Intitulé de l'UV", 
+					   "note_obtention"=> "Note d'obtention",
+					   "ects_uv"     => "Crédits ECTS"), array (), array()));
+	    }
 	}
       if ($totcreds > 0)
 	{
 	  $cts->add_title(2, "Récapitulatif");
 	  $cts->add_paragraph("<b>".$totcreds . 
 			      " crédits ECTS</b> obtenus au long de votre scolarité.");
-      }
+	}
     }
 
-
-  
-
   $cts->add_paragraph("<br/>");
-
+  
   return $cts;
 }
 
