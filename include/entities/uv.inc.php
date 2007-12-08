@@ -388,7 +388,7 @@ class uvcomment extends stdentity
 	$this->id_commentateur = $row['id_utilisateur'];
 	
 	$req2 = new requete($this->db, "SELECT * FROM `edu_uv_obtention`
-             WHERE `id_utilisateur` = ".intval($this->id_commentateur).
+             WHERE `id_etudiant` = ".intval($this->id_commentateur).
 			    " AND `id_uv` = ".intval($this->id_uv) .
 			    " LIMIT 1");
 	/* Note : TODO pour les gens qui ont redoublé,
@@ -442,9 +442,9 @@ class uvcomment extends stdentity
 
     $sql2 = new update($this->dbrw,
 		       'edu_uv_obtention',
-		       array('note_obtention_uv' => $note_obtention),
+		       array('note_obtention' => $note_obtention),
 		       array('id_uv' => $this->id_uv,
-			     'id_utilisateur' => $this->id_commentateur));
+			     'id_etudiant' => $this->id_commentateur));
 
 
     return (($sql->lines == 1) && ($sql2->lines == 1));
