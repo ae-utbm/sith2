@@ -582,7 +582,7 @@ function get_creds_cts($id_etu, $db)
 	  /* semestre d'automne, on regarde s'il n'y a pas un semestre de printemps avant de dispo */
 	  if ($ap == 'A')
 	    {
-	      if isset($stats_by_sem['P' . $annee])
+	      if (isset($stats_by_sem['P' . $annee]))
 		{
 		  $stats_by_sem_sorted['P' . $annee] = $stats_by_sem['P' . $annee];
 		}
