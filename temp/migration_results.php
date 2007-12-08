@@ -18,7 +18,7 @@ if ($req->lines > 0)
     {
       new insert($db, "edu_uv_obtention",
 		 array("id_uv" => $rs['id_uv'], 
-		       "id_etudiant" => $rs['id_etudiant'], 
+		       "id_etudiant" => $rs['id_utilisateur'], 
 		       "note_obtention" => $rs['note_obtention_uv']));
     }
 } 
