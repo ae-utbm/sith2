@@ -342,7 +342,7 @@ class uvcomment extends stdentity
   var $id_commentateur;
   /* note d'obtention (Format UTBM : A, B ...) */
   var $note_obtention;
-
+  var $semestre_obtention;
   /* note sur l'intéret de l'UV */
   /* Est-ce que l'UV vaut le coup d'être suivie ?
    * (Réflexions sur la qualité de l'enseignement, 
@@ -398,7 +398,8 @@ class uvcomment extends stdentity
 	if ($req2->lines == 1)
 	  {
 	    $row2 = $req2->get_row();
-	    $this->note_obtention  = $row2['note_obtention'];
+	    $this->note_obtention      = $row2['note_obtention'];
+	    $this->semestre_obtention  = $row2['semestre_obtention'];
 	  }
 
 	$this->interet         = $row['interet_uv'];
@@ -419,6 +420,7 @@ class uvcomment extends stdentity
 
   function modify($commentaire,
 		  $note_obtention = null,
+		  $semestre_obtention,
 		  $interet = 3,
 		  $utilite = 3,
 		  $note    = 3,
@@ -442,7 +444,8 @@ class uvcomment extends stdentity
 
     $sql2 = new update($this->dbrw,
 		       'edu_uv_obtention',
-		       array('note_obtention' => $note_obtention),
+		       array('note_obtention' => $note_obtention,
+			     'semestre_obtention' => $semestre_obtention),
 		       array('id_uv' => $this->id_uv,
 			     'id_etudiant' => $this->id_commentateur));
 
@@ -454,6 +457,7 @@ class uvcomment extends stdentity
 		  $id_commentateur,
 		  $commentaire,
 		  $note_obtention = null,
+		  $semestre_obtention,
 		  $interet = 3,
 		  $utilite = 3,
 		  $note    = 3,
@@ -478,7 +482,8 @@ class uvcomment extends stdentity
 		       'edu_uv_obtention',
 		       array ('id_uv' => $id_uv,
 			      'id_etudiant' => $id_commentateur,
-			      'note_obtention' => $note_obtention));
+			      'note_obtention' => $note_obtention,
+			      'semestre_obtention' => $semestre_obtention));
 		       
     if ($sql->lines <= 0)
       return false;
@@ -515,6 +520,17 @@ class uvcomment extends stdentity
 
 /** Fonctions "globales" sur les UVs */
 
+function add_result_uv($id_etu, $id_uv, $note, $semestre, $dbrw)
+{
+  $req = new insert($dbrw, "edu_uv_obtention",
+		    array("id_uv" => $id_uv,
+			  "id_etudiant" => $id_etu,
+			  "note_obtention" => $note,
+			  "semestre_suivi" => $semestre));
+  return ($req->lines == 1);
+}
+
+
 function get_creds_cts($id_etu, $db)
 {
   global $topdir;
@@ -526,6 +542,7 @@ function get_creds_cts($id_etu, $db)
                                 , `edu_uv`.`intitule_uv`
                                 , `edu_uv`.`ects_uv`
                                 , `edu_uv_obtention`.`note_obtention`
+                                , `edu_uv_obtention`.`semestre_obtention`
                            FROM
                                   `edu_uv`
                            INNER JOIN
@@ -536,7 +553,9 @@ function get_creds_cts($id_etu, $db)
                            AND
                                  `edu_uv_obtention`.`id_etudiant` = ".intval($id_etu) . 
 		         " GROUP BY
-                                 `code_uv`");
+                                 `code_uv`
+                           ORDER BY
+                                 `semestre_obtention`");
 
   
   $cts = new contents("Détails des crédits obtenus");
@@ -544,7 +563,8 @@ function get_creds_cts($id_etu, $db)
   $cts->add(new sqltable('details_uv', "", $req, "./index.php", "id_uv",
 			 array("code_uv" => "Code de l'UV", 
 			       "intitule_uv" => "Intitulé de l'UV", 
-			       "note_obtention"=> "Note d'obtention", 
+			       "note_obtention"=> "Note d'obtention",
+			       "semestre_obtention" => "Semestre d'obtention",
 			       "ects_uv"     => "Crédits ECTS obtenus"), array (), array()));
   
 

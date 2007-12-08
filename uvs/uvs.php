@@ -132,6 +132,7 @@ if (isset($_REQUEST['comm_mod_sbmt']))
     {
       $ret = $comm->modify($_REQUEST['comm_comm'],
 			   $_REQUEST['comm_obtention'],
+			   $_REQUEST['comm_semestre'],
 			   $_REQUEST['comm_interest'],
 			   $_REQUEST['comm_utilite'],
 			   $_REQUEST['comm_note_glbl'],
@@ -181,9 +182,16 @@ if ($_REQUEST['action'] == 'editcomm')
 					 'F'  => 'Insuffisant : F'),
 				  $comm->note_obtention);
 
+      $commform->add_text_field('comm_semestre',
+				"Semestre d'obtention".
+				", ex: <b>P07</b>",
+				$comm->semestre_obtention, true, 4);
+
+
       $commform->add_text_area('comm_comm',
 			       'Commentaire (syntaxe Doku)',
 			       $comm->comment, 80, 20);
+
       $commform->add_select_field('comm_interest', 
 				  'Intéret de l\'UV (pour un ingénieur)', 
 				  $uvcomm_interet,
@@ -199,6 +207,7 @@ if ($_REQUEST['action'] == 'editcomm')
 				  'Charge de travail', 
 				  $uvcomm_travail,
 				  $comm->charge_travail);
+
       $commform->add_select_field('comm_qualite', 
 				  'Qualité de l\'enseignement', 
 				  $uvcomm_qualite,
@@ -226,6 +235,7 @@ if (($site->user->is_in_group_id(10004))
 			 $site->user->id,
 			 $_REQUEST['comm_comm'],
 			 $_REQUEST['comm_obtention'],
+			 $_REQUEST['comm_semestre'],
 			 $_REQUEST['comm_interest'], /* interet */
 			 $_REQUEST['comm_utilite'], /* utilite */
 			 $_REQUEST['comm_note_glbl'], /*note */
@@ -452,6 +462,12 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 					     'E'  => 'Admis : E',
 					     'Fx' => 'Insuffisant : Fx',
 					     'F'  => 'Insuffisant : F'), NULL);
+
+	  $commform->add_text_field('comm_semestre',
+				    "Semestre d'obtention".
+				    ", ex: <b>P07</b>",
+				    null, true, 4);
+
 
 	  $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)', null, 80, 20);
 	  $commform->add_select_field('comm_interest', 
