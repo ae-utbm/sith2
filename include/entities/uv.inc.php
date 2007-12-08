@@ -526,7 +526,7 @@ function add_result_uv($id_etu, $id_uv, $note, $semestre, $dbrw)
 		    array("id_uv" => $id_uv,
 			  "id_etudiant" => $id_etu,
 			  "note_obtention" => $note,
-			  "semestre_suivi" => $semestre));
+			  "semestre_obtention" => $semestre));
   return ($req->lines == 1);
 }
 
