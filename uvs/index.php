@@ -60,7 +60,7 @@ if ($site->user->id > 0)
   $cts->add_title(1, "Mon parcours pédagogique");
   $cts->add(get_creds_cts($site->user->id, $site->db));
 
-  /* TODO : formulaire d'ajout de résultats */
+  $cts->add_title(2, "Ajout d'un résultat d'UV");
   $frm = new form('add_obt', "./?action=add_obt", true);
   
   $frm->add_entity_smartselect('obt_uv', 
