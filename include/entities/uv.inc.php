@@ -426,7 +426,7 @@ class uvcomment extends stdentity
 		  $qualite = 3)
   {
 
-    /* Champ `edu_uv_comment`.`obtention_uv` DEPRECIE ! */
+    /* Champ `edu_uv_comment`.`note_obtention_uv` DEPRECIE ! */
     $sql = new update($this->dbrw,
 		      'edu_uv_comments',
 		      array('note_obtention_uv' => $note_obtention,
@@ -480,7 +480,7 @@ class uvcomment extends stdentity
 			      'id_etudiant' => $id_commentateur,
 			      'note_obtention' => $note_obtention));
 		       
-    if (($sql->lines <= 0) || ($sql2->lines <= 0))
+    if ($sql->lines <= 0)
       return false;
     else
       $this->load_by_id($sql->get_id());

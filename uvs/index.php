@@ -45,6 +45,9 @@ if ($site->user->id > 0)
 {
   $cts->add_title(1, "Mon parcours pédagogique");
   $cts->add(get_creds_cts($site->user->id, $site->db));
+
+  /* TODO : formulaire d'ajout de résultats */
+
 }
 
 if ($site->user->utbm)
