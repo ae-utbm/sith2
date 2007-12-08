@@ -41,6 +41,11 @@ $cts = new contents("Site de l'AE - Espace Pédagogie");
 
 $cts->add_paragraph("Bienvenue sur la partie Pédagogie du site de l'AE");
 
+if ($site->user->id > 0)
+{
+  $cts->add(get_creds_ects($site->user->id, $site->db));
+}
+
 if ($site->user->utbm)
 {
   $cts->add_title(1, "Génération d'emploi du temps");

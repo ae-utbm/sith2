@@ -484,4 +484,54 @@ class uvcomment extends stdentity
 		  
 }
 
+/** Fonctions "globales" sur les UVs */
+
+function get_creds_cts($id_etu, $db)
+{
+  global $topdir;
+  require_once($topdir . "include/cts/sqltable.inc.php");
+
+  $req = new requete($db, "SELECT
+                                  `edu_uv`.`id_uv`
+                                , `edu_uv`.`code_uv`
+                                , `edu_uv`.`intitule_uv`
+                                , `edu_uv_groupe`.`semestre_grp`
+                                , `edu_uv`.`ects_uv`
+                           FROM
+                                `edu_uv_comments`
+
+                           INNER JOIN
+                                 `edu_uv`
+                           USING (`id_uv`)
+
+                           INNER JOIN
+                                 `edu_uv_groupe`
+                           ON `edu_uv_groupe`.`id_uv` = `edu_uv`.`id_uv` 
+
+                           INNER JOIN
+                                 `edu_uv_groupe_etudiant`
+                           ON `edu_uv_groupe`.`id_uv` = `edu_uv_comments`.`id_uv`
+
+                           WHERE
+                                 `edu_uv_comments`.`note_obtention_uv` IN ('A', 'B', 'C', 'D', 'E')
+                           AND
+                                 `edu_uv_comments`.`id_utilisateur` = ".intval($id_etu) . 
+		         " GROUP BY
+                                 `code_uv`");
+
+  
+  $cts = new contents("Détails des crédits obtenus");
+  $cts->add_paragraph("Ces statistiques sont déterminées en fonction des commentaires ".
+		      "que vous avez laissés sur les UVs (qui permettent de donner ".
+		      "une information sur les obtentions d'UV)"); 
+
+  $cts->add(new sqltable('details_uv', "", $req, "./index.php", "id_uv",
+			 array("code_uv" => "Code de l'UV", 
+			       "intitule_uv" => "Intitulé de l'UV", 
+			       "semestre_grp"=> "Semestre d'obtention", 
+			       "ects_uv"     => "Crédits ECTS obtenus"), array ()));
+  return $cts;
+}
+
+
 ?>
