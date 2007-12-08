@@ -524,55 +524,31 @@ function get_creds_cts($id_etu, $db)
                                   `edu_uv`.`id_uv`
                                 , `edu_uv`.`code_uv`
                                 , `edu_uv`.`intitule_uv`
-                                , `edu_uv_groupe`.`semestre_grp`
                                 , `edu_uv`.`ects_uv`
+                                , `edu_uv_obtention`.`note_obtention`
                            FROM
-                                `edu_uv_comments`
-
+                                  `edu_uv`
                            INNER JOIN
-                                 `edu_uv`
+                                   `edu_uv_obtention`
                            USING (`id_uv`)
-
-                           INNER JOIN
-                                 `edu_uv_groupe`
-                           ON `edu_uv_groupe`.`id_uv` = `edu_uv`.`id_uv` 
-
-                           INNER JOIN
-                                 `edu_uv_groupe_etudiant`
-                           ON `edu_uv_groupe`.`id_uv` = `edu_uv_comments`.`id_uv`
-
                            WHERE
-                                 `edu_uv_comments`.`note_obtention_uv` IN ('A', 'B', 'C', 'D', 'E')
+                                 `edu_uv_obtention`.`note_obtention` IN ('A', 'B', 'C', 'D', 'E')
                            AND
-                                 `edu_uv_comments`.`id_utilisateur` = ".intval($id_etu) . 
+                                 `edu_uv_obtention`.`id_etudiant` = ".intval($id_etu) . 
 		         " GROUP BY
                                  `code_uv`");
 
   
   $cts = new contents("Détails des crédits obtenus");
-  $cts->add_paragraph("Ces statistiques sont déterminées en fonction des commentaires ".
-		      "que vous avez laissés sur les UVs (qui permettent de donner ".
-		      "une information sur les obtentions d'UV)"); 
 
   $cts->add(new sqltable('details_uv', "", $req, "./index.php", "id_uv",
 			 array("code_uv" => "Code de l'UV", 
 			       "intitule_uv" => "Intitulé de l'UV", 
-			       "semestre_grp"=> "Semestre d'obtention", 
+			       "note_obtention"=> "Note d'obtention", 
 			       "ects_uv"     => "Crédits ECTS obtenus"), array (), array()));
   
 
-  if ($req->lines > 0)
-    {
-      $totects = 0;
-      while ($line = $req->get_row)
-	{
-	  $totects += $line['ects_uv'];
-	}
-
-      $cts->add_paragraph("Total des crédits ECTS obtenus : ".
-			  "<b>$totects</b> crédits");
-      
-    }
+  $cts->add_paragraph("<br/>");
 
   return $cts;
 }
