@@ -43,10 +43,49 @@ $cts->add_paragraph("Bienvenue sur la partie Pédagogie du site de l'AE");
 
 if ($site->user->id > 0)
 {
+  if ($_REQUEST['action'] == 'add_obt')
+    {
+      $ret = add_result_uv($site->user->id,
+			   $_REQUEST['obt_uv'],
+			   $_REQUEST['obt_mention'],
+			   $_REQUEST['obt_semestre'],
+			   $site->dbrw);
+
+      if ($ret == true)
+	$cts->add_paragraph("Résultat d'UV ajouté avec succès !");
+      else
+	$cts->add_paragraph("<b>Erreur lors de l'ajout du résultat</b>");
+    }
+
   $cts->add_title(1, "Mon parcours pédagogique");
   $cts->add(get_creds_cts($site->user->id, $site->db));
 
   /* TODO : formulaire d'ajout de résultats */
+  $frm = new form('add_obt', "./?action=add_obt", true);
+  
+  $frm->add_entity_smartselect('obt_uv', 
+			       "UV concernée",
+			       new uv($site->db), false, true);
+
+  $frm->add_select_field('obt_mention',
+			 "Note obtenue",
+			 array("A" => "A",
+			       "B" => "B",
+			       "C" => "C",
+			       "D" => "D",
+			       "E" => "E",
+			       "Fx" => "Fx",
+			       "F" => "F"),
+			 "D", "", true);
+
+  $frm->add_text_field('obt_semestre', 
+		       "Semestre d'obtention, ex <b>P07</b>",
+		       "", false);
+
+  
+  $frm->add_submit('obt_sbmt', 'Valider');
+
+  $cts->add($frm);
 
 }
 
