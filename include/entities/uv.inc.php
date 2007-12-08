@@ -530,6 +530,21 @@ function get_creds_cts($id_etu, $db)
 			       "intitule_uv" => "Intitulé de l'UV", 
 			       "semestre_grp"=> "Semestre d'obtention", 
 			       "ects_uv"     => "Crédits ECTS obtenus"), array (), array()));
+  
+
+  if ($sql->lines > 0)
+    {
+      $totects = 0;
+      while ($line = $req->get_row)
+	{
+	  $totects += $line['ects_uv'];
+	}
+
+      $cts->add_paragraph("Total des crédits ECTS obtenus : ".
+			  "<b>$totects</b> crédits");
+
+    }
+
   return $cts;
 }
 
