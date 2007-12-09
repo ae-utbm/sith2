@@ -307,8 +307,8 @@ class tinycalendar extends calendar
 		$year = date("Y", $this->date);
 		$days = date("t", $this->date);
 		
-	  $this->buffer = "<div class=\"close\" onclick=\"closecal();\" >X</div>";
-		$this->buffer .= "<div class=\"calendarhead tinycalendarhead\">\n";
+/*	  $this->buffer = "<div class=\"close\" onclick=\"closecal();\" >X</div>"; // pour l'instant on laisse tomber */
+		$this->buffer .= "<div class=\"calendarhead tinycalhead\">\n";
 		$this->buffer .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"99%\">\n";
 		
 		$prevmonth = $month - 1;
@@ -345,7 +345,7 @@ class tinycalendar extends calendar
 		$this->buffer .= "</div>\n";
 		
 		/* Partie principale du calendrier : les jours du mois */
-		$this->buffer .= "<div class=\"calendar tinycalendar\">\n";
+		$this->buffer .= "<div class=\"calendar tinycal\">\n";
 		$this->buffer .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"99%\">\n";
 		
 		/* On cherche le premier jour du mois dans la semaine */
@@ -385,7 +385,7 @@ class tinycalendar extends calendar
 			
 		$this->buffer .= "</tr>\n";
 		$this->buffer .= "</table>\n";
-		$this->buffer .= "<div class=\"tinycalendar_endbox\"></div>\n";
+		$this->buffer .= "<div class=\"tinycal_endbox\"></div>\n";
 		$this->buffer .= "</div>\n";
 		
 		return $this->buffer;

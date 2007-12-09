@@ -1,9 +1,9 @@
-.call
+.tinycal_call
 {
 	cursor:pointer; 
 }
 
-.close
+.tinycal_close
 {
 	position: absolute;
 	top: 0px;
@@ -11,14 +11,14 @@
 	cursor: pointer;
 }
 
-.tinycalendar_box
+.tinycal_box
 {
 	position: absolute;
 	background: url(../themes/default/images/box-top-small.png) no-repeat;
 	border: none;
 	display: none;
 }
-.tinycalendar_endbox
+.tinycal_endbox
 {
 	width: 150px;
 	height: 10px;

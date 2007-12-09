@@ -787,7 +787,7 @@ div.calendarhead
   width:184px;
 }
 
-div.tinycalendarhead
+div.tinycalhead
 {
 	width:150px;
 }
@@ -816,7 +816,7 @@ div.calendar
   width:184px;  
 }
 
-div.tinycalendar
+div.tinycal
 {
 	width: 150px;
 	background: none;
