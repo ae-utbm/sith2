@@ -297,6 +297,7 @@ class tinycalendar extends calendar
 {
 	var $target;
 	var $type;
+	var $ext_topdir;
 	
 	function set_target($target)
 	{
@@ -307,6 +308,12 @@ class tinycalendar extends calendar
 	{
 		$this->type = $type;
 	}
+	
+	function set_ext_topdir($topdir)
+	{
+		$this->ext_topdir = $topdir;
+	}
+	
 	
 	function html_render()
 	{
@@ -343,9 +350,9 @@ class tinycalendar extends calendar
 			$nextdate = $year+1 . "-" . "1"  . "-" . $day;
 		
 		$this->buffer .= "<tr>\n";
-		$this->buffer .= "<td class=\"month\"><a href=\"?caldate=$prevdate\" onclick=\"return !openInContents('calendar','".$wwwtopdir."gateway.php','get_cal&amp;caldate=$prevdate');\">&laquo;</a></td>\n";
+		$this->buffer .= "<td class=\"month\"><a href=\"?caldate=$prevdate\" onclick=\"return !openInContents('calendar','".$this->ext_topdir."gateway.php','module=tinycal&amp;target=".$this->target."&amp;type=".$this->type."&amp;topdir=".$this->ext_topdir."&amp;caldate=$prevdate');\">&laquo;</a></td>\n";
 		$this->buffer .= "<td class=\"month\" colspan=\"5\">" . $this->months[$month-1] . " " . $year . "</td>\n";
-		$this->buffer .= "<td class=\"month\"><a href=\"?caldate=$nextdate\" onclick=\"return !openInContents('calendar','".$wwwtopdir."gateway.php','get_cal&amp;caldate=$nextdate');\">&raquo;</a></td>\n";
+		$this->buffer .= "<td class=\"month\"><a href=\"?caldate=$nextdate\" onclick=\"return !openInContents('calendar','".$this->ext_topdir."gateway.php','module=tinycal&amp;target=".$this->target."&amp;type=".$this->type."&amp;topdir=".$this->ext_topdir."&amp;caldate=$nextdate');\">&raquo;</a></td>\n";
 		$this->buffer .= "</tr>\n";
 		
 		/* Affichage des jours de la semaine */
