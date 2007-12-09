@@ -74,8 +74,7 @@ if ( $_REQUEST["action"] == "genfact" )
 
   while ( $row = $sql->get_row() )
   {
-    $asso->load_by_id($row['id_asso']);
-    print_r("/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg".$asso->nom);print_r($asso);
+    $asso->load_by_id($row['id_asso']);print_r($row['id_asso']);
     $facturing_infos = array ('name' => $asso->nom,
        'addr' => explode("\n",utf8_decode($asso->adresse_postale)),
        'logo' => "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg");
