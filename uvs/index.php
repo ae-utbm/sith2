@@ -43,6 +43,14 @@ $cts->add_paragraph("Bienvenue sur la partie Pédagogie du site de l'AE");
 
 if ($site->user->id > 0)
 {
+  /* generation de camembert */
+  if ($_REQUEST['action'] == "camembert")
+    {
+      $cam = get_creds_cts($site->user->id, $site->db, true);
+      $cam->png_render();
+      exit();
+    }
+  
   if ($_REQUEST['action'] == 'add_obt')
     {
       $ret = add_result_uv($site->user->id,
@@ -59,6 +67,11 @@ if ($site->user->id > 0)
 
   $cts->add_title(1, "Mon parcours pédagogique");
   $cts->add(get_creds_cts($site->user->id, $site->db));
+
+  $cts->add_title(3, "Statistiques d'obtention");
+  $cts->add_paragraph("<center><img src=\"./index.php?action=camembert alt=\"statistiques d'obtention\" /></center>");
+
+
 
   $cts->add_title(3, "Ajout d'un résultat d'UV");
   $frm = new form('add_obt', "./?action=add_obt", true);
@@ -91,6 +104,8 @@ if ($site->user->id > 0)
 
 if ($site->user->utbm)
 {
+
+
   $cts->add_title(1, "Génération d'emploi du temps");
   $cts->add_paragraph("Cette partie permet aux étudiants de l'UTBM de générer leurs emplois
 du temps en graphique, et ainsi le partager facilement.");

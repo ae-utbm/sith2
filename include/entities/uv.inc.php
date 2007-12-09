@@ -531,7 +531,7 @@ function add_result_uv($id_etu, $id_uv, $note, $semestre, $dbrw)
 }
 
 
-function get_creds_cts($id_etu, $db)
+function get_creds_cts($id_etu, $db, $camembert = false)
 {
   global $topdir;
   require_once($topdir . "include/cts/sqltable.inc.php");
@@ -562,11 +562,16 @@ function get_creds_cts($id_etu, $db)
   if ($req->lines > 0)
     {
       $totcreds = 0;
-
+      $statsobs = array();
+      $totuvs = 0;
       /* on découpe par semestre */
       while ($rs = $req->get_row())
 	{
+	  $totsuvs++;
+
 	  $stats_by_sem[$rs['semestre_obtention']][] = $rs;
+	  $statsobs[$rs['note_obtention']] ++;
+
 	  if (($rs['note_obtention'] == 'F') || ($rs['note_obtention'] == 'Fx'))
 	    continue;
 
@@ -621,6 +626,18 @@ function get_creds_cts($id_etu, $db)
 	  $cts->add_title(2, "Récapitulatif");
 	  $cts->add_paragraph("<b>".$totcreds . 
 			      " crédits ECTS</b> obtenus au long de votre scolarité.");
+	}
+
+      if ((count($statsobs) > 0) && ($camembert == true)) 
+	{
+	  global $topdir;
+	  require_once($topdir . "include/graph.inc.php");
+	  $cam = new camembert();
+	  foreach ($statsobs as $key => $nbuvobt)
+	    {
+	      $cam->data($nbuvobt, $key);
+	    }
+	  return $cam;
 	}
     }
 
