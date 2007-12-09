@@ -138,7 +138,8 @@ p.error
 
 #logo a
 {
-  width:682px;
+  /*width:682px;*/
+  width:701px;
   height:85px;
   display: block;
   background: url("../images/top-logo_noel.png");
