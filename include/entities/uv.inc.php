@@ -637,7 +637,6 @@ function get_creds_cts($id_etu, $db, $camembert = false)
 
 	  foreach ($statsobs as $key => $nbuvobt)
 	    {
-	      echo $key . " " . $nbuvobt . "<br/>";
 	      $cam->data($nbuvobt, $key);
 	    }
 	  return $cam;
