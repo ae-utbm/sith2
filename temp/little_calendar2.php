@@ -48,6 +48,13 @@ $cts->add_paragraph("Vestibulum aliquam nonummy odio. Curabitur hendrerit iaculi
 $cts->add_paragraph("Etiam in sem ac velit condimentum pretium. Aliquam felis elit, ultricies in, semper nec, condimentum et, quam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed varius magna lacinia est. Nam scelerisque magna. Sed in quam at urna vehicula pretium. Nunc sagittis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas elementum varius odio. Integer quis libero quis libero ornare aliquet. Nunc hendrerit nunc non nibh. Donec ullamcorper augue in quam. Etiam tortor libero, rhoncus vel, fringilla id, hendrerit at, nisl. Cras placerat enim vel ligula. Phasellus vel ligula vitae libero viverra euismod. Nam ut tellus.");
 $cts->add_paragraph("Curabitur tincidunt ornare lacus. Nulla mauris risus, pharetra id, luctus fermentum, sagittis viverra, ante. Sed orci purus, lobortis id, varius vel, rhoncus et, orci. Etiam consequat accumsan dolor. Proin molestie nisl non ipsum. In odio. Mauris sit amet magna. Aliquam est ligula, volutpat sit amet, adipiscing id, adipiscing eu, sapien. Nam ornare ligula quis lacus. Quisque nec velit dapibus arcu dapibus aliquet. Nulla mauris. Vivamus erat nunc, sagittis ut, posuere eu, imperdiet vel, libero. Pellentesque venenatis eleifend nunc. Mauris nonummy fringilla orci. Nulla facilisi. Aliquam in eros nec mauris dignissim fringilla. Vivamus luctus. Cras et massa. Praesent tincidunt nulla eu arcu.");
 /*$cts->puts("<div id=\"calendar\" class=\"container\">&nbsp;</div>");*/
+$frm = new form("testcal", "");
+$frm->add_text_field("bleh", "Bleh");
+$frm->add_date_field("testdate", "Date");
+$frm->add_datetime_field("testdate", "Datetime");
+$frm->add_submit("go", "Let's go");
+$cts->add($frm);
+
 $site->add_contents($cts);
 
 $site->end_page();

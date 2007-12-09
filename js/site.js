@@ -403,7 +403,7 @@ function openMatmatronch(topdir, id, width, height) {
 	elem.style.display = 'block';
 	elem.style.left = pos[0] + 20;
 	elem.style.top = pos[1] - 10;
-	openInContents('calendar', './little_calendar2.php', 'get_cal'); 
+	openInContents('calendar', '/gateway.php', 'get_tinycal'); 
 }
 
 function closecal()
