@@ -633,7 +633,7 @@ function get_creds_cts($id_etu, $db, $camembert = false)
 	{
 	  global $topdir;
 	  require_once($topdir . "include/graph.inc.php");
-	  $cam = new camembert();
+	  $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
 
 	  foreach ($statsobs as $key => $nbuvobt)
 	    {
