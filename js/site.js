@@ -390,7 +390,7 @@ function openMatmatronch(topdir, id, width, height) {
 /**
  * Calendar V2 : tinycalendar
  */
- function opencal(_ref)
+ function opencal(topdir, _ref)
 {
 	var ref = document.getElementById(_ref);
 	var pos = findPos(ref);
@@ -403,7 +403,7 @@ function openMatmatronch(topdir, id, width, height) {
 	elem.style.display = 'block';
 	elem.style.left = pos[0] + 20;
 	elem.style.top = pos[1] - 10;
-	openInContents('calendar', '/gateway.php', 'get_tinycal'); 
+	openInContents('calendar', topdir + 'gateway.php', 'module=tinycal'); 
 }
 
 function closecal()

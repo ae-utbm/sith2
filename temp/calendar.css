@@ -11,27 +11,4 @@
 	cursor: pointer;
 }
 
-.tinycal_box
-{
-	position: absolute;
-	background: url(../themes/default/images/box-top-small.png) no-repeat;
-	border: none;
-	display: none;
-}
-.tinycal_endbox
-{
-	width: 150px;
-	height: 10px;
-	background: url(../themes/default/images/box-bottom-small.png) no-repeat;
-}
-
-td.tinycal_day
-{
-	cursor: pointer;
-}
-
-td.tinycal_day:hover
-{
-	background: #eeeeee;
-}
 

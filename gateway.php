@@ -530,15 +530,12 @@ elseif ( $_REQUEST['module']=="exfield" )
 
   exit();
 }
-
-if( isset($_REQUEST['get_tinycal']) )
+elseif( $_REQUEST['module']=="tinycal" )
 {
 	$cal = new tinycalendar($site->db);
 	echo $cal->html_render();
-	exit;
+	exit();
 }
-
-
 
 if ( $_REQUEST['class'] == "calendar" )
 	$cts = new calendar($site->db);
