@@ -40,8 +40,8 @@ require_once($topdir."include/entities/books.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_syscarteae") )
-	error_403();
-	
+  error_403();
+  
 if ( $_REQUEST["action"] == "genfact" )
 {
   $month = substr($_REQUEST["mois"],3,4).substr($_REQUEST["mois"],0,2);
@@ -59,12 +59,12 @@ if ( $_REQUEST["action"] == "genfact" )
     "GROUP BY `asso`.`id_asso` ".
     "ORDER BY `asso`.`nom_asso`");
 
-	$factured_infos = array ('name' => "AE - UTBM",
+  $factured_infos = array ('name' => "AE - UTBM",
       'addr' => array("6 Boulevard Anatole France",
       "90000 BELFORT"),
       'logo' => "http://ae.utbm.fr/images/Ae-blanc.jpg");
       
-	$date_facturation = date("d/m/Y", mktime ( 0, 0, 0, substr($month,4)+1, 1, substr($month,0,4)));
+  $date_facturation = date("d/m/Y", mktime ( 0, 0, 0, substr($month,4)+1, 1, substr($month,0,4)));
   $ref = $month;
   
   $asso = new asso($site->db);
@@ -75,11 +75,11 @@ if ( $_REQUEST["action"] == "genfact" )
   while ( $row = $sql->get_row() )
   {
     $asso->load_by_id($row['id_asso']);
-    if(!file_exists("/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg")) print_r($asso->id);
+    print_f("/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg");
     $facturing_infos = array ('name' => $asso->nom,
-			 'addr' => explode("\n",utf8_decode($asso->adresse_postale)),
-			 'logo' => "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg");
-			 
+       'addr' => explode("\n",utf8_decode($asso->adresse_postale)),
+       'logo' => "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg");
+       
     $query = new requete ($site->db, "SELECT " .
         "CONCAT(`cpt_produits`.`id_typeprod`,'-',`cpt_vendu`.`id_produit`,'-',`cpt_vendu`.`prix_unit`) AS `groupby`, " .
         "SUM(`cpt_vendu`.`quantite`) AS `quantite`, " .
@@ -108,11 +108,11 @@ if ( $_REQUEST["action"] == "genfact" )
     }
   
     $fact_pdf->set_infos($facturing_infos,
-				     $factured_infos,
-				     $date_facturation,
-				     $titre,
-				     $ref,
-				     $lines);
+             $factured_infos,
+             $date_facturation,
+             $titre,
+             $ref,
+             $lines);
     $fact_pdf->AddPage ();
     $fact_pdf->print_items ();
   
@@ -122,65 +122,65 @@ if ( $_REQUEST["action"] == "genfact" )
 }
 elseif ( $_REQUEST["action"] == "genonefact" )
 {
-	$asso = new asso($site->db);
-	$asso->load_by_id($_REQUEST["id_asso"]);
-	
-	$month = $_REQUEST["month"];
-	
-	$factured_infos = array ('name' => "AE - UTBM",
-			 'addr' => array("6 Boulevard Anatole France",
-					 "90000 BELFORT"),
-			 'logo' => "http://ae.utbm.fr/images/Ae-blanc.jpg");
+  $asso = new asso($site->db);
+  $asso->load_by_id($_REQUEST["id_asso"]);
+  
+  $month = $_REQUEST["month"];
+  
+  $factured_infos = array ('name' => "AE - UTBM",
+       'addr' => array("6 Boulevard Anatole France",
+           "90000 BELFORT"),
+       'logo' => "http://ae.utbm.fr/images/Ae-blanc.jpg");
 
-	$facturing_infos = array ('name' => $asso->nom,
-			 'addr' => explode("\n",utf8_decode($asso->adresse_postale)),
-			 'logo' => "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg");
+  $facturing_infos = array ('name' => $asso->nom,
+       'addr' => explode("\n",utf8_decode($asso->adresse_postale)),
+       'logo' => "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg");
 
-	$date_facturation = date("d/m/Y", mktime ( 0, 0, 0, substr($month,4)+1, 1, substr($month,0,4)));
-	
-	$titre = utf8_decode("Facture système carte AE");
-	
-	$ref = $month;
+  $date_facturation = date("d/m/Y", mktime ( 0, 0, 0, substr($month,4)+1, 1, substr($month,0,4)));
+  
+  $titre = utf8_decode("Facture système carte AE");
+  
+  $ref = $month;
 
-	$query = new requete ($site->db, "SELECT " .
-			"CONCAT(`cpt_produits`.`id_typeprod`,'-',`cpt_vendu`.`id_produit`,'-',`cpt_vendu`.`prix_unit`) AS `groupby`, " .
-			"SUM(`cpt_vendu`.`quantite`) AS `quantite`, " .
-			"`cpt_vendu`.`prix_unit` AS `prix_unit`, " .
-			"SUM(`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`) AS `total`," .
-			"`cpt_produits`.`nom_prod`," .
-			"`cpt_type_produit`.`nom_typeprod`"  .
-			"FROM `cpt_vendu` " .
-			"LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
-			"INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
-			"INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
-			"INNER JOIN `utilisateurs` ON `cpt_debitfacture`.`id_utilisateur` =`utilisateurs`.`id_utilisateur` " .
-			"INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
-			"WHERE `cpt_vendu`.`id_assocpt`='".mysql_real_escape_string($asso->id)."' AND `cpt_produits`.`id_typeprod`!='11' " .
-			"AND EXTRACT(YEAR_MONTH FROM `date_facture`)='".mysql_real_escape_string($month)."' " .
-			"GROUP BY `groupby` " .
-			"ORDER BY `cpt_type_produit`.`nom_typeprod`, `cpt_produits`.`nom_prod`, `cpt_vendu`.`prix_unit`");
+  $query = new requete ($site->db, "SELECT " .
+      "CONCAT(`cpt_produits`.`id_typeprod`,'-',`cpt_vendu`.`id_produit`,'-',`cpt_vendu`.`prix_unit`) AS `groupby`, " .
+      "SUM(`cpt_vendu`.`quantite`) AS `quantite`, " .
+      "`cpt_vendu`.`prix_unit` AS `prix_unit`, " .
+      "SUM(`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`) AS `total`," .
+      "`cpt_produits`.`nom_prod`," .
+      "`cpt_type_produit`.`nom_typeprod`"  .
+      "FROM `cpt_vendu` " .
+      "LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
+      "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
+      "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
+      "INNER JOIN `utilisateurs` ON `cpt_debitfacture`.`id_utilisateur` =`utilisateurs`.`id_utilisateur` " .
+      "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
+      "WHERE `cpt_vendu`.`id_assocpt`='".mysql_real_escape_string($asso->id)."' AND `cpt_produits`.`id_typeprod`!='11' " .
+      "AND EXTRACT(YEAR_MONTH FROM `date_facture`)='".mysql_real_escape_string($month)."' " .
+      "GROUP BY `groupby` " .
+      "ORDER BY `cpt_type_produit`.`nom_typeprod`, `cpt_produits`.`nom_prod`, `cpt_vendu`.`prix_unit`");
 
-	
-	while ($line = $query->get_row ())
-	{
-	  $lines[] = array('nom' => utf8_decode($line['nom_prod']),
-			   'quantite' => intval($line['quantite']),
-			   'prix' => $line['prix_unit'],
-			   'sous_total' => intval($line['quantite']) * $line['prix_unit']);
-	}
-	
-	
-	$fact_pdf = new facture_pdf ($facturing_infos,
-				     $factured_infos,
-				     $date_facturation,
-				     $titre,
-				     $ref,
-				     $lines);
-	
-	$fact_pdf->renderize ();
-	
-	
-	exit();	
+  
+  while ($line = $query->get_row ())
+  {
+    $lines[] = array('nom' => utf8_decode($line['nom_prod']),
+         'quantite' => intval($line['quantite']),
+         'prix' => $line['prix_unit'],
+         'sous_total' => intval($line['quantite']) * $line['prix_unit']);
+  }
+  
+  
+  $fact_pdf = new facture_pdf ($facturing_infos,
+             $factured_infos,
+             $date_facturation,
+             $titre,
+             $ref,
+             $lines);
+  
+  $fact_pdf->renderize ();
+  
+  
+  exit();  
 }
 
 $site->start_page("none","Système carte AE");
@@ -188,15 +188,15 @@ $site->start_page("none","Système carte AE");
 $cts = new contents("Système carte AE");
 
 $tabs = array(array("","ae/syscarteae.php", "Résumé"),
-			array("factures","ae/syscarteae.php?view=factures", "Appels à facture"),
-			array("comptes","ae/syscarteae.php?view=comptes", "Comptes"),
-			array("retrait","ae/syscarteae.php?view=retrait", "Produits non retirés"),
-			array("remb","ae/syscarteae.php?view=remb", "Reboursement")
-			);
-$cts->add(new tabshead($tabs,$_REQUEST["view"]));	
-	
-if ( 	$_REQUEST["view"] == "remb" )
-{	
+      array("factures","ae/syscarteae.php?view=factures", "Appels à facture"),
+      array("comptes","ae/syscarteae.php?view=comptes", "Comptes"),
+      array("retrait","ae/syscarteae.php?view=retrait", "Produits non retirés"),
+      array("remb","ae/syscarteae.php?view=remb", "Reboursement")
+      );
+$cts->add(new tabshead($tabs,$_REQUEST["view"]));  
+  
+if (   $_REQUEST["view"] == "remb" )
+{  
   $user = new utilisateur($site->db,$site->dbrw);
   if ( $_REQUEST["action"] == "doremb" )
   {
@@ -250,20 +250,20 @@ if ( 	$_REQUEST["view"] == "remb" )
   $cts->add($frm);
   
 }
-else if ( 	$_REQUEST["view"] == "retrait" )
+else if (   $_REQUEST["view"] == "retrait" )
 {
   
-	if ( $_REQUEST["action"] == "retires")
+  if ( $_REQUEST["action"] == "retires")
   {
-  	$fact = new debitfacture($site->db,$site->dbrw);
-  	foreach( $_REQUEST["id_factprods"] as $id_factprod )
-  	{
-  		list($id_facture,$id_produit) = explode(",",$id_factprod);	
-  		$fact->load_by_id($id_facture);
-  		if ( $fact->is_valid() )
-  			$fact->set_retire($id_produit);
-  	}
-  }	
+    $fact = new debitfacture($site->db,$site->dbrw);
+    foreach( $_REQUEST["id_factprods"] as $id_factprod )
+    {
+      list($id_facture,$id_produit) = explode(",",$id_factprod);  
+      $fact->load_by_id($id_facture);
+      if ( $fact->is_valid() )
+        $fact->set_retire($id_produit);
+    }
+  }  
   
   $req = new requete($site->db, "SELECT " .
     "CONCAT(`cpt_debitfacture`.`id_facture`,',',`cpt_produits`.`id_produit`) AS `id_factprod`, " .
@@ -308,8 +308,8 @@ else if ( 	$_REQUEST["view"] == "retrait" )
     array("retires"=>"Marquer comme retiré"),
     array()), true);
 
-}	
-elseif ( 	$_REQUEST["view"] == "factures" )
+}  
+elseif (   $_REQUEST["view"] == "factures" )
 {
   $cts->add_title(2,"Tous les appels à facture");
 
@@ -335,18 +335,18 @@ elseif ( 	$_REQUEST["view"] == "factures" )
   
   while ( $row = $sql->get_row() )
   {
-  	
-  	$asso = $row["id_asso"];	
-  	$month = $row["month"];
-  	
-  	if ( !isset($table[$month]) )
-  		$table[$month] = array("mois"=>substr($month,4,2)."/".substr($month,0,4));
-  		
-  	if ( !isset($headers["a".$asso]) )
-  		$headers["a".$asso] = $row["nom_asso"];
-  		
-  	$table[$month]["a".$asso] = $row["somme"];
-  	
+    
+    $asso = $row["id_asso"];  
+    $month = $row["month"];
+    
+    if ( !isset($table[$month]) )
+      $table[$month] = array("mois"=>substr($month,4,2)."/".substr($month,0,4));
+      
+    if ( !isset($headers["a".$asso]) )
+      $headers["a".$asso] = $row["nom_asso"];
+      
+    $table[$month]["a".$asso] = $row["somme"];
+    
   }
   
   asort($headers);
@@ -355,27 +355,27 @@ elseif ( 	$_REQUEST["view"] == "factures" )
   
   
   $cts->add(new sqltable(
-  	"compta", 
-  	"Comptabilité comptoirs", $table, "syscarteae.php?view=factures", 
-  	"mois", 
-  	$headers, 
-  	array("genfact"=>"Factures"), 
-  	array(),
-  	array( )
-  	));
-  	
+    "compta", 
+    "Comptabilité comptoirs", $table, "syscarteae.php?view=factures", 
+    "mois", 
+    $headers, 
+    array("genfact"=>"Factures"), 
+    array(),
+    array( )
+    ));
+    
   $cts->add_title(2,"Re-Générer un appel à facture");
 
   $months = array();
 
   $req = new requete($site->db, "SELECT " .
-  		"EXTRACT(YEAR_MONTH FROM `date_facture`) as `month` " .
-  		"FROM `cpt_debitfacture` " .
-  		"GROUP BY `month` " .
-  		"ORDER BY `month` DESC");
+      "EXTRACT(YEAR_MONTH FROM `date_facture`) as `month` " .
+      "FROM `cpt_debitfacture` " .
+      "GROUP BY `month` " .
+      "ORDER BY `month` DESC");
   
   while ( list($month) = $req->get_row() )
-  	$months[$month] = substr($month,4)."/".substr($month,0,4);
+    $months[$month] = substr($month,4)."/".substr($month,0,4);
   
   
   $frm = new form ("genfact","syscarteae.php?view=factures",false);
@@ -386,7 +386,7 @@ elseif ( 	$_REQUEST["view"] == "factures" )
   $cts->add($frm);
 
 }
-elseif ( 	$_REQUEST["view"] == "comptes" )
+elseif (   $_REQUEST["view"] == "comptes" )
 {
   $cts->add_title(2,"Solde théorique du compte");
   $cts->add_paragraph("Ceci correspond au solde dès lors que tous les encaissements sont effectués, que les commissions carte bleue sont compensés et que l'ensemble des factures ont été payées.");
@@ -396,17 +396,17 @@ elseif ( 	$_REQUEST["view"] == "comptes" )
   if ( $_REQUEST["action"] == "sumsoldes" )
     $when = $_REQUEST["when"];
 
-	$req = new requete($site->db, "SELECT " .
-		"SUM(`montant_rech`) " .
-		"FROM `cpt_rechargements` " .
-		"WHERE date_rech <= '".date("Y-m-d H:i:s",$when)."'");		
+  $req = new requete($site->db, "SELECT " .
+    "SUM(`montant_rech`) " .
+    "FROM `cpt_rechargements` " .
+    "WHERE date_rech <= '".date("Y-m-d H:i:s",$when)."'");    
 
   list($rech) = $req->get_row();
   
-	$req = new requete($site->db, "SELECT " .
-		"SUM(`montant_facture`) " .
-		"FROM `cpt_debitfacture` " .
-		"WHERE mode_paiement='AE' AND date_facture <= '".date("Y-m-d H:i:s",$when)."'");		
+  $req = new requete($site->db, "SELECT " .
+    "SUM(`montant_facture`) " .
+    "FROM `cpt_debitfacture` " .
+    "WHERE mode_paiement='AE' AND date_facture <= '".date("Y-m-d H:i:s",$when)."'");    
 
   list($dep) = $req->get_row();
 
@@ -438,84 +438,84 @@ elseif ( 	$_REQUEST["view"] == "comptes" )
   
   if ( $_REQUEST["action"] == "sumrech" )
   {
-  	$conds = array();
-  	$comptoir = false;
-  	
-  	if ( $_REQUEST["debut"] )
-  		$conds[] = "cpt_rechargements.date_rech >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
-  	
-  	if ( $_REQUEST["fin"] )
-  		$conds[] = "cpt_rechargements.date_rech <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
-  	
-  	if ( $_REQUEST["id_comptoir"] )
-  		$conds[] = "cpt_rechargements.id_comptoir='".intval($_REQUEST["id_comptoir"])."'";
+    $conds = array();
+    $comptoir = false;
+    
+    if ( $_REQUEST["debut"] )
+      $conds[] = "cpt_rechargements.date_rech >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
+    
+    if ( $_REQUEST["fin"] )
+      $conds[] = "cpt_rechargements.date_rech <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
+    
+    if ( $_REQUEST["id_comptoir"] )
+      $conds[] = "cpt_rechargements.id_comptoir='".intval($_REQUEST["id_comptoir"])."'";
   
-  	if ( $_REQUEST["banque_rech"] )
-  		$conds[] = "cpt_rechargements.banque_rech = '".intval($_REQUEST["banque_rech"])."'";
-  		
-  	if ( $_REQUEST["type_paiement_rech"] != -1 )
-  		$conds[] = "cpt_rechargements.type_paiement_rech = '".intval($_REQUEST["type_paiement_rech"])."'";
-  		
+    if ( $_REQUEST["banque_rech"] )
+      $conds[] = "cpt_rechargements.banque_rech = '".intval($_REQUEST["banque_rech"])."'";
+      
+    if ( $_REQUEST["type_paiement_rech"] != -1 )
+      $conds[] = "cpt_rechargements.type_paiement_rech = '".intval($_REQUEST["type_paiement_rech"])."'";
+      
   
-  	if ( count($conds) )
-  	{
-    	$req = new requete($site->db, "SELECT " .
-    		"COUNT(`cpt_rechargements`.`id_rechargement`), " .		
-    		"SUM(`cpt_rechargements`.`montant_rech`) " .
-    		"FROM `cpt_rechargements` " .
-    		"INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_rechargements`.`id_assocpt` " .
-    		"INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_rechargements`.`id_utilisateur_operateur` =`vendeur`.`id_utilisateur` " .	
-    		"INNER JOIN `utilisateurs` AS `client` ON `cpt_rechargements`.`id_utilisateur` =`client`.`id_utilisateur` " .
-    		"INNER JOIN `cpt_comptoir` ON `cpt_rechargements`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
-    		"WHERE " .implode(" AND ",$conds));		
-    		
-    	list($ln,$sum) = $req->get_row();
-    		
-    	$cts->add_title(2,"Somme");
-    	$cts->add_paragraph("$ln rechargements pour ".($sum/100)." Euros");
-    		
-    	if ( $ln < 4000 )
-    	{
-      	$req = new requete($site->db, "SELECT " .
-    			"`cpt_rechargements`.`id_rechargement`, " .
-    			"`cpt_rechargements`.`date_rech`, " .
-    			"`cpt_rechargements`.`banque_rech`, " .
-    			"`cpt_rechargements`.`type_paiement_rech`, " .
-    			"`asso`.`id_asso`, " .
-    			"`asso`.`nom_asso`, " .
-    			"CONCAT(`client`.`prenom_utl`,' ',`client`.`nom_utl`) as `nom_utilisateur_client`, " .
-    			"`client`.`id_utilisateur` AS `id_utilisateur_client`, " .
-    			"CONCAT(`vendeur`.`prenom_utl`,' ',`vendeur`.`nom_utl`) as `nom_utilisateur_vendeur`, " .
-    			"`vendeur`.`id_utilisateur` AS `id_utilisateur_vendeur`, " .			
-    			"`cpt_rechargements`.`montant_rech`/100 AS `total`," .
-    			"`cpt_comptoir`.`id_comptoir`, " .
-    			"`cpt_comptoir`.`nom_cpt`" .
-    			"FROM `cpt_rechargements` " .
-    			"LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_rechargements`.`id_assocpt` " .
-    			"INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_rechargements`.`id_utilisateur_operateur` =`vendeur`.`id_utilisateur` " .	
-    			"INNER JOIN `utilisateurs` AS `client` ON `cpt_rechargements`.`id_utilisateur` =`client`.`id_utilisateur` " .
-    			"INNER JOIN `cpt_comptoir` ON `cpt_rechargements`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
-    			"WHERE " .implode(" AND ",$conds).
-    			"ORDER BY `cpt_rechargements`.`date_rech` DESC");
-      		
-      	$cts->add(new sqltable(
-      		"listresp", 
-      		"Listing", $req, "comptarech.php", 
-      		"id_facture", 
-      		array(
-      			"id_rechargement"=>"Rech.",
-      			"date_rech"=>"Date",
-      			"nom_cpt"=>"Lieu",
-      			"type_paiement_rech"=>"Type",
-      			"banque_rech"=>"Banque",
-      			"nom_utilisateur_vendeur"=>"Operateur",
-      			"nom_utilisateur_client"=>"Client",
-      			"total"=>"Som."), 
-      		array(), 
-      		array(),
-      		array( "type_paiement_rech"=>$TypesPaiementsFull,"banque_rech"=> $Banques)
-      		),true);
-  	  }
+    if ( count($conds) )
+    {
+      $req = new requete($site->db, "SELECT " .
+        "COUNT(`cpt_rechargements`.`id_rechargement`), " .    
+        "SUM(`cpt_rechargements`.`montant_rech`) " .
+        "FROM `cpt_rechargements` " .
+        "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_rechargements`.`id_assocpt` " .
+        "INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_rechargements`.`id_utilisateur_operateur` =`vendeur`.`id_utilisateur` " .  
+        "INNER JOIN `utilisateurs` AS `client` ON `cpt_rechargements`.`id_utilisateur` =`client`.`id_utilisateur` " .
+        "INNER JOIN `cpt_comptoir` ON `cpt_rechargements`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
+        "WHERE " .implode(" AND ",$conds));    
+        
+      list($ln,$sum) = $req->get_row();
+        
+      $cts->add_title(2,"Somme");
+      $cts->add_paragraph("$ln rechargements pour ".($sum/100)." Euros");
+        
+      if ( $ln < 4000 )
+      {
+        $req = new requete($site->db, "SELECT " .
+          "`cpt_rechargements`.`id_rechargement`, " .
+          "`cpt_rechargements`.`date_rech`, " .
+          "`cpt_rechargements`.`banque_rech`, " .
+          "`cpt_rechargements`.`type_paiement_rech`, " .
+          "`asso`.`id_asso`, " .
+          "`asso`.`nom_asso`, " .
+          "CONCAT(`client`.`prenom_utl`,' ',`client`.`nom_utl`) as `nom_utilisateur_client`, " .
+          "`client`.`id_utilisateur` AS `id_utilisateur_client`, " .
+          "CONCAT(`vendeur`.`prenom_utl`,' ',`vendeur`.`nom_utl`) as `nom_utilisateur_vendeur`, " .
+          "`vendeur`.`id_utilisateur` AS `id_utilisateur_vendeur`, " .      
+          "`cpt_rechargements`.`montant_rech`/100 AS `total`," .
+          "`cpt_comptoir`.`id_comptoir`, " .
+          "`cpt_comptoir`.`nom_cpt`" .
+          "FROM `cpt_rechargements` " .
+          "LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_rechargements`.`id_assocpt` " .
+          "INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_rechargements`.`id_utilisateur_operateur` =`vendeur`.`id_utilisateur` " .  
+          "INNER JOIN `utilisateurs` AS `client` ON `cpt_rechargements`.`id_utilisateur` =`client`.`id_utilisateur` " .
+          "INNER JOIN `cpt_comptoir` ON `cpt_rechargements`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
+          "WHERE " .implode(" AND ",$conds).
+          "ORDER BY `cpt_rechargements`.`date_rech` DESC");
+          
+        $cts->add(new sqltable(
+          "listresp", 
+          "Listing", $req, "comptarech.php", 
+          "id_facture", 
+          array(
+            "id_rechargement"=>"Rech.",
+            "date_rech"=>"Date",
+            "nom_cpt"=>"Lieu",
+            "type_paiement_rech"=>"Type",
+            "banque_rech"=>"Banque",
+            "nom_utilisateur_vendeur"=>"Operateur",
+            "nom_utilisateur_client"=>"Client",
+            "total"=>"Som."), 
+          array(), 
+          array(),
+          array( "type_paiement_rech"=>$TypesPaiementsFull,"banque_rech"=> $Banques)
+          ),true);
+      }
     }
   }
 }
@@ -525,9 +525,9 @@ else
   $sublist->add("<a href=\"".$topdir."comptoir/admin.php\">Administration des produits</a>");
   $cts->add($sublist,true);
 }
-	
+  
 $site->add_contents($cts);
-		
-$site->end_page();	
+    
+$site->end_page();  
 
 ?>
