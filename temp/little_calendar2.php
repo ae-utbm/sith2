@@ -42,9 +42,9 @@ $cts->add_paragraph("Etiam in sem ac velit condimentum pretium. Aliquam felis el
 $cts->add_paragraph("Curabitur tincidunt ornare lacus. Nulla mauris risus, pharetra id, luctus fermentum, sagittis viverra, ante. Sed orci purus, lobortis id, varius vel, rhoncus et, orci. Etiam consequat accumsan dolor. Proin molestie nisl non ipsum. In odio. Mauris sit amet magna. Aliquam est ligula, volutpat sit amet, adipiscing id, adipiscing eu, sapien. Nam ornare ligula quis lacus. Quisque nec velit dapibus arcu dapibus aliquet. Nulla mauris. Vivamus erat nunc, sagittis ut, posuere eu, imperdiet vel, libero. Pellentesque venenatis eleifend nunc. Mauris nonummy fringilla orci. Nulla facilisi. Aliquam in eros nec mauris dignissim fringilla. Vivamus luctus. Cras et massa. Praesent tincidunt nulla eu arcu.");
 /*$cts->puts("<div id=\"calendar\" class=\"container\">&nbsp;</div>");*/
 $frm = new form("testcal", "");
-$frm->add_text_field("bleh", "Bleh");
-$frm->add_date_field("testdate", "Date");
-$frm->add_date_field2("bleh", "Date");
+$frm->add_text_field("bleh1", "Bleh");
+$frm->add_date_field("bleh2", "Date");
+$frm->add_date_field("bleh3", "Date");
 $frm->add_datetime_field("testdate", "Datetime");
 $frm->add_submit("go", "Let's go");
 $cts->add($frm);
