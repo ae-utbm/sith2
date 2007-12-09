@@ -787,6 +787,11 @@ div.calendarhead
   width:184px;
 }
 
+div.tinycalendarhead
+{
+	width:150px;
+}
+
 div.calendarhead td.month
 {
   text-align: center;
@@ -809,6 +814,12 @@ div.calendar
   text-align: center;
   padding: 1px;
   width:184px;  
+}
+
+div.tinycalendar
+{
+	width: 150px;
+	background: none;
 }
 
 div.calendar td
