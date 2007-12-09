@@ -3,6 +3,7 @@
  * - Pierre Mauduit
  * - Laurent Colnat
  * - Julien Etelain < julien at pmad dot net >
+ * - Manuel Vonthron < manuel DOT vonthron AT acadis DOT org >
  *
  * Ce fichier fait partie du site de l'Association des Ãtudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -386,6 +387,41 @@ function openMatmatronch(topdir, id, width, height) {
                 "width="+width+",height="+height);
 }
 
+/**
+ * Calendar V2 : tinycalendar
+ */
+ function opencal(_ref)
+{
+	var ref = document.getElementById(_ref);
+	var pos = findPos(ref);
+		
+	var elem = document.createElement('div');
+	elem.id = 'calendar';
+	elem.className = 'tinycal_box';
+	document.body.appendChild(elem);
+
+	elem.style.display = 'block';
+	elem.style.left = pos[0] + 20;
+	elem.style.top = pos[1] - 10;
+	openInContents('calendar', './little_calendar2.php', 'get_cal'); 
+}
+
+function closecal()
+{
+	var elem = document.getElementById('calendar');
+	elem.style.display = 'none';
+
+	return true;
+}
+
+function return_val(target_id, value)
+{
+	target = document.getElementById(target_id);
+	target.value = value;
+	closecal();
+	return true;
+}
+ 
 function errorMsg()
 {
 alert("Netscape 6 or Mozilla is needed to install a sherlock plugin");

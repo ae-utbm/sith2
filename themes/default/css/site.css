@@ -5,6 +5,7 @@
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  * - Julien Etelain <julien AT pmad POINT net>
  * - Simon Lopez <simon POINT lopez AT ayolo POINT org>
+ * - Manuel Vonthron <manuel POINT vonthron AT acadis POINT org>
  *
  * Ce fichier fait partie du site de l'Association des étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -861,6 +862,30 @@ div.calendar td.event3
   background: #ffe7ab;
 }
 
+div.tinycal_box
+{
+	position: absolute;
+	background: url(../images/box-top-small.png) no-repeat;
+	border: none;
+	display: none;
+}
+
+div.tinycal_endbox
+{
+	width: 150px;
+	height: 10px;
+	background: url(../images/box-bottom-small.png) no-repeat;
+}
+
+td.tinycal_day
+{
+	cursor: pointer;
+}
+
+td.tinycal_day:hover
+{
+	background: #eeeeee;
+}
 
 
 /* 
