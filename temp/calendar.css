@@ -3,7 +3,7 @@
 	cursor:pointer; 
 }
 
-.closecal
+.close
 {
 	position: absolute;
 	top: 0px;
@@ -11,11 +11,27 @@
 	cursor: pointer;
 }
 
-.container
+.tinycalendar_box
 {
 	position: absolute;
-	background: #eeeeee;
-	border: 1px solid blue;
+	background: url(../themes/default/images/box-top-small.png) no-repeat;
+	border: none;
 	display: none;
+}
+.tinycalendar_endbox
+{
+	width: 150px;
+	height: 10px;
+	background: url(../themes/default/images/box-bottom-small.png) no-repeat;
+}
+
+td.tinycal_day
+{
+	cursor: pointer;
+}
+
+td.tinycal_day:hover
+{
+	background: #eeeeee;
 }
 

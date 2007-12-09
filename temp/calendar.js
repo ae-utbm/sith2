@@ -6,7 +6,7 @@ function opencal(_ref)
 		
 	var elem = document.createElement('div');
 	elem.id = 'calendar';
-	elem.className = 'container';
+	elem.className = 'tinycalendar_box';
 	document.body.appendChild(elem);
 
 	elem.style.display = 'block';

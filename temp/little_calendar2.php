@@ -31,7 +31,7 @@ $site->add_js("temp/calendar.js");*/
 
 if( isset($_REQUEST['get_cal']) )
 {
-	$cal = new frm_calendar($site->db);
+	$cal = new tinycalendar($site->db);
 	echo $cal->html_render();
 	exit;
 }

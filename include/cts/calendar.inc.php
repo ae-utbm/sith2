@@ -10,6 +10,7 @@
  * - Maxime Petazzoni <maxime POINT petazzoni CHEZ bulix POINT org>
  * - Alexandre Belloni <alexandre POINT belloni CHEZ utbm POINT fr>
  * - Thomas Petazzoni <thomas POINT petazzoni CHEZ enix POINT org>
+ * - Manuel Vonthron <manuel DOT vonthron AT acadis DOT org>
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -292,7 +293,7 @@ class calendar extends stdcontents
 	}
 }
 
-class frm_calendar extends calendar
+class tinycalendar extends calendar
 {
 	function html_render()
 	{
@@ -306,8 +307,8 @@ class frm_calendar extends calendar
 		$year = date("Y", $this->date);
 		$days = date("t", $this->date);
 		
-	  $this->buffer = "<div class=\"closecal\" onclick=\"closecal();\" >X</div>";
-		$this->buffer .= "<div class=\"calendarhead\">\n";
+	  $this->buffer = "<div class=\"close\" onclick=\"closecal();\" >X</div>";
+		$this->buffer .= "<div class=\"calendarhead tinycalendarhead\">\n";
 		$this->buffer .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"99%\">\n";
 		
 		$prevmonth = $month - 1;
@@ -344,7 +345,7 @@ class frm_calendar extends calendar
 		$this->buffer .= "</div>\n";
 		
 		/* Partie principale du calendrier : les jours du mois */
-		$this->buffer .= "<div class=\"calendar\">\n";
+		$this->buffer .= "<div class=\"calendar tinycalendar\">\n";
 		$this->buffer .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"99%\">\n";
 		
 		/* On cherche le premier jour du mois dans la semaine */
@@ -384,9 +385,7 @@ class frm_calendar extends calendar
 			
 		$this->buffer .= "</tr>\n";
 		$this->buffer .= "</table>\n";
-		
-		/* On affiche les evenements */
-		$this->buffer .= $this->events;
+		$this->buffer .= "<div class=\"tinycalendar_endbox\"></div>\n";
 		$this->buffer .= "</div>\n";
 		
 		return $this->buffer;
@@ -397,7 +396,7 @@ function day ($year, $month, $day)
 		global $topdir,$wwwtopdir;
 		
 			
-		$style = "day";
+		$style = "tinycal_day";
 		
 		/* on construit une date mysql */
 		$date = $this->sql_date(mktime(0, 0, 0, $month, $day, $year));
@@ -412,7 +411,7 @@ function day ($year, $month, $day)
 
 		$js = "onclick=\"return_val('input_1', $day + '/' + $month + '/' + $year + ' 20:00');\"";
 		
-		$this->buffer .= "<td class=\"$style\" style=\"cursor: pointer;\" $js >" . $day . "</td>";
+		$this->buffer .= "<td class=\"$style\" $js >" . $day . "</td>";
 	}
 	
 }
