@@ -69,7 +69,7 @@ if ($site->user->id > 0)
   $cts->add(get_creds_cts($site->user->id, $site->db));
 
   $cts->add_title(3, "Statistiques d'obtention");
-  $cts->add_paragraph("<center><img src=\"./index.php?action=camembert alt=\"statistiques d'obtention\" /></center>");
+  $cts->add_paragraph("<center><img src=\"./index.php?action=camembert\" alt=\"statistiques d'obtention\" /></center>");
 
 
 
