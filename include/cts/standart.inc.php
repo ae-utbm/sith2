@@ -804,6 +804,37 @@ class form extends stdcontents
    * @param $value  Valeur du champ (timestamp unix, -1 ou null pour aucun)
    * @param $required  Précise si le champ est obligatoire
    */
+  function add_date_field2 ( $name, $title, $value = -1, $required = false , $tipp = false, $enabled = true)
+  {
+    global $wwwtopdir;
+
+    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];  
+    $this->buffer .= "<div class=\"formrow\">\n";
+    $this->_render_name($name,$title,$required);
+    
+    $this->buffer .= "<div class=\"formfield\"><input type=\"text\" id=\"$name\" name=\"magicform[date][$name]\" value=\"";
+    if ( $value != -1 && !is_null($value) )
+      $this->buffer .= date("d/m/Y",$value);
+    $this->buffer .= "\" ";
+    if (!$enabled)
+      $this->buffer .= "DISABLED";
+    $this->buffer .= "/>";
+    if ( $tipp )
+      $this->_add_tipp( $tipp );
+    $this->buffer .= "<a href=\"javascript:opencal('".$wwwtopdir."', '$name','date')\">";
+    $this->buffer .= "<img src=\"".$wwwtopdir."images/icons/16/ical.png\">";
+    $this->buffer .= "</a>";
+    $this->buffer .= "</div>\n";
+    $this->buffer .= "</div>\n";
+  }
+  
+  /** Ajoute un champ date au formulaire
+   * Valeur à récupérer dans $_REQUEST[$name] sous forme d'un timestamp unix
+   * @param $name    Nom du champ
+   * @param $title  Libéllé du champ
+   * @param $value  Valeur du champ (timestamp unix, -1 ou null pour aucun)
+   * @param $required  Précise si le champ est obligatoire
+   */
   function add_date_field ( $name, $title, $value = -1, $required = false , $tipp = false, $enabled = true)
   {
     global $wwwtopdir;
@@ -852,7 +883,7 @@ class form extends stdcontents
     $this->buffer .= "</div>\n";
     $this->buffer .= "</div>\n";
   }
-
+  
   /** Ajoute un champ heure au formulaire
    * Valeur à récupérer dans $_REQUEST[$name] sous forme d'un timestamp unix
    * @param $name    Nom du champ

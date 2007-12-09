@@ -343,9 +343,9 @@ class tinycalendar extends calendar
 			$nextdate = $year+1 . "-" . "1"  . "-" . $day;
 		
 		$this->buffer .= "<tr>\n";
-		$this->buffer .= "<td class=\"month\"><a href=\"?caldate=$prevdate\" onclick=\"return !openInContents('calendar','".$wwwtopdir."temp/little_calendar2.php','get_cal&amp;caldate=$prevdate');\">&laquo;</a></td>\n";
+		$this->buffer .= "<td class=\"month\"><a href=\"?caldate=$prevdate\" onclick=\"return !openInContents('calendar','".$wwwtopdir."gateway.php','get_cal&amp;caldate=$prevdate');\">&laquo;</a></td>\n";
 		$this->buffer .= "<td class=\"month\" colspan=\"5\">" . $this->months[$month-1] . " " . $year . "</td>\n";
-		$this->buffer .= "<td class=\"month\"><a href=\"?caldate=$nextdate\" onclick=\"return !openInContents('calendar','".$wwwtopdir."temp/little_calendar2.php','get_cal&amp;caldate=$nextdate');\">&raquo;</a></td>\n";
+		$this->buffer .= "<td class=\"month\"><a href=\"?caldate=$nextdate\" onclick=\"return !openInContents('calendar','".$wwwtopdir."gateway.php','get_cal&amp;caldate=$nextdate');\">&raquo;</a></td>\n";
 		$this->buffer .= "</tr>\n";
 		
 		/* Affichage des jours de la semaine */

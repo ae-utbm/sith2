@@ -44,6 +44,7 @@ $cts->add_paragraph("Curabitur tincidunt ornare lacus. Nulla mauris risus, phare
 $frm = new form("testcal", "");
 $frm->add_text_field("bleh", "Bleh");
 $frm->add_date_field("testdate", "Date");
+$frm->add_date_field2("bleh", "Date");
 $frm->add_datetime_field("testdate", "Datetime");
 $frm->add_submit("go", "Let's go");
 $cts->add($frm);
