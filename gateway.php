@@ -533,6 +533,7 @@ elseif ( $_REQUEST['module']=="exfield" )
 elseif( $_REQUEST['module']=="tinycal" )
 {
 	$cal = new tinycalendar($site->db);
+	$cal->set_target($_REQUEST['target']);
 	echo $cal->html_render();
 	exit();
 }
