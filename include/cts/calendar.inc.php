@@ -296,10 +296,16 @@ class calendar extends stdcontents
 class tinycalendar extends calendar
 {
 	var $target;
+	var $type;
 	
 	function set_target($target)
 	{
 		$this->target = $target;
+	}
+	
+	function set_type($type = "date")
+	{
+		$this->type = $type;
 	}
 	
 	function html_render()
@@ -416,7 +422,13 @@ function day ($year, $month, $day)
 		if ($date == $this->sql_date (time()))
 		$style .= " active";
 
-		$js = "onclick=\"return_val($this->target, $day + '/' + $month + '/' + $year + ' 20:00');\"";
+		if($this->type == "datetime")
+			$extra = "' 20:00'";
+		else
+			$extra = " ''";
+		
+		
+		$js = "onclick=\"return_val('$this->target', $day + '/' + $month + '/' + $year + $extra);\"";
 		
 		$this->buffer .= "<td class=\"$style\" $js >" . $day . "</td>";
 	}

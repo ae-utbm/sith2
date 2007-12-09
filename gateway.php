@@ -534,6 +534,7 @@ elseif( $_REQUEST['module']=="tinycal" )
 {
 	$cal = new tinycalendar($site->db);
 	$cal->set_target($_REQUEST['target']);
+	$cal->set_type($_REQUEST['type']);
 	echo $cal->html_render();
 	exit();
 }
