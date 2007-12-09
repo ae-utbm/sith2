@@ -396,19 +396,19 @@ function opencal(topdir, __target, type)
 	var pos = findPos(target);
 		
 	var elem = document.createElement('div');
-	elem.id = 'calendar';
+	elem.id = __target + '_calendar';
 	elem.className = 'tinycal_box';
 	document.body.appendChild(elem);
 
 	elem.style.display = 'block';
 	elem.style.left = pos[0] + 150;
 	elem.style.top = pos[1] - 20;
-	openInContents('calendar', topdir + 'gateway.php', 'module=tinycal&target=' + __target + '&type=' + type + '&topdir=' + topdir); 
+	openInContents(__target + '_calendar', topdir + 'gateway.php', 'module=tinycal&target=' + __target + '&type=' + type + '&topdir=' + topdir); 
 }
 
-function closecal()
+function closecal(name)
 {
-	var elem = document.getElementById('calendar');
+	var elem = document.getElementById(name + '_calendar');
 	elem.style.display = 'none';
 
 	return true;
@@ -418,7 +418,7 @@ function return_val(target_id, value)
 {
 	target = document.getElementById(target_id);
 	target.value = value;
-	closecal();
+	closecal(target_id);
 	return true;
 }
  
