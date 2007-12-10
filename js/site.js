@@ -395,15 +395,26 @@ function opencal(topdir, __target, type)
 	var target = document.getElementById(__target);
 	var pos = findPos(target);
 		
-	var elem = document.createElement('div');
-	elem.id = __target + '_calendar';
-	elem.className = 'tinycal_box';
-	document.body.appendChild(elem);
-
-	elem.style.display = 'block';
-	elem.style.left = pos[0] + 150;
-	elem.style.top = pos[1] - 20;
-	openInContents(__target + '_calendar', topdir + 'gateway.php', 'module=tinycal&target=' + __target + '&type=' + type + '&topdir=' + topdir); 
+	var elem = document.getElementById(__target + '_calendar');
+	if(elem == null)
+	{
+			elem = document.createElement('div');
+			elem.id = __target + '_calendar';
+			elem.className = 'tinycal_box';
+			document.body.appendChild(elem);
+		
+			elem.style.display = 'block';
+			elem.style.left = pos[0] + 150;
+			elem.style.top = pos[1] - 20;
+			openInContents(__target + '_calendar', topdir + 'gateway.php', 'module=tinycal&target=' + __target + '&type=' + type + '&topdir=' + topdir); 
+	}
+	else
+	{
+		if(elem.style.display == "none")
+			elem.style.display = "block"
+		else if(elem.style.display == "block")
+			alert("un calendrier est deja ouvert !");
+	}
 }
 
 function closecal(name)
