@@ -75,7 +75,7 @@ elseif ( $category->is_valid() && $category->id != 1 )
 $site->start_page("pg","Petit Géni 2.0");
 $cts = new board("Bienvenue");
 
-$scts = new board("Catégories");
+$scts = new board("Le Guide");
 $req = new requete($site->db,
   "SELECT cat1.id_pgcategory AS id, cat1.nom_pgcategory AS nom, cat1.couleur_bordure_web_pgcategory AS couleur, ".
   "cat2.id_pgcategory AS id2, cat2.nom_pgcategory AS nom2 ".
@@ -92,7 +92,7 @@ while ( $row = $req->get_row() )
   if ( $prev_cat != $row["id"] )
   {
     if ( !is_null($sscts) )
-      $scts->add($sscts);
+      $scts->add($sscts,false,"light");
     $sscts = new pgcatlist($row["id"],$row["nom"],$row["couleur"]);
     $prev_cat = $row["id"];
   }
@@ -100,7 +100,7 @@ while ( $row = $req->get_row() )
 }
 
 if ( !is_null($sscts) )
-  $scts->add($sscts);
+  $scts->add($sscts,false,"light");
 
 $cts->add($scts,true);
 
