@@ -1,20 +1,7 @@
 
 div.pgcatlist
 {
-  /*border:1px solid black; */ 
-  padding-bottom:1px;
-}
-
-div.pgcatlist h2
-{
-  margin:0;
-  border:0;
-  padding:5px;
-}
-
-div.pgcatlist h2 a 
-{
-  color:black;
+  
 }
 
 div.pgcatlist ul
@@ -23,17 +10,36 @@ div.pgcatlist ul
   margin-bottom:0;
   list-style:none;
 }
+
 div.pgcatlist ul a
+{
+  color:black;
+}
+
+
+div.pgcatlist
+{
+  
+}
+
+div.pgcatlist h3
+{
+  border-bottom:1px solid white;
+}
+
+div.pgcatlist h3 a
 {
   color:black;
 }
 
 div.pgcatlist div
 {
-  background:white;
-  margin:5px;
-  padding:5px;
-  margin-top:0;
+
+}
+
+div.pgcatlist div a
+{
+  color:black;
 }
 
 
