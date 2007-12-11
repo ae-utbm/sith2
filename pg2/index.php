@@ -44,17 +44,24 @@ elseif ( isset($_REQUEST["id_pgcategory"]) )
 if ( $category->is_valid() )
 {
   if ( $category->id_pgcategory_parent == 1 )
-    $id_pgcategory1 = $category->id;
-
-  $path = $category->get_html_link();
-  $parent = new pgcategory($site->db);
-  $parent->id_pgcategory_parent = $category->id_pgcategory_parent;
-  while ( !is_null($parent->id_pgcategory_parent)
-          && $parent->load_by_id($parent->id_pgcategory_parent) )
   {
-    if ( $parent->id_pgcategory_parent == 1 )
-      $id_pgcategory1 = $parent->id;
-    $path = $parent->get_html_link()." / ".$path;
+    $id_pgcategory1 = $category->id;
+    $path = "";   
+  }
+  else
+  {
+    $path = $category->get_html_link();
+    $parent = new pgcategory($site->db);
+    $parent->id_pgcategory_parent = $category->id_pgcategory_parent;
+    
+    while ( !is_null($parent->id_pgcategory_parent)
+            && $parent->load_by_id($parent->id_pgcategory_parent) )
+    {
+      if ( $parent->id_pgcategory_parent == 1 )
+        $id_pgcategory1 = $parent->id;
+      else
+        $path = $parent->get_html_link()." / ".$path;
+    }
   }
 }
 
@@ -63,7 +70,8 @@ if ( $fiche->is_valid() )
   $path .= " / ".$fiche->get_html_link();
   $site->start_page("pg",$fiche->nom);
   $cts = new contents("<a href=\"index.php\">Le Guide</a>");
-  
+  $cts->add(new pgtabshead($site->db,$id_pgcategory1));
+  $cts->add_paragraph($path);
   
   $site->add_contents($cts);
   $site->end_page();
@@ -75,10 +83,7 @@ elseif ( $category->is_valid() && $category->id != 1 )
   $cts = new contents("<a href=\"index.php\">Le Guide</a>");
   
   $cts->add(new pgtabshead($site->db,$id_pgcategory1));
-  
-  if (!empty($path) )
-    $cts->add_paragraph($path);
-  
+  $cts->add_paragraph($path);
   
   $req = new requete($site->db,
     "SELECT id_pgcategory, nom_pgcategory ".
@@ -88,9 +93,8 @@ elseif ( $category->is_valid() && $category->id != 1 )
     
   if ( $req->lines > 0 )
   {
-    $sscts = new pgcatlist($category->id,null,null);
+    $sscts = new pgcatlist(null,null,null);
     while ( $row = $req->get_row() )
-    
       $sscts->add($row["id_pgcategory"],$row["nom_pgcategory"]);
     $cts->add($sscts);
   }
