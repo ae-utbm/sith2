@@ -43,13 +43,7 @@ class colortabshead extends tabshead
   {
     global $wwwtopdir;
     
-    $this->buffer .= "<div class=\"".$this->tclass."\"";
-    foreach ($this->entries as $entry)
-    {
-      if ($this->sel == $entry[0])
-        $this->buffer .= " style=\"background: #".$entry[3]."\"";
-    }
-    $this->buffer .= ">\n";
+    $this->buffer .= "<div class=\"".$this->tclass."\">\n";
     
     foreach ($this->entries as $entry)
     {
@@ -59,7 +53,7 @@ class colortabshead extends tabshead
       $this->buffer .= "><a href=\"" . htmlentities($wwwtopdir . $entry[1],ENT_NOQUOTES,"UTF-8") . "\"";
       if ($this->sel == $entry[0])
       {
-        $this->buffer .= " class=\"selected\" style=\"color: #".$entry[3]."\"";
+        $this->buffer .= " class=\"selected\" style=\"background: #".$entry[3]."\"";
       }
       else
         $this->buffer .= " style=\"background: #".$entry[3]."\"";
