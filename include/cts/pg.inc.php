@@ -7,7 +7,7 @@ class pgcatminilist extends stdcontents
   var $couleur;
   var $data;
   
-  function pgcatlist ( $id, $nom, $couleur )
+  function pgcatminilist ( $id, $nom, $couleur )
   {
     $this->id = $id;
     $this->nom = $nom;
