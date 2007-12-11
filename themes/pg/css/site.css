@@ -37,17 +37,17 @@ div.pgcatlist div
 }
 
 
-div.article div.tabs
+div.article div.tabs.pgtabs
 {
   /*background:#EEAC00;*/
   background:#EEAC00;
   height:20px;
-  overflow:hidden;
+  overflow:visible;
   padding-left:15px;
-  margin-bottom:7px;
+  margin-bottom:20px;
 }
 
-div.article div.tabs span
+div.article div.tabs.pgtabs span
 {
   float:left;
   color:#ffffff;
@@ -55,35 +55,24 @@ div.article div.tabs span
   border-left:1px solid #ffffff;
   border-right:1px solid #ffffff;
   margin-right:-1px;
+  height:20px;
+  background:#ffffff;
+}
+
+div.article div.tabs.pgtabs span a
+{
+  border:0;
+  margin:0;
   padding-top:4px;
   padding-bottom:4px;
   padding-left:8px; 
   padding-right:8px;
-  height:20px;
-}
-
-div.article div.tabs span a
-{
-  float:none;
-  color:#ffffff;
-  border:0;
-  margin:0;
-  padding:0;
-}
-
-
-div.article div.tabs.pgtabs span.selected, div.article div.tabs.pgtabs span
-{
-  background:#ffffff;
-  color:#000000;
-  
-  border-left:1px solid #ffffff;
-  border-right:1px solid #ffffff;
 }
 
 div.article div.tabs.pgtabs span.selected a, div.article div.tabs.pgtabs span a:hover
 {
-  background:#ffffff;
-  color:#000000;
-  text-decoration:none;
+  padding-top:10px;
+  padding-bottom:10px;
+  border:0;
+  color:#ffffff;
 }

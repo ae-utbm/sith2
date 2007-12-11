@@ -50,8 +50,6 @@ class colortabshead extends tabshead
       $this->buffer .= "<span";
       if ($this->sel == $entry[0])
         $this->buffer .= " class=\"selected\"";
-      else
-        $this->buffer .= " style=\"background: #".$entry[3]."\"";
         
       $this->buffer .= "><a href=\"" . htmlentities($wwwtopdir . $entry[1],ENT_NOQUOTES,"UTF-8") . "\"";
       
