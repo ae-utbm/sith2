@@ -50,11 +50,13 @@ class colortabshead extends tabshead
       $this->buffer .= "<span";
       if ($this->sel == $entry[0])
         $this->buffer .= " class=\"selected\"";
+      else
+        $this->buffer .= " style=\"background: #".$entry[3]."\"";
+        
       $this->buffer .= "><a href=\"" . htmlentities($wwwtopdir . $entry[1],ENT_NOQUOTES,"UTF-8") . "\"";
+      
       if ($this->sel == $entry[0])
-      {
         $this->buffer .= " class=\"selected\" style=\"background: #".$entry[3]."\"";
-      }
       else
         $this->buffer .= " style=\"background: #".$entry[3]."\"";
         
@@ -84,7 +86,7 @@ class pgtabshead extends colortabshead
       $this->entries[] = array("pg$id","pg2/?id_pgcategory=$id",$nom,$couleur);
     
     $this->sel = "pg".$id_pgcategory;  
-    $this->tclass = "tabs";
+    $this->tclass = "tabs pgtabs";
   }
   
   

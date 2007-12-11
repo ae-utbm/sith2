@@ -35,3 +35,55 @@ div.pgcatlist div
   padding:5px;
   margin-top:0;
 }
+
+
+div.article div.tabs
+{
+  /*background:#EEAC00;*/
+  background:#EEAC00;
+  height:20px;
+  overflow:hidden;
+  padding-left:15px;
+  margin-bottom:7px;
+}
+
+div.article div.tabs span
+{
+  float:left;
+  color:#ffffff;
+  font-size:12px;
+  border-left:1px solid #ffffff;
+  border-right:1px solid #ffffff;
+  margin-right:-1px;
+  padding-top:4px;
+  padding-bottom:4px;
+  padding-left:8px; 
+  padding-right:8px;
+  height:20px;
+}
+
+div.article div.tabs span a
+{
+  float:none;
+  color:#ffffff;
+  border:0;
+  margin:0;
+  padding:0;
+}
+
+
+div.article div.tabs.pgtabs span.selected, div.article div.tabs.pgtabs span
+{
+  background:#ffffff;
+  color:#000000;
+  
+  border-left:1px solid #ffffff;
+  border-right:1px solid #ffffff;
+}
+
+div.article div.tabs.pgtabs span.selected a, div.article div.tabs.pgtabs span a:hover
+{
+  background:#ffffff;
+  color:#000000;
+  text-decoration:none;
+}
