@@ -23,18 +23,99 @@
  
 $topdir="../";
 require_once("include/site.inc.php");
+require_once($topdir."include/entities/pgfiche.inc.php");
+require_once($topdir."include/cts/board.inc.php");
+require_once($topdir."include/cts/pg.inc.php");
 
 $site = new pgsite();
 
-$site->start_page("pg","Petit Géni 2.0");
-  
-  
-$cts = new contents("Bienvenue");
+$fiche = new pgfiche($site->db,$site->dbrw);
+$category = new pgcategory($site->db,$site->dbrw);
 
+if ( isset($_REQUEST["id_pgfiche"]) )
+{
+  if ( $fiche->load_by_id($_REQUEST["id_pgfiche"]) )
+    $category->load_by_id($fiche->id_pgcategory);
+}
+elseif ( isset($_REQUEST["id_pgcategory"]) )
+  $category->load_by_id($_REQUEST["id_pgcategory"]);
+
+
+if ( $category->is_valid() )
+{
+  $path = $category->get_html_link();
+  $parent = new pgcategory($site->db);
+  $parent->id_pgcategory_parent = $category->id_pgcategory_parent;
+  while ( !is_null($parent->id_pgcategory_parent) && $parent->load_by_id($parent->id_pgcategory_parent) )
+    $path = $parent->get_html_link()." / ".$path;
+}
+
+if ( $fiche->is_valid() )
+{
+  $path .= " / ".$fiche->get_html_link();
+  $site->start_page("pg",$fiche->nom);
+  $cts = new contents($path);
+  
+  
+  $site->add_contents($cts);
+  $site->end_page();
+  exit(); 
+}
+elseif ( $category->is_valid() && $category->id != 1 )
+{
+  $site->start_page("pg",$category->nom);
+  $cts = new contents($path);
+  
+  
+  $site->add_contents($cts);
+  $site->end_page();
+  exit(); 
+}
+
+$site->start_page("pg","Petit Géni 2.0");
+$cts = new board("Bienvenue");
+
+$scts = new board("Catégories");
+$req = new requete($site->db,
+  "SELECT cat1.id_pgcategory AS id, cat1.nom_pgcategory AS nom, cat1.couleur_bordure_web_pgcategory AS couleur, ".
+  "cat2.id_pgcategory AS id2, cat2.nom_pgcategory AS nom2 ".
+  "FROM pg_category AS cat1 ".
+  "LEFT JOIN pg_category AS cat2 ON (cat1.id_pgcategory=cat2.id_pgcategory_parent) ".
+  "WHERE cat1.id_pgcategory_parent='1' ".
+  "ORDER BY cat1.ordre_pgcategory, cat2.ordre_pgcategory, cat2.nom_pgcategory");
+
+$prev_cat=null;
+$sscts=null;
+
+while ( $row = $req->get_row() )
+{
+  if ( $prev_cat != $row["id"] )
+  {
+    if ( !is_null($sscts) )
+      $scts->add($sscts);
+    $sscts = new pgcatlist($row["id"],$row["nom"],$row["couleur"]);
+  }
+  $sscts->add($row["id2"],$row["nom2"]);
+}
+
+if ( !is_null($sscts) )
+  $scts->add($sscts);
+
+$cts->add($scts,true);
+
+$scts = new contents("Rechercher");
+$cts->add($scts,true);
+
+$scts = new contents("Agenda");
+$cts->add($scts,true);
+
+$scts = new contents("Bons plans");
+$cts->add($scts,true);
+
+$scts = new contents("Le Petit Géni");
+$cts->add($scts,true);
 
 $site->add_contents($cts);
-  
-  
 $site->end_page();
 
 ?>

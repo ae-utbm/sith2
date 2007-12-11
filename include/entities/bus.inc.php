@@ -138,6 +138,7 @@ class lignebus extends stdentity
   var $nom;
   var $id_lignebus_parent;
   var $id_reseaubus;
+  var $couleur;
   
   /**
    * Charge un élément par son id
@@ -167,19 +168,22 @@ class lignebus extends stdentity
     $this->nom = $row['nom_lignebus'];
     $this->id_lignebus_parent = $row['id_lignebus_parent'];
     $this->id_reseaubus = $row['id_reseaubus'];
+    $this->couleur = $row['couleur_lignebus'];
   }
   
-  function create ( $nom, $id_reseaubus, $id_lignebus_parent=null )
+  function create ( $nom, $id_reseaubus, $couleur, $id_lignebus_parent=null )
   {
     $this->nom = $nom;
     $this->id_lignebus_parent = $id_lignebus_parent;    
     $this->id_reseaubus = $id_reseaubus;
+    $this->couleur = $couleur;
     
     $req = new insert ( $this->dbrw, "pg_lignebus", 
       array( 
       "nom_lignebus" => $this->nom,
       "id_lignebus_parent" => $this->id_lignebus_parent,
-      "id_reseaubus" => $this->id_reseaubus
+      "id_reseaubus" => $this->id_reseaubus,
+      "couleur_lignebus" => $this->couleur
       ) );
     
     if ( !$req->is_success() )
@@ -192,17 +196,19 @@ class lignebus extends stdentity
     return true;
   }
   
-  function update ( $nom, $id_reseaubus, $id_lignebus_parent=null )
+  function update ( $nom, $id_reseaubus, $couleur, $id_lignebus_parent=null )
   {
     $this->nom = $nom;
     $this->id_lignebus_parent = $id_lignebus_parent;    
     $this->id_reseaubus = $id_reseaubus;
-
+    $this->couleur = $couleur;
+    
     new update ( $this->dbrw, "pg_lignebus", 
       array( 
       "nom_lignebus" => $this->nom,
       "id_lignebus_parent" => $this->id_lignebus_parent,
-      "id_reseaubus" => $this->id_reseaubus
+      "id_reseaubus" => $this->id_reseaubus,
+      "couleur_lignebus" => $this->couleur
       ),
       array("id_lignebus"=>$this->id) );
   }
@@ -245,14 +251,51 @@ class lignebus extends stdentity
       ));
   }
   
+  function get_arret ( $id_arretbus )
+  {
+    $req = new requete($this->db,
+      "SELECT num_passage_arret ".
+      "FROM pg_lignebus_arrets ".
+      "WHERE id_lignebus='".mysql_real_escape_string($this->id)."' ".
+      "AND id_arretbus='".mysql_real_escape_string($id_arretbus)."'");
+    
+    if ( $req->lines != 1 )
+      return null;
+      
+    list($num) = $req->get_row();
+    return $num;Ò
+  }
+  
+  
   function add_passage ( $jours, $datedebut, $datefin, $heures )
   {
+    $id_arretbus_debut = null;
+    $id_arretbus_fin = null;
+    $sens = 1;
+    
+    asort($heures);
+    list($id_arretbus_debut) = array_slice($heures,0,1);
+    list($id_arretbus_fin) = array_slice($heures,-1,1);
+    
+    $num_debut = $this->get_arret($id_arretbus_debut);
+    $num_fin = $this->get_arret($id_arretbus_fin);
+    
+    if ( is_null($num_fin) || is_null($num_fin) )
+      $sens=0;
+    else if ( $num_debut < $num_fin )
+      $sens=1;
+    else
+      $sens=-1;
+    
     $req = new insert ( $this->dbrw, "pg_lignebus_passage", 
       array( 
       "id_lignebus" => $this->id,
       "jours_passage" => $jours,
       "debut_passage" => date("Y-m-d H:i:s",$datedebut),
-      "fin_passage" => date("Y-m-d H:i:s",$datefin)
+      "fin_passage" => date("Y-m-d H:i:s",$datefin),
+      "id_arretbus_debut" => $id_arretbus_debut,
+      "id_arretbus_fin" => $id_arretbus_fin,
+      "sens_passage" => $sens
       ) );
     
     if ( !$req->is_success() )

@@ -24,12 +24,14 @@
 $topdir="../";
 require_once("include/site.inc.php");
 require_once($topdir."include/entities/bus.inc.php");
+require_once($topdir."include/entities/ville.inc.php");
 
 $site = new pgsite();
 
 $reseaubus = new reseaubus($site->db,$site->dbrw);
 $lignebus = new lignebus($site->db,$site->dbrw);
 $arretbus = new arretbus($site->db,$site->dbrw);
+$ville = new ville($site->db);
 
 if ( isset($_REQUEST["id_arretbus"]) )
   $arretbus->load_by_id($_REQUEST["id_arretbus"]);
@@ -52,6 +54,13 @@ if ( $site->is_admin() && isset($_REQUEST["action"]) )
     $reseaubusparent->load_by_id($_REQUEST["id_reseaubus_parent"]);
     $reseaubus->create ( $_REQUEST["nom"], $_REQUEST["siteweb"], $reseaubusparent->id );
   }
+  elseif ( $_REQUEST["action"] == "createarretbus" ) 
+  {
+    $ville->load_by_id($_REQUEST["id_ville"]);
+    $arretbus->create ( $ville->id,  $_REQUEST["nom"], $_REQUEST["lat"], $_REQUEST["long"], $_REQUEST["eloi"] )
+  }  
+  
+  
 }
 
 // Gènère le chemin affiché
@@ -132,6 +141,17 @@ if ( $site->is_admin() )
   $frm->add_entity_smartselect("id_reseaubus_parent","Reseau parent",$reseaubus,true);
   $frm->add_submit("valid","Ajouter");
   $cts->add($frm,true);
+  
+  $frm = new form("createarretbus","bus.php",false,"POST","Ajouter un arret de bus");
+  $frm->add_hidden("action","createarretbus");
+  $frm->add_text_field("nom","Nom");
+  $frm->add_entity_smartselect("id_ville","Ville",$ville);
+  $frm->add_geo_field("lat","Latitude","lat");
+  $frm->add_geo_field("long","Longitude","long");
+  $frm->add_text_field("eloi","Eloignement");
+  $frm->add_submit("valid","Ajouter");
+  $cts->add($frm,true);  
+  
 }
 
 $site->add_contents($cts);

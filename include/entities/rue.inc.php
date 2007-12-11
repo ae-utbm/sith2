@@ -26,18 +26,185 @@
  */
  
 
-
+/**
+ * Type de rue
+ *
+ */
 class typerue extends stdentity
 {
+  /** Nom du type de rue */
   var $nom;
+  
+  /**
+   * Charge un élément par son id
+   * @param $id Id de l'élément
+   * @return false si non trouvé, true si chargé
+   */
+  function load_by_id ( $id )
+  {
+    $req = new requete($this->db, "SELECT * 
+        FROM `pg_typerue`
+				WHERE `id_typerue` = '".mysql_real_escape_string($id)."'
+				LIMIT 1");
+
+    if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
+  }
+  
+  function _load ( $row )
+  {
+    $this->id = $row['id_typerue'];
+    $this->nom = $row['nom_typerue'];
+  }
+  
+  function create ( $nom )
+  {
+    $this->nom = $nom;
+    
+    $req = new insert ( $this->dbrw, "pg_typerue", 
+      array( 
+      "nom_typerue" => $this->nom
+      ) );
+    
+    if ( !$req->is_success() )
+    {
+      $this->id = null;
+      return false;
+    }
+    
+	  $this->id = $req->get_id();
+    return true;
+  }
+  
+  function update ( $nom )
+  {
+    $this->nom = $nom;
+
+    new update ( $this->dbrw, "pg_typerue", 
+      array( 
+      "nom_typerue" => $this->nom
+      ),
+      array("id_typerue"=>$this->id) );
+  }
+  
+  function delete ()
+  {
+    new delete($this->dbrw, "pg_typerue",array("id_typerue"=>$this->id));
+    new delete($this->dbrw, "pg_rue",array("id_typerue"=>$this->id));
+    $this->id=null; 
+  } 
   
 }
 
+/**
+ * Rue
+ * @see typerue
+ * @see ville
+ */
 class rue extends stdentity
 {
+  /** Nom de la rue */
   var $nom;
+  /** Type de rue (rue, boulevard, RN, ...) 
+    * @see typerue */
   var $id_typerue;
+  /** Ville dans la quelle se situe la rue 
+    * @see ville */
   var $id_ville;
+  /** Dans le cas de "centres", rue de l'entrée principale */
+  var $id_rue_entree;
+  /** Dans le cas de "centres", numéro de rue de l'entrée principale */
+  var $num_entree;
+  
+  /**
+   * Charge un élément par son id
+   * @param $id Id de l'élément
+   * @return false si non trouvé, true si chargé
+   */
+  function load_by_id ( $id )
+  {
+    $req = new requete($this->db, "SELECT * 
+        FROM `pg_rue`
+				WHERE `id_rue` = '".mysql_real_escape_string($id)."'
+				LIMIT 1");
+
+    if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
+  }
+  
+  function _load ( $row )
+  {
+    $this->id = $row['id_rue'];
+    $this->nom = $row['nom_rue'];
+    $this->id_typerue = $row['id_typerue'];
+    $this->id_ville = $row['id_ville'];
+    $this->id_rue_entree = $row['id_rue_entree'];
+    $this->num_entree = $row['num_entree_rue'];
+  }
+  
+  function create ( $nom, $id_typerue, $id_ville, $id_rue_entree=null, $num_entree=null )
+  {
+    $this->nom = $nom;
+    $this->id_typerue = $id_typerue;
+    $this->id_ville = $id_ville;
+    $this->id_rue_entree = $id_rue_entree;
+    $this->num_entree = $num_entree;
+    
+    $req = new insert ( $this->dbrw, "pg_rue", 
+      array( 
+      "nom_typerue" => $this->nom,
+      "id_typerue" => $this->id_typerue,
+      "id_ville" => $this->id_ville,
+      "id_rue_entree" => $this->id_rue_entree,
+      "num_entree_rue" => $this->num_entree
+      ) );
+    
+    if ( !$req->is_success() )
+    {
+      $this->id = null;
+      return false;
+    }
+    
+	  $this->id = $req->get_id();
+    return true;
+  }
+  
+  function update ( $nom, $id_typerue, $id_ville, $id_rue_entree=null, $num_entree=null )
+  {
+    $this->nom = $nom;
+    $this->id_typerue = $id_typerue;
+    $this->id_ville = $id_ville;
+    $this->id_rue_entree = $id_rue_entree;
+    $this->num_entree = $num_entree;
+
+    new update ( $this->dbrw, "pg_rue", 
+      array( 
+      "nom_typerue" => $this->nom,
+      "id_typerue" => $this->id_typerue,
+      "id_ville" => $this->id_ville,
+      "id_rue_entree" => $this->id_rue_entree,
+      "num_entree_rue" => $this->num_entree
+      ),
+      array("id_rue"=>$this->id) );
+  }
+  
+  function delete ()
+  {
+    new delete($this->dbrw, "pg_rue",array("id_rue"=>$this->id));
+    $this->id=null; 
+  } 
   
 }
 

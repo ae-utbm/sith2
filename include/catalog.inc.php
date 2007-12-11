@@ -104,8 +104,14 @@ $GLOBALS["entitiescatalog"] = array (
   // Petit Géni 2 : Reseaux de bus
 	"reseaubus"=>array("id_reseaubus", "nom_reseaubus", "misc.png", "pg2/bus.php", "pg_reseaubus", "bus.inc.php" ),
 	"lignebus"=>array("id_lignebus", "nom_lignebus", "misc.png", "pg2/bus.php", "pg_lignebus", "bus.inc.php" ),
-	"arretbus"=>array("id_arretbus", "nom_geopoint", "misc.png", "pg2/bus.php", "geopoint", "bus.inc.php" )
+	"arretbus"=>array("id_arretbus", "nom_geopoint", "misc.png", "pg2/bus.php", "geopoint", "bus.inc.php" ),
 	
+  // Petit Géni 2 : Rues
+	"typerue"=>array("id_typerue", "nom_typerue", "misc.png", "pg2/rue.php", "pg_typerue", "rue.inc.php" ),
+	"rue"=>array("id_rue", "nom_rue", "misc.png", "pg2/rue.php", "pg_rue", "rue.inc.php" ),
+	
+	// Petit Géni 2 : Fiches
+	"pgcategory"=>array("id_pgcategory", "nom_pgcategory", "misc.png", "pg2/", "pg_category", "pgfiche.inc.php" )
 	
 	);
 

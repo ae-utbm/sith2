@@ -30,7 +30,7 @@ require_once($topdir."include/entities/geopoint.inc.php");
 
 class pgcategory extends stdentity
 {
-  var $id_pgcategory_parent;
+  var $id_pgcategory_parent; 
   var $nom;
   var $description;
   var $ordre;
@@ -42,6 +42,127 @@ class pgcategory extends stdentity
   var $couleur_bordure_print;
   var $couleur_titre_print;
   var $couleur_contraste_print;
+  
+  
+  
+  /**
+   * Charge un élément par son id
+   * @param $id Id de l'élément
+   * @return false si non trouvé, true si chargé
+   */
+  function load_by_id ( $id )
+  {
+    $req = new requete($this->db, "SELECT * 
+        FROM `pg_category`
+				WHERE `id_pgcategory` = '".mysql_real_escape_string($id)."'
+				LIMIT 1");
+
+    if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
+  }
+  
+  function _load ( $row )
+  {
+    $this->id = $row['id_pgcategory'];
+    
+    $this->id_pgcategory_parent = $row['id_pgcategory_parent'];
+    $this->nom = $row['nom_pgcategory'];
+    $this->description = $row['description_pgcategory'];
+    $this->ordre = $row['ordre_pgcategory'];
+  
+    $this->couleur_bordure_web = $row['couleur_bordure_web_pgcategory'];
+    $this->couleur_titre_web = $row['couleur_titre_web_pgcategory'];
+    $this->couleur_contraste_web = $row['couleur_contraste_web_pgcategory'];
+  
+    $this->couleur_bordure_print = $row['couleur_bordure_print_pgcategory'];
+    $this->couleur_titre_print = $row['couleur_titre_print_pgcategory'];
+    $this->couleur_contraste_print = $row['couleur_contraste_print_pgcategory'];   
+  }
+  
+  function create ( $id_pgcategory_parent, $nom, $description, $ordre, $couleur_bordure_web, $couleur_titre_web,$couleur_contraste_web, $couleur_bordure_print, $couleur_titre_print, $couleur_contraste_print )
+  {
+    $this->id_pgcategory_parent = $id_pgcategory_parent;
+    $this->nom = $nom;
+    $this->description = $description;
+    $this->ordre = $ordre;
+  
+    $this->couleur_bordure_web = $couleur_bordure_web;
+    $this->couleur_titre_web = $couleur_titre_web;
+    $this->couleur_contraste_web = $couleur_contraste_web;
+  
+    $this->couleur_bordure_print = $couleur_bordure_print;
+    $this->couleur_titre_print = $couleur_titre_print;
+    $this->couleur_contraste_print = $couleur_contraste_print;       
+    
+    $req = new insert ( $this->dbrw, "pg_category", 
+      array( 
+      "id_pgcategory_parent" => $this->id_pgcategory_parent,
+      "nom_pgcategory" => $this->nom,
+      "description_pgcategory" => $this->description,
+      "ordre_pgcategory" => $this->ordre,
+
+      "couleur_bordure_web_pgcategory" => $this->couleur_bordure_web,
+      "couleur_titre_web_pgcategory" => $this->couleur_titre_web,
+      "couleur_contraste_web_pgcategory" => $this->couleur_contraste_web,
+
+      "couleur_bordure_print_pgcategory" => $this->couleur_bordure_print,
+      "couleur_titre_print_pgcategory" => $this->couleur_titre_print,
+      "couleur_contraste_print_pgcategory" => $this->couleur_contraste_print
+      ) );
+    
+    if ( !$req->is_success() )
+    {
+      $this->id = null;
+      return false;
+    }
+    
+	  $this->id = $req->get_id();
+    return true;
+  }
+  
+  function update ( $id_pgcategory_parent, $nom, $description, $ordre, $couleur_bordure_web, $couleur_titre_web,$couleur_contraste_web, $couleur_bordure_print, $couleur_titre_print, $couleur_contraste_print )
+  {
+    $this->id_pgcategory_parent = $id_pgcategory_parent;
+    $this->nom = $nom;
+    $this->description = $description;
+    $this->ordre = $ordre;
+  
+    $this->couleur_bordure_web = $couleur_bordure_web;
+    $this->couleur_titre_web = $couleur_titre_web;
+    $this->couleur_contraste_web = $couleur_contraste_web;
+  
+    $this->couleur_bordure_print = $couleur_bordure_print;
+    $this->couleur_titre_print = $couleur_titre_print;
+    $this->couleur_contraste_print = $couleur_contraste_print; 
+
+    new update ( $this->dbrw, "pg_category", 
+      array( 
+      "id_pgcategory_parent" => $this->id_pgcategory_parent,
+      "nom_pgcategory" => $this->nom,
+      "description_pgcategory" => $this->description,
+      "ordre_pgcategory" => $this->ordre,
+
+      "couleur_bordure_web_pgcategory" => $this->couleur_bordure_web,
+      "couleur_titre_web_pgcategory" => $this->couleur_titre_web,
+      "couleur_contraste_web_pgcategory" => $this->couleur_contraste_web,
+
+      "couleur_bordure_print_pgcategory" => $this->couleur_bordure_print,
+      "couleur_titre_print_pgcategory" => $this->couleur_titre_print,
+      "couleur_contraste_print_pgcategory" => $this->couleur_contraste_print
+      ),
+      array("id_pgcategory"=>$this->id) );
+  }
+  
+  function delete ()
+  {
+
+  } 
 }
 
 if ( !defined("HR_DIMANCHE") )
@@ -82,6 +203,11 @@ class pgfiche extends geopoint
   var $date_validite;
   
   function add_arretbus ( $id_arretbus )
+  {
+    
+  }
+  
+  function add_extra_pgcategory ( $id_pgcategory )
   {
     
   }
