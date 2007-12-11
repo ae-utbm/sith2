@@ -1661,7 +1661,7 @@ class itemlist extends stdcontents
   }
 }
 
-class tabshead
+class tabshead extends stdcontents
 {
   
   var $entries;

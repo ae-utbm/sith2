@@ -1,6 +1,6 @@
 <?php
 
-$topdir = "./";
+$topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/mysqlpg.inc.php");
