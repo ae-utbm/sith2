@@ -44,26 +44,17 @@ elseif ( isset($_REQUEST["id_pgcategory"]) )
 if ( $category->is_valid() )
 {
   if ( $category->id_pgcategory_parent == 1 )
-  {
     $id_pgcategory1 = $category->id;
-    $path = "";   
-  }
-  else
+
+  $path = $category->get_html_link();
+  $parent = new pgcategory($site->db);
+  $parent->id_pgcategory_parent = $category->id_pgcategory_parent;
+  while ( !is_null($parent->id_pgcategory_parent)
+          && $parent->load_by_id($parent->id_pgcategory_parent) )
   {
-    $path = $category->get_html_link();
-    $parent = new pgcategory($site->db);
-    $parent->id_pgcategory_parent = $category->id_pgcategory_parent;
-    
-    while ( !is_null($parent->id_pgcategory_parent)
-            && $parent->id_pgcategory_parent != 1
-            && $parent->load_by_id($parent->id_pgcategory_parent) )
-    {
-      if ( $parent->id_pgcategory_parent == 1 )
-        $id_pgcategory1 = $parent->id;
-      else
-        $path = $parent->get_html_link()." / ".$path;
-    }
-    
+    if ( $parent->id_pgcategory_parent == 1 )
+      $id_pgcategory1 = $parent->id;
+    $path = $parent->get_html_link()." / ".$path;
   }
 }
 

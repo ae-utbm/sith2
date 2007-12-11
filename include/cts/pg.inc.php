@@ -23,12 +23,19 @@ class pgcatlist extends stdcontents
   
   function html_render ()
   {
-    return 
-    "<div class=\"pgcatlist\" style=\"background: #".$this->couleur.";\">\n".
-    "<h2><a href=\"index.php?id_pgcategory=".$this->id."\">".$this->nom."</a></h2>\n".
-    "<div class=\"pgcatlistdata\">\n<ul>\n".implode("\n",$this->data)."\n</ul>\n</div>\n</div>\n";
+    if ( is_null($this->couleur)  || is_null($this->nom) )
+      return 
+      "<div class=\"pgcatlist\">\n".
+      "<div class=\"pgcatlistdata\">\n<ul>\n".implode("\n",$this->data)."\n</ul>\n</div>\n</div>\n";
+    else
+      return 
+      "<div class=\"pgcatlist\" style=\"background: #".$this->couleur.";\">\n".
+      "<h2><a href=\"index.php?id_pgcategory=".$this->id."\">".$this->nom."</a></h2>\n".
+      "<div class=\"pgcatlistdata\">\n<ul>\n".implode("\n",$this->data)."\n</ul>\n</div>\n</div>\n";
   }
 }
+
+
 
 class colortabshead extends tabshead
 {
@@ -36,7 +43,13 @@ class colortabshead extends tabshead
   {
     global $wwwtopdir;
     
-    $this->buffer .= "<div class=\"".$this->tclass."\">\n";
+    $this->buffer .= "<div class=\"".$this->tclass."\"";
+    foreach ($this->entries as $entry)
+    {
+      if ($this->sel == $entry[0])
+        $this->buffer .= " style=\"background: #".$entry[3]."\"";
+    }
+    $this->buffer .= ">\n";
     
     foreach ($this->entries as $entry)
     {
