@@ -26,7 +26,7 @@ class pgcatlist extends stdcontents
     return 
     "<div class=\"pgcatlist\" style=\"background: #".$this->couleur.";\">\n".
     "<h2><a href=\"index.php?id_pgcategory=".$this->id."\">".$this->nom."</a></h2>\n".
-    "<ul>\n".implode("\n",$this->data)."\n</ul>\n</div>\n";
+    "<div class=\"pgcatlistdata\">\n<ul>\n".implode("\n",$this->data)."\n</ul>\n</div>\n</div>\n";
   }
 }
 

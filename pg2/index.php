@@ -94,6 +94,7 @@ while ( $row = $req->get_row() )
     if ( !is_null($sscts) )
       $scts->add($sscts);
     $sscts = new pgcatlist($row["id"],$row["nom"],$row["couleur"]);
+    $prev_cat = $row["id"];
   }
   $sscts->add($row["id2"],$row["nom2"]);
 }
