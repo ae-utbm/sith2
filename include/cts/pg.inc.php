@@ -68,7 +68,7 @@ class pgtabshead extends colortabshead
     $this->entries = array();
     
     $req = new requete($db,
-      "SELECT id_pgcategory, nom_pgcategory, cat1.couleur_bordure_web_pgcategory ".
+      "SELECT id_pgcategory, nom_pgcategory, couleur_bordure_web_pgcategory ".
       "FROM pg_category ".
       "WHERE id_pgcategory_parent='1' ".
       "ORDER BY ordre_pgcategory");
