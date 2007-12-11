@@ -46,7 +46,7 @@ if ( $category->is_valid() )
   if ( $category->id_pgcategory_parent == 1 )
   {
     $id_pgcategory1 = $category->id;
-    $path = "";   
+    $path = "&nbsp;";   
   }
   else
   {
@@ -55,6 +55,7 @@ if ( $category->is_valid() )
     $parent->id_pgcategory_parent = $category->id_pgcategory_parent;
     
     while ( !is_null($parent->id_pgcategory_parent)
+            && $parent->id_pgcategory_parent != 1
             && $parent->load_by_id($parent->id_pgcategory_parent) )
     {
       if ( $parent->id_pgcategory_parent == 1 )
