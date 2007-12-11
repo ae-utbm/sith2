@@ -23,7 +23,7 @@ class pgcatlist extends stdcontents
   
   function html_render ()
   {
-    if ( is_null($this->couleur)  || is_null($this->nom) )
+    if ( is_null($this->couleur) || is_null($this->nom) )
       return 
       "<div class=\"pgcatlist\">\n".
       "<div class=\"pgcatlistdata\">\n<ul>\n".implode("\n",$this->data)."\n</ul>\n</div>\n</div>\n";
