@@ -88,7 +88,7 @@ elseif ( $category->is_valid() && $category->id != 1 )
     
   if ( $req->lines > 0 )
   {
-    $sscts = new pgcatlist($category->id,$category->nom,$category->couleur_bordure_web);
+    $sscts = new pgcatlist($category->id,null,null);
     while ( $row = $req->get_row() )
     
       $sscts->add($row["id_pgcategory"],$row["nom_pgcategory"]);
