@@ -17,27 +17,34 @@ div.pgcatlist ul a
 }
 
 
-div.pgcatlist
+div.pgcatminilist
 {
-  
+  margin:5px;
+  padding:5px;
 }
 
-div.pgcatlist h3
+div.pgcatminilist h3
 {
-  border-bottom:1px solid white;
+  margin:0;
+  padding:0;
+  border:0;
+  margin-bottom:5px;
+  font-size:16px;
+  padding-left:5px;
 }
 
-div.pgcatlist h3 a
+div.pgcatminilist h3 a
 {
   color:black;
 }
 
-div.pgcatlist div
+div.pgcatminilist div
 {
-
+  padding-left:15px;
+  color:black;
 }
 
-div.pgcatlist div a
+div.pgcatminilist div a
 {
   color:black;
 }
@@ -56,7 +63,7 @@ div.article div.tabs.pgtabs
 div.article div.tabs.pgtabs span
 {
   float:left;
-  color:#ffffff;
+  color:black;
   font-size:12px;
   border-left:1px solid #ffffff;
   border-right:1px solid #ffffff;
@@ -73,6 +80,7 @@ div.article div.tabs.pgtabs span a
   padding-bottom:4px;
   padding-left:8px; 
   padding-right:8px;
+  color:black;
 }
 
 div.article div.tabs.pgtabs span.selected a, div.article div.tabs.pgtabs span a:hover
@@ -80,5 +88,5 @@ div.article div.tabs.pgtabs span.selected a, div.article div.tabs.pgtabs span a:
   padding-top:10px;
   padding-bottom:10px;
   border:0;
-  color:#ffffff;
+  color:black;
 }
