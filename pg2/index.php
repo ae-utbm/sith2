@@ -66,6 +66,20 @@ elseif ( $category->is_valid() && $category->id != 1 )
   $site->start_page("pg",$category->nom);
   $cts = new contents($path);
   
+  $req = new requete($site->db,
+    "SELECT id_pgcategory, nom_pgcategory ".
+    "FROM pg_category ".
+    "WHERE id_pgcategory_parent='".mysql_real_escape_string($category->id)."' ".
+    "ORDER BY ordre_pgcategory, nom_pgcategory");
+    
+  if ( $req->lines > 0 )
+  {
+    $sscts = new pgcatlist($category->id,$category->nom,$category->couleur_bordure_web);
+    while ( $row = $req->get_row() )
+    
+      $sscts->add($row["id_pgcategory"],$row["nom_pgcategory"]);
+    $cts->add($sscts);
+  }
   
   $site->add_contents($cts);
   $site->end_page();
