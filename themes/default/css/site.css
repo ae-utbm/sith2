@@ -1387,6 +1387,7 @@ div.article div.tabs_top, div.article div.tabs_bottom
   margin-top:7px;
   margin-bottom:7px;
   border-bottom:1px solid white;
+  position:relative;
 }
 
 
@@ -1406,6 +1407,7 @@ div.article div.tabs_top a, div.article div.tabs_bottom a
   line-height:12px;
   border-bottom:1px solid #ffffff;
   margin-bottom:-1px;
+  position:relative;
 }
 
 div.article div.tabs_top a.selected, div.article div.tabs_top a:hover, div.article div.tabs_bottom a.selected, div.article div.tabs_bottom a:hover
