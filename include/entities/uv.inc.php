@@ -378,6 +378,8 @@ class uv extends stdentity
     $newfold->id_utilisateur = null;
     $newfold->add_folder ( $this->code, $parent->id, "Fichiers relatif à l'UV ".$this->code, null );
 
+    $newfold->set_modere(true);
+
     new update($this->dbrw, 
     	       'edu_uv',
     	       array('id_folder' => $newfold->id),
