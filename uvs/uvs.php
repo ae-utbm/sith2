@@ -55,7 +55,7 @@ if ($_REQUEST['action'] == 'statobt')
                           WHERE
                                  `id_uv` = " . $iduv ."
                           GROUP BY
-                                 `id_etudiant`
+                                 `note_obtention`
                           ORDER BY
                                  `note_obtention` ASC");
 
