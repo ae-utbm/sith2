@@ -831,11 +831,11 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
 
       /* options de base */
-      $cts->add_paragraph("<a href=\"uvs/uvs.php?view=files&amp;id_uv=".
+      $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
 			  $uv->id.
 			  "&amp;page=newfolder\">Ajouter un dossier</a>");
 
-      $cts->add_paragraph("<a href=\"uvs/uvs.php?view=files&amp;id_uv=".
+      $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
 			  $uv->id.
 			  "&amp;page=newfile\">Ajouter un fichier</a>");
 
