@@ -43,6 +43,8 @@ elseif ( isset($_REQUEST["id_pgcategory"]) )
 
 if ( $category->is_valid() )
 {
+  $title_path = $category->nom;
+  
   if ( $category->id_pgcategory_parent == 1 )
   {
     $id_pgcategory1 = $category->id;
@@ -62,14 +64,18 @@ if ( $category->is_valid() )
         $id_pgcategory1 = $parent->id;
       else
         $path = $parent->get_html_link()." / ".$path;
+        
+      $title_path = $parent->nom." / ".$title_path;        
     }
   }
+  $title_path = "Petit géni / ".$title_path;
 }
 
 if ( $fiche->is_valid() )
 {
   $path .= " / ".$fiche->get_html_link();
-  $site->start_page("pg",$fiche->nom);
+  $title_path .= " / ".$fiche->nom;
+  $site->start_page("pg",$title_path);
   $cts = new contents("<a href=\"index.php\">Le Guide</a>");
   $cts->add(new pgtabshead($site->db,$id_pgcategory1));
   $cts->add_paragraph($path);
@@ -80,7 +86,7 @@ if ( $fiche->is_valid() )
 }
 elseif ( $category->is_valid() && $category->id != 1 )
 {
-  $site->start_page("pg",$category->nom);
+  $site->start_page("pg",$title_path);
   $cts = new contents("<a href=\"index.php\">Le Guide</a>");
   
   $cts->add(new pgtabshead($site->db,$id_pgcategory1));
