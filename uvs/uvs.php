@@ -53,7 +53,9 @@ if ($_REQUEST['action'] == 'camstatobt')
                           FROM
                                  `edu_uv_obtention`
                           WHERE
-                                 `id_uv` = " . $iduv);
+                                 `id_uv` = " . $iduv ."
+                          GROUP BY
+                                 `id_etudiant`");
 
   if ($req->lines > 0)
     {
