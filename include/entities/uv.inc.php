@@ -112,6 +112,8 @@ class uv extends stdentity
 
   /* un identifiant de répertoire (partie fichiers) */
   var $idfolder;
+  var $folder;
+
 
   /* un tableau d'objets uvcomments */
   var $comments;
@@ -338,6 +340,21 @@ class uv extends stdentity
     return true;  
   }
   
+  function load_folder()
+  {
+    if ($this->idfolder == null)
+      return false;
+
+    global $topdir;
+    require_once($topdir. "include/entities/folder.inc.php");
+    
+    $this->folder = new folder($this->db, $this->dbrw);
+
+    $this->folder->load_by_id($this->idfolder);
+
+    return true;
+  }
+
   function create_folder()
   {
     global $topdir;
@@ -367,6 +384,9 @@ class uv extends stdentity
     	       array('id_uv' => $this->id));
   
     $this->idfolder = $newfold->id;
+
+    /* chargement du dossier */
+    $this->folder = $newfold;
 
     return true;
   }
