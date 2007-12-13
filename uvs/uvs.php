@@ -39,6 +39,7 @@ $site->add_css($topdir."css/doku.css");
 
 $site->start_page("services", "Informations UV");
 
+// report d'un commentaire abusif
 
 if ($_REQUEST['action'] == 'reportabuse')
 {
@@ -67,6 +68,7 @@ if ($_REQUEST['action'] == 'reportabuse')
   $_id_uv = $comm->id_uv;
 }
 
+// mise en quarantaine d'un commentaire
 
 if ($_REQUEST['action'] == 'quarantine')
 {
@@ -120,7 +122,7 @@ if ($_REQUEST['action'] == 'deletecomm')
 
 }
 
-/* validation modifications */
+/* validation modifications  commentaire */
 if (isset($_REQUEST['comm_mod_sbmt']))
 {
   $comm = new uvcomment($site->db, $site->dbrw);
@@ -226,7 +228,7 @@ if ($_REQUEST['action'] == 'editcomm')
       exit();
     }
 }
-/* Postage commentaire sur les uvs */
+/* Création commentaire sur les uvs */
 if (($site->user->is_in_group_id(10004))
     && (isset($_REQUEST['comm_sbmt'])))
 {
@@ -252,6 +254,7 @@ if (($site->user->is_in_group_id(10004))
   $site->add_contents($cts);
 
 }
+
 /* modification d'uv */
 
 if (($site->user->is_in_group('gestion_ae')) 
@@ -289,6 +292,8 @@ if (($site->user->is_in_group('gestion_ae'))
 	      $departements);  
 }
 
+
+// page UV (code uv renseigné)
 if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
     || (isset($_id_uv)))
 {
@@ -305,77 +310,168 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       $uv->load_by_code($_REQUEST['code_uv']);
     }
 
+  $tabs = array(array("", "uvs.php?id_uv=".$uv->id, "Informations générales"),
+		array("infosetu", "uvs.php?view=infosetu&id_uv=".$uv->id, "Historique de suivi"),
+		array("commentaires", "uvs.php?view=commentaires&id_uv=".$uv->id, "Commentaires"),
+		array("ressext", "uvs.php?view=ressext&id_uv=".$uv->id, "Ressources externes"));
+  
+
+  $tab = new tabshead($tabs, $_REQUEST['view']);
+
+
+
   $cts = new contents('');
+  $cts->add($tab);
+  
 
   /* Code + intitulé + crédits ECTS */
-  $cts->add_title(1, $uv->code);
-  $cts->add_paragraph("<center><i style=\"font-size: 20px;\">\"".
-		      $uv->intitule."\"</i></center>");
+  if (($_REQUEST['view'] == "") || (! isset($_REQUEST['view'])))
+    {
+      $cts->add_title(1, $uv->code);
+      $cts->add_paragraph("<center><i style=\"font-size: 20px;\">\"".
+			  $uv->intitule."\"</i></center>");
   
-  if (strlen($uv->objectifs) > 4)
-    {
-      $cts->add_title(2, "Objectifs");
-      $cts->add_paragraph(doku2xhtml($uv->objectifs));
-    }
-  if (strlen($uv->programme) > 4)
-    {
-      $cts->add_title(2, "Programme");
-      $cts->add_paragraph(doku2xhtml($uv->programme));
-    }
+      if (strlen($uv->objectifs) > 4)
+	{
+	  $cts->add_title(2, "Objectifs");
+	  $cts->add_paragraph(doku2xhtml($uv->objectifs));
+	}
+      if (strlen($uv->programme) > 4)
+	{
+	  $cts->add_title(2, "Programme");
+	  $cts->add_paragraph(doku2xhtml($uv->programme));
+	}
 
-  $cts->add_title(2, "Crédits");
-  $cts->add_paragraph("Cette UV équivaut à <b>".$uv->ects."</b> crédits ECTS");
+      $cts->add_title(2, "Crédits");
+      $cts->add_paragraph("Cette UV équivaut à <b>".$uv->ects."</b> crédits ECTS");
 
-  /* format horaire */
-  $cts->add_title(2, "Formats horaires");
+      /* format horaire */
+      $cts->add_title(2, "Formats horaires");
   
-  $parag = "<ul>";
+      $parag = "<ul>";
 
-  if ($uv->cours == 1)
-    {
-      $parag .= "<li>Cours</li>\n";
-    }
-  if ($uv->td == 1)
-    {
-      $parag .= "<li>TD</li>\n";
-    }
-  if ($uv->tp == 1)
-    {
-      $parag .= "<li>TP</li>\n";
-    }
-  $tpuv = false;
+      if ($uv->cours == 1)
+	{
+	  $parag .= "<li>Cours</li>\n";
+	}
+      if ($uv->td == 1)
+	{
+	  $parag .= "<li>TD</li>\n";
+	}
+      if ($uv->tp == 1)
+	{
+	  $parag .= "<li>TP</li>\n";
+	}
+      $tpuv = false;
 
-  $parag .= "</ul>\n";
+      $parag .= "</ul>\n";
 
-  if (($uv->cours == 0) 
-      && ($uv->td == 0) 
-      && ($uv->tp == 0)) 
-    $parag = "<b>UV Hors Emploi du Temps (HET)</b>";
+      if (($uv->cours == 0) 
+	  && ($uv->td == 0) 
+	  && ($uv->tp == 0)) 
+	$parag = "<b>UV Hors Emploi du Temps (HET)</b>";
 
+      $cts->add_paragraph($parag);
   
-  $cts->add_paragraph($parag);
+      /* départements concernés */
+      $cts->add_title(2, "Départements dans lequel l'UV est enseignée");
+
+      for ($i = 0 ; $i < count($uv->depts); $i++)
+	{
+	  
+	  $myuvdpts[] = "<a href=\"./uvs.php?iddept=".
+	    $uv->depts[$i]."\">".$uv->depts[$i]."</a>\n";
+	  $uvdept[] = $uv->depts[$i];
+	}
+
+      $lst = new itemlist("Départements",
+			  false,
+			  $myuvdpts);
+      $cts->add($lst);
+
+      /* formulaire d'édition d'une UV */
+      if ($site->user->is_in_group("gestion_ae"))
+	{
+	  $cts2 = new contents("Modification d'UV");
+
+	  $edituv = new form("edituv", 
+			     "uvs.php?id_uv=".$uv->id,
+			     true,
+			     "post",
+			     "Modification de l'UV");
+
+	  $edituv->add_hidden('iduv', $uv->id);
+	  $edituv->add_text_field('name',
+				  "Code de l'UV <b>sans espace, ex: 'MT42'</b>",
+				  $uv->code, true, 4);
   
-  /* départements concernés */
-  $cts->add_title(2, "Départements dans lequel l'UV est enseignée");
+	  $edituv->add_text_area('intitule',
+				 "Intitulé de l'UV",
+				 $uv->intitule);
+	  $edituv->add_text_area('objectifs',
+				 "Objectifs",
+				 $uv->objectifs, 80, 20);
+	  $edituv->add_text_area('programme',
+				 "Programme de l'UV",
+				 $uv->programme, 80, 20);
+	  $edituv->add_checkbox('cours',
+				"Cours",
+				$uv->cours == 1);
+	  
+	  $edituv->add_checkbox('td',
+				"TD",
+				$uv->td == 1);
+	  
+	  $edituv->add_checkbox('tp',
+				"TP",
+				$uv->tp == 1);
+	  
+	  $edituv->add_text_field('ects',
+				  "Credits ECTS",
+				  $uv->ects, false, 1);
+  
+	  $edituv->add_checkbox('Humas',
+				"Humanités",
+				in_array('Humanites', $uvdept));
+	  
+	  $edituv->add_checkbox('TC',
+				"TC",
+				in_array('TC', $uvdept));
+	  
+	  $edituv->add_checkbox('GESC',
+				"GESC",
+				in_array('GESC', $uvdept));
 
-  for ($i = 0 ; $i < count($uv->depts); $i++)
-    {
+	  $edituv->add_checkbox('GI',
+				"GI",
+				in_array('GI', $uvdept));
 
-      $myuvdpts[] = "<a href=\"./uvs.php?iddept=".
-	$uv->depts[$i]."\">".$uv->depts[$i]."</a>\n";
-      $uvdept[] = $uv->depts[$i];
+	  $edituv->add_checkbox('IMAP',
+				"IMAP",
+				in_array('IMAP', $uvdept));
+	  
+	  $edituv->add_checkbox('GMC',
+				"GMC",
+				in_array('GMC', $uvdept));
+	  
+	  $edituv->add_checkbox('EDIM',
+				"EDIM",
+				in_array('EDIM', $uvdept));
+
+	  $edituv->add_submit('edituvsubmit',
+			      "Modifier");
+  
+	  $cts2->add($edituv);
+	}
+
     }
-
-  $lst = new itemlist("Départements",
-		      false,
-		      $myuvdpts);
-  $cts->add($lst);
 
   /* listing des personnes ayant suivi l'UV */
-  
-  /* a migrer dans uv.inc.php ? */
-  $suivrq = new requete ($site->db,
-			 "SELECT 
+  else if ($_REQUEST['view'] == 'infosetu')
+    {
+      /* a migrer dans uv.inc.php ? */
+      $suivrq = new requete ($site->db,
+			     "SELECT 
                                   `id_utilisateur` 
                                   , `prenom_utl`
                                   , `nom_utl`
@@ -399,252 +495,189 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
                                 `id_uv` = ".$uv->id."
                           GROUP BY `code_uv`, `id_utilisateur`");
 
-  if ($suivrq->lines > 0)
-    {
-      require_once($topdir . "include/cts/sqltable.inc.php");
-      $sqlt = new sqltable('userslst', 
-			   "Liste des utilisateurs suivant ou ayant suivi l'UV",
-			   $suivrq,
-			   '../user.php',
-			   'id_utilisateur', 
-			   array('prenom_utl' => 'prenom', 'nom_utl' => 'nom', 'surnom_utbm' => 'surnom', 'semestre_grp' => 'semestre'),
-			   array('view' => 'Voir la fiche'), 
-			   array(), 
-			   array());
-      $cts->add_title(2, "Ils suivent ou ont suivi cette UV");
-      $cts->add($sqlt);
+      if ($suivrq->lines > 0)
+	{
+	  require_once($topdir . "include/cts/sqltable.inc.php");
+	  $sqlt = new sqltable('userslst', 
+			       "Liste des utilisateurs suivant ou ayant suivi l'UV",
+			       $suivrq,
+			       '../user.php',
+			       'id_utilisateur', 
+			       array('prenom_utl' => 'prenom', 'nom_utl' => 'nom', 'surnom_utbm' => 'surnom', 'semestre_grp' => 'semestre'),
+			       array('view' => 'Voir la fiche'), 
+			       array(), 
+			       array());
+	  $cts->add_title(2, "Ils suivent ou ont suivi cette UV");
+	  $cts->add($sqlt);
+	}
     }
 
-  /* COMMENTAIRES UV */
-  if ($site->user->is_in_group("etudiants-utbm-actuels"))
+  else if ($_REQUEST['view'] == "commentaires")
     {
-      /* TODO note : pourquoi ne pas créer par la suite un groupe
-       * spécifique à la modération des commentaires ? 
-       */
-      $uv->load_comments($site->user->is_in_group("gestion_ae"));
-      
-      if (count($uv->comments) > 0)
+      /* COMMENTAIRES UV */
+      if ($site->user->is_in_group("etudiants-utbm-actuels"))
 	{
-	  $commented = false;
-	  
-	  foreach ($uv->comments as $comm)
+	  /* TODO note : pourquoi ne pas créer par la suite un groupe
+	   * spécifique à la modération des commentaires ? 
+	   */
+	  $uv->load_comments($site->user->is_in_group("gestion_ae"));
+      
+	  if (count($uv->comments) > 0)
 	    {
-	      if ($site->user->id == $comm->id_commentateur)
-		{
-		  $commented = true;
-		  break;
-		}
-	    }
-	  require_once($topdir . "include/cts/uvcomment.inc.php");
-	  $site->add_css("css/uvcomment.css");
-	  $cts->add_title(2, "Commentaires d'étudiants ayant suivi l'UV");
-	  $cts->add(new uvcomment_contents($uv->comments, 
-					   $site->db, 
-					   $site->user));
-	}
-    
-      /* formulaire de postage de commentaires */
-      if ($commented == false)
-	{
-	  $commcts = new contents("Commentaires sur les UVs");
-	  $commform = new form('commform',
-			       "uvs.php?id_uv=".$uv->id,
-			       true,
-			       "post",
-			       "Ajout d'un commentaire");
-
-	  $commform->add_select_field('comm_obtention', 'UV obtenue', 
-				      array (NULL => 'Non renseigné',
-					     'A'  => 'Admis : A',
-					     'B'  => 'Admis : B',
-					     'C'  => 'Admis : C',
-					     'D'  => 'Admis : D',
-					     'E'  => 'Admis : E',
-					     'Fx' => 'Insuffisant : Fx',
-					     'F'  => 'Insuffisant : F'), NULL);
-
-	  $commform->add_text_field('comm_semestre',
-				    "Semestre d'obtention".
-				    ", ex: <b>P07</b>",
-				    null, true, 4);
-
-
-	  $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)', null, 80, 20);
-	  $commform->add_select_field('comm_interest', 
-				      'Intéret de l\'UV (pour un ingénieur)', 
-				      $uvcomm_interet,
-				      2);
+	      $commented = false;
 	  
-	  $commform->add_select_field('comm_utilite', 
-				      'Utilité de l\'UV (culture générale ou autres)', 
-				      $uvcomm_utilite,
-				      2);
+	      foreach ($uv->comments as $comm)
+		{
+		  if ($site->user->id == $comm->id_commentateur)
+		    {
+		      $commented = true;
+		      break;
+		    }
+		}
+	      require_once($topdir . "include/cts/uvcomment.inc.php");
+	      $site->add_css("css/uvcomment.css");
+	      $cts->add_title(2, "Commentaires d'étudiants ayant suivi l'UV");
+	      $cts->add(new uvcomment_contents($uv->comments, 
+					       $site->db, 
+					       $site->user));
+	    }
+    
+	  /* formulaire de postage de commentaires */
+	  if ($commented == false)
+	    {
+	      $commcts = new contents("Commentaires sur les UVs");
+	      $commform = new form('commform',
+				   "uvs.php?id_uv=".$uv->id,
+				   true,
+				   "post",
+				   "Ajout d'un commentaire");
 
-	  $commform->add_select_field('comm_travail', 
-				      'Charge de travail', 
-				      $uvcomm_travail,
-				      2);
-	  $commform->add_select_field('comm_qualite', 
-				      'Qualité de l\'enseignement', 
-				      $uvcomm_qualite,
-				      2);
+	      $commform->add_select_field('comm_obtention', 'UV obtenue', 
+					  array (NULL => 'Non renseigné',
+						 'A'  => 'Admis : A',
+						 'B'  => 'Admis : B',
+						 'C'  => 'Admis : C',
+						 'D'  => 'Admis : D',
+						 'E'  => 'Admis : E',
+						 'Fx' => 'Insuffisant : Fx',
+						 'F'  => 'Insuffisant : F'), NULL);
 
-	  $commform->add_select_field('comm_note_glbl', 
-				      'Evalutation globale de l\'UV', 
-				      $uvcomm_note,
-				      2);
+	      $commform->add_text_field('comm_semestre',
+					"Semestre d'obtention".
+					", ex: <b>P07</b>",
+					null, true, 4);
+
+
+	      $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)', null, 80, 20);
+	      $commform->add_select_field('comm_interest', 
+					  'Intéret de l\'UV (pour un ingénieur)', 
+					  $uvcomm_interet,
+					  2);
+	  
+	      $commform->add_select_field('comm_utilite', 
+					  'Utilité de l\'UV (culture générale ou autres)', 
+					  $uvcomm_utilite,
+					  2);
+
+	      $commform->add_select_field('comm_travail', 
+					  'Charge de travail', 
+					  $uvcomm_travail,
+					  2);
+	      $commform->add_select_field('comm_qualite', 
+					  'Qualité de l\'enseignement', 
+					  $uvcomm_qualite,
+					  2);
+	      
+	      $commform->add_select_field('comm_note_glbl', 
+					  'Evalutation globale de l\'UV', 
+					  $uvcomm_note,
+					  2);
 			       
-	  $commform->add_submit('comm_sbmt', 'Commenter');
-	  $commcts->add($commform);
+	      $commform->add_submit('comm_sbmt', 'Commenter');
+	      $commcts->add($commform);
       
-	}
-    } // fin commentage uvs
-  
-  /* édition */
-  if ($site->user->is_in_group("gestion_ae"))
-    {
-      $cts2 = new contents("Modification d'UV");
-
-      $edituv = new form("edituv", 
-			 "uvs.php?id_uv=".$uv->id,
-			 true,
-			 "post",
-			 "Modification de l'UV");
-
-      $edituv->add_hidden('iduv', $uv->id);
-      $edituv->add_text_field('name',
-			      "Code de l'UV <b>sans espace, ex: 'MT42'</b>",
-			      $uv->code, true, 4);
-  
-      $edituv->add_text_area('intitule',
-			     "Intitulé de l'UV",
-			     $uv->intitule);
-      $edituv->add_text_area('objectifs',
-			     "Objectifs",
-			     $uv->objectifs, 80, 20);
-      $edituv->add_text_area('programme',
-			     "Programme de l'UV",
-			     $uv->programme, 80, 20);
-      $edituv->add_checkbox('cours',
-			    "Cours",
-			    $uv->cours == 1);
-  
-      $edituv->add_checkbox('td',
-			    "TD",
-			    $uv->td == 1);
-  
-      $edituv->add_checkbox('tp',
-			    "TP",
-			    $uv->tp == 1);
-  
-      $edituv->add_text_field('ects',
-			      "Credits ECTS",
-			      $uv->ects, false, 1);
-  
-      $edituv->add_checkbox('Humas',
-			    "Humanités",
-			    in_array('Humanites', $uvdept));
-      
-      $edituv->add_checkbox('TC',
-			    "TC",
-			    in_array('TC', $uvdept));
-
-      $edituv->add_checkbox('GESC',
-			    "GESC",
-			    in_array('GESC', $uvdept));
-
-      $edituv->add_checkbox('GI',
-			    "GI",
-			    in_array('GI', $uvdept));
-
-      $edituv->add_checkbox('IMAP',
-			    "IMAP",
-			    in_array('IMAP', $uvdept));
-
-      $edituv->add_checkbox('GMC',
-			    "GMC",
-			    in_array('GMC', $uvdept));
-
-      $edituv->add_checkbox('EDIM',
-			    "EDIM",
-			    in_array('EDIM', $uvdept));
-
-      $edituv->add_submit('edituvsubmit',
-			  "Modifier");
-  
-      $cts2->add($edituv);
+	    }
+	} // fin commentage uvs
     }
 
-  /* Ressources spécifiques - Bankexam */
-  $xml = file_get_contents("http://www.bankexam.fr/rss/etablissement?code=UTBM");
-  
-  $uvsbe = new u007xml($xml);
-
-  
-  foreach ($uvsbe->arrOutput[0]['childrens'][0]['childrens'] as $key => $value)
+  else if ($_REQUEST['view'] == 'ressext')
     {
-      /* au début y'a que de la boue */
-      if (($key == 0) || ($key == 1) || ($key == 2))
-	continue;
-      
-      $codeuv = $value['childrens'][2]['nodevalue'];
-      if ($codeuv != $uv->code) 
-	continue;
+      // Ressources spécifiques - Bankexam
+      // Cette partie récupère le XML de bankexam relatif aux uvs de l'UTBM,
+      // le parse, et affiche si des annales sont disponibles
 
-      $annaleslink = $value['childrens'][4]['nodevalue'];
+      $xml = file_get_contents("http://www.bankexam.fr/rss/etablissement?code=UTBM");  
+      $uvsbe = new u007xml($xml);
 
-      if (strlen($annaleslink) > 0)
+      foreach ($uvsbe->arrOutput[0]['childrens'][0]['childrens'] as $key => $value)
 	{
-	  $cts->add_title(2, "Sur <a href=\"http://www.bankexam.fr/\">Bankexam.fr</a>");
+	  /* au début y'a que de la boue */
+	  if (($key == 0) || ($key == 1) || ($key == 2))
+	    continue;
+	  
+	  $codeuv = $value['childrens'][2]['nodevalue'];
+	  if ($codeuv != $uv->code) 
+	    continue;
 
-	  $cts->add_paragraph("Il existe des annales d'examen sur Bankexam. <a href=\"".
-			      $annaleslink."\">Cliquez ici pour y accéder.</a>");
-	  break;
+	  $annaleslink = $value['childrens'][4]['nodevalue'];
+
+	  if (strlen($annaleslink) > 0)
+	    {
+	      $cts->add_title(2, "Sur <a href=\"http://www.bankexam.fr/\">Bankexam.fr</a>");
+
+	      $cts->add_paragraph("Il existe des annales d'examen sur Bankexam. <a href=\"".
+				  $annaleslink."\">Cliquez ici pour y accéder.</a>");
+	      break;
+	    }
 	}
-    }
 
-  /* Ressources externes */
-  $cts->add_title(2, "Ailleurs sur le net ...");
+      /* Ressources externes */
+      $cts->add_title(2, "Ailleurs sur le net ...");
 
-  foreach ($uvdept as $departement)
-    {
-      if ($departement == 'Humanites')
-	$exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=207\"><b>Site de l'UTBM</b>, information sur le département des Humanités</a>";
-      if ($departement == 'TC')
-	$exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=205\"><b>Site de l'UTBM</b>, information sur le département de Tronc Commun</a>";
-      if ($departement == 'GESC')
-	$exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=70\"><b>Site de l'UTBM</b>, information sur le département du Génie Electrique et ".
-	  "Systèmes de Commande (GESC)</a>";
-      if ($departement == 'GI')
-	$exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=67\"><b>Site de l'UTBM</b>, information sur le département du Génie Informatique (GI)</a>";
-      if ($departement == 'IMAP')
-	$exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=69\"><b>Site de l'UTBM</b>, information sur le département de l'Ingénierie et".
-	  " management de process (IMAP)</a>";
-      if ($departement == 'GMC')
-	$exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=68\"><b>Site de l'UTBM</b>, information sur le département du Génie Mécanique ".
-	  "et conception (GMC)</a>";
-    }
-  $exts[] = "<a href=\"http://bankexam.fr/etablissement/1-Universite-de-Technologie-de-Belfort-Montbeliard\">".
-    "<b>Bankexam.fr</b>, base de données d'examens</a>";
-  $exts[] = "<a href=\"https://webct6.utbm.fr/\"><b>WebCT</b>, la plateforme pédagogique de l'UTBM</a>";
+      foreach ($uvdept as $departement)
+	{
+	  if ($departement == 'Humanites')
+	    $exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=207\"><b>Site de l'UTBM</b>, information sur le département des Humanités</a>";
+	  if ($departement == 'TC')
+	    $exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=205\"><b>Site de l'UTBM</b>, information sur le département de Tronc Commun</a>";
+	  if ($departement == 'GESC')
+	    $exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=70\"><b>Site de l'UTBM</b>, information sur le département du Génie Electrique et ".
+	      "Systèmes de Commande (GESC)</a>";
+	  if ($departement == 'GI')
+	    $exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=67\"><b>Site de l'UTBM</b>, information sur le département du Génie Informatique (GI)</a>";
+	  if ($departement == 'IMAP')
+	    $exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=69\"><b>Site de l'UTBM</b>, information sur le département de l'Ingénierie et".
+	      " management de process (IMAP)</a>";
+	  if ($departement == 'GMC')
+	    $exts[] = "<a href=\"http://www.utbm.fr/index.php?pge=68\"><b>Site de l'UTBM</b>, information sur le département du Génie Mécanique ".
+	      "et conception (GMC)</a>";
+	}
+
+      $exts[] = "<a href=\"http://bankexam.fr/etablissement/1-Universite-de-Technologie-de-Belfort-Montbeliard\">".
+	"<b>Bankexam.fr</b>, base de données d'examens</a>";
+      $exts[] = "<a href=\"https://webct6.utbm.fr/\"><b>WebCT</b>, la plateforme pédagogique de l'UTBM</a>";
   
 
-  $itmlst = new itemlist("Ressources externes",
-			 false,
-			 $exts);
+      $itmlst = new itemlist("Ressources externes",
+			     false,
+			     $exts);
 
-  $cts->add($itmlst);
+      $cts->add($itmlst);
+    } // Fin des tests sur la vue sélectionnée
 
   $site->add_contents($cts);
 
   /* commentaire sur l'UV */
   if ($commcts)
-    $site->add_contents($commcts);
-
+    {
+      $site->add_contents($commcts);
+    }
 
   /* modification d'une uv (gestion AE) */
   if ($cts2)
-    $site->add_contents($cts2);
+    {
+      $site->add_contents($cts2);
+    }
 
   $site->end_page();
 
@@ -652,6 +685,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 }
 
 
+// affichage du listing des uvs par département
 
 if (isset($_REQUEST['iddept']))
 {
@@ -696,10 +730,7 @@ if (isset($_REQUEST['iddept']))
 }
 
 $cts = new contents("Guide - Informations sur les UVs");
-$taiste = new contents("Et en tableau ça donne quoi ?");
 
-  $uvs_taiste = array();
-  
 foreach ($departements as $dept)
 {
   $req = new requete($site->db,
@@ -718,15 +749,14 @@ foreach ($departements as $dept)
                              `edu_uv`.`code_uv`");
 
 
-  $uvs_taiste[$dept] = array();
-
+  
   $uvs = array();
   while ($rs = $req->get_row())
     {
       $uvs[] = "<a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">". 
 	$rs['code_uv'] . " - " . $rs['intitule_uv'] . "</a>";
 	   
-	    $uvs_taiste[$dept][] = "**[[./uvs.php?id_uv=".$rs['id_uv']." | ".$rs['code_uv']."]]**";
+      $uvs_taiste[$dept][] = "**[[./uvs.php?id_uv=".$rs['id_uv']." | ".$rs['code_uv']."]]**";
     }
 
 
@@ -736,33 +766,8 @@ foreach ($departements as $dept)
   $cts->add_title(2,"<a href=\"./uvs.php?iddept=$dept\">$dept</a>");
   $cts->add($lst);
 }
-
-  foreach($uvs_taiste as $tmp)
-    $count[] = count($tmp);
-  $max = max($count);
-
-  $text = "^";
-  foreach ($departements as $dept)
-    $text .= " $dept ^";
-  $text .= "\n";
-  
-  $i=0;
-  while($i < $max)
-  {
-    $text .= "|";
-    foreach($uvs_taiste as $dep)
-    {
-      $text .= " $dep[$i] |";
-    }
-    $text .= "\n";
-    $i++;
-  }
-  $taiste->add_paragraph(doku2xhtml($text));
   
 $site->add_contents($cts);
-
-/* site->add_contents($taiste); */
-
 
 
 $site->end_page();
