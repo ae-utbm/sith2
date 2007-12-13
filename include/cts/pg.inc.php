@@ -3,6 +3,10 @@
 function pgicon ( $color )
 {
   global $topdir;
+  
+  if ( !preg_match("^([0-9A-Fa-f]{6})$",$color) )
+    return $topdir."images/icons/16/misc.png";
+  
   $file = $topdir."/var/cache/icon".$color.".png";
   
   if ( file_exists($file) )

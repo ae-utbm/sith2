@@ -170,7 +170,7 @@ class pgcategory extends stdentity
 
     require_once($topdir."include/cts/pg.inc.php");
 
-    return "<a href=\"".$wwwtopdir."pg2/?id_pgcategory=".$this->id."\"><img src=\"".pgicon($this->couleur_bordure_web)."\" class=\"icon\" alt=\"\" /> ". htmlentities($this->get_display_name(),ENT_COMPAT,"UTF-8")."</a>;      
+    return "<a href=\"".$wwwtopdir."pg2/?id_pgcategory=".$this->id."\"><img src=\"".pgicon($this->couleur_bordure_web)."\" class=\"icon\" alt=\"\" /> ". htmlentities($this->get_display_name(),ENT_COMPAT,"UTF-8")."</a>";      
   }
   
   
