@@ -39,6 +39,41 @@ $site->add_css($topdir."css/doku.css");
 
 $site->start_page("services", "Informations UV");
 
+
+// Génération d'un camembert sur les 
+// statitistiques d'obtention d'une uv
+if ($_REQUEST['action'] == 'camstatobt')
+{
+  $req = new requete($site->db,
+		     "SELECT
+                                 `note_obtention`
+                                 , COUNT(`id_etudiant`) AS `nb_usr`
+                          FROM
+                                 `edu_uv_obtention`
+                          WHERE
+                                 `id_uv` = " . $uv->code);
+
+  if ($req->lines > 0)
+    {
+      require_once($topdir . "include/graph.inc.php");
+      $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
+
+      while ($rs = $req->get_row())
+	{
+	      $cam->data($rs['nb_usr'], $rs['note_obtention']);
+	}
+
+      $cam->png_render();
+    }
+
+  else
+    {
+      // not available
+      @readfile($topdir . "var/na.png");
+    }
+  exit();
+}
+
 // report d'un commentaire abusif
 
 if ($_REQUEST['action'] == 'reportabuse')
@@ -512,8 +547,20 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			       array(), 
 			       array());
 	  $cts->add_title(2, "Ils suivent ou ont suivi cette UV");
+	  $cts->add_paragraph("Ce listing correspond aux personnes ayant rentré un emploi du temps de semestre, au cours duquel ils ont suivi l'UV");
 	  $cts->add($sqlt);
 	}
+
+      /* statistiques sur l'obtention */
+      $cts->add_title(2, "Statistiques d'obtention");
+      $cts->add_paragraph("Ces statistiques sont obtenues en fonction des entrées des utilisateurs concernant leur résultat.".
+			  " Vous pouvez saisir les votres sur la <a href=\"./index.php\">page d'accueil de ".
+			  "la partie pédagogie</a>, et ainsi contribuer à l'enrichissement des statistiques.");
+	  
+      $cts->add_paragraph("<center><img src=\"./uvs.php?action=camstatobt\" ".
+				  "alt=\"statistiques d'obtention\" /></center>");
+    
+
     }
 
   else if ($_REQUEST['view'] == "commentaires")
