@@ -57,7 +57,7 @@ if ( $site->is_admin() && isset($_REQUEST["action"]) )
   elseif ( $_REQUEST["action"] == "createarretbus" ) 
   {
     $ville->load_by_id($_REQUEST["id_ville"]);
-    $arretbus->create ( $ville->id,  $_REQUEST["nom"], $_REQUEST["lat"], $_REQUEST["long"], $_REQUEST["eloi"] )
+    $arretbus->create ( $ville->id,  $_REQUEST["nom"], $_REQUEST["lat"], $_REQUEST["long"], $_REQUEST["eloi"] );
   }  
   
   
