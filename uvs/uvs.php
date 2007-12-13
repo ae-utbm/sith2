@@ -778,12 +778,15 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
        * 
        */
       /* formulaire posté */
-      if ((isset($_REQUEST['addfolder'])) && ($_REQUEST['action'] == "addfolder"))
+      if ($_REQUEST['action'] == "addfolder")
       {
-	$nfolder->add_folder ($_REQUEST["nom"], $uv->folder->id, $_REQUEST["description"], null);
+	$nfolder->add_folder ($_REQUEST["nom"], 
+			      $uv->folder->id, 
+			      $_REQUEST["description"], 
+			      null);
 
 	if ($nfolder->id == null)
-	  $ErreurAjout("Erreur inconnue lors de l'ajout.");
+	  $ErreurAjout = "Erreur inconnue lors de l'ajout.";
 
       }
 
