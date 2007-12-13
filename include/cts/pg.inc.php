@@ -1,5 +1,20 @@
 <?php
 
+function pgicon ( $color )
+{
+  global $topdir;
+  $file = $topdir."/var/cache/icon".$color.".png";
+  
+  if ( file_exists($file) )
+    return $file;
+  
+  $img = imagecreatetruecolor(16,16);
+  $back = imagecolorallocate($img,255,255,255);
+  imagefilledellipse($img,8,8,7,7,hexdec($color));
+  imagepng($img,$file);
+  return $file;
+}
+
 class pgcatminilist extends stdcontents
 {
   var $id;
@@ -42,7 +57,7 @@ class pgcatlist extends stdcontents
   
   function add ( $id, $nom )
   {
-    $this->data[] = "<li><a href=\"index.php?id_pgcategory=$id\">$nom</a></li>";
+    $this->data[] = "<li><a href=\"index.php?id_pgcategory=$id\"><img src=\"".pgicon($this->couleur)."\" class=\"icon\" alt=\"\" /> $nom</a></li>";
   }
   
   function html_render ()
