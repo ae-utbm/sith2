@@ -12,12 +12,14 @@ function pgicon ( $color )
   /*if ( file_exists($file) )
     return $file;*/
   
-  $img = imagecreatetruecolor(16,16);
-  imagefill($img,0,0,imagecolorallocate($img,255,255,255));
-  //imageantialias($img,true);
-  imagefilledellipse($img,7,7,14,14,hexdec($color));
-  imagepng($img,$file);
-  imagedestroy($img);
+  $img1 = imagecreatetruecolor(64,64);
+  imagefill($img1,0,0,imagecolorallocate($img,255,255,255));
+  imagefilledellipse($img1,31,31,60,60,hexdec($color));
+  $img2 = imagecreatetruecolor(16,16);
+  imagecopyresampled($img2,$img1,0,0,0,0,16,16,64,64);
+  imagepng($img2,$file);
+  imagedestroy($img1);
+  imagedestroy($img2);
   return $file;
 }
 
