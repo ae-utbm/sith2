@@ -355,6 +355,39 @@ class uv extends stdentity
     return true;
   }
 
+  /* fonction vérifiant qu'un répertoire est bien
+   * dans l'arborescence relative aux UVs.
+   */
+  function check_folder($id_folder)
+  {
+    $id_folder = intval($id_folder);
+
+    while (true)
+      {
+	$req = new requete($this->db, "SELECT 
+                                               `id_folder_parent` 
+                                       FROM
+                                               `d_folder`
+                                       WHERE
+                                               `id_folder` = $id_folder
+                                       LIMIT 1");
+	if ($req->lines < 0)
+	  return false;
+
+	$row = $req->get_row();
+
+	/* arrivé en haut de l'arbo */
+	if ($row['id_folder_parent'] == null)
+	  return false;
+
+	/* c'est bon. */
+	if ($row['id_folder_parent'] == $this->idfolder)
+	  return true;
+	/* sinon on boucle */
+	$id_folder = intval($row['id_folder_parent']);
+      }
+  }
+
   function create_folder()
   {
     global $topdir;
