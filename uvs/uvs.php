@@ -361,6 +361,12 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 		array("ressext", $topdir . "uvs/uvs.php?view=ressext&id_uv=".$uv->id, "Ressources externes"));
   
 
+  /* partie fichiers réservée aux étudiants ? */
+  if ($site->user->is_in_group_id(10004))
+    {
+      $tabs[] = array("files", $topdir . "uvs/uvs.php?view=files&id_uv=".$uv->id, "Fichiers");
+    }
+
   $tab = new tabshead($tabs, $_REQUEST['view']);
 
 
@@ -724,7 +730,27 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			     $exts);
 
       $cts->add($itmlst);
-    } // Fin des tests sur la vue sélectionnée
+    } 
+
+  else if ($_REQUEST['view'] == 'files')
+    {
+      if (! $site->user->is_in_group_id(10004))
+	{
+	  $site->error_forbidden();
+	}
+
+      $cts->add_paragraph("Fichiers relatifs à l'UV<br/>".
+			  "<b>Note importante : ces fichiers sont ".
+			  "proposés par les utilisateurs du site et ".
+			  "l'AE n'est pas responsable du contenu mis ".
+			  "à disposition. Conformément aux lois, tout ".
+			  "fichier succeptible de ne pas respecter la ".
+			  "legislation pourront être supprimés sans ".
+			  "préavis.</b>");
+
+      $cts->add_paragraph("En cours d'implémentation...");
+
+    }  // Fin des tests sur la vue sélectionnée
 
   $site->add_contents($cts);
 
