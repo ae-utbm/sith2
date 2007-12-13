@@ -750,6 +750,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
   else if ($_REQUEST['view'] == 'files')
     {
+      
       require_once($topdir . "include/entities/folder.inc.php");
       require_once($topdir . "include/entities/files.inc.php");
 
@@ -769,24 +770,26 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			  "legislation pourra être supprimé sans ".
 			  "préavis.</b>");
 
-      /* creation du dossier si inexistant */
+      // creation du dossier si inexistant
       if (! $uv->load_folder())
 	{
 	  $uv->create_folder();
 	}
 
-      /* dorénavant, le répertoire est considéré comme créé */
+      // dorénavant, le répertoire est considéré comme créé
 
-      /* TODO soucis avec les sous-répertoires : comment s'assurer que
-       * l'utilisateur passe pas de la merde en GET afin de créer un
-       * sous-répertoire ailleurs que là où c'est prévu ?
-       *
-       *  réponse : cf uv->check_folder()
-       *
-       */ 
-      /* formulaire ajout fichier posté */
+      // TODO soucis avec les sous-répertoires : comment s'assurer que
+      // l'utilisateur passe pas de la merde en GET afin de créer un
+      // sous-répertoire ailleurs que là où c'est prévu ?
+      //
+      //  réponse : cf uv->check_folder()
+      //
+        
+      // formulaire ajout fichier posté
       if ($_REQUEST['action'] == "addfile")
 	{
+	  $cts->add_paragraph("En construction ...");
+	  /*
 	  $nfile = new dfile($site->db, $site->dbrw);
 
 	  // TODO : on met quoi comme droits ?
@@ -811,15 +814,15 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $file->set_tags($_REQUEST["tags"]);
 	}
     
-      /* formulaire création répertoire posté */
+      // formulaire création répertoire posté
       if ($_REQUEST['action'] == "addfolder")
 	{
 	  $nfolder = new dfolder($site->db, $site->dbrw);
 	  
-	  /* TODO @feu : ce sont les droits repompés 
-	   * de la création de dossiers relatifs aux uvs.
-	   * oui / non ?
-	   */
+	  // TODO @feu : ce sont les droits repompés 
+	  // de la création de dossiers relatifs aux uvs.
+	  // oui / non ?
+	  
 	  $nfolder->id_groupe_admin = 7; 
 	  $nfolder->id_groupe = 7; 
 	  $nfolder->droits_acces = 0xDDD;
@@ -913,7 +916,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
 	} // fin formulaire création fichier
       
-      /* pompé de d.php */
+      // pompé de d.php
       $gal = new gallery("Fichiers et dossiers",
 			 "aedrive",
 			 false,
@@ -992,7 +995,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			  "id_file=".$fd->id,
 			  $acts, 
 			  "file");
-	  
+	  */
 	} // fin while fichiers
       
       $cts->add($gal, true);
@@ -1022,6 +1025,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			      "&amp;page=newfile&amp;id_folder=".
 			      intval($_REQUEST['id_folder'])
 			      ."\">Ajouter un fichier</a>");
+	  
 	}
       
       
