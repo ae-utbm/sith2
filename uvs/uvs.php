@@ -65,14 +65,15 @@ if ($_REQUEST['action'] == 'statobt')
 
       $stats = array();
 
+
+      $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
+
       while ($rs = $req->get_row())
 	{
-	  $stats[$rs['note_obtention']] = $rs['nb_usr'];
+	  $cam->data($rs['nb_usr'], $rs['note_obtention']);
 	}
-
-      $img = new histogram($stats, "Histogramme des résultats");
-      $img->png_render();
-      $img->destroy();
+      $cam->png_render();
+      
     }
 
   else
