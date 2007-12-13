@@ -13,8 +13,8 @@ function pgicon ( $color )
     return $file;*/
   
   $img1 = imagecreatetruecolor(64,64);
-  imagefill($img1,0,0,imagecolorallocate($img,255,255,255));
-  imagefilledellipse($img1,31,31,60,60,hexdec($color));
+  imagefill($img1,0,0,imagecolorallocate($img1,255,255,255));
+  imagefilledellipse($img1,31,31,50,50,hexdec($color));
   $img2 = imagecreatetruecolor(16,16);
   imagecopyresampled($img2,$img1,0,0,0,0,16,16,64,64);
   imagepng($img2,$file);
