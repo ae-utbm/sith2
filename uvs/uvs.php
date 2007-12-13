@@ -750,6 +750,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
   else if ($_REQUEST['view'] == 'files')
     {
+      require_once($topdir . "include/entities/folder.inc.php");
+      require_once($topdir . "include/entities/files.inc.php");
+
+
       if (! $site->user->is_in_group_id(10004))
 	{
 	  $site->error_forbidden();
@@ -776,42 +780,74 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
        * l'utilisateur passe pas de la merde en GET afin de créer un
        * sous-répertoire ailleurs que là où c'est prévu ?
        */ 
+      /* formulaire ajout fichier posté */
+      if ($_REQUEST['action'] == "addfile")
+	{
+	  $nfile = new dfile($site->db, $site->dbrw);
 
+	  // TODO : on met quoi comme droits ?
 
-      /* formulaire posté */
+	  if ((isset($_REQUEST['id_folder']))
+	      && ($uv->check_folder($_REQUEST['id_folder'])))
+	    {
+	      $file->add_file ($_FILES["file"], 
+			       $_REQUEST["nom"], 
+			       $_REQUEST['id_folder'], 
+			       $_REQUEST["description"],
+			       null);
+	    }
+	  else
+	    {
+	      $file->add_file ($_FILES["file"], 
+			       $_REQUEST["nom"], 
+			       $uv->folder->id, 
+			       $_REQUEST["description"],
+			       null);
+	    }
+	  
+	  $file->set_tags($_REQUEST["tags"]);
+	}
+    
+      /* formulaire création répertoire posté */
       if ($_REQUEST['action'] == "addfolder")
-      {
-	$nfolder = new dfolder($site->db, $site->dbrw);
+	{
+	  $nfolder = new dfolder($site->db, $site->dbrw);
+	  
+	  /* TODO @feu : ce sont les droits repompés 
+	   * de la création de dossiers relatifs aux uvs.
+	   * oui / non ?
+	   */
+	  $nfolder->id_groupe_admin = 7; 
+	  $nfolder->id_groupe = 7; 
+	  $nfolder->droits_acces = 0xDDD;
+	  $nfolder->id_utilisateur = null;
+	  
+	  // controle si le répertoire est bien créé dans un sous-répertoire
+	  // de l'UV.
+	  // sinon on crée un sous répertoire du répertoire de l'UV.
+	  
+	  // TODO : la fonction check_folder() n'a pas été testée
+	  if ((isset($_REQUEST['id_folder'])) 
+	      && ($uv->check_folder($_REQUEST['id_folder'])))
+	    {
+	      $pfold = $_REQUEST['id_folder'];
+	    }
+	  else
+	    {
+	      $pfold = $uv->folder->id;
+	    }
 
-	/* TODO @feu : ce sont les droits repompés 
-	 * de la création de dossiers relatifs aux uvs.
-	 * oui / non ?
-	 */
-	$nfolder->id_groupe_admin = 7; 
-	$nfolder->id_groupe = 7; 
-	$nfolder->droits_acces = 0xDDD;
-	$nfolder->id_utilisateur = null;
+	  $nfolder->add_folder ($_REQUEST["nom"], 
+				$pfold, 
+				$_REQUEST["description"], 
+				null);
 
-	// controle si le répertoire est bien créé dans un sous-répertoire
-	// de l'UV.
-	// sinon on crée un sous répertoire du répertoire de l'UV.
-	if ((isset($_REQUEST['id_folder'])) 
-	    && ($uv->check_folder($_REQUEST['id_folder'])))
-	  {
-	    $pfold = $_REQUEST['id_folder'];
-	  }
-	else
-	  $pfold = $uv->folder->id;
-	
-	$nfolder->add_folder ($_REQUEST["nom"], 
-			      $pfold, 
-			      $_REQUEST["description"], 
-			      null);
+	  if ($nfolder->id == null)
+	    {
+	      $ErreurAjout = "Erreur lors de l'ajout.";
+	    }
 
-	if ($nfolder->id == null)
-	  $ErreurAjout = "Erreur lors de l'ajout.";
-
-      } // fin ajout effectif (traitement des données postées)
+	} // fin ajout effectif (traitement des données postées)
 
       if ($_REQUEST['page'] == 'newfolder')
 	{
@@ -839,7 +875,40 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $frm->add_text_area("description","Description","");
 	  $frm->add_submit("valid","Ajouter");
 	  $cts->add($frm);
-	}
+	} // fin formulaire création dossiers
+
+      else if ($_REQUEST['page'] == 'newfile')
+	{
+	  if (! isset($_REQUEST['id_folder']))
+	    {
+	      $frm = new form("addfile",
+			      "./uvs.php?view=files&id_uv=".$uv->id.
+			      "&action=addfile");
+	    }
+	  else
+	    {
+	      $frm = new form("addfile","./uvs.php?view=files&id_uv=".$uv->id.
+			      "&id_folder=".intval($_REQUEST['id_folder']) .
+			      "&action=addfile");
+	    }
+	  
+	  $frm->allow_only_one_usage();
+	  $frm->add_hidden("action","addfile");
+	  
+	  if ($ErreurAjout)
+	    {
+	      $frm->error($ErreurAjout);
+	    }
+
+	  $frm->add_file_field("file","Fichier",true);
+	  $frm->add_text_field("nom","Nom","",true);
+	  $frm->add_text_field("tags","Tags (séparateur: virgule)","");
+	  $frm->add_text_area("description","Description","");
+	  $frm->add_submit("valid","Ajouter");
+
+	  $cts->add($frm);
+
+	} // fin formulaire création fichier
 
       /* pompé de d.php */
       $gal = new gallery("Fichiers et dossiers",
@@ -887,11 +956,53 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	}
       $cts->add($gal);
 
+      if (! isset($fdtmp))
+	{
+	  $sub2 = $uv->folder->get_files($site->user);
+	}
+      else
+	{
+	  $sub2 = $fdtmp->get_files($site->user);
+	}
+
+      $fd = new dfile ($site->db);
+
+      while ($row = $sub2->get_row())
+	{
+	  $acts = array("download","info");
+	  $fd->_load($row);
+	  if ($fd->is_right($site->user,DROIT_ECRITURE))
+	    {
+	      $acts[] ="edit";
+	      $acts[] ="delete";
+	      $acts[] ="cut";   
+	    }
+	  
+	  if (! file_exists($fd->get_thumb_filename()))
+	    $img = $topdir."images/icons/128/".$fd->get_icon_name();
+	  else
+	    $img = "d.php?id_file=".$fd->id."&amp;action=download&amp;download=thumb";
+	  
+	  $desc = $fd->description;
+	  if (strlen($desc) > 72)
+	    $desc = substr($desc,0,72)."...";
+
+	  $gal->add_item ("<img src=\"$img\" alt=\"fichier\" />",
+			  "<a href=\"./uvs.php?id_file=".$fd->id.
+			  "&amp;view=files&amp;id_uv=".$uv->id.
+			  "\" class=\"itmttl\">".$fd->titre.
+			  "</a><br/><span class=\"itmdsc\">".$desc.
+			  "</span>", 
+			  "id_file=".$fd->id,
+			  $acts, 
+			  "file");
+
+	} // fin while fichiers
+      
+      $cts->add($gal, true);
+
 
       /* options de base */
-      /* pour l'instant à cause des problemes sur la création des 
-       * sous dossiers (cf TODO plus haut), on interdit la création 
-       * de sous-sous-dossiers */
       if (! isset($_REQUEST['id_folder']))
 	{
 	  $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
