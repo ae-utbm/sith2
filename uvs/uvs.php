@@ -780,6 +780,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       /* formulaire posté */
       if ($_REQUEST['action'] == "addfolder")
       {
+	$nfolder = new folder($site->db, $site->dbrw);
 	$nfolder->add_folder ($_REQUEST["nom"], 
 			      $uv->folder->id, 
 			      $_REQUEST["description"], 
@@ -792,7 +793,9 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
       if ($_REQUEST['page'] == 'newfolder')
 	{
-	  $frm = new form("addfolder","./uvs.php?view=files&id_uv=".$uv->id. "&action=addfolder");
+	  $frm = new form("addfolder",
+			  "./uvs.php?view=files&id_uv=".$uv->id. 
+			  "&action=addfolder");
 	  $frm->allow_only_one_usage();
 	  $frm->add_hidden("action","addfolder");
 	  if ( $ErreurAjout )
