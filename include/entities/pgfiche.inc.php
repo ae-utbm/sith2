@@ -429,7 +429,7 @@ class pgfiche extends geopoint
       "jours_horraire"=>$jours,  
       "ouvert_horraire"=>$ouvert,  
       "heuredebut_horraire"=>date("H:i:s",$heuredebut),  
-      "heurefin_horraire"=>date("H:i:s",$heurefin));    
+      "heurefin_horraire"=>date("H:i:s",$heurefin)));    
   }    
   
   /**
