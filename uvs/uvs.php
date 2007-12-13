@@ -780,7 +780,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       /* formulaire posté */
       if ($_REQUEST['action'] == "addfolder")
       {
-	$nfolder = new folder($site->db, $site->dbrw);
+	$nfolder = new dfolder($site->db, $site->dbrw);
 	$nfolder->add_folder ($_REQUEST["nom"], 
 			      $uv->folder->id, 
 			      $_REQUEST["description"], 
