@@ -771,12 +771,12 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
       /* dorénavant, le répertoire est considéré comme créé */
 
-      /* création d'un sous-répertoire */
-      /* TODO : pour l'instant qu'un "étage" d'arborescence est prévu
-       * (ce qui semble suffisant).  Après, je ne sais pas trop
-       * comment gérer les droits, si sous-répertoires multiples.
-       * 
-       */
+      /* TODO soucis avec les sous-répertoires : comment s'assurer que
+       * l'utilisateur passe pas de la merde en GET afin de créer un
+       * sous-répertoire ailleurs que là où c'est prévu ?
+       */ 
+
+
       /* formulaire posté */
       if ($_REQUEST['action'] == "addfolder")
       {
@@ -842,8 +842,9 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  if (strlen($desc) > 72)
 	    $desc = substr($desc,0,72)."...";
 
-	  $gal->add_item ( "<img src=\"images/icons/128/folder.png\" alt=\"dossier\" />",
-			   "<a href=\"uvs/uvs.php?id_folder=".$fd->id."\" class=\"itmttl\">".
+	  $gal->add_item ( "<img src=\"/images/icons/128/folder.png\" alt=\"dossier\" />",
+			   "<a href=\"./uvs.php?view=files&amp;id_folder=".$fd->id.
+			   "&amp;id_uv=".$uv->id."\" class=\"itmttl\">".
 			   $fd->titre."</a><br/><span class=\"itmdsc\">".$desc."</span>", 
 			   "id_folder=".$fd->id, 
 			   $acts, 
@@ -854,9 +855,15 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
 
       /* options de base */
-      $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
-			  $uv->id.
-			  "&amp;page=newfolder\">Ajouter un dossier</a>");
+      /* pour l'instant à cause des problemes sur la création des 
+       * sous dossiers (cf TODO plus haut), on interdit la création 
+       * de sous-sous-dossiers */
+      if (! isset($_REQUEST['id_folder']))
+	{
+	  $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
+			      $uv->id.
+			      "&amp;page=newfolder\">Ajouter un dossier</a>");
+	}
 
       $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
 			  $uv->id.
