@@ -380,6 +380,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
 
   $cts = new contents('');
+
   $cts->add_title(1, $uv->code);
 
   $cts->add($tab);
@@ -790,22 +791,44 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	$nfolder->id_groupe = 7; 
 	$nfolder->droits_acces = 0xDDD;
 	$nfolder->id_utilisateur = null;
+
+	// controle si le répertoire est bien créé dans un sous-répertoire
+	// de l'UV.
+	// sinon on crée un sous répertoire du répertoire de l'UV.
+	if ((isset($_REQUEST['id_folder'])) 
+	    && ($uv->check_folder($_REQUEST['id_folder'])))
+	  {
+	    $pfold = $_REQUEST['id_folder'];
+	  }
+	else
+	  $pfold = $uv->folder->id;
 	
 	$nfolder->add_folder ($_REQUEST["nom"], 
-			      $uv->folder->id, 
+			      $pfold, 
 			      $_REQUEST["description"], 
 			      null);
 
 	if ($nfolder->id == null)
-	  $ErreurAjout = "Erreur inconnue lors de l'ajout.";
+	  $ErreurAjout = "Erreur lors de l'ajout.";
 
-      }
+      } // fin ajout effectif (traitement des données postées)
 
       if ($_REQUEST['page'] == 'newfolder')
 	{
-	  $frm = new form("addfolder",
-			  "./uvs.php?view=files&id_uv=".$uv->id. 
-			  "&action=addfolder");
+	  if (isset($_REQUEST['id_folder']))
+	    {
+	      $frm = new form("addfolder",
+			      "./uvs.php?view=files&id_uv=".$uv->id. 
+			      "&action=addfolder");
+	    }
+	  else
+	    {
+	      
+	      $frm = new form("addfolder",
+			      "./uvs.php?view=files&id_uv=".$uv->id. 
+			      "&action=addfolder&id_folder=".
+			      intval($_REQUEST['id_folder']));
+	    }
 	  $frm->allow_only_one_usage();
 	  $frm->add_hidden("action","addfolder");
 
@@ -884,7 +907,14 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	{
 	  $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
 			      $uv->id.
-			      "&amp;page=newfile&amp;id_folder=".$_REQUEST['id_folder']
+			      "&amp;page=newfolder&amp;id_folder=".
+			      intval($_REQUEST['id_folder']).
+			      "\">Ajouter un dossier</a>");
+
+	  $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
+			      $uv->id.
+			      "&amp;page=newfile&amp;id_folder=".
+			      intval($_REQUEST['id_folder'])
 			      ."\">Ajouter un fichier</a>");
 	}
 
