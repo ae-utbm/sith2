@@ -829,9 +829,19 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			       "delete"=>"Supprimer"));
       
 
-      $sub1 = $uv->folder->get_folders ($site->user);
-
       $fd = new dfolder($site->db);
+      
+      if (! isset($_REQUEST['id_folder']))
+	{
+	  $sub1 = $uv->folder->get_folders ($site->user);
+	}
+      else
+	{
+	  $fdtmp = new dfolder($site->db);
+	  $fdtmp->load_by_id($_REQUEST['id_folder']);
+	  $sub1 = $fdtmp->get_folders($site->user);
+	  unset($fdtmp);
+	}
 
       while ($row = $sub1->get_row ())
 	{
