@@ -345,7 +345,12 @@ if (($site->user->is_in_group('gestion_ae'))
 if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
     || (isset($_id_uv)))
 {
-  $uv = new uv($site->db);
+  /* on a besoin d'une dbrw pour l'ajout de fichiers */
+  if ($_REQUEST['view'] == 'files')
+    $uv = new uv($site->db, $site->dbrw);
+  else
+    $uv = new uv($site->db);
+
 
   if (isset($_REQUEST['id_uv']))
     {
