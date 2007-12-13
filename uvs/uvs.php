@@ -44,6 +44,8 @@ $site->start_page("services", "Informations UV");
 // statitistiques d'obtention d'une uv
 if ($_REQUEST['action'] == 'camstatobt')
 {
+  $iduv = intval($_REQUEST['id_uv']);
+
   $req = new requete($site->db,
 		     "SELECT
                                  `note_obtention`
@@ -51,7 +53,7 @@ if ($_REQUEST['action'] == 'camstatobt')
                           FROM
                                  `edu_uv_obtention`
                           WHERE
-                                 `id_uv` = " . $uv->code);
+                                 `id_uv` = " . $iduv);
 
   if ($req->lines > 0)
     {
@@ -557,7 +559,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			  " Vous pouvez saisir les votres sur la <a href=\"./index.php\">page d'accueil de ".
 			  "la partie pédagogie</a>, et ainsi contribuer à l'enrichissement des statistiques.");
 	  
-      $cts->add_paragraph("<center><img src=\"./uvs.php?action=camstatobt\" ".
+      $cts->add_paragraph("<center><img src=\"./uvs.php?action=camstatobt&id_uv=".$uv->id."\" ".
 				  "alt=\"statistiques d'obtention\" /></center>");
     
 
