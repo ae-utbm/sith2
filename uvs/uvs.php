@@ -739,7 +739,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $site->error_forbidden();
 	}
 
-      $cts->add_paragraph("Fichiers relatifs à l'UV<br/>".
+      $cts->add_paragraph("Fichiers relatifs à l'UV<br/><br/>".
 			  "<b>Note importante : ces fichiers sont ".
 			  "proposés par les utilisateurs du site et ".
 			  "l'AE n'est pas responsable du contenu mis ".

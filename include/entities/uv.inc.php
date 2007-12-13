@@ -44,6 +44,12 @@ define('UVCOMMENT_QUARANTINE', 2);
  */
 define('UVCOMMENT_ACCEPTED', 3);
 
+/*
+ * identifiant du répertoire contenant les fichiers
+ * relatifs aux UVs
+ *
+ */
+define('UVFOLDER', 784);
 
 
 $uvcomm_utilite = array(
@@ -104,6 +110,8 @@ class uv extends stdentity
   /* dans quel département ? */
   var $depts;
 
+  /* un identifiant de répertoire (partie fichiers) */
+  var $idfolder;
 
   /* un tableau d'objets uvcomments */
   var $comments;
@@ -132,7 +140,8 @@ class uv extends stdentity
 	$this->cours     = $row['cours_uv'];
 	$this->td        = $row['td_uv'];
 	$this->tp        = $row['tp_uv'];
-	
+	$this->idfolder  = $row['id_folder'];
+
 	$this->load_depts();
 	
 	return true;
@@ -165,6 +174,7 @@ class uv extends stdentity
 	$this->cours    = $row['cours_uv'];
 	$this->td       = $row['td_uv'];
 	$this->tp       = $row['tp_uv'];
+	$this->idfolder = $row['id_folder'];
 
 	$this->load_depts();
 
@@ -328,6 +338,40 @@ class uv extends stdentity
     return true;  
   }
   
+  function create_folder()
+  {
+    global $topdir;
+    require_once($topdir. "include/entities/folder.inc.php");
+    
+    // non chargé
+    if ($this->id < 0)
+      return false;
+    
+    // le répertoire existe deja
+    if ($this->idfolder != NULL)
+      return false;
+
+
+    $newfold = new dfolder($this->db, $this->dbrw);
+
+    /* dans folder.inc.php :
+      Vous DEVEZ avoir fait appel à herit et set_rights avant !
+
+      WTF ?
+    */
+    // $newfold->add_folder($this->code,
+    //                      UVFOLDER,
+    //                      "Fichiers relatif à l'UV ".$this->code,
+    //                      NULL);
+
+    //new update($this->dbrw, 
+    //	       'edu_uv',
+    //	       array('id_folder' => $newfold->id),
+    //	       array('' => $this->id));
+
+    return true;
+
+  }
   
 }
 
