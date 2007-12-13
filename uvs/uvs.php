@@ -323,6 +323,17 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   $cts = new contents('');
   $cts->add($tab);
   
+  /* départements concernés */
+  // ce code est commun a plusieurs onglets.
+  
+  for ($i = 0 ; $i < count($uv->depts); $i++)
+    {
+	  
+      $myuvdpts[] = "<a href=\"./uvs.php?iddept=".
+	$uv->depts[$i]."\">".$uv->depts[$i]."</a>\n";
+      $uvdept[] = $uv->depts[$i];
+    }
+
 
   /* Code + intitulé + crédits ECTS */
   if (($_REQUEST['view'] == "") || (! isset($_REQUEST['view'])))
@@ -373,16 +384,8 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
       $cts->add_paragraph($parag);
   
-      /* départements concernés */
-      $cts->add_title(2, "Départements dans lequel l'UV est enseignée");
 
-      for ($i = 0 ; $i < count($uv->depts); $i++)
-	{
-	  
-	  $myuvdpts[] = "<a href=\"./uvs.php?iddept=".
-	    $uv->depts[$i]."\">".$uv->depts[$i]."</a>\n";
-	  $uvdept[] = $uv->depts[$i];
-	}
+      $cts->add_title(2, "Départements dans lequel l'UV est enseignée");
 
       $lst = new itemlist("Départements",
 			  false,
