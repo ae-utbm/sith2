@@ -321,6 +321,8 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
 
   $cts = new contents('');
+  $cts->add_title(1, $uv->code);
+
   $cts->add($tab);
   
   /* départements concernés */
@@ -338,7 +340,6 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   /* Code + intitulé + crédits ECTS */
   if (($_REQUEST['view'] == "") || (! isset($_REQUEST['view'])))
     {
-      $cts->add_title(1, $uv->code);
       $cts->add_paragraph("<center><i style=\"font-size: 20px;\">\"".
 			  $uv->intitule."\"</i></center>");
   
