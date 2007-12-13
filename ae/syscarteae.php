@@ -54,7 +54,7 @@ if ( $_REQUEST["action"] == "genfact" )
     "FROM `cpt_vendu` ".
     "INNER JOIN cpt_debitfacture USING ( `id_facture` ) ".
     "LEFT JOIN asso ON asso.id_asso = cpt_vendu.id_assocpt ".
-    "WHERE id_produit NOT IN ( 40, 41, 42, 43 ) AND " .
+    "WHERE id_produit NOT IN ( 40, 41, 42, 43, 338 ) AND " .
     "EXTRACT( YEAR_MONTH FROM `date_facture` ) ='".mysql_real_escape_string($month)."'  ".
     "GROUP BY `asso`.`id_asso` ".
     "ORDER BY `asso`.`nom_asso`");
