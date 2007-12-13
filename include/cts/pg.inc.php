@@ -9,13 +9,15 @@ function pgicon ( $color )
   
   $file = $topdir."/var/cache/icon".$color.".png";
   
-  if ( file_exists($file) )
-    return $file;
+  /*if ( file_exists($file) )
+    return $file;*/
   
   $img = imagecreatetruecolor(16,16);
-  $back = imagecolorallocate($img,255,255,255);
-  imagefilledellipse($img,8,8,7,7,hexdec($color));
+  imagefill($img,0,0,imagecolorallocate($img,255,255,255));
+  imageantialias($img,true);
+  imagefilledellipse($img,7,7,14,14,hexdec($color));
   imagepng($img,$file);
+  imagedestroy($img);
   return $file;
 }
 
