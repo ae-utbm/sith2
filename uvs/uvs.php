@@ -59,7 +59,7 @@ if ($_REQUEST['action'] == 'statobt')
                           ORDER BY
                                  `note_obtention` ASC");
 
-  if ($req->lines > 1)
+  if ($req->lines > 0)
     {
       require_once($topdir . "include/graph.inc.php");
 
@@ -72,6 +72,7 @@ if ($_REQUEST['action'] == 'statobt')
 
       $img = new histogram($stats, "Histogramme des résultats");
       $img->png_render();
+      $img->destroy();
     }
 
   else
