@@ -76,7 +76,7 @@ if ( $_REQUEST["action"] == "genfact" )
   {
     $asso->load_by_id($row['id_asso']);print_r($row['id_asso']);
     if ( !$asso->is_valid() )
-      continue;
+      print_r("bleh");
     $facturing_infos = array ('name' => $asso->nom,
        'addr' => explode("\n",utf8_decode($asso->adresse_postale)),
        'logo' => "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg");
