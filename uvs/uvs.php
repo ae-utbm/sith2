@@ -815,7 +815,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
       if ($_REQUEST['page'] == 'newfolder')
 	{
-	  if (isset($_REQUEST['id_folder']))
+	  if (! isset($_REQUEST['id_folder']))
 	    {
 	      $frm = new form("addfolder",
 			      "./uvs.php?view=files&id_uv=".$uv->id. 
@@ -865,7 +865,6 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $fdtmp = new dfolder($site->db);
 	  $fdtmp->load_by_id($_REQUEST['id_folder']);
 	  $sub1 = $fdtmp->get_folders($site->user);
-	  unset($fdtmp);
 	}
 
       while ($row = $sub1->get_row ())
