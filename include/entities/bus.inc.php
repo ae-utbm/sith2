@@ -267,7 +267,7 @@ class lignebus extends stdentity
   }
   
   
-  function add_passage ( $jours, $datedebut, $datefin, $heures )
+  function add_passage ( $jours, $datedebut, $datefin, $heures, $exceptionlevel=0 )
   {
     $id_arretbus_debut = null;
     $id_arretbus_fin = null;
@@ -295,7 +295,8 @@ class lignebus extends stdentity
       "fin_passage" => date("Y-m-d H:i:s",$datefin),
       "id_arretbus_debut" => $id_arretbus_debut,
       "id_arretbus_fin" => $id_arretbus_fin,
-      "sens_passage" => $sens
+      "sens_passage" => $sens,
+      "exception_passage" => $exceptionlevel
       ) );
     
     if ( !$req->is_success() )
