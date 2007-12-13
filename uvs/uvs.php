@@ -781,6 +781,16 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       if ($_REQUEST['action'] == "addfolder")
       {
 	$nfolder = new dfolder($site->db, $site->dbrw);
+
+	/* TODO @feu : ce sont les droits repompés 
+	 * de la création de dossiers relatifs aux uvs
+	 * oui / non ?
+	 */
+	$nfolder->id_groupe_admin = 7; 
+	$nfolder->id_groupe = 7; 
+	$nfolder->droits_acces = 0xDDD;
+	$nfolder->id_utilisateur = null;
+	
 	$nfolder->add_folder ($_REQUEST["nom"], 
 			      $uv->folder->id, 
 			      $_REQUEST["description"], 
