@@ -42,7 +42,7 @@ $site->start_page("services", "Informations UV");
 
 // Génération d'un camembert sur les 
 // statitistiques d'obtention d'une uv
-if ($_REQUEST['action'] == 'camstatobt')
+if ($_REQUEST['action'] == 'statobt')
 {
   $iduv = intval($_REQUEST['id_uv']);
 
@@ -55,19 +55,23 @@ if ($_REQUEST['action'] == 'camstatobt')
                           WHERE
                                  `id_uv` = " . $iduv ."
                           GROUP BY
-                                 `id_etudiant`");
+                                 `id_etudiant`
+                          ORDER BY
+                                 `note_obtention` ASC");
 
   if ($req->lines > 1)
     {
       require_once($topdir . "include/graph.inc.php");
-      $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
+
+      $stats = array();
 
       while ($rs = $req->get_row())
 	{
-	      $cam->data($rs['nb_usr'], $rs['note_obtention']);
+	  $stats[$rs['note_obtention']] = $rs['nb_usr'];
 	}
 
-      $cam->png_render();
+      $img = new histogram($stats, "Histogramme des résultats");
+      $img->png_render();
     }
 
   else
@@ -561,7 +565,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			  " Vous pouvez saisir les votres sur la <a href=\"./index.php\">page d'accueil de ".
 			  "la partie pédagogie</a>, et ainsi contribuer à l'enrichissement des statistiques.");
 	  
-      $cts->add_paragraph("<center><img src=\"./uvs.php?action=camstatobt&id_uv=".$uv->id."\" ".
+      $cts->add_paragraph("<center><img src=\"./uvs.php?action=statobt&id_uv=".$uv->id."\" ".
 				  "alt=\"statistiques d'obtention\" /></center>");
     
 
