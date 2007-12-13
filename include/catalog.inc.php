@@ -112,7 +112,7 @@ $GLOBALS["entitiescatalog"] = array (
 	
 	// Petit Géni 2 : Fiches
 	"pgcategory"=>array("id_pgcategory", "nom_pgcategory", "misc.png", "pg2/", "pg_category", "pgfiche.inc.php", "pg_category_tags" ),
-	"pgcategory"=>array("id_pgfiche", "nom_geopoint", "misc.png", "pg2/", "pg_fiche", "pgfiche.inc.php", "pg_fiche_tags" )
+	"pgfiche"=>array("id_pgfiche", "nom_geopoint", "misc.png", "pg2/", "pg_fiche", "pgfiche.inc.php", "pg_fiche_tags" )
 	
 	);
 
