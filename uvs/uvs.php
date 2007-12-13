@@ -740,6 +740,8 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       $cts->add($itmlst);
     } 
 
+  /* partie fichiers */
+
   else if ($_REQUEST['view'] == 'files')
     {
       if (! $site->user->is_in_group_id(10004))
@@ -778,17 +780,14 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
       if ($_REQUEST['page'] == 'newfolder')
 	{
-	  $frm = new form("addfolder","uvs/uvs.php?view=files&id_uv=".$uv->id. "&action=addfolder");
+	  $frm = new form("addfolder","./uvs.php?view=files&id_uv=".$uv->id. "&action=addfolder");
 	  $frm->allow_only_one_usage();
 	  $frm->add_hidden("action","addfolder");
 	  if ( $ErreurAjout )
 	    $frm->error($ErreurAjout);
 	  $frm->add_text_field("nom","Nom","",true);
 	  $frm->add_text_area("description","Description","");
-	  $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",false,true);
-	  $frm->add_rights_field($uv->folder,true,$uv->folder->is_admin($site->user),"files");
 	  $frm->add_submit("valid","Ajouter");
-
 	  $cts->add($frm);
 	}
 
