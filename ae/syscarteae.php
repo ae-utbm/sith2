@@ -76,10 +76,14 @@ if ( $_REQUEST["action"] == "genfact" )
   {
     $asso->load_by_id($row['id_asso']);print_r($row['id_asso']);
     if ( !$asso->is_valid() )
-      print_r("bleh");
+      continue;
+    if(file_exists("/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg"))
+      $logo="/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg";
+    else
+      $logo="";
     $facturing_infos = array ('name' => $asso->nom,
        'addr' => explode("\n",utf8_decode($asso->adresse_postale)),
-       'logo' => "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg");
+       'logo' => $logo);
        
     $query = new requete ($site->db, "SELECT " .
         "CONCAT(`cpt_produits`.`id_typeprod`,'-',`cpt_vendu`.`id_produit`,'-',`cpt_vendu`.`prix_unit`) AS `groupby`, " .
