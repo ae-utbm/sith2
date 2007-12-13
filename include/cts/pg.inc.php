@@ -7,10 +7,10 @@ function pgicon ( $color )
   if ( !preg_match('/^([0-9A-F]{6})$/i',$color) )
     return $topdir."images/icons/16/misc.png";
   
-  $file = $topdir."/var/cache/icon".$color.".png";
+  $file = $topdir."var/cache/icon".$color.".png";
   
-  /*if ( file_exists($file) )
-    return $file;*/
+  if ( file_exists($file) )
+    return $file;
   
   $img1 = imagecreatetruecolor(64,64);
   imagefill($img1,0,0,imagecolorallocate($img1,255,255,255));
