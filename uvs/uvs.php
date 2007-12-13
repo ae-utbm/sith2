@@ -783,7 +783,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	$nfolder = new dfolder($site->db, $site->dbrw);
 
 	/* TODO @feu : ce sont les droits repompés 
-	 * de la création de dossiers relatifs aux uvs
+	 * de la création de dossiers relatifs aux uvs.
 	 * oui / non ?
 	 */
 	$nfolder->id_groupe_admin = 7; 
@@ -808,8 +808,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			  "&action=addfolder");
 	  $frm->allow_only_one_usage();
 	  $frm->add_hidden("action","addfolder");
+
 	  if ( $ErreurAjout )
 	    $frm->error($ErreurAjout);
+
 	  $frm->add_text_field("nom","Nom","",true);
 	  $frm->add_text_area("description","Description","");
 	  $frm->add_submit("valid","Ajouter");
@@ -873,11 +875,19 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
 			      $uv->id.
 			      "&amp;page=newfolder\">Ajouter un dossier</a>");
+	  
+	  $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
+			      $uv->id.
+			      "&amp;page=newfile\">Ajouter un fichier</a>");
+	}
+      else
+	{
+	  $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
+			      $uv->id.
+			      "&amp;page=newfile&amp;id_folder=".$_REQUEST['id_folder']
+			      ."\">Ajouter un fichier</a>");
 	}
 
-      $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
-			  $uv->id.
-			  "&amp;page=newfile\">Ajouter un fichier</a>");
 
     }  // Fin des tests sur la vue sélectionnée
 
