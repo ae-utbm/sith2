@@ -673,6 +673,11 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       
 	    }
 	} // fin commentage uvs
+      else
+	{
+	  $cts->add(new error("Accès refusé", "Cette partie est".
+			      " réservée aux étudiants de l'UTBM."));
+	}
     }
 
   else if ($_REQUEST['view'] == 'ressext')
@@ -909,6 +914,11 @@ $cts = new contents("Guide - Informations sur les UVs");
 
 foreach ($departements as $dept)
 {
+  $cts->add_paragraph("<a href=\"#dept_".$dept . "\">$dept</a>");
+}
+
+foreach ($departements as $dept)
+{
   $req = new requete($site->db,
 		     "SELECT 
                              `edu_uv`.`id_uv`
@@ -931,15 +941,14 @@ foreach ($departements as $dept)
     {
       $uvs[] = "<a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">". 
 	$rs['code_uv'] . " - " . $rs['intitule_uv'] . "</a>";
-	   
-      $uvs_taiste[$dept][] = "**[[./uvs.php?id_uv=".$rs['id_uv']." | ".$rs['code_uv']."]]**";
     }
 
 
   $lst = new itemlist($dept,
 		      false,
 		      $uvs);
-  $cts->add_title(2,"<a href=\"./uvs.php?iddept=$dept\">$dept</a>");
+  $cts->add_title(2,"<a id=\"dept_".$dept."\" ".
+		  "href=\"./uvs.php?iddept=$dept\">$dept</a>");
   $cts->add($lst);
 }
   
