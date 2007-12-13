@@ -14,7 +14,7 @@ function pgicon ( $color )
   
   $img = imagecreatetruecolor(16,16);
   imagefill($img,0,0,imagecolorallocate($img,255,255,255));
-  imageantialias($img,true);
+  //imageantialias($img,true);
   imagefilledellipse($img,7,7,14,14,hexdec($color));
   imagepng($img,$file);
   imagedestroy($img);
