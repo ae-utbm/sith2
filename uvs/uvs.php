@@ -781,6 +781,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       if ((isset($_REQUEST['addfolder'])) && ($_REQUEST['action'] == "addfolder"))
       {
 	$nfolder->add_folder ($_REQUEST["nom"], $uv->folder->id, $_REQUEST["description"], null);
+
+	if ($nfolder->id == null)
+	  $ErreurAjout("Erreur inconnue lors de l'ajout.");
+
       }
 
       if ($_REQUEST['page'] == 'newfolder')
@@ -817,8 +821,6 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	{
 	  $acts = false;
 	  $fd->_load($row);
-	  if ($fd->is_right($site->user,DROIT_ECRITURE))
-	    $acts = array("edit","delete","cut");
 
 	  $desc  = $fd->description;
 	  if (strlen($desc) > 72)
