@@ -73,7 +73,7 @@ if ( $_REQUEST["action"] == "genfact" )
   $fact_pdf->AliasNbPages ();
 
   while ( $row = $sql->get_row() )
-  {
+  {print_r($row);
     $asso->load_by_id($row['id_asso']);print_r($row['id_asso']);
     if ( !$asso->is_valid() )
       continue;
