@@ -376,7 +376,7 @@ class uv extends stdentity
     $newfold->id_groupe = 7; 
     $newfold->droits_acces = 0xDDD;
     $newfold->id_utilisateur = null;
-    $newfold->add_folder ( $this->code, $parent->id, "Fichiers relatif à l'UV ".$this->code, null );
+    $newfold->add_folder ( $this->code, $parent->id, "Fichiers relatifs à l'UV ".$this->code, null );
 
     $newfold->set_modere(true);
 
