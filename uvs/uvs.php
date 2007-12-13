@@ -363,13 +363,13 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       $uv->load_by_code($_REQUEST['code_uv']);
     }
 
-  $tabs = array(array("", $topdir ."uvs/uvs.php?id_uv=".$uv->id, "Informations générales"),
-		array("infosetu", $topdir ."uvs/uvs.php?view=infosetu&id_uv=".$uv->id, "Historique de suivi"),
-		array("commentaires", $topdir ."uvs/uvs.php?view=commentaires&id_uv=".$uv->id, "Commentaires"),
-		array("ressext", $topdir . "uvs/uvs.php?view=ressext&id_uv=".$uv->id, "Ressources externes"));
+  $tabs = array(array("", "./uvs.php?id_uv=".$uv->id, "Informations générales"),
+		array("infosetu", "./uvs.php?view=infosetu&id_uv=".$uv->id, "Historique de suivi"),
+		array("commentaires", "./uvs.php?view=commentaires&id_uv=".$uv->id, "Commentaires"),
+		array("ressext", "./uvs.php?view=ressext&id_uv=".$uv->id, "Ressources externes"));
   
 
-  /* partie fichiers réservée aux étudiants ? */
+  /* TODO : partie fichiers réservée aux étudiants ? */
   if ($site->user->is_in_group_id(10004))
     {
       $tabs[] = array("files", $topdir . "uvs/uvs.php?view=files&id_uv=".$uv->id, "Fichiers");
