@@ -751,6 +751,8 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   else if ($_REQUEST['view'] == 'files')
     {
       
+      $cts->add_paragraph("En construction ...");
+      /* 
       require_once($topdir . "include/entities/folder.inc.php");
       require_once($topdir . "include/entities/files.inc.php");
 
@@ -787,9 +789,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
         
       // formulaire ajout fichier posté
       if ($_REQUEST['action'] == "addfile")
-	{
-	  $cts->add_paragraph("En construction ...");
-	  /*
+	{ 
 	  $nfile = new dfile($site->db, $site->dbrw);
 
 	  // TODO : on met quoi comme droits ?
@@ -995,13 +995,13 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			  "id_file=".$fd->id,
 			  $acts, 
 			  "file");
-	  */
-	} // fin while fichiers
+	 
+    } // fin while fichiers
       
       $cts->add($gal, true);
 
 
-      /* options de base */
+      // options de base
       if (! isset($_REQUEST['id_folder']))
 	{
 	  $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
@@ -1028,8 +1028,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  
 	}
       
-      
-    }  // Fin des tests sur la vue sélectionnée
+      */
+    } // files  
+
+    // Fin des tests sur la vue sélectionnée
 
   $site->add_contents($cts);
 
