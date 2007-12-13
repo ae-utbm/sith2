@@ -57,7 +57,7 @@ if ($_REQUEST['action'] == 'camstatobt')
                           GROUP BY
                                  `id_etudiant`");
 
-  if ($req->lines > 0)
+  if ($req->lines > 1)
     {
       require_once($topdir . "include/graph.inc.php");
       $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
