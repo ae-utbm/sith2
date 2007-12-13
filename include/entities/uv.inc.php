@@ -348,7 +348,7 @@ class uv extends stdentity
     global $topdir;
     require_once($topdir. "include/entities/folder.inc.php");
     
-    $this->folder = new folder($this->db, $this->dbrw);
+    $this->folder = new dfolder($this->db, $this->dbrw);
 
     $this->folder->load_by_id($this->idfolder);
 
