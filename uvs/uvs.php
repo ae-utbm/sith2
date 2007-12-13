@@ -33,9 +33,12 @@ include($topdir. "include/site.inc.php");
 require_once($topdir . "include/entities/uv.inc.php");
 require_once($topdir . "include/extdb/xml.inc.php");
 
+require_once($topdir."include/cts/gallery.inc.php");
+
 
 $site = new site();
 $site->add_css($topdir."css/doku.css");
+$site->add_css("css/d.css");
 
 $site->start_page("services", "Informations UV");
 
@@ -748,8 +751,52 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			  "legislation pourront être supprimés sans ".
 			  "préavis.</b>");
 
-      $cts->add_paragraph("En cours d'implémentation...");
+      /* creation du dossier si inexistant */
+      if (! $uv->load_folder())
+	{
+	  $uv->create_folder();
+	}
 
+      /* dorénavant, le répertoire est considéré comme créé */
+
+      /* pompé de d.php */
+      $gal = new gallery("Fichiers et dossiers",
+			 "aedrive",
+			 false,
+			 "uvs/uvs.php?view=files&id_uv=".$uv->id
+			 ."&id_folder_parent=".
+			 $uv->folder->id,
+			 array("download"=>"Télécharger",
+			       "info"=>"Details",
+			       "edit"=>"Editer",
+			       "delete"=>"Supprimer"));
+      
+
+      $sub1 = $uv->folder->get_folders ($site->user);
+
+      $fd = new dfolder($site->db);
+
+      while ($row = $sub1->get_row ())
+	{
+	  $acts = false;
+	  $fd->_load($row);
+	  if ($fd->is_right($site->user,DROIT_ECRITURE))
+	    $acts = array("edit","delete","cut");
+
+	  $desc  = $fd->description;
+	  if (strlen($desc) > 72)
+	    $desc = substr($desc,0,72)."...";
+
+	  $gal->add_item ( "<img src=\"images/icons/128/folder.png\" alt=\"dossier\" />",
+			   "<a href=\"uvs/uvs.php?id_folder=".$fd->id."\" class=\"itmttl\">".
+			   $fd->titre."</a><br/><span class=\"itmdsc\">".$desc."</span>", 
+			   "id_folder=".$fd->id, 
+			   $acts, 
+			   "folder");
+
+	}
+
+      $cts->add($gal);
     }  // Fin des tests sur la vue sélectionnée
 
   $site->add_contents($cts);
