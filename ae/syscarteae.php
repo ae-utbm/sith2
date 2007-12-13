@@ -74,7 +74,7 @@ if ( $_REQUEST["action"] == "genfact" )
 
   while ( $row = $sql->get_row() )
   {
-    $asso->load_by_id($row['id_asso']);print_r($row['id_asso']);
+    $asso->load_by_id($row['id_asso']);
     if ( !$asso->is_valid() )
       continue;
     if(file_exists("/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg"))
