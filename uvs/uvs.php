@@ -753,7 +753,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			  "l'AE n'est pas responsable du contenu mis ".
 			  "à disposition. Conformément aux lois, tout ".
 			  "fichier succeptible de ne pas respecter la ".
-			  "legislation pourront être supprimés sans ".
+			  "legislation pourra être supprimé sans ".
 			  "préavis.</b>");
 
       /* creation du dossier si inexistant */
@@ -763,6 +763,34 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	}
 
       /* dorénavant, le répertoire est considéré comme créé */
+
+      /* création d'un sous-répertoire */
+      /* TODO : pour l'instant qu'un "étage" d'arborescence est prévu
+       * (ce qui semble suffisant).  Après, je ne sais pas trop
+       * comment gérer les droits, si sous-répertoires multiples.
+       * 
+       */
+      /* formulaire posté */
+      if ((isset($_REQUEST['addfolder'])) && ($_REQUEST['action'] == "addfolder"))
+      {
+	$nfolder->add_folder ($_REQUEST["nom"], $uv->folder->id, $_REQUEST["description"], null);
+      }
+
+      if ($_REQUEST['page'] == 'newfolder')
+	{
+	  $frm = new form("addfolder","uvs/uvs.php?view=files&id_uv=".$uv->id. "&action=addfolder");
+	  $frm->allow_only_one_usage();
+	  $frm->add_hidden("action","addfolder");
+	  if ( $ErreurAjout )
+	    $frm->error($ErreurAjout);
+	  $frm->add_text_field("nom","Nom","",true);
+	  $frm->add_text_area("description","Description","");
+	  $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",false,true);
+	  $frm->add_rights_field($folder,true,$folder->is_admin($site->user),"files");
+	  $frm->add_submit("valid","Ajouter");
+
+	  $cts->add($frm);
+	}
 
       /* pompé de d.php */
       $gal = new gallery("Fichiers et dossiers",
@@ -800,8 +828,18 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			   "folder");
 
 	}
-
       $cts->add($gal);
+
+
+      /* options de base */
+      $cts->add_paragraph("<a href=\"uvs/uvs.php?view=files&amp;id_uv=".
+			  $uv->id.
+			  "&amp;page=newfolder\">Ajouter un dossier</a>");
+
+      $cts->add_paragraph("<a href=\"uvs/uvs.php?view=files&amp;id_uv=".
+			  $uv->id.
+			  "&amp;page=newfile\">Ajouter un fichier</a>");
+
     }  // Fin des tests sur la vue sélectionnée
 
   $site->add_contents($cts);
