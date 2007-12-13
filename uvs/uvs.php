@@ -912,10 +912,15 @@ if (isset($_REQUEST['iddept']))
 
 $cts = new contents("Guide - Informations sur les UVs");
 
+$tmp = "";
+
 foreach ($departements as $dept)
 {
-  $cts->add_paragraph("<a href=\"#dept_".$dept . "\">$dept</a>");
+  $tmp .= "<a href=\"#dept_".$dept . "\">$dept</a><br/>";
 }
+$cts->add_title(2, "Accès direct aux départements");
+
+$cts->add_paragraph($tmp);
 
 foreach ($departements as $dept)
 {
