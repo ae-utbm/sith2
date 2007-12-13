@@ -73,6 +73,9 @@ if ( $category->is_valid() )
 
 if ( $fiche->is_valid() )
 {
+  $site->add_alternate_geopoint($fiche);
+  $site->set_meta_information($fiche->get_tags(),$fiche->description);
+  
   $path .= " / ".$fiche->get_html_link();
   $title_path .= " / ".$fiche->nom;
   $site->start_page("pg",$title_path);
@@ -86,6 +89,7 @@ if ( $fiche->is_valid() )
 }
 elseif ( $category->is_valid() && $category->id != 1 )
 {
+  $site->set_meta_information($category->get_tags(),$category->description);
   $site->start_page("pg",$title_path);
   $cts = new contents("<a href=\"index.php\">Le Guide</a>");
   

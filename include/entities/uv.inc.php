@@ -344,33 +344,32 @@ class uv extends stdentity
     require_once($topdir. "include/entities/folder.inc.php");
     
     // non chargé
-    if ($this->id < 0)
+    if (!$this->is_valid())
       return false;
     
     // le répertoire existe deja
-    if ($this->idfolder != NULL)
+    if (!is_null($this->idfolder))
       return false;
 
-
+    $parent = new dfolder($this->db, $this->dbrw);
+    $parent->create_or_load("pédagogie");
+    
     $newfold = new dfolder($this->db, $this->dbrw);
+    $newfold->id_groupe_admin = 7; 
+    $newfold->id_groupe = 7; 
+    $newfold->droits_acces = 0xDDD;
+    $newfold->id_utilisateur = null;
+    $newfold->add_folder ( $this->code, $parent->id, "Fichiers relatif à l'UV ".$this->code, null );
+                     NULL);
 
-    /* dans folder.inc.php :
-      Vous DEVEZ avoir fait appel à herit et set_rights avant !
-
-      WTF ?
-    */
-    // $newfold->add_folder($this->code,
-    //                      UVFOLDER,
-    //                      "Fichiers relatif à l'UV ".$this->code,
-    //                      NULL);
-
-    //new update($this->dbrw, 
-    //	       'edu_uv',
-    //	       array('id_folder' => $newfold->id),
-    //	       array('' => $this->id));
+    new update($this->dbrw, 
+    	       'edu_uv',
+    	       array('id_folder' => $newfold->id),
+    	       array('id_uv' => $this->id));
+  
+    $this->idfolder = $newfold->id;
 
     return true;
-
   }
   
 }

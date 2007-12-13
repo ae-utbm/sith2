@@ -65,6 +65,10 @@ class interfaceweb
   
   var $params; // cache des paramètres
   
+  var $meta_keywords;
+  var $meta_description;
+  var $alternate;
+  
   var $tab_array = array (array ("accueil", "index.php", "Accueil"),
         array ("presentation", "article.php?name=presentation", "Présentation",
            array (
@@ -110,6 +114,7 @@ class interfaceweb
     $this->extrajs = array();
     $this->rss = array();
     $this->contents=array();
+    $this->alternate=array();
   }
 
   /** Défini les boites à afficher sur un coté
@@ -216,6 +221,20 @@ class interfaceweb
     foreach ( $this->rss as $title => $url ) 
       echo "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_NOQUOTES,"UTF-8")."\" href=\"".htmlentities($url,ENT_NOQUOTES,"UTF-8")."\" />";
     
+    foreach ( $this->alternate as $row )
+    {
+      echo "<link rel=\"alternate\" ".
+        "type=\"".htmlentities($row[0],ENT_NOQUOTES,"UTF-8")."\" ".
+        "title=\"".htmlentities($row[1],ENT_NOQUOTES,"UTF-8")."\" ".
+        "href=\"".htmlentities($row[2],ENT_NOQUOTES,"UTF-8")."\" />";
+    }
+    
+    if ( !empty($this->meta_keywords) )
+      echo "<meta name=\"keywords\" content=\"".htmlentities($this->meta_keywords,ENT_NOQUOTES,"UTF-8")."\" />\n";
+      
+    if ( !empty($this->meta_description) )
+      echo "<meta name=\"description\" content=\"".htmlentities($this->meta_description,ENT_NOQUOTES,"UTF-8")."\" />\n";
+
     echo "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico\" />\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js\">var site_topdir='$wwwtopdir';</script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js\"></script>\n";
@@ -610,6 +629,25 @@ class interfaceweb
     $this->end_page();
     exit();
   }
+  
+  function set_meta_information( $keywords, $description )
+  {
+    $this->meta_keywords = $keywords;
+    $this->meta_description = $description;
+  }
+  
+  function add_alternate ( $type, $title, $href )
+  {
+    $this->alternate[]=array($type,$title,$href);
+  }
+  
+  function add_alternate_geopoint ( &$geopoint )
+  {
+    global $wwwtopdir;
+    $this->add_alternate("application/vnd.google-earth.kml+xml","KML",$wwwtopdir."loc.php?id_geopoint=".$geopoint->id."&action=kml");
+  }
+
+  
 }
 
 ?>

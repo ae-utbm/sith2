@@ -263,7 +263,7 @@ class lignebus extends stdentity
       return null;
       
     list($num) = $req->get_row();
-    return $num;Ò
+    return $num;
   }
   
   
