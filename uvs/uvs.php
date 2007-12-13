@@ -759,11 +759,12 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $site->error_forbidden();
 	}
 
-      $cts->add_paragraph("Fichiers relatifs à l'UV<br/><br/>".
+      $cts->add_paragraph("Fichiers relatifs à l'UV ".$uv->code.
+			  "<br/><br/>".
 			  "<b>Note importante : ces fichiers sont ".
 			  "proposés par les utilisateurs du site et ".
 			  "l'AE n'est pas responsable du contenu mis ".
-			  "à disposition. Conformément aux lois, tout ".
+			  "à disposition.<br/>Conformément aux lois, tout ".
 			  "fichier succeptible de ne pas respecter la ".
 			  "legislation pourra être supprimé sans ".
 			  "préavis.</b>");
@@ -779,6 +780,9 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       /* TODO soucis avec les sous-répertoires : comment s'assurer que
        * l'utilisateur passe pas de la merde en GET afin de créer un
        * sous-répertoire ailleurs que là où c'est prévu ?
+       *
+       *  réponse : cf uv->check_folder()
+       *
        */ 
       /* formulaire ajout fichier posté */
       if ($_REQUEST['action'] == "addfile")
@@ -803,8 +807,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			       $uv->folder->id, 
 			       $_REQUEST["description"],
 			       null);
-	    }
-	  
+	    }  
 	  $file->set_tags($_REQUEST["tags"]);
 	}
     
@@ -899,7 +902,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	    {
 	      $frm->error($ErreurAjout);
 	    }
-
+	  
 	  $frm->add_file_field("file","Fichier",true);
 	  $frm->add_text_field("nom","Nom","",true);
 	  $frm->add_text_field("tags","Tags (séparateur: virgule)","");
@@ -909,7 +912,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $cts->add($frm);
 
 	} // fin formulaire création fichier
-
+      
       /* pompé de d.php */
       $gal = new gallery("Fichiers et dossiers",
 			 "aedrive",
@@ -935,7 +938,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $fdtmp->load_by_id($_REQUEST['id_folder']);
 	  $sub1 = $fdtmp->get_folders($site->user);
 	}
-
+      
       while ($row = $sub1->get_row ())
 	{
 	  $acts = false;
@@ -954,8 +957,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			   "folder");
 
 	}
-      $cts->add($gal);
-
+    
       if (! isset($fdtmp))
 	{
 	  $sub2 = $uv->folder->get_files($site->user);
@@ -971,12 +973,6 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	{
 	  $acts = array("download","info");
 	  $fd->_load($row);
-	  if ($fd->is_right($site->user,DROIT_ECRITURE))
-	    {
-	      $acts[] ="edit";
-	      $acts[] ="delete";
-	      $acts[] ="cut";   
-	    }
 	  
 	  if (! file_exists($fd->get_thumb_filename()))
 	    $img = $topdir."images/icons/128/".$fd->get_icon_name();
@@ -986,7 +982,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $desc = $fd->description;
 	  if (strlen($desc) > 72)
 	    $desc = substr($desc,0,72)."...";
-
+	  
 	  $gal->add_item ("<img src=\"$img\" alt=\"fichier\" />",
 			  "<a href=\"./uvs.php?id_file=".$fd->id.
 			  "&amp;view=files&amp;id_uv=".$uv->id.
@@ -996,7 +992,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			  "id_file=".$fd->id,
 			  $acts, 
 			  "file");
-
+	  
 	} // fin while fichiers
       
       $cts->add($gal, true);
@@ -1027,8 +1023,8 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			      intval($_REQUEST['id_folder'])
 			      ."\">Ajouter un fichier</a>");
 	}
-
-
+      
+      
     }  // Fin des tests sur la vue sélectionnée
 
   $site->add_contents($cts);
