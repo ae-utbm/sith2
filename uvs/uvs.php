@@ -786,7 +786,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $frm->add_text_field("nom","Nom","",true);
 	  $frm->add_text_area("description","Description","");
 	  $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",false,true);
-	  $frm->add_rights_field($folder,true,$folder->is_admin($site->user),"files");
+	  $frm->add_rights_field($uv->folder,true,$uv->folder->is_admin($site->user),"files");
 	  $frm->add_submit("valid","Ajouter");
 
 	  $cts->add($frm);
