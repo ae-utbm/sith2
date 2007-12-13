@@ -213,48 +213,290 @@ class pgfiche extends geopoint
   
   var $date_maj;
   var $date_validite;
+  var $id_utilisateur_maj;
+  
+  /**
+   * Charge un élément par son id
+   * @param $id Id de l'élément
+   * @return false si non trouvé, true si chargé
+   */
+  function load_by_id ( $id )
+  {
+    $req = new requete($this->db, "SELECT * 
+        FROM `pg_fiche`
+        INNER JOIN `geopoint` ON (pg_fiche.id_pgfiche=geopoint.id_geopoint)
+				WHERE `id_pgfiche` = '".mysql_real_escape_string($id)."'
+				LIMIT 1");
+
+    if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
+  }
+  
+  function _load ( $row )
+  {
+    $this->id = $row['id_pgfiche'];
+    
+    $this->geopoint_load($row);
+    
+    $this->id_pgcategory = $row['id_pgcategory'];
+    $this->id_rue = $row['id_rue'];
+    $this->id_entreprise = $row['id_entreprise'];
+  
+    $this->description = $row['description_pgfiche'];
+    $this->tel = $row['tel_pgfiche'];
+    $this->fax = $row['fax_pgfiche'];
+    $this->email = $row['email_pgfiche'];
+    $this->website = $row['website_pgfiche'];
+    $this->numrue = $row['numrue_pgfiche'];
+    $this->adressepostal = $row['adressepostal_pgfiche'];
+  
+    $this->placesurcarte = $row['placesurcarte_pgfiche'];
+    $this->contraste = $row['contraste_pgfiche'];
+    $this->appreciation = $row['appreciation_pgfiche'];
+    $this->commentaire = $row['commentaire_pgfiche'];
+  
+    $this->date_maj = is_null($row['date_maj_pgfiche'])?null:strtotime($row['date_maj_pgfiche']);
+    $this->date_validite = is_null($row['date_validite_pgfiche'])?null:strtotime($row['date_validite_pgfiche']);
+    $this->id_utilisateur_maj = $row['id_utilisateur_maj'];
+  }
+  
+  function create ( $id_ville, $nom, $lat, $long, $eloi, $id_pgcategory, $id_rue, $id_entreprise, $description, $tel, $fax, $email, $website, $numrue, $adressepostal, $placesurcarte, $contraste, $appreciation, $commentaire, $date_maj, $date_validite, $id_utilisateur_maj )
+  {
+    if ( !$this->geopoint_create ( $nom, $lat, $long, $eloi, $id_ville ) )
+      return false;
+    
+    $this->id_pgcategory = $id_pgcategory;
+    $this->id_rue = $id_rue;
+    $this->id_entreprise = $id_entreprise;
+  
+    $this->description = $description;
+    $this->tel = $tel;
+    $this->fax = $fax;
+    $this->email = $email;
+    $this->website = $website;
+    $this->numrue = $numrue;
+    $this->adressepostal = $adressepostal;
+  
+    $this->placesurcarte = $placesurcarte;
+    $this->contraste = $contraste;
+    $this->appreciation = $appreciation;
+    $this->commentaire = $commentaire;
+  
+    $this->date_maj = $date_maj;
+    $this->date_validite = $date_validite;
+    $this->id_utilisateur_maj = $id_utilisateur_maj;    
+    
+    $req = new insert($this->dbrw,"pg_fiche", array(
+      'id_pgfiche' => $this->id,
+      
+      'id_pgcategory' => $this->id_pgcategory,
+      'id_rue' => $this->id_rue,
+      'id_entreprise' => $this->id_entreprise,
+    
+      'description_pgfiche' => $this->description,
+      'tel_pgfiche' => $this->tel,
+      'fax_pgfiche' => $this->fax,
+      'email_pgfiche' => $this->email,
+      'website_pgfiche' => $this->website,
+      'numrue_pgfiche' => $this->numrue,
+      'adressepostal_pgfiche' => $this->adressepostal,
+    
+      'placesurcarte_pgfiche' => $this->placesurcarte,
+      'contraste_pgfiche' => $this->contraste,
+      'appreciation_pgfiche' => $this->appreciation,
+      'commentaire_pgfiche' => $this->commentaire,
+    
+      'date_maj_pgfiche' => is_null($this->date_maj)?null:date("Y-m-d H:i:s",$this->date_maj),
+      'date_validite_pgfiche' => is_null($this->date_validite)?null:date("Y-m-d H:i:s",$this->date_validite),
+      'id_utilisateur_maj' => $this->id_utilisateur_maj)); 
+    
+    if ( !$req->is_success() )
+    {
+      $this->geopoint_delete();
+      return false;
+    }
+    return true;
+  }
+  
+  function update ( $id_ville, $nom, $lat, $long, $eloi, $id_pgcategory, $id_rue, $id_entreprise, $description, $tel, $fax, $email, $website, $numrue, $adressepostal, $placesurcarte, $contraste, $appreciation, $commentaire, $date_maj, $date_validite, $id_utilisateur_maj )
+  {
+    $this->geopoint_update ( $nom, $lat, $long, $eloi, $id_ville );
+    
+    $this->id_pgcategory = $id_pgcategory;
+    $this->id_rue = $id_rue;
+    $this->id_entreprise = $id_entreprise;
+  
+    $this->description = $description;
+    $this->tel = $tel;
+    $this->fax = $fax;
+    $this->email = $email;
+    $this->website = $website;
+    $this->numrue = $numrue;
+    $this->adressepostal = $adressepostal;
+  
+    $this->placesurcarte = $placesurcarte;
+    $this->contraste = $contraste;
+    $this->appreciation = $appreciation;
+    $this->commentaire = $commentaire;
+  
+    $this->date_maj = $date_maj;
+    $this->date_validite = $date_validite;
+    $this->id_utilisateur_maj = $id_utilisateur_maj;    
+    
+    new update($this->dbrw,"pg_fiche", array(
+      'id_pgcategory' => $this->id_pgcategory,
+      'id_rue' => $this->id_rue,
+      'id_entreprise' => $this->id_entreprise,
+      'description_pgfiche' => $this->description,
+      'tel_pgfiche' => $this->tel,
+      'fax_pgfiche' => $this->fax,
+      'email_pgfiche' => $this->email,
+      'website_pgfiche' => $this->website,
+      'numrue_pgfiche' => $this->numrue,
+      'adressepostal_pgfiche' => $this->adressepostal,
+      'placesurcarte_pgfiche' => $this->placesurcarte,
+      'contraste_pgfiche' => $this->contraste,
+      'appreciation_pgfiche' => $this->appreciation,
+      'commentaire_pgfiche' => $this->commentaire,
+      'date_maj_pgfiche' => is_null($this->date_maj)?null:date("Y-m-d H:i:s",$this->date_maj),
+      'date_validite_pgfiche' => is_null($this->date_validite)?null:date("Y-m-d H:i:s",$this->date_validite),
+      'id_utilisateur_maj' => $this->id_utilisateur_maj),
+      array('id_pgfiche' => $this->id)); 
+  }
+  
   
   function add_arretbus ( $id_arretbus )
   {
-    
+    new insert($this->dbrw, "pg_fiche_arretbus", array("id_pgfiche"=>$this->id,"id_arretbus"=>$id_arretbus));
   }
   
   function add_extra_pgcategory ( $id_pgcategory )
   {
-    
+    new insert($this->dbrw, "pg_fiche_extra_pgcategory", array("id_pgfiche"=>$this->id,"id_pgcategory"=>$id_pgcategory));
   }
   
   function add_tarif ( $id_typetarif, $min_tarif, $max_tarif, $commentaire, $date_maj=null, $date_validite=null )
   {
-    
+    new insert($this->dbrw, "pg_fiche_tarif", array(
+      "id_pgfiche"=>$this->id,
+      "id_typetarif"=>$id_typetarify,
+      "min_tarif"=>$min_tarif,
+      "max_tarif"=>$max_tarif,
+      "commentaire_tarif"=>$commentaire,   
+      "date_maj_tarif"=>is_null($date_maj)?null:date("Y-m-d H:i:s",$date_maj),   
+      "date_validite_tarif"=>is_null($date_validite)?null:date("Y-m-d H:i:s",$date_validite)));
   }
   
   function add_reduction ( $id_typereduction, $valeur, $unite, $commentaire, $date_maj=null, $date_validite=null )
   {
-    
+    new insert($this->dbrw, "pg_fiche_reduction", array(
+      "id_pgfiche"=>$this->id,
+      "id_typereduction"=>$id_typereduction,
+      "valeur_reduction"=>$valeur,
+      "unite_reduction"=>$unite,
+      "commentaire_reduction"=>$commentaire,   
+      "date_maj_reduction"=>is_null($date_maj)?null:date("Y-m-d H:i:s",$date_maj),   
+      "date_validite_reduction"=>is_null($date_validite)?null:date("Y-m-d H:i:s",$date_validite)));
   }
   
   function add_service ( $id_service, $commentaire, $date_maj=null, $date_validite=null )
   {
-    
+    new insert($this->dbrw, "pg_fiche_reduction", array(
+      "id_pgfiche"=>$this->id,
+      "id_service"=>$id_service,
+      "commentaire_service"=>$commentaire,   
+      "date_maj_service"=>is_null($date_maj)?null:date("Y-m-d H:i:s",$date_maj),   
+      "date_validite_service"=>is_null($date_validite)?null:date("Y-m-d H:i:s",$date_validite)));
   }
   
   function add_horraire ( $datevaldebut, $datevalfin, $type, $jours, $heuredebut, $heurefin )
   {
-    
     $ouvert = 1;
     if ( $type == HR_EXCP_FERMETURE )
       $ouvert = -1;
     
-    
-  } 
+    new insert($this->dbrw, "pg_fiche_horraire", array(
+      "id_pgfiche"=>$this->id,
+      "datevaldebut_horraire"=>date("Y-m-d H:i:s",$datevaldebut),
+      "datevalfin_horraire"=>is_null($datevalfin)?null:date("Y-m-d H:i:s",$datevalfin),
+      "type_horraire"=>$type,  
+      "jours_horraire"=>$jours,  
+      "ouvert_horraire"=>$ouvert,  
+      "heuredebut_horraire"=>date("H:i:s",$heuredebut),  
+      "heurefin_horraire"=>date("H:i:s",$heurefin));    
+  }    
   
+  /**
+   * Integre une mise à jour à la fiche.
+   * @param $pgfichemaj instance de pgfichemaj
+   * @see pgfichemaj
+   */
   function integrate_update ( &$pgfichemaj )
   {
+    $this->id_pgcategory = $pgfichemaj->id_pgcategory;
+    $this->id_rue = $pgfichemaj->id_rue;
+    $this->id_entreprise = $pgfichemaj->id_entreprise;
+  
+    $this->description = $pgfichemaj->description;
+    $this->tel = $pgfichemaj->tel;
+    $this->fax = $pgfichemaj->fax;
+    $this->email = $pgfichemaj->email;
+    $this->website = $pgfichemaj->website;
+    $this->numrue = $pgfichemaj->numrue;
+    $this->adressepostal = $pgfichemaj->adressepostal;
+  
+    $this->date_maj = $pgfichemaj->date_soumission;
+    $this->date_validite = $pgfichemaj->date_validite;
+    $this->id_utilisateur_maj = $pgfichemaj->id_utilisateur;
+    
+    new update($this->dbrw, "pg_fiche", array(
+      'id_pgcategory' => $this->id_pgcategory,
+      'id_rue' => $this->id_rue,
+      'id_entreprise' => $this->id_entreprise,
+      'description_pgfiche' => $this->description,
+      'tel_pgfiche' => $this->tel,
+      'fax_pgfiche' => $this->fax,
+      'email_pgfiche' => $this->email,
+      'website_pgfiche' => $this->website,
+      'numrue_pgfiche' => $this->numrue,
+      'adressepostal_pgfiche' => $this->adressepostal,
+      'date_maj_pgfiche' => is_null($this->date_maj)?null:date("Y-m-d H:i:s",$this->date_maj),
+      'date_validite_pgfiche' => is_null($this->date_validite)?null:date("Y-m-d H:i:s",$this->date_validite),
+      'id_utilisateur_maj' => $this->id_utilisateur_maj),
+      array('id_pgfiche' => $this->id));
+    
+    $this->geopoint_update ( $pgfichemaj->nom, $pgfichemaj->lat, $pgfichemaj->long, $pgfichemaj->eloi, $pgfichemaj->id_ville );
+    
+    $this->set_tags($pgfichemaj->tags);
+    
+    //TODO:effacer les anciennes données
+
+    foreach ( $pgfichemaj->extra_pgcategory as $id )
+      $this->add_extra_pgcategory($id);
+      
+    foreach ( $pgfichemaj->arretsbus as $id )
+      $this->add_arretbus($id);
+      
+    foreach ( $pgfichemaj->tarifs as $row )
+      $this->add_tarif ( $row[0], $row[1], $row[2], $row[3], $this->date_maj,is_null($row[4])?$this->date_validite:$row[4] );   
+        
+    foreach ( $pgfichemaj->reductions as $row )
+      $this->add_reduction ( $row[0], $row[1], $row[2], $row[3], $this->date_maj,is_null($row[4])?$this->date_validite:$row[4] );    
+      
+    foreach ( $pgfichemaj->services as $row )
+      $this->add_service ( $row[0], $row[1], $this->date_maj,is_null($row[4])?$this->date_validite:$row[4] );   
+      
+    foreach ( $pgfichemaj->horraires as $row )
+      $this->add_horraire ( $row[0], $row[1], $row[2], $row[3], $row[4], $row[5] );               
     
   }
-  
-  
+
 } 
 
 class pgfichemaj extends stdentity
@@ -281,16 +523,48 @@ class pgfichemaj extends stdentity
   
   var $date_validite;
 
-  var $arretsbus; // (données sérialisés)
-  var $tarifs; // (données sérialisés)
-  var $reductions; // (données sérialisés)
-  var $services; // (données sérialisés)
-  var $tags; // (données sérialisés)
-
+  var $arretsbus; // (array/données sérialisés)
+  var $tarifs; // (array/données sérialisés)
+  var $reductions; // (array/données sérialisés)
+  var $services; // (array/données sérialisés)
+  var $extra_pgcategory; // (array/données sérialisés)
+  var $horraires; // (array/données sérialisés)
+  var $tags; // (données "brut")
+  
   var $date_soumission;
   var $id_utilisateur;
   var $commentaire;
-
+  
+  function add_arretbus ( $id_arretbus )
+  {
+    $this->arretsbus[] = $id_arretbus;
+  }
+  
+  function add_extra_pgcategory ( $id_pgcategory )
+  {
+    $this->extra_pgcategory[] = $id_pgcategory;
+  }
+  
+  function add_tarif ( $id_typetarif, $min_tarif, $max_tarif, $commentaire, $date_validite=null )
+  {
+    $this->tarifs[] = array($id_typetarif, $min_tarif, $max_tarif, $commentaire, $date_validite);
+  }
+  
+  function add_reduction ( $id_typereduction, $valeur, $unite, $commentaire, $date_validite=null )
+  {
+    $this->reductions[] = array($id_typereduction, $valeur, $unite, $commentaire, $date_validite);
+  }
+  
+  function add_service ( $id_service, $commentaire, $date_validite=null )
+  {
+    $this->services[] = array($id_service, $commentaire, $date_validite);
+  }
+  
+  function add_horraire ( $datevaldebut, $datevalfin, $type, $jours, $heuredebut, $heurefin )
+  {
+    $this->horraires[] = array($datevaldebut, $datevalfin, $type, $jours, $heuredebut, $heurefin);
+  } 
+  
 }
  
  
