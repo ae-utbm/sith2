@@ -892,6 +892,8 @@ div.tinycalhead div.closecal
 	position: absolute;
 	background: url(../images/close.png) no-repeat;
 	right: -10px;
+	height: 12px;
+	width: 12px;
 	cursor: pointer;
 }
 
