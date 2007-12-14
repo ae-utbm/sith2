@@ -168,7 +168,7 @@ class rue extends stdentity
     
     $req = new insert ( $this->dbrw, "pg_rue", 
       array( 
-      "nom_typerue" => $this->nom,
+      "nom_rue" => $this->nom,
       "id_typerue" => $this->id_typerue,
       "id_ville" => $this->id_ville,
       "id_rue_entree" => $this->id_rue_entree,
@@ -197,7 +197,7 @@ class rue extends stdentity
     
     new update ( $this->dbrw, "pg_rue", 
       array( 
-      "nom_typerue" => $this->nom,
+      "nom_rue" => $this->nom,
       "id_typerue" => $this->id_typerue,
       "id_ville" => $this->id_ville,
       "id_rue_entree" => $this->id_rue_entree,
