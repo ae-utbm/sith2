@@ -172,7 +172,8 @@ while ( $row = $req->get_row() )
   
   $id_ville=null;
   $complement="";
-  
+  $err=false; 
+      
   foreach( $sec as $s )
   {
     if ( is_null($id_ville) )
@@ -182,7 +183,7 @@ while ( $row = $req->get_row() )
       echo "<br/>Pas cohérent !<br/>\n";
       print_r($row);
       print_r($sec);
-      //exit();  
+      $err=true; 
     }
     if ( !empty($s["complement"]) )
     {
@@ -198,8 +199,52 @@ while ( $row = $req->get_row() )
     echo "<br/>Pas de ville !<br/>\n";
     print_r($row);
     print_r($sec);
-    //exit();  
+    $err=true; 
   }
+  
+  if ( $err )
+  {
+    $req1 = new requete($dbpg,"SELECT secteur FROM pg_liste WHERE pg_liste.voie='".$row['id']."' GROUP BY secteur");
+    
+    if ( $req1->lines > 0 )
+    {
+      $id_ville=null;
+      $complement="";     
+      $err=false;  
+      $sec = array();
+      
+      while ( list($secteur) = $req1->get_row() )
+        $sec[] = $secteurs2[$secteur];
+      
+      foreach( $sec as $s )
+      {
+        if ( is_null($id_ville) )
+          $id_ville = $s["id_ville"];
+        elseif ( $id_ville != $s["id_ville"] )
+        {
+          echo "<br/>Pas cohérent !<br/>\n";
+          print_r($row);
+          print_r($sec);
+          $err=true; 
+        }
+        if ( !empty($s["complement"]) )
+        {
+          if ( empty($complement) )
+            $complement = $s["complement"];
+          else
+            $complement .= ", ".$s["complement"];
+        }        
+      }
+      if ( is_null($id_ville) )
+      {
+        echo "<br/>Pas de ville !<br/>\n";
+        print_r($row);
+        print_r($sec);
+        $err=true; 
+      }      
+    }
+  }
+  
   
   if ( !isset($typesderue[$row['id_type']]) )
   {
@@ -208,9 +253,10 @@ while ( $row = $req->get_row() )
     print_r($sec);
   }
   
-  
-  $rue->create ( $row['nom'], $complement, $typesderue[$row['id_type']]->id, $id_ville);
-  
+  if ( !$err )
+    $rue->create ( $row['nom'], $complement, $typesderue[$row['id_type']]->id, $id_ville);
+  else
+    echo "Ignoré<br/>\n";
   $rues[$row['id']] = $rue;
 }
 
