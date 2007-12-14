@@ -182,7 +182,7 @@ while ( $row = $req->get_row() )
       echo "Pas cohérent !<br/>\n";
       print_r($row);
       print_r($sec);
-      exit();  
+      //exit();  
     }
     if ( !empty($s["complement"]) )
     {
