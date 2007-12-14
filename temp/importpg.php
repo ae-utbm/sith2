@@ -181,8 +181,6 @@ while ( $row = $req->get_row() )
     elseif ( $id_ville != $s["id_ville"] )
     {
       echo "Pas cohérent !<br/>\n";
-      print_r($row);
-      print_r($sec);
       $err=true; 
     }
     if ( !empty($s["complement"]) )
@@ -197,8 +195,6 @@ while ( $row = $req->get_row() )
   if ( is_null($id_ville) )
   {
     echo "Pas de ville !<br/>\n";
-    print_r($row);
-    print_r($sec);
     $err=true; 
   }
   
@@ -212,11 +208,26 @@ while ( $row = $req->get_row() )
       $id_ville=null;
       $complement="";     
       $err=false;  
+      
+      echo "Secteurs d'origine : ";
+      
+      for($i=1;$i<7;$i++)
+        if ( $row["id_secteur$i"] != -1 )
+          echo $row["id_secteur$i"]."  ";
+     
+      echo "<br/>\nSecteurs retrouvés : ";
+      
       $sec = array();
       
       while ( list($secteur) = $req1->get_row() )
+      {
         $sec[] = $secteurs2[$secteur];
-      
+        echo $secteur."  ";
+        if ( !isset($secteurs2[$secteur]) )
+          echo "(non trouvé) ";
+      }
+      echo "<br/>\n";
+
       foreach( $sec as $s )
       {
         if ( is_null($id_ville) )
@@ -258,7 +269,7 @@ while ( $row = $req->get_row() )
     echo "<b>Ignoré</b><br/>\n";
     print_r($row);
     print_r($sec);    
-    echo "<br/><br/>\n";
+    echo "<br/>\n<br/>\n<br/>\n\n";
   }
   $rues[$row['id']] = $rue;
 }
