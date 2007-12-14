@@ -166,7 +166,7 @@ else
                             $site->total,
                             $cart_contents);
 
-      $accueil->add_title(1,"Paiement par carte bleu");
+      $accueil->add_title(1,"Paiement par carte bleue");
       /* le formulaire HTML genere par le binaire sogenactif
        * nous est envoye de facon brute. Il faut donc le
        * rajouter a notre objet $accueil "a l'arrache"       */
