@@ -358,7 +358,7 @@ class tinycalendar extends calendar
 		$this->buffer .= "<td class=\"month\">";
 		$this->buffer .= "<a href=\"?caldate=$nextdate\" onclick=\"return !openInContents('".$this->target."_calendar','".$this->ext_topdir."gateway.php','module=tinycal&amp;target=".$this->target."&amp;type=".$this->type."&amp;topdir=".$this->ext_topdir."&amp;caldate=$nextdate');\">&raquo;</a><br />";
 		$this->buffer .= "<a href=\"?caldate=$nextdate\" onclick=\"return !openInContents('".$this->target."_calendar','".$this->ext_topdir."gateway.php','module=tinycal&amp;target=".$this->target."&amp;type=".$this->type."&amp;topdir=".$this->ext_topdir."&amp;caldate=$nextdate');\">&raquo;</a>";
-		$this->buffer .= "</td>\n"
+		$this->buffer .= "</td>\n";
 		$this->buffer .= "</tr>\n";
 		
 		/* Affichage des jours de la semaine */
