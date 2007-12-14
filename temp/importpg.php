@@ -107,11 +107,11 @@ while ( $row = $req->get_row() )
     echo "$nom non trouvé !<br/>\n";
     print_r($candidates);
     print_r($row);
-    exit();  
+    //exit();  
   }
   $secteurs2[]=array("id_ville"=>$id_ville,"complement"=>$complement);
 }
-
+exit();
 new requete($site->dbrw,"TRUNCATE TABLE pg_rue");
 new requete($site->dbrw,"TRUNCATE TABLE pg_typerue");
 
