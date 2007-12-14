@@ -94,7 +94,7 @@ $manual =  array (
 "90130 Montreux Château" => 34637,"90130 Petit Croix" => 34643,"Montchéroux" => 9142,"Le phoenix" => 25550,"Brussurel" => 27852,"Point de ronde" => 9206,"90400 Trévenans" => 2283471,
 "90400 Meroux" => 2283472,
 "90360 Petitefontaine" => 2283473,
-"Echenans sur l’Etang" => 2283474
+"Echenans sur l'Etang" => 2283474
 );
 
 
