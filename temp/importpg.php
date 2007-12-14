@@ -78,13 +78,23 @@ $secteurs2=array();
 $req = new requete($dbpg,"SELECT * FROM pg_secteur2");
 
 $manual =  array (
-
-
-
-
-
-
-
+"90800 Argièsans" => 34576,
+"90800 Bavilliers" => 34580,"90140 Autrechêne" => 2283465, "90200 Auxelles Bas" => 34577,"90200 Auxelles Haut" => 34578,"90200 Ballon d'Alsace" => 34632,
+"90200 Gromagny" => 34621,"90200 Lepuix Gy" => 34632, 
+"90200 Riervescemont" => 2283466,"90110 Bourg sous Châtelet" => 34588,
+"90110 Romagny sous Rougemont" => 34648, "90110 Rougemont le Château" => 34651,
+"90110 Saint Germain le Châtelet" => 34653,"90700 Châtenois les Forges" => 34594,"90100 Chavannes les Grands" => 34597,
+"90100 Courcelles" => 2283467,
+"90100 Fêche l'Église" => 34612,
+"90100 Lebetain" => 34630, "90100 Lepuix Neuf" => 34631,
+"90100 Villars le Sec" => 34665,"90100 Saint Dizier l'Êveque" => 34652,"90340 Chevremont" => 34598,"90300 Eloie" => 34608,
+"90300 Lachapelle sous Chaux" => 34624,"90170 Etueffont" => 2283468,
+"90170 Petitmagny" => 2283469,
+"90170 Lamadeleine Val des Anges" => 34628,"90350 Evette Salbert" => 2283470,"90400 Sévenans" => 90400,"90360 Lachapelle ss Rougemont" => 34625,
+"90130 Montreux Château" => 34637,"90130 Petit Croix" => 34643,"Montchéroux" => 9142,"Le phoenix" => 25550,"Brussurel" => 27852,"Point de ronde" => 9206,"90400 Trévenans" => 2283471,
+"90400 Meroux" => 2283472,
+"90360 Petitefontaine" => 2283473,
+"Echenans sur l’Etang" => 2283474
 );
 
 
@@ -112,6 +122,10 @@ while ( $row = $req->get_row() )
   if ( isset($manual[$nom]) )
   {
     $id_ville=$manual[$nom];
+    
+    $ville->load_by_id($id_ville);
+    
+    echo "$nom => ".$ville->get_html_link()."<br/>";
   }
   else
   {
