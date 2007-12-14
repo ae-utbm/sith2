@@ -163,7 +163,7 @@ class ville extends stdentity
   /**
    * Version otpmimisée de fsearch (sans regexp, seul un LIKE)
    *
-   */
+   *
   function fsearch ( $pattern, $limit=5, $conds = null, $full=false )
   {
     if ( $limit < 10 )
@@ -240,7 +240,7 @@ class ville extends stdentity
         $values[$row[0]] = $row[1] . " (" . $row[2] . ")";
     }
     return $values;
-  }
+  }*/
 
 }
 

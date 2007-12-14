@@ -98,7 +98,7 @@ while ( $row = $req->get_row() )
   if ( !empty($row['code_postal']) )
     $nom = str_replace(" ","",$row['code_postal'])." ".$nom;
   
-  $candidates = $ville->fsearch ( $nom, 2, array("id_pays"=>1), true );
+  $candidates = $ville->fsearch ( $nom, 2, array("id_pays"=>1) );
   
   if ( !is_null($candidates) && count($candidates) == 1 )
   {
