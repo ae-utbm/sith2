@@ -84,7 +84,7 @@ while ( $row = $req->get_row() )
   
   $row['nom'] = utf8_encode($row['nom']);
   
-  if ( preg('/^([^\(\)]*) \(([A-Z0-9]*)\)$/ui',$row['nom'], $match) )
+  if ( preg_match('/^([^\(\)]*) \(([A-Z0-9]*)\)$/ui',$row['nom'], $match) )
   {
     $nom = $match[1];
     $complement = $match[2]; 
