@@ -77,6 +77,17 @@ $ville = new ville($site->db);
 $secteurs2=array();
 $req = new requete($dbpg,"SELECT * FROM pg_secteur2");
 
+$manual =  array (
+
+
+
+
+
+
+
+);
+
+
 while ( $row = $req->get_row() )
 {
   $id_ville=null;
@@ -98,19 +109,26 @@ while ( $row = $req->get_row() )
   if ( !empty($row['code_postal']) )
     $nom = str_replace(" ","",$row['code_postal'])." ".$nom;
   
-  $candidates = $ville->fsearch ( $nom, 2, array("id_pays"=>1) );
-  
-  if ( !is_null($candidates) && count($candidates) == 1 )
+  if ( isset($manual[$nom]) )
   {
-    reset($candidates);
-    $id_ville=key($candidates);
+    $id_ville=$manual[$nom];
   }
   else
   {
-    echo "$nom non trouvé !<br/>\n";
-    print_r($candidates);
-    print_r($row);
-    //exit();  
+    $candidates = $ville->fsearch ( $nom, 2, array("id_pays"=>1) );
+    
+    if ( !is_null($candidates) && count($candidates) == 1 )
+    {
+      reset($candidates);
+      $id_ville=key($candidates);
+    }
+    else
+    {
+      echo "$nom non trouvé !<br/>\n";
+      print_r($candidates);
+      print_r($row);
+      //exit();  
+    }
   }
   $secteurs2[]=array("id_ville"=>$id_ville,"complement"=>$complement);
 }
