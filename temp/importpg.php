@@ -18,6 +18,8 @@ $cat1_to_cat=array();
 $cat2_to_cat=array();
 $cat3_to_cat=array();
 
+echo "<h1>Catégories</h1>\n";
+
 $rootcat = new pgcategory($site->db,$site->dbrw);
 $rootcat->create ( null, "Le Guide", "", 1, null, null, null, null, null, null );
 
@@ -72,6 +74,7 @@ while ( $row = $req->get_row() )
   $cat3_to_cat[$row['id']] = $cat;
 }
 
+echo "<h1>Traitement des secteurs</h1>\n";
 
 $ville = new ville($site->db);
 $secteurs2=array();
@@ -148,6 +151,8 @@ while ( $row = $req->get_row() )
 new requete($site->dbrw,"TRUNCATE TABLE pg_rue");
 new requete($site->dbrw,"TRUNCATE TABLE pg_typerue");
 
+echo "<h1>Types de rues</h1>\n";
+
 $typesderue=array();
 $req = new requete($dbpg,"SELECT * FROM pg_voie_type");
 while ( $row = $req->get_row() )
@@ -158,6 +163,8 @@ while ( $row = $req->get_row() )
 }
 
 $rues = array();
+
+echo "<h1>Rues</h1>\n";
 
 $req = new requete($dbpg,"SELECT * FROM pg_voie");
 while ( $row = $req->get_row() )
@@ -276,5 +283,6 @@ while ( $row = $req->get_row() )
   $rues[$row['id']] = $rue;
 }
 
+echo "<h1>... à suivre</h1>\n";
 
 ?>
