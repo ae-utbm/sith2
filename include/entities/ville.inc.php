@@ -164,7 +164,7 @@ class ville extends stdentity
    * Version otpmimisée de fsearch (sans regexp, seul un LIKE)
    *
    */
-  function fsearch ( $pattern, $limit=5, $conds = null )
+  function fsearch ( $pattern, $limit=5, $conds = null, $full=false )
   {
     if ( $limit < 10 )
       $limit = 10;
@@ -187,6 +187,14 @@ class ville extends stdentity
           "FROM `loc_ville` INNER JOIN `loc_pays` USING (`id_pays`) ".
           "WHERE `cpostal_ville`='$cp' AND `nom_ville` LIKE '$pattern%'";	
       }
+    }
+    elseif ( $full )
+    {
+      $pattern = mysql_escape_joker_string($pattern);
+  
+      $sql = "SELECT `id_ville`,`nom_ville`, `nom_pays` ".
+        "FROM `loc_ville` INNER JOIN `loc_pays` USING (`id_pays`) ".
+        "WHERE `nom_ville` LIKE '$pattern'";	
     }
     else
     {

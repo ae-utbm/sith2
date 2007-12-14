@@ -95,7 +95,7 @@ while ( $row = $req->get_row() )
     $complement = "";
   }
   
-  $candidates = $ville->fsearch ( $nom, 2, array("id_pays"=>1) );
+  $candidates = $ville->fsearch ( $nom, 2, array("id_pays"=>1), true );
   
   if ( !is_null($candidates) && count($candidates) == 1 )
   {
