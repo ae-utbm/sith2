@@ -180,7 +180,7 @@ while ( $row = $req->get_row() )
       $id_ville = $s["id_ville"];
     elseif ( $id_ville != $s["id_ville"] )
     {
-      echo "<br/>Pas cohérent !<br/>\n";
+      echo "Pas cohérent !<br/>\n";
       print_r($row);
       print_r($sec);
       $err=true; 
@@ -196,7 +196,7 @@ while ( $row = $req->get_row() )
   
   if ( is_null($id_ville) )
   {
-    echo "<br/>Pas de ville !<br/>\n";
+    echo "Pas de ville !<br/>\n";
     print_r($row);
     print_r($sec);
     $err=true; 
@@ -204,6 +204,7 @@ while ( $row = $req->get_row() )
   
   if ( $err )
   {
+    echo "<i>Tentative de resolution</i><br/>\n";
     $req1 = new requete($dbpg,"SELECT secteur FROM pg_liste WHERE pg_liste.voie='".$row['id']."' GROUP BY secteur");
     
     if ( $req1->lines > 0 )
@@ -222,9 +223,7 @@ while ( $row = $req->get_row() )
           $id_ville = $s["id_ville"];
         elseif ( $id_ville != $s["id_ville"] )
         {
-          echo "<br/>Pas cohérent !<br/>\n";
-          print_r($row);
-          print_r($sec);
+          echo "Pas cohérent !<br/>\n";
           $err=true; 
         }
         if ( !empty($s["complement"]) )
@@ -237,9 +236,7 @@ while ( $row = $req->get_row() )
       }
       if ( is_null($id_ville) )
       {
-        echo "<br/>Pas de ville !<br/>\n";
-        print_r($row);
-        print_r($sec);
+        echo "<b>FATAL</b> Pas de ville !<br/>\n";
         $err=true; 
       }      
     }
@@ -248,15 +245,21 @@ while ( $row = $req->get_row() )
   
   if ( !isset($typesderue[$row['id_type']]) )
   {
-    echo "<br/>Type de rue iconnu !<br/>\n";
+    echo "<b>FATAL</b> Type de rue iconnu !<br/>\n";
     print_r($row);
     print_r($sec);
+    $err = true;
   }
   
   if ( !$err )
     $rue->create ( $row['nom'], $complement, $typesderue[$row['id_type']]->id, $id_ville);
   else
-    echo "Ignoré<br/>\n";
+  {
+    echo "<b>Ignoré</b><br/>\n";
+    print_r($row);
+    print_r($sec);    
+    echo "<br/><br/>\n";
+  }
   $rues[$row['id']] = $rue;
 }
 
