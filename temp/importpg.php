@@ -198,8 +198,16 @@ while ( $row = $req->get_row() )
     echo "Pas de ville !<br/>\n";
     print_r($row);
     print_r($sec);
-    exit();  
+    //exit();  
   }
+  
+  if ( !isset($typesderue[$row['id_type']]) )
+  {
+    echo "Type de rue iconnu !<br/>\n";
+    print_r($row);
+    print_r($sec);
+  }
+  
   
   $rue->create ( $row['nom'], $complement, $typesderue[$row['id_type']]->id, $id_ville);
   
