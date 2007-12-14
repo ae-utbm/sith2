@@ -154,7 +154,6 @@ while ( $row = $req->get_row() )
 {
   $typerue = new typerue($site->db,$site->dbrw);
   $typerue->create(utf8_encode($row['nom']));
-  print_r($typerue);
   $typesderue[$row['id']] = $typerue;
 }
 
