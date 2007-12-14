@@ -670,10 +670,8 @@ function get_creds_cts($id_etu, $db, $camembert = false)
 
 	  $statsobs[$rs['note_obtention']] ++;
 
-	  if (($rs['note_obtention'] == 'F') || ($rs['note_obtention'] == 'Fx'))
-	    continue;
-
-	  $totcreds += $rs['ects_uv'];
+	  if (($rs['note_obtention'] != 'F') && ($rs['note_obtention'] != 'Fx'))
+	    $totcreds += $rs['ects_uv'];
 	}
 
       /* on trie */
