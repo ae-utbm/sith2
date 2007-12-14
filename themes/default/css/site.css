@@ -890,7 +890,7 @@ td.tinycal_day:hover
 div.tinycalhead div.closecal
 {
 	position: absolute;
-	background: url(..images/close.png) no-repeat;
+	background: url(../images/close.png) no-repeat;
 	right: -10px;
 	cursor: pointer;
 }
