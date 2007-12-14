@@ -751,8 +751,6 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   else if ($_REQUEST['view'] == 'files')
     {
       
-      $cts->add_paragraph("En construction ...");
-      /* 
       require_once($topdir . "include/entities/folder.inc.php");
       require_once($topdir . "include/entities/files.inc.php");
 
@@ -1028,7 +1026,6 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  
 	}
       
-      */
     } // files  
 
     // Fin des tests sur la vue sélectionnée
