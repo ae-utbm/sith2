@@ -330,6 +330,7 @@ class tinycalendar extends calendar
 /*	  $this->buffer = "<div class=\"close\" onclick=\"closecal();\" >X</div>"; // pour l'instant on laisse tomber */
 		$this->buffer .= "<div class=\"calendarhead tinycalhead\">\n";
 		$this->buffer .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"99%\">\n";
+		$this->buffer .= "<div class=\"closecal\">&nbsp;</div>";
 		
 		$prevmonth = $month - 1;
 		$nextmonth = $month + 1;
