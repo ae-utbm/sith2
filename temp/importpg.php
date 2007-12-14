@@ -154,6 +154,7 @@ while ( $row = $req->get_row() )
 {
   $typerue = new typerue($site->db,$site->dbrw);
   $typerue->create(utf8_encode($row['nom']));
+  print_r($typerue);
   $typesderue[$row['id']] = $typerue;
 }
 
@@ -179,7 +180,7 @@ while ( $row = $req->get_row() )
       $id_ville = $s["id_ville"];
     elseif ( $id_ville != $s["id_ville"] )
     {
-      echo "Pas cohérent !<br/>\n";
+      echo "<br/>Pas cohérent !<br/>\n";
       print_r($row);
       print_r($sec);
       //exit();  
@@ -195,7 +196,7 @@ while ( $row = $req->get_row() )
   
   if ( is_null($id_ville) )
   {
-    echo "Pas de ville !<br/>\n";
+    echo "<br/>Pas de ville !<br/>\n";
     print_r($row);
     print_r($sec);
     //exit();  
@@ -203,7 +204,7 @@ while ( $row = $req->get_row() )
   
   if ( !isset($typesderue[$row['id_type']]) )
   {
-    echo "Type de rue iconnu !<br/>\n";
+    echo "<br/>Type de rue iconnu !<br/>\n";
     print_r($row);
     print_r($sec);
   }
