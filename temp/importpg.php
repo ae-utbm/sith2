@@ -251,6 +251,8 @@ while ( $row = $req->get_row() )
         $err=true; 
       }      
     }
+    else
+      echo "<b>FATAL</b> Jamais utilisé !<br/>\n";
   }
   
   
