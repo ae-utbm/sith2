@@ -142,7 +142,7 @@ while ( $row = $req->get_row() )
       exit();  
     }
   }
-  $secteurs2[]=array("old"=>$nom,"id_ville"=>$id_ville,"complement"=>$complement);
+  $secteurs2[$row['id']]=array("old"=>$nom,"id_ville"=>$id_ville,"complement"=>$complement);
 }
 
 new requete($site->dbrw,"TRUNCATE TABLE pg_rue");
