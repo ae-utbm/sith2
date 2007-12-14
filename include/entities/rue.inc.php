@@ -111,6 +111,8 @@ class rue extends stdentity
 {
   /** Nom de la rue */
   var $nom;
+  /** Complément pour situer sur plan */
+  var $complement;  
   /** Type de rue (rue, boulevard, RN, ...) 
     * @see typerue */
   var $id_typerue;
@@ -152,15 +154,17 @@ class rue extends stdentity
     $this->id_ville = $row['id_ville'];
     $this->id_rue_entree = $row['id_rue_entree'];
     $this->num_entree = $row['num_entree_rue'];
+    $this->complement = $row['complement_rue'];
   }
   
-  function create ( $nom, $id_typerue, $id_ville, $id_rue_entree=null, $num_entree=null )
+  function create ( $nom, $complement, $id_typerue, $id_ville, $id_rue_entree=null, $num_entree=null )
   {
     $this->nom = $nom;
     $this->id_typerue = $id_typerue;
     $this->id_ville = $id_ville;
     $this->id_rue_entree = $id_rue_entree;
     $this->num_entree = $num_entree;
+    $this->complement = $complement;
     
     $req = new insert ( $this->dbrw, "pg_rue", 
       array( 
@@ -168,7 +172,8 @@ class rue extends stdentity
       "id_typerue" => $this->id_typerue,
       "id_ville" => $this->id_ville,
       "id_rue_entree" => $this->id_rue_entree,
-      "num_entree_rue" => $this->num_entree
+      "num_entree_rue" => $this->num_entree,
+      "complement_rue"=> $this->complement
       ) );
     
     if ( !$req->is_success() )
@@ -181,21 +186,23 @@ class rue extends stdentity
     return true;
   }
   
-  function update ( $nom, $id_typerue, $id_ville, $id_rue_entree=null, $num_entree=null )
+  function update ( $nom, $complement, $id_typerue, $id_ville, $id_rue_entree=null, $num_entree=null )
   {
     $this->nom = $nom;
     $this->id_typerue = $id_typerue;
     $this->id_ville = $id_ville;
     $this->id_rue_entree = $id_rue_entree;
     $this->num_entree = $num_entree;
-
+    $this->complement = $complement;
+    
     new update ( $this->dbrw, "pg_rue", 
       array( 
       "nom_typerue" => $this->nom,
       "id_typerue" => $this->id_typerue,
       "id_ville" => $this->id_ville,
       "id_rue_entree" => $this->id_rue_entree,
-      "num_entree_rue" => $this->num_entree
+      "num_entree_rue" => $this->num_entree,
+      "complement_rue"=> $this->complement
       ),
       array("id_rue"=>$this->id) );
   }

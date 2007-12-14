@@ -407,7 +407,7 @@ class pgfiche extends geopoint
   
   function add_service ( $id_service, $commentaire, $date_maj=null, $date_validite=null )
   {
-    new insert($this->dbrw, "pg_fiche_reduction", array(
+    new insert($this->dbrw, "pg_fiche_service", array(
       "id_pgfiche"=>$this->id,
       "id_service"=>$id_service,
       "commentaire_service"=>$commentaire,   
@@ -475,7 +475,12 @@ class pgfiche extends geopoint
     
     $this->set_tags($pgfichemaj->tags);
     
-    //TODO:effacer les anciennes données
+    new delete($this->dbrw,"pg_fiche_arretbus",array("id_pgfiche"=>$this->id));
+    new delete($this->dbrw,"pg_fiche_extra_pgcategory",array("id_pgfiche"=>$this->id));
+    new delete($this->dbrw,"pg_fiche_tarif",array("id_pgfiche"=>$this->id));
+    new delete($this->dbrw,"pg_fiche_service",array("id_pgfiche"=>$this->id));
+    new delete($this->dbrw,"pg_fiche_reduction",array("id_pgfiche"=>$this->id));
+    new delete($this->dbrw,"pg_fiche_horraire",array("id_pgfiche"=>$this->id));
 
     foreach ( $pgfichemaj->extra_pgcategory as $id )
       $this->add_extra_pgcategory($id);
@@ -495,6 +500,25 @@ class pgfiche extends geopoint
     foreach ( $pgfichemaj->horraires as $row )
       $this->add_horraire ( $row[0], $row[1], $row[2], $row[3], $row[4], $row[5] );               
     
+  }
+
+  function delete ()
+  {
+    new delete($this->dbrw,"pg_fiche_arretbus",array("id_pgfiche"=>$this->id));
+    new delete($this->dbrw,"pg_fiche_extra_pgcategory",array("id_pgfiche"=>$this->id));
+    new delete($this->dbrw,"pg_fiche_tarif",array("id_pgfiche"=>$this->id));
+    new delete($this->dbrw,"pg_fiche_service",array("id_pgfiche"=>$this->id));
+    new delete($this->dbrw,"pg_fiche_reduction",array("id_pgfiche"=>$this->id));
+    new delete($this->dbrw,"pg_fiche_horraire",array("id_pgfiche"=>$this->id));
+    new delete($this->dbrw,"pg_fiche_tags",array("id_pgfiche"=>$this->id));
+    new delete($this->dbrw,"pg_fiche",array("id_pgfiche"=>$this->id));
+    $this->geopoint_delete();
+  }
+
+  function replace_by ( &$fiche )
+  {
+    $fiche->add_extra_pgcategory($this->id_pgcategory);
+    $this->delete();
   }
 
 } 
