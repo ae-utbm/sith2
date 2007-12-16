@@ -316,9 +316,61 @@ $service = new service($site->db,$site->dbrw);
 $service->create("Accès handicapé","","");
 $services["handicape"] = $service->id;
 
+new requete($site->dbrw,"TRUNCATE TABLE pg_fiche");
+new requete($site->dbrw,"TRUNCATE TABLE pg_fiche_reduction");
+new requete($site->dbrw,"TRUNCATE TABLE pg_fiche_extra_pgcategory");
+new requete($site->dbrw,"TRUNCATE TABLE pg_fiche_reduction");
+new requete($site->dbrw,"TRUNCATE TABLE pg_fiche_service");
 
-echo "<h1>... à suivre</h1>\n";
+echo "<h1>Import des fiches</h1>\n";
+$fiche = new pgfiche($site->db,$site->dbrw);
 
+$fiches=array();
+$req = new requete($dbpg,"SELECT * FROM pg_liste WHERE import_liste=1 AND id_liste_parent IS NULL");
+while ( $row = $req->get_row() )
+{
+  $fiche->create ( $secteurs2[$row['secteur']]['id_ville'], utf8_encode($row['nom']), null, null, null, $cat3_to_cat[$row['cat']]->id, $rues[$row['voie']], null, utf8_encode($row['description']), utf8_encode($row['description']), utf8_encode($row['tel']), utf8_encode($row['fax']), utf8_encode($row['email']), utf8_encode($row['http']), utf8_encode($row['no']), utf8_encode($row['adresse']), false, $row['mav'], !empty($row['coupdecoeur']), utf8_encode($row['coupdecoeur']), utf8_encode($row['remarques']), strtotime($row['date_maj']), null, null );
+  
+  if ( $row['handicape'] )
+    $fiche->add_service ( $services["handicape"], "", strtotime($row['date_maj']) );
+  
+  if ( $row['reduc_bij'] )
+    $fiche->add_reduction ( $typesreduction["bij"], "", "", "", strtotime($row['date_maj']) );
+  
+  if ( $row['reduc_psa'] )
+    $fiche->add_reduction ( $typesreduction["psa"], utf8_encode($row['reduc_psa']), "", "", strtotime($row['date_maj']) );
+  if ( $row['reduc_alsthom'] )
+    $fiche->add_reduction ( $typesreduction["alsthom"], utf8_encode($row['reduc_alsthom']), "", "", strtotime($row['date_maj']) );
+  if ( $row['reduc_smereb'] )
+    $fiche->add_reduction ( $typesreduction["smereb"], utf8_encode($row['reduc_smereb']), "", "", strtotime($row['date_maj']) );
+  if ( $row['reduc_fracas'] )
+    $fiche->add_reduction ( $typesreduction["fracas"], utf8_encode($row['reduc_fracas']), "", "", strtotime($row['date_maj']) );
+  if ( $row['reduc_divers'] )
+    $fiche->add_reduction ( $typesreduction["divers"], utf8_encode($row['reduc_divers']), "", "", strtotime($row['date_maj']) );
+  if ( $row['reduc_petitgeni'] )
+    $fiche->add_reduction ( $typesreduction["petitgeni"], utf8_encode($row['reduc_petitgeni']), "", "", strtotime($row['date_maj']) );
+    
+    
+    
+      
+  
+  
+  $fiches[$row['id']] = $fiche->id;  
+}
 
+$req = new requete($dbpg,"SELECT * FROM pg_liste WHERE import_liste=1 AND id_liste_parent IS NOT NULL");
+while ( $row = $req->get_row() )
+{
+  if ( isset($fiches[$row['id_liste_parent']]) )
+  {
+    $fiche->load_by_id($fiches[$row['id_liste_parent']]);
+    
+    $fiche->add_extra_pgcategory ( $cat3_to_cat[$row['cat']]->id, utf8_encode($row['nom']), utf8_encode($row['description']) );
+    
+    $fiches[$row['id']] = $fiche->id;  
+  }
+  else
+    echo "raté !";
+}
 
 ?>

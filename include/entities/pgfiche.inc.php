@@ -27,6 +27,7 @@
  
 
 require_once($topdir."include/entities/geopoint.inc.php");
+require_once($topdir."include/cts/special.inc.php");
 
 class pgcategory extends stdentity
 {
@@ -216,6 +217,7 @@ class pgfiche extends geopoint
   var $date_validite;
   var $id_utilisateur_maj;
   
+  var $archive;
   /**
    * Charge un élément par son id
    * @param $id Id de l'élément
@@ -262,13 +264,14 @@ class pgfiche extends geopoint
     $this->contraste = $row['contraste_pgfiche'];
     $this->appreciation = $row['appreciation_pgfiche'];
     $this->commentaire = $row['commentaire_pgfiche'];
-  
+    $this->infointerne = $row['infointerne_pgfiche'];
     $this->date_maj = is_null($row['date_maj_pgfiche'])?null:strtotime($row['date_maj_pgfiche']);
     $this->date_validite = is_null($row['date_validite_pgfiche'])?null:strtotime($row['date_validite_pgfiche']);
     $this->id_utilisateur_maj = $row['id_utilisateur_maj'];
+    $this->archive = $row['archive_pgfiche'];
   }
   
-  function create ( $id_ville, $nom, $lat, $long, $eloi, $id_pgcategory, $id_rue, $id_entreprise, $description, $longuedescription, $tel, $fax, $email, $website, $numrue, $adressepostal, $placesurcarte, $contraste, $appreciation, $commentaire, $date_maj, $date_validite, $id_utilisateur_maj )
+  function create ( $id_ville, $nom, $lat, $long, $eloi, $id_pgcategory, $id_rue, $id_entreprise, $description, $longuedescription, $tel, $fax, $email, $website, $numrue, $adressepostal, $placesurcarte, $contraste, $appreciation, $commentaire, $infointerne, $date_maj, $date_validite, $id_utilisateur_maj )
   {
     if ( !$this->geopoint_create ( $nom, $lat, $long, $eloi, $id_ville ) )
       return false;
@@ -279,8 +282,8 @@ class pgfiche extends geopoint
   
     $this->description = $description;
     $this->longuedescription = $longuedescription;
-    $this->tel = $tel;
-    $this->fax = $fax;
+    $this->tel = telephone_userinput($tel);
+    $this->fax = telephone_userinput($fax);
     $this->email = $email;
     $this->website = $website;
     $this->numrue = $numrue;
@@ -290,10 +293,13 @@ class pgfiche extends geopoint
     $this->contraste = $contraste;
     $this->appreciation = $appreciation;
     $this->commentaire = $commentaire;
-  
+    $this->infointerne = $infointerne;
+    
     $this->date_maj = $date_maj;
     $this->date_validite = $date_validite;
     $this->id_utilisateur_maj = $id_utilisateur_maj;    
+    
+    $this->archive=false;
     
     $req = new insert($this->dbrw,"pg_fiche", array(
       'id_pgfiche' => $this->id,
@@ -315,10 +321,13 @@ class pgfiche extends geopoint
       'contraste_pgfiche' => $this->contraste,
       'appreciation_pgfiche' => $this->appreciation,
       'commentaire_pgfiche' => $this->commentaire,
-    
+      'infointerne_pgfiche' => $this->infointerne,
       'date_maj_pgfiche' => is_null($this->date_maj)?null:date("Y-m-d H:i:s",$this->date_maj),
       'date_validite_pgfiche' => is_null($this->date_validite)?null:date("Y-m-d H:i:s",$this->date_validite),
-      'id_utilisateur_maj' => $this->id_utilisateur_maj)); 
+      'id_utilisateur_maj' => $this->id_utilisateur_maj,
+      
+      'archive_pgfiche' => $this->archive
+      )); 
     
     if ( !$req->is_success() )
     {
@@ -328,7 +337,7 @@ class pgfiche extends geopoint
     return true;
   }
   
-  function update ( $id_ville, $nom, $lat, $long, $eloi, $id_pgcategory, $id_rue, $id_entreprise, $description, $longuedescription, $tel, $fax, $email, $website, $numrue, $adressepostal, $placesurcarte, $contraste, $appreciation, $commentaire, $date_maj, $date_validite, $id_utilisateur_maj )
+  function update ( $id_ville, $nom, $lat, $long, $eloi, $id_pgcategory, $id_rue, $id_entreprise, $description, $longuedescription, $tel, $fax, $email, $website, $numrue, $adressepostal, $placesurcarte, $contraste, $appreciation, $commentaire, $infointerne, $date_maj, $date_validite, $id_utilisateur_maj )
   {
     $this->geopoint_update ( $nom, $lat, $long, $eloi, $id_ville );
     
@@ -338,8 +347,8 @@ class pgfiche extends geopoint
   
     $this->description = $description;
     $this->longuedescription = $longuedescription;
-    $this->tel = $tel;
-    $this->fax = $fax;
+    $this->tel = telephone_userinput($tel);
+    $this->fax = telephone_userinput($fax);
     $this->email = $email;
     $this->website = $website;
     $this->numrue = $numrue;
@@ -349,7 +358,8 @@ class pgfiche extends geopoint
     $this->contraste = $contraste;
     $this->appreciation = $appreciation;
     $this->commentaire = $commentaire;
-  
+    $this->infointerne = $infointerne;
+    
     $this->date_maj = $date_maj;
     $this->date_validite = $date_validite;
     $this->id_utilisateur_maj = $id_utilisateur_maj;    
@@ -370,6 +380,7 @@ class pgfiche extends geopoint
       'contraste_pgfiche' => $this->contraste,
       'appreciation_pgfiche' => $this->appreciation,
       'commentaire_pgfiche' => $this->commentaire,
+      'infointerne_pgfiche' => $this->infointerne,
       'date_maj_pgfiche' => is_null($this->date_maj)?null:date("Y-m-d H:i:s",$this->date_maj),
       'date_validite_pgfiche' => is_null($this->date_validite)?null:date("Y-m-d H:i:s",$this->date_validite),
       'id_utilisateur_maj' => $this->id_utilisateur_maj),
@@ -530,7 +541,7 @@ class pgfiche extends geopoint
 
   function replace_by ( &$fiche )
   {
-    $fiche->add_extra_pgcategory($this->id_pgcategory);
+    $fiche->add_extra_pgcategory($this->id_pgcategory, $this->nom, $this->description);
     $this->delete();
   }
 
