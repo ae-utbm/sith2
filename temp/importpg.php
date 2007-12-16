@@ -368,11 +368,11 @@ echo "<h1>Import des fiches doublés</h1>\n";
 
 $req = new requete($dbpg,"SELECT * FROM pg_liste WHERE import_liste=1 AND id_liste_parent IS NOT NULL ORDER BY id");
 
-$conflicts = 1;
 
-while ( $conflicts )
+do
 {
-
+  $conflicts=0;
+  
   $req->go_first();
   
   while ( $row = $req->get_row() )
@@ -399,7 +399,7 @@ while ( $conflicts )
     }
   }
 }
-
+while ( $conflicts);
 
 
 
