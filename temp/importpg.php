@@ -316,6 +316,7 @@ $service = new service($site->db,$site->dbrw);
 $service->create("Accès handicapé","","");
 $services["handicape"] = $service->id;
 
+new requete($site->dbrw,"DELETE FROM geopoint WHERE type_geopoint='pgfiche'");
 new requete($site->dbrw,"TRUNCATE TABLE pg_fiche");
 new requete($site->dbrw,"TRUNCATE TABLE pg_fiche_reduction");
 new requete($site->dbrw,"TRUNCATE TABLE pg_fiche_extra_pgcategory");
