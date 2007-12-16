@@ -199,6 +199,7 @@ class pgfiche extends geopoint
   var $id_entreprise;
   
   var $description;
+  var $longuedescription;
   var $tel;
   var $fax;
   var $email;
@@ -249,6 +250,7 @@ class pgfiche extends geopoint
     $this->id_entreprise = $row['id_entreprise'];
   
     $this->description = $row['description_pgfiche'];
+    $this->longuedescription = $row['longuedescription_pgfiche'];
     $this->tel = $row['tel_pgfiche'];
     $this->fax = $row['fax_pgfiche'];
     $this->email = $row['email_pgfiche'];
@@ -266,7 +268,7 @@ class pgfiche extends geopoint
     $this->id_utilisateur_maj = $row['id_utilisateur_maj'];
   }
   
-  function create ( $id_ville, $nom, $lat, $long, $eloi, $id_pgcategory, $id_rue, $id_entreprise, $description, $tel, $fax, $email, $website, $numrue, $adressepostal, $placesurcarte, $contraste, $appreciation, $commentaire, $date_maj, $date_validite, $id_utilisateur_maj )
+  function create ( $id_ville, $nom, $lat, $long, $eloi, $id_pgcategory, $id_rue, $id_entreprise, $description, $longuedescription, $tel, $fax, $email, $website, $numrue, $adressepostal, $placesurcarte, $contraste, $appreciation, $commentaire, $date_maj, $date_validite, $id_utilisateur_maj )
   {
     if ( !$this->geopoint_create ( $nom, $lat, $long, $eloi, $id_ville ) )
       return false;
@@ -276,6 +278,7 @@ class pgfiche extends geopoint
     $this->id_entreprise = $id_entreprise;
   
     $this->description = $description;
+    $this->longuedescription = $longuedescription;
     $this->tel = $tel;
     $this->fax = $fax;
     $this->email = $email;
@@ -300,6 +303,7 @@ class pgfiche extends geopoint
       'id_entreprise' => $this->id_entreprise,
     
       'description_pgfiche' => $this->description,
+      'longuedescription_pgfiche' => $this->longuedescription,
       'tel_pgfiche' => $this->tel,
       'fax_pgfiche' => $this->fax,
       'email_pgfiche' => $this->email,
@@ -324,7 +328,7 @@ class pgfiche extends geopoint
     return true;
   }
   
-  function update ( $id_ville, $nom, $lat, $long, $eloi, $id_pgcategory, $id_rue, $id_entreprise, $description, $tel, $fax, $email, $website, $numrue, $adressepostal, $placesurcarte, $contraste, $appreciation, $commentaire, $date_maj, $date_validite, $id_utilisateur_maj )
+  function update ( $id_ville, $nom, $lat, $long, $eloi, $id_pgcategory, $id_rue, $id_entreprise, $description, $longuedescription, $tel, $fax, $email, $website, $numrue, $adressepostal, $placesurcarte, $contraste, $appreciation, $commentaire, $date_maj, $date_validite, $id_utilisateur_maj )
   {
     $this->geopoint_update ( $nom, $lat, $long, $eloi, $id_ville );
     
@@ -333,6 +337,7 @@ class pgfiche extends geopoint
     $this->id_entreprise = $id_entreprise;
   
     $this->description = $description;
+    $this->longuedescription = $longuedescription;
     $this->tel = $tel;
     $this->fax = $fax;
     $this->email = $email;
@@ -354,6 +359,7 @@ class pgfiche extends geopoint
       'id_rue' => $this->id_rue,
       'id_entreprise' => $this->id_entreprise,
       'description_pgfiche' => $this->description,
+      'longuedescription_pgfiche' => $this->longuedescription,
       'tel_pgfiche' => $this->tel,
       'fax_pgfiche' => $this->fax,
       'email_pgfiche' => $this->email,
@@ -449,6 +455,7 @@ class pgfiche extends geopoint
     $this->id_entreprise = $pgfichemaj->id_entreprise;
   
     $this->description = $pgfichemaj->description;
+    $this->longuedescription =  $pgfichemaj->longuedescription;
     $this->tel = $pgfichemaj->tel;
     $this->fax = $pgfichemaj->fax;
     $this->email = $pgfichemaj->email;
@@ -465,6 +472,7 @@ class pgfiche extends geopoint
       'id_rue' => $this->id_rue,
       'id_entreprise' => $this->id_entreprise,
       'description_pgfiche' => $this->description,
+      'longuedescription_pgfiche' => $this->longuedescription,
       'tel_pgfiche' => $this->tel,
       'fax_pgfiche' => $this->fax,
       'email_pgfiche' => $this->email,
@@ -543,6 +551,7 @@ class pgfichemaj extends stdentity
   var $id_entreprise;
   
   var $description;
+  var $longuedescription;
   var $tel;
   var $fax;
   var $email;
