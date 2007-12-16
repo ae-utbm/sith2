@@ -330,36 +330,50 @@ $fiches=array();
 $req = new requete($dbpg,"SELECT * FROM pg_liste WHERE import_liste=1 AND id_liste_parent IS NULL");
 while ( $row = $req->get_row() )
 {
-  $fiche->create ( $secteurs2[$row['secteur']]['id_ville'], utf8_encode($row['nom']), null, null, null, $cat3_to_cat[$row['cat']]->id, $rues[$row['voie']], null, utf8_encode($row['description']), utf8_encode($row['description']), utf8_encode($row['tel']), utf8_encode($row['fax']), utf8_encode($row['email']), utf8_encode($row['http']), utf8_encode($row['no']), utf8_encode($row['adresse']), false, $row['mav'], !empty($row['coupdecoeur']), utf8_encode($row['coupdecoeur']), utf8_encode($row['remarques']), strtotime($row['date_maj']), null, null );
+  if ( !isset($cat3_to_cat[$row['cat']]) )
+  {
+    echo "<p>Categorie inconnue : ".$row['cat']."</p>";
+  }
+  else
+  {
   
-  if ( $row['handicape'] )
-    $fiche->add_service ( $services["handicape"], "", strtotime($row['date_maj']) );
+    $fiche->id=null;
+    
+    $fiche->create ( $secteurs2[$row['secteur']]['id_ville'], utf8_encode($row['nom']), null, null, null, $cat3_to_cat[$row['cat']]->id, $rues[$row['voie']], null, utf8_encode($row['description']), utf8_encode($row['description']), utf8_encode($row['tel']), utf8_encode($row['fax']), utf8_encode($row['email']), utf8_encode($row['http']), utf8_encode($row['no']), utf8_encode($row['adresse']), false, $row['mav'], !empty($row['coupdecoeur']), utf8_encode($row['coupdecoeur']), utf8_encode($row['remarques']), strtotime($row['date_maj']), null, null );
+    
+    if ( $row['handicape'] )
+      $fiche->add_service ( $services["handicape"], "", strtotime($row['date_maj']) );
+    
+    if ( $row['reduc_bij'] )
+      $fiche->add_reduction ( $typesreduction["bij"], "", "", "", strtotime($row['date_maj']) );
+    
+    if ( $row['reduc_psa'] )
+      $fiche->add_reduction ( $typesreduction["psa"], utf8_encode($row['reduc_psa']), "", "", strtotime($row['date_maj']) );
+    if ( $row['reduc_alsthom'] )
+      $fiche->add_reduction ( $typesreduction["alsthom"], utf8_encode($row['reduc_alsthom']), "", "", strtotime($row['date_maj']) );
+    if ( $row['reduc_smereb'] )
+      $fiche->add_reduction ( $typesreduction["smereb"], utf8_encode($row['reduc_smereb']), "", "", strtotime($row['date_maj']) );
+    if ( $row['reduc_fracas'] )
+      $fiche->add_reduction ( $typesreduction["fracas"], utf8_encode($row['reduc_fracas']), "", "", strtotime($row['date_maj']) );
+    if ( $row['reduc_divers'] )
+      $fiche->add_reduction ( $typesreduction["divers"], utf8_encode($row['reduc_divers']), "", "", strtotime($row['date_maj']) );
+    if ( $row['reduc_petitgeni'] )
+      $fiche->add_reduction ( $typesreduction["petitgeni"], utf8_encode($row['reduc_petitgeni']), "", "", strtotime($row['date_maj']) );
   
-  if ( $row['reduc_bij'] )
-    $fiche->add_reduction ( $typesreduction["bij"], "", "", "", strtotime($row['date_maj']) );
-  
-  if ( $row['reduc_psa'] )
-    $fiche->add_reduction ( $typesreduction["psa"], utf8_encode($row['reduc_psa']), "", "", strtotime($row['date_maj']) );
-  if ( $row['reduc_alsthom'] )
-    $fiche->add_reduction ( $typesreduction["alsthom"], utf8_encode($row['reduc_alsthom']), "", "", strtotime($row['date_maj']) );
-  if ( $row['reduc_smereb'] )
-    $fiche->add_reduction ( $typesreduction["smereb"], utf8_encode($row['reduc_smereb']), "", "", strtotime($row['date_maj']) );
-  if ( $row['reduc_fracas'] )
-    $fiche->add_reduction ( $typesreduction["fracas"], utf8_encode($row['reduc_fracas']), "", "", strtotime($row['date_maj']) );
-  if ( $row['reduc_divers'] )
-    $fiche->add_reduction ( $typesreduction["divers"], utf8_encode($row['reduc_divers']), "", "", strtotime($row['date_maj']) );
-  if ( $row['reduc_petitgeni'] )
-    $fiche->add_reduction ( $typesreduction["petitgeni"], utf8_encode($row['reduc_petitgeni']), "", "", strtotime($row['date_maj']) );
-
-  $fiches[$row['id']] = $fiche->id;  
+    $fiches[$row['id']] = $fiche->id;  
+  }
 }
 
 echo "<h1>Import des fiches doublés</h1>\n";
 
-$req = new requete($dbpg,"SELECT * FROM pg_liste WHERE import_liste=1 AND id_liste_parent IS NOT NULL");
+$req = new requete($dbpg,"SELECT * FROM pg_liste WHERE import_liste=1 AND id_liste_parent IS NOT NULL ORDER BY id_liste_parent");
 while ( $row = $req->get_row() )
 {
-  if ( isset($fiches[$row['id_liste_parent']]) )
+  if ( !isset($cat3_to_cat[$row['cat']]) )
+  {
+    echo "<p>Categorie inconnue : ".$row['cat']."</p>";
+  }
+  elseif ( isset($fiches[$row['id_liste_parent']]) )
   {
     $fiche->load_by_id($fiches[$row['id_liste_parent']]);
     
@@ -368,7 +382,7 @@ while ( $row = $req->get_row() )
     $fiches[$row['id']] = $fiche->id;  
   }
   else
-    echo "raté !";
+    echo "<p>Oups</p>";
 }
 
 ?>
