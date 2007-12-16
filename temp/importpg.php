@@ -369,37 +369,28 @@ echo "<h1>Import des fiches doublés</h1>\n";
 $req = new requete($dbpg,"SELECT * FROM pg_liste WHERE import_liste=1 AND id_liste_parent IS NOT NULL ORDER BY id");
 
 
-do
+while ( $row = $req->get_row() )
 {
-  $conflicts=0;
-  
-  $req->go_first();
-  
-  while ( $row = $req->get_row() )
+  if ( !isset($cat3_to_cat[$row['cat']]) )
   {
-    if ( !isset($cat3_to_cat[$row['cat']]) )
+    echo "<p>Categorie inconnue : ".$row['cat']."</p>";
+  }
+  elseif ( isset($fiches[$row['id_liste_parent']]) )
+  {
+    if ( $fiches[$row['id']] )
     {
-      echo "<p>Categorie inconnue : ".$row['cat']."</p>";
-    }
-    elseif ( isset($fiches[$row['id_liste_parent']]) )
-    {
-      if ( $fiches[$row['id']] )
-      {
-        $fiche->load_by_id($fiches[$row['id_liste_parent']]);
-        
-        $fiche->add_extra_pgcategory ( $cat3_to_cat[$row['cat']]->id, utf8_encode($row['nom']), utf8_encode($row['description']) );
-        
-        $fiches[$row['id']] = $fiche->id;  
-      }
-    }
-    else
-    {
-      $conflicts++;
-      echo "<p>Oups $conflicts</p>";
+      $fiche->load_by_id($fiches[$row['id_liste_parent']]);
+      
+      $fiche->add_extra_pgcategory ( $cat3_to_cat[$row['cat']]->id, utf8_encode($row['nom']), utf8_encode($row['description']) );
+      
+      $fiches[$row['id']] = $fiche->id;  
     }
   }
+  else
+  {
+    echo "<p>[".$row['id']."] Oups : ".$row['id_liste_parent']."</p>";
+  }
 }
-while ( $conflicts);
 
 
 
