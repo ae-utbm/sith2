@@ -377,14 +377,13 @@ while ( $row = $req->get_row() )
   }
   elseif ( isset($fiches[$row['id_liste_parent']]) )
   {
-    if ( $fiches[$row['id']] )
-    {
-      $fiche->load_by_id($fiches[$row['id_liste_parent']]);
-      
-      $fiche->add_extra_pgcategory ( $cat3_to_cat[$row['cat']]->id, utf8_encode($row['nom']), utf8_encode($row['description']) );
-      
-      $fiches[$row['id']] = $fiche->id;  
-    }
+    $fiche->load_by_id($fiches[$row['id_liste_parent']]);
+    
+    $fiche->add_extra_pgcategory ( $cat3_to_cat[$row['cat']]->id, utf8_encode($row['nom']), utf8_encode($row['description']) );
+    
+    $fiches[$row['id']] = $fiche->id;  
+    
+    echo "<p>Fait [".$row['id']."] => ".$row['id_liste_parent']."</p>";
   }
   else
   {
