@@ -97,7 +97,10 @@ if ( $elec->id > 0 )
 	{
 		$user = new utilisateur($site->db);
 		
-		$user->load_by_email($_REQUEST["email"]);
+		if (isset($_REQUEST['candidat']))
+		  $user->load_by_id($_REQUEST['candidat']);
+		else
+		  $user->load_by_email($_REQUEST["email"]);
 		
 		if ( $user->id > 0 && $_REQUEST["email"] != "" )
 		{
@@ -215,6 +218,9 @@ if ( $elec->id > 0 )
 		$frm->add_hidden("action","addcandidat");
 		if ( $ErrorCandidat )
 			$frm->error($ErrorCandidat);
+		$frm->add_entity_smartselect("candidat",
+					     "Candidat", 
+					     new user($site->db));
 		$frm->add_user_email_field("email","Adresse email");
 		$frm->add_select_field("id_poste","Poste",$postes);
 		$frm->add_select_field("id_liste","Liste",$listes);
