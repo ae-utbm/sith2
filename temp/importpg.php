@@ -350,14 +350,11 @@ while ( $row = $req->get_row() )
     $fiche->add_reduction ( $typesreduction["divers"], utf8_encode($row['reduc_divers']), "", "", strtotime($row['date_maj']) );
   if ( $row['reduc_petitgeni'] )
     $fiche->add_reduction ( $typesreduction["petitgeni"], utf8_encode($row['reduc_petitgeni']), "", "", strtotime($row['date_maj']) );
-    
-    
-    
-      
-  
-  
+
   $fiches[$row['id']] = $fiche->id;  
 }
+
+echo "<h1>Import des fiches doublés</h1>\n";
 
 $req = new requete($dbpg,"SELECT * FROM pg_liste WHERE import_liste=1 AND id_liste_parent IS NOT NULL");
 while ( $row = $req->get_row() )
