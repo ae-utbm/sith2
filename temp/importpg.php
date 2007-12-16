@@ -383,7 +383,6 @@ while ( $row = $req->get_row() )
     
     $fiches[$row['id']] = $fiche->id;  
     
-    echo "<p>Fait [".$row['id']."] => ".$row['id_liste_parent']."</p>";
   }
   else
   {
