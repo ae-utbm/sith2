@@ -14,7 +14,8 @@ $dbpg = new mysqlpg ();
 
 /*SELECT * FROM `pg_liste` WHERE import_liste=1 AND tel IN (SELECT tel FROM pg_liste WHERE import_liste=1 AND tel!='' GROUP BY tel HAVING COUNT(*) > 1) ORDER BY tel*/
 
-$req = new requete($dbpg,"SELECT p1.id, p1.nom, p1.cat, p1.date_maj, p2.id, p2.nom, p2.cat, p2.date_majFROM `pg_liste` AS p1, pg_liste AS p2WHERE p1.import_liste =1AND p2.import_liste =1AND p1.id < p2.idAND p1.tel = p2.telAND p1.voie = p2.voieAND p2.id_liste_parent IS NULLAND p1.id_liste_parent IS NULL
+$req = new requete($dbpg,"SELECT p1.id, p1.nom, p1.cat, p1.date_maj, p2.id, p2.nom, p2.cat, p2.date_majFROM `pg_liste` AS p1, pg_liste AS p2WHERE p1.import_liste =1AND p2.import_liste =1AND p1.id < p2.idAND p1.tel = p2.tel
+AND p1.tel != ''AND p1.voie = p2.voieAND p2.id_liste_parent IS NULLAND p1.id_liste_parent IS NULL
 ORDER BY p1.id, p2.id");
 
 $solved=array();
