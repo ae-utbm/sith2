@@ -11,6 +11,7 @@ $dbpg = new mysqlpg ();
 new requete($site->dbrw,"TRUNCATE TABLE pg_category");
 
 require_once($topdir."include/entities/pgfiche.inc.php");
+require_once($topdir."include/entities/pgtype.inc.php");
 require_once($topdir."include/entities/rue.inc.php");
 require_once($topdir."include/entities/ville.inc.php");
 
@@ -159,7 +160,7 @@ while ( $row = $req->get_row() )
 {
   $typerue = new typerue($site->db,$site->dbrw);
   $typerue->create(utf8_encode($row['nom']));
-  $typesderue[$row['id']] = $typerue;
+  $typesderue[$row['id']] = $typerue->id;
 }
 
 $rues = array();
@@ -272,7 +273,10 @@ while ( $row = $req->get_row() )
   }
   
   if ( !$err )
-    $rue->create ( $row['nom'], $complement, $typesderue[$row['id_type']]->id, $id_ville);
+  {
+    $rue->create ( $row['nom'], $complement, $typesderue[$row['id_type']], $id_ville);
+    $rues[$row['id']] = $rue->id;
+  }
   else
   {
     echo "<b>Ignoré</b><br/>\n";
@@ -280,9 +284,41 @@ while ( $row = $req->get_row() )
     print_r($sec);    
     echo "<br/>\n<br/>\n<br/>\n\n";
   }
-  $rues[$row['id']] = $rue;
 }
 
+echo "<h1>Creation des types (en dur)</h1>\n";
+
+new requete($site->dbrw,"TRUNCATE TABLE pg_service");
+new requete($site->dbrw,"TRUNCATE TABLE pg_typereduction");
+
+$typesreduction=array();
+
+$treduc = new typereduction($site->db,$site->dbrw);
+$treduc->create ( "Etudiant", "", "" );
+$typesreduction["etu"] = $treduc->id;
+$treduc->create ( "BIJ", "", "" );
+$typesreduction["bij"] = $treduc->id;
+$treduc->create ( "CE PSA", "", "" );
+$typesreduction["psa"] = $treduc->id;
+$treduc->create ( "CE ALSTOM", "", "" );
+$typesreduction["alsthom"] = $treduc->id;
+$treduc->create ( "SMEREB", "", "" );
+$typesreduction["smereb"] = $treduc->id;
+$treduc->create ( "FRACAS", "", "" );
+$typesreduction["fracas"] = $treduc->id;
+$treduc->create ( "Petit Géni", "Sur presentation de l'edition papier du petit géni", "" );
+$typesreduction["petitgeni"] = $treduc->id;
+$treduc->create ( "Offre", "", "" );
+$typesreduction["divers"] = $treduc->id;
+
+$services =array();
+$service = new service($site->db,$site->dbrw);
+$service->create("Accès handicapé","","");
+$services["handicape"] = $service->id;
+
+
 echo "<h1>... à suivre</h1>\n";
+
+
 
 ?>

@@ -376,9 +376,14 @@ class pgfiche extends geopoint
     new insert($this->dbrw, "pg_fiche_arretbus", array("id_pgfiche"=>$this->id,"id_arretbus"=>$id_arretbus));
   }
   
-  function add_extra_pgcategory ( $id_pgcategory )
+  function add_extra_pgcategory ( $id_pgcategory, $titre=null, $soustitre=null )
   {
-    new insert($this->dbrw, "pg_fiche_extra_pgcategory", array("id_pgfiche"=>$this->id,"id_pgcategory"=>$id_pgcategory));
+    new insert($this->dbrw, "pg_fiche_extra_pgcategory", array(
+      "id_pgfiche"=>$this->id,
+      "id_pgcategory"=>$id_pgcategory,
+      "titre_extra_pgcategory"=>$titre,
+      "soustire_extra_pgcategory"=>$soustire
+      ));
   }
   
   function add_tarif ( $id_typetarif, $min_tarif, $max_tarif, $commentaire, $date_maj=null, $date_validite=null )
@@ -482,8 +487,8 @@ class pgfiche extends geopoint
     new delete($this->dbrw,"pg_fiche_reduction",array("id_pgfiche"=>$this->id));
     new delete($this->dbrw,"pg_fiche_horraire",array("id_pgfiche"=>$this->id));
 
-    foreach ( $pgfichemaj->extra_pgcategory as $id )
-      $this->add_extra_pgcategory($id);
+    foreach ( $pgfichemaj->extra_pgcategory as $row )
+      $this->add_extra_pgcategory($row[0], $row[1], $row[2]);
       
     foreach ( $pgfichemaj->arretsbus as $id )
       $this->add_arretbus($id);
@@ -564,9 +569,9 @@ class pgfichemaj extends stdentity
     $this->arretsbus[] = $id_arretbus;
   }
   
-  function add_extra_pgcategory ( $id_pgcategory )
+  function add_extra_pgcategory ( $id_pgcategory, $titre=null, $soustitre=null )
   {
-    $this->extra_pgcategory[] = $id_pgcategory;
+    $this->extra_pgcategory[] = array($id_pgcategory, $titre, $soustitre);
   }
   
   function add_tarif ( $id_typetarif, $min_tarif, $max_tarif, $commentaire, $date_validite=null )
