@@ -362,10 +362,8 @@ class newsday extends newslister
   {
   	$this->class="nvls";
 
-  	$this->title="Le ".date("d/m/Y",$day);
+  	$this->title="Le ".strftime("%A %d %B",$day);
 
-  	$this->puts("<h2>Informations</h2>\n");
-  		  
     $sql = "SELECT nvl_nouvelles.*,".
         "asso.nom_unix_asso, nvl_dates.date_debut_eve, nvl_dates.date_fin_eve " .
   			"FROM nvl_dates " .
@@ -405,9 +403,7 @@ class newsday extends newslister
 
   	$req = new requete($db, $sql);
   	
-  	$this->puts("<h2>Activités et évenements prévus</h2>\n");
-  	
-    $this->days_list($req,null);
+    $this->days_list($req,"Activités et évenements prévus");
   }
 }
 
