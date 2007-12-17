@@ -362,7 +362,7 @@ class newsday extends newslister
   {
   	$this->class="nvls";
 
-  	$this->title=date("Le d/m/Y",$day);
+  	$this->title="Le ".date("d/m/Y",$day);
 
   	$this->puts("<h2>Informations</h2>\n");
   		  
@@ -373,7 +373,7 @@ class newsday extends newslister
   			"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
   			"WHERE modere_nvl='1' " .
   			"AND `nvl_dates`.`date_debut_eve` <= '" . date("Y-m-d",$day+24*60*60) ." 05:59:59' " .
-  			"AND `nvl_dates`.`date_fin_eve` >= '" . date("Y-m-d",$day) ." 06:00:00' ";
+  			"AND `nvl_dates`.`date_fin_eve` >= '" . date("Y-m-d",$day) ." 06:00:00' ".
   			"AND  nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' ";
 		if ( is_null($id_asso) )
 		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
@@ -381,8 +381,6 @@ class newsday extends newslister
 		  $sql .= "AND nvl_nouvelles.id_asso='".mysql_real_escape_string($id_asso)."' ";
 
     $sql .= "ORDER BY nvl_dates.date_debut_eve ";
-
-    print_r($sql);
 
   	$req = new requete($db, $sql);
     
