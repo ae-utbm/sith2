@@ -235,4 +235,35 @@ class lieu extends geopoint
   }
 
 }
+
+/* fonctions globales sur le positionnement */
+
+/*
+ * @brief Fonction de récupération de la description géographique
+ * des contours des départements francais au format KML.
+ * 
+ * @param pgdb, une ressource de connexion à une base postgres
+ * @param numdept, le numéro du département
+ *
+ * @return une description KML, une chaine vide sinon
+ */
+function get_kml_dept($pgdb, $numdept)
+{
+  global $topdir;
+  require_once($topdir . "include/pgsqlae.inc.php");
+
+  $numdept = pg_escape_string($pgdb, $numdept);
+
+  $req = new pgrequete($pgdb, "SELECT 
+                                        AsKml(the_geom) AS kmldept
+                               FROM
+                                        deptfr
+                               WHERE
+                                        code_dept = '".$numdept."'
+                               LIMIT    1");
+  $rows = $req->get_all_rows();
+
+  return $rows[0]['kmldept'];
+}
+
 ?>
