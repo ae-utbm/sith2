@@ -33,7 +33,7 @@ class gmap extends stdcontents
   var $key = "__GMAP_KEY__";
 
   var $markers = array();
-
+  var $paths=array();
 
   function gmap ( $name )
   {
@@ -44,8 +44,27 @@ class gmap extends stdcontents
   function add_marker ( $name, $lat, $long, $draggable=false, $dragend=null )
   {
     $this->markers[] = array("name"=>$name,"lat"=>$lat, "long"=>$long, "draggable"=>$draggable, "dragend"=>$dragend );
-    
   }
+  
+  function add_geopoint ( &$g )
+  {
+    $this->add_marker($g->nom,$g->lat,$g->long );
+  }  
+  
+  function add_path ( $name, $latlongs, $color="ff0000" )
+  {
+    $this->paths[] = array("name"=>$name,"latlongs"=>$latlongs, "color"=>$color );
+  }
+  
+  function add_geopoint_path ( $name, $geopoints, $color="ff0000" )
+  {
+    $latlongs=array();
+    foreach ($geopoints as $g)
+    {
+      $latlongs[] = array("lat"=>$g->lat, "long"=>$g->long);
+    }
+    $this->add_path($name,$latlongs, $color);
+  }  
 
   function html_render()
   {
@@ -63,6 +82,8 @@ class gmap extends stdcontents
     foreach ( $this->markers as $marker )
       $this->buffer .= "var ".$marker["name"].";\n";
 
+    foreach ( $this->paths as $path )
+      $this->buffer .= "var ".$marker["path"].";\n";
 
     $this->buffer .="function initialize() {\n";
     $this->buffer .= $this->name." = new google.maps.Map2(document.getElementById(\"".$this->name."_canvas\"));\n";
@@ -94,6 +115,22 @@ class gmap extends stdcontents
       
     }
 
+    foreach ( $this->paths as $path )
+    {
+      $points=array();
+      foreach( $path["latlongs"] as $point )
+      {
+        $points[] = "new google.maps.LatLng(".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI).")";
+        
+        if ( $first )
+        {
+          $this->buffer .= $this->name.".setCenter(new google.maps.LatLng(".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI)."), 15);\n";
+          $first = false;
+        }        
+      }
+      $this->buffer .= $path["name"]."= new google.maps.Polyline([".implode(",",$points)."], \"#".$path["color"]."\", 10);\n";
+      $this->buffer .= $this->name.".addOverlay(".$path["name"].");\n";
+    }
 
     $this->buffer .= $this->name.".addControl(new google.maps.SmallMapControl());\n";
     $this->buffer .= $this->name.".addControl(new google.maps.MapTypeControl());\n";
