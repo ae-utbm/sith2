@@ -82,9 +82,9 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
 	      "`cpt_debitfacture`.`date_facture`, " .
 	      "`asso`.`id_asso`, " .
 	      "`asso`.`nom_asso`, " .
-	      "`client`.`prenom_utl` as `nom_client`, " .
+	      "`client`.`prenom_utl` as `prenom_client`, " .
 	      "`client`.`id_utilisateur` AS `id_utilisateur_client`, " .
-	      "`client`.`nom_utl` as `prenom_client`, " .
+	      "`client`.`nom_utl` as `nom_client`, " .
 				"`vendeur`.`id_utilisateur` AS `id_utilisateur_vendeur`, " .
 				"`cpt_vendu`.`quantite`, " .
 				"`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
