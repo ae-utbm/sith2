@@ -72,7 +72,7 @@ class gmap extends stdcontents
     
     foreach ( $this->markers as $marker )
     {
-      $this->buffer .= "var ".$marker["name"]."_point = new GLatLng(".sprintf("%.12F",$marker['lat']*360/2/M_PI).", ".sprintf("%.12F",$marker['long']*360/2/M_PI).");\n";
+      $this->buffer .= "var ".$marker["name"]."_point = new google.maps.LatLng(".sprintf("%.12F",$marker['lat']*360/2/M_PI).", ".sprintf("%.12F",$marker['long']*360/2/M_PI).");\n";
       
       
       if ( $first )
@@ -83,20 +83,20 @@ class gmap extends stdcontents
       
       if ( $marker["draggable"] )
       {
-        $this->buffer .= "var ".$marker["name"]." = new GMarker(".$marker["name"]."_point, {draggable: true});\n";
+        $this->buffer .= "var ".$marker["name"]." = new google.maps.Marker(".$marker["name"]."_point, {draggable: true});\n";
         if ( !is_null($marker["dragend"]) )
-          $this->buffer .= "GEvent.addListener(marker, \"dragend\", ".$marker["dragend"]." );\n";
+          $this->buffer .= "google.maps.Event.addListener(marker, \"dragend\", ".$marker["dragend"]." );\n";
       }
       else
-        $this->buffer .= $marker["name"]."= new GMarker(".$marker["name"]."_point);\n";
+        $this->buffer .= $marker["name"]."= new google.maps.Marker(".$marker["name"]."_point);\n";
       
       $this->buffer .= $this->name.".addOverlay(".$marker["name"].");\n";
       
     }
 
 
-    $this->buffer .= $this->name.".addControl(new GSmallMapControl());\n";
-    $this->buffer .= $this->name.".addControl(new GMapTypeControl());\n";
+    $this->buffer .= $this->name.".addControl(new google.maps.SmallMapControl());\n";
+    $this->buffer .= $this->name.".addControl(new google.maps.MapTypeControl());\n";
 
     $this->buffer .= "
     }
