@@ -106,7 +106,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
 			  "INNER JOIN `utilisateurs` AS `client` ON `cpt_debitfacture`.`id_utilisateur_client` =`client`.`id_utilisateur` " .
 			  "INNER JOIN `cpt_comptoir` ON `cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
 			  "WHERE " .implode(" AND ",$conds).
-			  "ORDER BY `utilisateurs`.`nom_utl`, `utilisateurs`.`prenom_utl` ASC");
+			  "ORDER BY `client`.`nom_utl`, `client`.`prenom_utl` ASC");
 	
 	while ($res = $req_->get_row())
 	{
