@@ -252,7 +252,7 @@ function get_kml_dept($pgdb, $numdept)
   global $topdir;
   require_once($topdir . "include/pgsqlae.inc.php");
 
-  $numdept = pg_escape_string($pgdb, $numdept);
+  $numdept = pg_escape_string($numdept);
 
   $req = new pgrequete($pgdb, "SELECT 
                                         AsKml(the_geom) AS kmldept
