@@ -57,7 +57,7 @@ class gmap extends stdcontents
     <script type=\"text/javascript\">\n";
     
     //
-    $this->buffer .="google.load("maps", "2");\n";
+    $this->buffer .="google.load(\"maps\", \"2\");\n";
     $this->buffer .="var ".$this->name.";\n";
     
     foreach ( $this->markers as $marker )
