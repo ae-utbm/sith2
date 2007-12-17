@@ -25,6 +25,8 @@ $topdir="../";
 require_once("include/site.inc.php");
 require_once($topdir."include/entities/bus.inc.php");
 require_once($topdir."include/entities/ville.inc.php");
+require_once($topdir."include/cts/gmap.inc.php");
+require_once($topdir."include/cts/sqltable.inc.php");
 
 $site = new pgsite();
 
@@ -59,7 +61,38 @@ if ( $site->is_admin() && isset($_REQUEST["action"]) )
     $ville->load_by_id($_REQUEST["id_ville"]);
     $arretbus->create ( $ville->id,  $_REQUEST["nom"], $_REQUEST["lat"], $_REQUEST["long"], $_REQUEST["eloi"] );
   }  
-  
+  elseif ( $_REQUEST["action"] == "createlignebus" && $reseaubus->is_valid() )
+  {
+    $problems=0;
+    $arrets=array();
+    
+    $ErrorLigne="";
+    
+    $data = explode("\n",$_REQUEST["arrets"]);
+    foreach ( $data as $e )
+    {
+      list($nom,$ville) = explode(";",$e,2);
+      $rows = $arretbus->find_arret($nom,$ville);
+      if ( count($rows) != 1 )
+      {
+        if ( count($rows)==0 )
+          $ErrorLigne .= "Arret \"$e\" inconnu, ";  
+        else
+          $ErrorLigne .= "Plusieurs arrets pour \"$e\" précisez ville, ";  
+        $problems++;
+      }
+      else
+        $arrets[] = current($rows);
+    }
+    
+    if ( $problems == 0 )
+    {
+      
+      
+      
+    }
+    
+  }
   
 }
 
@@ -85,7 +118,8 @@ if ( $arretbus->is_valid() )
 {
   $path .= " / ".$arretbus->get_html_link();
   
-  $site->start_page("pgbus","Reseaux de bus");
+  $site->start_page("pgbus","Arret ".$arretbus->nom." - Reseaux de bus");
+  $site->add_alternate_geopoint($arretbus);
   $cts = new contents($path);
   
   
@@ -97,9 +131,12 @@ if ( $arretbus->is_valid() )
 elseif ( $lignebus->is_valid() ) 
 {
   $path .= " / ".$lignebus->get_html_link();
-  $site->start_page("pgbus","Reseaux de bus");
+  $site->start_page("pgbus","Ligne ".$lignebus->nom." - Reseaux de bus");
   $cts = new contents($path);
   
+  $gmap = new gmap("lignebus");
+  $gmap->add_path ( $lignebus->nom, $lignebus->get_path(), $lignebus->couleur );
+  $cts->add($gmap);
   
   
   $site->add_contents($cts);
@@ -111,7 +148,46 @@ elseif ( $reseaubus->is_valid() )
   $site->start_page("pgbus","Reseaux de bus");
   $cts = new contents($path);
   
+  $req = new requete($site->db,"SELECT pg_lignebus.*, pg_reseaubus.nom_reseaubus FROM ".
+  "pg_lignebus ".
+  "INNER JOIN pg_reseaubus ON (pg_reseaubus.id_reseaubus=pg_lignebus.id_reseaubus) ".
+  "WHERE pg_reseaubus.id_reseaubus = '".mysql_real_escape_string($reseaubus->id)."' ".
+  "OR pg_reseaubus.id_reseaubus_parent = '".mysql_real_escape_string($reseaubus->id)."' ".
+  "ORDER BY pg_lignebus.nom_lignebus");
   
+  $gmap = new gmap("reseaubus");
+  while ( $req->get_row() )
+  {
+    $lignebus->_load();
+    $gmap->add_path ( $lignebus->nom, $lignebus->get_path(), $lignebus->couleur );
+  }
+  $cts->add($gmap);
+  
+  $req->go_first();
+  
+  $tbl = new sqltable(
+    "listlignes",
+    "Lignes de bus", $req, "bus.php",
+    "id_lignebus",
+    array("nom_lignebus"=>"Nom de la ligne"),
+    array("info"=>"Informations / Horraires"), array(), array( )
+    );
+  $cts->add($tbl,true);  
+  
+  if ( $site->is_admin() )
+  {
+    $frm = new form("createlignebus","bus.php",true,"POST","Ajouter une ligne de bus");
+    if ( $ErrorLigne )
+      $frm->error($ErrorLigne);
+    $frm->add_hidden("action","createlignebus");
+    $frm->add_text_field("nom","Nom de la ligne");
+    $frm->add_color_field("color","Couleur");
+    $frm->add_entity_smartselect("id_reseaubus","Reseau de Bus",$reseaubus);
+    $frm->add_entity_smartselect("id_lignebus_parent","Ligne de bus parent",$lignebus,true);
+    $frm->add_text_area("arrets","Nom des arrets (1 par ligne)","Arret1; Ville si précisison nécessaire\nArret2\nArret3; Ville\nArret4\nArret5"););
+    $frm->add_submit("valid","Ajouter");
+    $cts->add($frm,true);
+  }
   
   $site->add_contents($cts);
   $site->end_page(); 

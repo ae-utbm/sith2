@@ -361,6 +361,10 @@ class form extends stdcontents
     $this->buffer .= "</div>\n";
   }
   
+  function add_color_field ( $name, $mode="rgb", $title, $value = "000000", $required = false )
+  {
+    $this->add_text_field ( $name, $title, $value, $required ); // En attendant mieu
+  }
   
   function add_geo_field ( $name, $title, $type, $value = null, $required = false)
   {

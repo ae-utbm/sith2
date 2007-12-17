@@ -122,6 +122,11 @@ class reseaubus extends stdentity
     $this->id=null; 
   }
   
+  function prefer_list()
+  {
+    return true;  
+  }  
+  
 }
 
 /**
@@ -266,6 +271,19 @@ class lignebus extends stdentity
     return $num;
   }
   
+  function get_path ( )
+  {
+    $path=array();
+    $req = new requete($this->db,
+      "SELECT lat_geopoint AS lat, long_geopoint AS long ".
+      "FROM pg_lignebus_arrets ".
+      "INNER JOIN geopoint ON (geopoint.id_geopoint=pg_lignebus_arrets.id_arretbus) ".
+      "WHERE id_lignebus='".mysql_real_escape_string($this->id)."' ".
+      "ORDER BY num_passage_arret");  
+    while ( $row = $req->get_row() )
+      $path[]=$row;
+    return $path;
+  }
   
   function add_passage ( $jours, $datedebut, $datefin, $heures, $exceptionlevel=0 )
   {
@@ -323,6 +341,10 @@ class lignebus extends stdentity
     new delete($this->dbrw, "pg_lignebus_passage_arretbus", array("id_lignebus_passage" => $id_lignebus_passage));
   }
   
+  function prefer_list()
+  {
+    return true;  
+  }    
 }
 
 /**
@@ -395,6 +417,21 @@ class arretbus extends geopoint
     new delete($this->dbrw, "pg_lignebus_arrets",array("id_arretbus"=>$this->id));
     $this->geopoint_delete();
   }
+
+  function find_arret( $nom, $ville )
+  {
+    if ( empty($ville) )
+      $req = new requete($this->db,"SELECT * FROM geopoint WHERE type_geopoint='arretbus' AND nom_geopoint='".mysql_real_escape_string($nom)."'");
+    else
+      $req = new requete($this->db,"SELECT * FROM geopoint INNER JOIN loc_ville ON (geopoint.id_ville=loc_ville.id_ville) WHERE type_geopoint='arretbus' AND nom_geopoint='".mysql_real_escape_string($nom)."' AND nom_ville='".mysql_real_escape_string($ville)."'");
+    
+    $rows = array();
+    while ( $row = $req->get_row() )
+      $rows[] = $row;
+
+    return $rows;
+  }
+
 
 } 
  
