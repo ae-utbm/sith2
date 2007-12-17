@@ -362,6 +362,7 @@ class newsday extends newslister
   {
   	$this->class="nvls";
 
+
     $sql = "SELECT nvl_nouvelles.*,".
         "asso.nom_unix_asso, nvl_dates.date_debut_eve, nvl_dates.date_fin_eve " .
   			"FROM nvl_dates " .
@@ -370,6 +371,27 @@ class newsday extends newslister
   			"WHERE modere_nvl='1' " .
   			"AND `nvl_dates`.`date_debut_eve` <= '" . date("Y-m-d",$day+24*60*60) ." 05:59:59' " .
   			"AND `nvl_dates`.`date_fin_eve` >= '" . date("Y-m-d",$day) ." 06:00:00' ";
+  			"AND  nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' ";
+		if ( is_null($id_asso) )
+		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
+		else
+		  $sql .= "AND nvl_nouvelles.id_asso='".mysql_real_escape_string($id_asso)."' ";
+
+    $sql .= "ORDER BY nvl_dates.date_debut_eve ";
+
+  	$req = new requete($db, $sql);
+    
+    $this->appel_list($req);
+
+    $sql = "SELECT nvl_nouvelles.*,".
+        "asso.nom_unix_asso, nvl_dates.date_debut_eve, nvl_dates.date_fin_eve " .
+  			"FROM nvl_dates " .
+  			"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
+  			"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
+  			"WHERE modere_nvl='1' " .
+  			"AND `nvl_dates`.`date_debut_eve` <= '" . date("Y-m-d",$day+24*60*60) ." 05:59:59' " .
+  			"AND `nvl_dates`.`date_fin_eve` >= '" . date("Y-m-d",$day) ." 06:00:00' ".
+  			"AND  nvl_nouvelles.type_nvl!='".NEWS_TYPE_APPEL."' ";
 
 		if ( is_null($id_asso) )
 		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
