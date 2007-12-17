@@ -393,7 +393,7 @@ class newsday extends newslister
   			"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
   			"WHERE modere_nvl='1' " .
   			"AND `nvl_dates`.`date_debut_eve` <= '" . date("Y-m-d",$day+24*60*60) ." 05:59:59' " .
-  			"AND `nvl_dates`.`date_fin_eve` >= '" . date("Y-m-d",$day) ." 06:00:00' ".
+  			"AND `nvl_dates`.`date_debut_eve` >= '" . date("Y-m-d",$day) ." 06:00:00' ".
   			"AND  nvl_nouvelles.type_nvl!='".NEWS_TYPE_APPEL."' ";
 
 		if ( is_null($id_asso) )
@@ -404,8 +404,10 @@ class newsday extends newslister
     $sql .= "ORDER BY nvl_dates.date_debut_eve ";
 
   	$req = new requete($db, $sql);
-    
-    $this->days_list($req,"Activités et évenements prévus");
+  	
+  	$this->puts("<h2>Activités et évenements prévus</h2>\n");
+  	
+    $this->days_list($req,null);
   }
 }
 
