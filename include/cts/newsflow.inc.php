@@ -362,7 +362,10 @@ class newsday extends newslister
   {
   	$this->class="nvls";
 
+  	$this->title=date("Le d/m/Y",$day);
 
+  	$this->puts("<h2>Informations</h2>\n");
+  		  
     $sql = "SELECT nvl_nouvelles.*,".
         "asso.nom_unix_asso, nvl_dates.date_debut_eve, nvl_dates.date_fin_eve " .
   			"FROM nvl_dates " .
@@ -378,6 +381,8 @@ class newsday extends newslister
 		  $sql .= "AND nvl_nouvelles.id_asso='".mysql_real_escape_string($id_asso)."' ";
 
     $sql .= "ORDER BY nvl_dates.date_debut_eve ";
+
+    print_r($sql);
 
   	$req = new requete($db, $sql);
     
