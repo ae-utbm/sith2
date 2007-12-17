@@ -53,9 +53,11 @@ class gmap extends stdcontents
     
     
     $this->buffer .= "
-    <script src=\"http://maps.google.com/maps?file=api&amp;v=2&amp;key=".$this->key."\" type=\"text/javascript\"></script>
+    <script src=\"http://www.google.com/jsapi?key=".$this->key."\" type=\"text/javascript\"></script>
     <script type=\"text/javascript\">\n";
     
+    //
+    $this->buffer .="google.load("maps", "2");\n";
     $this->buffer .="var ".$this->name.";\n";
     
     foreach ( $this->markers as $marker )
@@ -63,7 +65,6 @@ class gmap extends stdcontents
 
 
     $this->buffer .="function initialize() {\n";
-    $this->buffer .="if (GBrowserIsCompatible()) {\n";
     $this->buffer .= $this->name." = new GMap2(document.getElementById(\"".$this->name."_canvas\"));\n";
         
         
@@ -97,10 +98,10 @@ class gmap extends stdcontents
     $this->buffer .= $this->name.".addControl(new GSmallMapControl());\n";
     $this->buffer .= $this->name.".addControl(new GMapTypeControl());\n";
 
-    $this->buffer .= "   }
+    $this->buffer .= "
     }
     
-    initialize();
+    google.setOnLoadCallback(initialize);
     document.onunload=GUnload;
     
     </script>";  
