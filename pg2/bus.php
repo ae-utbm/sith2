@@ -87,13 +87,13 @@ if ( $site->is_admin() && isset($_REQUEST["action"]) )
     
     if ( $problems == 0 )
     {
-      
-      
-      
+      $lignebus->load_by_id($_REQUEST["id_lignebus_parent"]);
+      $lignebus->create ( $_REQUEST["nom"], $reseaubus->id, $_REQUEST["couleur"], $lignebus->id )
+      $i=0;
+      foreach ( $arrets as $arret )
+        $lignebus->add_arret($arret["id_geopoint"],$i++);
     }
-    
   }
-  
 }
 
 // Gènère le chemin affiché
@@ -181,7 +181,7 @@ elseif ( $reseaubus->is_valid() )
       $frm->error($ErrorLigne);
     $frm->add_hidden("action","createlignebus");
     $frm->add_text_field("nom","Nom de la ligne");
-    $frm->add_color_field("color","Couleur");
+    $frm->add_color_field("couleur","Couleur");
     $frm->add_entity_smartselect("id_reseaubus","Reseau de Bus",$reseaubus);
     $frm->add_entity_smartselect("id_lignebus_parent","Ligne de bus parent",$lignebus,true);
     $frm->add_text_area("arrets","Nom des arrets (1 par ligne)","Arret1; Ville si précisison nécessaire\nArret2\nArret3; Ville\nArret4\nArret5"););
