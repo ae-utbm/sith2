@@ -65,7 +65,7 @@ class gmap extends stdcontents
 
 
     $this->buffer .="function initialize() {\n";
-    $this->buffer .= $this->name." = new GMap2(document.getElementById(\"".$this->name."_canvas\"));\n";
+    $this->buffer .= $this->name." = new google.maps.Map2(document.getElementById(\"".$this->name."_canvas\"));\n";
         
         
     $first = true;
