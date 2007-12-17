@@ -364,28 +364,6 @@ class newsday extends newslister
 
   	$this->title="Le ".strftime("%A %d %B",$day);
 
-    $sql = "SELECT nvl_nouvelles.*,".
-        "asso.nom_unix_asso, nvl_dates.date_debut_eve, nvl_dates.date_fin_eve " .
-  			"FROM nvl_dates " .
-  			"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
-  			"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-  			"WHERE modere_nvl='1' " .
-  			"AND `nvl_dates`.`date_debut_eve` <= '" . date("Y-m-d",$day+24*60*60) ." 05:59:59' " .
-  			"AND `nvl_dates`.`date_fin_eve` >= '" . date("Y-m-d",$day) ." 06:00:00' ".
-  			"AND `nvl_dates`.`date_debut_eve` < '" . date("Y-m-d",$day) ." 06:00:00' ";
-
-		if ( is_null($id_asso) )
-		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
-		else
-		  $sql .= "AND nvl_nouvelles.id_asso='".mysql_real_escape_string($id_asso)."' ";
-
-    $sql .= "ORDER BY nvl_dates.date_debut_eve ";
-
-  	$req = new requete($db, $sql);
-  	
-
-    $this->nottomiss_list($req,"Toujours d'actualité");
-
 
     $sql = "SELECT nvl_nouvelles.*,".
         "asso.nom_unix_asso, nvl_dates.date_debut_eve, nvl_dates.date_fin_eve " .
@@ -407,7 +385,27 @@ class newsday extends newslister
   	
     $this->days_list($req,"Activités et évenements prévus");
     
-    
+    $sql = "SELECT nvl_nouvelles.*,".
+        "asso.nom_unix_asso, nvl_dates.date_debut_eve, nvl_dates.date_fin_eve " .
+  			"FROM nvl_dates " .
+  			"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
+  			"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
+  			"WHERE modere_nvl='1' " .
+  			"AND `nvl_dates`.`date_debut_eve` <= '" . date("Y-m-d",$day+24*60*60) ." 05:59:59' " .
+  			"AND `nvl_dates`.`date_fin_eve` >= '" . date("Y-m-d",$day) ." 06:00:00' ".
+  			"AND `nvl_dates`.`date_debut_eve` < '" . date("Y-m-d",$day) ." 06:00:00' ";
+
+		if ( is_null($id_asso) )
+		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
+		else
+		  $sql .= "AND nvl_nouvelles.id_asso='".mysql_real_escape_string($id_asso)."' ";
+
+    $sql .= "ORDER BY nvl_dates.date_debut_eve ";
+
+  	$req = new requete($db, $sql);
+  	
+
+    $this->nottomiss_list($req,"Toujours d'actualité");
     
     
     
