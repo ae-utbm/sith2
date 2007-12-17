@@ -239,8 +239,8 @@ elseif ( $_REQUEST["action"] == "searchmc" )
 $site->start_page("services","Laverie");
 $cts = new contents("<a href=\"index.php\">Laverie</a>");
 
-$cts->itemlist("Vous pouvez venir récupérer vos jetons",false,array("Belfort : tous les soirs (sauf le weekend) de 20h à 20h15","Sevenans : <a href=\"/asso/membres.php?view=trombino&id_asso=84\">contacter les responsables</a>"));
-
+$list = new itemlist("Vous pouvez venir récupérer vos jetons",false,array("Belfort : tous les soirs (sauf le weekend) de 20h à 20h15","Sevenans : <a href=\"/asso/membres.php?view=trombino&id_asso=84\">contacter les responsables</a>"));
+$cts->add($list,true);
 
 $frm = new form("searchmc","index.php",false,"POST","Reserver un creneau");
 $frm->add_hidden("action","searchmc");
