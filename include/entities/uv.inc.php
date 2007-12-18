@@ -623,7 +623,7 @@ function add_result_uv($id_etu, $id_uv, $note, $semestre, $dbrw)
 		    array("id_uv" => $id_uv,
 			  "id_etudiant" => $id_etu,
 			  "note_obtention" => $note,
-			  "semestre_obtention" => $semestre));
+			  "semestre_obtention" => strtoupper($semestre)));
   return ($req->lines == 1);
 }
 
@@ -714,7 +714,7 @@ function get_creds_cts($id_etu, $db, $camembert = false)
 				     array("code_uv" => "Code de l'UV", 
 					   "intitule_uv" => "Intitulé de l'UV", 
 					   "note_obtention"=> "Note d'obtention",
-					   "ects_uv"     => "Crédits ECTS"), array (), array()));
+					   "ects_uv"     => "Crédits ECTS"), array ("delete" => "Enlever"), array()));
 	    }
 	}
       if ($totcreds > 0)
