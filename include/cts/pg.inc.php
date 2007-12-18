@@ -142,7 +142,7 @@ class pgfichelist
     
     $this->buffer = "<div class=\"pgfichelist\">";
     
-    wle ( $row = $req->get_row() )
+    while ( $row = $req->get_row() )
     {
       
       $this->buffer .= "<div class=\"pgfiche\">";
