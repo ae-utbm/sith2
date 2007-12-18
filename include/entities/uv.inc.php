@@ -710,7 +710,7 @@ function get_creds_cts($id_etu, $db, $camembert = false)
 	      $sm .= $annee;
 	      
 	      $cts->add_title(3, "Semestre " . $sm);
-	      $cts->add(new sqltable('details_uv', "", $semestre, "./index.php", "id_uv",
+	      $cts->add(new sqltable('details_uv', "", $semestre, "./index.php?semestre=$sm", "id_uv",
 				     array("code_uv" => "Code de l'UV", 
 					   "intitule_uv" => "Intitulé de l'UV", 
 					   "note_obtention"=> "Note d'obtention",
