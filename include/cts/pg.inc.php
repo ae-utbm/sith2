@@ -199,7 +199,7 @@ class pgfichelistcat extends pgfichelist
       "LEFT JOIN `pg_rue` ON (pg_fiche.id_rue=pg_rue.id_rue) ".
       "LEFT JOIN `pg_typerue` ON (pg_rue.id_typerue=pg_typerue.id_typerue) ".
       "INNER JOIN `loc_ville` ON (loc_ville.id_ville=COALESCE(pg_rue.id_ville,geopoint.id_ville)) ".
-      "LEFT JOIN pg_fiche_extra_pgcategory AS extra ON (pg_fiche.id_fiche=extra.id_fiche AND extra.id_pgcategory='".$pgcategory->id."') ".
+      "LEFT JOIN pg_fiche_extra_pgcategory AS extra ON (pg_fiche.id_pgfiche=extra.id_pgfiche AND extra.id_pgcategory='".$pgcategory->id."') ".
       "WHERE (pg_fiche.id_pgcategory='".$pgcategory->id."' OR extra.id_pgcategory='".$pgcategory->id."') ".
       "ORDER BY 1");
     
