@@ -619,6 +619,12 @@ class uvcomment extends stdentity
 
 function add_result_uv($id_etu, $id_uv, $note, $semestre, $dbrw)
 {
+  if (strlen($semestre) != 3)
+    return false;
+
+  if (($semestre[0] != 'A') && ($semestre[0] != 'P'))
+    return false;
+
   $req = new insert($dbrw, "edu_uv_obtention",
 		    array("id_uv" => $id_uv,
 			  "id_etudiant" => $id_etu,
