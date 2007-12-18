@@ -43,6 +43,25 @@ $cts->add_paragraph("Bienvenue sur la partie Pédagogie du site de l'AE");
 
 if ($site->user->id > 0)
 {
+
+  
+  if ($_REQUEST['action'] == 'delete')
+    {
+      $ret = delete_result_uv($site->user->id,
+			      $_REQUEST['id_uv'],
+			      $_REQUEST['semestre'],
+			      $site->dbrw);
+
+      $cts->add_title(2, "Suppression de résultat");
+
+      if ($ret == true)
+	$cts->add_paragraph("Résultat supprimé !");
+      else
+	$cts->add_paragraph("<b>Erreur lors de la ".
+			    "suppresion du résultat.</b>");
+
+    }
+
   /* generation de camembert */
   if ($_REQUEST['action'] == "camembert")
     {

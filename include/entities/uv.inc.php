@@ -627,6 +627,17 @@ function add_result_uv($id_etu, $id_uv, $note, $semestre, $dbrw)
   return ($req->lines == 1);
 }
 
+function delete_result_uv($id_etu, $id_uv, $semestre, $dbrw)
+{
+  $req = new delete($dbrw, "edu_uv_obtention",
+		    array("id_etudiant" => $id_etu,
+			  "id_uv" => $id_uv,
+			  "semestre_obtention" => $semestre));
+
+  return ($req->lines == 1);
+
+  
+}
 
 function get_creds_cts($id_etu, $db, $camembert = false)
 {
