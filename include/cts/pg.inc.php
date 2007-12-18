@@ -1,5 +1,7 @@
 <?php
 
+require_once($topdir."include/cts/special.inc.php");
+
 function pgicon ( $color )
 {
   global $topdir;
@@ -135,43 +137,77 @@ class pgfichelist
   
   function pgfichelist ( &$req )
   {
+    if ( $req->lines == 0 )
+      return;    
+    
+    $this->buffer = "<div class=\"pgfichelist\">";
+    
+    wle ( $row = $req->get_row() )
+    {
+      
+      $this->buffer .= "<div class=\"pgfiche\">";
+      
+      $this->buffer .= "<h3><a href=\"./id_pgfiche=".$row["id_pgfiche"]."\">".htmlentities($row["nom_pgfiche"],ENT_QUOTES,"UTF-8")."</a></h3>";
+      
+      $this->buffer .= "<p class=\"adresse\">".htmlentities($row["numrue_pgfiche"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_typerue"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_rue"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_ville"],ENT_QUOTES,"UTF-8")."</p>";       
+      
+      if ($row["tel_pgfiche"])
+        $this->buffer .= "<p class=\"tel\">Tel: ".htmlentities(telephone_display($row["tel_pgfiche"]),ENT_QUOTES,"UTF-8")."</p>";   
+        
+      if ($row["fax_pgfiche"])
+        $this->buffer .= "<p class=\"fax\">Fax: ".htmlentities(telephone_display($row["fax_pgfiche"]),ENT_QUOTES,"UTF-8")."</p>";   
+        
+      if ($row["email_pgfiche"])
+        $this->buffer .= "<p class=\"email\">E-mail: ".htmlentities($row["email_pgfiche"],ENT_QUOTES,"UTF-8")."</p>";
+      if ($row["website_pgfiche"])
+        $this->buffer .= "<p class=\"siteweb\">Site web: <a href=\"".htmlentities($row["website_pgfiche"],ENT_QUOTES,"UTF-8")."\">".htmlentities($row["website_pgfiche"],ENT_QUOTES,"UTF-8")."</a></p>"; 
+      
+          
+      $this->buffer .= "<p class=\"description\">".htmlentities($row["description_pgfiche"],ENT_QUOTES,"UTF-8")."</p>";      
+      
+      $this->buffer .= "<p class=\"more\"><a href=\"./id_pgfiche=".$row["id_pgfiche"]."\">Plus d'information : horraires, tarifs, plan d'accès</a></p>";       
+      
+      $this->buffer .= "</div>";
+      
+    }
     
     
-    
-    
-    
-    
-    
-    
+    $this->buffer .= "</div>";
     
   }
-  
 
-  
 }
 
 class pgfichelistcat
 {
-
   function pgfichelistcat ( &$pgcategory )
   {
-    
     $req = new requete($pgcategory->db,
-    "SELECT * ".
-    "FROM `pg_fiche` ".
-    "INNER JOIN `geopoint` ON (pg_fiche.id_pgfiche=geopoint.id_geopoint) ".
-    "LEFT JOIN `pg_rue` ON (pg_fiche.id_rue=pg_rue.id_rue) ".
-    "LEFT JOIN `pg_typerue` ON (pg_rue.id_typerue=pg_typerue.typerue) ".
-    "INNER JOIN `loc_ville` ON (loc_ville.id_ville=COALESCE(pg_rue.id_ville,pg_fiche.id_ville)) ".
-    "INNER JOIN `pg_category` ON (pg_category.id_pgcategory=pg_fiche.id_pgcategory) ".
+      "SELECT COALESCE(extra.titre_extra_pgcategory,geopoint.nom_geopoint) AS nom_pgfiche, ".
+      "COALESCE(extra.soustire_extra_pgcategory,pg_fiche.description_pgfiche) AS description_pgfiche, ".
+      "pg_fiche.id_pgfiche, geopoint.lat_geopoint, geopoint.long_geopoint, ".
+      "pg_fiche.tel_pgfiche, pg_fiche.fax_pgfiche, pg_fiche.email_pgfiche, pg_fiche.numrue_pgfiche,  ".
+      "pg_fiche.website_pgfiche, pg_fiche.contraste_pgfiche, ".
+      "pg_fiche.appreciation_pgfiche, pg_fiche.commentaire_pgfiche, ".
+      "pg_rue.id_rue, pg_rue.nom_rue, pg_typerue.nom_typerue, ".
+      "loc_ville.nom_ville, loc_ville.id_ville, ".
+      "'".$pgcategory->couleur_bordure_web."' AS couleur_bordure_web_pgcategory, ".
+      "'".$pgcategory->couleur_titre_web."' AS couleur_titre_web_pgcategory, ".
+      "'".$pgcategory->couleur_contraste_web."' AS couleur_contraste_web_pgcategory ".
+      "FROM `pg_fiche` ".
+      "INNER JOIN `geopoint` ON (pg_fiche.id_pgfiche=geopoint.id_geopoint) ".
+      "LEFT JOIN `pg_rue` ON (pg_fiche.id_rue=pg_rue.id_rue) ".
+      "LEFT JOIN `pg_typerue` ON (pg_rue.id_typerue=pg_typerue.typerue) ".
+      "INNER JOIN `loc_ville` ON (loc_ville.id_ville=COALESCE(pg_rue.id_ville,pg_fiche.id_ville)) ".
+      "LEFT JOIN pg_fiche_extra_pgcategory AS extra ON (pg_fiche.id_fiche=extra.id_fiche AND extra.id_pgcategory='".$pgcategory->id."') ".
+      "WHERE (pg_fiche.id_pgcategory='".$pgcategory->id."' OR extra.id_pgcategory='".$pgcategory->id."') ".
+      "ORDER BY 1");
     
+    if ( $req->lines == 0 )
+      return;
     
-    
-    
-    
+    $this->pgfichelist($req);
   }
-
-
 }
 
 

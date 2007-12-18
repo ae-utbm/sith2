@@ -110,6 +110,9 @@ elseif ( $category->is_valid() && $category->id != 1 )
     $cts->add($sscts);
   }
   
+  
+  $cts->add(new pgfichelistcat($category));
+  
   $site->add_contents($cts);
   $site->end_page();
   exit(); 
