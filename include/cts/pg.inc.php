@@ -130,5 +130,50 @@ class pgtabshead extends colortabshead
   
 }
 
+class pgfichelist
+{
+  
+  function pgfichelist ( &$req )
+  {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  }
+  
+
+  
+}
+
+class pgfichelistcat
+{
+
+  function pgfichelistcat ( &$pgcategory )
+  {
+    
+    $req = new requete($pgcategory->db,
+    "SELECT * ".
+    "FROM `pg_fiche` ".
+    "INNER JOIN `geopoint` ON (pg_fiche.id_pgfiche=geopoint.id_geopoint) ".
+    "LEFT JOIN `pg_rue` ON (pg_fiche.id_rue=pg_rue.id_rue) ".
+    "LEFT JOIN `pg_typerue` ON (pg_rue.id_typerue=pg_typerue.typerue) ".
+    "INNER JOIN `loc_ville` ON (loc_ville.id_ville=COALESCE(pg_rue.id_ville,pg_fiche.id_ville)) ".
+    "INNER JOIN `pg_category` ON (pg_category.id_pgcategory=pg_fiche.id_pgcategory) ".
+    
+    
+    
+    
+    
+  }
+
+
+}
+
+
 
 ?>

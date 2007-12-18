@@ -80,9 +80,9 @@ if ((isset($_REQUEST['id_nws']))
 			     $_REQUEST['nws_title'],
 			     $_REQUEST['nws_sum'],
 			     $_REQUEST['nws_cts'],
-			     true,$site->user->id,$_REQUEST['type'],false,$lieu->id);
- 
-    $site->add_contents (new contents("Mod&eacute;ration",
+			     true,$site->user->id,$_REQUEST['type'],$lieu->id,$news->id_canal);
+
+		        $site->add_contents (new contents("Mod&eacute;ration",
 					"<p>Mod&eacute;ration eff&eacute;ctu&eacute;e avec succ&egrave;s</p>"));
 					
 		if ( isset($_REQUEST["dfile"]))			
