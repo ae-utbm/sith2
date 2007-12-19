@@ -557,7 +557,28 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
                           USING (`id_utilisateur`)
                           WHERE 
                                 `id_uv` = ".$uv->id."
-                          GROUP BY `code_uv`, `id_utilisateur`");
+                          GROUP BY `code_uv`, `id_utilisateur`
+
+                          UNION
+
+                          SELECT
+                                 `id_etudiant` AS `id_utilisateur` 
+                                  , `prenom_utl`
+                                  , `nom_utl`
+                                  , `surnom_utbm`
+                                  , `semestre_obtention` AS `semestre_grp`
+                          FROM 
+                                  `edu_uv_obtention`
+                          INNER JOIN
+                                    `utilisateurs`
+                          ON
+                                  `utilisateurs`.`id_utilisateur` = `edu_uv_obtention`.`id_etudiant`
+                          INNER JOIN
+                                    `utl_etu_utbm`
+                          USING (`id_utilisateur`)
+                          WHERE 
+                                `id_uv` = ".$uv->id."
+                          GROUP BY `id_utilisateur`");
 
       if ($suivrq->lines > 0)
 	{
@@ -572,7 +593,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			       array(), 
 			       array());
 	  $cts->add_title(2, "Ils suivent ou ont suivi cette UV");
-	  $cts->add_paragraph("Ce listing correspond aux personnes ayant rentré un emploi du temps de semestre, au cours duquel ils ont suivi l'UV");
+	  $cts->add_paragraph("Ce listing correspond aux personnes ayant rentré un emploi du temps de semestre, au cours duquel ils ont suivi l'UV, ou ayant renseigné un résultat d'obtention.");
 	  $cts->add($sqlt);
 	}
 
