@@ -321,7 +321,7 @@ class uv extends stdentity
     if ($all == false)
       $sql .= " AND state_comment IN (0, 1, 3)";
 
-    $sql .= " ORDER BY date_commentaire DESC";
+    $sql .= " ORDER BY date_commentaire ASC";
       
     $rq = new requete($this->db,
 		      $sql);
