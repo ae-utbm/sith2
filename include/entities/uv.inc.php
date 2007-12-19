@@ -802,10 +802,14 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 			      " crédits ECTS</b> obtenus au long de votre scolarité.");
 	  if ($etu->a_fait_tc())
 	    {
+	      $rem = 240 - $totcreds;
+
 	      $cts->add_paragraph("Ayant fait le TC, il vous faut <b>240 crédits</b> (art. V-3 du réglement ".
 				  "des études) pour achever votre cursus.");
-
-	      $cts->add_paragraph("Il vous manque <b>". (240 - $totcreds) . " crédits</b>");
+	      if ($rem > 0)
+		$cts->add_paragraph("Il vous manque <b>". $rem . " crédits</b>");
+	      else
+		$cts->add_paragraph("Vous disposez d'un surplus de <b>". abs($rem) . " crédits</b>");
 
 	    }
 	  else if ($etu->departement != 'tc')
@@ -813,7 +817,11 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 	      $cts->add_paragraph("Etant entré en branche, il faut <b>120 crédits</b> (art. V-3 du réglement ".
 				  "des études) pour achever votre cursus.");
 
-	      $cts->add_paragraph("Il vous manque <b>". (120 - $totcreds) . " crédits</b>");
+	      $rem = 120 - $totcreds;
+	      if ($rem > 0)
+		$cts->add_paragraph("Il vous manque <b>". $rem . " crédits</b>");
+	      else
+		$cts->add_paragraph("Vous avez un surplus de <b>". abs($rem) . " crédits</b>");
 	    }
 
 	  /* étudiant de TC */
@@ -824,11 +832,20 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 	      
 	      if ($etu->semestre > 4)
 		{
-		  $cts->add_paragraph("Il vous manque <b>" . (120 - $totcreds) . " crédits</b> pour pouvoir entrer en branche.");
+		  $rem = 120 - $totcreds;
+		  if ($rem > 0)
+		    $cts->add_paragraph("Il vous manque <b>" . $rem . " crédits</b> pour pouvoir entrer en branche.");
+		  else
+		    $cts->add_paragraph("Vous avez un surplus de <b>" . abs($rem) . " crédits</b>.");
+
 		}
 	      else
 		{
-		  $cts->add_paragraph("Il vous manque <b>" . (102 - $totcreds) . " crédits</b> pour pouvoir entrer en branche.");
+		  $rem = 102 - $totcreds;
+		  if ($rem > 0)
+		    $cts->add_paragraph("Il vous manque <b>" . $rem . " crédits</b> pour pouvoir entrer en branche.");
+		  else
+		    $cts->add_paragraph("Vous êtes en surplus de <b>" . $rem . " crédits</b>.");
 		} 
 	    }
 	  
