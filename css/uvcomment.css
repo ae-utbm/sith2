@@ -49,13 +49,25 @@ span.uvcnote
 
 div.uvccontent
 {
-	padding-left: 10px;
-}
+   padding-top: 10px;
+   padding-bottom: 10px;
+   padding-left: 40px;
+   position: relative;
+   width: 100%;
+ }
  
 
-div.uvfloatbloc
+div.uvleftbloc
 {
 	float: left;
+	width: 130px;
+	position: relative;
+}
+
+div.uvrightbloc
+{
+	float: right;
+	position: relative;
 }
 
 div.uvclear
@@ -70,7 +82,7 @@ table.uvtable
 
 table.uvtable td
 {
-	border-bottom: 1px dotted #D8E7F3;
+	border-bottom: 1px solid #D8E7F3;
 }
 
  
