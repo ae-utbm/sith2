@@ -72,12 +72,12 @@ class uvcomment_contents extends stdcontents
 	
 	/* commentaire "abusé" */
 	if ($comment->etat == 1)
-	  $this->buffer .= "<div class=\"uvcomment abuse\">\n";
+	  $extra ="abuse";
 	else if ($parity)
-	  $this->buffer .= "<div class=\"uvcomment pair\">\n";
-	else
-	  $this->buffer .= "<div class=\"uvcomment\">\n";
+	  $extra = "pair";
 	
+	$this->buffer .= "<div class=\"uvcomment $extra\" id=\"cmt_".$comment->id."\">\n";
+	  
 	$this->buffer .= "<div class=\"uvcheader\">\n";
 
 	$this->buffer .= "<span class=\"uvcdate\"><b>Le ".
