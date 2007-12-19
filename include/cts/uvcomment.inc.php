@@ -8,7 +8,8 @@
 
 /* Copyright 2007
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
- *
+ * - Manuel Vonthron <manuel DOT vonthron AT acadis DOT org>
+ * 
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
  *
@@ -41,9 +42,9 @@ function p_stars($note)
   for ($i = 0; $i < 4; $i++)
     {
       if ($i+1 <= $note)
-	$str .= "<img src=\"/images/icons/16/star.png\" alt=\"star\" />\n";
+	$str .= "<img src=\"$topdir/images/icons/16/star.png\" alt=\"star\" />\n";
       else
-	$str .= "<img src=\"/images/icons/16/unstar.png\" alt=\"unstar\" />\n";
+	$str .= "<img src=\"$topdir/images/icons/16/unstar.png\" alt=\"unstar\" />\n";
     }
   return $str;
 }
@@ -72,7 +73,7 @@ class uvcomment_contents extends stdcontents
 	
 	/* commentaire "abusé" */
 	if ($comment->etat == 1)
-	  $extra ="abuse";
+	  $extra = "abuse";
 	else if ($parity)
 	  $extra = "pair";
 	
@@ -132,8 +133,36 @@ class uvcomment_contents extends stdcontents
 	      $this->buffer .= "<span class=\"uvcnote\">échec (" . 
 		$comment->note_obtention . ")";
 	    $this->buffer .= "</span>";
-	  }
+		}
+		
+	$this->buffer .= "</div><br/>"; // fin du header
+//	$this->buffer .= "<div class=\"uvccontent\">\n";
 
+	$this->buffer .= "<div class=\"uvleftbloc\">";
+	$this->buffer .= "<table>";
+	$this->buffer .= "<tr>";
+		$this->buffer .= "<td>Intérêt :</td>";
+		$this->buffer .= "<td>".p_stars($comment->interet)."</td>";
+	$this->buffer .= "</tr>";
+	$this->buffer .= "<tr>";
+		$this->buffer .= "<td>Utilité :</td>";
+		$this->buffer .= "<td>".p_stars($comment->utilite)."</td>";
+	$this->buffer .= "</tr>";
+	$this->buffer .= "<tr>";
+		$this->buffer .= "<td>Charge de travail :</td>";
+		$this->buffer .= "<td>".p_stars($comment->charge_travail)."</td>";
+	$this->buffer .= "</tr>";
+	$this->buffer .= "<tr>";
+		$this->buffer .= "<td>Qualité de l'enseignement :</td>";
+		$this->buffer .= "<td>".p_stars($comment->qualite_ens)."</td>";
+	$this->buffer .= "</tr>";
+	$this->buffer .= "<tr>";
+		$this->buffer .= "<td><b>Note globale</b></td>";
+		$this->buffer .= "<td>".p_stars($comment->note)."</td>";
+	$this->buffer .= "</tr>";
+	$this->buffer .= "</table>";
+	$this->buffer .= "</div>";
+/*	
 	$this->buffer .= "<span class=\"uvcriteria\">Intérêt :\n";
 	$this->buffer .= p_stars($comment->interet);
 	$this->buffer .= "</span><br/>\n";
@@ -154,14 +183,15 @@ class uvcomment_contents extends stdcontents
 	$this->buffer .= "<span class=\"uvcriteria\"><b>Note globale :</b>\n";
 	$this->buffer .= p_stars($comment->note);
 	$this->buffer .= "</span><br/>\n";
+*/	
 	
-	$this->buffer .= "</div><br/>"; // fin du header
-	
-	$this->buffer .= "<div class=\"uvccontent\">\n";
-
+	$this->buffer .= "<div class=\"uvrightbloc\">";
 	$this->buffer .= doku2xhtml($comment->comment);
+	$this->buffer .= "</div>";
 	
-	$this->buffer .= "</div>\n"; // fin du contenu commentaire
+	$this->buffer .= "<div class=\"uvclear\"></div>";
+	
+	//$this->buffer .= "</div>\n"; // fin du contenu commentaire
 
 	$this->buffer .= "</div>\n"; // fin du commentaire
 

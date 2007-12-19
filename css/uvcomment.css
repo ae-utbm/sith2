@@ -54,3 +54,15 @@ div.uvccontent
    padding-left: 40px;
    border-top: 1px black solid;
  }
+ 
+
+div.uvleftbloc
+{
+	float: left;
+}
+
+div.uvclear
+{
+	clear: both;
+}
+ 
