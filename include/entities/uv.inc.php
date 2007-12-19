@@ -744,7 +744,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 	      $cts->add_paragraph("Ayant fait le TC, il vous faut <b>240 crédits</b> (art. V-3 du réglement ".
 				  "des études) pour achever votre cursus.");
 
-	      $cts->add_paragraph("Il vous manque <b>". 240 - $totcreds . " crédits</b>");
+	      $cts->add_paragraph("Il vous manque <b>". (240 - $totcreds) . " crédits</b>");
 
 	    }
 	  else if ($etu->departement != 'tc')
@@ -752,7 +752,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 	      $cts->add_paragraph("Etant entré en branche, il faut <b>120 crédits</b> (art. V-3 du réglement ".
 				  "des études) pour achever votre cursus.");
 
-	      $cts->add_paragraph("Il vous manque <b>". 120 - $totcreds . " crédits</b>");
+	      $cts->add_paragraph("Il vous manque <b>". (120 - $totcreds) . " crédits</b>");
 	    }
 
 	  /* étudiant de TC */
@@ -763,11 +763,11 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 	      
 	      if ($etu->semestre > 4)
 		{
-		  $cts->add_paragraph("Il vous manque <b>" . 120 - $totcreds . " crédits</b> pour pouvoir entrer en branche.");
+		  $cts->add_paragraph("Il vous manque <b>" . (120 - $totcreds) . " crédits</b> pour pouvoir entrer en branche.");
 		}
 	      else
 		{
-		  $cts->add_paragraph("Il vous manque <b>" . 102 - $totcreds . " crédits</b> pour pouvoir entrer en branche.");
+		  $cts->add_paragraph("Il vous manque <b>" . (102 - $totcreds) . " crédits</b> pour pouvoir entrer en branche.");
 		} 
 	    }
 	  
