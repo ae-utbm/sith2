@@ -65,6 +65,8 @@ $req = new requete($dbrw, $req_EC);
 while ($rs = $req->get_row())
 {
   echo $rs['id_uv'] . " " . $rs['code_uv'] . "\n";
+  categorize($rs['id_uv'], "Humanites", "EC");
+
 }
 
 echo "--- CULTURES GENERALES ---\n";
@@ -95,6 +97,7 @@ $req = new requete($dbrw, $req_CG);
 while ($rs = $req->get_row())
 {
   echo $rs['id_uv'] . " " . $rs['code_uv'] . "\n";
+  categorize($rs['id_uv'], "Humanites", "CG");
 }
 
 
@@ -113,8 +116,25 @@ $req = new requete($dbrw, $req_ext);
 while ($rs = $req->get_row())
 {
   echo $rs['id_uv'] . " " . $rs['code_uv'] . "\n";
+  categorize($rs['id_uv'], "Humanites", "EX");
 }
 
+function categorize($iduv, $id_dept, $cat)
+{
+  global $dbrw;
 
+  /* risque de merder (clé primaire) */
+  $ins = new insert($dbrw, 'edu_uv_dept',
+		    array('id_uv' => $id_uv,
+			  'id_dept' => $id_dept,
+			  'cat_uv' => $cat));
+  if ($ins->lines != 1)
+    {
+      new update($dbrw, 'edu_uv_dept',
+		 array('cat_uv' => $cat),
+		 array('id_uv' => $id_uv,
+		       'id_dept' => $id_dept));
+    }
+}
 
 ?>
