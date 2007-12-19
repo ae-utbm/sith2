@@ -14,7 +14,7 @@ require_once($topdir . "include/site.inc.php");
 
 $dbrw = new mysqlae("rw");
 
-echo "--- EXPRESSION COMMUNICATION ---";
+echo "--- EXPRESSION COMMUNICATION ---\n";
 
 
 $req_EC = "SELECT `id_uv`, `code_uv` FROM `edu_uv` 
@@ -64,10 +64,10 @@ $req = new requete($dbrw, $req_EC);
 
 while ($rs = $req->get_row())
 {
-  echo $rs['id_uv'] . " " . $rs['code_uv'];
+  echo $rs['id_uv'] . " " . $rs['code_uv'] . "\n";
 }
 
-echo "--- CULTURES GENERALES ---";
+echo "--- CULTURES GENERALES ---\n";
 
 $req_CG = "SELECT `id_uv`, `code_uv` FROM `edu_uv` WHERE
                  `code_uv` LIKE 'AR__'
@@ -94,8 +94,11 @@ $req = new requete($dbrw, $req_CG);
 
 while ($rs = $req->get_row())
 {
-  echo $rs['id_uv'] . " " . $rs['code_uv'];
+  echo $rs['id_uv'] . " " . $rs['code_uv'] . "\n";
 }
+
+
+echo "--- UV EXTERIEURES ---\n";
 
 $req_ext = "SELECT `id_uv`, `code_uv` FROM `edu_uv`
             WHERE
@@ -109,7 +112,7 @@ $req = new requete($dbrw, $req_ext);
 
 while ($rs = $req->get_row())
 {
-  echo $rs['id_uv'] . " " . $rs['code_uv'];
+  echo $rs['id_uv'] . " " . $rs['code_uv'] . "\n";
 }
 
 
