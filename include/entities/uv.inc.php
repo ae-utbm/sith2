@@ -23,7 +23,7 @@
  */
  
  /**
- * @file
+ * @file Gestion des uvs et partie pédagogie du site
  */
 
 
@@ -52,6 +52,12 @@ define('UVCOMMENT_ACCEPTED', 3);
 define('UVFOLDER', 784);
 
 
+/* tableaux globaux sur les commentaires UV */
+
+/* Note : ces critères sont inspirés du projet de David 
+ * Anderson (Dave`), 
+ * http://code.google.com/p/critic
+ */
 $uvcomm_utilite = array(
 			'-1' => 'Non renseigné',
 			'0' => 'Inutile',
@@ -90,6 +96,48 @@ $uvcomm_qualite = array ('-1' => 'Sans avis',
 
 
 $departements = array('Humanites', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
+
+
+/* tableaux sur la catégorisation des UVs à l'intérieur des départements */
+
+$humas_cat = array(''=> null, 'EC' => 'EC', 'CG' => 'CG', 'EX' => 'EX');
+$tc_cat    = array('' => null, 'CS' => 'CS', 'TM' => 'TM', 'EX' => 'EX');
+/* note : à l'heure actuelle, il n'existe pas d'UV de TM en EDIM */
+$edim_cat  = array(''=>null, 
+		   'CS' => 'CS', 
+		   'TM' => 'TM', 
+		   'RN' => 'RN', 
+		   'EX' => 'EX');
+
+$gesc_cat  = array(''=> null,
+		   'CS' => 'CS', 
+		   'TM' => 'TM', 
+		   'RN' => 'RN', 
+		   'EX' => 'EX');
+$gi_cat    = array('' => null, 
+		   'CS' => 'CS', 
+		   'TM' => 'TM', 
+		   'RN' => 'RN', 
+		   'EX' => 'EX');
+
+$gmc_cat   = array('' => null, 
+		   'CS' => 'CS', 
+		   'TM' => 'TM', 
+		   'RN' => 'RN', 
+		   'EX' => 'EX');
+
+$imap_cat  = array('' => null, 
+		   'CS' => 'CS', 
+		   'TM' => 'TM', 
+		   'RN' => 'RN', 
+		   'EX' => 'EX');
+
+$uv_descr_cat = array('CS' => 'Connaissances scientifiques',
+		      'TM' => 'Techniques et méthodes',
+		      'EX' => 'Extérieur',
+		      'EC' => 'Expression / Communication',
+		      'CG' => 'Culture Générale',
+		      'RN' => 'Remise à niveau');
  
 class uv extends stdentity
 {
@@ -109,6 +157,9 @@ class uv extends stdentity
 
   /* dans quel département ? */
   var $depts;
+
+  /* catégories par département ? */
+  var $cat_by_depts;
 
   /* un identifiant de répertoire (partie fichiers) */
   var $idfolder;
@@ -195,11 +246,12 @@ class uv extends stdentity
     $this->depts = array();
 
     $req = new requete($this->db,
-		       "SELECT `id_dept` FROM `edu_uv_dept` WHERE `id_uv` = ".$this->id);
+		       "SELECT `id_dept`, `uv_cat` FROM `edu_uv_dept` WHERE `id_uv` = ".$this->id);
 
     while ($row = $req->get_row())
       {
 	$this->depts[] = $row['id_dept'];
+	$this->cat_by_depts[$row['id_dept']] = $row['uv_cat'];
       }
   }
 
@@ -208,7 +260,14 @@ class uv extends stdentity
     $this->load_depts ();
   }
 
-  function modify($code_uv, $intitule, $obj, $prog, $c, $td, $tp, $ects, $depts)
+  /*
+   * Modification d'UV.
+   *
+   * note : uv_cat doit etre un tableau indexé par le nom du département
+   * (on part du principe qu'à un département d'enseignement peut correspondre
+   *  une catégorie spécifique).
+   */
+  function modify($code_uv, $intitule, $obj, $prog, $c, $td, $tp, $ects, $depts, $uv_cat = null)
   {
     if ($this->id <= 0)
       return false;
@@ -249,7 +308,8 @@ class uv extends stdentity
 	  $req = new insert($this->dbrw,
 			    'edu_uv_dept',
 			    array("id_uv" => $this->id,
-				  "id_dept" => $dept));
+				  "id_dept" => $dept,
+				  "uv_cat" => $uv_cat[$dept]));
       }
 
     $this->reload_depts();
@@ -259,7 +319,7 @@ class uv extends stdentity
   
 
 
-  function create ($code_uv, $intitule, $c, $td, $tp, $ects, $depts)
+  function create ($code_uv, $intitule, $c, $td, $tp, $ects, $depts, $uv_cat)
   {
     $this->code     = $code_uv;
     $this->intitule = $intitule;
@@ -298,7 +358,8 @@ class uv extends stdentity
 	  $req = new insert($this->dbrw,
 			    'edu_uv_dept',
 			    array("id_uv" => $this->id,
-				  "id_dept" => $dept));
+				  "id_dept" => $dept,
+				  "uv_cat" => $uv_cat[$dept]));
       }
     
     return true;

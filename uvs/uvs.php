@@ -317,20 +317,40 @@ if (($site->user->is_in_group('gestion_ae'))
   $departements = array();
 
   if ($_REQUEST['Humas'] == 1)
-    $departements[] = 'Humanites';
+    {
+      $departements[] = 'Humanites';
+      $stats_by_depts['Humas'] = $_REQUEST['cat_humas'];
+    }
   if ($_REQUEST['TC'] == 1)
-    $departements[] = 'TC';
+    {
+      $departements[] = 'TC';
+      $stats_by_depts['TC'] = $_REQUEST['cat_tc'];
+    }
   if ($_REQUEST['GESC'] == 1)
-    $departements[] = 'GESC';
+    {
+      $departements[] = 'GESC';
+      $stats_by_depts['GESC'] = $_REQUEST['cat_gesc'];
+    }
   if ($_REQUEST['GI'] == 1)
-    $departements[] = 'GI';
+    {
+      $departements[] = 'GI';
+      $stats_by_depts['GI'] = $_REQUEST['cat_gi'];
+    }
   if ($_REQUEST['IMAP'] == 1)
-    $departements[] = 'IMAP';
+    {    
+      $departements[] = 'IMAP';
+      $stats_by_depts['IMAP'] = $_REQUEST['cat_imap'];
+    }  
   if ($_REQUEST['GMC'] == 1)
-    $departements[] = 'GMC';
+    {
+      $departements[] = 'GMC';
+      $stats_by_depts['GMC'] = $_REQUEST['cat_gmc'];
+    }
   if ($_REQUEST['EDIM'] == 1)
-    $departements[] = 'EDIM';
-
+    {
+      $departements[] = 'EDIM';
+      $stats_by_depts['EDIM'] = $_REQUEST['cat_edim'];
+    }
 
   $uv->modify($_REQUEST['name'],
 	      $_REQUEST['intitule'],
@@ -340,7 +360,8 @@ if (($site->user->is_in_group('gestion_ae'))
 	      $_REQUEST['td'],
 	      $_REQUEST['tp'],
 	      $_REQUEST['ects'],
-	      $departements);  
+	      $departements,
+	      $stats_by_depts);  
 }
 
 
@@ -468,6 +489,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			     "Modification de l'UV");
 
 	  $edituv->add_hidden('iduv', $uv->id);
+
 	  $edituv->add_text_field('name',
 				  "Code de l'UV <b>sans espace, ex: 'MT42'</b>",
 				  $uv->code, true, 4);
@@ -524,6 +546,41 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $edituv->add_checkbox('EDIM',
 				"EDIM",
 				in_array('EDIM', $uvdept));
+
+	  if (count($uvdept) > 0)
+	    {
+	      foreach ($uvdept as $dept)
+		{
+		  if ($dept == 'Humanites')
+		    $edituv->add_select_field('cat_humas', 
+					      "Catégorie de l'UV au département Humanités",
+					      $humas_cat, $cat_by_depts[$dept]);
+		  else if ($dept == 'TC')
+		    $edituv->add_select_field('cat_tc', 
+					      "Catégorie de l'UV au département TC",
+					      $tc_cat, $cat_by_depts[$dept]);
+		  else if ($dept == 'GESC')
+		    $edituv->add_select_field('cat_gesc', 
+					      "Catégorie de l'UV au département GESC",
+					      $gesc_cat, $cat_by_depts[$dept]);
+		  else if ($dept == 'GI')
+		    $edituv->add_select_field('cat_gi', 
+					      "Catégorie de l'UV au département GI",
+					      $gi_cat, $cat_by_depts[$dept]);
+		  else if ($dept == 'IMAP')
+		    $edituv->add_select_field('cat_imap', 
+					      "Catégorie de l'UV au département IMAP",
+					      $imap_cat, $cat_by_depts[$dept]);
+		  else if ($dept == 'GMC')
+		    $edituv->add_select_field('cat_gmc', 
+					      "Catégorie de l'UV au département GMC",
+					      $gmc_cat, $cat_by_depts[$dept]);
+		  else if ($dept == 'EDIM')
+		    $edituv->add_select_field('cat_edim', 
+					      "Catégorie de l'UV au département EDIM",
+					      $edim_cat, $cat_by_depts[$dept]);
+		}
+	    }
 
 	  $edituv->add_submit('edituvsubmit',
 			      "Modifier");
