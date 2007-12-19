@@ -52,19 +52,21 @@ div.uvccontent
    padding-top: 10px;
    padding-bottom: 10px;
    padding-left: 40px;
-   position: relative;
+   position: absolute;
    width: 100%;
  }
  
 
 div.uvleftbloc
 {
+	position: relative;
+	margin-right: 10px;
+	float: left;
 }
 
 div.uvrightbloc
 {
-	position: absolute;
-	left: 240px;
+	position: relative;
 }
 
 div.uvclear
