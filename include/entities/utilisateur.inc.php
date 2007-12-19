@@ -2282,6 +2282,51 @@ L'équipe info AE";
 
     return $rs['nb'];
   }  
+
+  /*
+   * Pédagogie
+   *
+   */
+  function a_fait_tc()
+  {
+    $requete = "SELECT 
+                        `id_utilisateur`
+                FROM
+                        `edu_uv_groupe_etudiant`
+                INNER JOIN
+                        `edu_uv_groupe`
+                USING(`id_uv_groupe`)
+                INNER JOIN
+                        `edu_uv`
+                USING(`id_uv`)
+                INNER JOIN
+                        `edu_uv_dept`
+                USING(`id_uv`)
+                WHERE
+                        `id_dept` = 'TC'
+                AND
+                        `id_utilisateur` = ".$this->id. "
+                UNION
+                SELECT
+                        `id_etudiant` AS `id_utilisateur`
+                FROM 
+                        `edu_uv_obtention`
+                INNER JOIN
+                        `edu_uv`
+                USING(`id_uv`)
+                INNER JOIN
+                        `edu_uv_dept`
+                USING(`id_uv`)
+                WHERE
+                        `id_dept` = 'TC'
+                AND
+                        `id_etudiant` = ".$this->id;
+
+    $sql = new requete($this->db, $requete);
+
+    return (($sql->lines > 0) && ($this->departement != 'tc'));
+  }
+
 }
 
 ?>

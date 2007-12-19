@@ -645,7 +645,7 @@ function delete_result_uv($id_etu, $id_uv, $semestre, $dbrw)
   
 }
 
-function get_creds_cts($id_etu, $db, $camembert = false)
+function get_creds_cts(&$etu, $db, $camembert = false)
 {
   global $topdir;
   require_once($topdir . "include/cts/sqltable.inc.php");
@@ -663,7 +663,7 @@ function get_creds_cts($id_etu, $db, $camembert = false)
                                    `edu_uv_obtention`
                            USING (`id_uv`)
                            WHERE
-                                 `edu_uv_obtention`.`id_etudiant` = ".intval($id_etu) . 
+                                 `edu_uv_obtention`.`id_etudiant` = ".$etu->id . 
 		         " GROUP BY
                                  `code_uv`
                            ORDER BY
@@ -739,6 +739,38 @@ function get_creds_cts($id_etu, $db, $camembert = false)
 	  $cts->add_title(2, "Récapitulatif");
 	  $cts->add_paragraph("<b>".$totcreds . 
 			      " crédits ECTS</b> obtenus au long de votre scolarité.");
+	  if ($etu->a_fait_tc())
+	    {
+	      $cts->add_paragraph("Ayant fait le TC, il vous faut <b>240 crédits</b> (art. V-3 du réglement ".
+				  "des études) pour achever votre cursus.");
+
+	      $cts->add_paragraph("Il vous manque <b>". 240 - $totcreds . " crédits</b>");
+
+	    }
+	  else if ($etu->departement != 'tc')
+	    {
+	      $cts->add_paragraph("Etant entré en branche, il faut <b>120 crédits</b> (art. V-3 du réglement ".
+				  "des études) pour achever votre cursus.");
+
+	      $cts->add_paragraph("Il vous manque <b>". 120 - $totcreds . " crédits</b>");
+	    }
+
+	  /* étudiant de TC */
+	  else
+	    {
+	      $cts->add_paragraph("Vous êtes en TC. Il vous faut par conséquent <b>102 crédits</b> en 3 ou 4 ".
+				  "semestres, ou bien <b>120 crédits</b> en cas de semestre(s) supplémentaire(s).");
+	      
+	      if ($etu->semestre > 4)
+		{
+		  $cts->add_paragraph("Il vous manque <b>" . 120 - $totcreds . " crédits</b> pour pouvoir entrer en branche.");
+		}
+	      else
+		{
+		  $cts->add_paragraph("Il vous manque <b>" . 102 - $totcreds . " crédits</b> pour pouvoir entrer en branche.");
+		} 
+	    }
+	  
 	}
 
       if ((count($statsobs) > 0) && ($camembert == true)) 

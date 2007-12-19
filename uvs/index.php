@@ -65,7 +65,7 @@ if ($site->user->id > 0)
   /* generation de camembert */
   if ($_REQUEST['action'] == "camembert")
     {
-      $cam = get_creds_cts($site->user->id, $site->db, true);
+      $cam = get_creds_cts($site->user, $site->db, true);
       $cam->png_render();
       exit();
     }
