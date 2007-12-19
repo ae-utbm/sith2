@@ -795,6 +795,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 function get_uvsmenu_box()
 {
 	global $departements;
+	global $site;
 	
 	$cts = new contents("Pédagogie");
 	$dpt = new itemlist("Accéder aux UVs");
@@ -804,6 +805,24 @@ function get_uvsmenu_box()
 	
 	
 	$cts->add($dpt, true);
+	
+	if( $site->user->is_in_group("etudiants-utbm-actuels") )
+	{
+		$sql = new requete($site->db, "SELECT id_uv, id_comment, code_uv, surnom_utbm
+																		FROM edu_uv_comments
+																		NATURAL JOIN edu_uv
+																		NATURAL JOIN utl_etu_utbm
+																		ORDER BY date_commentaire DESC
+																		LIMIT 5 
+																		");
+
+		$avis = new itemlist("Les derniers commentaires");
+		
+		while( $row = $sql->get_row() )
+			$avis->add("<a href=\"uvs.php?view=commentaires&id=".$row['id_uv']."#".$row['id_comment']."\">".$row['code_uv']."  par ".$row['surnom_utbm']."</a>");
+		
+		$cts->add($avis, true);
+	}
 	
 	return $cts;
 }
