@@ -125,14 +125,14 @@ function categorize($iduv, $id_dept, $cat)
 
   /* risque de merder (clé primaire) */
   $ins = new insert($dbrw, 'edu_uv_dept',
-		    array('id_uv' => $id_uv,
+		    array('id_uv' => $iduv,
 			  'id_dept' => $id_dept,
 			  'uv_cat' => $cat));
   if ($ins->lines != 1)
     {
       new update($dbrw, 'edu_uv_dept',
 		 array('uv_cat' => $cat),
-		 array('id_uv' => $id_uv,
+		 array('id_uv' => $iduv,
 		       'id_dept' => $id_dept));
     }
 }
