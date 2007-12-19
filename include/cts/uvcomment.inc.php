@@ -136,9 +136,9 @@ class uvcomment_contents extends stdcontents
 		}
 		
 	$this->buffer .= "</div><br/>"; // fin du header
-	$this->buffer .= "<div class=\"board\">\n";
+	$this->buffer .= "<div class=\"\">\n";
 
-	$this->buffer .= "<div class=\"panel\" style=\"width: 235px;\">";
+	$this->buffer .= "<div class=\"uvleftbloc\" style=\"width: 235px;\">";
 	$this->buffer .= "<table class=\"uvtable\">";
 	$this->buffer .= "<tr>";
 		$this->buffer .= "<td>Intérêt :</td>";
@@ -185,7 +185,7 @@ class uvcomment_contents extends stdcontents
 	$this->buffer .= "</span><br/>\n";
 */	
 	
-	$this->buffer .= "<div class=\"panel\">";
+	$this->buffer .= "<div class=\"uvrightbloc\">";
 	$this->buffer .= doku2xhtml($comment->comment);
 	$this->buffer .= "</div>";
 	

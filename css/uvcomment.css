@@ -59,15 +59,12 @@ div.uvccontent
 
 div.uvleftbloc
 {
-	float: left;
-	width: 130px;
-	position: relative;
 }
 
 div.uvrightbloc
 {
-	float: right;
-	position: relative;
+	position: absolute;
+	left: 240px;
 }
 
 div.uvclear
