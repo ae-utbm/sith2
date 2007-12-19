@@ -221,7 +221,6 @@ class nouvelle extends stdentity
       $cts->add($lst);
     }
     
-    echo "DEBUG: $this->id_lieu = ".$this->id_lieu;
     if ( !is_null($this->id_lieu) && $this->id_lieu != 0)
     {
       require_once($topdir. "include/entities/lieu.inc.php");
