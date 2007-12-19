@@ -136,10 +136,9 @@ class uvcomment_contents extends stdcontents
 		}
 		
 	$this->buffer .= "</div><br/>"; // fin du header
-//	$this->buffer .= "<div class=\"uvccontent\">\n";
 
-	$this->buffer .= "<div class=\"uvleftbloc\">";
-	$this->buffer .= "<table>";
+	$this->buffer .= "<div class=\"uvfloatbloc\">";
+	$this->buffer .= "<table class=\"uvtable\">";
 	$this->buffer .= "<tr>";
 		$this->buffer .= "<td>Intérêt :</td>";
 		$this->buffer .= "<td>".p_stars($comment->interet)."</td>";
@@ -162,36 +161,12 @@ class uvcomment_contents extends stdcontents
 	$this->buffer .= "</tr>";
 	$this->buffer .= "</table>";
 	$this->buffer .= "</div>";
-/*	
-	$this->buffer .= "<span class=\"uvcriteria\">Intérêt :\n";
-	$this->buffer .= p_stars($comment->interet);
-	$this->buffer .= "</span><br/>\n";
 
-	$this->buffer .= "<span class=\"uvcriteria\">Utilité :\n";
-	$this->buffer .= p_stars($comment->utilite);
-	$this->buffer .= "</span><br/>\n";
-	
-	$this->buffer .= "<span class=\"uvcriteria\">Charge de travail :\n";
-	$this->buffer .= p_stars($comment->charge_travail);
-	$this->buffer .= "</span><br/>\n";
-
-	$this->buffer .= "<span class=\"uvcriteria\">Qualité ".
-	  "de l'enseignement :\n";
-	$this->buffer .= p_stars($comment->qualite_ens);
-	$this->buffer .= "</span><br/>\n";
-
-	$this->buffer .= "<span class=\"uvcriteria\"><b>Note globale :</b>\n";
-	$this->buffer .= p_stars($comment->note);
-	$this->buffer .= "</span><br/>\n";
-*/	
-	
-	$this->buffer .= "<div class=\"uvrightbloc\">";
-	$this->buffer .= doku2xhtml($comment->comment);
+	$this->buffer .= "<div class=\"uvfloatbloc\">";
+	$this->buffer .= "<div class=\"uvccontent\">".doku2xhtml($comment->comment)."</div>";
 	$this->buffer .= "</div>";
 	
 	$this->buffer .= "<div class=\"uvclear\"></div>";
-	
-	//$this->buffer .= "</div>\n"; // fin du contenu commentaire
 
 	$this->buffer .= "</div>\n"; // fin du commentaire
 
