@@ -38,6 +38,11 @@ span.uvcauthor
   top : 0;
 }
 
+div.uvcheader
+{
+	border-bottom: 1px solid #EEAC00;
+}
+
 
 span.uvcnote
 {
@@ -82,6 +87,7 @@ table.uvtable
 table.uvtable td
 {
 	border-bottom: 1px solid #D8E7F3;
+	height: 18px;
 }
 
  
