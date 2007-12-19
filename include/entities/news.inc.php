@@ -220,7 +220,8 @@ class nouvelle extends stdentity
             strtotime($row['date_fin_eve'])));
       $cts->add($lst);
     }
-      
+    
+    echo "DEBUG: $this->id_lieu = ".$this->id_lieu;
     if ( !is_null($this->id_lieu) )
     {
       require_once($topdir. "include/entities/lieu.inc.php");
