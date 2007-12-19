@@ -127,11 +127,11 @@ function categorize($iduv, $id_dept, $cat)
   $ins = new insert($dbrw, 'edu_uv_dept',
 		    array('id_uv' => $id_uv,
 			  'id_dept' => $id_dept,
-			  'cat_uv' => $cat));
+			  'uv_cat' => $cat));
   if ($ins->lines != 1)
     {
       new update($dbrw, 'edu_uv_dept',
-		 array('cat_uv' => $cat),
+		 array('uv_cat' => $cat),
 		 array('id_uv' => $id_uv,
 		       'id_dept' => $id_dept));
     }
