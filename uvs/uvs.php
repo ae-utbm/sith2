@@ -40,6 +40,9 @@ $site = new site();
 $site->add_css($topdir."css/doku.css");
 $site->add_css("css/d.css");
 
+$site->add_box("uvsmenu", get_uvsmenu_box() );
+$site->set_side_boxes("left",array("uvsmenu", "connexion"));
+
 $site->start_page("services", "Informations UV");
 
 

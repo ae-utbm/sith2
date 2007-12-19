@@ -792,5 +792,21 @@ function get_creds_cts(&$etu, $db, $camembert = false)
   return $cts;
 }
 
+function get_uvsmenu_box()
+{
+	global $departements;
+	
+	$cts = new contents("Pédagogie");
+	$dpt = new itemlist("Accéder aux UVs");
+
+	foreach ($departements as $dpt_key)
+		$dpt->add("<a href=\"uvs.php?iddept=".$dpt_key."\">".$dpt_key."</a>");
+	
+	
+	$cts->add($dpt, true);
+	
+	return $cts;
+}
+
 
 ?>
