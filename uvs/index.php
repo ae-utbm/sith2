@@ -85,7 +85,7 @@ if ($site->user->id > 0)
     }
 
   $cts->add_title(1, "Mon parcours pédagogique");
-  $cts->add(get_creds_cts($site->user->id, $site->db));
+  $cts->add(get_creds_cts($site->user, $site->db));
 
   $cts->add_title(3, "Statistiques d'obtention");
   $cts->add_paragraph("<center><img src=\"./index.php?action=camembert\" alt=\"statistiques d'obtention\" /></center>");

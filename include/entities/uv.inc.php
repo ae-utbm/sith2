@@ -663,7 +663,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
                                    `edu_uv_obtention`
                            USING (`id_uv`)
                            WHERE
-                                 `edu_uv_obtention`.`id_etudiant` = ".$etu->id . 
+                                 `edu_uv_obtention`.`id_etudiant` = ". $etu->id . 
 		         " GROUP BY
                                  `code_uv`
                            ORDER BY
