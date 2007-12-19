@@ -819,7 +819,7 @@ function get_uvsmenu_box()
 		$avis = new itemlist("Les derniers commentaires");
 		
 		while( $row = $sql->get_row() )
-			$avis->add("<a href=\"uvs.php?view=commentaires&id=".$row['id_uv']."#".$row['id_comment']."\">".$row['code_uv']."  par ".$row['surnom_utbm']."</a>");
+			$avis->add("<a href=\"uvs.php?view=commentaires&id_uv=".$row['id_uv']."#".$row['id_comment']."\">".$row['code_uv']."  par ".$row['surnom_utbm']."</a>");
 		
 		$cts->add($avis, true);
 	}
