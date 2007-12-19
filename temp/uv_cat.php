@@ -122,32 +122,6 @@ while ($rs = $req->get_row())
 */
 
 
-$reqtc_cs = "SELECT `id_uv` FROM `edu_uv` WHERE `code_uv` IN ('AC20', 'CM11', 'CM19', 'CM21', 'CM22', 'MT11', 'MT12', 'MT18', 'MT19', 'MT20', 'MT21', 'MT25', 'MT26', 'MT27', 'PS11', 'PS12', 'PS18', 'PS19', 'PS20', 'PS21', 'PS25', 'PS26', 'PS27', 'PS28', 'PS29', 'SQ20','SQ28')";
-
-$req = new requete($dbrw, $reqtc_cs);
-
-while ($rs = $req->get_row())
-{
-  categorize($rs['id_uv'], "TC", "CS");
-}
-
-$reqtc_tm = "SELECT `id_uv` FROM `edu_uv` WHERE `code_uv` IN ('EL20', 'EL21', 'LO10', 'LO11', 'LO19', 'LO20', 'LO21', 'LO22', 'LO27', 'MQ21', 'MQ22', 'PM11', 'PM18', 'SY20', 'TF20', 'TN13', 'TN18', 'TN19', 'TN20', 'TN21', 'TN22', 'TW20')";
-
-$req = new requete($dbrw, $reqtc_tm);
-
-while ($rs = $req->get_row())
-{
-  categorize($rs['id_uv'], "TC", "TM");
-}
- 
-$reqtc_ex = "SELECT `id_uv` FROM `edu_uv` WHERE `code_uv` IN ('ST00', 'ST10', 'ST20')";
-
-$req = new requete($dbrw, $reqtc_ex);
-
-while ($rs = $req->get_row())
-{
-  categorize($rs['id_uv'], "TC", "EX");
-}
 
 
 function categorize($iduv, $id_dept, $cat)
