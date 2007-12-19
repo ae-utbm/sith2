@@ -222,7 +222,7 @@ class nouvelle extends stdentity
     }
     
     echo "DEBUG: $this->id_lieu = ".$this->id_lieu;
-    if ( !is_null($this->id_lieu) )
+    if ( !is_null($this->id_lieu) && $this->id_lieu != 0)
     {
       require_once($topdir. "include/entities/lieu.inc.php");
       require_once($topdir. "include/cts/gmap.inc.php");
