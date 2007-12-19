@@ -666,9 +666,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
                            USING (`id_uv`)
                            WHERE
                                  `edu_uv_obtention`.`id_etudiant` = ". $etu->id . 
-		         " GROUP BY
-                                 `code_uv`
-                           ORDER BY
+		         " ORDER BY
                                  `semestre_obtention`");
 
   
