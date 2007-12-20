@@ -402,9 +402,9 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   $tab = new tabshead($tabs, $_REQUEST['view']);
 
 	$uv->load_depts();
-  $path = "<a href=\"/uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
-  $path .= " / "."<a href=\"/uvs/uvs.php?iddept=".$uv->depts[0]."\"><img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" /> ".$uv->depts[0]."</a>";
-  $path .= " / "."<a href=\"/uvs/uvs.php?id_uv=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
+  $path = "<a href=\"$topdir/uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
+  $path .= " / "."<a href=\"$topdir/uvs/uvs.php?iddept=".$uv->depts[0]."\"><img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" /> ".$uv->depts[0]."</a>";
+  $path .= " / "."<a href=\"$topdir/uvs/uvs.php?id_uv=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
 
   $cts = new contents($path);
 
