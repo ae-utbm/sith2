@@ -718,7 +718,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
                                 , `edu_uv`.`code_uv`
                                 , `edu_uv`.`intitule_uv`
                                 , `edu_uv`.`ects_uv`
-                                , `edu_uv_dept`.`cat_uv`
+                                , `edu_uv_dept`.`uv_cat`
                                 , `edu_uv_obtention`.`note_obtention`
                                 , `edu_uv_obtention`.`semestre_obtention`
                            FROM
