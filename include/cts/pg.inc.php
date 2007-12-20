@@ -147,7 +147,7 @@ class pgfichelist extends stdcontents
       
       $this->buffer .= "<div class=\"pgfiche\">";
       
-      $this->buffer .= "<h3><a href=\"./id_pgfiche=".$row["id_pgfiche"]."\">".htmlentities($row["nom_pgfiche"],ENT_QUOTES,"UTF-8")."</a></h3>";
+      $this->buffer .= "<h3><a href=\"./?id_pgfiche=".$row["id_pgfiche"]."\">".htmlentities($row["nom_pgfiche"],ENT_QUOTES,"UTF-8")."</a></h3>";
       
       $this->buffer .= "<p class=\"adresse\">".htmlentities($row["numrue_pgfiche"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_typerue"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_rue"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_ville"],ENT_QUOTES,"UTF-8")."</p>";       
       
@@ -165,7 +165,7 @@ class pgfichelist extends stdcontents
           
       $this->buffer .= "<p class=\"description\">".htmlentities($row["description_pgfiche"],ENT_QUOTES,"UTF-8")."</p>";      
       
-      $this->buffer .= "<p class=\"more\"><a href=\"./id_pgfiche=".$row["id_pgfiche"]."\">Plus d'information : horraires, tarifs, plan d'accès</a></p>";       
+      $this->buffer .= "<p class=\"more\"><a href=\"./?id_pgfiche=".$row["id_pgfiche"]."\">Plus d'information : horraires, tarifs, plan d'accès</a></p>";       
       
       $this->buffer .= "</div>";
       

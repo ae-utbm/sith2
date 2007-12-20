@@ -274,7 +274,7 @@ while ( $row = $req->get_row() )
   
   if ( !$err )
   {
-    $rue->create ( $row['nom'], $complement, $typesderue[$row['id_type']], $id_ville);
+    $rue->create ( utf8_encode($row['nom']), utf8_encode($complement), $typesderue[$row['id_type']], $id_ville);
     $rues[$row['id']] = $rue->id;
   }
   else
