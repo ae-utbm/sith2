@@ -121,7 +121,7 @@ while ($rs = $req->get_row())
 }
 */
 
-
+/*
 // EDIM
 $req_rn = "SELECT `id_uv` FROM `edu_uv`
             WHERE
@@ -321,7 +321,7 @@ while ($rs = $req->get_row())
 
 
 
-
+*/
 
 function categorize($iduv, $id_dept, $cat)
 {
