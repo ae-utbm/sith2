@@ -610,7 +610,7 @@ class uvcomment extends stdentity
 			     'id_etudiant' => $this->id_commentateur));
 
 
-    return (($sql->lines == 1) && ($sql2->lines == 1));
+    return ($sql->lines == 1);
   }
 
   function create($id_uv,
