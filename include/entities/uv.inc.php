@@ -731,7 +731,10 @@ function get_creds_cts(&$etu, $db, $camembert = false)
                            USING (`id_uv`)
                            WHERE
                                  `edu_uv_obtention`.`id_etudiant` = ". $etu->id . 
-		         " ORDER BY
+		         " 
+                           GROUP BY
+                                 `id_uv`, `semestre_obtention`
+                           ORDER BY
                                  `semestre_obtention`");
 
   
@@ -795,7 +798,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 	      $cts->add(new sqltable('details_uv', "", $semestre, "./index.php?semestre=$key", "id_uv",
 				     array("code_uv" => "Code de l'UV", 
 					   "intitule_uv" => "Intitulé de l'UV",
-					   "cat_uv"      => "Catégorie de l'UV",
+					   "uv_cat"      => "Catégorie de l'UV",
 					   "note_obtention"=> "Note d'obtention",
 					   "ects_uv"     => "Crédits ECTS"), array ("delete" => "Enlever"), array()));
 	    }
