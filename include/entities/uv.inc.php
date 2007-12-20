@@ -974,6 +974,8 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 	  require_once($topdir . "include/graph.inc.php");
 	  $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
 
+	  printf($statsobs);
+	  
 	  foreach ($statsobs as $key => $nbuvobt)
 	    {
 	      $cam->data($nbuvobt, $key);
