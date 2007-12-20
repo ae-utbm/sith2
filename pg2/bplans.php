@@ -30,7 +30,7 @@ if ( $_REQUEST["page"] == "reductions" )
 {
   $site->start_page("pgbplans","Réductions / Bon Plans - Petit Géni 2.0");
   
-  $cts = new paragraph("<a href=\"bplans.php\">Bon plans</a> / <a href=\"bplans.php?page=reductions\">Réductions</a>");
+  $cts = new contents("<a href=\"bplans.php\">Bon plans</a> / <a href=\"bplans.php?page=reductions\">Réductions</a>");
   
   $req = new requete($this->db, "SELECT pg_typereduction.*, COUNT(pg_fiche_reduction.id_pgfiche) AS `nombre`
       FROM `pg_typereduction`
