@@ -32,7 +32,7 @@ if ( $_REQUEST["page"] == "reductions" )
   
   $cts = new contents("<a href=\"bplans.php\">Bon plans</a> / <a href=\"bplans.php?page=reductions\">Réductions</a>");
   
-  $req = new requete($this->db, "SELECT pg_typereduction.*, COUNT(pg_fiche_reduction.id_pgfiche) AS `nombre`
+  $req = new requete($site->db, "SELECT pg_typereduction.*, COUNT(pg_fiche_reduction.id_pgfiche) AS `nombre`
       FROM `pg_typereduction`
       LEFT JOIN `pg_fiche_reduction` ON(pg_fiche_reduction.id_typereduction=pg_typereduction.id_typereduction)
       GROUP BY id_typereduction
