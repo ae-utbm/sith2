@@ -718,12 +718,16 @@ function get_creds_cts(&$etu, $db, $camembert = false)
                                 , `edu_uv`.`code_uv`
                                 , `edu_uv`.`intitule_uv`
                                 , `edu_uv`.`ects_uv`
+                                , `edu_uv_dept`.`cat_uv`
                                 , `edu_uv_obtention`.`note_obtention`
                                 , `edu_uv_obtention`.`semestre_obtention`
                            FROM
                                   `edu_uv`
                            INNER JOIN
                                    `edu_uv_obtention`
+                           USING (`id_uv`)
+                           INNER JOIN
+                                   `edu_uv_dept`
                            USING (`id_uv`)
                            WHERE
                                  `edu_uv_obtention`.`id_etudiant` = ". $etu->id . 
@@ -790,7 +794,8 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 	      $cts->add_title(3, "Semestre " . $sm);
 	      $cts->add(new sqltable('details_uv', "", $semestre, "./index.php?semestre=$key", "id_uv",
 				     array("code_uv" => "Code de l'UV", 
-					   "intitule_uv" => "Intitulé de l'UV", 
+					   "intitule_uv" => "Intitulé de l'UV",
+					   "cat_uv"      => "Catégorie de l'UV",
 					   "note_obtention"=> "Note d'obtention",
 					   "ects_uv"     => "Crédits ECTS"), array ("delete" => "Enlever"), array()));
 	    }
