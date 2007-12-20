@@ -719,6 +719,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
                                 , `edu_uv`.`code_uv`
                                 , `edu_uv`.`intitule_uv`
                                 , `edu_uv`.`ects_uv`
+                                , `edu_uv_dept`.`id_dept`
                                 , `edu_uv_dept`.`uv_cat`
                                 , `edu_uv_obtention`.`note_obtention`
                                 , `edu_uv_obtention`.`semestre_obtention`
@@ -816,6 +817,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 			      " crédits ECTS</b> obtenus au long de votre scolarité.");
 	  if ($etu->a_fait_tc())
 	    {
+	      $a_fait_tc = true;
 	      $rem = 240 - $totcreds;
 
 	      $cts->add_paragraph("Ayant fait le TC, il vous faut <b>240 crédits</b> (art. V-3 du réglement ".
@@ -879,14 +881,87 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 					       "note_obtention"=> "Note d'obtention",
 					       "ects_uv"     => "Crédits ECTS"), array ("delete" => "Enlever"), array()));
 		  $totcreds_by_cat = 0;
+		  $totcreds_by_cat_tc = 0;
 
 		  foreach ($array as $uv)
 		    {
-		      if (($uv['note_obtention'] != 'F') && ($uv['note_obtention'] != 'Fx'))
-			$totcreds_by_cat += $uv['ects_uv'];
+		      if (($uv['note_obtention'] == 'F') || ($uv['note_obtention'] == 'Fx'))
+			continue;
+
+		      $totcreds_by_cat += $uv['ects_uv'];
+		
+		      if ($uv['id_dept'] == 'TC')
+			$totcreds_by_cat_tc += $uv['ects_uv']; 
 		    }
 		  $cts->add_paragraph("Soit un total de <b>".$totcreds_by_cat." crédits ECTS</b> dans cette catégorie.");
-		  
+		  if ($a_fait_tc)
+		    {
+		      if (($key == 'CS') || ($key == 'TM'))
+			{
+			  $cts->add_paragraph("Vous avez fait le TC. Il vous faut au moins <b>30 crédits</b> dans cette ".
+					      "catégorie, obtenus via des UVs de branche");
+			  $cts->add_paragraph("<b>" . ($totcreds_by_cat - $totcreds_by_cat_tc) . " crédits</b> obtenus.");
+			}
+		      else if ($key == 'CG')
+			{
+			  $cts->add_paragraph("Vous avez fait le TC. Il vous faut au moins <b>32 crédits</b> dans cette ".
+					      "catégorie.");
+			  $cts->add_paragraph("<b>" . $totcreds_by_cat . " crédits</b> obtenus.");
+			}
+		      else if ($key == 'EC')
+			{
+			  $cts->add_paragraph("Vous avez fait le TC. Il vous faut au moins <b>20 crédits</b> dans cette ".
+					      "catégorie.");
+			  $cts->add_paragraph("<b>" . $totcreds_by_cat . " crédits</b> obtenus.");
+			}
+		    } // fin étudiant ayant fait TC
+		  else if ($etu->departement != 'tc') // etudiant de branche sans TC
+		    {
+		      if (($key == 'CS') || ($key == 'TM'))
+			{
+			  $cts->add_paragraph("Il vous faut au moins <b>30 crédits</b> dans cette ".
+					      "catégorie");
+			  $cts->add_paragraph("<b>" . $totcreds_by_cat . " crédits</b> obtenus.");
+			}
+		      else if ($key == 'CG')
+			{
+			  $cts->add_paragraph("Il vous faut au moins <b>16 crédits</b> dans cette ".
+					      "catégorie.");
+			  $cts->add_paragraph("<b>" . $totcreds_by_cat . " crédits</b> obtenus.");
+			}
+		      else if ($key == 'EC')
+			{
+			  $cts->add_paragraph("Il vous faut au moins <b>12 crédits</b> dans cette ".
+					      "catégorie.");
+			  $cts->add_paragraph("<b>" . $totcreds_by_cat . " crédits</b> obtenus.");
+			}
+
+		    } // fin étudiants branche sans TC
+		  else // etudiant TC
+		    {
+		      if ($key == 'CS')
+			{
+			  $cts->add_paragraph("Il vous faut au moins <b>48 crédits</b> dans cette ".
+					      "catégorie");
+			  $cts->add_paragraph("<b>" . $totcreds_by_cat . " crédits</b> obtenus.");
+			}
+
+		      else if ($key == 'TM')
+			{
+			  $cts->add_paragraph("Il vous faut au moins <b>24 crédits</b> dans cette ".
+					      "catégorie");
+			  $cts->add_paragraph("<b>" . $totcreds_by_cat . " crédits</b> obtenus.");
+			}
+
+
+		      else if (($key == 'CG') || ($key == 'EC'))
+			{
+			  $cts->add_paragraph("Il vous faut au moins <b>24 crédits</b> dans les deux ".
+					      "catégories de culture générale (CG et EC).");
+			  $cts->add_paragraph("<b>" . $totcreds_by_cat . " crédits</b> obtenus dans cette catégorie.");
+			}
+
+		    }
 		}
 
 	    }
