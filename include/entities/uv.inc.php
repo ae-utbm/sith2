@@ -132,7 +132,8 @@ $imap_cat  = array('' => null,
 		   'RN' => 'RN', 
 		   'EX' => 'EX');
 
-$uv_descr_cat = array('CS' => 'Connaissances scientifiques',
+$uv_descr_cat = array('NA' => 'Inconnu',
+                      'CS' => 'Connaissances scientifiques',
 		      'TM' => 'Techniques et méthodes',
 		      'EX' => 'Extérieur',
 		      'EC' => 'Expression / Communication',
@@ -750,6 +751,11 @@ function get_creds_cts(&$etu, $db, $camembert = false)
       while ($rs = $req->get_row())
 	{
 	  $totsuvs++;
+	  
+	  if ($rs['uv_cat'] != null)
+	    $stats_by_cat[$rs['uv_cat']][] = $rs;
+	  else
+	    $stats_by_cat['NA'][] = $rs;
 
 	  $stats_by_sem[$rs['semestre_obtention']][] = $rs;
 
@@ -856,8 +862,36 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 		    $cts->add_paragraph("Vous êtes en surplus de <b>" . $rem . " crédits</b>.");
 		} 
 	    }
-	  
-	}
+	  /* statistiques par catégories */
+	  if (count($stats_by_cat) > 0)
+	    {
+	      $cts->add_title(2, "Statistiques par catégories d'UVs");
+
+	      global $uv_descr_cat;
+
+	      foreach ($stats_by_cat as $key => $array)
+		{
+		  $cts->add_title(3, "Catégorie " . $uv_descr_cat[$key]);
+		  $cts->add(new sqltable('details_uv', "", $array, "./index.php?semestre=$key", "id_uv",
+					 array("code_uv" => "Code de l'UV", 
+					       "intitule_uv" => "Intitulé de l'UV",
+					       "uv_cat"      => "Catégorie de l'UV",
+					       "note_obtention"=> "Note d'obtention",
+					       "ects_uv"     => "Crédits ECTS"), array ("delete" => "Enlever"), array()));
+		  $totcreds_by_cat = 0;
+
+		  foreach ($array as $uv)
+		    {
+		      if (($uv['note_obtention'] != 'F') && ($uv['note_obtention'] != 'Fx'))
+			$totcreds_by_cat += $uv['ects_uv'];
+		    }
+		  $cts->add_paragraph("Soit un total de <b>".$totcreds_by_cat." crédits ECTS</b> dans cette catégorie.");
+		  
+		}
+
+	    }
+
+	} // todcreds > 0
 
       if ((count($statsobs) > 0) && ($camembert == true)) 
 	{
