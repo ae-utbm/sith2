@@ -761,7 +761,8 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 	  $stats_by_sem[$rs['semestre_obtention']][] = $rs;
 
 	  $statsobs[$rs['note_obtention']] ++;
-
+		ksort($statsobs, SORT_STRING);
+	  
 	  if (($rs['note_obtention'] != 'F') && ($rs['note_obtention'] != 'Fx'))
 	    $totcreds += $rs['ects_uv'];
 	}
@@ -973,8 +974,6 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 	  global $topdir;
 	  require_once($topdir . "include/graph.inc.php");
 	  $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
-
-	  printf($statsobs);
 	  
 	  foreach ($statsobs as $key => $nbuvobt)
 	    {
