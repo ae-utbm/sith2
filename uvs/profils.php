@@ -31,6 +31,7 @@ $site = new site();
 $site->add_box("uvsmenu", get_uvsmenu_box() );
 $site->set_side_boxes("left", array("uvsmenu", "connexion"));
 
+$site->start_page("AE Pédagogie - Profils");
 
 $cts = new contents("Pages de profils types");
 
