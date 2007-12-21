@@ -214,7 +214,7 @@ class sqltable extends stdcontents
         elseif ( ereg("^(.*)_folder$",$key,$reg))
           $this->buffer .= $row[$key];
         else
-          $this->buffer .= doku2xhtml( htmlentities($row[$key],ENT_NOQUOTES,"UTF-8") );
+          $this->buffer .= htmlentities($row[$key],ENT_NOQUOTES,"UTF-8");
     
         $this->buffer .= "</td>\n";
         }
