@@ -31,9 +31,11 @@ $site = new site();
 $site->add_box("uvsmenu", get_uvsmenu_box() );
 $site->set_side_boxes("left", array("uvsmenu", "connexion"));
 
-$site->start_page("AE Pédagogie - Profils");
+$site->start_page("services", "AE Pédagogie - Profils");
 
-$cts = new contents("Pages de profils types");
+$path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
+$path .= "/" . " Profils";
+$cts = new contents($path);
 
 $cts->add_paragraph("pif paf pof");
 

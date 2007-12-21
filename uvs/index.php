@@ -38,7 +38,10 @@ $site->add_box("uvsmenu", get_uvsmenu_box() );
 $site->set_side_boxes("left",array("uvsmenu", "connexion"));
 
 $site->start_page("services", "AE - Pédagogie");
-$cts = new contents("Site de l'AE - Espace Pédagogie");
+
+$path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
+$path .= "/" . " Accueil";
+$cts = new contents($path);
 
 
 $cts->add_paragraph("Bienvenue sur la partie Pédagogie du site de l'AE");

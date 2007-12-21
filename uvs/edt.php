@@ -94,7 +94,9 @@ if (isset($_REQUEST['delete']))
 		   $semestre);
 }
 
-$cts = new contents("Emploi du temps", "");
+$path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
+$path .= "/" . " Emploi du temps";
+$cts = new contents($path);
 
 $cts->add_paragraph("Sur cette page vous pouvez gérer vos emplois du temps.".
 		    "<br/><a href=\"./create.php\">Ajouter un emploi du temps</a>");
