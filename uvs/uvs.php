@@ -39,6 +39,7 @@ require_once($topdir."include/cts/gallery.inc.php");
 $site = new site();
 $site->add_css($topdir."css/doku.css");
 $site->add_css("css/d.css");
+$site->add_css("css/pedagogie.css");
 
 $site->add_box("uvsmenu", get_uvsmenu_box() );
 $site->set_side_boxes("left",array("uvsmenu", "connexion"));
@@ -402,9 +403,9 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   $tab = new tabshead($tabs, $_REQUEST['view']);
 
 	$uv->load_depts();
-  $path = "<a href=\"$topdir/uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
-  $path .= " / "."<a href=\"$topdir/uvs/uvs.php?iddept=".$uv->depts[0]."\"><img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" /> ".$uv->depts[0]."</a>";
-  $path .= " / "."<a href=\"$topdir/uvs/uvs.php?id_uv=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
+  $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
+  $path .= " / "."<a href=\"".$topdir."uvs/uvs.php?iddept=".$uv->depts[0]."\"><img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" /> ".$uv->depts[0]."</a>";
+  $path .= " / "."<a href=\"".$topdir."uvs/uvs.php?id_uv=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
 
   $cts = new contents($path);
 
@@ -693,7 +694,6 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 		    }
 		}
 	      require_once($topdir . "include/cts/uvcomment.inc.php");
-	      $site->add_css("css/uvcomment.css");
 	      $cts->add_title(2, "Commentaires d'étudiants ayant suivi l'UV");
 	      $cts->add(new uvcomment_contents($uv->comments, 
 					       $site->db, 
@@ -1159,13 +1159,22 @@ if (isset($_REQUEST['iddept']))
                              `id_dept` = '".$dept."'
                           ORDER BY
                              `edu_uv`.`code_uv`");
-
+	
+	$table = "<table style=\"border: 1px solid #D8E7F3\">\n";
+	$table .= " <tr>\n";
+	$i = 0;
       $uvs = array();
       while ($rs = $req->get_row())
 	{
+			$table .= "  <td><a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">".$rs['code_uv']."</a></td>\n";
+			$i++;
+			if($i == 15)
+				{ $table .= "</tr><tr>\n"; $i = 0; }
+				
 	  $uvs[] = "<a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">". 
 	    $rs['code_uv'] . " - " . $rs['intitule_uv'] . "</a>";
 	}
+		$table .= "\n </tr>\n</table>\n";
 
       $lst = new itemlist($dept,
 			  false,
@@ -1208,21 +1217,21 @@ foreach ($departements as $dept)
                       ORDER BY
                              `edu_uv`.`code_uv`");
 
+	  
 	$table = "<table style=\"border: 1px solid #D8E7F3\">\n";
 	$table .= " <tr>\n";
 	$i = 0;
-	  
-  $uvs = array();
-  while ($rs = $req->get_row())
-    {
+      $uvs = array();
+      while ($rs = $req->get_row())
+	{
 			$table .= "  <td><a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">".$rs['code_uv']."</a></td>\n";
 			$i++;
 			if($i == 15)
 				{ $table .= "</tr><tr>\n"; $i = 0; }
-
-      $uvs[] = "<a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">". 
-	$rs['code_uv'] . " - " . $rs['intitule_uv'] . "</a>";
-    }
+				
+	  $uvs[] = "<a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">". 
+	    $rs['code_uv'] . " - " . $rs['intitule_uv'] . "</a>";
+	}
 	$table .= "\n </tr>\n</table>\n";
 
   $lst = new itemlist($dept,
