@@ -56,7 +56,7 @@ if ($_REQUEST['action'] == 'statobt')
   $req = new requete($site->db,
 		     "SELECT
                                  `note_obtention`
-                                 , COUNT(`id_etudiant`) AS `nb_usr`
+                                 , COUNT(`id_utilisateur`) AS `nb_usr`
                           FROM
                                  `edu_uv_obtention`
                           WHERE
@@ -624,7 +624,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
                           UNION
 
                           SELECT
-                                 `id_etudiant` AS `id_utilisateur` 
+                                 `id_utilisateur` 
                                   , `prenom_utl`
                                   , `nom_utl`
                                   , `surnom_utbm`
@@ -634,7 +634,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
                           INNER JOIN
                                     `utilisateurs`
                           ON
-                                  `utilisateurs`.`id_utilisateur` = `edu_uv_obtention`.`id_etudiant`
+                                  `utilisateurs`.`id_utilisateur` = `edu_uv_obtention`.`id_utilisateur`
                           INNER JOIN
                                     `utl_etu_utbm`
                           USING (`id_utilisateur`)

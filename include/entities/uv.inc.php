@@ -549,7 +549,7 @@ class uvcomment extends stdentity
 	$this->id_commentateur = $row['id_utilisateur'];
 	
 	$req2 = new requete($this->db, "SELECT * FROM `edu_uv_obtention`
-             WHERE `id_etudiant` = ".intval($this->id_commentateur).
+             WHERE `id_utilisateur` = ".intval($this->id_commentateur).
 			    " AND `id_uv` = ".intval($this->id_uv) .
 			    " LIMIT 1");
 	/* Note : TODO pour les gens qui ont redoublé,
@@ -608,7 +608,7 @@ class uvcomment extends stdentity
 		       array('note_obtention' => $note_obtention,
 			     'semestre_obtention' => $semestre_obtention),
 		       array('id_uv' => $this->id_uv,
-			     'id_etudiant' => $this->id_commentateur));
+			     'id_utilisateur' => $this->id_commentateur));
 
 
     return ($sql->lines == 1);
@@ -642,7 +642,7 @@ class uvcomment extends stdentity
     $sql2 = new insert($this->dbrw,
 		       'edu_uv_obtention',
 		       array ('id_uv' => $id_uv,
-			      'id_etudiant' => $id_commentateur,
+			      'id_utilisateur' => $id_commentateur,
 			      'note_obtention' => $note_obtention,
 			      'semestre_obtention' => $semestre_obtention));
 		       
@@ -691,7 +691,7 @@ function add_result_uv($id_etu, $id_uv, $note, $semestre, $dbrw)
 
   $req = new insert($dbrw, "edu_uv_obtention",
 		    array("id_uv" => $id_uv,
-			  "id_etudiant" => $id_etu,
+			  "id_utilisateur" => $id_etu,
 			  "note_obtention" => $note,
 			  "semestre_obtention" => strtoupper($semestre)));
   return ($req->lines == 1);
@@ -700,7 +700,7 @@ function add_result_uv($id_etu, $id_uv, $note, $semestre, $dbrw)
 function delete_result_uv($id_etu, $id_uv, $semestre, $dbrw)
 {
   $req = new delete($dbrw, "edu_uv_obtention",
-		    array("id_etudiant" => $id_etu,
+		    array("id_utilisateur" => $id_etu,
 			  "id_uv" => $id_uv,
 			  "semestre_obtention" => $semestre));
 
@@ -732,7 +732,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
                                    `edu_uv_dept`
                            USING (`id_uv`)
                            WHERE
-                                 `edu_uv_obtention`.`id_etudiant` = ". $etu->id . 
+                                 `edu_uv_obtention`.`id_utilisateur` = ". $etu->id . 
 		         " 
                            GROUP BY
                                  `id_uv`, `semestre_obtention`

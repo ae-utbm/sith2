@@ -2308,7 +2308,7 @@ L'équipe info AE";
                         `id_utilisateur` = ".$this->id. "
                 UNION
                 SELECT
-                        `id_etudiant` AS `id_utilisateur`
+                        `id_utilisateur`
                 FROM 
                         `edu_uv_obtention`
                 INNER JOIN
@@ -2320,7 +2320,7 @@ L'équipe info AE";
                 WHERE
                         `id_dept` = 'TC'
                 AND
-                        `id_etudiant` = ".$this->id;
+                        `id_utilisateur` = ".$this->id;
 
     $sql = new requete($this->db, $requete);
 
