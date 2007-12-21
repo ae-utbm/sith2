@@ -284,7 +284,9 @@ class interfaceweb
       }
       else
         echo " class=\"tab".$entry[0]."\"";
-        
+      echo " onmouseover=\"tabsection('".$entry[0]."', 'hoversectionlinks');\"";
+      echo " onmouseout=\"tabsection('none', 'hoversectionlinks');\"";
+
       echo "><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
       echo " title=\"" . $entry[2] . "\">".$entry[2] . "</a></span>\n";
     }
@@ -308,6 +310,8 @@ class interfaceweb
     else
       echo "<div class=\"emptysectionlinks\"></div>\n";  
     
+    echo "<div id=\"hoversectionlinks\" style=\"display:none;\" onmouseover=\"style.display='block';\" onmouseout=\"style.display='none';\"></div>\n";
+
     echo "<div class=\"contents\">\n";
     $idpage = "";
     
@@ -545,6 +549,7 @@ class interfaceweb
     return unserialize($this->params[$name]);
   }
 
+
   /**
    * Définit un paramètre du site.
    * @param $name Nom du paramètre
@@ -569,9 +574,10 @@ class interfaceweb
     {
       $sql = new update($this->dbrw,"site_parametres",
         array( "valeur_param" => $value),
-        array( "nom_param" => $name));
+        array( "nom_param" => $name));      echo " onmouseover=\"tabsection('".$entry[0]."', 'hoversectionlinks');\"";
     }
   }
+
 
   /**
    * Vérifie que l'utilisateur est vraiment sûre de procéder à une opération.
@@ -607,7 +613,7 @@ class interfaceweb
     if ( $level == 2 )
       $cts->add_paragraph("Cette opération <b>pourrais avoir de lourdes conséquences</b> sur le <b>bon fonctionnement des services</b> si elle été appliqué sur un élément critique. <b>Contactez un administrateur en cas de doute</b>.");
     
-    $cts->add_paragraph("Êtes vous sûre ?");
+    $cts->add_paragraph("Êtes vous sûr ?");
     
     $frm = new form("suretobesurefor".$uid,"?");
     $frm->allow_only_one_usage();
