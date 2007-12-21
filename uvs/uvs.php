@@ -1144,7 +1144,7 @@ if (isset($_REQUEST['iddept']))
 			$dept = mysql_real_escape_string($_REQUEST['iddept']);
 
 			$path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
-  		$path .= " / "."<a href=\"".$topdir."uvs/uvs.php?iddept=$dept\"><img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" />$dept</a>";
+  		$path .= " / "."<a href=\"".$topdir."uvs/uvs.php?iddept=$dept\"><img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" /> $dept</a>";
       $cts = new contents ($path);
       
       $req = new requete($site->db,

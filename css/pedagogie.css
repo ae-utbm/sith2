@@ -122,9 +122,17 @@ table.uvlist
 {
 	border: 1px solid #D8E7F3;
 	width: 100%;
-	font-weight: bold;
+	font-weight: bolder;
+	text-align: center;
 	background: #EFF7FF;
-} 
+}
+
+table.uvlist a:hover
+{
+	text-decoration: none;
+}
+
+
 
 
 
