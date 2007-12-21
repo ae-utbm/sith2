@@ -37,7 +37,7 @@ require_once($topdir."include/cts/gallery.inc.php");
 
 
 $site = new site();
-$site->add_css($topdir."css/doku.css");
+$site->add_css("css/doku.css");
 $site->add_css("css/d.css");
 $site->add_css("css/pedagogie.css");
 
@@ -1141,7 +1141,9 @@ if (isset($_REQUEST['iddept']))
 {
   if (in_array($_REQUEST['iddept'], $departements))
     {
-      $cts = new contents ("UVs - Département " . $_REQUEST['iddept']);
+			$path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
+  		$path .= " / "."<a href=\"".$topdir."uvs/uvs.php?iddept=".$uv->depts[0]."\"><img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" /> ".$uv->depts[0]."</a>";
+      $cts = new contents ($path);
       
       $dept = mysql_real_escape_string($_REQUEST['iddept']);
 
@@ -1160,13 +1162,13 @@ if (isset($_REQUEST['iddept']))
                           ORDER BY
                              `edu_uv`.`code_uv`");
 	
-	$table = "<table style=\"border: 1px solid #D8E7F3\">\n";
+	$table = "<table class=\"uvlist\">\n";
 	$table .= " <tr>\n";
 	$i = 0;
       $uvs = array();
       while ($rs = $req->get_row())
 	{
-			$table .= "  <td><a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">".$rs['code_uv']."</a></td>\n";
+			$table .= "  <td><a href=\"./uvs.php?id_uv=".$rs['id_uv']."\" title=\"".$rs['intitule_uv']."\">".$rs['code_uv']."</a></td>\n";
 			$i++;
 			if($i == 15)
 				{ $table .= "</tr><tr>\n"; $i = 0; }
@@ -1175,7 +1177,9 @@ if (isset($_REQUEST['iddept']))
 	    $rs['code_uv'] . " - " . $rs['intitule_uv'] . "</a>";
 	}
 		$table .= "\n </tr>\n</table>\n";
+		$cts->puts($table);
 
+		
       $lst = new itemlist($dept,
 			  false,
 			  $uvs);
@@ -1188,7 +1192,9 @@ if (isset($_REQUEST['iddept']))
     }
 }
 
-$cts = new contents("Guide - Informations sur les UVs");
+$path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
+$path .= " / "."Toutes les UV";
+$cts = new contents($path);
 
 $tmp = "";
 
