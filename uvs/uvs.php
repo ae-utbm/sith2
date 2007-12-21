@@ -29,7 +29,7 @@
 
 $topdir = "../";
 
-include($topdir. "include/site.inc.php");
+require_once($topdir. "include/site.inc.php");
 require_once($topdir . "include/entities/uv.inc.php");
 require_once($topdir . "include/extdb/xml.inc.php");
 

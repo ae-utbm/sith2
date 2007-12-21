@@ -31,10 +31,12 @@
 
 $topdir = "../";
 
-include($topdir. "include/site.inc.php");
-include($topdir. "include/entities/uv.inc.php");
+require_once($topdir. "include/site.inc.php");
+require_once($topdir. "include/entities/uv.inc.php");
 
 $site = new site();
+$site->add_box("uvsmenu", get_uvsmenu_box() );
+$site->set_side_boxes("left",array("uvsmenu", "connexion"));
 
 $site->start_page("services", "AE - Pédagogie");
 

@@ -29,13 +29,15 @@
 
 $topdir = "../";
 
-include($topdir. "include/site.inc.php");
+require_once($topdir. "include/site.inc.php");
 
 require_once ($topdir . "include/entities/edt.inc.php");
 require_once ($topdir . "include/cts/edt_img.inc.php");
 
 
 $site = new site();
+$site->add_box("uvsmenu", get_uvsmenu_box() );
+$site->set_side_boxes("left",array("uvsmenu", "connexion"));
 
 $site->start_page("services", "Emploi du temps");
 
