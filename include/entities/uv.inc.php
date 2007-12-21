@@ -1002,6 +1002,10 @@ function get_uvsmenu_box()
 	
 	$cts->add($dpt, true);
 	
+	$outils = new itemlist("Outils", false, array("<a href=\"edt.php\" title=\"Gérer vos emploi du temps\">Emploi du temps</a>",
+																								"<a href=\"profils.php\" title=\"Toutes les UV\">Profils</a>"));
+	$cts->add($outils, true);
+	
 	if( $site->user->is_in_group("etudiants-utbm-actuels") )
 	{
 		$sql = new requete($site->db, "SELECT id_uv, id_comment, code_uv, surnom_utbm
