@@ -994,7 +994,7 @@ function get_uvsmenu_box()
 	global $site;
 	
 	$cts = new contents("Pédagogie");
-	$dpt = new itemlist("Accéder aux UVs");
+	$dpt = new itemlist("<a href=\"uvs.php\" title=\"Toutes les UV\">Accéder aux UV</a>");
 
 	foreach ($departements as $dpt_key)
 		$dpt->add("<a href=\"uvs.php?iddept=".$dpt_key."\">".$dpt_key."</a>");
