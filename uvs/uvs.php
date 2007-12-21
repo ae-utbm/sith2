@@ -1141,12 +1141,12 @@ if (isset($_REQUEST['iddept']))
 {
   if (in_array($_REQUEST['iddept'], $departements))
     {
+			$dept = mysql_real_escape_string($_REQUEST['iddept']);
+
 			$path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
-  		$path .= " / "."<a href=\"".$topdir."uvs/uvs.php?iddept=".$uv->depts[0]."\"><img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" /> ".$uv->depts[0]."</a>";
+  		$path .= " / "."<a href=\"".$topdir."uvs/uvs.php?iddept=$dept\"><img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" />$dept</a>";
       $cts = new contents ($path);
       
-      $dept = mysql_real_escape_string($_REQUEST['iddept']);
-
       $req = new requete($site->db,
 			 "SELECT 
                              `edu_uv`.`id_uv`
@@ -1183,6 +1183,7 @@ if (isset($_REQUEST['iddept']))
       $lst = new itemlist($dept,
 			  false,
 			  $uvs);
+			$cts->add_title(3, "Liste détaillée"); // faudra donner plus de détails du coup...
       $cts->add($lst);
 
       $site->add_contents($cts);
@@ -1224,7 +1225,7 @@ foreach ($departements as $dept)
                              `edu_uv`.`code_uv`");
 
 	  
-	$table = "<table style=\"border: 1px solid #D8E7F3\">\n";
+	$table = "<table class=\"uvlist\">\n";
 	$table .= " <tr>\n";
 	$i = 0;
       $uvs = array();
@@ -1247,6 +1248,8 @@ foreach ($departements as $dept)
 		  "href=\"./uvs.php?iddept=$dept\">$dept</a>");
 	
 	$cts->puts($table);
+	
+	$cts->add_title(3, "Liste détaillée");
   $cts->add($lst);
 }
   
