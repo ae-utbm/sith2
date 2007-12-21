@@ -1229,7 +1229,7 @@ foreach ($departements as $dept)
 		      false,
 		      $uvs);
   $cts->add_title(2,"<a id=\"dept_".$dept."\" ".
-		  "href=\"./uvs.php?iddept=$dept\">$dept</a>");*
+		  "href=\"./uvs.php?iddept=$dept\">$dept</a>");
 	
 	$cts->puts($table);
   $cts->add($lst);
