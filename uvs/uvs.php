@@ -1208,15 +1208,22 @@ foreach ($departements as $dept)
                       ORDER BY
                              `edu_uv`.`code_uv`");
 
-
-  
+	$table = "<table>\n";
+	$table .= " <tr>\n";
+	$i = 0;
+	  
   $uvs = array();
   while ($rs = $req->get_row())
     {
+			$table .= "  <td><a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">".$rs['code_uv']."</a></td>\n";
+			$i++;
+			if($i == 15)
+				{ $table .= "</tr><tr>\n"; $i = 0; }
+
       $uvs[] = "<a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">". 
 	$rs['code_uv'] . " - " . $rs['intitule_uv'] . "</a>";
     }
-
+	$table .= "\n </tr>\n</table>\n";
 
   $lst = new itemlist($dept,
 		      false,
