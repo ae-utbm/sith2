@@ -723,6 +723,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
                                 , `edu_uv_dept`.`uv_cat`
                                 , `edu_uv_obtention`.`note_obtention`
                                 , `edu_uv_obtention`.`semestre_obtention`
+																, `edu_uv_comments`.`id_comment`
                            FROM
                                   `edu_uv`
                            INNER JOIN
@@ -731,9 +732,10 @@ function get_creds_cts(&$etu, $db, $camembert = false)
                            INNER JOIN
                                    `edu_uv_dept`
                            USING (`id_uv`)
+													 LEFT JOIN `edu_uv_comments`
+													 USING ( `id_uv`, `id_utilisateur` )
                            WHERE
-                                 `edu_uv_obtention`.`id_utilisateur` = ". $etu->id . 
-		         " 
+                                 `edu_uv_obtention`.`id_utilisateur` = ". $etu->id ." 
                            GROUP BY
                                  `id_uv`, `semestre_obtention`
                            ORDER BY
