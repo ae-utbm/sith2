@@ -1208,7 +1208,7 @@ foreach ($departements as $dept)
                       ORDER BY
                              `edu_uv`.`code_uv`");
 
-	$table = "<table>\n";
+	$table = "<table style=\"border: 1px solid #D8E7F3\">\n";
 	$table .= " <tr>\n";
 	$i = 0;
 	  
@@ -1229,7 +1229,9 @@ foreach ($departements as $dept)
 		      false,
 		      $uvs);
   $cts->add_title(2,"<a id=\"dept_".$dept."\" ".
-		  "href=\"./uvs.php?iddept=$dept\">$dept</a>");
+		  "href=\"./uvs.php?iddept=$dept\">$dept</a>");*
+	
+	$cts->puts($table);
   $cts->add($lst);
 }
   
