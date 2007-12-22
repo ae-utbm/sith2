@@ -810,9 +810,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 					   "intitule_uv" => "Intitulé de l'UV",
 					   "uv_cat"      => "Catégorie de l'UV",
 					   "note_obtention"=> "Note d'obtention",
-					   "ects_uv"     => "Crédits ECTS",
-					   "id_comment" => ""), array ("delete" => "Enlever"), array(), array( "id_comment" => array(null => "{{".$topdir."images/icons/16/unstar.png}}") ) ) 
-					   );
+					   "ects_uv"     => "Crédits ECTS"), array ("delete" => "Enlever"), array()));
 	    }
 	}
       if ($totcreds > 0)
