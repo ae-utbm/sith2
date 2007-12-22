@@ -791,6 +791,9 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 		$stats_by_sem_sorted['P' . $annee] = $uvsemestre;
 	    }
 	}
+	
+	$stats_by_sem_sorted = array_reverse($stats_by_sem_sorted); // affichage anti-chronologique mais fleme d'essayer de comprendre la fontion de tri
+	
       if (count($stats_by_sem_sorted) > 0)
 	{
 	  foreach ($stats_by_sem_sorted as $key => $semestre)
