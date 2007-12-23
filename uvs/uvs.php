@@ -642,7 +642,8 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
                                   `utilisateurs`.`id_utilisateur` = `edu_uv_obtention`.`id_utilisateur`
                           INNER JOIN
                                     `utl_etu_utbm`
-                          USING (`id_utilisateur`)
+                          ON
+                                  `utilisateurs`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur`
                           WHERE 
                                 `id_uv` = ".$uv->id."
                           GROUP BY `id_utilisateur`");
