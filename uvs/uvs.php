@@ -629,7 +629,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
                           UNION
 
                           SELECT
-                                 `id_utilisateur` 
+                                 `edu_uv_obtention`.`id_utilisateur` 
                                   , `prenom_utl`
                                   , `nom_utl`
                                   , `surnom_utbm`
