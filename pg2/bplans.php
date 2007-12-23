@@ -47,7 +47,7 @@ if ( $_REQUEST["page"] == "reductions" )
       $cts->add_paragraph("Plus d'informations sur : <a href=\"".htmlentities($row["website_typereduction"],ENT_COMPAT,"UTF-8")."\">".htmlentities($row["website_typereduction"],ENT_COMPAT,"UTF-8")."</a>");
     
     if ( $row["nombre"] > 0 )
-      $cts->add_paragraph("<a href=\"search.php?id_typereduction=".$row["id_typereduction"]."\">Liste des commercants proposant ce type de réduction (".$row["nombre"].")</a>");
+      $cts->add_paragraph("<a href=\"search.php?id_typereduction=".$row["id_typereduction"]."\">Voir la liste des commercants proposant ce type de réduction (".$row["nombre"].")</a>");
     
   }
   
@@ -58,8 +58,13 @@ if ( $_REQUEST["page"] == "reductions" )
 }
 
 
-$site->start_page("pgbplans","Petit Géni 2.0");
+$site->start_page("pgbplans","Bon Plans - Petit Géni 2.0");
+$cts = new contents("<a href=\"bplans.php\">Bon plans</a>");
 
+$cts->add_paragraph("<a href=\"bplans.php?page=reductions\">Réductions</a>");
+
+
+$site->add_contents($cts);
 $site->end_page();
 
 ?>

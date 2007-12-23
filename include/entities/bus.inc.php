@@ -26,17 +26,7 @@
  */
  
 require_once($topdir."include/entities/geopoint.inc.php");
-
-if ( !defined("HR_DIMANCHE") )
-{
-  define("HR_DIMANCHE",   0x01);
-  define("HR_LUNDI",      0x02);
-  define("HR_MARDI",      0x04);
-  define("HR_MERCREDI",   0x08);
-  define("HR_JEUDI",      0x10);
-  define("HR_VENDREDI",   0x20);
-  define("HR_SAMEDI",     0x40);
-}
+require_once($topdir."include/horraire.inc.php");
 
 /**
  * Un reseau de bus.
