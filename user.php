@@ -883,7 +883,7 @@ function edtopen(semestre, id)
                                  ON
                                           `edu_uv`.`id_uv` = `edu_uv_obtention`.`id_uv`
                                  WHERE 
-                                          `id_etudiant` = ".$user->id."
+                                          `id_utilisateur` = ".$user->id."
                                  GROUP BY `id_uv`");
 
 
