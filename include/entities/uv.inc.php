@@ -772,28 +772,33 @@ function get_creds_cts(&$etu, $db, $camembert = false)
       /* on trie */
       if (count($stats_by_sem) > 0)
 	{
-	  foreach ($stats_by_sem as $key =>$uvsemestre)
+	  foreach ($stats_by_sem as $key => $uvsemestre)
 	    {
+	      // On récupère l'info sur le semestre (printemps ou automne, A ou P)
 	      $ap = substr($key, 0, 1);
+	      // On récupère l'année sur 2 chiffres
 	      $annee = substr($key, 1, 2);
 	      
 	      /* semestre d'automne, on regarde s'il n'y a pas un semestre de printemps avant de dispo */
 	      if ($ap == 'A')
 		{
+		  // il existe un semestre de printemps pour la meme année
 		  if (isset($stats_by_sem['P' . $annee]))
 		    {
+		      // on le place dans la liste
 		      $stats_by_sem_sorted['P' . $annee] = $stats_by_sem['P' . $annee];
 		    }
+		  // dans tous les cas, on ajoute le semestre d'automne
 		  $stats_by_sem_sorted["A" . $annee] = $uvsemestre;
 		}
-	      /* sinon, on ajoute le semestre normal */
+	      /* Si c'est un semestre de printemps, on l'ajoute à la liste, et au suivant ! */
 	      else
 		$stats_by_sem_sorted['P' . $annee] = $uvsemestre;
 	    }
 	}
-	
-	$stats_by_sem_sorted = array_reverse($stats_by_sem_sorted); // affichage anti-chronologique mais fleme d'essayer de comprendre la fontion de tri
-	
+
+	// affichage anti-chronologique mais fleme d'essayer de comprendre la fontion de tri
+	$stats_by_sem_sorted = array_reverse($stats_by_sem_sorted); 
       if (count($stats_by_sem_sorted) > 0)
 	{
 	  foreach ($stats_by_sem_sorted as $key => $semestre)
