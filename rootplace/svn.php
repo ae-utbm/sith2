@@ -122,7 +122,6 @@ if(isset($_REQUEST["id_depot"]))
     }
     elseif($_REQUEST["action"].$_REQUEST["mode"] == "adduser" )
     {
-      print_r("bleh");
       if(!isset($_REQUEST["commit"]))
       {
         $frm = new form("adduser", "svn.php?id_depot=".$svn->id,false,"post","Ajout d'un utilisateur");
@@ -134,7 +133,7 @@ if(isset($_REQUEST["id_depot"]))
         $frm->add_submit("valid","Valider");
         $cts->add($frm,true);
       }
-      elseif( isset($_REQUEST["level"]) )
+      elseif( isset($_REQUEST["right"]) )
       {
         $user->load_by_id($_REQUEST["id_utilisateur"]);
         if ( $user->is_valid() && in_array($_REQUEST["level"],$svn->valid_rights) )
