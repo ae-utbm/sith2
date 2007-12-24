@@ -37,7 +37,7 @@ class pglegals extends itemlist
     $this->class="minilegals";
   }
   
-  function add_date_validite($date, $datemaj, $text="Information")
+  function add_date_validite($date, $datemaj, $text="Information", $post="")
   {
     if ( is_string($date) )
       $date = strtotime($date);
@@ -49,9 +49,9 @@ class pglegals extends itemlist
       $datemaj = strtotime($datemaj);
         
     if ( is_null($date)  || $date < time() )
-      return $this->add_condition("$text non garantie, date de validité expirée (information datant du ".date("d/m/Y",$datemaj).").");
+      return $this->add_condition("$text non garantie$post, date de validité expirée (information datant du ".date("d/m/Y",$datemaj).").");
     
-    return $this->add_condition("$text valable jusqu'au ".date("d/m/Y",$date).".");
+    return $this->add_condition("$text valable jusqu'au ".date("d/m/Y",$date)."$post.");
   }
   
   function add_condition($condition)
@@ -188,6 +188,9 @@ class pgfichelist extends stdcontents
     if ( $req->lines == 0 )
       return;    
     
+    $legals = new pglegals();
+
+    
     $this->buffer = "<div class=\"pgfichelist\">";
     
     while ( $row = $req->get_row() )
@@ -195,7 +198,7 @@ class pgfichelist extends stdcontents
       
       $this->buffer .= "<div class=\"pgfiche\">";
       
-      $this->buffer .= "<h3><a href=\"./?id_pgfiche=".$row["id_pgfiche"]."\">".htmlentities($row["nom_pgfiche"],ENT_QUOTES,"UTF-8")."</a></h3>";
+      $this->buffer .= "<h3><a href=\"./?id_pgfiche=".$row["id_pgfiche"]."\">".htmlentities($row["nom_pgfiche"],ENT_QUOTES,"UTF-8")."</a> ".$legals->add_date_validite($row["date_validite_pgfiche"], $row["date_maj_pgfiche"],"Informations")."</h3>";
       
       $this->buffer .= "<p class=\"adresse\">".htmlentities($row["numrue_pgfiche"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_typerue"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_rue"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_ville"],ENT_QUOTES,"UTF-8")."</p>";       
       
@@ -221,6 +224,8 @@ class pgfichelist extends stdcontents
     
     
     $this->buffer .= "</div>";
+   
+    $this->buffer .= $legals->html_render();
     
   }
 
@@ -237,6 +242,7 @@ class pgfichelistcat extends pgfichelist
       "pg_fiche.tel_pgfiche, pg_fiche.fax_pgfiche, pg_fiche.email_pgfiche, pg_fiche.numrue_pgfiche,  ".
       "pg_fiche.website_pgfiche, pg_fiche.contraste_pgfiche, ".
       "pg_fiche.appreciation_pgfiche, pg_fiche.commentaire_pgfiche, ".
+      "pg_fiche.date_maj_pgfiche, pg_fiche.date_validite_pgfiche, ".
       "pg_rue.id_rue, pg_rue.nom_rue, pg_typerue.nom_typerue, ".
       "loc_ville.nom_ville, loc_ville.id_ville, ".
       "'".$pgcategory->couleur_bordure_web."' AS couleur_bordure_web_pgcategory, ".
@@ -265,7 +271,7 @@ class pgfichefull extends board
   {
     $legals = new pglegals();
     
-    $this->board(htmlentities($fiche->nom,ENT_QUOTES,"UTF-8"));
+    $this->board(htmlentities($fiche->nom,ENT_QUOTES,"UTF-8").$legals->add_date_validite($fiche->date_validite, $fiche->date_maj_pgfiche,"Informations"," hors mention contraire") );
 
     $this->add(new wikicontents("Description",$fiche->longuedescription),true);
         

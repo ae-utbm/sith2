@@ -83,8 +83,10 @@ div.article a.renvoi
 
 ul.minilegals
 {
-  font-size: 10px;  
+  font-size: 10px; 
+  list-style:none;
 }
+
 ul.minilegals li
 {
   font-size: 10px;    
