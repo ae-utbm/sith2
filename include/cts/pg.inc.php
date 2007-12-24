@@ -271,16 +271,18 @@ class pgfichelistcat extends pgfichelist
   }
 }
 
-class pgfichefull extends board
+class pgfichefull extends contents
 {
   
   function pgfichefull ( &$fiche )
   {
+    $board = new board();
+    
     $legals = new pglegals();
     
-    $this->board(htmlentities($fiche->nom,ENT_QUOTES,"UTF-8").$legals->add_date_validite($fiche->date_validite, $fiche->date_maj,"Informations"," hors mention contraire") );
+    $this->contents(htmlentities($fiche->nom,ENT_QUOTES,"UTF-8").$legals->add_date_validite($fiche->date_validite, $fiche->date_maj,"Informations"," hors mention contraire") );
 
-    $this->add(new wikicontents("Description",$fiche->longuedescription),true);
+    $board->add(new wikicontents("Description",$fiche->longuedescription),true);
         
     $list = new itemlist("Contact");
     
@@ -306,7 +308,7 @@ class pgfichefull extends board
     if ( $fiche->adressepostal )    
       $list->add("Adresse postale: ".htmlentities($fiche->adressepostal,ENT_QUOTES,"UTF-8"));
       
-    $this->add($list,true);  
+    $board->add($list,true);  
       
     $req = new requete($fiche->db,"SELECT ".
       "valeur_reduction, unite_reduction, commentaire_reduction, date_maj_reduction, date_validite_reduction, ".
@@ -326,7 +328,7 @@ class pgfichefull extends board
         
       }
         
-      $this->add($list,true);  
+      $board->add($list,true);  
     }
 
     /*
@@ -335,6 +337,7 @@ class pgfichefull extends board
       $gmap->add_geopoint($fiche);
     $this->add($gmap,true);
     */
+    $this->add($board);
     $this->add($legals);
   }
   
