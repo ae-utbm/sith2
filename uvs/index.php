@@ -151,8 +151,7 @@ justesse des informations.");
 $lst = array();
 
 $lst[] = "<a href=\"./uvs.php\">guide des UVs format \"site AE\"</a>";
-$lst[] = "<a
-href=\"http://www.utbm.fr/upload/gestionFichiers/GUIDEUV_1941.pdf\"><b>guide
+$lst[] = "<a href=\"http://www.utbm.fr/upload/gestionFichiers/GUIDEUV_1941.pdf\"><b>guide
 des UVs officiel</b> (édition 2007 / 2008, format PDF)</a>";
 
 foreach ($departements as $dept)

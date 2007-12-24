@@ -799,6 +799,8 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 
 	// affichage anti-chronologique mais fleme d'essayer de comprendre la fontion de tri
 	$stats_by_sem_sorted = array_reverse($stats_by_sem_sorted); 
+	
+	$first = 0;
       if (count($stats_by_sem_sorted) > 0)
 	{
 	  foreach ($stats_by_sem_sorted as $key => $semestre)
@@ -812,13 +814,15 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 	      
 	      $sm .= $annee;
 	      
-	      $cts->add_title(3, "Semestre " . $sm);
-	      $cts->add(new sqltable('details_uv', "", $semestre, "./index.php?semestre=$key", "id_uv",
+	      //$cts->add_title(3, "Semestre " . $sm);
+	      $table = new sqltable('details_uv', "Semestre " . $sm, $semestre, "./index.php?semestre=$key", "id_uv",
 				     array("code_uv" => "Code de l'UV", 
 					   "intitule_uv" => "Intitulé de l'UV",
 					   "uv_cat"      => "Catégorie de l'UV",
 					   "note_obtention"=> "Note d'obtention",
-					   "ects_uv"     => "Crédits ECTS"), array ("delete" => "Enlever"), array()));
+					   "ects_uv"     => "Crédits ECTS"), array ("delete" => "Enlever"), array());
+					   
+       $cts->add($table, true, false, "res_".$ap.$annee, false, true, !($first++), true);
 	    }
 	}
       if ($totcreds > 0)
