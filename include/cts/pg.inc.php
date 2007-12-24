@@ -62,8 +62,10 @@ class pglegals extends itemlist
   function add_condition($condition)
   {
     if ( isset($this->conditions[$condition]) )
-      return $this->conditions[$condition];
-      
+    {
+      $n = $this->conditions[$condition];
+      return "<a class=\"renvoi\" href=\"#legal$n\">".$n."</a>";
+    }  
     $n = $this->num;
     $this->num++;
     $this->conditions[$condition] = $n;
