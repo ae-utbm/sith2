@@ -24,8 +24,12 @@
 $topdir="../";
 require_once("include/site.inc.php");
 require_once($topdir."include/entities/pgfiche.inc.php");
+require_once($topdir."include/entities/rue.inc.php");
+require_once($topdir."include/entities/ville.inc.php");
 require_once($topdir."include/cts/board.inc.php");
 require_once($topdir."include/cts/pg.inc.php");
+require_once($topdir."include/cts/gmap.inc.php");
+require_once($topdir."include/cts/sqltable.inc.php");
 
 $site = new pgsite();
 
@@ -82,6 +86,8 @@ if ( $fiche->is_valid() )
   $cts = new contents("<a href=\"index.php\">Le Guide</a>");
   $cts->add(new pgtabshead($site->db,$id_pgcategory1));
   $cts->add_paragraph($path);
+  
+  $cts->add(new pgfichefull($fiche),true);
   
   $site->add_contents($cts);
   $site->end_page();
