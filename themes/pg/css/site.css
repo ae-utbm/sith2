@@ -79,20 +79,24 @@ div.article a.renvoi
 {
   vertical-align: super;
   font-size: 10px;  
+  color:#808080;
 }
 
 div.article ul.minilegals
 {
   font-size: 10px; 
   list-style:none;
+  color:#808080;
 }
 
 div.article ul.minilegals li
 {
-  font-size: 10px;    
+  font-size: 10px;
+  color:#808080;    
 }
 
 div.article ul.minilegals li a
 {
-  font-size: 10px;    
+  font-size: 10px;  
+  color:#808080;  
 }
