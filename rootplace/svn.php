@@ -83,7 +83,7 @@ if(isset($_REQUEST["id_depot"]))
       
     if ( $_REQUEST["action"].$_REQUEST["mode"] == "edituser" )
     {
-      if( !isset($_REQUEST["valid"]) )
+      if( !isset($_REQUEST["commit"]) )
       {
         $req = new requete($site->db,"SELECT `right` FROM `svn_member_depot` WHERE `id_depot`='".$svn->id."' AND `id_utilisateur`='".$user->id."'");
         if($req->lines==1)
@@ -93,6 +93,7 @@ if(isset($_REQUEST["id_depot"]))
         $frm = new form("changeuser","svn.php?id_depot=".$svn->id,false,"post","Modification des droits de ".$user->prenom." ".$user->nom." :");
         $frm->add_hidden("action","edit");
         $frm->add_hidden("mode","user");
+        $frm->add_hidden("commit","valid");
         $frm->add_hidden("id_utilisateur",$user->id);
         $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"),$right);
         $frm->add_submit("valid","Valider");
@@ -121,11 +122,12 @@ if(isset($_REQUEST["id_depot"]))
     }
     elseif($_REQUEST["action"].$_REQUEST["mode"] == "adduser" )
     {
-      if(!isset($_REQUEST["valid"]))
+      if(!isset($_REQUEST["commit"]))
       {
         $frm = new form("adduser", "svn.php?id_depot=".$svn->id,false,"post","Ajout d'un utilisateur");
         $frm->add_hidden("action","add");
         $frm->add_hidden("mode","user");
+        $frm->add_hidden("commit","valid");
         $frm->add_user_fieldv2("id_utilisateur","Utilisateur :");
         $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"),$right);
         $frm->add_submit("valid","Valider");
