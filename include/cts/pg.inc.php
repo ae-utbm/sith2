@@ -48,10 +48,15 @@ class pglegals extends itemlist
     if ( is_string($datemaj) )
       $datemaj = strtotime($datemaj);
         
+    if ( substr($text,-1) == "s" )
+      $pl="nt";
+    else
+      $pl="";
+        
     if ( is_null($date)  || $date < time() )
-      return $this->add_condition("$text non garantie$post, date de validité expirée (information datant du ".date("d/m/Y",$datemaj).").");
+      return $this->add_condition("$text non garantie$pl$post, date de validité expirée (information datant du ".date("d/m/Y",$datemaj).").");
     
-    return $this->add_condition("$text valable jusqu'au ".date("d/m/Y",$date)."$post.");
+    return $this->add_condition("$text valable$pl jusqu'au ".date("d/m/Y",$date)."$post.");
   }
   
   function add_condition($condition)
@@ -65,7 +70,7 @@ class pglegals extends itemlist
     
     $this->add("<a name=\"legal$n\"></a>".$n." : ".htmlentities($condition,ENT_QUOTES,"UTF-8"));
     
-    return "<a class=\"renvoi\" href=\"#legal$n\">".$n."</span>";
+    return "<a class=\"renvoi\" href=\"#legal$n\">".$n."</a>";
   }
   
   
