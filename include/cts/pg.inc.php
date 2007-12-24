@@ -276,7 +276,7 @@ class pgfichefull extends board
   {
     $legals = new pglegals();
     
-    $this->board(htmlentities($fiche->nom,ENT_QUOTES,"UTF-8").$legals->add_date_validite($fiche->date_validite, $fiche->date_maj_pgfiche,"Informations"," hors mention contraire") );
+    $this->board(htmlentities($fiche->nom,ENT_QUOTES,"UTF-8").$legals->add_date_validite($fiche->date_validite, $fiche->date_maj,"Informations"," hors mention contraire") );
 
     $this->add(new wikicontents("Description",$fiche->longuedescription),true);
         
