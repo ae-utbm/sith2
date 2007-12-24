@@ -76,9 +76,9 @@ if(isset($_REQUEST["id_depot"]))
     if( isset($_REQUEST["mode"]) && $_REQUEST["mode"]=="user")
     {
       $user = new utilisateur($site->db,$site->dbrw);
-      $user->load_by_id($_REQUEST["id_utilisateur"]);
+      /*$user->load_by_id($_REQUEST["id_utilisateur"]);
       if ( !$user->is_valid() )
-        $site->error_not_found("matmatronch");
+        $site->error_not_found("matmatronch");*/
     }
       
     if ( $_REQUEST["action"].$_REQUEST["mode"] == "edituser" )
@@ -99,16 +99,24 @@ if(isset($_REQUEST["id_depot"]))
       }
       else
       {
-        if ( !in_array($_REQUEST["right"],$svn->valid_rights) )
+        if ( in_array($_REQUEST["right"],$svn->valid_rights) )
         {
-          $svn->del_user_access($user);
-          $svn->update_user_access($user,$_REQUEST["right"]);
+          $user->load_by_id($_REQUEST["id_utilisateur"]);
+          if ( $user->is_valid() )
+          {
+            $svn->del_user_access($user);
+            $svn->update_user_access($user,$_REQUEST["right"]);
+          }
         }
       }
     }
     elseif( $_REQUEST["action"].$_REQUEST["mode"] == "deleteuser" )
     {
-      $svn->del_user_access($user);
+      $user->load_by_id($_REQUEST["id_utilisateur"]);
+      if ( $user->is_valid() )
+      {
+        $svn->del_user_access($user);
+      }
     }
     elseif($_REQUEST["action"].$_REQUEST["mode"] == "adduser" && isset($_REQUEST["level"]) )
     {
@@ -123,7 +131,8 @@ if(isset($_REQUEST["id_depot"]))
       }
       else
       {
-        if( !in_array($_REQUEST["level"],$svn->valid_rights) )
+        $user->load_by_id($_REQUEST["id_utilisateur"]);
+        if ( $user->is_valid() && in_array($_REQUEST["level"],$svn->valid_rights) )
           $svn->add_user_access($user,$_REQUEST["level"]);
       }
     }
