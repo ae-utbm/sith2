@@ -186,7 +186,7 @@ class svn_depot extends stdentity
   {
     if( !in_array($level,$this->valid_rights) )
       return false;
-
+print_r("debug");
     if( $user->is_valid() )
     {
       $req = new requete($this->db,

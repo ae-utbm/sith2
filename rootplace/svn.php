@@ -138,8 +138,6 @@ if(isset($_REQUEST["id_depot"]))
         $user->load_by_id($_REQUEST["id_utilisateur"]);
         if ( $user->is_valid() && in_array($_REQUEST["right"],$svn->valid_rights) )
           $svn->add_user_access($user,$_REQUEST["right"]);
-        else
-          print_r($_REQUEST["right"]);
       }
     }
     elseif($_REQUEST["action"] == edit)
