@@ -75,7 +75,7 @@ div.article div.tabs.pgtabs span.selected a, div.article div.tabs.pgtabs span a:
   color:black;
 }
 
-a.renvoi
+div.article a.renvoi
 {
   vertical-align: super;
   font-size: 10px;  
@@ -84,10 +84,8 @@ a.renvoi
 ul.minilegals
 {
   font-size: 10px;  
-  
 }
 ul.minilegals li
 {
-  font-size: 10px;  
-  
+  font-size: 10px;    
 }
