@@ -731,10 +731,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 					", ex: <b>P07</b>",
 					null, true, 4);
 
-        $commform->add_info("Cette section ayant pour but d'aider les étudiants 
-          dans leurs choix d'UV, merci de ne pas mettre des notes à la vas-vite 
-          sans la moindre phrase et d'être rien constructif dans vos commentaires.
-          Tout message offensant pourra se voir supprimé")
+        $commform->add_info("Cette section ayant pour but d'aider les étudiants ". 
+          "dans leurs choix d'UV, merci de ne pas mettre des notes à la vas-vite ".
+          "sans la moindre phrase et d'être rien constructif dans vos commentaires. ".
+          "Tout message offensant pourra se voir supprimé");
 	      $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)', null, 80, 20);
 	      $commform->add_select_field('comm_interest', 
 					  'Intéret de l\'UV (pour un ingénieur)', 
