@@ -74,3 +74,20 @@ div.article div.tabs.pgtabs span.selected a, div.article div.tabs.pgtabs span a:
   border-right:1px solid #ffffff;
   color:black;
 }
+
+a.renvoi
+{
+  vertical-align: super;
+  font-size: 10px;  
+}
+
+ul.minilegals
+{
+  font-size: 10px;  
+  
+}
+ul.minilegals li
+{
+  font-size: 10px;  
+  
+}

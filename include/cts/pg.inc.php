@@ -63,9 +63,9 @@ class pglegals extends itemlist
     $this->num++;
     $this->conditions[$condition] = $n;
     
-    $this->add($n." : ".htmlentities($condition,ENT_QUOTES,"UTF-8"));
+    $this->add("<a name=\"legal$n\"></a>".$n." : ".htmlentities($condition,ENT_QUOTES,"UTF-8"));
     
-    return "<span class=\"renvoi\">".$n."</span>";
+    return "<a class=\"renvoi\" href=\"#legal$n\">".$n."</span>";
   }
   
   
@@ -316,13 +316,13 @@ class pgfichefull extends board
       $this->add($list,true);  
     }
 
-      
+    /*
     $gmap = new gmap("mapfiche");
     if ( !is_null($fiche->lat) )
       $gmap->add_geopoint($fiche);
     $this->add($gmap,true);
-    
-    $this->add($legals,true);
+    */
+    $this->add($legals);
   }
   
   
