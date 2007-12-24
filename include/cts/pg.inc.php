@@ -70,7 +70,7 @@ class pglegals extends itemlist
     $this->num++;
     $this->conditions[$condition] = $n;
     
-    $this->add("<a name=\"legal$n\"></a>".$n." : ".htmlentities($condition,ENT_QUOTES,"UTF-8"));
+    $this->add("<a name=\"legal$n\"></a>".$n." : ".$condition);
     
     return "<a class=\"renvoi\" href=\"#legal$n\">".$n."</a>";
   }
