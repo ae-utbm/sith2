@@ -186,14 +186,13 @@ class svn_depot extends stdentity
   {
     if( !in_array($level,$this->valid_rights) )
       return false;
-print_r("debug");
     if( $user->is_valid() )
     {
       $req = new requete($this->db,
                          "SELECT `id_utilisateur` FROM `svn_member_depot` "
                          . "WHERE `id_utilisateur` = '".$user->id."' "
                          . "AND `id_depot`='".$this->id."'");
-      if($req->lines==0)
+      if($req->lines!=0)
       {
         return false;
       }
