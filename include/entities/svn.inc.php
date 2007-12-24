@@ -198,7 +198,7 @@ class svn_depot extends stdentity
       }
       else
       {
-        return new insert($site->dbrw,
+        return new insert($this->dbrw,
                           "svn_member_depot",
                           array("id_utilisateur"=>$user->id,
                                 "id_depot"=>$this->id,
