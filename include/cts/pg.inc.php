@@ -49,14 +49,14 @@ class pglegals extends itemlist
       $datemaj = strtotime($datemaj);
         
     if ( substr($text,-1) == "s" )
-      $pl="nt";
+      $pl=true;
     else
-      $pl="";
+      $pl=false;
         
     if ( is_null($date)  || $date < time() )
-      return $this->add_condition("$text non garantie$pl$post, date de validité expirée (information datant du ".date("d/m/Y",$datemaj).").");
+      return $this->add_condition("$text non garantie".($pl?"s":"")."$post, date de validité expirée (information datant du ".date("d/m/Y",$datemaj).").");
     
-    return $this->add_condition("$text valable$pl jusqu'au ".date("d/m/Y",$date)."$post.");
+    return $this->add_condition("$text valable".($pl?"nt":"")." jusqu'au ".date("d/m/Y",$date)."$post.");
   }
   
   function add_condition($condition)
