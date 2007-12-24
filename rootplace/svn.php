@@ -129,15 +129,15 @@ if(isset($_REQUEST["id_depot"]))
         $frm->add_hidden("mode","user");
         $frm->add_hidden("commit","valid");
         $frm->add_user_fieldv2("id_utilisateur","Utilisateur :");
-        $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"),$right);
+        $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"));
         $frm->add_submit("valid","Valider");
         $cts->add($frm,true);
       }
       elseif( isset($_REQUEST["right"]) )
-      { print_r("bleh");
+      {
         $user->load_by_id($_REQUEST["id_utilisateur"]);
-        if ( $user->is_valid() && in_array($_REQUEST["level"],$svn->valid_rights) )
-          $svn->add_user_access($user,$_REQUEST["level"]);
+        if ( $user->is_valid() && in_array($_REQUEST["right"],$svn->valid_rights) )
+          $svn->add_user_access($user,$_REQUEST["right"]);
       }
     }
     elseif($_REQUEST["action"] == edit)
