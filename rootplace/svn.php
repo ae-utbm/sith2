@@ -110,7 +110,7 @@ if(isset($_REQUEST["id_depot"]))
     {
       $svn->del_user_access($user);
     }
-    elseif($_REQUEST["action"]$_REQUEST["mode"] == "adduser" && isset($_REQUEST["level"]) )
+    elseif($_REQUEST["action"].$_REQUEST["mode"] == "adduser" && isset($_REQUEST["level"]) )
     {
       if(!isset($_REQUEST["valid"]))
       {
