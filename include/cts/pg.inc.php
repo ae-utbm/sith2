@@ -282,7 +282,7 @@ class pgfichefull extends contents
     
     $this->contents(htmlentities($fiche->nom,ENT_QUOTES,"UTF-8").$legals->add_date_validite($fiche->date_validite, $fiche->date_maj,"Informations"," hors mention contraire") );
 
-    $board->add(new wikicontents("Description",$fiche->longuedescription),true);
+    $this->add(new wikicontents(null,$fiche->longuedescription));
         
     $list = new itemlist("Contact");
     
