@@ -25,7 +25,7 @@ function pgicon ( $color )
   return $file;
 }
 
-class pglegals extends contents
+class pglegals extends itemlist
 {
   
   var $conditions;
@@ -34,6 +34,7 @@ class pglegals extends contents
   {
     $this->conditions=array();
     $this->num=1;
+    $this->class="minilegals";
   }
   
   function add_date_validite($date, $datemaj, $text="Information")
@@ -62,9 +63,9 @@ class pglegals extends contents
     $this->num++;
     $this->conditions[$condition] = $n;
     
-    $this->add_paragraph($n." : ".htmlentities($condition,ENT_QUOTES,"UTF-8"));
+    $this->add($n." : ".htmlentities($condition,ENT_QUOTES,"UTF-8"));
     
-    return $n;
+    return "<span class=\"renvoi\">".$n."</span>";
   }
   
   
@@ -266,7 +267,7 @@ class pgfichefull extends board
     
     $this->board(htmlentities($fiche->nom,ENT_QUOTES,"UTF-8"));
 
-    $this->add(new wikicontents("Description",$fiche->longuedescription));
+    $this->add(new wikicontents("Description",$fiche->longuedescription),true);
         
     $list = new itemlist("Contact");
     
@@ -292,7 +293,7 @@ class pgfichefull extends board
     if ( $fiche->adressepostal )    
       $list->add("Adresse postale: ".htmlentities($fiche->adressepostal,ENT_QUOTES,"UTF-8"));
       
-    $this->add($list);  
+    $this->add($list,true);  
       
     $req = new requete($fiche->db,"SELECT ".
       "valeur_reduction, unite_reduction, commentaire_reduction, date_maj_reduction, date_validite_reduction, ".
@@ -312,16 +313,16 @@ class pgfichefull extends board
         
       }
         
-      $this->add($list);  
+      $this->add($list,true);  
     }
 
       
     $gmap = new gmap("mapfiche");
     if ( !is_null($fiche->lat) )
       $gmap->add_geopoint($fiche);
-    $this->add($gmap);
+    $this->add($gmap,true);
     
-    $this->add($legals);
+    $this->add($legals,true);
   }
   
   
