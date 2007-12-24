@@ -40,7 +40,7 @@ if ( $_REQUEST["page"] == "reductions" )
   
   while ( $row = $req->get_row() )
   {
-    $cts->add_title(2,htmlentities($row["nom_typereduction"],ENT_COMPAT,"UTF-8"));
+    $cts->add_title(2,"<a name=\"reduc".$row["id_typereduction"]."\"></a>".htmlentities($row["nom_typereduction"],ENT_COMPAT,"UTF-8"));
     $cts->add(new wikicontents(null,$row["description_typereduction"]));
     
     if ( !empty($row["website_typereduction"]) )
