@@ -520,7 +520,7 @@ class stdentity
    */
   function set_tags($tags)
   {
-    $tags=trim(strtolower($tags));
+    $tags=trim(mb_strtolower($tags,"UTF-8"));
     
     if ( empty($tags) )
     {

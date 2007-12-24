@@ -1,5 +1,20 @@
 <?php
 
+function extract_tags_iso ( $textiso )
+{
+  global $nalnum;
+  $motclefs=array();
+  $nalnum = "\. _\n\r,;:'\!\?\(\)\-"; // '
+  $text = strtolower($textiso);
+  while ( eregi("(^|[$nalnum])([^$nalnum]{4,128})($|[$nalnum])(.*)",$text,$regs) )
+  {
+    $text = $regs[4];
+    $motclef = utf8_encode($regs[2]);
+    $motclefs[$motclef] = $motclef;
+  }  
+  return $motclefs;
+}
+
 $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
@@ -9,6 +24,7 @@ $site = new site ();
 $dbpg = new mysqlpg ();
 
 new requete($site->dbrw,"TRUNCATE TABLE pg_category");
+new requete($site->dbrw,"TRUNCATE TABLE pg_category_tags");
 
 require_once($topdir."include/entities/pgfiche.inc.php");
 require_once($topdir."include/entities/pgtype.inc.php");
@@ -37,6 +53,8 @@ while ( $row = $req->get_row() )
     sprintf("%02x%02x%02x%02x",$row['c2'],$row['m2'],$row['j2'],$row['n2']), 
     sprintf("%02x%02x%02x%02x",$row['c3'],$row['m3'],$row['j3'],$row['n3']) );
 
+  $cat->set_tags($cat->nom);
+
   $cat1_to_cat[$row['id']] = $cat;
 }
 
@@ -55,6 +73,8 @@ while ( $row = $req->get_row() )
     $parent->couleur_titre_print,
     $parent->couleur_contraste_print );
 
+  $cat->set_tags(implode(",",$parent->_tags).",".$cat->nom);
+
   $cat2_to_cat[$row['id']] = $cat;
 }
 
@@ -71,6 +91,8 @@ while ( $row = $req->get_row() )
     $parent->couleur_bordure_print,
     $parent->couleur_titre_print,
     $parent->couleur_contraste_print );
+
+  $cat->set_tags(implode(",",$parent->_tags).",".$cat->nom);
 
   $cat3_to_cat[$row['id']] = $cat;
 }
@@ -322,6 +344,7 @@ new requete($site->dbrw,"TRUNCATE TABLE pg_fiche_reduction");
 new requete($site->dbrw,"TRUNCATE TABLE pg_fiche_extra_pgcategory");
 new requete($site->dbrw,"TRUNCATE TABLE pg_fiche_reduction");
 new requete($site->dbrw,"TRUNCATE TABLE pg_fiche_service");
+new requete($site->dbrw,"TRUNCATE TABLE pg_fiche_tags");
 
 echo "<h1>Import des fiches</h1>\n";
 $fiche = new pgfiche($site->db,$site->dbrw);
@@ -340,6 +363,9 @@ while ( $row = $req->get_row() )
     $fiche->id=null;
     
     $fiche->create ( $secteurs2[$row['secteur']]['id_ville'], utf8_encode($row['nom']), null, null, null, $cat3_to_cat[$row['cat']]->id, $rues[$row['voie']], null, utf8_encode($row['description']), utf8_encode($row['description']), utf8_encode($row['tel']), utf8_encode($row['fax']), utf8_encode($row['email']), utf8_encode($row['http']), utf8_encode($row['no']), utf8_encode($row['adresse'])."\n".$secteurs2[$row['secteur']]['old'], false, $row['mav'], !empty($row['coupdecoeur']), utf8_encode($row['coupdecoeur']), utf8_encode($row['remarques']), strtotime($row['date_maj']), null, null );
+    
+    $tags = array_merge($cat3_to_cat[$row['cat']]->_tags,extract_tags_iso($row['description']));
+    $fiche->set_tags(implode(",",$tags).",".$fiche->nom);
     
     if ( $row['handicape'] )
       $fiche->add_service ( $services["handicape"], "", strtotime($row['date_maj']) );
