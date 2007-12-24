@@ -22,12 +22,6 @@
  * 02111-1307, USA.
  */
 
-define("PASSWORDFILE","svn.passwd");
-define("SVN_PATH","/var/lib/svn/");
-define("PRIVATE_SVN","");
-define("PUBLIC_SVN","");
-
-
 $topdir="../";
 
 require_once($topdir. "include/site.inc.php");
@@ -38,7 +32,7 @@ require_once($topdir."include/entities/svn.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
-  error_403();
+  $site->error_forbidden("none","group",7);
 
 
 /*
@@ -68,62 +62,98 @@ $cts = new contents("<a href=\"./\">Administration</a> / SVN");
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 
-  if(isset($_REQUEST["id_depot"]))
+if(isset($_REQUEST["id_depot"]))
+{
+  $svn = new svn_depot($site->db,$site->dbrw);
+  if ( !$svn->load_by_id($_REQUEST["id_depot"]) )
   {
-    /*if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "edituser")
+    unset($_REQUEST);
+    $site->error_not_found("depot svn");
+  }
+    
+  if(isset($_REQUEST["action"]) )
+  {
+    if( isset($_REQUEST["mode"]) && $_REQUEST["mode"]=="user")
     {
-      new update($site->dbrw,"svn_member_depot",array("right"=>$_REQUEST["right"]),array("id_depot"=>$_REQUEST["id_depot"],"svn_login"=>$_REQUEST["svn_login"]));
+      $user = new utilisateur($site->db,$site->dbrw);
+      $user->load_by_id($_REQUEST["id_utilisateur"]);
+      if ( !$user->is_valid() )
+        $site->error_not_found("matmatronch");
     }
-    if(isset($_REQUEST["action"]) && $_REQUEST["action"] == "delete")
+      
+    if ( $_REQUEST["action"].$_REQUEST["mode"] == "edituser" )
     {
-      if(isset($_REQUEST["svn_login"]))
-        new delete($site->dbrw,"svn_member_depot",array("id_depot"=>$_REQUEST["id_depot"],"svn_login"=>$_REQUEST["svn_login"]));
-    }
-    if( isset($_REQUEST["action"]) && $_REQUEST["action"] == "edit" && isset($_REQUEST["svn_login"]) )
-    {
-      $req = new requete($site->db,"SELECT `right` FROM `svn_member_depot` WHERE `id_depot`='".$_REQUEST["id_depot"]."' AND `svn_login`='".$_REQUEST["svn_login"]."'");
-      if($req->lines==1)
-        list($right)=$req->get_row();
+      if( !isset($_REQUEST["valid"]) )
+      {
+        $req = new requete($site->db,"SELECT `right` FROM `svn_member_depot` WHERE `id_depot`='".$svn->id."' AND `id_utilisateur`='".$user->id."'");
+        if($req->lines==1)
+          list($right)=$req->get_row();
+        else
+          $right="";
+        $frm = new form("changeuser","svn.php?id_depot=".$svn->id,false,"post","Modification des droits de ".$user->prenom." ".$user->nom." :");
+        $frm->add_hidden("action","edituser");
+        $frm->add_hidden("id_utilisateur",$user->id);
+        $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"),$right);
+        $frm->add_submit("valid","Valider");
+        $cts->add($frm,true);
+      }
       else
-        $right="";
-      $frm = new form("adduser","svn.php?id_depot=".$_REQUEST["id_depot"],false,"post","Modification des droits de ".$_REQUEST["svn_login"]." :");
-      $frm->add_hidden("action","edituser");
-      $frm->add_hidden("svn_login",$_REQUEST["svn_login"]);
-      $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"),$right);
-      $frm->add_submit("valid","Valider");
-      $cts->add($frm,true);
-    }*/
-    $req = new requete($site->db,"SELECT * FROM `svn_depot` WHERE `id_depot`='".$_REQUEST["id_depot"]."'");
-    if($req->lines==1)
-    {
-      list($id,$nom,$type)=$req->get_row();
-      $cts->add_paragraph("<b>Dépot : ".$nom."</b><br />type : ".$type);
-      $req2 = new requete($site->db,"SELECT * FROM `svn_member_depot` WHERE `id_depot`='".$_REQUEST["id_depot"]."'");
-      $cts->add(new sqltable("svn_member_depot",
-                             "Membres",
-                             $req2,
-                             "svn.php?id_depot=".$_REQUEST["id_depot"],
-                             "id_utilisateur",
-                             array("id_utilisateur"=>"Id_utilisateur","right"=>"Droits"),
-                             array("edit"=>"Modifier","delete"=>"Enlever"),
-                             array(),
-                             array()
-                            ));
+      {
+        if ( !in_array($_REQUEST["right"],$svn->valid_rights) )
+        {
+          $svn->del_user_access($user);
+          $svn->update_user_access($user,$_REQUEST["right"]);
+        }
+      }
     }
-    else
+    elseif( $_REQUEST["action"].$_REQUEST["mode"] == "deleteuser" )
     {
-      $req = new requete($site->db,"SELECT * FROM `svn_depot`");
-      $cts->add(new sqltable("svn_private",
-                             "Liste des SVN",
-                             $req,
-                             "svn.php",
-                             "id_depot",
-                             array("nom"=>"Nom","type"=>"Type"),
-                             array("detail"=>"Détail"),
-                             array(),
-                             array()
-                            ));
+      $svn->del_user_access($user);
     }
+    elseif($_REQUEST["action"]$_REQUEST["mode"] == "adduser" && isset($_REQUEST["level"]) )
+    {
+      if(!isset($_REQUEST["valid"]))
+      {
+        $frm = new form("adduser", "svn.php?id_depot=".$svn->id,false,"post","Ajout d'un utilisateur");
+        $frm->add_hidden("action","adduser");
+        $frm->add_user_fieldv2("id_utilisateur","Utilisateur :");
+        $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"),$right);
+        $frm->add_submit("valid","Valider");
+        $cts->add($frm,true);
+      }
+      else
+      {
+        if( !in_array($_REQUEST["level"],$svn->valid_rights) )
+          $svn->add_user_access($user,$_REQUEST["level"]);
+      }
+    }
+    elseif($_REQUEST["action"] == edit)
+    {
+      if( in_array($_REQUEST["type"],$svn->type_depot) )
+        $svn->change_repo_type($_REQUEST["type"]);
+    }
+  }
+
+  if($svn)
+  {
+    $cts->add_paragraph("<b>Dépot : ".$svn->nom."</b><br />type : ".$svn->type);
+    $req2 = new requete($site->db,"SELECT * FROM `svn_member_depot` WHERE `id_depot`='".$svn->id."'");
+    $cts->add(new sqltable("svn_member_depot",
+                           "Membres",
+                           $req2,
+                           "svn.php?id_depot=".$svn->id."&mode=user",
+                           "id_utilisateur",
+                           array("id_utilisateur"=>"id_utilisateur","right"=>"Droits"),
+                           array("edit"=>"Modifier","delete"=>"Enlever"),
+                           array(),
+                           array()
+                          ));
+
+    $frm = new form("editdepot", "svn.php?id_depot=".$svn->id,false,"post","Modifier le dépot");
+    $frm->add_hidden("action","edit");
+    $frm->add_select_field("type","Droits",array("public"=>"Publique","private"=>"Privé","aeinfo"=>"Équipe info"),$svn->type);
+    $frm->add_submit("valid","Valider");
+    $cts->add($frm,true);
   }
   else
   {
@@ -137,8 +167,23 @@ $cts->add(new tabshead($tabs,$_REQUEST["view"]));
                            array("detail"=>"Détail"),
                            array(),
                            array()
-                          ));
+                         ));
   }
+}
+else
+{
+  $req = new requete($site->db,"SELECT * FROM `svn_depot`");
+  $cts->add(new sqltable("svn_private",
+                         "Liste des SVN",
+                         $req,
+                         "svn.php",
+                         "id_depot",
+                         array("nom"=>"Nom","type"=>"Type"),
+                         array("detail"=>"Détail"),
+                         array(),
+                         array()
+                        ));
+}
 
 
 $site->add_contents($cts);

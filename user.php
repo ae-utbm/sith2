@@ -122,6 +122,9 @@ elseif ( $_REQUEST["action"] == "stop" && $can_edit && isset($_REQUEST["id_membe
 // Sauvgarde des information personelles
 elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
 {
+  if(!empty($user->alias) && !$site->user->is_in_group("root"))
+    $_REQUEST["alias"]=$user->alias;
+
   if ( $_REQUEST["alias"] && !preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",$_REQUEST["alias"]) )
   {
     $ErreurMAJ = "Alias invalide, utilisez seulement des lettres, des chiffres, des tirets, des points, et des underscore.";
@@ -514,18 +517,23 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     if ( $ErreurMAJ )
       $frm->error($ErreurMAJ);
     if ($site->user->is_asso_role ( 27, 1 ) || $site->user->is_in_group("gestion_ae") )
-      {
-        $frm->add_text_field("nom","Nom",$user->nom,true,false,false,true);
-        $frm->add_text_field("prenom","Prenom",$user->prenom,true,false,false,true);
-      }
+     {
+      $frm->add_text_field("nom","Nom",$user->nom,true,false,false,true);
+      $frm->add_text_field("prenom","Prenom",$user->prenom,true,false,false,true);
+    }
     else
-      {
-        $frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
-        $frm->add_text_field("prenom","Prenom",$user->prenom,true,false,false,false);
-        $frm->add_hidden("nom", $user->nom);
-        $frm->add_hidden("prenom", $user->prenom);
-      }
-    $frm->add_text_field("alias","Alias",$user->alias);
+    {
+      $frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
+      $frm->add_text_field("prenom","Prenom",$user->prenom,true,false,false,false);
+      $frm->add_hidden("nom", $user->nom);
+      $frm->add_hidden("prenom", $user->prenom);
+    }
+
+    if (empty($user->alias))
+      $frm->add_text_field("alias","Alias",$user->alias);
+    else // seul root a le droit de modifier l'alias s'il est déjà renseigné
+      $frm->add_text_field("alias","Alias",$user->alias,false,false,false,$site->user->is_in_group("root"));
+
     if ( $user->utbm )
       $frm->add_text_field("surnom","Surnom (utbm)",$user->surnom);
     $frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);

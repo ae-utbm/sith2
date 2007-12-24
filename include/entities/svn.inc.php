@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright 2007
+/* Copyright 2007 - 2008
  * - Simon Lopez < simon dot lopez at ayolo dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
@@ -97,7 +97,10 @@ class svn_depot extends stdentity
         $dest == SVN_PATH.AEINFO_SVN;
 
       if(!exec("svnadmin create ".$dest.$name))
+      {
+        // il faut supprimer l'entrée dans la base de donnée
         return false;
+      }
 
       @mkdir("/tmp/".$name,0777);
       @mkdir("/tmp/".$name."/branches",0777);
