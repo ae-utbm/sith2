@@ -220,7 +220,7 @@ if ( $elec->id > 0 )
 			$frm->error($ErrorCandidat);
 		$frm->add_entity_smartselect("candidat",
 					     "Candidat", 
-					     new user($site->db));
+					     new utilisateur($site->db));
 		$frm->add_user_email_field("email","Adresse email");
 		$frm->add_select_field("id_poste","Poste",$postes);
 		$frm->add_select_field("id_liste","Liste",$listes);
