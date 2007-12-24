@@ -294,8 +294,8 @@ class pgfichefull extends board
       
     $this->add($list);  
       
-    $req = new requete($fiche->db,"SELECT * ".
-      "valeur_reduction, unite_reduction, commentaire_reduction, date_maj_reduction, date_validite_reduction ".
+    $req = new requete($fiche->db,"SELECT ".
+      "valeur_reduction, unite_reduction, commentaire_reduction, date_maj_reduction, date_validite_reduction, ".
       "pg_typereduction.nom_typereduction, pg_typereduction.id_typereduction ".
       "FROM pg_fiche_reduction ".
       "INNER JOIN pg_typereduction USING(id_typereduction) ".
