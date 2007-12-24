@@ -81,13 +81,18 @@ div.article a.renvoi
   font-size: 10px;  
 }
 
-ul.minilegals
+div.article ul.minilegals
 {
   font-size: 10px; 
   list-style:none;
 }
 
-ul.minilegals li
+div.article ul.minilegals li
+{
+  font-size: 10px;    
+}
+
+div.article ul.minilegals li a
 {
   font-size: 10px;    
 }

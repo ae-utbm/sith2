@@ -318,7 +318,7 @@ class pgfichefull extends board
 
     if ( $req->lines > 0 )
     {
-      $list = new itemlist("Reductions ".$legals->add_condition("Reductions soumises à conditions, voir description de chaque type de réduction."));
+      $list = new itemlist("Reductions ".$legals->add_condition("Reductions soumises à conditions, voir <a href=\"bplans.php?page=reductions\">description de chaque type de réduction</a>."));
       
       while ( $row = $req->get_row() )
       {
