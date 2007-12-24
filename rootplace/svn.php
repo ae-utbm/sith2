@@ -120,6 +120,7 @@ if(isset($_REQUEST["id_depot"]))
     }
     elseif($_REQUEST["action"].$_REQUEST["mode"] == "adduser" && isset($_REQUEST["level"]) )
     {
+      print_r("bleh");
       if(!isset($_REQUEST["valid"]))
       {
         $frm = new form("adduser", "svn.php?id_depot=".$svn->id,false,"post","Ajout d'un utilisateur");
