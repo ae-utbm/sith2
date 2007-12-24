@@ -207,7 +207,7 @@ class pgfichelist extends stdcontents
       
       $this->buffer .= "<h3><a href=\"./?id_pgfiche=".$row["id_pgfiche"]."\">".htmlentities($row["nom_pgfiche"],ENT_QUOTES,"UTF-8")."</a> ".$legals->add_date_validite($row["date_validite_pgfiche"], $row["date_maj_pgfiche"],"Informations")."</h3>";
       
-      $this->buffer .= "<p class=\"adresse\">".htmlentities($row["numrue_pgfiche"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_typerue"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_rue"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_ville"],ENT_QUOTES,"UTF-8")."</p>";       
+      $this->buffer .= "<p class=\"adresse\">".htmlentities($row["numrue_pgfiche"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_typerue"],ENT_QUOTES,"UTF-8")." ".htmlentities($row["nom_rue"],ENT_QUOTES,"UTF-8").", ".htmlentities($row["nom_ville"],ENT_QUOTES,"UTF-8")."</p>";       
       
       if ($row["tel_pgfiche"])
         $this->buffer .= "<p class=\"tel\">Tel: ".htmlentities(telephone_display($row["tel_pgfiche"]),ENT_QUOTES,"UTF-8")."</p>";   
@@ -295,7 +295,7 @@ class pgfichefull extends contents
     if ( !$ville->load_by_id($rue->id_ville) )
       $ville->load_by_id($fiche->id_ville);
     
-    $list->add("Adresse: ".htmlentities($fiche->numrue,ENT_QUOTES,"UTF-8")." ".htmlentities($typerue->nom,ENT_QUOTES,"UTF-8")." ".htmlentities($rue->nom,ENT_QUOTES,"UTF-8")." ".htmlentities($ville->nom,ENT_QUOTES,"UTF-8"));
+    $list->add("Adresse: ".htmlentities($fiche->numrue,ENT_QUOTES,"UTF-8")." ".htmlentities($typerue->nom,ENT_QUOTES,"UTF-8")." ".htmlentities($rue->nom,ENT_QUOTES,"UTF-8").", ".htmlentities($ville->nom,ENT_QUOTES,"UTF-8"));
     
     if ( $fiche->tel )
       $list->add("Téléphone: ".htmlentities(telephone_display($fiche->tel),ENT_QUOTES,"UTF-8"));
@@ -320,7 +320,7 @@ class pgfichefull extends contents
 
     if ( $req->lines > 0 )
     {
-      $list = new itemlist("Reductions ".$legals->add_condition("Reductions soumises à conditions, voir <a href=\"bplans.php?page=reductions\">description de chaque type de réduction</a>."));
+      $list = new itemlist("Reductions ".$legals->add_condition("Reductions soumises à conditions, voir <a href=\"bplans.php?page=reductions\">description de chaque type de réduction</a> et détails en magasin."));
       
       while ( $row = $req->get_row() )
       {

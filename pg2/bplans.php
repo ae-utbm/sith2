@@ -23,14 +23,17 @@
  
 $topdir="../";
 require_once("include/site.inc.php");
+require_once($topdir."include/cts/pg.inc.php");
 
 $site = new pgsite();
 
 if ( $_REQUEST["page"] == "reductions" )
 {
+  
   $site->start_page("pgbplans","Réductions / Bon Plans - Petit Géni 2.0");
   
   $cts = new contents("<a href=\"bplans.php\">Bon plans</a> / <a href=\"bplans.php?page=reductions\">Réductions</a>");
+  $legals=new pglegals();
   
   $req = new requete($site->db, "SELECT pg_typereduction.*, COUNT(pg_fiche_reduction.id_pgfiche) AS `nombre`
       FROM `pg_typereduction`
@@ -40,7 +43,7 @@ if ( $_REQUEST["page"] == "reductions" )
   
   while ( $row = $req->get_row() )
   {
-    $cts->add_title(2,"<a name=\"reduc".$row["id_typereduction"]."\"></a>".htmlentities($row["nom_typereduction"],ENT_COMPAT,"UTF-8"));
+    $cts->add_title(2,"<a name=\"reduc".$row["id_typereduction"]."\"></a>".htmlentities($row["nom_typereduction"],ENT_COMPAT,"UTF-8").$legals->add_condition("Pour toutes les conditions et réglements voir en magasin."));
     $cts->add(new wikicontents(null,$row["description_typereduction"]));
     
     if ( !empty($row["website_typereduction"]) )
@@ -51,7 +54,7 @@ if ( $_REQUEST["page"] == "reductions" )
     
   }
   
-  
+  $cts->add($legals);
   $site->add_contents($cts);
   $site->end_page();
   exit();
