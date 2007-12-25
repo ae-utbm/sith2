@@ -76,8 +76,8 @@ if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="pass" )
   else
     @exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".$site->user->alias." ".$_REQUEST["pass"]);
 }
-
-$find = @exec("/usr/cat ".SVN_PATH.PASSWORDFILE);
+$find=exec("which cat");
+//$find = @exec("/usr/cat ".SVN_PATH.PASSWORDFILE);
 print_r($find);
 if( !preg_match("/(.*?)".$site->user->alias."(.*?)/",$find) )
 {
