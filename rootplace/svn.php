@@ -122,7 +122,7 @@ if(isset($_REQUEST["id_depot"]))
 
   if($svn)
   {    
-    if ( isset($_REQUEST["action"] && isset($_REQUEST["mode"] && $_REQUEST["action"].$_REQUEST["mode"] == "edituser" )
+    if ( isset($_REQUEST["action"]) && isset($_REQUEST["mode"]) && $_REQUEST["action"].$_REQUEST["mode"] == "edituser" )
     {
       $req = new requete($site->db,"SELECT `right` FROM `svn_member_depot` WHERE `id_depot`='".$svn->id."' AND `id_utilisateur`='".$user->id."'");
       if($req->lines==1)
