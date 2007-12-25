@@ -78,7 +78,7 @@ if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="pass" )
 }
 
 $find = @exec("/usr/bin/cat ".SVN_PATH.PASSWORDFILE." && grep ".$site->user->alias);
-
+print_r(exec("/usr/bin/cat ".SVN_PATH.PASSWORDFILE." && grep ".$site->user->alias));
 if( empty($find) )
 {
   $cts->add_paragraph("<b>Vous n'avez pas de mot de passe, il vous est donc impossible d'utiliser les dépots" . 
