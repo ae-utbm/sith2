@@ -49,7 +49,7 @@ if(empty($site->user->alias))
       $ErreurMAJ = "Alias d&eacute;j&agrave;  utilis&eacute;";
     }
     else
-      $iste->user->saveinfos()
+      $iste->user->saveinfos();
   }
 
   if( !isset($_REQUEST["alias"]) || isset($ErreurMAJ) )
