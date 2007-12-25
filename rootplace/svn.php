@@ -88,7 +88,6 @@ if(isset($_REQUEST["id_depot"]))
         $user->load_by_id($_REQUEST["id_utilisateur"]);
         if ( $user->is_valid() )
         {
-          $svn->del_user_access($user);
           $svn->update_user_access($user,$_REQUEST["right"]);
           unset($_REQUEST["action"]);
         }
