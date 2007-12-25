@@ -92,7 +92,7 @@ if( empty($find) )
   exit();
 }
 
-$frm = new form("changemdp","svn.php",false,"post","Changer le mot de passe :");
+$frm = new form("changemdp","svn.php",false,"post","Changer votre mot de passe :");
 $frm->add_text_field("pass","Mot de passe");
 $frm->add_submit("valid","Valider"); $cts->add($frm,true);
 
