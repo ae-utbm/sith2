@@ -124,19 +124,34 @@ if(isset($_REQUEST["id_depot"]))
   {    
     if ( isset($_REQUEST["action"]) && isset($_REQUEST["mode"]) && $_REQUEST["action"].$_REQUEST["mode"] == "edituser" )
     {
-      $req = new requete($site->db,"SELECT `right` FROM `svn_member_depot` WHERE `id_depot`='".$svn->id."' AND `id_utilisateur`='".$user->id."'");
-      if($req->lines==1)
-        list($right)=$req->get_row();
+      $user->load_by_id($_REQUEST["id_utilisateur"]);
+      if ( $user->is_valid() )
+      {
+        $req = new requete($site->db,"SELECT `right` FROM `svn_member_depot` WHERE `id_depot`='".$svn->id."' AND `id_utilisateur`='".$user->id."'");
+        if($req->lines==1)
+          list($right)=$req->get_row();
+        else
+          $right="";
+        $frm = new form("changeuser","svn.php?id_depot=".$svn->id,false,"post","Modification des droits de ".$user->prenom." ".$user->nom." :");
+        $frm->add_hidden("action","edit");
+        $frm->add_hidden("mode","user");
+        $frm->add_hidden("commit","valid");
+        $frm->add_hidden("id_utilisateur",$user->id);
+        $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"),$right);
+        $frm->add_submit("valid","Valider");
+        $cts->add($frm,true);
+      }
       else
-        $right="";
-      $frm = new form("changeuser","svn.php?id_depot=".$svn->id,false,"post","Modification des droits de ".$user->prenom." ".$user->nom." :");
-      $frm->add_hidden("action","edit");
-      $frm->add_hidden("mode","user");
-      $frm->add_hidden("commit","valid");
-      $frm->add_hidden("id_utilisateur",$user->id);
-      $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"),$right);
-      $frm->add_submit("valid","Valider");
-      $cts->add($frm,true);
+      {
+        $frm = new form("adduser", "svn.php?id_depot=".$svn->id,false,"post","Ajouter un utilisateur");
+        $frm->add_hidden("action","add");
+        $frm->add_hidden("mode","user");
+        $frm->add_hidden("commit","valid");
+        $frm->add_user_fieldv2("id_utilisateur","Utilisateur :");
+        $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"));
+        $frm->add_submit("valid","Valider");
+        $cts->add($frm,true);
+      }
     }
     else
     {
