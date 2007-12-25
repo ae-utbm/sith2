@@ -77,7 +77,9 @@ if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="pass" )
     @exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".$site->user->alias." ".$_REQUEST["pass"]);
 }
 
-if( empty($find = exec("cat ".SVN_PATH.PASSWORDFILE." && grep ".$site->user->alias.")) )
+$find = @exec("/usr/bin/cat ".SVN_PATH.PASSWORDFILE." && grep ".$site->user->alias.")
+
+if( empty($find) )
 {
   $cts->add_paragraph("<b>Vous n'avez pas de mot de passe, il vous ets donc impossible d'utiliser les dépots" . 
                       " subversions.</b>");
