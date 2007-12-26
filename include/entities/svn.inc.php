@@ -112,6 +112,8 @@ class svn_depot extends stdentity
       @rmdir("/tmp/".$this->nom."/tags");
       @rmdir("/tmp/".$this->nom."/trunk");
       @rmdir("/tmp/".$this->nom);
+      
+      $this->create_auth_file();
 
       return true;
     }
@@ -198,12 +200,14 @@ class svn_depot extends stdentity
       }
       else
       {
-        return new insert($this->dbrw,
-                          "svn_member_depot",
-                          array("id_utilisateur"=>$user->id,
-                                "id_depot"=>$this->id,
-                                "right"=>$level
-                              ));
+        new insert($this->dbrw,
+                   "svn_member_depot",
+                   array("id_utilisateur"=>$user->id,
+                         "id_depot"=>$this->id,
+                         "right"=>$level
+                        ));
+        $this->update_auth_file();
+        return true;
       }
     }
     else
@@ -215,7 +219,9 @@ class svn_depot extends stdentity
   {
     if( $user->is_valid() )
     {
-      return new delete ($this->dbrw,"svn_member_depot",array("id_utilisateur"=>$user->id));
+      new delete ($this->dbrw,"svn_member_depot",array("id_utilisateur"=>$user->id));
+      $this->update_auth_file();
+      return true;
     }
     else
       return false;
@@ -239,12 +245,16 @@ class svn_depot extends stdentity
         if($_level==$level)
           return false;
         else
-          return new update($this->dbrw,
-                            "svn_member_depot",
-                            array("right"=>$level),
-                            array("id_utilisateur"=>$user->id,
-                                  "id_depot"=>$this->id)
-                           );
+        {
+          new update($this->dbrw,
+                     "svn_member_depot",
+                      array("right"=>$level),
+                      array("id_utilisateur"=>$user->id,
+                      "id_depot"=>$this->id)
+                     );
+        $this->update_auth_file();
+        return true;
+        }
       }
       else
         return false;
@@ -298,11 +308,12 @@ class svn_depot extends stdentity
           }
         }
       }
-      if(empty($read) && empty($readwrite))
+      
+      if(empty($read) && empty($readwrite) && $this->type != "public" )
         return true;
     }
 
-    $contents = @fread($handle, @filesize($path."svn.auth"));
+    $contents = @fread($handle, @filesize($path.AUTHFILE));
     @fclose($handle);
 
     $render="";
@@ -345,9 +356,12 @@ class svn_depot extends stdentity
           $render.=$con[$i]."\n";
         $i++;
       }
-      $render .="[".$this->nom.":/]\n@".$this->nom."rw = rw\n@".$this->nom."ro = r\n* =";
+      if($this->type == "public")
+        $render .="[".$this->nom.":/]\n@".$this->nom."rw = rw\n@".$this->nom."ro = r\n* = r";
+      else
+        $render .="[".$this->nom.":/]\n@".$this->nom."rw = rw\n@".$this->nom."ro = r\n* =";
     }
-    else
+    /*else
     {
       $con = explode("\n", $contents);
       for($i=0;$i<count($con);$i++)
@@ -387,6 +401,10 @@ class svn_depot extends stdentity
         else
           $render.=$con[$i]."\n";
       }
+    }*/
+    else
+    {
+      return false;
     }
     if(!$handle = @fopen($path.AUTHFILE, "w"))
       return false;
@@ -405,8 +423,8 @@ class svn_depot extends stdentity
     elseif($this->type == "aeinfo")
       $path == SVN_PATH.AEINFO_SVN;
 
-    $handle = @fopen($path."svn.auth", "r");
-    $contents = @fread($handle, @filesize($path."svn.auth"));
+    $handle = @fopen($path.AUTHFILE, "r");
+    $contents = @fread($handle, @filesize($path.AUTHFILE));
     @fclose($handle);
     $con = explode("\n", $contents);
     $find=false;
@@ -415,7 +433,7 @@ class svn_depot extends stdentity
     {
       if($find)
       {
-        if(preg_match("#\* =$#",$con[$i]))
+        if(preg_match("#\* =$#",$con[$i]) || preg_match("#\* = r$#",$con[$i]))
         {
           $find=false;
           continue;
@@ -434,7 +452,7 @@ class svn_depot extends stdentity
         $render .= $con[$i]."\n";
     }
 
-    $handle = @fopen($path."svn.auth", "w");
+    $handle = @fopen($path.AUTHFILE, "w");
     @fwrite($handle,$render);
     @fclose ($handle);
 
@@ -444,7 +462,8 @@ class svn_depot extends stdentity
   /* update auth file */
   function update_auth_file()
   {
-    return $this->create_auth_file();
+    $this->delete_auth_file();
+    $this->create_auth_file();
   }
 
 }
