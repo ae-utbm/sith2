@@ -306,7 +306,7 @@ class svn_depot extends stdentity
     @fclose($handle);
 
     $render="";
-    if(!preg_match("#\n".$this->name."(rw|ro) \= (.*?)\n#",$contents))
+    if(!preg_match("#\n".$this->nom."(rw|ro) \= (.*?)\n#",$contents))
     {
       $con = explode("\n", $contents);
       $i=0;
@@ -323,10 +323,10 @@ class svn_depot extends stdentity
               else
                 $_ro.=", ".$readonly[$i];
             }
-            $render.=$this->name."ro = ".$_ro."\n";
+            $render.=$this->nom."ro = ".$_ro."\n";
           }
           else
-            $render.=$this->name."ro = \n";
+            $render.=$this->nom."ro = \n";
           if(!empty($readwrite))
           {
             for($i=0;$i<count($readwrite);$i++)
@@ -336,23 +336,23 @@ class svn_depot extends stdentity
               else
                 $_rw.=", ".$readwrite[$i];
             }
-            $render.=$this->name."rw = ".$_rw."\n";
+            $render.=$this->nom."rw = ".$_rw."\n";
           }
           else
-            $render.=$this->name."rw = \n";
+            $render.=$this->nom."rw = \n";
         }
         if( $i==0 || $con[$i-1]!=$con[$i] )
           $render.=$con[$i]."\n";
         $i++;
       }
-      $render .="[".$this->name.":/]\n@".$this->name."rw = rw\n@".$this->name."ro = r\n* =";
+      $render .="[".$this->nom.":/]\n@".$this->nom."rw = rw\n@".$this->nom."ro = r\n* =";
     }
     else
     {
       $con = explode("\n", $contents);
       for($i=0;$i<count($con);$i++)
       {
-        if(preg_match("#^".$this->name."rw \= (.*?)$#",$con[$i]))
+        if(preg_match("#^".$this->nom."rw \= (.*?)$#",$con[$i]))
         {
           if(!empty($readwrite))
           {
@@ -363,12 +363,12 @@ class svn_depot extends stdentity
               else
                 $_rw.=", ".$readwrite[$i];
             }
-            $render.=$this->name."rw = ".$_rw."\n";
+            $render.=$this->nom."rw = ".$_rw."\n";
           }
           else
-            $render.=$this->name."rw = \n";
+            $render.=$this->nom."rw = \n";
         }
-        elseif(preg_match("#^".$this->name."ro \= (.*?)$#",$con[$i]))
+        elseif(preg_match("#^".$this->nom."ro \= (.*?)$#",$con[$i]))
         {
           if(!empty($readonly))
           {
@@ -379,10 +379,10 @@ class svn_depot extends stdentity
               else
                 $_ro.=", ".$readonly[$i];
             }
-            $render.=$this->name."ro = ".$_ro."\n";
+            $render.=$this->nom."ro = ".$_ro."\n";
           }
           else
-            $render.=$this->name."ro = \n";
+            $render.=$this->nom."ro = \n";
         }
         else
           $render.=$con[$i]."\n";
@@ -423,9 +423,9 @@ class svn_depot extends stdentity
         else
           continue;
       }
-      elseif(preg_match("#^".$this->name."(rw|ro) \= (.*?)$#",$con[$i]))
+      elseif(preg_match("#^".$this->nom."(rw|ro) \= (.*?)$#",$con[$i]))
         continue;
-      elseif(preg_match("#^\[".$this->name.":/\]$#",$con[$i]))
+      elseif(preg_match("#^\[".$this->nom.":/\]$#",$con[$i]))
       {
         $find=true;
         continue;
