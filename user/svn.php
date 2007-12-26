@@ -83,6 +83,7 @@ if( empty($find) )
   $cts->add_paragraph("<b>Vous n'avez pas de mot de passe, il vous est donc impossible d'utiliser les dépots" . 
                       " subversions.</b>");
   $frm = new form("setmdp","svn.php",false,"post","Créer un mot de passe :");
+  $frm->add_hidden("action","pass");
   $frm->add_password_field("pass","Mot de passe");
   $frm->add_submit("valid","Valider");
   $cts->add($frm,true);
@@ -93,6 +94,7 @@ if( empty($find) )
 }
 
 $frm = new form("changemdp","svn.php",false,"post","Changer votre mot de passe :");
+$frm->add_hidden("action","pass");
 $frm->add_password_field("pass","Mot de passe");
 $frm->add_submit("valid","Valider"); $cts->add($frm,true);
 
