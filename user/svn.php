@@ -97,6 +97,21 @@ $frm->add_text_field("pass","Mot de passe");
 $frm->add_submit("valid","Valider"); $cts->add($frm,true);
 
 /* ici faire la liste des dépots privés, publiques et aeinfo */
+$req = new requete($site->db,"SELECT `svn_depot`.* FROM `svn_member_depot` ".
+                             "INNER JOIN `svn_depot` USING(`id_depot`) ".
+                             "WHERE `id_depot`='".$svn->id."' ".
+                             "ORDER BY `svn_depot`.`type_depot`");
+$cts->add(new sqltable("svn_member_depot",
+                       "Membres des dépots",
+                       $req,
+                       "",
+                       "id_depot",
+                       array("Nom"=>"nom","Type"=>"type"),
+                       array(),
+                       array(),
+                       array()
+                      ));
+
 
 $site->add_contents($cts);
 $site->end_page();
