@@ -23,7 +23,7 @@
  */
 
 define("PASSWORDFILE","svn.passwd");
-define("AUTHFILE","svn.auth");
+define("AUTHFILE","svn.authz");
 define("SVN_PATH","/var/lib/svn/");
 define("PRIVATE_SVN","private/");
 define("PUBLIC_SVN","public/");
