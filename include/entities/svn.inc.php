@@ -266,7 +266,7 @@ class svn_depot extends stdentity
 
   /* create auth file */
   function create_auth_file()
-  {
+  {print_r("create");
     if($this->type == "private")
       $path == SVN_PATH.PRIVATE_SVN;
     elseif($this->type == "public")
@@ -415,7 +415,7 @@ class svn_depot extends stdentity
 
   /* delete auth file */
   function delete_auth_file()
-  {
+  {print_r("delete");
     if($this->type == "private")
       $path == SVN_PATH.PRIVATE_SVN;
     elseif($this->type == "public")
