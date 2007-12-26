@@ -61,7 +61,7 @@ $cts->add(new tabshead($user->get_tabs($site->user),"photos"));
 
 $cts->add(new tabshead(array(
   array("","user/photos.php?id_utilisateur=".$user->id,"Photos"),
-  array("stats","user/photos.php?see=stats&id_utilisateur=".$user->id,"Statistiques")),
+  array("stats","user/photos.php?see=stats&id_utilisateur=".$user->id,"Statistiques"),
   array("new","user/photos.php?see=new&id_utilisateur=".$user->id,"Nouvelles photos")),
   isset($_REQUEST["see"])?$_REQUEST["see"]:"","","subtab"));
 
