@@ -62,10 +62,13 @@ if ( isset($_REQUEST["id_utilisateurs_presents"]) )
     
     foreach ( $id_utilisateurs_presents as $id_utilisateur_present )
       $utilisateurs_presents[] = new utilisateur($site->db);
-      
+    
+    $i = 0; /* Putain que c'est moche */
     foreach ( $utilisateurs_presents as &$utilisateur_present)
-      echo $utilisateur_present;
-      $utilisateur_present->load_by_id($utilisateur_present);
+    {
+      $utilisateur_present->load_by_id($id_utilisateurs_presents[$i]);
+      $i++;
+    }
   }
 }
   
