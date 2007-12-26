@@ -34,32 +34,22 @@ $site = new site ();
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
 
-
-/*
-if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="adduser" && !empty($_REQUEST["login"]) && !empty($_REQUEST["pass"]) && !empty($_REQUEST["id_utilisateur"]))
+if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="createdepot" )
 {
-  $req = new requete($site->db,"SELECT `id_utilisateur` FROM `svn_login` WHERE `login_svn` = '".$_REQUEST["login"]."'");
-  if($req->lines==0)
+  if(isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) && isset($_REQUEST["type"]) && !empty($_REQUEST["type"]) )
   {
-    new delete($site->dbrw,"svn_login",array("id_utilisateur"=>$_REQUEST["id_utilisateur"]));
-    new insert($site->dbrw,"svn_login",array("id_utilisateur"=>$_REQUEST["id_utilisateur"],"login_svn"=>$_REQUEST["login"]));
-    exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".$_REQUEST["login"]." ".$_REQUEST["pass"]);
+    $svn = new svn_depot($site->db,$site->dbrw);
+    $svn->init_depot($_REQUEST["nom"],$_REQUEST["type"]);
   }
-  else
-  {
-    list($id_user)=$req->get_row();
-    if($_REQUEST["id_utilisateur"] == $id_user)
-    {
-      exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".$_REQUEST["login"]." ".$_REQUEST["pass"]);
-    }
-  }
-}*/
+  unset($_REQUEST["action"]);
+}
 
 
-$tabs = array(array("","rootplace/svn.php","Depots"),array("user","rootplace/svn.php?view=user","Utilisateurs"));
+
+//$tabs = array(array("","rootplace/svn.php","Depots"),array("user","rootplace/svn.php?view=user","Utilisateurs"));
 $site->start_page("none","Administration / SVN");
 $cts = new contents("<a href=\"./\">Administration</a> / SVN");
-$cts->add(new tabshead($tabs,$_REQUEST["view"]));
+//$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 
 if(isset($_REQUEST["id_depot"]))
@@ -198,6 +188,12 @@ if(isset($_REQUEST["id_depot"]))
                            array(),
                            array()
                          ));
+    $frm = new form("createdepot","svn.php,"post","Créer un nouveau dépot");
+    $frm->add_hidden("action","createdepot");
+    $frm->add_text_field("nom","Nom du dépot");
+    $frm->add_select_field("type","Droits",array("public"=>"Publique","private"=>"Privé","aeinfo"=>"Équipe info"));
+    $frm->add_submit("valid","Valider");
+    $cts->add($frm,true);
   }
 }
 else
@@ -213,6 +209,12 @@ else
                          array(),
                          array()
                         ));
+  $frm = new form("createdepot","svn.php,"post","Créer un nouveau dépot");
+  $frm->add_hidden("action","createdepot");
+  $frm->add_text_field("nom","Nom du dépot");
+  $frm->add_select_field("type","Droits",array("public"=>"Publique","private"=>"Privé","aeinfo"=>"Équipe info"));
+  $frm->add_submit("valid","Valider");
+  $cts->add($frm,true);
 }
 
 
