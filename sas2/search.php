@@ -202,6 +202,9 @@ if ( $_REQUEST["action"] == "search" )
         $user_present = new utilisateur($site->db);
         $user_present->load_by_id($present);
         echo $user_present->nom;
+        
+        $joins[] = "INNER JOIN sas_personnes_photos AS `p2` ON ( sas_photos.id_photo=p2.id_photo AND p2.id_utilisateur='".mysql_escape_string($user_present->id)."') ";
+        $params.="&presents[]=".$user_present->id;
       }
     }
   }
