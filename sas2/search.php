@@ -199,6 +199,11 @@ if ( $_REQUEST["action"] == "search" )
     {
       foreach ( $presents as $present )
       {
+        $count_presents = array_count_values( $presents );
+        
+        if ( $count_presents[$present] != 1 )
+          $present = -1;
+        
         $user_present = new utilisateur($site->db);
         $user_present->load_by_id($present);
         
