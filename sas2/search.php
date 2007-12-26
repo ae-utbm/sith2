@@ -1,6 +1,7 @@
 <?php
 /* Copyright 2007
  * - Julien Etelain < julien at pmad dot net >
+ * - Benjamin Collet < bcollet at oxynux dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -46,8 +47,26 @@ if ( isset($_REQUEST["id_asso"]) )
 if ( isset($_REQUEST["id_asso_photographe"]) )
   $assoph->load_by_id($_REQUEST["id_asso_photographe"]);
   
-if ( isset($_REQUEST["id_utilisateur_present"]) )
-  $user->load_by_id($_REQUEST["id_utilisateur_present"]);
+if ( isset($_REQUEST["id_utilisateurs_presents"]) )
+{
+  $id_utilisateurs_presents = $_REQUEST["id_utilisateurs_presents"];
+    
+  if ( !is_array($id_utilisateurs_presents) )
+    $id_utilisateurs_presents = array($id_utilisateurs_presents);
+    
+  if ( !empty($id_utilisateurs_presents) )
+  {
+    $id_utilisateurs_presents = array_unique($id_utilisateurs_presents);
+    
+    $utilisateurs_presents = array();
+    
+    foreach ( $id_utilisateurs_presents as $id_utilisateur_present )
+    {
+      $utilisateurs_presents[] = new utilisateur($site->db);
+      $utilisateurs_presents[]->load_by_id($id_utilisateur_present);
+    }
+  }
+}
   
 if ( isset($_REQUEST["id_utilisateur_photographe"]) )
   $userph->load_by_id($_REQUEST["id_utilisateur_photographe"]);
@@ -70,7 +89,13 @@ $frm->add_date_field("date_fin","Photos prisent avant le",$_REQUEST["date_fin"]?
 $frm->add_text_field("tags","Tags",$_REQUEST["tags"]);
 $frm->add_entity_smartselect ( "id_asso", "Association/Club", $asso, true );
 $frm->add_entity_smartselect ( "id_asso_photographe", "Club photographe", $assoph, true );
-$frm->add_entity_smartselect ( "id_utilisateur_present", "Personne sur la photo", $user, true );
+if ( empty($utilisateurs_presents) )
+  $frm->add_entity_smartselect ( "presents[]", "Personne sur la photo", -1, true );
+else
+{
+  foreach ( $utilisateurs_presents as $utilisateur_present )
+    $frm->add_entity_smartselect ( "presents[]", "Personne sur la photo", $utilisateur_present, true );
+}
 $frm->add_entity_smartselect ( "id_utilisateur_photographe", "Photographe", $userph, true );
 $frm->add_entity_smartselect ( "id_utilisateur_contributeur", "Contributeur", $userad, true );
 $frm->add_select_field("type","Type de média",array(0=>"Tous",MEDIA_PHOTO+1=>"Photo",MEDIA_VIDEOFLV+1=>"Video"),$_REQUEST["type"]);
@@ -191,28 +216,15 @@ if ( $_REQUEST["action"] == "search" )
     }
   }
   
-  if ( $_REQUEST["presents"] )
+  if ( !empty($utilisateurs_presents) )
   {
-    $presents = $_REQUEST["presents"];
-    
-    if ( !is_array($presents) )
-      $presents = array($presents);
-    
-    if ( !empty($presents) )
+    foreach ( $utilisateurs_presents as $utilisateur_present )
     {
-      $presents = array_unique($presents);
-      
-      foreach ( $presents as $present )
-      {
-        $user_present = new utilisateur($site->db);
-        $user_present->load_by_id($present);
-          
-        if ( $user_present->is_valid() )
+        if ( $utilisateur_present->is_valid() )
         {     
-          $joins[] = "INNER JOIN sas_personnes_photos AS `p".mysql_escape_string($user_present->id)."` ON ( sas_photos.id_photo=p".mysql_escape_string($user_present->id).".id_photo AND p".mysql_escape_string($user_present->id).".id_utilisateur='".mysql_escape_string($user_present->id)."') ";
-          $params.="&presents[]=".$user_present->id;
+          $joins[] = "INNER JOIN sas_personnes_photos AS `p".mysql_escape_string($utilisateur_present->id)."` ON ( sas_photos.id_photo=p".mysql_escape_string($utilisateur_present->id).".id_photo AND p".mysql_escape_string($utilisateur_present->id).".id_utilisateur='".mysql_escape_string($utilisateur_present->id)."') ";
+          $params.="&presents[]=".$utilisateur_present->id;
         }
-      }
     }
   }
   
