@@ -95,6 +95,7 @@ $frm->add_entity_smartselect ( "id_asso", "Association/Club", $asso, true );
 $frm->add_entity_smartselect ( "id_asso_photographe", "Club photographe", $assoph, true );
 if ( empty($utilisateurs_presents) )
 {
+  $tachatte = new utilisateur($site->db);
   $frm->add_entity_smartselect ( "presents[]", "Personne sur la photo", $tachatte, true );
 }
 else
