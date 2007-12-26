@@ -536,7 +536,7 @@ class site extends interfaceweb
       }
     }
     
-    $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_personnes_photos` WHERE `id_utilisateur`='".$site->user->id."' AND `vu_phutl`='0'");
+    $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_personnes_photos` WHERE `id_utilisateur`='".$this->user->id."' AND `vu_phutl`='0'");
     list($nphoto) = $req->get_row();
     if ( $nphoto > 0 )
       $elements[] = "<a href=\"".$topdir."user/photos.php?see=new\">".$nphotos." nouvelle(s) photo(s) dans le SAS</a>";
