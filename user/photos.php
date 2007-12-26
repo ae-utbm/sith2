@@ -144,10 +144,14 @@ elseif ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "new" )
     $gal->add_item("<a href=\"../sas2/?id_photo=".$row['id_photo']."\"><img src=\"$img\" alt=\"Photo\"></a>");
   }
   if ( $gal )
+  {
     $cts->add($gal,true);
     $cts->add_paragraph("<a href=\"user/photos.php?see=new&id_utilisateur=".$user->id."&action=vu>Marquer toutes les photos commes vues</a>");
+  }
   else
+  {
     $cts->add_paragraph("Vous n'avez pas de nouvelles photos");
+  }
 }
 else
 {
