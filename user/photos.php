@@ -101,7 +101,7 @@ if ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "stats" )
   $cts->add($lst,true);
 
 }
-elseif ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "new" && $user->id==$site->user->id )
+elseif ( $user->id == $site->user->id && isset($_REQUEST["see"]) && $_REQUEST["see"] == "new" )
 {
   if ( $_REQUEST["action"] == "vu" )
   {
