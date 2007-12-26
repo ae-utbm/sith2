@@ -1,6 +1,7 @@
 <?php
 /* Copyright 2004-2006
  * - Julien Etelain < julien at pmad dot net >
+ * - Benjamin Collet < bcollet at oxynux dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -59,10 +60,20 @@ $cts = new contents($user->prenom." ".$user->nom);
 
 $cts->add(new tabshead($user->get_tabs($site->user),"photos"));
 
-$cts->add(new tabshead(array(
-  array("","user/photos.php?id_utilisateur=".$user->id,"Photos"),
-  array("stats","user/photos.php?see=stats&id_utilisateur=".$user->id,"Statistiques"),
-  array("new","user/photos.php?see=new&id_utilisateur=".$user->id,"Nouvelles photos")),
+if ( $user->id==$site->user->id )
+{
+  $tabs = array(
+    array("","user/photos.php?id_utilisateur=".$user->id,"Photos"),
+    array("stats","user/photos.php?see=stats&id_utilisateur=".$user->id,"Statistiques"),
+    array("new","user/photos.php?see=new&id_utilisateur=".$user->id,"Nouvelles photos"))
+}
+else
+{
+  $tabs = array(
+    array("","user/photos.php?id_utilisateur=".$user->id,"Photos"),
+    array("stats","user/photos.php?see=stats&id_utilisateur=".$user->id,"Statistiques"))
+}
+$cts->add(new tabshead($tabs,
   isset($_REQUEST["see"])?$_REQUEST["see"]:"","","subtab"));
 
 
@@ -134,6 +145,9 @@ elseif ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "new" )
   }
   if ( $gal )
     $cts->add($gal,true);
+    $cts->add_paragraph("<a href=\"user/photos.php?see=new&id_utilisateur=".$user->id."&action=vu>Marquer toutes les photos commes vues</a>");
+  else
+    $cts->add_paragraph("Vous n'avez pas de nouvelles photos");
 }
 else
 {
