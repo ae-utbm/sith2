@@ -151,10 +151,10 @@ if(isset($_REQUEST["id_depot"]))
       $cts->add($frm,true);
     }
     
-    $cts2 = new contents("Information sur le dépot");
-    $cts2->add_paragraph("<b>Dépot : ".$svn->nom."</b><br />type : ".$svn->type);
+    $cts->add_title(2,"Information sur le dépot");
+    $cts->add_paragraph("<b>Dépot : ".$svn->nom."</b><br />type : ".$svn->type);
     $req2 = new requete($site->db,"SELECT * FROM `svn_member_depot` WHERE `id_depot`='".$svn->id."'");
-    $cts2->add(new sqltable("svn_member_depot",
+    $cts->add(new sqltable("svn_member_depot",
                            "Membres du dépot",
                            $req2,
                            "svn.php?id_depot=".$svn->id."&mode=user",
@@ -164,7 +164,6 @@ if(isset($_REQUEST["id_depot"]))
                            array(),
                            array()
                           ));
-    $cts->add($cts2);
     
     $frm = new form("editdepot", "svn.php?id_depot=".$svn->id,false,"post","Modifier le dépot");
     $frm->add_hidden("action","edit");

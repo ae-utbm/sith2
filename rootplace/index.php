@@ -49,6 +49,11 @@ $lst->add("<a href=\"aecms.php?page=raz\">RAZ d'un AECMS</a> (remet les paramèt
 $lst->add("<a href=\"aecms.php?page=install\">Installation d'un AECMS</a> (ou re-installation)");
 $cts->add($lst);
 
+$cts->add_title(2,"SVN");
+$lst = new itemlist();
+$lst->add("<a href=\"svn.php\">Gestion des svn</a>");
+$cts->add($lst);
+
 $cts->add_title(2,"Maintenance");
 $lst = new itemlist();
 $lst->add("<a href=\"pollcoti.php\">Expiration des cotisations</a>");
