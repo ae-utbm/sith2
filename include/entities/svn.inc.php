@@ -92,10 +92,10 @@ class svn_depot extends stdentity
       if($type == "private")
         $dest = SVN_PATH.PRIVATE_SVN;
       elseif($type == "public")
-        $dest == SVN_PATH.PUBLIC_SVN;
+        $dest = SVN_PATH.PUBLIC_SVN;
       elseif($type == "aeinfo")
-        $dest == SVN_PATH.AEINFO_SVN;
-print_r($dest.$this->nom);
+        $dest = SVN_PATH.AEINFO_SVN;
+
       if(!exec("/usr/bin/svnadmin create ".$dest.$this->nom))
       {
         // il faut supprimer l'entrée dans la base de donnée
