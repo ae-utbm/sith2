@@ -195,27 +195,22 @@ if ( $_REQUEST["action"] == "search" )
   {
     $presents = $_REQUEST["presents"];
     
+    if ( !is_array($presents) )
+      $presents[] = $presents;
+    
     if ( !empty($presents) )
     {
-      $count_presents = array_count_values( $presents );
+      $presents = array_unique($presents);
+      
       foreach ( $presents as $present )
       {
-        if ( $count_presents[$present] != 1 )
-        {
-          $count_presents[$present]--;
-        }
-        else
-        {       
-          $user_present = new utilisateur($site->db);
-          $user_present->load_by_id($present);
+        $user_present = new utilisateur($site->db);
+        $user_present->load_by_id($present);
           
-          if ( $user_present->is_valid() )
-          {
-            echo $user_present->nom;
-          
-            $joins[] = "INNER JOIN sas_personnes_photos AS `p".mysql_escape_string($user_present->id)."` ON ( sas_photos.id_photo=p".mysql_escape_string($user_present->id).".id_photo AND p".mysql_escape_string($user_present->id).".id_utilisateur='".mysql_escape_string($user_present->id)."') ";
-            $params.="&presents[]=".$user_present->id;
-          }
+        if ( $user_present->is_valid() )
+        {     
+          $joins[] = "INNER JOIN sas_personnes_photos AS `p".mysql_escape_string($user_present->id)."` ON ( sas_photos.id_photo=p".mysql_escape_string($user_present->id).".id_photo AND p".mysql_escape_string($user_present->id).".id_utilisateur='".mysql_escape_string($user_present->id)."') ";
+          $params.="&presents[]=".$user_present->id;
         }
       }
     }
