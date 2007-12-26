@@ -123,7 +123,7 @@ if(isset($_REQUEST["id_depot"]))
         $frm->add_hidden("mode","user");
         $frm->add_hidden("commit","valid");
         $frm->add_hidden("id_utilisateur",$user->id);
-        $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"),$right);
+        $frm->add_select_field("right","Droits",array("r"=>"Lecture","rw"=>"Ecriture"),$right);
         $frm->add_submit("valid","Valider");
         $cts->add($frm,true);
       }
@@ -134,7 +134,7 @@ if(isset($_REQUEST["id_depot"]))
         $frm->add_hidden("mode","user");
         $frm->add_hidden("commit","valid");
         $frm->add_user_fieldv2("id_utilisateur","Utilisateur :");
-        $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"));
+        $frm->add_select_field("right","Droits",array("r"=>"Lecture","rw"=>"Ecriture"));
         $frm->add_submit("valid","Valider");
         $cts->add($frm,true);
       }
