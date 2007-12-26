@@ -101,14 +101,14 @@ if ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "stats" )
   $cts->add($lst,true);
 
 }
-elseif ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "new" )
+elseif ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "new" && $user->id==$site->user->id )
 {
   if ( $_REQUEST["action"] == "vu" )
   {
     /* On usine */
     $req = new requete($site->dbrw,"UPDATE sas_personnes_photos " .
             "SET vu_phutl='1' " .
-            "WHERE id_utilisateur='".$site->user->id."' AND vu_phutl='0'");
+            "WHERE id_utilisateur='".$user->id."' AND vu_phutl='0'");
     
     $cts->add_paragraph("Toutes vos photos ont été marquées comme vues.");
     $cts->add_paragraph("<a href=\"photos.php\">Retourner à vos photos</a>");
@@ -121,7 +121,7 @@ elseif ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "new" )
             "INNER JOIN sas_cat_photos ON sas_cat_photos.id_catph=sas_photos.id_catph " .
             "LEFT JOIN sas_personnes_photos AS `p1` ON " .
               "(p1.id_photo=sas_photos.id_photo " .
-              "AND p1.id_utilisateur='". $site->user->id."' " .
+              "AND p1.id_utilisateur='". $user->id."' " .
               "AND p1.modere_phutl='1') " .
             "WHERE " .
             "p2.vu_phutl='0' AND " .

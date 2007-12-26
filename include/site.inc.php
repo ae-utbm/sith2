@@ -536,6 +536,11 @@ class site extends interfaceweb
       }
     }
     
+    $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_personnes_photos` WHERE `id_utilisateur='".$site->user->id."' AND vu_phutl='0'");
+    list($nphoto) = $req->get_row();
+    if ( $nphoto > 0 )
+      $elements[] = "<a href=\"".$topdir."user/photos.php?see=new\">".$nphotos." nouvelle(s) photo(s) dans le SAS</a>";
+    
     $cotiz = new cotisation($this->db);
     $cotiz->load_lastest_by_user ( $this->user->id );
 
@@ -565,7 +570,7 @@ class site extends interfaceweb
     
     if ($nbsteps == 1)
       {
-	$elements[] = "<a href=\"".$topdir."covoiturage/\">$nbsteps étape de covoiturage à modérer<b></a>";
+  $elements[] = "<a href=\"".$topdir."covoiturage/\">$nbsteps étape de covoiturage à modérer<b></a>";
       }
     else if ($nbsteps > 1)
       $elements[] = "<a href=\"".$topdir."covoiturage/\">$nbsteps étapes de covoiturage à modérer<b></a>";
@@ -1462,21 +1467,21 @@ class site extends interfaceweb
         $asked = str_replace('"', '',stripslashes($_SERVER['HTTP_IF_NONE_MATCH']));
         if ( $asked == $etag )
         {
-  	      //file_put_contents("counter",intval(@file_get_contents("counter"))+1);
+          //file_put_contents("counter",intval(@file_get_contents("counter"))+1);
           header("HTTP/1.1 304 Not Modified", true, 304);
           exit();
         }
       }
-  	  elseif ( isset($_SERVER["HTTP_IF_MODIFIED_SINCE"]) )
-  	  {
-  	    $asked = strtotime($_SERVER["HTTP_IF_MODIFIED_SINCE"]);
-  	    if ( $mtime <= $asked )
-  	    {
-  	      //file_put_contents("counter",intval(@file_get_contents("counter"))+1);
-    		  header("HTTP/1.1 304 Not Modified", true, 304);
-    		  exit();
-  	    }
-    	}
+      elseif ( isset($_SERVER["HTTP_IF_MODIFIED_SINCE"]) )
+      {
+        $asked = strtotime($_SERVER["HTTP_IF_MODIFIED_SINCE"]);
+        if ( $mtime <= $asked )
+        {
+          //file_put_contents("counter",intval(@file_get_contents("counter"))+1);
+          header("HTTP/1.1 304 Not Modified", true, 304);
+          exit();
+        }
+      }
     }
     
     $modified = gmdate("D, d M Y H:i:s \G\M\T",$mtime);
