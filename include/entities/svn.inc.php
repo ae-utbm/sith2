@@ -151,7 +151,7 @@ class svn_depot extends stdentity
     /*if (!$req)
       return false;*/
 
-    /*print_r("/bin/mv ".$from.$this->nom." ".$dest.$this->nom);*/
+    print_r("/bin/mv ".$from.$this->nom." ".$dest.$this->nom);
     if(rename($from.$this->nom,$dest.$this->nom))
     {
       $this->delete_auth_file();
