@@ -100,7 +100,7 @@ $frm->add_submit("valid","Valider"); $cts->add($frm,true);
 $req = new requete($site->db,"SELECT `svn_depot`.* FROM `svn_member_depot` ".
                              "INNER JOIN `svn_depot` USING(`id_depot`) ".
                              "WHERE `id_depot`='".$svn->id."' ".
-                             "ORDER BY `svn_depot`.`type_depot`");
+                             "ORDER BY `svn_depot`.`type`");
 $cts->add(new sqltable("svn_member_depot",
                        "Membres des dépots",
                        $req,
