@@ -268,11 +268,11 @@ class svn_depot extends stdentity
   function create_auth_file()
   {
     if($this->type == "private")
-      $path == SVN_PATH.PRIVATE_SVN;
+      $path = SVN_PATH.PRIVATE_SVN;
     elseif($this->type == "public")
-      $path == SVN_PATH.PUBLIC_SVN;
+      $path = SVN_PATH.PUBLIC_SVN;
     elseif($this->type == "aeinfo")
-      $path == SVN_PATH.AEINFO_SVN;
+      $path = SVN_PATH.AEINFO_SVN;
 
     if(!$handle = @fopen($path.AUTHFILE, "r"))
       return false;
@@ -410,8 +410,7 @@ class svn_depot extends stdentity
       return false;
     @fwrite($handle,$render);
     @fclose ($handle);
-    print_r($path.AUTHFILE);
-    print_r($render);
+
     return true;
   }
 
