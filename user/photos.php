@@ -103,54 +103,64 @@ if ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "stats" )
 }
 elseif ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "new" )
 {
-  $req = new requete($site->db,"SELECT sas_photos.*,sas_cat_photos.nom_catph " .
-          "FROM sas_personnes_photos AS `p2` " .
-          "INNER JOIN sas_photos ON p2.id_photo=sas_photos.id_photo " .
-          "INNER JOIN sas_cat_photos ON sas_cat_photos.id_catph=sas_photos.id_catph " .
-          "LEFT JOIN sas_personnes_photos AS `p1` ON " .
-            "(p1.id_photo=sas_photos.id_photo " .
-            "AND p1.id_utilisateur='". $site->user->id."' " .
-            "AND p1.modere_phutl='1') " .
-          "WHERE " .
-          "p2.vu_phutl='0' AND " .
-          "p2.id_utilisateur='". $user->id."' AND " .
-          "((((droits_acces_ph & 0x1) OR " .
-          "((droits_acces_ph & 0x10) AND sas_photos.id_groupe IN ($grps))) " .
-            "AND droits_acquis='1') OR " .
-          "(sas_photos.id_groupe_admin IN ($grps)) OR " .
-          "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='". $site->user->id."') OR " .
-          "((droits_acces_ph & 0x100) AND p1.id_utilisateur IS NOT NULL) ) " .
-          "ORDER BY sas_cat_photos.date_debut_catph DESC, sas_cat_photos.id_catph DESC, date_prise_vue "
-          );
-
-
-
-
-  $prev_id_catph=-1;
-  $gal=null;
-  while ( $row = $req->get_row())
+  if ( $_REQUEST["action"] == "vu" )
   {
-    if ( $prev_id_catph != $row['id_catph'] )
-    {
-      if ( $gal )
-        $cts->add($gal,true);
-
-      $gal = new gallery($row['nom_catph'],"photos");
-
-      $prev_id_catph = $row['id_catph'];
-    }
-
-    $img = "../sas2/images.php?/".$row['id_photo'].".vignette.jpg";
-    $gal->add_item("<a href=\"../sas2/?id_photo=".$row['id_photo']."\"><img src=\"$img\" alt=\"Photo\"></a>");
-  }
-  if ( $gal )
-  {
-    $cts->add($gal,true);
-    $cts->add_paragraph("<a href=\"user/photos.php?see=new&id_utilisateur=".$user->id."&action=vu>Marquer toutes les photos commes vues</a>");
+    /* On usine */
+    $req = new requete($site->dbrw,"UPDATE sas_personnes_photos " .
+            "SET vu_phutl='1' " .
+            "WHERE id_utilisateur='".$site->user->id."' AND vu_phutl='0'");
+    
+    $cts->add_paragraph("Toutes vos photos ont été marquées comme vues.");
+    $cts->add_paragraph("<a href=\"user/photos.php\">Retourner à vos photos</a>");
   }
   else
   {
-    $cts->add_paragraph("Vous n'avez pas de nouvelles photos");
+    $req = new requete($site->db,"SELECT sas_photos.*,sas_cat_photos.nom_catph " .
+            "FROM sas_personnes_photos AS `p2` " .
+            "INNER JOIN sas_photos ON p2.id_photo=sas_photos.id_photo " .
+            "INNER JOIN sas_cat_photos ON sas_cat_photos.id_catph=sas_photos.id_catph " .
+            "LEFT JOIN sas_personnes_photos AS `p1` ON " .
+              "(p1.id_photo=sas_photos.id_photo " .
+              "AND p1.id_utilisateur='". $site->user->id."' " .
+              "AND p1.modere_phutl='1') " .
+            "WHERE " .
+            "p2.vu_phutl='0' AND " .
+            "p2.id_utilisateur='". $user->id."' AND " .
+            "((((droits_acces_ph & 0x1) OR " .
+            "((droits_acces_ph & 0x10) AND sas_photos.id_groupe IN ($grps))) " .
+              "AND droits_acquis='1') OR " .
+            "(sas_photos.id_groupe_admin IN ($grps)) OR " .
+            "((droits_acces_ph & 0x100) AND sas_photos.id_utilisateur='". $site->user->id."') OR " .
+            "((droits_acces_ph & 0x100) AND p1.id_utilisateur IS NOT NULL) ) " .
+            "ORDER BY sas_cat_photos.date_debut_catph DESC, sas_cat_photos.id_catph DESC, date_prise_vue "
+            );
+
+    $prev_id_catph=-1;
+    $gal=null;
+    while ( $row = $req->get_row())
+    {
+      if ( $prev_id_catph != $row['id_catph'] )
+      {
+        if ( $gal )
+          $cts->add($gal,true);
+  
+        $gal = new gallery($row['nom_catph'],"photos");
+
+        $prev_id_catph = $row['id_catph'];
+      }
+
+      $img = "../sas2/images.php?/".$row['id_photo'].".vignette.jpg";
+      $gal->add_item("<a href=\"../sas2/?id_photo=".$row['id_photo']."\"><img src=\"$img\" alt=\"Photo\"></a>");
+    }
+    if ( $gal )
+    {
+      $cts->add($gal,true);
+      $cts->add_paragraph("<a href=\"user/photos.php?see=new&id_utilisateur=".$user->id."&action=vu\">Marquer toutes les photos commes vues</a>");
+    }
+    else
+    {
+      $cts->add_paragraph("Vous n'avez pas de nouvelles photos");
+    }
   }
 }
 else
