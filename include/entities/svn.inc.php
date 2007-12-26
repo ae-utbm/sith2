@@ -360,47 +360,6 @@ class svn_depot extends stdentity
       else
         $render .="[".$this->nom.":/]\n@".$this->nom."rw = rw\n@".$this->nom."ro = r\n* =";
     }
-    /*else
-    {
-      $con = explode("\n", $contents);
-      for($i=0;$i<count($con);$i++)
-      {
-        if(preg_match("#^".$this->nom."rw \= (.*?)$#",$con[$i]))
-        {
-          if(!empty($readwrite))
-          {
-            for($i=0;$i<count($readwrite);$i++)
-            {
-              if($i==0)
-                $_rw=$readwrite[$i];
-              else
-                $_rw.=", ".$readwrite[$i];
-            }
-            $render.=$this->nom."rw = ".$_rw."\n";
-          }
-          else
-            $render.=$this->nom."rw = \n";
-        }
-        elseif(preg_match("#^".$this->nom."ro \= (.*?)$#",$con[$i]))
-        {
-          if(!empty($readonly))
-          {
-            for($i=0;$i<count($readonly);$i++)
-            {
-              if($i==0)
-                $_ro=$readonly[$i];
-              else
-                $_ro.=", ".$readonly[$i];
-            }
-            $render.=$this->nom."ro = ".$_ro."\n";
-          }
-          else
-            $render.=$this->nom."ro = \n";
-        }
-        else
-          $render.=$con[$i]."\n";
-      }
-    }*/
     else
     {
       return false;
