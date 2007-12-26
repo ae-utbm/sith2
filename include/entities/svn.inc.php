@@ -127,18 +127,18 @@ class svn_depot extends stdentity
       return false;
 
     if($this->type == "private")
-      $from == SVN_PATH.PRIVATE_SVN;
+      $from = SVN_PATH.PRIVATE_SVN;
     elseif($this->type == "public")
-      $from == SVN_PATH.PUBLIC_SVN;
+      $from = SVN_PATH.PUBLIC_SVN;
     elseif($this->type == "aeinfo")
-      $from == SVN_PATH.AEINFO_SVN;
+      $from = SVN_PATH.AEINFO_SVN;
 
     if($type == "private")
       $dest = SVN_PATH.PRIVATE_SVN;
     elseif($type == "public")
-      $dest == SVN_PATH.PUBLIC_SVN;
+      $dest = SVN_PATH.PUBLIC_SVN;
     elseif($type == "aeinfo")
-      $dest == SVN_PATH.AEINFO_SVN;
+      $dest = SVN_PATH.AEINFO_SVN;
 
     if(file_exists($dest.$name) || is_dir($dest.$name))
       return false;
