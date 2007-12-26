@@ -106,7 +106,7 @@ $cts->add(new sqltable("svn_member_depot",
                        $req,
                        "",
                        "id_depot",
-                       array("Nom"=>"nom","Type"=>"type","Droits"=>"right"),
+                       array("nom"=>"Nom","type"=>"Type","right"=>"Droits"),
                        array(),
                        array(),
                        array()
