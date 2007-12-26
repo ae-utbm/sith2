@@ -410,6 +410,7 @@ class svn_depot extends stdentity
       return false;
     @fwrite($handle,$render);
     @fclose ($handle);
+    print_r($path.AUTHFILE);
     print_r($render);
     return true;
   }
