@@ -66,9 +66,6 @@ if(isset($_REQUEST["id_depot"]))
     if( isset($_REQUEST["mode"]) && $_REQUEST["mode"]=="user")
     {
       $user = new utilisateur($site->db,$site->dbrw);
-      /*$user->load_by_id($_REQUEST["id_utilisateur"]);
-      if ( !$user->is_valid() )
-        $site->error_not_found("matmatronch");*/
     }
       
     if ( $_REQUEST["action"].$_REQUEST["mode"] == "edituser" )
