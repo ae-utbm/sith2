@@ -196,7 +196,7 @@ if ( $_REQUEST["action"] == "search" )
     $presents = $_REQUEST["presents"];
     
     if ( !is_array($presents) )
-      $presents[] = $presents;
+      $presents = array($presents);
     
     if ( !empty($presents) )
     {
