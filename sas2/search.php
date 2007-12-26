@@ -98,7 +98,7 @@ if ( empty($utilisateurs_presents) )
 else
 {
   foreach ( $utilisateurs_presents as $utilisateur_present )
-    $frm->add_entity_smartselect ( "id_utilisateurs_presents[]", "Personne sur la photo", $utilisateur_present, true );
+    $frm->add_entity_smartselect ( "id_utilisateurs_presents[".$utilisateur_present->id."]", "Personne sur la photo", $utilisateur_present, true );
 }
 $frm->add_entity_smartselect ( "id_utilisateur_photographe", "Photographe", $userph, true );
 $frm->add_entity_smartselect ( "id_utilisateur_contributeur", "Contributeur", $userad, true );
