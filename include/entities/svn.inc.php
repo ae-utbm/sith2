@@ -308,7 +308,7 @@ class svn_depot extends stdentity
         }
       }
       
-      if(empty($read) && empty($readwrite) && $this->type != "public" )
+      if(empty($readonly) && empty($readwrite) && $this->type != "public" )
         return true;
     }
 
