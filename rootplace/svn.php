@@ -48,7 +48,7 @@ if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="createdepot" )
 
 //$tabs = array(array("","rootplace/svn.php","Depots"),array("user","rootplace/svn.php?view=user","Utilisateurs"));
 $site->start_page("none","Administration / SVN");
-$cts = new contents("<a href=\"./\">Administration</a> / SVN");
+$cts = new contents("<a href=\"./\">Administration</a> / <a href=\"svn.php\">SVN</a>");
 //$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 
@@ -153,13 +153,16 @@ if(isset($_REQUEST["id_depot"]))
     
     $cts->add_title(2,"Information sur le dépot");
     $cts->add_paragraph("Nom : ".$svn->nom."<br />type : ".$svn->type);
-    $req2 = new requete($site->db,"SELECT * FROM `svn_member_depot` WHERE `id_depot`='".$svn->id."'");
+    $req2 = new requete($site->db,"SELECT `id_utilisateur`, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur2` ".
+                                  "FROM `svn_member_depot` ".
+                                  "INNER JOIN `utilisateurs` ON USING(`id_utilisateur`) " .
+                                  "WHERE `id_depot`='".$svn->id."'");
     $cts->add(new sqltable("svn_member_depot",
                            "Membres du dépot",
                            $req2,
                            "svn.php?id_depot=".$svn->id."&mode=user",
                            "id_utilisateur",
-                           array("id_utilisateur"=>"id_utilisateur","right"=>"Droits"),
+                           array("nom_utilisateur"=>"Utilisateur","right"=>"Droits"),
                            array("edit"=>"Modifier","delete"=>"Enlever"),
                            array(),
                            array()
