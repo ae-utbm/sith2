@@ -74,7 +74,7 @@ if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="pass" )
   if(empty($_REQUEST["pass"]))
     $cts->add_paragraph("<b>Veuillez spécifier un mot de passe.</b>");
   else
-    @exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".$site->user->alias." '".mysql_real_escape_string($_REQUEST["pass"])."'");
+    @exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".$site->user->alias." '".$_REQUEST["pass"]."'");
 }
 
 $find = @exec("grep \"^".$site->user->alias.":\" " .SVN_PATH.PASSWORDFILE);
