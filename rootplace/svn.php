@@ -188,7 +188,7 @@ if(isset($_REQUEST["id_depot"]))
                            array(),
                            array()
                          ));
-    $frm = new form("createdepot","svn.php,"post","Créer un nouveau dépot");
+    $frm = new form("createdepot","svn.php","post","Créer un nouveau dépot");
     $frm->add_hidden("action","createdepot");
     $frm->add_text_field("nom","Nom du dépot");
     $frm->add_select_field("type","Droits",array("public"=>"Publique","private"=>"Privé","aeinfo"=>"Équipe info"));
@@ -209,7 +209,7 @@ else
                          array(),
                          array()
                         ));
-  $frm = new form("createdepot","svn.php,"post","Créer un nouveau dépot");
+  $frm = new form("createdepot","svn.php","post","Créer un nouveau dépot");
   $frm->add_hidden("action","createdepot");
   $frm->add_text_field("nom","Nom du dépot");
   $frm->add_select_field("type","Droits",array("public"=>"Publique","private"=>"Privé","aeinfo"=>"Équipe info"));
