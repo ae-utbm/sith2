@@ -140,7 +140,7 @@ class svn_depot extends stdentity
     elseif($type == "aeinfo")
       $dest = SVN_PATH.AEINFO_SVN;
 
-    if(file_exists($dest.$name) || is_dir($dest.$name))
+    if(file_exists($dest.$this->nom) || is_dir($dest.$this->nom))
       return false;
 
     $req = new update($this->dbrw,
@@ -148,10 +148,9 @@ class svn_depot extends stdentity
                       array("type"=>$type),
                       array("id_depot"=>$this->id)
                     );
-    /*if (!$req)
-      return false;*/
+    if (!$req)
+      return false;
 
-    print_r("/bin/mv ".$from.$this->nom." ".$dest.$this->nom);
     if(rename($from.$this->nom,$dest.$this->nom))
     {
       $this->delete_auth_file();
