@@ -111,7 +111,7 @@ elseif ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "new" )
             "WHERE id_utilisateur='".$site->user->id."' AND vu_phutl='0'");
     
     $cts->add_paragraph("Toutes vos photos ont été marquées comme vues.");
-    $cts->add_paragraph("<a href=\"user/photos.php\">Retourner à vos photos</a>");
+    $cts->add_paragraph("<a href=\"photos.php\">Retourner à vos photos</a>");
   }
   else
   {
@@ -155,7 +155,7 @@ elseif ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "new" )
     if ( $gal )
     {
       $cts->add($gal,true);
-      $cts->add_paragraph("<a href=\"user/photos.php?see=new&id_utilisateur=".$user->id."&action=vu\">Marquer toutes les photos commes vues</a>");
+      $cts->add_paragraph("<a href=\"photos.php?see=new&id_utilisateur=".$user->id."&action=vu\">Marquer toutes les photos commes vues</a>");
     }
     else
     {
