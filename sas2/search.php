@@ -201,10 +201,14 @@ if ( $_REQUEST["action"] == "search" )
       {
         $user_present = new utilisateur($site->db);
         $user_present->load_by_id($present);
-        echo $user_present->nom;
         
-        $joins[] = "INNER JOIN sas_personnes_photos AS `p".mysql_escape_string($user_present->id)."` ON ( sas_photos.id_photo=p".mysql_escape_string($user_present->id).".id_photo AND p".mysql_escape_string($user_present->id).".id_utilisateur='".mysql_escape_string($user_present->id)."') ";
-        $params.="&presents[]=".$user_present->id;
+        if ( $user_present->is_valid() )
+        {
+          echo $user_present->nom;
+        
+          $joins[] = "INNER JOIN sas_personnes_photos AS `p".mysql_escape_string($user_present->id)."` ON ( sas_photos.id_photo=p".mysql_escape_string($user_present->id).".id_photo AND p".mysql_escape_string($user_present->id).".id_utilisateur='".mysql_escape_string($user_present->id)."') ";
+          $params.="&presents[]=".$user_present->id;
+        }
       }
     }
   }
