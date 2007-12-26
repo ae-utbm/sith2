@@ -148,11 +148,11 @@ class svn_depot extends stdentity
                       array("type"=>$type),
                       array("id_depot"=>$this->id)
                     );
-    if (!$req)
-      return false;
+    /*if (!$req)
+      return false;*/
 
-    print_r("/bin/mv ".$from.$this->nom." ".$dest.$this->nom);
-    if(@exec("/bin/mv ".$from.$this->nom." ".$dest.$this->nom))
+    /*print_r("/bin/mv ".$from.$this->nom." ".$dest.$this->nom);*/
+    if(rename($from.$this->nom,$dest.$this->nom))
     {
       $this->delete_auth_file();
       $this->type=$type;
