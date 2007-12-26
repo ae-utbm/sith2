@@ -276,7 +276,6 @@ class svn_depot extends stdentity
 
     if(!$handle = @fopen($path.AUTHFILE, "r"))
       return false;
-print_r("bleh");
 
     $req = new requete($this->db,
                        "SELECT `id_utilisateur`, `right` ".
@@ -410,7 +409,7 @@ print_r("bleh");
       return false;
     @fwrite($handle,$render);
     @fclose ($handle);
-print_r($path.AUTHFILE);
+print_r($render);
     return true;
   }
 
