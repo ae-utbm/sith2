@@ -44,7 +44,7 @@ if(empty($site->user->alias))
     {
       $ErreurMAJ = "Alias invalide, utilisez seulement des lettres, des chiffres, des tirets, des points, et des underscore.";
     }
-    elseif ( $_REQUEST["alias"] && !$user->is_alias_avaible($_REQUEST["alias"]) )
+    elseif ( $_REQUEST["alias"] && !$site->user->is_alias_available($_REQUEST["alias"]) )
     {
       $ErreurMAJ = "Alias d&eacute;j&agrave;  utilis&eacute;";
     }
