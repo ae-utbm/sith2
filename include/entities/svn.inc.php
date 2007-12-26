@@ -101,7 +101,7 @@ class svn_depot extends stdentity
         // il faut supprimer l'entrée dans la base de donnée
         return false;
       }
-
+print_r("bleh");
       @mkdir("/tmp/".$thie->nom,0777);
       @mkdir("/tmp/".$this->nom."/branches",0777);
       @mkdir("/tmp/".$this->nom."/tags",0777);
