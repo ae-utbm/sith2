@@ -153,7 +153,7 @@ if(isset($_REQUEST["id_depot"]))
     
     $cts->add_title(2,"Information sur le dépot");
     $cts->add_paragraph("Nom : ".$svn->nom."<br />type : ".$svn->type);
-    $req2 = new requete($site->db,"SELECT `id_utilisateur`, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur2` ".
+    $req2 = new requete($site->db,"SELECT `id_utilisateur`, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur2` ".
                                   "FROM `svn_member_depot` ".
                                   "INNER JOIN `utilisateurs` ON USING(`id_utilisateur`) " .
                                   "WHERE `id_depot`='".$svn->id."'");
