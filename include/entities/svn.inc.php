@@ -96,22 +96,22 @@ class svn_depot extends stdentity
       elseif($type == "aeinfo")
         $dest == SVN_PATH.AEINFO_SVN;
 
-      if(!exec("svnadmin create ".$dest.$name))
+      if(!exec("svnadmin create ".$dest.$this->nom))
       {
         // il faut supprimer l'entrée dans la base de donnée
         return false;
       }
 
-      @mkdir("/tmp/".$name,0777);
-      @mkdir("/tmp/".$name."/branches",0777);
-      @mkdir("/tmp/".$name."/tags",0777);
-      @mkdir("/tmp/".$name."/trunk",0777);
-      if(is_dir("/tmp/".$name))
-        exec("svn import /tmp/".$name." file://".$dest." -m 'Initial import'");
-      @rmdir("/tmp/".$name."/branches");
-      @rmdir("/tmp/".$name."/tags");
-      @rmdir("/tmp/".$name."/trunk");
-      @rmdir("/tmp/".$name);
+      @mkdir("/tmp/".$thie->nom,0777);
+      @mkdir("/tmp/".$this->nom."/branches",0777);
+      @mkdir("/tmp/".$this->nom."/tags",0777);
+      @mkdir("/tmp/".$this->nom."/trunk",0777);
+      if(is_dir("/tmp/".$this->nom))
+        exec("svn import /tmp/".$this->nom." file://".$dest." -m 'Initial import'");
+      @rmdir("/tmp/".$this->nom."/branches");
+      @rmdir("/tmp/".$this->nom."/tags");
+      @rmdir("/tmp/".$this->nom."/trunk");
+      @rmdir("/tmp/".$this->nom);
 
       return true;
     }
