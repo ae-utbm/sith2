@@ -64,6 +64,7 @@ if ( isset($_REQUEST["id_utilisateurs_presents"]) )
       $utilisateurs_presents[] = new utilisateur($site->db);
       
     foreach ( $utilisateurs_presents as &$utilisateur_present)
+      echo $utilisateur_present;
       $utilisateur_present->load_by_id($utilisateur_present);
   }
 }
@@ -90,7 +91,9 @@ $frm->add_text_field("tags","Tags",$_REQUEST["tags"]);
 $frm->add_entity_smartselect ( "id_asso", "Association/Club", $asso, true );
 $frm->add_entity_smartselect ( "id_asso_photographe", "Club photographe", $assoph, true );
 if ( empty($utilisateurs_presents) )
+{
   $frm->add_entity_smartselect ( "presents[]", "Personne sur la photo", $tachatte, true );
+}
 else
 {
   foreach ( $utilisateurs_presents as $utilisateur_present )
