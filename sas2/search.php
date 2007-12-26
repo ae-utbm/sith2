@@ -191,6 +191,21 @@ if ( $_REQUEST["action"] == "search" )
     }
   }
   
+  if ( $_REQUEST["presents"] )
+  {
+    $presents = $_REQUEST["presents"];
+    
+    if ( !empty($presents) )
+    {
+      foreach ( $presents as $present )
+      {
+        $user_present = new utilisateur($site->db);
+        $user_present->load_by_id($present);
+        echo $user_present->nom;
+      }
+    }
+  }
+  
   if ( $fail )
   {
     $count=0;
