@@ -65,13 +65,13 @@ if ( $user->id==$site->user->id )
   $tabs = array(
     array("","user/photos.php?id_utilisateur=".$user->id,"Photos"),
     array("stats","user/photos.php?see=stats&id_utilisateur=".$user->id,"Statistiques"),
-    array("new","user/photos.php?see=new&id_utilisateur=".$user->id,"Nouvelles photos"))
+    array("new","user/photos.php?see=new&id_utilisateur=".$user->id,"Nouvelles photos"));
 }
 else
 {
   $tabs = array(
     array("","user/photos.php?id_utilisateur=".$user->id,"Photos"),
-    array("stats","user/photos.php?see=stats&id_utilisateur=".$user->id,"Statistiques"))
+    array("stats","user/photos.php?see=stats&id_utilisateur=".$user->id,"Statistiques"));
 }
 $cts->add(new tabshead($tabs,
   isset($_REQUEST["see"])?$_REQUEST["see"]:"","","subtab"));
