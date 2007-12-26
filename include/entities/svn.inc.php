@@ -418,11 +418,11 @@ print_r($path.AUTHFILE);
   function delete_auth_file()
   {
     if($this->type == "private")
-      $path == SVN_PATH.PRIVATE_SVN;
+      $path = SVN_PATH.PRIVATE_SVN;
     elseif($this->type == "public")
-      $path == SVN_PATH.PUBLIC_SVN;
+      $path = SVN_PATH.PUBLIC_SVN;
     elseif($this->type == "aeinfo")
-      $path == SVN_PATH.AEINFO_SVN;
+      $path = SVN_PATH.AEINFO_SVN;
 
     $handle = @fopen($path.AUTHFILE, "r");
     $contents = @fread($handle, @filesize($path.AUTHFILE));
