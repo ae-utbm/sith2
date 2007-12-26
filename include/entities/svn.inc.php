@@ -359,6 +359,7 @@ class svn_depot extends stdentity
         $render .="[".$this->nom.":/]\n@".$this->nom."rw = rw\n@".$this->nom."ro = r\n* = r";
       else
         $render .="[".$this->nom.":/]\n@".$this->nom."rw = rw\n@".$this->nom."ro = r\n* =";
+      print_r($render);
     }
     /*else
     {
@@ -400,7 +401,7 @@ class svn_depot extends stdentity
         else
           $render.=$con[$i]."\n";
       }
-    }*/print_r($render);
+    }*/
     else
     {
       return false;
