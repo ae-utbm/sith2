@@ -539,7 +539,7 @@ class site extends interfaceweb
     $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_personnes_photos` WHERE `id_utilisateur`='".$this->user->id."' AND `vu_phutl`='0'");
     list($nphoto) = $req->get_row();
     if ( $nphoto > 0 )
-      $elements[] = "<a href=\"".$topdir."user/photos.php?see=new\"><b></b>".$nphoto." nouvelle(s) photo(s)</b> dans le SAS</a>";
+      $elements[] = "<a href=\"".$topdir."user/photos.php?see=new\"><b>".$nphoto." nouvelle(s) photo(s)</b> dans le SAS</a>";
     
     $cotiz = new cotisation($this->db);
     $cotiz->load_lastest_by_user ( $this->user->id );
