@@ -152,7 +152,7 @@ if(isset($_REQUEST["id_depot"]))
     }
     
     $cts->add_title(2,"Information sur le dépot");
-    $cts->add_paragraph("<b>Dépot : ".$svn->nom."</b><br />type : ".$svn->type);
+    $cts->add_paragraph("Nom : ".$svn->nom."<br />type : ".$svn->type);
     $req2 = new requete($site->db,"SELECT * FROM `svn_member_depot` WHERE `id_depot`='".$svn->id."'");
     $cts->add(new sqltable("svn_member_depot",
                            "Membres du dépot",
