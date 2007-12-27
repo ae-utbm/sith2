@@ -1004,7 +1004,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
         }
       }
       else
-        $cam = new camembert(10,10,array(),2,0,0,0,0,0,0,10,0);
+        $cam = new camembert(10,10,array(),2,0,0,0,0,0,0,0,0);
       return $cam;
     }
   }
