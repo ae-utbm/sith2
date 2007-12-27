@@ -78,7 +78,7 @@ else
   $script = @fread($handle, @filesize(PROD_SCRIPT));
   $frm = new form("passageenprod", "prod_cron.php", false, "POST", "Editer le script de passage en production");
   $frm->allow_only_one_usage();
-  $frm->add_hidden("action","scritprod");
+  $frm->add_hidden("action","scriptprod");
   $frm->add_text_area("text", "Texte du message : ",$script,80,40);
   $frm->add_submit("valid","Valider");
   $cts->add($frm,true);
