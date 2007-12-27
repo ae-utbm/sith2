@@ -37,7 +37,7 @@ $site->start_page("none","Administration / passage en prod");
 $cts = new contents("<a href=\"./\">Administration</a> / Passage en production");
 $tabs = array(array("","rootplace/prod_cron.php","Passage en prod"),
               array("script","rootplace/prod_cron.php?view=script","Script de passage en prod"),
-              array("commit","rootplace/prod_cron.php?view=commit","Script de post-commit"));
+              array("commit","rootplace/prod_cron.php?view=commit","Script de post commit"));
 
 if ( $_REQUEST["action"] == "passprod" && $GLOBALS["svalid_call"] )
 {
@@ -72,7 +72,7 @@ if ( $_REQUEST["action"] == "scriptpostcommit" && $GLOBALS["svalid_call"] )
       $content = preg_replace("/\r\n/","\n",htmlspecialchars_decode($_REQUEST["__script__"]));
       @fwrite($handle,$content);
       @fclose ($handle);
-      $_REQUEST["view"]="script";
+      $_REQUEST["view"]="commit";
       $Ok=true;
     }
   }
@@ -88,6 +88,8 @@ if ( $Ok )
     $cts->add_paragraph("Passage en prod programmé dans les deux minutes à venir");
   elseif ( $_REQUEST["action"] == "scriptprod" )
     $cts->add_paragraph("Script de passage en prod modifié");
+  elseif( $_REQUEST["action"] == "commit" )
+    $cts->add_paragraph("Script de post commit modifié");
 }
 
 if($_REQUEST["view"]=="script")
@@ -108,11 +110,11 @@ if($_REQUEST["view"]=="script")
 if($_REQUEST["view"]=="commit")
 {
   if(!$handle = @fopen(POST_COMMIT_SCRIPT, "r"))
-    $cts->add_paragraph("Impossible d'ouvrir le script de post-commit !");
+    $cts->add_paragraph("Impossible d'ouvrir le script de post commit !");
   else
   {
     $script = @fread($handle, @filesize(POST_COMMIT_SCRIPT));
-    $frm = new form("postcommit", "prod_cron.php", false, "POST", "Editer le script de post-commit");
+    $frm = new form("postcommit", "prod_cron.php", false, "POST", "Editer le script de post commit");
     $frm->allow_only_one_usage();
     $frm->add_hidden("action","scriptpostcommit");
     $frm->add_text_area("__script__", "Script : ",$script,80,40);
