@@ -53,7 +53,8 @@ if ( $_REQUEST["action"] == "scriptprod" && $GLOBALS["svalid_call"] )
       $Ok=false;
     else
     {
-      @fwrite($handle,htmlspecialchars_decode($_REQUEST["__script__"]));
+      $content = preg_replace(htmlspecialchars_decode("\r\n",$_REQUEST["__script__"])))
+      @fwrite($handle,$content);
       @fclose ($handle);
       $_REQUEST["view"]="script";
       $Ok=true;
