@@ -23,6 +23,7 @@
  */
 define("PROD_CRON", "/var/www/cron_update.sh");
 define("PROD_SCRIPT", "/var/www/update-official-www.sh");
+define("POST_COMMIT_SCRIPT", "/var/lib/svn/aeinfo/ae2/hooks/post-commit");
 $topdir="../";
 
 require_once($topdir. "include/site.inc.php");
@@ -34,7 +35,9 @@ if ( !$site->user->is_in_group("root") )
 	
 $site->start_page("none","Administration / passage en prod");
 $cts = new contents("<a href=\"./\">Administration</a> / Passage en production");
-$tabs = array(array("","rootplace/prod_cron.php","Passage en prod"),array("script","rootplace/prod_cron.php?view=script","Script de passage en prod"));
+$tabs = array(array("","rootplace/prod_cron.php","Passage en prod"),
+              array("script","rootplace/prod_cron.php?view=script","Script de passage en prod")
+              array("commit","rootplace/prod_cron.php?view=commit","Script de post-commit");
 
 if ( $_REQUEST["action"] == "passprod" && $GLOBALS["svalid_call"] )
 {
@@ -58,6 +61,23 @@ if ( $_REQUEST["action"] == "scriptprod" && $GLOBALS["svalid_call"] )
     }
   }
 }
+if ( $_REQUEST["action"] == "scriptpostcommit" && $GLOBALS["svalid_call"] )
+{
+  if ( $site->is_sure ( "","Modification du script de post-commit",null, 2 ) )
+  {
+    if(!$handle = @fopen(POST_COMMIT_SCRIPT, "w"))
+      $Ok=false;
+    else
+    {
+      $content = preg_replace("/\r\n/","\n",htmlspecialchars_decode($_REQUEST["__script__"]));
+      @fwrite($handle,$content);
+      @fclose ($handle);
+      $_REQUEST["view"]="script";
+      $Ok=true;
+    }
+  }
+}
+
 
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 $cts->add_paragraph("Révision en production : ".get_rev());
@@ -80,7 +100,22 @@ if($_REQUEST["view"]=="script")
     $frm = new form("passageenprod", "prod_cron.php", false, "POST", "Editer le script de passage en production");
     $frm->allow_only_one_usage();
     $frm->add_hidden("action","scriptprod");
-    $frm->add_text_area("__script__", "Texte du message : ",$script,80,40);
+    $frm->add_text_area("__script__", "Script : ",$script,80,40);
+    $frm->add_submit("valid","Valider");
+    $cts->add($frm,true);
+  }
+}
+if($_REQUEST["view"]=="commit")
+{
+  if(!$handle = @fopen(POST_COMMIT_SCRIPT, "r"))
+    $cts->add_paragraph("Impossible d'ouvrir le script de post-commit !");
+  else
+  {
+    $script = @fread($handle, @filesize(POST_COMMIT_SCRIPT));
+    $frm = new form("postcommit", "prod_cron.php", false, "POST", "Editer le script de post-commit");
+    $frm->allow_only_one_usage();
+    $frm->add_hidden("action","scriptpostcommit");
+    $frm->add_text_area("__script__", "Script : ",$script,80,40);
     $frm->add_submit("valid","Valider");
     $cts->add($frm,true);
   }
