@@ -412,7 +412,7 @@ class pgfiche extends geopoint
         "id_pgfiche"=>$this->id,
         "id_typetarif"=>$id,
         "min_tarif"=>$min,
-        "max_tarif"=>$max);
+        "max_tarif"=>$max));
     }
     
     
