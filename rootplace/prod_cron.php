@@ -51,9 +51,8 @@ if ( $_REQUEST["action"] == "scriptprod" && $GLOBALS["svalid_call"] )
       $Ok=false;
     else
     {
-      @fwrite($handle,$render);
+      @fwrite($handle,$_REQUEST["text"]);
       @fclose ($handle);
-      @exec(PROD_CRON);
       $Ok=true;
     }
   }
