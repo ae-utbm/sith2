@@ -65,6 +65,7 @@ $cts->add($lst);
 
 $cts->add_title(2,"Outils");
 $lst = new itemlist();
+$lst->add("<a href=\"prod_cron.php\">Passage de /taiste en production</a>");
 $lst->add("<a href=\"userdelete.php\">Supprimer un utilisateur</a>");
 $lst->add("<a href=\"userfusion.php\">Fusionner des utilisateurs</a>");
 
