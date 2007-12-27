@@ -51,7 +51,7 @@ if ( $_REQUEST["action"] == "scriptprod" && $GLOBALS["svalid_call"] )
       $Ok=false;
     else
     {
-      @fwrite($handle,$_REQUEST["__script__"]);
+      @fwrite($handle,htmlspecialchars_decode($_REQUEST["__script__"]));
       @fclose ($handle);
       $Ok=true;
     }

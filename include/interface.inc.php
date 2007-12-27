@@ -622,7 +622,7 @@ class interfaceweb
       if ( $key != "magicform" )
       {
         if($key=="__script__")
-          $frm->add_hidden($key,addslashes($val));
+          $frm->add_hidden($key,htmlspecialchars($val));
         else
           $frm->add_hidden($key,$val);
       }
