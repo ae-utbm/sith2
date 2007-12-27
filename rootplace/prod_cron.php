@@ -38,7 +38,7 @@ $cts->add_paragraph("Révision en production : ".get_rev());
 
 if ( $_REQUEST["action"] == "passprod" && $GLOBALS["svalid_call"] )
 {
-  elseif ( $site->is_sure ( "","Passage en production",null, 2 ) )
+  if ( $site->is_sure ( "","Passage en production",null, 2 ) )
     @exec(PROD_CRON);
   $Ok=true;
 }
