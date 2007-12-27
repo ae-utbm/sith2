@@ -40,9 +40,9 @@ class calendar extends stdcontents
 	
 	var $weekdays = array ("Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di");
 	
-	var $months = array ("Janvier", "Février", "Mars", "Avril",
-	"Mai", "Juin", "Juillet", "Août", "Septembre",
-	"Octobre", "Novembre", "Décembre");
+	var $months = array ("Janvier", "F&eacute;vrier", "Mars", "Avril",
+	"Mai", "Juin", "Juillet", "Ao&ucirc;t", "Septembre",
+	"Octobre", "Novembre", "D&eacute;cembre");
 	
 	var $id_asso;
 	

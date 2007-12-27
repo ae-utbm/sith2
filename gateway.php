@@ -31,7 +31,7 @@ if ( isset($_REQUEST['topdir']) && ($_REQUEST['topdir']=="./" || $_REQUEST['topd
 
 if ( $_REQUEST['module']=="fsearch" )
 {
-	header("Content-Type: text/javascript; charset=utf-8");
+	header("Content-Type: text/javascript; charset=UTF-8");
 	
   echo "if ( ".$_REQUEST['fsearch_sequence']." > fsearch_actual_sequence ) {\n";	
   
