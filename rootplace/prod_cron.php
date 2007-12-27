@@ -34,7 +34,7 @@ if ( !$site->user->is_in_group("root") )
 	
 $site->start_page("none","Administration / passage en prod");
 $cts = new contents("<a href=\"./\">Administration</a> / Passage en production");
-$tabs = array(array("","rootplace/prod_cron.php","Passage en prod"),array("script","rootplace/prod_cron.php","Script de passage en prod"));
+$tabs = array(array("","rootplace/prod_cron.php","Passage en prod"),array("script","rootplace/prod_cron.php?view=script","Script de passage en prod"));
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 $cts->add_paragraph("Révision en production : ".get_rev());
