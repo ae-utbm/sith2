@@ -227,7 +227,7 @@ if ( $_REQUEST["action"] == "search" )
         if ( $utilisateur_present->is_valid() )
         {     
           $joins[] = "INNER JOIN sas_personnes_photos AS `p".mysql_escape_string($utilisateur_present->id)."` ON ( sas_photos.id_photo=p".mysql_escape_string($utilisateur_present->id).".id_photo AND p".mysql_escape_string($utilisateur_present->id).".id_utilisateur='".mysql_escape_string($utilisateur_present->id)."') ";
-          $params.="&presents[]=".$utilisateur_present->id;
+          $params.="&id_utilisateurs_presents[]=".$utilisateur_present->id;
         }
     }
   }
