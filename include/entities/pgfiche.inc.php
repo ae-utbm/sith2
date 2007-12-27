@@ -396,6 +396,26 @@ class pgfiche extends geopoint
   
   function add_tarif ( $id_typetarif, $min_tarif, $max_tarif, $commentaire, $date_maj=null, $date_validite=null )
   {
+    $req = new requete("SELECT pg_fiche_tarif.min_tarif,  pg_fiche_tarif.max_tarif, pg_fiche_tarif.id_typetarif FROM pg_fiche_tarif INNER JOIN pg_typetarif ON (pg_fiche_tarif.id_typetarif=pg_typetarif.id_typetarif_parent) WHERE pg_typetarif.id_typetarif='".".mysql_real_escape_string($id)."."'");
+    
+    if ( $req->lines == 1 )
+    {
+      list($min,$max,$id)  = $req->get_row();
+      
+      if ( $min_tarif < $min )
+        $min = $min_tarif;
+        
+      if ( $max_tarif > $max )
+        $max = $max_tarif;        
+        
+      new update($this->dbrw, "pg_fiche_tarif", array(
+        "id_pgfiche"=>$this->id,
+        "id_typetarif"=>$id,
+        "min_tarif"=>$min,
+        "max_tarif"=>$max);
+    }
+    
+    
     new insert($this->dbrw, "pg_fiche_tarif", array(
       "id_pgfiche"=>$this->id,
       "id_typetarif"=>$id_typetarify,

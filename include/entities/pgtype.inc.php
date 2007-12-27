@@ -105,7 +105,8 @@ class typetarif extends stdentity
 {
   var $nom;
   var $description;
- 
+  var $id_typetarif_parent;
+  
   function load_by_id ( $id )
   {
     $req = new requete($this->db, "SELECT * 
@@ -129,17 +130,20 @@ class typetarif extends stdentity
     
     $this->nom = $row['nom_typetarif'];
     $this->description = $row['description_typetarif'];
+    $this->id_typetarif_parent = $row['id_typetarif_parent'];
   }
-  function create ( $nom, $description, $website )
+  function create ( $nom, $description, $website, $id_typetarif_parent=null )
   {
     $this->nom = $nom;
     $this->description = $description;
     $this->website = $website;
+    $this->id_typetarif_parent = $id_typetarif_parent;
     
     $req = new insert ( $this->dbrw, "pg_typetarif", 
       array( 
       "nom_typetarif" => $this->nom,
-      "description_typetarif" => $this->description
+      "description_typetarif" => $this->description,
+      "id_typetarif_parent" => $this->id_typetarif_parent
       ) );
     
     if ( !$req->is_success() )
@@ -152,15 +156,17 @@ class typetarif extends stdentity
     return true;
   }
   
-  function update ( $nom, $description )
+  function update ( $nom, $description, $id_typetarif_parent=null )
   {
     $this->nom = $nom;
     $this->description = $description;
+    $this->id_typetarif_parent = $id_typetarif_parent;
 
     new update ( $this->dbrw, "pg_typetarif", 
       array( 
       "nom_typetarif" => $this->nom,
-      "description_typetarif" => $this->description
+      "description_typetarif" => $this->description,
+      "id_typetarif_parent" => $this->id_typetarif_parent
       ),
       array("id_typetarif"=>$this->id) );
   } 

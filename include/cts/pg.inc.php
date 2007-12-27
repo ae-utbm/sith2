@@ -331,6 +331,27 @@ class pgfichefull extends contents
       $board->add($list,true);  
     }
 
+    $req = new requete($fiche->db,"SELECT ".
+      "commentaire_service, date_maj_service, date_validite_service, ".
+      "pg_service.nom_service, pg_service.id_service ".
+      "FROM pg_fiche_service ".
+      "INNER JOIN pg_service USING(id_service) ".
+      "WHERE pg_fiche_service.id_pgfiche='".mysql_real_escape_string($fiche->id)."' ".
+      "ORDER BY nom_service");
+
+    if ( $req->lines > 0 )
+    {
+      $list = new itemlist("Services".$legals->add_condition("Pour toutes les conditions et réglements voir en magasin."));
+      
+      while ( $row = $req->get_row() )
+      {
+        $list->add("<a href=\"bplans.php?page=services#service".$row["id_typereduction"]."\">".htmlentities($row["nom_service"],ENT_QUOTES,"UTF-8")."</a> : ".htmlentities($row["commentaire_service"],ENT_QUOTES,"UTF-8")."".$legals->add_date_validite($row["date_validite_service"], $row["date_maj_service"], "Service"));
+        
+      }
+        
+      $board->add($list,true);  
+    }
+    
     /*
     $gmap = new gmap("mapfiche");
     if ( !is_null($fiche->lat) )
