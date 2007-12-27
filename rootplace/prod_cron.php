@@ -36,7 +36,7 @@ if ( !$site->user->is_in_group("root") )
 $site->start_page("none","Administration / passage en prod");
 $cts = new contents("<a href=\"./\">Administration</a> / Passage en production");
 $tabs = array(array("","rootplace/prod_cron.php","Passage en prod"),
-              array("script","rootplace/prod_cron.php?view=script","Script de passage en prod")
+              array("script","rootplace/prod_cron.php?view=script","Script de passage en prod"),
               array("commit","rootplace/prod_cron.php?view=commit","Script de post-commit"));
 
 if ( $_REQUEST["action"] == "passprod" && $GLOBALS["svalid_call"] )
