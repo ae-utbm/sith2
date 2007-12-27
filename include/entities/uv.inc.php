@@ -984,19 +984,21 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 
 	} // todcreds > 0
 
-      if ((count($statsobs) > 0) && ($camembert == true)) 
-	{
-	  global $topdir;
-	  require_once($topdir . "include/graph.inc.php");
-	  $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
-	  
-	  foreach ($statsobs as $key => $nbuvobt)
+    if ( $camembert == true) 
+	  {
+	    global $topdir;
+	    require_once($topdir . "include/graph.inc.php");
+	    $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
+	    if (count($statsobs) > 0)
 	    {
-	      $cam->data($nbuvobt, $key);
+	      foreach ($statsobs as $key => $nbuvobt)
+	      {
+	        $cam->data($nbuvobt, $key);
+	      }
 	    }
-	  return $cam;
-	}
-    }
+	    return $cam;
+	  }
+  }
 
   $cts->add_paragraph("<br/>");
   

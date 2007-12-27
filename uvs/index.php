@@ -72,6 +72,7 @@ if ($site->user->id > 0)
     {
       $cam = get_creds_cts($site->user, $site->db, true);
       $cam->png_render();
+        
       exit();
     }
   
