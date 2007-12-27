@@ -798,7 +798,8 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 	}
 
 	// affichage anti-chronologique mais fleme d'essayer de comprendre la fontion de tri
-	$stats_by_sem_sorted = array_reverse($stats_by_sem_sorted); 
+	if (count($stats_by_sem_sorted) > 0)
+	  $stats_by_sem_sorted = array_reverse($stats_by_sem_sorted); 
 	
 	$first = 0;
       if (count($stats_by_sem_sorted) > 0)
