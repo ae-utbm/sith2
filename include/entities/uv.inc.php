@@ -1008,6 +1008,8 @@ function get_creds_cts(&$etu, $db, $camembert = false)
       return $cam;
     }
   }
+  elseif( $camembert == true )
+    return new camembert(10,10,array(),2,0,0,0,0,0,0,0,0);
 
   $cts->add_paragraph("<br/>");
   
