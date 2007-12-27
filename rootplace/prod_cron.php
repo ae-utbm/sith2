@@ -46,9 +46,6 @@ if ( $_REQUEST["action"] == "passprod" && $GLOBALS["svalid_call"] )
 if ( $Success )
   $cts->add_paragraph("Passage en prod programmé dans les deux minutes à venir");
 
-
-$cts->add_paragraph("Révision en production : ".get_rev());
-
 $frm = new form("passageenprod", "prod_cron.php", false, "POST", "Passer en production");
 $frm->allow_only_one_usage();
 $frm->add_hidden("action","passprod");
