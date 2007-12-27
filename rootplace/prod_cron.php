@@ -32,7 +32,7 @@ if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
 	
 $site->start_page("none","Administration / passage en prod");
-$cts = new contents("<a href=\"./\">Administration</a> / prod_cron.php");
+$cts = new contents("<a href=\"./\">Administration</a> / Passage en production");
 
 $cts->add_paragraph("Révision en production : ".get_rev());
 
