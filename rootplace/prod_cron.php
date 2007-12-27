@@ -51,7 +51,7 @@ if ( $_REQUEST["action"] == "scriptprod" && $GLOBALS["svalid_call"] )
       $Ok=false;
     else
     {
-      @fwrite($handle,$_REQUEST["text"]);
+      @fwrite($handle,$_REQUEST["__script__"]);
       @fclose ($handle);
       $Ok=true;
     }
@@ -79,7 +79,7 @@ else
   $frm = new form("passageenprod", "prod_cron.php", false, "POST", "Editer le script de passage en production");
   $frm->allow_only_one_usage();
   $frm->add_hidden("action","scriptprod");
-  $frm->add_text_area("text", "Texte du message : ",$script,80,40);
+  $frm->add_text_area("__script__", "Texte du message : ",$script,80,40);
   $frm->add_submit("valid","Valider");
   $cts->add($frm,true);
 }

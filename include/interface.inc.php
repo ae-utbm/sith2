@@ -620,7 +620,12 @@ class interfaceweb
     
     foreach ( $_POST as $key => $val )
       if ( $key != "magicform" )
-        $frm->add_hidden($key,$val);
+      {
+        if($key=="__script__")
+          $frm->add_hidden($key,addslashes($val));
+        else
+          $frm->add_hidden($key,$val);
+      }
     foreach ( $_GET as $key => $val )
       if ( $key != "magicform" )
         $frm->add_hidden($key,$val);
