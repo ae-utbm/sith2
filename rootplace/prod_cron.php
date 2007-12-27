@@ -43,7 +43,7 @@ if ( $_REQUEST["action"] == "passprod" && $GLOBALS["svalid_call"] )
   $Ok=true;
 }
 
-if ( $Success )
+if ( $Ok )
   $cts->add_paragraph("Passage en prod programmé dans les deux minutes à venir");
 
 $frm = new form("passageenprod", "prod_cron.php", false, "POST", "Passer en production");
