@@ -22,6 +22,7 @@
  * 02111-1307, USA.
  */
 define("PROD_CRON", "/var/www/cron_update.sh");
+define("PROD_SCRIPT", "/var/www/update-official-www.sh");
 $topdir="../";
 
 require_once($topdir. "include/site.inc.php");
@@ -42,15 +43,47 @@ if ( $_REQUEST["action"] == "passprod" && $GLOBALS["svalid_call"] )
     @exec(PROD_CRON);
   $Ok=true;
 }
+if ( $_REQUEST["action"] == "scriptprod" && $GLOBALS["svalid_call"] )
+{
+  if ( $site->is_sure ( "","Modification du script de passage en production",null, 2 ) )
+  {
+    if(!$handle = @fopen(PROD_SCRIPT, "w"))
+      $Ok=false;
+    else
+    {
+      @fwrite($handle,$render);
+      @fclose ($handle);
+      @exec(PROD_CRON);
+      $Ok=true;
+    }
+  }
+}
 
 if ( $Ok )
-  $cts->add_paragraph("Passage en prod programmé dans les deux minutes à venir");
-
+{
+  if ( $_REQUEST["action"] == "passprod" )
+    $cts->add_paragraph("Passage en prod programmé dans les deux minutes à venir");
+  elseif ( $_REQUEST["action"] == "scriptprod" )
+    $cts->add_paragraph("Script de passage en prod modifié");
+}
 $frm = new form("passageenprod", "prod_cron.php", false, "POST", "Passer en production");
 $frm->allow_only_one_usage();
 $frm->add_hidden("action","passprod");
 $frm->add_submit("valid","Valider");
 $cts->add($frm,true);
+
+if(!$handle = @fopen(PROD_SCRIPT, "r"))
+  $cts->add_paragraph("Impossible d'ouvrir le script de passage en prod !");
+else
+{
+  $script = @fread($handle, @filesize(PROD_SCRIPT));
+  $frm = new form("passageenprod", "prod_cron.php", false, "POST", "Editer le script de passage en production");
+  $frm->allow_only_one_usage();
+  $frm->add_hidden("action","scritprod");
+  $frm->add_text_area("text", "Texte du message : ",$script,80,40);
+  $frm->add_submit("valid","Valider");
+  $cts->add($frm,true);
+}
 
 $site->add_contents($cts);
 
