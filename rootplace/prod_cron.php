@@ -34,6 +34,8 @@ if ( !$site->user->is_in_group("root") )
 	
 $site->start_page("none","Administration / passage en prod");
 $cts = new contents("<a href=\"./\">Administration</a> / Passage en production");
+$tabs = array(array("","rootplace/prod_cron.php","Passage en prod"),array("user","rootplace/prod_cron.php?view=script","Script de passage en prod"));
+$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 $cts->add_paragraph("Révision en production : ".get_rev());
 
@@ -53,6 +55,7 @@ if ( $_REQUEST["action"] == "scriptprod" && $GLOBALS["svalid_call"] )
     {
       @fwrite($handle,htmlspecialchars_decode($_REQUEST["__script__"]));
       @fclose ($handle);
+      $_REQUEST["view"]="script";
       $Ok=true;
     }
   }
@@ -65,21 +68,27 @@ if ( $Ok )
   elseif ( $_REQUEST["action"] == "scriptprod" )
     $cts->add_paragraph("Script de passage en prod modifié");
 }
-$frm = new form("passageenprod", "prod_cron.php", false, "POST", "Passer en production");
-$frm->allow_only_one_usage();
-$frm->add_hidden("action","passprod");
-$frm->add_submit("valid","Valider");
-$cts->add($frm,true);
 
-if(!$handle = @fopen(PROD_SCRIPT, "r"))
-  $cts->add_paragraph("Impossible d'ouvrir le script de passage en prod !");
+if($_REQUEST["view"]=="script")
+{
+  if(!$handle = @fopen(PROD_SCRIPT, "r"))
+    $cts->add_paragraph("Impossible d'ouvrir le script de passage en prod !");
+  else
+  {
+    $script = @fread($handle, @filesize(PROD_SCRIPT));
+    $frm = new form("passageenprod", "prod_cron.php", false, "POST", "Editer le script de passage en production");
+    $frm->allow_only_one_usage();
+    $frm->add_hidden("action","scriptprod");
+    $frm->add_text_area("__script__", "Texte du message : ",$script,80,40);
+    $frm->add_submit("valid","Valider");
+    $cts->add($frm,true);
+  }
+}
 else
 {
-  $script = @fread($handle, @filesize(PROD_SCRIPT));
-  $frm = new form("passageenprod", "prod_cron.php", false, "POST", "Editer le script de passage en production");
+  $frm = new form("passageenprod", "prod_cron.php", false, "POST", "Passer en production");
   $frm->allow_only_one_usage();
-  $frm->add_hidden("action","scriptprod");
-  $frm->add_text_area("__script__", "Texte du message : ",$script,80,40);
+  $frm->add_hidden("action","passprod");
   $frm->add_submit("valid","Valider");
   $cts->add($frm,true);
 }
