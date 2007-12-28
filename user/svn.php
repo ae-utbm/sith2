@@ -49,7 +49,11 @@ if(empty($site->user->alias))
       $ErreurMAJ = "Alias d&eacute;j&agrave;  utilis&eacute;";
     }
     else
+    {
       $site->user->saveinfos();
+      if(!empty($_REQUEST["pass"]))
+        @exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".$site->user->alias." ".escapeshellarg($_REQUEST["pass"]));
+    }
   }
 
   if( !isset($_REQUEST["alias"]) || isset($ErreurMAJ) )
