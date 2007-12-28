@@ -519,31 +519,79 @@ if (isset($_REQUEST['adduv_sbmt']))
   $td = $_REQUEST['adduv_td'] == 1 ? 1 : 0;
   $tp = $_REQUEST['adduv_tp'] == 1 ? 1 : 0;
   $ects = $_REQUEST['ects'];
+  $lieu = $_REQUEST['adduv_lieu'];
 
-  $ret = $edt->create_uv($name, $intl, $c, $td, $tp, $ects);
+  /* DEPRECATED : on utilise dorénavant l'entity */
+  //  $ret = $edt->create_uv($name, $intl, $c, $td, $tp, $ects);
 
-  if ($ret >= 0)
+  // On met null sur les catégories, car on n'a aucune idée lors de la
+  // saisie du formulaire de l'inscription aux différents
+  // départements. Faudrait mettre du javascript de partout, et ... 
+  // bref, j'ai la flemme.
+
+  if ($_REQUEST['Humanites'] == 1)
+    {
+      $depts[] = 'Humanites';
+      $uv_cat['Humanites'] = null;
+    }
+  if ($_REQUEST['TC'] == 1)
+    {
+      $depts[] = 'TC';
+      $uv_cat['TC'] = null;
+    }
+  if ($_REQUEST['GI'] == 1)
+    {
+      $depts[] = 'GI';
+      $uv_cat['GI'] = null;
+    }
+  if ($_REQUEST['GESC'] == 1)
+    {
+      $depts[] = 'GESC';
+      $uv_cat['GESC'] = null;
+    }
+  if ($_REQUEST['IMAP'] == 1)
+    {
+      $depts[] = 'IMAP';
+      $uv_cat['IMAP'] = null;
+    }
+  if ($_REQUEST['GMC'] == 1)
+    {
+      $depts[] = 'GMC';
+      $uv_cat['GMC'] = null;
+
+    }
+  if ($_REQUEST['EDIM'] == 1)
+    {
+      $depts[] = 'EDIM';
+      $uv_cat['EDIM'] = null;
+    }
+
+  require_once($topdir . "include/entities/uv.inc.php");
+  $uv = new uv($site->db, $site->dbrw);
+
+  $uv->create($name, 
+	      $intl, 
+	      $c,
+	      $td,
+	      $tp, 
+	      $ects, 
+	      $depts, 
+	      $uv_cat,
+	      $id_lieu);
+
+  if ($uv->id > 0)
     {
       $creationuv = true;
-      if ($_REQUEST['Humanites'] == 1)
-	$edt->assign_uv_to_dept($ret, "Humanites");
-      if ($_REQUEST['TC'] == 1)
-	$edt->assign_uv_to_dept($ret, "TC");
-      if ($_REQUEST['GI'] == 1)
-	$edt->assign_uv_to_dept($ret, "GI");
-      if ($_REQUEST['GESC'] == 1)
-	$edt->assign_uv_to_dept($ret, "GESC");
-      if ($_REQUEST['IMAP'] == 1)
-	$edt->assign_uv_to_dept($ret, "IMAP");
-      if ($_REQUEST['GMC'] == 1)
-	$edt->assign_uv_to_dept($ret, "GMC");
-      if ($_REQUEST['EDIM'] == 1)
-	$edt->assign_uv_to_dept($ret, "EDIM");
     }
   else
-    $creationuv = false;
+    {
+      $creationuv = false;
+    }
 }
 
+/* modification "basique" (format horaire) d'une uv, le reste ne peut
+ etre fait que par les personnes accréditées (gestion-ae ou autres) */
+ 
 if (isset($_REQUEST['modifyuv']))
 {
 
@@ -564,7 +612,6 @@ if (isset($_REQUEST['modifyuv']))
     $retmod = true;
   else 
     $retmod = false;
-
 }
 
 
@@ -826,6 +873,12 @@ $adduv->add_checkbox('EDIM',
 		      "EDIM",
 		      false);
 
+$adduv->add_select_field('adduv_lieu', 
+                         'Lieu',
+                         array(null => "--",
+                               4 => "Site de Sevenans",
+                               5 => "Site de Belfort",
+                               9 => "Site de Montbéliard"), "--");
 
 $adduv->add_submit('adduv_sbmt',
 		   "Ajouter");

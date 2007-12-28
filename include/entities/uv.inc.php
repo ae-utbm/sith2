@@ -142,7 +142,7 @@ $uv_descr_cat = array('NA' => 'Inconnu',
  
 class uv extends stdentity
 {
-  
+ 
   var $code;
   var $intitule;
   var $objectifs;
@@ -170,6 +170,9 @@ class uv extends stdentity
   /* un tableau d'objets uvcomments */
   var $comments;
 
+  /* ou ca ? */
+  var $id_lieu;
+  var $lieu;
 
   function load_by_code($code)
   {
@@ -196,6 +199,14 @@ class uv extends stdentity
       $this->td        = $row['td_uv'];
       $this->tp        = $row['tp_uv'];
       $this->idfolder  = $row['id_folder'];
+      
+      $this->id_lieu   = $row['id_lieu'];
+
+      /* chargement du lieu */
+      if ($this->id_lieu != null)
+	{
+	  $this->load_lieu();
+	}
 
       $this->load_depts();
   
@@ -204,6 +215,14 @@ class uv extends stdentity
 
     $this->id = null;  
     return false;
+  }
+
+  function load_lieu()
+  {
+    global $topdir;
+    require_once($topdir . "include/entities/lieu.inc.php");
+    $this->lieu = new lieu($this->db);
+    $this->lieu->load_by_id($this->id_lieu);
   }
 
   function load_by_id ($id)
@@ -231,6 +250,14 @@ class uv extends stdentity
       $this->td       = $row['td_uv'];
       $this->tp       = $row['tp_uv'];
       $this->idfolder = $row['id_folder'];
+
+      $this->id_lieu   = $row['id_lieu'];
+
+      /* chargement du lieu */
+      if ($this->id_lieu != null)
+	{
+	  $this->load_lieu();
+	}
 
       $this->load_depts();
 
@@ -270,7 +297,7 @@ class uv extends stdentity
    * (on part du principe qu'à un département d'enseignement peut correspondre
    *  une catégorie spécifique).
    */
-  function modify($code_uv, $intitule, $obj, $prog, $c, $td, $tp, $ects, $depts, $uv_cat = null)
+  function modify($code_uv, $intitule, $obj, $prog, $c, $td, $tp, $ects, $depts, $uv_cat = null, $id_lieu = null)
   {
     if ($this->id <= 0)
       return false;
@@ -283,7 +310,13 @@ class uv extends stdentity
     $this->cours     = $c;
     $this->td        = $td;
     $this->tp        = $tp;
-    
+
+    $this->id_lieu   = $id_lieu;
+
+    if ($this->id_lieu != null)
+      $this->load_lieu();
+
+
     $req = new update ($this->dbrw,
            'edu_uv',
            array('code_uv' => $this->code,
@@ -293,7 +326,8 @@ class uv extends stdentity
            'cours_uv' => $this->cours,
            'td_uv' => $this->td,
            'tp_uv' => $this->tp,
-           'ects_uv' => $this->ects),
+           'ects_uv' => $this->ects,
+	   'id_lieu' => $this->id_lieu),
            array('id_uv' => $this->id));
     
 
@@ -322,7 +356,7 @@ class uv extends stdentity
   
 
 
-  function create ($code_uv, $intitule, $c, $td, $tp, $ects, $depts, $uv_cat)
+  function create ($code_uv, $intitule, $c, $td, $tp, $ects, $depts, $uv_cat, $id_lieu = null)
   {
     $this->code     = $code_uv;
     $this->intitule = $intitule;
@@ -331,6 +365,12 @@ class uv extends stdentity
     $this->td       = $td;
     $this->tp       = $tp;
     
+    $this->id_lieu = $id_lieu;
+
+    if ($this->id_lieu != null)
+      $this->load_lieu();
+
+
 
     $req = new insert ($this->dbrw,
            'edu_uv',
@@ -339,7 +379,8 @@ class uv extends stdentity
            'cours_uv' => $this->cours,
            'td_uv' => $this->td,
            'tp_uv' => $this->tp,
-           'ects_uv' => $this->ects));
+           'ects_uv' => $this->ects,
+	   'id_lieu' => $this->id_lieu));
     
     if ($req)
     {
@@ -356,7 +397,6 @@ class uv extends stdentity
     /* ajout des départements */
     for ($i = 0; $i < count($depts); $i++)
     {
-      $dept = mysql_real_escape_string($depts[$i]);
       if (in_array($dept, $departements))
         $req = new insert($this->dbrw,
               'edu_uv_dept',

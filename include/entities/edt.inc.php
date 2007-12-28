@@ -160,33 +160,32 @@ class edt extends stdentity
 		      $cours_uv = 1,
 		      $td_uv = 1,
 		      $tp_uv = 1,
-		      $ects = 0)
+		      $ects = 0,
+		      $depts = array(),
+		      $uv_cat = array(),
+		      $lieu = null)
   {
     
     if (!$this->dbrw)
       return false;
  
-    $code_uv = mysql_real_escape_string(str_replace(" ", "",$code_uv));
-    $intitule_uv = mysql_real_escape_string($intitule_uv);
-    $cours_uv = intval($cours_uv);
-    $td_uv = intval($td_uv);
-    $tp_uv = intval($tp_uv);
-    $ects  = intval($ects);
+    global $topdir;
+    require_once($topdir . "include/entities/uv.inc.php");
 
-
-    $sql = new insert($this->dbrw,
-		      "edu_uv",
-		      array("code_uv"     => $code_uv,
-			    "intitule_uv" => $intitule_uv,
-			    "cours_uv"    => $cours_uv,
-			    "td_uv"       => $td_uv,
-			    "tp_uv"       => $tp_uv,
-			    "ects_uv"     => $ects));
-
-    if ($sql->lines <= 0)
-      return false;
+    $uv = new uv($this->db, $this->dbrw);
     
-    return $sql->get_id();
+    $uv->create($code_uv, 
+		$intitule_uv,
+		$cours_uv,
+		$td_uv,
+		$tp_uv,
+		$ects,
+		$depts,
+		$uv_cat,
+		$lieu);
+
+    $return ($uv->id > 0);
+
   }
 
   function delete_edt($id_etu, $semestre)
