@@ -128,8 +128,8 @@ if(isset($_REQUEST["id_depot"]))
           else
             $erreur="utilisateur sans alias, qu'il aille sur http://ae.utbm.fr/user/svn.php, ".
                     "notifier l'utilisateur par <a href=\"?mail=Vous devez vous rendre à cette ".
-                    "adresse : http://ae.utbm.fr/user.php?id_utilisateur=".$user->id.
-                    "&page=edit pour scpécifier un alias valide&id=".$user->id."\">mail</a>.";
+                    "adresse : http://ae.utbm.fr/user/svn.php pour scpécifier un alias valide&id=".
+                    $user->id."\">mail</a>.";
       }
     }
     elseif($_REQUEST["action"] == edit)
