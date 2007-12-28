@@ -94,9 +94,24 @@ if(isset($_REQUEST["id_depot"]))
       {
         $user->load_by_id($_REQUEST["id_utilisateur"]);
         if ( $user->is_valid() && in_array($_REQUEST["right"],$svn->valid_rights) )
-          if ( !empty($site->user->alias) && preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",$site->user->alias) )
-            $svn->add_user_access($user,$_REQUEST["right"]);
-        unset($_REQUEST["action"]);
+          if ( !empty($site->user->alias) )
+          {
+            if( preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",$site->user->alias) )
+            {
+              $find = @exec("grep \"^".$user->alias.":\" " .SVN_PATH.PASSWORDFILE);
+              if( empty($find) )
+                $erreur="l'utilisateur n'a pas de mot de passe svn, il doit se rendre ici : http://ae.utbm.fr/user/svn.php";
+              else
+              {
+                $svn->add_user_access($user,$_REQUEST["right"]);
+                unset($_REQUEST["action"]);
+              }
+            }
+            else
+              $erreur="alias invalide, veuillez le modifier <a href=\"http://ae.utbm.fr/user.php?id_utilisateur=\".$user->id."&page=edit>ici</a>";
+          }
+          else
+            $erreur="utilisateur sans alias, qu'il aille sur http://ae.utbm.fr/user/svn.php";
       }
     }
     elseif($_REQUEST["action"] == edit)
@@ -145,15 +160,17 @@ if(isset($_REQUEST["id_depot"]))
       $frm->add_hidden("action","add");
       $frm->add_hidden("mode","user");
       $frm->add_hidden("commit","valid");
+      if($erreur)
+        $frm->error($erreur);
       $frm->add_user_fieldv2("id_utilisateur","Utilisateur :");
-      $frm->add_select_field("right","Droits",array(""=>"","r"=>"Lecture","rw"=>"Ecriture"));
+      $frm->add_select_field("right","Droits",array("r"=>"Lecture","rw"=>"Ecriture"));
       $frm->add_submit("valid","Valider");
       $cts->add($frm,true);
     }
     
     $cts->add_title(2,"Information sur le dépot");
     $cts->add_paragraph("Nom : ".$svn->nom."<br />type : ".$svn->type);
-    $req2 = new requete($site->db,"SELECT `id_utilisateur`, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` ".
+    $req2 = new requete($site->db,"SELECT `id_utilisateur`, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, `right` ".
                                   "FROM `svn_member_depot` ".
                                   "INNER JOIN `utilisateurs` USING(`id_utilisateur`) " .
                                   "WHERE `id_depot`='".$svn->id."'");
