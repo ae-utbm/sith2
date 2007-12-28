@@ -49,7 +49,7 @@ if(empty($site->user->alias))
       $ErreurMAJ = "Alias d&eacute;j&agrave;  utilis&eacute;";
     }
     else
-      $iste->user->saveinfos();
+      $site->user->saveinfos();
   }
 
   if( !isset($_REQUEST["alias"]) || isset($ErreurMAJ) )
@@ -59,7 +59,10 @@ if(empty($site->user->alias))
     $frm = new form("setalias","svn.php",false,"post","Créer un alias :");
     if ( isset($ErreurMAJ) )
       $frm->error($ErreurMAJ);
-    $frm->add_text_field("alias","Alias",$user->alias);
+    $frm->add_text_field("alias","Alias");
+    $find = @exec("grep \"^".$site->user->alias.":\" " .SVN_PATH.PASSWORDFILE);
+    if( empty($find) )
+      $frm->add_password_field("pass","Mot de passe");
     $frm->add_submit("valid","Valider");
     $cts->add($frm,true);
 
