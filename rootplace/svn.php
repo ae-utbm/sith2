@@ -108,7 +108,7 @@ if(isset($_REQUEST["id_depot"]))
               }
             }
             else
-              $erreur="alias invalide, veuillez le modifier <a href=\"http://ae.utbm.fr/user.php?id_utilisateur=\".$user->id."&page=edit>ici</a>";
+              $erreur="alias invalide, veuillez le modifier <a href=\"http://ae.utbm.fr/user.php?id_utilisateur=".$user->id."&page=edit\">ici</a>";
           }
           else
             $erreur="utilisateur sans alias, qu'il aille sur http://ae.utbm.fr/user/svn.php";
