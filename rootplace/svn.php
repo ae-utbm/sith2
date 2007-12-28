@@ -51,6 +51,16 @@ $site->start_page("none","Administration / SVN");
 $cts = new contents("<a href=\"./\">Administration</a> / <a href=\"svn.php\">SVN</a>");
 //$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
+if(isset($_REQUEST["mail"]))
+{
+  $user = new utilisateur($site->db,$site->dbrw);
+  $user->load_by_id($_REQUEST["id"]);
+  $body="Bonjour,\n".$_REQUEST["mail"]."\n\nL'équipe info AE";
+  $ret = mail($user->email,
+             "[Site AE] Important : subversion",
+             utf8_decode($body),
+             "From: \"AE UTBM\" <ae.info@utbm.fr>\nReply-To: ae.info@utbm.fr");
+}
 
 if(isset($_REQUEST["id_depot"]))
 {
@@ -100,7 +110,11 @@ if(isset($_REQUEST["id_depot"]))
             {
               $find = @exec("grep \"^".$user->alias.":\" " .SVN_PATH.PASSWORDFILE);
               if( empty($find) )
-                $erreur="l'utilisateur n'a pas de mot de passe svn, il doit se rendre ici : http://ae.utbm.fr/user/svn.php";
+                $erreur="l'utilisateur n'a pas de mot de passe svn, il doit se rendre ici : ".
+                        "http://ae.utbm.fr/user/svn.php, notifier l'utilisateur par ".
+                        "<a href=\"?mail=Vous devez vous rendre à cette adresse : ".
+                        "http://ae.utbm.fr/user/svn.php pour scpécifier un mot de passe subversion".
+                        "&id=".$user->id."\">mail</a>.";
               else
               {
                 $svn->add_user_access($user,$_REQUEST["right"]);
@@ -108,10 +122,14 @@ if(isset($_REQUEST["id_depot"]))
               }
             }
             else
-              $erreur="alias invalide, veuillez le modifier <a href=\"http://ae.utbm.fr/user.php?id_utilisateur=".$user->id."&page=edit\">ici</a>";
+              $erreur="alias invalide, veuillez le modifier <a href=\"http://ae.utbm.fr/user.php?id_utilisateur=".
+                      $user->id."&page=edit\">ici</a>";
           }
           else
-            $erreur="utilisateur sans alias, qu'il aille sur http://ae.utbm.fr/user/svn.php";
+            $erreur="utilisateur sans alias, qu'il aille sur http://ae.utbm.fr/user/svn.php, ".
+                    "notifier l'utilisateur par <a href=\"?mail=Vous devez vous rendre à cette ".
+                    "adresse : http://ae.utbm.fr/user.php?id_utilisateur=".$user->id.
+                    "&page=edit pour scpécifier un alias valide&id=".$user->id."\">mail</a>.";
       }
     }
     elseif($_REQUEST["action"] == edit)
@@ -160,7 +178,7 @@ if(isset($_REQUEST["id_depot"]))
       $frm->add_hidden("action","add");
       $frm->add_hidden("mode","user");
       $frm->add_hidden("commit","valid");
-      if($erreur)
+      if(isset($erreur))
         $frm->error($erreur);
       $frm->add_user_fieldv2("id_utilisateur","Utilisateur :");
       $frm->add_select_field("right","Droits",array("r"=>"Lecture","rw"=>"Ecriture"));
