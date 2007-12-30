@@ -29,6 +29,8 @@ require_once($topdir."include/entities/asso.inc.php");
 
 require_once($topdir."include/cts/gallery.inc.php");
 $site = new site();
+$site->allow_only_logged_users();
+
 $site->add_css("css/explorer.css");
 $site->add_js("js/explorer.js");
 
