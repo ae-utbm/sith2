@@ -575,6 +575,21 @@ class site extends interfaceweb
     else if ($nbsteps > 1)
       $elements[] = "<a href=\"".$topdir."covoiturage/\">$nbsteps étapes de covoiturage à modérer<b></a>";
 
+    $assoces = $site->user->get_assos(ROLEASSO_PRESIDENT);
+    
+    if (count($assoces) > 0)
+      {
+	foreach ($assoces as $key => $assoce)
+	  {
+	    $asso = new asso($site->db);
+	    $asso->load_by_id($key);
+	    $pm = $asso->get_pending_unmodmail();
+	    if ($pm > 0)
+	      {
+		$elements[] = "<a href=\"#\">$pm e-mails en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</a>";
+	      }
+	  }
+      }
 
     if ( count($elements) == 0 ) return null;
     

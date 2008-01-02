@@ -77,7 +77,8 @@ class asso extends stdentity
 
 	/* table asso */
 	var $id_parent;	
-	var $nom;	var $nom_unix;
+	var $nom;
+        var $nom_unix;
 	var $adresse_postale;
 	
 	var $email;
@@ -86,9 +87,11 @@ class asso extends stdentity
 	var $login_email;
 	var $passwd_email; 
 	/*
-     L'objectif est de conserver les mots de passe des boites mails des clubs (er pourquoi pas d'y acceder en imap).
-     cependant conserver en clair les mots de passe dans la bdd ça crain, faudrais une méthode de pseudo cryptage, 
-     pour que ls stockage ne se fasse pas en clair...
+	 *  L'objectif est de conserver les mots de passe des boites
+	 * mails des clubs (er pourquoi pas d'y acceder en imap).
+	 * Cependant conserver en clair les mots de passe dans la bdd
+	 * ça craint, faudrait une méthode de pseudo cryptage, pour
+	 * que le stockage ne se fasse pas en clair...
 	 */
 
 	/** Charge une association par son ID
@@ -686,6 +689,28 @@ class asso extends stdentity
      return true;
     
     return false;
+  }
+
+  function get_pending_unmod_mail()
+  {
+    if (strlen($this->nom_unix) <= 0)
+      {
+	return 0;
+      }
+
+    $pendings = file_get_contents("http://www.me.aeinfo.net/list_heldmsgs.php");
+    $pendings = explode("\n", $pendings);
+
+    foreach ($pendings as $asso_pending)
+      {
+	$asso_pending = explode(":", $asso_pending);
+	if ($asso_pending[0] == $this->nom_unix)
+	  {
+	    return $asso_pending[1];
+	  }
+      }
+    return 0;
+
   }
   
 }
