@@ -781,6 +781,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       $xml = file_get_contents("http://www.bankexam.fr/rss/etablissement?code=UTBM");  
       $uvsbe = new u007xml($xml);
 
+
       foreach ($uvsbe->arrOutput[0]['childrens'][0]['childrens'] as $key => $value)
 	{
 	  /* au début y'a que de la boue */
@@ -793,15 +794,24 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
 	  $annaleslink = $value['childrens'][4]['nodevalue'];
 
+	  $annee_exam  = $value['childrens'][3]['nodevalue'];
+
 	  if (strlen($annaleslink) > 0)
 	    {
 	      $cts->add_title(2, "Sur <a href=\"http://www.bankexam.fr/\">Bankexam.fr</a>");
 
-	      $cts->add_paragraph("Il existe des annales d'examen sur Bankexam. <a href=\"".
-				  $annaleslink."\">Cliquez ici pour y accéder.</a>");
-	      break;
+	    
+	      $arr_anls[] = "<a href=\"".$annaleslink."\">Examen - année ".$annee_exam ."</a>";
+
+	      //  $cts->add_paragraph("Il existe des annales d'examen sur Bankexam. <a href=\"".
+	      //			  $annaleslink."\">Cliquez ici pour y accéder.</a>");
+	      //break;
 	    }
 	}
+
+      if (count($arr_anls) > 0)
+	$cts->add(new itemlist("Annales Bankexam", false, $arr_anls));
+
 
       /* Ressources externes */
       $cts->add_title(2, "Ailleurs sur le net ...");
