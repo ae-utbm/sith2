@@ -583,7 +583,7 @@ class site extends interfaceweb
 	  {
 	    $asso = new asso($site->db);
 	    $asso->load_by_id($key);
-	    $pm = $asso->get_pending_unmodmail();
+	    $pm = $asso->get_pending_unmod_mail();
 	    if ($pm > 0)
 	      {
 		$elements[] = "<a href=\"#\">$pm e-mails en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</a>";
