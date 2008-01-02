@@ -707,6 +707,8 @@ class asso extends stdentity
 
 	if ($asso_pending[0] == $this->nom_unix . ".membres")
 	  {
+	    print_r($asso_pending);
+
 	    return $asso_pending[1];
 	  }
       }
