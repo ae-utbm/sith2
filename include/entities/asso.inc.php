@@ -693,6 +693,8 @@ class asso extends stdentity
 
   function get_pending_unmod_mail()
   {
+    echo $this->nom_unix;
+
     if (strlen($this->nom_unix) <= 0)
       {
 	return 0;
@@ -705,7 +707,7 @@ class asso extends stdentity
       {
 	$asso_pending = explode(":", $asso_pending);
 
-	if ($asso_pending[0] == $this->nom_unix . ".membres")
+	if ($asso_pending[0] == ($this->nom_unix . ".membres"))
 	  {
 	    print_r($asso_pending);
 
