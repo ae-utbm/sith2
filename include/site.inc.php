@@ -579,6 +579,8 @@ class site extends interfaceweb
     
     if (count($assoces) > 0)
       {
+	print_r($assoces);
+
 	foreach ($assoces as $key => $assoce)
 	  {
 	    $asso = new asso($site->db);
