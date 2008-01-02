@@ -575,7 +575,7 @@ class site extends interfaceweb
     else if ($nbsteps > 1)
       $elements[] = "<a href=\"".$topdir."covoiturage/\">$nbsteps étapes de covoiturage à modérer<b></a>";
 
-    $assoces = $site->user->get_assos(ROLEASSO_PRESIDENT);
+    $assoces = $this->user->get_assos(ROLEASSO_PRESIDENT);
     
     if (count($assoces) > 0)
       {
