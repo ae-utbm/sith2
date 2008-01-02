@@ -792,7 +792,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  if ($codeuv != $uv->code) 
 	    continue;
 
-	  $annaleslink = $value['childrens'][4]['nodevalue'];
+	  $annaleslink = $value['childrens'][5]['nodevalue'];
 
 	  $annee_exam  = $value['childrens'][3]['nodevalue'];
 
