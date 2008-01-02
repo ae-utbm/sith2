@@ -584,9 +584,13 @@ class site extends interfaceweb
 	    $asso = new asso($this->db);
 	    $asso->load_by_id($key);
 	    $pm = $asso->get_pending_unmod_mail();
-	    if ($pm > 0)
+	    if ($pm == 1)
 	      {
-		$elements[] = "<a href=\"#\">$pm e-mails en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</a>";
+		$elements[] = "<a href=\"http://ml.aeinfo.net/cgi-bin/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mail en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
+	      }
+	    else if ($pm > 1)
+	      {
+		$elements[] = "<a href=\"http://ml.aeinfo.net/cgi-bin/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mails en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
 	      }
 	  }
       }
