@@ -798,8 +798,6 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
 	  if (strlen($annaleslink) > 0)
 	    {
-	      $cts->add_title(2, "Sur <a href=\"http://www.bankexam.fr/\">Bankexam.fr</a>");
-
 	    
 	      $arr_anls[] = "<a href=\"".$annaleslink."\">Examen - année ".$annee_exam ."</a>";
 
@@ -810,8 +808,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	}
 
       if (count($arr_anls) > 0)
-	$cts->add(new itemlist("Annales Bankexam", false, $arr_anls));
-
+	{
+	      $cts->add_title(2, "Sur <a href=\"http://www.bankexam.fr/\">Bankexam.fr</a>");
+	      $cts->add(new itemlist("Annales Bankexam", false, $arr_anls));
+	}
 
       /* Ressources externes */
       $cts->add_title(2, "Ailleurs sur le net ...");
