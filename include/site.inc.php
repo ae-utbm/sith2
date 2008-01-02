@@ -579,11 +579,9 @@ class site extends interfaceweb
     
     if (count($assoces) > 0)
       {
-	print_r($assoces);
-
 	foreach ($assoces as $key => $assoce)
 	  {
-	    $asso = new asso($site->db);
+	    $asso = new asso($this->db);
 	    $asso->load_by_id($key);
 	    $pm = $asso->get_pending_unmod_mail();
 	    if ($pm > 0)
