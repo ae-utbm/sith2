@@ -704,7 +704,8 @@ class asso extends stdentity
     foreach ($pendings as $asso_pending)
       {
 	$asso_pending = explode(":", $asso_pending);
-	if ($asso_pending[0] == $this->nom_unix)
+
+	if ($asso_pending[0] == $this->nom_unix . ".membres")
 	  {
 	    return $asso_pending[1];
 	  }
