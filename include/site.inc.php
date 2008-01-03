@@ -569,31 +569,33 @@ class site extends interfaceweb
     $nbsteps = $this->user->covoiturage_steps_moderation(); 
     
     if ($nbsteps == 1)
-      {
-  $elements[] = "<a href=\"".$topdir."covoiturage/\">$nbsteps étape de covoiturage à modérer<b></a>";
-      }
+    {
+      $elements[] = "<a href=\"".$topdir."covoiturage/\">$nbsteps étape de covoiturage à modérer<b></a>";
+    }
     else if ($nbsteps > 1)
       $elements[] = "<a href=\"".$topdir."covoiturage/\">$nbsteps étapes de covoiturage à modérer<b></a>";
 
     $assoces = $this->user->get_assos(ROLEASSO_PRESIDENT);
     
     if (count($assoces) > 0)
-      {
-	foreach ($assoces as $key => $assoce)
-	  {
-	    $asso = new asso($this->db);
-	    $asso->load_by_id($key);
-	    $pm = $asso->get_pending_unmod_mail();
-	    if ($pm == 1)
+    {
+      require_once($topdir. "include/entities/asso.inc.php");
+       
+	    foreach ($assoces as $key => $assoce)
+	    {
+	      $asso = new asso($this->db);
+	      $asso->load_by_id($key);
+	      $pm = $asso->get_pending_unmod_mail();
+	      if ($pm == 1)
 	      {
-		$elements[] = "<a href=\"http://ml.aeinfo.net/cgi-bin/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mail en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
+		      $elements[] = "<a href=\"http://ml.aeinfo.net/cgi-bin/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mail en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
 	      }
-	    else if ($pm > 1)
+	      else if ($pm > 1)
 	      {
-		$elements[] = "<a href=\"http://ml.aeinfo.net/cgi-bin/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mails en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
+		      $elements[] = "<a href=\"http://ml.aeinfo.net/cgi-bin/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mails en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
 	      }
-	  }
-      }
+	    }
+    }
 
     if ( count($elements) == 0 ) return null;
     
