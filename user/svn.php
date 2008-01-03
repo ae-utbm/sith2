@@ -40,11 +40,11 @@ if(empty($site->user->alias))
 {
   if( isset($_REQUEST["alias"]) )
   {
-    if ( !preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",$_REQUEST["alias"]) )
+    if ( !preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",strtolower($_REQUEST["alias"])) )
     {
       $ErreurMAJ = "Alias invalide, utilisez seulement des lettres, des chiffres, des tirets, des points, et des underscore.";
     }
-    elseif ( $_REQUEST["alias"] && !$site->user->is_alias_available($_REQUEST["alias"]) )
+    elseif ( strtolower($_REQUEST["alias"]) && !$site->user->is_alias_available(strtolower($_REQUEST["alias"])) )
     {
       $ErreurMAJ = "Alias d&eacute;j&agrave;  utilis&eacute;";
     }
@@ -52,7 +52,7 @@ if(empty($site->user->alias))
     {
       $site->user->saveinfos();
       if(!empty($_REQUEST["pass"]))
-        @exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".$site->user->alias." ".escapeshellarg($_REQUEST["pass"]));
+        @exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".strtolower($site->user->alias)." ".escapeshellarg($_REQUEST["pass"]));
     }
   }
 
@@ -64,7 +64,7 @@ if(empty($site->user->alias))
     if ( isset($ErreurMAJ) )
       $frm->error($ErreurMAJ);
     $frm->add_text_field("alias","Alias");
-    $find = @exec("grep \"^".$site->user->alias.":\" " .SVN_PATH.PASSWORDFILE);
+    $find = @exec("grep \"^".strtolower($site->user->alias).":\" " .SVN_PATH.PASSWORDFILE);
     if( empty($find) )
       $frm->add_password_field("pass","Mot de passe");
     $frm->add_submit("valid","Valider");
@@ -81,10 +81,10 @@ if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="pass" )
   if(empty($_REQUEST["pass"]))
     $cts->add_paragraph("<b>Veuillez spécifier un mot de passe.</b>");
   else
-    @exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".$site->user->alias." ".escapeshellarg($_REQUEST["pass"]));
+    @exec("/usr/bin/htpasswd -sb ".SVN_PATH.PASSWORDFILE." ".strtolower($site->user->alias)." ".escapeshellarg($_REQUEST["pass"]));
 }
 
-$find = @exec("grep \"^".$site->user->alias.":\" " .SVN_PATH.PASSWORDFILE);
+$find = @exec("grep \"^".strtolower($site->user->alias).":\" " .SVN_PATH.PASSWORDFILE);
 if( empty($find) )
 {
   $cts->add_paragraph("<b>Vous n'avez pas de mot de passe, il vous est donc impossible d'utiliser les dépots" . 
@@ -100,6 +100,7 @@ if( empty($find) )
   exit();
 }
 
+$cts->add_paragraph("Votre alias de connexion svn est :".strtolower($site->user->alias));
 $frm = new form("changemdp","svn.php",false,"post","Changer votre mot de passe :");
 $frm->add_hidden("action","pass");
 $frm->add_password_field("pass","Mot de passe");

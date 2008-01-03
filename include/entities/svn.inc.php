@@ -107,7 +107,7 @@ class svn_depot extends stdentity
       @mkdir("/tmp/".$this->nom."/tags",0777);
       @mkdir("/tmp/".$this->nom."/trunk",0777);
       if(is_dir("/tmp/".$this->nom))
-        exec("svn import /tmp/".$this->nom." file://".$dest." -m 'Initial import'");
+        exec("svn import /tmp/".$this->nom." file://".$dest.$this->nom." -m 'Initial import'");
       @rmdir("/tmp/".$this->nom."/branches");
       @rmdir("/tmp/".$this->nom."/tags");
       @rmdir("/tmp/".$this->nom."/trunk");
@@ -297,9 +297,9 @@ class svn_depot extends stdentity
           if(!is_null($user->alias))
           {
             if($right=="rw")
-              $readwrite[]=$user->alias;
+              $readwrite[]=strtolower($user->alias);
             elseif($right=="r")
-              $readonly[]=$user->alias;
+              $readonly[]=strtolower($user->alias);
           }
           else
           {
