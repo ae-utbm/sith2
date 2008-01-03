@@ -110,11 +110,23 @@ if(isset($_REQUEST["id_depot"]))
             {
               $find = @exec("grep \"^".$user->alias.":\" " .SVN_PATH.PASSWORDFILE);
               if( empty($find) )
-                $erreur="l'utilisateur n'a pas de mot de passe svn, il doit se rendre ici : ".
-                        "http://ae.utbm.fr/user/svn.php, notifier l'utilisateur par ".
-                        "<a href=\"?mail=Vous devez vous rendre à cette adresse : ".
-                        "http://ae.utbm.fr/user/svn.php pour scpécifier un mot de passe subversion".
-                        "&id=".$user->id."\">mail</a>.";
+              {
+                $pass=$user->genere_pass(12);
+
+                $body="Bonjour,\nVous ne disposiez pas de mot de passe subversion,".
+                "nous en avons donc généré un pour vous : ".$pass."\n".
+                "Vous pouvez le changer à tout moment ici : ".
+                "http://ae.utbm.fr/user/svn.php\n".
+                "Vous pouvez aussi à tout moment consulter à cette meme adresse les dépot ".
+                "auquels vous avez accès.".
+                "\n\nL'équipe info AE";
+                $ret = mail($user->email,
+                            "[Site AE] Important : subversion",
+                            utf8_decode($body),
+                            "From: \"AE UTBM\" <ae.info@utbm.fr>\nReply-To: ae.info@utbm.fr");
+                $svn->add_user_access($user,$_REQUEST["right"]);
+                unset($_REQUEST["action"]);
+              }
               else
               {
                 $svn->add_user_access($user,$_REQUEST["right"]);
