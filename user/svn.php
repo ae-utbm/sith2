@@ -100,7 +100,7 @@ if( empty($find) )
   exit();
 }
 
-$cts->add_paragraph("Votre alias de connexion svn est :".strtolower($site->user->alias));
+$cts->add_paragraph("Votre alias de connexion svn est : ".strtolower($site->user->alias));
 $frm = new form("changemdp","svn.php",false,"post","Changer votre mot de passe :");
 $frm->add_hidden("action","pass");
 $frm->add_password_field("pass","Mot de passe");
