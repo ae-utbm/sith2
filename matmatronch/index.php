@@ -359,8 +359,6 @@ else
   $semestre .= date("y");
 }
 
-echo $semestre;
-
 
 $req = new requete($site->db, "SELECT `semestre_grp`, `edu_uv_groupe_etudiant`.`id_utilisateur` 
                             FROM `edu_uv_groupe` 
