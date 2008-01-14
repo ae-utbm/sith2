@@ -346,7 +346,7 @@ else
 $cts->add($frm,true);
 
 
-$semestre = ((date("m") > 6 && date("m") < 2) ? "A" : "P") . date("y");
+$semestre = ((date("m") > 6 || date("m") < 2) ? "A" : "P") . date("y");
 
 $req = new requete($site->db, "SELECT `semestre_grp`, `edu_uv_groupe_etudiant`.`id_utilisateur` 
                             FROM `edu_uv_groupe` 
