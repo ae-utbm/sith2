@@ -346,7 +346,18 @@ else
 $cts->add($frm,true);
 
 
-$semestre = ((date("m") > 6 || date("m") < 2) ? "A" : "P") . date("y");
+$semestre = ((date("m") > 6 || date("m") < 2) ? "A" : "P");
+
+/* on est encore en semestre d'automne année précédente */
+if (date("m") < 2) 
+{
+  $semestre .= sprintf("%02d", (date("y") -1));
+}
+/* sinon, semestre suivant */
+else
+{
+  $semestre .= date("y");
+}
 
 echo $semestre;
 
