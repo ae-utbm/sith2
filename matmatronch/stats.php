@@ -52,7 +52,7 @@ $req = new requete($site->db,"SELECT `utl_etu`.`id_utilisateur`, `utl_etu`.`visi
 
 
 $cts->add(new sqltable("top_full",
-                       "Top 10 g&eacute;n&eacute;ral des fiches matmatronch les plus visit&eacute;s", $req, "stats.php",
+                       "Top 10 g&eacute;n&eacute;ral des fiches matmatronch les plus visit&eacute;es", $req, "stats.php",
                        "id_utilisateur",
                        array("=num" => "N°",
                              "nom_utilisateur"=>utf8_encode("Nom & Prénom"),
