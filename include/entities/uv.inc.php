@@ -757,6 +757,8 @@ function get_results($nom, $ine)
 
   $plouf = $plouf[0];
 
+  $ret = array();
+
   /* brutalos parsing from prehistoric UTBM website */
   for ($i = 0; $i < 16; $i++)
     {
@@ -767,14 +769,15 @@ function get_results($nom, $ine)
 	{ 
 	  $nom_uv = substr($plouf[$i],0,4);
 	  $res = substr($plouf[$i], 7);
-	  $ret[$nom_uv] = $res;
+	  $ret[] = $res;
 	}
     }
 
   // resultat de jury machin
   $ret['res_jury'] = $plouf[15];
 
-  return $ret;
+  //  return $ret;
+  return $plouf;
   //return $page;
 }
 
