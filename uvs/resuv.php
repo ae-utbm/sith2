@@ -64,7 +64,7 @@ if ($site->user->utbm)
   {
     $result = get_results(strtoupper($site->user->nom),
 			  $_REQUEST['ine_etu']);
-    $cts->add_paragraph("<pre>" . print_r($result) . "</pre>");
+    $cts->add_paragraph("<pre>" . print_r($result, true) . "</pre>");
   }
 }
 
