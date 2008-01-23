@@ -764,7 +764,11 @@ function get_results($nom, $ine)
     {
       if ($i < 4)
 	continue;
+
+      $plouf[$i] = strip_tags($plouf[$i]);
+
       // uvs
+
       if (($i <= 10) && (strlen($plouf[$i]) > 0))
 	{ 
 	  $nom_uv = substr($plouf[$i],0,4);
