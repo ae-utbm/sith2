@@ -58,6 +58,7 @@ if ($site->user->utbm)
     $form->add_text_field('ine_etu',
 			  'Numéro INE', false);
     $form->add_submit('inesbmt', 'Valider');
+    $cts->add($form);
   }
   else
   {
