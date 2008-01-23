@@ -752,10 +752,10 @@ function get_results($nom, $ine)
   fclose($h);
   $page =  $r;
 
-  preg_match_all("/<font.*>(.*)<\/td>/", $result, $plouf);
+  preg_match_all("/<font.*>(.*)<\/td>/", $page, $plouf);
 
   //  return $plouf;
-  return $result;
+  return $page;
 }
 
 
