@@ -736,22 +736,26 @@ function get_results($nom, $ine)
   $host=$path[0];
   unset($path[0]);
   $path='/'.(implode('/',$path));
-  $post="POST $path HTTP/1.1\r\nHost: $host\r\nContent-type: application/x-www-form-urlencoded\r\n${others}User-Agent: Mozilla 4.0\r\nContent-length: ".strlen($query)."\r\nConnection: close\r\n\r\n$query";
+  $post="POST $path HTTP/1.1\r\nHost: $host\r\nContent-type: ".
+    "application/x-www-form-urlencoded\r\n${others}User-Agent: ".
+    "Mozilla 4.0\r\nContent-length: ".
+    strlen($query)."\r\nConnection: close\r\n\r\n$query";
 
   $h=fsockopen($host,80);
   fwrite($h,$post);
-  for($a=0,$r='';!$a;){
-    $b=fread($h,8192);
-    $r.=$b;
-    $a=(($b=='')?1:0);
-  }
+  for($a=0,$r='';!$a;)
+    {
+      $b=fread($h,8192);
+      $r.=$b;
+      $a=(($b=='')?1:0);
+    }
   fclose($h);
   $page =  $r;
 
   preg_match_all("/<font.*>(.*)<\/td>/", $result, $plouf);
 
-  return $plouf;
-
+  //  return $plouf;
+  return $result;
 }
 
 
