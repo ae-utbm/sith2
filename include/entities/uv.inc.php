@@ -754,7 +754,27 @@ function get_results($nom, $ine)
 
   preg_match_all("/<font.*>(.*)<\/td>/", $page, $plouf);
 
-  return $plouf;
+
+  $plouf = $plouf[0];
+
+  /* brutalos parsing from prehistoric UTBM website */
+  for ($i = 0; $i < 16; $i++)
+    {
+      if ($i < 4)
+	continue;
+      // uvs
+      if (($i <= 10) && (strlen($plouf[$i]) > 0))
+	{ 
+	  $nom_uv = substr($plouf[$i],0,4);
+	  $res = substr($plouf[$i], 7);
+	  $ret[$nom_uv] = $res;
+	}
+    }
+
+  // resultat de jury machin
+  $ret['res_jury'] = $plouf[15];
+
+  return $ret;
   //return $page;
 }
 
