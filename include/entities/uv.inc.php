@@ -754,8 +754,8 @@ function get_results($nom, $ine)
 
   preg_match_all("/<font.*>(.*)<\/td>/", $page, $plouf);
 
-  //  return $plouf;
-  return $page;
+  return $plouf;
+  //return $page;
 }
 
 
