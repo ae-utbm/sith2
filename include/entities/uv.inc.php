@@ -780,8 +780,8 @@ function get_results($nom, $ine)
   // resultat de jury machin
   $ret['res_jury'] = $plouf[15];
 
-  //  return $ret;
-  return $plouf;
+  return $ret;
+  //  return $plouf;
   //return $page;
 }
 
