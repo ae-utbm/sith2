@@ -45,6 +45,9 @@ $asso_folder = new asso($site->db);
 
 //session_write_close(); // on n'a plus besoin de la session, liberons le semaphore...
 
+if(!is_dir("/var/www/ae/www/ae2/var/files"))
+  $site->fatal_partial("fichiers");
+
 $section="fichiers";
 
 if ( isset($_REQUEST["id_file"]))
