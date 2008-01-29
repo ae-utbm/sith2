@@ -114,7 +114,7 @@ else if ( isset($_REQUEST["id_asso"]) )
         
       }
     }
-    else if ( $_REQUEST['action'] == "setlogo"  )
+    else if ( is_dir("/var/www/ae/www/ae2/var/img") && $_REQUEST['action'] == "setlogo"  )
     {
       if ( is_uploaded_file($_FILES['logofile']['tmp_name']) )
       {

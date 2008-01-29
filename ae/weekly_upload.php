@@ -40,7 +40,7 @@ $site->add_contents($cts);
 
 $cts = new contents("Planning");
 
-if ( $_REQUEST["action"] == "setplanning" )
+if ( is_dir("/var/www/ae/www/ae2/var/img") && $_REQUEST["action"] == "setplanning" )
 {
   $dest_small = "/var/www/ae/www/ae2/var/img/com/planning-small.jpg";
   $dest_diapo = "/var/www/ae/www/ae2/var/img/com/planning-diapo.jpg";
@@ -99,7 +99,7 @@ $site->add_contents($cts);
 
 $cts = new contents("Photo de la semaine");
 
-if ( $_REQUEST["action"] == "setweekly_photo" )
+if ( is_dir("/var/www/ae/www/ae2/var/img") && $_REQUEST["action"] == "setweekly_photo" )
 {
   $dest_small = "/var/www/ae/www/ae2/var/img/com/weekly_photo-small.jpg";
   $dest_diapo = "/var/www/ae/www/ae2/var/img/com/weekly_photo-diapo.jpg";

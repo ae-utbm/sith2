@@ -19,17 +19,19 @@ require_once($topdir. "include/lib/magpierss/rss_fetch.inc.php");
 $site = new site ();
 
 // Tâche 1 [planet] : mettre à jour le cache
-$req = new requete($site->db,"SELECT `url` FROM `planet_flux` WHERE `modere`='1'");
-while ( list($url) = $req->get_row() )
-  $rs=fetch_rss($url);
+if(is_dir(MAGPIE_CACHE_DIR))
+{
+  $req = new requete($site->db,"SELECT `url` FROM `planet_flux` WHERE `modere`='1'");
+  while ( list($url) = $req->get_row() )
+    $rs=fetch_rss($url);
 
-// Tâche 1 [planet] : nettoyage du cache
-$cache = opendir(MAGPIE_CACHE_DIR);
-while ($file = readdir($cache))
-  if ( is_file(MAGPIE_CACHE_DIR.$file) && filemtime(MAGPIE_CACHE_DIR.$file) < (time()-MAGPIE_CACHE_AGE) )
-    unlink(MAGPIE_CACHE_DIR.$file);
-closedir($cache);
-
+  // Tâche 1 [planet] : nettoyage du cache
+  $cache = opendir(MAGPIE_CACHE_DIR);
+  while ($file = readdir($cache))
+    if ( is_file(MAGPIE_CACHE_DIR.$file) && filemtime(MAGPIE_CACHE_DIR.$file) < (time()-MAGPIE_CACHE_AGE) )
+      unlink(MAGPIE_CACHE_DIR.$file);
+  closedir($cache);
+}
 
 // Tâche 2 [galaxy] : màj, et cycles
 
