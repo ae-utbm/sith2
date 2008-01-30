@@ -12,7 +12,7 @@
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
@@ -24,14 +24,14 @@
 
 class tagcloud extends stdcontents
 {
- 	/**
-	 * Classe générant des nuages de tags
-	 * @param $values ben le tableau de valeurs quoi : array($name => $qty) 
-	 * @param $link_title titre associé au tag, utiliser '{name}' et '{qty}' comme pour les valeurs du tableau
-	 * @param $link_to lien associé au tag ('{name}' et '{qty}' utilisable)
-	 * @param $min_size taille en % du plus petit tag
-	 * @param $max_size taille en % du plus gros tag
-	 */
+   /**
+   * Classe générant des nuages de tags
+   * @param $values ben le tableau de valeurs quoi : array($name => $qty) 
+   * @param $link_title titre associé au tag, utiliser '{name}' et '{qty}' comme pour les valeurs du tableau
+   * @param $link_to lien associé au tag ('{name}' et '{qty}' utilisable)
+   * @param $min_size taille en % du plus petit tag
+   * @param $max_size taille en % du plus gros tag
+   */
   
   function tagcloud(
     $values, 
@@ -52,6 +52,8 @@ class tagcloud extends stdcontents
     $id=null;
     foreach($values as $name => $qty)
     {
+      if($qty == 0)
+        continue;
       $size = ceil( $min_size + ($qty - $min_qty) * $step_size );
       
       if ( !is_null($ids) )
