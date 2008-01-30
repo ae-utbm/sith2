@@ -82,7 +82,7 @@ class stdentity
     $class = get_class($this);
     
     if ( !$this->is_valid() )
-		  return "(aucun)";
+      return "(aucun)";
     
     
     if ( !isset($GLOBALS["entitiescatalog"][$class][3]) || is_null($GLOBALS["entitiescatalog"][$class][3]) )
@@ -138,15 +138,15 @@ class stdentity
     if ( !isset($GLOBALS["entitiescatalog"][$class][4]) || !$GLOBALS["entitiescatalog"][$class][4] )
       return null;
     
-		if ( $null ) 
-			$values=array(null=>"(aucun)");
-		else
-			$values=array();
+    if ( $null ) 
+      $values=array(null=>"(aucun)");
+    else
+      $values=array();
     
-		$sql = 
+    $sql = 
       "SELECT `".$GLOBALS["entitiescatalog"][$class][0]."`,`".
       $GLOBALS["entitiescatalog"][$class][1]."` ".
-      "FROM `".$GLOBALS["entitiescatalog"][$class][4]."`";	
+      "FROM `".$GLOBALS["entitiescatalog"][$class][4]."`";  
       
     if ( !is_null($conds) && count($conds) > 0 )
     {
@@ -170,10 +170,10 @@ class stdentity
     
     $sql .= " ORDER BY 2";  
     
-		$req = new requete($this->db,$sql);
+    $req = new requete($this->db,$sql);
 
-		while ( $row = $req->get_row() )
-		  $values[$row[0]] = $row[1];
+    while ( $row = $req->get_row() )
+      $values[$row[0]] = $row[1];
 
     return $values;
   }
@@ -210,14 +210,14 @@ class stdentity
       return array(0=>"Calsse $class non suportée");
     if ( $count )
     {
-		  $sql = "SELECT COUNT(*) ";
+      $sql = "SELECT COUNT(*) ";
       $limit=null;
     }
     else
-		  $sql = "SELECT `".$GLOBALS["entitiescatalog"][$class][0]."`,`".$GLOBALS["entitiescatalog"][$class][1]."` ";
+      $sql = "SELECT `".$GLOBALS["entitiescatalog"][$class][0]."`,`".$GLOBALS["entitiescatalog"][$class][1]."` ";
       
     $sql .= "FROM `".$GLOBALS["entitiescatalog"][$class][4]."` ".
-      "WHERE `".$GLOBALS["entitiescatalog"][$class][1]."` REGEXP '^$sqlpattern'";	
+      "WHERE `".$GLOBALS["entitiescatalog"][$class][1]."` REGEXP '^$sqlpattern'";  
     
     if ( !is_null($conds) && count($conds) > 0 )
     {
@@ -236,7 +236,7 @@ class stdentity
     if ( !is_null($limit) && $limit > 0 )
       $sql .= " LIMIT ".$limit;
       
-		$req = new requete($this->db,$sql);
+    $req = new requete($this->db,$sql);
 
     if ( $count )
     {
@@ -250,8 +250,8 @@ class stdentity
 
     $values=array();
     
-		while ( $row = $req->get_row() )
-		  $values[$row[0]] = $row[1];
+    while ( $row = $req->get_row() )
+      $values[$row[0]] = $row[1];
 
     return $values;
   }
@@ -263,12 +263,12 @@ class stdentity
    */
   static function _fsearch_prepare_pattern ( $pattern )
   {
-	  $pattern = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","(e|é|è|ê|ë|É|È|Ê|Ë)",$pattern);
-	  $pattern = ereg_replace("(a|à|â|ä|À|Â|Ä)","(a|à|â|ä|À|Â|Ä)",$pattern);
-	  $pattern = ereg_replace("(i|ï|î|Ï|Î)","(i|ï|î|Ï|Î)",$pattern);
-	  $pattern = ereg_replace("(c|ç|Ç)","(c|ç|Ç)",$pattern);
-	  $pattern = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","(u|ù|ü|û|Ü|Û|Ù)",$pattern);
-	  return ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$pattern);
+    $pattern = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","(e|é|è|ê|ë|É|È|Ê|Ë)",$pattern);
+    $pattern = ereg_replace("(a|à|â|ä|À|Â|Ä)","(a|à|â|ä|À|Â|Ä)",$pattern);
+    $pattern = ereg_replace("(i|ï|î|Ï|Î)","(i|ï|î|Ï|Î)",$pattern);
+    $pattern = ereg_replace("(c|ç|Ç)","(c|ç|Ç)",$pattern);
+    $pattern = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","(u|ù|ü|û|Ü|Û|Ù)",$pattern);
+    return ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$pattern);
   }
   
   /**
@@ -277,7 +277,7 @@ class stdentity
    */
   static function _fsearch_prepare_sql_pattern ( $pattern )
   {
-	  return mysql_real_escape_string(stdentity::_fsearch_prepare_pattern($pattern));
+    return mysql_real_escape_string(stdentity::_fsearch_prepare_pattern($pattern));
   }
 
   /**
@@ -457,15 +457,18 @@ class stdentity
       if ( !isset($GLOBALS["entitiescatalog"][$class][6]) || !$GLOBALS["entitiescatalog"][$class][6] )
         return null;
     }
-    
+
     $conds = array();
     
     $tocreate=array();
-    
-    foreach ( $tags as $tag )
+
+    if(!empty($tags))
     {
-      $conds[] = "nom_tag='".mysql_escape_string($tag)."'";
-      $tocreate[$tag]=$tag;
+      foreach ( $tags as $tag )
+      {
+        $conds[] = "nom_tag='".mysql_escape_string($tag)."'";
+        $tocreate[$tag]=$tag;
+      }
     }
     
     $tags = array();
@@ -480,10 +483,13 @@ class stdentity
         unset($tocreate[$tag]);
       }
       
-      foreach ( $tocreate as $tag )
+      if(!empty($tocreate))
       {
-        $crt = new insert($this->dbrw, "tag", array("nom_tag"=>$tag));
-        $tags[$crt->get_id()]=$tag;  
+        foreach ( $tocreate as $tag )
+        {
+          $crt = new insert($this->dbrw, "tag", array("nom_tag"=>$tag));
+          $tags[$crt->get_id()]=$tag;  
+        }
       }      
     }
 
@@ -502,12 +508,15 @@ class stdentity
         unset($actual[$id]);
     }
     
-    foreach ( $actual as $id => $tag )
+    if(!empty($actual))
     {
-      new delete($this->dbrw, $GLOBALS["entitiescatalog"][$class][6], 
-        array("id_tag"=>$id,$GLOBALS["entitiescatalog"][$class][0]=>$this->id));
-      $id = mysql_escape_string($id);
-      new requete($this->dbrw, "UPDATE tag SET nombre_tag=nombre_tag-1 WHERE id_tag='$id'");
+      foreach ( $actual as $id => $tag )
+      {
+        new delete($this->dbrw, $GLOBALS["entitiescatalog"][$class][6], 
+          array("id_tag"=>$id,$GLOBALS["entitiescatalog"][$class][0]=>$this->id));
+        $id = mysql_escape_string($id);
+        new requete($this->dbrw, "UPDATE tag SET nombre_tag=nombre_tag-1 WHERE id_tag='$id'");
+      }
     }
     
     $this->_tags=$tags;
