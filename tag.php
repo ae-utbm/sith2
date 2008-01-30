@@ -108,7 +108,7 @@ $site->start_page("presentation","Tags");
 
 $cts = new contents("Tags");
 
-$req = new requete($site->db,"SELECT id_tag, nom_tag, nombre_tag FROM tag ORDER BY nom_tag");
+$req = new requete($site->db,"SELECT id_tag, nom_tag, nombre_tag FROM tag WHERE `modere_tag` = '1' ORDER BY nom_tag");
 
 $values=array();
 $ids=array();

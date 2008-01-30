@@ -51,7 +51,7 @@ class tagcloud extends stdcontents
     $step_size = ($max_size - $min_size) / $range;
     $id=null;
     foreach($values as $name => $qty)
-    {print_r($name.$qty."\n");
+    {
       if($qty == 0)
         continue;
       $size = ceil( $min_size + ($qty - $min_qty) * $step_size );
