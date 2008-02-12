@@ -694,7 +694,7 @@ class asso extends stdentity
   function get_pending_unmod_mail()
   {
 
-    if (strlen($this->nom_unix) <= 0)
+    /*if (strlen($this->nom_unix) <= 0)
       {
 	return 0;
       }
@@ -712,7 +712,7 @@ class asso extends stdentity
 	  }
       }
     return 0;
-
+    */
   }
   
 }
