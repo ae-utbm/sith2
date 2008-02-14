@@ -1,6 +1,7 @@
 <?php
 
 $topdir = "./";
+require_once($topdor. "include/site.inc.php");
 require_once($topdir. "include/mysql.inc.php");
 require_once($topdir. "include/mysqlae.inc.php");
 
@@ -28,5 +29,44 @@ if ( $valid->lines != 1 )
   echo "ERROR KEY NOT VALID\n";
   exit();
 }
+
+function testLogin($message)
+{
+  $simplexml = new SimpleXMLElement($message->str);
+  $login = $simplexml->param[0];
+  $password = $simplexml->param[1];
+
+  $site = new site();
+
+  $site->user->load_by_email($login);
+
+  if($site->user->is_valid())
+  {
+    if($site->user->is_password($password))
+      $return = true;
+    else
+      $return = false;
+  }
+  else
+  {
+    $return = false;
+  }
+  
+  $response = <<<XML
+<testLoginResponse>
+  <result>$return</result>
+</testLoginResponse>
+XML;
+  
+  return array("return" => $response);
+}
+
+function inscription($message)
+{
+
+}
+
+$service = new WSService(array("operations" => array("testLogin", "inscription")));
+$service->reply();
 
 ?>
