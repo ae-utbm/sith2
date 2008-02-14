@@ -43,7 +43,7 @@ function error($apikey)
     "WHERE `key` = '".mysql_real_escape_string($apikey)."'");
 
   if ( $valid->lines != 1 )
-    return "KeyNotValid"
+    return "KeyNotValid";
 
   return "ok";
 }
