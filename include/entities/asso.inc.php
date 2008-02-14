@@ -694,12 +694,12 @@ class asso extends stdentity
   function get_pending_unmod_mail()
   {
 
-    /*if (strlen($this->nom_unix) <= 0)
+    if (strlen($this->nom_unix) <= 0)
       {
 	return 0;
       }
 
-    $pendings = file_get_contents("http://www.me.aeinfo.net/list_heldmsgs.php");
+    $pendings = file_get_contents("http://barty.me.aeinfo.net/list_heldmsgs.php");
     $pendings = explode("\n", $pendings);
 
     foreach ($pendings as $asso_pending)
@@ -712,7 +712,7 @@ class asso extends stdentity
 	  }
       }
     return 0;
-    */
+    
   }
   
 }
