@@ -110,7 +110,7 @@ function inscription($message)
       $return = "MailMissing";
     elseif(!ereg("^([A-Za-z0-9\._-]+)@([A-Za-z0-9_-]+)\.([A-Za-z0-9\._-]*)$", $email))
       $return = "MailNotValid";
-    elseif($user->load_by_email($email)
+    elseif($user->load_by_email($email));
       $return = "AccountsExists";
     elseif(!$nom)
       $return = "NameMissing";
