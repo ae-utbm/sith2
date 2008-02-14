@@ -129,7 +129,7 @@ function inscription($message)
     else
     {
       $user->create_user($nom, $prenom, $alias, $email, $password, $droitimage, $naissance, $sexe);
-      $user->load_by_email($email)
+      $user->load_by_email($email);
       $return = $user->id;
     }
   }
