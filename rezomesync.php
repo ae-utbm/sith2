@@ -7,7 +7,10 @@ require_once($topdir. "include/mysqlae.inc.php");
 
 if ( $_SERVER["REMOTE_ADDR"] != "127.0.1.1" )
 {
-  echo "ERROR HTTPS REQUIRED";
+  $response = <<<XML
+<error>https required</error>
+XML;
+  echo $response;
   exit();
 }
 
@@ -15,7 +18,10 @@ $db = new mysqlae ("rw");
 
 if ( !$db->dbh )
 {
-  echo "ERROR DB UNAVAILABLE";
+  $response = <<<XML
+<error>Database unavailable</error>
+XML;
+  echo $response;
   exit();
 }
 
@@ -26,7 +32,10 @@ $valid = new requete($db,
 
 if ( $valid->lines != 1 )
 {
-  echo "ERROR KEY NOT VALID\n";
+  $response = <<<XML
+<error>Key not valid</error>
+XML;
+  echo $response;
   exit();
 }
 
