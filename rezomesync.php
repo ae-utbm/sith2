@@ -23,7 +23,7 @@
  */
 
 $topdir = "./";
-require_once($topdor. "include/site.inc.php");
+require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/mysql.inc.php");
 require_once($topdir. "include/mysqlae.inc.php");
 
