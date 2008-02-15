@@ -997,7 +997,7 @@ if ( $_REQUEST["page"] == "post" && !$forum->categorie )
         user = ".$site->user->id.";
         syntaxengine = document.newsbj.synengine.value;
         
-        openInContents('msg_preview', './index.php', 'get_preview&title='+escape(title)+'&content='+escape(content)+'&user='+user+'&syntaxengine='+syntaxengine);
+        openInContents('msg_preview', './index.php', 'get_preview&title='+encodeURIComponent(title)+'&content='+encodeURIComponent(content)+'&user='+user+'&syntaxengine='+syntaxengine);
       }
       </script>\n");
   $cts->add($frm);
