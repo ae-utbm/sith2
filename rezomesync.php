@@ -136,12 +136,12 @@ function inscription($message)
 
   $response = <<<XML
 <inscriptionResponse>
-  <error>$error</error>
-  <result>$return</result>
+<error>$error</error>
+<result>$return</result>
 </inscriptionResponse>
 XML;
       
-  return array("return" => $response);
+  return $response;
 }
 
 $service = new WSService(array("operations" => array("testLogin", "inscription")));
