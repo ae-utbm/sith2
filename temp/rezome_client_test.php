@@ -14,11 +14,13 @@
 <sexe>1</sexe>
 </inscription>
 XML;
-
-  echo "<strong>Request:</strong><br />".$request."<br />";
-
+  
   $client = new WSClient(array("to" => "http://ae.utbm.fr/rezomesync.php"));
   $response = $client->request($request);
+
+  printf("<br/> Request = %s </br>", htmlspecialchars($client->getLastRequest()));
+  printf("<br/> Response = %s </br>", htmlspecialchars($client->getLastResponse())); 
+
 
   echo "Service replied asking: '".$response->str."'\n";
 
