@@ -138,7 +138,7 @@ function inscription($message)
 <inscriptionResponse>
   <error>$error</error>
   <result>$return</result>
-</testinscriptionResponse>
+</inscriptionResponse>
 XML;
       
   return array("return" => $response);
