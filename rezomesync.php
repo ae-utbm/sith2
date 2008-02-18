@@ -119,7 +119,7 @@ function inscription($message)
       $return = "NameMissing";
     elseif(!$prenom)
       $return = "LastnameMissing";
-    elseif($utbm && !ereg("^([a-zA-Z0-9\.\-]+)@(utbm\.fr|assidu-utbm\.fr)$",$mail))
+    elseif($utbm == true && !ereg("^([a-zA-Z0-9\.\-]+)@(utbm\.fr|assidu-utbm\.fr)$",$mail))
       $return = "NotUtbmMail";
     elseif(!$password)
       $return = "PasswordMissing";
