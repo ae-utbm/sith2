@@ -214,7 +214,7 @@ class interfaceweb
     echo "<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
     echo "<title>".$this->title." - association des etudiants de l'utbm</title>\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css\" title=\"AE2-NEW Base\" />\n";
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/sdm08/css/site.css\" title=\"Semaine de Mars 2008\" />\n";
     foreach ( $this->extracss as $url ) 
       echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
     
