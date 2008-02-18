@@ -65,13 +65,13 @@ function testLogin($message)
     if($site->user->is_valid())
     {
       if($site->user->is_password($password))
-        $return = true;
+        $return = 1;
       else
-        $return = false;
+        $return = 0;
     }
     else
     {
-      $return = false;
+      $return = 0;
     }
   }
   else
@@ -119,7 +119,7 @@ function inscription($message)
       $return = "NameMissing";
     elseif(!$prenom)
       $return = "LastnameMissing";
-    elseif($utbm == "true" && !ereg("^([a-zA-Z0-9\.\-]+)@(utbm\.fr|assidu-utbm\.fr)$",$mail))
+    elseif($utbm == 1 && !ereg("^([a-zA-Z0-9\.\-]+)@(utbm\.fr|assidu-utbm\.fr)$",$mail))
       $return = "NotUtbmMail";
     elseif(!$password)
       $return = "PasswordMissing";
