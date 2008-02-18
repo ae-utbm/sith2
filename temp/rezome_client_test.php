@@ -14,7 +14,7 @@
 XML;
 
   $client = new WSClient(array("to" => "http://ae.utbm.fr/rezomesync.php"));
-  $response = $client->request($reqest);
+  $response = $client->request($request);
 
   echo "Service replied asking: '".$response->str."'\n";
 
