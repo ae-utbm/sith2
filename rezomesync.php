@@ -74,15 +74,18 @@ function testLogin($message)
       $return = false;
     }
   }
+  else
+  {
+    $return = $error;
+  }
   
   $response = <<<XML
 <testLoginResponse>
-  <error>$error</error>
   <result>$return</result>
 </testLoginResponse>
 XML;
   
-  return array("return" => $response);
+  return $response;
 }
 
 function inscription($message)
@@ -106,7 +109,7 @@ function inscription($message)
     $site = new site();
     $user = new utilisateur($site->db,$site->dbrw);
 
-    if(!$mail)
+    if(!$email)
       $return = "MailMissing";
     elseif(!ereg("^([A-Za-z0-9\._-]+)@([A-Za-z0-9_-]+)\.([A-Za-z0-9\._-]*)$", $email))
       $return = "MailNotValid";
@@ -133,10 +136,13 @@ function inscription($message)
       $return = $user->id;
     }
   }
+  else
+  {
+    $return = $error;
+  }
 
   $response = <<<XML
 <inscriptionResponse>
-<error>$error</error>
 <result>$return</result>
 </inscriptionResponse>
 XML;
