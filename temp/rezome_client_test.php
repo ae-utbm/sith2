@@ -2,16 +2,16 @@
   /* Premier test, on inscrit un utilisateur */
   $request = <<<XML
 <inscription>
-  <apikey>ML2ee7549d391c2fcd451758ed6cb6dcaa22d8ff80</apikey>
-  <utbm>false</utbm>
-  <nom>Crétin</nom>
-  <prenom>Lapin</prenom>
-  <email>benc@oxynux.org</email>
-  <password>bleh</password>
-  <naissance>2005-04-02</naissance>
-  <droitimage>true</droitimage>
-  <alias>LapinCretin</alias>
-  <sexe>1</sexe>
+<apikey>ML2ee7549d391c2fcd451758ed6cb6dcaa22d8ff80</apikey>
+<utbm>false</utbm>
+<nom>Crétin</nom>
+<prenom>Lapin</prenom>
+<email>benc@oxynux.org</email>
+<password>bleh</password>
+<naissance>2005-04-02</naissance>
+<droitimage>true</droitimage>
+<alias>LapinCretin</alias>
+<sexe>1</sexe>
 </inscription>
 XML;
 
