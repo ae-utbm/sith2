@@ -129,7 +129,7 @@ p.error
 
 #logo
 {
-  height:86px;
+  height:90px;
   background: url("../images/top-bg.png");
 }
 
@@ -140,8 +140,8 @@ p.error
 
 #logo a
 {
-  width:682px;
-  height:85px;
+  width:937px;
+  height:90px;
   display: block;
   background: url("../images/top-logo.png");
 }
