@@ -517,7 +517,7 @@ class site extends interfaceweb
     elseif ( (time() - $this->user->date_maj) > (6*30*24*60*60) )
         $elements[] = "<b>Vous n'avez pas mis &agrave; jour votre fiche Matmatronch depuis ".round((time() - $this->user->date_maj)/(24*60*60))." jours !</b> : <a href=\"".$topdir."majprofil.php\">La mettre &agrave; jour</a>";
 
-    if( $this->user->is_in_group("sas_admin") )
+    if( $this->user->is_in_group("sas_admin") && ($site->get_param("closed.sas",false) && is_dir("/var/www/ae/accounts/sas")) )
     {
       $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_cat_photos` WHERE `modere_catph`='0' ");
       list($ncat) = $req->get_row();
@@ -535,11 +535,14 @@ class site extends interfaceweb
         $elements[] = "<a href=\"".$topdir."sas2/modere.php\">$msg &agrave; moderer dans le SAS</a>";
       }
     }
-    
-    $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_personnes_photos` WHERE `id_utilisateur`='".$this->user->id."' AND `vu_phutl`='0'");
-    list($nphoto) = $req->get_row();
-    if ( $nphoto > 0 )
-      $elements[] = "<a href=\"".$topdir."user/photos.php?see=new\"><b>".$nphoto." nouvelle(s) photo(s)</b> dans le SAS</a>";
+
+    if( $site->get_param("closed.sas",false) && is_dir("/var/www/ae/accounts/sas"))
+    {
+      $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_personnes_photos` WHERE `id_utilisateur`='".$this->user->id."' AND `vu_phutl`='0'");
+      list($nphoto) = $req->get_row();
+      if ( $nphoto > 0 )
+        $elements[] = "<a href=\"".$topdir."user/photos.php?see=new\"><b>".$nphoto." nouvelle(s) photo(s)</b> dans le SAS</a>";
+    }
     
     $cotiz = new cotisation($this->db);
     $cotiz->load_lastest_by_user ( $this->user->id );
@@ -549,7 +552,7 @@ class site extends interfaceweb
       $elements[] = "<a href=\"".$topdir."e-boutic/?cat=23\"><b>Votre cotisation &agrave; l'AE est expir&eacute;e !</b> Renouvelez l&agrave; en ligne avec E-boutic.</a>";
     }
 
-    if ( !$this->user->droit_image )
+    if ( !$this->user->droit_image && $site->get_param("closed.sas",false) && is_dir("/var/www/ae/accounts/sas") )
     {
       $sql = new requete($this->db,
         "SELECT COUNT(*) " .
