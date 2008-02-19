@@ -65,7 +65,7 @@ function testLogin($message)
     if($site->user->is_valid())
     {
       if($site->user->is_password($password))
-        $return = $user->id;
+        $return = $site->user->id;
       else
         $return = 0;
     }
