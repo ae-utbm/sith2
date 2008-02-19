@@ -29,8 +29,13 @@ require_once($topdir. "include/mysqlae.inc.php");
 
 function error($apikey)
 {
-  if ( $_SERVER["REMOTE_ADDR"] != "127.0.1.1" )
-    return "httpsRequired";
+  $ip = explode(".", $_SERVER["REMOTE_ADDR"]);
+
+  if($ip[0] != 192 && $ip[1] != 168 && $ip[2] != 2)
+    return "notAllowed";
+
+  /*if ( $_SERVER["REMOTE_ADDR"] != "127.0.1.1" )
+    return "httpsRequired";*/
 
   $db = new mysqlae ("rw");
 
