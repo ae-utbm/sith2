@@ -32,6 +32,9 @@ require_once($topdir."include/cts/sqltable.inc.php");
 $site = new site ();
 $site->allow_only_logged_users("matmatronch");
 
+if ( ($site->get_param("closed.sas",false) && !$site->user->is_in_group("root")) || !is_dir("/var/www/ae/accounts/sas") )
+  $site->fatal_partial("sas");
+
 if ( isset($_REQUEST['id_utilisateur']) )
 {
   $user = new utilisateur($site->db);
