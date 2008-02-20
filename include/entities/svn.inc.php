@@ -203,9 +203,9 @@ class svn_depot extends stdentity
       {
         new insert($this->dbrw,
                    "svn_member_depot",
-                   array("id_utilisateur"=>$user->id,
-                         "id_depot"=>$this->id,
-                         "right"=>$level
+                   array("id_utilisateur" => $user->id,
+                         "id_depot" => $this->id,
+                         "right" => $level
                         ));
         $this->update_auth_file();
         return true;
@@ -220,7 +220,7 @@ class svn_depot extends stdentity
   {
     if( $user->is_valid() )
     {
-      new delete ($this->dbrw,"svn_member_depot",array("id_utilisateur"=>$user->id));
+      new delete ($this->dbrw,"svn_member_depot",array("id_utilisateur" => $user->id, "id_depot" => $this->id));
       $this->update_auth_file();
       return true;
     }
