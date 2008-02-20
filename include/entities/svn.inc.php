@@ -281,7 +281,7 @@ class svn_depot extends stdentity
     $render = "";
     $render .= "[groups]\n";
 
-    $depots = new requete($thie->db,
+    $depots = new requete($this->db,
                        "SELECT `id_depot`, `nom` ".
 		       "FROM `svn_depot` ".
 		       "WHERE `type`='".$this->type."'");
