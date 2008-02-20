@@ -293,7 +293,7 @@ class svn_depot extends stdentity
       echo "Bleh";
       while(list($id_depot,$nom_depot) = $depots->get_row())
       {
-        echo "Depot : ".$nom_depot".<br />";
+        echo "Depot : ".$nom_depot."<br />";
         $req = new requete($this->db,
                            "SELECT `id_utilisateur`, `right` ".
                            "FROM `svn_member_depot` ".
