@@ -325,8 +325,8 @@ class svn_depot extends stdentity
           }
         }
 
-        $_ro == "";
-        $_rw == "";
+        $_ro = "";
+        $_rw = "";
 
         for($i = 0; $i < count($readonly); $i++)
         {
