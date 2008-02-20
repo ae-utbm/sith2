@@ -222,23 +222,15 @@ if ( $lieu->is_valid() )
 {
   if ( $_REQUEST["action"] == "kml" )
   {
+    $geo = geopoint::autoload_by_id($lieu->db,$lieu->id,$lieu->type);
     header("Content-type: application/vnd.google-earth.kml+xml");
     header("Content-Disposition: filename=ae_utbm_".$lieu->id.".kml");
     echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
     echo "<kml xmlns=\"http://earth.google.com/kml/2.1\">";
-    echo "<Placemark id=\"ae_utbm_fr_geopoint_".$lieu->id_geopoint."\">";
-    echo "<name>".htmlspecialchars($lieu->nom)."</name>";
-    echo "<description>".htmlspecialchars($lieu->get_html_extended_info())."</description>";
-    echo "<Point>";
-    echo "<coordinates>".sprintf("%.12F",$lieu->long*360/2/M_PI).",".
-      sprintf("%.12F",$lieu->lat*360/2/M_PI)."</coordinates>";
-    echo "</Point>";
-    echo "</Placemark>";
+    echo $geo->get_kml_placemark();
     echo "</kml>";
     exit();
   }
-  
-  
   
   $lieu_parent = new lieu($site->db);
   $lieu_parent->load_by_id($lieu->id_lieu_parent);

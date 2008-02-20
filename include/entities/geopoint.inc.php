@@ -44,6 +44,44 @@ class geopoint extends stdentity
   var $nom;
   
   /**
+   *
+   *
+   *
+   */
+  static function autoload_by_id ( $db, $id, $type=null )
+  {
+    global $topdir;
+    
+    if ( is_null($type) )
+    {
+      $req = new requete($db, 
+        "SELECT type_geopoint ".
+        "FROM `geopoint` ".
+        "WHERE `id_geopoint` = '" . mysql_real_escape_string($id) . "' ".
+        "LIMIT 1");
+      
+      if ( $req->lines != 1 )
+        return null;
+      
+      list($type) = $req->get_row();
+    }
+    
+    if ( !class_exists($type) 
+         && isset($GLOBALS["entitiescatalog"][$type][5]) 
+         && $GLOBALS["entitiescatalog"][$type][5] )
+      require_once($topdir."include/entities/".$GLOBALS["entitiescatalog"][$type][5]);
+      
+    if ( class_exists($type) )
+  		$item = new $type($db);
+    else
+      return null;
+    
+    $item->load_by_id($id);
+    
+    return $item;
+  }
+  
+  /**
    * Charge les données du point geographique depuis une ligne SQL
    * @param $row Ligne SQL
    */
@@ -255,6 +293,19 @@ class geopoint extends stdentity
   function prefer_list()
   {
     return true;  
+  }
+  
+  function get_kml_placemark()
+  {
+    $buffer .= "<Placemark id=\"ae_utbm_fr_geopoint_".$this->id_geopoint."\">";
+    $buffer .= "<name>".htmlspecialchars($this->nom)."</name>";
+    $buffer .= "<description>".htmlspecialchars($this->get_html_extended_info())."</description>";
+    $buffer .= "<Point>";
+    $buffer .= "<coordinates>".sprintf("%.12F",$this->long*360/2/M_PI).",".
+      sprintf("%.12F",$this->lat*360/2/M_PI)."</coordinates>";
+    $buffer .= "</Point>";
+    $buffer .= "</Placemark>";
+    return $buffer;
   }
   
 }
