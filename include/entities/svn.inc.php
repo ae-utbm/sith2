@@ -300,10 +300,11 @@ class svn_depot extends stdentity
                            "FROM `svn_member_depot` ".
                            "WHERE `id_depot`='".$id_depot."'");
 
+        $readwrite = array();
+        $readonly = array();
+  
         if($req->lines != 0)
         {
-          $readwrite = array();
-          $readonly = array();
           $user = new utilisateur($this->db,$this->dbrw);
    
           while(list($id,$right) = $req->get_row())
