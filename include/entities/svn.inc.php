@@ -283,8 +283,8 @@ class svn_depot extends stdentity
 
     $req_depots = new requete($this->db,
                        "SELECT `id_depot`, `nom` ".
-		       "FROM `svn_depot` ".
-		       "WHERE `type`='".$this->type."'");
+           "FROM `svn_depot` ".
+           "WHERE `type`='".$this->type."'");
 
     if($req_depots->lines == 0)
       return true;
@@ -300,10 +300,10 @@ class svn_depot extends stdentity
                            "FROM `svn_member_depot` ".
                            "WHERE `id_depot`='".$id_depot."'");
 
-	if($req->lines != 0)
-	{
-	  $readwrite = array();
-	  $readonly = array();
+        if($req->lines != 0)
+        {
+          $readwrite = array();
+          $readonly = array();
           $user = new utilisateur($this->db,$this->dbrw);
    
           while(list($id,$right) = $req->get_row())
@@ -325,29 +325,28 @@ class svn_depot extends stdentity
           }
         }
 
+        $_ro == "";
+        $_rw == "";
+
         for($i = 0; $i < count($readonly); $i++)
         {
-	  if($i == 0)
-	    $_ro = "";
-	  else
-	    $_ro .= ", ";
-	  
-	  $_ro .= $readonly[$i];
-	}
-	$render .= $nom_depot."ro = ".$_ro."\n";
+          if($i != 0)
+            $_ro .= ", ";
+    
+            $_ro .= $readonly[$i];
+        }
+        $render .= $nom_depot."ro = ".$_ro."\n";
 
-	for($i = 0; $i < count($readwrite); $i++)
-	{
-	  if($i == 0)
-	    $_rw = "";
-	  else
-	    $_rw .= ", ";
+        for($i = 0; $i < count($readwrite); $i++)
+        {
+          if($i != 0)
+            $_rw .= ", ";
 
-	  $_rw .= $readwrite[$i];
-	}
-	$render .= $nom_depot."rw = ".$_rw."\n";
+            $_rw .= $readwrite[$i];
+        }
+        $render .= $nom_depot."rw = ".$_rw."\n";
       }
-	  
+    
 
       for($i = 0; $i < count($depots); $i++)
       {
