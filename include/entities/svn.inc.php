@@ -2,6 +2,7 @@
 
 /* Copyright 2007 - 2008
  * - Simon Lopez < simon dot lopez at ayolo dot org >
+ * - Benjamin Collet <bcollet at oxynux dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -274,102 +275,91 @@ class svn_depot extends stdentity
     elseif($this->type == "aeinfo")
       $path = SVN_PATH.AEINFO_SVN;
 
-    if(!$handle = @fopen($path.AUTHFILE, "r"))
-      return false;
-
-    $req = new requete($this->db,
-                       "SELECT `id_utilisateur`, `right` ".
-                       "FROM `svn_member_depot` ".
-                       "WHERE `id_depot`='".$this->id."'");
-
-    if($req->lines == 0)
-      return true;
-
-    else
-    {
-      $readwrite=array();
-      $readonly=array();
-      $user = new utilisateur($this->db,$this->dbrw);
-      while(list($id,$right)=$req->get_row())
-      {
-        if($user->load_by_id($id))
-        {
-          if(!is_null($user->alias))
-          {
-            if($right=="rw")
-              $readwrite[]=strtolower($user->alias);
-            elseif($right=="r")
-              $readonly[]=strtolower($user->alias);
-          }
-          else
-          {
-            //ici soit on génère un alias soit on mail bombe !
-          }
-        }
-      }
-      
-      if(empty($readonly) && empty($readwrite) && $this->type != "public" )
-        return true;
-    }
-
-    $contents = @fread($handle, @filesize($path.AUTHFILE));
-    @fclose($handle);
-
-    $render="";
-    if(!preg_match("#\n".$this->nom."(rw|ro) \= (.*?)\n#",$contents))
-    {
-      $con = explode("\n", $contents);
-      $i=0;
-      while($i<count($con))
-      {
-        if($i==1)
-        {
-          if(!empty($readonly))
-          {
-            for($i=0;$i<count($readonly);$i++)
-            {
-              if($i==0)
-                $_ro=$readonly[$i];
-              else
-                $_ro.=", ".$readonly[$i];
-            }
-            $render.=$this->nom."ro = ".$_ro."\n";
-          }
-          else
-            $render.=$this->nom."ro = \n";
-          if(!empty($readwrite))
-          {
-            for($i=0;$i<count($readwrite);$i++)
-            {
-              if($i==0)
-                $_rw=$readwrite[$i];
-              else
-                $_rw.=", ".$readwrite[$i];
-            }
-            $render.=$this->nom."rw = ".$_rw."\n";
-          }
-          else
-            $render.=$this->nom."rw = \n";
-        }
-        if( $i==0 || $con[$i-1]!=$con[$i] )
-          $render.=$con[$i]."\n";
-        $i++;
-      }
-      if($this->type == "public")
-        $render .="[".$this->nom.":/]\n@".$this->nom."rw = rw\n@".$this->nom."ro = r\n* = r";
-      else
-        $render .="[".$this->nom.":/]\n@".$this->nom."rw = rw\n@".$this->nom."ro = r\n* =";
-    }
-    else
-    {
-      return false;
-    }
     if(!$handle = @fopen($path.AUTHFILE, "w"))
       return false;
-    @fwrite($handle,$render);
-    @fclose ($handle);
 
-    return true;
+    $render = "";
+    $render .= "[groups]\n";
+
+    $depots = new requete($thie->db,
+                       "SELECT `id_depot`, `nom` ".
+		       "FROM `svn_depot` ".
+		       "WHERE `type`='".$this->type."'");
+
+    if($depots->lines == 0)
+      return true;
+    else
+    {
+      while(list($id_depot,$nom_depot) = $depots->get_row())
+      {
+        $req = new requete($this->db,
+                           "SELECT `id_utilisateur`, `right` ".
+                           "FROM `svn_member_depot` ".
+                           "WHERE `id_depot`='".$id_depot."'");
+
+	if($req->lines != 0)
+	{
+	  $readwrite = array();
+	  $readonly = array();
+          $user = new utilisateur($this->db,$this->dbrw);
+   
+          while(list($id,$right)=$req->get_row())
+          {
+            if($user->load_by_id($id))
+            {
+              if(!is_null($user->alias))
+              {
+                if($right=="rw")
+                  $readwrite[]=strtolower($user->alias);
+                elseif($right=="r")
+                  $readonly[]=strtolower($user->alias);
+              }
+              else
+              {
+                //ici soit on génère un alias soit on mail bombe !
+              }
+            }
+          }
+        }
+
+        for($i = 0; $i < count($readonly); $i++)
+        {
+	  if($i == 0)
+	    $_ro = "";
+	  else
+	    $_ro .= ", ";
+	  
+	  $_ro .= $readonly[$i];
+	}
+	$render .= $nom_depot."ro = ".$_ro."\n";
+
+	for($i = 0; $i < count($readwrite); $i++)
+	{
+	  if($i == 0)
+	    $_rw = "";
+	  else
+	    $_rw .= ", ";
+
+	  $_rw .= $readwrite[$i];
+	}
+	$render .= $nom_depot."rw = ".$_rw."\n";
+      }
+	    
+      while(list($id_depot,$nom_depot) = $depots->get_row())
+      {
+        if($this->type == "public")
+          $render .="[".$nom_depot.":/]\n@".$nom_depot."rw = rw\n@".$nom_depot."ro = r\n* = r";
+        else
+          $render .="[".$nom_depot.":/]\n@".$nom_depot."rw = rw\n@".$nom_depot."ro = r\n* =";
+      }
+        
+      if(!$handle = @fopen($path.AUTHFILE, "w"))
+         return false;
+      fwrite($handle,$render);
+      @fclose ($handle);
+
+      return true;
+    }
   }
 
   /* delete auth file */
