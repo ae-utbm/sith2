@@ -286,7 +286,7 @@ class svn_depot extends stdentity
 		       "FROM `svn_depot` ".
 		       "WHERE `type`='".$this->type."'");
 
-    if($depots->lines == 0)
+    if($req_depots->lines == 0)
       return true;
     else
     {
@@ -352,9 +352,9 @@ class svn_depot extends stdentity
       for($i = 0; $i < count($depots); $i++)
       {
         if($this->type == "public")
-          $render .="[".$depots[$i].":/]\n@".$depots[$i]."rw = rw\n@".$depots[$i]."ro = r\n* = r";
+          $render .= "[".$depots[$i].":/]\n@".$depots[$i]."rw = rw\n@".$depots[$i]."ro = r\n* = r\n";
         else
-          $render .="[".$depots[$i].":/]\n@".$depots[$i]."rw = rw\n@".$depots[$i]."ro = r\n* =";
+          $render .= "[".$depots[$i].":/]\n@".$depots[$i]."rw = rw\n@".$depots[$i]."ro = r\n* =\n";
       }
         
       if(!$handle = @fopen($path.AUTHFILE, "w"))
