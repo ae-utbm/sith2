@@ -821,7 +821,7 @@ class utilisateur extends stdentity
                     'musicien_utl'=>$this->musicien,
                     'taille_tshirt_utl'=>$this->taille_tshirt,
                     'permis_conduire_utl'=>$this->permis_conduire,
-                    'date_permis_conduire_utl'=>is_null($this->permis_conduire)?date("Y-m-d",$this->date_permis_conduire):null,
+                    'date_permis_conduire_utl'=> (!is_null($this->permis_conduire)?date("Y-m-d",$this->date_permis_conduire):null),
                     'hab_elect_utl'=>$this->hab_elect,
                     'afps_utl'=>$this->afps,
                     'sst_utl'=>$this->sst),
