@@ -281,7 +281,7 @@ class svn_depot extends stdentity
     $render = "";
     $render .= "[groups]\n";
 
-    $depots = new requete($this->db,
+    $req_depots = new requete($this->db,
                        "SELECT `id_depot`, `nom` ".
 		       "FROM `svn_depot` ".
 		       "WHERE `type`='".$this->type."'");
@@ -290,10 +290,11 @@ class svn_depot extends stdentity
       return true;
     else
     {
-      echo "Bleh";
-      while(list($id_depot,$nom_depot) = $depots->get_row())
+      $depots = array();
+      while(list($id_depot,$nom_depot) = $req_depots->get_row())
       {
-        echo "Depot : ".$nom_depot."<br />";
+        $depots[] = $nom_depot;
+
         $req = new requete($this->db,
                            "SELECT `id_utilisateur`, `right` ".
                            "FROM `svn_member_depot` ".
@@ -305,16 +306,16 @@ class svn_depot extends stdentity
 	  $readonly = array();
           $user = new utilisateur($this->db,$this->dbrw);
    
-          while(list($id,$right)=$req->get_row())
+          while(list($id,$right) = $req->get_row())
           {
             if($user->load_by_id($id))
             {
               if(!is_null($user->alias))
               {
-                if($right=="rw")
-                  $readwrite[]=strtolower($user->alias);
-                elseif($right=="r")
-                  $readonly[]=strtolower($user->alias);
+                if($right == "rw")
+                  $readwrite[] = strtolower($user->alias);
+                elseif($right == "r")
+                  $readonly[] = strtolower($user->alias);
               }
               else
               {
@@ -346,13 +347,14 @@ class svn_depot extends stdentity
 	}
 	$render .= $nom_depot."rw = ".$_rw."\n";
       }
-	    
-      while(list($id_depot,$nom_depot) = $depots->get_row())
+	  
+
+      for($i = 0; $i < count($depots); $i++)
       {
         if($this->type == "public")
-          $render .="[".$nom_depot.":/]\n@".$nom_depot."rw = rw\n@".$nom_depot."ro = r\n* = r";
+          $render .="[".$depots[$i].":/]\n@".$depots[$i]."rw = rw\n@".$depots[$i]."ro = r\n* = r";
         else
-          $render .="[".$nom_depot.":/]\n@".$nom_depot."rw = rw\n@".$nom_depot."ro = r\n* =";
+          $render .="[".$depots[$i].":/]\n@".$depots[$i]."rw = rw\n@".$depots[$i]."ro = r\n* =";
       }
         
       if(!$handle = @fopen($path.AUTHFILE, "w"))
