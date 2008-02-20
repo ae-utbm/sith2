@@ -552,7 +552,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     
     // Permis de conduire
     $subfrm = new form("permis_conduire",null,null,null,"Permis de conduire (informations non publiées**)");
-    $subfrm->add_date_field("date_permis_conduire","Date d'obtention (non publiée)", strtotime($user->date_permis_conduire));
+    $subfrm->add_date_field("date_permis_conduire","Date d'obtention (non publiée)", $user->date_permis_conduire);
     $frm->add ( $subfrm, true, false, $user->permis_conduire, false, false, true );    
     
     // Musicien
