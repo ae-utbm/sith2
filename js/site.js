@@ -112,7 +112,18 @@ function setCheckboxesRange(the_form, basename, min, max)
 
 function switchSelConnection(obj)
 {
-    alert(obj.options[obj.selectedIndex].innerHTML);
+    var sel = obj.options[obj.selectedIndex].innerHTML; 
+	    alert(obj.getParent().getParent().nextSibling().getChilds()[1].getChilds()[0].innerHTML);
+
+    if (sel == "Alias")
+	{
+	    alert(obj.getParent().getParent().nextSibling().getChilds()[1].getChilds()[0].innerHTML);
+
+	}
+    else if (sel == "E-mail")
+	{
+	    alert(obj.getParent().getParent().nextSibling().getChilds()[1].getChilds()[0].innerHTML);
+	}
 }
 
 
