@@ -110,6 +110,11 @@ function setCheckboxesRange(the_form, basename, min, max)
 
 } // end of the 'setCheckboxesRange()' function
 
+function switchSelConnection(obj)
+{
+    alert(obj.options[obj.selectedIndex].innerHTML);
+}
+
 
 function fileListToggle (id)
 {
