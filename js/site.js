@@ -113,17 +113,14 @@ function setCheckboxesRange(the_form, basename, min, max)
 function switchSelConnection(obj)
 {
     var sel = obj.options[obj.selectedIndex].innerHTML; 
-    alert(obj.parentNode.parentNode.nextSibling.childNodes[1].childNodes[0].innerHTML);
-
+    
     if (sel == "Alias")
 	{
-    alert(obj.parentNode.parentNode.nextSibling.childNodes[1].childNodes[0].innerHTML);
-
+	    obj.parentNode.parentNode.parentNode.childNodes[2].childNodes[2].childNodes[0].value = "alias";
 	}
     else if (sel == "E-mail")
 	{
-    alert(obj.parentNode.parentNode.nextSibling.childNodes[1].childNodes[0].innerHTML);
-
+	    obj.parentNode.parentNode.parentNode.childNodes[2].childNodes[2].childNodes[0].value = "prenom.nom";
 	}
 }
 
