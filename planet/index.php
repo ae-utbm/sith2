@@ -56,7 +56,8 @@ if (!$site->user->id || !$site->user->utbm)
   error_403();
 
 $site->start_page ("none", "Planet AE ");
-
+$site->set_side_boxes("left",array());
+$site->set_side_boxes("right",array());
 $planet = new planet($site);
 
 $tabs = $planet->get_tabs();
