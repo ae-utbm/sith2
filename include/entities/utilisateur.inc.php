@@ -428,7 +428,7 @@ class utilisateur extends stdentity
     $this->taille_tshirt = $row["taille_tshirt_utl"];
     $this->permis_conduire = $row["permis_conduire_utl"];
 
-    if ( !is_null($row["date_permis_conduire_utl"]) )
+    if ( !is_null($row["date_permis_conduire_utl"]) && $this->permis_conduire )
       $this->date_permis_conduire = strtotime($row["date_permis_conduire_utl"]);
     else
       $this->date_permis_conduire = null;

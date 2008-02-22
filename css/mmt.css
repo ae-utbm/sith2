@@ -116,6 +116,7 @@ div.gallery div.galitem
 	height:191px;  
 	top:6px;
 	left:6px;
+	overflow:hidden;
 }
 
 .userinfov2 h2.nom
@@ -128,6 +129,7 @@ div.gallery div.galitem
   left:10px;
   height:20px;
   width:200px;
+  overflow:hidden;
 }
 
 .userinfov2 h2.nom a
