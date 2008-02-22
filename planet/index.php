@@ -59,7 +59,7 @@ $site->start_page ("none", "Planet AE ");
 
 $planet = new planet($site);
 
-$tabs = $planet->get_tapbs();
+$tabs = $planet->get_tabs();
 
 
 $cts = new contents("Planet AE ");
