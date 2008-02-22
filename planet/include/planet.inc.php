@@ -31,9 +31,9 @@ define('MAX_SUM_LENGHT',200);
 class planet extends stdentity
 {
 
-  function planet( $this->site )
+  function planet( &$site )
   {
-    $this->site=$this->site;
+    $this->site=&$site;
   }
 
   function get_tabs()
