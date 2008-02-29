@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright 2005,2006
+/* Copyright 2005,2006,2008
  * - Julien Etelain <julien CHEZ pmad POINT net>
  *
  * Ce fichier fait partie du site de l'Association des étudiants de
@@ -21,24 +21,38 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
+/**
 
+ * @file
+ * Interface de vente par carte AE sur des comptoirs de type "bueau" .
+ * Remarque: Ce fichier ne contient que les spécificités de ce type de comptoir.
+ *
+ * L'id du comptoir doit être définit en GET ou en POST : id_comptoir
+ *
+ * L'opérateur est définit à l'utilisateur connecté, si ce dernier n'est pas
+ * membre du groupe vendeurs du comptoir, une erreur 403 sera renvoyée.
+ *
+ * @see comptoir/frontend.inc.php
+ * @see comptoir
+ * @see sitecomptoirs
+ * @see get_localisation
+ */
+ 
 $topdir="../";
 require_once("include/comptoirs.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
 
 $site = new sitecomptoirs(true);
 $site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
-if ( $site->comptoir->id < 1 )
-{
-	header("Location: index.php");
-	exit();	
-}
+
+if ( !$site->comptoir->is_valid() )
+  $site->error_not_found("services");
 
 if ( $site->comptoir->type != 2 )
-	error_403("forbiddenmode");
+	$site->error_forbidden("services","invalid");
 
 if ( !$site->comptoir->set_operateur($site->user) )
-	error_403();
+  $site->error_forbidden("services","group",$site->comptoir->groupe_vendeurs);
 
 include("frontend.inc.php");
 

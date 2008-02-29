@@ -6,7 +6,7 @@
  * @brief déclaration de la classe produit
  */
 
-/* Copyright 2005,2006,2007
+/* Copyright 2005,2006,2007,2008
  * - Julien Etelain <julien CHEZ pmad POINT net>
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  * - Simon Lopez <simon POINT lopez CHEZ ayolo POINT org>
@@ -37,41 +37,59 @@
 
 /**
  * Classe gérant un produit
+ * @see venteproduit
+ * @see comptoir
+ * @see debitfacture
  */
 class produit extends stdentity
 {
 
+  /** Id du type de produit */
   var $id_type;
+  /** Id du compte association qui sera crédité = Id association vendant le produit */
   var $id_assocpt;
+  /** Nom du produit */
   var $nom;
+  /** Prix de vente barman (en centimes) */
   var $prix_vente_barman;
+  /** Prix de vente public (en centimes) */
   var $prix_vente;
+  /** Prix d'achat (à titre indicatif) (en centimes) */
   var $prix_achat;
+  /** Paramètre de l'action associée au produit */
   var $meta;
+  /** Action associée au produit */
   var $action;
+  /** Code barre du produit */
   var $code_barre;
+  /** Stock global du produit, -1 si non limité */
   var $stock_global;
-
+  /** Id du fichier utilisé pour la vignette du produit */
   var $id_file;
+  /** Description succinte du produit */
   var $description;
+  /** Description complète du porduit */
   var $description_longue;
-
-
+  /** Id du groupe au quel la vente de ce produit est restreint (null si aucun) */
   var $id_groupe;
+  /** Date de fin de vente du produit (timestamp) @todo à implémenter */
   var $date_fin;
+  /** Id du produit parent (null si aucun) si non null, alors ce produit est une 
+   *  déclinaisaon du produit parent */
   var $id_produit_parent;
-
-  // Produit à venir retirer si vendu depuis un comptoir "e-boutic", ou expediable par la poste
   /** A venir retiré aux bureaux où cet objet est vendu (boolénn) */
   var $a_retirer;
   /** Envoyable par la poste (booléen) (non disponible pour le moment) */
   var $postable;
   /** Frais de port de l'objet en centimes (non disponible pour le moment) */
   var $frais_port;
-
   /** etat d'un produit hors commerce, gardé pour archive */
   var $archive;
 
+  /** Cache de l'instance de la classe associée 
+   * @see get_prodclass 
+   * @private 
+   */
 	var $cl;
 
 
@@ -79,15 +97,14 @@ class produit extends stdentity
 		- VenteProduit
   */
 
-  /** @brief chargement d'un produit par son identifiant
-   *
-   * @param id l'identifiant du produit
-   *
+  /** 
+   * Charge un produit en fonction de son id
+   * En cas d'erreur, l'id est définit à null
+   * @param $id id du produit
+   * @return true en cas du succès, false sinon
    */
   function load_by_id ($id)
   {
-
-    /* les SELECT *, ca craint */
     $req = new requete ($this->db, "SELECT * FROM `cpt_produits`
                                     WHERE `id_produit`='".mysql_real_escape_string($id)."'");
 		
@@ -96,22 +113,22 @@ class produit extends stdentity
 			$this->_load($req->get_row());
 			return true;
 		}
-		
 		$this->id = null;	
 		return false;
-
   }
 
-  /** @brief chargement par code barre
-   *
-   * @param code_barre le code barre du produit
-   *
+  /** 
+   * Charge un produit en fonction de son code barre
+   * En cas d'erreur, l'id est définit à null
+   * @param $code_barre code barre du produit
+   * @return true en cas du succès, false sinon
    */
   function charge_par_code_barre ($code_barre)
   {
 
     $req = new requete($this->db, "SELECT * FROM `cpt_produits`
-                                   WHERE `cbarre_prod` = '".mysql_real_escape_string($code_barre)."'");
+                                   WHERE `cbarre_prod` = '".mysql_real_escape_string($code_barre)."'
+                                   AND `prod_archive`='0'");
 
 		if ( $req->lines == 1 )
 		{
@@ -123,20 +140,13 @@ class produit extends stdentity
 		return false;
   }
 
-  /** @brief ajout d'un produit dans la base
+  /** 
+   * Crée un produit
    *
-   * @param type le type de produit
-   * @param association l'association concern�e
-   * @param nom un nom g�n�rique pour le produit vendu
-   * @param prix_vente_barman �quivalent du prix coutant
-   * @param prix_vente le prix de vente public
-   * @param prix_achat prix d'achat brut au fournisseur
-   * @param meta meta-action (parametres)
-   * @param action action � effectuer � l'achat
-   * @param code_barre le code barre du produit
+   * Voir documentation des champs de la classe pour la signification des 
+   * paramètres.
    *
-   * @return true si succ�s, false sinon
-   *
+   * @return true si succès, false sinon
    */
   function ajout ($id_typeprod,
 		  $id_assocpt,
@@ -218,20 +228,14 @@ class produit extends stdentity
 
     return true;
   }
-  /** @brief modification d'un produit dans la base
+  
+  /** 
+   * Modifie le produit
    *
-   * @param type le type de produit
-   * @param association l'association concern�e
-   * @param nom un nom g�n�rique pour le produit vendu
-   * @param prix_vente_barman �quivalent du prix coutant
-   * @param prix_vente le prix de vente public
-   * @param prix_achat prix d'achat brut au fournisseur
-   * @param meta meta-action (parametres)
-   * @param action action � effectuer � l'achat
-   * @param code_barre le code barre du produit
+   * Voir documentation des champs de la classe pour la signification des 
+   * paramètres.
    *
-   * @return true si succ�s, false sinon
-   *
+   * @return true si succès, false sinon
    */
   function modifier ($id_typeprod,
 		     $nom,
@@ -311,6 +315,11 @@ class produit extends stdentity
     return true;
   }
   
+  /**
+   * Modifie le type du produit
+   * @param $id_typeprod Id du type de produit
+   * @return true si succès, false sinon
+   */
   function modifier_typeprod ($id_typeprod)
   {
 
@@ -328,23 +337,27 @@ class produit extends stdentity
     return true;
   }
   
+  /**
+   * Supprime le produit (s'il n'a jamais été vendu)
+   * @return true si succès, false sinon
+   */
   function supprimer ()
   {
     if ( $this->determine_deja_vendu() )
       return false;
 
-
-    /*
-    TODO
-    */
-
+		new delete($this->dbrw,"cpt_produits",array("id_produit" => $this->id));
+		new delete($this->dbrw,"cpt_mise_en_vente",array("id_produit" => $this->id));
+		
     return false;
   }
 
-  /** @brief archivage d'un produit
+  /** 
+   * Archivage d'un produit :
+   * - le retire de la vente dans tous les comptoirs
+   * - le marque comme archivé
    *
-   * @return true si succ�s, false sinon
-   *
+   * @return true si succès, false sinon
    */
   function archiver ()
   {
@@ -365,10 +378,10 @@ class produit extends stdentity
     return true;
   }
 
-  /** @brief de-archivage d'un produit
+  /** 
+   * De-archivage d'un produit : enlève le marquage "archivé"
    *
-   * @return true si succ�s, false sinon
-   *
+   * @return true si succès, false sinon
    */
   function dearchiver ()
   {
@@ -379,6 +392,7 @@ class produit extends stdentity
 			     "prod_archive" => 0
 			      ),
 			   array("id_produit" => $this->id));
+			   
     if ( !$req )
     	return false;
 
@@ -391,20 +405,13 @@ class produit extends stdentity
   {
     $req = new requete ($this->db, "SELECT count(id) FROM `cpt_vendu`
                                     WHERE id_produit='".$this->id."'");
-    echo mysql_error();
-
+                                    
     list($count) = $req->get_row();
 
     return $count != 0;
   }
 
-  /*
-   * Fonctions priv�es
-   */
-
-  /** @brief chargement des donn�es
-   *
-   * @param un tableau provenant des resultats de mySQL
+  /** 
    * @private
    */
   function _load ($row)
@@ -437,19 +444,27 @@ class produit extends stdentity
     
   }
   
-  /** @brief obtention d'un prix de vente
+  /** 
+   * Determine le prix de vente pour un utilisateur
    *
-   * @param prix_barman (optionnel) selectionne ou pas le prix
-   *        avantageux barman ou non
-   *
-   * @return (int) le prix (en centimes d'euros)
-   * @private
+   * @param $prix_barman true si l'utilisateur a droit au prix barman, false sinon
+   * @param $user utilisateur à qui le pdoruit va être vendu (intsance de utilisateur)
+   * @return le prix (en centimes d'euros)
    */
-  function obtenir_prix ($barman)
+  function obtenir_prix ($barman,$user=false)
   {
     return $barman ? $this->prix_vente_barman : $this->prix_vente;
   }
   
+  /**
+   * Détermine si le produit peut être vendu à un utilisateur.
+   * Verifie que l'utilisateur fait partie du groupe cible (si définit).
+   * Fait appel à la classe associée au produit si disponible.
+   *
+   * @param $user Utilisateur (instance de utilisateur)
+   * @return true si le produit peut être vendu à $user, false sinon
+   * @see get_prodclass
+   */
   function can_be_sold ( &$user )
   {
 	  if ( !is_null($this->id_groupe) && !$user->is_in_group_id($this->id_groupe) )
@@ -464,7 +479,42 @@ class produit extends stdentity
     return true;
   }
   
-  
+  /**
+   * Renvoie une instance de la classe associée au produit (lorsque l'action 
+   * associée est ACTION_CLASS).
+   *
+   * Permet entre autre de réaliser des traitements spécifiques suite à la vente
+   * d'un produit. Comme par exemple les cotisations.
+   *
+   * Les classes associables sont stockées dans comptoir/include/class.
+   *
+   * La classe associée est définit par le champ meta lorsque l'action associée
+   * au produit est ACTION_CLASS. Le formalisme du champ est 
+   * "nomdelaclasse(paramètre dans un format quelquonque)"
+   *
+   * Le fichier chargée est comptoir/include/class/nomdelaclasse.inc.php
+   *
+   * Le nom de la classe est forcément composé de lettre en minuscules.
+   *
+   * Le constructeur de la classe est appelé avec quatres paramètre : les liens
+   * à la base de données, le pramètre selui définit dans la base et 
+   * le client passé à cette fonction.
+   *
+   * Les classes doivent implémenter un certain nombre de fonctions :
+   * - vendu($user,$prix_unit) appelé lorsque le produit est vendu à $user au 
+   *   prix $prix_unit
+   * - get_info() renvoie les informations complémentaires sur le produit
+   * - get_once_sold_cts($user) renvoie un stdcontents lorsque le produit a été 
+   *   vendu à $user
+   * - can_be_sold($user) determine si le produit peut être vendu à $user
+   * - is_compatible($cl) determine si le produit peut être vendu en même temps 
+   *   qu'un produit dont $cl est une instance de la classe associée
+   * Exemple:  cotisationae (comptoir/include/class/cotisationae.inc.php)
+   *
+   * @param $user Client pour ce produit (instance de utilisateur)
+   * @return une instance de la classe associée ou null si aucune
+   * @see cotisationae
+   */
 	function get_prodclass(&$user)
 	{
 		global $topdir;
@@ -496,6 +546,14 @@ class produit extends stdentity
   	return $this->cl;
 	}
 	
+	/**
+	 * Determine les informations complémentaires sur le produit en appelant
+	 * la classe associée au produit.
+	 *
+   * @param $user Client pour ce produit (instance de utilisateur)
+	 * @return le texte d'information complémentaire (vide si aucun)
+	 * @see get_prodclass
+	 */
   function get_extra_info (&$user)
   {	  
 	  if ( $this->action == ACTION_CLASS )
@@ -505,6 +563,6 @@ class produit extends stdentity
 	  }
     return "";
   }
-  
 }
+
 ?>

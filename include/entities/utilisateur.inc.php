@@ -31,7 +31,7 @@ $GLOBALS["utbm_roles"] = array("etu"=>"Etudiant", "adm"=>"Personnel administrati
 $GLOBALS["utbm_departements"] = array("tc"=>"TC", "gi"=>"GI", "imap"=>"IMAP", "gesc"=>"GESC", "gmc"=>"GMC", "edim"=>"EDIM", "huma"=>"Humanités", "na"=>"N/A");
 
 /**
- * Classe permetant la gestion d d'un utilisateur
+ * Classe permetant la gestion d'un utilisateur
  */
 class utilisateur extends stdentity
 {
@@ -47,7 +47,10 @@ class utilisateur extends stdentity
    */
   var $params;
 
-  /* table utilisateurs */
+  /** Type d'utilisateur
+   * "std" Utilisateur normal
+   * "srv" Personne morale, un service de l'UTBM. 
+   */
   var $type;
   var $nom;
   var $prenom;
@@ -1893,6 +1896,13 @@ L'équipe info AE";
     return $values;
   }
 
+  /**
+   * Determine les onglets à afficher dans la fiche de l'utilisateur
+   *
+   * @param $user Utlisateur qui consulte la fiche
+   * @return la liste des onglets (au format requis par tabshead)
+   * @see tabshead
+   */
   function get_tabs ( &$user )
   {
     $tabs = array(array("","user.php?id_utilisateur=".$this->id, "Informations"),
@@ -1901,39 +1911,47 @@ L'équipe info AE";
                   array("photos","user/photos.php?id_utilisateur=".$this->id, "Photos"),
 		              array("pedagogie","user.php?view=pedagogie&id_utilisateur=".$this->id, "Pédagogie") );
 
-    if (  $this->id==$user->id || $user->is_in_group("gestion_ae") )
+    if (  $this->id == $user->id || $user->is_in_group("gestion_ae") )
     {
       $tabs[]=array("resa","user/reservations.php?id_utilisateur=".$this->id, "Reservations");
       $tabs[]=array("emp","user/emprunts.php?id_utilisateur=".$this->id, "Emprunts");
       $tabs[]=array("compte","user/compteae.php?id_utilisateur=".$this->id, "Compte AE");
     }
 
-    if ( (($user->is_in_group("gestion_ae") && ( $user->is_in_group("root") || $user->id != $this->id )) || $user->is_in_group("root") ) )
+    if ( ( $user->is_in_group("gestion_ae") && $user->id != $this->id ) || 
+         $user->is_in_group("root") )
       $tabs[]=array("groups","user.php?view=groups&id_utilisateur=".$this->id, "Groupes");
 
     return $tabs;
   }
 
-  function allow_user_consult ( $user )
+  /**
+   * Determine si un autre utilisateur peut consulter la fiche de l'utilisateur
+   * @param $user Utilisateur qui souhaite consulter la fiche
+   * @return true si authorisé, non sinon
+   */
+  function allow_user_consult ( &$user )
   {
     return $user->is_valid();
   }
 
+  /**
+   * Marque tous les sujets du forum lu pour l'utilisateur
+   */
   function set_all_read ( )
   {
-
-    // supprime les frm_sujet_utilisateur qui ne servirons plus à rien
-    $req = new delete($this->dbrw,"frm_sujet_utilisateur",
-            array("etoile_sujet"=>0,"id_utilisateur"=>$this->id));
-
-    $req = new delete($this->dbrw,"frm_sujet_utilisateur",
-            array("etoile_sujet"=>NULL,"id_utilisateur"=>$this->id));
-
     $this->tout_lu_avant = time();
-    $req = new update($this->dbrw,"utilisateurs",
-                      array("tout_lu_avant_utl"=>date("Y-m-d H:i:s")),
-                      array("id_utilisateur"=>$this->id));
+        
+    // supprime les frm_sujet_utilisateur qui ne servirons plus à rien
+    new delete($this->dbrw,"frm_sujet_utilisateur",
+      array("etoile_sujet"=>0,"id_utilisateur"=>$this->id));
 
+    new delete($this->dbrw,"frm_sujet_utilisateur",
+      array("etoile_sujet"=>NULL,"id_utilisateur"=>$this->id));
+    
+    new update($this->dbrw,"utilisateurs",
+      array("tout_lu_avant_utl"=>date("Y-m-d H:i:s")),
+      array("id_utilisateur"=>$this->id));
   }
 
 

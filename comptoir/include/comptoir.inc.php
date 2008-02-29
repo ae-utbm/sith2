@@ -6,16 +6,9 @@
  
 /*
  *  Classe comptoir.
- *
- * Cette classe a �t� con�ue pour r�sister au mieux aux erreurs des autres
- * modules. La validit� de toutes les donn�es est v�rifi�e au chargement.
- * A chaque op�ration la validit� des donn�es soumises est v�rifi�e.
- *
- * Lors de l'utilisation de classe, v�rifiez toujours les codes de sortie
- * et les valeurs renvoy�es.
 */
 
-/* Copyright 2005,2006
+/* Copyright 2005,2006,2008
  * - Julien Etelain <julien CHEZ pmad POINT net>
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
@@ -40,41 +33,94 @@
 
 require_once($topdir . "comptoir/include/facture.inc.php");
 
+/**
+ * Renvoie le premier élément d'un tableau
+ * @param $array Tableau
+ * @return le premier élément de $array
+ */
 function first ( $array )
 {
   reset($array);
   return current($array);
 }
+
 /** 
  * @addtogroup comptoirs
  * @{
  */
 
 /**
- * Classe gérant un comptoir
+ * Classe gérant un comptoir et des sessions de vente.
+ *
+ * Cette classe peut gérer des sessions de ventes, qui doivent se dérouler 
+ * de la manière qui suit :
+ * 1 - Connecter le ou les barmens
+ * 2 - Connecter le client
+ * 3 - Ajouter les produits un à un dans le pannier
+ * 4 - Valider le panier, procède à la vente
+ * 5 - Retourner à 2... 
+ *
+ * Cette classe prend en charge le mode "book" qui permet de mettre des livres
+ * dans le panier. ATTENTION: cette classe en prend pas en charge le pret de ces
+ * livres (ex: fait par frontend.inc.php)
+ *
+ * Ces différentes opérations peuvent se faire dans des appels de page différents.
+ * Voir frontend.inc.php pour l'usage de cette fonction.
+ *
+ * Un comptoir peut être de plusieurs types :
+ * 0 "Comptoir classique" 
+ *    Pour les bars, plusieurs opérateurs peuvent se connecter.
+ * 1 "Bureau" 
+ *    Pour les ventes dans les bureaux de l'AE. Un seul opérateur est connecté
+ *    il s'agit normalement de l'utilisateur connecté au site.
+ * 2 "E-boutic"
+ *    Comptoir pour la vente en ligne. Aucun operateur n'est connecté, c'est
+ *    le client qui est considéré comme opérateur. Cette classe NE PEUT PAS être
+ *    utilsié pour réaliser des ventes sur des comptoirs de ce type. 
+ *    frontend.inc.php ne peut donc pas être utilisés avec ces comptoirs.
+ *    La vente se fait directement avec debitfacture
+ *
+ * @see debitfacture
+ * @see produit
+ * @see venteproduit
+ * @see comptoir/frontend.inc.php
  */
 class comptoir extends stdentity
 {
   /* Informations comptoir */
+  /** Nom du comptoir */
   var $nom;
+  /** Id compte association (obsolète) 
+   * @deprecated
+   */
   var $id_assocpt;
+  /** Id du groupe barmens */
   var $groupe_vendeurs;
+  /** Id du groupe administrateur */
   var $groupe_admins;
+  /** Type de comptoir (bar, bureau, e-boutic) */
   var $type;
+  /** Id de la salle où se trouve le comptoir */
   var $id_salle;
 
   /* Informations de session */
+  /** Barmen connectés (array(instance utilisateur)) */
   var $operateurs;
+  /** Panier [si un client est connecté] */
   var $panier;
+  /** Client connecté (instance utilisateur) */
   var $client;
+  /** Le client a droit au prix barman */
   var $prix_barman;
+  /** Mode du comptoir ("book" ou null/"") */
   var $mode;
 
 
-  /** @brief chargement du comptoir
-   *
-   * @param id l'id du comptoir
-   *
+  /** 
+   * Charge un comptoir en fonction de son id
+   * En cas d'erreur, l'id est défini à null
+   * @param $id id du comptoir
+   * @return true en cas du succès, false sinon
    */
   function load_by_id ($id)
   {
@@ -104,14 +150,15 @@ class comptoir extends stdentity
     $this->id_salle = $row['id_salle'];
   }
 
-  /** @brief ajout d'un comptoir
+  /** 
+   * Ajout d'un comptoir
    *
-   * @param nom le nom g�n�rique du comptoir
-   * @param id_assocpt l'id de l'association concern�e
-   * @param groupe_vendeurs l'id du groupe d�signant les vendeurs
-   * @param groupe_admins l'id du groupe d�signant les admins du comptoir
-   *
-   * @return true en cas de succ�s, false sinon
+   * @param $nom le nom générique du comptoir
+   * @param $id_assocpt l'id de l'association concernée (obsolète)
+   * @param $groupe_vendeurs l'id du groupe désignant les vendeurs
+   * @param $groupe_admins l'id du groupe désignant les admins du comptoir
+   * @param $id_salle id de la salle où se trouve le comptoir
+   * @return true en cas de succès, false sinon
    */
   function ajout ($nom, $id_assocpt, $groupe_vendeurs, $groupe_admins, $type, $id_salle)
   {
@@ -141,14 +188,15 @@ class comptoir extends stdentity
     return true;
   }
 
-  /** @brief modification d'un comptoir
+  /** 
+   * Modification d'un comptoir
    *
-   * @param nom le nom g�n�rique du comptoir
-   * @param id_assocpt l'id de l'association concern�e
-   * @param groupe_vendeurs l'id du groupe d�signant les vendeurs
-   * @param groupe_admins l'id du groupe d�signant les admins du comptoir
-   *
-   * @return true en cas de succ�s, false sinon
+   * @param $nom le nom générique du comptoir
+   * @param $id_assocpt l'id de l'association concernée (obsolète)
+   * @param $groupe_vendeurs l'id du groupe désignant les vendeurs
+   * @param $groupe_admins l'id du groupe désignant les admins du comptoir
+   * @param $id_salle id de la salle où se trouve le comptoir
+   * @return true en cas de succès, false sinon
    */
   function modifier ($nom, $id_assocpt, $groupe_vendeurs, $groupe_admins,$type,$id_salle)
   {
@@ -173,17 +221,18 @@ class comptoir extends stdentity
     return ($sql->lines == 1) ? true : false;
   }
 
-  /** @brief ouverture d'un comptoir
+  /** 
+   * "Ouvre" le comptoir.
+   * Recharge la "session" du comptoir si disponible/
    *
    * @param id l'identifiant du comptoir
-   *
-   * @return true en cas de succ�s, false sinon
+   * @return true en cas de succès, false sinon
    */
   function ouvrir ($id)
   {
     $this->load_by_id($id);
 
-    if ( $this->id < 0 )
+    if ( !$this->is_valid() )
       return false;
 
     $this->operateurs = array();
@@ -191,21 +240,21 @@ class comptoir extends stdentity
 
     $this->client = new utilisateur($this->db,$this->dbrw);
 
-    /* Par s�curit� */
-    $this->client->id = -1;
-    /* par d�faut on paye au prix normal */
+    /* Par sécurité */
+    $this->client->id = null;
+    /* par dèfaut on paye au prix normal */
     $this->prix_barman = false;
-    /* Si il n'y a pas d'entr�e, on a fini */
+    /* Si il n'y a pas d'entrée, on a fini */
     if (!isset($_SESSION["Comptoirs"][$this->id]))
       return true;
 
-    /* chargement des op�rateurs */
+    /* chargement des opérateurs */
     if( isset($_SESSION["Comptoirs"][$this->id]["operateurs"]) )
     foreach($_SESSION["Comptoirs"][$this->id]["operateurs"] as $uid)
     {
       $Op = new utilisateur ($this->db,$this->dbrw);
       $Op->load_by_id ($uid);
-      if (($Op->id > 0) && $Op->is_in_group_id($this->groupe_vendeurs))
+      if (($Op->is_valid()) && $Op->is_in_group_id($this->groupe_vendeurs))
       {
         $this->operateurs[] = $Op;
         
@@ -241,8 +290,8 @@ class comptoir extends stdentity
     $this->client->load_by_id($_SESSION["Comptoirs"][$this->id]["client"]);
 
     /* L'utilisatveur n'existe pas... probablement une erreur
-     * de passage de param�tre */
-    if ($this->client->id < 0)
+     * de passage de paramètre */
+    if (!$this->client->is_valid())
       return false;
 
 
@@ -255,14 +304,14 @@ class comptoir extends stdentity
         {
           $bk = new livre($this->db);
           $bk->load_by_id($pid);
-          if ( $bk->id > 0 && $bk->id_salle == $this->id_salle )
+          if ( $bk->is_valid() && $bk->id_salle == $this->id_salle )
             $this->panier[] = $bk;
         }
 
       return true;
     }
     
-    /* v�rification pour la tarification */
+    /* vérification pour la tarification */
     if ($_SESSION["Comptoirs"][$this->id]["prix_barman"])
       $this->verifie_prix_barman ();
 
@@ -272,7 +321,7 @@ class comptoir extends stdentity
     {
       $Prod = new produit ($this->db);
       $Prod->load_by_id ($pid);
-      if ($Prod->id > 0)
+      if ($Prod->is_valid())
       {
         $VenteProd = new venteproduit ($this->db,$this->dbrw);
         if ($VenteProd->charge ($Prod,$this))
@@ -284,39 +333,38 @@ class comptoir extends stdentity
     return true;
   }
 
-  /** @brief fermeture d'un comptoir
-   *
-   * @return true si succ�s, false sinon
-   *
+  /** 
+   * Fermeture d'un comptoir
    */
   function fermer ()
   {
     unset($_SESSION["Comptoirs"][$this->id]);
   }
 
-  /** @brief ajout d'un operateur dans la liste des op�rateurs
-   *  du comptoir.
+  /** 
+   * Connecte un operateur(=barman) : l'ajoute dans la liste des opérateurs
+   * en cours du comptoir. Doit être membre du groupe vendeurs.
    *
-   * @return true si succ�s, false sinon
-   *
+   * @param $user Utilisateur (instance de la classe utilisateur)
+   * @return true si succès, false sinon
    */
-  function ajout_operateur ($etudiant)
+  function ajout_operateur ($user)
   {
-    if ($etudiant->id < 0)
+    if (!$user->is_valid())
       return false;
 
-    if (!$etudiant->is_in_group_id($this->groupe_vendeurs))
+    if (!$user->is_in_group_id($this->groupe_vendeurs))
       return false;
 
-    $this->operateurs[] = $etudiant;
+    $this->operateurs[] = $user;
 
-    $_SESSION["Comptoirs"][$this->id]["operateurs"][] = $etudiant->id;
+    $_SESSION["Comptoirs"][$this->id]["operateurs"][] = $user->id;
 
     // crée l'entrée de tracking pour le barman
     $req = new insert ($this->dbrw,
            "cpt_tracking",
            array(
-           "id_utilisateur" => $etudiant->id,
+           "id_utilisateur" => $user->id,
            "id_comptoir" => $this->id,
            "logged_time" => date("Y-m-d H:i:s"),
            "activity_time" => date("Y-m-d H:i:s"),
@@ -326,46 +374,48 @@ class comptoir extends stdentity
     return true;
   }
   
-  /** @brief définit le seul operateur du comptoir.
+  /** 
+   * Définit un unique operateur(=barman) du comptoir.
+   * L'utilisateur doit être membre du groupe vendeurs.
    * Doit être appelè à chaque instanciation.
    * 
-   * @return true si succ�s, false sinon
-   *
+   * @param $user Utilisateur (instance de la classe utilisateur)
+   * @return true si succès, false sinon
    */
-  function set_operateur ($etudiant)
+  function set_operateur ($user)
   {
-    if ($etudiant->id < 0)
+    if (!$user->is_valid())
       return false;
 
-    if (!$etudiant->is_in_group_id($this->groupe_vendeurs))
+    if (!$user->is_in_group_id($this->groupe_vendeurs))
       return false;
 
-    $this->operateurs = array($etudiant);
+    $this->operateurs = array($user);
 
     return true;
   }  
   
-  
-  
-  /** @brief el�ve un operateur de la liste des op�rateurs
+  /** 
+   * Enlève un operateur (=barman) de la liste des opérateurs
    *  du comptoir.
    *
-   * @return true si succ�s, false sinon
-   *
+   * @param $id_utilisateur Id de l'utilisateur
+   * @return true si succès, false sinon
    */
-  function enleve_operateur ($id_etudiant)
+  function enleve_operateur ($id_utilisateur)
   {
   
-    $id_etudiant = intval($id_etudiant); // On est jamais trop prudent, m�me si c'est inutile
+    $id_utilisateur = intval($id_utilisateur); // On est jamais trop prudent, même si c'est inutile
 
     if(!empty($this->operateurs))
       foreach ( $this->operateurs as $key => $op )
-        if ( $id_etudiant == $op->id )
+        if ( $id_utilisateur == $op->id )
           unset($this->operateurs[$key]);
 
-    if(isset($_SESSION["Comptoirs"][$this->id]["operateurs"]) && !empty($_SESSION["Comptoirs"][$this->id]["operateurs"]))
+    if(isset($_SESSION["Comptoirs"][$this->id]["operateurs"]) &&
+      !empty($_SESSION["Comptoirs"][$this->id]["operateurs"]))
       foreach ( $_SESSION["Comptoirs"][$this->id]["operateurs"] as $key => $id_op )
-        if ( $id_etudiant == $id_op )
+        if ( $id_utilisateur == $id_op )
           unset($_SESSION["Comptoirs"][$this->id]["operateurs"][$key]);   
         
     // met à jour l'entrée de tracking du barman
@@ -374,25 +424,25 @@ class comptoir extends stdentity
            "UPDATE `cpt_tracking` SET `closed_time`='".date("Y-m-d H:i:s")."'
             WHERE `activity_time` > '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
             AND `closed_time` IS NULL
-            AND `id_utilisateur` = '".mysql_real_escape_string($id_etudiant)."'
+            AND `id_utilisateur` = '".mysql_real_escape_string($id_utilisateur)."'
             AND `id_comptoir` = '".mysql_real_escape_string($this->id)."'");
         
     return true;
   }
   
-  /** @brief ouverture du panier
+  /** 
+   * "Ouvre" le panier : connecte un client
    *
    * @param client un objet de type client
-   * @param flag_prix_barman (optionel) true si prix barman,
+   * @param flag_prix_barman (optionel) true si le prix barman est demandé,
    *        false sinon
    *
-   * @return true si succ�s, false sinon
-   *
+   * @return true si succès, false sinon
    */
   function ouvre_pannier ($client, $flag_prix_barman = true)
   {
     /* si identifiant client invalide */
-    if ($client->id < 0)
+    if ( !$client->is_valid() )
       return false;
 
     if ( !$client->ae )
@@ -401,14 +451,14 @@ class comptoir extends stdentity
     if ( $client->is_in_group("cpt_bloque") )
       return false;
 
-    /* si pas d'op�rateur sur le comptoir */
+    /* si pas d'opérateur sur le comptoir */
     if (!count($this->operateurs))
       return false;
 
     $this->client = $client;
     $_SESSION["Comptoirs"][$this->id]["client"] = $this->client->id;
 
-    /* v�rification du droit au prix barman */
+    /* vérification du droit au prix barman */
     if ($flag_prix_barman)
       $this->verifie_prix_barman();
     else
@@ -419,19 +469,18 @@ class comptoir extends stdentity
     return true;
   }
 
-  /** @brief annulation du panier
+  /** 
+   * Annule et vide le panier, deconnecte le client
    *
-   * @return true si succ�s, false sinon
-   *
+   * @return true si succès, false sinon
    */
   function annule_pannier ()
   {
     if (!count($this->operateurs))
       return false;
       
-    if ( $this->client->id < 0 )
+    if ( !$this->client->is_valid() )
       return false;
-      
       
     if ( $this->mode != "book" )
 
@@ -444,17 +493,18 @@ class comptoir extends stdentity
     return true;
   }
 
-  /** @brief annulation du dernier produit
+  /** 
+   * Enlève le dernier produit ajouté au panier
+   * en mode "book" le dernier livre ajouté
    *
-   * @return true si succ�s, false sinon
-   *
+   * @return true si succès, false sinon
    */
   function annule_dernier_produit ()
   {
     if (!count($this->operateurs))
       return false;
 
-    if ($this->client->id < 0)
+    if (!$this->client->is_valid())
       return false;
 
     if ( count($this->panier) == 0 )
@@ -463,7 +513,7 @@ class comptoir extends stdentity
     $last = count($this->panier) - 1;
     
     if ( $this->mode != "book" )
-    $this->panier[$last]->debloquer($this->client,1);
+      $this->panier[$last]->debloquer($this->client,1);
 
     unset($this->panier[$last]);
     unset($_SESSION["Comptoirs"][$this->id]["panier"][$last]);
@@ -471,12 +521,12 @@ class comptoir extends stdentity
     return true;
   }
 
-  /** @brief ajout d'un article dans le panier
+  /** 
+   * Ajoute un article dans le panier
+   * en mode "book" ajoute un libre
    *
-   * @param prod un objet de type produit ou livre
-   *
-   * @return true si succ�s, false sinon
-   *
+   * @param prod un objet de type produit ou livre (en mode "book")
+   * @return true si succès, false sinon
    */
   function ajout_pannier ($prod)
   {
@@ -500,7 +550,7 @@ class comptoir extends stdentity
     if ( !$prod->can_be_sold($this->client) )
       return;
 
-    if (!$this->client->credit_suffisant($this->calcule_somme () + $prod->obtenir_prix ($this->prix_barman)))
+    if (!$this->client->credit_suffisant($this->calcule_somme () + $prod->obtenir_prix ($this->prix_barman,$this->client)))
       return false;
       
     $vp = new venteproduit($this->db,$this->dbrw);
@@ -517,12 +567,12 @@ class comptoir extends stdentity
     return true;
   }
 
-  /** @brief vente du panier
+  /** 
+   * Procède à la vente du contenu du panier au client
    *
    * @return un tableau associatif de type
    * ([0] => objet client,
-   *  [1] => tableau d'articles vendus,
-   *  [2] => tableau d'articles non vendus (solde insuffisant ...)),
+   *  [1] => tableau d'articles vendus),
    * false sinon
    *
    */
@@ -558,17 +608,18 @@ class comptoir extends stdentity
 
     $this->vider_pour_vente();
     
-    return array($client,$ancien_panier,array());
+    return array($client,$ancien_panier);
   }
   
-  /** @brief rechargement des comptes
+  /** 
+   * Rechargement d'un compte
    *
    * @param client un objet de type client
    * @param type_paiement le type de paiement
    * @param banque la banque
-   * @param valeur le montant du rechargement
-   * @param association l'identifiant de l'association concern�e
-   *
+   * @param valeur le montant du rechargement (en centimes)
+   * @param association l'identifiant de l'association concernée
+   * @return true en cas de succès, false sinon
    */
   function recharger_compte ($client,
            $type_paiement,
@@ -587,7 +638,7 @@ class comptoir extends stdentity
       return false;  
 
     $operateur = first($this->operateurs);
-    /* on passe � la fonction membre de client pour le rechargement */
+    /* on passe à la fonction membre de client pour le rechargement */
     return $client->crediter ($operateur->id,
             $type_paiement,
             $banque,
@@ -596,13 +647,9 @@ class comptoir extends stdentity
             $this->id);
   }
 
-  /*
-   * Fonctions "priv�es"
-   * Usage interne
-  */
-
-  /** @brief v�rifie que le client a bien droit au prix barman
-   *
+  /** 
+   *  Détermine si le client a droit au prix barman
+   *  @private
    */
   function verifie_prix_barman ()
   {
@@ -616,15 +663,15 @@ class comptoir extends stdentity
       }
   }
 
-  /** @brief Vidage effectif du panier
-   *
-   *
+  /** 
+   * Vidage effectif du panier
+   * @private
    */
   function vider_pour_vente ()
   {
     $this->panier = array();
     $this->client = new utilisateur($this->db);
-    $this->client->id = -1;
+    $this->client->id = null;
     $this->prix_barman = false;
     $this->mode = null;
     unset($_SESSION["Comptoirs"][$this->id]["panier"]);
@@ -633,23 +680,27 @@ class comptoir extends stdentity
     unset($_SESSION["Comptoirs"][$this->id]["mode"]);
   }
 
-  /* @brief calcule de la somme du panier
-   *
-   * @param prix_barman true si droit prix barman,
-   *        false sinon
-   *
-   * @return la somme
-   *
+  /**
+   * Calcule de la somme du panier. 
+   * prix_barman et client doivent être définits correctement.
+   * @return la somme (en centimes)
    */
-  function calcule_somme ( $prix_barman = false )
+  function calcule_somme ( )
   {
     $Somme = 0;
     foreach ( $this->panier as $VenteProd )
     {
-      $Somme += $VenteProd->produit->obtenir_prix($this->prix_barman);
+      $Somme += $VenteProd->produit->obtenir_prix($this->prix_barman,$this->user);
     }
     return $Somme;
   }
+  
+  /** 
+   * Passe le comptoir dans une monde "special"
+   * Annule le panier.
+   * Seul le mode "book" est supporté.
+   * @param $mode Mode 
+   */
   
   function switch_to_special_mode ( $mode )
   {

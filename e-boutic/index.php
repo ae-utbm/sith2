@@ -4,10 +4,11 @@
  *
  */
 
-/* Copyright 2006
+/* Copyright 2006,2007
  * 
- * Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
- * Simon Lopez <simon POINT lopez CHEZ ayolo POINT org>
+ * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
+ * - Simon Lopez <simon POINT lopez CHEZ ayolo POINT org>
+ * - Julien Etelain <julien CHEZ pmad POINT net>
  *
  * Ce fichier fait partie du site de l'Association des étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -160,7 +161,7 @@ elseif ( !$typeproduit->is_valid() )
   $items_lst = new gallery ("Derniers produits mis en vente");
 
   while ( $row = $items->get_row() )
-    $items_lst->add_item (new vigproduit($row));
+    $items_lst->add_item (new vigproduit($row,$site->user));
   
   /* ajout liste des articles au site */
   $site->add_contents ($items_lst);  
@@ -197,7 +198,7 @@ else
     /* traitement des donnees avant affichage
      * dans un contents gallery               */
     foreach ($items as $row)
-      $items_lst->add_item (new vigproduit($row));
+      $items_lst->add_item (new vigproduit($row,$site->user));
     /* ajout liste des articles au site */
     $site->add_contents ($items_lst);
   }

@@ -1,5 +1,45 @@
 <?php
 
+/* Copyright 2005-2008
+ * - Julien Etelain <julien CHEZ pmad POINT net>
+ * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
+ *
+ * Ce fichier fait partie du site de l'Association des étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+ 
+/**
+ * @file
+ * Interface de vente par carte AE sur des comptoirs de type "classique" (bar)
+ * ou de type "bureau". Il s'agit de la partie commune des interfaces pour les 
+ * deux types de comptoir concernés. 
+ *
+ * Permet aussi de preter les livres se trouvant dans la même salle que le
+ * comptoir.
+ *
+ * $site doit être de type sitecomptoirs
+ *
+ * @see sitecomptoirs
+ * @see comptoir
+ * @see comptoir/bureau.php 
+ * @see comptoir/comptoir.php
+ */
+
 if ( $_REQUEST["action"] == "logclient" && count($site->comptoir->operateurs))
 {
 	$client = new utilisateur($site->db,$site->dbrw);
@@ -57,7 +97,7 @@ else if ( $_REQUEST["action"] == "vente" && count($site->comptoir->operateurs) )
 		}
 		else
 		{	
-			list($client,$vendus,$nvendus) = $site->comptoir->vendre_panier();
+			list($client,$vendus) = $site->comptoir->vendre_panier();
 			if ( $client )
 			{
 				$client->refresh_solde();
@@ -335,7 +375,7 @@ else if ( $site->comptoir->client->id > 0 )
 			foreach ( $panier as $info )
 			{
 				list($nb,$vp) = $info;	
-				$prix = $vp->produit->obtenir_prix($site->comptoir->prix_barman);
+				$prix = $vp->produit->obtenir_prix($site->comptoir->prix_barman,$site->comptoir->client);
 				$lst->add($vp->produit->nom.($nb>1?" x ".$nb:"")." : ".($prix*$nb/100)." E");
 				$total += $prix*$nb;
 			}

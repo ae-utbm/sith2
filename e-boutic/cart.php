@@ -101,7 +101,7 @@ else
 
         $cart_t->buffer .= (" </td>\n".
                             " <td style=\"text-align: right;\">".
-                            sprintf("%.2f", $item->prix_vente / 100) .
+                            sprintf("%.2f", $item->obtenir_prix(false,$site->user) / 100) .
                             "</td></tr>\n");
     }
     $cart_t->buffer .= ("<tr style=\"font-weight: bold;\">".

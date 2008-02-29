@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright 2006
+/* Copyright 2006,2008
  * - Julien Etelain <julien CHEZ pmad POINT net>
  *
  * Ce fichier fait partie du site de l'Association des étudiants de
@@ -34,6 +34,7 @@
 
 /**
  * Classe gérant les factures cartes AE/e-boutic. Elle permet le debit sur les comptes AE.
+ * @see venteproduit
  */
 class debitfacture extends stdentity
 {
@@ -52,7 +53,6 @@ class debitfacture extends stdentity
 	var $montant;
 	/** si SG numéro de transaction */
 	var $transacid;
-
 	/** Etat */
 	var $etat;
 
@@ -96,7 +96,9 @@ class debitfacture extends stdentity
 	 * @param $comptoir Instance de comptoir, lieu où s'est faite la vente
 	 * @param $panier Panier, tableau contenant des instances de venteproduit de la forme array(array(quatité,venteproduit))
 	 * @param $prix_barman Utilise le prix barman ou non (true:prix barman, false: prix publique)
+   * @param $etat Etat initial de retrait/expedition. Si commande à expédier ETAT_FACT_A_EXPEDIER, sinon 0
 	 * @return false en cas de problème (solde insuffisent, erreur sql) sinon true
+	 * @see venteproduit
 	 */
 	function debitAE ( $client, $vendeur, $comptoir, $panier, $prix_barman, $etat=0 )
 	{
@@ -108,7 +110,7 @@ class debitfacture extends stdentity
 		$this->transacid = "";
 		$this->etat = $etat;
 
-		$this->montant = $this->calcul_montant($panier, $prix_barman);
+		$this->montant = $this->calcul_montant($panier, $prix_barman,$client);
 
 		if ( !$client->credit_suffisant($this->montant) )
 			return false;
@@ -149,7 +151,9 @@ class debitfacture extends stdentity
 	 * @param $comptoir Instance de comptoir, lieu où s'est faite la vente
 	 * @param $panier Panier, tableau contenant des instances de venteproduit de la forme array(array(quatité,venteproduit))
 	 * @param $transacid Numéro de transaction sogenactif
+   * @param $etat Etat initial de retrait/expedition. Si commande à expédier ETAT_FACT_A_EXPEDIER, sinon 0
 	 * @return false en cas de problème (erreur sql) sinon true
+	 * @see venteproduit
 	 */
 	function debitSG ( $client, $vendeur, $comptoir, $panier, $transacid, $etat=0 )
 	{
@@ -159,7 +163,7 @@ class debitfacture extends stdentity
 		$this->id_comptoir = $comptoir->id;
 		$this->date = time();
 		$this->mode = "SG";
-		$this->montant = $this->calcul_montant($panier,false);
+		$this->montant = $this->calcul_montant($panier,false,$client);
 		$this->transacid = $transacid;
 		$this->etat = $etat;
 		
@@ -192,18 +196,22 @@ class debitfacture extends stdentity
 	 * @param $prix_barman Utilise le prix barman ou non (true:prix barman, false: prix publique)
 	 * @return le montant en centimes
 	 */
-	function calcul_montant ( $panier, $prix_barman )
+	function calcul_montant ( $panier, $prix_barman, &$client )
 	{
 		$montant = 0;
 		foreach ( $panier as $item )
 		{
 			list($quantite,$vp) = $item;
-			$montant += $quantite * $vp->produit->obtenir_prix($prix_barman);
+			$montant += $quantite * $vp->produit->obtenir_prix($prix_barman,$client );
 		}
 
 		return $montant;
 	}
 
+  /**
+   * Modifie l'état de la facture (expedition/retrait)
+   * @param $etat Nouvel etat de la facture
+   */
 	function set_etat ( $etat )
 	{
 		if ( $this->etat != $etat )
@@ -213,6 +221,22 @@ class debitfacture extends stdentity
 		}
 	}
 
+  /**
+   * Procède à la "vente" de l'ensemble des produits (Usage strictement interne) :
+   * - met à jours les stocks
+   * - procède aux actions des produits (comme pour les cotisations)
+   * - met à jour l'état de retrait/expedition de la facture [si $eboutic est à true]
+   * - archive les produits vendus (dans la table cpt_vendu)
+   * - marque les produits à retirer/à expédier [si $eboutic est à true]
+   *
+   * @param $client Utilisateur client (instance de utilisateur)
+   * @param $client Utilisateur vendeur (instance de utilisateur) (premier barman, ou client si e-boutic)
+	 * @param $panier Panier, tableau contenant des instances de venteproduit de la forme array(array(quatité,venteproduit))
+	 * @param $prix_barman Utilise le prix barman ou non (true:prix barman, false: prix publique)
+	 * @param $asso_sum Met à jour la comme de contrôle des associations qui vendent les produits (seulement en mode carte AE) (obsolète)
+   * @param $eboutic Vente sur un comptoir eboutic, procède aux mises à jour de l'état de retrait/expedition
+   * @private
+   */
 	function traiter_panier ( $client,$vendeur, $panier, $prix_barman, $asso_sum, $eboutic )
 	{
 		foreach ( $panier as $item )
@@ -242,7 +266,7 @@ class debitfacture extends stdentity
 				}
 			}
 
-			$prix = $vp->produit->obtenir_prix($prix_barman);
+			$prix = $vp->produit->obtenir_prix($prix_barman,$client);
 						
 			$req = new insert ($this->dbrw,
 					   "cpt_vendu",
@@ -268,7 +292,8 @@ class debitfacture extends stdentity
 
 	/**
 	 * Annule la facture actuelle
-	 * Met à jour les stocks, et les comptes (si AE)
+	 * Met à jour les stocks, et les comptes (si paiement AE)
+	 * ATTENTION: n'annule pas les actions liées aux produits (rechargement carte AE, cotisation...)
 	 */
 	function annule_facture ( )
 	{
@@ -316,6 +341,10 @@ class debitfacture extends stdentity
 		$req = new delete ($this->dbrw,"cpt_debitfacture",array("id_facture" => $this->id));
 	}
 
+  /**
+   * Marque un produit de la facture comme retiré
+   * @param $id_produit Id du produit
+   */
 	function set_retire ( $id_produit)
 	{
 		$req = new update ($this->dbrw,"cpt_vendu",
@@ -325,6 +354,10 @@ class debitfacture extends stdentity
 		$this->recalcul_etat_retrait();
 	}
 
+  /**
+   * Met à jour l'état de retrait de la facture
+   * @private
+   */
 	function recalcul_etat_retrait()
 	{
 		$req = new requete($this->db, "SELECT COUNT(*) ".
@@ -335,7 +368,6 @@ class debitfacture extends stdentity
 		
 		if ( $nb == 0 )
 			$this->set_etat( $this->etat & ~ETAT_FACT_A_RETIRER );	
-		
 	}
 
 

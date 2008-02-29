@@ -1,6 +1,39 @@
 <?php
+/* Copyright 2007
+ * 
+ * - Julien Etelain <julien CHEZ pmad POINT net>
+ *
+ * Ce fichier fait partie du site de l'Association des étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
 
-
+/**
+ * @file 
+ */
+ 
+/**
+ * Contents pour afficher la fiche d'un produit dans e-boutic 
+ * dans le but de vendre (pas d'éditer la fiche)
+ *
+ * Supporte :
+ * - Affichage des sous-produits (variantes)
+ * - Affichage des informations complémentaires (générée spécifiquement pour le client)
+ */ 
 class ficheproduit extends stdcontents
 {
   
@@ -17,7 +50,7 @@ class ficheproduit extends stdcontents
     
     // Nom et prix de ref
     $this->buffer .= "<h2>".$produit->nom."</h2>";
-    $this->buffer .= "<p class=\"prix\">".($produit->prix_vente/100)." &euro;</p>";
+    $this->buffer .= "<p class=\"prix\">".($produit->obtenir_prix(false,$user)/100)." &euro;</p>";
     
     // Image
     if ( is_null($produit->id_file) )
@@ -108,10 +141,10 @@ class ficheproduit extends stdcontents
           else
             $info_stock="";
           
-          if ( $row["prix_vente_prod"] != $produit->prix_vente )
+          if ( $subprod->obtenir_prix(false,$user) != $produit->obtenir_prix(false,$user) )
             $this->buffer .= 
               "<li><a href=\"./?act=add&amp;id_produit=".$row["id_produit"]."\">".
-              $row["nom_prod"].$extra." <b>".($row["prix_vente_prod"]/100).
+              $row["nom_prod"].$extra." <b>".($subprod->obtenir_prix(false)/100).
               "&euro;</b> : Ajouter au panier</a>$info_stock</li>";          
           else
             $this->buffer .= 
@@ -146,12 +179,18 @@ class ficheproduit extends stdcontents
   }  
 }
 
-
+/**
+ * Vignette pour un produit
+ *
+ */
 class vigproduit extends stdcontents
 {
-  function vigproduit ( $row )
+  function vigproduit ( $row, &$user )
   {
     global $topdir;
+    
+    $subprod=new produit($user->db);
+    $subprod->_load($row);
     
     $this->buffer .= "<div class=\"ebv\">\n";
     $this->buffer .= "<h2><a href=\"?id_produit=".$row["id_produit"]."\">".$row["nom_prod"]."</a></h2>\n";
@@ -168,7 +207,7 @@ class vigproduit extends stdcontents
       "</a></p>\n";
 	
     $this->buffer .= "<p class=\"description\">".doku2xhtml($row["description_prod"])."</p>\n";
-    $this->buffer .= "<p class=\"prixunit\">".($row["prix_vente_prod"]/100)." &euro;</p>\n";
+    $this->buffer .= "<p class=\"prixunit\">".($subprod->obtenir_prix(false,$user)/100)." &euro;</p>\n";
     
     
     $stock = $row["stock_local_prod"] == -1 ? $row["stock_global_prod"] : $row["stock_local_prod"];
@@ -180,6 +219,10 @@ class vigproduit extends stdcontents
   }
 }
 
+/**
+ * Vignette pour une catégorie de produit
+ *
+ */
 class vigtypeproduit extends stdcontents
 {
   function vigtypeproduit ( $row )

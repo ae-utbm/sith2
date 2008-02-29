@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright 2005,2006
+/* Copyright 2005,2006,2008
  * - Julien Etelain <julien CHEZ pmad POINT net>
  *
  * Ce fichier fait partie du site de l'Association des étudiants de
@@ -22,6 +22,26 @@
  * 02111-1307, USA.
  */
 
+/**
+ * @file
+ * Interface de vente par carte AE sur des comptoirs de type "classique" (bar).
+ * Remarque: Ce fichier ne contient que les spécificités de ce type de comptoir.
+ *
+ * L'id du comptoir doit être définit en GET ou en POST : id_comptoir
+ *
+ * La salle est vérifiée par ce script : l'id de la salle du poste client
+ * est démandée à get_localisation(), si elle différe de id_salle du comptoir,
+ * l'accès est bloqué.
+ *
+ * Ce script ajoute la boite latérale pour la connexion des barmens, et prends
+ * en charge les opérations liées.
+ *
+ * @see comptoir/frontend.inc.php
+ * @see comptoir
+ * @see sitecomptoirs
+ * @see get_localisation
+ */
+
 $topdir="../";
 require_once("include/comptoirs.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
@@ -30,20 +50,15 @@ require_once($topdir. "include/localisation.inc.php");
 $site = new sitecomptoirs(true );
 
 $site->comptoir->ouvrir($_REQUEST["id_comptoir"]);
-if ( $site->comptoir->id < 1 )
-{
-	header("Location: index.php");
-	exit();	
-}
+
+if ( !$site->comptoir->is_valid() )
+  $site->error_not_found("services");
 
 if ( get_localisation() != $site->comptoir->id_salle )
-{
-	header("Location: index.php");
-	exit();	
-}
+  $site->error_forbidden("services","wrongplace");
 
 if ( $site->comptoir->type != 0 )
-	error_403("forbiddenmode");
+  $site->error_forbidden("services","invalid");
 
 if ( $_REQUEST["action"] == "logoperateur" )
 {
@@ -54,7 +69,7 @@ if ( $_REQUEST["action"] == "logoperateur" )
 	else
 	  $op->load_by_email($_REQUEST["adresse_mail"]);
 
-	if ( $op->id < 1 || !$op->is_password($_REQUEST["password"]) )
+	if ( !$op->is_valid() || !$op->is_password($_REQUEST["password"]) )
       $opErreur = "Etudiant inconnu / mauvais mot de passe";
       // restons vague sur les details de l'erreur
 
@@ -80,7 +95,10 @@ $cts->add_paragraph("<a href=\"index.php\">Autre comptoirs</a>");
 
 $lst = new itemlist();
 foreach( $site->comptoir->operateurs as $op )
-	$lst->add("<a href=\"comptoir.php?id_comptoir=".$site->comptoir->id."&amp;action=unlogoperateur&amp;id_operateur=".$op->id."\">". $op->prenom." ".$op->nom."</a>");
+	$lst->add(
+	  "<a href=\"comptoir.php?id_comptoir=".$site->comptoir->id."&amp;".
+	  "action=unlogoperateur&amp;id_operateur=".$op->id."\">". $op->prenom.
+	  " ".$op->nom."</a>");
 $cts->add($lst);
 
 $frm = new form ("logoperateur","comptoir.php?id_comptoir=".$site->comptoir->id);

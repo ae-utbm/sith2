@@ -1432,8 +1432,16 @@ class site extends interfaceweb
     }
     elseif ( $reason == "private" && $section =="matmatronch" )
       $this->add_contents(new contents("Accés refusé","<p>Cette fiche est privée, la personne concernée a souhaité que les informations la concernant ne soit pas rendues publiques.</p>"));
+      
     elseif ( $reason == "blacklist_machines" )
       $this->add_contents(new contents("Accès refusé","<p>Vous n'avez pas le droit d'utiliser les machines à laver de l'AE, car vous n'avez pas respecté les confitions d'utilisations.</p>"));
+      
+    elseif ( $reason == "invalid" )
+      $this->add_contents(new contents("Mode incompatible","<p>Ce mode ne peut pas être utilisé avec l'élément demandé.</p>"));
+      
+    elseif ( $reason == "wrongplace" )
+      $this->add_contents(new contents("Salle invalide","<p>Il n'est pas possible d'accèder à cette page depuis ce poste. En cas de problème, demandez à un administrateur de corriger la salle associée à ce poste.</p>"));
+              
     else
       $this->add_contents(new contents("Accés refusé","<p>Vos droits sont insuffisant pour accéder à cette page.</p>"));
     $this->end_page();     

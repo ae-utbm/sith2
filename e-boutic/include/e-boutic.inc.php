@@ -148,7 +148,7 @@ class eboutic extends site
       if ( $prod->is_valid() )
       {
         $this->cart[] = $prod;
-        $this->total += ($prod->prix_vente * $count);
+        $this->total += ($prod->obtenir_prix(false,$this->user) * $count);
       }
     }
     

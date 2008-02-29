@@ -1,11 +1,25 @@
 <?php
-/*
- * Created on 12 ao�t 2006
+/* Copyright 2006,2007
+ * - Julien Etelain <julien CHEZ pmad POINT net>
  *
- * To change the template for this generated file go to
- * Window - Preferences - PHPeclipse - PHP - Code Templates
+ * Ce fichier fait partie du site de l'Association des étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
  */
- 
 require_once($topdir. "include/entities/cotisation.inc.php");
  
 class cotisationae
@@ -93,25 +107,6 @@ class cotisationae
 	{
 		if ( !$user->utbm )
 			return false;
-			
-		/*if ( !$user->ae )
-			return true;			
-			
-		$req = new requete($this->db,
-		"SELECT *".
-		"FROM `ae_cotisations` " .
-		"WHERE `id_utilisateur`='".$user->id."' " .
-		"ORDER BY `date_cotis` DESC LIMIT 1");
-		
-		if ( $req->lines != 1 )
-			return true;
-			
-		list($curend) = $req->get_row();
-		
-		$curend=strtotime($curend);
-		
-		if ( $curend < $this->enddate )
-			return true;*/
 		
 		return true;
 	}
