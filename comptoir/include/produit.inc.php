@@ -128,7 +128,7 @@ class produit extends stdentity
 
     $req = new requete($this->db, "SELECT * FROM `cpt_produits`
                                    WHERE `cbarre_prod` = '".mysql_real_escape_string($code_barre)."'
-                                   AND `prod_archive`='0'");
+                                   AND `prod_archive`!='1'");
 
 		if ( $req->lines == 1 )
 		{
