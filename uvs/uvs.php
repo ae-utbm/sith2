@@ -320,7 +320,7 @@ if (($site->user->is_in_group('gestion_ae'))
   if ($_REQUEST['Humas'] == 1)
     {
       $departements[] = 'Humanites';
-      $stats_by_depts['Humas'] = $_REQUEST['cat_humas'];
+      $stats_by_depts['Humanites'] = $_REQUEST['cat_humas'];
     }
   if ($_REQUEST['TC'] == 1)
     {
