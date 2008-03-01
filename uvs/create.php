@@ -57,7 +57,7 @@ if ($_REQUEST['step'] == 3)
   $cts = new contents("Traitement de l'emploi du temps", "");
 
   $semestre = (date("m") > 6 ? "A" : "P") . date("y");
-    
+
   foreach($_REQUEST['uv'] as $uv => $value)
     {
 
@@ -78,7 +78,7 @@ if ($_REQUEST['step'] == 3)
 	    }
 	  else
 	    {
-	  
+
 	      $ret = $edt->create_grp($id_uv,
 				      "C",
 				      $value['C']['numgrp'],
@@ -99,7 +99,7 @@ if ($_REQUEST['step'] == 3)
 
       if (isset($value['TD']))
 	{
-	  $cts->add_paragraph("<h4>$uv : Séance de TD</h4><br/>"); 
+	  $cts->add_paragraph("<h4>$uv : Séance de TD</h4><br/>");
 	  $value['TD']['freq'] == '1' ? $sem = 'AB' : $sem = $value['TD']['semaine'];
 
 	  if ($value['TD']['selectlst'] > 0)
@@ -107,7 +107,7 @@ if ($_REQUEST['step'] == 3)
 	      $edt->assign_etu_to_grp($site->user->id, $value['TD']['selectlst'], $sem);
 	      $cts->add_paragraph("Séance ajoutée à l'emploi du temps avec succès !");
 	    }
-	  
+
 	  else
 	    {
 
@@ -220,7 +220,7 @@ function toggleknownseance(obj, uv,type)
   mfin =  document.getElementsByName('uv[' +uv+ '][' +type+ '][mfin]')[0];
   freq =  document.getElementsByName('uv[' +uv+ '][' +type+ '][freq]')[0];
   sall =  document.getElementsByName('uv[' +uv+ '][' +type+ '][salle]')[0];
- 
+
 
   if (obj.selectedIndex <= 0)
     {
@@ -240,7 +240,7 @@ function toggleknownseance(obj, uv,type)
       mfin.style.display = 'block';
       freq.style.display = 'block';
       sall.style.display = 'block';
-      
+
 
     }
   else
@@ -274,9 +274,9 @@ function toggleknownseance(obj, uv,type)
       for ($i = 0; $i < 24; $i++)
 	{
 	  $tmp = sprintf("%02d", $i);
-	  $hours[$tmp] = $tmp; 
+	  $hours[$tmp] = $tmp;
 	}
-	      
+
       for ($i = 0; $i < 60; $i++)
 	{
 	  $tmp = sprintf("%02d", $i);
@@ -288,8 +288,8 @@ function toggleknownseance(obj, uv,type)
       foreach($_SESSION['edu_uv_subscr'] as $uv)
 	{
 	  $frm->puts("<h1>$uv</h1>");
-	  $req = new requete($site->db, "SELECT `cours_uv`, `td_uv`, `tp_uv`, `id_uv` 
-  FROM   `edu_uv` 
+	  $req = new requete($site->db, "SELECT `cours_uv`, `td_uv`, `tp_uv`, `id_uv`
+  FROM   `edu_uv`
   WHERE `code_uv` = '".mysql_real_escape_string($uv) . "'");
  	  $rs = $req->get_row();
 	  $c    = $rs['cours_uv'];
@@ -305,7 +305,7 @@ function toggleknownseance(obj, uv,type)
 	    {
 	      $frm->puts("<h2>Cours</h2>");
 
-	      $req = new requete($site->db, 
+	      $req = new requete($site->db,
 				"SELECT `id_uv_groupe`, `numero_grp`, `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
   FROM `edu_uv_groupe`
   WHERE `id_uv` = $iduv AND `type_grp` = 'C' AND `semestre_grp` = '".$semestre."'");
@@ -317,16 +317,16 @@ function toggleknownseance(obj, uv,type)
 		{
 		  $sccours = array(-1 => "--");
 		  while ($rs = $req->get_row())
-		    $sccours[$rs['id_uv_groupe']] = 'Cours N°'.$rs['numero_grp']." du ". 
+		    $sccours[$rs['id_uv_groupe']] = 'Cours N°'.$rs['numero_grp']." du ".
 		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
-		  $frm->add_select_field("uv[$uv][C][selectlst]", 
-                                         'Séances de cours connues', 
+		  $frm->add_select_field("uv[$uv][C][selectlst]",
+                                         'Séances de cours connues',
                                          $sccours,
                                          false,
-                                         "", false, true, 			     
+                                         "", false, true,
                                          "javascript:toggleknownseance(this, '".$uv."', 'C')");
 		}
-	      add_seance_form($frm, $uv, 'C');      
+	      add_seance_form($frm, $uv, 'C');
 	    }
 
 	  /* td */
@@ -334,7 +334,7 @@ function toggleknownseance(obj, uv,type)
 	    {
 	      $frm->puts("<h2>TD</h2>");
 
-	      $req = new requete($site->db, 
+	      $req = new requete($site->db,
 				"SELECT `id_uv_groupe`, `numero_grp`,  `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
   FROM `edu_uv_groupe`
   WHERE `id_uv` = $iduv AND `type_grp` = 'TD' AND `semestre_grp` = '".$semestre."'");
@@ -345,16 +345,16 @@ function toggleknownseance(obj, uv,type)
 		{
 		  $sctd = array(-1 => "--");
 		  while ($rs = $req->get_row())
-		    $sctd[$rs['id_uv_groupe']] = 'TD N°'.$rs['numero_grp'] . " du ". 
+		    $sctd[$rs['id_uv_groupe']] = 'TD N°'.$rs['numero_grp'] . " du ".
 		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
-		  $frm->add_select_field("uv[$uv][TD][selectlst]", 
-                                         'Séances de TD connues', 
+		  $frm->add_select_field("uv[$uv][TD][selectlst]",
+                                         'Séances de TD connues',
                                          $sctd,
                                          false,
-                                         "", false, true, 			     
+                                         "", false, true,
                                          "javascript:toggleknownseance(this, '".$uv."', 'TD')");
 		}
-	      add_seance_form($frm, $uv, 'TD');	      
+	      add_seance_form($frm, $uv, 'TD');
 	    }
 
 
@@ -362,7 +362,7 @@ function toggleknownseance(obj, uv,type)
 	  if ($tp == 1)
 	    {
 	      $frm->puts("<h2>TP</h2>");
-	      $req = new requete($site->db, 
+	      $req = new requete($site->db,
 				"SELECT `id_uv_groupe`, `numero_grp`,  `jour_grp`, `heure_debut_grp`, `heure_fin_grp`
   FROM `edu_uv_groupe`
   WHERE `id_uv` = $iduv AND `type_grp` = 'TP' AND `semestre_grp` = '".$semestre."'");
@@ -373,19 +373,19 @@ function toggleknownseance(obj, uv,type)
 		{
 		  $sctp = array(-1 => "--");
 		  while ($rs = $req->get_row())
-		    $sctp[$rs['id_uv_groupe']] = 'TP N°'.$rs['numero_grp']. " du ". 
+		    $sctp[$rs['id_uv_groupe']] = 'TP N°'.$rs['numero_grp']. " du ".
 		      $jour[$rs['jour_grp']] . " de ".$rs['heure_debut_grp']." à ".$rs['heure_fin_grp'];
-		 
-                      $frm->add_select_field("uv[$uv][TP][selectlst]", 
-                                             'Séances de TP connues', 
+
+                      $frm->add_select_field("uv[$uv][TP][selectlst]",
+                                             'Séances de TP connues',
                                              $sctp,
                                              false,
-                                             "", false, true, 			     
+                                             "", false, true,
                                              "javascript:toggleknownseance(this, '".$uv."', 'TP')");
 
 		}
 	      add_seance_form($frm, $uv, 'TP');
-	
+
 	    }
 	  $frm->puts("<br/>");
 	} // fin foreach
@@ -415,22 +415,22 @@ function add_seance_form($formcts, $uv, $type)
   $formcts->add_select_field("uv[$uv][$type][jour]",
 			     'jour',
 			     $jour);
-  
+
   /* horaires debut / fin */
   global $hours, $minut;
   $formcts->add_select_field("uv[$uv][$type][hdeb]",
 			     'Heure de début', $hours);
-  
+
   $formcts->add_select_field("uv[$uv][$type][mdeb]",
 			     'Minutes de début', $minut);
-  
+
 
   $formcts->add_select_field("uv[$uv][$type][hfin]",
 			     'Heure de fin', $hours);
-  
+
   $formcts->add_select_field("uv[$uv][$type][mfin]",
 			     'Minutes de fin', $minut);
-  
+
   $formcts->add_select_field("uv[$uv][$type][freq]",
 			     'Fréquence',
 			     array("0" => "--",
@@ -441,7 +441,7 @@ function add_seance_form($formcts, $uv, $type)
 			     false,
 			     true,
 			     "javascript:togglesellist(this, '".$uv."', '".$type."')");
-  
+
   $formcts->add_select_field("uv[$uv][$type][semaine]",
 			     'Semaine',
 			     array("AB" => "Toutes les semaines",
@@ -470,7 +470,7 @@ if (isset($_REQUEST['modform']))
 
   if ($uv <= 0)
     exit();
-  
+
   $rq = new requete($site->db,
 		    "SELECT
                                 `code_uv`
@@ -490,10 +490,10 @@ if (isset($_REQUEST['modform']))
   echo "<h1>Modification d'UV</h1>";
   echo "<p>A l'aide de ce formulaire, vous pouvez modifier le format horaire de l'UV ".$res['code_uv']."</p>";
 
-  $moduv = new form("moduv", 
-		    "create.php", 
-		    false, 
-		    "post", 
+  $moduv = new form("moduv",
+		    "create.php",
+		    false,
+		    "post",
 		    "Modification d'une UV");
   $moduv->add_hidden('modifyuv', 1);
   $moduv->add_hidden('mod_iduv', $uv);
@@ -526,7 +526,7 @@ if (isset($_REQUEST['adduv_sbmt']))
 
   // On met null sur les catégories, car on n'a aucune idée lors de la
   // saisie du formulaire de l'inscription aux différents
-  // départements. Faudrait mettre du javascript de partout, et ... 
+  // départements. Faudrait mettre du javascript de partout, et ...
   // bref, j'ai la flemme.
 
   if ($_REQUEST['Humanites'] == 1)
@@ -569,13 +569,13 @@ if (isset($_REQUEST['adduv_sbmt']))
   require_once($topdir . "include/entities/uv.inc.php");
   $uv = new uv($site->db, $site->dbrw);
 
-  $uv->create($name, 
-	      $intl, 
+  $uv->create($name,
+	      $intl,
 	      $c,
 	      $td,
-	      $tp, 
-	      $ects, 
-	      $depts, 
+	      $tp,
+	      $ects,
+	      $depts,
 	      $uv_cat,
 	      $id_lieu);
 
@@ -591,7 +591,7 @@ if (isset($_REQUEST['adduv_sbmt']))
 
 /* modification "basique" (format horaire) d'une uv, le reste ne peut
  etre fait que par les personnes accréditées (gestion-ae ou autres) */
- 
+
 if (isset($_REQUEST['modifyuv']))
 {
 
@@ -610,43 +610,44 @@ if (isset($_REQUEST['modifyuv']))
 
   if ($rq->lines  == 1)
     $retmod = true;
-  else 
+  else
     $retmod = false;
 }
 
 
-/* l'utilisateur a demandé l'ajout d'une UV */
+/* l'utilisateur a demandé l'inscription à une UV */
 if (isset($_REQUEST['subscr']))
 {
   $uv = $_REQUEST['subscr'];
-  if (! array_key_exists($uv, $_SESSION['edu_uv_subscr']))
+  if (is_array($_SESSION['edu_uv_subscr']))
     {
-      $rq = new requete($site->db,
-			"SELECT 
+      if (! array_key_exists($uv, $_SESSION['edu_uv_subscr']))
+        {
+          $rq = new requete($site->db,
+                            "SELECT
                                 `id_uv`
                                 , `code_uv`
-                         FROM
+                             FROM
                                 `edu_uv`
-                         WHERE
+                             WHERE
                                 `id_uv` = " . intval($uv));
-      $res = $rq->get_row();
+          $res = $rq->get_row();
 
-      if ($res['cours_uv'] == 1)
-	$format_h[] = "Cours";
-      if ($res['td_uv'] == 1)
-	$format_h[] =  "TD";
-      if ($res['tp_uv'] == 1)
-	$format_h[] = "TP";
+          if ($res['cours_uv'] == 1)
+            $format_h[] = "Cours";
+          if ($res['td_uv'] == 1)
+            $format_h[] =  "TD";
+          if ($res['tp_uv'] == 1)
+            $format_h[] = "TP";
 
-      if (count($format_h) == 0)
-	$format_h = "HET";
-      else
-	$format_h = implode(" / ", $format_h);
+          if (count($format_h) == 0)
+            $format_h = "HET";
+          else
+            $format_h = implode(" / ", $format_h);
 
-
-      $_SESSION['edu_uv_subscr'][$uv] = $res['code_uv'];
-    }
-
+          $_SESSION['edu_uv_subscr'][$uv] = $res['code_uv'];
+        }
+    } // if (is_array())
   exit();
 }
 
@@ -690,11 +691,11 @@ $cts = new contents("Emploi du temps",
 		    "créer votre emploi du temps.");
 if (count($edt->edt_arr) > 0)
 {
-  $cts->add_paragraph("Il semblerait que vous ayez déjà saisi votre 
+  $cts->add_paragraph("Il semblerait que vous ayez déjà saisi votre
                        emploi du temps du semestre.<br/><br/>
                        Peut-être souhaitez-vous simplement <a href=\"".
   $topdir."uvs/edit.php?semestre=".$semestre."\">l'éditer</a> ?");
-  
+
   $site->add_contents($cts);
   $site->end_page();
 
@@ -736,7 +737,7 @@ $cts->add_title(2, "Sélection des UVs");
 $selectuv = new form("seluv", "create.php", true, "post", "Sélection des  UVs");
 
 $rq = new requete($site->db,
-		  "SELECT 
+		  "SELECT
                             `id_uv`
                             , `code_uv`
                             , `intitule_uv`
@@ -769,7 +770,7 @@ if ($rq->lines > 0)
 
   /* javascript code begins here ! */
 
-  $js = 
+  $js =
     "
 <script language=\"javascript\">
 function addUV(obj)
@@ -806,7 +807,7 @@ function updatemodifpanel()
 
 }
 </script>\n";
-  
+
   $selectuv->puts($js);
   $selectuv->add_select_field('uv_sl', "UV", $uvs);
   $selectuv->add_button("adduv_existing", "Ajouter l'UV à la liste", "javascript:addUV(parent)");
@@ -873,7 +874,7 @@ $adduv->add_checkbox('EDIM',
 		      "EDIM",
 		      false);
 
-$adduv->add_select_field('adduv_lieu', 
+$adduv->add_select_field('adduv_lieu',
                          'Lieu',
                          array(null => "--",
                                4 => "Site de Sevenans",
@@ -917,11 +918,11 @@ document.getElementById('cts3').style.display = 'none';
 $cts->add_title(2, "Modification d'UV");
 $cts->add_paragraph("A l'aide de ce formulaire, vous pouvez ".
                     "modifier le format horaire d'une UV");
- 
-$moduv = new form("moduv", 
-                  "create.php", 
-                  true, 
-                  "post", 
+
+$moduv = new form("moduv",
+                  "create.php",
+                  true,
+                  "post",
                   "Modification d'une UV");
 
 $moduv->add_hidden('mod_iduv', -1);
