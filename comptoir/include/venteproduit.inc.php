@@ -100,7 +100,7 @@ class venteproduit extends stdentity
 	}
 	
 
-	function load_by_id ( $id_produit, $id_comptoir, $force=false )
+	function load_by_id ( $id_produit, $id_comptoir=0, $force=false )
 	{
 
 		$req = new requete($this->db,
