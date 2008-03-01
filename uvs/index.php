@@ -113,7 +113,8 @@ if ($site->user->id > 0)
 			       "D" => "D",
 			       "E" => "E",
 			       "Fx" => "Fx",
-			       "F" => "F"),
+			       "F" => "F",
+                               "EQUIV" => "équivalence"),
 			 "D", "", true);
 
   $frm->add_text_field('obt_semestre', 

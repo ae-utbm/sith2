@@ -1005,7 +1005,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
                                        "uv_cat"      => "Catégorie de l'UV",
                                        "note_obtention"=> "Note d'obtention",
                                        "ects_uv"     => "Crédits ECTS"),
-                                       array ("delete" => "Enlever"),
+                                       array (),
                                        array()));
           $totcreds_by_cat = 0;
           $totcreds_by_cat_tc = 0;
