@@ -431,7 +431,7 @@ elseif ( $_REQUEST["action"] == "reprint" && $site->user->is_in_group("gestion_a
   $carte->set_state(CETAT_ATTENTE);
 }
 
-if ( $_REQUEST["action"] == "setphotos" && $can_edit && !is_dir("/var/www/ae/www/ae2/var/img") )
+if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/var/www/ae/www/ae2/var/img") )
 {
   $dest_idt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg";
   if ( is_uploaded_file($_FILES['idtfile']['tmp_name'])  )
