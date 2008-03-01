@@ -149,7 +149,9 @@ else
 	
 	$usrinfo = new userinfo($site->user, true, false, false, false, true, true);
 	$cts->add($usrinfo, false, true, "Informations personnelles");
-	$cts->add_title(1, " ");
+	//$cts->add_title(1, " ");
+	$trait = "<hr />";
+	$cts->add_paragraph($trait);
 
 	/* Prévention des doublons */
 	$sql = new requete($site->db, "SELECT id_utilisateur 
