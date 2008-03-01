@@ -619,11 +619,10 @@ if (isset($_REQUEST['modifyuv']))
 if (isset($_REQUEST['subscr']))
 {
   $uv = $_REQUEST['subscr'];
-  if (is_array($_SESSION['edu_uv_subscr']))
+ 
+  if (! array_key_exists($uv, $_SESSION['edu_uv_subscr']))
     {
-      if (! array_key_exists($uv, $_SESSION['edu_uv_subscr']))
-        {
-          $rq = new requete($site->db,
+      $rq = new requete($site->db,
                             "SELECT
                                 `id_uv`
                                 , `code_uv`
@@ -631,23 +630,22 @@ if (isset($_REQUEST['subscr']))
                                 `edu_uv`
                              WHERE
                                 `id_uv` = " . intval($uv));
-          $res = $rq->get_row();
+      $res = $rq->get_row();
 
-          if ($res['cours_uv'] == 1)
-            $format_h[] = "Cours";
-          if ($res['td_uv'] == 1)
-            $format_h[] =  "TD";
-          if ($res['tp_uv'] == 1)
-            $format_h[] = "TP";
+      if ($res['cours_uv'] == 1)
+        $format_h[] = "Cours";
+      if ($res['td_uv'] == 1)
+        $format_h[] =  "TD";
+      if ($res['tp_uv'] == 1)
+        $format_h[] = "TP";
+      
+      if (count($format_h) == 0)
+        $format_h = "HET";
+      else
+        $format_h = implode(" / ", $format_h);
 
-          if (count($format_h) == 0)
-            $format_h = "HET";
-          else
-            $format_h = implode(" / ", $format_h);
-
-          $_SESSION['edu_uv_subscr'][$uv] = $res['code_uv'];
-        }
-    } // if (is_array())
+      $_SESSION['edu_uv_subscr'][$uv] = $res['code_uv'];
+    }
   exit();
 }
 
@@ -678,6 +676,9 @@ if (isset($_REQUEST['refreshlistuv']))
 
 
 /** real code begins here */
+
+$_SESSION['edu_uv_subscr'] = array();
+
 
 /* juste verifier que l'utilisateur ne tente pas
  * de rentrer un nouvel emploi du temps ...
