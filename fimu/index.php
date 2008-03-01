@@ -145,11 +145,10 @@ else
 	";
 	
 	$cts->add_paragraph($intro);
-	//$cts->add_title(1, " ");
 	
 	$usrinfo = new userinfo($site->user, true, false, false, false, true, true);
 	$cts->add($usrinfo, false, true, "Informations personnelles");
-	//$cts->add_title(1, " ");
+
 	$trait = "<hr />";
 	$cts->add_paragraph($trait);
 
@@ -172,17 +171,17 @@ else
 	
 	$subfrm = new form("fimu_inscr", "index.php", true, "POST", "Disponibilités");
 		$subfrm->add_info("Il est fortement souhaitable que vous soyez disponible 3 jours consécutifs minimum");
-		$subfrm->add_checkbox("disp_24", "Jeudi 24 Mai");
-		$subfrm->add_checkbox("disp_25", "Vendredi 25 Mai");
-	$subfrm->add_checkbox("disp_26", "Samedi 26 Mai");
-		$subfrm->add_checkbox("disp_27", "Dimanche 27 Mai");
-		$subfrm->add_checkbox("disp_28", "Lundi 28 Mai");
-		$subfrm->add_checkbox("disp_29", "Mardi 29 Mai");
+		$subfrm->add_checkbox("disp_24", "Jeudi 8 Mai");
+		$subfrm->add_checkbox("disp_25", "Vendredi 9 Mai");
+	$subfrm->add_checkbox("disp_26", "Samedi 10 Mai");
+		$subfrm->add_checkbox("disp_27", "Dimanche 11 Mai");
+		$subfrm->add_checkbox("disp_28", "Lundi 12 Mai");
+		$subfrm->add_checkbox("disp_29", "Mardi 13 Mai");
 	$frm->add($subfrm);
 	
 	$subfrm = new form("fimu_inscr", "index.php", true, "POST", "<a href='http://ae.utbm.fr/article.php?name=fimu_info'>Souhaits de poste <img src='$topdir/images/tipp.png' /></a>");
 
-		$prefs = array("pilote" => "Pilote de groupe", "regisseur" => "Régisseur de scène", "accueil" => "Accueil du public", "signaletic" => "Equipe signalétique");
+		$prefs = array("pilote" => "Pilote de groupe", "regisseur" => "Régisseur de scène", "accueil" => "Accueil du public", "autres" => "Autres");
 	
 		$subfrm2 = new form("fimu_inscr", "index.php");
 			$subfrm2->add_select_field("choix1_choix", "Choix 1", $prefs);
