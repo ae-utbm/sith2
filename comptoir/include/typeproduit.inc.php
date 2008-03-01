@@ -3,26 +3,27 @@
  * @file
  */
 
-/** 
- * @addtogroup comptoirs
- * @{
- */
 
-//cpt_typeproduit
+
+
 /**
  * Classe gérant un type de produit
+ * @see produit
+ * @ingroup comptoirs
  */
 class typeproduit extends stdentity
 {
 
+  /** Nom du type de produit */
 	var $nom;
-	var $action; // <=> action par défaut lors de l'ajout
-	var $id_assocpt; // <=> association par défaut lors de l'ajout
-
+	/** Action par défaut lors de l'ajout */
+	var $action;
+	/** Association par défaut lors de l'ajout */
+	var $id_assocpt;
+	/** Id du fichier utilisé pour la vignette du type de produit */
 	var $id_file;
+	/** Description du type de produit */
 	var $description;
-
-
 
 	function load_by_id ( $id )
 	{

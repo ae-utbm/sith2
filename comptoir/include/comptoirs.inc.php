@@ -22,9 +22,11 @@
  * 02111-1307, USA.
  */
  
-/** @file
- * @defgroup comptoirs Comptoirs/E-boutic
- * @{
+/** @file */
+
+/**
+ * @defgroup comptoirs Comptoirs et E-boutic
+ * Avant tout chose, comme pour la compta : TOUS LES PRIX SONT EN CENTIMES !
  */ 
  
  
@@ -39,6 +41,10 @@ require_once($topdir . "comptoir/include/typeproduit.inc.php");
 require_once($topdir . "comptoir/include/venteproduit.inc.php");
 require_once($topdir."include/entities/books.inc.php");
 
+/**
+ * Version spéciale de site pour les comptoirs
+ * @ingroup comptoirs
+ */
 class sitecomptoirs extends site
 {
 	var $id_asso;
@@ -134,8 +140,5 @@ class sitecomptoirs extends site
 	
 }
 
-
-
-/**@}*/
 
 ?>

@@ -27,12 +27,19 @@
  */
  
 /**
+ * @defgroup display_cts_eboutic Contents e-boutic
+ * Contents pour le rendu des pages d'e-boutic
+ * @ingroup display_cts
+ */ 
+ 
+/**
  * Contents pour afficher la fiche d'un produit dans e-boutic 
  * dans le but de vendre (pas d'éditer la fiche)
  *
  * Supporte :
  * - Affichage des sous-produits (variantes)
  * - Affichage des informations complémentaires (générée spécifiquement pour le client)
+ * @ingroup display_cts_eboutic
  */ 
 class ficheproduit extends stdcontents
 {
@@ -181,7 +188,7 @@ class ficheproduit extends stdcontents
 
 /**
  * Vignette pour un produit
- *
+ * @ingroup display_cts_eboutic
  */
 class vigproduit extends stdcontents
 {
@@ -221,7 +228,7 @@ class vigproduit extends stdcontents
 
 /**
  * Vignette pour une catégorie de produit
- *
+ * @ingroup display_cts_eboutic
  */
 class vigtypeproduit extends stdcontents
 {
@@ -249,7 +256,6 @@ class vigtypeproduit extends stdcontents
   
   }
 }
-
 
 
 ?>

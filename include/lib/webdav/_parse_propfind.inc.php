@@ -21,6 +21,10 @@
 //
 
 /**
+ * @cond false
+ */
+ 
+/**
  * helper class for parsing PROPFIND request bodies
  * 
  * @package HTTP_WebDAV_Server

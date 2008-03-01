@@ -21,6 +21,10 @@
 //
 
 /**
+ * @cond false
+ */
+
+/**
  * helper class for parsing LOCK request bodies
  * 
  * @package HTTP_WebDAV_Server

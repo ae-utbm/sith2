@@ -1616,6 +1616,10 @@ if(!class_exists('FPDF'))
 
 }
 
+/**
+ * @cond false
+ */
+ 
 class VariableStream
 {
   // Stream handler to read from global variables
@@ -1647,6 +1651,8 @@ class VariableStream
     return $this->position >= strlen($GLOBALS[$this->varname]);
   }
 }
+
+
 
 class MEM_IMAGE extends FPDF
 {

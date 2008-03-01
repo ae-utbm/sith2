@@ -25,6 +25,10 @@
 
 define('USE_ASSERTS', function_exists('assert'));
 
+/**
+ * @cond false
+ */
+
 class _DiffOp
 {
   var $type;
@@ -430,6 +434,11 @@ class _DiffEngine
   }
 }
 
+/**
+ * @endcond
+ */
+ 
+ 
 class Diff
 {
   var $edits;
@@ -685,6 +694,9 @@ class DiffFormatter
   }
 }
 
+/**
+ * @cond false
+ */
 define('NBSP', "\xC2\xA0");
 
 class _HWLDF_WordAccumulator
@@ -744,7 +756,9 @@ class _HWLDF_WordAccumulator
     return $this->_lines;
   }
 }   
-    
+/**
+ * @endcond
+ */    
 class WordLevelDiff extends MappedDiff
 { 
   function WordLevelDiff ($orig_lines, $closing_lines)

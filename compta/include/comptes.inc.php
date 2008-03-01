@@ -31,6 +31,7 @@ require_once($topdir . "include/entities/asso.inc.php");
 
 /**
  * Compte bancaire
+ * @ingroup compta
  */
 class compte_bancaire extends stdentity
 {
@@ -180,6 +181,7 @@ class compte_bancaire extends stdentity
 
 /**
  * Compte association (associé à un compte bancaire)
+ * @ingroup compta
  */
 class compte_asso extends stdentity
 {
@@ -248,6 +250,7 @@ class compte_asso extends stdentity
 
 /**
  * Classeur de compta (relatif à un seul compte association)
+ * @ingroup compta
  */
 class classeur_compta extends stdentity /* table: cpta_classeur */
 {
@@ -375,6 +378,4 @@ class classeur_compta extends stdentity /* table: cpta_classeur */
 
 }
 
-
-
- ?>
+?>

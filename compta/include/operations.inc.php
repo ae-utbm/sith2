@@ -1,44 +1,105 @@
 <?php
+/* Copyright 2005,2006, 2007
+ * - Julien Etelain <julien CHEZ pmad POINT net>
+ *
+ * Ce fichier fait partie du site de l'Association des 0tudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+ 
 /**
  * @file
  */
  
-
+/**
+ * Modes de paiements possibles pour une opération de compta.
+ */
 $modes_operation = array(2=>"Espèces",1=>"Chèque",3=>"Virement",4=>"Carte Bancaire");
 
-
 /**
- * Opération comptable
+ * Une opération de compta [dans un classeur de compta].
+ *
+ * Une opération doit être liée au moins à un tiers. Cela représente la personne
+ * qui a été crédité (si l'opération est un débit), ou qui a été  débité (si il
+ * s'agit d'un débit). Un tiers peut être :
+ * - un utlisateur
+ * - une association
+ * - une entreprise
+ * - un compte association (pour les mouvements interne)
+ * Un général un seul doit être définit, hormis si un utilisateur a servi
+ * d'intermédiaire, alors il doit être définit en plus du tiers "réel".
+ *
+ * Une opération peut être liée à un ou plusieurs fichiers de la partie fichier.
+ * (pour stocker des justificatifs).
+ *
+ * @ingroup compta
+ * @see classeur
+ * @see operation_comptable
+ * @see operation_club
+ * @see compta_libelle
  */
 class operation extends stdentity
 {
-	
+	/** Id du classeur dans le quel se trouve cette opération */
 	var $id_classeur;
+	/** Numéro d'ordre de l'opération.
+	  * Attention: il ne doit pas y avoir d'interruption dans la numérotation.
+	  */
 	var $num;
+	/** Id de l'étiquette associée (libelle). Facultatif : peut être null.
+	 * Permet de creer des catégories d'opérations au sein d'un classeur pour
+	 * suivre par exemples des catégories budgetaires 
+	 */
 	var $id_libelle;
 
-	/* type d'opération*/
+	/** Id du type d'opération simplifié (obgligatoire */
 	var $id_opclb;
+	
+	/** Id du type comptable (facultatif), peut être null. */
 	var $id_opstd;
 	
-	/* étudiant éventuellement remboursé */
-	var $id_utilisateur;
-	
-	/* opération liée, pour les opération jumelles (de compte bancaire à compte bancaire)*/
+	/** Opération liée, pour les opération jumelles (de compte à compte en interne)*/
 	var $id_op_liee;
 	
 	/* bénéficiaire : asso, entreprise ou compte bancaire*/
+	
+	/** Id de l'utilisateur tiers (crédité/débité) ou qui a servi d'intermédiaire. Facultatif. */
+	var $id_utilisateur;	
+	/** Id de l'association tiers (crédité/débité). Facultatif. */
 	var $id_asso;
+	/** Id de l'entreprise tiers (crédité/débité). Facultatif. */
 	var $id_ent;
+	/** Id du compte association tiers (crédité/débité). Facultatif. */
 	var $id_cptasso;
 	
 	/* informations sur l'opération */
+	/** Montant de l'opération en centimes */
 	var $montant;
+	/** Date de l'opération (timestamp) */
 	var $date;
+	/** Commentaire sue l'opération */
 	var $commentaire;
+	/** Marquage effectué (1: effctue, 0: non effectué) */
 	var $effectue;
-	
+	/** Mode de paiement de l'opération 
+	 * @see $modes_operation
+	 */
 	var $mode;
+	/** Si le mode est par chèque, le numéro du chèque */
 	var $num_cheque;
 	
 
@@ -266,6 +327,11 @@ class operation extends stdentity
 
 	}
 	
+	/**
+	 * Définit l'étiquette (libelle)  associée à cette opération.
+	 * @param $id_libelle Id de l'étiquette. Peut être null.
+	 * @see compta_libelle
+	 */
 	function set_libelle($id_libelle)
 	{
 		$this->id_libelle = $id_libelle;
@@ -277,6 +343,12 @@ class operation extends stdentity
 			);
 	}
 	
+	/**
+	 * Récupère la liste des ids des fichiers associés à cette opération.
+	 * @return la liste des ids des fichiers
+	 * @see dfile
+	 * @see operation::get_files
+	 */
 	function get_files_ids()
 	{
     $list = array();
@@ -286,6 +358,11 @@ class operation extends stdentity
 	  return $list;
 	}
 	
+	/**
+	 * Récupère la liste des fichiers associés à cette opération.
+	 * @return la liste des fichiers sous forme d'instances de dfile
+	 * @see dfile
+	 */
 	function get_files()
 	{
 	  global $topdir;
@@ -301,6 +378,11 @@ class operation extends stdentity
 	  return $files;
 	}
 	
+	/**
+	 * Définit la liste des fichiers associées à cett opération
+	 * @param $files liste d'instances de dfile
+	 * @see dfile
+	 */
 	function set_files ( &$files )
 	{
 	  $actual = $this->get_files_ids();

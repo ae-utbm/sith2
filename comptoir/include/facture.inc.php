@@ -28,13 +28,9 @@
  */
 
 /**
- * @addtogroup comptoirs
- * @{
- */
-
-/**
  * Classe gérant les factures cartes AE/e-boutic. Elle permet le debit sur les comptes AE.
  * @see venteproduit
+ * @ingroup comptoirs
  */
 class debitfacture extends stdentity
 {

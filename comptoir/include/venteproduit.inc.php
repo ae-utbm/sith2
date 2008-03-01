@@ -33,13 +33,11 @@
 require_once("defines.inc.php");
 require_once("produit.inc.php");
 require_once("comptoir.inc.php");
-/**
- * @addtogroup comptoirs
- * @{
- */
+
 
 /**
  * Classe gérant la mise en vente des produit
+ * @ingroup comptoirs
  */
 class venteproduit extends stdentity
 {

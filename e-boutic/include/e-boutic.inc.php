@@ -50,7 +50,9 @@ define ("EB_TOT_MINI_CB", 500);
 $GLOBALS["entitiescatalog"]["typeproduit"] 	= array ( "id_typeprod", "nom_typeprod", "typeprod.png", "e-boutic/");
 $GLOBALS["entitiescatalog"]["produit"]		= array ( "id_produit", "nom_prod", "produit.png", "e-boutic/" );
 
-
+/**
+ * Version spécialisée de site pour e-boutic
+ */
 class eboutic extends site
 {
   /* une variable panier (tableau contenant les articles) */

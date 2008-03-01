@@ -3,7 +3,7 @@
 $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
-require_once($topdir. "include/entities/diff.inc.php");
+require_once($topdir. "include/lib/diff.inc.php");
 
 $site = new site ();
 

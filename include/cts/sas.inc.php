@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @defgroup display_cts_sas Contents SAS
+ * Contents pour le rendu des pages du SAS
+ * @ingroup display_cts
+ */ 
+
 require_once($topdir."include/cts/video.inc.php");
 require_once($topdir."include/cts/taglist.inc.php");
 
@@ -7,6 +13,7 @@ require_once($topdir."include/cts/taglist.inc.php");
  * Index des sous-catégories d'une catégorie du SAS
  *
  * Permet de remplacer le découpage manuel par semestre, par un découpe automatisé si celui-ci est possible.
+ * @ingroup display_cts_sas
  */
 class sascategory extends contents
 {
@@ -174,8 +181,8 @@ class sascategory extends contents
 
 /**
  * Affichage d'une photo du SAS vu dans une catégorie
+ * @ingroup display_cts_sas
  */
-
 class sasphoto extends contents
 {
   
@@ -464,8 +471,7 @@ class sasphoto extends contents
     $this->puts("<div class=\"clearboth\"></div>");
     
   }
-  
-  
-  
+
 }
+
 ?>

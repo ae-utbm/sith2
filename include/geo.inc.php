@@ -33,6 +33,7 @@
  * Converti une latitude/longitude exprimé en radians en degrés
  * @param $rad La valeur en radians
  * @return un texte representatnt la valeur en degrés (NN°NN'NN")
+ * @ingroup display_cts_formsupport
  */
 function geo_radians_to_degrees ( $rad )
 {
@@ -48,6 +49,7 @@ function geo_radians_to_degrees ( $rad )
  * Converti une latitude/longitude exprimé en degrés en radians
  * @param $deg Texte representant la valeur en degrés (NN°NN'NN" ou NN,NNNN)
  * @return la valeur en radians
+ * @ingroup display_cts_formsupport
  */
 function geo_degrees_to_radians ( $deg )
 {

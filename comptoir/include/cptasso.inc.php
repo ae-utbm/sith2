@@ -4,13 +4,10 @@
 
  */
 
-/** 
- * @addtogroup comptoirs
- * @{
- */ 
  
 /**
  * Classe gérant un compte association
+ * @ingroup comptoirs
  */
 class assocpt extends stdentity
 {

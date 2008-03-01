@@ -42,7 +42,14 @@ require_once($topdir . "include/entities/utilisateur.inc.php");
 require_once($topdir . "include/globals.inc.php");
 require_once($topdir . "include/entities/cotisation.inc.php");
 
-/** La classe principale du site */
+/**
+ * @defgroup display_i I-Mode/Wap2 
+ * @ingroup display
+ */ 
+
+/** La classe principale du site 
+ * @ingroup display_i
+ */
 class isite
 {
 	var $db;
@@ -192,6 +199,9 @@ class isite
   }
 }
 
+/**
+ * @ingroup display_i
+ */
 class istdcontents
 {
   var $buffer; 
@@ -209,6 +219,9 @@ class istdcontents
 
 }
 
+/**
+ * @ingroup display_i
+ */
 class icontents extends istdcontents
 {
 
@@ -261,6 +274,9 @@ class icontents extends istdcontents
   }
 }
 
+/**
+ * @ingroup display_i
+ */
 class iform extends istdcontents
 {
 

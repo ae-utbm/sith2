@@ -36,7 +36,6 @@
  */
 class salle extends stdentity
 {
-	/** @see batiment */ 
 	var $id_batiment;
 	var $nom;
 	var $etage;

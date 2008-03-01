@@ -44,10 +44,6 @@ function first ( $array )
   return current($array);
 }
 
-/** 
- * @addtogroup comptoirs
- * @{
- */
 
 /**
  * Classe gérant un comptoir et des sessions de vente.
@@ -84,6 +80,7 @@ function first ( $array )
  * @see produit
  * @see venteproduit
  * @see comptoir/frontend.inc.php
+ * @ingroup comptoirs
  */
 class comptoir extends stdentity
 {

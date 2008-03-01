@@ -1,12 +1,42 @@
 <?php
-
+/* Copyright 2005,2006,2007
+ * - Julien Etelain <julien CHEZ pmad POINT net>
+ *
+ * Ce fichier fait partie du site de l'Association des étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+ 
 /**
  * @file
  */
 
-require_once($topdir."include/site.inc.php");
+/** 
+ * @defgroup compta Comptabilité
+ *
+ * Avant tout chose, comme pour les comptoirs : LA COMPTA EST EN CENTIMES !
+ *
+ * @todo Il y a plein de choses à dire ici
+ *
+ *
+ *
+ */ 
 
-/* LA COMPTA EST EN CENTIMES !!! */
+require_once($topdir."include/site.inc.php");
 
 require_once("comptes.inc.php");
 require_once("defines.inc.php");
@@ -15,7 +45,11 @@ require_once("typeop.inc.php");
 require_once("budget.inc.php");
 require_once("libelle.inc.php");
 
-
+/**
+ * Version spécialisée du site pour la compta
+ * @ingroup compta
+ * @see site
+ */
 class sitecompta extends site
 {
 	var $id_asso;

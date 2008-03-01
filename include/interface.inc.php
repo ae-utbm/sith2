@@ -42,6 +42,7 @@ if ( !isset($wwwtopdir) )
 
 /** Classe générant l'interface
  * @see site
+ * @ingroup display
  */
 class interfaceweb
 {

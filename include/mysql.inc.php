@@ -33,11 +33,24 @@
  * 02111-1307, USA.
  */
 
+/**
+ * @defgroup mysql Accès à la base de données 
+ */ 
+
+/**
+ * Prépare une chaine de caractère pour injection dans une requête SQL pour être
+ * utilisée avec l'opérateur 'LIKE'
+ * @param $string Chaine de caractère à traiter
+ * @return la chaine de caractère apte à être insérée dans une requête SQL
+ * @ingroup mysql
+ */
 function mysql_escape_joker_string ( $string ) {
 	return str_replace("_","\\_",str_replace("%","\\%",mysql_real_escape_string($string)));
 }
 
-/** Classe permettant de se connecter à la base */
+/** Classe permettant de se connecter à la base 
+ * @ingroup mysql
+ */
 class mysql {
   var $base;
   var $user;
@@ -69,6 +82,9 @@ class mysql {
     $this->dbh = $my_dbh;
   }
 
+  /**
+   * ferme la connexion à la base de données
+   */
   function close()
   {
     @mysql_close($this->dbh);
@@ -76,6 +92,10 @@ class mysql {
 
 }
 
+/**
+ * Permet de réaliser une requête sur une connexion MySQL
+ * @ingroup mysql
+ */
 class requete {
   var $base;
   var $sql;
@@ -86,6 +106,12 @@ class requete {
 
   var $lines;
 
+  /**
+   * Execute une requête sur la base de données
+   * @param $base Connexion à la base de données 
+   * @param $req_sql Requête SQL à executer
+   * @param $debug Mode debuggage (si 1) (non utilisé)
+   */
   function requete ($base, $req_sql, $debug = 0) {
     global $timing;
     $timing["mysql"] -= microtime(true);
@@ -126,18 +152,30 @@ class requete {
 
   }
 
+  /**
+   * Recupère ligne par ligne le résultat de la requête
+   * @return un tableau associatif, ou null s'il n'ya plus aucune ligne.
+   */
   function get_row () {
 	  if(!empty($this->result))
       return mysql_fetch_array($this->result);
 		else
-		  return;
+		  return null;
   }
+  
+  /**
+   * Retroune à la première ligne du résultat de la requête (si applicable)
+   */
   function go_first ()
   {
   	if ($this->lines > 0 )
   	mysql_data_seek($this->result, 0);
   }
   
+  /**
+   * Détermine si la requête s'est déroulée avec succès
+   * @return true si la requête a été éxécuté avec succès, false sinon
+   */
   function is_success()
   {
     return $this->errno == 0;
@@ -148,8 +186,8 @@ class requete {
  *  Cette classe facilite l'insertion dans une base de données, en
  *  construisant la requête d'insertion à partir d'un tableau donné en
  *  paramètre.
+ * @ingroup mysql
  */
-
 class insert extends requete {
 
   /** Constructeur de la classe insert.
@@ -227,6 +265,7 @@ class insert extends requete {
  *  Cette classe facilite la mise à jour d'une base de données, en
  *  construisant la requête d'update à partir de deux tableaux donnés
  *  en paramètre.
+ * @ingroup mysql
  */
 
 class update extends requete {
@@ -327,6 +366,7 @@ class update extends requete {
  *  Cette classe facilite la suppression d'entrées d'une base de
  *  données, en construisant la requête de suppression à partir d'un
  *  tableau donné en paramètre.
+ * @ingroup mysql
  */
 
 class delete extends requete {

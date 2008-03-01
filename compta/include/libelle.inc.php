@@ -27,17 +27,20 @@
  
 /**
  * Etiquette à associer à une opération pour classer ses dernières.
+ * @ingroup compta
  */
-class compta_libelle extends stdentity /* table: cpta_libelle */
+class compta_libelle extends stdentity
 {
+  /** Id de l'activité/association associé */
   var $id_asso;
+  /** Nom de l'etiquette */
   var $nom;
 
-
-  
-	/** Charge un libellé en fonction de son id
-	 * @param $id Id du compte bancaire
-	 */
+  /** Charge une etiquette en fonction de son id
+   * En cas d'erreur, l'id est défini à null
+   * @param $id id de l'etiquette
+   * @return true en cas de succès, false sinon
+   */
 	function load_by_id ( $id )
 	{
 		$req = new requete ($this->db, "SELECT * FROM `cpta_libelle`
@@ -100,13 +103,10 @@ class compta_libelle extends stdentity /* table: cpta_libelle */
   
   function remove_libelle ()
   {
-    $sql = new delete ($this->dbrw,"cpta_libelle",array("id_libelle" => $this->id));  
+    new delete ($this->dbrw,"cpta_libelle",array("id_libelle" => $this->id));  
   }
   
   
 }
-
-
-
 
 ?>

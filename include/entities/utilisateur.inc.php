@@ -139,6 +139,7 @@ class utilisateur extends stdentity
   /** Charge un utilisateur en fonction de son id
    * En cas d'erreur, l'id est défini à null
    * @param $id id de l'utilisateur
+   * @return true en cas de succès, false sinon
    */
   function load_by_id ( $id )
   {

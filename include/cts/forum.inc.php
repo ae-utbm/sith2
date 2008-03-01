@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @defgroup display_cts_forum Contents forum
+ * Contents pour le rendu des pages du forum
+ * @ingroup display_cts
+ */ 
+ 
 include($topdir."include/lib/bbcode.inc.php");
 
 function human_date ( $timestamp )
@@ -62,7 +68,10 @@ function nosecret ( $text )
 }
 
 
-
+/**
+ * Affiche la liste des sous-forums d'un forum
+ * @ingroup display_cts_forum
+ */ 
 class forumslist extends stdcontents
 {
   
@@ -149,10 +158,17 @@ class forumslist extends stdcontents
   
 }
 
+/**
+ * Affiche la liste des sujets d'un forum(support pagination), ou une liste de 
+ * sujets issue d'une recherche
+ * @ingroup display_cts_forum
+ * @see forum
+ * @see sujet
+ */ 
 class sujetslist extends stdcontents
 {
   
-  
+ 
   function sujetslist ( &$forum, &$user, $page, $start, $npp, $gotounread=true )
   {
     global $wwwtopdir;
@@ -231,6 +247,10 @@ class sujetslist extends stdcontents
   
 }
 
+/**
+ * Affiche le contenu d'un sujet du forum (support pagination)
+ * @ingroup display_cts_forum
+ */ 
 class sujetforum extends stdcontents
 {
  
@@ -404,7 +424,10 @@ class sujetforum extends stdcontents
 
 }
 
-
+/**
+ * Affiche un message du forum 
+ * @ingroup display_cts_forum
+ */ 
 class simplemessageforum extends stdcontents
 {
 

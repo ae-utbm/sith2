@@ -26,34 +26,23 @@
  * 02111-1307, USA.
  */
  
-require_once($topdir."include/lib/wiki2xhtml.inc.php");
-require_once($topdir. "include/lib/dokusyntax.inc.php");
+require_once($topdir."include/lib/dokusyntax.inc.php");
 require_once($topdir."include/catalog.inc.php"); 
 require_once($topdir."include/entities/group.inc.php");
 require_once($topdir."include/geo.inc.php");
 
-
-function fname_protect ( $fname )
-{
-  return ereg_replace("\[([^]]*)\]","|\\1",$fname);
-}
-
-function set_request_fname_unprotect ( $fname, $value )
-{
-  if ( strchr($fname,"|") )
-  {
-    $parts = explode("|",$fname);
-    $var = &$_REQUEST;
-    foreach ( $parts as $part )
-      $var = &$var[$part];
-    $var = $value;
-  }
-  $_REQUEST[$fname]=$value;
-} 
-
+/**
+ * @defgroup display Affichage 
+ */ 
+ 
+/**
+ * @defgroup display_cts Contents 
+ * @ingroup display
+ */ 
+ 
 
 /** Conteneur standart
- *
+ * @ingroup display_cts
  */
 class stdcontents
 {
@@ -95,7 +84,7 @@ class stdcontents
 }
 
 /** Conteneur de conteneurs, titre et paragraphes
- *
+ * @ingroup display_cts
  */
 class contents extends stdcontents
 {
@@ -201,7 +190,7 @@ class contents extends stdcontents
 }
 
 /** Conteneur de texte structuré
- *
+ * @ingroup display_cts
  */
 class wikicontents extends contents
 {
@@ -223,7 +212,7 @@ class wikicontents extends contents
 }
 
 /** Conteneur de l'aide du texte structuré
- *
+ * @ingroup display_cts
  */
 class wikihelp extends stdcontents
 {
@@ -263,6 +252,7 @@ class wikihelp extends stdcontents
 
 /**
  * Conteneur des erreurs
+ * @ingroup display_cts
  */
 class error extends stdcontents
 {
@@ -279,7 +269,7 @@ class error extends stdcontents
 }
 
 /** Conteneur de formulaires
- *
+ * @ingroup display_cts
  */
 class form extends stdcontents
 {
@@ -1528,7 +1518,7 @@ class form extends stdcontents
 }
 
 /** Conteneur de table
- *
+ * @ingroup display_cts
  */
 class table extends stdcontents
 {
@@ -1572,7 +1562,7 @@ class table extends stdcontents
 }
 
 /** Conteneur d'images
- *
+ * @ingroup display_cts
  */
 class image extends stdcontents
 {
@@ -1606,6 +1596,7 @@ class image extends stdcontents
 /** 
  * Conteneur de boit d'outils
  * @see stdcontents::set_toolbox
+ * @ingroup display_cts
  */
 class toolbox extends stdcontents
 {
@@ -1624,6 +1615,7 @@ class toolbox extends stdcontents
 
 /** 
  * Conteneur de listes
+ * @ingroup display_cts
  */
 class itemlist extends stdcontents
 {
@@ -1665,6 +1657,9 @@ class itemlist extends stdcontents
   }
 }
 
+/**
+ * @ingroup display_cts 
+ */
 class tabshead extends stdcontents
 {
   
@@ -1702,6 +1697,55 @@ class tabshead extends stdcontents
   }
 }
 
+
+/**
+ * @defgroup display_cts_formsupport Support magicform
+ * Fonctions pour le traitement des valeurs des formulaires.
+ * Le code de prise en charge des formulaires se trouve à la fin de standart.inc.php
+ * @ingroup display_cts
+ * @{
+ */ 
+ 
+/**
+ * Transforme un nom de variable REQUEST pour pouvoir être utilisé comme clé ou 
+ * valeur d'un tableau passé en REQUEST
+ * Utilisé pour les "magic forms"
+ * @param $fname Nom de variable (nom,nom[1][2]...)
+ * @return le nom transformé
+ * @see set_request_fname_unprotect
+ */
+function fname_protect ( $fname )
+{
+  return ereg_replace("\[([^]]*)\]","|\\1",$fname);
+}
+
+/**
+ * Définit une variable REQUEST à partir de son nom transformé par fname_protect
+ * Utilisé pour les "magic forms"
+ * @param $fname Nom de variable tranformé par fname_protect
+ * @param $value Valeur à définir
+ * @see fname_protect
+ */
+function set_request_fname_unprotect ( $fname, $value )
+{
+  if ( strchr($fname,"|") )
+  {
+    $parts = explode("|",$fname);
+    $var = &$_REQUEST;
+    foreach ( $parts as $part )
+      $var = &$var[$part];
+    $var = $value;
+  }
+  $_REQUEST[$fname]=$value;
+}
+
+/**
+ * Converti une valeur monétaire saisie en format interne (centimes)
+ * Ne supporte pas les séparateurs décimaux autres que les espsaces.
+ * Supporte . et , 
+ * @param $prix Valeur saisie par l'utilisateur
+ * @return la valeur correspondante en format interne (centimes)
+ */
 function get_prix ( $prix  )
 {
   $prix = str_replace(",",".",$prix);
@@ -1709,22 +1753,24 @@ function get_prix ( $prix  )
   return $prix*100;
 }
 
-function textual_plage_horraire ( $debut, $fin )
-{
-  if ( $fin-$debut < 120 )
-    return strftime("%A %d %B %G %H:%M",$fin);
-  
-  if( date("d/m/Y",$debut) != date("d/m/Y",$fin) )
-    return strftime("%A %d %B %G %H:%M",$debut) . " jusqu'au ".strftime("%A %d %B %G %H:%M",$fin);
-  else
-    return strftime("%A %d %B %G %H:%M",$debut) . " jusqu'a ".date("H:i",$fin);
-}
-
-/** Converts a human date to unix timestamp.
- *  YYYY-MM-DD(std) or DD-MM-YYYY(french) formats supported, hour, minutes, seconds are facultative.
- * @param $datetime Human date
- * @return corresponding timestamp or 0 on unsupported format.
- */
+/**
+ * Converti une date saisie en timestamp.
+ * Formats supportés : 
+ * - AAAA:MM:JJ HH:MM:SS
+ * - AAAA-MM-JJ HH:MM:SS
+ * - JJ:MM:AAAA HH:MM:SS
+ * - JJ-MM-AAAA HH:MM:SS
+ * - JJ/MM/AAAA HH:MM:SS
+ * - JJ-MM-AAAA HH:MM
+ * - JJ/MM/AAAA HH:MM
+ * - JJ-MM-AAAA
+ * - JJ/MM/AAAA
+ *
+ * @param $datetime date saisie par un utilisateur
+ * @return le timestamp correspondant, null si le format n'est reconnu
+ * @todo vérifier que toutes les pages utilisant les forms supportent bien
+ * le renvoie de null en cas d'erreur
+ */ 
 function datetime_to_timestamp ( $datetime ) {
   
   // AAAA:MM:JJ HH:MM:SS
@@ -1763,15 +1809,40 @@ function datetime_to_timestamp ( $datetime ) {
   else if ( ereg("([0-9]{1,2})/([0-9]{1,2})/([0-9]{4})",$datetime,$reg) )
     return mktime ( 0, 0, 0, $reg[2] , $reg[1], $reg[3]);
     
-  return 0;
+  return null;
 }
 
+/**
+ * Converti une heure saisie en timestamp.
+ * Format supporté : HH:MM
+ * @param $time Heure saisie par un utilisateur
+ * @return le timestamp correspondant (secondes depuis 00:00), 
+ * null si le format n'est reconnu
+ * @todo vérifier que toutes les pages utilisant les forms supportent bien
+ * le renvoie de null en cas d'erreur
+ */
 function time_to_timestamp ($time)
 {
   if ( ereg("([0-9]{1,2}):([0-9]{1,2})",$time,$reg) )
     return mktime ( $reg[2], $reg[1], 0, 0, 0, 0);
 
-  return 0;
+  return null;
+}
+
+/**@}*/
+
+/**
+ * @ingroup display
+ */
+function textual_plage_horraire ( $debut, $fin )
+{
+  if ( $fin-$debut < 120 )
+    return strftime("%A %d %B %G %H:%M",$fin);
+  
+  if( date("d/m/Y",$debut) != date("d/m/Y",$fin) )
+    return strftime("%A %d %B %G %H:%M",$debut) . " jusqu'au ".strftime("%A %d %B %G %H:%M",$fin);
+  else
+    return strftime("%A %d %B %G %H:%M",$debut) . " jusqu'a ".date("H:i",$fin);
 }
 
 /*

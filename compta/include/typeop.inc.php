@@ -1,4 +1,26 @@
 <?php
+/* Copyright 2005,2006,2007
+ * - Julien Etelain <julien CHEZ pmad POINT net>
+ *
+ * Ce fichier fait partie du site de l'Association des étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+ 
 /**
  * @file
  * Type des opérations de la compta
@@ -8,12 +30,18 @@ $types_mouvements = array (1 => "Credit",-1 => "Debit",0 => "Pas de mouvement de
 $types_mouvements_reel = array (1 => "Credit",-1 => "Debit");
  
 /**
- * Opération comptable = opération selon le plan comptable
+ * Type d'opération selon le plan comptable
+ * @ingroup compta
  */
 class operation_comptable extends stdentity
 {
+  /** Code du plan comptable du type d'opération */
 	var $code;
+	/** Nom du type d'opération */
 	var $libelle;
+	/** Mouvement du type d'opération 
+	 * @see $types_mouvements
+	 */
 	var $type_mouvement;
 
 		
@@ -68,12 +96,23 @@ class operation_comptable extends stdentity
 
 /** 
  * Type d'opération simplifié pour les clubs (relatif au compte association)
+ * @ingroup compta
  */
 class operation_club extends stdentity
 {
+  /** Id de l'activité/association associé, null si cette opération est communes 
+    * à l'ensemble des activités 
+    */
 	var $id_asso;
+	/** Id du type d'operation comptable associé, peut être null
+	 * @see operation_comptable
+	 */
 	var $id_opstd;
+	/** Nom du type d'opération */
 	var $libelle;
+	/** Mouvement du type d'opération 
+	 * @see $types_mouvements_reel
+	 */
 	var $type_mouvement;
 		
 	/** Charge le type d'opération simplifié par son id
@@ -139,17 +178,15 @@ class operation_club extends stdentity
 	 */
 	function attach ( $id_opstd )
 	{
-		$req = new update($this->dbrw,
+		new update($this->dbrw,
 					"cpta_operation",
 					array("id_opstd"=>$id_opstd),
 					array("id_opclb"=>$this->id));		
 		
-		$req = new update($this->dbrw,
+		new update($this->dbrw,
 					"cpta_op_clb",
 					array("id_opstd"=>$id_opstd),
 					array("id_opclb"=>$this->id));		
-		
-		
 	}
 	
 	/** Ajoute un nouveau type d'opération sur le compte asso 
@@ -214,19 +251,19 @@ class operation_club extends stdentity
 	/** Remplace le type d'opération par un autre (et supprime ce type)
 	 * @param $op Instance de operation_club
 	 */
-	function replace_and_remove ( $op )
+	function replace_and_remove ( &$op )
 	{
-		$req = new update($this->dbrw,
+		new update($this->dbrw,
 					"cpta_operation",
 					array("id_opstd"=>$op->id_opstd,"id_opclb"=>$op->id),
 					array("id_opclb"=>$this->id));		
 		
-		$req = new update($this->dbrw,
+		new update($this->dbrw,
 					"cpta_ligne_budget",
 					array("id_opclb"=>$op->id),
 					array("id_opclb"=>$this->id));	
 		
-		$req = new delete($this->dbrw,
+		new delete($this->dbrw,
 					"cpta_op_clb",
 					array("id_opclb"=>$this->id));		
 	}
@@ -244,7 +281,7 @@ class operation_club extends stdentity
 		$this->libelle = $libelle;
 		$this->type_mouvement = $type_mouvement;
 		
-		$sql = new update ($this->dbrw,
+		new update ($this->dbrw,
 			"cpta_op_clb",
 			array(
 				"id_asso" => $this->id_asso,
@@ -257,13 +294,11 @@ class operation_club extends stdentity
 				)
 			);
 
-		$req = new update($this->dbrw,
+		new update($this->dbrw,
 					"cpta_operation",
 					array("id_opstd"=>$this->id_opstd),
 					array("id_opclb"=>$this->id));
-		
 	}
-	
 } 
  
  

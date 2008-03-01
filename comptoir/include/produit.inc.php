@@ -31,15 +31,11 @@
  */
 
 /**
- * @addtogroup comptoirs
- * @{
- */
-
-/**
  * Classe gérant un produit
  * @see venteproduit
  * @see comptoir
  * @see debitfacture
+ * @ingroup comptoirs
  */
 class produit extends stdentity
 {
