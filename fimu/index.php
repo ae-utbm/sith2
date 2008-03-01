@@ -127,10 +127,9 @@ else
  */
 
 	$intro = new wikicontents(false, "
-	**22ème FIMU : les 10, 11 et 12 Mai 2008**
-	
-	
-L'AE vous permet de vous inscrire en ligne pour être bénévole au FIMU 2008. Le formulaire suivant est la copie conforme de la feuille que 	vous pourrez trouver dans les points de distribution.
+	===22ème FIMU : les 10, 11 et 12 Mai 2008===
+		
+	L'AE vous permet de vous inscrire en ligne pour être bénévole au FIMU 2008. Le formulaire suivant est la copie conforme de la feuille que 	vous pourrez trouver dans les points de distribution.
 	
 Les informations personnelles (telles que votre nom, prénom, adresse...) seront remplies à partir de vos informations Matmatronch', vous n'avez plus qu'à indiquer vos disponibilités et vos souhaits d'affectation.
 
