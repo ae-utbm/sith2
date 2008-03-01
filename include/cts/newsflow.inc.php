@@ -28,6 +28,13 @@
 require_once($topdir."include/entities/news.inc.php");
 
 
+/**
+ * Affiche une liste de nouvelles à la manière de la page d'acceuil du site,
+ * mais sous forme d'une liste simple.
+ *
+ * @author Julien Etelain
+ * @ingroup display_cts
+ */
 class newslist extends itemlist
 {
 	/**
@@ -130,10 +137,14 @@ class newslist extends itemlist
 	}
 }
 
+
 /**
- * Permet de lister des nouvelles
+ * Permet d'afficher une liste de nouvelles simple.
+ *
+ * @author Julien Etelain
+ * @ingroup display_cts
  */
-class newslister extends stdcontents
+abstract class newslister extends stdcontents
 {
   var $ids;
   
@@ -291,9 +302,10 @@ class newslister extends stdcontents
 }
 
 /**
- * Génére le résumé des nouvelles de la première page du site
+ * Affichage des nouvelles pour la page d'acceuil du site.
  *
- *
+ * @author Julien Etelain
+ * @ingroup display_cts
  */
 class newsfront extends newslister
 {
@@ -352,8 +364,12 @@ class newsfront extends newslister
 }
 
 /**
- * Génère la liste des nouvelles relatant des évenements d'un jour donné
+ * Affiche les nouvelles concernant une journée.
  *
+ * Il est possible de restreindre à une association/activité.
+ *
+ * @author Julien Etelain
+ * @ingroup display_cts
  */
 class newsday extends newslister
 {

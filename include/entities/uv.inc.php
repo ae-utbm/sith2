@@ -139,7 +139,11 @@ $uv_descr_cat = array('NA' => 'Inconnu',
           'EC' => 'Expression / Communication',
           'CG' => 'Culture Générale',
           'RN' => 'Remise à niveau');
- 
+
+/**
+ * Unité de valeur (pour le guide et les emplois du temps)
+ * @author Pierre Mauduit
+ */
 class uv extends stdentity
 {
  
@@ -267,6 +271,15 @@ class uv extends stdentity
     $this->id = null;  
     return false;
   }
+
+  /**
+   * @todo à implémenter 
+   */
+  function _load($row)
+  {
+    
+  }
+
 
   function load_depts ()
   {
@@ -534,7 +547,10 @@ class uv extends stdentity
 }
 
 
-
+/**
+ * Commentaire sur une unité de valeur
+ * @author Pierre Mauduit
+ */
 class uvcomment extends stdentity
 {
 
@@ -623,7 +639,15 @@ class uvcomment extends stdentity
     }
     return false;  
   }
-
+  
+  /**
+   * @todo à implémenter 
+   */
+  function _load($row)
+  {
+    
+  }
+  
   function modify($commentaire,
                   $note_obtention = null,
                   $semestre_obtention,

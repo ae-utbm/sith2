@@ -31,6 +31,7 @@ require_once ($topdir . "comptoir/include/venteproduit.inc.php");
 /**
  * Classe de traitement d'une réponse envoyée par les serveurs Sogenactif
  * @ingroup comptoirs_sg
+ * @author Pierre Mauduit
  */ 
 class answer
 {

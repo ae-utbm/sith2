@@ -22,7 +22,13 @@
  */
  
 require_once($topdir."include/catalog.inc.php"); 
- 
+
+/**
+ * Affiche un arbre d'éléments depuis une requête SQL
+ *
+ * @author Julien Etelain
+ * @ingroup display_cts
+ */
 class treects extends itemlist
 {
 	

@@ -407,9 +407,6 @@ class produit extends stdentity
     return $count != 0;
   }
 
-  /** 
-   * @private
-   */
   function _load ($row)
   {
     $this->id = $row['id_produit'];

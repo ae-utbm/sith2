@@ -32,6 +32,9 @@ require_once($topdir."include/entities/files.inc.php");
  * 
  * La partie "fichier" est décrite par le dossier qui a id_asso=null et id_folder_parent=null.
  * Les repertoire pour chaque asso est décrit par le dossier ayant l'id de lasso et id_folder_parent=null.
+ *
+ * @ingroup aedrive
+ * @author Julien Etelain
  */
 class dfolder extends fs
 {

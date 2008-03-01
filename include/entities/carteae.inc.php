@@ -35,10 +35,6 @@ define("CETAT_EXPIRE",10);
 define("CETAT_PERDUE",12);
 define("CETAT_VOLEE",14);
 
-/*
- * UPDATE `ae_carte` SET cle_carteae = CHAR( ASCII( 'A' ) + CEIL( RAND( ) *26 ) -1 ) WHERE cle_carteae IS NULL
- */
-
 $EtatsCarteAE = array (
 	CETAT_ATTENTE       => "Attente de fabrication",
 	CETAT_EN_PRODUCTION => "En fabrication",
@@ -50,18 +46,27 @@ $EtatsCarteAE = array (
 	CETAT_VOLEE         => "Volée"
 	);
 
-
+/**
+ * Une carte AE
+ * @author Julien Etelain
+ * @see cotisation
+ */
 class carteae extends stdentity
 {
+  /** Id de la cotisation rattachée à cette carte */
 	var $id_cotisation;
+	/** Etat de la carte
+	 * @see $EtatsCarteAE
+	 */
 	var $etat_vie_carte;
+	/** Date d'expiration de la carte (timestamp), 
+	 * corresponds à la fin de la cotisation associée 
+	 */
 	var $date_expiration;
+	/** Lettre complémentaire au numéro de la carte pour éviter les erreurs de saisie */
   var $cle;
   
-	/** Charge une carte en fonction de son id
-	 * $this->id est égal à -1 en cas d'erreur
-	 * @param $id id de la fonction
-	 */
+
 	function load_by_id ( $id )
 	{
 		$req = new requete($this->db, "SELECT * FROM `ae_carte`
@@ -69,40 +74,47 @@ class carteae extends stdentity
 				LIMIT 1");
 
 		if ( $req->lines == 1 )
+		{
 			$this->_load($req->get_row());
-		else
-			$this->id = -1;
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
 	}
 
 	/** Charge une carte en fonction de son code barre
-	 * $this->id est égal à -1 en cas d'erreur
-	 * @param $num code barre
+	 * $this->id est égal à null en cas d'erreur
+	 * @param $num code barre de la carte, ou numéro + clé, ou numéro
+   * @return true en cas de succès, false sinon
 	 */
 	function load_by_cbarre ( $num )
 	{
 	  if ( ereg("^([0-9]+)([a-zA-Z]{1})$", $num, $regs) )
 	  {
-	    $this->load_by_id($regs[1]);
+	    if ( !$this->load_by_id($regs[1]) )
+	      return false;
 	    
 	    if ( strtoupper($this->cle) != strtoupper($regs[2]) ) // Verifie la cle de contrôle
 	    {
 	      $this->id=null;
 	      $this->id_cotisation=null;
+	      return false;
 	    }
+	    return true;
 	  }
 	  elseif ( ereg("^([0-9]+) ([a-zA-Z\\-]{1,6})\\.([a-zA-Z\\-]{1,6})$", $num, $regs) )
 	  {
-	    $this->load_by_id($regs[1]);
+	    return $this->load_by_id($regs[1]);
 	  }
-    else // voué à disparaitre
-    {
-	    $this->load_by_id(intval($num));
-    }	 
+
+	  return $this->load_by_id(intval($num));
 	}
 
 	/** Charge une carte en fonction de l'id de son propriétaire
-	 * $this->id est égal à -1 en cas d'erreur
-	 * @param $id id de la fonction
+	 * $this->id est égal à null en cas d'erreur
+	 * @param $id id de l'utilisateur
+	 * @return true en cas de succès, false sinon
 	 */
 	function load_by_utilisateur ( $id )
 	{
@@ -119,6 +131,10 @@ class carteae extends stdentity
 			$this->id = null;
 	}
 	
+	/**
+	 * Détermine si la carte chargée est valide
+	 * @return true si la carte est valide, false sinon
+	 */
 	function is_validcard()
 	{
 		return !is_null($this->id) && ($this->etat_vie_carte == CETAT_CIRCULATION && $this->date_expiration >= date('Y-m-d'));
@@ -131,9 +147,13 @@ class carteae extends stdentity
 		$this->etat_vie_carte		= $row['etat_vie_carte_ae'];
 		$this->date_expiration	= $row['date_expiration'];
 		$this->cle	= $row['cle_carteae'];
-
 	}
-
+	
+  /**
+   * Crée une nouvelle carte AE
+   * @param $id_cotisation Id de la cotisantion
+   * @param $expire Date d'expiration (timestamp)
+   */
 	function add ( $id_cotisation, $expire )
 	{
 		$this->id_cotisation = $id_cotisation;
@@ -158,6 +178,11 @@ class carteae extends stdentity
 
 	}
 
+  /**
+   * Prolonge le carte en l'association à une autre cotisation.
+   * @param $id_cotisation Id de la nouvelle cotisantion
+   * @param $expire Nouvelle date d'expiration (timestamp)
+   */
 	function prolongate ( $id_cotisation, $expire )
 	{
 		$this->id_cotisation = $id_cotisation;
@@ -178,6 +203,11 @@ class carteae extends stdentity
 
 	}
 
+  /**
+   * Modifie l'etat de la carte 
+   * @param $state Nouvel etat de la carte
+	 * @return true en cas de succès, false sinon
+   */
 	function set_state ( $state )
 	{
 

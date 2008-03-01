@@ -27,8 +27,11 @@
 
 /**
  * Lecteur de fichiers FLV (flash 6)
+ *
  * Permet d'afficher un lecteur de fichiers FLV
  *
+ * @author Julien Etelain
+ * @ingroup display_cts
  */
 class flvideo extends stdcontents
 {

@@ -26,6 +26,7 @@
  */
  
 /** @defgroup bdbrights Droits d'accés
+ * @ingroup stdentity
  * @{
  */
 /** lecture */
@@ -45,8 +46,10 @@ define("DROIT_MASKITEM",0x331);
 
 /**
  * Gère un objet à droits d'accés et modéré
+ * @ingroup stdentity
+ * @author Julien Etelain
  */
-class basedb extends stdentity
+abstract class basedb extends stdentity
 {
 	/** Id du propriétaire */
 	var $id_utilisateur;

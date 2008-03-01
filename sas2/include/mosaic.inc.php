@@ -29,7 +29,13 @@ function microtime_float()
 
 /**
  * Classe gérant une palette de couleurs
+ *
+ * Tout droit sorti de UBPT d'où le conding style
+ *
  * Dans un souci de performance, les appels SQL ne passent pas par la classe d'abstration utilisée dans le reste du site.
+ * @ingroup sas
+ * @author Julien Etelain
+ * @see ImageMosaic
  */
 class Palette
 {
@@ -107,6 +113,14 @@ class Palette
 
 }
 
+/**
+ * Générateur d'une mosaique à partir de photos du SAS
+ *
+ * Tout droit sorti de UBPT d'où le conding style
+ *
+ * @ingroup sas
+ * @author Julien Etelain
+ */
 class ImageMosaic
 {
 

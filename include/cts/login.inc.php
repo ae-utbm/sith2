@@ -27,6 +27,16 @@
 
 require_once($topdir."include/cts/board.inc.php");
 
+/**
+ * Affiche un formulaire de connexion et des liens pour l'inscription.
+ *
+ * Vous ne devriez pas avoir besoin de ce contents.  
+ * Utilisez site::allow_only_logged_users
+ *
+ * @author Julien Etelain
+ * @ingroup display_cts
+ * @see site::allow_only_logged_users
+ */
 class loginerror extends board
 {
   

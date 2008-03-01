@@ -1,7 +1,37 @@
 <?php
-
+/* Copyright 2007
+ * - Julien Etelain < julien at pmad dot net >
+ *
+ * Ce fichier fait partie du site de l'Association des Étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+ 
 require_once($topdir."include/cts/special.inc.php");
 
+/**
+ * @defgroup display_cts_pg2 Contents pour le Petit géni 2.0
+ * @ingroup display_cts
+ */
+
+/**
+ * @author Julien Etelain
+ * @ingroup display_cts_pg2
+ */
 function pgicon ( $color )
 {
   global $topdir;
@@ -25,6 +55,11 @@ function pgicon ( $color )
   return $file;
 }
 
+/**
+ * Affiche des informations légales
+ * @author Julien Etelain
+ * @ingroup display_cts_pg2
+ */
 class pglegals extends itemlist
 {
   
@@ -79,7 +114,12 @@ class pglegals extends itemlist
   
 }
 
-
+/**
+ * Affiche une liste de catégories du petit géni sous forme d'une concaténation
+ * de liens.
+ * @author Julien Etelain
+ * @ingroup display_cts_pg2
+ */
 class pgcatminilist extends stdcontents
 {
   var $id;
@@ -109,6 +149,11 @@ class pgcatminilist extends stdcontents
   }
 }
 
+/**
+ * Affiche une liste de catégries deu petit géni
+ * @author Julien Etelain
+ * @ingroup display_cts_pg2
+ */
 class pgcatlist extends stdcontents
 {
   var $couleur;
@@ -133,7 +178,13 @@ class pgcatlist extends stdcontents
 }
 
 
-
+/**
+ * Affiche une liste d'onglets avec la possibilité de faire varier la couleur
+ * de chaque onglet.
+ * @author Julien Etelain
+ * @ingroup display_cts
+ * @todo déplacer dans un autre fichier
+ */
 class colortabshead extends tabshead
 {
   function html_render()
@@ -164,6 +215,11 @@ class colortabshead extends tabshead
   }
 }
 
+/**
+ * Affiche les catégories principales du petit géni sous forme d'onglets.
+ * @author Julien Etelain
+ * @ingroup display_cts_pg2
+ */
 class pgtabshead extends colortabshead
 {
   
@@ -187,6 +243,11 @@ class pgtabshead extends colortabshead
   
 }
 
+/**
+ * Affiche une liste de fiches du petit géni.
+ * @author Julien Etelain
+ * @ingroup display_cts_pg2
+ */
 class pgfichelist extends stdcontents
 {
   
@@ -238,6 +299,11 @@ class pgfichelist extends stdcontents
 
 }
 
+/**
+ * Affiche une liste de fiches d'une catégorie du petit géni.
+ * @author Julien Etelain
+ * @ingroup display_cts_pg2
+ */
 class pgfichelistcat extends pgfichelist
 {
   function pgfichelistcat ( &$pgcategory )
@@ -271,6 +337,11 @@ class pgfichelistcat extends pgfichelist
   }
 }
 
+/**
+ * Affiche une fiche du petit géni.
+ * @author Julien Etelain
+ * @ingroup display_cts_pg2
+ */
 class pgfichefull extends contents
 {
   

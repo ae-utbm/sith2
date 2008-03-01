@@ -28,8 +28,21 @@
  
 require_once($topdir."include/catalog.inc.php"); 
  
-/** Classe permetant de générer un tableau à partir d'un resultat SQL en 
+/**
+ * Classe permetant de générer un tableau à partir d'un resultat SQL en 
  * y ajoutant des actions et de nombreuses fonctionalités aditionnelles.
+ *
+ * sqltable c'est la vie ! c'est un contents à connaitre impérativement.
+ *
+ * sqltable tire parti du catalogue des stdentities pour mettre en place de
+ * nombreux automatismes :
+ *
+ *
+ * @todo finir documentation
+ *
+ * @author Julien Etelain
+ * @ingroup display_cts
+ * @see stdentity
  */
 class sqltable extends stdcontents
 {
@@ -37,6 +50,7 @@ class sqltable extends stdcontents
   var $id_name;
   var $page;
   var $get_page;
+  
   /** Génére une table basé sur une requéte SQL avec actions (supprimer, édtier)
    * @param $formname Nom du formulaire (@see form)
    * @param $title Titre

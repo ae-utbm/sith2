@@ -27,26 +27,40 @@
  
 /**
  * Entité permettant de gérer des points geographiques.
+ *
  * Ne s'utilise pas en soit, mais est destiné à être etendue par d'autres
  * entités de type "lieu" ...
+ *
+ * Tout geopoint peut être considéré comme un lieu.
+ *
  * @see geo_degrees_to_radians
  * @see geo_radians_to_degrees
  * @see include/geo.inc.php
  * @see lieu
+ * @ingroup stdentity
+ * @author Julien Etelain
  */
-class geopoint extends stdentity
+abstract class geopoint extends stdentity
 {
+  /** Id de la ville où se situe le point, peut être NULL */
   var $id_ville;
+  /** Latitude N en radians, peut être NULL */
   var $lat;
+  /** Longitude E en radians, peut être NULL */
   var $long;
+  /** Eloignement (en radians?), peut être NULL */
   var $eloi;
+  /** Type du point, sa classe */
   var $type;
+  /** Nom du point, son titre */
   var $nom;
   
   /**
-   *
-   *
-   *
+   * Charge un geopoint dans sa classe d'origine en lecture seule.
+   * @param $db Lien à la base de donnée en lecture seule
+   * @param $id Id du geopoint
+   * @param $type Type du geopoint si connu, ou forcé (lieu par exemple)
+   * @return une instance du geopoint (classe du geopoint) ou null en cas d'erreur
    */
   static function autoload_by_id ( $db, $id, $type=null )
   {
@@ -84,6 +98,7 @@ class geopoint extends stdentity
   /**
    * Charge les données du point geographique depuis une ligne SQL
    * @param $row Ligne SQL
+   * @see stdentity::_load
    */
   protected function geopoint_load ( $row )
   {

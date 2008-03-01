@@ -21,25 +21,25 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  */
 
-
-// array ( nom du champ id, nom du champ nom (peut être calculé), icone, fichier [, table ] )
-
 /**
  * @file
+ * @author Julien Etelain
+ * @author Pierre Mauduit
  */
 
-
 /**
- * Donnés sur les différents objets traités :
- * nom de la classe => array (
- *     0 nom du champ SQL d'identification
- *     1 nom du champ SQl du nom (ou alias systèmatiquement utilisé)
- *     2 url de l'icone associée
- *     3 url de la page d'information
- *     4 nom de table SQL (facultatif)
- *     5 fichier d'inclusion (facultatif)
- *     6 nom de la table de tags (facultatif)
- *     )
+ * Donnés sur les différents objets traités.
+ *
+ * Chaque nom de classe est associée à un tableau : 
+ * - [0] Nom du champ SQL d'identification
+ * - [1] Nom du champ SQl du nom (ou alias systèmatiquement utilisé)
+ * - [2] Fichier d'iconne associée (du dossier images/icons/(16|32)/)
+ * - [3] Url de la page d'information
+ * - [4] Nom de table SQL (facultatif)
+ * - [5] Fichier où est déclarée la classe (facultatif)
+ * - [6] Nom de la table pour associer des tags aux objets de l'entité (facultatif)
+ * 
+ * @ingroup stdentity
  */
 $GLOBALS["entitiescatalog"] = array (
 	"utilisateur"	=> array ( "id_utilisateur", "nom_utilisateur"/*alias*/, "user.png", "user.php", null, "utilisateur.inc.php"),
@@ -116,6 +116,9 @@ $GLOBALS["entitiescatalog"] = array (
 	
 	);
 
+/**
+ * @deprecated
+ */
 function entitylink ( $class, $id, $nom )
 {
 	global $topdir;
@@ -131,39 +134,11 @@ function entitylink ( $class, $id, $nom )
  * @param $obj1 Autre objet requis pour la génération du lien.
  * @param $obj2 Autre objet requis pour la génération du lien.
  * @return Le code html du lien avec une iconne.
+ * @deprecated
  */
 function classlink ( $obj, $obj1=null,$obj2=null )
 {
-
   return $obj->get_html_link();
-
-/*
-	global $topdir;
-	$class = get_class($obj);	
-	if ( !isset($GLOBALS["entitiescatalog"][$class]) )
-		return "?!?";
-	if ( $obj->id < 1 )
-		return "(aucun)";
-	$id = &$obj->id;
-	if ( $class == "utilisateur" )
-		$nom = $obj->prenom." ".$obj->nom;
-	elseif ( $class == "objet" )
-	{
-		if ( $obj->nom )
-			$nom = $obj->nom." (".$obj->num.")";
-		else
-			$nom = $obj->num;
-	}
-	elseif ( isset ($obj->nom) )
-		$nom = &$obj->nom;
-	elseif ( isset($obj->titre))	
-		$nom = &$obj->titre;
-	elseif ( isset($obj->num))	
-		$nom = "n°".$obj->num;
-	else
-		$nom = "n°".$obj->id;
-	return "<a href=\"".$topdir.$GLOBALS["entitiescatalog"][$class][3]."?".$GLOBALS["entitiescatalog"][$class][0]."=$id\"><img src=\"".$topdir.$GLOBALS["entitiescatalog"][$class][2]."\" class=\"icon\" alt=\"Fiche\"  /> ".htmlentities($nom,ENT_NOQUOTES,"UTF-8")."</a>";
-*/
 }
 
 /**
@@ -171,6 +146,7 @@ function classlink ( $obj, $obj1=null,$obj2=null )
  * @param $name Nom de la page wiki.
  * @param $title Titre de lien.
  * @return le code html du lien avec son iconne.
+ * @deprecated
  */
 function wikilink ( $name, $title )
 {

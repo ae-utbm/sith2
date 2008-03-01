@@ -55,6 +55,7 @@ require_once($topdir."include/lib/webdavserver.inc.php");
 
 /**
  * Serveur WebDAV exploitant l'authentification du site de l'AE.
+ * @author Julien Etelain
  */
 class webdavserverae extends HTTP_WebDAV_Server
 {
@@ -84,7 +85,7 @@ class webdavserverae extends HTTP_WebDAV_Server
     */
   function checkAuth($type, $username, $password) 
   {
-    if ( $_SERVER["REMOTE_ADDR"] != "127.0.1.1" ) // Pas d'auth, accès anonyme
+    if ( $_SERVER["REMOTE_ADDR"] != "127.0.1.1" ) // on n'est pas en HTTPS : Pas d'auth, accès anonyme
       return true;
     
     if ( $type == "digest" ) // Digest not supported

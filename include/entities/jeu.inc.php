@@ -24,9 +24,12 @@
 require_once($topdir."include/entities/objet.inc.php");
 
 /**
- * Objet de l'inventaire de type jeu
+ * Jeu de la bilbiothèqe / de l'inventaire
+ *
  * (utilisé nottament pour le troll penché)
  * @see objet
+ * @ingroup biblio
+ * @author Julien Etelain
  */
 class jeu extends objet
 {
@@ -43,10 +46,7 @@ class jeu extends objet
   /** Difficultée du jeu (champ texte) */
   var $difficulte;
   
-  /** Charge un livre en fonction de son id
-	 * $this->id est égal à -1 en cas d'erreur
-	 * @param $id id de la fonction
-	 */
+
 	function load_by_id ( $id )
 	{
 		$req = new requete($this->db, "SELECT `inv_objet`.*, `inv_jeu`.* FROM `inv_objet`
@@ -65,7 +65,7 @@ class jeu extends objet
 	}
 		
 	/** Charge un livre en fonction de son code barre
-	 * $this->id est égal à -1 en cas d'erreur
+	 * $this->id est égal à null en cas d'erreur
 	 * @param $id id de la fonction
 	 */
 	function load_by_cbar ( $cbar )

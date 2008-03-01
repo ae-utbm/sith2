@@ -21,12 +21,20 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
-
+ 
+/**
+ * @file 
+ * Administration de AECMS
+ * @ingroup aecms
+ * @author Julien Etelain
+ */
+ 
 $topdir="../";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
 require_once($topdir."include/entities/asso.inc.php");
+
 $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
@@ -37,8 +45,13 @@ if( !preg_match('/^\/var\/www\/ae\/www\/ae2\//', $_SERVER['SCRIPT_FILENAME']) )
 else
   $aecms_home = "/var/www/ae/www/ae2/aecms";
   
+/**
+ * Repertoire où se trouvent les racines des AECMS (sites des activités)
+ * @ingroup aecms
+ */
 define("AECMS_ACCOUNTS","/var/www/ae/accounts/");
   
+
 function list_aecms ()
 {
   $list = array();

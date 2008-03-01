@@ -25,6 +25,10 @@
  *
  */
 
+/**
+ * Envoie et archivage de fax
+ * @author Pierre Mauduit
+ */
 class fax extends stdentity
 {
   /* ceci sont des identifiants temporaires fournis par Free */
@@ -89,7 +93,15 @@ class fax extends stdentity
     return true;
 
   }
-
+  
+  /**
+   * @todo à implémenter 
+   */
+  function _load($row)
+  {
+    
+  }
+  
   /* fonction permettant d'envoyer sur la sortie le PDF.
    */
   function output_pdf()

@@ -30,7 +30,10 @@ define("MEDIA_PHOTO",0);
 define("MEDIA_VIDEOFLV",1);
 
 /**
- * Gére une photo du SAS
+ * Une photo du SAS
+ * @ingroup sas
+ * @author Julien Etelain
+ * @author Simon Lopez
  */
 class photo extends basedb
 {

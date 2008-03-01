@@ -27,6 +27,15 @@ require_once($topdir."sas2/include/photo.inc.php");
 
 define("SAS_NPP",60);
 
+/**
+ * @defgroup sas SAS 2.0
+ */
+ 
+/**
+ * Version spécialisé du site pour le SAS
+ * @ingroup sas
+ * @author Julien Etelain
+ */
 class sas extends site
 {
 

@@ -36,6 +36,14 @@ define( 'MIXED_CASE', 3);
 define( 'NUMBERS', 2); //nombre dans un mot
 define( 'ACCEPTABLE_LIMIT', 10);
 
+/**
+ * Traduction du language sms et d'évaluation de qualité
+ *
+ * Accessoire indispensable aux extremistes du français :p
+ *
+ * @author Simon Lopez
+ * @ingroup useless
+ */
 class killsms
 {
   var $dico = array();

@@ -27,9 +27,13 @@
 
 /**
  * Lecteur de fichier MP3
+ *
  * Permet d'afficher un petit lecteur de fichiers MP3.
  * Utilise dweplayer http://www.alsacreations.fr/mp3-dewplayer.html sous licence
  * Creative Commons http://creativecommons.org/licenses/by-nd/2.0/fr/.
+ *
+ * @author Julien Etelain
+ * @ingroup display_cts
  */
 class mp3player extends stdcontents
 {

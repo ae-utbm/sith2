@@ -25,12 +25,11 @@
 /**
  * @file
  * Gestion de l'inventaire
- * @addtogroup inventaire
- * @{
  */
  
 /**
  * Type d'objet
+ * @ingroup inventaire
  */
 class objtype extends stdentity
 {
@@ -159,6 +158,7 @@ define("OEVENT_SORTIE_INVENTAIRE",4);
 define("OEVENT_VOLE",4);
 /**
  * Objet dans l'inventaire
+ * @ingroup inventaire
  */
 class objet extends stdentity
 {
@@ -495,6 +495,7 @@ class objet extends stdentity
 
 /**
  * @defgroup empruntmod Etats d'un pret/une reservation de matériel
+ * @ingroup inventaire
  * @{
  */ 
 define("EMPRUNT_RESERVATION",0);
@@ -517,6 +518,7 @@ EMPRUNT_RETOUR => "Retourné"
 
 /**
  * Reservation de matériel / Pret de matériel
+ * @ingroup inventaire
  */
 class emprunt extends stdentity /*inv_emprunt*/
 {
@@ -542,10 +544,7 @@ class emprunt extends stdentity /*inv_emprunt*/
 	 retour_effectif_emp
 	 */
 	 
-	/** Charge un emprunt en fonction de son id
-	 * $this->id est égal à -1 en cas d'erreur
-	 * @param $id id de l'emprunt
-	 */
+
 	function load_by_id ( $id )
 	{
 		$req = new requete($this->db, "SELECT * FROM `inv_emprunt`
@@ -563,7 +562,7 @@ class emprunt extends stdentity /*inv_emprunt*/
 	}
 	
 	/** Charge un emprunt en cours en fonction d'un objet
-	 * $this->id est égal à -1 en cas d'erreur
+	 * $this->id est égal à null en cas d'erreur
 	 * @param $id_objet id de l'objet
 	 */
 	function load_by_objet ( $id_objet )

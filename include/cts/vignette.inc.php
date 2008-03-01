@@ -24,7 +24,9 @@
  */
 
 /**
- * Conteneur de fiche d'information sur un utilisateur
+ * Vignette pour e-boutic
+ * @deprecated
+ * @ingroup display_cts_eboutic
  */
 class vignette extends stdcontents
 {
@@ -88,6 +90,11 @@ class vignette extends stdcontents
 
 }
 
+/**
+ * Vignette pour e-boutic
+ * @deprecated
+ * @ingroup display_cts_eboutic
+ */
 class vignette2 extends stdcontents
 {
   /**

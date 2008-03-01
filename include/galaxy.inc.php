@@ -30,6 +30,17 @@ define("GALAXY_SCORE_PARRAINAGE",15);
 define("GALAXY_SCORE_1PTJOURSASSO",75);
 define("GALAXY_MINSCORE",10);
 
+/**
+ * @defgroup useless Les trucs inutiles
+ */
+
+/**
+ * Gestionnaire de Galaxy
+ *
+ *
+ * @ingroup useless
+ * @author Julien Etelain
+ */
 class galaxy
 {
   var $db;

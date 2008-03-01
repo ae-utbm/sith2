@@ -26,7 +26,11 @@
  */
  
 
-
+/**
+ * Type de réduction
+ * @ingroup pg2
+ * @author Julien Etelain
+ */
 class typereduction extends stdentity
 {
   var $nom;
@@ -101,6 +105,11 @@ class typereduction extends stdentity
   
 }
 
+/**
+ * Type de tarif
+ * @ingroup pg2
+ * @author Julien Etelain
+ */
 class typetarif extends stdentity
 {
   var $nom;
@@ -173,6 +182,11 @@ class typetarif extends stdentity
   
 }
 
+/**
+ * Service
+ * @ingroup pg2
+ * @author Julien Etelain
+ */
 class service  extends stdentity
 {
   var $nom;

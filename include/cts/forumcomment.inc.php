@@ -33,8 +33,13 @@ require_once($topdir . "include/entities/asso.inc.php");
 /**
  * Classe permettant l'affichage et l'interaction avec le forum pour commenter
  * une nouvelle. 
+ *
  * L'objectif initial de ce contents est de permettre la creation de pages de type
  * "blog".
+ *
+ * @author Julien Etelain
+ * @ingroup display_cts
+ * @see forum
  */
 class forumcomment extends contents
 {

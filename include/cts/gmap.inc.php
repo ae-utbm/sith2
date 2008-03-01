@@ -24,7 +24,13 @@
 /**
  * @file
  */
-
+ 
+/**
+ * Permet d'afficher un carte (de goolge maps).
+ *
+ * @author Julien Etelain
+ * @ingroup display_cts
+ */
 class gmap extends stdcontents
 {
   var $name;

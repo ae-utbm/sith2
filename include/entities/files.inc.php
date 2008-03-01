@@ -26,8 +26,16 @@
 require_once($topdir."include/entities/fs.inc.php");
 require_once($topdir."include/entities/folder.inc.php");
 
+
+/**
+ * @defgroup aedrive Section fichiers
+ *
+ */
+
 /**
  * Classe de gestion des fichiers des repertoires virtuels
+ * @ingroup aedrive
+ * @author Julien Etelain
  */
 class dfile extends fs
 {

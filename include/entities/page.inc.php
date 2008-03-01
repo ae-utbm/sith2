@@ -1,4 +1,25 @@
 <?php
+/* Copyright 2006,2007
+ * - Julien Etelain < julien at pmad dot net >
+ *
+ * Ce fichier fait partie du site de l'Association des Étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ */
+ 
 /**
  * @file
  */
@@ -6,179 +27,16 @@
 require_once($topdir."include/entities/basedb.inc.php");
 require_once($topdir."include/entities/wiki.inc.php");
 
-/** Classe gérant les pages "wiki" 
- */
-class page_legagcy extends basedb
-{
-  var $nom;
-  var $texte;
-  var $date;
-  var $titre;
-  var $section;
-
-  
-  /** Charge une page en fonction de son id
-   * $this->id est égal à -1 en cas d'erreur
-   * @param $id Id de la page
-   */
-  function load_by_id ( $id )
-  {
-    $req = new requete($this->db, "SELECT * FROM `pages`
-        WHERE `id_page` = '" . mysql_real_escape_string($id) . "'
-        LIMIT 1");  
-        
-    if ( $req->lines == 1 )
-    {
-      $this->_load($req->get_row());
-      return true;
-    }
-    
-    $this->id = null;  
-    return false;
-  }
-  
-  /** Charge une page en fonction de son nom
-   * $this->id est égal à -1 en cas d'erreur
-   * @param $name Nom de la page
-   */
-  function load_by_pagename ( $name )
-  {
-    $req = new requete($this->db, "SELECT * FROM `pages`
-        WHERE `nom_page` = '" . mysql_real_escape_string($name) . "'
-        LIMIT 1");  
-        
-    if ( $req->lines == 1 )
-    {
-      $this->_load($req->get_row());
-      return true;
-    }
-    
-    $this->id = null;  
-    return false;
-  }
-  
-  function _load ( $row )
-  {
-    $this->id      = $row['id_page'];
-    $this->nom      = $row['nom_page'];
-    $this->texte      = $row['texte_page'];
-    $this->date      = strtotime($row['date_page']);
-    $this->titre      = $row['titre_page'];
-    $this->section    = $row['section_page'];
-    
-    $this->id_utilisateur = $row['id_utilisateur'];
-    $this->id_groupe = $row['id_groupe_modal'];
-    $this->id_groupe_admin = $row['id_groupe'];
-    $this->droits_acces = $row['droits_acces_page'];
-    $this->modere = $row['modere_page'];
-    
-  }
-  
-  /** Génére un stdcontents avec le contenu de la page
-   */
-  function get_contents ( )
-  {
-    $cts = new wikicontents($this->titre,$this->texte);
-    $cts->puts("<div class=\"clearboth\"></div>");
-    return $cts;
-  }
-  
-  /** Modifie la page actuelle
-   * @param $id_utilisateur Id de l'utilisateur qui a modifié la page
-   * @param $titre Titre de la page
-   * @param $texte Contenu de la page
-   */
-  function save ( &$user, $titre, $texte, $section )
-  {
-    $this->texte = $texte;
-    $this->titre = $titre;      
-    $this->date = time();  
-    $this->section = $section;
-    $this->modere = true;
-    $sql = new update ($this->dbrw,
-      "pages",
-      array(
-        "texte_page" => $this->texte,
-        "date_page" => date("Y-m-d H:i:s"),
-        "titre_page" => $this->titre,
-        "section_page"=>$this->section,
-        
-        "id_utilisateur"=>$this->id_utilisateur,
-        "id_groupe_modal"=>$this->id_groupe,
-        "id_groupe"=>$this->id_groupe_admin,
-        "droits_acces_page"=>$this->droits_acces,
-        "modere_page"=>$this->modere
-        ),
-      array(
-        "id_page" => $this->id
-        )
-      );
-    return true;
-  }
-  
-  /** Ajoute une nouvelle page.
-   * @param $nom Nom de la page
-   * @param $titre Titre de la page
-   * @param $texte Contenu de la page
-   */
-  function add ( &$user, $nom, $titre, $texte, $section )
-  {
-  
-    $this->nom = $nom;
-    $this->texte = $texte;
-    $this->titre = $titre;    
-    $this->date = time();    
-    $this->section = $section;
-    $this->modere = true;
-    
-    $sql = new insert ($this->dbrw,
-      "pages",
-      array(
-        "nom_page" => $this->nom,
-        "texte_page" => $this->texte,
-        "date_page" => date("Y-m-d H:i:s"),
-        "titre_page" => $this->titre,
-        "section_page"=>$this->section,
-        
-        "id_utilisateur"=>$this->id_utilisateur,
-        "id_groupe_modal"=>$this->id_groupe,
-        "id_groupe"=>$this->id_groupe_admin,
-        "droits_acces_page"=>$this->droits_acces,
-        "modere_page"=>$this->modere
-        
-        )
-      );
-        
-    if ( $sql )
-      $this->id = $sql->get_id();
-    else
-      $this->id = null;
-      
-    return true;
-  }
-
-  function del ()
-  {
-    $req = new delete($this->dbrw, "pages", array("nom_page"=>$this->nom));
-  }
-  
-  function is_category()
-  {
-    return false;  
-  }
-  
-  function is_admin ( &$user )
-  {
-    if ( $user->is_in_group("moderateur_site") ) return true;
-    if ( $user->is_in_group_id($this->id_groupe_admin) ) return true;
-    return false;
-  }
-  
-} 
- 
 /**
- * Remplacera à court terme la classe page. Ceci dans l'objectif de fusionner
- * le wiki et les pages/articles.
+ * Page editable du site. 
+ *
+ * Essentiellement utilisé par articles.php
+ *
+ * Exploite en réalité une page du wiki, mais sans être encombré par toutes
+ * les spécificités du wiki.
+ *
+ * @see wiki
+ * @author Julien Etelain
  */
 class page extends wiki
 {
@@ -188,12 +46,22 @@ class page extends wiki
   var $titre;
   var $section;
 
+  /**
+   * Transforme un nom de page en son nom wiki
+   * @param $name Nom de page
+   * @return le nom de la page dans le wiki
+   */
   function translate_pagename ( $name )
   {
     $name = preg_replace("/[^a-z0-9\-_:#]/","_",strtolower(utf8_enleve_accents($name)));
     return "articles:".$name;
   }
 
+  /**
+   * Charge une page par son nom
+   * @param $name Nom de la page
+   * @return true en cas de succès, false sinon
+   */
   function load_by_pagename ( $name )
   {
     return $this->load_by_fullpath($this->translate_pagename($name));
@@ -210,11 +78,22 @@ class page extends wiki
     //$this->section = $this->section;
   }
 
+  /**
+   * Récupère un stdcontents pour afficher la page
+   * @return une intsance de stdcontents
+   */
   function get_contents ( )
   {
     return $this->get_stdcontents();
   }
 
+  /**
+   * Enregistre la page
+   * @param $user Utilisateur enregistrant la page
+   * @param $titre Titre de la page
+   * @param $texte Texte de la page
+   * @param $section Section où se trouve la page
+   */
   function save ( &$user, $titre, $texte, $section )
   {
     if ( $this->is_locked($user) )
@@ -228,6 +107,15 @@ class page extends wiki
     return true;
   }
 
+  /**
+   * Crée une page page
+   * @param $user Utilisateur enregistrant la page
+   * @param $nom Nom de la page
+   * @param $titre Titre de la page
+   * @param $texte Texte de la page
+   * @param $section Section où se trouve la page
+   * @return true en cas de succès, false sinon
+   */
   function add ( &$user, $nom, $titre, $texte, $section )
   {
     $path = $this->translate_pagename($nom);

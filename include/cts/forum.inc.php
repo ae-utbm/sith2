@@ -1,5 +1,26 @@
 <?php
-
+/* Copyright 2007
+ * - Julien Etelain < julien at pmad dot net >
+ *
+ * Ce fichier fait partie du site de l'Association des Étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+ 
 /**
  * @defgroup display_cts_forum Contents forum
  * Contents pour le rendu des pages du forum
@@ -19,6 +40,10 @@ function human_date ( $timestamp )
   return date("d/m/Y H:i",$timestamp);
 }
 
+/**
+ * @ingroup useless
+ * @author Julien Etelain
+ */
 function nosecret_findname ( $matches )
 {
   global $site;
@@ -62,6 +87,10 @@ function nosecret_findname ( $matches )
   return $matches[1].$result.$matches[3];
 }
 
+/**
+ * @ingroup useless
+ * @author Julien Etelain
+ */
 function nosecret ( $text )
 {
   return preg_replace_callback("`([^a-zA-Z0-9]|^)([bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9]*_[bcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ0-9_]*)([^a-zA-Z0-9]|$)`","nosecret_findname",$text);
@@ -71,6 +100,7 @@ function nosecret ( $text )
 /**
  * Affiche la liste des sous-forums d'un forum
  * @ingroup display_cts_forum
+ * @author Julien Etelain
  */ 
 class forumslist extends stdcontents
 {
@@ -430,7 +460,11 @@ class sujetforum extends stdcontents
  */ 
 class simplemessageforum extends stdcontents
 {
-
+  
+  /**
+   * @ingroup useless
+   * @author Benjamin Collet
+   */
   function macroforum($text)
   {
     global $site;

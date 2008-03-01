@@ -56,10 +56,14 @@ $GLOBALS["hr_jours_semaine"] = array(
 
 /**
  * Classe offrant des fonctions pour la gestion d'horraires.
+ *
  * Elle offre la possibilité de gérer des horraires par jours de la semaine,
  * de prendre en compte les jours fériés et les vacances scolaires.
  * Il n'est pas nécessaire de l'instancier pour les fonctions n'ayant pas besoin
  * d'accéder à la base de données (et donc d'accéder au calendrier officiel)
+ *
+ * @ingroup pg2
+ * @author Julien Etelain
  */
 class horraire
 {

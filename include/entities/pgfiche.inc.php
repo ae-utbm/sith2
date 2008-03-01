@@ -25,6 +25,11 @@
  * @file
  */
  
+/**
+ * @defgroup pg2 Petit Géni 2.0
+ * 
+ */
+ 
 
 require_once($topdir."include/entities/geopoint.inc.php");
 require_once($topdir."include/cts/special.inc.php");
@@ -32,6 +37,8 @@ require_once($topdir."include/horraire.inc.php");
 
 /**
  * Catégorie du petit géni
+ * @ingroup pg2
+ * @author Julien Etelain
  */
 class pgcategory extends stdentity
 {
@@ -189,6 +196,8 @@ define("HR_EXCP_FERMETURE", 2);
 
 /**
  * Fiche du petit géni
+ * @ingroup pg2
+ * @author Julien Etelain
  */
 class pgfiche extends geopoint
 {
@@ -580,6 +589,8 @@ class pgfiche extends geopoint
 
 /**
  * Demande de mise à jour d'une fiche
+ * @ingroup pg2
+ * @author Julien Etelain
  */
 class pgfichemaj extends pgfiche
 {

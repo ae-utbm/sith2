@@ -24,18 +24,41 @@
 require_once($topdir."include/catalog.inc.php");
 
 /**
- * Standart base class for database entities classes
+ * @defgroup stdentity stdentity : Base des entitées pour l'accès aux données
  */
-class stdentity
+
+
+/**
+ * Standart base class for database entities classes
+ * @ingroup stdentity
+ * @author Julien Etelain
+ */
+abstract class stdentity
 {
-
+  /** Identifiant unique de l'objet */
   var $id;
-
+  /** Lien à la base de données en lecture seule */
   var $db;
+  /** Lien à la base de données en lecture et écriture. Peut être null si
+   * l'objet est en lecture seule */
   var $dbrw;
   
+  /** Cache des tags de l'objet 
+   * @private
+   */
   var $_tags;
   
+  /**
+   * Constructeur par défaut.
+   *
+   * Il n'est pas nécessaire de redéfinir un construteur pour les classes
+   * héritant de stdentity.
+   *
+   * Id est définit à null par défaut. is_valid() renverra faux.
+   *
+   * @param $db Lien à la base de données en lecture seule
+   * @param $dbrw Lien à la base de données en lecture et écriture
+   */
   function stdentity ( &$db, &$dbrw = null )
   {
     $this->db = &$db;
@@ -73,7 +96,7 @@ class stdentity
   
   /**
    * Get an html link to the entity with an icon and entity display name
-   * @ return an html link to the entity
+   * @return an html link to the entity
    */
   function get_html_link()
   {
@@ -108,11 +131,31 @@ class stdentity
       htmlentities($this->get_display_name(),ENT_COMPAT,"UTF-8")."</a>";
   }
 
+  /**
+   * Détermine si l'entité associé à cet objet préfére être sélectionné par
+   * le biais d'une liste
+   * Par défaut, non.
+   *
+   * @return true si l'entité associé à cet objet préfére être sélectionné par
+   * le biais d'une liste, false sinon
+   */
   function prefer_list()
   {
     return false;  
   }
 
+	/**
+	 * Charge l'objet depuis une ligne de la base de données
+	 * @param $row Ligne issue d'un résultat
+	 */
+  abstract function _load ( $row );
+
+  /** Charge un objet en fonction de son id
+   * En cas d'erreur, l'id est défini à null
+   * @param $id id de l'objet
+   * @return true en cas de succès, false sinon
+   */
+	abstract function load_by_id ( $id );
 
   /**
    * Check if class can enumarate its elements using enumerate.
@@ -178,6 +221,13 @@ class stdentity
     return $values;
   }
   
+  /**
+   * Determine si un utilisateur peut consulter cet objet.
+   * @param $user Utilisateur qui souhaite consulter cet objet  
+   *              (instance de utilisateur)
+   * @return true si l'utilisateur peut consulter, false sinon
+   * @see utilisateur
+   */
   function allow_user_consult ( $user )
   {
     return true;

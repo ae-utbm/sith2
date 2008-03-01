@@ -29,6 +29,11 @@
  */
  
 /**
+ * @defgroup aecms AECMS
+ * Des sites en kit pour les activités de l'AE.
+ *
+ * Organisation d'un AECMS, la fonction install_aecms s'en charge trés bien :
+ * <pre>
  * club/
  *   specific
  *     aecms.conf.php
@@ -40,6 +45,8 @@
  *     RewriteRule ^$  aecms/index.php [L] 
  *     RewriteRule ^images/(.*)$  aecms/images/$1 [L]
  *     RewriteRule ^css/(.*)$  aecms/css/$1 [L]
+ * </pre>
+ * 
  */
  
 $basedir = dirname(dirname($_SERVER['SCRIPT_FILENAME']));
@@ -68,6 +75,10 @@ if ( CMS_ID_ASSO != intval(CMS_ID_ASSO) )
  
 // Configuration générale (en BETA)
 $wwwtopdir = "./";
+/**
+ * Repertoire de stockage des fichiers de configurations des AEMCS
+ * @ingroup aecms
+ */
 define("CMS_CONFIGPATH","/var/www/ae/www/taiste/var/aecms");
 define("CMS_CONFIGFILE",CMS_CONFIGPATH."/cms".CMS_ID_ASSO.".conf.php");
 
@@ -90,8 +101,12 @@ $GLOBALS["entitiescatalog"]["page"][3]="index.php";
  * ceux du CMS dans les webdav où sera exploité AECMS
  */
 
+
+
 /**
  * Classe de gestion de site AECMS
+ * @ingroup aecms
+ * @author Julien Etelain
  */
 class aecms extends site
 {
@@ -231,6 +246,10 @@ class aecms extends site
     fclose($f);
 	}	
 	
+	/**
+	 * Determine si l'utilisateur connecté est administrateur du AECMS.
+	 * @return true si l'utilisateur est administrateur, false sinon.
+	 */
 	function is_user_admin()
 	{
     if ( !$this->user->is_valid() )

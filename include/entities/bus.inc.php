@@ -32,6 +32,8 @@ require_once($topdir."include/horraire.inc.php");
  * Un reseau de bus.
  * Un reseau peut se décomposer en sous-réseaux.
  * @see lignebus
+ * @ingroup pg2
+ * @author Julien Etelain
  */
 class reseaubus extends stdentity
 {
@@ -121,12 +123,15 @@ class reseaubus extends stdentity
 
 /**
  * Une ligne de bus. 
+ *
  * Une ligne appartient à un réseau ou sous réseau.
  * Une ligne comporte une liste d'arrets ordonnées.
  * Une ligne peut être une "sous-ligne", dans ce cas, la ligne "principale" 
  * contient uniquement les arrets communs aux sous-lignes, chaque sous ligne 
  * contiennent tous les arrets.
  * @see arretbus
+ * @ingroup pg2
+ * @author Julien Etelain
  */
 class lignebus extends stdentity
 {
@@ -339,8 +344,11 @@ class lignebus extends stdentity
 
 /**
  * Un arret de bus
+ *
  * Il s'agit tout bêtement d'un point geographique.
  * @see geopoint
+ * @ingroup pg2
+ * @author Julien Etelain
  */
 class arretbus extends geopoint
 {

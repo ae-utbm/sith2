@@ -49,6 +49,13 @@ function p_stars($note)
   return $str;
 }
 
+/**
+ * Affiche un commentaire sur une UV
+ *
+ * @author Pierre Mauduit
+ * @author Manuel Vonthron
+ * @ingroup display_cts
+ */
 class uvcomment_contents extends stdcontents
 {
   

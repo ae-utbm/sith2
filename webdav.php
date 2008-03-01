@@ -48,6 +48,11 @@ require_once($topdir . "include/entities/files.inc.php");
 require_once($topdir . "include/entities/folder.inc.php");
 require_once($topdir . "include/entities/asso.inc.php");
 
+/**
+ * Serveur WEBDAV d'accès à la partie fichiers
+ * @ingroup aedrive
+ * @author Julien Etelain
+ */
 class serverwebdavaedrive extends webdavserverae
 {
 

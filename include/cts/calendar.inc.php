@@ -6,10 +6,11 @@
  *
  */
 
-/* Copyright 2004
+/* Copyright 2004-2007
  * - Maxime Petazzoni <maxime POINT petazzoni CHEZ bulix POINT org>
  * - Alexandre Belloni <alexandre POINT belloni CHEZ utbm POINT fr>
  * - Thomas Petazzoni <thomas POINT petazzoni CHEZ enix POINT org>
+ * - Julien Etelain < julien at pmad dot net >
  * - Manuel Vonthron <manuel DOT vonthron AT acadis DOT org>
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
@@ -33,7 +34,17 @@
 
 require_once($topdir."include/entities/news.inc.php");
 
-/** Classe d'affichage du calendrier */
+/**
+ * Permet d'afficher un calendrier de nouvelles
+ *
+ * Classe issue en partie de la v1 du site (d'où les auteurs ;) )
+ *
+ * @author Maxime Petazzoni
+ * @author Alexandre Belloni
+ * @author Thomas Petazzoni
+ * @author Julien Etelain
+ * @ingroup display_cts
+ */
 class calendar extends stdcontents
 {
 	var $db, $date, $events;
@@ -293,6 +304,16 @@ class calendar extends stdcontents
 	}
 }
 
+/**
+ * Permet d'afficher un calendrier pour selectionner une date
+ *
+ * En général, on utilise les fonctions de form pour "utiliser" cette classe.
+ *
+ * @author Manuel Vonthron
+ * @ingroup display_cts
+ * @see form::add_date_field
+ * @see form::add_datetime_field
+ */
 class tinycalendar extends calendar
 {
 	var $target;

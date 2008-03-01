@@ -15,8 +15,9 @@ require_once ("e-boutic.inc.php");
 $location = "/usr/share/php5/exec/sogenactif/";
 
 /**
- * Permet d'élagorer une requête vers les serveurs Sogenactif
+ * Permet d'élaborer une requête vers les serveurs Sogenactif
  * @ingroup comptoirs_sg
+ * @author Pierre Mauduit
  */ 
 class request
 {

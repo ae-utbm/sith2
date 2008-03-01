@@ -24,26 +24,42 @@
 
 /** 
  * @file
+ * @author Julien Etelain
  */
-
 
 require_once($topdir . "include/entities/asso.inc.php");
 
 /**
  * Compte bancaire
+ *
+ * Il s'agit de traiter un compte bancaire réel, celui ci se déclinant en 
+ * "comptes associations" correspondant aux différentes activités et associations
+ * partageant le même compte bancaire (pour traiter le cas TI).
+ *
+ * Cette classe contient des routines pour pouvoir récupérer les relevès de
+ * comptes electroniques pour permettre aux responsable d'activités et trésoriers
+ * de connaitre l'état du compte sans avoir accès au site de la banque.
+ * Cette fonctionalités n'est pas encore terminée.
+ *
  * @ingroup compta
+ * @see compte_asso
  */
 class compte_bancaire extends stdentity
 {
+  /** Nom du cmpte */
   var $nom;
-  
+  /** Solde du compte lors du dernier relevé (en centimes) */
   var $solde;
+  /** Date du dernier relevé (timestamp) */
   var $date_releve;
+  /** Numéro de compte */
   var $num;
 
-	/** Charge un compte bancaire en fonction de son id
-	 * @param $id Id du compte bancaire
-	 */
+  /** Charge un compte bancaire en fonction de son id
+   * En cas d'erreur, l'id est défini à null
+   * @param $id id du compte bancaire
+   * @return true en cas de succès, false sinon
+   */
 	function load_by_id ( $id_cptbc )
 	{
 		$req = new requete ($this->db, "SELECT * FROM `cpta_cpbancaire`
@@ -69,6 +85,13 @@ class compte_bancaire extends stdentity
 		$this->num = $row['num_cptbc'];		
 	}
 	
+	/**
+	 * Crée un compte bancire dans la base
+	 * Si le compte est crée avec succès, alors id est mis à jour.
+	 * @param $nom Nom du compte
+	 * @param $num Numéro de compte
+   * @return true en cas de succès, false sinon
+	 */
   function create ( $nom, $num )
   {
     $this->nom = $nom;
@@ -94,6 +117,12 @@ class compte_bancaire extends stdentity
     return true;
   }
   
+	/**
+	 * Met à jour les informations sur le compte bancaire
+	 * @param $nom Nom du compte
+	 * @param $num Numéro de compte
+   * @return true en cas de succès, false sinon
+	 */
   function update ( $nom, $num )
   {
     $this->nom = $nom;
@@ -113,6 +142,10 @@ class compte_bancaire extends stdentity
     return true;
   }
   
+  /**
+   * Importe un relevè de compte au format progeliance CSV
+   * @param $data Données brutes du fichier progeliance au format CSV
+   */
   function import_csv_progeliance ( $data )
   {
     $lines = explode("\n",$data);  
@@ -172,6 +205,11 @@ class compte_bancaire extends stdentity
       $req = new insert ($this->dbrw,"cpta_cpbancaire_lignes",$row);
 	}
 	
+	/**
+	 * Permet de normaliser un numéro de compte
+	 * @param $num Un numéro de compte dans un format quelquonque
+	 * @return le numéro de compte normalisé
+	 */
 	static function standardize_account_number ( $num )
 	{
     return ereg_replace("[^0-9]","",$num); 
@@ -180,20 +218,27 @@ class compte_bancaire extends stdentity
 }
 
 /**
- * Compte association (associé à un compte bancaire)
+ * Compte association
+ * Permet d'associer une association/activité à un compte bancaire tout en 
+ * permettant le partage d'un compte bancaire entre plusieures activités
+ * pour traiter le cas de la TI.
  * @ingroup compta
+ * @see compte_bancaire
  */
 class compte_asso extends stdentity
 {
+  /** Id de l'association/activité possédant ce compte */
 	var $id_asso;
+	/** Id du compte bancaire concerné */
   var $id_cptbc;
+  /** Nom du compte */
   var $nom;
 
-
-
-	/** Charge un compte association en fonction de son id
-	 * @param $id Id du compte association
-	 */
+  /** Charge un compte association en fonction de son id
+   * En cas d'erreur, l'id est défini à null
+   * @param $id id du compte association
+   * @return true en cas de succès, false sinon
+   */
 	function load_by_id ( $id )
 	{
 		$req = new requete ($this->db, "SELECT *
@@ -221,8 +266,10 @@ class compte_asso extends stdentity
 
 
 	/** Ajoute un compte association
+	 * Si le compte est crée avec succès, alors id est mis à jour.
 	 * @param $id_asso Id de l'association
 	 * @param $id_cptbc Id du compte bancaire
+   * @return true en cas de succès, false sinon
 	 */
 	function ajouter ( $id_asso, $id_cptbc )
 	{
@@ -251,15 +298,21 @@ class compte_asso extends stdentity
 /**
  * Classeur de compta (relatif à un seul compte association)
  * @ingroup compta
+ * @see compte_asso
  */
-class classeur_compta extends stdentity /* table: cpta_classeur */
+class classeur_compta extends stdentity
 {
-		var $id_cptasso;	var $date_debut_classeur;	var $date_fin_classeur;	var $nom;	var $ferme; // ENUM('0','1')
+	/** Id du compte association concerné par ce classeur */	var $id_cptasso;
+	/** Date de début de la période couverte par le classeur */	var $date_debut_classeur;
+	/** Date de fin de la période couverte par le classeur */	var $date_fin_classeur;
+	/** Nom du classeur */	var $nom;
+	/** Etat de fermeture du classeur (0:ouvert,1:fermé) */	var $ferme;
 
-
-	/** Charge un classeur en fonction de son id
-	 * @param $id Id du classeur
-	 */
+  /** Charge un classeur de compta en fonction de son id
+   * En cas d'erreur, l'id est défini à null
+   * @param $id id du classeur de compta
+   * @return true en cas de succès, false sinon
+   */
  	function load_by_id ( $id_classeur )
 	{
 		$req = new requete ($this->db, "SELECT *
@@ -276,8 +329,10 @@ class classeur_compta extends stdentity /* table: cpta_classeur */
 		return false;
 	}
 	
-	/** Charge le classeur ouvert d'un compte association
+	/** 
+	 * Charge le classeur ouvert d'un compte association
 	 * @param $id_cptasso Id du compte association
+	 * @param $not Id du classeur à ne pas charger (si plusieurs sont ouverts)
 	 */	
  	function load_opened ( $id_cptasso, $not=-1 )
 	{
@@ -307,7 +362,15 @@ class classeur_compta extends stdentity /* table: cpta_classeur */
 		$this->ferme = $row['ferme'];
 	}
 
-
+  /**
+   * Crée un classeur dans la base de données.
+	 * Si le compte est crée avec succès, alors id est mis à jour.
+   * @param $id_cptasso Compte association concerné
+   * @param $date_debut_classeur Date de début de la période couverte par le classeur
+   * @param $date_fin_classeur Date de fin de la période couverte par le classeur
+   * @param $nom_classeur Nom du classeur
+   * @return true en cas de succès, false sinon   
+   */
  	function ajouter ( $id_cptasso, $date_debut_classeur,
  						$date_fin_classeur, $nom_classeur )
 	{
@@ -336,7 +399,13 @@ class classeur_compta extends stdentity /* table: cpta_classeur */
 
 		return true;
 	}
-
+	
+  /**
+   * Met à jour le classeur dans la base de données.
+   * @param $date_debut_classeur Date de début de la période couverte par le classeur
+   * @param $date_fin_classeur Date de fin de la période couverte par le classeur
+   * @param $nom_classeur Nom du classeur
+   */
  	function update ( $date_debut_classeur, $date_fin_classeur, $nom_classeur )
 	{
 	 

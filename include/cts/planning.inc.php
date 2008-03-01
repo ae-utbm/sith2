@@ -26,7 +26,10 @@
  */ 
  
 /**
- * Conteneur d'un planning hebdomadaire
+ * Affiche un planning hebdomadaire
+ *
+ * @author Julien Etelain
+ * @ingroup display_cts
  */ 
 class weekplanning extends stdcontents
 {

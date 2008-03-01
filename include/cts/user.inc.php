@@ -42,6 +42,10 @@ $UserBranches = array("TC"             => "TC",
 
 /**
  * Conteneur de fiche d'information sur un utilisateur
+ * @ingroup display_cts
+ * @author Laurent Colnat
+ * @author Maxime Petazzoni
+ * @deprecated
  */
 class userinfo extends stdcontents
 {
@@ -364,6 +368,8 @@ class userinfo extends stdcontents
 
 /**
  * Conteneur de fiche d'information sur un utilisateur
+ * @ingroup display_cts
+ * @author Julien Etelain
  */
 class userinfov2 extends stdcontents
 {

@@ -28,7 +28,8 @@
 
 /**
  * Type de rue
- *
+ * @ingroup pg2
+ * @author Julien Etelain
  */
 class typerue extends stdentity
 {
@@ -106,6 +107,8 @@ class typerue extends stdentity
  * Rue
  * @see typerue
  * @see ville
+ * @ingroup pg2
+ * @author Julien Etelain
  */
 class rue extends stdentity
 {

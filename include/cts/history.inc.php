@@ -26,7 +26,10 @@
  */
 
 /**
- * Affiche un historique
+ * Affiche un historique sous forme d'une frise chronologique
+ *
+ * @author Julien Etelain
+ * @ingroup display_cts
  */
 class history extends stdcontents
 {

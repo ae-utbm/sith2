@@ -25,10 +25,13 @@
  * @file
  */
 
-
 /**
- * Conteneur de galeries d'élèments. 
-
+ * Permet d'afficher une "galerie" de contents ou d'éléments.
+ *
+ * Nottament utilisé dans le SAS, le matmatronch...
+ *
+ * @author Julien Etelain
+ * @ingroup display_cts
  */
 class gallery extends stdcontents
 {

@@ -1658,7 +1658,9 @@ class itemlist extends stdcontents
 }
 
 /**
- * @ingroup display_cts 
+ * Affiche une liste d'onglets.
+ * @author Julien Etelain
+ * @ingroup display_cts
  */
 class tabshead extends stdcontents
 {

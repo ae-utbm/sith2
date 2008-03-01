@@ -27,6 +27,16 @@
  */
 require_once($topdir."include/entities/objet.inc.php");
 
+/**
+ * @defgroup biblio Bibliothèqe
+ * @ingroup inventaire
+ */
+
+/**
+ * Editeur de livres, de BDs et/ou de jeux
+ * @ingroup biblio
+ * @author Julien Etelain
+ */
 class editeur extends stdentity
 {
 	var $nom;
@@ -102,6 +112,11 @@ class editeur extends stdentity
 	
 }
 
+/**
+ * Série de livres, de BDs ou de jeux
+ * @ingroup biblio
+ * @author Julien Etelain
+ */
 class serie extends stdentity
 {
 	var $nom;
@@ -176,6 +191,11 @@ class serie extends stdentity
 	}	
 }
 
+/**
+ * Auteur de livres, de BDs ou de jeux
+ * @ingroup biblio
+ * @author Julien Etelain
+ */
 class auteur extends stdentity
 {
 	var $nom;	
@@ -250,6 +270,11 @@ class auteur extends stdentity
 	}	
 }
 
+/**
+ * Livre de la bibliothèque
+ * @ingroup biblio
+ * @author Julien Etelain
+ */
 class livre extends objet
 {
 	/** Id de la série */

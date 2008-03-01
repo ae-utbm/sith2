@@ -6,7 +6,7 @@
  * @brief définition de la classe venteproduit
  *
  */
-/* Copyright 2005
+/* Copyright 2005-2008
  * - Julien Etelain <julien CHEZ pmad POINT net>
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  * - Simon Lopez <simon POINT lopez CHEZ ayolo POINT org>
@@ -38,6 +38,9 @@ require_once("comptoir.inc.php");
 /**
  * Classe gérant la mise en vente des produit
  * @ingroup comptoirs
+ * @author Julien Etelain
+ * @author Pierre Mauduit
+ * @author Simon Lopez
  */
 class venteproduit extends stdentity
 {
@@ -95,6 +98,7 @@ class venteproduit extends stdentity
 			return false;
 		return true;
 	}
+	
 
 	function load_by_id ( $id_produit, $id_comptoir, $force=false )
 	{
@@ -127,7 +131,22 @@ class venteproduit extends stdentity
     
 		return true;
 	}
-
+	
+  /**
+   * Non supporté
+   */
+	function load_by_id ( $id )
+	{
+	  return false;
+	}
+	
+  /**
+   * Non supporté
+   */
+  function _load($row)
+  {
+    
+  }
 
 	/** Enlève la mise en vente
 	 *

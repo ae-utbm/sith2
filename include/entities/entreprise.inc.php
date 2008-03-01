@@ -1,12 +1,35 @@
 <?php
-
+/* Copyright 2005,2006,2007
+ * - Julien Etelain <julien CHEZ pmad POINT net>
+ *
+ * Ce fichier fait partie du site de l'Association des étudiants de
+ * l'UTBM, http://ae.utbm.fr.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+ 
 /**
  * @file
  * 
  */
  
 /** 
- * Class gérant une entreprise en relation avec l'ae
+ * Entreprise en relation avec l'AE
+ * @author Julien Etelain
+ * @ingroup compta
  */
 class entreprise extends stdentity
 {
@@ -18,10 +41,7 @@ class entreprise extends stdentity
 	var $fax;	
   var $siteweb;
 	
-	/** Charge une entreprise en fonction de son id
-	 * $this->id est égal à -1 en cas d'erreur
-	 * @param $id id de la fonction
-	 */
+
 	function load_by_id ( $id )
 	{
 		$req = new requete($this->db, "SELECT * FROM `entreprise`
@@ -232,7 +252,9 @@ class entreprise extends stdentity
 }
 
 /**
- * Classe gérant un contact dans une entreprise
+ * Contact dans une entreprise
+ * @author Julien Etelain
+ * @ingroup compta
  */
 class contact_entreprise extends stdentity
 {
@@ -243,10 +265,6 @@ class contact_entreprise extends stdentity
 	var $email;
 	var $fax;
 
-	/** Charge un contact en fonction de son id
-	 * $this->id est égal à -1 en cas d'erreur
-	 * @param $id id de la fonction
-	 */
 	function load_by_id ( $id )
 	{
 		$req = new requete($this->db, "SELECT * FROM `contact_entreprise`
@@ -317,8 +335,10 @@ class contact_entreprise extends stdentity
 	
 } 
 
- /**
- * Classe gérant un commentaire sur une entreprise
+/**
+ * Commentaire sur une entreprise
+ * @author Julien Etelain
+ * @ingroup compta
  */
 class commentaire_entreprise extends stdentity 
 {
@@ -401,15 +421,17 @@ class commentaire_entreprise extends stdentity
 	}	
 } 
 
+/**
+ * Secteur d'activité pour les entreprises
+ *
+ * @author Julien Etelain
+ * @ingroup compta
+ */
 class secteur extends stdentity
 {
   
 	var $nom;
 
-	/** Charge un contact en fonction de son id
-	 * $this->id est égal à -1 en cas d'erreur
-	 * @param $id id de la fonction
-	 */
 	function load_by_id ( $id )
 	{
 		$req = new requete($this->db, "SELECT * FROM `secteur`

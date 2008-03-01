@@ -23,6 +23,9 @@
 
 require_once("jobuser_etu.inc.php");
 
+/**
+ * @todo conformer cette classe à stdentity
+ */
 class annonce extends stdentity
 {	
 	var $id;
@@ -95,6 +98,14 @@ class annonce extends stdentity
 		$this->nom_main_cat = $line['nom'];
 		
 		$this->load_applicants();
+  }
+
+  /**
+   * @todo à implémenter 
+   */
+  function _load($row)
+  {
+    
   }
 
   function load_applicants()

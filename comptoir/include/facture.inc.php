@@ -218,7 +218,8 @@ class debitfacture extends stdentity
 	}
 
   /**
-   * Procède à la "vente" de l'ensemble des produits (Usage strictement interne) :
+   * Procède à la "vente" de l'ensemble des produits (Usage strictement interne).
+   *
    * - met à jours les stocks
    * - procède aux actions des produits (comme pour les cotisations)
    * - met à jour l'état de retrait/expedition de la facture [si $eboutic est à true]
@@ -288,11 +289,20 @@ class debitfacture extends stdentity
 
 	/**
 	 * Annule la facture actuelle
-	 * Met à jour les stocks, et les comptes (si paiement AE)
 	 * ATTENTION: n'annule pas les actions liées aux produits (rechargement carte AE, cotisation...)
+	 * @return true en cas de succès, false sinon
 	 */
 	function annule_facture ( )
 	{
+    // Seul les paiements par carte AE peuvent être annulés
+    if ( $this->mode != "AE" )
+      return false;
+   
+    // Après la fin du mois, le paiement ne peut pas être annulé
+    // car la véritable facture a du être établi
+    if ( date("Y-m") != date("Y-m",$this->date) )
+      return false;
+	 
 		$sql = new requete($this->db,"SELECT `cpt_vendu`.*,`stock_global_prod`,`stock_local_prod` " .
 				"FROM `cpt_vendu` " .
 				"INNER JOIN `cpt_produits` ON `cpt_vendu`.`id_produit`=`cpt_produits`.`id_produit` " .
@@ -335,6 +345,8 @@ class debitfacture extends stdentity
 
 		$req = new delete ($this->dbrw,"cpt_vendu",array("id_facture" => $this->id));
 		$req = new delete ($this->dbrw,"cpt_debitfacture",array("id_facture" => $this->id));
+		
+		return true;
 	}
 
   /**

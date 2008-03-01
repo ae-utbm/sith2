@@ -21,7 +21,12 @@
  * 02111-1307, USA.
  */
  
-
+/**
+ * Affiche un nuage de tags
+ *
+ * @author Manuel Vonthron
+ * @ingroup display_cts
+ */
 class tagcloud extends stdcontents
 {
    /**

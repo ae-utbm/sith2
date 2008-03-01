@@ -30,7 +30,12 @@ $GLOBALS['catph_modes'] =
     CATPH_MODE_NORMAL=>"Catégorie normale",
     CATPH_MODE_META_ASSO=>"Catégorie sommaire association"
   );
-
+  
+/**
+ * Catégorie du SAS
+ * @ingroup sas
+ * @author Julien Etelain
+ */
 class catphoto extends basedb
 {
 
