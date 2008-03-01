@@ -58,6 +58,8 @@ $cts = new contents("Edition d'emploi du temps");
 
 $edt = new edt($site->db, $site->dbrw);
 
+$semestre = $_REQUEST['semestre'];
+
 if ($semestre == '')
 {
   $semestre = (date("m") > 6 ? "A" : "P") . date("y");
