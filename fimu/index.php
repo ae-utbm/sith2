@@ -131,10 +131,13 @@ else
 <br />
 <br />
 	L'AE vous permet de vous inscrire en ligne pour être bénévole au FIMU 2008. Le formulaire suivant est la copie conforme de la feuille que 	vous pourrez trouver dans les points de distribution.
-<br />	
+<br />
+<br />
 	Les informations personnelles (telles que votre nom, prénom, adresse...) seront remplies à partir de vos informations Matmatronch', vous n'avez plus qu'à indiquer vos disponibilités et vos souhaits d'affectation.
 <br />
+<br />
 	Pour plus d'informations sur les différents postes disponible pendant le FIMU, [[rendez vous ici|http://ae.utbm.fr/article.php?name=fimu_info|rendez-vous ici]].
+<br />
 <br />
 	L'AE, Com'Et, les Belfortains, la Région et certainement une bonne moitié de la planète vous remercient de votre implication dans cet évenement, qui n'existerait pas sans le bénévolat étudiant.
 <br />
