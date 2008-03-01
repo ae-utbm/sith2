@@ -136,7 +136,7 @@ else
 	Les informations personnelles (telles que votre nom, prénom, adresse...) seront remplies à partir de vos informations Matmatronch', vous n'avez plus qu'à indiquer vos disponibilités et vos souhaits d'affectation.
 <br />
 <br />
-	Pour plus d'informations sur les différents postes disponible pendant le FIMU, [[rendez vous ici|http://ae.utbm.fr/article.php?name=fimu_info|rendez-vous ici]].
+	Pour plus d'informations sur les différents postes disponible pendant le FIMU, <a href="http://ae.utbm.fr/article.php?name=fimu_info">rendez vous ici</a>.
 <br />
 <br />
 	L'AE, Com'Et, les Belfortains, la Région et certainement une bonne moitié de la planète vous remercient de votre implication dans cet évenement, qui n'existerait pas sans le bénévolat étudiant.
@@ -145,7 +145,7 @@ else
 	";
 	
 	$cts->add_paragraph($intro);
-	$cts->add_title(1, " ");
+	//$cts->add_title(1, " ");
 	
 	$usrinfo = new userinfo($site->user, true, false, false, false, true, true);
 	$cts->add($usrinfo, false, true, "Informations personnelles");
