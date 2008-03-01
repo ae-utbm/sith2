@@ -131,15 +131,7 @@ class venteproduit extends stdentity
     
 		return true;
 	}
-	
-  /**
-   * Non supporté
-   */
-	function load_by_id ( $id )
-	{
-	  return false;
-	}
-	
+
   /**
    * Non supporté
    */
