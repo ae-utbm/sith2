@@ -126,20 +126,22 @@ else
  * Start fimu_inscr form
  */
 
-	$intro = new wikicontents(false, "
-	**22ème FIMU : les 10, 11 et 12 Mai 2008** \\
-		
+	$intro = "
+	<b>22ème FIMU : les 10, 11 et 12 Mai 2008</b>
+<br />
+<br />
 	L'AE vous permet de vous inscrire en ligne pour être bénévole au FIMU 2008. Le formulaire suivant est la copie conforme de la feuille que 	vous pourrez trouver dans les points de distribution.
+<br />	
+	Les informations personnelles (telles que votre nom, prénom, adresse...) seront remplies à partir de vos informations Matmatronch', vous n'avez plus qu'à indiquer vos disponibilités et vos souhaits d'affectation.
+<br />
+	Pour plus d'informations sur les différents postes disponible pendant le FIMU, [[rendez vous ici|http://ae.utbm.fr/article.php?name=fimu_info|rendez-vous ici]].
+<br />
+	L'AE, Com'Et, les Belfortains, la Région et certainement une bonne moitié de la planète vous remercient de votre implication dans cet évenement, qui n'existerait pas sans le bénévolat étudiant.
+<br />
+<hr />
+	";
 	
-Les informations personnelles (telles que votre nom, prénom, adresse...) seront remplies à partir de vos informations Matmatronch', vous n'avez plus qu'à indiquer vos disponibilités et vos souhaits d'affectation.
-
-Pour plus d'informations sur les différents postes disponible pendant le FIMU, [[rendez vous ici|http://ae.utbm.fr/article.php?name=fimu_info|rendez-vous ici]].
-
-L'AE, Com'Et, les Belfortains, la Région et certainement une bonne moitié de la planète vous remercient de votre implication dans cet évenement, qui n'existerait pas sans le bénévolat étudiant.
-
-	");
-	
-	$cts->add_paragraph($intro->buffer);
+	$cts->add_paragraph($intro);
 	$cts->add_title(1, " ");
 	
 	$usrinfo = new userinfo($site->user, true, false, false, false, true, true);
