@@ -2,6 +2,7 @@
 
 /* Copyright 2006
  * - Julien Etelain < julien at pmad dot net >
+ * - Sarah Amsellem < sarah dot amsellem at gmail dot com >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -178,7 +179,7 @@ if($site->user->is_in_group("foyer_admin"))
 				), 
 			array("info"=>"Details"), 
 			array(),
-			array()
+			array("convention"=>array(0=>"Non requise",1=>"A faire",11=>"Faite"))
 			));
 }
 else //gestion_ae
