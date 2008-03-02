@@ -176,7 +176,7 @@ if($site->user->is_in_group("foyer_admin"))
 				), 
 			array("info"=>"Details"), 
 			array(),
-			array() )
+			array()
 			));
 }
 else
