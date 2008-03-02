@@ -38,6 +38,10 @@ class edt extends stdentity
 
   var $edt_arr;
 
+  function _load($row) {}
+  function load_by_id($id) { $this->load($id); } ;
+  
+
   function load ($id, $semestre = null)
   {
 
