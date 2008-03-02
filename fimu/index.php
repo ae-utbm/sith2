@@ -2,6 +2,7 @@
 
 /* Copyright 2007
  * - Manuel Vonthron < manuel DOT vonthron AT acadis DOT org >
+ * - Sarah Amsellem < sarah DOT amsellem AT gmail DOT com >
  *
  * Ce fichier fait partie du site de l'Association des étudiants de
  * l'UTBM, http://ae.utbm.fr.
