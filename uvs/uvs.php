@@ -1034,7 +1034,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       $gal = new gallery("Fichiers et dossiers",
 			 "aedrive",
 			 false,
-			 "uvs/uvs.php?view=files&id_uv=".$uv->id
+			 "./uvs.php?view=files&id_uv=".$uv->id
 			 ."&id_folder_parent=".
 			 $uv->folder->id,
 			 array("download"=>"Télécharger",
@@ -1094,7 +1094,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  if (! file_exists($fd->get_thumb_filename()))
 	    $img = $topdir."images/icons/128/".$fd->get_icon_name();
 	  else
-	    $img = "d.php?id_file=".$fd->id."&amp;action=download&amp;download=thumb";
+	    $img = "../d.php?id_file=".$fd->id."&amp;action=download&amp;download=thumb";
 
 	  $desc = $fd->description;
 	  if (strlen($desc) > 72)
