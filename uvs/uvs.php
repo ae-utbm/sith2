@@ -860,6 +860,15 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $site->error_forbidden();
 	}
 
+
+      if (isset($_REQUEST['id_file']) &&
+          ($_REQUEST['action'] == "download"))
+        {
+          header("location: http://ae.utbm.fr/d.php?id_file=".
+                 $_REQUEST['id_file'].
+                 "&action=download");
+        }
+
       $cts->add_paragraph("Fichiers relatifs à l'UV ".$uv->code.
 			  "<br/><br/>".
 			  "<b>Note importante : ces fichiers sont ".
