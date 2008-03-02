@@ -10,6 +10,8 @@
  * - Maxime Petazzoni <maxime POINT petazzoni CHEZ bulix POINT org>
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  * - Julien Etelain <julien CHEZ pmad POINT net>
+ * - Benjamin Collet <bcollet CHEZ oxynux POINT org>
+ * - Sarah Amsellem <sarah POINT amsellem CHEZ gmail POINT com>
  *
  * Ce fichier fait partie du site de l'Association des 0tudiants de
  * l'UTBM, http://ae.utbm.fr.
