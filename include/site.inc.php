@@ -475,6 +475,19 @@ class site extends interfaceweb
       if ( $count > 0 )
       $elements[] = "<a href=\"".$topdir."ae/modereres.php\"><b>$count reservation(s) de salles</b> à modérer</a>";
     }
+    else if( $this->user->is_in_group("foyer_admin") )
+    {
+    	$req = new requete($this->db,"SELECT COUNT(*) ".
+        "FROM sl_reservation " .
+        "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
+        "WHERE ((sl_reservation.date_accord_res IS NULL) OR " .
+        "(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
+        "AND sl_reservation.date_debut_salres > NOW()");
+      list($count) = $req->get_row();
+
+      if ( $count > 0 )
+      $elements[] = "<a href=\"".$topdir."ae/modereres.php\"><b>$count reservation(s) de salles</b></a>";
+    }
     
     if ( $this->user->is_in_group("gestion_emprunts") )
     {
