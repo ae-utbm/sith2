@@ -44,7 +44,7 @@ if ( isset($_REQUEST["id_groupe"]) )
 	}
 }
 
-if ( $_REQUEST["action"] == "delete" && !isset($_REQUEST["id_utilisateur"]) )
+if ( $_REQUEST["action"] == "delete" && !isset($_REQUEST["id_utilisateur"]) && $site->user->is_in_group("root") )
 {
 	// Opération **trés** critique (la suppression d'un groupe barman, ou d'admin serai trés dommagable)
 	if ( $site->is_sure ( "","Suppression du groupe ".$grp->nom,"delgrp".$grp->id, 2 ) )	
@@ -60,20 +60,32 @@ if (  $grp->id > 0)
 	
 	if ( $_REQUEST["action"] == "delete")
 	{
-		$grp->remove_user_from_group($_REQUEST["id_utilisateur"]);
-		
+	  if ( $grp->id != 7 || $site->user->is_in_group("root") )
+		  $grp->remove_user_from_group($_REQUEST["id_utilisateur"]);
+    else
+      $Error = "Veuillez contacter l'équipe informatique pour modifier les comptes root";
 	}
 	elseif ( $_REQUEST["action"] == "deletes")
 	{
-		foreach($_REQUEST["id_utilisateur"] as $id_utilisateur)
-			$grp->remove_user_from_group($id_utilisateur);
+	  if ( $grp->id != 7 || $site->user->is_in_group("root") )
+	  {
+      foreach($_REQUEST["id_utilisateur"] as $id_utilisateur)
+        $grp->remove_user_from_group($id_utilisateur);
+    }
+    else
+      $Error = "Veuillez contacter l'équipe informatique pour modifier les comptes root.";
 	}
 	elseif ( $_REQUEST["action"] == "add")
 	{
-		$user = new utilisateur($site->dbrw);
-		$user->load_by_id($_REQUEST["id_utilisateur"]);
-		if ( $user->id > 0 )
-			$grp->add_user_to_group($user->id);
+	  if ( $grp->id != 7 || $site->user->is_in_group("root") )
+	  {
+	  	$user = new utilisateur($site->dbrw);
+	  	$user->load_by_id($_REQUEST["id_utilisateur"]);
+	  	if ( $user->id > 0 )
+		  	$grp->add_user_to_group($user->id);
+    }
+    else
+      $Error = "Veuillez contacter l'équipe informatique pour modifier les comptes root.";
 	}
 	
 	$site->start_page("none","Groupe");
@@ -96,7 +108,7 @@ if (  $grp->id > 0)
 			array("delete"=>"Supprimer"), 
 			array("deletes"=>"Supprimer"),
 			array( )
-			);	
+			);
 	$cts->add($tbl,true);
 	
 	$frm = new form("adduser","group.php?id_groupe=".$grp->id, false,"POST","Ajouter un utilisateur");
@@ -115,9 +127,8 @@ if (  $grp->id > 0)
 	exit();
 }
 
-if ( $_REQUEST["action"] == "addgroup" )
+if ( $_REQUEST["action"] == "addgroup" && $site->user->is_in_group("root"))
 {
-
 	if ( !$_REQUEST["nom"] )
 		$Error = "Un nom est requis.";
 	else
@@ -131,25 +142,45 @@ $req = new requete($site->db,
 	"SELECT * FROM `groupe` " .
 	"ORDER BY nom_groupe");
 	
-$tbl = new sqltable(
-		"listgrp", 
-		"Groupes", $req, "group.php", 
-		"id_groupe", 
-		array("id_groupe" => "ID", "nom_groupe"=>"Groupe","description_groupe"=>"Description"), 
-		array("delete"=>"Supprimer"), 
-		array(),
-		array( )
-		);	
+if ( $site->user->is_in_group("root") )
+{
+  $tbl = new sqltable(
+		  "listgrp", 
+		  "Groupes", $req, "group.php", 
+		  "id_groupe", 
+		  array("id_groupe" => "ID", "nom_groupe"=>"Groupe","description_groupe"=>"Description"), 
+		  array("delete"=>"Supprimer"), 
+		  array(),
+		  array( )
+		  );	
+}
+else
+{
+  $tbl = new sqltable(
+		  "listgrp", 
+		  "Groupes", $req, "group.php", 
+		  "id_groupe", 
+		  array("id_groupe" => "ID", "nom_groupe"=>"Groupe","description_groupe"=>"Description"), 
+		  array(), 
+		  array(),
+		  array( )
+		  );	
+}
 $cts->add($tbl,true);
 
-$frm = new form("addgroup","group.php", false,"POST","Créer un groupe");
-$frm->add_hidden("action","addgroup");
-if ( $Error )	
-	$frm->error($Error);
-$frm->add_text_field("nom","Nom (unix)","",true);
-$frm->add_text_field("description","Description","");
-$frm->add_submit("valide","Ajouter");
-$cts->add($frm,true);
+if ( $grp->id == 7 )
+{
+  $frm = new form("addgroup","group.php", false,"POST","Créer un groupe");
+  $frm->add_hidden("action","addgroup");
+  if ( $Error )	
+  	$frm->error($Error);
+  $frm->add_text_field("nom","Nom (unix)","",true);
+  $frm->add_text_field("description","Description","");
+  $frm->add_submit("valide","Ajouter");
+  $cts->add($frm,true);
+}
+else
+  $cts->add_paragraph("Pour ajouter ou supprimer des groupes, veuillez contacter l'équipe informatique.")
 
 $site->add_contents($cts);
 $site->end_page();
