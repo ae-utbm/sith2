@@ -482,7 +482,8 @@ class site extends interfaceweb
         "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
         "WHERE ((sl_reservation.date_accord_res IS NULL) OR " .
         "(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
-        "AND sl_reservation.date_debut_salres > NOW()");
+        "AND sl_reservation.date_debut_salres > NOW() "
+        "AND id_salle=5");
       list($count) = $req->get_row();
 
       if ( $count > 0 )
