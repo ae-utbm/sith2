@@ -34,7 +34,7 @@ require_once($topdir. "include/cts/planning.inc.php");
 
 $site = new site ();
 
-if ( !$site->user->is_in_group("gestion_ae") )
+if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("foyer_admin") )
 	error_403();
 
 $resa = new reservation($site->db, $site->dbrw);
@@ -160,22 +160,42 @@ $req = new requete($site->db,"SELECT `utilisateurs`.`id_utilisateur`, " .
 		"(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
 		"AND sl_reservation.date_debut_salres > NOW()");
 
-$site->add_contents(new sqltable(
-		"modereres", 
-		"Demandes de reservation", $req, "modereres.php", 
-		"id_salres", 
-		array("nom_utilisateur"=>array("Demandeur","nom_utilisateur","nom_asso"),
-			"nom_salle"=>"Salle",
-			"date_debut_salres"=>"De",
-			"date_fin_salres"=>"A",
-			"description_salres" => "Motif",
-			"convention"=>"Conv.",
-			"date_accord_res"=>"Accord le"
-			), 
-		array("accord"=>"Donner accord", "convention"=>"Convention faite", "delete"=>"Refuser","info"=>"Details"), 
-		array("accords"=>"Donner accord", "conventions"=>"Convention faite", "deletes"=>"Refuser"),
-		array("convention"=>array(0=>"Non requise",1=>"A faire",11=>"Faite") )
-		));
+if($site->user->is_in_group("foyer_admin"))
+{
+	$site->add_contents(new sqltable(
+			"modereres", 
+			"Demandes de reservation", $req, "modereres.php", 
+			"id_salres", 
+			array("nom_utilisateur"=>array("Demandeur","nom_utilisateur","nom_asso"),
+				"nom_salle"=>"Salle",
+				"date_debut_salres"=>"De",
+				"date_fin_salres"=>"A",
+				"description_salres" => "Motif",
+				"convention"=>"Conv.",
+				"date_accord_res"=>"Accord le"
+				), 
+			array("info"=>"Details")
+			));
+}
+else
+{
+	$site->add_contents(new sqltable(
+			"modereres", 
+			"Demandes de reservation", $req, "modereres.php", 
+			"id_salres", 
+			array("nom_utilisateur"=>array("Demandeur","nom_utilisateur","nom_asso"),
+				"nom_salle"=>"Salle",
+				"date_debut_salres"=>"De",
+				"date_fin_salres"=>"A",
+				"description_salres" => "Motif",
+				"convention"=>"Conv.",
+				"date_accord_res"=>"Accord le"
+				), 
+			array("accord"=>"Donner accord", "convention"=>"Convention faite", "delete"=>"Refuser","info"=>"Details"), 
+			array("accords"=>"Donner accord", "conventions"=>"Convention faite", "deletes"=>"Refuser"),
+			array("convention"=>array(0=>"Non requise",1=>"A faire",11=>"Faite") )
+			));
+}
 
 $site->end_page();
 
