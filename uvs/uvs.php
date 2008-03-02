@@ -47,7 +47,7 @@ $site->set_side_boxes("left",array("uvsmenu", "connexion"));
 $site->start_page("services", "Informations UV");
 
 
-// Génération d'un camembert sur les 
+// Génération d'un camembert sur les
 // statitistiques d'obtention d'une uv
 if ($_REQUEST['action'] == 'statobt')
 {
@@ -80,7 +80,7 @@ if ($_REQUEST['action'] == 'statobt')
 	  $cam->data($rs['nb_usr'], $rs['note_obtention']);
 	}
       $cam->png_render();
-      
+
     }
 
   else
@@ -147,7 +147,7 @@ if ($_REQUEST['action'] == 'quarantine')
     error_403();
 
   $site->add_contents($cts);
-  
+
   $_id_uv = $comm->id_uv;
 }
 
@@ -158,7 +158,7 @@ if ($_REQUEST['action'] == 'deletecomm')
   $comm->load_by_id($_REQUEST['id']);
 
   $cts = new contents("Suppression de commentaire");
-  
+
   if (($comm->is_valid()) && ($comm->id_commentateur == $site->user->id))
     {
       $ret = $comm->delete();
@@ -213,8 +213,8 @@ if ($_REQUEST['action'] == 'editcomm')
   $comm = new uvcomment($site->db);
   $comm->load_by_id($idcomment);
 
-  
-  if (($comm->is_valid()) 
+
+  if (($comm->is_valid())
       && ($comm->id_commentateur == $site->user->id))
     {
       $commcts = new contents("Modification de votre commentaire");
@@ -225,7 +225,7 @@ if ($_REQUEST['action'] == 'editcomm')
 			   "post",
 			   "Modification d'un commentaire");
 
-      $commform->add_select_field('comm_obtention', 'UV obtenue', 
+      $commform->add_select_field('comm_obtention', 'UV obtenue',
 				  array (NULL => 'Non renseigné',
 					 'A'  => 'Admis : A',
 					 'B'  => 'Admis : B',
@@ -246,32 +246,32 @@ if ($_REQUEST['action'] == 'editcomm')
 			       'Commentaire (syntaxe Doku)',
 			       $comm->comment, 80, 20);
 
-      $commform->add_select_field('comm_interest', 
-				  'Intéret de l\'UV (pour un ingénieur)', 
+      $commform->add_select_field('comm_interest',
+				  'Intéret de l\'UV (pour un ingénieur)',
 				  $uvcomm_interet,
 				  $comm->interet);
-	  
-      $commform->add_select_field('comm_utilite', 
+
+      $commform->add_select_field('comm_utilite',
 				  'Utilité de l\'UV (culture'.
-				  ' générale ou autres)', 
+				  ' générale ou autres)',
 				  $uvcomm_utilite,
 				  $comm->utilite);
 
-      $commform->add_select_field('comm_travail', 
-				  'Charge de travail', 
+      $commform->add_select_field('comm_travail',
+				  'Charge de travail',
 				  $uvcomm_travail,
 				  $comm->charge_travail);
 
-      $commform->add_select_field('comm_qualite', 
-				  'Qualité de l\'enseignement', 
+      $commform->add_select_field('comm_qualite',
+				  'Qualité de l\'enseignement',
 				  $uvcomm_qualite,
 				  $comm->qualite_ens);
-  
-      $commform->add_select_field('comm_note_glbl', 
-				  'Evalutation globale de l\'UV', 
+
+      $commform->add_select_field('comm_note_glbl',
+				  'Evalutation globale de l\'UV',
 				  $uvcomm_note,
 				  $comm->note);
-  
+
       $commform->add_submit('comm_mod_sbmt', 'Modifier');
       $commcts->add($commform);
 
@@ -309,7 +309,7 @@ if (($site->user->is_in_group_id(10004))
 
 /* modification d'uv */
 
-if (($site->user->is_in_group('gestion_ae')) 
+if (($site->user->is_in_group('gestion_ae'))
     && (isset($_REQUEST['edituvsubmit'])))
 {
   $uv = new uv($site->db, $site->dbrw);
@@ -338,10 +338,10 @@ if (($site->user->is_in_group('gestion_ae'))
       $stats_by_depts['GI'] = $_REQUEST['cat_gi'];
     }
   if ($_REQUEST['IMAP'] == 1)
-    {    
+    {
       $departements[] = 'IMAP';
       $stats_by_depts['IMAP'] = $_REQUEST['cat_imap'];
-    }  
+    }
   if ($_REQUEST['GMC'] == 1)
     {
       $departements[] = 'GMC';
@@ -362,7 +362,7 @@ if (($site->user->is_in_group('gestion_ae'))
 	      $_REQUEST['tp'],
 	      $_REQUEST['ects'],
 	      $departements,
-	      $stats_by_depts);  
+	      $stats_by_depts);
 }
 
 
@@ -392,7 +392,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 		array("infosetu", "uvs/uvs.php?view=infosetu&id_uv=".$uv->id, "Historique de suivi"),
 		array("commentaires", "uvs/uvs.php?view=commentaires&id_uv=".$uv->id, "Commentaires"),
 		array("ressext", "uvs/uvs.php?view=ressext&id_uv=".$uv->id, "Ressources externes"));
-  
+
 
   /* TODO : partie fichiers réservée aux étudiants ? */
   if ($site->user->is_in_group_id(10004))
@@ -415,13 +415,13 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   $cts = new contents($path);
 
   $cts->add($tab);
-  
+
   /* départements concernés */
   // ce code est commun a plusieurs onglets.
-  
+
   for ($i = 0 ; $i < count($uv->depts); $i++)
     {
-	  
+
       $myuvdpts[] = "<a href=\"./uvs.php?iddept=".
 	$uv->depts[$i]."\">".$uv->depts[$i]."</a>\n";
       $uvdept[] = $uv->depts[$i];
@@ -433,7 +433,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
     {
       $cts->add_paragraph("<center><i style=\"font-size: 20px;\">\"".
 			  $uv->intitule."\"</i></center>");
-  
+
       if (strlen($uv->objectifs) > 4)
 	{
 	  $cts->add_title(2, "Objectifs");
@@ -450,7 +450,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
       /* format horaire */
       $cts->add_title(2, "Formats horaires");
-  
+
       $parag = "<ul>";
 
       if ($uv->cours == 1)
@@ -469,13 +469,13 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
       $parag .= "</ul>\n";
 
-      if (($uv->cours == 0) 
-	  && ($uv->td == 0) 
-	  && ($uv->tp == 0)) 
+      if (($uv->cours == 0)
+	  && ($uv->td == 0)
+	  && ($uv->tp == 0))
 	$parag = "<b>UV Hors Emploi du Temps (HET)</b>";
 
       $cts->add_paragraph($parag);
-  
+
 
       $cts->add_title(2, "Départements dans lequel l'UV est enseignée");
 
@@ -489,7 +489,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	{
 	  $cts2 = new contents("Modification d'UV");
 
-	  $edituv = new form("edituv", 
+	  $edituv = new form("edituv",
 			     "uvs.php?id_uv=".$uv->id,
 			     true,
 			     "post",
@@ -500,7 +500,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $edituv->add_text_field('name',
 				  "Code de l'UV <b>sans espace, ex: 'MT42'</b>",
 				  $uv->code, true, 4);
-  
+
 	  $edituv->add_text_area('intitule',
 				 "Intitulé de l'UV",
 				 $uv->intitule);
@@ -513,27 +513,27 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $edituv->add_checkbox('cours',
 				"Cours",
 				$uv->cours == 1);
-	  
+
 	  $edituv->add_checkbox('td',
 				"TD",
 				$uv->td == 1);
-	  
+
 	  $edituv->add_checkbox('tp',
 				"TP",
 				$uv->tp == 1);
-	  
+
 	  $edituv->add_text_field('ects',
 				  "Credits ECTS",
 				  $uv->ects, false, 1);
-  
+
 	  $edituv->add_checkbox('Humas',
 				"Humanités",
 				in_array('Humanites', $uvdept));
-	  
+
 	  $edituv->add_checkbox('TC',
 				"TC",
 				in_array('TC', $uvdept));
-	  
+
 	  $edituv->add_checkbox('GESC',
 				"GESC",
 				in_array('GESC', $uvdept));
@@ -545,11 +545,11 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $edituv->add_checkbox('IMAP',
 				"IMAP",
 				in_array('IMAP', $uvdept));
-	  
+
 	  $edituv->add_checkbox('GMC',
 				"GMC",
 				in_array('GMC', $uvdept));
-	  
+
 	  $edituv->add_checkbox('EDIM',
 				"EDIM",
 				in_array('EDIM', $uvdept));
@@ -559,31 +559,31 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	      foreach ($uvdept as $dept)
 		{
 		  if ($dept == 'Humanites')
-		    $edituv->add_select_field('cat_humas', 
+		    $edituv->add_select_field('cat_humas',
 					      "Catégorie de l'UV au département Humanités",
 					      $humas_cat, $cat_by_depts[$dept]);
 		  else if ($dept == 'TC')
-		    $edituv->add_select_field('cat_tc', 
+		    $edituv->add_select_field('cat_tc',
 					      "Catégorie de l'UV au département TC",
 					      $tc_cat, $cat_by_depts[$dept]);
 		  else if ($dept == 'GESC')
-		    $edituv->add_select_field('cat_gesc', 
+		    $edituv->add_select_field('cat_gesc',
 					      "Catégorie de l'UV au département GESC",
 					      $gesc_cat, $cat_by_depts[$dept]);
 		  else if ($dept == 'GI')
-		    $edituv->add_select_field('cat_gi', 
+		    $edituv->add_select_field('cat_gi',
 					      "Catégorie de l'UV au département GI",
 					      $gi_cat, $cat_by_depts[$dept]);
 		  else if ($dept == 'IMAP')
-		    $edituv->add_select_field('cat_imap', 
+		    $edituv->add_select_field('cat_imap',
 					      "Catégorie de l'UV au département IMAP",
 					      $imap_cat, $cat_by_depts[$dept]);
 		  else if ($dept == 'GMC')
-		    $edituv->add_select_field('cat_gmc', 
+		    $edituv->add_select_field('cat_gmc',
 					      "Catégorie de l'UV au département GMC",
 					      $gmc_cat, $cat_by_depts[$dept]);
 		  else if ($dept == 'EDIM')
-		    $edituv->add_select_field('cat_edim', 
+		    $edituv->add_select_field('cat_edim',
 					      "Catégorie de l'UV au département EDIM",
 					      $edim_cat, $cat_by_depts[$dept]);
 		}
@@ -591,7 +591,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
 	  $edituv->add_submit('edituvsubmit',
 			      "Modifier");
-  
+
 	  $cts2->add($edituv);
 	}
 
@@ -602,13 +602,13 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
     {
       /* a migrer dans uv.inc.php ? */
       $suivrq = new requete ($site->db,
-			     "SELECT 
-                                  `id_utilisateur` 
+			     "SELECT
+                                  `id_utilisateur`
                                   , `prenom_utl`
                                   , `nom_utl`
                                   , `surnom_utbm`
                                   , `semestre_grp`
-                          FROM 
+                          FROM
                                   `edu_uv_groupe_etudiant`
                           INNER JOIN
                                   `edu_uv_groupe`
@@ -622,19 +622,19 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
                           INNER JOIN
                                     `utl_etu_utbm`
                           USING (`id_utilisateur`)
-                          WHERE 
+                          WHERE
                                 `id_uv` = ".$uv->id."
                           GROUP BY `code_uv`, `id_utilisateur`
 
                           UNION
 
                           SELECT
-                                 `edu_uv_obtention`.`id_utilisateur` 
+                                 `edu_uv_obtention`.`id_utilisateur`
                                   , `prenom_utl`
                                   , `nom_utl`
                                   , `surnom_utbm`
                                   , `semestre_obtention` AS `semestre_grp`
-                          FROM 
+                          FROM
                                   `edu_uv_obtention`
                           INNER JOIN
                                     `utilisateurs`
@@ -644,21 +644,21 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
                                     `utl_etu_utbm`
                           ON
                                   `utilisateurs`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur`
-                          WHERE 
+                          WHERE
                                 `id_uv` = ".$uv->id."
                           GROUP BY `id_utilisateur`");
 
       if ($suivrq->lines > 0)
 	{
 	  require_once($topdir . "include/cts/sqltable.inc.php");
-	  $sqlt = new sqltable('userslst', 
+	  $sqlt = new sqltable('userslst',
 			       "Liste des utilisateurs suivant ou ayant suivi l'UV",
 			       $suivrq,
 			       '../user.php',
-			       'id_utilisateur', 
+			       'id_utilisateur',
 			       array('prenom_utl' => 'prenom', 'nom_utl' => 'nom', 'surnom_utbm' => 'surnom', 'semestre_grp' => 'semestre'),
-			       array('view' => 'Voir la fiche'), 
-			       array(), 
+			       array('view' => 'Voir la fiche'),
+			       array(),
 			       array());
 	  $cts->add_title(2, "Ils suivent ou ont suivi cette UV");
 	  $cts->add_paragraph("Ce listing correspond aux personnes ayant rentré un emploi du temps de semestre, au cours duquel ils ont suivi l'UV, ou ayant renseigné un résultat d'obtention.");
@@ -670,10 +670,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       $cts->add_paragraph("Ces statistiques sont obtenues en fonction des entrées des utilisateurs concernant leur résultat.".
 			  " Vous pouvez saisir les votres sur la <a href=\"./index.php\">page d'accueil de ".
 			  "la partie pédagogie</a>, et ainsi contribuer à l'enrichissement des statistiques.");
-	  
+
       $cts->add_paragraph("<center><img src=\"./uvs.php?action=statobt&id_uv=".$uv->id."\" ".
 				  "alt=\"statistiques d'obtention\" /></center>");
-    
+
 
     }
 
@@ -683,14 +683,14 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       if ($site->user->is_in_group("etudiants-utbm-actuels"))
 	{
 	  /* TODO note : pourquoi ne pas créer par la suite un groupe
-	   * spécifique à la modération des commentaires ? 
+	   * spécifique à la modération des commentaires ?
 	   */
 	  $uv->load_comments($site->user->is_in_group("gestion_ae"));
-      
+
 	  if (count($uv->comments) > 0)
 	    {
 	      $commented = false;
-	  
+
 	      foreach ($uv->comments as $comm)
 		{
 		  if ($site->user->id == $comm->id_commentateur)
@@ -701,11 +701,11 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 		}
 	      require_once($topdir . "include/cts/uvcomment.inc.php");
 	      $cts->add_title(2, "Commentaires d'étudiants ayant suivi l'UV");
-	      $cts->add(new uvcomment_contents($uv->comments, 
-					       $site->db, 
+	      $cts->add(new uvcomment_contents($uv->comments,
+					       $site->db,
 					       $site->user));
 	    }
-    
+
 	  /* formulaire de postage de commentaires */
 	  if ($commented == false)
 	    {
@@ -716,7 +716,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 				   "post",
 				   "Ajout d'un commentaire");
 
-	      $commform->add_select_field('comm_obtention', 'UV obtenue', 
+	      $commform->add_select_field('comm_obtention', 'UV obtenue',
 					  array (NULL => 'Non renseigné',
 						 'A'  => 'Admis : A',
 						 'B'  => 'Admis : B',
@@ -731,38 +731,38 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 					", ex: <b>P07</b>",
 					null, true, 4);
 
-        $commform->add_info("Cette section ayant pour but d'aider les étudiants ". 
+        $commform->add_info("Cette section ayant pour but d'aider les étudiants ".
           "dans leurs choix d'UV, merci de ne pas mettre des notes à la vas-vite ".
           "sans la moindre phrase et d'être rien constructif dans vos commentaires. ".
           "Tout message offensant pourra se voir supprimé");
 	      $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)', null, 80, 20);
-	      $commform->add_select_field('comm_interest', 
-					  'Intéret de l\'UV (pour un ingénieur)', 
+	      $commform->add_select_field('comm_interest',
+					  'Intéret de l\'UV (pour un ingénieur)',
 					  $uvcomm_interet,
 					  2);
-	  
-	      $commform->add_select_field('comm_utilite', 
-					  'Utilité de l\'UV (culture générale ou autres)', 
+
+	      $commform->add_select_field('comm_utilite',
+					  'Utilité de l\'UV (culture générale ou autres)',
 					  $uvcomm_utilite,
 					  2);
 
-	      $commform->add_select_field('comm_travail', 
-					  'Charge de travail', 
+	      $commform->add_select_field('comm_travail',
+					  'Charge de travail',
 					  $uvcomm_travail,
 					  2);
-	      $commform->add_select_field('comm_qualite', 
-					  'Qualité de l\'enseignement', 
+	      $commform->add_select_field('comm_qualite',
+					  'Qualité de l\'enseignement',
 					  $uvcomm_qualite,
 					  2);
-	      
-	      $commform->add_select_field('comm_note_glbl', 
-					  'Evalutation globale de l\'UV', 
+
+	      $commform->add_select_field('comm_note_glbl',
+					  'Evalutation globale de l\'UV',
 					  $uvcomm_note,
 					  2);
-			       
+
 	      $commform->add_submit('comm_sbmt', 'Commenter');
 	      $commcts->add($commform);
-      
+
 	    }
 	} // fin commentage uvs
       else
@@ -778,7 +778,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       // Cette partie récupère le XML de bankexam relatif aux uvs de l'UTBM,
       // le parse, et affiche si des annales sont disponibles
 
-      $xml = file_get_contents("http://www.bankexam.fr/rss/etablissement?code=UTBM");  
+      $xml = file_get_contents("http://www.bankexam.fr/rss/etablissement?code=UTBM");
       $uvsbe = new u007xml($xml);
 
 
@@ -787,9 +787,9 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  /* au début y'a que de la boue */
 	  if (($key == 0) || ($key == 1) || ($key == 2))
 	    continue;
-	  
+
 	  $codeuv = $value['childrens'][2]['nodevalue'];
-	  if ($codeuv != $uv->code) 
+	  if ($codeuv != $uv->code)
 	    continue;
 
 	  $annaleslink = $value['childrens'][5]['nodevalue'];
@@ -798,7 +798,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
 	  if (strlen($annaleslink) > 0)
 	    {
-	    
+
 	      $arr_anls[] = "<a href=\"".$annaleslink."\">Examen - année ".$annee_exam ."</a>";
 
 	      //  $cts->add_paragraph("Il existe des annales d'examen sur Bankexam. <a href=\"".
@@ -838,21 +838,19 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       $exts[] = "<a href=\"http://bankexam.fr/etablissement/1-Universite-de-Technologie-de-Belfort-Montbeliard\">".
 	"<b>Bankexam.fr</b>, base de données d'examens</a>";
       $exts[] = "<a href=\"https://webct6.utbm.fr/\"><b>WebCT</b>, la plateforme pédagogique de l'UTBM</a>";
-  
+
 
       $itmlst = new itemlist("Ressources externes",
 			     false,
 			     $exts);
 
       $cts->add($itmlst);
-    } 
+    }
 
   /* partie fichiers */
 
   else if ($_REQUEST['view'] == 'files')
     {
-      //      $cts->add_paragraph("<b>En construction ...</b>");
-
       require_once($topdir . "include/entities/folder.inc.php");
       require_once($topdir . "include/entities/files.inc.php");
 
@@ -870,7 +868,9 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			  "à disposition.<br/>Conformément aux lois, tout ".
 			  "fichier succeptible de ne pas respecter la ".
 			  "legislation pourra être supprimé sans ".
-			  "préavis.</b>");
+			  "préavis.</b><br/>".
+                          "Notez par ailleurs que les fichiers ajoutés ".
+                          "seront soumis à modération.");
 
       // creation du dossier si inexistant
       if (! $uv->load_folder())
@@ -880,60 +880,74 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
       // dorénavant, le répertoire est considéré comme créé
 
-      // TODO soucis avec les sous-répertoires : comment s'assurer que
-      // l'utilisateur passe pas de la merde en GET afin de créer un
-      // sous-répertoire ailleurs que là où c'est prévu ?
-      //
-      //  réponse : cf uv->check_folder()
-      //
-        
       // formulaire ajout fichier posté
       if ($_REQUEST['action'] == "addfile")
-	{ 
+	{
 	  $nfile = new dfile($site->db, $site->dbrw);
 
-	  // TODO : on met quoi comme droits ?
 
 	  if ((isset($_REQUEST['id_folder']))
 	      && ($uv->check_folder($_REQUEST['id_folder'])))
 	    {
-	      $file->add_file ($_FILES["file"], 
-			       $_REQUEST["nom"], 
-			       $_REQUEST['id_folder'], 
-			       $_REQUEST["description"],
-			       null);
+              $nfolder = new dfolder($site->db);
+              $nfolder->load_by_id($_REQUEST['id_folder']);
+
+              $nfile->herit($nfolder);
+              $nfile->set_rights($site->user,
+                                 DROIT_LECTURE, /* rights */
+                                 10001, /* groupe : utbm */
+                                 8 /* groupe admin : modérateur site */
+                                 );
+
+
+	      $nfile->add_file ($_FILES["file"],
+                                $_REQUEST["nom"],
+                                $_REQUEST['id_folder'],
+                                $_REQUEST["description"],
+                                null);
 	    }
 	  else
 	    {
-	      $file->add_file ($_FILES["file"], 
-			       $_REQUEST["nom"], 
-			       $uv->folder->id, 
-			       $_REQUEST["description"],
-			       null);
-	    }  
-	  $file->set_tags($_REQUEST["tags"]);
-	}
-    
+
+              $nfolder = new dfolder($site->db);
+              $nfolder->load_by_id($uv->folder->id);
+
+              $nfile->herit($nfolder);
+              $nfile->set_rights($site->user,
+                                 DROIT_LECTURE, /* rights */
+                                 10001, /* groupe : utbm */
+                                 8 /* groupe admin : modérateur site */
+                                 );
+
+	      $nfile->add_file ($_FILES["file"],
+                                $_REQUEST["nom"],
+                                $uv->folder->id,
+                                $_REQUEST["description"],
+                                null);
+	    }
+	  $nfile->set_tags($_REQUEST["tags"]);
+	} // fin addfile
+
       // formulaire création répertoire posté
       if ($_REQUEST['action'] == "addfolder")
 	{
 	  $nfolder = new dfolder($site->db, $site->dbrw);
-	  
-	  // TODO @feu : ce sont les droits repompés 
+
+	  // TODO @feu : ce sont les droits repompés
 	  // de la création de dossiers relatifs aux uvs.
 	  // oui / non ?
-	  
-	  $nfolder->id_groupe_admin = 7; 
-	  $nfolder->id_groupe = 7; 
+
+	  $nfolder->id_groupe_admin = 7;
+	  $nfolder->id_groupe = 7;
 	  $nfolder->droits_acces = 0xDDD;
 	  $nfolder->id_utilisateur = null;
-	  
+
 	  // controle si le répertoire est bien créé dans un sous-répertoire
 	  // de l'UV.
 	  // sinon on crée un sous répertoire du répertoire de l'UV.
-	  
+
 	  // TODO : la fonction check_folder() n'a pas été testée
-	  if ((isset($_REQUEST['id_folder'])) 
+	  if ((isset($_REQUEST['id_folder']))
 	      && ($uv->check_folder($_REQUEST['id_folder'])))
 	    {
 	      $pfold = $_REQUEST['id_folder'];
@@ -943,9 +957,9 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	      $pfold = $uv->folder->id;
 	    }
 
-	  $nfolder->add_folder ($_REQUEST["nom"], 
-				$pfold, 
-				$_REQUEST["description"], 
+	  $nfolder->add_folder ($_REQUEST["nom"],
+				$pfold,
+				$_REQUEST["description"],
 				null);
 
 	  if ($nfolder->id == null)
@@ -960,14 +974,14 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  if (! isset($_REQUEST['id_folder']))
 	    {
 	      $frm = new form("addfolder",
-			      "./uvs.php?view=files&id_uv=".$uv->id. 
+			      "./uvs.php?view=files&id_uv=".$uv->id.
 			      "&action=addfolder");
 	    }
 	  else
 	    {
-	      
+
 	      $frm = new form("addfolder",
-			      "./uvs.php?view=files&id_uv=".$uv->id. 
+			      "./uvs.php?view=files&id_uv=".$uv->id.
 			      "&action=addfolder&id_folder=".
 			      intval($_REQUEST['id_folder']));
 	    }
@@ -997,15 +1011,15 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			      "&id_folder=".intval($_REQUEST['id_folder']) .
 			      "&action=addfile");
 	    }
-	  
+
 	  $frm->allow_only_one_usage();
 	  $frm->add_hidden("action","addfile");
-	  
+
 	  if ($ErreurAjout)
 	    {
 	      $frm->error($ErreurAjout);
 	    }
-	  
+
 	  $frm->add_file_field("file","Fichier",true);
 	  $frm->add_text_field("nom","Nom","",true);
 	  $frm->add_text_field("tags","Tags (séparateur: virgule)","");
@@ -1015,7 +1029,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $cts->add($frm);
 
 	} // fin formulaire création fichier
-      
+
       // pompé de d.php
       $gal = new gallery("Fichiers et dossiers",
 			 "aedrive",
@@ -1027,10 +1041,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			       "info"=>"Details",
 			       "edit"=>"Editer",
 			       "delete"=>"Supprimer"));
-      
+
 
       $fd = new dfolder($site->db);
-      
+
       if (! isset($_REQUEST['id_folder']))
 	{
 	  $sub1 = $uv->folder->get_folders ($site->user);
@@ -1041,7 +1055,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $fdtmp->load_by_id($_REQUEST['id_folder']);
 	  $sub1 = $fdtmp->get_folders($site->user);
 	}
-      
+
       while ($row = $sub1->get_row ())
 	{
 	  $acts = false;
@@ -1054,13 +1068,13 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $gal->add_item ( "<img src=\"/images/icons/128/folder.png\" alt=\"dossier\" />",
 			   "<a href=\"./uvs.php?view=files&amp;id_folder=".$fd->id.
 			   "&amp;id_uv=".$uv->id."\" class=\"itmttl\">".
-			   $fd->titre."</a><br/><span class=\"itmdsc\">".$desc."</span>", 
-			   "id_folder=".$fd->id, 
-			   $acts, 
+			   $fd->titre."</a><br/><span class=\"itmdsc\">".$desc."</span>",
+			   "id_folder=".$fd->id,
+			   $acts,
 			   "folder");
 
 	}
-    
+
       if (! isset($fdtmp))
 	{
 	  $sub2 = $uv->folder->get_files($site->user);
@@ -1076,28 +1090,28 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	{
 	  $acts = array("download","info");
 	  $fd->_load($row);
-	  
+
 	  if (! file_exists($fd->get_thumb_filename()))
 	    $img = $topdir."images/icons/128/".$fd->get_icon_name();
 	  else
 	    $img = "d.php?id_file=".$fd->id."&amp;action=download&amp;download=thumb";
-	  
+
 	  $desc = $fd->description;
 	  if (strlen($desc) > 72)
 	    $desc = substr($desc,0,72)."...";
-	  
+
 	  $gal->add_item ("<img src=\"$img\" alt=\"fichier\" />",
 			  "<a href=\"./uvs.php?id_file=".$fd->id.
 			  "&amp;view=files&amp;id_uv=".$uv->id.
 			  "\" class=\"itmttl\">".$fd->titre.
 			  "</a><br/><span class=\"itmdsc\">".$desc.
-			  "</span>", 
+			  "</span>",
 			  "id_file=".$fd->id,
-			  $acts, 
+			  $acts,
 			  "file");
-	 
+
     } // fin while fichiers
-      
+
       $cts->add($gal, true);
 
 
@@ -1107,7 +1121,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	  $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
 			      $uv->id.
 			      "&amp;page=newfolder\">Ajouter un dossier</a>");
-	  
+
 	  $cts->add_paragraph("<a href=\"./uvs.php?view=files&amp;id_uv=".
 			      $uv->id.
 			      "&amp;page=newfile\">Ajouter un fichier</a>");
@@ -1125,11 +1139,11 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			      "&amp;page=newfile&amp;id_folder=".
 			      intval($_REQUEST['id_folder'])
 			      ."\">Ajouter un fichier</a>");
-	
-      
+
+
     }
-      
-    } // files  
+
+    } // files
 
     // Fin des tests sur la vue sélectionnée
 
@@ -1164,9 +1178,9 @@ if (isset($_REQUEST['iddept']))
 			$path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
   		$path .= " / "."<a href=\"".$topdir."uvs/uvs.php?iddept=$dept\"><img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" /> $dept</a>";
       $cts = new contents ($path);
-      
+
       $req = new requete($site->db,
-			 "SELECT 
+			 "SELECT
                              `edu_uv`.`id_uv`
                              , `edu_uv`.`code_uv`
                              , `edu_uv`.`intitule_uv`
@@ -1179,7 +1193,7 @@ if (isset($_REQUEST['iddept']))
                              `id_dept` = '".$dept."'
                           ORDER BY
                              `edu_uv`.`code_uv`");
-	
+
 	$table = "<table class=\"uvlist\">\n";
 	$table .= " <tr>\n";
 	$i = 0;
@@ -1190,14 +1204,14 @@ if (isset($_REQUEST['iddept']))
 			$i++;
 			if($i == 15)
 				{ $table .= "</tr><tr>\n"; $i = 0; }
-				
-	  $uvs[] = "<a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">". 
+
+	  $uvs[] = "<a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">".
 	    $rs['code_uv'] . " - " . $rs['intitule_uv'] . "</a>";
 	}
 		$table .= "\n </tr>\n</table>\n";
 		$cts->puts($table);
 
-		
+
       $lst = new itemlist($dept,
 			  false,
 			  $uvs);
@@ -1205,7 +1219,7 @@ if (isset($_REQUEST['iddept']))
       $cts->add($lst);
 
       $site->add_contents($cts);
-      
+
       $site->end_page();
       exit();
     }
@@ -1228,7 +1242,7 @@ $cts->add_paragraph($tmp);
 foreach ($departements as $dept)
 {
   $req = new requete($site->db,
-		     "SELECT 
+		     "SELECT
                              `edu_uv`.`id_uv`
                              , `edu_uv`.`code_uv`
                              , `edu_uv`.`intitule_uv`
@@ -1242,7 +1256,7 @@ foreach ($departements as $dept)
                       ORDER BY
                              `edu_uv`.`code_uv`");
 
-	  
+
 	$table = "<table class=\"uvlist\">\n";
 	$table .= " <tr>\n";
 	$i = 0;
@@ -1253,8 +1267,8 @@ foreach ($departements as $dept)
 			$i++;
 			if($i == 15)
 				{ $table .= "</tr><tr>\n"; $i = 0; }
-				
-	  $uvs[] = "<a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">". 
+
+	  $uvs[] = "<a href=\"./uvs.php?id_uv=".$rs['id_uv']."\">".
 	    $rs['code_uv'] . " - " . $rs['intitule_uv'] . "</a>";
 	}
 	$table .= "\n </tr>\n</table>\n";
@@ -1264,13 +1278,13 @@ foreach ($departements as $dept)
 		      $uvs);
   $cts->add_title(2,"<a id=\"dept_".$dept."\" ".
 		  "href=\"./uvs.php?iddept=$dept\">$dept</a>");
-	
+
 	$cts->puts($table);
-	
+
 	$cts->add_title(3, "Liste détaillée");
   $cts->add($lst);
 }
-  
+
 $site->add_contents($cts);
 
 
