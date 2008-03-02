@@ -250,7 +250,7 @@ $cts->add($frm,true);
 $cts->add_paragraph("<br /><br />Le FIMU est un évenement co-organisé par la Ville de Belfort, la Fédération Com'Et et l'UTBM");
 $cts->add_paragraph("Pour plus d'information : <a href='http://www.fimu.com'>www.fimu.com</a> <br />
 			Cellule des Festivals : 03 84 22 94 43 <br />
-			Com'Et : 03 84 26 48 01 / catherine DOT mougin AT comet DOT asso DOT fr <br />
+			Com'Et : 03 84 26 48 01 <br />
 			Renseignement auprès de l'AE ");
 			
 }
