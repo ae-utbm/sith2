@@ -1118,9 +1118,8 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	    $desc = substr($desc,0,72)."...";
 
 	  $gal->add_item ("<img src=\"$img\" alt=\"fichier\" />",
-			  "<a href=\"./uvs.php?id_file=".$fd->id.
-			  "&amp;view=files&amp;id_uv=".$uv->id.
-			  "\" class=\"itmttl\">".$fd->titre.
+			  "<a href=\"../d.php?id_file=".$fd->id.
+			  "&amp;". "\" class=\"itmttl\">".$fd->titre.
 			  "</a><br/><span class=\"itmdsc\">".$desc.
 			  "</span>",
 			  "id_file=".$fd->id,
@@ -1158,7 +1157,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 			      ."\">Ajouter un fichier</a>");
 
 
-    }
+        }
 
     } // files
 
