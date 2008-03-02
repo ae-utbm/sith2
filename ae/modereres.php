@@ -174,7 +174,7 @@ if($site->user->is_in_group("foyer_admin"))
 				"convention"=>"Conv.",
 				"date_accord_res"=>"Accord le"
 				), 
-			array("info"=>"Details")
+			array("info"=>"Details") )
 			));
 }
 else
