@@ -37,7 +37,11 @@ $site->start_page ("none", "FIMU 2008 - Inscriptions des bénévoles");
 
 $cts = new contents("Festival International de Musique Universitaire");
 
-if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "fimu_inscr")
+$sql = new requete($site->db, "SELECT id_utilisateur
+								FROM fimu_inscr
+								WHERE id_utilisateur = ".$site->user->id.";);
+								
+if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "fimu_inscr" && !$sql->lines)
 {
 	$sql = new insert($site->dbrw, "fimu_inscr",
 		array(
@@ -81,7 +85,7 @@ if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "fimu_insc
 				Merci de contacter les authorités compétentes ");
 		
 }
-else if (isset($_REQUEST['listing']))
+else if (isset($_REQUEST['listing']) && $site->user->is_in_group("gestion_ae"))
 {
 
 //	$tbl = new itemlist("Liste des personnes s'étant inscrites pour le FIMU via le site de l'AE", false);
