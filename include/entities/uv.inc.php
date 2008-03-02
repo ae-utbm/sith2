@@ -515,6 +515,7 @@ class uv extends stdentity
       $req = new requete($this->db, "SELECT ".
                          "`id_folder_parent` ".
                          ", `nom_fichier_folder` ".
+                         ", `id_folder` ".
                          "FROM ".
                          "`d_folder` ".
                          "WHERE ".
@@ -528,10 +529,11 @@ class uv extends stdentity
       if ($row['id_folder_parent'] == null)
         return $ret;
 
+      $ret = ($row['nom_fichier_folder'] . " / " . $ret);
+
       if ($row['id_folder_parent'] == $this->idfolder)
         return $ret;
 
-      $ret = ($row['nom_fichier_folder'] . " / " . $ret);
 
       /* sinon on boucle */
       $path = intval($row['id_folder_parent']);

@@ -414,10 +414,9 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 
   /* path partie fichiers */
   echo $uv->get_path($_REQUEST['id_folder']);
-  
 
   if ((isset ($uv)) && (isset($_REQUEST['id_folder']))
-      && ($uv->check_folder($_REQUEST['$id_folder'])))
+      && ($uv->check_folder($_REQUEST['id_folder'])))
     {
       $path .= (" / " .$uv->get_path($_REQUEST['id_folder']));
     }
