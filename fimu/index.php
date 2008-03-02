@@ -38,17 +38,17 @@ $site->start_page ("none", "FIMU 2008 - Inscriptions des bénévoles");
 $cts = new contents("Festival International de Musique Universitaire");
 
 if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "fimu_inscr")
-{
+{mais 
 	$sql = new insert($site->dbrw, "fimu_inscr",
 		array(
 			"id_inscr" => '',
 			"id_utilisateur" => $site->user->id,
-			"disp_24" => $_REQUEST['disp_24'],
-			"disp_25" => $_REQUEST['disp_25'],
-			"disp_26" => $_REQUEST['disp_26'],
-			"disp_27" => $_REQUEST['disp_27'],
-			"disp_28" => $_REQUEST['disp_28'],
-			"disp_29" => $_REQUEST['disp_29'],
+			"jour1" => $_REQUEST['jour1'],
+			"jour2" => $_REQUEST['jour2'],
+			"jour3" => $_REQUEST['jour3'],
+			"jour4" => $_REQUEST['jour4'],
+			"jour5" => $_REQUEST['jour5'],
+			"jour6" => $_REQUEST['jour6'],
 			"choix1_choix" => $_REQUEST['choix1_choix'],
 			"choix1_com" => $_REQUEST['choix1_com'],
 			"choix2_choix" => $_REQUEST['choix2_choix'],
@@ -171,12 +171,12 @@ else
 	
 	$subfrm = new form("fimu_inscr", "index.php", true, "POST", "Disponibilités");
 		$subfrm->add_info("Il est fortement souhaitable que vous soyez disponible 3 jours consécutifs minimum");
-		$subfrm->add_checkbox("disp_24", "Jeudi 8 Mai");
-		$subfrm->add_checkbox("disp_25", "Vendredi 9 Mai");
-	$subfrm->add_checkbox("disp_26", "Samedi 10 Mai");
-		$subfrm->add_checkbox("disp_27", "Dimanche 11 Mai");
-		$subfrm->add_checkbox("disp_28", "Lundi 12 Mai");
-		$subfrm->add_checkbox("disp_29", "Mardi 13 Mai");
+		$subfrm->add_checkbox("jour1", "Jeudi 8 Mai");
+		$subfrm->add_checkbox("jour2", "Vendredi 9 Mai");
+	$subfrm->add_checkbox("jour3", "Samedi 10 Mai");
+		$subfrm->add_checkbox("jour4", "Dimanche 11 Mai");
+		$subfrm->add_checkbox("jour5", "Lundi 12 Mai");
+		$subfrm->add_checkbox("jour6", "Mardi 13 Mai");
 	$frm->add($subfrm);
 	
 	$subfrm = new form("fimu_inscr", "index.php", true, "POST", "<a href='http://ae.utbm.fr/article.php?name=fimu_info'>Souhaits de poste <img src='$topdir/images/tipp.png' /></a>");
