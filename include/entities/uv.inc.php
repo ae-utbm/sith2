@@ -1,5 +1,5 @@
 <?php
-/*   
+/*
  * Copyright 2007
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
  /**
  * @file Gestion des uvs et partie pédagogie du site
  */
@@ -54,8 +54,8 @@ define('UVFOLDER', 784);
 
 /* tableaux globaux sur les commentaires UV */
 
-/* Note : ces critères sont inspirés du projet de David 
- * Anderson (Dave`), 
+/* Note : ces critères sont inspirés du projet de David
+ * Anderson (Dave`),
  * http://code.google.com/p/critic
  */
 $uvcomm_utilite = array(
@@ -103,33 +103,33 @@ $departements = array('Humanites', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
 $humas_cat = array(''=> null, 'EC' => 'EC', 'CG' => 'CG', 'EX' => 'EX');
 $tc_cat    = array('' => null, 'CS' => 'CS', 'TM' => 'TM', 'EX' => 'EX');
 /* note : à l'heure actuelle, il n'existe pas d'UV de TM en EDIM */
-$edim_cat  = array(''=>null, 
-       'CS' => 'CS', 
-       'TM' => 'TM', 
-       'RN' => 'RN', 
+$edim_cat  = array(''=>null,
+       'CS' => 'CS',
+       'TM' => 'TM',
+       'RN' => 'RN',
        'EX' => 'EX');
 
 $gesc_cat  = array(''=> null,
-       'CS' => 'CS', 
-       'TM' => 'TM', 
-       'RN' => 'RN', 
+       'CS' => 'CS',
+       'TM' => 'TM',
+       'RN' => 'RN',
        'EX' => 'EX');
-$gi_cat    = array('' => null, 
-       'CS' => 'CS', 
-       'TM' => 'TM', 
-       'RN' => 'RN', 
-       'EX' => 'EX');
-
-$gmc_cat   = array('' => null, 
-       'CS' => 'CS', 
-       'TM' => 'TM', 
-       'RN' => 'RN', 
+$gi_cat    = array('' => null,
+       'CS' => 'CS',
+       'TM' => 'TM',
+       'RN' => 'RN',
        'EX' => 'EX');
 
-$imap_cat  = array('' => null, 
-       'CS' => 'CS', 
-       'TM' => 'TM', 
-       'RN' => 'RN', 
+$gmc_cat   = array('' => null,
+       'CS' => 'CS',
+       'TM' => 'TM',
+       'RN' => 'RN',
+       'EX' => 'EX');
+
+$imap_cat  = array('' => null,
+       'CS' => 'CS',
+       'TM' => 'TM',
+       'RN' => 'RN',
        'EX' => 'EX');
 
 $uv_descr_cat = array('NA' => 'Inconnu',
@@ -146,7 +146,7 @@ $uv_descr_cat = array('NA' => 'Inconnu',
  */
 class uv extends stdentity
 {
- 
+
   var $code;
   var $intitule;
   var $objectifs;
@@ -156,8 +156,8 @@ class uv extends stdentity
   /* booléens indiquant si des cours / tds / tps sont dispensés dans
    * l'UV en question
    */
-  var $cours; 
-  var $td; 
+  var $cours;
+  var $td;
   var $tp;
 
   /* dans quel département ? */
@@ -192,7 +192,7 @@ class uv extends stdentity
     if ($req->lines == 1)
     {
       $row = $req->get_row();
-  
+
       $this->id        = $row['id_uv'];
       $this->code      = $row['code_uv'];
       $this->intitule  = $row['intitule_uv'];
@@ -203,7 +203,7 @@ class uv extends stdentity
       $this->td        = $row['td_uv'];
       $this->tp        = $row['tp_uv'];
       $this->idfolder  = $row['id_folder'];
-      
+
       $this->id_lieu   = $row['id_lieu'];
 
       /* chargement du lieu */
@@ -213,11 +213,11 @@ class uv extends stdentity
 	}
 
       $this->load_depts();
-  
+
       return true;
     }
 
-    $this->id = null;  
+    $this->id = null;
     return false;
   }
 
@@ -231,7 +231,7 @@ class uv extends stdentity
 
   function load_by_id ($id)
   {
-    $req = new requete($this->db, "SELECT * ". 
+    $req = new requete($this->db, "SELECT * ".
                                   "FROM ".
                                   "`edu_uv` ".
                                   "WHERE ".
@@ -267,17 +267,17 @@ class uv extends stdentity
 
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
 
   /**
-   * @todo à implémenter 
+   * @todo à implémenter
    */
   function _load($row)
   {
-    
+
   }
 
 
@@ -342,7 +342,7 @@ class uv extends stdentity
            'ects_uv' => $this->ects,
 	   'id_lieu' => $this->id_lieu),
            array('id_uv' => $this->id));
-    
+
 
     /* suppression des départements */
     $req = new delete($this->dbrw,
@@ -366,7 +366,7 @@ class uv extends stdentity
 
     return;
   }
-  
+
 
 
   function create ($code_uv, $intitule, $c, $td, $tp, $ects, $depts, $uv_cat, $id_lieu = null)
@@ -377,7 +377,7 @@ class uv extends stdentity
     $this->cours    = $c;
     $this->td       = $td;
     $this->tp       = $tp;
-    
+
     $this->id_lieu = $id_lieu;
 
     if ($this->id_lieu != null)
@@ -394,7 +394,7 @@ class uv extends stdentity
            'tp_uv' => $this->tp,
            'ects_uv' => $this->ects,
 	   'id_lieu' => $this->id_lieu));
-    
+
     if ($req)
     {
       $this->id = $req->get_id();
@@ -417,10 +417,10 @@ class uv extends stdentity
               "id_dept" => $dept,
               "uv_cat" => $uv_cat[$dept]));
     }
-    
+
     return true;
   }
-  
+
 
   function load_comments($admin = false)
   {
@@ -439,7 +439,7 @@ class uv extends stdentity
       $sql .= " AND state_comment IN (0, 1, 3)";
 
     $sql .= " ORDER BY date_commentaire ASC";
-      
+
     $rq = new requete($this->db,$sql);
 
 
@@ -452,12 +452,12 @@ class uv extends stdentity
     }
     return;
   }
-  
+
   function prefer_list()
   {
-    return true;  
+    return true;
   }
-  
+
   function load_folder()
   {
     if ($this->idfolder == null)
@@ -465,7 +465,7 @@ class uv extends stdentity
 
     global $topdir;
     require_once($topdir. "include/entities/folder.inc.php");
-    
+
     $this->folder = new dfolder($this->db, $this->dbrw);
 
     $this->folder->load_by_id($this->idfolder);
@@ -506,36 +506,68 @@ class uv extends stdentity
     }
   }
 
+  function get_path($path)
+  {
+    $path = intval($path);
+    $ret = "";
+    while (true)
+    {
+      $req = new requete($this->db, "SELECT ".
+                         "`id_folder_parent` ".
+                         ", `nom_fichier_folder` ".
+                         "FROM ".
+                         "`d_folder` ".
+                         "WHERE ".
+                         "`id_folder` = $path ".
+                         "LIMIT 1");
+      if ($req->lines < 0)
+        return false;
+
+      $row = $req->get_row();
+
+      if ($row['id_folder_parent'] == null)
+        return $ret;
+
+      if ($row['id_folder_parent'] == $this->idfolder)
+        return $ret;
+
+      $ret = ($row['nom_fichier_folder'] . " / " . $ret);
+
+      /* sinon on boucle */
+      $path = intval($row['id_folder_parent']);
+    }
+  }
+
   function create_folder()
   {
     global $topdir;
     require_once($topdir. "include/entities/folder.inc.php");
-    
+
     // non chargé
     if (!$this->is_valid())
       return false;
-    
+
     // le répertoire existe deja
     if (!is_null($this->idfolder))
       return false;
 
     $parent = new dfolder($this->db, $this->dbrw);
     $parent->create_or_load("pédagogie");
-    
+
     $newfold = new dfolder($this->db, $this->dbrw);
-    $newfold->id_groupe_admin = 7; 
-    $newfold->id_groupe = 7; 
+    $newfold->id_groupe_admin = 7;
+    $newfold->id_groupe = 7;
     $newfold->droits_acces = 0xDDD;
     $newfold->id_utilisateur = null;
     $newfold->add_folder ( $this->code, $parent->id, "Fichiers relatifs à l'UV ".$this->code, null );
 
     $newfold->set_modere(true);
 
-    new update($this->dbrw, 
+    new update($this->dbrw,
              'edu_uv',
              array('id_folder' => $newfold->id),
              array('id_uv' => $this->id));
-  
+
     $this->idfolder = $newfold->id;
 
     /* chargement du dossier */
@@ -543,7 +575,7 @@ class uv extends stdentity
 
     return true;
   }
-  
+
 }
 
 
@@ -563,11 +595,11 @@ class uvcomment extends stdentity
   var $semestre_obtention;
   /* note sur l'intéret de l'UV */
   /* Est-ce que l'UV vaut le coup d'être suivie ?
-   * (Réflexions sur la qualité de l'enseignement, 
+   * (Réflexions sur la qualité de l'enseignement,
    *  moyens mis à disposition ...) */
   var $interet;
   /* note sur l'utilité de l'UV */
-  /* est-ce que l'UV est utile dans le cadre 
+  /* est-ce que l'UV est utile dans le cadre
    * de la formation d'ingénieur ? */
   var $utilite;
   /* note sur la charge de travail */
@@ -591,21 +623,21 @@ class uvcomment extends stdentity
     $req = new requete($this->db, "SELECT * ".
                                   "FROM ".
                                   "`edu_uv_comments` ".
-                                  "WHERE ". 
+                                  "WHERE ".
                                   "`id_comment` = '".
                                   mysql_real_escape_string($id).
                                   "' ".
                                   "LIMIT 1");
-    
+
     if ($req->lines == 1)
     {
       $row = $req->get_row();
 
       $this->id              = $row['id_comment'];
- 
+
       $this->id_uv           = $row['id_uv'];
       $this->id_commentateur = $row['id_utilisateur'];
-  
+
       $req2 = new requete($this->db, "SELECT * FROM `edu_uv_obtention` ".
                                      "WHERE `id_utilisateur` = ".
                                      intval($this->id_commentateur).
@@ -628,26 +660,26 @@ class uvcomment extends stdentity
       $this->charge_travail  = $row['travail_uv'];
       $this->qualite_ens     = $row['qualite_uv'];
       $this->note            = $row['note_uv'];
-  
+
       $this->comment         = $row['comment_uv'];
-  
+
       $this->date            = $row['date_commentaire'];
 
       $this->etat            = $row['state_comment'];
-  
+
       return true;
     }
-    return false;  
+    return false;
   }
-  
+
   /**
-   * @todo à implémenter 
+   * @todo à implémenter
    */
   function _load($row)
   {
-    
+
   }
-  
+
   function modify($commentaire,
                   $note_obtention = null,
                   $semestre_obtention,
@@ -670,7 +702,7 @@ class uvcomment extends stdentity
           'qualite_uv' => $qualite,
           'date_commentaire' => date("Y-m-d H:i:s")),
           array ("id_comment" => $this->id));
-    
+
 
     $sql2 = new update($this->dbrw,
            'edu_uv_obtention',
@@ -714,7 +746,7 @@ class uvcomment extends stdentity
             'id_utilisateur' => $id_commentateur,
             'note_obtention' => $note_obtention,
             'semestre_obtention' => $semestre_obtention));
-           
+
     if ($sql->lines <= 0)
       return false;
     else
@@ -738,7 +770,7 @@ class uvcomment extends stdentity
   {
     if ($this->id <= 0)
       return false;
-    
+
     $req = new update($this->dbrw,
           'edu_uv_comments',
           array('state_comment' => $level),
@@ -746,7 +778,7 @@ class uvcomment extends stdentity
 
     return ($req->lines > 0);
   }
-      
+
 }
 
 /** Fonctions "globales" sur les UVs */
@@ -794,7 +826,7 @@ function get_results($nom, $ine)
       // uvs
 
       if (($i <= 10) && (strlen($plouf[$i]) > 0))
-	{ 
+	{
 	  $nom_uv = substr($plouf[$i],0,4);
 	  $res = substr($plouf[$i], 7);
 	  $ret[] = $res;
@@ -835,7 +867,7 @@ function delete_result_uv($id_etu, $id_uv, $semestre, $dbrw)
 
   return ($req->lines == 1);
 
-  
+
 }
 
 function get_creds_cts(&$etu, $db, $camembert = false)
@@ -871,7 +903,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
                           " ORDER BY".
                           " `semestre_obtention`");
 
-  
+
   $cts = new contents("Détails des crédits obtenus");
 
 
@@ -884,7 +916,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
     while ($rs = $req->get_row())
     {
       $totsuvs++;
-    
+
       if ($rs['uv_cat'] != null)
         $stats_by_cat[$rs['uv_cat']][] = $rs;
       else
@@ -894,7 +926,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 
       $statsobs[$rs['note_obtention']] ++;
       ksort($statsobs, SORT_STRING);
-    
+
       if (($rs['note_obtention'] != 'F') && ($rs['note_obtention'] != 'Fx'))
         $totcreds += $rs['ects_uv'];
     }
@@ -908,7 +940,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
         $ap = substr($key, 0, 1);
         // On récupère l'année sur 2 chiffres
         $annee = substr($key, 1, 2);
-        
+
         /* semestre d'automne, on regarde s'il n'y a pas un semestre de printemps avant de dispo */
         if ($ap == 'A')
         {
@@ -929,8 +961,8 @@ function get_creds_cts(&$etu, $db, $camembert = false)
 
     // affichage anti-chronologique mais fleme d'essayer de comprendre la fontion de tri
     if (count($stats_by_sem_sorted) > 0)
-      $stats_by_sem_sorted = array_reverse($stats_by_sem_sorted); 
-  
+      $stats_by_sem_sorted = array_reverse($stats_by_sem_sorted);
+
     $first = 0;
     if (count($stats_by_sem_sorted) > 0)
     {
@@ -942,27 +974,27 @@ function get_creds_cts(&$etu, $db, $camembert = false)
           $sm = "d'Automne ";
         else
           $sm = "de Printemps ";
-        
+
         $sm .= $annee;
-        
+
         //$cts->add_title(3, "Semestre " . $sm);
         $table = new sqltable('details_uv', "Semestre " . $sm, $semestre, "./index.php?semestre=$key",
                               "id_uv",
-                              array("code_uv" => "Code de l'UV", 
+                              array("code_uv" => "Code de l'UV",
                                     "intitule_uv" => "Intitulé de l'UV",
                                     "uv_cat"      => "Catégorie de l'UV",
                                     "note_obtention"=> "Note d'obtention",
                                     "ects_uv"     => "Crédits ECTS"),
                               array ("delete" => "Enlever"),
                               array());
-             
+
        $cts->add($table, true, false, "res_".$ap.$annee, false, true, !($first++), true);
       }
     }
     if ($totcreds > 0)
     {
       $cts->add_title(2, "Récapitulatif");
-      $cts->add_paragraph("<b>".$totcreds . 
+      $cts->add_paragraph("<b>".$totcreds .
             " crédits ECTS</b> obtenus au long de votre scolarité.");
       if ($etu->a_fait_tc())
       {
@@ -994,7 +1026,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
       {
         $cts->add_paragraph("Vous êtes en TC. Il vous faut par conséquent <b>102 crédits</b> en 3 ou 4 ".
                             "semestres, ou bien <b>120 crédits</b> en cas de semestre(s) supplémentaire(s).");
-        
+
         if ($etu->semestre > 4)
         {
           $rem = 120 - $totcreds;
@@ -1010,7 +1042,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
             $cts->add_paragraph("Il vous manque <b>" . $rem . " crédits</b> pour pouvoir entrer en branche.");
           else
             $cts->add_paragraph("Vous êtes en surplus de <b>" . $rem . " crédits</b>.");
-        } 
+        }
       }
       /* statistiques par catégories */
       if (count($stats_by_cat) > 0)
@@ -1024,7 +1056,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
           $cts->add_title(3, "Catégorie " . $uv_descr_cat[$key]);
           $cts->add(new sqltable('details_uv', "", $array, "./index.php?semestre=$key",
                                  "id_uv",
-                                 array("code_uv" => "Code de l'UV", 
+                                 array("code_uv" => "Code de l'UV",
                                        "intitule_uv" => "Intitulé de l'UV",
                                        "uv_cat"      => "Catégorie de l'UV",
                                        "note_obtention"=> "Note d'obtention",
@@ -1040,9 +1072,9 @@ function get_creds_cts(&$etu, $db, $camembert = false)
               continue;
 
             $totcreds_by_cat += $uv['ects_uv'];
-    
+
             if ($uv['id_dept'] == 'TC')
-              $totcreds_by_cat_tc += $uv['ects_uv']; 
+              $totcreds_by_cat_tc += $uv['ects_uv'];
           }
           $cts->add_paragraph("Soit un total de <b>".$totcreds_by_cat." crédits ECTS</b> dans cette catégorie.");
           if ($a_fait_tc)
@@ -1113,11 +1145,11 @@ function get_creds_cts(&$etu, $db, $camembert = false)
       }
     } // todcreds > 0
 
-    if ( $camembert == true) 
+    if ( $camembert == true)
     {
       global $topdir;
       require_once($topdir . "include/graph.inc.php");
-      
+
       if (count($statsobs) > 0)
       {
         $cam = new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
@@ -1139,7 +1171,7 @@ function get_creds_cts(&$etu, $db, $camembert = false)
   }
 
   $cts->add_paragraph("<br/>");
-  
+
   return $cts;
 }
 
@@ -1147,20 +1179,20 @@ function get_uvsmenu_box()
 {
   global $departements;
   global $site;
-  
+
   $cts = new contents("Pédagogie");
   $dpt = new itemlist("<a href=\"uvs.php\" title=\"Toutes les UV\">Accéder aux UV</a>");
 
   foreach ($departements as $dpt_key)
     $dpt->add("<a href=\"uvs.php?iddept=".$dpt_key."\">".$dpt_key."</a>");
-  
-  
+
+
   $cts->add($dpt, true);
-  
+
   $outils = new itemlist("Outils", false, array("<a href=\"edt.php\" title=\"Gérer vos emploi du temps\">Emploi du temps</a>",
                                                 "<a href=\"profils.php\" title=\"Toutes les UV\">Profils</a>"));
   $cts->add($outils, true);
-  
+
   if( $site->user->is_in_group("etudiants-utbm-actuels") )
   {
     $sql = new requete($site->db, "SELECT id_uv, id_comment, code_uv, surnom_utbm
@@ -1168,17 +1200,17 @@ function get_uvsmenu_box()
                                     NATURAL JOIN edu_uv
                                     NATURAL JOIN utl_etu_utbm
                                     ORDER BY date_commentaire DESC
-                                    LIMIT 5 
+                                    LIMIT 5
                                     ");
 
     $avis = new itemlist("Les derniers commentaires");
-    
+
     while( $row = $sql->get_row() )
       $avis->add("<a href=\"uvs.php?view=commentaires&id_uv=".$row['id_uv']."#cmt_".$row['id_comment']."\">".$row['code_uv']."  par ".$row['surnom_utbm']."</a>");
-    
+
     $cts->add($avis, true);
   }
-  
+
   return $cts;
 }
 

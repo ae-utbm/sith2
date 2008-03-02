@@ -412,6 +412,13 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   	}
   $path .= " / "."<a href=\"".$topdir."uvs/uvs.php?id_uv=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
 
+  /* path partie fichiers */
+  if ((isset ($uv)) && (isset($_REQUEST['id_folder']))
+      && ($uv->check_folder($id_folder)))
+    {
+      $path .= (" / " .$uv->get_path($_REQUEST['id_folder']));
+    }
+
   $cts = new contents($path);
 
   $cts->add($tab);
