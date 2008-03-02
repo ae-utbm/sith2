@@ -180,7 +180,7 @@ if ( $grp->id == 7 )
   $cts->add($frm,true);
 }
 else
-  $cts->add_paragraph("Pour ajouter ou supprimer des groupes, veuillez contacter l'équipe informatique.")
+  $cts->add_paragraph("Pour ajouter ou supprimer des groupes, veuillez contacter l'équipe informatique.");
 
 $site->add_contents($cts);
 $site->end_page();
