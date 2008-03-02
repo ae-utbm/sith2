@@ -38,7 +38,7 @@ $site->start_page ("none", "FIMU 2008 - Inscriptions des bénévoles");
 $cts = new contents("Festival International de Musique Universitaire");
 
 if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "fimu_inscr")
-{mais 
+{
 	$sql = new insert($site->dbrw, "fimu_inscr",
 		array(
 			"id_inscr" => '',
