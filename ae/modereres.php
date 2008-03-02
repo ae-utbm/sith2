@@ -122,18 +122,21 @@ elseif ( $_REQUEST["action"] == "info")
 	$cts->add($frm,true);
 	
 	
-	$lst = new itemlist("Opérations");
-	
-	if( !$resa->date_accord )
-		$lst->add("<a href=\"modereres.php?id_salres=".$resa->id."&action=accord\">Accord</a>");
-	
-	if ( !$resa->convention && $salle->convention )
-		$lst->add("<a href=\"modereres.php?id_salres=".$resa->id."&action=convention\">Convention faite</a>");
-	
-	$lst->add("<a href=\"modereres.php?id_salres=".$resa->id."&action=delete\">Refuser/Supprimer</a>");
-	$lst->add("<a href=\"modereres.php\">Retour modération</a>");
-	
-	$cts->add($lst,true);
+	if(!$site->user->is_in_group("foyer_admin"))
+	{
+		$lst = new itemlist("Opérations");
+		
+		if( !$resa->date_accord )
+			$lst->add("<a href=\"modereres.php?id_salres=".$resa->id."&action=accord\">Accord</a>");
+		
+		if ( !$resa->convention && $salle->convention )
+			$lst->add("<a href=\"modereres.php?id_salres=".$resa->id."&action=convention\">Convention faite</a>");
+		
+		$lst->add("<a href=\"modereres.php?id_salres=".$resa->id."&action=delete\">Refuser/Supprimer</a>");
+		$lst->add("<a href=\"modereres.php\">Retour modération</a>");
+		
+		$cts->add($lst,true);
+	}
 	
 	$site->add_contents($cts);
 	$site->end_page();
