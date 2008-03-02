@@ -33,7 +33,7 @@ $site = new site;
 if ( $site->user->id == -1 )
 	error_403("reserved");
 
-$site->start_page ("none", "FIMU 2007 - Inscriptions des bénévoles");
+$site->start_page ("none", "FIMU 2008 - Inscriptions des bénévoles");
 
 $cts = new contents("Festival International de Musique Universitaire");
 
