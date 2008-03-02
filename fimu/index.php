@@ -39,7 +39,7 @@ $cts = new contents("Festival International de Musique Universitaire");
 
 $sql = new requete($site->db, "SELECT id_utilisateur
 								FROM fimu_inscr
-								WHERE id_utilisateur = ".$site->user->id.";);
+								WHERE id_utilisateur = ".$site->user->id);
 								
 if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "fimu_inscr" && !$sql->lines)
 {
