@@ -274,6 +274,13 @@ class edt extends stdentity
 	$rs = $vfy->get_row();
 	return $rs['id_uv_groupe'];
       }
+    // verification zoror
+    // si ce test est vrai, c'est qu'on a
+    // affaire à un boulet du formulaire web 2.0
+    if ($hfingrp - $hdebgrp <= 0)
+      {
+        return false;
+      }
 
     $sql = new insert($this->dbrw,
 		      "edu_uv_groupe",
