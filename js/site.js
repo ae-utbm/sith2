@@ -189,12 +189,16 @@ function on_off_icon_store (id,topdir,key)
 function on_off_options (name,val,oldval)
 {
 	var obj = document.getElementById(name + '_' + val + '_contents');
+
+	if ( ! obj.checked ){
+
 	obj.style.display = 'block';
 
 	if ( oldval )
 	{
 		var oobj = document.getElementById(name + '_' + oldval + '_contents');
 		oobj.style.display = 'none';
+	}
 	}
 }
 
