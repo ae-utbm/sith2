@@ -351,6 +351,46 @@ class photo extends basedb
     exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail 680x510 -quality 80 $dest_dip");
     exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail 2400x2400 -quality 80 $dest_hd");
     
+    //rotation automatique
+    if(isset($IFDO['Orientation']))
+    {
+      switch($ort)
+      {
+        case 1: // nothing
+          break;
+
+        case 2: // horizontal flip
+          $this->flip(1);
+          break;
+
+        case 3: // 180 rotate left
+          $this->rotate(180);
+          break;
+
+        case 4: // vertical flip
+          $this->flip(2);
+          break;
+
+        case 5: // vertical flip + 90 rotate right
+          $this->flip(2);
+          $this->rotate(-90);
+          break;
+                
+        case 6: // 90 rotate right
+          $this->rotate(-90);
+          break;
+                
+        case 7: // horizontal flip + 90 rotate right
+          $this->flip(1);    
+          $this->rotate(-90);
+          break;
+                
+        case 8: // 90 rotate left
+          $this->rotate(90);
+          break;
+      }
+    }
+    
     $this->_calcul_couleur_moyenne();
   }
 
@@ -745,6 +785,19 @@ class photo extends basedb
     $dest_vgt = $this->get_abs_path().$this->id.".vignette.jpg";
     
     exec("/usr/share/php5/exec/convert $src_hd -rotate ".intval($degrees)." -quality 80 $src_hd");
+    exec("/usr/share/php5/exec/convert $src_hd -thumbnail 140x105 -quality 95 $dest_vgt");
+    exec("/usr/share/php5/exec/convert $src_hd -thumbnail 680x510 -quality 80 $dest_dip");
+  }
+  
+  function flip($flip=1)
+  {
+    $src_hd = $this->get_abs_path().$this->id.".jpg";
+    $dest_dip = $this->get_abs_path().$this->id.".diapo.jpg";
+    $dest_vgt = $this->get_abs_path().$this->id.".vignette.jpg";
+    if($flip==1)//horizontal
+      exec("/usr/share/php5/exec/convert $src_hd -flop ".intval($degrees)." -quality 80 $src_hd");
+    if($flip==2)//vertical
+      exec("/usr/share/php5/exec/convert $src_hd -flip ".intval($degrees)." -quality 80 $src_hd");
     exec("/usr/share/php5/exec/convert $src_hd -thumbnail 140x105 -quality 95 $dest_vgt");
     exec("/usr/share/php5/exec/convert $src_hd -thumbnail 680x510 -quality 80 $dest_dip");
   }
