@@ -354,7 +354,7 @@ class photo extends basedb
     //rotation automatique
     if(isset($IFDO['Orientation']))
     {
-      switch($ort)
+      switch($IFDO['Orientation'])
       {
         case 1: // nothing
           break;
