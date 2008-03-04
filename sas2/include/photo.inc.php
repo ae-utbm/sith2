@@ -373,20 +373,20 @@ class photo extends basedb
 
         case 5: // vertical flip + 90 rotate right
           $this->flip(2);
-          $this->rotate(-90);
+          $this->rotate(90);
           break;
                 
         case 6: // 90 rotate right
-          $this->rotate(-90);
+          $this->rotate(90);
           break;
                 
         case 7: // horizontal flip + 90 rotate right
           $this->flip(1);    
-          $this->rotate(-90);
+          $this->rotate(90);
           break;
                 
         case 8: // 90 rotate left
-          $this->rotate(90);
+          $this->rotate(-90);
           break;
       }
     }
