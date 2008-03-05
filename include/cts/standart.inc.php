@@ -285,7 +285,7 @@ class form extends stdcontents
 
   var $work_variables;
 
-  private var $_subform_values;
+  private $_subform_values;
 
   /** Initialise un formulaire
    * @param $name      Nom du formulaire
