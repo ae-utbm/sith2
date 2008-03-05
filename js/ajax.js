@@ -20,6 +20,41 @@
  * 02111-1307, USA.
  */
 
+/**
+ * @file
+ * Fonctions pour requêtes asynchrones au serveur.
+ * Base des techniques "AJAX".
+ *
+ * **RAPPEL** Ce fichier est sous licence GNU GPL. Vous pouvez le ré-utiliser
+ * sur votre site internet, mais il doit rester sous licence GNU GPL même si
+ * vous le modifiez. Si vous ré-utilisez des sources de gateway.php, ces sources
+ * étant sous la même licence, elles devront aussi rester sous GNU GPL. 
+ * Pour plus d'information : http://www.gnu.org/
+ *
+ * @author Julien Etelain
+ */
+
+/**
+ * @defgroup js Fonctions javascript utilitaires
+ */
+
+/**
+ * @defgroup js_ajax Fonctions javascript "AJAX"
+ * Fonctions pour requêtes asynchrones au serveur.
+ * Base des techniques "AJAX".
+ * @ingroup js
+ */
+
+/**
+ * Charge des données HTML depuis le serveur dans un element de la page de
+ * manière asynchrone.
+ * @param name id de l'element de la page dont le contenu sera remplacé par
+ *             le résultat de la requête 
+ * @param page URL à la quelle la requête sera envoyée
+ * @param data paramètres à passer en GET ("param1=value1&param2=value2")
+ * @return true si la requête a été bien envoyée, false sinon
+ * @ingroup js_ajax
+ */
 function openInContents( name, page, data)
 {
   if (window.ActiveXObject)
@@ -44,6 +79,13 @@ function openInContents( name, page, data)
 	return true;
 }
 
+/**
+ * Execute un script renvoyé par une requête au serveur de manière asynchrone.
+ * @param page URL à la quelle la requête sera envoyée
+ * @param data paramètres à passer en GET ("param1=value1&param2=value2")
+ * @return true si la requête a été bien envoyée, false sinon
+ * @ingroup js_ajax
+ */
 function evalCommand( page, data )
 {
 
@@ -69,13 +111,42 @@ function evalCommand( page, data )
 	return true;
 }
 
+/**
+ * Définit un élément dans la variable $_SESSION["usersession"] du coté du 
+ * serveur.
+ * $_SESSION["usersession"] est mémorisé si l'utilisateur est connecté.
+ * @param topdir Chemin vers la racine du site (pour trouver le script gateway.php)
+ * @param key Clé de l'élément qui sera affecté ($_SESSION["usersession"][key])
+ * @param value Valeur à définir
+ * @ingroup js_ajax
+ */
 function usersession_set ( topdir, key, value )
 {
 	evalCommand ( topdir + "gateway.php", "module=usersession&set=" + escape(key) + "&value=" + escape(value) );
 }
 
+/**
+ * @defgroup display_cts_js Support Javascript.
+ *
+ * L'ensemble des traitements coté serveurs de ces fonctions est réalisé par
+ * gateway.php
+ *
+ * Pour la selection d'entités, elles doivent être correctement définies dans
+ * include/catalog.inc.php : nottament le nom du fichier contenant la déclaration
+ * de la classe.
+ *
+ * @ingroup display_cts
+ * @see gateway.php
+ * @see include/catalog.inc.php
+ */
+
+
 var quering=0;
 var call=0;
+/**
+ * @deprecated
+ * @ingroup display_cts_js 
+ */
 function autocomplete(event,topdir, field,kind)
 {
 	if ( event != null )
@@ -128,7 +199,10 @@ function autocomplete(event,topdir, field,kind)
 	XhrObj.send(null);
 	return true;
 }
-
+/**
+ * @deprecated
+ * @ingroup display_cts_js 
+ */
 function autocomplete_callback(topdir,res,field,pattern,kind)
 {
 	var obj = document.getElementById(field);
@@ -176,20 +250,29 @@ function autocomplete_callback(topdir,res,field,pattern,kind)
 	}
 	objlst.style.display = 'block';
 }
-
+/**
+ * @deprecated
+ * @ingroup display_cts_js
+ */
 function autocomplete_set ( field, value )
 {
 	var obj = document.getElementById(field);
 	obj.value=value;
 	autocomplete_stop(field);
 }
-
+/**
+ * @deprecated
+ * @ingroup display_cts_js
+ */
 function autocomplete_stop ( field )
 {
 	var objlst = document.getElementById(field + "_area");
 	objlst.style.display = 'none';
 }
-
+/**
+ * @deprecated
+ * @ingroup display_cts_js
+ */
 function autocomplete_stop_delayed( field ) {
     setTimeout("autocomplete_stop('" + field + "')", 500);
 }
@@ -232,6 +315,14 @@ function fsearch_stop_delayed( field ) {
     setTimeout("fsearch_stop()", 500);
 }
 
+
+
+/**
+ * Champ de selection d'utilisateur par recherche : Ouvre / Ferme la recherche
+ *
+ * @ingroup display_cts_js
+ * @deprecated fsfield gère mieu les saisies claviers
+ */
 function userselect_toggle(ref)
 {
 	var obj1 = document.getElementById(ref+"_fieldbox");
@@ -258,6 +349,12 @@ function userselect_toggle(ref)
 	}
 }
 
+/**
+ * Champ de selection d'utilisateur par recherche : Selection de l'utilisateur
+ *
+ * @ingroup display_cts_js
+ * @deprecated fsfield gère mieu les saisies claviers
+ */
 function userselect_set_user(topdir, ref,id,nom)
 {
 	var obj1 = document.getElementById(ref+"_fieldbox");
@@ -281,6 +378,13 @@ function userselect_set_user(topdir, ref,id,nom)
 	
 }
 
+/**
+ * Champ de selection d'utilisateur par recherche : Lancement de la recherche 
+ * lors de la saisie dans le champ de recherche
+ *
+ * @ingroup display_cts_js
+ * @deprecated fsfield gère mieu les saisies claviers
+ */
 function userselect_keyup(event,ref,topdir)
 {
 	if ( event != null )
@@ -303,12 +407,20 @@ function userselect_keyup(event,ref,topdir)
 var fsfield_current_sequence = new Array();
 var fsfield_sequence = new Array();
 
+/**
+ * Champ de selection par recherche : Initialisation d'un champ
+ * @ingroup display_cts_js
+ */
 function fsfield_init ( topdir, field )
 {
   fsfield_current_sequence[field]=0;
   fsfield_sequence[field]=0;
 }
 
+/**
+ * Champ de selection par recherche : Ouvre / Ferme la recherche
+ * @ingroup display_cts_js
+ */
 function fsfield_toggle ( topdir, field )
 {
 	var obj1 = document.getElementById(field+"_fieldbox");
@@ -335,6 +447,10 @@ function fsfield_toggle ( topdir, field )
 	}
 }
 
+/**
+ * Champ de selection par recherche : Selection de l'élément
+ * @ingroup display_cts_js
+ */
 function fsfield_sel ( topdir, field, id, title, iconfile )
 {
   // Bloque les reponses pas encore données par le serveur (évite que la boite re-aparaisse après avoir choisi l'élément)
@@ -356,6 +472,12 @@ function fsfield_sel ( topdir, field, id, title, iconfile )
 	obj4.innerHTML="";
 }
 
+/**
+ * Champ de selection par recherche : Lancement de la recherche lors de la 
+ * saisie dans le champ de recherche.
+ * 
+ * @ingroup display_cts_js
+ */
 function fsfield_keyup ( event, topdir, field, myclass )
 {
 	if ( event != null )
@@ -390,11 +512,21 @@ var tooltip_element = document.createElement("div");
 tooltip_element.setAttribute('id','systooltip');
 tooltip_element.style.position="absolute";
 
+/**
+ * Determine la position absolue (x,y) d'un élément par rapport au document (racine)
+ * @param obj Objet dont on recherche la position absolue
+ * @return un tableau [x,y] contenant la position absolue
+ * @ingroup js
+ */
 function findPos(obj)
 {	var curleft = curtop = 0;	if (obj.offsetParent)
 	{		curleft = obj.offsetLeft		curtop = obj.offsetTop		while (obj = obj.offsetParent)
 		{			curleft += obj.offsetLeft			curtop += obj.offsetTop		}	}	return [curleft,curtop];}
 
+/**
+ * Bulle d'information : Affiche une bulle d'information dans un délai de 1 seconde
+ * @ingroup display_cts_js
+ */
 function show_tooltip ( ref, topdir, myclass, id )
 {
   document.body.appendChild(tooltip_element);
@@ -404,6 +536,10 @@ function show_tooltip ( ref, topdir, myclass, id )
   setTimeout("go_tooltip('" + ref + "','" + topdir + "','" + myclass + "','" + id + "')", 1000);
 }
 
+/**
+ * Bulle d'information : Affiche une bulle d'information (asynchrone)
+ * @ingroup display_cts_js
+ */
 function go_tooltip ( ref, topdir, myclass, id )
 {
   if ( tooltip_active != ref )
@@ -438,6 +574,10 @@ function go_tooltip ( ref, topdir, myclass, id )
 	return true;
 }
 
+/**
+ * Bulle d'information : Cache un bulle ou annule son affichage
+ * @ingroup display_cts_js
+ */
 function hide_tooltip ( ref )
 {
   tooltip_active='';
@@ -448,7 +588,11 @@ function hide_tooltip ( ref )
  * Entities : Explorer Field
  *
  */
-
+ 
+/**
+ * Champ de selection par exploration  : Ouvre / Ferme l'arbre de selection
+ * @ingroup display_cts_js
+ */
 function exfield_toggle ( topdir, field, myclass )
 {
 	var obj2 = document.getElementById(field+"_static");
@@ -474,6 +618,10 @@ function exfield_toggle ( topdir, field, myclass )
 	}
 }
 
+/**
+ * Champ de selection par exploration : Explore / ferme un noeud de l'arber
+ * @ingroup display_cts_js
+ */
 function exfield_explore ( topdir, field, myclass, eclass, eid )
 {
   var obj = document.getElementById(field+"_"+eclass+"_"+eid);
@@ -484,6 +632,10 @@ function exfield_explore ( topdir, field, myclass, eclass, eid )
     openInContents( field+"_"+eclass+"_"+eid, topdir+"gateway.php", "module=exfield&topdir="+topdir+"&field="+field+"&class="+myclass+"&eclass="+eclass+"&eid="+eid);
 }
 
+/**
+ * Champ de selection par exploration : Selection d'une valeur
+ * @ingroup display_cts_js
+ */
 function exfield_select ( topdir, field, myclass, id, title, iconfile )
 {
   

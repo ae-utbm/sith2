@@ -380,12 +380,19 @@ class form extends stdcontents
     $this->add_text_field("magicform[geo][$name]",$title,$value,$required);
   }
   
-  
+  /**
+   * @deprecated Technique utilisé aux orgines de ae2 pour la selection d'un utilisateur : 
+   * Utilisez plutôt add_entity_smartselect ( $name, $title, new Utilisateur($site->db)...)
+   */
   function add_user_email_field ( $name, $title, $value = "", $required = false , $size = false)
   {
     $this->add_suggested_text_field( $name, $title, "email", $value, $required , $size);
   }
-
+  
+  /**
+   * @deprecated Technique un peu ancienne, smartselect est une généralisation : 
+   * Utilisez plutôt add_entity_smartselect ( $name, $title, new Utilisateur($site->db)...)
+   */
   function add_user_fieldv2 ( $name, $title, $value = "", $required = false )
   {
     global $topdir;
@@ -422,7 +429,25 @@ class form extends stdcontents
     
   }
   
-  
+  /** Ajoute un champ de selection d'une entité (stdentity).
+  *
+   * Determine automatiquement la forme la plus appropriée pour la selection,
+   * en fonction des capacité de la classe de l'entité et de ses préférences.
+   *
+   * L'id de l'entité séléctionné sera placé dans la variable (0 si aucune).
+   *
+   * L'entité **doit** être correctement déclarée dans catalog.inc.php
+   * y compris le fichier contenant la déclarartion de la classe, même si cela
+   * est facultatif pour les autres fonctionalités liées à stdentity.
+   *
+   * @param $name    Nom du champ
+   * @param $title  Libéllé du champ
+   * @param $instance Instance de l'entité : soit une vierge, soit la valeur 
+   * @param $none Authorise à selectionner aucunne entité (0 sera placé dans la variable)
+   * @param $required  Précise si le champ est obligatoire [redondant avec $none, mais passons]
+   * @param $conds Conditions sur les entités selectionnable (tableau associatif avec nom du champ sql associé à une valeur)
+   * @see stdentity
+   */
   function add_entity_smartselect ( $name, $title, &$instance, $none = false, $required = false, $conds=null )
   {
     global $wwwtopdir;
@@ -1227,6 +1252,7 @@ class form extends stdcontents
    * @param $value   Valeur selectionnée
    * @param $none Authorise aucune valeur (=0)
    * @param $conds Conditions sur l'entitée (niveau sql)
+   * @see add_entity_smartselect à préférer
    */
   function add_entity_select ( $name, $title, $db, $entityclass, $value=false, $none=false, $conds=array())
   {

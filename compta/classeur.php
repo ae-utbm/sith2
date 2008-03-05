@@ -510,7 +510,6 @@ if( $_REQUEST["action"] == "edit" && ($op->is_valid()))
 	$sfrm = new form("kindtg",null,null,null,"Entreprise");
 	$sfrm->add_entity_smartselect ("id_ent","Nom", $ent);
 	$sfrm->add_entity_smartselect ("id_utilisateur_ent","Etudiant intermédiaire (email)", $utl, true);
-	//$sfrm->add_user_email_field("email_utl_ent","Etudiant intermédiaire (email)",$utl->email);
 	$cfrm->add($sfrm,false,true,(!is_null($op->id_ent) && ($op->id_ent!=3)),"ent",false,true);
 
 	$sfrm = new form("kindtg",null,null,null,"Association tier");
@@ -522,7 +521,6 @@ if( $_REQUEST["action"] == "edit" && ($op->is_valid()))
 	$cfrm->add($sfrm,false,true,!is_null($op->id_cptasso),"cptasso",false,true);
 	
 	$sfrm = new form("kindtg",null,null,null,"Etudiant");
-	//$sfrm->add_user_email_field("email_utl","Addresse email",$utl->email);
 	$sfrm->add_entity_smartselect ("id_utilisateur","Etudiant", $utl);
 	$cfrm->add($sfrm,false,true,(is_null($op->id_ent) && !is_null($utl->id)),"etu",false,true);
 	
@@ -988,7 +986,6 @@ elseif ( $_REQUEST["page"] == "new" )
 	$sfrm = new form("kindtg",null,null,null,"Entreprise");
 	$sfrm->add_entity_smartselect ("id_ent","Nom", $ent);
 	$sfrm->add_entity_smartselect ("id_utilisateur_ent","Etudiant intermédiaire (email)", $utl, true);
-	//$sfrm->add_user_email_field("email_utl_ent","Etudiant intermédiaire (email)");
 	$cfrm->add($sfrm,false,true,true,"ent",false,true,true);
 
 	$sfrm = new form("kindtg",null,null,null,"Association tier");
@@ -1000,7 +997,6 @@ elseif ( $_REQUEST["page"] == "new" )
 	$cfrm->add($sfrm,false,true,false,"cptasso",false,true,false);
 	
 	$sfrm = new form("kindtg",null,null,null,"Etudiant");
-	//$sfrm->add_user_email_field("email_utl","Addresse email");
 	$sfrm->add_entity_smartselect ("id_utilisateur","Etudiant", $utl);
 	$cfrm->add($sfrm,false,true,false,"etu",false,true,false);
 	
