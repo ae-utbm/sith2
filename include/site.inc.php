@@ -76,7 +76,7 @@ class site extends interfaceweb
 
     $this->set_side_boxes("left",array("calendrier","alerts","connexion"),"default_left");
 
-    //$this->add_css("themes/gala/css/site.css");
+    $this->add_css("themes/sdm08/css/site.css");
     
   }
 

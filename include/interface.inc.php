@@ -209,13 +209,13 @@ class interfaceweb
 
     header("Content-Type: text/html; charset=utf-8");
     
-    //echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">";
+    //echo "<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">";
     
     echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">\n";
     echo "<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
     echo "<title>".$this->title." - association des etudiants de l'utbm</title>\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/sdm08/css/site.css\" title=\"Semaine de Mars 2008\" />\n";
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css\" title=\"Semaine de Mars 2008\" />\n";
     foreach ( $this->extracss as $url ) 
       echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
     
@@ -261,7 +261,7 @@ class interfaceweb
       echo "</div>\n";
       
       echo "<div id=\"fsearchbox\">\n";
-      echo "<form action=\"".$wwwtopdir."fsearch.php\" method=\"POST\">";
+      echo "<form action=\"".$wwwtopdir."fsearch.php\" method=\"post\">";
       echo "<input type=\"text\" id=\"fsearchpattern\" name=\"pattern\" onblur=\"fsearch_stop_delayed();\" onkeyup=\"fsearch_keyup(event,'$wwwtopdir');\" value=\"\" />\n";
       echo "</form>";
       echo "<div class=\"fend\"></div></div>\n";
