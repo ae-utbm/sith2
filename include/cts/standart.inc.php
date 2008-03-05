@@ -1516,7 +1516,7 @@ class form extends stdcontents
       if ( isset($this->_subform_values[$subfrm->name]) )
         $on = $checked = ($this->_subform_values[$subfrm->name]==$value);
       else
-        $on = $checked  $subfrm->on;
+        $on = $checked = $subfrm->on;
       
     }
     else if ( $class == "subformcheck" )
