@@ -27,7 +27,7 @@
 require_once("carteae.inc.php");
 
 
-$GLOBALS["utbm_roles"] = array("etu"=>"Etudiant", "adm"=>"Personnel administratif", "ens"=>"Enseignant", "per"=>"Personnel");
+$GLOBALS["utbm_roles"] = array("etu"=>"Etudiant", "adm"=>"Personnel administratif", "ens"=>"Enseignant", "per"=>"Personnel", "doc"=>"Doctorant");
 $GLOBALS["utbm_departements"] = array("tc"=>"TC", "gi"=>"GI", "imap"=>"IMAP", "gesc"=>"GESC", "gmc"=>"GMC", "edim"=>"EDIM", "huma"=>"Humanités", "na"=>"N/A");
 
 /**
