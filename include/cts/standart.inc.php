@@ -1619,7 +1619,7 @@ class subformoption extends subformcheck
   function subformoption ( $name, $value, $title, $selected )
   {
     $this->value=$value;
-    $this->subform($name, $title, $selected);
+    $this->subformcheck($name, $title, $selected);
   }
 }
 
