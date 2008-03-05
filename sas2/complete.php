@@ -203,28 +203,28 @@ if ( $req->lines == 1 )
   $frm->add_hidden("id_photo",$photo->id);
   $frm->add_hidden("action","complete");
     
-  $sfrm = new form("people",null,null,null,"Personnes sur la photo");
+  $sfrm = new subform("people","Personnes sur la photo");
   while ( list($id,$nom) = $req->get_row() )
     $sfrm->add_checkbox("yet|$id",$nom,true);
   for ($i=0;$i<7;$i++)
     $sfrm->add_user_fieldv2("id_utilisateur[$i]","");
   $sfrm->add_checkbox("complet","Liste complète",$photo->incomplet?false:true);
-	$frm->add($sfrm);
+	$frm->addsub($sfrm);
   
-  $sfrm = new form("meta",null,null,null,"Meta-informations");
+  $sfrm = new subform("meta","Meta-informations");
   $sfrm->add_text_field("titre","Titre",$photo->titre);
   $sfrm->add_text_field("tags","Tags (séparteur: virgule)",$photo->get_tags());
   $sfrm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$photo->meta_id_asso,true);
   $sfrm->add_entity_select("id_asso_photographe", "Photographe", $site->db, "asso",$photo->id_asso_photographe,true);
-	$frm->add($sfrm);
+	$frm->addsub($sfrm);
 
-  $sfrm = new form("access",null,null,null,"Droits d'accés");
-  $ssfrm = new form("restrict",null,null,null,"Accès non restreint");
-	$sfrm->add($ssfrm,false,true,($photo->droits_acces & 1),"none",false,true);
-  $ssfrm = new form("restrict",null,null,null,"Limiter l'accés au groupe");
+  $sfrm = new subform("access","Droits d'accés");
+  $ssfrm = new subformoption("restrict","none","Accès non restreint",($photo->droits_acces & 1));
+	$sfrm->add($ssfrm,true);
+  $ssfrm = new subformoption("restrict","group","Limiter l'accés au groupe",!($photo->droits_acces & 1));
 	$ssfrm->add_entity_select( "id_group", "Groupe", $site->db, "group", $photo->id_groupe );
-	$sfrm->add($ssfrm,false,true,!($photo->droits_acces & 1),"limittogroup",false,true);
-	$frm->add($sfrm);
+	$sfrm->addsub($ssfrm,true);
+	$frm->addsub($sfrm);
   
   $frm->add_submit("fin","Valider/Suivant");
   $subcts->add($frm,true);

@@ -1486,6 +1486,41 @@ class form extends stdcontents
     $this->buffer .= "</div>\n";
   }
   
+  /**
+   * Ajoute un sous formulaire.
+   *
+   * form::add est trop compliqué, on s'enmèle toujours entre les paramètres, 
+   * c'est pourquoi cette fonction existe en combinaison des classes subform, 
+   * subformcheck et subformoption.
+   *
+   * @param $subfrm Sous formulaire (subform, subformcheck ou subformoption)
+   * @param $onoff Cache le sous-forumulaire si non actif
+   * @param $line Affiche en formulaire sur une ligne
+   */
+  function addsub ( subform $subfrm, bool $onoff=false, bool $line=false )
+  {  
+    $check = false;
+    $option=false;
+    $checked=false;
+    $value=false;
+    
+    $class = get_class($subfrm);
+    
+    if ( $class == "subformoption" )
+    {
+      $option=true;
+      $value=$subfrm->value;
+      $checked=$subfrm->on;
+    }
+    else if ( $class == "subformcheck" )
+    {
+      $check=true;
+      $checked=$subfrm->on;
+    }
+    $on=$subfrm->on;
+    
+    $this->add ( $subfrm, $check, $option, $checked, $value, $line, $onoff, $on );
+  }
   
   function html_render ()
   {
@@ -1510,9 +1545,10 @@ class form extends stdcontents
     return $html;
   }
   
-  /** @private
-  */
-  function _render_name ( $name, $title, $required )
+  /** 
+   * @protected
+   */
+  protected function _render_name ( $name, $title, $required )
   {
     if ( !$title )
     {
@@ -1534,6 +1570,7 @@ class form extends stdcontents
   /** Ajoute un petit conseil / avertissement de premier niveau
    * @param $tipp  Texte
    * @private
+   * @deprecated Horreur et damnation 
    */
   function _add_tipp ( $tipp  )
   {
@@ -1542,6 +1579,52 @@ class form extends stdcontents
   }  
   
 }
+
+/** 
+ * Sous-formulaire
+ * @ingroup display_cts
+ * @see form::addsub
+ */
+class subform extends form
+{
+  var $on;
+  function subform ( $name, $title = false, $on=true )
+  {
+    $this->on = $on;
+    $this->form($name, null, null, null, $title);
+  }
+}
+
+/** 
+ * Sous-formulaire selectionnable
+ * @ingroup display_cts
+ * @see form::addsub
+ */
+class subformcheck extends subform
+{
+  function subformcheck ( $name, $title, $checked )
+  {
+    $this->subform($name, $title, $checked);
+  }
+}
+
+/** 
+ * Sous-formulaire selectionnable exclusif
+ * @ingroup display_cts
+ * @see form::addsub
+ */
+class subformoption extends subformcheck
+{
+  var $value;
+  function subformoption ( $name, $value, $title, $selected )
+  {
+    $this->value=$value;
+    $this->subform($name, $title, $selected);
+  }
+}
+
+
+
 
 /** Conteneur de table
  * @ingroup display_cts
