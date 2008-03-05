@@ -220,7 +220,7 @@ if ( $req->lines == 1 )
 
   $sfrm = new subform("access","Droits d'accés");
   $ssfrm = new subformoption("restrict","none","Accès non restreint",($photo->droits_acces & 1));
-	$sfrm->add($ssfrm,true);
+	$sfrm->addsub($ssfrm,true);
   $ssfrm = new subformoption("restrict","group","Limiter l'accés au groupe",!($photo->droits_acces & 1));
 	$ssfrm->add_entity_select( "id_group", "Groupe", $site->db, "group", $photo->id_groupe );
 	$sfrm->addsub($ssfrm,true);
