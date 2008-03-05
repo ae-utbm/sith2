@@ -285,6 +285,8 @@ class form extends stdcontents
 
   var $work_variables;
 
+  private var $_subform_values;
+
   /** Initialise un formulaire
    * @param $name      Nom du formulaire
    * @param $action    Fichier sur le quel le formulaire sera envoyé
@@ -1506,24 +1508,70 @@ class form extends stdcontents
     
     $class = get_class($subfrm);
     
+    
     if ( $class == "subformoption" )
     {
       $option=true;
       $value=$subfrm->value;
-      $checked=$subfrm->on;
+      if ( isset($this->_subform_values[$subfrm->name]) )
+        $on = $checked = ($this->_subform_values[$subfrm->name]==$value);
+      else
+        $on = $checked  $subfrm->on;
+      
     }
     else if ( $class == "subformcheck" )
     {
       $check=true;
-      $checked=$subfrm->on;
+      if ( isset($this->_subform_values[$subfrm->name]) )
+        $on = $checked = $this->_subform_values[$subfrm->name];
+      else
+        $on = $checked = $subfrm->on;      
     }
-    $on=$subfrm->on;
+    else
+    {
+      if ( isset($this->_subform_values[$subfrm->name]) )
+        $on = $this->_subform_values[$subfrm->name];
+      else
+        $on = $subfrm->on;    
+    }
+    
+    //$_subform_values
     
     //$subfrm->title .= "($class)";
     
     $this->add ( $subfrm, $check, $option, $checked, $value, $line, $onoff, $on );
   }
   
+  /**
+   * Définit le sous-formulaire selectionné d'un groupe exclusif.
+   * Cette fonction est prioritaire sur les valeurs passés aux contructeurs des
+   * sous-formulaires.
+   * Remarque: doit être appelé avant les addsub
+   * @param $name Nom du groupe
+   * @param $value Valeur selectionné
+   */
+  function set_subformoption_value ( $name, $value )
+  {
+    if ( !isset($this->_subform_values) )
+      $this->_subform_values = array();
+    $this->_subform_values[$name] = $value;
+  }
+  
+  /**
+   * Définit l'etat d'ouverture / selection d'un sous-formulaire.
+   * Cette fonction est prioritaire sur les valeurs passés aux contructeurs des
+   * sous-formulaires.
+   * Remarque: doit être appelé avant les addsub
+   * @param $name Nom du sous-formulaire
+   * @param $on Ouvert / Coché
+   */
+  function set_subform_checked ( $name, $on )
+  {
+    if ( !isset($this->_subform_values) )
+      $this->_subform_values = array();
+    $this->_subform_values[$name] = $on;
+  }
+    
   function html_render ()
   {
     $html = "";
@@ -1604,7 +1652,7 @@ class subform extends form
  */
 class subformcheck extends subform
 {
-  function subformcheck ( $name, $title, $checked )
+  function subformcheck ( $name, $title, $checked=true )
   {
     $this->subform($name, $title, $checked);
   }
@@ -1618,7 +1666,7 @@ class subformcheck extends subform
 class subformoption extends subformcheck
 {
   var $value;
-  function subformoption ( $name, $value, $title, $selected )
+  function subformoption ( $name, $value, $title, $selected=true )
   {
     $this->value=$value;
     $this->subformcheck($name, $title, $selected);
