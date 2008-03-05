@@ -1497,7 +1497,7 @@ class form extends stdcontents
    * @param $onoff Cache le sous-forumulaire si non actif
    * @param $line Affiche en formulaire sur une ligne
    */
-  function addsub ( subform $subfrm, bool $onoff=false, bool $line=false )
+  function addsub ( subform $subfrm, $onoff=false, $line=false )
   {  
     $check = false;
     $option=false;
