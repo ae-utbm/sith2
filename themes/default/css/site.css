@@ -2005,7 +2005,7 @@ div.newsnotices li.nvl1
   background:#fff;
 }
 
-li.nvl0 img
+li.nvl0 img.nvlicon
 {
   position:relative;
   float:left;
@@ -2016,7 +2016,7 @@ li.nvl0 img
 }
 
 /* IE n'aime pas le float right, donc float left */
-li.nvl1 img
+li.nvl1 img.nvlicon
 {
   position:relative;
   float:left;
@@ -2027,7 +2027,7 @@ li.nvl1 img
 }
 
 /* Mais les vrais navigateurs float right */
-html > * li.nvl1 img
+html > * li.nvl1 img.nvlicon
 {
   float:right;
   margin-right:0;
