@@ -113,6 +113,14 @@ if ( $_REQUEST["action"] == "complete" )
     $phasso->load_by_id($_REQUEST["id_asso"]);
     $ptasso->load_by_id($_REQUEST["id_asso_photographe"]);
     
+    if ( $_REQUEST["restrict"] == "limittogroup" )
+    {
+      $photo->droits_acces = 0x310;
+      $photo->id_groupe = $_REQUEST["id_group"];
+    }
+    else
+      $photo->droits_acces = 0x311;
+    
     $photo->update_photo(
         $photo->date_prise_vue,
         $photo->commentaire,
@@ -121,6 +129,7 @@ if ( $_REQUEST["action"] == "complete" )
         $_REQUEST["titre"],
         $ptasso->id
         );
+    $photo->set_tags($_REQUEST["tags"]);
   }
 }
 
@@ -178,7 +187,7 @@ if ( $req->lines == 1 )
   $cts->add($imgcts,false,true,"sasimg");
 
   $subcts = new contents();
-
+/*
   if ( $req->lines==0 )
   {
     $frm = new form("setfull",$page,false,"POST","Liste complète");
@@ -189,25 +198,33 @@ if ( $req->lines == 1 )
     $frm->add_submit("valid","Oui/Suivant");
     $subcts->add($frm,true);
   }
-
-  $frm = new form("peoples",$page,false,"POST","Personnes reconnaissables");
+*/
+  $frm = new form("peoples",$page,false,"POST","Compléter la photo");
   $frm->add_hidden("id_photo",$photo->id);
   $frm->add_hidden("action","complete");
-  if ( $error> 0 )
-    $frm->error("Une ou plusieurs personnes sont inconnues.");
+    
+  $sfrm = new form("people",null,null,null,"Personnes sur la photo");
   while ( list($id,$nom) = $req->get_row() )
-    $frm->add_checkbox("yet|$id",$nom,true);
+    $sfrm->add_checkbox("yet|$id",$nom,true);
+  for ($i=0;$i<7;$i++)
+    $sfrm->add_user_fieldv2("id_utilisateur[$i]","");
+  $sfrm->add_checkbox("complet","Liste complète",$photo->incomplet?false:true);
+	$frm->add($sfrm);
+  
+  $sfrm = new form("meta",null,null,null,"Meta-informations");
+  $sfrm->add_text_field("titre","Titre",$photo->titre);
+  $sfrm->add_text_field("tags","Tags (séparteur: virgule)",$photo->get_tags());
+  $sfrm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$photo->meta_id_asso,true);
+  $sfrm->add_entity_select("id_asso_photographe", "Photographe", $site->db, "asso",$photo->id_asso_photographe,true);
+	$frm->add($sfrm);
 
-  for ($i=0;$i<12;$i++)
-  {
-    $frm->add_user_fieldv2("id_utilisateur[$i]","");
-  }
-  
-  $frm->add_checkbox("complet","Liste complète");
-  
-  $frm->add_text_field("titre","Titre",$photo->titre);
-  $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$photo->meta_id_asso,true);
-  $frm->add_entity_select("id_asso_photographe", "Photographe", $site->db, "asso",$photo->id_asso_photographe,true);
+  $sfrm = new form("access",null,null,null,"Droits d'accés");
+  $ssfrm = new form("restrict",null,null,null,"Accès non restreint");
+	$sfrm->add($ssfrm,false,true,($photo->droits_acces & 1),"none",false,true);
+  $ssfrm = new form("restrict",null,null,null,"Limiter l'accés au groupe");
+	$ssfrm->add_entity_select( "id_group", "Groupe", $site->db, "group", $photo->id_groupe );
+	$sfrm->add($ssfrm,false,true,!($photo->droits_acces & 1),"limittogroup",false,true);
+	$frm->add($sfrm);
   
   $frm->add_submit("fin","Valider/Suivant");
   $subcts->add($frm,true);

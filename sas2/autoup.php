@@ -161,7 +161,7 @@ elseif ( $_REQUEST["act"] == "UploadImage" )
 
     $photo->set_rights($site->user,$_REQUEST["Rights"] & 0x333,$id_group,$cat->id_groupe_admin,false);
 
-    $photo->add_photo ( $_FILES['imageFile']['tmp_name'], $cat->id, "", null, false);
+    $photo->add_photo ( $_FILES['imageFile']['tmp_name'], $cat->id, "", $site->user->id, false);
 
     echo "<error>0</error>\n";
 
@@ -204,7 +204,7 @@ elseif ( $_REQUEST["act"] == "UploadVideoFLV" )
 
     $photo->set_rights($site->user,$_REQUEST["Rights"] & 0x333,$id_group,$cat->id_groupe_admin,false);
 
-    $photo->add_videoflv ( $_FILES['imageFile']['tmp_name'], $_FILES['flvFile']['tmp_name'], $cat->id, "", null, false);
+    $photo->add_videoflv ( $_FILES['imageFile']['tmp_name'], $_FILES['flvFile']['tmp_name'], $cat->id, "", $site->user->id, false);
 
     echo "<error>0</error>\n";
 
