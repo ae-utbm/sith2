@@ -1519,6 +1519,8 @@ class form extends stdcontents
     }
     $on=$subfrm->on;
     
+    $subfrm->title .= "($class)";
+    
     $this->add ( $subfrm, $check, $option, $checked, $value, $line, $onoff, $on );
   }
   
