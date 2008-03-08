@@ -50,7 +50,7 @@ if ($site->user->utbm)
   {
 
     require_once($topdir . "include/cts/sqltable.inc.php");
-    
+
     $cts->add_title(1, "TOP 10 des UVs les mieux notées de mon département");
 
     $sql = new requete($site->db,
@@ -64,12 +64,18 @@ if ($site->user->utbm)
                       ORDER BY `note_uv` DESC LIMIT 10");
 
 
+    for ($i = 0; $i < $sql->lines; $i++)
+      {
+        $res = $sql->get_row();
+        $tab[$i] = $res;
+        $tab[$i]['note_stars'] = p_stars($res['note_uv']);
+      }
 
-    $table = new sqltable('best_uv_dept', "", $sql, "",
+    $table = new sqltable('best_uv_dept', "", $tab, "",
                           "id_uv",
                           array("code_uv" => "Code de l'UV",
                                 "intitule_uv" => "Intitulé de l'UV",
-                                "note_uv"      => "Note globale de l'UV"),
+                                "note_stars"  => "Note de l'UV"),
                           array (),
                           array());
 
@@ -86,12 +92,21 @@ if ($site->user->utbm)
                       GROUP BY `id_uv`
                       ORDER BY `note_uv` DESC LIMIT 10");
 
+    $tab = array();
 
-    $table = new sqltable('best_uv_humas', "", $sql, "",
+    for ($i = 0; $i < $sql->lines; $i++)
+      {
+        $res = $sql->get_row();
+        $tab[$i] = $res;
+        $tab[$i]['note_stars'] = p_stars($res['note_uv']);
+      }
+
+
+    $table = new sqltable('best_uv_humas', "", $tab, "",
                           "id_uv",
                           array("code_uv" => "Code de l'UV",
                                 "intitule_uv" => "Intitulé de l'UV",
-                                "note_uv"      => "Note globale de l'UV"),
+                                "note_stars"      => "Note de l'UV"),
                           array (),
                           array());
 
