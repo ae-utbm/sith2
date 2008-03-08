@@ -78,7 +78,7 @@ if ($site->user->utbm)
                                 "intitule_uv" => "Intitulé de l'UV",
                                 "note_stars"  => "Note de l'UV"),
                           array (),
-                          array());
+                          array(), array(), false);
 
     $cts->add($table);
 
@@ -109,7 +109,7 @@ if ($site->user->utbm)
                                 "intitule_uv" => "Intitulé de l'UV",
                                 "note_stars"      => "Note de l'UV"),
                           array (),
-                          array());
+                          array(), array(), false);
 
     $cts->add($table);
 
