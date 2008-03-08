@@ -26,17 +26,17 @@
  * @file Gestion des uvs et partie pédagogie du site
  */
 
-
-/* statut normal */
+/** statut normal */
 define('UVCOMMENT_NOTMODERATED', 0);
 
-/* reporté comme abusif par un utilisateur */
+/** reporté comme abusif par un utilisateur */
 define('UVCOMMENT_ABUSE', 1);
 
-/* "Mis en quarantaine" par l'équipe de modération */
+/** "Mis en quarantaine" par l'équipe de modération */
 define('UVCOMMENT_QUARANTINE', 2);
 
-/* accepté définitivement(après mise en quarantaine)
+/**
+ * accepté définitivement(après mise en quarantaine)
  * stade apres lequel un utilisateur normal ne peut
  * plus le rapporter comme abusif
  *
@@ -44,7 +44,7 @@ define('UVCOMMENT_QUARANTINE', 2);
  */
 define('UVCOMMENT_ACCEPTED', 3);
 
-/*
+/**
  * identifiant du répertoire contenant les fichiers
  * relatifs aux UVs
  *
@@ -52,9 +52,9 @@ define('UVCOMMENT_ACCEPTED', 3);
 define('UVFOLDER', 784);
 
 
-/* tableaux globaux sur les commentaires UV */
-
-/* Note : ces critères sont inspirés du projet de David
+/**
+ * tableaux globaux sur les commentaires UV
+ * Note : ces critères sont inspirés du projet de David
  * Anderson (Dave`),
  * http://code.google.com/p/critic
  */
@@ -98,11 +98,10 @@ $uvcomm_qualite = array ('-1' => 'Sans avis',
 $departements = array('Humanites', 'TC', 'GESC', 'GI', 'IMAP', 'GMC', 'EDIM');
 
 
-/* tableaux sur la catégorisation des UVs à l'intérieur des départements */
-
+/** tableaux sur la catégorisation des UVs à l'intérieur des départements */
 $humas_cat = array(''=> null, 'EC' => 'EC', 'CG' => 'CG', 'EX' => 'EX');
 $tc_cat    = array('' => null, 'CS' => 'CS', 'TM' => 'TM', 'EX' => 'EX');
-/* note : à l'heure actuelle, il n'existe pas d'UV de TM en EDIM */
+/** note : à l'heure actuelle, il n'existe pas d'UV de TM en EDIM */
 $edim_cat  = array(''=>null,
        'CS' => 'CS',
        'TM' => 'TM',
@@ -142,42 +141,55 @@ $uv_descr_cat = array('NA' => 'Inconnu',
 
 /**
  * Unité de valeur (pour le guide et les emplois du temps)
+ * @ingroup stdentity
  * @author Pierre Mauduit
  */
 class uv extends stdentity
 {
-
+  /** Code UV en accord avec la codification UTBM (ex: LO41) */
   var $code;
+  /** Intitulé de l'UV */
   var $intitule;
+  /** Objectifs de l'UV */
   var $objectifs;
+  /** Programme de l'UV */
   var $programme;
+  /** Nombre de crédits ECTS obtenus en cas de succès */
   var $ects;
 
-  /* booléens indiquant si des cours / tds / tps sont dispensés dans
-   * l'UV en question
-   */
+  /** booléen indiquant s'il y a des cours dans l'UV */
   var $cours;
+  /** booléen indiquant s'il y a des TDs dans l'UV */
   var $td;
+  /** booléen indiquant s'il y a des TPs dans l'UV */
   var $tp;
+  /** booléen indiquant si un projet doit etre réalisé */
+  var $projet;
 
-  /* dans quel département ? */
+
+  /** Tableau des départements dans lesquels l'UV est enseigné */
   var $depts;
 
-  /* catégories par département ? */
+  /* Tableau des catégories selon les départements */
   var $cat_by_depts;
 
-  /* un identifiant de répertoire (partie fichiers) */
+  /** un identifiant de répertoire @see dfile */
   var $idfolder;
+  /** une instance de répertoire @see dfile */
   var $folder;
-
-
-  /* un tableau d'objets uvcomments */
+  /* un tableau de commentaires @see uvcomments */
   var $comments;
 
-  /* ou ca ? */
+  /** un identifiant de lieu @see lieu */
   var $id_lieu;
+  /** un identifiant de lieu @see lieu */
   var $lieu;
 
+  /**
+   * Charge une UV par son code
+   * @param $code Code de l'UV (codification UTBM)
+   * @return false si non chargé, true sinon
+   */
   function load_by_code($code)
   {
     $req = new requete($this->db, "SELECT * ".
@@ -221,6 +233,9 @@ class uv extends stdentity
     return false;
   }
 
+  /**
+   * Charge le lieu associé à l'UV
+   */
   function load_lieu()
   {
     global $topdir;
@@ -228,7 +243,12 @@ class uv extends stdentity
     $this->lieu = new lieu($this->db);
     $this->lieu->load_by_id($this->id_lieu);
   }
-
+  /**
+   * Charge l'UV par son identifiant
+   * @param $id l'identifiant de l'UV
+   * @return true si chargé, false sinon
+   *
+   */
   function load_by_id ($id)
   {
     $req = new requete($this->db, "SELECT * ".
@@ -280,7 +300,10 @@ class uv extends stdentity
 
   }
 
-
+  /**
+   * Charge les départements liés à l'UV
+   *
+   */
   function load_depts ()
   {
     if (!$this->id)
@@ -297,18 +320,33 @@ class uv extends stdentity
       $this->cat_by_depts[$row['id_dept']] = $row['uv_cat'];
     }
   }
-
+  /**
+   * Recharge les départements
+   *
+   */
   function reload_depts ()
   {
     $this->load_depts ();
   }
 
-  /*
-   * Modification d'UV.
+  /**
+   * Modification de l'UV.
    *
    * note : uv_cat doit etre un tableau indexé par le nom du département
    * (on part du principe qu'à un département d'enseignement peut correspondre
    *  une catégorie spécifique).
+   *
+   * @param $code_uv le nouveau code
+   * @param $intitule Le nouvel intitulé
+   * @param $obj Le nouvel objectif
+   * @param $prog le nouveau programme
+   * @param $c booléen indiquant s'il y a des cours
+   * @param $td booléen indiquant s'il y a des TDs
+   * @param $tp booléen indiquant s'il y a des TPs
+   * @param $ects Le nombre de crédits ECTS délivrés
+   * @param $depts Un tableau contenant la liste des départements concernés
+   * @param $uv_cat Tableau des catégories d'UV par département
+   * @param $id_lieu Le lieu d'enseignement
    */
   function modify($code_uv, $intitule, $obj, $prog, $c, $td, $tp, $ects, $depts, $uv_cat = null, $id_lieu = null)
   {
@@ -367,8 +405,20 @@ class uv extends stdentity
     return;
   }
 
-
-
+  /**
+   * Enregistrement d'une nouvelle UV en base
+   * @param $code_uv Le code de l'UV
+   * @param $intitule L'intitulé de l'UV
+   * @param $c booléen indiquant s'il y a cours
+   * @param $td booléen indiquant s'il y TD
+   * @param $tp booléen indiquant s'il y TP
+   * @param $ects entier indiquant le nombre de crédits ECTS
+   * @param $depts Tableau donnant la liste des départements
+   * @param $uv_cat Tableau des catégories par département
+   * @param $id_lieu Un identifiant de lieu d'enseignement
+   *
+   * @return true si succès, false sinon
+   */
   function create ($code_uv, $intitule, $c, $td, $tp, $ects, $depts, $uv_cat, $id_lieu = null)
   {
     $this->code     = $code_uv;
@@ -421,7 +471,10 @@ class uv extends stdentity
     return true;
   }
 
-
+  /**
+   * Chargement des commentaires
+   * @param $admin indique si l'utilisateur est administrateur
+   */
   function load_comments($admin = false)
   {
     if (!$this->id)
@@ -458,6 +511,11 @@ class uv extends stdentity
     return true;
   }
 
+  /**
+   * Chargement du dossier relatif à l'UV dans la partie fichier
+   * @see dfile
+   * @return false si erreur, true si succès
+   */
   function load_folder()
   {
     if ($this->idfolder == null)
@@ -473,8 +531,11 @@ class uv extends stdentity
     return true;
   }
 
-  /* fonction vérifiant qu'un répertoire est bien
+  /**
+   * fonction vérifiant qu'un répertoire est bien
    * dans l'arborescence relative aux UVs.
+   * @param $id_folder l'identifiant du dossier
+   * @see dfile
    */
   function check_folder($id_folder)
   {
@@ -505,7 +566,13 @@ class uv extends stdentity
       $id_folder = intval($row['id_folder_parent']);
     }
   }
-
+  /**
+   * Récupère le chemin d'accès partie fichier propre à l'espace
+   * pédagogie.
+   * @param $path l'identifiant du répertoire
+   * @see dfile
+   * @return le chemin d'accès sous forme de chaine de caractères
+   */
   function get_path($path)
   {
     $path = intval($path);
@@ -540,6 +607,11 @@ class uv extends stdentity
     }
   }
 
+  /**
+   * Crée un répertoire dans la partie fichiers
+   * @see dfolder
+   * @return true si succès, false sinon
+   */
   function create_folder()
   {
     global $topdir;
@@ -584,42 +656,54 @@ class uv extends stdentity
 /**
  * Commentaire sur une unité de valeur
  * @author Pierre Mauduit
+ * @see uv
  */
 class uvcomment extends stdentity
 {
 
-  /* l'identifiant de l'UV */
+  /** l'identifiant de l'UV */
   var $id_uv;
-  /* l'identifiant de l'utilisateur ayant commenté */
+  /** l'identifiant de l'utilisateur ayant commenté */
   var $id_commentateur;
-  /* note d'obtention (Format UTBM : A, B ...) */
+  /** note d'obtention (Format UTBM : A, B ...) */
   var $note_obtention;
+  /** semestre d'obtention [A,P][0-9][0-9] */
   var $semestre_obtention;
-  /* note sur l'intéret de l'UV */
-  /* Est-ce que l'UV vaut le coup d'être suivie ?
+
+  /** note sur l'intéret de l'UV
+   * Est-ce que l'UV vaut le coup d'être suivie ?
    * (Réflexions sur la qualité de l'enseignement,
-   *  moyens mis à disposition ...) */
+   *  moyens mis à disposition ...)
+   */
   var $interet;
-  /* note sur l'utilité de l'UV */
-  /* est-ce que l'UV est utile dans le cadre
+
+  /** note sur l'utilité de l'UV
+   * est-ce que l'UV est utile dans le cadre
    * de la formation d'ingénieur ? */
   var $utilite;
-  /* note sur la charge de travail */
+
+  /** note sur la charge de travail */
   var $charge_travail;
-  /* note sur la qualité de l'enseignement */
+  /** note sur la qualité de l'enseignement */
   var $qualite_ens;
-  /* note générale que donne l'étudiant sur l'UV */
+  /** note générale que donne l'étudiant sur l'UV */
   var $note;
 
-  /* commentaire dokuwiki */
+  /** commentaire champ texte (syntaxe dokuwiki) */
   var $comment;
 
-  /* date du commentaire */
+  /** date du commentaire */
   var $date;
 
-  /* etat du commentaire */
+  /** etat du commentaire (vis à vis de la modération) */
   var $etat;
 
+  /**
+   *
+   * Fonction de chargement par identifiant
+   * @param $id l'identifiant
+   * @return true si succès, false sinon
+   */
   function load_by_id($id)
   {
     $req = new requete($this->db, "SELECT * ".
@@ -646,7 +730,7 @@ class uvcomment extends stdentity
                                      " AND `id_uv` = ".
                                      intval($this->id_uv).
                                      " LIMIT 1");
-      /* Note : TODO pour les gens qui ont redoublé,
+      /* @todo pour les gens qui ont redoublé,
        * on fait quoi ? l'utilisation des semestres
        * n'est pas optimal pour "trier" en SQL
        */
@@ -682,6 +766,18 @@ class uvcomment extends stdentity
 
   }
 
+  /**
+   * Fonction permettant de modifier un commentaire
+   * @param $commentaire commentaire sous forme de texte (dokuwiki)
+   * @param $note_obtention (null si non renseigné)
+   * @param $semestre_obtention le semestre d'obtention
+   * @param $interet note sur l'intéret
+   * @param $utilite note sur l'utilité
+   * @param $note note générale
+   * @param $travail indication sur la charge de travail
+   * @param $qualite note sur la qualité de l'enseignement
+   * @return true si succès, false sinon
+   */
   function modify($commentaire,
                   $note_obtention = null,
                   $semestre_obtention,
@@ -717,6 +813,19 @@ class uvcomment extends stdentity
     return ($sql->lines == 1);
   }
 
+  /**
+   * Fonction créant un nouveau commentaire en base
+   * @param $id_uv l'identifiant de l'UV concernée
+   * @param $id_commentateur l'identifiant de l'utilisateur
+   * @param $commentaire champ texte (syntaxe dokuwiki)
+   * @param $note_obtention note d'obtention du commentateur
+   * @param $semestre_obtention semestre d'obtention
+   * @param $interet note sur l'intéret
+   * @param $utilite note sur l'utilité
+   * @param $travail note sur la charge de travail
+   * @param $qualite note sur la qualité de l'enseignement
+   * @return true si succès, false sinon
+   */
   function create($id_uv,
                   $id_commentateur,
                   $commentaire,
@@ -756,6 +865,10 @@ class uvcomment extends stdentity
     return true;
   }
 
+  /**
+   * Fonction supprimant un commentaire
+   * @return true si succès, false sinon
+   */
   function delete()
   {
     if (!$this->id)
@@ -768,6 +881,18 @@ class uvcomment extends stdentity
     return ($req->lines == 1);
   }
 
+  /**
+   * Fonction de modération des commentaires. Tous les étudiants
+   * peuvent rapporter un commentaire jugé abusif, les modérateurs
+   * peuvent supprimer de la visibilité du site un commentaire.  Dans
+   * le premier cas, le commentaire sera visible en rouge, et portera
+   * la mention "jugé abusif", dans le deuxième cas, il ne sera pas
+   * visible du commun des mortels, mais l'équipe de modération pourra
+   * revenir sur sa décision.
+   *
+   * @param $level le niveau de modération
+   * @return true si succès, false sinon
+   */
   function modere($level = UVCOMMENT_ABUSE)
   {
     if ($this->id <= 0)
@@ -785,6 +910,26 @@ class uvcomment extends stdentity
 
 /** Fonctions "globales" sur les UVs */
 
+/**
+ *
+ * Fonction permettant de récupérer les résultats depuis le site de
+ * l'UTBM.  Note importante : Cette fonction n'a jamais été utilisée,
+ * du fait de la controverse sur la possibilité par l'AE garder ou non
+ * en base l'INE, ce qui n'est pas sans poser quelques soucis vis à
+ * vis de nos obligations avec la CNIL. Par ailleurs, elle n'a jamais
+ * véritablement été testée, et reste très dépendante des évolutions
+ * informatiques de notre école (changement de la page, parsing un peu
+ * trashos ...).  Pourtant, elle permettrait par exemple un import
+ * automatique des résultats des étudiants dans la partie pédagogie.
+ *
+ * A méditer.
+ *
+ * @param $nom le nom de l'étudiant
+ * @param $ine l'INE de l'étudiant
+ * @return le résultat de l'étudiant sous forme d'un tableau
+ * associatif.
+ *
+ */
 function get_results($nom, $ine)
 {
   $location = "services.utbm.fr/ACTU/resuv/index.php";
@@ -843,6 +988,15 @@ function get_results($nom, $ine)
   //return $page;
 }
 
+/**
+ * Fonction ajoutant un résultat d'UV à un étudiant
+ * @param $id_etu l'identifiant de l'étudiant
+ * @param $id_uv l'identifiant de l'UV
+ * @param $note La note d'obtention
+ * @param $semestre semestre d'otention
+ * @param $dbrw un ressource de connexion SQL en RW
+ * @return true si succès, false sinon
+ */
 
 function add_result_uv($id_etu, $id_uv, $note, $semestre, $dbrw)
 {
@@ -859,7 +1013,14 @@ function add_result_uv($id_etu, $id_uv, $note, $semestre, $dbrw)
         "semestre_obtention" => strtoupper($semestre)));
   return ($req->lines == 1);
 }
-
+/**
+ * Fonction de suppression d'un résultat d'UV
+ * @param $id_etu l'identifiant de l'étudiant
+ * @param $id_uv l'identifiant de l'UV
+ * @param $semestre le semestre d'obtention
+ * @param $dbrw une ressource de connexion SQL en RW
+ * @return true si succès, false sinon
+ */
 function delete_result_uv($id_etu, $id_uv, $semestre, $dbrw)
 {
   $req = new delete($dbrw, "edu_uv_obtention",
@@ -872,6 +1033,21 @@ function delete_result_uv($id_etu, $id_uv, $semestre, $dbrw)
 
 }
 
+/**
+ * Fonction de récupération d'un stdcontents concernant les crédits,
+ * correspond au "parcours pédagogique" sur uvs/index.php.
+ *
+ * Note : ce code a été déporté ici afin d'alléger la page
+ * uvs/index.php
+ *
+ * @param $etu une instance d'étudiant @see utilisateur
+ * @param $db une instance de connexion à la base en read only
+ * @param $camembert indique si on attend un graphique sous forme de
+ * camembert ou non.
+ *
+ * @return le contents (@see stdcontents) attendu, selon la valeur du
+ * paramêtre $camembert.
+ */
 function get_creds_cts(&$etu, $db, $camembert = false)
 {
   global $topdir;
@@ -1177,6 +1353,11 @@ function get_creds_cts(&$etu, $db, $camembert = false)
   return $cts;
 }
 
+/**
+ * Fonction retournant un contents (@see stdcontents) décrivant la
+ * boite du site propre à la partie pédagogie.
+ *
+ */
 function get_uvsmenu_box()
 {
   global $departements;
