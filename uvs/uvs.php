@@ -740,8 +740,8 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 					null, true, 4);
 
         $commform->add_info("Cette section ayant pour but d'aider les étudiants ".
-          "dans leurs choix d'UV, merci de ne pas mettre des notes à la vas-vite ".
-          "sans la moindre phrase et d'être rien constructif dans vos commentaires. ".
+          "dans leurs choix d'UV, merci de ne pas mettre des notes à la va-vite ".
+          "sans la moindre phrase et d'être constructif dans vos commentaires. <br />".
           "Tout message offensant pourra se voir supprimé");
 	      $commform->add_text_area('comm_comm', 'Commentaire (syntaxe Doku)', null, 80, 20);
 	      $commform->add_select_field('comm_interest',

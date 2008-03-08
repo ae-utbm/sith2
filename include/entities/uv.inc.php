@@ -1062,7 +1062,10 @@ function get_creds_cts(&$etu, $db, $camembert = false)
                           ", `edu_uv_dept`.`uv_cat`".
                           ", `edu_uv_obtention`.`note_obtention`".
                           ", `edu_uv_obtention`.`semestre_obtention`".
-                          ", `edu_uv_comments`.`id_comment`".
+                          ", IF(`edu_uv_comments`.`id_comment`,
+                                 '<img src=\"$topdir/images/icons/16/star.png\" alt=\"vous avez mis un commentaire\" />',
+                                 '<img src=\"$topdir/images/icons/16/unstar.png\" alt=\"vous n'avez pas encore mis de commentaire\" />') 
+                                 as comment".
                           " FROM".
                           " `edu_uv`".
                           " INNER JOIN".
@@ -1162,9 +1165,10 @@ function get_creds_cts(&$etu, $db, $camembert = false)
                                     "intitule_uv" => "Intitulé de l'UV",
                                     "uv_cat"      => "Catégorie de l'UV",
                                     "note_obtention"=> "Note d'obtention",
-                                    "ects_uv"     => "Crédits ECTS"),
+                                    "ects_uv"     => "Crédits ECTS",
+                                    "comment" => ""),
                               array ("delete" => "Enlever"),
-                              array());
+                              array(), array(), false);
 
        $cts->add($table, true, false, "res_".$ap.$annee, false, true, !($first++), true);
       }
