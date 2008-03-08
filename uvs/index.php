@@ -152,7 +152,7 @@ if ($site->user->utbm)
                         array (),
                         array());
   
-  $cts->add_contents($table);
+  $cts->add($table);
   
   $cts->add_title(1, "TOP 10 des UVs les mieux notées du département Humanités");
 
@@ -174,7 +174,7 @@ if ($site->user->utbm)
                         array (),
                         array());
 
-  $cts->add_contents($table);
+  $cts->add($table);
   
 
   $cts->add_title(1, "Génération d'emploi du temps");
