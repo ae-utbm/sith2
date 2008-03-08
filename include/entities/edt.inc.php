@@ -1,7 +1,6 @@
 <?php
-/** @file edt.inc.php : Gestion du système des emplois du temps.
- *
- *
+/**
+ * @file edt.inc.php : Gestion du système des emplois du temps.
  */
 /* Copyright 2005,2006
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
@@ -29,25 +28,49 @@ require_once ($topdir . "include/entities/basedb.inc.php");
 require_once ($topdir . "include/cts/edt_img.inc.php");
 
 
-$jour = array("Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", 
+/** tableau basique des jours (selon la convention propre à la
+ * génération d'emploi du temps */
+$jour = array("Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi",
 	      "Dimanche");
 
 
+
+/**
+ * emploi du temps : description "objet" et exports divers (image,
+ * ...).  Cette classe est un peu spéciale vis à vis de la philosophie
+ * des stdentities, car elle n'a pas d'équivalent de stockage en base
+ * de données. D'habitude, les stdentities s'identifient à une table
+ * mySQL). Ici, les informations sont diffuses dans plusieurs tables.
+ *
+ * @ingroup stdentity
+ * @author Pierre Mauduit
+ *
+ */
 class edt extends stdentity
 {
-
+  /** un tableau décrivant l'inscription aux différentes séances */
   var $edt_arr;
 
+  /** stdentity est défini comme classe abstraite
+   * Bien qu'un objet edt soit une extension de stdentity
+   * cette fonction n'a pas son utilité ici. (@see stdentity)
+   */
   function _load($row) {}
-  
-  function load_by_id($id) { $this->load($id); }
-  
 
+  /** fonction de chargement par identifiant */
+  function load_by_id($id) { $this->load($id); }
+
+  /**
+   * Fonction de chargement par identifiant, et par semestre éventuel
+   * @param $id l'identifiant de l'utilisateur (@see utilisateur)
+   * @param $semestre le semestre (si non renseigné, on en déduit le
+   * semestre courant.
+   */
   function load ($id, $semestre = null)
   {
 
     $this->id_utilisateur = intval($id);
-    
+
     $this->edt_arr = null;
 
     /** semestre courant par défaut */
@@ -57,7 +80,7 @@ class edt extends stdentity
       $semestre = mysql_real_escape_string($semestre);
 
     $req= new requete($this->db,
-		      "SELECT 
+		      "SELECT
                               `edu_uv_groupe`.`id_uv_groupe`
                             , `edu_uv_groupe`.`type_grp`
                             , `edu_uv_groupe`.`heure_debut_grp`
@@ -101,7 +124,7 @@ class edt extends stdentity
 
 	$hrdeb = substr($row['heure_debut_grp'], 0, 2) . "h" . substr($row['heure_debut_grp'], 3,2);
 	$hrfin = substr($row['heure_fin_grp'], 0, 2) . "h" . substr($row['heure_fin_grp'], 3,2);
-	
+
 	$jsem = $jour[$row['jour_grp']];
 
 	$type = ($row['type_grp'] == 'C' ? 'Cours' : $row['type_grp']);
@@ -124,7 +147,13 @@ class edt extends stdentity
     return;
   }
 
-
+  /**
+   * Fonction permettant d'assigner un étudiant à une séance
+   * @param $id_etu l'identifiant d el'étudiant
+   * @param $id_group l'identifiant de séance
+   * @param $freq fréquence de l'inscription de l'étudiant au groupe
+   * @return true si succès, false sinon
+   */
   function assign_etu_to_grp($id_etu, $id_group, $freq = 'AB')
   {
     if (!$this->dbrw)
@@ -141,9 +170,16 @@ class edt extends stdentity
 
     if ($sql->lines <= 0)
       return false;
-    
+
     return true;
   }
+
+  /**
+   * Fonction permettant de désinscrire un étudiant d'une séance
+   * @param $id_etu l'identifiant d el'étudiant
+   * @param $id_group l'identifiant de sénace
+   * @return true si succès, false sinon
+   */
   function unsubscr_etu_from_grp($id_etu, $id_group)
   {
     if (!$this->dbrw)
@@ -159,6 +195,13 @@ class edt extends stdentity
 
   }
 
+  /**
+   * Fonction de création d'UV. DEPRECATED ! Préférez l'utilisation
+   * d'une entity UV. (@see uv)
+   *
+   * @return true si succès, false sinon
+   *
+   */
 
   function create_uv ($code_uv,
 		      $intitule_uv,
@@ -170,16 +213,16 @@ class edt extends stdentity
 		      $uv_cat = array(),
 		      $lieu = null)
   {
-    
+
     if (!$this->dbrw)
       return false;
- 
+
     global $topdir;
     require_once($topdir . "include/entities/uv.inc.php");
 
     $uv = new uv($this->db, $this->dbrw);
-    
-    $uv->create($code_uv, 
+
+    $uv->create($code_uv,
 		$intitule_uv,
 		$cours_uv,
 		$td_uv,
@@ -192,21 +235,25 @@ class edt extends stdentity
     $return ($uv->id > 0);
 
   }
-
+  /**
+   * Suppression d'un emploi du temps
+   * @param $id_etu l'identifiant de l'étudiant
+   * @param $semestre le semestre concerné par la suppresion
+   */
   function delete_edt($id_etu, $semestre)
   {
 
-    $req = new requete($this->db,"SELECT 
-                                                  `id_uv_groupe`  
-                                  FROM 
+    $req = new requete($this->db,"SELECT
+                                                  `id_uv_groupe`
+                                  FROM
                                                   `edu_uv_groupe_etudiant`
-                                  INNER JOIN 
-                                                  `edu_uv_groupe` 
-                                  USING     
+                                  INNER JOIN
+                                                  `edu_uv_groupe`
+                                  USING
                                                   (`id_uv_groupe`)
-                                  WHERE 
-                                                  `id_utilisateur` = ".intval($id_etu)." 
-                                  AND 
+                                  WHERE
+                                                  `id_utilisateur` = ".intval($id_etu)."
+                                  AND
                                                   `semestre_grp` = '".mysql_real_escape_string($semestre)."'");
 
     while ($rs = $req->get_row())
@@ -216,12 +263,25 @@ class edt extends stdentity
 			   "edu_uv_groupe_etudiant",
 			   array('id_utilisateur' => intval($id_etu),
 				 'id_uv_groupe' => $todel));
-		      
+
       }
     return;
   }
-    
 
+  /**
+   * Création d'un groupe (séance)
+   * @param $iduv identifiant de l'UV
+   * @param $type_grp type de séance (cours, TD ou TP)
+   * @param $numgrp numéro du groupe (indiqué sur l'emploi du temps SME)
+   * @param $hdebgrp heure de début (format hh:mm:ss)
+   * @param $hfingrp heure de de fin (format hh:mm:ss)
+   * @param $jourgrp numéro de jour (cf tableau des jours)
+   * @param $frqgrp fréquence (1 ou 2)
+   * @param $semestre semestre pendant lequel a lieu la séance
+   * @param $sallegrp salle où a lieu la séance
+   *
+   * @return true si succès, false sinon
+   */
   function create_grp ($iduv,
 		       $type_grp,
 		       $numgrp,
@@ -243,9 +303,13 @@ class edt extends stdentity
     $salleg = mysql_real_escape_string($sallegrp);
     $salleg = str_replace(array(" ","-","."), "", $salleg);
 
+    /** @todo : possible que le code ci-apres introduise
+     * un bug empéchant la création d'une séance horaire
+     * (c.f. retours sur forum bug site AE
+     */
     $vfy = new requete($this->db,
-		       "SELECT 
-                                id_uv_groupe 
+		       "SELECT
+                                id_uv_groupe
                         FROM
                                 edu_uv_groupe
                         WHERE
@@ -274,9 +338,14 @@ class edt extends stdentity
 	$rs = $vfy->get_row();
 	return $rs['id_uv_groupe'];
       }
-    // verification zoror
-    // si ce test est vrai, c'est qu'on a
-    // affaire à un boulet du formulaire web 2.0
+
+    /** @todo : verification zoror si ce test est vrai, c'est qu'on a
+     * affaire à un boulet du formulaire web 2.0. Normalement une
+     * soustraction php "hh:mm:ss" - "hh:mm:ss" donne un résultat
+     * numérique, mais surveiller le comportement (mise à jour PHP
+     * ...)
+     */
+
     if ($hfingrp - $hdebgrp <= 0)
       {
         return false;
@@ -296,13 +365,26 @@ class edt extends stdentity
 
     if ($sql->lines <= 0)
       return false;
-    
+
     return $sql->get_id();
 
 
 
   }
-		      
+
+  /**
+   * Fonction d'assignation d'une UV à un département.
+   * Note : DEPRECATED. Cette fonction a sa place dans
+   * l'entity uv (@see uv), et n'a rien à faire ici.
+   * Sa présence doit être due à des histoires de compatibilité.
+   * @todo : proprifier le code.
+   *
+   * @param $iduv l'identifiant de l'UV
+   * @param $nomdept le nom du département.
+   *
+   * @return true si succès, false sinon.
+   */
+
   function assign_uv_to_dept($iduv, $nomdept)
   {
     $nomdept = mysql_real_escape_string($nomdept);
@@ -311,13 +393,22 @@ class edt extends stdentity
 		      "edu_uv_dept",
 		      array("id_uv"           => intval($iduv),
 			    "id_dept"         => $nomdept));
-    
+
     if ($sql->lines <= 0)
       return false;
-    
+
     return true;
 
   }
+  /**
+   * Fonction retirant une uv d'un département
+   * @todo : meme remarque que précédemment.
+   *
+   * @param $iduv l'identifiant de l'UV
+   * @param $nomdept le nom du département.
+   *
+   * @return true si succès, false sinon
+   */
   function remove_uv_from_dept($iduv, $nomdept)
   {
     $nomdept = mysql_real_escape_string($nomdept);
@@ -326,10 +417,10 @@ class edt extends stdentity
 		      "edu_uv_dept",
 		      array("id_uv"           => intval($iduv),
 			    "id_dept"         => $nomdept));
-    
+
     if ($sql->lines <= 0)
       return false;
-    
+
     return true;
 
 
