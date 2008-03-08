@@ -61,8 +61,9 @@ class sqltable extends stdcontents
    * @param $actions actions sur chaque objet (envoyé à %page%?action=%action%&%id_field%=[id])
    * @param $batch_actions actions possibles sur plusieurs objets (envoyé à page, les id sont le tableau %id_field%s)
    * @param $enumerated valeurs des champs énumérés ($enumerated[id] = array(0=>"truc"))
+   * @param $htmlentitize indique si les entrées du tableau doivent être passées par la fonction htmlentities()
    **/
-  function sqltable ( $formname, $title, $sql, $page, $id_field, $cols, $actions, $batch_actions, $enumerated=array() )
+  function sqltable ( $formname, $title, $sql, $page, $id_field, $cols, $actions, $batch_actions, $enumerated=array(), $htmlentitize = true)
   {
     global $topdir,$wwwtopdir;
     
@@ -113,7 +114,14 @@ class sqltable extends stdcontents
       foreach ( $cols as $key => $name )
       {
         if ( is_array($name) ) $name = $name[0];
-        $this->buffer .= "<th>".htmlentities($name,ENT_NOQUOTES,"UTF-8")."</th>\n";
+        {
+          
+          if ($htmlentitize)
+            $this->buffer .= "<th>".htmlentities($name,ENT_NOQUOTES,"UTF-8")."</th>\n";
+          else
+            $this->buffer .= "<th>".$name."</th>\n";
+
+        }
       }
       
       foreach ( $actions as $key => $name )
@@ -224,23 +232,42 @@ class sqltable extends stdcontents
             $this->buffer .= $row[$key];
         }
         elseif ( isset($enumerated[$key]) )
-          $this->buffer .= htmlentities($enumerated[$key][$row[$key]],ENT_NOQUOTES,"UTF-8");
-        elseif ( ereg("^(.*)_folder$",$key,$reg))
+          {
+            if ($htmlentitize)
+              $this->buffer .= htmlentities($enumerated[$key][$row[$key]],ENT_NOQUOTES,"UTF-8");
+            else
+              $this->buffer .= $enumerated[$key][$row[$key]];
+          }
+        else if ( ereg("^(.*)_folder$",$key,$reg))
           $this->buffer .= $row[$key];
         else
-          $this->buffer .= htmlentities($row[$key],ENT_NOQUOTES,"UTF-8");
-    
+          {
+            if ($htmlentitize)
+              $this->buffer .= htmlentities($row[$key],ENT_NOQUOTES,"UTF-8");
+            else
+              $this->buffer .= $row[$key];
+          }
         $this->buffer .= "</td>\n";
         }
       }
-      
+
       foreach ( $actions as $key => $name )
       {
         $this->buffer .= "<td><a href=\"".$this->generate_hlink($key,$row[$id_field])."\">";
         if ( file_exists( $topdir . "images/actions/" . $key.".png")   )
-          $this->buffer .= "<img src=\"".$wwwtopdir . "images/actions/" . $key.".png\" alt=\"".htmlentities($name,ENT_NOQUOTES,"UTF-8")."\" title=\"".htmlentities($name,ENT_NOQUOTES,"UTF-8")."\" class=\"icon\" />";
+          {
+            if ($htmlentitize)
+              $this->buffer .= "<img src=\"".$wwwtopdir . "images/actions/" . $key.".png\" alt=\"".htmlentities($name,ENT_NOQUOTES,"UTF-8")."\" title=\"".htmlentities($name,ENT_NOQUOTES,"UTF-8")."\" class=\"icon\" />";
+            else
+              $this->buffer .= "<img src=\"".$wwwtopdir . "images/actions/" . $key.".png\" alt=\"".$name."\" title=\"".$name."\" class=\"icon\" />";
+          }
         else
-          $this->buffer .= htmlentities($name,ENT_NOQUOTES,"UTF-8");
+          {
+            if ($htmlentitize)
+              $this->buffer .= htmlentities($name,ENT_NOQUOTES,"UTF-8");
+            else
+              $this->buffer .= $name;
+          }
         $this->buffer .= "</a></td>\n";
       }      
       $this->buffer .= "</tr>\n";
@@ -254,7 +281,12 @@ class sqltable extends stdcontents
       $this->buffer .= "<p style=\"font-size:90%;\">&nbsp;&nbsp;Pour la s&eacute;lection : <select name=\"action\">\n";
       
       foreach ($batch_actions as $action => $name )
-        $this->buffer .= "<option value=\"$action\">".htmlentities($name,ENT_NOQUOTES,"UTF-8")."</option>\n";
+        {
+          if ($htmlentitize)
+            $this->buffer .= "<option value=\"$action\">".htmlentities($name,ENT_NOQUOTES,"UTF-8")."</option>\n";
+          else
+            $this->buffer .= "<option value=\"$action\">".$name."</option>\n";
+        }
       $this->buffer .= "</select>\n<input type=\"submit\" name=\"$formname\" value=\"Valider\" class=\"isubmit\"/>\n</p>\n";
       $this->buffer .= "</form>\n";
     }
