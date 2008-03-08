@@ -85,7 +85,7 @@ if ($site->user->utbm)
     $cts->add_title(1, "TOP 10 des UVs les mieux notées du département Humanités");
 
     $sql = new requete($site->db,
-                       "SELECT `code_uv`, `id_uv`, `note_uv`
+                       "SELECT `code_uv`, `id_uv`, `note_uv`, `intitule_uv`
                       FROM `edu_uv_comments`
                       INNER JOIN `edu_uv_dept` USING (`id_uv`)
                       INNER JOIN `edu_uv` USING(`id_uv`)
