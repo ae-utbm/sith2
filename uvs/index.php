@@ -49,6 +49,7 @@ $cts->add_paragraph("Bienvenue sur la partie Pédagogie du site de l'AE");
 if ($site->user->utbm)
   {
 
+    require_once($topdir . "include/cts/uvcomment.inc.php");
     require_once($topdir . "include/cts/sqltable.inc.php");
 
     $cts->add_title(1, "TOP 10 des UVs les mieux notées de mon département");
