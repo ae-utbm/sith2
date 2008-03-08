@@ -1063,8 +1063,8 @@ function get_creds_cts(&$etu, $db, $camembert = false)
                           ", `edu_uv_obtention`.`note_obtention`".
                           ", `edu_uv_obtention`.`semestre_obtention`".
                           ", IF(`edu_uv_comments`.`id_comment`,
-                                 '<img src=\"$topdir/images/icons/16/star.png\" alt=\"vous avez mis un commentaire\" />',
-                                 '<img src=\"$topdir/images/icons/16/unstar.png\" alt=\"vous n\'avez pas encore mis de commentaire\" />') 
+                                 '<img src=\"$topdir/images/icons/16/star.png\" alt=\"star\" title=\"vous avez mis un commentaire\" />',
+                                 '<img src=\"$topdir/images/icons/16/unstar.png\" alt=\"unstar\" title=\"vous n\'avez pas encore mis de commentaire\" />') 
                                  as comment".
                           " FROM".
                           " `edu_uv`".
