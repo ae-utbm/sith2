@@ -46,10 +46,55 @@ $cts = new contents($path);
 
 $cts->add_paragraph("Bienvenue sur la partie Pédagogie du site de l'AE");
 
-if ($site->user->id > 0)
-{
+if ($site->user->utbm)
+  {
 
-  
+  $cts->add_title(1, "TOP 10 des UVs les mieux notées de mon département");
+
+  $sql = new requete($site->db,
+                     "SELECT `code_uv`, `intitule_uv`, `id_uv`, `note_uv`
+                      FROM `edu_uv_comments`
+                      INNER JOIN `edu_uv_dept` USING (`id_uv`)
+                      INNER JOIN `edu_uv` USING(`id_uv`)
+                      WHERE `id_dept` = '".
+                     strtoupper($site->user->departement)."'
+                      GROUP BY `id_uv`
+                      ORDER BY `note_uv` DESC LIMIT 10");
+
+
+
+  $table = new sqltable('best_uv_dept', "", $sql, "",
+                        "id_uv",
+                        array("code_uv" => "Code de l'UV",
+                              "intitule_uv" => "Intitulé de l'UV",
+                              "note_uv"      => "Note globale de l'UV"),
+                        array (),
+                        array());
+
+  $cts->add($table);
+
+  $cts->add_title(1, "TOP 10 des UVs les mieux notées du département Humanités");
+
+  $sql = new requete($site->db,
+                     "SELECT `code_uv`, `id_uv`, `note_uv`
+                      FROM `edu_uv_comments`
+                      INNER JOIN `edu_uv_dept` USING (`id_uv`)
+                      INNER JOIN `edu_uv` USING(`id_uv`)
+                      WHERE `id_dept` = 'Humanites'
+                      GROUP BY `id_uv`
+                      ORDER BY `note_uv` DESC LIMIT 10");
+
+
+  $table = new sqltable('best_uv_humas', "", $sql, "",
+                        "id_uv",
+                        array("code_uv" => "Code de l'UV",
+                              "intitule_uv" => "Intitulé de l'UV",
+                              "note_uv"      => "Note globale de l'UV"),
+                        array (),
+                        array());
+
+  $cts->add($table);
+
   if ($_REQUEST['action'] == 'delete')
     {
       $ret = delete_result_uv($site->user->id,
@@ -72,10 +117,10 @@ if ($site->user->id > 0)
     {
       $cam = get_creds_cts($site->user, $site->db, true);
       $cam->png_render();
-        
+
       exit();
     }
-  
+
   if ($_REQUEST['action'] == 'add_obt')
     {
       $ret = add_result_uv($site->user->id,
@@ -90,6 +135,8 @@ if ($site->user->id > 0)
 	$cts->add_paragraph("<b>Erreur lors de l'ajout du résultat</b>");
     }
 
+
+
   $cts->add_title(1, "Mon parcours pédagogique");
   $cts->add(get_creds_cts($site->user, $site->db));
 
@@ -100,8 +147,8 @@ if ($site->user->id > 0)
 
   $cts->add_title(3, "Ajout d'un résultat d'UV");
   $frm = new form('add_obt', "./?action=add_obt", true);
-  
-  $frm->add_entity_smartselect('obt_uv', 
+
+  $frm->add_entity_smartselect('obt_uv',
 			       "UV concernée",
 			       new uv($site->db), false, true);
 
@@ -117,70 +164,21 @@ if ($site->user->id > 0)
                                "EQUIV" => "équivalence"),
 			 "D", "", true);
 
-  $frm->add_text_field('obt_semestre', 
+  $frm->add_text_field('obt_semestre',
 		       "Semestre d'obtention, ex <b>P07</b>",
 		       "", false);
 
-  
+
   $frm->add_submit('obt_sbmt', 'Valider');
 
   $cts->add($frm);
 
-}
 
-if ($site->user->utbm)
-{
-  $cts->add_title(1, "TOP 10 des UVs les mieux notées de mon département");
-
-  $sql = new requete($site->db,
-                     "SELECT `code_uv`, `intitule_uv`, `id_uv`, `note_uv`
-                      FROM `edu_uv_comments`
-                      INNER JOIN `edu_uv_dept` USING (`id_uv`)
-                      INNER JOIN `edu_uv` USING(`id_uv`)
-                      WHERE `id_dept` = '".
-                     strtoupper($site->user->departement)."'
-                      GROUP BY `id_uv`
-                      ORDER BY `note_uv` DESC LIMIT 10");
-
-
-  
-  $table = new sqltable('best_uv_dept', "", $sql, "",
-                        "id_uv",
-                        array("code_uv" => "Code de l'UV",
-                              "intitule_uv" => "Intitulé de l'UV",
-                              "note_uv"      => "Note globale de l'UV"),
-                        array (),
-                        array());
-  
-  $cts->add($table);
-  
-  $cts->add_title(1, "TOP 10 des UVs les mieux notées du département Humanités");
-
-  $sql = new requete($site->db,
-                     "SELECT `code_uv`, `id_uv`, `note_uv`
-                      FROM `edu_uv_comments`
-                      INNER JOIN `edu_uv_dept` USING (`id_uv`)
-                      INNER JOIN `edu_uv` USING(`id_uv`)
-                      WHERE `id_dept` = 'Humanites'
-                      GROUP BY `id_uv`
-                      ORDER BY `note_uv` DESC LIMIT 10");
-
-
-  $table = new sqltable('best_uv_humas', "", $sql, "",
-                        "id_uv",
-                        array("code_uv" => "Code de l'UV",
-                              "intitule_uv" => "Intitulé de l'UV",
-                              "note_uv"      => "Note globale de l'UV"),
-                        array (),
-                        array());
-
-  $cts->add($table);
-  
 
   $cts->add_title(1, "Génération d'emploi du temps");
   $cts->add_paragraph("Cette partie permet aux étudiants de l'UTBM de générer leurs emplois
 du temps en graphique, et ainsi le partager facilement.");
-  
+
   $lst[] = "<a href=\"./create.php\">Créer un emploi du temps</a>";
   $lst[] = "<a href=\"./edt.php\">Gérer mes emplois du temps</a>";
 
