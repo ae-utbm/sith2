@@ -1184,6 +1184,7 @@ else
         "id_carte_ae",
         array("id_carte_ae"=>"N°","cle_carteae"=>"Lettre clé","etat_vie_carte_ae"=>"Etat"),
         $site->user->is_in_group("gestion_ae")?array("reprint"=>"Re-imprimer carte"):array(),
+        $site->user->is_in_group("gestion_ae")?array("retrait"=>"Retrait carte"):array(),
         array(), array("etat_vie_carte_ae"=>$EtatsCarteAE )
         );
       $cts->add($tbl,true);
