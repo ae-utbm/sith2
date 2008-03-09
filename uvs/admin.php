@@ -91,8 +91,6 @@ if ($_REQUEST['sub'] == 'modseance')
           }
         else
           {
-            require_once($topdir . "include/entities/lieu.inc.php");
-            
             $res = $req->get_row();
 
             $frm = new form('modseance', './admin.php?sub=modseance', true);
@@ -113,9 +111,15 @@ if ($_REQUEST['sub'] == 'modseance')
                                    array('1' => 'Hebdomadaire', '2' => 'Bimensuelle'),
                                    $res['frequence_grp'], "", true);
 
-            $frm->add_text_field('mod_sallegrrp', 'Salle',
+            $frm->add_text_field('mod_sallegrp', 'Salle',
                                  $res['salle_grp']);
-            $frm->add_entity_smartselect('mod_lieu', 'Lieu', new lieu($site->db), false, true);
+            $frm->add_select_field('mod_lieu', 'Lieu',
+                                   array(null => '--',
+                                         4 => 'UTBM Site de Sévenans',
+                                         5 => 'UTBM Site de Belfort',
+                                         9 => 'UTBM Site de Montbéliard'),
+                                   $res['id_lieu']);
+
             $frm->add_submit('modsubmit', 'Modifier');
             $cts->add($frm);
           }
