@@ -200,7 +200,7 @@ else if ($_REQUEST['sub'] == 'modcomments')
                         "juste valeur.");
 
     
-    $req2 = new requete($site->db, "SELECT
+    $req = new requete($site->db, "SELECT
                                            `id_comment`
                                    FROM
                                            `edu_uv_comments`
@@ -213,16 +213,13 @@ else if ($_REQUEST['sub'] == 'modcomments')
     // classe requete m'envoie une ligne de résultat, la fonction
     // mysql_num_rows me renvoie bien 0 quand il n'y a aucune ligne
     // sélectionnée.
-    //    $req->lines = mysql_num_rows($req->result);
-    print_r($req2);
-    echo mysql_num_rows($req2->result);
+    $req->lines = mysql_num_rows($req->result);
     
-
-    if ($req2->lines > 0)
+    if ($req->lines > 0)
       {
-        for ($i = 0 ; $i < $req2->lines; $i++)
+        for ($i = 0 ; $i < $req->lines; $i++)
           {
-            $res = $req2->get_row();
+            $res = $req->get_row();
             $comms[$i] = new uvcomment($site->db);
             $comms[$i]->load_by_id($res['id_comment']);
           }
