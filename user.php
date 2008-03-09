@@ -1184,7 +1184,7 @@ else
 
       $req = new requete($site->db,"SELECT `id_carte_ae`, `etat_vie_carte_ae`, `cle_carteae` FROM `ae_carte` INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` WHERE `ae_cotisations`.`id_utilisateur`='".$user->id."' AND `ae_carte`.`etat_vie_carte_ae`<".CETAT_EXPIRE."");
 
-	  $item = $req->get_row();
+	  //$item = $req->get_row();
 	  
       $tbl = new sqltable(
         "listasso",
