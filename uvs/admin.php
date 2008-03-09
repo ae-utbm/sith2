@@ -199,8 +199,7 @@ else if ($_REQUEST['sub'] == 'modcomments')
                         "d'apprécier le commentaire en question à sa ".
                         "juste valeur.");
 
-    unset($req);
-
+    
     $req2 = new requete($site->db, "SELECT
                                            `id_comment`
                                    FROM
@@ -215,6 +214,9 @@ else if ($_REQUEST['sub'] == 'modcomments')
     // mysql_num_rows me renvoie bien 0 quand il n'y a aucune ligne
     // sélectionnée.
     //    $req->lines = mysql_num_rows($req->result);
+    print_r($req2);
+    echo mysql_num_rows($req2->result);
+    
 
     if ($req2->lines > 0)
       {
