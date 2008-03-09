@@ -1195,11 +1195,11 @@ else
 	  $tab = array("reprint"=>"Re-imprimer carte");
 	  if($item['etat_vie_carte_ae']==CETAT_AU_BUREAU_AE)
 	  {
-	  	array_push($tab, "retrait"=>"Retrait carte");
+	  	array_push_assoc($tab, "retrait", "Retrait carte");
 	  }
 	  if(!$item['a_pris_cadeau'])
 	  {
-	  	array_push($tab, "cadeau"=>"Retrait cadeau");
+	  	array_push_assoc($tab, "cadeau", "Retrait cadeau");
 	  }
 	  
       $tbl = new sqltable(
