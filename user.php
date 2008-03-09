@@ -440,7 +440,8 @@ elseif ( $_REQUEST["action"] == "cadeau" && $site->user->is_in_group("gestion_ae
 {
   $carte = new carteae($site->db,$site->dbrw);
   $carte->load_by_utilisateur($user->id);
-  $carte->mark_cadeau();
+  $cotiz->load_by_id($carte->id_cotisation);
+  $cotiz->mark_cadeau();
 }
 
 if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/var/www/ae/www/ae2/var/img") )
