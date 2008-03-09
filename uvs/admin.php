@@ -207,23 +207,19 @@ else if ($_REQUEST['sub'] == 'modcomments')
                                            `state_comment` = ". UVCOMMENT_ABUSE);
 
     $comms = array();
-
-    for ($i = 0 ; $i < $req->lines; $i++)
+    if ($req->lines > 0)
       {
-        echo "HERE.";
-        
-        $res = $req->get_row();
-        $comms[$i] = new uvcomment($site->db);
-        $comms[$i]->load_by_id($res['id_comment']);
+        for ($i = 0 ; $i < $req->lines; $i++)
+          {
+            $res = $req->get_row();
+            $comms[$i] = new uvcomment($site->db);
+            $comms[$i]->load_by_id($res['id_comment']);
+          }
+
+        $cts->add(new uvcomment_contents($comms,
+                                         $site->db,
+                                         $site->user, "admin.php"));
       }
-    $cts->add_paragraph("<pre>" . print_r($comms, true) . "</pre>");
-    
-    if (count($comms) > 0)
-      $cts->add(new uvcomment_contents($comms,
-                                       $site->db,
-                                       $site->user, "admin.php"));
-
-
   }
 
 
