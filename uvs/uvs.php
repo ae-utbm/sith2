@@ -245,8 +245,7 @@ if ($_REQUEST['action'] == 'editcomm')
       $commform->add_text_area('comm_comm',
 			       'Commentaire (syntaxe Doku)',
 			       $comm->comment, 80, 20);
-      echo $comm->comment;
-      
+
       $commform->add_select_field('comm_interest',
 				  'Intéret de l\'UV (pour un ingénieur)',
 				  $uvcomm_interet,
