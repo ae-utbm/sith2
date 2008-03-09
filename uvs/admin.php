@@ -210,6 +210,7 @@ else if ($_REQUEST['sub'] == 'modcomments')
 
     $comms = array();
     print_r($req);
+    echo mysql_num_rows($req->result);
     
     if ($req->lines > 0)
       {
