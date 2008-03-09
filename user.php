@@ -1193,7 +1193,7 @@ else
 	  $item = $req->get_row();
 	  
 	  $tab = array("reprint"=>"Re-imprimer carte");
-	  if($item['etat_vie_carte_ae']==CETAT_AU_BUREAU_AE))
+	  if($item['etat_vie_carte_ae']==CETAT_AU_BUREAU_AE)
 	  {
 	  	array_push($tab, "retrait"=>"Retrait carte");
 	  }
