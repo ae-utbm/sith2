@@ -103,7 +103,7 @@ if ($_REQUEST['sub'] == 'modseance')
             $cts->add_paragraph("<b>Séance de ".$res['type_grp'] == "C" ? "cours" : $res['type_grp'] . " de " . $res['code_uv']);
             
             $frm = new form('modseance', './admin.php?sub=modseance', true);
-            $frm->add_hidden('id_seance', $res['id_seance']);
+            $frm->add_hidden('id_seance', $res['id_uv_groupe']);
             
             $frm->add_select_field('mod_typegrp', 'Type de séance',
                                    array('C' => 'cours', "TD" => "TD", "TP" => "TP"),
