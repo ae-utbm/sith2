@@ -201,7 +201,7 @@ else if ($_REQUEST['sub'] == 'modcomments')
 
     unset($req);
 
-    $req = new requete($site->db, "SELECT
+    $req2 = new requete($site->db, "SELECT
                                            `id_comment`
                                    FROM
                                            `edu_uv_comments`
@@ -214,13 +214,13 @@ else if ($_REQUEST['sub'] == 'modcomments')
     // classe requete m'envoie une ligne de résultat, la fonction
     // mysql_num_rows me renvoie bien 0 quand il n'y a aucune ligne
     // sélectionnée.
-    $req->lines = mysql_num_rows($req->result);
+    //    $req->lines = mysql_num_rows($req->result);
 
-    if ($req->lines > 0)
+    if ($req2->lines > 0)
       {
-        for ($i = 0 ; $i < $req->lines; $i++)
+        for ($i = 0 ; $i < $req2->lines; $i++)
           {
-            $res = $req->get_row();
+            $res = $req2->get_row();
             $comms[$i] = new uvcomment($site->db);
             $comms[$i]->load_by_id($res['id_comment']);
           }
@@ -233,6 +233,8 @@ else if ($_REQUEST['sub'] == 'modcomments')
       {
         $cts->add_paragraph("<b>Aucun commentaire signalé abusif.</b>");
       }
+
+
   }
 
 
