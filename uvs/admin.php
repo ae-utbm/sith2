@@ -210,6 +210,8 @@ else if ($_REQUEST['sub'] == 'modcomments')
 
     for ($i = 0 ; $i < $req->lines; $i++)
       {
+        echo "HERE.";
+        
         $res = $req->get_row();
         $comms[$i] = new uvcomment($site->db);
         $comms[$i]->load_by_id($res['id_comment']);
