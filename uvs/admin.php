@@ -178,7 +178,39 @@ if ($_REQUEST['sub'] == 'modseance')
 // modération des commentaires
 else if ($_REQUEST['sub'] == 'modcomments')
   {
+    require_once($topdir. "include/cts/uvcomment.inc.php");
 
+    $cts->add_title(1, "Modération des commentaires");
+
+    $cts->add_title(2, "Commentaires abusifs");
+
+    $cts->add_paragraph("Cette section liste les commentaires ayant ".
+                        "été jugés abusifs par les étudiants. Vous ".
+                        "pouvez ensuite prendre une décision afin de ".
+                        "retirer leur publication, les remettre à ".
+                        "l'état normal, ou les laisser tels quels. Notez".
+                        " qu'un commentaire dans l'état \"abusif\" ".
+                        "apparaît en rouge, à l'utilisateur les ".
+                        "consultant de faire la part des choses et ".
+                        "d'apprécier le commentaire en question à sa ".
+                        "juste valeur.");
+
+    $req = new requete($site->db, "SELECT
+                                           `id_comment`
+                                   FROM
+                                           `edu_uv_comments`
+                                   WHERE
+                                           `state_comment` = ". UVCOMMENT_ABUSE);
+
+    $comms = array();
+
+    for ($i = 0 ; $i < $req->lines; $i++)
+      {
+        $res = $req->get_row();
+        $comms[$i] = new uvcomment($site->db);
+        $comms[$i]->load_by_id($res['id_comment']);
+      }
+    $cts->add(new uvcomment_contents($comms, $site->db, $site->user, "admin.php"));
 
   }
 
