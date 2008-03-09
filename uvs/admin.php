@@ -199,6 +199,8 @@ else if ($_REQUEST['sub'] == 'modcomments')
                         "d'apprécier le commentaire en question à sa ".
                         "juste valeur.");
 
+    unset($req);
+    
     $req = new requete($site->db, "SELECT
                                            `id_comment`
                                    FROM
