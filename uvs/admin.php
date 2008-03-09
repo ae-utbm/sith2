@@ -83,7 +83,8 @@ if ($_REQUEST['sub'] == 'modseance')
     if (isset($_REQUEST['id_seance']))
       {
         $idseance = intval($_REQUEST['id_seance']);
-        $req = "SELECT * FROM `edu_uv_groupe` WHERE id_uv_groupe = $idseance";
+        $req = new requete($site->db, "SELECT * FROM `edu_uv_groupe` WHERE ".
+                           "id_uv_groupe = $idseance");
         if ($req->lines != 1)
           {
             $cts->add_paragraph("<b>Erreur : séance introuvable.</b>");
@@ -146,7 +147,7 @@ else if ($_REQUEST['sub'] == 'modcomments')
 $cts->add_title(1, "Modération");
 
 $cts->add_paragraph("Cette partie du site est réservée à la modération ".
-                    "de la partiepédagogie. Elle vous permet de modifier".
+                    "de la partie pédagogie. Elle vous permet de modifier".
                     " une séance horaire d'UV qui n'aurait pas été saisie".
                     " correctement par un utilisateur, de modérer les ".
                     "commentaires jugés abusifs et/ou supprimés.");
