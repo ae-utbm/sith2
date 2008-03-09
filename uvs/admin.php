@@ -91,6 +91,8 @@ if ($_REQUEST['sub'] == 'modseance')
           }
         else
           {
+            require_once($topdir . "include/entities/lieu.inc.php");
+            
             $res = $req->get_row();
 
             $frm = new form('modseance', './admin.php?sub=modseance', true);
