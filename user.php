@@ -1191,7 +1191,7 @@ else
         "Ma carte AE", array($item), "user.php?id_utilisateur=".$user->id,
         "id_carte_ae",
         array("id_carte_ae"=>"N°","cle_carteae"=>"Lettre clé","etat_vie_carte_ae"=>"Etat"),
-        $site->user->is_in_group("gestion_ae")?array("reprint"=>"Re-imprimer carte", ($item['etat_vie_carte_ae']==CETAT_AU_BUREAU_AE)?"retrait"=>"Retrait carte":""):array(),
+        $site->user->is_in_group("gestion_ae")?array("reprint"=>"Re-imprimer carte", ($item['etat_vie_carte_ae']==CETAT_AU_BUREAU_AE)?"retrait"=>"Retrait carte":"carte retiree"):array(),
         array(), array("etat_vie_carte_ae"=>$EtatsCarteAE )
         );
       $cts->add($tbl,true);
