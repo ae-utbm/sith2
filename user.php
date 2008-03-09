@@ -436,6 +436,12 @@ elseif ( $_REQUEST["action"] == "retrait" && $site->user->is_in_group("gestion_a
   $carte->load_by_utilisateur($user->id);
   $carte->set_state(CETAT_CIRCULATION);
 }
+elseif ( $_REQUEST["action"] == "cadeau" && $site->user->is_in_group("gestion_ae") )
+{
+  $carte = new carteae($site->db,$site->dbrw);
+  $carte->load_by_utilisateur($user->id);
+  $carte->mark_cadeau();
+}
 
 if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/var/www/ae/www/ae2/var/img") )
 {
@@ -1182,16 +1188,26 @@ else
                           "Cotisant(e) AE jusqu'au " .
                           HumanReadableDate($res['date_fin_cotis'], null, false) . " $year !");
 
-      $req = new requete($site->db,"SELECT `id_carte_ae`, `etat_vie_carte_ae`, `cle_carteae` FROM `ae_carte` INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` WHERE `ae_cotisations`.`id_utilisateur`='".$user->id."' AND `ae_carte`.`etat_vie_carte_ae`<".CETAT_EXPIRE."");
+      $req = new requete($site->db,"SELECT `id_carte_ae`, `etat_vie_carte_ae`, `cle_carteae`, `cle_carteae` FROM `ae_carte` INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` WHERE `ae_cotisations`.`id_utilisateur`='".$user->id."' AND `ae_carte`.`etat_vie_carte_ae`<".CETAT_EXPIRE."");
 
 	  $item = $req->get_row();
+	  
+	  $tab = array("reprint"=>"Re-imprimer carte");
+	  if($item['etat_vie_carte_ae']==CETAT_AU_BUREAU_AE))
+	  {
+	  	array_push($tab, "retrait"=>"Retrait carte");
+	  }
+	  if(!$item['a_pris_cadeau'])
+	  {
+	  	array_push($tab, "cadeau"=>"Retrait cadeau");
+	  }
 	  
       $tbl = new sqltable(
         "listasso",
         "Ma carte AE", array($item), "user.php?id_utilisateur=".$user->id,
         "id_carte_ae",
         array("id_carte_ae"=>"N°","cle_carteae"=>"Lettre clé","etat_vie_carte_ae"=>"Etat"),
-        $site->user->is_in_group("gestion_ae")?($item['etat_vie_carte_ae']==CETAT_AU_BUREAU_AE)?array("reprint"=>"Re-imprimer carte", "retrait"=>"Retrait carte"):array("reprint"=>"Re-imprimer carte"):array(),
+        $site->user->is_in_group("gestion_ae")?$tab:array(),
         array(), array("etat_vie_carte_ae"=>$EtatsCarteAE )
         );
       $cts->add($tbl,true);
