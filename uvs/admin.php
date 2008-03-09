@@ -214,6 +214,8 @@ else if ($_REQUEST['sub'] == 'modcomments')
         $comms[$i] = new uvcomment($site->db);
         $comms[$i]->load_by_id($res['id_comment']);
       }
+    $cts->add_paragraph("<pre>" . print_r($comms, true) . "</pre>");
+    
     if (count($comms) > 0)
       $cts->add(new uvcomment_contents($comms,
                                        $site->db,
