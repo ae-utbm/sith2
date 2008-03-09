@@ -206,7 +206,7 @@ else if ($_REQUEST['sub'] == 'modcomments')
                                    FROM
                                            `edu_uv_comments`
                                    WHERE
-                                           `state_comment` = ". UVCOMMENT_ABUSE);
+                                           `state_comment` = 1"); // 1 = UVCOMMENT_ABUSE
 
     $comms = array();
     print_r($req);
