@@ -229,6 +229,10 @@ else if ($_REQUEST['sub'] == 'modcomments')
                                          $site->db,
                                          $site->user, "admin.php"));
       }
+    else
+      {
+        $cts->add_paragraph("<b>Aucun commentaire signalé abusif.</b>");
+      }
   }
 
 
