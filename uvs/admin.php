@@ -41,6 +41,10 @@ require_once($topdir. "include/entities/uv.inc.php");
 
 
 $site = new site();
+$site->add_css("css/doku.css");
+$site->add_css("css/d.css");
+$site->add_css("css/pedagogie.css");
+
 $site->add_box("uvsmenu", get_uvsmenu_box() );
 $site->set_side_boxes("left",array("uvsmenu", "connexion"));
 
