@@ -207,6 +207,8 @@ else if ($_REQUEST['sub'] == 'modcomments')
                                            `state_comment` = ". UVCOMMENT_ABUSE);
 
     $comms = array();
+    print_r($req);
+    
     if ($req->lines > 0)
       {
         for ($i = 0 ; $i < $req->lines; $i++)
