@@ -59,7 +59,7 @@ $cts->add_paragraph("Modération de la partie pédagogie");
  * partie pédagogie serait pertinant. Je (pedrov) ne prends pas de
  * décision la dessus.
  */
-if (! $site->is_in_group("gestion_ae"))
+if (! $site->user->is_in_group("gestion_ae"))
   {
     $site->error_forbidden();
   }
