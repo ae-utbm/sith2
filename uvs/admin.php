@@ -200,7 +200,7 @@ else if ($_REQUEST['sub'] == 'modcomments')
                         "juste valeur.");
 
     unset($req);
-    
+
     $req = new requete($site->db, "SELECT
                                            `id_comment`
                                    FROM
@@ -209,9 +209,13 @@ else if ($_REQUEST['sub'] == 'modcomments')
                                            `state_comment` = 1"); // 1 = UVCOMMENT_ABUSE
 
     $comms = array();
-    print_r($req);
-    echo mysql_num_rows($req->result);
-    
+
+    // HACK : j'ai cherché, et je n'ai pas trouvé le bug suivant : la
+    // classe requete m'envoie une ligne de résultat, la fonction
+    // mysql_num_rows me renvoie bien 0 quand il n'y a aucune ligne
+    // sélectionnée.
+    $req->lines = mysql_num_rows($req->result);
+
     if ($req->lines > 0)
       {
         for ($i = 0 ; $i < $req->lines; $i++)
