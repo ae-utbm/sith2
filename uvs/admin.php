@@ -91,7 +91,7 @@ if ($_REQUEST['sub'] == 'modseance')
     if (isset($_REQUEST['id_seance']))
       {
         $idseance = intval($_REQUEST['id_seance']);
-        $req = new requete($site->db, "SELECT * FROM `edu_uv_groupe` INNER JOIN `edu_uv` USING (`id_seance`) WHERE ".
+        $req = new requete($site->db, "SELECT * FROM `edu_uv_groupe` INNER JOIN `edu_uv` USING (`id_uv`) WHERE ".
                            "id_uv_groupe = $idseance");
         if ($req->lines != 1)
           {
