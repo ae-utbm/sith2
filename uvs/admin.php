@@ -47,11 +47,18 @@ $site->set_side_boxes("left",array("uvsmenu", "connexion"));
 $site->start_page("services", "AE - Pédagogie - Modération");
 
 $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
-$path .= "/" . " Accueil";
+$path .= "/" . " <a href=\"./admin.php\">Administration</a>";
+
+if ($_REQUEST['sub'] == 'modseance')
+  {
+    $path .= " / <a href=\"./admin.php?sub=modseance\">Modification des séances horaires</a>";
+  }
+else if ($_REQUEST['sub'] == 'modcomments')
+  {
+    $path .= " / <a href=\"./admin.php?sub=modcomments\">Modération des commentaires</a>";
+  }
+
 $cts = new contents($path);
-
-
-$cts->add_paragraph("Modération de la partie pédagogie");
 
 // vérification d'usage
 
@@ -72,6 +79,7 @@ require_once($topdir . "include/cts/sqltable.inc.php");
 // modification des séances
 if ($_REQUEST['sub'] == 'modseance')
   {
+    $cts->add_title(1, "Modification des séances horaires");
 
     // formulaire posté
     if (isset($_REQUEST['modsubmit']))
@@ -83,7 +91,7 @@ if ($_REQUEST['sub'] == 'modseance')
     if (isset($_REQUEST['id_seance']))
       {
         $idseance = intval($_REQUEST['id_seance']);
-        $req = new requete($site->db, "SELECT * FROM `edu_uv_groupe` WHERE ".
+        $req = new requete($site->db, "SELECT * FROM `edu_uv_groupe` INNER JOIN `edu_uv` USING (`id_seance`) WHERE ".
                            "id_uv_groupe = $idseance");
         if ($req->lines != 1)
           {
@@ -92,8 +100,11 @@ if ($_REQUEST['sub'] == 'modseance')
         else
           {
             $res = $req->get_row();
-
+            $cts->add_paragraph("<b>Séance de ".$res['type_grp'] == "C" ? "cours" : $res['type_grp'] . " de " . $res['code_uv']);
+            
             $frm = new form('modseance', './admin.php?sub=modseance', true);
+            $frm->add_hidden('id_seance', $res['id_seance']);
+            
             $frm->add_select_field('mod_typegrp', 'Type de séance',
                                    array('C' => 'cours', "TD" => "TD", "TP" => "TP"),
                                    $res['type_grp'], "", true);
