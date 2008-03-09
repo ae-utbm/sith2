@@ -137,7 +137,7 @@ if ($_REQUEST['sub'] == 'modseance')
             $frm->add_text_field('mod_hfingrp', 'Heure de fin',
                                  $res['heure_fin_grp']);
 
-            $frm->add_select_field('mod_jourgrp', 'Jour', $jour);
+            $frm->add_select_field('mod_jourgrp', 'Jour', $jour, $res['jour_grp']);
             $frm->add_select_field('mod_freqgrp', 'Fréquence',
                                    array('1' => 'Hebdomadaire', '2' => 'Bimensuelle'),
                                    $res['frequence_grp'], "", true);
