@@ -439,6 +439,7 @@ elseif ( $_REQUEST["action"] == "retrait" && $site->user->is_in_group("gestion_a
 elseif ( $_REQUEST["action"] == "cadeau" && $site->user->is_in_group("gestion_ae") )
 {
   $carte = new carteae($site->db,$site->dbrw);
+  $cotiz = new cotisation($site->db,$site->dbrw);
   $carte->load_by_utilisateur($user->id);
   $cotiz->load_by_id($carte->id_cotisation);
   $cotiz->mark_cadeau();
@@ -1199,7 +1200,7 @@ else
 	  	$ret = array("retrait" => "Retrait carte");
 	  	$tab += $ret;
 	  }
-	  if(!$item['a_pris_cadeau'])
+	  if($item['a_pris_cadeau']==0)
 	  {
 	  	$cad = array("cadeau" => "Retrait cadeau");
 	  	$tab += $cad;
