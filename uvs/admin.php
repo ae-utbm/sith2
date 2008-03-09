@@ -100,13 +100,13 @@ if ($_REQUEST['sub'] == 'modseance')
                                    array('C' => 'cours', "TD" => "TD", "TP" => "TP"),
                                    $res['type_grp'], "", true);
             $frm->add_text_field('mod_numgrp', 'Numéro de groupe',
-                                 true, $res['numero_grp']);
+                                 $res['numero_grp']);
 
             $frm->add_text_field('mod_hdebgrp', 'Heure de début',
-                                 true, $res['heure_debut_grp']);
+                                 $res['heure_debut_grp']);
 
             $frm->add_text_field('mod_hfingrp', 'Heure de fin',
-                                 true, $res['heure_fin_grp']);
+                                 $res['heure_fin_grp']);
 
             $frm->add_select_field('mod_jourgrp', 'Jour', $jour);
             $frm->add_select_field('modfreqgrp', 'Fréquence',
@@ -114,7 +114,7 @@ if ($_REQUEST['sub'] == 'modseance')
                                    $res['frequence_grp'], "", true);
 
             $frm->add_text_field('mod_sallegrrp', 'Salle',
-                                 true, $res['salle_grp']);
+                                 $res['salle_grp']);
             $frm->add_entity_smartselect('mod_lieu', 'Lieu', new lieu($site->db), false, true);
             $frm->add_submit('modsubmit', 'Modifier');
             $cts->add($frm);
@@ -127,12 +127,15 @@ if ($_REQUEST['sub'] == 'modseance')
      */
     else
       {
+        /**
+         * @todo : entitizer les séances horaires ?
+         */
         $cts->add_title(1, "Modification des séances horaires");
         $cts->add_paragraph("Veuillez entrer l'identifiant de séance qui vous a été ".
                             "communiqué dans le formulaire ci-dessous.");
 
         $frm = new form('searchseance', './admin.php?sub=modseance', true);
-        $frm->add_text_field('id_seance', 'Identifiant de séance', true);
+        $frm->add_text_field('id_seance', 'Identifiant de séance');
         $frm->add_submit('searchseance_sbmt', 'Rechercher');
         $cts->add($frm);
       }
