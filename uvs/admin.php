@@ -79,12 +79,15 @@ require_once($topdir . "include/cts/sqltable.inc.php");
 // modification des séances
 if ($_REQUEST['sub'] == 'modseance')
   {
+    require_once($topdir . "include/entities/edt.inc.php");
+
     $cts->add_title(1, "Modification des séances horaires");
 
     // formulaire posté
     if (isset($_REQUEST['modsubmit']))
       {
         $cts->add_paragraph("<pre>" . print_r($_REQUEST, true) . "</pre>");
+
       }
 
     // on sait ce qu'on doit modifier
@@ -95,16 +98,33 @@ if ($_REQUEST['sub'] == 'modseance')
                            "id_uv_groupe = $idseance");
         if ($req->lines != 1)
           {
-            $cts->add_paragraph("<b>Erreur : séance introuvable.</b>");
+            //            $cts->add_paragraph("<b>Erreur : séance introuvable.</b>");
+            $edt = new edt($site->db, $site->dbrw);
+            $ret = $edt->modify_grp($idseance,      //iduv
+                                    $_REQUEST['mod_typegrp'], //type
+                                    $_REQUEST['mod_numgrp'],  // numgrp
+                                    $_REQUEST['mod_hdebgrp'], // hdeb
+                                    $_REQUEST['mod_hfingrp'],  // hfin
+                                    $_REQUEST['mod_jourgrp'],  //jourgrp
+                                    $_REQUEST['mod_freqgrp'],  //frequence
+                                    $_REQUEST['mod_sallegrp'],  // salle
+                                    $_REQUEST['mod_lieu']); // lieu
+
+            if ($ret == true)
+              $cts->add_paragraph("Séance horaire modifiée avec succès");
+            else
+              $cts->add_paragraph("<b>Erreur lors de la modification de la séance.</b>");
           }
         else
           {
             $res = $req->get_row();
-            $cts->add_paragraph("<b>Séance de ".$res['type_grp'] == "C" ? "cours" : $res['type_grp'] . " de " . $res['code_uv']);
-            
+            $cts->add_title(2, "Séance de ".
+                            $res['type_grp'] == "C" ? "cours" :
+                            $res['type_grp'] . " de " . $res['code_uv']);
+
             $frm = new form('modseance', './admin.php?sub=modseance', true);
             $frm->add_hidden('id_seance', $res['id_uv_groupe']);
-            
+
             $frm->add_select_field('mod_typegrp', 'Type de séance',
                                    array('C' => 'cours', "TD" => "TD", "TP" => "TP"),
                                    $res['type_grp'], "", true);
@@ -118,7 +138,7 @@ if ($_REQUEST['sub'] == 'modseance')
                                  $res['heure_fin_grp']);
 
             $frm->add_select_field('mod_jourgrp', 'Jour', $jour);
-            $frm->add_select_field('modfreqgrp', 'Fréquence',
+            $frm->add_select_field('mod_freqgrp', 'Fréquence',
                                    array('1' => 'Hebdomadaire', '2' => 'Bimensuelle'),
                                    $res['frequence_grp'], "", true);
 

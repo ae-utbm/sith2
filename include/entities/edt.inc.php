@@ -371,6 +371,48 @@ class edt extends stdentity
 
 
   }
+  /**
+   * Modification d'un groupe (séance)
+   * @param $iduv identifiant de séance
+   * @param $type_grp type de séance (cours, TD ou TP)
+   * @param $numgrp numéro du groupe (indiqué sur l'emploi du temps SME)
+   * @param $hdebgrp heure de début (format hh:mm:ss)
+   * @param $hfingrp heure de de fin (format hh:mm:ss)
+   * @param $jourgrp numéro de jour (cf tableau des jours)
+   * @param $frqgrp fréquence (1 ou 2)
+   * @param $sallegrp salle où a lieu la séance
+   * @param $lieugrp lieu de déroulement de la séance (@see lieu)
+   *
+   * @return true si succès, false sinon
+   */
+  function modify_grp ($idgrp,
+		       $type_grp,
+		       $numgrp,
+		       $hdebgrp,
+		       $hfingrp,
+		       $jourgrp,
+		       $freqgrp,
+		       $sallegrp,
+                       $lieugrp = null)
+  {
+    if (!$this->dbrw)
+      {
+        return false;
+      }
+    $sql = new update($this->dbrw,
+		      "edu_uv_groupe",
+		      array("type_grp"        => $type_grp,
+			    "numero_grp"      => $numgrp,
+			    "heure_debut_grp" => $hdebgrp,
+			    "heure_fin_grp"   => $hfingrp,
+			    "jour_grp"        => $jourgrp,
+			    "frequence_grp"   => $freqgrp,
+			    "salle_grp"       => $sallegrp,
+                            "id_lieu"         => $lieugrp),
+                      array("id_uv_groupe" => $idgrp));
+
+    return ($sql->lines == 1);
+  }
 
   /**
    * Fonction d'assignation d'une UV à un département.
