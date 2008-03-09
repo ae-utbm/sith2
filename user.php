@@ -68,7 +68,7 @@ if ( isset($_REQUEST['id_utilisateur']) )
   // cela veut dire que l'on est i admin, ni l'utilisateur en question
   // donc on a pas le droit de la consulter  
   if ( !$user->publique && !$can_edit )
-    $site->error_forbidden("matmatronch","private");
+    $site->error_forbidden("mat11matronch","private");
     
 }
 else
@@ -429,6 +429,12 @@ elseif ( $_REQUEST["action"] == "reprint" && $site->user->is_in_group("gestion_a
   $carte = new carteae($site->db,$site->dbrw);
   $carte->load_by_utilisateur($user->id);
   $carte->set_state(CETAT_ATTENTE);
+}
+elseif ( $_REQUEST["action"] == "retrait" && $site->user->is_in_group("gestion_ae") )
+{
+  $carte = new carteae($site->db,$site->dbrw);
+  $carte->load_by_utilisateur($user->id);
+  $carte->set_state(CETAT_CIRCULATION);
 }
 
 if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/var/www/ae/www/ae2/var/img") )
@@ -1178,15 +1184,19 @@ else
 
       $req = new requete($site->db,"SELECT `id_carte_ae`, `etat_vie_carte_ae`, `cle_carteae` FROM `ae_carte` INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` WHERE `ae_cotisations`.`id_utilisateur`='".$user->id."' AND `ae_carte`.`etat_vie_carte_ae`<".CETAT_EXPIRE."");
 
+	  $item = $req->get_row();
+	  
       $tbl = new sqltable(
         "listasso",
         "Ma carte AE", $req, "user.php?id_utilisateur=".$user->id,
         "id_carte_ae",
         array("id_carte_ae"=>"N°","cle_carteae"=>"Lettre clé","etat_vie_carte_ae"=>"Etat"),
-        $site->user->is_in_group("gestion_ae")?array("reprint"=>"Re-imprimer carte"):array(),
+        $site->user->is_in_group("gestion_ae")?array("reprint"=>"Re-imprimer carte", 
+        											($item['etat_vie_carte_ae']==CETAT_AU_BUREAU_AE)?"retrait"=>"Retrait carte":):array(),
         array(), array("etat_vie_carte_ae"=>$EtatsCarteAE )
         );
       $cts->add($tbl,true);
+      
     }
   }
 
