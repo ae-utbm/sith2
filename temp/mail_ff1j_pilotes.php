@@ -11,7 +11,7 @@ $req = new requete (new mysqlae(),
             email_utl 
          FROM utilisateurs
          INNER JOIN utl_extra on utilisateurs.id_utilisateur = utl_extra.id_utilisateur
-         WHERE (datediff(NOW(),date_naissance_utl))/365 >= '21'
+         WHERE (datediff('2008-05-01',date_naissance_utl))/365 >= '21'
             AND ae_utl='1' 
             AND utbm_utl='1'
             AND etudiant_utl='1'
