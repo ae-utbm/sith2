@@ -196,7 +196,7 @@ $timing["cal.new"] += microtime(true);
 		$this->buffer .= "<tr>";
 		
 		for ($i=$current_day ; $i < $days ; $i++)
-			$this->day ($year, $month, ++$current_day);
+			$this->day ($year, $month, $i, $events[$i]);
 			
 		for ($j=0 ; $j < 7-$i ; $j++)
 			$this->buffer .= "<td class=\"day\"></td>";
@@ -209,6 +209,82 @@ $timing["cal.new"] += microtime(true);
 		$this->buffer .= "</div>\n";
 		
 		return $this->buffer;
+	}
+	/** Affichage d'un jour.
+	*
+	* @param year L'année
+	* @param month Le mois
+	* @param day Le jour
+	*/
+	function day ($year, $month, $day, $events=null)
+	{
+		global $topdir,$wwwtopdir,$timing;
+		
+		$style = "day";
+		
+/*$timing["cal.old"] -= microtime(true);
+		$date = $this->sql_date(mktime(0, 0, 0, $month, $day, $year));
+		$date2 = $this->sql_date(mktime(0, 0, 0, $month, $day + 1, $year));
+		$sql = "SELECT `nvl_dates`.*,`nvl_nouvelles`.* FROM `nvl_dates` " .
+			"INNER JOIN `nvl_nouvelles` on `nvl_nouvelles`.`id_nouvelle`=`nvl_dates`.`id_nouvelle`" .
+			"WHERE  modere_nvl='1' ".
+			"AND `nvl_dates`.`date_debut_eve` <= '" . mysql_escape_string($date2) ." 05:59:59' " .
+			"AND `nvl_dates`.`date_fin_eve` >= '" . mysql_escape_string($date) ." 06:00:00' ";
+		
+		if ( is_null($this->id_asso) )
+		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
+		else
+		  $sql .= "AND id_asso='".mysql_real_escape_string($this->id_asso)."' ";
+    $event = new requete($this->db,$sql);
+$timing["cal.old"] += microtime(true);*/
+
+		/* Si oui, on change le style de la case, et on ajoute l'évenement */
+		//if ($event->lines > 0)
+		if ( count($events) > 0 )
+		{
+			$idx=3;
+			
+			
+			//while ($ev = $event->get_row ())
+			foreach( $events as $ev)
+			{
+				if ( $ev["type_nvl"] == 1 )
+					$idx = 1;
+				elseif ( $ev["type_nvl"] == 2 && $idx == 3 )
+					$idx = 2;
+			}
+			
+			$style .= " event$idx";		  
+		  
+		  if ( $idx != 3 )
+		  {
+		    //$event->go_first();
+		    
+  			$this->events .= "<dl class=\"event\" id=\"calev-$date\">\n";
+  			//while ($ev = $event->get_row ())
+  			foreach( $events as $ev)
+  			{
+  				$this->event_add ($ev,$date);
+  				$js = " onmouseover=\"show_obj_top('calev-$date'); \"";
+  				$js .= " onmouseout=\"hide_obj('calev-$date');\"";
+  			}
+  			$this->events .= "</dl>\n";
+		  }
+		}
+		
+		/* Si le jour demandé est aujourd'hui, on active la case */
+		if ($date == $this->sql_date (time()))
+		$style .= " active";
+		
+		/* On affiche la case */ 
+		if($event->lines > 0)
+		{
+			$this->buffer .= "<td class=\"$style\"$js><a href=\"" . $wwwtopdir . "events.php?day=" . $date . "\">" . $day . "</a></td>";
+		}
+		else
+		{
+			$this->buffer .= "<td class=\"$style\"$js>" . $day . "</td>";
+		}
 	}
 	
 	/** Affichage d'un jour.
