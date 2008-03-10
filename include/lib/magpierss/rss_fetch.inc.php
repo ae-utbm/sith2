@@ -89,12 +89,12 @@ $MAGPIE_ERROR = "";
 function fetch_rss ($url) {
     // initialize constants
     init();
-    
+echo "1";    
     if ( !isset($url) ) {
         error("fetch_rss called without a url");
         return false;
     }
-    
+
     // if cache is disabled
     if ( !MAGPIE_CACHE_ON ) {
         // fetch file, and parse it
@@ -114,14 +114,14 @@ function fetch_rss ($url) {
         // 2. if there is a hit, make sure its fresh
         // 3. if cached obj fails freshness check, fetch remote
         // 4. if remote fails, return stale object, or error
-        
+echo "2";        
         $cache = new RSSCache( MAGPIE_CACHE_DIR, MAGPIE_CACHE_AGE );
         
         if (MAGPIE_DEBUG and $cache->ERROR) {
             debug($cache->ERROR, E_USER_WARNING);
         }
         
-        
+echo "3";        
         $cache_status    = 0;       // response of check_cache
         $request_headers = array(); // HTTP headers to send with fetch
         $rss             = 0;       // parsed RSS object
@@ -161,7 +161,7 @@ function fetch_rss ($url) {
         }
         
         $resp = _fetch_remote_file( $url, $request_headers );
-        
+        echo "4";
         if (isset($resp) and $resp) {
           if ($resp->status == '304' ) {
                 // we have the most current copy
@@ -266,20 +266,18 @@ function magpie_error ($errormsg="") {
                 headers to send along with the request (optional)
     Output:     an HTTP response object (see Snoopy.class.inc)  
 \*=======================================================================*/
-function _fetch_remote_file ($url, $headers = "" ) {
+function _fetch_remote_file ($url, $headers = "" )
+{
     // Snoopy is an HTTP client in PHP
   $client = new Snoopy();
-echo "debug";
-    $client->agent = MAGPIE_USER_AGENT;
-    $client->read_timeout = MAGPIE_FETCH_TIME_OUT;
-    $client->use_gzip = MAGPIE_USE_GZIP;
-    if (is_array($headers) ) {
-        $client->rawheaders = $headers;
-    }
+  $client->agent = MAGPIE_USER_AGENT;
+  $client->read_timeout = MAGPIE_FETCH_TIME_OUT;
+  $client->use_gzip = MAGPIE_USE_GZIP;
+  if (is_array($headers) )
+    $client->rawheaders = $headers;
     
-    @$client->fetch($url);
-    return $client;
-
+  @$client->fetch($url);
+  return $client;
 }
 
 /*=======================================================================*\
