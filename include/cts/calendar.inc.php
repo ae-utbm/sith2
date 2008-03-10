@@ -122,7 +122,7 @@ class calendar extends stdcontents
     $fmois = mktime(6, 0, 0, $month+1, 1, $year);
 		$sql = "SELECT `nvl_dates`.date_debut_eve, ".
 		  "`nvl_dates`.date_fin_eve, ".
-		  "`nvl_dates`.type_nvl, ".
+		  "`nvl_nouvelles`.type_nvl, ".
 		  "`nvl_nouvelles`.titre_nvl ".
 		  "FROM `nvl_dates` " .
 			"INNER JOIN `nvl_nouvelles` on `nvl_nouvelles`.`id_nouvelle`=`nvl_dates`.`id_nouvelle`" .
