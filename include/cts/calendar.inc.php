@@ -141,11 +141,11 @@ $timing["cal.new0"] += microtime(true);
 		  $debut = date("d",strtotime($row['date_debut_eve'])-(6*3600));
 		  $fin = date("d",strtotime($row['date_fin_eve'])-(6*3600));
 		  for($i=$debut;$i<=$fin;$i++)
-		    $events[$i][] = $row;
+		    $events[intval($i)][] = $row;
 		}
 $timing["cal.new"] += microtime(true);
 		unset($req);
-		print_r($events);
+		//print_r($events);
 		
 		$this->buffer .= "<tr>\n";
 		$this->buffer .= "<td class=\"month\"><a href=\"?caldate=$prevdate\" onclick=\"return !openInContents('sbox_body_calendrier','".$wwwtopdir."gateway.php','class=calendar&amp;caldate=$prevdate&amp;topdir=$wwwtopdir');\">&laquo;</a></td>\n";
