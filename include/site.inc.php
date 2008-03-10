@@ -932,16 +932,18 @@ class site extends interfaceweb
     global $topdir;
     $cts = new contents("Anniversaire");
 
-    $req = new requete ($this->db, "SELECT `utilisateurs`.`id_utilisateur`,
-                                            `utilisateurs`.`nom_utl`,
-                                            `utilisateurs`.`prenom_utl`,
-                                            `utl_etu_utbm`.`surnom_utbm`,
-                                            `utilisateurs`.`date_naissance_utl`
-                                     FROM `utilisateurs`
-                                     INNER JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur`
-                                     WHERE `utilisateurs`.`date_naissance_utl` LIKE '%-" . date("m-d") . "'
-                                     AND (`utilisateurs`.`ancien_etudiant_utl` = '0' OR `utilisateurs`.`ae_utl` = '1')
-                                     ORDER BY `utilisateurs`.`date_naissance_utl` DESC");
+                                     
+    $req = new requete ($this->db, "SELECT `utilisateurs`.`id_utilisateur`,`utilisateurs`.`nom_utl`,".
+    "`utilisateurs`.`prenom_utl`,`utl_etu_utbm`.`surnom_utbm`,`utilisateurs`.`date_naissance_utl` ".
+    "FROM `utilisateurs` ".
+    "INNER JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur` ".
+    //"WHERE `utilisateurs`.`date_naissance_utl` LIKE '%-" . date("m-d") . "' ".
+    "WHERE DAYOFMONTH(`date_naissance_utl`) == " . date("d") . "' ".
+    "AND MONTH(`date_naissance_utl`) == " . date("m") . "' ".
+    "AND (`utilisateurs`.`ancien_etudiant_utl` = '0' OR `utilisateurs`.`ae_utl` = '1') ".
+    "ORDER BY `utilisateurs`.`date_naissance_utl` DESC");                                
+                                     
+                                     
 
     if ($req->lines > 0)
     {
