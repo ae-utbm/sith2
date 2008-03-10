@@ -179,7 +179,7 @@ $timing["cal.new"] += microtime(true);
 		for ($i=0 ; $i<$first ; $i++)
 			$this->buffer .= "<td class=\"day\"></td>";
 		for ($i=0 ; $i< 7-$first ; $i++)
-			$this->day ($year, $month, ++$current_day);
+			$this->day ($year, $month, ++$current_day, $events[$current_day]);
 		$this->buffer .= "</tr>\n";
 		
 		/* Les autres jours du mois */
@@ -188,7 +188,7 @@ $timing["cal.new"] += microtime(true);
 		{
 			$this->buffer .= "<tr>";
 			for ($i=0 ; $i < 7 ; $i++)
-				$this->day ($year, $month, ++$current_day);
+				$this->day ($year, $month, ++$current_day, $events[$current_day]);
 			$this->buffer .= "</tr>\n";
 		}
 		
