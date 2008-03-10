@@ -191,7 +191,7 @@ class calendar extends stdcontents
 		$this->buffer .= "<tr>";
 		
 		for ($i=$current_day ; $i < $days ; $i++)
-			$this->day ($year, $month, $i, $events[$i]);
+			$this->day ($year, $month, $i+1, $events[$i+1]);
 			
 		for ($j=0 ; $j < 7-$i ; $j++)
 			$this->buffer .= "<td class=\"day\"></td>";
