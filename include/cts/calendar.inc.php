@@ -138,8 +138,12 @@ $timing["cal.new0"] -= microtime(true);
 $timing["cal.new0"] += microtime(true);
 		while ( $row = $req->get_row() )
 		{
-		  $debut = intval(date("d",strtotime($row['date_debut_eve'])-(6*3600)));
-		  $fin = intval(date("d",strtotime($row['date_fin_eve'])-(6*3600)));
+		  /*$debut = intval(date("d",strtotime($row['date_debut_eve'])-(6*3600)));
+		  $fin = intval(date("d",strtotime($row['date_fin_eve'])-(6*3600)));*/
+		  $debut = floor((strtotime($row['date_debut_eve'])-$dmois)/(24*3600));
+		  $fin = floor((strtotime($row['date_fin_eve'])-$dmois)/(24*3600));
+		  
+		  
 		  for($i=$debut;$i<=$fin;$i++)
 		    $events[$i][] = $row;
 		}
