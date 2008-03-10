@@ -1057,44 +1057,6 @@ div.form div.filesselectbutton
 }
 
 /*
- * Completion des les formulaires
- */
-div.autocomplete_area ul
-{
-  margin:0;
-  padding:0;
-  border:0;
-  list-style:none;
-}
-
-div.autocomplete_area a
-{  
-  color: black;
-}
-
-div.autocomplete_area
-{
-  width:auto;
-  margin:0.25em;
-  margin-top:0;
-  border:1px solid black;
-  padding:0.25em;
-  background:#ffcc2a;
-  display: none;
-}
-
-div.autocomplete_area ul.smartlist_user li
-{
-  border-bottom: 1px solid black;
-  padding: 2px;
-}
-
-div.autocomplete_area ul.smartlist_user li img
-{
-  vertical-align: middle;
-}
-
-/*
  * Sous-formulaires
  */
 div.subform

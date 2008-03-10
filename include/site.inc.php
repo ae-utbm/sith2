@@ -64,9 +64,6 @@ class site extends interfaceweb
       $this->fatal("no dbrw");
 
     $this->interfaceweb($dbro, $dbrw);
-    
-    if( $stats && !preg_match('/taiste/', $_SERVER['SCRIPT_NAME']) && !preg_match('/ae/', $_SERVER['SCRIPT_NAME']))
-      $this->stats();
 
     if($_COOKIE['AE2_SESS_ID'])
       $this->load_session($_COOKIE['AE2_SESS_ID']);
@@ -78,88 +75,7 @@ class site extends interfaceweb
 
 //    $this->add_css("themes/sdm08/css/site.css");
     
-  }
-
-  function stats()
-  {
-    $page=$_SERVER['SCRIPT_NAME'];
-    $req = new requete($this->db, "SELECT * FROM `stats_page` WHERE `page` = '".mysql_escape_string($page)."'");
-    if ( $req->lines != 0 )
-      $stats = new requete($this->dbrw, "UPDATE `stats_page` SET `visites`=`visites`+1 WHERE `page`='".mysql_escape_string($page)."'");
-    else
-      $stats = new insert($this->dbrw, "stats_page", array("page"=>mysql_escape_string($page), "visites"=>1));
-
-    $this->stats_os();
-    $this->stats_browser();
-  }
-
-  function stats_os()
-  {
-    $agent = $_SERVER['HTTP_USER_AGENT'];
-
-    if (eregi('(win|windows) ?(9x ?4\.90|Me)', $agent))
-      $os="Windows ME";
-    elseif (eregi('(win|windows) ?(98)', $agent))
-      $os="Windows 98";
-    elseif (eregi('(win|windows) ?(2000)', $agent))
-      $os="Windows 2000";
-    elseif (eregi('(win|windows) ?(95)', $agent))
-      $os="Windows 95";
-    elseif (eregi('(win|windows) ?(NT)', $agent))
-    {
-      if (eregi('(win|windows) ?NT ?(5\.1|5\.2?)', $agent))
-        $os="Windows XP";
-      elseif (eregi('(win|windows) ?NT ?(5(\.0)?)', $agent))
-        $os="Windows 2000";
-      elseif (eregi('(win|windows) ?NT ?(6(\.0)?)', $agent))
-        $os="Windows Vista";
-    }
-    elseif (eregi('(win|windows) ?XP', $agent))
-      $os="Windows XP";
-    elseif (eregi('(win|windows)', $agent))
-      $os="Windows";
-    elseif (eregi('(linux)', $agent))
-      $os="Linux";
-    elseif (eregi('(freebsd|openbsd|netbsd)', $agent))
-      $os="BSD";
-    elseif (eregi('(unix|x11)', $agent))
-      $os="Unix";
-    elseif (eregi('mac', $agent))
-      $os="Mac OS X";
-    elseif (eregi('(mac|ppc)', $agent))
-      $os="Mac OS";
-    elseif (eregi('(bot|google|slurp|scooter|spider|infoseek|arachnoidea|altavista)', $agent))
-      $os="Bot";
-    else
-      $os="Autre";
-
-    $req = new requete($this->db, "SELECT * FROM `stats_os` WHERE `os` = '".mysql_escape_string($os)."'");
-    if ( $req->lines != 0 )
-      $stats = new requete($this->dbrw, "UPDATE `stats_os` SET `visites`=`visites`+1 WHERE `os`='".mysql_escape_string($os)."'");
-    else
-      $stats = new insert($this->dbrw, "stats_os", array("os"=>mysql_escape_string($os), "visites"=>1));
-  }
-
-  function stats_browser()
-  {
-    $agent=$_SERVER['HTTP_USER_AGENT'];
-
-    if (eregi('MSIE[ \/]([0-9\.]+)', $agent, $version))
-      $browser="MSIE".$version[1];
-    elseif (eregi('OPERA[ \/]([0-9\.]+)', $agent, $version))
-      $browser="OPERA".$version[1];
-    elseif (eregi('MOZILLA/([0-9.]+)', $agent, $version))
-      $browser="MOZILLA".$version[1];
-    else
-      $browser="AUTRE";
-  
-    $req = new requete($this->db, "SELECT * FROM `stats_browser` WHERE `browser` LIKE '".mysql_escape_string($browser)."'");
-    if ( $req->lines != 0 )
-      $stats = new requete($this->dbrw, "UPDATE `stats_browser` SET `visites`=`visites`+1 WHERE `browser`='".mysql_escape_string($browser)."'");
-    else
-      $stats = new insert($this->dbrw, "stats_browser", array("browser"=>mysql_escape_string($browser), "visites"=>1));
-  }
-  
+  }  
 
   /**
    * Charge une session en fonction de son identidiant.
@@ -376,8 +292,7 @@ class site extends interfaceweb
     }
     elseif ( $section == "pg" )
     {
-      $this->set_side_boxes("left",array("pg","connexion"),"pg_left");
-      $this->add_box("pg", $this->get_petit_geni());
+      $this->set_side_boxes("left",array("connexion"),"pg_left");
     }
     elseif ( $section == "matmatronch" )
     {
@@ -714,19 +629,6 @@ class site extends interfaceweb
     $cts->add_paragraph("<a href=\"sondage.php\">Archives</a>","nbvotes");
     
     return $cts;
-  }
-
-  /**
-   * Gènère la boite petit geni.
-   * @param renvoie un stdcontents
-   */
-  function get_petit_geni ()
-  {
-    global $topdir;
-    $frm = new form("pgae",$topdir."pgae.php",true,"POST","Petit géni");
-    $frm->add_suggested_text_field("recherche","Faites un voeu :","pg");
-    $frm->add_submit("btnpgae","Exaucer!");
-    return $frm;
   }
 
   /**

@@ -383,15 +383,6 @@ class form extends stdcontents
   }
   
   /**
-   * @deprecated Technique utilisé aux orgines de ae2 pour la selection d'un utilisateur : 
-   * Utilisez plutôt add_entity_smartselect ( $name, $title, new Utilisateur($site->db)...)
-   */
-  function add_user_email_field ( $name, $title, $value = "", $required = false , $size = false)
-  {
-    $this->add_suggested_text_field( $name, $title, "email", $value, $required , $size);
-  }
-  
-  /**
    * @deprecated Technique un peu ancienne, smartselect est une généralisation : 
    * Utilisez plutôt add_entity_smartselect ( $name, $title, new Utilisateur($site->db)...)
    */

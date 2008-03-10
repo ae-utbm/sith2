@@ -340,7 +340,7 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 			elseif ( $_REQUEST["emp"] == "carte" )
 				$user->load_by_carteae($_REQUEST["carte"]);
 			elseif ( $_REQUEST["emp"] == "email" )
-				$user->load_by_email($_REQUEST["email"]);
+				$user->load_by_id($_REQUEST["id_utilisateur"]);
 				
 			if ( $_REQUEST["emp"] != "ext" && !$user->is_valid() )
 				$Error="Utilisateur inconnu";
@@ -471,8 +471,8 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 		$sfrm->add_text_field("carte"," : ");
 		$ssfrm->add($sfrm,false,true,true,"carte",true);
 	
-		$sfrm = new form("emp",null,null,null,"L'utilisateur dont l'adresse email est");
-		$sfrm->add_user_email_field("email"," : ","prenom.nom@utbm.fr");
+		$sfrm = new form("emp",null,null,null,"L'utilisateur");
+		$sfrm->add_entity_smartselect("id_utilisateur","",new utilisateur($site->db));
 		$ssfrm->add($sfrm,false,true,false,"email",true);
 		
 		$sfrm = new form("emp",null,null,null,"La personne non inscrite suivante");
@@ -594,7 +594,7 @@ if ( $_REQUEST["action"] == "gonextres" )
 			elseif ( $_REQUEST["emp"] == "carte" )
 				$user->load_by_carteae($_REQUEST["carte"]);
 			elseif ( $_REQUEST["emp"] == "email" )
-				$user->load_by_email($_REQUEST["email"]);
+				$user->load_by_id($_REQUEST["id_utilisateur"]);
 		}
 		else
 			$user = &$site->user;
@@ -798,7 +798,7 @@ if ( $Step == 0 )
 		$ssfrm->add($sfrm,false,true,true,"carte",true);
 	
 		$sfrm = new form("emp",null,null,null,"L'utilisateur dont l'adresse email est");
-		$sfrm->add_user_email_field("email"," : ","prenom.nom@utbm.fr");
+		$sfrm->add_entity_smartselect("id_utilisateur","",new utilisateur($site->db));
 		$ssfrm->add($sfrm,false,true,false,"email",true);
 		
 		$sfrm = new form("emp",null,null,null,"La personne non inscrite suivante");

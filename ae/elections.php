@@ -67,9 +67,9 @@ if ( $elec->id > 0 )
 	{
 		$user = new utilisateur($site->db);
 		
-		$user->load_by_email($_REQUEST["head"]);
+		$user->load_by_id($_REQUEST["id_utilisateur_head"]);
 		
-		if ( $user->id < 1 || $_REQUEST["head"] =="" )
+		if ( !$user->is_valid() )
 			$ErrorListe = "Tête de liste erronée";
 		elseif ( !$_REQUEST["nom"])
 			$ErrorListe = "Précisez un nom";
@@ -83,10 +83,10 @@ if ( $elec->id > 0 )
 			$sql = new requete($site->db,"SELECT id_poste FROM vt_postes WHERE id_election='".$elec->id."'");
 			while ( list($id_poste) = $sql->get_row() )
 			{
-				if ( $_REQUEST["poste".$id_poste] )
+				if ( $_REQUEST["id_utilisateur_poste".$id_poste] )
 				{
-					$user->load_by_email($_REQUEST["poste".$id_poste]);
-					if ( $user->id > 0 )
+					$user->load_by_id($_REQUEST["id_utilisateur_poste".$id_poste]);
+					if ( $user->is_valid() )
 						$elec->add_candidat($user->id, $id_poste, $id_liste);
 				}
 			}
@@ -97,12 +97,9 @@ if ( $elec->id > 0 )
 	{
 		$user = new utilisateur($site->db);
 		
-		if (isset($_REQUEST['candidat']))
-		  $user->load_by_id($_REQUEST['candidat']);
-		else
-		  $user->load_by_email($_REQUEST["email"]);
+		$user->load_by_id($_REQUEST["id_utilisateur"]);
 		
-		if ( $user->id > 0 && $_REQUEST["email"] != "" )
+		if ( $user->is_valid() )
 		{
 			$id_poste=$_REQUEST["id_poste"];
 			$id_liste=null;
@@ -206,9 +203,9 @@ if ( $elec->id > 0 )
 	if ( $ErrorListe )
 		$frm->error($ErrorListe);
 	$frm->add_text_field("nom","Nom de la liste");
-	$frm->add_user_email_field("head","Tête de liste (email)");
+	$sfrm->add_entity_smartselect("id_utilisateur_head","Tête de liste",new utilisateur($site->db));
 	foreach ($postes as $id => $nom )
-		$frm->add_user_email_field("poste".$id,"Candidat $nom (email)");
+		$sfrm->add_entity_smartselect("id_utilisateur_poste".$id,"Candidat $nom",new utilisateur($site->db));
 	$frm->add_submit("save","Ajouter");
 	$cts->add($frm,true);
 	
@@ -218,10 +215,9 @@ if ( $elec->id > 0 )
 		$frm->add_hidden("action","addcandidat");
 		if ( $ErrorCandidat )
 			$frm->error($ErrorCandidat);
-		$frm->add_entity_smartselect("candidat",
+		$frm->add_entity_smartselect("id_utilisateur",
 					     "Candidat", 
 					     new utilisateur($site->db));
-		$frm->add_user_email_field("email","Adresse email");
 		$frm->add_select_field("id_poste","Poste",$postes);
 		$frm->add_select_field("id_liste","Liste",$listes);
 		$frm->add_submit("save","Ajouter");

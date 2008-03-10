@@ -138,7 +138,7 @@ elseif ( $_REQUEST["action"] == "borrowbooks" && $is_admin )
 	if ( $_REQUEST["emp"] == "carte" )
 		$user->load_by_carteae($_REQUEST["carte"]);
 	elseif ( $_REQUEST["emp"] == "email" )
-		$user->load_by_email($_REQUEST["email"]);
+		$user->load_by_id($_REQUEST["id_utilisateur"]);
 		
 	$cbars = explode("\n",$_REQUEST["cbars"]);
 	foreach ( $cbars as $cbar)
@@ -154,7 +154,7 @@ elseif ( $_REQUEST["action"] == "borrowbooks" && $is_admin )
 		}
 	}
 		
-	if ( $user->id < 1 )
+	if ( !$user->is_valid() )
 		$ErreurEmprunt="Utilisateur inconnu";
 	elseif ( $_REQUEST["endtime"] <= time() )
 		$ErreurEmprunt="Date et heure de fin invalide";
@@ -1175,8 +1175,9 @@ elseif ( $_REQUEST["view"] == "prets" && $is_admin )
 	$sfrm = new form("emp",null,null,null,"Le cotisant dont la carte est");
 	$sfrm->add_text_field("carte"," : ");
 	$ssfrm->add($sfrm,false,true,true,"carte",true);
-	$sfrm = new form("emp",null,null,null,"L'utilisateur dont l'adresse email est");
-	$sfrm->add_user_email_field("email"," : ","prenom.nom@utbm.fr");
+	$sfrm = new form("emp",null,null,null,"L'utilisateur");
+	$sfrm->add_entity_smartselect("id_utilisateur","",new utilisateur($site->db));
+	
 	$ssfrm->add($sfrm,false,true,false,"email",true);
 	$frm->add($ssfrm);
 	$frm->add_text_area("cbars","Codes barres des livres","",40,3,true);

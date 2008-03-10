@@ -80,13 +80,14 @@ if ($page == "upload_photos")
 		$open = "idtbx";
 	$user = new utilisateur($site->db,$site->dbrw);
 
-	if ($_POST["email"])
-		$user->load_by_email($_POST["email"]);
+	if ($_POST["id_utilisateur"])
+		$user->load_by_id($_POST["id_utilisateur"]);
 	else if ($_POST["id"])
 		$user->load_by_id($_POST["id"]);
 	else if ($_GET['id'])
 		$user->load_by_id($_GET['id']);
-	if ( $user->id < 0 )
+		
+	if (! $user->is_valid() )
 	{
 		header("Location: " . $topdir . "404.php");	
 		exit();	
@@ -192,21 +193,20 @@ else
 	}
 	$cts = new contents(utf8_encode("Identification de l'étudiant :"));
 
-			$frm_ident_email = new form("id_user_by_mail",$_SERVER["SCRIPT_NAME"],false,"POST","Par l'email :");
-				$frm_ident_email->add_hidden("page","upload_photos");
-				$frm_ident_email->add_user_email_field("email","Entrez son e-mail :","",true,"40");
-				$frm_ident_email->add_submit("envoi","Valider");
-	
-			$cts->add($frm_ident_email,true, false, "byemail-bx", true, true, true, false);
-
-			$frm_ident_id = new form("id_user_by_id",$_SERVER["SCRIPT_NAME"],false,"POST","Par l'ID :");
-				$frm_ident_id->add_hidden("page","upload_photos");
-				$frm_ident_id->add_text_field("id","Entrez son id :","",true,"40");
-				$frm_ident_id->add_submit("envoi","Valider");
-
-			$cts->add($frm_ident_id,true, false, "byeid-bx", true, true, false, false);
-
-			$site->add_contents($cts);
+  $frm_ident_email = new form("id_user_by_mail",$_SERVER["SCRIPT_NAME"],false,"POST","Par recherche :");
+  $frm_ident_email->add_hidden("page","upload_photos");
+  $frm_ident_email->add_entity_smartselect("id_utilisateur","Utilisateur", new utilisateur($site->db));
+  $frm_ident_email->add_submit("envoi","Valider");
+  $cts->add($frm_ident_email,true, false, "byemail-bx", true, true, true, false);
+  
+  $frm_ident_id = new form("id_user_by_id",$_SERVER["SCRIPT_NAME"],false,"POST","Par l'ID :");
+  $frm_ident_id->add_hidden("page","upload_photos");
+  $frm_ident_id->add_text_field("id","Entrez son id :","",true,"40");
+  $frm_ident_id->add_submit("envoi","Valider");
+  
+  $cts->add($frm_ident_id,true, false, "byeid-bx", true, true, false, false);
+  
+  $site->add_contents($cts);
 
 }
 $site->end_page();
