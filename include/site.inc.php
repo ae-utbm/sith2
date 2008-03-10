@@ -938,8 +938,8 @@ class site extends interfaceweb
     "FROM `utilisateurs` ".
     "INNER JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur` ".
     //"WHERE `utilisateurs`.`date_naissance_utl` LIKE '%-" . date("m-d") . "' ".
-    "WHERE DAYOFMONTH(`date_naissance_utl`) == " . date("d") . "' ".
-    "AND MONTH(`date_naissance_utl`) == " . date("m") . "' ".
+    "WHERE DAYOFMONTH(`date_naissance_utl`) = '" . date("d") . "' ".
+    "AND MONTH(`date_naissance_utl`) = '" . date("m") . "' ".
     "AND (`utilisateurs`.`ancien_etudiant_utl` = '0' OR `utilisateurs`.`ae_utl` = '1') ".
     "ORDER BY `utilisateurs`.`date_naissance_utl` DESC");                                
                                      
