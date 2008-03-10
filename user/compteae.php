@@ -226,7 +226,7 @@ while ( list($sum,$month) = $req->get_row() )
 
 if(!empty($report))
 {
-  sort($months);
+  rsort($months);
   
   $cts->add_title(3,"Bilan mensuel");
   

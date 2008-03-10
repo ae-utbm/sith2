@@ -78,7 +78,7 @@ class debitfacture extends stdentity
     $this->id_utilisateur_client = $row['id_utilisateur_client'];
     $this->id_utilisateur = $row['id_utilisateur'];
     $this->id_comptoir = $row['id_comptoir'];
-    $this->date = $row['date_facture'];
+    $this->date = strtotime($row['date_facture']);
     $this->mode = $row['mode_paiement'];
     $this->montant = $row['montant_facture'];
     $this->transacid = $row['transacid'];
