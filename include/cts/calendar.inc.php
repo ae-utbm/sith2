@@ -135,8 +135,8 @@ class calendar extends stdcontents
     $req = new requete($this->db,$sql);	
 		while ( $row = $req->get_row() )
 		{
-		  $debut = floor((strtotime($row['date_debut_eve'])-$dmois)/(24*3600));
-		  $fin = floor((strtotime($row['date_fin_eve'])-$dmois)/(24*3600));
+		  $debut = floor((strtotime($row['date_debut_eve'])-$dmois)/(24*3600))+1;
+		  $fin = floor((strtotime($row['date_fin_eve'])-$dmois)/(24*3600))+1;
 		  for($i=$debut;$i<=$fin;$i++)
 		    $events[$i][] = $row;
 		}
