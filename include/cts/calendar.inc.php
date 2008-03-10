@@ -132,7 +132,9 @@ class calendar extends stdcontents
 
     $events=array();
 $timing["cal.new"] -= microtime(true);
+$timing["cal.new0"] -= microtime(true);
     $req = new requete($this->db,$sql);	
+$timing["cal.new0"] += microtime(true);
 		while ( $row = $req->get_row() )
 		{
 		  $debut = date("d",strtotime($row['date_debut_eve'])-(6*3600));
