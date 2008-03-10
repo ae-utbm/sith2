@@ -167,7 +167,7 @@ $frm->add_submit("newrep","Reponse supplémentaire");
 if ($text_submit || $_REQUEST['text_submit'])
 	$frm->add_submit("editsdn","Valider la modification");
 else
-	$frm->add_submit("addsdn","Ajouter","Le sondage sera immédiatement pris en compte et affich頳ur le site");
+	$frm->add_submit("addsdn","Ajouter");
 
 $site->add_contents($frm);
 

@@ -176,7 +176,7 @@ if($_REQUEST["action"]=="add")
 
   $frm->add_submit("newques","Question supplémentaire");
 
-  $frm->add_submit("addcpg","Ajouter","Le campagne sera immédiatement pris en compte et affichéé le site");
+  $frm->add_submit("addcpg","Ajouter");
 
   $site->add_contents($frm);
 }

@@ -158,10 +158,8 @@ if (isset($_REQUEST['id_nouvelle']) &&
 		}
 	}
 
-  $form->add_submit("accept", "Accepter", "Modifie eventuellement la nouvelle, l'accepte ".
-		    "et la mod&egrave;re");
-
-  $form->add_submit("delete", "Supprimer", "Supprime la nouvelle");
+  $form->add_submit("accept", "Accepter");
+  $form->add_submit("delete", "Supprimer");
 
   $site->add_contents ($form);
 

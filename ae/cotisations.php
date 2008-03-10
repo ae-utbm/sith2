@@ -152,7 +152,7 @@ function add_user_info_form ($user = null)
   $sub_frm->add_info("&nbsp;");
   $sub_frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
   if ($user->date_naissance)
-    $sub_frm->add_date_field("date_naissance","Date de naissance",$user->date_naissance,false,false,true);
+    $sub_frm->add_date_field("date_naissance","Date de naissance",$user->date_naissance,false,true);
   else
     $sub_frm->add_date_field("date_naissance","Date de naissance",strtotime("1986-01-01"),false,false,true);
 

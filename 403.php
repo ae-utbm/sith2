@@ -2,7 +2,7 @@
 /* Copyright 2005,2006
  * - Julien Etelain < julien at pmad dot net >
  *
- * Ce fichier fait partie du site de l'Association des Étudiants de
+ * Ce fichier fait partie du site de l'Association des Ãtudiants de
  * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
@@ -34,7 +34,7 @@ $site->start_page("none","Erreur 403");
 
 if ( !$site->user->is_valid() )
 {
-	$cts = new contents("Veuillez vous connecter pour accéder à la page demandée");
+	$cts = new contents("Veuillez vous connecter pour accéder à  la page demandée");
 	
 	if ( $_SESSION['session_redirect'] )
 		$cts->add_paragraph("Vous serez automatiquement redirigé vers la page que vous avez demandé.");
@@ -43,7 +43,7 @@ if ( !$site->user->is_valid() )
 	$frm->add_select_field("domain","Connexion",array("utbm"=>"UTBM","assidu"=>"Assidu","id"=>"ID","autre"=>"Autre","alias"=>"Alias"));
 	$frm->add_text_field("username","Utilisateur","prenom.nom","",27);
 	$frm->add_password_field("password","Mot de passe","","",27);
-	$frm->add_submit("connectbtn2","Se connecter","Veillez a bien sélectionner votre type d'utilisateur UTBM / ASSIDU");
+	$frm->add_submit("connectbtn2","Se connecter");
 	
 	$cts->add($frm,true);	
 	
@@ -52,11 +52,11 @@ if ( !$site->user->is_valid() )
 }
 else
 {
-	/* TODO � traiter les reasons du 403 */
+	/* TODO à traiter les reasons du 403 */
 	if ($_REQUEST['reason'] != "reserved" && $_REQUEST['reason'] != "reservedutbm")
 		$site->add_contents(new error("Accés refusé (403)",$_REQUEST['reason']));
 	else
-		$site->add_contents(new error("Accés refusé (403)","Vous n'avez pas les droits requis pour accéder à cette page."));
+		$site->add_contents(new error("Accés refusé (403)","Vous n'avez pas les droits requis pour accéder à  cette page."));
 }	
 $site->end_page(); 	
 

@@ -789,7 +789,7 @@ class form extends stdcontents
    * @param $value  Valeur du champ (timestamp unix, -1 ou null pour aucun)
    * @param $required  Précise si le champ est obligatoire
    */
-  function add_date_field ( $name, $title, $value = -1, $required = false , $tipp = false, $enabled = true)
+  function add_date_field ( $name, $title, $value = -1, $required = false,  $enabled = true)
   {
     global $wwwtopdir;
 
@@ -804,8 +804,6 @@ class form extends stdcontents
     if (!$enabled)
       $this->buffer .= "DISABLED";
     $this->buffer .= "/>";
-    if ( $tipp )
-      $this->_add_tipp( $tipp );
     $this->buffer .= "<a href=\"javascript:opencal('".$wwwtopdir."', '$name','date')\">";
     $this->buffer .= "<img src=\"".$wwwtopdir."images/icons/16/ical.png\">";
     $this->buffer .= "</a>";
@@ -879,7 +877,7 @@ class form extends stdcontents
     $this->_render_name($name,$title,$required);
     
     $this->buffer .= "<div class=\"formfield\"><input type=\"text\" id=\"$name\" name=\"magicform[time][$name]\" value=\"";
-    if ( $value != -1 )
+    if ( $value != -1 && !is_null($value) )
       $this->buffer .= date("H:i",$value);
     $this->buffer .= "\" />";
     $this->buffer .= "</div>\n";
@@ -1160,16 +1158,13 @@ class form extends stdcontents
    * Valeur à récupérer dans $_REQUEST[$name]
    * @param $name    Nom du champ
    * @param $title  Libéllé du champ
-   * @param $tipp    Conseil avec le champ
    */
-  function add_submit ( $name, $title, $tipp = "")
+  function add_submit ( $name, $title)
   {
     $this->buffer .= "<div class=\"formrow\">";
     $this->_render_name($name,"",false);
     $this->buffer .= "<div class=\"formfield\">";
     $this->buffer .= "<input type=\"submit\" id=\"$name\" name=\"$name\" value=\"$title\" class=\"isubmit\" />";
-    if ( $tipp )
-      $this->_add_tipp($tipp);
     $this->buffer .= "</div></div>\n";
   }
   /** Ajoute un bouton 
@@ -1556,17 +1551,7 @@ class form extends stdcontents
       $this->buffer .= " *";
     $this->buffer .= "</div>";  
   }  
-  
-  /** Ajoute un petit conseil / avertissement de premier niveau
-   * @param $tipp  Texte
-   * @private
-   * @deprecated Horreur et damnation 
-   */
-  function _add_tipp ( $tipp  )
-  {
-    global $topdir;
-    $this->buffer .= "<img src=\"".$topdir."images/tipp.png\" width=\"16\" height=\"16\" alt=\"".htmlentities($tipp,ENT_NOQUOTES,"UTF-8")."\" title=\"".htmlentities($tipp,ENT_NOQUOTES,"UTF-8")."\" />";
-  }  
+ 
   
 }
 
