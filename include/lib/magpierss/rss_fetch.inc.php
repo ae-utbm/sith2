@@ -268,7 +268,8 @@ function magpie_error ($errormsg="") {
 \*=======================================================================*/
 function _fetch_remote_file ($url, $headers = "" ) {
     // Snoopy is an HTTP client in PHP
-    $client = new Snoopy();
+  $client = new Snoopy();
+echo "debug";
     $client->agent = MAGPIE_USER_AGENT;
     $client->read_timeout = MAGPIE_FETCH_TIME_OUT;
     $client->use_gzip = MAGPIE_USE_GZIP;
