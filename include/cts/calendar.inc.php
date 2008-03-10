@@ -221,7 +221,7 @@ $timing["cal.new"] += microtime(true);
 		
 		$style = "day";
 		
-		$date="$year-$month-$day";
+		$date = $this->sql_date(mktime(0, 0, 0, $month, $day, $year));
 		
 /*$timing["cal.old"] -= microtime(true);
 		$date = $this->sql_date(mktime(0, 0, 0, $month, $day, $year));
