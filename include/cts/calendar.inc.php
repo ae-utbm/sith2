@@ -120,7 +120,10 @@ class calendar extends stdcontents
 		
     $dmois = mktime(6, 0, 0, $month, 1, $year);
     $fmois = mktime(6, 0, 0, $month+1, 1, $year);
-		$sql = "SELECT `nvl_dates`.*,`nvl_nouvelles`.* FROM `nvl_dates` " .
+		$sql = "SELECT `nvl_dates`.date_debut_eve, ".
+		  "`nvl_dates`.date_fin_eve, ".
+		  "`nvl_nouvelles`.titre_nvl ".
+		  "FROM `nvl_dates` " .
 			"INNER JOIN `nvl_nouvelles` on `nvl_nouvelles`.`id_nouvelle`=`nvl_dates`.`id_nouvelle`" .
 			"WHERE  modere_nvl='1' ".
 			"AND `nvl_dates`.`date_debut_eve` <= '".date("Y-m-d H:i:s",$fmois)."' " .
@@ -130,6 +133,8 @@ class calendar extends stdcontents
 		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
 		else
 		  $sql .= "AND id_asso='".mysql_real_escape_string($this->id_asso)."' ";
+  //date_debut_eve,date_fin_eve
+
 
     $events=array();
     $req = new requete($this->db,$sql);	
