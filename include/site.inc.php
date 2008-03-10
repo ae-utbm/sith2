@@ -266,8 +266,12 @@ class site extends interfaceweb
     parent::start_page($section,$title,$compact);
     
     if ( $section != "pg" && $section != "matmatronch" && $section != "forum"  )
+    {
+    $timing["site::get_alerts"] -= microtime(true);
       $this->add_box("alerts",$this->get_alerts());
+    $timing["site::get_alerts"] += microtime(true);
       
+    }  
     $this->add_box("calendrier",new calendar($this->db));
     $this->add_box("connexion", $this->get_connection_contents());
     
