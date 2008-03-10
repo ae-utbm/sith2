@@ -423,7 +423,8 @@ class interfaceweb
     echo "</div>\n"; // /contents
     echo "<div id=\"endsite\"></div></div>\n";    
     
-    if ( $this->user->is_valid() && !ereg("majprofil\.php$",$_SERVER['SCRIPT_FILENAME']) )
+    if ( $this->user->is_valid() && !ereg("majprofil\.php$",$_SERVER['SCRIPT_FILENAME'])
+    && $user->type != "srv" )
     {
       $lastforce = strtotime("2007-09-20 21:00:00"); // TODO:algo de génération
       if ( is_null($this->user->date_maj) || $this->user->date_maj < $lastforce )

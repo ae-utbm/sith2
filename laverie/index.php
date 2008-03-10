@@ -254,7 +254,7 @@ $sql = new requete($site->db,"SELECT id_creneau, debut_creneau, fin_creneau, let
       INNER JOIN mc_machines ON mc_creneaux.id_machine = mc_machines.id
       LEFT JOIN mc_jeton ON mc_creneaux.id_jeton = mc_jeton.id_jeton
       WHERE mc_creneaux.id_utilisateur = '".$site->user->id."'
-      AND fin_creneau >= NOW()
+      AND fin_creneau > '".date("Y-m-d H").":00:00'
       ORDER BY debut_creneau, lettre");
 
 $tbl = new sqltable("lstcrfutur",
