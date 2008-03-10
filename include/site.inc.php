@@ -54,6 +54,7 @@ class site extends interfaceweb
   /** Constructeur de la classe */
   function site ($stats=true)
   {
+    global $timing;
     $timing["site::site"] -= microtime(true);
     
     $dbro = new mysqlae ();
@@ -260,7 +261,7 @@ class site extends interfaceweb
    */
   function start_page ( $section, $title,$compact=false )
   {
-    global $topdir;
+    global $topdir,$timing;
     $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
     
