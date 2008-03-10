@@ -7,7 +7,7 @@ require_once ("../include/mysqlae.inc.php");
 
 $req = new requete (new mysqlae(),
         "SELECT utilisateurs.id_utilisateur, 
-            CONCAT(nom_utl," ",prenom_utl) as nom,
+            CONCAT(nom_utl,' ',prenom_utl) as nom,
             email_utl 
          FROM utilisateurs
          INNER JOIN utl_extra on utilisateurs.id_utilisateur = utl_extra.id_utilisateur
