@@ -135,10 +135,11 @@ $timing["cal.new"] -= microtime(true);
 $timing["cal.new0"] -= microtime(true);
     $req = new requete($this->db,$sql);	
 $timing["cal.new0"] += microtime(true);
+    $dmois = mktime(0, 0, 0, $month, 1, $year);
 		while ( $row = $req->get_row() )
 		{
-		  $debut = date("d",strtotime($row['date_debut_eve'])-(6*3600));
-		  $fin = date("d",strtotime($row['date_fin_eve'])-(6*3600));
+		  $debut = ceil(($dmois-strtotime($row['date_debut_eve'])-(6*3600))/(24*3600));
+		  $fin = ceil(($dmois-strtotime($row['date_fin_eve'])-(6*3600))/(24*3600));
 		  for($i=$debut;$i<=$fin;$i++)
 		    $events[$i][] = $row;
 		}
