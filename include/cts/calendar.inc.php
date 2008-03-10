@@ -145,7 +145,7 @@ $timing["cal.new0"] += microtime(true);
 		}
 $timing["cal.new"] += microtime(true);
 		unset($req);
-		//print_r($events);
+		print_r($events);
 		
 		$this->buffer .= "<tr>\n";
 		$this->buffer .= "<td class=\"month\"><a href=\"?caldate=$prevdate\" onclick=\"return !openInContents('sbox_body_calendrier','".$wwwtopdir."gateway.php','class=calendar&amp;caldate=$prevdate&amp;topdir=$wwwtopdir');\">&laquo;</a></td>\n";
@@ -216,9 +216,11 @@ $timing["cal.new"] += microtime(true);
 	* @param month Le mois
 	* @param day Le jour
 	*/
-	function day ($year, $month, $day, $events=null)
+	function day ($year, $month, $day, $events=array())
 	{
 		global $topdir,$wwwtopdir,$timing;
+		
+		print_r($events);
 		
 		$style = "day";
 		
