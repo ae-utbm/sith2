@@ -119,11 +119,13 @@ class calendar extends stdcontents
 			$nextdate = $year+1 . "-" . "1"  . "-" . $day;
 		
 $timing["cal.new"] -= microtime(true);
+    $dmois = mktime(6, 0, 0, $month, 1, $year);
+    $fmois = mktime(6, 0, 0, $month+1, 1, $year);
 		$sql = "SELECT `nvl_dates`.*,`nvl_nouvelles`.* FROM `nvl_dates` " .
 			"INNER JOIN `nvl_nouvelles` on `nvl_nouvelles`.`id_nouvelle`=`nvl_dates`.`id_nouvelle`" .
 			"WHERE  modere_nvl='1' ".
-			"AND `nvl_dates`.`date_debut_eve` <= '$year-" . ($month+1) ."-01 05:59:59' " .
-			"AND `nvl_dates`.`date_fin_eve` >= '$year-$month-01 06:00:00' ";
+			"AND `nvl_dates`.`date_debut_eve` <= '".date("Y-m-d H:i:s",$fmois)."' " .
+			"AND `nvl_dates`.`date_fin_eve` >= '".date("Y-m-d H:i:s",$dmois)."'  ";
 		
 		if ( is_null($this->id_asso) )
 		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
@@ -134,13 +136,12 @@ $timing["cal.new"] -= microtime(true);
 $timing["cal.new0"] -= microtime(true);
     $req = new requete($this->db,$sql);	
 $timing["cal.new0"] += microtime(true);
-    $dmois = mktime(0, 0, 0, $month, 1, $year);
 		while ( $row = $req->get_row() )
 		{
-		  $debut = ceil((strtotime($row['date_debut_eve'])-(6*3600)-$dmois)/(24*3600));
-		  $fin = ceil((strtotime($row['date_fin_eve'])-(6*3600)-$dmois)/(24*3600));
+		  $debut = date("d",strtotime($row['date_debut_eve'])-(6*3600));
+		  $fin = date("d",strtotime($row['date_fin_eve'])-(6*3600));
 		  for($i=$debut;$i<=$fin;$i++)
-		    $events[$i-1][] = $row;
+		    $events[$i][] = $row;
 		}
 $timing["cal.new"] += microtime(true);
 		unset($req);
