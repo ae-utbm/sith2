@@ -1114,7 +1114,8 @@ class site extends interfaceweb
 
     $cts = new contents("Forum");
   
-    $query = "SELECT frm_sujet.*, ".
+    $query = "SELECT frm_sujet.titre_sujet, ".
+        "frm_sujet.id_sujet, " .
         "frm_message.date_message, " .
         "frm_message.id_message, " .
         "dernier_auteur.alias_utl AS `nom_utilisateur_dernier_auteur`, " .
