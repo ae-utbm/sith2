@@ -128,8 +128,9 @@ class requete {
     }
     $res = mysql_query($req_sql, $base->dbh);
     $timing["mysql"] += microtime(true);
+    $timing["mysql.counter"]++;
     $fn = microtime(true);
-    //if ( $fn-$st > 0.001 )
+    if ( $fn-$st > 0.001 )
     $timing["req"][] = array($fn-$st,$req_sql);
     
     $this->errno = mysql_errno($base->dbh);
