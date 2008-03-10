@@ -88,10 +88,12 @@ class site extends interfaceweb
    */
   function load_session ( $sid )
   {
-    $req = new requete($this->db, "SELECT `id_utilisateur`, `connecte_sess`, `expire_sess` FROM `site_sessions` WHERE `id_session` = '" .
-                       mysql_escape_string($sid) . "'");
-    list($uid,$connecte,$expire) = $req->get_row();
-
+    $req = new requete($this->db, 
+    "SELECT `utilisateurs`.*, `id_session`, `connecte_sess`, `expire_sess` ".
+    "FROM `site_sessions` ".
+    "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
+    "WHERE `id_session` = '".mysql_escape_string($sid)."'");
+    
     if ($req->lines < 1 )
     {
       if ( isset($_COOKIE['AE2_SESS_ID']) )
@@ -104,7 +106,13 @@ class site extends interfaceweb
         unset($_SESSION['session_redirect']);
       return;
     }
-    elseif ( !is_null($expire) )
+    
+    $row = $req->get_row();
+    $sid = $row['id_session'];
+    $connecte = $row['connecte_sess'];
+    $expire = $row['expire_sess'];
+    
+    if ( !is_null($expire) )
     {
       if ( strtotime($expire) < time() ) // Session expirée, fait le ménage
       {
@@ -131,7 +139,7 @@ class site extends interfaceweb
             "expire_sess"=>$expire
             ),array("id_session" => $sid)); 
             
-    $this->user->load_by_id($uid);
+    $this->user->_load($row);
     
     if ($this->user->hash != "valid")
     {
