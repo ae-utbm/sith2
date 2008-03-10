@@ -74,7 +74,7 @@ $factured_infos = array ('name' => utf8_decode($user->nom)
 					 utf8_decode($ville->nom)),
 			 false);
 
-$date_facturation = date("d/m/Y H:i", strtotime($fact->date));
+$date_facturation = date("d/m/Y H:i", $fact->date);
 
 $titre = "Facture Comptoirs AE";
 
