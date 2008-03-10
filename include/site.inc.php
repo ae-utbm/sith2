@@ -283,9 +283,7 @@ class site extends interfaceweb
       
       if ($this->user->is_valid())
       {
-    $timing["site::get_forum_box"] -= microtime(true);
         $this->add_box("forum",$this->get_forum_box());
-    $timing["site::get_forum_box"] += microtime(true);
         
         $this->add_box("comptoirs",$this->get_comptoirs_box());        
         $this->add_box("sondage",$this->get_sondage());
