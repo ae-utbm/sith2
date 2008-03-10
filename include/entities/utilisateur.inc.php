@@ -27,7 +27,7 @@
 require_once("carteae.inc.php");
 
 
-$GLOBALS["utbm_roles"] = array("etu"=>"Etudiant", "adm"=>"Personnel administratif", "ens"=>"Enseignant", "per"=>"Personnel", "doc"=>"Doctorant");
+$GLOBALS["utbm_roles"] = array("etu"=>"Etudiant", "adm"=>"Personnel administratif", "ens"=>"Enseignant", "per"=>"Personnel", "doc"=>"Doctorant","srv"=>"Service");
 $GLOBALS["utbm_departements"] = array("tc"=>"TC", "gi"=>"GI", "imap"=>"IMAP", "gesc"=>"GESC", "gmc"=>"GMC", "edim"=>"EDIM", "huma"=>"Humanités", "na"=>"N/A");
 
 /**
@@ -1906,19 +1906,32 @@ L'équipe info AE";
    */
   function get_tabs ( &$user )
   {
-    $tabs = array(array("","user.php?id_utilisateur=".$this->id, "Informations"),
-                  array("parrain","user.php?view=parrain&id_utilisateur=".$this->id, "Parrains"),
-                  array("assos","user.php?view=assos&id_utilisateur=".$this->id, "Associations"),
-                  array("photos","user/photos.php?id_utilisateur=".$this->id, "Photos"),
-		              array("pedagogie","user.php?view=pedagogie&id_utilisateur=".$this->id, "Pédagogie") );
-
-    if (  $this->id == $user->id || $user->is_in_group("gestion_ae") )
+    if ( $this->user->type=="srv" ) 
     {
-      $tabs[]=array("resa","user/reservations.php?id_utilisateur=".$this->id, "Reservations");
-      $tabs[]=array("emp","user/emprunts.php?id_utilisateur=".$this->id, "Emprunts");
-      $tabs[]=array("compte","user/compteae.php?id_utilisateur=".$this->id, "Compte AE");
+      $tabs = array(array("","user.php?id_utilisateur=".$this->id, "Informations") );
+      if (  $this->id == $user->id || $user->is_in_group("gestion_ae") )
+      {
+        $tabs[]=array("compte","user/compteae.php?id_utilisateur=".$this->id, "Factures");
+        $tabs[]=array("resa","user/reservations.php?id_utilisateur=".$this->id, "Reservations");
+        $tabs[]=array("emp","user/emprunts.php?id_utilisateur=".$this->id, "Emprunts");
+      }
     }
-
+    else
+    {
+      $tabs = array(array("","user.php?id_utilisateur=".$this->id, "Informations"),
+                    array("parrain","user.php?view=parrain&id_utilisateur=".$this->id, "Parrains"),
+                    array("assos","user.php?view=assos&id_utilisateur=".$this->id, "Associations"),
+                    array("photos","user/photos.php?id_utilisateur=".$this->id, "Photos"),
+  		              array("pedagogie","user.php?view=pedagogie&id_utilisateur=".$this->id, "Pédagogie") );
+  
+      if (  $this->id == $user->id || $user->is_in_group("gestion_ae") )
+      {
+        $tabs[]=array("resa","user/reservations.php?id_utilisateur=".$this->id, "Reservations");
+        $tabs[]=array("emp","user/emprunts.php?id_utilisateur=".$this->id, "Emprunts");
+        $tabs[]=array("compte","user/compteae.php?id_utilisateur=".$this->id, "Compte AE");
+      }
+    }
+    
     if ( ( $user->is_in_group("gestion_ae") && $user->id != $this->id ) || 
          $user->is_in_group("root") )
       $tabs[]=array("groups","user.php?view=groups&id_utilisateur=".$this->id, "Groupes");

@@ -175,23 +175,29 @@ $cts = new contents( $user->prenom . " " . $user->nom );
 $cts->add(new tabshead($user->get_tabs($site->user),"compte"));
 
 if ( $user->type!="srv" )
-  $cts->puts("<a href=\"".$topdir."e-boutic/?cat=11\"><img src=\"".$topdir."images/comptoir/eboutic/pub-eb-rech.png\" border=\"0\" alt=\"Recharger par carte bleue\" class=\"imgright\" /></a>");
-
-$cts->add_title(2,"Carte AE");
-
-if ( !$user->ae )
 {
-	$cts->add_paragraph("Remarque: Cotisation AE non renouvelée, ce compte n'est plus utilisable.");
-	
-	if ( $user->montant_compte >= 500 )
-		$cts->add_paragraph("Vous pouvez demander le remboursement des ".($user->montant_compte/100)." Euros restant sur le compte.");
-	elseif ( $user->montant_compte > 0 )
-		$cts->add_paragraph("Le solde restant est insuffisant pour pouvoir obtenir un remboursement. Conformément au réglement intérieur de l'AE.");
-	
+  $cts->puts("<a href=\"".$topdir."e-boutic/?cat=11\"><img src=\"".$topdir."images/comptoir/eboutic/pub-eb-rech.png\" border=\"0\" alt=\"Recharger par carte bleue\" class=\"imgright\" /></a>");
+  
+  $cts->add_title(2,"Carte AE");
+  
+  if ( !$user->ae )
+  {
+  	$cts->add_paragraph("Remarque: Cotisation AE non renouvelée, ce compte n'est plus utilisable.");
+  	
+  	if ( $user->montant_compte >= 500 )
+  		$cts->add_paragraph("Vous pouvez demander le remboursement des ".($user->montant_compte/100)." Euros restant sur le compte.");
+  	elseif ( $user->montant_compte > 0 )
+  		$cts->add_paragraph("Le solde restant est insuffisant pour pouvoir obtenir un remboursement. Conformément au réglement intérieur de l'AE.");
+  	
+  }
 }
+else
+  $cts->add_title(2,"Factures");
 
-$cts->add_paragraph("Solde : ".($user->montant_compte/100)." Euros");
 
+$cts->add_paragraph("Solde actuel : ".($user->montant_compte/100)." Euros");
+
+$months = array();
 
 $req = new requete($site->db, "SELECT SUM(`montant_facture`), " .
 		"EXTRACT(YEAR_MONTH FROM `date_facture`) as `month` " .
@@ -200,10 +206,11 @@ $req = new requete($site->db, "SELECT SUM(`montant_facture`), " .
 		"GROUP BY `month` " .
 		"ORDER BY `month` DESC");
 		
-while ( list($sum,$month) = $req->get_row() ) 
+while ( list($sum,$month) = $req->get_row() )
+{
 	$report[$month]["depense"] = $sum;
-
-
+	$months[]=$month;
+}
 $req = new requete($site->db, "SELECT SUM(`montant_rech`), " .
 		"EXTRACT(YEAR_MONTH FROM `date_rech`) as `month` " .
 		"FROM `cpt_rechargements` " .
@@ -212,15 +219,23 @@ $req = new requete($site->db, "SELECT SUM(`montant_rech`), " .
 		"ORDER BY `month` DESC");
 		
 while ( list($sum,$month) = $req->get_row() ) 
+{
 	$report[$month]["recharge"] = $sum;
+	$months[]=$month;
+}
 
 if(!empty($report))
 {
+  sort($months);
+  
+  $cts->add_title(3,"Bilan mensuel");
+  
   $tbl = new table(false,"sqltable");
   $tbl->add_row(array("Mois","Depenses",$user->type=="srv"?"Paiements":"Rechargements"),"head");
   $t=0;
-  foreach( $report as $month => $data )
+  foreach( $months as $month )
   {
+    $data = $report[$month];
 	  $t = $t^1;
   	$mois = substr($month,4);
 	  $annee = substr($month,0,4);	
@@ -231,36 +246,6 @@ if(!empty($report))
   
   $cts->add($tbl);  
 }
-/*
-$cts->add_title(2,"Carte bleue (sogenactif)");
-unset($report);
-$req = new requete($site->db, "SELECT SUM(`montant_facture`), " .
-		"EXTRACT(YEAR_MONTH FROM `date_facture`) as `month` " .
-		"FROM `cpt_debitfacture` " .
-		"WHERE `id_utilisateur_client`='".$user->id."' AND mode_paiement='SG' " .
-		"GROUP BY `month` " .
-		"ORDER BY `month` DESC");
-		
-while ( list($sum,$month) = $req->get_row() ) 
-	$report[$month] = $sum;
-
-if(!empty($report))
-{
-  $tbl = new table(false,"sqltable");
-  $tbl->add_row(array("Mois","Depenses"),"head");
-  $t=0;
-  foreach( $report as $month => $data )
-  {
-	  $t = $t^1;
-  	$mois = substr($month,4);
-	  $annee = substr($month,0,4);	
-  	$tbl->add_row(array("$mois / $annee",
-	  	"<a href=\"compteae.php?page=SG&amp;month=$month&amp;id_utilisateur=".$user->id."\">".($data / 100)."</a>"),"ln$t");	
-  }
-  
-  $cts->add($tbl);  
-}*/
-
 
 $req1 = new requete($site->db,
         "SELECT " .
@@ -329,8 +314,11 @@ $req2 = new requete($site->db,
         "GROUP BY `cpt_debitfacture`.`id_facture` ".
         "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
-$cts->add(new sqltable("eblstcb",
-         "E-boutic : commandes payées par carte bleue",
+if ( $req1->lines > 0 )
+{      
+  $cts->add_title(3,"E-boutic : commandes payées par carte bleue");
+  $cts->add(new sqltable("eblstcb",
+         null,
          $req1,
          "moncompte.php",
          "id_facture",
@@ -340,23 +328,29 @@ $cts->add(new sqltable("eblstcb",
                "nom_asso"=>"Association"),
          array(),
          array(),
-         array()),true);
+         array()));
+}
 
+if ( $req2->lines > 0 )
+{
+  $cts->add_title(3,$user->type == "srv"
+                         ? "E-boutic : commandes sur facturation"
+                         : "E-boutic : commandes payées par carte AE");
+                         
+  $cts->add(new sqltable("eblstae",
+          null,
+          $req2,
+          "moncompte.php",
+          "id_facture",
+          array("id_facture"=>"Facture",
+                "date_facture"=>"Date",
+                "nom_cpt"=>"Lieu",
+                "nom_asso"=>"Association"),
+          array(),
+          array(),
+          array()));
+}
 
-$cts->add(new sqltable("eblstae",
-         $user->type == "srv"
-                       ? "E-boutic : commandes sur facturation"
-                       : "E-boutic : commandes payées par carte AE",
-         $req2,
-         "moncompte.php",
-         "id_facture",
-         array("id_facture"=>"Facture",
-               "date_facture"=>"Date",
-               "nom_cpt"=>"Lieu",
-               "nom_asso"=>"Association"),
-         array(),
-         array(),
-         array()),true);
 
 
 $site->add_contents($cts);

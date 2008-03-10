@@ -89,75 +89,84 @@ else
     for ($i=0 ; $i < $_SESSION['eboutic_cart'][$item->id] + 1 ; $i++)
       $tmp[$i] = $i;
 
-            $cart_t->buffer .= ("<tr>\n".
-                            "<td>" . $item->nom . "</td>".
-                            "<td style=\"text-align: center;\">");
+    $cart_t->buffer .= ("<tr>\n".
+                    "<td>" . $item->nom . "</td>".
+                    "<td style=\"text-align: center;\">");
 
-        if (isset($_POST['cart_submit']))
-          $cart_t->buffer .= $_SESSION['eboutic_cart'][$item->id];
-        else
-          $cart_t->buffer .=
-                   GenerateSelectList($tmp, $_SESSION['eboutic_cart'][$item->id] , $item->id);
+    if (isset($_POST['cart_submit']))
+      $cart_t->buffer .= $_SESSION['eboutic_cart'][$item->id];
+    else
+      $cart_t->buffer .=
+                GenerateSelectList($tmp, $_SESSION['eboutic_cart'][$item->id] , $item->id);
 
-        $cart_t->buffer .= (" </td>\n".
-                            " <td style=\"text-align: right;\">".
-                            sprintf("%.2f", $item->obtenir_prix(false,$site->user) / 100) .
-                            "</td></tr>\n");
-    }
-    $cart_t->buffer .= ("<tr style=\"font-weight: bold;\">".
-                        "<td colspan=\"2\" style=\"text-align: right;\">Total :</td>".
-                        "<td style=\"text-align: right;\">" .
-                        sprintf("%.2f", $site->total / 100) .
-                        " Euros</td></tr>");
-    $cart_t->buffer .= ("</table>");
+    $cart_t->buffer .= (" </td>\n".
+                        " <td style=\"text-align: right;\">".
+                        sprintf("%.2f", $item->obtenir_prix(false,$site->user) / 100) .
+                        "</td></tr>\n");
+  }
+  $cart_t->buffer .= ("<tr style=\"font-weight: bold;\">".
+                      "<td colspan=\"2\" style=\"text-align: right;\">Total :</td>".
+                      "<td style=\"text-align: right;\">" .
+                      sprintf("%.2f", $site->total / 100) .
+                      " Euros</td></tr>");
+  $cart_t->buffer .= ("</table>");
 
-    if (!isset($_POST['cart_submit']))
+  if (!isset($_POST['cart_submit']))
+  {
+    $cart_t->buffer .= ("<h2>Actions</h2>\n");
+    $cart_t->buffer .= ("<table><tr><td><input type=\"submit\"".
+                        " name=\"cart_modify\" " .
+                        "value=\"Accepter les modifications\" />\n");
+    $cart_t->buffer .= ("</form></td>\n");
+
+    $cart_t->buffer .= ("<td><form action=\"cart.php\" method=\"post\">\n");
+    $cart_t->buffer .= ("<input type=\"submit\" name=\"cart_submit\"
+                    value=\"Passer la commande\" />\n");
+    $cart_t->buffer .= ("</form></td></tr></table>");
+  }
+  else
+    $cart_t->buffer .= ("</form>");
+  $accueil->add ($cart_t);
+
+
+  /* formulaire "proceder au paiement" poste */
+  if (isset($_REQUEST['cart_submit']))
+  {
+    
+    
+    require_once ("./include/request.inc.php");
+
+    /* boutique de test ? */
+    if (STO_PRODUCTION == false)
+      $site->add_contents (new contents("ATTENTION",
+                                        "<p class=\"error\">Boutique en ".
+                                        "ligne de test.<br/><br/> ".
+                                        "tous vos achats seront fictifs !".
+                                        "</p>"));
+
+    /* on a besoin d'un tableau avec les id des articles
+      * pour l'invocation d'une class request
+      *
+      * Si plusieurs articles, ces articles doivent apparaitre
+      * autant de fois que de quantite (d'ou la boucle for)
+      */
+    foreach ($site->cart as $item)
     {
-      $cart_t->buffer .= ("<h2>Actions</h2>\n");
-      $cart_t->buffer .= ("<table><tr><td><input type=\"submit\"".
-                          " name=\"cart_modify\" " .
-                          "value=\"Accepter les modifications\" />\n");
-      $cart_t->buffer .= ("</form></td>\n");
+      for ($i = 0; $i < $_SESSION['eboutic_cart'][$item->id]; $i++)
+        $cart_contents[] = $item->id;
+    }
 
-      $cart_t->buffer .= ("<td><form action=\"cart.php\" method=\"post\">\n");
-      $cart_t->buffer .= ("<input type=\"submit\" name=\"cart_submit\"
-                      value=\"Passer la commande\" />\n");
-      $cart_t->buffer .= ("</form></td></tr></table>");
+    /* a ce stade le panier ne peut pas etre vide */
+    
+    if ( $site->user->type == "srv" ) // Ne propose pas CB/carte AE aux services, mais que sur facture
+    {
+      $accueil->add_title(1,"Paiement sur facture");
+      
+      $accueil->add_paragraph ("Cliquez sur le lien pour valider la commande : <a href=\"./eb_ae.php\">Paiement sur facture</a>");
+                                 
     }
     else
-      $cart_t->buffer .= ("</form>");
-    $accueil->add ($cart_t);
-
-
-    /* formulaire "proceder au paiement" poste */
-    if (isset($_REQUEST['cart_submit']))
-    {
-      
-      
-      require_once ("./include/request.inc.php");
-
-      /* boutique de test ? */
-      if (STO_PRODUCTION == false)
-        $site->add_contents (new contents("ATTENTION",
-                                          "<p class=\"error\">Boutique en ".
-                                          "ligne de test.<br/><br/> ".
-                                          "tous vos achats seront fictifs !".
-                                          "</p>"));
-
-      /* on a besoin d'un tableau avec les id des articles
-       * pour l'invocation d'une class request
-       *
-       * Si plusieurs articles, ces articles doivent apparaitre
-       * autant de fois que de quantite (d'ou la boucle for)
-       */
-      foreach ($site->cart as $item)
-      {
-        for ($i = 0; $i < $_SESSION['eboutic_cart'][$item->id]; $i++)
-          $cart_contents[] = $item->id;
-      }
-
-      /* a ce stade le panier ne peut pas etre vide */
-
+    {                             
       /* pas de nouvelle request si total du panier insuffisant */
       if ($site->total > EB_TOT_MINI_CB)
       {
@@ -165,53 +174,54 @@ else
                             $site->user->id,
                             $site->total,
                             $cart_contents);
-
-      $accueil->add_title(1,"Paiement par carte bleue");
-      /* le formulaire HTML genere par le binaire sogenactif
-       * nous est envoye de facon brute. Il faut donc le
-       * rajouter a notre objet $accueil "a l'arrache"       */
-      $accueil->add_paragraph ($req->form_html);
-    }
-    else
-      $accueil->add_paragraph ("<h1>Total insuffisant</h1>" .
-                               "<p>La depense engendree par vos ".
-                               "achats actuels est insuffisante ".
-                               "pour envisager un paiement par ".
-                               "carte bancaire. Veuillez opter pour ".
-                               "un paiement par carte AE.</p>");
-
-    /* recharger son compte AE avec sa carte AE est debile ... */
-    if ($site->is_reloading_AE ())
-      $accueil->add_paragraph ("<h1>Paiement par carte AE : impossible</h1>\n".
-                               "<p>Votre panier ".
-                               "contient des bons de rechargement Compte AE.".
-                               "Le paiement par carte AE est par consequent ".
-                               "desactive.</p>");
-    else
-    {
-      if ( $site->user->type == "srv" )
-        $accueil->add_paragraph ("<h1>Paiement sur facture</h1>\n" .
-                                 "<p>Cliquez sur le lien pour valider la commande</p>\n<p class=\"center\">\n".
-                                 " <a href=\"./eb_ae.php\">Paiement sur facture</a></p>\n");
-                                 
-      /* controle si suffisemment sur carte AE pour envisager un paiement */
-      elseif (!$site->user->credit_suffisant($site->total) )
-        $accueil->add_paragraph ("<h1>Paiement par carte AE : Solde de ".
-                                 sprintf("%.2f", $site->user->montant_compte / 100) .
-                                 " Euros insuffisant </h1>".
-                                 "<p>La depense engendree est trop ".
-                                 "importante pour envisager un paiement ".
-                                 "par carte AE.<br/>".
-                                 "Veuillez recharger ".
-                                 "votre compte AE avant de poursuivre.</p>");
-
+  
+        $accueil->add_title(1,"Paiement par carte bleue");
+        /* le formulaire HTML genere par le binaire sogenactif
+         * nous est envoye de facon brute. Il faut donc le
+         * rajouter a notre objet $accueil "a l'arrache"       */
+        $accueil->add_paragraph ($req->form_html);
+      }
       else
-        $accueil->add_paragraph ("<h1>Paiement par carte AE</h1>\n" .
-                                 "<p>Cliquez sur le logo de l'AE pour payer avec votre carte AE</p>\n<p class=\"center\">\n".
-                                 " <a href=\"./eb_ae.php\">\n".
-                                 "  <img src=\"".$topdir."images/eb_ae.jpg\" alt=\"paiement carte AE\" />\n".
-                                 "  </a></p>\n");
-    } // fin paiement Carte AE
+        $accueil->add_paragraph ("<h1>Total insuffisant</h1>" .
+                                 "<p>La depense engendree par vos ".
+                                 "achats actuels est insuffisante ".
+                                 "pour envisager un paiement par ".
+                                 "carte bancaire. Veuillez opter pour ".
+                                 "un paiement par carte AE.</p>");
+  
+      /* recharger son compte AE avec sa carte AE est debile ... */
+      if ($site->is_reloading_AE ())
+        $accueil->add_paragraph ("<h1>Paiement par carte AE : impossible</h1>\n".
+                                 "<p>Votre panier ".
+                                 "contient des bons de rechargement Compte AE.".
+                                 "Le paiement par carte AE est par consequent ".
+                                 "desactive.</p>");
+      else
+      {
+        if ( $site->user->type == "srv" )
+          $accueil->add_paragraph ("<h1>Paiement sur facture</h1>\n" .
+                                   "<p>Cliquez sur le lien pour valider la commande</p>\n<p class=\"center\">\n".
+                                   " <a href=\"./eb_ae.php\">Paiement sur facture</a></p>\n");
+                                   
+        /* controle si suffisemment sur carte AE pour envisager un paiement */
+        elseif (!$site->user->credit_suffisant($site->total) )
+          $accueil->add_paragraph ("<h1>Paiement par carte AE : Solde de ".
+                                   sprintf("%.2f", $site->user->montant_compte / 100) .
+                                   " Euros insuffisant </h1>".
+                                   "<p>La depense engendree est trop ".
+                                   "importante pour envisager un paiement ".
+                                   "par carte AE.<br/>".
+                                   "Veuillez recharger ".
+                                   "votre compte AE avant de poursuivre.</p>");
+  
+        else
+          $accueil->add_paragraph ("<h1>Paiement par carte AE</h1>\n" .
+                                   "<p>Cliquez sur le logo de l'AE pour payer avec votre carte AE</p>\n<p class=\"center\">\n".
+                                   " <a href=\"./eb_ae.php\">\n".
+                                   "  <img src=\"".$topdir."images/eb_ae.jpg\" alt=\"paiement carte AE\" />\n".
+                                   "  </a></p>\n");
+      } // fin paiement Carte AE
+    }// fin par service
   } // fin si panier poste et demande paiement effective
 } // fin panier non vide
 

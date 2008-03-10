@@ -402,6 +402,7 @@ class site extends interfaceweb
     global $topdir;
 
     if ( !$this->user->is_valid() ) return null;
+    if ( $this->user->type=="srv" ) return null;
 
     $carte = new carteae($this->db);
     $carte->load_by_utilisateur($this->user->id);
@@ -640,7 +641,9 @@ class site extends interfaceweb
     $sdn->load_lastest();
     if ( !$sdn->is_valid() )
       return NULL;
-
+      
+    if ( $this->user->type=="srv" ) return null;
+    
     require_once($topdir."include/cts/react.inc.php");
 
     $react = new reactonforum ( $this->db, $this->user, $sdn->question, array("id_sondage"=>$sdn->id), null, false );
@@ -765,28 +768,39 @@ class site extends interfaceweb
     $cts = new contents("L'AE et Moi");
     $cts->add_paragraph($this->get_textbox('Welcome')." <b>".$this->user->prenom." ".$this->user->nom."</b>");
 
-    $cts->add_paragraph("<br><a href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>");
+    if ( $this->user->type=="srv" )
+    {
+      if ( $this->user->montant_compte < 0 )
+        $cts->add_paragraph("<br><a href=\"".$topdir."user/compteae.php\">Factures en attente de paiement : ".(sprintf("%.2f", $this->user->montant_compte/-100))." Euros</a>");      
+    }
+    else
+      $cts->add_paragraph("<br><a href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>");
 
     $sublist = new itemlist("Mon Compte","boxlist");
     $sublist->add("<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>");
-    $sublist->add("<a href=\"".$topdir."uvs/edt.php\">Mes emplois du temps</a>");
-    if($this->user->utbm)
-      $sublist->add("<a href=\"".$topdir."trombi/index.php\">Trombinoscope</a>");
-    $sublist->add("<a href=\"".$topdir."user.php?view=assos\">Associations et clubs</a>");
-    if( $this->user->is_in_group("jobetu_etu") )
-    {
-      $jobuser = new jobuser_etu($this->db);
-      $jobuser->load_by_id($this->user->id);
-      $jobuser->load_annonces();
-      $sublist->add("<a href=\"".$topdir."jobetu/board_etu.php\">Mon compte JobEtu (".count($jobuser->annonces).")</a>");
-    }
-    else if( $this->user->is_in_group("jobetu_client") )
-      $sublist->add("<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>");
+    
+    if ( $this->user->type=="srv" ) 
+      $sublist->add("<a href=\"".$topdir."user/compteae.php\">Factures</a>");
     else
-      $sublist->add("<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>");
-    $sublist->add("<a href=\"".$topdir."user.php?view=parrain\">Parrains et fillots</a>");
-    $sublist->add("<a href=\"".$topdir."user/compteae.php\">Compte AE</a>");
-
+    {
+      $sublist->add("<a href=\"".$topdir."uvs/edt.php\">Mes emplois du temps</a>");
+      if($this->user->utbm)
+        $sublist->add("<a href=\"".$topdir."trombi/index.php\">Trombinoscope</a>");
+      $sublist->add("<a href=\"".$topdir."user.php?view=assos\">Associations et clubs</a>");
+      if( $this->user->is_in_group("jobetu_etu") )
+      {
+        $jobuser = new jobuser_etu($this->db);
+        $jobuser->load_by_id($this->user->id);
+        $jobuser->load_annonces();
+        $sublist->add("<a href=\"".$topdir."jobetu/board_etu.php\">Mon compte JobEtu (".count($jobuser->annonces).")</a>");
+      }
+      else if( $this->user->is_in_group("jobetu_client") )
+        $sublist->add("<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>");
+      else
+        $sublist->add("<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>");
+      $sublist->add("<a href=\"".$topdir."user.php?view=parrain\">Parrains et fillots</a>");
+      $sublist->add("<a href=\"".$topdir."user/compteae.php\">Compte AE</a>");
+    }
     $cts->add($sublist,true, true, "accountbox", "boxlist", true, true);
 
     $sublist = new itemlist("Infos et r&eacute;servations","boxlist");
