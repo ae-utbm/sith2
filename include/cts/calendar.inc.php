@@ -222,7 +222,7 @@ $timing["cal.new"] += microtime(true);
 		$style = "day";
 		
 		$date = $this->sql_date(mktime(0, 0, 0, $month, $day, $year));
-		
+		/*
 $timing["cal.old"] -= microtime(true);
 		$date = $this->sql_date(mktime(0, 0, 0, $month, $day, $year));
 		$date2 = $this->sql_date(mktime(0, 0, 0, $month, $day + 1, $year));
@@ -238,7 +238,7 @@ $timing["cal.old"] -= microtime(true);
 		  $sql .= "AND id_asso='".mysql_real_escape_string($this->id_asso)."' ";
     $event = new requete($this->db,$sql);
 $timing["cal.old"] += microtime(true);
-
+*/
 		/* Si oui, on change le style de la case, et on ajoute l'évenement */
 		//if ($event->lines > 0)
 		if ( count($events) > 0 )
