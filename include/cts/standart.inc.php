@@ -547,34 +547,7 @@ class form extends stdcontents
    
     $this->buffer .= "<script>fsfield_init('".$wwwtopdir."','".$name."');</script>";
   }
-  
-  
-  /** Ajoute un champ texte au formulaire
-   * Valeur à récupérer dans $_REQUEST[$name]
-   * @param $name    Nom du champ
-   * @param $title  Libéllé du champ
-   * @param $value  Valeur du champ
-   * @param $required  Précise si le champ est obligatoire
-   * @param $size    Taille du champ
-   */
-  function add_suggested_text_field ( $name, $title, $kind, $value = "", $required = false , $size = false)
-  {
-    global $topdir;
-    
-    if ( $this->autorefill && ($_REQUEST[$name] || $_REQUEST[$name] =="0")) $value = $_REQUEST[$name];  
-    
-    $this->buffer .= "<div class=\"formrow\">\n";
-    
-    $this->_render_name($name,$title,$required);
-    
-    $this->buffer .= "<div class=\"formfield\"><input type=\"text\" id=\"$name\" name=\"$name\" onblur=\"autocomplete_stop_delayed('$name');\" onkeyup=\"autocomplete(event,'$topdir','$name','$kind');\" value=\"$value\"";
-    if ( $size )
-      $this->buffer .= " size=\"$size\"";
-    $this->buffer .= "/><div id=\"".$name."_area\" class=\"autocomplete_area\"></div></div>\n";
-    
-    $this->buffer .= "</div>\n";
 
-  }
   
   
   
@@ -839,37 +812,7 @@ class form extends stdcontents
     $this->buffer .= "</div>\n";
     $this->buffer .= "</div>\n";
   }
-  
-  /** Ajoute un champ date au formulaire
-   * Valeur à récupérer dans $_REQUEST[$name] sous forme d'un timestamp unix
-   * @param $name    Nom du champ
-   * @param $title  Libéllé du champ
-   * @param $value  Valeur du champ (timestamp unix, -1 ou null pour aucun)
-   * @param $required  Précise si le champ est obligatoire
-   */
-  function add_date_field_old ( $name, $title, $value = -1, $required = false , $tipp = false, $enabled = true)
-  {
-    global $wwwtopdir;
 
-    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];  
-    $this->buffer .= "<div class=\"formrow\">\n";
-    $this->_render_name($name,$title,$required);
-    
-    $this->buffer .= "<div class=\"formfield\"><input type=\"text\" id=\"$name\" name=\"magicform[date][$name]\" value=\"";
-    if ( $value != -1 && !is_null($value) )
-      $this->buffer .= date("d/m/Y",$value);
-    $this->buffer .= "\" ";
-    if (!$enabled)
-      $this->buffer .= "DISABLED";
-    $this->buffer .= "/>";
-    if ( $tipp )
-      $this->_add_tipp( $tipp );
-    $this->buffer .= "<a href=\"javascript:openCalendar('".$wwwtopdir."','".$this->name."','$name','date')\">";
-    $this->buffer .= "<img src=\"".$wwwtopdir."images/calendar.png\">";
-    $this->buffer .= "</a>";
-    $this->buffer .= "</div>\n";
-    $this->buffer .= "</div>\n";
-  }
   
   /** Ajoute un champ date et heure au formulaire
    * Valeur à récupérer dans $_REQUEST[$name] sous forme d'un timestamp unix
@@ -1069,12 +1012,18 @@ class form extends stdcontents
   }  
   
   
-  /** Ajoute une liste à choix au formulaire
-   * Valeur à récupérer dans $_REQUEST[$name] (clé de la valeur selectionée)
+  /** 
+   * Ajoute une sleection d'entité par liste à choix au formulaire.
+   * Exploité par add_entity_smartselect et add_entity_select
+   * 
    * @param $name    Nom du champ
    * @param $title  Libéllé du champ
+   * @param $value Valeurs autorisées (id => Nom, id=0 pour null)
+   * @param $std Instance de l'entité : soit vierge, soit la valeur selectionnée
+   * @see add_entity_smartselect
+   * @see add_entity_select
    */  
-  function add_select_list_entity_field ( $name, $title, $values, $std )
+  private function add_select_list_entity_field ( $name, $title, $values, $std )
   {
     global $wwwtopdir;
     
