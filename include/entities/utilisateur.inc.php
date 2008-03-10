@@ -1906,7 +1906,7 @@ L'équipe info AE";
    */
   function get_tabs ( &$user )
   {
-    if ( $this->user->type=="srv" ) 
+    if ( $this->type=="srv" ) 
     {
       $tabs = array(array("","user.php?id_utilisateur=".$this->id, "Informations") );
       if (  $this->id == $user->id || $user->is_in_group("gestion_ae") )
