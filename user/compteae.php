@@ -251,66 +251,31 @@ $req1 = new requete($site->db,
         "SELECT " .
         "`cpt_debitfacture`.`id_facture`, " .
         "`cpt_debitfacture`.`date_facture`, " .
-        "`asso`.`id_asso`, " .
-        "`asso`.`nom_asso`, " .
-        "CONCAT(`utilisateurs`.`prenom_utl`,' ',".
-        "`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-        "`utilisateurs`.`id_utilisateur`, " .
-        "`cpt_vendu`.`quantite`, " .
-        "`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
-        "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
-        "`cpt_comptoir`.`id_comptoir`, " .
-        "`cpt_comptoir`.`nom_cpt`," .
-        "`cpt_produits`.`nom_prod` " .
+        "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total` " .
         "FROM `cpt_vendu` " .
-        "LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
         "INNER JOIN `cpt_produits` ON ".
         "`cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
         "INNER JOIN `cpt_debitfacture` ON ".
         "`cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
-        "INNER JOIN `utilisateurs` ON ".
-        "`cpt_debitfacture`.`id_utilisateur` =".
-        "`utilisateurs`.`id_utilisateur` " .
-        "INNER JOIN `cpt_comptoir` ON ".
-        "`cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
         "WHERE mode_paiement = 'SG' " .
-        "AND `cpt_comptoir`.`id_comptoir` = 3 ".
-        "AND `utilisateurs`.`id_utilisateur` = ".
-        $user->id ." ".
+        "AND `cpt_comptoir`.`id_comptoir` = '3' ".
+        "AND `utilisateurs`.`id_utilisateur` = '".mysql_real_escape_string($user->id) ."' ".
         "GROUP BY `cpt_debitfacture`.`id_facture` ".
         "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
-/* paye ta requete 2eme edition ... */
 $req2 = new requete($site->db,
         "SELECT " .
         "`cpt_debitfacture`.`id_facture`, " .
         "`cpt_debitfacture`.`date_facture`, " .
-        "`asso`.`id_asso`, " .
-        "`asso`.`nom_asso`, " .
-        "CONCAT(`utilisateurs`.`prenom_utl`,' ',".
-        "`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-        "`utilisateurs`.`id_utilisateur`, " .
-        "`cpt_vendu`.`quantite`, " .
-        "`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
-        "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
-        "`cpt_comptoir`.`id_comptoir`, " .
-        "`cpt_comptoir`.`nom_cpt`," .
-        "`cpt_produits`.`nom_prod` " .
+        "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total` " .
         "FROM `cpt_vendu` " .
-        "LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
         "INNER JOIN `cpt_produits` ON ".
         "`cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
         "INNER JOIN `cpt_debitfacture` ON ".
         "`cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
-        "INNER JOIN `utilisateurs` ON ".
-        "`cpt_debitfacture`.`id_utilisateur` =".
-        "`utilisateurs`.`id_utilisateur` " .
-        "INNER JOIN `cpt_comptoir` ON ".
-        "`cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
         "WHERE mode_paiement = 'AE' " .
-        "AND `cpt_comptoir`.`id_comptoir` = 3 ".
-        "AND `utilisateurs`.`id_utilisateur` = ".
-        $user->id ." ".
+        "AND `cpt_comptoir`.`id_comptoir` = '3' ".
+        "AND `utilisateurs`.`id_utilisateur` = '".mysql_real_escape_string($user->id) ."' ".
         "GROUP BY `cpt_debitfacture`.`id_facture` ".
         "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
@@ -322,10 +287,9 @@ if ( $req1->lines > 0 )
          $req1,
          "moncompte.php",
          "id_facture",
-         array("id_facture"=>"Facture",
-               "date_facture"=>"Date",
-               "nom_cpt"=>"Lieu",
-               "nom_asso"=>"Association"),
+          array("id_facture"=>"Numéro de facture",
+          "total"=>"Montant",
+                "date_facture"=>"Date"),
          array(),
          array(),
          array()));
@@ -342,10 +306,9 @@ if ( $req2->lines > 0 )
           $req2,
           "moncompte.php",
           "id_facture",
-          array("id_facture"=>"Facture",
-                "date_facture"=>"Date",
-                "nom_cpt"=>"Lieu",
-                "nom_asso"=>"Association"),
+          array("id_facture"=>"Numéro de facture",
+          "total"=>"Montant",
+                "date_facture"=>"Date"),
           array(),
           array(),
           array()));
