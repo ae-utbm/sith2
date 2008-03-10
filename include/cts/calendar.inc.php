@@ -118,7 +118,7 @@ class calendar extends stdcontents
 		if ($month == 12)
 			$nextdate = $year+1 . "-" . "1"  . "-" . $day;
 		
-		
+$timing["cal.new"] -= microtime(true);
 		$sql = "SELECT `nvl_dates`.*,`nvl_nouvelles`.* FROM `nvl_dates` " .
 			"INNER JOIN `nvl_nouvelles` on `nvl_nouvelles`.`id_nouvelle`=`nvl_dates`.`id_nouvelle`" .
 			"WHERE  modere_nvl='1' ".
@@ -131,7 +131,6 @@ class calendar extends stdcontents
 		  $sql .= "AND id_asso='".mysql_real_escape_string($this->id_asso)."' ";
 
     $events=array();
-$timing["cal.new"] -= microtime(true);
 $timing["cal.new0"] -= microtime(true);
     $req = new requete($this->db,$sql);	
 $timing["cal.new0"] += microtime(true);
@@ -226,7 +225,7 @@ $timing["cal.new"] += microtime(true);
 		
 		
 		$style = "day";
-		
+$timing["cal.old"] -= microtime(true);
 		/* on construit une date mysql */
 		$date = $this->sql_date(mktime(0, 0, 0, $month, $day, $year));
 		
@@ -244,7 +243,6 @@ $timing["cal.new"] += microtime(true);
 		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
 		else
 		  $sql .= "AND id_asso='".mysql_real_escape_string($this->id_asso)."' ";
-$timing["cal.old"] -= microtime(true);
     $event = new requete($this->db,$sql);
 $timing["cal.old"] += microtime(true);
 		/* Si oui, on change le style de la case, et on ajoute l'évenement */
