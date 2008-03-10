@@ -50,5 +50,8 @@ new requete($site->dbrw, "DELETE FROM `site_sessions` WHERE expire_sess < NOW() 
 
 new requete($site->dbrw, "DELETE FROM `site_sessions` WHERE datediff(NOW(),derniere_visite) > 120");
 
+// Tâche 6 : Optimisation de la table des créneaux machine
+
+new requete($site->dbrw, "OPTIMIZE TABLE `mc_creneaux`");
 
 ?>
