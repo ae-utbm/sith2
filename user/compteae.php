@@ -209,7 +209,7 @@ $req = new requete($site->db, "SELECT SUM(`montant_facture`), " .
 while ( list($sum,$month) = $req->get_row() )
 {
 	$report[$month]["depense"] = $sum;
-	$months[]=$month;
+	$months[$month]=$month;
 }
 $req = new requete($site->db, "SELECT SUM(`montant_rech`), " .
 		"EXTRACT(YEAR_MONTH FROM `date_rech`) as `month` " .
@@ -221,7 +221,7 @@ $req = new requete($site->db, "SELECT SUM(`montant_rech`), " .
 while ( list($sum,$month) = $req->get_row() ) 
 {
 	$report[$month]["recharge"] = $sum;
-	$months[]=$month;
+	$months[$month]=$month;
 }
 
 if(!empty($report))
