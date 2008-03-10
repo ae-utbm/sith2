@@ -118,7 +118,6 @@ class calendar extends stdcontents
 		if ($month == 12)
 			$nextdate = $year+1 . "-" . "1"  . "-" . $day;
 		
-$timing["cal.new"] -= microtime(true);
     $dmois = mktime(6, 0, 0, $month, 1, $year);
     $fmois = mktime(6, 0, 0, $month+1, 1, $year);
 		$sql = "SELECT `nvl_dates`.*,`nvl_nouvelles`.* FROM `nvl_dates` " .
@@ -133,21 +132,14 @@ $timing["cal.new"] -= microtime(true);
 		  $sql .= "AND id_asso='".mysql_real_escape_string($this->id_asso)."' ";
 
     $events=array();
-$timing["cal.new0"] -= microtime(true);
     $req = new requete($this->db,$sql);	
-$timing["cal.new0"] += microtime(true);
 		while ( $row = $req->get_row() )
 		{
-		  /*$debut = intval(date("d",strtotime($row['date_debut_eve'])-(6*3600)));
-		  $fin = intval(date("d",strtotime($row['date_fin_eve'])-(6*3600)));*/
 		  $debut = floor((strtotime($row['date_debut_eve'])-$dmois)/(24*3600));
 		  $fin = floor((strtotime($row['date_fin_eve'])-$dmois)/(24*3600));
-		  
-		  
 		  for($i=$debut;$i<=$fin;$i++)
 		    $events[$i][] = $row;
 		}
-$timing["cal.new"] += microtime(true);
 		unset($req);
 		
 		$this->buffer .= "<tr>\n";
@@ -226,31 +218,11 @@ $timing["cal.new"] += microtime(true);
 		$style = "day";
 		
 		$date = $this->sql_date(mktime(0, 0, 0, $month, $day, $year));
-		/*
-$timing["cal.old"] -= microtime(true);
-		$date = $this->sql_date(mktime(0, 0, 0, $month, $day, $year));
-		$date2 = $this->sql_date(mktime(0, 0, 0, $month, $day + 1, $year));
-		$sql = "SELECT `nvl_dates`.*,`nvl_nouvelles`.* FROM `nvl_dates` " .
-			"INNER JOIN `nvl_nouvelles` on `nvl_nouvelles`.`id_nouvelle`=`nvl_dates`.`id_nouvelle`" .
-			"WHERE  modere_nvl='1' ".
-			"AND `nvl_dates`.`date_debut_eve` <= '" . mysql_escape_string($date2) ." 05:59:59' " .
-			"AND `nvl_dates`.`date_fin_eve` >= '" . mysql_escape_string($date) ." 06:00:00' ";
-		
-		if ( is_null($this->id_asso) )
-		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
-		else
-		  $sql .= "AND id_asso='".mysql_real_escape_string($this->id_asso)."' ";
-    $event = new requete($this->db,$sql);
-$timing["cal.old"] += microtime(true);
-*/
-		/* Si oui, on change le style de la case, et on ajoute l'évenement */
-		//if ($event->lines > 0)
+
 		if ( count($events) > 0 )
 		{
 			$idx=3;
 			
-			
-			//while ($ev = $event->get_row ())
 			foreach( $events as $ev)
 			{
 				if ( $ev["type_nvl"] == 1 )
@@ -263,10 +235,7 @@ $timing["cal.old"] += microtime(true);
 		  
 		  if ( $idx != 3 )
 		  {
-		    //$event->go_first();
-		    
   			$this->events .= "<dl class=\"event\" id=\"calev-$date\">\n";
-  			//while ($ev = $event->get_row ())
   			foreach( $events as $ev)
   			{
   				$this->event_add ($ev,$date);
