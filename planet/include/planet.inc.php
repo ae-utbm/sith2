@@ -55,6 +55,16 @@ class planet extends stdentity
     }
   }
 
+	
+	/* je sais c'est sale, mais le temps de faire plus proprement ...*/
+	function load_by_id($id)
+  {
+  }
+
+  function _load($var)
+  {
+  }
+
   function delete($id_flux)
   {
     $sql="";
