@@ -677,6 +677,8 @@ class site extends interfaceweb
       return $cts;
     }
 
+    $today=date("Y-m-d");
+
     $cts = new contents("L'AE et Moi");
     $cts->add_paragraph($this->get_textbox('Welcome')." <b>".$this->user->prenom." ".$this->user->nom."</b>");
 
