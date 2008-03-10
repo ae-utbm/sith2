@@ -137,8 +137,8 @@ $timing["cal.new0"] += microtime(true);
     $dmois = mktime(0, 0, 0, $month, 1, $year);
 		while ( $row = $req->get_row() )
 		{
-		  $debut = ceil(($dmois-strtotime($row['date_debut_eve'])-(6*3600))/(24*3600));
-		  $fin = ceil(($dmois-strtotime($row['date_fin_eve'])-(6*3600))/(24*3600));
+		  $debut = ceil((strtotime($row['date_debut_eve'])-(6*3600)-$dmois)/(24*3600));
+		  $fin = ceil((strtotime($row['date_fin_eve'])-(6*3600)-$dmois)/(24*3600));
 		  for($i=$debut;$i<=$fin;$i++)
 		    $events[$i][] = $row;
 		}
