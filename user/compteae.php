@@ -259,7 +259,7 @@ $req1 = new requete($site->db,
         "`cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
         "WHERE mode_paiement = 'SG' " .
         "AND `cpt_debitfacture`.`id_comptoir` = '3' ".
-        "AND `utilisateurs`.`id_utilisateur` = '".mysql_real_escape_string($user->id) ."' ".
+        "AND `cpt_debitfacture`.`id_utilisateur_client` = '".mysql_real_escape_string($user->id) ."' ".
         "GROUP BY `cpt_debitfacture`.`id_facture` ".
         "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
 
