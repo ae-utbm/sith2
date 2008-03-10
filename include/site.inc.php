@@ -265,7 +265,7 @@ class site extends interfaceweb
     $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
     
-    if ( $section != "pg" && $section != "matmatronch" && $section != "forum"  )
+    if ( $section != "pg" && $section != "matmatronch" && $section != "forum" && $section != "sas"  )
       $this->add_box("alerts",$this->get_alerts());
       
     $this->add_box("calendrier",new calendar($this->db));
@@ -332,8 +332,10 @@ class site extends interfaceweb
 
     $elements = array();
 
+    $today = date("Y-m-d");
+
     $cpg = new campagne($this->db,$this->dbrw);
-    $req = new requete($this->db, "SELECT `id_campagne` FROM `cpg_campagne` WHERE `date_fin_campagne`>=NOW() ORDER BY date_debut_campagne DESC");
+    $req = new requete($this->db, "SELECT `id_campagne` FROM `cpg_campagne` WHERE `date_fin_campagne`>='$today' ORDER BY date_debut_campagne DESC");
     while(list($id)=$req->get_row())
       if($cpg->load_by_id($id) && $this->user->is_in_group_id($cpg->group) && !$cpg->a_repondu($this->user->id))
         $elements[] = "<a href=\"".$topdir."campagne.php?id_campagne=".$cpg->id."\"><b>Campagne en cours : ".$cpg->nom."</b>.</a>";
@@ -395,7 +397,7 @@ class site extends interfaceweb
         "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
         "WHERE ((sl_reservation.date_accord_res IS NULL) OR " .
         "(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
-        "AND sl_reservation.date_debut_salres > NOW()");
+        "AND sl_reservation.date_debut_salres > '$today'");
       list($count) = $req->get_row();
 
       if ( $count > 0 )
@@ -408,7 +410,7 @@ class site extends interfaceweb
         "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
         "WHERE ((sl_reservation.date_accord_res IS NULL) OR " .
         "(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
-        "AND sl_reservation.date_debut_salres > NOW() " .
+        "AND sl_reservation.date_debut_salres > '$today' " .
         "AND sl_salle.id_salle=5");
       list($count) = $req->get_row();
 
@@ -720,7 +722,7 @@ class site extends interfaceweb
       "FROM sl_reservation " .
       "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
       "WHERE sl_reservation.id_utilisateur='".$this->user->id."' AND " .
-      "sl_reservation.date_debut_salres > NOW() AND " .
+      "sl_reservation.date_debut_salres > '$today' AND " .
       "((sl_reservation.date_accord_res IS NULL) OR " .
       "(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " );
     list($nb) = $req->get_row();
@@ -782,7 +784,7 @@ class site extends interfaceweb
         "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
         "WHERE ((sl_reservation.date_accord_res IS NULL) OR " .
         "(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
-        "AND sl_reservation.date_debut_salres > NOW()");
+        "AND sl_reservation.date_debut_salres > '$today'");
 
       list($count) = $req->get_row();
       $sublist->add("<a href=\"".$topdir."ae/modereres.php\">Reservation salles (".$count.")</a>");
