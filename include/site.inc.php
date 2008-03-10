@@ -54,6 +54,8 @@ class site extends interfaceweb
   /** Constructeur de la classe */
   function site ($stats=true)
   {
+    $timing["site::site"] -= microtime(true);
+    
     $dbro = new mysqlae ();
     
     if (!$dbro->dbh)
@@ -72,7 +74,9 @@ class site extends interfaceweb
       $this->fatal("closed");
 
     $this->set_side_boxes("left",array("calendrier","alerts","connexion"),"default_left");
-
+    
+    $timing["site::site"] += microtime(true);
+    
 //    $this->add_css("themes/sdm08/css/site.css");
     
   }  
@@ -257,7 +261,7 @@ class site extends interfaceweb
   function start_page ( $section, $title,$compact=false )
   {
     global $topdir;
-
+    $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
     
     if ( $section != "pg" && $section != "matmatronch" && $section != "forum"  )
@@ -306,6 +310,8 @@ class site extends interfaceweb
       $this->set_side_boxes("left",array());
       $this->set_side_boxes("right",array());
     }
+    $timing["site::start_page"] += microtime(true);
+    
   }
 
   /**
