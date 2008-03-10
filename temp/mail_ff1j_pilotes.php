@@ -9,11 +9,13 @@ $headers = 'From: Thomas Chatenet <thomas.chatenet@utbm.fr>' . "\r\n" .
     'Reply-To: Thomas Chatenet <thomas.chatenet@utbm.fr>' . "\r\n" .
     'X-Mailer: PHP/' . phpversion();
 
-$message = "Bonjour à tous,                                                                                                      
+$message = "Bonjour à tous,
+
 Vous recevez ce mail car vous faites partis des privilégiés qui peuvent
 participer au Festival du Film d'1 Jour.
 En effet, comme vous avez plus de 21 ans il vous est possible de participer
-activement au FF1j en devenant pilote.                                                                                  
+activement au FF1j en devenant pilote.
+
    - Le FF1J qu'est ce que c'est ?
 C'est un festival cinématographique qui accueille, du 1er au 4 mai, une
 quinzaine d'équipes des plus grandes écoles de France pour relever un défi :
@@ -34,9 +36,9 @@ et même la diffusion ils assistent à l'évolution complète de l'œuvre.
 Ces postes de pilotes sont des places de privilégiés auxquelles vous avez
 accès.
 N'attendez plus, les places sont limitées.
-                                                                              
+
 Pour tous autres renseignements ou quelconque question, n'hésitez pas à me
-contacter.                                              
+contacter.
 
 Amicalement votre.
 
@@ -57,15 +59,10 @@ $req = new requete (new mysqlae(),
             AND permis_conduire_utl='1'
         ORDER BY id_utilisateur");
 
-echo "<h1>Headers:</h1>";
-print_r($headers);
-echo "<h1>Message:</h1>";
-print_r($message);
-echo "<h1>Send to:</h1>";
-
 while($res = $req->get_row())
 {
-  echo $res['nom'] . " &lt;" . $res['email_utl'] . "&gt;<br />";
+  echo $res['nom'] . " &lt;" . $res['email_utl'] . "&gt; : Sent <br />";
+  mail($res['nom']." <".$res['email_utl'].">", $subject, $message, $headers);
 }
 
 ?>
