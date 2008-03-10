@@ -122,8 +122,8 @@ $timing["cal.new"] -= microtime(true);
 		$sql = "SELECT `nvl_dates`.*,`nvl_nouvelles`.* FROM `nvl_dates` " .
 			"INNER JOIN `nvl_nouvelles` on `nvl_nouvelles`.`id_nouvelle`=`nvl_dates`.`id_nouvelle`" .
 			"WHERE  modere_nvl='1' ".
-			"AND `nvl_dates`.`date_debut_eve` <= '" . date("Y-m",time()+(3600*24*32)) ."-01 05:59:59' " .
-			"AND `nvl_dates`.`date_fin_eve` >= '".date("Y-m")."-01 06:00:00' ";
+			"AND `nvl_dates`.`date_debut_eve` <= '$year-" . ($month+1) ."-01 05:59:59' " .
+			"AND `nvl_dates`.`date_fin_eve` >= '$year-$month-01 06:00:00' ";
 		
 		if ( is_null($this->id_asso) )
 		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
