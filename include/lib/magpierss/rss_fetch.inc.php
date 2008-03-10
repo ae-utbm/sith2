@@ -89,7 +89,6 @@ $MAGPIE_ERROR = "";
 function fetch_rss ($url) {
     // initialize constants
     init();
-echo "1";    
     if ( !isset($url) ) {
         error("fetch_rss called without a url");
         return false;
@@ -114,14 +113,12 @@ echo "1";
         // 2. if there is a hit, make sure its fresh
         // 3. if cached obj fails freshness check, fetch remote
         // 4. if remote fails, return stale object, or error
-echo "2";        
         $cache = new RSSCache( MAGPIE_CACHE_DIR, MAGPIE_CACHE_AGE );
         
         if (MAGPIE_DEBUG and $cache->ERROR) {
             debug($cache->ERROR, E_USER_WARNING);
         }
         
-echo "3";        
         $cache_status    = 0;       // response of check_cache
         $request_headers = array(); // HTTP headers to send with fetch
         $rss             = 0;       // parsed RSS object
@@ -161,7 +158,6 @@ echo "3";
         }
         
         $resp = _fetch_remote_file( $url, $request_headers );
-        echo "4";
         if (isset($resp) and $resp) {
           if ($resp->status == '304' ) {
                 // we have the most current copy
@@ -202,7 +198,7 @@ echo "3";
         else {
             $errormsg = "Unable to retrieve RSS file for unknown reasons.";
         }
-        
+       echo "bleh"; 
         // else fetch failed
         
         // attempt to return cached object
