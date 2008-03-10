@@ -223,7 +223,7 @@ $timing["cal.new"] += microtime(true);
 		
 		$date = $this->sql_date(mktime(0, 0, 0, $month, $day, $year));
 		
-/*$timing["cal.old"] -= microtime(true);
+$timing["cal.old"] -= microtime(true);
 		$date = $this->sql_date(mktime(0, 0, 0, $month, $day, $year));
 		$date2 = $this->sql_date(mktime(0, 0, 0, $month, $day + 1, $year));
 		$sql = "SELECT `nvl_dates`.*,`nvl_nouvelles`.* FROM `nvl_dates` " .
@@ -237,7 +237,7 @@ $timing["cal.new"] += microtime(true);
 		else
 		  $sql .= "AND id_asso='".mysql_real_escape_string($this->id_asso)."' ";
     $event = new requete($this->db,$sql);
-$timing["cal.old"] += microtime(true);*/
+$timing["cal.old"] += microtime(true);
 
 		/* Si oui, on change le style de la case, et on ajoute l'évenement */
 		//if ($event->lines > 0)
