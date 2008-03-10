@@ -83,7 +83,7 @@ class calendar extends stdcontents
 	*/
 	function html_render ()
 	{
-		global $topdir,$wwwtopdir;
+		global $topdir,$wwwtopdir,$timing;
 		
 		/* On extrait le jour, le mois, l'année et le nombre du jours du
 		* mois courant a partir du timestamp */
@@ -117,6 +117,33 @@ class calendar extends stdcontents
 			
 		if ($month == 12)
 			$nextdate = $year+1 . "-" . "1"  . "-" . $day;
+		
+		
+		$sql = "SELECT `nvl_dates`.*,`nvl_nouvelles`.* FROM `nvl_dates` " .
+			"INNER JOIN `nvl_nouvelles` on `nvl_nouvelles`.`id_nouvelle`=`nvl_dates`.`id_nouvelle`" .
+			"WHERE  modere_nvl='1' ".
+			"AND `nvl_dates`.`date_debut_eve` <= '" . date("Y-m",time()+(3600*24*32)) ."-01 05:59:59' " .
+			"AND `nvl_dates`.`date_fin_eve` >= '".date("Y-m")."-01 06:00:00' ";
+		
+		if ( is_null($this->id_asso) )
+		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
+		else
+		  $sql .= "AND id_asso='".mysql_real_escape_string($this->id_asso)."' ";
+
+    $events=array();
+$timing["cal.new"] -= microtime(true);
+    $req = new requete($this->db,$sql);	
+		while ( $row = $req->get_row() )
+		{
+		  $debut = date("d",strtotime($row['date_debut_eve'])-(6*3600));
+		  $fin = date("d",strtotime($row['date_fin_eve'])-(6*3600));
+		  for($i=$debut;$i<=$fin;$i++)
+		    $events[$i][] = $row;
+		}
+$timing["cal.new"] += microtime(true);
+		unset($req);
+		
+		
 		
 		$this->buffer .= "<tr>\n";
 		$this->buffer .= "<td class=\"month\"><a href=\"?caldate=$prevdate\" onclick=\"return !openInContents('sbox_body_calendrier','".$wwwtopdir."gateway.php','class=calendar&amp;caldate=$prevdate&amp;topdir=$wwwtopdir');\">&laquo;</a></td>\n";
@@ -190,7 +217,7 @@ class calendar extends stdcontents
 	*/
 	function day ($year, $month, $day)
 	{
-		global $topdir,$wwwtopdir;
+		global $topdir,$wwwtopdir,$timing;
 		
 		
 		
@@ -214,9 +241,9 @@ class calendar extends stdcontents
 		  $sql .= "AND id_canal='".NEWS_CANAL_SITE."' ";
 		else
 		  $sql .= "AND id_asso='".mysql_real_escape_string($this->id_asso)."' ";
-
+$timing["cal.old"] -= microtime(true);
     $event = new requete($this->db,$sql);
-		
+$timing["cal.old"] += microtime(true);
 		/* Si oui, on change le style de la case, et on ajoute l'évenement */
 		if ($event->lines > 0)
 		{
