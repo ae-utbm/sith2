@@ -140,7 +140,7 @@ $timing["cal.new0"] += microtime(true);
 		  $debut = ceil((strtotime($row['date_debut_eve'])-(6*3600)-$dmois)/(24*3600));
 		  $fin = ceil((strtotime($row['date_fin_eve'])-(6*3600)-$dmois)/(24*3600));
 		  for($i=$debut;$i<=$fin;$i++)
-		    $events[$i][] = $row;
+		    $events[$i-1][] = $row;
 		}
 $timing["cal.new"] += microtime(true);
 		unset($req);
