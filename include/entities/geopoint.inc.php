@@ -260,13 +260,10 @@ abstract class geopoint extends stdentity
     $sql .= "FROM `geopoint` ".
       "WHERE `nom_geopoint` REGEXP '^$sqlpattern'";	
       
-    if ( $class != "lieu" )
-    {
-      if ( is_null($conds) || !is_array($conds) )
-        $conds = array();
-        
-      $conds["type_geopoint"] = $class;
-    }
+    if ( is_null($conds) || !is_array($conds) )
+      $conds = array();
+      
+    $conds["type_geopoint"] = $class;
     
     if ( !is_null($conds) && count($conds) > 0 )
     {
