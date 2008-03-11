@@ -32,6 +32,8 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/cts/planning.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir. "include/entities/salle.inc.php");
+require_once($topdir. "include/entities/planning.inc.php");
+
 $site = new site ();
 
 $lieux = array(6=>"Bureau AE Belfort", 30=>"Bureau AE Sevenans", 5=>"Foyer", 28=>"MDE");
