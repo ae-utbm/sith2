@@ -32,8 +32,11 @@ require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir. "include/entities/salle.inc.php");
 $site = new site ();
 
+$site->start_page("services","Planning");
 
+$cts = new contents("<a href=\"index.php\">Planning</a>");
 
+$site->add_contents($cts);
 $site->end_page();  
 
 ?>
