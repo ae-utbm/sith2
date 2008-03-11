@@ -33,13 +33,56 @@ require_once($topdir . "include/cts/sqltable.inc.php");
 $news = new nouvelle($site->db,$site->dbrw);
 $lieu = new lieu($site->db);
 
-$site = new site ();
+
+
+// $site = new site ();
+
 
 /* Accès interdit pour les personnes non modérateur du site */
-if (!$site->user->is_in_group ("moderateur_site"))
-	error_403();
+//if (!$site->user->is_in_group ("moderateur_site"))
+//	error_403();
+
+
+
+
+
+$page = new page ($site->db,$site->dbrw);
+
+$section = CMS_PREFIX."acceuil";
+
+
+
+/* la page n'existe pas */  
+if ( !$page->is_valid() )
+{
+  $site->start_page ( $section, "Erreur" );
+  $cts = new contents("Page inconnue");
+  $cts->add_paragraph("Merci de vérifier le lien que vous avez emprunté.","error");
+  $site->add_contents($cts);  
+  $site->end_page();
+  exit();
+}
+
+
+if ( $page->section )
+  $section = $page->section;
+
+/* la page n'est pas autorise pour l'utilisateur s'il n'a pas les droits */
+if ( !$page->is_right($site->user,DROIT_LECTURE) )
+{
+  $site->start_page ( $section, "Erreur" );
+  
+  $err = new error("Accès restreint","Vous n'avez pas le droit d'accéder à cette page.");
+  $site->add_contents($err);
+  
+  $site->end_page();
+  exit();
+}
+
 
 $site->start_page ("none", "Liste des nouvelles AECMS");
+
+
 
 /* suppression de la nouvelle via la sqltable */
 if ((isset($_REQUEST['id_nouvelle']))
