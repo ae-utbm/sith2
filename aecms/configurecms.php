@@ -607,8 +607,9 @@ else if ( $_REQUEST["view"] == "css" )
 $cts->add_title(2,"Outils");
 
 $cts->add(new itemlist("Outils",false,array(
-"<a href=\"index.php?page=new\">Creer une nouvelle page</a>",
-"<a href=\"news.php\">Ajouter une nouvelle</a>"
+  "<a href=\"newsliste.php\">Lister les nouvelles</a>",
+  "<a href=\"index.php?page=new\">Creer une nouvelle page</a>",
+  "<a href=\"news.php\">Ajouter une nouvelle</a>"
 
 )));
 

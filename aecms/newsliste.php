@@ -35,14 +35,7 @@ $lieu = new lieu($site->db);
 
 
 
-// $site = new site ();
-
-
-/* Accès interdit pour les personnes non modérateur du site */
-//if (!$site->user->is_in_group ("moderateur_site"))
-//	error_403();
-
-
+if (!$site->user->is_in_group ("moderateur_site"))
 
 
 
@@ -68,7 +61,7 @@ if ( $page->section )
   $section = $page->section;
 
 /* la page n'est pas autorise pour l'utilisateur s'il n'a pas les droits */
-if ( !$page->is_right($site->user,DROIT_LECTURE) )
+if ( !$site->user->is_in_group ("moderateur_site"))
 {
   $site->start_page ( $section, "Erreur" );
   
