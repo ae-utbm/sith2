@@ -94,7 +94,7 @@ else{
                                     `utilisateurs`.`nom_utl`) AS `nom_prenom`
                       FROM `nvl_nouvelles`, `utilisateurs` 
                       WHERE 
-                      AND `nvl_nouvelles`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
+                      `nvl_nouvelles`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
                       AND `nvl_nouvelles`.`id_canal`='".NEWS_CANAL_AECMS."' 
                       ORDER BY `nvl_nouvelles`.`date_nvl` 
                       DESC");
