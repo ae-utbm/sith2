@@ -28,6 +28,7 @@ require_once("include/site.inc.php");
 require_once($topdir."include/entities/news.inc.php");
 require_once($topdir."include/entities/lieu.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
+require_once($topdir . "include/entities/page.inc.php");
 
 $news = new nouvelle($site->db,$site->dbrw);
 $lieu = new lieu($site->db);

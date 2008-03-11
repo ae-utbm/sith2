@@ -31,6 +31,7 @@ require_once($topdir."include/cts/react.inc.php");
 require_once($topdir . "include/entities/news.inc.php");
 require_once($topdir . "include/entities/asso.inc.php");
 require_once($topdir . "include/entities/lieu.inc.php");
+require_once($topdir . "include/entities/page.inc.php");
 
 $site = new site();
 $site->add_css("css/doku.css");
