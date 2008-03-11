@@ -98,15 +98,15 @@ class site extends interfaceweb
       $req = new requete($this->db, 
       "SELECT `id_session`, `connecte_sess`, `expire_sess` ".
       "FROM `site_sessions` ".
-      "WHERE `id_session` = '".mysql_escape_string($sid)."' ".
-      "AND id_utilisateur = '".mysql_escape_string($_SESSION["preempt"][$sid])."' ");
+      "WHERE id_utilisateur = '".mysql_escape_string($_SESSION["preempt"][$sid])."' ".
+      "AND `id_session` = '".mysql_escape_string($sid)."'");      
     else if ( $method == 2 && isset($_SESSION["preempt"][$sid]) )
       $req = new requete($this->db, 
       "SELECT `utilisateurs`.*, `id_session`, `connecte_sess`, `expire_sess` ".
       "FROM `site_sessions` ".
-      "WHERE `id_session` = '".mysql_escape_string($sid)."' ".
       "INNER JOIN `utilisateurs` ON(site_sessions.`id_utilisateur`=utilisateurs.id_utilisateur) ".
-      "AND id_utilisateur = '".mysql_escape_string($_SESSION["preempt"][$sid])."' ");      
+      "WHERE id_utilisateur = '".mysql_escape_string($_SESSION["preempt"][$sid])."' ".
+      "AND `id_session` = '".mysql_escape_string($sid)."'");      
     else
       $req = new requete($this->db, 
       "SELECT `id_session`, `connecte_sess`, `expire_sess` ".
@@ -158,7 +158,7 @@ class site extends interfaceweb
           array(
             "derniere_visite"  => date("Y-m-d H:i:s"),
             "expire_sess"=>$expire
-            ),array("id_session" => $sid,"id_utilisateur" => $row["id_utilisateur"])); 
+            ),array("id_session" => $sid)); 
             
     if ( $method % 2 == 0 )    
       $this->user->_load($row);
