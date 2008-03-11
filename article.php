@@ -40,6 +40,8 @@ if ( $site->user->is_valid()  && $site->user->is_in_group("moderateur_site") )
   $page->id_groupe_admin = 8;
   $page->droits_acces = 0x311;
 
+  print_r($_REQUEST);
+
   if ( $_REQUEST['action'] == "new" )
   {
     if ( !$_REQUEST["name"] || !preg_match("#^([a-z0-9\-_:]+)$#",$_REQUEST["name"]) )
