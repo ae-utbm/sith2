@@ -39,6 +39,14 @@ if ( $_REQUEST["action"] == "searchpl" )
   $site->start_page("services","Planning");
   $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
   
+  $frm = new form("searchpl","index.php",false,"POST","Nouvelle recherche");
+  $frm->add_hidden("action","searchpl");
+  //if ( isset($_REQUEST["fallback"]) )
+    //$frm->add_hidden("fallback",$_REQUEST["fallback"]);
+  $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST["id_salle"]);
+  $frm->add_submit("afficher","Afficher un planning");
+  $cts->add($frm,true);
+  
   $site->add_contents($cts);
   $site->end_page();
   
