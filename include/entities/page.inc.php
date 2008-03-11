@@ -125,8 +125,12 @@ class page extends wiki
     $pagename = $parent->load_or_create_parent($path, $user, $this->droits_acces, $this->id_groupe, $this->id_groupe_admin);
         
     if ( is_null($pagename) || !$parent->is_valid() || $this->load_by_name($parent,$pagename) )
+    {
+      print_r($pagename);
+      print_r($parent);
+      print_r($path);
       return false;
-      
+    }  
     $this->create ( $parent, null, $pagename, 0, $titre, $texte, "Créée comme un article", $section );        
     
     return true;
