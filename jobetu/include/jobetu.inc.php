@@ -28,6 +28,17 @@ class jobetu extends stdentity
   var $job_types;
   var $job_main_cat;
 
+
+  function _load($row)
+  {
+    
+  }
+  
+  function load_by_id($id)
+  {
+    return false;  
+  }
+
   
   /** Récupère les différents types de job
    * renvoie un tableau: array( array("id_type", "cat", "nom") ) dans $this->jobtypes
