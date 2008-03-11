@@ -54,6 +54,7 @@ if ( $site->user->is_valid()  && $site->user->is_in_group("moderateur_site") )
     {
       $page->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
       $page->add($site->user, $_REQUEST["name"], $_REQUEST["title"], $_REQUEST['texte'], $_REQUEST['section']);
+      print_r($page);
     }
   }
 
