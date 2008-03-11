@@ -86,13 +86,33 @@ class site extends interfaceweb
    * Charge une session en fonction de son identidiant.
    * @param $sid Identifiant de la session
    */
-  function load_session ( $sid )
+  function load_session ( $sid, $method=0 )
   {
-    $req = new requete($this->db, 
-    "SELECT `utilisateurs`.*, `id_session`, `connecte_sess`, `expire_sess` ".
-    "FROM `site_sessions` ".
-    "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
-    "WHERE `id_session` = '".mysql_escape_string($sid)."'");
+    if ( $method == 0 )
+      $req = new requete($this->db, 
+      "SELECT `utilisateurs`.*, `id_session`, `connecte_sess`, `expire_sess` ".
+      "FROM `site_sessions` ".
+      "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
+      "WHERE `id_session` = '".mysql_escape_string($sid)."'");
+    else if ( $method == 3 && isset($_SESSION["preempt"][$sid]) )
+      $req = new requete($this->db, 
+      "SELECT `id_session`, `connecte_sess`, `expire_sess` ".
+      "FROM `site_sessions` ".
+      "WHERE `id_session` = '".mysql_escape_string($sid)."' ".
+      "AND id_utilisateur = '".mysql_escape_string($_SESSION["preempt"][$sid])."' ");
+    else if ( $method == 2 && isset($_SESSION["preempt"][$sid]) )
+      $req = new requete($this->db, 
+      "SELECT `utilisateurs`.*, `id_session`, `connecte_sess`, `expire_sess` ".
+      "FROM `site_sessions` ".
+      "WHERE `id_session` = '".mysql_escape_string($sid)."' ".
+      "INNER JOIN `utilisateurs` ON(site_sessions.`id_utilisateur`=utilisateurs.id_utilisateur) ".
+      "AND id_utilisateur = '".mysql_escape_string($_SESSION["preempt"][$sid])."' ");      
+    else
+      $req = new requete($this->db, 
+      "SELECT `id_session`, `connecte_sess`, `expire_sess` ".
+      "FROM `site_sessions` ".
+      "WHERE `id_session` = '".mysql_escape_string($sid)."'");
+    
     
     if ($req->lines < 1 )
     {
@@ -111,6 +131,7 @@ class site extends interfaceweb
     $sid = $row['id_session'];
     $connecte = $row['connecte_sess'];
     $expire = $row['expire_sess'];
+
     
     if ( !is_null($expire) )
     {
@@ -139,8 +160,14 @@ class site extends interfaceweb
             "expire_sess"=>$expire
             ),array("id_session" => $sid)); 
             
-    $this->user->_load($row);
-    
+    if ( $method % 2 == 0 )    
+      $this->user->_load($row);
+    else
+      $this->user->load_by_id($row["id_utilisateur"]);
+      
+    if ( $method > 1 )
+      $_SESSION["preempt"][$sid] = $this->user->id;
+        
     if ($this->user->hash != "valid")
     {
       $this->user->id = null;
@@ -153,6 +180,9 @@ class site extends interfaceweb
       if ( !isset($_SESSION["usersession"]) ) // restore le usersession
         $_SESSION["usersession"] = $this->user->get_param("usersession",null);
     }   
+    
+
+    
   }
 
   /**
