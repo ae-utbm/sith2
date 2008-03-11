@@ -22,14 +22,12 @@
  * 02111-1307, USA.
  */
 
- 
+$topdir = "../"; 
 require_once("include/site.inc.php");
 require_once($topdir."include/entities/news.inc.php");
 require_once($topdir."include/entities/lieu.inc.php");
 require_once($topdir . "include/entities/asso.inc.php");
-/* peut etre pas trop utile ... a voir par la suite
 require_once($topdir."include/entities/files.inc.php");
-*/
 require_once($topdir . "include/cts/sqltable.inc.php");
 
 $news = new nouvelle($site->db,$site->dbrw);
