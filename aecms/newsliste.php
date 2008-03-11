@@ -51,7 +51,7 @@ if ( !$site->user->is_in_group ("moderateur_site"))
 }
 
 
-$site->start_page (CMS_PREFIX."administration", "Liste des nouvelles");
+$site->start_page (CMS_PREFIX."config", "Liste des nouvelles");
 
 /* suppression de la nouvelle via la sqltable */
 if ((isset($_REQUEST['id_nouvelle']))
@@ -93,8 +93,8 @@ else{
                                     ' ',
                                     `utilisateurs`.`nom_utl`) AS `nom_prenom`
                       FROM `nvl_nouvelles`, `utilisateurs` 
-                      WHERE 
-                      `nvl_nouvelles`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
+                      WHERE `nvl_nouvelles`.`modere_nvl`='1' 
+                      AND `nvl_nouvelles`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
                       AND `nvl_nouvelles`.`id_canal`='".NEWS_CANAL_AECMS."' 
                       ORDER BY `nvl_nouvelles`.`date_nvl` 
                       DESC");
