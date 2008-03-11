@@ -90,7 +90,7 @@ class site extends interfaceweb
   {
     if ( $method == 3 && isset($_SESSION["preempt"][$sid]) )
       $req = new requete($this->db, 
-      "SELECT `id_session`, `connecte_sess`, `expire_sess` ".
+      "SELECT `id_utilisateur`,`id_session`, `connecte_sess`, `expire_sess` ".
       "FROM `site_sessions` ".
       "WHERE id_utilisateur = '".mysql_escape_string($_SESSION["preempt"][$sid])."' ".
       "AND `id_session` = '".mysql_escape_string($sid)."'");      
@@ -109,7 +109,7 @@ class site extends interfaceweb
       "WHERE `id_session` = '".mysql_escape_string($sid)."'");
     else
       $req = new requete($this->db, 
-      "SELECT `id_session`, `connecte_sess`, `expire_sess` ".
+      "SELECT `id_utilisateur`,`id_session`, `connecte_sess`, `expire_sess` ".
       "FROM `site_sessions` ".
       "WHERE `id_session` = '".mysql_escape_string($sid)."'");
     
