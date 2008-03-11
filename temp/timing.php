@@ -4,7 +4,7 @@ $topdir="../";
 include($topdir. "include/site.inc.php");
  
 $site = new site ();
-for($m=0;$m<3;$m++)
+for($m=0;$m<4;$m++)
 {
 $timing["method$m"] -= microtime(true);
 for($i=0;$i<20;$i++)
