@@ -36,12 +36,19 @@ $site->start_page("services","Planning");
 
 $lieux = array(6=>"Bureau AE Belfort", 30=>"Bureau AE Sevenans", 5=>"Foyer", 28=>"MDE");
 
+if ( $_REQUEST["action"] == "searchpl" )
+{
+  $site->start_page("services","Planning");
+  $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
+	
+}
+
 $cts = new contents("<a href=\"index.php\">Planning</a>");
 
 $frm = new form("searchpl","index.php",false,"POST","Consulter un planning");
 $frm->add_hidden("action","searchpl");
 $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST["id_salle"]);
-$frm->add_submit("search","Rechercher un planning");
+$frm->add_submit("afficher","Afficher un planning");
 $cts->add($frm,true);
 
 $site->add_contents($cts);
