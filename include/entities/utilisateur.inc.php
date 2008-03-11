@@ -544,11 +544,11 @@ class utilisateur extends stdentity
    */
   function load_groups ()
   {
+    $this->groupes = array();
+    
     if ( !$this->is_valid() )
       return;    
       
-    $this->groupes = array();
-
     $req = new requete($this->db,
                        "SELECT `groupe`.`id_groupe`,`groupe`.`nom_groupe`
                         FROM `utl_groupe`
