@@ -36,7 +36,8 @@
  */
 function doku2xhtml($text,$summury=false)
 {
-  global $parser;
+  global $parser,$timing;
+  $timing["doku2xhtml"] -= microtime(true);
   $js = false;
   $table   = array();
   $hltable = array();
@@ -158,6 +159,8 @@ function doku2xhtml($text,$summury=false)
 
   $text = trim($text);
   
+  $timing["doku2xhtml"] += microtime(true);
+
   if ( $summury )
     return array($js.$text,$hltable);
 
