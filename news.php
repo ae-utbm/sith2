@@ -372,9 +372,10 @@ if ( $suitable && isset($_REQUEST["preview"]) )
 }
 elseif ( !isset($_REQUEST["preview"]) )
 {
-  $cts = new contents ("Accueil nouvelles");
-  $cts->add (new wikicontents ("aide",$site->get_textbox ("news_help")));
-  $site->add_contents ($cts);
+  $page = new page ($site->db);
+  $page->load_by_pagename("info:news");
+  if ( $page->is_valid() )
+    $site->add_contents($page->get_contents());
 }
 
 $frm = new form ("addnews_frm","news.php",false,"POST","Proposition d'une nouvelle");

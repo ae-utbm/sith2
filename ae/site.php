@@ -77,6 +77,8 @@ if (isset($_REQUEST['frm_edit_box_ct']))
 {
   foreach ($_REQUEST['frm_edit_box_ct'] as $nom_boite => $contenu_boite)
   {
+    $this->set_param("box.".$nom_boite,doku2xhtml($contenu_boite));
+    
     $req = new update ($site->dbrw,
        "site_boites",
        array ("contenu_boite" => $contenu_boite),

@@ -688,7 +688,7 @@ class site extends interfaceweb
     $today=date("Y-m-d");
 
     $cts = new contents("L'AE et Moi");
-    $cts->add_paragraph($this->get_textbox('Welcome')." <b>".$this->user->prenom." ".$this->user->nom."</b>");
+    $cts->add_paragraph($this->get_param('box.Welcome')." <b>".$this->user->prenom." ".$this->user->nom."</b>");
 
     if ( $this->user->type=="srv" )
     {
@@ -950,7 +950,7 @@ class site extends interfaceweb
 
     if ($req->lines > 0)
     {
-      $cts->puts($this->get_textbox('Anniversaire'));
+      $cts->puts($this->get_param('box.Anniversaire'));
       //$cts->puts ("<ul class=\"boxlist annif\">", 1);
 
       $old_age = 0;
@@ -1045,7 +1045,7 @@ class site extends interfaceweb
     {
     $cts = new contents("Photo de la semaine");
     $cts->puts("<center><a href=\"".$topdir."article.php?name=weekly_photo\"><img src=\"".$topdir."var/img/com/weekly_photo-small.jpg?".$weekly_photo_valid."\" style=\"margin-bottom:0.5em;\" alt=\"Photo de la semaine\" /></a><br/>");
-    $cts->puts($this->get_textbox('Weekly_photo'));
+    $cts->puts($this->get_param('box.Weekly_photo'));
     $cts->puts("</center>");
     return $cts;
     }
@@ -1262,25 +1262,6 @@ class site extends interfaceweb
       $cts->add_paragraph("Indisponible");
     
     return $cts;  
-  }
-  
-  /** Modifie une boite du site
-   * @param nom_boite le nom de la boite
-   * @param content le nouveau contenu
-   */
-  function modify_textbox($nom_boite, $new_content)
-  {
-    //Protection
-    $new_content = mysql_real_escape_string($new_content);
-    $req = new update (new mysqlae("rw"),"ae_box",
-           array ("content" => $new_content),
-           array("name" => $nom_boite));
-    if ((!$req) || ($req->lines < 0)) {
-      $this->errmsg = $req->errmsg;
-      return -1;
-    }
-
-    else return 0;
   }
   
   /**

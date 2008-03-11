@@ -167,24 +167,6 @@ class interfaceweb
     $this->compact = $compact;
   }
 
-  /** Obtient un contenu paramétré
-   * @param $nom_boite Nom du contenu
-   * @param $form Forme à renvoyer (0 pour du wiki, 1 pour la version brute)
-   * @return Le texte correpondant (à placer dans un stdcontents pour être utilisable)
-   */
-  function get_textbox ($nom_boite,$form = 1)
-  {
-    $req = "SELECT `contenu_boite` FROM `site_boites` WHERE `nom_boite`='".$nom_boite."'";
-    $rs = new requete ($this->db, $req);
-    $ret = $rs->get_row();
-    if ( $form == 0 )
-    {
-      $text = doku2xhtml($ret[0]);
-      return $text;
-    }
-    return $ret[0];
-  }
-
   function add_css ( $url )
   {
     $this->extracss[] = $url;  
@@ -255,7 +237,7 @@ class interfaceweb
     {
       echo "<div class=\"box\" id=\"important\">\n";
       echo "<div class=\"body\">\n";
-      echo $this->get_textbox('Important',0). "\n";
+      echo $this->get_param('box.Important'). "\n";
       echo "</div>\n";
       
       echo "</div>\n";
