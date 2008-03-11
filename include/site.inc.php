@@ -129,7 +129,7 @@ class site extends interfaceweb
     
     $expire = $row['expire_sess'];
 
-    // On n'est pas à une minuet près
+    // On n'est pas à une minute près
     $d = date("Y-m-d H:i:")."00";
 
     if ( !is_null($expire) )
