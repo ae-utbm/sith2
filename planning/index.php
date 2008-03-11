@@ -42,6 +42,8 @@ if ( $_REQUEST["action"] == "searchpl" )
   $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
   
   //planning
+  $pl = new planning ( $site->db);
+  $cts->add($pl,true); 
   
   if( $_REQUEST["id_salle"]==BUREAU_BELFORT)
   {
