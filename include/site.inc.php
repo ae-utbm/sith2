@@ -82,110 +82,91 @@ class site extends interfaceweb
     
   }  
 
+  private function unset_session (  )
+  {
+    if ( isset($_COOKIE['AE2_SESS_ID']) )
+    {
+      $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
+      setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain, 0);
+      unset($_COOKIE['AE2_SESS_ID']);
+    }
+    
+    if ( !isset($_SESSION["visite"]) )
+      unset($_SESSION['visite']); 
+        
+    if ( isset($_SESSION['session_redirect']) )
+      unset($_SESSION['session_redirect']);
+  }
+
+
   /**
    * Charge une session en fonction de son identidiant.
    * @param $sid Identifiant de la session
    */
-  function load_session ( $sid, $method=0 )
+  function load_session ( $sid )
   {
-    if ( $method == 2 && isset($_SESSION["preempt"][$sid]) )
-      $row = $_SESSION["preempt"][$sid];
-    else
+
+    $req = new requete($this->db, 
+      "SELECT `utilisateurs`.*, `expire_sess`, `derniere_visite`  ".
+      "FROM `site_sessions` ".
+      "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
+      "WHERE `id_session` = '".mysql_escape_string($sid)."'");
+
+    if ($req->lines < 1 )
     {
-      if ( $method == 0 )
-        $req = new requete($this->db, 
-        "SELECT `utilisateurs`.*, `id_session`, `connecte_sess`, `expire_sess` ".
-        "FROM `site_sessions` ".
-        "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
-        "WHERE `id_session` = '".mysql_escape_string($sid)."'");
-      else 
-        $req = new requete($this->db, 
-        "SELECT `id_utilisateur`,`id_session`, `connecte_sess`, `expire_sess` ".
-        "FROM `site_sessions` ".
-        "WHERE `id_session` = '".mysql_escape_string($sid)."'");
-      
-      if ($req->lines < 1 )
-      {
-        if ( isset($_COOKIE['AE2_SESS_ID']) )
-        {
-          $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
-          setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain, 0);
-          unset($_COOKIE['AE2_SESS_ID']);
-        }
-        
-        if ( isset($_SESSION['session_redirect']) )
-          unset($_SESSION['session_redirect']);
-          
-        if ( $method == 2 && isset($_SESSION["preempt"][$sid]) )
-          unset($_SESSION["preempt"][$sid]);  
-                  
-        return;
-      }
-      
-      $row = $req->get_row();
+      $this->unset_session();
+      return;
     }
-    $sid = $row['id_session'];
-    $connecte = $row['connecte_sess'];
+    
+    $row = $req->get_row();
+    
+    if ( $row["hash_utl"] != "valid")
+    {
+      new delete($this->dbrw,"site_sessions",array("id_session" => $sid));
+      $this->unset_session();
+      return;
+    }
+    
     $expire = $row['expire_sess'];
 
-    
+    // On n'est pas à une minuet près
+    $d = date("Y-m-d H:i:")."00";
+
     if ( !is_null($expire) )
     {
-      if ( strtotime($expire) < time() ) // Session expirée, fait le ménage
+      $expire = strtotime($expire)-time();
+      
+      if ( $expire < 0 ) // Session expirée, fait le ménage
       {
-        $req = new delete($this->dbrw, "site_sessions", array("id_session"=>$sid) );
-        
-        if ( isset($_COOKIE['AE2_SESS_ID']) )
-        {
-      $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
-          setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain, 0);
-          unset($_COOKIE['AE2_SESS_ID']);
-
-        }
-        
-        if ( $method == 2 && isset($_SESSION["preempt"][$sid]) )
-          unset($_SESSION["preempt"][$sid]);
-          
-        if ( isset($_SESSION['session_redirect']) )
-          unset($_SESSION['session_redirect']);        
-          
+        new delete($this->dbrw,"site_sessions",array("id_session" => $sid));
+        $this->unset_session();
         return;
       }
-      $expire = date("Y-m-d H:i:s",time()+(15*60)); // Session expire dans 15 minutes
+      
+      if ( $d != $row['derniere_visite'] )
+        new update($this->dbrw, "site_sessions",
+            array(
+              "derniere_visite" => $d,
+              "expire_sess" => date("Y-m-d H:i:s",time()+(16*60))),
+              array("id_session" => $sid));       
     }
-    
-    new update($this->dbrw, "site_sessions",
-          array(
-            "derniere_visite"  => date("Y-m-d H:i:s"),
-            "expire_sess"=>$expire
-            ),array("id_session" => $sid)); 
+    else if ( $d != $row['derniere_visite'] )
+    {
+      new update($this->dbrw, "site_sessions",
+          array("derniere_visite" => $d),
+          array("id_session" => $sid)); 
+    }
             
-    if ( $method == 0 )    
-      $this->user->_load($row);
-    else
-      $this->user->load_by_id($row["id_utilisateur"]);
+    $this->user->_load($row);
       
-    if ( $method == 2 )
-      $_SESSION["preempt"][$sid] = $row;
-        
-    if ($this->user->hash != "valid")
+    if ( !isset($_SESSION["visite"]) )
     {
-      $this->user->id = null;
-      new delete($this->dbrw,"site_sessions",array("id_session" => $sid));
+      $this->user->visite();
+      $_SESSION["visite"]=time();
     }
-    else
-    {
-      if ( !isset($_SESSION["visite"]) )
-      {
-        $this->user->visite();
-        $_SESSION["visite"]=1;
-      }
-      
-      if ( !isset($_SESSION["usersession"]) ) // restore le usersession
-        $_SESSION["usersession"] = $this->user->get_param("usersession",null);
-    }   
     
-
+    if ( !isset($_SESSION["usersession"]) ) // restore le usersession
+      $_SESSION["usersession"] = $this->user->get_param("usersession",null);
     
   }
 
