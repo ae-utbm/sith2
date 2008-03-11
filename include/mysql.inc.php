@@ -115,7 +115,7 @@ class requete {
   function requete ($base, $req_sql, $debug = 0) {
     global $timing;
     $timing["mysql"] -= microtime(true);
-    $st = microtime(true);
+    //$st = microtime(true);
     $this->base = $base;
     $this->sql = $req_sql;
     $esql = explode(" ", $req_sql);
@@ -129,9 +129,9 @@ class requete {
     $res = mysql_query($req_sql, $base->dbh);
     $timing["mysql"] += microtime(true);
     $timing["mysql.counter"]++;
-    $fn = microtime(true);
+    //$fn = microtime(true);
     //if ( $fn-$st > 0.001 )
-    $timing["req"][] = array($fn-$st,$req_sql);
+    //$timing["req"][] = array($fn-$st,$req_sql);
     
     $this->errno = mysql_errno($base->dbh);
     if ($this->errno != 0) {
