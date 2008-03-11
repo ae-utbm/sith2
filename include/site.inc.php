@@ -88,13 +88,7 @@ class site extends interfaceweb
    */
   function load_session ( $sid, $method=0 )
   {
-    if ( $method == 0 )
-      $req = new requete($this->db, 
-      "SELECT `utilisateurs`.*, `id_session`, `connecte_sess`, `expire_sess` ".
-      "FROM `site_sessions` ".
-      "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
-      "WHERE `id_session` = '".mysql_escape_string($sid)."'");
-    else if ( $method == 3 && isset($_SESSION["preempt"][$sid]) )
+    if ( $method == 3 && isset($_SESSION["preempt"][$sid]) )
       $req = new requete($this->db, 
       "SELECT `id_session`, `connecte_sess`, `expire_sess` ".
       "FROM `site_sessions` ".
@@ -107,6 +101,12 @@ class site extends interfaceweb
       "INNER JOIN `utilisateurs` ON(site_sessions.`id_utilisateur`=utilisateurs.id_utilisateur) ".
       "WHERE id_utilisateur = '".mysql_escape_string($_SESSION["preempt"][$sid])."' ".
       "AND `id_session` = '".mysql_escape_string($sid)."'");      
+    else if ( $method%2 == 0 )
+      $req = new requete($this->db, 
+      "SELECT `utilisateurs`.*, `id_session`, `connecte_sess`, `expire_sess` ".
+      "FROM `site_sessions` ".
+      "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
+      "WHERE `id_session` = '".mysql_escape_string($sid)."'");
     else
       $req = new requete($this->db, 
       "SELECT `id_session`, `connecte_sess`, `expire_sess` ".
