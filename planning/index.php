@@ -38,7 +38,11 @@ if ( $_REQUEST["action"] == "searchpl" )
 {
   $site->start_page("services","Planning");
   $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
-	
+  
+  $site->add_contents($cts);
+  $site->end_page();
+  
+  exit();
 }
 
 $site->start_page("services","Planning");
