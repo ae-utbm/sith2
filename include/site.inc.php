@@ -175,7 +175,11 @@ class site extends interfaceweb
     }
     else
     {
-      $this->user->visite();
+      if ( !isset($_SESSION["visite"]) )
+      {
+        $this->user->visite();
+        $_SESSION["visite"]=1;
+      }
       
       if ( !isset($_SESSION["usersession"]) ) // restore le usersession
         $_SESSION["usersession"] = $this->user->get_param("usersession",null);
