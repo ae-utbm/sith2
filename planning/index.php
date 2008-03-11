@@ -32,8 +32,6 @@ require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir. "include/entities/salle.inc.php");
 $site = new site ();
 
-$site->start_page("services","Planning");
-
 $lieux = array(6=>"Bureau AE Belfort", 30=>"Bureau AE Sevenans", 5=>"Foyer", 28=>"MDE");
 
 if ( $_REQUEST["action"] == "searchpl" )
@@ -42,6 +40,8 @@ if ( $_REQUEST["action"] == "searchpl" )
   $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
 	
 }
+
+$site->start_page("services","Planning");
 
 $cts = new contents("<a href=\"index.php\">Planning</a>");
 
