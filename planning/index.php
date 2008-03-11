@@ -36,6 +36,8 @@ require_once($topdir. "include/entities/planning.inc.php");
 
 $site = new site ();
 
+$site->allow_only_logged_users();
+
 $lieux = array(6=>"Bureau AE Belfort", 30=>"Bureau AE Sevenans", 5=>"Foyer", 28=>"MDE");
 
 if ( $_REQUEST["action"] == "searchpl" )
