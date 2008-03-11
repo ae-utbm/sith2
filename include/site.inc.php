@@ -154,11 +154,11 @@ class site extends interfaceweb
       $expire = date("Y-m-d H:i:s",time()+(15*60)); // Session expire dans 15 minutes
     }
     
-    $req = new update($this->dbrw, "site_sessions",
+    new update($this->dbrw, "site_sessions",
           array(
             "derniere_visite"  => date("Y-m-d H:i:s"),
             "expire_sess"=>$expire
-            ),array("id_session" => $sid)); 
+            ),array("id_session" => $sid,"id_utilisateur" => $row["id_utilisateur"])); 
             
     if ( $method % 2 == 0 )    
       $this->user->_load($row);
