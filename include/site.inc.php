@@ -160,7 +160,7 @@ class site extends interfaceweb
             "expire_sess"=>$expire
             ),array("id_session" => $sid)); 
             
-    if ( $method % 2 == 0 )    
+    if ( $method == 0 )    
       $this->user->_load($row);
     else
       $this->user->load_by_id($row["id_utilisateur"]);
