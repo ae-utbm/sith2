@@ -99,7 +99,7 @@ class site extends interfaceweb
       "SELECT `utilisateurs`.*, `id_session`, `connecte_sess`, `expire_sess` ".
       "FROM `site_sessions` ".
       "INNER JOIN `utilisateurs` ON(site_sessions.`id_utilisateur`=utilisateurs.id_utilisateur) ".
-      "WHERE id_utilisateur = '".mysql_escape_string($_SESSION["preempt"][$sid])."' ".
+      "WHERE site_sessions.id_utilisateur = '".mysql_escape_string($_SESSION["preempt"][$sid])."' ".
       "AND `id_session` = '".mysql_escape_string($sid)."'");      
     else if ( $method%2 == 0 )
       $req = new requete($this->db, 
