@@ -88,46 +88,42 @@ class site extends interfaceweb
    */
   function load_session ( $sid, $method=0 )
   {
-    if ( $method == 3 && isset($_SESSION["preempt"][$sid]) )
-      $req = new requete($this->db, 
-      "SELECT `id_utilisateur`,`id_session`, `connecte_sess`, `expire_sess` ".
-      "FROM `site_sessions` ".
-      "WHERE id_utilisateur = '".mysql_escape_string($_SESSION["preempt"][$sid])."' ".
-      "AND `id_session` = '".mysql_escape_string($sid)."'");      
-    else if ( $method == 2 && isset($_SESSION["preempt"][$sid]) )
-      $req = new requete($this->db, 
-      "SELECT `utilisateurs`.*, `id_session`, `connecte_sess`, `expire_sess` ".
-      "FROM `site_sessions` ".
-      "INNER JOIN `utilisateurs` ON(site_sessions.`id_utilisateur`=utilisateurs.id_utilisateur) ".
-      "WHERE site_sessions.id_utilisateur = '".mysql_escape_string($_SESSION["preempt"][$sid])."' ".
-      "AND `id_session` = '".mysql_escape_string($sid)."'");      
-    else if ( $method%2 == 0 )
-      $req = new requete($this->db, 
-      "SELECT `utilisateurs`.*, `id_session`, `connecte_sess`, `expire_sess` ".
-      "FROM `site_sessions` ".
-      "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
-      "WHERE `id_session` = '".mysql_escape_string($sid)."'");
+    if ( $method == 2 && isset($_SESSION["preempt"][$sid]) )
+      $row = $_SESSION["preempt"][$sid];
     else
-      $req = new requete($this->db, 
-      "SELECT `id_utilisateur`,`id_session`, `connecte_sess`, `expire_sess` ".
-      "FROM `site_sessions` ".
-      "WHERE `id_session` = '".mysql_escape_string($sid)."'");
-    
-    
-    if ($req->lines < 1 )
     {
-      if ( isset($_COOKIE['AE2_SESS_ID']) )
+      if ( $method == 0 )
+        $req = new requete($this->db, 
+        "SELECT `utilisateurs`.*, `id_session`, `connecte_sess`, `expire_sess` ".
+        "FROM `site_sessions` ".
+        "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
+        "WHERE `id_session` = '".mysql_escape_string($sid)."'");
+      else 
+        $req = new requete($this->db, 
+        "SELECT `id_utilisateur`,`id_session`, `connecte_sess`, `expire_sess` ".
+        "FROM `site_sessions` ".
+        "WHERE `id_session` = '".mysql_escape_string($sid)."'");
+      
+      if ($req->lines < 1 )
       {
-        $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
-        setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain, 0);
-        unset($_COOKIE['AE2_SESS_ID']);
+        if ( isset($_COOKIE['AE2_SESS_ID']) )
+        {
+          $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
+          setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain, 0);
+          unset($_COOKIE['AE2_SESS_ID']);
+        }
+        
+        if ( isset($_SESSION['session_redirect']) )
+          unset($_SESSION['session_redirect']);
+          
+        if ( $method == 2 && isset($_SESSION["preempt"][$sid]) )
+          unset($_SESSION["preempt"][$sid]);  
+                  
+        return;
       }
-      if ( isset($_SESSION['session_redirect']) )
-        unset($_SESSION['session_redirect']);
-      return;
+      
+      $row = $req->get_row();
     }
-    
-    $row = $req->get_row();
     $sid = $row['id_session'];
     $connecte = $row['connecte_sess'];
     $expire = $row['expire_sess'];
@@ -144,8 +140,12 @@ class site extends interfaceweb
       $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
           setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain, 0);
           unset($_COOKIE['AE2_SESS_ID']);
+
         }
         
+        if ( $method == 2 && isset($_SESSION["preempt"][$sid]) )
+          unset($_SESSION["preempt"][$sid]);
+          
         if ( isset($_SESSION['session_redirect']) )
           unset($_SESSION['session_redirect']);        
           
@@ -165,8 +165,8 @@ class site extends interfaceweb
     else
       $this->user->load_by_id($row["id_utilisateur"]);
       
-    if ( $method > 1 )
-      $_SESSION["preempt"][$sid] = $this->user->id;
+    if ( $method == 2 )
+      $_SESSION["preempt"][$sid] = $row;
         
     if ($this->user->hash != "valid")
     {
