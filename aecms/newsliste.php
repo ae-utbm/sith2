@@ -88,14 +88,6 @@ if ((isset($_REQUEST['id_nouvelle']))
 /* affichage de la liste des nouvelles */
 else{
 
-  $req = new requete($site->db,
-		     "SELECT `nvl_nouvelles`.*
-                      FROM `nvl_nouvelles`
-                      WHERE `nvl_nouvelles`.`modere_nvl`='1' 
-                      AND `nvl_nouvelles`.`id_canal`='".NEWS_CANAL_AECMS."' 
-                      ORDER BY `nvl_nouvelles`.`date_nvl` 
-                      DESC");
-  /*
  $req = new requete($site->db,
 		     "SELECT `nvl_nouvelles`.*,
                              CONCAT(`utilisateurs`.`prenom_utl`,
@@ -107,7 +99,7 @@ else{
                       AND `nvl_nouvelles`.`id_canal`='".NEWS_CANAL_AECMS."' 
                       ORDER BY `nvl_nouvelles`.`date_nvl` 
                       DESC");
- */
+
 
   $texte = new contents("Liste des nouvelles",
 			  "<p>Sur cette page, vous pouvez mod&eacute;rer ".
@@ -120,7 +112,7 @@ else{
 			"newsliste.php",
 			"id_nouvelle",
 			array ("titre_nvl" => "Titre",
-			       "id_utilisateur" => "auteur",
+			       "nom_prenom" => "auteur",
 			       "date_nvl" => "Date"),
 			array ("edit" => "modifier",
 			       "delete" => "supprimer"),
