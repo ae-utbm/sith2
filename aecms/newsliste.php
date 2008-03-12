@@ -89,7 +89,7 @@ if ((isset($_REQUEST['id_nouvelle']))
 else{
 
   $req = new requete($site->db,
-		     "SELECT `nvl_nouvelles`.*,
+		     "SELECT `nvl_nouvelles`.*
                       FROM `nvl_nouvelles`
                       WHERE `nvl_nouvelles`.`modere_nvl`='1' 
                       AND `nvl_nouvelles`.`id_canal`='".NEWS_CANAL_AECMS."' 
