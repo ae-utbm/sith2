@@ -24,6 +24,7 @@
 
 $topdir = "../"; 
 require_once("include/site.inc.php");
+require_once($topdir . "include/entities/page.inc.php");
 require_once($topdir."include/entities/news.inc.php");
 require_once($topdir."include/entities/lieu.inc.php");
 require_once($topdir . "include/entities/asso.inc.php");
@@ -95,10 +96,9 @@ else{
                       FROM `nvl_nouvelles`, `utilisateurs` 
                       WHERE `nvl_nouvelles`.`modere_nvl`='1' 
                       AND `nvl_nouvelles`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
-                      AND `nvl_nouvelles`.`id_canal`='".NEWS_CANAL_AECMS."' 
                       ORDER BY `nvl_nouvelles`.`date_nvl` 
                       DESC");
-  
+
   $texte = new contents("Liste des nouvelles",
 			  "<p>Sur cette page, vous pouvez mod&eacute;rer ".
 			  "les nouvelles</p>");
@@ -116,13 +116,20 @@ else{
 			       "delete" => "supprimer"),
 			array (),
 			array ());
-  
+
+
+
   $texte->add ($tabl);
+  $texte->add_title(2,"Outils");
+  $texte->add(new itemlist("Outils",false,array(
+    "<a href=\"newsliste.php\">Lister les nouvelles</a>",
+    "<a href=\"news.php\">Ajouter une nouvelle</a>"
+
+)));
+
   $site->add_contents ($texte);
   
  }
-
-
 
 $site->end_page ();
 
