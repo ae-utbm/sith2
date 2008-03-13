@@ -81,6 +81,7 @@ if ( !$site->user->is_in_group("root") )
  * stdentity.
  */
 
+
 /*
  * Pour commencer on créer une instance de la stdentity en lecture et écriture :
  * on passe donc au constructeur les deux liens à la base de donnée.
@@ -182,6 +183,12 @@ if ( !$planning->is_valid() )
 /*
  ************** Partie C : afficher des données avec un stdcontents *************
  */
+
+/*
+ * On a besoin d'un CSS supplémentaire pour afficher notre planning correctement
+ */
+$site->add_css("css/weekplanning.css");
+
 
 /*
  * Commence les choses sérieuses : on définit la section de la page et son titre
