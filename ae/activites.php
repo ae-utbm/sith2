@@ -40,9 +40,9 @@ $req_poles = new requete($site->db, "SELECT * ".
 
 while($pole = $req_poles->get_row())
 {
-  $req_assos = new requete($site->db, "SELECT asso.id_asso, asso.nom_asso,
+  $req_assos = new requete($site->db, "SELECT asso.id_asso, asso.nom_asso AS nom_asso,
       utilisateurs_resp.id_utilisateur as id_utilisateur_resp,
-      CONCAT(utilisateurs_resp.nom_utl,' ',utilisateurs_resp.prenom_utl) as nom_utilistateur_resp,
+      CONCAT(utilisateurs_resp.nom_utl,' ',utilisateurs_resp.prenom_utl) AS nom_utilisateur_resp,
       utilisateurs_tres.id_utilisateur AS id_utilisateur_tres,
       CONCAT(utilisateurs_tres.nom_utl,' ',utilisateurs_tres.prenom_utl) AS nom_utilisateur_tres
     FROM asso
@@ -53,7 +53,7 @@ while($pole = $req_poles->get_row())
     WHERE asso.id_asso_parent='".$pole['id_asso']."' GROUP BY asso.id_asso");
 
   $table = new sqltable("", $pole['nom_asso'], $req_assos, "", "",
-                        array("asso.nom_asso" => "Activité",
+                        array("nom_asso" => "Activité",
                               "nom_utilisateur_resp" => "Responsable",
                               "nom_utilisateur_tres" => "Trésorier"
                               ),
