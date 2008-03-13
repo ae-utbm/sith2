@@ -57,6 +57,31 @@ $salles = array(6=>"Laverie belfort",8=>"Laverie Sevenans");
 
 $is_admin = $site->user->is_in_group("gestion_machines");
 
+if ( $_REQUEST["contrat"] == "accept" )
+{
+  new insert($site->dbrw, "mc_contrat", array('id_utilisateur' => $site->user->id));
+}
+
+$req = new requete($site->db, "SELECT * FROM mc_contrat WHERE id_utilisateur='".$site->user->id."'");
+
+if($req->lines == 0)
+{
+  $site->start_page("services","Laverie");
+  $cts = new contents("Laverie");
+
+  $cts->add_title("Contrat d'utilisation");
+  $cts->add_paragraph("Mettre tout le règlement ici");
+
+  $frm = new form("accepter_contrat","index.php",false);
+  $frm->add_hidden("contrat", "accept");
+  $frm->add_submit("submit","J'ai le et j'accepte le contrat d'utilisation de la laverie");
+
+  $cts->add($frm);
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
+}
+
 if ( $_REQUEST["action"] == "delete" )
 {
   $machine = new machine($site->db,$site->dbrw);
