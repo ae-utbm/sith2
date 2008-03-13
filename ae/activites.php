@@ -39,7 +39,7 @@ $req_assos = new requete($site->db, "SELECT asso_parent.id_asso AS id_asso_paren
       asso.id_asso AS id_asso,
       asso.nom_asso AS nom_asso,
       utilisateurs_resp.id_utilisateur as id_utilisateur_resp,
-      CONCAT(utilisateurs_resp.nom_utl,' ',utilisateurs_resp.prenom_utl) AS nom_utilistateur_resp,
+      CONCAT(utilisateurs_resp.nom_utl,' ',utilisateurs_resp.prenom_utl) AS nom_utilisateur_resp,
       utilisateurs_tres.id_utilisateur AS id_utilisateur_tres,
       CONCAT(utilisateurs_tres.nom_utl,' ',utilisateurs_tres.prenom_utl) AS nom_utilisateur_tres
     FROM asso
