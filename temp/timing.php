@@ -44,6 +44,11 @@ class requete2 {
     }
 
     $this->result = $res;
+    
+    echo $this->result;
+    
+    print_r($this);
+    
     if(strncasecmp($req_sql, "SELECT",6) == 0)
       $this->lines =  mysql_num_rows ($this->result);
     else
@@ -86,13 +91,13 @@ class requete2 {
 $site = new site ();
 
 $timing["method0"] -= microtime(true);
-for($i=0;$i<10000;$i++)
+for($i=0;$i<4;$i++)
 {
   new requete($site->db,"SELECT 1");
 }
 $timing["method0"] += microtime(true);
 $timing["method1"] -= microtime(true);
-for($i=0;$i<10000;$i++)
+for($i=0;$i<4;$i++)
 {
   new requete2($site->db,"SELECT 1");
 }
