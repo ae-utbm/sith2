@@ -230,7 +230,7 @@ $sql,  /* La requête SQL */
 "fin", /* Champ SQL de la date de fin */
 "texte", /* Champ sql contentenant le texte à afficher */
 "demoplanning.php", /* URL de cette page (ou naviguer entre les dates) */
-"demoplanning.php?action=details", /*
+"demoplanning.php?action=details", /* page d'information sur un élément (non implementé dans cette démo) */
 "", /* Fin de la requête SQL (ici vide) (ce qui vient après les conditions) */
 $unlundi /* Notre date de référence pour basculer en mode hebdomadaire */
  );
