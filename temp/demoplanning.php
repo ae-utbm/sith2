@@ -122,21 +122,21 @@ $planning->add (
 $lundi = 0;
 $mardi = 3600*24;
 $jeudi = 3600*24*3;
-$8h = 8*3600;
-$12h = 12*3600;
-$14h = 14*3600;
-$18h = 18*3600; 
+$h8 = 8*3600;
+$h12 = 12*3600;
+$h14 = 14*3600;
+$h18 = 18*3600; 
 
 /*
  * Crée des créneaux et récupère leur identifiant
  */
-$id_creneau_1 = $planning->add_gap( $lundi+$8, $lundi+$12h );
-$id_creneau_2 = $planning->add_gap( $lundi+$14, $lundi+$18h );
-$id_creneau_3 = $planning->add_gap( $mardi+$8, $mardi+$12h );
-$id_creneau_4 = $planning->add_gap( $mardi+$14, $mardi+$18h );
-$id_creneau_5 = $planning->add_gap( $jeudi+$8, $jeudi+$12h );
-$id_creneau_6 = $planning->add_gap( $jeudi+$14, $jeudi+$18h );
-$id_creneau_7 = $planning->add_gap( $jeudi+$12, $jeudi+$14h );
+$id_creneau_1 = $planning->add_gap( $lundi+$h8, $lundi+$h12h );
+$id_creneau_2 = $planning->add_gap( $lundi+$h14, $lundi+$h18h );
+$id_creneau_3 = $planning->add_gap( $mardi+$h8, $mardi+$h12h );
+$id_creneau_4 = $planning->add_gap( $mardi+$h14, $mardi+$h18h );
+$id_creneau_5 = $planning->add_gap( $jeudi+$h8, $jeudi+$h12h );
+$id_creneau_6 = $planning->add_gap( $jeudi+$h14, $jeudi+$h18h );
+$id_creneau_7 = $planning->add_gap( $jeudi+$h12, $jeudi+$h14h );
 
 /*
  * Affecte des utilisateurs aux creneaux
