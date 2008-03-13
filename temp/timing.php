@@ -42,12 +42,6 @@ class requete2 {
       $this->lines = -1;
       return;
     }
-
-    $this->result = $res;
-    
-    echo $this->result;
-    
-    print_r($this);
     
     if(strncasecmp($req_sql, "SELECT",6) == 0)
       $this->lines =  mysql_num_rows ($this->result);
