@@ -146,10 +146,10 @@ class requete {
     $this->result = $res;
     if(strcasecmp($esql[0], "SELECT") == 0) {
       $this->lines =  mysql_num_rows ($res);
-      echo "mysql_num_rows";
+      $this->modal= "mysql_num_rows : ".$esql[0];
     } else {
       $this->lines =  mysql_affected_rows ();
-      echo "mysql_affected_rows";
+      $this->modal= "mysql_affected_rows : ".$esql[0];
     }
     if($debug == 1)
 	{
