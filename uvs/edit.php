@@ -323,7 +323,7 @@ else if ($_REQUEST['action'] == 'modify')
 }
 
 
-$edt->load($site->user->id, $semestre);
+$edt->load_by_etu_semestre($site->user->id, $semestre);
 
 
 

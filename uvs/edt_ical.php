@@ -40,7 +40,7 @@ $id_user = intval($_REQUEST['id']);
 isset($_REQUEST['semestre']) ? $semestre = $_REQUEST['semestre'] : $semestre = (date("m") > 6 ? "A" : "P") . date("y");
 
 
-$edt->load($id_user, $semestre);
+$edt->load_by_etu_semestre($id_user, $semestre);
 
 header("Content-Type: text/calendar; charset=utf-8");
 header("Content-Disposition: filename=edt.ics");

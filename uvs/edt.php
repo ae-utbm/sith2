@@ -78,7 +78,7 @@ if ($_REQUEST['render'] == 1)
   $user->load_by_id($id);
 
 
-  $edt->load($id, $semestre);
+  $edt->load_by_etu_semestre($id, $semestre);
 
   $edtimg = new edt_img($user->prenom . " ". $user->nom . " (".$user->alias.") ",  $edt->edt_arr);
   $edtimg->generate (false);

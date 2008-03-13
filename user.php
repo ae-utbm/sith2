@@ -837,7 +837,7 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
                                         `id_utilisateur` = ".
          $user->id." 
                                GROUP BY 
-                                        `semestre_grp`");
+                                        `semestre_grp` ORDER BY `semestre_grp` DESC");
   if ($req->lines <= 0)
   {
     $cts->add_paragraph("<b>Cet utilisateur n'a pas renseigné d'emploi du temps.</b>");
@@ -847,12 +847,21 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
       $tab = array();
 
       while ($rs = $req->get_row())
-  $tab[] = "<a href=\"javascript:edtopen('".
-    $rs['semestre_grp']."', '".
-    $rs['id_utilisateur']."')\">".
-    "Semestre ".$rs['semestre_grp']."</a>" . " | " .
-    "<a href=\"".$topdir."uvs/edt_ical.php?id=".$rs['id_utilisateur'] . 
-    "&semestre=" . $rs['semestre_grp']."\">Format iCal</a>";
+        {
+          
+          $tab[$rs['semestre_grp']] = "<a href=\"javascript:edtopen('".
+            $rs['semestre_grp']."', '".
+            $rs['id_utilisateur']."')\">".
+            "Semestre ".$rs['semestre_grp']."</a>" . " | " .
+            "<a href=\"".$topdir."uvs/edt_ical.php?id=".$rs['id_utilisateur'] . 
+            "&semestre=" . $rs['semestre_grp']."\">Format iCal</a>";
+        }
+      // tri par semestres
+      foreach ($i = 0; $i < count($tab) - 1; $i++)
+        {
+
+        }
+      
 
       $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
       $cts->add($itemlst);

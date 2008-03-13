@@ -66,7 +66,7 @@ class edt extends stdentity
    * @param $semestre le semestre (si non renseigné, on en déduit le
    * semestre courant.
    */
-  function load ($id, $semestre = null)
+  function load_by_etu_semestre ($id, $semestre = null)
   {
 
     $this->id_utilisateur = intval($id);

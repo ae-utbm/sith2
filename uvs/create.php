@@ -605,7 +605,7 @@ $_SESSION['edu_uv_subscr'] = array();
  */
 $semestre = (date("m") > 6 ? "A" : "P") . date("y");
 
-$edt->load($site->user->id, $semestre);
+$edt->load_by_etu_semestre($site->user->id, $semestre);
 
 $cts = new contents("Emploi du temps",
 		    "Sur cette page, vous allez pouvoir ".

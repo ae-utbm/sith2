@@ -1,5 +1,5 @@
 <?php
-
+ 
 /** @file
  *
  * @brief La page principale avec l'affichage des 10 dernières news
