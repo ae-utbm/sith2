@@ -60,7 +60,7 @@ $table = new sqltable("", "Liste des responsables et des trésoriers des activit
                             ),
                       array(), array(), array() );
 
-$site->add($table,true);
+$site->add_contents($table);
 
 $site->end_page();
 
