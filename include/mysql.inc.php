@@ -36,7 +36,12 @@
 /**
  * @defgroup mysql Accès à la base de données 
  */ 
-
+ 
+if( !preg_match('/^\/var\/www\/ae\/www\//', $_SERVER['SCRIPT_FILENAME']))
+  $GLOBALS["taiste"] = true;
+else
+  $GLOBALS["taiste"] = false;
+  
 /**
  * Prépare une chaine de caractère pour injection dans une requête SQL pour être
  * utilisée avec l'opérateur 'LIKE'
@@ -97,14 +102,11 @@ class mysql {
  * @ingroup mysql
  */
 class requete {
-  var $base;
-  var $sql;
-  var $result;
-
-  var $errno;
-  var $errmsg;
-
-  var $lines;
+  
+  var $result=null;
+  var $errno=0;
+  var $errmsg=null;
+  var $lines=-1;
 
   /**
    * Execute une requête sur la base de données
@@ -112,50 +114,39 @@ class requete {
    * @param $req_sql Requête SQL à executer
    * @param $debug Mode debuggage (si 1) (non utilisé)
    */
-  function requete ($base, $req_sql, $debug = 0) {
+  function requete (&$base, $req_sql, $debug = 0) {
     global $timing;
+    
     $timing["mysql"] -= $st = microtime(true);
-    $this->base = $base;
-    $this->sql = $req_sql;
-    $esql = explode(" ", $req_sql);
-    if(!$base->dbh) {
+    
+    if(!$base->dbh) 
+    {
       $this->errmsg = "Non connecté";
-      $this->lines = -1;
-      //if( !preg_match('/^\/var\/www\/ae\/www\//', $_SERVER['SCRIPT_FILENAME']))
+      if( $GLOBALS["taiste"] )
         echo "<p>NON MAIS CA VA PAS ! c'est un \$site->db et pas un \$this->db (ou inversement)</p>\n";
-      return FALSE;
+      return;
     }
-    $res = mysql_query($req_sql, $base->dbh);
+    
+    $this->result = mysql_query($req_sql, $base->dbh);
+    
     $timing["mysql"] += $fn = microtime(true);
     $timing["mysql.counter"]++;
     if ( $fn-$st > 0.001 )
     $timing["req"][] = array($fn-$st,$req_sql);
     
-    $this->errno = mysql_errno($base->dbh);
-    if ($this->errno != 0) {
+    if ( ($this->errno = mysql_errno($base->dbh)) != 0)
+    {
       $this->errmsg = mysql_error($base->dbh);
-      //if( !preg_match('/^\/var\/www\/ae\/www\/ae2\//', $_SERVER['SCRIPT_FILENAME']))
+      if( $GLOBALS["taiste"] )
         echo "<p>Erreur lors du traitement de votre demande : ".$this->errmsg."</p>\n";
       $this->lines = -1;
-      return FALSE;
+      return;
     }
-    $this->errmsg = "";
-    if($this->result) {
-      mysql_free_result($this->result);
-    }
-    $this->result = $res;
-    if(strcasecmp($esql[0], "SELECT") == 0) {
-      $this->lines =  mysql_num_rows ($res);
-      $this->modal= "mysql_num_rows : ".$esql[0];
-    } else {
+    
+    if(strncasecmp($req_sql, "SELECT",6) == 0)
+      $this->lines =  mysql_num_rows ($this->result);
+    else
       $this->lines =  mysql_affected_rows ();
-      $this->modal= "mysql_affected_rows : ".$esql[0];
-    }
-    if($debug == 1)
-	{
-	  echo "Votre requete SQL est <b> " . $this->sql . "</b><br/>";
-	}
-
   }
 
   /**
