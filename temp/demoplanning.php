@@ -232,9 +232,11 @@ $sql,  /* La requête SQL */
 "end_gap", /* Champ SQL de la date de fin */
 "texte", /* Champ sql contentenant le texte à afficher */
 "demoplanning.php", /* URL de cette page (ou naviguer entre les dates) */
-"demoplanning.php?action=details", /* page d'information sur un élément (non implementé dans cette démo) */
-"", /* Fin de la requête SQL (ici vide) (ce qui vient après les conditions) */
-PL_LUNDI /* Notre date de référence pour basculer en mode hebdomadaire */
+"demoplanning.php?action=details", /* page d'information sur un élément 
+(non implementé dans cette démo) */
+"", /* Fin de la requête SQL (ce qui vient après les conditions WHERE ) */
+PL_LUNDI /* Date de référence correspondant à Lundi pour basculer en mode 
+            hebdomadaire, c'est une constante définit avec le stdentity */
  );
 
 /*
