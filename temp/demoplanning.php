@@ -234,8 +234,6 @@ $sql,  /* La requête SQL */
 "", /* Fin de la requête SQL (ici vide) (ce qui vient après les conditions) */
 $unlundi /* Notre date de référence pour basculer en mode hebdomadaire */
  );
- 
-echo "#".$sql."#";
 
 /*
  * Ajoute le weekplanning dans le contents en activant l'affichage du titre (en H2).

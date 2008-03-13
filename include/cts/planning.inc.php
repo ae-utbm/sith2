@@ -52,7 +52,11 @@ class weekplanning extends stdcontents
 		$this->title=false;
 		
     echo "#".$unlundi."#";
-		
+echo "#".$extra."#";
+echo "#".$infopage."#";
+
+
+
 		if ( !is_null($unlundi) )
 		{
 		  $start = $unlundi;
