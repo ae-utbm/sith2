@@ -209,10 +209,13 @@ else if ($_REQUEST['sub'] == 'modcomments')
 
     $comms = array();
 
-    // HACK : j'ai cherché, et je n'ai pas trouvé le bug suivant : la
-    // classe requete m'envoie une ligne de résultat, la fonction
-    // mysql_num_rows me renvoie bien 0 quand il n'y a aucune ligne
-    // sélectionnée.
+    // HACK : la classe requete (voir include/mysql.inc.php) renvoie
+    // de la merde dans la variable membre 'lines' (0 même si des
+    // lignes sont sélectionnées. Du coup, je ne sais pas trop
+    // pourquoi, mais je suis obligé de ne pas en tenir compte et de
+    // me baser plutot sur un autre appel à mysql_num_rows().  Bug
+    // dans la classe requete ?
+
     $req->lines = mysql_num_rows($req->result);
     
     if ($req->lines > 0)
