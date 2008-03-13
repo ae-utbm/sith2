@@ -29,7 +29,11 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 
 $site = new site ();
 
-$site->start_page("home","Activités");
+if (!$site->user->is_in_group ("gestion_ae"))
+  error_403();
+
+$site->start_page("none","Activités");
+$cts = new contents("Liste des responsables et des trésoriers des activités");
 
 $req_poles = new requete($site->db, "SELECT * ".
   "FROM asso ".                                                                                                                    
