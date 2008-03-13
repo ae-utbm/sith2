@@ -57,7 +57,7 @@ $salles = array(6=>"Laverie belfort",8=>"Laverie Sevenans");
 
 $is_admin = $site->user->is_in_group("gestion_machines");
 
-if ( $_REQUEST["contrat"] == "accept" )
+/*if ( $_REQUEST["contrat"] == "accept" )
 {
   new insert($site->dbrw, "mc_contrat", array('id_utilisateur' => $site->user->id));
 }
@@ -80,7 +80,7 @@ if($req->lines == 0)
   $site->add_contents($cts);
   $site->end_page();
   exit();
-}
+}*/
 
 if ( $_REQUEST["action"] == "delete" )
 {
