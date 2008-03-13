@@ -42,9 +42,9 @@ while($pole = $req_poles->get_row())
 {
   $req_assos = new requete($site->db, "SELECT asso.id_asso, asso.nom_asso,
       utilisateurs_resp.id_utilisateur as id_utilisateur_resp,
-      CONCAT(utilisateurs_resp.nom_utl," ",utilisateurs_resp.prenom_utl) as nom_utilistateur_resp,
+      CONCAT(utilisateurs_resp.nom_utl,' ',utilisateurs_resp.prenom_utl) as nom_utilistateur_resp,
       utilisateurs_tres.id_utilisateur AS id_utilisateur_tres,
-      CONCAT(utilisateurs_tres.nom_utl," ",utilisateurs_tres.prenom_utl) AS nom_utilisateur_tres
+      CONCAT(utilisateurs_tres.nom_utl,' ',utilisateurs_tres.prenom_utl) AS nom_utilisateur_tres
     FROM asso
     LEFT JOIN asso_membre AS tbl_resp ON (tbl_resp.id_asso=asso.id_asso AND tbl_resp.role='10' AND tbl_resp.date_fin IS NULL)
     LEFT JOIN asso_membre AS tbl_tres ON (tbl_tres.id_asso=asso.id_asso AND tbl_tres.role='7' AND tbl_tres.date_fin IS NULL)
