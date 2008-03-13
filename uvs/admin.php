@@ -211,7 +211,7 @@ else if ($_REQUEST['sub'] == 'modcomments')
 
     // HACK : la classe requete (voir include/mysql.inc.php) renvoie
     // de la merde dans la variable membre 'lines' (0 même si des
-    // lignes sont sélectionnées. Du coup, je ne sais pas trop
+    // lignes sont sélectionnées). Du coup, je ne sais pas trop
     // pourquoi, mais je suis obligé de ne pas en tenir compte et de
     // me baser plutot sur un autre appel à mysql_num_rows().  Bug
     // dans la classe requete ?
