@@ -50,7 +50,7 @@ while($pole = $req_poles->get_row())
     LEFT JOIN asso_membre AS tbl_tres ON (tbl_tres.id_asso=asso.id_asso AND tbl_tres.role='7' AND tbl_tres.date_fin IS NULL)
     LEFT JOIN utilisateurs AS utilisateurs_resp ON tbl_resp.id_utilisateur=utilisateurs_resp.id_utilisateur
     LEFT JOIN utilisateurs AS utilisateurs_tres ON tbl_tres.id_utilisateur=utilisateurs_tres.id_utilisateur
-    WHERE asso.id_asso_parent='".$pole['id_asso']."' GROUP BY asso.id_asso")
+    WHERE asso.id_asso_parent='".$pole['id_asso']."' GROUP BY asso.id_asso");
 
   $table = new sqltable("", $pole['nom_asso'], $req_assos, "", "",
                         array("asso.nom_asso" => "Activité",
