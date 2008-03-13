@@ -127,6 +127,7 @@ class planning extends stdentity
                               "end_gap" => $end
                              )
                       );
+    print_r($sql);                  
     return $sql->get_id();             
   }
 
