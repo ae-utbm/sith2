@@ -210,8 +210,8 @@ $unlundi = strtotime("2008-03-10 00:00:00");
 $sql = 
     "SELECT 
      id_gap,
-     FROM_UNIXTIME($unlundi+start_gap), 
-     FROM_UNIXTIME($unlundi+end_gap),
+     FROM_UNIXTIME($unlundi+start_gap) AS start_gap, 
+     FROM_UNIXTIME($unlundi+end_gap) AS end_gap,
      IFNULL(utilisateurs.alias_utl,'(personne)') AS texte
      FROM pl_gap
      LEFT JOIN pl_gap_user USING(id_gap)
@@ -226,8 +226,8 @@ $pl = new weekplanning (
 $site->db, /* Lien à la base de données */
 $sql,  /* La requête SQL */
 "id_gap", /* Champ SQL de l'identifiant de chaque créneau */
-"FROM_UNIXTIME($unlundi+start_gap)",  /* Champ SQL de la date de début */
-"FROM_UNIXTIME($unlundi+end_gap)", /* Champ SQL de la date de fin */
+"start_gap",  /* Champ SQL de la date de début */
+"end_gap", /* Champ SQL de la date de fin */
 "texte", /* Champ sql contentenant le texte à afficher */
 "demoplanning.php", /* URL de cette page (ou naviguer entre les dates) */
 "demoplanning.php?action=details", /* page d'information sur un élément (non implementé dans cette démo) */
