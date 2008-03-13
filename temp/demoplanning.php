@@ -212,7 +212,7 @@ $sql =
      id_gap,
      FROM_UNIXTIME($unlundi+start_gap) AS debut, 
      FROM_UNIXTIME($unlundi+end_gap) AS fin,
-     IFNULL(utlisateurs.alias_utl,'(personne)') AS texte
+     IFNULL(utilisateurs.alias_utl,'(personne)') AS texte
      FROM pl_gap
      LEFT JOIN pl_gap_user USING(id_gap)
      LEFT JOIN utilisateurs USING(id_utilisateur)
