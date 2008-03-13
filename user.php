@@ -849,19 +849,14 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
       while ($rs = $req->get_row())
         {
           
-          $tab[$rs['semestre_grp']] = "<a href=\"javascript:edtopen('".
+          $tab[] = "<a href=\"javascript:edtopen('".
             $rs['semestre_grp']."', '".
             $rs['id_utilisateur']."')\">".
             "Semestre ".$rs['semestre_grp']."</a>" . " | " .
             "<a href=\"".$topdir."uvs/edt_ical.php?id=".$rs['id_utilisateur'] . 
             "&semestre=" . $rs['semestre_grp']."\">Format iCal</a>";
         }
-      // tri par semestres
-      foreach ($i = 0; $i < count($tab) - 1; $i++)
-        {
 
-        }
-      
 
       $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
       $cts->add($itemlst);
