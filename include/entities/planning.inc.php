@@ -1,5 +1,7 @@
 <?php
 
+define("PL_LUNDI",strtotime("2008-03-10 00:00:00"));
+
 class planning extends stdentity
 {
 
@@ -118,12 +120,18 @@ class planning extends stdentity
   
   function add_gap ( $start, $end )
   {
+    if ( $this->weekly )
+    {
+      $start += PL_LUNDI;
+      $end += PL_LUNDI;
+    }
+    
     $sql = new insert ($this->dbrw,
                        "pl_gap",
                         array(
                               "id_planning" => $this->id,
-                              "start_gap" => $start,
-                              "end_gap" => $end
+                              "start_gap" => date("Y-m-d H:i:s",$start),
+                              "end_gap" => date("Y-m-d H:i:s",$end)
                              )
                       );
     return $sql->get_id();             

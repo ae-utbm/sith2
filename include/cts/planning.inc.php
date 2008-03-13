@@ -67,24 +67,11 @@ class weekplanning extends stdcontents
 		
 		$end = $start + (6*24*60*60)+1;
 		
-		
-		
-		if ( !is_null($unlundi) )
-		  $req = new requete($db, $sql." ORDER BY $startf");
-		else
-		  $req = new requete($db, $sql." AND $startf >= '".date("Y-m-d 00:00:00",$start)."' AND $startf <= '".date("Y-m-d 23:59:59",$end)."' $extra ORDER BY $startf");
-		
-		/*     FROM_UNIXTIME($unlundi+start_gap) AS start_gap, 
-     FROM_UNIXTIME($unlundi+end_gap) AS end_gap,*/
-		
-		
+		$req = new requete($db, $sql." AND $startf >= '".date("Y-m-d 00:00:00",$start)."' AND $startf <= '".date("Y-m-d 23:59:59",$end)."' $extra ORDER BY $startf");
+
 		
 		print_r($req);
 
-		
-		
-		
-		
 		
 		if ( strstr($page,"?"))
 			$page = $page."&amp;";
