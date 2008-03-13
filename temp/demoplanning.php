@@ -170,7 +170,7 @@ $planning->add_user_to_gap($id_creneau_5,3033);
 $_REQUEST["id_planning"] = $planning->id;
 
 /*
- * charge (tente de charger) l'objet dans l'insyance
+ * charge (tente de charger) l'objet dans l'instance
  */
 $planning->load_by_id($_REQUEST["id_planning"]);
 
