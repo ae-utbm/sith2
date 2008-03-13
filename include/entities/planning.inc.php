@@ -57,11 +57,9 @@ class planning extends stdentity
                              "weekly_planning" => $this->weekly
                             )
                       );
-    print_r($sql);  
     if ( !$sql->is_success() )
     {
       $this->id = null;
-      echo " error!";
       return false;  
     }
     
@@ -128,7 +126,6 @@ class planning extends stdentity
                               "end_gap" => $end
                              )
                       );
-    print_r($sql);                  
     return $sql->get_id();             
   }
 

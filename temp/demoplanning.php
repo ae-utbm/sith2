@@ -205,6 +205,8 @@ $cts = new contents($planning->name);
 
 $unlundi = strtotime("2008-03-10 00:00:00");
 
+echo "#".$unlundi."#";
+
 $sql = 
     "SELECT 
      id_gap,
