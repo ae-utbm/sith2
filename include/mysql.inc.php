@@ -107,7 +107,8 @@ class requete {
   var $errno=0;
   var $errmsg=null;
   var $lines=-1;
-
+  var $base=null;
+  
   /**
    * Execute une requête sur la base de données
    * @param $base Connexion à la base de données 
@@ -126,6 +127,7 @@ class requete {
         echo "<p>NON MAIS CA VA PAS ! c'est un \$site->db et pas un \$this->db (ou inversement)</p>\n";
       return;
     }
+    $this->base = $base;
     
     $this->result = mysql_query($req_sql, $base->dbh);
     
