@@ -205,7 +205,6 @@ $cts = new contents($planning->name);
 $sql = 
     "SELECT 
      id_gap,
-     $unlundi+start_gap AS bleh,
      start_gap, 
      end_gap,
      IFNULL(utilisateurs.alias_utl,'(personne)') AS texte
