@@ -107,6 +107,7 @@ class weekplanning extends stdcontents
 		{
 			$st = strtotime($row[$startf]);
 			$ed = strtotime($row[$endf]);
+				print_r($row);
 			do {
 				
 				$endofday = strtotime(date("Y-m-d 23:59:59",$st));
