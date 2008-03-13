@@ -61,8 +61,10 @@ while($pole = $req_poles->get_row())
                               ),
                         array(), array(), array() );
 
-  $site->add_contents($table);
+  $cts->add($table,true);
 }
+
+$site->add_contents($cts);
 
 $site->end_page();
 
