@@ -216,8 +216,12 @@ else if ($_REQUEST['sub'] == 'modcomments')
     // me baser plutot sur un autre appel à mysql_num_rows().  Bug
     // dans la classe requete ?
 
-    $req->lines = mysql_num_rows($req->result);
-    
+    //    $req->lines = mysql_num_rows($req->result);
+    echo $req->lines . "\n";
+    echo mysql_num_rows($req->result) . "\n";
+    print_r($req);
+    die();
+
     if ($req->lines > 0)
       {
         for ($i = 0 ; $i < $req->lines; $i++)
