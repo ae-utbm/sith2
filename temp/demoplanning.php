@@ -210,6 +210,7 @@ $unlundi = strtotime("2008-03-10 00:00:00");
 $sql = 
     "SELECT 
      id_gap,
+     $unlundi+start_gap AS bleh,
      FROM_UNIXTIME($unlundi+start_gap) AS debut, 
      FROM_UNIXTIME($unlundi+end_gap) AS fin,
      IFNULL(utilisateurs.alias_utl,'(personne)') AS texte
