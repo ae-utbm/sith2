@@ -55,6 +55,7 @@ class site extends interfaceweb
   function site ($stats=true)
   {
     global $timing;
+    $timing["includes"] = microtime(true)-$timing["all"];
     $timing["site::site"] -= microtime(true);
     
     $dbro = new mysqlae ();
