@@ -104,7 +104,9 @@ class edt extends stdentity
                              `edu_uv_groupe`.`semestre_grp` = '".$semestre."'
                        AND
                              `edu_uv_groupe_etudiant`.`id_utilisateur` = $id");
-    if ($req->lines <= 0)
+    // if ($req->lines <= 0)
+    //  return;
+    if (mysql_num_rows($req->result) <= 0)
       return;
 
     global $jour;
