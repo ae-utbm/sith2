@@ -33,38 +33,34 @@ if (!$site->user->is_in_group ("gestion_ae"))
   error_403();
 
 $site->start_page("none","Activités");
-$cts = new contents("Liste des responsables et des trésoriers des activités");
 
-$req_poles = new requete($site->db, "SELECT * ".
-  "FROM asso ".                                                                                                                    
-  "WHERE asso.id_asso_parent = 1 ".
-  "ORDER BY nom_asso");
-
-while($pole = $req_poles->get_row())
-{
-  $req_assos = new requete($site->db, "SELECT asso.id_asso, asso.nom_asso AS nom_asso,
+$req_assos = new requete($site->db, "SELECT asso_parent.id_asso AS id_asso_parent,
+      asso_parent.nom_asso AS nom_asso_parent, 
+      asso.id_asso AS id_asso,
+      asso.nom_asso AS nom_asso,
       utilisateurs_resp.id_utilisateur as id_utilisateur_resp,
-      CONCAT(utilisateurs_resp.nom_utl,' ',utilisateurs_resp.prenom_utl) AS nom_utilisateur_resp,
+      CONCAT(utilisateurs_resp.nom_utl," ",utilisateurs_resp.prenom_utl) AS nom_utilistateur_resp,
       utilisateurs_tres.id_utilisateur AS id_utilisateur_tres,
-      CONCAT(utilisateurs_tres.nom_utl,' ',utilisateurs_tres.prenom_utl) AS nom_utilisateur_tres
+      CONCAT(utilisateurs_tres.nom_utl," ",utilisateurs_tres.prenom_utl) AS nom_utilisateur_tres
     FROM asso
     LEFT JOIN asso_membre AS tbl_resp ON (tbl_resp.id_asso=asso.id_asso AND tbl_resp.role='10' AND tbl_resp.date_fin IS NULL)
-    LEFT JOIN asso_membre AS tbl_tres ON (tbl_tres.id_asso=asso.id_asso AND tbl_tres.role='7' AND tbl_tres.date_fin IS NULL)
-    LEFT JOIN utilisateurs AS utilisateurs_resp ON tbl_resp.id_utilisateur=utilisateurs_resp.id_utilisateur
+    LEFT JOIN asso_membre AS tbl_tres ON (tbl_tres.id_asso=asso.id_asso AND tbl_tres.role='7' AND tbl_tres.date_fin IS NULL) 
+    LEFT JOIN utilisateurs AS utilisateurs_resp ON tbl_resp.id_utilisateur=utilisateurs_resp.id_utilisateur 
     LEFT JOIN utilisateurs AS utilisateurs_tres ON tbl_tres.id_utilisateur=utilisateurs_tres.id_utilisateur
-    WHERE asso.id_asso_parent='".$pole['id_asso']."' GROUP BY asso.id_asso");
+    INNER JOIN asso AS asso_parent ON asso.id_asso_parent=asso_parent.id_asso
+    WHERE asso.id_asso_parent IN (SELECT id_asso FROM asso WHERE id_asso_parent='1') 
+    GROUP BY asso.id_asso 
+    ORDER BY asso_parent.nom_asso");
 
-  $table = new sqltable("", $pole['nom_asso'], $req_assos, "", "",
-                        array("nom_asso" => "Activité",
-                              "nom_utilisateur_resp" => "Responsable",
-                              "nom_utilisateur_tres" => "Trésorier"
-                              ),
-                        array(), array(), array() );
+$table = new sqltable("", "Liste des responsables et des trésoriers des activités", $req_assos, "", "",
+                      array("nom_asso_parent" => "",
+                            "nom_asso" => "Activité",
+                            "nom_utilisateur_resp" => "Responsable",
+                            "nom_utilisateur_tres" => "Trésorier"
+                            ),
+                      array(), array(), array() );
 
-  $cts->add($table,true);
-}
-
-$site->add_contents($cts);
+$site->add($table,true);
 
 $site->end_page();
 
