@@ -1,12 +1,8 @@
 <?php
 
-class planning
+class planning extends stdentity
 {
 
-  var $db;
-  var $dbrw;
-  
-  var $id;
   var $id_asso;
   var $name;
   var $user_per_gap;
@@ -14,24 +10,20 @@ class planning
   var $end_date;
   var $weekly;
 
-  function planning ( $db, $dbrw=null)
-  {
-    $this->db = $db;
-    $this->dbrw = $dbrw;
-    $this->id=-1;
-  }
-
-
   function load_by_id ( $id )
   {
     $req = new requete($this->db, "SELECT * FROM `pl_planning` ".
                                   "WHERE `id_planning` = '" . mysql_real_escape_string($id) . "' ".
                                   "LIMIT 1");
         
-    if ( $req->lines == 1 )
-      $this->_load($req->get_row());
-    else
-      $this->id = -1;  
+    if ( $req->lines != 1 )
+    {
+      $this->id = null;  
+      return false;
+    }
+    
+    $this->_load($req->get_row());
+    return true;
   }
 
   function _load ( $row )
@@ -66,11 +58,15 @@ class planning
                             )
                       );
         
-    if ( $sql )
-      $this->id = $sql->get_id();
-    else
-      $this->id = -1;
-
+    if ( !$sql->is_success() )
+    {
+      $this->id = null;
+      return false;  
+    }
+    
+    $this->id = $sql->get_id();
+    
+    return true;
   }
   
   function save ( $id_asso, $name, $user_per_gap,$start_date, $end_date, $weekly )
@@ -131,6 +127,7 @@ class planning
                               "end_gap" => $end
                              )
                       );
+    return $sql->get_id();             
   }
 
   function remove_gap ( $id_gap )
@@ -171,10 +168,10 @@ class planning
                              "id_utilisateur" => $id_utilisateur
                             )
                           );
-    if( $sql)
-      return true;
-    else
+    if( !$sql->is_success() )
       return false;
+    
+    return true;
   }
   
   function remove_user_from_gap ( $id_gap, $id_utilisateur )

@@ -47,16 +47,23 @@ class weekplanning extends stdcontents
 	 * @param $page Adresse de la page pour le suivant/précédent
 	 * @param $infopage Adresse de la page d'information sur un élément
 	 */
-	function weekplanning ( $titre, $db, $sql, $idf, $startf, $endf, $namef, $page, $infopage, $extra="" )
+	function weekplanning ( $titre, $db, $sql, $idf, $startf, $endf, $namef, $page, $infopage, $extra="", $unlundi=null )
 	{
 		$this->title=false;
 		
-		if (isset($_REQUEST["pstartdate"]))
-			$start = strtotime($_REQUEST["pstartdate"]);
-	
-		if ( $start < 1)
-			$start = strtotime(date("Y-m-d"));
-			
+		if ( !is_null($unlundi) )
+		{
+		  $start = $unlundi;
+		}
+		else
+		{
+  		if (isset($_REQUEST["pstartdate"]))
+  			$start = strtotime($_REQUEST["pstartdate"]);
+  	
+  		if ( $start < 1)
+  			$start = strtotime(date("Y-m-d"));
+		}
+		
 		$end = $start + (6*24*60*60)+1;
 		
 		$req = new requete($db, $sql." AND $startf >= '".date("Y-m-d 00:00:00",$start)."' AND $startf <= '".date("Y-m-d 23:59:59",$end)."' $extra ORDER BY $startf");
@@ -85,25 +92,38 @@ class weekplanning extends stdcontents
 			do {
 				
 				$endofday = strtotime(date("Y-m-d 23:59:59",$st));
-				$day[date("Y-m-d",$st)][] = 
-					array(
-						$st, 
-						min($endofday,$ed),
-						$row[$idf],
-						$row[$namef] 
-						);
+				
+				if ( isset($day[date("Y-m-d",$st)][$st]) )
+				  $day[date("Y-m-d",$st)][$st][3] .= ", ".$row[$namef] ;
+				else
+  				$day[date("Y-m-d",$st)][$st] = 
+  					array(
+  						$st, 
+  						min($endofday,$ed),
+  						$row[$idf],
+  						$row[$namef] 
+  						);
 				$st=$endofday+1;
 			} while ( $endofday < $ed );
 		}
 		
 		
-		
-		$this->buffer .= "<table class=\"weekplanning\" width=\"100%\">\n<tr class=\"head\">\n";		
-		$this->buffer .= "<td class=\"head_larrow\"><a href=\"".$page."pstartdate=".date("Y-m-d",strtotime(date("Y-m-d",$start)." -1 week"))."\">&lArr;</a></td>\n";
-		$this->buffer .= "<td class=\"head_title\">$titre (".strftime("%A %d %B %G",$start).")</td>\n";
-		$this->buffer .= "<td class=\"head_rarrow\"><a href=\"".$page."pstartdate=".date("Y-m-d",strtotime(date("Y-m-d",$start)." +1 week"))."\">&rArr;</a></td>\n";
-		$this->buffer .= "</tr>\n</table>\n";		
-				
+		if ( is_null($unlundi) )
+		{
+  		$this->buffer .= "<table class=\"weekplanning\" width=\"100%\">\n<tr class=\"head\">\n";		
+  		$this->buffer .= "<td class=\"head_larrow\"><a href=\"".$page."pstartdate=".date("Y-m-d",strtotime(date("Y-m-d",$start)." -1 week"))."\">&lArr;</a></td>\n";
+  		$this->buffer .= "<td class=\"head_title\">$titre (".strftime("%A %d %B %G",$start).")</td>\n";
+  		$this->buffer .= "<td class=\"head_rarrow\"><a href=\"".$page."pstartdate=".date("Y-m-d",strtotime(date("Y-m-d",$start)." +1 week"))."\">&rArr;</a></td>\n";
+  		$this->buffer .= "</tr>\n</table>\n";		
+		}
+		else
+		{
+  		$this->buffer .= "<table class=\"weekplanning\" width=\"100%\">\n<tr class=\"head\">\n";		
+  		$this->buffer .= "<td class=\"head_larrow\"></td>\n";
+  		$this->buffer .= "<td class=\"head_title\">$titre</td>\n";
+  		$this->buffer .= "<td class=\"head_rarrow\"></td>\n";
+  		$this->buffer .= "</tr>\n</table>\n";		
+		}
 					
 		$this->buffer .= "<table class=\"weekplanning\" width=\"100%\">\n";			
 		/*$this->buffer .= "<tr class=\"planninghead\">";
@@ -125,7 +145,10 @@ class weekplanning extends stdcontents
 		for($i=$start;$i<$end;$i+=24*60*60)
 		{
 			$this->buffer .= "<td class=\"day\" style=\"width:13%; height:".$height."px; vertical-align:top;\">\n";
-			$this->buffer .= "<div class=\"dayhead\" style=\"height:20px;\">".strftime("%A %d",$i)."</div>\n";
+			if ( is_null($unlundi) )
+			 $this->buffer .= "<div class=\"dayhead\" style=\"height:20px;\">".strftime("%A %d",$i)."</div>\n";
+			else
+			 $this->buffer .= "<div class=\"dayhead\" style=\"height:20px;\">".strftime("%A",$i)."</div>\n";
 			
 			$last=0;
 			
