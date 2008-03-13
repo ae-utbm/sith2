@@ -125,7 +125,8 @@ $req = new requete($site->db, "SELECT
                                WHERE 
                                         `id_utilisateur` = ".$site->user->id." 
                                GROUP BY 
-                                        `semestre_grp`, `id_utilisateur`");
+                                        `semestre_grp`, `id_utilisateur`
+                               ORDER BY `semestre_grp` DESC");
 if ($req->lines <= 0)
 {
   $cts->add_paragraph("Vous n'avez pas enregistré d'emploi du temps.");
