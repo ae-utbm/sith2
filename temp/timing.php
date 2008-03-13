@@ -84,19 +84,22 @@ class requete2 {
 
 $site = new site ();
 
-$timing["method0"] -= microtime(true);
-for($i=0;$i<10000;$i++)
+for($i=0;$i<500;$i++)
 {
+  $timing["method0"] -= microtime(true);
   new requete($site->db,"SELECT 1");
+  $timing["method0"] += microtime(true);
+  usleep(10);
 }
-$timing["method0"] += microtime(true);
-$timing["method1"] -= microtime(true);
-for($i=0;$i<10000;$i++)
+for($i=0;$i<500;$i++)
 {
+  $timing["method1"] -= microtime(true);
   new requete2($site->db,"SELECT 1");
+  $timing["method1"] += microtime(true);
+  usleep(10);
 }
-$timing["method1"] += microtime(true);
 
+//
 echo "<pre>";
 print_r($timing);
 echo "</pre>";
