@@ -69,7 +69,7 @@ if($req->lines == 0)
   $site->start_page("services","Laverie");
   $cts = new contents("Laverie");
 
-  $cts->add_title("Contrat d'utilisation",2);
+  $cts->add_title(2, "Contrat d'utilisation");
   $cts->add_paragraph("Mettre tout le règlement ici");
 
   $frm = new form("accepter_contrat","index.php",false);
