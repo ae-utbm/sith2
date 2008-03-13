@@ -28,8 +28,6 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 
 $site = new site ();
-$site->set_side_boxes("right",array(),"nope");
-$site->set_side_boxes("left",array(),"nope");
 
 $site->start_page("home","Activités");
 
