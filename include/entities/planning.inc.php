@@ -124,6 +124,7 @@ class planning extends stdentity
     {
       $start += PL_LUNDI;
       $end += PL_LUNDI;
+      echo date("Y-m-d H:i:s",$start)." ".date("Y-m-d H:i:s",$end)."\n";
     }
     
     $sql = new insert ($this->dbrw,
