@@ -121,7 +121,7 @@ class requete {
     if(!$base->dbh) {
       $this->errmsg = "Non connecté";
       $this->lines = -1;
-      if( !preg_match('/^\/var\/www\/ae\/www\//', $_SERVER['SCRIPT_FILENAME']))
+      //if( !preg_match('/^\/var\/www\/ae\/www\//', $_SERVER['SCRIPT_FILENAME']))
         echo "<p>NON MAIS CA VA PAS ! c'est un \$site->db et pas un \$this->db (ou inversement)</p>\n";
       return FALSE;
     }
@@ -134,7 +134,7 @@ class requete {
     $this->errno = mysql_errno($base->dbh);
     if ($this->errno != 0) {
       $this->errmsg = mysql_error($base->dbh);
-      if( !preg_match('/^\/var\/www\/ae\/www\/ae2\//', $_SERVER['SCRIPT_FILENAME']))
+      //if( !preg_match('/^\/var\/www\/ae\/www\/ae2\//', $_SERVER['SCRIPT_FILENAME']))
         echo "<p>Erreur lors du traitement de votre demande : ".$this->errmsg."</p>\n";
       $this->lines = -1;
       return FALSE;
@@ -146,8 +146,10 @@ class requete {
     $this->result = $res;
     if(strcasecmp($esql[0], "SELECT") == 0) {
       $this->lines =  mysql_num_rows ($res);
+      echo "mysql_num_rows";
     } else {
       $this->lines =  mysql_affected_rows ();
+      echo "mysql_affected_rows";
     }
     if($debug == 1)
 	{
