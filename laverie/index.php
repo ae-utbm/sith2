@@ -74,7 +74,7 @@ if($req->lines == 0)
 
   $frm = new form("accepter_contrat","index.php",false);
   $frm->add_hidden("contrat", "accept");
-  $frm->add_submit("submit","J'ai le et j'accepte le contrat d'utilisation de la laverie");
+  $frm->add_submit("submit","J'ai lu et j'accepte le contrat d'utilisation de la laverie");
 
   $cts->add($frm);
   $site->add_contents($cts);

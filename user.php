@@ -286,9 +286,19 @@ elseif ( $_REQUEST["action"] == "setgroups" &&
     if ( $new != $old )
     {
       if ( $new )
-        $user->add_to_group($row["id_groupe"]);
+      {
+        if ( $row["id_groupe"] != 7 || $site->user->is_in_group("root") )
+          $user->add_to_group($row["id_groupe"]);
+        else
+          $ErreurGroupe = "Veuillez contacter l'équipe informatique pour modifier les comptes root";
+      }
       else
-        $user->remove_from_group($row["id_groupe"]);
+      {
+        if ( $row["id_groupe"] != 7 || $site->user->is_in_group("root") )
+          $user->remove_from_group($row["id_groupe"]);
+        else
+          $ErreurGroupe = "Veuillez contacter l'équipe informatique pour modifier les comptes root";
+      }
     }
   }
 }
@@ -1037,6 +1047,7 @@ elseif ( ($_REQUEST["view"]=="groups") &&
 {
   $user->load_all_extra();
   /* groupes */
+  $cts->add_paragraph($ErreurGroupe);
   $frm = new form("setattributes","user.php?view=groups&id_utilisateur=".$user->id,false,"POST","Attribus");
   $frm->add_hidden("action","setattributes");
   $frm->add_checkbox("ae","ae",$user->ae,true);
