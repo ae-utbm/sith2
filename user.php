@@ -289,15 +289,11 @@ elseif ( $_REQUEST["action"] == "setgroups" &&
       {
         if ( $row["id_groupe"] != 7 || $site->user->is_in_group("root") )
           $user->add_to_group($row["id_groupe"]);
-        else
-          $ErreurGroupe = "Veuillez contacter l'équipe informatique pour modifier les comptes root";
       }
       else
       {
         if ( $row["id_groupe"] != 7 || $site->user->is_in_group("root") )
           $user->remove_from_group($row["id_groupe"]);
-        else
-          $ErreurGroupe = "Veuillez contacter l'équipe informatique pour modifier les comptes root";
       }
     }
   }
@@ -1047,7 +1043,6 @@ elseif ( ($_REQUEST["view"]=="groups") &&
 {
   $user->load_all_extra();
   /* groupes */
-  $cts->add_paragraph($ErreurGroupe);
   $frm = new form("setattributes","user.php?view=groups&id_utilisateur=".$user->id,false,"POST","Attribus");
   $frm->add_hidden("action","setattributes");
   $frm->add_checkbox("ae","ae",$user->ae,true);
@@ -1073,7 +1068,10 @@ elseif ( ($_REQUEST["view"]=="groups") &&
   while ( $row=$req->get_row())
   {
     $grp->_load($row);
-    $frm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link(),$row["id_utilisateur"]!="");
+    if ( $row["id_groupe"] == 7 && !$site->user->is_in_group("root") )
+      $frm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link(),$row["id_utilisateur"]!="",true);
+    else
+      $frm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link(),$row["id_utilisateur"]!="");
   }
   
   $frm->add_submit("save","Enregistrer");
