@@ -620,8 +620,7 @@ else if( $_REQUEST["view"] == "news" )
       $id = intval($_REQUEST['id_nouvelle']);
       $news->load_by_id ($id);
       $news->delete (); 
-      $site->add_contents (new contents("Suppression",
-					"<p>Suppression de la nouvelle eff&eacute;ctu&eacute;e avec succ&egrave;s</p>"));
+      $cts->add("<p>Suppression de la nouvelle eff&eacute;ctu&eacute;e avec succ&egrave;s</p>");
     }
   
   /* modification de la nouvelle via la sqltable */
@@ -675,7 +674,7 @@ else if( $_REQUEST["view"] == "news" )
     
     
     
-    $cts->add ($tabl);
+    $cts->add($tabl);
     $cts->add_title(2,"Outils");
     $cts->add(new itemlist("Outils",false,
                          array(
@@ -687,11 +686,10 @@ else if( $_REQUEST["view"] == "news" )
     
 
 
-
-    $cts->add_title(2,"Ajouter une nouvelle");
     // pour eviter d'ajouter 400 ligne de code ici ca sera juste un lien
-    $cts->add("<a href=\"news.php\">Ajouter une nouvelle</a>");
-
+    $cts->add(new itemlist("Ajouter une nouvelle",false,array(
+      "<a href=\"news.php\">Ajouter une nouvelle</a>"
+    )));
 
   }
 
