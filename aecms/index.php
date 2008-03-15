@@ -233,7 +233,7 @@ if ( $page->nom == CMS_PREFIX."home" && $site->config["home.news"] == 1 )
     $cts = $news->get_contents_nobrand_flow();
     $cts->cssclass="article anews";
     if ( $can_edit )
-      $cts->set_toolbox(new toolbox(array("configurecms.php?view=news&action=edit&id_nouvelle=".$news->id=>"Editer"));
+      $cts->set_toolbox(new toolbox(array("configurecms.php?view=news&action=edit&id_nouvelle=".$news->id=>"Editer")));
     $site->add_contents($cts);
   }
   
