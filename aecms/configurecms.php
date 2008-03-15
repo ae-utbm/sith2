@@ -408,7 +408,7 @@ $tabs = array(
         array("boxes","configurecms.php?view=boxes","Boites"),
         array("options","configurecms.php?view=options","Options"),
         array("css","configurecms.php?view=css","Style"),
-	array("news","configurecms.php?view=news","Nouvelle")
+	array("news","configurecms.php?view=news","Nouvelles")
         );
             
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
@@ -623,7 +623,31 @@ else if( $_REQUEST["view"] == "news" )
       $cts->add("<p>Suppression de la nouvelle eff&eacute;ctu&eacute;e avec succ&egrave;s</p>");
     }
   
-  /* modification de la nouvelle via la sqltable */
+  /* modification de la nouvelle via formulaire */
+  if ((isset($_REQUEST['id_nouvelle']))
+      && ($_REQUEST["action"] == "save"))
+    {
+      $modere = false;
+      $lieu->load_by_id($_REQUEST["id_lieu"]);
+      
+      
+      if ( $_REQUEST["title"] && $_REQUEST["content"] )
+	{
+	  $news->save_news($site->asso->id,
+			   $_REQUEST['title'],
+			   $_REQUEST['resume'],
+			   $_REQUEST['content'],
+			   false,
+			   null,
+			   $_REQUEST["type"],
+			   $lieu->id, 
+			   !isset($_REQUEST['non_asso_seule']) ? NEWS_CANAL_AECMS : NEWS_CANAL_SITE);
+	  $news->set_tags($_REQUEST["tags"]);
+	}
+    }
+
+
+  /* formulaire de modification de la nouvelle */
   if ((isset($_REQUEST['id_nouvelle']))
       && ($_REQUEST['action'] == "edit"))
     {
@@ -631,13 +655,28 @@ else if( $_REQUEST["view"] == "news" )
       $id = intval($_REQUEST['id_nouvelle']);
       $news->load_by_id ($id);
       
-      $site->add_contents(new contents ("Aper&ccedil;u de la nouvelle :",
-					"<p>Dans le cadre ci-dessous, vous allez avoir un ".
-					"aper&ccedil;u de la nouvelle</p>"));
       // affichage de la nouvelle
-      $site->add_contents ($news->get_contents ());
+      $frm = new form ("editnews","configurecms.php?view=news",false,"POST","Edition d'une nouvelle");
+      $frm->add_hidden("action","save");
+      $frm->add_hidden("id_nouvelle",$news->id);
+      $frm->add_select_field ("type",
+			      "Type de nouvelle",
+			      array(NEWS_TYPE_APPEL => "Appel/concours",
+				    NEWS_TYPE_EVENT => "Événement ponctuel",
+				    NEWS_TYPE_HEBDO => "Séance hebdomadaire",
+				    NEWS_TYPE_NOTICE => "Info/resultat")
+			      ,$news->type);
+
+      $frm->add_text_field("title", "Titre",$news->titre,true);
+      $frm->add_checkbox ( "non_asso_seule", "Publier aussi sur le site de l'AE (sera soumis à modération)", $news->id_canal==NEWS_CANAL_SITE);
+      $frm->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",$news->id_lieu,true);
+      $frm->add_text_field("tags", "Tags",$news->get_tags());
+      $frm->add_text_area ("resume","Resume",$news->resume);
+      $frm->add_dokuwiki_toolbar('content');
+      $frm->add_text_area ("content", "Contenu",$news->contenu,80,10,true);
       
-      //** TODO : on affiche un formulaire d'edition **//
+      $frm->add_submit("valid","Enregistrer");
+      $cts->add($frm);
     }
   
   
@@ -662,30 +701,20 @@ else if( $_REQUEST["view"] == "news" )
     $tabl = new sqltable ("news_list",
 			  "Liste des nouvelles",
 			  $req,
-			  "configurecms.php&view=news",
+			  "configurecms.php?view=news",
 			  "id_nouvelle",
 			  array ("titre_nvl" => "Titre",
 				 "nom_prenom" => "auteur",
 				 "date_nvl" => "Date"),
-			  array ("edit" => "modifier",
-				 "delete" => "supprimer"),
+			  array ("edit"=>"Modifier",
+				 "delete"=>"Supprimer"),
 			  array (),
 			  array ());
     
     
     
-    $cts->add($tabl);
-    $cts->add_title(2,"Outils");
-    $cts->add(new itemlist("Outils",false,
-                         array(
-                         "<a href=\"newsliste.php\">Lister les nouvelles</a>",
-                         "<a href=\"news.php\">Ajouter une nouvelle</a>"
-                         )
-                            )
-               );
-    
-
-
+    $cts->add($tabl,true);
+    $cts->add_title(2,"Ajouter une nouvelle");
     // pour eviter d'ajouter 400 ligne de code ici ca sera juste un lien
     $cts->add(new itemlist("Ajouter une nouvelle",false,array(
       "<a href=\"news.php\">Ajouter une nouvelle</a>"
