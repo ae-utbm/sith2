@@ -610,6 +610,10 @@ else if ( $_REQUEST["view"] == "css" )
 else if( $_REQUEST["view"] == "news" ) 
 {
 
+
+  $news = new nouvelle($site->db,$site->dbrw);
+  $lieu = new lieu($site->db);
+
   /* suppression de la nouvelle via la sqltable */
   if ((isset($_REQUEST['id_nouvelle']))
       && ($_REQUEST['action'] == "delete"))
