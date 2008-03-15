@@ -609,7 +609,6 @@ else if ( $_REQUEST["view"] == "css" )
 }
 else if( $_REQUEST["view"] == "news" ) 
 {
-  $cts->add_title(2,"Liste des nouvelles");
 
   /* suppression de la nouvelle via la sqltable */
   if ((isset($_REQUEST['id_nouvelle']))
@@ -628,7 +627,8 @@ else if( $_REQUEST["view"] == "news" )
       && ($_REQUEST["action"] == "save"))
     {
       $modere = false;
-      $lieu->load_by_id($_REQUEST["id_lieu"]);
+      $id_lieu = intval($_REQUEST['id_lieu']);
+      $lieu->load_by_id($id_lieu);
       
       
       if ( $_REQUEST["title"] && $_REQUEST["content"] )
@@ -681,46 +681,44 @@ else if( $_REQUEST["view"] == "news" )
   
   
   /* affichage de la liste des nouvelles */
-  else{
-    
-    $req = new requete($site->db,
-		       "SELECT `nvl_nouvelles`.*,
-                        CONCAT(`utilisateurs`.`prenom_utl`,
-                               ' ',
-                               `utilisateurs`.`nom_utl`) AS `nom_prenom`
-                        FROM `nvl_nouvelles`, `utilisateurs` 
-                        WHERE `nvl_nouvelles`.`modere_nvl`='1' 
-                        AND `nvl_nouvelles`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
-                        AND `nvl_nouvelles`.`id_canal`='".NEWS_CANAL_AECMS."' 
-                        ORDER BY `nvl_nouvelles`.`date_nvl` 
-                        DESC");
+  $req = new requete($site->db,
+		     "SELECT `nvl_nouvelles`.*,
+                      CONCAT(`utilisateurs`.`prenom_utl`,
+                             ' ',
+                             `utilisateurs`.`nom_utl`) AS `nom_prenom`
+                      FROM `nvl_nouvelles`, `utilisateurs` 
+                      WHERE `nvl_nouvelles`.`modere_nvl`='1' 
+                      AND `nvl_nouvelles`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
+                      AND `nvl_nouvelles`.`id_canal`='".NEWS_CANAL_AECMS."' 
+                      ORDER BY `nvl_nouvelles`.`date_nvl` 
+                      DESC");
 
 
     
-    // génération de la liste de nouvelles
-    $tabl = new sqltable ("news_list",
-			  "Liste des nouvelles",
-			  $req,
-			  "configurecms.php?view=news",
-			  "id_nouvelle",
-			  array ("titre_nvl" => "Titre",
-				 "nom_prenom" => "auteur",
-				 "date_nvl" => "Date"),
-			  array ("edit"=>"Modifier",
-				 "delete"=>"Supprimer"),
-			  array (),
-			  array ());
-    
-    
-    
-    $cts->add($tabl,true);
-    $cts->add_title(2,"Ajouter une nouvelle");
-    // pour eviter d'ajouter 400 ligne de code ici ca sera juste un lien
-    $cts->add(new itemlist("Ajouter une nouvelle",false,array(
-      "<a href=\"news.php\">Ajouter une nouvelle</a>"
-    )));
+  // génération de la liste de nouvelles
+  $tabl = new sqltable ("news_list",
+			"Liste des nouvelles",
+			$req,
+			"configurecms.php?view=news",
+			"id_nouvelle",
+			array ("titre_nvl" => "Titre",
+			       "nom_prenom" => "auteur",
+			       "date_nvl" => "Date"),
+			array ("edit"=>"Modifier",
+			       "delete"=>"Supprimer"),
+			array (),
+			array ());
+  
+  
+  
+  $cts->add($tabl,true);
+  $cts->add_title(2,"Ajouter une nouvelle");
+  // pour eviter d'ajouter 400 ligne de code ici ca sera juste un lien
+  $cts->add(new itemlist("Ajouter une nouvelle",false,array(
+    "<a href=\"news.php\">Ajouter une nouvelle</a>"
+  )));
 
-  }
+ }
 
 } // fin onglet administration des nouvelles
 
