@@ -693,7 +693,7 @@ else if( $_REQUEST["view"] == "news" )
     $cts->add("<a href=\"news.php\">Ajouter une nouvelle</a>");
 
 
-
+  }
 
 } // fin onglet administration des nouvelles
 
