@@ -138,7 +138,7 @@ $req = new requete($site->db,"SELECT `utilisateurs`.`id_utilisateur` as `id_util
 		"AND sl_reservation.date_debut_salres > NOW() " .
 		"ORDER BY date_debut_salres");
 		
-$cts->add_paragraph(wikilink("asso-convention","Article sur les conventions de locaux."));
+$cts->add_paragraph("<a href=\"".$topdir."wiki2/?name=guide_resp:gestion\">Article sur les conventions de locaux.</a>");
 		
 $cts->add(new sqltable(
 		"modereres", 

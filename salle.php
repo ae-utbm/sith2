@@ -224,7 +224,7 @@ if ( $salle->is_valid() )
 		if ( $salle->convention )
 		{
 			$cts->add_paragraph("<b>ATTENTION : Une convention de locaux sera nécessaire.</b><br/>" .
-					"Veuillez lire l'article suivant : ".wikilink("asso-convention","Article sur les conventions de locaux."));
+					"Veuillez lire l'article suivant : <a href=\"".$topdir."wiki2/?name=guide_resp:gestion\">Article sur les conventions de locaux.</a>");
 
 		}			
 	

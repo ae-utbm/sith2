@@ -141,18 +141,6 @@ function classlink ( $obj, $obj1=null,$obj2=null )
   return $obj->get_html_link();
 }
 
-/**
- * Génère un lien vers une page du wiki.
- * @param $name Nom de la page wiki.
- * @param $title Titre de lien.
- * @return le code html du lien avec son iconne.
- * @deprecated
- */
-function wikilink ( $name, $title )
-{
-	global $topdir;
-	return "<a href=\"".$topdir."article.php?name=$name\"><img src=\"".$topdir."images/icons/16/page.png\" class=\"icon\" alt=\"Article\" /> ".htmlentities($title,ENT_NOQUOTES,"UTF-8")."</a>";
-}
 
 
 ?>

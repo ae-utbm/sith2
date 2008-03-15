@@ -71,7 +71,7 @@ class stdcontents
 
   function set_help_page ( $page )
   {
-    $this->set_toolbox(new contents(false,wikilink($page,"Aide")));
+    $this->set_toolbox(new contents(false,"<a href=\"".$topdir."article.php?name=$page\"><img src=\"".$topdir."images/icons/16/page.png\" class=\"icon\" alt=\"Article\" /> Aide</a>"));
   }
 
 

@@ -113,8 +113,8 @@ class pgresults extends stdcontents
 
 $info = new contents("Le petit géni");
 $info->add_paragraph("Le Petit GÉNI, c'est tout le nécessaire pour vivre à Belfort.<br/> Belfortain depuis des générations ? Tout juste arrivé ? De passage pour quelques jours ?<br/>Le Petit GÉNI est là pour vous aider !");
-$info->add_paragraph("<br/><a href=\"/petitgeni/\">Site officiel</a>");
-$info->add_paragraph(wikilink("activites-petitgeni","Article de présentation"));
+$info->add_paragraph("<br/><a href=\"asso.php?id_asso=26\">Presentation</a>");
+
 $site->add_box("pginfo",$info);
 
 $info = new contents("Malin");
