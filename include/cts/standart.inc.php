@@ -1294,6 +1294,7 @@ class form extends stdcontents
   {
     $opuid = md5(uniqid(rand(), true)); // Identifiant unique de l'opération
     $_SESSION["forms"][$this->name]["once"][$opuid] = true;
+    $_SESSION["forms"][$this->name]["once"]["init"] = true;
     $this->add_hidden("magicform[ticket]",$opuid);
   }
 
@@ -1949,6 +1950,9 @@ if ( isset($_REQUEST["magicform"]) )
       unset($_SESSION["forms"][$name]["once"][$ticket]); // on supprime le ticket
       $GLOBALS["svalid_call"] = true;
     }
+    else if ( !isset($_SESSION["forms"][$name]["once"]["init"]) ) 
+    // la session a du expirée, évitons de facher l'utilisateur
+      $GLOBALS["svalid_call"] = true;
     else
       $GLOBALS["svalid_call"] = false; // ticket non valide ou deja utilisé
   }
