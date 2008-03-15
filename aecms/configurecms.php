@@ -633,6 +633,7 @@ else if( $_REQUEST["view"] == "news" )
       $modere = false;
       $id_lieu = intval($_REQUEST['id_lieu']);
       $lieu->load_by_id($id_lieu);
+      $news->load_by_id($_REQUEST["id_nouvelle"]);
       
       
       if ( $_REQUEST["title"] && $_REQUEST["content"] )
