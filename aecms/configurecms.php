@@ -718,8 +718,6 @@ else if( $_REQUEST["view"] == "news" )
     "<a href=\"news.php\">Ajouter une nouvelle</a>"
   )));
 
- }
-
 } // fin onglet administration des nouvelles
 
 
