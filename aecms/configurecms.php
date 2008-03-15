@@ -26,6 +26,10 @@
  
 require_once("include/site.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
+require_once($topdir."include/entities/news.inc.php");
+require_once($topdir."include/entities/lieu.inc.php");
+require_once($topdir . "include/entities/asso.inc.php");
+require_once($topdir."include/entities/files.inc.php");
 
 if ( !$site->is_user_admin() )
 {
@@ -403,7 +407,8 @@ $tabs = array(
         array("","configurecms.php", "Onglets"),
         array("boxes","configurecms.php?view=boxes","Boites"),
         array("options","configurecms.php?view=options","Options"),
-        array("css","configurecms.php?view=css","Style")
+        array("css","configurecms.php?view=css","Style"),
+	array("news","configurecms.php?view=news","Nouvelle")
         );
             
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
@@ -579,12 +584,12 @@ else if ( $_REQUEST["view"] == "css" )
   $dir = $basedir."/specific/img/";
   
   if (is_dir($dir))
-  {    if ($dh = opendir($dir))
-    {      while (($file = readdir($dh)) !== false)
+  {    if ($dh = opendir($dir))
+    {      while (($file = readdir($dh)) !== false)
       {
         if ( is_file($dir.$file) )
           $files[]=array("filename"=>$file,"useincss"=>"img/".$file);
-      }      closedir($dh);    }  }
+      }      closedir($dh);    }  }
 
   $cts->add( new sqltable ( "cssimg", "Images", $files, 
   "configurecms.php?view=css", "filename", array("filename"=>"Fichier","useincss"=>"Nom à utiliser dans le code CSS"), 
@@ -602,18 +607,103 @@ else if ( $_REQUEST["view"] == "css" )
   
   
 }
+else if( $_REQUEST["view"] == "news" ) 
+{
+  $cts->add_title(2,"Liste des nouvelles");
+
+  /* suppression de la nouvelle via la sqltable */
+  if ((isset($_REQUEST['id_nouvelle']))
+      && ($_REQUEST['action'] == "delete"))
+    {
+      
+      $news = new nouvelle ($site->db, $site->dbrw);
+      $id = intval($_REQUEST['id_nouvelle']);
+      $news->load_by_id ($id);
+      $news->delete (); 
+      $site->add_contents (new contents("Suppression",
+					"<p>Suppression de la nouvelle eff&eacute;ctu&eacute;e avec succ&egrave;s</p>"));
+    }
+  
+  /* modification de la nouvelle via la sqltable */
+  if ((isset($_REQUEST['id_nouvelle']))
+      && ($_REQUEST['action'] == "edit"))
+    {
+      $news = new nouvelle ($site->db);
+      $id = intval($_REQUEST['id_nouvelle']);
+      $news->load_by_id ($id);
+      
+      $site->add_contents(new contents ("Aper&ccedil;u de la nouvelle :",
+					"<p>Dans le cadre ci-dessous, vous allez avoir un ".
+					"aper&ccedil;u de la nouvelle</p>"));
+      // affichage de la nouvelle
+      $site->add_contents ($news->get_contents ());
+      
+      //** TODO : on affiche un formulaire d'edition **//
+    }
+  
+  
+  /* affichage de la liste des nouvelles */
+  else{
+    
+    $req = new requete($site->db,
+		       "SELECT `nvl_nouvelles`.*,
+                        CONCAT(`utilisateurs`.`prenom_utl`,
+                               ' ',
+                               `utilisateurs`.`nom_utl`) AS `nom_prenom`
+                        FROM `nvl_nouvelles`, `utilisateurs` 
+                        WHERE `nvl_nouvelles`.`modere_nvl`='1' 
+                        AND `nvl_nouvelles`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
+                        AND `nvl_nouvelles`.`id_canal`='".NEWS_CANAL_AECMS."' 
+                        ORDER BY `nvl_nouvelles`.`date_nvl` 
+                        DESC");
+
+
+    
+    // génération de la liste de nouvelles
+    $tabl = new sqltable ("news_list",
+			  "Liste des nouvelles",
+			  $req,
+			  "configurecms.php&view=news",
+			  "id_nouvelle",
+			  array ("titre_nvl" => "Titre",
+				 "nom_prenom" => "auteur",
+				 "date_nvl" => "Date"),
+			  array ("edit" => "modifier",
+				 "delete" => "supprimer"),
+			  array (),
+			  array ());
+    
+    
+    
+    $cts->add ($tabl);
+    $cts->add_title(2,"Outils");
+    $cts->add(new itemlist("Outils",false,
+                         array(
+                         "<a href=\"newsliste.php\">Lister les nouvelles</a>",
+                         "<a href=\"news.php\">Ajouter une nouvelle</a>"
+                         )
+                            )
+               );
+    
+
+
+
+    $cts->add_title(2,"Ajouter une nouvelle");
+    // pour eviter d'ajouter 400 ligne de code ici ca sera juste un lien
+    $cts->add("<a href=\"news.php\">Ajouter une nouvelle</a>");
+
+
+
+
+} // fin onglet administration des nouvelles
+
 
 
 $cts->add_title(2,"Outils");
 
 $cts->add(new itemlist("Outils",false,array(
-  "<a href=\"newsliste.php\">Lister les nouvelles</a>",
-  "<a href=\"index.php?page=new\">Creer une nouvelle page</a>",
-  "<a href=\"news.php\">Ajouter une nouvelle</a>"
-
+  "<a href=\"index.php?page=new\">Creer une nouvelle page</a>"
 )));
-
-
 
 
 $site->add_contents($cts);
