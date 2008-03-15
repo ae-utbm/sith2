@@ -427,7 +427,7 @@ class site extends interfaceweb
       if ( $count > 0 )
       $elements[] = "<a href=\"".$topdir."ae/modereres.php\"><b>$count reservation(s) de salles</b> à modérer</a>";
     }
-    else if( $this->user->is_in_group("foyer_admin") )
+    else if( $this->user->is_in_group("bdf-bureau") )
     {
     	$req = new requete($this->db,"SELECT COUNT(*) ".
         "FROM sl_reservation " .

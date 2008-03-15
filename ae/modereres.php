@@ -35,7 +35,7 @@ require_once($topdir. "include/cts/planning.inc.php");
 
 $site = new site ();
 
-if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("foyer_admin") )
+if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("bdf-bureau") )
 	error_403();
 
 $resa = new reservation($site->db, $site->dbrw);
@@ -123,7 +123,7 @@ elseif ( $_REQUEST["action"] == "info")
 	$cts->add($frm,true);
 	
 	
-	if(!$site->user->is_in_group("foyer_admin"))
+	if(!$site->user->is_in_group("bdf-bureau"))
 	{
 		$lst = new itemlist("Opérations");
 		
@@ -146,7 +146,7 @@ elseif ( $_REQUEST["action"] == "info")
 
 $site->start_page("none","Moderation des reservations de salle");
 
-if($site->user->is_in_group("foyer_admin"))
+if($site->user->is_in_group("bdf-bureau"))
 {
 	$req = new requete($site->db,"SELECT `utilisateurs`.`id_utilisateur`, " .
 		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
