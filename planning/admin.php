@@ -36,12 +36,12 @@ $site = new site();
 
 $site->allow_only_logged_users();
 
-$plan = array(155=>"Bureau AE Belfort");
+$plan = array(159=>"Bureau AE Belfort");
 
 if ( !isset($_REQUEST["id_planning"]) )
 {
   $site->start_page("services","Planning");
-  $cts = new contents("<a href=\"index.php\">Planning</a> / <a href=\"admin.php\">Administration</a> / ".$salles[$id_salle]);
+  $cts = new contents("<a href=\"index.php\">Planning</a> / <a href=\"admin.php\">Administration</a> / ".$plan[$_REQUEST["id_salle"]]);
 
   $lst = new itemlist("Veuillez choisir le planning Ã administrer");
   
@@ -57,7 +57,7 @@ if ( !isset($_REQUEST["id_planning"]) )
 $id_planning = intval($_REQUEST["id_planning"]);
 
 $site->start_page("services","Planning");
-$cts = new contents("<a href=\"index.php\">Planning</a> / <a href=\"admin.php\">Administration</a> / ".$salles[$id_salle]);
+$cts = new contents("<a href=\"index.php\">Planning</a> / <a href=\"admin.php\">Administration</a> / ".$plan[$id_salle]);
 
 $sql = new requete($site->db, "SELECT start_date_planning, end_date_planning
      FROM pl_planning

@@ -202,6 +202,7 @@ if ( $_REQUEST["action"] == "searchpl" )
 }
 else if( $_REQUEST["action"] == "details" )
 {
+	$planning = new planning($site->db,$site->dbrw);
 	$planning->load_by_id(PERM_AE_BELFORT);
 
 	if ( !$planning->is_valid() )
