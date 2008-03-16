@@ -175,7 +175,7 @@ class forum extends basedb
         "IF(
           utilisateurs.utbm_utl='1',
           utl_etu_utbm.surnom_utbm,
-          CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl),
+          CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl)
          ) AS `nom_utilisateur_dernier_auteur`, " .
         "utilisateurs.id_utilisateur AS `id_utilisateur_dernier`, ";
         
