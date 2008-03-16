@@ -9,7 +9,7 @@ $site->add_js("js/sqltable2.js");
 $site->add_css("css/sqltable2.css");
 
 $site->start_page("test", "Test de sqltable2" );
-
+$cts = new contents("table");
 $req = new requete($site->db, "SELECT " .
 		"`cpt_debitfacture`.`id_facture`, " .
 		"`cpt_debitfacture`.`date_facture`, " .
