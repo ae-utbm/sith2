@@ -67,9 +67,8 @@ $row = $sql->get_row();
 
 $frm = new form("autoplanning", "admin.php?id_planning=$id_salle",false,"POST","Modifier le dates du planning");
 $frm->add_hidden("action","autoplanning");
-$frm->add_datetime_field("date_debut","Date de début",$row['start_date_planning']);
-$frm->add_datetime_field("date_fin","Date de fin",$row['end_date_planning']);
-$frm->add_text_field("pwet","Pwet",$id_planning);
+$frm->add_datetime_field("date_debut","Date de début",strtotime($row['start_date_planning']));
+$frm->add_datetime_field("date_fin","Date de fin",strtotime($row['end_date_planning']));
 $frm->add_submit("valid","Valider");
 $frm->allow_only_one_usage();
 $cts->add($frm,true);
