@@ -24,7 +24,7 @@
  */
 
 define("BUREAU_BELFORT", 6);
-define("PERM_AE_BELFORT", 120);
+define("PERM_AE_BELFORT", 155);
 
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
@@ -52,7 +52,7 @@ if ( $_REQUEST["action"] == "searchpl" )
   $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
   
   // TEST
-	$planning = new planning($site->db,$site->dbrw);
+	/*$planning = new planning($site->db,$site->dbrw);
 	$start_date = strtotime("2008-03-17");
 	$end_date = strtotime("2008-07-31");
 	
@@ -171,6 +171,7 @@ if ( $_REQUEST["action"] == "searchpl" )
 	$id_creneau_612 = $planning->add_gap( $samedi+$h19, $samedi+$h20 );
 	$id_creneau_613 = $planning->add_gap( $samedi+$h20, $samedi+$h21 );
 	$id_creneau_614 = $planning->add_gap( $samedi+$h21, $samedi+$h22 );
+	*/
 			
  // FIN TEST 
 
