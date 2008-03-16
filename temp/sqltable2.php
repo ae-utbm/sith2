@@ -8,7 +8,7 @@ $site = new site();
 $site->add_js("js/sqltable2.js");
 $site->add_css("css/sqltable2.css");
 
-$site->start_page("test", "Test de sqltable2" );
+$site->start_page("sas", "Test de sqltable2" );
 $cts = new contents("table");
 $req = new requete ( $site->db, "SELECT " .
 		"`cpta_operation`.`id_op`, " .
