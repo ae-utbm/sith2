@@ -174,7 +174,7 @@ class forum extends basedb
         "frm_message.id_message, " .
         "IF(
           utilisateurs.utbm_utl='0' OR utl_etu_utbm.surnom_utbm='',
-          CONCAT(utiliasteurs.prenom_utl,' ',utilisateurs.nom_utl),
+          CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl),
           utl_etu_utbm.surnom_utbm
          ) AS `nom_utilisateur_dernier_auteur`, " .
         "utilisateurs.id_utilisateur AS `id_utilisateur_dernier`, ";
