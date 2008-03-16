@@ -62,7 +62,7 @@ $tbl->add_column_price("montant","Montant");
 $tbl->add_column("mode_op","Paiement");
 $tbl->add_column_number("num_cheque_op","N°");
 $tbl->add_column("acteur","Débiteur/Crediteur",array("nom_utilisateur","nom_entreprise","nom_asso","nom_cptasso"));
-$tbl->add_column("code_plan","Code");
+$tbl->add_column_number("code_plan","Code");
 $tbl->add_column("libelle_opclb","Nature(type)");
 $tbl->add_column("op_effctue","Eff.");
 $tbl->add_column("commentaire_op","Commentaire");
