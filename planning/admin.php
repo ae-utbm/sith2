@@ -43,7 +43,7 @@ if ( !isset($_REQUEST["id_planning"]) )
   $site->start_page("services","Planning");
   $cts = new contents("<a href=\"index.php\">Planning</a> / <a href=\"admin.php\">Administration</a> / ".$salles[$id_salle]);
 
-  $lst = new itemlist("Veuillez choisir le planning à administrer");
+  $lst = new itemlist("Veuillez choisir le planning Ã administrer");
   
   foreach ( $plan as $id => $nom )
 	$lst->add("<a href=\"admin.php?id_planning=$id\">$nom</a>");
@@ -59,12 +59,19 @@ $id_planning = intval($_REQUEST["id_planning"]);
 $site->start_page("services","Planning");
 $cts = new contents("<a href=\"index.php\">Planning</a> / <a href=\"admin.php\">Administration</a> / ".$salles[$id_salle]);
 
+$sql = "SELECT start_date_planning, end_date_planning
+     FROM pl_planning
+     WHERE id_planning='".$id_planning."'";
+     
+$row = $sql->get_row();
 
-/*$frm = new form("searchpl","admin.php",false,"POST","Ajouter un creneau");
-$frm->add_hidden("action","searchpl");
-$frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST["id_salle"]);
-$frm->add_submit("afficher","Afficher le planning");
-$cts->add($frm,true);*/
+$frm = new form("autoplanning", "admin.php?id_planning=$id_salle",false,"POST","Modifier le dates du planning");
+$frm->add_hidden("action","autoplanning");
+$frm->add_datetime_field("date_debut","Date de dÃ©but",$row['start_date_planning']);
+$frm->add_datetime_field("date_fin","Date de fin",$row['end_date_planning']);
+$frm->add_submit("valid","Valider");
+$frm->allow_only_one_usage();
+$cts->add($frm,true);
 
 $site->add_contents($cts);
 $site->end_page(); 
