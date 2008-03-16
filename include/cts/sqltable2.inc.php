@@ -750,6 +750,8 @@ class sqltable2 extends stdcontents
           
           foreach ( $values as $value => $label )
           {
+            $value = htmlentities(addslashes($value),ENT_COMPAT,"UTF-8");
+            
             $this->buffer .= "<li><a href=\"#\" onclick=\"stftv(this,'".$this->nom."','$key','$field','$value'); return false;\">";
             switch ( $col[0] )
             {
