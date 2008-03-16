@@ -19,14 +19,16 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
+
  
 div.sqltable2 div.filter
 {
   position:absolute;
-  background:white;  
-  border:1px solid #d8e7f3;
+  background:#d8e7f3;  
+  border:5px solid white;
   text-align:left;
   font-weight:normal;
+  padding:1px;
 }
 
 div.sqltable2 div.filter h4
@@ -50,6 +52,7 @@ div.sqltable2 div.filter li.sel
 div.sqltable2 div.filter div.fcts
 {
   padding:5px;
+  background:white;
 }
 div.sqltable2 div.filter input.val
 {
@@ -68,6 +71,7 @@ div.sqltable2 div.filter ul
   padding:0;
   margin:0;
   border:0;
+  background:white;
 }
 
 div.sqltable2 table
