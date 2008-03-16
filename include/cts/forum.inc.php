@@ -486,7 +486,16 @@ class simplemessageforum extends stdcontents
       
       $t = $message->date;
 
-      $sql = new requete($site->db, "SELECT `alias_utl`, `signature_utl` FROM `utilisateurs` WHERE id_utilisateur=$message->id_utilisateur LIMIT 1");
+      $sql = new requete($site->db, "SELECT 
+        IF(
+          utilisateurs.utbm_utl = '1',
+          utl_etu_utbm.surnom_utbm,
+          CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl)
+        ) AS alias_utl,
+        signature_utl
+        FROM utilisateurs
+        LEFT JOIN utl_etu_utbm ON (utilisateurs.id_utilisateur=utl_etu_utbm.id_utilisateur) 
+        WHERE utilisateurs.id_utilisateur=$message->id_utilisateur LIMIT 1 ");
       $row = $sql->get_row();
 
       $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$message->id."\">\n";
