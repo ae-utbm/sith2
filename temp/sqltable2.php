@@ -10,41 +10,69 @@ $site->add_css("css/sqltable2.css");
 
 $site->start_page("test", "Test de sqltable2" );
 $cts = new contents("table");
-$req = new requete($site->db, "SELECT " .
-		"`cpt_debitfacture`.`id_facture`, " .
-		"`cpt_debitfacture`.`date_facture`, " .
+$req = new requete ( $site->db, "SELECT " .
+		"`cpta_operation`.`id_op`, " .
+		"`cpta_operation`.`num_op`, " .
+		"`cpta_operation`.`date_op`, " .
+		"`cpta_operation`.`op_effctue`, " .
+		"`cpta_operation`.`commentaire_op`, " .
+		
+		"IF(`cpta_operation`.`mode_op`='1',CONCAT('Chèque ',`cpta_operation`.`num_cheque_op`),NULL) AS `cheque`, " .
+		"`cpta_operation`.`mode_op`, " .		
+
+		"(IF(`cpta_op_plcptl`.`type_mouvement` IS NULL,`cpta_op_clb`.`type_mouvement`,`cpta_op_plcptl`.`type_mouvement`)*`montant_op`) as `montant`, " .
+		
+		"`cpta_op_clb`.`libelle_opclb`, " .
+		"`cpta_op_plcptl`.`code_plan`, " .
+		
+		"`entreprise`.`nom_entreprise`, " .
+		"`entreprise`.`id_ent`, " .
+		
 		"`asso`.`id_asso`, " .
 		"`asso`.`nom_asso`, " .
-		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-		"`utilisateurs`.`id_utilisateur`, " .
-		"`cpt_vendu`.`quantite`, " .
-		"`cpt_vendu`.`prix_unit` AS `prix_unit`, " .
-		"`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite` AS `total`," .
-		"`cpt_comptoir`.`id_comptoir`, " .
-		"`cpt_comptoir`.`nom_cpt`," .
-		"`cpt_produits`.`id_produit`, " .
-		"`cpt_produits`.`nom_prod` " .
-		"FROM `cpt_vendu` " .
-		"LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
-		"INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
-		"INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
-		"INNER JOIN `utilisateurs` ON `cpt_debitfacture`.`id_utilisateur` =`utilisateurs`.`id_utilisateur` " .
-		"INNER JOIN `cpt_comptoir` ON `cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
-		"WHERE `id_utilisateur_client`='142' AND mode_paiement='AE' " .
-		"AND EXTRACT(YEAR_MONTH FROM `date_facture`)='200710' " .
-		"ORDER BY `cpt_debitfacture`.`date_facture` DESC");
+
+		"`cpta_cpasso`.`id_cptasso`, " .
+		"CONCAT(`asso2`.`nom_asso`,' sur ',`cpta_cpbancaire`.`nom_cptbc` ) AS `nom_cptasso`, " .
 		
+		"`utilisateurs`.`id_utilisateur`, " .
+		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+		
+		"`cpta_libelle`.`nom_libelle` ".
+		
+		"FROM `cpta_operation` " .
+		"LEFT JOIN `cpta_op_clb` ON `cpta_operation`.`id_opclb`=`cpta_op_clb`.`id_opclb` ".
+		"LEFT JOIN `cpta_op_plcptl` ON `cpta_operation`.`id_opstd`=`cpta_op_plcptl`.`id_opstd` ".
+		"LEFT JOIN `cpta_cpasso` ON `cpta_operation`.`id_cptasso`=`cpta_cpasso`.`id_cptasso` ".
+		"LEFT JOIN `asso` ON `cpta_operation`.`id_asso`=`asso`.`id_asso` ".
+		"LEFT JOIN `entreprise` ON `cpta_operation`.`id_ent`=`entreprise`.`id_ent` ".
+		"LEFT JOIN `utilisateurs` ON `cpta_operation`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
+    "LEFT JOIN `cpta_libelle` ON `cpta_operation`.`id_libelle`=`cpta_libelle`.`id_libelle` ".
+
+		"LEFT JOIN `asso` AS `asso2` ON `cpta_cpasso`.`id_asso`=`asso2`.`id_asso` ".
+		"LEFT JOIN `cpta_cpbancaire` ON `cpta_cpasso`.`id_cptbc`=`cpta_cpbancaire`.`id_cptbc` ".
+		"WHERE `cpta_operation`.id_classeur='162' " .
+		"ORDER BY `cpta_operation`.`num_op` DESC" );
+		
+
 $tbl = new sqltable2("compte","Test","sqltable2.php");
-$tbl->add_column_number("id_facture","Facture");
-$tbl->add_column("date_facture","Date");
-$tbl->add_column("nom_prod","Produit");
-$tbl->add_column("nom_cpt","Lieu");
-$tbl->add_column("nom_utilisateur","Vendeur");
-$tbl->add_column("nom_asso","Association");
-$tbl->add_column_quantity("quantite","Quantité");
-$tbl->add_column_price("prix_unit","Prix unitaire");
-$tbl->add_column_price("total","Total");
-$tbl->set_data("id_facture",$req);
+$tbl->add_column_number("num_op","N°");
+$tbl->add_column("date_op","Date");
+$tbl->add_column("nom_libelle","Produit");
+$tbl->add_column_price("montant","Montant");
+$tbl->add_column("mode_op","Paiement",array("mode_op","cheque"));
+$tbl->add_column("acteur","Débiteur/Crediteur",array("nom_utilisateur","nom_entreprise","nom_asso","nom_cptasso"));
+$tbl->add_column("code_plan","Code");
+$tbl->add_column("libelle_opclb","Nature(type)");
+$tbl->add_column("op_effctue","Eff.");
+$tbl->add_column("commentaire_op","Commentaire");
+$tbl->set_column_enumeration("op_effctue",array(0=>"Non",1=>"Oui"));
+
+$tbl->add_action("edit","Editer");
+$tbl->add_action("delete","Supprimer");
+$tbl->add_action("done","Effectué");
+$tbl->add_action("print","Imprimer");
+
+$tbl->set_data("id_op",$req);
 $cts->add($tbl,true);
 $site->add_contents($cts);
 $site->end_page();
