@@ -213,9 +213,6 @@ function stupdate ( tbl )
   
   var selfo = document.getElementById(tbl+"_self");
   
-  //alert(selfo.value+"?"+d);
-  return;
-  
   openInContents( tbl+"_contents", selfo.value, d);
 }
 
