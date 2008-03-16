@@ -64,7 +64,10 @@ if ( $_REQUEST["action"] == "searchpl" )
 	$h8 = 8*3600;
 	$h12 = 12*3600;
 	$h14 = 14*3600;
-	$h18 = 18*3600; 
+	$h18 = 18*3600;
+	
+	$id_creneau_3 = $planning->add_gap( $mardi+$h8, $mardi+$h12 );
+ // FIN TEST 
 
   $sql = 
     "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning
