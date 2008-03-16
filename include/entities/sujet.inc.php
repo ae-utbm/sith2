@@ -370,6 +370,7 @@ class sujet extends stdentity
         "utilisateurs.signature_utl " .
         "FROM frm_message " .
         "LEFT JOIN utilisateurs ON ( utilisateurs.id_utilisateur=frm_message.id_utilisateur ) " .
+        "LEFT JOIN utl_etu_utbm ON ( utl_etu_utbm.id_utilisateur=frm_message.id_utilisateur ) " .
         "WHERE id_sujet='".$this->id."' " .
         "ORDER BY frm_message.id_message $order ".
         "LIMIT $st, $npp";
