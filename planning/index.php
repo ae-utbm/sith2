@@ -28,25 +28,55 @@ define("BUREAU_BELFORT", 6);
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 
-require_once($topdir. "include/cts/sqltable.inc.php");
-require_once($topdir. "include/cts/planning.inc.php");
-require_once($topdir. "include/cts/user.inc.php");
-require_once($topdir. "include/entities/salle.inc.php");
 require_once($topdir. "include/entities/planning.inc.php");
+require_once($topdir. "include/cts/planning.inc.php");
+
+/*require_once($topdir. "include/cts/sqltable.inc.php");
+
+require_once($topdir. "include/cts/user.inc.php");
+require_once($topdir. "include/entities/salle.inc.php");*/
 
 $site = new site ();
 
-$site->allow_only_logged_users();
+$site->allow_only_logged_users("services");
 
 $lieux = array(6=>"Bureau AE Belfort", 30=>"Bureau AE Sevenans", 5=>"Foyer", 28=>"MDE");
 
 if ( $_REQUEST["action"] == "searchpl" )
 {
+  $site->add_css("css/weekplanning.css");
+  
   $site->start_page("services","Planning");
   $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
   
-  //planning
-  $pl = new planning ( $site->db);
+  // TEST
+	$planning = new planning($site->db,$site->dbrw);
+	$start_date = strtotime("2008-04-01");
+	$end_date = strtotime("2008-08-01");
+	
+	$planning->add ( 
+	  1, /* id_asso : ici 1 pour AE */
+	  "Planning d'essai", -1, $start_date, $end_date, true );
+	
+	$lundi = 0;
+	$mardi = 3600*24;
+	$jeudi = 3600*24*3;
+	$h8 = 8*3600;
+	$h12 = 12*3600;
+	$h14 = 14*3600;
+	$h18 = 18*3600; 
+
+  $sql = 
+    "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning
+     IFNULL(utilisateurs.alias_utl,'(personne)') AS texte
+     FROM pl_gap
+     LEFT JOIN pl_gap_user USING(id_gap)
+     LEFT JOIN utilisateurs USING(id_utilisateur)
+     WHERE pl_gap.id_planning='".mysql_real_escape_string($planning->id)."'";
+     
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php", "index.php?action=details", "",
+     PL_LUNDI);
+
   $cts->add($pl,true); 
   
   if( $_REQUEST["id_salle"]==BUREAU_BELFORT)
