@@ -286,17 +286,21 @@ class site extends interfaceweb
   function start_page ( $section, $title,$compact=false )
   {
     global $topdir,$timing;
+    
+    if ( isset($_REQUEST["fetch"]) )
+      return;
+      
     $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
     
-    if ( $section != "pg" && $section != "matmatronch" && $section != "forum" && $section != "sas"  )
-      $this->add_box("alerts",$this->get_alerts());
-      
     $this->add_box("calendrier",new calendar($this->db));
     $this->add_box("connexion", $this->get_connection_contents());
     
     if ( $section == "accueil" )
     {
+      //Nb: alerts est *trés* long à calculer, il ne sera donc que dans accueil
+      $this->add_box("alerts",$this->get_alerts());
+      
       $this->add_box("photo",$this->get_weekly_photo_contents());
       $this->add_box("anniv", $this->get_anniv_contents());
       $this->add_box("planning", $this->get_planning_contents());
