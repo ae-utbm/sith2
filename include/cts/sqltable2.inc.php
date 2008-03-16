@@ -637,9 +637,9 @@ class sqltable2 extends stdcontents
                $idvar = $GLOBALS["entitiescatalog"][$class][0];
                $id = $row[$col[4][$field]];       
                if ( $idvar != $this->id_name )
-                 $this->buffer .= "<a href=\"".$col[2].$this->id_name."=".$row[$this->id_name]."&".$idvar."=".$id."\">";
+                 $this->buffer .= "<a href=\"".$col[7].$this->id_name."=".$row[$this->id_name]."&".$idvar."=".$id."\">";
                else
-                 $this->buffer .= "<a href=\"".$col[2].$this->id_name."=".$row[$this->id_name]."\">";
+                 $this->buffer .= "<a href=\"".$col[7].$this->id_name."=".$row[$this->id_name]."\">";
             }
             else if ( $link )
             {
