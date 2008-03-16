@@ -45,8 +45,9 @@ $lieux = array(6=>"Bureau AE Belfort", 30=>"Bureau AE Sevenans", 5=>"Foyer", 28=
 
 
 if ( $_REQUEST["action"] == "searchpl" )
-{ 
+{
   $site->add_css("css/weekplanning.css");
+  
   $site->start_page("services","Planning");
   $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
   
@@ -201,6 +202,8 @@ if ( $_REQUEST["action"] == "searchpl" )
 }
 else if( $_REQUEST["action"] == "details" )
 { 
+	$site->add_css("css/weekplanning.css");
+	
     $site->start_page("services","Planning");
     $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
    
