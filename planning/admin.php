@@ -36,24 +36,29 @@ $site = new site();
 
 $site->allow_only_logged_users();
 
-$planning = new planning($site->db,$site->dbrw);
-$start_date = strtotime("2008-04-01");
-$end_date = strtotime("2008-08-01");
+$plan = array(120=>"Bureau AE Belfort");
 
-$planning->add ( 
-  1, /* id_asso : ici 1 pour AE */
-  "Planning d'essai", -1, $start_date, $end_date, true );
+if ( !isset($_REQUEST["id_planning"]) )
+{
+  $site->start_page("services","Planning");
+  $cts = new contents("<a href=\"index.php\">Planning</a> / <a href=\"admin.php\">Administration</a> / ".$salles[$id_salle]);
 
-$lundi = 0;
-$mardi = 3600*24;
-$jeudi = 3600*24*3;
-$h8 = 8*3600;
-$h12 = 12*3600;
-$h14 = 14*3600;
-$h18 = 18*3600; 
+  $lst = new itemlist("Veuillez choisir le planning à administrer");
+  
+  foreach ( $plan as $id => $nom )
+	$lst->add("<a href=\"admin.php?id_planning=$id\">$nom</a>");
+
+  $cts->add($lst,true);
+  $site->add_contents($cts);
+  $site->end_page(); 
+  exit();
+}
+
+$id_planning = intval($_REQUEST["id_planning"]);
 
 $site->start_page("services","Planning");
 $cts = new contents("<a href=\"index.php\">Planning</a> / <a href=\"admin.php\">Administration</a> / ".$salles[$id_salle]);
+
 
 /*$frm = new form("searchpl","admin.php",false,"POST","Ajouter un creneau");
 $frm->add_hidden("action","searchpl");

@@ -83,13 +83,6 @@ if ( $_REQUEST["action"] == "searchpl" )
 
   $cts->add($pl,true); 
   
-  if( $_REQUEST["id_salle"]==BUREAU_BELFORT)
-  {
-  	$is_admin = $site->user->is_in_group("gestion_ae");
-  	if ( $is_admin )
-  		$cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
-  }
-  
   $frm = new form("searchpl","index.php",false,"POST","Nouvelle recherche");
   $frm->add_hidden("action","searchpl");
   if ( isset($_REQUEST["fallback"]) )
@@ -113,6 +106,10 @@ $frm->add_hidden("action","searchpl");
 $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST["id_salle"]);
 $frm->add_submit("afficher","Afficher le planning");
 $cts->add($frm,true);
+
+$is_admin = $site->user->is_in_group("gestion_ae");
+if ( $is_admin )
+	$cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
 
 $site->add_contents($cts);
 $site->end_page();  
