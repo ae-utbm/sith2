@@ -36,7 +36,7 @@ $site = new site();
 
 $site->allow_only_logged_users();
 
-$plan = array(120=>"Bureau AE Belfort");
+$plan = array(155=>"Bureau AE Belfort");
 
 if ( !isset($_REQUEST["id_planning"]) )
 {
@@ -65,10 +65,18 @@ $sql = new requete($site->db, "SELECT start_date_planning, end_date_planning
      
 $row = $sql->get_row();
 
-$frm = new form("autoplanning", "admin.php?id_planning=$id_salle",false,"POST","Modifier le dates du planning");
+$frm = new form("autoplanning", "admin.php?id_planning=$id_planning",false,"POST","Modifier les dates du planning");
 $frm->add_hidden("action","autoplanning");
 $frm->add_datetime_field("date_debut","Date de début",strtotime($row['start_date_planning']));
 $frm->add_datetime_field("date_fin","Date de fin",strtotime($row['end_date_planning']));
+$frm->add_submit("valid","Valider");
+$frm->allow_only_one_usage();
+$cts->add($frm,true);
+
+$frm = new form("autoplanning", "admin.php?id_planning=$id_planning",false,"POST","Ajouter un creneau");
+$frm->add_hidden("action","autoplanning");
+$frm->add_datetime_field("date_debut","Date de début",);
+$frm->add_datetime_field("date_fin","Date de fin",);
 $frm->add_submit("valid","Valider");
 $frm->allow_only_one_usage();
 $cts->add($frm,true);
