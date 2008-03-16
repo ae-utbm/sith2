@@ -569,7 +569,7 @@ class sqltable2 extends stdcontents
           $this->buffer .= "<td>";
 
         if ( isset($col[7]) && !$col[3] ) // $col[3] non null si entity
-          $this->buffer .= "<a href=\"".$col[2].$this->id_name."=".$row[$this->id_name]."\">";
+          $this->buffer .= "<a href=\"".$col[7].$this->id_name."=".$row[$this->id_name]."\">";
 
         switch( $col[0] )
         {
