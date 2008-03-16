@@ -200,6 +200,15 @@ if ( $_REQUEST["action"] == "searchpl" )
   
   exit();
 }
+else if( $_REQUEST["action"] == "details" )
+{
+	$planning->load_by_id(PERM_AE_BELFORT);
+
+	if ( !$planning->is_valid() )
+  		$site->error_not_found("services");
+  		
+  	$planning->add_user_to_gap($_REQUEST["id_gap"], $site->user->id);
+}
 
 $site->start_page("services","Planning");
 
