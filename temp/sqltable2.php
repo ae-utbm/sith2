@@ -50,7 +50,7 @@ $req = new requete ( $site->db, "SELECT " .
 
 		"LEFT JOIN `asso` AS `asso2` ON `cpta_cpasso`.`id_asso`=`asso2`.`id_asso` ".
 		"LEFT JOIN `cpta_cpbancaire` ON `cpta_cpasso`.`id_cptbc`=`cpta_cpbancaire`.`id_cptbc` ".
-		"WHERE `cpta_operation`.id_classeur='241' " .
+		"WHERE `cpta_operation`.id_classeur='162' " .
 		"ORDER BY `cpta_operation`.`num_op` DESC" );
 		
 
