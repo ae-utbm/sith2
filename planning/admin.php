@@ -75,8 +75,6 @@ $cts->add($frm,true);
 
 $frm = new form("autoplanning", "admin.php?id_planning=$id_planning",false,"POST","Ajouter un creneau");
 $frm->add_hidden("action","autoplanning");
-$frm->add_datetime_field("date_debut","Date de début",);
-$frm->add_datetime_field("date_fin","Date de fin",);
 $frm->add_submit("valid","Valider");
 $frm->allow_only_one_usage();
 $cts->add($frm,true);
