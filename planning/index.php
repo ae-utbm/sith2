@@ -175,7 +175,7 @@ if ( $_REQUEST["action"] == "searchpl" )
  // FIN TEST 
 
   $sql = 
-    "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning
+    "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning,
      IFNULL(utilisateurs.alias_utl,'(personne)') AS texte
      FROM pl_gap
      LEFT JOIN pl_gap_user USING(id_gap)
