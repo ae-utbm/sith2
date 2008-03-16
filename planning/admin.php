@@ -59,9 +59,9 @@ $id_planning = intval($_REQUEST["id_planning"]);
 $site->start_page("services","Planning");
 $cts = new contents("<a href=\"index.php\">Planning</a> / <a href=\"admin.php\">Administration</a> / ".$salles[$id_salle]);
 
-$sql = "SELECT start_date_planning, end_date_planning
+$sql = new requete($site->db, "SELECT start_date_planning, end_date_planning
      FROM pl_planning
-     WHERE id_planning='".$id_planning."'";
+     WHERE id_planning='".$id_planning."'");
      
 $row = $sql->get_row();
 
