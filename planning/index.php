@@ -24,7 +24,7 @@
  */
 
 define("BUREAU_BELFORT", 6);
-defin("PERM_AE_BELFORT", 120);
+define("PERM_AE_BELFORT", 120);
 
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
