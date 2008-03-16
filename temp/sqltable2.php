@@ -18,10 +18,11 @@ $req = new requete($site->db, "SELECT " .
 		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
 		"`utilisateurs`.`id_utilisateur`, " .
 		"`cpt_vendu`.`quantite`, " .
-		"`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
-		"`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
+		"`cpt_vendu`.`prix_unit` AS `prix_unit`, " .
+		"`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite` AS `total`," .
 		"`cpt_comptoir`.`id_comptoir`, " .
 		"`cpt_comptoir`.`nom_cpt`," .
+		"`cpt_produits`.`id_produit`, " .
 		"`cpt_produits`.`nom_prod` " .
 		"FROM `cpt_vendu` " .
 		"LEFT JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .

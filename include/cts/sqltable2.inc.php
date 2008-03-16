@@ -424,8 +424,8 @@ class sqltable2 extends stdcontents
               {
                 case "=" : $match = $match && ( $filter[2] == strtotime($row[$field]) ); break;
                 case "!" : $match = $match && ( $filter[2] != strtotime($row[$field]) ); break;
-                case ">" : $match = $match && ( $filter[2] >= strtotime($row[$field]) ); break;
-                case "<" : $match = $match && ( $filter[2] <= strtotime($row[$field]) ); break;              
+                case ">" : $match = $match && ( $filter[2] <= strtotime($row[$field]) ); break;
+                case "<" : $match = $match && ( $filter[2] >= strtotime($row[$field]) ); break;              
               }              
             }
             else
@@ -434,8 +434,8 @@ class sqltable2 extends stdcontents
               {
                 case "=" : $match = $match && ( $filter[2] == $row[$field] ); break;
                 case "!" : $match = $match && ( $filter[2] != $row[$field] ); break;
-                case ">" : $match = $match && ( $filter[2] >= $row[$field] ); break;
-                case "<" : $match = $match && ( $filter[2] <= $row[$field] ); break;              
+                case ">" : $match = $match && ( $filter[2] <= $row[$field] ); break;
+                case "<" : $match = $match && ( $filter[2] >= $row[$field] ); break;              
               }
             }
           }
