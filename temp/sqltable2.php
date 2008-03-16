@@ -73,6 +73,8 @@ $tbl->set_column_enumeration("mode_op",array(2=>"Espèces",1=>"Chèque",3=>"Vire
 $tbl->set_column_action("op_effctue","done");
 $tbl->set_column_action("num_op","edit");
 
+$tbl->set_column_isdiverse("commentaire_op");
+
 $tbl->add_action("delete","Supprimer");
 $tbl->add_action("print","Imprimer");
 

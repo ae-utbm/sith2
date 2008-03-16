@@ -375,6 +375,17 @@ class sqltable2 extends stdcontents
   } 
   
   /**
+   * Définit une colonne comme ayant un nombre de valeurs trés diverses.
+   * Ceci permettra de mettre un filtre aproprié.
+   * @param $column Nom de la colonne
+   * @param $enumeration Table de correspondance 
+   */
+  public function set_column_isdiverse ( $column )
+  {
+    $this->columns[$column][8] = true;
+  } 
+  
+  /**
    * Définit les données du tableau
    * @param $id_name Champ SQL contenant l'identifiant unique de chaque ligne
    * @param $data Données : soit une objet requete, soit un tableau
@@ -551,7 +562,8 @@ class sqltable2 extends stdcontents
       {
         $this->get_colum_value ( $col, $row, $value, $field );
 
-        if ( !$dataonly && $col[0] != "price" && $col[0] != "date" && $col[0] != "qty" && $col[0] != "number" )
+        if ( !$dataonly && $col[0] != "price" && $col[0] != "date" && 
+             $col[0] != "qty" && $col[0] != "number" && !isset($col[8]) )
         {
           if ( $col[0] == "entity" )
           {
@@ -568,7 +580,7 @@ class sqltable2 extends stdcontents
         else
           $this->buffer .= "<td>";
 
-        if ( isset($col[7]) && !$col[3] ) // $col[3] non null si entity
+        if ( isset($col[7]) && !is_null($col[7]) && !$col[3] ) // $col[3] non null si entity
           $this->buffer .= "<a href=\"".$col[7].$this->id_name."=".$row[$this->id_name]."\">";
 
         switch( $col[0] )
@@ -643,7 +655,7 @@ class sqltable2 extends stdcontents
           
         }
         
-        if ( isset($col[7]) )
+        if ( isset($col[7]) && !is_null($col[7]) )
           $this->buffer .= "</a>\n";
           
         $this->buffer .= "</td>\n";
@@ -714,7 +726,12 @@ class sqltable2 extends stdcontents
         $this->buffer .= "<input type=\"hidden\" id=\"".$this->nom."_".$key."_t\" value=\"s\">"; break;
       }
             
-      if ( $col[0] == "price" || $col[0] == "date" || $col[0] == "qty" || $col[0] == "number" )
+      if ( isset($col[8]) )
+      {
+        
+        
+      }
+      else if ( $col[0] == "price" || $col[0] == "date" || $col[0] == "qty" || $col[0] == "number" )
       {
         if ( count($col[2]) == 1 ) // Ne fonctionne que dans ce cas
         {
