@@ -88,7 +88,7 @@ class sqltable2 extends stdcontents
     global $wwwtopdir,$topdir;
     
     if ( is_null($page) )
-      $page = &$this->page;
+      $page = $this->page;
     
     if ( strstr($page,"?") )
       $page = $page."&action=".$action."&";
