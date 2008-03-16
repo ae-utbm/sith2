@@ -173,9 +173,9 @@ class forum extends basedb
         "frm_message.date_message, " .
         "frm_message.id_message, " .
         "IF(
-          utilisateurs.utbm_utl='0' OR utl_etu_utbm.surnom_utbm='',
+          utilisateurs.utbm_utl='1',
+          utl_etu_utbm.surnom_utbm,
           CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl),
-          utl_etu_utbm.surnom_utbm
          ) AS `nom_utilisateur_dernier_auteur`, " .
         "utilisateurs.id_utilisateur AS `id_utilisateur_dernier`, ";
         
@@ -210,8 +210,8 @@ class forum extends basedb
     $query .= "FROM frm_forum " .
         "LEFT JOIN frm_sujet ON ( frm_sujet.id_sujet = frm_forum.id_sujet_dernier ) " .
         "LEFT JOIN frm_message ON ( frm_message.id_message = frm_sujet.id_message_dernier ) " .
-        "LEFT JOIN utilisateurs ON ( utilisateurs.id_utilisateur=frm_message.id_utilisateur ) " .
-        "LEFT JOIN utbm_utl ON ( utilisateurs.id_utilisateur = utl_etu_utbm.id_utilisateur ) " .
+        "LEFT JOIN utilisateurs ON ( utilisateurs.id_utilisateur = frm_message.id_utilisateur ) " .
+        "LEFT JOIN utl_etu_utbm ON ( utilisateurs.id_utilisateur = utl_etu_utbm.id_utilisateur ) " .
         "WHERE " .
         "id_forum_parent='".$this->id."' ";
 	 
