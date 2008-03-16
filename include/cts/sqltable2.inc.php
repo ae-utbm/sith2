@@ -456,7 +456,7 @@ class sqltable2 extends stdcontents
       }
       
 	    header("Content-Type: text/html; charset=utf-8");
-      echo $cts->html_render(true);
+      echo $this->html_render(true);
       exit();
     }
     
