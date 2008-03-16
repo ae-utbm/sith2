@@ -361,7 +361,11 @@ class sujet extends stdentity
       $order = 'ASC';
 
     $query = "SELECT frm_message.*, ".
-        "utilisateurs.alias_utl, " .
+        "IF(
+          utilisateurs.utbm_utl = '1',
+          utl_etu_utbm.surnom_utbm,
+          CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl)
+        ) AS alias_utl, " .
         "utilisateurs.id_utilisateur, " .
         "utilisateurs.signature_utl " .
         "FROM frm_message " .
