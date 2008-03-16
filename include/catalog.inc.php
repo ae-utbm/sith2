@@ -57,6 +57,18 @@ $GLOBALS["entitiescatalog"] = array (
 	"typeproduit" 	=> array ( "id_typeprod", "nom_typeprod", "typeprod.png", "comptoir/admin.php", "cpt_type_produit" ),
 	"catphoto"		=> array ( "id_catph", "nom_catph", "catph.png", "sas2/", "sas_cat_photos" ),
 	"photo"			=> array ( "id_photo", "id_photo", "photo.png", "sas2/", "sas_photos", null, "sas_photos_tag" ),
+	
+	// Compta : Classeurs
+	"classeur_compta"=> array ( "id_classeur", "nom_classeur", "classeur.png", "compta/classeur.php"),
+	"compte_asso"    => array ( "id_cptasso", "nom_cptasso","compte.png","compta/cptasso.php"),
+	"budget"			=> array ( "id_budget","nom_budget","budget.png","compta/budget.php"),
+	"compte_bancaire"=> array ( "id_cptbc","nom_cptbc","cptbc.png","compta/cptbc.php"),
+	"operation" => array( "id_op", "id_op", "file.png", "compta/classeur.php"),
+	"efact"=>array("id_efact","titre_facture","file.png","compta/efact.php","cpta_facture","efact.inc.php"),
+	"notefrais"=>array("id_notefrais","id_notefrais","file.png","compta/notefrais.php","cpta_notefrais","notefrais.inc.php"),	
+	
+	
+	
 	"emprunt"		=> array ( "id_emprunt", "id_emprunt", "emprunt.png", "emprunt.php", "inv_emprunt" ),
 	"produit"		=> array ( "id_produit", "nom_prod", "produit.png", "comptoir/admin.php", "cpt_produits","produit.inc.php" ),
 	"facture"		=> array ( "id_facture", "id_facture", "emprunt.png", "comptoir/gen_fact.php", "cpt_debitfacture" ),
@@ -85,14 +97,7 @@ $GLOBALS["entitiescatalog"] = array (
 	"entreprise" 	=> array ( "id_ent", "nom_entreprise", "entreprise.png", "entreprise.php", "entreprise","entreprise.inc.php" ),
 	"secteur" => array( "id_secteur", "nom_secteur", "lieu.png", "entreprise.php", "secteur"),
 	
-	// Compta : Classeurs
-	"classeur_compta"=> array ( "id_classeur", "nom_classeur", "classeur.png", "compta/classeur.php"),
-	"compte_asso"    => array ( "id_cptasso", "nom_cptasso","compte.png","compta/cptasso.php"),
-	"budget"			=> array ( "id_budget","nom_budget","budget.png","compta/budget.php"),
-	"compte_bancaire"=> array ( "id_cptbc","nom_cptbc","cptbc.png","compta/cptbc.php"),
-	"operation" => array( "id_op", "id_op", "file.png", "compta/classeur.php"),
-	"efact"=>array("id_efact","titre_facture","file.png","compta/efact.php","cpta_facture","efact.inc.php"),
-	"notefrais"=>array("id_notefrais","id_notefrais","file.png","compta/notefrais.php","cpta_notefrais","notefrais.inc.php"),
+
 	
 	// Pedagogie
 	"uv" 			=> array ( "id_uv", "code_uv", "misc.png", "uvs/uvs.php", "edu_uv", "uv.inc.php" ),

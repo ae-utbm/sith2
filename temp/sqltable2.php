@@ -57,7 +57,7 @@ $req = new requete ( $site->db, "SELECT " .
 $tbl = new sqltable2("compte","Test","sqltable2.php");
 $tbl->add_column_number("num_op","N°");
 $tbl->add_column("date_op","Date");
-$tbl->add_column("nom_libelle","Produit");
+$tbl->add_column("nom_libelle","Etiquette");
 $tbl->add_column_price("montant","Montant");
 $tbl->add_column("mode_op","Paiement",array("mode_op","cheque"));
 $tbl->add_column("acteur","Débiteur/Crediteur",array("nom_utilisateur","nom_entreprise","nom_asso","nom_cptasso"));
