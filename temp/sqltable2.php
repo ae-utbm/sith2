@@ -54,7 +54,7 @@ $req = new requete ( $site->db, "SELECT " .
 		"ORDER BY `cpta_operation`.`num_op` DESC" );
 		
 
-$tbl = new sqltable2("compte","Test","sqltable2.php",false);
+$tbl = new sqltable2("compte","Test","sqltable2.php");
 $tbl->add_column_number("num_op","N°");
 $tbl->add_column("date_op","Date");
 $tbl->add_column("nom_libelle","Etiquette");
