@@ -24,6 +24,7 @@
  */
 
 define("BUREAU_BELFORT", 6);
+defin("PERM_AE_BELFORT", 120);
 
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
@@ -50,12 +51,12 @@ if ( $_REQUEST["action"] == "searchpl" )
   $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
   
   // TEST
-	$planning = new planning($site->db,$site->dbrw);
-	$start_date = strtotime("2008-04-01");
-	$end_date = strtotime("2008-08-01");
+	/*$planning = new planning($site->db,$site->dbrw);
+	$start_date = strtotime("2008-03-17");
+	$end_date = strtotime("2008-07-01");
 	
 	$planning->add ( 
-	  1, /* id_asso : ici 1 pour AE */
+	  1,
 	  "Planning d'essai", -1, $start_date, $end_date, true );
 	
 	$lundi = 0;
@@ -66,7 +67,7 @@ if ( $_REQUEST["action"] == "searchpl" )
 	$h14 = 14*3600;
 	$h18 = 18*3600;
 	
-	$id_creneau_3 = $planning->add_gap( $mardi+$h8, $mardi+$h12 );
+	$id_creneau_3 = $planning->add_gap( $mardi+$h8, $mardi+$h12 );*/
  // FIN TEST 
 
   $sql = 
@@ -75,7 +76,7 @@ if ( $_REQUEST["action"] == "searchpl" )
      FROM pl_gap
      LEFT JOIN pl_gap_user USING(id_gap)
      LEFT JOIN utilisateurs USING(id_utilisateur)
-     WHERE pl_gap.id_planning='".mysql_real_escape_string($planning->id)."'";
+     WHERE pl_gap.id_planning='".PERM_AE_BELFORT."'";
      
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php", "index.php?action=details", "",
      PL_LUNDI);
@@ -91,8 +92,8 @@ if ( $_REQUEST["action"] == "searchpl" )
   
   $frm = new form("searchpl","index.php",false,"POST","Nouvelle recherche");
   $frm->add_hidden("action","searchpl");
-  //if ( isset($_REQUEST["fallback"]) )
-    //$frm->add_hidden("fallback",$_REQUEST["fallback"]);
+  if ( isset($_REQUEST["fallback"]) )
+    $frm->add_hidden("fallback",$_REQUEST["fallback"]);
   $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST["id_salle"]);
   $frm->add_submit("afficher","Afficher le planning");
   $cts->add($frm,true);
