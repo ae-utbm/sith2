@@ -17,7 +17,7 @@ $req = new requete ( $site->db, "SELECT " .
 		"`cpta_operation`.`op_effctue`, " .
 		"`cpta_operation`.`commentaire_op`, " .
 		
-		"IF(`cpta_operation`.`mode_op`='1',CONCAT('Chèque ',`cpta_operation`.`num_cheque_op`),NULL) AS `cheque`, " .
+		"`cpta_operation`.`num_cheque_op`, " .
 		"`cpta_operation`.`mode_op`, " .		
 
 		"(IF(`cpta_op_plcptl`.`type_mouvement` IS NULL,`cpta_op_clb`.`type_mouvement`,`cpta_op_plcptl`.`type_mouvement`)*`montant_op`) as `montant`, " .
@@ -59,17 +59,21 @@ $tbl->add_column_number("num_op","N°");
 $tbl->add_column("date_op","Date");
 $tbl->add_column("nom_libelle","Etiquette");
 $tbl->add_column_price("montant","Montant");
-$tbl->add_column("mode_op","Paiement",array("mode_op","cheque"));
+$tbl->add_column("mode_op","Paiement");
+$tbl->add_column_number("num_cheque_op","N°");
 $tbl->add_column("acteur","Débiteur/Crediteur",array("nom_utilisateur","nom_entreprise","nom_asso","nom_cptasso"));
 $tbl->add_column("code_plan","Code");
 $tbl->add_column("libelle_opclb","Nature(type)");
 $tbl->add_column("op_effctue","Eff.");
 $tbl->add_column("commentaire_op","Commentaire");
-$tbl->set_column_enumeration("op_effctue",array(0=>"Non",1=>"Oui"));
 
-$tbl->add_action("edit","Editer");
+$tbl->set_column_enumeration("op_effctue",array(0=>"Non",1=>"Oui"));
+$tbl->set_column_enumeration("mode_op",array(2=>"Espèces",1=>"Chèque",3=>"Virement",4=>"Carte Bancaire"));
+
+$tbl->set_column_action("op_effctue","done");
+$tbl->set_column_action("num_op","edit");
+
 $tbl->add_action("delete","Supprimer");
-$tbl->add_action("done","Effectué");
 $tbl->add_action("print","Imprimer");
 
 $tbl->set_data("id_op",$req);
