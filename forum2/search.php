@@ -53,9 +53,17 @@ if ( $_REQUEST["page"] == "unread" )
   $query = "SELECT frm_sujet.*, ".
       "frm_message.date_message, " .
       "frm_message.id_message, " .
-      "dernier_auteur.alias_utl AS `nom_utilisateur_dernier_auteur`, " .
+      "IF(
+        dernier_auteur.utbm_utl = '1',
+        dernier_auteur_etu_utbm.surnom_utbm,
+        CONCAT(dernier_auteur.prenom_utl,' ',dernier_auteur.nom_utl)
+      ) AS `nom_utilisateur_dernier_auteur`, " .
       "dernier_auteur.id_utilisateur AS `id_utilisateur_dernier`, " .
-      "premier_auteur.alias_utl AS `nom_utilisateur_premier_auteur`, " .
+      "IF(
+          premier_auteur.utbm_utl = '1',
+          premier_auteur_etu_utbm.surnom_utbm,
+          CONCAT(premier_auteur.prenom_utl,' ',premier_auteur.nom_utl)
+        ) AS `nom_utilisateur_premier_auteur`, " .
       "premier_auteur.id_utilisateur AS `id_utilisateur_premier`, " .
       "1 AS `nonlu`, " .
       "titre_forum AS `soustitre_sujet`, " .
@@ -65,6 +73,8 @@ if ( $_REQUEST["page"] == "unread" )
       "LEFT JOIN frm_message ON ( frm_message.id_message = frm_sujet.id_message_dernier ) " .
       "LEFT JOIN utilisateurs AS `dernier_auteur` ON ( dernier_auteur.id_utilisateur=frm_message.id_utilisateur ) " .
       "LEFT JOIN utilisateurs AS `premier_auteur` ON ( premier_auteur.id_utilisateur=frm_sujet.id_utilisateur ) ".
+      "LEFT JOIN utl_etu_utbm AS `dernier_auteur_etu_utbm` ON ( dernier_auteur_etu_utbm.id_utilisateur=frm_message.id_utilisateur ) " .
+      "LEFT JOIN utl_etu_utbm AS `premier_auteur_etu_utbm` ON ( premier_auteur_etu_utbm.id_utilisateur=frm_sujet.id_utilisateur )" .
       "LEFT JOIN frm_sujet_utilisateur ".
         "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
         "AND frm_sujet_utilisateur.id_utilisateur='".$site->user->id."' ) ".
