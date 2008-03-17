@@ -76,7 +76,6 @@ $sublist->add("<a href=\"elections.php\">Modifier/Consulter une election</a>");
 $board->add($sublist,true);
 
 $sublist = new itemlist("Divers"); 
-$sublist->add("<a href=\"tableauresp.php\">Listing activités/responsable</a>");
 $sublist->add("<a href=\"activites.php\">Listing des responsables et des trésoriers des activités</a>");
 $sublist->add("<a href=\"".$topdir."asso/sendfax.php?id_asso=1\">Envoyer des fax</a>");
 $board->add($sublist,true);
