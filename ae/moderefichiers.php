@@ -91,8 +91,9 @@ if (!isset($_REQUEST['action']))
       /* selection fichiers non moderes */
       $sql = "SELECT `fichiers`.*
                      , `fichiers_cat`.*
+                     , `utilisateurs`.`id_utilisateur`
                      , CONCAT(`utilisateurs`.`prenom_utl`, ' ',
-                              `utilisateurs`.`nom_utl`) as author
+                              `utilisateurs`.`nom_utl`) as nom_utilisateur
 
               FROM `fichiers`
               INNER JOIN `fichiers_cat` ON `fichiers_cat`.`id_catfch` =
@@ -109,7 +110,7 @@ if (!isset($_REQUEST['action']))
 			  "moderefichiers.php?filemod=1",
 			  "id_fichier",
 			  array("titre_fichier"=>"Titre",
-				"author"=>"Auteur",
+				"nom_utilisateur"=>"Auteur",
 				"mime_fichier"=>"Type",
 				"commentaire_fichier"=>"Commentaire"),
 			  array("done" => "Accepter",
