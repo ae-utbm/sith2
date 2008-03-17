@@ -1,6 +1,7 @@
 <?php
 /* Copyright 2006
  * - Pierre Mauduit
+ * - Benjamin Collet < bcollet at oxynux dot org>
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.

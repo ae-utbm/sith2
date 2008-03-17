@@ -79,7 +79,7 @@ $cts->add(new sqltable(
 		array("convention"=>array(0=>"Non requise",1=>"A faire",11=>"Faite") )
 		),true);
 		
-$cts->add_paragraph(wikilink("asso-convention","Article sur les conventions de locaux."));
+$cts->add_paragraph("<a href=\"".$topdir."wiki2/?name=guide_resp:gestion\">Article sur les conventions de locaux.</a>");
 }
 		
 $req = new requete($site->db,"SELECT inv_emprunt.*, IF(etat_emprunt=0,'Non fixé',caution_emp/100) AS caution  " .
