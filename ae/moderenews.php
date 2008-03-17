@@ -3,6 +3,7 @@
  *
  * - Maxime Petazzoni < sam at bulix dot org >
  * - Pierre Mauduit < pierre dot mauduit at utbm dot fr >
+ * - Benjamin Collet < bcollet at oxynux dot org >
  *
  * Ce fichier fait partie du site de l'Association des Ãtudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -177,9 +178,10 @@ else
 {
   $req = new requete($site->db,"SELECT `nvl_nouvelles`.*,
                                        `asso`.`nom_unix_asso`,
+                                       `utilisateurs`.`id_utilisateur`,
                                        CONCAT(`utilisateurs`.`prenom_utl`,
                                               ' ',
-                                              `utilisateurs`.`nom_utl`) AS `nom_prenom`
+                                              `utilisateurs`.`nom_utl`) AS `nom_utilisateur`
 
                                 FROM `nvl_nouvelles`
 			        LEFT JOIN `asso` ON
@@ -202,7 +204,7 @@ else
 			"moderenews.php",
 			"id_nouvelle",
 			array ("titre_nvl" => "Titre",
-			       "nom_prenom" => "auteur",
+			       "nom_utilisateur" => "Auteur",
 			       "date_nvl" => "Date"),
 			array ("edit" => "moderer",
 			       "delete" => "supprimer"),
