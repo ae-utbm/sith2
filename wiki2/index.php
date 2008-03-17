@@ -179,7 +179,7 @@ if ( !$wiki->is_valid() )
       $can_create = false;
   }
   
-  $site->start_page ("none", "Page inexistante");
+  $site->start_page ("wiki", "Page inexistante");
   
   if ( $can_create )
     $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
@@ -263,7 +263,7 @@ elseif ( $_REQUEST["action"] == "edit" && $is_admin )
           $_REQUEST['rights_id_group_admin']);
   $wiki->update();          
 }
-$site->start_page ("none", $wiki->rev_title);
+$site->start_page ("wiki", $wiki->rev_title);
 
 if ( $is_admin )
   $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
