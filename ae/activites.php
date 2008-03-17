@@ -50,7 +50,7 @@ $req_assos = new requete($site->db, "SELECT asso_parent.id_asso AS id_asso_paren
     INNER JOIN asso AS asso_parent ON asso.id_asso_parent=asso_parent.id_asso
     WHERE asso.id_asso_parent IN (SELECT id_asso FROM asso WHERE id_asso_parent='1') 
     GROUP BY asso.id_asso 
-    ORDER BY asso_parent.nom_asso");
+    ORDER BY asso_parent.nom_asso, asso.nom_asso");
 
 $table = new sqltable("", "Liste des responsables et des trésoriers des activités", $req_assos, "", "",
                       array("nom_asso_parent" => "",
