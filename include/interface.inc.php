@@ -91,6 +91,7 @@ class interfaceweb
         array ("matmatronch", "matmatronch/", "Matmatronch"),
         array ("sas", "sas2/", "SAS"),
         array ("forum", "forum2/", "Forum"),
+        array ("wiki", "wiki2/", "Wiki"),
         array ("fichiers", "d.php", "Fichiers",
            array (
               array ("d.php", "Fichiers de l'AE" ),
