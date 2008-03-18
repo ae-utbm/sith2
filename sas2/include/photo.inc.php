@@ -1,6 +1,8 @@
 <?php
 /* Copyright 2004-2006
  * - Julien Etelain < julien at pmad dot net >
+ * - Simon Lopez < simon dot lopez at ayolo dot org >
+ * - Benjamin Collet < bcollet at oxynux dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -34,6 +36,7 @@ define("MEDIA_VIDEOFLV",1);
  * @ingroup sas
  * @author Julien Etelain
  * @author Simon Lopez
+ * @author Benjamin Collet
  */
 class photo extends basedb
 {
@@ -665,6 +668,39 @@ class photo extends basedb
       "AND `modere_phutl`='1' LIMIT 1");
 
     return ($req->lines==1);
+  }
+
+  /**
+   * Détermine si un utilisateur a vu la photo.
+   * @param $id_utilisateur Id de l'utilisateur à tester.
+   * @note Entraine une requête SQL.
+   */
+  function has_seen_photo ( $id_utilisateur )
+  {
+    $req = new requete($this->db,
+      "SELECT `id_utilisateur` " .
+      "FROM `sas_personnes_photos` " .
+      "WHERE `id_photo`='".$this->id."' " .
+      "AND `id_utilisateur`='".$id_utilisateur."' " .
+      "AND `modere_phutl`='1' " .
+      "AND `vu_phutl`='1' LIMIT 1");
+
+    return ($req->lines==1);
+  }
+
+  /**
+   * Définit la photo comme ayant été vue.
+   * @param $id_utilisateur Id de l'utilisateur ayant vu la photo.
+   * @note Uniquement pour les personnes présentes sur la photo.
+   */
+  function set_seen_photo ( $id_utilisateur )
+  {
+    $req= new update($this->dbrw,"sas_personnes_photos",
+      array("vu_phutl" => '1'),
+      array("id_utilisateur" => $id_utilisateur, 
+        "id_photo" => $this->id,
+        "vu_phutl" => '0')
+      );
   }
 
   /**

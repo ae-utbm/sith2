@@ -373,6 +373,8 @@ class sasphoto extends contents
         $subcts->add_paragraph("Proposé par: ".classlink($userinfo));  
       }
     }
+
+    $photo->set_seen_photo ($user);
     
     $subcts->add(new taglist($photo));
     
