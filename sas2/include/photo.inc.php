@@ -695,11 +695,11 @@ class photo extends basedb
    */
   function set_seen_photo ( $id_utilisateur )
   {
-    $req= new update($this->dbrw,"sas_personnes_photos",
-      array("vu_phutl" => '1'),
+    $sql = new update($this->dbrw,"sas_personnes_photos",
+      array("vu_phutl" => 1),
       array("id_utilisateur" => $id_utilisateur, 
         "id_photo" => $this->id,
-        "vu_phutl" => '0')
+        "vu_phutl" => 0)
       );
   }
 
