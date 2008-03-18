@@ -198,7 +198,6 @@ function fetch_rss ($url) {
         else {
             $errormsg = "Unable to retrieve RSS file for unknown reasons.";
         }
-       echo "bleh"; 
         // else fetch failed
         
         // attempt to return cached object
