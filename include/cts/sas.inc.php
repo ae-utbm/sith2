@@ -374,7 +374,7 @@ class sasphoto extends contents
       }
     }
 
-    $photo->set_seen_photo ($user);
+    $photo->set_seen_photo ($user->id);
     
     $subcts->add(new taglist($photo));
     
