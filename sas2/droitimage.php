@@ -40,7 +40,7 @@ if ( $_REQUEST["action"] == "setaccordphoto" )
     if ( $_REQUEST["mesure"] == "ok" )
 		{
       $photo->donne_accord($site->user->id);
-      $photo->set_seen_photo ($user);
+      $photo->set_seen_photo ($site->user->id);
     }
     elseif ( $_REQUEST["mesure"] == "retrait" )
     {
