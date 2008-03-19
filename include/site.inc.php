@@ -42,11 +42,20 @@ else
 
 require_once($topdir . "include/interface.inc.php");
 require_once($topdir . "include/globals.inc.php");
+$timing["includes->globals"] = $timing["all"]+microtime(true);
+
 require_once($topdir . "include/cts/calendar.inc.php");
+$timing["includes->calendar"] = $timing["all"]+microtime(true);
+
 require_once($topdir . "include/entities/sondage.inc.php");
 require_once($topdir . "include/entities/campagne.inc.php");
+$timing["includes->stuff"] = $timing["all"]+microtime(true);
+
 require_once($topdir . "include/entities/cotisation.inc.php");
+$timing["includes->cotisation"] = $timing["all"]+microtime(true);
+
 require_once($topdir . "jobetu/include/jobuser_etu.inc.php");
+$timing["includes->jobetu"] = $timing["all"]+microtime(true);
 
 /** La classe principale du site */
 class site extends interfaceweb
