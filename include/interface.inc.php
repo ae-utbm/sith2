@@ -32,7 +32,7 @@ setlocale(LC_ALL,"fr_FR.UTF8");
 
 require_once($topdir . "include/mysql.inc.php");
 require_once($topdir . "include/mysqlae.inc.php");
-$timing["includes.sql"] = $timing["all"]+microtime(true);
+$timing["includes->sql"] = $timing["all"]+microtime(true);
 require_once($topdir . "include/entities/std.inc.php");
 require_once($topdir . "include/entities/utilisateur.inc.php");
 $timing["includes->utilisateur"] = $timing["all"]+microtime(true);
