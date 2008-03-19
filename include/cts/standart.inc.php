@@ -26,18 +26,10 @@
  * 02111-1307, USA.
  */
  
-require_once($topdir."include/lib/dokusyntax.inc.php");
-$timing["includes->doku"] = $timing["all"]+microtime(true);
-
+require_once($topdir."include/lib/dokusyntaxo.inc.php");
 require_once($topdir."include/catalog.inc.php"); 
-$timing["includes->catalog"] = $timing["all"]+microtime(true);
-
 require_once($topdir."include/entities/group.inc.php");
-
-$timing["includes->group"] = $timing["all"]+microtime(true);
-
 require_once($topdir."include/geo.inc.php");
-$timing["includes->geo"] = $timing["all"]+microtime(true);
 
 /**
  * @defgroup display Affichage 
@@ -1792,8 +1784,6 @@ class tabshead extends stdcontents
   }
 }
 
-$timing["includes->premagic"] = $timing["all"]+microtime(true);
-
 
 /**
  * @defgroup display_cts_formsupport Support magicform
@@ -2047,7 +2037,6 @@ if ( isset($_REQUEST["magicform"]) )
   
 }
 
-$timing["includes->postmagic"] = $timing["all"]+microtime(true);
 
 
 ?>

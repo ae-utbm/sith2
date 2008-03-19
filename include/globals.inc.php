@@ -60,17 +60,6 @@ function output ($string, $indent = 0)
   echo $string;
 }
 
-/** Affiche un message d'erreur
-  * @param text Le message d'erreur
-  */
-function aeerror ($text)
-{
-  output("<span class=\"error\">\n", 1);
-  output($text);
-  output("</span>", -1);
-  die();
-}
-
 /** Convertit la date en une chaÃ®ne human readable
  *
  * @param start Date de dÃ©but au format YYYY-MM-DD HH:MM:SS. Si aucune
@@ -96,7 +85,7 @@ function HumanReadableDate($start, $end="", $time = true, $year = false)
     }
 
   if(setlocale(LC_TIME, "fr_FR.UTF-8") == false)
-    aeerror("Erreur de configuration des locales");
+    die( "Erreur de configuration des locales");
 
   /* Est-ce qu'une date de fin est donnÃ©e ? */
   if($end == "")
@@ -135,27 +124,6 @@ function HumanReadableDate($start, $end="", $time = true, $year = false)
 	  else
 	    return (strftime("du %A %e %B à %Hh%M", $timestamp) . strftime(" au %A %e %B à %Hh%M", $timestampend));
 	}
-    }
-}
-
-/** CrÃ©Ã© un lien d'email ANTI-SPAM
- * @param email Adresse email
- * @param text Texte du lien
- */
-function GenerateEmailLink($email, $text, $class="")
-{
-  $patterns = array ("/@/");
-  $replace = array ("&#64;");
-  $email = preg_replace ($patterns, $replace, $email);
-  $text  = preg_replace ($patterns, $replace, $text);
-
-  if($class == "")
-    {
-      return "<a href=\"mailto:" . $email . "\">" . $text . "</a>";
-    }
-  else
-    {
-      return "<a class=\"" . $class . "\" href=\"mailto:" . $email . "\">" . $text . "</a>";
     }
 }
 
@@ -286,22 +254,6 @@ function URLCourante()
   return $url;
 }
 
-function close_session ()
-{
-  if(isset($_COOKIE['AE_SESS_ID']))
-    {
-      $base = new mysqlae("rw");
-
-      $req = new delete($base, "ae_site_sessions",
-			array("id" => $_COOKIE['AE_SESS_ID']));
-
-      setcookie("AE_SESS_ID", "0", mktime(12,0,0,1, 1, 1990), "/", "ae.utbm.fr", 0);
-      unset($_COOKIE['AE_SESS_ID']);
-    }
-
-  session_unset();
-  session_destroy();
-}
 
 /* obtention de la revision actuelle du site (subversion) */
 function get_rev ()
@@ -309,15 +261,6 @@ function get_rev ()
   return exec ("/usr/share/php5/exec/rev_info.sh");
 }
 
-/* compat. php5 */
-/*function file_put_contents ($file, $datas)
-{
-  $fres = fopen ($file, "w");
-  fwrite ($fres, $datas);
-  fclose ($fres);
-
-  return true;
-}*/
 
 /** Convertit un nom
   *
