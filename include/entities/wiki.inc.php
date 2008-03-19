@@ -24,6 +24,7 @@
 /**
  * @file
  */
+require_once($topdir."include/cts/cached.inc.php");
  
 require_once($topdir."include/entities/basedb.inc.php");
 
@@ -32,6 +33,9 @@ define("WIKI_LOCKTIME",600);
 
 /**
  * Page wiki
+ *
+ * Le rendu HTML des pages wiki est mis (sournoisement) en cache pour obtenir
+ * de bonnes performances en lecture.
  */
 class wiki extends basedb
 {
@@ -280,6 +284,10 @@ class wiki extends basedb
     $this->update_last_rev();
     
     $this->update_references($this->rev_contents);
+    
+    // Fiat expirer la cahe
+    $cache = new cachedcontents("wiki".$this->id);
+    $cache->expire();
     
     return true;
 	}
@@ -585,6 +593,11 @@ class wiki extends basedb
   function get_stdcontents()
   {
     global $conf;
+    
+    $cache = new cachedcontents("wiki".$this->id);
+    if ( $cache->is_cached() )
+      return $cache->get_cache();    
+      
     $conf["linkscontext"] = "wiki";
     $conf["linksscope"] = $this->get_scope();
     $conf["macrofunction"] = array($this,'wikimacro');
@@ -596,7 +609,10 @@ class wiki extends basedb
     $conf["linkscontext"]="";
     unset($conf["macrofunction"]);
     unset($conf["db"]);
-    return $cts;
+    
+    $cache->set_contents($cts);
+    
+    return $cache;
   }
   
 	function is_admin ( &$user )

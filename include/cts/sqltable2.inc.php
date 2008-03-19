@@ -514,7 +514,8 @@ class sqltable2 extends stdcontents
    * fonctionalités avancées de sqltable v2.
    *
    * Cette fonction pourra être amenée à ré-écrire votre requête 
-   * (pour compter le nombre de lignes, pour insérer un LIMIT...)
+   * (pour compter le nombre de lignes, pour insérer un LIMIT, modifier le 
+   * ORDER BY, rajouter des conditions...)
    *
    * @param $db Lien à la base de donnée
    * @param $id_name Champ SQL contenant l'identifiant unique de chaque ligne
@@ -524,7 +525,9 @@ class sqltable2 extends stdcontents
    */
   public function set_sql ( &$db, $id_name, $sql, $pagination=false, $npp=50 )
   {
-    $this->set_data( $id_name,new requete($db,$sql));
+
+    $this->set_data($id_name,new requete($db,$sql));
+
   }
  
  
