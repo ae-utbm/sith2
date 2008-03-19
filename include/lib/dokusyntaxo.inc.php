@@ -1088,7 +1088,7 @@ function doku2xhtml($text,$summury=false)
   global $syntaxengine;
   if ( !isset($syntaxengine) )
   $syntaxengine = new dokusyntax();
-  return $this->syntaxengine($text,$summury);
+  return $syntaxengine->doku2xhtml($text,$summury);
 }
 
 ?>
