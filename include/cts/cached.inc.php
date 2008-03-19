@@ -35,9 +35,6 @@ class cachedcontents extends stdcontents
     if ( !$this->is_cached() )
       return nulll;
     
-    if ( !file_exists(CACHE_DIR) )
-      mkdir(CACHE_DIR);
-    
     $data = file_get_contents(CACHE_DIR.$this->uid);
     $p1 = strpos($data,"\n");
     
@@ -51,6 +48,9 @@ class cachedcontents extends stdcontents
   
   public function set_contents ( &$contents )
   {
+    if ( !file_exists(CACHE_DIR) )
+      mkdir(CACHE_DIR);
+    
     $this->title = $contents->title;
     $this->buffer = 
       "<!-- Cached version on ".
