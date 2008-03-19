@@ -493,6 +493,7 @@ class wiki extends basedb
 
   function wikimacro($text)
   {
+    $this->macro++;
     
     if ( preg_match("#^([a-z0-9\-_:]*):pagesmap$#",$text,$match) )
     {
@@ -603,12 +604,18 @@ class wiki extends basedb
     $conf["macrofunction"] = array($this,'wikimacro');
     $conf["db"] = &$this->db;
     
+    $this->macro = 0;
+    
     $cts = new wikicontents($this->rev_title,$this->rev_contents);
 
     $conf["linksscope"]="";
     $conf["linkscontext"]="";
     unset($conf["macrofunction"]);
     unset($conf["db"]);
+    
+    if ( $this->macro > 0 )
+      return $cts;
+    
     
     $cache->set_contents($cts);
     
