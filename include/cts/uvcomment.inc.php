@@ -29,8 +29,6 @@
  * 02111-1307, USA.
  */
 
-require_once($topdir . "include/lib/dokusyntax.inc.php");
-
 function p_stars($note)
 {
 
