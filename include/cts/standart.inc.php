@@ -26,7 +26,7 @@
  * 02111-1307, USA.
  */
  
-require_once($topdir."include/lib/dokusyntaxo.inc.php");
+require_once($topdir."include/lib/dokusyntax.inc.php");
 require_once($topdir."include/catalog.inc.php"); 
 require_once($topdir."include/entities/group.inc.php");
 require_once($topdir."include/geo.inc.php");
