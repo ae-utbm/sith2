@@ -267,7 +267,7 @@ class dokusyntax
         $lvl = 1;
         break;
     }
-    $token = mkToken();
+    $token = $this->mkToken();
     $hltable[] = array( 'name'  => htmlspecialchars(trim($hline)),
                         'level' => $lvl,
                         'line'  => $lno,
