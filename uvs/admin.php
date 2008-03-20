@@ -199,7 +199,6 @@ else if ($_REQUEST['sub'] == 'modcomments')
                         "d'apprécier le commentaire en question à sa ".
                         "juste valeur.");
 
-    
     $req = new requete($site->db, "SELECT
                                            `id_comment`
                                    FROM
@@ -226,8 +225,43 @@ else if ($_REQUEST['sub'] == 'modcomments')
         $cts->add_paragraph("<b>Aucun commentaire signalé abusif.</b>");
       }
 
+    $cts->add_title(2, "Commentaires en quarantaine");
+
+    $cts->add_paragraph("Cette section liste les commentaires ayant ".
+                        "été retirés, et mis en modération par l'équipe".
+                        "modératrice de la partie pédagogie. Par conséquent ".
+                        "ils n'apparaissent plus actuellement sur le site (mise ".
+                        "en quarantaine).");
+
+    $req = new requete($site->db, "SELECT
+                                           `id_comment`
+                                   FROM
+                                           `edu_uv_comments`
+                                   WHERE
+                                           `state_comment` = 2"); // 2 = UVCOMMENT_QUARANTINE
+
+    $comms = array();
+    if ($req->lines > 0)
+      {
+        for ($i = 0 ; $i < $req->lines; $i++)
+          {
+            $res = $req->get_row();
+            $comms[$i] = new uvcomment($site->db);
+            $comms[$i]->load_by_id($res['id_comment']);
+          }
+
+        $cts->add(new uvcomment_contents($comms,
+                                         $site->db,
+                                         $site->user, "admin.php"));
+      }
+    else
+      {
+        $cts->add_paragraph("<b>Aucun commentaire en quarantaine.</b>");
+      }
+
 
   }
+
 
 
 
