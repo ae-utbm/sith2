@@ -28,6 +28,16 @@ require_once($topdir."include/rss.inc.php");
 require_once($topdir . "include/lib/dokusyntax.inc.php");
 require_once($topdir . "include/lib/bbcode.inc.php");
 
+function doku2xhtml($text,$summury=false)
+{
+  global $syntaxengine;
+  if ( !isset($syntaxengine) )
+  {
+    require_once($topdir."include/lib/dokusyntax.inc.php");
+    $syntaxengine = new dokusyntax();
+  }
+  return $syntaxengine->doku2xhtml($text,$summury);
+}
 
 class rssfeedforum extends rssfeed
 {
