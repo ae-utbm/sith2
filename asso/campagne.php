@@ -225,7 +225,56 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   $cts->add($tbl);
   $site->add_contents($cts);
 }
-else
+
+/* modification d'une campagne */
+elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" )
+{
+  $cts=new contents();
+  $cts->add_paragraph("<a href=\"./campagne.php?id_asso=".$asso->id."&action=add\">Ajouter une campagne</a>");
+
+  $frm = new form("editcpg","/asso/campagne.php",true,"POST","Edition campagne ".$cpg->id);
+  $frm->add_hidden("action","save");
+  $frm->add_hidden("id_campagne",$cpg->id);
+  $frm->add_date_field("end_date", "Date de fin de validite : ",$cpg->date_fin_campagne,true);
+  $frm->add_text_field("nom", "Nom de la campagne",$cpg->nom_campagne,true,80);    
+  $frm->add_text_area("description", "Description de la campagne",$cpg->description_campagne);
+  $frm->add_entity_smartselect("id_groupe","Groupe",new group($site->db));
+  $frm->add_entity_select("id_groupe", "Groupe", $site->db, "groupe",$cpg->id_groupe,true);
+  $frm->add_info("Pour supprimer une question, il suffit de laisser son nom vide !<br />");
+  $frm->add_info("Pour une question de type liste ou bouton radio, complétez impérativement le champ \"Réponses possibles\".");
+  $frm->add_info("Formatage du champ \"Réponses possibles\" : valeur_1|La valeur 1;valeur_2|La valeur 2;...;valeur_z|La dernière valeur");
+
+  $req = new requete($site->db,
+		     "SELECT * FROM `cpg_question` WHERE `id_campagne` =".$cpg->id);
+  $n = 0;
+  while ( $row = $req->get_row() )
+    {
+    
+      $subfrm = new form("questions".$n,null,null,null,"Question $n");
+      $subfrm->add_hidden("questions[$n][id_question]",$row["id_question"]);
+      $subfrm->add_text_field("questions[$n][nom_question]", "Nom question",$row["nom_question"],true,80);
+      $subfrm->add_text_area("questions[$n][description_question]", "Description",$row["description_question"]);
+      $subfrm->add_select_field("questions[$n][type_question]","Type de question",array("text"=>"Texte","checkbox"=>"Boite à cocher","list"=>"Liste", "radio"=>"Bouton radio"),$row["type_question"]);
+      $subfrm->add_text_field("questions[$n][reponses_question]", "Réponses possibles",$row["reponses_question"],true,80);
+      $frm->add ( $subfrm, false, false, false, false, false, false, true );
+      $n++;
+ 
+    }
+
+  $frm->add_submit("save","Enregistrer");
+  $cts->add($frm);
+
+
+}elseif(!is_null($cpg->id) && $_REQUEST["action"]=="save"){
+
+  /** TODO : Enregistrer les modifications d'après le formulaire de modification **/
+  $cts=new contents();
+  $cts->add_paragraph("<a href=\"./campagne.php?id_asso=".$asso->id."&action=add\">Ajouter une campagne</a>");
+  $cts->add_paragraph("Campagne modifi&eacute;e avec succ&egrave ! ")
+
+
+} /* fin modification d'une campagne */
+else{
 {
   $cts=new contents();
   $cts->add_paragraph("<a href=\"./campagne.php?id_asso=".$asso->id."&action=add\">Ajouter une campagne</a>");
@@ -238,7 +287,7 @@ else
                       "campagne.php?id_asso=".$asso->id,
                       "id_campagne",
                       array("nom_campagne"=>"Intitulé","date_debut_campagne"=>"Début","date_fin_campagne"=>"Fin"),
-                      array("results"=>"Résultats","delete"=>"Supprimer"),
+                      array("results"=>"Résultats","edit"=>"Editer","delete"=>"Supprimer"),
                       array(),
                       array() );
   $cts->add($tbl);
