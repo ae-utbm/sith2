@@ -30,7 +30,7 @@ require_once($topdir . "include/lib/bbcode.inc.php");
 
 function doku2xhtml($text,$summury=false)
 {
-  global $syntaxengine;
+  global $syntaxengine,$topdir;
   if ( !isset($syntaxengine) )
   {
     require_once($topdir."include/lib/dokusyntax.inc.php");

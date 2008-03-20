@@ -194,7 +194,7 @@ class contents extends stdcontents
  */
 function doku2xhtml($text,$summury=false)
 {
-  global $syntaxengine;
+  global $syntaxengine,$topdir;
   if ( !isset($syntaxengine) )
   {
     require_once($topdir."include/lib/dokusyntax.inc.php");
