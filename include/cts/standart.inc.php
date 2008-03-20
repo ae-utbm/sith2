@@ -34,7 +34,7 @@ require_once($topdir."include/geo.inc.php");
 /**
  * @defgroup display Affichage 
  */ 
- 
+
 /**
  * @defgroup display_cts Contents 
  * @ingroup display
@@ -187,6 +187,21 @@ class contents extends stdcontents
     $this->buffer .= $data;
   }
 
+}
+
+/**
+ * Transforme du texte au format dokuwiki en xhtml.
+ * Charge la librairie requise "on demand" à des fins d'optimisation.
+ */
+function doku2xhtml($text,$summury=false)
+{
+  global $syntaxengine;
+  if ( !isset($syntaxengine) )
+  {
+    require_once($topdir."include/lib/dokusyntax.inc.php");
+    $syntaxengine = new dokusyntax();
+  }
+  return $syntaxengine->doku2xhtml($text,$summury);
 }
 
 /** Conteneur de texte structuré
@@ -1790,6 +1805,7 @@ class tabshead extends stdcontents
     return $this->buffer;
   }
 }
+
 
 
 /**

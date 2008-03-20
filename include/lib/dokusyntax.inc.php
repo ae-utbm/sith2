@@ -1082,13 +1082,4 @@ class dokusyntax
 
 }
 
-
-function doku2xhtml($text,$summury=false)
-{
-  global $syntaxengine;
-  if ( !isset($syntaxengine) )
-  $syntaxengine = new dokusyntax();
-  return $syntaxengine->doku2xhtml($text,$summury);
-}
-
 ?>

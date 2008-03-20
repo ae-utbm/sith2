@@ -395,7 +395,7 @@ class interfaceweb
     echo "<a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a>";
     echo " - <a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a>";
     echo " - <a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a>";
-    echo " - <a href=\"". $wwwtopdir ."equipeinfo\">Equipe info</a>";
+    echo " - <a href=\"". $wwwtopdir ."wiki2/?name=ae:info\">Equipe info</a>";
     echo "<br/>\n"; 
     
     echo "Icones par <a href=\"http://www.everaldo.com/\">Everaldo.com</a></p>\n";
