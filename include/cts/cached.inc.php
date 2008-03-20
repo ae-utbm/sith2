@@ -26,14 +26,14 @@ class cachedcontents extends stdcontents
   }
   
   public function is_cached()
-  {
-    return file_exists(CACHE_DIR.$this->uid);
+  {      
+    return file_exists(CACHE_DIR.$this->uid) && !isset($_GET["__nocache"]);
   }
   
   public function get_cache()
   {
     if ( !$this->is_cached() )
-      return nulll;
+      return null;
     
     $data = file_get_contents(CACHE_DIR.$this->uid);
     $p1 = strpos($data,"\n");

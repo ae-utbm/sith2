@@ -375,12 +375,7 @@ class sujetforum extends stdcontents
        /* utilisateur authentifié */
       if ($user->is_valid())
       {
-        $this->buffer .= "<a href=\"?page=reply&amp;id_forum=".
-           $forum->id.
-           "&amp;id_sujet=".
-           $sujet->id.
-           "&amp;id_message=".
-           $row['id_message'].
+        $this->buffer .= "<a href=\"?page=reply&amp;id_message=".$row['id_message'].
            "&amp;quote=1\">Répondre en citant</a>";
       }
 
@@ -395,17 +390,12 @@ class sujetforum extends stdcontents
         else
         {
           $spage = ceil($start/$npp);
-          $this->buffer .= " | <a href=\"?page=edit&amp;id_forum=".
-             $forum->id.
-             "&amp;id_sujet=".
-             $sujet->id.
-             "&amp;id_message=".
-             $row['id_message']."\">Modifier</a> | ".
+          $this->buffer .= " | <a href=\"?page=edit&amp;id_message=".$row['id_message']."\">Modifier</a> | ".
              "<a href=\"?page=delete&amp;id_message=".$row['id_message']."&amp;spage=$spage\">Supprimer</a>";
         }
       }
 
-      $this->buffer .= "&nbsp;<a href=\"#top\" title=\"Aller plus haut, Aller plus oooooo...\" ><img src=\"".$topdir."images/forum/top.png\" /></a>";
+      $this->buffer .= "&nbsp;<a href=\"#top\"><img src=\"".$topdir."images/forum/top.png\" /></a>";
       $this->buffer .= "</p>\n";   
           
       $this->buffer .= "<div class=\"auteur\">\n";

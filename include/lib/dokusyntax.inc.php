@@ -78,6 +78,10 @@ class dokusyntax
     $this->firstpass($table,$text,"#<html>(.*?)</html>#se","\$this->preformat('\\1','html')");
     $this->firstpass($table,$text,"#<php>(.*?)</php>#se","\$this->preformat('\\1','php')");
   
+    $this->firstpass($table,$text,"#<file>(.*?)</file>#se","\$this->preformat('\\1','file')");
+  
+  
+  
     // block de code
     $this->firstpass($table,$text,"/(\n( {2,}|\t)[^\*\-\n ][^\n]+)(\n( {2,}|\t)[^\n]*)*/se","\$this->preformat('\\0','block')","\n");
   
