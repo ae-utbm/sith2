@@ -393,7 +393,7 @@ class interfaceweb
       echo $cts->html_render();
       
       $timing["cts$i"] += microtime(true);
-      $timing["cts$i"] .= " - "+get_class($cts);
+      $timing["cts$i"] = get_class($cts).":".$timing["cts$i"];
       echo "</div>\n";
     }
     
