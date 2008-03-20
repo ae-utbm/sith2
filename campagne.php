@@ -106,9 +106,10 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
       {
         $frm->add_info("<b>".$question["description"]."</b><br />");
         $values=explode(";",$question["reponses"]);
-        $keys=array();
+        // $keys=array();
         foreach($values as $value)
         {
+	  $keys=array();
           $value=explode("|", $value, 2);
           $keys[$value[0]]=$value[1];
 	  $frm->add_info(print_r($keys)."<br />");
