@@ -486,8 +486,7 @@ class simplemessageforum extends stdcontents
       $t = $message->date;
 
       $sql = new requete($site->db, "SELECT 
-        IF(
-          utilisateurs.utbm_utl = '1',
+        COALESCE(
           utl_etu_utbm.surnom_utbm,
           CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl)
         ) AS alias_utl,

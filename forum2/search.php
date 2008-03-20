@@ -53,14 +53,12 @@ if ( $_REQUEST["page"] == "unread" )
   $query = "SELECT frm_sujet.*, ".
       "frm_message.date_message, " .
       "frm_message.id_message, " .
-      "IF(
-        dernier_auteur.utbm_utl = '1',
+      "COALESCE(
         dernier_auteur_etu_utbm.surnom_utbm,
         CONCAT(dernier_auteur.prenom_utl,' ',dernier_auteur.nom_utl)
       ) AS `nom_utilisateur_dernier_auteur`, " .
       "dernier_auteur.id_utilisateur AS `id_utilisateur_dernier`, " .
-      "IF(
-          premier_auteur.utbm_utl = '1',
+      "COALESCE(
           premier_auteur_etu_utbm.surnom_utbm,
           CONCAT(premier_auteur.prenom_utl,' ',premier_auteur.nom_utl)
         ) AS `nom_utilisateur_premier_auteur`, " .

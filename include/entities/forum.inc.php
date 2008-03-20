@@ -172,8 +172,7 @@ class forum extends basedb
         "frm_sujet.titre_sujet, ".
         "frm_message.date_message, " .
         "frm_message.id_message, " .
-        "IF(
-          utilisateurs.utbm_utl='1',
+        "COALESCE(
           utl_etu_utbm.surnom_utbm,
           CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl)
          ) AS `nom_utilisateur_dernier_auteur`, " .
@@ -223,8 +222,7 @@ class forum extends basedb
       $grps = $user->get_groups_csv();
       $query .= "AND ((droits_acces_forum & 0x1) OR " .
         "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
-        "(id_groupe_admin IN ($grps)) OR " .
-        "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$user->id."')) ";
+        "(id_groupe_admin IN ($grps)) ";
     }
 	  $query .= "ORDER BY frm_forum.ordre_forum";
 	  	  
@@ -243,14 +241,12 @@ class forum extends basedb
     $query = "SELECT frm_sujet.*, ".
         "frm_message.date_message, " .
         "frm_message.id_message, " .
-        "IF(
-          dernier_auteur.utbm_utl = '1',
+        "COALESCE(
           dernier_auteur_etu_utbm.surnom_utbm,
           CONCAT(dernier_auteur.prenom_utl,' ',dernier_auteur.nom_utl)
         ) AS `nom_utilisateur_dernier_auteur`, " .
         "dernier_auteur.id_utilisateur AS `id_utilisateur_dernier`, " .
-        "IF(
-          premier_auteur.utbm_utl = '1',
+        "COALESCE(
           premier_auteur_etu_utbm.surnom_utbm,
           CONCAT(premier_auteur.prenom_utl,' ',premier_auteur.nom_utl)
         ) AS `nom_utilisateur_premier_auteur`, " .
