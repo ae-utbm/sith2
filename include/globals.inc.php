@@ -45,21 +45,6 @@ function error_403($reason="")
 	exit();	
 }
 
-/** La fonction de generation de sortie, tres simple pour le
-  * moment. Elle pourra etre amelioree plus tard pour supporter
-  * l'indentation du code source de sortie.
-  *
-  * @param string La chaine a sortir dans le HTML
-  *
-  * @param indent Increment du niveau d'indentation. Si egal a 1, le
-  *               niveau d'indentation sera augmente, si egal a -1
-  *               il sera diminue. Par defaut, il vaut 0.
-  * @deprecated
-  */
-function output ($string, $indent = 0)
-{
-  echo $string;
-}
 
 /** Convertit la date en une chaÃ®ne human readable
  *
