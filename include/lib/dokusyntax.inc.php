@@ -134,25 +134,17 @@ class dokusyntax
     while( preg_match("/\[quote=(.*?)\](.*?)\[\/quote\]/i",$text) )
     {
       $text = preg_replace("/\[quote=(.*?)\](.*?)\[\/quote\]/i",
-                           "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
+                           "<div class=\"cita\">
     <b>Citation de $1 :</b>
-    <div style=\"border: 1px #374a70 solid;
-    margin-top:2px;
-    padding: 4px;
-    text-align: justify;
-    background-color: #ecf4fe;\">$2___</div>___</div>___",
+    <div class=\"cits\">$2___</div>___</div>___",
              $text);
     }
     while( preg_match("/\[quote\](.*?)\[\/quote\]/i",$text) )
     {
       $text = preg_replace("/\[quote\](.*?)\[\/quote\]/i",
-                           "<div style=\"margin: 10px 4px 10px 30px; padding: 4px;\">
+                           "<div class=\"cita\">
     <b>Citation :</b>
-    <div style=\"border: 1px #374a70 solid;
-    margin-top:2px;
-    padding: 4px;
-    text-aling: justify;
-    background-color: #ecf4fe;\">$1___</div>___</div>___",
+    <div class=\"cits\">$1___</div>___</div>___",
                           $text);
     }
     $text= str_replace('___</div>___</div>___','</div></div>'.CHR(10),$text);

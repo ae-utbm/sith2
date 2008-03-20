@@ -418,3 +418,21 @@ div.liner p.center a
   font-size:100%;
   color:#808080;
 }
+
+div.cita
+{
+  margin: 10px 4px 10px 30px;
+  padding: 4px;
+}
+
+div.cita div.cits
+{
+  border: 1px #374a70 solid;
+  margin-top:2px;
+  padding: 4px;
+  text-align: justify;
+  background-color: #ecf4fe; 
+}
+
+
+
