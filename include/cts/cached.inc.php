@@ -53,9 +53,8 @@ class cachedcontents extends stdcontents
     
     $this->title = $contents->title;
     $this->buffer = 
-      "<!-- Cached version on ".
-      date ("d/m/Y H:i:s").
-      " -->".$contents->html_render();
+      "<!-- C".date ("d/m H:i:s")." -->".
+      $contents->html_render();
     file_put_contents(CACHE_DIR.$this->uid,$this->title."\n".$this->buffer);
     return $this;
   } 

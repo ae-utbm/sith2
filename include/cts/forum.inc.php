@@ -309,7 +309,7 @@ class sujetforum extends stdcontents
     
     $rows = $sujet->get_messages ( $user, $start, $npp, $order );
     
-    $this->buffer .= "<div class=\"forummessagesliste\">\n";
+    $this->buffer .= "<div class=\"fmsgsliste\">\n";
     
     $firstunread=true;
     
@@ -330,7 +330,7 @@ class sujetforum extends stdcontents
       ( is_null($last_read) || $last_read < $row['id_message'] ) && 
       ( is_null($user->tout_lu_avant) || $t > $user->tout_lu_avant ) )
       {
-        $this->buffer .= "<div class=\"forummessageentry nonlu\" id=\"msg".$row['id_message']."\">\n";
+        $this->buffer .= "<div class=\"fmsgentry nonlu\" id=\"msg".$row['id_message']."\">\n";
         if ( $firstunread )
         {
           $firstunread=false;  
@@ -351,9 +351,9 @@ class sujetforum extends stdcontents
       else
       {
         if ( $n )
-          $this->buffer .= "<div class=\"forummessageentry pair\" id=\"msg".$row['id_message']."\">\n";
+          $this->buffer .= "<div class=\"fmsgentry pair\" id=\"msg".$row['id_message']."\">\n";
         else
-          $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$row['id_message']."\">\n";
+          $this->buffer .= "<div class=\"fmsgentry\" id=\"msg".$row['id_message']."\">\n";
         $n=($n+1)%2;
  
   /* permalink */
@@ -411,7 +411,7 @@ class sujetforum extends stdcontents
       
       
       $this->buffer .= "</div>\n";
-      $this->buffer .= "<div class=\"forummessage\">\n";
+      $this->buffer .= "<div class=\"fmsg\">\n";
       
       if ( isset($_COOKIE["nosecret"]) && $_COOKIE["nosecret"] == 1 )
         $row['contenu_message'] = nosecret($row['contenu_message']);
@@ -497,7 +497,7 @@ class simplemessageforum extends stdcontents
         WHERE utilisateurs.id_utilisateur=$message->id_utilisateur LIMIT 1 ");
       $row = $sql->get_row();
 
-      $this->buffer .= "<div class=\"forummessageentry\" id=\"msg".$message->id."\">\n";
+      $this->buffer .= "<div class=\"fmsgentry\" id=\"msg".$message->id."\">\n";
 
  
     /* permalink */
@@ -528,7 +528,7 @@ class simplemessageforum extends stdcontents
       
       
       $this->buffer .= "</div>\n";
-      $this->buffer .= "<div class=\"forummessage\">\n";
+      $this->buffer .= "<div class=\"fmsg\">\n";
       
       if ( isset($_COOKIE["nosecret"]) && $_COOKIE["nosecret"] == 1 )
         $message->contenu = nosecret($message->contenu);
