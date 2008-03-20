@@ -108,8 +108,6 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
         $values=explode(";",$question["reponses"]);
         foreach($values as $value)
         {
-	  print_r($value);
-	  print_r("<br />");
 	  $keys=array();
           $value=explode("|", $value, 2);
           $keys[$value[0]]=$value[1];
