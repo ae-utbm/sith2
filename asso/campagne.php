@@ -274,7 +274,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" )
 
 
 } /* fin modification d'une campagne */
-else{
+else
 {
   $cts=new contents();
   $cts->add_paragraph("<a href=\"./campagne.php?id_asso=".$asso->id."&action=add\">Ajouter une campagne</a>");
