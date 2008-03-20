@@ -285,7 +285,7 @@ class sujetslist extends stdcontents
 class sujetforum extends stdcontents
 {
  
-   function wikimacro($text)
+  /*function wikimacro($text)
   {
     global $site;
     if ( $text == "user" )
@@ -294,13 +294,13 @@ class sujetforum extends stdcontents
       return $buffer;
     }
     return $text;
-  }
+  }*/
 
   function sujetforum (&$forum, &$sujet, &$user, $page, $start, $npp, $order = "ASC" )
   {
     global $topdir, $wwwtopdir, $conf;
 
-    $conf["macrofunction"] = array($this,'wikimacro');
+    //$conf["macrofunction"] = array($this,'wikimacro');
     
     if ( $user->is_valid() )
       $last_read = $sujet->get_last_read_message ( $user->id );
@@ -430,8 +430,15 @@ class sujetforum extends stdcontents
         $this->buffer .= bbcode($row['contenu_message']);
         
       elseif ( $row['syntaxengine_message'] == "doku" )
-        $this->buffer .= doku2xhtml($row['contenu_message']);
+      //  $this->buffer .= doku2xhtml($row['contenu_message']);
+      {
+        $cts = new wikicontents("",$row['contenu_message'],false);
         
+        $cts = cachedcontents::autocache("msg".$row['id_message'],$cts);
+        
+        $this->buffer .= $cts->html_render();
+        //$this->buffer .= doku2xhtml($message->contenu);
+      }          
       elseif ( $row['syntaxengine_message'] == "plain" )
         $this->buffer .= "<pre>".htmlentities($row['contenu_message'],ENT_NOQUOTES,"UTF-8")."</pre>";
       
