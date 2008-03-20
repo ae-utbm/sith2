@@ -388,11 +388,9 @@ class interfaceweb
       
       if ( $cts->title )
         echo "<h1>".$cts->title."</h1>\n";
-      $timing["cts$i"] -= microtime(true);
+
       echo $cts->html_render();
       
-      $timing["cts$i"] += microtime(true);
-      $timing["cts$i"] = get_class($cts).":".$timing["cts$i"];
       echo "</div>\n";
     }
     
