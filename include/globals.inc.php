@@ -54,6 +54,7 @@ function error_403($reason="")
   * @param indent Increment du niveau d'indentation. Si egal a 1, le
   *               niveau d'indentation sera augmente, si egal a -1
   *               il sera diminue. Par defaut, il vaut 0.
+  * @deprecated
   */
 function output ($string, $indent = 0)
 {
@@ -72,6 +73,8 @@ function output ($string, $indent = 0)
  *
  * @return Une chaÃ®ne de caractÃ¨re humainement lisible de la date ou
  * de l'intervalle de date.
+ *
+ * @deprecated
  */
 function HumanReadableDate($start, $end="", $time = true, $year = false)
 {
@@ -137,6 +140,7 @@ function HumanReadableDate($start, $end="", $time = true, $year = false)
  * @param name Le nom du champ dans le formulaire
  *
  * @return le code html genere
+ * @deprecated
  */
 function GenerateSelectList($values, $current, $name, $size=1)
 {
@@ -239,21 +243,6 @@ function CheckEmail($email, $type = 0)
 
   return false;
 }
-/** RÃ©fÃ©rence Ã  la page
- *
- * @return l'url pointant sur la page elle mÃªme
- */
-function URLCourante()
-{
-  $url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-  $rep = explode('/', $url);
-
-  if ($rep[1] == "siteae")
-    $url = strstr(substr($_SERVER['SCRIPT_URL'], 1), '/');
-
-  return $url;
-}
-
 
 /* obtention de la revision actuelle du site (subversion) */
 function get_rev ()
