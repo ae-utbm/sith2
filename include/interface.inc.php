@@ -436,6 +436,8 @@ class interfaceweb
     print_r($timing);
     if ( $GLOBALS["taiste"] )
       echo "\non est en taiste\n";
+    else
+      echo $_SERVER['SCRIPT_FILENAME'];
     echo " -->";
   }
   
