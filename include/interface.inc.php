@@ -30,7 +30,7 @@ $timing["all"] -= microtime(true);
 
 setlocale(LC_ALL,"fr_FR.UTF8"); 
 
-if( !strncmp('/var/www/ae/www/ae2/taiste', $_SERVER['SCRIPT_FILENAME'], 26) )
+if( !strncmp('/var/www/ae/www/taiste', $_SERVER['SCRIPT_FILENAME'], 22) )
   $GLOBALS["taiste"] = true;
 else
   $GLOBALS["taiste"] = false;
@@ -436,8 +436,6 @@ class interfaceweb
     print_r($timing);
     if ( $GLOBALS["taiste"] )
       echo "\non est en taiste\n";
-    else
-      echo $_SERVER['SCRIPT_FILENAME'];
     echo " -->";
   }
   
