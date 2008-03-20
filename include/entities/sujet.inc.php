@@ -361,8 +361,7 @@ class sujet extends stdentity
       $order = 'ASC';
 
     $query = "SELECT frm_message.*, ".
-        "IF(
-          utilisateurs.utbm_utl = '1',
+        "COALESCE(
           utl_etu_utbm.surnom_utbm,
           CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl)
         ) AS alias_utl, " .

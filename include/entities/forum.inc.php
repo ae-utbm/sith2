@@ -222,7 +222,7 @@ class forum extends basedb
       $grps = $user->get_groups_csv();
       $query .= "AND ((droits_acces_forum & 0x1) OR " .
         "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
-        "(id_groupe_admin IN ($grps)) ";
+        "(id_groupe_admin IN ($grps))) ";
     }
 	  $query .= "ORDER BY frm_forum.ordre_forum";
 	  	  
