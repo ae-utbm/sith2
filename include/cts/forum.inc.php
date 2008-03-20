@@ -27,7 +27,8 @@
  * @ingroup display_cts
  */ 
  
-include($topdir."include/lib/bbcode.inc.php");
+require_once($topdir."include/lib/bbcode.inc.php");
+require_once($topdir."include/cts/cached.inc.php");
 
 function human_date ( $timestamp )
 {
@@ -465,7 +466,7 @@ class simplemessageforum extends stdcontents
    * @ingroup useless
    * @author Benjamin Collet
    */
-  function macroforum($text)
+  /*function macroforum($text)
   {
     global $site;
     if ( $text == "user" )
@@ -474,13 +475,13 @@ class simplemessageforum extends stdcontents
       return $buffer;
     }
     return $text;
-  }
+  }*/
 
   function simplemessageforum($message)
   {
       global $topdir, $wwwtopdir, $site;
 
-      $conf["macrofunction"] = array($this,'macroforum');
+      //$conf["macrofunction"] = array($this,'macroforum');
 
       $this->title = "Prévisualisation";
       
@@ -538,8 +539,14 @@ class simplemessageforum extends stdcontents
         $this->buffer .= bbcode($message->contenu);
         
       elseif ( $message->syntaxengine == "doku" )
-        $this->buffer .= doku2xhtml($message->contenu);
+      {
+        $cts = new wikicontents("",$message->contenu,false);
         
+        $cts = cachedcontents::autocache("msg".$message->id,$cts);
+        
+        $this->buffer .= $cts->html_render();
+        //$this->buffer .= doku2xhtml($message->contenu);
+      }  
       elseif ( $message->syntaxengine == "plain" )
         $this->buffer .= "<pre>".htmlentities($message->contenu,ENT_NOQUOTES,"UTF-8")."</pre>";
       
