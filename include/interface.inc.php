@@ -30,6 +30,11 @@ $timing["all"] -= microtime(true);
 
 setlocale(LC_ALL,"fr_FR.UTF8"); 
 
+if( !strncmp('/var/www/ae/www/ae2/taiste', $_SERVER['SCRIPT_FILENAME'], 26) )
+  $GLOBALS["taiste"] = true;
+else
+  $GLOBALS["taiste"] = false;
+
 require_once($topdir . "include/mysql.inc.php");
 require_once($topdir . "include/mysqlae.inc.php");
 require_once($topdir . "include/entities/std.inc.php");
@@ -429,6 +434,8 @@ class interfaceweb
     $timing["all"] += microtime(true);
     echo "<!-- ";
     print_r($timing);
+    if ( $GLOBALS["taiste"] )
+      echo "\non est en taiste\n";
     echo " -->";
   }
   

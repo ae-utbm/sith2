@@ -35,11 +35,6 @@
 if ( !isset($GLOBALS['nosession']) )
   session_start();
 
-if ( $_SERVER["REMOTE_ADDR"] == "127.0.1.1" )
-  $GLOBALS["is_using_ssl"] = true;
-else
-  $GLOBALS["is_using_ssl"] = false;
-
 require_once($topdir . "include/interface.inc.php");
 require_once($topdir . "include/globals.inc.php");
 require_once($topdir . "include/cts/calendar.inc.php");
@@ -306,7 +301,7 @@ class site extends interfaceweb
       $this->add_box("planning", $this->get_planning_contents());
       $this->add_box("services", $this->get_services_contents());
       
-      if ( preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
+      if ( $GLOBALS["taiste"] )
         $this->add_box("stream",$this->get_stream_box());
       
       if ($this->user->is_valid())
@@ -1238,7 +1233,7 @@ class site extends interfaceweb
     
     $cts->add_paragraph("La webradio de l'AE");
     
-    if ( preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
+    if ( $GLOBALS["taiste"] )
       $infofile = $topdir."var/cache/stream";
     else
       $infofile = $topdir."var/cache/stream-prod";

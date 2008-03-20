@@ -36,11 +36,6 @@
 /**
  * @defgroup mysql Accès à la base de données 
  */ 
- 
-if( !preg_match('/^\/var\/www\/ae\/www\//', $_SERVER['SCRIPT_FILENAME']))
-  $GLOBALS["taiste"] = true;
-else
-  $GLOBALS["taiste"] = false;
   
 /**
  * Prépare une chaine de caractère pour injection dans une requête SQL pour être
