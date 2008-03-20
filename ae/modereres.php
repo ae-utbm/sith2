@@ -146,7 +146,7 @@ elseif ( $_REQUEST["action"] == "info")
 
 $site->start_page("none","Moderation des reservations de salle");
 
-if($site->user->is_in_group("gestion_ae")
+if($site->user->is_in_group("gestion_ae"))
 {
 	$req = new requete($site->db,"SELECT `utilisateurs`.`id_utilisateur`, " .
 		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
