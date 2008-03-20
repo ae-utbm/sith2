@@ -111,7 +111,7 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
         {
           $value=explode("|", $value, 2);
           $keys[$value[0]]=$value[1];
-	  $frm->add_info($keys."<br />");
+	  $frm->add_info(print_r($keys)."<br />");
           $frm->add_radiobox_field( "reponses[$id]", "", $keys, "", false, false );
         }
         $frm->add_info("<br />");
