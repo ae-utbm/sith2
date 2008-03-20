@@ -427,17 +427,16 @@ class sujetforum extends stdcontents
         $row['contenu_message'] = nosecret($row['contenu_message']);
       
       if ( $row['syntaxengine_message'] == "bbcode" )
-        $this->buffer .= bbcode($row['contenu_message']);
-        
+      //  $this->buffer .= bbcode($row['contenu_message']);
+      {
+        $cts = cachedcontents::autocache("msg".$row['id_message'],new bbcontents("",$row['contenu_message'],false));
+        $this->buffer .= $cts->html_render();
+      }  
       elseif ( $row['syntaxengine_message'] == "doku" )
       //  $this->buffer .= doku2xhtml($row['contenu_message']);
       {
-        $cts = new wikicontents("",$row['contenu_message'],false);
-        
-        $cts = cachedcontents::autocache("msg".$row['id_message'],$cts);
-        
+        $cts = cachedcontents::autocache("msg".$row['id_message'],new wikicontents("",$row['contenu_message'],false));
         $this->buffer .= $cts->html_render();
-        //$this->buffer .= doku2xhtml($message->contenu);
       }          
       elseif ( $row['syntaxengine_message'] == "plain" )
         $this->buffer .= "<pre>".htmlentities($row['contenu_message'],ENT_NOQUOTES,"UTF-8")."</pre>";
@@ -448,7 +447,9 @@ class sujetforum extends stdcontents
       if ( !is_null($row['signature_utl']) )  
       {
         $this->buffer .= "<div class=\"signature\">\n";      
-        $this->buffer .= doku2xhtml($row['signature_utl']);
+        //$this->buffer .= doku2xhtml($row['signature_utl']);
+        $cts = cachedcontents::autocache("sig".$row['id_utilisateur'],new wikicontents("",$row['signature_utl'],false));
+        $this->buffer .= $cts->html_render();        
         $this->buffer .= "</div>\n";      
       }
       
@@ -546,14 +547,8 @@ class simplemessageforum extends stdcontents
         $this->buffer .= bbcode($message->contenu);
         
       elseif ( $message->syntaxengine == "doku" )
-      {
-        $cts = new wikicontents("",$message->contenu,false);
-        
-        $cts = cachedcontents::autocache("msg".$message->id,$cts);
-        
-        $this->buffer .= $cts->html_render();
-        //$this->buffer .= doku2xhtml($message->contenu);
-      }  
+        $this->buffer .= doku2xhtml($message->contenu);
+  
       elseif ( $message->syntaxengine == "plain" )
         $this->buffer .= "<pre>".htmlentities($message->contenu,ENT_NOQUOTES,"UTF-8")."</pre>";
       

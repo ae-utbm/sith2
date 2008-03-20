@@ -759,6 +759,10 @@ class utilisateur extends stdentity
     if ( empty($this->alias) )
       $this->alias = null;
     
+    require_once($topdir."include/cts/cached.inc.php");
+    $cache = new cachedcontents("sig".$this->id);
+    $cache->expire();   
+    
     new update($this->dbrw,
                       "utilisateurs",
                       array('nom_utl' => $this->nom,
@@ -777,6 +781,10 @@ class utilisateur extends stdentity
                             'publique_mmtpapier_utl'=>$this->publique_mmtpapier,
                             'signature_utl' =>$this->signature),
                       array('id_utilisateur' => $this->id));
+
+
+
+
 
     if ( $this->etudiant || $this->ancien_etudiant )
     {

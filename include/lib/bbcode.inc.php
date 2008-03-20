@@ -183,4 +183,31 @@ function bbcode($text)
   return $text; 
 }
  
+class bbcontents extends contents
+{
+  var $contents;
+  var $wiki;
+  
+  /** Crée un stdcontents à partir d'un texte au format DokuWiki et de son titre
+   * @param $title  Titre
+   * @param $contents  Texte structuré
+   */
+  function bbcontents($title,$contents,$rendernow=false)
+  {
+    $this->title = $title;
+    $this->contents = $contents;
+    if ( $rendernow )
+      $this->buffer = bbcode($this->contents);
+  }
+
+  function html_render()
+  {
+    if ( $this->buffer )
+      return $this->buffer;
+      
+    return $this->buffer = bbcode($this->contents);
+  }
+}
+ 
+ 
 ?>

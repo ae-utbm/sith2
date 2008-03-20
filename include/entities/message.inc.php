@@ -134,8 +134,14 @@ class message extends stdentity
   
   function update ( &$forum, &$sujet, $titre, $contenu, $syntaxengine )
   {
+    global $topdir;
+    
     if ( $forum->id != $sujet->id_forum || $sujet->id != $this->id_sujet )
       return;
+    
+    require_once($topdir."include/cts/cached.inc.php");
+    $cache = new cachedcontents("msg".$this->id);
+    $cache->expire();        
     
     $this->titre = $titre;
     $this->contenu = $contenu;
