@@ -197,18 +197,25 @@ class wikicontents extends contents
   var $contents;
   var $wiki;
   
-  /** Crée un stdcontents à partir d'un texte structuré et de son titre
+  /** Crée un stdcontents à partir d'un texte au format DokuWiki et de son titre
    * @param $title  Titre
    * @param $contents  Texte structuré
    */
-  function wikicontents($title,$contents)
+  function wikicontents($title,$contents,$rendernow=false)
   {
     $this->title = $title;
     $this->contents = $contents;
-    $this->buffer = doku2xhtml($this->contents);
+    if ( $rendernow )
+      $this->buffer = doku2xhtml($this->contents);
   }
 
-
+  function html_render()
+  {
+    if ( $this->buffer )
+      return $this->buffer;
+      
+    return $this->buffer = doku2xhtml($this->contents);
+  }
 }
 
 /** Conteneur de l'aide du texte structuré

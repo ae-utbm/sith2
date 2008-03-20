@@ -75,6 +75,7 @@ class cachedcontents extends stdcontents
     $cache->set_contents($cts);
     return $cache;
   }
+  
 }
 
 ?>

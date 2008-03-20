@@ -606,7 +606,7 @@ class wiki extends basedb
     
     $this->macro = 0;
     
-    $cts = new wikicontents($this->rev_title,$this->rev_contents);
+    $cts = new wikicontents($this->rev_title,$this->rev_contents,true);
 
     $conf["linksscope"]="";
     $conf["linkscontext"]="";
