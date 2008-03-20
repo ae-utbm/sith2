@@ -227,7 +227,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 }
 
 /* modification d'une campagne */
-elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" )
+elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUEST["id_asso"] )
 {
   $cts=new contents();
   $cts->add_paragraph("<a href=\"./campagne.php?id_asso=".$asso->id."&action=add\">Ajouter une campagne</a>");
@@ -263,6 +263,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" )
 
   $frm->add_submit("save","Enregistrer");
   $cts->add($frm);
+  $site->add_contents($cts);
 
 
 }elseif(!is_null($cpg->id) && $_REQUEST["action"]=="save"){
@@ -271,6 +272,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" )
   $cts=new contents();
   $cts->add_paragraph("<a href=\"./campagne.php?id_asso=".$asso->id."&action=add\">Ajouter une campagne</a>");
   $cts->add_paragraph("Campagne modifi&eacute;e avec succ&egrave ! ");
+  $site->add_contents($cts);
 
 
 } /* fin modification d'une campagne */
