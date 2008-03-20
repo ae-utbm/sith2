@@ -371,7 +371,6 @@ class interfaceweb
       
       $i++;
       
-      $timing["cts$i"] -= microtime(true);
       
       echo "<div class=\"$cssclass\"";
       if ( $cts->divid )
@@ -389,7 +388,7 @@ class interfaceweb
       
       if ( $cts->title )
         echo "<h1>".$cts->title."</h1>\n";
-
+      $timing["cts$i"] -= microtime(true);
       echo $cts->html_render();
       
       $timing["cts$i"] += microtime(true);
