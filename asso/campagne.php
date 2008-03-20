@@ -270,7 +270,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" )
   /** TODO : Enregistrer les modifications d'après le formulaire de modification **/
   $cts=new contents();
   $cts->add_paragraph("<a href=\"./campagne.php?id_asso=".$asso->id."&action=add\">Ajouter une campagne</a>");
-  $cts->add_paragraph("Campagne modifi&eacute;e avec succ&egrave ! ")
+  $cts->add_paragraph("Campagne modifi&eacute;e avec succ&egrave ! ");
 
 
 } /* fin modification d'une campagne */
