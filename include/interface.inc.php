@@ -223,7 +223,8 @@ class interfaceweb
       echo "<meta name=\"description\" content=\"".htmlentities($this->meta_description,ENT_NOQUOTES,"UTF-8")."\" />\n";
 
     echo "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico\" />\n";
-    echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js\">var site_topdir='$wwwtopdir';</script>\n";
+    echo "<script type=\"text/javascript\">var site_topdir='$wwwtopdir';</script>\n";
+    echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js\"></script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js\"></script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js\"></script>\n";
     
@@ -234,7 +235,6 @@ class interfaceweb
     
     echo "<body>\n";
     /* Generate the logo */
-        
     echo "<div id=\"site\">";    
         
     if (!$this->compact )
