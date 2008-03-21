@@ -548,18 +548,18 @@ class sqltable2 extends stdcontents
     {
       $t = ($lnum+1)%2;
       
-      $this->buffer .= "<tr id=\"".$this->nom."_l$lnum\" class=\"ln$t\" ".
-        "onmouseout=\"stdc(this,'l',$t);\" ".
-        "onmouseover=\"stdc(this,'o',$t);\" ";
+      $this->buffer .= "<tr id=\"".$this->nom."_l".$lnum."\" class=\"ln".$t."\" ".
+        "onmouseout=\"stdc(this,'l',".$t.");\" ".
+        "onmouseover=\"stdc(this,'o',".$t.");\" ";
       
       if ( count($this->batch) > 0 )
       {
-        $this->buffer .= "onmousedown=\"stckl(this,'".$this->id_name."',$lnum);\">\n";
+        $this->buffer .= "onmousedown=\"stckl(this,'".$this->id_name."',".$lnum.");\">\n";
         $this->buffer .= "<td>".
           "<input type=\"checkbox\" class=\"chkbox\" ".
-          "name=\"".$this->id_name."s[$lnum]\" value=\"".$row[$this->id_name]."\" ".
-          "id=\"".$this->nom."_c$lnum\" ".
-          "onclick=\"stsck(this,$lnum,$t);\" /></td>\n";
+          "name=\"".$this->id_name."s[".$lnum."]\" value=\"".$row[$this->id_name]."\" ".
+          "id=\"".$this->nom."_c".$lnum."\" ".
+          "onclick=\"stsck(this,".$lnum.",".$t.");\" /></td>\n";
       }
       else
         $this->buffer .= ">\n";
@@ -717,7 +717,7 @@ class sqltable2 extends stdcontents
 
       if ( $this->page_self )
       {
-        $this->buffer .= " <a href=\"#\" onclick=\"stst('".$this->nom."','$key'); return false;\"><img src=\"".$wwwtopdir."images/icons/16/sort_a.png\" id=\"".$this->nom."_s".$key."_i\" class=\"icon\" alt=\"\" /></a>";
+        $this->buffer .= " <a href=\"#\" onclick=\"stst('".$this->nom."','".$key."'); return false;\"><img src=\"".$wwwtopdir."images/icons/16/sort_a.png\" id=\"".$this->nom."_s".$key."_i\" class=\"icon\" alt=\"\" /></a>";
   
         switch ( $col[0] )
         {
@@ -746,13 +746,13 @@ class sqltable2 extends stdcontents
         {
           if ( count($col[2]) == 1 ) // Ne fonctionne que dans ce cas
           {
-            $this->buffer .= " <a href=\"#\" onclick=\"stft('".$this->nom."','$key'); return false;\"><img src=\"".$wwwtopdir."images/icons/16/find.png\" class=\"icon\" alt=\"\" /></a>";
+            $this->buffer .= " <a href=\"#\" onclick=\"stft('".$this->nom."','".$key."'); return false;\"><img src=\"".$wwwtopdir."images/icons/16/find.png\" class=\"icon\" alt=\"\" /></a>";
             $this->buffer .= "<div id=\"".$this->nom."_f".$key."\" class=\"filter\" style=\"display:none;\">";
             $this->buffer .= "<h4>Filtrer</h4>";
             $this->buffer .= "<div class=\"fcts\">";
             
             $this->buffer .= "<div><select id=\"".$this->nom."_f".$key."_s\" ";
-            $this->buffer .= "onchange=\"stftcf('".$this->nom."','$key');\">";
+            $this->buffer .= "onchange=\"stftcf('".$this->nom."','".$key."');\">";
             $this->buffer .= "<option value=\"\">Tout afficher</option>";
             $this->buffer .= "<option value=\"=\">&eacute;gal &agrave;</option>";
             $this->buffer .= "<option value=\"!\">diff&eacute;rent de</option>";
@@ -760,17 +760,17 @@ class sqltable2 extends stdcontents
             $this->buffer .= "<option value=\"&lt;\">&lt;=</option>";
             $this->buffer .= "</select>\n";       
             $this->buffer .= "<input type=\"text\" id=\"".$this->nom."_f".$key."_v\" class=\"val\" /></div>";
-            $this->buffer .= "<input type=\"button\" onclick=\"stcft('".$this->nom."','$key','".$col[2][0]."');\" value=\"Filtrer\" />";
+            $this->buffer .= "<input type=\"button\" onclick=\"stcft('".$this->nom."','".$key."','".$col[2][0]."');\" value=\"Filtrer\" />";
             $this->buffer .= "</div></div>\n";       
           }
         }
         else // Liste les valeurs de chaque colonne
         {
-          $this->buffer .= " <a href=\"#\" onclick=\"stft('".$this->nom."','$key'); return false;\"><img src=\"".$wwwtopdir."images/icons/16/find.png\" class=\"icon\" alt=\"\" /></a>";
+          $this->buffer .= " <a href=\"#\" onclick=\"stft('".$this->nom."','".$key."'); return false;\"><img src=\"".$wwwtopdir."images/icons/16/find.png\" class=\"icon\" alt=\"\" /></a>";
           $this->buffer .= "<div id=\"".$this->nom."_f".$key."\" class=\"filter\" style=\"display:none;\">";
           $this->buffer .= "<h4>Filtrer</h4>";
           $this->buffer .= "<ul>";
-          $this->buffer .= "<li class=\"sel\"><a href=\"#\" onclick=\"stuft(this,'".$this->nom."','$key'); return false;\">Tout afficher</a></li>";          
+          $this->buffer .= "<li class=\"sel\"><a href=\"#\" onclick=\"stuft(this,'".$this->nom."','".$key."'); return false;\">Tout afficher</a></li>";          
           foreach ( $domains[$key] as $field => $values )
           {
             asort($values);
@@ -778,7 +778,7 @@ class sqltable2 extends stdcontents
             {
               $value = htmlentities(addslashes($value),ENT_COMPAT,"UTF-8");
               
-              $this->buffer .= "<li><a href=\"#\" onclick=\"stftv(this,'".$this->nom."','$key','$field','$value'); return false;\">";
+              $this->buffer .= "<li><a href=\"#\" onclick=\"stftv(this,'".$this->nom."','".$key."','".$field."','".$value."'); return false;\">";
               switch ( $col[0] )
               {
                 case "image" : 
@@ -827,7 +827,7 @@ class sqltable2 extends stdcontents
       $this->buffer .= "<p class=\"batch\">Pour la s&eacute;lection : <select name=\"action\">\n";
       
       foreach ( $this->batch as $action => $col )
-          $this->buffer .= "<option value=\"$action\">".htmlentities($col[0],ENT_COMPAT,"UTF-8")."</option>\n";
+          $this->buffer .= "<option value=\"".$action."\">".htmlentities($col[0],ENT_COMPAT,"UTF-8")."</option>\n";
           
       $this->buffer .= "</select>\n<input type=\"submit\" value=\"Valider\" />\n</p>\n";
       $this->buffer .= "</form>\n";

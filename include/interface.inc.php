@@ -203,27 +203,27 @@ class interfaceweb
     echo "<head>\n";
     
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n"; // (IE6 Legacy support)
-    echo "<title>".$this->title." - association des etudiants de l'utbm</title>\n";
+    echo "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
     echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css\" title=\"AE2-NEW2\" />\n";
     foreach ( $this->extracss as $url ) 
-      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
+      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8"). "\" />\n";
     
     foreach ( $this->alternate as $row )
     {
       echo "<link rel=\"alternate\" ".
-        "type=\"".htmlentities($row[0],ENT_NOQUOTES,"UTF-8")."\" ".
-        "title=\"".htmlentities($row[1],ENT_NOQUOTES,"UTF-8")."\" ".
-        "href=\"".htmlentities($row[2],ENT_NOQUOTES,"UTF-8")."\" />\n";
+        "type=\"".htmlentities($row[0],ENT_COMPAT,"UTF-8")."\" ".
+        "title=\"".htmlentities($row[1],ENT_COMPAT,"UTF-8")."\" ".
+        "href=\"".htmlentities($row[2],ENT_COMPAT,"UTF-8")."\" />\n";
     }
     
     if ( !empty($this->meta_keywords) )
-      echo "<meta name=\"keywords\" content=\"".htmlentities($this->meta_keywords,ENT_NOQUOTES,"UTF-8")."\" />\n";
+      echo "<meta name=\"keywords\" content=\"".htmlentities($this->meta_keywords,ENT_COMPAT,"UTF-8")."\" />\n";
       
     if ( !empty($this->meta_description) )
-      echo "<meta name=\"description\" content=\"".htmlentities($this->meta_description,ENT_NOQUOTES,"UTF-8")."\" />\n";
+      echo "<meta name=\"description\" content=\"".htmlentities($this->meta_description,ENT_COMPAT,"UTF-8")."\" />\n";
 
     echo "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico\" />\n";
-    echo "<script type=\"text/javascript\">var site_topdir='$wwwtopdir';</script>\n";
+    echo "<script type=\"text/javascript\">var site_topdir='".$wwwtopdir."';</script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js\"></script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js\"></script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js\"></script>\n";
@@ -245,7 +245,7 @@ class interfaceweb
       
       echo "<div id=\"fsearchbox\">\n";
       echo "<form action=\"".$wwwtopdir."fsearch.php\" method=\"post\">";
-      echo "<input type=\"text\" id=\"fsearchpattern\" name=\"pattern\" onblur=\"fsearch_stop_delayed();\" onkeyup=\"fsearch_keyup(event,'$wwwtopdir');\" value=\"\" />\n";
+      echo "<input type=\"text\" id=\"fsearchpattern\" name=\"pattern\" onblur=\"fsearch_stop_delayed();\" onkeyup=\"fsearch_keyup(event);\" value=\"\" />\n";
       echo "</form>";
       echo "<div class=\"fend\"></div></div>\n";
     
@@ -283,7 +283,7 @@ class interfaceweb
       
       foreach ( $links as $entry )
       {
-        if ( ereg("http://(.*)",$entry[0]) )
+        if ( strncmp("http://",$entry[0],7) )
           echo "<a href=\"".$entry[0]."\">".$entry[1]."</a>\n";
         else
           echo "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>\n";
@@ -331,19 +331,19 @@ class interfaceweb
         else
           $ref = null;
           
-        echo "<div id=\"$side\">\n";
+        echo "<div id=\"".$side."\">\n";
         foreach ( $names as $name )
         {
         
           if ( $cts = $this->boxes[$name] )
           {
-            echo "<div class=\"box\" id=\"sbox_$name\">\n";
+            echo "<div class=\"box\" id=\"sbox_".$name."\">\n";
             if ( $cts->title && ($ref != null) )
-              echo "<h1><a onmousedown=\"dnds_startdrag(event,'sbox_$name','$ref');\" class=\"dragstartzone\">".$cts->title."</a></h1>\n";
+              echo "<h1><a onmousedown=\"dnds_startdrag(event,'sbox_".$name."','".$ref."');\" class=\"dragstartzone\">".$cts->title."</a></h1>\n";
             elseif ( $cts->title )
               echo "<h1>".$cts->title."</h1>\n";
             
-            echo "<div class=\"body\" id=\"sbox_body_$name\">\n";      
+            echo "<div class=\"body\" id=\"sbox_body_".$name."\">\n";      
           
             echo $cts->html_render();
           
@@ -359,7 +359,7 @@ class interfaceweb
     if ( $idpage == "" ) $idpage = "n";
     
     echo "\n<!-- page -->\n";
-    echo "<div class=\"page\" id=\"$idpage\">\n";
+    echo "<div class=\"page\" id=\"".$idpage."\">\n";
     
     $i=0;
     foreach ( $this->contents as $cts )
@@ -372,11 +372,11 @@ class interfaceweb
       $i++;
       
       
-      echo "<div class=\"$cssclass\"";
+      echo "<div class=\"".$cssclass."\"";
       if ( $cts->divid )
         echo " id=\"".$cts->divid."\"";
       else
-        echo " id=\"cts$i\"";
+        echo " id=\"cts".$i."\"";
       echo ">\n";
       
       if ( $cts->toolbox )
@@ -448,17 +448,18 @@ class interfaceweb
     echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">\n";
     echo "<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-    echo "<title>".$this->title." - association des etudiants de l'utbm</title>\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css\" title=\"AE2-NEW Base\" />\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/popup.css\" title=\"AE2-NEW Base\" />\n";
+    echo "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css\" title=\"AE2-NEW2\" />\n";
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/popup.css\" />\n";
     foreach ( $this->extracss as $url ) 
-      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
+      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8"). "\" />\n";
     
     foreach ( $this->rss as $title => $url ) 
-      echo "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_NOQUOTES,"UTF-8")."\" href=\"".htmlentities($url,ENT_NOQUOTES,"UTF-8")."\" />";
+      echo "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_COMPAT,"UTF-8")."\" href=\"".htmlentities($url,ENT_COMPAT,"UTF-8")."\" />";
     
     echo "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico\" />\n";
-    echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js\">var site_topdir='$wwwtopdir';</script>\n";
+    echo "<script type=\"text/javascript\">var site_topdir='".$wwwtopdir."';</script>\n";
+    echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js\"></script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js\"></script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js\"></script>\n";
     
@@ -481,11 +482,11 @@ class interfaceweb
         $cssclass = $cts->cssclass;      
       
       $i++;
-      echo "<div class=\"$cssclass\"";
+      echo "<div class=\"".$cssclass."\"";
       if ( $cts->divid )
         echo " id=\"".$cts->divid."\"";
       else
-        echo " id=\"cts$i\"";
+        echo " id=\"cts".$i."\"";
       echo ">\n";
       
       if ( $cts->toolbox )

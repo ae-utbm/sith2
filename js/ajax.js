@@ -144,7 +144,7 @@ var fsearch_display_query='';
 var fsearch_sequence=0;
 var fsearch_actual_sequence=0;
 
-function fsearch_keyup(event,topdir)
+function fsearch_keyup(event)
 {
 	if ( event != null )
 	{
@@ -162,7 +162,7 @@ function fsearch_keyup(event,topdir)
     
   fsearch_sequence=fsearch_sequence+1;
     
-	evalCommand( topdir + "gateway.php", "module=fsearch&fsearch_sequence="+fsearch_sequence+"&topdir="+topdir+"&pattern="+obj.value );
+	evalCommand( site_topdir + "gateway.php", "module=fsearch&fsearch_sequence="+fsearch_sequence+"&topdir="+site_topdir+"&pattern="+obj.value );
 	
 	return true;
 }
