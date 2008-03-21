@@ -574,7 +574,7 @@ class sqltable2 extends stdcontents
           if ( count($col[2]) == 1 ) // cas d'une simple colonne
             $rewriter->add_orderby($col[2][0],$sort{0}=="d"?'DESC':'ASC');
           else
-            $rewriter->add_orderby('COLASCE('+implode(',',array_reverse($col[2]))+')',$sort{0}=="d"?'DESC':'ASC');
+            $rewriter->add_orderby('COLASCE('.implode(',',array_reverse($col[2])).')',$sort{0}=="d"?'DESC':'ASC');
         }
       }
       $this->set_data($id_name,new requete($db,$rewriter->get_sql()),$rewriter->get_sql());

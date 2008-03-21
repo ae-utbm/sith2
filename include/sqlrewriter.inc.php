@@ -181,9 +181,6 @@ class sqlrewriter
   
   function add_orderby ( $nom, $o = 'ASC' )
   {
-    if ( count($this->fields) == 0 )
-      $this->extract_fields();
-      
     if ( empty($this->orderby) )
       $this->orderby = 'ORDER BY '.$nom.' '.$o.' ';
     else
