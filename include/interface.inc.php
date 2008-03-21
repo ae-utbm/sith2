@@ -185,7 +185,7 @@ class interfaceweb
 
   function add_rss ( $title, $url )
   {
-    $this->rss[$title]=$url;
+    $this->add_alternate ( "application/rss+xml", $title, $url );
   }
   
   /** Termine et affiche la page
@@ -201,21 +201,19 @@ class interfaceweb
     
     echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">\n";
     echo "<head>\n";
-    echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+    
+    echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n"; // (IE6 Legacy support)
     echo "<title>".$this->title." - association des etudiants de l'utbm</title>\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css\" title=\"Semaine de Mars 2008\" />\n";
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css\" title=\"AE2-NEW2\" />\n";
     foreach ( $this->extracss as $url ) 
       echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
-    
-    foreach ( $this->rss as $title => $url ) 
-      echo "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_NOQUOTES,"UTF-8")."\" href=\"".htmlentities($url,ENT_NOQUOTES,"UTF-8")."\" />";
     
     foreach ( $this->alternate as $row )
     {
       echo "<link rel=\"alternate\" ".
         "type=\"".htmlentities($row[0],ENT_NOQUOTES,"UTF-8")."\" ".
         "title=\"".htmlentities($row[1],ENT_NOQUOTES,"UTF-8")."\" ".
-        "href=\"".htmlentities($row[2],ENT_NOQUOTES,"UTF-8")."\" />";
+        "href=\"".htmlentities($row[2],ENT_NOQUOTES,"UTF-8")."\" />\n";
     }
     
     if ( !empty($this->meta_keywords) )
@@ -241,12 +239,9 @@ class interfaceweb
         
     if (!$this->compact )
     {
-      echo "<div class=\"box\" id=\"important\">\n";
-      echo "<div class=\"body\">\n";
+      echo "<div class=\"box\" id=\"important\"><div class=\"body\">\n";
       echo $this->get_param('box.Important'). "\n";
-      echo "</div>\n";
-      
-      echo "</div>\n";
+      echo "</div></div>\n";
       
       echo "<div id=\"fsearchbox\">\n";
       echo "<form action=\"".$wwwtopdir."fsearch.php\" method=\"post\">";
