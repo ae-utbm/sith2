@@ -538,9 +538,9 @@ class sqltable2 extends stdcontents
         {
           switch ( $filter{1} )
           {
-            case "d" : $val = date('Y-m-d H:i:s',datetime_to_timestamp(substr($filter,2))); break:
-            case "m" : $val = get_prix(substr($filter,2)); break:
-            default : $val = substr($filter,2); break:
+            case "d" : $val = date('Y-m-d H:i:s',datetime_to_timestamp(substr($filter,2))); break;
+            case "m" : $val = get_prix(substr($filter,2)); break;
+            default : $val = substr($filter,2); break;
           }
           switch ( $filter{0} )
           {

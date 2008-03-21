@@ -179,7 +179,7 @@ class sqlrewriter
     $this->orderby = '';
   }
   
-  funtion add_orderby ( $nom, $o = 'ASC' )
+  function add_orderby ( $nom, $o = 'ASC' )
   {
     if ( count($this->fields) == 0 )
       $this->extract_fields();
