@@ -107,6 +107,9 @@ class sqlrewriter
   
   private function register_field($type,$nom)
   {
+          echo "#$type:$nom<br/>";
+
+    
     $nom = trim(str_replace('`','',$nom));
     
     $p = strpos($nom,'.');
@@ -139,6 +142,8 @@ class sqlrewriter
       $pos0 = stripos($this->select, ' AS ', $ppos);
       if ( $pos1 !== false && $pos1 < $ppos )
       $pos1 = strpos($this->select, '(', $ppos);
+      
+      echo "$pos;$pos0;$pos1<br/>";
       
       if ( $pos !== false && (( $pos1 !== false && $pos1 < $pos) || ($pos0 !== false && $pos0 < $pos) ) )
       {
