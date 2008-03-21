@@ -493,9 +493,7 @@ function insert_tags2(objid, lft, rgt, deftext)
 
 
 function popUpStream(topdir)
-{
-  alert(site_topdir);
-  
+{  
   window.open(topdir+"stream.php?get=popup", "stream", "width=300,height=350,status=no,scrollbars=yes,resizable=yes");
   return false;  
 }
