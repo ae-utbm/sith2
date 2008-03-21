@@ -37,6 +37,8 @@ require_once($topdir."include/catalog.inc.php");
  * rapide que sqltable v1 grâce à une meilleure implémentation. Même s'il est 
  * vrai que quelques pourcents pourraient être gagnés en enlevant les nouvelles
  * fonctionalités.
+ *
+ * @author Julien Etelain
  */
 class sqltable2 extends stdcontents
 {
@@ -390,7 +392,7 @@ class sqltable2 extends stdcontents
    * @param $id_name Champ SQL contenant l'identifiant unique de chaque ligne
    * @param $data Données : soit une objet requete, soit un tableau
    */
-  public function set_data ( $id_name, &$data )
+  public function set_data ( $id_name, &$data, $rewrited=false )
   {
     $this->id_name = $id_name;
     
@@ -407,7 +409,7 @@ class sqltable2 extends stdcontents
     
     // Support des fonctionalités asynchrone (tri et filtrage)
     
-    if ( isset($_REQUEST["sqltable2"]) && $_REQUEST["sqltable2"] == $this->nom )
+    if ( isset($_REQUEST["sqltable2"]) && $_REQUEST["sqltable2"] == $this->nom && !$rewrited )
     {
       if ( isset($_REQUEST["__st2f"]) && is_array($_REQUEST["__st2f"]) ) // SqlTable2Filter (fonctionne par champ sql!!)
       {
@@ -513,19 +515,65 @@ class sqltable2 extends stdcontents
    * L'usage de cette fonction permet une meilleure implémentation des 
    * fonctionalités avancées de sqltable v2.
    *
-   * Cette fonction pourra être amenée à ré-écrire votre requête 
-   * (pour compter le nombre de lignes, pour insérer un LIMIT, modifier le 
-   * ORDER BY, rajouter des conditions...)
-   *
+   * Cette fonction pourra être amenée à ré-écrire votre requête, elle doit donc
+   * respecter les contraintes de sqlrewriter.
+   
    * @param $db Lien à la base de donnée
    * @param $id_name Champ SQL contenant l'identifiant unique de chaque ligne
    * @param $sql Requête SQL
-   * @param $pagination Active la pagination automatique
-   * @param $npp Nombre de lignes par page
+   * @see sqlrewriter
    */
-  public function set_sql ( &$db, $id_name, $sql, $pagination=false, $npp=50 )
+  public function set_sql ( &$db, $id_name, $sql )
   {
-
+    global $topdir;
+    
+    if ( isset($_REQUEST["sqltable2"]) && $_REQUEST["sqltable2"] == $this->nom && !$rewrited )
+    {
+      require_once($topdir."include/sqlrewriter.inc.php");
+      $rewriter = new sqlrewriter($sql);
+      
+      if ( isset($_REQUEST["__st2f"]) && is_array($_REQUEST["__st2f"]) ) // SqlTable2Filter (fonctionne par champ sql!!)
+      {
+        foreach ( $_REQUEST["__st2f"] as $field => $filter )
+        {
+          switch ( $filter{1} )
+          {
+            case "d" : $val = date('Y-m-d H:i:s',datetime_to_timestamp(substr($filter,2))); break:
+            case "m" : $val = get_prix(substr($filter,2)); break:
+            default : $val = substr($filter,2); break:
+          }
+          switch ( $filter{0} )
+          {
+            case "=" : $cond = "= '".mysql_real_escape_string($val)."'"; break;
+            case "l" : $cond = "LIKE '%".mysql_real_escape_string($val)."%'"; break;
+            case "!" : $cond = "!= '".mysql_real_escape_string($val)."'"; break;
+            case ">" : $cond = ">= '".mysql_real_escape_string($val)."'"; break;
+            case "<" : $cond = "<= '".mysql_real_escape_string($val)."'"; break;              
+          }
+          $rewriter->add_condition($field,$cond);
+        }  
+      }
+      
+      if ( isset($_REQUEST["__st2s"]) && is_array($_REQUEST["__st2s"]) ) // SqlTable2Sorter (fonctionne par colonne!!)
+      {
+        //NOTE: les colonnes énumérées ne sont pas correctement supportées
+        $rewriter->reset_orderby();
+        foreach ( $_REQUEST["__st2s"] as $column => $sort )
+        {
+          $col = $this->columns[$column];
+          
+          if ( count($col[2]) == 1 ) // cas d'une simple colonne
+            $rewriter->add_orderby($col[2][0],$sort{0}=="d"?'DESC':'ASC');
+          else
+            $rewriter->add_orderby('COLASCE('+implode(',',array_reverse($col[2]))+')',$sort{0}=="d"?'DESC':'ASC');
+        }
+      }
+      
+      $this->set_data($id_name,new requete($db,$rewriter->get_sql(),true));
+      echo "<!-- ".$rewriter->get_sql()." -->";
+      return;
+    }
+    
     $this->set_data($id_name,new requete($db,$sql));
 
   }

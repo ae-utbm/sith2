@@ -10,7 +10,7 @@ $site->add_css("css/sqltable2.css");
 
 $site->start_page("sas", "Test de sqltable2" );
 $cts = new contents("table");
-$req = new requete ( $site->db, "SELECT " .
+$sql = "SELECT " .
 		"`cpta_operation`.`id_op`, " .
 		"`cpta_operation`.`num_op`, " .
 		"`cpta_operation`.`date_op`, " .
@@ -51,7 +51,7 @@ $req = new requete ( $site->db, "SELECT " .
 		"LEFT JOIN `asso` AS `asso2` ON `cpta_cpasso`.`id_asso`=`asso2`.`id_asso` ".
 		"LEFT JOIN `cpta_cpbancaire` ON `cpta_cpasso`.`id_cptbc`=`cpta_cpbancaire`.`id_cptbc` ".
 		"WHERE `cpta_operation`.id_classeur='162' " .
-		"ORDER BY `cpta_operation`.`num_op` DESC" );
+		"ORDER BY `cpta_operation`.`num_op` DESC" ;
 		
 
 $tbl = new sqltable2("compte","Test","sqltable2.php");
@@ -78,7 +78,7 @@ $tbl->set_column_isdiverse("commentaire_op");
 $tbl->add_action("delete","Supprimer");
 $tbl->add_action("print","Imprimer");
 
-$tbl->set_data("id_op",$req);
+$tbl->set_sql($site->db,"id_op",$sql);
 $cts->add($tbl,true);
 $site->add_contents($cts);
 $site->end_page();
