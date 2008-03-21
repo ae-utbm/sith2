@@ -476,7 +476,7 @@ class sqltable2 extends stdcontents
       
 	    header("Content-Type: text/html; charset=utf-8");
 	    if ( $rewrited )
-	     echo "<tr><td>$rewrited</td></tr>";
+	     echo "<tr><td colspan=\"".count($this->columns)."\">$rewrited</td></tr>";
       echo $this->html_render(true);
       exit();
     }
