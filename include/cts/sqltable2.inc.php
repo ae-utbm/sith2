@@ -577,8 +577,7 @@ class sqltable2 extends stdcontents
             $rewriter->add_orderby('COLASCE('+implode(',',array_reverse($col[2]))+')',$sort{0}=="d"?'DESC':'ASC');
         }
       }
-      echo "REWRITED!";
-      $this->set_data($id_name,new requete($db,$rewriter->get_sql(),$rewriter->get_sql()));
+      $this->set_data($id_name,new requete($db,$rewriter->get_sql()),$rewriter->get_sql());
       return;
     }
     
