@@ -178,13 +178,22 @@ class sqlrewriter
   {
     $this->orderby = '';
   }
-  
+   
+  function add_orderbyraw ( $raw, $o = 'ASC' )
+  {
+    if ( empty($this->orderby) )
+      $this->orderby = 'ORDER BY '.$raw.' '.$o.' ';
+    else
+      $this->orderby .= ', '.$raw.' '.$o.' ';
+    return true;
+  }
+   
   function add_orderby ( $nom, $o = 'ASC' )
   {
     if ( empty($this->orderby) )
-      $this->orderby = 'ORDER BY '.$nom.' '.$o.' ';
+      $this->orderby = 'ORDER BY '.$this->fields[$nom][1].' '.$o.' ';
     else
-      $this->orderby .= ', '.$nom.' '.$o.' ';
+      $this->orderby .= ', '.$this->fields[$nom][1].' '.$o.' ';
     return true;
   }
   

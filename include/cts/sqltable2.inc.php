@@ -538,7 +538,7 @@ class sqltable2 extends stdcontents
     {
       require_once($topdir."include/sqlrewriter.inc.php");
       $rewriter = new sqlrewriter($sql);
-      
+      $rewriter->extract_fields();
       if ( isset($_REQUEST["__st2f"]) && is_array($_REQUEST["__st2f"]) ) 
       // SqlTable2Filter (fonctionne par champ sql!!)
       {
@@ -574,7 +574,14 @@ class sqltable2 extends stdcontents
           if ( count($col[2]) == 1 ) // cas d'une simple colonne
             $rewriter->add_orderby($col[2][0],$sort{0}=="d"?'DESC':'ASC');
           else
-            $rewriter->add_orderby('COLASCE('.implode(',',array_reverse($col[2])).')',$sort{0}=="d"?'DESC':'ASC');
+          {
+            $fields=array();
+            foreach ( $col[2] as $nom )
+            {
+              $fields[] = $rewriter->fields[$nom][1];
+            }
+            $rewriter->add_orderbyraw('COLASCE('.implode(',',array_reverse($fields)).')',$sort{0}=="d"?'DESC':'ASC');
+          }
         }
       }
       $this->set_data($id_name,new requete($db,$rewriter->get_sql()),$rewriter->get_sql());
