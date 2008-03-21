@@ -476,7 +476,7 @@ class sqltable2 extends stdcontents
       
 	    header("Content-Type: text/html; charset=utf-8");
 	    if ( $rewrited )
-	     echo $rewrited;
+	     echo "<tr><td>$rewrited</td></tr>";
       echo $this->html_render(true);
       exit();
     }
@@ -577,7 +577,7 @@ class sqltable2 extends stdcontents
             $rewriter->add_orderby('COLASCE('+implode(',',array_reverse($col[2]))+')',$sort{0}=="d"?'DESC':'ASC');
         }
       }
-      
+      echo "REWRITED!";
       $this->set_data($id_name,new requete($db,$rewriter->get_sql(),$rewriter->get_sql()));
       return;
     }
