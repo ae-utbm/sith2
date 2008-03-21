@@ -409,67 +409,74 @@ class sqltable2 extends stdcontents
     
     // Support des fonctionalités asynchrone (tri et filtrage)
     
-    if ( isset($_REQUEST["sqltable2"]) && $_REQUEST["sqltable2"] == $this->nom && !$rewrited )
+    if ( isset($_REQUEST["sqltable2"]) && $_REQUEST["sqltable2"] == $this->nom  )
     {
-      if ( isset($_REQUEST["__st2f"]) && is_array($_REQUEST["__st2f"]) ) // SqlTable2Filter (fonctionne par champ sql!!)
+      if ( !$rewrited )
       {
-        $newdata = array();
-        
-        $filters = array();
-        foreach ( $_REQUEST["__st2f"] as $field => $filter )
+        if ( isset($_REQUEST["__st2f"]) && is_array($_REQUEST["__st2f"]) ) 
+        // SqlTable2Filter (fonctionne par champ sql!!)
         {
-          if ( $filter{1} == "d" )
-            $filters[$field] = array($filter{0},"d",datetime_to_timestamp(substr($filter,2)));
-          else if ( $filter{1} == "m" )
-            $filters[$field] = array($filter{0},"m",get_prix(substr($filter,2)));
-          else
-            $filters[$field] = array($filter{0},$filter{1},substr($filter,2));
-        }        
-        
-        foreach ( $this->data as $row )
-        {
-          $match = true;
-          foreach ( $filters as $field => $filter )
+          $newdata = array();
+          
+          $filters = array();
+          foreach ( $_REQUEST["__st2f"] as $field => $filter )
           {
-            if ( $filter[1] == 'd' )
-            {
-              switch ( $filter[0] )
-              {
-                case "=" : $match = $match && ( $filter[2] == strtotime($row[$field]) ); break;
-                case "!" : $match = $match && ( $filter[2] != strtotime($row[$field]) ); break;
-                case ">" : $match = $match && ( $filter[2] <= strtotime($row[$field]) ); break;
-                case "<" : $match = $match && ( $filter[2] >= strtotime($row[$field]) ); break;              
-              }              
-            }
+            if ( $filter{1} == "d" )
+              $filters[$field] = array($filter{0},"d",datetime_to_timestamp(substr($filter,2)));
+            else if ( $filter{1} == "m" )
+              $filters[$field] = array($filter{0},"m",get_prix(substr($filter,2)));
             else
+              $filters[$field] = array($filter{0},$filter{1},substr($filter,2));
+          }        
+          
+          foreach ( $this->data as $row )
+          {
+            $match = true;
+            foreach ( $filters as $field => $filter )
             {
-              switch ( $filter[0] )
+              if ( $filter[1] == 'd' )
               {
-                case "=" : $match = $match && ( $filter[2] == $row[$field] ); break;
-                case "l" : $match = $match && ( strpos($row[$field],$filter[2]) !== false ); break;
-                case "!" : $match = $match && ( $filter[2] != $row[$field] ); break;
-                case ">" : $match = $match && ( $filter[2] <= $row[$field] ); break;
-                case "<" : $match = $match && ( $filter[2] >= $row[$field] ); break;              
+                switch ( $filter[0] )
+                {
+                  case "=" : $match = $match && ( $filter[2] == strtotime($row[$field]) ); break;
+                  case "!" : $match = $match && ( $filter[2] != strtotime($row[$field]) ); break;
+                  case ">" : $match = $match && ( $filter[2] <= strtotime($row[$field]) ); break;
+                  case "<" : $match = $match && ( $filter[2] >= strtotime($row[$field]) ); break;              
+                }              
+              }
+              else
+              {
+                switch ( $filter[0] )
+                {
+                  case "=" : $match = $match && ( $filter[2] == $row[$field] ); break;
+                  case "l" : $match = $match && ( strpos($row[$field],$filter[2]) !== false ); break;
+                  case "!" : $match = $match && ( $filter[2] != $row[$field] ); break;
+                  case ">" : $match = $match && ( $filter[2] <= $row[$field] ); break;
+                  case "<" : $match = $match && ( $filter[2] >= $row[$field] ); break;              
+                }
               }
             }
+            if ( $match )
+              $newdata[] = $row;
           }
-          if ( $match )
-            $newdata[] = $row;
-        }
-        $this->data = $newdata;
-      } 
-      
-      if ( isset($_REQUEST["__st2s"]) && is_array($_REQUEST["__st2s"]) ) // SqlTable2Sorter (fonctionne par colonne!!)
-      {
-        $this->sorter = array();
-        foreach ( $_REQUEST["__st2s"] as $column => $sort )
+          $this->data = $newdata;
+        } 
+        
+        if ( isset($_REQUEST["__st2s"]) && is_array($_REQUEST["__st2s"]) )
+         // SqlTable2Sorter (fonctionne par colonne!!)
         {
-          $this->sorter[$column] = array($sort{0}=="d"?-1:1,$sort{1}=="i"||$sort{1}=="m"?true:false);
+          $this->sorter = array();
+          foreach ( $_REQUEST["__st2s"] as $column => $sort )
+          {
+            $this->sorter[$column] = array($sort{0}=="d"?-1:1,$sort{1}=="i"||$sort{1}=="m"?true:false);
+          }
+          usort ($this->data, array("sqltable2","compare_row"));
         }
-        usort ($this->data, array("sqltable2","compare_row"));
       }
       
 	    header("Content-Type: text/html; charset=utf-8");
+	    if ( $rewrited )
+	     echo $rewrited;
       echo $this->html_render(true);
       exit();
     }
@@ -527,12 +534,13 @@ class sqltable2 extends stdcontents
   {
     global $topdir;
     
-    if ( isset($_REQUEST["sqltable2"]) && $_REQUEST["sqltable2"] == $this->nom && !$rewrited )
+    if ( isset($_REQUEST["sqltable2"]) && $_REQUEST["sqltable2"] == $this->nom )
     {
       require_once($topdir."include/sqlrewriter.inc.php");
       $rewriter = new sqlrewriter($sql);
       
-      if ( isset($_REQUEST["__st2f"]) && is_array($_REQUEST["__st2f"]) ) // SqlTable2Filter (fonctionne par champ sql!!)
+      if ( isset($_REQUEST["__st2f"]) && is_array($_REQUEST["__st2f"]) ) 
+      // SqlTable2Filter (fonctionne par champ sql!!)
       {
         foreach ( $_REQUEST["__st2f"] as $field => $filter )
         {
@@ -554,7 +562,8 @@ class sqltable2 extends stdcontents
         }  
       }
       
-      if ( isset($_REQUEST["__st2s"]) && is_array($_REQUEST["__st2s"]) ) // SqlTable2Sorter (fonctionne par colonne!!)
+      if ( isset($_REQUEST["__st2s"]) && is_array($_REQUEST["__st2s"]) )
+      // SqlTable2Sorter (fonctionne par colonne!!)
       {
         //NOTE: les colonnes énumérées ne sont pas correctement supportées
         $rewriter->reset_orderby();
@@ -569,8 +578,7 @@ class sqltable2 extends stdcontents
         }
       }
       
-      $this->set_data($id_name,new requete($db,$rewriter->get_sql(),true));
-      echo "<!-- ".$rewriter->get_sql()." -->";
+      $this->set_data($id_name,new requete($db,$rewriter->get_sql(),$rewriter->get_sql()));
       return;
     }
     
