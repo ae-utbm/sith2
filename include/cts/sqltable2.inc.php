@@ -580,7 +580,7 @@ class sqltable2 extends stdcontents
             {
               $fields[] = $rewriter->fields[$nom][1];
             }
-            $rewriter->add_orderbyraw('COLASCE('.implode(',',array_reverse($fields)).')',$sort{0}=="d"?'DESC':'ASC');
+            $rewriter->add_orderbyraw('COALESCE('.implode(',',array_reverse($fields)).')',$sort{0}=="d"?'DESC':'ASC');
           }
         }
       }
