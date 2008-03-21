@@ -183,11 +183,6 @@ class sqlrewriter
   {
     if ( count($this->fields) == 0 )
       $this->extract_fields();
-    
-     print_r($this->fields);
-    
-    if ( !isset($this->fields[$nom]) )
-      return false;
       
     if ( empty($this->orderby) )
       $this->orderby = 'ORDER BY '.$nom.' '.$o.' ';
