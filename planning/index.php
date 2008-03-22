@@ -42,6 +42,7 @@ $site = new site ();
 $site->allow_only_logged_users("services");
 
 $lieux = array(6=>"Bureau AE Belfort", 30=>"Bureau AE Sevenans", 5=>"Foyer", 28=>"MDE");
+$freq = array(1=>"Creneau unique", 2=>"Une semaine sur deux", 3=>"Toutes les semaines");
 
 
 if ( $_REQUEST["action"] == "searchpl" )
@@ -207,13 +208,23 @@ else if( $_REQUEST["action"] == "details" )
     $site->start_page("services","Planning");
     $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
    
-	$planning = new planning($site->db,$site->dbrw);
+   	$frm = new form("recordgap","index.php",false,"POST","Details");
+  	$frm->add_hidden("action","recordgap");
+  	if ( isset($_REQUEST["fallback"]) )
+    	$frm->add_hidden("fallback",$_REQUEST["fallback"]);
+  	$frm->add_select_field("id_freq","Frequence",$freq, $_REQUEST["id_freq"]);
+  	$frm->add_submit("enregistrer","Enregistrer le creneau");
+  	$cts->add($frm,true);
+  
+  	$site->add_contents($cts);
+  
+	/*$planning = new planning($site->db,$site->dbrw);
 	$planning->load_by_id(PERM_AE_BELFORT);
 
 	if ( !$planning->is_valid() )
   		$site->error_not_found("services");
   		
-  	$planning->add_user_to_gap($_REQUEST["id_gap"], $site->user->id);
+  	$planning->add_user_to_gap($_REQUEST["id_gap"], $site->user->id);*/
   	
   	  $sql = 
     "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning,
@@ -239,6 +250,46 @@ else if( $_REQUEST["action"] == "details" )
   $site->add_contents($cts);
   $site->end_page();
   exit();
+}
+else if( $_REQUEST["action"] == "recordgap" )
+{
+	$site->add_css("css/weekplanning.css");
+	
+    $site->start_page("services","Planning");
+    $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
+   
+  	$planning = new planning($site->db,$site->dbrw);
+	$planning->load_by_id(PERM_AE_BELFORT);
+
+	if ( !$planning->is_valid() )
+  		$site->error_not_found("services");
+  		
+  	$planning->add_user_to_gap($_REQUEST["id_gap"], $site->user->id);
+  	
+  	$sql = 
+    "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning,
+     IFNULL(utilisateurs.alias_utl,'(personne)') AS texte
+     FROM pl_gap
+     LEFT JOIN pl_gap_user USING(id_gap)
+     LEFT JOIN utilisateurs USING(id_utilisateur)
+     WHERE pl_gap.id_planning='".PERM_AE_BELFORT."'";
+     
+ 	$pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php", "index.php?action=details", "",
+     PL_LUNDI);
+
+  	$cts->add($pl,true); 
+  
+ 	$frm = new form("searchpl","index.php",false,"POST","Nouvelle recherche");
+  	$frm->add_hidden("action","searchpl");
+	if ( isset($_REQUEST["fallback"]) )
+	  $frm->add_hidden("fallback",$_REQUEST["fallback"]);
+	$frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST["id_salle"]);
+	$frm->add_submit("afficher","Afficher le planning");
+	$cts->add($frm,true);
+	  
+	$site->add_contents($cts);
+	$site->end_page();
+	exit();
 }
 
 $site->start_page("services","Planning");
