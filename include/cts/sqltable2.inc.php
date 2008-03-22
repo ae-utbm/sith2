@@ -394,6 +394,7 @@ class sqltable2 extends stdcontents
    */
   public function set_data ( $id_name, &$data, $rewrited=false )
   {
+    global $timing;
     $this->id_name = $id_name;
     
     
