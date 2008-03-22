@@ -48,7 +48,7 @@ $req = new requete($site->db,"SELECT `utl_etu`.`id_utilisateur`, `utl_etu`.`visi
                              "CONCAT(`utilisateurs`.`nom_utl`,' ',`utilisateurs`.`prenom_utl`) as `nom_utilisateur` ".
                              "FROM `utl_etu` ".
                              "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur` ".
-                             "WHERE `utl_etu`.`nom_ecole_etudiant`='UTBM' ORDER BY `utl_etu`.`visites` DESC LIMIT 0, 10");
+                             "WHERE `utilisateurs`.`utbm_utl`='1' ORDER BY `utl_etu`.`visites` DESC LIMIT 0, 10");
 
 
 $cts->add(new sqltable("top_full",
@@ -66,7 +66,7 @@ $req = new requete($site->db,"SELECT `utl_etu`.`id_utilisateur`, `utl_etu`.`visi
                              "CONCAT(`utilisateurs`.`nom_utl`,' ',`utilisateurs`.`prenom_utl`) as `nom_utilisateur` ".
                              "FROM `utl_etu` ".
                              "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur` ".
-                             "WHERE `utl_etu`.`nom_ecole_etudiant`='UTBM' AND `utilisateurs`.`sexe_utl`='2' ORDER BY `utl_etu`.`visites` DESC LIMIT 0, 10");
+                             "WHERE `utilisateurs`.`utbm_utl`='1' AND `utilisateurs`.`sexe_utl`='2' ORDER BY `utl_etu`.`visites` DESC LIMIT 0, 10");
 $cts->add(new sqltable("top_full",
                        "Top 10 des fiches matmatronch f&eacute;minines les plus visit&eacute;es", $req, "stats.php",
                        "id_utilisateur",
@@ -82,7 +82,7 @@ $req = new requete($site->db,"SELECT `utl_etu`.`id_utilisateur`, `utl_etu`.`visi
                              "CONCAT(`utilisateurs`.`nom_utl`,' ',`utilisateurs`.`prenom_utl`) as `nom_utilisateur` ".
                              "FROM `utl_etu` ".
                              "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur` ".
-                             "WHERE `utl_etu`.`nom_ecole_etudiant`='UTBM' AND `utilisateurs`.`sexe_utl`='1' ORDER BY `utl_etu`.`visites` DESC LIMIT 0, 10");
+                             "WHERE `utilisateurs`.`utbm_utl`='1' AND `utilisateurs`.`sexe_utl`='1' ORDER BY `utl_etu`.`visites` DESC LIMIT 0, 10");
 $cts->add(new sqltable("top_full",
                        "Top 10 des fiches matmatronch masculines les plus visit&eacute;es", $req, "stats.php",
                        "id_utilisateur",
