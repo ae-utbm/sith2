@@ -219,7 +219,7 @@ function stupdate ( tbl )
   
   var cts = document.getElementById(tbl+"_contents");
   
-  cts.innerHTML="<tr><td colspan=\""+cts.parentNode.rows[0].cells.length+"\">Chargement en cours... ("+cts.parentNode.rows[0].cells.length+")</td></tr>";
+  cts.innerHTML="<tr><td colspan=\""+cts.parentNode.rows[0].cells.length+"\">Chargement en cours...</td></tr>";
   
   openInContents( tbl+"_contents", selfo.value, d);
 }
