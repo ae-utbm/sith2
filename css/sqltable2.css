@@ -93,6 +93,12 @@ div.sqltable2 th
   padding-left:5px;
 }
 
+div.sqltable2 th.filtree
+{
+  background: #eff7ff;
+  padding-left:5px;
+}
+
 div.sqltable2 tr.ln0
 {
   background: #eff7ff;

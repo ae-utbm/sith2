@@ -195,6 +195,10 @@ function stsetfilter ( tbl, col, field, op, val )
   
 	var obj = document.getElementById(tbl+"_f"+col);
   obj.style.display = 'none';
+  
+	var obj = document.getElementById(tbl+"_"+col);
+  obj.className = op == "" ? "" : "filtree";
+  
 }
 
 function stupdate ( tbl )

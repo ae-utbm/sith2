@@ -775,7 +775,7 @@ class sqltable2 extends stdcontents
     
     foreach ( $this->columns as $key => $col )
     {
-      $this->buffer .= "<th>".htmlentities($col[1],ENT_COMPAT,"UTF-8");
+      $this->buffer .= "<th id=\"".$this->nom."_".$key."\">".htmlentities($col[1],ENT_COMPAT,"UTF-8");
 
       if ( $this->page_self )
       {
