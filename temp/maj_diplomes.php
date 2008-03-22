@@ -46,7 +46,7 @@ if ( $_REQUEST["action"] == "process")
   
   $traduc = array(
     "GP"=>"imap",
-    "GM"=>"gmc",
+    "GM"=>"mc",
     "GI"=>"gi",
     "GC"=>"gesc");
   

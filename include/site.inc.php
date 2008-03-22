@@ -375,7 +375,7 @@ class site extends interfaceweb
         $lieu = "Belfort";
         $this->user->load_all_extra();
         if ( $this->user->departement == "tc" || 
-          $this->user->departement == "gmc" || 
+          $this->user->departement == "mc" || 
           $this->user->departement == "edim" )
           $lieu = "Sévenans";
 

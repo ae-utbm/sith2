@@ -282,7 +282,7 @@ if ( $_REQUEST["action"] == "majprofil" && ( ( !isset($_REQUEST["setpassword"]) 
         
         $lieu = "Belfort";
         if ( $user->departement == "tc" || 
-          $user->departement == "gmc" || 
+          $user->departement == "mc" || 
           $user->departement == "edim" )
           $lieu = "Sévenans";
 
