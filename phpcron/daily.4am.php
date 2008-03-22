@@ -30,7 +30,7 @@ while ( $row = $req->get_row() )
   $vp->debloquer ( $client, $row['quantite'] );
 }
 
-// Tâche 2 : Nettotage des produits (et eventuels verrous liés), et des types
+// Tâche 2 : Nettoyage des produits (et eventuels verrous liés), et des types
 
 new requete($site->dbrw,"DELETE FROM `cpt_produits` WHERE prod_archive=1 AND NOT EXISTS(SELECT * FROM cpt_vendu WHERE cpt_vendu.id_produit=cpt_produits.id_produit)");
 
@@ -40,7 +40,7 @@ new requete($site->dbrw,"DELETE FROM `cpt_type_produit` WHERE NOT EXISTS ( SELEC
 
 // Tâche 3 : Nettoyage des créneaux "vides" expriés
 
-new requete($site->dbrw,"DELETE FROM `pl_gap` WHERE NOT EXISTS ( SELECT * FROM pl_gap_user WHERE pl_gap_user.id_gap = pl_gap.id_gap AND pl_gap_user.id_planning = pl_gap.id_planning ) AND end_gap < NOW( )");
+/*new requete($site->dbrw,"DELETE FROM `pl_gap` WHERE NOT EXISTS ( SELECT * FROM pl_gap_user WHERE pl_gap_user.id_gap = pl_gap.id_gap AND pl_gap_user.id_planning = pl_gap.id_planning ) AND end_gap < NOW( )");*/
 
 // Tâche 4 : Nettoyages des sessions expirés
 
