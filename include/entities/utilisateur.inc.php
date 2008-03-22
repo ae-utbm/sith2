@@ -28,7 +28,7 @@ require_once("carteae.inc.php");
 
 
 $GLOBALS["utbm_roles"] = array("etu"=>"Etudiant", "adm"=>"Personnel administratif", "ens"=>"Enseignant", "per"=>"Personnel", "doc"=>"Doctorant","srv"=>"Service");
-$GLOBALS["utbm_departements"] = array("tc"=>"TC", "gi"=>"GI", "imap"=>"IMAP", "gesc"=>"GESC", "mc"=>"MC", "edim"=>"EDIM", "huma"=>"Humanités", "na"=>"N/A");
+$GLOBALS["utbm_departements"] = array("tc"=>"TC", "gi"=>"GI", "imap"=>"IMAP", "gesc"=>"GESC", "gmc"=>"MC", "edim"=>"EDIM", "huma"=>"Humanités", "na"=>"N/A");
 
 /**
  * Classe permetant la gestion d'un utilisateur
@@ -759,9 +759,9 @@ class utilisateur extends stdentity
     if ( empty($this->alias) )
       $this->alias = null;
     
-    require_once($topdir."include/cts/cached.inc.php");
+    /*require_once($topdir."include/cts/cached.inc.php");
     $cache = new cachedcontents("sig".$this->id);
-    $cache->expire();   
+    $cache->expire();*/
     
     new update($this->dbrw,
                       "utilisateurs",
