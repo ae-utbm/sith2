@@ -449,7 +449,7 @@ Cordialement,
 L'équipe AE et les responsables d'AE Job Etu.
 
 --
-Pour ne plus recevoir ces mails : http://ae.utbm.fr/taiste/jobetu/board_etu.php?view=preferences
+Pour ne plus recevoir ces mails : http://ae.utbm.fr/jobetu/board_etu.php?view=preferences
 AE JobEtu est un service de l'Association des Etudiants de l'UTBM
 http://ae.utbm.fr/
 
