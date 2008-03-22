@@ -78,8 +78,7 @@ $tbl->set_column_isdiverse("commentaire_op");
 $tbl->add_action("delete","Supprimer");
 $tbl->add_action("print","Imprimer");
 
-//$tbl->set_sql($site->db,"id_op",$sql);
-$tbl->set_data("id_op",new requete($site->db,$sql));
+$tbl->set_sql($site->db,"id_op",$sql);
 $cts->add($tbl,true);
 $site->add_contents($cts);
 $site->end_page();
