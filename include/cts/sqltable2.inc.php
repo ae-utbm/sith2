@@ -476,12 +476,10 @@ class sqltable2 extends stdcontents
       }
       
 	    header("Content-Type: text/html; charset=utf-8");
+	    $timing["all"] += microtime(true);
+	    echo "<tr><td colspan=\"".(count($this->columns)+count($this->action))."\">all:".$timing["all"].", mysql:".$timing["mysql"]."</td></tr>";
 	    if ( $rewrited )
-	    {
-	      $timing["all"] += microtime(true);
-	      echo "<tr><td colspan=\"".(count($this->columns)+count($this->action))."\">all:".$timing["all"].", mysql:".$timing["mysql"]."</td></tr>";
 	      echo "<tr><td colspan=\"".(count($this->columns)+count($this->action))."\">".$rewrited."</td></tr>";
-	    }
       echo $this->html_render(true);
       exit();
     }
