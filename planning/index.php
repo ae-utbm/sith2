@@ -210,6 +210,7 @@ else if( $_REQUEST["action"] == "details" )
    
    	$frm = new form("recordgap","index.php",false,"POST","Details");
   	$frm->add_hidden("action","recordgap");
+  	$frm->add_hidden("id_gap",$_REQUEST["id_gap"]);
   	if ( isset($_REQUEST["fallback"]) )
     	$frm->add_hidden("fallback",$_REQUEST["fallback"]);
   	$frm->add_select_field("id_freq","Frequence",$freq, $_REQUEST["id_freq"]);
