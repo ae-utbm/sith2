@@ -476,7 +476,11 @@ class sqltable2 extends stdcontents
       
 	    header("Content-Type: text/html; charset=utf-8");
 	    if ( $rewrited )
-	     echo "<tr><td colspan=\"".count($this->columns)."\">$rewrited</td></tr>";
+	    {
+	      $timing["all"] += microtime(true);
+	      echo "<tr><td colspan=\"".(count($this->columns)+count($this->action))."\">all:".$timing["all"].", mysql:".$timing["mysql"]."</td></tr>";
+	      echo "<tr><td colspan=\"".(count($this->columns)+count($this->action))."\">".$rewrited."</td></tr>";
+	    }
       echo $this->html_render(true);
       exit();
     }
