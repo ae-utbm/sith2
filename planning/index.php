@@ -293,7 +293,7 @@ else
 	WHERE pl_gap_user.id_planning='".PERM_AE_BELFORT."'
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
 	
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "user.php?id_utilisateur=".$site->user->id, "", PL_LUNDI, true);
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "../user.php?id_utilisateur=".$site->user->id, "", PL_LUNDI, true);
 }
      
   
