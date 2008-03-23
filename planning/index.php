@@ -279,7 +279,7 @@ if($site->user->is_in_group("gestion_ae"))
 else
 {
   $sql = 
-    "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning
+    "SELECT pl_gap.id_gap, start_gap, end_gap, pl_gap.id_planning
      FROM pl_gap, pl_gap_user
      WHERE pl_gap.id_planning='".PERM_AE_BELFORT."'";
 }
