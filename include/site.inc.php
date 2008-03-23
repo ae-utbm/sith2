@@ -936,6 +936,8 @@ class site extends interfaceweb
   {
     global $topdir;
     
+    require_once($topdir."include/cts/cached.inc.php");
+    
     $cache = new cachedcontents("anniv");
     
     if ( $cache->is_cached_since(strtotime(date("Y-m-d")." 00:00:00")) )
