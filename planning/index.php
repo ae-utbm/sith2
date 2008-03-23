@@ -286,7 +286,8 @@ else
 	USING ( id_gap ) 
 	LEFT JOIN utilisateurs
 	USING ( id_utilisateur )
-	INNER JOIN utl_etu_utbm 
+	LEFT JOIN utl_etu_utbm 
+	USING ( id_utilisateur )
 	WHERE pl_gap_user.id_planning='".PERM_AE_BELFORT."'
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
 }
