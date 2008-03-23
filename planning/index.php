@@ -37,7 +37,7 @@ $site = new site ();
 $site->allow_only_logged_users("services");
 
 $lieux = array(6=>"Bureau AE Belfort", 30=>"Bureau AE Sevenans", 5=>"Foyer", 28=>"MDE");
-$freq = array(1=>"Une semaine sur deux", 2=>"Toutes les semaines");
+$freq = array(1=>"Toutes les semaines", 2=>"Une semaine sur deux");
 
 
 if ( $_REQUEST["action"] == "searchpl" )
@@ -274,8 +274,7 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
      LEFT JOIN utilisateurs USING(id_utilisateur)
      WHERE pl_gap.id_planning='".PERM_AE_BELFORT."'";
      
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "",
-     PL_LUNDI, true);
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "", PL_LUNDI, true);
 
   $cts->add($pl,true); 
   
@@ -299,7 +298,7 @@ else if( $_REQUEST["action"] == "details" )
     $site->start_page("services","Planning");
     $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
    
-   	$frm = new form("recordgap","index.php",false,"POST","Details");
+   	/*$frm = new form("recordgap","index.php",false,"POST","Details");
   	$frm->add_hidden("action","recordgap");
   	$frm->add_hidden("id_gap",$_REQUEST["id_gap"]);
   	
@@ -310,7 +309,7 @@ else if( $_REQUEST["action"] == "details" )
   	$frm->add_submit("enregistrer","Enregistrer le creneau");
   	$cts->add($frm,true);
   
-  	$site->add_contents($cts);
+  	$site->add_contents($cts);*/
   
 	$planning = new planning($site->db,$site->dbrw);
 	$planning->load_by_id(PERM_AE_BELFORT);
@@ -345,7 +344,7 @@ else if( $_REQUEST["action"] == "details" )
   $site->end_page();
   exit();
 }
-else if( $_REQUEST["action"] == "recordgap" )
+/*else if( $_REQUEST["action"] == "recordgap" )
 {
 	$site->add_css("css/weekplanning.css");
 	
@@ -357,7 +356,7 @@ else if( $_REQUEST["action"] == "recordgap" )
 
 	if ( !$planning->is_valid() )
   		$site->error_not_found("services");
-  		
+  	
   	$planning->add_user_to_gap($_REQUEST["id_gap"], $site->user->id);
   	
   	$sql = 
@@ -384,7 +383,7 @@ else if( $_REQUEST["action"] == "recordgap" )
 	$site->add_contents($cts);
 	$site->end_page();
 	exit();
-}
+}*/
 
 $site->start_page("services","Planning");
 
