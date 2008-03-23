@@ -97,7 +97,7 @@ if ( isset($_REQUEST["see"]) && $_REQUEST["see"] == "stats" )
   $n=1;
   while ( $row = $req->get_row() )
   {
-    $lst->add("$n : ".entitylink ("utilisateur", $row["id_utilisateur"], $row["nom_utilisateur"] )." (<a href=\"../sas2/search.php?action=search&id_utilisateurs_presents[]=".$user->id."&id_utilisateurs_presents[]=".$row["id_utilisateur"]."\">".$row['count']." photos</a>)");
+    $lst->add("$n : <a href=\"../user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>  (<a href=\"../sas2/search.php?action=search&id_utilisateurs_presents[]=".$user->id."&id_utilisateurs_presents[]=".$row["id_utilisateur"]."\">".$row['count']." photos</a>)");
     $n++;
   }
 

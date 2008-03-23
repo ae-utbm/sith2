@@ -121,17 +121,6 @@ $GLOBALS["entitiescatalog"] = array (
 	
 	);
 
-/**
- * @deprecated
- */
-function entitylink ( $class, $id, $nom )
-{
-	global $topdir;
-	if ( !isset($GLOBALS["entitiescatalog"][$class]) )
-		return $nom;
-	return "<a href=\"".$topdir.$GLOBALS["entitiescatalog"][$class][3]."?".$GLOBALS["entitiescatalog"][$class][0]."=$id\"><img src=\"".$topdir."images/icons/16/".$GLOBALS["entitiescatalog"][$class][2]."\" class=\"icon\" alt=\"Fiche\" /> ".htmlentities($nom,ENT_NOQUOTES,"UTF-8")."</a>";
-}
-
 
 
 

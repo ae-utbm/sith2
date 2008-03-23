@@ -432,7 +432,7 @@ elseif ( $_REQUEST["view"] == "sas" )
   $n=1;
   while ( $row = $req->get_row() )
     {
-      $lst->add("$n : ".entitylink ("utilisateur", $row["id_utilisateur"], $row["nom_utilisateur"] )." (".$row['count']." photos)");
+      $lst->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a> (".$row['count']." photos)");
       $n++;
     }
   
@@ -450,7 +450,7 @@ elseif ( $_REQUEST["view"] == "sas" )
   $n=1;
   while ( $row = $req->get_row() )
     {
-      $lst->add("$n : ".entitylink ("utilisateur", $row["id_utilisateur"], $row["nom_utilisateur"] )." (".$row['count']." photos)");
+      $lst->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a> (".$row['count']." photos)");
       $n++;
     }
   
@@ -641,9 +641,9 @@ elseif ( $_REQUEST["view"] == "comptoirs" )
     if ( $row["id_utilisateur"] == $site->user->id )
       $class = $class?"$class me":"me";
           if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("foyer_admin") && !$site->user->is_in_group("kfet_admin"))
-      $lst->add("N°$n : ".entitylink ("utilisateur", $row["id_utilisateur"], $row["nom_utilisateur"]),$class);
+      $lst->add("N°$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>",$class);
           else
-      $lst->add("N°$n : ".entitylink ("utilisateur", $row["id_utilisateur"], $row["nom_utilisateur"] ).(isset($_REQUEST["fcsoldes"])?" ".($row["total"]/100):""),$class);
+      $lst->add("N°$n : <a href=\"../user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>".(isset($_REQUEST["fcsoldes"])?" ".($row["total"]/100):""),$class);
     $n++;
   }
   
