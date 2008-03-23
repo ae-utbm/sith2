@@ -29,6 +29,11 @@ class cachedcontents extends stdcontents
   {      
     return file_exists(CACHE_DIR.$this->uid) && !isset($_GET["__nocache"]);
   }
+
+  public function is_cached_since($timestamp)
+  {      
+    return file_exists(CACHE_DIR.$this->uid) && filemtime(CACHE_DIR.$this->uid) > $timestamp && !isset($_GET["__nocache"]);
+  }
   
   public function get_cache()
   {

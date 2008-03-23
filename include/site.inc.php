@@ -776,12 +776,18 @@ class site extends interfaceweb
     if( $this->user->is_in_group("moderateur_site") )
     {
       $sublist = new itemlist("Equipe com'","boxlist");
-
       $sublist->add("<a href=\"".$topdir."ae/com.php\">Tâches usuelles</a>");
-
       $cts->add($sublist,true, true, "siteadminbox", "boxlist", true, false);
     }
 
+    if( $this->user->is_in_group("compta_admin") )
+    {
+      $sublist = new itemlist("Comptabilité de l'AE","boxlist");
+      $sublist->add("<a href=\"".$topdir."entreprise.php\">Carnet d'adresses</a>");
+      $sublist->add("<a href=\"".$topdir."compta/\">Comptabilitée</a>");
+      $sublist->add("<a href=\"".$topdir."comptoir/admin.php\">Comptoirs AE</a>");   
+      $cts->add($sublist,true, true, "comptaadminbox", "boxlist", true, false);
+    }
 
     if( $this->user->is_in_group("gestion_ae") )
     {
@@ -790,36 +796,12 @@ class site extends interfaceweb
       $sublist->add("<a href=\"".$topdir."ae/cartesae.php\">Cartes AE</a>");
       $sublist->add("<a href=\"".$topdir."asso.php\">Associations et clubs</a>");
       $cts->add($sublist,true, true, "aeadminbox", "boxlist", true, false);
-    
-      if( $this->user->is_in_group("compta_admin") )
-      {
-        $sublist = new itemlist("Comptabilité de l'AE","boxlist");
-        $sublist->add("<a href=\"".$topdir."entreprise.php\">Carnet d'adresses</a>");
-        $sublist->add("<a href=\"".$topdir."compta/\">Comptabilitée</a>");
-        $sublist->add("<a href=\"".$topdir."comptoir/admin.php\">Comptoirs AE</a>");   
-        $cts->add($sublist,true, true, "comptaadminbox", "boxlist", true, false);
-      }
-      
+          
       $sublist = new itemlist("Salles, inventaire","boxlist");
       $sublist->add("<a href=\"".$topdir."sitebat.php\">Batiments, salles</a>");
       $sublist->add("<a href=\"".$topdir."objtype.php\">Type d'objets (inventaire)</a>");
-
-      $req = new requete($this->db,"SELECT COUNT(*) ".
-        "FROM sl_reservation " .
-        "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
-        "WHERE ((sl_reservation.date_accord_res IS NULL) OR " .
-        "(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
-        "AND sl_reservation.date_debut_salres >= '$today'");
-
-      list($count) = $req->get_row();
-      $sublist->add("<a href=\"".$topdir."ae/modereres.php\">Reservation salles (".$count.")</a>");
-
-      $req = new requete($this->db,"SELECT COUNT(*) " .
-        "FROM inv_emprunt WHERE etat_emprunt=0 ");
-      list($count) = $req->get_row();
-      $sublist->add("<a href=\"".$topdir."ae/modereemp.php\">Emprunts de matériel (".$count.")</a>");
-
-
+      $sublist->add("<a href=\"".$topdir."ae/modereres.php\">Reservation salles</a>");
+      $sublist->add("<a href=\"".$topdir."ae/modereemp.php\">Emprunts de matériel</a>");
       $cts->add($sublist,true, true, "sainvadminbox", "boxlist", true, false);
     }
     
@@ -953,7 +935,15 @@ class site extends interfaceweb
   function get_anniv_contents ()
   {
     global $topdir;
+    
+    $cache = new cachedcontents("anniv");
+    
+    if ( $cache->is_cached_since(strtotime(date("Y-m-d")." 00:00:00")) )
+      return $cache->get_cache();
+      
     $cts = new contents("Anniversaire");
+
+    $annee = date("Y");
 
     $req = new requete ($this->db, "SELECT `utilisateurs`.`id_utilisateur`,`utilisateurs`.`nom_utl`,".
     "`utilisateurs`.`prenom_utl`,`utl_etu_utbm`.`surnom_utbm`,`utilisateurs`.`date_naissance_utl` ".
@@ -965,21 +955,17 @@ class site extends interfaceweb
 
     if ($req->lines > 0)
     {
-      $cts->puts($this->get_param('box.Anniversaire'));
-      //$cts->puts ("<ul class=\"boxlist annif\">", 1);
+      $cts->add_paragraph($this->get_param('box.Anniversaire'));
 
       $old_age = 0;
       $count   = 0;
 
       while ($res = $req->get_row())
       {
-        /*preg_match("/^([0-9]{4})-([0-9]{2})-([0-9]{2})$/", $res['date_naissance_utl'], $naissance);
-        $age =  date("Y") - $naissance[1];
-        */
-        $age=date("Y")-date("Y",strtotime($res['date_naissance_utl']));
+
+        $age=$annee-substr($res['date_naissance_utl'],0,4);
         if (!$count || ($old_age != $age))
         {
-          //$cts->puts("<li class=\"title\">" . $age . " ans</li>");
           if ( $count )
             $cts->puts("</ul>\n");
           
@@ -1000,14 +986,13 @@ class site extends interfaceweb
          "\">" . $nom . "</a></li>\n");
       }
       $cts->puts("</ul>\n");
-      //$cts->puts("</ul>\n", -1);
     }
     else
     {
-      $cts->puts("L'AE est triste de vous annoncer qu'il n'y a pas d'anniversaire aujourd'hui.\n");
+      $cts->add_paragraph("L'AE est triste de vous annoncer qu'il n'y a pas d'anniversaire aujourd'hui.\n");
     }
-
-    return $cts;
+    
+    return $cache->set_contents($cts);
   }
 
   /** Fonction qui génére le contents du dernier planning de l'AE */

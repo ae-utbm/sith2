@@ -588,32 +588,7 @@ class utilisateur extends stdentity
 
     if ( $this->modere )
       $this->groupes[10008] = "utilisateurs-valides";
-    /*
-    $req = new requete($this->db,
-                       "SELECT `asso`.`id_asso`, `asso`.`nom_unix_asso` " .
-                       "FROM `asso_membre` " .
-                       "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
-                       "WHERE `asso_membre`.`id_utilisateur`='".$this->id."' " .
-                       "AND `asso_membre`.`date_fin` is NULL " .
-                       "AND `asso_membre`.`role` > 1 " .
-                       "ORDER BY `asso`.`nom_asso`");
-
-    while ( list($id,$name) = $req->get_row() )
-      $this->groupes[$id+20000] = $name."-bureau";
-
-    $req = new requete($this->db,
-                       "SELECT `asso`.`id_asso`, `asso`.`nom_unix_asso` " .
-                       "FROM `asso_membre` " .
-                       "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
-                       "WHERE `asso_membre`.`id_utilisateur`='".$this->id."' " .
-                       "AND `asso_membre`.`date_fin` is NULL " .
-                       "AND `asso`.`id_asso_parent` IS NOT NULL " .
-                       "ORDER BY `asso`.`nom_asso`");
-
-    while ( list($id,$name) = $req->get_row() )
-      $this->groupes[$id+30000] = $name."-membres";
-    */
-
+      
     $req = new requete($this->db,
                        "SELECT `asso`.`id_asso`, ".
                        "`asso`.`nom_unix_asso`, ".
