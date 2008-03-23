@@ -32,17 +32,12 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/entities/planning.inc.php");
 require_once($topdir. "include/cts/planning.inc.php");
 
-/*require_once($topdir. "include/cts/sqltable.inc.php");
-
-require_once($topdir. "include/cts/user.inc.php");
-require_once($topdir. "include/entities/salle.inc.php");*/
-
 $site = new site ();
 
 $site->allow_only_logged_users("services");
 
 $lieux = array(6=>"Bureau AE Belfort", 30=>"Bureau AE Sevenans", 5=>"Foyer", 28=>"MDE");
-$freq = array(1=>"Creneau unique", 2=>"Une semaine sur deux", 3=>"Toutes les semaines");
+$freq = array(1=>"Une semaine sur deux", 2=>"Toutes les semaines");
 
 
 if ( $_REQUEST["action"] == "searchpl" )
@@ -173,7 +168,7 @@ if ( $_REQUEST["action"] == "searchpl" )
 	$id_creneau_613 = $planning->add_gap( $samedi+$h20, $samedi+$h21 );
 	$id_creneau_614 = $planning->add_gap( $samedi+$h21, $samedi+$h22 );*/
 			
- // FIN TEST 
+ // FIN TEST
 
   $sql = 
     "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning,
@@ -184,7 +179,7 @@ if ( $_REQUEST["action"] == "searchpl" )
      WHERE pl_gap.id_planning='".PERM_AE_BELFORT."'";
      
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php", "index.php?action=details", "",
-     PL_LUNDI);
+     PL_LUNDI, true);
 
   $cts->add($pl,true); 
   
@@ -221,13 +216,13 @@ else if( $_REQUEST["action"] == "details" )
   
   	$site->add_contents($cts);
   
-	/*$planning = new planning($site->db,$site->dbrw);
+	$planning = new planning($site->db,$site->dbrw);
 	$planning->load_by_id(PERM_AE_BELFORT);
 
 	if ( !$planning->is_valid() )
   		$site->error_not_found("services");
   		
-  	$planning->add_user_to_gap($_REQUEST["id_gap"], $site->user->id);*/
+  	$planning->add_user_to_gap($_REQUEST["id_gap"], $site->user->id);
   	
   	  $sql = 
     "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning,
@@ -238,7 +233,7 @@ else if( $_REQUEST["action"] == "details" )
      WHERE pl_gap.id_planning='".PERM_AE_BELFORT."'";
      
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php", "index.php?action=details", "",
-     PL_LUNDI);
+     PL_LUNDI, true);
 
   $cts->add($pl,true); 
   
@@ -278,7 +273,7 @@ else if( $_REQUEST["action"] == "recordgap" )
      WHERE pl_gap.id_planning='".PERM_AE_BELFORT."'";
      
  	$pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php", "index.php?action=details", "",
-     PL_LUNDI);
+     PL_LUNDI, true);
 
   	$cts->add($pl,true); 
   
