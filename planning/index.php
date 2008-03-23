@@ -284,10 +284,11 @@ else
 	FROM pl_gap
 	LEFT JOIN pl_gap_user
 	USING ( id_gap ) 
-	INNER JOIN utilisateurs
+	LEFT JOIN utilisateurs
+	USING ( id_utilisateur )
 	INNER JOIN utl_etu_utbm 
 	WHERE pl_gap.id_planning =164
-	AND id_utilisateur IS NOT NULL";
+	AND pl_gap_user.id_utilisateur IS NOT NULL";
 }
      
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "", PL_LUNDI, true);
