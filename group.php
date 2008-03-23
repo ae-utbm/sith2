@@ -39,7 +39,7 @@ if ( isset($_REQUEST["id_groupe"]) )
 	$grp->load_by_id($_REQUEST["id_groupe"]);	
 	if ( $grp->id < 1 )
 	{
-		header("Location: 404.php");
+		$site->error_not_found();
 		exit();	
 	}
 }

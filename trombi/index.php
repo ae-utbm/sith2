@@ -96,7 +96,7 @@ if ( $_REQUEST["page"]  == "edit" )
     $cmt->load_by_id($_REQUEST["id_commentaire"]);
     if ( $cmt->id < 1 )
     {
-      header("Location: 404.php");
+      $site->error_not_found();
       exit();
     }
     
@@ -130,7 +130,7 @@ elseif ( $_REQUEST["page"]  == "del" )
     $cmt->load_by_id($_REQUEST["id_commentaire"]);
     if ( $cmt->id < 1 )
     {
-      header("Location: 404.php");
+      $site->error_not_found();
       exit();
     }
     

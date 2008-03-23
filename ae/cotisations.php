@@ -205,7 +205,7 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
 
   if ( $user->id < 0 )
   {
-    header("Location: " . $topdir . "404.php");
+    $site->error_not_found();
     exit();
   }
   else
@@ -392,7 +392,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
     $user->load_by_id($res['id_utl']);
     if ( $user->id < 0 )
     {
-      header("Location: 404.php");
+      $site->error_not_found();
       exit();
     }
 
@@ -526,7 +526,7 @@ elseif ( $_REQUEST["action"] == "newcotiz" )
   $user->load_by_id($_REQUEST['id_utilisateur']);
   if ( $user->id < 0 )
   {
-    header("Location: 404.php");
+    $site->error_not_found();
     exit();
   }
 

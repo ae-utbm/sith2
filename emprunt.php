@@ -41,7 +41,7 @@ if ( isset($_REQUEST["id_emprunt"]) )
 	$emp->load_by_id($_REQUEST["id_emprunt"]);
 	if ( $emp->id < 1 && !isset($_REQUEST["valid"]) )
 	{
-		header("Location: 404.php");
+		$site->error_not_found();
 		exit();	
 	}
 	elseif ( $emp->id > 0 )

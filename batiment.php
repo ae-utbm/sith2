@@ -35,7 +35,7 @@ $bat = new batiment($site->db,$site->dbrw);
 $bat->load_by_id($_REQUEST["id_batiment"]);
 if ( $bat->id < 1 )
 {
-	header("Location: 404.php");
+	$site->error_not_found();
 	exit();
 }
 $sitebat->load_by_id($bat->id_site);

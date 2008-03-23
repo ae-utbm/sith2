@@ -35,7 +35,7 @@ if ( isset($_REQUEST["id_site"]) )
 	$sitebat->load_by_id($_REQUEST["id_site"]);
 	if ( $sitebat->id < 1 )
 	{
-		header("Location: 404.php");
+		$site->error_not_found();
 		exit();
 	}
 	if ( $_REQUEST["action"] == "addbat" && $site->user->is_in_group("gestion_ae") )

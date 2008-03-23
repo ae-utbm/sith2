@@ -40,7 +40,7 @@ if ( isset($_REQUEST["id_election"]))
 	$elec->load_by_id($_REQUEST["id_election"]);	
 	if ( $elec->id < 1 )
 	{
-		header("Location: ../404.php");
+		$site->error_not_found();
 		exit();	
 	}
 	

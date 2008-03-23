@@ -89,7 +89,7 @@ if ($page == "upload_photos")
 		
 	if (! $user->is_valid() )
 	{
-		header("Location: " . $topdir . "404.php");	
+		$site->error_not_found();	
 		exit();	
 	}
 

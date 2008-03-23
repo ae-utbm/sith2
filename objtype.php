@@ -43,7 +43,7 @@ if ( isset($_REQUEST["id_objtype"]) )
 	$objtype->load_by_id($_REQUEST["id_objtype"]);
 	if ( !$objtype->is_valid() )
 	{
-		header("Location: 404.php");
+		$site->error_not_found();
 		exit();
 	}
 

@@ -101,14 +101,14 @@ if ($_REQUEST['action'] == 'delete')
     }
   else
     {
-      header("Location: ../404.php");
+      $site->error_not_found();
       exit();
     }
 } // fin suppresion d'étapes
 
 if (($trajet->id <= 0) || (! in_array($datetrj, $trajet->dates)))
 {
-  header("Location: ../404.php");
+  $site->error_not_found();
   exit();
 }
 

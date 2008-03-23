@@ -36,7 +36,7 @@ if ( !$site->user->is_valid() )
 $cptasso->load_by_id($_REQUEST["id_cptasso"]);
 if( $cptasso->id < 1 )
 {
-	header("Location: ../404.php");
+	$site->error_not_found();
 	exit();	
 }
 $cpbc->load_by_id($cptasso->id_cptbc);

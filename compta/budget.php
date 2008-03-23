@@ -37,7 +37,7 @@ $asso  = new asso($site->db);
 $budget->load_by_id($_REQUEST["id_budget"]);
 if ( $budget->id < 1 )
 {
-	header("Location: ../404.php");
+	$site->error_not_found();
 	exit();	
 }
 $cla->load_by_id($budget->id_classeur);

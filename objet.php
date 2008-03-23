@@ -52,7 +52,7 @@ if ( isset($_REQUEST["id_objet"]) )
 	$objet->load_by_id($_REQUEST["id_objet"]);
 	if ( $objet->id < 1 )
 	{
-		header("Location: 404.php");	
+		$site->error_not_found();	
 		exit();
 	}
 	$can_admin=false;

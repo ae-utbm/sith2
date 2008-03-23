@@ -35,7 +35,7 @@ if ( !$site->user->is_valid() )
 $asso->load_by_id($_REQUEST["id_asso"]);
 if( $asso->id < 1 )
 {
-  header("Location: ../404.php");
+  $site->error_not_found();
   exit();	
 }
 
@@ -69,7 +69,7 @@ elseif ( $_REQUEST["action"] == "edit" )
   
   if( $libelle->id < 1 )
   {
-    header("Location: ../404.php");
+    $site->error_not_found();
     exit();	
   }	
   

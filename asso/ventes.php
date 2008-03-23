@@ -39,7 +39,7 @@ $site->allow_only_logged_users("presentation");
 $asso->load_by_id($_REQUEST["id_asso"]);
 if ( $asso->id < 1 )
 {
-  header("Location: ../404.php");
+  $site->error_not_found();
   exit();
 }
 

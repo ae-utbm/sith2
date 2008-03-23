@@ -35,7 +35,7 @@ $cpbc->load_by_id($_REQUEST["id_cptbc"]);
 
 if ( $cpbc->id < 1 )
 {
-	header("Location: ../404.php");
+	$site->error_not_found();
 	exit();	
 }
 

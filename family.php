@@ -34,7 +34,7 @@ if ( isset($_REQUEST['id_utilisateur']) )
 	$user->load_by_id($_REQUEST["id_utilisateur"]);	
 	if ( $user->id < 0 )
 	{
-		header("Location: 404.php");	
+		$site->error_not_found();	
 		exit();	
 	}
 	$can_edit = ( $user->id==$site->user->id || $site->user->is_in_group("gestion_ae") );

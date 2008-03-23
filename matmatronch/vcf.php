@@ -19,7 +19,7 @@ $user = new utilisateur($site->db,$site->dbrw);
 $user->load_by_id($_REQUEST["id_utilisateur"]);	
 if ( $user->id < 0 )
 {
-	header("Location: ../404.php");
+	$site->error_not_found();
 	exit();	
 }
 $user->load_all_extra();

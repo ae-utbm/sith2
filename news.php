@@ -49,7 +49,7 @@ if ( isset($_REQUEST["id_nouvelle"]) )
   $news->load_by_id($_REQUEST["id_nouvelle"]);
   if ( $news->id < 1 )
     {
-      header("Location: 404.php");
+      $site->error_not_found();
       exit();
     }
 
