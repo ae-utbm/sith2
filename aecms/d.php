@@ -142,9 +142,9 @@ elseif ( $folder->is_valid() && $_REQUEST["action"] == "delete" )
 }
 
 if ( $file->is_valid() )
-  $path = classlink($folder)." / ".classlink($file);
+  $path = $folder->get_html_link()." / ".$file->get_html_link();
 else
-  $path = classlink($folder);
+  $path = $folder->get_html_link();
 
 $pfolder = new dfolder($site->db);
 $pfolder->load_by_id($folder->id_folder_parent);
@@ -152,7 +152,7 @@ $pfolder->load_by_id($folder->id_folder_parent);
 while ( $pfolder->is_valid() )
 {
   $id_asso = $pfolder->id_asso;
-  $path = classlink($pfolder)." / $path";
+  $path = $pfolder->get_html_link()." / $path";
   $pfolder->load_by_id($pfolder->id_folder_parent);
 }
 
@@ -178,7 +178,7 @@ if ( $_REQUEST["action"] == "addfolder" && $folder->is_right($site->user,DROIT_A
     $nfolder->add_folder ( $_REQUEST["nom"], $folder->id, $_REQUEST["description"], $asso->id );
 
     $folder = $nfolder;
-    $path .= " / ".classlink($folder);
+    $path .= " / ".$folder->get_html_link();
   }
 }
 elseif ( $_REQUEST["action"] == "addfile" && $folder->is_right($site->user,DROIT_AJOUTITEM) )
@@ -277,7 +277,7 @@ if ( $file->is_valid() )
         "Date d'ajout: ".date("d/m/Y",$file->date_ajout),
         "Nom r&eacute;el: ".$file->nom_fichier,
         "Nombre de t&eacute;l&eacute;chargements: ".$file->nb_telechargement,
-        "Propos&eacute; par : ". classlink($user)
+        "Propos&eacute; par : ". $user->get_html_link()
       )),true);
 
 
@@ -403,12 +403,12 @@ if ( isset($_SESSION["d_clipboard"]) )
 		if ( $aid{0} == 'I' )
 		{
 			$inffile->load_by_id($id);
-			$lst->add(classlink($inffile));
+			$lst->add($inffile->get_html_link());
 		}
 		else
 		{
 			$inffolder->load_by_id($id);
-			$lst->add(classlink($inffolder));
+			$lst->add($inffolder->get_html_link());
 		}
 	}
 	

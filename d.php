@@ -216,9 +216,9 @@ if ( $_REQUEST["action"] == "davmount" )
 }
 
 if ( $file->is_valid() )
-  $path = classlink($folder)." / ".classlink($file);
+  $path = $folder->get_html_link()." / ".$file->get_html_link();
 else
-  $path = classlink($folder);
+  $path = $folder->get_html_link();
 
 $id_asso = $folder->id_asso;
 
@@ -228,7 +228,7 @@ $pfolder->load_by_id($folder->id_folder_parent);
 while ( $pfolder->is_valid() )
 {
   $id_asso = $pfolder->id_asso;
-  $path = classlink($pfolder)." / $path";
+  $path = $pfolder->get_html_link()." / $path";
   $pfolder->load_by_id($pfolder->id_folder_parent);
 }
 
@@ -236,7 +236,7 @@ if ( $id_asso )
 {
   $asso_folder->load_by_id($id_asso);
   /*if ( $asso_folder->is_valid() )
-    $path = classlink($asso_folder)." / $path";*/
+    $path = $asso_folder->get_html_link()." / $path";*/
   $section="presentation";
 }
 
@@ -260,7 +260,7 @@ if ( $_REQUEST["action"] == "addfolder" && $folder->is_right($site->user,DROIT_A
     $nfolder->add_folder ( $_REQUEST["nom"], $folder->id, $_REQUEST["description"], $asso->id );
 
     $folder = $nfolder;
-    $path .= " / ".classlink($folder);
+    $path .= " / ".$folder->get_html_link();
   }
 }
 elseif ( $_REQUEST["action"] == "addfile" && $folder->is_right($site->user,DROIT_AJOUTITEM) )
@@ -647,12 +647,12 @@ if ( isset($_SESSION["d_clipboard"]) )
 		if ( $aid{0} == 'I' )
 		{
 			$inffile->load_by_id($id);
-			$lst->add(classlink($inffile));
+			$lst->add($inffile->get_html_link());
 		}
 		else
 		{
 			$inffolder->load_by_id($id);
-			$lst->add(classlink($inffolder));
+			$lst->add($inffolder->get_html_link());
 		}
 	}
 	

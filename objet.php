@@ -80,7 +80,7 @@ if ( isset($_REQUEST["id_objet"]) )
 	elseif ( $_REQUEST["page"] == "edit" && $can_admin)
 	{	
 		$objtype->load_by_id($objet->id_objtype);
-		$path = "<a href=\"objtype.php\">Inventaire</a> / ".classlink($objtype)." / ".classlink($objet);
+		$path = "<a href=\"objtype.php\">Inventaire</a> / ".$objtype->get_html_link()." / ".$objet->get_html_link();
 	
 		$site->start_page("services","Objet ".$objet->nom." ".$objtype->code.$objet->num);
 		
@@ -137,7 +137,7 @@ if ( isset($_REQUEST["id_objet"]) )
 
 			$emp->retrait ( $site->user->id, $_REQUEST["caution"], $_REQUEST["prix_emprunt"], $_REQUEST["notes"] );
 			
-			$Sucess = new contents("Pret enregistré",classlink($emp)." : <a href=\"emprunt.php?action=print&amp;id_emprunt=".$emp->id."\">Imprimer</a>");
+			$Sucess = new contents("Pret enregistré",$emp->get_html_link()." : <a href=\"emprunt.php?action=print&amp;id_emprunt=".$emp->id."\">Imprimer</a>");
 			
 		}	
 	
@@ -150,7 +150,7 @@ if ( isset($_REQUEST["id_objet"]) )
 	$bat->load_by_id($salle->id_batiment);
 	$sitebat->load_by_id($bat->id_site);
 	
-	$path = "<a href=\"objtype.php\">Inventaire</a> / ".classlink($objtype)." / ".classlink($objet);
+	$path = "<a href=\"objtype.php\">Inventaire</a> / ".$objtype->get_html_link()." / ".$objet->get_html_link();
 	
 	$site->start_page("services","Objet ".$objet->nom." ".$objtype->code.$objet->num);
 	
@@ -250,10 +250,10 @@ if ( isset($_REQUEST["id_objet"]) )
 	{
 	$tbl = new table("Informations");
 	$tbl->add_row(array("Nom / Num",$objet->nom." ".$objet->num));
-	$tbl->add_row(array("Type",classlink($objtype)));
-	$tbl->add_row(array("Propriétaire",classlink($asso_prop)));
-	$tbl->add_row(array("Gestionnaire",classlink($asso_gest)));
-	$tbl->add_row(array("Emplacement",classlink($salle)." ".classlink($bat) ." ".classlink($sitebat)));
+	$tbl->add_row(array("Type",$objtype->get_html_link()));
+	$tbl->add_row(array("Propriétaire",$asso_prop->get_html_link()));
+	$tbl->add_row(array("Gestionnaire",$asso_gest->get_html_link()));
+	$tbl->add_row(array("Emplacement",$salle->get_html_link()." ".$bat->get_html_link() ." ".$sitebat->get_html_link()));
 	$tbl->add_row(array("Numéro de série",$objet->num_serie));
 	$tbl->add_row(array("Date d'achat",date("d/m/Y",$objet->date_achat)));
 	$tbl->add_row(array("Reservable via le site internet",$objet->empruntable?"Oui":"Non"));
@@ -274,15 +274,15 @@ if ( isset($_REQUEST["id_objet"]) )
 	{
 		$user = new utilisateur($site->db);
 		$user->load_by_id($emp->id_utilisateur);
-		$text = classlink($user);
+		$text = $user->get_html_link();
 		if ( $emp->id_asso )
 		{
 			$asso = new asso($site->db);
 			$asso->load_by_id($emp->id_asso);
-			$text .= " pour ".classlink($asso);
+			$text .= " pour ".$asso->get_html_link();
 		}
 		$text .=" jusqu'au ".date("d/m/Y H:i",$emp->date_fin);
-		$text .= " (Emprunt ".classlink($emp).")";
+		$text .= " (Emprunt ".$emp->get_html_link().")";
 		$tbl->add_row(array("Actuellment emprunté par",$text));
 	}
 	
@@ -311,18 +311,18 @@ if ( isset($_REQUEST["id_objet"]) )
   	{
   		$auteur->_load($row);
   		if ( is_null($auteurs) )
-  			$auteurs .= classlink($auteur);
+  			$auteurs .= $auteur->get_html_link();
   		else
-  			$auteurs .= ", ".classlink($auteur);
+  			$auteurs .= ", ".$auteur->get_html_link();
   	}
 			
 		$tbl->add_row(array("Special","<b>Cet objet est un livre</b> : <a href=\"biblio/?id_livre=".$livre->id."\">Voir sa fiche livre</a>"));
 		
   	$tbl->add_row(array("Livre : Titre",$livre->nom));
-  	$tbl->add_row(array("Livre : Serie",classlink($serie)));
+  	$tbl->add_row(array("Livre : Serie",$serie->get_html_link()));
   	$tbl->add_row(array("Livre : N°",$livre->num_livre));
   	$tbl->add_row(array("Livre : Auteur(s)",$auteurs));
-  	$tbl->add_row(array("Livre : Editeur",classlink($editeur)));
+  	$tbl->add_row(array("Livre : Editeur",$editeur->get_html_link()));
   	$tbl->add_row(array("Livre : ISBN",$livre->isbn));
 		
 	}
@@ -365,9 +365,9 @@ if ( $_REQUEST["action"] == "addobjet" )
 				$objet->set_cbar($_REQUEST["force_cbar"]);
 			
 			
-			$sucess->add(classlink($objet));
+			$sucess->add($objet->get_html_link());
 		}
-		$sucess->add("Retourner au type : ".classlink($objtype));
+		$sucess->add("Retourner au type : ".$objtype->get_html_link());
 	}
 }
 

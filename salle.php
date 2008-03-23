@@ -166,7 +166,7 @@ if ( $salle->is_valid() )
 		else if ( $_REQUEST["allweeks"] )
 		{
 			$site->start_page("none","Reservation ".$salle->nom);
-			$cts = new contents(classlink($sitebat)." / ".classlink($bat)." / ".classlink($salle));
+			$cts = new contents($sitebat->get_html_link()." / ".$bat->get_html_link()." / ".$salle->get_html_link());
 			$cts->add(new tabshead($tabs,"res"));	
 			$cts->add_paragraph("Selectionnez les dates à réserver.");
 			$frm = new form("selectdateresa","salle.php?id_salle=".$salle->id,false);
@@ -215,7 +215,7 @@ if ( $salle->is_valid() )
 	if ( $_REQUEST["action"] == "reservation" && $salle->reservable )
 	{
 		$site->start_page("none","Reservation ".$salle->nom);
-		$cts = new contents(classlink($sitebat)." / ".classlink($bat)." / ".classlink($salle));
+		$cts = new contents($sitebat->get_html_link()." / ".$bat->get_html_link()." / ".$salle->get_html_link());
 
 		$cts->add(new tabshead($tabs,"res"));	
 		
@@ -247,7 +247,7 @@ if ( $salle->is_valid() )
 	
 	$site->start_page("none","Salle ".$salle->nom);
 	
-	$cts = new contents(classlink($sitebat)." / ".classlink($bat)." / ".classlink($salle));
+	$cts = new contents($sitebat->get_html_link()." / ".$bat->get_html_link()." / ".$salle->get_html_link());
 
 	$cts->add(new tabshead($tabs,$resa->is_valid()?"pln":$_REQUEST["view"]));	
 	
@@ -263,13 +263,13 @@ if ( $salle->is_valid() )
     	$tbl = new table("Reservation n°".$resa->id);
     	$tbl->add_row(array("Demande faite le ",date("d/m/Y H:i",$resa->date_demande)));
     	$tbl->add_row(array("Période",date("d/m/Y H:i",$resa->date_debut)." au ".date("d/m/Y H:i",$resa->date_fin)));
-    	$tbl->add_row(array("Demandeur",classlink($user)));
+    	$tbl->add_row(array("Demandeur",$user->get_html_link()));
     	if ( $asso->id > 0 )
-    		$tbl->add_row(array("Association",classlink($asso)));
+    		$tbl->add_row(array("Association",$asso->get_html_link()));
     	$tbl->add_row(array("Convention de locaux requise",$salle->convention?"Oui":"Non"));
     	$tbl->add_row(array("Convention de locaux faite",$resa->convention?"Oui":"Non"));
     	if( $resa->date_accord )
-    		$tbl->add_row(array("Accord","le ".date("d/m/Y H:i",$resa->date_accord)." par ".classlink($userop)));
+    		$tbl->add_row(array("Accord","le ".date("d/m/Y H:i",$resa->date_accord)." par ".$userop->get_html_link()));
     	$tbl->add_row(array("Motif",htmlentities($resa->description,ENT_NOQUOTES,"UTF-8")));
     	$tbl->add_row(array("Notes",htmlentities($resa->notes,ENT_NOQUOTES,"UTF-8")));
     	$cts->add($tbl,true);
@@ -323,8 +323,8 @@ if ( $salle->is_valid() )
 	$tbl->add_row(array("Convention de locaux requise",$salle->convention?"Oui":"Non"));
 	$tbl->add_row(array("Reservable",$salle->reservable?"Oui":"Non"));
 	$tbl->add_row(array("Telephone:",$salle->tel));
-	$tbl->add_row(array("Batiment",classlink($bat)));
-	$tbl->add_row(array("Site",classlink($sitebat)));
+	$tbl->add_row(array("Batiment",$bat->get_html_link()));
+	$tbl->add_row(array("Site",$sitebat->get_html_link()));
 	
 	$cts->add($tbl,true);
 	

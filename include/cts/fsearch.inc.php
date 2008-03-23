@@ -424,7 +424,7 @@ if ( $site->user->is_valid() && $site->user->ae )
 			$this->buffer .= "<h2>Objets de l'inventaire</h2>";
 			$this->buffer .= "<ul>";
 			foreach( $objs as $obj)
-				$this->buffer .= "<li>".classlink($obj)."</li>";
+				$this->buffer .= "<li>".$obj->get_html_link()."</li>";
 			$this->buffer .= "</ul>";
 		}
 	}

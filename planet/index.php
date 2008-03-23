@@ -53,7 +53,7 @@ if ( $tag->is_valid() )
 $site = new site();
 
 if (!$site->user->id || !$site->user->utbm)
-  error_403();
+  $site->error_forbidden();
 
 $site->start_page ("none", "Planet AE ");
 $site->set_side_boxes("left",array());

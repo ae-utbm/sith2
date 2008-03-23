@@ -29,7 +29,7 @@ include("include/log.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_in_group ("portaetif"))
-  error_403();
+  $site->error_forbidden();
 
 
 if ( $_REQUEST["action"] == "addparrain" )

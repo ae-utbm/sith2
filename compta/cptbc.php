@@ -29,7 +29,7 @@ $site = new sitecompta();
 $cpbc  = new compte_bancaire($site->db);
 
 if ( !$site->user->is_in_group("compta_admin") )
-	error_403();
+	$site->error_forbidden();
 
 $cpbc->load_by_id($_REQUEST["id_cptbc"]);
 
@@ -41,7 +41,7 @@ if ( $cpbc->id < 1 )
 
 $site->start_page ("none", "Compte bancaire" );
 
-$cts = new contents ("<a href=\"./\">Compta</a> / ".classlink($cpbc));
+$cts = new contents ("<a href=\"./\">Compta</a> / ".$cpbc->get_html_link());
 
 $req_sql = new requete ($site->db,
 			"SELECT `cpta_classeur`.`id_classeur`,`cpta_classeur`.`nom_classeur`," .

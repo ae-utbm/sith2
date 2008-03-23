@@ -34,18 +34,6 @@
 
  define('XMLRPC_USE',true);
 
-/** 
- * @deprecated Utiliser site::error_forbidden (non static)
- */
-function error_403($reason="")
-{
-	global $topdir;
-	header("Location: ".$topdir."403.php?reason=$reason");
-	$_SESSION['session_redirect'] = $_SERVER["REQUEST_URI"];
-	exit();	
-}
-
-
 /** Convertit la date en une chaÃ®ne human readable
  *
  * @param start Date de dÃ©but au format YYYY-MM-DD HH:MM:SS. Si aucune

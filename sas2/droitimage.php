@@ -91,11 +91,11 @@ if ( $_REQUEST["page"] == "process" )
     $cat = new catphoto($site->db);
     $catpr = new catphoto($site->db);
     $cat->load_by_id($photo->id_catph);
-    $path = classlink($cat)." / ".classlink($photo);
+    $path = $cat->get_html_link()." / ".$photo->get_html_link();
     $catpr->load_by_id($cat->id_catph_parent);
     while ( $catpr->id > 0 )
     {
-      $path = classlink($catpr)." / ".$path;
+      $path = $catpr->get_html_link()." / ".$path;
       $catpr->load_by_id($catpr->id_catph_parent);
     }
     $cts->add_title(2,$path);

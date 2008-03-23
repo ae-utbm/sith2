@@ -67,7 +67,7 @@ $cpbc->load_by_id($cptasso->id_cptbc);
 $asso->load_by_id($cptasso->id_asso);
 
 if ( !$site->user->is_in_group("compta_admin") && !$asso->is_member_role($site->user->id,ROLEASSO_TRESORIER) )
-	error_403();
+	$site->error_forbidden();
 
 $site->set_current($asso->id,$asso->nom,$cla->id,$cla->nom,$cpbc->nom);
 
@@ -437,7 +437,7 @@ while($row=$req->get_row())
 	$globalsum[$row[0]] = $row[1];	
 	
 	
-$cts = new contents("<a href=\"./\">Compta</a> / ".classlink($cpbc)." / ".classlink($cptasso)." / ".classlink($cla));
+$cts = new contents("<a href=\"./\">Compta</a> / ".$cpbc->get_html_link()." / ".$cptasso->get_html_link()." / ".$cla->get_html_link());
 
 $cts->add(new tabshead(array(
   array("typ","compta/typeop.php?id_asso=".$asso->id,"Natures(types) d'opérations"),
@@ -549,7 +549,7 @@ if( $_REQUEST["action"] == "edit" && ($op->is_valid()))
 
     $cts->add_title(2,"Opération liée");
 
-    $cts->add_paragraph(classlink($lien_cpbc)." / ".classlink($lien_cptasso)." / ".classlink($lien_cla)." / ".classlink($lien_op));
+    $cts->add_paragraph($lien_cpbc->get_html_link()." / ".$lien_cptasso->get_html_link()." / ".$lien_cla->get_html_link()." / ".$lien_op->get_html_link());
 	}
 	
 

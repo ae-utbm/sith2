@@ -34,7 +34,7 @@ if ( $asso->id < 1 )
 	exit();
 }
 if ( !$site->user->is_in_group("gestion_ae") && !$asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU) )
-	error_403();
+	$site->error_forbidden();
 	
 $site->start_page("presentation",$asso->nom);
 	

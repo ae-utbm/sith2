@@ -445,7 +445,7 @@ elseif ( $jeu->is_valid() )
   	$cts = new contents("Bibliothèque");
   	$cts->add(new tabshead($tabs,"jeux"));
   	
-  	$cts->add_title(2,classlink($serie)." / ".classlink($jeu));
+  	$cts->add_title(2,$serie->get_html_link()." / ".$jeu->get_html_link());
     
 		$frm = new form("savejeu","./?id_jeu=".$jeu->id,false,"POST","Modifier");
 		$frm->add_hidden("action","save");
@@ -485,7 +485,7 @@ elseif ( $jeu->is_valid() )
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,"jeux"));
 	
-	$cts->add_title(2,classlink($serie)." / ".classlink($jeu));
+	$cts->add_title(2,$serie->get_html_link()." / ".$jeu->get_html_link());
 	
 	if ( $is_admin )
 	{
@@ -495,15 +495,15 @@ elseif ( $jeu->is_valid() )
   
 	$tbl = new table("Informations");
 	$tbl->add_row(array("Titre",$jeu->nom));
-	$tbl->add_row(array("Type",classlink($objtype)));
-	$tbl->add_row(array("Serie",classlink($serie)));
+	$tbl->add_row(array("Type",$objtype->get_html_link()));
+	$tbl->add_row(array("Serie",$serie->get_html_link()));
 	$tbl->add_row(array("Etat",$jeu->etat));
 	$tbl->add_row(array("Nombre de joueurs",$jeu->nb_joueurs));
 	$tbl->add_row(array("Durée moyenne d'une partie",$jeu->duree));
 	$tbl->add_row(array("Langue",$jeu->langue));
 	$tbl->add_row(array("Difficultée",$jeu->difficulte));
-	$tbl->add_row(array("Association",classlink($asso_gest)));
-	$tbl->add_row(array("Emplacement",classlink($salle)));
+	$tbl->add_row(array("Association",$asso_gest->get_html_link()));
+	$tbl->add_row(array("Emplacement",$salle->get_html_link()));
 	if ($livre->date_achat) 
 	  $tbl->add_row(array("Date d'achat",date("d/m/Y",$jeu->date_achat)));
 	$tbl->add_row(array("En etat",$jeu->en_etat?"Oui":"Non"));
@@ -566,7 +566,7 @@ elseif ( $livre->is_valid() )
   	$cts = new contents("Bibliothèque");
   	$cts->add(new tabshead($tabs,"livres"));
   	
-  	$cts->add_title(2,classlink($serie)." / ".classlink($livre));
+  	$cts->add_title(2,$serie->get_html_link()." / ".$livre->get_html_link());
     
 		$frm = new form("savelivre","./?id_livre=".$livre->id,false,"POST","Modifier");
 		$frm->add_hidden("action","save");
@@ -635,9 +635,9 @@ elseif ( $livre->is_valid() )
 	{
 		$auteur->_load($row);
 		if ( is_null($auteurs) )
-			$auteurs .= classlink($auteur);
+			$auteurs .= $auteur->get_html_link();
 		else
-			$auteurs .= ", ".classlink($auteur);
+			$auteurs .= ", ".$auteur->get_html_link();
 	}
 			
 			
@@ -645,7 +645,7 @@ elseif ( $livre->is_valid() )
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,"livres"));
 	
-	$cts->add_title(2,classlink($serie)." / ".classlink($livre));
+	$cts->add_title(2,$serie->get_html_link()." / ".$livre->get_html_link());
 	
 	if ( $is_admin )
 	{
@@ -655,13 +655,13 @@ elseif ( $livre->is_valid() )
 	
 	$tbl = new table("Informations");
 	$tbl->add_row(array("Titre",$livre->nom));
-	$tbl->add_row(array("Type",classlink($objtype)));
-	$tbl->add_row(array("Serie",classlink($serie)));
+	$tbl->add_row(array("Type",$objtype->get_html_link()));
+	$tbl->add_row(array("Serie",$serie->get_html_link()));
 	$tbl->add_row(array("N°",$livre->num_livre));
 	$tbl->add_row(array("Auteur(s)",$auteurs));
-	$tbl->add_row(array("Editeur",classlink($editeur)));
-	$tbl->add_row(array("Association",classlink($asso_gest)));
-	$tbl->add_row(array("Emplacement",classlink($salle)));
+	$tbl->add_row(array("Editeur",$editeur->get_html_link()));
+	$tbl->add_row(array("Association",$asso_gest->get_html_link()));
+	$tbl->add_row(array("Emplacement",$salle->get_html_link()));
 	if ($livre->date_achat) $tbl->add_row(array("Date d'achat",date("d/m/Y",$livre->date_achat)));
 	$tbl->add_row(array("En etat",$livre->en_etat?"Oui":"Non"));
 	$tbl->add_row(array("Archive (sorti de l'inventaire)",$livre->archive?"Oui":"Non"));
@@ -678,7 +678,7 @@ elseif ( $serie->is_valid() )
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,"series"));
-	$cts->add_paragraph(classlink($serie));
+	$cts->add_paragraph($serie->get_html_link());
 	
 	
 	$req = new requete ( $site->db, "SELECT `inv_objet`.`id_objet` AS `id_livre`," .
@@ -743,7 +743,7 @@ elseif ( $auteur->is_valid() )
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,"auteurs"));
-	$cts->add_paragraph(classlink($auteur));
+	$cts->add_paragraph($auteur->get_html_link());
 
 	$req = new requete ( $site->db, "SELECT `inv_objet`.`id_objet` AS `id_livre`," .
 			"`bk_editeur`.`id_editeur`,`bk_editeur`.`nom_editeur`," .
@@ -778,7 +778,7 @@ elseif ( $editeur->is_valid() )
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,"editeurs"));
-	$cts->add_paragraph(classlink($editeur));
+	$cts->add_paragraph($editeur->get_html_link());
 	$req = new requete ( $site->db, "SELECT `inv_objet`.`id_objet` AS `id_livre`," .
 			//"`bk_auteur`.`id_auteur`,`bk_auteur`.`nom_auteur`," .
 			"`bk_editeur`.`id_editeur`,`bk_editeur`.`nom_editeur`," .
@@ -812,7 +812,7 @@ elseif ( $salle->is_valid() )
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,"lieux"));
-	$cts->add_paragraph(classlink($salle));
+	$cts->add_paragraph($salle->get_html_link());
 	
 	if ( $is_admin )
 		$cts->add_paragraph("<a href=\"./?id_salle=".$salle->id."&amp;mode=cbars\">Planche de correspondance code barres-livres</a>");

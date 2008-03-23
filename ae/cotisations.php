@@ -38,7 +38,7 @@ require_once($topdir . "include/entities/pays.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_ae") )
-  error_403();
+  $site->error_forbidden();
 
 if (date("m-d") < "02-15")
 {
@@ -420,7 +420,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
                           $user->tel_portable . "<br/>"
                          );
 
-      $cts->add_paragraph("Fiche utilisateur : ".classlink($user));
+      $cts->add_paragraph("Fiche utilisateur : ".$user->get_html_link());
 
       $cts->add_paragraph("&nbsp;");
 

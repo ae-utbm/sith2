@@ -10,16 +10,16 @@ require_once ($topdir . "include/pdf/facture_pdf.inc.php");
 $site = new site ();
 
 if (!$site->user->ae)
-	error_403("reserved");
+	$site->error_forbidden("none","reserved");
 
 if (!$site->user->utbm)
-	error_403("reservedutbm");
+	$site->error_forbidden("none","reservedutbm");
 
 if (!$site->user->is_valid())
-	error_403();
+	$site->error_forbidden();
 
 if (!$site->user->is_asso_role(1,2))
-	error_403(utf8_encode("Accès reservé aux membre du bureau AE"));
+	$site->error_forbidden("none",utf8_encode("Accès reservé aux membre du bureau AE"));
 
 $req = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`,`utilisateurs`.`nom_utl` AS `nom_utilisateur`,`utilisateurs`.`prenom_utl` AS `prenom` FROM `utilisateurs` INNER JOIN `utl_etu` ON `utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur` WHERE `utilisateurs`.`ae_utl` = '1' AND (`utl_etu`.`nom_ecole_etudiant`!='UTBM' OR `utilisateurs`.`utbm_utl`='0')");
 

@@ -30,7 +30,7 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("gestion_ae"))
-  error_403();
+  $site->error_forbidden();
 
 $site->start_page("none","Activités");
 

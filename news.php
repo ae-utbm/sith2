@@ -182,10 +182,10 @@ if ( $news->id > 0 )
     $user2->load_by_id($news->id_utilisateur_moderateur);
 
     $cts->add_title(2,"");
-    $cts->add_paragraph("Post&eacute; par : ".classlink($user1));
+    $cts->add_paragraph("Post&eacute; par : ".$user1->get_html_link());
     
     if ( $user2->is_valid() )
-      $cts->add_paragraph("Valid&eacute; par : ".classlink($user2));
+      $cts->add_paragraph("Valid&eacute; par : ".$user2->get_html_link());
   }
 
   $cts->add(new reactonforum ( $site->db, $site->user, $news->titre, array("id_nouvelle"=>$news->id), $news->id_asso, true ));
@@ -366,7 +366,7 @@ if ( $suitable && isset($_REQUEST["preview"]) )
   if ( $asso->id > 0 )
     {
       $cts->add_title(2,"");
-      $cts->add_paragraph(classlink($asso));
+      $cts->add_paragraph($asso->get_html_link());
     }
   $site->add_contents ($cts);
 
@@ -437,7 +437,7 @@ $frm->add_text_area ("content", "Contenu",$_REQUEST["content"],80,10,true);
 
 if ( $file->id > 0 )
 {
-  $frm->add_info("Affiche enregistr&eacute;e : ".classlink($file).".");
+  $frm->add_info("Affiche enregistr&eacute;e : ".$file->get_html_link().".");
   $frm->add_hidden("id_file",$file->id);
 }
 else

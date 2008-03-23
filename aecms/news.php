@@ -405,7 +405,7 @@ $frm->add_text_area ("content", "Contenu",$_REQUEST["content"],80,10,true);
 
 if ( $file->id > 0 )
 {
-  $frm->add_info("Affiche enregistr&eacute;e : ".classlink($file).".");
+  $frm->add_info("Affiche enregistr&eacute;e : ".$file->get_html_link().".");
   $frm->add_hidden("id_file",$file->id);
 }
 else

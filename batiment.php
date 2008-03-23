@@ -51,8 +51,8 @@ if ( $_REQUEST["action"] == "addsalle" )
 }
 
 $site->start_page("none","Batiment ".$bat->nom);
-$cts = new contents(classlink($sitebat)." / ".classlink($bat));
-$cts->add_paragraph("Site : ".classlink($sitebat));
+$cts = new contents($sitebat->get_html_link()." / ".$bat->get_html_link());
+$cts->add_paragraph("Site : ".$sitebat->get_html_link());
 $cts->add_paragraph("Voir aussi : <a href=\"sitebat.php\">Autre sites</a>");
 
 $req = new requete($site->db,"SELECT * FROM `sl_salle` WHERE `id_batiment`='".$bat->id."'");

@@ -107,9 +107,9 @@ if ( $cat->id == $rootcat->id )
 }
 
 if ($photo->is_valid() )
-  $path =   classlink($cat)." / ".classlink($photo);
+  $path =   $cat->get_html_link()." / ".$photo->get_html_link();
 else
-  $path =   classlink($cat);
+  $path =   $cat->get_html_link();
 
 if ( $metacat->is_valid() )
 {
@@ -134,7 +134,7 @@ while ( $catpr->is_valid() && $catpr->id != $rootcat->id_catph_parent )
     $catpr->nom = "Photos";
   }
   
-  $path =   classlink($catpr)." / ".$path;
+  $path =   $catpr->get_html_link()." / ".$path;
   $catpr->load_by_id($catpr->id_catph_parent);
 }
 
@@ -202,7 +202,7 @@ if ( $photo->is_valid() )
     if ( $utl->is_valid() )
     {
       $photo->add_personne($utl,true);
-      $Message="Personne ajout&eacute;e : ".classlink($utl);
+      $Message="Personne ajout&eacute;e : ".$utl->get_html_link();
     }
     else
       $ErrorPersonne="Personne inconnue...";
@@ -240,7 +240,7 @@ if ( $photo->is_valid() )
     if ( $utl->is_valid() )
     {
       $photo->add_personne($utl,false);
-      $Message="Personne ajout&eacute;e comme suggestion : ".classlink($utl);;
+      $Message="Personne ajout&eacute;e comme suggestion : ".$utl->get_html_link();;
     }
     else
       $ErrorSuggest="Personne inconnue...";
@@ -341,7 +341,7 @@ if ( $_REQUEST["action"] == "addsubcat" && $cat->is_right($site->user,DROIT_AJOU
     $ncat->herit($cat,true);
     $ncat->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin'],true);
     $ncat->add_catphoto($cat->id,$_REQUEST["nom"],$_REQUEST["debut"],$_REQUEST["fin"],$_REQUEST["id_asso"],$_REQUEST["mode"]);
-    $path .= " / ".classlink($ncat);
+    $path .= " / ".$ncat->get_html_link();
     $cat = $ncat;
   }
 
@@ -368,11 +368,11 @@ elseif ( $_REQUEST["action"] == "editcat" && $cat->is_right($site->user,DROIT_EC
     $cat->update_catphoto($site->user,$cat->id_catph_parent,$_REQUEST["nom"],$_REQUEST["debut"],$_REQUEST["fin"],$_REQUEST["id_asso"],$_REQUEST["mode"]);
 
     $cat->set_photo($photo->id);
-    $path =   classlink($cat);
+    $path =   $cat->get_html_link();
     $catpr->load_by_id($cat->id_catph_parent);
     while ( $catpr->is_valid() )
     {
-      $path =   classlink($catpr)." / ".$path;
+      $path =   $catpr->get_html_link()." / ".$path;
       $catpr->load_by_id($catpr->id_catph_parent);
     }
   }

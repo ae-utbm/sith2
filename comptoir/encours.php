@@ -27,7 +27,7 @@ require_once("include/defines.inc.php");
 $site = new site();
 
 if ( !$site->user->is_valid() )
-	error_403();
+	$site->error_forbidden();
 	
 if ( isset($_REQUEST['id_utilisateur']) )
 {
@@ -39,7 +39,7 @@ if ( isset($_REQUEST['id_utilisateur']) )
 		exit();	
 	}
 	if ( !($user->id==$site->user->id || $site->user->is_in_group("gestion_ae")) )
-		error_403();
+		$site->error_forbidden();
 }
 else
 	$user = &$site->user;

@@ -31,7 +31,7 @@ require_once($topdir."include/cts/board.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("moderateur_site") )
-  error_403();
+  $site->error_forbidden();
   
 $site->start_page("none","Tâches courantes Com` AE");
 

@@ -29,7 +29,7 @@ require_once($topdir . "include/entities/cotisation.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("gestion_ae"))
-  error_403();
+  $site->error_forbidden();
 
 if ( $_REQUEST["action"] == "pdf" )
 {

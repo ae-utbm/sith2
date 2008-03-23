@@ -35,7 +35,7 @@ require_once($topdir . "include/entities/lieu.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("moderateur_site"))
-	error_403();
+	$site->error_forbidden();
 
 $site->start_page ("none", "Mod&eacute;ration des nouvelles");
 
@@ -154,7 +154,7 @@ if (isset($_REQUEST['id_nouvelle']) &&
 			$fl->load_by_id($id);
 			if ( !$fl->modere )
 			{
-				$form->add_checkbox("dfile|".$fl->id,"Accepter de m&ecirc;me l'image contenue dans la nouvelle : ".classlink($fl),true);	
+				$form->add_checkbox("dfile|".$fl->id,"Accepter de m&ecirc;me l'image contenue dans la nouvelle : ".$fl->get_html_link(),true);	
 			}	
 		}
 	}

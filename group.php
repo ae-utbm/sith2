@@ -90,7 +90,7 @@ if (  $grp->id > 0)
 	
 	$site->start_page("none","Groupe");
 	
-	$cts = new contents("<a href=\"group.php\">Groupes</a> / ".classlink($grp));
+	$cts = new contents("<a href=\"group.php\">Groupes</a> / ".$grp->get_html_link());
 	$cts->add_paragraph($grp->description);
 	$req = new requete($site->db,
 		"SELECT `utilisateurs`.`id_utilisateur`, " .

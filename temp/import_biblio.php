@@ -34,7 +34,7 @@ require_once($topdir. "include/entities/salle.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("books_admin")  )
-	error_403();
+	$site->error_forbidden();
 
 $oediteur = new editeur($site->db,$site->dbrw);
 $oserie = new serie($site->db,$site->dbrw);

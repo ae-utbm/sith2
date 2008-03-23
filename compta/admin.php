@@ -30,7 +30,7 @@ $site = new sitecompta();
 $site->allow_only_logged_users("none");
 
 if ( !$site->user->is_in_group("compta_admin") )
-	error_403();
+	$site->error_forbidden();
 
 
 if ($_REQUEST['action'] == "addcptasso")

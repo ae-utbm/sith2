@@ -31,7 +31,7 @@ $cpbc  = new compte_bancaire($site->db);
 $asso  = new asso($site->db);
 
 if ( !$site->user->is_valid() )
-	error_403();
+	$site->error_forbidden();
 
 $cptasso->load_by_id($_REQUEST["id_cptasso"]);
 if( $cptasso->id < 1 )
@@ -45,7 +45,7 @@ $asso->load_by_id($cptasso->id_asso);
 $site->set_current($asso->id,$asso->nom,null,null,$cpbc->nom);
 
 if ( !$site->user->is_in_group("compta_admin") && !$asso->is_member_role($site->user->id,ROLEASSO_TRESORIER) )
-	error_403();
+	$site->error_forbidden();
 	
 if ( $_REQUEST["action"] == "newclasseur" && $GLOBALS["svalid_call"] )
 {
@@ -74,7 +74,7 @@ elseif ( $_REQUEST["action"] == "fermerdans" )
 	
 	
 	$site->start_page ("none", "Compte asso" );
-	$cts = new contents ("<a href=\"./\">Compta</a> / ".classlink($cpbc)." / ".classlink($cptasso));
+	$cts = new contents ("<a href=\"./\">Compta</a> / ".$cpbc->get_html_link()." / ".$cptasso->get_html_link());
 	$frm = new form("newclasseur","cptasso.php?id_cptasso=".$cptasso->id,true,"POST","Fermer le classeur et le transferer dans un nouveau classeur");
 	$frm->add_hidden("action","transfert");
 	$frm->allow_only_one_usage();
@@ -96,7 +96,7 @@ elseif ( $_REQUEST["action"] == "edit" )
 	$cla->load_by_id($_REQUEST['id_classeur']);
 	
 	$site->start_page ("none", "Compte asso" );
-	$cts = new contents ("<a href=\"./\">Compta</a> / ".classlink($cpbc)." / ".classlink($cptasso)." / ".classlink($cla));
+	$cts = new contents ("<a href=\"./\">Compta</a> / ".$cpbc->get_html_link()." / ".$cptasso->get_html_link()." / ".$cla->get_html_link());
 	$frm = new form("newclasseur","cptasso.php?id_cptasso=".$cptasso->id,true,"POST","Editer");
 	$frm->add_hidden("action","save");
 	$frm->add_hidden("id_classeur",$cla->id);
@@ -187,7 +187,7 @@ elseif ( $_REQUEST["action"] == "transfert" && $GLOBALS["svalid_call"] )
 
 $site->start_page ("none", "Compte asso" );
 
-$cts = new contents ("<a href=\"./\">Compta</a> / ".classlink($cpbc)." / ".classlink($cptasso));
+$cts = new contents ("<a href=\"./\">Compta</a> / ".$cpbc->get_html_link()." / ".$cptasso->get_html_link());
 
 $lst = new itemlist("Outils");
 $lst->add("<a href=\"typeop.php?id_asso=".$asso->id."\">Types d'opérations</a>");

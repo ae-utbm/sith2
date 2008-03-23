@@ -30,7 +30,7 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_valid() )
-  error_403();
+  $site->error_forbidden();
   
 $cpg = new campagne($site->db,$site->dbrw);
 

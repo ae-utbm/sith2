@@ -37,7 +37,7 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("moderateur_site"))
-  error_403();
+  $site->error_forbidden();
 
 /* else */
 $site->start_page ("none", "Gestion du site");

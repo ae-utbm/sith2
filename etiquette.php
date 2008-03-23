@@ -37,7 +37,7 @@ if ( $_REQUEST["id_asso"])
 	$asso_gest->load_by_id($_REQUEST["id_asso"]);
 
 if ( !$site->user->is_in_group("gestion_ae") && !$asso_gest->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU) )
-	error_403();
+	$site->error_forbidden();
 
 
 if ( $_REQUEST["id_objtype"] )

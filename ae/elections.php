@@ -31,7 +31,7 @@ $site = new site();
 $elec = new election($site->db,$site->dbrw);
 
 if ( !$site->user->is_in_group("gestion_ae") )
-	error_403();
+	$site->error_forbidden();
 
 if ( isset($_REQUEST["id_election"]))
 {

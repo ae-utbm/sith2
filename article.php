@@ -119,7 +119,7 @@ if ( !$page->is_valid() )
 }
 
 if ( !$page->is_right($site->user,DROIT_LECTURE) )
-  error_403();
+  $site->error_forbidden();
 
 $section = "presentation";
 if ( $page->section )

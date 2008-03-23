@@ -32,7 +32,7 @@ $site = new sitecompta();
 $site->allow_only_logged_users("none");
 
 if ( !$site->user->is_in_group("compta_admin") )
-	error_403();
+	$site->error_forbidden();
 $site->start_page ("none", "Tout en 2007" );
 
 $cts = new contents("Tout en 2007");

@@ -36,7 +36,7 @@ require_once($topdir. "include/cts/planning.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("bdf-bureau") )
-	error_403();
+	$site->error_forbidden();
 
 $resa = new reservation($site->db, $site->dbrw);
 
@@ -104,16 +104,16 @@ elseif ( $_REQUEST["action"] == "info")
 	$tbl = new table("Informations");
 	$tbl->add_row(array("Demande faite le ",date("d/m/Y H:i",$resa->date_demande)));
 	$tbl->add_row(array("Période",date("d/m/Y H:i",$resa->date_debut)." au ".date("d/m/Y H:i",$resa->date_fin)));
-	$tbl->add_row(array("Demandeur",classlink($user)));
+	$tbl->add_row(array("Demandeur",$user->get_html_link()));
 	if ( $asso->id > 0 )
-		$tbl->add_row(array("Association",classlink($asso)));
+		$tbl->add_row(array("Association",$asso->get_html_link()));
 	$tbl->add_row(array("Convention de locaux requise",$salle->convention?"Oui":"Non"));
 	$tbl->add_row(array("Convention de locaux faite",$resa->convention?"Oui":"Non"));
 	if( $resa->date_accord )
-		$tbl->add_row(array("Accord","le ".date("d/m/Y H:i",$resa->date_accord)." par ".classlink($userop)));
-	$tbl->add_row(array("Salle",classlink($salle)));
-	$tbl->add_row(array("Batiment",classlink($bat)));
-	$tbl->add_row(array("Site",classlink($sitebat)));
+		$tbl->add_row(array("Accord","le ".date("d/m/Y H:i",$resa->date_accord)." par ".$userop->get_html_link()));
+	$tbl->add_row(array("Salle",$salle->get_html_link()));
+	$tbl->add_row(array("Batiment",$bat->get_html_link()));
+	$tbl->add_row(array("Site",$sitebat->get_html_link()));
 	$tbl->add_row(array("Motif",htmlentities($resa->description,ENT_NOQUOTES,"UTF-8")));
 	$cts->add($tbl,true);
 	

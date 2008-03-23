@@ -32,7 +32,7 @@ require_once($topdir. "include/entities/files.inc.php");
 $site = new sitecomptoirs();
 // Session requise
 if ( !$site->user->is_valid() )
-	error_403();
+	$site->error_forbidden();
 
 function generate_subform_stock ( $nom,$form_n, $stock_n, $stock_value_n, $stock = -1 )
 {
@@ -53,7 +53,7 @@ function generate_subform_stock ( $nom,$form_n, $stock_n, $stock_value_n, $stock
 $site->fetch_admin_comptoirs();
 	
 if ( !count($site->admin_comptoirs) && !$site->user->is_in_group("gestion_ae") )
-	error_403();	
+	$site->error_forbidden();	
 
 $site->set_admin_mode();
 
@@ -71,7 +71,7 @@ if ( isset($_REQUEST["id_comptoir"]) )
 {
 	$comptoir->load_by_id($_REQUEST["id_comptoir"]);
 	if ( !isset($site->admin_comptoirs[$comptoir->id]) )
-		error_403();
+		$site->error_forbidden();
 }
 
 if ( isset($_REQUEST["id_assocpt"]) )
@@ -518,7 +518,7 @@ elseif ( $produit->id > 0 )
 	$typeprod->load_by_id($produit->id_type);
 	
 	$site->start_page("services","Administration des comptoirs");
-	$cts = new contents(classlink($typeprod)." / ".classlink($produit));
+	$cts = new contents($typeprod->get_html_link()." / ".$produit->get_html_link());
 	
 	$cts->add_paragraph("<a href=\"compta.php?id_produit=".$produit->id."\">Comptabilité</a>");
 		

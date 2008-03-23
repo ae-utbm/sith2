@@ -27,7 +27,7 @@ require_once($topdir . "include/graph.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("gestion_ae"))
-  error_403();
+  $site->error_forbidden();
 
 function dec2hex($val)
 {

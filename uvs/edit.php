@@ -46,11 +46,11 @@ $site->start_page("services", "Emploi du temps");
 /* protection d'usage */
 if (!$site->user->utbm)
 {
-	error_403("reservedutbm");
+	$site->error_forbidden("none","reservedutbm");
 }
 if (!$site->user->is_valid())
 {
-	error_403();
+	$site->error_forbidden();
 }
 
 

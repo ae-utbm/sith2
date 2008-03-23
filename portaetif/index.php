@@ -27,7 +27,7 @@ require_once($topdir. "include/site.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_in_group ("portaetif"))
-  error_403();
+  $site->error_forbidden();
 
 $cts = new contents("Portaetif");
 $cts->add_paragraph("<a href=\"parrainages.php\">parrainages</a>");

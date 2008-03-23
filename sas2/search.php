@@ -81,7 +81,7 @@ $site->start_page("sas","Recherche - Stock à Souvenirs");
 
 $cat = new catphoto($site->db);
 $cat->load_by_id(1);
-$cts = new contents(classlink($cat)." / Recherche");
+$cts = new contents($cat->get_html_link()." / Recherche");
 
 $frm = new form("search","search.php",false,"POST","Paramètres de recherche");
 $frm->add_hidden("action","search");

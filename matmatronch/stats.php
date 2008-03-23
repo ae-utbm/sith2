@@ -26,7 +26,7 @@ require_once($topdir . "include/cts/sqltable.inc.php");
 $site = new site ();
 
 if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_in_group ("matmatronch"))
-  error_403();
+  $site->error_forbidden();
 
 
 $site->start_page ("none", "Classement MatMatronch");

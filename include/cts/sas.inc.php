@@ -331,7 +331,7 @@ class sasphoto extends contents
     if ( $photo->meta_id_asso )
     {
       $asso->load_by_id($photo->meta_id_asso);    
-      $subcts->add_paragraph(classlink($asso));
+      $subcts->add_paragraph($asso->get_html_link());
     }
 
     $userinfo = new utilisateur($photo->db);
@@ -341,22 +341,22 @@ class sasphoto extends contents
       $userinfo->load_by_id($photo->id_utilisateur_photographe);
       $asso->load_by_id($photo->id_asso_photographe);    
       if ( $photo->type_media == MEDIA_VIDEOFLV )
-        $subcts->add_paragraph("Réalisé par ".classlink($asso).", ".classlink($userinfo));
+        $subcts->add_paragraph("Réalisé par ".$asso->get_html_link().", ".$userinfo->get_html_link());
       else
-        $subcts->add_paragraph("Photographie par ".classlink($asso).", ".classlink($userinfo));
+        $subcts->add_paragraph("Photographie par ".$asso->get_html_link().", ".$userinfo->get_html_link());
     }
     elseif ( $photo->id_asso_photographe )
     {
       $asso->load_by_id($photo->id_asso_photographe);    
       if ( $photo->type_media == MEDIA_VIDEOFLV )
-        $subcts->add_paragraph("Réalisé par ".classlink($asso));
+        $subcts->add_paragraph("Réalisé par ".$asso->get_html_link());
       else
-        $subcts->add_paragraph("Photographie par ".classlink($asso));
+        $subcts->add_paragraph("Photographie par ".$asso->get_html_link());
     }
     elseif ( $photo->id_utilisateur_photographe )
     {
       $userinfo->load_by_id($photo->id_utilisateur_photographe);
-      $subcts->add_paragraph("Photographe: ".classlink($userinfo));  
+      $subcts->add_paragraph("Photographe: ".$userinfo->get_html_link());  
     }
     
     
@@ -365,12 +365,12 @@ class sasphoto extends contents
       if ( $photo->id_utilisateur_moderateur )
       {
         $userinfo->load_by_id($photo->id_utilisateur_moderateur);
-        $subcts->add_paragraph("Modéré par: ".classlink($userinfo));  
+        $subcts->add_paragraph("Modéré par: ".$userinfo->get_html_link());  
       }
       if ( $photo->id_utilisateur )
       {
         $userinfo->load_by_id($photo->id_utilisateur);
-        $subcts->add_paragraph("Proposé par: ".classlink($userinfo));  
+        $subcts->add_paragraph("Proposé par: ".$userinfo->get_html_link());  
       }
     }
 

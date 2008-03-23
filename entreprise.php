@@ -36,7 +36,7 @@ $site->allow_only_logged_users("none");
 
 $assos=$site->user->get_assos(ROLEASSO_MEMBREBUREAU);
 if ( !count($assos) && !$site->user->is_in_group("gestion_ae") )
-	error_403();
+	$site->error_forbidden();
 
 $entreprise = new entreprise($site->db,$site->dbrw);
 $ville = new ville($site->db);
@@ -138,7 +138,7 @@ if ( $entreprise->is_valid() )
 		$site->add_contents($cmt);
 	$l = strtolower(substr($entreprise->nom,0,1));
 	
-	$cts = new contents("<a href=\"entreprise.php\">Entreprises</a> / <a href=\"entreprise.php?letter=$l\">$l</a> / ".classlink($entreprise));
+	$cts = new contents("<a href=\"entreprise.php\">Entreprises</a> / <a href=\"entreprise.php?letter=$l\">$l</a> / ".$entreprise->get_html_link());
 
 	$tbl = new table("Informations");
 	if ( $site->user->is_in_group("gestion_ae") )

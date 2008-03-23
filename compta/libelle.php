@@ -30,7 +30,7 @@ $asso  = new asso($site->db);
 $libelle = new compta_libelle($site->db,$site->dbrw);
 
 if ( !$site->user->is_valid() )
-	error_403();
+	$site->error_forbidden();
 
 $asso->load_by_id($_REQUEST["id_asso"]);
 if( $asso->id < 1 )
@@ -40,7 +40,7 @@ if( $asso->id < 1 )
 }
 
 if ( !$site->user->is_in_group("compta_admin") && !$asso->is_member_role($site->user->id,ROLEASSO_TRESORIER) )
-  error_403();
+  $site->error_forbidden();
 
 $site->set_current($asso->id,$asso->nom,null,null,null);
 

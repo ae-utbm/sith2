@@ -57,7 +57,7 @@ if ( isset($_REQUEST["id_objtype"]) )
 
 	$site->start_page("services",$objtype->nom);
 
-	$cts = new contents("<a href=\"objtype.php\">Inventaire</a> / ".classlink($objtype));
+	$cts = new contents("<a href=\"objtype.php\">Inventaire</a> / ".$objtype->get_html_link());
 
 	$sql = new requete ( $site->db, "SELECT COUNT(*) FROM `inv_objet` " .
 				"WHERE `id_objtype`='".$objtype->id."'" );

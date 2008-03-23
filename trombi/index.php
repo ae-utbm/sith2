@@ -50,7 +50,7 @@ $site->add_css("css/userfullinfo.css");
 $site->add_css("css/trombicomment.css");
 
 if (!$site->user->id)
-  error_403();
+  $site->error_forbidden();
   
 
 $is_user_moderator = ( $site->user->is_in_group("gestion_ae") || $site->user->is_asso_role ( 27, 1 ) );

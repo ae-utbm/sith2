@@ -53,7 +53,7 @@ while ( $asso_parent->id > 0 )
 }
 
 /*if( !$site->user->ae && !$can_admin )
-	error_403("reserveAE");*/
+	$site->error_forbidden("none","reserveAE");*/
 
 if ( $_REQUEST["action"]=="getallvcards" && !$limited )
 {

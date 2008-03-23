@@ -36,7 +36,7 @@ require_once($topdir."include/entities/folder.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("moderateur_site") )
-	error_403();
+	$site->error_forbidden();
 	 
 	 
 if ( $_REQUEST["action"] == "foldermodere") 

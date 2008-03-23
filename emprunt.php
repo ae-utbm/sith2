@@ -54,7 +54,7 @@ if ( isset($_REQUEST["id_emprunt"]) )
 			$can_edit = $can_edit || $asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU);	
 		
 		if ( !$can_edit )
-			error_403();
+			$site->error_forbidden();
 	}
 }
 
@@ -127,14 +127,14 @@ if ( $emp->id > 0 )
 	}
 	
 	$cts->add_paragraph("Reservation du ".textual_plage_horraire($emp->date_debut,$emp->date_fin));
-	$cts->add_paragraph("Demandé par ".($user->id==-1?$emp->emprunteur_ext:classlink($user))." le ".date("d/m/Y à H:i",$emp->date_demande));
+	$cts->add_paragraph("Demandé par ".($user->id==-1?$emp->emprunteur_ext:$user->get_html_link())." le ".date("d/m/Y à H:i",$emp->date_demande));
 	if ( $asso->id > 0)
-		$cts->add_paragraph(classlink($asso));	
+		$cts->add_paragraph($asso->get_html_link());	
 	$cts->add_paragraph("Etat: ".$EmpruntObjetEtats[$emp->etat]);
 	
 	if ( $emp->etat == EMPRUNT_MODERE )
 	{
-		$cts->add_paragraph("Validé par ".classlink($user_op));
+		$cts->add_paragraph("Validé par ".$user_op->get_html_link());
 		if ( $emp->caution )
 			$cts->add_paragraph("Caution fixée à ".($emp->caution/100)." Euros");
 		if ( $emp->prix_paye )
@@ -143,7 +143,7 @@ if ( $emp->id > 0 )
 	elseif ( $emp->etat == EMPRUNT_PRIS || $emp->etat == EMPRUNT_RETOURPARTIEL )
 	{
 		$cts->add_paragraph("Pris le ".date("d/m/Y à H:i",$emp->date_prise));
-		$cts->add_paragraph("Delivré par ".classlink($user_op));
+		$cts->add_paragraph("Delivré par ".$user_op->get_html_link());
 		if ( $emp->caution )
 			$cts->add_paragraph("Caution de ".($emp->caution/100)." Euros");
 		if ( $emp->prix_paye )
@@ -496,10 +496,10 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 		$cts->add_paragraph("Jusqu'au ".date("d/m/Y H:i",$_REQUEST["endtime"]));
 			
 		if ( $asso->id > 0 )
-			$cts->add_paragraph("Pour l'association : ".classlink($asso));
+			$cts->add_paragraph("Pour l'association : ".$asso->get_html_link());
 
 		if ( $user->id > 0 )
-			$cts->add_paragraph("Emprunteur : ".classlink($user));
+			$cts->add_paragraph("Emprunteur : ".$user->get_html_link());
 		else
 			$cts->add_paragraph("Emprunteur : ".$_REQUEST["emprunteur_ext"]);
 	}
@@ -562,7 +562,7 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 	
 	if ( $Step == 3 )
 	{
-		$cts->add_paragraph(classlink($emp)." : <a href=\"emprunt.php?action=print&amp;id_emprunt=".$emp->id."\">Imprimer</a>");
+		$cts->add_paragraph($emp->get_html_link()." : <a href=\"emprunt.php?action=print&amp;id_emprunt=".$emp->id."\">Imprimer</a>");
 			
 	}
 
@@ -572,7 +572,7 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 }
 
 if (!$site->user->ae)
-	error_403();
+	$site->error_forbidden();
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
@@ -822,9 +822,9 @@ elseif( $Step > 0 )
 	$cts->add_paragraph("Du ".date("d/m/Y H:i",$_REQUEST["starttime"])." jusqu'au ".date("d/m/Y H:i",$_REQUEST["endtime"]));
 		
 	if ( $asso->id > 0 )
-		$cts->add_paragraph("Pour l'association : ".classlink($asso));
+		$cts->add_paragraph("Pour l'association : ".$asso->get_html_link());
 
-	$cts->add_paragraph("Emprunteur : ".classlink($user));
+	$cts->add_paragraph("Emprunteur : ".$user->get_html_link());
 }
 
 $cts->add_title(2,"2. Matériel");
@@ -932,7 +932,7 @@ $cts->add_title(2,"4. Reçu");
 
 if ( $Step == 3 )
 {
-	$cts->add_paragraph("N° de reservation : ".classlink($emp));
+	$cts->add_paragraph("N° de reservation : ".$emp->get_html_link());
 }
 $site->add_contents($cts);
 $site->end_page();

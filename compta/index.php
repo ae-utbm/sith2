@@ -28,12 +28,12 @@ require_once($topdir . "include/cts/sqltable.inc.php");
 $site = new sitecompta();
 
 if ( !$site->user->is_valid() )
-	error_403();
+	$site->error_forbidden();
 
 $assos=$site->user->get_assos(ROLEASSO_TRESORIER);
 
 if ( !count($assos) && !$site->user->is_in_group("compta_admin") )
-	error_403();
+	$site->error_forbidden();
 
 $site->start_page ("services", "Accueil compta");
 

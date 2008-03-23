@@ -46,7 +46,7 @@ $cpbc->load_by_id($cptasso->id_cptbc);
 $asso->load_by_id($cptasso->id_asso);
 
 if ( !$site->user->is_in_group("compta_admin") && !$asso->is_member_role($site->user->id,ROLEASSO_TRESORIER) )
-	error_403();
+	$site->error_forbidden();
 	
 $site->set_current($asso->id,$asso->nom,$cla->id,$cla->nom,$cpbc->nom);
 
@@ -100,7 +100,7 @@ elseif ( $_REQUEST["action"] == "edit" && !$budget->valide  )
   $site->start_page ("none", "Budget ".$budget->nom." dans classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")" );
   
   //$cts = new contents("Budget ".$budget->nom." dans classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")");
-  $cts = new contents("<a href=\"./\">Compta</a> / ".classlink($cpbc)." / ".classlink($cptasso)." / ".classlink($cla)." / ".classlink($budget));
+  $cts = new contents("<a href=\"./\">Compta</a> / ".$cpbc->get_html_link()." / ".$cptasso->get_html_link()." / ".$cla->get_html_link()." / ".$budget->get_html_link());
   $cts->set_help_page("compta-budget");
     
   $frm = new form("editline","budget.php?id_budget=".$budget->id,true,"POST","Editer une ligne budgetaire");
@@ -120,7 +120,7 @@ elseif ( $_REQUEST["action"] == "edit" && !$budget->valide  )
 
 $site->start_page ("none", "Budget ".$budget->nom." dans classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")" );
 
-$cts = new contents("<a href=\"./\">Compta</a> / ".classlink($cpbc)." / ".classlink($cptasso)." / ".classlink($cla)." / ".classlink($budget));
+$cts = new contents("<a href=\"./\">Compta</a> / ".$cpbc->get_html_link()." / ".$cptasso->get_html_link()." / ".$cla->get_html_link()." / ".$budget->get_html_link());
 $cts->set_help_page("compta-budget");
 
 $frm = new form("updatebudget","budget.php?id_budget=".$budget->id,false,"POST","Informations");

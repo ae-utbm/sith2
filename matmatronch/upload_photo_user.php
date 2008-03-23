@@ -25,10 +25,10 @@ include($topdir. "include/site.inc.php");
 
 $site = new site ();
 if ( !$site->user->is_valid() )
-	error_403();
+	$site->error_forbidden();
 
 if (!$site->user->utbm && !$site->user->ae )
-	error_403("reserved");
+	$site->error_forbidden("none","reserved");
 
 if ( !$site->user->is_in_group("matmatronch") )
 	error_404();

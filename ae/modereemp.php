@@ -33,7 +33,7 @@ require_once($topdir. "include/cts/planning.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_ae") )
-	error_403();
+	$site->error_forbidden();
 	
 $emp = new emprunt ( $site->db, $site->dbrw );
 $asso = new asso($site->db);
@@ -64,7 +64,7 @@ elseif ( $emp->id > 0 && $_REQUEST["action"] == "retrait" && ($emp->etat == EMPR
 {
 	$emp->retrait ( $site->user->id, $_REQUEST["caution"], $_REQUEST["prix_emprunt"], $_REQUEST["notes"] );
 	
-	$Message = new contents("Emprunt de matériel retiré.",classlink($emp)." : <a href=\"".$topdir."emprunt.php?action=print&amp;id_emprunt=".$emp->id."\">Imprimer</a>");
+	$Message = new contents("Emprunt de matériel retiré.",$emp->get_html_link()." : <a href=\"".$topdir."emprunt.php?action=print&amp;id_emprunt=".$emp->id."\">Imprimer</a>");
 	$emp->id = -1;
 }
 	

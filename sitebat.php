@@ -54,7 +54,7 @@ else if ( $_REQUEST["action"] == "addsite" && $site->user->is_in_group("gestion_
 if ( $sitebat->id > 0 )
 {
 	$site->start_page("none",$sitebat->nom);
-	$cts = new contents(classlink($sitebat));
+	$cts = new contents($sitebat->get_html_link());
 	
 	$cts->add_paragraph("Voir aussi : <a href=\"sitebat.php\">Autre sites</a>");
 

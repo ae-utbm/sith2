@@ -41,14 +41,14 @@ if ( isset($_REQUEST["id_efact"]) )
 {
   $efact->load_by_id($_REQUEST["id_efact"]);
   if ( !$efact->is_valid() )
-    error_403();
+    $site->error_forbidden();
   $cla->load_by_id($efact->id_classeur);
 }
 else
 {
   $cla->load_by_id($_REQUEST["id_classeur"]);
   if ( !$cla->is_valid() )
-    error_403();
+    $site->error_forbidden();
 }
   
 $cptasso->load_by_id($cla->id_cptasso);
@@ -56,7 +56,7 @@ $cpbc->load_by_id($cptasso->id_cptbc);
 $asso->load_by_id($cptasso->id_asso);
   
 if ( !$site->user->is_in_group("compta_admin") && !$asso->is_member_role($site->user->id,ROLEASSO_TRESORIER) )
-	error_403();
+	$site->error_forbidden();
 	
 if ( $_REQUEST["action"] == "create" && $GLOBALS["svalid_call"] )
 {

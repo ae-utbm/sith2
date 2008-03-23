@@ -32,7 +32,7 @@ require_once($topdir. "include/cts/user.inc.php");
 $site = new site;
 
 if ( $site->user->id == -1 )
-	error_403("reserved");
+	$site->error_forbidden("none","reserved");
 
 $site->start_page ("none", "FIMU 2008 - Inscriptions des bénévoles");
 

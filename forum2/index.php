@@ -796,11 +796,11 @@ if ( $sujet->is_valid() )
       $catpr = new catphoto($site->db);
       $cat->load_by_id($sujet->id_catph);
       
-      $path = classlink($cat);
+      $path = $cat->get_html_link();
       $catpr->load_by_id($cat->id_catph_parent);
       while ( $catpr->is_valid() )
       {
-        $path = classlink($catpr)." / ".$path;
+        $path = $catpr->get_html_link()." / ".$path;
         $catpr->load_by_id($catpr->id_catph_parent);
       }
       

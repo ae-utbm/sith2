@@ -113,11 +113,11 @@ if ( $req->lines == 1 )
 
   $cat->load_by_id($photo->id_catph);
 
-  $path = classlink($cat)." / ".classlink($photo);
+  $path = $cat->get_html_link()." / ".$photo->get_html_link();
   $catpr->load_by_id($cat->id_catph_parent);
   while ( $catpr->id > 0 )
   {
-    $path = classlink($catpr)." / ".$path;
+    $path = $catpr->get_html_link()." / ".$path;
     $catpr->load_by_id($catpr->id_catph_parent);
   }
 
@@ -176,7 +176,7 @@ else
 
   $cts->add_paragraph("<a href=\"./\">Retour au SAS</a>");
   if ( $cat->id > 0 )
-    $cts->add_paragraph("Retour à ".classlink($cat));
+    $cts->add_paragraph("Retour à ".$cat->get_html_link());
 }
 $site->add_contents($cts);
 $site->end_page ();

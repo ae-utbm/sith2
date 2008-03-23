@@ -40,7 +40,7 @@ if ( isset($_REQUEST['id_utilisateur']) )
 	$can_edit = ( $user->id==$site->user->id || $site->user->is_in_group("gestion_ae") );
 	
 	if ( $user->id != $site->user->id && !$site->user->utbm && !$site->user->ae )
-		error_403("reserved");
+		$site->error_forbidden("none","reserved");
 }
 else
 {

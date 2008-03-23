@@ -114,7 +114,7 @@ if ($_REQUEST['action'] == 'reportabuse')
 			    "de la modération</b>");
     }
   else
-    error_403();
+    $site->error_forbidden();
   $site->add_contents($cts);
 
   $_id_uv = $comm->id_uv;
@@ -144,7 +144,7 @@ if ($_REQUEST['action'] == 'quarantine')
 			    "de la modération.</b>");
     }
   else
-    error_403();
+    $site->error_forbidden();
 
   $site->add_contents($cts);
 

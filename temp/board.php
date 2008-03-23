@@ -30,7 +30,7 @@ require_once($topdir."include/cts/board.inc.php");
 $site = new site ();
 
 if (!$site->user->id || !$site->user->utbm)
-  error_403();
+  $site->error_forbidden();
 
 $site->set_side_boxes("left",array());
 $site->set_side_boxes("right",array());

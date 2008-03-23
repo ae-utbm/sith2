@@ -32,7 +32,7 @@ $opstd = new operation_comptable($site->db);
 $opclb = new operation_club($site->db,$site->dbrw);
 
 if ( !$site->user->is_valid() )
-	error_403();
+	$site->error_forbidden();
 
 if ( isset($_REQUEST["id_asso"]) )
 {
