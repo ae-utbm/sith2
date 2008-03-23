@@ -287,22 +287,6 @@ function convertir_prenom ($string)
 	return $string;
 }
 
-/** Retourne un des parametres de la requete
- *
- * @param name Le nom du parametre
- * @param default Une valeur par defaut si le parametre n'est pas trouve
- * @param array Le tableau de recherche, par defaut : $_REQUEST
- */
-function GetRequestParam ($name, $default = null, $array = null)
-{
-  if (!$array)
-    $array = $_REQUEST;
-
-  if (array_key_exists($name, $array))
-    return $array[$name];
-
-  return $default;
-}
 
 /* Changement du sÃ©parateur pour &amp */
 ini_set("arg_separator.output", "&amp;");

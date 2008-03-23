@@ -391,12 +391,12 @@ else
   
 $sfrm = new form("type",null,null,null,"Nouvelle sur un concours, un appel &agrave; canditure : longue dur&eacute;e");
 $sfrm->add_datetime_field("t3_debut","Date et heure de d&eacute;but",time());
-$sfrm->add_datetime_field("t3_fin","Date et heure de fin",GetRequestParam('t3_fin',-1));
+$sfrm->add_datetime_field("t3_fin","Date et heure de fin",$_REQUEST['t3_fin']);
 $frm->add($sfrm,false,true, $type==3 ,3 ,false,true);
 
 $sfrm = new form("type",null,null,null,"Nouvelle sur un &eacute;v&eacute;nement ponctuel associ&eacute; &agrave; une date");
-$sfrm->add_datetime_field("t1_debut","Date et heure de d&eacute;but",GetRequestParam('t1_debut',-1));
-$sfrm->add_datetime_field("t1_fin","Date et heure de fin",GetRequestParam('t1_fin',-1));
+$sfrm->add_datetime_field("t1_debut","Date et heure de d&eacute;but",$_REQUEST['t1_debut']);
+$sfrm->add_datetime_field("t1_fin","Date et heure de fin",$_REQUEST['t1_fin']);
 $frm->add($sfrm,false,true, $type==1 ,1 ,false,true);
 
 $sfrm = new form("type",null,null,null,"Nouvelle sur une s&eacute;ance ou une r&eacute;union hebdomadaire");
@@ -411,16 +411,16 @@ if ( isset($_REQUEST["t2_dates"]) )
   $sfrm->add($ssfrm,false,true, true , 1 ,false,true);
 
   $ssfrm = new form("seldates",null,null,null,"ou changer la p&eacute;riode");
-  $ssfrm->add_datetime_field("t2_debut","Date et heure de d&eacute;but",GetRequestParam('t2_debut',-1));
-  $ssfrm->add_datetime_field("t2_fin","Date et heure de fin",GetRequestParam('t2_fin',-1));
-  $ssfrm->add_datetime_field("t2_until","... jusqu'au",GetRequestParam('t2_until',-1));
+  $ssfrm->add_datetime_field("t2_debut","Date et heure de d&eacute;but",$_REQUEST['t2_debut']);
+  $ssfrm->add_datetime_field("t2_fin","Date et heure de fin",$_REQUEST['t2_fin']);
+  $ssfrm->add_datetime_field("t2_until","... jusqu'au",$_REQUEST['t2_until']);
   $sfrm->add($ssfrm,false,true, false , 2 ,false,true);
 }
 else
 {
-  $sfrm->add_datetime_field("t2_debut","Date et heure de d&eacute;but",GetRequestParam('t2_debut',-1));
-  $sfrm->add_datetime_field("t2_fin","Date et heure de fin",GetRequestParam('t2_fin',-1));
-  $sfrm->add_datetime_field("t2_until","... jusqu'au",GetRequestParam('t2_until',-1));
+  $sfrm->add_datetime_field("t2_debut","Date et heure de d&eacute;but",$_REQUEST['t2_debut']);
+  $sfrm->add_datetime_field("t2_fin","Date et heure de fin",$_REQUEST['t2_fin']);
+  $sfrm->add_datetime_field("t2_until","... jusqu'au",$_REQUEST['t2_until']);
 }
 $frm->add($sfrm,false,true, $type==2 ,2 ,false,true);
 
