@@ -280,14 +280,14 @@ else
 {
   $sql = 
     "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning, 
-    COALESCE(utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,'.',utilisateurs.nom_utl)) AS texte
+    COALESCE(utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl)) AS texte
 	FROM pl_gap
 	LEFT JOIN pl_gap_user
 	USING ( id_gap ) 
 	LEFT JOIN utilisateurs
 	USING ( id_utilisateur )
 	INNER JOIN utl_etu_utbm 
-	WHERE pl_gap.id_planning =164
+	WHERE pl_gap_user.id_planning='".PERM_AE_BELFORT."'
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
 }
      
