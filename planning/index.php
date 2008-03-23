@@ -280,7 +280,7 @@ else
 {
   $sql = 
     "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning, 
-    COALESC(utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,'.',utilisateurs.nom_utl)) AS texte
+    COALESCE(utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,'.',utilisateurs.nom_utl)) AS texte
 	FROM pl_gap
 	LEFT JOIN pl_gap_user
 	USING ( id_gap ) 
