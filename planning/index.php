@@ -48,7 +48,7 @@ if ( $_REQUEST["action"] == "searchpl" )
   $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
   
   // TEST
-	/*$planning = new planning($site->db,$site->dbrw);
+	$planning = new planning($site->db,$site->dbrw);
 	$start_date = strtotime("2008-03-20");
 	$end_date = strtotime("2008-07-31");
 	
@@ -62,6 +62,12 @@ if ( $_REQUEST["action"] == "searchpl" )
 	$jeudi = 3600*24*3;
 	$vendredi = 3600*24*4;
 	$samedi = 3600*24*5;
+	$lundi2 = 3600*24*7;
+	$mardi2 = 3600*24*8;
+	$mercredi2 = 3600*24*9;
+	$jeudi2 = 3600*24*10;
+	$vendredi2 = 3600*24*11;
+	$samedi2 = 3600*24*12;
 	$h8 = 8*3600;
 	$h9 = 9*3600;
 	$h10 = 10*3600;
@@ -92,6 +98,96 @@ if ( $_REQUEST["action"] == "searchpl" )
 	$id_creneau_12 = $planning->add_gap( $lundi+$h19, $lundi+$h20 );
 	$id_creneau_13 = $planning->add_gap( $lundi+$h20, $lundi+$h21 );
 	$id_creneau_14 = $planning->add_gap( $lundi+$h21, $lundi+$h22 );
+	
+	$planning->add_gap( $lundi2+$h8, $lundi2+$h9 );
+	$planning->add_gap( $lundi2+$h9, $lundi2+$h10 );
+	$planning->add_gap( $lundi2+$h10, $lundi2+$h11 );
+	$planning->add_gap( $lundi2+$h11, $lundi2+$h12 );
+	$planning->add_gap( $lundi2+$h12, $lundi2+$h13 );
+	$planning->add_gap( $lundi2+$h13, $lundi2+$h14 );
+	$planning->add_gap( $lundi2+$h14, $lundi2+$h15 );
+	$planning->add_gap( $lundi2+$h15, $lundi2+$h16 );
+	$planning->add_gap( $lundi2+$h16, $lundi2+$h17 );
+	$planning->add_gap( $lundi2+$h17, $lundi2+$h18 );
+	$planning->add_gap( $lundi2+$h18, $lundi2+$h19 );
+	$planning->add_gap( $lundi2+$h19, $lundi2+$h20 );
+	$planning->add_gap( $lundi2+$h20, $lundi2+$h21 );
+	$planning->add_gap( $lundi2+$h21, $lundi2+$h22 );
+	
+	$planning->add_gap( $mardi2+$h8, $mardi2+$h9 );
+	$planning->add_gap( $mardi2+$h9, $mardi2+$h10 );
+	$planning->add_gap( $mardi2+$h10, $mardi2+$h11 );
+	$planning->add_gap( $mardi2+$h11, $mardi2+$h12 );
+	$planning->add_gap( $mardi2+$h12, $mardi2+$h13 );
+	$planning->add_gap( $mardi2+$h13, $mardi2+$h14 );
+	$planning->add_gap( $mardi2+$h14, $mardi2+$h15 );
+	$planning->add_gap( $mardi2+$h15, $mardi2+$h16 );
+	$planning->add_gap( $mardi2+$h16, $mardi2+$h17 );
+	$planning->add_gap( $mardi2+$h17, $mardi2+$h18 );
+	$planning->add_gap( $mardi2+$h18, $mardi2+$h19 );
+	$planning->add_gap( $mardi2+$h19, $mardi2+$h20 );
+	$planning->add_gap( $mardi2+$h20, $mardi2+$h21 );
+	$planning->add_gap( $mardi2+$h21, $mardi2+$h22 );
+	
+		$planning->add_gap( $mercredi2+$h8, $mercredi2+$h9 );
+	$planning->add_gap( $mercredi2+$h9, $mercredi2+$h10 );
+	$planning->add_gap( $mercredi2+$h10, $mercredi2+$h11 );
+	$planning->add_gap( $mercredi2+$h11, $mercredi2+$h12 );
+	$planning->add_gap( $mercredi2+$h12, $mercredi2+$h13 );
+	$planning->add_gap( $mercredi2+$h13, $mercredi2+$h14 );
+	$planning->add_gap( $mercredi2+$h14, $mercredi2+$h15 );
+	$planning->add_gap( $mercredi2+$h15, $mercredi2+$h16 );
+	$planning->add_gap( $mercredi2+$h16, $mercredi2+$h17 );
+	$planning->add_gap( $mercredi2+$h17, $mercredi2+$h18 );
+	$planning->add_gap( $mercredi2+$h18, $mercredi2+$h19 );
+	$planning->add_gap( $mercredi2+$h19, $mercredi2+$h20 );
+	$planning->add_gap( $mercredi2+$h20, $mercredi2+$h21 );
+	$planning->add_gap( $mercredi2+$h21, $mercredi2+$h22 );
+	
+	$planning->add_gap( $jeudi2+$h8, $jeudi2+$h9 );
+	$planning->add_gap( $jeudi2+$h9, $jeudi2+$h10 );
+	$planning->add_gap( $jeudi2+$h10, $jeudi2+$h11 );
+	$planning->add_gap( $jeudi2+$h11, $jeudi2+$h12 );
+	$planning->add_gap( $jeudi2+$h12, $jeudi2+$h13 );
+	$planning->add_gap( $jeudi2+$h13, $jeudi2+$h14 );
+	$planning->add_gap( $jeudi2+$h14, $jeudi2+$h15 );
+	$planning->add_gap( $jeudi2+$h15, $jeudi2+$h16 );
+	$planning->add_gap( $jeudi2+$h16, $jeudi2+$h17 );
+	$planning->add_gap( $jeudi2+$h17, $jeudi2+$h18 );
+	$planning->add_gap( $jeudi2+$h18, $jeudi2+$h19 );
+	$planning->add_gap( $jeudi2+$h19, $jeudi2+$h20 );
+	$planning->add_gap( $jeudi2+$h20, $jeudi2+$h21 );
+	$planning->add_gap( $jeudi2+$h21, $jeudi2+$h22 );
+
+$planning->add_gap( $vendredi2+$h8, $vendredi2+$h9 );
+	$planning->add_gap( $vendredi2+$h9, $vendredi2+$h10 );
+	$planning->add_gap( $vendredi2+$h10, $vendredi2+$h11 );
+	$planning->add_gap( $vendredi2+$h11, $vendredi2+$h12 );
+	$planning->add_gap( $vendredi2+$h12, $vendredi2+$h13 );
+	$planning->add_gap( $vendredi2+$h13, $vendredi2+$h14 );
+	$planning->add_gap( $vendredi2+$h14, $vendredi2+$h15 );
+	$planning->add_gap( $vendredi2+$h15, $vendredi2+$h16 );
+	$planning->add_gap( $vendredi2+$h16, $vendredi2+$h17 );
+	$planning->add_gap( $vendredi2+$h17, $vendredi2+$h18 );
+	$planning->add_gap( $vendredi2+$h18, $vendredi2+$h19 );
+	$planning->add_gap( $vendredi2+$h19, $vendredi2+$h20 );
+	$planning->add_gap( $vendredi2+$h20, $vendredi2+$h21 );
+	$planning->add_gap( $vendredi2+$h21, $vendredi2+$h22 );
+
+$planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
+	$planning->add_gap( $samedi2+$h9, $samedi2+$h10 );
+	$planning->add_gap( $samedi2+$h10, $samedi2+$h11 );
+	$planning->add_gap( $samedi2+$h11, $samedi2+$h12 );
+	$planning->add_gap( $samedi2+$h12, $samedi2+$h13 );
+	$planning->add_gap( $samedi2+$h13, $samedi2+$h14 );
+	$planning->add_gap( $samedi2+$h14, $samedi2+$h15 );
+	$planning->add_gap( $samedi2+$h15, $samedi2+$h16 );
+	$planning->add_gap( $samedi2+$h16, $samedi2+$h17 );
+	$planning->add_gap( $samedi2+$h17, $samedi2+$h18 );
+	$planning->add_gap( $samedi2+$h18, $samedi2+$h19 );
+	$planning->add_gap( $samedi2+$h19, $samedi2+$h20 );
+	$planning->add_gap( $samedi2+$h20, $samedi2+$h21 );
+	$planning->add_gap( $samedi2+$h21, $samedi2+$h22 );
 	
 	$id_creneau_21 = $planning->add_gap( $mardi+$h8, $mardi+$h9 );
 	$id_creneau_22 = $planning->add_gap( $mardi+$h9, $mardi+$h10 );
@@ -166,7 +262,7 @@ if ( $_REQUEST["action"] == "searchpl" )
 	$id_creneau_611 = $planning->add_gap( $samedi+$h18, $samedi+$h19 );
 	$id_creneau_612 = $planning->add_gap( $samedi+$h19, $samedi+$h20 );
 	$id_creneau_613 = $planning->add_gap( $samedi+$h20, $samedi+$h21 );
-	$id_creneau_614 = $planning->add_gap( $samedi+$h21, $samedi+$h22 );*/
+	$id_creneau_614 = $planning->add_gap( $samedi+$h21, $samedi+$h22 );
 			
  // FIN TEST
 
