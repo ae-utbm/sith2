@@ -257,7 +257,7 @@ class calendar extends stdcontents
 		$style .= " active";
 		
 		/* On affiche la case */ 
-		if ( count($events) > 0 )
+		if ( false && count($events) > 0 )
 		{
 			$this->buffer .= "<td class=\"$style\"$js><a href=\"" . $wwwtopdir . "events.php?day=" . $date . "\">" . $day . "</a></td>";
 		}
