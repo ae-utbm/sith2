@@ -148,16 +148,16 @@ class contents extends stdcontents
       $this->buffer .=  "<div id=\"".$name."_contents\"";
       if ( !$on )
         $this->buffer .=  " style=\"display: none;\"";
-      $this->buffer .=  "> <!-- ".$name."_contents -->\n";  
+      $this->buffer .=  ">\n";  
     }
   
     $this->buffer .= $cts->html_render()."\n";
     
     if ( $onoff && $name )
-      $this->buffer .= "</div> <!-- enf of ".$name."_contents -->\n";
+      $this->buffer .= "</div>\n";
     
     if ( $box && $name )
-      $this->buffer .= "</div> <!-- end of $name -->\n";
+      $this->buffer .= "</div>\n";
   }
 
   

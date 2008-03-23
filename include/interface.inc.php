@@ -251,7 +251,7 @@ class interfaceweb
     
       echo "<div id=\"fsearchres\"></div>\n";
       
-      echo "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/Ae.jpg\" height=\"60\" width=\"218\" alt=\"Logo AE\"/></a></div>";          
+      echo "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/Ae.jpg\" height=\"60\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";          
 
     }
     echo "<div class=\"tabsv2\">\n";
@@ -268,33 +268,29 @@ class interfaceweb
       }
       else
         echo " class=\"tab".$entry[0]."\"";
-//      echo " onmouseover=\"tabsection('".$entry[0]."', 'hoversectionlinks');\"";
-//      echo " onmouseout=\"tabsection('none', 'hoversectionlinks');\"";
 
       echo "><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
-      echo " title=\"" . $entry[2] . "\">".$entry[2] . "</a></span>\n";
+      echo " title=\"" . $entry[2] . "\">".$entry[2] . "</a></span>";
     }
     
     echo "</div>\n"; // /tabs
     
     if ( $links )
     {
-      echo "<div class=\"sectionlinks\">\n";  
+      echo "<div class=\"sectionlinks\">";  
       
       foreach ( $links as $entry )
       {
         if ( strncmp("http://",$entry[0],7) )
-          echo "<a href=\"".$entry[0]."\">".$entry[1]."</a>\n";
+          echo "<a href=\"".$entry[0]."\">".$entry[1]."</a>";
         else
-          echo "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>\n";
+          echo "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>";
       }
       
       echo "</div>\n";
     }
     else
       echo "<div class=\"emptysectionlinks\"></div>\n";  
-    
-//    echo "<div id=\"hoversectionlinks\" style=\"display:none;\" onmouseover=\"style.display='block';\" onmouseout=\"style.display='none';\"></div>\n";
 
     echo "<div class=\"contents\">\n";
     $idpage = "";
