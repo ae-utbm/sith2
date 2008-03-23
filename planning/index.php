@@ -279,7 +279,14 @@ if($site->user->is_in_group("gestion_ae"))
 else
 {
   $sql = 
-    "SELECT * FROM pl_gap_user WHERE id_planning='".PERM_AE_BELFORT."'";
+    "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning, utilisateurs.id_utilisateur
+	FROM pl_gap
+	LEFT JOIN pl_gap_user
+	USING ( id_gap ) 
+	LEFT JOIN utilisateurs
+	USING ( id_utilisateur ) 
+	WHERE pl_gap.id_planning =164
+	AND id_utilisateur IS NOT NULL";
 }
      
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "", PL_LUNDI, true);
