@@ -279,12 +279,14 @@ if($site->user->is_in_group("gestion_ae"))
 else
 {
   $sql = 
-    "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning, utilisateurs.alias_utl AS texte
+    "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning, 
+    COALESC(utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,'.',utilisateurs.nom_utl)) AS texte
 	FROM pl_gap
 	LEFT JOIN pl_gap_user
 	USING ( id_gap ) 
 	LEFT JOIN utilisateurs
-	USING ( id_utilisateur ) 
+	USING ( id_utilisateur )
+	INNER JOIN utl_etu_utbm 
 	WHERE pl_gap.id_planning =164
 	AND id_utilisateur IS NOT NULL";
 }
