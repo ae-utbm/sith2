@@ -327,7 +327,7 @@ else if( $_REQUEST["action"] == "details" )
      LEFT JOIN utilisateurs USING(id_utilisateur)
      WHERE pl_gap.id_planning='".PERM_AE_BELFORT."'";
      
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php", "index.php?action=details", "",
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "",
      PL_LUNDI, true);
 
   $cts->add($pl,true); 
