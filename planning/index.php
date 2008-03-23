@@ -280,7 +280,8 @@ else
 {
   $sql = 
     "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning
-     pl_gap_user
+     FROM pl_gap
+     LEFT JOIN pl_gap_user USING(id_gap)
      WHERE pl_gap.id_planning='".PERM_AE_BELFORT."'";
 }
      
