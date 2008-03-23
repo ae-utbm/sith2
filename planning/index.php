@@ -284,8 +284,7 @@ else
 	FROM pl_gap
 	LEFT JOIN pl_gap_user
 	USING ( id_gap ) 
-	LEFT JOIN utilisateurs
-	USING ( id_utilisateur )
+	INNER JOIN utilisateurs
 	INNER JOIN utl_etu_utbm 
 	WHERE pl_gap.id_planning =164
 	AND id_utilisateur IS NOT NULL";
