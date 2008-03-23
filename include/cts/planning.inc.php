@@ -47,7 +47,7 @@ class weekplanning extends stdcontents
 	 * @param $page Adresse de la page pour le suivant/précédent
 	 * @param $infopage Adresse de la page d'information sur un élément
 	 */
-	function weekplanning ( $titre, $db, $sql, $idf, $startf, $endf, $namef, $page, $infopage, $extra="", $unlundi=null )
+	function weekplanning ( $titre, $db, $sql, $idf, $startf, $endf, $namef, $page, $infopage, $extra="", $unlundi=null, $deuxsemaines=false )
 	{
 		$this->title=false;
 
@@ -55,6 +55,8 @@ class weekplanning extends stdcontents
 		if ( !is_null($unlundi) )
 		{
 		  $start = $unlundi;
+		  if ( $deuxsemaines && isset($_REQUEST["semainedeux"]) )
+		    $start += 7*24*3600;
 		}
 		else
 		{
@@ -120,9 +122,18 @@ class weekplanning extends stdcontents
 		else
 		{
   		$this->buffer .= "<table class=\"weekplanning\" width=\"100%\">\n<tr class=\"head\">\n";		
+  	 
+  	  if ( $deuxsemaines && isset($_REQUEST["semainedeux"]) )
+  		$this->buffer .= "<td class=\"head_larrow\"><a href=\"".$page."\">&lArr;</a></td>\n";
+  		else
   		$this->buffer .= "<td class=\"head_larrow\"></td>\n";
+  		
   		$this->buffer .= "<td class=\"head_title\">$titre</td>\n";
-  		$this->buffer .= "<td class=\"head_rarrow\"></td>\n";
+  		
+  	  if ( $deuxsemaines && !isset($_REQUEST["semainedeux"]) )
+  		  $this->buffer .= "<td class=\"head_rarrow\"><a href=\"".$page."semainedeux\">&rArr;</a></td>\n";
+  		else
+  		  $this->buffer .= "<td class=\"head_rarrow\"></td>\n";
   		$this->buffer .= "</tr>\n</table>\n";		
 		}
 					
