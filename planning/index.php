@@ -268,9 +268,11 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
 
 if($site->user->is_in_group("gestion_ae"))
 {
+  $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
+  
   $sql = 
     "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning,
-     IFNULL(utilisateurs.alias_utl,'(personne)') AS texte
+     COALESCE(utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl), '(personne)') AS texte
      FROM pl_gap
      LEFT JOIN pl_gap_user USING(id_gap)
      LEFT JOIN utilisateurs USING(id_utilisateur)
@@ -416,12 +418,6 @@ $frm->add_hidden("action","searchpl");
 $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST["id_salle"]);
 $frm->add_submit("afficher","Afficher le planning");
 $cts->add($frm,true);
-
-$is_admin = $site->user->is_in_group("gestion_ae");
-if ( $is_admin )
-{
-	$cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
-}
 
 $site->add_contents($cts);
 $site->end_page();  
