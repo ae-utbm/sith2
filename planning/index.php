@@ -275,6 +275,8 @@ if($site->user->is_in_group("gestion_ae"))
      LEFT JOIN pl_gap_user USING(id_gap)
      LEFT JOIN utilisateurs USING(id_utilisateur)
      WHERE pl_gap.id_planning='".PERM_AE_BELFORT."'";
+     
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "", PL_LUNDI, true);
 }
 else
 {
@@ -290,9 +292,11 @@ else
 	USING ( id_utilisateur )
 	WHERE pl_gap_user.id_planning='".PERM_AE_BELFORT."'
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
+	
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "", "", PL_LUNDI, true);
 }
      
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "", PL_LUNDI, true);
+  
 
   $cts->add($pl,true); 
   
