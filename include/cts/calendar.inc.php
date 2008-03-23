@@ -237,16 +237,16 @@ class calendar extends stdcontents
 					$idx = 2;
 			}
 			
-			$style .= " event$idx";		  
+			$style .= " event".$idx;		  
 		  
 		  if ( $idx != 3 )
 		  {
-  			$this->events .= "<dl class=\"event\" id=\"calev-$date\">\n";
+  			$this->events .= "<dl class=\"event\" id=\"de".$day."\">";
   			foreach( $events as $ev)
   			{
   				$this->event_add ($ev,$date);
-  				$js = " onmouseover=\"show_obj_top('calev-$date'); \"";
-  				$js .= " onmouseout=\"hide_obj('calev-$date');\"";
+  				$js = " onmouseover=\"sot('de".$day."');\"";
+  				$js .= " onmouseout=\"ho('de".$day."');\"";
   			}
   			$this->events .= "</dl>\n";
 		  }
@@ -257,14 +257,11 @@ class calendar extends stdcontents
 		$style .= " active";
 		
 		/* On affiche la case */ 
-		if ( false && count($events) > 0 )
-		{
-			$this->buffer .= "<td class=\"$style\"$js><a href=\"" . $wwwtopdir . "events.php?day=" . $date . "\">" . $day . "</a></td>";
-		}
+		if ( count($events) > 0 )
+			$this->buffer .= "<td class=\"".$style."\"$js>".
+			 "<a href=\"" . $wwwtopdir . "events.php?day=" . $date . "\">" . $day . "</a></td>";
 		else
-		{
-			$this->buffer .= "<td class=\"$style\"$js>" . $day . "</td>";
-		}
+			$this->buffer .= "<td class=\"".$style."\"$js>" . $day . "</td>";
 	}
 	
 	
@@ -285,8 +282,8 @@ class calendar extends stdcontents
 		else
 		  return;
 		  
-		$this->events .= " <dt class=\"e$idx\">" . htmlentities($ev['titre_nvl'], ENT_QUOTES, "UTF-8") . "</dt>\n";
-		$this->events .= " <dd class=\"e$idx\">";
+		$this->events .= "<dt class=\"e$idx\">" . htmlentities($ev['titre_nvl'], ENT_QUOTES, "UTF-8") . "</dt>";
+		$this->events .= "<dd class=\"e$idx\">";
 		
 		if ( $dstart == $date && $dend == $date )
 			$this->events .= "De ".$start[0] . ":" . $start[1] . " à " . $end[0] . ":" . $end[1];
@@ -295,7 +292,7 @@ class calendar extends stdcontents
 		else if ( $dend == $date )
 			$this->events .= "Jusqu'à ".$end[0] . ":" . $end[1];
 		
-		$this->events .= "</dd>\n";
+		$this->events .= "</dd>";
 	}
 	
 	/** Créé une date de type SQL à partir d'un timestamp

@@ -306,6 +306,16 @@ function hide_obj(obj)
 	content.style.display = 'none';	
 }
 
+function ho(obj)
+{
+  hide_obj(obj);
+}
+
+function sot(obj)
+{
+  show_obj_top(obj);
+}
+
 function switchphoto (dest,src)
 {
 	var img = document.getElementById(dest);
