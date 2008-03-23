@@ -1745,7 +1745,7 @@ class itemlist extends stdcontents
   
   function html_render()
   {
-    return "<ul".($this->class?" class=\"".$this->class."\"":"").">\n".$this->buffer."\n</ul>\n";
+    return "<ul".($this->class?" class=\"".$this->class."\"":"").">\n".$this->buffer."</ul>\n";
   }
 }
 
