@@ -239,9 +239,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
   $frm->add_date_field("end_date", "Date de fin de validite : ",$cpg->end_date,true);
   $frm->add_text_field("nom", "Nom de la campagne",$cpg->nom,true,80);    
   $frm->add_text_area("description", "Description de la campagne",$cpg->description);
-  $frm->add_entity_smartselect("id_groupe","Groupe concern&eacute;",new group($site->db));
-  $frm->add_entity_select("id_groupe", "Groupe concern&eacute;", $site->db, "groupe",$cpg->group,true);
- $frm->add_entity_select("id_asso", "Association", $site->db, "asso",$cpg->group,true);
+  $frm->add_entity_select("id_groupe", "Groupe concern&eacute;", $site->db, "group",$cpg->group,true);
+  $frm->add_entity_select("id_asso", "Association", $site->db, "asso",$cpg->asso,true);
 
 
   $frm->add_info("Pour supprimer une question, il suffit de laisser son nom vide !<br />");
