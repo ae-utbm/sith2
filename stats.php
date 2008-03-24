@@ -31,67 +31,6 @@ require_once($topdir. "include/cts/user.inc.php");
 require_once($topdir . "include/graph.inc.php");
 $site = new site ();
 
-if ( $_REQUEST["action"] == "os" )
-{
-  $req = new requete($site->db,"SELECT * FROM `stats_os`  ORDER BY `visites` DESC");
-  $cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
-  while($row=$req->get_row())
-    $cam->data($row['visites'], $row['os']);
-  $cam->png_render();
-  exit();
-}
-
-if ( $_REQUEST["action"] == "browser" )
-{
-  $req = new requete($site->db,"SELECT * FROM `stats_browser`  ORDER BY `visites` DESC");
-  $cam=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
-  while($row=$req->get_row())
-  {
-    if($row['browser']=="Autre")
-      $row['browser']=="Inconnus";
-    $cam->data($row['visites'], $row['browser']);
-  }
-  $cam->png_render();
-  exit();
-}
-
-if (isset($_REQUEST['stats_site_start']))
-{
-  $start = mysql_real_escape_string($_REQUEST['stats_site_start']);
-  $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT ".$start.",20");
-
-  if ($req->lines < 20)
-  {
-    $txt = "retour au d&eacute;but  ...";
-    $start=-21;
-  }
-  else
-    $txt = "Voir les 20 suivants ...";
-  if ($req->lines <= 0)
-  {
-    $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
-    $start=-21;
-  }
-  echo "<h1>Pages visit&eacute;es</h1>\n";
-  echo "<center>\n";
-  $sqlt = new sqltable("top_full",
-                       "Pages visit&eacute;es", $req, "stats.php",
-                       "page",
-                       array("page"=>"page",
-                             "visites"=>"Visites"),
-                       array(),
-                       array(),
-                       array()
-                      );
-
-  echo $sqlt->html_render();
-  $start = $start+21;
-  echo "\n<a href=\"javascript:next(this, $start)\">".$txt."</a>";
-  echo "</center>";
-
-  exit();
-}
-
 $site->start_page("none","Statistiques");
 $cts = new contents("Statistiques");
 
@@ -99,7 +38,6 @@ if (!$site->user->is_in_group ("gestion_ae"))
 {
   $tabs = array(array("","stats.php", "Informations"),
                 array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
-                array("site","stats.php?view=site", "Statistiques du site"),
                 array("sas","stats.php?view=sas", "SAS"),
                 array("comptoirs","stats.php?view=comptoirs", "Comptoirs")
                 );
@@ -109,7 +47,7 @@ else
   $tabs = array(array("","stats.php", "Informations"),
                 array("cotisants","stats.php?view=cotisants", "Cotisants"),
                 array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
-                array("site","stats.php?view=site", "Statistiques du site"),
+                array("matmatronch","stats.php?view=matmatronch", "Matmatronch"),
                 array("sas","stats.php?view=sas", "SAS"),
                 array("forum","stats.php?view=forum", "Forum"),
                 array("comptoirs","stats.php?view=comptoirs", "Comptoirs")
@@ -345,60 +283,6 @@ elseif ( $_REQUEST["view"] == "utilisateurs" )
   list($nbutil) = $req->get_row();
   $cts->add_paragraph("".round($nbutil*100/$total,1)."% ont consulté le site dans les 7 derniers jours");
 }
-elseif ( $_REQUEST["view"] == "site" )
-{
-  if ($site->user->is_in_group ("gestion_ae"))
-  {
-    if ( $_REQUEST["action"] == "reset" )
-    {
-      $req = new requete($site->dbrw, "DELETE FROM `stats_page` WHERE `page`!=''");
-      $req = new requete($site->dbrw, "DELETE FROM `stats_os` WHERE `os`!=''");
-      $req = new requete($site->dbrw, "DELETE FROM `stats_browser` WHERE `browser`!=''");
-      $cts->add_title(2, "Reset");
-      $cts->add_paragraph("Le reset des stats a &eacute;t&eacute; effectu&eacute; avec succ&egrave;s");
-    }
-
-    $cts->add_title(2, "Administration");
-    $cts->add_paragraph("Remettre &agrave; z&eacute;ro les stats du site ae.".
-      "<br /><img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : ".
-      "<a href=\"stats_site.php?view=site&action=reset\" onClick= \"if (confirm('Voulez vous vraiment remettre les statistiques à zéro ? ')) { return true; } else { return false; }}\">Reset !</a>");
-  }
-  $cts->add_paragraph("<script language=\"javascript\">
-  function next(obj, start)
-  {
-    openInContents('cts2', './stats.php', 'stats_site_start='+start);
-  }
-  </script>\n");
-  $site->add_contents($cts);
-
-  $cts = new contents("Pages visit&eacute;es");
-  $req = new requete($site->db,"SELECT * FROM `stats_page`  ORDER BY `visites` DESC LIMIT 20");
-  if($req->lines<20)
-    $less=true;
-  else
-    $less=false;
-  $sqlt = new sqltable("top_full",
-                       "", $req, "stats.php",
-                       "page",
-                       array("page"=>"page",
-                             "visites"=>"Visites"),
-                       array(),
-                       array(),
-                       array()
-                      );
-  $cts->add_paragraph("<center>".$sqlt->html_render()."</center>");
-  if(!$less)
-    $cts->add_paragraph("<center><a href=\"javascript:next(this, 21)\">Voir les 20 suivants ...</a></center>");
-
-  $site->add_contents($cts);
-
-  $cts = new contents("Navigateurs utilis&eacute;s");
-  $cts->add_paragraph("<center><img src=\"stats.php?action=browser\" alt=\"navigateurs utilis&eacute;s\" /></center>\n");
-  $site->add_contents($cts);
-
-  $cts = new contents("Syst&egrave;mes d'exploitation utilis&eacute;s");
-  $cts->add_paragraph("<center><img src=\"stats.php?action=os\" alt=\"syst&egrave;mes d'exploitation utilis&eacute;s\" /></center>\n");
-}
 elseif ( $_REQUEST["view"] == "sas" )
 {
   
@@ -430,11 +314,23 @@ elseif ( $_REQUEST["view"] == "sas" )
   
   $lst = new itemlist("Les meilleurs contributeurs (30)");
   $n=1;
-  while ( $row = $req->get_row() )
+
+  if(!$user->is_in_group("sas_admin") && !$user->!is_in_group("gestion_ae"))
+  {
+    while ( $row = $req->get_row() )
+    {
+      $lst->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>");
+      $n++;
+    }
+  }
+  else
+  {
+    while ( $row = $req->get_row() )
     {
       $lst->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a> (".$row['count']." photos)");
       $n++;
     }
+  }
   
   $cts->add($lst,true);
   
@@ -448,11 +344,23 @@ elseif ( $_REQUEST["view"] == "sas" )
   
   $lst = new itemlist("Les plus photographi&eacute;s (30)");
   $n=1;
-  while ( $row = $req->get_row() )
+
+  if(!$user->is_in_group("sas_admin") && !$user->!is_in_group("gestion_ae"))
+  {
+    while ( $row = $req->get_row() )
+    {
+      $lst->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a>");
+      $n++;
+    }
+  }
+  else
+  {
+    while ( $row = $req->get_row() )
     {
       $lst->add("$n : <a href=\"user.php?id_utilisateur=".$row["id_utilisateur"]."\">".htmlentities($row["nom_utilisateur"],ENT_NOQUOTES,"UTF-8")."</a> (".$row['count']." photos)");
       $n++;
     }
+  }
   
   $cts->add($lst,true);
   
@@ -648,6 +556,76 @@ elseif ( $_REQUEST["view"] == "comptoirs" )
   }
   
   $cts->add($lst);
+}
+elseif ( $_REQUEST["view"] == "matmatronch" )
+{
+  if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_in_group ("matmatronch"))
+    $site->error_forbidden();
+
+  $mcts = new contents("Matmatronch");
+
+  if ( $_REQUEST["action"] == "reset" )
+  {
+    $stats = new requete($site->dbrw, "UPDATE `utl_etu` SET `visites`='0' WHERE `visites`!='0'");
+    $mcts->add_title(2, "Reset");
+  	$mcts->add_paragraph("Le reset des stats a &eacute;t&eacute; effectu&eacute; avec succ&egrave;s");
+  }
+
+  $mcts->add_title(2, "Administration");
+  $mcts->add_paragraph("Le matmatronch vient d'&ecirc;tre &eacute;dit&eacute;, il est temps de remettre les statistiques &agrave; z&eacute;ro :)".
+                    "<br /><img src=\"".$topdir."images/actions/delete.png\"><b>ATTENTION CECI EST IRREVERSIBLE</b> : <a href=\"stats.php?view=matmatronch&action=reset\">Reset !</a>");
+
+  $req = new requete($site->db,"SELECT `utl_etu`.`id_utilisateur`, `utl_etu`.`visites`, ".
+                               "CONCAT(`utilisateurs`.`nom_utl`,' ',`utilisateurs`.`prenom_utl`) as `nom_utilisateur` ".
+                               "FROM `utl_etu` ".
+                               "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur` ".
+                               "WHERE `utilisateurs`.`utbm_utl`='1' ORDER BY `utl_etu`.`visites` DESC LIMIT 0, 10");
+
+
+  $mcts->add(new sqltable("top_full",
+                         "Top 10 g&eacute;n&eacute;ral des fiches matmatronch les plus visit&eacute;es", $req, "stats.php",
+                         "id_utilisateur",
+                         array("=num" => "N°",
+                               "nom_utilisateur"=>utf8_encode("Nom & Prénom"),
+                               "visites"=>"Visites"),
+                         array(),
+                         array(),
+                         array()
+            ),true);
+
+  $req = new requete($site->db,"SELECT `utl_etu`.`id_utilisateur`, `utl_etu`.`visites`, ".
+                               "CONCAT(`utilisateurs`.`nom_utl`,' ',`utilisateurs`.`prenom_utl`) as `nom_utilisateur` ".
+                               "FROM `utl_etu` ".
+                               "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur` ".
+                               "WHERE `utilisateurs`.`utbm_utl`='1' AND `utilisateurs`.`sexe_utl`='2' ORDER BY `utl_etu`.`visites` DESC LIMIT 0, 10");
+  $mcts->add(new sqltable("top_full",
+                         "Top 10 des fiches matmatronch f&eacute;minines les plus visit&eacute;es", $req, "stats.php",
+                         "id_utilisateur",
+                         array("=num" => "N°",
+                               "nom_utilisateur"=>utf8_encode("Nom & Prénom"),
+                               "visites"=>"Visites"),
+                         array(),
+                         array(),
+                         array()
+            ),true);
+
+  $req = new requete($site->db,"SELECT `utl_etu`.`id_utilisateur`, `utl_etu`.`visites`, ".
+                               "CONCAT(`utilisateurs`.`nom_utl`,' ',`utilisateurs`.`prenom_utl`) as `nom_utilisateur` ".
+                               "FROM `utl_etu` ".
+                               "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur` ".
+                               "WHERE `utilisateurs`.`utbm_utl`='1' AND `utilisateurs`.`sexe_utl`='1' ORDER BY `utl_etu`.`visites` DESC LIMIT 0, 10");
+  $mcts->add(new sqltable("top_full",
+                          "Top 10 des fiches matmatronch masculines les plus visit&eacute;es", $req, "stats.php",
+                          "id_utilisateur",
+                          array("=num" => "N°",
+                                "nom_utilisateur"=>utf8_encode("Nom & Prénom"),
+                                "visites"=>"Visites"),
+                          array(),
+                          array(),
+                          array()
+            ),true);
+
+  $cts->add($mcts);
 }
 else
 {
