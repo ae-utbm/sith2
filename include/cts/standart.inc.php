@@ -312,7 +312,7 @@ class form extends stdcontents
     if ( $_REQUEST["magicform"]["name"] == $name ) 
       $this->autorefill = $allow_refill;
 
-    
+    $this->hiddens=array();
     $this->hiddens["magicform[name]"] = $name;
   }
   
@@ -1324,6 +1324,13 @@ class form extends stdcontents
   function add ( $frm, $check=false, $option=false, $checked=false, $value=false, $line=false, $onoff=false,$on=true )
   {
     global $topdir;
+    
+    foreach ( $frm->hiddens  as $k => $v )
+    {
+      if ( $k != "magicform[name]" )
+        $this->hiddens[$k] = $v;
+    }
+    
     
     if ( $frm->enctype )
       $this->enctype = $frm->enctype;
