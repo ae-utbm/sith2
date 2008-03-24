@@ -453,7 +453,7 @@ class dokusyntax
     $text = preg_replace('#&lt;sub&gt;(.*?)&lt;/sub&gt;#is','<sub>\1</sub>',$text);
     $text = preg_replace('#&lt;sup&gt;(.*?)&lt;/sup&gt;#is','<sup>\1</sup>',$text);
    
-    $text = preg_replace("/\n((&gt;)[^\n]*?\n)+/se","'\n'.quoteformat('\\0').'\n'",$text);
+    $text = preg_replace("/\n((&gt;)[^\n]*?\n)+/se","'\n'.\$this->quoteformat('\\0').'\n'",$text);
     
     $text = preg_replace('/([^-])--([^-])/s','\1&#8211;\2',$text);
     $text = preg_replace('/([^-])---([^-])/s','\1&#8212;\2',$text);
