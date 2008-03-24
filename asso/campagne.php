@@ -250,6 +250,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
   $n = 0;
   while ( $row = $req->get_row() )
     {
+      print_r($row."<br />");
       $subfrm = new form("questions".$n,null,null,null,"Question $n");
       $subfrm->add_hidden("questions[$n][id_question]",$row["id_question"]);
       $subfrm->add_hidden("questions[$n][limites_reponses_question]",$row["limites_reponses_question"]);
@@ -290,6 +291,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
   foreach ( $_REQUEST["questions"] as $rep )
   {
     if ( isset($rep['nom_question']) && !empty($rep['nom_question']) &&
+	 isset($rep['id_question']) &&
 	 isset($rep['type_question']))
     {
       if(empty($rep['description_question']))
