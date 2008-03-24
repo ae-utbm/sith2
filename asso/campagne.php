@@ -232,10 +232,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
 {
   $cts=new contents();
 
-  $frm = new form("editcpg","./campagne.php",true,"GET","Edition campagne ".$cpg->id);
-  $frm->add_hidden("action","save");
+  $frm = new form("editcpg","./campagne.php",true,"POST","Edition campagne ".$cpg->id);
   $frm->add_hidden("id_campagne",$cpg->id);
-
   $frm->add_date_field("end_date", "Date de fin de validite : ",$cpg->end_date,true);
   $frm->add_text_field("nom", "Nom de la campagne",$cpg->nom,true,80);    
   $frm->add_text_area("description", "Description de la campagne",$cpg->description);
@@ -264,13 +262,12 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
  
     }
 
-  $frm->add_submit("save","Enregistrer");
+  $frm->add_submit("editcpg","Enregistrer");
   $cts->add($frm);
   $site->add_contents($cts);
 
 
 }elseif(isset($_REQUEST["editcpg"]) && 
-	isset($_REQUEST["action"]) && $_REQUEST["action"]=="save" &&
 	isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) &&
 	isset($_REQUEST["end_date"]) && 
 	isset($_REQUEST["description"]) && 
