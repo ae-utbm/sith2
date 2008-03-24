@@ -618,7 +618,7 @@ elseif ( $_REQUEST["view"] == "matmatronch" )
                           "Top 10 des fiches matmatronch masculines les plus visit&eacute;es", $req, "stats.php",
                           "id_utilisateur",
                           array("=num" => "N°",
-                                "nom_utilisateur"=>utf8_encode("Nom & Prénom"),
+                                "nom_utilisateur"=>"Nom & Prénom",
                                 "visites"=>"Visites"),
                           array(),
                           array(),
