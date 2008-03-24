@@ -336,12 +336,11 @@ else if( $_REQUEST["action"] == "details" )
   
   	$site->add_contents($cts);*/
   
-  	$test =
-  	"SELECT id_utilisateur
-  	FROM pl_gap_user
-  	WHERE id_gap='".$_REQUEST["id_gap"]."'" AND id_utilisateur IS NOT NULL;
+  	$test = new requete($site->db, "SELECT id_utilisateur
+						 FROM pl_gap_user
+  						 WHERE id_gap='".$_REQUEST["id_gap"]."' AND id_utilisateur IS NOT NULL");
   	
-  	if($test->get_row() == 0)
+  	if($test->lines == 0)
   	{
 		$planning = new planning($site->db,$site->dbrw);
 		$planning->load_by_id(PERM_AE_BELFORT);
