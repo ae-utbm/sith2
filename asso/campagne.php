@@ -1,6 +1,7 @@
 <?php
 /* Copyright 2007
  * - Simon Lopez <simon POINT lopez CHEZ ayolo POINT org>
+ * - BURNEY Rémy <rburney POINT utbm CHEZ gmail POINT com>
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -230,16 +231,19 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
 elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUEST["id_asso"] )
 {
   $cts=new contents();
-  $cts->add_paragraph("<a href=\"./campagne.php?id_asso=".$asso->id."&action=add\">Ajouter une campagne</a>");
 
-  $frm = new form("editcpg","/asso/campagne.php",true,"POST","Edition campagne ".$cpg->id);
+  $frm = new form("editcpg","/asso/campagne.php",true,"GET","Edition campagne ".$cpg->id);
   $frm->add_hidden("action","save");
   $frm->add_hidden("id_campagne",$cpg->id);
-  $frm->add_date_field("end_date", "Date de fin de validite : ",$cpg->date_fin_campagne,true);
-  $frm->add_text_field("nom", "Nom de la campagne",$cpg->nom_campagne,true,80);    
-  $frm->add_text_area("description", "Description de la campagne",$cpg->description_campagne);
-  $frm->add_entity_smartselect("id_groupe","Groupe",new group($site->db));
-  $frm->add_entity_select("id_groupe", "Groupe", $site->db, "groupe",$cpg->id_groupe,true);
+
+  $frm->add_date_field("end_date", "Date de fin de validite : ",$cpg->end_date,true);
+  $frm->add_text_field("nom", "Nom de la campagne",$cpg->nom,true,80);    
+  $frm->add_text_area("description", "Description de la campagne",$cpg->description);
+  $frm->add_entity_smartselect("id_groupe","Groupe concern&eacute;",new group($site->db));
+  $frm->add_entity_select("id_groupe", "Groupe concern&eacute;", $site->db, "groupe",$cpg->group,true);
+ $frm->add_entity_select("id_asso", "Association", $site->db, "asso",$cpg->group,true);
+
+
   $frm->add_info("Pour supprimer une question, il suffit de laisser son nom vide !<br />");
   $frm->add_info("Pour une question de type liste ou bouton radio, complétez impérativement le champ \"Réponses possibles\".");
   $frm->add_info("Formatage du champ \"Réponses possibles\" : valeur_1|La valeur 1;valeur_2|La valeur 2;...;valeur_z|La dernière valeur");

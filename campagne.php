@@ -62,9 +62,10 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
   {
     $site->start_page("accueil","Campagne");  
     
-    $cts = new contents("Campagne");
+    $cts = new contents("Campagne : ".$cpg->nom);
+    $cts->add_paragraph("La campagne se terminera le ".date("d/M/y",strtotime($cpg->end_date)));
 
-    $frm = new form("discard","campagne.php",true,"POST","Recrutement : ".$cpg->nom);
+    $frm = new form("discard","campagne.php",true,"POST",false);
     $frm->add_hidden("answord","true");
     $frm->add_hidden("id_campagne",$cpg->id);
     $frm->add_checkbox ( "discard", "Je ne souhaite pas participer.", false );  
