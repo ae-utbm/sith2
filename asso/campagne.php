@@ -271,8 +271,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
 
 }elseif(isset($_REQUEST["editcpg"]) && 
 	isset($_REQUEST["action"]) && $_REQUEST["action"]=="save" &&
-	&& isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) 
-	&& isset($_REQUEST["end_date"]) && 
+	isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) &&
+	isset($_REQUEST["end_date"]) && 
 	isset($_REQUEST["description"]) && 
 	isset($_REQUEST["id_asso"]) &&
 	isset($_REQUEST["id_groupe"]) &&
