@@ -232,7 +232,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
 {
   $cts=new contents();
 
-  $frm = new form("editcpg","/asso/campagne.php",true,"GET","Edition campagne ".$cpg->id);
+  $frm = new form("editcpg","./campagne.php",true,"GET","Edition campagne ".$cpg->id);
   $frm->add_hidden("action","save");
   $frm->add_hidden("id_campagne",$cpg->id);
 
@@ -269,11 +269,68 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
   $site->add_contents($cts);
 
 
-}elseif(!is_null($cpg->id) && $_REQUEST["action"]=="save"){
-
-  /** TODO : Enregistrer les modifications d'après le formulaire de modification **/
+}elseif(isset($_REQUEST["editcpg"]) && 
+	isset($_REQUEST["action"]) && $_REQUEST["action"]=="save" &&
+	&& isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) 
+	&& isset($_REQUEST["end_date"]) && 
+	isset($_REQUEST["description"]) && 
+	isset($_REQUEST["id_asso"]) &&
+	isset($_REQUEST["id_groupe"]) &&
+	isset($_REQUEST["questions"])
+	)
+{
   $cts=new contents();
+  $nb_remove_question = 0;
+
+  $cpg->load_by_id($_REQUEST["id_campagne"]);
+  if( $cpg->id == NULL){
+    $site->error_not_found();
+    exit();
+  }
+  $cpg->update_campagne($_REQUEST["nom"],$_REQUEST["description"],$cpg->date,$_REQUEST["end_date"]);
+
+
+  foreach ( $_REQUEST["questions"] as $rep )
+  {
+    if ( isset($rep['nom_question']) && !empty($rep['nom_question']) &&
+	 isset($rep['type_question']))
+    {
+      if(empty($rep['description_question']))
+        $rep['description_question']=$rep['nom_question'];
+
+      if (($rep['type_question'] == "list" || $rep['type_question'] =="radio") && !empty($rep['reponses_question']))
+      {
+        $reponses=$rep['reponses_question'];
+        $values=explode(";",$reponses,2);
+        foreach($values as $value)
+        {
+          $value=explode("|", $value, 2);
+          $c=count($value);
+          if( $c!= 2 || empty($value[0]) || empty($value[1]))
+          {
+            $rep['type_question']="text";
+            $reponses="";
+          }
+        }
+        $cpg->update_question($rep['id_question'],$rep['nom_question'],$rep['description_question'],$rep['type_question'],$reponses);
+      }
+      elseif ($rep['type_question'] == "text" || 
+	      $rep['type_question'] == "checkbox" )
+      {
+        $cpg->update_question($rep['id_question'],$rep['nom_question'],$rep['description_question'],$rep['type_question'],NULL);
+      }
+    }else{
+      $cpg->remove_question($rep['id_question']);
+      $nb_remove_question += 1;
+    }
+  
+
   $cts->add_paragraph("<a href=\"./campagne.php?id_asso=".$asso->id."&action=add\">Ajouter une campagne</a>");
+  if($nb_remove_question = 1){
+    $cts->add_paragraph($nb_remove_question." question a &eacute;t&eacute; supprim&eacute;e ! ");
+  }elseif($nb_remove_question > 1){
+    $cts->add_paragraph($nb_remove_question." questions ont &eacute;t&eacute; supprim&eacute;es ! ");
+  }
   $cts->add_paragraph("Campagne modifi&eacute;e avec succ&egrave ! ");
   $site->add_contents($cts);
 
