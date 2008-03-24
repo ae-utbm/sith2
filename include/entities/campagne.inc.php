@@ -158,7 +158,7 @@ class campagne extends stdentity
   function update_question ($id, $question, $desc, $type, $resp, $limit=0)
   {
     $sql = new requete($this->db,"SELECT `nom_question` FROM `cpg_question` WHERE `id_campagne`='".mysql_real_escape_string($this->id)."' AND `id_question`='".mysql_real_escape_string($id)."'");
-
+    print($sql.'<br />');
     if ( $sql->lines == 0 )
       $this->add_question($question, $desc, $type, $resp, $limit);
     else

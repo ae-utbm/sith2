@@ -310,6 +310,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
             $reponses="";
           }
         }
+	print("UPDATE : ".$rep['id_question']);
         $cpg->update_question($rep['id_question'],$rep['nom_question'],$rep['description_question'],$rep['type_question'],$reponses);
       }
       elseif ($rep['type_question'] == "text" || 
@@ -319,7 +320,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
         $cpg->update_question($rep['id_question'],$rep['nom_question'],$rep['description_question'],$rep['type_question'],$rep['limites_reponses_question']);
       }
     }else{
-      if( isset($rep['id_question']) && !empty($rep['id_question']) ){
+      if( isset($rep['id_question']) ){
 	print("REMOVE : ".$rep['id_question']);
 	$cpg->remove_question($rep['id_question']);
 	$nb_remove_question += 1;
@@ -329,7 +330,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
   
 
   $cts->add_paragraph("<a href=\"./campagne.php?id_asso=".$asso->id."&action=add\">Ajouter une campagne</a>");
-  if($nb_remove_question = 1){
+  if($nb_remove_question == 1){
     $cts->add_paragraph($nb_remove_question." question a &eacute;t&eacute; supprim&eacute;e ! ");
   }elseif($nb_remove_question > 1){
     $cts->add_paragraph($nb_remove_question." questions ont &eacute;t&eacute; supprim&eacute;es ! ");
