@@ -323,6 +323,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
       $cpg->remove_question($rep['id_question']);
       $nb_remove_question += 1;
     }
+  }
   
 
   $cts->add_paragraph("<a href=\"./campagne.php?id_asso=".$asso->id."&action=add\">Ajouter une campagne</a>");
