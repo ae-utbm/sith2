@@ -258,7 +258,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
       $subfrm->add_text_area("questions[$n][description_question]", "Description",$row["description_question"]);
       $subfrm->add_select_field("questions[$n][type_question]","Type de question",array("text"=>"Texte","checkbox"=>"Boite à cocher","list"=>"Liste", "radio"=>"Bouton radio"),$row["type_question"]);
       $subfrm->add_text_field("questions[$n][reponses_question]", "Réponses possibles",$row["reponses_question"],true,80);
-      $frm->add ( $subfrm, false, false, false, false, false, false, true );
+      $frm->addsub ( $subfrm, true, false );
       $n++;
  
     }
