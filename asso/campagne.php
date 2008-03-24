@@ -251,7 +251,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
   while ( $row = $req->get_row() )
     {
       $subfrm = new form("questions".$n,null,null,null,"Question $n");
-      //$subfrm->add_hidden("questions[$n][id_question]",$row["id_question"]);
+      $subfrm->add_hidden("questions[$n][id_question]",$row["id_question"]);
       $subfrm->add_text_field("questions[$n][id_question]","ID question",$row["id_question"],true,60);
       $subfrm->add_hidden("questions[$n][limites_reponses_question]",$row["limites_reponses_question"]);
       $subfrm->add_text_field("questions[$n][nom_question]", "Nom question",$row["nom_question"],true,80);
