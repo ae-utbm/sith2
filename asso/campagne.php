@@ -253,7 +253,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
       print_r($row);
       $subfrm = new form("questions".$n,null,null,null,"Question $n");
       $subfrm->add_hidden("questions[$n][id_question]",$row["id_question"]);
-      $subfrm->add_hidden("questions[$n][limites_reponses_question]",$row["limites_reponses_question"])
+      $subfrm->add_hidden("questions[$n][limites_reponses_question]",$row["limites_reponses_question"]);
       $subfrm->add_text_field("questions[$n][nom_question]", "Nom question",$row["nom_question"],true,80);
       $subfrm->add_text_area("questions[$n][description_question]", "Description",$row["description_question"]);
       $subfrm->add_select_field("questions[$n][type_question]","Type de question",array("text"=>"Texte","checkbox"=>"Boite à cocher","list"=>"Liste", "radio"=>"Bouton radio"),$row["type_question"]);
