@@ -289,6 +289,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
 
   foreach ( $_REQUEST["questions"] as $rep )
   {
+    print_r($rep);
     if ( isset($rep['nom_question']) && !empty($rep['nom_question']) &&
 	 isset($rep['type_question']))
     {
