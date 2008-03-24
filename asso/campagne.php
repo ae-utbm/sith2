@@ -252,7 +252,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
     {
       print_r($row);
       $subfrm = new form("questions".$n,null,null,null,"Question $n");
-      $subfrm->add_text_field("questions[$n][id_question]","ID",$row["id_question"],true,60);
+      $subfrm->add_hidden("questions[$n][id_question]",$row["id_question"]);
+      $subfrm->add_hidden("questions[$n][limites_reponses_question]",$row["limites_reponses_question"])
       $subfrm->add_text_field("questions[$n][nom_question]", "Nom question",$row["nom_question"],true,80);
       $subfrm->add_text_area("questions[$n][description_question]", "Description",$row["description_question"]);
       $subfrm->add_select_field("questions[$n][type_question]","Type de question",array("text"=>"Texte","checkbox"=>"Boite à cocher","list"=>"Liste", "radio"=>"Bouton radio"),$row["type_question"]);
@@ -289,8 +290,6 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
 
   foreach ( $_REQUEST["questions"] as $rep )
   {
-    print_r($rep);
-    print("<br />NEXT<br />");
     if ( isset($rep['nom_question']) && !empty($rep['nom_question']) &&
 	 isset($rep['type_question']))
     {
@@ -312,16 +311,14 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
             $reponses="";
           }
         }
-	print("UPDATE".$rep['id_question']."<br />");
         $cpg->update_question($rep['id_question'],$rep['nom_question'],$rep['description_question'],$rep['type_question'],$reponses);
       }
       elseif ($rep['type_question'] == "text" || 
 	      $rep['type_question'] == "checkbox" )
       {
-        $cpg->update_question($rep['id_question'],$rep['nom_question'],$rep['description_question'],$rep['type_question'],NULL);
+        $cpg->update_question($rep['id_question'],$rep['nom_question'],$rep['description_question'],$rep['type_question'],$rep['limites_reponses_question']);
       }
     }else{
-      print("REMOVE".$rep['id_question']."<br />");
       $cpg->remove_question($rep['id_question']);
       $nb_remove_question += 1;
     }
