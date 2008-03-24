@@ -336,20 +336,29 @@ else if( $_REQUEST["action"] == "details" )
   
   	$site->add_contents($cts);*/
   
-	$planning = new planning($site->db,$site->dbrw);
-	$planning->load_by_id(PERM_AE_BELFORT);
-
-	if ( !$planning->is_valid() )
-  		$site->error_not_found("services");
-  		
-  	$planning->add_user_to_gap($_REQUEST["id_gap"], $site->user->id);
+  	$test =
+  	"SELECT id_utilisateur
+  	FROM pl_gap_user
+  	WHERE id_gap='".$_REQUEST["id_gap"]."'" AND id_utilisateur IS NOT NULL;
   	
-  	  $sql = 
+  	if($test->get_row() == 0)
+  	{
+		$planning = new planning($site->db,$site->dbrw);
+		$planning->load_by_id(PERM_AE_BELFORT);
+
+		if ( !$planning->is_valid() )
+  			$site->error_not_found("services");
+  		
+  		$planning->add_user_to_gap($_REQUEST["id_gap"], $site->user->id);
+   	}	
+   	
+  	$sql = 
     "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning,
-     IFNULL(utilisateurs.alias_utl,'(personne)') AS texte
+     COALESCE(utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl)) AS texte
      FROM pl_gap
      LEFT JOIN pl_gap_user USING(id_gap)
      LEFT JOIN utilisateurs USING(id_utilisateur)
+     LEFT JOIN utl_etu_utbm USING (id_utilisateur)
      WHERE pl_gap.id_planning='".PERM_AE_BELFORT."'";
      
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "",
