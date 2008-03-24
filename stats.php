@@ -315,7 +315,7 @@ elseif ( $_REQUEST["view"] == "sas" )
   $lst = new itemlist("Les meilleurs contributeurs (30)");
   $n=1;
 
-  if(!$user->is_in_group("sas_admin") && !$user->!is_in_group("gestion_ae"))
+  if(!$user->is_in_group("sas_admin") && !$user->is_in_group("gestion_ae"))
   {
     while ( $row = $req->get_row() )
     {
