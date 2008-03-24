@@ -250,7 +250,6 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
   $n = 0;
   while ( $row = $req->get_row() )
     {
-      print_r($row);
       $subfrm = new form("questions".$n,null,null,null,"Question $n");
       $subfrm->add_hidden("questions[$n][id_question]",$row["id_question"]);
       $subfrm->add_hidden("questions[$n][limites_reponses_question]",$row["limites_reponses_question"]);
@@ -316,11 +315,15 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
       elseif ($rep['type_question'] == "text" || 
 	      $rep['type_question'] == "checkbox" )
       {
+	print("UPDATE : ".$rep['id_question']);
         $cpg->update_question($rep['id_question'],$rep['nom_question'],$rep['description_question'],$rep['type_question'],$rep['limites_reponses_question']);
       }
     }else{
-      $cpg->remove_question($rep['id_question']);
-      $nb_remove_question += 1;
+      if( isset($rep['id_question']) && !empty($rep['id_question']) ){
+	print("REMOVE : ".$rep['id_question']);
+	$cpg->remove_question($rep['id_question']);
+	$nb_remove_question += 1;
+      }
     }
   }
   
