@@ -275,7 +275,7 @@ if($site->user->is_in_group("gestion_ae"))
 	     LEFT JOIN utl_etu_utbm USING ( id_utilisateur )
 	     WHERE pl_gap.id_planning='".$_REQUEST['id_salle']."'";
      
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "", PL_LUNDI, true);
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details&id_planning=".$_REQUEST['id_salle'], "", PL_LUNDI, true);
 }
 else
 {
@@ -359,7 +359,7 @@ else if( $_REQUEST["action"] == "details" )
   						 WHERE id_gap='".$_REQUEST["id_gap"]."' AND id_utilisateur IS NOT NULL");
   	
   	$planning = new planning($site->db,$site->dbrw);
-	$planning->load_by_id(PERM_AE_BELFORT);
+	$planning->load_by_id($_REQUEST["id_salle"]);
 
 	if ( !$planning->is_valid() )
   		$site->error_not_found("services");
