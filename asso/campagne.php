@@ -251,13 +251,10 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
   while ( $row = $req->get_row() )
     {
       $subfrm = new subform("questions".$n,"Question $n",true);
-      $subfrm->add_hidden("questions[$n][id_question]",$row["id_question"]);
-      $subfrm->add_text_field("questions[$n][id_question]","ID question",$row["id_question"],true,60);
-      $subfrm->add_hidden("questions[$n][limites_reponses_question]",$row["limites_reponses_question"]);
-      $subfrm->add_text_field("questions[$n][nom_question]", "Nom question",$row["nom_question"],true,80);
-      $subfrm->add_text_area("questions[$n][description_question]", "Description",$row["description_question"]);
-      $subfrm->add_select_field("questions[$n][type_question]","Type de question",array("text"=>"Texte","checkbox"=>"Boite à cocher","list"=>"Liste", "radio"=>"Bouton radio"),$row["type_question"]);
-      $subfrm->add_text_field("questions[$n][reponses_question]", "Réponses possibles",$row["reponses_question"],true,80);
+      $subfrm->add_text_field("questions[".$row['id_question']."][nom_question]", "Nom question",$row["nom_question"],true,80);
+      $subfrm->add_text_area("questions[".$row['id_question']."][description_question]", "Description",$row["description_question"]);
+      $subfrm->add_select_field("questions[".$row['id_question']."][type_question]","Type de question",array("text"=>"Texte","checkbox"=>"Boite à cocher","list"=>"Liste", "radio"=>"Bouton radio"),$row["type_question"]);
+      $subfrm->add_text_field("questions[".$row['id_question']."][reponses_question]", "Réponses possibles",$row["reponses_question"],true,80);
       $frm->addsub ( $subfrm, true, false );
       $n++;
  
@@ -288,10 +285,10 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
   $cpg->update_campagne($_REQUEST["nom"],$_REQUEST["description"],$cpg->date,$_REQUEST["end_date"]);
 
 
-  foreach ( $_REQUEST["questions"] as $rep )
+  foreach ( $_REQUEST["questions"] as $id_question=>$rep )
   {
     if ( isset($rep['nom_question']) && !empty($rep['nom_question']) &&
-	 isset($rep['id_question']) &&
+	 isset($id_question) &&
 	 isset($rep['type_question']))
     {
       if(empty($rep['description_question']))
@@ -312,19 +309,19 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
             $reponses="";
           }
         }
-	print("UPDATE : ".$rep['id_question']);
-        $cpg->update_question($rep['id_question'],$rep['nom_question'],$rep['description_question'],$rep['type_question'],$reponses);
+	print("UPDATE : ".$id_question);
+        $cpg->update_question($id_question,$rep['nom_question'],$rep['description_question'],$rep['type_question'],$reponses,0);
       }
       elseif ($rep['type_question'] == "text" || 
 	      $rep['type_question'] == "checkbox" )
       {
-	print("UPDATE : ".$rep['id_question']);
-        $cpg->update_question($rep['id_question'],$rep['nom_question'],$rep['description_question'],$rep['type_question'],$rep['limites_reponses_question']);
+	print("UPDATE : ".$id_question);
+        $cpg->update_question($id_question,$rep['nom_question'],$rep['description_question'],$rep['type_question'],0);
       }
     }else{
-      if( isset($rep['id_question']) ){
-	print("REMOVE : ".$rep['id_question']);
-	$cpg->remove_question($rep['id_question']);
+      if( isset($id_question) ){
+	print("REMOVE : ".$id_question);
+	$cpg->remove_question($id_question);
 	$nb_remove_question += 1;
       }
     }
