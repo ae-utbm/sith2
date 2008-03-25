@@ -68,7 +68,7 @@ if($_REQUEST["action"] == "select")
 									FROM pl_gap 
 									WHERE id_planning='".$id_planning."' 
 									AND start_gap > ".strtotime($row['start_date_planning'])."
-									AND start_gap=".date("d/m/Y H:i",$_REQUEST['date_debut']));
+									AND start_gap=".strtotime($_REQUEST['date_debut']));
 									
 	$row2 = $sql2->get_row();
 	$id_creneau = $row2['id_creneau'];
