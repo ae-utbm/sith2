@@ -364,7 +364,7 @@ else if( $_REQUEST["action"] == "details" )
   						 WHERE id_gap='".$_REQUEST["id_gap"]."' AND id_utilisateur IS NOT NULL");
   	
   	$planning = new planning($site->db,$site->dbrw);
-	$planning->load_by_id($_REQUEST["id_planning"]);
+	$planning->load_by_id(BUREAU_AE_BELFORT);
 
 	if ( !$planning->is_valid() )
   		$site->error_not_found("services");
@@ -423,7 +423,7 @@ else if( $_REQUEST["action"] == "details2" )
   						 WHERE id_gap='".$_REQUEST["id_gap"]."' AND id_utilisateur IS NOT NULL");
   	
   	$planning = new planning($site->db,$site->dbrw);
-	$planning->load_by_id($_REQUEST["id_planning"]);
+	$planning->load_by_id(BUREAU_AE_SEVENANS);
 
 	if ( !$planning->is_valid() )
   		$site->error_not_found("services");
