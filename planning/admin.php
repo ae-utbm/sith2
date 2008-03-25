@@ -26,17 +26,12 @@
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 
-require_once($topdir. "include/cts/sqltable.inc.php");
-require_once($topdir. "include/cts/planning.inc.php");
-require_once($topdir. "include/cts/user.inc.php");
-require_once($topdir. "include/entities/salle.inc.php");
 require_once($topdir. "include/entities/planning.inc.php");
+require_once($topdir. "include/cts/planning.inc.php");
 
 $site = new site();
 
 $site->allow_only_logged_users();
-
-$plan = array(159=>"Bureau AE Belfort");
 
 /*if ( !isset($_REQUEST["id_planning"]) )
 {
@@ -56,14 +51,16 @@ $plan = array(159=>"Bureau AE Belfort");
 
 if($_REQUEST["action"] == "select")
 {
-	$id_planning = intval($_REQUEST["id_planning"]);
-
 	$site->start_page("services","Planning");
 	$cts = new contents("<a href=\"index.php\">Planning</a> / <a href=\"admin.php\">Administration</a> / ".$plan[$id_salle]);
 	
+	$id_planning = intval($_REQUEST["id_planning"]);
 	//recuperer id du creneau
 	// afficher personnes inscrites, proposer de supprimer une par une
 	// liberer le creneau
+	
+	$site->add_contents($cts);
+	$site->end_page();
 	
 	exit();
 }
