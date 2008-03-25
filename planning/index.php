@@ -316,7 +316,7 @@ else
   
   exit();
 }
-else if( $_REQUEST["affich"] == "affich" )
+else if( $_REQUEST["action"] == "affich" )
 {
   $site->add_css("css/weekplanning.css");
   
