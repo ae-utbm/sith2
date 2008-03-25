@@ -364,14 +364,14 @@ else if( $_REQUEST["action"] == "details" )
 						 FROM pl_gap_user
   						 WHERE id_gap='".$_REQUEST["id_gap"]."' AND id_utilisateur IS NOT NULL");
   	
-  	if($test->lines == 0)
-  	{
-		$planning = new planning($site->db,$site->dbrw);
-		$planning->load_by_id(PERM_AE_BELFORT);
+  	$planning = new planning($site->db,$site->dbrw);
+	$planning->load_by_id(PERM_AE_BELFORT);
 
-		if ( !$planning->is_valid() )
-  			$site->error_not_found("services");
-  		
+	if ( !$planning->is_valid() )
+  		$site->error_not_found("services");
+  			
+  	if($test->lines == 0)
+  	{	
   		$planning->add_user_to_gap($_REQUEST["id_gap"], $site->user->id);
    	}	
    	else
