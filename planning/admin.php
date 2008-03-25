@@ -82,7 +82,7 @@ if($_REQUEST["action"] == "select")
 									
 	while($row = $sql->get_row())
 	{
-		$cts->add_paragraph($row['nom_utl']." ".$row['prenom_utl']." ".$id_creneau." ".$_REQUEST['date_debut']);
+		$cts->add_paragraph($row['nom_utl']." ".$row['prenom_utl']." ".$id_creneau." ".strtotime($_REQUEST['date_debut']));
 	}
 	
 	$site->add_contents($cts);
