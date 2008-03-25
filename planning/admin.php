@@ -62,19 +62,27 @@ if($_REQUEST["action"] == "select")
      WHERE id_planning='".$id_planning."'");
      
 	$row = $sql->get_row();
+	$start_date_planning = $row['start_date_planning'];
 	
 	/* On recupere le creneau choisi par la date de debut */
-	$sql2 = new requete($site->db, "SELECT id_gap 
+	$sql = new requete($site->db, "SELECT id_gap 
 									FROM pl_gap 
 									WHERE id_planning='".$id_planning."' 
-									AND start_gap > '".strtotime($row['start_date_planning'])."' 
+									AND start_gap > '".strtotime($start_date_planning)."' 
 									AND start_gap= '".strtotime($_REQUEST['date_debut'])."'");
 									
-	$row2 = $sql2->get_row();
-	$id_creneau = $row2['id_creneau'];
+	$row = $sql->get_row();
+	$id_creneau = $row['id_creneau'];
 	
 	/* On liste les personnes associees a ce creneau */
-	
+	$sql = new requete($site->db, "SELECT id_utilisateur
+									FROM pl_gap_user
+									WHERE id_gap = '".$id_creneau."'");
+									
+	while($row = $sql->get_row())
+	{
+		$cts->add_paragraph($row['id_utilisateur']);
+	}
 	
 	$site->add_contents($cts);
 	$site->end_page();
