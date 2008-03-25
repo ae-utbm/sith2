@@ -58,32 +58,24 @@ if($_REQUEST["action"] == "select")
 	
 	/* On recupere le planning */
 	$sql = new requete($site->db, "SELECT start_date_planning, end_date_planning
-     FROM pl_planning
-     WHERE id_planning='".$id_planning."'");
+     								FROM pl_planning
+								    WHERE id_planning='".$id_planning."'");
      
 	$row = $sql->get_row();
 	$start_date_planning = $row['start_date_planning'];
 	
 	
 	/* On recupere le creneau choisi par la date de debut */
-	$sql = new requete($site->db, "SELECT id_gap 
-									FROM pl_gap 
+	$sql = new requete($site->db, "SELECT pl_gap_user.id_gap, pl_gap_user.id_utilisateur, prenom_utl, nom_utl
+									FROM pl_gap_user,
+									LEFT JOIN pl_gap USING ( id_gap )
+									LEFT JOIN utilisateurs USING (id_utilisateur )
 									WHERE id_planning='".$id_planning."' 
-									AND start_gap= '".date("d/m/Y H:i",$_REQUEST['date_debut'])."'");
-									
-	$row = $sql->get_row();
-	$id_creneau = $row['id_gap'];
-	
-	/* On liste les personnes associees a ce creneau */
-	$sql = new requete($site->db, "SELECT pl_gap_user.id_utilisateur, prenom_utl, nom_utl
-									FROM pl_gap_user
-									LEFT JOIN utilisateurs USING ( id_utilisateur )
-									WHERE id_gap = '".$id_creneau."'
-									AND id_planning = '".$id_planning."'");
+									AND pl_gap.start_gap='".date("Y-m-d H:i",$_REQUEST['date_debut'])."'");
 									
 	while($row = $sql->get_row())
 	{
-		$cts->add_paragraph($row['nom_utl']." ".$row['prenom_utl']." ".$id_creneau);
+		$cts->add_paragraph($row['nom_utl']." ".$row['prenom_utl']." ".$row['id_gap']);
 	}
 	
 	$site->add_contents($cts);
