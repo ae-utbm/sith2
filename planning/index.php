@@ -330,7 +330,7 @@ else if( $_REQUEST["action"] == "affich" )
 	WHERE pl_gap_user.id_planning='".$_REQUEST['id_planning']."'
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
 	
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=affich&id_planning=".$_REQUEST['id_planning'], "", PL_LUNDI, true);
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_planning=".$_REQUEST['id_planning'], "index.php?action=affich&id_planning=".$_REQUEST['id_planning'], "", PL_LUNDI, true);
   
   $cts->add($pl,true);
   
@@ -390,8 +390,7 @@ else if( $_REQUEST["action"] == "details" )
      LEFT JOIN utl_etu_utbm USING (id_utilisateur)
      WHERE pl_gap.id_planning='".$_REQUEST['id_planning']."'";
      
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details&id_planning=".$_REQUEST['id_planning'], "",
-     PL_LUNDI, true);
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_planning".$_REQUEST['id_planning'], "index.php?action=details&id_planning=".$_REQUEST['id_planning'], "", PL_LUNDI, true);
 
   $cts->add($pl,true); 
   
