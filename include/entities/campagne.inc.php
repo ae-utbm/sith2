@@ -167,7 +167,7 @@ class campagne extends stdentity
       array("nom_question" => $question,
             "description_question" => $desc,
             "type_question" => $type,
-            "reponses_question" => $resp
+            "reponses_question" => $resp,
             "limites_reponses_question" => $limit
            ),
       array("id_campagne"=>$this->id,"id_question"=>$id)
