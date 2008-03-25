@@ -353,6 +353,8 @@ else if( $_REQUEST["action"] == "details" )
 	
     $site->start_page("services","Planning");
     $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_planning"]]." / Affichage");
+    
+    $cts->add_paragraph("<a href=\"index.php?action=affich&id_planning=".$_REQUEST['id_salle']."\">Affichage</a>");
   
   	$test = new requete($site->db, "SELECT id_utilisateur
 						 FROM pl_gap_user
