@@ -76,7 +76,8 @@ if($_REQUEST["action"] == "select")
 	
 	/* On liste les personnes associees a ce creneau */
 	$sql = new requete($site->db, "SELECT pl_gap_user.id_utilisateur, prenom_utl, nom_utl
-									FROM pl_gap_user, utilisateurs
+									FROM pl_gap_user
+									LEFT JOIN utilisateurs USING ( id_utilisateur )
 									WHERE id_gap = '".$id_creneau."'");
 									
 	while($row = $sql->get_row())
