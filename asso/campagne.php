@@ -288,14 +288,14 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
   foreach ( $_REQUEST["questions"] as $id_question=>$rep )
   {
     if ( isset($rep['nom_question']) && !empty($rep['nom_question']) &&
-	 isset($id_question) &&
-	 isset($rep['type_question']))
+         isset($id_question) &&
+         isset($rep['type_question']))
     {
       if(empty($rep['description_question']))
         $rep['description_question']=$rep['nom_question'];
 
       if (($rep['type_question'] == "list" || $rep['type_question'] =="radio")
-	  && !empty($rep['reponses_question']))
+          && !empty($rep['reponses_question']))
       {
         $reponses=$rep['reponses_question'];
         $values=explode(";",$reponses,2);
@@ -312,15 +312,14 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
         $cpg->update_question($id_question,$rep['nom_question'],$rep['description_question'],$rep['type_question'],$reponses);
       }
       elseif ($rep['type_question'] == "text" || 
-	      $rep['type_question'] == "checkbox" )
+              $rep['type_question'] == "checkbox" )
       {
         $cpg->update_question($id_question,$rep['nom_question'],$rep['description_question'],$rep['type_question'],NULL);
       }
     }else{
       if( isset($id_question) ){
-	print("REMOVE : ".$id_question);
-	$cpg->remove_question($id_question);
-	$nb_remove_question += 1;
+        $cpg->remove_question($id_question);
+        $nb_remove_question += 1;
       }
     }
   }
