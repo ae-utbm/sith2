@@ -1,6 +1,5 @@
 #logo
 {
-  height:90px;
   background: url("../images/top-bg.png");
 }
 
@@ -11,18 +10,5 @@
 
 #logo a
 {
-  width:937px;
-  height:90px;
-  display: block;
   background: url("../images/top-logo.png");
-}
-
-#fsearchbox
-{
-  top: 91px;
-}
-
-#important
-{
-  display: none;
 }
