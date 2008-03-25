@@ -75,13 +75,13 @@ if($_REQUEST["action"] == "select")
 	$id_creneau = $row['id_creneau'];
 	
 	/* On liste les personnes associees a ce creneau */
-	$sql = new requete($site->db, "SELECT id_utilisateur
-									FROM pl_gap_user
+	$sql = new requete($site->db, "SELECT id_utilisateur, prenom_utl, nom_utl
+									FROM pl_gap_user, utilisateurs
 									WHERE id_gap = '".$id_creneau."'");
 									
 	while($row = $sql->get_row())
 	{
-		$cts->add_paragraph($row['id_utilisateur']);
+		$cts->add_paragraph($row['nom_utl']." ".$row['prenom_utl']);
 	}
 	
 	$site->add_contents($cts);
