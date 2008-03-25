@@ -412,7 +412,7 @@ $cts = new contents("<a href=\"index.php\">Planning</a>");
 
 $frm = new form("searchpl","index.php",false,"POST","Consulter un planning");
 $frm->add_hidden("action","searchpl");
-$frm->add_select_field("id_planning","Lieu",$lieux, $_REQUEST["id_planning"]);
+$frm->add_select_field("id_planning","Lieu",$lieux, $_REQUEST["id_salle"]);
 $frm->add_submit("afficher","Afficher le planning");
 $cts->add($frm,true);
 
