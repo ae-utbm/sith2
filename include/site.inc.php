@@ -74,7 +74,7 @@ class site extends interfaceweb
     
     $timing["site::site"] += microtime(true);
     
-//    $this->add_css("themes/sdm08/css/site.css");
+    $this->add_css("themes/fimu08/css/site.css");
     
   }  
 
