@@ -23,7 +23,7 @@
  * 02111-1307, USA.
  */
 
-define("PERM_AE_BELFORT", 165);
+define("PERM_AE_BELFORT", 164);
 define("PERM_AE_SEVENANS", 166);
 
 $topdir = "../";
