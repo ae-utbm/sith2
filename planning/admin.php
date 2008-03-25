@@ -55,9 +55,26 @@ if($_REQUEST["action"] == "select")
 	$cts = new contents("<a href=\"index.php\">Planning</a> / <a href=\"admin.php\">Administration</a> / ".$plan[$id_salle]);
 	
 	$id_planning = intval($_REQUEST["id_planning"]);
-	//recuperer id du creneau
-	// afficher personnes inscrites, proposer de supprimer une par une
-	// liberer le creneau
+	
+	/* On recupere le planning */
+	$sql = new requete($site->db, "SELECT start_date_planning, end_date_planning
+     FROM pl_planning
+     WHERE id_planning='".$id_planning."'");
+     
+	$row = $sql->get_row();
+	
+	/* On recupere le creneau choisi par la date de debut */
+	$sql2 = new requete($site->db, "SELECT id_gap 
+									FROM pl_gap 
+									WHERE id_planning='".$id_planning."' 
+									AND start_gap > ".strtotime($row['start_date_planning'])."
+									AND start_gap=".date("d/m/Y H:i",$_REQUEST['date_debut']));
+									
+	$row2 = $sql2->get_row();
+	$id_creneau = $row2['id_creneau'];
+	
+	/* On liste les personnes associees a ce creneau */
+	
 	
 	$site->add_contents($cts);
 	$site->end_page();
