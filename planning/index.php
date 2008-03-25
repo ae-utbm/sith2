@@ -276,7 +276,7 @@ if($site->user->is_in_group("gestion_ae"))
 	     LEFT JOIN pl_gap_user USING(id_gap)
 	     LEFT JOIN utilisateurs USING(id_utilisateur)
 	     LEFT JOIN utl_etu_utbm USING ( id_utilisateur )
-	     WHERE pl_gap.id_planning='".$_REQUEST['id_salle']."'";
+	     WHERE pl_gap.id_planning='".BUREAU_AE_BELFORT."'";
      
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "", PL_LUNDI, true);
 }
