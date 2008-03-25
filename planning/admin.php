@@ -75,7 +75,7 @@ if($_REQUEST["action"] == "select")
 	$id_creneau = $row['id_creneau'];
 	
 	/* On liste les personnes associees a ce creneau */
-	$sql = new requete($site->db, "SELECT id_utilisateur, prenom_utl, nom_utl
+	$sql = new requete($site->db, "SELECT pl_gap_user.id_utilisateur, prenom_utl, nom_utl
 									FROM pl_gap_user, utilisateurs
 									WHERE id_gap = '".$id_creneau."'");
 									
