@@ -64,6 +64,8 @@ if($_REQUEST["action"] == "select")
 	$row = $sql->get_row();
 	$start_date_planning = $row['start_date_planning'];
 	
+	$cts->add_paragraph(strtotime($_REQUEST['date_debut']));
+	
 	/* On recupere le creneau choisi par la date de debut */
 	$sql = new requete($site->db, "SELECT id_gap 
 									FROM pl_gap 
@@ -82,7 +84,7 @@ if($_REQUEST["action"] == "select")
 									
 	while($row = $sql->get_row())
 	{
-		$cts->add_paragraph($row['nom_utl']." ".$row['prenom_utl']." ".$id_creneau." ".strtotime($_REQUEST['date_debut']));
+		$cts->add_paragraph($row['nom_utl']." ".$row['prenom_utl']." ".$id_creneau);
 	}
 	
 	$site->add_contents($cts);
