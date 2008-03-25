@@ -48,9 +48,9 @@ if ( $_REQUEST["action"] == "searchpl" )
   $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
   
   // TEST
-/*	$planning = new planning($site->db,$site->dbrw);
-	$start_date = strtotime("2008-03-20");
-	$end_date = strtotime("2008-07-31");
+	$planning = new planning($site->db,$site->dbrw);
+	$start_date = strtotime("2008-03-24");
+	$end_date = strtotime("2008-07-27");
 	
 	$planning->add ( 
 	  1,
@@ -262,7 +262,7 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
 	$id_creneau_611 = $planning->add_gap( $samedi+$h18, $samedi+$h19 );
 	$id_creneau_612 = $planning->add_gap( $samedi+$h19, $samedi+$h20 );
 	$id_creneau_613 = $planning->add_gap( $samedi+$h20, $samedi+$h21 );
-	$id_creneau_614 = $planning->add_gap( $samedi+$h21, $samedi+$h22 );*/
+	$id_creneau_614 = $planning->add_gap( $samedi+$h21, $samedi+$h22 );
 			
  // FIN TEST
 
