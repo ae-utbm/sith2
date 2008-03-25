@@ -309,14 +309,12 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
             $reponses="";
           }
         }
-	print("UPDATE : ".$id_question);
-        $cpg->update_question($id_question,$rep['nom_question'],$rep['description_question'],$rep['type_question'],$reponses,0);
+        $cpg->update_question($id_question,$rep['nom_question'],$rep['description_question'],$rep['type_question'],$reponses);
       }
       elseif ($rep['type_question'] == "text" || 
 	      $rep['type_question'] == "checkbox" )
       {
-	print("UPDATE : ".$id_question);
-        $cpg->update_question($id_question,$rep['nom_question'],$rep['description_question'],$rep['type_question'],0);
+        $cpg->update_question($id_question,$rep['nom_question'],$rep['description_question'],$rep['type_question'],NULL);
       }
     }else{
       if( isset($id_question) ){
