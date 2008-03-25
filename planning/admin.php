@@ -78,7 +78,8 @@ if($_REQUEST["action"] == "select")
 	$sql = new requete($site->db, "SELECT pl_gap_user.id_utilisateur, prenom_utl, nom_utl
 									FROM pl_gap_user
 									LEFT JOIN utilisateurs USING ( id_utilisateur )
-									WHERE id_gap = '".$id_creneau."'");
+									WHERE id_gap = '".$id_creneau."'
+									AND id_planning = '".$id_planning."'");
 									
 	while($row = $sql->get_row())
 	{
