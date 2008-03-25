@@ -281,7 +281,7 @@ if($site->user->is_in_group("gestion_ae"))
      
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "", PL_LUNDI, true);
   
-  $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
+  $cts->add_paragraph("<a href=\"admin.php?id_planning=".PERM_AE_BELFORT."\">Administration</a>");
 }
 else
 {

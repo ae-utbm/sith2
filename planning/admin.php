@@ -38,7 +38,7 @@ $site->allow_only_logged_users();
 
 $plan = array(159=>"Bureau AE Belfort");
 
-if ( !isset($_REQUEST["id_planning"]) )
+/*if ( !isset($_REQUEST["id_planning"]) )
 {
   $site->start_page("services","Planning");
   $cts = new contents("<a href=\"index.php\">Planning</a> / <a href=\"admin.php\">Administration</a> / ".$plan[$_REQUEST["id_salle"]]);
@@ -52,6 +52,20 @@ if ( !isset($_REQUEST["id_planning"]) )
   $site->add_contents($cts);
   $site->end_page(); 
   exit();
+}*/
+
+if($_REQUEST["action"] == "select")
+{
+	$id_planning = intval($_REQUEST["id_planning"]);
+
+	$site->start_page("services","Planning");
+	$cts = new contents("<a href=\"index.php\">Planning</a> / <a href=\"admin.php\">Administration</a> / ".$plan[$id_salle]);
+	
+	//recuperer id du creneau
+	// afficher personnes inscrites, proposer de supprimer une par une
+	// liberer le creneau
+	
+	exit();
 }
 
 $id_planning = intval($_REQUEST["id_planning"]);
@@ -59,7 +73,7 @@ $id_planning = intval($_REQUEST["id_planning"]);
 $site->start_page("services","Planning");
 $cts = new contents("<a href=\"index.php\">Planning</a> / <a href=\"admin.php\">Administration</a> / ".$plan[$id_salle]);
 
-$sql = new requete($site->db, "SELECT start_date_planning, end_date_planning
+/*$sql = new requete($site->db, "SELECT start_date_planning, end_date_planning
      FROM pl_planning
      WHERE id_planning='".$id_planning."'");
      
@@ -71,13 +85,15 @@ $frm->add_datetime_field("date_debut","Date de début",strtotime($row['start_dat
 $frm->add_datetime_field("date_fin","Date de fin",strtotime($row['end_date_planning']));
 $frm->add_submit("valid","Valider");
 $frm->allow_only_one_usage();
-$cts->add($frm,true);
+$cts->add($frm,true);*/
 
-$frm = new form("autoplanning", "admin.php?id_planning=$id_planning",false,"POST","Ajouter un creneau");
-$frm->add_hidden("action","autoplanning");
+$frm = new form("select", "admin.php?id_planning=$id_planning",false,"POST","Selectionner un creneau");
+$frm->add_hidden("action","select");
+$frm->add_datetime_field("date_debut","Date de début");
 $frm->add_submit("valid","Valider");
 $frm->allow_only_one_usage();
 $cts->add($frm,true);
+
 
 $site->add_contents($cts);
 $site->end_page(); 
