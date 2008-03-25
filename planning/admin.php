@@ -72,7 +72,7 @@ if($_REQUEST["action"] == "select")
 									AND start_gap= '".strtotime($_REQUEST['date_debut'])."'");
 									
 	$row = $sql->get_row();
-	$id_creneau = $row['id_creneau'];
+	$id_creneau = $row['id_gap'];
 	
 	/* On liste les personnes associees a ce creneau */
 	$sql = new requete($site->db, "SELECT pl_gap_user.id_utilisateur, prenom_utl, nom_utl
