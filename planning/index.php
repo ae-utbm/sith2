@@ -23,6 +23,9 @@
  * 02111-1307, USA.
  */
 
+define("BUREAU_AE_BELFORT", 164);
+define("BUREAU_AE_SEVENANS", 166);
+
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 
@@ -275,7 +278,7 @@ if($site->user->is_in_group("gestion_ae"))
 	     LEFT JOIN utl_etu_utbm USING ( id_utilisateur )
 	     WHERE pl_gap.id_planning='".$_REQUEST['id_salle']."'";
      
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details&id_planning=".$_REQUEST['id_salle'], "", PL_LUNDI, true);
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "", PL_LUNDI, true);
 }
 else
 {
@@ -352,7 +355,7 @@ else if( $_REQUEST["action"] == "details" )
 	$site->add_css("css/weekplanning.css");
 	
     $site->start_page("services","Planning");
-    $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_planning"]]." / Affichage");
+    $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[BUREAU_AE_BELFORT]." / Affichage");
     
     $cts->add_paragraph("<a href=\"index.php?action=affich&id_planning=".$_REQUEST['id_salle']."\">Affichage</a>");
   
@@ -388,9 +391,68 @@ else if( $_REQUEST["action"] == "details" )
      LEFT JOIN pl_gap_user USING(id_gap)
      LEFT JOIN utilisateurs USING(id_utilisateur)
      LEFT JOIN utl_etu_utbm USING (id_utilisateur)
-     WHERE pl_gap.id_planning='".$_REQUEST['id_planning']."'";
+     WHERE pl_gap.id_planning='".BUREAU_AE_BELFORT."'";
      
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_planning".$_REQUEST['id_planning'], "index.php?action=details&id_planning=".$_REQUEST['id_planning'], "", PL_LUNDI, true);
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "", PL_LUNDI, true);
+
+  $cts->add($pl,true); 
+  
+  $frm = new form("searchpl","index.php",false,"POST","Nouvelle recherche");
+  $frm->add_hidden("action","searchpl");
+  if ( isset($_REQUEST["fallback"]) )
+    $frm->add_hidden("fallback",$_REQUEST["fallback"]);
+  $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST["id_salle"]);
+  $frm->add_submit("afficher","Afficher le planning");
+  $cts->add($frm,true);
+  
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
+}
+else if( $_REQUEST["action"] == "details2" )
+{ 
+	$site->add_css("css/weekplanning.css");
+	
+    $site->start_page("services","Planning");
+    $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[BUREAU_AE_SEVENANS]." / Affichage");
+    
+    $cts->add_paragraph("<a href=\"index.php?action=affich&id_planning=".BUREAU_AE_SEVENANS."\">Affichage</a>");
+  
+  	$test = new requete($site->db, "SELECT id_utilisateur
+						 FROM pl_gap_user
+  						 WHERE id_gap='".$_REQUEST["id_gap"]."' AND id_utilisateur IS NOT NULL");
+  	
+  	$planning = new planning($site->db,$site->dbrw);
+	$planning->load_by_id($_REQUEST["id_planning"]);
+
+	if ( !$planning->is_valid() )
+  		$site->error_not_found("services");
+  			
+  	if($test->lines == 0)
+  	{	
+  		$planning->add_user_to_gap($_REQUEST["id_gap"], $site->user->id);
+   	}	
+   	else
+   	{
+	  	while($row = $test->get_row())
+	  	{
+	  		if($row['id_utilisateur']==$site->user->id)
+	  		{
+	  			$planning->remove_user_from_gap($_REQUEST["id_gap"], $site->user->id);
+	  		}
+	  	}
+   	}
+   	
+  	$sql = 
+    "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning,
+     COALESCE(utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl), '(personne)') AS texte
+     FROM pl_gap
+     LEFT JOIN pl_gap_user USING(id_gap)
+     LEFT JOIN utilisateurs USING(id_utilisateur)
+     LEFT JOIN utl_etu_utbm USING (id_utilisateur)
+     WHERE pl_gap.id_planning='".BUREAU_AE_SEVENANS."'";
+     
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details2", "", PL_LUNDI, true);
 
   $cts->add($pl,true); 
   
