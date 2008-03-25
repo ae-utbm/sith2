@@ -268,7 +268,7 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
 
 if($site->user->is_in_group("gestion_ae"))
 {
-  $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
+  $cts->add_paragraph("<a href=\"index.php?action=affich\">Affichage</a>");
   
   $sql = 
     "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning,
@@ -280,6 +280,8 @@ if($site->user->is_in_group("gestion_ae"))
      WHERE pl_gap.id_planning='".PERM_AE_BELFORT."'";
      
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "", PL_LUNDI, true);
+  
+  $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
 }
 else
 {
@@ -299,9 +301,46 @@ else
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "../user.php?id_utilisateur=".$site->user->id, "", PL_LUNDI, true);
 }
      
+  $cts->add($pl,true);
   
-
-  $cts->add($pl,true); 
+  $frm = new form("searchpl","index.php",false,"POST","Nouvelle recherche");
+  $frm->add_hidden("action","searchpl");
+  if ( isset($_REQUEST["fallback"]) )
+    $frm->add_hidden("fallback",$_REQUEST["fallback"]);
+  $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST["id_salle"]);
+  $frm->add_submit("afficher","Afficher le planning");
+  $cts->add($frm,true);
+  
+  $site->add_contents($cts);
+  $site->end_page();
+  
+  exit();
+}
+else if( $_REQUEST["affich"] == "affich" )
+{
+  $site->add_css("css/weekplanning.css");
+  
+  $site->start_page("services","Planning");
+  $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
+  
+  $sql = 
+    "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning, 
+    COALESCE(utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl)) AS texte
+	FROM pl_gap
+	LEFT JOIN pl_gap_user
+	USING ( id_gap ) 
+	LEFT JOIN utilisateurs
+	USING ( id_utilisateur )
+	LEFT JOIN utl_etu_utbm 
+	USING ( id_utilisateur )
+	WHERE pl_gap_user.id_planning='".PERM_AE_BELFORT."'
+	AND pl_gap_user.id_utilisateur IS NOT NULL";
+	
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "../user.php?id_utilisateur=".$site->user->id, "", PL_LUNDI, true);
+  
+  $cts->add($pl,true);
+  
+  //$cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
   
   $frm = new form("searchpl","index.php",false,"POST","Nouvelle recherche");
   $frm->add_hidden("action","searchpl");
