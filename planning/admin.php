@@ -67,8 +67,8 @@ if($_REQUEST["action"] == "select")
 	
 	/* On recupere le creneau choisi par la date de debut */
 	$sql = new requete($site->db, "SELECT pl_gap_user.id_gap, pl_gap_user.id_utilisateur, prenom_utl, nom_utl
-									FROM pl_gap_user,
-									LEFT JOIN pl_gap USING ( id_gap ),
+									FROM pl_gap_user
+									LEFT JOIN pl_gap USING ( id_gap )
 									LEFT JOIN utilisateurs USING ( id_utilisateur )
 									WHERE id_planning='".$id_planning."' 
 									AND pl_gap.start_gap='".date("Y-m-d H:i",$_REQUEST['date_debut'])."'");
