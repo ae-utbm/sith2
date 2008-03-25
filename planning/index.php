@@ -23,8 +23,8 @@
  * 02111-1307, USA.
  */
 
-define("BUREAU_BELFORT", 6);
-define("PERM_AE_BELFORT", 166);
+define("PERM_AE_BELFORT", 165);
+define("PERM_AE_SEVENANS", 166);
 
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
@@ -36,8 +36,7 @@ $site = new site ();
 
 $site->allow_only_logged_users("services");
 
-$lieux = array(6=>"Bureau AE Belfort", 30=>"Bureau AE Sevenans", 5=>"Foyer", 28=>"MDE");
-$freq = array(1=>"Toutes les semaines", 2=>"Une semaine sur deux");
+$lieux = array(165=>"Bureau AE Belfort", 166=>"Bureau AE Sevenans", 5=>"Foyer", 28=>"MDE");
 
 
 if ( $_REQUEST["action"] == "searchpl" )
@@ -268,20 +267,18 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
 
 if($site->user->is_in_group("gestion_ae"))
 {
-  $cts->add_paragraph("<a href=\"index.php?action=affich\">Affichage</a>");
-  
-  $sql = 
-    "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning,
-     COALESCE(utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl), '(personne)') AS texte
-     FROM pl_gap
-     LEFT JOIN pl_gap_user USING(id_gap)
-     LEFT JOIN utilisateurs USING(id_utilisateur)
-     LEFT JOIN utl_etu_utbm USING ( id_utilisateur )
-     WHERE pl_gap.id_planning='".PERM_AE_BELFORT."'";
+  $cts->add_paragraph("<a href=\"index.php?action=affich&id_planning=".$_REQUEST['id_salle']."\">Affichage</a>");
+ 
+  	$sql = 
+	    "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning,
+	     COALESCE(utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl), '(personne)') AS texte
+	     FROM pl_gap
+	     LEFT JOIN pl_gap_user USING(id_gap)
+	     LEFT JOIN utilisateurs USING(id_utilisateur)
+	     LEFT JOIN utl_etu_utbm USING ( id_utilisateur )
+	     WHERE pl_gap.id_planning='".$_REQUEST['id_salle']."'";
      
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "index.php?action=details", "", PL_LUNDI, true);
-  
-  $cts->add_paragraph("<a href=\"admin.php?id_planning=".PERM_AE_BELFORT."\">Administration</a>");
 }
 else
 {
@@ -295,7 +292,7 @@ else
 	USING ( id_utilisateur )
 	LEFT JOIN utl_etu_utbm 
 	USING ( id_utilisateur )
-	WHERE pl_gap_user.id_planning='".PERM_AE_BELFORT."'
+	WHERE pl_gap_user.id_planning='".$_REQUEST['id_salle']."'
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
 	
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "../user.php?id_utilisateur=".$site->user->id, "", PL_LUNDI, true);
@@ -333,7 +330,7 @@ else if( $_REQUEST["action"] == "affich" )
 	USING ( id_utilisateur )
 	LEFT JOIN utl_etu_utbm 
 	USING ( id_utilisateur )
-	WHERE pl_gap_user.id_planning='".PERM_AE_BELFORT."'
+	WHERE pl_gap_user.id_planning='".$_REQUEST['id_salle']."'
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
 	
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl", "../user.php?id_utilisateur=".$site->user->id, "", PL_LUNDI, true);
