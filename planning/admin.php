@@ -64,7 +64,7 @@ if($_REQUEST["action"] == "select")
 	$row = $sql->get_row();
 	$start_date_planning = $row['start_date_planning'];
 	
-	$cts->add_paragraph("pwet: ".strtotime($_REQUEST["date_debut"]));
+	$cts->add_paragraph("pwet: ".$_REQUEST["date_debut"]);
 	
 	
 	/* On recupere le creneau choisi par la date de debut */
