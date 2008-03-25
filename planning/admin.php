@@ -81,7 +81,7 @@ if($_REQUEST["action"] == "select")
 									
 	while($row = $sql->get_row())
 	{
-		$cts->add_paragraph($row['nom_utl']." ".$row['prenom_utl']." ".$id_creneau." ".$id_planning);
+		$cts->add_paragraph($row['nom_utl']." ".$row['prenom_utl']." ".$id_creneau);
 	}
 	
 	$site->add_contents($cts);
