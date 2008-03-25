@@ -66,6 +66,7 @@ if($_REQUEST["action"] == "select")
 	
 	$cts->add_paragraph(strtotime($_REQUEST['date_debut']));
 	
+	
 	/* On recupere le creneau choisi par la date de debut */
 	$sql = new requete($site->db, "SELECT id_gap 
 									FROM pl_gap 
