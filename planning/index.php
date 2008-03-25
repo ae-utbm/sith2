@@ -23,9 +23,6 @@
  * 02111-1307, USA.
  */
 
-define("PERM_AE_BELFORT", 164);
-define("PERM_AE_SEVENANS", 166);
-
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 
@@ -36,7 +33,7 @@ $site = new site ();
 
 $site->allow_only_logged_users("services");
 
-$lieux = array(165=>"Bureau AE Belfort", 166=>"Bureau AE Sevenans", 5=>"Foyer", 28=>"MDE");
+$lieux = array(164=>"Bureau AE Belfort", 166=>"Bureau AE Sevenans", 5=>"Foyer", 28=>"MDE");
 
 
 if ( $_REQUEST["action"] == "searchpl" )
