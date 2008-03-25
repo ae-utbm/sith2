@@ -68,7 +68,6 @@ if($_REQUEST["action"] == "select")
 	$sql = new requete($site->db, "SELECT id_gap 
 									FROM pl_gap 
 									WHERE id_planning='".$id_planning."' 
-									AND start_gap > '".strtotime($start_date_planning)."' 
 									AND start_gap= '".strtotime($_REQUEST['date_debut'])."'");
 									
 	$row = $sql->get_row();
