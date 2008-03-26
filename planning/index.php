@@ -338,7 +338,10 @@ else if( $_REQUEST["action"] == "affich" )
   $cts->add($pl,true);
   
   $frm = new form("searchpl","index.php",false,"POST","Nouvelle recherche");
-  $frm->add_hidden("action","searchpl");
+  if($site->user->is_in_group("gestion_ae"))
+	$frm->add_hidden("action","searchpl");
+  else
+	$frm->add_hidden("action","affich");
   if ( isset($_REQUEST["fallback"]) )
     $frm->add_hidden("fallback",$_REQUEST["fallback"]);
   $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST["id_salle"]);
