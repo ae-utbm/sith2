@@ -295,7 +295,7 @@ else
 	WHERE pl_gap_user.id_planning='".$_REQUEST['id_salle']."'
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
 	
-	if(isset($_REQUEST['id_salle'])
+	if(isset($_REQUEST['id_salle']))
 	{
 		$id_planning = $_REQUEST['id_salle'];
 	}
