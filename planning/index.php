@@ -295,7 +295,16 @@ else
 	WHERE pl_gap_user.id_planning='".$_REQUEST['id_salle']."'
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
 	
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_planning=".$_REQUEST['id_salle'], "index.php?action=affich&id_planning=".$_REQUEST['id_salle'], "", PL_LUNDI, true);
+	if(isset($_REQUEST['id_salle'])
+	{
+		$id_planning = $_REQUEST['id_salle'];
+	}
+	else if(isset($_REQUEST['id_planning']))
+	{
+		$id_planning = $_REQUEST['id_lanning'];
+	}
+	
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_planning=".$id_planning, "index.php?action=affich&id_planning=".$id_planning, "", PL_LUNDI, true);
 }
      
   $cts->add($pl,true);
