@@ -301,7 +301,7 @@ else
 	}
 	else if(isset($_REQUEST['id_planning']))
 	{
-		$id_planning = $_REQUEST['id_lanning'];
+		$id_planning = $_REQUEST['id_planning'];
 	}
 	
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_planning=".$id_planning, "index.php?action=affich&id_planning=".$id_planning, "", PL_LUNDI, true);
