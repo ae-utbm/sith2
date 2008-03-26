@@ -333,7 +333,7 @@ else if( $_REQUEST["action"] == "affich" )
 	WHERE pl_gap_user.id_planning='".$_REQUEST['id_planning']."'
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
 	
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_planning=".$_REQUEST['id_planning'], "index.php?action=affich&id_planning=".$_REQUEST['id_planning'], "", PL_LUNDI, true);
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=affich&id_planning=".$_REQUEST['id_planning'], "index.php?action=affich&id_planning=".$_REQUEST['id_planning'], "", PL_LUNDI, true);
   
   $cts->add($pl,true);
   
