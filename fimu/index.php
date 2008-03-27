@@ -31,7 +31,7 @@ require_once($topdir. "include/cts/user.inc.php");
 
 $site = new site;
 
-if ( $site->user->id == -1 )
+if ( $site->user->is_valid() )
 	$site->error_forbidden("none","reserved");
 
 $site->start_page ("none", "FIMU 2008 - Inscriptions des bénévoles");
@@ -151,7 +151,7 @@ else
 	
 	$cts->add_paragraph($intro);
 	
-	if($site->user->id != -1)
+	if($site->user->is_valid())
 	{
 		$usrinfo = new userinfo($site->user, true, false, false, false, true, true);
 		$cts->add($usrinfo, false, true, "Informations personnelles");
