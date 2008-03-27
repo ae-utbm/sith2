@@ -1238,7 +1238,8 @@ class site extends interfaceweb
                                      ") " .
                                    ") " .
                                    "AND ((WEEKOFYEAR(CURDATE())-WEEKOFYEAR(start_gap))%2)=0 " .
-                                 "ORDER BY DAYOFWEEK(start_gap), HOUR(start_gap)");
+                                 "ORDER BY DAYOFWEEK(start_gap), HOUR(start_gap) " .
+                                 "LIMIT 3");
     while(list($day,$hour) = $req->get_row() )
       $sublist->add(ucfirst($day) . " à " . $hour . "h");
 
