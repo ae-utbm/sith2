@@ -317,7 +317,7 @@ class site extends interfaceweb
       } 
       else
         $this->set_side_boxes("right",
-          array("planning","photo","anniv","services", "stream"),"accueil_nc_right");
+          array("planning","photo","anniv","services", "stream", "planning_permanences"),"accueil_nc_right");
       
     }
     elseif ( $section == "pg" )
