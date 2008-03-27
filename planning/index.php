@@ -40,7 +40,7 @@ $site = new site ();
 
 $site->allow_only_logged_users("services");
 
-$lieux = array(164=>"Bureau AE Belfort", 166=>"Bureau AE Sevenans", 167=>"Foyer", 168=>"MDE", 169=>"Bureau BDS Belfort", 170=>"Bureau BDS Sevenans");
+$lieux = array(164=>"Bureau AE Belfort", 166=>"Bureau AE Sevenans", 167=>"Foyer", 168=>"KFet", 169=>"Bureau BDS Belfort", 170=>"Bureau BDS Sevenans");
 
 
 if ( $_REQUEST["action"] == "searchpl" )
@@ -432,7 +432,7 @@ $cts = new contents("<a href=\"index.php\">Planning</a>");
 
 $frm = new form("searchpl","index.php",false,"POST","Consulter un planning");
 
-if($site->user->is_in_group("gestion_ae") || $site->user->is_in_group("foyer_barman") || $site->user->is_in_group("kfet_barman"))
+if($site->user->is_in_group("gestion_ae") || $site->user->is_in_group("foyer_barman") || $site->user->is_in_group("kfet_barman") || $site->user->is_in_group("bds-bureau"))
 	$frm->add_hidden("action","searchpl");
 else
 	$frm->add_hidden("action","affich");
