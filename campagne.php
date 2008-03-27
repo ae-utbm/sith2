@@ -81,21 +81,21 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
       if($question["type"]=="text")
       {
         $frm->add_info("<b>".$question["nom"]."</b><br />");
-        $frm->add_info("<i><b>".$question["description"]."</b>< /i><br />");
+        $frm->add_info("<i>".$question["description"]."</i><br />");
         $frm->add_text_field("reponses[$id]","","",false,80);
         $frm->add_info("<br />");
       }
       elseif($question["type"]=="textarea")
       {
         $frm->add_info("<b>".$question["nom"]."</b><br />");
-        $frm->add_info("<i><b>".$question["description"]."</b>< /i><br />");
+        $frm->add_info("<i>".$question["description"]."</i><br />");
         $frm->add_text_area("reponses[$id]","");
         $frm->add_info("<br />");
       }
       elseif($question["type"]=="list")
       {
         $frm->add_info("<b>".$question["nom"]."</b><br />");
-        $frm->add_info("<i><b>".$question["description"]."</b>< /i><br />");
+        $frm->add_info("<i>".$question["description"]."</i><br />");
         $values=explode(";",$question["reponses"]);
         $keys=array();
         foreach($values as $value)
@@ -109,7 +109,7 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
       elseif($question["type"]=="radio")
       {
         $frm->add_info("<b>".$question["nom"]."</b><br />");
-        $frm->add_info("<i><b>".$question["description"]."</b>< /i><br />");
+        $frm->add_info("<i>".$question["description"]."</i><br />");
         $values=explode(";",$question["reponses"]);
         foreach($values as $value)
         {
@@ -123,7 +123,7 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
       elseif($question["type"]=="checkbox")
       {
         $frm->add_info("<b>".$question["nom"]."</b><br />");
-        $frm->add_info("<i><b>".$question["description"]."</b>< /i><br />");
+        $frm->add_info("<i>".$question["description"]."</i><br />");
         $frm->add_checkbox( "reponses[$id]","");
         $frm->add_info("<br />");
       }
