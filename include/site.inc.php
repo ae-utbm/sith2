@@ -1221,7 +1221,7 @@ class site extends interfaceweb
     $cts->add_paragraph("<a href=\"".$wwwtopdir."planning\">Les plannings de permanences</a>");
 
     //TODO : Faire en sorte qu'il affiche tout seul les différents plannings
-    $sublist = new itemlist("Bureau AE - Belfort")
+    $sublist = new itemlist("Bureau AE - Belfort");
     
     $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour " .
                                  "FROM pl_gap " .
