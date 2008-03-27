@@ -159,7 +159,7 @@ else
 
 	$trait = "<hr />";
 	$cts->add_paragraph($trait);
-	$cts->add_paragraph($site->user->id);
+	$cts->add_paragraph("id user:".$site->user->id);
 
 	/* Prévention des doublons */
 	$sql = new requete($site->db, "SELECT id_utilisateur 
