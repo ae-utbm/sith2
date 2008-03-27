@@ -1240,8 +1240,16 @@ class site extends interfaceweb
                                    "AND ((WEEKOFYEAR(CURDATE())-WEEKOFYEAR(start_gap))%2)=0 " .
                                  "ORDER BY DAYOFWEEK(start_gap), HOUR(start_gap) " .
                                  "LIMIT 3");
-    while(list($day,$hour) = $req->get_row() )
-      $sublist->add(ucfirst($day) . " à " . $hour . "h");
+
+    if($req->lines < 1)
+    {
+      $sublist->add("Aucune permanence à venir pour cette semaine");
+    }
+    else
+    {
+      while(list($day,$hour) = $req->get_row() )
+        $sublist->add(ucfirst($day) . " à " . $hour . "h");
+    }
 
     $cts->add($sublist, true, true, "bureau_ae_belfort", "boxlist", true, true);
 
