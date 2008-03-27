@@ -313,7 +313,7 @@ class site extends interfaceweb
         $this->add_box("sondage",$this->get_sondage());
         $this->set_side_boxes("right",
           array("planning","photo","anniv","stream", "services",
-                "sondage","comptoirs","forum"),"accueil_c_right");
+                "sondage","comptoirs","forum", "planning_permanences"),"accueil_c_right");
       } 
       else
         $this->set_side_boxes("right",
