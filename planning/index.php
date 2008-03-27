@@ -282,7 +282,7 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
 	     LEFT JOIN utl_etu_utbm USING ( id_utilisateur )
 	     WHERE pl_gap.id_planning='".$_REQUEST['id_salle']."'";
      
-  if(isset($_REQUEST["semainedeux"]))
+  if(isset($_REQUEST['semainedeux']))
   {
   	$cts->add_paragraph("<a href=\"index.php?action=affich&id_salle=".$_REQUEST['id_salle']."&semainedeux\">Affichage</a>");
   	
@@ -310,8 +310,8 @@ else
 	USING ( id_utilisateur )
 	WHERE pl_gap_user.id_planning='".$_REQUEST['id_salle']."'
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
-	
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$id_planning, "index.php?action=affich&id_planning=".$id_planning, "", PL_LUNDI, true);
+
+  $pl = new weekplanning (isset($_REQUEST['semainedeux'])?"Planning semaine B":"Planning semaine A", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$_REQUEST['id_salle'], "index.php?action=affich&id_planning=".$_REQUEST['id_salle'], "", PL_LUNDI, true);
 }
      
   $cts->add($pl,true);
@@ -320,7 +320,7 @@ else
   $frm->add_hidden("action","searchpl");
   if ( isset($_REQUEST["fallback"]) )
     $frm->add_hidden("fallback",$_REQUEST["fallback"]);
-  $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST["id_salle"]);
+  $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST['id_salle']);
   $frm->add_submit("afficher","Afficher le planning");
   $cts->add($frm,true);
   
@@ -329,12 +329,12 @@ else
   
   exit();
 }
-else if( $_REQUEST["action"] == "affich" )
+else if( $_REQUEST['action'] == "affich" )
 {
   $site->add_css("css/weekplanning.css");
   
   $site->start_page("services","Planning");
-  $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST["id_salle"]]." / Affichage");
+  $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST['id_salle']]." / Affichage");
   
   $sql = 
     "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning, 
@@ -349,8 +349,21 @@ else if( $_REQUEST["action"] == "affich" )
 	WHERE pl_gap_user.id_planning='".$_REQUEST['id_salle']."'
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
 	
+	if((($_REQUEST['id_salle']==164 || $_REQUEST['id_salle']==166) && $site->user->is_in_group("gestion_ae"))
+ || (($_REQUEST['id_salle']==167 || $_REQUEST['id_salle']==168) && ($site->user->is_in_group("foyer_barman") || $site->user->is_in_group("kfet_barman")))
+ || (($_REQUEST['id_salle']==169 || $_REQUEST['id_salle']==170) && $site->user->is_in_group("bds-bureau")))
+	{
+		if(isset($_REQUEST['semainedeux']))
+		{
+			$cts->add_paragraph("<a href=\"index.php?action=searchpl&id_salle=".$_REQUEST['id_salle']."&semainedeux\">Administration</a>");
+		}
+		else
+		{
+			$cts->add_paragraph("<a href=\"index.php?action=searchpl&id_salle=".$_REQUEST['id_salle']."\">Administration</a>");
+		}
+	}
 
-  $pl = new weekplanning ((isset($_REQUEST["semainedeux"]))?"Planning semaine B":"Planning semaine A", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=affich&id_salle=".$_REQUEST['id_salle'], "index.php?action=affich&id_salle=".$_REQUEST['id_salle'], "", PL_LUNDI, true);
+  $pl = new weekplanning (isset($_REQUEST['semainedeux'])?"Planning semaine B":"Planning semaine A", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=affich&id_salle=".$_REQUEST['id_salle'], "index.php?action=affich&id_salle=".$_REQUEST['id_salle'], "", PL_LUNDI, true);
   
   $cts->add($pl,true);
   
@@ -361,7 +374,7 @@ else if( $_REQUEST["action"] == "affich" )
 	$frm->add_hidden("action","affich");
   if ( isset($_REQUEST["fallback"]) )
     $frm->add_hidden("fallback",$_REQUEST["fallback"]);
-  $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST["id_salle"]);
+  $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST['id_salle']);
   $frm->add_submit("afficher","Afficher le planning");
   $cts->add($frm,true);
   
@@ -370,14 +383,14 @@ else if( $_REQUEST["action"] == "affich" )
   
   exit();
 }
-else if( $_REQUEST["action"] == "details" )
+else if( $_REQUEST['action'] == "details" )
 { 
 	$site->add_css("css/weekplanning.css");
 	
     $site->start_page("services","Planning");
     $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST['id_salle']]." / Affichage");
     
-    if(isset($_REQUEST["semainedeux"]))
+    if(isset($_REQUEST['semainedeux']))
     {
     	$cts->add_paragraph("<a href=\"index.php?action=affich&id_salle=".$_REQUEST['id_salle']."&semainedeux\">Affichage</a>");
     }
@@ -388,7 +401,7 @@ else if( $_REQUEST["action"] == "details" )
   
   	$test = new requete($site->db, "SELECT id_utilisateur
 						 FROM pl_gap_user
-  						 WHERE id_gap='".$_REQUEST["id_gap"]."' AND id_utilisateur='".$site->user->id."'");
+  						 WHERE id_gap='".$_REQUEST['id_gap']."' AND id_utilisateur='".$site->user->id."'");
   	
   	$planning = new planning($site->db,$site->dbrw);
 	$planning->load_by_id($_REQUEST['id_salle']);
@@ -398,7 +411,7 @@ else if( $_REQUEST["action"] == "details" )
   			
   	if($test->lines == 0)
   	{	
-  		$planning->add_user_to_gap($_REQUEST["id_gap"], $site->user->id);
+  		$planning->add_user_to_gap($_REQUEST['id_gap'], $site->user->id);
    	}	
    	else
    	{
@@ -406,7 +419,7 @@ else if( $_REQUEST["action"] == "details" )
 	  	{
 	  		if($row['id_utilisateur']==$site->user->id)
 	  		{
-	  			$planning->remove_user_from_gap($_REQUEST["id_gap"], $site->user->id);
+	  			$planning->remove_user_from_gap($_REQUEST['id_gap'], $site->user->id);
 	  		}
 	  	}
    	}
@@ -420,7 +433,7 @@ else if( $_REQUEST["action"] == "details" )
      LEFT JOIN utl_etu_utbm USING (id_utilisateur)
      WHERE pl_gap.id_planning='".$_REQUEST['id_salle']."'";
      
-   if(isset($_REQUEST["semainedeux"]))
+   if(isset($_REQUEST['semainedeux']))
   {
   	$pl = new weekplanning ("Planning semaine B", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$_REQUEST['id_salle'], "index.php?action=details&id_salle=".$_REQUEST['id_salle']."&semainedeux", "", PL_LUNDI, true);
   }
@@ -435,7 +448,7 @@ else if( $_REQUEST["action"] == "details" )
   $frm->add_hidden("action","searchpl");
   if ( isset($_REQUEST["fallback"]) )
     $frm->add_hidden("fallback",$_REQUEST["fallback"]);
-  $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST["id_salle"]);
+  $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST['id_salle']);
   $frm->add_submit("afficher","Afficher le planning");
   $cts->add($frm,true);
   
@@ -455,7 +468,7 @@ if($site->user->is_in_group("gestion_ae") || $site->user->is_in_group("foyer_bar
 else
 	$frm->add_hidden("action","affich");
 
-$frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST["id_salle"]);
+$frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST['id_salle']);
 $frm->add_submit("afficher","Afficher le planning");
 $cts->add($frm,true);
 
