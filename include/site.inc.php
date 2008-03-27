@@ -300,6 +300,7 @@ class site extends interfaceweb
       $this->add_box("anniv", $this->get_anniv_contents());
       $this->add_box("planning", $this->get_planning_contents());
       $this->add_box("services", $this->get_services_contents());
+      $this->add_box("planning_permanences", $this->get_planning_permanences_contents());
       
       if ( $GLOBALS["taiste"] )
         $this->add_box("stream",$this->get_stream_box());
@@ -1214,7 +1215,7 @@ class site extends interfaceweb
    * Génère la boite des permanences à venir
    * @param renvoie un stdcontents
    */
-  function get_planning_box()
+  function get_planning_permanences_contents()
   {
     $cts = new contents("Plannings");
 
