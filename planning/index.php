@@ -269,8 +269,10 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
 			
  // FIN TEST
 
-//if($site->user->is_in_group("gestion_ae"))
-//{
+  if((($_REQUEST['id_salle']==164 || $_REQUEST['id_salle']==166) && $site->user->is_in_group("gestion_ae"))
+ || (($_REQUEST['id_salle']==167 || $_REQUEST['id_salle']==168) && ($site->user->is_in_group("foyer_barman") || $site->user->is_in_group("kfet_barman")))
+ || (($_REQUEST['id_salle']==169 || $_REQUEST['id_salle']==170) && $site->user->is_in_group("bds-bureau"))
+  {
   $cts->add_paragraph("<a href=\"index.php?action=affich&id_salle=".$_REQUEST['id_salle']."\">Affichage</a>");
  
   	$sql = 
@@ -284,15 +286,15 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
      
   if(isset($_REQUEST["semainedeux"]))
   {
-  	$pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$_REQUEST['id_salle']."&semainedeux", "index.php?action=details&id_salle=".$_REQUEST['id_salle'], "", PL_LUNDI, true);
+  	$pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$_REQUEST['id_salle']."&semainedeux", "index.php?action=details&id_salle=".$_REQUEST['id_salle']."&semainedeux", "", PL_LUNDI, true);
   }
   else
   {
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$_REQUEST['id_salle'], "index.php?action=details&id_salle=".$_REQUEST['id_salle'], "", PL_LUNDI, true);
   }
   
-//}
-/*else
+}
+else
 {
   $sql = 
     "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning, 
@@ -308,7 +310,7 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
 	
   $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$id_planning, "index.php?action=affich&id_planning=".$id_planning, "", PL_LUNDI, true);
-}*/
+}
      
   $cts->add($pl,true);
   
@@ -430,7 +432,7 @@ $cts = new contents("<a href=\"index.php\">Planning</a>");
 
 $frm = new form("searchpl","index.php",false,"POST","Consulter un planning");
 
-if($site->user->is_in_group("gestion_ae"))
+if($site->user->is_in_group("gestion_ae") || $site->user->is_in_group("foyer_barman") || $site->user->is_in_group("kfet_barman"))
 	$frm->add_hidden("action","searchpl");
 else
 	$frm->add_hidden("action","affich");
