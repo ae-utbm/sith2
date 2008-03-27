@@ -212,7 +212,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   $answers_champs=array("nom_utilisateur"=>"Utilisateur");
   foreach($questions as $id => $question)
   {
-    $answers_champs[$id]=$question["description"];
+    $answers_champs[$id]=$question["nom"];
   }
   $tbl = new sqltable("results",
                       "Résultats",
