@@ -1240,7 +1240,7 @@ class site extends interfaceweb
                                    "AND ((WEEKOFYEAR(CURDATE())-WEEKOFYEAR(start_gap))%2)=0 " .
                                  "ORDER BY DAYOFWEEK(start_gap), HOUR(start_gap)");
     while(list($day,$hour) = $req->get_row() )
-      $sublist->add($day . " à " . $hour);
+      $sublist->add(ucfirst($day) . " à " . $hour . "h");
 
     $cts->add($sublist, true, true, "bureau_ae_belfort", "boxlist", true, true);
 
