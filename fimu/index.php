@@ -31,16 +31,17 @@ require_once($topdir. "include/cts/user.inc.php");
 
 $site = new site;
 
-if ( $site->user->is_valid() )
-	$site->error_forbidden("none","reserved");
-
 $site->start_page ("none", "FIMU 2008 - Inscriptions des bénévoles");
 
 $cts = new contents("Festival International de Musique Universitaire");
 
-$sql = new requete($site->db, "SELECT id_utilisateur
+if ( $site->user->is_valid() )
+{
+	//$site->error_forbidden("none","reserved");
+	$sql = new requete($site->db, "SELECT id_utilisateur
 								FROM fimu_inscr
 								WHERE id_utilisateur = ".$site->user->id);
+}
 								
 if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "fimu_inscr" && !$sql->lines)
 {
@@ -151,16 +152,13 @@ else
 	
 	$cts->add_paragraph($intro);
 	
-	if($site->user->is_valid())
+	if( $site->user->is_valid() )
 	{
 		$usrinfo = new userinfo($site->user, true, false, false, false, true, true);
 		$cts->add($usrinfo, false, true, "Informations personnelles");
-	}
-
-	$trait = "<hr />";
-	$cts->add_paragraph($trait);
-	$cts->add_paragraph("id user:".$site->user->id);
-
+		$trait = "<hr />";
+		$cts->add_paragraph($trait);
+	
 	/* Prévention des doublons */
 	$sql = new requete($site->db, "SELECT id_utilisateur 
 					FROM fimu_inscr 
@@ -250,7 +248,11 @@ else
 $cts->add($frm,true);
 
 } //fin condition prevention doublons
-
+else
+{
+	$mess = "Pour acceder au formulaire d'inscription, veuillez-vous connecter.";
+	$cts->add_paragraph($mess);
+}
 
 $cts->add_paragraph("<br /><br />Le FIMU est un évenement co-organisé par la Ville de Belfort, la Fédération Com'Et et l'UTBM");
 $cts->add_paragraph("Pour plus d'information : <a href='http://www.fimu.com'>www.fimu.com</a> <br />
