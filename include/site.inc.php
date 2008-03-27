@@ -1217,13 +1217,13 @@ class site extends interfaceweb
    */
   function get_planning_permanences_contents()
   {
-    $cts = new contents("Plannings");
+    $cts = new contents("Prochaines permanences");
 
     $cts->add_paragraph("<a href=\"".$wwwtopdir."planning\">Les plannings de permanences</a>");
 
     $req = new requete($this->db,"SET lc_time_names='fr_FR'");
 
-    //TODO : Faire en sorte qu'il affiche tout seul les différents plannings
+    //TODO : Faire en sorte qu'il affiche tout seul les différents plannings et plus avoir à hardcoder l'id_planning
     $sublist = new itemlist("Bureau AE - Belfort");
     
     $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour " .
