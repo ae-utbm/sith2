@@ -270,7 +270,7 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
  // FIN TEST
 
   if((($_REQUEST['id_salle']==164 || $_REQUEST['id_salle']==166) && $site->user->is_in_group("gestion_ae"))
- || (($_REQUEST['id_salle']==167 || $_REQUEST['id_salle']==168) && ($site->user->is_in_group("foyer_barman") || $site->user->is_in_group("kfet_barman")))
+ || ($_REQUEST['id_salle']==167 && ($site->user->is_in_group("foyer_barman")) || ($_REQUEST['id_salle']==168 && $site->user->is_in_group("kfet_barman"))
  || (($_REQUEST['id_salle']==169 || $_REQUEST['id_salle']==170) && $site->user->is_in_group("bds-bureau")))
   {
   	$sql = 
@@ -350,7 +350,7 @@ else if( $_REQUEST['action'] == "affich" )
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
 	
 	if((($_REQUEST['id_salle']==164 || $_REQUEST['id_salle']==166) && $site->user->is_in_group("gestion_ae"))
- || (($_REQUEST['id_salle']==167 || $_REQUEST['id_salle']==168) && ($site->user->is_in_group("foyer_barman") || $site->user->is_in_group("kfet_barman")))
+ || ($_REQUEST['id_salle']==167 && ($site->user->is_in_group("foyer_barman")) || ($_REQUEST['id_salle']==168 && $site->user->is_in_group("kfet_barman"))
  || (($_REQUEST['id_salle']==169 || $_REQUEST['id_salle']==170) && $site->user->is_in_group("bds-bureau")))
 	{
 		if(isset($_REQUEST['semainedeux']))
