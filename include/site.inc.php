@@ -1209,7 +1209,41 @@ class site extends interfaceweb
     
     return $cts;
   }
-  
+ 
+  /**
+   * Génère la boite des permanences à venir
+   * @param renvoie un stdcontents
+   */
+  function get_planning_box()
+  {
+    $cts = new contents("Plannings");
+
+    $cts->add_paragraph("<a href=\"".$wwwtopdir."planning\">Les plannings de permanences</a>");
+
+    //TODO : Faire en sorte qu'il affiche tout seul les différents plannings
+    $sublist = new itemlist("Bureau AE - Belfort")
+    
+    $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour " .
+                                 "FROM pl_gap " .
+                                 "INNER JOIN pl_gap_user USING(id_gap) " .
+                                 "WHERE id_planning='164' " .
+                                   "AND (" .
+                                     "DAYOFWEEK(pl_gap.start_gap)>DAYOFWEEK(CURDATE()) " .
+                                     "OR (" .
+                                       "DAYOFWEEK(start_gap)=DAYOFWEEK(CURDATE()) " .
+                                       "AND HOUR(start_gap)>=HOUR(CURTIME()) " .
+                                     ") " .
+                                   ") " .
+                                   "AND ((WEEKOFYEAR(CURDATE())-WEEKOFYEAR(start_gap))%2)=0 " .
+                                 "ORDER BY DAYOFWEEK(start_gap), HOUR(start_gap)");
+    while(list($day,$hour) = $req->get_row() )
+      $sublist->add($day . " à " . $hour);
+
+    $cts->add($sublist, true, true, "bureau_ae_belfort", "boxlist", true, true);
+
+    return $cts;
+  }
+
   /**
    * Gènère la boite d'information Superflux
    * @param renvoie un stdcontents
