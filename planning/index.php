@@ -25,6 +25,10 @@
 
 define("BUREAU_AE_BELFORT", 164);
 define("BUREAU_AE_SEVENANS", 166);
+define("BUREAU_BDF_BELFORT", 167);
+define("BUREAU_BDF_SEVENANS", 168);
+define("BUREAU_BDS_BELFORT", 169);
+define("BUREAU_BDS_SEVENANS", 170);
 
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
@@ -36,7 +40,7 @@ $site = new site ();
 
 $site->allow_only_logged_users("services");
 
-$lieux = array(164=>"Bureau AE Belfort", 166=>"Bureau AE Sevenans", 5=>"Foyer", 28=>"MDE");
+$lieux = array(164=>"Bureau AE Belfort", 166=>"Bureau AE Sevenans", 167=>"Foyer", 168=>"MDE", 169=>"Bureau BDS Belfort", 170=>"Bureau BDS Sevenans");
 
 
 if ( $_REQUEST["action"] == "searchpl" )
@@ -47,7 +51,7 @@ if ( $_REQUEST["action"] == "searchpl" )
   $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST['id_salle']]." / Affichage");
   
   // TEST
-	$planning = new planning($site->db,$site->dbrw);
+	/*$planning = new planning($site->db,$site->dbrw);
 	$start_date = strtotime("2008-03-24");
 	$end_date = strtotime("2008-07-27");
 	
@@ -261,7 +265,7 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
 	$id_creneau_611 = $planning->add_gap( $samedi+$h18, $samedi+$h19 );
 	$id_creneau_612 = $planning->add_gap( $samedi+$h19, $samedi+$h20 );
 	$id_creneau_613 = $planning->add_gap( $samedi+$h20, $samedi+$h21 );
-	$id_creneau_614 = $planning->add_gap( $samedi+$h21, $samedi+$h22 );
+	$id_creneau_614 = $planning->add_gap( $samedi+$h21, $samedi+$h22 );*/
 			
  // FIN TEST
 
@@ -364,7 +368,7 @@ else if( $_REQUEST["action"] == "details" )
   
   	$test = new requete($site->db, "SELECT id_utilisateur
 						 FROM pl_gap_user
-  						 WHERE id_gap='".$_REQUEST["id_gap"]."' AND id_utilisateur IS NOT NULL");
+  						 WHERE id_gap='".$_REQUEST["id_gap"]."' AND id_utilisateur='".$site->user->id."'");
   	
   	$planning = new planning($site->db,$site->dbrw);
 	$planning->load_by_id($_REQUEST['id_salle']);
