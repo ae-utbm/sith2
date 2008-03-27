@@ -248,6 +248,7 @@ else
 $cts->add($frm,true);
 
 } //fin condition prevention doublons
+	}
 else
 {
 	$mess = "Pour acceder au formulaire d'inscription, veuillez-vous connecter.";
