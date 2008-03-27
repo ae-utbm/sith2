@@ -151,8 +151,11 @@ else
 	
 	$cts->add_paragraph($intro);
 	
-	$usrinfo = new userinfo($site->user, true, false, false, false, true, true);
-	$cts->add($usrinfo, false, true, "Informations personnelles");
+	if($site->user->id != -1)
+	{
+		$usrinfo = new userinfo($site->user, true, false, false, false, true, true);
+		$cts->add($usrinfo, false, true, "Informations personnelles");
+	}
 
 	$trait = "<hr />";
 	$cts->add_paragraph($trait);
