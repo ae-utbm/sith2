@@ -278,7 +278,7 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
 	     LEFT JOIN utl_etu_utbm USING ( id_utilisateur )
 	     WHERE pl_gap.id_planning='".$_REQUEST['id_salle']."'";
      
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$_REQUEST['id_salle'], "index.php?action=details&id_planning=".$_REQUEST['id_salle'], "", PL_LUNDI, true);
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$_REQUEST['id_salle'], "index.php?action=details&id_salle=".$_REQUEST['id_salle'], "", PL_LUNDI, true);
 //}
 /*else
 {
@@ -358,16 +358,16 @@ else if( $_REQUEST["action"] == "details" )
 	$site->add_css("css/weekplanning.css");
 	
     $site->start_page("services","Planning");
-    $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST['id_planning']]." / Affichage");
+    $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST['id_salle']]." / Affichage");
     
-    $cts->add_paragraph("<a href=\"index.php?action=affich&id_planning=".$_REQUEST['id_planning']."\">Affichage</a>");
+    $cts->add_paragraph("<a href=\"index.php?action=affich&id_salle=".$_REQUEST['id_salle']."\">Affichage</a>");
   
   	$test = new requete($site->db, "SELECT id_utilisateur
 						 FROM pl_gap_user
   						 WHERE id_gap='".$_REQUEST["id_gap"]."' AND id_utilisateur IS NOT NULL");
   	
   	$planning = new planning($site->db,$site->dbrw);
-	$planning->load_by_id($_REQUEST['id_planning']);
+	$planning->load_by_id($_REQUEST['id_salle']);
 
 	if ( !$planning->is_valid() )
   		$site->error_not_found("services");
@@ -394,9 +394,9 @@ else if( $_REQUEST["action"] == "details" )
      LEFT JOIN pl_gap_user USING(id_gap)
      LEFT JOIN utilisateurs USING(id_utilisateur)
      LEFT JOIN utl_etu_utbm USING (id_utilisateur)
-     WHERE pl_gap.id_planning='".$_REQUEST['id_planning']."'";
+     WHERE pl_gap.id_planning='".$_REQUEST['id_salle']."'";
      
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_planning=".$_REQUEST['id_planning'], "index.php?action=details&id_planning=".$_REQUEST['id_planning'], "", PL_LUNDI, true);
+  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$_REQUEST['id_salle'], "index.php?action=details&id_salle=".$_REQUEST['id_salle'], "", PL_LUNDI, true);
 
   $cts->add($pl,true); 
   
