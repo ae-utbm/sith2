@@ -286,7 +286,7 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
   {
   	$cts->add_paragraph("<a href=\"index.php?action=affich&id_salle=".$_REQUEST['id_salle']."&semainedeux\">Affichage</a>");
   	
-  	$pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$_REQUEST['id_salle']."&semainedeux", "index.php?action=details&id_salle=".$_REQUEST['id_salle']."&semainedeux", "", PL_LUNDI, true);
+  	$pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$_REQUEST['id_salle'], "index.php?action=details&id_salle=".$_REQUEST['id_salle']."&semainedeux", "", PL_LUNDI, true);
   }
   else
   {
