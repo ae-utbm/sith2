@@ -53,7 +53,7 @@ if ( $_REQUEST["action"] == "searchpl" )
 	
 	$planning->add ( 
 	  1,
-	  "Planning perm BDF", -1, $start_date, $end_date, true );
+	  "Planning perm BDS", -1, $start_date, $end_date, true );
 	
 	$lundi = 0;
 	$mardi = 3600*24;
