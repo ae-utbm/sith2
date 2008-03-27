@@ -273,8 +273,6 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
  || (($_REQUEST['id_salle']==167 || $_REQUEST['id_salle']==168) && ($site->user->is_in_group("foyer_barman") || $site->user->is_in_group("kfet_barman")))
  || (($_REQUEST['id_salle']==169 || $_REQUEST['id_salle']==170) && $site->user->is_in_group("bds-bureau")))
   {
-  $cts->add_paragraph("<a href=\"index.php?action=affich&id_salle=".$_REQUEST['id_salle']."\">Affichage</a>");
- 
   	$sql = 
 	    "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning,
 	     COALESCE(utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl), '(personne)') AS texte
@@ -286,11 +284,15 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
      
   if(isset($_REQUEST["semainedeux"]))
   {
+  	$cts->add_paragraph("<a href=\"index.php?action=affich&id_salle=".$_REQUEST['id_salle']."&semainedeux"\">Affichage</a>");
+  	
   	$pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$_REQUEST['id_salle']."&semainedeux", "index.php?action=details&id_salle=".$_REQUEST['id_salle']."&semainedeux", "", PL_LUNDI, true);
   }
   else
   {
-  $pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$_REQUEST['id_salle'], "index.php?action=details&id_salle=".$_REQUEST['id_salle'], "", PL_LUNDI, true);
+  	$cts->add_paragraph("<a href=\"index.php?action=affich&id_salle=".$_REQUEST['id_salle']."\">Affichage</a>");
+  	
+  	$pl = new weekplanning ("Planning", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$_REQUEST['id_salle'], "index.php?action=details&id_salle=".$_REQUEST['id_salle'], "", PL_LUNDI, true);
   }
   
 }
@@ -374,7 +376,14 @@ else if( $_REQUEST["action"] == "details" )
     $site->start_page("services","Planning");
     $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST['id_salle']]." / Affichage");
     
-    $cts->add_paragraph("<a href=\"index.php?action=affich&id_salle=".$_REQUEST['id_salle']."\">Affichage</a>");
+    if(isset($_REQUEST["semainedeux"]))
+    {
+    	$cts->add_paragraph("<a href=\"index.php?action=affich&id_salle=".$_REQUEST['id_salle']."&semainedeux"\">Affichage</a>");
+    }
+    else
+    {
+    	$cts->add_paragraph("<a href=\"index.php?action=affich&id_salle=".$_REQUEST['id_salle']."\">Affichage</a>");
+    }
   
   	$test = new requete($site->db, "SELECT id_utilisateur
 						 FROM pl_gap_user
