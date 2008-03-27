@@ -251,7 +251,7 @@ $cts->add($frm,true);
 	}
 else
 {
-	$mess = "<span style='color:red;'>Pour acceder au formulaire d'inscription, veuillez-vous connecter.</span>";
+	$mess = "<span style='color:red;'>Pour accéder au formulaire d'inscription, veuillez-vous connecter.</span>";
 	$cts->add_paragraph($mess);
 }
 
