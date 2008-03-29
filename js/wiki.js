@@ -21,6 +21,7 @@ function wiki_timer()
   if ( wiki_edit_modified_since_renew == true )
   {
     wiki_edit_modified_since_renew=false;
+    wiki_edit_going_to_expire=false;
     evalCommand("index.php","action=renew&name="+wiki_edit_pagename);
     setTimeout("wiki_timer()", wiki_edit_locktime*1000/2);
     return;
@@ -38,6 +39,9 @@ function wiki_renewed()
 
 function wiki_expired()
 {
+  if ( wiki_edit_going_to_expire == false ) 
+    return;
+  
   wiki_edit_going_to_expire=false;
   alert("Le verouillage du document a expiré, enregistrez dès que possible vos modifications, il est possible qu'une autre personne ai modifié le document.");
 }
