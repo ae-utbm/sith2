@@ -1268,6 +1268,7 @@ class site extends interfaceweb
                                      ") " .
                                    ") " .
                                    "AND ((WEEKOFYEAR(CURDATE())-WEEKOFYEAR(start_gap))%2)=0 " .
+                                 "GROUP BY id_gap " .
                                  "ORDER BY DAYOFWEEK(start_gap), HOUR(start_gap) " .
                                  "LIMIT 3");
 
