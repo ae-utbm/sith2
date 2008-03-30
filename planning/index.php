@@ -336,6 +336,8 @@ else if( $_REQUEST['action'] == "affich" )
   $site->start_page("services","Planning");
   $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST['id_salle']]." / Affichage");
   
+  $cts->add_paragraph("Seuls les membres du groupe correspondants au planning que vous tentez de visualiser peuvent enregistrer de nouveaux creneaux.");
+  
   $sql = 
     "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning, 
     COALESCE(utl_etu_utbm.surnom_utbm, CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl)) AS texte
