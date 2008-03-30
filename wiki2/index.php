@@ -270,7 +270,7 @@ if ( $is_admin )
                 array("edit","wiki2/?name=".$pagepath."&view=edit", "Editer"),
                 array("refs","wiki2/?name=".$pagepath."&view=refs", "Références"),
                 array("hist","wiki2/?name=".$pagepath."&view=hist", "Historique"),
-                array("advc","wiki2/?name=".$pagepath."&view=advc", "Propriétées")
+                array("advc","wiki2/?name=".$pagepath."&view=advc", "Propriétés")
                );
 elseif ( $can_edit )
   $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
