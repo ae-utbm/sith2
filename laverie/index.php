@@ -31,6 +31,8 @@ define("JET_LAVAGE", 224);
 define("JET_SECHAGE", 225);
 
 $topdir = "../";
+$wwwtopdir="../";
+
 require_once($topdir. "include/site.inc.php");
 
 require_once($topdir. "include/cts/sqltable.inc.php");
