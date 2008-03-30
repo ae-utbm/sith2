@@ -283,10 +283,10 @@ class interfaceweb
       
       foreach ( $links as $entry )
       {
+        echo $entry[0];
         if ( strncmp("http://",$entry[0],7) )
           echo "<a href=\"".$entry[0]."\">".$entry[1]."</a>";
         else
-          echo "*";
           echo "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>";
       }
       
