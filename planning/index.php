@@ -310,6 +310,8 @@ else
 	USING ( id_utilisateur )
 	WHERE pl_gap_user.id_planning='".$_REQUEST['id_salle']."'
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
+	
+  $cts->add_paragraph("Seuls les membres du groupe correspondants au planning que vous tentez de visualiser peuvent enregistrer de nouveaux creneaux.");
 
   $pl = new weekplanning (isset($_REQUEST['semainedeux'])?"Planning semaine B":"Planning semaine A", $site->db, $sql, "id_gap", "start_gap", "end_gap", "texte", "index.php?action=searchpl&id_salle=".$_REQUEST['id_salle'], "index.php?action=affich&id_planning=".$_REQUEST['id_salle'], "", PL_LUNDI, true);
 }
