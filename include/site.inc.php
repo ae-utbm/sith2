@@ -1238,6 +1238,7 @@ class site extends interfaceweb
                                      ") " .
                                    ") " .
                                    "AND ((WEEKOFYEAR(CURDATE())-WEEKOFYEAR(start_gap))%2)=0 " .
+                                 "GROUP BY id_gap " .
                                  "ORDER BY DAYOFWEEK(start_gap), HOUR(start_gap) " .
                                  "LIMIT 3");
 
@@ -1251,7 +1252,36 @@ class site extends interfaceweb
         $sublist->add(ucfirst($day) . " à " . $hour . "h");
     }
 
-    $cts->add($sublist, true, true, "bureau_ae_belfort", "boxlist", true, true);
+    $cts->add($sublist, true, true, "bureau_ae_sevenans", "boxlist", true, true);
+    
+        $sublist = new itemlist("Bureau AE - Sevenans");
+    
+    $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour " .
+                                 "FROM pl_gap " .
+                                 "INNER JOIN pl_gap_user USING(id_gap) " .
+                                 "WHERE id_planning='166' " .
+                                   "AND (" .
+                                     "DAYOFWEEK(pl_gap.start_gap)>DAYOFWEEK(CURDATE()) " .
+                                     "OR (" .
+                                       "DAYOFWEEK(start_gap)=DAYOFWEEK(CURDATE()) " .
+                                       "AND HOUR(start_gap)>=HOUR(CURTIME()) " .
+                                     ") " .
+                                   ") " .
+                                   "AND ((WEEKOFYEAR(CURDATE())-WEEKOFYEAR(start_gap))%2)=0 " .
+                                 "ORDER BY DAYOFWEEK(start_gap), HOUR(start_gap) " .
+                                 "LIMIT 3");
+
+    if($req->lines < 1)
+    {
+      $sublist->add("Aucune permanence à venir pour cette semaine");
+    }
+    else
+    {
+      while(list($day,$hour) = $req->get_row() )
+        $sublist->add(ucfirst($day) . " à " . $hour . "h");
+    }
+
+    $cts->add($sublist, true, true, "bureau_ae_sevenans", "boxlist", true, true);
 
     return $cts;
   }
@@ -1519,6 +1549,22 @@ class site extends interfaceweb
   function return_simplefile (  $uid, $mime_type, $file )
   {
     $this->return_file (  $uid, $mime_type, filemtime($file), filesize($file), $file );
+  }
+
+  /**
+   * Permet de loguer les actions critiques ou sensibles sur le site.
+   * @param $action_log Action effectuée (exemple : Suppression facture)
+   * @param $description_log Détails de l'opération effectuée
+   * @param $context_log Contexte dans lequel l'opération a été effectuée (comptea, 
+   */
+  function log($action_log, $description_log, $context_log, $id_utilisateur=null)
+  {
+    $time_log = date("Y-m-d H:i:s", time());
+    $req = new insert($this->dbrw, "logs", array( "id_utilisateur" => $id_utilisateur,
+                                                  "time_log" => $time_log,
+                                                  "action_log" => $action_log,
+                                                  "description_log" => $description_log,
+                                                  "context_log" => $context_log ));
   }
 
 }
