@@ -269,9 +269,9 @@ $planning->add_gap( $samedi2+$h8, $samedi2+$h9 );
 			
  // FIN TEST
 
-  if((($_REQUEST['id_salle']==164 || $_REQUEST['id_salle']==166) && $site->user->is_in_group("gestion_ae"))
- || ($_REQUEST['id_salle']==167 && $site->user->is_in_group("foyer_barman")) || ($_REQUEST['id_salle']==168 && $site->user->is_in_group("kfet_barman"))
- || (($_REQUEST['id_salle']==169 || $_REQUEST['id_salle']==170) && $site->user->is_in_group("bds-bureau")))
+  if((($_REQUEST['id_salle']==BUREAU_AE_BELFORT || $_REQUEST['id_salle']==BUREAU_AE_SEVENANS) && $site->user->is_in_group("gestion_ae"))
+ || ($_REQUEST['id_salle']==BUREAU_BDF_BELFORT && $site->user->is_in_group("foyer_barman")) || ($_REQUEST['id_salle']==BUREAU_BDF_SEVENANS && $site->user->is_in_group("kfet_barman"))
+ || (($_REQUEST['id_salle']==BUREAU_BDS_BELFORT || $_REQUEST['id_salle']==BUREAU_BDS_SEVENANS) && $site->user->is_in_group("bds-bureau")))
   {
   	$sql = 
 	    "SELECT id_gap, start_gap, end_gap, pl_gap.id_planning,
@@ -353,9 +353,9 @@ else if( $_REQUEST['action'] == "affich" )
 	WHERE pl_gap_user.id_planning='".$_REQUEST['id_salle']."'
 	AND pl_gap_user.id_utilisateur IS NOT NULL";
 	
-	if((($_REQUEST['id_salle']==164 || $_REQUEST['id_salle']==166) && $site->user->is_in_group("gestion_ae"))
- || ($_REQUEST['id_salle']==167 && $site->user->is_in_group("foyer_barman")) || ($_REQUEST['id_salle']==168 && $site->user->is_in_group("kfet_barman"))
- || (($_REQUEST['id_salle']==169 || $_REQUEST['id_salle']==170) && $site->user->is_in_group("bds-bureau")))
+	if((($_REQUEST['id_salle']==BUREAU_AE_BELFORT || $_REQUEST['id_salle']==BUREAU_AE_SEVENANS) && $site->user->is_in_group("gestion_ae"))
+ || ($_REQUEST['id_salle']==BUREAU_BDF_BELFORT && $site->user->is_in_group("foyer_barman")) || ($_REQUEST['id_salle']==BUREAU_BDF_SEVENANS && $site->user->is_in_group("kfet_barman"))
+ || (($_REQUEST['id_salle']==BUREAU_BDS_BELFORT || $_REQUEST['id_salle']==BUREAU_BDS_SEVENANS) && $site->user->is_in_group("bds-bureau")))
 	{
 		if(isset($_REQUEST['semainedeux']))
 		{
