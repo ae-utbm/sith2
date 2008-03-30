@@ -41,6 +41,8 @@ require_once($topdir . "include/entities/std.inc.php");
 require_once($topdir . "include/entities/utilisateur.inc.php");
 require_once($topdir . "include/cts/standart.inc.php");
 
+echo "topdir: ".$topdir;
+echo " wwwtopdir: ".$wwwtopdir;
 if ( !isset($wwwtopdir) )
   $wwwtopdir = $topdir;
 
@@ -84,7 +86,7 @@ class interfaceweb
              ) ),
         array ("services", "article.php?name=services", "Services",
            array ( 
-              array($wwwtopdir . "e-boutic/","E-Boutic"),
+              array("e-boutic/","E-Boutic"),
               array("emprunt.php","Pret de matériel"),
               array("jobetu/","AE Job-étu"),
 							array("laverie/","Laverie"),
