@@ -84,13 +84,13 @@ class interfaceweb
              ) ),
         array ("services", "article.php?name=services", "Services",
            array ( 
-              array("e-boutic/","E-Boutic"),
-              array("emprunt.php","Pret de matériel"),
-              array("jobetu/","AE Job-étu"),
-							array("laverie/","Laverie"),
-							array("biblio/","Bibliothèque"),
-              array("article.php?name=weekmail","Weekmail"),
-              array("covoiturage/","Co-voiturage")
+              array("/e-boutic/","E-Boutic"),
+              array("/emprunt.php","Pret de matériel"),
+              array("/jobetu/","AE Job-étu"),
+              array("/laverie/","Laverie"),
+	      array("/biblio/","Bibliothèque"),
+              array("/article.php?name=weekmail","Weekmail"),
+              array("/covoiturage/","Co-voiturage")
             ) ),
         array ("pg", "pgae.php", "Petit géni"),
         array ("matmatronch", "matmatronch/", "Matmatronch"),
