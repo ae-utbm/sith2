@@ -41,8 +41,6 @@ require_once($topdir . "include/entities/std.inc.php");
 require_once($topdir . "include/entities/utilisateur.inc.php");
 require_once($topdir . "include/cts/standart.inc.php");
 
-echo "topdir: ".$topdir;
-echo " wwwtopdir: ".$wwwtopdir;
 if ( !isset($wwwtopdir) )
   $wwwtopdir = $topdir;
 
