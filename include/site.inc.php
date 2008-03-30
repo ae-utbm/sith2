@@ -1252,7 +1252,7 @@ class site extends interfaceweb
         $sublist->add(ucfirst($day) . " à " . $hour . "h");
     }
 
-    $cts->add($sublist, true, true, "bureau_ae_sevenans", "boxlist", true, true);
+    $cts->add($sublist, true, true, "bureau_ae_belfort", "boxlist", true, true);
     
         $sublist = new itemlist("Bureau AE - Sevenans");
     
