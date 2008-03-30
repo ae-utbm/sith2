@@ -23,6 +23,7 @@
  */
 
 $topdir="./";
+$wwwtopdir="../";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/entities/page.inc.php");
