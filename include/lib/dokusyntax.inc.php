@@ -978,8 +978,10 @@ class dokusyntax
     
     $ret .= '<img src="'.$img.'"';
     $ret .= ' class="media'.$format['align'].'"';
-    $ret .= ' width="'.$width.'"';
-    $ret .= ' height="'.$height.'"';
+    if(!empty($width))
+      $ret .= ' width="'.$width.'"';
+    if(!empty($height))
+      $ret .= ' height="'.$height.'"';
     $ret .= ' alt="'.$name.'" title="'.$name.'" />';
     return $ret;
   }
