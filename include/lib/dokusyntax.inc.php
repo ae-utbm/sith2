@@ -979,7 +979,12 @@ class dokusyntax
     $ret .= '<img src="'.$img.'"';
     $ret .= ' class="media'.$format['align'].'"';
     if(!empty($width))
+    {
+      echo "Bleh";
       $ret .= ' width="'.$width.'"';
+    }
+    else
+      echo "Width: ".$width;
     if(!empty($height))
       $ret .= ' height="'.$height.'"';
     $ret .= ' alt="'.$name.'" title="'.$name.'" />';
