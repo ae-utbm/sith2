@@ -147,7 +147,7 @@ class aecms extends site
     $this->set_side_boxes("left",array());
     $this->set_side_boxes("right",array());
     
-	  if ( file_exists(CMS_CONFIGFILE) && !isset($_GET["aecms_admin_ignoreconf"]) )
+    if ( file_exists(CMS_CONFIGFILE) && !isset($_GET["aecms_admin_ignoreconf"]) )
       include(CMS_CONFIGFILE);
     
     if ($this->is_user_admin())
@@ -172,21 +172,21 @@ class aecms extends site
       }
     }
     
-		interfaceweb::start_page($section,$title,$compact);
-	}
-	
-	/**
-	 * Enregistre la configuration acteulle ( tab_array et config )
-	 * Ecrit le fichier CMS_CONFIGFILE, et si nécessaire creer le dossier CMS_CONFIGPATH
-	 */
-	function save_conf()
-	{
-	  if ( !$this->is_user_admin() )
-	    return;
-	    
-	  if ( !file_exists(CMS_CONFIGPATH) )
-	    mkdir(CMS_CONFIGPATH);
-	 
+    interfaceweb::start_page($section,$title,$compact);
+  }
+  
+  /**
+   * Enregistre la configuration acteulle ( tab_array et config )
+   * Ecrit le fichier CMS_CONFIGFILE, et si nécessaire creer le dossier CMS_CONFIGPATH
+   */
+  function save_conf()
+  {
+    if ( !$this->is_user_admin() )
+      return;
+      
+    if ( !file_exists(CMS_CONFIGPATH) )
+      mkdir(CMS_CONFIGPATH);
+   
     $f = fopen(CMS_CONFIGFILE,"wt");
     
     if ( !$f )
@@ -244,14 +244,14 @@ class aecms extends site
     fwrite($f,"\n?>");
     
     fclose($f);
-	}	
-	
-	/**
-	 * Determine si l'utilisateur connecté est administrateur du AECMS.
-	 * @return true si l'utilisateur est administrateur, false sinon.
-	 */
-	function is_user_admin()
-	{
+  }  
+  
+  /**
+   * Determine si l'utilisateur connecté est administrateur du AECMS.
+   * @return true si l'utilisateur est administrateur, false sinon.
+   */
+  function is_user_admin()
+  {
     if ( !$this->user->is_valid() )
       return false;
       
@@ -260,14 +260,14 @@ class aecms extends site
       return false;
       
     return true;
-	}
-	
-	/**
-	 * Renvoie le stdcontents pour la boite demandée, si la boite en gestion est une "page"
-	 * @return une instance de stdcontents ou NULL si la boite demandée n'existe pas
-	 */
-	function get_box ( $name )
-	{
+  }
+  
+  /**
+   * Renvoie le stdcontents pour la boite demandée, si la boite en gestion est une "page"
+   * @return une instance de stdcontents ou NULL si la boite demandée n'existe pas
+   */
+  function get_box ( $name )
+  {
     $page = new page ($this->db);
     $page->load_by_pagename(CMS_PREFIX."boxes:".$name);
     
@@ -275,167 +275,167 @@ class aecms extends site
       return null;
       
     return $page->get_contents();
-	}
-	
-	
-	function end_page () // <=> html_render
-	{
-		global $wwwtopdir, $basedir ;
-		
-		header("Content-Type: text/html; charset=utf-8");
-		
-		//echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">";
-		
-		echo "<html>\n";
-		echo "<head>\n";
-		echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-		echo "<title>".$this->title." - ".htmlentities($this->asso->nom,ENT_NOQUOTES,"UTF-8")."</title>\n";
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/".$this->config["css.base"]."\" />\n";
-		
-		foreach ( $this->extracss as $url ) 
-			echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
-			
-		if ( file_exists($basedir."/specific/custom.css") )
-		  echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "specific/custom.css\" />\n";
-		
-		foreach ( $this->rss as $title => $url ) 
-			echo "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_NOQUOTES,"UTF-8")."\" href=\"".htmlentities($url,ENT_NOQUOTES,"UTF-8")."\" />";
-		
-		foreach ( $this->extrajs as $url ) 
-		  echo "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
-				
-		echo "<script type=\"text/javascript\" src=\"/js/site.js\">var site_topdir='$wwwtopdir';</script>\n";
-		echo "<script type=\"text/javascript\" src=\"/js/ajax.js\"></script>\n";
-		echo "<script type=\"text/javascript\" src=\"/js/dnds.js\"></script>\n";
-		echo "</head>\n";
-		
-		echo "<body>\n";
-				/* Generate the logo */
-		echo "<div id=\"site\">";		
-				
-		if (!$this->compact )
-		{
-		  echo "<div id=\"logo\"><a href=\"".htmlentities($this->pubUrl,ENT_QUOTES,"UTF-8")."\">";
-		  echo htmlentities($this->asso->nom,ENT_QUOTES,"UTF-8");
-		  echo "</a></div>\n";					
-		}
-		
-		echo "<div class=\"tabsv2\">\n";
-		$links=null;
-		
-		foreach ($this->tab_array as $entry)
-		{
-			echo "<span";
-			if ($this->section == $entry[0])
-			{
-				echo " class=\"selected\"";
-				$links=$entry[3];
-			}
-			echo "><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
-			echo " title=\"" . $entry[2] . "\">".
-			  $entry[2] . "</a></span>\n";
-		}
-
-		echo "</div>\n"; // /tabs
-		
-		if ( $links )
-		{
-			echo "<div class=\"sectionlinks\">\n";	
-			
-			foreach ( $links as $entry )
-			{
-				if ( ereg("http://(.*)",$entry[0]) )
-					echo "<a href=\"".$entry[0]."\">".$entry[1]."</a>\n";
-				else
-					echo "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>\n";
-			}
-			
-			echo "</div>\n";
-		}
-		else
-			echo "<div class=\"emptysectionlinks\"></div>\n";	
-		
-		echo "<div class=\"contents\">\n";
-		$idpage = "";
-		
-		foreach ( $this->sides as $side => $names )
-		{
-			if ( count($names) ) 
-			{
-				$idpage .= substr($side,0,1);
-				echo "<div id=\"$side\">\n";
-				foreach ( $names as $name )
-				{
-					if ( $cts = $this->boxes[$name] )
-					{
-						echo "<div class=\"box\" id=\"sbox_$name\">\n";
-						if ( !empty($cts->title) )
-						echo "<h1>".$cts->title."</h1>\n";
-						echo "<div class=\"body\" id=\"sbox_body_$name\">\n";			
-						echo $cts->html_render();
-						echo "</div>\n";
-						echo "</div>\n";
-					}
-				
-				}
-				echo "</div>\n";
-			}
-		}
-		
-		if ( $idpage == "" ) $idpage = "n";
-		
-		echo "\n<!-- page -->\n";
-		echo "<div class=\"page\" id=\"$idpage\">\n";
-		
-		foreach ( $this->contents as $cts )
-		{
-		  $cssclass = "article";
-		  
-		  if ( !is_null($cts->cssclass) )
-		    $cssclass = $cts->cssclass;
-		  
-			echo "<div class=\"$cssclass\"";
-			if ( $cts->divid )
-			  echo " id=\"".$cts->divid."\"";
-			echo ">\n";			
-			
-			if ( $cts->toolbox )
-			{
-				echo "<div class=\"toolbox\">\n";		
-				echo $cts->toolbox->html_render()."\n";
-				echo "</div>\n";	
-			}				
-			
-			if ( $cts->title )
-				echo "<h1>".$cts->title."</h1>\n";
-
-			echo $cts->html_render();
-			echo "</div>\n";
-		}
-		
-		echo "</div>\n";
-		echo "<!-- end of page -->\n\n";
-		
-		echo "<p class=\"footer\">\n";		
-		
-		if ( !is_null($this->asso->id_parent) )
+  }
+  
+  
+  function end_page () // <=> html_render
+  {
+    global $wwwtopdir, $basedir ;
+    
+    header("Content-Type: text/html; charset=utf-8");
+    
+    //echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">";
+    
+    echo "<html>\n";
+    echo "<head>\n";
+    echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+    echo "<title>".$this->title." - ".htmlentities($this->asso->nom,ENT_NOQUOTES,"UTF-8")."</title>\n";
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/".$this->config["css.base"]."\" />\n";
+    
+    foreach ( $this->extracss as $url ) 
+      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_NOQUOTES,"UTF-8"). "\" />\n";
+      
+    if ( file_exists($basedir."/specific/custom.css") )
+      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "specific/custom.css\" />\n";
+    
+    foreach ( $this->rss as $title => $url ) 
+      echo "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_NOQUOTES,"UTF-8")."\" href=\"".htmlentities($url,ENT_NOQUOTES,"UTF-8")."\" />";
+    
+    foreach ( $this->extrajs as $url ) 
+      echo "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
+        
+    echo "<script type=\"text/javascript\" src=\"/js/site.js\">var site_topdir='$wwwtopdir';</script>\n";
+    echo "<script type=\"text/javascript\" src=\"/js/ajax.js\"></script>\n";
+    echo "<script type=\"text/javascript\" src=\"/js/dnds.js\"></script>\n";
+    echo "</head>\n";
+    
+    echo "<body>\n";
+        /* Generate the logo */
+    echo "<div id=\"site\">";    
+        
+    if (!$this->compact )
     {
-  		echo "<a href=\"/\">association des etudiants de l'utbm</a>";
-  		echo " - <a href=\"index.php?name=:legals\">informations légales</a>";
-  		echo " - <a href=\"contact.php\">contact</a>";
+      echo "<div id=\"logo\"><a href=\"".htmlentities($this->pubUrl,ENT_QUOTES,"UTF-8")."\">";
+      echo htmlentities($this->asso->nom,ENT_QUOTES,"UTF-8");
+      echo "</a></div>\n";          
+    }
+    
+    echo "<div class=\"tabsv2\">\n";
+    $links=null;
+    
+    foreach ($this->tab_array as $entry)
+    {
+      echo "<span";
+      if ($this->section == $entry[0])
+      {
+        echo " class=\"selected\"";
+        $links=$entry[3];
+      }
+      echo "><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
+      echo " title=\"" . $entry[2] . "\">".
+        $entry[2] . "</a></span>\n";
+    }
+
+    echo "</div>\n"; // /tabs
+    
+    if ( $links )
+    {
+      echo "<div class=\"sectionlinks\">\n";  
+      
+      foreach ( $links as $entry )
+      {
+        if ( ereg("http://(.*)",$entry[0]) )
+          echo "<a href=\"".$entry[0]."\">".$entry[1]."</a>\n";
+        else
+          echo "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>\n";
+      }
+      
+      echo "</div>\n";
+    }
+    else
+      echo "<div class=\"emptysectionlinks\"></div>\n";  
+    
+    echo "<div class=\"contents\">\n";
+    $idpage = "";
+    
+    foreach ( $this->sides as $side => $names )
+    {
+      if ( count($names) ) 
+      {
+        $idpage .= substr($side,0,1);
+        echo "<div id=\"$side\">\n";
+        foreach ( $names as $name )
+        {
+          if ( $cts = $this->boxes[$name] )
+          {
+            echo "<div class=\"box\" id=\"sbox_$name\">\n";
+            if ( !empty($cts->title) )
+            echo "<h1>".$cts->title."</h1>\n";
+            echo "<div class=\"body\" id=\"sbox_body_$name\">\n";      
+            echo $cts->html_render();
+            echo "</div>\n";
+            echo "</div>\n";
+          }
+        
+        }
+        echo "</div>\n";
+      }
+    }
+    
+    if ( $idpage == "" ) $idpage = "n";
+    
+    echo "\n<!-- page -->\n";
+    echo "<div class=\"page\" id=\"$idpage\">\n";
+    
+    foreach ( $this->contents as $cts )
+    {
+      $cssclass = "article";
+      
+      if ( !is_null($cts->cssclass) )
+        $cssclass = $cts->cssclass;
+      
+      echo "<div class=\"$cssclass\"";
+      if ( $cts->divid )
+        echo " id=\"".$cts->divid."\"";
+      echo ">\n";      
+      
+      if ( $cts->toolbox )
+      {
+        echo "<div class=\"toolbox\">\n";    
+        echo $cts->toolbox->html_render()."\n";
+        echo "</div>\n";  
+      }        
+      
+      if ( $cts->title )
+        echo "<h1>".$cts->title."</h1>\n";
+
+      echo $cts->html_render();
+      echo "</div>\n";
+    }
+    
+    echo "</div>\n";
+    echo "<!-- end of page -->\n\n";
+    
+    echo "<p class=\"footer\">\n";    
+    
+    if ( !is_null($this->asso->id_parent) )
+    {
+      echo "<a href=\"/\">association des etudiants de l'utbm</a>";
+      echo " - <a href=\"index.php?name=:legals\">informations légales</a>";
+      echo " - <a href=\"contact.php\">contact</a>";
     }
     else
     {
-  		echo "<a href=\"index.php?name=legals\">informations légales</a>";
-  		echo " - <a href=\"contact.php\">contact</a>";
+      echo "<a href=\"index.php?name=legals\">informations légales</a>";
+      echo " - <a href=\"contact.php\">contact</a>";
     }
     
-	  echo "</p>\n";
-		
-		echo "</div>\n"; // /contents
-		echo "<div id=\"endsite\"></div></div>\n";		
-		echo "</body>\n";
-		echo "</html>\n";
+    echo "</p>\n";
+    
+    echo "</div>\n"; // /contents
+    echo "<div id=\"endsite\"></div></div>\n";    
+    echo "</body>\n";
+    echo "</html>\n";
       
   }
 
