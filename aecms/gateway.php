@@ -27,9 +27,9 @@
 require_once("include/site.inc.php");
 
 if ( $_REQUEST['class'] == "calendar" )
-	$cts = new calendar($site->db,$site->asso->id);
+  $cts = new calendar($site->db,$site->asso->id);
 else
-	$cts = new contents();	
+  $cts = new contents();  
 
 echo $cts->html_render();
 

@@ -47,7 +47,7 @@ else
   $GLOBALS['ROLEASSO'][ROLEASSO_VICEPRESIDENT] = "Vice-président";
 }
 
-$req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "%' AND `nom_page` NOT LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");	
+$req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "%' AND `nom_page` NOT LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");  
 $pages = array();
 while ( $row = $req->get_row() )
   $pages[substr($row['nom_page'],strlen(CMS_PREFIX))] = $row['titre_page'];
@@ -339,7 +339,7 @@ elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["filename"]) )
 {
   $dir = $basedir."/specific/img/";
   
-  $filename = $dir.preg_replace("`([^a-zA-Z0-9_\\-\\.])`", "", basename($_REQUEST["filename"]));	
+  $filename = $dir.preg_replace("`([^a-zA-Z0-9_\\-\\.])`", "", basename($_REQUEST["filename"]));  
   
   unlink($filename);
 }
@@ -352,15 +352,15 @@ elseif ( $_REQUEST["action"] == "addimgfile" )
     if (!is_dir($dir))
       mkdir($dir);
     
-  	$filename = $dir.preg_replace("`([^a-zA-Z0-9_\\-\\.])`", "", basename($_FILES['file']['name']));	
+    $filename = $dir.preg_replace("`([^a-zA-Z0-9_\\-\\.])`", "", basename($_FILES['file']['name']));  
 
-		move_uploaded_file ( $_FILES['file']['tmp_name'], $filename );
+    move_uploaded_file ( $_FILES['file']['tmp_name'], $filename );
   }
 }
 
 
 
-$req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");	
+$req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");  
 $pages_boxes = array();
 while ( $row = $req->get_row() )
   $pages_boxes[substr($row['nom_page'],strlen(CMS_PREFIX))] = $row['titre_page'];
@@ -408,7 +408,7 @@ $tabs = array(
         array("boxes","configurecms.php?view=boxes","Boites"),
         array("options","configurecms.php?view=options","Options"),
         array("css","configurecms.php?view=css","Style"),
-	array("news","configurecms.php?view=news","Nouvelles")
+  array("news","configurecms.php?view=news","Nouvelles")
         );
             
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
@@ -637,18 +637,18 @@ else if( $_REQUEST["view"] == "news" )
       
       
       if ( $_REQUEST["title"] && $_REQUEST["content"] )
-	{
-	  $news->save_news($site->asso->id,
-			   $_REQUEST['title'],
-			   $_REQUEST['resume'],
-			   $_REQUEST['content'],
-			   false,
-			   null,
-			   $_REQUEST["type"],
-			   $lieu->id, 
-			   !isset($_REQUEST['non_asso_seule']) ? NEWS_CANAL_AECMS : NEWS_CANAL_SITE);
-	  $news->set_tags($_REQUEST["tags"]);
-	}
+  {
+    $news->save_news($site->asso->id,
+         $_REQUEST['title'],
+         $_REQUEST['resume'],
+         $_REQUEST['content'],
+         false,
+         null,
+         $_REQUEST["type"],
+         $lieu->id, 
+         !isset($_REQUEST['non_asso_seule']) ? NEWS_CANAL_AECMS : NEWS_CANAL_SITE);
+    $news->set_tags($_REQUEST["tags"]);
+  }
     }
 
 
@@ -665,12 +665,12 @@ else if( $_REQUEST["view"] == "news" )
       $frm->add_hidden("action","save");
       $frm->add_hidden("id_nouvelle",$news->id);
       $frm->add_select_field ("type",
-			      "Type de nouvelle",
-			      array(NEWS_TYPE_APPEL => "Appel/concours",
-				    NEWS_TYPE_EVENT => "Événement ponctuel",
-				    NEWS_TYPE_HEBDO => "Séance hebdomadaire",
-				    NEWS_TYPE_NOTICE => "Info/resultat")
-			      ,$news->type);
+            "Type de nouvelle",
+            array(NEWS_TYPE_APPEL => "Appel/concours",
+            NEWS_TYPE_EVENT => "Événement ponctuel",
+            NEWS_TYPE_HEBDO => "Séance hebdomadaire",
+            NEWS_TYPE_NOTICE => "Info/resultat")
+            ,$news->type);
 
       $frm->add_text_field("title", "Titre",$news->titre,true);
       $frm->add_checkbox ( "non_asso_seule", "Publier aussi sur le site de l'AE (sera soumis à modération)", $news->id_canal==NEWS_CANAL_SITE);
@@ -687,7 +687,7 @@ else if( $_REQUEST["view"] == "news" )
   
   /* affichage de la liste des nouvelles */
   $req = new requete($site->db,
-		     "SELECT `nvl_nouvelles`.*,
+         "SELECT `nvl_nouvelles`.*,
                       CONCAT(`utilisateurs`.`prenom_utl`,
                              ' ',
                              `utilisateurs`.`nom_utl`) AS `nom_prenom`
@@ -702,17 +702,17 @@ else if( $_REQUEST["view"] == "news" )
     
   // génération de la liste de nouvelles
   $tabl = new sqltable ("news_list",
-			"Liste des nouvelles",
-			$req,
-			"configurecms.php?view=news",
-			"id_nouvelle",
-			array ("titre_nvl" => "Titre",
-			       "nom_prenom" => "auteur",
-			       "date_nvl" => "Date"),
-			array ("edit"=>"Modifier",
-			       "delete"=>"Supprimer"),
-			array (),
-			array ());
+      "Liste des nouvelles",
+      $req,
+      "configurecms.php?view=news",
+      "id_nouvelle",
+      array ("titre_nvl" => "Titre",
+             "nom_prenom" => "auteur",
+             "date_nvl" => "Date"),
+      array ("edit"=>"Modifier",
+             "delete"=>"Supprimer"),
+      array (),
+      array ());
   
   
   

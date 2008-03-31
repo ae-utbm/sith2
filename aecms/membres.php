@@ -57,7 +57,7 @@ if ( $_REQUEST["action"] == "selfenroll" && !is_null($site->asso->id_parent) )
   }
   else
   {
-    $site->asso->add_actual_member ( $site->user->id, time(), ROLEASSO_MEMBRE, "" );		
+    $site->asso->add_actual_member ( $site->user->id, time(), ROLEASSO_MEMBRE, "" );    
     $cts->add_title(2,"Inscription enregistrée");
     $cts->add_paragraph("Votre inscription a été enregistrée. Pour modifier à tout moment votre inscription, allez sur le site de l'AE dans <a href=\"/user.php?view=assos\">votre profil</a>.");
   }
@@ -66,19 +66,19 @@ if ( $_REQUEST["action"] == "selfenroll" && !is_null($site->asso->id_parent) )
 
 
 $req = new requete($site->db,
-	"SELECT `utilisateurs`.`id_utilisateur`, " .
-	"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-	"`asso_membre`.`role`, " .
-	"`asso_membre`.`desc_role`, " .
-	"`asso_membre`.`date_debut`, " .
-	"CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
-	"FROM `asso_membre` " .
-	"INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
-	"WHERE `asso_membre`.`date_fin` IS NULL " .
-	"AND `asso_membre`.`id_asso`='".$site->asso->id."' " .
-	"AND `asso_membre`.`role` >= '".$site->config["membres.upto"]."' ".
-	"ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
-	
+  "SELECT `utilisateurs`.`id_utilisateur`, " .
+  "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+  "`asso_membre`.`role`, " .
+  "`asso_membre`.`desc_role`, " .
+  "`asso_membre`.`date_debut`, " .
+  "CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
+  "FROM `asso_membre` " .
+  "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
+  "WHERE `asso_membre`.`date_fin` IS NULL " .
+  "AND `asso_membre`.`id_asso`='".$site->asso->id."' " .
+  "AND `asso_membre`.`role` >= '".$site->config["membres.upto"]."' ".
+  "ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
+  
 $gal = new gallery();
 while ( $row = $req->get_row() )
 {
@@ -103,9 +103,9 @@ if ( $site->config["membres.allowjoinus"] == 1 && !is_null($asso->id_parent) && 
   $cts->add_title(2,"Rejoignez-nous");  
   $cts->add_paragraph("Inscrivez vous pour recevoir toutes les nouvelles par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"membres.php?action=selfenroll\">cliquez ici</a>.");
 }
-	
+
 $site->add_contents($cts);  
-  
+
 $site->end_page();
 
 ?>

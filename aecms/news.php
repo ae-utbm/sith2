@@ -155,7 +155,7 @@ if ( $news->is_valid() )
 
 
   $site->start_page (CMS_PREFIX."accueil", $news->titre);
-	
+
   $cts = $news->get_contents();
 
   $site->add_contents ($cts);
