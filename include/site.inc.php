@@ -439,7 +439,7 @@ class site extends interfaceweb
       list($count) = $req->get_row();
 
       if ( $count > 0 )
-      $elements[] = "<a href=\"".$topdir."ae/modereres.php\"><b>$count reservation(s) du foyer</b></a>";
+      $elements[] = "<a href=\"".$topdir."ae/modereres.php\"><b>$count reservation(s) du foyer et de la Kfet</b></a>";
     }
     
     if ( $this->user->is_in_group("gestion_emprunts") )
