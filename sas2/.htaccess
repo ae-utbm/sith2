@@ -1,3 +1,0 @@
-RewriteEngine On
-RewriteBase /sas2/
-RewriteRule . index.php
