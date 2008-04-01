@@ -435,7 +435,7 @@ class site extends interfaceweb
         "WHERE ((sl_reservation.date_accord_res IS NULL) OR " .
         "(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
         "AND sl_reservation.date_debut_salres >= '$today' " .
-        "AND sl_salle.id_salle=5");
+        "AND (sl_salle.id_salle='5' OR sl_salle.id_salle='28')");
       list($count) = $req->get_row();
 
       if ( $count > 0 )

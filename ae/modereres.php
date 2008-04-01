@@ -198,7 +198,7 @@ elseif($site->user->is_in_group("bdf-bureau"))
 		"WHERE ((sl_reservation.date_accord_res IS NULL) OR " .
 		"(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
 		"AND sl_reservation.date_debut_salres > NOW()" .
-		"AND sl_salle.id_salle=5");
+		"AND (sl_salle.id_salle='5' OR sl_salle.id_salle='28')");
 
 	$site->add_contents(new sqltable(
 			"modereres", 
@@ -211,7 +211,7 @@ elseif($site->user->is_in_group("bdf-bureau"))
 				"description_salres" => "Motif",
 				"convention"=>"Conv.",
 				"date_accord_res"=>"Accord le"
-				), 
+				),
 			array("info"=>"Details"), 
 			array(),
 			array("convention"=>array(0=>"Non requise",1=>"A faire",11=>"Faite"))
