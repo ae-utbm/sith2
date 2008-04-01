@@ -96,11 +96,15 @@ else if (isset($_REQUEST['listing']) && $site->user->is_in_group("gestion_ae"))
 						utilisateurs.nom_utl, 
 						utilisateurs.prenom_utl, 
 						utilisateurs.id_utilisateur, 
-						fimu_inscr.choix1_choix, 
-						fimu_inscr.choix2_choix, 
+						fimu_inscr.choix1_choix,
+						fimu_inscr.choix1_com,  
+						fimu_inscr.choix2_choix,
+						fimu_inscr.choix2_com,  
 						fimu_inscr.lang1_lang, 
 						fimu_inscr.lang2_lang,
 						fimu_inscr.lang3_lang,
+						fimu_inscr.poste_preced,
+						fimu_inscr.remarques,
 					CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`
 					FROM fimu_inscr 
 					LEFT JOIN utilisateurs 
@@ -113,10 +117,14 @@ else if (isset($_REQUEST['listing']) && $site->user->is_in_group("gestion_ae"))
 				array("=num" => "N°",
 					"nom_utilisateur" => "Utilisateur",
 					"choix1_choix" => "Choix 1",
+					"choix1_com" => "Commentaire"
 					"choix2_choix" => "Choix 2",
+					"choix2_com" => "Commentaire"
 					"lang1_lang" => "Langue 1",
 					"lang2_lang" => "Langue 2",
 					"lang3_lang" => "Langue 3"
+					"poste_preced" => "Precedent"
+					"remarques" => "Remarques"
 					),
 				array(),
 				array(),
