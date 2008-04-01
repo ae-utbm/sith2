@@ -109,6 +109,7 @@ else if (isset($_REQUEST['listing']) && $site->user->is_in_group("gestion_ae"))
 					FROM fimu_inscr 
 					LEFT JOIN utilisateurs 
 					ON fimu_inscr.id_utilisateur = utilisateurs.id_utilisateur");
+					
 	$tbl = new sqltable("fimu_benevoles", 
 				"Liste des personnes s'étant inscrites pour le FIMU via le site de l'AE",
 				$sql,
@@ -117,13 +118,13 @@ else if (isset($_REQUEST['listing']) && $site->user->is_in_group("gestion_ae"))
 				array("=num" => "N°",
 					"nom_utilisateur" => "Utilisateur",
 					"choix1_choix" => "Choix 1",
-					"choix1_com" => "Commentaire"
+					"choix1_com" => "Commentaire",
 					"choix2_choix" => "Choix 2",
-					"choix2_com" => "Commentaire"
+					"choix2_com" => "Commentaire",
 					"lang1_lang" => "Langue 1",
 					"lang2_lang" => "Langue 2",
-					"lang3_lang" => "Langue 3"
-					"poste_preced" => "Precedent"
+					"lang3_lang" => "Langue 3",
+					"poste_preced" => "Precedent",
 					"remarques" => "Remarques"
 					),
 				array(),
