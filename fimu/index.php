@@ -91,7 +91,7 @@ else if (isset($_REQUEST['listing']) && $site->user->is_in_group("gestion_ae"))
 {
 
 //	$tbl = new itemlist("Liste des personnes s'étant inscrites pour le FIMU via le site de l'AE", false);
-	$site->set_side_boxes("right",array());
+	$site->set_side_boxes("left",array());
 	
 	$sql = new requete($site->db, "SELECT fimu_inscr.id_utilisateur, 
 						utilisateurs.nom_utl, 
