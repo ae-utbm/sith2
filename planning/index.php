@@ -38,8 +38,6 @@ require_once($topdir. "include/cts/planning.inc.php");
 
 $site = new site ();
 
-//$site->allow_only_logged_users("services");
-
 $lieux = array(164=>"Bureau AE Belfort", 166=>"Bureau AE Sevenans", 167=>"Foyer", 168=>"KFet", 169=>"Bureau BDS Belfort", 170=>"Bureau BDS Sevenans");
 
 
