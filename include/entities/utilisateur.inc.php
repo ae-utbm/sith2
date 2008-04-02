@@ -734,9 +734,9 @@ class utilisateur extends stdentity
     if ( empty($this->alias) )
       $this->alias = null;
     
-    /*require_once($topdir."include/cts/cached.inc.php");
+    require_once($topdir."include/cts/cached.inc.php");
     $cache = new cachedcontents("sig".$this->id);
-    $cache->expire();*/
+    $cache->expire();
     
     new update($this->dbrw,
                       "utilisateurs",
