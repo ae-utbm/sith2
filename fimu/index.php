@@ -87,7 +87,7 @@ if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "fimu_insc
 				Merci de contacter les authorités compétentes ");
 		
 }
-else if (isset($_REQUEST['listing']) && $site->user->is_in_group("gestion_ae") && $site->user->is_in_group("test"))
+else if (isset($_REQUEST['listing']) && ($site->user->is_in_group("gestion_ae") || $site->user->is_in_group("test")))
 {
 
 //	$tbl = new itemlist("Liste des personnes s'étant inscrites pour le FIMU via le site de l'AE", false);
