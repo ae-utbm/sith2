@@ -350,14 +350,13 @@ class site extends interfaceweb
 
     if ( !$this->user->is_valid() ) return null;
     if ( $this->user->type=="srv" ) return null;
-print_r(date("m-d",$this->user->date_naissance));
+    $elements = array();
+
     if(date("m-d",$this->user->date_naissance) == date("m-d"))
       $elements[] = "Joyeux anniversaire de la part de toute l'ae :)<br><i>Si ce n'est pas ton anniversaire nous t'invitons à mettre ton profil à jour : <a href='".$topdir."user.php?page=edit'>ici</a></i>";
 
     $carte = new carteae($this->db);
     $carte->load_by_utilisateur($this->user->id);
-
-    $elements = array();
 
     $today = date("Y-m-d");
 
@@ -432,7 +431,7 @@ print_r(date("m-d",$this->user->date_naissance));
     }
     else if( $this->user->is_in_group("bdf-bureau") )
     {
-    	$req = new requete($this->db,"SELECT COUNT(*) ".
+      $req = new requete($this->db,"SELECT COUNT(*) ".
         "FROM sl_reservation " .
         "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
         "WHERE ((sl_reservation.date_accord_res IS NULL) OR " .
@@ -553,20 +552,20 @@ print_r(date("m-d",$this->user->date_naissance));
     {
       require_once($topdir. "include/entities/asso.inc.php");
        
-	    foreach ($assoces as $key => $assoce)
-	    {
-	      $asso = new asso($this->db);
-	      $asso->load_by_id($key);
-	      $pm = $asso->get_pending_unmod_mail();
-	      if ($pm == 1)
-	      {
-		      $elements[] = "<a href=\"http://ml.aeinfo.net/cgi-bin/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mail en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
-	      }
-	      else if ($pm > 1)
-	      {
-		      $elements[] = "<a href=\"http://ml.aeinfo.net/cgi-bin/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mails en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
-	      }
-	    }
+      foreach ($assoces as $key => $assoce)
+      {
+        $asso = new asso($this->db);
+        $asso->load_by_id($key);
+        $pm = $asso->get_pending_unmod_mail();
+        if ($pm == 1)
+        {
+          $elements[] = "<a href=\"http://ml.aeinfo.net/cgi-bin/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mail en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
+        }
+        else if ($pm > 1)
+        {
+          $elements[] = "<a href=\"http://ml.aeinfo.net/cgi-bin/mailman/admindb/".$asso->nom_unix.".membres\"><b>$pm e-mails en attente de modération sur la liste de diffusion de ". $asso->nom_unix . "</b></a>";
+        }
+      }
     }
 
     if ( count($elements) == 0 ) return null;
@@ -683,16 +682,16 @@ print_r(date("m-d",$this->user->date_naissance));
       $frm = new form("connect",$topdir."connect.php",true,"POST","Connexion");
       $jsoch = "javascript:switchSelConnection(this);";
       $frm->add_select_field("domain",
-			     "Connexion",
-			     array("utbm"=>"UTBM / Assidu", 
-				   "id"=>"ID", 
-				   "autre"=>"E-mail", 
-				   "alias"=>"Alias"),
-			     false, 
-			     "", 
-			     false,
-			     true,
-			     $jsoch);
+           "Connexion",
+           array("utbm"=>"UTBM / Assidu", 
+           "id"=>"ID", 
+           "autre"=>"E-mail", 
+           "alias"=>"Alias"),
+           false, 
+           "", 
+           false,
+           true,
+           $jsoch);
       $frm->add_text_field("username","Utilisateur","prenom.nom","",20,true);
       $frm->add_password_field("password","Mot de passe","","",20);
       $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", false );
