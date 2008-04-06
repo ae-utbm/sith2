@@ -2249,6 +2249,11 @@ p.text-footer a:hover
   background-image: url("../images/redbox-bottom.png") ;
 }
 
+#sbox_alerts small
+{
+  font-size: 10px;
+}
+
 /*
  * Autres boites particulières
  */
