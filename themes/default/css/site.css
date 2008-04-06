@@ -2254,6 +2254,11 @@ p.text-footer a:hover
   font-size: 10px;
 }
 
+#sbox_alerts small b
+{
+  font-size: 10px;
+}
+
 /*
  * Autres boites particulières
  */
