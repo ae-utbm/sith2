@@ -57,6 +57,7 @@ $GLOBALS["entitiescatalog"] = array (
 	"typeproduit" 	=> array ( "id_typeprod", "nom_typeprod", "typeprod.png", "comptoir/admin.php", "cpt_type_produit" ),
 	"catphoto"		=> array ( "id_catph", "nom_catph", "catph.png", "sas2/", "sas_cat_photos" ),
 	"photo"			=> array ( "id_photo", "id_photo", "photo.png", "sas2/", "sas_photos", null, "sas_photos_tag" ),
+	"planet_flux" => array(null,null,null,null,null,null,'planet_flux_tags'),
 	
 	// Compta : Classeurs
 	"classeur_compta"=> array ( "id_classeur", "nom_classeur", "classeur.png", "compta/classeur.php"),

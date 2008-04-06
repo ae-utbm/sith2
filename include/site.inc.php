@@ -351,6 +351,9 @@ class site extends interfaceweb
     if ( !$this->user->is_valid() ) return null;
     if ( $this->user->type=="srv" ) return null;
 
+    if(date("m-d",$this->user->date_naissance) == date("m-d"))
+      $elements[] = "Joyeux anniversaire de la part de toute l'ae :)<br><i>Si ce n'est pas ton anniversaire nous t'invitons à mettre ton profil à jour : <a href='".$topdir."user.php?page=edit'>ici</a></i>";
+
     $carte = new carteae($this->db);
     $carte->load_by_utilisateur($this->user->id);
 

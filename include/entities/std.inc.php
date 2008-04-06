@@ -144,10 +144,10 @@ abstract class stdentity
     return false;  
   }
 
-	/**
-	 * Charge l'objet depuis une ligne de la base de données
-	 * @param $row Ligne issue d'un résultat
-	 */
+  /**
+   * Charge l'objet depuis une ligne de la base de données
+   * @param $row Ligne issue d'un résultat
+   */
   abstract function _load ( $row );
 
   /** Charge un objet en fonction de son id
@@ -155,7 +155,7 @@ abstract class stdentity
    * @param $id id de l'objet
    * @return true en cas de succès, false sinon
    */
-	abstract function load_by_id ( $id );
+  abstract function load_by_id ( $id );
 
   /**
    * Check if class can enumarate its elements using enumerate.
