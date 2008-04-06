@@ -353,7 +353,7 @@ class site extends interfaceweb
     $elements = array();
 
     if(date("m-d",$this->user->date_naissance) == date("m-d"))
-      $elements[] = "<b>Joyeux anniversaire de la part de toute l'ae :)</b><br><tt>Si ce n'est pas ton anniversaire nous t'invitons à mettre ton profil à jour : <a href='".$topdir."user.php?page=edit'><b>ici</b></a></tt>";
+      $elements[] = "<b>Joyeux anniversaire de la part de toute l'ae :)</b><br><small>Si ce n'est pas ton anniversaire nous t'invitons à mettre ton profil à jour : <a href='".$topdir."user.php?page=edit'><b>ici</b></a></small>";
 
     $carte = new carteae($this->db);
     $carte->load_by_utilisateur($this->user->id);
