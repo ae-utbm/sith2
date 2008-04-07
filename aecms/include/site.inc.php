@@ -332,8 +332,8 @@ class aecms extends site
         $links=$entry[3];
       }
       echo "><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
-      echo " title=\"" . stripslashes($entry[2]) . "\">".
-        stripslashes($entry[2]) . "</a></span>\n";
+      echo " title=\"" . $entry[2] . "\">".
+        $entry[2] . "</a></span>\n";
     }
 
     echo "</div>\n"; // /tabs
@@ -345,9 +345,9 @@ class aecms extends site
       foreach ( $links as $entry )
       {
         if ( ereg("http://(.*)",$entry[0]) )
-          echo "<a href=\"".$entry[0]."\">".stripslashes($entry[1])."</a>\n";
+          echo "<a href=\"".$entry[0]."\">".$entry[1]."</a>\n";
         else
-          echo "<a href=\"".$wwwtopdir.$entry[0]."\">".stripslashes($entry[1])."</a>\n";
+          echo "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>\n";
       }
       
       echo "</div>\n";
