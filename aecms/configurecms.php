@@ -397,7 +397,7 @@ foreach ( $site->tab_array as $row )
     else
       $lien = "Lien spécial (".$row[1].")";
       
-    $liste_onglets[] = array("nom_onglet"=>$row[0],"titre_onglet"=>$row[2],"lien_onglet"=>$lien);
+    $liste_onglets[] = array("nom_onglet"=>$row[0],"titre_onglet"=>stripslashes($row[2]),"lien_onglet"=>$lien);
     $onglets_noms[$row[0]] = $row[2];
   }
 }
