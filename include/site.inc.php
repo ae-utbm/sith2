@@ -73,8 +73,14 @@ class site extends interfaceweb
     $this->set_side_boxes("left",array("calendrier","alerts","connexion"),"default_left");
     
     $timing["site::site"] += microtime(true);
-    
-    $this->add_css("themes/fimu08/css/site.css");
+
+    /*
+     * LEs css du site ae restent sur le site ae
+     */
+    if ( !ereg("^/var/www/ae/accounts/([a-z0-9]*)/aecms",$_SERVER['SCRIPT_FILENAME'],$match) )
+    {
+      $this->add_css("themes/fimu08/css/site.css");
+    }
     
   }  
 
