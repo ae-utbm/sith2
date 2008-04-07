@@ -347,7 +347,7 @@ class aecms extends site
         if ( ereg("http://(.*)",$entry[0]) )
           echo "<a href=\"".$entry[0]."\">".$entry[1]."</a>\n";
         else
-          echo "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>\n";
+          echo "<a href=\"".$wwwtopdir.$entry[0]."\">".stripslashes($entry[1])."</a>\n";
       }
       
       echo "</div>\n";
