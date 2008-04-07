@@ -32,7 +32,7 @@ require_once($topdir . "include/entities/utilisateur.inc.php");
 $site = new site ();
 
 
-$can_admin=$site->user->is_in_group("root") || $site->user->is_in_group("moderateur_forum") );
+$can_admin=( $site->user->is_in_group("root") || $site->user->is_in_group("moderateur_forum") );
 
 if ( !$site->user->is_in_group("moderateur_forum") )
   $site->error_forbidden("none","group",39);
