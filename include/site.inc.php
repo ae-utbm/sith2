@@ -46,8 +46,9 @@ require_once($topdir . "jobetu/include/jobuser_etu.inc.php");
 /** La classe principale du site */
 class site extends interfaceweb
 {
+
   /** Constructeur de la classe */
-  function site ($stats=true)
+  function site ($siteae=true)
   {
     global $timing;
     $timing["includes"] = microtime(true)+$timing["all"];
@@ -77,7 +78,7 @@ class site extends interfaceweb
     /*
      * LEs css du site ae restent sur le site ae
      */
-    if ( !ereg("^/var/www/ae/accounts/([a-z0-9]*)/aecms",$_SERVER['SCRIPT_FILENAME'],$match) )
+    if ( $siteae )
     {
       $this->add_css("themes/fimu08/css/site.css");
     }
