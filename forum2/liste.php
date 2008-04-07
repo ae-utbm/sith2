@@ -30,6 +30,7 @@ require_once($topdir . "include/cts/user.inc.php");
 require_once($topdir . "include/entities/utilisateur.inc.php");
 
 $site = new site ();
+$cts=new contents();
 
 
 $can_admin=( $site->user->is_in_group("root") || $site->user->is_in_group("moderateur_forum") );
