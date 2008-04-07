@@ -206,7 +206,6 @@ class aecms extends site
     {
       foreach ( $this->config as $key => $value )
       {
-        if($_REQUEST["action"] != "addonglet" && 
         if ( is_numeric($value) || is_bool($value) )
           fwrite($f,' \''.addcslashes($key,'\'\\').'\' => '.str_replace(",",".",$value).'');
         else
