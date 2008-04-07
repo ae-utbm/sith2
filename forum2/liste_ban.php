@@ -61,7 +61,7 @@ if ( $_REQUEST["action"]=="delete" && $can_admin)
 
   if($nb == 0){
     $cts->add_paragraph("Aucun utilisateur n'a &eacute;t&eacute; affect&eacute; par l'annulation de ban du forum.");
-  elseif($nb == 1){
+  }elseif($nb == 1){
     $cts->add_paragraph($nb." utilisateur n'est maintenant plus banni du forum.");
   }else{
     $cts->add_paragraph($nb." utilisateurs ne sont plus bannis du forum.");

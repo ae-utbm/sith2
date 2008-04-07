@@ -46,7 +46,7 @@ $req = new requete($site->db,
     "f1.categorie_forum as categorie_forum, ".
     "f2.titre_forum as titre_forum_parent ".
     "FROM `frm_forum` f1,`frm_forum` f2  ".
-    "WHERE f1.id_forum_parent=f2.id-forum ".
+    "WHERE f1.id_forum_parent=f2.id_forum ".
     "ORDER BY f1.id_forum ");
 		
   $tbl = new sqltable(
