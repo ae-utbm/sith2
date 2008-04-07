@@ -64,6 +64,17 @@ $req = new requete($site->db,
 
 $cts->add($tbl,true);
 
+
+$cts->add_title(2,"Administration du forum");
+$lst = new itemlist();
+$lst->add("<a href=\"new.php\">Ajouter un sous forum</a>");
+$lst->add("<a href=\"liste_ban.php\">Afficher les utilisateurs bannis du forum</a>");
+$lst->add("<a href=\"liste.php\">Afficher les forums</a>");
+
+$cts->add($lst);
+
+
+
 $site->add_contents($cts);
 $site->end_page();
 

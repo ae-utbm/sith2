@@ -82,19 +82,17 @@ $cts->add_title(2,"Annulation ban");
 
 
 
-$cts->add_title(2,"Utilisateurs bannis du forum");
-
 $req = new requete($site->db,
     "SELECT `utilisateurs`.`id_utilisateur`, " .
     "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
-    "FROM `utl_groupe`, `utilisateur` ".
+    "FROM `utl_groupe`, `utilisateurs` ".
     "WHERE `utilisateurs`.`id_utilisateur` = `utl_groupe`.`id_utilisateur` ".
     "AND `utl_groupe`.`id_groupe` = 39 ". 
     "ORDER BY `utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
 		
   $tbl = new sqltable(
     "listban", 
-    "Utilisateur bannis du forum",
+    "Utilisateurs bannis du forum",
     $req,
     "liste_ban.php", 
     "id_utlban", 
@@ -116,6 +114,16 @@ $cts->add($tbl,true);
     $frm->add_submit("valid","Ajouter");
     $cts->add($frm,true);
 }
+
+
+
+$cts->add_title(2,"Administration du forum");
+$lst = new itemlist();
+$lst->add("<a href=\"new.php\">Ajouter un sous forum</a>");
+$lst->add("<a href=\"liste_ban.php\">Afficher les utilisateurs bannis du forum</a>");
+$lst->add("<a href=\"liste.php\">Afficher les forums</a>");
+
+$cts->add($lst);
 
 
 $site->add_contents($cts);
