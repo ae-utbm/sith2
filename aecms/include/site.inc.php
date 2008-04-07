@@ -332,8 +332,8 @@ class aecms extends site
         $links=$entry[3];
       }
       echo "><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
-      echo " title=\"" . $entry[2] . "\">".
-        $entry[2] . "</a></span>\n";
+      echo " title=\"" . stripslashes($entry[2]) . "\">".
+        stripslashes($entry[2]) . "</a></span>\n";
     }
 
     echo "</div>\n"; // /tabs
