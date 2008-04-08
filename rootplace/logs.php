@@ -58,7 +58,7 @@ else
 {
   $cts = new contents("<a href=\"./\">Administration</a> / Logs");
 
-  $cts->add_title("2","Recherche");
+  $cts->add_title("1","Recherche");
   $cts->add_paragraph("Ici, demian, surement.");
 
 
