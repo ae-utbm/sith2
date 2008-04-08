@@ -165,7 +165,7 @@ else if ( $_REQUEST["action"] == "addproduit" && ($typeprod->id > 0) && ($assocp
     {
       $asso = new asso($site->db);
       $asso->load_by_id($assocpt->id);
-      $site->log("Ajout d'un produit","Ajout du produit ".$_REQUEST['nom']." (".$_REQUEST["description"].") au profit de ".$asso->nom,"Comptoirs",$site->user>id);
+      $site->log("Ajout d'un produit","Ajout du produit ".$_REQUEST['nom']." (".$_REQUEST["description"].") au profit de ".$asso->nom,"Comptoirs",$site->user->id);
 		  
       foreach( $_REQUEST['cpt'] as $idcomptoir => $on )
       {
