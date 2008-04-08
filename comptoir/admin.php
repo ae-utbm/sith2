@@ -122,7 +122,7 @@ else if ( $_REQUEST["action"] == "addasso" && $site->user->is_in_group("gestion_
 {
 	$assocpt->add($_REQUEST["id_asso"]);
 
-  $asso = new asso();
+  $asso = new asso($site->db);
   $asso->load_by_id($_REQUEST["id_asso"]);
   $site->log("Ajout d'une association","Ajout de l'association ".$asso->nom." (id : ".$asso->id.")","Comptoirs",$site->user->id);
 }
@@ -163,7 +163,7 @@ else if ( $_REQUEST["action"] == "addproduit" && ($typeprod->id > 0) && ($assocp
 		  $produit_parent->id
 		  ) )
     {
-      $asso = new asso();
+      $asso = new asso($site->db);
       $asso->load_by_id($assocpt->id);
       $site->log("Ajout d'un produit","Ajout du produit ".$_REQUEST['nom']." (".$_REQUEST["description"].") au profit de ".$asso->nom,"Comptoirs",$site->user>id);
 		  
