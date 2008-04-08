@@ -56,7 +56,7 @@ if ( ($_REQUEST["action"] == "delete") && $site->user->is_in_group("gestion_ae")
       $user_client->load_by_id($fact->id_utilisateur_client);
       $user_vendeur = new user();
       $user_vendeur->load_by_ud($fact->id_utilisateur);
-      $site->log("Annulation d'une facture","Annulation de la facture N° ".$fact->id.", d'un montant de ".$fact->montant/100."€ du ".date("Y-m-d H:i",$fact->date)." débitée à ".$user_client->nom." ".$user_client->prenom." (id : ".$user_client->id.") par ".$user_vendeur->nom." ".$user_vendeur->prenom." (id : ".$user_vendeur->id.")","Comptes AE",$site->user->id);
+      $site->log("Annulation d'une facture","Annulation de la facture N° ".$fact->id.", d'un montant de ".($fact->montant)/100."€ du ".date("Y-m-d H:i",$fact->date)." débitée à ".$user_client->nom." ".$user_client->prenom." (id : ".$user_client->id.") par ".$user_vendeur->nom." ".$user_vendeur->prenom." (id : ".$user_vendeur->id.")","Comptes AE",$site->user->id);
 			$fact->annule_facture();
     }
 	}
