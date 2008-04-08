@@ -224,6 +224,8 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
     }
     if ($user->saveinfos())
     {
+      if ( $site->user->id != $user->id )
+        $site->log("Édition d'une fiche matmatronch par un tierce","Fiche matmatronch de ".$user->nom." ".$user->prenom." (id : ".$user->id.") modifiée","Fiche MMT",$site->user->id);
       header("Location: ".$topdir."user.php?id_utilisateur=".$user->id);
       exit();
     }
