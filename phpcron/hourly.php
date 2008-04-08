@@ -13,7 +13,7 @@ define('MAX_NUM',20);
 define('MAX_SUM_LENGHT',200);
 
 require_once($topdir. "include/site.inc.php");
-require_once($topdir. "include/lib/magpierss/rss_fetch.inc.php");
+/*require_once($topdir. "include/lib/magpierss/rss_fetch.inc.php");*/
 
 
 $site = new site ();
