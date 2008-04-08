@@ -70,7 +70,7 @@ if ( $_REQUEST["action"]=="delete" && $can_admin)
 }elseif ( $_REQUEST["action"]=="ban" && $can_admin && $_REQUEST["id_utilisateur"])
 {
 $cts->add_title(2,"Annulation ban");
-	$user = new utilisateur($site->db);
+ $user = new utilisateur($site->db,$site->dbrw);
 	$user->load_by_id($_REQUEST["id_utilisateur"]);
 	if( $user->id != null && !$user->is_in_group("ban_forum")){
 	  $user->add_to_group(39); // groupe ban_forum

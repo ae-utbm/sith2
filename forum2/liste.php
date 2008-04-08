@@ -50,7 +50,7 @@ if( $_REQUEST["id_forum"] ){
 
 /* nouveau forum */
 if(!is_null($forum->id) && $_REQUEST["action"]=="new")
-
+{
   $cts->add_title(2,"Nouveau forum");
 
   $frm = new form("nvforum","liste.php",false,"POST","Nouveau forum ");
@@ -72,7 +72,7 @@ if(!is_null($forum->id) && $_REQUEST["action"]=="new")
   $cts->add($frm);
 
 /* modification d'un forum */
-elseif(!is_null($forum->id) && $_REQUEST["action"]=="edit")
+}elseif(!is_null($forum->id) && $_REQUEST["action"]=="edit")
 {
 
   $cts->add_title(2,"Edition du forum");
