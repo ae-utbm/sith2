@@ -43,13 +43,13 @@ if ( !$site->user->is_in_group("moderateur_forum") )
 
 
 $forum = new forum($site->db,$site->dbrw);
-if( $_REQUEST["id_forum"] ){
+if( $_REQUEST["id_forum"] && !is_null($_REQUEST["id_forum"]) ){
   $forum->load_by_id( $_REQUEST["id_forum"] );
 }
 
 
 /* nouveau forum */
-if(!is_null($forum->id) && $_REQUEST["action"]=="new")
+if( $_REQUEST["action"]=="new")
 {
   $cts->add_title(2,"Nouveau forum");
 
@@ -72,7 +72,7 @@ if(!is_null($forum->id) && $_REQUEST["action"]=="new")
   $cts->add($frm);
 
 /* modification d'un forum */
-}elseif(!is_null($forum->id) && $_REQUEST["action"]=="edit")
+}elseif($_REQUEST["action"]=="edit")
 {
 
   $cts->add_title(2,"Edition du forum");
@@ -103,7 +103,7 @@ if(!is_null($forum->id) && $_REQUEST["action"]=="new")
         isset($_REQUEST["id_forum_parent"]) &&
         isset($_REQUEST["id_asso"]) &&
         isset($_REQUEST["categorie_forum"]) &&
-        $forum->id != null )
+        !is_null($forum->id) )
 {
 
   $forum->update($_REQUEST["titre_forum"],$_REQUEST["description_forum"],$_REQUEST["categorie_forum"],$_REQUEST["id_forum_parent"],$_REQUEST["id_asso"],$forum->ordre);

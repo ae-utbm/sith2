@@ -48,12 +48,13 @@ if ( $_REQUEST["action"]=="delete" && $can_admin)
   $cts->add_title(2,"Annulation ban");
 
   $user = new utilisateur($site->db,$site->dbrw);
+  $user->load_by_id($_REQUEST["id_utilisateur"]);
 
   $nb = 0;
   foreach($_REQUEST["id_utlban"] as $id_utilisateur )
   {
     $user->load_by_id($id_utilisateur);
-    if($user->is_in_group("ban_forum")){
+    if(!is_null($user->id) && $user->is_in_group("ban_forum")){
       $user->remove_from_group(39); // groupe ban_forum
       $nb = $nb + 1;
     }
@@ -67,17 +68,30 @@ if ( $_REQUEST["action"]=="delete" && $can_admin)
     $cts->add_paragraph($nb." utilisateurs ne sont plus bannis du forum.");
   }
 
+}elseif ( $_REQUEST["action"]=="unban" && $can_admin && $_REQUEST["id_utilisateur"])
+{
+
+  $cts->add_title(2,"Annulation ban");
+  $user = new utilisateur($site->db,$site->dbrw);
+  $user->load_by_id($_REQUEST["id_utilisateur"]);
+  if(!is_null($user->id) && $user->is_in_group("ban_forum")){
+    $user->remove_from_group(39); // groupe ban_forum
+    $cts->add_paragraph("Un utilisateur n'est maintenant plus banni du forum.");
+  }else{
+    $cts->add_paragraph("Aucun utilisateur n'a &eacute;t&eacute; affect&eacute; par l'annulation de ban du forum.");
+  }
+
 }elseif ( $_REQUEST["action"]=="ban" && $can_admin && $_REQUEST["id_utilisateur"])
 {
-$cts->add_title(2,"Annulation ban");
- $user = new utilisateur($site->db,$site->dbrw);
-	$user->load_by_id($_REQUEST["id_utilisateur"]);
-	if( $user->id != null && !$user->is_in_group("ban_forum")){
-	  $user->add_to_group(39); // groupe ban_forum
-          $cts->add_paragraph("L'utilisateur &agrave; bien &eacute;t&eacute; banni du forum");
-	}else{
-	  $cts->add_paragraph("Un problème est survenu : l'utilisateur n'a pas pu &ecirc;tre banni du forum car il est d&eacute;j&agrave; banni !");
-	}
+  $cts->add_title(2,"Ban forum");
+  $user = new utilisateur($site->db,$site->dbrw);
+  $user->load_by_id($_REQUEST["id_utilisateur"]);
+  if( $user->id != null && !$user->is_in_group("ban_forum")){
+    $user->add_to_group(39); // groupe ban_forum
+    $cts->add_paragraph("L'utilisateur &agrave; bien &eacute;t&eacute; banni du forum");
+  }else{
+  $cts->add_paragraph("Un problème est survenu : l'utilisateur n'a pas pu &ecirc;tre banni du forum car il est d&eacute;j&agrave; banni !");
+  }
 }
 
 
