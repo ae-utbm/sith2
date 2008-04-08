@@ -69,7 +69,7 @@ if (  $grp->id > 0)
 	{
 	  if ( $grp->id != 7 || $site->user->is_in_group("root") )
 	  {
-      foreach($_REQUEST["id_utilisateur"] as $id_utilisateur)
+      foreach($_REQUEST["id_utilisateurs"] as $id_utilisateur)
         $grp->remove_user_from_group($id_utilisateur);
     }
     else
