@@ -2,6 +2,7 @@
 
 /* Copyright 2006
  * - Julien Etelain < julien at pmad dot net >
+ * - Benjamin Collet < bcollet at oxynux dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -49,7 +50,7 @@ if ( $_REQUEST["action"] == "delete" && !isset($_REQUEST["id_utilisateur"]) && $
 	// Opération **trés** critique (la suppression d'un groupe barman, ou d'admin serai trés dommagable)
 	if ( $site->is_sure ( "","Suppression du groupe ".$grp->nom,"delgrp".$grp->id, 2 ) )	
 	{
-    $site->log("Retraint d'un groupe","Retrait du groupe  ". $grp->nom ."(id : ". $grp->id .")","Groupes",$site->user->id);
+    $site->log("Retrait d'un groupe","Retrait du groupe ". $grp->nom ."(id : ". $grp->id .")","Groupes",$site->user->id);
 		$grp->delete_group();
 	}
 	$grp->id = -1;
