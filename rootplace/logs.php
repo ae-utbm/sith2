@@ -37,7 +37,7 @@ $site->start_page("none","Administration");
 
 $cts = new contents("<a href=\"./\">Administration</a> / Logs");
 
-$req = new requete($site->db, "SELECT CONCAT(prenom_utl," ",nom_utl) AS nom_utilisateur,
+$req = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) AS nom_utilisateur,
                                  id_utilisateur, time_log, action_log, context_log, description_log
                                FROM logs 
                                INNER JOIN utilisateurs USING(id_utilisateur) 
