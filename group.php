@@ -49,6 +49,7 @@ if ( $_REQUEST["action"] == "delete" && !isset($_REQUEST["id_utilisateur"]) && $
 	// Opération **trés** critique (la suppression d'un groupe barman, ou d'admin serai trés dommagable)
 	if ( $site->is_sure ( "","Suppression du groupe ".$grp->nom,"delgrp".$grp->id, 2 ) )	
 	{
+    $site->log("Retraint d'un groupe","Retrait du groupe  ". $grp->nom ."(id : ". $grp->id .")","Groupes",$site->user->id);
 		$grp->delete_group();
 	}
 	$grp->id = -1;
@@ -75,7 +76,12 @@ if (  $grp->id > 0)
 	  if ( $grp->id != 7 || $site->user->is_in_group("root") )
 	  {
       foreach($_REQUEST["id_utilisateurs"] as $id_utilisateur)
+      {
         $grp->remove_user_from_group($id_utilisateur);
+        $user = new utilisateur($site->db);
+        $user->load_by_id($id_utilisateur)
+        $site->log("Retrait d'un utilisateur du groupe ". $grp->nom,"Retrait de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") du groupe ". $grp->nom ." (id : ".$grp->id.")","Groupes",$site->user->id);
+      }
     }
     else
       $Error = "Veuillez contacter l'équipe informatique pour modifier les comptes root.";
@@ -87,7 +93,10 @@ if (  $grp->id > 0)
 	  	$user = new utilisateur($site->dbrw);
 	  	$user->load_by_id($_REQUEST["id_utilisateur"]);
 	  	if ( $user->id > 0 )
+      {
 		  	$grp->add_user_to_group($user->id);
+        $site->log("Ajout d'un utilisateur au groupe ". $grp->nom,"Ajout de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") au groupe ". $grp->nom ." (id : ".$grp->id.")","Groupes",$site->user->id);
+      }
     }
     else
       $Error = "Veuillez contacter l'équipe informatique pour modifier les comptes root.";
@@ -137,7 +146,10 @@ if ( $_REQUEST["action"] == "addgroup" && $site->user->is_in_group("root"))
 	if ( !$_REQUEST["nom"] )
 		$Error = "Un nom est requis.";
 	else
+  {
 		$grp->add_group($_REQUEST["nom"],$_REQUEST["description"]);
+    $site->log("Ajout d'un groupe","Ajout du groupe ". $_REQUEST["nom"] ."(". $_REQUEST["description"] .")","Groupes",$site->user->id);
+  }
 }
 
 $site->start_page("none","Groupes");
