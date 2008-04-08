@@ -65,7 +65,7 @@ if (  $grp->id > 0)
     else
       $Error = "Veuillez contacter l'équipe informatique pour modifier les comptes root";
 	}
-	elseif ( $_REQUEST["action"] == "deletes")
+	elseif ( $_REQUEST["action"] == "deletes" && !empty($_REQUEST["id_utilisateurs"]) )
 	{
 	  if ( $grp->id != 7 || $site->user->is_in_group("root") )
 	  {
