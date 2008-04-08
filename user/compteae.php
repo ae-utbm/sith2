@@ -55,7 +55,7 @@ if ( ($_REQUEST["action"] == "delete") && $site->user->is_in_group("gestion_ae")
       $user_client = new utilisateur($site->db,$site->dbrw);
       $user_client->load_by_id($fact->id_utilisateur_client);
       $user_vendeur = new utilisateur($site->db,$site->dbrw);
-      $user_vendeur->load_by_ud($fact->id_utilisateur);
+      $user_vendeur->load_by_id($fact->id_utilisateur);
       $site->log("Annulation d'une facture",
         "Annulation de la facture N° " . $fact->id .
         ", d'un montant de " . ($fact->montant)/100 . "€ du " . 
