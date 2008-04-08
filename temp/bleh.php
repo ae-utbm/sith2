@@ -3,9 +3,7 @@ $topdir="../";
 require_once($topdir. "include/site.inc.php");
 $site = new site();
 
-echo "<pre>";
-print_r($site->user);
-echo "</pre>";
+$req = new requete($site->dbrw, "UPDATE `site_parametres` SET valeur_param='b:1;' WHERE nom_param='closed'");
 exit();
 
 ?>
