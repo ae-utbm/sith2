@@ -56,7 +56,7 @@ $req = new requete($site->db,
     $req,
     "liste.php", 
     "id_forum", 
-    array("titre_forum"=>"Titre","description_forum"=>"Description","categorie_forum"=>"Cat&eacute;gorie","titre_forum_parent"=>"Forum parent"), 
+    array("titre_forum"=>"Titre","description_forum"=>"Description","categorie_forum"=>"Catégorie","titre_forum_parent"=>"Forum parent"), 
     array(),
     array(),
     array()
