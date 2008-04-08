@@ -288,12 +288,18 @@ elseif ( $_REQUEST["action"] == "setgroups" &&
       if ( $new )
       {
         if ( $row["id_groupe"] != 7 || $site->user->is_in_group("root") )
+        {
           $user->add_to_group($row["id_groupe"]);
+          $site->log("Ajout d'un utilisateur au groupe ". $row["nom_groupe"],"Ajout de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") au groupe ". $row["nom_groupe"] ." (id : ".$row["id_groupe"].")","Groupes",$site->user->id);
+        }
       }
       else
       {
         if ( $row["id_groupe"] != 7 || $site->user->is_in_group("root") )
+        {
           $user->remove_from_group($row["id_groupe"]);
+          $site->log("Retrait d'un utilisateur du groupe ". $row["nom_groupe"],"Retrait de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") du groupe ". $row["nom_groupe"] ." (id : ".$row["id_groupe"].")","Groupes",$site->user->id);
+        }
       }
     }
   }
