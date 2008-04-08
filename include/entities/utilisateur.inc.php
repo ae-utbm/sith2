@@ -1075,6 +1075,8 @@ class utilisateur extends stdentity
     $this->invalidate ("email");
     $this->send_first_email($this->email,$password);
 
+    $site->log("Ajout d'un utilisateur", "Ajout de l'utilisateur ".$this->nom." ".$this->prenom." (id : ".$this->id.")","Utilisateurs",$site->user->id);
+
     return true;
   }
 

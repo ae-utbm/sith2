@@ -93,7 +93,8 @@ XML;
   return $response;
 }
 
-function inscription($message)
+/* Ils utilisent pas l'inscription via site AE donc on commente */
+/*function inscription($message)
 {
   $simplexml = new SimpleXMLElement($message->str);
   $apikey = $simplexml->apikey[0];
@@ -153,9 +154,10 @@ function inscription($message)
 XML;
       
   return $response;
-}
+}*/
 
-$service = new WSService(array("operations" => array("testLogin", "inscription")));
+/*$service = new WSService(array("operations" => array("testLogin", "inscription")));*/
+$service = new WSService(array("operations" => array("testLogin")));
 $service->reply();
 
 ?>
