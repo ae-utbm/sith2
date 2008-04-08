@@ -35,23 +35,44 @@ if ( !$site->user->is_in_group("root") )
 	
 $site->start_page("none","Administration");
 
-$cts = new contents("<a href=\"./\">Administration</a> / Logs");
+if($_REQUEST['action'] == "info" && !empty($_REQUEST['id_log']))
+{
+  $req = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) AS nom_utilisateur,
+                                   id_utilisateur, id_log, time_log, action_log, context_log, description_log
+                                 FROM logs
+                                 INNER JOIN utilisateurs USING(id_utilisateur)
+                                 WHERE id_log='".$_REQUEST['id_log']."'");
 
-$req = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) AS nom_utilisateur,
-                                 id_utilisateur, time_log, action_log, context_log, description_log
-                               FROM logs 
-                               INNER JOIN utilisateurs USING(id_utilisateur) 
-                               ORDER BY time_log DESC LIMIT 30");
+  $cts = new contents("<a href=\"./\">Administration</a> / <a href=\"./logs.php\">Logs</a> / Détail d'un évennement");
 
-$cts->add(new sqltable(
-  "logs30", 
-  "Dernières actions enregistrées", $req, "", "", 
-  array("time_log" => "Date", "nom_utilisateur" => "Utilisateur", "context_log" => "Contexte", "action_log" => "Action"), 
-  array(), 
-  array(),
-  array()
-  ),true);
+  $row = $req->get_row();
   
+  $list = new itemlist();
+  $list->add("<strong>Date :</strong> ".$row['time_log']);
+  $list->add("<strong>Contexte :</strong> ".$row['context_log']);
+  $list->add("<strong>Utilisateur :</strong> <a href=\"".$topdir."user.php?id_utilisateur=".$row['id_utilisateur']."\">".$row['nom_utilisateur']."</a>");
+  $list->add("<strong>Description :</strong> ".$row['description_log']);
+  $cts->add($list);
+}
+else
+{
+  $cts = new contents("<a href=\"./\">Administration</a> / Logs");
+
+  $req = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) AS nom_utilisateur,
+                                   id_utilisateur, id_log, time_log, action_log, context_log, description_log
+                                 FROM logs 
+                                 INNER JOIN utilisateurs USING(id_utilisateur) 
+                                 ORDER BY time_log DESC LIMIT 30");
+
+  $cts->add(new sqltable(
+    "logs30", 
+    "Dernières actions enregistrées", $req, "logs.php", "id_log", 
+    array("time_log" => "Date", "nom_utilisateur" => "Utilisateur", "context_log" => "Contexte", "action_log" => "Action"), 
+    array("info" => "Détails"), 
+    array(),
+    array()
+    ),true);
+} 
 $site->add_contents($cts);
  
 $site->end_page();
