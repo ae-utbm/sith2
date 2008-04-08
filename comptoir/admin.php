@@ -28,6 +28,8 @@ require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 require_once($topdir. "include/entities/salle.inc.php");
 require_once($topdir. "include/entities/files.inc.php");
+require_once($topdir. "include/entities/asso.inc.php");
+require_once($topdir. "include/entities/group.inc.php");
 
 $site = new sitecomptoirs();
 // Session requise
@@ -94,6 +96,12 @@ if ( $_REQUEST["action"] == "addcomptoir" && $site->user->is_in_group("gestion_a
 	{
 		$comptoir->ajout( $_REQUEST["nom"], $assocpt->id, $_REQUEST["id_groupe_vendeurs"], $_REQUEST["id_groupe_admins"], $_REQUEST["type"],$salle->id );
 		$site->admin_comptoirs[$comptoir->id] = $comptoir->nom;
+
+    $grp_vendeurs = new group ( $site->db);
+    $grp_vendeurs->load_by_id($_REQUEST["id_groupe_vendeurs"]);
+    $grp_admins = new group ( $site->db);
+    $grp_admins->load_by_id($_REQUEST["id_groupe_admins"]);
+    $site->log("Ajout d'un comptoir","Ajout du comptoir \"".$comptoir->nom."\" de type ".$comptoir->type.", administré par le groupe ".$grp_admins->nom." (id : ".$grp_admins->id.") et tenu par le groupe ".$grp_vendeurs->nom." (id : ".$grp_vendeurs->id.")","Comptoirs".$site->user->id);
 	}
 }
 /*
@@ -104,6 +112,8 @@ else if ( $_REQUEST["action"] == "addtype" && ($assocpt->id > 0) )
   $file->load_by_id($_REQUEST["id_file"]);
   
 	$typeprod->ajout( $_REQUEST["nom"], $_REQUEST["id_action"], $assocpt->id, $file->id,$_REQUEST["description"] );
+
+  $site->log("Ajout d'un type de produit","Ajout du type de produit \"".$_REQUEST["nom"]."\" (".$_REQUEST["description"].")","Comptoirs",$site->user->id);
 }
 /*
 	Ajout d'une association
@@ -111,6 +121,10 @@ else if ( $_REQUEST["action"] == "addtype" && ($assocpt->id > 0) )
 else if ( $_REQUEST["action"] == "addasso" && $site->user->is_in_group("gestion_ae") )
 {
 	$assocpt->add($_REQUEST["id_asso"]);
+
+  $asso = new asso();
+  $asso->load_by_id($_REQUEST["id_asso"]);
+  $site->log("Ajout d'une association","Ajout de l'association ".$asso->nom." (id : ".$asso->id.")","Comptoirs",$site->user->id);
 }
 /*
 	Ajout d'un produit
@@ -148,20 +162,25 @@ else if ( $_REQUEST["action"] == "addproduit" && ($typeprod->id > 0) && ($assocp
 		  
 		  $produit_parent->id
 		  ) )
-		  
-    foreach( $_REQUEST['cpt'] as $idcomptoir => $on )
     {
-		$comptoir->load_by_id($idcomptoir);
-		if (($comptoir->id > 0) && ($on == "on") && isset($site->admin_comptoirs[$idcomptoir]) ) 
-		{
-			$stock_local = -1;
-        
-			if ( $_REQUEST["cpt_stock"][$idcomptoir] == "lim" )
-				$stock_global = $_REQUEST["cpt_stock_value"][$idcomptoir];       
-		       
-			$venteproduit->nouveau($produit,$comptoir,$stock_local);
-		}
-	}
+      $asso = new asso();
+      $asso->load_by_id($assocpt->id);
+      $site->log("Ajout d'un produit","Ajout du produit ".$_REQUEST['nom']." (".$_REQUEST["description"].") au profit de ".$asso->nom,"Comptoirs",$site->user>id);
+		  
+      foreach( $_REQUEST['cpt'] as $idcomptoir => $on )
+      {
+    		$comptoir->load_by_id($idcomptoir);
+    		if (($comptoir->id > 0) && ($on == "on") && isset($site->admin_comptoirs[$idcomptoir]) ) 
+    		{
+    			$stock_local = -1;
+          
+    			if ( $_REQUEST["cpt_stock"][$idcomptoir] == "lim" )
+    				$stock_global = $_REQUEST["cpt_stock_value"][$idcomptoir];       
+  		       
+    			$venteproduit->nouveau($produit,$comptoir,$stock_local);
+	    	}
+    	}
+    }
 }
 /*
 	Mise ‡ jour comptoirs d'un produit
