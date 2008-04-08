@@ -51,7 +51,10 @@ if ( ($_REQUEST["action"] == "delete") && $site->user->is_in_group("gestion_ae")
 		$fact = new debitfacture ($site->db,$site->dbrw);
 		$fact->load_by_id($_REQUEST["id_facture"]);
 		if ( $fact->id > 0 )
+    {
+      $site->log("Annulation d'une facture","Annulation de la facture N° ".$fact->id.", d'un montant de ".$fact->montant."€ du ".$fact->date." débitée à l'utilisateur ".$fact->id_utilisateur_client." par ".$fact->id_utilisateur,"Comptes AE",$site->user->id);
 			$fact->annule_facture();
+    }
 	}
 	else	if ( isset($_REQUEST["id_rechargement"]))
 	{
