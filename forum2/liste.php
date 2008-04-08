@@ -128,6 +128,7 @@ $cts->add($lst);
 
 $req = new requete($site->db,
     "SELECT f1.titre_forum as titre_forum, ".
+    "f1.id_forum as id_forum ,".
     "f1.description_forum as description_forum, ".
     "f1.categorie_forum as categorie_forum, ".
     "f2.titre_forum as titre_forum_parent ".

@@ -43,15 +43,14 @@ $site->start_page("none","Administration des bans du forum");
 
 
 /* annulation ban des utilisateurs coches dans la liste */
-if ( $_REQUEST["action"]=="delete" && $can_admin)
+if ( $_REQUEST["action"]=="unban" && $can_admin)
 {
   $cts->add_title(2,"Annulation ban");
 
   $user = new utilisateur($site->db,$site->dbrw);
-  $user->load_by_id($_REQUEST["id_utilisateur"]);
 
   $nb = 0;
-  foreach($_REQUEST["id_utlban"] as $id_utilisateur )
+  foreach($_REQUEST["id_utilisateur"] as $id_utilisateur )
   {
     $user->load_by_id($id_utilisateur);
     if(!is_null($user->id) && $user->is_in_group("ban_forum")){
@@ -66,19 +65,6 @@ if ( $_REQUEST["action"]=="delete" && $can_admin)
     $cts->add_paragraph($nb." utilisateur n'est maintenant plus banni du forum.");
   }else{
     $cts->add_paragraph($nb." utilisateurs ne sont plus bannis du forum.");
-  }
-
-}elseif ( $_REQUEST["action"]=="unban" && $can_admin && $_REQUEST["id_utilisateur"])
-{
-
-  $cts->add_title(2,"Annulation ban");
-  $user = new utilisateur($site->db,$site->dbrw);
-  $user->load_by_id($_REQUEST["id_utilisateur"]);
-  if(!is_null($user->id) && $user->is_in_group("ban_forum")){
-    $user->remove_from_group(39); // groupe ban_forum
-    $cts->add_paragraph("Un utilisateur n'est maintenant plus banni du forum.");
-  }else{
-    $cts->add_paragraph("Aucun utilisateur n'a &eacute;t&eacute; affect&eacute; par l'annulation de ban du forum.");
   }
 
 }elseif ( $_REQUEST["action"]=="ban" && $can_admin && $_REQUEST["id_utilisateur"])
@@ -109,7 +95,7 @@ $req = new requete($site->db,
     "Utilisateurs bannis du forum",
     $req,
     "liste_ban.php", 
-    "id_utlban", 
+    "id_utilisateur", 
     array("nom_utilisateur"=>"Utilisateur"), 
     $can_admin?array("unban"=>"Enlever le ban"):array(), 
     $can_admin?array("unban"=>"Enlever le ban"):array()
