@@ -61,7 +61,12 @@ if (  $grp->id > 0)
 	if ( $_REQUEST["action"] == "delete")
 	{
 	  if ( $grp->id != 7 || $site->user->is_in_group("root") )
+    {
 		  $grp->remove_user_from_group($_REQUEST["id_utilisateur"]);
+      $user = new utilisateur($site->db);
+      $user->load_by_id($_REQUEST["id_utilisateur"]);
+      $site->log("Retrait d'un utilisateur du groupe ". $grp->nom,"Retrait de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") du groupe ". $grp->nom ." (id : ".$grp->id.")","Groupes",$site->user->id);
+    }
     else
       $Error = "Veuillez contacter l'équipe informatique pour modifier les comptes root";
 	}

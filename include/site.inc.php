@@ -1568,7 +1568,8 @@ class site extends interfaceweb
    * Permet de loguer les actions critiques ou sensibles sur le site.
    * @param $action_log Action effectuée (exemple : Suppression facture)
    * @param $description_log Détails de l'opération effectuée
-   * @param $context_log Contexte dans lequel l'opération a été effectuée (comptea, 
+   * @param $context_log Contexte dans lequel l'opération a été effectuée (compteae, rezome...)
+   * @param $id_utilisateur Si applicable, id de l'utilisateur ayant effectué l'action
    */
   function log($action_log, $description_log, $context_log, $id_utilisateur=null)
   {
