@@ -58,6 +58,16 @@ else
 {
   $cts = new contents("<a href=\"./\">Administration</a> / Logs");
 
+  $req = new requete($site->db, "SELECT context_log, count(context_log) AS nombre FROM logs GROUP BY context_log");
+
+  $cts->add(new sqltable(
+    "context_list",
+    "Liste des contextes", $req, "logs.php", "context_log",
+    array("context_log" => "Contexte","nombre" => "Nombre d'évennements"),
+    array("info_context" => "Détails"),
+    array(),
+    array()),true);
+
   $req = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) AS nom_utilisateur,
                                    id_utilisateur, id_log, time_log, action_log, context_log, description_log
                                  FROM logs 
@@ -70,8 +80,7 @@ else
     array("time_log" => "Date", "nom_utilisateur" => "Utilisateur", "context_log" => "Contexte", "action_log" => "Action"), 
     array("info" => "Détails"), 
     array(),
-    array()
-    ),true);
+    array()),true);
 } 
 $site->add_contents($cts);
  
