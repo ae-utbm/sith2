@@ -185,7 +185,7 @@ else
 }
 $cts->add($tbl,true);
 
-if ( $grp->id == 7 )
+if ( $site->user->is_in_group("root") )
 {
   $frm = new form("addgroup","group.php", false,"POST","Créer un groupe");
   $frm->add_hidden("action","addgroup");
