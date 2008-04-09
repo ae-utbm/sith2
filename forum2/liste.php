@@ -54,6 +54,7 @@ if( $_REQUEST["action"]=="new")
 
   $values_forum = array();
   $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
+  $req = new requete($site->db, $sql);
   while( list($value,$name) = $req->get_row()){
     $values_forum[$values] = $name;
   }
@@ -88,6 +89,7 @@ if( $_REQUEST["action"]=="new")
 
   $values_forum = array();
   $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
+  $req = new requete($site->db, $sql);
   while( list($value,$name) = $req->get_row()){
     $values_forum[$values] = $name;
   }
