@@ -60,8 +60,8 @@ else
 
   if($req->lines >= 1)
   {
-    while(list($id,$value)= $req->get_row() )
-      $context_list[$id] = $value;
+    while(list($context)= $req->get_row() )
+      $context_list[$context] = $context;
     
     $cts = new contents("<a href=\"./\">Administration</a> / Logs");
 
