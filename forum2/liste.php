@@ -71,7 +71,7 @@ if( $_REQUEST["action"]=="new")
                                "1" => "1"),
                          null, "", true);
 
-  $frm->add_entity_field("id_forum_parent",
+  $frm->add_select_field("id_forum_parent",
                          "Forum parent",
                          $values_forum,
                          $forum->id_forum_parent,"", true);
@@ -108,7 +108,7 @@ if( $_REQUEST["action"]=="new")
                                "1" => "1"),
                          $forum->categorie, "", true);
 
-  $frm->add_entity_field("id_forum_parent",
+  $frm->add_select_field("id_forum_parent",
                          "Forum parent",
                          $values_forum,
                          $forum->id_forum_parent,"", true);
