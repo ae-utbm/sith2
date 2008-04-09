@@ -71,7 +71,7 @@ else
     $frm->add_hidden("action","search");
     $frm->add_datetime_field("start","Date et heure de début");
     $frm->add_datetime_field("end","Date et heure de fin");
-    $frm->add_select_filed("context","Contexte", $context_list, $_REQUEST["context"]);
+    $frm->add_select_field("context","Contexte", $context_list, $_REQUEST["context"]);
     $frm->add_submit("submit","Rechercher");
     $cts->add($frm,true);
   }
