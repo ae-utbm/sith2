@@ -56,25 +56,46 @@ if($_REQUEST['action'] == "info" && !empty($_REQUEST['id_log']))
 }
 else
 {
-  $cts = new contents("<a href=\"./\">Administration</a> / Logs");
+  $req = new requete($site->db, "SELECT context_log FROM logs GROUP BY context_log");
 
-  $cts->add_title("1","Recherche");
-  $cts->add_paragraph("Ici, demian, surement.");
+  if($req->lines >= 1)
+  {
+    while(list($id,$value)= $req->get_row() )
+      $context_list[$id] = $value;
+    
+    $cts = new contents("<a href=\"./\">Administration</a> / Logs");
 
+    $cts->add_title("2","Recherche");
+  
+    $frm = new form("logsearch","logs.php",true,"POST","Critères de sélection");
+    $frm->add_hidden("action","search");
+    $frm->add_datetime_field("start","Date et heure de début");
+    $frm->add_datetime_field("end","Date et heure de fin");
+    $frm->add_select_filed("context","Contexte", $context_list, $_REQUEST["context"]);
+    $frm->add_submit("submit","Rechercher");
+    $cts->add($frm,true);
+  }
 
-  $req = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) AS nom_utilisateur,
-                                   id_utilisateur, id_log, time_log, action_log, context_log, description_log
-                                 FROM logs 
-                                 INNER JOIN utilisateurs USING(id_utilisateur) 
-                                 ORDER BY time_log DESC LIMIT 30");
+  if($_REQUEST['action'] == "search")
+  {
+    $cts->add_paragraph("Poulpy va cherche logs");
+  }
+  else
+  {
+    $req = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) AS nom_utilisateur,
+                                     id_utilisateur, id_log, time_log, action_log, context_log, description_log
+                                   FROM logs 
+                                   INNER JOIN utilisateurs USING(id_utilisateur) 
+                                   ORDER BY time_log DESC LIMIT 30");
 
-  $cts->add(new sqltable(
-    "logs30", 
-    "Dernières actions enregistrées", $req, "logs.php", "id_log", 
-    array("time_log" => "Date", "nom_utilisateur" => "Utilisateur", "context_log" => "Contexte", "action_log" => "Action"), 
-    array("info" => "Détails"), 
-    array(),
-    array()),true);
+    $cts->add(new sqltable(
+      "logs30", 
+      "Dernières actions enregistrées", $req, "logs.php", "id_log", 
+      array("time_log" => "Date", "nom_utilisateur" => "Utilisateur", "context_log" => "Contexte", "action_log" => "Action"), 
+      array("info" => "Détails"), 
+      array(),
+      array()),true);
+  }
 } 
 $site->add_contents($cts);
  
