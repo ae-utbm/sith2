@@ -52,11 +52,11 @@ if( $_REQUEST["id_forum"] && !is_null($_REQUEST["id_forum"]) ){
 if( $_REQUEST["action"]=="new")
 {
 
-  $values_forum = array();
+  $values_forum = array(null=>"Aucun");
   $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
   $req = new requete($site->db, $sql);
   while( list($value,$name) = $req->get_row()){
-    $values_forum[$values] = $name;
+    $values_forum[$value] = $name;
   }
 
   $cts->add_title(2,"Nouveau forum");
@@ -87,11 +87,11 @@ if( $_REQUEST["action"]=="new")
 }elseif($_REQUEST["action"]=="edit")
 {
 
-  $values_forum = array();
+  $values_forum = array(null=>"Aucun");
   $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
   $req = new requete($site->db, $sql);
   while( list($value,$name) = $req->get_row()){
-    $values_forum[$values] = $name;
+    $values_forum[$value] = $name;
   }
 
 
