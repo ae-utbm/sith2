@@ -62,12 +62,15 @@ if( $_REQUEST["action"]=="new")
                                "0" => "0",
                                "1" => "1"),
                          "", "", true);
-  $frm->add_entity_smartselect("id_forum_parent",
-                                 "forum parent",
-                                 new forum($site->db), false, true);
-  $frm->add_entity_smartselect("id_asso",
-                               "Association",
-                               new asso($site->db), false, true);
+  $frm->add_entity_select("id_forum_parent",
+                          "Forum parent",
+                          $site->db,
+                          "forum", $forum->id_forum_parent, true);
+
+  $frm->add_entity_select("id_asso",
+                          "Association concern&eacute;e",
+                          $site->db,
+                          "asso", $forum->id_asso, true);
   $frm->add_submit("nvforum","Ajouter");
   $cts->add($frm);
 
@@ -80,19 +83,25 @@ if( $_REQUEST["action"]=="new")
   $frm = new form("editforum","liste.php",true,"POST","Edition forum ");
   $frm->add_hidden("id_forum",$forum->id);
   $frm->add_text_field("titre_forum", "Titre",$forum->titre);
-  $frm->add_text_field("description_forum", "Descriptione",$forum->description);
+  $frm->add_text_field("description_forum", "Description",$forum->description);
   $frm->add_select_field("categorie_forum",
                          "Categorie",
                          array("" => "Aucune",
                                "0" => "0",
                                "1" => "1"),
                          $forum->categorie, "", true);
-  $frm->add_entity_smartselect("id_forum_parent",
-                                 "forum parent",
-                                 new forum($site->db), $forum->id_forum_parent, true);
-  $frm->add_entity_smartselect("id_asso",
-                               "Association",
-                               new asso($site->db), $forum->id_asso, true);
+
+  $frm->add_entity_select("id_forum_parent",
+                          "Forum parent",
+                          $site->db,
+                          "forum", $forum->id_forum_parent, true);
+
+  $frm->add_entity_select("id_asso",
+                          "Association concern&eacute;e",
+                          $site->db,
+                          "asso", $forum->id_asso, true);
+
+
   $frm->add_submit("editforum","Enregistrer");
   $cts->add($frm);
 /* update d'un forum */
@@ -120,7 +129,7 @@ if( $_REQUEST["action"]=="new")
 
 $cts->add_title(2,"Administration du forum");
 $lst = new itemlist();
-$lst->add("<a href=\"new.php\">Ajouter un sous forum</a>");
+$lst->add("<a href=\"liste.php?action=new\">Ajouter un sous forum</a>");
 $lst->add("<a href=\"liste_ban.php\">Afficher les utilisateurs bannis du forum</a>");
 $lst->add("<a href=\"liste.php\">Afficher les forums</a>");
 
@@ -131,9 +140,11 @@ $req = new requete($site->db,
     "f1.id_forum as id_forum ,".
     "f1.description_forum as description_forum, ".
     "f1.categorie_forum as categorie_forum, ".
-    "f2.titre_forum as titre_forum_parent ".
-    "FROM `frm_forum` f1,`frm_forum` f2  ".
+    "f2.titre_forum as titre_forum_parent, ".
+    "`asso`.nom_asso as nom_asso ".
+    "FROM `frm_forum` f1,`frm_forum` f2, `asso`  ".
     "WHERE f1.id_forum_parent=f2.id_forum ".
+    "AND `asso`.id_asso = f1.id_asso ".
     "ORDER BY f1.id_forum ");
 		
   $tbl = new sqltable(
@@ -142,7 +153,7 @@ $req = new requete($site->db,
     $req,
     "liste.php", 
     "id_forum", 
-    array("titre_forum"=>"Titre","description_forum"=>"Description","categorie_forum"=>"Catégorie","titre_forum_parent"=>"Forum parent"), 
+    array("titre_forum"=>"Titre","description_forum"=>"Description","categorie_forum"=>"Catégorie","titre_forum_parent"=>"Forum parent","nom_asso"=>"Association concernée"), 
     array("edit"=>"Editer","delete"=>"Supprimer"),
     array(),
     array()
