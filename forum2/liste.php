@@ -55,13 +55,13 @@ if( $_REQUEST["action"]=="new")
 
   $frm = new form("nvforum","liste.php",false,"POST","Nouveau forum ");
   $frm->add_text_field("titre_forum", "Titre","");
-  $frm->add_text_field("description_forum", "Descriptione","");
+  $frm->add_text_area("description_forum", "Description","");
   $frm->add_select_field("categorie_forum",
                          "Categorie",
-                         array("" => "Aucune",
+                         array( null => "Aucune",
                                "0" => "0",
                                "1" => "1"),
-                         "", "", true);
+                         null, "", true);
   $frm->add_entity_select("id_forum_parent",
                           "Forum parent",
                           $site->db,
@@ -83,18 +83,32 @@ if( $_REQUEST["action"]=="new")
   $frm = new form("editforum","liste.php",true,"POST","Edition forum ");
   $frm->add_hidden("id_forum",$forum->id);
   $frm->add_text_field("titre_forum", "Titre",$forum->titre);
-  $frm->add_text_field("description_forum", "Description",$forum->description);
+  $frm->add_text_area("description_forum", "Description",$forum->description);
   $frm->add_select_field("categorie_forum",
                          "Categorie",
-                         array("" => "Aucune",
+                         array(null => "Aucune",
                                "0" => "0",
                                "1" => "1"),
                          $forum->categorie, "", true);
 
   $frm->add_entity_select("id_forum_parent",
-                          "Forum parent",
+                          "Forum parent1",
                           $site->db,
                           "forum", $forum->id_forum_parent, true);
+
+  $frm->add_entity_select("id_forum_parent",
+                          "Forum parent2",
+                          $site->db,
+                          "frm", $forum->id_forum_parent, true);
+
+  $frm->add_entity_select("id_forum",
+                          "Forum parent3",
+                          $site->db,
+                          "forum", $forum->id_forum_parent, true);
+
+
+  $frm->add_entity_smartselect("id_forum_parent","Forum parent4",new forum($site->db));
+
 
   $frm->add_entity_select("id_asso",
                           "Association concern&eacute;e",
