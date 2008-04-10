@@ -83,7 +83,6 @@ if(isset($_REQUEST["recherche"]) &&
            "FROM `frm_forum` f2,`frm_forum` f1 ".
            "LEFT OUTER JOIN asso a ON f1.id_asso = a.id_asso ".
            "WHERE f1.id_forum_parent=f2.id_forum ".
-           "AND `asso`.id_asso = f1.id_asso ".
 			     "AND f1.id_forum = ".$_REQUEST["id_recherche"]." ;";
     $req = new requete($site->db, $sql);
 
