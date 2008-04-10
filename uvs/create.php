@@ -58,7 +58,9 @@ if ($_REQUEST['step'] == 3)
 
   $semestre = (date("m") > 6 ? "A" : "P") . date("y");
 
-  foreach($_REQUEST['uv'] as $uv => $value)
+  if(!empty($_REQUEST['uv']))
+  {
+    foreach($_REQUEST['uv'] as $uv => $value)
     {
 
       $req = new requete($site->db, "SELECT id_uv FROM edu_uv WHERE code_uv = '".mysql_real_escape_string($uv)."'");
@@ -161,6 +163,7 @@ if ($_REQUEST['step'] == 3)
 		}
 	    }
 	}
+      }
     }
 
   $site->add_contents($cts);
