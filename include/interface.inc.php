@@ -517,7 +517,8 @@ class interfaceweb
             
     while ( list($id,$name) = $req->get_row() )
       $this->params[$id] = $name;
-      
+     
+    $this->params["backup_server"] = $_SERVER["BACKUP_AE_SERVER"];
   }
   
   /**

@@ -65,8 +65,6 @@ else
     
     $cts = new contents("<a href=\"./\">Administration</a> / Logs");
 
-    $cts->add_title("2","Recherche");
-  
     $frm = new form("logsearch","logs.php",true,"POST","Critères de sélection");
     $frm->add_hidden("action","search");
     $frm->add_datetime_field("start","Date et heure de début");
