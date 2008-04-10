@@ -65,7 +65,7 @@ if(isset($_REQUEST["recherche"]) &&
               "liste.php", 
               "id_sujet", 
               array("titre_sujet"=>"Titre du sujet",
-                    "titre_forum"=>"Forum concern&eacute;",
+                    "titre_forum"=>"Forum concerné",
                     "alias_utl"=>"Utilisateur"), 
               array("edit"=>"Editer","delete"=>"Supprimer"),
               array(),
@@ -83,11 +83,9 @@ if(isset($_REQUEST["recherche"]) &&
            "FROM `frm_forum` f1,`frm_forum` f2, `asso`  ".
            "WHERE f1.id_forum_parent=f2.id_forum ".
            "AND `asso`.id_asso = f1.id_asso ".
-			     "AND f1.`id_forum` = ".$_REQUEST["id_recherche"]." ;";
-
-
-
+			     "AND f1.id_forum = ".$_REQUEST["id_recherche"]." ;";
     $req = new requete($site->db, $sql);
+
     if( $req->lines == 0 ){
       $cts->add_paragraph("Aucun forum ne correspond &agrave; votre recherche !");
     }else{
@@ -100,8 +98,8 @@ if(isset($_REQUEST["recherche"]) &&
               "id_forum", 
               array("titre_forum"=>"Titre du forum",
                     "description_forum"=>"Description du forum",
-                    "titre_forum_parent"=>"Forum parent concern&eacute;",
-                    "nom_asso"=>"Association oncernée"), 
+                    "titre_forum_parent"=>"Forum parent concerné",
+                    "nom_asso"=>"Association concernée"), 
               array("edit"=>"Editer","delete"=>"Supprimer"),
               array(),
               array()
