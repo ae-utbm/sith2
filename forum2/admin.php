@@ -83,7 +83,7 @@ if(isset($_REQUEST["recherche"]) &&
            "FROM `frm_forum` f1,`frm_forum` f2, `asso`  ".
            "WHERE f1.id_forum_parent=f2.id_forum ".
            "AND `asso`.id_asso = f1.id_asso ".
-			     "AND `id_forum` = ".$_REQUEST["id_recherche"]." ;";
+			     "AND f1.`id_forum` = ".$_REQUEST["id_recherche"]." ;";
 
 
 
@@ -101,7 +101,7 @@ if(isset($_REQUEST["recherche"]) &&
               array("titre_forum"=>"Titre du forum",
                     "description_forum"=>"Description du forum",
                     "titre_forum_parent"=>"Forum parent concern&eacute;",
-                    "nom_asso"=>"Association oncern&eacute;e"), 
+                    "nom_asso"=>"Association oncernée"), 
               array("edit"=>"Editer","delete"=>"Supprimer"),
               array(),
               array()
