@@ -86,7 +86,7 @@ if(isset($_REQUEST["recherche"]) &&
 			     "AND f1.id_forum = ".$_REQUEST["id_recherche"]." ;";
     $req = new requete($site->db, $sql);
 
-    if( $req->lines == 0 ){
+    if( $req == null || $req->lines == 0 ){
       $cts->add_paragraph("Aucun forum ne correspond &agrave; votre recherche !");
     }else{
 
