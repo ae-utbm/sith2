@@ -121,7 +121,7 @@ $frm->add_radiobox_field("type_recherche",
                          array("sujet"=>"Sujet", "forum"=>"Forum"),
                          "sujet",
                          false,
-                         true)
+                         true);
 
 $frm->add_text_field("id_recherche", "Id de l'objet","");
 $frm->add_submit("recherche","Rechercher");
