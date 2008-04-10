@@ -79,9 +79,9 @@ if(isset($_REQUEST["recherche"]) &&
            "f1.id_forum as id_forum ,".
            "f1.description_forum as description_forum, ".
            "f2.titre_forum as titre_forum_parent, ".
-           "`asso`.nom_asso as nom_asso ".
-           "FROM `frm_forum` f1,`frm_forum` f2 ".
-           "INNER JOIN `asso` ON `asso`.id_asso=f1.id_asso ".
+           "a.nom_asso as nom_asso ".
+           "FROM `frm_forum` f2,`frm_forum` f1 ".
+           "LEFT OUTER JOIN asso a ON f1.id_asso = a.id_asso ".
            "WHERE f1.id_forum_parent=f2.id_forum ".
            "AND `asso`.id_asso = f1.id_asso ".
 			     "AND f1.id_forum = ".$_REQUEST["id_recherche"]." ;";
