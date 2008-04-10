@@ -82,7 +82,7 @@ if(isset($_REQUEST["recherche"]) &&
            "FROM `frm_forum` f1,`frm_forum` f2, `asso`  ".
            "WHERE f1.id_forum_parent=f2.id_forum ".
            "AND `asso`.id_asso = f1.id_asso ".
-           "AND `id_forum` = ".$_REQUEST["id_recherche"]
+			     "AND `id_forum` = ".$_REQUEST["id_recherche"]." ;";
 
 
 
