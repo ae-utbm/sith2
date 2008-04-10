@@ -52,7 +52,7 @@ if( $_REQUEST["id_forum"] && !is_null($_REQUEST["id_forum"]) ){
 if( $_REQUEST["action"]=="new")
 {
 
-  $values_forum = array(null=>"Aucun");
+  $values_forum = array(null=>"(Aucun)");
   $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
   $req = new requete($site->db, $sql);
   while( list($value,$name) = $req->get_row()){
@@ -87,7 +87,7 @@ if( $_REQUEST["action"]=="new")
 }elseif($_REQUEST["action"]=="edit")
 {
 
-  $values_forum = array(null=>"Aucun");
+  $values_forum = array(null=>"(Aucun)");
   $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
   $req = new requete($site->db, $sql);
   while( list($value,$name) = $req->get_row()){
