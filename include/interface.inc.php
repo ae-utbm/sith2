@@ -418,6 +418,13 @@ class interfaceweb
         echo "</div>";    
       }
     }    
+    if ( $this->get_param("backup_server",true) )
+    {
+      echo "<div id=\"hugealert\">";
+      echo "<p>Le système fonctionne actuellement sur le serveur de secours, ".
+           "veuillez limiter vos actions au strict minimum.</p>";
+      echo "</div>";
+    }
     
     echo "</body>\n";
     echo "</html>\n";
