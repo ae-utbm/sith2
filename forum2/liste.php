@@ -29,6 +29,7 @@ require_once($topdir . "include/cts/sqltable.inc.php");
 require_once($topdir . "include/cts/user.inc.php");
 require_once($topdir . "include/entities/utilisateur.inc.php");
 require_once($topdir . "include/entities/forum.inc.php");
+require_once($topdir . "include/entities/sujet.inc.php");
 require_once($topdir . "include/cts/forum.inc.php");
 
 
@@ -43,9 +44,14 @@ if ( !$site->user->is_in_group("moderateur_forum") )
 
 
 $forum = new forum($site->db,$site->dbrw);
+$sujet = new sujet($site->db,$site->dbrw);
 if( $_REQUEST["id_forum"] && !is_null($_REQUEST["id_forum"]) ){
   $forum->load_by_id( $_REQUEST["id_forum"] );
 }
+if( $_REQUEST["id_sujet"] && !is_null($_REQUEST["id_sujet"]) ){
+  $sujet->load_by_id( $_REQUEST["id_sujet"] );
+}
+
 
 
 /* nouveau forum */
@@ -83,8 +89,44 @@ if( $_REQUEST["action"]=="new")
   $frm->add_submit("nvforum","Ajouter");
   $cts->add($frm);
 
+
+/* modification d'un sujet */
+}elseif($_REQUEST["action"]=="edit" && isset($_REQUEST["id_sujet"]))
+{
+
+  $values_forum = array();
+  $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
+  $req = new requete($site->db, $sql);
+  while( list($value,$name) = $req->get_row()){
+    $values_forum[$value] = $name;
+  }
+
+
+  $cts->add_title(2,"Edition d'un sujet");
+
+  $frm = new form("editsujet","liste.php",true,"POST","Edition sujet ");
+  $frm->add_hidden("id_sujet",$sujet->id);
+  $frm->add_text_field("titre_sujet", "Titre",$sujet->titre);
+  $frm->add_select_field("id_forum",
+                         "Forum concerné",
+                         $values_forum,
+                         $sujet->id_forum,"", true);
+  $frm->add_entity_smartselect("id_utilisateur","Utilisateur modérateur", new utilisateur($site->db));
+
+/* update d'un sujet */
+}elseif(isset($_REQUEST["editsujet"]) && 
+        isset($_REQUEST["id_sujet"]) &&
+        isset($_REQUEST["titre_sujet"]) &&
+        isset($_REQUEST["id_forum"]) &&
+        isset($_REQUEST["id_utilisateur"]) &&
+        !is_null($sujet->id) )
+{
+	$sujet->id_forum = $_REQUEST["id_forum"];
+
+  $sujet->update($_REQUEST["titre_sujet"],$sujet->soustitre,$sujet->type,$sujet->icon,$sujet->date_fin_annonce,$sujet->id_nouvelle,$sujet->id_catph,$sujet->id_sondage);
+
 /* modification d'un forum */
-}elseif($_REQUEST["action"]=="edit")
+}elseif($_REQUEST["action"]=="edit" && isset($_REQUEST["id_forum"]))
 {
 
   $values_forum = array(null=>"(Aucun)");
