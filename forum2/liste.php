@@ -112,6 +112,8 @@ if( $_REQUEST["action"]=="new")
                          $values_forum,
                          $sujet->id_forum,"", true);
   $frm->add_entity_smartselect("id_utilisateur","Utilisateur modérateur", new utilisateur($site->db));
+  $frm->add_submit("editsujet","Enregistrer");
+  $cts->add($frm);
 
 /* update d'un sujet */
 }elseif(isset($_REQUEST["editsujet"]) && 
