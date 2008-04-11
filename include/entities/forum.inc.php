@@ -200,8 +200,7 @@ class forum extends basedb
 		$rows = array();
     array_push($rows,$req->get_row());
 		echo $rows;
-		return $rows;
-			if( count($rows) > 0 ){
+			if( empty($rows) ){
 
 			$sujet = new sujet($site->db,$site->dbrw);
 	    while ( $row = $req->get_row() ){
