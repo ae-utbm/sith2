@@ -80,6 +80,10 @@ else
   {
     $cts->add_paragraph("Poulpy va chercher logs et rajouter conditions à la requête.");
   }
+  else
+  {
+    $elements[] = '1';
+  }
 
   $req = new requete($site->db, "SELECT COUNT(id_log) FROM logs WHERE ".implode(" AND ",$elements));
 
