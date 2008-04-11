@@ -5,6 +5,9 @@
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
+ * Copyright 2008
+ * - BURNEY Rémy < rburney <dot> utbm <at> gmail <dot> com >
+ *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr/
  *
@@ -30,6 +33,7 @@
  
 require_once($topdir."include/entities/basedb.inc.php");
 require_once($topdir."include/entities/asso.inc.php");
+require_once($topdir."include/entities/sujet.inc.php");
 
 /**
  * Forum
@@ -167,6 +171,54 @@ class forum extends basedb
             array("id_forum"=>$this->id) );
 	}	
 	
+
+
+  function delete ( $recursif=false )
+  {
+	
+    $sql="SELECT * from frm_forum WHERE id_forum_parent=".$this->id." ;";
+    $req = new requete($this->db,$sql);
+		// test si le forum est rataché à des autres forums
+		if( $sql->lines <= 0 && !$recursif ){
+	    $rows = array();
+      $forum = new forum($site->db,$site->dbrw);
+	    while ( $row = $req->get_row() ){
+
+				if( $recursif ){
+					$forum>load_by_id($row["id_sujet"]);
+					$forum->delete(true);
+				}else{
+          $rows[] = $row;
+				}
+			}
+	    return $rows;
+		}
+
+   $sql="SELECT * from frm_sujet WHERE id_forum=".$this->id." ;";
+    $req = new requete($this->db,$sql);
+		// test si le forum est rataché à des sujets
+		if( $sql->lines > 0 ){
+	    $rows = array();
+			$sujet = new sujet($site->db,$site->dbrw);
+	    while ( $row = $req->get_row() ){
+
+				if( $recursif ){
+					$sujet->load_by_id($row["id_sujet"]);
+					$sujet->delete($this);
+				}else{
+          $rows[] = $row;
+        }
+			}
+	    return $rows;
+		}
+
+    new delete($this->dbrw,"frm_forum",array("id_forum"=>$this->id));
+    $this->id = null;
+
+    return null;
+  }
+
+
 	function get_sub_forums ( &$user, $searchforunread=true )
 	{
 	 

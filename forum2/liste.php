@@ -72,7 +72,72 @@ elseif ( isset($_REQUEST["id_forum"]) )
 
 
 
-if( $_REQUEST["page"]=="new" && 
+
+if( isset($_REQUEST["action"]) &&
+    $_REQUEST["action"]=="delete" ) 
+{
+  
+  /* suppresion d'un forum */
+  if( isset($_REQUEST["id_forum"]) &&
+    $forum->id != null ) 
+  {
+    $rows = $forum->delete();
+    $cts->add_title(2,"Suppression du forum");
+    if(is_null($rows){
+      $cts->add_paragraph("Le forum ".$forum->titre.
+                          " &agrave; bien &eacute;t&eacute; supprim&eacute; !");
+    }else{
+      $cts->add_paragraph("Le forum ".$forum->titre.
+                          " n'a pas &eacute;t&eacute; supprim&eacute; !");
+
+      if( isset($rows[0]["id_forum"]) ){
+        $cts->add_paragraph("Veuillez avant supprimer les forums ci-dessous");
+        $tbl = new sqltable(
+                   "listforum", 
+                   "Liste des forums liés",
+                   $rows,
+                   "liste.php", 
+                   "id_forum", 
+                   array("titre_forum"=>"Titre","description_forum"=>"Description"), 
+                   array("edit"=>"Editer","delete"=>"Supprimer"),
+                   array(),
+                   array()
+                   );
+			}
+
+      if( isset($rows[0]["id_forum"]) ){
+        $cts->add_paragraph("Veuillez avant supprimer les sujets ci-dessous");
+        $tbl = new sqltable(
+                   "listsujet", 
+                   "Liste des sujets liés",
+                   $rows,
+                   "liste.php", 
+                   "id_sujet", 
+                   array("titre_sujet"=>"Titre du sujet"), 
+                   array("edit"=>"Editer","delete"=>"Supprimer"),
+                   array(),
+                   array()
+                   );
+			}
+
+
+    }
+	}
+
+  /* suppresion d'un sujet */
+  if( isset($_REQUEST["id_sujet"]) &&
+      !is_null($sujet->id) && !is_null($forum->id)) 
+  {
+		$sujet->delete($forum);
+    $cts->add_title(2,"Suppression du sujet");
+	}
+
+
+
+
+
+
+}elseif( $_REQUEST["page"]=="new" && 
     isset($_REQUEST["type"]) &&
     isset($_REQUEST["action"]) &&
     $_REQUEST["action"] == "new")
