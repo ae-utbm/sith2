@@ -125,6 +125,7 @@ else
     $n++;
   }
   $cts->add(new tabshead($tabs, $page, "_bottom"));
+  }
 } 
 $site->add_contents($cts);
  
