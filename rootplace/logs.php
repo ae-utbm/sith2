@@ -87,7 +87,7 @@ else
   if($_REQUEST['start'])
   {
     $elements[] = "`time_log` >= '".mysql_escape_string(date("Y-m-d H:i:s",$_REQUEST["start"]))."'";
-    $params .= "&start="rawurlencode($_REQUEST["start"]);
+    $params .= "&start=".rawurlencode($_REQUEST["start"]);
   }
 
   if($_REQUEST['end'])
