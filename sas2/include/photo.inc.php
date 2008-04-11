@@ -392,7 +392,7 @@ class photo extends basedb
           break;
       }
     }
-    
+
     $this->_calcul_couleur_moyenne();
   }
 

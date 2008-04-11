@@ -114,6 +114,11 @@ if( $_REQUEST["page"]=="new" &&
 
 
     $forum = new forum($site->db,$site->dbrw);
+    $forum->set_rights($site->user,$_REQUEST['rights'],
+                       $_REQUEST['rights_id_group'],
+                       $_REQUEST['rights_id_group_admin'],
+                       false);
+
 		$forum->create($_REQUEST["titre"],
                    $_REQUEST["decription"],
                    ($_REQUEST["categorie"]==null ? "0" : "1"),
@@ -121,7 +126,7 @@ if( $_REQUEST["page"]=="new" &&
                    $_REQUEST["id_asso"],
                    $_REQUEST["ordre"]);
 
-    $cts->add_paragraph("L' ajout du forum".$_REQUEST["titre"].
+    $cts->add_paragraph("L' ajout du forum ".$_REQUEST["titre"].
                         " &agrave bien été prise en compte.");
   }
 
