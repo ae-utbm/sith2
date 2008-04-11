@@ -129,8 +129,6 @@ if( $_REQUEST["page"]=="new" &&
 }elseif( $_REQUEST["page"]=="new")
 {
 
-  $site->allow_only_logged_users("forum");
-
   // On créer le sujet  
   if ( isset($_REQUEST["type"]) && $_REQUEST["type"]="sbj" )
   {
@@ -206,10 +204,13 @@ if( $_REQUEST["page"]=="new" &&
         openInContents('msg_preview', './index.php', 'get_preview&title='+encodeURIComponent(title)+'&content='+encodeURIComponent(content)+'&user='+user+'&syntaxengine='+syntaxengine);
       }
       </script>\n");
-  $cts->add($frm);
-  $cts->puts("<div id=\"msg_preview\"></div>");
-	exit();
-  } // fin formulaire création sujet 
+    $cts->add($frm);
+    $cts->puts("<div id=\"msg_preview\"></div>");
+
+    //$site->add_contents($cts);
+    //$site->end_page();
+	  //exit();
+    } // fin formulaire création sujet 
 
     // On créer le forum
   if ( isset($_REQUEST["type"]) && $_REQUEST["type"]="frm" )
@@ -240,9 +241,9 @@ if( $_REQUEST["page"]=="new" &&
     $frm->add_submit("newfrm","Ajouter");
     $cts->add($frm);
   
-    $site->add_contents($cts);
-    $site->end_page();  
-    exit();
+    //$site->add_contents($cts);
+    //$site->end_page();  
+    //exit();
   } // fin formulaire création forum
 
 
