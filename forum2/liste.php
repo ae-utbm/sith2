@@ -120,7 +120,7 @@ if( $_REQUEST["page"]=="new" &&
                        false);
 
 		$forum->create($_REQUEST["titre"],
-                   $_REQUEST["decription"],
+                   $_REQUEST["description"],
                    ($_REQUEST["categorie"]==null ? "0" : "1"),
                    $_REQUEST["id_forum_parent"],
                    $_REQUEST["id_asso"],
