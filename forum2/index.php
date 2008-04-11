@@ -554,10 +554,7 @@ if ( $sujet->is_valid() )
         $_auteur=new utilisateur($site->db,$site->dbrw);
         $_auteur->load_by_id($message->id_utilisateur);
         if(!is_null($_auteur->id))
-					if(!is_null($auteur->surnom))
-            $_auteur="=".$_auteur->surnom;
-          else
-            $_auteur="=".$_auteur->alias;
+          $_auteur="=".($_auteur->surnom!=null ? $_auteur->surnom : $_auteur->alias);
       }
       
       $rpltext = "[quote".$_auteur."]".$message->contenu . "[/quote]";
