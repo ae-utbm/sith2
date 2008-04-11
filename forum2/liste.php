@@ -78,7 +78,7 @@ if( $_REQUEST["page"]=="new" &&
     $_REQUEST["action"] == "new")
 {
    // On enregistre le sujet
-  if ( isset($_REQUEST["type"]) && $_REQUEST["type"]="sbj" ) 
+  if ( isset($_REQUEST["type"]) && $_REQUEST["type"]=="sbj" ) 
   {
 
     $message = new message($site->db,$site->dbrw);
@@ -91,7 +91,7 @@ if( $_REQUEST["page"]=="new" &&
     elseif ( $type == SUJET_ANNONCESITE )
       $date_fin_annonce=$_REQUEST["date_fin_announce_site"];
 
-	$sujet->create($forum,$site->user,
+	$sujet->create($forum,$site->user->id,
                  $_REQUEST["titre_sujet"],
                  $_REQUEST["soustitre_sujet"],
                  $type,
@@ -100,7 +100,7 @@ if( $_REQUEST["page"]=="new" &&
 
   $message->create($forum,
                    $sujet,
-                   $site->user,
+                   $site->user->id,
                    $_REQUEST["titre_sujet"],
                    $_REQUEST["subjtext"],
                    $_REQUEST["synengine"]);
@@ -108,7 +108,7 @@ if( $_REQUEST["page"]=="new" &&
   }
 
   // On enregistre le forum
-  if ( isset($_REQUEST["type"]) && $_REQUEST["type"]="frm" ) 
+  if ( isset($_REQUEST["type"]) && $_REQUEST["type"]=="frm" ) 
   {
 
     $forum = new forum($site->db,$site->dbrw);
@@ -122,6 +122,19 @@ if( $_REQUEST["page"]=="new" &&
     $cts->add_paragraph("L' ajout du forum".$_REQUEST["titre"].
                         " &agrave bien été prise en compte.");
   }
+
+/* édition forum ou sujet (formulaire) */
+}elseif( $_REQUEST["page"]=="edit")
+{
+
+	/** TODO après les vacances peut être **/
+
+
+
+
+
+
+
 
 
 
@@ -210,7 +223,7 @@ if( $_REQUEST["page"]=="new" &&
     $site->add_contents($cts);
     $site->end_page();
 	  exit();
-    } // fin formulaire création sujet 
+  } // fin formulaire création sujet 
 
     // On créer le forum
   if ( isset($_REQUEST["type"]) && $_REQUEST["type"]=="frm" )
@@ -239,9 +252,6 @@ if( $_REQUEST["page"]=="new" &&
     $frm->add_submit("newfrm","Ajouter");
     $cts->add($frm);
   
-    //$site->add_contents($cts);
-    //$site->end_page();  
-    //exit();
   } // fin formulaire création forum
 
 
@@ -272,7 +282,7 @@ $req = new requete($site->db,
     "listforum", 
     "Liste des forums",
     $req,
-    "index.php", 
+    "liste.php", 
     "id_forum", 
     array("titre_forum"=>"Titre","description_forum"=>"Description","categorie_forum"=>"Catégorie","titre_forum_parent"=>"Forum parent","nom_asso"=>"Association concernée"), 
     array("edit"=>"Editer","delete"=>"Supprimer"),
