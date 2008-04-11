@@ -40,7 +40,7 @@ $site->start_page("none","Administration des forum");
 
 $can_admin=( $site->user->is_in_group("root") || $site->user->is_in_group("moderateur_forum") );
 
-if ( !$site->user->is_in_group("moderateur_forum") )
+if ( !$site->user->is_in_group("moderateur_forum") || !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",39);
 
 
@@ -207,9 +207,9 @@ if( $_REQUEST["page"]=="new" &&
     $cts->add($frm);
     $cts->puts("<div id=\"msg_preview\"></div>");
 
-    //$site->add_contents($cts);
-    //$site->end_page();
-	  //exit();
+    $site->add_contents($cts);
+    $site->end_page();
+	  exit();
     } // fin formulaire création sujet 
 
     // On créer le forum
