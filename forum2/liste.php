@@ -30,6 +30,7 @@ require_once($topdir . "include/cts/user.inc.php");
 require_once($topdir . "include/entities/utilisateur.inc.php");
 require_once($topdir . "include/entities/forum.inc.php");
 require_once($topdir . "include/entities/sujet.inc.php");
+require_once($topdir . "include/entities/message.inc.php");
 require_once($topdir . "include/cts/forum.inc.php");
 
 
