@@ -62,7 +62,7 @@ if(isset($_REQUEST["recherche"]) &&
               "resrecherche", 
               "Résultat de la recherche d'un sujet",
               $req,
-              "liste.php", 
+              "index.php", 
               "id_sujet", 
               array("titre_sujet"=>"Titre du sujet",
                     "titre_forum"=>"Forum concerné",
@@ -94,7 +94,7 @@ if(isset($_REQUEST["recherche"]) &&
               "resrecherche", 
               "Résultat de la recherche d'un forum",
               $req,
-              "liste.php", 
+              "index.php", 
               "id_forum", 
               array("titre_forum"=>"Titre du forum",
                     "description_forum"=>"Description du forum",
@@ -130,7 +130,9 @@ $cts->add($frm);
 $cts->add_title(2,"Outil");
 
 $lst = new itemlist();
-$lst->add("<a href=\"liste.php?action=new\">Ajouter un forum</a>");
+$lst->add("<a href=\"liste.php?page=new&type=frm\">Ajouter un forum</a>");
+$lst->add("<a href=\"liste.php?page=new&type=sbj\">Ajouter un sujet</a>");
+
 $lst->add("<a href=\"liste_ban.php\">Afficher les utilisateurs bannis du forum</a>");
 $lst->add("<a href=\"liste.php\">Afficher les forums</a>");
 

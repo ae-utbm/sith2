@@ -45,145 +45,207 @@ if ( !$site->user->is_in_group("moderateur_forum") )
 
 $forum = new forum($site->db,$site->dbrw);
 $sujet = new sujet($site->db,$site->dbrw);
-if( $_REQUEST["id_forum"] && !is_null($_REQUEST["id_forum"]) ){
-  $forum->load_by_id( $_REQUEST["id_forum"] );
-}
-if( $_REQUEST["id_sujet"] && !is_null($_REQUEST["id_sujet"]) ){
-  $sujet->load_by_id( $_REQUEST["id_sujet"] );
-}
+$message = new message($site->db,$site->dbrw);
 
-
-
-/* nouveau forum */
-if( $_REQUEST["action"]=="new")
+if ( isset($_REQUEST["id_message"]) )
 {
+  $message->load_by_id($_REQUEST["id_message"]);
+  if ( $message->is_valid() )
+  {
+    $sujet->load_by_id($message->id_sujet); 
+    $forum->load_by_id($sujet->id_forum); 
+  }
+}
+elseif ( isset($_REQUEST["id_sujet"]) )
+{
+  $sujet->load_by_id($_REQUEST["id_sujet"]); 
+  if ( $sujet->is_valid() )
+  {
+    $forum->load_by_id($sujet->id_forum); 
+  }
+}
+elseif ( isset($_REQUEST["id_forum"]) )
+{
+  $forum->load_by_id($_REQUEST["id_forum"]); 
+}
 
-  $values_forum = array(null=>"(Aucun)");
-  $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
-  $req = new requete($site->db, $sql);
-  while( list($value,$name) = $req->get_row()){
-    $values_forum[$value] = $name;
+
+
+if( $_REQUEST["page"]=="new" && 
+    isset($_REQUEST["type"] &&
+    isset($_REQUEST["action"] &&
+    $_REQUEST["action"] == "new")
+{
+   // On enregistre le sujet
+  if ( isset($_REQUEST["type"]) && $_REQUEST["type"]="sbj" ) 
+  {
+
+    $message = new message($site->db,$site->dbrw);
+		$sujet = new sujet($site->db,$site->dbrw);
+    $forum->load_by_id($_REQUEST["id_forum"]);
+   
+    $type = $_REQUEST["subj_type"];
+    if ( $type == SUJET_ANNONCE )
+      $date_fin_annonce=$_REQUEST["date_fin_announce"];
+    elseif ( $type == SUJET_ANNONCESITE )
+      $date_fin_annonce=$_REQUEST["date_fin_announce_site"];
+
+	$sujet->create($forum,$site->user,
+                 $_REQUEST["titre_sujet"],
+                 $_REQUEST["soustitre_sujet"],
+                 $type,
+                 null,
+                 $date_fin_annonce);
+
+  $message->create($forum,
+                   $sujet,
+                   $site->user,
+                   $_REQUEST["titre_sujet"],
+                   $_REQUEST["subjtext"],
+                   $_REQUEST["synengine"]);
+
   }
 
-  $cts->add_title(2,"Nouveau forum");
+  // On enregistre le forum
+  if ( isset($_REQUEST["type"]) && $_REQUEST["type"]="frm" ) 
+  {
 
-  $frm = new form("nvforum","liste.php",false,"POST","Nouveau forum ");
-  $frm->add_text_field("titre_forum", "Titre","");
-  $frm->add_text_area("description_forum", "Description","");
-  $frm->add_select_field("categorie_forum",
-                         "Categorie",
-                         array( null => "Aucune",
-                               "0" => "0",
-                               "1" => "1"),
-                         null, "", true);
+    $forum = new forum($site->db,$site->dbrw);
+		$forum->create($_REQUEST["titre"],
+                   $_REQUEST["decription"],
+                   $_REQUEST["categorie"],
+                   $_REQUEST["id_forum_parent"],
+                   $_REQUEST["id_asso"],
+                   $_REQUEST["ordre"]);
 
-  $frm->add_select_field("id_forum_parent",
+    $cts->add_paragraph("L' ajout du forum".$_REQUEST["titre"].
+                        " &agrave bien été prise en compte.");
+  }
+
+
+
+/* nouveau forum ou sujet (formulaire) */
+}elseif( $_REQUEST["page"]=="new")
+{
+
+  $site->allow_only_logged_users("forum");
+
+  // On créer le sujet  
+  if ( isset($_REQUEST["type"]) && $_REQUEST["type"]="sbj" )
+  {
+
+    $frm = new form("newsbj","?page=new&type=sbj",true);
+    $frm->add_hidden("action","new");  
+    $frm->allow_only_one_usage();
+  
+    if ( isset($Erreur) )
+      $frm->error($Erreur);
+
+    $type=SUJET_NORMAL;
+    $sfrm = new form("subj_type",null,null,null,"Sujet normal");
+    $frm->add($sfrm,false,true, $type==SUJET_NORMAL ,SUJET_NORMAL ,false,true);
+    
+    $sfrm = new form("subj_type",null,null,null,"Sujet épinglé, il sera toujours affiché en haut");
+    $frm->add($sfrm,false,true, $type==SUJET_STICK ,SUJET_STICK ,false,true);
+    
+    $sfrm = new form("subj_type",null,null,null,"Annonce, le message sera affiché en haut dans un cadre séparé");
+    $sfrm->add_datetime_field('date_fin_announce', 
+           'Date de fin de l\'annonce',
+           time()+(7*24*60*60));
+    $frm->add($sfrm,false,true, $type==SUJET_ANNONCE ,SUJET_ANNONCE ,false,true);
+    $sfrm = new form("subj_type",null,null,null,"Annonce du site, le message sera affiché en haut sur la première page du forum");
+    $sfrm->add_datetime_field('date_fin_announce_site', 
+                              'Date de fin de l\'annonce',
+                              time()+(7*24*60*60));
+    $frm->add($sfrm,false,true, $type==SUJET_ANNONCESITE ,SUJET_ANNONCESITE ,false,true);
+    }
+  }
+
+
+    $values_forum = array();
+    $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
+    $req = new requete($site->db, $sql);
+    while( list($value,$name) = $req->get_row()){
+      $values_forum[$value] = $name;
+    }
+
+    /* titre du sujet */
+    $frm->add_text_field("titre_sujet", 
+                         "Titre du message : ",
+                         "",true,80);
+    /* sous-titre du sujet */
+    $frm->add_text_field("soustitre_sujet", 
+                         "Sous-titre du message (optionel) : ",
+                         "",false,80);
+
+		/* forum associé au sujet */
+		$frm->add_select_field('id_forum',
+                           'Forum associé',
+                           $values_forum,
+                           '1');
+
+    /* moteur de rendu */
+    $frm->add_select_field('synengine',
+                           'Moteur de rendu : ',
+                            array('bbcode' => 'bbcode (type phpBB)',
+                                  'doku' => 'Doku Wiki (recommandé)'),
+                           'doku');
+  
+    /* texte du message initiateur */
+    $frm->add_dokuwiki_toolbar('subjtext',"");
+    $frm->add_text_area("subjtext", "Texte du message : ","",80,20);
+    $frm->add_checkbox ( "star", "Ajouter à mes sujets favoris.", false );   
+    $frm->add_submit("subjsubmit", "Ajouter");
+    $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:make_preview();\" /></div></div>\n");
+    $cts->add_paragraph("<script language=\"javascript\">
+      function make_preview()
+      {
+        title = document.newsbj.titre_sujet.value;
+        content = document.newsbj.subjtext.value;
+        user = ".$site->user->id.";
+        syntaxengine = document.newsbj.synengine.value;
+        
+        openInContents('msg_preview', './index.php', 'get_preview&title='+encodeURIComponent(title)+'&content='+encodeURIComponent(content)+'&user='+user+'&syntaxengine='+syntaxengine);
+      }
+      </script>\n");
+  $cts->add($frm);
+  $cts->puts("<div id=\"msg_preview\"></div>");
+	exit();
+  } // fin formulaire création sujet 
+
+    // On créer le forum
+  if ( isset($_REQUEST["type"]) && $_REQUEST["type"]="frm" )
+  {
+
+    $site->error_forbidden("forum","group");
+ 
+    $values_forum = array(null=>"(Aucun)");
+    $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
+    $req = new requete($site->db, $sql);
+    while( list($value,$name) = $req->get_row()){
+      $values_forum[$value] = $name;
+    }
+
+    $cts->add_title(2,"Nouveau forum");
+    $frm = new form("newfrm","?page=new&type=frm",true
+    $frm->add_hidden("action","new");
+    $frm->add_text_field("titre","Titre","");
+    $frm->add_text_field("ordre","Numéro d'ordre",0);
+    $frm->add_select_field("id_forum_parent",
                          "Forum parent",
                          $values_forum,
-                         $forum->id_forum_parent,"", true);
-
-  $frm->add_entity_select("id_asso",
-                          "Association concern&eacute;e",
-                          $site->db,
-                          "asso", $forum->id_asso, true);
-  $frm->add_submit("nvforum","Ajouter");
-  $cts->add($frm);
-
-
-/* modification d'un sujet */
-}elseif($_REQUEST["action"]=="edit" && isset($_REQUEST["id_sujet"]))
-{
-
-  $values_forum = array();
-  $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
-  $req = new requete($site->db, $sql);
-  while( list($value,$name) = $req->get_row()){
-    $values_forum[$value] = $name;
-  }
-
-
-  $cts->add_title(2,"Edition d'un sujet");
-
-  $frm = new form("editsujet","liste.php",true,"POST","Edition sujet ");
-  $frm->add_hidden("id_sujet",$sujet->id);
-  $frm->add_text_field("titre_sujet", "Titre",$sujet->titre);
-  $frm->add_select_field("id_forum",
-                         "Forum concerné",
-                         $values_forum,
-                         $sujet->id_forum,"", true);
-  $frm->add_entity_smartselect("id_utilisateur","Utilisateur modérateur", new utilisateur($site->db));
-  $frm->add_submit("editsujet","Enregistrer");
-  $cts->add($frm);
-
-/* update d'un sujet */
-}elseif(isset($_REQUEST["editsujet"]) && 
-        isset($_REQUEST["id_sujet"]) &&
-        isset($_REQUEST["titre_sujet"]) &&
-        isset($_REQUEST["id_forum"]) &&
-        isset($_REQUEST["id_utilisateur"]) &&
-        !is_null($sujet->id) )
-{
-	$sujet->id_forum = $_REQUEST["id_forum"];
-
-  $sujet->update($_REQUEST["titre_sujet"],$sujet->soustitre,$sujet->type,$sujet->icon,$sujet->date_fin_annonce,$sujet->id_nouvelle,$sujet->id_catph,$sujet->id_sondage);
-
-/* modification d'un forum */
-}elseif($_REQUEST["action"]=="edit" && isset($_REQUEST["id_forum"]))
-{
-
-  $values_forum = array(null=>"(Aucun)");
-  $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
-  $req = new requete($site->db, $sql);
-  while( list($value,$name) = $req->get_row()){
-    $values_forum[$value] = $name;
-  }
-
-
-  $cts->add_title(2,"Edition du forum");
-
-  $frm = new form("editforum","liste.php",true,"POST","Edition forum ");
-  $frm->add_hidden("id_forum",$forum->id);
-  $frm->add_text_field("titre_forum", "Titre",$forum->titre);
-  $frm->add_text_area("description_forum", "Description",$forum->description);
-  $frm->add_select_field("categorie_forum",
-                         "Categorie",
-                         array(null => "Aucune",
-                               "0" => "0",
-                               "1" => "1"),
-                         $forum->categorie, "", true);
-
-  $frm->add_select_field("id_forum_parent",
-                         "Forum parent",
-                         $values_forum,
-                         $forum->id_forum_parent,"", true);
-
-  $frm->add_entity_select("id_asso",
-                          "Association concern&eacute;e",
-                          $site->db,
-                          "asso", $forum->id_asso, true);
-
-
-  $frm->add_submit("editforum","Enregistrer");
-  $cts->add($frm);
-/* update d'un forum */
-}elseif(isset($_REQUEST["editforum"]) && 
-        isset($_REQUEST["id_forum"]) &&
-        isset($_REQUEST["titre_forum"]) &&
-        isset($_REQUEST["description_forum"]) &&
-        isset($_REQUEST["id_forum_parent"]) &&
-        isset($_REQUEST["id_asso"]) &&
-        isset($_REQUEST["categorie_forum"]) &&
-        !is_null($forum->id) )
-{
-
-  $forum->update($_REQUEST["titre_forum"],$_REQUEST["description_forum"],$_REQUEST["categorie_forum"],$_REQUEST["id_forum_parent"],$_REQUEST["id_asso"],$forum->ordre);
-
-/* suppresion d'un forum */
-}elseif(!is_null($forum->id) && $_REQUEST["action"]=="delete")
-{
-  $cts->add_title(2,"Suppression du forum");
-  $cts->add_paragraph("Alerte : la suppression du forum n'est pas autoris&eacute;.");
-  $cts->add_paragraph("Veuillez supprimer tous les liens en rapport avec lui (sujet, sous forum, etc.)");
+                         "","", true);
+    $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$news->id_asso,true);
+    $frm->add_checkbox ( "categorie", "Catégorie", false );
+    $frm->add_text_area("description","Description","");
+    $frm->add_rights_field($forum,false,$forum->is_admin($site->user));
+    $frm->add_submit("newfrm","Ajouter");
+    $cts->add($frm);
+  
+    $site->add_contents($cts);
+    $site->end_page();  
+    exit();
+  } // fin formulaire création forum
 
 
 }else{
@@ -212,7 +274,7 @@ $req = new requete($site->db,
     "listforum", 
     "Liste des forums",
     $req,
-    "liste.php", 
+    "index.php", 
     "id_forum", 
     array("titre_forum"=>"Titre","description_forum"=>"Description","categorie_forum"=>"Catégorie","titre_forum_parent"=>"Forum parent","nom_asso"=>"Association concernée"), 
     array("edit"=>"Editer","delete"=>"Supprimer"),
@@ -222,8 +284,11 @@ $req = new requete($site->db,
 
 $cts->add($tbl,true);
 
-}
+$site->add_contents($cts);
+$site->end_page();
+exit();
 
+}
 
 $site->add_contents($cts);
 $site->end_page();

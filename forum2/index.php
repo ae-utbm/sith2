@@ -557,7 +557,7 @@ if ( $sujet->is_valid() )
           $_auteur="=".$_auteur->alias;
       }
       
-      $rpltext = "[quote".$_auteur."]".$message->contenu . "[/quote]";
+      $rpltext = "[quote".$_auteur->alias."]".$message->contenu . "[/quote]";
       $rpltitle = "Re : " . $message->titre;
     }
     else 
