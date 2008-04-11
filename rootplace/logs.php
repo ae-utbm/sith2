@@ -62,6 +62,8 @@ else
   {
     while(list($context)= $req->get_row() )
       $context_list[$context] = $context;
+
+    $context_list['all'] = " - ";
     
     $cts = new contents("<a href=\"./\">Administration</a> / Logs");
 
@@ -75,10 +77,17 @@ else
   }
 
   $elements = array();
+  unset($params);
 
   if($_REQUEST['action'] == "search")
   {
     $cts->add_paragraph("Poulpy va chercher logs et rajouter conditions à la requête.");
+
+    if($_REQUEST['context'] && $_REQUEST['context'] != "all")
+    {
+      $elements[] = "`context_log`='".mysql_escape_string($_REQUEST["context"])."'";
+      $params .= "&context=".rawurlencode($_REQUEST["context"]);
+    }
   }
 
   if(empty($elements))
