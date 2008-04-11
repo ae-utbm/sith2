@@ -83,7 +83,7 @@ if( isset($_REQUEST["action"]) &&
   {
     $rows = $forum->delete();
     $cts->add_title(2,"Suppression du forum");
-    if(is_null($rows){
+    if(is_null($rows)){
       $cts->add_paragraph("Le forum ".$forum->titre.
                           " &agrave; bien &eacute;t&eacute; supprim&eacute; !");
     }else{
