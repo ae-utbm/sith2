@@ -90,6 +90,8 @@ if( isset($_REQUEST["action"]) &&
       $cts->add_paragraph("Le forum ".$forum->titre.
                           " n'a pas &eacute;t&eacute; supprim&eacute; !");
 
+      print_r($rows);
+			exit;
       if( isset($rows[0]["id_forum"]) ){
         $cts->add_paragraph("Veuillez avant supprimer les forums ci-dessous");
         $tbl = new sqltable(
