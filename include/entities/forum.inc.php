@@ -198,7 +198,7 @@ class forum extends basedb
     $req = new requete($this->db,$sql);
 		// test si le forum est rataché à des sujets
 		$rows = array($req->get_row())
-    if( $rows != array() ){
+			if( count($rows) > 0 ){
 
 			$sujet = new sujet($site->db,$site->dbrw);
 	    while ( $row = $req->get_row() ){
