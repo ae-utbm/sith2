@@ -55,7 +55,8 @@ if($site->user->is_in_group("ban_forum"))
 $cts = new contents();
 $cts->cssclass="liner";
 if ( $site->user->is_valid() )
-  $cts->buffer = "<p class=\"center\">Connecté en tant que ". $site->user->surnom!=null ? $site->user->surnom : $site->user->alias ; ." - <a href=\"../user.php?page=edit\">Mon profil</a> - <a href=\"search.php?page=unread\">Messages non lus</a></p>";
+  $surnom = $site->user->surnom!=null ? $site->user->surnom : $site->user->alias ;
+  $cts->buffer = "<p class=\"center\">Connecté en tant que ". $surnom ." - <a href=\"../user.php?page=edit\">Mon profil</a> - <a href=\"search.php?page=unread\">Messages non lus</a></p>";
 else
   $cts->buffer = "<p class=\"center\">Non connecté - <a href=\"../index.php\">Se connecter</a> - <a href=\"../newaccount.php\">Creer un compte</a></p>";
 $site->add_contents($cts);
