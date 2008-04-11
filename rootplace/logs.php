@@ -85,7 +85,7 @@ else
 
   list($count) = $req->get_row();
 
-  if($count == 0))
+  if($count == 0)
     $cts->add_paragraph("Aucun résultat ne correspond à vos critères");
   else
   {
