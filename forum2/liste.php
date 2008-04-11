@@ -130,7 +130,7 @@ if( $_REQUEST["page"]=="new" &&
 {
 
   // On créer le sujet  
-  if ( isset($_REQUEST["type"]) && $_REQUEST["type"]="sbj" )
+  if ( isset($_REQUEST["type"]) && $_REQUEST["type"]=="sbj" )
   {
 
     $frm = new form("newsbj","?page=new&type=sbj",true);
@@ -213,7 +213,7 @@ if( $_REQUEST["page"]=="new" &&
     } // fin formulaire création sujet 
 
     // On créer le forum
-  if ( isset($_REQUEST["type"]) && $_REQUEST["type"]="frm" )
+  if ( isset($_REQUEST["type"]) && $_REQUEST["type"]=="frm" )
   {
 
     $site->error_forbidden("forum","group");
@@ -251,7 +251,8 @@ if( $_REQUEST["page"]=="new" &&
 
 $cts->add_title(2,"Administration du forum");
 $lst = new itemlist();
-$lst->add("<a href=\"liste.php?action=new\">Ajouter un sous forum</a>");
+$lst->add("<a href=\"liste.php?page=new&type=frm\">Ajouter un forum</a>");
+$lst->add("<a href=\"liste.php?page=new&type=sbj\">Ajouter un sujet</a>");
 $lst->add("<a href=\"liste_ban.php\">Afficher les utilisateurs bannis du forum</a>");
 $lst->add("<a href=\"liste.php\">Afficher les forums</a>");
 

@@ -131,7 +131,8 @@ $cts->add($tbl,true);
 
 $cts->add_title(2,"Administration du forum");
 $lst = new itemlist();
-$lst->add("<a href=\"liste.php?action=new\">Ajouter un sous forum</a>");
+$lst->add("<a href=\"liste.php?page=new&type=frm\">Ajouter un forum</a>");
+$lst->add("<a href=\"liste.php?page=new&type=sbj\">Ajouter un sujet</a>"
 $lst->add("<a href=\"liste_ban.php\">Afficher les utilisateurs bannis du forum</a>");
 $lst->add("<a href=\"liste.php\">Afficher les forums</a>");
 
