@@ -216,8 +216,6 @@ if( $_REQUEST["page"]=="new" &&
   if ( isset($_REQUEST["type"]) && $_REQUEST["type"]=="frm" )
   {
 
-    $site->error_forbidden("forum","group");
- 
     $values_forum = array(null=>"(Aucun)");
     $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
     $req = new requete($site->db, $sql);
