@@ -60,10 +60,10 @@ else
 
   if($req->lines >= 1)
   {
+    $context_list['all'] = " - ";
+
     while(list($context)= $req->get_row() )
       $context_list[$context] = $context;
-
-    $context_list['all'] = " - ";
     
     $cts = new contents("<a href=\"./\">Administration</a> / Logs");
 
