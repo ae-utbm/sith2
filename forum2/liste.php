@@ -82,7 +82,6 @@ if( isset($_REQUEST["action"]) &&
     $forum->id != null ) 
   {
     $rows = $forum->delete();
-    echo $rows;
     $cts->add_title(2,"Suppression du forum");
     if(is_null($rows)){
       $cts->add_paragraph("Le forum ".$forum->titre.
@@ -91,7 +90,6 @@ if( isset($_REQUEST["action"]) &&
       $cts->add_paragraph("Le forum ".$forum->titre.
                           " n'a pas &eacute;t&eacute; supprim&eacute; !");
 
-      print_r($rows);
       if( isset($rows[0]["id_forum"]) ){
         $cts->add_paragraph("Veuillez avant supprimer les forums ci-dessous");
         $tbl = new sqltable(
