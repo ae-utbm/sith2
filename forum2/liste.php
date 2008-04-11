@@ -159,8 +159,6 @@ if( $_REQUEST["page"]=="new" &&
                               time()+(7*24*60*60));
     $frm->add($sfrm,false,true, $type==SUJET_ANNONCESITE ,SUJET_ANNONCESITE ,false,true);
     }
-  }
-
 
     $values_forum = array();
     $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
@@ -227,7 +225,7 @@ if( $_REQUEST["page"]=="new" &&
     }
 
     $cts->add_title(2,"Nouveau forum");
-    $frm = new form("newfrm","?page=new&type=frm",true
+    $frm = new form("newfrm","?page=new&type=frm",true);
     $frm->add_hidden("action","new");
     $frm->add_text_field("titre","Titre","");
     $frm->add_text_field("ordre","Numéro d'ordre",0);
