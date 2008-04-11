@@ -158,7 +158,6 @@ if( $_REQUEST["page"]=="new" &&
                               'Date de fin de l\'annonce',
                               time()+(7*24*60*60));
     $frm->add($sfrm,false,true, $type==SUJET_ANNONCESITE ,SUJET_ANNONCESITE ,false,true);
-    }
 
     $values_forum = array();
     $sql = "SELECT id_forum, titre_forum FROM frm_forum ORDER BY titre_forum";
