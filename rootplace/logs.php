@@ -68,7 +68,6 @@ else
     $cts = new contents("<a href=\"./\">Administration</a> / Logs");
 
     $frm = new form("logsearch","logs.php",true,"POST","Critères de sélection");
-    $frm->add_hidden("action","search");
     $frm->add_datetime_field("start","Date et heure de début");
     $frm->add_datetime_field("end","Date et heure de fin");
     $frm->add_select_field("context","Contexte", $context_list, $_REQUEST["context"]);
@@ -79,15 +78,22 @@ else
   $elements = array();
   unset($params);
 
-  if($_REQUEST['action'] == "search")
+  if($_REQUEST['context'] && $_REQUEST['context'] != "all")
   {
-    $cts->add_paragraph("Poulpy va chercher logs et rajouter conditions à la requête.");
+    $elements[] = "`context_log`='".mysql_escape_string($_REQUEST["context"])."'";
+    $params .= "&context=".rawurlencode($_REQUEST["context"]);
+  }
 
-    if($_REQUEST['context'] && $_REQUEST['context'] != "all")
-    {
-      $elements[] = "`context_log`='".mysql_escape_string($_REQUEST["context"])."'";
-      $params .= "&context=".rawurlencode($_REQUEST["context"]);
-    }
+  if($_REQUEST['start'])
+  {
+    $elements[] = "`time_log` >= '".mysql_escape_string(date("Y-m-d H:i:s",$_REQUEST["start"])."'";
+    $params .= "&start="rawurlencode($_REQUEST["start"]);
+  }
+
+  if($_REQUEST['end'])
+  {
+    $elements[] = "`time_log` <= '".mysql_escape_string(date("Y-m-d H:i:s",$_REQUEST["end"])."'";
+    $params .= "&start="rawurlencode($_REQUEST["end"]);
   }
 
   if(empty($elements))
