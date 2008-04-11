@@ -72,8 +72,8 @@ elseif ( isset($_REQUEST["id_forum"]) )
 
 
 if( $_REQUEST["page"]=="new" && 
-    isset($_REQUEST["type"] &&
-    isset($_REQUEST["action"] &&
+    isset($_REQUEST["type"]) &&
+    isset($_REQUEST["action"]) &&
     $_REQUEST["action"] == "new")
 {
    // On enregistre le sujet
