@@ -206,7 +206,7 @@ class forum extends basedb
 					$sujet->load_by_id($row["id_sujet"]);
 					$sujet->delete($this);
 				}else{
-          $rows[] = $row;
+          array_push($rows,$row);
         }
 			}
 	    return $rows;
