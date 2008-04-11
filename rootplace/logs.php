@@ -74,26 +74,57 @@ else
     $cts->add($frm,true);
   }
 
+  $elements = array();
+
   if($_REQUEST['action'] == "search")
   {
-    $cts->add_paragraph("Poulpy va cherche logs");
+    $cts->add_paragraph("Poulpy va chercher logs et rajouter conditions à la requête.");
   }
+
+  $req = new requete($site->db, "SELECT COUNT(id_log) FROM logs WHERE ".implode(" AND ",$elements));
+
+  list($count) = $req->get_row();
+
+  if($count == 0))
+    $cts->add_paragraph("Aucun résultat ne correspond à vos critères");
   else
   {
+    $npp = 30;
+    $page = intval($_REQUEST["page"]);
+
+    if($page)
+      $st = $page * $npp;
+    else
+      $st = 0;
+
+    if($st > $count)
+      $st = floor($count / $npp) * $npp;
+
     $req = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) AS nom_utilisateur,
                                      id_utilisateur, id_log, time_log, action_log, context_log, description_log
                                    FROM logs 
                                    INNER JOIN utilisateurs USING(id_utilisateur) 
-                                   ORDER BY time_log DESC LIMIT 30");
+                                   WHERE " . implode(" AND ",$elements)."
+                                   ORDER BY time_log DESC LIMIT ".$st.",".$npp);
 
-    $cts->add(new sqltable(
-      "logs30", 
-      "Dernières actions enregistrées", $req, "logs.php", "id_log", 
-      array("time_log" => "Date", "nom_utilisateur" => "Utilisateur", "context_log" => "Contexte", "action_log" => "Action"), 
-      array("info" => "Détails"), 
-      array(),
-      array()),true);
+  $cts->add(new sqltable(
+    "logs", 
+    "Liste des logs sélectionnés", $req, "logs.php", "id_log", 
+    array("time_log" => "Date", "nom_utilisateur" => "Utilisateur", "context_log" => "Contexte", "action_log" => "Action"), 
+    array("info" => "Détails"), 
+    array(),
+    array()),true);
+
+  $tabs = array();
+  $i = 0;
+  $n = 0;
+  while($i < $count)
+  {
+    $tabs[] = array($n,"logs.php?page=".$n.$params,$n+1);
+    $i += $npp;
+    $n++;
   }
+  $cts->add(new tabshead($tabs, $page, "_bottom"));
 } 
 $site->add_contents($cts);
  
