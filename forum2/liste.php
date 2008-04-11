@@ -111,10 +111,12 @@ if( $_REQUEST["page"]=="new" &&
   if ( isset($_REQUEST["type"]) && $_REQUEST["type"]=="frm" ) 
   {
 
+
+
     $forum = new forum($site->db,$site->dbrw);
 		$forum->create($_REQUEST["titre"],
                    $_REQUEST["decription"],
-                   $_REQUEST["categorie"],
+                   ($_REQUEST["categorie"]==null ? "0" : "1"),
                    $_REQUEST["id_forum_parent"],
                    $_REQUEST["id_asso"],
                    $_REQUEST["ordre"]);
