@@ -140,7 +140,8 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
     $user->nom = $_REQUEST['nom'];
     $user->prenom = $_REQUEST['prenom'];
     $user->alias = $_REQUEST['alias'];
-    $user->sexe = $_REQUEST['sexe'];
+    if($site->user->is_in_group("gestion_ae") || $site->user->is_asso_role(27,1))
+      $user->sexe = $_REQUEST['sexe'];
     $user->date_naissance = $_REQUEST['date_naissance'];
     $user->addresse = $_REQUEST['addresse'];
     if ( $_REQUEST['id_ville'] )

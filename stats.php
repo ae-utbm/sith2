@@ -560,7 +560,7 @@ elseif ( $_REQUEST["view"] == "comptoirs" )
 }
 elseif ( $_REQUEST["view"] == "matmatronch" )
 {
-  if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_in_group ("matmatronch"))
+  if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_asso_role(27,1))
     $site->error_forbidden();
 
   $mcts = new contents("Matmatronch");
