@@ -564,7 +564,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
 
     if ( $user->utbm )
       $frm->add_text_field("surnom","Surnom (utbm)",$user->surnom);
-    $frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
+    $frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe,false,false,false,($site->user->is_in_group("root") || $site->user>is_asso_role(27,1)));
     $frm->add_date_field("date_naissance","Date de naissance",$user->date_naissance);
     
     $frm->add_select_field("taille_tshirt","Taille de t-shirt (non publié***)",array(0=>"-",
