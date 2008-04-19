@@ -6,7 +6,7 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site ();
 
-$req = new requete($site->db, "SELECT id_utilisateur, CONCAT(prenom_utl,' ',nom_utl) AS nom_utilisateur, alias_utl FROM utilisateurs");
+$req = new requete($site->db, "SELECT id_utilisateur, CONCAT(prenom_utl,' ',nom_utl) AS nom_utilisateur, alias_utl FROM utilisateurs ORDER by id_utilisateur");
 
 while( $row = $req->get_row() )
 {
