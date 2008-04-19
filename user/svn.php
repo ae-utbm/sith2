@@ -40,9 +40,9 @@ if(empty($site->user->alias))
 {
   if( isset($_REQUEST["alias"]) )
   {
-    if ( !preg_match("#^([a-z0-9][a-z0-9\.]+)$#i",strtolower($_REQUEST["alias"])) )
+    if ( !preg_match("#^([a-z0-9][a-z0-9\.]+[a-z0-9])$#i",strtolower($_REQUEST["alias"])) )
     {
-      $ErreurMAJ = "Alias invalide, utilisez seulement des caractères alphanumériques.";
+      $ErreurMAJ = "Alias invalide, utilisez seulement des caractères alphanumériques, des points (jamais à la fin). L'alias doit comporter au moins trois caractères.";
     }
     elseif ( strtolower($_REQUEST["alias"]) && !$site->user->is_alias_available(strtolower($_REQUEST["alias"])) )
     {

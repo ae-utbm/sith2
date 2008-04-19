@@ -125,9 +125,9 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
   if(!empty($user->alias) && !$site->user->is_in_group("root"))
     $_REQUEST["alias"]=$user->alias;
 
-  if ( $_REQUEST["alias"] && !preg_match("#^([a-z0-9][a-z0-9\.]+)$#i",$_REQUEST["alias"]) )
+  if ( $_REQUEST["alias"] && !preg_match("#^([a-z0-9][a-z0-9\.]+[a-z0-9])$#i",$_REQUEST["alias"]) )
   {
-    $ErreurMAJ = "Alias invalide, utilisez seulement des lettres, des chiffres, des tirets, des points, et des underscore.";
+    $ErreurMAJ = "Alias invalide, utilisez seulement des caractères alphanumériques, des points (jamais à la fin). L'alias doit avoir au moins trois caractères.";
     $_REQUEST["page"] = "edit";
   }
   elseif ( $_REQUEST["alias"] && !$user->is_alias_avaible($_REQUEST["alias"]) )
@@ -564,7 +564,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     else
       $can_edit_alias = true;
 
-    if (empty($user->alias) || !preg_match("#^([a-z0-9][a-z0-9\.]+)$#i",strtolower($user->alias)))
+    if (empty($user->alias) || !preg_match("#^([a-z0-9][a-z0-9\.]+[a-z0-9])$#i",strtolower($user->alias)))
       $frm->add_text_field("alias","Alias",$user->alias);
     else // seul root a le droit de modifier l'alias s'il est déjà renseigné
       $frm->add_text_field("alias","Alias",$user->alias,false,false,false,$can_edit_alias);
