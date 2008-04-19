@@ -80,7 +80,7 @@ class site extends interfaceweb
      */
     if ( $siteae )
     {
-      $this->add_css("themes/fimu08/css/site.css");
+      $this->add_css("themes/ff1j08/css/site.css");
     }
     
   }  
