@@ -93,6 +93,11 @@ else if ( isset($_REQUEST["id_asso"]) )
         $Error = "Un ou plusieurs champs sont incomplets.";
         $_REQUEST['page'] = "edit";
       }
+      elseif ( !preg_match("#^([a-z0-9]+)$#i",strtolower($_REQUEST['nom_unix'])) )
+      {
+        $Error = "Le nom Unix ne doit comporter que des caractères alpha-numériques";
+        $_REQUEST['page'] = "edit";
+      }
       else
       {
 			  if ( $site->user->is_in_group("gestion_ae") )
