@@ -10,7 +10,7 @@ $req = new requete($site->db, "SELECT id_utilisateur, CONCAT(prenom_utl,' ',nom_
 
 while( $row = $req->get_row() )
 {
-  if (!preg_match("#^([a-z0-9][a-z0-9\.]+)$#i",strtolower($row["alias_utl"])))
+  if (!preg_match("#^([a-z0-9][a-z0-9\.]+)$#i",strtolower($row["alias_utl"])) && !empty($row["alias_utl"]) )
     echo $row["id_utilisateur"]." : ".$row["nom_utilisateur"]." (".$row["alias_utl"].")<br />";
 }
 
