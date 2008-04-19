@@ -558,10 +558,16 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
       $frm->add_hidden("prenom", $user->prenom);
     }
 
-    if (empty($user->alias))
+    $req = new requete($site->db,"SELECT `id_utilisateur` FROM `svn_member_depot` WHERE `id_utilisateur`='".$user->id."'");
+    if($req->lines != 0 && $site->user->is_in_group("root"))
+      $can_edit_alias = false;
+    else
+      $can_edit_alias = true;
+
+    if (empty($user->alias) || !preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",strtolower($user->alias)))
       $frm->add_text_field("alias","Alias",$user->alias);
     else // seul root a le droit de modifier l'alias s'il est déjà renseigné
-      $frm->add_text_field("alias","Alias",$user->alias,false,false,false,$site->user->is_in_group("root"));
+      $frm->add_text_field("alias","Alias",$user->alias,false,false,false,$can_edit_alias);
 
     if ( $user->utbm )
       $frm->add_text_field("surnom","Surnom (utbm)",$user->surnom);
