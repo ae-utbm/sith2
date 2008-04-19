@@ -40,7 +40,7 @@ if(empty($site->user->alias))
 {
   if( isset($_REQUEST["alias"]) )
   {
-    if ( !preg_match("#^([a-z0-9]+)$#i",strtolower($_REQUEST["alias"])) )
+    if ( !preg_match("#^([a-z0-9][a-z0-9\.]+)$#i",strtolower($_REQUEST["alias"])) )
     {
       $ErreurMAJ = "Alias invalide, utilisez seulement des caractères alphanumériques.";
     }
