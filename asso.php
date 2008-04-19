@@ -150,9 +150,14 @@ else if ( isset($_REQUEST["id_asso"]) )
     if ( $site->user->is_in_group("gestion_ae") ) 
     {
 			$frm->add_text_field("nom","Nom de l'association",$asso->nom,true);
-      $frm->add_text_field("nom_unix","Nom 'unix' (lettres et chiffres sans espaces)",$asso->nom_unix,true);
       $frm->add_entity_select("asso_parent", "Association parent", $site->db, "asso",$asso->id_parent,true);
     }
+    if ( $site->user->is_in_group("root") )
+    {
+      $frm->add_info("Le nom Unix est une donnée sensible utilisé pour le fonctionements de plusieurs services comme les mailing-lists, à ne modifier que si vous savez ce que vous faites !");
+      $frm->add_text_field("nom_unix","Nom 'unix' (lettres et chiffres sans espaces)",$asso->nom_unix,true);
+    }
+
 		$frm->add_text_area("adresse","Adresse postale",$asso->adresse_postale);
     
     $frm->add_text_field("email","Email",$asso->email);
@@ -189,7 +194,7 @@ else if ( isset($_REQUEST["id_asso"]) )
 	$site->start_page("presentation",$asso->nom);
 
 	$cts = new contents($asso->get_html_path());
-	if ( $site->user->is_in_group("moderateur_site") || $asso->is_member_role( $site->user->id, ROLEASSO_MEMBREBUREAU ) )
+	if ( $site->user->is_in_group("moderateur_site") || $asso->is_member_role( $site->user->id, ROLEASSO_MEMBREBUREAU ) || $site->user->is_in_group("root") )
 	  $cts->set_toolbox(new toolbox(array("article.php?page=edit&name=activites:".$asso->nom_unix=>"Editer Présentation","asso.php?page=edit&id_asso=".$asso->id=>"Editer")));
 	
 	$cts->add(new tabshead($asso->get_tabs($site->user),"info"));	
