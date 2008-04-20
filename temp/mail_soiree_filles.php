@@ -4,9 +4,9 @@ require_once($topdir . "include/globals.inc.php");
 require_once ("../include/mysql.inc.php");
 require_once ("../include/mysqlae.inc.php");
 
-$subject = 'Soiree filles';
-$headers = 'From: Marie-Anne Mittet <marie-anne.mittet@utbm.fr>' . "\r\n" .
-    'Reply-To: Marie-Anne Mittet <marie-anne.mittet@utbm.fr>' . "\r\n" .
+$subject = 'Soirée filles';
+$headers = 'From: Laure Guicherd <laure.guicherd@gmail.com>' . "\r\n" .
+    'Reply-To: Laure Guicherd <laure.guicherd@gmail.com>' . "\r\n" .
     'X-Mailer: PHP/' . phpversion();
 
 $message = "Salut les filles !
@@ -41,7 +41,7 @@ $req = new requete (new mysqlae(),
             CONCAT(prenom_utl,' ',nom_utl) as nom,
             email_utl 
          FROM utilisateurs
-         WHERE utilisateurs.sexe_utl=2
+         WHERE utilisateurs.sexe_utl='2'
             AND ae_utl='1'
             AND etudiant_utl='1'
             AND utbm_utl='1'
@@ -49,8 +49,8 @@ $req = new requete (new mysqlae(),
 
 while($res = $req->get_row())
 {
-  echo $res['nom'] . " &lt;" . $res['email_utl'] . "&gt; : Sent <br />";
-/*  mail($res['nom']." <".$res['email_utl'].">", $subject, $message, $headers);*/
+  //echo $res['nom'] . " &lt;" . $res['email_utl'] . "&gt; : Sent <br />";
+  mail($res['nom']." <".$res['email_utl'].">", $subject, $message, $headers);
 }
 
 ?>
