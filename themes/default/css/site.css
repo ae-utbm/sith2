@@ -2401,3 +2401,19 @@ div.comment
   color:#ffffff;
   text-decoration:underline;
 }
+
+#topalert
+{
+  position:absolute; 
+  width:100%;
+  padding: 5px; 
+  background: #ffd; 
+  border-bottom: 1px solid #777; 
+  font-size: 11px;
+}
+
+#topalert img
+{
+  float: left; 
+  margin-right: 5px;
+}

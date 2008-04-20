@@ -408,10 +408,9 @@ class interfaceweb
     if ( $this->user->is_valid() && !ereg("majprofil\.php$",$_SERVER['SCRIPT_FILENAME'])
     && $user->type != "srv" )
     {
-      $lastforce = strtotime("2007-09-20 21:00:00"); // TODO:algo de génération
-      if ( is_null($this->user->date_maj) || $this->user->date_maj < $lastforce )
+      $days_last = ($time() - $this->user->date_maj)/(60*60*24);
+      if ( is_null($this->user->date_maj) || ($days_last > 182 && $this->user->utbm) )
       {
-        //print_r($this->user);
         echo "<div id=\"hugealert\">";    
         echo "<p>Merci de mettre à jour votre profil : ".
              "<a href=\"". $wwwtopdir ."majprofil.php\">le mettre à jour</a></p>";    
@@ -420,9 +419,10 @@ class interfaceweb
     }    
     if ( $this->get_param("backup_server",true) )
     {
-      echo "<div id=\"hugealert\">";
-      echo "<p>Le système fonctionne actuellement sur le serveur de secours, ".
-           "veuillez limiter vos actions au strict minimum.</p>";
+      echo "<div id=\"topalert\">";
+      echo "<img width=\"16\" height="16" src=\"".$wwwtopdir."themes/default/images/exclamation.png\" />";
+      echo "Le système fonctionne actuellement sur le serveur de secours, ".
+           "veuillez limiter vos actions au strict minimum.";
       echo "</div>";
     }
     
