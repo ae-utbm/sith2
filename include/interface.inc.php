@@ -405,7 +405,7 @@ class interfaceweb
     echo "</div>\n"; // /contents
     echo "<div id=\"endsite\"></div></div>\n";    
     
-    if ( $this->user->is_valid() && !ereg("majprofil\.php$",$_SERVER['SCRIPT_FILENAME'])
+/*    if ( $this->user->is_valid() && !ereg("majprofil\.php$",$_SERVER['SCRIPT_FILENAME'])
     && $user->type != "srv" )
     {
       $days_last = (time() - $this->user->date_maj)/(60*60*24);
@@ -416,7 +416,7 @@ class interfaceweb
              "<a href=\"". $wwwtopdir ."majprofil.php\">le mettre à jour</a></p>";    
         echo "</div>";    
       }
-    }    
+    }*/
     if ( $this->get_param("backup_server",true) )
     {
       echo "<div id=\"topalert\">";
