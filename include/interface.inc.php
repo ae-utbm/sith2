@@ -420,7 +420,7 @@ class interfaceweb
     if ( $this->get_param("backup_server",true) )
     {
       echo "<div id=\"topalert\">";
-      echo "<img width=\"16\" height="16" src=\"".$wwwtopdir."themes/default/images/exclamation.png\" />";
+      echo "<img width=\"16\" height=\"16\" src=\"".$wwwtopdir."themes/default/images/exclamation.png\" />";
       echo "Le système fonctionne actuellement sur le serveur de secours, ".
            "veuillez limiter vos actions au strict minimum.";
       echo "</div>";
