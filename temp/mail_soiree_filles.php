@@ -49,8 +49,8 @@ $req = new requete (new mysqlae(),
 
 while($res = $req->get_row())
 {
-  //echo $res['nom'] . " &lt;" . $res['email_utl'] . "&gt; : Sent <br />";
-  mail($res['nom']." <".$res['email_utl'].">", $subject, $message, $headers);
+  echo $res['nom'] . " &lt;" . $res['email_utl'] . "&gt; : Sent <br />";
+  //mail($res['nom']." <".$res['email_utl'].">", $subject, $message, $headers);
 }
 
 ?>
