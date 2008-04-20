@@ -408,7 +408,7 @@ class interfaceweb
     if ( $this->user->is_valid() && !ereg("majprofil\.php$",$_SERVER['SCRIPT_FILENAME'])
     && $user->type != "srv" )
     {
-      $days_last = ($time() - $this->user->date_maj)/(60*60*24);
+      $days_last = (time() - $this->user->date_maj)/(60*60*24);
       if ( is_null($this->user->date_maj) || ($days_last > 182 && $this->user->utbm) )
       {
         echo "<div id=\"hugealert\">";    
