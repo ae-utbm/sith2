@@ -98,7 +98,7 @@ else if (isset($_REQUEST['listing']) && ($site->user->is_in_group("gestion_ae") 
 						utilisateurs.prenom_utl, 
 						utilisateurs.id_utilisateur,
 						utilisateurs.email_utl AS email_utilisateur,
-						utilisateurs.adresse_utl AS adresse_utilisateur,
+						utilisateurs.addresse_utl AS adresse_utilisateur,
 						utilisateurs.tel_portable_utl AS portable_utilisateur,
 						fimu_inscr.jour1,
 						fimu_inscr.jour2,
