@@ -175,6 +175,9 @@ else
 <br />
 	L'AE, Com'Et, les Belfortains, la Région et certainement une bonne moitié de la planète vous remercient de votre implication dans cet évenement, qui n'existerait pas sans le bénévolat étudiant.
 <br />
+<br />
+    <i>Votre inscription implique une diffusion de vos informations personnelles a l'organisation du FIMU.</i>
+<br />
 <hr />
 	";
 	
