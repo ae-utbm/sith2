@@ -127,7 +127,7 @@ else if (isset($_REQUEST['listing']) && ($site->user->is_in_group("gestion_ae") 
 				"utilisateurs.id_utilisateur",
 				array("=num" => "N°",
 					"nom_utilisateur" => "Utilisateur",
-					"portable_utilisateur" => "Tel"
+					"portable_utilisateur" => "Tel",
 					"email_utilisateur" => "Mail",
 					"adresse_utilisateur" => "Adresse",
 					"jour1" => "Jeudi",
