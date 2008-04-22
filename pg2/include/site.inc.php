@@ -34,7 +34,6 @@ class pgsite extends site
 
     $this->set_side_boxes("left",array("pg","connexion"),"pg_left");
     
-    $this->add_box("pg", $this->get_petit_geni());
     $this->add_box("connexion", $this->get_connection_contents());
   }
   
