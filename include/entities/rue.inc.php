@@ -149,6 +149,26 @@ class rue extends stdentity
 		return false;
   }
   
+  function load_or_create ( $id_typerue, $id_ville, $nom )
+  {
+    $req = new requete($this->db, "SELECT * 
+        FROM `pg_rue`
+				WHERE `id_typerue` = '".mysql_real_escape_string($id_typerue)."'
+				AND `id_ville` = '".mysql_real_escape_string($id_ville)."'
+				AND `nom_rue` = '".mysql_real_escape_string($nom)."'
+				LIMIT 1");
+
+    if ( $req->lines == 1 )
+		{
+			$this->_load($req->get_row());
+			return;
+		}
+		
+		$this->create ( $nom, "", $id_typerue, $id_ville );
+  }  
+  
+  
+  
   function _load ( $row )
   {
     $this->id = $row['id_rue'];
