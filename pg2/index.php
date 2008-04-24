@@ -269,7 +269,7 @@ if ( $fiche->is_valid() )
     
     $cts->add_title(2,"Arrets de bus");
     $req = new requete($site->db,"SELECT * FROM pg_fiche_arretbus ".
-      "INNER JOIN geopoint USING(pg_fiche_arretbus.id_arretbus=geopoint.id_geopoint) ".
+      "INNER JOIN geopoint ON(pg_fiche_arretbus.id_arretbus=geopoint.id_geopoint) ".
       "WHERE `id_pgfiche` = '".mysql_real_escape_string($fiche->id)."'");
     $cts->add(new sqltable(
       "listarretbus",null,$req,"index.php?page=edit&id_pgfiche=".$fiche->id,
