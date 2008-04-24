@@ -427,7 +427,7 @@ class pgfiche extends geopoint
   {
     $this->delete_tarif($id_typetarif);
     
-    $req = new requete("SELECT pg_fiche_tarif.min_tarif,  pg_fiche_tarif.max_tarif, pg_fiche_tarif.id_typetarif FROM pg_fiche_tarif INNER JOIN pg_typetarif ON (pg_fiche_tarif.id_typetarif=pg_typetarif.id_typetarif_parent) WHERE pg_typetarif.id_typetarif='".".mysql_real_escape_string($id)."."'");
+    $req = new requete($this->db,"SELECT pg_fiche_tarif.min_tarif,  pg_fiche_tarif.max_tarif, pg_fiche_tarif.id_typetarif FROM pg_fiche_tarif INNER JOIN pg_typetarif ON (pg_fiche_tarif.id_typetarif=pg_typetarif.id_typetarif_parent) WHERE pg_typetarif.id_typetarif='".".mysql_real_escape_string($id)."."'");
     
     if ( $req->lines == 1 )
     {
