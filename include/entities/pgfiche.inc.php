@@ -459,7 +459,7 @@ class pgfiche extends geopoint
   
   function delete_tarif ( $id_typetarif )
   {
-    new delete($this->dbrw, "pg_fiche_tarif", array("id_pgfiche"=>$this->id,"id_typetarif"=>$id_typetarify));
+    new delete($this->dbrw, "pg_fiche_tarif", array("id_pgfiche"=>$this->id,"id_typetarif"=>$id_typetarif));
   }
   
   function add_reduction ( $id_typereduction, $valeur, $unite, $commentaire, $date_maj=null, $date_validite=null )
