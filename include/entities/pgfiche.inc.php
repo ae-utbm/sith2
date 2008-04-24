@@ -449,7 +449,7 @@ class pgfiche extends geopoint
     
     new insert($this->dbrw, "pg_fiche_tarif", array(
       "id_pgfiche"=>$this->id,
-      "id_typetarif"=>$id_typetarify,
+      "id_typetarif"=>$id_typetarif,
       "min_tarif"=>$min_tarif,
       "max_tarif"=>$max_tarif,
       "commentaire_tarif"=>$commentaire,   
