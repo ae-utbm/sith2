@@ -173,7 +173,34 @@ class pgcategory extends stdentity
   
   function delete ()
   {
-
+    $req = new requete($pgcategory->db,
+      "SELECT * ".
+      "FROM `pg_fiche` ".
+      "INNER JOIN `geopoint` ON (pg_fiche.id_pgfiche=geopoint.id_geopoint) ".
+      "WHERE id_pgcategory='".$this->id."'");
+      
+    $fiche = new pgfiche($this->db,$this->dbrw);
+    while ( $row = $req->get_row() )
+    {
+      $fiche->_load($row);
+      $fiche->delete();
+    }
+    
+    $req = new requete($pgcategory->db,
+      "SELECT * ".
+      "FROM `pg_category` ".
+      "WHERE id_pgcategory_parent='".$this->id."'");
+      
+    $category = new pgcategory($this->db,$this->dbrw);
+    while ( $row = $req->get_row() )
+    {
+      $category->_load($row);
+      $category->delete();
+    }    
+    
+    new delete ( $this->dbrw, "pg_category", array("id_pgcategory"=>$this->id) );
+    new delete ( $this->dbrw, "pg_category_tags", array("id_pgcategory"=>$this->id) );
+    new delete ( $this->dbrw, "pg_fiche_extra_pgcategory", array("id_pgcategory"=>$this->id) );
   } 
   
   function get_html_link()

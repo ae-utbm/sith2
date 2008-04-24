@@ -48,6 +48,23 @@ if ( isset($_REQUEST["id_pgfiche"]) )
 elseif ( isset($_REQUEST["id_pgcategory"]) )
   $category->load_by_id($_REQUEST["id_pgcategory"]);
 
+if ( $fiche->is_valid() && $site->is_admin() && $_REQUEST["action"] == "delete" )
+{
+  if ( $site->is_sure ( "","Suppression de la fiche ".$fiche->nom,"pgfiche".$fiche->id, 1 ) )
+  {
+    $fiche->delete();
+    $fiche->id=null;
+  }
+}
+else if ( $category->is_valid() && $site->is_admin() && $_REQUEST["action"] == "delete" )
+{
+  if ( $category->id_pgcategory_parent && 
+       $site->is_sure ( "","Suppression de la catégorie ".$category->nom,"pgcategory".$category->id, 1 )  )
+  {
+    $category->delete();
+    $category->load_by_id($category->id_pgcategory_parent);
+  }
+}
 
 if ( $category->is_valid() )
 {
@@ -360,7 +377,10 @@ if ( $fiche->is_valid() )
   {
     $cts->add_paragraph($path);
     if ( $site->is_admin() )
+    {
       $cts->add_paragraph("<a href=\"index.php?page=edit&amp;id_pgfiche=".$fiche->id."\">Editer</a>");
+      $cts->add_paragraph("<a href=\"index.php?action=delete&amp;id_pgfiche=".$fiche->id."\">Supprimer</a>");
+    }
     $cts->add(new pgfichefull($fiche),true);
   }
   
@@ -368,7 +388,7 @@ if ( $fiche->is_valid() )
   $site->end_page();
   exit(); 
 }
-elseif ( $category->is_valid() && $category->id != 1 )
+elseif ( $category->is_valid() && ($category->id != 1 || $site->is_admin()) )
 {
   if ( $site->is_admin() && $_REQUEST["action"] == "save" )
   {
@@ -521,6 +541,9 @@ elseif ( $category->is_valid() && $category->id != 1 )
       $cts->add_paragraph("<a href=\"index.php?page=ajoutfiche&amp;id_pgcategory=".$category->id."\">Ajouter une fiche</a>");
       $cts->add_paragraph("<a href=\"index.php?page=ajoutcat&amp;id_pgcategory=".$category->id."\">Ajouter une catégorie</a>");
       $cts->add_paragraph("<a href=\"index.php?page=edit&amp;id_pgcategory=".$category->id."\">Editer</a>");
+      
+      if ( $category->id_pgcategory_parent )
+        $cts->add_paragraph("<a href=\"index.php?action=delete&amp;id_pgcategory=".$category->id."\">Supprimer</a>");
     }
     
     $req = new requete($site->db,
@@ -576,6 +599,9 @@ while ( $row = $req->get_row() )
 
 if ( !is_null($sscts) )
   $scts->add($sscts);
+  
+if ( $site->is_admin() )
+  $scts->add_paragraph("<a href=\"index.php?page=ajoutcat&amp;id_pgcategory=1\">Ajouter une catégorie</a>");
 
 $cts->add($scts,true);
 

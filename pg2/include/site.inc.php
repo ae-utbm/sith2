@@ -28,7 +28,7 @@ class pgsite extends site
   {
     global $topdir;
 
-    interfaceweb::start_page($section,$title,$compact);
+    interfaceweb::start_page($section,$title." (version provisoire)",$compact);
     
     //$this->add_box("calendrier",new calendar($this->db));
 
@@ -39,7 +39,7 @@ class pgsite extends site
   
   function is_admin()
   {
-    return $this->user->is_in_group("root");  
+    return $this->user->is_in_group("pg2_admin");  
   }
   
   
