@@ -147,7 +147,7 @@ if ( $fiche->is_valid() )
         $fiche->add_extra_pgcategory ( $_REQUEST["id_pgcategory"], $_REQUEST["titre"], 
           $_REQUEST["soustitre"] );
     }
-    elseif ( $_REQUEST["action"] == "deletearretbus" )
+    elseif ( $_REQUEST["action"] == "deleteextrapgcategory" )
     {
       $fiche->delete_extra_pgcategory ( $_REQUEST["id_pgcategory"] );
     }
