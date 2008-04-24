@@ -37,6 +37,8 @@ if (!$site->user->is_valid())
 
 $wiki = new wiki($site->db,$site->dbrw);
 
+$site->add_css($topdir . "/css/doku.css");
+
 function build_htmlpath ( $fullpath )
 {
   $buffer = "<a href=\"./\">Wiki</a>";
