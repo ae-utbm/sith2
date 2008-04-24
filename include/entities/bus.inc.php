@@ -429,7 +429,12 @@ class arretbus extends geopoint
 
     return $rows;
   }
-
+  
+  function prefer_list()
+  {
+    return true;  
+  } 
+  
 
 } 
  
