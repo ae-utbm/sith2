@@ -264,8 +264,11 @@ if ( $fiche->is_valid() )
       
       $cts->add($frm,true);
     }
-    
-    
+    else
+    {
+      $cts->add_title(2,"<a href=\"index.php?id_pgfiche=".$fiche->id."\">Informations essentielles</a>");
+      $cts->add_paragraph("...");
+    }
     
     $cts->add_title(2,"Arrets de bus");
     $req = new requete($site->db,"SELECT * FROM pg_fiche_arretbus ".
