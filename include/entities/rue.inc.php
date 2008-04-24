@@ -203,6 +203,8 @@ class rue extends stdentity
       "complement_rue"=> $this->complement
       ) );
     
+    print_r($req);
+    
     if ( !$req->is_success() )
     {
       $this->id = null;
