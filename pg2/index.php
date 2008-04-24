@@ -28,7 +28,7 @@ require_once($topdir."include/entities/rue.inc.php");
 require_once($topdir."include/entities/ville.inc.php");
 require_once($topdir."include/entities/entreprise.inc.php");
 require_once($topdir."include/entities/bus.inc.php");
-require_once($topdir."include/entities/typetarif.inc.php");
+require_once($topdir."include/entities/pgtype.inc.php");
 
 require_once($topdir."include/cts/board.inc.php");
 require_once($topdir."include/cts/pg.inc.php");
