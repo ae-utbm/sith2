@@ -266,8 +266,8 @@ if ( $fiche->is_valid() )
     }
     else
     {
-      $cts->add_title(2,"<a href=\"index.php?id_pgfiche=".$fiche->id."\">Informations essentielles</a>");
-      $cts->add_paragraph("...");
+      $cts->add_title(2,"<a href=\"index.php?page=edit&id_pgfiche=".$fiche->id."\">Informations essentielles</a>");
+      $cts->add_paragraph("<a href=\"index.php?page=edit&id_pgfiche=".$fiche->id."\">...</a>");
     }
     
     $cts->add_title(2,"Arrets de bus");
