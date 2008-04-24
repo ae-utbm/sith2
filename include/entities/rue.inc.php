@@ -100,7 +100,11 @@ class typerue extends stdentity
     new delete($this->dbrw, "pg_rue",array("id_typerue"=>$this->id));
     $this->id=null; 
   } 
-  
+  function prefer_list()
+  {
+    return true;  
+  } 
+    
 }
 
 /**
