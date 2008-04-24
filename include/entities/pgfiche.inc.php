@@ -399,6 +399,11 @@ class pgfiche extends geopoint
     new insert($this->dbrw, "pg_fiche_arretbus", array("id_pgfiche"=>$this->id,"id_arretbus"=>$id_arretbus));
   }
   
+  function delete_arretbus ( $id_arretbus )
+  {
+    new delete($this->dbrw, "pg_fiche_arretbus", array("id_pgfiche"=>$this->id,"id_arretbus"=>$id_arretbus));
+  }  
+    
   function add_extra_pgcategory ( $id_pgcategory, $titre=null, $soustitre=null )
   {
     new insert($this->dbrw, "pg_fiche_extra_pgcategory", array(
@@ -409,8 +414,16 @@ class pgfiche extends geopoint
       ));
   }
   
+  function delete_extra_pgcategory ( $id_pgcategory )
+  {
+    new delete($this->dbrw, "pg_fiche_extra_pgcategory", array("id_pgfiche"=>$this->id,"id_pgcategory"=>$id_pgcategory));
+  }  
+  
+  
   function add_tarif ( $id_typetarif, $min_tarif, $max_tarif, $commentaire, $date_maj=null, $date_validite=null )
   {
+    $this->delete_tarif($id_typetarif);
+    
     $req = new requete("SELECT pg_fiche_tarif.min_tarif,  pg_fiche_tarif.max_tarif, pg_fiche_tarif.id_typetarif FROM pg_fiche_tarif INNER JOIN pg_typetarif ON (pg_fiche_tarif.id_typetarif=pg_typetarif.id_typetarif_parent) WHERE pg_typetarif.id_typetarif='".".mysql_real_escape_string($id)."."'");
     
     if ( $req->lines == 1 )
@@ -441,8 +454,15 @@ class pgfiche extends geopoint
       "date_validite_tarif"=>is_null($date_validite)?null:date("Y-m-d H:i:s",$date_validite)));
   }
   
+  function delete_tarif ( $id_typetarif )
+  {
+    new delete($this->dbrw, "pg_fiche_tarif", array("id_pgfiche"=>$this->id,"id_typetarif"=>$id_typetarify));
+  }
+  
   function add_reduction ( $id_typereduction, $valeur, $unite, $commentaire, $date_maj=null, $date_validite=null )
   {
+    $this->delete_reduction($id_typereduction);
+    
     new insert($this->dbrw, "pg_fiche_reduction", array(
       "id_pgfiche"=>$this->id,
       "id_typereduction"=>$id_typereduction,
@@ -453,8 +473,16 @@ class pgfiche extends geopoint
       "date_validite_reduction"=>is_null($date_validite)?null:date("Y-m-d H:i:s",$date_validite)));
   }
   
+  function delete_reduction ( $id_typereduction )
+  {
+    new delete($this->dbrw, "pg_fiche_reduction", array("id_pgfiche"=>$this->id,"id_typereduction"=>$id_typereduction));
+  }
+  
+    
   function add_service ( $id_service, $commentaire, $date_maj=null, $date_validite=null )
   {
+    $this->delete_service($id_service);
+    
     new insert($this->dbrw, "pg_fiche_service", array(
       "id_pgfiche"=>$this->id,
       "id_service"=>$id_service,
@@ -463,8 +491,13 @@ class pgfiche extends geopoint
       "date_validite_service"=>is_null($date_validite)?null:date("Y-m-d H:i:s",$date_validite)));
   }
   
-  function add_horraire ( $datevaldebut, $datevalfin, $type, $jours, $heuredebut, $heurefin )
+  function delete_service ( $id_service )
   {
+    new delete($this->dbrw, "pg_fiche_service", array("id_pgfiche"=>$this->id,"id_service"=>$id_service));
+  }
+    
+  function add_horraire ( $datevaldebut, $datevalfin, $type, $jours, $heuredebut, $heurefin )
+  {    
     $ouvert = 1;
     if ( $type == HR_EXCP_FERMETURE )
       $ouvert = -1;
@@ -482,6 +515,8 @@ class pgfiche extends geopoint
   
   function set_horraires (  $datevaldebut, $datevalfin, $horraires )
   {
+    new delete($this->dbrw, "pg_fiche_horraire", array("id_pgfiche"=>$this->id,"type_horraire"=> HR_OUVERTURE));
+    
     foreach ( $horraires as $jours => $heures )
     {
       foreach ( $heures as $heure )
