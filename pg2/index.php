@@ -237,7 +237,7 @@ if ( $fiche->is_valid() )
       $sfrm->add_text_field("numrue","Numéro dans la rue",$fiche->numrue);
   	  $sfrm->add_entity_smartselect ("id_typerue","Type de la rue", $typerue);
       $sfrm->add_text_field("nom_rue","Nom de la rue",$rue->nom);
-  	  $sfrm->add_entity_smartselect ("id_ville","Ville", $ville);
+  	  $sfrm->add_entity_smartselect ("id_ville","Ville", $ville,false,true,array("pg_ville"=>1));
   	  $frm->addsub($sfrm);
   	  
       $sfrm = new subform("pos","Positiion");
@@ -425,7 +425,7 @@ elseif ( $category->is_valid() && $category->id != 1 )
     $sfrm->add_text_field("numrue","Numéro dans la rue",$fiche->numrue);
 	  $sfrm->add_entity_smartselect ("id_typerue","Type de la rue", $typerue);
     $sfrm->add_text_field("nom_rue","Nom de la rue",$rue->nom);
-	  $sfrm->add_entity_smartselect ("id_ville","Ville", $ville);
+	  $sfrm->add_entity_smartselect ("id_ville","Ville", $ville,false,true,array("pg_ville"=>1));
 	  $frm->addsub($sfrm);
 	  
     $sfrm = new subform("pos","Positiion");
