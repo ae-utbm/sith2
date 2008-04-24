@@ -62,7 +62,7 @@ class ville extends stdentity
   }
 
   /* redéfinition du can_enumerate, spécifique aux recherches de lieux */
-  function can_enumerate() { return false; }
+  function can_enumerate() { return true; }
 
   function load_by_pgid($id)
   {
