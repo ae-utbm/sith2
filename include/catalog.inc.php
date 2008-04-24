@@ -118,7 +118,12 @@ $GLOBALS["entitiescatalog"] = array (
 	
 	// Petit Géni 2 : Fiches
 	"pgcategory"=>array("id_pgcategory", "nom_pgcategory", "misc.png", "pg2/", "pg_category", "pgfiche.inc.php", "pg_category_tags" ),
-	"pgfiche"=>array("id_pgfiche", "nom_geopoint", "misc.png", "pg2/", "pg_fiche", "pgfiche.inc.php", "pg_fiche_tags" )
+	"pgfiche"=>array("id_pgfiche", "nom_geopoint", "misc.png", "pg2/", "pg_fiche", "pgfiche.inc.php", "pg_fiche_tags" ),
+	
+	// Petit Géni 2 : Types
+	"service"=>array("id_service", "nom_service", "misc.png", null, "pg_service", "pgtype.inc.php"),
+	"typetarif"=>array("id_typetarif", "nom_typetarif", "misc.png", null, "pg_typetarif", "pgtype.inc.php"),
+	"typereduction"=>array("id_typereduction", "nom_typereduction", "misc.png", null, "pg_typereduction", "pgtype.inc.php")
 	
 	);
 

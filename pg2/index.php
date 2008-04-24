@@ -253,7 +253,7 @@ if ( $fiche->is_valid() )
       $sfrm = new subform("rendu","Options et validité");
       $sfrm->add_checkbox("placesurcarte","Placer sur la carte",$fiche->placesurcarte);
       $sfrm->add_checkbox("contraste","Mettre en constraste",$fiche->contraste);
-      $sfrm->add_date_field("date_validite","Informations valablent jusqu'au",$fiche->date_validite);
+      $sfrm->add_date_field("date_validite","Valable jusqu'au",$fiche->date_validite);
       $frm->addsub($sfrm);
   
       $sfrm = new subform("int","Interne");
@@ -438,7 +438,7 @@ elseif ( $category->is_valid() && $category->id != 1 )
     $sfrm = new subform("rendu","Options et validité");
     $sfrm->add_checkbox("placesurcarte","Placer sur la carte",$fiche->placesurcarte);
     $sfrm->add_checkbox("contraste","Mettre en constraste",$fiche->contraste);
-    $sfrm->add_date_field("date_validite","Informations valablent jusqu'au",$fiche->date_validite);
+    $sfrm->add_date_field("date_validite","Valable jusqu'au",$fiche->date_validite);
     $frm->addsub($sfrm);
 
     $sfrm = new subform("int","Interne");

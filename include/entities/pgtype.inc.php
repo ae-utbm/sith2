@@ -101,8 +101,10 @@ class typereduction extends stdentity
       ),
       array("id_typereduction"=>$this->id) );
   } 
-  
-  
+  function prefer_list()
+  {
+    return true;  
+  }  
 }
 
 /**
@@ -180,6 +182,10 @@ class typetarif extends stdentity
       array("id_typetarif"=>$this->id) );
   } 
   
+  function prefer_list()
+  {
+    return true;  
+  }  
 }
 
 /**
@@ -257,6 +263,10 @@ class service  extends stdentity
       array("id_service"=>$this->id) );
   } 
   
+  function prefer_list()
+  {
+    return true;  
+  }
   
 }
  
