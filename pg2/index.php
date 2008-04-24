@@ -82,7 +82,7 @@ if ( $category->is_valid() )
 if ( $category->is_valid() && $site->is_admin() && $_REQUEST["action"] == "createfiche" )
 {
   $ent = new entreprise($site->db);
-  $rue = new rue($site->db);
+  $rue = new rue($site->db,$site->dbrw);
   $typerue = new typerue($site->db);
   $ville = new ville($site->db);
   
@@ -112,7 +112,7 @@ if ( $fiche->is_valid() )
     if ( $_REQUEST["action"] == "save" )
     {
       $ent = new entreprise($site->db);
-      $rue = new rue($site->db);
+      $rue = new rue($site->db,$site->dbrw);
       $typerue = new typerue($site->db);
       $ville = new ville($site->db);
       
@@ -205,7 +205,7 @@ if ( $fiche->is_valid() )
     $cts->add_paragraph($path." / Editer");
   
     $ent = new entreprise($site->db);
-    $rue = new rue($site->db);
+    $rue = new rue($site->db,$site->dbrw);
     $typerue = new typerue($site->db);
     $ville = new ville($site->db);
     
