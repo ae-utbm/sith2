@@ -28,6 +28,7 @@ require_once($topdir."include/entities/rue.inc.php");
 require_once($topdir."include/entities/ville.inc.php");
 require_once($topdir."include/entities/entreprise.inc.php");
 require_once($topdir."include/entities/bus.inc.php");
+require_once($topdir."include/entities/typetarif.inc.php");
 
 require_once($topdir."include/cts/board.inc.php");
 require_once($topdir."include/cts/pg.inc.php");
@@ -268,7 +269,7 @@ if ( $fiche->is_valid() )
     
     $cts->add_title(2,"Arrets de bus");
     $req = new requete($site->db,"SELECT * FROM pg_fiche_arretbus ".
-      "INNER JOIN geopoint ON (pg_fiche_arretbus.id_arretbus=geopoint.id_geopoint) ".
+      "INNER JOIN geopoint USING(pg_fiche_arretbus.id_arretbus=geopoint.id_geopoint) ".
       "WHERE `id_pgfiche` = '".mysql_real_escape_string($fiche->id)."'");
     $cts->add(new sqltable(
       "listarretbus",null,$req,"index.php?page=edit&id_pgfiche=".$fiche->id,
@@ -282,7 +283,7 @@ if ( $fiche->is_valid() )
     
     $cts->add_title(2,"Categories complémentaires");
     $req = new requete($site->db,"SELECT * FROM pg_fiche_extra_pgcategory ".
-      "INNER JOIN pg_category ON(id_pgcategory) ".
+      "INNER JOIN pg_category USING(id_pgcategory) ".
       "WHERE `id_pgfiche` = '".mysql_real_escape_string($fiche->id)."'");
     $cts->add(new sqltable(
       "listextrapgcategory",null,$req,"index.php?page=edit&id_pgfiche=".$fiche->id,
@@ -298,7 +299,7 @@ if ( $fiche->is_valid() )
     
     $cts->add_title(2,"Tarifs");
     $req = new requete($site->db,"SELECT * FROM pg_fiche_tarif ".
-      "INNER JOIN pg_typetarif ON(id_typetarif) ".
+      "INNER JOIN pg_typetarif USING(id_typetarif) ".
       "WHERE `id_pgfiche` = '".mysql_real_escape_string($fiche->id)."'");
     $cts->add(new sqltable(
       "listtarif",null,$req,"index.php?page=edit&id_pgfiche=".$fiche->id,
@@ -316,7 +317,7 @@ if ( $fiche->is_valid() )
     
     $cts->add_title(2,"Reductions");
     $req = new requete($site->db,"SELECT * FROM pg_fiche_reduction ".
-      "INNER JOIN pg_typereduction ON(id_typereduction) ".
+      "INNER JOIN pg_typereduction USING(id_typereduction) ".
       "WHERE `id_pgfiche` = '".mysql_real_escape_string($fiche->id)."'");
     $cts->add(new sqltable(
       "listreduction",null,$req,"index.php?page=edit&id_pgfiche=".$fiche->id,
@@ -334,7 +335,7 @@ if ( $fiche->is_valid() )
     
     $cts->add_title(2,"Services");
     $req = new requete($site->db,"SELECT * FROM pg_fiche_service ".
-      "INNER JOIN pg_service ON(id_service) ".
+      "INNER JOIN pg_service USING(id_service) ".
       "WHERE `id_pgfiche` = '".mysql_real_escape_string($fiche->id)."'");
     $cts->add(new sqltable(
       "listservice",null,$req,"index.php?page=edit&id_pgfiche=".$fiche->id,
