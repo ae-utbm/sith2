@@ -12,11 +12,11 @@ class pgsite extends site
     
     $this->tab_array = array (
         array ("pg", "pg2/index.php", "Accueil"),
-        array ("pgsearch", "pg2/search.php", "Recherche" ),
+        /*array ("pgsearch", "pg2/search.php", "Recherche" ),
         array ("pgagenda", "pg2/agenda.php", "Agenda" ),
         array ("pgbplans", "pg2/bplans.php", "Bons plans" ),
         array ("pgbus",    "pg2/bus.php", "Bus" ),
-        array ("jobetu",   "jobetu/", "Job-étu" ),
+        array ("jobetu",   "jobetu/", "Job-étu" ),*/
         array ("retour","index.php","Site AE UTBM")
         );
         
@@ -68,8 +68,8 @@ class pgsite extends site
     $cts->add_paragraph("Bonjour <b>".$this->user->prenom." ".$this->user->nom."</b>");
 
     $sublist = new itemlist("Mon Compte","boxlist");
-    $sublist->add("<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>");
-    if( $this->user->is_in_group("jobetu_etu") )
+    $sublist->add("<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a> (Site AE)");
+    /*if( $this->user->is_in_group("jobetu_etu") )
     {
       $jobuser = new jobuser_etu($this->db);
       $jobuser->load_by_id($this->user->id);
@@ -80,7 +80,7 @@ class pgsite extends site
       $sublist->add("<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>");
     else
       $sublist->add("<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>");
-
+*/
     $cts->add($sublist,true, true, "accountbox", "boxlist", true, true);
 
     /* Bouton de Deconnexion */
