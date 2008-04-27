@@ -36,6 +36,17 @@ $rdd=array("title"=>"remise des diplômes",
            "bandeau"=>"bandeau_rdd.png",
            "photo"=>"photo_rdd.jpg"
           );
+          
+$ff1j=array("title"=>"Festival du film d'un jour",
+           "intro"=>"Cette année, afin de faire participer les personnes ne pouvant se rendre à la cérémonie de cloture du festival du film d'un jour, nous avons mis en place un service expérimental de diffusion de la cérémonie en direct.",
+           "date"=>"samedi 3 mai 2008",
+           "h-debut"=>"20h30",
+           "h-fin"=>"23h",
+           "lieu"=>"au Mégarama d'Audincourt (entre Belfort et Montbéliard)",
+           "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la cérémonie, nous vous offrons en direct les images montées afin de profiter, chez vous, de la cérémonie. Nous remercions aussi le CRI de l'UTBM ainsi que l'ensemble des bénévoles et partenaires.<br /><img src=\"logos_ff1j.png\" alt=\"partenaires\ title=\"partenaires\" />",
+           "bandeau"=>"bandeau_ff1j.png",
+           "photo"=>"photo_ff1j.jpg"
+          );
 
 $event=$rdd;
 
