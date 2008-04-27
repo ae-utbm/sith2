@@ -45,10 +45,10 @@ $ff1j=array("title"=>"Festival du film d'un jour",
            "lieu"=>"au Mégarama d'Audincourt (entre Belfort et Montbéliard)",
            "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la cérémonie, nous vous offrons en direct les images montées afin de profiter, chez vous, de la cérémonie. Nous remercions aussi le CRI de l'UTBM ainsi que l'ensemble des bénévoles et partenaires.<br /><img src=\"logos_ff1j.png\" alt=\"partenaires\ title=\"partenaires\" />",
            "bandeau"=>"bandeau_ff1j.png",
-           "photo"=>"photo_ff1j.jpg"
+           "photo"=>"photo_ff1j.png"
           );
 
-$event=$rdd;
+$event=$ff1j;
 
 $site = new site ();
 
@@ -74,7 +74,7 @@ $cts->add_paragraph("Pour les utilisateurs de <b>VideoLan</b>, ouvrez le lien su
 $site->add_contents($cts);
 
 $cts = new contents("Regarder la cérémonie en direct");
-$cts->add_paragraph("Pour profiter au mieux et de manière plus fiable de cette diffusion, nous vous recommandons l'utilisation du logiciel libre <a href=\"http://www.videolan.org\">VideoLan</a>. Ce logiciel est disponible au <a href=\"http://www.videolan.org/vlc/\">téléchargement</a> pour toutes les plateformes (Windows, Mac OS et Linux compris bien sûr).");
+$cts->add_paragraph("Pour profiter au mieux et de manière plus fiable de cette diffusion, nous vous recommandons l'utilisation du logiciel libre <a href=\"http://www.videolan.org\">VideoLan</a>. Ce logiciel est disponible au <a href=\"http://www.videolan.org/vlc/\">téléchargement</a> pour toutes les plateformes (MS Windows, Mac OS X et Linux compris bien sûr).");
 $cts->add_paragraph("Pour les utilisateurs de <b>VideoLan</b>, ouvrez le lien suivant : <b><a href=\"http://ae.utbm.fr/streaming/stream.m3u\">ici</a></b>");
 $site->add_contents($cts);
 
