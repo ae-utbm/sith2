@@ -43,7 +43,7 @@ if($_REQUEST['action'] == "info" && !empty($_REQUEST['id_log']))
                                  INNER JOIN utilisateurs USING(id_utilisateur)
                                  WHERE id_log='".$_REQUEST['id_log']."'");
 
-  $cts = new contents("<a href=\"./\">Administration</a> / <a href=\"./logs.php\">Logs</a> / Détail d'un évennement");
+  $cts = new contents("<a href=\"./\">Administration</a> / <a href=\"./logs.php\">Logs</a> / Détail d'un évènement");
 
   $row = $req->get_row();
   
