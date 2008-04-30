@@ -425,6 +425,13 @@ class interfaceweb
            "veuillez limiter vos actions au strict minimum.";
       echo "</div>";
     }
+    elseif ( $this->get_param("warning_enabled",true) )
+    {
+      echo "<div id=\"topalert\">";
+      echo "<img width=\"16\" height=\"16\" src=\"".$wwwtopdir."themes/default/images/exclamation.png\" />";
+      echo $this->get_param("warning_message");
+      echo "</div>";
+    }
     
     echo "</body>\n";
     echo "</html>\n";
