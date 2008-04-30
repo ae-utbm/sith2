@@ -104,9 +104,9 @@ if(isset($_REQUEST["id_depot"]))
       {
         $user->load_by_id($_REQUEST["id_utilisateur"]);
         if ( $user->is_valid() && in_array($_REQUEST["right"],$svn->valid_rights) )
-          if ( !empty($site->user->alias) )
+          if ( !empty($user->alias) )
           {
-            if( preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",$site->user->alias) )
+            if( preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",$user->alias) )
             {
               $find = @exec("grep \"^".$user->alias.":\" " .SVN_PATH.PASSWORDFILE);
               if( empty($find) )
