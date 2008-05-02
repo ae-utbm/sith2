@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright 2007
+/* Copyright 2007-2008
  * - Simon Lopez < simon DOT lopez AT ayolo DOT org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
@@ -70,7 +70,6 @@ if(isset($event["bandeau"]))
 }
 $cts->add_paragraph($event["intro"]);
 $cts->add_paragraph("<b>La cérémonie a lieu le ".$event["date"]." de ".$event["h-debut"]."h à ".$event["h-fin"]."h ".$event["lieu"]."</b>.");
-$cts->add_paragraph("Pour les utilisateurs de <b>VideoLan</b>, ouvrez le lien suivant : <b><a href=\"http://ae.utbm.fr/streaming/stream.m3u\">ici</a></b>");
 $site->add_contents($cts);
 
 $cts = new contents("Regarder la cérémonie en direct");
