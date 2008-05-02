@@ -34,9 +34,6 @@
 
 $topdir = "./";
 
-//if (!isset($_GET['pass']))
-//  Header("Location: http://ae.utbm.fr/streaming/");
-
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/newsflow.inc.php");
 require_once($topdir . "include/entities/asso.inc.php");

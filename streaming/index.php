@@ -29,8 +29,8 @@ require_once($topdir. "include/site.inc.php");
 $rdd=array("title"=>"remise des diplômes",
            "intro"=>"Cette année, afin de faire participer les personnes non-conviées à la cérémonie de la Remise des Diplômes de l'<a href='http://www.utbm.fr'>Université de Technologie de Belfort-Montbéliard</a>, nous avons mis en place un service expérimental de diffusion de la cérémonie en direct.",
            "date"=>"samedi 17 novembre 2007",
-           "h-debut"=>"10",
-           "h-fin"=>"12",
+           "h-debut"=>"10h",
+           "h-fin"=>"12h",
            "lieu"=>"au centre des expositions AirExpo d'Andelnans (entre Belfort et Sevenans)",
            "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la cérémonie, nous vous offrons en direct les images montées afin de profiter, chez vous, de la cérémonie. Nous remercions aussi le CRI de l'UTBM ainsi que l'ensemble des bénévoles et partenaires.<br /> <img src=\"utprod.png\" alt=\"UTBM Production\" title=\"UTBM Production\" /> <img src=\"logos_rdd.gif\" alt=\"partenaires\ title=\"partenaires\" />",
            "bandeau"=>"bandeau_rdd.png",
@@ -69,7 +69,7 @@ if(isset($event["bandeau"]))
   $cts->add_paragraph(" ");
 }
 $cts->add_paragraph($event["intro"]);
-$cts->add_paragraph("<b>La cérémonie a lieu le ".$event["date"]." de ".$event["h-debut"]."h à ".$event["h-fin"]."h ".$event["lieu"]."</b>.");
+$cts->add_paragraph("<b>La cérémonie a lieu le ".$event["date"]." de ".$event["h-debut"]." à ".$event["h-fin"]." ".$event["lieu"]."</b>.");
 $site->add_contents($cts);
 
 $cts = new contents("Regarder la cérémonie en direct");
