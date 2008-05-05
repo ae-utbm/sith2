@@ -78,11 +78,11 @@ class site extends interfaceweb
     /*
      * LEs css du site ae restent sur le site ae
      */
-    if ( $siteae )
+/*    if ( $siteae )
     {
       $this->add_css("themes/weekair08/css/site.css");
     }
-    
+*/    
   }  
 
   private function unset_session (  )
