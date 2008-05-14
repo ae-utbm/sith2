@@ -239,7 +239,7 @@ elseif ( $_REQUEST["view"] == "bureau" )
           $lst->add($user->prenom." ".$user->nom." : OK","ok");  
         }
         else
-          $lst->add($user->prenom." ".$user->nom." : Carte déjà réceptionnée"),"ko");
+          $lst->add($user->prenom." ".$user->nom." : Carte déjà réceptionnée","ko");
       }
       else
         $lst->add("Carte n°".$num." inconnue !","ko");
