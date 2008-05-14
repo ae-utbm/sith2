@@ -111,7 +111,7 @@ if ($_REQUEST["view"] == "cadeau")
     $cts->add($lst,true);
     if ($advert)
     {
-      $cts->puts("<br/><b style=\"red\">ATTENTION : </b>".$user->prenom." ".$user->nom.utf8_encode(" ne semble pas avoir déjà pris sa carte AE !<br/><br/>"));
+      $cts->puts("<br/><b style=\"red\">ATTENTION : </b>".$user->prenom." ".$user->nom." ne semble pas avoir déjà pris sa carte AE !<br/><br/>");
       $frm_retrait_cae = new form("gotoretraitcae","cartesae.php?view=retrait",false,"POST",null);
       $frm_retrait_cae->add_submit("go","Marquer sa carte AE comme retir&eacute;e");
       $frm_retrait_cae->add_hidden("code",$_REQUEST['code']);
@@ -239,7 +239,7 @@ elseif ( $_REQUEST["view"] == "bureau" )
           $lst->add($user->prenom." ".$user->nom." : OK","ok");  
         }
         else
-          $lst->add($user->prenom." ".$user->nom.utf8_encode(" : Carte déjà réceptionnée"),"ko");
+          $lst->add($user->prenom." ".$user->nom." : Carte déjà réceptionnée"),"ko");
       }
       else
         $lst->add("Carte n°".$num." inconnue !","ko");

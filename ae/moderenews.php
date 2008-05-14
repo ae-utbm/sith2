@@ -126,9 +126,9 @@ if (isset($_REQUEST['id_nouvelle']) &&
 		    
   $form->add_select_field ("type",
 			   "Type de nouvelle", array( 3 => "Appel/concours",
-                                          1 => utf8_encode("Evènement ponctuel"),
-                                          2 => utf8_encode("Séance hebdomadaire"),
-                                          0 => utf8_encode("Info/résultat"))
+                                          1 => "Évenement ponctuel",
+                                          2 => "Séance hebdomadaire",
+                                          0 => "Info/résultat")
 			   ,$news->type);
 			   
   $form->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$news->id_asso,true);

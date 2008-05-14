@@ -1165,7 +1165,7 @@ else
             while ( list($nom) = $req2->get_row() )
               $noms[] = $nom;
           
-          $item["info"] = utf8_encode("A venir retirer à : ").implode(" ou ",$noms);
+          $item["info"] = "À venir retirer à : ".implode(" ou ",$noms);
         }
         else if ( $item['a_expedier_vente'])
           $item["info"] = "En preparation";
@@ -1175,17 +1175,17 @@ else
       
       $cts->add(new sqltable(
         "listresp",
-        utf8_encode("Commandes à retirer"), $items,
+        "Commandes à retirer", $items,
         $topdir."comptoir/encours.php?id_utilisateur=".$user->id,
         "id_factprod",
         array(
           "nom_prod"=>"Produit",
-          "quantite"=>utf8_encode("Quantité"),
+          "quantite"=>"Quantité",
           "prix_unit"=>"Prix unitaire",
           "total"=>"Total",
           "info"=>""),
         array(),
-        $site->user->is_in_group("gestion_ae")?array("retires"=>utf8_encode("Marquer comme retiré")):array(),
+        $site->user->is_in_group("gestion_ae")?array("retires"=>"Marquer comme retiré"):array(),
         array()), true);
     }
   }

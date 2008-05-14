@@ -65,7 +65,7 @@ function add_search_form()
 {
   global $topdir, $ch;
   $cts = new contents("Gestion des cotisations");
-  $frm = new form("searchstudent","cotisations.php",true,"POST",utf8_encode("Recherche d'un utilisateur existant"));
+  $frm = new form("searchstudent","cotisations.php",true,"POST","Recherche d'un utilisateur existant");
   $frm->add_hidden("action","searchstudent");
   $subfrm = new form("quicksearch","cotisations.php",false,"POST","Recherche rapide ...");
   $subfrm->add_user_fieldv2("id_utilisateur","Prenom Nom/Surnom");
@@ -96,30 +96,30 @@ function add_new_form($id = null)
   if ( $ErreurNewStudent )
     $frm->error($ErreurNewStudent);
 
-  $sub_frm_ident = new form("ident",null,null,null,utf8_encode("Identité"));
-
+  $sub_frm_ident = new form("ident",null,null,null,"Identité");
+n
   $sub_frm_ident->add_text_field("nom","Nom","",true);
 
-  $sub_frm_ident->add_text_field("prenom","Prenom","",true);
+  $sub_frm_ident->add_text_field("prenom","Prénom","",true);
 
   $sub_frm_ident->add_text_field("emailutbm","Adresse e-mail (UTBM si possible)","",true,false,false,true);
 
   $frm->add($sub_frm_ident);
   $frm->add_info("&nbsp;");
 
-  $sub_frm_cotiz = new form("cotisation",null,null,null,utf8_encode("Cotisation"));
+  $sub_frm_cotiz = new form("cotisation",null,null,null,"Cotisation");
   $sub_frm_cotiz->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, jusqu'au $date1", 1=>"2 Semestres, 28 Euros, jusqu'au $date2" ),1);
-  $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => utf8_encode("Chèque"), 3 => "Liquide", 4 => "Administration"));
+  $sub_frm_cotiz->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
   $sub_frm_cotiz->add_info("&nbsp;");
 
-  $sub_frm_cotiz_ecole = new form("ecoleform",null,null,null,utf8_encode("Etudiant"));
+  $sub_frm_cotiz_ecole = new form("ecoleform",null,null,null,"Étudiant");
   //$sub_frm_cotiz_ecole->add_hidden("etudiant",true);
   //$sub_frm_cotiz_ecole->add_checkbox("etudiant","Etudiant",true);
   $sub_frm_cotiz_ecole->add_text_field("ecole","Ecole","UTBM",true);
 
   $sub_frm_cotiz->add($sub_frm_cotiz_ecole,false,true,true,"ecole",false,true,true);
 
-  $sub_frm_cotiz_other = new form("ecoleform",null,null,null,utf8_encode("Prof/Administratif"));
+  $sub_frm_cotiz_other = new form("ecoleform",null,null,null,"Prof/Administratif");
   //$sub_frm_cotiz_other->add_hidden("etudiant",false);
   $sub_frm_cotiz->add($sub_frm_cotiz_other,false,true,false,"other",false,true,false);
 
@@ -148,7 +148,7 @@ function add_user_info_form ($user = null)
   $pays_parents->load_by_id($user->id_pays_parents);
   $ville_parents->load_by_id($user->id_ville_parents);
 
-  $sub_frm = new form("infosmmt",null,null,null,utf8_encode("Informations complémentaires"));
+  $sub_frm = new form("infosmmt",null,null,null,"Informations complémentaires");
   $sub_frm->add_info("&nbsp;");
   $sub_frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe);
   if ($user->date_naissance)
@@ -427,9 +427,9 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
       $frm = new form("newcotiz","cotisations.php?id_utilisateur=".$user->id,true,"POST","Nouvelle cotisation");
       $frm->add_hidden("action","newcotiz");
       $frm->add_select_field("cotiz","Cotisation",array( 0=>"1 Semestre, 15 Euros, $date1", 1=>"2 Semestres, 28 Euros, $date2" ),1);
-      $frm->add_select_field("paiement","Mode de paiement",array(1 => utf8_encode("Chèque"), 3 => "Liquide", 4 => "Administration"));
+      $frm->add_select_field("paiement","Mode de paiement",array(1 => "Chèque", 3 => "Liquide", 4 => "Administration"));
       $frm->add_checkbox("droit_image","Droit &agrave; l'image",$user->droit_image);
-      $frm->add_checkbox("a_pris_cadeau",utf8_encode("Cadeau distribué"),false);
+      $frm->add_checkbox("a_pris_cadeau","Cadeau distribué",false);
       $frm->add_submit("submit","Enregistrer");
       $cts->add($frm,true);
 
@@ -442,7 +442,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
 
       $tbl = new sqltable(
                           "listcotiz_effectue",
-                          utf8_encode("Cotisations effectuées"), $req, "cotisations.php?id_utilisateur=".$user->id,
+                          "Cotisations effectuées", $req, "cotisations.php?id_utilisateur=".$user->id,
                           "id_cotisation",
                           array("date_cotis"=>"Le",
                                 "date_fin_cotis"=>"Jusqu'au",
@@ -472,7 +472,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
 
         $tbl2 = new sqltable(
                             "listcotiz_encours",
-                            utf8_encode("Cotisation en cours"), $req, "cotisations.php?id_utilisateur=".$user->id,
+                            "Cotisation en cours", $req, "cotisations.php?id_utilisateur=".$user->id,
                             "id_cotisation",
                             array("date_cotis"=>"Le",
                                   "date_fin_cotis"=>"Jusqu'au",
@@ -491,7 +491,7 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
   else if ($nb == 0)
   {
     $cts_2 = add_new_form($_REQUEST['search_id']);
-    $cts_2->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']=>utf8_encode("Rechercher un cotisant"))));
+    $cts_2->set_toolbox(new toolbox(array($_SERVER['SCRIPT_NAME']=>"Rechercher un cotisant")));
     $site->add_contents($cts_2);
   }
   else if ($nb > 1 && !XMLRPC_USE)
@@ -500,10 +500,10 @@ elseif ( $_REQUEST["action"] == "searchstudent" )
     $res = $req->get_row();
     $tbl = new sqltable(
                         "listcotiz",
-                         utf8_encode("$nb Résultats de la recherche de cotisants par $by sur $on"), $req, "cotisations.php",
+                         $nb." Résultats de la recherche de cotisants par ".$by." sur ".$on, $req, "cotisations.php",
                          "id_utilisateur",
                           array("nom_utilisateur"=>"Nom",
-                                "prenom_utilisateur"=>utf8_encode("Prénom"),
+                                "prenom_utilisateur"=>"Prénom",
                                 "branche_utbm"=>"Branche",
                                 "semestre_utbm"=>"Semestre",
                                 "ae_utl"=>"Cotisant",
@@ -533,13 +533,13 @@ elseif ( $_REQUEST["action"] == "newcotiz" )
   if ( $user->id > 0 )
   {
     $user->load_all_extra();
-    $cts = new contents(utf8_encode("Mise à jour des infos indispensable pour l'impression de la carte AE"));
+    $cts = new contents("Mise à jour des infos indispensable pour l'impression de la carte AE");
     $frm = new form("infos","cotisations.php?id_utilisateur=".$user->id,true,"POST",null);
     $frm->add_hidden("action","savecotiz");
     if ( $user->utbm )
     {
       $frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
-      $frm->add_text_field("prenom",utf8_encode("Prénom"),$user->prenom,true,false,false,false);
+      $frm->add_text_field("prenom","Prénom",$user->prenom,true,false,false,false);
       $frm->add_text_field("surnom","Surnom",$user->surnom);
 
       $sub_frm = add_user_info_form($user);
@@ -590,7 +590,7 @@ elseif ($_REQUEST["action"] == "newstudent")
   if (!$user->is_email_avaible($_REQUEST['emailutbm']))
   {
     $cts = new contents("WARNING");
-    $cts->set_toolbox(new toolbox(array("javascript:history.go(-1);"=>utf8_encode("Retour"))));
+    $cts->set_toolbox(new toolbox(array("javascript:history.go(-1);"=>"Retour")));
     $cts->add_paragraph("<img src=\"".$topdir."images/actions/info.png\">&nbsp;&nbsp;L'email existe d&eacute;j&agrave; v&eacute;rifier que l'utilisateur ne figure pas dans la liste de la base de donn&eacute;es commune !");
     $site->add_contents($cts,true);
     $site->end_page();
@@ -609,7 +609,7 @@ elseif ($_REQUEST["action"] == "newstudent")
   if ($user->id < 0)
   {
     $cts = new contents("WARNING");
-    $cts->set_toolbox(new toolbox(array("javascript:history.go(-1);"=>utf8_encode("Retour"))));
+    $cts->set_toolbox(new toolbox(array("javascript:history.go(-1);"=>"Retour")));
     $cts->add_paragraph("<img src=\"".$topdir."images/actions/delete.png\">&nbsp;&nbsp;Probleme lors de l'ajout de l'utilisateur".$user->id);
     $site->add_contents($cts,true);
     $site->end_page();
@@ -618,11 +618,11 @@ elseif ($_REQUEST["action"] == "newstudent")
   else
   {
     $user->load_all_extra();
-    $cts = new contents(utf8_encode("Mise à jour des infos indispensable pour l'impression de la carte AE"));
+    $cts = new contents("Mise à jour des infos indispensable pour l'impression de la carte AE");
     $frm = new form("infos","cotisations.php?id_utilisateur=".$user->id,true,"POST",null);
     $frm->add_hidden("action","savecotiz");
     $frm->add_text_field("nom","Nom",$user->nom,true,false,false,false);
-    $frm->add_text_field("prenom",utf8_encode("Prénom"),$user->prenom,true,false,false,false);
+    $frm->add_text_field("prenom","Prénom",$user->prenom,true,false,false,false);
     $frm->add_text_field("surnom","Surnom (facultatif) ",$user->surnom);
     $sub_frm = add_user_info_form($user);
     $frm->add($sub_frm,false,false,false,false,false,true,true);
