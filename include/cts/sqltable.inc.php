@@ -200,10 +200,11 @@ class sqltable extends stdcontents
               if ( $ent[3] )
               {
                 $this->buffer .= "<a href=\"".$wwwtopdir.$ent[3]."?".$ent[0]."=$id\">";
-                $this->buffer .= "<img src=\"".$wwwtopdir."images/icons/16/".$ent[2]."\" class=\"icon\" alt=\"\" $javascript />";
+                if ( !empty($ent[2]) )
+                  $this->buffer .= "<img src=\"".$wwwtopdir."images/icons/16/".$ent[2]."\" class=\"icon\" alt=\"\" $javascript />";
                 $this->buffer .= "</a> ";
               }
-              else
+              elseif ( !empty($ent[2]) )
                 $this->buffer .= "<img src=\"".$wwwtopdir."images/icons/16/".$ent[2]."\" class=\"icon\" alt=\"\" $javascript />";
               
             }
