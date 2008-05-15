@@ -122,8 +122,8 @@ elseif ( $_REQUEST["action"] == "stop" && $can_edit && isset($_REQUEST["id_membe
 // Sauvgarde des information personelles
 elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
 {
-  if(!empty($user->alias) && !$site->user->is_in_group("root"))
-    $_REQUEST["alias"]=$user->alias;
+  if(empty($_REQUEST["alias"]) || (preg_match("#^([a-z0-9][a-z0-9\.]+[a-z0-9])$#i",$user->alias) && !$site->user->is_in_group("root")))
+    $_REQUEST["alias"] = $user->alias;
 
   if ( $_REQUEST["alias"] && !preg_match("#^([a-z0-9][a-z0-9\.]+[a-z0-9])$#i",$_REQUEST["alias"]) )
   {
