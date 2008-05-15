@@ -183,8 +183,6 @@ if($_REQUEST["action"]=="add")
 }
 elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQUEST["id_asso"])
 {
-  $cts=new contents("Résultats : ".$cpg->nom);
-
   $questions = $cpg->get_questions();
   /* c'est porc mais on va créer un array(array(field=>value)) au lieu d'un $req pour le sqltable) */
   $req = new requete ( $site->db,
@@ -213,6 +211,10 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
   {
     $answers_champs[$id]=$question["nom"];
   }
+
+  $cts=new contents("Résultats : " . $cpg->nom .
+    " (" . $req->lines . " r&eacute;ponse(s))");
+
   $tbl = new sqltable("results",
                       "Résultats",
                       $answers,
