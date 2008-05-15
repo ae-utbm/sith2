@@ -1,7 +1,9 @@
 <?php
 /* Copyright 2007
  * - Simon Lopez <simon POINT lopez CHEZ ayolo POINT org>
- * - BURNEY Rémy <rburney POINT utbm CHEZ gmail POINT com>
+ * - Rémy Burney <rburney POINT utbm CHEZ gmail POINT com>
+ * - Maxime Petazzoni <maxime POINT petazzoni CHEZ bulix POINT org>
+ * - Benjamin Collet <bcollet CHEZ oxynux POINT org>
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -225,6 +227,41 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                       array(),
                       array() );
   $cts->add($tbl);
+
+
+  $req = new requete($site->db,
+                     "SELECT COUNT(`valeur_reponse`) AS `nombre_reponse`,
+                      `id_question`, `nom_question`, `valeur_reponse`
+                      FROM `cpg_reponse`
+                      INNER JOIN `cpg_question` USING(`id_question`)
+                      WHERE `id_campagne`='".$cpg->id."' 
+                      AND (`type_question`=\"radio\" OR `type_question`=\"checkbox\")
+                      GROUP BY `valeur_reponse`
+                      ORDER BY `id_question`");
+
+  $id_question_precedente = "";
+
+  if($req->lines > 0)
+  {
+    $board = new board();
+    while(list($nombre_reponses, $id_question, $nom_question, $valeur_reponse) = $req->get_row())
+    {
+      if($id_question != $id_question_precedente)
+      {
+        if($id_question_precdente != "")
+        {
+          $board->add($list,true);
+        }
+
+        $list = new itemlist($nom_question);
+      }
+
+      $list->add($valeur_reponse." : ".$nombre_reponses);
+    }
+    $board->add($list,true);
+    $cts->add($board);
+  }
+
   $site->add_contents($cts);
 }
 
