@@ -571,7 +571,7 @@ class utilisateur extends stdentity
     if ( $this->ancien_etudiant )
       $this->groupes[10002] = "etudiants-anciens";
 
-  if ( $this->etudiant )
+    if ( $this->etudiant )
       $this->groupes[10003] = "etudiants-actuels";
 
     if ( $this->etudiant && $this->utbm )
@@ -609,6 +609,17 @@ class utilisateur extends stdentity
       if( !is_null($parent) )
         $this->groupes[$id+30000] = $name."-membres";
     }
+
+    $req = new requete($this->db,
+                       "SELECT `id_utilisateur` ".
+                       "FROM `asso_membre` ".
+                       "INNER JOIN `asso` USING(`id_asso`) ".
+                       "WHERE `date_fin` IS NULL and `role`='10' ".
+                       "AND `id_utilisateur`='".$this->id."' " .
+                       "AND `id_asso_parent` IN (SELECT `id_asso` FROM `asso` WHERE `id_asso_parent`='1')");
+
+    if ( $req->lines > 0 )
+      $this->groupes[10009] = "responsables-clubs";
 
     if ( !isset($this->promo_utbm) )
       $this->load_all_extra();

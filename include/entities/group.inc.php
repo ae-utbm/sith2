@@ -185,6 +185,7 @@ class group extends stdentity
       $values[10006] = "etudiants-utbm-tous";
       $values[10007] = "etudiants-tous";
       $values[10008] = "utilisateurs-valides";
+      $values[10009] = "responsables-clubs";
       
       $req = new requete($this->db,
         "SELECT `id_asso`, `nom_unix_asso` " .
@@ -288,6 +289,9 @@ class group extends stdentity
       
     if ( $this->id == 10008 ) 
       return "utilisateurs dont le compte a été modéré";
+
+    if ( $this->id == 10009 )
+      return "responsables des clubs";
 
     return trim($this->description);
   }
