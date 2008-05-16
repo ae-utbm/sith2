@@ -2264,25 +2264,25 @@ L'équipe info AE";
     $p2 = $topdir."var/img/matmatronch/".$replacement->id.".identity.jpg"; 
     
     if ( !file_exists($p2) && file_exists($p1) )
-      move($p1,$p2);  
+      rename($p1,$p2);  
     
     $p1 = $topdir."var/img/matmatronch/".$this->id.".jpg";
     $p2 = $topdir."var/img/matmatronch/".$replacement->id.".jpg"; 
     
     if ( !file_exists($p2) && file_exists($p1) )
-      move($p1,$p2); 
+      rename($p1,$p2); 
       
     $p1 = $topdir."var/img/matmatronch/".$this->id.".blouse.jpg";
     $p2 = $topdir."var/img/matmatronch/".$replacement->id.".blouse.jpg"; 
     
     if ( !file_exists($p2) && file_exists($p1) )
-      move($p1,$p2); 
+      rename($p1,$p2); 
       
     $p1 = $topdir."var/img/matmatronch/".$this->id.".blouse.mini.jpg";
     $p2 = $topdir."var/img/matmatronch/".$replacement->id.".blouse.mini.jpg"; 
     
     if ( !file_exists($p2) && file_exists($p1) )
-      move($p1,$p2); 
+      rename($p1,$p2); 
                   
     return true;
   }
