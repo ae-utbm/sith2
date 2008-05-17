@@ -202,6 +202,8 @@ class sqltable extends stdcontents
                 $this->buffer .= "<a href=\"".$wwwtopdir.$ent[3]."?".$ent[0]."=$id\">";
                 if ( !empty($ent[2]) )
                   $this->buffer .= "<img src=\"".$wwwtopdir."images/icons/16/".$ent[2]."\" class=\"icon\" alt=\"\" $javascript />";
+                else
+                  $this->buffer .= 'lien';
                 $this->buffer .= "</a> ";
               }
               elseif ( !empty($ent[2]) )
