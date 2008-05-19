@@ -36,7 +36,7 @@ if ( !$site->user->is_in_group('root')  && !$site->user->is_in_group('moderateur
 $site->start_page('none','Administration du forum');
 $cts = new contents('Administration');
 
-$tabs = array(array('','forum2/admin.php','Acuueil'),
+$tabs = array(array('','forum2/admin.php','Accueil'),
               array('add','forum2/admin.php?view=forums','Liste des forums'),
               array('users','forum2/admin.php?view=users','Bans'));
 $cts->add(new tabshead($tabs,$_REQUEST['view']));
