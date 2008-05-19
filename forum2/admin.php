@@ -80,7 +80,7 @@ elseif($_REQUEST['view']=='users')
 	  $i++;
 	}
       }
-      $cts->add_paragraph($nb.' utilisateurs ne sont plus bannis du forum.');
+      $cts->add_paragraph($i.' utilisateurs ne sont plus bannis du forum.');
     }
   }
   $frm = new form('add','admin.php?view=users',false,'POST','Bannir un utilisateur');
