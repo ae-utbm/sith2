@@ -98,7 +98,7 @@ elseif($_REQUEST['view']=='users')
   $tbl = new sqltable('bannis',
                       'Utilisateurs bannis du forum',
                       $req,
-                      'forum2/admin.php?view=users',
+                      'admin.php?view=users',
                       'id_utilisateur',
                       array('nom_utilisateur'=>'Utilisateur'),
                       array('unban'=>'Enlever le ban'),
