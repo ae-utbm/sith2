@@ -33,14 +33,14 @@ $site = new site ();
 if ( !$site->user->is_in_group('root')  && !$site->user->is_in_group('moderateur_forum') )
   $site->error_forbidden('none','group',7);
 
+$site->start_page('none','Administration du forum');
+$cts = new contents('Administration');
+
 $tabs = array(array('','admin.php','Acuueil'),
               array('add','admin.php?view=forums','Liste des forums'),
               array('users','admin.php?view=users','Bans'));
 $cts->add(new tabshead($tabs,$_REQUEST['view']));
 
-$site->start_page('none','Administration du forum');
-
-$cts = new contents('Administration');
 if($_REQUEST['view']=='forums')
 {
   
