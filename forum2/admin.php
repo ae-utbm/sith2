@@ -36,9 +36,9 @@ if ( !$site->user->is_in_group('root')  && !$site->user->is_in_group('moderateur
 $site->start_page('none','Administration du forum');
 $cts = new contents('Administration');
 
-$tabs = array(array('','admin.php','Acuueil'),
-              array('add','admin.php?view=forums','Liste des forums'),
-              array('users','admin.php?view=users','Bans'));
+$tabs = array(array('','forum2/admin.php','Acuueil'),
+              array('add','forum2/admin.php?view=forums','Liste des forums'),
+              array('users','forum2/admin.php?view=users','Bans'));
 $cts->add(new tabshead($tabs,$_REQUEST['view']));
 
 if($_REQUEST['view']=='forums')
@@ -83,7 +83,7 @@ elseif($_REQUEST['view']=='users')
       $cts->add_paragraph($nb.' utilisateurs ne sont plus bannis du forum.');
     }
   }
-  $frm = new form('add','admin.php?view=add',false,'POST','Bannir un utilisateur');
+  $frm = new form('add','forum2/admin.php?view=add',false,'POST','Bannir un utilisateur');
   $frm->add_hidden('action','ban');
   $frm->add_user_fieldv2('id_utilisateur','Utilisateur');
   $frm->add_submit('valid','Ajouter');
@@ -98,7 +98,7 @@ elseif($_REQUEST['view']=='users')
   $tbl = new sqltable('bannis',
                       'Utilisateurs bannis du forum',
                       $req,
-                      'admin.php?view=users',
+                      'forum2/admin.php?view=users',
                       'id_utilisateur',
                       array('nom_utilisateur'=>'Utilisateur'),
                       array('unban'=>'Enlever le ban'),
@@ -107,7 +107,7 @@ elseif($_REQUEST['view']=='users')
 else
 {
   $cts->add_title(2,'Rechercher');
-  $frm = new form('recherche','admin.php',true,'POST','Recherche');
+  $frm = new form('recherche','forum2/admin.php',true,'POST','Recherche');
   $frm->add_radiobox_field('type_recherche',
                            'Recherche d\'un ...',
                             array('sujet'=>'Sujet', 'forum'=>'Forum'),
@@ -191,20 +191,6 @@ else
       $cts->add($tbl,true);
     }
   }
-
-  $cts->add_title(2,'Rechercher');
-  $frm = new form('recherche','admin.php',true,'POST','Recherche');
-  $frm->add_radiobox_field('type_recherche', 
-                           'Recherche d\'un ...', 
-                           array('sujet'=>'Sujet', 'forum'=>'Forum'),
-                           'sujet',
-                           false,
-                           true);
-
-  $frm->add_text_field('id_recherche', 'Id de l\'objet','');
-  $frm->add_submit('recherche','Rechercher');
-  $cts->add($frm);
-
 }
 
 $site->add_contents($cts);
