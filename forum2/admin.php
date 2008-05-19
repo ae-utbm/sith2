@@ -107,7 +107,7 @@ elseif($_REQUEST['view']=='users')
 }
 else
 {
-  $cts->add_title(2,'Rechercher');
+  /*$cts->add_title(2,'Rechercher');
   $frm = new form('recherche','admin.php',true,'POST','Recherche');
   $frm->add_radiobox_field('type_recherche',
                            'Recherche d\'un ...',
@@ -191,7 +191,7 @@ else
       }
       $cts->add($tbl,true);
     }
-  }
+  }*/
 }
 
 $site->add_contents($cts);
