@@ -83,7 +83,7 @@ elseif($_REQUEST['view']=='users')
       $cts->add_paragraph($nb.' utilisateurs ne sont plus bannis du forum.');
     }
   }
-  $frm = new form('add','forum2/admin.php?view=add',false,'POST','Bannir un utilisateur');
+  $frm = new form('add','admin.php?view=add',false,'POST','Bannir un utilisateur');
   $frm->add_hidden('action','ban');
   $frm->add_user_fieldv2('id_utilisateur','Utilisateur');
   $frm->add_submit('valid','Ajouter');
@@ -108,7 +108,7 @@ elseif($_REQUEST['view']=='users')
 else
 {
   $cts->add_title(2,'Rechercher');
-  $frm = new form('recherche','forum2/admin.php',true,'POST','Recherche');
+  $frm = new form('recherche','admin.php',true,'POST','Recherche');
   $frm->add_radiobox_field('type_recherche',
                            'Recherche d\'un ...',
                             array('sujet'=>'Sujet', 'forum'=>'Forum'),
