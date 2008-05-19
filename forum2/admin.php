@@ -40,7 +40,7 @@ $tabs = array(array('','admin.php','Acuueil'),
               array('add','admin.php?view=forums','Liste des forums'),
               array('users','admin.php?view=users','Bans'));
 $cts->add(new tabshead($tabs,$_REQUEST['view']));
-exit();
+
 if($_REQUEST['view']=='forums')
 {
   
@@ -205,13 +205,7 @@ else
   $frm->add_submit('recherche','Rechercher');
   $cts->add($frm);
 
-
-  $cts->add_title(2,'Outil');
 }
-
-
-$cts->add($lst);
-
 
 $site->add_contents($cts);
 
