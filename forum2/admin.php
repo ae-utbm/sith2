@@ -55,8 +55,7 @@ elseif($_REQUEST['view']=='users')
       $user->load_by_id($_REQUEST['id_utilisateur']);
       if( !is_null($user->id) )
       {
-        if ( $site->user->id != $user->id )
-          $site->log("Ajout d'un utilisateur au groupe ". $row["nom_groupe"],"Ajout de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") au groupe ". $row["nom_groupe"] ." (id : ".$row["id_groupe"].")","Groupes",$site->user->id);
+        $site->log('Ajout d\'un utilisateur au groupe ban_forum','Ajout de l\'utilisateur '.$user->nom.' '.$user->prenom.' (id : '.$user->id.') au groupe ban_forum (id : 39)','Groupes',$site->user->id);
         $user->add_to_group(39);
         $cts->add_paragraph('L\'utilisateur a bien été banni du forum');
       }
@@ -66,8 +65,7 @@ elseif($_REQUEST['view']=='users')
       $user->load_by_id($_REQUEST['id_utilisateur']);
       if(!is_null($user->id))
       {
-        if ( $site->user->id != $user->id )
-          $site->log("Retrait d'un utilisateur du groupe ". $row["nom_groupe"],"Retrait de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") du groupe ". $row["nom_groupe"] ." (id : ".$row["id_groupe"].")","Groupes",$site->user->id);
+        $site->log('Retrait d\'un utilisateur du groupe ban_forum','Retrait de l\'utilisateur '.$user->nom.' '.$user->prenom.' (id : '.$user->id.') du groupe ban_forum (id : 39)','Groupes',$site->user->id);
         $user->remove_from_group(39);
         $cts->add_paragraph('L\'utilisateur a bien été banni du forum');
       }
@@ -80,8 +78,7 @@ elseif($_REQUEST['view']=='users')
         $user->load_by_id($id_utilisateur);
         if(!is_null($user->id))
         {
-          if ( $site->user->id != $user->id )
-            $site->log("Ajout d'un utilisateur au groupe ". $row["nom_groupe"],"Ajout de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") au groupe ". $row["nom_groupe"] ." (id : ".$row["id_groupe"].")","Groupes",$site->user->id);
+	  $site->log('Ajout d\'un utilisateur au groupe ban_forum','Ajout de l\'utilisateur '.$user->nom.' '.$user->prenom.' (id : '.$user->id.') au groupe ban_forum (id : 39)','Groupes',$site->user->id);
           $user->remove_from_group(39);
           $i++;
         }
