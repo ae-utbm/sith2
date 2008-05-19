@@ -103,6 +103,7 @@ elseif($_REQUEST['view']=='users')
                       array('nom_utilisateur'=>'Utilisateur'),
                       array('unban'=>'Enlever le ban'),
                       array('unbans'=>'Enlever le ban'));
+  $cts->add($tbl);
 }
 else
 {
