@@ -41,6 +41,8 @@ $site->add_css("css/doku.css");
 $site->add_css("css/d.css");
 $site->add_css("css/pedagogie.css");
 
+$site->allow_only_logged_users("uvs");
+
 $site->add_box("uvsmenu", get_uvsmenu_box() );
 $site->set_side_boxes("left",array("uvsmenu", "connexion"));
 
