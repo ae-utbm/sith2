@@ -83,7 +83,7 @@ elseif($_REQUEST['view']=='users')
       $cts->add_paragraph($nb.' utilisateurs ne sont plus bannis du forum.');
     }
   }
-  $frm = new form('add','admin.php?view=add',false,'POST','Bannir un utilisateur');
+  $frm = new form('add','admin.php?view=users',false,'POST','Bannir un utilisateur');
   $frm->add_hidden('action','ban');
   $frm->add_user_fieldv2('id_utilisateur','Utilisateur');
   $frm->add_submit('valid','Ajouter');
