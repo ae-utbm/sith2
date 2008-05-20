@@ -82,9 +82,9 @@ $grps = $site->user->get_groups_csv();
 
 if ( $_REQUEST["action"] == "cut" )
 {
-	if ( $photo->is_valid() && $photo->is_right($site->user,DROIT_ECRITURE) )
-	{
-	 
+  if ( $photo->is_valid() && $photo->is_right($site->user,DROIT_ECRITURE) )
+  {
+   
     $sqlph = $cat->get_photos ( $cat->id, $site->user, $grps, "sas_photos.id_photo");
     $count=0;
     while ( list($id) = $sqlph->get_row() )
@@ -94,22 +94,22 @@ if ( $_REQUEST["action"] == "cut" )
       $count++;
     }
     
-    $_REQUEST["page"] = ($idx) / SAS_NPP;	 
-	 
-		if ( !isset($_SESSION["sas_clipboard"]["photos"]) )
-		  $_SESSION["sas_clipboard"]["photos"]  = array();
-		
-		$_SESSION["sas_clipboard"]["photos"][$photo->id] = $photo->id;
+    $_REQUEST["page"] = ($idx) / SAS_NPP;   
+   
+    if ( !isset($_SESSION["sas_clipboard"]["photos"]) )
+      $_SESSION["sas_clipboard"]["photos"]  = array();
+    
+    $_SESSION["sas_clipboard"]["photos"][$photo->id] = $photo->id;
     $photo->id=null;
-	}
-	elseif ( $cat->id_catph_parent && $cat->is_right($site->user,DROIT_ECRITURE) ) // la racine ne peut pas être coupée
-	{
-	 if ( !isset($_SESSION["sas_clipboard"]["categories"]) )
-		  $_SESSION["sas_clipboard"]["categories"]  = array();
-		  
-		$_SESSION["sas_clipboard"]["categories"][$cat->id] = $cat->id;
-		$cat->load_by_id($cat->id_catph_parent);
-	}
+  }
+  elseif ( $cat->id_catph_parent && $cat->is_right($site->user,DROIT_ECRITURE) ) // la racine ne peut pas être coupée
+  {
+   if ( !isset($_SESSION["sas_clipboard"]["categories"]) )
+      $_SESSION["sas_clipboard"]["categories"]  = array();
+      
+    $_SESSION["sas_clipboard"]["categories"][$cat->id] = $cat->id;
+    $cat->load_by_id($cat->id_catph_parent);
+  }
 }
 elseif ( $_REQUEST["action"] == "addphoto" && $GLOBALS["svalid_call"] )
 {
@@ -177,7 +177,7 @@ elseif ( $_REQUEST["action"] == "sethome" && $photo->is_valid() && $cat->is_vali
         $count++;
       }
       
-      $_REQUEST["page"] = ($idx) / SAS_NPP;	 
+      $_REQUEST["page"] = ($idx) / SAS_NPP;   
     
       $cat->set_photo($photo->id);
       $photo->id=null;
@@ -596,25 +596,25 @@ if ( $_REQUEST["page"] == "subcat" && $cat->is_right($site->user,DROIT_AJOUTCAT)
 }
 elseif ( $_REQUEST["action"] == "paste" && isset($_SESSION["sas_clipboard"]) )
 {
-	$infphoto = new photo($site->db,$site->dbrw);
+  $infphoto = new photo($site->db,$site->dbrw);
   $infcat = new catphoto($site->db,$site->dbrw);
 
   if ( $cat->is_right($site->user,DROIT_AJOUTITEM) && isset($_SESSION["sas_clipboard"]["photos"]) && count($_SESSION["sas_clipboard"]["photos"])>0 )
   {
-  	foreach( $_SESSION["sas_clipboard"]["photos"] as $id )
-  	{
-  		$infphoto->load_by_id($id);
-  		$infphoto->move_to($cat->id);
+    foreach( $_SESSION["sas_clipboard"]["photos"] as $id )
+    {
+      $infphoto->load_by_id($id);
+      $infphoto->move_to($cat->id);
     }
     unset($_SESSION["sas_clipboard"]["photos"]);
   }
   
   if ( $cat->is_right($site->user,DROIT_AJOUTCAT) && isset($_SESSION["sas_clipboard"]["categories"]) && count($_SESSION["sas_clipboard"]["categories"])>0 )
   {
-  	foreach( $_SESSION["sas_clipboard"]["categories"] as $id )
-  	{
-  		$infcat->load_by_id($id);
-  		$infcat->move_to($cat->id);
+    foreach( $_SESSION["sas_clipboard"]["categories"] as $id )
+    {
+      $infcat->load_by_id($id);
+      $infcat->move_to($cat->id);
     }
     unset($_SESSION["sas_clipboard"]["categories"]);
   }
@@ -670,14 +670,9 @@ if ( $cat->id == 1 )
   else
     $site->add_contents($page->get_contents());
 
-
-
   $cts = new contents("Ajouts r&eacute;cents");
 
   $cts->add(cats_produde_gallery($cat->get_recent_photos_categories($site->user,$grps)));
-
-
-
 
   $site->add_contents($cts);
 
@@ -685,39 +680,39 @@ if ( $cat->id == 1 )
 
 if ( isset($_SESSION["sas_clipboard"]) )
 {
-	$infphoto = new photo($site->db);
+  $infphoto = new photo($site->db);
   $infcat = new catphoto($site->db);
 
-	$cts = new contents("Presse papier");
-	
-	if ( $cat->is_right($site->user,DROIT_AJOUTITEM) || $cat->is_right($site->user,DROIT_AJOUTCAT) )
-	  $cts->add_paragraph("<a href=\"index.php?id_catph=".$cat->id."&amp;action=paste\">Deplacer ici</a><br/><br/>");
-	
-	$cts->add_paragraph("<a href=\"index.php?id_catph=".$cat->id."&amp;action=emptyclpbrd\">Vider le presse papier</a>");
-	
-	$lst = new itemlist("Contenu");
+  $cts = new contents("Presse papier");
+  
+  if ( $cat->is_right($site->user,DROIT_AJOUTITEM) || $cat->is_right($site->user,DROIT_AJOUTCAT) )
+    $cts->add_paragraph("<a href=\"index.php?id_catph=".$cat->id."&amp;action=paste\">Deplacer ici</a><br/><br/>");
+  
+  $cts->add_paragraph("<a href=\"index.php?id_catph=".$cat->id."&amp;action=emptyclpbrd\">Vider le presse papier</a>");
+  
+  $lst = new itemlist("Contenu");
 
   if ( isset($_SESSION["sas_clipboard"]["photos"]) && count($_SESSION["sas_clipboard"]["photos"])>0 )
   {
-  	foreach( $_SESSION["sas_clipboard"]["photos"] as $id )
-  	{
-  		$infphoto->load_by_id($id);
-  		$lst->add($infphoto->get_html_link());
+    foreach( $_SESSION["sas_clipboard"]["photos"] as $id )
+    {
+      $infphoto->load_by_id($id);
+      $lst->add($infphoto->get_html_link());
     }
   }
   
   if ( isset($_SESSION["sas_clipboard"]["categories"]) && count($_SESSION["sas_clipboard"]["categories"])>0 )
   {
-  	foreach( $_SESSION["sas_clipboard"]["categories"] as $id )
-  	{
-  		$infcat->load_by_id($id);
-  		$lst->add($infcat->get_html_link());
+    foreach( $_SESSION["sas_clipboard"]["categories"] as $id )
+    {
+      $infcat->load_by_id($id);
+      $lst->add($infcat->get_html_link());
     }
   }
-	
-	$cts->add($lst,true);
-	
-	$site->add_contents($cts);
+  
+  $cts->add($lst,true);
+  
+  $site->add_contents($cts);
 }
 
 

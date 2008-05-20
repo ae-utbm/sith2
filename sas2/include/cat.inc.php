@@ -62,13 +62,13 @@ class catphoto extends basedb
         WHERE `id_catph` = '" . mysql_real_escape_string($id) . "'
         LIMIT 1");
     if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		
-		$this->id = null;	
-		return false;
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
+    
+    $this->id = null;  
+    return false;
   }
 
   function load_by_asso_summary($id_asso)
@@ -78,13 +78,13 @@ class catphoto extends basedb
         "AND `meta_mode_catph`='".CATPH_MODE_META_ASSO."' " .
         "LIMIT 1");
     if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		
-		$this->id = null;	
-		return false;
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
+    
+    $this->id = null;  
+    return false;
   }
 
 
@@ -102,13 +102,13 @@ class catphoto extends basedb
           LIMIT 1");
 
     if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		
-		$this->id = null;	
-		return false;
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
+    
+    $this->id = null;  
+    return false;
   }
 
   function load_by_path ( $path )
@@ -547,11 +547,11 @@ class catphoto extends basedb
     $m = date("m",$this->date_debut);
     
     if ( $m >= 2 && $m < 9)
-    	return "Printemps ".$y;
+      return "Printemps ".$y;
     else if ( $m >= 9 )
-    	return "Automne ".$y;
+      return "Automne ".$y;
     else
-    	return "Automne ".($y-1);
+      return "Automne ".($y-1);
   }
   
   function get_short_semestre ()
@@ -563,11 +563,11 @@ class catphoto extends basedb
     $m = date("m",$this->date_debut);
     
     if ( $m >= 2 && $m < 9)
-    	return "P".$y;
+      return "P".$y;
     else if ( $m >= 9 )
-    	return "A".$y;
+      return "A".$y;
     else
-    	return "A".($y-1);
+      return "A".($y-1);
   }
   
   
