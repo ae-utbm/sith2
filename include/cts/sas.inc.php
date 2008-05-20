@@ -101,7 +101,12 @@ class sascategory extends contents
       $acts=false;
       
       if ( $cat->id != $row['id_catph_parent'] )
+      {
         $link = $page."?meta_id_catph=".$cat->id."&amp;id_catph=".$row['id_catph'];
+        $scat->_load($row);
+        if ( $scat->is_right($user,DROIT_ECRITURE) )
+          $acts = array("delete","edit","cut");
+      }
       else
       {
         $link = $page."?id_catph=".$row['id_catph'];
