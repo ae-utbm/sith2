@@ -722,7 +722,7 @@ if ( $folder->id == 1 )
     $gal->add_item ( "<img src=\"$img\" alt=\"fichier\" />","<a href=\"d.php?id_file=".$fd->id."\" class=\"itmttl\">".$fd->titre."</a><br/><span class=\"itmdsc\">".$desc."</span>", "id_file=".$fd->id, $acts, "file" );
 
   }
-  $cts->add($gal,true);
+  //$cts->add($gal,true);
 }
 
 
