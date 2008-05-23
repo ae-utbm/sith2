@@ -26,6 +26,7 @@ $topdir='../';
 
 require_once($topdir. 'include/site.inc.php');
 require_once($topdir . 'include/cts/sqltable.inc.php');
+require_once($topdir. "include/cts/tree.inc.php");
 
 $site = new site ();
 
