@@ -50,7 +50,7 @@ if($_REQUEST['view']=='forums')
                      'FROM `frm_forum` as `forum1` '.
                      'LEFT JOIN `frm_forum`as `forum2` ON `forum1`.`id_forum_parent`=`forum2`.`id_forum` '.
                      'ORDER BY `forum2`.`id_forum`, `forum1`.`titre_forum`');
-  $cts->add(new treects ( "Forums", $req, 0, "id_forum", "id_forum_parent", "titre_forum" ));
+  $cts->add(new treects ( "Forums", $req, 0, "id_forum", "id_forum_parent", "admin_forum" ));
 }
 elseif($_REQUEST['view']=='users')
 {

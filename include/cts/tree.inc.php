@@ -41,14 +41,12 @@ class treects extends itemlist
   {
     global $topdir;
     
-    
     while ( $row = $req->get_row() )
     {
       if ( !$row[$id_parent_field] ) $row[$id_parent_field] = 0;
       $this->data[$row[$id_field]]["row"] = $row;
       $this->data[$row[$id_parent_field]]["childs"][] = $row[$id_field];
     }
-    
     
     $reg=null;
     $this->ent_name = $name_field;
@@ -62,7 +60,6 @@ class treects extends itemlist
         break;
       }
     }    
-  
   
     if ( $start !=0 )
     {
