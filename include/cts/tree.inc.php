@@ -57,7 +57,6 @@ class treects extends itemlist
       {
         $this->ent_id = $ent[0].$reg[1];
         $this->entity = $ent;
-        print_r($ent);
       }
     }    
   
