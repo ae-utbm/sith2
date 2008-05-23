@@ -59,18 +59,18 @@ class forum extends basedb
   function load_by_id ( $id )
   {
     $req = new requete($this->db, "SELECT * FROM `frm_forum`
-				WHERE `id_forum` = '" .
-		       mysql_real_escape_string($id) . "'
-				LIMIT 1");
+        WHERE `id_forum` = '" .
+           mysql_real_escape_string($id) . "'
+        LIMIT 1");
 
     if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		
-		$this->id = null;	
-		return false;
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
+    
+    $this->id = null;  
+    return false;
   }
   
   function _load ( $row )
@@ -94,30 +94,30 @@ class forum extends basedb
 
   }
   
-	function is_admin ( &$user )
-	{
-		if ( $user->is_in_group("moderateur_forum") )
-		  return true;	
-		
-		if ( !is_null($this->id_asso) )
-		  if ( $user->is_asso_role ( $this->id_asso, ROLEASSO_RESPINFO ) )
-		    return true;
-		
-		return parent::is_admin($user);
-	}
-	
-	function is_category()
-	{
-		return $this->categorie;	
-	}
-	
-	function create ( $titre, $description, $categorie, $id_forum_parent, $id_asso=null, $ordre=0 )
-	{
-	  $this->titre = $titre;
-	  $this->description = $description;
-	  $this->categorie = $categorie;
-	  $this->id_forum_parent = $id_forum_parent;
-	  $this->id_asso = $id_asso;
+  function is_admin ( &$user )
+  {
+    if ( $user->is_in_group("moderateur_forum") )
+      return true;  
+    
+    if ( !is_null($this->id_asso) )
+      if ( $user->is_asso_role ( $this->id_asso, ROLEASSO_RESPINFO ) )
+        return true;
+    
+    return parent::is_admin($user);
+  }
+  
+  function is_category()
+  {
+    return $this->categorie;  
+  }
+  
+  function create ( $titre, $description, $categorie, $id_forum_parent, $id_asso=null, $ordre=0 )
+  {
+    $this->titre = $titre;
+    $this->description = $description;
+    $this->categorie = $categorie;
+    $this->id_forum_parent = $id_forum_parent;
+    $this->id_asso = $id_asso;
     $this->id_sujet_dernier = null;
     $this->nb_sujets = 0;
     $this->ordre = $ordre;
@@ -137,23 +137,23 @@ class forum extends basedb
               "ordre_forum"=>$this->ordre
             ));
   
-		if ( $req )
-		{
-			$this->id = $req->get_id();
-		  return true;
-		}
-		
-		$this->id = null;
+    if ( $req )
+    {
+      $this->id = $req->get_id();
+      return true;
+    }
+    
+    $this->id = null;
     return false;
-	}
-	
-	function update ( $titre, $description, $categorie, $id_forum_parent, $id_asso=null, $ordre=0 )
-	{
-	  $this->titre = $titre;
-	  $this->description = $description;
-	  $this->categorie = $categorie;
-	  $this->id_forum_parent = $id_forum_parent;
-	  $this->id_asso = $id_asso;
+  }
+  
+  function update ( $titre, $description, $categorie, $id_forum_parent, $id_asso=null, $ordre=0 )
+  {
+    $this->titre = $titre;
+    $this->description = $description;
+    $this->categorie = $categorie;
+    $this->id_forum_parent = $id_forum_parent;
+    $this->id_asso = $id_asso;
     $this->ordre = $ordre;
     $req = new update ($this->dbrw,
             "frm_forum", array(
@@ -169,50 +169,50 @@ class forum extends basedb
               "ordre_forum"=>$this->ordre
             ),
             array("id_forum"=>$this->id) );
-	}	
-	
+  }  
+  
 
 
   function delete ( $recursif=false )
   {
-	
+  
     $sql="SELECT * from frm_forum WHERE id_forum_parent=".$this->id." ;";
     $req = new requete($this->db,$sql);
-		// test si le forum est rataché à des autres forums
-		if( $sql->lines <= 0 && !$recursif ){
-	    $rows = array();
+    // test si le forum est rataché à des autres forums
+    if( $sql->lines <= 0 && !$recursif ){
+      $rows = array();
       $forum = new forum($site->db,$site->dbrw);
-	    while ( $row = $req->get_row() ){
+      while ( $row = $req->get_row() ){
 
-				if( $recursif ){
-					$forum>load_by_id($row["id_sujet"]);
-					$forum->delete(true);
-				}else{
+        if( $recursif ){
+          $forum>load_by_id($row["id_sujet"]);
+          $forum->delete(true);
+        }else{
           $rows[] = $row;
-				}
-			}
-	    return $rows;
-		}
+        }
+      }
+      return $rows;
+    }
 
    $sql="SELECT * from frm_sujet WHERE id_forum=".$this->id." ;";
     $req = new requete($this->db,$sql);
-		// test si le forum est rataché à des sujets
-	    $rows = array();
+    // test si le forum est rataché à des sujets
+      $rows = array();
       array_push($rows,$req->get_row());
-			if( !empty($rows) ){
+      if( !empty($rows) ){
 
-			$sujet = new sujet($site->db,$site->dbrw);
-	    while ( $row = $req->get_row() ){
+      $sujet = new sujet($site->db,$site->dbrw);
+      while ( $row = $req->get_row() ){
 
-				if( $recursif ){
-					$sujet->load_by_id($row["id_sujet"]);
-					$sujet->delete($this);
-				}else{
+        if( $recursif ){
+          $sujet->load_by_id($row["id_sujet"]);
+          $sujet->delete($this);
+        }else{
           array_push($rows,$row);
         }
-			}
-	    return $rows;
-		}
+      }
+      return $rows;
+    }
 
     new delete($this->dbrw,"frm_forum",array("id_forum"=>$this->id));
     $this->id = null;
@@ -221,9 +221,9 @@ class forum extends basedb
   }
 
 
-	function get_sub_forums ( &$user, $searchforunread=true )
-	{
-	 
+  function get_sub_forums ( &$user, $searchforunread=true )
+  {
+   
     $query = "SELECT frm_forum.*, ".
         "frm_sujet.titre_sujet, ".
         "frm_message.date_message, " .
@@ -269,7 +269,7 @@ class forum extends basedb
         "LEFT JOIN utl_etu_utbm ON ( utilisateurs.id_utilisateur = utl_etu_utbm.id_utilisateur ) " .
         "WHERE " .
         "id_forum_parent='".$this->id."' ";
-	 
+   
     if ( !$user->is_valid() )
       $query .= "AND (droits_acces_forum & 0x1) ";
       
@@ -280,20 +280,20 @@ class forum extends basedb
         "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
         "(id_groupe_admin IN ($grps))) ";
     }
-	  $query .= "ORDER BY frm_forum.ordre_forum";
-	  	  
+    $query .= "ORDER BY frm_forum.ordre_forum";
+        
     $req = new requete($this->db,$query);
-	  
-	  $rows = array();
-	  
-	  while ( $row = $req->get_row() )
-	    $rows[] = $row;
-	 
-	  return $rows;
-	}
-	
-	function get_sujets ( &$user, $st, $npp )
-	{
+    
+    $rows = array();
+    
+    while ( $row = $req->get_row() )
+      $rows[] = $row;
+   
+    return $rows;
+  }
+  
+  function get_sujets ( &$user, $st, $npp )
+  {
     $query = "SELECT frm_sujet.*, ".
         "frm_message.date_message, " .
         "frm_message.id_message, " .
@@ -334,23 +334,23 @@ class forum extends basedb
                    
     $query .= "WHERE " .
               "id_forum='".$this->id."' ";
-	  $query .= "ORDER BY frm_sujet.type_sujet=2 DESC, frm_message.date_message DESC ";
-	  $query .= "LIMIT $st, $npp";
-	  
+    $query .= "ORDER BY frm_sujet.type_sujet=2 DESC, frm_message.date_message DESC ";
+    $query .= "LIMIT $st, $npp";
+    
     $req = new requete($this->db,$query);
     
-	  $rows = array();
-	  
-	  while ( $row = $req->get_row() )
-	    $rows[] = $row;
-	 
-	  return $rows;
-	}
-	
-	/**
-	 * Met à jour le dernier sujet actif, et le nombre de sujets
-	 */
-	function update_last_sujet ( )
+    $rows = array();
+    
+    while ( $row = $req->get_row() )
+      $rows[] = $row;
+   
+    return $rows;
+  }
+  
+  /**
+   * Met à jour le dernier sujet actif, et le nombre de sujets
+   */
+  function update_last_sujet ( )
   {
     if ( $this->categorie )
     {
@@ -359,16 +359,16 @@ class forum extends basedb
         "FROM `frm_forum` ".
         "INNER JOIN `frm_sujet` ON ( `frm_sujet`.`id_sujet` = `frm_forum`.`id_sujet_dernier` ) ".
         "INNER JOIN `frm_message` ON ( `frm_sujet`.`id_message_dernier` = `frm_message`.`id_message` ) ".
-  		  "WHERE `id_forum_parent` = '". mysql_real_escape_string($this->id) . "' ".
-  		  "ORDER BY `date_message` DESC ".
-  		  "LIMIT 1");
+        "WHERE `id_forum_parent` = '". mysql_real_escape_string($this->id) . "' ".
+        "ORDER BY `date_message` DESC ".
+        "LIMIT 1");
 
       list($this->id_sujet_dernier) = $req->get_row();
       
       $req = new requete($this->db, 
         "SELECT SUM(nb_sujets_forum) ".
         "FROM `frm_forum` ".
-  		  "WHERE `id_forum_parent` = '". mysql_real_escape_string($this->id) . "' ");
+        "WHERE `id_forum_parent` = '". mysql_real_escape_string($this->id) . "' ");
       
       list($this->nb_sujets) = $req->get_row();      
       
@@ -379,9 +379,9 @@ class forum extends basedb
         "SELECT frm_sujet.id_sujet ".
         "FROM `frm_sujet` ".
         "INNER JOIN `frm_message` ON ( `frm_sujet`.`id_message_dernier` = `frm_message`.`id_message` ) ".
-  		  "WHERE `frm_sujet`.`id_forum` = '". mysql_real_escape_string($this->id) . "' ".
-  		  "ORDER BY `date_message` DESC ".
-  		  "LIMIT 1");
+        "WHERE `frm_sujet`.`id_forum` = '". mysql_real_escape_string($this->id) . "' ".
+        "ORDER BY `date_message` DESC ".
+        "LIMIT 1");
       
       if ( $req->lines == 0 )
         $this->id_sujet_dernier = null;
@@ -391,8 +391,7 @@ class forum extends basedb
       $req = new requete($this->db, 
         "SELECT COUNT(*) ".
         "FROM `frm_sujet` ".
-  		  "WHERE `id_forum` = '". mysql_real_escape_string($this->id) . "' ");
-  		            
+        "WHERE `id_forum` = '". mysql_real_escape_string($this->id) . "' ");
       list($this->nb_sujets) = $req->get_row();
       
     }
