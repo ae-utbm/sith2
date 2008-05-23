@@ -117,11 +117,11 @@ foreach($photos as $id)
 if($bouh)
 {
   exec("/bin/tar czf /tmp/".$asso->nom_unix.".tar.gz /tmp/".$asso->nom_unix);
-  exec("/bin/mv /tmp/".$asso->nom_unix.".tar.gz /var/www/ae/www/equipeinfo/");
+  exec("/bin/mv /tmp/".$asso->nom_unix.".tar.gz /var/www/ae/www/var/");
   exec("/bin/rm -Rf /tmp/".$asso->nom_unix);
 }
 
 
-echo "<a href='http://ae.utbm.fr/equipeinfo/".$asso->nom_unix.".tar.gz'>ici</a>";
+echo "<a href='http://ae.utbm.fr/var/".$asso->nom_unix.".tar.gz'>ici</a>";
 
 ?>
