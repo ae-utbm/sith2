@@ -100,7 +100,10 @@ $bouh = false;
 if(empty($photos))
   exit();
 
-exec("/bin/mkdir /tmp/".$asso->nom_unix);
+$output = array();
+exec("/bin/mkdir /tmp/".$asso->nom_unix, $output);
+print_r($output);
+
 foreach($photos as $id)
 {
   $photo->load_by_id($id);
