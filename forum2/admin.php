@@ -45,7 +45,9 @@ $cts->add(new tabshead($tabs,$_REQUEST['view']));
 if($_REQUEST['view']=='forums')
 {
   $req = new requete($site->db,
-                     'SELECT `forum1`.`titre_forum` as `admin_forum`'.
+                     'SELECT `forum1`.`id_forum`'.
+                     ', `forum1`.`forum_parent`'.
+                     ', `forum1`.`titre_forum` as `admin_forum`'.
                      ', `forum2`.`id_forum` as `id_forum_parent` '.
                      'FROM `frm_forum` as `forum1` '.
                      'LEFT JOIN `frm_forum`as `forum2` ON `forum1`.`id_forum_parent`=`forum2`.`id_forum` '.
