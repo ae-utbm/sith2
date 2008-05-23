@@ -46,7 +46,6 @@ if($_REQUEST['view']=='forums')
 {
   $req = new requete($site->db,
                      'SELECT `forum1`.`id_forum`'.
-                     ', `forum1`.`forum_parent`'.
                      ', `forum1`.`titre_forum` as `admin_forum`'.
                      ', `forum2`.`id_forum` as `id_forum_parent` '.
                      'FROM `frm_forum` as `forum1` '.
