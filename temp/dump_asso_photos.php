@@ -100,10 +100,7 @@ $bouh = false;
 if(empty($photos))
   exit();
 
-$output = array();
-$succes = exec("/bin/mkdir /tmp/".$asso->nom_unix, $output);
-echo "retour = ".$succes;
-print_r($output);
+exec("/bin/mkdir /tmp/".$asso->nom_unix);
 
 foreach($photos as $id)
 {
