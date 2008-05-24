@@ -624,6 +624,8 @@ class wiki extends basedb
   
 	function is_admin ( &$user )
 	{
+    if ( !$user->is_in_group("root") && $this->id_groupe_admin == 7)
+      return false;
 		if ( $user->is_in_group("wiki_admin") )
 		  return true;	
 
