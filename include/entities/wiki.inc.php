@@ -61,122 +61,122 @@ class wiki extends basedb
    * Charge une page wiki par id
    * @param $id
    */
-	function load_by_id ( $id )
-	{
-	 
-		$req = new requete($this->db, "SELECT * 
-		    FROM `wiki`
-		    INNER JOIN `wiki_rev` 
-		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
-		           AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
-				WHERE `wiki`.`id_wiki` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");
-				
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		
-		$this->id = null;	
-		return false;
-	}
+  function load_by_id ( $id )
+  {
+   
+    $req = new requete($this->db, "SELECT * 
+        FROM `wiki`
+        INNER JOIN `wiki_rev` 
+          ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
+               AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
+        WHERE `wiki`.`id_wiki` = '" . mysql_real_escape_string($id) . "'
+        LIMIT 1");
+        
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
+    
+    $this->id = null;  
+    return false;
+  }
   
-	function load_by_id_and_rev ( $id, $id_rev )
-	{
-	 
-		$req = new requete($this->db, "SELECT * 
-		    FROM `wiki`
-		    INNER JOIN `wiki_rev` 
-		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
-		           AND `wiki_rev`.`id_rev`='" . mysql_real_escape_string($id) . "')
-				WHERE `wiki`.`id_wiki` = '" . mysql_real_escape_string($id_rev) . "'
-				LIMIT 1");
-				
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		
-		$this->id = null;	
-		return false;
-	}
-	
-	function load_by_name ( $parent, $name )
-	{
-	 
-		$req = new requete($this->db, "SELECT * 
-		    FROM `wiki`
-		    INNER JOIN `wiki_rev` 
-		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
-		           AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
-				WHERE `name_wiki` = '" . mysql_real_escape_string($name) . "'
-				AND `id_wiki_parent`= '" . mysql_real_escape_string($parent->id) . "'
-				LIMIT 1");
-				
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		
-		$this->id = null;	
-		return false;
-	}
-	
-	function load_by_fullpath ( $fullpath )
-	{
-	 
-		$req = new requete($this->db, "SELECT * 
-		    FROM `wiki`
-		    INNER JOIN `wiki_rev` 
-		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
-		           AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
-				WHERE `fullpath_wiki` = '" . mysql_real_escape_string($fullpath) . "'
-				LIMIT 1");
-				
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		
-		$this->id = null;	
-		return false;
-	}
+  function load_by_id_and_rev ( $id, $id_rev )
+  {
+   
+    $req = new requete($this->db, "SELECT * 
+        FROM `wiki`
+        INNER JOIN `wiki_rev` 
+          ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
+               AND `wiki_rev`.`id_rev`='" . mysql_real_escape_string($id) . "')
+        WHERE `wiki`.`id_wiki` = '" . mysql_real_escape_string($id_rev) . "'
+        LIMIT 1");
+        
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
+    
+    $this->id = null;  
+    return false;
+  }
   
-	function load_by_fullpath_and_rev ( $fullpath, $id_rev )
-	{
-	 
-		$req = new requete($this->db, "SELECT * 
-		    FROM `wiki`
-		    INNER JOIN `wiki_rev` 
-		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
-		           AND `wiki_rev`.`id_rev`='" . mysql_real_escape_string($id_rev) . "')
-				WHERE `fullpath_wiki` = '" . mysql_real_escape_string($fullpath) . "'
-				LIMIT 1");
-				
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		
-		$this->id = null;	
-		return false;
-	}  
-	
-	function _load( $row )
-	{
-	  $this->id = $row["id_wiki"];
-	  
-		$this->id_utilisateur = $row['id_utilisateur'];
-		$this->id_groupe = $row['id_groupe'];
-		$this->id_groupe_admin = $row['id_groupe_admin'];
-		$this->droits_acces = $row['droits_acces_wiki'];
-		$this->modere = true;
-		
+  function load_by_name ( $parent, $name )
+  {
+   
+    $req = new requete($this->db, "SELECT * 
+        FROM `wiki`
+        INNER JOIN `wiki_rev` 
+          ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
+               AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
+        WHERE `name_wiki` = '" . mysql_real_escape_string($name) . "'
+        AND `id_wiki_parent`= '" . mysql_real_escape_string($parent->id) . "'
+        LIMIT 1");
+        
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
+    
+    $this->id = null;  
+    return false;
+  }
+  
+  function load_by_fullpath ( $fullpath )
+  {
+   
+    $req = new requete($this->db, "SELECT * 
+        FROM `wiki`
+        INNER JOIN `wiki_rev` 
+          ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
+               AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
+        WHERE `fullpath_wiki` = '" . mysql_real_escape_string($fullpath) . "'
+        LIMIT 1");
+        
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
+    
+    $this->id = null;  
+    return false;
+  }
+  
+  function load_by_fullpath_and_rev ( $fullpath, $id_rev )
+  {
+   
+    $req = new requete($this->db, "SELECT * 
+        FROM `wiki`
+        INNER JOIN `wiki_rev` 
+          ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
+               AND `wiki_rev`.`id_rev`='" . mysql_real_escape_string($id_rev) . "')
+        WHERE `fullpath_wiki` = '" . mysql_real_escape_string($fullpath) . "'
+        LIMIT 1");
+        
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
+    
+    $this->id = null;  
+    return false;
+  }  
+  
+  function _load( $row )
+  {
+    $this->id = $row["id_wiki"];
+    
+    $this->id_utilisateur = $row['id_utilisateur'];
+    $this->id_groupe = $row['id_groupe'];
+    $this->id_groupe_admin = $row['id_groupe_admin'];
+    $this->droits_acces = $row['droits_acces_wiki'];
+    $this->modere = true;
+    
     $this->id_wiki_parent = $row['id_wiki_parent']; 
     $this->id_asso = $row['id_asso'];
     $this->id_rev_last = $row['id_rev_last'];
@@ -192,14 +192,14 @@ class wiki extends basedb
     $this->rev_contents = $row['contents_rev'];
     $this->rev_title = $row['title_rev'];
     $this->rev_comment = $row['comment_rev'];
-	}
-	
+  }
+  
   function create ( $parent, $id_asso, $name, $namespace, $title, $contents, $comment="créée!", $section=null)
   {
-		if ( strlen($name) > 64 )
-		  return false;
-		
-		$this->id_wiki_parent = $parent->id;
+    if ( strlen($name) > 64 )
+      return false;
+    
+    $this->id_wiki_parent = $parent->id;
     $this->id_asso = $id_asso;
     
     $this->name = $name;
@@ -210,9 +210,9 @@ class wiki extends basedb
     else
       $this->fullpath =$this->name;
       
-		if ( strlen($this->fullpath) > 512 )
-		  return false;
-		  
+    if ( strlen($this->fullpath) > 512 )
+      return false;
+      
     $req = new insert($this->dbrw,"wiki", array (
       "id_utilisateur" => $this->id_utilisateur,
       "id_groupe" => $this->id_groupe,
@@ -226,17 +226,17 @@ class wiki extends basedb
       "namespace_behaviour" => $this->namespace_behaviour,
       "section_wiki"=>$this->section));
 
-		if ( $req )
-			$this->id = $req->get_id();
-		else
-		{
-			$this->id = null;
-			return false;
-		} 
+    if ( $req )
+      $this->id = $req->get_id();
+    else
+    {
+      $this->id = null;
+      return false;
+    } 
     
-		$req = new requete($this->db, "SELECT id_wiki 
-		    FROM `wiki_ref_missingwiki`
-				WHERE `fullname_wiki_rel` = '" . mysql_real_escape_string($this->fullpath) . "'");    
+    $req = new requete($this->db, "SELECT id_wiki 
+        FROM `wiki_ref_missingwiki`
+        WHERE `fullname_wiki_rel` = '" . mysql_real_escape_string($this->fullpath) . "'");    
     
     while ( $row = $req->get_row() )
     {
@@ -249,14 +249,14 @@ class wiki extends basedb
       
     return $this->revision($this->id_utilisateur,$title, $contents, $comment);
   }
-	
-	function update_last_rev()
-	{
-	  new update($this->dbrw,"wiki",array("id_rev_last"=>$this->id_rev_last),array("id_wiki"=>$this->id));
-	}
-	
-	function revision ( $id_utilisateur, $title, $contents, $comment="" )
-	{
+  
+  function update_last_rev()
+  {
+    new update($this->dbrw,"wiki",array("id_rev_last"=>$this->id_rev_last),array("id_wiki"=>$this->id));
+  }
+  
+  function revision ( $id_utilisateur, $title, $contents, $comment="" )
+  {
     $this->rev_id_utilisateur = $id_utilisateur;
     $this->rev_date = time();
     $this->rev_contents = $contents;
@@ -271,14 +271,14 @@ class wiki extends basedb
       "title_rev" => $this->rev_title,
       "comment_rev" => $this->rev_comment));   
        
-		if ( $req )
-			$this->rev_id = $req->get_id();
-		else
-		{
-			$this->rev_id = null;
-			return false;
-		} 
-		
+    if ( $req )
+      $this->rev_id = $req->get_id();
+    else
+    {
+      $this->rev_id = null;
+      return false;
+    } 
+    
     $this->id_rev_last = $this->rev_id;
     
     $this->update_last_rev();
@@ -290,45 +290,45 @@ class wiki extends basedb
     $cache->expire();
     
     return true;
-	}
-	
-	/** 
-	 * Deplace la page dans un autre parent
-	 * @param Instance de la classe wiki, avec le parent chargé
-	 */
-	function move_to ( &$parent )
-	{
-	  $oldpath = $this->fullpath;
-	  
-		$this->id_wiki_parent = $parent->id;
-	  
+  }
+  
+  /** 
+   * Deplace la page dans un autre parent
+   * @param Instance de la classe wiki, avec le parent chargé
+   */
+  function move_to ( &$parent )
+  {
+    $oldpath = $this->fullpath;
+    
+    $this->id_wiki_parent = $parent->id;
+    
     if ( !empty($parent->fullpath) )
       $this->fullpath = $parent->fullpath.":".$this->name;
     else
-      $this->fullpath =$this->name;	 
-	 
+      $this->fullpath =$this->name;   
+   
     new update($this->dbrw,"wiki", array (
       "id_wiki_parent" => $this->id_wiki_parent,
-      "fullpath_wiki" => $this->fullpath),array("id_wiki"=>$this->id));	 
+      "fullpath_wiki" => $this->fullpath),array("id_wiki"=>$this->id));   
       
-		$req = new requete($this->db, "SELECT id_wiki, fullpath_wiki  FROM `wiki`
-				WHERE `fullpath_wiki` LIKE '" . mysql_real_escape_string($fullpath) . ":%'");
+    $req = new requete($this->db, "SELECT id_wiki, fullpath_wiki  FROM `wiki`
+        WHERE `fullpath_wiki` LIKE '" . mysql_real_escape_string($fullpath) . ":%'");
       
     while ( $row = $req->get_row() )
     {
       new update($this->dbrw,"wiki", array (
         "fullpath_wiki" => $this->fullpath.substr($row["fullpath_wiki"],strlen($oldpath))),
-        array("id_wiki"=>$row["id_wiki"]));	       
+        array("id_wiki"=>$row["id_wiki"]));         
     }  
     $this->update_references($this->rev_contents);
-	}
-	
-	/**
-	 * Inscrit dans la base de données les valeurs de certains champs de cette instance.
-	 * (id_utilisateur, id_groupe, id_groupe_admin, droits_acces, id_asso, namespace_behaviour, section)
-	 */
-	function update()
-	{
+  }
+  
+  /**
+   * Inscrit dans la base de données les valeurs de certains champs de cette instance.
+   * (id_utilisateur, id_groupe, id_groupe_admin, droits_acces, id_asso, namespace_behaviour, section)
+   */
+  function update()
+  {
     new update($this->dbrw,"wiki", array (
       "id_utilisateur" => $this->id_utilisateur,
       "id_groupe" => $this->id_groupe,
@@ -336,13 +336,13 @@ class wiki extends basedb
       "droits_acces_wiki" => $this->droits_acces,
       "id_asso" => $this->id_asso,
       "namespace_behaviour" => $this->namespace_behaviour,
-      "section_wiki"=>$this->section),array("id_wiki"=>$this->id));	 
-	}
-	
-	/**
-	 * Met à jours les réfences de la page sur la base du contenu fourni.
-	 * @param $contents Contenu à analyser
-	 */
+      "section_wiki"=>$this->section),array("id_wiki"=>$this->id));   
+  }
+  
+  /**
+   * Met à jours les réfences de la page sur la base du contenu fourni.
+   * @param $contents Contenu à analyser
+   */
   function update_references($contents)
   {
     new requete($this->dbrw,
@@ -437,17 +437,17 @@ class wiki extends basedb
   
   function get_id_fullpath($fullpath)
   {
-		$req = new requete($this->db, "SELECT id_wiki 
-		    FROM `wiki`
-				WHERE `fullpath_wiki` = '" . mysql_real_escape_string($fullpath) . "'
-				LIMIT 1");    
-				
-		if ( $req->lines != 1 )
-		  return null;
-	
-		list($id) = $req->get_row();
-		
-		return $id;
+    $req = new requete($this->db, "SELECT id_wiki 
+        FROM `wiki`
+        WHERE `fullpath_wiki` = '" . mysql_real_escape_string($fullpath) . "'
+        LIMIT 1");    
+        
+    if ( $req->lines != 1 )
+      return null;
+  
+    list($id) = $req->get_row();
+    
+    return $id;
   }
   
   /**
@@ -465,28 +465,28 @@ class wiki extends basedb
   
   function __map_childs($id_wiki)
   {
-		$req = new requete($this->db, "SELECT wiki.id_wiki, name_wiki, title_rev, fullpath_wiki
-		    FROM `wiki`
-		    INNER JOIN `wiki_rev` 
-		      ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
-		           AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
-				WHERE `wiki`.`id_wiki_parent` = '" . mysql_real_escape_string($id_wiki) . "'");    
-				
-		if ( $req->lines == 0 )
-		  return "";	
-				
+    $req = new requete($this->db, "SELECT wiki.id_wiki, name_wiki, title_rev, fullpath_wiki
+        FROM `wiki`
+        INNER JOIN `wiki_rev` 
+          ON ( `wiki`.`id_wiki`=`wiki_rev`.`id_wiki` 
+               AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` )
+        WHERE `wiki`.`id_wiki_parent` = '" . mysql_real_escape_string($id_wiki) . "'");    
+        
+    if ( $req->lines == 0 )
+      return "";  
+        
     $buffer = "<ul>\n";
-		while ( $row = $req->get_row() )
-		{
+    while ( $row = $req->get_row() )
+    {
       $buffer .= "<li>".
         "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".
         ($row['name_wiki']?$row['name_wiki']:"(sans nom)")."</a> ".
         " : <span class=\"wtitle\">".
         htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8").
         "</span> ".
-        $this->__map_childs($row['id_wiki'])."</li>\n";		  
-		}
-				
+        $this->__map_childs($row['id_wiki'])."</li>\n";      
+    }
+        
     $buffer .= "</ul>\n";
     return $buffer;
   }
@@ -530,13 +530,13 @@ class wiki extends basedb
         "FROM wiki_ref_missingwiki ".
         "WHERE fullname_wiki_rel LIKE '".mysql_real_escape_string($wiki)."%' ".
         "GROUP BY fullname_wiki_rel ".
-    		"ORDER BY fullname_wiki_rel");      
+        "ORDER BY fullname_wiki_rel");      
       if ( $req->lines== 0 )
         $buffer ="(aucune page manquante)";
       else
       {
         $buffer = "<ul>\n";
-  		  while ( $row = $req->get_row() )
+        while ( $row = $req->get_row() )
           $buffer .= "<li><a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".
             $row['fullpath_wiki']."</a></li>\n";
         $buffer .= "</ul>\n";
@@ -559,16 +559,16 @@ class wiki extends basedb
         "INNER JOIN wiki USING(id_wiki) ".
         "INNER JOIN utilisateurs ON(wiki_rev.id_utilisateur_rev=utilisateurs.id_utilisateur) ".
         "WHERE fullpath_wiki LIKE '".mysql_real_escape_string($wiki)."%' ".
-    		"ORDER BY date_rev DESC ".
-    		"LIMIT 50");  
+        "ORDER BY date_rev DESC ".
+        "LIMIT 50");  
         
       if ( $req->lines== 0 )
         $buffer ="(aucun changement récent)";
       else
       {
         $buffer = "<ul>\n";
-  		  while ( $row = $req->get_row() )
-  		  {
+        while ( $row = $req->get_row() )
+        {
             
           if ( $row['id_rev_last'] != $row['id_rev'] )
             $revlink = "?name=".$row['fullpath_wiki']."&amp;rev=".$row['id_rev'];
@@ -583,7 +583,7 @@ class wiki extends basedb
             "<a class=\"wpage\" href=\"$revlink\">".$row['fullpath_wiki']."</a> ".
             "- <span class=\"wuser\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</span> ".
             "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span></li>\n";
-  		  }
+        }
         $buffer .= "</ul>\n";
       }
       return $buffer;
@@ -622,38 +622,38 @@ class wiki extends basedb
     return $cache;
   }
   
-	function is_admin ( &$user )
-	{
+  function is_admin ( &$user )
+  {
     if ( !$user->is_in_group("root") && $this->id_groupe_admin == 7)
       return false;
-		if ( $user->is_in_group("wiki_admin") )
-		  return true;	
+    if ( $user->is_in_group("wiki_admin") )
+      return true;  
 
-		return parent::is_admin($user);
-	}
-	
-	function herit ( $basedb )
-	{
-		$this->id_utilisateur = null;
-		$this->id_groupe = $basedb->id_groupe;	
-		$this->id_groupe_admin = $basedb->id_groupe_admin;
-		$this->modere=true;
-	  $this->droits_acces = $basedb->droits_acces;
-	}
-	
-	function set_rights ( $user,  $rights, $id_group, $id_group_admin )
-	{
-		if ( $this->is_admin($user) && $id_group_admin )
-			$this->id_groupe_admin = $id_group_admin;
-		if ( !$this->id_utilisateur )
-			$this->id_utilisateur = $user->id;
-		$this->id_groupe = $id_group;	
-	  $this->droits_acces = $rights;
-	}
-	
-	function is_locked(&$user)
-	{
-	  $req = new requete($this->dbrw,
+    return parent::is_admin($user);
+  }
+  
+  function herit ( $basedb )
+  {
+    $this->id_utilisateur = null;
+    $this->id_groupe = $basedb->id_groupe;  
+    $this->id_groupe_admin = $basedb->id_groupe_admin;
+    $this->modere=true;
+    $this->droits_acces = $basedb->droits_acces;
+  }
+  
+  function set_rights ( $user,  $rights, $id_group, $id_group_admin )
+  {
+    if ( $this->is_admin($user) && $id_group_admin )
+      $this->id_groupe_admin = $id_group_admin;
+    if ( !$this->id_utilisateur )
+      $this->id_utilisateur = $user->id;
+    $this->id_groupe = $id_group;  
+    $this->droits_acces = $rights;
+  }
+  
+  function is_locked(&$user)
+  {
+    $req = new requete($this->dbrw,
       "SELECT id_utilisateur FROM wiki_lock ".
       "WHERE `id_wiki` = '" . mysql_real_escape_string($this->id) . "' ".
       "AND time_lock >= '".date("Y-m-d H:i:s",time()-WIKI_LOCKTIME)."' ".
@@ -670,12 +670,12 @@ class wiki extends basedb
     if ( $uid == $user->id )
       return false;
     
-	  return $uid; 
-	}
-	
-	function lock_renew(&$user)
-	{
-	  new requete($this->dbrw,
+    return $uid; 
+  }
+  
+  function lock_renew(&$user)
+  {
+    new requete($this->dbrw,
       "UPDATE wiki_lock SET time_lock='".date("Y-m-d H:i:s")."' ".
       "WHERE `id_wiki` = '" . mysql_real_escape_string($this->id) . "' ".
       "AND id_utilisateur = '".mysql_real_escape_string($user->id)."' ".
@@ -683,49 +683,49 @@ class wiki extends basedb
       
       
     return true;
-	}
-	
-	function lock(&$user)
-	{
-	  $this->unlock($user); // Supprime d'eventuels vieux verrous...
+  }
+  
+  function lock(&$user)
+  {
+    $this->unlock($user); // Supprime d'eventuels vieux verrous...
     new insert($this->dbrw,"wiki_lock",
       array(
         "id_wiki"=>$this->id,
         "id_utilisateur"=>$user->id,
         "time_lock"=>date("Y-m-d H:i:s")));
-	}
-	
-	function unlock(&$user)
-	{
+  }
+  
+  function unlock(&$user)
+  {
     new delete($this->dbrw,"wiki_lock",
       array(
         "id_wiki"=>$this->id,
         "id_utilisateur"=>$user->id
         ));
-	}
-	
-	function force_unlock()
-	{
+  }
+  
+  function force_unlock()
+  {
     new delete($this->dbrw,"wiki_lock",array("id_wiki"=>$this->id));
-	}
-	
-	/**
-	 * @todo: à tester
-	 */
-	function load_or_create_parent($pagepath, &$user, $rights=null, $id_group=null, $id_group_admin=null)
-	{
+  }
+  
+  /**
+   * @todo: à tester
+   */
+  function load_or_create_parent($pagepath, &$user, $rights=null, $id_group=null, $id_group_admin=null)
+  {
     if ( !preg_match("#^([a-z0-9\-_:]+)$#",$pagepath) )
     {
       $this->id=null;
-      return null;	
+      return null;  
     }
     
     if ( strlen($pagepath) > 512 )
     {
       $this->id=null;
-      return null;	
+      return null;  
     } 
-	 
+   
     // Récupère les tokens et le nom de la page (dernier token du path)
     $tokens = explode(":",$pagepath);
     $pagename=array_pop($tokens); 
@@ -733,7 +733,7 @@ class wiki extends basedb
     if ( strlen($pagename) > 64 )
     {
       $this->id=null;
-      return null;	
+      return null;  
     } 
          
     // Cherche le dernier parent, crée les parents manquant si nécessaire
@@ -760,19 +760,19 @@ class wiki extends basedb
       else
       {
         $this->id=null;
-        return null;	
+        return null;  
       }  
       $parentparent = clone $this;
-    }	 
-	 
+    }   
+   
     if ( !$can_create )
     {
       $this->id=null;
-      return null;	
+      return null;  
     }
       
-	  return $pagename;
-	}
+    return $pagename;
+  }
 }
 
 
