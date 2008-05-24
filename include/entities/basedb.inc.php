@@ -91,8 +91,16 @@ abstract class basedb extends stdentity
   function is_admin ( &$user )
   {
     /*if ( $user->is_in_group("gestion_ae")) return true;  Les droits d'admin devrons être mieux découpés */
-    if ( !$user->is_in_group("root") && $this->id_groupe == 7) return false;
-    if ( $user->is_in_group_id($this->id_groupe_admin) ) return true;
+    if ( !$user->is_in_group("root") && $this->id_groupe_admin == 7)
+    {
+      echo "Coin-coin";
+      return false;
+    }
+    if ( $user->is_in_group_id($this->id_groupe_admin) )
+    {
+      print "Bleh-bleh";
+      return true;
+    }
     
     return false;
   }
