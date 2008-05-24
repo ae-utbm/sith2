@@ -91,7 +91,7 @@ abstract class basedb extends stdentity
   function is_admin ( &$user )
   {
     /*if ( $user->is_in_group("gestion_ae")) return true;  Les droits d'admin devrons être mieux découpés */
-    
+    if ( !$user->is_in_group("root") && $this->id_group == 7) return false;
     if ( $user->is_in_group_id($this->id_groupe_admin) ) return true;
     
     return false;
@@ -104,18 +104,6 @@ abstract class basedb extends stdentity
    */
   function is_right ( &$user, $required )
   {
-    if ( !$user->is_in_group("root") && $this->id_groupe == 7)
-    {
-      if ( !( $required & ($this->droits_acces >> 8)) == $required )
-        return false;
-    }
-
-    if ( !$user->is_in_group("root") && $this->id_groupe == 7)
-    {
-      if ( !($required & ($this->droits_acces >> 4)) == $required )
-        return false;
-    }
-
     if ( $this->is_admin($user)) return true;
 
     if ( !is_null($this->id_utilisateur) &&
