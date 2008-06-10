@@ -346,36 +346,40 @@ class sasphoto extends contents
       $userinfo->load_by_id($photo->id_utilisateur_photographe);
       $asso->load_by_id($photo->id_asso_photographe);    
       if ( $photo->type_media == MEDIA_VIDEOFLV )
-        $subcts->add_paragraph("Réalisé par ".$asso->get_html_link().", ".$userinfo->get_html_link());
+        $subcts->add_paragraph("Réalisé par : ".$asso->get_html_link().", ".$userinfo->get_html_link());
       else
-        $subcts->add_paragraph("Photographie par ".$asso->get_html_link().", ".$userinfo->get_html_link());
+        $subcts->add_paragraph("Photographie par : ".$asso->get_html_link().", ".$userinfo->get_html_link());
     }
     elseif ( $photo->id_asso_photographe )
     {
       $asso->load_by_id($photo->id_asso_photographe);    
       if ( $photo->type_media == MEDIA_VIDEOFLV )
-        $subcts->add_paragraph("Réalisé par ".$asso->get_html_link());
+        $subcts->add_paragraph("Réalisé par : ".$asso->get_html_link());
       else
-        $subcts->add_paragraph("Photographie par ".$asso->get_html_link());
+        $subcts->add_paragraph("Photographie par : ".$asso->get_html_link());
     }
     elseif ( $photo->id_utilisateur_photographe )
     {
       $userinfo->load_by_id($photo->id_utilisateur_photographe);
-      $subcts->add_paragraph("Photographe: ".$userinfo->get_html_link());  
+      $subcts->add_paragraph("Photographe : ".$userinfo->get_html_link());  
     }
-    
+    else
+    {
+      $userinfo->load_by_id($photo->id_utilisateur);
+      $subcts->add_paragraph("Photographe : ".$userinfo->get_html_link());
+    }
     
     if ( $photo->is_admin($user) )
     {
       if ( $photo->id_utilisateur_moderateur )
       {
         $userinfo->load_by_id($photo->id_utilisateur_moderateur);
-        $subcts->add_paragraph("Modéré par: ".$userinfo->get_html_link());  
+        $subcts->add_paragraph("Modéré par : ".$userinfo->get_html_link());  
       }
       if ( $photo->id_utilisateur )
       {
         $userinfo->load_by_id($photo->id_utilisateur);
-        $subcts->add_paragraph("Proposé par: ".$userinfo->get_html_link());  
+        $subcts->add_paragraph("Proposé par : ".$userinfo->get_html_link());  
       }
     }
 
