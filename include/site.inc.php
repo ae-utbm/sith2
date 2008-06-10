@@ -1235,7 +1235,8 @@ class site extends interfaceweb
     //TODO : Faire en sorte qu'il affiche tout seul les différents plannings et plus avoir à hardcoder l'id_planning
     $sublist = new itemlist("Bureau AE - Belfort");
     
-    $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour
+    $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour,
+                                  IF(DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE(),true,false) as next
                                   FROM pl_gap
                                   INNER JOIN pl_gap_user USING(id_gap)
                                   WHERE  id_planning='164' AND (((DAYOFWEEK(start_gap)>DAYOFWEEK(CURDATE())
@@ -1252,8 +1253,11 @@ class site extends interfaceweb
     }
     else
     {
-      while(list($day,$hour) = $req->get_row() )
-        $sublist->add(ucfirst($day) . " à " . $hour . "h");
+      while(list($day,$hour,$next) = $req->get_row() )
+        if($next)
+          $sublist->add(ucfirst($day) . "prochain à " . $hour . "h");
+        else
+          $sublist->add(ucfirst($day) . " à " . $hour . "h");
     }
 
     $cts->add($sublist, true, true, "bureau_ae_belfort", "boxlist", true, true);
@@ -1261,6 +1265,7 @@ class site extends interfaceweb
         $sublist = new itemlist("Bureau AE - Sevenans");
 
     $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour
+                                  IF(DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE(),true,false) as next
                                   FROM pl_gap
                                   INNER JOIN pl_gap_user USING(id_gap)
                                   WHERE  id_planning='166' AND (((DAYOFWEEK(start_gap)>DAYOFWEEK(CURDATE())
@@ -1277,7 +1282,7 @@ class site extends interfaceweb
     }
     else
     {
-      while(list($day,$hour) = $req->get_row() )
+      while(list($day,$hour,$next) = $req->get_row() )
         $sublist->add(ucfirst($day) . " à " . $hour . "h");
     }
 
