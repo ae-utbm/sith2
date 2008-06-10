@@ -53,7 +53,7 @@ $req_assos = new requete($site->db, "SELECT asso_parent.id_asso AS id_asso_paren
     ORDER BY asso_parent.nom_asso, asso.nom_asso");
 
 $table = new sqltable("", "Liste des responsables et des trésoriers des activités", $req_assos, "", "",
-                      array("nom_asso_parent" => "",
+                      array("nom_asso_parent" => "Pôle",
                             "nom_asso" => "Activité",
                             "nom_utilisateur_resp" => "Responsable",
                             "nom_utilisateur_tres" => "Trésorier"

@@ -2407,7 +2407,8 @@ div.comment
   position:absolute; 
   top: 0px;
   left: 0px;
-  width:100%;
+  right: 0px;
+  width:auto;
   padding: 5px; 
   background: #ffd; 
   border-bottom: 1px solid #777; 
