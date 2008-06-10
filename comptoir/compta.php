@@ -23,6 +23,7 @@
 $topdir="../";
 require_once("include/comptoirs.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
+require_once("include/facture.inc.php");
 $site = new sitecomptoirs();
 
 if ( !$site->user->is_valid() )
@@ -195,16 +196,26 @@ $cts->add($frm,true);
 
 if ( $_REQUEST["action"] == "delete" && isset($_REQUEST["id_facture"]))
 {
-  $req = new requete($site->db, "SELECT `id_comptoir` FROM `cpt_debitfacture`
-                                 WHERE `id_facture`='".$_REQUEST["id_facture"]."'");
-  if ( $req->lines == 1 )
+  $fact = new debitfacture ($site->db,$site->dbrw);
+  $fact->load_by_id($_REQUEST["id_facture"]);
+  if ( $fact->id > 0 )
   {
-    list($id_comptoir) = $req->get_row();
-    if ( !empty($site->admin_comptoirs[$id_comptoir]) || $site->user->is_in_group("gestion_ae") )
+    if ( !empty($site->admin_comptoirs[$fact->id]) || $site->user->is_in_group("gestion_ae") )
     {
-      /* Loguer suppression */
-      /* Suppprimer facture */
-      echo "Bleh";
+      $user_client = new utilisateur($site->db,$site->dbrw);
+      $user_client->load_by_id($fact->id_utilisateur_client);
+      $user_vendeur = new utilisateur($site->db,$site->dbrw);
+      $user_vendeur->load_by_id($fact->id_utilisateur);
+      $site->log("Annulation d'une facture",
+        "Annulation de la facture N° " . $fact->id .
+        ", d'un montant de " . ($fact->montant)/100 . "€ du " ..
+        date("Y-m-d H:i",$fact->date) .
+        " débitée à " . $user_client->nom ..
+        " " . $user_client->prenom ..
+        " (id : " . $user_client->id . ") par " ..
+        $user_vendeur->nom . " " . $user_vendeur->prenom .
+        " (id : " . $user_vendeur->id . ")","Comptes AE",$site->user->id);
+      //$fact->annule_facture(); 
     }
   }
 }
