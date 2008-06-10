@@ -58,7 +58,7 @@ if ( isset($_REQUEST["id_election"]))
 	if ( $_REQUEST["page"] == "results" )
 	{
 		if ( $elec->fin >= time() /*&& !$site->user->is_in_group("gestion_ae")*/ )
-			$site->error_forbidden("none","group",9);
+      $site->add_contents(new contents("Accès refusé","<p>Vous ne pouvez pas consulter les résultats des élections tant que celles-ci ne sont pas terminées,</p>"));
 		
 		$site->start_page("main","Resultats: ".$elec->nom);
 		
