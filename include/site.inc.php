@@ -1235,7 +1235,7 @@ class site extends interfaceweb
     //TODO : Faire en sorte qu'il affiche tout seul les différents plannings et plus avoir à hardcoder l'id_planning
     $sublist = new itemlist("Bureau AE - Belfort");
     
-    $sql = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour
+    $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour
                                   FROM pl_gap
                                   INNER JOIN pl_gap_user USING(id_gap)
                                   WHERE  id_planning='164' AND (((DAYOFWEEK(start_gap)>DAYOFWEEK(CURDATE())
@@ -1260,7 +1260,7 @@ class site extends interfaceweb
     
         $sublist = new itemlist("Bureau AE - Sevenans");
 
-    $sql = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour
+    $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour
                                   FROM pl_gap
                                   INNER JOIN pl_gap_user USING(id_gap)
                                   WHERE  id_planning='166' AND (((DAYOFWEEK(start_gap)>DAYOFWEEK(CURDATE())
