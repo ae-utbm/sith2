@@ -1256,7 +1256,7 @@ class site extends interfaceweb
       while(list($day,$hour,$next) = $req->get_row() )
       {
         if($next)
-          $sublist->add(ucfirst($day) . "prochain à " . $hour . "h");
+          $sublist->add(ucfirst($day) . " prochain à " . $hour . "h");
         else
           $sublist->add(ucfirst($day) . " à " . $hour . "h");
       }
@@ -1287,7 +1287,7 @@ class site extends interfaceweb
       while(list($day,$hour,$next) = $req->get_row() )
       {
         if($next)
-          $sublist->add(ucfirst($day) . "prochain à " . $hour . "h");
+          $sublist->add(ucfirst($day) . " prochain à " . $hour . "h");
         else
           $sublist->add(ucfirst($day) . " à " . $hour . "h");
       }
