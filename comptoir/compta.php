@@ -193,6 +193,22 @@ $frm->add_entity_select("id_produit", "Produit", $site->db, "produit",$_REQUEST[
 $frm->add_submit("valid","Voir");
 $cts->add($frm,true);
 
+if ( $_REQUEST["action"] == "delete" && isset($_REQUEST["id_facture"]))
+{
+  $req = new requete($site->db, "SELECT `id_comptoir` FROM `cpt_debitfacture`
+                                 WHERE `id_facture`='".$_REQUEST["id_facture"]."'");
+  if ( $req->lines == 1 )
+  {
+    list($id_comptoir) = $req->get_row();
+    if ( !empty($site->admin_comptoirs[$id_comptoir]) || $site->user->is_in_group("gestion_ae") )
+    {
+      /* Loguer suppression */
+      /* Suppprimer facture */
+      echo "Bleh";
+    }
+  }
+}
+
 if ( $_REQUEST["action"] == "view" && $_REQUEST["mode"] == "" )
 {
 	$conds = array();
