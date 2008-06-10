@@ -200,7 +200,7 @@ if ( $_REQUEST["action"] == "delete" && isset($_REQUEST["id_facture"]))
   $fact->load_by_id($_REQUEST["id_facture"]);
   if ( $fact->id > 0 )
   {
-    if ( !empty($site->admin_comptoirs[$fact->id]) || $site->user->is_in_group("gestion_ae") )
+    if ( !empty($site->admin_comptoirs[$fact->id_comptoir]) || $site->user->is_in_group("gestion_ae") )
     {
       $user_client = new utilisateur($site->db,$site->dbrw);
       $user_client->load_by_id($fact->id_utilisateur_client);
