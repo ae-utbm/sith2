@@ -1266,7 +1266,7 @@ class site extends interfaceweb
     
         $sublist = new itemlist("Bureau AE - Sevenans");
 
-    $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour
+    $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour,
                                   IF(DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE(),true,false) as next
                                   FROM pl_gap
                                   INNER JOIN pl_gap_user USING(id_gap)
@@ -1285,7 +1285,12 @@ class site extends interfaceweb
     else
     {
       while(list($day,$hour,$next) = $req->get_row() )
-        $sublist->add(ucfirst($day) . " à " . $hour . "h");
+      {
+        if($next)
+          $sublist->add(ucfirst($day) . "prochain à " . $hour . "h");
+        else
+          $sublist->add(ucfirst($day) . " à " . $hour . "h");
+      }
     }
 
     $cts->add($sublist, true, true, "bureau_ae_sevenans", "boxlist", true, true);
