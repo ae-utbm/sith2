@@ -1236,7 +1236,7 @@ class site extends interfaceweb
     $sublist = new itemlist("Bureau AE - Belfort");
     
     $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour,
-                                  IF(DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE(),true,false) as next
+                                  IF(DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE()),true,false) as next
                                   FROM pl_gap
                                   INNER JOIN pl_gap_user USING(id_gap)
                                   WHERE  id_planning='164' AND (((DAYOFWEEK(start_gap)>DAYOFWEEK(CURDATE())
@@ -1267,7 +1267,7 @@ class site extends interfaceweb
         $sublist = new itemlist("Bureau AE - Sevenans");
 
     $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour,
-                                  IF(DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE(),true,false) as next
+                                  IF(DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE()),true,false) as next
                                   FROM pl_gap
                                   INNER JOIN pl_gap_user USING(id_gap)
                                   WHERE  id_planning='166' AND (((DAYOFWEEK(start_gap)>DAYOFWEEK(CURDATE())
