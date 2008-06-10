@@ -1254,10 +1254,12 @@ class site extends interfaceweb
     else
     {
       while(list($day,$hour,$next) = $req->get_row() )
+      {
         if($next)
           $sublist->add(ucfirst($day) . "prochain à " . $hour . "h");
         else
           $sublist->add(ucfirst($day) . " à " . $hour . "h");
+      }
     }
 
     $cts->add($sublist, true, true, "bureau_ae_belfort", "boxlist", true, true);
