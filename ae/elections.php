@@ -204,8 +204,11 @@ if ( $elec->id > 0 )
 		$frm->error($ErrorListe);
 	$frm->add_text_field("nom","Nom de la liste");
 	$sfrm->add_entity_smartselect("id_utilisateur_head","Tête de liste",new utilisateur($site->db));
-	foreach ($postes as $id => $nom )
-		$sfrm->add_entity_smartselect("id_utilisateur_poste".$id,"Candidat $nom",new utilisateur($site->db));
+	if( count($postes) )
+	{
+		foreach ($postes as $id => $nom )
+			$sfrm->add_entity_smartselect("id_utilisateur_poste".$id,"Candidat $nom",new utilisateur($site->db));
+	}
 	$frm->add_submit("save","Ajouter");
 	$cts->add($frm,true);
 	
