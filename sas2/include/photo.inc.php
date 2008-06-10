@@ -226,20 +226,12 @@ class photo extends basedb
         if(isset($EXIF["Flash"]))
         {
           $flash=(int)$EXIF["Flash"];
-          if(isset($EXIF["LightSource"]))
-          {
-            if ($EXIF["LightSource"]==1)
-              $this->flash=1;
-            else
-              $this->flash=0;
-          }
+          $flash = decbin(intval($EXIF["Flash"]));
+          $last=strlen($flash)-1;
+          if($flash[$last]==1)
+            $this->flash=1;
           else
-          {
-            if ($flash>0)
-              $this->flash=1;
-            else
-              $this->flash=0;
-          }
+            $this->flash=0;
         }
       }
 
