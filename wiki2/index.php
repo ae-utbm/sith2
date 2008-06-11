@@ -299,7 +299,7 @@ if ( $req->lines == 1 )
 if ( !is_null($asso_id))
 {
   $asso = new asso();
-  $asso->load_by_id($root_asso_id);
+  $asso->load_by_id($asso);
 
   $cts = new contents($asso->get_html_path());
   $site->start_page("presentation","Wiki");
