@@ -595,7 +595,7 @@ class wiki extends basedb
   {
     global $conf;
     
-    $cache = new cachedcontents("wiki".$this->id);
+    $cache = new cachedcontents("wiki".$this->id.$this->rev);
     if ( $cache->is_cached() )
       return $cache->get_cache();    
       

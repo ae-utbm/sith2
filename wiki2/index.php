@@ -520,7 +520,6 @@ else
     $cts->add_paragraph("Ceci est une version archivée. En date du ".date("d/m/Y H:i",$wiki->rev_date).". ".
     "<a href=\"./?name=$pagepath\">Version actuelle</a>","wikinotice");
 
-  echo $wiki->rev_id;
   $cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
   
   $cts->add($wiki->get_stdcontents());
