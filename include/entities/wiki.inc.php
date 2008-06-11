@@ -596,8 +596,8 @@ class wiki extends basedb
     global $conf;
     
     $cache = new cachedcontents("wiki".$this->id);
-//    if ( $cache->is_cached() )
-//      return $cache->get_cache();    
+    if ( $cache->is_cached() && $this->rev_id == $this->id_rev_last )
+      return $cache->get_cache();    
       
     $conf["linkscontext"] = "wiki";
     $conf["linksscope"] = $this->get_scope();
