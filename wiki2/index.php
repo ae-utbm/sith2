@@ -161,6 +161,9 @@ elseif ( isset($_REQUEST["name"]) )
   }
   else
     $valid_name=false;
+
+  echo $wiki->rev_id;
+  echo $wiki->id_rev_last;
 }
 else
   $wiki->load_by_id(1);
