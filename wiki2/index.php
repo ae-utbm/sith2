@@ -292,16 +292,15 @@ $site->start_page ("wiki", $wiki->rev_title);
 
 $side = new contents("Wiki");
 
-$side->add_title(2,"<a href=\"".$wwwtopir."wiki2/?name=".$pagepath."\">Page</a>");
 $lst = new itemlist();
 if ( $is_admin )
-  $lst->add("<a href=\"".$wwwtopir."wiki2/?name=".$pagepath."&view=edit\">Editer</a>");
+  $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=edit\">Editer</a>");
 if ( $can_edit )
-  $lst->add("<a href=\"".$wwwtopir."wiki2/?name=".$pagepath."&view=refs\">Références</a>");
+  $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=refs\">Références</a>");
 else
-  $lst->add("<a href=\"".$wwwtopir."wiki2/?name=".$pagepath."&view=srcs\">Source</a>");
-$lst->add("<a href=\"".$wwwtopir."wiki2/?name=".$pagepath."&view=hist\">Historique</a>");
-$lst->add("<a href=\"".$wwwtopir."wiki2/?name=".$pagepath."&view=advc\">Propriétés</a>");
+  $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=srcs\">Source</a>");
+$lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=hist\">Historique</a>");
+$lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=advc\">Propriétés</a>");
 $side->add($lst);
 
 $castor = explode(":",$pagepath);
