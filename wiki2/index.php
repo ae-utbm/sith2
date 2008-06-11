@@ -66,9 +66,9 @@ function build_asso_htmlpath ( $fullpath )
 {
   $tokens = explode(":",$fullpath);
   $pole = $tokens[0];
-  unset($tokens[0];
+  unset($tokens[0]);
   $asso = $tokens[1];
-  unset($tokens[1];
+  unset($tokens[1]);
 
   $buffer = "<a href=\"".$wwwtopdir."/wiki2/?name=".$pole.":".$asso."\">Wiki</a>";
   $path = $pole.":".$asso;
