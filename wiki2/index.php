@@ -305,7 +305,7 @@ if ( !is_null($asso_id))
   $site->start_page("presentation","Wiki");
 
   $cts->add(new tabshead($asso->get_tabs($site->user),"photos"));
-  $cts->add_title(1,$path);
+//  $cts->add_title(1,$path);
 }
 else
   $cts = new contents();
