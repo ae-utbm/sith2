@@ -289,7 +289,7 @@ elseif ( $_REQUEST["action"] == "edit" && $is_admin )
 }
 $site->start_page ("wiki", $wiki->rev_title);
 
-$side = new contents("Wiki")
+$side = new contents("Wiki");
 
 $side->add_title(2,"<a href=\""$wwwtopir."wiki2/?name=".$pagepath."\">Page</a>");
 $lst = new itemlist();
