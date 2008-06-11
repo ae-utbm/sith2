@@ -161,9 +161,6 @@ elseif ( isset($_REQUEST["name"]) )
   }
   else
     $valid_name=false;
-
-  echo $wiki->rev_id;
-  echo $wiki->id_rev_last;
 }
 else
   $wiki->load_by_id(1);
@@ -522,7 +519,8 @@ else
   if ( $wiki->rev_id != $wiki->id_rev_last )
     $cts->add_paragraph("Ceci est une version archivée. En date du ".date("d/m/Y H:i",$wiki->rev_date).". ".
     "<a href=\"./?name=$pagepath\">Version actuelle</a>","wikinotice");
-  
+
+  echo $wiki->id_rev;
   $cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
   
   $cts->add($wiki->get_stdcontents());
