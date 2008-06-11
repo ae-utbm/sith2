@@ -296,6 +296,8 @@ $req = new requete($site->db,"SELECT asso.id_asso FROM asso
 if ( $req->lines == 1 )
   list($asso_id) = $req->get_row();
 
+print_r($asso_id);
+
 if ( !is_null($asso_id))
 {
   $asso = new asso();
