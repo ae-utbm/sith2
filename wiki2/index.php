@@ -300,13 +300,13 @@ print_r($asso_id);
 
 if ( !is_null($asso_id))
 {
-  $asso = new asso();
+  $asso = new asso($site->db);
   $asso->load_by_id($asso_id);
 
   $cts = new contents($asso->get_html_path());
   $site->start_page("presentation","Wiki");
 
-  $cts->add(new tabshead($asso->get_tabs($site->user),"photos"));
+  $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
 //  $cts->add_title(1,$path);
 }
 else
