@@ -545,7 +545,8 @@ class asso extends stdentity
     $req = new requete($this->db, "SELECT CONCAT(asso_parent.nom_unix_asso,':',asso.nom_unix_asso) AS path
                                    FROM asso 
                                    LEFT JOIN asso AS asso_parent ON asso.id_asso_parent=asso_parent.id_asso 
-                                   WHERE asso.id_asso='".$this->id."'");
+                                   WHERE asso.id_asso='".$this->id."' 
+                                   AND CONCAT(asso_parent.nom_unix_asso,':',asso.nom_unix_asso) IS NOT NULL;");
     if ( $req->lines == 1 )
     {
       list($path) = $req->get_row();
