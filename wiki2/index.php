@@ -189,10 +189,31 @@ if ( !$wiki->is_valid() )
                  );
   else
     $tabs = array(array("","wiki2/?name=".$pagepath, "Page"));
-               
-  $cts = new contents();
+    
+  $castor = explode(":",$pagepath);
+
+  $req = new requete($site->db,"SELECT asso.id_asso FROM asso
+                                LEFT JOIN asso AS asso_parent ON asso.id_asso_parent=asso_parent.id_asso
+                                WHERE CONCAT(asso_parent.nom_unix_asso,':',asso.nom_unix_asso)='".$castor[0].":".$castor[1]."'");
+
+  if ( $req->lines == 1 )
+    list($asso_id) = $req->get_row();
+
+  if ( !is_null($asso_id))
+  {
+    $asso = new asso($site->db);
+    $asso->load_by_id($asso_id);
+  
+    $cts = new contents($asso->get_html_path());
+    $site->start_page("presentation","Wiki");
+  
+    $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
+  }
+  else
+    $cts = new contents();
+
   $cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
-  $cts->add(new tabshead($tabs,$_REQUEST["view"]));
+  //$cts->add(new tabshead($tabs,$_REQUEST["view"]));
   
   if ( $can_create && $_REQUEST["view"] == "create" )
   {
