@@ -289,6 +289,8 @@ else
 
 $castor = explode(":",$pagepath);
 
+print_r($castor);
+
 $req = new requete($site->db,"SELECT asso.id_asso FROM asso 
                               LEFT JOIN asso AS asso_parent ON asso.id_asso_parent=asso_parent.id_asso
                               WHERE CONCAT(asso_parent.nom_unix_asso,':',asso.nom_unix_asso)='".$castor[0].":".$castor[1]."'");
