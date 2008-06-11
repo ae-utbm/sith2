@@ -237,7 +237,6 @@ if ( !$wiki->is_valid() )
     $cts = new contents();
     $cts->add_paragraph("<em>Path, le chemin : ".build_htmlpath($pagepath)."</em>","wikipath");
   }
-  //$cts->add(new tabshead($tabs,$_REQUEST["view"]));
   $site->add_box("wiki",$side);
   
   if ( $can_create && $_REQUEST["view"] == "create" )
@@ -312,7 +311,6 @@ elseif ( $_REQUEST["action"] == "edit" && $is_admin )
   $wiki->update();          
 }
 $site->start_page ("wiki", $wiki->rev_title);
-$cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
 
 $side = new contents("Wiki");
 $lst = new itemlist();
@@ -354,7 +352,8 @@ else
   $cts->add_paragraph("<em>Path, le chemin : ".build_htmlpath($pagepath)."</em>","wikipath");
 }
 
-//$cts->add(new tabshead($tabs,$_REQUEST["view"]));
+$cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
+
 $site->add_box("wiki",$side);
 
 if ( $is_admin && $_REQUEST["view"] == "advc" )
