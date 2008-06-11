@@ -286,8 +286,29 @@ else
                 array("refs","wiki2/?name=".$pagepath."&view=refs", "Références"),
                 array("hist","wiki2/?name=".$pagepath."&view=hist", "Historique")
                );
-             
-$cts = new contents();
+
+$castor = expode(":",$pagepath);
+
+$req = new requete($site->db,"SELECT asso.id_asso FROM asso 
+                              LEFT JOIN asso AS asso_parent ON asso.id_asso_parent=asso_parent.id_asso
+                              WHERE CONCAT(asso_parent.nom_unix_asso,':',asso.nom_unix_asso)='".$castor[0].":".$castor[1]."'");
+
+if ( $req->lines == 0 )
+  list($asso_id) = $req->get_row();
+
+if ( !is_null($asso_id))
+{
+  $asso->load_by_id($root_asso_id);
+
+  $cts = new contents($asso->get_html_path());
+  $site->start_page("presentation","Wiki");
+
+  $cts->add(new tabshead($asso->get_tabs($site->user),"photos"));
+  $cts->add_title(1,$path);
+}
+else
+  $cts = new contents();
+
 $cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
