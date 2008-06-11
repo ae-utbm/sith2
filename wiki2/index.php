@@ -194,7 +194,8 @@ if ( !$wiki->is_valid() )
 
   $req = new requete($site->db,"SELECT asso.id_asso FROM asso
                                 LEFT JOIN asso AS asso_parent ON asso.id_asso_parent=asso_parent.id_asso
-                                WHERE CONCAT(asso_parent.nom_unix_asso,':',asso.nom_unix_asso)='".$castor[0].":".$castor[1]."'");
+                                WHERE CONCAT(asso_parent.nom_unix_asso,':',asso.nom_unix_asso)='".$castor[0].":".$castor[1]."'
+                                AND asso.id_asso_parent <> '1'");
 
   if ( $req->lines == 1 )
     list($asso_id) = $req->get_row();
@@ -312,7 +313,8 @@ $castor = explode(":",$pagepath);
 
 $req = new requete($site->db,"SELECT asso.id_asso FROM asso
                               LEFT JOIN asso AS asso_parent ON asso.id_asso_parent=asso_parent.id_asso
-                              WHERE CONCAT(asso_parent.nom_unix_asso,':',asso.nom_unix_asso)='".$castor[0].":".$castor[1]."'");
+                              WHERE CONCAT(asso_parent.nom_unix_asso,':',asso.nom_unix_asso)='".$castor[0].":".$castor[1]."'
+                              AND asso.id_asso_parent <> '1'");
 
 if ( $req->lines == 1 )
   list($asso_id) = $req->get_row();
