@@ -291,7 +291,7 @@ $site->start_page ("wiki", $wiki->rev_title);
 
 $side = new contents("Wiki");
 
-$side->add_title(2,"<a href=\""$wwwtopir."wiki2/?name=".$pagepath."\">Page</a>");
+$side->add_title(2,"<a href=\"".$wwwtopir."wiki2/?name=".$pagepath."\">Page</a>");
 $lst = new itemlist();
 if ( $is_admin )
   $lst->add("<a href=\""$wwwtopir."wiki2/?name=".$pagepath."&view=edit\">Editer</a>");
