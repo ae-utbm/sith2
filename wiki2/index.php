@@ -214,7 +214,7 @@ if ( !$wiki->is_valid() )
   else
     $cts = new contents();
 
-  $cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
+  $cts->add_paragraph("<em>Path, le chemin : ".build_htmlpath($pagepath)."</em>","wikipath");
   //$cts->add(new tabshead($tabs,$_REQUEST["view"]));
   $site->add_box("wiki",$side);
   
