@@ -344,15 +344,16 @@ if ( !is_null($asso_id))
   $site->start_page("presentation","Wiki");
 
   $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
-  $cts->add_paragraph("<em>Path, le chemin : ".build_asso_htmlpath($pagepath)."</em>","wikipath");
+  $path = build_asso_htmlpath($pagepath);
 }
 else
 {
   $cts = new contents();
-  $cts->add_paragraph("<em>Path, le chemin : ".build_htmlpath($pagepath)."</em>","wikipath");
+  $path = build_htmlpath($pagepath);
 }
 
 $cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
+$cts->add_paragraph("<em>Path, le chemin : ".$path."</em>","wikipath");
 
 $site->add_box("wiki",$side);
 
