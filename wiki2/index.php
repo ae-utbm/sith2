@@ -70,7 +70,7 @@ function build_asso_htmlpath ( $fullpath )
   $asso = $tokens[1];
   unset($tokens[1]);
 
-  $buffer = "<a href=\"".$wwwtopdir."/wiki2/?name=".$pole.":".$asso."\">Wiki</a>";
+  $buffer = "<a href=\"./?name=".$pole.":".$asso."\">Wiki</a>";
   $path = $pole.":".$asso;
 
   foreach ( $tokens as $token )
