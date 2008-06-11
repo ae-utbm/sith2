@@ -310,7 +310,7 @@ else
   $cts = new contents();
 
 $cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
-$cts->add(new tabshead($tabs,$_REQUEST["view"]));
+//$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 if ( $is_admin && $_REQUEST["view"] == "advc" )
 {
