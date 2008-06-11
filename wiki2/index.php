@@ -216,6 +216,7 @@ if ( !$wiki->is_valid() )
 
   $cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
   //$cts->add(new tabshead($tabs,$_REQUEST["view"]));
+  $site->add_box("wiki",$side);
   
   if ( $can_create && $_REQUEST["view"] == "create" )
   {
