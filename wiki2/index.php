@@ -183,14 +183,14 @@ if ( !$wiki->is_valid() )
   }
   
   $site->start_page ("wiki", "Page inexistante");
-  
+ 
+  $side = new contents("Wiki");
+  $lst = new itemlist();
+  $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."\">Voir la page</a>");
   if ( $can_create )
-    $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
-                  array("create","wiki2/?name=".$pagepath."&view=create", "Creer")
-                 );
-  else
-    $tabs = array(array("","wiki2/?name=".$pagepath, "Page"));
-    
+    $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=create\">Créer</a>");
+  $side->add($lst);
+ 
   $castor = explode(":",$pagepath);
 
   $req = new requete($site->db,"SELECT asso.id_asso FROM asso
@@ -291,7 +291,6 @@ elseif ( $_REQUEST["action"] == "edit" && $is_admin )
 $site->start_page ("wiki", $wiki->rev_title);
 
 $side = new contents("Wiki");
-
 $lst = new itemlist();
 $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."\">Voir la page</a>");
 if ( $is_admin )
