@@ -312,6 +312,7 @@ elseif ( $_REQUEST["action"] == "edit" && $is_admin )
   $wiki->update();          
 }
 $site->start_page ("wiki", $wiki->rev_title);
+$cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
 
 $side = new contents("Wiki");
 $lst = new itemlist();
@@ -519,8 +520,6 @@ else
   if ( $wiki->rev_id != $wiki->id_rev_last )
     $cts->add_paragraph("Ceci est une version archivée. En date du ".date("d/m/Y H:i",$wiki->rev_date).". ".
     "<a href=\"./?name=$pagepath\">Version actuelle</a>","wikinotice");
-
-  $cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
   
   $cts->add($wiki->get_stdcontents());
   
