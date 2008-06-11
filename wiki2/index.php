@@ -62,7 +62,7 @@ function build_htmlpath ( $fullpath )
   return $buffer;
 }
 
-function build_asso_htmlpath ( $fullpath );
+function build_asso_htmlpath ( $fullpath )
 {
   $tokens = explode(":",$fullpath);
   $pole = $tokens[0];
@@ -78,7 +78,8 @@ function build_asso_htmlpath ( $fullpath );
     $path .= ":".$token;
     $buffer .= " &gt; <a href=\"./?name=".htmlentities($path,ENT_QUOTES,"UTF-8")."\">".
                htmlentities($token,ENT_NOQUOTES,"UTF-8")."</a>";
-
+  }
+  return $buffer;
 }
 
 // Creation d'une page
