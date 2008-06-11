@@ -287,7 +287,7 @@ else
                 array("hist","wiki2/?name=".$pagepath."&view=hist", "Historique")
                );
 
-$castor = expode(":",$pagepath);
+$castor = explode(":",$pagepath);
 
 $req = new requete($site->db,"SELECT asso.id_asso FROM asso 
                               LEFT JOIN asso AS asso_parent ON asso.id_asso_parent=asso_parent.id_asso
