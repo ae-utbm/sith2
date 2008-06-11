@@ -289,25 +289,19 @@ elseif ( $_REQUEST["action"] == "edit" && $is_admin )
 }
 $site->start_page ("wiki", $wiki->rev_title);
 
+$side = new contents("Wiki")
+
+$side->add_title(2,"<a href=\""$wwwtopir."wiki2/?name=".$pagepath."\">Page</a>")
+$lst = new itemlist()
 if ( $is_admin )
-  $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
-                array("edit","wiki2/?name=".$pagepath."&view=edit", "Editer"),
-                array("refs","wiki2/?name=".$pagepath."&view=refs", "Références"),
-                array("hist","wiki2/?name=".$pagepath."&view=hist", "Historique"),
-                array("advc","wiki2/?name=".$pagepath."&view=advc", "Propriétés")
-               );
-elseif ( $can_edit )
-  $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
-                array("edit","wiki2/?name=".$pagepath."&view=edit", "Editer"),
-                array("refs","wiki2/?name=".$pagepath."&view=refs", "Références"),
-                array("hist","wiki2/?name=".$pagepath."&view=hist", "Historique")
-               );
+  $lst->add("<a href=\""$wwwtopir."wiki2/?name=".$pagepath."&view=edit\">Editer</a>");
+if ( $can_edit )
+  $lst->add("<a href=\""$wwwtopir."wiki2/?name=".$pagepath."&view=refs\">Références</a>");
 else
-  $tabs = array(array("","wiki2/?name=".$pagepath, "Page"),
-                array("srcs","wiki2/?name=".$pagepath."&view=srcs", "Source"),
-                array("refs","wiki2/?name=".$pagepath."&view=refs", "Références"),
-                array("hist","wiki2/?name=".$pagepath."&view=hist", "Historique")
-               );
+  $lst->add("<a href=\""$wwwtopir."wiki2/?name=".$pagepath."&view=srcs\">Source</a>");
+$lst->add("<a href=\""$wwwtopir."wiki2/?name=".$pagepath."&view=hist\">Historique</a>");
+$lst->add("<a href=\""$wwwtopir."wiki2/?name=".$pagepath."&view=advc\">Propriétés</a>");
+$side->add($lst);
 
 $castor = explode(":",$pagepath);
 
@@ -335,6 +329,7 @@ else
 $cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
 
 //$cts->add(new tabshead($tabs,$_REQUEST["view"]));
+$site->add_box("wiki",$side);
 
 if ( $is_admin && $_REQUEST["view"] == "advc" )
 {
