@@ -597,7 +597,7 @@ class wiki extends basedb
     
     $cache = new cachedcontents("wiki".$this->id);
     if ( $cache->is_cached() && $this->rev_id == $this->id_rev_last )
-      return $cache->get_cache();    
+      return $cache->get_cache(); 
       
     $conf["linkscontext"] = "wiki";
     $conf["linksscope"] = $this->get_scope();
@@ -616,8 +616,8 @@ class wiki extends basedb
     if ( $this->macro > 0 )
       return $cts;
     
-    
-    $cache->set_contents($cts);
+    if ( $this->rev_id == $this->id_rev_last )
+      $cache->set_contents($cts);
     
     return $cache;
   }
