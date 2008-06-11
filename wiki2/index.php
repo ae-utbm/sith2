@@ -62,6 +62,25 @@ function build_htmlpath ( $fullpath )
   return $buffer;
 }
 
+function build_asso_htmlpath ( $fullpath );
+{
+  $tokens = explode(":",$fullpath);
+  $pole = $tokens[0];
+  unset($tokens[0];
+  $asso = $tokens[1];
+  unset($tokens[1];
+
+  $buffer = "<a href=\"".$wwwtopdir."/wiki2/?name=".$pole.":".$asso."\">Wiki</a>";
+  $path = $pole.":".$asso;
+
+  foreach ( $tokens as $token )
+  {
+    $path .= ":".$token;
+    $buffer .= " &gt; <a href=\"./?name=".htmlentities($path,ENT_QUOTES,"UTF-8")."\">".
+               htmlentities($token,ENT_NOQUOTES,"UTF-8")."</a>";
+
+}
+
 // Creation d'une page
 if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
 {
@@ -210,11 +229,13 @@ if ( !$wiki->is_valid() )
     $site->start_page("presentation","Wiki");
   
     $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
+    $cts->add_paragraph("<em>Path, le chemin : ".build_asso_htmlpath($pagepath)."</em>","wikipath");
   }
   else
+  {
     $cts = new contents();
-
-  $cts->add_paragraph("<em>Path, le chemin : ".build_htmlpath($pagepath)."</em>","wikipath");
+    $cts->add_paragraph("<em>Path, le chemin : ".build_htmlpath($pagepath)."</em>","wikipath");
+  }
   //$cts->add(new tabshead($tabs,$_REQUEST["view"]));
   $site->add_box("wiki",$side);
   
@@ -323,11 +344,13 @@ if ( !is_null($asso_id))
   $site->start_page("presentation","Wiki");
 
   $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
+  $cts->add_paragraph("<em>Path, le chemin : ".build_asso_htmlpath($pagepath)."</em>","wikipath");
 }
 else
+{
   $cts = new contents();
-
-$cts->add_paragraph("<em>Path, le chemin : ".build_htmlpath($pagepath)."</em>","wikipath");
+  $cts->add_paragraph("<em>Path, le chemin : ".build_htmlpath($pagepath)."</em>","wikipath");
+}
 
 //$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 $site->add_box("wiki",$side);
