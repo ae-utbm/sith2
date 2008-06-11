@@ -305,19 +305,11 @@ if ( !is_null($asso_id))
   $site->start_page("presentation","Wiki");
 
   $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
-
-  $castor = explode(":",$pagepath);
-  unset($castor[0]);
-  unset($castor[1]);
-  $pagepathasso = implode(":",$castor);
-
-  $cts->add_paragraph(build_htmlpath($pagepathasso),"wikipath");
 }
 else
-{
   $cts = new contents();
-  $cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
-}
+
+$cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
 
 //$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
