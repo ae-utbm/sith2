@@ -327,7 +327,7 @@ if ( !is_null($asso_id))
 else
   $cts = new contents();
 
-$cts->add_paragraph("<em><strong>Path, le chemin :</strong> ".build_htmlpath($pagepath)."</em>","wikipath");
+$cts->add_paragraph("<em>Path, le chemin : ".build_htmlpath($pagepath)."</em>","wikipath");
 
 //$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 $site->add_box("wiki",$side);
