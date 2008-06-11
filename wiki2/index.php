@@ -30,6 +30,7 @@ require_once($topdir. "include/entities/asso.inc.php");
 require_once($topdir. "include/entities/wiki.inc.php");
 
 $site = new site();
+$site->set_side_boxes("left",array("wiki","connexion"));
 
 /* temporairement, si t'es pas logué tu lis pas */
 if (!$site->user->is_valid())
