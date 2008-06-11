@@ -296,8 +296,6 @@ $req = new requete($site->db,"SELECT asso.id_asso FROM asso
 if ( $req->lines == 1 )
   list($asso_id) = $req->get_row();
 
-print_r($asso_id);
-
 if ( !is_null($asso_id))
 {
   $asso = new asso($site->db);
@@ -307,12 +305,20 @@ if ( !is_null($asso_id))
   $site->start_page("presentation","Wiki");
 
   $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
-//  $cts->add_title(1,$path);
+
+  $castor = explode(":",$pagepath);
+  unset($castor[0]);
+  unset($castor[1]);
+  $pagepathasso = implode(":",$castor);
+
+  $cts->add_paragraph(build_htmlpath($pagepathasso),"wikipath");
 }
 else
+{
   $cts = new contents();
+  $cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
+}
 
-$cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
 //$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 if ( $is_admin && $_REQUEST["view"] == "advc" )
