@@ -352,8 +352,8 @@ else
   $path = build_htmlpath($pagepath);
 }
 
-$cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
 $cts->add_paragraph("<em>Path, le chemin : ".$path."</em>","wikipath");
+$cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
 
 $site->add_box("wiki",$side);
 
