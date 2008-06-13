@@ -390,15 +390,19 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       $uv->load_by_code($_REQUEST['code_uv']);
     }
 
-  /*
-   $uvsel['yep'] = '&#9733;';
-   $uvsel['nop'] = '&#9734;';
+  $sql = new requete($site->db, "SELECT 1 FROM `edu_uv_selection` 
+                                     WHERE `id_utilisateur`=".$site->user->id."
+                                      AND  `id_uv`=".$uv->id);
+  if($sql->lines > 0)
+   $uvsellink = '&#9733;';
+  else
+   $uvsellink = '&#9734;';
   */
   $tabs = array(array("", "uvs/uvs.php?id_uv=".$uv->id, "Informations générales"),
 		array("infosetu", "uvs/uvs.php?view=infosetu&id_uv=".$uv->id, "Historique de suivi"),
 		array("commentaires", "uvs/uvs.php?view=commentaires&id_uv=".$uv->id, "Commentaires"),
 		array("ressext", "uvs/uvs.php?view=ressext&id_uv=".$uv->id, "Ressources externes"),
-		array("select_uv", "uvs/uvs.php?view=select_uv&id_uv=".$uv->id, "&#9734;"));
+		array("select_uv", "uvs/uvs.php?view=select_uv&id_uv=".$uv->id, $uvsellink));
 
 
   /* TODO : partie fichiers réservée aux étudiants ? */
@@ -618,7 +622,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
                                       AND  `id_uv`=".$uv->id."
                                      LIMIT 1");
       if($sql->lines==1){
-        $row = sql->get_row();
+        $row = $sql->get_row();
         $cts->add_paragraph("Vous avez sélectionné cette UV pour le semestre ".$row);
       }
       else
