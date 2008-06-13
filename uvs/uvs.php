@@ -397,7 +397,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
    $uvsellink = '&#9733;';
   else
    $uvsellink = '&#9734;';
-  */
+  
   $tabs = array(array("", "uvs/uvs.php?id_uv=".$uv->id, "Informations générales"),
 		array("infosetu", "uvs/uvs.php?view=infosetu&id_uv=".$uv->id, "Historique de suivi"),
 		array("commentaires", "uvs/uvs.php?view=commentaires&id_uv=".$uv->id, "Commentaires"),
