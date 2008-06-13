@@ -397,7 +397,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   $tabs = array(array("", "uvs/uvs.php?id_uv=".$uv->id, "Informations générales"),
 		array("infosetu", "uvs/uvs.php?view=infosetu&id_uv=".$uv->id, "Historique de suivi"),
 		array("commentaires", "uvs/uvs.php?view=commentaires&id_uv=".$uv->id, "Commentaires"),
-		array("ressext", "uvs/uvs.php?view=ressext&id_uv=".$uv->id, "Ressources externes")
+		array("ressext", "uvs/uvs.php?view=ressext&id_uv=".$uv->id, "Ressources externes"),
 		array("select_uv", "uvs/uvs.php?view=select_uv&id_uv=".$uv->id, "&#9734;"));
 
 
@@ -613,6 +613,18 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
     }
   else if ($_REQUEST['view'] == 'select_uv')
   {
+      $sql = new requete($site->db, "SELECT * FROM `edu_uv_selection` 
+                                     WHERE `id_utilisateur`=".$site->user->id".
+                                      AND  `id_uv`=".$uv->id."
+                                     LIMIT 1");
+      if($sql->lines==1){
+        $row = sql->get_row();
+        $cts->add_paragraph("Vous avez sélectionné cette UV pour le semestre ".$row);
+      }
+      else
+        $cts->add_paragraph("Vous n'avez pas encore sélectionné cette UV");
+        
+      
       /* on va le faire crados pour l'instant histoire de voir si ca marche */
       $cts->puts("<script type='text/javascript'>
       select_uv = function(uv){
