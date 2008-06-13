@@ -439,13 +439,13 @@ class site extends interfaceweb
       $req = new requete($this->db,"SELECT COUNT(*) ".
         "FROM sl_reservation " .
         "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
-        "WHERE ((sl_reservation.date_accord_res IS NULL) " .
+        "WHERE sl_reservation.date_accord_res IS NULL " .
         "AND sl_reservation.date_debut_salres >= '$today' " .
         "AND DATEDIFF(sl_reservation.date_debut_salres,'".$today."') <= 10");
       list($count) = $req->get_row();
 
       if ( $count > 0 )
-        $elements[] = "<a href=\"".$topdir."ae/modereres.php\"><b>$count reservation(s) de salles</b> à venir</a>"; 
+        $elements[] = "<a href=\"".$topdir."ae/modereres.php\"><b>$count reservation(s) de salles</b> dans les 10 prochaines jours</a>"; 
 
     }
     else if( $this->user->is_in_group("bdf-bureau") )
