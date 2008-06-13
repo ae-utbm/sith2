@@ -36,30 +36,30 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'select_uv')
 {
   print_r($_REQUEST);
   
-  if($_REQUEST['action'] == 'ajout'){
+  if($_REQUEST['do'] == 'ajout'){
     $sql = new insert($site->dbrw, "edu_uv_selection", 
                         array("id_utilisateur"=>$site->user->id,
                               "id_uv"=>$_REQUEST['id_uv']
-                                ));
+                                ), true);
     if($sql->is_success())
       echo "UV sélectionnée !";
   }
-  else if($_REQUEST['action'] == 'suppr'){
+  else if($_REQUEST['do'] == 'suppr'){
     $sql = new delete($site->dbrw, "edu_uv_selection", 
                         array("id_utilisateur"=>$site->user->id,
                               "id_uv"=>$_REQUEST['id_uv']
-                                ));
+                                ), true);
     if($sql->is_success())
       echo "UV désélectionnée !";
   }
-  else if($_REQUEST['action'] == 'chsem'){
+  else if($_REQUEST['do'] == 'chsem'){
     $sql = new update($site->dbrw, "edu_uv_selection", 
                         array('semestre'=>$_REQUEST['sem']),
                         array("id_utilisateur"=>$site->user->id,
                               "id_uv"=>$_REQUEST['id_uv']
-                                ));
+                                ), true);
     if($sql->is_success())
-      echo "UV désélectionnée !";
+      echo "Semestre changé !";
   }
 
   exit;
