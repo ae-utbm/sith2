@@ -453,9 +453,7 @@ class site extends interfaceweb
       $req = new requete($this->db,"SELECT COUNT(*) ".
         "FROM sl_reservation " .
         "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
-        "WHERE ((sl_reservation.date_accord_res IS NULL) OR " .
-        "(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
-        "AND sl_reservation.date_debut_salres >= '$today' " .
+        "WHERE sl_reservation.date_debut_salres >= '$today' " .
         "AND (sl_salle.id_salle='5' OR sl_salle.id_salle='28')");
       list($count) = $req->get_row();
 
@@ -470,7 +468,14 @@ class site extends interfaceweb
       list($count) = $req->get_row();
 
       if ( $count > 0 )
-      $elements[] = "<a href=\"".$topdir."ae/modereemp.php\"><b>$count emprunts(s) de matériel</b> à modérer</a>";
+        $elements[] = "<a href=\"".$topdir."ae/modereemp.php\"><b>$count emprunts(s) de matériel</b> à modérer</a>";
+
+      $req = new requete($this->db,"SELECT COUNT(*) " .
+        "FROM inv_emprunt WHERE date_debut_emp >= NOW()");
+      list($count) = $req->get_row();
+
+      if ( $count > 0 )
+        $elements[] = "<a href=\"".$topdir."ae/modereemp.php?view=togo\"><b>$count emprunts(s) de matériel</b> à venir</a>";
     }
 
     $req = new requete($this->db, "SELECT COUNT(*) " .
