@@ -193,8 +193,7 @@ if($site->user->is_in_group("gestion_ae"))
 		"INNER JOIN utilisateurs ON `utilisateurs`.`id_utilisateur`=sl_reservation.id_utilisateur " .
 		"INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
 		"LEFT JOIN asso ON asso.id_asso=sl_reservation.id_asso " .
-		"WHERE ((sl_reservation.date_accord_res IS NOT NULL) OR " .
-		"(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=1)) " .
+		"WHERE ((sl_reservation.date_accord_res IS NOT NULL) " .
 		"AND sl_reservation.date_debut_salres > NOW()");
 
 	$site->add_contents(new sqltable(
