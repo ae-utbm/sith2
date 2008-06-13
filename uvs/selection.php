@@ -32,10 +32,8 @@ $site = new site();
 if(!$site->user->utbm)
   header('Location: index.php');
 
-if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'select_uv')
-{
-  print_r($_REQUEST);
-  
+if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'select_uv' || $_REQUEST['action'] == 'delete'))
+{  
   if($_REQUEST['do'] == 'ajout'){
     $sql = new insert($site->dbrw, "edu_uv_selection", 
                         array("id_utilisateur"=>$site->user->id,
@@ -44,11 +42,12 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'select_uv')
     if($sql->is_success())
       echo "UV sélectionnée !";
   }
-  else if($_REQUEST['do'] == 'suppr'){
+  else if($_REQUEST['do'] == 'suppr' || $_REQUEST['action'] == 'delete'){
     $sql = new delete($site->dbrw, "edu_uv_selection", 
                         array("id_utilisateur"=>$site->user->id,
                               "id_uv"=>$_REQUEST['id_uv']
                                 ), true);
+
     if($sql->is_success())
       echo "UV désélectionnée !";
   }
@@ -86,7 +85,7 @@ $table = new sqltable('uv_quicklist', "Sélection", $sql, "selection.php",
                       array("code_uv" => "Code de l'UV",
                             "intitule_uv" => "Intitulé de l'UV",
                             "semestre" => "Semestre"),
-                      array (),
+                      array ("delete"=>"Retirer"),
                       array(), array(), false);
 
 $cts->add($table);

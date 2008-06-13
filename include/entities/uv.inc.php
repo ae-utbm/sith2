@@ -1377,6 +1377,7 @@ function get_uvsmenu_box()
   $cts->add($dpt, true);
 
   $outils = new itemlist("Outils", false, array("<a href=\"edt.php\" title=\"Gérer vos emploi du temps\">Emploi du temps</a>",
+                                                "<a href=\"selection.php\" title=\"Mettez de côté les UV que vous comptez faire\">Ma sélection</a>",
                                                 "<a href=\"profils.php\" title=\"Toutes les UV\">Profils</a>"));
   $cts->add($outils, true);
 

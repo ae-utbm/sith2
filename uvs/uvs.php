@@ -624,7 +624,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
                                      LIMIT 1");
       if($sql->lines==1){
         $row = $sql->get_row();
-        $cts->add_paragraph("Vous avez sélectionné cette UV pour le semestre ".$row);
+        $cts->add_paragraph("Vous avez sélectionné cette UV pour le semestre ".$row['semestre']);
       }
       else
         $cts->add_paragraph("Vous n'avez pas encore sélectionné cette UV");
@@ -634,12 +634,12 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       $cts->puts("<script type='text/javascript'>
       select_uv = function(uv, action, sem){
         action = (action || 'ajout');
-        sem = (sem || null);
+        sem = (sem || '');
         openInContents('uvselect_result', 'selection.php', 'action=select_uv&id_uv='+uv+'&do='+action+'&sem='+sem);
       }
       </script>");
       $cts->puts("<input type='button' value='S&eacute;lectionner' onclick='javascript:select_uv(".$uv->id.");' />\n");
-      $cts->puts("<input type='button' value='D&eacute;s&eacute;lectionner' onclick='javascript:select_uv(".$uv->id.", \"suppr\");' />\n");
+      $cts->puts("<input type='button' value='D&eacute;s&eacute;lectionner' onclick='javascript:select_uv(".$uv->id.", \"suppr\");' /><br />\n");
       $cts->puts("<input type='text' id='semval' value='' size='4' />\n");
       $cts->puts("<input type='button' value='Changer semestre' onclick='javascript:select_uv(".$uv->id.", \"chsem\", document.getElementById(\"semval\").value);' />\n");
       $cts->puts("<div id='uvselect_result'></div>\n"); 
