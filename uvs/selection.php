@@ -34,12 +34,34 @@ if(!$site->user->utbm)
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'select_uv')
 {
-  $sql = new insert($site->dbrw, "edu_uv_selection", 
-                      array("id_utilisateur"=>$site->user->id,
-                            "id_uv"=>$_REQUEST['id_uv']
-                            ));
-  if($sql->is_success())
-    echo "UV sélectionnée !";
+  print_r($_REQUEST);
+  
+  if($_REQUEST['action'] == 'ajout'){
+    $sql = new insert($site->dbrw, "edu_uv_selection", 
+                        array("id_utilisateur"=>$site->user->id,
+                              "id_uv"=>$_REQUEST['id_uv']
+                                ));
+    if($sql->is_success())
+      echo "UV sélectionnée !";
+  }
+  else if($_REQUEST['action'] == 'suppr'){
+    $sql = new delete($site->dbrw, "edu_uv_selection", 
+                        array("id_utilisateur"=>$site->user->id,
+                              "id_uv"=>$_REQUEST['id_uv']
+                                ));
+    if($sql->is_success())
+      echo "UV désélectionnée !";
+  }
+  else if($_REQUEST['action'] == 'chsem'){
+    $sql = new update($site->dbrw, "edu_uv_selection", 
+                        array('semestre'=>$_REQUEST['sem']),
+                        array("id_utilisateur"=>$site->user->id,
+                              "id_uv"=>$_REQUEST['id_uv']
+                                ));
+    if($sql->is_success())
+      echo "UV désélectionnée !";
+  }
+
   exit;
 }
 
