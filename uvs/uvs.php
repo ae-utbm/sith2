@@ -611,12 +611,12 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   else if ($_REQUEST['view'] == 'infosetu')
     {
       /* on va le faire crados pour l'instant histoire de voir si ca marche */
-      $cts->puts("<script type='text/javascript>
+      $cts->puts("<script type='text/javascript'>
       select_uv = function(uv){
         openInContents('uvselect_result', 'selection.php', 'action=select_uv&id_uv='+uv);
       }
       </script>");
-      $cts->puts("<input type='button' value='S&eacute;lectionner onclick='javascript:select_uv(".$uv->id.");'/>\n");
+      $cts->puts("<input type='button' value='S&eacute;lectionner onclick='javascript:select_uv(".$uv->id.");' />\n");
       $cts->puts("<div id='uvselect_result'></div>\n");
       
       /* a migrer dans uv.inc.php ? */
