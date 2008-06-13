@@ -48,6 +48,9 @@ if(isset($_REQUEST['action']) && ($_REQUEST['action'] == 'select_uv' || $_REQUES
                               "id_uv"=>$_REQUEST['id_uv']
                                 ), true);
 
+    if($_REQUEST['action'] == 'delete')
+      header('Location: selection.php');
+      
     if($sql->is_success())
       echo "UV désélectionnée !";
   }
