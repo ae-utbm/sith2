@@ -7,6 +7,7 @@
 
   /* Copyright 2007
    * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
+   * - Manuel Vonthron <manuel DOT vonthron AT acadis DOT org>
    *
    * Ce fichier fait partie du site de l'Association des Étudiants de
    * l'UTBM, http://ae.utbm.fr.

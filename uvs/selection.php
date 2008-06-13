@@ -32,13 +32,25 @@ $site = new site();
 if(!$site->user->utbm)
   header('Location: index.php');
 
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'select_uv')
+{
+  $sql = new insert($site->dbrw, "edu_uv_selection", 
+                      array("id_utilisateur"=>$site->user->id,
+                            "id_uv"=>$_REQUEST['id_uv']
+                            ));
+  if($sql->is_success())
+    echo "UV sélectionnée !";
+  exit;
+}
+
+
 $site->add_box("uvsmenu", get_uvsmenu_box() );
 $site->set_side_boxes("left", array("uvsmenu", "connexion"));
 
 $site->start_page("services", "AE Pédagogie - Sélection d'UV");
 
 $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
-$path .= "/" . " Profils";
+$path .= "/" . " Sélection d'UV";
 $cts = new contents($path);
 
 $sql = new requete($site->db, "SELECT `code_uv`, `intitule_uv`, `id_uv`, `semestre`
@@ -54,9 +66,8 @@ $table = new sqltable('uv_quicklist', "Sélection", $sql, "selection.php",
                       array (),
                       array(), array(), false);
 
-while($row = $sql->get_row())
-  print_r($row);
+$cts->add($table);
 
-//$site->add_contents($cts);
+$site->add_contents($cts);
 $site->end_page();
 ?>
