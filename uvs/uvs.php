@@ -616,7 +616,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
         openInContents('uvselect_result', 'selection.php', 'action=select_uv&id_uv='+uv);
       }
       </script>");
-      $cts->puts("<input type='button' value='S&eacute;lectionner onclick='javascript:select_uv(".$uv->id.");' />\n");
+      $cts->puts("<input type='button' value='S&eacute;lectionner' onclick='javascript:select_uv(".$uv->id.");' />\n");
       $cts->puts("<div id='uvselect_result'></div>\n");
       
       /* a migrer dans uv.inc.php ? */

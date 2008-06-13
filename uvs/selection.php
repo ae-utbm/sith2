@@ -56,7 +56,8 @@ $cts = new contents($path);
 $sql = new requete($site->db, "SELECT `code_uv`, `intitule_uv`, `id_uv`, `semestre`
                                 FROM `edu_uv_selection`
                                 NATURAL JOIN `edu_uv`
-                                WHERE `id_utilisateur`=".$site->user->id);
+                                WHERE `id_utilisateur`=".$site->user->id."
+                                GROUP BY `semestre`");
 
 $table = new sqltable('uv_quicklist', "Sélection", $sql, "selection.php",
                       "id_uv",
