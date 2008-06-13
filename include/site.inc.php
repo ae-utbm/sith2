@@ -440,7 +440,7 @@ class site extends interfaceweb
         "FROM sl_reservation " .
         "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
         "WHERE ((sl_reservation.date_accord_res IS NULL) " .
-        "AND sl_reservation.date_debut_salres >= '$today'" .
+        "AND sl_reservation.date_debut_salres >= '$today' " .
         "AND DATEDIFF(sl_reservation.date_debut_salres,'".$today."') <= 10");
       list($count) = $req->get_row();
 
