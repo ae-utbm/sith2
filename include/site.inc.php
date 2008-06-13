@@ -468,14 +468,14 @@ class site extends interfaceweb
       list($count) = $req->get_row();
 
       if ( $count > 0 )
-        $elements[] = "<a href=\"".$topdir."ae/modereemp.php\"><b>$count emprunts(s) de matériel</b> à modérer</a>";
+        $elements[] = "<a href=\"".$topdir."ae/modereemp.php\"><b>$count emprunt(s) de matériel</b> à modérer</a>";
 
       $req = new requete($this->db,"SELECT COUNT(*) " .
         "FROM inv_emprunt WHERE date_debut_emp >= NOW()");
       list($count) = $req->get_row();
 
       if ( $count > 0 )
-        $elements[] = "<a href=\"".$topdir."ae/modereemp.php?view=togo\"><b>$count emprunts(s) de matériel</b> à venir</a>";
+        $elements[] = "<a href=\"".$topdir."ae/modereemp.php?view=togo\"><b>$count emprunt(s) de matériel</b> à venir</a>";
     }
 
     $req = new requete($this->db, "SELECT COUNT(*) " .
