@@ -180,6 +180,39 @@ if($site->user->is_in_group("gestion_ae"))
 			array("accords"=>"Donner accord", "conventions"=>"Convention faite", "deletes"=>"Refuser"),
 			array("convention"=>array(0=>"Non requise",1=>"A faire",11=>"Faite") )
 			));
+
+	$req = new requete($site->db,"SELECT `utilisateurs`.`id_utilisateur`, " .
+		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+		"sl_salle.id_salle, sl_salle.nom_salle," .
+		"asso.id_asso, asso.nom_asso," .
+		"sl_reservation.id_salres,  sl_reservation.date_debut_salres," .
+		"sl_reservation.date_fin_salres, sl_reservation.description_salres, " .
+		"sl_reservation.date_accord_res," .
+		"(sl_reservation.convention_salres*10+sl_salle.convention_salle) as `convention` " .
+		"FROM sl_reservation " .
+		"INNER JOIN utilisateurs ON `utilisateurs`.`id_utilisateur`=sl_reservation.id_utilisateur " .
+		"INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
+		"LEFT JOIN asso ON asso.id_asso=sl_reservation.id_asso " .
+		"WHERE ((sl_reservation.date_accord_res IS NOT NULL) OR " .
+		"(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=1)) " .
+		"AND sl_reservation.date_debut_salres > NOW()");
+
+	$site->add_contents(new sqltable(
+			"modereres", 
+			"Réservations validées", $req, "modereres.php", 
+			"id_salres", 
+			array("nom_utilisateur"=>array("Demandeur","nom_utilisateur","nom_asso"),
+				"nom_salle"=>"Salle",
+				"date_debut_salres"=>"De",
+				"date_fin_salres"=>"A",
+				"description_salres" => "Motif",
+				"date_accord_res"=>"Accord le"
+				), 
+			array("info"=>"Details"), 
+			array(),
+			array()
+			));
+
 }
 elseif($site->user->is_in_group("bdf-bureau"))
 {
