@@ -439,7 +439,7 @@ class site extends interfaceweb
       $req = new requete($this->db,"SELECT COUNT(*) ".
         "FROM sl_reservation " .
         "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
-        "WHERE sl_reservation.date_accord_res IS NULL " .
+        "WHERE sl_reservation.date_accord_res IS NOT NULL " .
         "AND sl_reservation.date_debut_salres >= '$today' " .
         "AND DATEDIFF(sl_reservation.date_debut_salres,'".$today."') <= 10");
       list($count) = $req->get_row();
