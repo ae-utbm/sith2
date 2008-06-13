@@ -614,7 +614,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
   else if ($_REQUEST['view'] == 'select_uv')
   {
       $sql = new requete($site->db, "SELECT * FROM `edu_uv_selection` 
-                                     WHERE `id_utilisateur`=".$site->user->id".
+                                     WHERE `id_utilisateur`=".$site->user->id."
                                       AND  `id_uv`=".$uv->id."
                                      LIMIT 1");
       if($sql->lines==1){
