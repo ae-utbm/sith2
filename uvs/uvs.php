@@ -390,10 +390,15 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       $uv->load_by_code($_REQUEST['code_uv']);
     }
 
+  /*
+   $uvsel['yep'] = '&#9733;';
+   $uvsel['nop'] = '&#9734;';
+  */
   $tabs = array(array("", "uvs/uvs.php?id_uv=".$uv->id, "Informations générales"),
 		array("infosetu", "uvs/uvs.php?view=infosetu&id_uv=".$uv->id, "Historique de suivi"),
 		array("commentaires", "uvs/uvs.php?view=commentaires&id_uv=".$uv->id, "Commentaires"),
-		array("ressext", "uvs/uvs.php?view=ressext&id_uv=".$uv->id, "Ressources externes"));
+		array("ressext", "uvs/uvs.php?view=ressext&id_uv=".$uv->id, "Ressources externes")
+		array("select_uv", "uvs/uvs.php?view=select_uv&id_uv=".$uv->id, "&#9734;"));
 
 
   /* TODO : partie fichiers réservée aux étudiants ? */
@@ -606,10 +611,8 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	}
 
     }
-
-  /* listing des personnes ayant suivi l'UV */
-  else if ($_REQUEST['view'] == 'infosetu')
-    {
+  else if ($_REQUEST['view'] == 'select_uv')
+  {
       /* on va le faire crados pour l'instant histoire de voir si ca marche */
       $cts->puts("<script type='text/javascript'>
       select_uv = function(uv){
@@ -617,8 +620,11 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       }
       </script>");
       $cts->puts("<input type='button' value='S&eacute;lectionner' onclick='javascript:select_uv(".$uv->id.");' />\n");
-      $cts->puts("<div id='uvselect_result'></div>\n");
-      
+      $cts->puts("<div id='uvselect_result'></div>\n"); 
+  }
+  /* listing des personnes ayant suivi l'UV */
+  else if ($_REQUEST['view'] == 'infosetu')
+    {
       /* a migrer dans uv.inc.php ? */
       $suivrq = new requete ($site->db,
 			     "SELECT
