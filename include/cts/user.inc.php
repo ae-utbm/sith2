@@ -503,10 +503,10 @@ class userinfov2 extends stdcontents
     {
       $this->buffer .= "<p class=\"departement\">";
       
-      if ( $user->role == "etu" )
+      if ( $user->role == "etu" && $user->departement != "na" )
       {
-        $this->buffer .= $GLOBALS["utbm_departements"][$user->departement];        
-        
+        $this->buffer .= $GLOBALS["utbm_departements"][$user->departement];
+
         if ( !is_null($user->date_diplome_utbm) && $user->date_diplome_utbm < time() )
         {
           if ($user->sexe == 1)
