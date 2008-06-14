@@ -55,7 +55,7 @@ class treects extends itemlist
     {
       if ( ereg("^".$ent[1]."(.*)$",$this->ent_name,$reg))  
       {
-        print_r("bleh");
+        print_r($ent);
         $this->ent_id = $ent[0].$reg[1];
         $this->entity = $ent;
       }
