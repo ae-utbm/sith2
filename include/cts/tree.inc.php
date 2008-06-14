@@ -64,6 +64,7 @@ class treects extends itemlist
     {
       if ($this->entity && $this->data[$start]["row"][$this->ent_id])
       {
+        print_r("grrr");
         $this->title = "<a href=\"".$topdir.$this->entity[3]."?".$ent[0]."=".$this->data[$start]["row"][$this->ent_id]."\">";
         $this->title .= "<img src=\"".$topdir."images/icons/16/".$this->entity[2]."\" class=\"icon\" alt=\"\" />";
         $this->title .= " ".htmlentities($this->data[$start]["row"][$this->ent_name],ENT_NOQUOTES,"UTF-8");

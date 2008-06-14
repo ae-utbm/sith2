@@ -179,8 +179,10 @@ class forumcomment extends contents
           }
               
           $this->buffer .= "<div class=\"auteur\">\n";
-          
-          $this->buffer .= "<p class=\"funame\"><a href=\"".$wwwtopdir."user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['alias_utl'],ENT_NOQUOTES,"UTF-8")."</a></p>\n";
+          if(!empty($row['alias_utl']))
+            $this->buffer .= "<p class=\"funame\"><a href=\"".$wwwtopdir."user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['alias_utl'],ENT_NOQUOTES,"UTF-8")."</a></p>\n";
+	  else
+	    $this->buffer .= '<p class="fname"><a href="'.$wwwtopdir.'user.php?id_utilisateur='.$row['id_utilisateur'].'">'..'</a></p>'."\n";
           
           $img=null;
           if (file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg"))
