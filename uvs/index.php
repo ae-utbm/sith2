@@ -7,7 +7,6 @@
 
   /* Copyright 2007
    * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
-   * - Manuel Vonthron <manuel DOT vonthron AT acadis DOT org>
    *
    * Ce fichier fait partie du site de l'Association des Étudiants de
    * l'UTBM, http://ae.utbm.fr.
@@ -32,7 +31,6 @@ $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/entities/uv.inc.php");
-
 
 $site = new site();
 $site->add_box("uvsmenu", get_uvsmenu_box() );

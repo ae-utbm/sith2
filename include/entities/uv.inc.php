@@ -51,7 +51,6 @@ define('UVCOMMENT_ACCEPTED', 3);
  */
 define('UVFOLDER', 784);
 
-
 /**
  * tableaux globaux sur les commentaires UV
  * Note : ces critères sont inspirés du projet de David
@@ -65,6 +64,7 @@ $uvcomm_utilite = array(
       '2' => 'Utile',
       '3' => 'Très utile',
       '4' => 'Indispensable');
+
 
 $uvcomm_interet = array('-1' => 'Non renseigné',
       '0'  => 'Aucun',
@@ -1377,7 +1377,6 @@ function get_uvsmenu_box()
   $cts->add($dpt, true);
 
   $outils = new itemlist("Outils", false, array("<a href=\"edt.php\" title=\"Gérer vos emploi du temps\">Emploi du temps</a>",
-                                                "<a href=\"selection.php\" title=\"Mettez de côté les UV que vous comptez faire\">Ma sélection</a>",
                                                 "<a href=\"profils.php\" title=\"Toutes les UV\">Profils</a>"));
   $cts->add($outils, true);
 

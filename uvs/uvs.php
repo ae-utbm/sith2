@@ -7,7 +7,6 @@
 
 /* Copyright 2007
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
- * - Manuel Vonthron <manuel DOT vonthron AT acadis DOT org>
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -33,7 +32,6 @@ $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir . "include/entities/uv.inc.php");
 require_once($topdir . "include/extdb/xml.inc.php");
-
 require_once($topdir."include/cts/gallery.inc.php");
 
 
@@ -391,12 +389,10 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       $uv->load_by_code($_REQUEST['code_uv']);
     }
 
-     
   $tabs = array(array("", "uvs/uvs.php?id_uv=".$uv->id, "Informations générales"),
 		array("infosetu", "uvs/uvs.php?view=infosetu&id_uv=".$uv->id, "Historique de suivi"),
 		array("commentaires", "uvs/uvs.php?view=commentaires&id_uv=".$uv->id, "Commentaires"),
-		array("ressext", "uvs/uvs.php?view=ressext&id_uv=".$uv->id, "Ressources externes")
-		);
+		array("ressext", "uvs/uvs.php?view=ressext&id_uv=".$uv->id, "Ressources externes"));
 
 
   /* TODO : partie fichiers réservée aux étudiants ? */
@@ -405,16 +401,9 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
       $tabs[] = array("files", "uvs/uvs.php?view=files&id_uv=".$uv->id, "Fichiers");
     }
 
-  /* ben ouais faut le mettre en dernier celui la */
-  $sql = new requete($site->db, "SELECT 1 FROM `edu_uv_selection` 
-                                     WHERE `id_utilisateur`=".$site->user->id."
-                                      AND  `id_uv`=".$uv->id);
-  ($sql->lines > 0) ? $uvsellink = '&#9733;' : $uvsellink = '&#9734;';
-  $tabs[] = array("select_uv", "uvs/uvs.php?view=select_uv&id_uv=".$uv->id, $uvsellink);
-  
   $tab = new tabshead($tabs, $_REQUEST['view']);
-	$uv->load_depts();
 
+	$uv->load_depts();
   $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
   $path .= " / "."<img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" />";
   	$stop = count($uv->depts);
@@ -616,35 +605,7 @@ if (isset($_REQUEST['id_uv']) || (isset($_REQUEST['code_uv']))
 	}
 
     }
-  else if ($_REQUEST['view'] == 'select_uv')
-  {
-      /* on va le faire crados pour l'instant histoire de voir si ca marche */
-      $cts->puts("<script type='text/javascript'>
-      select_uv = function(uv, action, sem){
-        action = (action || 'ajout');
-        sem = (sem || '');
-        openInContents('uvselect_result', 'selection.php', 'action=select_uv&id_uv='+uv+'&do='+action+'&sem='+sem);
-      }
-      </script>");
-      
-      
-      $sql = new requete($site->db, "SELECT * FROM `edu_uv_selection` 
-                                     WHERE `id_utilisateur`=".$site->user->id."
-                                      AND  `id_uv`=".$uv->id."
-                                     LIMIT 1");
-      if($sql->lines==1){
-        $row = $sql->get_row();
-        $cts->add_paragraph("Vous avez sélectionné cette UV pour le semestre ".$row['semestre']);
-        $cts->puts("<input type='button' value='D&eacute;s&eacute;lectionner' onclick='javascript:select_uv(".$uv->id.", \"suppr\");' /><br />\n");
-        $cts->puts("<input type='text' id='semval' value='' size='4' />\n");
-        $cts->puts("<input type='button' value='Changer semestre' onclick='javascript:select_uv(".$uv->id.", \"chsem\", document.getElementById(\"semval\").value);' />\n");
-      }
-      else{
-        $cts->add_paragraph("Vous n'avez pas encore sélectionné cette UV");
-        $cts->puts("<input type='button' value='S&eacute;lectionner' onclick='javascript:select_uv(".$uv->id.");' />\n");
-      }      
-      $cts->puts("<div id='uvselect_result'></div>\n"); 
-  }
+
   /* listing des personnes ayant suivi l'UV */
   else if ($_REQUEST['view'] == 'infosetu')
     {
