@@ -91,10 +91,11 @@ class genealogie
     /* on recupere le surnom de l'etudiant dont on veut
      * la "descendance"
      */
-    $req = "SELECT `alias_utl`,
+    $req = "SELECT COALESCE(`surnom_utbm`,`alias_utl`),
                    CONCAT(`prenom_utl`,' ',`nom_utl`) AS `nom`
 
             FROM `utilisateurs`
+            INNER JOIN `utl_etu_utbm` USING ( `id_utilisateur` )
             WHERE `id_utilisateur` = ". $this->id_utl;
 
     $sql = new requete ($this->db, $req);
@@ -127,7 +128,7 @@ class genealogie
    */
   function get_childs ($id, $nom)
   {
-    $req = "SELECT `utilisateurs`.`alias_utl`,
+    $req = "SELECT COALESCE(`surnom_utbm`,`alias_utl`),
                    CONCAT(`utilisateurs`.`prenom_utl`,' ', `utilisateurs`.`nom_utl`) AS `nom`,
                    `utilisateurs`.`id_utilisateur`
             FROM `utilisateurs`
