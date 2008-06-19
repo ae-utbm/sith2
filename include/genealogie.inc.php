@@ -149,7 +149,7 @@ class genealogie
       {
 	/* recuperation du surnom */
 	$infos = $sql->get_row();
-	$nom_child = $infos[1] . "\\n" . $infos[0];
+	$nom_child = utf8_decode($infos[1]) . "\\n" . utf8_decode($infos[0]);
 	$id_child  = $infos[2];
 	$this->write_on_conf ($nom, $nom_child);
 	if (!in_array($id_child, $this->explored))
