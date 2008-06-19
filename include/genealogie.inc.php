@@ -135,7 +135,7 @@ class genealogie
             LEFT JOIN `parrains`
                  ON `utilisateurs`.`id_utilisateur`
                    = `parrains`.`id_utilisateur_fillot`
-            INNER JOIN `utl_etu_utbm`
+            INNER JOIN `utl_etu_utbm` USING ( `id_utilisateur` )
       WHERE `parrains`.`id_utilisateur` = ". $id;
 
     $sql = new requete ($this->db,
