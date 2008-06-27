@@ -69,7 +69,7 @@ if ( $elec->id > 0 )
 		
 		$user->load_by_id($_REQUEST["id_utilisateur_head"]);
 		
-		if ( !$user->is_valid() )
+		if ( !$user->is_valid() && !$user->ae)
 			$ErrorListe = "Tête de liste erronée";
 		elseif ( !$_REQUEST["nom"])
 			$ErrorListe = "Précisez un nom";
@@ -86,7 +86,7 @@ if ( $elec->id > 0 )
 				if ( $_REQUEST["id_utilisateur_poste".$id_poste] )
 				{
 					$user->load_by_id($_REQUEST["id_utilisateur_poste".$id_poste]);
-					if ( $user->is_valid() )
+					if ( $user->is_valid() & $user->ae)
 						$elec->add_candidat($user->id, $id_poste, $id_liste);
 				}
 			}
@@ -99,7 +99,7 @@ if ( $elec->id > 0 )
 		
 		$user->load_by_id($_REQUEST["id_utilisateur"]);
 		
-		if ( $user->is_valid() )
+		if ( $user->is_valid() && $user->ae)
 		{
 			$id_poste=$_REQUEST["id_poste"];
 			$id_liste=null;
