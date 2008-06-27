@@ -37,7 +37,7 @@ $carte->destroy ();
 function get_cp ($db)
 {
   $sql = new requete ($db,
-		      "SELECT `cpostal_parents`
+          "SELECT `cpostal_parents`
                        FROM `utl_etu` 
                        INNER JOIN `utl_etu_utbm`
                         ON `utl_etu`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur`
@@ -64,7 +64,7 @@ function get_coords_by_cp ($db, $cp)
   $cp = intval($cp);
 
   $sql = new requete ($db,
-		      "SELECT `lat_ville`, `long_ville`
+          "SELECT `lat_ville`, `long_ville`
                           FROM `villes`
                          WHERE `cpostal_ville` = $cp
                          LIMIT 1");
