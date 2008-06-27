@@ -70,7 +70,7 @@ if ( $elec->id > 0 )
 		$user->load_by_id($_REQUEST["id_utilisateur_head"]);
 		
 		if ( !$user->is_valid() && !$user->ae)
-			$ErrorListe = "Tête de liste erronée";
+			$ErrorListe = "Tête de liste erronée ou non cotisante";
 		elseif ( !$_REQUEST["nom"])
 			$ErrorListe = "Précisez un nom";
 		else
@@ -108,7 +108,7 @@ if ( $elec->id > 0 )
 			$elec->add_candidat($user->id, $id_poste, $id_liste);		
 		}
 		else
-			$ErrorCandidat = "Utilisateur iconnu";
+			$ErrorCandidat = "Utilisateur iconnu ou non cotisant";
 	}
 	elseif ( $_REQUEST["action"] == "delete" )
 	{
