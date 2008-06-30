@@ -53,7 +53,7 @@ class cachedcontents extends stdcontents
   
   public function set_contents ( &$contents )
   {
-    if ( !file_exists(CACHE_DIR) && is_writable(CACHE_DIR."../")
+    if ( !file_exists(CACHE_DIR) && is_writable(CACHE_DIR."../") )
       mkdir(CACHE_DIR);
     
     $this->title = $contents->title;
