@@ -54,13 +54,13 @@ class cachedcontents extends stdcontents
   public function set_contents ( &$contents )
   {
     if ( !file_exists(CACHE_DIR) )
-      mkdir(CACHE_DIR);
+      @mkdir(CACHE_DIR);
     
     $this->title = $contents->title;
     $this->buffer = 
       "<!-- C".date ("d/m/Y H:i:s")." -->".
       $contents->html_render();
-    file_put_contents(CACHE_DIR.$this->uid,$this->title."\n".$this->buffer);
+    @file_put_contents(CACHE_DIR.$this->uid,$this->title."\n".$this->buffer);
     return $this;
   } 
   
