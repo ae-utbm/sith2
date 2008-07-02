@@ -372,7 +372,7 @@ if ( $_REQUEST["view"] == "histfull" )
     DESC limit 40");
 
   $list = new itemlist(false,"wikihist");
-  while ( $row = $req = $req->get_row() )
+  while ( $row = $req->get_row() )
   {
     $list->add(
       "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
