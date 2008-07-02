@@ -325,6 +325,10 @@ $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=hist\">Histori
 $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=advc\">Propriétés</a>");
 $side->add($lst);
 
+$lst = new itemlist();
+$lst->add("<a href=\"".$wwwtopdir."wiki2/?view=histfull\">Dernières modifications</a>");
+$side->add($lst);
+
 $castor = explode(":",$pagepath);
 
 $req = new requete($site->db,"SELECT asso.id_asso FROM asso
@@ -352,177 +356,203 @@ else
   $path = build_htmlpath($pagepath);
 }
 
-$cts->add_paragraph("<em>Path, le chemin : ".$path."</em>","wikipath");
-$cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
+if ( $_REQUEST["view"] == "histfull" )
+{
+  $cts->add_title(1,"Dernières modifications");
+  
+  $site->add_box("wiki",$side);
 
-$site->add_box("wiki",$side);
+  $req = new requete($site->db,"SELECT date_rev, comment_rev,
+    COALESCE(alias_utl,CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) AS `nom_utilisateur`,
+    fullpath_wiki 
+    FROM wiki
+    INNER JOIN wiki_rev ON (wiki.id_rev_last=wiki_rev.id_rev AND wiki.id_wiki=wiki_rev.id_wiki)
+    INNER JOIN utilisateurs ON wiki_rev.id_utilisateur_rev=utilisateurs.id_utilisateur
+    ORDER by date_rev 
+    DESC limit 40");
 
-if ( $is_admin && $_REQUEST["view"] == "advc" )
-{
-  $frm = new form("editwiki","./?name=$pagepath",true,"POST");
-  $frm->add_hidden("action","edit");
-  $frm->add_rights_field($wiki,true,true,"wiki");
-  $frm->add_submit("edit","Enregistrer"); 
-  $cts->add($frm);
-}
-elseif ( $can_edit && $_REQUEST["view"] == "edit" )
-{
-  if ( $wiki->is_locked($site->user) )
-  {
-    if ( isset($Erreur) )
-    {
-      $cts->add_paragraph($Erreur,"error"); 
-      /* et oui, un autre a pu modifier et encore un autre peut editer la page 
-       * à ce moment là, là c'est vraiment pas de bol, ça peut arriver qu'a Ayolo 
-       * ce genre de situation, mais bon... :-P
-       */
-      $cts->add_paragraph("<a href=\"./?name=$pagepath\">Voir la version actuelle.</a>");      
-      $cts->add_paragraph("La page est en cours d'édition par un autre utilisteur. Il n'est pas possible de reprendre l'édition de la page.","error");
-      $cts->add_paragraph("<b>Conseil</b>: Sauvegardez vos modification dans un éditeur de texte, et retentez de le modifier dans une dizaine de minutes.");
-      $cts->add_paragraph("Voici ce que vous vouliez soumettre :");
-      $cts->add_paragraph("Titre : ".htmlentities($_REQUEST["title"],ENT_NOQUOTES,"UTF-8"));
-      $cts->add_paragraph("Contenu : ".nl2br(htmlentities($_REQUEST["contents"],ENT_NOQUOTES,"UTF-8")));
-      $cts->add_paragraph("Log : ".htmlentities($_REQUEST["comment"],ENT_NOQUOTES,"UTF-8"));
-    }
-    else
-      $cts->add_paragraph("Cette page est en cours d'édition par un autre utilisateur. Il n'est pas possible de l'éditer en même temps.","error");
-  }
-  else
-  {
-    $site->add_js("js/wiki.js");
-    
-    if ( isset($Erreur) )
-    {
-      // TODO: tenter un merge? (sur $_REQUEST["contents"] et $_REQUEST["title"])
-      // TODO: ou montrer un diff ? ou les deux ?
-      $cts->add_paragraph($Erreur,"error");
-      $cts->add_paragraph("<a href=\"./?name=$pagepath\">Voir la version actuelle.</a>");
-      $cts->add_paragraph("<b>Attention</b>: Le texte en cours d'édition corresponds à votre soumission, il ne tient pas compte des modifications apportés par l'autre utilisateur.");
-      $cts->add_paragraph("<b>Conseil</b>: Sauvegardez vos modification dans un éditeur de texte, et repartez de la version actuelle.");      
-    }
-    
-    $wiki->lock($site->user);
-    $frm = new form("revisewiki","./?name=$pagepath",true,"POST");
-    // le true au desus, va dire à form reprendre le bordel soumis, 
-    // dans le cas où la page a été appelée par la validation du formulaire
-    $frm->add_hidden("action","revision");
-    $frm->add_hidden("id_rev_last",$wiki->id_rev_last);
-    $frm->add_text_field("title","Titre",$wiki->rev_title,true);
-    $frm->add_dokuwiki_toolbar("contents");
-    $frm->add_text_area("contents","Contenu",$wiki->rev_contents,80,20,true);
-    $frm->add_text_field("comment","Log","");
-    $frm->add_submit("save","Enregistrer"); 
-    $cts->add($frm);
-    $cts->puts("<script>wiki_lock_maintain('".$topdir."',".WIKI_LOCKTIME.",'".$pagepath."');</script>");
-
-  }
-}
-elseif ( $_REQUEST["view"] == "srcs" ) 
-{
-  if ( $wiki->rev_id != $wiki->id_rev_last )
-    $cts->add_paragraph("Ceci est une version archivée. En date du ".date("d/m/Y H:i",$wiki->rev_date).". ".
-    "<a href=\"./?name=$pagepath\">Version actuelle</a>","wikinotice");
-  $cts->add_paragraph(nl2br(htmlentities($wiki->rev_contents,ENT_NOQUOTES,"UTF-8")));
-}
-elseif ( $_REQUEST["view"] == "refs" ) 
-{
-  
-  $req = new requete($site->db,"SELECT fullpath_wiki, title_rev ".
-    "FROM wiki_ref_wiki ".
-    "INNER JOIN wiki ON ( wiki.id_wiki=wiki_ref_wiki.id_wiki_rel) ".
-    "INNER JOIN `wiki_rev` ON (".
-		      "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
-		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) ".
-		"WHERE wiki_ref_wiki.id_wiki='".$wiki->id."' ".
-		"ORDER BY fullpath_wiki");
-  
-  if ( $req->lines )
-  {
-    $list = new itemlist("Cette page fait référence aux pages","wikirefpages");
-    while ( $row = $req->get_row() )
-    {
-      $list->add(
-        "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".
-        ($row['fullpath_wiki']?$row['fullpath_wiki']:"(racine)")."</a> ".
-        " : <span class=\"wtitle\">".htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8")."</span> ");      
-    }
-    $cts->add($list,true);
-  }
-  
-  $req = new requete($site->db,"SELECT fullpath_wiki, title_rev ".
-    "FROM wiki_ref_wiki ".
-    "INNER JOIN wiki ON ( wiki.id_wiki=wiki_ref_wiki.id_wiki) ".
-    "INNER JOIN `wiki_rev` ON (".
-		      "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
-		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) ".
-		"WHERE wiki_ref_wiki.id_wiki_rel='".$wiki->id."' ".
-		"ORDER BY fullpath_wiki");
-  
-  if ( $req->lines )
-  {
-    $list = new itemlist("Les pages suivantes font référence à cette page","wikirefpages");
-    while ( $row = $req->get_row() )
-    {
-      $list->add(
-        "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".
-        ($row['fullpath_wiki']?$row['fullpath_wiki']:"(racine)")."</a> ".
-        " : <span class=\"wtitle\">".htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8")."</span> ");      
-    }
-    $cts->add($list,true);
-  }
-  
-  $req = new requete($site->db,"SELECT titre_file, nom_fichier_file, d_file.id_file ".
-    "FROM wiki_ref_file ".
-    "INNER JOIN d_file USING(id_file) ".
-		"WHERE wiki_ref_file.id_wiki='".$wiki->id."' ".
-		"ORDER BY titre_file");  
-  
-  if ( $req->lines )
-  {
-    $list = new itemlist("Cette page fait référence ou utilise les fichiers suivants","wikirefpages");
-    while ( $row = $req->get_row() )
-    {
-      $list->add(
-        "<a class=\"wfile\" href=\"".$wwwtopdir."d.php?id_file=".$row['id_file']."\">".
-        htmlentities($row['titre_file'],ENT_NOQUOTES,"UTF-8")."</a>  (".$row['nom_fichier_file'].") ");      
-    }
-    $cts->add($list,true);
-  }
-  
-  
-  
-}
-elseif ( $_REQUEST["view"] == "hist" ) 
-{
-  $req = new requete($site->db,"SELECT ".
-  "id_rev, date_rev, comment_rev, ".
-  "COALESCE(alias_utl,CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) AS `nom_utilisateur` ".
-  "FROM wiki_rev ".
-  "INNER JOIN utilisateurs ON ( wiki_rev.id_utilisateur_rev=utilisateurs.id_utilisateur) ".
-  "WHERE id_wiki='".$wiki->id."' ".
-  "ORDER BY date_rev DESC");
-  
   $list = new itemlist(false,"wikihist");
-  while ( $row = $req->get_row() )
+  while ( $row = $req = $req->get_row() )
   {
     $list->add(
       "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
-      "<a class=\"wpage\" href=\"?name=$pagepath&amp;rev=".$row['id_rev']."\">$pagename</a> ".
+      "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".$row[."</a> ".$row['fullpath_wiki']."</a> ".
       "- <span class=\"wuser\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</span> ".
       "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span>");
-    //TODO: ajouter un lien diff, et implémenter le diff
   }
   $cts->add($list);
 }
 else
 {
+  $cts->add_paragraph("<em>Path, le chemin : ".$path."</em>","wikipath");
+  $cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
   
-  if ( $wiki->rev_id != $wiki->id_rev_last )
-    $cts->add_paragraph("Ceci est une version archivée. En date du ".date("d/m/Y H:i",$wiki->rev_date).". ".
-    "<a href=\"./?name=$pagepath\">Version actuelle</a>","wikinotice");
+  $site->add_box("wiki",$side);
+
+  if ( $is_admin && $_REQUEST["view"] == "advc" )
+  {
+    $frm = new form("editwiki","./?name=$pagepath",true,"POST");
+    $frm->add_hidden("action","edit");
+    $frm->add_rights_field($wiki,true,true,"wiki");
+    $frm->add_submit("edit","Enregistrer"); 
+    $cts->add($frm);
+  }
+  elseif ( $can_edit && $_REQUEST["view"] == "edit" )
+  {
+    if ( $wiki->is_locked($site->user) )
+    {
+      if ( isset($Erreur) )
+      {
+        $cts->add_paragraph($Erreur,"error"); 
+        /* et oui, un autre a pu modifier et encore un autre peut editer la page 
+         * à ce moment là, là c'est vraiment pas de bol, ça peut arriver qu'a Ayolo 
+         * ce genre de situation, mais bon... :-P
+         */
+        $cts->add_paragraph("<a href=\"./?name=$pagepath\">Voir la version actuelle.</a>");      
+        $cts->add_paragraph("La page est en cours d'édition par un autre utilisteur. Il n'est pas possible de reprendre l'édition de la page.","error");
+        $cts->add_paragraph("<b>Conseil</b>: Sauvegardez vos modification dans un éditeur de texte, et retentez de le modifier dans une dizaine de minutes.");
+        $cts->add_paragraph("Voici ce que vous vouliez soumettre :");
+        $cts->add_paragraph("Titre : ".htmlentities($_REQUEST["title"],ENT_NOQUOTES,"UTF-8"));
+        $cts->add_paragraph("Contenu : ".nl2br(htmlentities($_REQUEST["contents"],ENT_NOQUOTES,"UTF-8")));
+        $cts->add_paragraph("Log : ".htmlentities($_REQUEST["comment"],ENT_NOQUOTES,"UTF-8"));
+      }
+      else
+        $cts->add_paragraph("Cette page est en cours d'édition par un autre utilisateur. Il n'est pas possible de l'éditer en même temps.","error");
+    }
+    else
+    {
+      $site->add_js("js/wiki.js");
+      
+      if ( isset($Erreur) )
+      {
+        // TODO: tenter un merge? (sur $_REQUEST["contents"] et $_REQUEST["title"])
+        // TODO: ou montrer un diff ? ou les deux ?
+        $cts->add_paragraph($Erreur,"error");
+        $cts->add_paragraph("<a href=\"./?name=$pagepath\">Voir la version actuelle.</a>");
+        $cts->add_paragraph("<b>Attention</b>: Le texte en cours d'édition corresponds à votre soumission, il ne tient pas compte des modifications apportés par l'autre utilisateur.");
+        $cts->add_paragraph("<b>Conseil</b>: Sauvegardez vos modification dans un éditeur de texte, et repartez de la version actuelle.");      
+      }
+      
+      $wiki->lock($site->user);
+      $frm = new form("revisewiki","./?name=$pagepath",true,"POST");
+      // le true au desus, va dire à form reprendre le bordel soumis, 
+      // dans le cas où la page a été appelée par la validation du formulaire
+      $frm->add_hidden("action","revision");
+      $frm->add_hidden("id_rev_last",$wiki->id_rev_last);
+      $frm->add_text_field("title","Titre",$wiki->rev_title,true);
+      $frm->add_dokuwiki_toolbar("contents");
+      $frm->add_text_area("contents","Contenu",$wiki->rev_contents,80,20,true);
+      $frm->add_text_field("comment","Log","");
+      $frm->add_submit("save","Enregistrer"); 
+      $cts->add($frm);
+      $cts->puts("<script>wiki_lock_maintain('".$topdir."',".WIKI_LOCKTIME.",'".$pagepath."');</script>");
   
-  $cts->add($wiki->get_stdcontents());
-  
+    }
+  }
+  elseif ( $_REQUEST["view"] == "srcs" ) 
+  {
+    if ( $wiki->rev_id != $wiki->id_rev_last )
+      $cts->add_paragraph("Ceci est une version archivée. En date du ".date("d/m/Y H:i",$wiki->rev_date).". ".
+      "<a href=\"./?name=$pagepath\">Version actuelle</a>","wikinotice");
+    $cts->add_paragraph(nl2br(htmlentities($wiki->rev_contents,ENT_NOQUOTES,"UTF-8")));
+  }
+  elseif ( $_REQUEST["view"] == "refs" ) 
+  {
+    
+    $req = new requete($site->db,"SELECT fullpath_wiki, title_rev ".
+      "FROM wiki_ref_wiki ".
+      "INNER JOIN wiki ON ( wiki.id_wiki=wiki_ref_wiki.id_wiki_rel) ".
+      "INNER JOIN `wiki_rev` ON (".
+  		      "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
+  		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) ".
+  		"WHERE wiki_ref_wiki.id_wiki='".$wiki->id."' ".
+  		"ORDER BY fullpath_wiki");
+    
+    if ( $req->lines )
+    {
+      $list = new itemlist("Cette page fait référence aux pages","wikirefpages");
+      while ( $row = $req->get_row() )
+      {
+        $list->add(
+          "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".
+          ($row['fullpath_wiki']?$row['fullpath_wiki']:"(racine)")."</a> ".
+          " : <span class=\"wtitle\">".htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8")."</span> ");      
+      }
+      $cts->add($list,true);
+    }
+    
+    $req = new requete($site->db,"SELECT fullpath_wiki, title_rev ".
+      "FROM wiki_ref_wiki ".
+      "INNER JOIN wiki ON ( wiki.id_wiki=wiki_ref_wiki.id_wiki) ".
+      "INNER JOIN `wiki_rev` ON (".
+  		      "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
+  		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) ".
+  		"WHERE wiki_ref_wiki.id_wiki_rel='".$wiki->id."' ".
+  		"ORDER BY fullpath_wiki");
+    
+    if ( $req->lines )
+    {
+      $list = new itemlist("Les pages suivantes font référence à cette page","wikirefpages");
+      while ( $row = $req->get_row() )
+      {
+        $list->add(
+          "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".
+          ($row['fullpath_wiki']?$row['fullpath_wiki']:"(racine)")."</a> ".
+          " : <span class=\"wtitle\">".htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8")."</span> ");      
+      }
+      $cts->add($list,true);
+    }
+    
+    $req = new requete($site->db,"SELECT titre_file, nom_fichier_file, d_file.id_file ".
+      "FROM wiki_ref_file ".
+      "INNER JOIN d_file USING(id_file) ".
+  		"WHERE wiki_ref_file.id_wiki='".$wiki->id."' ".
+  		"ORDER BY titre_file");  
+    
+    if ( $req->lines )
+    {
+      $list = new itemlist("Cette page fait référence ou utilise les fichiers suivants","wikirefpages");
+      while ( $row = $req->get_row() )
+      {
+        $list->add(
+          "<a class=\"wfile\" href=\"".$wwwtopdir."d.php?id_file=".$row['id_file']."\">".
+          htmlentities($row['titre_file'],ENT_NOQUOTES,"UTF-8")."</a>  (".$row['nom_fichier_file'].") ");      
+      }
+      $cts->add($list,true);
+    }
+  }
+  elseif ( $_REQUEST["view"] == "hist" ) 
+  {
+    $req = new requete($site->db,"SELECT ".
+    "id_rev, date_rev, comment_rev, ".
+    "COALESCE(alias_utl,CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) AS `nom_utilisateur` ".
+    "FROM wiki_rev ".
+    "INNER JOIN utilisateurs ON ( wiki_rev.id_utilisateur_rev=utilisateurs.id_utilisateur) ".
+    "WHERE id_wiki='".$wiki->id."' ".
+    "ORDER BY date_rev DESC");
+    
+    $list = new itemlist(false,"wikihist");
+    while ( $row = $req->get_row() )
+    {
+      $list->add(
+        "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
+        "<a class=\"wpage\" href=\"?name=$pagepath&amp;rev=".$row['id_rev']."\">$pagename</a> ".
+        "- <span class=\"wuser\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</span> ".
+        "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span>");
+      //TODO: ajouter un lien diff, et implémenter le diff
+    }
+    $cts->add($list);
+  }
+  else
+  {
+    
+    if ( $wiki->rev_id != $wiki->id_rev_last )
+      $cts->add_paragraph("Ceci est une version archivée. En date du ".date("d/m/Y H:i",$wiki->rev_date).". ".
+      "<a href=\"./?name=$pagepath\">Version actuelle</a>","wikinotice");
+    
+    $cts->add($wiki->get_stdcontents());
+    
+  }
 }
 
 $site->add_contents($cts);
