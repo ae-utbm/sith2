@@ -319,12 +319,12 @@ class site extends interfaceweb
         $this->add_box("comptoirs",$this->get_comptoirs_box());        
         $this->add_box("sondage",$this->get_sondage());
         $this->set_side_boxes("right",
-          array("planning","photo","anniv","stream", "services",
+          array("planning","photo","anniv","stream", 
                 "sondage","comptoirs","forum", "planning_permanences"),"accueil_c_right");
       } 
       else
         $this->set_side_boxes("right",
-          array("planning","photo","anniv","services", "stream", "planning_permanences"),"accueil_nc_right");
+          array("planning", "stream", "planning_permanences"),"accueil_nc_right");
       
     }
     elseif ( $section == "pg" )
@@ -1038,26 +1038,6 @@ class site extends interfaceweb
       $cts->puts("<center><a href=\"".$topdir."article.php?name=planning\"><img src=\"".$topdir."var/img/com/planning-small.jpg?".$planning_valid."\" alt=\"Planning\" /></a></center>");
       return $cts;
     }
-  }
-  
-  /**
-   * Renvoie un contents avec la liste des services pour accès direct
-   */
-  function get_services_contents()
-  {
-    global $topdir;
-    $cts = new contents("Services");
-    $lst = new itemlist(false,false, 
-                        array(
-                          "<a href=\"/e-boutic/\">E-Boutic</a>",
-                          "<a href=\"/uvs/\">Pédagogie</a>",
-                          "<a href=\"/jobetu/\">AE JobEtu</a>",
-                          "<a href=\"/laverie/\">Laverie</a>",
-                          "<a href=\"/emprunt.php\">Prêt de matériel</a>",
-                          "<a href=\"/covoiturage/\">Covoiturage</a>"
-                        ));
-    $cts->add($lst);
-    return $cts;
   }
   
   /**
