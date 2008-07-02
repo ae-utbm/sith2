@@ -362,7 +362,7 @@ if ( $_REQUEST["view"] == "histfull" )
   
   $site->add_box("wiki",$side);
 
-  $req = new requete($site->db,"SELECT id_wiki, date_rev, comment_rev,
+  $req = new requete($site->db,"SELECT wiki.id_wiki, date_rev, comment_rev,
     COALESCE(alias_utl,CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) AS `nom_utilisateur`,
     fullpath_wiki 
     FROM wiki
