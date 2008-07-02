@@ -149,3 +149,7 @@ div.insitu-footnote {
 code {
   font-family: monospace;
 }
+
+.wlog {
+  font-style: italic;
+}
