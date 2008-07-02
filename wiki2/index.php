@@ -375,7 +375,7 @@ if ( $_REQUEST["view"] == "histfull" )
   while ( $row = $req->get_row() )
   {
     $wiki_histfull = new wiki($site->db);
-    $wiki_histfull->load_by_id($row['id_wiki']
+    $wiki_histfull->load_by_id($row['id_wiki']);
     if ( $wiki_histfull->is_right($site->user,DROIT_LECTURE) )
       $list->add(
         "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
