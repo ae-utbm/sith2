@@ -374,11 +374,14 @@ if ( $_REQUEST["view"] == "histfull" )
   $list = new itemlist(false,"wikihist");
   while ( $row = $req->get_row() )
   {
-    $list->add(
-      "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
-      "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".$row['fullpath_wiki']."</a> ".
-      "- <span class=\"wuser\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</span> ".
-      "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span>");
+    $wiki_histfull = new wiki($site->db);
+    $wiki_histfull->load_by_id($row['id_wiki']
+    if ( $wiki_histfull->is_right($site->user,DROIT_LECTURE) )
+      $list->add(
+        "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
+        "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".$row['fullpath_wiki']."</a> ".
+        "- <span class=\"wuser\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</span> ".
+        "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span>");
   }
   $cts->add($list);
 }
