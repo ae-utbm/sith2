@@ -362,7 +362,7 @@ if ( $_REQUEST["view"] == "histfull" )
   
   $site->add_box("wiki",$side);
 
-  $req = new requete($site->db,"SELECT date_rev, comment_rev,
+  $req = new requete($site->db,"SELECT id_wiki, date_rev, comment_rev,
     COALESCE(alias_utl,CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) AS `nom_utilisateur`,
     fullpath_wiki 
     FROM wiki
@@ -372,9 +372,10 @@ if ( $_REQUEST["view"] == "histfull" )
     DESC limit 40");
 
   $list = new itemlist(false,"wikihist");
+  $wiki_histfull = new wiki($site->db);
+
   while ( $row = $req->get_row() )
   {
-    $wiki_histfull = new wiki($site->db);
     $wiki_histfull->load_by_id($row['id_wiki']);
     if ( $wiki_histfull->is_right($site->user,DROIT_LECTURE) )
       $list->add(
