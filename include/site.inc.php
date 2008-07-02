@@ -306,7 +306,6 @@ class site extends interfaceweb
       $this->add_box("photo",$this->get_weekly_photo_contents());
       $this->add_box("anniv", $this->get_anniv_contents());
       $this->add_box("planning", $this->get_planning_contents());
-      $this->add_box("services", $this->get_services_contents());
       $this->add_box("planning_permanences", $this->get_planning_permanences_contents());
       
       if ( $GLOBALS["taiste"] )
