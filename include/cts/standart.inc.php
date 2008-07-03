@@ -916,34 +916,6 @@ class form extends stdcontents
     
   }
 
-  function add_diff($name,$rows)
-  {
-    if(!is_array($rows)||empty($rows))
-      return;
-    $this->buffer .= "<div class=\"formrow\">\n";
-    $this->buffer .= "<ul class=\"diff\" id=\"$name\">\n";
-    $i=0;
-    foreach ( $rows as $row )
-    {
-      $this->buffer .="<li>";
-      $this->buffer .="<input type=\"radio\" name=\"rev_comp\" class=\"radiobox\" value=\"".$row['value']."\" id=\"__rev_comp_".$row['value']."\"";
-      if($i==0)
-        $this->buffer .=" style=\"visibility:hidden\" checked=\"checked\"";
-      if($i==1)
-        $this->buffer .=" checked=\"checked\"";
-      $this->buffer .=" />&nbsp;";
-      $this->buffer .="<input type=\"radio\" name=\"rev_orig\" class=\"radiobox\" value=\"".$row['value']."\" id=\"__rev_orig_".$row['value']."\"";
-      if($i==0)
-        $this->buffer .=" checked=\"checked\"";
-      $this->buffer .=" />&nbsp;";
-      $this->buffer .=$row['desc'];
-      $this->buffer .="</li>\n";
-      $i++;
-    }
-    $this->buffer .= "</ul>\n";
-    $this->buffer .= "</div>\n";
-  }
-
   /** Ajoute un champ à cocher au formulaire
 
    * @param $name    Nom du champ

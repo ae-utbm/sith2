@@ -536,8 +536,6 @@ else
     
     $user_hist = new utilisateur($site->db);
 
-    $frm = new form("difffrm","?name=".$pagepath."&view=diff",true,"POST","Historique des révisions");
-    $frm->add_submit("submit","Voir les différences");
     $diff=array();
     while ( $row = $req->get_row() )
     {
@@ -549,7 +547,7 @@ else
                     'value'=>$row['id_rev']);
       //TODO: ajouter un lien diff, et implémenter le diff
     }
-    $frm->add_diff('diff',$diff);
+    $frm = new diffwiki ( 'diff', "?name=".$pagepath."&view=diff", $diff, "post", "Historique des révisions");
     $cts->add($frm);
   }
   else
