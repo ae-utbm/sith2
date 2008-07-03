@@ -14,7 +14,7 @@
  */
 
 /** Text_Diff_Renderer */
-require_once $topdir.'include/lib/text_diff/Diff/Renderer.php';tt
+require_once $topdir.'include/lib/text_diff/Diff/Renderer.php';
 
 /**
  * "Inline" diff renderer.
