@@ -214,7 +214,7 @@ class diff extends Text_Diff_Renderer
     $lines=split("\n",$doku->doku2xhtml($this->render($diff)));
     foreach($lines as $line)
     {
-      $this->buffer.="".str_replace('@_@','>',str_replace('@_@_@','<'$line))."\n";
+      $this->buffer.="".str_replace('@_@','>',str_replace('@_@_@','<',$line))."\n";
     }
   }
 }
