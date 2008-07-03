@@ -47,7 +47,7 @@ if($_REQUEST['action']=='send')
         //$headers.='Bcc:ae.com@utbm.fr,ae@utbm.fr'."\r\n";
         $headers.='MIME-Version: 1.0'."\r\n";
         $frontiere = '----=' . md5(uniqid(mt_rand()));
-        $headers.='Content-Type: multipart/alternative; boundary="'.$frontiere.'"'."\r\n\n";
+        $headers.='Content-Type: multipart/alternative; tboundary="'.$frontiere.'"'."\r\n\n";
         //$message ='This is a multi-part message in MIME format.'."\r\n\r\n";
         $message.='--'.$frontiere."\n";
         $message.='Content-Type: text/plain; charset="utf-8"'."\r\n";
