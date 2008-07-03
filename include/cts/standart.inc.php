@@ -926,12 +926,14 @@ class form extends stdcontents
     foreach ( $rows as $row )
     {
       $this->buffer .="<li>";
-      $this->buffer .="<input type=\"radio\" name=\"rev_orig\" class=\"radiobox\" value=\"".$row['value']."\" id=\"__rev_orig_".$row['value']."\"";
+      $this->buffer .="<input type=\"radio\" name=\"rev_comp\" class=\"radiobox\" value=\"".$row['value']."\" id=\"__rev_comp_".$row['value']."\"";
       if($i==0)
+        $this->buffer .=" style=\"visibility:hidden\" checked=\"checked\"";
+      if($i==1)
         $this->buffer .=" checked=\"checked\"";
       $this->buffer .=" />&nbsp;";
-      $this->buffer .="<input type=\"radio\" name=\"rev_comp\" class=\"radiobox\" value=\"".$row['value']."\" id=\"__rev_comp_".$row['value']."\"";
-      if($i==1)
+      $this->buffer .="<input type=\"radio\" name=\"rev_orig\" class=\"radiobox\" value=\"".$row['value']."\" id=\"__rev_orig_".$row['value']."\"";
+      if($i==0)
         $this->buffer .=" checked=\"checked\"";
       $this->buffer .=" />&nbsp;";
       $this->buffer .=$row['desc'];
