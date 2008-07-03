@@ -149,4 +149,13 @@ function histrowinit()
   diffcheck();
 }
 
+function hookEvent(hookName, hookFunct)
+{
+  if (window.addEventListener)
+    window.addEventListener(hookName, hookFunct, false);
+  else if (window.attachEvent)
+    window.attachEvent("on" + hookName, hookFunct);
+}
+
+
 hookEvent("load", histrowinit);
