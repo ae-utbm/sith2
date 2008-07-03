@@ -528,21 +528,20 @@ else
   elseif ( $_REQUEST["view"] == "hist" ) 
   {
     $req = new requete($site->db,"SELECT ".
-    "id_rev, date_rev, comment_rev, ".
-    "COALESCE(surnom_utbm,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur ".
+    "id_rev, date_rev, comment_rev, id_utilisateur_rev ".
     "FROM wiki_rev ".
-    "INNER JOIN utilisateurs ON ( wiki_rev.id_utilisateur_rev=utilisateurs.id_utilisateur) ".
-    "LEFT JOIN utl_etu_utbm ON (utilisateurs.id_utilisateur=utl_etu_utbm.id_utilisateur) ".
     "WHERE id_wiki='".$wiki->id."' ".
     "ORDER BY date_rev DESC");
     
     $list = new itemlist(false,"wikihist");
+    $user_hist = new utilisateur($site->db);
     while ( $row = $req->get_row() )
     {
+      $user_hist->load_by_id($row['id_utilisateur_rev']);
       $list->add(
         "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
         "<a class=\"wpage\" href=\"?name=$pagepath&amp;rev=".$row['id_rev']."\">$pagename</a> ".
-        "- <span class=\"wuser\"><a href=\"".$topdir."user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a></span> ".
+        "- <span class=\"wuser\">".$user_histfull->get_html_link()."</a></span> ".
         "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span>");
       //TODO: ajouter un lien diff, et implémenter le diff
     }
