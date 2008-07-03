@@ -535,7 +535,7 @@ else
     
     $user_hist = new utilisateur($site->db);
 
-    $frm = new form("diff","index.php?name=".$pagepath."&view=diff",true,"POST","Historique des révisions");
+    $frm = new form("diff","?name=".$pagepath."&view=diff",true,"POST","Historique des révisions");
     $frm->add_submit("submit","Voir les différences");
     while ( $row = $req->get_row() )
     {
