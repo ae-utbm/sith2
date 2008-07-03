@@ -114,7 +114,7 @@ class diff extends Text_Diff_Renderer
   var $_trailing_context_lines = 10000;
   var $_ins_prefix = '@_@_@span class="diffins"@_@';
   var $_ins_suffix = '@_@_@/span@_@';
-  var $_del_prefix = '@_@_@span class="diffdel"_@_';
+  var $_del_prefix = '@_@_@span class="diffdel"@_@';
   var $_del_suffix = '@_@_@/span@_@';
   var $_block_header = '';
   var $_split_level = 'lines';
@@ -214,7 +214,7 @@ class diff extends Text_Diff_Renderer
     $lines=split("\n",$doku->doku2xhtml(htmlspecialchars_decode($this->render($diff))));
     foreach($lines as $line)
     {
-      $this->buffer.="".str_replace('@_@_@','<',str_replace('@_@','>',$line))."\n";
+      $this->buffer.="".str_replace('@_@','<',str_replace('@_@_@','>',$line))."\n";
     }
   }
 }
