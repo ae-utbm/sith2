@@ -536,6 +536,8 @@ else
     $user_hist = new utilisateur($site->db);
 
     $frm = new form("diff","index.php",true,"POST","Historique des révisions");
+    $frm->add_hidden("view","diff");
+    $frm->add_submit("submit","Voir les différences");
     while ( $row = $req->get_row() )
     {
       $user_hist->load_by_id($row['id_utilisateur_rev']);
