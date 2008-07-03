@@ -78,7 +78,7 @@ function historyRadios(parent)
 function diffcheck()
 {
   var dli = false; // li où le bouton rev_orig radio est coché
-  var var oli = false; // li où le bouton radio rev_comp est coché
+  var oli = false; // li où le bouton radio rev_comp est coché
   var hf = document.getElementById('diff');
   if (!hf)
   {
