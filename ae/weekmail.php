@@ -68,8 +68,8 @@ if($_REQUEST['action']=='send')
         $message.='</body>';
         $message.='</html>'."\n\n";
         $message.= '--'.$frontiere.'--'."\n";
-        //if(mail('etudiants@utbm.fr','[weekmail] '.$title.'</title>',$message,$headers))
-        if(mail('ae.info@utbm.fr','[weekmail] '.$title.'</title>',$message,$headers))
+        //if(mail('etudiants@utbm.fr','[weekmail] '.$title,$message,$headers))
+        if(mail('ae.info@utbm.fr','[weekmail] '.$title,$message,$headers))
         {
           $sql='UPDATE weekmail SET statut=1, date="'.date("Y-m-d H:i:s").'" WHERE id='.intval($_REQUEST['id']);
           $req = new requete($site->dbrw,$sql);
