@@ -1,11 +1,11 @@
 /* diff */
 span.diffdel
 {
-  background-color:#CC0000;
+  background-color:#D98B7C;
 }
 span.diffins
 {
-  background-color:#009900;
+  background-color:#9FBE57;
 }
 
 table.diff
