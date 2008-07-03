@@ -47,15 +47,14 @@ if($_REQUEST['action']=='send')
         //$headers.='Bcc:ae.com@utbm.fr,ae@utbm.fr'."\r\n";
         $headers.='MIME-Version: 1.0'."\r\n";
         $frontiere = '----=' . md5(uniqid(mt_rand()));
-        $headers.='Content-Type: multipart/alternative;'."\r\n";
-	$headers.="\t".'boundary="'.$frontiere.'"'."\r\n\r\n";
-        $message ='This is a multi-part message in MIME format.'."\r\n\r\n";
-        $message.='--'.$frontiere."--\r\n";
+        $headers.='Content-Type: multipart/alternative; boundary="'.$frontiere.'"'."\r\n\n";
+        //$message ='This is a multi-part message in MIME format.'."\r\n\r\n";
+        $message.='--'.$frontiere."\n";
         $message.='Content-Type: text/plain; charset="utf-8"'."\r\n";
-        $message.='Content-Transfer-Encoding: 8bit'."\r\n\r\n";
+        $message.='Content-Transfer-Encoding: 8bit'."\r\n\n";
         $message.='Pour visionner ce weekmail rendez vous à l\'adresse suivante :'."\r\n";
-        $message.='http://ae.utbm.fr/weekmail.php?id='.$id."\r\n\r\n";
-        $message.= '--'.$frontiere."--\r\n";
+        $message.='http://ae.utbm.fr/weekmail.php?id='.$id."\r\n\n";
+        $message.= '--'.$frontiere."\n";
         $message.= 'Content-Type: text/html; charset="utf-8"'."\r\n";
         $message.='Content-Transfer-Encoding: 8bit'."\r\n\r\n";
         $message.='<html>';
@@ -66,8 +65,8 @@ if($_REQUEST['action']=='send')
         $message.='<body>';
         $message.=doku2xhtml($text,false,true);
         $message.='</body>';
-        $message.='</html>'."\r\n\r\n";
-        $message.= '--'.$frontiere."--\r\n";
+        $message.='</html>'."\r\n\n";
+        $message.= '--'.$frontiere."--";
         //if(mail('etudiants@utbm.fr','[weekmail] '.$title,$message,$headers))
         if(mail('simon.lopez@utbm.fr','[weekmail] '.$title,$message,$headers))
         {
