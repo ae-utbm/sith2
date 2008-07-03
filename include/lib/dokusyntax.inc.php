@@ -39,9 +39,10 @@ class dokusyntax
    * elle te pond du xhtml, c'est de la magie en boite de concerve
    * @param $text le texte que tu veux qu'il resorte cossu :p
    */
-  function doku2xhtml($text,$summury=false)
+  function doku2xhtml($text,$summury=false,$extern=false)
   {
     global $parser,$timing;
+    $this->extern=$extern;
     $timing["doku2xhtml"] -= microtime(true);
     $js = false;
     $table   = array();
@@ -385,22 +386,47 @@ class dokusyntax
           $file->load_by_id($match[1]);
           return $file->get_html_link();
         }
-        elseif ( !isset($match[2]) || $match[2] == "/download" )
-          $link = $wwwtopdir."d.php?action=download&id_file=".$match[1];
-        elseif ( $match[2] == "/preview" )
-          $link = $wwwtopdir."d.php?action=download&download=preview&id_file=".$match[1];
-        elseif ( $match[2] == "/thumb" )
-          $link = $wwwtopdir."d.php?action=download&download=thumb&id_file=".$match[1];
-        elseif ( $match[2] == "/info" )
-          $link = $wwwtopdir."d.php?id_file=".$match[1];      
+        elseif($this->extern)
+        {
+          if ( !isset($match[2]) || $match[2] == "/download" )
+            $link = "http://ae.utbm.fr/d.php?action=download&id_file=".$match[1];
+          elseif ( $match[2] == "/preview" )
+            $link = "http://ae.utbm.fr/d.php?action=download&download=preview&id_file=".$match[1];
+          elseif ( $match[2] == "/thumb" )
+            $link = "http://ae.utbm.fr/d.php?action=download&download=thumb&id_file=".$match[1];
+          elseif ( $match[2] == "/info" )
+            $link = "http://ae.utbm.fr/d.php?id_file=".$match[1];      
+        }
+        else
+        {
+          if ( !isset($match[2]) || $match[2] == "/download" )
+            $link = $wwwtopdir."d.php?action=download&id_file=".$match[1];
+          elseif ( $match[2] == "/preview" )
+            $link = $wwwtopdir."d.php?action=download&download=preview&id_file=".$match[1];
+          elseif ( $match[2] == "/thumb" )
+            $link = $wwwtopdir."d.php?action=download&download=thumb&id_file=".$match[1];
+          elseif ( $match[2] == "/info" )
+            $link = $wwwtopdir."d.php?id_file=".$match[1];
+        }
       }
       else
       {
-      //les article://
-      $link = preg_replace("/article:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
-      //les wiki://
-      $link = preg_replace("/wiki:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link); 
-      $link = preg_replace("/sas:\/\//i",$wwwtopdir."sas2/images.php?/",$link);
+        if($this->extern)
+        {
+          //les article://
+          $link = preg_replace("/article:\/\//i",'http://ae.utbm.fr/'.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
+          //les wiki://
+          $link = preg_replace("/wiki:\/\//i",'http://ae.utbm.fr/'.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link); 
+          $link = preg_replace("/sas:\/\//i","http://ae.utbm.fr/sas2/images.php?/",$link);
+        }
+        else
+        {
+          //les article://
+          $link = preg_replace("/article:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
+          //les wiki://
+          $link = preg_replace("/wiki:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link);
+          $link = preg_replace("/sas:\/\//i",$wwwtopdir."sas2/images.php?/",$link);
+        }
       }
     }
     elseif ( !preg_match("#(\.|/)#",$link) )
@@ -951,11 +977,21 @@ class dokusyntax
     list($width,$height) = split('x',$sizes,2);
     $name=trim($name);
     //les dfiles://
-    $img = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$wwwtopdir."d.php?action=download&download=preview&id_file=$1",$img);
-    $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$wwwtopdir."d.php?action=download&download=thumb&id_file=$1",$img);
-    $img = preg_replace("/dfile:\/\//i",$wwwtopdir."d.php?action=download&id_file=",$img);
-    $img = preg_replace("/sas:\/\//i",$wwwtopdir."sas2/images.php?/",$img);
-    
+    if($this->extern)
+    {
+      $img = preg_replace("/dfile:\/\/([0-9]*)\/preview/i","http://ae.utbm.fr/d.php?action=download&download=preview&id_file=$1",$img);
+      $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i","http://ae.utbm.fr/d.php?action=download&download=thumb&id_file=$1",$img);
+      $img = preg_replace("/dfile:\/\//i","http://ae.utbm.fr/d.php?action=download&id_file=",$img);
+      $img = preg_replace("/sas:\/\//i","http://ae.utbm.fr/sas2/images.php?/",$img);
+    }
+    else
+    {
+      $img = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$wwwtopdir."d.php?action=download&download=preview&id_file=$1",$img);
+      $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$wwwtopdir."d.php?action=download&download=thumb&id_file=$1",$img);
+      $img = preg_replace("/dfile:\/\//i",$wwwtopdir."d.php?action=download&id_file=",$img);
+      $img = preg_replace("/sas:\/\//i",$wwwtopdir."sas2/images.php?/",$img);
+    }
+
     if ( preg_match("/\.flv$/i",$img) )
     {
       if ( !$width )
@@ -1081,12 +1117,12 @@ class dokusyntax
 }
 
 
-function doku2xhtml($text,$summury=false)
+function doku2xhtml($text,$summury=false,$extern=false)
 {
   global $syntaxengine;
   if ( !isset($syntaxengine) )
   $syntaxengine = new dokusyntax();
-  return $syntaxengine->doku2xhtml($text,$summury);
+  return $syntaxengine->doku2xhtml($text,$summury,$extern);
 }
 
 ?>

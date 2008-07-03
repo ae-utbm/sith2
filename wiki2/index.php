@@ -566,7 +566,7 @@ else
           $cts->add(new diff ( $old, $new),true);
         }
         else
-          $cts->add(new error("Révision non trouvée"));
+          $cts->add(new error('',"Révision non trouvée"));
       }
       else
         $cts->add(new error("Révision non trouvée"));

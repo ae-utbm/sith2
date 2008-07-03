@@ -80,8 +80,9 @@ else
 
 $board->add($sublist,true);
 
-$sublist = new itemlist("Sondages"); 
+$sublist = new itemlist("Divers"); 
 $sublist->add("<a href=\"sondage.php\">Sondages</a>");
+$sublist->add("<a href=\"weekmail.php\">Weekmail</a>");
 $board->add($sublist,true);
 
 $cts->add($board);
