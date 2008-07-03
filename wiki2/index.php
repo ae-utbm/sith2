@@ -558,10 +558,10 @@ else
     {
       if($wiki->load_by_fullpath_and_rev($_REQUEST["name"],intval($_REQUEST["rev_orig"])))
       {
-        $new=array('rev'=>intval($_REQUEST["rev_orig"]),'cts'=>$wiki->$rev_contents);
+        $new=array('rev'=>intval($_REQUEST["rev_orig"]),'cts'=>$wiki->rev_contents);
         if($wiki->load_by_fullpath_and_rev($_REQUEST["name"],intval($_REQUEST["rev_comp"])))
 	{
-	  $old=array('rev'=>intval($_REQUEST["rev_orig"]),'cts'=>$wiki->$rev_contents);
+	  $old=array('rev'=>intval($_REQUEST["rev_orig"]),'cts'=>$wiki->rev_contents);
 	  $diff = new diff ( $old, $new);
 	  $cts->add($diff);
 	}
