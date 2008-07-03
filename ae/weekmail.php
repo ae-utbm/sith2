@@ -48,7 +48,8 @@ if($_REQUEST['action']=='send')
         $headers.='Content-Transfer-Encoding: 8bit';
         $headers.='MIME-Version: 1.0'."\n";
         $frontiere = '---=' . md5(uniqid(mt_rand()));
-        $headers.='Content-Type: multipart/alternative; boundary="'.$frontiere.'"';
+        $headers.='Content-Type: multipart/alternative;'."\n"
+	$headers.="\t".'boundary="'.$frontiere.'"'."\n\n";
         $message ='This is a multi-part message in MIME format.'."\n\n";
         $message.='--'.$frontiere."\n";
         $message.='Content-Type: text/plain; charset="utf8"'."\n";
