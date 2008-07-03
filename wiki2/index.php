@@ -363,7 +363,7 @@ if ( $_REQUEST["view"] == "histfull" )
   $site->add_box("wiki",$side);
 
   $req = new requete($site->db,"SELECT wiki.id_wiki, date_rev, comment_rev,
-    id_utilisateur, fullpath_wiki 
+    id_utilisateur_rev, fullpath_wiki 
     FROM wiki
     INNER JOIN wiki_rev ON (wiki.id_rev_last=wiki_rev.id_rev AND wiki.id_wiki=wiki_rev.id_wiki)
     ORDER by date_rev 
