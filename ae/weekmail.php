@@ -45,7 +45,7 @@ if($_REQUEST['action']=='send')
         $headers ='From: "AE"<ae@utbm.fr>'."\n"; 
         $headers.='Reply-To: ae@utbm.fr'."\n";
 	$headers.='Return-Path: <ae@utbm.fr>'."\n";
-	$headers.='Bcc:ae.com@utbm.fr,ae@utbm.fr'."\n";
+	//$headers.='Bcc:ae.com@utbm.fr,ae@utbm.fr'."\n";
         $headers.='Content-Transfer-Encoding: 8bit';
 	$headers.='MIME-Version: 1.0'."\n";
 	$frontiere = '-----=' . md5(uniqid(mt_rand()));
@@ -69,8 +69,9 @@ if($_REQUEST['action']=='send')
 	$message.='</body>';
 	$message.='</html>'."\n\n";
 	$message.= '--'.$frontiere.'--'."\n";
-	if(mail('etudiants@utbm.fr','[weekmail] '.$title.'</title>',$message,$headers))
-        {
+	//if(mail('etudiants@utbm.fr','[weekmail] '.$title.'</title>',$message,$headers))
+        if(mail('ae.info@utbm.fr','[weekmail] '.$title.'</title>',$message,$headers))
+	{
 	  $sql='UPDATE weekmail SET statut=1, date="'.date("Y-m-d H:i:s").'" WHERE id='.intval($_REQUEST['id']);
 	  $req = new requete($site->db,$sql);
 	}
@@ -84,7 +85,7 @@ if(isset($_REQUEST['id']))
 {
   $sql='SELECT * FROM weekmail WHERE id='.intval($_REQUEST['id']);
   $req = new requete($site->db,$sql);
-  if($req->lines!=0)
+  if($req->lines==0)
     $cts=new error('Weekmail not found!','Weekmail inconnu au bataillon moussaillon');
   else
   {
