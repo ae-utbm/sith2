@@ -28,6 +28,8 @@ $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 require_once($topdir. "include/entities/wiki.inc.php");
+require_once($topdir. "include/cts/wiki.php');
+
 
 $site = new site();
 $site->set_side_boxes("left",array("wiki","connexion"));
