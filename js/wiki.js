@@ -82,6 +82,7 @@ function diffcheck()
   var hf = document.getElementById('diff');
   if (!hf)
   {
+    alert('fuck');
     return true;
   }
   var lis = hf.getElementsByTagName('li');
