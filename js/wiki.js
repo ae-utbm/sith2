@@ -82,10 +82,11 @@ function diffcheck()
   var hf = document.getElementById('diff');
   if (!hf)
   {
-    alert('fuck');
     return true;
   }
   var lis = hf.getElementsByTagName('li');
+  alert(lis.length);
+  return;
   for (var i=0;i<lis.length;i++)
   {
     var inputs = historyRadios(lis[i]);
