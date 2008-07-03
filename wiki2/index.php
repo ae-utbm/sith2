@@ -541,7 +541,7 @@ else
       $list->add(
         "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
         "<a class=\"wpage\" href=\"?name=$pagepath&amp;rev=".$row['id_rev']."\">$pagename</a> ".
-        "- <span class=\"wuser\">".$user_histfull->get_html_link()."</a></span> ".
+        "- <span class=\"wuser\">".$user_hist->get_html_link()."</a></span> ".
         "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span>");
       //TODO: ajouter un lien diff, et implémenter le diff
     }
