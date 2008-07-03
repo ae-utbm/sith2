@@ -72,7 +72,7 @@ if($_REQUEST['action']=='send')
         if(mail('ae.info@utbm.fr','[weekmail] '.$title.'</title>',$message,$headers))
         {
           $sql='UPDATE weekmail SET statut=1, date="'.date("Y-m-d H:i:s").'" WHERE id='.intval($_REQUEST['id']);
-          $req = new requete($site->db,$sql);
+          $req = new requete($site->dbrw,$sql);
         }
         else
           $site->add_contents(new error('Echec de l\envoi','Le weekmail n\'a pas pu être envoyé ...'));
