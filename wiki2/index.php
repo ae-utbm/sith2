@@ -552,6 +552,34 @@ else
     $frm = new diffwiki ( 'diff', "?name=".$pagepath."&view=diff", $diff, "post", "Historique des révisions");
     $cts->add($frm);
   }
+  elseif ( $_REQUEST["view"] == "diff" )
+  {
+    if(isset($_REQUEST["rev_orig"]) && isset($_REQUEST["rev_comp"]))
+    {
+      if($wiki->load_by_fullpath_and_rev($_REQUEST["name"],intval($_REQUEST["rev_orig"])))
+      {
+        $new=array('rev'=>intval($_REQUEST["rev_orig"]),'cts'=>$wiki->$rev_contents);
+        if($wiki->load_by_fullpath_and_rev($_REQUEST["name"],intval($_REQUEST["rev_comp"])))
+	{
+	  $old=array('rev'=>intval($_REQUEST["rev_orig"]),'cts'=>$wiki->$rev_contents);
+	  $diff = new diff ( $old, $new);
+	  $cts->add($diff);
+	}
+	else
+	  $cts->add(new error("Révision non trouvée"));
+      }
+      else
+        $cts->add(new error("Révision non trouvée"));
+
+    }
+    else
+    {
+      if ( $wiki->rev_id != $wiki->id_rev_last )
+        $cts->add_paragraph("Ceci est une version archivée. En date du ".date("d/m/Y H:i",$wiki->rev_date).". ".
+	                    "<a href=\"./?name=$pagepath\">Version actuelle</a>","wikinotice");
+      $cts->add($wiki->get_stdcontents());
+    }
+  }
   else
   {
     
