@@ -132,10 +132,10 @@ function diffcheck()
 
 function histrowinit()
 {
-  alert("je suis la");
   var hf = document.getElementById('diff');
   if (!hf)
     return;
+  alert("debug1");
   var lis = hf.getElementsByTagName('li');
   for (var i = 0; i < lis.length; i++)
   {
@@ -151,7 +151,6 @@ function histrowinit()
 
 function hookEvent(hookName, hookFunct)
 {
-  alert("hereuh");
   if (window.addEventListener)
     window.addEventListener(hookName, hookFunct, false);
   else if (window.attachEvent)
