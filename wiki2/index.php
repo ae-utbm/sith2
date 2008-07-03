@@ -538,6 +538,7 @@ else
 
     $frm = new form("difffrm","?name=".$pagepath."&view=diff",true,"POST","Historique des révisions");
     $frm->add_submit("submit","Voir les différences");
+    $diff=array();
     while ( $row = $req->get_row() )
     {
       $user_hist->load_by_id($row['id_utilisateur_rev']);
@@ -546,9 +547,9 @@ else
                             "- <span class=\"wuser\">".$user_hist->get_html_link()."</a></span> ".
                             "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span><br />",
                     'value'=>$row['id_rev']);
-      $frm->add_diff('diff',$diff);
       //TODO: ajouter un lien diff, et implémenter le diff
     }
+    $frm->add_diff('diff',$diff);
     $cts->add($frm);
   }
   else

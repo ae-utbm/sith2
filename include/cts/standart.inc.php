@@ -918,6 +918,8 @@ class form extends stdcontents
 
   function add_diff($name,$rows)
   {
+    if(!is_array($rows)||empty($rows))
+      return;
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->buffer .= "<ul id=\"$name\">\n";
     $i=0;
@@ -932,6 +934,7 @@ class form extends stdcontents
       if($i==1)
         $this->buffer .=" checked=\"checked\"";
       $this->buffer .=" />&nbsp;";
+      $this->buffer .=$row['desc'];
       $this->buffer .="</li>";
       $i++;
     }
