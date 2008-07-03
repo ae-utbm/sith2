@@ -214,7 +214,7 @@ class diff extends Text_Diff_Renderer
     $lines=split("\n",$doku->doku2xhtml(htmlspecialchars_decode($this->render($diff))));
     $this->buffer ="<table class=\"diff\">\n";
     foreach($lines as $line)
-      $this->buffer.="<tr><td>".str_replace('&lt;/ins&gt;','</ins>',str_replace('&lt;ins&gt;','<ins>',str_replace('&lt;del&gt;','<del>',str_replace('&lt;/del&gt;','</del>',$line))))."</td></tr>\n";
+      $this->buffer.="<tr><td>".str_replace('&lt;','<',str_replace('&gt;','>',$line))."</td></tr>\n";
     $this->buffer.="</table>";
   }
 }
