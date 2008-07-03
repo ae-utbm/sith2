@@ -37,17 +37,17 @@ $intro = new contents("test PEAR");
 
 $intro->add_title(2,'simple');
 $renderer = &new Text_Diff_Renderer();
-$intro->add_paragraph($renderer->render($diff));
+$intro->add_paragraph('<pre>'.$renderer->render($diff).'</pre>');
 
 require_once $topdir. "include/lib/text_diff/Diff/Renderer/unified.php";
 $intro->add_title(2,'unifié');
 $renderer = &new Text_Diff_Renderer_unified();
-$intro->add_paragraph($renderer->render($diff));
+$intro->add_paragraph('<pre>'.$renderer->render($diff).'</pre>');
 
 require_once $topdir. "include/lib/text_diff/Diff/Renderer/context.php";
 $intro->add_title(2,'context');
 $renderer = &new Text_Diff_Renderer_context();
-$intro->add_paragraph($renderer->render($diff));
+$intro->add_paragraph('<pre>'.$renderer->render($diff).'</pre>');
 
 $site->add_contents($intro);
 $site->end_page();
