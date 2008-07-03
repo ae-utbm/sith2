@@ -138,6 +138,8 @@ function histrowinit()
   var lis = hf.getElementsByTagName('li');
   for (var i = 0; i < lis.length; i++)
   {
+  alert(lis[i]);
+  return;
     var inputs = historyRadios(lis[i]);
     if (inputs[0] && inputs[1])
     {
