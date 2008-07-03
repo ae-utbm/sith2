@@ -14,7 +14,7 @@
  */
 
 /** Text_Diff */
-require_once $topdir.'include/lib/test_diff/Diff.php';
+require_once $topdir.'include/lib/text_diff/Diff.php';
 
 /**
  * A class for computing three way diffs.
