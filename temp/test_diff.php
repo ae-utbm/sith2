@@ -49,6 +49,11 @@ $intro->add_title(2,'context');
 $renderer = &new Text_Diff_Renderer_context();
 $intro->add_paragraph('<pre>'.$renderer->render($diff).'</pre>');
 
+require_once $topdir. "include/lib/text_diff/Diff/Renderer/inline.php";
+$intro->add_title(2,'context');
+$renderer = &new Text_Diff_Renderer_inline();
+$intro->add_paragraph('<pre>'.$renderer->render($diff).'</pre>');
+
 $site->add_contents($intro);
 $site->end_page();
 
