@@ -65,7 +65,7 @@ function historyRadios(parent) {
   var inputs = parent.getElementsByTagName('input');
   var radios = [];
   for (var i = 0; i < inputs.length; i++) {
-    if (inputs[i].name == "diff" || inputs[i].name == "oldid") {
+    if (inputs[i].name == "rev_comp" || inputs[i].name == "rev_orig") {
       radios[radios.length] = inputs[i];
     }
   }
@@ -78,6 +78,7 @@ function diffcheck() {
   var oli = false; // the li where the oldid radio is checked
   var hf = document.getElementById('diff');
   if (!hf) {
+    alert("debug1");
     return true;
   }
   var lis = hf.getElementsByTagName('li');
