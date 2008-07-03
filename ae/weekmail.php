@@ -41,34 +41,28 @@ if($_REQUEST['action']=='send')
       list($id,$date,$title,$content,$statut)=$req->get_row();
       if($statut!=1)
       {
-        $headers ='From: "AE"<ae@utbm.fr>'."\r\n"; 
-        $headers.='Reply-To: ae@utbm.fr'."\r\n";
-        $headers.='Return-Path: <ae@utbm.fr>'."\r\n";
-        //$headers.='Bcc:ae.com@utbm.fr,ae@utbm.fr'."\r\n";
-        $headers.='MIME-Version: 1.0'."\r\n";
-        $frontiere = '----=' . md5(uniqid(mt_rand()));
-        $headers.='Content-Type: multipart/alternative; tboundary="'.$frontiere.'"'."\r\n\n";
-        //$message ='This is a multi-part message in MIME format.'."\r\n\r\n";
-        $message.='--'.$frontiere."\n";
-        $message.='Content-Type: text/plain; charset="utf-8"'."\r\n";
-        $message.='Content-Transfer-Encoding: 8bit'."\r\n\n";
-        $message.='Pour visionner ce weekmail rendez vous à l\'adresse suivante :'."\r\n";
-        $message.='http://ae.utbm.fr/weekmail.php?id='.$id."\r\n\n";
-        $message.= '--'.$frontiere."\n";
-        $message.= 'Content-Type: text/html; charset="utf-8"'."\r\n";
-        $message.='Content-Transfer-Encoding: 8bit'."\r\n\r\n";
-        $message.='<html>';
-        $message.='<head>';
-        $message.='<title>[weekmail] '.$title.'</title>';
-        $message.='<link rel="stylesheet" type="text/css" href="http://ae.utbm.fr/css/weekmail.css" />';
-        $message.='</head>';
-        $message.='<body>';
-        $message.=doku2xhtml($text,false,true);
-        $message.='</body>';
-        $message.='</html>'."\r\n\n";
-        $message.= '--'.$frontiere."--";
-        //if(mail('etudiants@utbm.fr','[weekmail] '.$title,$message,$headers))
-        if(mail('simon.lopez@utbm.fr','[weekmail] '.$title,$message,$headers))
+        require_once($topdir. "include/lib/phpmailer.inc.php");
+        $mail=new PHPMailer();
+        $body='<html>';
+        $body.='<head>';
+        $body.='<title>[weekmail] '.$title.'</title>';
+        $body.='<link rel="stylesheet" type="text/css" '.
+        $body.='href="http://ae.utbm.fr/css/weekmail.css" />';
+        $body.='</head>';
+        $body.='<body>';
+        $body.=doku2xhtml($text,false,true);
+        $body.='</body>';
+        $body.='</html>';
+        $mail->From='ae@utbm.fr';
+        $mail->FromName='AE';
+        $mail->Subject='[weekmail] '.$title;
+        $mail->AltBody="Pour visionner le weekmail allez à l'adresse ".
+                       "suivante :\nhttp://ae.utbm.fr/weekmail.php?id=".$id.
+                       "\n\nCordialement,\nL'AE";
+        $mail->MsgHTML($body);
+        $mail->AddAddress("simon.lopez@ayolo.org");
+
+        if($mail->Send())
         {
           $sql='UPDATE weekmail SET statut=1, date="'.date("Y-m-d H:i:s").'" WHERE id='.intval($_REQUEST['id']);
           $req = new requete($site->dbrw,$sql);
