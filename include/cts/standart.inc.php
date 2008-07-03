@@ -920,7 +920,7 @@ class form extends stdcontents
   {
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->buffer .= "<ul id=\"$name\">\n";
-    $i==0;
+    $i=0;
     foreach ( $rows as $row )
     {
       $this->buffer .="<li>";
@@ -933,6 +933,7 @@ class form extends stdcontents
         $this->buffer .=" checked=\"checked\"";
       $this->buffer .=" />&nbsp;";
       $this->buffer .="</li>";
+      $i++;
     }
     $this->buffer .= "</ul>\n";
     $this->buffer .= "</div>\n";
