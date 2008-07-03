@@ -101,6 +101,7 @@ class diffwiki extends stdcontents
 */
 require_once $topdir. "include/lib/text_diff/Diff.php";
 require_once $topdir. "include/lib/text_diff/Diff/Renderer.php";
+require_once $topdir. "include/lib/text_diff/Diff/Renderer/inline.php";
 class diff extends Text_Diff_Renderer
 {
   var $title;
