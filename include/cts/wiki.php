@@ -211,10 +211,10 @@ class diff extends Text_Diff_Renderer
     $this->title="Différences entre les révisions ".$old['rev']." et ".$new['rev'];
     $diff = &new Text_Diff('auto',array(split("\n",$old['cts']),split("\n",$new['cts'])));
     $doku=new dokusyntax();
-    $lines=split("\n",$doku->doku2xhtml(htmlspecialchars_decode($this->render($diff))));
+    $lines=split("\n",$doku->doku2xhtml($this->render($diff)));
     foreach($lines as $line)
     {
-      $this->buffer.="".str_replace('@_@','>',str_replace('@_@_@','<',$line))."\n";
+      $this->buffer.="".str_replace('@_@','>',str_replace('@_@_@','<'$line))."\n";
     }
   }
 }
