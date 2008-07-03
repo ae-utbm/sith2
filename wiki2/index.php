@@ -527,6 +527,7 @@ else
   }
   elseif ( $_REQUEST["view"] == "hist" ) 
   {
+    $site->add_js("js/wiki.js");
     $req = new requete($site->db,"SELECT ".
     "id_rev, date_rev, comment_rev, id_utilisateur_rev ".
     "FROM wiki_rev ".
