@@ -1,4 +1,13 @@
 /* diff */
+del
+{
+  background-color:#ffb;
+}
+ins
+{
+  background-color:#dfd;
+}
+
 table.diff
 {
   background-color:#fff;

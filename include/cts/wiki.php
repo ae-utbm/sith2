@@ -167,12 +167,12 @@ class diff extends Text_Diff_Renderer
       $prefix = '';
       while ($orig[0] !== false
              && $final[0] !== false
-	     && substr($orig[0], 0, 1) == ' '
-	     && substr($final[0], 0, 1) == ' ')
+             && substr($orig[0], 0, 1) == ' '
+             && substr($final[0], 0, 1) == ' ')
       {
         $prefix .= substr($orig[0], 0, 1);
-	$orig[0] = substr($orig[0], 1);
-	$final[0] = substr($final[0], 1);
+        $orig[0] = substr($orig[0], 1);
+        $final[0] = substr($final[0], 1);
       }
       return $prefix . $this->_deleted($orig) . $this->_added($final);
     }

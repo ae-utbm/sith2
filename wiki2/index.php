@@ -469,10 +469,10 @@ else
       "FROM wiki_ref_wiki ".
       "INNER JOIN wiki ON ( wiki.id_wiki=wiki_ref_wiki.id_wiki_rel) ".
       "INNER JOIN `wiki_rev` ON (".
-  		      "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
-  		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) ".
-  		"WHERE wiki_ref_wiki.id_wiki='".$wiki->id."' ".
-  		"ORDER BY fullpath_wiki");
+                        "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
+                         "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) ".
+                  "WHERE wiki_ref_wiki.id_wiki='".$wiki->id."' ".
+                  "ORDER BY fullpath_wiki");
     
     if ( $req->lines )
     {
@@ -491,10 +491,10 @@ else
       "FROM wiki_ref_wiki ".
       "INNER JOIN wiki ON ( wiki.id_wiki=wiki_ref_wiki.id_wiki) ".
       "INNER JOIN `wiki_rev` ON (".
-  		      "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
-  		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) ".
-  		"WHERE wiki_ref_wiki.id_wiki_rel='".$wiki->id."' ".
-  		"ORDER BY fullpath_wiki");
+                        "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
+                         "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) ".
+                  "WHERE wiki_ref_wiki.id_wiki_rel='".$wiki->id."' ".
+                  "ORDER BY fullpath_wiki");
     
     if ( $req->lines )
     {
@@ -512,8 +512,8 @@ else
     $req = new requete($site->db,"SELECT titre_file, nom_fichier_file, d_file.id_file ".
       "FROM wiki_ref_file ".
       "INNER JOIN d_file USING(id_file) ".
-  		"WHERE wiki_ref_file.id_wiki='".$wiki->id."' ".
-  		"ORDER BY titre_file");  
+                  "WHERE wiki_ref_file.id_wiki='".$wiki->id."' ".
+                  "ORDER BY titre_file");  
     
     if ( $req->lines )
     {
@@ -560,13 +560,14 @@ else
       {
         $new=array('rev'=>intval($_REQUEST["rev_orig"]),'cts'=>$wiki->rev_contents);
         if($wiki->load_by_fullpath_and_rev($_REQUEST["name"],intval($_REQUEST["rev_comp"])))
-	{
-	  $old=array('rev'=>intval($_REQUEST["rev_orig"]),'cts'=>$wiki->rev_contents);
-	  $diff = new diff ( $old, $new);
-	  $cts->add($diff);
-	}
-	else
-	  $cts->add(new error("Révision non trouvée"));
+        {
+          $site->add_css("css/diff.css");
+          $old=array('rev'=>intval($_REQUEST["rev_orig"]),'cts'=>$wiki->rev_contents);
+          $diff = new diff ( $old, $new);
+          $cts->add($diff);
+        }
+        else
+          $cts->add(new error("Révision non trouvée"));
       }
       else
         $cts->add(new error("Révision non trouvée"));
@@ -576,7 +577,7 @@ else
     {
       if ( $wiki->rev_id != $wiki->id_rev_last )
         $cts->add_paragraph("Ceci est une version archivée. En date du ".date("d/m/Y H:i",$wiki->rev_date).". ".
-	                    "<a href=\"./?name=$pagepath\">Version actuelle</a>","wikinotice");
+                            "<a href=\"./?name=$pagepath\">Version actuelle</a>","wikinotice");
       $cts->add($wiki->get_stdcontents());
     }
   }
