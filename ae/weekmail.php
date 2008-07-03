@@ -50,7 +50,7 @@ if($_REQUEST['action']=='send')
         $frontiere = '---=' . md5(uniqid(mt_rand()));
         $headers.='Content-Type: multipart/alternative; boundary="'.$frontiere.'"';
         $message ='This is a multi-part message in MIME format.'."\n\n";
-        $message.='--'.$frontiere.'--'."\n";
+        $message.='--'.$frontiere."\n";
         $message.='Content-Type: text/plain; charset="utf8"'."\n";
         $message.='Content-Transfer-Encoding: 8bit'."\n\n";
         $message.='Pour visionner ce weekmail rendez vous à l\'adresse suivante :'."\n";
