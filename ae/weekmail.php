@@ -75,10 +75,10 @@ if($_REQUEST['action']=='send')
           $req = new requete($site->dbrw,$sql);
         }
         else
-          $site->add_contents(new error('Echec de l\envoi','Le weekmail n\'a pas pu être envoyé ...'));
+          $site->add_contents(new error('Echec de l\'envoi','Le weekmail n\'a pas pu être envoyé ...'));
       }
       else
-        $site->add_contents(new error('Echec de l\envoi','Ce weekmail a déjà été envoyé'));
+        $site->add_contents(new error('Echec de l\'envoi','Ce weekmail a déjà été envoyé'));
     }
     else
       $site->add_contents(new error('Weekmail inconnu !','Weekmail inconnu au bataillon ...'));
