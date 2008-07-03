@@ -112,10 +112,10 @@ class diff extends Text_Diff_Renderer
 
   var $_leading_context_lines = 10000;
   var $_trailing_context_lines = 10000;
-  var $_ins_prefix = '<ins>';
-  var $_ins_suffix = '</ins>';
-  var $_del_prefix = '<del>';
-  var $_del_suffix = '</del>';
+  var $_ins_prefix = '@_@_@span class="diffins"@_@';
+  var $_ins_suffix = '@_@_@/span@_@';
+  var $_del_prefix = '@_@_@span class="diffdel"_@_';
+  var $_del_suffix = '@_@_@/span@_@';
   var $_block_header = '';
   var $_split_level = 'lines';
 
@@ -210,7 +210,12 @@ class diff extends Text_Diff_Renderer
   {
     $this->title="Différences entre les révisions ".$old['rev']." et ".$new['rev'];
     $diff = &new Text_Diff('auto',array(split("\n",$old['cts']),split("\n",$new['cts'])));
-    $this->buffer.="<pre>".$this->render($diff)."</pre>";
+    $doku=new dokusyntax();
+    $lines=split("\n",$doku->doku2xhtml(htmlspecialchars_decode($this->render($diff))));
+    foreach($lines as $line)
+    {
+      $this->buffer.="".str_replace('@_@_@','<',str_replace('@_@','>',$line))."\n";
+    }
   }
 }
 
