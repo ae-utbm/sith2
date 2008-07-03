@@ -212,12 +212,12 @@ class diff extends Text_Diff_Renderer
     $diff = &new Text_Diff('auto',array(split("\n",$old['cts']),split("\n",$new['cts'])));
     $doku=new dokusyntax();
     $lines=split("\n",$doku->doku2xhtml(htmlspecialchars_decode($this->render($diff))));
-    $this->buffer ="<pre>\n";
+//    $this->buffer ="<pre>\n";
     foreach($lines as $line)
     {
       $this->buffer.="".str_replace('_@_/DELL_@_','</del>',str_replace('_@_DELL_@_','<del>',str_replace('_@_INS_@_','<ins>',str_replace('_@_/INS_@_','</ins>',$line))))."\n";
     }
-    $this->buffer.="</pre>";
+//    $this->buffer.="</pre>";
   }
 }
 
