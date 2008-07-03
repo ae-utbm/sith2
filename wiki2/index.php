@@ -533,19 +533,22 @@ else
     "WHERE id_wiki='".$wiki->id."' ".
     "ORDER BY date_rev DESC");
     
-    $list = new itemlist(false,"wikihist");
     $user_hist = new utilisateur($site->db);
+
+    $frm = new form("diff","index.php",true,"POST","Historique des révisions");
     while ( $row = $req->get_row() )
     {
       $user_hist->load_by_id($row['id_utilisateur_rev']);
-      $list->add(
+      $frm->add_radiobox_field("rev_orig", null, array($row['id_rev']=>""), 0, -1);
+      $frm->add_radiobox_field("rev_comp", null, array($row['id_rev']=>""), 0, -1);
+      $frm->puts(
         "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
         "<a class=\"wpage\" href=\"?name=$pagepath&amp;rev=".$row['id_rev']."\">$pagename</a> ".
         "- <span class=\"wuser\">".$user_hist->get_html_link()."</a></span> ".
-        "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span>");
+        "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span><br />");
       //TODO: ajouter un lien diff, et implémenter le diff
     }
-    $cts->add($list);
+    $cts->add($frm);
   }
   else
   {
