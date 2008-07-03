@@ -112,10 +112,10 @@ class diff extends Text_Diff_Renderer
 
   var $_leading_context_lines = 10000;
   var $_trailing_context_lines = 10000;
-  var $_ins_prefix = '<ins>';
-  var $_ins_suffix = '</ins>';
-  var $_del_prefix = '<del>';
-  var $_del_suffix = '</del>';
+  var $_ins_prefix = '___INS___';
+  var $_ins_suffix = '___/INS___';
+  var $_del_prefix = '___DELL___';
+  var $_del_suffix = '___/DELL___';
   var $_block_header = '';
   var $_split_level = 'lines';
 
@@ -214,7 +214,7 @@ class diff extends Text_Diff_Renderer
     $lines=split("\n",$doku->doku2xhtml(htmlspecialchars_decode($this->render($diff))));
     $this->buffer ="<table class=\"diff\">\n";
     foreach($lines as $line)
-      $this->buffer.="<tr><td>".str_replace('&lt;','<',str_replace('&gt;','>',$line))."</td></tr>\n";
+      $this->buffer.="<tr><td>".str_replace('___/DELL___','</del>',str_replace('___DELL___','<del>',str_replace('___INS___','<ins>',str_replace('___/INS___','</ins>',$line))))."</td></tr>\n";
     $this->buffer.="</table>";
   }
 }
