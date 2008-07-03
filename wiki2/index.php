@@ -363,27 +363,25 @@ if ( $_REQUEST["view"] == "histfull" )
   $site->add_box("wiki",$side);
 
   $req = new requete($site->db,"SELECT wiki.id_wiki, date_rev, comment_rev,
-    utilisateurs.id_utilisateur,
-    COALESCE(surnom_utbm,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
-    fullpath_wiki 
+    id_utilisateur, fullpath_wiki 
     FROM wiki
     INNER JOIN wiki_rev ON (wiki.id_rev_last=wiki_rev.id_rev AND wiki.id_wiki=wiki_rev.id_wiki)
-    INNER JOIN utilisateurs ON wiki_rev.id_utilisateur_rev=utilisateurs.id_utilisateur
-    LEFT JOIN utl_etu_utbm ON (utilisateurs.id_utilisateur=utl_etu_utbm.id_utilisateur)
     ORDER by date_rev 
     DESC limit 40");
 
   $list = new itemlist(false,"wikihist");
   $wiki_histfull = new wiki($site->db);
+  $user_histfull = new utilisateur($site->db);
 
   while ( $row = $req->get_row() )
   {
     $wiki_histfull->load_by_id($row['id_wiki']);
+    $user_histfull->load_by_id($row['id_utilisateur']);
     if ( $wiki_histfull->is_right($site->user,DROIT_LECTURE) )
       $list->add(
         "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
         "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".$row['fullpath_wiki']."</a> ".
-        "- <span class=\"wuser\"><a href=\"".$topdir."user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a></span> ".
+        "- <span class=\"wuser\">".$user_histfull->get_html_link()."</a></span> ".
         "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span>");
   }
   $cts->add($list);
