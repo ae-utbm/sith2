@@ -2420,3 +2420,11 @@ div.comment
   float: left; 
   margin-right: 5px;
 }
+
+ul.diff
+{
+  list-style-type:none;
+}
+ul.diff li
+{
+}
