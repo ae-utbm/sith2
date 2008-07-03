@@ -78,7 +78,6 @@ function diffcheck() {
   var oli = false; // the li where the oldid radio is checked
   var hf = document.getElementById('diff');
   if (!hf) {
-    alert("debug1");
     return true;
   }
   var lis = hf.getElementsByTagName('li');
