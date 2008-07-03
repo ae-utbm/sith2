@@ -63,7 +63,7 @@ function wiki_lock_maintain ( topdir, locktime, pagename )
 
 function historyRadios(parent)
 {
-  var inputs = parent.getElementsByTagName('li');
+  var inputs = parent.getElementsByTagName('input');
   var radios = [];
   for (var i = 0; i < inputs.length; i++)
   {
@@ -85,8 +85,6 @@ function diffcheck()
     return true;
   }
   var lis = hf.getElementsByTagName('li');
-  alert(lis.length);
-  return;
   for (var i=0;i<lis.length;i++)
   {
     var inputs = historyRadios(lis[i]);
