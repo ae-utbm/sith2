@@ -1121,7 +1121,7 @@ function doku2xhtml($text,$summury=false,$extern=false)
 {
   global $syntaxengine;
   if ( !isset($syntaxengine) )
-  $syntaxengine = new dokusyntax();
+    $syntaxengine = new dokusyntax();
   return $syntaxengine->doku2xhtml($text,$summury,$extern);
 }
 
