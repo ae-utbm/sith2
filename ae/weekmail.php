@@ -95,7 +95,7 @@ if(isset($_REQUEST['id']))
     else
       $statut='En attente';
     list($annee, $mois, $jour) = explode("-", $date);
-    $date=$jour."/".$mois."/".$annee);
+    $date=$jour."/".$mois."/".$annee;
     $cts->add_paragraph('Le '. $date .' ('.$statut.')');
     $cts->puts(doku2xhtml($content));
   }
