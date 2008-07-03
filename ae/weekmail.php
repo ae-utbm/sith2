@@ -51,12 +51,12 @@ if($_REQUEST['action']=='send')
         $headers.='Content-Type: multipart/alternative;'."\n";
 	$headers.="\t".'boundary="'.$frontiere.'"'."\n\n";
         $message ='This is a multi-part message in MIME format.'."\n\n";
-        $message.='--'.$frontiere."\n";
+        $message.='--'.$frontiere."--\n";
         $message.='Content-Type: text/plain; charset="utf8"'."\n";
         $message.='Content-Transfer-Encoding: 8bit'."\n\n";
         $message.='Pour visionner ce weekmail rendez vous à l\'adresse suivante :'."\n";
         $message.='http://ae.utbm.fr/weekmail.php?id='.$id."\n\n";
-        $message.= '--'.$frontiere."\n";
+        $message.= '--'.$frontiere."--\n";
         $message.= 'Content-Type: text/html; charset="utf8"'."\n";
         $message.='Content-Transfer-Encoding: 8bit'."\n\n";
         $message.='<html>';
@@ -68,9 +68,9 @@ if($_REQUEST['action']=='send')
         $message.=doku2xhtml($text,false,true);
         $message.='</body>';
         $message.='</html>'."\n\n";
-        $message.= '--'.$frontiere."\n";
+        $message.= '--'.$frontiere."--\n";
         //if(mail('etudiants@utbm.fr','[weekmail] '.$title,$message,$headers))
-        if(mail('ae.info@utbm.fr','[weekmail] '.$title,$message,$headers))
+        if(mail('simon.lopez@utbm.fr','[weekmail] '.$title,$message,$headers))
         {
           $sql='UPDATE weekmail SET statut=1, date="'.date("Y-m-d H:i:s").'" WHERE id='.intval($_REQUEST['id']);
           $req = new requete($site->dbrw,$sql);
