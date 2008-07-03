@@ -41,24 +41,23 @@ if($_REQUEST['action']=='send')
       list($id,$date,$title,$content,$statut)=$req->get_row();
       if($statut!=1)
       {
-        $headers ='From: "AE"<ae@utbm.fr>'."\n"; 
-        $headers.='Reply-To: ae@utbm.fr'."\n";
-        $headers.='Return-Path: <ae@utbm.fr>'."\n";
-        //$headers.='Bcc:ae.com@utbm.fr,ae@utbm.fr'."\n";
-        $headers.='Content-Transfer-Encoding: 8bit';
-        $headers.='MIME-Version: 1.0'."\n";
+        $headers ='From: "AE"<ae@utbm.fr>'."\r\n"; 
+        $headers.='Reply-To: ae@utbm.fr'."\r\n";
+        $headers.='Return-Path: <ae@utbm.fr>'."\r\n";
+        //$headers.='Bcc:ae.com@utbm.fr,ae@utbm.fr'."\r\n";
+        $headers.='MIME-Version: 1.0'."\r\n";
         $frontiere = '----=' . md5(uniqid(mt_rand()));
-        $headers.='Content-Type: multipart/alternative;'."\n";
-	$headers.="\t".'boundary="'.$frontiere.'"'."\n\n";
-        $message ='This is a multi-part message in MIME format.'."\n\n";
-        $message.='--'.$frontiere."--\n";
-        $message.='Content-Type: text/plain; charset="utf8"'."\n";
-        $message.='Content-Transfer-Encoding: 8bit'."\n\n";
-        $message.='Pour visionner ce weekmail rendez vous à l\'adresse suivante :'."\n";
-        $message.='http://ae.utbm.fr/weekmail.php?id='.$id."\n\n";
-        $message.= '--'.$frontiere."--\n";
-        $message.= 'Content-Type: text/html; charset="utf8"'."\n";
-        $message.='Content-Transfer-Encoding: 8bit'."\n\n";
+        $headers.='Content-Type: multipart/alternative;'."\r\n";
+	$headers.="\t".'boundary="'.$frontiere.'"'."\r\n\r\n";
+        $message ='This is a multi-part message in MIME format.'."\r\n\r\n";
+        $message.='--'.$frontiere."--\r\n";
+        $message.='Content-Type: text/plain; charset="utf-8"'."\r\n";
+        $message.='Content-Transfer-Encoding: 8bit'."\r\n\r\n";
+        $message.='Pour visionner ce weekmail rendez vous à l\'adresse suivante :'."\r\n";
+        $message.='http://ae.utbm.fr/weekmail.php?id='.$id."\r\n\r\n";
+        $message.= '--'.$frontiere."--\r\n";
+        $message.= 'Content-Type: text/html; charset="utf-8"'."\r\n";
+        $message.='Content-Transfer-Encoding: 8bit'."\r\n\r\n";
         $message.='<html>';
         $message.='<head>';
         $message.='<title>[weekmail] '.$title.'</title>';
@@ -67,8 +66,8 @@ if($_REQUEST['action']=='send')
         $message.='<body>';
         $message.=doku2xhtml($text,false,true);
         $message.='</body>';
-        $message.='</html>'."\n\n";
-        $message.= '--'.$frontiere."--\n";
+        $message.='</html>'."\r\n\r\n";
+        $message.= '--'.$frontiere."--\r\n";
         //if(mail('etudiants@utbm.fr','[weekmail] '.$title,$message,$headers))
         if(mail('simon.lopez@utbm.fr','[weekmail] '.$title,$message,$headers))
         {
