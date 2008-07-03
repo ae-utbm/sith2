@@ -563,7 +563,7 @@ else
         {
           $site->add_css("css/diff.css");
           $old=array('rev'=>intval($_REQUEST["rev_orig"]),'cts'=>$wiki->rev_contents);
-          $cts->add(new diff ( $old, $new));
+          $cts->add(new diff ( $old, $new),true);
         }
         else
           $cts->add(new error("Révision non trouvée"));
