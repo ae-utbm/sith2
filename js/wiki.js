@@ -67,11 +67,12 @@ function historyRadios(parent)
   var radios = [];
   for (var i = 0; i < inputs.length; i++)
   {
-    if (inputs[i].name == "diff" || inputs[i].name == "oldid")
+    if (inputs[i].name == "rev_orig" || inputs[i].name == "rev_comp")
     {
       radios[radios.length] = inputs[i];
     }
   }
+  alert(inputs.length);
   return radios;
 }
 
