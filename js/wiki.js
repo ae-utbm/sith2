@@ -151,6 +151,7 @@ function histrowinit()
 
 function hookEvent(hookName, hookFunct)
 {
+  alert("hereuh");
   if (window.addEventListener)
     window.addEventListener(hookName, hookFunct, false);
   else if (window.attachEvent)
