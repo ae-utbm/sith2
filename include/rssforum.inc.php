@@ -51,7 +51,7 @@ class rssfeedforum extends rssfeed
   function output_items()
   {
     $req = new requete ($this->db, "SELECT 
-                                             `utilisateurs`.`alias_utl`
+                                             COALESCE(`surnom_utbm`,CONCAT(`prenom_utl`,' ',`nom_utl`)) AS `nom_utilisateur`
                                              , `frm_message`.`id_message`
                                              , `frm_message`.`id_sujet`
                                              , `frm_message`.`contenu_message`
@@ -59,29 +59,18 @@ class rssfeedforum extends rssfeed
                                              , `frm_message`.`syntaxengine_message`
                                              , `frm_sujet`.`titre_sujet`
                                              , `frm_forum`.`titre_forum`
-                                    FROM
-                                             `frm_message`
-                                    INNER JOIN
-                                             `utilisateurs`
-                                    ON
-                                             `utilisateurs`.`id_utilisateur` = `frm_message`.`id_utilisateur`
-                                    INNER JOIN
-                                             `frm_sujet`
-                                    ON
-                                             `frm_sujet`.`id_sujet` = `frm_message`.`id_sujet`
-                                    INNER JOIN
-                                             `frm_forum`
-                                    ON
-                                             `frm_sujet`.`id_forum` = `frm_forum`.`id_forum`
-                                    ORDER BY
-                                             `frm_message`.`id_message`
-                                    DESC
+                                    FROM `frm_message`
+                                    INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur` = `frm_message`.`id_utilisateur`
+                                    LEFT JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur`
+                                    INNER JOIN `frm_sujet` ON `frm_sujet`.`id_sujet` = `frm_message`.`id_sujet`
+                                    INNER JOIN `frm_forum` ON `frm_sujet`.`id_forum` = `frm_forum`.`id_forum`
+                                    ORDER BY `frm_message`.`id_message` DESC
                                     LIMIT ".$this->nb);
 
     while ($row = $req->get_row())
       {
 	echo "<item>\n";
-	echo "\t<title><![CDATA[". $row["titre_sujet"] . ", par ".($row['alias_utl'] == "" ? "???" : $row['alias_utl'])."]]></title>\n";
+	echo "\t<title><![CDATA[". $row["titre_sujet"] . ", par ".$row['nom_utilisateur']."]]></title>\n";
 	echo "\t<link>".$this->pubUrl."?id_message=".$row["id_message"]."#msg".$row['id_message']."</link>\n";
 	
 	if ($row['syntaxengine_message'] == 'doku')
