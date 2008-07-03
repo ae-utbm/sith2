@@ -37,20 +37,19 @@ $site->start_page("none","Administration");
 
 if($_REQUEST['action'] == "info" && !empty($_REQUEST['id_log']))
 {
-  $req = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) AS nom_utilisateur,
-                                   id_utilisateur, id_log, time_log, action_log, context_log, description_log
+  $req = new requete($site->db, "SELECT id_utilisateur, id_log, time_log, action_log, context_log, description_log
                                  FROM logs
-                                 INNER JOIN utilisateurs USING(id_utilisateur)
                                  WHERE id_log='".$_REQUEST['id_log']."'");
 
   $cts = new contents("<a href=\"./\">Administration</a> / <a href=\"./logs.php\">Logs</a> / Détail d'un évènement");
 
   $row = $req->get_row();
-  
+  $user = new utilisateur($site->db);
+  $user->load_by_id($row['id_utilisateur']);
   $list = new itemlist();
   $list->add("<strong>Date :</strong> ".$row['time_log']);
   $list->add("<strong>Contexte :</strong> ".$row['context_log']);
-  $list->add("<strong>Utilisateur :</strong> <a href=\"".$topdir."user.php?id_utilisateur=".$row['id_utilisateur']."\">".$row['nom_utilisateur']."</a>");
+  $list->add("<strong>Utilisateur :</strong> ".$user->get_html_link());
   $list->add("<strong>Description :</strong> ".$row['description_log']);
   $cts->add($list);
 }
