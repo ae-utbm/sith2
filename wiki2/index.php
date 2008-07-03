@@ -539,8 +539,8 @@ else
     while ( $row = $req->get_row() )
     {
       $user_hist->load_by_id($row['id_utilisateur_rev']);
-      $frm->add_radiobox_field("rev_orig", null, array($row['id_rev']=>""), 0, -1);
-      $frm->add_radiobox_field("rev_comp", null, array($row['id_rev']=>""), 0, -1);
+      $frm->add_radiobox_field("rev_orig", null, array($row['id_rev']=>""), 0, -1, 0, array(), 1, 1);
+      $frm->add_radiobox_field("rev_comp", null, array($row['id_rev']=>""), 0, -1, 0, array(), 1, 1);
       $frm->puts(
         "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
         "<a class=\"wpage\" href=\"?name=$pagepath&amp;rev=".$row['id_rev']."\">$pagename</a> ".

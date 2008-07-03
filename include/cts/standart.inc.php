@@ -926,7 +926,7 @@ class form extends stdcontents
    * @param $required  Précise si le champ est obligatoire
    * @param $imgs  Tableau associatif des items et des images
    */    
-  function add_radiobox_field ( $name, $title=false, $values, $value=false , $disabled=false, $required = false, $imgs=array(), $inline=true  )
+  function add_radiobox_field ( $name, $title=false, $values, $value=false , $disabled=false, $required = false, $imgs=array(), $inline=true, $nodiv=false  )
   {
     global $topdir;
     if(empty($values))
@@ -934,10 +934,12 @@ class form extends stdcontents
     if(!is_array($values))
       return;
 
-    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];  
-    $this->buffer .= "<div class=\"formrow\">\n";
+    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name]; 
+    if ( !$nodiv )
+      $this->buffer .= "<div class=\"formrow\">\n";
     $this->_render_name($name,$title,$required);
-    $this->buffer .= "<div class=\"formfield\">";
+    if ( !$nodiv )
+      $this->buffer .= "<div class=\"formfield\">";
     
     $i=1;
     foreach ( $values as $key => $item )
@@ -971,9 +973,11 @@ class form extends stdcontents
       
       $i++;
     }
-    
-    $this->buffer .= "</div>\n";
-    $this->buffer .= "</div>\n";
+    if ( !$nodiv )
+    {
+      $this->buffer .= "</div>\n";
+      $this->buffer .= "</div>\n";
+    }
   }
 
   /** Ajoute une liste à choix au formulaire
