@@ -50,7 +50,7 @@ class Text_Diff {
         }
 
         global $topdir;
-        require_once $topdir.'include/test_diff/Diff/Engine/' . $engine . '.php';
+        require_once $topdir.'include/lib/test_diff/Diff/Engine/' . $engine . '.php';
         $class = 'Text_Diff_Engine_' . $engine;
         $diff_engine = new $class();
 

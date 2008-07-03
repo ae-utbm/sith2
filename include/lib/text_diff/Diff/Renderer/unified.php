@@ -16,7 +16,7 @@
  */
 
 /** Text_Diff_Renderer */
-require_once $topdir.'include/test_diff/Diff/Renderer.php';
+require_once $topdir.'include/lib/test_diff/Diff/Renderer.php';
 
 /**
  * @package Text_Diff
