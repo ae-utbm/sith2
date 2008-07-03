@@ -562,7 +562,7 @@ else
         if($wiki->load_by_fullpath_and_rev($_REQUEST["name"],intval($_REQUEST["rev_comp"])))
         {
           $site->add_css("css/diff.css");
-          $old=array('rev'=>intval($_REQUEST["rev_orig"]),'cts'=>$wiki->rev_contents);
+          $old=array('rev'=>intval($_REQUEST["rev_comp"]),'cts'=>$wiki->rev_contents);
           $cts->add(new diff ( $old, $new),true);
         }
         else
