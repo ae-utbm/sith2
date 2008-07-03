@@ -72,7 +72,6 @@ function historyRadios(parent)
       radios[radios.length] = inputs[i];
     }
   }
-  alert(inputs.length);
   return radios;
 }
 
