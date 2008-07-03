@@ -523,7 +523,7 @@ class asso extends stdentity
       $tabs[] = array("res","asso/reservations.php?id_asso=".$this->id,"Reservations");
       $tabs[] = array("mebs","asso/membres.php?id_asso=".$this->id,"Membres");
       $tabs[] = array("slds","asso/ventes.php?id_asso=".$this->id,"Ventes");
-      $tabs[] = array("cpg","asso/campagne.php?id_asso=".$this->id,"Recrutement");
+      $tabs[] = array("cpg","asso/campagne.php?id_asso=".$this->id,"Campagne");
     }
     else
     {
