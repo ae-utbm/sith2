@@ -132,6 +132,7 @@ function diffcheck()
 
 function histrowinit()
 {
+  alert("je suis la");
   var hf = document.getElementById('diff');
   if (!hf)
     return;
