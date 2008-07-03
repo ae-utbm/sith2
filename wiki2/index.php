@@ -363,11 +363,13 @@ if ( $_REQUEST["view"] == "histfull" )
   $site->add_box("wiki",$side);
 
   $req = new requete($site->db,"SELECT wiki.id_wiki, date_rev, comment_rev,
-    COALESCE(alias_utl,CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) AS `nom_utilisateur`,
+    utilisateurs.id_utilisateur,
+    COALESCE(surnom_utbm,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
     fullpath_wiki 
     FROM wiki
     INNER JOIN wiki_rev ON (wiki.id_rev_last=wiki_rev.id_rev AND wiki.id_wiki=wiki_rev.id_wiki)
     INNER JOIN utilisateurs ON wiki_rev.id_utilisateur_rev=utilisateurs.id_utilisateur
+    LEFT JOIN utl_etu_utbm ON (utilisateurs.id_utilisateur=utl_etu_utbm.id_utilisateur)
     ORDER by date_rev 
     DESC limit 40");
 
@@ -381,7 +383,7 @@ if ( $_REQUEST["view"] == "histfull" )
       $list->add(
         "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
         "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".$row['fullpath_wiki']."</a> ".
-        "- <span class=\"wuser\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</span> ".
+        "- <span class=\"wuser\"><a href=\"".$topdir."user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a></span> ".
         "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span>");
   }
   $cts->add($list);
@@ -529,9 +531,10 @@ else
   {
     $req = new requete($site->db,"SELECT ".
     "id_rev, date_rev, comment_rev, ".
-    "COALESCE(alias_utl,CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) AS `nom_utilisateur` ".
+    "COALESCE(surnom_utbm,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur ".
     "FROM wiki_rev ".
     "INNER JOIN utilisateurs ON ( wiki_rev.id_utilisateur_rev=utilisateurs.id_utilisateur) ".
+    "LEFT JOIN utl_etu_utbm ON (utilisateurs.id_utilisateur=utl_etu_utbm.id_utilisateur) ".
     "WHERE id_wiki='".$wiki->id."' ".
     "ORDER BY date_rev DESC");
     
@@ -541,7 +544,7 @@ else
       $list->add(
         "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
         "<a class=\"wpage\" href=\"?name=$pagepath&amp;rev=".$row['id_rev']."\">$pagename</a> ".
-        "- <span class=\"wuser\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</span> ".
+        "- <span class=\"wuser\"><a href=\"".$topdir."user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a></span> ".
         "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span>");
       //TODO: ajouter un lien diff, et implémenter le diff
     }
