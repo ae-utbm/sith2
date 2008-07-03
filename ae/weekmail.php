@@ -26,7 +26,7 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 $site = new site ();
 if (!$site->user->is_in_group ("moderateur_site"))
-	$site->error_forbidden();
+        $site->error_forbidden();
 
 $site->start_page ("none", "Weekmail");
 
@@ -43,39 +43,45 @@ if($_REQUEST['action']=='send')
       {
         $headers ='From: "AE"<ae@utbm.fr>'."\n"; 
         $headers.='Reply-To: ae@utbm.fr'."\n";
-	$headers.='Return-Path: <ae@utbm.fr>'."\n";
-	//$headers.='Bcc:ae.com@utbm.fr,ae@utbm.fr'."\n";
+        $headers.='Return-Path: <ae@utbm.fr>'."\n";
+        //$headers.='Bcc:ae.com@utbm.fr,ae@utbm.fr'."\n";
         $headers.='Content-Transfer-Encoding: 8bit';
-	$headers.='MIME-Version: 1.0'."\n";
-	$frontiere = '-----=' . md5(uniqid(mt_rand()));
-	$headers.='Content-Type: multipart/alternative; boundary="'.$frontiere.'"';
-	$message ='This is a multi-part message in MIME format.'."\n\n";
+        $headers.='MIME-Version: 1.0'."\n";
+        $frontiere = '-----=' . md5(uniqid(mt_rand()));
+        $headers.='Content-Type: multipart/alternative; boundary="'.$frontiere.'"';
+        $message ='This is a multi-part message in MIME format.'."\n\n";
         $message.='--'.$frontiere.'--'."\n";
-	$message.='Content-Type: text/plain; charset="utf8"'."\n";
-	$message.='Content-Transfer-Encoding: 8bit'."\n\n";
-	$message.='Pour visionner ce weekmail rendez vous à l\'adresse suivante :'."\n";
-	$message.='http://ae.utbm.fr/weekmail.php?id='.$id."\n\n";
-	$message.= '--'.$frontiere.'--'."\n";
-	$message.= 'Content-Type: text/html; charset="utf8"'."\n";
-	$message.='Content-Transfer-Encoding: 8bit'."\n\n";
-	$message.='<html>';
-	$message.='<head>';
-	$message.='<title>[weekmail] '.$title.'</title>';
-	$message.='<link rel="stylesheet" type="text/css" href="http://ae.utbm.fr/css/weekmail.css" />';
-	$message.='</head>';
-	$message.='<body>';
-	$message.=doku2xhtml($text,false,true);
-	$message.='</body>';
-	$message.='</html>'."\n\n";
-	$message.= '--'.$frontiere.'--'."\n";
-	//if(mail('etudiants@utbm.fr','[weekmail] '.$title.'</title>',$message,$headers))
+        $message.='Content-Type: text/plain; charset="utf8"'."\n";
+        $message.='Content-Transfer-Encoding: 8bit'."\n\n";
+        $message.='Pour visionner ce weekmail rendez vous à l\'adresse suivante :'."\n";
+        $message.='http://ae.utbm.fr/weekmail.php?id='.$id."\n\n";
+        $message.= '--'.$frontiere.'--'."\n";
+        $message.= 'Content-Type: text/html; charset="utf8"'."\n";
+        $message.='Content-Transfer-Encoding: 8bit'."\n\n";
+        $message.='<html>';
+        $message.='<head>';
+        $message.='<title>[weekmail] '.$title.'</title>';
+        $message.='<link rel="stylesheet" type="text/css" href="http://ae.utbm.fr/css/weekmail.css" />';
+        $message.='</head>';
+        $message.='<body>';
+        $message.=doku2xhtml($text,false,true);
+        $message.='</body>';
+        $message.='</html>'."\n\n";
+        $message.= '--'.$frontiere.'--'."\n";
+        //if(mail('etudiants@utbm.fr','[weekmail] '.$title.'</title>',$message,$headers))
         if(mail('ae.info@utbm.fr','[weekmail] '.$title.'</title>',$message,$headers))
-	{
-	  $sql='UPDATE weekmail SET statut=1, date="'.date("Y-m-d H:i:s").'" WHERE id='.intval($_REQUEST['id']);
-	  $req = new requete($site->db,$sql);
-	}
+        {
+          $sql='UPDATE weekmail SET statut=1, date="'.date("Y-m-d H:i:s").'" WHERE id='.intval($_REQUEST['id']);
+          $req = new requete($site->db,$sql);
+        }
+        else
+          $site->add_contents(new error('Echec de l\envoi','Le weekmail n\'a pas pu être envoyé ...'));
       }
+      else
+        $site->add_contents(new error('Echec de l\envoi','Ce weekmail a déjà été envoyé'));
     }
+    else
+      $site->add_contents(new error('Weekmail inconnu !','Weekmail inconnu au bataillon ...'));
   }
 }
 
