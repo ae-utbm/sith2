@@ -1,11 +1,11 @@
 /* diff */
 del
 {
-  background-color:#ffb;
+  background-color:#CC0000;
 }
 ins
 {
-  background-color:#dfd;
+  background-color:#009900;
 }
 
 table.diff
