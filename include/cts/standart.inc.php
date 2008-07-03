@@ -916,7 +916,7 @@ class form extends stdcontents
     
   }
 
-  function add_diff($name,$row)
+  function add_diff($name,$rows)
   {
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->buffer .= "<ul id=\"$name\">\n";
