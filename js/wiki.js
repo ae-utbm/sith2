@@ -54,7 +54,7 @@ function wiki_lock_maintain ( topdir, locktime, pagename )
   wiki_edit_going_to_expire=false;
   setTimeout("wiki_timer()", wiki_edit_locktime*1000/2);
   
-i  var obj = document.getElementById("textarea_revisewiki_contents");
+  var obj = document.getElementById("textarea_revisewiki_contents");
   obj.onchange=wiki_modified;
   obj.onkeyup=wiki_modified;
   obj.onmouseup=wiki_modified;

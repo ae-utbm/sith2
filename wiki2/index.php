@@ -536,18 +536,17 @@ else
     
     $user_hist = new utilisateur($site->db);
 
-    $frm = new form("diff","?name=".$pagepath."&view=diff",true,"POST","Historique des révisions");
+    $frm = new form("difffrm","?name=".$pagepath."&view=diff",true,"POST","Historique des révisions");
     $frm->add_submit("submit","Voir les différences");
     while ( $row = $req->get_row() )
     {
       $user_hist->load_by_id($row['id_utilisateur_rev']);
-      $frm->add_radiobox_field("rev_orig", null, array($row['id_rev']=>""), 0, -1, 0, array(), 1, 1);
-      $frm->add_radiobox_field("rev_comp", null, array($row['id_rev']=>""), 0, -1, 0, array(), 1, 1);
-      $frm->puts(
-        "<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
-        "<a class=\"wpage\" href=\"?name=$pagepath&amp;rev=".$row['id_rev']."\">$pagename</a> ".
-        "- <span class=\"wuser\">".$user_hist->get_html_link()."</a></span> ".
-        "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span><br />");
+      $diff[]=array('desc'=>"<span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
+                            "<a class=\"wpage\" href=\"?name=$pagepath&amp;rev=".$row['id_rev']."\">$pagename</a> ".
+                            "- <span class=\"wuser\">".$user_hist->get_html_link()."</a></span> ".
+                            "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span><br />",
+                    'value'=>$row['id_rev']);
+      $frm->add_diff('diff',$diff);
       //TODO: ajouter un lien diff, et implémenter le diff
     }
     $cts->add($frm);

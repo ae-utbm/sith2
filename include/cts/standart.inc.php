@@ -916,6 +916,28 @@ class form extends stdcontents
     
   }
 
+  function add_diff($name,$row)
+  {
+    $this->buffer .= "<div class=\"formrow\">\n";
+    $this->buffer .= "<ul id=\"$name\">\n";
+    $i==0;
+    foreach ( $rows as $row )
+    {
+      $this->buffer .="<li>";
+      $this->buffer .="<input type=\"radio\" name=\"rev_orig\" class=\"radiobox\" value=\"".$row['value']."\" id=\"__rev_orig_".$row['value']."\"";
+      if($i==0)
+        $this->buffer .=" checked=\"checked\"";
+      $this->buffer .=" />&nbsp;";
+      $this->buffer .="<input type=\"radio\" name=\"rev_comp\" class=\"radiobox\" value=\"".$row['value']."\" id=\"__rev_comp_".$row['value']."\"";
+      if($i==1)
+        $this->buffer .=" checked=\"checked\"";
+      $this->buffer .=" />&nbsp;";
+      $this->buffer .="</li>";
+    }
+    $this->buffer .= "</ul>\n";
+    $this->buffer .= "</div>\n";
+  }
+
   /** Ajoute un champ à cocher au formulaire
 
    * @param $name    Nom du champ
@@ -925,7 +947,7 @@ class form extends stdcontents
    * @param $disabled  Nom de la radio box desactivee non active
    * @param $required  Précise si le champ est obligatoire
    * @param $imgs  Tableau associatif des items et des images
-   */    
+   */ 
   function add_radiobox_field ( $name, $title=false, $values, $value=false , $disabled=false, $required = false, $imgs=array(), $inline=true, $nodiv=false  )
   {
     global $topdir;
