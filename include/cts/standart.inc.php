@@ -921,7 +921,7 @@ class form extends stdcontents
     if(!is_array($rows)||empty($rows))
       return;
     $this->buffer .= "<div class=\"formrow\">\n";
-    $this->buffer .= "<ul id=\"$name\">\n";
+    $this->buffer .= "<ul class=\"diff\" id=\"$name\">\n";
     $i=0;
     foreach ( $rows as $row )
     {
@@ -935,7 +935,7 @@ class form extends stdcontents
         $this->buffer .=" checked=\"checked\"";
       $this->buffer .=" />&nbsp;";
       $this->buffer .=$row['desc'];
-      $this->buffer .="</li>";
+      $this->buffer .="</li>\n";
       $i++;
     }
     $this->buffer .= "</ul>\n";
