@@ -49,7 +49,8 @@ class Text_Diff {
             $engine = basename($engine);
         }
 
-        require_once 'Text/Diff/Engine/' . $engine . '.php';
+        global $topdir;
+        require_once $topdir.'include/test_diff/Diff/Engine/' . $engine . '.php';
         $class = 'Text_Diff_Engine_' . $engine;
         $diff_engine = new $class();
 
