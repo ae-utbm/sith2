@@ -52,14 +52,19 @@ if(isset($_REQUEST['id']))
   }
 }
 
-$sql = 'SELECT id,CONCAT(\'[Weekmail] \',title) as title FROM weekmail WHERE statut=1 ORDER BY date,id DESC';
+$sql = 'SELECT id'.
+       ',CONCAT(\'[Weekmail] \',title) as title'.
+       ',CONCAT(DAY(date),\'/\',MONTH(date),\'/\',YEAR(date)) as date '.
+       'FROM weekmail '.
+       'WHERE statut=1 '.
+       'ORDER BY date,id DESC';
 $req = new requete($site->db,$sql);
 $cts = new sqltable('weekmails',
                     'Liste des weekmails',
                     $req,
                     'weekmail.php',
                     'id',
-                    array('id'=>'N°','title'=>'Titre'),
+                    array('id'=>'N°','title'=>'Titre','date'=>'Date'),
                     array('view'=>'Consulter'),
                     array());
 $site->add_contents($cts);
