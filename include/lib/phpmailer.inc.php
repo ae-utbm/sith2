@@ -400,7 +400,6 @@ class PHPMailer {
     if($body == '') {
       return false;
     }
-echo $body;
     /* Choose the mailer */
     switch($this->Mailer) {
       case 'sendmail':
