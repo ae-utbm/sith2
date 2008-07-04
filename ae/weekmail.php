@@ -53,6 +53,7 @@ if($_REQUEST['action']=='send')
         $body.=doku2xhtml($text,false,true);
         $body.='</body>'."\n";
         $body.='</html>'."\n";
+        echo $body;
         $mail->From='ae@utbm.fr';
         $mail->FromName='AE';
         $mail->Subject='[weekmail] '.$title;
@@ -65,7 +66,7 @@ if($_REQUEST['action']=='send')
         if($mail->Send())
         {
           $sql='UPDATE weekmail SET statut=1, date="'.date("Y-m-d H:i:s").'" WHERE id='.intval($_REQUEST['id']);
-          $req = new requete($site->dbrw,$sql);
+          //$req = new requete($site->dbrw,$sql);
         }
         else
           $site->add_contents(new error('Echec de l\'envoi','Le weekmail n\'a pas pu être envoyé ...'));
