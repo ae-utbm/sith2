@@ -50,10 +50,9 @@ if($_REQUEST['action']=='send')
         $body.='href="http://ae.utbm.fr/css/weekmail.css" />'."\n";
         $body.='</head>'."\n";
         $body.='<body>'."\n";
-        $body.=doku2xhtml($text,false,true);
+        $body.=doku2xhtml($content,false,true);
         $body.='</body>'."\n";
         $body.='</html>'."\n";
-        echo $body;
         $mail->From='ae@utbm.fr';
         $mail->FromName='AE';
         $mail->Subject='[weekmail] '.$title;
