@@ -400,7 +400,7 @@ class PHPMailer {
     if($body == '') {
       return false;
     }
-
+echo $body;
     /* Choose the mailer */
     switch($this->Mailer) {
       case 'sendmail':
@@ -1687,7 +1687,7 @@ class PHPMailer {
    * @return $message
    */
   public function MsgHTML($message,$basedir='') {
-    /*preg_match_all("/(src|background)=\"(.*)\"/Ui", $message, $images);
+    preg_match_all("/(src|background)=\"(.*)\"/Ui", $message, $images);
     if(isset($images[2])) {
       foreach($images[2] as $i => $url) {
         // do not change urls for absolute images (thanks to corvuscorax)
@@ -1707,10 +1707,10 @@ class PHPMailer {
           }
         }
       }
-    }*/
+    }
     $this->IsHTML(true);
     $this->Body = $message;
-    //$textMsg = trim(strip_tags(preg_replace('/<(head|title|style|script)[^>]*>.*?<\/\\1>/s','',$message)));
+    $textMsg = trim(strip_tags(preg_replace('/<(head|title|style|script)[^>]*>.*?<\/\\1>/s','',$message)));
     if ( !empty($textMsg) && empty($this->AltBody) ) {
       $this->AltBody = $textMsg;
     }
