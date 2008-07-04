@@ -56,7 +56,7 @@ else
                       'id',
                       array('id'=>'N°','title'=>'Titre'),
                       array(),
-                      '');
+                      array());
 }
 
 $site->add_contents($cts);
