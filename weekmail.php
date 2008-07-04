@@ -47,7 +47,10 @@ if(isset($_REQUEST['id']))
 }
 else
 {
-  $cts = new contents('Bleh');
+  $sql = 'SELECT * FROM weekmail WHERE statut=1 ORDER BY date,id';
+  $req = new requete($site->db,$sql);
+  $cts = sqltable2('weekmails','Liste des weekmails','weekmail.php');
+  $cts->set_data('id',$req);
 }
 
 $site->add_contents($cts);
