@@ -54,7 +54,7 @@ if(isset($_REQUEST['id']))
 
 $sql = 'SELECT id'.
        ',CONCAT(\'[Weekmail] \',title) as title'.
-       ',CONCAT(DAY(date),\'/\',MONTH(date),\'/\',YEAR(date)) as date '.
+       ',CONCAT(RIGHT(CONCAT(\'00\',DAY(date)),2),\'/\',RIGHT(CONCAT(\'00\',MONTH(date)),2),\'/\',YEAR(date)) as date '.
        'FROM weekmail '.
        'WHERE statut=1 '.
        'ORDER BY date,id DESC';
