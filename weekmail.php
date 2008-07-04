@@ -39,13 +39,9 @@ if(isset($_REQUEST['id']))
   {
     list($id,$date,$title,$content,$statut)=$req->get_row();
     $cts = new contents('[Weekmail] '.$title);
-    if($statut==1)
-      $statut='Envoyé';
-    else
-      $statut='En attente';
     list($annee, $mois, $jour) = explode("-", $date);
     $date=$jour."/".$mois."/".$annee;
-    $cts->add_paragraph('Le '. $date .' ('.$statut.')');
+    $cts->add_paragraph('Envoyé le '. $date);
     $cts->puts(doku2xhtml($content));
   }
 }
