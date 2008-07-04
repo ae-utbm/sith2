@@ -51,6 +51,7 @@ else
   $req = new requete($site->db,$sql);
   $cts = new sqltable('weekmails',
                       'Liste des weekmails',
+                      $req,
                       'weekmail.php',
                       'id',
                       array('id'=>'N°','title'=>'Titre'),
