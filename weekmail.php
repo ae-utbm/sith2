@@ -23,7 +23,7 @@
 $topdir = "./";
 
 require_once($topdir. "include/site.inc.php");
-require_once($topdir. "include/cts/sqltable2.inc.php");
+require_once($topdir. "include/cts/sqltable.inc.php");
 $site = new site ();
 
 $site->start_page ("none", "Weekmail");
@@ -47,10 +47,15 @@ if(isset($_REQUEST['id']))
 }
 else
 {
-  $sql = 'SELECT * FROM weekmail WHERE statut=1 ORDER BY date,id';
+  $sql = 'SELECT id,title FROM weekmail WHERE statut=1 ORDER BY date,id';
   $req = new requete($site->db,$sql);
-  $cts = new sqltable2('weekmails','Liste des weekmails','weekmail.php');
-  $cts->set_data('id',$req);
+  $cts = new sqltable('weekmails',
+                      'Liste des weekmails',
+                      'weekmail.php',
+                      'id',
+                      array('id'=>'N°','title'=>'Titre'),
+                      array(),
+                      '');
 }
 
 $site->add_contents($cts);
