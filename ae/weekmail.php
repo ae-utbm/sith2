@@ -43,16 +43,16 @@ if($_REQUEST['action']=='send')
       {
         require_once($topdir. "include/lib/phpmailer.inc.php");
         $mail=new PHPMailer();
-        $body='<html>';
-        $body.='<head>';
-        $body.='<title>[weekmail] '.$title.'</title>';
+        $body='<html>'."\n";
+        $body.='<head>'."\n";
+        $body.='<title>[weekmail] '.$title.'</title>'."\n";
         $body.='<link rel="stylesheet" type="text/css" '.
-        $body.='href="http://ae.utbm.fr/css/weekmail.css" />';
-        $body.='</head>';
-        $body.='<body>';
+        $body.='href="http://ae.utbm.fr/css/weekmail.css" />'."\n";
+        $body.='</head>'."\n";
+        $body.='<body>'."\n";
         $body.=doku2xhtml($text,false,true);
-        $body.='</body>';
-        $body.='</html>';
+        $body.='</body>'."\n";
+        $body.='</html>'."\n";
         $mail->From='ae@utbm.fr';
         $mail->FromName='AE';
         $mail->Subject='[weekmail] '.$title;
