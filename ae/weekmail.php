@@ -46,7 +46,7 @@ if($_REQUEST['action']=='send')
         $body='<html>'."\n";
         $body.='<head>'."\n";
         $body.='<title>[weekmail] '.$title.'</title>'."\n";
-        $body.='<link rel="stylesheet" type="text/css" '.
+        $body.='<link rel="stylesheet" type="text/css" ';
         $body.='href="http://ae.utbm.fr/css/weekmail.css" />'."\n";
         $body.='</head>'."\n";
         $body.='<body>'."\n";
