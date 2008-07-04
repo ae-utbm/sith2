@@ -60,12 +60,12 @@ if($_REQUEST['action']=='send')
                        "suivante :\nhttp://ae.utbm.fr/weekmail.php?id=".$id.
                        "\n\nCordialement,\nL'AE";
         $mail->MsgHTML($body);
-        $mail->AddAddress("simon.lopez@ayolo.org");
+        $mail->AddAddress("ae.info@utbm.fr");
 
         if($mail->Send())
         {
           $sql='UPDATE weekmail SET statut=1, date="'.date("Y-m-d H:i:s").'" WHERE id='.intval($_REQUEST['id']);
-          //$req = new requete($site->dbrw,$sql);
+          $req = new requete($site->dbrw,$sql);
         }
         else
           $site->add_contents(new error('Echec de l\'envoi','Le weekmail n\'a pas pu être envoyé ...'));
