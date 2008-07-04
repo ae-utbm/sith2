@@ -41,7 +41,7 @@ if(isset($_REQUEST['id']))
   else
   {
     list($id,$date,$title,$content,$statut)=$req->get_row();
-    $cts = new contents('[Weekmail] '.$title);
+    $cts = new contents('<a href="weekmail.php">Weekmails</a> / [Weekmail] '.$title);
     list($annee, $mois, $jour) = explode("-", $date);
     $date=$jour."/".$mois."/".$annee;
     $cts->add_paragraph('Envoyé le '. $date);
@@ -52,7 +52,7 @@ if(isset($_REQUEST['id']))
   }
 }
 
-$sql = 'SELECT id,CONCAT(\'[weekmail] \',title) as title FROM weekmail WHERE statut=1 ORDER BY date,id DESC';
+$sql = 'SELECT id,CONCAT(\'[Weekmail] \',title) as title FROM weekmail WHERE statut=1 ORDER BY date,id DESC';
 $req = new requete($site->db,$sql);
 $cts = new sqltable('weekmails',
                     'Liste des weekmails',
