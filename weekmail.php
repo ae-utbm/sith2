@@ -55,7 +55,7 @@ else
                       'weekmail.php',
                       'id',
                       array('id'=>'N°','title'=>'Titre'),
-                      array(),
+                      array('view'=>'Consulter'),
                       array());
 }
 
