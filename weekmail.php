@@ -34,7 +34,10 @@ if(isset($_REQUEST['id']))
   $sql='SELECT * FROM weekmail WHERE id='.intval($_REQUEST['id'].' AND statut=1');
   $req = new requete($site->db,$sql);
   if($req->lines==0)
+  {
     $cts=new error('Weekmail not found!','Weekmail inconnu au bataillon moussaillon');
+    $site->add_contents($cts);
+  }
   else
   {
     list($id,$date,$title,$content,$statut)=$req->get_row();
@@ -43,22 +46,22 @@ if(isset($_REQUEST['id']))
     $date=$jour."/".$mois."/".$annee;
     $cts->add_paragraph('Envoyé le '. $date);
     $cts->puts(doku2xhtml($content));
+    $site->add_contents($cts);
+    $site->end_page();
+    exit();
   }
 }
-else
-{
-  $sql = 'SELECT id,title FROM weekmail WHERE statut=1 ORDER BY date,id';
-  $req = new requete($site->db,$sql);
-  $cts = new sqltable('weekmails',
-                      'Liste des weekmails',
-                      $req,
-                      'weekmail.php',
-                      'id',
-                      array('id'=>'N°','title'=>'Titre'),
-                      array('view'=>'Consulter'),
-                      array());
-}
 
+$sql = 'SELECT id,CONCAT(\'[weekmail] \',title) as title FROM weekmail WHERE statut=1 ORDER BY date,id DESC';
+$req = new requete($site->db,$sql);
+$cts = new sqltable('weekmails',
+                    'Liste des weekmails',
+                    $req,
+                    'weekmail.php',
+                    'id',
+                    array('id'=>'N°','title'=>'Titre'),
+                    array('view'=>'Consulter'),
+                    array());
 $site->add_contents($cts);
 $site->end_page ();
 
