@@ -525,7 +525,9 @@ class userinfov2 extends stdcontents
         $this->buffer .= $GLOBALS["utbm_roles"][$user->role];   
              
         if ( $user->departement != "na" )
-          $this->buffer .= " ".$GLOBALS["utbm_departements"][$user->departement];        
+          $this->buffer .= " ".$GLOBALS["utbm_departements"][$user->departement];
+        else
+          $this->buffer .= " ".$user->nom_ecole_etudiant;
       }
       
       $this->buffer .= "</p>\n";
