@@ -80,7 +80,7 @@ elseif ( $site->user->is_asso_role(14,1) )
 					FROM pre_parrainage 
 					LEFT JOIN utilisateurs 
 					ON pre_parrainage.id_utilisateur = utilisateurs.id_utilisateur 
-					WHERE `semestre` = '".$sem);
+					WHERE `semestre` = '".$sem."'");
 					
   $tbl = new sqltable("bijoux", 
 				"Liste des bijoux inscrits à la campagne de pré-parrainage",
