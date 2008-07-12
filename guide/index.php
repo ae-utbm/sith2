@@ -54,7 +54,6 @@ else
   exit();
 }
 
-
 // seul les gens ayant un compte peuvent venir ici
 if ( !$site->user->is_valid() )
 {
@@ -65,6 +64,47 @@ if ( !$site->user->is_valid() )
   $site->end_page();
   exit();
 }
+
+// seul les gens de l'equipe integ peuvent venir ici, membres actifs et superieur
+elseif ( $site->user->is_asso_role(14,1) )
+{
+  $cts = new contents("Pré-parrainage",
+                      "Liste des bijoux inscrits");
+  
+  $site->set_side_boxes("left",array());
+  $sql = new requete($site->db, "SELECT pre_parrainage.id_utilisateur, 
+						utilisateurs.nom_utl, 
+						utilisateurs.prenom_utl, 
+						utilisateurs.id_utilisateur,
+						utilisateurs.email_utl AS email_utilisateur,
+					CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`
+					FROM pre_parrainage 
+					LEFT JOIN utilisateurs 
+					ON pre_parrainage.id_utilisateur = utilisateurs.id_utilisateur 
+					WHERE `semestre` = '".$sem);
+					
+  $tbl = new sqltable("bijoux", 
+				"Liste des bijoux inscrits à la campagne de pré-parrainage",
+				$sql,
+				"index.php",
+				"utilisateurs.id_utilisateur",
+				array("=num" => "N°",
+					"nom_utilisateur" => "Utilisateur",
+					"tc" => "TC",
+					"branche" => "Branche",
+					"email_utilisateur" => "Mail"
+					),
+				array(),
+				array(),
+				array()
+				);
+
+  $cts->add($tbl,true);
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
+}
+
 // les anciens ne peuvent pas encore accéder à cette partie, il faudra mettre en place
 // la page "choisi" ton fillot
 // $site->user->etudiant || $site->user->ancien_etudiant ne peuvent pas s'appliquer ici et c'est
