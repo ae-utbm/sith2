@@ -69,7 +69,7 @@ if ( !$site->user->is_valid() )
 elseif ( $site->user->is_asso_role(14,1) )
 {
   $cts = new contents("Pré-parrainage",
-                      "Liste des bijoux inscrits");
+                      "");
   
   $site->set_side_boxes("left",array());
   $sql = new requete($site->db, "SELECT utilisateurs.nom_utl, 
