@@ -76,6 +76,8 @@ elseif ( $site->user->is_asso_role(14,1) )
 						utilisateurs.prenom_utl, 
 						utilisateurs.id_utilisateur,
 						utilisateurs.email_utl AS email_utilisateur,
+						pre_parrainage.tc,
+						pre_parrainage.branche,
 					CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`
 					FROM pre_parrainage 
 					LEFT JOIN utilisateurs 
