@@ -39,7 +39,6 @@ $site = new site();
 $site->start_page("services", "Pré-parrainage");
 
 
-
 $d = date("d");
 $m = date("m");
 if ( $m <= 2 )
@@ -73,8 +72,7 @@ elseif ( $site->user->is_asso_role(14,1) )
                       "Liste des bijoux inscrits");
   
   $site->set_side_boxes("left",array());
-  $sql = new requete($site->db, "SELECT pre_parrainage.id_utilisateur, 
-						utilisateurs.nom_utl, 
+  $sql = new requete($site->db, "SELECT utilisateurs.nom_utl, 
 						utilisateurs.prenom_utl, 
 						utilisateurs.id_utilisateur,
 						utilisateurs.email_utl AS email_utilisateur,
