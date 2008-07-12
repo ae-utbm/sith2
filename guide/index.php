@@ -96,7 +96,7 @@ elseif ( $site->user->is_asso_role(14,1) )
 					),
 				array(),
 				array(),
-				array()
+				array("tc" => array(0 => "Non", 1 => "Oui"))
 				);
 
   $cts->add($tbl,true);
