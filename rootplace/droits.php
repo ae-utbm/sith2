@@ -39,7 +39,7 @@ $cts = new contents("<a href=\"./\">Administration</a> / Révocation des droits"
 
 $sql = 'SELECT '.
        '      CONCAT(`u`.`prenom_utl`,\' \',`u`.`nom_utl`) AS nom_utilisateur '.
-       '      ,COUNT(*) AS nb'.
+       '      ,COUNT(*) AS nb '.
        'FROM '.
        '      utl_groupe g '.
        'INNER JOIN utilisateurs u '.
@@ -56,7 +56,6 @@ $sql.= 'GROUP BY '.
        '      `u`.`id_utilisateur`'.
        '      ,`u`.`prenom_utl`'.
        '      ,`u`.`nom_utl`';
-echo $sql;
 $req = new requete($site->db,$sql);
 $cts->add(new sqltable('bad_rights',
                        'BOUH ! montrons les du doigts !',
