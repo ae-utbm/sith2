@@ -57,6 +57,21 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='cleanup')
   //$req = new requete($site->db,$sql);
 }
 
+$frm = new form('bygroupe',
+                '?',
+                false,
+                'POST',
+                'Gestion par groupe');
+$frm->add_entity_select('id_groupe',
+                        'Groupe',
+                        $site->db,
+                        'group');
+$frm->add_select_field('action',
+                       'Action',
+                       array('rien'=>'Voir','_cleanup'=>'Nettoyer')
+                      );
+$frm->add_submit("valid","Go!");
+$cts->add($frm,true);
 
 $sql = 'SELECT '.
        '      `u`.`id_utilisateur` '.
