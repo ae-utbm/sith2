@@ -62,7 +62,10 @@ $frm = new form('bygroupe',
                 false,
                 'POST',
                 'Gestion par groupe');
-$sql='SELECT id_groupe,nom_groupe FROM groupe';
+$sql='SELECT id_groupe '.
+     ',nom_groupe '.
+     'FROM groupe '.
+     'WHERE id_groupe NOT IN ( 7, 20, 25, 35,36, 39, 42, 45 )';
 $req = new requete($site->db,$sql);
 $groupe=array();
 while(list($id,$nom)=$req->get_row())
@@ -91,7 +94,7 @@ $sql = 'SELECT '.
        '      AND c.date_fin_cotis >= NOW() '.
        'WHERE '.
        '      id_cotisation IS NULL '.
-       '      AND id_groupe NOT IN ( 7, 20, 25, 39, 42, 45 ) ';
+       '      AND id_groupe NOT IN ( 7, 20, 25, 35,36, 39, 42, 45 ) ';
 if(isset($_REQUEST['id_groupe']))
   $sql.='      AND id_groupe='.intval($_REQUEST['id_groupe']).' ';
 $sql.= 'GROUP BY '.
