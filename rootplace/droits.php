@@ -80,7 +80,7 @@ $sql.= 'GROUP BY '.
        '      ,`u`.`nom_utl`';
 $req = new requete($site->db,$sql);
 $cts->add(new sqltable('bad_rights',
-                       'BOUH ! montrons les du doigts !',
+                       'BOUH ! montrons les du doigt !',
                        $req,
                        '',
                        'id_utilisateur',
