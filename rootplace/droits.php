@@ -38,7 +38,8 @@ $site->start_page("none","Administration / Gestion des droits");
 $cts = new contents("<a href=\"./\">Administration</a> / Révocation des droits");
 
 $sql = 'SELECT '.
-       '      CONCAT(`u`.`prenom_utl`,\' \',`u`.`nom_utl`) AS nom_utilisateur '.
+       '      `u`.`id_utilisateur` '.
+       '      ,CONCAT(`u`.`prenom_utl`,\' \',`u`.`nom_utl`) AS nom_utilisateur '.
        '      ,COUNT(*) AS nb '.
        'FROM '.
        '      utl_groupe g '.
