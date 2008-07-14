@@ -51,7 +51,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action']=='cleanup')
        '   FROM '.
        '     `ae_cotisations` '.
        '   WHERE '.
-       '     `ae_cotisations`.`id_utilisateur`=`utl_groupe`.`id_utilisateur` '
+       '     `ae_cotisations`.`id_utilisateur`=`utl_groupe`.`id_utilisateur` '.
        '      AND `date_fin_cotis` > NOW() '.
        ' )';
   //$req = new requete($site->db,$sql);
