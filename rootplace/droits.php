@@ -69,7 +69,8 @@ while(list($id,$nom)=$req->get_row())
   $groupe[$id]=$nom;
 $frm->add_select_field('id_groupe',
                        'Groupe',
-                       $groupe);
+                       $groupe,
+                       $_REQUEST['id_groupe']);
 $frm->add_select_field('action',
                        'Action',
                        array('rien'=>'Voir',
