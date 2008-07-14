@@ -89,7 +89,8 @@ $cts->add(new sqltable('bad_rights',
                        array(),
                        array(),
                        array()
-                      )
+                      ),
+          true
          );
 
 $site->add_contents($cts);
