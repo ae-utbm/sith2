@@ -37,6 +37,27 @@ if ( !$site->user->is_in_group("root") )
 $site->start_page("none","Administration / Gestion des droits");
 $cts = new contents("<a href=\"./\">Administration</a> / Révocation des droits");
 
+if(isset($_REQUEST['action']) && $_REQUEST['action']=='cleanup')
+{
+  //à vérifier !!!!
+  $sql='DELETE '.
+       'FROM utl_groupe '.
+       'WHERE ';
+  if(isset($_REQUEST['id_groupe']))
+    $sql.='id_groupe='.intval($_REQUEST['id_groupe']).' AND ';
+  $sql.='NOT EXISTS'.
+       ' ('.
+       '   SELECT * '.
+       '   FROM '.
+       '     `ae_cotisations` '.
+       '   WHERE '.
+       '     `ae_cotisations`.`id_utilisateur`=`utl_groupe`.`id_utilisateur` '
+       '      AND `date_fin_cotis` > NOW() '.
+       ' )';
+  //$req = new requete($site->db,$sql);
+}
+
+
 $sql = 'SELECT '.
        '      `u`.`id_utilisateur` '.
        '      ,CONCAT(`u`.`prenom_utl`,\' \',`u`.`nom_utl`) AS nom_utilisateur '.
