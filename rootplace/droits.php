@@ -62,14 +62,18 @@ $frm = new form('bygroupe',
                 false,
                 'POST',
                 'Gestion par groupe');
-$frm->add_entity_select('id_groupe',
-                        'Groupe',
-                        $site->db,
-                        'group');
+$sql='SELECT id_groupe,nom_groupe FROM groupe';
+$req = new requete($site->db,$sql);
+$groupe=array();
+while(list($id,$nom)=$req->get_row())
+  $groupe[$id]=$nom;
+$frm->add_select_field('id_groupe',
+                       'Groupe',
+                       $groupe);
 $frm->add_select_field('action',
                        'Action',
-                       array('rien'=>'Voir','_cleanup'=>'Nettoyer')
-                      );
+                       array('rien'=>'Voir',
+                             '_cleanup'=>'Nettoyer'));
 $frm->add_submit("valid","Go!");
 $cts->add($frm,true);
 
