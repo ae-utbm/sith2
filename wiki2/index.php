@@ -233,11 +233,11 @@ if ( !$wiki->is_valid() )
     $site->start_page("presentation","Wiki");
   
     $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
-    $cts->add_paragraph("Path, le chemin : ".build_asso_htmlpath($pagepath),"wikipath");
+    $cts->add_paragraph(build_asso_htmlpath($pagepath),"wikipath");
   }
   else
   {
-    $cts->add_paragraph("<em>Path, le chemin : ".build_htmlpath($pagepath)."</em>","wikipath");
+    $cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
   }
   $site->add_box("wiki",$side);
   
@@ -390,7 +390,7 @@ if ( $_REQUEST["view"] == "histfull" )
 }
 else
 {
-  $cts->add_paragraph("<em>Path, le chemin : ".$path."</em>","wikipath");
+  $cts->add_paragraph($path,"wikipath");
   $cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
   
   $site->add_box("wiki",$side);
