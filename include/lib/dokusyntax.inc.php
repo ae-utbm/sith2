@@ -320,8 +320,58 @@ class dokusyntax
     }
   }
   
-  
-  
+  function html_toc($toc)
+  {
+    $ret  = '';
+    $ret .= '<div class="toc">';
+    $ret .= '<div class="tocheader">';
+    $ret .= 'Table des matières';
+    $ret .= '<script type="text/javascript">';
+    $ret .= 'showTocToggle("+","-")';
+    $ret .= '</script>';
+    $ret .= '</div>';
+    $ret .= '<div id="tocinside">';
+    $ret .= html_buildlist($toc,'toc','html_list_toc');
+    $ret .= '</div>';
+    $ret .= '</div>';
+    return $ret;
+  }
+
+  function html_buildlist($data,$class,$func)
+  {
+    $level = 0;
+    $opens = 0;
+    $ret   = '';
+    foreach ($data as $item)
+    {
+      if( $item['level'] > $level )
+        $ret .= "\n<ul class=\"$class\">\n";
+      elseif( $item['level'] < $level )
+      {
+        $ret .= "</li>\n";
+        for ($i=0; $i<($level - $item['level']); $i++)
+          $ret .= "</ul>\n</li>\n";
+      }
+      else
+        $ret .= "</li>\n";
+      $level = $item['level'];
+      $ret .= '<li class="level'.$item['level'].'">';
+      $ret .= '<span class="li">';
+      $ret .= $this->$func($item); //user function
+      $ret .= '</span>';
+    }
+    for ($i=0; $i < $level; $i++)
+      $ret .= "</li></ul>\n";
+    return $ret;
+  }
+
+  function html_list_toc($item)
+  {
+    $ret = '<a href="#'.$item['id'].'" class="toc">';
+    $ret .= $item['name'];
+    $ret .= '</a>';
+    return $ret;
+  }
   
   function linkformat($match)
   {
