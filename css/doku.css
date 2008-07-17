@@ -153,3 +153,62 @@ code {
 .wlog {
   font-style: italic;
 }
+
+div.toc{
+margin:0 0 10px 10px;
+padding:0;
+background-color:inherit;
+color:#000;
+width:175px;
+float:right;
+}
+div.tocheader{
+padding:0.2em;
+margin:0 0 0.2em 0;
+font-size:0.7em;
+background-color:#fff;
+color:#000;
+border:1px solid #000;
+font-weight:bold;
+}
+div.tocheader img{
+float:right;
+padding:0.2em;
+margin:0 0 0.2em 0;
+width:0.8em;
+height:0.8em;
+cursor:pointer;
+}
+#toc_contents{
+padding:0.3em;
+margin:0;
+background-color:#fff;
+color:#000;
+border:1px solid #000;
+}
+ul.toc{
+list-style-type:circle;
+margin:0;
+padding:0 !important;
+}
+ul.toc li{
+margin:0;
+padding:0;
+font-size:0.7em !important;
+line-height:1.2em;
+list-style:none;
+}
+ul.toc li li{
+font-size:100% !important;
+padding:0 0 0 1.0em;
+}
+ul.toc li.clear{
+background-image:none;
+padding-left:0.4em;
+}
+a.toc{
+}
+a.fn_top{
+vertical-align:super;
+font-size:0.8em;
+}

@@ -322,18 +322,17 @@ class dokusyntax
   
   function html_toc($toc)
   {
-    $ret  = '';
-    $ret .= '<div class="toc">';
-    $ret .= '<div class="tocheader">';
-    $ret .= 'Table des matières';
-    $ret .= '<script type="text/javascript">';
-    $ret .= 'showTocToggle("+","-")';
-    $ret .= '</script>';
-    $ret .= '</div>';
-    $ret .= '<div id="tocinside">';
+    $ret  = "\n";
+    $ret .= '<div class="toc">'."\n";
+    $ret .= '<div class="tocheader">'."\n";
+    $ret .= '<a href="#" onclick="on_off_icon(\'toc\',\''.$topdir.'\'); ';
+    $ret .= 'return false;"><img src="./images/fld.png" alt="togle" class="icon" id="toc_icon" />'."\n";
+    $ret .= 'Table des matières'."\n";
+    $ret .= '</div>'."\n";
+    $ret .= '<div id="toc_contents">'."\n";
     $ret .= $this->html_buildlist($toc,'toc','html_list_toc');
-    $ret .= '</div>';
-    $ret .= '</div>';
+    $ret .= '</div>'."\n";
+    $ret .= '</div>'."\n";
     return $ret;
   }
 
