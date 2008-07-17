@@ -233,12 +233,11 @@ if ( !$wiki->is_valid() )
     $site->start_page("presentation","Wiki");
   
     $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
-    $cts->add_paragraph("<em>Path, le chemin : ".build_asso_htmlpath($pagepath)."</em>","wikipath");
+    $cts->add_paragraph("Path, le chemin : ".build_asso_htmlpath($pagepath).,"wikipath");
   }
   else
   {
-    $cts->add_paragraph('Path, le chemin : '.build_htmlpath($pagepath));
-    //$cts->add_paragraph("<em>Path, le chemin : ".build_htmlpath($pagepath)."</em>","wikipath");
+    $cts->add_paragraph("<em>Path, le chemin : ".build_htmlpath($pagepath)."</em>","wikipath");
   }
   $site->add_box("wiki",$side);
   
