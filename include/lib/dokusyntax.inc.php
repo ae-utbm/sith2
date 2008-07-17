@@ -166,7 +166,6 @@ class dokusyntax
     if ( $summury )
       return array($js.$text,$hltable);
  
- print_r($hltable);
     return $js.$text;
   }
   
@@ -317,6 +316,7 @@ class dokusyntax
       }
   
       $table[$hl['token']] = $headline;
+      print_r($headline);
     }
   
     if ($cnt)
