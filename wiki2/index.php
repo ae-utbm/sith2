@@ -46,10 +46,10 @@ $site->add_css("css/wiki.css");
 
 function build_htmlpath ( $fullpath )
 {
-  $buffer = "<div class=\"path_bar\"><a href=\"./\">Wiki</a>";
+  $buffer = "<div class=\"path_bar\">Path le chemin : <a href=\"./\">Wiki</a>";
   
   if ( empty($fullpath) )
-    return $buffer;
+    return $buffer.'</div>';
   
   $path=null;
   $tokens = explode(":",$fullpath);
@@ -74,7 +74,7 @@ function build_asso_htmlpath ( $fullpath )
   $asso = $tokens[1];
   unset($tokens[1]);
 
-  $buffer = "<div class=\"path_bar\"><a href=\"./?name=".$pole.":".$asso."\">Wiki</a>";
+  $buffer = "<div class=\"path_bar\">Path le chemin : <a href=\"./?name=".$pole.":".$asso."\">Wiki</a>";
   $path = $pole.":".$asso;
 
   foreach ( $tokens as $token )
