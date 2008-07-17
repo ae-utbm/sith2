@@ -326,7 +326,7 @@ class dokusyntax
     $ret .= '<div class="toc">'."\n";
     $ret .= '<div class="tocheader">'."\n";
     $ret .= '<a href="#" onclick="on_off_icon(\'toc\',\''.$topdir.'\'); ';
-    $ret .= 'return false;"><img src="./images/fld.png" alt="togle" class="icon" id="toc_icon" />'."\n";
+    $ret .= 'return false;"><img src="'.$topdir.'images/fld.png" alt="togle" class="icon" id="toc_icon" />'."\n";
     $ret .= 'Table des matières'."\n";
     $ret .= '</div>'."\n";
     $ret .= '<div id="toc_contents">'."\n";
