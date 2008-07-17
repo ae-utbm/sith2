@@ -59,7 +59,7 @@ function build_htmlpath ( $fullpath )
       $path = $token;
     else
       $path .= ":".$token;
-    $buffer .= " &gt; <a href=\"./?name=".htmlentities($path,ENT_QUOTES,"UTF-8")."\">".
+    $buffer .= " / <a href=\"./?name=".htmlentities($path,ENT_QUOTES,"UTF-8")."\">".
                htmlentities($token,ENT_NOQUOTES,"UTF-8")."</a>";
   }
   return $buffer;
@@ -237,8 +237,8 @@ if ( !$wiki->is_valid() )
   }
   else
   {
-    $cts = new contents();
-    $cts->add_paragraph("<em>Path, le chemin : ".build_htmlpath($pagepath)."</em>","wikipath");
+    $cts->add_paragraph('Path, le chemin : '.build_htmlpath($pagepath));
+    //$cts->add_paragraph("<em>Path, le chemin : ".build_htmlpath($pagepath)."</em>","wikipath");
   }
   $site->add_box("wiki",$side);
   
