@@ -331,7 +331,7 @@ class dokusyntax
     $ret .= '</script>';
     $ret .= '</div>';
     $ret .= '<div id="tocinside">';
-    $ret .= html_buildlist($toc,'toc','html_list_toc');
+    $ret .= $this->html_buildlist($toc,'toc','html_list_toc');
     $ret .= '</div>';
     $ret .= '</div>';
     return $ret;
