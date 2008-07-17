@@ -316,7 +316,6 @@ class dokusyntax
       }
   
       $table[$hl['token']] = $headline;
-      print_r($headline);
     }
   
     if ($cnt)
@@ -344,6 +343,7 @@ class dokusyntax
       $text  = $token.$text;
       $table[$token] = $this->html_toc($content);
     }
+    print_r($content);
   }
   
   
