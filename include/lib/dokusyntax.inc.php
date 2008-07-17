@@ -168,7 +168,7 @@ class dokusyntax
  
     return $js.$text;
   }
-  
+
   function wikimacro($match)
   {
     global $conf;
@@ -302,19 +302,6 @@ class dokusyntax
                             'level' => $hl['level']);
       }
   
-      if( $parser['secedit'] &&
-         ($hl['level'] <= $conf['maxseclevel']) &&
-         ($hl['line'] - $last > 2))
-     {
-        $secedit  = '<div class="secedit">[<a href="';
-        $secedit .= wl($ID,"do=edit,lines=$last-".($hl['line'] - 1));
-        $secedit .= '" class="secedit">';
-        $secedit .= $lang['secedit'];
-        $secedit .= '</a>]</div>';
-        $headline = $secedit.$headline;
-        $last = $hl['line'];
-      }
-  
       $table[$hl['token']] = $headline;
     }
   
@@ -323,18 +310,6 @@ class dokusyntax
       $token = $this->mktoken();
       $text .= $token;
       $table[$token] = '</div>';
-    }
-  
-    if($parser['secedit'] && $last)
-    {
-      $secedit  = '<div class="secedit">[<a href="';
-      $secedit .= $this->wl($ID,"do=edit,lines=$last-");
-      $secedit .= '" class="secedit">';
-      $secedit .= $lang['secedit'];
-      $secedit .= '</a>]</div>';
-      $token    = $this->mktoken();
-      $text    .= $token;
-      $table[$token] = $secedit; 
     }
   
     if ($parser['toc'] && count($content) > 2)
