@@ -46,7 +46,7 @@ $site->add_css("css/wiki.css");
 
 function build_htmlpath ( $fullpath )
 {
-  $buffer = "<a href=\"./\">Wiki</a>";
+  $buffer = "<div class=\"path_bar\"><a href=\"./\">Wiki</a>";
   
   if ( empty($fullpath) )
     return $buffer;
@@ -63,7 +63,7 @@ function build_htmlpath ( $fullpath )
     $buffer .= " / <a href=\"./?name=".htmlentities($path,ENT_QUOTES,"UTF-8")."\">".
                htmlentities($token,ENT_NOQUOTES,"UTF-8")."</a>";
   }
-  return $buffer;
+  return $buffer.'</div>';
 }
 
 function build_asso_htmlpath ( $fullpath )
@@ -74,16 +74,16 @@ function build_asso_htmlpath ( $fullpath )
   $asso = $tokens[1];
   unset($tokens[1]);
 
-  $buffer = "<a href=\"./?name=".$pole.":".$asso."\">Wiki</a>";
+  $buffer = "<div class=\"path_bar\"><a href=\"./?name=".$pole.":".$asso."\">Wiki</a>";
   $path = $pole.":".$asso;
 
   foreach ( $tokens as $token )
   {
     $path .= ":".$token;
-    $buffer .= " &gt; <a href=\"./?name=".htmlentities($path,ENT_QUOTES,"UTF-8")."\">".
+    $buffer .= " / <a href=\"./?name=".htmlentities($path,ENT_QUOTES,"UTF-8")."\">".
                htmlentities($token,ENT_NOQUOTES,"UTF-8")."</a>";
   }
-  return $buffer;
+  return $buffer.'</div>';
 }
 
 // Creation d'une page

@@ -3,3 +3,13 @@
   font-size:14px;
   font-weight:bold;
 }
+
+.path_bar
+{
+  width:100%;
+  border-top:1px solid #8cacbb;
+  border-bottom:1px solid #8cacbb;
+  background:#dee7ec;
+  padding:0.1em 0.15em;
+  clear:both;
+}
