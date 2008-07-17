@@ -38,8 +38,6 @@
  */
 $conf=array(
   'mailguard'=>'visible',//"codage des emails
-  'maxtoclevel'=>4,
-  'maxseclevel'=>6,
   'phpok'=>false,
   'htmlok'=>false
 );

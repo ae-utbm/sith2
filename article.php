@@ -28,6 +28,9 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/entities/page.inc.php");
 require_once($topdir. "include/entities/asso.inc.php");
 
+$conf['maxtoclevel']=4;
+$conf['maxseclevel']=6;
+
 $site = new site ();
 $page = new page ($site->db,$site->dbrw);
 $site->add_css("css/articles.css");
