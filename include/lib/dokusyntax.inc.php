@@ -322,6 +322,7 @@ class dokusyntax
   
   function html_toc($toc)
   {
+    global $topdir;
     $ret  = "\n";
     $ret .= '<div class="toc">'."\n";
     $ret .= '<div class="tocheader">'."\n";
