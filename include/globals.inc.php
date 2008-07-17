@@ -31,8 +31,19 @@
  */
 
  /* Definit si le site est en mode inscriptions intensives avec usage de l'API commune AE/BDS/INTEG/MMT */
-
  define('XMLRPC_USE',true);
+
+/**
+ * configurations générales
+ */
+$conf=array(
+  'mailguard'=>'visible',//"codage des emails
+  'maxtoclevel'=>3,
+  'maxseclevel'=>3,
+  'phpok'=>false,
+  'htmlok'=>false
+);
+
 
 /** Convertit la date en une chaÃ®ne human readable
  *

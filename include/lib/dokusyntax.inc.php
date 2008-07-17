@@ -41,7 +41,7 @@ class dokusyntax
    */
   function doku2xhtml($text,$summury=false,$extern=false)
   {
-    global $parser,$timing;
+    global $parser,$timing,$conf;
     $this->extern=$extern;
     $timing["doku2xhtml"] -= microtime(true);
     $js = false;
@@ -343,7 +343,6 @@ class dokusyntax
       $text  = $token.$text;
       $table[$token] = $this->html_toc($content);
     }
-    print_r($content);
   }
   
   
