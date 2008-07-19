@@ -67,7 +67,10 @@ class gmap extends stdcontents
     $latlongs=array();
     foreach ($geopoints as $g)
     {
-      $latlongs[] = array("lat"=>$g->lat, "long"=>$g->long);
+      if( $g instanceof ville )
+        $latlongs[]=$g->L2W();
+      else
+        $latlongs[] = array("lat"=>(string)sprintf("%.12F",$g->lat*360/2/M_PI), "long"=>(string)sprintf("%.12F",$g->long*360/2/M_PI);
     }
     $this->add_path($name,$latlongs, $color);
   }  
@@ -125,7 +128,7 @@ class gmap extends stdcontents
     {
       $points=array();
       foreach( $path["latlongs"] as $point )
-        $points[] = "@".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI);
+        $points[] = "@".$point['lat'].", ".$point['long'];
 
       $this->buffer .= "var ".$path["name"]."points = \"from: ".implode(" to: ",$points)."\";\n";
       $this->buffer .= $path["name"]."= new google.maps.Directions(map);\n";
