@@ -60,6 +60,7 @@ class gmap extends stdcontents
   {
     if( $g instanceof ville)
     {
+      global $site;
       $pays = new pays($site->db);
       $pays->load_by_id($g->id_pays);
       $this->ville[] = $g->nom.", ".$g->cpostal.", ".$g->nom;
