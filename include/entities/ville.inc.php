@@ -27,7 +27,7 @@ define('D2R', (M_PI/180));
 define('G2R', (M_PI/200));
 define('R2D', (180/M_PI));
 define('R2G', (200/M_PI));
-define('PHIO0', (52*G2R));
+define('PHI0', (52*G2R));
 
 define('L0', 0.9215573613);
 define('R0', 5999695.768);
@@ -254,9 +254,9 @@ class ville extends stdentity
     $n0=sin(PHI0);
     $y = $this->lat - 2000000;
     $x = $this->long;
-    $lng = atan(($x - X0) / (R0 + Y0 - $y)) / N0;
+    $lng = atan(($x - X0) / (R0 + Y0 - $y)) / $n0;
     $r = sqrt(pow(($x - X0), 2) + pow(($y - Y0 - R0), 2));
-    $l = -log($r / (R0 * exp($n0 * L0))) / N0;
+    $l = -log($r / (R0 * exp($n0 * L0))) / $n0;
     $lat = 2 * atan(exp($l)) - M_PI / 2;
     for($i=1 ; $i<=4 ; $i++)
     {
