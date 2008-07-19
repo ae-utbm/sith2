@@ -75,40 +75,40 @@ function HumanReadableDate($start, $end="", $time = true, $year = false)
   /* Est-ce qu'une date de fin est donnÃ©e ? */
   if($end == "")
     {
-	  if ($time)
-	    {
-	      if ($year)
-		return strftime("%A %e %B %Y &agrave; %Hh%M", $timestamp);
-	      else
-		return strftime("%A %e %B &agrave; %Hh%M", $timestamp);
-	    }
-	  else
-	    {
-	      if ($year)
-		return strftime("%A %e %B %Y", $timestamp);
-	      else
-		return strftime("%A %e %B", $timestamp);
-	    }
+    if ($time)
+      {
+        if ($year)
+    return strftime("%A %e %B %Y &agrave; %Hh%M", $timestamp);
+        else
+    return strftime("%A %e %B &agrave; %Hh%M", $timestamp);
+      }
+    else
+      {
+        if ($year)
+    return strftime("%A %e %B %Y", $timestamp);
+        else
+    return strftime("%A %e %B", $timestamp);
+      }
     }
   else
     {
       /* Si les dates de dÃ©but et de fin sont le mÃªme jour,
          on affiche un truc du style "lundi 4 mai de 14h00 Ã  18h00" */
       if($start[2] == $end[2] && $start[1] == $end[1] && $start[0] == $end[0])
-	{
-	  if ($year)
-	    return (strftime("%A %e %B %Y de %Hh%M", $timestamp) . strftime(" &agrave; %Hh%M", $timestampend));
-	  else
-	    return (strftime("%A %e %B de %Hh%M", $timestamp) . strftime(" &agrave; %Hh%M", $timestampend));
-	}
+  {
+    if ($year)
+      return (strftime("%A %e %B %Y de %Hh%M", $timestamp) . strftime(" &agrave; %Hh%M", $timestampend));
+    else
+      return (strftime("%A %e %B de %Hh%M", $timestamp) . strftime(" &agrave; %Hh%M", $timestampend));
+  }
       /* Sinon, on affiche un truc du style "du lundi 4 mai Ã  14h00 au mardi 5 mai Ã  15h00" */
       else
-	{
-	  if ($year)
-	    return (strftime("du %A %e %B %Y à %Hh%M", $timestamp) . strftime(" au %A %e %B à %Hh%M", $timestampend));
-	  else
-	    return (strftime("du %A %e %B à %Hh%M", $timestamp) . strftime(" au %A %e %B à %Hh%M", $timestampend));
-	}
+  {
+    if ($year)
+      return (strftime("du %A %e %B %Y à %Hh%M", $timestamp) . strftime(" au %A %e %B à %Hh%M", $timestampend));
+    else
+      return (strftime("du %A %e %B à %Hh%M", $timestamp) . strftime(" au %A %e %B à %Hh%M", $timestampend));
+  }
     }
 }
 
@@ -131,13 +131,13 @@ function GenerateSelectList($values, $current, $name, $size=1)
   foreach ($values as $key => $val)
     {
       if($key != $current)
-	{
-	  $buffer .= ("<option value=\"" . $key . "\">" . $val . "</option>\n");
-	}
+  {
+    $buffer .= ("<option value=\"" . $key . "\">" . $val . "</option>\n");
+  }
       else
-	{
-	  $buffer .= ("<option value=\"" . $key . "\" selected>" . $val . "</option>\n");
-	}
+  {
+    $buffer .= ("<option value=\"" . $key . "\" selected>" . $val . "</option>\n");
+  }
     }
   $buffer .=("</select>\n");
   return $buffer;
@@ -160,15 +160,15 @@ function genere_pass ($nameLength=12)
   for ($index = 1; $index <= $nameLength; $index++)
     {
       if ($index % 3 == 0)
-	{
-	  $randomNumber = rand(1,strlen($Vouel));
-	  $Name .= substr($Vouel,$randomNumber-1,1);
-	}
+  {
+    $randomNumber = rand(1,strlen($Vouel));
+    $Name .= substr($Vouel,$randomNumber-1,1);
+  }
       else
-	{
-	  $randomNumber = rand(1,strlen($NameChars));
-	  $Name .= substr($NameChars,$randomNumber-1,1);
-	}
+  {
+    $randomNumber = rand(1,strlen($NameChars));
+    $Name .= substr($NameChars,$randomNumber-1,1);
+  }
     }
 
   return $Name;
@@ -192,35 +192,35 @@ function CheckEmail($email, $type = 0)
   if ($type == 0)
     {
       if (ereg("^([a-z\-]+)\.([a-z0-9\-]+)$", $email))
-	return true;
+  return true;
       else
-	return false;
+  return false;
     }
 
   /* Email utbm: prenom.nom@utbm.fr */
   elseif ($type == 1)
     {
       if (ereg("^([a-z\-]+)\.([a-z0-9\-]+)@utbm\.fr$", $email))
-	return true;
+  return true;
       else
-	return false;
+  return false;
     }
 
   elseif ($type == 2)
     {
       if (ereg("^([a-z\-]+)\.([a-z0-9\-]+)@assidu-utbm\.fr$", $email) ||
-	  ereg("^([a-z\-]+)\.([a-z0-9\-]+)-([0-9]{4})@assidu-utbm\.fr$", $email))
-	return true;
+    ereg("^([a-z\-]+)\.([a-z0-9\-]+)-([0-9]{4})@assidu-utbm\.fr$", $email))
+  return true;
       else
-	return false;
+  return false;
     }
 
   elseif ($type == 3)
     {
       if (ereg("^([A-Za-z0-9\._-]+)@([A-Za-z0-9_-]+)\.([A-Za-z0-9\._-]*)$", $email))
-	return true;
+  return true;
       else
-	return false;
+  return false;
     }
 
   return false;
@@ -259,41 +259,41 @@ function convertir_nom($nom)
 
 function do_prenom_stuff($frags)
 {
-	$i = 1;
-	$string = ucfirst(strtolower(trim($frags[0])));
-	while($frags[$i])
-	{
-		if(!strstr($frags[$i],"-"))
-			$string .= "-" . ucfirst(strtolower(trim($frags[$i])));
-		$i++;
-	}
-	return $string;
+  $i = 1;
+  $string = ucfirst(strtolower(trim($frags[0])));
+  while($frags[$i])
+  {
+    if(!strstr($frags[$i],"-"))
+      $string .= "-" . ucfirst(strtolower(trim($frags[$i])));
+    $i++;
+  }
+  return $string;
 }
 
 function convertir_prenom ($string)
 {
-	$string = trim($string);
+  $string = trim($string);
 
-	// cas de l'exemple pierre-emmanuel, et de celui pierre - emmanuel
-	if (strstr($string,"-"))
-	{
-		$frags = explode("-",$string);
-		$string = do_prenom_stuff($frags);
-	}
+  // cas de l'exemple pierre-emmanuel, et de celui pierre - emmanuel
+  if (strstr($string,"-"))
+  {
+    $frags = explode("-",$string);
+    $string = do_prenom_stuff($frags);
+  }
 
-	// cas de l'exemple pierre emmanuel
-	else if (strstr($string," "))
-	{
-		$frags = explode(" ",$string);
-		$string = do_prenom_stuff($frags);
-	}
+  // cas de l'exemple pierre emmanuel
+  else if (strstr($string," "))
+  {
+    $frags = explode(" ",$string);
+    $string = do_prenom_stuff($frags);
+  }
 
-	// cas de l'exemple laurent
-	if (!(strstr($string," ")) && !(strstr($string,"-")))
-	{
-		$string = ucfirst(strtolower($string));
-	}
-	return $string;
+  // cas de l'exemple laurent
+  if (!(strstr($string," ")) && !(strstr($string,"-")))
+  {
+    $string = ucfirst(strtolower($string));
+  }
+  return $string;
 }
 
 

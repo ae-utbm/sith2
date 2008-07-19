@@ -24,7 +24,7 @@ if ( $user->id < 0 )
 }
 $user->load_all_extra();
 header("Content-Type: text/x-vcard");
-header('Content-Disposition: attachment; filename="'.addslashes($user->prenom." ".$user->nom.".vcf").'"');
+header('Content-Disposition: attachment; filename="'.addslashes(utf8_enleve_accents($user->prenom)."_".utf8_enleve_accents($user->nom).".vcf").'"');
 
 $user->output_vcard();
 
