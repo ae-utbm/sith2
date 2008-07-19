@@ -134,7 +134,8 @@ class gmap extends stdcontents
           $first = false;
         }        
       }
-      $this->buffer .= $path["name"]."= new google.maps.Polyline([".implode(",",$points)."], \"#".$path["color"]."\", 10);\n";
+//      $this->buffer .= $path["name"]."= new google.maps.Polyline([".implode(",",$points)."], \"#".$path["color"]."\", 10);\n";
+      $this->buffer .= $path["name"]."= new google.maps.Directions(map);\n".$path["name"].".load(".implode(",",$points).");\n";
       $this->buffer .= $this->name.".addOverlay(".$path["name"].");\n";
     }
 
