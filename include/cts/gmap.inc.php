@@ -24,7 +24,9 @@
 /**
  * @file
  */
- 
+
+require_once($topdir . "include/entities/pays.inc.php");
+require_once($topdir . "include/entities/ville.inc.php");
 /**
  * Permet d'afficher un carte (de goolge maps).
  *
@@ -66,17 +68,13 @@ class gmap extends stdcontents
   {
     $latlongs=array();
     foreach ($geopoints as $g)
-    {
-      if( $g instanceof ville )
-        $latlongs[]=$g->L2W();
-      else
-        $latlongs[] = array("lat"=>(string)sprintf("%.12F",$g->lat*360/2/M_PI), "long"=>(string)sprintf("%.12F",$g->long*360/2/M_PI));
-    }
+      $latlongs[]=$g;
     $this->add_path($name,$latlongs, $color);
   }  
 
   function html_render()
   {
+    global $site;
     $this->buffer .= "<div id=\"".$this->name."_canvas\" style=\"width: 500px; height: 300px\"></div>";
     
     
@@ -128,7 +126,16 @@ class gmap extends stdcontents
     {
       $points=array();
       foreach( $path["latlongs"] as $point )
-        $points[] = "@".$point['lat'].", ".$point['long'];
+      {
+        if($point instanceof ville)
+	{
+	  $pays = new pays($site->db);
+	  $pays->load_by_id($point->id_pays);
+	  $points[] = $point->nom.", ".$point->cpostal.", ".$pays->nom;
+	}
+	else
+          $points[] = "@".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI);
+      }
 
       $this->buffer .= "var ".$path["name"]."points = \"from: ".implode(" to: ",$points)."\";\n";
       $this->buffer .= $path["name"]."= new google.maps.Directions(map);\n";

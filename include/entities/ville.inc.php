@@ -22,19 +22,6 @@
  * 02111-1307, USA.
  */
 
-define('P2G', 2.596921296);
-define('D2R', (M_PI/180));
-define('G2R', (M_PI/200));
-define('R2D', (180/M_PI));
-define('R2G', (200/M_PI));
-define('PHI0', (52*G2R));
-
-define('L0', 0.9215573613);
-define('R0', 5999695.768);
-define('X0', 600000);
-define('Y0', 200000);
-define('E2', 0.00680348765);
-define('AA', 6378249.2);
  /**
  * @file
  */
@@ -248,46 +235,6 @@ class ville extends stdentity
   }
 
  
-  function L2W()
-  {
-    $e=sqrt(E2);
-    $n0=sin(PHI0);
-    $y = $this->lat - 2000000;
-    $x = $this->long;
-    $lng = atan(($x - X0) / (R0 + Y0 - $y)) / $n0;
-    $r = sqrt(pow(($x - X0), 2) + pow(($y - Y0 - R0), 2));
-    $l = -log($r / (R0 * exp($n0 * L0))) / $n0;
-    $lat = 2 * atan(exp($l)) - M_PI / 2;
-    for($i=1 ; $i<=4 ; $i++)
-    {
-      $lat = pow(((1 + $e * sin($lat)) / (1 - $e * sin($lat))), ($e / 2));
-      $lat = 2 * atan($lat * exp($l)) - M_PI / 2;
-    }
-    $lng = $lng * R2G;
-    $lat = $lat * R2G;
-    $lng = ($lng + P2G) * G2R;
-    $lat = $lat * G2R;
-    $n = AA / sqrt(1 - E2 * pow(sin($lat), 2));
-    $x = $n * cos($lat) * cos($lng);
-    $y = $n * cos($lat) * sin($lng);
-    $z = ($n * (1 - E2)) * sin($lat);
-    $x = $x - 168;
-    $y = $y - 60;
-    $z = $z + 320;
-    $e = sqrt(E2);
-    $p = sqrt(pow($x,2) + pow($y,2));
-    $lng = 2 * atan($y / ($x + $p));
-    $lat = 0;
-    for($i=1 ; $i<=5 ; $i++)
-    {
-      $n = AA / sqrt(1 - E2 * pow(sin($lat), 2));
-      $lat = atan(($z + $n * E2 * sin($lat)) / $p);
-    }
-    $lng = $lng * r2d;
-    $lat = $lat * r2d;
-    return array('long' => $lng, 'lat' => $lat);
-  }
-  
 }
 
 
