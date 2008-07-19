@@ -290,7 +290,7 @@ class dokusyntax
     global $conf;
     global $lang;
     global $ID;
-  
+    $uid=$this->uid; 
     $lang = 'fr'; // bein quoi ?
   
     $last = 0;
@@ -300,7 +300,7 @@ class dokusyntax
       $cnt++;
       $headline   = '';
       if($cnt - 1) $headline .= '</div>';
-      $headline  .= '<a name="'.($cnt).'"></a>';
+      $headline  .= '<a name=h_'.$uid.'_'.($cnt).'"></a>';
       $headline  .= '<a name="'.preg_replace("/[^a-z0-9\-_:#]/","_",strtolower(utf8_enleve_accents($hl['name']))).'"></a>';
       $headline  .= '<h'.$hl['level'].'>';
       $headline  .= $hl['name'];
@@ -309,7 +309,7 @@ class dokusyntax
   
       if($hl['level'] <= $conf['maxtoclevel'])
       {
-        $content[]  = array('id'    => $cnt,
+        $content[]  = array('id'    => 'h_'.$uid.'_'.$cnt,
                             'name'  => $hl['name'],
                             'level' => $hl['level']);
       }
