@@ -144,12 +144,9 @@ class gmap extends stdcontents
         $pays = new pays($site->db);
 	$pays->load_by_id($ville->id_pays);
         $this->buffer .= "var ville_".$ville->nom."_point = new google.maps.ClientGeocoder();\n";
-        $this->buffer .= "var ville_".$ville->nom."= new google.maps.Marker(ville_".$ville->nom."_point.getLatLng(\"".$ville->nom.", ".$ville->cpostal.", ".$pays->nom."\"));\n";
-	if( $first )
-	{
-	  $this->buffer .= $this->name.".setCenter(ville_".$ville->nom."_point, 15);\n";
-	  $first = false;
-	}
+	$this->buller .= "var ville_".$ville->nom."_point_loc;";
+	$this->buffer .= "var ville_".$ville->nom."_pointgetLatLng(\"".$ville->nom.", ".$ville->cpostal.", ".$pays->nom."\",";
+	$this->buffer .= "function(point){if(!point) return; var ville_".$ville->nom."= new google.maps.Marker(point);})";
       }
 
       foreach ( $this->paths as $path )
