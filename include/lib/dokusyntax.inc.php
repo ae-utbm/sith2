@@ -155,7 +155,7 @@ class dokusyntax
     
     if(isset($conf['bookmarks']) && $conf['bookmarks'])
     {
-      print_r('debug');
+      echo "<pre>$text</pre>";
       while( preg_match("/<bookmark:(.*?)>/i",$text) )
       {
         print_r('debug2');
