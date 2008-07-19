@@ -143,16 +143,12 @@ if (isset($_REQUEST['add_step_sbmt']))
     }
 
     if(count($etapes)<24)
-    {
-      $ville->load_by_id($trajet->ville_arrivee->id);
-      $etapes[]=$ville;
-    }
+      $etapes[]=$tville;
     else
     {
       $etapes=array();
       $etapes[]=$fville;
-      $ville->load_by_id($trajet->ville_arrivee->id);
-      $etapes[]=$ville;
+      $etapes[]=$tville;
     }
     $map->add_geopoint_path('Chemin',$etapes);
     $accueil->add($map);
