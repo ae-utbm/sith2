@@ -63,10 +63,10 @@ class gmap extends stdcontents
       global $site;
       $pays = new pays($site->db);
       $pays->load_by_id($g->id_pays);
-      $this->ville[] = $g->nom.", ".$g->cpostal.", ".$g->nom;
+      $this->ville[] = &$g;
     }
     elseif( $g instanceof pays)
-      $this->pays=$g->nom;
+      $this->pays=&$g->nom;
     else
       $this->add_marker($g->nom,$g->lat,$g->long );
   }  
