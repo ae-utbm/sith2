@@ -181,7 +181,19 @@ function(point)
     }
     else
     {
-      $this->buffer .= 'var '.$this->pays->nom."= new google.maps.Directions(map);\n";
+      $this->buffer .= 'var '.$this->pays->nom."= new google.maps.ClientGeocoder();\n";
+      $this->buffer .= $this->pays->nom.getLatLng(\"".$this->pays->nom."\",
+function(point)
+{
+  if(!point)
+    return;
+  else
+  {
+    ".$this->name.".setCenter(point,16);
+    ".$this->name.".addOverlay(new google.maps.Marker(point));
+  }
+}
+);\n";
       $this->buffer .= $this->pays->nom.".load(\"from: ".$this->pays->nom."\", {getSteps:true});\n";
     }
 
