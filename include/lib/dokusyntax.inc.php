@@ -152,9 +152,16 @@ class dokusyntax
     $text= str_replace('___</div>___</div>___','</div></div>'.CHR(10),$text);
     $text= str_replace('__slash_n__',CHR(10),$text);
 
+    
     if(isset($conf['bookmarks']) && $conf['bookmarks'])
+    {
+      print_r('debug');
       while( preg_match("/<bookmark:(.*?)>/i",$text) )
+      {
+        print_r('debug2');
         $text=preg_replace("/<bookmark:(\S+)>/i", "<a name='$1'></a>", $text);
+      }
+    }
 
     /* deuxième pass pour les formatages simples */
     $text = $this->simpleformat($text);
