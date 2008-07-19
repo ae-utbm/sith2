@@ -319,7 +319,7 @@ $side = new contents("Wiki");
 $lst = new itemlist();
 $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."\">Voir la page</a>");
 if ( $is_admin )
-  $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=edit".isset($_REQUEST["rev"])?"&rev=".$_REQUEST["rev"]:""."\">Editer</a>");
+  $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=edit".(isset($_REQUEST["rev"])?"&rev=".$_REQUEST["rev"]:"")."\">Editer</a>");
 if ( $can_edit )
   $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=refs\">Références</a>");
 else
