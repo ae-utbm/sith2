@@ -1119,6 +1119,7 @@ class dokusyntax
   
   function format_link_email(&$link,&$name,&$class,&$target,&$style,&$pre,&$post,&$more)
   {
+    print_r('debug');
     $class  = 'mail';
     $target = '';
     $pre    = '';
