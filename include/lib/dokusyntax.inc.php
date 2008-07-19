@@ -122,7 +122,7 @@ class dokusyntax
     $this->firstpass($table,$text,"#(\b)(ftp\.[$host]+?\.[$host]+?[$any]+?)([$punc]*[^$any])#ie","\$this->linkformat('ftp://\\2')",'\1','\3');
   
     // les n'emails
-    $this->firstpass($table,$text,"#<([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)>#ie", "\$this->linkformat('\\1@\\2')");
+    $this->firstpass($table,$text,"#([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#ie", "\$this->linkformat('\\1@\\2')");
   
     if ( !$conf["macrofunction"] || !is_callable($conf["macrofunction"]) )
       $this->firstpass($table,$text,"#@@([^@]+)@@#ie","\$this->wikimacro('\\1')");
@@ -1119,7 +1119,6 @@ class dokusyntax
   
   function format_link_email(&$link,&$name,&$class,&$target,&$style,&$pre,&$post,&$more)
   {
-    print_r('debug');
     $class  = 'mail';
     $target = '';
     $pre    = '';
