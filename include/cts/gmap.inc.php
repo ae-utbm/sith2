@@ -70,7 +70,7 @@ class gmap extends stdcontents
       if( $g instanceof ville )
         $latlongs[]=$g->L2W();
       else
-        $latlongs[] = array("lat"=>(string)sprintf("%.12F",$g->lat*360/2/M_PI), "long"=>(string)sprintf("%.12F",$g->long*360/2/M_PI);
+        $latlongs[] = array("lat"=>(string)sprintf("%.12F",$g->lat*360/2/M_PI), "long"=>(string)sprintf("%.12F",$g->long*360/2/M_PI));
     }
     $this->add_path($name,$latlongs, $color);
   }  
