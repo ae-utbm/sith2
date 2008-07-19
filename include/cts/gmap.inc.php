@@ -146,7 +146,7 @@ class gmap extends stdcontents
         $this->buffer .= "var ville_".$ville->nom."_point = new google.maps.ClientGeocoder();\n";
 	$this->buller .= "var ville_".$ville->nom."_point_loc;";
 	$this->buffer .= "var ville_".$ville->nom."_pointgetLatLng(\"".$ville->nom.", ".$ville->cpostal.", ".$pays->nom."\",";
-	$this->buffer .= "function(point){if(!point) return; var ville_".$ville->nom."= new google.maps.Marker(point);})";
+	$this->buffer .= "function(point){if(!point) return; var ville_".$ville->nom."= new google.maps.Marker(point);});";
       }
 
       foreach ( $this->paths as $path )
