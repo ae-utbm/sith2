@@ -290,9 +290,7 @@ if ( $_REQUEST["action"] == "lockrenew" && $can_edit )
 else if ( $_REQUEST["action"] == "revision" && $can_edit )
 {
   $wiki->unlock($site->user);
-  if($_REQUEST["save"]=="Annuler")
-    print_r('annulé');
-  elseif ( ($_REQUEST["title"] != $wiki->rev_title || $_REQUEST["contents"] != $wiki->rev_contents ) )
+  if ( $_REQUEST['save']=='Enregistrer' && ($_REQUEST["title"] != $wiki->rev_title || $_REQUEST["contents"] != $wiki->rev_contents ) )
   {
     if ( $_REQUEST["id_rev_last"] != $wiki->id_rev_last ) // pas cool
     {
