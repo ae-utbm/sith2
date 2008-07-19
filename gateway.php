@@ -142,9 +142,6 @@ elseif ( $_REQUEST['module']=="userfield" )
 		"UNION SELECT `id_utilisateur`,CONCAT(`nom_utl`,' ',`prenom_utl`) " .
 		"FROM `utilisateurs` " .
 		"WHERE CONCAT(`nom_utl`,' ',`prenom_utl`) REGEXP '^".$pattern."' " .
-		"UNION SELECT `id_utilisateur`,CONCAT(`alias_utl`,' (',`prenom_utl`,' ',`nom_utl`,')') " .
-		"FROM `utilisateurs` " .
-		"WHERE `alias_utl`!='' AND `alias_utl` REGEXP '^".$pattern."' " .
 		"UNION SELECT `utilisateurs`.`id_utilisateur`,CONCAT(`surnom_utbm`,' (',`prenom_utl`,' ',`nom_utl`,')') " .
 		"FROM `utl_etu_utbm` " .
 		"INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
@@ -197,8 +194,6 @@ elseif ( $_REQUEST['module']=="userinfo" )
 	echo "<p class=\"nomprenom\">". $user->prenom . " " . $user->nom . "</p>";
 	if ( $user->surnom )
 		echo "<p class=\"surnom\">'' ". $user->surnom . " ''</p>";
-	elseif ( $user->alias )
-		echo "<p class=\"surnom\">'' ". $user->alias . " ''</p>";
 	echo "<div class=\"clearboth\"></div>";
 	exit();
 }

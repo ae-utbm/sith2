@@ -69,7 +69,6 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
     $elements[] =
       "( CONCAT(`prenom_utl`,' ',`nom_utl`) REGEXP '^".$pattern."' " .
       "OR CONCAT(`nom_utl`,' ',`prenom_utl`) REGEXP '^".$pattern."'  " .
-      "OR (`alias_utl`!='' AND `alias_utl` REGEXP '^".$pattern."') " .
       "OR (`surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$pattern."'))";
     $params.="&pattern=".rawurlencode($_REQUEST["pattern"]);
   }
@@ -89,8 +88,8 @@ if ( $_REQUEST["action"] == "search" || $_REQUEST["action"] == "simplesearch" )
   if ( $_REQUEST["surnom"] )
   {
     $p = stdentity::_fsearch_prepare_sql_pattern($_REQUEST["surnom"]);
-    $elements[] = "(`surnom_utbm` REGEXP '$p' OR `alias_utl` REGEXP '$p')";
-    $order = "ORDER BY `surnom_utbm`,`alias_utl`,`nom_utl`,`prenom_utl`";
+    $elements[] = "(`surnom_utbm` REGEXP '$p')";
+    $order = "ORDER BY `surnom_utbm`,`nom_utl`,`prenom_utl`";
     $params.="&surnom=".rawurlencode($_REQUEST["surnom"]);
   }
    
