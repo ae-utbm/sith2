@@ -309,7 +309,7 @@ else if ( $_REQUEST["action"] == "revision" && $can_edit )
 }  
 elseif ( $_REQUEST["action"] == "edit" && $is_admin )
 {
-  if($_REQUEST["edit"]=="Annuler");
+  if($_REQUEST["edit"]=="Annuler")
   {
     print_r('annulé');
     $wiki->unlock($site->user);
