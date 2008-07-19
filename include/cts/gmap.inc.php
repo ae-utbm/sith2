@@ -127,17 +127,19 @@ class gmap extends stdcontents
       foreach( $path["latlongs"] as $point )
       {
         //$points[] = "new google.maps.LatLng(".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI).")";
-	$points[] = "@".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI);
-        
+        //$points[] = "@".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI);
+        $points[] = "new GLatLng( ".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI).")";
         if ( $first )
         {
           $this->buffer .= $this->name.".setCenter(new google.maps.LatLng(".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI)."), 15);\n";
           $first = false;
         }        
       }
+
+      $this->buffer .= "var ".$path["name"]."points = new Array(".implode(", ",$points).");\n"; 
       $this->buffer .= $path["name"]."= new google.maps.Directions(map);\n";
       $this->buffer .= "google.maps.Event.addListener(".$path["name"].",\"error\", function() { alert(\"Directions Failed: \"+".$path["name"].".getStatus().code); });\n";
-      $this->buffer .= $path["name"].".load(\"".implode(" to: ",$points)."\", {getSteps:true});\n";
+      $this->buffer .= $path["name"].".load(".$path["name"]."points, {getSteps:true});\n";
 //      $this->buffer .= $this->name.".addOverlay(".$path["name"].");\n";
     }
 
