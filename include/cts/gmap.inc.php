@@ -152,7 +152,13 @@ function(point)
     return;
   else
   {
-    ".$this->name.".setCenter(point,9);
+    ";
+        if($first)
+	{
+          $this->buffer.="    ".$this->name.".setCenter(point,11);";
+          $first=false;
+        }
+        $this->buffer.="
     ".$this->name.".addOverlay(new google.maps.Marker(point));
   }
 }
