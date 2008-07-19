@@ -149,9 +149,10 @@ class gmap extends stdcontents
 function(point)
 {
   if(!point)
-    alert('crap');
+    return;
   else
   {
+    alert('here');
     var ".$ville->nom." = new google.maps.Marker(point);
     ".$this->name.".addOverlay(".$ville->nom.");
   }
