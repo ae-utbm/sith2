@@ -321,5 +321,22 @@ function utf8_pattern_accents ($text)
   $text = ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$text);
   return $text;
 }
-    
+
+
+/**
+ * Cette fonction génère un identifiant unique
+ * \return string identifiant unique
+ */
+function gen_uid ()
+{
+  $micro = substr (microtime(), 2, 6) ;
+  $concat = time() . $micro ;
+  $dec_1 = substr ($concat, 0, 8) ;
+  $dec_2 = substr ($concat, 8, 8) ;
+  $hex_1 = dechex ($dec_1) ;
+  $hex_2 = dechex ($dec_2) ;
+  $id = $hex_1 . $hex_2 ;
+  return $id ;
+}
+
 ?>

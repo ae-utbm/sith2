@@ -42,6 +42,7 @@ class dokusyntax
   function doku2xhtml($text,$summury=false,$extern=false)
   {
     global $parser,$timing,$conf;
+    $this->uid=gen_uid();
     $this->extern=$extern;
     $timing["doku2xhtml"] -= microtime(true);
     $js = false;
@@ -68,13 +69,13 @@ class dokusyntax
     $any  = $ltrs.$gunk.$punc;
   
     /* first pass */
-  
+
     // textes préformatés
     $this->firstpass($table,$text,"#<nowiki>(.*?)</nowiki>#se","\$this->preformat('\\1','nowiki')");
     $this->firstpass($table,$text,"#%%(.*?)%%#se","\$this->preformat('\\1','nowiki')");
     $this->firstpass($table,$text,"#<code( (\w+))?>(.*?)</code>#se","\$this->preformat('\\3','code','\\2')");
     $this->firstpass($table,$text,"#<file>(.*?)</file>#se","\$this->preformat('\\1','file')");
-  
+
     // je sais pas si ça servira mais bon ...
     $this->firstpass($table,$text,"#<html>(.*?)</html>#se","\$this->preformat('\\1','html')");
     $this->firstpass($table,$text,"#<php>(.*?)</php>#se","\$this->preformat('\\1','php')");
@@ -101,7 +102,7 @@ class dokusyntax
   
     //headlines
     $this->format_headlines($table,$hltable,$text);
-  
+
     // links
     $this->firstpass($table,$text,"#\[\[([^\]]+?)\]\]#ie","\$this->linkformat('\\1')");
   
@@ -150,7 +151,11 @@ class dokusyntax
     }
     $text= str_replace('___</div>___</div>___','</div></div>'.CHR(10),$text);
     $text= str_replace('__slash_n__',CHR(10),$text);
-  
+
+    if(isset($conf['bookmarks']) && $conf['bookmarks'])
+      while( preg_match("/<bookmark:(.*?)>/i",$text) )
+        $text=preg_replace("/<bookmark:(\S+)>/i", "<a name='$1'></a>", $text);
+
     /* deuxième pass pour les formatages simples */
     $text = $this->simpleformat($text);
     
@@ -319,7 +324,7 @@ class dokusyntax
       $table[$token] = $this->html_toc($content);
     }
   }
-  
+
   function html_toc($toc)
   {
     global $topdir;

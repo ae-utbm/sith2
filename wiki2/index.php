@@ -31,6 +31,7 @@ require_once($topdir. "include/entities/wiki.inc.php");
 require_once($topdir. "include/cts/wiki.php");
 $conf['maxtoclevel']=4;
 $conf['maxseclevel']=6;
+$conf['bookmarks']=true;
 
 $site = new site();
 $site->set_side_boxes("left",array("wiki","connexion"));
