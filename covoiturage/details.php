@@ -40,8 +40,7 @@ $site->start_page ("services", "Covoiturage - Détails");
 
 
 
-$accueil = new contents("Covoiturage - Détails d'un trajet",
-			"");
+$accueil = new contents("Covoiturage - Détails d'un trajet","");
 
 
 if ($_REQUEST['action'] == 'view')
@@ -76,34 +75,34 @@ if ($_REQUEST['action'] == 'delete')
   $trajet->load_by_id($id_trajet);
   
   $ret = $trajet->delete_step($site->user->id,
-			      $id_etape,
-			      $date_etape);
+                              $id_etape,
+                              $date_etape);
 
   if ($ret == true)
-    {
-      $accueil->add_title(2, "Suppression d'une étape");
-      $accueil->add_paragraph("<b>Etape supprimée avec succès.</b>");
+  {
+    $accueil->add_title(2, "Suppression d'une étape");
+    $accueil->add_paragraph("<b>Etape supprimée avec succès.</b>");
       
-      /* options */
+    /* options */
 
-      $accueil->add_title(2, "Autres options");
-      $opts[] = "<a href=\"./\">Retour à la page d'accueil du covoiturage</a>";
-      $opts[] = "<a href=\"./propose.php\">Proposer un trajet</a>";
-      $opts[] = "<a href=\"./search.php\">Rechercher un trajet</a>";
+    $accueil->add_title(2, "Autres options");
+    $opts[] = "<a href=\"./\">Retour à la page d'accueil du covoiturage</a>";
+    $opts[] = "<a href=\"./propose.php\">Proposer un trajet</a>";
+    $opts[] = "<a href=\"./search.php\">Rechercher un trajet</a>";
       
-      $options = new itemlist(false, false, $opts);
-      $accueil->add($options);
+    $options = new itemlist(false, false, $opts);
+    $accueil->add($options);
 
 
-      $site->add_contents($accueil);
-      $site->end_page();
-      exit();
-    }
+    $site->add_contents($accueil);
+    $site->end_page();
+    exit();
+  }
   else
-    {
-      $site->error_not_found();
-      exit();
-    }
+  {
+    $site->error_not_found();
+    exit();
+  }
 } // fin suppresion d'étapes
 
 if (($trajet->id <= 0) || (! in_array($datetrj, $trajet->dates)))
@@ -117,24 +116,48 @@ if (isset($_REQUEST['add_step_sbmt']))
   $accueil->add_title(2, "Proposition d'une étape");
   
   $ret = $trajet->add_step($site->user->id,
-			   $_REQUEST['comments'],
-			   $_REQUEST['date'],
-			   $_REQUEST['mydest']);
+         $_REQUEST['comments'],
+         $_REQUEST['date'],
+         $_REQUEST['mydest']);
   if ($ret)
-    {
-      $steps = $trajet->get_steps_by_date($_REQUEST['date']);
-      
-      $accueil->add_paragraph("Etape proposée avec succès.<br/>".
-			      "<center><img src=\"./imgtrajet.php?id_trajet=".
-			      $trajet->id."&amp;date=".$_REQUEST['date']."&amp;id_etape=".
-			      $steps[count($steps) - 1]['id']."\" alt=\"Trajet hypothétique\" /></center>");
+  {
+    $steps = $trajet->get_steps_by_date($_REQUEST['date']);
+    $accueil->add_paragraph("Etape proposée avec succès.");
 
-      $accueil->add_paragraph("Ci-dessus un rendu \"vol d'oiseau\" du trajet prévu, sous réserve d'acceptation.");
-    }
-  else
+    $trajet->load_steps();
+
+    foreach($trajet->etape as $etape)
     {
-      $accueil->add_paragraph("<b>Une erreur est survenue lors de l'ajout de l'étape.</b>");
+      if($etape['etat']==1)
+        $etapes[]=$etape;
+      elseif($etape['id']==$steps[count($steps) - 1]['id'])
+        $etapes[]=$etape;
     }
+
+    if(count($etapes)<24)
+    {
+      require_once($topdir. "include/cts/gmap.inc.php");
+      require_once($topdir. "include/entities/ville.inc.php");
+      $map = new gmap("map");
+      $ville = new ville($site->db);
+      $ville->load_by_id($trajet->ville_depart->id);
+      $map->add_geopoint_path($ville);
+      foreach($etapes as $etape)
+      {
+        $ville->load_by_id($etape['ville']);
+        $map->add_geopoint_path($ville);
+      }
+      $ville->load_by_id($trajet->ville_arrivee->id);
+      $map->add_geopoint_path($ville);
+      $accueil->add($map);
+    }
+
+    $accueil->add_paragraph("Ci-dessus un rendu \"vol d'oiseau\" du trajet prévu, sous réserve d'acceptation.");
+  }
+  else
+  {
+    $accueil->add_paragraph("<b>Une erreur est survenue lors de l'ajout de l'étape.</b>");
+  }
 
 
 }
@@ -145,15 +168,15 @@ else
 
   $accueil->add_title(2, "Informations");
   $accueil->add_paragraph("Ce trajet <b>" . $trajet->ville_depart->nom . " / " .
-			  $trajet->ville_arrivee->nom 
-			  ."</b> est proposé par <a href=\"../user.php?id_utilisateur=".
-			  $respusr->id."\">" . $respusr->get_html_link() . 
-			  "</a>, qui prévoit de le réaliser le ".HumanReadableDate($datetrj, "", false, true) . ".");
+        $trajet->ville_arrivee->nom 
+        ."</b> est proposé par <a href=\"../user.php?id_utilisateur=".
+        $respusr->id."\">" . $respusr->get_html_link() . 
+        "</a>, qui prévoit de le réaliser le ".HumanReadableDate($datetrj, "", false, true) . ".");
 
   $accueil->add_paragraph("<div class=\"comment\">".doku2xhtml($trajet->commentaires)."</div>");
 
   $accueil->add_paragraph("<center><img src=\"./imgtrajet.php?id_trajet=".
-			$trajet->id."&amp;date=".$datetrj."\" alt=\"Rendu géographique\" /></center>");
+      $trajet->id."&amp;date=".$datetrj."\" alt=\"Rendu géographique\" /></center>");
 
   $accueil->add_paragraph("Ci-dessus une vue du trajet, avec les étapes acceptées éventuelles");
 
@@ -161,35 +184,35 @@ else
 
   /* proposer de rejoindre le trajet */
   if ((! isset($_REQUEST['add_step_sbmt'])) && ($trajet->id_utilisateur != $site->user->id))
+  {
+    if (! $trajet->already_proposed_step($site->user->id, $datetrj))
     {
-      if (! $trajet->already_proposed_step($site->user->id, $datetrj))
-	{
-	  $accueil->add_title(2, "Vous souhaitez rejoindre ce trajet");
-	  $accueil->add_paragraph("Veuillez remplir le formulaire ci-dessous. Après validation, ".
-				  "l'étape ainsi créée sera mise à appréciation du responsable du trajet.");
+      $accueil->add_title(2, "Vous souhaitez rejoindre ce trajet");
+      $accueil->add_paragraph("Veuillez remplir le formulaire ci-dessous. Après validation, ".
+            "l'étape ainsi créée sera mise à appréciation du responsable du trajet.");
       
-	  $frm = new form('add_step', 'details.php', true);
-	  $frm->add_hidden('id_trajet', $trajet->id);
-	  $frm->add_hidden('date', $datetrj);
+      $frm = new form('add_step', 'details.php', true);
+      $frm->add_hidden('id_trajet', $trajet->id);
+      $frm->add_hidden('date', $datetrj);
       
-	  $ville = new ville($site->db);
-	  $frm->add_entity_smartselect("mydest","Ma destination", $ville);
-	  
-	  $frm->add_dokuwiki_toolbar('comments');
-	  $frm->add_text_area('comments', 'Commentaires (facultatif - Syntaxe DokuWiki)', null, 80, 20);
-	  
-	  $frm->add_submit('add_step_sbmt', 'Proposer');
-	  $accueil->add($frm);
-	  $accueil->add_paragraph("Une fois l'étape proposée, cette dernière pourra être acceptée ou refusée par ".
-				  "l'initiateur du trajet. Vos coordonnées (renseignées dans le matmatronch) lui ".
-			      "seront fournies, au cas où il ait besoin de vous joindre.");
-	}
-      else 
-	$accueil->add_paragraph("Vous avez déjà proposé une étape pour ".
-				"ce trajet à la date choisie. Vous ne ".
-				"pouvez plus, en toute logique, proposer".
-				" d'étapes.");
+      $ville = new ville($site->db);
+      $frm->add_entity_smartselect("mydest","Ma destination", $ville);
+    
+      $frm->add_dokuwiki_toolbar('comments');
+      $frm->add_text_area('comments', 'Commentaires (facultatif - Syntaxe DokuWiki)', null, 80, 20);
+    
+      $frm->add_submit('add_step_sbmt', 'Proposer');
+      $accueil->add($frm);
+      $accueil->add_paragraph("Une fois l'étape proposée, cette dernière pourra être acceptée ou refusée par ".
+            "l'initiateur du trajet. Vos coordonnées (renseignées dans le matmatronch) lui ".
+            "seront fournies, au cas où il ait besoin de vous joindre.");
     }
+    else 
+      $accueil->add_paragraph("Vous avez déjà proposé une étape pour ".
+          "ce trajet à la date choisie. Vous ne ".
+          "pouvez plus, en toute logique, proposer".
+          " d'étapes.");
+  }
 }
 /* options */
 $accueil->add_title(2, "Autres options");
