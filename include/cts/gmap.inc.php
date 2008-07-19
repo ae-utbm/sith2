@@ -66,7 +66,7 @@ class gmap extends stdcontents
       $this->ville[] = &$g;
     }
     elseif( $g instanceof pays)
-      $this->pays=&$g->nom;
+      $this->pays=&$g;
     else
       $this->add_marker($g->nom,$g->lat,$g->long );
   }  
@@ -98,7 +98,7 @@ class gmap extends stdcontents
     $this->buffer .="google.load(\"maps\", \"2\");\n";
     $this->buffer .="var ".$this->name.";\n";
 
-    if(is_null($this->pays))
+    if(is_null($this->pays) || !($this->pays instanceof pays))
     {
       foreach ( $this->markers as $marker )
         $this->buffer .= "var ".$marker["name"].";\n";
@@ -111,7 +111,7 @@ class gmap extends stdcontents
     $this->buffer .= $this->name." = new google.maps.Map2(document.getElementById(\"".$this->name."_canvas\"));\n";
 
     
-    if(is_null($this->pays))
+    if(is_null($this->pays) || !($this->pays instanceof pays))
     {
       $first = true;
     
@@ -174,7 +174,7 @@ class gmap extends stdcontents
     }
     else
     {
-      $this->buffer .= $this->pays->nom."= new google.maps.Directions(map);\n";
+      $this->buffer .= 'var '.$this->pays->nom."= new google.maps.Directions(map);\n";
       $this->buffer .= $this->pays->nom.".load(from: ".$this->pays->nom.", {getSteps:true});\n";
     }
 
