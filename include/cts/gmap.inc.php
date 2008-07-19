@@ -126,7 +126,8 @@ class gmap extends stdcontents
       $points=array();
       foreach( $path["latlongs"] as $point )
       {
-        $points[] = "new google.maps.LatLng(".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI).")";
+        //$points[] = "new google.maps.LatLng(".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI).")";
+	$points[] = "@".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI);
         
         if ( $first )
         {
