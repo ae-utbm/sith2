@@ -98,7 +98,7 @@ class gmap extends stdcontents
     $this->buffer .="google.load(\"maps\", \"2\");\n";
     $this->buffer .="var ".$this->name.";\n";
 
-    if(is_null($this->pays) || !($this->pays instanceof pays))
+    if(is_null($this->pays))
     {
       foreach ( $this->markers as $marker )
         $this->buffer .= "var ".$marker["name"].";\n";
@@ -111,7 +111,7 @@ class gmap extends stdcontents
     $this->buffer .= $this->name." = new google.maps.Map2(document.getElementById(\"".$this->name."_canvas\"));\n";
 
     
-    if(is_null($this->pays) || !($this->pays instanceof pays))
+    if(is_null($this->pays))
     {
       $first = true;
     
