@@ -155,7 +155,7 @@ class dokusyntax
     
     if(isset($conf['bookmarks']) && $conf['bookmarks'])
       while( preg_match("/&lt;bookmark:(.*?)&gt;/i",$text) )
-        $text=preg_replace("/&lt;bookmark:(\S+)&gt;/i", "<a name='$1'></a>", $text);
+        $text=preg_replace("/&lt;bookmark:(\S+)&gt;/i", "<a name=\"$1\"></a>", $text);
 
     /* deuxième pass pour les formatages simples */
     $text = $this->simpleformat($text);
