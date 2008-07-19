@@ -127,7 +127,7 @@ class gmap extends stdcontents
       foreach( $path["latlongs"] as $point )
         $points[] = "@".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI);
 
-      $this->buffer .= "var ".$path["name"]."points = \"From: ".implode(" to: ",$points)."\";\n";
+      $this->buffer .= "var ".$path["name"]."points = \"from: ".implode(" to: ",$points)."\";\n";
       $this->buffer .= $path["name"]."= new google.maps.Directions(map);\n";
       $this->buffer .= "google.maps.Event.addListener(".$path["name"].",\"error\", function() { alert(\"Directions Failed: \"+".$path["name"].".getStatus().code); });\n";
       $this->buffer .= $path["name"].".load(".$path["name"]."points, {getSteps:true});\n";
