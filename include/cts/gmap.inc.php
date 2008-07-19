@@ -41,7 +41,9 @@ class gmap extends stdcontents
   var $key = "__GMAP_KEY__";
 
   var $markers = array();
-  var $paths=array();
+  var $paths   = array();
+  var $ville   = array();
+  var $pays    = null;
 
   function gmap ( $name )
   {
@@ -56,7 +58,16 @@ class gmap extends stdcontents
   
   function add_geopoint ( &$g )
   {
-    $this->add_marker($g->nom,$g->lat,$g->long );
+    if( $g instanceof ville)
+    {
+      $pays = new pays($site->db);
+      $pays->load_by_id($g->id_pays);
+      $this->ville[] = $g->nom.", ".$g->cpostal.", ".$g->nom;
+    }
+    elseif( $g instanceof pays)
+      $this->pays=$g->nom;
+    else
+      $this->add_marker($g->nom,$g->lat,$g->long );
   }  
   
   function add_path ( $name, $latlongs, $color="ff0000" )
@@ -81,66 +92,89 @@ class gmap extends stdcontents
     $this->buffer .= "
     <script src=\"http://www.google.com/jsapi?key=".$this->key."\" type=\"text/javascript\"></script>
     <script type=\"text/javascript\">\n";
-    
+
     //
     $this->buffer .="google.load(\"maps\", \"2\");\n";
     $this->buffer .="var ".$this->name.";\n";
-    
-    foreach ( $this->markers as $marker )
-      $this->buffer .= "var ".$marker["name"].";\n";
 
-    foreach ( $this->paths as $path )
-      $this->buffer .= "var ".$path["name"].";\n";
+    if(is_null($this->pays))
+    {
+      foreach ( $this->markers as $marker )
+        $this->buffer .= "var ".$marker["name"].";\n";
+
+      foreach ( $this->paths as $path )
+        $this->buffer .= "var ".$path["name"].";\n";
+    } 
 
     $this->buffer .="function initialize() {\n";
     $this->buffer .= $this->name." = new google.maps.Map2(document.getElementById(\"".$this->name."_canvas\"));\n";
-        
-        
-    $first = true;
+
     
-    foreach ( $this->markers as $marker )
+    if(is_null($this->pays))
     {
-      $this->buffer .= "var ".$marker["name"]."_point = new google.maps.LatLng(".sprintf("%.12F",$marker['lat']*360/2/M_PI).", ".sprintf("%.12F",$marker['long']*360/2/M_PI).");\n";
-      
-      
-      if ( $first )
+      $first = true;
+    
+      foreach ( $this->markers as $marker )
       {
-        $this->buffer .= $this->name.".setCenter(".$marker["name"]."_point, 15);\n";
-        $first = false;
+        $this->buffer .= "var ".$marker["name"]."_point = new google.maps.LatLng(".sprintf("%.12F",$marker['lat']*360/2/M_PI).", ".sprintf("%.12F",$marker['long']*360/2/M_PI).");\n";
+      
+      
+        if ( $first )
+        {
+          $this->buffer .= $this->name.".setCenter(".$marker["name"]."_point, 15);\n";
+          $first = false;
+        }
+      
+        if ( $marker["draggable"] )
+        {
+          $this->buffer .= "var ".$marker["name"]." = new google.maps.Marker(".$marker["name"]."_point, {draggable: true});\n";
+          if ( !is_null($marker["dragend"]) )
+            $this->buffer .= "google.maps.Event.addListener(marker, \"dragend\", ".$marker["dragend"]." );\n";
+        }
+        else
+          $this->buffer .= $marker["name"]."= new google.maps.Marker(".$marker["name"]."_point);\n";
+      
+        $this->buffer .= $this->name.".addOverlay(".$marker["name"].");\n";
+      
       }
-      
-      if ( $marker["draggable"] )
-      {
-        $this->buffer .= "var ".$marker["name"]." = new google.maps.Marker(".$marker["name"]."_point, {draggable: true});\n";
-        if ( !is_null($marker["dragend"]) )
-          $this->buffer .= "google.maps.Event.addListener(marker, \"dragend\", ".$marker["dragend"]." );\n";
-      }
-      else
-        $this->buffer .= $marker["name"]."= new google.maps.Marker(".$marker["name"]."_point);\n";
-      
-      $this->buffer .= $this->name.".addOverlay(".$marker["name"].");\n";
-      
-    }
 
-    foreach ( $this->paths as $path )
-    {
-      $points=array();
-      foreach( $path["latlongs"] as $point )
+      foreach($this->ville as $ville)
       {
-        if($point instanceof ville)
+        $pays = new pays($site->db);
+	$pays->load_by_id($ville->id_pays);
+        $this->buffer .= "var ville_".$ville->nom."_point = new google.maps.ClientGeocoder();\n";
+        $this->buffer .= "var ville_".$ville->nom."= new google.maps.Marker(ville_".$ville->nom."_point.getLatLng(".$ville->nom.", ".$ville->cpostal.", ".$pays->nom."));\n";
+	if( $first )
 	{
-	  $pays = new pays($site->db);
-	  $pays->load_by_id($point->id_pays);
-	  $points[] = $point->nom.", ".$point->cpostal.", ".$pays->nom;
+	  $this->buffer .= $this->name.".setCenter(ville_".$ville->nom."_point, 15);\n";
+	  $first = false;
 	}
-	else
-          $points[] = "@".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI);
       }
 
-      $this->buffer .= "var ".$path["name"]."points = \"from: ".implode(" to: ",$points)."\";\n";
+      foreach ( $this->paths as $path )
+      {
+        $points=array();
+        foreach( $path["latlongs"] as $point )
+        {
+          if($point instanceof ville)
+          {
+            $pays = new pays($site->db);
+            $pays->load_by_id($point->id_pays);
+            $points[] = $point->nom.", ".$point->cpostal.", ".$pays->nom;
+          }
+          else
+            $points[] = "@".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI);
+        }
+
+        $this->buffer .= "var ".$path["name"]."points = \"from: ".implode(" to: ",$points)."\";\n";
+        $this->buffer .= $path["name"]."= new google.maps.Directions(map);\n";
+        $this->buffer .= $path["name"].".load(".$path["name"]."points, {getSteps:true});\n";
+      }
+    }
+    else
+    {
       $this->buffer .= $path["name"]."= new google.maps.Directions(map);\n";
-      $this->buffer .= "google.maps.Event.addListener(".$path["name"].",\"error\", function() { alert(\"Directions Failed: \"+".$path["name"].".getStatus().code); });\n";
-      $this->buffer .= $path["name"].".load(".$path["name"]."points, {getSteps:true});\n";
+      $this->buffer .= $path["name"].".load(from: ".$this->pays.", {getSteps:true});\n";
     }
 
     $this->buffer .= $this->name.".addControl(new google.maps.SmallMapControl());\n";

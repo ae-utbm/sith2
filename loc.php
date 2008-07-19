@@ -65,121 +65,6 @@ if ( $_REQUEST["action"] == "allkml" )
 }
 
 
-if ($_REQUEST['action'] == 'genimgpays')
-{
-  require_once($topdir. "include/pgsqlae.inc.php");
-  require_once($topdir. "include/cts/imgloc.inc.php");
-
-  $idpays = intval($_REQUEST['idpays']);
-
-  $imgfile = $topdir . "var/cache/loc/pays/".$idpays.".png";
-
-  if (file_exists($imgfile))
-    {
-      header("Content-Type: image/png");
-      readfile($imgfile);
-      exit();
-    }
-
-
-  $req = new requete($site->db,
-                     "SELECT nomeng_pays FROM loc_pays WHERE id_pays = " . $idpays);
-
-  $nomengpays = $req->get_row();
-  $nomengpays = $nomengpays['nomeng_pays'];
-
-  $img = new imgloc(800, IMGLOC_WORLD, $site->db, new pgsqlae());
-  $img->add_hilighted_context($nomengpays);
-  $img->add_context();
-
-  $img = $img->generate_img();
-
-  require_once ($topdir . "include/watermark.inc.php");
-  $wm_img = new img_watermark ($img->imgres);
-
-  //  $wm_img->saveas($imgfile);
-  $wm_img->output();
-
-  exit();
-}
-
-if ($_REQUEST['action'] == 'genimgville')
-{
-
-  /* on utilise les lat/long pour la localisation */
-  if (isset($_REQUEST['idville']))
-  {
-    $idvilles[] = intval($_REQUEST['idville']);
-
-  }
-  /* code postal */
-  else if (isset($_REQUEST['cpostal']))
-  {
-    $cpostal = intval($_REQUEST['cpostal']);
-    $req = new requete($site->db, "SELECT 
-                                      id_ville
-                                   FROM
-                                      loc_ville
-                                   WHERE
-                                      cpostal_ville = $cpostal");
-
-    if ($req->lines > 0)
-      {
-	while ($rs = $req->get_row())
-	  {
-	    $idvilles[] = $rs['id_ville'];
-	  }
-      }
-  }
-
-  require_once($topdir. "include/pgsqlae.inc.php");
-  require_once($topdir. "include/cts/imgloc.inc.php");
-  
-  $pgconn = new pgsqlae();
-
-  if (isset($_REQUEST['level']))
-    $lvl = intval($_REQUEST['level']);
-  else
-    $lvl = IMGLOC_COUNTRY;
-
-  $loc = new imgloc(800, $lvl, $site->db, $pgconn);
-   
-  foreach ($idvilles as $idville)
-    $loc->add_location_by_idville($idville);
-  $loc->add_context();
-
-  require_once ($topdir . "include/watermark.inc.php");  
-  $img = $loc->generate_img();
-  $wm_img = new img_watermark ($img->imgres);
-  $wm_img->output();
-  exit();
-}
-
-if ($_REQUEST['action'] == 'genimglieu')
-{
-  $idlieu = intval($_REQUEST['id_lieu']);
-  $level  = intval($_REQUEST['level']);
-  
-  $lieu = new lieu($site->db);
-  $lieu->load_by_id($idlieu);
-
-  require_once($topdir. "include/pgsqlae.inc.php");
-  require_once($topdir. "include/cts/imgloc.inc.php");
-  
-  $pgconn = new pgsqlae();
-
-  $loc = new imgloc(800, $level, $site->db, $pgconn);
-  $loc->add_location_by_object($lieu);
-  $loc->add_context();
-
-  require_once ($topdir . "include/watermark.inc.php");  
-  $img = $loc->generate_img();
-  $wm_img = new img_watermark ($img->imgres);
-  $wm_img->output();
-  
-  exit();
-}
-
 $pays = new pays($site->db,$site->dbrw);
 $ville = new ville($site->db,$site->dbrw);
 $lieu = new lieu($site->db,$site->dbrw);
@@ -327,10 +212,11 @@ elseif ( $ville->is_valid() )
 
   $cts->add_paragraph("Pays: ".$pays->get_html_link());
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($ville->lat)."N , ".geo_radians_to_degrees($ville->long)."E");
-  if (isset($_REQUEST['level']))
-    $cts->add_paragraph("<center><img src=\"loc.php?action=genimgville&idville=".$ville->id."&level=".intval($_REQUEST['level'])."\" alt=\"position ville\" /></center>\n");
-  else
-    $cts->add_paragraph("<center><img src=\"loc.php?action=genimgville&idville=".$ville->id."\" alt=\"position ville\" /></center>\n");
+
+  $map = new gmap("map");
+  $map->add_geopoint($ville);
+  $cts->add($map);
+
   $site->add_contents($cts);
 
   $site->end_page();
@@ -341,7 +227,9 @@ elseif ( $pays->is_valid() )
   $site->start_page("none","Lieux");
 
   $cts = new contents($pays->nom);
-  $cts->add_paragraph("<center><img src=\"loc.php?action=genimgpays&idpays=".$pays->id."\" alt=\"position pays\" /></center>\n");
+  $map = new gmap("map");
+  $map->add_geopoint($pays);
+  $cts->add($map);
   
   $site->add_contents($cts);
 
