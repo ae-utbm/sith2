@@ -309,10 +309,18 @@ else if ( $_REQUEST["action"] == "revision" && $can_edit )
 }  
 elseif ( $_REQUEST["action"] == "edit" && $is_admin )
 {
-  $wiki->set_rights($site->user,
-          $_REQUEST['rights'],$_REQUEST['rights_id_group'],
-          $_REQUEST['rights_id_group_admin']);
-  $wiki->update();          
+  if($_REQUEST["edit"]=="Annuler");
+  {
+    print_r('annulé');
+    $wiki->unlock($site->user);
+  }
+  else
+  {
+    $wiki->set_rights($site->user,
+            $_REQUEST['rights'],$_REQUEST['rights_id_group'],
+            $_REQUEST['rights_id_group_admin']);
+    $wiki->update();          
+  }
 }
 $site->start_page ("wiki", $wiki->rev_title);
 
@@ -402,7 +410,8 @@ else
     $frm = new form("editwiki","./?name=$pagepath",true,"POST");
     $frm->add_hidden("action","edit");
     $frm->add_rights_field($wiki,true,true,"wiki");
-    $frm->add_submit("edit","Enregistrer"); 
+    $frm->add_submit("edit","Enregistrer");
+    $frm->add_submit("edit","Annuler");
     $cts->add($frm);
   }
   elseif ( $can_edit && $_REQUEST["view"] == "edit" )
