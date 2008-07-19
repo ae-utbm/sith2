@@ -30,6 +30,7 @@ $topdir="../";
 
 require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/pgsqlae.inc.php");
+require_once($topdir . "include/cts/gmap.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/trajet.inc.php");
 
@@ -59,8 +60,11 @@ $datetrj = $_REQUEST['date'];
 $trajet = new trajet($site->db, $site->dbrw);
 
 $trajet->load_by_id($_REQUEST['id_trajet']);
-
-
+$map = new gmap("map");
+$ville = new ville($site->db);
+$ville->load_by_id($trajet->ville_depart->id);
+$map->add_geopoint_path($ville);
+$etapes=array();
 
 /* demande de suppresion d'etapes */
 if ($_REQUEST['action'] == 'delete')
@@ -136,12 +140,6 @@ if (isset($_REQUEST['add_step_sbmt']))
 
     if(count($etapes)<24)
     {
-      require_once($topdir. "include/cts/gmap.inc.php");
-      require_once($topdir. "include/entities/ville.inc.php");
-      $map = new gmap("map");
-      $ville = new ville($site->db);
-      $ville->load_by_id($trajet->ville_depart->id);
-      $map->add_geopoint_path($ville);
       foreach($etapes as $etape)
       {
         $ville->load_by_id($etape['ville']);
@@ -175,11 +173,24 @@ else
 
   $accueil->add_paragraph("<div class=\"comment\">".doku2xhtml($trajet->commentaires)."</div>");
 
-  $accueil->add_paragraph("<center><img src=\"./imgtrajet.php?id_trajet=".
-      $trajet->id."&amp;date=".$datetrj."\" alt=\"Rendu géographique\" /></center>");
+  $trajet->load_steps();
+  foreach($trajet->etape as $etape)
+    if($etape['etat']==1)
+      $etapes[]=$etape;
+  if(count($etapes)<24)
+  {
+    foreach($etapes as $etape)
+    {
+      $ville->load_by_id($etape['ville']);
+      $map->add_geopoint_path($ville);
+    }
+  }
+  
+  $ville->load_by_id($trajet->ville_arrivee->id);
+  $map->add_geopoint_path($ville);
+  $accueil->add($map);
 
   $accueil->add_paragraph("Ci-dessus une vue du trajet, avec les étapes acceptées éventuelles");
-
 
 
   /* proposer de rejoindre le trajet */
