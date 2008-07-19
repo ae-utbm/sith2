@@ -1119,6 +1119,7 @@ class dokusyntax
   
   function format_link_email(&$link,&$name,&$class,&$target,&$style,&$pre,&$post,&$more)
   {
+    global $conf;
     $class  = 'mail';
     $target = '';
     $pre    = '';
