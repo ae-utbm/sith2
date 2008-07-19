@@ -196,7 +196,7 @@ else
   else
   {
     $etapes=array();
-    $etape[]=$ville;
+    $etapes[]=$ville;
     $ville->load_by_id($trajet->ville_arrivee->id);
     $etapes[]=$ville;
   }
