@@ -109,7 +109,7 @@ class gmap extends stdcontents
 
     $this->buffer .="function initialize() {\n";
     $this->buffer .= $this->name." = new google.maps.Map2(document.getElementById(\"".$this->name."_canvas\"));\n";
-    $this->buffer .= $this->name."setCenter(new GLatLng(0, 0), 13);\n";
+    $this->buffer .= $this->name.".setCenter(new GLatLng(0, 0), 13);\n";
 
     
     if(is_null($this->pays))
