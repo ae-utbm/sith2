@@ -153,7 +153,7 @@ function(point)
   else
   {
     var marker = new google.maps.Marker(point);
-    ".$this->name.".addOverlay(marker);
+    /*".$this->name.".addOverlay(marker);*/
     ".$this->name.".setCenter(point,13);
   }
 }
