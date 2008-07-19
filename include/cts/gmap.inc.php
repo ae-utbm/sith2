@@ -154,6 +154,7 @@ function(point)
   {
     var marker = new google.maps.Marker(point);
     ".$this->name.".addOverlay(marker);
+    ".$this->name.".setCenter(point,13);
   }
 }
 );\n";
