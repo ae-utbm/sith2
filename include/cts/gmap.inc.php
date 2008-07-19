@@ -155,7 +155,7 @@ function(point)
     ";
         if($first)
 	{
-          $this->buffer.="    ".$this->name.".setCenter(point,13);";
+          $this->buffer.="    ".$this->name.".setCenter(point,12);";
           $first=false;
         }
         $this->buffer.="
