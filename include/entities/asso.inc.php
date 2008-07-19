@@ -46,8 +46,8 @@ $GLOBALS['ROLEASSO'] = array
   ROLEASSO_SECRETAIRE=>"Secrétaire",
   ROLEASSO_RESPINFO=>"Responsable informatique",
   ROLEASSO_MEMBREBUREAU=>"Membre du bureau/de l'équipe",
-  ROLEASSO_MEMBREACTIF=>"Membre actif",
-  ROLEASSO_MEMBRE=>"Membre"  
+  ROLEASSO_MEMBREACTIF=>"Membre",
+  ROLEASSO_MEMBRE=>"Adepte"
 ); 
  
 $GLOBALS['ROLEASSO100'] = array
@@ -68,8 +68,8 @@ $GLOBALS['ROLEASSO100'] = array
   ROLEASSO_SECRETAIRE=>"Secrétaire",
   ROLEASSO_RESPINFO=>"Responsable informatique",
   ROLEASSO_MEMBREBUREAU=>"Membre du bureau/de l'équipe",
-  ROLEASSO_MEMBREACTIF=>"Membre actif",
-  ROLEASSO_MEMBRE=>"Membre"  
+  ROLEASSO_MEMBREACTIF=>"Membre",
+  ROLEASSO_MEMBRE=>"Adepte"
 ); 
 
 class asso extends stdentity
