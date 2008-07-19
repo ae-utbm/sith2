@@ -214,7 +214,7 @@ elseif ( $ville->is_valid() )
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($ville->lat)."N , ".geo_radians_to_degrees($ville->long)."E");
 
   $map = new gmap("map");
-  $map->add_geopoint($ville);
+//  $map->add_geopoint($ville);
   $cts->add($map);
 
   $site->add_contents($cts);
