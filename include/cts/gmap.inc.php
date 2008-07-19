@@ -89,7 +89,7 @@ class gmap extends stdcontents
       $this->buffer .= "var ".$marker["name"].";\n";
 
     foreach ( $this->paths as $path )
-      $this->buffer .= "var ".$marker["path"].";\n";
+      $this->buffer .= "var ".$path["name"].";\n";
 
     $this->buffer .="function initialize() {\n";
     $this->buffer .= $this->name." = new google.maps.Map2(document.getElementById(\"".$this->name."_canvas\"));\n";
