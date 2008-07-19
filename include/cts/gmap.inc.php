@@ -152,7 +152,9 @@ function(point)
     return;
   else
   {
-    ".$this->name.".setCenter(point,16);
+    var zoom = point.Placemark[0];
+    zoom = zoom.AddressDetails.Accuracy;
+    ".$this->name.".setCenter(point,zoom);
     ".$this->name.".addOverlay(new google.maps.Marker(point));
   }
 }
