@@ -61,10 +61,12 @@ $trajet = new trajet($site->db, $site->dbrw);
 
 $trajet->load_by_id($_REQUEST['id_trajet']);
 $map = new gmap("map");
-$ville = new ville($site->db);
-$ville->load_by_id($trajet->ville_depart->id);
+$fville = new ville($site->db);
+$fville->load_by_id($trajet->ville_depart->id);
+$tville = new ville($site->db);
+$tville->load_by_id($trajet->ville_arrivee->id);
 $etapes=array();
-$etapes[]=$ville;
+$etapes[]=$fville;
 
 /* demande de suppresion d'etapes */
 if ($_REQUEST['action'] == 'delete')
@@ -148,7 +150,7 @@ if (isset($_REQUEST['add_step_sbmt']))
     else
     {
       $etapes=array();
-      $etapes[]=$ville;
+      $etapes[]=$fville;
       $ville->load_by_id($trajet->ville_arrivee->id);
       $etapes[]=$ville;
     }
@@ -189,16 +191,12 @@ else
     }
   }
   if(count($etapes)<24)
-  {
-    $ville->load_by_id($trajet->ville_arrivee->id);
-    $etapes[]=$ville;
-  }
+    $etapes[]=$tville;
   else
   {
     $etapes=array();
-    $etapes[]=$ville;
-    $ville->load_by_id($trajet->ville_arrivee->id);
-    $etapes[]=$ville;
+    $etapes[]=$fville;
+    $etapes[]=$fville;
   }
   $map->add_geopoint_path('Chemin',$etapes);
   $accueil->add($map);
