@@ -175,7 +175,7 @@ class gmap extends stdcontents
     else
     {
       $this->buffer .= 'var '.$this->pays->nom."= new google.maps.Directions(map);\n";
-      $this->buffer .= $this->pays->nom.".load(from: ".$this->pays->nom.", {getSteps:true});\n";
+      $this->buffer .= $this->pays->nom.".load(\"from: ".$this->pays->nom."\", {getSteps:true});\n";
     }
 
     $this->buffer .= $this->name.".addControl(new google.maps.SmallMapControl());\n";
