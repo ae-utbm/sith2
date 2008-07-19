@@ -189,12 +189,11 @@ function(point)
     return;
   else
   {
-    ".$this->name.".setCenter(point,16);
+    ".$this->name.".setCenter(point,24);
     ".$this->name.".addOverlay(new google.maps.Marker(point));
   }
 }
 );\n";
-      $this->buffer .= $this->pays->nom.".load(\"from: ".$this->pays->nom."\", {getSteps:true});\n";
     }
 
     $this->buffer .= $this->name.".addControl(new google.maps.SmallMapControl());\n";
