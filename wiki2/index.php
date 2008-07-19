@@ -290,8 +290,9 @@ if ( $_REQUEST["action"] == "lockrenew" && $can_edit )
 else if ( $_REQUEST["action"] == "revision" && $can_edit )
 {
   $wiki->unlock($site->user);
-
-  if ( ($_REQUEST["title"] != $wiki->rev_title || $_REQUEST["contents"] != $wiki->rev_contents ) )
+  if($_REQUEST["save"]=="Annuler")
+    print_r('annulé');
+  elseif ( ($_REQUEST["title"] != $wiki->rev_title || $_REQUEST["contents"] != $wiki->rev_contents ) )
   {
     if ( $_REQUEST["id_rev_last"] != $wiki->id_rev_last ) // pas cool
     {
@@ -309,18 +310,10 @@ else if ( $_REQUEST["action"] == "revision" && $can_edit )
 }  
 elseif ( $_REQUEST["action"] == "edit" && $is_admin )
 {
-  if($_REQUEST["edit"]=="Annuler")
-  {
-    print_r('annulé');
-    $wiki->unlock($site->user);
-  }
-  else
-  {
-    $wiki->set_rights($site->user,
-            $_REQUEST['rights'],$_REQUEST['rights_id_group'],
-            $_REQUEST['rights_id_group_admin']);
-    $wiki->update();          
-  }
+  $wiki->set_rights($site->user,
+          $_REQUEST['rights'],$_REQUEST['rights_id_group'],
+          $_REQUEST['rights_id_group_admin']);
+  $wiki->update();          
 }
 $site->start_page ("wiki", $wiki->rev_title);
 
@@ -411,7 +404,6 @@ else
     $frm->add_hidden("action","edit");
     $frm->add_rights_field($wiki,true,true,"wiki");
     $frm->add_submit("edit","Enregistrer");
-    $frm->add_submit("edit","Annuler");
     $cts->add($frm);
   }
   elseif ( $can_edit && $_REQUEST["view"] == "edit" )
@@ -461,6 +453,7 @@ else
       $frm->add_text_area("contents","Contenu",$wiki->rev_contents,80,20,true);
       $frm->add_text_field("comment","Log","");
       $frm->add_submit("save","Enregistrer"); 
+      $frm->add_submit("save","Annuler");
       $cts->add($frm);
       $cts->puts("<script>wiki_lock_maintain('".$topdir."',".WIKI_LOCKTIME.",'".$pagepath."');</script>");
   
