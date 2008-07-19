@@ -680,52 +680,6 @@ if ( $folder->is_right($site->user,DROIT_ECRITURE) )
 "d.php?id_folder=".$folder->id."&action=cut"=>"Couper",
 )));
 
-if ( $folder->id == 1 )
-{
-  $gal = new gallery("Derniers ajouts","aedrive",false,"d.php?id_folder_parent=".$folder->id,array("download"=>"Télécharger","info"=>"Details","edit"=>"Editer","delete"=>"Supprimer"));
-
-  $sql = new requete($site->db,"SELECT * " .
-        "FROM d_file " .
-        "WHERE " .
-        "((" .
-          "(" .
-            "((droits_acces_file & 0x1) OR " .
-            "((droits_acces_file & 0x10) AND id_groupe IN (".$site->user->get_groups_csv().")))" .
-          ") " .
-          "AND modere_file='1'" .
-        ") OR " .
-        "(id_groupe_admin IN (".$site->user->get_groups_csv().")) OR " .
-        "((droits_acces_file & 0x100) AND id_utilisateur='".$site->user->id."')) " .
-        "ORDER BY `date_ajout_file` DESC LIMIT 4");
-
-  $fd = new dfile($site->db);
-  while ( $row = $sql->get_row() )
-  {
-    $acts = array("download","info");
-    $fd->_load($row);
-    if ( $fd->is_right($site->user,DROIT_ECRITURE) )
-    {
-      $acts[] ="edit";
-      $acts[] ="delete";
-      $acts[] ="cut"; 
-    }
-
-    if ( !file_exists($fd->get_thumb_filename()) )
-      $img = $topdir."images/icons/128/".$fd->get_icon_name();
-    else
-      $img = "d.php?id_file=".$fd->id."&amp;action=download&amp;download=thumb";
-
-    $desc  =$fd->description;
-    if ( strlen($desc) > 72 )
-      $desc = substr($desc,0,72);
-
-    $gal->add_item ( "<img src=\"$img\" alt=\"fichier\" />","<a href=\"d.php?id_file=".$fd->id."\" class=\"itmttl\">".$fd->titre."</a><br/><span class=\"itmdsc\">".$desc."</span>", "id_file=".$fd->id, $acts, "file" );
-
-  }
-  //$cts->add($gal,true);
-}
-
-
 
 if ( $folder->description)
   $cts->add( new wikicontents ("Description",$folder->description),true );
