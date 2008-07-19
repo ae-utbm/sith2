@@ -40,7 +40,7 @@ class apply_annonce_box extends stdcontents
       
     $this->buffer .= "<div class=\"title\">";
     $this->buffer .= $annonce->titre;
-    $this->buffer .= '('.date("d/m/Y",$annonce->date_depot).')';
+    $this->buffer .= ' ('.date("d/m/Y",strtotime($annonce->date_depot)).')';
     $this->buffer .= "</div>\n";
         
     $this->buffer .= "<div class=\"icons\">\n";
@@ -136,7 +136,7 @@ class annonce_box extends stdcontents
       
     $this->buffer .= "<div class=\"title\">";
     $this->buffer .= $annonce->titre;
-    $this->buffer .= '('.date("d/m/Y",$annonce->date_depot).')';
+    $this->buffer .= ' ('.date("d/m/Y",strtotime($annonce->date_depot)).')';
     $this->buffer .= "</div>\n";
       
     $this->buffer .= "<div class=\"icons\">";
