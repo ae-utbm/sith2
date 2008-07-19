@@ -136,7 +136,7 @@ class gmap extends stdcontents
         }        
       }
       $this->buffer .= $path["name"]."= new google.maps.Directions(map);\n";
-      $this->buffer .= "google.maps.Event.addListener($path["name"],"error", function() { alert("Directions Failed: "+dirn.getStatus().code); });\n";
+      $this->buffer .= "google.maps.Event.addListener(".$path["name"].",\"error\", function() { alert(\"Directions Failed: \"+".$path["name"].".getStatus().code); });\n";
       $this->buffer .= $path["name"].".load(\"".implode(" to: ",$points)."\", {getSteps:true});\n";
 //      $this->buffer .= $this->name.".addOverlay(".$path["name"].");\n";
     }
