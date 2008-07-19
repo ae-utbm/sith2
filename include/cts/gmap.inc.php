@@ -152,11 +152,8 @@ function(point)
     return;
   else
   {
-    var p = point.Placemark[0];
-    var fpoint = new google.maps.LatLng(p.coordinates[1],p.coordinates[0]);
-    var marker = new google.maps.Marker(fpoint);
-    ".$this->name.".addOverlay(marker);
-    ".$this->name.".setCenter(point,13);
+    ".$this->name.".setCenter(point,16);
+    ".$this->name.".addOverlay(new google.maps.Marker(point));
   }
 }
 );\n";
