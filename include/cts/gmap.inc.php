@@ -128,7 +128,7 @@ class gmap extends stdcontents
       {
         //$points[] = "@".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI);
         $points[] = "new google.maps.LatLng( ".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI).")";
-        $this->buffer.=$this->name.".addOverlay(new google.Marker(new google.maps.LatLng( ".sprintf("%.12F",$point['lat']*360/2/M_PI).",".sprintf("%.12F",$point['long']*360/2/M_PI).")));\n"; 
+        $this->buffer.=$this->name.".addOverlay(new google.maps.Marker(new google.maps.LatLng( ".sprintf("%.12F",$point['lat']*360/2/M_PI).",".sprintf("%.12F",$point['long']*360/2/M_PI).")));\n"; 
         if ( $first )
         {
           $this->buffer .= $this->name.".setCenter(new google.maps.LatLng(".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI)."), 15);\n";
