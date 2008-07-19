@@ -63,8 +63,8 @@ $trajet->load_by_id($_REQUEST['id_trajet']);
 $map = new gmap("map");
 $ville = new ville($site->db);
 $ville->load_by_id($trajet->ville_depart->id);
-$map->add_geopoint_path($ville);
 $etapes=array();
+$etapes[]=$ville;
 
 /* demande de suppresion d'etapes */
 if ($_REQUEST['action'] == 'delete')
@@ -132,23 +132,28 @@ if (isset($_REQUEST['add_step_sbmt']))
 
     foreach($trajet->etape as $etape)
     {
-      if($etape['etat']==1)
-        $etapes[]=$etape;
-      elseif($etape['id']==$steps[count($steps) - 1]['id'])
-        $etapes[]=$etape;
+      if($etape['etat']==1 || $etape['id']==$steps[count($steps) - 1]['id'])
+      {
+        $v = new ville($site->db);
+	$v->load_by_id($etape['ville']);
+	$etapes[]=$v;
+      }
     }
 
     if(count($etapes)<24)
     {
-      foreach($etapes as $etape)
-      {
-        $ville->load_by_id($etape['ville']);
-        $map->add_geopoint_path($ville);
-      }
       $ville->load_by_id($trajet->ville_arrivee->id);
-      $map->add_geopoint_path($ville);
-      $accueil->add($map);
+      $etapes[]=$ville;
     }
+    else
+    {
+      $etapes=array();
+      $etapes[]=$ville;
+      $ville->load_by_id($trajet->ville_arrivee->id);
+      $etapes[]=$ville;
+    }
+    $map->add_geopoint_path('Chemin',$etapes);
+    $accueil->add($map);
 
     $accueil->add_paragraph("Ci-dessus un rendu \"vol d'oiseau\" du trajet prévu, sous réserve d'acceptation.");
   }
@@ -175,19 +180,27 @@ else
 
   $trajet->load_steps();
   foreach($trajet->etape as $etape)
-    if($etape['etat']==1)
-      $etapes[]=$etape;
-  if(count($etapes)<24)
   {
-    foreach($etapes as $etape)
+    if($etape['etat']==1)
     {
-      $ville->load_by_id($etape['ville']);
-      $map->add_geopoint_path($ville);
+      $v = new ville($site->db);
+      $v->load_by_id($etape['ville']);
+      $etapes[]=$v;
     }
   }
-  
-  $ville->load_by_id($trajet->ville_arrivee->id);
-  $map->add_geopoint_path($ville);
+  if(count($etapes)<24)
+  {
+    $ville->load_by_id($trajet->ville_arrivee->id);
+    $etapes[]=$ville;
+  }
+  else
+  {
+    $etapes=array();
+    $etape[]=$ville;
+    $ville->load_by_id($trajet->ville_arrivee->id);
+    $etapes[]=$ville;
+  }
+  $map->add_geopoint_path('Chemin',$etapes);
   $accueil->add($map);
 
   $accueil->add_paragraph("Ci-dessus une vue du trajet, avec les étapes acceptées éventuelles");
