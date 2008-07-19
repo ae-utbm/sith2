@@ -152,9 +152,8 @@ function(point)
     return;
   else
   {
-    alert('here');
-    var ".$ville->nom." = new google.maps.Marker(point);
-    ".$this->name.".addOverlay(".$ville->nom.");
+    var marker = new google.maps.Marker(point);
+    ".$this->name.".addOverlay(marker);
   }
 }
 );\n";
