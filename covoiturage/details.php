@@ -130,7 +130,7 @@ if (isset($_REQUEST['add_step_sbmt']))
 
     $trajet->load_steps();
 
-    foreach($trajet->etape as $etape)
+    foreach($trajet->etapes as $etape)
     {
       if($etape['etat']==1 || $etape['id']==$steps[count($steps) - 1]['id'])
       {
@@ -179,7 +179,7 @@ else
   $accueil->add_paragraph("<div class=\"comment\">".doku2xhtml($trajet->commentaires)."</div>");
 
   $trajet->load_steps();
-  foreach($trajet->etape as $etape)
+  foreach($trajet->etapes as $etape)
   {
     if($etape['etat']==1)
     {
