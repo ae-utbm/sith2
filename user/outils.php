@@ -53,9 +53,9 @@ if ( $nb )
 else
   $sublist->add("<a href=\"".$topdir."user/reservations.php\">Mes reservations de salles</a>");
 
-$req = new requete($this->db,"SELECT COUNT(*) " .
+$req = new requete($site->db,"SELECT COUNT(*) " .
   "FROM inv_emprunt " .
-  "WHERE id_utilisateur='".$this->user->id."' AND etat_emprunt<=1");
+  "WHERE id_utilisateur='".$site->user->id."' AND etat_emprunt<=1");
 list($nb) = $req->get_row();
 
 if ( $nb )
