@@ -412,7 +412,7 @@ class dokusyntax
       $this->format_link($link,$name,$class,$target,$style,$pre,$post,$more);
       
       
-    if( preg_match('/^([a-zA-Z]+):\/\//',$link) ) // liens externe et spéciaux
+    if( !strpos($link,'mailto:') && preg_match('/^([a-zA-Z]+):\/\//',$link) ) // liens externe et spéciaux
     {
       if ( preg_match('/dfile:\/\/([0-9]*)(\/preview|\/info|\/download|\/thumb)?/i',$link,$match) )
       {
@@ -481,6 +481,8 @@ class dokusyntax
         else
           $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=".$link;
       }
+      if(strpos($link,'mailto:'))
+        print_r("grrr");
     }
   
   
