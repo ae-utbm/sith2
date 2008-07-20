@@ -851,7 +851,7 @@ class site extends interfaceweb
 
     $req = new requete($this->db,
         "SELECT `asso`.`id_asso`, " .
-        "`asso`.`nom_asso`, ".
+        "`asso`.`nom_asso` ".
         "FROM `asso_membre` " .
         "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
         "WHERE `asso_membre`.`role` > 1 AND `asso_membre`.`date_fin` IS NULL " .
@@ -861,7 +861,10 @@ class site extends interfaceweb
 
     if ( $req->lines > 0 )
     {
-      $sublist = new itemlist("Gestion associations","boxlist");
+      if( $req->lines == 0 )
+        $sublist = new itemlist("Gestion association","boxlist");
+      else
+        $sublist = new itemlist("Gestion associations","boxlist");
       while ( list($id,$nom) = $req->get_row() )
         $sublist->add("<a href=\"".$topdir."asso/index.php?id_asso=$id\">$nom</a>");
       $cts->add($sublist,true, true, "assobox", "boxlist", true, true);
