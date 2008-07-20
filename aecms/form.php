@@ -50,7 +50,7 @@ if ( $site->is_user_admin() )
   if (isset($_REQUEST["addcpg"]) && isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) && isset($_REQUEST["description"]) && isset($_REQUEST["questions"]) )
   {
     if(!isset($_REQUEST["end_date"]) || empty($_REQUEST["end_date"]))
-      $_REQUEST["end_date"]=strtotime('00/00/0000');
+      $_REQUEST["end_date"]='00/00/0000';
     $cts = new contents("Formulaire ajoutée avec succès");
     $cpg->new_campagne($_REQUEST["nom"], $_REQUEST["description"], $_REQUEST["end_date"],'-1',$site->asso->id);
     foreach ( $_REQUEST["questions"] as $rep )
@@ -164,7 +164,7 @@ if ( $site->is_user_admin() )
 $site->start_page("none","Liste des formulaires");
 if(!is_null($cpg->id)) // on affiche le formulaire
 {
-  if ( $cpg->id > 0 && !$cpg->a_repondu($site->user->id) && isset($_REQUEST["answord"]) )
+  if ( $cpg->id > 0 && !$cpg->a_repondu($site->user->id) && isset($_REQUEST["answord"]) && $cpg->id==isset($_REQUEST["answord"]))
   {
     $cpg->repondre($site->user->id,$_REQUEST["reponses"]);
     $res = new contents("Merci","Votre participation.");
@@ -182,7 +182,7 @@ if(!is_null($cpg->id)) // on affiche le formulaire
       if($cpg->end_date!='0000-00-00')
         $cts->add_paragraph("Le formulaire se terminera le ".date("d/m/y",strtotime($cpg->end_date)));
       $frm = new form("apply","form.php",true,"POST","Formulaire d'inscription");
-      $frm->add_hidden("answord","true");
+      $frm->add_hidden("answord",$cpg->id);
       $frm->add_hidden("id",$cpg->id);
       foreach($questions as $id => $question)
       {
