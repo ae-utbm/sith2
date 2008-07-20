@@ -861,7 +861,7 @@ class site extends interfaceweb
         $sublist = new itemlist("Gestion associations","boxlist");
 
       if( $this->user->is_in_group("root") )
-        $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Rootplace</a>");
+        $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
 
       while ( list($id,$nom) = $req->get_row() )
         $sublist->add("<a href=\"".$topdir."asso/index.php?id_asso=$id\">$nom</a>");
