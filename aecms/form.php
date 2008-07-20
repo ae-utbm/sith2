@@ -79,7 +79,7 @@ if ( $site->is_user_admin() )
           $cpg->add_question($rep['nom_question'],$rep['description_question'],$rep['type_question']);
       }
     }
-    $cts->add_paragraph("<img src=\"".$topdir."images/actions/done.png\">&nbsp;Le formulaire \"".$cpg->nom."\" a bien été ajouté.");
+    $cts->add_paragraph("<img src=\"".$wwwtopdir."images/actions/done.png\">&nbsp;Le formulaire \"".$cpg->nom."\" a bien été ajouté.");
     $site->add_contents($cts,true);
     unset($_REQUEST["nom"]);
     unset($_REQUEST["description"]);
