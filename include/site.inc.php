@@ -817,7 +817,7 @@ class site extends interfaceweb
       if( $this->user->is_in_group("root") || $this->user->is_in_group("moderateur_site"))
         $sublist = new itemlist("Gestion assos/clubs","boxlist");
       elseif( $req->lines == 0 )
-        $sublist = new itemlist("Gestion assos/club","boxlist");
+        $sublist = new itemlist("Gestion asso/club","boxlist");
       else
         $sublist = new itemlist("Gestion assos/clubs","boxlist");
 
@@ -835,7 +835,7 @@ class site extends interfaceweb
       if($this->user->is_in_group("root") && $this->user->is_in_group("moderateur_site"))
         $sublist = new itemlist("Gestion assos/clubs","boxlist");
       else
-        $sublist = new itemlist("Gestion assos/club","boxlist");
+        $sublist = new itemlist("Gestion asso/club","boxlist");
       if($this->user->is_in_group("root"))
         $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
       if($this->user->is_in_group("moderateur_site"))
