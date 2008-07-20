@@ -114,7 +114,10 @@ class requete {
     global $timing;
     
     $timing["mysql"] -= $st = microtime(true);
-    
+
+    if($debug == 1)
+      echo "Votre requete SQL est <b> " . $sql . "</b><br/>";
+
     if(!$base->dbh) 
     {
       $this->errmsg = "Non connecté";
