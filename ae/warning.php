@@ -47,7 +47,7 @@ if(isset($_REQUEST['action']))
   if($_REQUEST['action']=='offstate')
     $site->set_param("nom_param",(string)0);
   if($_REQUEST['action']=='changemessage')
-    $site->set_param("nom_param",$_REQUEST['message'];
+    $site->set_param("nom_param",$_REQUEST['message']);
 }
 
 $cts = new contents ("Gestion du message d'alert","<p>Cette page permet de gérer le message d'alerte.");
