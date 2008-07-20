@@ -466,7 +466,7 @@ class dokusyntax
         }
       }
     }
-    elseif ( !preg_match("#(\.|/)#",$link) )
+    elseif ( !strpos($link,'mailto:') && !preg_match("#(\.|/)#",$link) )
     {  
       $link = preg_replace("/[^a-z0-9\-_:#]/","_",strtolower(utf8_enleve_accents($link)));
       if ( $link{0} != '#' )
