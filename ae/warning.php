@@ -43,11 +43,11 @@ $site->start_page ("none", "Gestion du site");
 if(isset($_REQUEST['action']))
 {
   if($_REQUEST['action']=='onstate')
-    $site->set_param("nom_param",true);
+    $site->set_param("warning_enabled",true);
   if($_REQUEST['action']=='offstate')
-    $site->set_param("nom_param",false);
+    $site->set_param("warning_enabled",false);
   if($_REQUEST['action']=='changemessage')
-    $site->set_param("nom_param",$_REQUEST['message']);
+    $site->set_param("warning_message",$_REQUEST['message']);
 }
 
 $cts = new contents ("Gestion du message d'alert","<p>Cette page permet de gérer le message d'alerte.");
