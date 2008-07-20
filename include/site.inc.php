@@ -835,6 +835,12 @@ class site extends interfaceweb
         $sublist->add("<a href=\"".$topdir."asso/index.php?id_asso=$id\">$nom</a>");
       $cts->add($sublist,true, true, "assobox", "boxlist", true, true);
     }
+    elseif($this->user->is_in_group("root"))
+    {
+      $sublist = new itemlist("Gestion assos/club","boxlist");
+      $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
+      $cts->add($sublist,true, true, "assobox", "boxlist", true, true);
+    }
 
     $req = new requete($this->db,"SELECT id_comptoir,nom_cpt " .
         "FROM cpt_comptoir " .
