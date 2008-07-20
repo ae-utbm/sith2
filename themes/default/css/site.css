@@ -315,6 +315,7 @@ div.page#n
   margin: 0 1em;
 }
 
+
 /*
  * Boites des colonnes
  */
@@ -329,6 +330,10 @@ div.box
   background-position: top left;
 }
 
+div#sbox_wiki
+{
+  background: #afc7e0 url("../images/boxtools-top.png");
+}
 /* Titre de la boite */
 div.box h1
 {
@@ -364,6 +369,10 @@ div.box div.body
   background-image: url("../images/box-bottom.png") ;
   background-repeat: no-repeat;
   background-position: bottom left;
+}
+div.#sbox_wiki div.body
+{
+  background-image: url("../images/boxtools-bottom.png") ;
 }
 
 div.box p
@@ -474,7 +483,10 @@ div.box h2, div.box h3
   padding-bottom:5px;
   
 }
-
+div.#sbox_wiki h2, div.#sbox_wiki h3
+{
+  background:url("../images/boxtools-title.png");
+}
 div.box ul
 {
   padding-bottom:5px;
