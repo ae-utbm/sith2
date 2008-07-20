@@ -63,7 +63,9 @@ $frm = new form ("editwarning",
           "post",
           "Edition du message d'alerte");
 $frm->add_hidden("action","changemessage");
-$frm->add_text_field('message',$site->get_param('warning_message'));
+$meaage=$site->get_param('warning_message');
+echo $message;
+$frm->add_text_field('message',$message);
 $frm->add_submit("sub", "Modifier");
 $site->add_contents($frm);
 
