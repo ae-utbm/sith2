@@ -37,7 +37,7 @@ if ( $site->is_user_admin() )
 
   if(!is_null($cpg->id) && isset($_REQUEST["action"]) && $_REQUEST["action"]=="delete")
   {
-    if($cpg->asso==$_REQUEST["id_asso"])
+    if($cpg->asso==$site->asso->id)
     {
       new delete($site->dbrw,"cpg_campagne",array("id_campagne"=>$_REQUEST["id"]));
       new delete($site->dbrw,"cpg_participe",array("id_campagne"=>$_REQUEST["id"]));
@@ -162,7 +162,7 @@ if ( $site->is_user_admin() )
 }
 
 $site->start_page("none","Liste des formulaires");
-if(!is_null($cpg->id)) // on affiche le formulaire
+if(!is_null($cpg->id) && $cpg->asso==$site->asso->id) // on affiche le formulaire
 {
   if ( $cpg->id > 0 && !$cpg->a_repondu($site->user->id) && isset($_REQUEST["answord"]) && $cpg->id==isset($_REQUEST["answord"]))
   {
