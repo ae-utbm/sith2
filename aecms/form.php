@@ -50,7 +50,7 @@ if ( $site->is_user_admin() )
   if (isset($_REQUEST["addcpg"]) && isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) && isset($_REQUEST["description"]) && isset($_REQUEST["questions"]) )
   {
     if(!isset($_REQUEST["end_date"]) || empty($_REQUEST["end_date"]))
-      $_REQUEST["end_date"]=strtotime('0000-00-00');
+      $_REQUEST["end_date"]=strtotime('00/00/0000');
     $cts = new contents("Formulaire ajoutée avec succès");
     $cpg->new_campagne($_REQUEST["nom"], $_REQUEST["description"], $_REQUEST["end_date"],'-1',$site->asso->id);
     foreach ( $_REQUEST["questions"] as $rep )
