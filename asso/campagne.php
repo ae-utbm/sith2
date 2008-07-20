@@ -68,7 +68,7 @@ if(!is_null($cpg->id) && isset($_REQUEST["action"]) && $_REQUEST["action"]=="del
 if (isset($_REQUEST["addcpg"]) && isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) && isset($_REQUEST["end_date"]) && isset($_REQUEST["description"]) && isset($_REQUEST["questions"]) )
 {
   $cts = new contents("Campagne ajoutée avec succès");
-  $cpg->new_campagne($_REQUEST["nom"], $_REQUEST["description"], $_REQUEST["end_date"], $_REQUEST["id_groupe"]);
+  $cpg->new_campagne($_REQUEST["nom"], $_REQUEST["description"], $_REQUEST["end_date"], $_REQUEST["id_groupe"], $asso->id);
   foreach ( $_REQUEST["questions"] as $rep )
   {
     if ( isset($rep['nom_question']) && !empty($rep['nom_question']) && isset($rep['type_question']))
@@ -98,7 +98,7 @@ if (isset($_REQUEST["addcpg"]) && isset($_REQUEST["nom"]) && !empty($_REQUEST["n
       }
     }
   }
-  $cts->add_paragraph("<img src=\"".$topdir."images/actions/done.png\">&nbsp;La campagne \"".$cpg->nom."\" a bien été ajouté.");
+  $cts->add_paragraph("<img src=\"".$topdir."images/actions/done.png\">&nbsp;La campagne \"".$cpg->nom."\" a bien été ajoutée.");
   $site->add_contents($cts,true);
   unset($_REQUEST["nom"]);
   unset($_REQUEST["description"]);

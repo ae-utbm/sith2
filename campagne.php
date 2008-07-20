@@ -43,7 +43,7 @@ else
   $cpg->load_by_id($_REQUEST['id_campagne']);
 }
 
-if ( $cpg->id > 0 && !$cpg->a_repondu($site->user->id) && isset($_REQUEST["answord"]) )
+if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repondu($site->user->id) && isset($_REQUEST["answord"]) )
 {
   if(isset($_REQUEST["discard"]) )
     $_REQUEST["reponses"]="";
