@@ -841,14 +841,6 @@ class site extends interfaceweb
       $cts->add($sublist,true, true, "syscarteaebox", "boxlist", true, false);
     }
     
-    if( $this->user->is_in_group("root") )
-    {
-      $sublist = new itemlist("Equipe info","boxlist");
-      $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Rootplace</a>");
-      $cts->add($sublist,true, true, "rootadminbox", "boxlist", true, false);
-    }
-
-
     $req = new requete($this->db,
         "SELECT `asso`.`id_asso`, " .
         "`asso`.`nom_asso` ".
@@ -861,10 +853,16 @@ class site extends interfaceweb
 
     if ( $req->lines > 0 )
     {
-      if( $req->lines == 0 )
-        $sublist = new itemlist("Gestion association","boxlist");
+      if( $this->user->is_in_group("root") )
+        $sublist = new itemlist("Gestion assos/clubs","boxlist");
+      elseif( $req->lines == 0 )
+        $sublist = new itemlist("Gestion assos/club","boxlist");
       else
         $sublist = new itemlist("Gestion associations","boxlist");
+
+      if( $this->user->is_in_group("root") )
+        $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Rootplace</a>");
+
       while ( list($id,$nom) = $req->get_row() )
         $sublist->add("<a href=\"".$topdir."asso/index.php?id_asso=$id\">$nom</a>");
       $cts->add($sublist,true, true, "assobox", "boxlist", true, true);
