@@ -50,7 +50,8 @@ if(isset($_REQUEST['action']))
     $site->set_param("warning_message",$_REQUEST['message']);
 }
 
-$cts = new contents ("Gestion du message d'alert","<p>Cette page permet de gérer le message d'alerte.");
+$cts = new contents ("Gestion du message d'alert",
+                     "<p>Cette page permet de gérer le message d'alerte.");
 if($site->get_param('warning_enabled'))
   $cts->add_paragraph('<a href="warning.php?action=offstate">Désctiver le message d\'alerte</a>');
 else
@@ -63,7 +64,7 @@ $frm = new form ("editwarning",
           "post",
           "Edition du message d'alerte");
 $frm->add_hidden("action","changemessage");
-$frm->add_text_field('message','Message d\'alert',$site->get_param('warning_message'));
+$frm->add_text_field('message','Message d\'alerte',$site->get_param('warning_message'));
 $frm->add_submit("sub", "Modifier");
 $site->add_contents($frm);
 
