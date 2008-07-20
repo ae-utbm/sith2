@@ -183,7 +183,14 @@ class tracking extends stdentity
 
   function add_history($comment, $id_utilisateur)
   {
+    if($this->id > 0)
+    {
+      $req = new insert($this->dbrw,"tracking_history",
+                        array("priority_ticket" => $this->priority,
+                              "status_ticket" => $this->status,
+                              "comment_ticket" => $this->
 
+    }
   }
 
   function delete_history($id_history)
