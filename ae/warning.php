@@ -54,7 +54,7 @@ $cts = new contents ("Gestion du message d'alert","<p>Cette page permet de gére
 if($site->get_param('warning_enabled')==1)
   $cts->add_paragraph('<a href="warning.php?action=onstate">Activer le message d\'alerte</a>');
 else
-  $cts->add_paragraph('<a href="warning.php?action=offstate">Désctiver le message d\'alerte</a>');
+  $cts->add_paragraph($site->get_param('warning_enabled').'<a href="warning.php?action=offstate">Désctiver le message d\'alerte</a>');
 $site->add_contents ($cts);
 
 $frm = new form ("editwarning",
