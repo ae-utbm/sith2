@@ -175,7 +175,7 @@ class dokusyntax
     
     $timing["doku2xhtml"] += microtime(true);
 
-    $text=str_replace('__dot__','[dot]',str_replace('__at__','[at]'$text));
+    $text=str_replace('__dot__','[dot]',str_replace('__at__','[at]',$text));
 
     if ( $summury )
       return array($js.$text,$hltable);
