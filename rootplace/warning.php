@@ -33,7 +33,7 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site ();
 
-if (!$site->user->is_in_group ("moderateur_site"))
+if (!$site->user->is_in_group("root"))
   $site->error_forbidden();
 
 $site->start_page ("none", "Gestion du site");
@@ -50,8 +50,7 @@ if(isset($_REQUEST['action']))
     $site->set_param("warning_message",$_REQUEST['message']);
 }
 
-$cts = new contents ("Gestion du message d'alert",
-                     "<p>Cette page permet de gérer le message d'alerte.");
+$cts = new contents("<a href=\"./\">Administration</a> / <a href=\"warning.php\">ALARM!</a>","<p>Cette page permet de gérer le message d'alerte.");
 if($site->get_param('warning_enabled'))
   $cts->add_paragraph('<a href="warning.php?action=offstate">Désctiver le message d\'alerte</a>');
 else
