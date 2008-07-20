@@ -253,9 +253,9 @@ if(!isset($_REQUEST["id"]))// on liste les formulaires en cours
   if($req->lines>0)
   {
     if($site->is_user_admin())
-      $act=array("results"=>"Résultats","edit"=>"Editer","delete"=>"Supprimer");
+      $act=array("answer"=>"Répondre","results"=>"Résultats","delete"=>"Supprimer");
     else
-      $act=array();
+      $act=array("answer"=>"Répondre");
     require_once($topdir. "include/cts/sqltable.inc.php");
     $tbl = new sqltable("listform",
                         "Formulaires",
