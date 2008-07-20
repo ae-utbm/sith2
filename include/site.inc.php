@@ -852,7 +852,6 @@ class site extends interfaceweb
     $req = new requete($this->db,
         "SELECT `asso`.`id_asso`, " .
         "`asso`.`nom_asso`, ".
-        "`asso_membre`.`role` " .
         "FROM `asso_membre` " .
         "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
         "WHERE `asso_membre`.`role` > 1 AND `asso_membre`.`date_fin` IS NULL " .
@@ -862,38 +861,10 @@ class site extends interfaceweb
 
     if ( $req->lines > 0 )
     {
-      while ( list($id,$nom,$role) = $req->get_row() )
-      {
-        $sublist = new itemlist("$nom","boxlist");
-        $sublist->add("<a href=\"".$topdir."asso/index.php?id_asso=$id\">Outils</a>");
-        $sublist->add("<a href=\"".$topdir."asso/inventaire.php?id_asso=$id\">Inventaire</a>");
-        $sublist->add("<a href=\"".$topdir."asso/reservations.php?id_asso=$id\">Reservations</a>");
-        $sublist->add("<a href=\"".$topdir."asso/membres.php?id_asso=$id\">Membres</a>");
-        $sublist->add("<a href=\"".$topdir."asso/mailing.php?id_asso=$id\">Mailing</a>");
-        $sublist->add("<a href=\"".$topdir."asso/ventes.php?id_asso=$id\">Ventes</a>");
-        $sublist->add("<a href=\"".$topdir."d.php?id_asso=$id\">Fichiers</a>");
-
-        if ( $role >= ROLEASSO_TRESORIER )
-        {
-          $reqa = new requete ($this->db,
-            "SELECT id_classeur,nom_classeur " .
-            "FROM `cpta_classeur` " .
-            "INNER JOIN `cpta_cpasso` ON `cpta_cpasso`.`id_cptasso`=`cpta_classeur`.`id_cptasso` " .
-            "INNER JOIN cpta_cpbancaire ON cpta_cpbancaire.id_cptbc=cpta_cpasso.id_cptbc " .
-            "WHERE cpta_cpasso.id_asso='".$id."' AND `cpta_classeur`.`ferme`='0'" .
-            "ORDER BY `cpta_classeur`.`date_debut_classeur` DESC");    
-            
-          if ( $reqa->lines == 1 )
-          {
-            list($id,$nom) = $reqa->get_row();
-            $sublist->add("<a href=\"".$topdir."compta/classeur.php?id_classeur=$id\">Compta $nom</a>");
-          }
-        }
-
-
-
-        $cts->add($sublist,true, true, "asso".$id."box", "boxlist", true, true);
-      }
+      $sublist = new itemlist("Gestion associations","boxlist");
+      while ( list($id,$nom) = $req->get_row() )
+        $sublist->add("<a href=\"".$topdir."asso/index.php?id_asso=$id\">$nom</a>");
+      $cts->add($sublist,true, true, "assobox", "boxlist", true, true);
     }
 
     $req = new requete($this->db,"SELECT id_comptoir,nom_cpt " .
