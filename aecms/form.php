@@ -25,8 +25,8 @@
  */
  
 require_once("include/site.inc.php");
-require_once($topdir."include/entities/news.inc.php");
 
+$site->allow_only_logged_users("");
 
 $cpg = new campagne($site->db,$site->dbrw);
 if(isset($_REQUEST["id"]))

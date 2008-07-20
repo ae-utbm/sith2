@@ -730,7 +730,8 @@ else if( $_REQUEST["view"] == "news" )
 $cts->add_title(2,"Outils");
 
 $cts->add(new itemlist("Outils",false,array(
-  "<a href=\"index.php?page=new\">Creer une nouvelle page</a>"
+  "<a href=\"index.php?page=new\">Creer une nouvelle page</a>",
+  "<a href=\"form.php?form=new\">Creer un formulaire</a>"
 )));
 
 
