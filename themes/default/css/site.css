@@ -330,7 +330,7 @@ div.box
   background-position: top left;
 }
 
-div#sbox_wiki
+div#sbox_wiki, div#sbox_monsas, div#sbox_sasuser, div#sbox_compta
 {
   background: #afc7e0 url("../images/boxtools-top.png");
 }
@@ -370,7 +370,7 @@ div.box div.body
   background-repeat: no-repeat;
   background-position: bottom left;
 }
-div.#sbox_wiki div.body
+div#sbox_wiki div.body, div#sbox_monsas div.body, div#sbox_sasuser div.body, div#sbox_compta div.body
 {
   background-image: url("../images/boxtools-bottom.png") ;
 }
@@ -483,7 +483,7 @@ div.box h2, div.box h3
   padding-bottom:5px;
   
 }
-div.#sbox_wiki h2, div.#sbox_wiki h3
+div#sbox_wiki h2, div#sbox_wiki h3, div#sbox_monsas h2, div#sbox_monsas h3, div#sbox_sasuser h2, div#sbox_sasuser h3, div#sbox_compta h2, div#sbox_compta h3
 {
   background:url("../images/boxtools-title.png");
 }
