@@ -116,7 +116,7 @@ class requete {
     $timing["mysql"] -= $st = microtime(true);
 
     if($debug == 1)
-      echo "Votre requete SQL est <b> " . $sql . "</b><br/>";
+      echo "Votre requete SQL est <b> " . $req_sql . "</b><br/>";
 
     if(!$base->dbh) 
     {
