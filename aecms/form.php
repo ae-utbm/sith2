@@ -154,7 +154,6 @@ if ( $site->is_user_admin() )
     $frm->add_submit("addcpg","Ajouter");
 
     $site->add_contents($frm);
-    $site->add_contents(new wikihelp());
     $site->end_page();
     exit();
   }
