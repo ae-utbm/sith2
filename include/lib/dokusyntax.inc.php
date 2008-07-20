@@ -174,7 +174,9 @@ class dokusyntax
     $text = trim($text);
     
     $timing["doku2xhtml"] += microtime(true);
-  
+
+    $text=str_replace('__dot__','[dot]',str_replace('__at__','[at]'$text));
+
     if ( $summury )
       return array($js.$text,$hltable);
  
@@ -1152,7 +1154,6 @@ class dokusyntax
         $name=str_replace($name, mediaformat($name), $name);
       }
     }
-    print_r($link);
     $link   = "mailto:$link";
   }
 
