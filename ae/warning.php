@@ -43,18 +43,18 @@ $site->start_page ("none", "Gestion du site");
 if(isset($_REQUEST['action']))
 {
   if($_REQUEST['action']=='onstate')
-    $site->set_param("nom_param",(string)1);
+    $site->set_param("nom_param",true);
   if($_REQUEST['action']=='offstate')
-    $site->set_param("nom_param",(string)0);
+    $site->set_param("nom_param",false);
   if($_REQUEST['action']=='changemessage')
     $site->set_param("nom_param",$_REQUEST['message']);
 }
 
 $cts = new contents ("Gestion du message d'alert","<p>Cette page permet de gérer le message d'alerte.");
-if($site->get_param('warning_enabled')==1)
-  $cts->add_paragraph('<a href="warning.php?action=onstate">Activer le message d\'alerte</a>');
+if($site->get_param('warning_enabled'))
+  $cts->add_paragraph('<a href="warning.php?action=offstate">Désctiver le message d\'alerte</a>');
 else
-  $cts->add_paragraph($site->get_param('warning_enabled').'<a href="warning.php?action=offstate">Désctiver le message d\'alerte</a>');
+  $cts->add_paragraph('<a href="warning.php?action=onstate">Activer le message d\'alerte</a>');
 $site->add_contents ($cts);
 
 $frm = new form ("editwarning",
