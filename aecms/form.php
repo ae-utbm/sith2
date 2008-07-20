@@ -89,7 +89,7 @@ if ( $site->is_user_admin() )
   {
     $default_valid = time() + (15 * 24 * 60 * 60);
     $site->start_page("none","Nouveau formulaire");
-    $frm = new form("new","index.php",true,"POST","Nouveau formulaire");
+    $frm = new form("new","form.php",true,"POST","Nouveau formulaire");
     $frm->add_hidden("action","new");
     if ( isset($Erreur) )
       $frm->error($Erreur);
