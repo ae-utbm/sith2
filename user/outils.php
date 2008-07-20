@@ -88,7 +88,7 @@ if ( $req->lines > 0 )
   else
     $sublist = new itemlist("Gestion assos/clubs","boxlist");
 
-  if( $this->user->is_in_group("root") )
+  if( $site->user->is_in_group("root") )
     $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
 
   while ( list($id,$nom) = $req->get_row() )
