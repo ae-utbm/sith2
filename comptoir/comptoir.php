@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
@@ -62,28 +62,40 @@ if ( $site->comptoir->type != 0 )
 
 if ( $_REQUEST["action"] == "logoperateur" )
 {
-	$op = new utilisateur($site->db);
+  $op = new utilisateur($site->db);
 
-	if ( $_REQUEST["code_bar_carte"] )
-	  $op->load_by_carteae($_REQUEST["code_bar_carte"]);
-	else
-	  $op->load_by_email($_REQUEST["adresse_mail"]);
+  if ( $_REQUEST["code_bar_carte"] )
+    $op->load_by_carteae($_REQUEST["code_bar_carte"]);
+  else
+    $op->load_by_email($_REQUEST["adresse_mail"]);
 
-	if ( !$op->is_valid() || !$op->is_password($_REQUEST["password"]) )
+  if ( !$op->is_valid() || !$op->is_password($_REQUEST["password"]) )
       $opErreur = "Etudiant inconnu / mauvais mot de passe";
       // restons vague sur les details de l'erreur
 
-    else if ( !$site->comptoir->ajout_operateur($op) )
-      $opErreur = "Refusé";
+  else
+  {
+    foreach($site->comptoir->operateurs as $_op)
+    {
+      if($_op->id == $op->id)
+      {
+        $op=null;
+        break;
+      }
+    }
+    if(!is_null($op))
+      if ( !$site->comptoir->ajout_operateur($op) )
+        $opErreur = "Refusé";
+  }
 
 }
 /*
-	Loggage d'un barman
+  Loggage d'un barman
 */
 else if ( $_REQUEST["action"] == "unlogoperateur" )
 {
 
-	$site->comptoir->enleve_operateur($_REQUEST["id_operateur"]);
+  $site->comptoir->enleve_operateur($_REQUEST["id_operateur"]);
 
 
 }
@@ -95,22 +107,22 @@ $cts->add_paragraph("<a href=\"index.php\">Autre comptoirs</a>");
 
 $lst = new itemlist();
 foreach( $site->comptoir->operateurs as $op )
-	$lst->add(
-	  "<a href=\"comptoir.php?id_comptoir=".$site->comptoir->id."&amp;".
-	  "action=unlogoperateur&amp;id_operateur=".$op->id."\">". $op->prenom.
-	  " ".$op->nom."</a>");
+  $lst->add(
+    "<a href=\"comptoir.php?id_comptoir=".$site->comptoir->id."&amp;".
+    "action=unlogoperateur&amp;id_operateur=".$op->id."\">". $op->prenom.
+    " ".$op->nom."</a>");
 $cts->add($lst);
 
 $frm = new form ("logoperateur","comptoir.php?id_comptoir=".$site->comptoir->id);
 if ( $opErreur )
-	$frm->error($opErreur);
+  $frm->error($opErreur);
 $frm->add_hidden("action","logoperateur");
-$frm->add_password_field("password","Mot de passe");
-$frm->add_text_field("code_bar_carte","Carte AE");
 $frm->add_text_field("adresse_mail","Adresse email","prenom.nom@utbm.fr");
+$frm->add_text_field("code_bar_carte","Carte AE");
+$frm->add_password_field("password","Mot de passe");
 $frm->add_submit("valid","valider");
 $cts->add($frm);
-	
+  
 $site->add_box("comptoir",$cts);
 unset($cts);
 

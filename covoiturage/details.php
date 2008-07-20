@@ -192,7 +192,7 @@ else
   {
     $etapes=array();
     $etapes[]=$fville;
-    $etapes[]=$fville;
+    $etapes[]=$tville;
   }
   $map->add_geopoint_path('Chemin',$etapes);
   $accueil->add($map);
