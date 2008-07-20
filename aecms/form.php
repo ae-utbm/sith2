@@ -179,7 +179,7 @@ if(!is_null($cpg->id) && $cpg->asso==$site->asso->id) // on affiche le formulair
     {
       $site->start_page("formulaire","Formulaire");
       $cts = new contents($cpg->nom);
-      if($cpg->end_date!='0000-00-00')
+      if($cpg->end_date!='1970-01-01')
         $cts->add_paragraph("Le formulaire se terminera le ".date("d/m/y",strtotime($cpg->end_date)));
       $frm = new form("apply","form.php",true,"POST","Formulaire d'inscription");
       $frm->add_hidden("answord",$cpg->id);
