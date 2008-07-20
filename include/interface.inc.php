@@ -574,12 +574,14 @@ class interfaceweb
           "nom_param" => $name,
           "valeur_param" => $value
         ));
+      $this->params[$name]=$value;
     }
     elseif ( $this->params[$name] !== $value ) 
     {
       $sql = new update($this->dbrw,"site_parametres",
         array( "valeur_param" => $value),
         array( "nom_param" => $name));      //echo " onmouseover=\"tabsection('".$entry[0]."', 'hoversectionlinks');\"";
+      $this->params[$name]=$value;
     }
   }
 
