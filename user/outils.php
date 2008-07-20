@@ -104,7 +104,10 @@ elseif($site->user->is_in_group("root") || $site->user->is_in_group("moderateur_
     $sublist = new itemlist("Gestion assos/clubs","boxlist");
   else
     $sublist = new itemlist("Gestion assos/club","boxlist");
-  $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
+  if($site->user->is_in_group("root"))
+    $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
+  if($site->user->is_in_group("moderateur_site"))
+    $sublist->add("<a href=\"".$topdir."ae/com.php\">Équipe com</a>");
   $board->add($sublist,true);
 }
 

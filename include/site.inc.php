@@ -836,7 +836,10 @@ class site extends interfaceweb
         $sublist = new itemlist("Gestion assos/clubs","boxlist");
       else
         $sublist = new itemlist("Gestion assos/club","boxlist");
-      $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
+      if($this->user->is_in_group("root"))
+        $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
+      if($this->user->is_in_group("moderateur_site"))
+        $sublist->add("<a href=\"".$topdir."ae/com.php\">Équipe com</a>");
       $cts->add($sublist,true, true, "assobox", "boxlist", true, true);
     }
 
