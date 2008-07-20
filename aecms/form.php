@@ -246,7 +246,7 @@ else // on liste les formulaires en cours
                    'SELECT nom_campagne, id_campagne as id FROM `cpg_campagne` '.
                    'WHERE (`date_fin_campagne`>=NOW() OR `date_fin_campagne`=\'0000-00-00\') '.
                    'AND id_asso='.$site->asso->id.' '.
-                   'AND id_group=\'-1\'',1);
+                   'AND id_groupe=\'-1\'');
   if($req->lines>0)
   {
     if($site->is_user_admin())
