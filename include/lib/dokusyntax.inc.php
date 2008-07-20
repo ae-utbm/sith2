@@ -482,7 +482,10 @@ class dokusyntax
           $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=".$link;
       }
       if(strpos($link,'mailto:'))
-        print_r($link);
+      {
+        $pos=strpos($link,'mailto:');
+        $link=substr($link,$pos+1);
+      }
     }
   
   
