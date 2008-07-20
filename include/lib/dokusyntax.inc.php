@@ -484,7 +484,7 @@ class dokusyntax
       if(strpos($link,'mailto:'))
       {
         $pos=strpos($link,'mailto:');
-        $link=substr($link,$pos+1);
+        $link=substr($link,$pos);
       }
     }
   
