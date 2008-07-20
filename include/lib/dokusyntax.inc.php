@@ -1152,6 +1152,7 @@ class dokusyntax
         $name=str_replace($name, mediaformat($name), $name);
       }
     }
+    print_r($link);
     $link   = "mailto:$link";
   }
 
