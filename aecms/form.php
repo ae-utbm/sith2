@@ -165,11 +165,13 @@ $site->start_page("none","Liste des formulaires");
 if(!is_null($cpg->id)) // on affiche le formulaire
 {
   if ( $cpg->id > 0 && !$cpg->a_repondu($site->user->id) && isset($_REQUEST["answord"]) )
+  {
     $cpg->repondre($site->user->id,$_REQUEST["reponses"]);
-  $res = new contents("Merci","Votre participation.");
-  $res->add_paragraph('Vos réponses ont été enregistrée.');
-  $site->add_contents($res);
-  unset($_REQUEST['id']);
+    $res = new contents("Merci","Votre participation.");
+    $res->add_paragraph('Vos réponses ont été enregistrée.');
+    $site->add_contents($res);
+    unset($_REQUEST['id']);
+  }
   if ( isset($_REQUEST["id"]) && !$cpg->a_repondu($site->user->id) )
   {
     $questions = $cpg->get_questions();
@@ -240,7 +242,8 @@ if(!is_null($cpg->id)) // on affiche le formulaire
     }
   }
 }
-else // on liste les formulaires en cours
+
+if(!isset($_REQUEST["id"]))// on liste les formulaires en cours
 {
   $req=new requete($site->db,
                    'SELECT nom_campagne, id_campagne as id FROM `cpg_campagne` '.
