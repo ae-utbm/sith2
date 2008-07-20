@@ -41,7 +41,7 @@ $cts->add_title(2,"Administration");
 $lst = new itemlist();
 $lst->add("<a href=\"".$topdir."group.php\">Gestion des groupes</a>");
 $lst->add("<a href=\"logs.php\">Affichage des logs</a>");
-$lst->add("<a href=\"warning.php\">Message d'alertes</a>");
+$lst->add("<a href=\"warning.php\">Message d'alerte</a>");
 $cts->add($lst);
 
 $cts->add_title(2,"AECMS");
