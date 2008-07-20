@@ -767,39 +767,6 @@ class site extends interfaceweb
     }
     $cts->add($sublist,true, true, "accountbox", "boxlist", true, true);
 
-    $sublist = new itemlist("Infos et r&eacute;servations","boxlist");
-    
-    $req = new requete($this->db,"SELECT  " .
-      "COUNT(*) " .
-      "FROM sl_reservation " .
-      "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
-      "WHERE sl_reservation.id_utilisateur='".$this->user->id."' AND " .
-      "sl_reservation.date_debut_salres >= '$today' AND " .
-      "((sl_reservation.date_accord_res IS NULL) OR " .
-      "(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " );
-    list($nb) = $req->get_row();
-
-    if ( $nb )
-      $sublist->add("<a href=\"".$topdir."user/reservations.php\"><b>Mes reservations de salles : $nb en attente</b></a>");
-    else
-      $sublist->add("<a href=\"".$topdir."user/reservations.php\">Mes reservations de salles</a>");
-
-    $req = new requete($this->db,"SELECT COUNT(*) " .
-      "FROM inv_emprunt " .
-      "WHERE id_utilisateur='".$this->user->id."' AND etat_emprunt<=1");
-    list($nb) = $req->get_row();
-
-    if ( $nb )
-      $sublist->add("<a href=\"".$topdir."user/emprunts.php\"><b>Mes emprunts de matériel : $nb en attente</b></a>");
-    else
-      $sublist->add("<a href=\"".$topdir."user/emprunts.php\">Mes emprunts de matériel</a>");
-
-    $sublist->add("<a href=\"".$topdir."news.php\">Proposer une nouvelle</a>");
-    $sublist->add("<a href=\"".$topdir."salle.php?page=reservation\">Reserver une salle</a>");
-    $sublist->add("<a href=\"".$topdir."emprunt.php\">Reserver du matériel</a>");
-
-    $cts->add($sublist,true, true, "infobox", "boxlist", true, true);
-
     if( $this->user->is_in_group("moderateur_site") )
     {
       $sublist = new itemlist("Equipe com'","boxlist");
