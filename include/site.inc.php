@@ -767,13 +767,6 @@ class site extends interfaceweb
     }
     $cts->add($sublist,true, true, "accountbox", "boxlist", true, true);
 
-    if( $this->user->is_in_group("moderateur_site") )
-    {
-      $sublist = new itemlist("Equipe com'","boxlist");
-      $sublist->add("<a href=\"".$topdir."ae/com.php\">Tâches usuelles</a>");
-      $cts->add($sublist,true, true, "siteadminbox", "boxlist", true, false);
-    }
-
     if( $this->user->is_in_group("compta_admin") )
     {
       $sublist = new itemlist("Comptabilité de l'AE","boxlist");
@@ -821,7 +814,7 @@ class site extends interfaceweb
 
     if ( $req->lines > 0 )
     {
-      if( $this->user->is_in_group("root") )
+      if( $this->user->is_in_group("root") || $this->user->is_in_group("moderateur_site"))
         $sublist = new itemlist("Gestion assos/clubs","boxlist");
       elseif( $req->lines == 0 )
         $sublist = new itemlist("Gestion assos/club","boxlist");
@@ -830,14 +823,19 @@ class site extends interfaceweb
 
       if( $this->user->is_in_group("root") )
         $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
+      if($this->user->is_in_group("moderateur_site"))
+        $sublist->add("<a href=\"".$topdir."ae/com.php\">Équipe com</a>");
 
       while ( list($id,$nom) = $req->get_row() )
         $sublist->add("<a href=\"".$topdir."asso/index.php?id_asso=$id\">$nom</a>");
       $cts->add($sublist,true, true, "assobox", "boxlist", true, true);
     }
-    elseif($this->user->is_in_group("root"))
+    elseif($this->user->is_in_group("root") || $this->user->is_in_group("moderateur_site"))
     {
-      $sublist = new itemlist("Gestion assos/club","boxlist");
+      if($this->user->is_in_group("root") && $this->user->is_in_group("moderateur_site"))
+        $sublist = new itemlist("Gestion assos/clubs","boxlist");
+      else
+        $sublist = new itemlist("Gestion assos/club","boxlist");
       $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
       $cts->add($sublist,true, true, "assobox", "boxlist", true, true);
     }

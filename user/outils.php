@@ -81,7 +81,7 @@ $req = new requete($site->db,
         "ORDER BY asso.`nom_asso`");
 if ( $req->lines > 0 )
 {
-  if( $site->user->is_in_group("root") )
+  if( $site->user->is_in_group("root") || $site->user->is_in_group("moderateur_site"))
     $sublist = new itemlist("Gestion assos/clubs","boxlist");
   elseif( $req->lines == 0 )
     $sublist = new itemlist("Gestion assos/club","boxlist");
@@ -90,15 +90,20 @@ if ( $req->lines > 0 )
 
   if( $site->user->is_in_group("root") )
     $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
+  if($site->user->is_in_group("moderateur_site"))
+    $sublist->add("<a href=\"".$topdir."ae/com.php\">Équipe com</a>");
 
   while ( list($id,$nom) = $req->get_row() )
     $sublist->add("<a href=\"".$topdir."comptoir/bureau.php?id_comptoir=$id\">$nom</a>");
 
   $board->add($sublist,true);
 }
-elseif($site->user->is_in_group("root"))
+elseif($site->user->is_in_group("root") || $site->user->is_in_group("moderateur_site"))
 {
-  $sublist = new itemlist("Gestion assos/club","boxlist");
+  if($site->user->is_in_group("root") && $site->user->is_in_group("moderateur_site"))
+    $sublist = new itemlist("Gestion assos/clubs","boxlist");
+  else
+    $sublist = new itemlist("Gestion assos/club","boxlist");
   $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
   $board->add($sublist,true);
 }
