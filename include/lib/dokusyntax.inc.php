@@ -1140,9 +1140,6 @@ class dokusyntax
       $link = str_replace('.',' [dot] ',$link);
       $link = str_replace('-',' [dash] ',$link);
     }
-    for ($x=0; $x < strlen($link); $x++)
-        $encode .= '&#x' . bin2hex($link[$x]).';';
-    $link = $encode;
     
     if(!$name)
       $name = $link;
