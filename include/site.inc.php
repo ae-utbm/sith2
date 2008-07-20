@@ -763,6 +763,7 @@ class site extends interfaceweb
         $sublist->add("<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>");
       $sublist->add("<a href=\"".$topdir."user.php?view=parrain\">Parrains et fillots</a>");
       $sublist->add("<a href=\"".$topdir."user/compteae.php\">Compte AE</a>");
+      $sublist->add("<a href=\"".$topdir."user/outils.php\">Mes outils</a>");
     }
     $cts->add($sublist,true, true, "accountbox", "boxlist", true, true);
 
@@ -858,7 +859,7 @@ class site extends interfaceweb
       elseif( $req->lines == 0 )
         $sublist = new itemlist("Gestion assos/club","boxlist");
       else
-        $sublist = new itemlist("Gestion associations","boxlist");
+        $sublist = new itemlist("Gestion assos/clubs","boxlist");
 
       if( $this->user->is_in_group("root") )
         $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
@@ -880,10 +881,16 @@ class site extends interfaceweb
       $sublist = new itemlist("Actions bureaux AE","boxlist");
 
        while ( list($id,$nom) = $req->get_row() )
-        $sublist->add("<a href=\"".$topdir."comptoir/bureau.php?id_comptoir=$id\">$nom</a>");
+         $sublist->add("<a href=\"".$topdir."comptoir/bureau.php?id_comptoir=$id\">$nom</a>");
 
       $cts->add($sublist,true, true, "cptbureau", "boxlist", true, true);
 
+    }
+    elseif($this->user->is_in_group("root"))
+    {
+      $sublist = new itemlist("Gestion assos/club","boxlist");
+      $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
+      $cts->add($sublist,true);
     }
 
 
