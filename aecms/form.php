@@ -247,7 +247,7 @@ if(!isset($_REQUEST["id"]))// on liste les formulaires en cours
 {
   $req=new requete($site->db,
                    'SELECT nom_campagne, id_campagne as id FROM `cpg_campagne` '.
-                   'WHERE (`date_fin_campagne`>=NOW() OR `date_fin_campagne`=\'0000-00-00\') '.
+                   'WHERE (`date_fin_campagne`>=NOW() OR `date_fin_campagne`=\'1970-01-01\') '.
                    'AND id_asso='.$site->asso->id.' '.
                    'AND id_groupe=\'-1\'');
   if($req->lines>0)
