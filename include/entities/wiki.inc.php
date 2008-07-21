@@ -494,7 +494,6 @@ class wiki extends basedb
   function wikimacro($text)
   {
     $this->macro++;
-    print_r('bleh');
     if ( preg_match("#^([a-z0-9\-_:]*):pagesmap$#",$text,$match) )
     {
       $wiki = $match[1];
@@ -598,7 +597,7 @@ class wiki extends basedb
     $cache = new cachedcontents("wiki".$this->id."-".$this->rev_id);
     if ( $cache->is_cached() )
       return $cache->get_cache(); 
-      
+    print_r('bleh');
     $conf["linkscontext"] = "wiki";
     $conf["linksscope"] = $this->get_scope();
     $conf["macrofunction"] = array($this,'wikimacro');
