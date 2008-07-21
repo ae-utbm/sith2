@@ -124,12 +124,10 @@ class dokusyntax
     // les n'emails
     $this->firstpass($table,$text,"#([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#ie", "\$this->linkformat('\\1@\\2')");
   
-    if ( !$conf["macrofunction"] || !is_callable($conf["macrofunction"]) )
-      $this->firstpass($table,$text,"#@@([^@]+)@@#ie","\$this->wikimacro('\\1')");
-    elseif(is_callable($conf["macrofunction"]))
+    if(isset($conf["macrofunction"]) && is_array($conf["macrofunction"]) && is_callable($conf["macrofunction"]))
     {
-      print_r("bleh");
-      $this->firstpass($table,$text,"#@@([^@]+)@@#ie","\$".$conf["macrofunction"][0]."->".$conf["macrofunction"]."('\\1')");
+      print_r('bleh');
+      $this->firstpass($table,$text,"#@@([^@]+)@@#ie","\$this->wikimacro('\\1')");
     }
   
     $text = htmlspecialchars($text);
