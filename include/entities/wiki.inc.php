@@ -596,7 +596,6 @@ class wiki extends basedb
     $cache = new cachedcontents("wiki".$this->id."-".$this->rev_id);
     if ( $cache->is_cached() )
       return $cache->get_cache(); 
-    print_r('bleh');
     $conf["linkscontext"] = "wiki";
     $conf["linksscope"] = $this->get_scope();
     $conf["macrofunction"] = array($this,'wikimacro');
@@ -608,7 +607,7 @@ class wiki extends basedb
 
     $conf["linksscope"]="";
     $conf["linkscontext"]="";
-    unset($conf["macrofunction"]);
+//    unset($conf["macrofunction"]);
     unset($conf["db"]);
     
     if ( $this->macro > 0 )
