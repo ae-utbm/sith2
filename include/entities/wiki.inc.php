@@ -30,7 +30,6 @@ require_once($topdir."include/entities/basedb.inc.php");
 
 define("WIKI_LOCKTIME",600);
 
-$conf['macrofunction']='wiki';
 /**
  * Page wiki
  *
