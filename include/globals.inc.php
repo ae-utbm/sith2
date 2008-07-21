@@ -39,7 +39,8 @@
 $conf=array(
   'mailguard'=>'visible',//"codage des emails
   'phpok'=>false,
-  'htmlok'=>false
+  'htmlok'=>false,
+  'macrofunction'=>false
 );
 
 

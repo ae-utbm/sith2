@@ -30,7 +30,7 @@ require_once($topdir."include/entities/basedb.inc.php");
 
 define("WIKI_LOCKTIME",600);
 
-
+$conf['macrofunction']='wiki';
 /**
  * Page wiki
  *
@@ -494,7 +494,7 @@ class wiki extends basedb
   function wikimacro($text)
   {
     $this->macro++;
-    
+    print_r('bleh');
     if ( preg_match("#^([a-z0-9\-_:]*):pagesmap$#",$text,$match) )
     {
       $wiki = $match[1];

@@ -110,11 +110,8 @@ class interfaceweb
    */
   function interfaceweb ( $db, $dbrw = false )
   {
-    global $conf;
     $this->db = $db;
     $this->dbrw = $dbrw;
-
-    $conf['db']=&$this->db;
 
     $this->sides["left"] = array("connexion");
     $this->sides["right"] = array();
