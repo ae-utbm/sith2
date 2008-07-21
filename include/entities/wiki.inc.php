@@ -285,11 +285,7 @@ class wiki extends basedb
     $this->update_references($this->rev_contents);
     
     // Fait expirer la cahe
-    $conf["macrofunction"] = array($this,'wikimacro');
-    $conf["db"] = &$this->db;
     $cache = new cachedcontents("wiki".$this->id);
-    unset($conf["db"]);
-    //unset($conf["macrofunction"]);
     $cache->expire();
     
     return true;
@@ -611,7 +607,7 @@ class wiki extends basedb
 
     $conf["linksscope"]="";
     $conf["linkscontext"]="";
-    //unset($conf["macrofunction"]);
+    unset($conf["macrofunction"]);
     unset($conf["db"]);
     
     if ( $this->macro > 0 )

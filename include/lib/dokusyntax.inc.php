@@ -125,9 +125,11 @@ class dokusyntax
     $this->firstpass($table,$text,"#([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#ie", "\$this->linkformat('\\1@\\2')");
   
     if ( !$conf["macrofunction"] || !is_callable($conf["macrofunction"]) )
-    {
-      print_r('bleh');
       $this->firstpass($table,$text,"#@@([^@]+)@@#ie","\$this->wikimacro('\\1')");
+    elseif(is_callable($conf["macrofunction"]))
+    {
+      print_r("bleh");
+      $this->firstpass($table,$text,"#@@([^@]+)@@#ie","\$".$conf["macrofunction"][0]."->".$conf["macrofunction"]."('\\1')");
     }
   
     $text = htmlspecialchars($text);
