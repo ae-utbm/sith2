@@ -574,7 +574,7 @@ class wiki extends basedb
           $wiki_rev->load_by_id($row['id_wiki']);
           $revlink = "?name=".$row['fullpath_wiki'];
 
-          if ( $wiki_rev->is_right($this->user,DROIT_LECTURE) )
+          if ( $wiki_rev->is_right($site->user,DROIT_LECTURE) )
           {
             if ( empty($row['fullpath_wiki']) )
               $row['fullpath_wiki'] = "(racine)";
