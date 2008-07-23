@@ -226,14 +226,14 @@ if ( !$wiki->is_valid() )
   if ( $req->lines == 1 )
     list($asso_id) = $req->get_row();
 
+  $cts = new contents($asso->get_html_path());
+  $site->start_page("presentation","Wiki");
+
   if ( !is_null($asso_id))
   {
     $asso = new asso($site->db);
     $asso->load_by_id($asso_id);
-  
-    $cts = new contents($asso->get_html_path());
-    $site->start_page("presentation","Wiki");
-  
+
     $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
     $cts->add_paragraph(build_asso_htmlpath($pagepath),"wikipath");
   }
@@ -242,7 +242,7 @@ if ( !$wiki->is_valid() )
     $cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
   }
   $site->add_box("wiki",$side);
-  
+
   if ( $can_create && $_REQUEST["view"] == "create" )
   {
     $frm = new form("newwiki","./?name=$pagepath",true,"POST");
