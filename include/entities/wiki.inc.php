@@ -551,36 +551,40 @@ class wiki extends basedb
         $wiki = substr($wiki,1);
       else
         $wiki = $this->get_scope().$wiki;   
-        
-      $req = new requete($this->db,"SELECT COALESCE(alias_utl,CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) AS `nom_utilisateur`, fullpath_wiki, date_rev, comment_rev, id_rev_last, id_rev   ".
-        "FROM wiki_rev ".
-        "INNER JOIN wiki USING(id_wiki) ".
-        "INNER JOIN utilisateurs ON(wiki_rev.id_utilisateur_rev=utilisateurs.id_utilisateur) ".
-        "WHERE fullpath_wiki LIKE '".mysql_real_escape_string($wiki)."%' ".
-        "ORDER BY date_rev DESC ".
-        "LIMIT 50");  
-        
+
+      $req = new requete($site->db,"SELECT wiki.id_wiki, date_rev, comment_rev,
+        id_utilisateur_rev, fullpath_wiki, id_rev_last, id_rev
+        FROM wiki
+        INNER JOIN wiki_rev ON (wiki.id_rev_last=wiki_rev.id_rev AND wiki.id_wiki=wiki_rev.id_wiki)
+        WHERE fullpath_wiki LIKE '".mysql_real_escape_string($wiki)."%'
+        ORDER by date_rev.DESC
+        LIMIT 50"); 
+
       if ( $req->lines== 0 )
         $buffer ="(aucun changement récent)";
       else
       {
+        $user_rev = new utilisateur($site->db);
+        $wiki_rev = new wiki($site->db);
+
         $buffer = "<ul>\n";
         while ( $row = $req->get_row() )
         {
-            
-          if ( $row['id_rev_last'] != $row['id_rev'] )
-            $revlink = "?name=".$row['fullpath_wiki']."&amp;rev=".$row['id_rev'];
-          else
-            $revlink = "?name=".$row['fullpath_wiki'];
-            
-          if ( empty($row['fullpath_wiki']) )
-            $row['fullpath_wiki'] = "(racine)";              
-            
-          $buffer .=
-            "<li><span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
-            "<a class=\"wpage\" href=\"$revlink\">".$row['fullpath_wiki']."</a> ".
-            "- <span class=\"wuser\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</span> ".
-            "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span></li>\n";
+          $user_rev->load_by_id($row['id_utilisateur_rev']);
+          $wiki_rev->->load_by_id($row['id_wiki']);
+          $revlink = "?name=".$row['fullpath_wiki'];
+
+          if ( $wiki_rev->is_right($site->user,DROIT_LECTURE) )
+          {
+            if ( empty($row['fullpath_wiki']) )
+              $row['fullpath_wiki'] = "(racine)";
+
+            $buffer .=
+              "<li><span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
+              "<a class=\"wpage\" href=\"$revlink\">".$row['fullpath_wiki']."</a> ".
+              "- <span class=\"wuser\">".$user_rev>get_html_link()."</span> ".
+              "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span></li>\n";
+          }
         }
         $buffer .= "</ul>\n";
       }
