@@ -571,7 +571,7 @@ class wiki extends basedb
         while ( $row = $req->get_row() )
         {
           $user_rev->load_by_id($row['id_utilisateur_rev']);
-          $wiki_rev->->load_by_id($row['id_wiki']);
+          $wiki_rev->load_by_id($row['id_wiki']);
           $revlink = "?name=".$row['fullpath_wiki'];
 
           if ( $wiki_rev->is_right($site->user,DROIT_LECTURE) )
