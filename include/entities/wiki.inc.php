@@ -557,8 +557,8 @@ class wiki extends basedb
         FROM wiki
         INNER JOIN wiki_rev ON (wiki.id_rev_last=wiki_rev.id_rev AND wiki.id_wiki=wiki_rev.id_wiki)
         WHERE fullpath_wiki LIKE '".mysql_real_escape_string($wiki)."%'
-        ORDER by date_rev.DESC
-        LIMIT 50"); 
+        ORDER by date_rev DESC
+        LIMIT 50");
 
       if ( $req->lines== 0 )
         $buffer ="(aucun changement récent)";
