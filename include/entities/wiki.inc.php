@@ -552,11 +552,12 @@ class wiki extends basedb
       else
         $wiki = $this->get_scope().$wiki;   
 
-      $req = new requete($this->db,"SELECT id_wiki
-        FROM wiki_rev
+      $req = new requete($this->db,"SELECT wiki.id_wiki
+        FROM wiki
+        INNER JOIN wiki_rev ON wiki.id_rev_last=wiki_rev.id_rev 
+          AND wiki.id_wiki=wiki_rev.id_wiki
         WHERE fullpath_wiki LIKE '".mysql_real_escape_string($wiki)."%'
-        GROUP BY id_wiki
-        ORDER BY MAX(date_rev) DESC
+        ORDER BY date_rev DESC
         LIMIT 50");
 
       if ( $req->lines== 0 )
