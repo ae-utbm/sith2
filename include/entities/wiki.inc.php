@@ -552,12 +552,11 @@ class wiki extends basedb
       else
         $wiki = $this->get_scope().$wiki;   
 
-      $req = new requete($this->db,"SELECT wiki.id_wiki, date_rev, comment_rev,
-        id_utilisateur_rev, fullpath_wiki, id_rev_last, id_rev
-        FROM wiki
-        INNER JOIN wiki_rev ON (wiki.id_rev_last=wiki_rev.id_rev AND wiki.id_wiki=wiki_rev.id_wiki)
+      $req = new requete($this->db,"SELECT id_wiki
+        FROM wiki_rev
         WHERE fullpath_wiki LIKE '".mysql_real_escape_string($wiki)."%'
-        ORDER by date_rev DESC
+        GROUP BY id_wiki
+        ORDER BY MAX(date_rev) DESC
         LIMIT 50");
 
       if ( $req->lines== 0 )
@@ -570,21 +569,18 @@ class wiki extends basedb
         $buffer = "<ul>\n";
         while ( $row = $req->get_row() )
         {
-          $user_rev->load_by_id($row['id_utilisateur_rev']);
           $wiki_rev->load_by_id($row['id_wiki']);
-          $revlink = "?name=".$row['fullpath_wiki'];
+          $user_rev->load_by_id($wiki_rev->rev_id_utilisateur);
+          $revlink = "?name=".$wiki_rev->fullpath;
 
-          if ( $wiki_rev->is_right($site->user,DROIT_LECTURE) )
-          {
-            if ( empty($row['fullpath_wiki']) )
-              $row['fullpath_wiki'] = "(racine)";
+          if ( empty($wiki_rev->fullpath) )
+            $wiki_rev->fullpath = "(racine)";
 
-            $buffer .=
-              "<li><span class=\"wdate\">".date("Y/m/d H:i",strtotime($row['date_rev']))."</span> ".
-              "<a class=\"wpage\" href=\"$revlink\">".$row['fullpath_wiki']."</a> ".
-              "- <span class=\"wuser\">".$user_rev>get_html_link()."</span> ".
-              "<span class=\"wlog\">".htmlentities($row['comment_rev'],ENT_NOQUOTES,"UTF-8")."</span></li>\n";
-          }
+          $buffer .=
+            "<li><span class=\"wdate\">".date("Y/m/d H:i",$wiki_rev->rev_date)."</span> ".
+            "<a class=\"wpage\" href=\"$revlink\">".$wiki_rev->fullpath."</a> ".
+            "- <span class=\"wuser\">".$user_rev->get_html_link()."</span> ".
+            "<span class=\"wlog\">".htmlentities($wiki_rev->rev_comment,ENT_NOQUOTES,"UTF-8")."</span></li>\n";
         }
         $buffer .= "</ul>\n";
       }
