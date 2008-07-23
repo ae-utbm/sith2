@@ -552,7 +552,7 @@ class wiki extends basedb
       else
         $wiki = $this->get_scope().$wiki;   
 
-      $req = new requete($site->db,"SELECT wiki.id_wiki, date_rev, comment_rev,
+      $req = new requete($this->db,"SELECT wiki.id_wiki, date_rev, comment_rev,
         id_utilisateur_rev, fullpath_wiki, id_rev_last, id_rev
         FROM wiki
         INNER JOIN wiki_rev ON (wiki.id_rev_last=wiki_rev.id_rev AND wiki.id_wiki=wiki_rev.id_wiki)
@@ -564,8 +564,8 @@ class wiki extends basedb
         $buffer ="(aucun changement récent)";
       else
       {
-        $user_rev = new utilisateur($site->db);
-        $wiki_rev = new wiki($site->db);
+        $user_rev = new utilisateur($this->db);
+        $wiki_rev = new wiki($this->db);
 
         $buffer = "<ul>\n";
         while ( $row = $req->get_row() )
@@ -574,7 +574,7 @@ class wiki extends basedb
           $wiki_rev->load_by_id($row['id_wiki']);
           $revlink = "?name=".$row['fullpath_wiki'];
 
-          if ( $wiki_rev->is_right($site->user,DROIT_LECTURE) )
+          if ( $wiki_rev->is_right($this->user,DROIT_LECTURE) )
           {
             if ( empty($row['fullpath_wiki']) )
               $row['fullpath_wiki'] = "(racine)";
