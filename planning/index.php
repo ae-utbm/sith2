@@ -458,6 +458,34 @@ else if( $_REQUEST['action'] == "details" )
   $site->end_page();
   exit();
 }
+else if( $_REQUEST['action'] == "admin" )
+{ 
+  $site->add_css("css/weekplanning.css");
+  
+  $site->start_page("services","Planning");
+  $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST['id_salle']]." / Administration");
+  
+  $frm = new form("reinit","index.php",false,"POST","Réinitialiser un planning");
+  $frm->add_hidden("action","reinit");
+  $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST['id_salle']);
+  $frm->add_submit("reinit","Reinitialiser");
+  $cts->add($frm,true);
+
+  $frm = new form("supp","index.php",false,"POST","Supprimer un planning");
+  $frm->add_hidden("action","supp");
+  $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST['id_salle']);
+  $frm->add_submit("reinit","Supprimer");
+  $cts->add($frm,true);
+
+  $frm = new form("create","index.php",false,"POST","Créer un planning");
+  $frm->add_hidden("action","create");
+  $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST['id_salle']);
+  $frm->add_submit("reinit","Creer");
+  $cts->add($frm,true);
+
+  $site->add_contents($cts);
+  $site->end_page();
+}
 
 $site->start_page("services","Planning");
 
