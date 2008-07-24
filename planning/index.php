@@ -485,6 +485,7 @@ else if( $_REQUEST['action'] == "admin" )
 
   $site->add_contents($cts);
   $site->end_page();
+  exit();
 }
 
 $site->start_page("services","Planning");
