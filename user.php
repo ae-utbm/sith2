@@ -290,7 +290,7 @@ elseif ( $_REQUEST["action"] == "setgroups" &&
     {
       if ( $new )
       {
-        if ( $row["id_groupe"] != 7 || $site->user->is_in_group("root") )
+        if ( ($row["id_groupe"] != 7 && $row["id_groupe"] != 46) || $site->user->is_in_group("root") )
         {
           $user->add_to_group($row["id_groupe"]);
           $site->log("Ajout d'un utilisateur au groupe ". $row["nom_groupe"],"Ajout de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") au groupe ". $row["nom_groupe"] ." (id : ".$row["id_groupe"].")","Groupes",$site->user->id);
@@ -298,7 +298,7 @@ elseif ( $_REQUEST["action"] == "setgroups" &&
       }
       else
       {
-        if ( $row["id_groupe"] != 7 || $site->user->is_in_group("root") )
+        if ( ($row["id_groupe"] != 7 && $row["id_groupe"] != 46) || $site->user->is_in_group("root") )
         {
           $user->remove_from_group($row["id_groupe"]);
           $site->log("Retrait d'un utilisateur du groupe ". $row["nom_groupe"],"Retrait de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") du groupe ". $row["nom_groupe"] ." (id : ".$row["id_groupe"].")","Groupes",$site->user->id);
@@ -1083,7 +1083,7 @@ elseif ( ($_REQUEST["view"]=="groups") &&
   while ( $row=$req->get_row())
   {
     $grp->_load($row);
-    if ( $row["id_groupe"] == 7 && !$site->user->is_in_group("root") )
+    if ( ($row["id_groupe"] == 7 || $row["id_groupe"] == 46) && !$site->user->is_in_group("root") )
       $frm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link(),$row["id_utilisateur"]!="",true);
     else
       $frm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link(),$row["id_utilisateur"]!="");
