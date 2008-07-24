@@ -465,7 +465,7 @@ else if( $_REQUEST['action'] == "reinit" )
 }
 else if( $_REQUEST['action'] == "supp" )
 {
-  $req = new requete($site->db, "DELETE FROM pl_planning WHERE id_planning='".$_REQUEST['id_salle']);
+  $req = new requete($site->db, "DELETE * FROM pl_planning WHERE id_planning='".$_REQUEST['id_salle']);
   if( $req != 1 )
     $success = false;
   else
