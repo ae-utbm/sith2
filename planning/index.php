@@ -463,6 +463,11 @@ $site->start_page("services","Planning");
 
 $cts = new contents("<a href=\"index.php\">Planning</a>");
 
+if($site->user->is_in_group("gestion_ae")) 
+{
+  $cts->add_paragraph("<a href=\"index.php?action=admin\">Administration</a>");
+}
+
 $frm = new form("searchpl","index.php",false,"POST","Consulter un planning");
 
 if($site->user->is_in_group("gestion_ae") || $site->user->is_in_group("foyer_barman") || $site->user->is_in_group("kfet_barman") || $site->user->is_in_group("bds-bureau"))
