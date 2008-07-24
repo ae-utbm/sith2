@@ -465,11 +465,20 @@ else if( $_REQUEST['action'] == "reinit" )
 }
 else if( $_REQUEST['action'] == "supp" )
 {
-  $req = new requete($site->db, "DELETE FROM pl_planning WHERE id_planning='".$_REQUEST['id_salle']."'");
-  if( $req != 1 )
-    $success = false;
-  else
-    $success = true;
+  $planning = new planning($site->db,$site->dbrw);
+  $planning->load_by_id($_REQUEST['id_salle']);
+  $planning->remove();
+
+  $site->add_css("css/weekplanning.css");
+  $site->start_page("services","Planning");
+  $cts = new contents("<a href=\"index.php\">Planning</a> / Administration");
+
+  $cts->add_paragraph("Planning supprimé avec succès !");
+  $cts->add_paragraph("<a href=\"index.php?action=admin\">Retour</a>");
+
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
 }
 else if( $_REQUEST['action'] == "admin" )
 { 
@@ -477,9 +486,6 @@ else if( $_REQUEST['action'] == "admin" )
   
   $site->start_page("services","Planning");
   $cts = new contents("<a href=\"index.php\">Planning</a> / Administration");
-  
-  if( $success )
-    $cts->add_paragraphe("Planning supprimé avec succès !");
 
   $frm = new form("reinit","index.php",false,"POST","Réinitialiser un planning");
   $frm->add_hidden("action","reinit");
