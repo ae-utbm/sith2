@@ -458,17 +458,32 @@ else if( $_REQUEST['action'] == "details" )
   $site->end_page();
   exit();
 }
+else if( $_REQUEST['action'] == "reinit" )
+{
+  
+}
+else if( $_REQUEST['action'] == "supp" )
+{
+  $req = new requete($site->db, "DELETE FROM pl_planning WHERE id_planning='".$_REQUEST['id_salle']);
+  if( $req != 1 )
+    $success = false;
+  else
+    $success = true;
+}
 else if( $_REQUEST['action'] == "admin" )
 { 
   $site->add_css("css/weekplanning.css");
   
   $site->start_page("services","Planning");
-  $cts = new contents("<a href=\"index.php\">Planning</a> / ".$lieux[$_REQUEST['id_salle']]." / Administration");
+  $cts = new contents("<a href=\"index.php\">Planning</a> / Administration");
   
+  if( $success )
+    $cts->add_paragraphe("Planning supprimé avec succès !");
+
   $frm = new form("reinit","index.php",false,"POST","Réinitialiser un planning");
   $frm->add_hidden("action","reinit");
   $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST['id_salle']);
-  $frm->add_submit("reinit","Reinitialiser");
+  $frm->add_submit("reinit","Réinitialiser");
   $cts->add($frm,true);
 
   $frm = new form("supp","index.php",false,"POST","Supprimer un planning");
@@ -477,11 +492,11 @@ else if( $_REQUEST['action'] == "admin" )
   $frm->add_submit("reinit","Supprimer");
   $cts->add($frm,true);
 
-  $frm = new form("create","index.php",false,"POST","Créer un planning");
+  // Pas coherent pour le moment. Ajout d'une fonctionnalite planning pour chaque club ?
+  /*$frm = new form("create","index.php",false,"POST","Créer un planning");
   $frm->add_hidden("action","create");
-  $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST['id_salle']);
-  $frm->add_submit("reinit","Creer");
-  $cts->add($frm,true);
+  $frm->add_submit("reinit","Créer");
+  $cts->add($frm,true);*/
 
   $site->add_contents($cts);
   $site->end_page();
