@@ -435,7 +435,7 @@ class interfaceweb
       echo $this->get_param("warning_message");
       echo "</div>";
     }
-    
+    echo "<div class=\"clearboth\"></div>";
     echo "</body>\n";
     echo "</html>\n";
     $timing["render"] += microtime(true);
