@@ -160,7 +160,7 @@ div.toc
   width:200px;
   float:right;
   font-size:80%;
-  clear:both;
+/*  clear:both; */
 }
 div.tocheader
 {
