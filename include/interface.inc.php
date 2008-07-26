@@ -406,7 +406,7 @@ class interfaceweb
     echo "<!-- end of page -->\n\n";
     
     echo "</div>\n"; // /contents
-    echo "<div id=\"endsite\"></div></div>\n";    
+    echo "<div id=\"endsite\">&nbsp;</div></div>\n";    
     
 /*    if ( $this->user->is_valid() && !ereg("majprofil\.php$",$_SERVER['SCRIPT_FILENAME'])
     && $user->type != "srv" )
@@ -435,7 +435,6 @@ class interfaceweb
       echo $this->get_param("warning_message");
       echo "</div>";
     }
-    echo "<div class=\"clearboth\"></div>";
     echo "</body>\n";
     echo "</html>\n";
     $timing["render"] += microtime(true);
