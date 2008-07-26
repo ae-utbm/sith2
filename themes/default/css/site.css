@@ -467,6 +467,7 @@ div.box ul.boxlist li.title
 div.box h2, div.box h3
 {
   background:url("../images/box-title.png");
+  background-repeat:no-repeat;
   padding-left:25px;
   margin-left:2px;
   margin-right:2px;
