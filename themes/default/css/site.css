@@ -801,7 +801,7 @@ div.calendarhead
 
 div.tinycalhead
 {
-	width:150px;
+width:150px;
 }
 
 div.calendarhead td.month
@@ -830,8 +830,8 @@ div.calendar
 
 div.tinycal
 {
-	width: 150px;
-	background: none;
+width: 150px;
+background: none;
 }
 
 div.calendar td
@@ -875,37 +875,37 @@ div.calendar td.event3
 
 div.tinycal_box
 {
-	position: absolute;
-	background: url(../images/box-top-small.png) no-repeat;
-	border: none;
-	display: none;
+position: absolute;
+background: url(../images/box-top-small.png) no-repeat;
+border: none;
+display: none;
 }
 
 div.tinycal_endbox
 {
-	width: 150px;
-	height: 10px;
-	background: url(../images/box-bottom-small.png) no-repeat;
+width: 150px;
+height: 10px;
+background: url(../images/box-bottom-small.png) no-repeat;
 }
 
 td.tinycal_day
 {
-	cursor: pointer;
+cursor: pointer;
 }
 
 td.tinycal_day:hover
 {
-	background: #eeeeee;
+background: #eeeeee;
 }
 
 div.tinycalhead div.closecal
 {
-	position: absolute;
-	background: url(../images/close.png) no-repeat;
-	right: -10px;
-	height: 12px;
-	width: 12px;
-	cursor: pointer;
+position: absolute;
+background: url(../images/close.png) no-repeat;
+right: -10px;
+height: 12px;
+width: 12px;
+cursor: pointer;
 }
 
 /* 
@@ -2440,3 +2440,18 @@ ul.diff
 ul.diff li
 {
 }
+
+.clearfix:after
+{
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+.clearfix
+{
+  display: block;
+}
+

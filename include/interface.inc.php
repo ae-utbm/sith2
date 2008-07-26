@@ -242,7 +242,7 @@ class interfaceweb
         
     if (!$this->compact )
     {
-      echo "<div class=\"box\" id=\"important\"><div class=\"body\">\n";
+      echo "<div class=\"box clearfix\" id=\"important\"><div class=\"body\">\n";
       echo $this->get_param('box.Important'). "\n";
       echo "</div></div>\n";
       
@@ -330,7 +330,7 @@ class interfaceweb
         else
           $ref = null;
           
-        echo "<div id=\"".$side."\">\n";
+        echo "<div id=\"".$side."\" class=\"clearfix\">\n";
         foreach ( $names as $name )
         {
         
