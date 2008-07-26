@@ -238,7 +238,7 @@ class interfaceweb
     
     echo "<body>\n";
     /* Generate the logo */
-    echo "<div id=\"site\">";    
+    echo "<div id=\"site clearfix\">";    
         
     if (!$this->compact )
     {
