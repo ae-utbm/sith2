@@ -338,7 +338,7 @@ class dokusyntax
   {
     global $topdir;
     $ret  = "\n";
-    $ret .= '<div class="toc">'."\n";
+    $ret .= '<div class="toc clearfix">'."\n";
     $ret .= '<div class="tocheader">'."\n";
     $ret .= '<a href="#" onclick="on_off_icon(\'toc\',\''.$topdir.'\'); ';
     $ret .= 'return false;"><img src="'.$topdir.'images/fld.png" alt="togle" class="icon" id="toc_icon" />'."\n";
