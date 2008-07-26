@@ -88,7 +88,7 @@ class interfaceweb
               array("emprunt.php","Pret de matériel"),
               array("jobetu/","AE Job-étu"),
               array("laverie/","Laverie"),
-	      array("biblio/","Bibliothèque"),
+              array("biblio/","Bibliothèque"),
               array("article.php?name=weekmail","Weekmail"),
               array("covoiturage/","Co-voiturage")
             ) ),
@@ -204,10 +204,13 @@ class interfaceweb
     
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n"; // (IE6 Legacy support)
     echo "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css\" title=\"AE2-NEW2\" />\n";
-    foreach ( $this->extracss as $url ) 
-      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8"). "\" />\n";
-    
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css?".filemtime($wwwtopdir . "themes/default/css/site.css")."\" title=\"AE2-NEW2\" />\n";
+    foreach ( $this->extracss as $url )
+      if(file_exists(htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8")))
+        echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".
+             htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8")."?".
+             filemtime(htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8"))."\" />\n";
+
     foreach ( $this->alternate as $row )
     {
       echo "<link rel=\"alternate\" ".
@@ -459,8 +462,8 @@ class interfaceweb
     echo "<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
     echo "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css\" title=\"AE2-NEW2\" />\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/popup.css\" />\n";
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css?".filemtime($wwwtopdir . "themes/default/css/site.css")."\" title=\"AE2-NEW2\" />\n";
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/popup.css?".filemtime($wwwtopdir ."css/popup.css")."\" />\n";
     foreach ( $this->extracss as $url ) 
       echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8"). "\" />\n";
     

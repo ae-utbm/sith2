@@ -90,9 +90,10 @@ class rssfeedforum extends rssfeed
 
   function output ()
   {
+    global $topdir;
     header("Content-Type: text/xml; charset=utf-8");
     echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
-    echo "<?xml-stylesheet type=\"text/css\" href=\"http://ae.utbm.fr/themes/default/css/site.css\" ?>";
+    echo "<?xml-stylesheet type=\"text/css\" href=\"http://ae.utbm.fr/themes/default/css/site.css?".filemtime($topdir."themes/default/css/site.css")."\" ?>";
     echo "<rss version=\"2.0\" xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\">\n";
     echo "<channel>\n";
     
