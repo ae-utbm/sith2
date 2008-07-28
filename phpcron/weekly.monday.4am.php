@@ -10,7 +10,7 @@ echo "==== ".date("d/m/Y")." ====\n";
 
 echo ">> OPTIMZE TABLES\n";
 $req = new requete($site->db, 'SHOW TABLES');
-while(list($table)=$req->get_rwo())
+while(list($table)=$req->get_row())
   new requete($site->dbrw, 'OPTIMIZE TABLE \''.$table.'\'');
 
 
