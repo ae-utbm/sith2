@@ -337,7 +337,7 @@ $req = new requete($site->db,
 
 $site->add_contents(new treects ( "Associations", $req, 0, "id_asso", "id_asso_parent", "nom_asso" ));
 
-if ( $site->user->is_in_group("gestion_ae") )
+if ( $site->user->is_in_group("root") )
 {
   $frm = new form("newasso","asso.php",true,"POST","Ajouter une association");
   
