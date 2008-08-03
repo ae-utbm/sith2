@@ -425,47 +425,22 @@ class dokusyntax
           $file->load_by_id($match[1]);
           return $file->get_html_link();
         }
-        elseif($this->extern)
-        {
-          if ( !isset($match[2]) || $match[2] == "/download" )
-            $link = "http://ae.utbm.fr/d.php?action=download&id_file=".$match[1];
-          elseif ( $match[2] == "/preview" )
-            $link = "http://ae.utbm.fr/d.php?action=download&download=preview&id_file=".$match[1];
-          elseif ( $match[2] == "/thumb" )
-            $link = "http://ae.utbm.fr/d.php?action=download&download=thumb&id_file=".$match[1];
-          elseif ( $match[2] == "/info" )
-            $link = "http://ae.utbm.fr/d.php?id_file=".$match[1];      
-        }
-        else
-        {
-          if ( !isset($match[2]) || $match[2] == "/download" )
-            $link = $topdir."d.php?action=download&id_file=".$match[1];
-          elseif ( $match[2] == "/preview" )
-            $link = $topdir."d.php?action=download&download=preview&id_file=".$match[1];
-          elseif ( $match[2] == "/thumb" )
-            $link = $topdir."d.php?action=download&download=thumb&id_file=".$match[1];
-          elseif ( $match[2] == "/info" )
-            $link = $topdir."d.php?id_file=".$match[1];
-        }
+        if ( !isset($match[2]) || $match[2] == "/download" )
+          $link = "http://ae.utbm.fr/d.php?action=download&id_file=".$match[1];
+        elseif ( $match[2] == "/preview" )
+          $link = "http://ae.utbm.fr/d.php?action=download&download=preview&id_file=".$match[1];
+        elseif ( $match[2] == "/thumb" )
+          $link = "http://ae.utbm.fr/d.php?action=download&download=thumb&id_file=".$match[1];
+        elseif ( $match[2] == "/info" )
+          $link = "http://ae.utbm.fr/d.php?id_file=".$match[1];      
       }
       else
       {
-        if($this->extern)
-        {
-          //les article://
-          $link = preg_replace("/article:\/\//i",'http://ae.utbm.fr/'.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
-          //les wiki://
-          $link = preg_replace("/wiki:\/\//i",'http://ae.utbm.fr/'.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link); 
-          $link = preg_replace("/sas:\/\//i","http://ae.utbm.fr/sas2/images.php?/",$link);
-        }
-        else
-        {
-          //les article://
-          $link = preg_replace("/article:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
-          //les wiki://
-          $link = preg_replace("/wiki:\/\//i",$wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link);
-          $link = preg_replace("/sas:\/\//i",$wwwtopdir."sas2/images.php?/",$link);
-        }
+        //les article://
+        $link = preg_replace("/article:\/\//i",'http://ae.utbm.fr/'.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
+        //les wiki://
+        $link = preg_replace("/wiki:\/\//i",'http://ae.utbm.fr/'.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link); 
+        $link = preg_replace("/sas:\/\//i","http://ae.utbm.fr/sas2/images.php?/",$link);
       }
     }
     elseif ( !strpos($link,'mailto:') && !preg_match("#(\.|/)#",$link) )
@@ -1026,20 +1001,10 @@ class dokusyntax
     list($width,$height) = split('x',$sizes,2);
     $name=trim($name);
     //les dfiles://
-    if($this->extern)
-    {
-      $img = preg_replace("/dfile:\/\/([0-9]*)\/preview/i","http://ae.utbm.fr/d.php?action=download&download=preview&id_file=$1",$img);
-      $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i","http://ae.utbm.fr/d.php?action=download&download=thumb&id_file=$1",$img);
-      $img = preg_replace("/dfile:\/\//i","http://ae.utbm.fr/d.php?action=download&id_file=",$img);
-      $img = preg_replace("/sas:\/\//i","http://ae.utbm.fr/sas2/images.php?/",$img);
-    }
-    else
-    {
-      $img = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$topdir."d.php?action=download&download=preview&id_file=$1",$img);
-      $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$topdir."d.php?action=download&download=thumb&id_file=$1",$img);
-      $img = preg_replace("/dfile:\/\//i",$topdir."d.php?action=download&id_file=",$img);
-      $img = preg_replace("/sas:\/\//i",$topdir."sas2/images.php?/",$img);
-    }
+    $img = preg_replace("/dfile:\/\/([0-9]*)\/preview/i","http://ae.utbm.fr/d.php?action=download&download=preview&id_file=$1",$img);
+    $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i","http://ae.utbm.fr/d.php?action=download&download=thumb&id_file=$1",$img);
+    $img = preg_replace("/dfile:\/\//i","http://ae.utbm.fr/d.php?action=download&id_file=",$img);
+    $img = preg_replace("/sas:\/\//i","http://ae.utbm.fr/sas2/images.php?/",$img);
 
     if ( preg_match("/\.flv$/i",$img) )
     {
