@@ -642,7 +642,8 @@ class dokusyntax
         $tag = preg_replace('!\$!i', '\$', $tag);
         $tag = preg_replace('!\{!i', '\}', $tag);
         $tag = preg_replace('!\}!i', '\{', $tag);
-        $tag = preg_replace('!\?!i', '\?', $tag);
+        $tag = preg_replace('#\?#i', '\?', $tag);
+        $tag = preg_replace('#\!#i', '\!', $tag);
         $tag = preg_replace('!\+!i', '\+', $tag);
         $tag = preg_replace('!\*!i', '\*', $tag);
         $tag = preg_replace('!\.!i', '\.', $tag);
