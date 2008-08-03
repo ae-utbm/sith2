@@ -589,41 +589,31 @@ class dokusyntax
       
       ":-)"=>"smile.png",
       ":)"=>"smile.png",
-      
       ":-/"=>"confused.png",
       ":/"=>"confused.png",
-      
       "^_^"=>"happy.png",
-      "^^"=>"happy.png",
-      
       ";)"=>"wink.png",
       ";-)"=>"wink.png",
-  
       ":-|"=>"neutral.png",
       ":|"=>"neutral.png",
-      
       ":-D"=>"lol.png",
       ":D"=>"lol.png",
-  
       "Oo"=>"dizzy.png",
       "O_o"=>"dizzy.png",
       "O_O"=>"dizzy.png",
       "o_o"=>"dizzy.png",
       "o_O"=>"dizzy.png",
-      
       ":&#8217;("=>"cry.png",
       ";-("=>"cry.png",
       ";("=>"cry.png",
-                    
       "x)"=>"caca.png",
       "x-)"=>"caca.png",                  
       ":caca:"=>"caca.png",     
-                   
       ":-p"=>"tongue.png",
       ":-P"=>"tongue.png",
       ":p"=>"tongue.png",
       ":P"=>"tongue.png",
-      ':!:'=>'exclaim.gif',
+      '/!\\'=>'exclaim.gif',
       ':?:'=>'question.gif',
       'FIXME'=>'fixme.gif',
       'DELETEME'=>'delete.gif'
@@ -648,7 +638,7 @@ class dokusyntax
         $tag = preg_replace('!\.!i', '\.', $tag);
         $tag = preg_replace('!\|!i', '\|', $tag);
   
-        $text = preg_replace("/( |^|\n)".$tag."( |$|\n)/i", "$1<img src=\"".$smPath.$img."\" alt=\"\" />$2", $text);
+        $text = preg_replace('!( |^|\n)'.$tag.'( |$|\n)!i', "$1<img src=\"".$smPath.$img."\" alt=\"\" />$2", $text);
   
       }
     }
