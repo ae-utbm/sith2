@@ -648,7 +648,7 @@ class dokusyntax
         $tag = preg_replace('!\.!i', '\.', $tag);
         $tag = preg_replace('!\|!i', '\|', $tag);
   
-        $text = preg_replace('/( |^|\n)'.$tag.'( |$|\n)/i', "$1<img src=\"".$smPath.$img."\" alt=\"\" />$2", $text);
+        $text = preg_replace("/( |^|\n)".$tag."( |$|\n)/i", "$1<img src=\"".$smPath.$img."\" alt=\"\" />$2", $text);
   
       }
     }
