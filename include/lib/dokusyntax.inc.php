@@ -623,6 +623,7 @@ class dokusyntax
     {
       if ( file_exists($smPath . "/" . $img) )
       {
+        $bleh=$tag;
         $tag = preg_replace('!\]!i', '\]', $tag);
         $tag = preg_replace('!\[!i', '\[', $tag);
         $tag = preg_replace('!\)!i', '\)', $tag);
@@ -637,7 +638,8 @@ class dokusyntax
         $tag = preg_replace('!\*!i', '\*', $tag);
         $tag = preg_replace('!\.!i', '\.', $tag);
         $tag = preg_replace('!\|!i', '\|', $tag);
-  
+        if($bleh==':!:')
+	  $text.='bleh';
         $text = preg_replace('!( |^|\n)'.$tag.'( |$|\n)!i', "$1<img src=\"".$smPath.$img."\" alt=\"\" />$2", $text);
   
       }
