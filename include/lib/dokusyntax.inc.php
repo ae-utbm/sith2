@@ -648,7 +648,10 @@ class dokusyntax
       ":-P"=>"tongue.png",
       ":p"=>"tongue.png",
       ":P"=>"tongue.png",
-      ':!:'=>'exclaim.gif'
+      ':!:'=>'exclaim.gif',
+      ':?:'=>'question.gif',
+      'FIXME'=>'fixme.gif',
+      'DELETEME'=>'delete.gif'
                      );
     $smPath = $wwwtopdir."images/forum/smilies/";
     foreach($smileys as $tag => $img)
