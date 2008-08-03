@@ -439,13 +439,13 @@ class dokusyntax
         else
         {
           if ( !isset($match[2]) || $match[2] == "/download" )
-            $link = $wwwtopdir."d.php?action=download&id_file=".$match[1];
+            $link = $topdir."d.php?action=download&id_file=".$match[1];
           elseif ( $match[2] == "/preview" )
-            $link = $wwwtopdir."d.php?action=download&download=preview&id_file=".$match[1];
+            $link = $topdir."d.php?action=download&download=preview&id_file=".$match[1];
           elseif ( $match[2] == "/thumb" )
-            $link = $wwwtopdir."d.php?action=download&download=thumb&id_file=".$match[1];
+            $link = $topdir."d.php?action=download&download=thumb&id_file=".$match[1];
           elseif ( $match[2] == "/info" )
-            $link = $wwwtopdir."d.php?id_file=".$match[1];
+            $link = $topdir."d.php?id_file=".$match[1];
         }
       }
       else
