@@ -1016,6 +1016,7 @@ class dokusyntax
   {
     global $conf;
     global $wwwtopdir;
+    global $topdir;
     $name = str_replace('\\"','"',$text);
     $ret .= $pre;
     $format=$this->alignment($name);
@@ -1034,10 +1035,10 @@ class dokusyntax
     }
     else
     {
-      $img = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$wwwtopdir."d.php?action=download&download=preview&id_file=$1",$img);
-      $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$wwwtopdir."d.php?action=download&download=thumb&id_file=$1",$img);
-      $img = preg_replace("/dfile:\/\//i",$wwwtopdir."d.php?action=download&id_file=",$img);
-      $img = preg_replace("/sas:\/\//i",$wwwtopdir."sas2/images.php?/",$img);
+      $img = preg_replace("/dfile:\/\/([0-9]*)\/preview/i",$topdir."d.php?action=download&download=preview&id_file=$1",$img);
+      $img = preg_replace("/dfile:\/\/([0-9]*)\/thumb/i",$topdir."d.php?action=download&download=thumb&id_file=$1",$img);
+      $img = preg_replace("/dfile:\/\//i",$topdir."d.php?action=download&id_file=",$img);
+      $img = preg_replace("/sas:\/\//i",$topdir."sas2/images.php?/",$img);
     }
 
     if ( preg_match("/\.flv$/i",$img) )
