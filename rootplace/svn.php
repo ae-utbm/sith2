@@ -34,6 +34,7 @@ $site = new site ();
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
 
+/*
 if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="createdepot" )
 {
   if(isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) && isset($_REQUEST["type"]) && !empty($_REQUEST["type"]) )
@@ -43,7 +44,7 @@ if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="createdepot" )
   }
   unset($_REQUEST["action"]);
 }
-
+*/
 
 
 //$tabs = array(array("","rootplace/svn.php","Depots"),array("user","rootplace/svn.php?view=user","Utilisateurs"));
@@ -144,11 +145,13 @@ if(isset($_REQUEST["id_depot"]))
                     $user->id."\">mail</a>.";
       }
     }
+    /*
     elseif($_REQUEST["action"] == edit)
     {
       if( in_array($_REQUEST["type"],$svn->type_depot) )
         $svn->change_repo_type($_REQUEST["type"]);
     }
+    */
   }
 
   if($svn)
@@ -255,12 +258,14 @@ else
                          array(),
                          array()
                         ));
+  /*
   $frm = new form("createdepot","svn.php","post","Créer un nouveau dépot");
   $frm->add_hidden("action","createdepot");
   $frm->add_text_field("nom","Nom du dépot");
   $frm->add_select_field("type","Droits",array("public"=>"Publique","private"=>"Privé","aeinfo"=>"Équipe info"));
   $frm->add_submit("valid","Valider");
   $cts->add($frm,true);
+  */
 }
 
 

@@ -36,6 +36,7 @@ $site->allow_only_logged_users("");
 $site->start_page("none","Utilisateur / SVN");
 $cts = new contents("<a href=\"./\">Utilisateur</a> / SVN");
 
+/*
 if(empty($site->user->alias))
 {
   if( isset($_REQUEST["alias"]) )
@@ -99,12 +100,14 @@ if( empty($find) )
   $site->end_page();
   exit();
 }
-
+*/
 $cts->add_paragraph("Votre alias de connexion svn est : ".strtolower($site->user->alias));
+/*
 $frm = new form("changemdp","svn.php",false,"post","Changer votre mot de passe :");
 $frm->add_hidden("action","pass");
 $frm->add_password_field("pass","Mot de passe");
 $frm->add_submit("valid","Valider"); $cts->add($frm,true);
+*/
 
 /* ici faire la liste des dépots privés, publiques et aeinfo */
 $req = new requete($site->db,"SELECT `nom`, CONCAT('https://ae.utbm.fr/svn/',`nom`) AS `url`, `right` FROM `svn_member_depot` ".
