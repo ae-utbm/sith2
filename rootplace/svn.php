@@ -217,12 +217,13 @@ if(isset($_REQUEST["id_depot"]))
                            array(),
                            array()
                           ));
-    
+    /*
     $frm = new form("editdepot", "svn.php?id_depot=".$svn->id,false,"post","Modifier le dépot");
     $frm->add_hidden("action","edit");
     $frm->add_select_field("type","Droits",array("public"=>"Publique","private"=>"Privé","aeinfo"=>"Équipe info"),$svn->type);
     $frm->add_submit("valid","Valider");
     $cts->add($frm,true);
+    */
   }
   else
   {
