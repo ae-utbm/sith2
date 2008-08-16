@@ -97,7 +97,7 @@ function add_new_form($id = null)
     $frm->error($ErreurNewStudent);
 
   $sub_frm_ident = new form("ident",null,null,null,"Identité");
-n
+
   $sub_frm_ident->add_text_field("nom","Nom","",true);
 
   $sub_frm_ident->add_text_field("prenom","Prénom","",true);
