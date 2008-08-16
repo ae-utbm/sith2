@@ -91,7 +91,7 @@ function add_new_form($id = null)
 
   $cts = new contents("Gestion des cotisations");
 
-  $frm = new form("newstudent","cotisations.php",true,"POST","Inscription d'un nouvel Ã©tudiant UTBM ou administratif UTBM");
+  $frm = new form("newstudent","cotisations.php",true,"POST","Inscription d'un nouvel étudiant UTBM ou administratif UTBM");
   $frm->add_hidden("action","newstudent");
   if ( $ErreurNewStudent )
     $frm->error($ErreurNewStudent);
@@ -124,7 +124,7 @@ function add_new_form($id = null)
   $sub_frm_cotiz->add($sub_frm_cotiz_other,false,true,false,"other",false,true,false);
 
   $sub_frm_cotiz->add_info("&nbsp;");
-  $sub_frm_cotiz->add_checkbox("droit_image","Droit Ã  l'image",false);
+  $sub_frm_cotiz->add_checkbox("droit_image","Droit à l'image",false);
   $sub_frm_cotiz->add_checkbox("cadeau","Cadeau",false);
   $sub_frm_cotiz->add_info("&nbsp;");
 
