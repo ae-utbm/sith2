@@ -1061,7 +1061,7 @@ elseif ( $_REQUEST["view"]=="assos" )
   }
 
   unset($GLOBALS['ROLEASSO'][ROLEASSO_MEMBRE]);
-  unset($GLBOALS['ROLEASSO'][ROLEASSO_MEMBREACTIF]);
+  unset($GLOBALS['ROLEASSO'][ROLEASSO_MEMBREACTIF]);
 
   if ( $can_edit )
   {
