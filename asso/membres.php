@@ -30,8 +30,8 @@ $asso = new asso($site->db,$site->dbrw);
 $asso->load_by_id($_REQUEST["id_asso"]);
 if ( $asso->id < 1 )
 {
-	$site->error_not_found();
-	exit();
+  $site->error_not_found();
+  exit();
 }
 
 $limited=false;
@@ -39,136 +39,136 @@ $limited=false;
 $can_admin=$site->user->is_in_group("gestion_ae")|| $asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU);
 
 if ( !$site->user->is_valid() || ( !$site->user->ae && !$can_admin ) )
-	$limited = true;
+  $limited = true;
 
 
 $ae_sphere=false;
 $asso_parent = new asso($site->db);
-$asso_parent->load_by_id($asso->id_parent);	
+$asso_parent->load_by_id($asso->id_parent);  
 while ( $asso_parent->id > 0 )
 {
   if ( $asso_parent->id == 1 )
     $ae_sphere = true;
-  $asso_parent->load_by_id($asso_parent->id_parent);	
+  $asso_parent->load_by_id($asso_parent->id_parent);  
 }
 
 /*if( !$site->user->ae && !$can_admin )
-	$site->error_forbidden("none","reserveAE");*/
+  $site->error_forbidden("none","reserveAE");*/
 
 if ( $_REQUEST["action"]=="getallvcards" && !$limited )
 {
-	
-	header("Content-Type: text/x-vcard");
-	header('Content-Disposition: attachment; filename="'.$asso->nom_unix.'-membres.vcf"');
+  
+  header("Content-Type: text/x-vcard");
+  header('Content-Disposition: attachment; filename="'.$asso->nom_unix.'-membres.vcf"');
 
-	$user = new utilisateur($site->db);
-	
-	$req = new requete($site->db,
-		"SELECT `utilisateurs`.*,`utl_etu`.*,`utl_etu_utbm`.* " .
-		"FROM `asso_membre` " .
-		"INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
-		"LEFT JOIN `utl_etu` ON `utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur` " .
-		"LEFT JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur` " .		
-		"WHERE `asso_membre`.`date_fin` IS NULL " .
-		"AND `asso_membre`.`id_asso`='".$asso->id."'");
+  $user = new utilisateur($site->db);
+  
+  $req = new requete($site->db,
+    "SELECT `utilisateurs`.*,`utl_etu`.*,`utl_etu_utbm`.* " .
+    "FROM `asso_membre` " .
+    "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
+    "LEFT JOIN `utl_etu` ON `utilisateurs`.`id_utilisateur`=`utl_etu`.`id_utilisateur` " .
+    "LEFT JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur` " .    
+    "WHERE `asso_membre`.`date_fin` IS NULL " .
+    "AND `asso_membre`.`id_asso`='".$asso->id."'");
 
-	while ( $row = $req->get_row() )
-	{
-		$user->_load_all($row);
-		$user->output_vcard();	
-	}
-	exit();
+  while ( $row = $req->get_row() )
+  {
+    $user->_load_all($row);
+    $user->output_vcard();  
+  }
+  exit();
 }
 elseif ( $_REQUEST["action"]=="add" && $can_admin)
 {
-	$user = new utilisateur($site->db);
-	$user->load_by_id($_REQUEST["id_utilisateur"]);
-	if ( $user->id < 1 )
-		$ErreurAdd = "Utilisateur inconnu";
-		
-	else if ( $ae_sphere && !$user->ae )
-		$ErreurAdd = "Utilisateur NON Cotisant AE";
-		
-	else if ( ($_REQUEST["date_debut"] <= time()) && ($_REQUEST["date_debut"] > 0) )
-		$asso->add_actual_member ( $user->id, $_REQUEST["date_debut"], $_REQUEST["role"], $_REQUEST["role_desc"] );			
+  $user = new utilisateur($site->db);
+  $user->load_by_id($_REQUEST["id_utilisateur"]);
+  if ( $user->id < 1 )
+    $ErreurAdd = "Utilisateur inconnu";
+    
+  else if ( $ae_sphere && !$user->ae )
+    $ErreurAdd = "Utilisateur NON Cotisant AE";
+    
+  else if ( ($_REQUEST["date_debut"] <= time()) && ($_REQUEST["date_debut"] > 0) )
+    $asso->add_actual_member ( $user->id, $_REQUEST["date_debut"], $_REQUEST["role"], $_REQUEST["role_desc"] );      
 
-	else
-		$ErreurAddMe = "Données invalides";
-		
+  else
+    $ErreurAddMe = "Données invalides";
+    
 }
 elseif ( $_REQUEST["action"]=="addformer" && $can_admin)
 {
-	$user = new utilisateur($site->db);
-	$_REQUEST["view"] = "anciens";
-	$user->load_by_id($_REQUEST["id_utilisateur"]);
-	
-	if ( $user->id < 1 )
-		$ErreurAddFormer = "Utilisateur inconnu";
-	
-	elseif ( isset($GLOBALS['ROLEASSO'][$_REQUEST["role"]]) && 
-		($_REQUEST["date_debut"] < $_REQUEST["date_fin"]) &&
-		($_REQUEST["date_fin"] < time()) && ($_REQUEST["date_debut"] > 0) )
-		$asso->add_former_member ( $user->id, $_REQUEST["date_debut"], $_REQUEST["date_fin"], $_REQUEST["role"], $_REQUEST["role_desc"] );			
+  $user = new utilisateur($site->db);
+  $_REQUEST["view"] = "anciens";
+  $user->load_by_id($_REQUEST["id_utilisateur"]);
+  
+  if ( $user->id < 1 )
+    $ErreurAddFormer = "Utilisateur inconnu";
+  
+  elseif ( isset($GLOBALS['ROLEASSO'][$_REQUEST["role"]]) && 
+    ($_REQUEST["date_debut"] < $_REQUEST["date_fin"]) &&
+    ($_REQUEST["date_fin"] < time()) && ($_REQUEST["date_debut"] > 0) )
+    $asso->add_former_member ( $user->id, $_REQUEST["date_debut"], $_REQUEST["date_fin"], $_REQUEST["role"], $_REQUEST["role_desc"] );      
 
-	else
-		$ErreurAddFormer = "Données invalides";
-		
+  else
+    $ErreurAddFormer = "Données invalides";
+    
 }
 elseif ( $_REQUEST["action"]=="delete" && $can_admin)
 {
-	list($id_utilisateur,$date_debut) = explode(",",$_REQUEST["id_membership"]);
-	$date_debut = strtotime($date_debut);
-	$asso->remove_member($id_utilisateur,$date_debut);
+  list($id_utilisateur,$date_debut) = explode(",",$_REQUEST["id_membership"]);
+  $date_debut = strtotime($date_debut);
+  $asso->remove_member($id_utilisateur,$date_debut);
 }
 elseif ( $_REQUEST["action"]=="ancien" && $can_admin)
 {
-	list($id_utilisateur,$date_debut) = explode(",",$_REQUEST["id_membership"]);
-	$asso->make_former_member($id_utilisateur,time());
+  list($id_utilisateur,$date_debut) = explode(",",$_REQUEST["id_membership"]);
+  $asso->make_former_member($id_utilisateur,time());
 }
 elseif ( $_REQUEST["action"]=="deletes" && $can_admin)
 {
-	foreach($_REQUEST["id_memberships"] as $id_membership )
-	{
-		list($id_utilisateur,$date_debut) = explode(",",$id_membership);
-		$date_debut = strtotime($date_debut);
-		$asso->remove_member($id_utilisateur,$date_debut);
-	}
+  foreach($_REQUEST["id_memberships"] as $id_membership )
+  {
+    list($id_utilisateur,$date_debut) = explode(",",$id_membership);
+    $date_debut = strtotime($date_debut);
+    $asso->remove_member($id_utilisateur,$date_debut);
+  }
 }
 elseif ( $_REQUEST["action"]=="anciens" && $can_admin)
 {
-	foreach($_REQUEST["id_memberships"] as $id_membership )
-	{
-		list($id_utilisateur,$date_debut) = explode(",",$id_membership);
-		$asso->make_former_member($id_utilisateur,time());
-	}
+  foreach($_REQUEST["id_memberships"] as $id_membership )
+  {
+    list($id_utilisateur,$date_debut) = explode(",",$id_membership);
+    $asso->make_former_member($id_utilisateur,time());
+  }
 }
 elseif ( $_REQUEST["action"]=="addme" && $asso->id_parent )
 {
-	if ( ($_REQUEST["date_debut"] <= time()) && ($_REQUEST["date_debut"] > 0) )
-		$asso->add_actual_member ( $site->user->id, $_REQUEST["date_debut"], ROLEASSO_MEMBRE, $_REQUEST["role_desc"] );			
+  if ( ($_REQUEST["date_debut"] <= time()) && ($_REQUEST["date_debut"] > 0) )
+    $asso->add_actual_member ( $site->user->id, $_REQUEST["date_debut"], ROLEASSO_MEMBRE, $_REQUEST["role_desc"] );      
 
-	else
-		$ErreurAddMe = "Données invalides";
-	
+  else
+    $ErreurAddMe = "Données invalides";
+  
 }
 elseif ( $_REQUEST["action"]=="addmeformer" && !$limited )
 {
-	$_REQUEST["view"] = "anciens";
-	
-	if (  $asso->id_parent < 1 && 
-		$_REQUEST["role"] < 2 
-			
-			)
-		$ErreurAddMeFormer = "Non autorisé sur cette association.";
-		
-	elseif ( isset($GLOBALS['ROLEASSO'][$_REQUEST["role"]]) && 
-		($_REQUEST["date_debut"] < $_REQUEST["date_fin"]) &&
-		($_REQUEST["date_fin"] < time()) && ($_REQUEST["date_debut"] > 0) )
-		$asso->add_former_member( $site->user->id, $_REQUEST["date_debut"], $_REQUEST["date_fin"], $_REQUEST["role"], $_REQUEST["role_desc"] );			
+  $_REQUEST["view"] = "anciens";
+  
+  if (  $asso->id_parent < 1 && 
+    $_REQUEST["role"] < 2 
+      
+      )
+    $ErreurAddMeFormer = "Non autorisé sur cette association.";
+    
+  elseif ( isset($GLOBALS['ROLEASSO'][$_REQUEST["role"]]) && 
+    ($_REQUEST["date_debut"] < $_REQUEST["date_fin"]) &&
+    ($_REQUEST["date_fin"] < time()) && ($_REQUEST["date_debut"] > 0) )
+    $asso->add_former_member( $site->user->id, $_REQUEST["date_debut"], $_REQUEST["date_fin"], $_REQUEST["role"], $_REQUEST["role_desc"] );      
 
-	else
-		$ErreurAddMeFormer = "Données invalides";
-	
+  else
+    $ErreurAddMeFormer = "Données invalides";
+  
 }
 
 // Correction du vocabulaire
@@ -203,6 +203,7 @@ if ( !$limited )
   $subtabs[] = array("anciens","asso/membres.php?view=anciens&id_asso=".$asso->id,"Anciens membres");
   
   $cts->add(new tabshead($subtabs,$_REQUEST["view"],"","subtab"));
+  $extracond .= "AND `asso_membre`.`role` > '".ROLEASSO_MEMBRE."' ";
 }
 else
 {
@@ -222,20 +223,20 @@ if ( $_REQUEST["view"] == "trombino" || $limited )
   if ( !is_null($asso->id_parent) && (!$site->user->is_valid() || !$asso->is_member($site->user->id)) )
     $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"../asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");
     
-	$req = new requete($site->db,
-		"SELECT `utilisateurs`.`id_utilisateur`, " .
-		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-		"`asso_membre`.`role`, " .
-		"`asso_membre`.`desc_role`, " .
-		"`asso_membre`.`date_debut`, " .
-		"CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
-		"FROM `asso_membre` " .
-		"INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
-		"WHERE `asso_membre`.`date_fin` IS NULL " .
-		"AND `asso_membre`.`id_asso`='".$asso->id."' " .
-		$extracond .
-		"ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
-		
+  $req = new requete($site->db,
+    "SELECT `utilisateurs`.`id_utilisateur`, " .
+    "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+    "`asso_membre`.`role`, " .
+    "`asso_membre`.`desc_role`, " .
+    "`asso_membre`.`date_debut`, " .
+    "CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
+    "FROM `asso_membre` " .
+    "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
+    "WHERE `asso_membre`.`date_fin` IS NULL " .
+    "AND `asso_membre`.`id_asso`='".$asso->id."' " .
+    $extracond .
+    "ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
+    
   $gal = new gallery();
   while ( $row = $req->get_row() )
   {
@@ -255,7 +256,7 @@ if ( $_REQUEST["view"] == "trombino" || $limited )
     "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\"><img src=\"$img\" alt=\"Photo\" height=\"105\"></a>",
     "<a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a> (".htmlentities($role,ENT_NOQUOTES,"UTF-8").")");
   }
-	$cts->add($gal); 
+  $cts->add($gal); 
 
   if ( $limited && !$site->user->is_valid() && !is_null($asso->id_parent) )
   {
@@ -265,32 +266,32 @@ if ( $_REQUEST["view"] == "trombino" || $limited )
 }
 elseif ( $_REQUEST["view"] == "anciens" )
 {
-	
-	$req = new requete($site->db,
-		"SELECT `utilisateurs`.`id_utilisateur`, " .
-		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-		"`asso_membre`.`role`, " .
-		"`asso_membre`.`desc_role`, " .
-		"`asso_membre`.`date_debut`," .
-		"`asso_membre`.`date_fin`, " .
-		"CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
-		"FROM `asso_membre` " .
-		"INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
-		"WHERE `asso_membre`.`date_fin` IS NOT NULL " .
-		"AND `asso_membre`.`id_asso`='".$asso->id."' " .
-		"ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
-		
-	$tbl = new sqltable(
-			"listresp", 
-			"Anciens", $req, "membres.php?id_asso=".$asso->id, 
-			"id_membership", 
-			array("nom_utilisateur"=>"Utilisateur","role"=>"Role","desc_role"=>"Role","date_debut"=>"Du","date_fin"=>"Au"), 
-			$can_admin?array("delete"=>"Supprimer"):array(), 
-			$can_admin?array("deletes"=>"Supprimer"):array(),
-			array("role"=>$GLOBALS['ROLEASSO'] )
-			);
-				
-	$cts->add($tbl,true);
+  
+  $req = new requete($site->db,
+    "SELECT `utilisateurs`.`id_utilisateur`, " .
+    "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+    "`asso_membre`.`role`, " .
+    "`asso_membre`.`desc_role`, " .
+    "`asso_membre`.`date_debut`," .
+    "`asso_membre`.`date_fin`, " .
+    "CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
+    "FROM `asso_membre` " .
+    "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
+    "WHERE `asso_membre`.`date_fin` IS NOT NULL " .
+    "AND `asso_membre`.`id_asso`='".$asso->id."' " .
+    "ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
+    
+  $tbl = new sqltable(
+      "listresp", 
+      "Anciens", $req, "membres.php?id_asso=".$asso->id, 
+      "id_membership", 
+      array("nom_utilisateur"=>"Utilisateur","role"=>"Role","desc_role"=>"Role","date_debut"=>"Du","date_fin"=>"Au"), 
+      $can_admin?array("delete"=>"Supprimer"):array(), 
+      $can_admin?array("deletes"=>"Supprimer"):array(),
+      array("role"=>$GLOBALS['ROLEASSO'] )
+      );
+        
+  $cts->add($tbl,true);
 
   if ( $can_admin )
   {
@@ -324,7 +325,7 @@ elseif ( $_REQUEST["view"] == "anciens" )
     $frm->add_date_field("date_fin","Date de fin",-1,true);
     $frm->add_submit("valid","Ajouter");
     $cts->add($frm,true);
-  }	
+  }  
 
 }
 else
@@ -333,58 +334,58 @@ else
   if ( $asso->is_mailing_allowed() && !is_null($asso->id_parent) && (!$site->user->is_valid() || !$asso->is_member($site->user->id)) )
     $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"../asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");
 
-	$req = new requete($site->db,
-		"SELECT `utilisateurs`.`id_utilisateur`, " .
-		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-		"`asso_membre`.`role`, " .
-		"`asso_membre`.`desc_role`, " .
-		"`asso_membre`.`date_debut`, " .
-		"CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
-		"FROM `asso_membre` " .
-		"INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
-		"WHERE `asso_membre`.`date_fin` IS NULL " .
-		"AND `asso_membre`.`id_asso`='".$asso->id."' " .
-		$extracond .
-		"ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
-		
-	$tbl = new sqltable(
-			"listresp", 
-			"Membres actuels", $req, "membres.php?id_asso=".$asso->id, 
-			"id_membership", 
-			array("nom_utilisateur"=>"Utilisateur","role"=>"Role","desc_role"=>"Role","date_debut"=>"Depuis le"), 
-			$can_admin?array("ancien"=>"Marquer comme ancien","delete"=>"Supprimer"):array(), 
-			$can_admin?array("anciens"=>"Marquer comme ancien","deletes"=>"Supprimer"):array(),
-			array("role"=>$GLOBALS['ROLEASSO'] )
-			);	
-	$cts->add($tbl,true); 
+  $req = new requete($site->db,
+    "SELECT `utilisateurs`.`id_utilisateur`, " .
+    "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+    "`asso_membre`.`role`, " .
+    "`asso_membre`.`desc_role`, " .
+    "`asso_membre`.`date_debut`, " .
+    "CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
+    "FROM `asso_membre` " .
+    "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
+    "WHERE `asso_membre`.`date_fin` IS NULL " .
+    "AND `asso_membre`.`id_asso`='".$asso->id."' " .
+    $extracond .
+    "ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
+    
+  $tbl = new sqltable(
+      "listresp", 
+      "Membres actuels", $req, "membres.php?id_asso=".$asso->id, 
+      "id_membership", 
+      array("nom_utilisateur"=>"Utilisateur","role"=>"Role","desc_role"=>"Role","date_debut"=>"Depuis le"), 
+      $can_admin?array("ancien"=>"Marquer comme ancien","delete"=>"Supprimer"):array(), 
+      $can_admin?array("anciens"=>"Marquer comme ancien","deletes"=>"Supprimer"):array(),
+      array("role"=>$GLOBALS['ROLEASSO'] )
+      );  
+  $cts->add($tbl,true); 
 
-	if ( $can_admin )
-	{
-		$frm = new form("add","membres.php?id_asso=".$asso->id,false,"POST","Ajouter un membre");
-		$frm->add_hidden("action","add");
-		if ( $ErreurAdd )
-			$frm->error($ErreurAdd);
-		$frm->add_user_fieldv2("id_utilisateur","Membre");
-		$frm->add_text_field("role_desc","Role (champ libre)","");
-		
-		unset($GLOBALS['ROLEASSO'][ROLEASSO_MEMBREACTIF]);
-		
-		$frm->add_select_field("role","Role",$GLOBALS['ROLEASSO']);
-		$frm->add_date_field("date_debut","Depuis le",time(),true);
-		$frm->add_submit("valid","Ajouter");
-		$cts->add($frm,true);
-	}
-	elseif ( $asso->id_parent && !$limited )
-	{
-		$frm = new form("addme","membres.php?id_asso=".$asso->id,false,"POST","M'ajouter comme membre");
-		if ( $ErreurAddMe )
-			$frm->error($ErreurAddMe);
-		$frm->add_hidden("action","addme");
-		$frm->add_info("<b>Attention</b> : Si vous êtes membre du bureau (tresorier, secretaire...) ou membre actif veuillez vous adresser au responsable de l'association/du club. Si vous êtes le responsable, merci de vous adresser à l'AE. ");
-		$frm->add_date_field("date_debut","Depuis le",time(),true);
-		$frm->add_submit("valid","Ajouter");
-		$cts->add($frm,true);
-	}
+  if ( $can_admin )
+  {
+    $frm = new form("add","membres.php?id_asso=".$asso->id,false,"POST","Ajouter un membre");
+    $frm->add_hidden("action","add");
+    if ( $ErreurAdd )
+      $frm->error($ErreurAdd);
+    $frm->add_user_fieldv2("id_utilisateur","Membre");
+    $frm->add_text_field("role_desc","Role (champ libre)","");
+    
+//    unset($GLOBALS['ROLEASSO'][ROLEASSO_MEMBREACTIF]);
+    
+    $frm->add_select_field("role","Role",$GLOBALS['ROLEASSO']);
+    $frm->add_date_field("date_debut","Depuis le",time(),true);
+    $frm->add_submit("valid","Ajouter");
+    $cts->add($frm,true);
+  }
+  elseif ( $asso->id_parent && !$limited )
+  {
+    $frm = new form("addme","membres.php?id_asso=".$asso->id,false,"POST","M'ajouter comme membre");
+    if ( $ErreurAddMe )
+      $frm->error($ErreurAddMe);
+    $frm->add_hidden("action","addme");
+    $frm->add_info("<b>Attention</b> : Si vous êtes membre du bureau (tresorier, secretaire...) ou membre actif veuillez vous adresser au responsable de l'association/du club. Si vous êtes le responsable, merci de vous adresser à l'AE. ");
+    $frm->add_date_field("date_debut","Depuis le",time(),true);
+    $frm->add_submit("valid","Ajouter");
+    $cts->add($frm,true);
+  }
 }
 
 
