@@ -1037,8 +1037,8 @@ elseif ( $_REQUEST["view"]=="assos" )
     $cts->add($frm,true);
   }
 
-  unset($GLOBALS['ROLEASSO100'][ROLEASSO_MEMBRE]);
-  unset($GLBOALS['ROLEASSO100'][ROLEASSO_MEMBREACTIF]);
+  unset($GLOBALS['ROLEASSO100'][(ROLEASSO_MEMBRE+100)]);
+  unset($GLBOALS['ROLEASSO100'][(ROLEASSO_MEMBREACTIF+100)]);
 
   /* Anciennes assos */
   $req = new requete($site->db,
