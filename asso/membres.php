@@ -369,7 +369,7 @@ else
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
     "WHERE `asso_membre`.`date_fin` IS NULL " .
     "AND `asso_membre`.`id_asso`='".$asso->id."' " .
-    "AND `asso_membre`.`role` = '".ROLEASSO_MEMBRE."' ";
+    "AND `asso_membre`.`role` = '".ROLEASSO_MEMBRE."' ");
 
   $tbl = new sqltable(
       "listml",
