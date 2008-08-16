@@ -1071,7 +1071,6 @@ elseif ( $_REQUEST["view"]=="assos" )
       $frm->error($ErreurAddMeFormer);
     $frm->add_entity_select ( "id_asso", "Association/Club", $site->db, "asso");
     $frm->add_text_field("role_desc","Role (champ libre)","");
-    print_r($GLOBALS['ROLEASSO']);
     $frm->add_select_field("role","Role",$GLOBALS['ROLEASSO']);
     $frm->add_date_field("former_date_debut","Date de d&eacute;but",-1,true);
     $frm->add_date_field("former_date_fin","Date de fin",-1,true);
