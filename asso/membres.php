@@ -361,6 +361,27 @@ else
       );  
   $cts->add($tbl,true); 
 
+  $req = new requete($site->db,
+    "SELECT `utilisateurs`.`id_utilisateur`, " .
+    "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+    "CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
+    "FROM `asso_membre` " .
+    "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
+    "WHERE `asso_membre`.`date_fin` IS NULL " .
+    "AND `asso_membre`.`id_asso`='".$asso->id."' " .
+    "AND `asso_membre`.`role` = '".ROLEASSO_MEMBRE."' ";
+
+  $tbl = new sqltable(
+      "listml",
+      "Liste des adeptes (seulement inscrits à la mailing-list)", $req, "membres.php?id_asso=".$asso->id,.
+      "id_membership",
+      array("nom_utilisateur"=>"Utilisateur"),
+      $can_admin?array("delete"=>"Désinscrire"):array(),
+      $can_admin?array("deletes"=>"Désinscrire"):array(),
+      array("role"=>$GLOBALS['ROLEASSO'] )
+      );
+  $cts->add($tbl,true);
+
   if ( $can_admin )
   {
     $frm = new form("add","membres.php?id_asso=".$asso->id,false,"POST","Ajouter un membre");
