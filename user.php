@@ -1037,9 +1037,6 @@ elseif ( $_REQUEST["view"]=="assos" )
     $cts->add($frm,true);
   }
 
-  unset($GLOBALS['ROLEASSO'][ROLEASSO_MEMBRE]);
-  unset($GLBOALS['ROLEASSO'][ROLEASSO_MEMBREACTIF]);
-
   /* Anciennes assos */
   $req = new requete($site->db,
     "SELECT `asso`.`id_asso`, `asso`.`nom_asso`, " .
@@ -1062,6 +1059,9 @@ elseif ( $_REQUEST["view"]=="assos" )
       );
     $cts->add($tbl,true);
   }
+
+  unset($GLOBALS['ROLEASSO'][ROLEASSO_MEMBRE]);
+  unset($GLBOALS['ROLEASSO'][ROLEASSO_MEMBREACTIF]);
 
   if ( $can_edit )
   {
