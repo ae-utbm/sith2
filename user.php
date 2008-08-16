@@ -985,6 +985,7 @@ elseif ( $_REQUEST["view"]=="assos" )
     "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
     "WHERE `asso_membre`.`id_utilisateur`='".$user->id."' " .
     "AND `asso_membre`.`date_fin` is NULL " .
+    "AND `asso_membre`.`role` > '".ROLEASSO_MEMBRE."' " .
     "ORDER BY `asso`.`nom_asso`");
   if ( $req->lines > 0 )
   {
@@ -999,9 +1000,32 @@ elseif ( $_REQUEST["view"]=="assos" )
     $cts->add($tbl,true);
   }
 
+  /* Inscriptions aux mailing-lists */
+  $req = new requete($site->db,
+    "SELECT `asso`.`id_asso`, `asso`.`nom_asso`, " .
+    "CONCAT(`asso`.`id_asso`,',',`asso_membre`.`date_debut`) as `id_membership` " .
+    "FROM `asso_membre` " .
+    "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
+    "WHERE `asso_membre`.`id_utilisateur`='".$user->id."' " .
+    "AND `asso_membre`.`date_fin` is NULL " .
+    "AND `asso_membre`.`role` = '".ROLEASSO_MEMBRE."' " .
+    "ORDER BY `asso`.`nom_asso`");
+  if ( $req->lines > 0 )
+  {
+    $tbl = new sqltable(
+      "listml",
+      "Inscription aux nouveles des activités", $req, "user.php?id_utilisateur=".$user->id,
+      "id_membership",
+      array("nom_asso"=>"Association"),
+      $can_edit?array("delete"=>"Désinscrire"):array(),
+      array(), array("role"=>$GLOBALS['ROLEASSO100'])
+      );
+    $cts->add($tbl,true);
+  }
+
   if ( $can_edit )
   {
-    $frm = new form("addme","user.php?view=assos&id_utilisateur=".$user->id,false,"POST","S'inscire à une activité");
+    $frm = new form("addme","user.php?view=assos&id_utilisateur=".$user->id,false,"POST","S'inscire aux nouvelles d'une activité");
     if ( $ErreurAddMe )
       $frm->error($ErreurAddMe);
     $frm->add_hidden("action","addme");
@@ -1012,6 +1036,9 @@ elseif ( $_REQUEST["view"]=="assos" )
     $frm->add_submit("valid","Ajouter");
     $cts->add($frm,true);
   }
+
+  unset($GLOBALS['ROLEASSO100'][ROLEASSO_MEMBRE]);
+  unset($GLBOALS['ROLEASSO100'][ROLEASSO_MEMBREACTIF]);
 
   /* Anciennes assos */
   $req = new requete($site->db,

@@ -375,7 +375,7 @@ else
 
    $tbl = new sqltable(
        "listml",
-       "Liste des adeptes (seulement inscrits à la mailing-list)", $req, "membres.php?id_asso=".$asso->id,
+       "Liste des adeptes (inscrits à la mailing-list)", $req, "membres.php?id_asso=".$asso->id,
        "id_membership",
        array("nom_utilisateur"=>"Utilisateur"),
        $can_admin?array("delete"=>"Désinscrire"):array(),
