@@ -368,7 +368,7 @@ else
     $frm->add_user_fieldv2("id_utilisateur","Membre");
     $frm->add_text_field("role_desc","Role (champ libre)","");
     
-//    unset($GLOBALS['ROLEASSO'][ROLEASSO_MEMBREACTIF]);
+    unset($GLOBALS['ROLEASSO'][ROLEASSO_MEMBRE]);
     
     $frm->add_select_field("role","Role",$GLOBALS['ROLEASSO']);
     $frm->add_date_field("date_debut","Depuis le",time(),true);
