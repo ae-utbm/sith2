@@ -62,7 +62,7 @@ if (  $grp->id > 0)
   
   if ( $_REQUEST["action"] == "delete")
   {
-    if ( ($grp->id != 7 && $grp->id != 46) || $site->user->is_in_group("root") )
+    if ( ($grp->id != 7 && $grp->id != 46 && $grp->id != 47) || $site->user->is_in_group("root") )
     {
       $grp->remove_user_from_group($_REQUEST["id_utilisateur"]);
       $user = new utilisateur($site->db);
@@ -70,11 +70,11 @@ if (  $grp->id > 0)
       $site->log("Retrait d'un utilisateur du groupe ". $grp->nom,"Retrait de l'utilisateur ".$user->nom." ".$user->prenom." (id : ".$user->id.") du groupe ". $grp->nom ." (id : ".$grp->id.")","Groupes",$site->user->id);
     }
     else
-      $Error = "Veuillez contacter l'équipe informatique pour modifier les comptes root";
+      $Error = "Veuillez contacter l'équipe informatique pour modifier les groupes système.";
   }
   elseif ( $_REQUEST["action"] == "deletes" && !empty($_REQUEST["id_utilisateurs"]) )
   {
-    if ( ($grp->id != 7 && $grp->id != 46) || $site->user->is_in_group("root") )
+    if ( ($grp->id != 7 && $grp->id != 46 && $grp->id != 47) || $site->user->is_in_group("root") )
     {
       foreach($_REQUEST["id_utilisateurs"] as $id_utilisateur)
       {
@@ -85,11 +85,11 @@ if (  $grp->id > 0)
       }
     }
     else
-      $Error = "Veuillez contacter l'équipe informatique pour modifier les comptes root.";
+      $Error = "Veuillez contacter l'équipe informatique pour modifier les groupes système.";
   }
   elseif ( $_REQUEST["action"] == "add")
   {
-    if ( ($grp->id != 7 && $grp->id != 46) || $site->user->is_in_group("root") )
+    if ( ($grp->id != 7 && $grp->id != 46 && $grp->id != 47) || $site->user->is_in_group("root") )
     {
       $user = new utilisateur($site->dbrw);
       $user->load_by_id($_REQUEST["id_utilisateur"]);
@@ -100,7 +100,7 @@ if (  $grp->id > 0)
       }
     }
     else
-      $Error = "Veuillez contacter l'équipe informatique pour modifier les comptes root.";
+      $Error = "Veuillez contacter l'équipe informatique pour modifier les groupes systèmes.";
   }
   
   $site->start_page("none","Groupe");
