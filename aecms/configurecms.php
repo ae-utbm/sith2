@@ -543,6 +543,10 @@ else if ( $_REQUEST["view"] == "options" )
   $frm->add_hidden("action","setconfig");
   
   $sfrm = new form("typebox",null,null,null,"Section membres");
+
+  unset($GLOBALS['ROLEASSO'][ROLEASSO_MEMBRE]);
+  unset($GLOBALS['ROLEASSO'][ROLEASSO_MEMBREACTIF]);
+
   $sfrm->add_select_field("membres_upto","Membres, liste jusqu'au niveau",$GLOBALS['ROLEASSO'], $site->config["membres.upto"]);
   $sfrm->add_checkbox("membres_allowjoinus","Membres, afficher le formulaire \"Rejoignez-nous\"",$site->config["membres.allowjoinus"]);
   $frm->add($sfrm);
