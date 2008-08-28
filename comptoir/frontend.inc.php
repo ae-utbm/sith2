@@ -238,7 +238,7 @@ else if ( $_REQUEST["action"] == "recharge" && count($site->comptoir->operateurs
 	}
 
 }
-else if ( $_REQUEST["page"] == "confirmrech" && count($site->comptoir->operateurs) )
+else if ( $_REQUEST["page"] == "confirmrech" && count($site->comptoir->operateurs) && $site->comptoir->rechargement)
 {
 	$client = new utilisateur($site->db);
 
