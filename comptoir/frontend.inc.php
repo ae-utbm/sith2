@@ -420,26 +420,26 @@ else
   	if ( $RechargementErreur )
   		$frm->error($RechargementErreur);	
   	$frm->add_price_field("montant","Montant");
-  }
 
-  foreach ($TypesPaiements as $key => $item )
-	{
-    $sfrm = new form("id_typepaie",null,null,null,"Paiement par $item");
-		if ( $key == PAIE_CHEQUE )
-		  $sfrm->add_select_field("id_banque","Banque",$Banques);
-		if ( $key == PAIE_ESPECS )
-		  $check = TRUE;
-		else
-		  $check = FALSE ;
-	  $frm->add($sfrm,false,true, $check ,$key ,false,true);
+    foreach ($TypesPaiements as $key => $item )
+  	{
+      $sfrm = new form("id_typepaie",null,null,null,"Paiement par $item");
+  		if ( $key == PAIE_CHEQUE )
+  		  $sfrm->add_select_field("id_banque","Banque",$Banques);
+  		if ( $key == PAIE_ESPECS )
+  		  $check = TRUE;
+  		else
+  		  $check = FALSE ;
+  	  $frm->add($sfrm,false,true, $check ,$key ,false,true);
+    }
+  	/*$frm->add_radiobox_field("id_typepaie","Mode de paiement",$TypesPaiements,PAIE_ESPECS,-1);
+  	$frm->add_select_field("id_banque","Banque",$Banques);*/
+  	$frm->add_text_field("code_bar_carte","Carte AE");
+    $frm->add_user_fieldv2("id_utilisateur_rech","ou par Recherche");
+  	
+  	$frm->add_submit("valid","valider");
+  	$cts->add($frm,true);
   }
-	/*$frm->add_radiobox_field("id_typepaie","Mode de paiement",$TypesPaiements,PAIE_ESPECS,-1);
-	$frm->add_select_field("id_banque","Banque",$Banques);*/
-	$frm->add_text_field("code_bar_carte","Carte AE");
-  $frm->add_user_fieldv2("id_utilisateur_rech","ou par Recherche");
-	
-	$frm->add_submit("valid","valider");
-	$cts->add($frm,true);
 }
 
 $site->add_contents($cts);
