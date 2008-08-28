@@ -160,7 +160,7 @@ class comptoir extends stdentity
    * @param $id_salle id de la salle où se trouve le comptoir
    * @return true en cas de succès, false sinon
    */
-  function ajout ($nom, $id_assocpt, $groupe_vendeurs, $groupe_admins, $type, $id_salle)
+  function ajout ($nom, $id_assocpt, $groupe_vendeurs, $groupe_admins, $type, $id_salle, $rechargement = 1)
   {
 
     $this->nom = $nom;
@@ -169,6 +169,7 @@ class comptoir extends stdentity
     $this->groupe_admins = $groupe_admins;
     $this->type = $type;
     $this->id_salle = $id_salle>0?$id_salle:null;
+    $this->rechargement = $rechargement;
     
     $req = new insert ($this->dbrw,
            "cpt_comptoir",
@@ -177,7 +178,8 @@ class comptoir extends stdentity
            "id_groupe_vendeur" => $this->groupe_vendeurs,
            "id_groupe" => $this->groupe_admins,
            "type_cpt"=>$this->type,
-           "id_salle"=>$this->id_salle
+           "id_salle"=>$this->id_salle,
+           "rechargement"=>$this->rechargement
             ));
 
     if ( !$req )

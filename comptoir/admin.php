@@ -94,7 +94,7 @@ if ( $_REQUEST["action"] == "addcomptoir" && $site->user->is_in_group("gestion_a
 {
 	if ( $assocpt->id > 0 )
 	{
-		$comptoir->ajout( $_REQUEST["nom"], $assocpt->id, $_REQUEST["id_groupe_vendeurs"], $_REQUEST["id_groupe_admins"], $_REQUEST["type"],$salle->id );
+		$comptoir->ajout( $_REQUEST["nom"], $assocpt->id, $_REQUEST["id_groupe_vendeurs"], $_REQUEST["id_groupe_admins"], $_REQUEST["type"],$salle->id,$_REQUEST["rechargement"] );
 		$site->admin_comptoirs[$comptoir->id] = $comptoir->nom;
 
     $grp_vendeurs = new group ( $site->db);
@@ -365,6 +365,7 @@ if ( $_REQUEST["page"] == "addcomptoir" && $site->user->is_in_group("gestion_ae"
 	$frm->add_entity_select("id_assocpt", "Association qui tient le comptoir", $site->db, "assocpt");
 	$frm->add_select_field("type","Type de comptoir",$TypesComptoir);
 	$frm->add_entity_select("id_salle", "Salle", $site->db, "salle",false,true);
+  $frm->add_radiobox_field("rechargement", "Rechargement", array(1 => "Activé", 0 => "Désactivé"), $comptoir->rechargement,-1);
 	$frm->add_submit("valid","Ajouter");
 	$cts->add($frm,true);
 	$site->add_contents($cts);
