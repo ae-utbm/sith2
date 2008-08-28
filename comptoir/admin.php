@@ -784,7 +784,7 @@ elseif ( $comptoir->id > 0 )
 	$frm->add_entity_select("id_assocpt", "Association qui tient le comptoir", $site->db, "assocpt",$comptoir->id_assocpt);
 	$frm->add_select_field("type","Type de comptoir",$TypesComptoir,$comptoir->type);
 	$frm->add_entity_select("id_salle", "Salle", $site->db, "salle",$comptoir->id_salle,true);
-  $frm->add_radiobox_field("rechargement", "Rechargement", array("Activé" => 1,"Désactivé" => 0), $comptoir->rechargement);
+  $frm->add_radiobox_field("rechargement", "Rechargement", array(1 => "Activé", 0 => "Désactivé"), $comptoir->rechargement);
 	$frm->add_submit("valid","Enregistrer");
 	$cts->add($frm,true);
 	}
