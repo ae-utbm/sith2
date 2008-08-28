@@ -270,7 +270,7 @@ else if ( $_REQUEST["action"] == "uptype" && ($typeprod->id > 0) && ($assocpt->i
 }
 else if ( $_REQUEST["action"] == "upcomptoir" &&  ($comptoir->id > 0) && ($assocpt->id > 0) )
 {
-	$comptoir->modifier( $_REQUEST["nom"], $assocpt->id, $_REQUEST["id_groupe_vendeurs"], $_REQUEST["id_groupe_admins"], $_REQUEST["type"],$salle->id );
+	$comptoir->modifier( $_REQUEST["nom"], $assocpt->id, $_REQUEST["id_groupe_vendeurs"], $_REQUEST["id_groupe_admins"], $_REQUEST["type"],$salle->id, $_REQUEST["rechargement"] );
 }
 else if ( $_REQUEST["page"] == "barcodes" && ($comptoir->id > 0) )
 {
