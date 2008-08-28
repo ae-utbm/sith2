@@ -111,6 +111,8 @@ class comptoir extends stdentity
   var $prix_barman;
   /** Mode du comptoir ("book" ou null/"") */
   var $mode;
+  /** Rechargement activé ou pas */
+  var $rechargement;
 
 
   /** 
@@ -145,6 +147,7 @@ class comptoir extends stdentity
     $this->groupe_admins = $row['id_groupe'];
     $this->type = $row['type_cpt'];
     $this->id_salle = $row['id_salle'];
+    $this->rechargement = $row['rechargement'];
   }
 
   /** 

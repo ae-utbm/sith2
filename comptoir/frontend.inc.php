@@ -187,7 +187,7 @@ else if ( $_REQUEST["action"] == "vente" && count($site->comptoir->operateurs) )
 /*
 	On nous demande de recharger un compte
 */
-else if ( $_REQUEST["action"] == "recharge" && count($site->comptoir->operateurs))
+else if ( $_REQUEST["action"] == "recharge" && count($site->comptoir->operateurs) && $site->comptoir->rechargement)
 {
 
 	$client = new utilisateur($site->db,$site->dbrw);
@@ -413,12 +413,15 @@ else
 	$frm->set_focus("code_bar_carte");	
 	$cts->add($frm,true);
 	
-	$frm = new form ("confirmrech","?id_comptoir=".$site->comptoir->id,true,"POST","Rechargement");
-	$frm->add_hidden("page","confirmrech");
-	if ( $RechargementErreur )
-		$frm->error($RechargementErreur);	
-	$frm->add_price_field("montant","Montant");
-  
+  if ( $site->comptoir->rechargement )
+  {
+  	$frm = new form ("confirmrech","?id_comptoir=".$site->comptoir->id,true,"POST","Rechargement");
+  	$frm->add_hidden("page","confirmrech");
+  	if ( $RechargementErreur )
+  		$frm->error($RechargementErreur);	
+  	$frm->add_price_field("montant","Montant");
+  }
+
   foreach ($TypesPaiements as $key => $item )
 	{
     $sfrm = new form("id_typepaie",null,null,null,"Paiement par $item");
