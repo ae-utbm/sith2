@@ -479,14 +479,14 @@ else if( $_REQUEST['action'] == "reinit" )
      }  
    }
   
-   // On change les dates du planning.
+   // On change (on essaye de changer plutot) les dates du planning.
    $today = strtotime(date(Y-m-d));
    $today['month'] += 6;
    
-   $setdates = new requete($site->db, "UPDATE pl_planning
+   /*$setdates = new requete($site->db, "UPDATE pl_planning
                SET start_date_planning = '".strtotime(date(Y-m-d))."', 
                    end_date_planning = '".$today."' 
-               WHERE id_planning='".$_REQUEST['id_salle']."'");
+               WHERE id_planning='".$_REQUEST['id_salle']."'");*/
                
    $site->add_css("css/weekplanning.css");
    $site->start_page("services","Planning");
