@@ -461,10 +461,25 @@ else if( $_REQUEST['action'] == "details" )
 }
 else if( $_REQUEST['action'] == "reinit" )
 {
-   $delgap = new requete($site->db, "DELETE 
-             FROM pl_gap_user
-               WHERE id_planning='".$_REQUEST['id_salle']."'");
+   // On supprime tous les utilisateurs de tous les creneaux du planning a reinitialiser.
+   $planning = new planning($site->db,$site->dbrw);
+   $planning->load_by_id($_REQUEST['id_salle']);
    
+   $gap = new requete($site->db, "SELECT id_gap
+             FROM pl_gap
+               WHERE id_planning='".$_REQUEST['id_salle']."'");
+               
+   while( $row = $gap->get_row() ) {
+     $users = new requete($site->db, "SELECT id_utilisateur
+             FROM pl_gap_user
+             WHERE id_planning='".$_REQUEST['id_salle']."' AND id_gap='".$row['id_gap']."'");
+     
+     while( $row2 = $users->get_row() ) {
+       $planning->remove_user_from_gap($row['id_gap'], $row2['id_utilisateur']);
+     }  
+   }
+  
+   // On change les dates du planning.
    $today = strtotime(date(Y-m-d));
    $today['month'] += 6;
    
