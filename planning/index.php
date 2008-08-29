@@ -29,7 +29,7 @@ define("BUREAU_BDF_BELFORT", 167);
 define("BUREAU_BDF_SEVENANS", 168);
 define("BUREAU_BDS_BELFORT", 169);
 define("BUREAU_BDS_SEVENANS", 170);
-define("TEST", 191);
+//define("TEST", 191);
 
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
@@ -39,7 +39,7 @@ require_once($topdir. "include/cts/planning.inc.php");
 
 $site = new site ();
 
-$lieux = array(164=>"Bureau AE Belfort", 166=>"Bureau AE Sevenans", 167=>"Foyer", 168=>"KFet", 169=>"Bureau BDS Belfort", 170=>"Bureau BDS Sevenans", 191=>"Test");
+$lieux = array(164=>"Bureau AE Belfort", 166=>"Bureau AE Sevenans", 167=>"Foyer", 168=>"KFet", 169=>"Bureau BDS Belfort", 170=>"Bureau BDS Sevenans"/*, 191=>"Test"*/);
 
 
 if ( $_REQUEST["action"] == "searchpl" )
@@ -461,7 +461,34 @@ else if( $_REQUEST['action'] == "details" )
 }
 else if( $_REQUEST['action'] == "reinit" )
 {
-  
+   $delgap = new requete($site->db, "DELETE * 
+             FROM pl_gap_user
+               WHERE id_planning='".$_REQUEST['id_salle']."'");
+   
+   $today = strtotime(date(Y-m-d));
+   $today['month'] += 6;
+   
+   $setdates = new requete($site->db, "UPDATE pl_planning
+               SET start_date_planning = '".strtotime(date(Y-m-d))."', 
+                   end_date_planning = '".$today."' 
+               WHERE id_planning='".$_REQUEST['id_salle']."'");
+               
+   $site->add_css("css/weekplanning.css");
+   $site->start_page("services","Planning");
+   $cts = new contents("<a href=\"index.php\">Planning</a> / Administration");
+   
+   if( $setdates->lines > 0 ) {
+     $cts->add_paragraph("Planning réinitialisé avec succès !");
+     $cts->add_paragraph("<a href=\"index.php?action=admin\">Retour</a>");
+   }
+   else {
+     $cts->add_paragraph("Erreur lors de la réinitialisation.");
+     $cts->add_paragraph("<a href=\"index.php?action=admin\">Retour</a>");
+   }
+   
+   $site->add_contents($cts);
+   $site->end_page();
+   exit();
 }
 else if( $_REQUEST['action'] == "supp" )
 {
@@ -496,7 +523,7 @@ else if( $_REQUEST['action'] == "admin" )
   $frm = new form("supp","index.php",false,"POST","Supprimer un planning");
   $frm->add_hidden("action","supp");
   $frm->add_select_field("id_salle","Lieu",$lieux, $_REQUEST['id_salle']);
-  $frm->add_submit("reinit","Supprimer");
+  $frm->add_submit("supp","Supprimer");
   $cts->add($frm,true);
 
   // Pas coherent pour le moment. Ajout d'une fonctionnalite planning pour chaque club ?
