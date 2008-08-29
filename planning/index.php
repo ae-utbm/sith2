@@ -492,14 +492,14 @@ else if( $_REQUEST['action'] == "reinit" )
    $site->start_page("services","Planning");
    $cts = new contents("<a href=\"index.php\">Planning</a> / Administration");
    
-   if( $setdates->lines > 0 ) {
+   //if( $setdates->lines > 0 ) {
      $cts->add_paragraph("Planning réinitialisé avec succès !");
      $cts->add_paragraph("<a href=\"index.php?action=admin\">Retour</a>");
-   }
+   /*}
    else {
      $cts->add_paragraph("Erreur lors de la réinitialisation.");
      $cts->add_paragraph("<a href=\"index.php?action=admin\">Retour</a>");
-   }
+   }*/
    
    $site->add_contents($cts);
    $site->end_page();
