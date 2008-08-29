@@ -461,7 +461,7 @@ else if( $_REQUEST['action'] == "details" )
 }
 else if( $_REQUEST['action'] == "reinit" )
 {
-   $delgap = new requete($site->db, "DELETE * 
+   $delgap = new requete($site->db, "DELETE 
              FROM pl_gap_user
                WHERE id_planning='".$_REQUEST['id_salle']."'");
    
