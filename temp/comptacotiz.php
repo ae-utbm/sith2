@@ -44,6 +44,7 @@ $_cts->add_paragraph(
 '<ol>administration</ol>'.
 '<ol>eboutic</ol>'.
 '</ul>');
+$cts->add($_cts,true);
 
 $req = new requete($site->db,
    'SELECT `mode_paiement_cotis` as pouet '.
