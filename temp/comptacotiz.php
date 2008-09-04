@@ -34,6 +34,16 @@ if (!$site->user->is_in_group ("gestion_ae"))
 {
   $site->error_forbidden("none","group",9);
 }
+$_cts=new contents("Modes paiement cotisation");
+
+$_cts->add_paragraph(
+'<ul>'.
+'<ol>cheque</ol>'.
+'<ol>carte bleue</ol>'.
+'<ol>liquide</ol>'.
+'<ol>administration</ol>'.
+'<ol>eboutic</ol>'.
+'</ul>');
 
 $req = new requete($site->db,
    'SELECT `mode_paiement_cotis` as pouet '.
@@ -42,7 +52,7 @@ $req = new requete($site->db,
    ', CONCAT(CAST(count(*)*`prix_paye_cotis`/100 as UNSIGNED), \' €\') as total '.
    'FROM `ae_cotisations` '.
    'WHERE `date_cotis` >= \'2008-08-15 00:00:00\' '.
-   'AND `mode_paiement_cotis` NOT LIKE 3 '.
+//   'AND `mode_paiement_cotis` NOT LIKE 3 '.
    'GROUP BY `mode_paiement_cotis` , `prix_paye_cotis`');
 $tbl = new sqltable(
     "cotisations",
