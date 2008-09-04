@@ -71,6 +71,7 @@ $lst = new itemlist();
 $lst->add("<a href=\"prod_cron.php\">Passage de /taiste en production</a>");
 $lst->add("<a href=\"userdelete.php\">Supprimer un utilisateur</a>");
 $lst->add("<a href=\"userfusion.php\">Fusionner des utilisateurs</a>");
+$lst->add("<a href=\"photomassiveimport.php\">iport massif import photo identité</a>");
 
 $cts->add($lst);
 
