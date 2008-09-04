@@ -36,12 +36,12 @@ if (!$site->user->is_in_group ("gestion_ae"))
 }
 
 $req = new requete($site->db,
-   'SELECT `mode_paiement_cotis` as pouet'.
-   ', `prix_paye_cotis` as prix'.
-   ', count(*) as nb'.
-   ', CONCAT(CAST(count(*)*`prix_paye_cotis`/100 as UNSIGNED), \' €\') as total'.
+   'SELECT `mode_paiement_cotis` as pouet '.
+   ', `prix_paye_cotis` as prix '.
+   ', count(*) as nb '.
+   ', CONCAT(CAST(count(*)*`prix_paye_cotis`/100 as UNSIGNED), \' €\') as total '.
    'FROM `ae_cotisations` '.
-   'WHERE `date_cotis` >= \'2008-08-15 00:00:00\''.
+   'WHERE `date_cotis` >= \'2008-08-15 00:00:00\' '.
    'AND `mode_paiement_cotis` NOT LIKE 3 '.
    'GROUP BY `mode_paiement_cotis` , `prix_paye_cotis`');
 $tbl = new sqltable(
