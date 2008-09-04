@@ -37,18 +37,18 @@ if (!$site->user->is_in_group ("gestion_ae"))
 $_cts=new contents("Modes paiement cotisation");
 
 $_cts->add_paragraph(
-'<ul>'.
-'<ol>cheque</ol>'.
-'<ol>carte bleue</ol>'.
-'<ol>liquide</ol>'.
-'<ol>administration</ol>'.
-'<ol>eboutic</ol>'.
-'</ul>');
+'<ol>'.
+'<il>cheque</il>'.
+'<il>carte bleue</il>'.
+'<il>liquide</il>'.
+'<il>administration</il>'.
+'<il>eboutic</il>'.
+'</ol>');
 $cts->add($_cts,true);
 
 $req = new requete($site->db,
    'SELECT `mode_paiement_cotis` as pouet '.
-   ', `prix_paye_cotis` as prix '.
+   ', CONCAT(CAST(`prix_paye_cotis`/100 as UNSIGNED),\' €\') as prix '.
    ', count(*) as nb '.
    ', CONCAT(CAST(count(*)*`prix_paye_cotis`/100 as UNSIGNED), \' €\') as total '.
    'FROM `ae_cotisations` '.
