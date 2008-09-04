@@ -38,11 +38,11 @@ $_cts=new contents("Modes paiement cotisation");
 
 $_cts->add_paragraph(
 '<ol>'.
-'<il>cheque</il>'.
-'<il>carte bleue</il>'.
-'<il>liquide</il>'.
-'<il>administration</il>'.
-'<il>eboutic</il>'.
+'<li>cheque</li>'.
+'<li>carte bleue</li>'.
+'<li>liquide</li>'.
+'<li>administration</li>'.
+'<li>eboutic</li>'.
 '</ol>');
 $cts->add($_cts,true);
 
