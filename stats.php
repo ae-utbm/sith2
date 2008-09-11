@@ -499,7 +499,7 @@ elseif ( $_REQUEST["view"] == "forum" )
 
 }
 
-elseif ( $site->user->is_in_group ("gestion_ae") && $site->user->is_asso_role ( 2, 9 ) && $_REQUEST["view"] == "comptoirs" )
+elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role ( 2, 9 )) && $_REQUEST["view"] == "comptoirs" )
 {
   $site->add_css("css/comptoirs.css");
   
