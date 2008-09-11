@@ -35,7 +35,14 @@ $site = new site ();
 $site->start_page("none","Statistiques");
 $cts = new contents("Statistiques");
 
-if (!$site->user->is_in_group ("gestion_ae"))
+if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_asso_role ( 2, 9 ))
+{
+  $tabs = array(array("","stats.php", "Informations"),
+                array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
+                array("sas","stats.php?view=sas", "SAS")
+                );
+}
+elseif(!$site->user->is_in_group ("gestion_ae") && $site->user->is_asso_role ( 2, 9 ))
 {
   $tabs = array(array("","stats.php", "Informations"),
                 array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
@@ -492,7 +499,7 @@ elseif ( $_REQUEST["view"] == "forum" )
 
 }
 
-elseif ( $_REQUEST["view"] == "comptoirs" )
+elseif ( $site->user->is_in_group ("gestion_ae") && $site->user->is_asso_role ( 2, 9 ) && $_REQUEST["view"] == "comptoirs" )
 {
   $site->add_css("css/comptoirs.css");
   
@@ -569,7 +576,7 @@ elseif ( $_REQUEST["view"] == "matmatronch" )
   {
     $stats = new requete($site->dbrw, "UPDATE `utl_etu` SET `visites`='0' WHERE `visites`!='0'");
     $mcts->add_title(2, "Reset");
-  	$mcts->add_paragraph("Le reset des stats a &eacute;t&eacute; effectu&eacute; avec succ&egrave;s");
+    $mcts->add_paragraph("Le reset des stats a &eacute;t&eacute; effectu&eacute; avec succ&egrave;s");
   }
 
   $mcts->add_title(2, "Administration");
