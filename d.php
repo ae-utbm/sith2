@@ -101,7 +101,8 @@ if ( $_REQUEST["action"] == "download" && $file->is_valid() )
   header("Content-Disposition: filename=".$file->nom_fichier);
   
   if ( file_exists($filename) )
-    $site->return_simplefile( "d".$file->id, $file->mime_type, $filename );
+//    $site->return_simplefile( "d".$file->id, $file->mime_type, $filename );
+    $site->return_simplefile( $file->nom_fichier, $file->mime_type, $filename );
   
   exit();
 }
