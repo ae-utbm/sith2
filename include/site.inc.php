@@ -1472,7 +1472,7 @@ class site extends interfaceweb
     
     header('ETag: "'.$etag.'"', true);
     header("Cache-Control: public, must-revalidate", true);
-   /* 
+    /*
     if ( !isset($_SERVER["HTTP_CACHE_CONTROL"]) )
     {
       if ( isset($_SERVER["HTTP_IF_NONE_MATCH"]) )
@@ -1502,7 +1502,7 @@ class site extends interfaceweb
     header("Last-Modified: ".$modified, true);
     header("Content-Length: ".$size, true);
     header("Content-Type: ".$mime_type);
-    header("Content-Disposition: attachment; filename=\"kwain".$uid."\"");
+    header("Content-Disposition: filename=\"".$uid."\"");
     
     readfile($file);
     exit();
