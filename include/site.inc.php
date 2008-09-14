@@ -1502,7 +1502,7 @@ class site extends interfaceweb
     header("Last-Modified: ".$modified, true);
     header("Content-Length: ".$size, true);
     header("Content-type: ".$mime_type);
-    header("Content-Disposition: filename=\"".$uid."\"");
+    header("Content-Disposition: attachment; filename=\"".$uid."\"");
     
     readfile($file);
     exit();
