@@ -1472,7 +1472,7 @@ class site extends interfaceweb
     
     header('ETag: "'.$etag.'"', true);
     header("Cache-Control: public, must-revalidate", true);
-    
+   /* 
     if ( !isset($_SERVER["HTTP_CACHE_CONTROL"]) )
     {
       if ( isset($_SERVER["HTTP_IF_NONE_MATCH"]) )
@@ -1496,7 +1496,7 @@ class site extends interfaceweb
         }
       }
     }
-    
+    */
     $modified = gmdate("D, d M Y H:i:s \G\M\T",$mtime);
     
     header("Last-Modified: ".$modified, true);
