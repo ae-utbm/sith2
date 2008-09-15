@@ -25,7 +25,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $timing["all"] -= microtime(true);
 
 setlocale(LC_ALL,"fr_FR.UTF8"); 
@@ -54,7 +54,7 @@ class interfaceweb
   var $db;
   var $dbrw;
   var $user;
-  
+
   var $contents;
   var $sides;
   var $sides_ref;
@@ -66,15 +66,15 @@ class interfaceweb
   var $extracss;
   var $rss;
   var $extrajs;
-  
+
   var $compact;
-  
+
   var $params; // cache des paramètres
-  
+
   var $meta_keywords;
   var $meta_description;
   var $alternate;
-  
+
   var $tab_array = array (array ("accueil", "index.php", "Accueil"),
         array ("presentation", "article.php?name=presentation", "Présentation",
            array (
@@ -103,7 +103,7 @@ class interfaceweb
               array ("asso.php", "Fichiers des associations et des clubs" )
              ) ),
         array ("liens","article.php?name=liens","Liens"));
-        
+
   /** Constructeur
    * @param $db instance de la base de donnée pour la lecture
    * @param $dbrw instance de la base de donéne pour l'écriture (+lecture)
@@ -115,7 +115,7 @@ class interfaceweb
 
     $this->sides["left"] = array("connexion");
     $this->sides["right"] = array();
-    
+
     $this->user = new utilisateur( $db, $dbrw );
     $this->extracss = array();
     $this->extrajs = array();
@@ -132,7 +132,7 @@ class interfaceweb
   {
     if ( $side != "left" && $side != "right" ) return;
     $this->sides[$side] = $boxes;
-    
+
     if ( $ref == null )
     {
       if ( isset($this->sides_ref[$side]) )
@@ -141,7 +141,7 @@ class interfaceweb
     else
       $this->sides_ref[$side] = $ref;
   }
-  
+
   /** Ajoute une boite affichable sur le coté
    * $name Nom de la boite
    * $contents Instance de stdcontents à afficher
@@ -177,7 +177,7 @@ class interfaceweb
   {
     $this->extracss[] = $url;  
   }
-  
+
   function add_js ( $url )
   {
     $this->extrajs[] = $url;  
@@ -187,7 +187,7 @@ class interfaceweb
   {
     $this->add_alternate ( "application/rss+xml", $title, $url );
   }
-  
+
   /** Termine et affiche la page
    */
   function end_page () // <=> html_render
@@ -196,12 +196,12 @@ class interfaceweb
     $timing["render"] -= microtime(true);
 
     header("Content-Type: text/html; charset=utf-8");
-    
+
     //echo "<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">";
-    
+
     echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">\n";
     echo "<head>\n";
-    
+
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n"; // (IE6 Legacy support)
     echo "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
     echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css?".filemtime($wwwtopdir . "themes/default/css/site.css")."\" title=\"AE2-NEW2\" />\n";
@@ -218,10 +218,10 @@ class interfaceweb
         "title=\"".htmlentities($row[1],ENT_COMPAT,"UTF-8")."\" ".
         "href=\"".htmlentities($row[2],ENT_COMPAT,"UTF-8")."\" />\n";
     }
-    
+
     if ( !empty($this->meta_keywords) )
       echo "<meta name=\"keywords\" content=\"".htmlentities($this->meta_keywords,ENT_COMPAT,"UTF-8")."\" />\n";
-      
+
     if ( !empty($this->meta_description) )
       echo "<meta name=\"description\" content=\"".htmlentities($this->meta_description,ENT_COMPAT,"UTF-8")."\" />\n";
 
@@ -230,39 +230,39 @@ class interfaceweb
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js\"></script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js\"></script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js\"></script>\n";
-    
+
     foreach ( $this->extrajs as $url ) 
       echo "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
-        
+
     echo "</head>\n";
-    
+
     echo "<body>\n";
     /* Generate the logo */
     echo "<div id=\"site clearfix\">";    
-        
+
     if (!$this->compact )
     {
       echo "<div class=\"box clearfix\" id=\"important\"><div class=\"body\">\n";
       echo $this->get_param('box.Important'). "\n";
       echo "</div></div>\n";
-      
+
       echo "<div id=\"fsearchbox\">\n";
       echo "<form action=\"".$wwwtopdir."fsearch.php\" method=\"post\">";
       echo "<input type=\"text\" id=\"fsearchpattern\" name=\"pattern\" onblur=\"fsearch_stop_delayed();\" onkeyup=\"fsearch_keyup(event);\" value=\"\" />\n";
       echo "</form>";
       echo "<div class=\"fend\"></div></div>\n";
-    
+
       echo "<div id=\"fsearchres\"></div>\n";
-      
+
       echo "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/Ae.jpg\" height=\"60\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";          
 
     }
     echo "<div class=\"tabsv2\">\n";
     $links=null;
-    
+
     foreach ($this->tab_array as $entry)
     {
-      
+
       echo "<span";
       if ($this->section == $entry[0])
       {
@@ -275,13 +275,13 @@ class interfaceweb
       echo "><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
       echo " title=\"" . $entry[2] . "\">".$entry[2] . "</a></span>";
     }
-    
+
     echo "</div>\n"; // /tabs
-    
+
     if ( $links )
     {
       echo "<div class=\"sectionlinks\">";  
-      
+
       foreach ( $links as $entry )
       {
         if ( !strncmp("http://",$entry[0],7) )
@@ -289,7 +289,7 @@ class interfaceweb
         else
           echo "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>";
       }
-      
+
       echo "</div>\n";
     }
     else
@@ -297,15 +297,15 @@ class interfaceweb
 
     echo "<div class=\"contents\">\n";
     $idpage = "";
-    
+
     $mode = $this->user->id > 0 ? "c" : "nc";
-    
+
     foreach ( $this->sides as $side => $names )
     {
       if ( count($names) ) 
       {
         $idpage .= substr($side,0,1);
-        
+
         if ( isset($this->sides_ref[$side]) )
         {
           $ref = "dnds_".$this->sides_ref[$side];
@@ -329,11 +329,11 @@ class interfaceweb
         }
         else
           $ref = null;
-          
+
         echo "<div id=\"".$side."\" class=\"clearfix\">\n";
         foreach ( $names as $name )
         {
-        
+
           if ( $cts = $this->boxes[$name] )
           {
             echo "<div class=\"box\" id=\"sbox_".$name."\">\n";
@@ -341,73 +341,73 @@ class interfaceweb
               echo "<h1><a onmousedown=\"dnds_startdrag(event,'sbox_".$name."','".$ref."');\" class=\"dragstartzone\">".$cts->title."</a></h1>\n";
             elseif ( $cts->title )
               echo "<h1>".$cts->title."</h1>\n";
-            
+
             echo "<div class=\"body\" id=\"sbox_body_".$name."\">\n";      
-          
+
             echo $cts->html_render();
-          
+
             echo "</div>\n";
             echo "</div>\n";
           }
-        
+
         }
         echo "</div>\n";
       }
     }
-    
+
     if ( $idpage == "" ) $idpage = "n";
-    
+
     echo "\n<!-- page -->\n";
     echo "<div class=\"page\" id=\"".$idpage."\">\n";
-    
+
     $i=0;
     foreach ( $this->contents as $cts )
     {
       $cssclass = "article";
-      
+
       if ( !is_null($cts->cssclass) )
         $cssclass = $cts->cssclass;      
-      
+
       $i++;
-      
-      
+
+
       echo "<div class=\"".$cssclass."\"";
       if ( $cts->divid )
         echo " id=\"".$cts->divid."\"";
       else
         echo " id=\"cts".$i."\"";
       echo ">\n";
-      
+
       if ( $cts->toolbox )
       {
         echo "<div class=\"toolbox\">\n";    
         echo $cts->toolbox->html_render()."\n";
         echo "</div>\n";  
       }        
-      
+
       if ( $cts->title )
         echo "<h1>".$cts->title."</h1>\n";
 
       echo $cts->html_render();
-      
+
       echo "</div>\n";
     }
-    
+
     echo "<p class=\"text-footer\">";
     echo "<a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a>";
     echo " - <a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a>";
     echo " - <a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a>";
     echo " - <a href=\"". $wwwtopdir ."wiki2/?name=ae:info\">Equipe info</a>";
     echo "<br/>\n"; 
-    
+
     echo "Icones par <a href=\"http://www.everaldo.com/\">Everaldo.com</a></p>\n";
-    
+
     echo "</div>\n"; // /page
     echo "<!-- end of page -->\n\n";
-    
+
     echo "</div>\n"; // /contents
     echo "<div id=\"endsite\">&nbsp;</div></div>\n";    
-    
+
 /*    if ( $this->user->is_valid() && !ereg("majprofil\.php$",$_SERVER['SCRIPT_FILENAME'])
     && $user->type != "srv" )
     {
@@ -445,18 +445,18 @@ class interfaceweb
       echo "\non est en taiste\n";
     echo " -->";
   }
-  
+
   /**
    * Rendu de la page en mode popup (sans header, sans boites laterales)
    */
   function popup_end_page ()
   {
     global $wwwtopdir ;
-    
+
     header("Content-Type: text/html; charset=utf-8");
-    
+
     //echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">";
-    
+
     echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">\n";
     echo "<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
@@ -465,34 +465,34 @@ class interfaceweb
     echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/popup.css?".filemtime($wwwtopdir ."css/popup.css")."\" />\n";
     foreach ( $this->extracss as $url ) 
       echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8"). "\" />\n";
-    
+
     foreach ( $this->rss as $title => $url ) 
       echo "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_COMPAT,"UTF-8")."\" href=\"".htmlentities($url,ENT_COMPAT,"UTF-8")."\" />";
-    
+
     echo "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico\" />\n";
     echo "<script type=\"text/javascript\">var site_topdir='".$wwwtopdir."';</script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js\"></script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js\"></script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js\"></script>\n";
-    
+
     foreach ( $this->extrajs as $url ) 
       echo "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
-        
+
     echo "</head>\n";
-    
+
     echo "<body>\n";
     /* Generate the logo */
-        
+
     echo "<div id=\"popup\">";    
-    
+
     $i=0;
     foreach ( $this->contents as $cts )
     {
       $cssclass = "article";
-      
+
       if ( !is_null($cts->cssclass) )
         $cssclass = $cts->cssclass;      
-      
+
       $i++;
       echo "<div class=\"".$cssclass."\"";
       if ( $cts->divid )
@@ -500,21 +500,21 @@ class interfaceweb
       else
         echo " id=\"cts".$i."\"";
       echo ">\n";
-      
+
       if ( $cts->toolbox )
       {
         echo "<div class=\"toolbox\">\n";    
         echo $cts->toolbox->html_render()."\n";
         echo "</div>\n";  
       }        
-      
+
       if ( $cts->title )
         echo "<h1>".$cts->title."</h1>\n";
 
       echo $cts->html_render();
       echo "</div>\n";
     }
-    
+
     echo "</div>\n";
     echo "</body>\n";
     echo "</html>\n";
@@ -527,16 +527,16 @@ class interfaceweb
   function load_params()
   {
     $this->params = array();
-    
+
     $req = new requete($this->db, "SELECT `nom_param`,`valeur_param` " .
         "FROM `site_parametres`");
-            
+
     while ( list($id,$name) = $req->get_row() )
       $this->params[$id] = $name;
-     
+
     $this->params["backup_server"] = serialize($_SERVER["BACKUP_AE_SERVER"]);
   }
-  
+
   /**
    * Obtient un paramètre du site.
    * @param $name Nom du paramètre
@@ -546,10 +546,10 @@ class interfaceweb
   {
     if ( !$this->params )  
       $this->load_params();
-      
+
     if ( !isset($this->params[$name]) )  
       return $default;
-    
+
     return unserialize($this->params[$name]);
   }
 
@@ -563,9 +563,9 @@ class interfaceweb
   {
     if ( !$this->params )  
       $this->load_params();
-    
+
     $value = serialize($value);
-    
+
     if ( !isset($this->params[$name]) )
     {
       $sql = new insert($this->dbrw,"site_parametres",
@@ -604,26 +604,26 @@ class interfaceweb
     }
     elseif ( isset($_POST["___finally_i_want_to_cancel"]) )
       return false;
-    
+
     if ( !$uid ) $uid=$section.md5($message);
-    
+
     $this->start_page($section,"Êtes vous sûre ?");
-    
+
     $cts = new contents("Confirmation");
-    
+
     if ( $level == 2 )
       $cts->add_paragraph("ATTENTION","huge");
-          
+
     $cts->add_paragraph($message);
-    
+
     if ( $level == 2 )
       $cts->add_paragraph("Cette opération <b>pourrais avoir de lourdes conséquences</b> sur le <b>bon fonctionnement des services</b> si elle été appliqué sur un élément critique. <b>Contactez un administrateur en cas de doute</b>.");
-    
+
     $cts->add_paragraph("Êtes vous sûr ?");
-    
+
     $frm = new form("suretobesurefor".$uid,"?");
     $frm->allow_only_one_usage();
-    
+
     foreach ( $_POST as $key => $val )
       if ( $key != "magicform" )
       {
@@ -635,36 +635,36 @@ class interfaceweb
     foreach ( $_GET as $key => $val )
       if ( $key != "magicform" )
         $frm->add_hidden($key,$val);
-      
+
     $frm->add_submit("___i_am_really_sure","OUI");  
     $frm->add_submit("___finally_i_want_to_cancel","NON");  
-      
+
     $cts->add($frm);
-      
+
     $this->add_contents($cts);
-    
+
     $this->end_page();
     exit();
   }
-  
+
   function set_meta_information( $keywords, $description )
   {
     $this->meta_keywords = $keywords;
     $this->meta_description = $description;
   }
-  
+
   function add_alternate ( $type, $title, $href )
   {
     $this->alternate[]=array($type,$title,$href);
   }
-  
+
   function add_alternate_geopoint ( &$geopoint )
   {
     global $wwwtopdir;
     $this->add_alternate("application/vnd.google-earth.kml+xml","KML",$wwwtopdir."loc.php?id_geopoint=".$geopoint->id."&action=kml");
   }
 
-  
+
 }
 
 ?>
