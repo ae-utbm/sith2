@@ -41,6 +41,12 @@ $site->set_side_boxes("left",array("uvsmenu", "connexion"));
 
 $site->start_page("services", "Emploi du temps");
 
+$cts = new contents("Pédagogie");                                                             
+$cts->add_paragraph("La partie pédagogie est fermée pour une durée indéterminée pour une refonte complète.");
+$site->add_contents($cts);
+$site->end_page();
+exit();
+
 if (!$site->user->utbm)
 {
 	$site->error_forbidden("none","reservedutbm");
