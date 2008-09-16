@@ -841,7 +841,8 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
 {
   $cts->add_title(2, "Pédagogie : en maintenance");
   $cts->add_paragraph("La partie pédagogie est fermée pour une durée indéterminée pour une refonte complète.");
-  exit();
+  $site->add_contents($cts);
+  $site->end_page();
 
   $cts->add_title(2, "Liste des emplois du temps");
   
