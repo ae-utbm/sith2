@@ -717,8 +717,9 @@ elseif ( $comptoir->id > 0 )
     }
     elseif ( $_REQUEST["action"] == "delbarmen" )
     {
-      foreach( $_REQUEST["id_utilisateurs"] as $id_utilisateur)
-        $grp->remove_user_from_group($id_utilisateur);
+      if(is_array($_REQUEST["id_utilisateurs"]) && !empty($_REQUEST["id_utilisateurs"]))
+        foreach( $_REQUEST["id_utilisateurs"] as $id_utilisateur)
+          $grp->remove_user_from_group($id_utilisateur);
     }
     elseif ( $_REQUEST["action"] == "addbarman" )
     {
