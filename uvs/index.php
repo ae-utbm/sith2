@@ -34,7 +34,7 @@ require_once($topdir. "include/entities/uv.inc.php");
 
 $site = new site();
 
-$cts = new contents("Pédagogie : en maintenance")
+$cts = new contents("Pédagogie : en maintenance");
 $cts->add_paragraph("La partie pédagogie est fermée pour une durée indéterminée pour une refonte complète.");
 $site->add_contents($cts);
 $site->end_page();
