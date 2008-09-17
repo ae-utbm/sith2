@@ -637,6 +637,9 @@ class asso extends stdentity
   
   function _ml_all_delta_user ( $id_utl, $oldrole, $newrole )
   {
+    if ( !$this->is_mailing_allowed() )
+      return;   
+    
     $user = new utilisateur($this->db);
     $user->load_by_id($id_utl);
     
