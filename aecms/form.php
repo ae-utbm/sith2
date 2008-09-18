@@ -25,7 +25,7 @@
  */
  
 require_once("include/site.inc.php");
-
+$wwwtopdir="../";
 $site->allow_only_logged_users("");
 
 $cpg = new campagne($site->db,$site->dbrw);
