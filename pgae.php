@@ -33,7 +33,7 @@ require_once($topdir. "include/catalog.inc.php");
 require_once($topdir."include/cts/board.inc.php");
 
 $site = new site (); 
-$cts = new content();
+$cts = new contents();
 $cts->add_title(2, "Petit géni : en maintenance");
 $cts->add_paragraph("Le petit géni est fermé en raison du manque de mise à jour des donnée.");
 $site->add_contents($cts);
