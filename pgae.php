@@ -36,7 +36,7 @@ $site = new site ();
 $site->start_page ("maintenance", "Petit géni");
 $cts = new contents();
 $cts->add_title(2, "Petit géni : en maintenance");
-$cts->add_paragraph("Le petit géni est fermé en raison du manque de mise à jour des donnée.");
+$cts->add_paragraph("Le petit géni est fermé en raison du manque de mise à jour des données.");
 $site->add_contents($cts);
 $site->end_page();
 exit();
