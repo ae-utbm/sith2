@@ -243,10 +243,7 @@ class dfile extends fs
     $this->_new_revision ( $this->id_utilisateur, $file['size'], $file['type'], "Created" );
     
     move_uploaded_file ( $file['tmp_name'], $this->get_real_filename() );
-    if( $this->mime_type=="image/png" )
-      $this->generate_thumbs(true);
-    else
-      $this->generate_thumbs();
+    $this->generate_thumbs();
 
   }
 
@@ -320,10 +317,7 @@ class dfile extends fs
 
     copy ( $localfile, $this->get_real_filename() );
 
-    if( $this->mime_type=="image/png" )
-      $this->generate_thumbs(true);
-    else
-      $this->generate_thumbs();
+    $this->generate_thumbs();
 
   }
 
@@ -442,10 +436,7 @@ class dfile extends fs
     $this->_new_revision($user->id,$file['size'],$file['type'],$comment);
     
     move_uploaded_file ( $file['tmp_name'], $this->get_real_filename() );
-    if( $this->mime_type=="image/png" )
-      $this->generate_thumbs(true);
-    else
-      $this->generate_thumbs();
+    $this->generate_thumbs();
     return true;
   }
   
@@ -576,7 +567,10 @@ class dfile extends fs
   function get_screensize_filename()
   {
     global $topdir;
-    return $topdir."var/files/preview/".$this->id.".jpg";
+    if( $this->mime_type=="image/png" )
+      return $topdir."var/files/preview/".$this->id.".png";
+    else
+      return $topdir."var/files/preview/".$this->id.".jpg";
   }
 
   /**
