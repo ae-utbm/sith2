@@ -91,7 +91,7 @@ if(isset($_POST['action'])
       $reader->moveToElement();
     }
   }
-  $cts = contents("Administration/Mise à jour massive : résultat");
+  $cts = new contents("Administration/Mise à jour massive : résultat");
   $cts->add_paragraph("$j personnes peuvent êtres mises à jours sur un total de $i personnes");
   $site->add_contents($cts);
 }
