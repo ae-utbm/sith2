@@ -79,6 +79,8 @@ if ( $_REQUEST["action"] == "download" && $file->is_valid() )
       $icon = $file->get_icon_name();
       $site->return_simplefile( "icon128".$icon, "image/png", $topdir."images/icons/128/".$icon );
     }
+    elseif( $file->mime_type=="image/png" )
+      $site->return_simplefile( "dthumb".$file->id, "image/png", $filename );
     else
       $site->return_simplefile( "dthumb".$file->id, "image/jpeg", $filename );
     exit();
@@ -91,6 +93,8 @@ if ( $_REQUEST["action"] == "download" && $file->is_valid() )
       $icon = $file->get_icon_name();
       $site->return_simplefile( "icon128".$icon, "image/png", $topdir."images/icons/128/".$icon );
     }
+    elseif( $file->mime_type=="image/png" )
+      $site->return_simplefile( "dpreview".$file->id, "image/png", $filename );
     else
       $site->return_simplefile( "dpreview".$file->id, "image/jpeg", $filename );
     exit();
