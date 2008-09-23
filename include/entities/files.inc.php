@@ -335,10 +335,7 @@ class dfile extends fs
   {
     if ( ereg("image/(.*)",$this->mime_type) )
     {
-      if( $this->mime_type=="image/png" )
-        $f = $this->get_thumb_filename(true);
-      else
-        $f = $this->get_thumb_filename();
+      $f = $this->get_thumb_filename();
       
       if ( file_exists($f) )
         unlink($f);
@@ -563,10 +560,10 @@ class dfile extends fs
    * Donne le nom de l'aperçu sur le serveur.
    * Les fichiers ne doivent pas être accessibles depuis l'exterieur.
    */
-  function get_thumb_filename($png=false)
+  function get_thumb_filename()
   {
     global $topdir;
-    if($png)
+    if( $this->mime_type=="image/png" )
       return $topdir."var/files/thumb/".$this->id.".png";
     else
       return $topdir."var/files/thumb/".$this->id.".jpg";
@@ -638,7 +635,6 @@ class dfile extends fs
       if ( file_exists($f))
         unlink($f);
     }
-    
     $f = $this->get_thumb_filename();
     if ( file_exists($f))
       unlink($f);
