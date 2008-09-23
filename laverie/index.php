@@ -49,6 +49,9 @@ $site->add_css("css/weekplanning.css");
 
 $site->allow_only_logged_users();
 
+if(!$site->user->ae && !$site->user->is_in_group("gestion_machines") )
+  $site->error_forbidden("services","Service réservé aux cotisants AE");
+
 if ( $site->user->is_in_group("blacklist_machines") )
   $site->error_forbidden("services","blacklist_machines");
 
