@@ -1,7 +1,7 @@
 #logo
 {
   height:85px;
-  background-color: #111341;
+  background: url("../images/top-bg.png");
 }
 
 #logo a img
