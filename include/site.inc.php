@@ -384,7 +384,7 @@ class site extends interfaceweb
         $lieu = "Belfort";
         $this->user->load_all_extra();
         if ( $this->user->departement == "tc" || $this->user->departement == "mc" )
-          $lieu = "Sévenans";
+          $lieu = "Sevenans";
         elseif ( $this->user->departement == "edim" )
           $lieu = "Montbéliard";
 
