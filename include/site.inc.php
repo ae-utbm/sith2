@@ -383,10 +383,10 @@ class site extends interfaceweb
       {
         $lieu = "Belfort";
         $this->user->load_all_extra();
-        if ( $this->user->departement == "tc" || 
-          $this->user->departement == "mc" || 
-          $this->user->departement == "edim" )
+        if ( $this->user->departement == "tc" || $this->user->departement == "mc" )
           $lieu = "Sévenans";
+        elseif ( $this->user->departement == "edim" )
+          $lieu = "Montbéliard";
 
         if ( $carte->etat_vie_carte == CETAT_AU_BUREAU_AE )
           $elements[] = "<b>Votre carte AE est prête</b>. Elle vous attends au bureau de l'AE de $lieu.";
