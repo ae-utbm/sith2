@@ -64,7 +64,7 @@ function list_aecms ()
         $data = file_get_contents(AECMS_ACCOUNTS.$file."/specific/aecms.conf.php");
         if ( ereg("define\\(\"CMS_ID_ASSO\",([0-9]+)\\)",$data,$regs) )
         {
-          $list[] = array("unixname"=>"<a href='http://ae.utbm.fr/".$file.">".$file."</a>","id_asso"=>$regs[1], "aecms"=>readlink(AECMS_ACCOUNTS.$file."/aecms") );
+          $list[] = array("unixname"=>$file,"id_asso"=>$regs[1], "aecms"=>readlink(AECMS_ACCOUNTS.$file."/aecms") );
         }
       }
       
