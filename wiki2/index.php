@@ -216,6 +216,13 @@ if ( !$wiki->is_valid() )
     $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=create\">Créer</a>");
   $side->add($lst);
  
+ 
+  $tools = array();
+  $tools[$wwwtopdir."wiki2/?name=".$pagepath] = "Voir la page";
+  
+  if ( $can_create )
+    $tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=create"] = "Créer";
+  
   $castor = explode(":",$pagepath);
 
   $req = new requete($site->db,"SELECT asso.id_asso FROM asso
@@ -226,6 +233,7 @@ if ( !$wiki->is_valid() )
   if ( $req->lines == 1 )
     list($asso_id) = $req->get_row();
 
+
   if ( !is_null($asso_id))
   {
     $asso = new asso($site->db);
@@ -235,14 +243,19 @@ if ( !$wiki->is_valid() )
     $site->start_page("presentation","Wiki");
   
     $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
-    $cts->add_paragraph(build_asso_htmlpath($pagepath),"wikipath");
+    $path = build_asso_htmlpath($pagepath);
+    
+    $ctsttl = new contents();
+    $ctsttl->set_toolbox(new toolbox($tools));
+    $ctsttl->add_title(1,build_asso_htmlpath($pagepath),"wikipath");
+    $cts->add($ctsttl);
   }
   else
   {
-    $cts = new contents();
-    $site->start_page("presentation","Wiki");
-    $cts->add_paragraph(build_htmlpath($pagepath),"wikipath");
+    $cts = new contents(build_htmlpath($pagepath));
+    $cts->set_toolbox(new toolbox($tools));
   }
+  
   $site->add_box("wiki",$side);
   
   if ( $can_create && $_REQUEST["view"] == "create" )
@@ -367,7 +380,7 @@ if ( !is_null($asso_id))
   
   $ctsttl = new contents();
   $ctsttl->set_toolbox(new toolbox($tools));
-  $ctsttl->add_title(1,build_asso_htmlpath($pagepath));
+  $ctsttl->add_title(1,build_asso_htmlpath($pagepath),"wikipath");
   $cts->add($ctsttl);
 }
 else
