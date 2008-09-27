@@ -376,7 +376,7 @@ else
   $cts->set_toolbox(new toolbox($tools));
 }
 
-$cts->add_paragraph($path,"wikipath");
+//$cts->add_paragraph($path,"wikipath");
 $cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
 
 $site->add_box("wiki",$side);
