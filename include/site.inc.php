@@ -379,7 +379,7 @@ class site extends interfaceweb
       {
         $elements[] = "<a href=\"".$topdir."user.php?page=edit&open=photo#setphotos\"><b>Vous devez ajouter une photo</b> pour que votre carte AE soit imprimée.</a>";
       }
-      elseif ($carte->etat_vie_carte < CETAT_CIRCULATION )
+      elseif ($carte->etat_vie_carte == CETAT_AU_BUREAU_AE )
       {
         $lieu = "Belfort";
         $this->user->load_all_extra();
@@ -388,10 +388,7 @@ class site extends interfaceweb
         elseif ( $this->user->departement == "edim" )
           $lieu = "Montbéliard";
 
-        if ( $carte->etat_vie_carte == CETAT_AU_BUREAU_AE )
-          $elements[] = "<b>Votre carte AE est prête</b>. Elle vous attends au bureau de l'AE de $lieu.";
-        else
-          $elements[] = "Votre carte AE est en cours de préparation, elle sera prochainement disponible au bureau de l'AE de $lieu.";
+        $elements[] = "<b>Votre carte AE est prête</b>. Elle vous attends au bureau de l'AE de $lieu.";
       }
     }
 
