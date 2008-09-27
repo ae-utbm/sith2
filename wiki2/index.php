@@ -75,7 +75,7 @@ function build_asso_htmlpath ( $fullpath )
   $asso = $tokens[1];
   unset($tokens[1]);
 
-  $buffer = "<div class=\"path_bar\">Path le chemin : <a href=\"./?name=".$pole.":".$asso."\">Wiki</a>";
+  $buffer = "<a href=\"./?name=".$pole.":".$asso."\">Wiki</a>";
   $path = $pole.":".$asso;
 
   foreach ( $tokens as $token )
@@ -84,7 +84,7 @@ function build_asso_htmlpath ( $fullpath )
     $buffer .= " / <a href=\"./?name=".htmlentities($path,ENT_QUOTES,"UTF-8")."\">".
                htmlentities($token,ENT_NOQUOTES,"UTF-8")."</a>";
   }
-  return $buffer.'</div>';
+  return $buffer;
 }
 
 // Creation d'une page
@@ -364,14 +364,16 @@ if ( !is_null($asso_id))
 
   $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
   $path = build_asso_htmlpath($pagepath);
+  
+  $ctsttl = new contents(build_asso_htmlpath($pagepath));
+  $ctsttl->set_toolbox(new toolbox($tools));
+  $cts->add($ctsttl,true);
 }
 else
 {
   $cts = new contents(build_htmlpath($pagepath));
+  $cts->set_toolbox(new toolbox($tools));
 }
-
-$cts->set_toolbox(new toolbox($tools));
-
 
 $cts->add_paragraph($path,"wikipath");
 $cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
