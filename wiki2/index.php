@@ -365,9 +365,10 @@ if ( !is_null($asso_id))
   $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
   $path = build_asso_htmlpath($pagepath);
   
-  $ctsttl = new contents(build_asso_htmlpath($pagepath));
+  $ctsttl = new contents();
   $ctsttl->set_toolbox(new toolbox($tools));
-  $cts->add($ctsttl,true);
+  $ctsttl->add_title(1,build_asso_htmlpath($pagepath));
+  $cts->add($ctsttl);
 }
 else
 {
