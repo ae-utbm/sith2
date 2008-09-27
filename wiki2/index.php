@@ -50,7 +50,7 @@ function build_htmlpath ( $fullpath )
   $buffer = "<a href=\"./\">Wiki</a>";
   
   if ( empty($fullpath) )
-    return $buffer.'</div>';
+    return $buffer;
   
   $path=null;
   $tokens = explode(":",$fullpath);
