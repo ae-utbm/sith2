@@ -209,12 +209,12 @@ if ( !$wiki->is_valid() )
   
   $site->start_page ("wiki", "Page inexistante");
  
-  $side = new contents("Wiki");
+  /*$side = new contents("Wiki");
   $lst = new itemlist();
   $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."\">Voir la page</a>");
   if ( $can_create )
     $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=create\">Créer</a>");
-  $side->add($lst);
+  $side->add($lst);*/
  
  
   $tools = array();
@@ -330,7 +330,7 @@ elseif ( $_REQUEST["action"] == "edit" && $is_admin )
 }
 $site->start_page ("wiki", $wiki->rev_title);
 
-$side = new contents("Wiki");
+/*$side = new contents("Wiki");
 $lst = new itemlist();
 $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."\">Voir la page</a>");
 if ( $is_admin )
@@ -341,7 +341,7 @@ else
   $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=srcs\">Source</a>");
 $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=hist\">Historique</a>");
 $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=advc\">Propriétés</a>");
-$side->add($lst);
+$side->add($lst);*/
 
 $tools = array();
 $tools[$wwwtopdir."wiki2/?name=".$pagepath]="Voir la page";
@@ -392,7 +392,7 @@ else
 //$cts->add_paragraph($path,"wikipath");
 $cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
 
-$site->add_box("wiki",$side);
+//$site->add_box("wiki",$side);
 
 if ( $is_admin && $_REQUEST["view"] == "advc" )
 {
