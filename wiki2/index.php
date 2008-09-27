@@ -47,7 +47,7 @@ $site->add_css("css/wiki.css");
 
 function build_htmlpath ( $fullpath )
 {
-  $buffer = "<div class=\"path_bar\">Path le chemin : <a href=\"./\">Wiki</a>";
+  $buffer = "<a href=\"./\">Wiki</a>";
   
   if ( empty($fullpath) )
     return $buffer.'</div>';
@@ -64,7 +64,7 @@ function build_htmlpath ( $fullpath )
     $buffer .= " / <a href=\"./?name=".htmlentities($path,ENT_QUOTES,"UTF-8")."\">".
                htmlentities($token,ENT_NOQUOTES,"UTF-8")."</a>";
   }
-  return $buffer.'</div>';
+  return $buffer;
 }
 
 function build_asso_htmlpath ( $fullpath )
@@ -367,8 +367,7 @@ if ( !is_null($asso_id))
 }
 else
 {
-  $cts = new contents();
-  $path = build_htmlpath($pagepath);
+  $cts = new contents(build_htmlpath($pagepath));
 }
 
 $cts->set_toolbox(new toolbox($tools));
@@ -573,6 +572,8 @@ else
   $cts->add($wiki->get_stdcontents());
 
 }
+
+$cts->divid = "wikicts";
 
 $site->add_contents($cts);
 
