@@ -330,6 +330,20 @@ $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=hist\">Histori
 $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=advc\">Propriétés</a>");
 $side->add($lst);
 
+$tools = new array();
+$tools[$wwwtopdir."wiki2/?name=".$pagepath]="Voir la page";
+if ( $can_edit )
+  $tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=edit".(isset($_REQUEST["rev"])?"&rev=".$_REQUEST["rev"]:"")]="Editer";
+else
+  $tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=srcs"]="Source";
+$tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=refs"]="Références";
+$tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=hist"]="Historique";
+if ( $is_admin )
+  $tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=advc"]="Propriétés";
+
+
+
+
 $castor = explode(":",$pagepath);
 
 $req = new requete($site->db,"SELECT asso.id_asso FROM asso
@@ -356,6 +370,9 @@ else
   $cts = new contents();
   $path = build_htmlpath($pagepath);
 }
+
+$cts->set_toolbox(new toolbox($tools));
+
 
 $cts->add_paragraph($path,"wikipath");
 $cts->add_title(1,htmlentities($wiki->rev_title,ENT_NOQUOTES,"UTF-8"));
