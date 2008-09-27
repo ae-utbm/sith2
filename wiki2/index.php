@@ -34,7 +34,7 @@ $conf['maxseclevel']=6;
 $conf['bookmarks']=true;
 
 $site = new site();
-$site->set_side_boxes("left",array("wiki","connexion"));
+$site->set_side_boxes("left",array("calendrier","connexion"));
 
 /* temporairement, si t'es pas logué tu lis pas */
 if (!$site->user->is_valid())
