@@ -350,7 +350,7 @@ if ( $can_edit )
 else
   $tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=srcs"]="Source";
 $tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=refs"]="Références";
-$tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=hist"]="Historique";
+$tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=hist"]="Historique de la page";
 if ( $is_admin )
   $tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=advc"]="Propriétés";
 
