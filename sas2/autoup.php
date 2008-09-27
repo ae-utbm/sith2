@@ -3,14 +3,10 @@ $topdir="../";
 require_once("include/sas.inc.php");
 $site = new sas();
 
-if ( $_REQUEST["act"] != "DownloadPhoto" )
+if ( $_REQUEST["act"] == "Info" )
 {
   echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
   echo "<!DOCTYPE UBPTExchange>\n";
-}
-
-if ( $_REQUEST["act"] == "Info" )
-{
   echo "<info>\n";
   echo "  <name>Stock à Souvenirs (v2)</name>\n";
   echo "  <url>http://ae.utbm.fr/sas2/</url>\n";
@@ -25,6 +21,8 @@ if ( $_REQUEST["act"] == "Info" )
   exit();
 } else if ( $_REQUEST["act"] == "Connect" ) {
 
+  echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+  echo "<!DOCTYPE UBPTExchange>\n";
   echo "<session>\n";
 
   $CVersion = explode(".",$_REQUEST["ClientVersion"]);
@@ -65,7 +63,13 @@ if ( $_REQUEST["act"] == "Info" )
 
 $site->load_session($_REQUEST["SessionId"]);
 
-if ( $site->user->id < 0 )
+if ( $_REQUEST["act"] != "DownloadPhoto" )
+{
+  echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+  echo "<!DOCTYPE UBPTExchange>\n";
+}
+
+if ( !$site->user->is_valid() )
 {
   echo "<error>SESSION_NECESSAIRE</error>\n";
   exit();
