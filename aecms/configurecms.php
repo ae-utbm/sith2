@@ -699,6 +699,7 @@ else if( $_REQUEST["view"] == "news" )
                       WHERE `nvl_nouvelles`.`modere_nvl`='1' 
                       AND `nvl_nouvelles`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
                       AND `nvl_nouvelles`.`id_canal`='".NEWS_CANAL_AECMS."' 
+                      AND `nvl_nouvelles`.`id_asso`='".$site->asso->id."' 
                       ORDER BY `nvl_nouvelles`.`date_nvl` 
                       DESC");
 
