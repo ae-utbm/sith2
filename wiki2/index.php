@@ -330,7 +330,7 @@ $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=hist\">Histori
 $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=advc\">Propriétés</a>");
 $side->add($lst);
 
-$tools = new array();
+$tools = array();
 $tools[$wwwtopdir."wiki2/?name=".$pagepath]="Voir la page";
 if ( $can_edit )
   $tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=edit".(isset($_REQUEST["rev"])?"&rev=".$_REQUEST["rev"]:"")]="Editer";
