@@ -84,9 +84,7 @@ class eboutic extends site
       $this->load_cart();
 
     /*** boite e-boutic */
-    $eb_box = new contents("e-boutic");
-
-    $eb_box->add_title (3,"Panier");
+    $eb_box = new contents("Panier e-boutic");
 
     $lst = new itemlist();
 
@@ -106,28 +104,7 @@ class eboutic extends site
     $eb_box->add ($lst);
     
     $categories = $this->get_cat ();
-      
-    $eb_box->add_title (3,"Rayons disponibles");
-    
-    $lst_cat = new itemlist();
-    
-    foreach ($categories as $c)
-        $lst_cat->add ("<a href=\"./?cat=".$c['id_typeprod']."\">".$c['nom_typeprod']."</a>");
-
-    $eb_box->add ($lst_cat);
-
-    if ( $this->user->is_valid() )
-    {
-      $eb_box->puts ("<h3>Autres options</h3>".
-                     "<ul>\n");
-      $eb_box->puts ("<li><a href=\"../user/compteae.php\">".
-                     "Mes commandes passees</a></li>\n");
-                     
-      if ( $this->user->ae )      
-        $eb_box->puts ("<li><a href=\"../user/compteae.php\">Mon compte AE</a></li>\n");   
-                         
-      $eb_box->puts ("<ul>\n");
-    }
+     
     
     $this->add_box ("e-boutic", $eb_box);
     
