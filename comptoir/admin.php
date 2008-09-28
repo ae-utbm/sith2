@@ -792,6 +792,13 @@ elseif ( $comptoir->id > 0 )
 	}
 	else
 	{
+	 
+    $lst = new itemlist();
+    $lst->add("<a href=\"admin.php?page=addproduit\">Ajouter un nouveau  produit</a>");
+    $lst->add("<a href=\"admin.php?page=produits\">Liste de tous les produits</a> (permet de (re)mettre en vente un produit existant)");
+    $cts->add($lst);
+
+	 
 	$req = new requete($site->db,
 		"SELECT `cpt_produits`.`nom_prod`, `cpt_produits`.`id_produit`," .
 		"`cpt_produits`.stock_global_prod, `cpt_produits`.prix_vente_barman_prod/100 AS prix_vente_barman_prod," .
