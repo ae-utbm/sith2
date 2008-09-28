@@ -795,7 +795,7 @@ elseif ( $comptoir->id > 0 )
 	 
     $lst = new itemlist();
     $lst->add("<a href=\"admin.php?page=addproduit\">Ajouter un nouveau  produit</a>");
-    $lst->add("<a href=\"admin.php?page=produits\">Liste de tous les produits</a> (permet de (re)mettre en vente un produit existant)");
+    $lst->add("<a href=\"admin.php?page=produits\">Liste de tous les autres produits</a> (permet de (re)mettre en vente un produit existant)");
     $cts->add($lst);
 
 	 

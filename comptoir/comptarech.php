@@ -43,7 +43,7 @@ $site->set_admin_mode();
 
 $site->start_page("services","Comptabilité comptoirs");
 
-$cts = new contents("Rechargement carte AE");
+$cts = new contents("<a href=\"admin.php\">Administraion comptoirs</a> / Rechargement carte AE");
 
 $frm = new form ("cptacpt","comptarech.php",true,"POST","Critères de selection");
 $frm->add_hidden("action","view");
