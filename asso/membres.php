@@ -368,6 +368,9 @@ else
     $req = new requete($site->db,
       "SELECT `utilisateurs`.`id_utilisateur`, " .
       "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+          "`asso_membre`.`role`, " .
+    "`asso_membre`.`desc_role`, " .
+    "`asso_membre`.`date_debut`, " .
       "CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
       "FROM `asso_membre` " .
       "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
@@ -382,10 +385,10 @@ else
            "listmebm",
            "Bénévoles", $req, "membres.php?id_asso=".$asso->id,
            "id_membership",
-           array("nom_utilisateur"=>"Utilisateur"),
-           $can_admin?array("delete"=>"Désinscrire"):array(),
-           $can_admin?array("deletes"=>"Désinscrire"):array(),
-           array("role"=>$GLOBALS['ROLEASSO'] )
+            array("nom_utilisateur"=>"Utilisateur","role"=>"Role","desc_role"=>"Role","date_debut"=>"Depuis le"), 
+            $can_admin?array("ancien"=>"Marquer comme ancien","delete"=>"Supprimer"):array(), 
+            $can_admin?array("anciens"=>"Marquer comme ancien","deletes"=>"Supprimer"):array(),
+            array("role"=>$GLOBALS['ROLEASSO'] )
            );
       $cts->add($tbl,true);
     }
@@ -396,6 +399,9 @@ else
   $req = new requete($site->db,
     "SELECT `utilisateurs`.`id_utilisateur`, " .
     "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+        "`asso_membre`.`role`, " .
+    "`asso_membre`.`desc_role`, " .
+    "`asso_membre`.`date_debut`, " .
     "CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
     "FROM `asso_membre` " .
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
@@ -410,10 +416,10 @@ else
          "listmebm",
          "Membres", $req, "membres.php?id_asso=".$asso->id,
          "id_membership",
-         array("nom_utilisateur"=>"Utilisateur"),
-         $can_admin?array("delete"=>"Désinscrire"):array(),
-         $can_admin?array("deletes"=>"Désinscrire"):array(),
-         array("role"=>$GLOBALS['ROLEASSO'] )
+          array("nom_utilisateur"=>"Utilisateur","role"=>"Role","desc_role"=>"Role","date_debut"=>"Depuis le"), 
+          $can_admin?array("ancien"=>"Marquer comme ancien","delete"=>"Supprimer"):array(), 
+          $can_admin?array("anciens"=>"Marquer comme ancien","deletes"=>"Supprimer"):array(),
+          array("role"=>$GLOBALS['ROLEASSO'] )
          );
     $cts->add($tbl,true);
   }
