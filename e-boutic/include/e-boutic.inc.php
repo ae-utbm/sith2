@@ -86,11 +86,11 @@ class eboutic extends site
     /*** boite e-boutic */
     $eb_box = new contents("Panier e-boutic");
 
-    $lst = new itemlist();
+    $lst = new itemlist(null,"actions");
 
     if ($this->cart != null)
     {
-       $prods = new itemlist();
+       $prods = new itemlist(null,"items");
 
       foreach ($this->cart as $item)
       {
@@ -100,7 +100,7 @@ class eboutic extends site
       $eb_box->add ($prods);
 
   
-      $eb_box->add_paragraph("Total: ".sprintf("%.2f Euros",$this->total / 100));
+      $eb_box->add_paragraph("Total: ".sprintf("%.2f Euros",$this->total / 100),"total");
       
       $lst->add ("<a href=\"./cart.php\">Modifier le panier</a>");
       $lst->add ("<a href=\"./cart.php\">Passer la commande</a>");
