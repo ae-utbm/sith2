@@ -186,6 +186,7 @@ if(!is_null($cpg->id) && $cpg->asso==$site->asso->id) // on affiche le formulair
       $frm = new form("apply","form.php",true,"POST","Formulaire d'inscription");
       $frm->add_hidden("answord",$cpg->id);
       $frm->add_hidden("id",$cpg->id);
+      $frm->add_info($cpg->description);
       foreach($questions as $id => $question)
       {
         if($question["type"]=="text")
