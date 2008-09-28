@@ -48,7 +48,7 @@ if ( $_REQUEST["action"] == "fusion" && $GLOBALS["svalid_call"] )
 	
 $site->start_page("none","Administration");
 
-$cts = new contents("Administration / Outil / Fusion de deux utilisateurs");
+$cts = new contents("<a href=\"./\">Administration</a> / Fusion de deux utilisateurs");
 
 if ( $Success )
   $cts->add_paragraph("Utilisateurs fusionnés avec succès : ".$user2->get_html_link());

@@ -45,7 +45,7 @@ if ( $_REQUEST["action"] == "delete" && $GLOBALS["svalid_call"] )
 	
 $site->start_page("none","Administration");
 
-$cts = new contents("Administration / Outil / Suppression d'un utilisateur");
+$cts = new contents("<a href=\"./\">Administration</a> / Suppression d'un utilisateur");
 
 if ( $Success )
   $cts->add_paragraph("Utilisateur ".$user->id." supprimé avec succès");
