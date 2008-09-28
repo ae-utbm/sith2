@@ -90,13 +90,19 @@ class eboutic extends site
 
     if ($this->cart != null)
     {
-      $qte = 0;
-      foreach ($this->cart as $item)
-        $qte += $_SESSION['eboutic_cart'][$item->id];
+       $prods = new itemlist();
+
+      foreach ($site->cart as $item)
+      {
+        $prods->add($item->nom." x ".$_SESSION['eboutic_cart'][$item->id]);
+      }  
   
-      $lst->add ("<a href=\"./cart.php\">$qte produit(s) pour " . sprintf("%.2f Euros</a>",$this->total / 100));
+      $eb_box->add ($prods);
+
   
+      $lst->add (sprintf("%.2f Euros",$this->total / 100));
       $lst->add ("<a href=\"./cart.php\">Voir le panier</a>");
+      $lst->add ("<a href=\"./cart.php\">Passer la commande</a>");
     }
     else
       $lst->add("Votre panier est actuellement vide.");
