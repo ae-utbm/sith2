@@ -132,7 +132,7 @@ class eboutic extends site
     $this->add_box ("e-boutic", $eb_box);
     
     /* demarrage normal de la page */
-    parent::start_page("services",$title);
+    parent::start_page("eboutic",$title);
   }
 
   /* chargement du panier de l'utilisateur */
