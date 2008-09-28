@@ -90,6 +90,8 @@ class eboutic extends site
 
     if ($this->cart != null)
     {
+      $eb_box->add_paragraph("Votre panier:","intro");
+      
        $prods = new itemlist(null,"items");
 
       foreach ($this->cart as $item)
