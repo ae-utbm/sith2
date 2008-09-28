@@ -76,6 +76,7 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
     $frm = new form("apply","campagne.php",true,"POST","Formulaire d'inscription");
     $frm->add_hidden("answord","true");
     $frm->add_hidden("id_campagne",$cpg->id);
+    $frm->add_info($cpg->description);
     foreach($questions as $id => $question)
     {
       if($question["type"]=="text")
