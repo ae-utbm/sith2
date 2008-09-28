@@ -155,7 +155,6 @@
   font-weight:bold;
   margin-top:0.1em;
   padding-top:0.5em;
-  border-top:1px solid #ffffff;
   padding-left:0.2em;
 
 }
@@ -174,7 +173,10 @@
   padding-right:0.5em;
 }
 
-
+#sbox_e-boutic
+{
+  background: url("../themes/default/images/box-top-eboutic.png");  
+}
 
 
 
