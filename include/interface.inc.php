@@ -83,7 +83,8 @@ class interfaceweb
               array ("article.php?name=presentation:services", "Services quotidiens" )
              ) ),
         array ("services", "article.php?name=services", "Services" ),
-        array ("pg", "pgae.php", "Petit géni"),
+        //array ("pg", "pgae.php", "Petit géni"),
+        array ("eboutic", "e-boutic/", "E-boutic"),
         array ("matmatronch", "matmatronch/", "Matmatronch"),
         array ("sas", "sas2/", "SAS"),
         array ("forum", "forum2/", "Forum"),
