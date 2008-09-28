@@ -1098,12 +1098,16 @@ class form extends stdcontents
       
     $this->add_entity_select( "rights_id_group", "Groupe", $basedb->db, "group",$basedb->id_groupe);
   
+    $this->buffer .= "<div class=\"_right_opts\">";
+
     $this->add_radiobox_field ( "__rights_lect", "Droits d'acc&egrave;s",
             array( 0x111 => "Lecture par tous"),
             $basedb->droits_acces & 0x111 );
     $this->add_radiobox_field ( "__rights_lect", "",
             array( 0x110 => "Lecture par les membres du groupe s&eacute;lectionn&eacute;"),
             $basedb->droits_acces & 0x111 );
+    
+    $this->buffer .= "</div>";
     
     /* Est-ce vraiment utile ?
     if ( $admin || ($basedb->droits_acces & 0x111==0x010) )
@@ -1114,50 +1118,59 @@ class form extends stdcontents
     
     if ( $context =="wiki") // Droits un peu plus complexes pour le wiki
     {
+      $this->buffer .= "<div class=\"_right_opts\">";
       $this->add_radiobox_field ( "__rights_ecrt", "Droits d'écriture",
               array( 0x222 => "Ecriture par tous"),
               $basedb->droits_acces & 0x222 );
       $this->add_radiobox_field ( "__rights_ecrt", "",
               array( 0x220 => "Ecriture par les membres du groupe s&eacute;lectionn&eacute;"),
               $basedb->droits_acces & 0x222 );
+      $this->buffer .= "</div>";
               
+      $this->buffer .= "<div class=\"_right_opts\">";
       $this->add_radiobox_field ( "__rights_ajout", "Droits d'ajout",
               array( 0x444 => "Ajout par tous"),
               $basedb->droits_acces & 0x444 );
       $this->add_radiobox_field ( "__rights_ajout", "",
               array( 0x440 => "Ajout par les membres du groupe s&eacute;lectionn&eacute;"),
               $basedb->droits_acces & 0x444 );              
-              
+      $this->buffer .= "</div>";
     }
     elseif ( $category )
     {
       $add = (($basedb->droits_acces >> 8) & 0xC ) | (($basedb->droits_acces >> 4) & 0xC ) | ($basedb->droits_acces & 0xC );
       if ( $context =="files")
       {
+        $this->buffer .= "<div class=\"_right_opts\">";
         $this->add_radiobox_field ( "__rights_ajoutsub", "Droits d'ajout pour le groupe",
                     array( 0x8 => "Ajout de fichiers"),$add );
         $this->add_radiobox_field ( "__rights_ajoutsub", "",
                     array( 0x4 => "Ajout de dossiers"),$add );
         $this->add_radiobox_field ( "__rights_ajoutsub", "",
                     array( 0xC => "Ajout de fichiers et dossiers"),$add );
+        $this->buffer .= "</div>";
       }
       else
       {
         if ( $add & 0x4 ) $add = 0x4;
+        $this->buffer .= "<div class=\"_right_opts\">";
         $this->add_radiobox_field ( "__rights_ajoutsub", "Droits d'ajout pour le groupe",
                     array( 0x8 => "Ajout de photos"),$add );
         $this->add_radiobox_field ( "__rights_ajoutsub", "",
                     array( 0x4 => "Ajout de cat&eacute;gories"),$add );
+        $this->buffer .= "</div>";
       }
     }
     elseif ( $context =="files")
     {
+      $this->buffer .= "<div class=\"_right_opts\">";
       $this->add_radiobox_field ( "__rights_ecrt", "Droits d'écriture",
               array( 0x200 => "Ecriture par uniquement le propriétaire"),
               $basedb->droits_acces & 0x200 );
       $this->add_radiobox_field ( "__rights_ecrt", "",
               array( 0x220 => "Ecriture par les membres du groupe s&eacute;lectionn&eacute;"),
               $basedb->droits_acces & 0x222 );
+      $this->buffer .= "</div>";
       
     }
     
