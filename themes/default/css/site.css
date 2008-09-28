@@ -2479,3 +2479,11 @@ ul.diff li
   display: block;
 }
 
+div._right_opts
+{
+  margin-top:2px;
+  padding-top:2px;
+  border-top:1px solid #f0f0f0;
+  
+}
+
