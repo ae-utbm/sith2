@@ -2,6 +2,7 @@
 
 /* Copyright 2007
  * - Simon Lopez < simon dot lopez at ayolo dot org >
+ * - Benjamin Collet < bcollet at oxynux dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -24,7 +25,7 @@
 
 $topdir="../";
 
-require_once($topdir. "include/site.inc.php");
+require_once($topdir."include/site.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
 require_once($topdir."include/entities/svn.inc.php");
 
@@ -71,14 +72,14 @@ if(isset($_REQUEST["id_depot"]))
     unset($_REQUEST);
     $site->error_not_found("depot svn");
   }
-    
+
   if(isset($_REQUEST["action"]) )
   {
     if( isset($_REQUEST["mode"]) && $_REQUEST["mode"]=="user")
     {
       $user = new utilisateur($site->db,$site->dbrw);
     }
-      
+
     if ( $_REQUEST["action"].$_REQUEST["mode"] == "edituser" )
     {
       if( isset($_REQUEST["commit"]) && in_array($_REQUEST["right"],$svn->valid_rights))
@@ -107,32 +108,10 @@ if(isset($_REQUEST["id_depot"]))
         if ( $user->is_valid() && in_array($_REQUEST["right"],$svn->valid_rights) )
           if ( !empty($user->alias) )
           {
-            if( preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",$user->alias) )
+            if( preg_match("#^([a-z0-9][a-z0-9\.]+[a-z0-9])$#i",$user->alias) )
             {
-              $find = @exec("grep \"^".$user->alias.":\" " .SVN_PATH.PASSWORDFILE);
-              if( empty($find) )
-              {
-                $pass=$user->genere_pass(12);
-
-                $body="Bonjour,\nVous ne disposiez pas de mot de passe subversion,".
-                "nous en avons donc généré un pour vous : ".$pass."\n".
-                "Vous pouvez le changer à tout moment ici : ".
-                "http://ae.utbm.fr/user/svn.php\n".
-                "Vous pouvez aussi à tout moment consulter à cette meme adresse les dépot ".
-                "auquels vous avez accès.".
-                "\n\nL'équipe info AE";
-                $ret = mail($user->email,
-                            "[Site AE] Important : subversion",
-                            utf8_decode($body),
-                            "From: \"AE UTBM\" <ae.info@utbm.fr>\nReply-To: ae.info@utbm.fr");
-                $svn->add_user_access($user,$_REQUEST["right"]);
-                unset($_REQUEST["action"]);
-              }
-              else
-              {
-                $svn->add_user_access($user,$_REQUEST["right"]);
-                unset($_REQUEST["action"]);
-              }
+              $svn->add_user_access($user,$_REQUEST["right"]);
+              unset($_REQUEST["action"]);
             }
             else
               $erreur="alias invalide, veuillez le modifier <a href=\"http://ae.utbm.fr/user.php?id_utilisateur=".

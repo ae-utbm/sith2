@@ -39,12 +39,12 @@ if(isset($_POST['action'])
    && is_dir("/var/www/ae/www/ae2/var/img")
    && is_uploaded_file($_FILES['zipeuh']['tmp_name']) )
 {
-  mkdir("/tmp/blehmatmat");
-  if(is_dir("/tmp/blehmatmat"))
+  mkdir("/var/www/ae/www/taiste/temp/matmat");
+  if(is_dir("/var/www/ae/www/taiste/temp/matmat"))
   {
     $user = new utilisateur($site->db);
-    exec('unzip "'.$_FILES['zipeuh']['tmp_name'].'" -j -d "/tmp/blehmatmat/"');
-    $h = opendir('/tmp/blehmatmat/');
+    exec('unzip "'.$_FILES['zipeuh']['tmp_name'].'" -j -d "/var/www/ae/www/taiste/temp/matmat/"');
+    $h = opendir('/var/www/ae/www/taiste/temp/matmat/');
     while ($f=readdir($h))
     {
       if ($file == "." && $file == "..")
@@ -54,10 +54,10 @@ if(isset($_POST['action'])
         $id=substr($f,0,-4);
         $user->load_by_id($_REQUEST["id_utilisateur"]);
         if ( !$user->is_valid() )
-          exec("/usr/share/php5/exec/convert /tmp/blehmatmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
+          exec("/usr/share/php5/exec/convert /var/www/ae/www/taiste/temp/matmat/".$f." -thumbnail 225x300 /var/www/ae/www/ae2/var/img/matmatronch/".$id.".identity.jpg");
       }
     }
-    exec("rm -Rf /tmp/blehmatmat/");
+    exec("rm -Rf /var/www/ae/www/taiste/temp/matmat/");
   }
 }
 
