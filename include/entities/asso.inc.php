@@ -96,8 +96,6 @@ class asso extends stdentity
    
   public $distinct_benevole=false;
 
-  private $_distinct_benevole=false;
-
 
   /** Charge une association par son ID
    * @param $id ID de l'association
@@ -149,8 +147,6 @@ class asso extends stdentity
     $this->passwd_email = $row['passwd_email'];
     
     $this->distinct_benevole = $row['distinct_benevole_asso']; 
-    
-    $this->_distinct_benevole = $this->distinct_benevole;
   }
   
   /** Crée une nouvelle association
@@ -158,7 +154,7 @@ class asso extends stdentity
    * @param $nom_unix    Nom UNIX de l'association
    * @param $id_parent  ID de l'association parent, false si non applicable
    */
-  function add_asso ( $nom, $nom_unix, $id_parent = null, $adresse_postale="", $email="", $siteweb="", $login_email="", $passwd_email=""  )
+  function add_asso ( $nom, $nom_unix, $id_parent = null, $adresse_postale="", $email="", $siteweb="", $login_email="", $passwd_email="", $distinct_benevole=false  )
   {
     if ( is_null($this->dbrw) ) return; // "Read Only" mode
     
@@ -183,7 +179,9 @@ class asso extends stdentity
         "email_asso"=>$this->email,
         "siteweb_asso"=>$this->siteweb,
         "login_email"=>$this->login_email,
-        "passwd_email"=>$this->passwd_email
+        "passwd_email"=>$this->passwd_email,
+        
+        "distinct_benevole_asso" => $this->distinct_benevole
         
         )
       );
@@ -210,7 +208,7 @@ class asso extends stdentity
    * @param $nom_unix    Nom UNIX de l'association
    * @param $id_parent  ID de l'association parent, false si non applicable
    */
-  function update_asso ( $nom, $nom_unix, $id_parent = null, $adresse_postale="", $email=null, $siteweb=null, $login_email=null, $passwd_email=null )
+  function update_asso ( $nom, $nom_unix, $id_parent = null, $adresse_postale="", $email=null, $siteweb=null, $login_email=null, $passwd_email=null, $distinct_benevole=false )
   {   
     if ( is_null($this->dbrw) ) return; // "Read Only" mode
     
@@ -227,7 +225,7 @@ class asso extends stdentity
           if ( !is_null($id_parent) )
             $this->_ml_create($this->dbrw,$nom_unix.".membres",$this->email);  
             
-          if ( $this->distinct_benevole )
+          if ( $distinct_benevole )
             $this->_ml_create($this->dbrw,$nom_unix.".benevoles",$this->email);  
                       
           $this->_ml_create($this->dbrw,$nom_unix.".bureau",$this->email);
@@ -238,7 +236,7 @@ class asso extends stdentity
         if ( is_null($old_id_parent) && !is_null($id_parent) )
           $this->_ml_create($this->dbrw,$this->nom_unix.".membres",$this->email);
         
-        if ( $this->distinct_benevole && !$this->_distinct_benevole )
+        if ( $distinct_benevole && !$this->distinct_benevole )
           $this->_ml_create($this->dbrw,$this->nom_unix.".benevoles",$this->email);  
       }
     }
@@ -259,6 +257,8 @@ class asso extends stdentity
     if ( !is_null($passwd_email) )
       $this->passwd_email = $passwd_email;
 
+    $this->distinct_benevole = $distinct_benevole;
+
     $sql = new update ($this->dbrw,
       "asso",
       array(
@@ -269,7 +269,8 @@ class asso extends stdentity
         "email_asso"=>$this->email,
         "siteweb_asso"=>$this->siteweb,
         "login_email"=>$this->login_email,
-        "passwd_email"=>$this->passwd_email
+        "passwd_email"=>$this->passwd_email,
+        "distinct_benevole_asso" => $this->distinct_benevole
         ),
       array ( "id_asso" => $this->id )
       

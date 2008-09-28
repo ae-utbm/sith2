@@ -56,9 +56,9 @@ if ( ($_REQUEST['action'] == "addasso") && $site->user->is_in_group("gestion_ae"
 			$asso_parent->id = null;
 
     if ( $GLOBALS["is_using_ssl"] )
-		  $asso->add_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email']);
+		  $asso->add_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email'],isset($_REQUEST['distinct_benevole']));
     else
-		  $asso->add_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb']);
+		  $asso->add_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],null,null,isset($_REQUEST['distinct_benevole']));
 	}
 }
 else if ( isset($_REQUEST["id_asso"]) )
@@ -105,14 +105,14 @@ else if ( isset($_REQUEST["id_asso"]) )
           $asso_parent->load_by_id($_REQUEST['asso_parent']);
 
           if ( $GLOBALS["is_using_ssl"] )
-            $asso->update_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email']);
+            $asso->update_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email'],isset($_REQUEST['distinct_benevole']));
           else
-            $asso->update_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb']);
+            $asso->update_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],null,null,isset($_REQUEST['distinct_benevole']));
         }
         elseif ( $GLOBALS["is_using_ssl"] )
-          $asso->update_asso($asso->nom,$asso->nom_unix,$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email']);
+          $asso->update_asso($asso->nom,$asso->nom_unix,$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email'],isset($_REQUEST['distinct_benevole']));
         else
-          $asso->update_asso($asso->nom,$asso->nom_unix,$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb']);
+          $asso->update_asso($asso->nom,$asso->nom_unix,$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],null,null,isset($_REQUEST['distinct_benevole']));
           
           
         $asso->set_tags($_REQUEST['tags']);
@@ -169,6 +169,8 @@ else if ( isset($_REQUEST["id_asso"]) )
     $frm->add_text_field("siteweb","Site web",$asso->siteweb);
     $frm->add_text_field("tags","Tags (séparateur: virgule)",$asso->get_tags());
     
+    $frm->add_checkbox("distinct_benevole","Activer la mailing liste bénévoles",$asso->distinct_benevole);
+
     if ( $GLOBALS["is_using_ssl"] )
     {
       $frm->add_text_field("login_email","Login mail utbm",$asso->login_email);
@@ -352,6 +354,9 @@ if ( $site->user->is_in_group("root") )
   
   $frm->add_text_field("email","Email",$asso->email);
   $frm->add_text_field("siteweb","Site web",$asso->siteweb);
+  
+  $frm->add_checkbox("distinct_benevole","Activer la mailing liste bénévoles",$asso->distinct_benevole);
+  
   
   if ( $GLOBALS["is_using_ssl"] )
   {

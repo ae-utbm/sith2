@@ -100,7 +100,7 @@ class eboutic extends site
       $eb_box->add ($prods);
 
   
-      $eb_box->add_paragraph(sprintf("%.2f Euros",$this->total / 100));
+      $eb_box->add_paragraph("Total: ".sprintf("%.2f Euros",$this->total / 100));
       
       $lst->add ("<a href=\"./cart.php\">Modifier le panier</a>");
       $lst->add ("<a href=\"./cart.php\">Passer la commande</a>");
