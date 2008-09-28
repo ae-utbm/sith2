@@ -47,13 +47,7 @@ class sas extends site
 		if ( ($this->get_param("closed.sas",false) && !$this->user->is_in_group("root")) || !is_dir("/var/www/ae/accounts/sas")	)
       $this->fatal_partial("sas");
       
-    $this->set_side_boxes("left",array("sasuser","monsas","connexion"));
-
-
-    $frm = new form("seepersonphotos","../user/photos.php",false,"POST","Voir les photos de...");
-    $frm->add_user_fieldv2("id_utilisateur","Prenom Nom/Surnom");
-    $frm->add_submit("valid","Voir");
-    $this->add_box("sasuser",$frm);
+    $this->set_side_boxes("left",array("monsas","connexion"));
 
     if( $this->user->is_valid() )
     {
