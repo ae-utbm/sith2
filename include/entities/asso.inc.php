@@ -46,8 +46,8 @@ $GLOBALS['ROLEASSO'] = array
   ROLEASSO_SECRETAIRE=>"Secrétaire",
   ROLEASSO_RESPINFO=>"Responsable informatique",
   ROLEASSO_MEMBREBUREAU=>"Membre du bureau/de l'équipe",
-  ROLEASSO_MEMBREACTIF=>"Membre",
-  ROLEASSO_MEMBRE=>"Adepte"
+  ROLEASSO_MEMBREACTIF=>"Benevole, membre actif",
+  ROLEASSO_MEMBRE=>"Membre, adepte ou curieux"
 ); 
  
 $GLOBALS['ROLEASSO100'] = array
@@ -59,8 +59,8 @@ $GLOBALS['ROLEASSO100'] = array
   (ROLEASSO_SECRETAIRE+100)=>"Secrétaire",
   (ROLEASSO_RESPINFO+100)=>"Responsable informatique",
   (ROLEASSO_MEMBREBUREAU+100)=>"Membre du bureau/de l'équipe",
-  (ROLEASSO_MEMBREACTIF+100)=>"Membre actif",
-  (ROLEASSO_MEMBRE+100)=>"Membre",
+  (ROLEASSO_MEMBREACTIF+100)=>"Benevole, membre actif",
+  (ROLEASSO_MEMBRE+100)=>"Membre, adepte ou curieux",
   ROLEASSO_PRESIDENT=>"Responsable",
   ROLEASSO_VICEPRESIDENT=>"Vice-responsable",
   ROLEASSO_TRESORIER=>"Trésorier",
@@ -68,8 +68,8 @@ $GLOBALS['ROLEASSO100'] = array
   ROLEASSO_SECRETAIRE=>"Secrétaire",
   ROLEASSO_RESPINFO=>"Responsable informatique",
   ROLEASSO_MEMBREBUREAU=>"Membre du bureau/de l'équipe",
-  ROLEASSO_MEMBREACTIF=>"Membre",
-  ROLEASSO_MEMBRE=>"Adepte"
+  ROLEASSO_MEMBREACTIF=>"Benevole, membre actif",
+  ROLEASSO_MEMBRE=>"Membre, adepte ou curieux"
 ); 
 
 class asso extends stdentity
@@ -93,6 +93,11 @@ class asso extends stdentity
    * ça craint, faudrait une méthode de pseudo cryptage, pour
    * que le stockage ne se fasse pas en clair...
    */
+   
+  public $distinct_benevole=false;
+
+  private $_distinct_benevole=false;
+
 
   /** Charge une association par son ID
    * @param $id ID de l'association
@@ -141,7 +146,11 @@ class asso extends stdentity
     $this->email = $row['email_asso'];    
     $this->siteweb = $row['siteweb_asso'];
     $this->login_email = $row['login_email'];
-    $this->passwd_email = $row['passwd_email'];  
+    $this->passwd_email = $row['passwd_email'];
+    
+    $this->distinct_benevole = $row['distinct_benevole_asso']; 
+    
+    $this->_distinct_benevole = $this->distinct_benevole;
   }
   
   /** Crée une nouvelle association
@@ -188,6 +197,10 @@ class asso extends stdentity
     {
       if ( !is_null($this->id_parent) )
         $this->_ml_create($this->dbrw,$this->nom_unix.".membres",$this->email);  
+        
+      if ( $this->distinct_benevole )
+        $this->_ml_create($this->dbrw,$nom_unix.".benevoles",$this->email);         
+      
       $this->_ml_create($this->dbrw,$this->nom_unix.".bureau",$this->email);  
     }
   }
@@ -198,54 +211,35 @@ class asso extends stdentity
    * @param $id_parent  ID de l'association parent, false si non applicable
    */
   function update_asso ( $nom, $nom_unix, $id_parent = null, $adresse_postale="", $email=null, $siteweb=null, $login_email=null, $passwd_email=null )
-  {
-    $old_unix = $this->nom_unix;
-   
+  {   
     if ( is_null($this->dbrw) ) return; // "Read Only" mode
     
     $old_allow = $this->is_mailing_allowed();
-    
+    $old_id_parent = $this->id_parent;
     $this->id_parent = $id_parent;
     
     if ( $this->is_mailing_allowed() )
     {
-      if ( !$old_allow )
+      if ( !$old_allow || ($nom_unix && !$this->nom_unix) )
       {
         if ( $nom_unix )
         {
           if ( !is_null($id_parent) )
             $this->_ml_create($this->dbrw,$nom_unix.".membres",$this->email);  
             
+          if ( $this->distinct_benevole )
+            $this->_ml_create($this->dbrw,$nom_unix.".benevoles",$this->email);  
+                      
           $this->_ml_create($this->dbrw,$nom_unix.".bureau",$this->email);
         }
-      }
-      elseif ( $this->nom_unix != $this->nom_unix )
-      {
-        if ( !$this->nom_unix )
-        {
-          if ( !is_null($id_parent) )
-            $this->_ml_create($this->dbrw,$nom_unix.".membres",$this->email);  
-            
-          $this->_ml_create($this->dbrw,$nom_unix.".bureau",$this->email);
-        }
-        else
-        {
-          if (!is_null($this->id_parent) && is_null($id_parent) )
-            $this->_ml_remove($this->dbrw,$this->nom_unix.".membres");
-          elseif (is_null($this->id_parent) && !is_null($id_parent) )
-            $this->_ml_create($this->dbrw,$nom_unix.".membres",$this->email);
-          else
-            $this->_ml_rename($this->dbrw,$this->nom_unix.".membres",$nom_unix.".membres");  
-            
-          $this->_ml_rename($this->dbrw,$this->nom_unix.".bureau",$nom_unix.".bureau");          
-        }
-      }    
+      }  
       elseif ( $this->nom_unix )
       {
-        if (!is_null($this->id_parent) && is_null($id_parent) )
-          $this->_ml_remove($this->dbrw,$this->nom_unix.".membres");
-        elseif (is_null($this->id_parent) && !is_null($id_parent) )
+        if ( is_null($old_id_parent) && !is_null($id_parent) )
           $this->_ml_create($this->dbrw,$this->nom_unix.".membres",$this->email);
+        
+        if ( $this->distinct_benevole && !$this->_distinct_benevole )
+          $this->_ml_create($this->dbrw,$this->nom_unix.".benevoles",$this->email);  
       }
     }
     
@@ -607,6 +601,9 @@ class asso extends stdentity
     if ( !is_null($this->id_parent) )
       $this->_ml_subscribe($this->dbrw,$this->nom_unix.".membres",$user->email);
     
+    if ( $this->distinct_benevole && $role >= ROLEASSO_MEMBREACTIF )
+      $this->_ml_subscribe($this->dbrw,$this->nom_unix.".benevoles",$user->email);
+    
     if ( $role > ROLEASSO_MEMBREACTIF )
       $this->_ml_subscribe($this->dbrw,$this->nom_unix.".bureau",$user->email);
   }
@@ -631,6 +628,9 @@ class asso extends stdentity
     if ( !is_null($this->id_parent) )
       $this->_ml_unsubscribe($this->dbrw,$this->nom_unix.".membres",$user->email);
     
+    if ( $this->distinct_benevole && $role >= ROLEASSO_MEMBREACTIF )
+      $this->_ml_unsubscribe($this->dbrw,$this->nom_unix.".benevoles",$user->email);
+    
     if ( $role > ROLEASSO_MEMBREACTIF )
       $this->_ml_unsubscribe($this->dbrw,$this->nom_unix.".bureau",$user->email);
   }
@@ -648,6 +648,15 @@ class asso extends stdentity
 
     if ( !$this->nom_unix )
       return;
+
+    if ( $this->distinct_benevole )
+    {
+      if ( $oldrole >= ROLEASSO_MEMBREACTIF && $newrole < ROLEASSO_MEMBREACTIF )
+        $this->_ml_unsubscribe($this->dbrw,$this->nom_unix.".benevoles",$user->email);
+      elseif ( $oldrole < ROLEASSO_MEMBREACTIF && $newrole >= ROLEASSO_MEMBREACTIF )
+        $this->_ml_subscribe($this->dbrw,$this->nom_unix.".benevoles",$user->email);
+    }
+
 
     if ( $oldrole > ROLEASSO_MEMBREACTIF && $newrole <= ROLEASSO_MEMBREACTIF )
       $this->_ml_unsubscribe($this->dbrw,$this->nom_unix.".bureau",$user->email);

@@ -203,7 +203,6 @@ if ( !$limited )
   $subtabs[] = array("anciens","asso/membres.php?view=anciens&id_asso=".$asso->id,"Anciens membres");
   
   $cts->add(new tabshead($subtabs,$_REQUEST["view"],"","subtab"));
-  $extracond .= "AND `asso_membre`.`role` > '".ROLEASSO_MEMBRE."' ";
 }
 else
 {
@@ -347,12 +346,13 @@ else
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
     "WHERE `asso_membre`.`date_fin` IS NULL " .
     "AND `asso_membre`.`id_asso`='".$asso->id."' " .
+    "AND `asso_membre`.`role` > '".ROLEASSO_MEMBREACTIF."' ".
     $extracond .
     "ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
     
   $tbl = new sqltable(
       "listresp", 
-      "Membres actuels", $req, "membres.php?id_asso=".$asso->id, 
+      "Bureau / Equipe", $req, "membres.php?id_asso=".$asso->id, 
       "id_membership", 
       array("nom_utilisateur"=>"Utilisateur","role"=>"Role","desc_role"=>"Role","date_debut"=>"Depuis le"), 
       $can_admin?array("ancien"=>"Marquer comme ancien","delete"=>"Supprimer"):array(), 
@@ -361,30 +361,63 @@ else
       );  
   $cts->add($tbl,true); 
 
-  if ( $asso->is_mailing_allowed() && !is_null($asso->id_parent) )
-  {
-   $req = new requete($site->db,
-     "SELECT `utilisateurs`.`id_utilisateur`, " .
-     "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-     "CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
-     "FROM `asso_membre` " .
-     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
-     "WHERE `asso_membre`.`date_fin` IS NULL " .
-     "AND `asso_membre`.`id_asso`='".$asso->id."' " .
-     "AND `asso_membre`.`role` = '".ROLEASSO_MEMBRE."' ");
+  $members_role = ROLEASSO_MEMBREACTIF;
 
-   $tbl = new sqltable(
-       "listml",
-       "Liste des adeptes (inscrits à la mailing-list)", $req, "membres.php?id_asso=".$asso->id,
-       "id_membership",
-       array("nom_utilisateur"=>"Utilisateur"),
-       $can_admin?array("delete"=>"Désinscrire"):array(),
-       $can_admin?array("deletes"=>"Désinscrire"):array(),
-       array("role"=>$GLOBALS['ROLEASSO'] )
-       );
-   $cts->add($tbl,true);
+  if ( $asso->distinct_benevole )
+  {
+    $req = new requete($site->db,
+      "SELECT `utilisateurs`.`id_utilisateur`, " .
+      "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+      "CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
+      "FROM `asso_membre` " .
+      "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
+      "WHERE `asso_membre`.`date_fin` IS NULL " .
+      "AND `asso_membre`.`id_asso`='".$asso->id."' " .
+      "AND `asso_membre`.`role` = '".ROLEASSO_MEMBREACTIF."' ".
+      $extracond .
+      "ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
+    if ( $req->lines > 0 )
+    {
+      $tbl = new sqltable(
+           "listmebm",
+           "Bénévoles", $req, "membres.php?id_asso=".$asso->id,
+           "id_membership",
+           array("nom_utilisateur"=>"Utilisateur"),
+           $can_admin?array("delete"=>"Désinscrire"):array(),
+           $can_admin?array("deletes"=>"Désinscrire"):array(),
+           array("role"=>$GLOBALS['ROLEASSO'] )
+           );
+      $cts->add($tbl,true);
+    }
+    
+    $members_role = ROLEASSO_MEMBRE;
   }
 
+  $req = new requete($site->db,
+    "SELECT `utilisateurs`.`id_utilisateur`, " .
+    "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
+    "CONCAT(`asso_membre`.`id_utilisateur`,',',`asso_membre`.`date_debut`) as `id_membership` " .
+    "FROM `asso_membre` " .
+    "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`asso_membre`.`id_utilisateur` " .
+    "WHERE `asso_membre`.`date_fin` IS NULL " .
+    "AND `asso_membre`.`id_asso`='".$asso->id."' " .
+    "AND `asso_membre`.`role` <= '".$members_role."' ".
+    $extracond .
+    "ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
+  if ( $req->lines > 0 )
+  {
+    $tbl = new sqltable(
+         "listmebm",
+         "Membres", $req, "membres.php?id_asso=".$asso->id,
+         "id_membership",
+         array("nom_utilisateur"=>"Utilisateur"),
+         $can_admin?array("delete"=>"Désinscrire"):array(),
+         $can_admin?array("deletes"=>"Désinscrire"):array(),
+         array("role"=>$GLOBALS['ROLEASSO'] )
+         );
+    $cts->add($tbl,true);
+  }
+  
   if ( $can_admin )
   {
     $frm = new form("add","membres.php?id_asso=".$asso->id,false,"POST","Ajouter un membre");
