@@ -92,7 +92,7 @@ class eboutic extends site
     {
        $prods = new itemlist();
 
-      foreach ($site->cart as $item)
+      foreach ($this->cart as $item)
       {
         $prods->add($item->nom." x ".$_SESSION['eboutic_cart'][$item->id]);
       }  
