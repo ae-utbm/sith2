@@ -768,7 +768,7 @@ class site extends interfaceweb
     {
       $sublist = new itemlist("Comptabilité de l'AE","boxlist");
       $sublist->add("<a href=\"".$topdir."entreprise.php\">Carnet d'adresses</a>");
-      $sublist->add("<a href=\"".$topdir."compta/\">Comptabilitée</a>");
+      $sublist->add("<a href=\"".$topdir."compta/\">Comptabilité</a>");
       $sublist->add("<a href=\"".$topdir."comptoir/admin.php\">Comptoirs AE</a>");   
       $cts->add($sublist,true, true, "comptaadminbox", "boxlist", true, false);
     }
