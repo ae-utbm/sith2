@@ -82,16 +82,7 @@ class interfaceweb
               array ("asso.php", "Associations et clubs" ),
               array ("article.php?name=presentation:services", "Services quotidiens" )
              ) ),
-        array ("services", "article.php?name=services", "Services",
-           array ( 
-              array("e-boutic/","E-Boutic"),
-              array("emprunt.php","Pret de matériel"),
-              array("jobetu/","AE Job-étu"),
-              array("laverie/","Laverie"),
-              array("biblio/","Bibliothèque"),
-              array("article.php?name=weekmail","Weekmail"),
-              array("covoiturage/","Co-voiturage")
-            ) ),
+        array ("services", "article.php?name=services", "Services" ),
         array ("pg", "pgae.php", "Petit géni"),
         array ("matmatronch", "matmatronch/", "Matmatronch"),
         array ("sas", "sas2/", "SAS"),
