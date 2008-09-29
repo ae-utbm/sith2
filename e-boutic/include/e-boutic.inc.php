@@ -44,7 +44,7 @@ define ("CPT_E_BOUTIC", 3);
  * Depense minimale avant autorisation depense par carte bancaire par
  * sogenactif **en centimes d'euro**.
  */
-define ("EB_TOT_MINI_CB", 500);
+define ("EB_TOT_MINI_CB", 1000);
 
 // Adaptation du catalog pour e-boutic
 $GLOBALS["entitiescatalog"]["typeproduit"] 	= array ( "id_typeprod", "nom_typeprod", "typeprod.png", "e-boutic/");
