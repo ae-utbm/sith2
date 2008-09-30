@@ -51,7 +51,7 @@ $ff1j=array("title"=>"Festival du film d'un jour",
           );
 
 $congres=array("title"=>"Congres 2008",
-              "intro"=>"Cette année, pour la première fo, vivez le congres en direct sur internet grâce&agrave; l'ae et &agrave; ses bénévoles",
+              "intro"=>"Cette année, pour la première fois, vivez le congres en direct sur internet grâce &agrave; l'ae et &agrave; ses bénévoles",
               "date"=>"mercredi 1er octobre",
               "h-debut"=>"8h",
               "h-fin"=>"19h",
