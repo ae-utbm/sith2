@@ -30,7 +30,7 @@ require_once($topdir. "include/entities/group.inc.php");
 
 $site = new site ();
 
-if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("root"))
+if ( !$site->user->is_in_group("root"))
   $site->error_forbidden("none","group",1);
   
 $grp = new group ( $site->db,$site->dbrw);    
