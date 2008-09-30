@@ -399,7 +399,7 @@ class sujetforum extends stdcontents
           
       $this->buffer .= "<div class=\"auteur\">\n";
       
-      $this->buffer .= "<p class=\"funame\"><a href=\"#top\"><img src=\"".$topdir."images/forum/top.png\" /></a><a href=\"".$wwwtopdir."user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['alias_utl'],ENT_NOQUOTES,"UTF-8")."</a></p>\n";
+      $this->buffer .= "<p class=\"funame\"><a href=\"#top\"><img src=\"".$topdir."images/forum/top.png\" /></a>&nbsp;&nbsp;<a href=\"".$wwwtopdir."user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['alias_utl'],ENT_NOQUOTES,"UTF-8")."</a></p>\n";
       
       $img=null;
       if (file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".jpg"))
