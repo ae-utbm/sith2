@@ -34,7 +34,8 @@ $rdd=array("title"=>"remise des diplômes",
            "lieu"=>"au centre des expositions AirExpo d'Andelnans (entre Belfort et Sevenans)",
            "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la cérémonie, nous vous offrons en direct les images montées afin de profiter, chez vous, de la cérémonie. Nous remercions aussi le CRI de l'UTBM ainsi que l'ensemble des bénévoles et partenaires.<br /> <img src=\"utprod.png\" alt=\"UTBM Production\" title=\"UTBM Production\" /> <img src=\"logos_rdd.gif\" alt=\"partenaires\ title=\"partenaires\" />",
            "bandeau"=>"bandeau_rdd.png",
-           "photo"=>"photo_rdd.jpg"
+           "photo"=>"photo_rdd.jpg",
+           "type"=>"La cérémonie"
           );
           
 $ff1j=array("title"=>"Festival du film d'un jour",
@@ -45,7 +46,8 @@ $ff1j=array("title"=>"Festival du film d'un jour",
            "lieu"=>"au Mégarama d'Audincourt (entre Belfort et Montbéliard)",
            "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la cérémonie, nous vous offrons en direct les images montées afin de profiter, chez vous, de la cérémonie. Nous remercions aussi le CRI de l'UTBM ainsi que l'ensemble des bénévoles et partenaires.<div align=\"center\"><img src=\"logos_ff1j.png\" alt=\"partenaires\ title=\"partenaires\" /></div>",
            "bandeau"=>"bandeau_ff1j.png",
-           "photo"=>"photo_ff1j.png"
+           "photo"=>"photo_ff1j.png",
+           "type"=>"La cérémonie"
           );
 
 $congres=array("title"=>"Congres 2008",
@@ -56,7 +58,8 @@ $congres=array("title"=>"Congres 2008",
               "lieu"=>"&agrave; sevenans",
               "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la cérémonie, nous vous offrons en direct les images montées afin de profiter, chez vous, de la cérémonie. Nous remercions aussi le CRI de l'UTBM ainsi que l'ensemble des bénévoles et partenaires.<div align=\"center\"><img src=\"logos_ff1j.png\" alt=\"partenaires\ title=\"partenaires\" /></div>",
               "bandeau"=>"bandeau_congres.png",
-              "photo"=>"photo_congres.png"
+              "photo"=>"photo_congres.png",
+              "type"=>"La retransmission"
           );
 
 $event=$congres;
@@ -80,7 +83,7 @@ if(isset($event["bandeau"]))
   $cts->add_paragraph(" ");
 }
 $cts->add_paragraph($event["intro"]);
-$cts->add_paragraph("<b>La cérémonie a lieu le ".$event["date"]." de ".$event["h-debut"]." à ".$event["h-fin"]." ".$event["lieu"]."</b>.");
+$cts->add_paragraph("<b>".$event["type"]." a lieu le ".$event["date"]." de ".$event["h-debut"]." à ".$event["h-fin"]." ".$event["lieu"]."</b>.");
 $site->add_contents($cts);
 
 $cts = new contents("Regarder la cérémonie en direct");
