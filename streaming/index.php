@@ -56,7 +56,7 @@ $congres=array("title"=>"Congres 2008",
               "h-debut"=>"8h",
               "h-fin"=>"19h",
               "lieu"=>"&agrave; sevenans",
-              "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la cérémonie, nous vous offrons en direct les images montées afin de profiter, chez vous, de la cérémonie. Nous remercions aussi le CRI de l'UTBM ainsi que l'ensemble des bénévoles et partenaires.<div align=\"center\"><img src=\"logos_ff1j.png\" alt=\"partenaires\ title=\"partenaires\" /></div>",
+              "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la cérémonie, nous vous offrons en direct les images montées afin de profiter, chez vous, de la cérémonie. Nous remercions aussi le CRI de l'UTBM ainsi que l'ensemble des bénévoles et partenaires.",
               "bandeau"=>"bandeau_congres.png",
               "photo"=>"photo_congres.png",
               "type"=>"La retransmission"
