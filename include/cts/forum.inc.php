@@ -357,8 +357,6 @@ class sujetforum extends stdcontents
         $n=($n+1)%2;
  
   /* permalink */
-  $this->buffer .= "&nbsp;<a href=\"#top\"><img src=\"".$topdir."images/forum/top.png\" /></a>";
-
   $this->buffer .= "<a href=\"./?id_message=".
     $row['id_message']."#msg".$row['id_message']."\">";
 
@@ -373,6 +371,7 @@ class sujetforum extends stdcontents
 
        /* actions sur un message */
       $this->buffer .= "<p class=\"actions\">";
+      $this->buffer .= "<a href=\"#top\"><img src=\"".$topdir."images/forum/top.png\" /></a>&nbsp;";
        
        /* utilisateur authentifié */
       if ($user->is_valid())
