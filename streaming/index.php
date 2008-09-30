@@ -59,7 +59,7 @@ $congres=array("title"=>"Congres 2008",
               "photo"=>"photo_congres.png"
           );
 
-$event=$congress;
+$event=$congres;
 
 $site = new site ();
 
