@@ -86,7 +86,7 @@ $cts->add_paragraph($event["intro"]);
 $cts->add_paragraph("<b>".$event["type"]." a lieu le ".$event["date"]." de ".$event["h-debut"]." à ".$event["h-fin"]." ".$event["lieu"]."</b>.");
 $site->add_contents($cts);
 
-$cts = new contents("Regarder la cérémonie en direct");
+$cts = new contents("Suivre en direct");
 $cts->add_paragraph("Pour profiter au mieux et de manière plus fiable de cette diffusion, nous vous recommandons l'utilisation du logiciel libre <a href=\"http://www.videolan.org\">VideoLan</a>. Ce logiciel est disponible au <a href=\"http://www.videolan.org/vlc/\">téléchargement</a> pour toutes les plateformes (MS Windows, Mac OS X et Linux compris bien sûr).");
 $cts->add_paragraph("Pour les utilisateurs de <b>VideoLan</b>, ouvrez le lien suivant : <b><a href=\"http://ae.utbm.fr/streaming/stream.m3u\">ici</a></b>");
 $site->add_contents($cts);
