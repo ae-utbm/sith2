@@ -168,7 +168,7 @@ else
     else
     {                             
       /* pas de nouvelle request si total du panier insuffisant */
-      if ($site->total > EB_TOT_MINI_CB)
+      if ($site->total >= EB_TOT_MINI_CB)
       {
         $req = new request ($site->dbrw,
                             $site->user->id,
