@@ -41,7 +41,7 @@ if(isset($_POST['action'])
 {
   $i=0;
   $j=0;
-  $utl = new utilisateur($site->db,$site->dbrw);
+  $user = new utilisateur($site->db,$site->dbrw);
   $reader = new XMLReader();
   $reader->open($_FILES['xmleuh']['tmp_name']);
   while ($reader->read())
@@ -66,10 +66,10 @@ if(isset($_POST['action'])
       $filiere=$filiere->item(0)->textContent;
       $ae=$node->getElementsByTagName('CotisantAE');
       $ae=$ae->item(0)->textContent;
-      if($utl->load_by_email($email))
+      if($user->load_by_email($email))
       {
-        $user->nom=$nom;
-        $user->prenom=$prenom;
+        $user->nom=utf8_encode($nom);
+        $user->prenom=utf8_encode($prenom);
         $user->date_naissance=$dob;
         $user->departement=strtolower($dep);
         $user->filiere=$filiere;
