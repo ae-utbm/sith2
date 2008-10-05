@@ -42,6 +42,7 @@ $lst = new itemlist();
 $lst->add("<a href=\"".$topdir."group.php\">Gestion des groupes</a>");
 $lst->add("<a href=\"logs.php\">Affichage des logs</a>");
 $lst->add("<a href=\"warning.php\">Message d'alerte</a>");
+$lst->add("<a href=\"updatebyxml.php\">Mise à jour xml</a>");
 $cts->add($lst);
 
 $cts->add_title(2,"AECMS");

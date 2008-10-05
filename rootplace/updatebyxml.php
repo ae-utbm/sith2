@@ -76,17 +76,13 @@ if(isset($_POST['action'])
         if($ae=='O')
         {
         }
-        /*if($user->saveinfos())
+        if($user->saveinfos())
         {
           if ( $site->user->id != $user->id )
         $site->log("Édition d'une fiche matmatronch par un tierce","Fiche matmatronch de ".$user->nom." ".$user->prenom." (id : ".$user->id.") modifiée","Fiche MMT",$site->user->id);
-        }*/
+        }
         $j++;
       }
-      /*echo "$nom $prenom\n";
-      echo "\temail : $email\n";
-      echo "\tdep   : $dep $sem (filière $filiere)\n";
-      echo "\tAE    : $ae\n";*/
       $i++;
       $reader->moveToElement();
     }
