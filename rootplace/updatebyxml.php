@@ -69,6 +69,8 @@ if(isset($_POST['action'])
 if($nom=='LOPEZ' && $prenom=='SIMON')
       if($user->load_by_email($email))
       {
+        $dob = explode("/",$dob);
+        $dob = mktime(0,0,0,$dob[1],$dob[0],$dob[2])
         $user->nom=utf8_encode($nom);
         $user->prenom=utf8_encode($prenom);
         print_r(strtotime($dob));
