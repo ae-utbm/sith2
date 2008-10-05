@@ -70,8 +70,9 @@ if(isset($_POST['action'])
       {
         $user->nom=utf8_encode($nom);
         $user->prenom=utf8_encode($prenom);
-        $user->date_naissance=$dob;
+        $user->date_naissance=strtotime($dob);
         $user->departement=strtolower($dep);
+        $user->semestre=$sem;
         $user->filiere=$filiere;
         if($ae=='O')
         {
