@@ -66,7 +66,7 @@ if(isset($_POST['action'])
       $filiere=$filiere->item(0)->textContent;
       $ae=$node->getElementsByTagName('CotisantAE');
       $ae=$ae->item(0)->textContent;
-if($nom=='LOPEZ')
+if($nom=='LOPEZ' && $prenom=='SIMON')
       if($user->load_by_email($email))
       {
         $user->nom=utf8_encode($nom);
