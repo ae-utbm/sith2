@@ -71,7 +71,7 @@ if($nom=='LOPEZ')
       {
         $user->nom=utf8_encode($nom);
         $user->prenom=utf8_encode($prenom);
-        print_r($dob);
+        print_r(strtotime($dob));
         $user->date_naissance=strtotime($dob);
         $user->departement=strtolower($dep);
         $user->semestre=$sem;
