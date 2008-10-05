@@ -70,11 +70,11 @@ if($nom=='LOPEZ' && $prenom=='SIMON')
       if($user->load_by_email($email))
       {
         $dob = explode("/",$dob);
-        $dob = mktime(0,0,0,$dob[1],$dob[0],$dob[2])
+        $dob = mktime(0,0,0,$dob[1],$dob[0],$dob[2]);
         $user->nom=utf8_encode($nom);
         $user->prenom=utf8_encode($prenom);
-        print_r(strtotime($dob));
-        $user->date_naissance=strtotime($dob);
+        print_r(date("Y-m-d",$dob));
+        $user->date_naissance=$dob;
         $user->departement=strtolower($dep);
         $user->semestre=$sem;
         $user->filiere=$filiere;
