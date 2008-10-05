@@ -66,10 +66,12 @@ if(isset($_POST['action'])
       $filiere=$filiere->item(0)->textContent;
       $ae=$node->getElementsByTagName('CotisantAE');
       $ae=$ae->item(0)->textContent;
+if($nom=='LOPEZ')
       if($user->load_by_email($email))
       {
         $user->nom=utf8_encode($nom);
         $user->prenom=utf8_encode($prenom);
+        print_r($dob);
         $user->date_naissance=strtotime($dob);
         $user->departement=strtolower($dep);
         $user->semestre=$sem;
