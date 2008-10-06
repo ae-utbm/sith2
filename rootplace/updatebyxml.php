@@ -69,9 +69,13 @@ if(isset($_POST['action'])
 if($nom=='LOPEZ' && $prenom=='SIMON')
       if($user->load_by_email($email))
       {
+        //fuck !
+        $user->load_all_extra();
         $dob = explode("/",$dob);
         $dob = mktime(0,0,0,$dob[1],$dob[0],$dob[2]);
+//vérifier si noms changé
         $user->nom=utf8_encode($nom);
+//vérifier si prénom changé
         $user->prenom=utf8_encode($prenom);
         print_r(date("Y-m-d",$dob));
         $user->date_naissance=$dob;
