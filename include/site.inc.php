@@ -78,10 +78,10 @@ class site extends interfaceweb
     /*
      * LEs css du site ae restent sur le site ae
      */
-    if ( $siteae )
+/*    if ( $siteae )
     {
       $this->add_css("themes/congres08/css/site.css");
-    }
+    }*/
     
   }  
 
