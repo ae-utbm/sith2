@@ -234,7 +234,7 @@ class interfaceweb
 
     if (!$this->compact )
     {
-      if(!empty($this->get_param('box.Important')))
+      if(!$this->get_param('box.Important'),false)
       {
         echo "<div class=\"box clearfix\" id=\"important\"><div class=\"body\">\n";
         echo $this->get_param('box.Important'). "\n";
