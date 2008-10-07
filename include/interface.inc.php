@@ -234,9 +234,12 @@ class interfaceweb
 
     if (!$this->compact )
     {
-      echo "<div class=\"box clearfix\" id=\"important\"><div class=\"body\">\n";
-      echo $this->get_param('box.Important'). "\n";
-      echo "</div></div>\n";
+      if(!empty($this->get_param('box.Important')))
+      {
+        echo "<div class=\"box clearfix\" id=\"important\"><div class=\"body\">\n";
+        echo $this->get_param('box.Important'). "\n";
+        echo "</div></div>\n";
+      }
 
       echo "<div id=\"fsearchbox\">\n";
       echo "<form action=\"".$wwwtopdir."fsearch.php\" method=\"post\">";
