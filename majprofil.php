@@ -92,23 +92,20 @@ if ( $_REQUEST["action"] == "setemailutbm" )
     $site->end_page();
     exit();
   }
-  elseif ( !$user->utbm )
+  elseif ( (CheckEmail($_POST["email_utbm"], 1) || CheckEmail($_POST["email_utbm"], 2) ) && !$user->utbm )
   {
     $user->became_utbm($_POST["email_utbm"]);
   }
   else
   {
-    if(!$user->set_email_utbm($_POST["email_utbm"]))
-    {
-      $site->start_page("matmatronch","Mise à jour du profil");
-      $cts = new contents($user->prenom." ".$user->nom);
+    $site->start_page("matmatronch","Mise à jour du profil");
+    $cts = new contents($user->prenom." ".$user->nom);
 
-      $cts->add_paragraph("C'est pas une adresse email utbm valide !!! ( ".$_POST["email_utbm"].")");
+    $cts->add_paragraph("C'est pas une adresse email utbm valide !!! ( ".$_POST["email_utbm"].")");
 
-      $site->add_contents($cts);
-      $site->end_page();
-      exit();
-    }
+    $site->add_contents($cts);
+    $site->end_page();
+    exit();
   }
     
   $site->start_page("matmatronch","Mise à jour du profil");
