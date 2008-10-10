@@ -591,7 +591,10 @@ elseif ($_REQUEST["action"] == "newstudent")
   {
     $cts = new contents("WARNING");
     $cts->set_toolbox(new toolbox(array("javascript:history.go(-1);"=>"Retour")));
-    $cts->add_paragraph("<img src=\"".$topdir."images/actions/info.png\">&nbsp;&nbsp;L'email existe d&eacute;j&agrave; v&eacute;rifier que l'utilisateur ne figure pas dans la liste de la base de donn&eacute;es commune !");
+    if(CheckEmail($_REQUEST['emailutbm'],3))
+      $cts->add_paragraph("<img src=\"".$topdir."images/actions/info.png\">&nbsp;&nbsp;L'email existe d&eacute;j&agrave; v&eacute;rifier que l'utilisateur ne figure pas dans la liste de la base de donn&eacute;es commune !");
+    else
+      $cts->add_paragraph("<img src=\"".$topdir."images/actions/info.png\">&nbsp;&nbsp;L'email N'EST PAS VALIDE !!! avec toute sa sympathie, l'équipe informatique qui en a marre de corriger les erreurs de saisies.");
     $site->add_contents($cts,true);
     $site->end_page();
     exit();

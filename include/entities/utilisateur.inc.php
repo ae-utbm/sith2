@@ -319,6 +319,8 @@ class utilisateur extends stdentity
    */
   function is_email_avaible ( $email )
   {
+    if(!CheckEmail($email,3))
+      return false;
     if (ereg("^([A-Za-z0-9\._-]+)@(utbm\.fr|assidu-utbm\.fr)$", $email, $regs))
       $req = new requete($this->db, 
         "SELECT `utilisateurs`.* FROM `utilisateurs` " .
