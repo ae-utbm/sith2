@@ -97,8 +97,19 @@ if ( $_REQUEST["action"] == "setemailutbm" )
     $user->became_utbm($_POST["email_utbm"]);
   }
   else
-    $user->set_email_utbm($_POST["email_utbm"]);
-    
+  {
+    if(!$user->set_email_utbm($_POST["email_utbm"]))
+    {
+      $site->start_page("matmatronch","Mise à jour du profil");
+      $cts = new contents($user->prenom." ".$user->nom);
+
+      $cts->add_paragraph("C'est pas une adresse email utbm valide !!! ( ".$_POST["email_utbm"].")");
+
+      $site->add_contents($cts);
+      $site->end_page();
+      exit();
+    }
+  }
     
   $site->start_page("matmatronch","Mise à jour du profil");
   $cts = new contents($user->prenom." ".$user->nom);  
