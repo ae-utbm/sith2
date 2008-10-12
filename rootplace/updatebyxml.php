@@ -149,7 +149,7 @@ if(isset($_POST['action'])
           if ($req->lines)
           {
             //y'a déja une cotize ...
-            $row = $_req->get_row();
+            $row = $req->get_row();
             $curend=$row['date_fin_cotis'];
             $prevdate=strtotime($curend);
             // si on incrémente ça donnerait ces dates !
