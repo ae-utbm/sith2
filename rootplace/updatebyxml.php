@@ -69,6 +69,9 @@ if(isset($_POST['action'])
 {
   $i=0;
   $j=0;
+  $k=0;
+  $l=0;
+  $cotizes='';
   $user = new utilisateur($site->db,$site->dbrw);
   $reader = new XMLReader();
   $reader->open($_FILES['xmleuh']['tmp_name']);
@@ -151,26 +154,44 @@ if(isset($_POST['action'])
         {
           if($user->saveinfos())
           {
+            $j++;
             if ( $site->user->id != $user->id )
               $site->log("Édition d'une fiche matmatronch par un tierce","Fiche matmatronch de ".$user->nom." ".$user->prenom." (id : ".$user->id.") modifiée","Fiche MMT",$site->user->id);
           }
           else
           {
             // y'a une couille dans le paté
+            $k++;
           }
         }
-        $j++;
       }
       elseif($ae=='O')
       {
       	// cotisant sans fiche ... c'est la guerre !
+        $cotizes.=$nom
+                  .' '
+                  .$prenom
+                  .' '
+                  .' ('
+                  .$email
+                  .') né le : '
+                  .$dob
+                  .' étudiant(e) en '
+                  .$dep
+                  .$sem
+                  .' ('
+                  .$filiere
+                  .')<br />';
+        $l++;
       }
       $i++;
       $reader->moveToElement();
     }
   }
   $cts = new contents("Administration/Mise à jour massive : résultat");
-  $cts->add_paragraph("$j personnes peuvent êtres mises à jours sur un total de $i personnes");
+  $cts->add_paragraph("$j fiches mises à jours sur un total de $i personnes présentes dans le XML");
+  $cts->add_paragraph("$k fiches n'ont pas pu être mises à jour !");
+  $cts->add_paragraph("$l cotisations posent problème :<br />".$cotizes);
   $site->add_contents($cts);
 }
 
