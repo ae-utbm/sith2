@@ -71,6 +71,7 @@ if(isset($_POST['action'])
   $j=0;
   $k=0;
   $l=0;
+  $m++;
   $cotizes='';
   $user = new utilisateur($site->db,$site->dbrw);
   $reader = new XMLReader();
@@ -172,6 +173,7 @@ if(isset($_POST['action'])
               $prix_paye = 2800;
               $cotisation->load_lastest_by_user ( $user->id );
               $cotisation->add( $user->id, $date_fin, 4, $prix_paye );
+              $m++;
 
             }
             else // cotisation par l'administration ???
@@ -190,6 +192,7 @@ if(isset($_POST['action'])
                 $prix_paye = 2800;
                 $cotisation->load_lastest_by_user ( $user->id );
                 $cotisation->add( $user->id, $date_fin, 4, $prix_paye );
+                $m++;
               }
             }
           }
@@ -235,6 +238,7 @@ if(isset($_POST['action'])
   $cts = new contents("Administration/Mise à jour massive : résultat");
   $cts->add_paragraph("$j fiches mises à jours sur un total de $i personnes présentes dans le XML");
   $cts->add_paragraph("$k fiches n'ont pas pu être mises à jour !");
+  $cts->add_paragraph("$m cotisations enregistrées !");
   $cts->add_paragraph("$l cotisations posent problème :<br />".$cotizes);
   $site->add_contents($cts);
 }
