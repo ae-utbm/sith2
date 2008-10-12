@@ -40,6 +40,7 @@ class fsearch extends stdcontents
     $pattern2 = ereg_replace("(a|à|â|ä|À|Â|Ä)","(a|à|â|ä|À|Â|Ä)",$pattern2);
     $pattern2 = ereg_replace("(i|ï|î|Ï|Î)","(i|ï|î|Ï|Î)",$pattern2);
     $pattern2 = ereg_replace("(c|ç|Ç)","(c|ç|Ç)",$pattern2);
+    $pattern2 = ereg_replace("(o|O|Ò|ò|ô|Ô)","(o|O|Ò|ò|ô|Ô)",$pattern2);
     $pattern2 = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","(u|ù|ü|û|Ü|Û|Ù)",$pattern2);
     $pattern2 = ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$pattern2);
   
@@ -47,6 +48,7 @@ class fsearch extends stdcontents
     $pattern = ereg_replace("(a|à|â|ä|À|Â|Ä)","a",$pattern);
     $pattern = ereg_replace("(i|ï|î|Ï|Î)","i",$pattern);
     $pattern = ereg_replace("(c|ç|Ç)","c",$pattern);
+    $pattern = ereg_replace("(o|O|Ò|ò|ô|Ô)","(o|O|Ò|ò|ô|Ô)",$pattern);
     $pattern = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","u",$pattern);
     $pattern = ereg_replace("(n|ñ|Ñ)","n",$pattern);
     $sqlpattern = mysql_real_escape_string($pattern);
@@ -131,6 +133,7 @@ class fsearch extends stdcontents
     $pattern = ereg_replace("(a|à|â|ä|À|Â|Ä)","(a|à|â|ä|À|Â|Ä)",$pattern);
     $pattern = ereg_replace("(i|ï|î|Ï|Î)","(i|ï|î|Ï|Î)",$pattern);
     $pattern = ereg_replace("(c|ç|Ç)","(c|ç|Ç)",$pattern);
+    $pattern = ereg_replace("(o|O|Ò|ò|ô|Ô)","(o|O|Ò|ò|ô|Ô)",$pattern);
     $pattern = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","(u|ù|ü|û|Ü|Û|Ù)",$pattern);
     $pattern = ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$pattern);
     $sqlpattern = mysql_real_escape_string($pattern);
