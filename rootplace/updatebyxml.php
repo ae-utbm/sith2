@@ -99,27 +99,18 @@ if(isset($_POST['action'])
       $ae=$node->getElementsByTagName('CotisantAE');
       $ae=$ae->item(0)->textContent;
 
-      // je vais pas tout casser à chaque fois que je teste un truc ...
-      //if($nom!='LOPEZ' || $prenom!='SIMON')
-      //  continue;
-
       if($user->load_by_email($email))
       {
         $flag=false;
-        // bouya !
         $user->load_all_extra();
-        //vérifier si noms changé
         if(!check_names($nom, $user->nom))
         {
           $flag=true;
           $user->nom=convertir_nom(utf8_encode($nom));
         }
-        //vérifier si prénom changé
         if(!check_names($prenom,$user->prenom))
         {
           $flag=true;
-          //print_r("utbm : ".$prenom.", ae : ".$user->prenom."\n");
-          //chercher la fnction qui passe la première lettre en majuscule
           $user->prenom=convertir_prenom(utf8_encode($prenom));
         }
 
@@ -149,6 +140,59 @@ if(isset($_POST['action'])
         {
           // si pas déjà une cotize ce semestre par l'administration
           // on enregistre une cotisation
+          $req = new requete($site->db,
+                 "SELECT * ".
+                 "FROM `ae_cotisations` " .
+                 "WHERE `id_utilisateur`='".$user->id."' AND `date_fin_cotis` > NOW() " .
+                 "ORDER BY `date_cotis` DESC LIMIT 1");
+          if ($req->lines)
+          {
+            //y'a déja une cotize ...
+            $row = $_req->get_row();
+            $curend=$row['date_fin_cotis'];
+            $prevdate=strtotime($curend);
+            // si on incrémente ça donnerait ces dates !
+            if (date("m-d",$prevdate) < "02-15")
+              $date = date("Y",$prevdate) . "-08-15";
+            else
+            {
+              if (date("m-d",$prevdate) < "08-15")
+                $date = date("Y",$prevdate) + 1 . "-02-15";
+              else
+                $date = date("Y",$prevdate) + 1 . "-08-15";
+            }
+            // pas par l'administration, on fait de l'incrémental
+            // ou
+            // on a déja enregistré une cotisation par l'administration
+            // mais avec une expiration plus récente que ce qui est prévu normalement
+            if($row["mode_paiement_cotis"]!=4)
+            {
+              $cotisation = new cotisation($site->db,$site->dbrw);
+              $date_fin = strtotime($date);
+              $prix_paye = 2800;
+              $cotisation->load_lastest_by_user ( $user->id );
+              $cotisation->add( $user->id, $date_fin, 4, $prix_paye );
+
+            }
+            else // cotisation par l'administration ???
+            {
+              if (date("m-d") < "02-15")
+                $datef=date("Y") . "-08-15";
+              elseif (date("m-d") < "08-15")
+                $datef = date("Y") + 1 . "-02-15";
+              else
+                $datef = date("Y") + 1 . "-08-15";
+
+              if($prevdate<strtotime($datef))
+              {
+                $cotisation = new cotisation($site->db,$site->dbrw);
+                $date_fin = strtotime($date);
+                $prix_paye = 2800;
+                $cotisation->load_lastest_by_user ( $user->id );
+                $cotisation->add( $user->id, $date_fin, 4, $prix_paye );
+              }
+            }
+          }
         }
         if($flag)
         {
