@@ -35,6 +35,30 @@ if ( !$site->user->is_in_group("root") )
 
 $site->start_page("none","Administration");
 
+function check_names($nc, $ns)
+{
+  $nc=strtolower($nc);
+  $ns=strtolower($ns);
+
+  $ns = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","e",$ns);
+  $ns = ereg_replace("(a|à|â|ä|À|Â|Ä)","a",$ns);
+  $ns = ereg_replace("(i|ï|î|Ï|Î)","i",$ns);
+  $ns = ereg_replace("(c|ç|Ç)","c",$ns);
+  $ns = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","u",$ns);
+  $ns = ereg_replace("(n|ñ|Ñ)","n",$ns);
+
+  $nc = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","e",$nc);
+  $nc = ereg_replace("(a|à|â|ä|À|Â|Ä)","a",$nc);
+  $nc = ereg_replace("(i|ï|î|Ï|Î)","i",$nc);
+  $nc = ereg_replace("(c|ç|Ç)","c",$nc);
+  $nc = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","u",$nc);
+  $nc = ereg_replace("(n|ñ|Ñ)","n",$nc);
+  if($ns==$nc)
+    return true;
+  return false;
+}
+
+
 if(isset($_POST['action'])
    && $_POST['action']=='bloubiboulga'
    && is_uploaded_file($_FILES['xmleuh']['tmp_name']) )
@@ -57,7 +81,6 @@ if(isset($_POST['action'])
       $dob=$dob->item(0)->textContent;
       $email=$node->getElementsByTagName('email');
       $email=$email->item(0)->textContent;
-      $last=$email;
       $dep=$node->getElementsByTagName('CodeDepartement');
       $dep=$dep->item(0)->textContent;
       $sem=$node->getElementsByTagName('Semestre');
@@ -66,31 +89,74 @@ if(isset($_POST['action'])
       $filiere=$filiere->item(0)->textContent;
       $ae=$node->getElementsByTagName('CotisantAE');
       $ae=$ae->item(0)->textContent;
-if($nom=='LOPEZ' && $prenom=='SIMON')
+
+      // je vais pas tout casser à chaque fois que je teste un truc ...
+      if($nom!='LOPEZ' || $prenom!='SIMON')
+        continue;
+
       if($user->load_by_email($email))
       {
-        //fuck !
+        $flag=false;
+        // bouya !
         $user->load_all_extra();
+        //vérifier si noms changé
+        if(!check_names($nom, $user->nom))
+        {
+          $flag=true;
+          $user->nom=convertir_nom(utf8_encode($nom));
+        }
+        //vérifier si prénom changé
+        if(!check_names($prenom,$user->prenom))
+        {
+          $flag=true;
+          //chercher la fnction qui passe la première lettre en majuscule
+          $user->prenom=convertir_prenom(utf8_encode($prenom));
+        }
+
         $dob = explode("/",$dob);
         $dob = mktime(0,0,0,$dob[1],$dob[0],$dob[2]);
-//vérifier si noms changé
-        $user->nom=utf8_encode($nom);
-//vérifier si prénom changé
-        $user->prenom=utf8_encode($prenom);
-        print_r(date("Y-m-d",$dob));
-        $user->date_naissance=$dob;
-        $user->departement=strtolower($dep);
-        $user->semestre=$sem;
-        $user->filiere=$filiere;
+        if($user->date_naissance!=$dob)
+        {
+          $flag=true;
+          $user->date_naissance=$dob;
+        }
+        if($user->departement!=strtolower($dep))
+        {
+          $flag=true;
+          $user->departement=strtolower($dep);
+        }
+        if($user->semestre!=$sem)
+        {
+          $flag=true;
+          $user->semestre=$sem;
+        }
+        if($user->filiere!=$filiere)
+        {
+          $flag=true;
+          $user->filiere=$filiere;
+        }
         if($ae=='O')
         {
+          // si pas déjà une cotize ce semestre par l'administration
+          // on enregistre une cotisation
         }
-        if($user->saveinfos())
+        if($flag)
         {
-          if ( $site->user->id != $user->id )
-        $site->log("Édition d'une fiche matmatronch par un tierce","Fiche matmatronch de ".$user->nom." ".$user->prenom." (id : ".$user->id.") modifiée","Fiche MMT",$site->user->id);
+          if($user->saveinfos())
+          {
+            if ( $site->user->id != $user->id )
+              $site->log("Édition d'une fiche matmatronch par un tierce","Fiche matmatronch de ".$user->nom." ".$user->prenom." (id : ".$user->id.") modifiée","Fiche MMT",$site->user->id);
+          }
+          else
+          {
+            // y'a une couille dans le paté
+          }
         }
         $j++;
+      }
+      elseif($ae=='O')
+      {
+      	// cotisant sans fiche ... c'est la guerre !
       }
       $i++;
       $reader->moveToElement();
