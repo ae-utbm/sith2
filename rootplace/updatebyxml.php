@@ -115,7 +115,7 @@ if(isset($_POST['action'])
         if(!check_names($prenom,$user->prenom))
         {
           $flag=true;
-          print_r("utbm : ".$prenom.", ae : ".$user->prenom."\n");
+          //print_r("utbm : ".$prenom.", ae : ".$user->prenom."\n");
           //chercher la fnction qui passe la première lettre en majuscule
           $user->prenom=convertir_prenom(utf8_encode($prenom));
         }
@@ -149,7 +149,7 @@ if(isset($_POST['action'])
         }
         if($flag)
         {
-          /*if($user->saveinfos())
+          if($user->saveinfos())
           {
             if ( $site->user->id != $user->id )
               $site->log("Édition d'une fiche matmatronch par un tierce","Fiche matmatronch de ".$user->nom." ".$user->prenom." (id : ".$user->id.") modifiée","Fiche MMT",$site->user->id);
@@ -157,7 +157,7 @@ if(isset($_POST['action'])
           else
           {
             // y'a une couille dans le paté
-          }*/
+          }
         }
         $j++;
       }
