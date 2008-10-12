@@ -77,6 +77,7 @@ if(isset($_POST['action'])
       $node = $reader->expand();
       $nom=$node->getElementsByTagName('Nom');
       $nom=$nom->item(0)->textContent;
+print_r($nom);
       $prenom=$node->getElementsByTagName('Prenom');
       $prenom=$prenom->item(0)->textContent;
       $dob=$node->getElementsByTagName('DateNaissance');
