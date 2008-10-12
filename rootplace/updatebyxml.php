@@ -77,7 +77,6 @@ if(isset($_POST['action'])
       $node = $reader->expand();
       $nom=$node->getElementsByTagName('Nom');
       $nom=$nom->item(0)->textContent;
-print_r($nom);
       $prenom=$node->getElementsByTagName('Prenom');
       $prenom=$prenom->item(0)->textContent;
       $dob=$node->getElementsByTagName('DateNaissance');
@@ -96,8 +95,8 @@ print_r($nom);
       $ae=$ae->item(0)->textContent;
 
       // je vais pas tout casser à chaque fois que je teste un truc ...
-      if($nom!='LOPEZ' || $prenom!='SIMON')
-        continue;
+      //if($nom!='LOPEZ' || $prenom!='SIMON')
+      //  continue;
 
       if($user->load_by_email($email))
       {
