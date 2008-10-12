@@ -130,6 +130,10 @@ if(isset($_POST['action'])
           $flag=true;
           $user->date_naissance=$dob;
         }
+        if($user->id==2019)
+        {
+          print_r($user->departement);
+        }
         if($user->departement!=strtolower($dep))
         {
           $flag=true;
