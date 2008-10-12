@@ -91,7 +91,7 @@ if(isset($_POST['action'])
       $dep=$node->getElementsByTagName('CodeDepartement');
       $dep=$dep->item(0)->textContent;
       if($dep=='GMC')
-        $dep=='MC';
+        $dep='MC';
       $sem=$node->getElementsByTagName('Semestre');
       $sem=$sem->item(0)->textContent;
       $filiere=$node->getElementsByTagName('CodeFiliere');
@@ -129,10 +129,6 @@ if(isset($_POST['action'])
         {
           $flag=true;
           $user->date_naissance=$dob;
-        }
-        if($user->id==2019)
-        {
-          print_r($user->departement);
         }
         if($user->departement!=strtolower($dep))
         {
