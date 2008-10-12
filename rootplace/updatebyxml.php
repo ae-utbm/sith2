@@ -91,7 +91,7 @@ if(isset($_POST['action'])
       $dep=$node->getElementsByTagName('CodeDepartement');
       $dep=$dep->item(0)->textContent;
       if($dep=='GMC')
-        $deb=='mc';
+        $dep=='MC';
       $sem=$node->getElementsByTagName('Semestre');
       $sem=$sem->item(0)->textContent;
       $filiere=$node->getElementsByTagName('CodeFiliere');
