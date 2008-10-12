@@ -115,7 +115,7 @@ if(isset($_POST['action'])
         if(!check_names($prenom,$user->prenom))
         {
           $flag=true;
-          print_r($prenom."  ".$user->prenom);
+          print_r("utbm : ".$prenom.", ae : ".$user->prenom."\n");
           //chercher la fnction qui passe la première lettre en majuscule
           $user->prenom=convertir_prenom(utf8_encode($prenom));
         }
