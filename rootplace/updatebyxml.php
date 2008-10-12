@@ -47,6 +47,7 @@ function check_names($nc, $ns)
   $ns = ereg_replace("(c|ô|Ô|ò|Ò)","o",$ns);
   $ns = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","u",$ns);
   $ns = ereg_replace("(n|ñ|Ñ)","n",$ns);
+  $ns = ereg_replace("(-)"," ",$ns);
 
   $nc = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","e",$nc);
   $nc = ereg_replace("(a|à|â|ä|À|Â|Ä)","a",$nc);
@@ -55,6 +56,7 @@ function check_names($nc, $ns)
   $nc = ereg_replace("(c|ô|Ô|ò|Ò)","o",$nc);
   $nc = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","u",$nc);
   $nc = ereg_replace("(n|ñ|Ñ)","n",$nc);
+  $nc = ereg_replace("(-)"," ",$nc);
   if($ns==$nc)
     return true;
   return false;
