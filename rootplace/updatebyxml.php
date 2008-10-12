@@ -146,7 +146,7 @@ if(isset($_POST['action'])
                  "FROM `ae_cotisations` " .
                  "WHERE `id_utilisateur`='".$user->id."' AND `date_fin_cotis` > NOW() " .
                  "ORDER BY `date_cotis` DESC LIMIT 1");
-          if ($req->lines)
+          if ($req->lines>0)
           {
             //y'a déja une cotize ...
             $row = $req->get_row();
