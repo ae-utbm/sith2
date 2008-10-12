@@ -44,6 +44,7 @@ function check_names($nc, $ns)
   $ns = ereg_replace("(a|à|â|ä|À|Â|Ä)","a",$ns);
   $ns = ereg_replace("(i|ï|î|Ï|Î)","i",$ns);
   $ns = ereg_replace("(c|ç|Ç)","c",$ns);
+  $ns = ereg_replace("(c|ô|Ô|ò|Ò)","o",$ns);
   $ns = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","u",$ns);
   $ns = ereg_replace("(n|ñ|Ñ)","n",$ns);
 
@@ -51,6 +52,7 @@ function check_names($nc, $ns)
   $nc = ereg_replace("(a|à|â|ä|À|Â|Ä)","a",$nc);
   $nc = ereg_replace("(i|ï|î|Ï|Î)","i",$nc);
   $nc = ereg_replace("(c|ç|Ç)","c",$nc);
+  $nc = ereg_replace("(c|ô|Ô|ò|Ò)","o",$nc);
   $nc = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","u",$nc);
   $nc = ereg_replace("(n|ñ|Ñ)","n",$nc);
   if($ns==$nc)
@@ -83,6 +85,8 @@ if(isset($_POST['action'])
       $email=$email->item(0)->textContent;
       $dep=$node->getElementsByTagName('CodeDepartement');
       $dep=$dep->item(0)->textContent;
+      if($dep=='GMC')
+        $deb=='mc';
       $sem=$node->getElementsByTagName('Semestre');
       $sem=$sem->item(0)->textContent;
       $filiere=$node->getElementsByTagName('CodeFiliere');

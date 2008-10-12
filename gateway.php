@@ -132,6 +132,7 @@ elseif ( $_REQUEST['module']=="userfield" )
   $pattern = ereg_replace("(a|à|â|ä|À|Â|Ä)","(a|à|â|ä|À|Â|Ä)",$pattern);
   $pattern = ereg_replace("(i|ï|î|Ï|Î)","(i|ï|î|Ï|Î)",$pattern);
   $pattern = ereg_replace("(c|ç|Ç)","(c|ç|Ç)",$pattern);
+  $pattern = ereg_replace("(ò|Ò|ô|Ô)","(ò|Ò|ô|Ô)",$pattern);
   $pattern = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","(u|ù|ü|û|Ü|Û|Ù)",$pattern);
   $pattern = ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$pattern);
   

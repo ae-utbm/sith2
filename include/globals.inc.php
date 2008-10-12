@@ -306,6 +306,7 @@ function utf8_enleve_accents ($text)
   $text = ereg_replace("(à|â|ä|À|Â|Ä)","a",$text);
   $text = ereg_replace("(ï|î|Ï|Î)","i",$text);
   $text = ereg_replace("(ç|Ç)","c",$text);
+  $text = ereg_replace("(ô|Ô|ò|Ò)","o",$text);
   $text = ereg_replace("(ù|ü|û|Ü|Û|Ù)","u",$text);
   $text = ereg_replace("(ñ|Ñ)","n",$text);
   return $text;
