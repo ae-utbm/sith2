@@ -196,6 +196,15 @@ if(isset($_POST['action'])
               }
             }
           }
+          else
+          {
+            $cotisation = new cotisation($site->db,$site->dbrw);
+            $date_fin = strtotime($date);
+            $prix_paye = 2800;
+            $cotisation->load_lastest_by_user ( $user->id );
+            $cotisation->add( $user->id, $date_fin, 4, $prix_paye );
+            $m++;
+          }
         }
         if($flag)
         {
