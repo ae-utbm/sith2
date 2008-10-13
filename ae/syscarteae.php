@@ -77,7 +77,7 @@ if ( $_REQUEST["action"] == "genfact" )
                                                       substr($month,0,4)
                                                      )
                                    )
-                           );
+                           )
                       .' - '
                       .'Édité le : '.date("d/m/Y", mktime ( 0, 0, 0, substr($month,4)+1, 1, substr($month,0,4)));
   $ref = $month;
