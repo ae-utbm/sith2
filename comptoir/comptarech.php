@@ -33,6 +33,7 @@ if ( !$site->user->is_valid() )
 
 $site->fetch_admin_comptoirs();
 $comptoirs = array_merge(array(0=>"-"),$site->admin_comptoirs);
+print_r($comptoirs);
 
 if ( !count($site->admin_comptoirs) && !$site->user->is_in_group("gestion_ae") )
         $site->error_forbidden();        
@@ -73,7 +74,7 @@ if ( $_REQUEST["action"] == "view" )
         if ( isset($comptoirs[$_REQUEST["id_comptoir"]]) && $_REQUEST["id_comptoir"] )
         {
           //si bureau ae, on compte aussi le comptoire machine
-          if($_REQUEST["id_comptoir"]==6)
+          if($_REQUEST["id_comptoir"]==-42)
             $conds[] = "(cpt_rechargements.id_comptoir='6' OR cpt_rechargements.id_comptoir='8')";
           else
             $conds[] = "cpt_rechargements.id_comptoir='".intval($_REQUEST["id_comptoir"])."'";
