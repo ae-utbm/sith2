@@ -74,7 +74,7 @@ if ( $_REQUEST["action"] == "view" )
         {
           //si bureau ae, on compte aussi le comptoire machine
           if($_REQUEST["id_comptoir"]==6)
-            $conds[] = "(cpt_rechargements.id_comptoir='6' OR cpt_rechargements.id_comptoir='8'";
+            $conds[] = "(cpt_rechargements.id_comptoir='6' OR cpt_rechargements.id_comptoir='8')";
           else
             $conds[] = "cpt_rechargements.id_comptoir='".intval($_REQUEST["id_comptoir"])."'";
         }
