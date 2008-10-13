@@ -149,7 +149,7 @@ class facture_pdf extends FPDF
     /* titre */
     $this->Cell(190, 20, $this->fact_titre,0,0,'R');
     /* Jump lines */
-    $this->Ln(30);
+    $this->Ln(20);
 
     /** REFERENCE FACTURE **/
     $this->Cell(210,20,utf8_decode("Facture n°") . $this->fact_ref_num,0,0,'C');
