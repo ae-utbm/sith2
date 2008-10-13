@@ -74,8 +74,9 @@ if ( $_REQUEST["action"] == "view" )
         {
           //si bureau ae, on compte aussi le comptoire machine
           if($_REQUEST["id_comptoir"]==6)
-            $conds[] = "cpt_rechargements.id_comptoir='8'";
-          $conds[] = "cpt_rechargements.id_comptoir='".intval($_REQUEST["id_comptoir"])."'";
+            $conds[] = "(cpt_rechargements.id_comptoir='6' OR cpt_rechargements.id_comptoir='8'";
+          else
+            $conds[] = "cpt_rechargements.id_comptoir='".intval($_REQUEST["id_comptoir"])."'";
         }
 
         if ( $_REQUEST["banque_rech"] )
@@ -96,7 +97,7 @@ if ( $_REQUEST["action"] == "view" )
                         "INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_rechargements`.`id_utilisateur_operateur` =`vendeur`.`id_utilisateur` " .        
                         "INNER JOIN `utilisateurs` AS `client` ON `cpt_rechargements`.`id_utilisateur` =`client`.`id_utilisateur` " .
                         "INNER JOIN `cpt_comptoir` ON `cpt_rechargements`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
-                        "WHERE " .implode(" AND ",$conds));                
+                        "WHERE " .implode(" AND ",$conds)); 
                 
         list($ln,$sum) = $req->get_row();
                 
