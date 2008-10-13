@@ -147,7 +147,7 @@ class facture_pdf extends FPDF
     /* Couleur */
     $this->SetTextColor(0, 0, 0);
     /* titre */
-    $this->Cell(190, 20, $this->fact_titre,0,0,'R');
+    $this->Cell(190, 5, $this->fact_titre,0,0,'R');
     /* Jump lines */
     $this->Ln(5);
 
