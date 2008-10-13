@@ -119,9 +119,9 @@ if ( $_REQUEST["action"] == "genfact" )
   
     $fact_pdf->set_infos($facturing_infos,
              $factured_infos,
-             $date_facturation.'-'.$asso->id,
+             $date_facturation,
              $titre,
-             $ref,
+             $ref.'-'.$asso->id,
              $lines);
     $fact_pdf->AddPage ();
     $fact_pdf->print_items ();
