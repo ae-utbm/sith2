@@ -250,11 +250,12 @@ class facture_pdf extends FPDF
     $this->Ln(10);
     if(isset($this->facturing_infos['asso']))
     {
+      $this->Ln(10);
       $this->Cell(40,10,utf8_decode("Facturant : ".$this->facturing_infos['asso']), "B", 0, "");
-      $this->Cell(150,10,"", "B", 0, "");
-      $this->Cell(40,10,utf8_decode("Facturé : AE - Carte AE"), "B", 0, "");
+      $this->Cell(30,10,"", "B", 0, "");
+      $this->Cell(120,10,utf8_decode("Facturé : AE - Carte AE"), "B", 0, "");
       //marge
-      $this->Ln(20);
+      $this->Ln(40);
     }
   }
 
