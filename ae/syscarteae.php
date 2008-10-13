@@ -119,7 +119,7 @@ if ( $_REQUEST["action"] == "genfact" )
   
     $fact_pdf->set_infos($facturing_infos,
              $factured_infos,
-             $date_facturation,
+             $date_facturation.'-'.$asso->id,
              $titre,
              $ref,
              $lines);
