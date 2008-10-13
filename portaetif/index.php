@@ -31,7 +31,7 @@ if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_in_group ("port
 
 $cts = new contents("Portaetif");
 $cts->add_paragraph("<a href=\"parrainages.php\">parrainages</a>");
-
+$cts->add_paragraph("<a href=\"prets.php\">click la tente</a>");
 
 $site->add_contents($cts);
 $site->end_page();  

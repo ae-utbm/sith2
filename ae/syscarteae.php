@@ -81,9 +81,14 @@ if ( $_REQUEST["action"] == "genfact" )
       $logo="/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg";
     else
       $logo="";
+    if($asso->id==1)//ae
+      $_asso="AE - TG";
+    else
+      $_asso=$asso->nom;
     $facturing_infos = array ('name' => $asso->nom,
        'addr' => explode("\n",utf8_decode($asso->adresse_postale)),
-       'logo' => $logo);
+       'logo' => $logo,
+       'asso' => $_asso);
        
     $query = new requete ($site->db, "SELECT " .
         "CONCAT(`cpt_produits`.`id_typeprod`,'-',`cpt_vendu`.`id_produit`,'-',`cpt_vendu`.`prix_unit`) AS `groupby`, " .
