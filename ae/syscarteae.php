@@ -356,7 +356,7 @@ elseif (   $_REQUEST["view"] == "factures" )
   
   asort($headers);
   
-  $headers = array_merge(array("mois"=>"Mois"),$headers);
+  $headers = array_merge($headers,array("mois"=>"Mois"));
   
   
   $cts->add(new sqltable(
