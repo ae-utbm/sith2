@@ -254,7 +254,7 @@ class facture_pdf extends FPDF
       $this->Cell(150,10,"", "B", 0, "");
       $this->Cell(40,10,utf8_decode("Facturé : AE - Carte AE"), "B", 0, "");
       //marge
-      $this->Ln(20)
+      $this->Ln(20);
     }
   }
 
