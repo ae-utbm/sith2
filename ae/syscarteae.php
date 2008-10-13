@@ -345,7 +345,8 @@ elseif (   $_REQUEST["view"] == "factures" )
     $month = $row["month"];
     
     if ( !isset($table[$month]) )
-      $table[$month] = array("mois"=>substr($month,4,2)."/".substr($month,0,4));
+      $table[$month] = array("mois"=>substr($month,4,2)."/".substr($month,0,4),
+                             "mois2"=>substr($month,4,2)."/".substr($month,0,4));
       
     if ( !isset($headers["a".$asso]) )
       $headers["a".$asso] = $row["nom_asso"];
@@ -356,7 +357,7 @@ elseif (   $_REQUEST["view"] == "factures" )
   
   asort($headers);
   
-  $headers = array_merge(array("mois"=>"Mois"),$headers,array("mois"=>"Mois"));
+  $headers = array_merge(array("mois"=>"Mois"),$headers,array("mois2"=>"Mois"));
   
   
   $cts->add(new sqltable(
