@@ -59,12 +59,27 @@ if ( $_REQUEST["action"] == "genfact" )
     "GROUP BY `asso`.`id_asso` ".
     "ORDER BY `asso`.`nom_asso`");
 
-  $factured_infos = array ('name' => "AE - UTBM",
+  $factured_infos = array ('name' => "AE UTBM - Carte AE",
       'addr' => array("6 Boulevard Anatole France",
       "90000 BELFORT"),
       'logo' => "http://ae.utbm.fr/images/Ae-blanc.jpg");
-      
-  $date_facturation = date("d/m/Y", mktime ( 0, 0, 0, substr($month,4)+1, 1, substr($month,0,4)));
+
+  $date_facturation = 'Période du '
+                      .date("d/m/Y", mktime ( 0, 0, 0, substr($month,4), 1, substr($month,0,4)))
+                      .' au '
+                      .date("d/m/Y",
+                            mktime (0,
+                                    0,
+                                    0,
+                                    substr($month,4),
+                                    cal_days_in_month(CAL_GREGORIAN,
+                                                      substr($month,4),
+                                                      substr($month,0,4)
+                                                     )
+                                   )
+                           );
+                      .' - '
+                      .'Édité le : '.date("d/m/Y", mktime ( 0, 0, 0, substr($month,4)+1, 1, substr($month,0,4)));
   $ref = $month;
   
   $asso = new asso($site->db);
