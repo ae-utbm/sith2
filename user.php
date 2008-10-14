@@ -177,7 +177,7 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
     $user->afps = isset($_REQUEST['afps']);
     $user->sst = isset($_REQUEST['sst']);
 
-    $user->jabber = isset($_REQUEST['jabber']);
+    $user->jabber = $_REQUEST['jabber'];
 
     $req = new requete($site->db,"SELECT mmt_instru_musique.id_instru_musique, ".
       "utl_joue_instru.id_utilisateur ".
