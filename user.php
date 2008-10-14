@@ -172,14 +172,14 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
     $user->afps = isset($_REQUEST['afps']);
     $user->sst = isset($_REQUEST['sst']);
 
-    if ( !CheckEmail($_REQUEST["jabber"], 3) )
+    if ( !CheckEmail($_REQUEST['jabber'], 3) )
     {
       $ErreurMail="Adresse jabber invalide.";
       $_REQUEST["page"] = "edit";
     }
     else
     {
-      $user->jabber = isset($_REQUEST['jabber']);
+      $user->jabber = $_REQUEST['jabber'];
     }
 
     $req = new requete($site->db,"SELECT mmt_instru_musique.id_instru_musique, ".

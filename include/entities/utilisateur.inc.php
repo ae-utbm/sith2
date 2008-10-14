@@ -821,7 +821,8 @@ class utilisateur extends stdentity
                       'date_permis_conduire_utl'=>is_null($this->date_permis_conduire)?null:date("Y-m-d",$this->date_permis_conduire),
                       'hab_elect_utl'=>$this->hab_elect,
                       'afps_utl'=>$this->afps,
-                      'sst_utl'=>$this->sst));
+                      'sst_utl'=>$this->sst
+                      'jabber_utl'=>$this->jabber));
     else
       new update($this->dbrw,
                     "utl_extra",
@@ -833,7 +834,8 @@ class utilisateur extends stdentity
                     'date_permis_conduire_utl'=> is_null($this->date_permis_conduire)?null:date("Y-m-d",$this->date_permis_conduire),
                     'hab_elect_utl'=>$this->hab_elect,
                     'afps_utl'=>$this->afps,
-                    'sst_utl'=>$this->sst),
+                    'sst_utl'=>$this->sst
+                    'jabber_utl'=>$this->jabber),
                     array('id_utilisateur' => $this->id));
 
 
