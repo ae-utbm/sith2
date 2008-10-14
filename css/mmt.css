@@ -260,6 +260,11 @@ div.gallery div.galitem
   top: 158px;
 }
 
+.userinfov2 a.mailperso
+{
+  display:none;
+}
+
 .userinfov2 a.fiche
 {
   display:block;

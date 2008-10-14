@@ -172,6 +172,16 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
     $user->afps = isset($_REQUEST['afps']);
     $user->sst = isset($_REQUEST['sst']);
 
+    if ( !CheckEmail($_REQUEST["jabber"], 3) )
+    {
+      $ErreurMail="Adresse jabber invalide.";
+      $_REQUEST["page"] = "edit";
+    }
+    else
+    {
+      $user->jabber = isset($_REQUEST['jabber']);
+    }
+
     $req = new requete($site->db,"SELECT mmt_instru_musique.id_instru_musique, ".
       "utl_joue_instru.id_utilisateur ".
       "FROM mmt_instru_musique ".
@@ -568,6 +578,8 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
       $frm->add_text_field("alias","Alias",$user->alias);
     else // seul root a le droit de modifier l'alias s'il est déjà renseigné
       $frm->add_text_field("alias","Alias",$user->alias,false,false,false,$can_edit_alias);
+
+    $frm->add_text_field("jabber","Adresse Jabber",$user->jabber);
 
     if ( $user->utbm )
       $frm->add_text_field("surnom","Surnom (utbm)",$user->surnom);

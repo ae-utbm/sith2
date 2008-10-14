@@ -262,6 +262,14 @@ div.userfullinfo a.mailperso
   top: 0px;
 }
 
+div.userfullinfo a.jabber
+{
+  display:block;
+  position:absolute;
+  right:303px;
+  top: 0px;
+}
+
 div.userfullinfo a.edt
 {
   display:block;

@@ -610,6 +610,9 @@ class userinfov2 extends stdcontents
     
     if ( $user->email && $user->email != $user->email_utbm  )
       $this->buffer .= "<a class=\"mailperso\" href=\"mailto:".htmlentities($user->email,ENT_COMPAT,"UTF-8")."\"><img src=\"../images/email_perso.png\" alt=\"Email Perso\" title=\"Email Perso\"></a>";
+
+    if ( $user->jabber )
+      $this->buffer .= "<a class=\"jabber\" href=\"xmpp:".htmlentities($user->jabber,ENT_COMPAT,"UTF-8")."\"><img src=\"../images/jabber.png\" alt=\"Jabber\" title=\"Jabber\"></a>;
     
     if ( $display != "full" )
       $this->buffer .= "<a class=\"fiche\" href=\"".$topdir.$urldest."?id_utilisateur=".$user->id."\"><img src=\"../images/actions/view.png\" alt=\"Fiche\" title=\"Fiche\"></a>";

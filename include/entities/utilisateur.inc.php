@@ -119,6 +119,7 @@ class utilisateur extends stdentity
   var $hab_elect;
 	var $afps;
   var $sst;
+  var $jabber;
 
 
   var $_grps;
@@ -443,6 +444,7 @@ class utilisateur extends stdentity
     $this->afps = $row["afps_utl"];
     $this->sst = $row["sst_utl"];
     $this->site_web = $row['site_web'];
+    $this->jabber = $row['jabber_utl'];
   }
 
   function _load_all ( $row )
