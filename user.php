@@ -137,7 +137,7 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
   }
   elseif ( $_REQUEST['jabber'] && !CheckEmail($_REQUEST['jabber'], 3) )
   {
-    $ErreurMail="Adresse jabber invalide.";
+    $ErreurMAJ = "Adresse jabber invalide.";
     $_REQUEST["page"] = "edit";
   }
   else
