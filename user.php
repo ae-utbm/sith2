@@ -576,7 +576,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     else // seul root a le droit de modifier l'alias s'il est déjà renseigné
       $frm->add_text_field("alias","Alias",$user->alias,false,false,false,$can_edit_alias);
 
-    $frm->add_text_field("jabber","Adresse Jabber",$user->jabber);
+    $frm->add_text_field("jabber","Jabber/Google Talk",$user->jabber);
 
     if ( $user->utbm )
       $frm->add_text_field("surnom","Surnom (utbm)",$user->surnom);
