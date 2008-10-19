@@ -104,7 +104,7 @@ class sascategory extends contents
       {
         $link = $page."?meta_id_catph=".$cat->id."&amp;id_catph=".$row['id_catph'];
         $scat->_load($row);
-        if ( $scat->is_right($user,DROIT_ECRITURE) )
+        if ( $scat->is_right($user,DROIT_ECRITURE) && $scat->meta_mode != CATPH_MODE_META_ASSO )
           $acts = array("delete","edit","cut");
       }
       else
