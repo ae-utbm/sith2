@@ -133,6 +133,7 @@ define("CMS_PREFIX","cms:".CMS_ID_ASSO.":");
 RewriteRule ^([a-z]*)\.php(.*)$  aecms/$1.php$2 [L] 
 RewriteRule ^$  aecms/index.php [L] 
 RewriteRule ^images/(.*)$  aecms/images/$1 [L]
+RewriteRule ^js/(.*)$  aecms/js/$1 [L]
 RewriteRule ^css/(.*)$  aecms/css/$1 [L]
 ';  
   if ( !file_put_contents($target.".htaccess",$apacheRules) )
