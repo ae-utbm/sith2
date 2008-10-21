@@ -53,7 +53,9 @@ class site extends interfaceweb
     global $timing;
     $timing["includes"] = microtime(true)+$timing["all"];
     $timing["site::site"] -= microtime(true);
-    
+
+    $this->siteae=$siteae;
+
     $dbro = new mysqlae ();
     
     if (!$dbro->dbh)

@@ -603,7 +603,7 @@ class form extends stdcontents
   /** Ajoute une barre de bouton de syntaxe DokuWiki
    * @param $area_name nom du textarea concerné (attribut 'name' et non pas 'id' !)
    */
-  function add_dokuwiki_toolbar($area_name,$id_asso=null,$folder=null)
+  function add_dokuwiki_toolbar($area_name,$id_asso=null,$folder=null,$forum=false)
   {
     global $wwwtopdir;
     
@@ -611,7 +611,14 @@ class form extends stdcontents
     
     if ( !is_null($id_asso) )
       $context="id_asso=".$id_asso;
-      
+    
+    if($forum)
+    {
+      if(!empty($context))
+        $context.='&amp;forum=vrai';
+      else
+        $context='forum=vrai';
+    }
     if ( !is_null($folder) )
     {
       if ( !empty($context) )

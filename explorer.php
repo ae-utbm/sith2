@@ -38,6 +38,10 @@ $site->add_js("js/explorer.js");
 $file = new dfile($site->db, $site->dbrw);
 $folder = new dfolder($site->db, $site->dbrw);
 
+$forum=false;
+if(isset($_REQUEST['forum']) && $_REQUEST['forum']=='vrai')
+  $forum=true;
+
 if ( isset($_REQUEST["id_folder"]) && !( isset($_REQUEST["id_file"]) && $file->is_valid() ) )
   $folder->load_by_id($_REQUEST["id_folder"]);
 
@@ -145,7 +149,7 @@ while ( $row = $req->get_row() )
 }
 $fcts->add($gal);
 
-if ( $folder->is_right($site->user,DROIT_AJOUTITEM) )
+if ( !$forum && $folder->is_right($site->user,DROIT_AJOUTITEM) )
 {
   $folder->droits_acces |= 0x200;
   
