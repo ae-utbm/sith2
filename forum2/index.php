@@ -344,7 +344,7 @@ if ( $sujet->is_valid() )
            array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),
            $message->syntaxengine);
       if ( $message->syntaxengine == "doku" ) 
-        $frm->add_dokuwiki_toolbar('text',$forum->id_asso);
+        $frm->add_dokuwiki_toolbar('text',$forum->id_asso, true);
       $frm->add_text_area("text", "Texte du message : ",$message->contenu,80,20);
       $frm->add_submit("submit", "Modifier");
       $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:make_preview();\" /></div></div>\n");
@@ -426,7 +426,7 @@ if ( $sujet->is_valid() )
          'Moteur de rendu : ',
          array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),
          $message->syntaxengine);
-    $frm->add_dokuwiki_toolbar('text',$forum->id_asso);
+    $frm->add_dokuwiki_toolbar('text',$forum->id_asso, true);
     $frm->add_text_area("text", "Texte du message : ",$message->contenu,80,20);
     $frm->add_submit("submit", "Modifier");
     $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:make_preview();\" /></div></div>\n");
@@ -574,7 +574,7 @@ if ( $sujet->is_valid() )
     $frm->add_select_field('synengine',
          'Moteur de rendu : ',
          array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),'doku');
-    $frm->add_dokuwiki_toolbar('rpltext',$forum->id_asso);
+    $frm->add_dokuwiki_toolbar('rpltext',$forum->id_asso,true);
     $frm->add_text_area("rpltext", "Texte du message : ",$rpltext,80,20);
     $frm->add_checkbox ( "star", "Ajouter à mes sujets favoris.", true );
     $frm->add_submit("rplsubmit", "Poster");
@@ -984,7 +984,7 @@ if ( $_REQUEST["page"] == "post" && !$forum->categorie )
              'doku' => 'Doku Wiki (recommandé)'),'doku');
   
   /* texte du message initiateur */
-  $frm->add_dokuwiki_toolbar('subjtext',$forum->id_asso);
+  $frm->add_dokuwiki_toolbar('subjtext',$forum->id_asso,true);
   $frm->add_text_area("subjtext", "Texte du message : ","",80,20);
   /* et hop ! */
   
