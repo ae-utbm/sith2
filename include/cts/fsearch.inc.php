@@ -157,7 +157,8 @@ class fsearch extends stdcontents
         "UNION ALL SELECT COUNT(*) " .
         "FROM `utl_etu_utbm` " .
         "INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
-        "WHERE `surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$sqlpattern."' $force_sql");
+        "WHERE `surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$sqlpattern."' ".
+        "AND CONCAT(`prenom_utl`,' ',`nom_utl`) NOT REGEXP '^".$sqlpattern."' $force_sql");
 
       $nbutils = 0;
       while ( list($c) = $req->get_row() )
@@ -176,7 +177,8 @@ class fsearch extends stdcontents
           "UNION SELECT `surnom_utbm`, '4' as `method`, `utilisateurs`.* " .
           "FROM `utl_etu_utbm` " .
           "INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
-          "WHERE `surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$sqlpattern."' $force_sql " .
+          "WHERE `surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$sqlpattern."' ".
+          "AND CONCAT(`prenom_utl`,' ',`nom_utl`) NOT REGEXP '^".$sqlpattern."' $force_sql " .
           "ORDER BY 1 LIMIT 3");      
     
         $this->buffer .= "<h2>Personnes</h2>";
