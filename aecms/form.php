@@ -94,13 +94,10 @@ if ( $site->is_user_admin() )
     $frm->add_hidden("action","new");
     if ( isset($Erreur) )
       $frm->error($Erreur);
-    $tmp=$wwwtopdir;
-    $wwwtopdir="../";
     if ($_REQUEST["end_date"])
       $frm->add_date_field("end_date", "Date de fin de validite : ",$_REQUEST["end_date"]);
     else
       $frm->add_date_field("end_date", "Date de fin de validite : ");
-    $wwwtopdir=$tmp;
     $frm->add_text_field("nom", "Nom du formulaire",$_REQUEST["nom"],true,80);
 
     $frm->add_text_area("description", "Description du formulaire",$_REQUEST["description"]);
