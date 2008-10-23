@@ -93,11 +93,12 @@ class sujet extends stdentity
     $this->id_nouvelle = $row["id_nouvelle"];
     $this->id_catph = $row["id_catph"];
     $this->id_sondage = $row["id_sondage"];
+    $this->id_groupe = $row['id_groupe'];
   }
 
   function create ( &$forum, $id_utilisateur, $titre, $soustitre=null,
       $type=SUJET_NORMAL,$icon=null,$date_fin_annonce=null,
-      $id_nouvelle=null,$id_catph=null,$id_sondage=null   )
+      $id_nouvelle=null,$id_catph=null,$id_sondage=null, $id_groupe=null)
   {
   
     /**@TODO: tester droit d'écriture*/
@@ -121,7 +122,7 @@ class sujet extends stdentity
     $this->id_nouvelle=$id_nouvelle;
     $this->id_catph=$id_catph;
     $this->id_sondage=$id_sondage;  
-    
+    $this->id_groupe=$id_groupe;
     
     $req = new insert ($this->dbrw,
             "frm_sujet", array(
@@ -138,7 +139,8 @@ class sujet extends stdentity
               "id_utilisateur_moderateur"=>$this->id_utilisateur_moderateur,
               "id_nouvelle"=>$this->id_nouvelle,
               "id_catph"=>$this->id_catph,
-              "id_sondage"=>$this->id_sondage
+              "id_sondage"=>$this->id_sondage,
+              "id_groupe"=>$this->id_groupe
             ));
   
 		if ( $req )
@@ -155,7 +157,7 @@ class sujet extends stdentity
 
   function update ( $titre, $soustitre=null,
       $type=SUJET_NORMAL,$icon=null,$date_fin_annonce=null,
-      $id_nouvelle=null,$id_catph=null,$id_sondage=null   )
+      $id_nouvelle=null,$id_catph=null,$id_sondage=null, $id_groupe=null )
   {
   
     $this->titre=$titre;
@@ -170,7 +172,7 @@ class sujet extends stdentity
     $this->id_nouvelle=$id_nouvelle;
     $this->id_catph=$id_catph;
     $this->id_sondage=$id_sondage;  
-    
+    $this->id_groupe=$id_groupe;
     $req = new update ($this->dbrw,
             "frm_sujet", array(
               "id_forum"=>$this->id_forum,
@@ -182,7 +184,8 @@ class sujet extends stdentity
               "id_utilisateur_moderateur"=>$this->id_utilisateur_moderateur,
               "id_nouvelle"=>$this->id_nouvelle,
               "id_catph"=>$this->id_catph,
-              "id_sondage"=>$this->id_sondage
+              "id_sondage"=>$this->id_sondage,
+	      "id_groupe"=>$this->id_groupe
             ),
             array("id_sujet"=>$this->id) );
   

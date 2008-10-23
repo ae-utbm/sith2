@@ -114,8 +114,9 @@ elseif ( isset($_REQUEST["react"]) )
       $req = new requete($site->db,"SELECT frm_sujet.* ".
         "FROM frm_sujet ".
         "INNER JOIN frm_forum USING(`id_forum`) ".
-        "WHERE ((droits_acces_forum & 0x1) OR " .
-        "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
+        "WHERE frm_sujet.id_groupe IN ($grps) ".
+        "AND ((droits_acces_forum & 0x1) OR " .
+        "((droits_acces_forum & 0x10) AND frm_forum.id_groupe IN ($grps)) OR " .
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_forum & 0x100) AND id_utilisateur='".$site->user->id."')) ".
         "AND $sqlconds");
@@ -1059,7 +1060,7 @@ if ( $forum->categorie )
    /*$cts->add_paragraph("<a href=\"./search.php?page=unread\">Voir tous les messages non lu</a>","frmgeneral");
    $cts->add_paragraph("<a href=\"./?action=setallread\">Marquer tous les messages comme lu</a>","frmgeneral");*/
    
-
+    $grps = $site->user->get_groups_csv();
    
     $query = "SELECT COUNT(*) " .
         "FROM frm_sujet " .
@@ -1068,19 +1069,18 @@ if ( $forum->categorie )
         "LEFT JOIN frm_sujet_utilisateur ".
           "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
           "AND frm_sujet_utilisateur.id_utilisateur='".$site->user->id."' ) ".
-        "WHERE ";
-              
+        "WHERE ".
+        "frm_message.id_groupe IN ($grps) ";
     if( is_null($site->user->tout_lu_avant))
-      $query .= "(frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
+      $query .= "AND (frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
                 "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ";    
     else
-      $query .= "((frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
+      $query .= "AND ((frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
                 "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ".
                 "AND frm_message.date_message > '".date("Y-m-d H:i:s",$site->user->tout_lu_avant)."') ";  
     
     if ( !$forum->is_admin( $site->user ) )
     {
-      $grps = $site->user->get_groups_csv();
       $query .= "AND ((droits_acces_forum & 0x1) OR " .
         "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
         "(id_groupe_admin IN ($grps)) OR " .
