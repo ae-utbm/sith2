@@ -16,7 +16,7 @@ echo "==== ".date("d/m/Y")." ====\n";
 
 require_once($topdir . "comptoir/include/venteproduit.inc.php");
 
-$req = new requete($site->db,"SELECT * FROM `cpt_verrou` WHERE DATEDIFF(NOW(),date_res) >= 1");
+$req = new requete($site->db,"SELECT * FROM `cpt_verrou` WHERE TIMEDIFF(NOW(),date_res) >= 1");
 
 $vp = new venteproduit($site->db,$site->dbrw);
 $client = new utilisateur($site->db);
@@ -25,7 +25,7 @@ while ( $row = $req->get_row() )
 {
   echo "debloquer('".$row['id_utilisateur']."','".$row['id_produit']."','".$row['id_comptoir']."','".$row['quantite']."');\n";
   
-  $client->id = $row['id_utilisateur'];
+  $client->load_by_id($row['id_utilisateur']);
   $vp->load_by_id ( $row['id_produit'], $row['id_comptoir'], true );
   $vp->debloquer ( $client, $row['quantite'] );
 }
