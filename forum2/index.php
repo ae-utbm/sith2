@@ -81,7 +81,7 @@ if ( isset($_REQUEST["id_message"]) )
 elseif ( isset($_REQUEST["id_sujet"]) )
 {
   $sujet->load_by_id($_REQUEST["id_sujet"]); 
-  if ( $sujet->is_valid() )
+  if ( $sujet->is_valid() && $sujet->is_right($site->user,DROIT_LECTURE))
   {
     $forum->load_by_id($sujet->id_forum); 
   }
@@ -114,7 +114,7 @@ elseif ( isset($_REQUEST["react"]) )
       $req = new requete($site->db,"SELECT frm_sujet.* ".
         "FROM frm_sujet ".
         "INNER JOIN frm_forum USING(`id_forum`) ".
-        "WHERE frm_sujet.id_groupe IN ($grps) ".
+        "WHERE (frm_sujet.id_groupe IN ($grps) OR frm_sujet.id_groupe IS NULL)".
         "AND ((droits_acces_forum & 0x1) OR " .
         "((droits_acces_forum & 0x10) AND frm_forum.id_groupe IN ($grps)) OR " .
         "(id_groupe_admin IN ($grps)) OR " .
