@@ -95,6 +95,6 @@ foreach ($res as $line)
 $conf .= "}\n";
 //echo $conf;
 
-$gene->generate_conf_from_string ($conf);
+$gene->generate_conf_from_string (utf8_decode($conf));
 $gene->generate ();
 ?>
