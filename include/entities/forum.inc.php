@@ -236,6 +236,7 @@ class forum extends basedb
         
     if ( $user->is_valid() && $searchforunread ) 
     {
+      $grps = $user->get_groups_csv();
       $query .= "EXISTS( ".
         "SELECT  ".
         "sujet.id_sujet ".
@@ -247,6 +248,7 @@ class forum extends basedb
         "LEFT JOIN frm_message AS message ON ( message.id_message = sujet.id_message_dernier ) ".
         "LEFT JOIN frm_sujet_utilisateur AS sujet_util ON ( sujet_util.id_sujet=sujet.id_sujet AND sujet_util.id_utilisateur='".$user->id."' )  ".
         "WHERE ".
+        "sujet.id_groupe IN ($grps) AND ".
         "(sujet.id_forum=frm_forum.id_forum OR  ".
         "level1.id_forum=frm_forum.id_forum OR  ".
         "level2.id_forum=frm_forum.id_forum OR  ".
