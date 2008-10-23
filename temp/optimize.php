@@ -27,7 +27,7 @@ require_once($topdir. "include/site.inc.php");
 $site = new site ();
 
 $req = new requete($site->db, "SHOW TABLES");
-while(list($table)=$req->get_row());
+while(list($table)=$req->get_row())
   new requete($site->dbrw, "OPTIMIZE TABLE `".$table."`");
 
 
