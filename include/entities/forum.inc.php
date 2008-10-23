@@ -336,7 +336,7 @@ class forum extends basedb
     $query .= "WHERE " .
               "id_forum='".$this->id."' ";
     if ( !$this->is_admin( $user ) )
-      $query .= "AND id_groupe IN ($grps) ";
+      $query .= "AND (id_groupe IN ($grps) OR id_groupe IS NULL)";
     $query .= "ORDER BY frm_sujet.type_sujet=2 DESC, frm_message.date_message DESC ";
     $query .= "LIMIT $st, $npp";
     
