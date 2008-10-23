@@ -1070,7 +1070,7 @@ if ( $forum->categorie )
           "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
           "AND frm_sujet_utilisateur.id_utilisateur='".$site->user->id."' ) ".
         "WHERE ".
-        "frm_message.id_groupe IN ($grps) ";
+        "frm_sujet.id_groupe IN ($grps) ";
     if( is_null($site->user->tout_lu_avant))
       $query .= "AND (frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
                 "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ";    
