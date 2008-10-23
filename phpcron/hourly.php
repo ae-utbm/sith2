@@ -5,22 +5,11 @@ $_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/ae2/phpcron";
  * hourly
  */
 $topdir=$_SERVER['SCRIPT_FILENAME']."/../";
-define('MAGPIE_CACHE_DIR', '/var/www/ae/www/var/cache/planet/');
-define('MAGPIE_CACHE_ON', true);
-define('MAGPIE_CACHE_AGE', 50*60); //50minutes pour etre certain d'avoir un truc à jour :)
-define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
-define('MAX_NUM',20);
-define('MAX_SUM_LENGHT',200);
-
-require_once($topdir. "include/site.inc.php");
-/*require_once($topdir. "include/lib/magpierss/rss_fetch.inc.php");*/
 
 
 $site = new site ();
 
-// Tâche 1 [planet] : mettre à jour le cache
-
-// Tâche 2 [galaxy] : màj, et cycles
+// Tâche 1 [galaxy] : màj, et cycles
 
 
 require_once($topdir. "include/galaxy.inc.php");
@@ -34,5 +23,17 @@ for($i=0;$i<45;$i++) // Environs 1100 cycles/jours
 
 $galaxy->mini_render($topdir."var/mini_galaxy.png");
 
+
+// Tâche 2 [verous]
+require_once($topdir . "comptoir/include/venteproduit.inc.php");
+$req = new requete($site->db,"SELECT * FROM `cpt_verrou` WHERE TIMEDIFF(NOW(),date_res) >= 1");
+$vp = new venteproduit($site->db,$site->dbrw);
+$client = new utilisateur($site->db);
+while ( $row = $req->get_row() )
+{
+  $client->load_by_id($row['id_utilisateur']);
+  $vp->load_by_id ( $row['id_produit'], $row['id_comptoir'], true );
+  $vp->debloquer ( $client, $row['quantite'] );
+}
 
 ?>
