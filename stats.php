@@ -35,20 +35,16 @@ $site = new site ();
 $site->start_page("none","Statistiques");
 $cts = new contents("Statistiques");
 
-if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_asso_role ( 2, 9 ))
+if(!$site->user->is_in_group ("gestion_ae"))
 {
   $tabs = array(array("","stats.php", "Informations"),
                 array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
                 array("sas","stats.php?view=sas", "SAS")
                 );
-}
-elseif(!$site->user->is_in_group ("gestion_ae") && $site->user->is_asso_role ( 2, 9 ))
-{
-  $tabs = array(array("","stats.php", "Informations"),
-                array("utilisateurs","stats.php?view=utilisateurs", "Utilisateurs"),
-                array("sas","stats.php?view=sas", "SAS"),
-                array("comptoirs","stats.php?view=comptoirs", "Comptoirs")
-                );
+  if($site->user->is_asso_role (27,2))
+    $tabs[]=array("matmatronch","stats.php?view=matmatronch", "Matmatronch");
+  if($site->user->is_asso_role ( 2, 9 ))
+    $tabs[]=array("comptoirs","stats.php?view=comptoirs", "Comptoirs");
 }
 else
 {
@@ -567,7 +563,7 @@ elseif ( ($site->user->is_in_group ("gestion_ae") || $site->user->is_asso_role (
 }
 elseif ( $_REQUEST["view"] == "matmatronch" )
 {
-  if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_asso_role(27,1))
+  if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_asso_role(27,2))
     $site->error_forbidden();
 
   $mcts = new contents("Matmatronch");
