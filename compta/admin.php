@@ -176,7 +176,8 @@ if (isset($cpt_edit))
 
 
 $site->add_contents ($cpt_add);
-$site->add_contents ($liste_cptes_bancaires);
+if ($_REQUEST['action'] != "edit")
+  $site->add_contents ($liste_cptes_bancaires);
 
 $site->end_page ();
 ?>
