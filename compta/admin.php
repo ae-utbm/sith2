@@ -30,45 +30,45 @@ $site = new sitecompta();
 $site->allow_only_logged_users("none");
 
 if ( !$site->user->is_in_group("compta_admin") )
-	$site->error_forbidden();
+  $site->error_forbidden();
 
 
 if ($_REQUEST['action'] == "addcptasso")
 {
-	$cptasso = new compte_asso($site->db,$site->dbrw);
-	$cpbc  = new compte_bancaire($site->db);
-	$asso  = new asso($site->db);
-	
-	$asso->load_by_id($_REQUEST["id_asso"]);
-	$cpbc->load_by_id($_REQUEST["id_cptbc"]);
-	
-	if ( $asso->id > 0 && $cpbc->id > 0 )
-		$cptasso->ajouter( $asso->id,$cpbc->id);
+  $cptasso = new compte_asso($site->db,$site->dbrw);
+  $cpbc  = new compte_bancaire($site->db);
+  $asso  = new asso($site->db);
+  
+  $asso->load_by_id($_REQUEST["id_asso"]);
+  $cpbc->load_by_id($_REQUEST["id_cptbc"]);
+  
+  if ( $asso->id > 0 && $cpbc->id > 0 )
+    $cptasso->ajouter( $asso->id,$cpbc->id);
 }
 
 
 
 
 $site->start_page ("none",
-		   "Administration de la compta");
+       "Administration de la compta");
 
 
 /* test ajout compte */
 if (isset($_REQUEST['cpt_nom']))
 {
   $cpt = new compte_bancaire($site->db, $site->dbrw);
-  $ret = $cpt->ajouter ($_REQUEST['cpt_nom']);
+  $ret = $cpt->create ($_REQUEST['cpt_nom']);
 
   if ($ret == true)
-    {
-      $cpt_res = new contents ("Ajout d'un compte");
-      $cpt_res->add_paragraph ("Compte $cpt->nom ajoute avec succes.");
-    }
+  {
+    $cpt_res = new contents ("Ajout d'un compte");
+    $cpt_res->add_paragraph ("Compte $cpt->nom ajoute avec succes.");
+  }
   else
-    {
-      $cpt_res = new error ("Erreur",
-			    "Erreur lors de l'ajout du compte.");
-    }
+  {
+    $cpt_res = new error ("Erreur",
+      "Erreur lors de l'ajout du compte.");
+  }
 }
 
 /* test suppresion compteS */
@@ -88,15 +88,15 @@ if ($_REQUEST['action'] == "edit")
 
   $cpt_edit = new contents ("Edition d'un compte.");
   $cpt_edit_f = new form("cpt_edit_f",
-			 "admin.php",
-			 true,
-			 "modification d'un compte");
+       "admin.php",
+       true,
+       "modification d'un compte");
   $cpt_edit_f->add_text_field("cpt_nom",
-			     "nom du compte",
-			      $cpt->nom,
-			      true);
+           "nom du compte",
+            $cpt->nom,
+            true);
   $cpt_edit_f->add_submit("cpt_sub_edit",
-			  "Editer");
+        "Editer");
 
   $cpt_edit->add ($cpt_edit_f);
 }
@@ -111,7 +111,7 @@ if (isset($_REQUEST['cpt_edit_f']))
 
   if ($ret == false)
     $cpt_res = new error ("Erreur",
-			  "Erreur lors de l'�dition du nom");
+        "Erreur lors de l'�dition du nom");
   else
     {
       $cpt_res = new contents ("Edition du compte");
@@ -126,12 +126,12 @@ $cpt_add = new contents ("Comptes");
 
 
 $add_form_b = new form("add_cpt_b",
-		 "admin.php",
-		 true,"POST",
-		 "Ajout d'un compte");
+     "admin.php",
+     true,"POST",
+     "Ajout d'un compte");
 $add_form_b->add_text_field ("cpt_nom",
-		       "nom du compte",
-		       "", true);
+           "nom du compte",
+           "", true);
 
 $add_form_b->add_submit("cpt_sub_add", "Creer");
 
@@ -148,19 +148,19 @@ $cpt_add->add ($frm,true);
 if ($_REQUEST['action'] != "edit")
 {
   $req_sql = new requete ($site->db,
-			  "SELECT * FROM `cpta_cpbancaire`");
+        "SELECT * FROM `cpta_cpbancaire`");
 
   $liste_cptes_bancaires = new sqltable ("cpta_cpbancaire",
-					 "Liste des comptes bancaires",
-					 $req_sql,
-					 "./admin.php",
-					 "id_cptbc",
-					 array("id_cptbc" => "numero",
-					       "nom_cptbc" => "nom du compte"),
-					 array("edit" => "edition",
-					     "delete" => "supprimer"),
-					 array("deletes" => "supprimer"),
-					 array());
+           "Liste des comptes bancaires",
+           $req_sql,
+           "./admin.php",
+           "id_cptbc",
+           array("id_cptbc" => "numero",
+                 "nom_cptbc" => "nom du compte"),
+           array("edit" => "edition",
+               "delete" => "supprimer"),
+           array("deletes" => "supprimer"),
+           array());
 }
 
 if (isset($cpt_dbg))
