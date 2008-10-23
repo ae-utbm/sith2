@@ -36,7 +36,7 @@ define("SUJET_ANNONCESITE",4);
 /**
  * Sujet dans un forum
  */
-class sujet extends basedb
+class sujet extends stdentity
 {
 
   var $id_utilisateur;
@@ -62,18 +62,18 @@ class sujet extends basedb
   function load_by_id ( $id )
   {
     $req = new requete($this->db, "SELECT * FROM `frm_sujet`
-        WHERE `id_sujet` = '" .
-           mysql_real_escape_string($id) . "'
-        LIMIT 1");
+				WHERE `id_sujet` = '" .
+		       mysql_real_escape_string($id) . "'
+				LIMIT 1");
 
     if ( $req->lines == 1 )
-    {
-      $this->_load($req->get_row());
-      return true;
-    }
-    
-    $this->id = null;  
-    return false;
+		{
+			$this->_load($req->get_row());
+			return true;
+		}
+		
+		$this->id = null;	
+		return false;
   }
 
   function _load($row)
@@ -93,12 +93,11 @@ class sujet extends basedb
     $this->id_nouvelle = $row["id_nouvelle"];
     $this->id_catph = $row["id_catph"];
     $this->id_sondage = $row["id_sondage"];
-    $this->id_groupe = $row['id_groupe'];
   }
 
   function create ( &$forum, $id_utilisateur, $titre, $soustitre=null,
       $type=SUJET_NORMAL,$icon=null,$date_fin_annonce=null,
-      $id_nouvelle=null,$id_catph=null,$id_sondage=null, $id_groupe=null)
+      $id_nouvelle=null,$id_catph=null,$id_sondage=null   )
   {
   
     /**@TODO: tester droit d'écriture*/
@@ -122,7 +121,7 @@ class sujet extends basedb
     $this->id_nouvelle=$id_nouvelle;
     $this->id_catph=$id_catph;
     $this->id_sondage=$id_sondage;  
-    $this->id_groupe=$id_groupe;
+    
     
     $req = new insert ($this->dbrw,
             "frm_sujet", array(
@@ -139,25 +138,24 @@ class sujet extends basedb
               "id_utilisateur_moderateur"=>$this->id_utilisateur_moderateur,
               "id_nouvelle"=>$this->id_nouvelle,
               "id_catph"=>$this->id_catph,
-              "id_sondage"=>$this->id_sondage,
-              "id_groupe"=>$this->id_groupe
+              "id_sondage"=>$this->id_sondage
             ));
   
-    if ( $req )
-    {
-      $this->id = $req->get_id();
-      $this->auto_user_star($forum,true);
-      return true;
-    }
-    
-    $this->id = null;
+		if ( $req )
+		{
+			$this->id = $req->get_id();
+			$this->auto_user_star($forum,true);
+		  return true;
+		}
+		
+		$this->id = null;
     return false;
   }
   //      $forum->update_last_sujet(); 
 
   function update ( $titre, $soustitre=null,
       $type=SUJET_NORMAL,$icon=null,$date_fin_annonce=null,
-      $id_nouvelle=null,$id_catph=null,$id_sondage=null, $id_groupe=null )
+      $id_nouvelle=null,$id_catph=null,$id_sondage=null   )
   {
   
     $this->titre=$titre;
@@ -172,7 +170,7 @@ class sujet extends basedb
     $this->id_nouvelle=$id_nouvelle;
     $this->id_catph=$id_catph;
     $this->id_sondage=$id_sondage;  
-    $this->id_groupe=$id_groupe;
+    
     $req = new update ($this->dbrw,
             "frm_sujet", array(
               "id_forum"=>$this->id_forum,
@@ -184,8 +182,7 @@ class sujet extends basedb
               "id_utilisateur_moderateur"=>$this->id_utilisateur_moderateur,
               "id_nouvelle"=>$this->id_nouvelle,
               "id_catph"=>$this->id_catph,
-              "id_sondage"=>$this->id_sondage,
-        "id_groupe"=>$this->id_groupe
+              "id_sondage"=>$this->id_sondage
             ),
             array("id_sujet"=>$this->id) );
   
@@ -235,8 +232,8 @@ class sujet extends basedb
       return;
       
     $req = new requete($this->db, 
-      "SELECT `id_utilisateur` FROM `asso_membre` " .
-      "WHERE `asso_membre`.`date_fin` IS NULL AND `asso_membre`.`id_asso`='".$forum->id_asso."' ");
+  		"SELECT `id_utilisateur` FROM `asso_membre` " .
+  		"WHERE `asso_membre`.`date_fin` IS NULL AND `asso_membre`.`id_asso`='".$forum->id_asso."' ");
     
     while ( list($id_utilisateur) = $req->get_row() )
     {
@@ -251,14 +248,14 @@ class sujet extends basedb
   /**
    * Met à jour le dernier message posté et le nombre de messages
    */
-  function update_last_message ( &$forum )
+	function update_last_message ( &$forum )
   {
     $req = new requete($this->db, 
       "SELECT id_message ".
       "FROM `frm_message` ".
-      "WHERE `id_sujet` = '". mysql_real_escape_string($this->id) . "' ".
-      "ORDER BY `date_message` DESC ".
-      "LIMIT 1");
+		  "WHERE `id_sujet` = '". mysql_real_escape_string($this->id) . "' ".
+		  "ORDER BY `date_message` DESC ".
+		  "LIMIT 1");
     
     if ( $req->lines == 0 )
     {
@@ -271,8 +268,8 @@ class sujet extends basedb
     $req = new requete($this->db, 
       "SELECT COUNT(*) ".
       "FROM `frm_message` ".
-      "WHERE `id_sujet` = '". mysql_real_escape_string($this->id) . "' ");
-                
+		  "WHERE `id_sujet` = '". mysql_real_escape_string($this->id) . "' ");
+		            
     list($this->nb_messages) = $req->get_row();
               
     $req = new update ($this->dbrw, "frm_sujet", 
@@ -284,14 +281,14 @@ class sujet extends basedb
   function get_user_infos ( $id_utilisateur )
   {
     $req = new requete($this->db, "SELECT id_message_dernier_lu, etoile_sujet FROM `frm_sujet_utilisateur`
-        WHERE `id_sujet` = '".mysql_real_escape_string($this->id) . "'
-        AND `id_utilisateur` = '".mysql_real_escape_string($id_utilisateur) . "'
-        LIMIT 1");
-        
-    if ( $req->lines == 0 )
-      return null;
-    
-    return $req->get_row();    
+				WHERE `id_sujet` = '".mysql_real_escape_string($this->id) . "'
+		    AND `id_utilisateur` = '".mysql_real_escape_string($id_utilisateur) . "'
+				LIMIT 1");
+				
+		if ( $req->lines == 0 )
+		  return null;
+		
+		return $req->get_row();    
   }
 
   /**
@@ -307,7 +304,7 @@ class sujet extends basedb
     if ( is_null($row) )
       return null;
     
-    return $row['id_message_dernier_lu'];
+		return $row['id_message_dernier_lu'];
   }
 
   /**
@@ -379,12 +376,12 @@ class sujet extends basedb
 
     $req = new requete($this->db,$query);
     
-    $rows = array();
-    
-    while ( $row = $req->get_row() )
-      $rows[] = $row;
-   
-    return $rows;
+	  $rows = array();
+	  
+	  while ( $row = $req->get_row() )
+	    $rows[] = $row;
+	 
+	  return $rows;
   }
 
 }

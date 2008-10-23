@@ -277,9 +277,8 @@ class forum extends basedb
     {
       $grps = $user->get_groups_csv();
       $query .= "AND ((droits_acces_forum & 0x1) OR " .
-        "((droits_acces_forum & 0x10) AND frm_forum.id_groupe IN ($grps)) OR " .
-        "(id_groupe_admin IN ($grps))) ".
-        "AND (frm_sujet.id_groupe IN ($grps) OR frm_sujet.id_groupe IS NULL) ";
+        "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
+        "(id_groupe_admin IN ($grps))) ";
     }
     $query .= "ORDER BY frm_forum.ordre_forum";
         
@@ -295,7 +294,6 @@ class forum extends basedb
   
   function get_sujets ( &$user, $st, $npp )
   {
-    $grps = $user->get_groups_csv();
     $query = "SELECT frm_sujet.*, ".
         "frm_message.date_message, " .
         "frm_message.id_message, " .
@@ -309,6 +307,7 @@ class forum extends basedb
           CONCAT(premier_auteur.prenom_utl,' ',premier_auteur.nom_utl)
         ) AS `nom_utilisateur_premier_auteur`, " .
         "premier_auteur.id_utilisateur AS `id_utilisateur_premier`, ";
+        
     if ( !$user->is_valid() )
       $query .= "0 AS `nonlu`, 0 AS `etoile` ";
     elseif( is_null($user->tout_lu_avant))
@@ -335,8 +334,6 @@ class forum extends basedb
                    
     $query .= "WHERE " .
               "id_forum='".$this->id."' ";
-    if ( !$this->is_admin( $user ) )
-      $query .= "AND (id_groupe IN ($grps) OR id_groupe IS NULL)";
     $query .= "ORDER BY frm_sujet.type_sujet=2 DESC, frm_message.date_message DESC ";
     $query .= "LIMIT $st, $npp";
     
