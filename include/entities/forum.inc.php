@@ -279,7 +279,7 @@ class forum extends basedb
       $query .= "AND ((droits_acces_forum & 0x1) OR " .
         "((droits_acces_forum & 0x10) AND frm_forum.id_groupe IN ($grps)) OR " .
         "(id_groupe_admin IN ($grps))) ".
-        "AND frm_sujet.id_groupe IN ($grps)";
+        "AND (frm_sujet.id_groupe IN ($grps) OR frm_sujet.id_groupe IS NULL) ";
     }
     $query .= "ORDER BY frm_forum.ordre_forum";
         
