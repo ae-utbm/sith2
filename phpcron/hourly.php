@@ -4,8 +4,11 @@ $_SERVER['SCRIPT_FILENAME']="/var/www/ae/www/ae2/phpcron";
 /*
  * hourly
  */
-$topdir=$_SERVER['SCRIPT_FILENAME']."/../";
 
+$topdir=$_SERVER['SCRIPT_FILENAME']."/../";
+require_once($topdir. "include/site.inc.php");
+
+$site = new site ();
 
 $site = new site ();
 
