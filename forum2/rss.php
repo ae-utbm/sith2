@@ -28,8 +28,8 @@ $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir . "include/rssforum.inc.php");
-
-$user = new utilisateur($site->db);
+$db=new mysqlae();
+$user = new utilisateur($db);
 if(   isset($_REQUEST['id_utilisateur'])
    && isset($_REQUEST['serviceident'])
    && !empty($_REQUEST['id_utilisateur'])
@@ -37,7 +37,7 @@ if(   isset($_REQUEST['id_utilisateur'])
 {
   $user->load_by_service_ident($_REQUEST['id_utilisateur'],$_REQUEST['serviceident']);
 }
-$rss = new rssfeedforum(new mysqlae(), 40, $user);
+$rss = new rssfeedforum($db, 40, $user);
 $rss->output();
 
 
