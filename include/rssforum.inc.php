@@ -27,6 +27,8 @@
 require_once($topdir."include/rss.inc.php");
 require_once($topdir . "include/lib/dokusyntax.inc.php");
 require_once($topdir . "include/lib/bbcode.inc.php");
+require_once($topdir . "include/entities/forum.inc.php");
+require_once($topdir . "include/entities/utilisateur.inc.php");
 
 class rssfeedforum extends rssfeed
 {
@@ -36,6 +38,7 @@ class rssfeedforum extends rssfeed
   function rssfeedforum(&$db, $nbmessage = 50)
   {
     $this->db = $db;
+    $this->user = new utilisateur( $db );
     if (intval($nbmessage) < 0)
       $nbmessage = 50;
     $this->nb = $nbmessage;
@@ -50,6 +53,7 @@ class rssfeedforum extends rssfeed
 
   function output_items()
   {
+    $forum = new forum($this->db);
     $req = new requete ($this->db, "SELECT 
                                              COALESCE(`surnom_utbm`,CONCAT(`prenom_utl`,' ',`nom_utl`)) AS `nom_utilisateur`
                                              , `frm_message`.`id_message`
@@ -59,6 +63,7 @@ class rssfeedforum extends rssfeed
                                              , `frm_message`.`syntaxengine_message`
                                              , `frm_sujet`.`titre_sujet`
                                              , `frm_forum`.`titre_forum`
+                                             , `frm_forum`.`id_forum`
                                     FROM `frm_message`
                                     INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur` = `frm_message`.`id_utilisateur`
                                     LEFT JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur`
@@ -68,23 +73,27 @@ class rssfeedforum extends rssfeed
                                     LIMIT ".$this->nb);
 
     while ($row = $req->get_row())
-      {
-	echo "<item>\n";
-	echo "\t<title><![CDATA[". $row["titre_sujet"] . ", par ".$row['nom_utilisateur']."]]></title>\n";
-	echo "\t<link>".$this->pubUrl."?id_message=".$row["id_message"]."#msg".$row['id_message']."</link>\n";
-	
-	if ($row['syntaxengine_message'] == 'doku')
-	  $content = doku2xhtml($row['contenu_message']);
+    {
+      $forum->load_by_id($row['id_forum']);
+      if(!$forum->is_right($this->user,DROIT_LECTURE))
+        continue;
 
-	elseif ($row['syntaxengine_message'] == 'bbcode')
-	  $content = bbcode($row['contenu_message']);
+      echo "<item>\n";
+      echo "\t<title><![CDATA[". $row["titre_sujet"] . ", par ".$row['nom_utilisateur']."]]></title>\n";
+      echo "\t<link>".$this->pubUrl."?id_message=".$row["id_message"]."#msg".$row['id_message']."</link>\n";
+  
+      if ($row['syntaxengine_message'] == 'doku')
+        $content = doku2xhtml($row['contenu_message']);
 
-	echo "\t<description><![CDATA[".$content."]]></description>\n";
-	echo "\t<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date_message"]))."</pubDate>\n";
-	echo "\t<guid>".$this->pubUrl."?id_sujet=".$row["id_sujet"]."#msg".$row['id_message']."</guid>\n";
-	echo "</item>\n";	
-	
-      }
+      elseif ($row['syntaxengine_message'] == 'bbcode')
+        $content = bbcode($row['contenu_message']);
+
+      echo "\t<description><![CDATA[".$content."]]></description>\n";
+      echo "\t<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date_message"]))."</pubDate>\n";
+      echo "\t<guid>".$this->pubUrl."?id_sujet=".$row["id_sujet"]."#msg".$row['id_message']."</guid>\n";
+      echo "</item>\n";  
+  
+    }
 
   }
 
