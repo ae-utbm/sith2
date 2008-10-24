@@ -466,6 +466,10 @@ elseif ( $_REQUEST["action"] == "cadeau" && $site->user->is_in_group("gestion_ae
   $cotiz->load_by_id($carte->id_cotisation);
   $cotiz->mark_cadeau();
 }
+elseif ( $_REQUEST["action"] == "serviceident" && $can_edit  )
+{
+  $user->gen_serviceident();
+}
 
 if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/var/www/ae/www/ae2/var/img") )
 {
@@ -1295,7 +1299,8 @@ else
     "<a href=\"user.php?page=edit&amp;id_utilisateur=".$user->id."\">Informations personelles</a>",
     "<a href=\"user.php?see=email&amp;page=edit&amp;id_utilisateur=".$user->id."\">Adresses e-mail (personelle et utbm)</a>",
     "<a href=\"user.php?see=passwd&amp;page=edit&amp;id_utilisateur=".$user->id."\">Mot de passe</a>",
-    "<a href=\"user.php?see=photos&amp;page=edit&amp;id_utilisateur=".$user->id."\">Photo d'identité, avatar et blouse</a>"
+    "<a href=\"user.php?see=photos&amp;page=edit&amp;id_utilisateur=".$user->id."\">Photo d'identité, avatar et blouse</a>",
+    "<a href=\"user.php?action=serviceident&amp;id_utilisateur=".$user->id."\">Généré un identifiant de service</a>"
     )),true); 
   }
 

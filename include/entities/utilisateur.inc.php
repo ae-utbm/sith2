@@ -2373,6 +2373,15 @@ L'équipe info AE";
                "utilisateurs",
                array("serviceident"=>$uid),
                array("id_utilisateur"=>$this->id));
+    $body = "Bonjour,
+Votre identifiant de services est : $uid
+
+L'équipe info AE";
+
+    $ret = mail($email,
+                "[Site AE] Nouvel identifiant de services",
+                utf8_decode($body),
+                "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ae@utbm.fr");
   }
 
   function load_by_service_ident($id,$key)
