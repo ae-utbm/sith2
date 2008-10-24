@@ -2378,7 +2378,7 @@ Votre identifiant de services est : $uid
 
 L'équipe info AE";
 
-    $ret = mail($email,
+    $ret = mail($this->email,
                 "[Site AE] Nouvel identifiant de services",
                 utf8_decode($body),
                 "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ae@utbm.fr");
