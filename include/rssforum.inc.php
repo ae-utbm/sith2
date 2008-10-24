@@ -35,10 +35,12 @@ class rssfeedforum extends rssfeed
   var $nb;
   var $db;
 
-  function rssfeedforum(&$db, $nbmessage = 50)
+  function rssfeedforum(&$db, $nbmessage = 50, &$user=null)
   {
     $this->db = $db;
-    $this->user = new utilisateur( $db );
+    if(is_null($user))
+      $user=new utilisateur($this->db);
+    $this->user = &$user;
     if (intval($nbmessage) < 0)
       $nbmessage = 50;
     $this->nb = $nbmessage;
