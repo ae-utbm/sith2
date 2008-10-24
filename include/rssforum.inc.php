@@ -54,6 +54,15 @@ class rssfeedforum extends rssfeed
   function output_items()
   {
     $forum = new forum($this->db);
+    $query='';
+    if ( !$forum->is_admin( $this->user ) )
+    {
+      $grps = $this->user->get_groups_csv();
+      $query = "WHERE ((droits_acces_forum & 0x1) OR " .
+               "((droits_acces_forum & 0x10) AND id_groupe IN ($grps)) OR " .
+               "(id_groupe_admin IN ($grps)) OR " .
+               "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$this->user->id."')) ";
+    }
     $req = new requete ($this->db, "SELECT 
                                              COALESCE(`surnom_utbm`,CONCAT(`prenom_utl`,' ',`nom_utl`)) AS `nom_utilisateur`
                                              , `frm_message`.`id_message`
@@ -69,6 +78,7 @@ class rssfeedforum extends rssfeed
                                     LEFT JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur`
                                     INNER JOIN `frm_sujet` ON `frm_sujet`.`id_sujet` = `frm_message`.`id_sujet`
                                     INNER JOIN `frm_forum` ON `frm_sujet`.`id_forum` = `frm_forum`.`id_forum`
+                                    $query
                                     ORDER BY `frm_message`.`id_message` DESC
                                     LIMIT ".$this->nb);
 
