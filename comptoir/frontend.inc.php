@@ -327,8 +327,8 @@ else if ( $site->comptoir->client->id > 0 )
   $today = mktime();
   $secondes = ($today > $naiss)? $today - $naiss : $naiss - $today;
   $annees = date('Y', $secondes) - 1970;
-  if($age<16)
-    $cts->add_paragraph('Attention, client de moins de 16ans, pas d\'alccol','linfo');
+  if($age<18)
+    $cts->add_paragraph('Attention, ce cotisant n\'a pas 18 ans et ne peut donc pas achetter d\'alccol','linfo');
   if ( $message )
     $cts->add_paragraph($message,"linfo");  
   
