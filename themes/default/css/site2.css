@@ -45,14 +45,16 @@ body
 
 div#site
 {
-  width:1000px;
+  width:682px;
+  padding:0;
   margin:auto;
 }
 
 div#header
 {
-  width:1000px;
-  height:80px;
+  width:682px;
+  height:85px;
+  background: url("../images/top-bg.png");
 }
 div#headermenu
 {
@@ -161,18 +163,6 @@ p.error
   font-size:1px;
   clear: both;
 }
-#logo
-{
-  height:86px;
-  background: url("../images/top-bg.png");
-}
-
-#logo a
-{
-  width:682px;
-  height:85px;
-}
-
 div.important p
 {
   margin: 0;
