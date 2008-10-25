@@ -231,7 +231,7 @@ class interfaceweb
     $this->buffer .= "<body>\n";
     $this->buffer .= "<div id='flogin'></div>\n";
     /* Generate the logo */
-    $this->buffer .= "<div id=\"site clearfix\">\n";    
+    $this->buffer .= "<div id=\"site\">\n";    
 
 /* header */
     $this->buffer .= "<div id='header'>\n";

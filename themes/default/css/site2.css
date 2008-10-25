@@ -43,10 +43,27 @@ body
   padding: 0;
 }
 
-#site
+div#site
 {
   width:1000px;
 }
+
+div#header
+{
+  width:1000px;
+  height:80px;
+}
+
+div#login
+{
+  float:right;
+}
+div#fsearchbox
+{
+  float:right;
+}
+
+
 
 a
 {
@@ -1692,15 +1709,8 @@ td.moneycell
  */
 #fsearchbox
 {
-  position: absolute;
-  top: 87px;
-  right: 20px;
-  
   width:213px;
   height:24px;
-
-  
-  
   background-image:url("../images/search.png");
   background-repeat: no-repeat;
   background-position: left top;  
