@@ -53,19 +53,20 @@ div#header
 {
   width:1000px;
   height:80px;
+}
+div#headermenu
+{
+  float:right;
   display:block;
 }
 div#login
 {
-  float:right;
 }
 div#assos
 {
-  float:right;
 }
 div#fsearchbox
 {
-  float:right;
 }
 
 
