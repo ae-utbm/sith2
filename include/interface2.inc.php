@@ -446,14 +446,14 @@ class interfaceweb
     }
     $this->buffer .= "</body>\n";
     $this->buffer .= "</html>\n";
+    echo $this->buffer;
     $timing["render"] += microtime(true);
     $timing["all"] += microtime(true);
-    $this->buffer .= "<!-- ";
+    echo "<!-- ";
     print_r($timing);
     if ( $GLOBALS["taiste"] )
-      $this->buffer .= "\non est en taiste\n";
-    $this->buffer .= " -->";
-    echo $this->buffer;
+      echo "\non est en taiste\n";
+    echo " -->";
   }
 
   /**
