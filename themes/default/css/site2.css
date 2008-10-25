@@ -57,19 +57,18 @@ div#header
 div#headermenu
 {
   float:right;
-  display:block;
 }
 div#login
 {
-  display:inline;
+  display:inline-block;
 }
 div#assos
 {
-  display:inline;
+  display:inline-block;
 }
 div#fsearchbox
 {
-  display:inline;
+  display:inline-block;
 }
 
 
@@ -163,7 +162,7 @@ p.error
 }
 #logo
 {
-  float:left;
+  position:
   height:86px;
   background: url("../images/top-bg.png");
 }
