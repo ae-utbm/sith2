@@ -273,10 +273,10 @@ class interfaceweb
     $this->buffer .= "<div class=\"fend\"></div></div>\n";
 
     $this->buffer .= "<div id=\"fsearchres\"></div>\n";
+    $this->buffer .= "</div>\n";
 
     $this->buffer .= "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/Ae.jpg\" height=\"60\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";
 
-    $this->buffer .= "</div>\n";
     $this->buffer .= "</div>\n";
 /* fin header */
 
