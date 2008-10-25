@@ -1,5 +1,5 @@
 <?php
-
+header("Location: ../");
 $topdir="../../";
 include($topdir."include/i/site.inc.php");
 require_once($topdir. "include/mysqlpg.inc.php");

@@ -79,7 +79,7 @@ class fsearch extends stdcontents
     
     $this->nb=0;
   
-  
+/*  
     require_once($topdir. "include/mysqlpg.inc.php");
     $this->dbpg = new mysqlpg ();
 
@@ -128,7 +128,7 @@ class fsearch extends stdcontents
         $this->buffer .= "</ul>";  
       }
     }
-  
+  */
     $pattern = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","(e|é|è|ê|ë|É|È|Ê|Ë)",$_REQUEST["pattern"]);
     $pattern = ereg_replace("(a|à|â|ä|À|Â|Ä)","(a|à|â|ä|À|Â|Ä)",$pattern);
     $pattern = ereg_replace("(i|ï|î|Ï|Î)","(i|ï|î|Ï|Î)",$pattern);
