@@ -162,9 +162,6 @@ p.error
 }
 #logo
 {
-  position:relative;
-  top:0;
-  left:0;
   height:86px;
   background: url("../images/top-bg.png");
 }
