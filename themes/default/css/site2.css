@@ -43,6 +43,11 @@ body
   padding: 0;
 }
 
+#site
+{
+  width:1000px;
+}
+
 a
 {
   text-decoration: none;
