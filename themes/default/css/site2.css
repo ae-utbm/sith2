@@ -54,7 +54,7 @@ div#header
 {
   width:900px;
   height:85px;
-  background: url("../images/top-bg.png");
+  background-color: #000000;
 }
 div#logo
 {
