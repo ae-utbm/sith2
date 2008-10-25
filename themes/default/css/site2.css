@@ -56,6 +56,11 @@ div#header
   height:85px;
   background: url("../images/top-bg.png");
 }
+div#logo
+{
+  float:left;
+  display:block-inline;
+}
 div#headermenu
 {
   display:block-inline;
