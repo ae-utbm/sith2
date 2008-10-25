@@ -166,16 +166,10 @@ p.error
   background: url("../images/top-bg.png");
 }
 
-#logo a img
-{
-  display: none;
-}
-
 #logo a
 {
   width:682px;
   height:85px;
-  background: url("../images/top-logo.png");
 }
 
 div.important p
