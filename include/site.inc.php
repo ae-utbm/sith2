@@ -334,10 +334,7 @@ class site extends interfaceweb
     }
     elseif ( $section == "matmatronch" )
     {
-      require_once($topdir . "include/cts/newsflow.inc.php");
-      
-      $this->set_side_boxes("left",array("lastnews","connexion"),"mmt_left");
-      $this->add_box("lastnews",new newslist ( "Denières nouvelles", $this->db ) );
+      $this->set_side_boxes("left",array("connexion"),"mmt_left");
     }
     elseif ( $section == "forum" )
     {
