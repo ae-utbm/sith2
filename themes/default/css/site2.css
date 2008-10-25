@@ -53,9 +53,13 @@ div#header
 {
   width:1000px;
   height:80px;
+  display:block;
 }
-
 div#login
+{
+  float:right;
+}
+div#assos
 {
   float:right;
 }
