@@ -163,6 +163,7 @@ p.error
 }
 #logo
 {
+  float:left;
   height:86px;
   background: url("../images/top-bg.png");
 }
