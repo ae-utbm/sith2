@@ -54,7 +54,6 @@ div#header
 {
   width:682px;
   height:85px;
-  padding:5px;
   background: url("../images/top-bg.png");
 }
 div#logo
@@ -66,6 +65,7 @@ div#headermenu
 {
   display:block-inline;
   float:right;
+  margin:5px;
 }
 div#login
 {
