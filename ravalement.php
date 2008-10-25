@@ -27,7 +27,7 @@
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Sofware
+ * along with site program; if not, write to the Free Sofware
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
@@ -40,7 +40,7 @@ require_once($topdir . "include/entities/asso.inc.php");
 require_once($topdir . "include/entities/news.inc.php");
 
 $site = new site ();
-if(!$this->user->is_in_group("root") && !$this->user->is_in_group("moderateur_site"))
+if(!$site->user->is_in_group("root") && !$site->user->is_in_group("moderateur_site"))
   exit();
 $site->add_css("css/doku.css");
 
