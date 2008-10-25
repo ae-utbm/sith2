@@ -1300,7 +1300,7 @@ else
     "<a href=\"user.php?see=email&amp;page=edit&amp;id_utilisateur=".$user->id."\">Adresses e-mail (personelle et utbm)</a>",
     "<a href=\"user.php?see=passwd&amp;page=edit&amp;id_utilisateur=".$user->id."\">Mot de passe</a>",
     "<a href=\"user.php?see=photos&amp;page=edit&amp;id_utilisateur=".$user->id."\">Photo d'identité, avatar et blouse</a>",
-    "<a href=\"user.php?action=serviceident&amp;id_utilisateur=".$user->id."\">Généré un identifiant de service</a>"
+    "<a href=\"user.php?action=serviceident&amp;id_utilisateur=".$user->id."\">Générer un identifiant de service</a>"
     )),true); 
   }
 
