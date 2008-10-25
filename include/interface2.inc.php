@@ -107,7 +107,7 @@ class interfaceweb
     $this->db = $db;
     $this->dbrw = $dbrw;
 
-    $this->sides["left"] = array("connexion");
+    $this->sides["left"] = array();
     $this->sides["right"] = array();
 
     $this->user = new utilisateur( $db, $dbrw );
