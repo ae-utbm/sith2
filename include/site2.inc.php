@@ -307,9 +307,6 @@ class site extends interfaceweb
       $this->add_box("planning", $this->get_planning_contents());
       $this->add_box("planning_permanences", $this->get_planning_permanences_contents());
       
-      if ( $GLOBALS["taiste"] )
-        $this->add_box("stream",$this->get_stream_box());
-      
       if ($this->user->is_valid())
       {
         $this->add_box("forum",$this->get_forum_box());
