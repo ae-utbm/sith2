@@ -61,12 +61,15 @@ div#headermenu
 }
 div#login
 {
+  display:inline;
 }
 div#assos
 {
+  display:inline;
 }
 div#fsearchbox
 {
+  display:inline;
 }
 
 
