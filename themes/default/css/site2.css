@@ -54,6 +54,7 @@ div#header
 {
   width:682px;
   height:85px;
+  padding:5px;
   background: url("../images/top-bg.png");
 }
 div#logo
