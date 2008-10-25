@@ -1728,7 +1728,7 @@ td.moneycell
 
 #fsearchbox input
 {
-  position: absolute;
+  position: relative;
   width:180px;
   top:4px;
   left:28px;
