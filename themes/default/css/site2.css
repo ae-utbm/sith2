@@ -56,8 +56,7 @@ div#header
 }
 div#headermenu
 {
-  position:absolute;
-  top:0;
+  float:right;
 }
 div#login
 {
