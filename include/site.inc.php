@@ -745,10 +745,8 @@ class site extends interfaceweb
       $sublist->add("<a href=\"".$topdir."user/compteae.php\">Factures</a>");
     else
     {
-      $sublist->add("<a href=\"".$topdir."uvs/edt.php\">Mes emplois du temps</a>");
       if($this->user->utbm)
         $sublist->add("<a href=\"".$topdir."trombi/index.php\">Trombinoscope</a>");
-      $sublist->add("<a href=\"".$topdir."user.php?view=assos\">Associations et clubs</a>");
       if( $this->user->is_in_group("jobetu_etu") )
       {
         $jobuser = new jobuser_etu($this->db);
@@ -760,8 +758,6 @@ class site extends interfaceweb
         $sublist->add("<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>");
       else
         $sublist->add("<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>");
-      $sublist->add("<a href=\"".$topdir."user.php?view=parrain\">Parrains et fillots</a>");
-      $sublist->add("<a href=\"".$topdir."user/compteae.php\">Compte AE</a>");
       $sublist->add("<a href=\"".$topdir."user/outils.php\">Mes outils</a>");
     }
     $cts->add($sublist,true, true, "accountbox", "boxlist", true, true);
