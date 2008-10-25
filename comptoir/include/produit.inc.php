@@ -82,15 +82,22 @@ class produit extends stdentity
   /** etat d'un produit hors commerce, gardé pour archive */
   var $archive;
 
+  /** le produit peut il être vendu à un mineur */
+  /* 0  => tout le monde
+   * 16 => 16ans ou plus
+   * 18 => majeurs uniquement
+   */
+  var $mineur=0;
+
   /** Cache de l'instance de la classe associée 
    * @see get_prodclass 
    * @private 
    */
-	var $cl;
+  var $cl;
 
 
   /* Class "amies" pouvant modifier les instances
-		- VenteProduit
+    - VenteProduit
   */
 
   /** 
@@ -103,14 +110,14 @@ class produit extends stdentity
   {
     $req = new requete ($this->db, "SELECT * FROM `cpt_produits`
                                     WHERE `id_produit`='".mysql_real_escape_string($id)."'");
-		
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		$this->id = null;	
-		return false;
+    
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
+    $this->id = null;  
+    return false;
   }
 
   /** 
@@ -126,14 +133,14 @@ class produit extends stdentity
                                    WHERE `cbarre_prod` = '".mysql_real_escape_string($code_barre)."'
                                    AND `prod_archive`!='1'");
 
-		if ( $req->lines == 1 )
-		{
-			$this->_load($req->get_row());
-			return true;
-		}
-		
-		$this->id = null;	
-		return false;
+    if ( $req->lines == 1 )
+    {
+      $this->_load($req->get_row());
+      return true;
+    }
+    
+    $this->id = null;  
+    return false;
   }
 
   /** 
@@ -145,24 +152,25 @@ class produit extends stdentity
    * @return true si succès, false sinon
    */
   function ajout ($id_typeprod,
-		  $id_assocpt,
-		  $nom,
-		  $prix_vente_barman,
-		  $prix_vente,
-		  $prix_achat,
-		  $meta,
-		  $action,
-		  $code_barre,
-		  $stock_global,
-		  $id_file,
-		  $description,
-		  $description_longue,
-		  $a_retirer,
-		  $postable,
-		  $frais_port,
-		  $id_groupe=null,
-		  $date_fin=null,
-		  $id_produit_parent=null)
+      $id_assocpt,
+      $nom,
+      $prix_vente_barman,
+      $prix_vente,
+      $prix_achat,
+      $meta,
+      $action,
+      $code_barre,
+      $stock_global,
+      $id_file,
+      $description,
+      $description_longue,
+      $a_retirer,
+      $postable,
+      $frais_port,
+      $id_groupe=null,
+      $date_fin=null,
+      $id_produit_parent=null,
+      $mineur=0 )
   {
 
     $this->id_type = $id_typeprod;
@@ -187,38 +195,38 @@ class produit extends stdentity
     $this->id_groupe = $id_groupe?$id_groupe:null;
     $this->date_fin = $date_fin?$date_fin:null;
     $this->id_produit_parent = $id_produit_parent;
-
+    $this->mineur=$mineur;
 
     $req = new insert ($this->dbrw,
-		       "cpt_produits",
-		       array("id_typeprod" => $this->id_type,
-			     "id_assocpt" => $this->id_assocpt,
-			     "nom_prod" => $this->nom,
-			     "prix_vente_barman_prod" => $this->prix_vente_barman,
-			     "prix_vente_prod" => $this->prix_vente,
-			     "prix_achat_prod" => $this->prix_achat,
-			     "meta_action_prod" => $this->meta,
-			     "action_prod" => $this->action,
-			     "cbarre_prod" => $this->code_barre,
-			     "stock_global_prod" => $this->stock_global,
-			     "prod_archive" => $this->archive,
-			     "id_file" => $this->id_file,
-			     "description_prod" => $this->description,
-			     "description_longue_prod" => $this->description_longue,
+           "cpt_produits",
+           array("id_typeprod" => $this->id_type,
+           "id_assocpt" => $this->id_assocpt,
+           "nom_prod" => $this->nom,
+           "prix_vente_barman_prod" => $this->prix_vente_barman,
+           "prix_vente_prod" => $this->prix_vente,
+           "prix_achat_prod" => $this->prix_achat,
+           "meta_action_prod" => $this->meta,
+           "action_prod" => $this->action,
+           "cbarre_prod" => $this->code_barre,
+           "stock_global_prod" => $this->stock_global,
+           "prod_archive" => $this->archive,
+           "id_file" => $this->id_file,
+           "description_prod" => $this->description,
+           "description_longue_prod" => $this->description_longue,
 
-			     'frais_port_prod' => $this->frais_port,
-			     'postable_prod' => $this->postable,
-			     'a_retirer_prod'=> $this->a_retirer,
-			     
-			     'id_groupe'=>$this->id_groupe,
-			     'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
-			     'id_produit_parent'=> $this->id_produit_parent	     
-			     
-			     
-			      ));
+           'frais_port_prod' => $this->frais_port,
+           'postable_prod' => $this->postable,
+           'a_retirer_prod'=> $this->a_retirer,
+           
+           'id_groupe'=>$this->id_groupe,
+           'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
+           'id_produit_parent'=> $this->id_produit_parent       
+           
+           
+            ));
 
     if ( !$req )
-    	return false;
+      return false;
 
     $this->id = $req->get_id();
 
@@ -234,25 +242,26 @@ class produit extends stdentity
    * @return true si succès, false sinon
    */
   function modifier ($id_typeprod,
-		     $nom,
-		     $prix_vente_barman,
-		     $prix_vente,
-		     $prix_achat,
-		     $meta,
-		     $action,
-		     $code_barre,
-		     $stock_global,
-		     $id_file,
-		     $description,
-		     $description_longue,
-		     $id_assocpt,
-		     $a_retirer,
-		     $postable,
-		     $frais_port,
-		     $id_groupe=null,
-		     $date_fin=null,
-         $id_produit_parent=null
-		     )
+         $nom,
+         $prix_vente_barman,
+         $prix_vente,
+         $prix_achat,
+         $meta,
+         $action,
+         $code_barre,
+         $stock_global,
+         $id_file,
+         $description,
+         $description_longue,
+         $id_assocpt,
+         $a_retirer,
+         $postable,
+         $frais_port,
+         $id_groupe=null,
+         $date_fin=null,
+         $id_produit_parent=null,
+         $mineur=0
+         )
   {
 
     $this->id_type = $id_typeprod;
@@ -276,37 +285,37 @@ class produit extends stdentity
     $this->id_groupe = $id_groupe?$id_groupe:null;
     $this->date_fin = $date_fin?$date_fin:null;
     $this->id_produit_parent = $id_produit_parent;
-
+    $this->mineur = $mineur;
     
     $req = new update ($this->dbrw,
-		       "cpt_produits",
-		       array("id_typeprod" => $this->id_type,
-			     "id_assocpt" => $this->id_assocpt,
-			     "nom_prod" => $this->nom,
-			     "prix_vente_barman_prod" => $this->prix_vente_barman,
-			     "prix_vente_prod" => $this->prix_vente,
-			     "prix_achat_prod" => $this->prix_achat,
-			     "meta_action_prod" => $this->meta,
-			     "action_prod" => $this->action,
-			     "cbarre_prod" => $this->code_barre,
-			     "stock_global_prod" => $this->stock_global,
-			     "id_file" => $this->id_file,
-			     "description_prod" => $this->description,
-			     "description_longue_prod" => $this->description_longue,
-			     
-			     'frais_port_prod' => $this->frais_port,
-			     'postable_prod' => $this->postable,
-			     'a_retirer_prod'=> $this->a_retirer,
-			     
-			     'id_groupe'=>$this->id_groupe,
-			     'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
-			     'id_produit_parent'=> $this->id_produit_parent
-			     
-			      ),
-			   array("id_produit" => $this->id));
+           "cpt_produits",
+           array("id_typeprod" => $this->id_type,
+           "id_assocpt" => $this->id_assocpt,
+           "nom_prod" => $this->nom,
+           "prix_vente_barman_prod" => $this->prix_vente_barman,
+           "prix_vente_prod" => $this->prix_vente,
+           "prix_achat_prod" => $this->prix_achat,
+           "meta_action_prod" => $this->meta,
+           "action_prod" => $this->action,
+           "cbarre_prod" => $this->code_barre,
+           "stock_global_prod" => $this->stock_global,
+           "id_file" => $this->id_file,
+           "description_prod" => $this->description,
+           "description_longue_prod" => $this->description_longue,
+           
+           'frais_port_prod' => $this->frais_port,
+           'postable_prod' => $this->postable,
+           'a_retirer_prod'=> $this->a_retirer,
+           
+           'id_groupe'=>$this->id_groupe,
+           'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
+           'id_produit_parent'=> $this->id_produit_parent,
+           'mineur'=>$this->mineur
+            ),
+         array("id_produit" => $this->id));
 
     if ( !$req )
-    	return false;
+      return false;
 
     return true;
   }
@@ -322,13 +331,13 @@ class produit extends stdentity
     $this->id_type = $id_typeprod;
 
     $req = new update ($this->dbrw,
-		       "cpt_produits",
-		       array("id_typeprod" => $this->id_type
-			      ),
-			   array("id_produit" => $this->id));
+           "cpt_produits",
+           array("id_typeprod" => $this->id_type
+            ),
+         array("id_produit" => $this->id));
 
     if ( !$req )
-    	return false;
+      return false;
 
     return true;
   }
@@ -342,9 +351,9 @@ class produit extends stdentity
     if ( $this->determine_deja_vendu() )
       return false;
 
-		new delete($this->dbrw,"cpt_produits",array("id_produit" => $this->id));
-		new delete($this->dbrw,"cpt_mise_en_vente",array("id_produit" => $this->id));
-		
+    new delete($this->dbrw,"cpt_produits",array("id_produit" => $this->id));
+    new delete($this->dbrw,"cpt_mise_en_vente",array("id_produit" => $this->id));
+    
     return false;
   }
 
@@ -359,17 +368,17 @@ class produit extends stdentity
   {
 
     $req = new update ($this->dbrw,
-		       "cpt_produits",
-		       array(
-			     "prod_archive" => 1
-			      ),
-			   array("id_produit" => $this->id));
+           "cpt_produits",
+           array(
+           "prod_archive" => 1
+            ),
+         array("id_produit" => $this->id));
     if ( !$req )
-    	return false;
+      return false;
 
     $this->archive = 1;
      
-		$req = new delete($this->dbrw,"cpt_mise_en_vente",array("id_produit" => $this->id));
+    $req = new delete($this->dbrw,"cpt_mise_en_vente",array("id_produit" => $this->id));
      
     return true;
   }
@@ -383,14 +392,14 @@ class produit extends stdentity
   {
 
     $req = new update ($this->dbrw,
-		       "cpt_produits",
-		       array(
-			     "prod_archive" => 0
-			      ),
-			   array("id_produit" => $this->id));
-			   
+           "cpt_produits",
+           array(
+           "prod_archive" => 0
+            ),
+         array("id_produit" => $this->id));
+         
     if ( !$req )
-    	return false;
+      return false;
 
     $this->archive = 0;
 
@@ -434,7 +443,7 @@ class produit extends stdentity
     $this->id_groupe = $row['id_groupe'];    
     $this->date_fin = is_null($row['date_fin_produit'])?null:strtotime($row['date_fin_produit']);    
     $this->id_produit_parent = $row['id_produit_parent'];    
-    
+    $this->mineur = $row['mineur'];    
   }
   
   /** 
@@ -460,15 +469,25 @@ class produit extends stdentity
    */
   function can_be_sold ( &$user )
   {
-	  if ( !is_null($this->id_groupe) && !$user->is_in_group_id($this->id_groupe) )
-	    return false;
-	  
-	  if ( $this->action == ACTION_CLASS )
-	  {
+    if ( !is_null($this->id_groupe) && !$user->is_in_group_id($this->id_groupe) )
+      return false;
+    
+    if ( $this->action == ACTION_CLASS )
+    {
       $this->get_prodclass($user);
       return $this->cl->can_be_sold($user);
-	  }
-	  
+    }
+
+    if($this->mineur>0)
+    {
+      $dob=$user->date_naissance;
+      $today = mktime();
+      $secondes = ($today > $naiss)? $today - $naiss : $naiss - $today;
+      $annees = date('Y', $secondes) - 1970;
+      if($age<$this->mineur)
+        return false;
+    }
+
     return true;
   }
   
@@ -508,52 +527,52 @@ class produit extends stdentity
    * @return une instance de la classe associée ou null si aucune
    * @see cotisationae
    */
-	function get_prodclass(&$user)
-	{
-		global $topdir;
-		
-		if ( $this->cl )
-			return $this->cl;
-		
-  	if ( $this->action != ACTION_CLASS )
-  		return NULL;
-  		
-  	$regs=null;	
-  		
-  	if ( !ereg("^([a-z]+)\((.*)\)$",$this->meta,$regs))
-  		return NULL;
-  		
-  	$class = $regs[1]; // que des lettes minuscules
-  	$param = $regs[2]; // 
-  	
-  	if ( !class_exists($class))
-  	{
-	  	if ( !file_exists($topdir."comptoir/include/class/".$class.".inc.php") )
-	  		return NULL;
-	  		
-	  	include($topdir."comptoir/include/class/".$class.".inc.php");
-  	}
-  	
-  	$this->cl = new $class ( $this->db, $this->dbrw, $param, $user );	
-  	
-  	return $this->cl;
-	}
-	
-	/**
-	 * Determine les informations complémentaires sur le produit en appelant
-	 * la classe associée au produit.
-	 *
+  function get_prodclass(&$user)
+  {
+    global $topdir;
+    
+    if ( $this->cl )
+      return $this->cl;
+    
+    if ( $this->action != ACTION_CLASS )
+      return NULL;
+      
+    $regs=null;  
+      
+    if ( !ereg("^([a-z]+)\((.*)\)$",$this->meta,$regs))
+      return NULL;
+      
+    $class = $regs[1]; // que des lettes minuscules
+    $param = $regs[2]; // 
+    
+    if ( !class_exists($class))
+    {
+      if ( !file_exists($topdir."comptoir/include/class/".$class.".inc.php") )
+        return NULL;
+        
+      include($topdir."comptoir/include/class/".$class.".inc.php");
+    }
+    
+    $this->cl = new $class ( $this->db, $this->dbrw, $param, $user );  
+    
+    return $this->cl;
+  }
+  
+  /**
+   * Determine les informations complémentaires sur le produit en appelant
+   * la classe associée au produit.
+   *
    * @param $user Client pour ce produit (instance de utilisateur)
-	 * @return le texte d'information complémentaire (vide si aucun)
-	 * @see get_prodclass
-	 */
+   * @return le texte d'information complémentaire (vide si aucun)
+   * @see get_prodclass
+   */
   function get_extra_info (&$user)
-  {	  
-	  if ( $this->action == ACTION_CLASS )
-	  {
+  {    
+    if ( $this->action == ACTION_CLASS )
+    {
       $this->get_prodclass($user);
       return $this->cl->get_info();
-	  }
+    }
     return "";
   }
 }
