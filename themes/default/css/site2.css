@@ -332,7 +332,7 @@ div.page#r
 div.page#l
 {
   margin-left: 18em;
-  margin-right: 1em;
+  margin-right: 0;
 }
 
 div.page#n
