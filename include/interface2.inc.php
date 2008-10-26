@@ -249,9 +249,14 @@ class interfaceweb
     {
       $this->buffer .= "<script type=\"text/javascript\">\n";
       $this->buffer .= "var menu_utilisateur=new Array();";
-      $this->buffer .= "menu_utilisateur[0]='<a href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>';";
-      $this->buffer .= "menu_utilisateur[1]='<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
-      $i=2;
+      $i=0;
+      if($this->user>-ae)
+      {
+        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>';";
+        $i++;
+      }
+      $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
+      $i++;
       if($this->user->utbm)
       {
         $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."trombi/index.php\">Trombinoscope</a>';";
