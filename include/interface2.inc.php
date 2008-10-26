@@ -222,7 +222,7 @@ class interfaceweb
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js\"></script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js\"></script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js\"></script>\n";
-
+    
     foreach ( $this->extrajs as $url ) 
       $this->buffer .= "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
 
@@ -262,8 +262,27 @@ class interfaceweb
         "ORDER BY asso.`nom_asso`");
     if ( $req->lines > 0 || $this->user->is_in_group("root") || $this->user->is_in_group("moderateur_site") )
     {
+      $this->buffer .= "<script type=\"text/javascript\">\n";
+      $this->buffer .= "var menu_assos=new Array();";
+      $i=0;
+      if( $this->user->is_in_group("root") )
+      {
+        $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
+        $i++;
+      }
+      if($this->user->is_in_group("moderateur_site"))
+      {
+        $sublist->add("<a href=\"".$topdir."ae/com.php\">Équipe com</a>");
+        $i++;
+      }
+      while(list($id,$nom)=$req->get_row())
+      {
+        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."asso/index.php?id_asso=$id\">$nom</a>';";
+        $i++;
+      }
+      $this->buffer .= "</script>";
       $this->buffer .= "<div id='assos'>\n";
-      $this->buffer .= "Gestion assos/clubs";
+      $this->buffer .= '<a href="#" onClick="return clickreturnvalue()" onMouseover="dropdownmenu(this, event, menu_assos, \'150px\')" onMouseout="delayhidemenu()">Gestion assos/clubs</a>\n';
       $this->buffer .= "</div>\n";
     }
 

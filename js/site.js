@@ -28,38 +28,38 @@
  * Sets/unsets the pointer and marker in browse mode
  *
  * @param   string    the class name
- * @param	integer	  the current number of row
+ * @param  integer    the current number of row
  * @param   string    the action calling this script (over, out or click)
  *
  * @return  boolean  whether pointer is set or not
  */
 function setPointer(theClass, currentNum, theAction, basename, the_form)
 {
-	var color;
-	var obj = document.getElementById('ln['+currentNum+']');
-	
-	/* traitement out */
-	if (theClass == 'ln0' && theAction == 'out')
-		color = '#eff7ff';
-	else if (theAction == 'out' && theClass == 'ln1')
-		color = 'white';
-	else if (theAction == 'click' && document.forms[the_form].elements[basename + currentNum + ']'].checked == true)
-	{
-		var do_check = document.forms[the_form].elements[basename + currentNum + ']'].checked;
-		document.forms[the_form].elements[basename + currentNum + ']'].checked = !do_check;
-		if (theClass == 'ln1')
-			color = 'white';
-		else if (theClass == 'ln0')
-			color = '#eff7ff';
-	}
-	else if (theAction == 'click' && document.forms[the_form].elements[basename + currentNum + ']'].checked == false)
-	{
-		var do_check = document.forms[the_form].elements[basename + currentNum + ']'].checked;
-		document.forms[the_form].elements[basename + currentNum + ']'].checked = !do_check;
-		color = '#DFEAF2';
-	}
-	else if (theAction == 'over')
-		color = '#ffcc2a';
+  var color;
+  var obj = document.getElementById('ln['+currentNum+']');
+  
+  /* traitement out */
+  if (theClass == 'ln0' && theAction == 'out')
+    color = '#eff7ff';
+  else if (theAction == 'out' && theClass == 'ln1')
+    color = 'white';
+  else if (theAction == 'click' && document.forms[the_form].elements[basename + currentNum + ']'].checked == true)
+  {
+    var do_check = document.forms[the_form].elements[basename + currentNum + ']'].checked;
+    document.forms[the_form].elements[basename + currentNum + ']'].checked = !do_check;
+    if (theClass == 'ln1')
+      color = 'white';
+    else if (theClass == 'ln0')
+      color = '#eff7ff';
+  }
+  else if (theAction == 'click' && document.forms[the_form].elements[basename + currentNum + ']'].checked == false)
+  {
+    var do_check = document.forms[the_form].elements[basename + currentNum + ']'].checked;
+    document.forms[the_form].elements[basename + currentNum + ']'].checked = !do_check;
+    color = '#DFEAF2';
+  }
+  else if (theAction == 'over')
+    color = '#ffcc2a';
 
     var currentColor = document.getElementById('ln['+currentNum+']').style.backgroundColor;
 
@@ -77,14 +77,14 @@ function setPointer(theClass, currentNum, theAction, basename, the_form)
         }
     }
 
-	if (currentColor != "#DFEAF2")
-	{
-		obj.style.background = color;
-	}
-	else if (currentColor == "#DFEAF2" && theAction == 'click')
-	{
-		obj.style.background = color;
-	}
+  if (currentColor != "#DFEAF2")
+  {
+    obj.style.background = color;
+  }
+  else if (currentColor == "#DFEAF2" && theAction == 'click')
+  {
+    obj.style.background = color;
+  }
 
     return true;
 } // end of the 'setPointer()' function
@@ -102,11 +102,11 @@ function setPointer(theClass, currentNum, theAction, basename, the_form)
  */
 function setCheckboxesRange(the_form, basename, min, max)
 {
-	do_check = document.forms[the_form].elements[the_form + '_all'].checked;
+  do_check = document.forms[the_form].elements[the_form + '_all'].checked;
     for (var i = min; i < max; i++) {
             document.forms[the_form].elements[basename + i + ']'].checked = do_check;
     }
-	return true;
+  return true;
 
 } // end of the 'setCheckboxesRange()' function
 
@@ -115,96 +115,96 @@ function switchSelConnection(obj)
     var sel = obj.options[obj.selectedIndex].innerHTML; 
     
     if (sel == "Alias")
-	{
-	    obj.parentNode.parentNode.parentNode.childNodes[2].childNodes[2].childNodes[0].value = "alias";
-	}
+  {
+      obj.parentNode.parentNode.parentNode.childNodes[2].childNodes[2].childNodes[0].value = "alias";
+  }
     else if (sel == "E-mail")
-	{
-	    obj.parentNode.parentNode.parentNode.childNodes[2].childNodes[2].childNodes[0].value = "prenom.nom";
-	}
+  {
+      obj.parentNode.parentNode.parentNode.childNodes[2].childNodes[2].childNodes[0].value = "prenom.nom";
+  }
 }
 
 
 function fileListToggle (id)
 {
   if (id.style.display == 'none')
-	  id.style.display = 'block';
+    id.style.display = 'block';
   else
-	  id.style.display = 'none';
+    id.style.display = 'none';
 }
 
 function tab(curr,dest)
 {
     if ((curr.getAttribute) && (curr.value.length == curr.getAttribute("maxlength")))
-	{
-	    dest.focus();
-	}
+  {
+      dest.focus();
+  }
 }
 
 function on_off (id)
 {
-	var obj = document.getElementById(id);
+  var obj = document.getElementById(id);
 
-	if ( obj.style.display == 'none' ) {
-		obj.style.display = 'block';
+  if ( obj.style.display == 'none' ) {
+    obj.style.display = 'block';
 
-	} else {
-		obj.style.display = 'none';
+  } else {
+    obj.style.display = 'none';
 
-	}
+  }
 }
 
 function on_off_icon (id,topdir)
 {
-	var obj = document.getElementById(id + '_contents');
+  var obj = document.getElementById(id + '_contents');
 
-	var img = document.getElementById(id + '_icon');
+  var img = document.getElementById(id + '_icon');
 
-	if ( obj.style.display == 'none' ) {
-		obj.style.display = 'block';
-		img.src = topdir + 'images/fld.png';
-	} else {
-		obj.style.display = 'none';
-		img.src = topdir + 'images/fll.png';
-	}
+  if ( obj.style.display == 'none' ) {
+    obj.style.display = 'block';
+    img.src = topdir + 'images/fld.png';
+  } else {
+    obj.style.display = 'none';
+    img.src = topdir + 'images/fll.png';
+  }
 }
 
 
 function on_off_icon_store (id,topdir,key)
 {
-	var obj = document.getElementById(id + '_contents');
-	var img = document.getElementById(id + '_icon');
+  var obj = document.getElementById(id + '_contents');
+  var img = document.getElementById(id + '_icon');
 
-	if ( obj.style.display == 'none' ) {
-		obj.style.display = 'block';
-		img.src = topdir + 'images/fld.png';
-		usersession_set(topdir,key,1);
-	} else {
-		obj.style.display = 'none';
-		img.src = topdir + 'images/fll.png';
-		usersession_set(topdir,key,0);
-	}
+  if ( obj.style.display == 'none' ) {
+    obj.style.display = 'block';
+    img.src = topdir + 'images/fld.png';
+    usersession_set(topdir,key,1);
+  } else {
+    obj.style.display = 'none';
+    img.src = topdir + 'images/fll.png';
+    usersession_set(topdir,key,0);
+  }
 }
 
 function on_off_options (name,val,oldval)
 {
-	var obj = document.getElementById(name + '_' + val + '_contents');
+  var obj = document.getElementById(name + '_' + val + '_contents');
 
-	obj.style.display = 'block';
+  obj.style.display = 'block';
 
-	if ( oldval && ( oldval != val ) )
-	{
-		var oobj = document.getElementById(name + '_' + oldval + '_contents');
-		oobj.style.display = 'none';
-	}
+  if ( oldval && ( oldval != val ) )
+  {
+    var oobj = document.getElementById(name + '_' + oldval + '_contents');
+    oobj.style.display = 'none';
+  }
 }
 
 
 function openMatmatronch(topdir, id, width, height) {
     if (width == "")
-	  width = 280;
+    width = 280;
     if (height == "")
-	  height = 390;
+    height = 390;
 
     path = topdir + "matmatronch/show_img.php?id=" + id;
     
@@ -219,45 +219,45 @@ function openMatmatronch(topdir, id, width, height) {
  */
 function opencal(topdir, __target, type)
 {
-	var target = document.getElementById(__target);
-	var pos = findPos(target);
-		
-	var elem = document.getElementById(__target + '_calendar');
-	if(elem == null)
-	{
-			elem = document.createElement('div');
-			elem.id = __target + '_calendar';
-			elem.className = 'tinycal_box';
-			document.body.appendChild(elem);
-		
-			elem.style.display = 'block';
-			elem.style.left = pos[0] + 150;
-			elem.style.top = pos[1] - 20;
-			openInContents(__target + '_calendar', topdir + 'gateway.php', 'module=tinycal&target=' + __target + '&type=' + type + '&topdir=' + topdir); 
-	}
-	else
-	{
-		if(elem.style.display == "none")
-			elem.style.display = "block"
-		else if(elem.style.display == "block")
-			alert("un calendrier est deja ouvert !");
-	}
+  var target = document.getElementById(__target);
+  var pos = findPos(target);
+    
+  var elem = document.getElementById(__target + '_calendar');
+  if(elem == null)
+  {
+      elem = document.createElement('div');
+      elem.id = __target + '_calendar';
+      elem.className = 'tinycal_box';
+      document.body.appendChild(elem);
+    
+      elem.style.display = 'block';
+      elem.style.left = pos[0] + 150;
+      elem.style.top = pos[1] - 20;
+      openInContents(__target + '_calendar', topdir + 'gateway.php', 'module=tinycal&target=' + __target + '&type=' + type + '&topdir=' + topdir); 
+  }
+  else
+  {
+    if(elem.style.display == "none")
+      elem.style.display = "block"
+    else if(elem.style.display == "block")
+      alert("un calendrier est deja ouvert !");
+  }
 }
 
 function closecal(name)
 {
-	var elem = document.getElementById(name + '_calendar');
-	elem.style.display = 'none';
+  var elem = document.getElementById(name + '_calendar');
+  elem.style.display = 'none';
 
-	return true;
+  return true;
 }
 
 function return_val(target_id, value)
 {
-	target = document.getElementById(target_id);
-	target.value = value;
-	closecal(target_id);
-	return true;
+  target = document.getElementById(target_id);
+  target.value = value;
+  closecal(target_id);
+  return true;
 }
  
 function errorMsg()
@@ -285,25 +285,25 @@ errorMsg();
 
 function show_obj_top(obj)
 {
-	
-	var content = document.getElementById(obj);
-	
-	content.style.display = 'block';
-	content.style.zIndex = 10000000;
-	
-	if ( document.all )	// replacons l'élément histoire d'éviter un bug d'IE6
-	{
-		var target = document.getElementById("left");
-		var parent = content.parentNode;
-		parent.removeChild(content);
-		target.insertBefore(content, document.getElementById("sbox_calendrier").nextSibling);
-	}	
+  
+  var content = document.getElementById(obj);
+  
+  content.style.display = 'block';
+  content.style.zIndex = 10000000;
+  
+  if ( document.all )  // replacons l'élément histoire d'éviter un bug d'IE6
+  {
+    var target = document.getElementById("left");
+    var parent = content.parentNode;
+    parent.removeChild(content);
+    target.insertBefore(content, document.getElementById("sbox_calendrier").nextSibling);
+  }  
 }
 
 function hide_obj(obj)
 {
-	var content = document.getElementById(obj);
-	content.style.display = 'none';	
+  var content = document.getElementById(obj);
+  content.style.display = 'none';  
 }
 
 function ho(obj)
@@ -318,7 +318,7 @@ function sot(obj)
 
 function switchphoto (dest,src)
 {
-	var img = document.getElementById(dest);
+  var img = document.getElementById(dest);
 
   if ( img )
     img.src = src;
@@ -350,7 +350,7 @@ function toggle(id_tglnum,id)
 
       if (!toHidezeClass)
       {
-	toHide.setAttribute('class', 'tgloff');
+  toHide.setAttribute('class', 'tgloff');
       //  toHide.class = "tgloff";
       }
 
@@ -361,16 +361,16 @@ function toggle(id_tglnum,id)
 
       if (toHidezeClass == "tglon")
       {
-	toHide.setAttribute('class', 'tgloff');
+  toHide.setAttribute('class', 'tgloff');
          //toHide.class = "tgloff";
         toHide.style.display = "none";
-	imgToChange.src = "/images/fll.png";
+  imgToChange.src = "/images/fll.png";
          
       }
       else
       {
-	toHide.setAttribute('class', 'tglon');
-	 //toHide.class = "tglon";       
+  toHide.setAttribute('class', 'tglon');
+   //toHide.class = "tglon";       
         toHide.style.display = "inline";
         imgToChange.src = "/images/fld.png";
       }
@@ -385,12 +385,12 @@ function insert_tags(txtarea, lft, rgt, sample_text)
       var _url = prompt("Entrez l'URL:","http://");
 
       if (_url != "" && _url != "http://") {
-	lft="[[" + _url + "|";
-	rgt="]]";
-	insert_tags(txtarea, lft, rgt);
+  lft="[[" + _url + "|";
+  rgt="]]";
+  insert_tags(txtarea, lft, rgt);
       }
       else
-	insert_tags(txtarea, lft, " "+rgt); /* vieux truandage pour passer outre le test */
+  insert_tags(txtarea, lft, " "+rgt); /* vieux truandage pour passer outre le test */
 
       return;
     }
@@ -403,12 +403,12 @@ function insert_tags(txtarea, lft, rgt, sample_text)
       document.selection.createRange().text = lft + _selection + rgt;
     }
   else if (document.getElementById) /* Firefox... */
-    {		
+    {    
       var _length = txtarea.textLength;
       var _start = txtarea.selectionStart;
       var _end = txtarea.selectionEnd;
       if (_end==1 || _end==2) 
-	_end = _length;
+  _end = _length;
       var s1 = (txtarea.value).substring(0,_start);
       var s2 = (txtarea.value).substring(_start, _end)
       var s3 = (txtarea.value).substring(_end, _length);
@@ -438,8 +438,8 @@ function setSelectionRange(input, selectionStart, selectionEnd)
   } 
   else
   {
-  	input.selectionStart = selectionStart;
-  	input.selectionEnd = selectionEnd;
+    input.selectionStart = selectionStart;
+    input.selectionEnd = selectionEnd;
   }
 }
 
@@ -483,7 +483,7 @@ function insert_tags2(objid, lft, rgt, deftext)
     range.select();
   }
   else if ( obj.selectionStart != null )
-  {		
+  {    
     obj.focus();
     var start = obj.selectionStart;
     var end = obj.selectionEnd;
@@ -567,16 +567,15 @@ function onSelectedListFile ( id, titre )
     values.value = values.value + "," + id;
 }
 
-
 function removeListFile(topdir,field,id)
 {
   var element = document.getElementById("_files_"+field+"_"+id);
   var values = document.getElementById("_files_"+field+"_ids");
   
   // Visuel
-	var contener = element.parentNode;
-	contener.removeChild(element);
-	
+  var contener = element.parentNode;
+  contener.removeChild(element);
+  
   // Données
   var ids = values.value.split(",");
   var nouv = "";
@@ -600,3 +599,150 @@ function selectListFile(topdir,field,context)
   onSelectedFile = onSelectedListFile;
   _selectFile(topdir,context);
 }
+
+
+/* menus "dropdown" */
+
+var disappeardelay=250;  //dispartion des menus apres X milisecondes
+
+var ie4=document.all;
+var ns6=document.getElementById&&!document.all;
+
+if (ie4||ns6)
+  document.write('<div id="dropmenudiv" onMouseover="clearhidemenu()" onMouseout="dynamichide(event)"></div>');
+
+function getposOffset(what, offsettype)
+{
+  var totaloffset=(offsettype=="left")? what.offsetLeft : what.offsetTop;
+  var parentEl=what.offsetParent;
+  while (parentEl!=null)
+  {
+    totaloffset=(offsettype=="left")? totaloffset+parentEl.offsetLeft : totaloffset+parentEl.offsetTop;
+    parentEl=parentEl.offsetParent;
+  }
+  return totaloffset;
+}
+
+
+function showhide(obj, e, visible, hidden, menuwidth)
+{
+  if (ie4||ns6)
+    dropmenuobj.style.left=dropmenuobj.style.top="-500px";
+  if (menuwidth!="")
+  {
+    dropmenuobj.widthobj=dropmenuobj.style;
+    dropmenuobj.widthobj.width=menuwidth;
+  }
+  if (e.type=="click" && obj.visibility==hidden || e.type=="mouseover")
+    obj.visibility=visible;
+  else if (e.type=="click")
+    obj.visibility=hidden;
+}
+
+function iecompattest()
+{
+  return (document.compatMode && document.compatMode!="BackCompat")? document.documentElement : document.body;
+}
+
+function clearbrowseredge(obj, whichedge)
+{
+  var edgeoffset=0;
+  if (whichedge=="rightedge")
+  {
+    var windowedge=ie4 && !window.opera? iecompattest().scrollLeft+iecompattest().clientWidth-15 : window.pageXOffset+window.innerWidth-15;
+    dropmenuobj.contentmeasure=dropmenuobj.offsetWidth;
+    if (windowedge-dropmenuobj.x < dropmenuobj.contentmeasure)
+      edgeoffset=dropmenuobj.contentmeasure-obj.offsetWidth;
+  }
+  else
+  {
+    var topedge=ie4 && !window.opera? iecompattest().scrollTop : window.pageYOffset;
+    var windowedge=ie4 && !window.opera? iecompattest().scrollTop+iecompattest().clientHeight-15 : window.pageYOffset+window.innerHeight-18;
+    dropmenuobj.contentmeasure=dropmenuobj.offsetHeight;
+    // move up
+    if (windowedge-dropmenuobj.y < dropmenuobj.contentmeasure)
+    {
+      edgeoffset=dropmenuobj.contentmeasure+obj.offsetHeight;
+      if ((dropmenuobj.y-topedge)<dropmenuobj.contentmeasure)
+        edgeoffset=dropmenuobj.y+obj.offsetHeight-topedge;
+    }
+  }
+  return edgeoffset;
+}
+
+function populatemenu(what)
+{
+  if (ie4||ns6)
+    dropmenuobj.innerHTML=what.join("");
+}
+
+
+function dropdownmenu(obj, e, menucontents, menuwidth)
+{
+  if (window.event)
+    event.cancelBubble=true;
+  else if (e.stopPropagation)
+    e.stopPropagation();
+  clearhidemenu();
+  dropmenuobj=document.getElementById? document.getElementById("dropmenudiv") : dropmenudiv;
+  populatemenu(menucontents);
+  if (ie4||ns6)
+  {
+    showhide(dropmenuobj.style, e, "visible", "hidden", menuwidth);
+    dropmenuobj.x=getposOffset(obj, "left");
+    dropmenuobj.y=getposOffset(obj, "top");
+    dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+"px";
+    dropmenuobj.style.top=dropmenuobj.y-clearbrowseredge(obj, "bottomedge")+obj.offsetHeight+"px";
+  }
+  return clickreturnvalue();
+}
+
+function clickreturnvalue()
+{
+  if (ie4||ns6)
+    return false;
+  return true;
+}
+
+function contains_ns6(a, b)
+{
+  while (b.parentNode)
+  if ((b = b.parentNode) == a)
+    return true;
+  return false;
+}
+
+function dynamichide(e)
+{
+  if (ie4&&!dropmenuobj.contains(e.toElement))
+    delayhidemenu();
+  else if (ns6&&e.currentTarget!= e.relatedTarget&& !contains_ns6(e.currentTarget, e.relatedTarget))
+    delayhidemenu();
+}
+
+function hidemenu(e)
+{
+  if (typeof dropmenuobj!="undefined")
+  {
+    if (ie4||ns6)
+      dropmenuobj.style.visibility="hidden";
+  }
+}
+
+function delayhidemenu()
+{
+  if (ie4||ns6)
+    delayhide=setTimeout("hidemenu()",disappeardelay);
+}
+
+function clearhidemenu()
+{
+  if (typeof delayhide!="undefined")
+    clearTimeout(delayhide);
+}
+
+if (hidemenu_onclick=="yes")
+  document.onclick=hidemenu;
+
+
+
