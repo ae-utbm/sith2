@@ -748,7 +748,7 @@ if (hidemenu_onclick=="yes")
 
 /* connexion topmoumoute */
 
-function showPasswordBox()
+function showConnexionBox()
 {
   var e=document.getElementById('overlay');
   e.style.display = 'block';
