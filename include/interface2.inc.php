@@ -241,7 +241,16 @@ class interfaceweb
     $this->buffer .= "<div id='login'>\n";
     if ( !$this->user->is_valid() )
     {
-      $this->buffer .= "Connection - Créer un compte";
+      $this->buffer .= "<script type=\"text/javascript\">\n";
+      $this->buffer .= "var menu_utilisateur=new Array();";
+      $this->buffer .= "menu_utilisateur[0]='<a href=\"".$topdir."index.php\">Connexion</a>';";
+      $this->buffer .= "menu_utilisateur[1]='<a href=\"".$topdir."password.php\">Mot de passe perdu</a>';";
+      $this->buffer .= "menu_utilisateur[2]='<a href=\"".$topdir."newaccount.php\">Créer un compte</a>';";
+      $this->buffer .= "</script>";
+      $this->buffer .= "<a href=\"#\" ";
+      $this->buffer .= "onClick=\"return clickreturnvalue()\" onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">";
+      $this->buffer .= 
+      $this->buffer .= "Identification</a>\n";
     }
     elseif($this->user->type=="srv" )
       $this->buffer .= "<a href=\"".$topdir."user/compteae.php\">Factures en attente de paiement : ".(sprintf("%.2f", $this->user->montant_compte/-100))." Euros</a>\n";
