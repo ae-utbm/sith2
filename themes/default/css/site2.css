@@ -79,11 +79,10 @@ div#headermenu
 {
   display:inline-block;
   height:20px;
-  vertical-align:middle;
 }
 #login a, #assos a
 {
-  margin:top:10px;
+  margin-top:10px;
   color:#ffffff;
   text-decoration: none;
   font-weight: bold;
