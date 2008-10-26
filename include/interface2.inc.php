@@ -275,7 +275,7 @@ class interfaceweb
       $this->buffer .= "</script>";
 
       $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\" ";
-      $this->buffer .= "onClick=\"return clickreturnvalue()\" onMouseover=\"dropdownmenu(this, event, menu_assos, '150px')\" onMouseout=\"delayhidemenu()\">";
+      $this->buffer .= "onClick=\"return clickreturnvalue()\" onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">";
       $this->buffer .= $this->user->prenom." ".$this->user->nom;
       $this->buffer .= "</a>\n";
     }

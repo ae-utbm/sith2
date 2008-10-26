@@ -79,7 +79,7 @@ div#fsearchbox
 {
   display:inline-block;
 }
-#dropmenudiv
+#dropmenudiv, #assos, #login
 {
   position:absolute;
   border:1px solid black;
