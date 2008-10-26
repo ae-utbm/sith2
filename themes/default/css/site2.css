@@ -81,6 +81,10 @@ div#login, div#assos
   height:20px;
   vertical-align:middle;
 }
+div#login a, div#assos a
+{
+  vertical-align:middle;
+}
 div#fsearchbox
 {
   display:inline-block;
@@ -92,6 +96,11 @@ div#fsearchbox
   line-height:18px;
   width=165px;
   background-color: #eeac00;
+}
+#assos:hover, #login:hover
+{
+  background-color: #ffffff;
+  color:#000000;
 }
 #dropmenudiv
 {
