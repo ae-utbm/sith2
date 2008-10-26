@@ -242,14 +242,14 @@ class interfaceweb
     {
       $this->buffer .= "<div id=\"overlay\" onclick=\"hideConnexionBox()\" style=\"display:none\"></div>\n";
       $this->buffer .= '<div id="passwordbox" style="display:none">';
-      $this->buffer .= '<img id="close" src="'.$topdir.'images/actions/delete.png" onclick="hideConnexionBox()" alt="Fermer" ';
+      $this->buffer .= '<img id="close" src="'.$topdir.'images/actions/delete.png" onClick="hideConnexionBox()" alt="Fermer" ';
       $this->buffer .= 'title="Fermer" />';
       $this->buffer .= 'Le formulaire qui va bien';
       $this->buffer .= "</div>\n";
 
       $this->buffer .= "<script type=\"text/javascript\">\n";
       $this->buffer .= "var menu_utilisateur=new Array();";
-      $this->buffer .= "menu_utilisateur[0]='<a href=\"".$topdir."index.php\" onclick=\"showConnexionBox()\">Connexion</a>';";
+      $this->buffer .= "menu_utilisateur[0]='<a href=\"".$topdir."index.php\" onClick=\"showConnexionBox()\">Connexion</a>';";
       $this->buffer .= "menu_utilisateur[1]='<a href=\"".$topdir."password.php\">Mot de passe perdu</a>';";
       $this->buffer .= "menu_utilisateur[2]='<a href=\"".$topdir."newaccount.php\">Créer un compte</a>';";
       $this->buffer .= "</script>";
