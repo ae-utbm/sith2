@@ -244,7 +244,25 @@ class interfaceweb
       $this->buffer .= '<div id="passwordbox" style="display:none">';
       $this->buffer .= '<img id="close" src="'.$topdir.'images/actions/delete.png" onClick="hideConnexionBox()" alt="Fermer" ';
       $this->buffer .= 'title="Fermer" />';
-      $this->buffer .= 'Le formulaire qui va bien';
+      $frm = new form("connect",$topdir."connect.php",true,"POST","Connexion");
+      $jsoch = "javascript:switchSelConnection(this);";
+      $frm->add_select_field("domain",
+           "Connexion",
+           array("utbm"=>"UTBM / Assidu",
+           "id"=>"ID",
+           "autre"=>"E-mail",
+           "alias"=>"Alias"),
+           false,
+           "",
+           false,
+           true,
+           $jsoch);
+      $frm->add_text_field("username","Utilisateur","prenom.nom","",20,true);
+      $frm->add_password_field("password","Mot de passe","","",20);
+      $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", false );
+      $frm->add_submit("connectbtn","Se connecter");
+      $this->buffer .= $frm->html_render();
+      unset($frm);
       $this->buffer .= "</div>\n";
 
       $this->buffer .= "<script type=\"text/javascript\">\n";
