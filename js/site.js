@@ -755,7 +755,7 @@ function showConnexionBox()
   center('passwordbox');
   return false;
 }
-/*
+
 function hideConnexionBox()
 {
   var elem=document.getElementById('passwordbox');
@@ -765,12 +765,9 @@ function hideConnexionBox()
   return false;
 }
 
-function center(element)
+function center(name)
 {
-  try
-    element = document.getElementById(element);
-  catch(e)
-     return;
+  element = document.getElementById(name);
 
   var my_width  = 0;
   var my_height = 0;
@@ -812,11 +809,27 @@ function center(element)
   else if ( window.scrollY )
     scrollY = window.scrollY;
 
-  var elementDimensions = Element.getDimensions(element);
-
-  var setX = ( my_width  - elementDimensions.width  ) / 2;
-  var setY = ( my_height - elementDimensions.height ) / 2 + scrollY;
-
+  if (element.style.display != 'none')
+  {
+    var setX = ( my_width  - element.offsetWidth ) / 2;
+    var setY = ( my_height - element.offsetHeight ) / 2 + scrollY;
+  }
+  else
+  {
+    var els = element.style;
+    var originalVisibility = els.visibility;
+    var originalPosition = els.position;
+    els.visibility = 'hidden';
+    els.position = 'absolute';
+    els.display = '';
+    var originalWidth = element.clientWidth;
+    var originalHeight = element.clientHeight;
+    els.display = 'none';
+    els.position = originalPosition;
+    els.visibility = originalVisibility;
+    var setX = ( my_width  - originalWidth  ) / 2;
+    var setY = ( my_height - originalHeight ) / 2 + scrollY;
+  }
   setX = ( setX < 0 ) ? 0 : setX;
   setY = ( setY < 0 ) ? 0 : setY;
 
@@ -826,6 +839,5 @@ function center(element)
   element.style.display  = 'block';
 }
 
-*/
 /* fin connexion topmoumoute */
 
