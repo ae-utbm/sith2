@@ -75,16 +75,18 @@ div#headermenu
   background-image: url("../images/top-menu.png");
   background-repeat:no-repeat;
 }
-div#login, div#assos
+#login, #assos
 {
   display:inline-block;
   height:20px;
   vertical-align:middle;
 }
-div#login a, div#assos a
+#login a, #assos a
 {
   margin:top:10px;
   color:#ffffff;
+  text-decoration: none;
+  font-weight: bold;
 }
 div#fsearchbox
 {
