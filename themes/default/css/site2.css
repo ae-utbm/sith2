@@ -84,6 +84,7 @@ div#login, div#assos
 div#login a, div#assos a
 {
   margin:top:10px;
+  color:#ffffff;
 }
 div#fsearchbox
 {
@@ -101,6 +102,10 @@ div#fsearchbox
 #assos:hover, #login:hover
 {
   background-color: #ffffff;
+  color:#000000;
+}
+#assos:hover a, #login:hover a
+{
   color:#000000;
 }
 #dropmenudiv
