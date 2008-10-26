@@ -40,7 +40,9 @@ require_once($topdir . "include/entities/asso.inc.php");
 require_once($topdir . "include/entities/news.inc.php");
 
 $site = new site ();
-if(!$site->user->is_in_group("root") && !$site->user->is_in_group("moderateur_site"))
+if(!$site->user->is_in_group("root")
+   && !$site->user->is_in_group("taiste")
+   && !$site->user->is_in_group("moderateur_site"))
   exit();
 $site->add_css("css/doku.css");
 
