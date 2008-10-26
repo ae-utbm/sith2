@@ -277,6 +277,8 @@ class interfaceweb
         $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>';";
       $i++;
       $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user/outils.php\">Mes outils</a>';";
+      $i++;
+      $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."disconnect.php\">Déconnexion</a>';";
       $this->buffer .= "</script>";
 
       $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\" ";
