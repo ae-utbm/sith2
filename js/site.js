@@ -836,9 +836,9 @@ function center(name)
 
   element.style.left = setX + "px";
   element.style.top  = setY + "px";
-
-  element.style.display  = 'block';
 */
+  element.style.display  = 'block';
+
 }
 
 /* fin connexion topmoumoute */
