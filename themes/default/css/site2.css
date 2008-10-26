@@ -83,7 +83,7 @@ div#login, div#assos
 }
 div#login a, div#assos a
 {
-  vertical-align:middle;
+  margin:top:10px;
 }
 div#fsearchbox
 {
@@ -96,6 +96,7 @@ div#fsearchbox
   line-height:18px;
   width=165px;
   background-color: #eeac00;
+  color:#ffffff;
 }
 #assos:hover, #login:hover
 {
