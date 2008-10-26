@@ -803,13 +803,13 @@ function center(name)
 
   if ( document.documentElement && document.documentElement.scrollTop )
     scrollY = document.documentElement.scrollTop;
-  else if ( document.body &amp;&amp; document.body.scrollTop )
+  else if ( document.body && document.body.scrollTop )
     scrollY = document.body.scrollTop;
   else if ( window.pageYOffset )
     scrollY = window.pageYOffset;
   else if ( window.scrollY )
     scrollY = window.scrollY;
-/*
+
   if (element.style.display != 'none')
   {
     var setX = ( my_width  - element.offsetWidth ) / 2;
@@ -836,7 +836,7 @@ function center(name)
 
   element.style.left = setX + "px";
   element.style.top  = setY + "px";
-*/
+
   element.style.display  = 'block';
 
 }
