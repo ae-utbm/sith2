@@ -67,13 +67,11 @@ div#headermenu
   float:right;
   margin:5px;
 }
-div#login
+div#login, div#assos
 {
   display:inline-block;
-}
-div#assos
-{
-  display:inline-block;
+  height:15px;
+  vertical-align:middle;
 }
 div#fsearchbox
 {
