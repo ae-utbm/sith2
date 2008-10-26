@@ -747,7 +747,7 @@ document.onclick=hidemenu;
 
 
 /* connexion topmoumoute */
-/*
+
 function showConnexionBox()
 {
   var e=document.getElementById('overlay');
@@ -764,14 +764,15 @@ function hideConnexionBox()
   elem.style.display = 'none';
   return false;
 }
-*/
+
 function center(name)
 {
+
   element = document.getElementById(name);
 
   var my_width  = 0;
   var my_height = 0;
-
+/*
   if ( typeof( window.innerWidth ) == 'number' )
   {
     my_width  = window.innerWidth;
@@ -837,6 +838,7 @@ function center(name)
   element.style.top  = setY + "px";
 
   element.style.display  = 'block';
+*/
 }
 
 /* fin connexion topmoumoute */
