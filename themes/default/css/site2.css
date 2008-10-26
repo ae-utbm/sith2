@@ -67,6 +67,8 @@ div#headermenu
   float:right;
   margin:0;
   padding-left:30px;
+  padding-top:5px;
+  padding-right:5px;
   height:30px;
   vertical-align:middle;
   background-color:#EEAC00;
