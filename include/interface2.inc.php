@@ -240,6 +240,13 @@ class interfaceweb
     $this->buffer .= "<div id='login'>\n";
     if ( !$this->user->is_valid() )
     {
+      $this->buffer .= "<div id=\"overlay\" onclick=\"hideConnexionBox()\" style=\"display:none\"></div>\n";
+      $this->buffer .= '<div id="passwordbox" style="display:none">'
+      $this->buffer .= '<img id="close" src="'.$topdir.'images/actions/delete.png" onclick="hideConnexionBox()" alt="Fermer" ';
+      $this->buffer .= 'title="Fermer" />';
+      $this->buffer .= 'Le formulaire qui va bien';
+      $this->buffer .= "</div>\n";
+
       $this->buffer .= "<script type=\"text/javascript\">\n";
       $this->buffer .= "var menu_utilisateur=new Array();";
       $this->buffer .= "menu_utilisateur[0]='<a href=\"".$topdir."index.php\">Connexion</a>';";
