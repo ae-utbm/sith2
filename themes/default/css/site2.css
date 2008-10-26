@@ -123,16 +123,15 @@ div#fsearchbox
 {
   background-color: #333;
   background-color: transparent;
-  background-image: url(../images/blank.gif);
 /*  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/images/overlay.png", sizingMethod="scale"); */
 }
 
-#box
+#passwordbox
 {
   width:300px;
-  background:#2d2d2d;
+  background:#ffffff;
   padding:10px;
-  border:2px solid #eee;
+  border:2px solid #000000;
 }
 
 #close
