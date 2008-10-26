@@ -87,25 +87,27 @@ div#fsearchbox
 }
 #dropmenudiv, #assos, #login
 {
-  border:1px solid black;
-  border-bottom-width: 0;
+  border:1px solid #ffffff;
   font:normal 12px Verdana;
   line-height:18px;
   width=165px;
-  background-color: #cccccc;
+  background-color: #eeac00;
 }
 #dropmenudiv
 {
   position:absolute;
   z-index:100;
+  color:#ffffff;
+  font-weight: bold;
 }
 
 #dropmenudiv a
 {
   width: 100%;
+  color:#ffffff;
   display: block;
   text-indent: 3px;
-  border-bottom: 1px solid black;
+  border: 1px solid #ffffff;
   padding: 1px 0;
   text-decoration: none;
   font-weight: bold;
@@ -114,6 +116,7 @@ div#fsearchbox
 #dropmenudiv a:hover
 {
   background-color: #ffffff;
+  color:#000000;
 }
 
 #overlay
