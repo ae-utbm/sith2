@@ -747,7 +747,7 @@ document.onclick=hidemenu;
 
 
 /* connexion topmoumoute */
-/*
+
 function showConnexionBox()
 {
   var e=document.getElementById('overlay');
@@ -755,7 +755,7 @@ function showConnexionBox()
   center('passwordbox');
   return false;
 }
-
+/*
 function hideConnexionBox()
 {
   var elem=document.getElementById('passwordbox');
