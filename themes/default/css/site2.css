@@ -65,11 +65,12 @@ div#headermenu
 {
   display:block-inline;
   float:right;
-  margin:5px;
+  margin:0;
   padding-left:30px;
   vertical-align:middle;
+  background-color:#EEAC00;
   background-image: url("../images/top-menu.png");
-  background: #EEAC00;
+  background-repeat:no-repeat;
 }
 div#login, div#assos
 {
