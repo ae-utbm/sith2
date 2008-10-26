@@ -798,7 +798,7 @@ function center(name)
 
   element.style.position = 'absolute';
   element.style.zIndex   = 99;
-/*
+
   var scrollY = 0;
 
   if ( document.documentElement && document.documentElement.scrollTop )
@@ -809,7 +809,7 @@ function center(name)
     scrollY = window.pageYOffset;
   else if ( window.scrollY )
     scrollY = window.scrollY;
-
+/*
   if (element.style.display != 'none')
   {
     var setX = ( my_width  - element.offsetWidth ) / 2;
