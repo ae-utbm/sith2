@@ -747,7 +747,7 @@ document.onclick=hidemenu;
 
 
 /* connexion topmoumoute */
-
+/*
 function showConnexionBox()
 {
   var e=document.getElementById('overlay');
@@ -764,7 +764,7 @@ function hideConnexionBox()
   elem.style.display = 'none';
   return false;
 }
-
+*/
 function center(name)
 {
   element = document.getElementById(name);
