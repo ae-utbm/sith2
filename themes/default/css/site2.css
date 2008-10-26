@@ -66,6 +66,10 @@ div#headermenu
   display:block-inline;
   float:right;
   margin:5px;
+  padding-left:30px;
+  vertical-align:middle;
+  background-image: url("../images/top-menu.png");
+  background: #EEAC00;
 }
 div#login, div#assos
 {
