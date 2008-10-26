@@ -81,14 +81,17 @@ div#fsearchbox
 }
 #dropmenudiv, #assos, #login
 {
-  position:absolute;
   border:1px solid black;
   border-bottom-width: 0;
   font:normal 12px Verdana;
   line-height:18px;
-  z-index:100;
   width=165px;
   background-color: #cccccc;
+}
+#dropmenudiv
+{
+  position:absolute;
+  z-index:100;
 }
 
 #dropmenudiv a
