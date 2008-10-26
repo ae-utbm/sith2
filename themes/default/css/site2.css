@@ -67,6 +67,7 @@ div#headermenu
   float:right;
   margin:0;
   padding-left:30px;
+  height:30px;
   vertical-align:middle;
   background-color:#EEAC00;
   background-image: url("../images/top-menu.png");
