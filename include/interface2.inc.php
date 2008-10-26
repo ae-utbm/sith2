@@ -229,7 +229,6 @@ class interfaceweb
     $this->buffer .= "</head>\n";
 
     $this->buffer .= "<body>\n";
-    $this->buffer .= "<div id='flogin'></div>\n";
     /* Generate the logo */
     $this->buffer .= "<div id=\"site\">\n";    
 
@@ -249,7 +248,6 @@ class interfaceweb
       $this->buffer .= "</script>";
       $this->buffer .= "<a href=\"#\" ";
       $this->buffer .= "onClick=\"return clickreturnvalue()\" onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">";
-      $this->buffer .= 
       $this->buffer .= "Identification</a>\n";
     }
     elseif($this->user->type=="srv" )
