@@ -772,7 +772,7 @@ function center(name)
 
   var my_width  = 0;
   var my_height = 0;
-/*
+
   if ( typeof( window.innerWidth ) == 'number' )
   {
     my_width  = window.innerWidth;
@@ -798,7 +798,7 @@ function center(name)
 
   element.style.position = 'absolute';
   element.style.zIndex   = 99;
-
+/*
   var scrollY = 0;
 
   if ( document.documentElement && document.documentElement.scrollTop )
