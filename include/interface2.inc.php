@@ -267,12 +267,12 @@ class interfaceweb
       $i=0;
       if( $this->user->is_in_group("root") )
       {
-        $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
+        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>';";
         $i++;
       }
       if($this->user->is_in_group("moderateur_site"))
       {
-        $sublist->add("<a href=\"".$topdir."ae/com.php\">Équipe com</a>");
+        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."ae/com.php\">Équipe com</a>';";
         $i++;
       }
       while(list($id,$nom)=$req->get_row())
