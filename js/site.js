@@ -741,8 +741,8 @@ function clearhidemenu()
     clearTimeout(delayhide);
 }
 
-if (hidemenu_onclick=="yes")
-  document.onclick=hidemenu;
+document.onclick=hidemenu;
+
 /*fin menus drop down */
 
 
