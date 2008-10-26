@@ -243,9 +243,39 @@ class interfaceweb
     {
       $this->buffer .= "Connection - Créer un compte";
     }
+    elseif($this->user->type=="srv" )
+      $this->buffer .= "<a href=\"".$topdir."user/compteae.php\">Factures en attente de paiement : ".(sprintf("%.2f", $this->user->montant_compte/-100))." Euros</a>\n";
     else
     {
-      $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">";
+      $this->buffer .= "<script type=\"text/javascript\">\n";
+      $this->buffer .= "var menu_utilisateur=new Array();";
+      $this->buffer .= "menu_utilisateur[0]='<a href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>';";
+      $this->buffer .= "menu_utilisateur[1]='<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
+      $i=2;
+      if($this->user->utbm)
+      {
+        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."trombi/index.php\">Trombinoscope</a>';";
+        $i++;
+      }
+      if( $this->user->is_in_group("jobetu_etu") )
+      {
+        $jobuser = new jobuser_etu($this->db);
+        $jobuser->load_by_id($this->user->id);
+        $jobuser->load_annonces();
+        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".
+                         $topdir."jobetu/board_etu.php\">Mon compte JobEtu (".count($jobuser->annonces).")</a>';";
+        unset($jobuser);
+      }
+      elseif( $this->user->is_in_group("jobetu_client") )
+        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>';";
+      else
+        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>';";
+      $i++;
+      $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user/outils.php\">Mes outils</a>';";
+      $this->buffer .= "</script>";
+
+      $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\" ";
+      $this->buffer .= "onClick=\"return clickreturnvalue()\" onMouseover=\"dropdownmenu(this, event, menu_assos, '150px')\" onMouseout=\"delayhidemenu()\">";
       $this->buffer .= $this->user->prenom." ".$this->user->nom;
       $this->buffer .= "</a>\n";
     }
