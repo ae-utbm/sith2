@@ -311,10 +311,6 @@ div.tabsv2
 
 div.tabsv2 span 
 {
-  width:105px;
-  margin:0 5px 0 0;
-  background-repeat:no-repeat;
-  background-image: url("../images/tabsv2-normal.png");
 }
 
 div.tabsv2 span a
@@ -327,6 +323,10 @@ div.tabsv2 span a
   text-align:center;
   font-weight:bold;
   line-height:12px;
+  background-image: url("../images/tabsv2-normal.png");
+  background-repeat:no-repeat;
+  width:105px;
+  margin:0 5px 0 0;
 }
 
 div.tabsv2 span.selected a, div.tabsv2 span a:hover
@@ -335,6 +335,9 @@ div.tabsv2 span.selected a, div.tabsv2 span a:hover
   color:#000000;
   text-decoration:none;
   background-image: url("../images/tabsv2-selected.png");
+  background-repeat:no-repeat;
+  width:105px;
+  margin:0 5px 0 0;
 }
 
 
