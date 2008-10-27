@@ -45,14 +45,14 @@ body
 
 div#site
 {
-  width:900px;
+  width:980px;
   padding:0;
   margin:auto;
 }
 
 div#header
 {
-  width:900px;
+  width:980px;
   height:85px;
   background-color: #326698;
 }
@@ -383,7 +383,8 @@ div.contents
   position: absolute;
   left: 5px;
   top: 0px;
-  width: 202px;
+  width: 320px;
+  padding-bottom:10px;
 }
 
 #right
@@ -391,7 +392,8 @@ div.contents
   position: absolute;
   right: 5px;
   top: 0px;
-  width: 202px;
+  width: 320px;
+  padding-bottom:10px;
 }
 
 /**
@@ -440,8 +442,8 @@ div.box
 {
   position: relative;
   padding-top:0.75em;
-  margin:0 10px 1em 10px;
-  width: 202px;
+  margin:10px 5px 0 10px;
+  width: 300px;
   background-color: #333333;
 }
 
