@@ -80,8 +80,7 @@ div#fsearchbox
 }
 #dropmenudiv, #assos, #login
 {
-  font:normal 12px Verdana;
-  line-height:18px;
+  font:normal 10px Verdana;
   width:155px;
   background-color: #424242;
   color:#ffffff;
