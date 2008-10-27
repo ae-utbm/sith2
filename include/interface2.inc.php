@@ -271,9 +271,6 @@ class interfaceweb
       $this->buffer .= "menu_utilisateur[2]='<a href=\"".$topdir."newaccount.php\">Créer un compte</a>';";
       $this->buffer .= "</script>";
       $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">\n";
-//      $this->buffer .= "<a href=\"#\" ";
- //     $this->buffer .= "onClick=\"return clickreturnvalue()\" onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">";
-//      $this->buffer .= "Identification</a>\n";
         $this->buffer .= "Identification\n";
     }
     elseif($this->user->type=="srv" )
@@ -317,11 +314,7 @@ class interfaceweb
       $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."disconnect.php\">Déconnexion</a>';";
       $this->buffer .= "</script>";
       $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">\n";
-      $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\" >";
-//      $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\" ";
-//      $this->buffer .= "onClick=\"return clickreturnvalue()\" onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">";
       $this->buffer .= $this->user->prenom." ".$this->user->nom;
-      $this->buffer .= "</a>\n";
     }
     $this->buffer .= "</div>\n";
 
@@ -355,8 +348,7 @@ class interfaceweb
         $i++;
       }
       $this->buffer .= "</script>";
-      $this->buffer .= "<div id='assos' onMouseover='dropdownmenu(this, event, menu_assos, \'150px\')' onMouseout='delayhidemenu()'>\n";
-//      $this->buffer .= '<a href="#" onClick="return clickreturnvalue()" onMouseover="dropdownmenu(this, event, menu_assos, \'150px\')" onMouseout="delayhidemenu()">Gestion assos/clubs</a>'."\n";
+      $this->buffer .= "<div id='assos' onMouseover='dropdownmenu(this, event, menu_assos, '150px')' onMouseout='delayhidemenu()'>\n";
       $this->buffer .= "Gestion assos/clubs";
       $this->buffer .= "</div>\n";
     }

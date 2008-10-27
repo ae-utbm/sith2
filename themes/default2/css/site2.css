@@ -79,15 +79,8 @@ div#headermenu
   height:20px;
   padding:0;
   text-align:center;
-}
-#login a, #assos a
-{
-  color:#000000;
-  text-decoration: none;
   font-weight: bold;
-  padding:0;
-  margin:0;
-  height:30px;
+  color:#000000;
   width:155px;
 }
 div#fsearchbox
@@ -105,10 +98,6 @@ div#fsearchbox
   color:#ffffff;
 }
 #assos:hover, #login:hover
-{
-  color:#6d6d6d;
-}
-#assos:hover a, #login:hover a
 {
   color:#6d6d6d;
 }
