@@ -413,14 +413,12 @@ div.page#lr
 
 div.page#r
 {
-  margin-left: 1em;
-  margin-right: 270px;
+  margin:0 270px 0 10px;
 }
 
 div.page#l
 {
-  margin-left: 270px;
-  margin-right: 0;
+  margin:0 10px 0 270px;
 }
 
 div.page#n
