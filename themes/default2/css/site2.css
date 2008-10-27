@@ -408,18 +408,18 @@ div.page
 
 div.page#lr
 {
-  margin: 0 18em;
+  margin: 0 270px;
 }
 
 div.page#r
 {
   margin-left: 1em;
-  margin-right: 18em;
+  margin-right: 270px;
 }
 
 div.page#l
 {
-  margin-left: 18em;
+  margin-left: 270px;
   margin-right: 0;
 }
 
