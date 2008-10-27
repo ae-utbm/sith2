@@ -72,17 +72,6 @@ div#headermenu
   background-image: url("../images/header-menu.png");
   background-repeat:no-repeat;
 }
-#login, #assos
-{
-  display:inline-block;
-  margin:10px 0 0 0;
-  height:20px;
-  padding:0;
-  text-align:center;
-  font-weight: bold;
-  color:#000000;
-  width:155px;
-}
 div#fsearchbox
 {
   margin:0;
@@ -96,6 +85,17 @@ div#fsearchbox
   width:155px;
   background-color: #424242;
   color:#ffffff;
+}
+#login, #assos
+{
+  display:inline-block;
+  margin:10px 0 0 0;
+  height:20px;
+  padding:0;
+  text-align:center;
+  font-weight: bold;
+  color:#ffffff;
+  width:155px;
 }
 #assos:hover, #login:hover
 {
