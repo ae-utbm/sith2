@@ -77,7 +77,7 @@ div#headermenu
   display:inline-block;
   margin:10px 0 0 0;
   height:20px;
-  padding:5px 2px 0 0px
+  padding:0;
 }
 #login a, #assos a
 {
