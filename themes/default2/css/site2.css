@@ -443,13 +443,13 @@ div.box
 div.box h1
 {
   border: 0;
-  padding-left: 10px;
   padding-right: 5px;
-  padding-top: 2px;
+  padding-top: 0;
   height: 1.2em;
-  font-size: 100%;
+  font-size: 18px;
   display: inline;
   position:relative;
+  left:0;
   border: 0;
   color: #ffffff;
   text-align:left;
@@ -523,10 +523,9 @@ div.box ul li:before
 }
 div.box h2, div.box h3
 {
-  padding-left:25px;
+  padding-left:10px;
   margin-left:2px;
   margin-right:2px;
-  border: 0;
   border-bottom: 1px;
   border-color:#4c4c4c;
   color: #00b1ff;
