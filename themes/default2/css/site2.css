@@ -350,6 +350,7 @@ div.sectionlinks
   padding-bottom: 0.25em;
   text-align: center;
   border-bottom: 1px solid #EEAC00;
+  background-color:#ffffff;
 }
 
 div.sectionlinks a
@@ -364,7 +365,6 @@ div.sectionlinks a
  */
 div.emptysectionlinks
 {
-  padding-top: 0.25em;
 }
 
 /*
