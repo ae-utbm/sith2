@@ -374,7 +374,7 @@ div.contents
   position:relative;
   border:0;
   margin:0;
-  padding: 0;
+  padding: 15 0 0 0;
   margin-top: 0;
   background-color:#ffffff;
   border:1px solid #cccccc;
@@ -1343,6 +1343,11 @@ div.article div.tabs
   height:20px;
   overflow:hidden;
   padding-left:15px;
+  margin-bottom:0px;
+}
+
+div.article
+{
   margin-bottom:7px;
 }
 
