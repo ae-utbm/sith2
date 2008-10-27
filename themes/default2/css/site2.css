@@ -77,8 +77,7 @@ div#headermenu
   display:inline-block;
   margin:10px 0 0 0;
   height:20px;
-  padding:5px 2px 0 2px
-  width:155px;
+  padding:5px 2px 0 0px
 }
 #login a, #assos a
 {
@@ -88,6 +87,7 @@ div#headermenu
   padding:0;
   margin:0;
   height:30px;
+  width:155px;
 }
 div#fsearchbox
 {
