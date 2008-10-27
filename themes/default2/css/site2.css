@@ -436,27 +436,7 @@ div.box
   margin-bottom: 1em;
   padding-top:0.75em;
   width: 202px;
-  background: #afc7e0 url("../images/box-top.png");
-  background-repeat: no-repeat;
-  background-position: top left;
-}
-
-/*div#sbox_wiki, div#sbox_monsas, div#sbox_sasuser, div#sbox_compta, div#sbox_e-boutic, div#sbox_comptoir
-{
-  background: #bbd5bd url("../images/boxtools-top.png");
-}
-*/
-
-#sbox_connexion
-{
-  /*background:  url("../images/box-top-userbox.png");*/
-  background-color:#ffffff;
-  background-image:  url("../images/box-top-userbox.png");
-  
-  padding-top:1.75em;
-  background-position: 0em 1em;
-
-  border-top:1px solid #f0f0f0;
+  background-color: #333333;
 }
 
 /* Titre de la boite */
@@ -491,30 +471,14 @@ div.box div.body
   border:0;
   padding: 8px;
   position:relative;
-  background-image: url("../images/box-bottom.png") ;
-  background-repeat: no-repeat;
-  background-position: bottom left;
 }
 
-/*div#sbox_wiki div.body, div#sbox_monsas div.body, div#sbox_sasuser div.body, div#sbox_compta div.body, div#sbox_e-boutic div.body, div#sbox_comptoir div.body
-{
-  background-image: url("../images/boxtools-bottom.png") ;
-}*/
 
 div.box p
 {
   margin: 0px;
   padding-bottom: 5px;
 }
-/*
-div.box ul.boxlist
-{
-  margin: 0px;
-  margin-bottom: 0.75em;
-  padding-left: 0px;
-  list-style-position: inside;
-}
-*/
 div.box div.body div.fastsearch h2
 {
   list-style: none;
@@ -535,21 +499,6 @@ div.box div.body div.fastsearch a
    text-decoration: none;
    font-weight: normal;
 }
-/*
-div.box div.body div.boxlist h2
-{
-  list-style: none;
-  border-bottom: 1px black dashed;
-  margin-bottom: 0.3em;
-}
-
-div.box div.body div.boxlist a
-{
-   text-decoration: none;
-   font-weight: normal;
-   color: black;
-}
-*/
 div.box ul.annif li.title
 {
   list-style: none;
@@ -569,31 +518,12 @@ div.box ul.boxnewslist li
 {
   margin-bottom: 0.2em;
 }
-/*
-div.box ul.boxlist li
-{
-  padding-left:10px;
-}
-*/
 div.box ul.annif li
 {
   padding-left:0;
 }
-/*
-div.box ul.boxlist li.title
-{
-  list-style: none;
-  list-style-image: none;
-  list-style-position: inside;
-  border-bottom: 1px black dashed;
-  margin-bottom: 0.3em;
-  padding-left:0;
-}
-*/
 div.box h2, div.box h3
 {
-  background:url("../images/box-title.png");
-  background-repeat:no-repeat;
   padding-left:25px;
   margin-left:2px;
   margin-right:2px;
@@ -610,12 +540,6 @@ div.box h2, div.box h3
   padding-bottom:5px;
   
 }
-/*
-div#sbox_wiki h2, div#sbox_wiki h3, div#sbox_monsas h2, div#sbox_monsas h3, div#sbox_sasuser h2, div#sbox_sasuser h3, div#sbox_compta h2, div#sbox_compta h3, div#sbox_e-boutic h2, div#sbox_e-boutic h3, div#sbox_comptoir h2, div#sbox_comptoir h3
-{
-  background:url("../images/boxtools-title.png");
-}
-*/
 
 div.box ul
 {
