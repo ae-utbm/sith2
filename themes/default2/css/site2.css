@@ -585,42 +585,19 @@ div.box h2 a
   line-height:12px;
 }
 
-
-/*
-div.box h2.epure
-{
-  background:none;
-  height:auto;
-  padding:0;
-  color:#000;
-  list-style: none;
-  border-bottom: 1px black dashed;
-  font-weight:normal;
-}
-
-*/
-
-/*
-div.box div.body div.boxlist h2
-{
-  border-bottom: none;
-}
-*/
 div.box div.body ul
 {
   margin-bottom:0px;
-  color:white;
 }
 
 div.box div.body ul li
 {
-  color:black;
   padding-bottom:1px;
 }
 
 div.box div.body ul li a
 {
-  color:black;
+  color:#ffffff;
 }
 
 /**
