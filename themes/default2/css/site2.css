@@ -408,17 +408,17 @@ div.page
 
 div.page#lr
 {
-  margin: 0 265px;
+  margin: 0 275px;
 }
 
 div.page#r
 {
-  margin:0 265px 0 10px;
+  margin:0 275px 0 10px;
 }
 
 div.page#l
 {
-  margin:0 10px 0 265px;
+  margin:0 10px 0 275px;
 }
 
 div.page#n
