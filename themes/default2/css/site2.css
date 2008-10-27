@@ -338,6 +338,7 @@ div.tabsv2 span.selected a, div.tabsv2 span a:hover
   background-image: url("../images/tabsv2-selected.png");
   background-repeat:no-repeat;
   width:105px;
+  height:32px;
   margin:0;
 }
 
