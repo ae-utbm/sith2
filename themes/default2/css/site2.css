@@ -91,6 +91,8 @@ div#headermenu
 }
 div#fsearchbox
 {
+  margin:0;
+  padding:0;
   display:inline-block;
 }
 #dropmenudiv, #assos, #login
