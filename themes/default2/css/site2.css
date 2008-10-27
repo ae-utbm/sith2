@@ -430,11 +430,17 @@ div.page#n
 /*
  * Boites des colonnes
  */
+
+img#bureau_ae_belfort_icon, img#bureau_ae_sevenans_icon
+{
+  display:none;
+}
+
 div.box
 {
   position: relative;
-  margin-bottom: 1em;
   padding-top:0.75em;
+  margin:0 10px 1em 10px;
   width: 202px;
   background-color: #333333;
 }
