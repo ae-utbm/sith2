@@ -408,17 +408,17 @@ div.page
 
 div.page#lr
 {
-  margin: 0 270px;
+  margin: 0 265px;
 }
 
 div.page#r
 {
-  margin:0 270px 0 10px;
+  margin:0 265px 0 10px;
 }
 
 div.page#l
 {
-  margin:0 10px 0 270px;
+  margin:0 10px 0 265px;
 }
 
 div.page#n
@@ -440,7 +440,7 @@ div.box
 {
   position: relative;
   padding-top:0.75em;
-  margin:10px 5px 0 10px;
+  margin:10px 0 0 10px;
   width: 250px;
   background-color: #333333;
 }
