@@ -448,23 +448,19 @@ div.box a
 /* Titre de la boite */
 div.box h1
 {
-  border: 0;
   padding-right: 5px;
   padding-top: 0;
-  height: 1.2em;
-  font-size: 18px;
-  position:relative;
-  margin-right:0;
-  margin-left:auto
-  border: 0;
+  margin-bottom:0;
+  font-size: 0;
   color: #ffffff;
-  text-align:left;
+  text-align:right;
 }
 
 div.box h1 a
 {
   cursor:move;
   color: #ffffff;
+  font-size: 18px;
 }
 
 div.box h1 a:hover
@@ -512,45 +508,29 @@ div.box ul
 {
   margin: 0px;
   margin-bottom: 0.25em;
-  padding-left: 0px;
+  padding-left: 15px;
   list-style: none;
-  font-size:10px;
-}
-
-div.box ul li
-{
+  font-size:9px;
   color:#ffffff;
 }
 
 div.box ul li:before
 {
   content: "+ ";
-
 }
 div.box h2, div.box h3
 {
-  padding-left:10px;
-  margin-left:2px;
-  margin-right:2px;
+  padding-left:5px;
+  margin:0 2px 0 0;
   border-bottom: 1px;
   border-color:#4c4c4c;
   color: #00b1ff;
   position:relative;
   font-weight:normal;
-
-  margin-bottom:7px;
-  margin-top:7px;
-  
-  padding-top:5px;
-  font-size:12px;
-  line-height:12px;
+  font-size:11px;
+  line-height:11px;
   padding-bottom:5px;
   
-}
-
-div.box ul
-{
-  padding-bottom:5px;
 }
 
 div.box h2 img
@@ -575,8 +555,6 @@ div.box h2 a
   border-bottom: 1px;
   border-color:#4c4c4c;
   color: #00b1ff;
-  font-size:12px;
-  line-height:12px;
 }
 
 div.box div.body ul
