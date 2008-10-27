@@ -116,6 +116,7 @@ div#fsearchbox
   color:#ffffff;
   font-weight: bold;
   background-image: url("../images/dropdown-bg.png");
+  padding-left:10px;
 }
 
 #dropmenudiv a
