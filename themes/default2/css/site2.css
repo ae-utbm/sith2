@@ -80,7 +80,7 @@ div#fsearchbox
 }
 #dropmenudiv, #assos, #login
 {
-  font:normal 10px Verdana;
+  font:normal 10px;
   width:155px;
   background-color: #424242;
   color:#ffffff;
@@ -110,7 +110,7 @@ div#fsearchbox
 
 #dropmenudiv a
 {
-  font:normal 10px Verdana;
+  font:normal 10px;
   width:140px;
   height:25px;
   color:#ffffff;
@@ -1827,7 +1827,7 @@ td.moneycell
   margin-left:auto;
   display:none;
   background:#ffffff;
-  border:2px solid #EEAC00;
+  border:2px solid ##424242;
   padding:0.5em;
 }
 
