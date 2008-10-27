@@ -1821,10 +1821,9 @@ td.moneycell
 
 #fsearchres
 {
-  position: relative;
-  top: 0;
-  right:0;
   width:400px;
+  margin-right:0;
+  margin-left:auto;
   display:none;
   background:#ffffff;
   border:2px solid #EEAC00;
