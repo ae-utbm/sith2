@@ -319,7 +319,6 @@ div.tabsv2 span a
   color:#ffffff;
   font-size:12px;
   padding-top:8px;
-  padding-bottom:8px;
   text-align:center;
   font-weight:bold;
   line-height:12px;
@@ -332,7 +331,6 @@ div.tabsv2 span a
 
 div.tabsv2 span.selected a, div.tabsv2 span a:hover
 {
-  background:#ffffff;
   color:#000000;
   text-decoration:none;
   background-image: url("../images/tabsv2-selected.png");
