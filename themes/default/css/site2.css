@@ -376,7 +376,8 @@ div.contents
   margin:0;
   padding: 0;
   margin-top: 15px;
-  border:1px solid white;
+  background-color:#ffffff;
+  border:1px solid #cccccc;
   display:block;
 }
 
