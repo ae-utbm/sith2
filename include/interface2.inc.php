@@ -355,8 +355,9 @@ class interfaceweb
         $i++;
       }
       $this->buffer .= "</script>";
-      $this->buffer .= "<div id='assos'>\n";
-      $this->buffer .= '<a href="#" onClick="return clickreturnvalue()" onMouseover="dropdownmenu(this, event, menu_assos, \'150px\')" onMouseout="delayhidemenu()">Gestion assos/clubs</a>'."\n";
+      $this->buffer .= "<div id='assos' onMouseover='dropdownmenu(this, event, menu_assos, \'150px\')' onMouseout='delayhidemenu()'>\n";
+//      $this->buffer .= '<a href="#" onClick="return clickreturnvalue()" onMouseover="dropdownmenu(this, event, menu_assos, \'150px\')" onMouseout="delayhidemenu()">Gestion assos/clubs</a>'."\n";
+      $this->buffer .= "Gestion assos/clubs";
       $this->buffer .= "</div>\n";
     }
 
