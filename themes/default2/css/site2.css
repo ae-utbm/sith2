@@ -439,9 +439,10 @@ div.box
   background-color: #333333;
 }
 
-div.box.a
+div.box a
 {
   color:#ff3399;
+  text-decoration: none;
 }
 
 /* Titre de la boite */
@@ -454,7 +455,8 @@ div.box h1
   font-size: 18px;
   display: inline;
   position:relative;
-  left:0;
+  margin-right:0;
+  margin-left:auto
   border: 0;
   color: #ffffff;
   text-align:left;
@@ -1825,68 +1827,6 @@ td.moneycell
 {
   clear:both;
   text-align:right;
-}
-
-/*
- * Meteo
- */
-div.meteoday
-{
-  background:#fff;
-  padding:0.5em;
-  margin-bottom:0.5em;
-  position:relative;
-}
-
-div.meteoday div.weather
-{
-  width:32px;
-  height:32px;
-  float:left;
-  position:relative;
-}
-
-div.meteoday div.weather img
-{
-  width:32px;
-  height:32px;
-  position:relative;
-}
-
-div.meteoday div.day
-{
-  text-align:center;
-  width:10em;
-  height:1em;
-  background:#fff;
-  margin-left:40px;
-}
-
-div.meteoday div.tempmax
-{
-  width:5.5em;
-  height:1em;
-  float:right;
-  background:#ffc0c0;  
-  padding:0.25em;
-  margin-top:0.5em;
-  font-size: 80%;
-  text-align:center;
-  position:relative;
-}
-
-div.meteoday div.tempmin
-{
-  width:5.5em;
-  height:1em;
-  float:left;
-  background:#c0ffc0;
-  padding:0.25em;
-  margin-top:0.5em;
-  margin-left:1em;
-  font-size: 80%;
-  text-align:center;
-  position:relative;
 }
 
 /*
