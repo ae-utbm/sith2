@@ -453,7 +453,7 @@ div.box h1
   padding-top: 0;
   height: 1.2em;
   font-size: 18px;
-  display: inline;
+  display: block;
   position:relative;
   margin-right:0;
   margin-left:auto
@@ -521,6 +521,10 @@ div.box ul
   margin-bottom: 0.25em;
   padding-left: 0px;
   list-style: none;
+}
+
+div.box ul li
+{
   color:#ffffff;
 }
 
