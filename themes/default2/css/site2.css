@@ -453,7 +453,6 @@ div.box h1
   padding-top: 0;
   height: 1.2em;
   font-size: 18px;
-  display: block;
   position:relative;
   margin-right:0;
   margin-left:auto
@@ -508,12 +507,6 @@ div.box div.body div.fastsearch a
    text-decoration: none;
    font-weight: normal;
 }
-div.box ul.annif li.title
-{
-  list-style: none;
-  border-bottom: 1px black dashed;
-  margin: 1em 0 0.3em 0;
-}
 
 div.box ul
 {
@@ -521,6 +514,7 @@ div.box ul
   margin-bottom: 0.25em;
   padding-left: 0px;
   list-style: none;
+  font-size:10px;
 }
 
 div.box ul li
@@ -530,7 +524,7 @@ div.box ul li
 
 div.box ul li:before
 {
-  content: "+";
+  content: "+ ";
 
 }
 div.box h2, div.box h3
