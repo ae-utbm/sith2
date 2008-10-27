@@ -443,20 +443,22 @@ div.box
 div.box h1
 {
   border: 0;
-  border-bottom: 0px;
-  padding-left: 1em;
-  padding-right: 1em;
+  padding-left: 10px;
+  padding-right: 5px;
   padding-top: 2px;
   height: 1.2em;
   font-size: 100%;
   display: inline;
   position:relative;
+  border: 0;
+  color: #ffffff;
+  text-align:left;
 }
 
 div.box h1 a
 {
   cursor:move;
-  color: #000;
+  color: #ffffff;
 }
 
 div.box h1 a:hover
@@ -506,7 +508,7 @@ div.box ul.annif li.title
   margin: 1em 0 0.3em 0;
 }
 
-div.box ul.boxnewslist
+div.box ul
 {
   margin: 0px;
   margin-bottom: 0.25em;
@@ -514,20 +516,20 @@ div.box ul.boxnewslist
   list-style: none;
 }
 
-div.box ul.boxnewslist li
+div.box ul li:before
 {
-  margin-bottom: 0.2em;
-}
-div.box ul.annif li
-{
-  padding-left:0;
+  content: "+";
+
 }
 div.box h2, div.box h3
 {
   padding-left:25px;
   margin-left:2px;
   margin-right:2px;
-  color:#000;
+  border: 0;
+  border-bottom: 1px;
+  border-color:#4c4c4c;
+  color: #00b1ff;
   position:relative;
   font-weight:normal;
 
@@ -563,8 +565,11 @@ html > * div.box h2 img
 
 div.box h2 a
 {
-  color:#000;
   text-decoration:none;
+  border: 0;
+  border-bottom: 1px;
+  border-color:#4c4c4c;
+  color: #00b1ff;
   font-size:12px;
   line-height:12px;
 }
