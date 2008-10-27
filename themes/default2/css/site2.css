@@ -66,7 +66,7 @@ div#headermenu
   display:block-inline;
   float:right;
   margin:0;
-  padding:0px 5px 0px 5px;
+  padding:0px 5px 0px 15px;
   height:43px;
   background-color:#424242;
   background-image: url("../images/header-menu.png");
@@ -1808,15 +1808,16 @@ td.moneycell
  */
 #fsearchbox
 {
+  padding:0;
+  margin:0;
   width:213px;
   height:24px;
-  background-image:url("../images/search.png");
-  background-repeat: no-repeat;
-  background-position: left top;  
 }
 
 #fsearchbox input
 {
+  padding:0;
+  margin:0;
   position: relative;
   width:180px;
   top:4px;
