@@ -196,7 +196,7 @@ class interfaceweb
 
     $this->buffer .= "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n"; // (IE6 Legacy support)
     $this->buffer .= "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
-    $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site2.css?".filemtime($wwwtopdir . "themes/default/css/site2.css")."\" title=\"AE2-NEW2\" />\n";
+    $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default2/css/site2.css?".filemtime($wwwtopdir . "themes/default/css/site2.css")."\" title=\"AE2-NEW2\" />\n";
     foreach ( $this->extracss as $url )
       if(file_exists(htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8")))
         $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"".
