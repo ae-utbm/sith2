@@ -96,20 +96,19 @@ div#fsearchbox
 }
 #dropmenudiv, #assos, #login
 {
-  border:1px solid #eeac00;
   font:normal 12px Verdana;
   line-height:18px;
-  width=165px;
+  width=150px;
   background-color: #424242;
   color:#ffffff;
 }
 #assos:hover, #login:hover
 {
-  color:#cccccc;
+  color:#6d6d6d;
 }
 #assos:hover a, #login:hover a
 {
-  color:#cccccc;
+  color:#6d6d6d;
 }
 #dropmenudiv
 {
@@ -134,8 +133,7 @@ div#fsearchbox
 
 #dropmenudiv a:hover
 {
-  background-color: #eeac00;
-  color:#ffffff;
+  color:#6d6d6d;
 }
 
 #overlay
