@@ -439,6 +439,11 @@ div.box
   background-color: #333333;
 }
 
+div.box.a
+{
+  color:#ff3399;
+}
+
 /* Titre de la boite */
 div.box h1
 {
@@ -514,6 +519,7 @@ div.box ul
   margin-bottom: 0.25em;
   padding-left: 0px;
   list-style: none;
+  color:#ffffff;
 }
 
 div.box ul li:before
