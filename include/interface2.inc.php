@@ -237,7 +237,6 @@ class interfaceweb
     $this->buffer .= "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/Ae.jpg\" height=\"60\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";
 
     $this->buffer .= "<div id='headermenu'>\n";
-    $this->buffer .= "<div id='login'>\n";
     if ( !$this->user->is_valid() )
     {
       $this->buffer .= "<div id=\"overlay\" onclick=\"hideConnexionBox()\" style=\"display:none\"></div>\n";
@@ -271,12 +270,17 @@ class interfaceweb
       $this->buffer .= "menu_utilisateur[1]='<a href=\"".$topdir."password.php\">Mot de passe perdu</a>';";
       $this->buffer .= "menu_utilisateur[2]='<a href=\"".$topdir."newaccount.php\">Créer un compte</a>';";
       $this->buffer .= "</script>";
-      $this->buffer .= "<a href=\"#\" ";
-      $this->buffer .= "onClick=\"return clickreturnvalue()\" onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">";
-      $this->buffer .= "Identification</a>\n";
+      $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">\n";
+//      $this->buffer .= "<a href=\"#\" ";
+ //     $this->buffer .= "onClick=\"return clickreturnvalue()\" onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">";
+//      $this->buffer .= "Identification</a>\n";
+        $this->buffer .= "Identification\n";
     }
     elseif($this->user->type=="srv" )
+    {
+      $this->buffer .= "<div id='login'>\n";
       $this->buffer .= "<a href=\"".$topdir."user/compteae.php\">Factures en attente de paiement : ".(sprintf("%.2f", $this->user->montant_compte/-100))." Euros</a>\n";
+    }
     else
     {
       $this->buffer .= "<script type=\"text/javascript\">\n";
@@ -312,9 +316,10 @@ class interfaceweb
       $i++;
       $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."disconnect.php\">Déconnexion</a>';";
       $this->buffer .= "</script>";
-
-      $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\" ";
-      $this->buffer .= "onClick=\"return clickreturnvalue()\" onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">";
+      $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">\n";
+      $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\" >";
+//      $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\" ";
+//      $this->buffer .= "onClick=\"return clickreturnvalue()\" onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">";
       $this->buffer .= $this->user->prenom." ".$this->user->nom;
       $this->buffer .= "</a>\n";
     }
