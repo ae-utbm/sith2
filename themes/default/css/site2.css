@@ -70,9 +70,9 @@ div#headermenu
   padding-right:5px;
   height:30px;
   vertical-align:middle;
-  background-color:#EEAC00;
-  background-image: url("../images/top-menu.png");
-  background-repeat:no-repeat;
+  background-color:#424242;
+/*  background-image: url("../images/top-menu.png");
+  background-repeat:no-repeat;*/
 }
 #login, #assos
 {
@@ -100,17 +100,16 @@ div#fsearchbox
   font:normal 12px Verdana;
   line-height:18px;
   width=165px;
-  background-color: #ffffff;
-  color:#cccccc;
+  background-color: #424242;
+  color:#ffffff;
 }
 #assos:hover, #login:hover
 {
-  background-color: #eeac00;
-  color:#ffffff;
+  color:#cccccc;
 }
 #assos:hover a, #login:hover a
 {
-  color:#ffffff;
+  color:#cccccc;
 }
 #dropmenudiv
 {
@@ -123,10 +122,11 @@ div#fsearchbox
 #dropmenudiv a
 {
   width: 100%;
-  color:#000000;
+  color:#ffffff;
   display: block;
   text-indent: 3px;
-  border: 1px solid #eeac00;
+  border-bottom: 1px solid #545454;
+  margin:0 7px;
   padding: 1px 0;
   text-decoration: none;
   font-weight: bold;
