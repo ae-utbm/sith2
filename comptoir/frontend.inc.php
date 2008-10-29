@@ -327,10 +327,10 @@ else if ( $site->comptoir->client->id > 0 )
   $today = mktime();
   $secondes = ($today > $naiss)? $today - $naiss : $naiss - $today;
   $annees = date('Y', $secondes) - 1970;
-  if($age<16)
-    $cts->add_paragraph('Attention, ce cotisant n\'a pas 16 ans et ne peut donc pas achetter d\'alccol','linfo');
-  elseif($age<18)
-    $cts->add_paragraph('Attention, ce cotisant n\'a pas 18 ans et ne peut donc pas achetter d\'alccol fort','linfo');
+  if($annees < 16)
+    $cts->add_paragraph('Attention, ce cotisant n\'a pas 16 ans et ne peut donc pas acheter d\'alcool','linfo');
+  elseif($annees < 18)
+    $cts->add_paragraph('Attention, ce cotisant n\'a pas 18 ans et ne peut donc pas acheter d\'alcool fort','linfo');
   if ( $message )
     $cts->add_paragraph($message,"linfo");  
   
