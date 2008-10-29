@@ -325,7 +325,7 @@ else if ( $site->comptoir->client->id > 0 )
   $cts->add(new userinfo($site->comptoir->client,true,true,false,false,true,true));
   $dob=$site->comptoir->client->date_naissance;
   $today = mktime();
-  $secondes = ($today > $naiss)? $today - $naiss : $naiss - $today;
+  $secondes = ($today > $dob)? $today - $dob : $dob - $today;
   $annees = date('Y', $secondes) - 1970;
   if($annees < 16)
     $cts->add_paragraph('Attention, ce cotisant n\'a pas 16 ans et ne peut donc pas acheter d\'alcool','linfo');
