@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
@@ -65,18 +65,18 @@ if ( $_REQUEST["action"] == "view" )
 {
   $conds = array();
   $comptoir = false;
-  
+
   if ( $_REQUEST["debut"] && !empty($_REQUEST["debut"]) )
     $conds[] = "`cpt_debitfacture`.`date_facture` >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
-  
+
   if ( $_REQUEST["fin"] && !empty($_REQUEST["fin"]) )
     $conds[] = "`cpt_debitfacture`.`date_facture` <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
-  
+
   if ( isset($comptoirs[$_REQUEST["id_comptoir"]]) && $_REQUEST["id_comptoir"] )
   {
     $conds[] = "`cpt_mise_en_vente`.`id_comptoir`='".intval($_REQUEST["id_comptoir"])."'";
     $comptoir_rqt="INNER JOIN `cpt_mise_en_vente` ON `cpt_mise_en_vente`.`id_produit`=`cpt_produits`.`id_produit` ";
-		$comptoir = true;
+    $comptoir = true;
   }
   if ( $comptoir || $site->user->is_in_group("gestion_ae") )
   {
@@ -84,7 +84,7 @@ if ( $_REQUEST["action"] == "view" )
       $conds[] = "`cpt_produits`.`id_assocpt`='".intval($_REQUEST["id_assocpt"])."'";
 
     if ( $_REQUEST["id_typeprod"] && !empty($_REQUEST["id_typeprod"]) )
-	    $conds[] = "`cpt_produits`.`id_typeprod`='".intval($_REQUEST["id_typeprod"])."'";
+      $conds[] = "`cpt_produits`.`id_typeprod`='".intval($_REQUEST["id_typeprod"])."'";
   }
 
   if ( count($conds) )
@@ -98,7 +98,7 @@ if ( $_REQUEST["action"] == "view" )
       "INNER JOIN `cpt_vendu` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
       "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
       "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
-			$comptoir_rqt .
+      $comptoir_rqt .
       "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
       "WHERE " .implode(" AND ",$conds).
       "GROUP BY `cpt_produits`.`id_produit` " .
@@ -123,6 +123,6 @@ if ( $_REQUEST["action"] == "view" )
 }
 
 $site->add_contents($cts);
-$site->end_page();  
+$site->end_page();
 
 ?>

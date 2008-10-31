@@ -38,24 +38,24 @@ if ( !$site->user->is_valid() )
 
 function generate_subform_stock ( $nom,$form_n, $stock_n, $stock_value_n, $stock = -1 )
 {
- 
+
  $subfrm=new form ($form_n,false,false,false,$nom);
- 
+
  $subfrm1=new form ($stock_n,false,false,false,"Non limité");
  $subfrm->add($subfrm1,false,true,($stock==-1),"nlim",true);
- 
+
  $subfrm2=new form ($stock_n,false,false,false,"Limité à");
  $subfrm2->add_text_field($stock_value_n,"",($stock==-1)?"":$stock);
  $subfrm->add($subfrm2,false,true,($stock!=-1),"lim",true);
- 
- return $subfrm; 
+
+ return $subfrm;
 }
 
 // Recherchons ce que l'utilisteur peut administrer
 $site->fetch_admin_comptoirs();
- 
+
 if ( !count($site->admin_comptoirs) && !$site->user->is_in_group("gestion_ae") )
- $site->error_forbidden(); 
+ $site->error_forbidden();
 
 $site->set_admin_mode();
 
@@ -78,7 +78,7 @@ if ( isset($_REQUEST["id_comptoir"]) )
 
 if ( isset($_REQUEST["id_assocpt"]) )
  $assocpt->load_by_id($_REQUEST["id_assocpt"]);
-  
+
 if ( isset($_REQUEST["id_typeprod"]) )
  $typeprod->load_by_id($_REQUEST["id_typeprod"]);
 
@@ -110,7 +110,7 @@ if ( $_REQUEST["action"] == "addcomptoir" && $site->user->is_in_group("gestion_a
 else if ( $_REQUEST["action"] == "addtype" && ($assocpt->id > 0) )
 {
   $file->load_by_id($_REQUEST["id_file"]);
-  
+
  $typeprod->ajout( $_REQUEST["nom"], $_REQUEST["id_action"], $assocpt->id, $file->id,$_REQUEST["description"] );
 
   $site->log("Ajout d'un type de produit","Ajout du type de produit \"".$_REQUEST["nom"]."\" (".$_REQUEST["description"].")","Comptoirs",$site->user->id);
@@ -135,7 +135,7 @@ else if ( $_REQUEST["action"] == "addproduit" && ($typeprod->id > 0) && ($assocp
 
   $file->load_by_id($_REQUEST["id_file"]);
   $produit_parent->load_by_id($_REQUEST["id_produit_parent"]);
-  
+
  if ( $_REQUEST["stock"] == "lim" )
   $stock_global = $_REQUEST["stock_value"];
 
@@ -156,10 +156,10 @@ else if ( $_REQUEST["action"] == "addproduit" && ($typeprod->id > 0) && ($assocp
     $_REQUEST["a_retirer"],
     $_REQUEST["postable"],
     $_REQUEST["frais_port"],
-    
+
     $_REQUEST["id_groupe"],
     $_REQUEST["date_fin"],
-    
+
     $produit_parent->id,
     $_REQUEST["mineur"]
     ) )
@@ -167,17 +167,17 @@ else if ( $_REQUEST["action"] == "addproduit" && ($typeprod->id > 0) && ($assocp
       $asso = new asso($site->db);
       $asso->load_by_id($assocpt->id);
       $site->log("Ajout d'un produit","Ajout du produit ".$_REQUEST['nom']." (".$_REQUEST["description"].") au profit de ".$asso->nom,"Comptoirs",$site->user->id);
-    
+
       foreach( $_REQUEST['cpt'] as $idcomptoir => $on )
       {
       $comptoir->load_by_id($idcomptoir);
-      if (($comptoir->id > 0) && ($on == "on") && isset($site->admin_comptoirs[$idcomptoir]) ) 
+      if (($comptoir->id > 0) && ($on == "on") && isset($site->admin_comptoirs[$idcomptoir]) )
       {
        $stock_local = -1;
-          
+
        if ( $_REQUEST["cpt_stock"][$idcomptoir] == "lim" )
-        $stock_global = $_REQUEST["cpt_stock_value"][$idcomptoir];       
-           
+        $stock_global = $_REQUEST["cpt_stock_value"][$idcomptoir];
+
        $venteproduit->nouveau($produit,$comptoir,$stock_local);
       }
      }
@@ -189,20 +189,20 @@ else if ( $_REQUEST["action"] == "addproduit" && ($typeprod->id > 0) && ($assocp
 else if ( $_REQUEST["action"] == "updcpt" && $produit->id > 0 )
 {
  $req = new requete($site->db,
-   "SELECT `id_comptoir` 
-    FROM `cpt_mise_en_vente` 
+   "SELECT `id_comptoir`
+    FROM `cpt_mise_en_vente`
     WHERE `id_produit` = '".intval($produit->id)."'");
-  
+
  while ( list($id_comptoir) = $req->get_row() )
  {
-  if ( $venteproduit->load_by_id($produit->id,$id_comptoir) && isset($site->admin_comptoirs[$id_comptoir]) ) 
+  if ( $venteproduit->load_by_id($produit->id,$id_comptoir) && isset($site->admin_comptoirs[$id_comptoir]) )
   {
    if ( $_REQUEST['cpt'][$id_comptoir] )
    {
     $stock_local = -1;
     if ( $_REQUEST["cpt_stock"][$id_comptoir] == "lim" )
-     $stock_local = $_REQUEST["cpt_stock_value"][$id_comptoir]; 
-    $venteproduit->modifier($stock_local);      
+     $stock_local = $_REQUEST["cpt_stock_value"][$id_comptoir];
+    $venteproduit->modifier($stock_local);
    }
    else
     $venteproduit->supprime();
@@ -217,13 +217,13 @@ else if ( $_REQUEST["action"] == "addnvcpt" && $produit->id > 0 )
  foreach( $_REQUEST['nv_cpt'] as $idcomptoir => $on )
  {
   $comptoir->load_by_id($idcomptoir);
-  if (($comptoir->id > 0) && $on && isset($site->admin_comptoirs[$idcomptoir]) ) 
+  if (($comptoir->id > 0) && $on && isset($site->admin_comptoirs[$idcomptoir]) )
   {
    $stock_local = -1;
-        
+
    if ( $_REQUEST["nv_stock"][$idcomptoir] == "lim" )
-    $stock_local = $_REQUEST["nv_stock_value"][$idcomptoir];       
-         
+    $stock_local = $_REQUEST["nv_stock_value"][$idcomptoir];
+
    $venteproduit->nouveau($produit,$comptoir,$stock_local);
   }
  }
@@ -234,9 +234,9 @@ else if ( $_REQUEST["action"] == "addnvcpt" && $produit->id > 0 )
 else if ( $_REQUEST["action"] == "upproduit" && ($produit->id > 0) && ($typeprod->id > 0) )
 {
   $stock_global = -1;
-  
+
   $file->load_by_id($_REQUEST["id_file"]);
-  
+
   $produit_parent->load_by_id($_REQUEST["id_produit_parent"]);
 
   if ( $_REQUEST["stock"] == "lim" )
@@ -267,7 +267,7 @@ else if ( $_REQUEST["action"] == "upproduit" && ($produit->id > 0) && ($typeprod
 else if ( $_REQUEST["action"] == "uptype" && ($typeprod->id > 0) && ($assocpt->id > 0)  )
 {
   $file->load_by_id($_REQUEST["id_file"]);
-  
+
  $typeprod->modifier( $_REQUEST["nom"], $_REQUEST["action"], $assocpt->id, $file->id, $_REQUEST["description"] );
 }
 else if ( $_REQUEST["action"] == "upcomptoir" &&  ($comptoir->id > 0) && ($assocpt->id > 0) )
@@ -277,20 +277,20 @@ else if ( $_REQUEST["action"] == "upcomptoir" &&  ($comptoir->id > 0) && ($assoc
 else if ( $_REQUEST["page"] == "barcodes" && ($comptoir->id > 0) )
 {
  header("Content-Type: text/html; charset=utf-8");
-        
-  $req = new requete ($site->db, 
-       "SELECT 
+
+  $req = new requete ($site->db,
+       "SELECT
        `cpt_produits`.`nom_prod`,
        `cpt_produits`.`cbarre_prod`,
        `cpt_type_produit`.`id_typeprod`,
         `cpt_type_produit`.`nom_typeprod`
         FROM `cpt_produits`
         INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod`
-  INNER JOIN `cpt_mise_en_vente` ON `cpt_produits`.`id_produit` = `cpt_mise_en_vente`.`id_produit` 
+  INNER JOIN `cpt_mise_en_vente` ON `cpt_produits`.`id_produit` = `cpt_mise_en_vente`.`id_produit`
         WHERE `cpt_mise_en_vente`.`id_comptoir` = '".intval($comptoir->id)."'
-        ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");   
-  
-  
+        ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
+
+
  echo "<html><head></head><body>";
 
 echo "<style>
@@ -300,7 +300,7 @@ echo "<style>
  font-size: 10pt;
  font-family: sans-serif;
 }
-  
+
 .titre
 {
 
@@ -317,18 +317,18 @@ td
 
 
  echo "<table>";
- 
+
  echo "<tr>";
  echo "<td>Valide panier<br/><img src=\"cbar.php?barcode=FIN\" /></td>";
  echo "<td>Annule dernier produit<br/><img src=\"cbar.php?barcode=ANN\" /></td>";
  echo "<td>Annule panier<br/><img src=\"cbar.php?barcode=ANC\" /></td>";
  echo "</tr>";
- 
- 
+
+
  $n = 0;
- 
+
  $prev_type_id = -1;
- 
+
   while ( list($prod_nom,$code_barre,$type_id,$type_nom) = $req->get_row() )
   {
    if ( $prev_type_id != $type_id )
@@ -339,16 +339,16 @@ td
     $prev_type_id = $type_id;
    }
     if ( $n%3 == 0 ) echo "<tr>";
-  
+
    echo "<td>$prod_nom<br/><img src=\"cbar.php?barcode=$code_barre\" /></td>";
-  
-  
+
+
    if ( $n%3 == 2 ) echo "</tr>";
    $n++;
-  } 
- 
+  }
+
    if ( $n > 0 ) echo "</tr>";
- 
+
  echo "</table>";
 
  echo "</body></html>";
@@ -412,14 +412,14 @@ elseif ( $_REQUEST["page"] == "addproduit" )
  $frm->add_hidden("action","addproduit");
  $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit");
  $frm->add_text_field("nom","Nom","",true);
- 
+
  $frm->add_entity_smartselect("id_file","Image",$file,true);
- 
- $frm->add_entity_smartselect("id_produit_parent","Produit parent",$produit_parent,true);  
- 
+
+ $frm->add_entity_smartselect("id_produit_parent","Produit parent",$produit_parent,true);
+
  $frm->add_text_area("description","Résumé");
  $frm->add_text_area("description_longue","Description");
- 
+
  $frm->add_price_field("prix_vente_barman","Prix barman",0,true);
  $frm->add_price_field("prix_vente","Prix vente",0,true);
  $frm->add_price_field("prix_achat","Prix achat",0,true);
@@ -433,22 +433,22 @@ elseif ( $_REQUEST["page"] == "addproduit" )
  $frm->add_checkbox("a_retirer","Produit à venir retirer (pour e-boutic)");
  $frm->add_checkbox("postable","Envoyable par la poste (non disponible)",false,true);
  $frm->add_price_field("frais_port","Frais de port");
- 
+
  $grp = new group($site->db);
  $grp->load_by_id(10000);
  $frm->add_entity_smartselect("id_groupe", "Limiter l'achat au groupe", $grp,true);
 
  $frm->add_datetime_field("date_fin","Date de fin de mise en vente");
- 
- 
+
+
  $frm->add(generate_subform_stock("Stock global","global","stock","stock_value",-1),false, false, false,false, true);
- 
+
  foreach ( $site->admin_comptoirs as $id => $nom )
  {
   $frm->add(generate_subform_stock("<a href=\"admin.php?id_comptoir=$id\">".$nom."</a>","cpt|$id","cpt_stock[$id]","cpt_stock_value[$id]",-1), true, false, false,false, true);
  }
 
- 
+
  $frm->add_submit("valid","Ajouter");
  $cts->add($frm,true);
  $site->add_contents($cts);
@@ -463,26 +463,26 @@ if ( ereg("^settypeprod=([0-9]*)$",$_REQUEST["action"],$regs) )
   {
     $produit->load_by_id($id);
     if ( $produit->is_valid() )
-        $produit->modifier_typeprod ($typeprod->id); 
-  } 
+        $produit->modifier_typeprod ($typeprod->id);
+  }
   $_REQUEST["page"] = "produits";
 }
 
 if ( $_REQUEST["page"] == "produits" )
 {
 
-  
+
   $batch = array();
-  
+
  $req = new requete($site->db,
   "SELECT `id_typeprod`,`nom_typeprod` " .
   "FROM `cpt_type_produit`  " .
   "ORDER BY `nom_typeprod`");
-  
+
  while ( $row = $req->get_row() )
-   $batch["settypeprod=".$row['id_typeprod']] = "Modifier le type pour ".$row['nom_typeprod']; 
-   
-  
+   $batch["settypeprod=".$row['id_typeprod']] = "Modifier le type pour ".$row['nom_typeprod'];
+
+
  $site->start_page("services","Administration des comptoirs");
  $cts = new contents("<a href=\"admin.php\">Administraion comptoirs</a> / Produits");
 
@@ -499,11 +499,11 @@ if ( $_REQUEST["page"] == "produits" )
   "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
 
 
-  
+
  $tbl = new sqltable(
-   "lstproduits", 
-   "Produits (hors archivés)", $req, "admin.php", 
-   "id_produit", 
+   "lstproduits",
+   "Produits (hors archivés)", $req, "admin.php",
+   "id_produit",
    array(
    "nom_typeprod"=>"Type",
    "nom_prod"=>"Nom du produit",
@@ -512,10 +512,10 @@ if ( $_REQUEST["page"] == "produits" )
    "prix_achat_prod"=>"Prix d'achat",
    "stock_global_prod"=>"Stock global",
    "nom_asso"=>"Association"
-   ), 
+   ),
    array("edit"=>"Editer"), $batch, array()
    );
-   
+
  $cts->add($tbl,true);
 
  $req = new requete($site->db,
@@ -524,12 +524,12 @@ if ( $_REQUEST["page"] == "produits" )
   "ORDER BY `nom_typeprod`");
 
  $tbl = new sqltable(
-   "lsttypeproduits", 
-   "Types de produits", $req, "admin.php", 
-   "id_typeprod", 
+   "lsttypeproduits",
+   "Types de produits", $req, "admin.php",
+   "id_typeprod",
    array(
    "nom_typeprod"=>"Type"
-   ), 
+   ),
    array("edit"=>"Editer"), array(), array()
    );
  $cts->add($tbl,true);
@@ -540,56 +540,56 @@ if ( $_REQUEST["page"] == "produits" )
 elseif ( $produit->id > 0 )
 {
  $typeprod->load_by_id($produit->id_type);
- 
+
  $site->start_page("services","Administration des comptoirs");
  $cts = new contents("<a href=\"admin.php\">Administraion comptoirs</a> / <a href=\"admin.php?page=produits\">Produits</a> / ".$typeprod->get_html_link()." / ".$produit->get_html_link());
- 
+
  $cts->add_paragraph("<a href=\"compta.php?id_produit=".$produit->id."\">Comptabilité</a>");
-  
+
  $nonpresents = $site->admin_comptoirs;
-  
+
  $req = new requete($site->db,
-   "SELECT `cpt_mise_en_vente`.`stock_local_prod`,`cpt_comptoir`.`id_comptoir`,`cpt_comptoir`.`nom_cpt` 
-    FROM `cpt_mise_en_vente` 
+   "SELECT `cpt_mise_en_vente`.`stock_local_prod`,`cpt_comptoir`.`id_comptoir`,`cpt_comptoir`.`nom_cpt`
+    FROM `cpt_mise_en_vente`
     INNER JOIN `cpt_comptoir` ON `cpt_comptoir`.`id_comptoir` = `cpt_mise_en_vente`.`id_comptoir`
     WHERE `cpt_mise_en_vente`.`id_produit` = '".intval($produit->id)."'");
-    
+
  $frm = new form ("updcpt","admin.php",true,"POST","Lieux de vente actuels");
  $frm->add_hidden("action","updcpt");
- $frm->add_hidden("id_produit",$produit->id);  
+ $frm->add_hidden("id_produit",$produit->id);
  while ( list($stock,$id,$nom) = $req->get_row() )
  {
-  $frm->add(generate_subform_stock("<a href=\"admin.php?id_comptoir=$id\">".$nom."</a>","cpt|$id","cpt_stock[$id]","cpt_stock_value[$id]",$stock), true, false, true,false, true); 
+  $frm->add(generate_subform_stock("<a href=\"admin.php?id_comptoir=$id\">".$nom."</a>","cpt|$id","cpt_stock[$id]","cpt_stock_value[$id]",$stock), true, false, true,false, true);
   unset($nonpresents[$id]);
  }
  $frm->add_submit("valid","Enregistrer");
  $cts->add($frm,true);
- 
+
  $frm = new form ("addnvcpt","admin.php",true,"POST","Ajouter un lieu de vente");
  $frm->add_hidden("action","addnvcpt");
- $frm->add_hidden("id_produit",$produit->id); 
+ $frm->add_hidden("id_produit",$produit->id);
  foreach ( $nonpresents as $id => $nom )
  {
   $frm->add(generate_subform_stock("<a href=\"admin.php?id_comptoir=$id\">".$nom."</a>","nv_cpt|$id","nv_stock[$id]","nv_stock_value[$id]",-1), true, false, false,false, true);
  }
  $frm->add_submit("valid","Ajouter");
  $cts->add($frm,true);
-    
+
  $frm = new form ("upproduit","admin.php",false,"POST","Editer");
  $frm->add_hidden("action","upproduit");
  $frm->add_hidden("id_produit",$produit->id);
- $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit",$produit->id_type); 
+ $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit",$produit->id_type);
  $frm->add_text_field("nom","Nom",$produit->nom,true);
 
  $file->load_by_id($produit->id_file);
  $frm->add_entity_smartselect("id_file","Image",$file,true);
- 
+
  $produit_parent->load_by_id($produit->id_produit_parent);
- $frm->add_entity_smartselect("id_produit_parent","Produit parent",$produit_parent,true); 
- 
+ $frm->add_entity_smartselect("id_produit_parent","Produit parent",$produit_parent,true);
+
  $frm->add_text_area("description","Résumé",$produit->description);
  $frm->add_text_area("description_longue","Description",$produit->description_longue);
- 
+
  $frm->add_price_field("prix_vente_barman","Prix barman",$produit->prix_vente_barman,true);
  $frm->add_price_field("prix_vente","Prix vente",$produit->prix_vente,true);
  $frm->add_price_field("prix_achat","Prix achat",$produit->prix_achat,true);
@@ -603,17 +603,17 @@ elseif ( $produit->id > 0 )
  $frm->add_checkbox("a_retirer","Produit à venir retirer (pour e-boutic)",$produit->a_retirer);
  $frm->add_checkbox("postable","Envoyable par la poste (non disponible)",$produit->postable,true);
  $frm->add_price_field("frais_port","Frais de port",$produit->frais_port);
- 
+
  $grp = new group($site->db);
  $grp->load_by_id($produit->id_groupe);
  $frm->add_entity_smartselect("id_groupe", "Limiter l'achat au groupe", $grp,true);
 
  $frm->add_datetime_field("date_fin","Date de fin de mise en vente",$produit->date_fin);
- 
+
  $frm->add(generate_subform_stock("Stock global","global","stock","stock_value",$produit->stock_global),false, false, false,false, true);
  $frm->add_submit("valid","Enregistrer");
  $cts->add($frm,true);
- 
+
  $site->add_contents($cts);
  $site->end_page();
  exit();
@@ -626,40 +626,40 @@ elseif ( $typeprod->id > 0 )
     {
       $produit->load_by_id($id);
       if ( $produit->is_valid() )
-         $produit->archiver(); 
-    } 
-  }  
+         $produit->archiver();
+    }
+  }
   elseif ( $_REQUEST["action"] == "unarch" )
   {
     foreach($_REQUEST["id_produits"] as $id)
     {
       $produit->load_by_id($id);
       if ( $produit->is_valid() )
-         $produit->dearchiver(); 
-    } 
-  } 
-  
-  
+         $produit->dearchiver();
+    }
+  }
+
+
  $site->start_page("services","Administration des comptoirs");
  $cts = new contents("<a href=\"admin.php\">Administraion comptoirs</a> / <a href=\"admin.php?page=produits\">Produits</a> / ".$typeprod->nom);
- 
+
  $cts->add_paragraph("<a href=\"compta.php?id_typeprod=".$typeprod->id."\">Comptabilité</a>");
-  
- 
+
+
  $frm = new form ("uptype","admin.php",true,"POST","Editer");
  $frm->add_hidden("action","uptype");
     $frm->add_hidden("id_typeprod", $typeprod->id);
  $frm->add_text_field("nom","Nom du type",$typeprod->nom,true);
- 
+
  $file->load_by_id($typeprod->id_file);
  $frm->add_entity_smartselect("id_file","Image",$file,true);
- 
+
  $frm->add_text_area("description","Description",$typeprod->description);
  $frm->add_entity_select("id_assocpt", "Association qui vend g&eacute;n&eacute;ralement ce type", $site->db, "assocpt",$typeprod->id_assocpt);
  $frm->add_select_field("id_action","Action par d&eacute;faut",$ActionsProduits,$typeprod->id_action);
  $frm->add_submit("valid","Enregistrer");
  $cts->add($frm,true);
- 
+
  $req = new requete($site->db,
   "SELECT `cpt_produits`.`nom_prod`, `cpt_produits`.`id_produit`,`cpt_produits`.`prod_archive`, " .
   "`cpt_produits`.stock_global_prod, `cpt_produits`.prix_vente_barman_prod/100 AS prix_vente_barman_prod," .
@@ -670,12 +670,12 @@ elseif ( $typeprod->id > 0 )
   "INNER JOIN `cpt_type_produit` ON `cpt_type_produit`.`id_typeprod`=`cpt_produits`.`id_typeprod` " .
   "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
   "WHERE `cpt_produits`.`id_typeprod`='".$typeprod->id."' " .
-  "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`"); 
- 
+  "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
+
  $tbl = new sqltable(
-   "lstproduits", 
-   "Produits", $req, "admin.php?id_typeprod=".$typeprod->id, 
-   "id_produit", 
+   "lstproduits",
+   "Produits", $req, "admin.php?id_typeprod=".$typeprod->id,
+   "id_produit",
    array(
    "nom_typeprod"=>"Type",
    "nom_prod"=>"Nom du produit",
@@ -685,41 +685,41 @@ elseif ( $typeprod->id > 0 )
    "stock_global_prod"=>"Stock global",
    "nom_asso"=>"Association",
    "prod_archive"=>"Archivé"
-   ), 
+   ),
    array("edit"=>"Editer"), array("arch"=>"Archiver","unarch"=>"Desarchiver"), array("prod_archive"=>array(0=>"non",1=>"oui"))
-   ); 
-   
- $cts->add($tbl,true);  
+   );
+
+ $cts->add($tbl,true);
 
  $site->add_contents($cts);
  $site->end_page();
- exit(); 
+ exit();
 }
 elseif ( $comptoir->id > 0 )
 {
 
   $allow_editteam = ($comptoir->groupe_vendeurs == 5) || ($comptoir->groupe_vendeurs == 16);
-  
 
- 
+
+
  if ( $_REQUEST["action"] == "retirervente" )
  {
   foreach( $_REQUEST["id_produits"] as $id_produit )
   {
-   if ( $venteproduit->load_by_id($id_produit,$comptoir->id) ) 
+   if ( $venteproduit->load_by_id($id_produit,$comptoir->id) )
     $venteproduit->supprime();
   }
  }
  elseif ( $allow_editteam && isset($_REQUEST["action"]) )
  {
    require_once($topdir. "include/entities/group.inc.php");
-    $grp = new group ( $site->db,$site->dbrw );  
-    $grp->load_by_id($comptoir->groupe_vendeurs); 
- 
+    $grp = new group ( $site->db,$site->dbrw );
+    $grp->load_by_id($comptoir->groupe_vendeurs);
+
     if ( $_REQUEST["action"] == "delbarman" )
     {
       $grp->remove_user_from_group($_REQUEST["id_utilisateur"]);
-    
+
     }
     elseif ( $_REQUEST["action"] == "delbarmen" )
     {
@@ -732,29 +732,29 @@ elseif ( $comptoir->id > 0 )
       $user = new utilisateur($site->dbrw);
       $user->load_by_id($_REQUEST["id_utilisateur"]);
       if ( $user->id > 0 )
-        $grp->add_user_to_group($user->id);  
+        $grp->add_user_to_group($user->id);
     }
   }
- 
+
  $site->start_page("services","Administration des comptoirs");
  $cts = new contents("<a href=\"admin.php\">Administraion comptoirs</a> / ".$comptoir->nom);
- 
+
  $cts->add_paragraph("<a href=\"admin.php?page=barcodes&amp;id_comptoir=".$comptoir->id."\">Codes barre</a>");
- $cts->add_paragraph("<a href=\"compta.php?id_comptoir=".$comptoir->id."\">Comptabilité</a>"); 
- 
+ $cts->add_paragraph("<a href=\"compta.php?id_comptoir=".$comptoir->id."\">Comptabilité</a>");
+
  $tabs = array(
     array("","comptoir/admin.php?id_comptoir=".$comptoir->id, "Produits en vente"),
     array("edit","comptoir/admin.php?id_comptoir=".$comptoir->id."&view=edit", "Editer")
     );
- 
+
  if ( $allow_editteam )
   $tabs[] = array("team","comptoir/admin.php?id_comptoir=".$comptoir->id."&view=team", "Vendeurs/Barmen");
 
  $cts->add(new tabshead($tabs,$_REQUEST["view"]));
-    
+
   if ( $_REQUEST["view"] == "team" )
  {
- 
+
     $req = new requete($site->db,
       "SELECT `utilisateurs`.`id_utilisateur`, " .
       "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
@@ -762,25 +762,25 @@ elseif ( $comptoir->id > 0 )
       "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_groupe`.`id_utilisateur` " .
       "WHERE `utl_groupe`.`id_groupe`='".$comptoir->groupe_vendeurs."' " .
       "ORDER BY `utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl`");
-      
+
     $tbl = new sqltable(
-        "listbarmen", 
-        "Personnes autorisées à vendre", $req, "admin.php?view=team&id_comptoir=".$comptoir->id, 
-        "id_utilisateur", 
-        array("nom_utilisateur"=>"Utilisateur"), 
-        array("delbarman"=>"Supprimer"), 
+        "listbarmen",
+        "Personnes autorisées à vendre", $req, "admin.php?view=team&id_comptoir=".$comptoir->id,
+        "id_utilisateur",
+        array("nom_utilisateur"=>"Utilisateur"),
+        array("delbarman"=>"Supprimer"),
         array("delbarmen"=>"Supprimer"),
         array( )
-        );  
+        );
     $cts->add($tbl,true);
-    
+
     $frm = new form("addbarman","admin.php?view=team&id_comptoir=".$comptoir->id, false,"POST","Ajouter un utilisateur");
     $frm->add_hidden("action","addbarman");
     $frm->add_user_fieldv2("id_utilisateur","");
     $frm->add_submit("valid","Ajouter");
-    $cts->add($frm,true); 
- 
- 
+    $cts->add($frm,true);
+
+
  }
  elseif ( $_REQUEST["view"] == "edit" )
  {
@@ -798,13 +798,13 @@ elseif ( $comptoir->id > 0 )
  }
  else
  {
-  
+
     $lst = new itemlist();
     $lst->add("<a href=\"admin.php?page=addproduit\">Ajouter un nouveau  produit</a>");
     $lst->add("<a href=\"admin.php?page=produits\">Liste de tous les autres produits</a> (permet de (re)mettre en vente un produit existant)");
     $cts->add($lst);
 
-  
+
  $req = new requete($site->db,
   "SELECT `cpt_produits`.`nom_prod`, `cpt_produits`.`id_produit`," .
   "`cpt_produits`.stock_global_prod, `cpt_produits`.prix_vente_barman_prod/100 AS prix_vente_barman_prod," .
@@ -817,12 +817,12 @@ elseif ( $comptoir->id > 0 )
   "INNER JOIN `asso` ON `asso`.`id_asso`=`cpt_produits`.`id_assocpt` " .
   "INNER JOIN cpt_mise_en_vente ON `cpt_mise_en_vente`.`id_produit`=`cpt_produits`.`id_produit` " .
   "WHERE `cpt_mise_en_vente`.`id_comptoir`='".$comptoir->id."' " .
-  "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`"); 
- 
+  "ORDER BY `cpt_type_produit`.`nom_typeprod`,`cpt_produits`.`nom_prod`");
+
  $tbl = new sqltable(
-   "lstproduits", 
-   "Produits", $req, "admin.php?id_comptoir=".$comptoir->id, 
-   "id_produit", 
+   "lstproduits",
+   "Produits", $req, "admin.php?id_comptoir=".$comptoir->id,
+   "id_produit",
    array(
    "nom_typeprod"=>"Type",
    "nom_prod"=>"Nom du produit",
@@ -832,13 +832,13 @@ elseif ( $comptoir->id > 0 )
    "stock_global_prod"=>"Stock global",
    "stock_local_prod"=>"Stock local",
    "nom_asso"=>"Association"
-   ), 
+   ),
    array("edit"=>"Editer"), array("retirervente"=>"Ne plus vendre ce(s) produit(s)"), array()
    );
-   
+
  $cts->add($tbl,true);
  }
- 
+
  $site->add_contents($cts);
  $site->end_page();
  exit();

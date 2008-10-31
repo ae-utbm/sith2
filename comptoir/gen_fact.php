@@ -60,19 +60,19 @@ $ville = new ville($site->db);
 $ville->load_by_id($user->id_ville);
 
 $facturing_infos = array ('name' => "AE - UTBM",
-			 'addr' => array("6 Boulevard Anatole France",
-					 "90000 BELFORT"),
-			 'logo' => "http://ae.utbm.fr/images/Ae-blanc.jpg");
+       'addr' => array("6 Boulevard Anatole France",
+           "90000 BELFORT"),
+       'logo' => "http://ae.utbm.fr/images/Ae-blanc.jpg");
 
 $factured_infos = array ('name' => utf8_decode($user->nom)
-			 . " " .
-			 utf8_decode($user->prenom),
-			 'addr' => array(
-					 utf8_decode($user->addresse),
-					 utf8_decode($ville->cpostal)
-					 . " " .
-					 utf8_decode($ville->nom)),
-			 false);
+       . " " .
+       utf8_decode($user->prenom),
+       'addr' => array(
+           utf8_decode($user->addresse),
+           utf8_decode($ville->cpostal)
+           . " " .
+           utf8_decode($ville->nom)),
+       false);
 
 $date_facturation = date("d/m/Y H:i", $fact->date);
 
@@ -93,28 +93,28 @@ $total = 0;
 while ($line = $query->get_row ())
 {
   $lines[] = array('nom' => utf8_decode($line['nom_prod']),
-		   'quantite' => intval($line['quantite']),
-		   'prix' => $line['prix_unit'],
-		   'sous_total' => intval($line['quantite']) * $line['prix_unit']);
-		   
+       'quantite' => intval($line['quantite']),
+       'prix' => $line['prix_unit'],
+       'sous_total' => intval($line['quantite']) * $line['prix_unit']);
+
   $total += intval($line['quantite']) * $line['prix_unit'];
 }
 
 if ( $fact->mode == "AE" && $user->type != "srv" )
 {
   $lines[] = array('nom' => utf8_decode("Reprise sur accompte"),
-		   'quantite' => 1,
-		   'prix' => -$total,
-		   'sous_total' => -$total);
+       'quantite' => 1,
+       'prix' => -$total,
+       'sous_total' => -$total);
 }
 
 $fact_pdf = new facture_pdf ($facturing_infos,
-			     $factured_infos,
-			     $date_facturation,
-			     $titre,
-			     $ref,
-			     $lines);
-			     
+           $factured_infos,
+           $date_facturation,
+           $titre,
+           $ref,
+           $lines);
+
 /* on sort la facture */
 $fact_pdf->renderize ();
 

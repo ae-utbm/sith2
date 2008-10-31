@@ -31,12 +31,9 @@ $sql = new requete($site->db, "SELECT * FROM `cpt_verrou` WHERE DATEDIFF(NOW(),`
 
 while ( $row = $sql->get_row() )
 {
-	$usr->id = $row["id_utilisateur"];
-	$vp->load_by_id($row["id_produit"],$row["id_comptoir"]);
-	$vp->debloquer ( $usr, $row["quantite"] );
+  $usr->id = $row["id_utilisateur"];
+  $vp->load_by_id($row["id_produit"],$row["id_comptoir"]);
+  $vp->debloquer ( $usr, $row["quantite"] );
 }
-
-
-
 
 ?>

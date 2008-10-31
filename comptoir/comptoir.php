@@ -122,7 +122,7 @@ $frm->add_text_field("code_bar_carte","Carte AE");
 $frm->add_password_field("password","Mot de passe");
 $frm->add_submit("valid","valider");
 $cts->add($frm);
-  
+
 $site->add_box("comptoir",$cts);
 unset($cts);
 

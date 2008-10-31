@@ -30,8 +30,8 @@ $comptoir = new comptoir($site->db);
 $comptoir->load_by_id($_REQUEST["id_comptoir"]);
 if ( $comptoir->id < 1 )
   $site->error_forbidden();
-		
-		
+
+
 $site->start_page("services","Activité sur le comptoir ".$comptoir->nom);
 
 $cts = new contents("Activité sur le comptoir ".$comptoir->nom);
@@ -41,28 +41,28 @@ $cts->add_paragraph("Cette page vous permet de savoir s'il y a de l'activité au
 
 
 $req = new requete ($site->db,
-					 "SELECT 
-					 
-					 `utilisateurs`.`id_utilisateur`, 
-		        IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`,
-		        cpt_tracking.activity_time as `date_act`
-		        
-					  FROM `cpt_tracking`
-            INNER JOIN utilisateurs ON cpt_tracking.id_utilisateur=utilisateurs.id_utilisateur 
-		        LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur`
-							  
-					  WHERE `activity_time` > '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
-					  AND `closed_time` IS NULL
-					  AND id_comptoir='".mysql_real_escape_string($comptoir->id)."'");
+           "SELECT
+
+           `utilisateurs`.`id_utilisateur`,
+            IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur`,
+            cpt_tracking.activity_time as `date_act`
+
+            FROM `cpt_tracking`
+            INNER JOIN utilisateurs ON cpt_tracking.id_utilisateur=utilisateurs.id_utilisateur
+            LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur`
+
+            WHERE `activity_time` > '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
+            AND `closed_time` IS NULL
+            AND id_comptoir='".mysql_real_escape_string($comptoir->id)."'");
 $led = "red";
 $descled = "fermé (ou pas d'activité depuis plus de ".(intval(ini_get("session.gc_maxlifetime"))/60)." minutes)";
 
 if ( $req->lines > 0 )
 {
   $row = $req->get_row();
-  
+
   $last_act = strtotime($row['date_act']);
-  
+
   $led = "green";
   $descled = "ouvert";
 
@@ -70,8 +70,8 @@ if ( $req->lines > 0 )
   {
     $led = "yellow";
     $descled = "ouvert (mais pas d'activité depuis plus de 10 minutes)";
-  } 
-  
+  }
+
   $req->go_first();
 }
 
@@ -80,17 +80,17 @@ $cts->add_paragraph("Le comptoir ".$comptoir->nom." est actuellement <img src=\"
 if ( $req->lines > 0 )
 
 $cts->add(new sqltable(
-		"lstactcpt", 
-		"Barmen connectés", $req, "activity.php", 
-		"id_utilisateur", 
-		array(
-			"date_act"=>"Dernière activité",
-			"nom_utilisateur"=>"Barman"), 
-		array(),
-		array(),
-		array( )
-		),true);
-		
+    "lstactcpt",
+    "Barmen connectés", $req, "activity.php",
+    "id_utilisateur",
+    array(
+      "date_act"=>"Dernière activité",
+      "nom_utilisateur"=>"Barman"),
+    array(),
+    array(),
+    array( )
+    ),true);
+
 $site->add_contents($cts);
 $site->end_page();
 

@@ -31,7 +31,7 @@
  * 02111-1307, USA.
  */
 
-/** 
+/**
  * @addtogroup comptoirs
  * @{
  */
@@ -56,54 +56,54 @@ define("ACTION_BON",4);
 define("ACTION_CLASS",5);
 
 $ActionsProduits = array (
-	ACTION_VSIMPLE => "Vente simple (idéal pour les bars)",
-	ACTION_VSTOCKLIM => "Vente avec limitation par le stock",
-	ACTION_PASS => "Vente de pass (précisez le paramètre)",
-	ACTION_JETON => "Vente de jetons (précisez le paramètre)",
-	ACTION_BON => "Bon rechargement",
-	ACTION_CLASS => "Class class() ou class(param)"
+  ACTION_VSIMPLE => "Vente simple (idéal pour les bars)",
+  ACTION_VSTOCKLIM => "Vente avec limitation par le stock",
+  ACTION_PASS => "Vente de pass (précisez le paramètre)",
+  ACTION_JETON => "Vente de jetons (précisez le paramètre)",
+  ACTION_BON => "Bon rechargement",
+  ACTION_CLASS => "Class class() ou class(param)"
 );
 
 /* note pedrov : J'imaginais un truc beaucoup plus "global" que cela
  * genre des actions DB_UPDATE, DB_INSERT, DB_DELETE, avec comme passage
  * de parametres la table concernée, une liste de valeurs pour matcher ...
  */
- 
+
 define("PAIE_CHEQUE",0);
 define("PAIE_ESPECS",1);
-define("PAIE_BONSITE",2);  
- 
+define("PAIE_BONSITE",2);
+
 $TypesPaiements = array (
-	PAIE_CHEQUE => "Chèque",
-	PAIE_ESPECS => "Espèces"
-); 
+  PAIE_CHEQUE => "Chèque",
+  PAIE_ESPECS => "Espèces"
+);
 
 $TypesPaiementsFull = array (
-	PAIE_CHEQUE => "Chèque",
-	PAIE_ESPECS => "Espèces",
-	PAIE_BONSITE => "Carte bleue"
+  PAIE_CHEQUE => "Chèque",
+  PAIE_ESPECS => "Espèces",
+  PAIE_BONSITE => "Carte bleue"
 );
 
 $Banques = array( 0 => "--",
-		   1 => "Société Générale",
-		   2 => "Banque Populaire",
-		   3 => "BNP",
-		   4 => "Caisse d'Epargne",
-		   5 => "CIC",
-		   6 => "Crédit Agricole",
-		   7 => "Crédit Mutuel",
-		   8 => "Crédit Lyonnais",
-		   9 => "La Poste",
-		   100 => "Autre");
-		   
-		   
-$TypesComptoir = array (0 => "Comptoir classique", 1 => "E-boutic", 2 => "Bureau");		   
-		   
-		   
-define("ETAT_FACT_A_EXPEDIER",         0x01);	   
-define("ETAT_FACT_A_EXPEDIER_PARTIEL", 0x02);	   
-define("ETAT_FACT_A_RETIRER",          0x04);	   
+       1 => "Société Générale",
+       2 => "Banque Populaire",
+       3 => "BNP",
+       4 => "Caisse d'Epargne",
+       5 => "CIC",
+       6 => "Crédit Agricole",
+       7 => "Crédit Mutuel",
+       8 => "Crédit Lyonnais",
+       9 => "La Poste",
+       100 => "Autre");
+
+
+$TypesComptoir = array (0 => "Comptoir classique", 1 => "E-boutic", 2 => "Bureau");
+
+
+define("ETAT_FACT_A_EXPEDIER",         0x01);
+define("ETAT_FACT_A_EXPEDIER_PARTIEL", 0x02);
+define("ETAT_FACT_A_RETIRER",          0x04);
 define("ETAT_FACT_A_RETIRER_PARTIEL",  0x08);
 
- 		   
+
 ?>

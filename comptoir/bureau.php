@@ -13,7 +13,7 @@
  *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
@@ -37,7 +37,7 @@
  * @see sitecomptoirs
  * @see get_localisation
  */
- 
+
 $topdir="../";
 require_once("include/comptoirs.inc.php");
 require_once($topdir. "include/cts/user.inc.php");
@@ -49,7 +49,7 @@ if ( !$site->comptoir->is_valid() )
   $site->error_not_found("services");
 
 if ( $site->comptoir->type != 2 )
-	$site->error_forbidden("services","invalid");
+  $site->error_forbidden("services","invalid");
 
 if ( !$site->comptoir->set_operateur($site->user) )
   $site->error_forbidden("services","group",$site->comptoir->groupe_vendeurs);

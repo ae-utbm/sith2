@@ -70,7 +70,7 @@ class produit extends stdentity
   var $id_groupe;
   /** Date de fin de vente du produit (timestamp) @todo à implémenter */
   var $date_fin;
-  /** Id du produit parent (null si aucun) si non null, alors ce produit est une 
+  /** Id du produit parent (null si aucun) si non null, alors ce produit est une
    *  déclinaisaon du produit parent */
   var $id_produit_parent;
   /** A venir retiré aux bureaux où cet objet est vendu (boolénn) */
@@ -89,9 +89,9 @@ class produit extends stdentity
    */
   var $mineur=0;
 
-  /** Cache de l'instance de la classe associée 
-   * @see get_prodclass 
-   * @private 
+  /** Cache de l'instance de la classe associée
+   * @see get_prodclass
+   * @private
    */
   var $cl;
 
@@ -100,7 +100,7 @@ class produit extends stdentity
     - VenteProduit
   */
 
-  /** 
+  /**
    * Charge un produit en fonction de son id
    * En cas d'erreur, l'id est définit à null
    * @param $id id du produit
@@ -110,17 +110,17 @@ class produit extends stdentity
   {
     $req = new requete ($this->db, "SELECT * FROM `cpt_produits`
                                     WHERE `id_produit`='".mysql_real_escape_string($id)."'");
-    
+
     if ( $req->lines == 1 )
     {
       $this->_load($req->get_row());
       return true;
     }
-    $this->id = null;  
+    $this->id = null;
     return false;
   }
 
-  /** 
+  /**
    * Charge un produit en fonction de son code barre
    * En cas d'erreur, l'id est définit à null
    * @param $code_barre code barre du produit
@@ -138,15 +138,15 @@ class produit extends stdentity
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
 
-  /** 
+  /**
    * Crée un produit
    *
-   * Voir documentation des champs de la classe pour la signification des 
+   * Voir documentation des champs de la classe pour la signification des
    * paramètres.
    *
    * @return true si succès, false sinon
@@ -187,11 +187,11 @@ class produit extends stdentity
     $this->id_file = $id_file;
     $this->description = $description;
     $this->description_longue = $description_longue;
-    
-    $this->a_retirer = $a_retirer?1:0;    
-    $this->postable = $postable?1:0;    
-    $this->frais_port = intval(frais_port);  
-    
+
+    $this->a_retirer = $a_retirer?1:0;
+    $this->postable = $postable?1:0;
+    $this->frais_port = intval(frais_port);
+
     $this->id_groupe = $id_groupe?$id_groupe:null;
     $this->date_fin = $date_fin?$date_fin:null;
     $this->id_produit_parent = $id_produit_parent;
@@ -217,12 +217,12 @@ class produit extends stdentity
            'frais_port_prod' => $this->frais_port,
            'postable_prod' => $this->postable,
            'a_retirer_prod'=> $this->a_retirer,
-           
+
            'id_groupe'=>$this->id_groupe,
            'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
-           'id_produit_parent'=> $this->id_produit_parent       
-           
-           
+           'id_produit_parent'=> $this->id_produit_parent
+
+
             ));
 
     if ( !$req )
@@ -232,11 +232,11 @@ class produit extends stdentity
 
     return true;
   }
-  
-  /** 
+
+  /**
    * Modifie le produit
    *
-   * Voir documentation des champs de la classe pour la signification des 
+   * Voir documentation des champs de la classe pour la signification des
    * paramètres.
    *
    * @return true si succès, false sinon
@@ -277,16 +277,16 @@ class produit extends stdentity
     $this->description = $description;
     $this->description_longue = $description_longue;
     $this->id_assocpt = $id_assocpt;
-    
-    $this->a_retirer = $a_retirer?1:0;    
-    $this->postable = $postable?1:0;    
-    $this->frais_port = intval(frais_port);     
-    
+
+    $this->a_retirer = $a_retirer?1:0;
+    $this->postable = $postable?1:0;
+    $this->frais_port = intval(frais_port);
+
     $this->id_groupe = $id_groupe?$id_groupe:null;
     $this->date_fin = $date_fin?$date_fin:null;
     $this->id_produit_parent = $id_produit_parent;
     $this->mineur = $mineur;
-    
+
     $req = new update ($this->dbrw,
            "cpt_produits",
            array("id_typeprod" => $this->id_type,
@@ -302,11 +302,11 @@ class produit extends stdentity
            "id_file" => $this->id_file,
            "description_prod" => $this->description,
            "description_longue_prod" => $this->description_longue,
-           
+
            'frais_port_prod' => $this->frais_port,
            'postable_prod' => $this->postable,
            'a_retirer_prod'=> $this->a_retirer,
-           
+
            'id_groupe'=>$this->id_groupe,
            'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
            'id_produit_parent'=> $this->id_produit_parent,
@@ -319,7 +319,7 @@ class produit extends stdentity
 
     return true;
   }
-  
+
   /**
    * Modifie le type du produit
    * @param $id_typeprod Id du type de produit
@@ -341,7 +341,7 @@ class produit extends stdentity
 
     return true;
   }
-  
+
   /**
    * Supprime le produit (s'il n'a jamais été vendu)
    * @return true si succès, false sinon
@@ -353,11 +353,11 @@ class produit extends stdentity
 
     new delete($this->dbrw,"cpt_produits",array("id_produit" => $this->id));
     new delete($this->dbrw,"cpt_mise_en_vente",array("id_produit" => $this->id));
-    
+
     return false;
   }
 
-  /** 
+  /**
    * Archivage d'un produit :
    * - le retire de la vente dans tous les comptoirs
    * - le marque comme archivé
@@ -377,13 +377,13 @@ class produit extends stdentity
       return false;
 
     $this->archive = 1;
-     
+
     $req = new delete($this->dbrw,"cpt_mise_en_vente",array("id_produit" => $this->id));
-     
+
     return true;
   }
 
-  /** 
+  /**
    * De-archivage d'un produit : enlève le marquage "archivé"
    *
    * @return true si succès, false sinon
@@ -397,7 +397,7 @@ class produit extends stdentity
            "prod_archive" => 0
             ),
          array("id_produit" => $this->id));
-         
+
     if ( !$req )
       return false;
 
@@ -410,7 +410,7 @@ class produit extends stdentity
   {
     $req = new requete ($this->db, "SELECT count(id) FROM `cpt_vendu`
                                     WHERE id_produit='".$this->id."'");
-                                    
+
     list($count) = $req->get_row();
 
     return $count != 0;
@@ -424,29 +424,29 @@ class produit extends stdentity
     $this->nom = $row['nom_prod'];
     $this->prix_vente_barman = $row['prix_vente_barman_prod'];
     $this->prix_vente = $row['prix_vente_prod'];
-    
+
     $this->prix_achat = $row['prix_achat_prod'];
     $this->meta = $row['meta_action_prod'];
     $this->action = $row['action_prod'];
     $this->code_barre = $row['cbarre_prod'];
     $this->stock_global = $row['stock_global_prod'];
     $this->archive = $row['prod_archive'];
-    
+
     $this->id_file = $row['id_file'];
-    $this->description = $row['description_prod'];    
-    $this->description_longue = $row['description_longue_prod'];    
-    
-    $this->a_retirer = $row['a_retirer_prod'];    
-    $this->postable = $row['postable_prod'];    
-    $this->frais_port = $row['frais_port_prod'];    
-    
-    $this->id_groupe = $row['id_groupe'];    
-    $this->date_fin = is_null($row['date_fin_produit'])?null:strtotime($row['date_fin_produit']);    
-    $this->id_produit_parent = $row['id_produit_parent'];    
-    $this->mineur = $row['mineur'];    
+    $this->description = $row['description_prod'];
+    $this->description_longue = $row['description_longue_prod'];
+
+    $this->a_retirer = $row['a_retirer_prod'];
+    $this->postable = $row['postable_prod'];
+    $this->frais_port = $row['frais_port_prod'];
+
+    $this->id_groupe = $row['id_groupe'];
+    $this->date_fin = is_null($row['date_fin_produit'])?null:strtotime($row['date_fin_produit']);
+    $this->id_produit_parent = $row['id_produit_parent'];
+    $this->mineur = $row['mineur'];
   }
-  
-  /** 
+
+  /**
    * Determine le prix de vente pour un utilisateur
    *
    * @param $prix_barman true si l'utilisateur a droit au prix barman, false sinon
@@ -457,7 +457,7 @@ class produit extends stdentity
   {
     return $barman ? $this->prix_vente_barman : $this->prix_vente;
   }
-  
+
   /**
    * Détermine si le produit peut être vendu à un utilisateur.
    * Verifie que l'utilisateur fait partie du groupe cible (si définit).
@@ -471,7 +471,7 @@ class produit extends stdentity
   {
     if ( !is_null($this->id_groupe) && !$user->is_in_group_id($this->id_groupe) )
       return false;
-    
+
     if ( $this->action == ACTION_CLASS )
     {
       $this->get_prodclass($user);
@@ -490,9 +490,9 @@ class produit extends stdentity
 
     return true;
   }
-  
+
   /**
-   * Renvoie une instance de la classe associée au produit (lorsque l'action 
+   * Renvoie une instance de la classe associée au produit (lorsque l'action
    * associée est ACTION_CLASS).
    *
    * Permet entre autre de réaliser des traitements spécifiques suite à la vente
@@ -501,7 +501,7 @@ class produit extends stdentity
    * Les classes associables sont stockées dans comptoir/include/class.
    *
    * La classe associée est définit par le champ meta lorsque l'action associée
-   * au produit est ACTION_CLASS. Le formalisme du champ est 
+   * au produit est ACTION_CLASS. Le formalisme du champ est
    * "nomdelaclasse(paramètre dans un format quelquonque)"
    *
    * Le fichier chargée est comptoir/include/class/nomdelaclasse.inc.php
@@ -509,17 +509,17 @@ class produit extends stdentity
    * Le nom de la classe est forcément composé de lettre en minuscules.
    *
    * Le constructeur de la classe est appelé avec quatres paramètre : les liens
-   * à la base de données, le pramètre selui définit dans la base et 
+   * à la base de données, le pramètre selui définit dans la base et
    * le client passé à cette fonction.
    *
    * Les classes doivent implémenter un certain nombre de fonctions :
-   * - vendu($user,$prix_unit) appelé lorsque le produit est vendu à $user au 
+   * - vendu($user,$prix_unit) appelé lorsque le produit est vendu à $user au
    *   prix $prix_unit
    * - get_info() renvoie les informations complémentaires sur le produit
-   * - get_once_sold_cts($user) renvoie un stdcontents lorsque le produit a été 
+   * - get_once_sold_cts($user) renvoie un stdcontents lorsque le produit a été
    *   vendu à $user
    * - can_be_sold($user) determine si le produit peut être vendu à $user
-   * - is_compatible($cl) determine si le produit peut être vendu en même temps 
+   * - is_compatible($cl) determine si le produit peut être vendu en même temps
    *   qu'un produit dont $cl est une instance de la classe associée
    * Exemple:  cotisationae (comptoir/include/class/cotisationae.inc.php)
    *
@@ -530,34 +530,34 @@ class produit extends stdentity
   function get_prodclass(&$user)
   {
     global $topdir;
-    
+
     if ( $this->cl )
       return $this->cl;
-    
+
     if ( $this->action != ACTION_CLASS )
       return NULL;
-      
-    $regs=null;  
-      
+
+    $regs=null;
+
     if ( !ereg("^([a-z]+)\((.*)\)$",$this->meta,$regs))
       return NULL;
-      
+
     $class = $regs[1]; // que des lettes minuscules
-    $param = $regs[2]; // 
-    
+    $param = $regs[2]; //
+
     if ( !class_exists($class))
     {
       if ( !file_exists($topdir."comptoir/include/class/".$class.".inc.php") )
         return NULL;
-        
+
       include($topdir."comptoir/include/class/".$class.".inc.php");
     }
-    
-    $this->cl = new $class ( $this->db, $this->dbrw, $param, $user );  
-    
+
+    $this->cl = new $class ( $this->db, $this->dbrw, $param, $user );
+
     return $this->cl;
   }
-  
+
   /**
    * Determine les informations complémentaires sur le produit en appelant
    * la classe associée au produit.
@@ -567,7 +567,7 @@ class produit extends stdentity
    * @see get_prodclass
    */
   function get_extra_info (&$user)
-  {    
+  {
     if ( $this->action == ACTION_CLASS )
     {
       $this->get_prodclass($user);

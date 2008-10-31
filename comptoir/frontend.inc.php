@@ -22,12 +22,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /**
  * @file
  * Interface de vente par carte AE sur des comptoirs de type "classique" (bar)
- * ou de type "bureau". Il s'agit de la partie commune des interfaces pour les 
- * deux types de comptoir concernés. 
+ * ou de type "bureau". Il s'agit de la partie commune des interfaces pour les
+ * deux types de comptoir concernés.
  *
  * Permet aussi de preter les livres se trouvant dans la même salle que le
  * comptoir.
@@ -36,7 +36,7 @@
  *
  * @see sitecomptoirs
  * @see comptoir
- * @see comptoir/bureau.php 
+ * @see comptoir/bureau.php
  * @see comptoir/comptoir.php
  */
 
@@ -44,7 +44,7 @@ if ( $_REQUEST["action"] == "logclient" && count($site->comptoir->operateurs))
 {
   $client = new utilisateur($site->db,$site->dbrw);
 
-  
+
 
   if ( $_REQUEST["code_bar_carte"] )
     $client->load_by_carteae($_REQUEST["code_bar_carte"],true);
@@ -61,13 +61,13 @@ if ( $_REQUEST["action"] == "logclient" && count($site->comptoir->operateurs))
   elseif ( !$client->ae )
     $Erreur = "Cotisation AE non renouvelée";
   elseif ( $client->is_in_group("cpt_bloque") )
-    $Erreur = "Compte bloqué : prendre contact avec un responsable. Ceci est probablement du à une dette au BDF.";    
+    $Erreur = "Compte bloqué : prendre contact avec un responsable. Ceci est probablement du à une dette au BDF.";
   else
     $site->comptoir->ouvre_pannier($client,$_REQUEST["prix_barman"] == true);
 
 }
 /*
-  En pleine vente... 
+  En pleine vente...
 */
 else if ( $_REQUEST["action"] == "vente" && count($site->comptoir->operateurs) )
 {
@@ -84,17 +84,17 @@ else if ( $_REQUEST["action"] == "vente" && count($site->comptoir->operateurs) )
         $emp->add_emprunt ( $site->comptoir->client->id, null, null, time(), $endtime );
         foreach ( $site->comptoir->panier as $objet )
           $emp->add_object($objet->id);
-          
+
         $op = first($site->comptoir->operateurs);
         $emp->retrait (  $op->id, 0, 0, "" );
-  
+
         $rapport_contents = new contents("Pret juqu'au ".date("d/M/Y H:i",$endtime)." (maximum)");
         $rapport_contents->add_paragraph("Pret de matériel n°".$emp->id."");
       }
       $site->comptoir->vider_pour_vente();
     }
     else
-    {  
+    {
       list($client,$vendus) = $site->comptoir->vendre_panier();
       if ( $client )
       {
@@ -114,7 +114,7 @@ else if ( $_REQUEST["action"] == "vente" && count($site->comptoir->operateurs) )
     $emp = new emprunt ( $site->db, $site->dbrw );
     $bk = new livre($site->db);
     $bk->load_by_cbar( $_REQUEST["code_barre"]);
-    
+
     if ( $bk->id > 0 )
     {
     if ( $bk->id_salle != $site->comptoir->id_salle )
@@ -151,16 +151,16 @@ else if ( $_REQUEST["action"] == "vente" && count($site->comptoir->operateurs) )
     {
       for ( $i = 0 ; $i<$num ; $i++ )
         $ok = $ok && $site->comptoir->ajout_pannier($produit);
-        
+
       if ( !$ok )
-        $Erreur = "Solde ou stock insuffisant";  
+        $Erreur = "Solde ou stock insuffisant";
     }
     else
     {
       $emp = new emprunt ( $site->db, $site->dbrw );
       $bk = new livre($site->db);
       $bk->load_by_cbar($cbar);
-      
+
       if ( $bk->id > 0 )
       {
       if ( $bk->id_salle != $site->comptoir->id_salle )
@@ -179,8 +179,8 @@ else if ( $_REQUEST["action"] == "vente" && count($site->comptoir->operateurs) )
       }
       }
     }
-    
-  
+
+
   }
 
 }
@@ -205,28 +205,28 @@ else if ( $_REQUEST["action"] == "recharge" && count($site->comptoir->operateurs
   elseif ( !$GLOBALS["svalid_call"] )
     $RechargementErreur = "Ignoré";
   elseif ( !$client->ae )
-    $RechargementErreur = "Cotisation AE non renouvelée";  
+    $RechargementErreur = "Cotisation AE non renouvelée";
   elseif ( $client->is_in_group("cpt_bloque") )
-    $RechargementErreur = "Compte bloqué : prendre contact avec un responsable. Ceci est probablement du à une dette au BDF.";        
+    $RechargementErreur = "Compte bloqué : prendre contact avec un responsable. Ceci est probablement du à une dette au BDF.";
   elseif ( $asso->id < 1 )
     $RechargementErreur = "Erreur interne";
   elseif ( $id_typepaie == PAIE_CHEQUE && $id_banque == 0 )
     $RechargementErreur = "Veuillez préciser la banque";
-    
+
   /* Bienvenue dans un monde de restrictions... :S On va esperer que ça va limiter les erreurs */
   elseif ( $id_typepaie == PAIE_CHEQUE && $montant > 10000  )
     $RechargementErreur = "Montant du chèque trop important : 100 Euros maximum (et 5 Euros minimum) par chèque.";
   elseif ( $id_typepaie == PAIE_CHEQUE && $montant < 500  )
     $RechargementErreur = "Montant du chèque trop faible : 5 Euros minimum (et 100 Euros maximum) par chèque.";
-    
+
   elseif ( $id_typepaie == PAIE_ESPECS && $montant > 50000  )
     $RechargementErreur = "Montant en espèces trop important : 50 Euros maximum (et 2 Euros minimum) par espèces.";
   elseif ( $id_typepaie == PAIE_ESPECS && $montant < 200  )
     $RechargementErreur = "Montant en espèces trop faible : 2 Euros minimum (et 50 Euros maximum) par espèces.";
-    
+
   elseif ( $id_typepaie == PAIE_ESPECS && ($montant%10) != 0  )
-    $RechargementErreur = "Montant en espèces invalide : pièces de 1 cts, 2 cts et 5 cts non acceptés."; 
-      
+    $RechargementErreur = "Montant en espèces invalide : pièces de 1 cts, 2 cts et 5 cts non acceptés.";
+
   else
   {
     if ( $id_typepaie == PAIE_ESPECS )
@@ -259,27 +259,27 @@ else if ( $_REQUEST["page"] == "confirmrech" && count($site->comptoir->operateur
   elseif ( !$client->is_valid() )
     $RechargementErreur = "Etudiant inconnu";
   else if ( !$client->ae )
-    $RechargementErreur = "Cotisation AE non renouvelée";  
+    $RechargementErreur = "Cotisation AE non renouvelée";
   else if ( $client->is_in_group("cpt_bloque") )
-    $RechargementErreur = "Compte bloqué : prendre contact avec un responsable. Ceci est probablement du à une dette au BDF.";   
+    $RechargementErreur = "Compte bloqué : prendre contact avec un responsable. Ceci est probablement du à une dette au BDF.";
   else if ( $id_typepaie == PAIE_CHEQUE && $id_banque == 0 )
     $RechargementErreur = "Veuillez préciser la banque";
-    
+
   /* Bienvenue dans un monde de restrictions... :S On va esperer que ça va limiter les erreurs */
   elseif ( $id_typepaie == PAIE_CHEQUE && $montant > 10000  )
     $RechargementErreur = "Montant du chèque trop important : 100 Euros maximum (et 5 Euros minimum) par chèque.";
   elseif ( $id_typepaie == PAIE_CHEQUE && $montant < 500  )
     $RechargementErreur = "Montant du chèque trop faible : 5 Euros minimum (et 100 Euros maximum) par chèque.";
-    
+
   elseif ( $id_typepaie == PAIE_ESPECS && $montant > 50000  )
     $RechargementErreur = "Montant en espèces trop important : 50 Euros maximum (et 2 Euros minimum) par espèces.";
   elseif ( $id_typepaie == PAIE_ESPECS && $montant < 200  )
     $RechargementErreur = "Montant en espèces trop faible : 2 Euros minimum (et 50 Euros maximum) par espèces.";
-    
+
   elseif ( $id_typepaie == PAIE_ESPECS && ($montant%10) != 0  )
-    $RechargementErreur = "Montant en espèces invalide : pièces de 1 cts, 2 cts et 5 cts non acceptés."; 
-    
-    
+    $RechargementErreur = "Montant en espèces invalide : pièces de 1 cts, 2 cts et 5 cts non acceptés.";
+
+
   if ( $RechargementErreur )
     unset($_REQUEST["page"]);
 
@@ -299,14 +299,14 @@ if ( count($site->comptoir->operateurs) == 0 )
 else if ( $_REQUEST["page"] == "confirmrech" )
 {
   $cts->add(new userinfo($client,true,true,false,false,true,true));
-  
+
   $lst = new itemlist(false,"inforech");
   $lst->add("Mode de paiement : <b>".$TypesPaiements[$id_typepaie]."</b>") ;
   if ( $id_typepaie == PAIE_CHEQUE )
     $lst->add("Banque : <b>".$Banques[$id_banque]."</b>");
   $lst->add("Montant : <b>".($montant/100)." Euros</b>");
   $cts->add($lst);
-  
+
   $frm = new form ("recharge","?id_comptoir=".$site->comptoir->id);
   $frm->allow_only_one_usage();
   $frm->add_hidden("action","recharge");
@@ -316,7 +316,7 @@ else if ( $_REQUEST["page"] == "confirmrech" )
   $frm->add_hidden("id_typepaie",$id_typepaie);
   $frm->add_submit("valid","valider");
   $cts->add($frm);
-  
+
   $cts->add_paragraph("<a href=\"?id_comptoir=".$site->comptoir->id."\">Annuler</a>","annule");
   $cts->puts("<div class=\"clearboth\"></div>\n");
 }
@@ -332,29 +332,29 @@ else if ( $site->comptoir->client->id > 0 )
   elseif($annees < 18)
     $cts->add_paragraph('Attention, ce cotisant n\'a pas 18 ans et ne peut donc pas acheter d\'alcool fort','linfo');
   if ( $message )
-    $cts->add_paragraph($message,"linfo");  
-  
+    $cts->add_paragraph($message,"linfo");
+
   $frm = new form ("vente","?id_comptoir=".$site->comptoir->id);
   $frm->add_hidden("action","vente");
   if ( $Erreur )
-    $frm->error($Erreur);  
-    
+    $frm->error($Erreur);
+
   if ( $site->comptoir->prix_barman )
     $frm->add_info("<b>Prix barman</b>");
-    
+
   $frm->add_text_field("code_barre","Code barre");
   $frm->add_submit("valid","valider");
   $frm->set_focus("code_barre");
   $cts->add($frm);
-  
+
   if ( count($site->comptoir->panier))
   {
     $lst = new itemlist("Panier","panier");
-    
+
     if ( $site->comptoir->mode == "book" )
     {
       $serie = new serie($site->db);
-      
+
 
       foreach ($site->comptoir->panier as $bk)
       {
@@ -362,13 +362,13 @@ else if ( $site->comptoir->client->id > 0 )
         {
           $serie->load_by_id($bk->id_serie);
           $bk->nom = $serie->nom." ".$bk->num_livre." : ".$bk->nom;
-        }  
+        }
         $lst->add($bk->nom);
       }
     }
     else
     {
-      
+
       foreach ($site->comptoir->panier as $vp)
       {
         $panier[$vp->produit->id][0]++;
@@ -377,23 +377,23 @@ else if ( $site->comptoir->client->id > 0 )
       $total=0;
       foreach ( $panier as $info )
       {
-        list($nb,$vp) = $info;  
+        list($nb,$vp) = $info;
         $prix = $vp->produit->obtenir_prix($site->comptoir->prix_barman,$site->comptoir->client);
         $lst->add($vp->produit->nom.($nb>1?" x ".$nb:"")." : ".($prix*$nb/100)." E");
         $total += $prix*$nb;
       }
       $lst->add("Total: ".($total/100)."Euros","total");
     }
-    
+
     $cts->add($lst);
   }
   $cts->puts("<div class=\"clearboth\"></div>\n");
 }
 else
-{  
+{
   if ( $MajorError )
     $cts->add(new contents("Erreur","<p class=\"majorerror\">".$MajorError."</p>"),true);
-  
+
   if ( $rapport_contents )
     $cts->add($rapport_contents,true);
   elseif ( $rapport )
@@ -407,25 +407,25 @@ else
     $recu = new itemlist("Recu","recu");
     $recu->add("Client : ".$client->nom." ".$client->prenom.", Nouveau solde ".($client->montant_compte/100)." Euros");
     $cts->add($recu,true);
-  }  
-  
+  }
+
   $frm = new form ("logclient","?id_comptoir=".$site->comptoir->id,true,"POST","Vente");
   $frm->add_hidden("action","logclient");
   if ( $Erreur )
-    $frm->error($Erreur);  
+    $frm->error($Erreur);
   $frm->add_text_field("code_bar_carte","Carte AE");
   $frm->add_user_fieldv2("id_utilisateur_achat","ou par Recherche");
   $frm->add_checkbox("prix_barman","Prix barman (si possible)",true);
   $frm->add_submit("valid","valider");
-  $frm->set_focus("code_bar_carte");  
+  $frm->set_focus("code_bar_carte");
   $cts->add($frm,true);
-  
+
   if ( $site->comptoir->rechargement )
   {
     $frm = new form ("confirmrech","?id_comptoir=".$site->comptoir->id,true,"POST","Rechargement");
     $frm->add_hidden("page","confirmrech");
     if ( $RechargementErreur )
-      $frm->error($RechargementErreur);  
+      $frm->error($RechargementErreur);
     $frm->add_price_field("montant","Montant");
 
     foreach ($TypesPaiements as $key => $item )
@@ -443,7 +443,7 @@ else
     $frm->add_select_field("id_banque","Banque",$Banques);*/
     $frm->add_text_field("code_bar_carte","Carte AE");
     $frm->add_user_fieldv2("id_utilisateur_rech","ou par Recherche");
-    
+
     $frm->add_submit("valid","valider");
     $cts->add($frm,true);
   }

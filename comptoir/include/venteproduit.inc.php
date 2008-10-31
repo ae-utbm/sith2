@@ -98,7 +98,7 @@ class venteproduit extends stdentity
       return false;
     return true;
   }
-  
+
 
   function load_by_id ( $id_produit, $id_comptoir=0, $force=false )
   {
@@ -128,7 +128,7 @@ class venteproduit extends stdentity
       list($this->stock_local) = $req->get_row();
     else
       $this->stock_local = -1;
-    
+
     return true;
   }
 
@@ -137,7 +137,7 @@ class venteproduit extends stdentity
    */
   function _load($row)
   {
-    
+
   }
 
   /** Enlève la mise en vente
@@ -307,10 +307,10 @@ class venteproduit extends stdentity
   function _delta_verrou ( $client, $delta )
   {
     $id_client = $client->id;
-    
+
     if ( !$client->is_valid() )
       $id_client = 0;
-   
+
     $req = new requete($this->dbrw,
            "SELECT `quantite` FROM `cpt_verrou` ".
            "WHERE `id_produit` = '".intval($this->produit->id)."' ".
@@ -320,7 +320,7 @@ class venteproduit extends stdentity
     if ( $req->lines )
     {
       list($qte) = $req->get_row();
-        
+
       if ( $qte+$delta <= 0 )
       {
         $req = new requete($this->dbrw,
@@ -390,7 +390,7 @@ class venteproduit extends stdentity
    */
   function _action ( $operateur, $client, $prix )
   {
-    
+
     if ( $this->produit->action == ACTION_BON )
     {
       /* on ne credite pas si provenant
