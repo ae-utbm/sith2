@@ -252,7 +252,7 @@ class eboutic extends site
 
             WHERE `cpt_mise_en_vente`.`id_comptoir` = ".CPT_E_BOUTIC."
             AND `cpt_produits`.`prod_archive` = 0
-            AND `cpt_produits`.date_fin_produit < NOW()
+            AND (`cpt_produits`.date_fin_produit > NOW() OR `cpt_produits`.date_fin_produit IS NULL)
             AND id_produit_parent IS NULL";
             //AND `cpt_produits`.`id_produit_parent` IS NOT NULL";
 
@@ -294,7 +294,7 @@ class eboutic extends site
             INNER JOIN `cpt_type_produit` USING (`id_typeprod`)
 
             WHERE `cpt_mise_en_vente`.`id_comptoir` = ".CPT_E_BOUTIC."
-            AND `cpt_produits`.date_fin_produit < NOW()
+            AND (`cpt_produits`.date_fin_produit > NOW() OR `cpt_produits`.date_fin_produit IS NULL)
             GROUP BY `id_typeprod`
             ORDER BY `id_typeprod`";
 
