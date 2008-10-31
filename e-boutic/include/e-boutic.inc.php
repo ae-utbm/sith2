@@ -68,10 +68,10 @@ class eboutic extends site
     $this->set_side_boxes("left",array("e-boutic","connexion"));
     $this->set_side_boxes("right",array());
     $this->add_css ("css/eboutic.css");
-    
+
     $this->comptoir = new comptoir($this->db,$this->dbrw);
     $this->comptoir->load_by_id(CPT_E_BOUTIC);
-    
+
     if ( $this->get_param("closed.eboutic",false) && !$this->user->is_in_group("root")  )
       $this->fatal_partial("services");
   }
@@ -79,7 +79,7 @@ class eboutic extends site
   function start_page ($section, $title)
   {
     global $topdir;
-    
+
     if ( $this->cart == null && isset($_SESSION['eboutic_cart']))
       $this->load_cart();
 
@@ -91,32 +91,32 @@ class eboutic extends site
     if ($this->cart != null)
     {
       $eb_box->add_paragraph("Votre panier:","intro");
-      
+
        $prods = new itemlist(null,"items");
 
       foreach ($this->cart as $item)
       {
         $prods->add($item->nom." x ".$_SESSION['eboutic_cart'][$item->id]);
-      }  
-  
+      }
+
       $eb_box->add ($prods);
 
-  
+
       $eb_box->add_paragraph("Total: ".sprintf("%.2f Euros",$this->total / 100),"total");
-      
+
       $lst->add ("<a href=\"./cart.php\">Modifier le panier</a>");
       $lst->add ("<a href=\"./cart.php\">Passer la commande</a>");
     }
     else
       $lst->add("Votre panier est actuellement vide.");
-      
+
     $eb_box->add ($lst);
-    
+
     $categories = $this->get_cat ();
-     
-    
+
+
     $this->add_box ("e-boutic", $eb_box);
-    
+
     /* demarrage normal de la page */
     parent::start_page("eboutic",$title);
   }
@@ -125,10 +125,10 @@ class eboutic extends site
   function load_cart ()
   {
     $this->total = 0;
-    
+
     if ( !isset($_SESSION['eboutic_cart']) || empty($_SESSION['eboutic_cart']) )
       return;
-      
+
     foreach ( $_SESSION['eboutic_cart'] as $id => $count)
     {
       $prod = new produit ($this->db);
@@ -139,39 +139,39 @@ class eboutic extends site
         $this->total += ($prod->obtenir_prix(false,$this->user) * $count);
       }
     }
-    
+
     if ( isset($_SESSION['eboutic_locked']) && $_SESSION['eboutic_locked'] != $site->user->id )
     {
       // Les verrous ont été posés pour "$_SESSION['eboutic_locked']", faut les convertirs pour "$site->user->id"
       // Cela arrive quand un utilisateur se loggue, ou lors d'un changement d'utilisateur
       // cela permet d'authoriser le remplissage du panier si non connecté
-      
+
       $vp = new venteproduit ($this->db, $this->dbrw);
       $prev_user = new utilisateur($this->db);
       $prev_user->load_by_id($_SESSION['eboutic_locked']);
-      
+
       foreach ( $this->cart as $prod )
       {
         $vp->charge($prod,$this->comptoir);
         $vp->debloquer ($prev_user,$_SESSION['eboutic_cart'][$item->id]);
         $vp->bloquer ($this->user,$_SESSION['eboutic_cart'][$item->id]);
       }
-      
+
       $_SESSION['eboutic_locked'] = $site->user->id;
-    }    
-    
+    }
+
   }
-  
+
   /* vidange du panier de l'utilisateur */
   function empty_cart ()
   {
     if ($this->cart == null)
       $this->load_cart();
-      
+
     /* si toujours vide, on sort */
     if ($this->cart == null)
       return;
-      
+
     /* else */
     foreach ($this->cart as $item)
     {
@@ -189,18 +189,18 @@ class eboutic extends site
   {
     $vp = new venteproduit ($this->db, $this->dbrw);
     $ret = $vp->load_by_id ($item, CPT_E_BOUTIC);
-    
+
     if ($ret == false)
       return false;
-    
+
     if ( !$vp->produit->can_be_sold($this->user) )
       return;
-    
+
     if ( $cl = $vp->produit->get_prodclass($this->user) )
     {
       if ($this->cart == null)
-        $this->load_cart();  
-      
+        $this->load_cart();
+
       if(!empty($this->cart))
       {
         foreach ($this->cart as $prod)
@@ -211,9 +211,9 @@ class eboutic extends site
         }
       }
     }
-    
+
     $_SESSION['eboutic_locked'] = $site->user->id;
-    
+
     $ret = $vp->bloquer($this->user);
 
     if ($ret == true)

@@ -24,15 +24,15 @@ require_once ($topdir . "comptoir/include/typeproduit.inc.php");
 require_once ($topdir . "comptoir/include/venteproduit.inc.php");
 
 /**
- * @defgroup comptoirs_sg Sogenactif 
+ * @defgroup comptoirs_sg Sogenactif
  * @ingroup comptoirs
- */ 
- 
+ */
+
 /**
  * Classe de traitement d'une réponse envoyée par les serveurs Sogenactif
  * @ingroup comptoirs_sg
  * @author Pierre Mauduit
- */ 
+ */
 class answer
 {
   /* Variables de retour, renvoy�es par le programme response

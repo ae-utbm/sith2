@@ -98,7 +98,7 @@ else
     {
       for ($i=0 ; $i < $_SESSION['eboutic_cart'][$item->id] + 1 ; $i++)
         $tmp[$i] = $i;
-        
+
               $cart_t->buffer .= ("<tr>\n".
                             "<td>" . $item->nom . "</td>".
                             "<td style=\"text-align: center;\">");
@@ -168,9 +168,9 @@ else
         if ($cl=$prod->get_prodclass($site->user))
           if ( $cts=$cl->get_once_sold_cts($site->user))
             $site->add_contents($cts);
-      }  
+      }
 
-      $site->empty_cart ();     
+      $site->empty_cart ();
     }
     //si annulation (NON)
     if (isset($_POST["payment_ae_cancel"]))

@@ -56,7 +56,7 @@ if (isset($_POST['cart_modify']))
 $site = new eboutic ();
 
 $site->allow_only_logged_users();
-  
+
 $site->start_page ("Panier e-boutic", "Etat du panier");
 
 $accueil = new contents ("E-boutic : Etat du panier",
@@ -132,8 +132,8 @@ else
   /* formulaire "proceder au paiement" poste */
   if (isset($_REQUEST['cart_submit']))
   {
-    
-    
+
+
     require_once ("./include/request.inc.php");
 
     /* boutique de test ? */
@@ -157,16 +157,16 @@ else
     }
 
     /* a ce stade le panier ne peut pas etre vide */
-    
+
     if ( $site->user->type == "srv" ) // Ne propose pas CB/carte AE aux services, mais que sur facture
     {
       $accueil->add_title(1,"Paiement sur facture");
-      
+
       $accueil->add_paragraph ("Cliquez sur le lien pour valider la commande : <a href=\"./eb_ae.php\">Paiement sur facture</a>");
-                                 
+
     }
     else
-    {                             
+    {
       /* pas de nouvelle request si total du panier insuffisant */
       if ($site->total >= EB_TOT_MINI_CB)
       {
@@ -174,7 +174,7 @@ else
                             $site->user->id,
                             $site->total,
                             $cart_contents);
-  
+
         $accueil->add_title(1,"Paiement par carte bleue");
         /* le formulaire HTML genere par le binaire sogenactif
          * nous est envoye de facon brute. Il faut donc le
@@ -188,7 +188,7 @@ else
                                  "pour envisager un paiement par ".
                                  "carte bancaire. Veuillez opter pour ".
                                  "un paiement par carte AE.</p>");
-  
+
       /* recharger son compte AE avec sa carte AE est debile ... */
       if ($site->is_reloading_AE ())
         $accueil->add_paragraph ("<h1>Paiement par carte AE : impossible</h1>\n".
@@ -202,7 +202,7 @@ else
           $accueil->add_paragraph ("<h1>Paiement sur facture</h1>\n" .
                                    "<p>Cliquez sur le lien pour valider la commande</p>\n<p class=\"center\">\n".
                                    " <a href=\"./eb_ae.php\">Paiement sur facture</a></p>\n");
-                                   
+
         /* controle si suffisemment sur carte AE pour envisager un paiement */
         elseif (!$site->user->credit_suffisant($site->total) )
           $accueil->add_paragraph ("<h1>Paiement par carte AE : Solde de ".
@@ -213,7 +213,7 @@ else
                                    "par carte AE.<br/>".
                                    "Veuillez recharger ".
                                    "votre compte AE avant de poursuivre.</p>");
-  
+
         else
           $accueil->add_paragraph ("<h1>Paiement par carte AE</h1>\n" .
                                    "<p>Cliquez sur le logo de l'AE pour payer avec votre carte AE</p>\n<p class=\"center\">\n".

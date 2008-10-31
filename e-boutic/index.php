@@ -5,7 +5,7 @@
  */
 
 /* Copyright 2006,2007
- * 
+ *
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  * - Simon Lopez <simon POINT lopez CHEZ ayolo POINT org>
  * - Julien Etelain <julien CHEZ pmad POINT net>
@@ -50,7 +50,7 @@ $typeproduit = new typeproduit($site->db);
 if ( isset($_REQUEST["id_produit"]) )
 {
   $produit->load_by_id($_REQUEST["id_produit"]);
-  
+
   if ( $produit->is_valid() )
   {
     $venteprod = new venteproduit ($site->db);
@@ -63,7 +63,7 @@ if ( isset($_REQUEST["id_produit"]) )
 elseif ( isset($_REQUEST["item"]) ) // legacy support
 {
   $produit->load_by_id($_REQUEST["item"]);
-  
+
   if ( !$produit->is_valid() )
   {
     $venteprod = new venteproduit ($site->db);
@@ -76,7 +76,7 @@ elseif ( isset($_REQUEST["item"]) ) // legacy support
 
 elseif ( isset($_REQUEST["id_typeprod"]) )
   $typeproduit->load_by_id($_REQUEST["id_typeprod"]);
-  
+
 elseif ( isset($_REQUEST["cat"]) ) // legacy support
   $typeproduit->load_by_id($_REQUEST["cat"]);
 
@@ -100,9 +100,9 @@ if ($_REQUEST['act'] == "add")
   else
   {
     $add_rs = new contents ("Ajout");
-    $add_rs->add_paragraph ( "Ajout de l'article effectue avec succes.");     
-    $add_rs->add_paragraph ("<a href=\"./cart.php\">Passer la commande</a>");      
-    $produit->id=null;  
+    $add_rs->add_paragraph ( "Ajout de l'article effectue avec succes.");
+    $add_rs->add_paragraph ("<a href=\"./cart.php\">Passer la commande</a>");
+    $produit->id=null;
   }
 }
 
@@ -110,7 +110,7 @@ if ( $produit->is_valid() && !is_null($produit->id_produit_parent) )
 {
   while ( $produit->is_valid() && !is_null($produit->id_produit_parent) )
     $produit->load_by_id($produit->id_produit_parent);
-  
+
   if ( $produit->is_valid() )
   {
     $venteprod = new venteproduit ($site->db);
@@ -118,7 +118,7 @@ if ( $produit->is_valid() && !is_null($produit->id_produit_parent) )
       $produit->id = null;
     else
       $typeproduit->load_by_id($produit->id_type);
-  }  
+  }
 }
 
 
@@ -145,7 +145,7 @@ elseif ( !$typeproduit->is_valid() )
         "passer a l'achat, en basculant sur les serveurs".
         " securises de notre partenaire.<br/><br/>".
         "Ce service vous est offert grâce au soutien de la <a href=\"http://jeunes.societegenerale.fr/\">Société Générale</a>.<br/>");
-  
+
   $site->add_contents ($accueil);
 
   $items = new requete($site->db,"SELECT `cpt_mise_en_vente`.*, `cpt_produits`.* , `cpt_type_produit`.`nom_typeprod` ".
@@ -157,21 +157,21 @@ elseif ( !$typeproduit->is_valid() )
             "AND id_produit_parent IS NULL ".
             "ORDER BY date_mise_en_vente DESC ".
             "LIMIT 3");
-  
+
   $items_lst = new gallery ("Derniers produits mis en vente");
 
   while ( $row = $items->get_row() )
     $items_lst->add_item (new vigproduit($row,$site->user));
-  
+
   /* ajout liste des articles au site */
-  $site->add_contents ($items_lst);  
-  
-  
-  
-  
+  $site->add_contents ($items_lst);
+
+
+
+
   /* recuperation des categories */
   $cat = $site->get_cat ();
-  
+
   /* on traite les categories en vue d'un affichage dans un
   * contenu itemlist
   */

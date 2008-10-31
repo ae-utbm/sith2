@@ -70,8 +70,8 @@ if (isset($_POST['DATA']))
                  "service de vente en ligne !".
                  "</p>"));
 
-      $cart = array_count_values(explode(",", $success->caddie));           
-      $prod = new produit ($site->db,$site->dbrw);               
+      $cart = array_count_values(explode(",", $success->caddie));
+      $prod = new produit ($site->db,$site->dbrw);
       foreach ($cart as $id => $count)
       {
         $prod->load_by_id($id);
@@ -79,7 +79,7 @@ if (isset($_POST['DATA']))
           if ( $cts=$cl->get_once_sold_cts($site->user))
             $site->add_contents($cts);
       }
-         
+
     }
     else
     {
