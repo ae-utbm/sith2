@@ -121,7 +121,7 @@ class venteproduit extends stdentity
       return false;
 
     $this->comptoir->load_by_id($id_comptoir);
-    if ( !$this->produit->is_valid() )
+    if ( !$this->comptoir->is_valid() )
       return false;
 
     if ( $req->lines == 1 )
@@ -199,6 +199,7 @@ class venteproduit extends stdentity
            "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` = `cpt_mise_en_vente`.`id_produit` " .
            "WHERE `cpt_mise_en_vente`.`id_produit` = '".intval($produit->id)."' ".
            "AND `cpt_mise_en_vente`.`id_comptoir` = '".intval($comptoir->id)."' ".
+           "AND (`cpt_produits`.date_fin_produit IS NULL OR `cpt_produits`.date_fin_produit<NOW()) ".
            "LIMIT 1");
 
     if ($req->lines < 1)
