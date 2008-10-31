@@ -8,11 +8,11 @@
  * - Pierre Mauduit <pierre dot mauduit at utbm dot fr>
  * - Manuel Vonthron <manuel dot vonthron at acadis dot org>
  *
- * Ce fichier fait partie du site de l'Association des étudiants
+ * Ce fichier fait partie du site de l'Association des étudiant
  * de l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
+ * modify it under the terms of the GNU General Public License a
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -119,7 +119,7 @@ elseif ( $_REQUEST["action"] == "stop" && $can_edit && isset($_REQUEST["id_membe
   $asso->load_by_id($id_asso);
   $asso->make_former_member($user->id, time());
 }
-// Sauvgarde des information personelles
+// Sauvgarde des information personelle
 elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
 {
   if(empty($_REQUEST["alias"]) || (preg_match("#^([a-z0-9][a-z0-9\.]+[a-z0-9])$#i",$user->alias) && !$site->user->is_in_group("root")))
@@ -277,7 +277,7 @@ elseif ( $_REQUEST["action"] == "addfillot" && $can_edit )
   else
     $ErreurFillot = "Utilisateur inconnu.";
 }
-// Definition des groupes
+// Definition des groupe
 elseif ( $_REQUEST["action"] == "setgroups" &&
          (($site->user->is_in_group("gestion_ae") && $site->user->id != $user->id )
          ||$site->user->is_in_group("root")) )
@@ -314,7 +314,7 @@ elseif ( $_REQUEST["action"] == "setgroups" &&
     }
   }
 }
-// Definition des flags
+// Definition des flag
 elseif ( $_REQUEST["action"] == "setattributes" &&
          (($site->user->is_in_group("gestion_ae") && $site->user->id != $user->id )
          ||$site->user->is_in_group("root")) )
@@ -958,7 +958,7 @@ function edtopen(semestre, id)
 			       "semestre_grp" => "Semestre suivi"),
 			 array("view" => "visualiser l'UV"), array()));
   /** 
-   * Affichage des CVs
+   * Affichage des CV
    */
   $cts->add_title(2, "CVs");
   $jobuser = new jobuser_etu($site->db);

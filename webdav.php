@@ -7,7 +7,7 @@
  * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
+ * modify it under the terms of the GNU General Public License a
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -49,7 +49,7 @@ require_once($topdir . "include/entities/folder.inc.php");
 require_once($topdir . "include/entities/asso.inc.php");
 
 /**
- * Serveur WEBDAV d'accès à la partie fichiers
+ * Serveur WEBDAV d'accès à la partie fichier
  * @ingroup aedrive
  * @author Julien Etelain
  */
@@ -400,7 +400,7 @@ class serverwebdavaedrive extends webdavserverae
       return "403 Forbidden"; 
 
     if ( !$ent_src->is_valid() ||
-         is_null($ent_src->id_folder_parent) ) // Racine, et dossier dans la racine intouchables
+         is_null($ent_src->id_folder_parent) ) // Racine, et dossier dans la racine intouchable
       return "403 Forbidden"; 
       
     if ( get_class($ent_src) == "dfolder" && ($options["depth"] != "infinity") ) 
@@ -494,7 +494,7 @@ class serverwebdavaedrive extends webdavserverae
       return "403 Forbidden"; 
 
     if ( !$ent_src->is_valid() ||
-         is_null($ent_src->id_folder_parent) ) // Racine, et dossier dans la racine intouchables
+         is_null($ent_src->id_folder_parent) ) // Racine, et dossier dans la racine intouchable
       return "403 Forbidden"; 
       
     // 2- Repertoire cible (parent de la destination) / Destination

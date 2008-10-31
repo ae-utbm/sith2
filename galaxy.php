@@ -5,11 +5,11 @@
  *
  * "AE Recherche & Developpement" : Galaxy
  *
- * Ce fichier fait partie du site de l'Association des étudiants
+ * Ce fichier fait partie du site de l'Association des étudiant
  * de l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
+ * modify it under the terms of the GNU General Public License a
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -299,7 +299,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
     "SELECT SQRT(POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2)) AS dist, 
     COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
     id_utilisateur
-    FROM galaxy_star AS a, galaxy_star AS b, utilisateurs
+    FROM galaxy_star AS a, galaxy_star AS b, utilisateur
     WHERE a.id_star='".mysql_real_escape_string($user->id)."' 
     AND a.id_star!=b.id_star
     AND b.id_star=id_utilisateur 

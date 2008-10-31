@@ -10,7 +10,7 @@
  * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
+ * modify it under the terms of the GNU General Public License a
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -26,7 +26,7 @@
  */
 
 /**
- * @file Navigateur des dossiers virtuels
+ * @file Navigateur des dossiers virtuel
  * @see include/entities/files.inc.php
  * @see include/entities/folder.inc.php
  */
@@ -125,7 +125,7 @@ if ( !$folder->is_valid() )
       if ( !$folder->is_valid() ) // Le dossier racine n'existe pas... on va le creer :)
       {
         $folder->id_groupe_admin = $asso_folder->get_bureau_group_id(); // asso-bureau
-        $folder->id_groupe = $asso_folder->get_membres_group_id(); // asso-membres
+        $folder->id_groupe = $asso_folder->get_membres_group_id(); // asso-membre
         $folder->droits_acces = 0xDDD;
         $folder->id_utilisateur = null;
         $folder->add_folder ( $section, null, null, $asso_folder->id );

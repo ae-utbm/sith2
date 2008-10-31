@@ -6,7 +6,7 @@
  * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
+ * modify it under the terms of the GNU General Public License a
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -65,7 +65,7 @@ function afficher_encart($id){
 	}
 }
 
-class pgresults extends stdcontents
+class pgresults extends stdcontent
 {
 	
 	function pgresults ( $title, $req )
@@ -141,7 +141,7 @@ $site->start_page ("pg", "Petit géni");
 
 $site->add_css("css/pg.css");
 
-class pgitemlist extends stdcontents
+class pgitemlist extends stdcontent
 {
 
 	function pgitemlist ( $title=false,$class=false)

@@ -6,7 +6,7 @@
  * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
+ * modify it under the terms of the GNU General Public License a
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -43,7 +43,7 @@ if ( $tag->is_valid() )
   $cts = new contents("<a href=\"tag.php\">Tags</a> / ".$tag->nom);
   
   $site->add_css("css/sas.css");
-  // photos
+  // photo
   $cat = new catphoto($site->db);
   $cat->load_by_id(1);
   $photos = $cat->get_photos_search ( $site->user, "id_tag='".$tag->id."'", "LEFT JOIN sas_photos_tag USING(id_photo)", "*", "LIMIT 6");
@@ -69,7 +69,7 @@ if ( $tag->is_valid() )
     $cts->add_paragraph("<a href=\"sas2/search.php?action=search&amp;tags=".$tag->nom."\">Toutes les photos</a>");
   }
   
-  // fichiers
+  // fichier
   $req = new requete($site->db,
     "SELECT d_file.* FROM d_file_tag INNER JOIN d_file USING(id_file) WHERE id_tag='".$tag->id."' ORDER BY titre_file");  
   if ( $req->lines > 0 )
@@ -84,7 +84,7 @@ if ( $tag->is_valid() )
     $cts->add($lst,true);
   }
   
-  // asso et clubs
+  // asso et club
   $req = new requete($site->db,
     "SELECT asso.* FROM asso_tag INNER JOIN asso USING(id_asso) WHERE id_tag='".$tag->id."' ORDER BY nom_asso");
   if ( $req->lines > 0 )

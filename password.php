@@ -6,7 +6,7 @@
  * l'UTBM, http://ae.utbm.fr.
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
+ * modify it under the terms of the GNU General Public License a
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -54,7 +54,7 @@ Pour valider ce nouveau mot de passe, veuillez vous rendre à l'adresse
 http://ae.utbm.fr/ae2/confirm.php?id=" . $user->id . "&hash=" . $user->hash . "
 
 Vous pouvez changer votre mot de passe en vous connectant sur le site
-(http://ae.utbm.fr) puis en sélectionnant \"Informations
+(http://ae.utbm.fr) puis en sélectionnant \"Information
 personnelles\".
 
 L'équipe info AE";
