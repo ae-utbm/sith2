@@ -294,6 +294,7 @@ class aecms extends site
     echo "<head>\n";
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
     echo "<title>".$this->title." - ".htmlentities($this->asso->nom,ENT_NOQUOTES,"UTF-8")."</title>\n";
+    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/doku.css\" />\n";
     echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/".$this->config["css.base"]."\" />\n";
 
     foreach ( $this->extracss as $url )
