@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * AECMS : CMS pour les clubs et activités de l'AE UTBM
- *        
+ *
  * Copyright 2004-2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 require_once("include/site.inc.php");
 require_once($topdir."sas2/include/cat.inc.php");
 require_once($topdir."sas2/include/photo.inc.php");
@@ -45,7 +45,7 @@ if ( !$rootcat->is_valid() )
   $site->start_page ( CMS_PREFIX."sas", "Erreur" );
   $cts = new contents("Gallerie non configurée");
   $cts->add_paragraph("Veuillez contacter l'équipe informatique de l'AE pour configurer votre gallerie de photos.","error");
-  $site->add_contents($cts);  
+  $site->add_contents($cts);
   $site->end_page();
   exit();
 }
@@ -63,7 +63,7 @@ if ( isset($_REQUEST["id_photo"]))
 elseif ( isset($_REQUEST["id_catph"]))
 {
   $cat->load_by_id($_REQUEST["id_catph"]);
-}  
+}
 elseif ( !$cat->is_valid() )
 {
   $cat->load_by_id($rootcat->id);
@@ -133,7 +133,7 @@ while ( $catpr->is_valid() && $catpr->id != $rootcat->id_catph_parent )
     $valid = true;
     $catpr->nom = "Photos";
   }
-  
+
   $path =   $catpr->get_html_link()." / ".$path;
   $catpr->load_by_id($catpr->id_catph_parent);
 }
@@ -312,7 +312,7 @@ if ( $photo->is_valid() )
     echo $cts->html_render();
     exit();
   }
-  
+
   $site->start_page("sas","Stock à Souvenirs",true);
   $site->add_contents($cts);
   $site->end_page ();
@@ -447,7 +447,7 @@ if ( $cat->is_right($site->user,DROIT_ECRITURE) )
 // Sous-catégories
 if ( $cat->is_right($site->user,DROIT_AJOUTCAT) )
   $cts->add_paragraph("<a href=\"photos.php?id_catph=".$cat->id."&amp;page=subcat\">Ajouter une catégorie dans ".$cat->nom."</a>");
-  
+
 $cts->add(new sascategory ( "photos.php", $cat, $site->user ));
 // --> voir include/cts/sas.inc.php
 
@@ -460,7 +460,7 @@ if ( $cat->is_right($site->user,DROIT_AJOUTITEM) )
 {
   $tabs = array(array("",$self."id_catph=".$cat->id, "photos - $nb"),
         array("add",$self."view=add&id_catph=".$cat->id,"Ajouter"));
-            
+
   $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 }
 

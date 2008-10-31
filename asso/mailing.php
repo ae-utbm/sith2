@@ -182,14 +182,14 @@ if ( $asso->is_mailing_allowed() )
   {
     $cts->add_paragraph($asso->nom_unix.".membres@ml.aeinfo.net : Mailing liste de tous les membres (inscription libre).");
     $cts->add_paragraph($asso->nom_unix.".bureau@ml.aeinfo.net : Mailing liste de tous les membres ayant un role supérieur ou égal à \"Membre du bureau\".");
-    
+
     $cts->add_paragraph("Pour utiliser les mailing listes, chaque utilisateur doit envoyer ses messages depuis son adresse principale configuré sur le site, il peut la changer si elle ne convient pas. Cette adresse peut être différente de votre adresse utbm.");
-        
+
     $cts->add_paragraph("Votre adresse principale est ".$site->user->email.". <a href=\"../user.php?page=edit&amp;see=email\">Changer d'adresse principale</a>");
-        
+
     $mailings[$asso->nom_unix.".membres"] = $asso->nom_unix.".membres";
   }
-  
+
   $cts->add_title(2,"Inscription manuelle");
   if ( $_REQUEST["action"] == "subscribe" )
   {
@@ -200,7 +200,7 @@ if ( $asso->is_mailing_allowed() )
       asso::_ml_subscribe ( $site->dbrw, $_REQUEST["liste"], $_REQUEST["email"] );
       $cts->add_paragraph("Demande d'inscription de ".$_REQUEST["email"]." à ".$_REQUEST["liste"]." enregistrée.");
     }
-  }  
+  }
   $cts->add_paragraph("Comptez un délai de 60 minutes pour que l'inscription soit effective.");
   $frm = new form("subscribe","mailing.php?id_asso=".$asso->id,is_null($sucess),"POST");
   $frm->add_hidden("action","subscribe");

@@ -20,8 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
-$GLOBALS['nosession'] = true; 
+
+$GLOBALS['nosession'] = true;
 
 $topdir = "./";
 require_once($topdir. "include/site.inc.php");
@@ -44,11 +44,11 @@ while ($row = $events->get_row ())
 {
   $st = strtotime($row['date_debut_eve']);
   $end = strtotime($row['date_fin_eve']);
-  
+
   if ( $row["type_nvl"] == 3 || ($end-$st) > (60*60*24) )
     $dateonly = true;
   else
-    $dateonly = false;  
+    $dateonly = false;
 
   $cal->add_event ( "http://ae.utbm.fr/news.php?id_nouvelle=".$row["id_nouvelle"]."&date=".$row["date_debut_eve"], $row['titre_nvl'], $row['resume_nvl'], $st, $end, $dateonly, "http://ae.utbm.fr/news.php?id_nouvelle=".$row["id_nouvelle"], $row["nom_geopoint"], $row["lat_geopoint"], $row["long_geopoint"] );
 }

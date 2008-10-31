@@ -16,7 +16,7 @@ $req = new requete($dbrw,"SELECT * FROM d_file");
 while ( $row = $req->get_row() )
 {
   $file = $topdir."var/files/".$row["id_file"];
-  
+
   if ( !file_exists($file) )
     echo "<li><b>problème non solvable</b> : Fichier ".$row["id_file"]." absent.</li>\n";
 

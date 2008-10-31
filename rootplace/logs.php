@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir="../";
 
 require_once($topdir. "include/site.inc.php");
@@ -32,7 +32,7 @@ $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
-	
+
 $site->start_page("none","Administration");
 
 if($_REQUEST['action'] == "info" && !empty($_REQUEST['id_log']))
@@ -63,7 +63,7 @@ else
 
     while(list($context)= $req->get_row() )
       $context_list[$context] = $context;
-    
+
     $cts = new contents("<a href=\"./\">Administration</a> / Logs");
 
     $frm = new form("logsearch","logs.php",true,"POST","Critères de sélection");
@@ -119,16 +119,16 @@ else
 
     $req = new requete($site->db, "SELECT CONCAT(prenom_utl,' ',nom_utl) AS nom_utilisateur,
                                      id_utilisateur, id_log, time_log, action_log, context_log, description_log
-                                   FROM logs 
-                                   INNER JOIN utilisateurs USING(id_utilisateur) 
+                                   FROM logs
+                                   INNER JOIN utilisateurs USING(id_utilisateur)
                                    WHERE " . implode(" AND ",$elements)."
                                    ORDER BY time_log DESC LIMIT ".$st.",".$npp);
 
   $cts->add(new sqltable(
-    "logs", 
-    "Liste des logs sélectionnés", $req, "logs.php", "id_log", 
-    array("time_log" => "Date", "nom_utilisateur" => "Utilisateur", "context_log" => "Contexte", "action_log" => "Action"), 
-    array("info" => "Détails"), 
+    "logs",
+    "Liste des logs sélectionnés", $req, "logs.php", "id_log",
+    array("time_log" => "Date", "nom_utilisateur" => "Utilisateur", "context_log" => "Contexte", "action_log" => "Action"),
+    array("info" => "Détails"),
     array(),
     array()),true);
 
@@ -143,9 +143,9 @@ else
   }
   $cts->add(new tabshead($tabs, $page, "_bottom"));
   }
-} 
+}
 $site->add_contents($cts);
- 
+
 $site->end_page();
 
 ?>

@@ -80,7 +80,7 @@ elseif ( $_REQUEST["act"] == "FetchContexts" )
   {
     $y = date("Y",$t);
     $m = date("m",$t);
-    
+
     if ( $m >= 2 && $m < 9)
     	return "P".$y;
     else if ( $m >= 9 )
@@ -110,7 +110,7 @@ elseif ( $_REQUEST["act"] == "FetchContexts" )
   {
     if ( $row['date_debut_catph'] )
       $row["nom_catph"] .= " (".get_short_semestre(strtotime($row["date_debut_catph"])).")";
-    
+
     echo "  <context>";
     echo "    <name>".htmlspecialchars($row["nom_catph"])."</name>\n";
     echo "    <id>".$row["id_catph"]."</id>\n";
@@ -173,7 +173,7 @@ elseif ( $_REQUEST["act"] == "UploadImage" )
   else
     echo "<error>1</error>\n";
   exit();
-  
+
 }
 elseif ( $_REQUEST["act"] == "UploadVideoFLV" )
 {

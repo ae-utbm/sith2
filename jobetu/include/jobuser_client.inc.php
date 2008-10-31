@@ -27,13 +27,13 @@ class jobuser_client extends utilisateur
 {
 	var $annonces = array();
 	var $prefs = array();
-	
+
   function new_particulier( $nom, $prenom, $alias, $email, $password, $droit_image, $date_naissance, $sexe)
   {
   	$this->create_user( $nom, $prenom, $alias, $email, $password, $droit_image, $date_naissance, $sexe);
-  	
+
   }
-  
+
   function new_societe( $nom, $prenom, $nom_ste, $email, $password, $droit_image, $date_naissance, $sexe) //Ne prévoit pas la France de demain :(
   {
   	//En attente du flag sur la table utilisateur
@@ -46,27 +46,27 @@ class jobuser_client extends utilisateur
     return $this->is_in_group("jobetu_client");
   }
 
-  
+
   function load_annonces()
   {
    // if( is_jobetu_client() )
       {
       	$sql = new requete($this->db, "SELECT * FROM job_annonces WHERE id_client = $this->id AND closed <> '1' ORDER BY date DESC");
-				
+
         while($line = $sql->get_row())
 			    $this->annonces[] = $line;
 	    }
   }
-  
+
 	function load_prefs()
 	{
 		$sql = new requete($this->db, "SELECT mail_prefs, pub_num FROM `job_prefs` WHERE `id_utilisateur` = $this->id LIMIT 1");
 		$row = $sql->get_row();
-		
+
 		if($sql->lines == 0)
 			$this->prefs = null;
 		else
-		{		
+		{
 			$this->prefs['mail_prefs'] = $row['mail_prefs'];
 			$this->prefs['pub_num'] = $row['pub_num'];
 		}
@@ -76,18 +76,18 @@ class jobuser_client extends utilisateur
 	{
 		$this->publique = $new_pub_profil;
 		$this->saveinfos(); //fonction matmatronch
-		
+
 		if(empty($this->prefs))
 			$sql = new insert($this->dbrw, "job_prefs", array("id_utilisateur" => $this->id, "mail_prefs" => $new_mail_prefs, "pub_num" => $new_pub_num));
 		else
 			$sql = new update($this->dbrw, "job_prefs", array("mail_prefs" => $new_mail_prefs, "pub_num" => $new_pub_num), array("id_utilisateur" => $this->id));
-		
+
 		$this->load_prefs();
-		
+
 		if($sql)
 			return true;
 		else
 			return false;
 	}
-}   	
+}
 ?>

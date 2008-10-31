@@ -3,7 +3,7 @@
  *
  * @brief fonctions de cryptographie mcrypt permettant
  * l'encryption / la décryption de données.
- * 
+ *
  */
 
 /* Copyright 2007
@@ -42,8 +42,8 @@ function ae_mcrypt_gen_iv()
 function encrypt_datas($datas)
 {
   global $ae_secret_key;
-  return mcrypt_encrypt(MCRYPT_RIJNDAEL_256, 
-			$ae_secret_key, 
+  return mcrypt_encrypt(MCRYPT_RIJNDAEL_256,
+			$ae_secret_key,
 			$datas,
 			MCRYPT_MODE_ECB,
 			ae_mcrypt_gen_iv());
@@ -52,12 +52,12 @@ function encrypt_datas($datas)
 function decrypt_datas($datas)
 {
   global $ae_secret_key;
-  $str = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, 
-			$ae_secret_key, 
+  $str = mcrypt_encrypt(MCRYPT_RIJNDAEL_256,
+			$ae_secret_key,
 			$datas,
 			MCRYPT_MODE_ECB,
 			ae_mcrypt_gen_iv());
-  
+
   /* PHP ne considère pas le '\0' comme une fin de
    * chaîne, et gère ca dans ses types "en interne".
    *
@@ -65,7 +65,7 @@ function decrypt_datas($datas)
    * afin de renvoyer les données correctement déchifrées.
    */
   $len = 0;
-  
+
   for ($i = 0; $i < strlen($str); $i++)
     {
       if ($str[$i] != chr(0))
@@ -73,9 +73,9 @@ function decrypt_datas($datas)
       else
 	break;
     }
-  
+
   return substr($str, 0, $len);
-  
+
 }
 
 

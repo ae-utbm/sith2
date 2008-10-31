@@ -71,19 +71,19 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "edit")  // edition pré
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "info")
 {
   $header = new contents("Détails des annonces");
-  
+
 		if(isset($_REQUEST['id_annonce']))
 			$ids[] = $_REQUEST['id_annonce'];
 		if(isset($_REQUEST['id_annonces']))
 			foreach ($_REQUEST['id_annonces'] as $id)
 				$ids[] = $id;
-  
+
 		foreach ($ids as $id_annonce)
 		{
 			$annonce = new annonce($site->db);
 			$annonce->load_by_id($id_annonce);
 			$header->add( new apply_annonce_box($annonce) );
-			
+
 			$sql = new requete($site->db, "SELECT `job_annonces_etu`.*, `id_utilisateur`, CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM `job_annonces_etu` LEFT JOIN `utilisateurs` ON `id_utilisateur`=`id_etu` WHERE id_annonce = $annonce->id");
 			$table = new sqltable("annonce_etu", "Enregistrements", $sql, "admin.php?view=annonces", "id_relation", array("id_relation" => "Id", "nom_utilisateur" => "Utilisateur", "relation" => "Relation"), array("delete" => "Supprimer"), array(), array("relation" => array("apply" => "Candidat", "reject" => "Rejet", "selected" => "Sélectionné")));
 			$header->add($table, true);
@@ -122,7 +122,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 			$lst->add("Le mail à été correctement envoyé", "ok");
 		else
 			$lst->add("Erreur lors de l'envoi du mail", "ko");
-		$cts->add($lst);		
+		$cts->add($lst);
 	}
 	else
 	{
@@ -147,23 +147,23 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "mail")
 
 	$cts->add($frm, true);
 	}
-	
-} 		
+
+}
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
 {
   /**
    * Suppression annonces
    */
-  if( isset($_REQUEST['id_annonce']) || isset($_REQUEST['id_annonces']) ) 
+  if( isset($_REQUEST['id_annonce']) || isset($_REQUEST['id_annonces']) )
   {
     $header = new contents("Suppression d'annonces");
-    
+
     if( isset($_REQUEST['confirm']) ) //on passe a l'attaque
     {
       $id_annonces = explode("|", $_REQUEST['id_annonces']);
       if(!is_array($id_annonces)) exit("Fatal error (comme dirait l'autre) : ".__FILE__." \t ".__LINE__);
-      
+
       foreach($id_annonces as $tmp)
       {
         $annonce = new annonce($site->db, $site->dbrw);
@@ -173,18 +173,18 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
        else
           $msg = "La suppression n'a pu être réalisée. Peut-être un étudiant a-t-il déjà été sélectionnée. Dans ce cas veuillez prendre contact avec les différentes personnes pour clôre l'annonce";
       }
-      $header->add(new itemlist(false, false, array( $msg ))); 
+      $header->add(new itemlist(false, false, array( $msg )));
     }
     else //on demande confirmation (boolay proofing)
     {
-      
+
       $header->add_paragraph("Merci de ne supprimer d'annonce que vous si vous êtes sûr de ce que vous faites. Seules les annonces pour lesquelles aucune sélection de candidat n'aura été faite pourront être supprimées, s'il y a des candidats, ceux-ci seront avertis de la suppression de l'offre (à condition qu'ils aient réglé l'envoi des mails sur `full`)");
-      
+
       if( isset($_REQUEST['id_annonce']) )
     	  $sql = new requete($site->db, "SELECT id_annonce, titre FROM job_annonces WHERE id_annonce = '".$_REQUEST['id_annonce']."'");
 	    else if( isset($_REQUEST['id_annonces']) )
 	    	$sql = new requete($site->db, "SELECT id_annonce, titre FROM job_annonces WHERE id_annonce IN('".implode('\', \'', $_REQUEST['id_annonces'])."')");
-    
+
       $lst = new itemlist("Vous vous appretez à supprimer les annonces :");
       while($row = $sql->get_row())
       {
@@ -192,80 +192,80 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == "delete")
         $ids[] = $row['id_annonce'];
       }
       $header->add($lst, true);
-       	
+
       $frm = new form(false, "?action=".$_REQUEST['action']."&view=".$_REQUEST['view']."&confirm");
     	$frm->add_hidden("id_annonces", implode("|", $ids) );
     	$frm->add_submit(false, "Confirmer");
-  	
+
     	$header->add($frm);
   	}
   }
-  
+
   /**
    * Désactivation de compte JobEtu
    */
   else if( isset($_REQUEST['id_utilisateur']) || isset($_REQUEST['id_utilisateurs']) )
   {
     $header = new contents("Désactivation comptes AE JobEtu");
-    
+
     if( isset($_REQUEST['confirm']) ) //on passe a l'attaque
     {
       $id_utilisateurs = explode("|", $_REQUEST['id_utilisateurs']);
       if(!is_array($id_utilisateurs)) exit("Fatal error (comme dirait l'autre) : ".__FILE__." \t ".__LINE__);
-        
+
       foreach($id_utilisateurs as $tmp)
       {
         $usr = new utilisateur($site->db, $site->dbrw);
         $usr->load_by_id($tmp);
         $usr->remove_from_group( ($_REQUEST['view'] == "clients") ? GRP_JOBETU_CLIENT : GRP_JOBETU_ETU );
       }
-      
+
       $header->add(new itemlist(false, false, array("Opération effectuée")));
-        
+
     }
     else //on demande confirmation (boolay proofing)
     {
-      
+
     	if($_REQUEST['id_utilisateur'])
     	  $sql = new requete($site->db, "SELECT id_utilisateur, CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur = '".$_REQUEST['id_utilisateur']."'");
 	    else if($_REQUEST['id_utilisateurs'])
 	    	$sql = new requete($site->db, "SELECT id_utilisateur, CONCAT(prenom_utl,' ',nom_utl) as nom_utilisateur FROM utilisateurs WHERE id_utilisateur IN('".implode('\', \'', $_REQUEST['id_utilisateurs'])."')");
 	    else
 	      exit("Erreur arguments");
-	    
+
 	    $lst = new itemlist("Vous vous appretez à désactiver le compte JobEtu de :");
 	    while( $row = $sql->get_row() )
 	    {
 	      $lst->add($row['nom_utilisateur'], "ko");
 	      $ids[] = $row['id_utilisateur'];
 	    }
-	      
+
     	$header->add($lst, true);
-    	
+
     	$frm = new form(false, "?action=".$_REQUEST['action']."&view=".$_REQUEST['view']."&confirm");
     	$frm->add_hidden("id_utilisateurs", implode("|", $ids) );
     	$frm->add_submit(false, "Confirmer");
-    	
+
     	$header->add($frm);
   	}
   }
-  
+
   /**
    * Suppression de relations annonce-etudiant (candidature, rejet...)
    */
   else if( isset($_REQUEST['id_relation']) ) //Désactivation de comptes
   {
     $header = new contents("Suppression de relation");
-      
+
     $annonce = new annonce($site->db, $site->dbrw);
     $res = $annonce->delete_relation($_REQUEST['id_relation']);
-    
+
     if( !$res ) $header->add( new itemlist(false, false, array("L'enregistrement (n°".$_REQUEST['id_relation'].") à bien été supprimé.")) );
     else $header->add( new itemlist(false, false, array("Erreur lors de la suppression de l'enregistrement n°".$_REQUEST['id_relation'].".")) );
   }
-  
+
 	$site->add_contents($header, true); //$header section 'delete'
-} 
+}
 
 /***************************************************************
  * Onglet de gestion des catégories et sous catégories
@@ -286,7 +286,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "categories")
 		{
 			$jobetu->del_subtype($_REQUEST['id_types']);
 		}
-	
+
 	$cts->add_title(2, "Gestion de la liste des catégories");
 	$jobetu->get_job_types();
 //	$cts->add($jobetu->job_types);
@@ -298,34 +298,34 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "categories")
 																ORDER BY id_type ASC");
 	$table = new sqltable("typetable", "Catégorie des jobs", $sql, null, "id_types", array("id_type" => "Num", "nom" => "Nom de la catégorie", "nb_etu" => "Nb d'étudiant"), array("delete" => "Supprimer"), array(), array());
 	$cts->add($table);
-	
-	
+
+
 	$frm = new form("jobtypes", "admin.php?view=categories", false, "post", "Ajouter une catégorie/sous-catégorie");
 		$sfrm = new form("type_cat",null,null,null,"Catégorie principale");
 		$sfrm->add_text_field("name_main", "Intitulé");
 		$sfrm->add_submit("go", "Envoyer");
 	$frm->add($sfrm,false,true,1,"main",false,true,true);
-		
+
 		$sfrm = new form("type_cat",null,null,null,"Sous catégorie");
 		$sfrm->add_text_field("name_sub", "Intitulé");
 		$sfrm->add_select_field("mama_cat","Catégorie mère",$jobetu->job_main_cat);
 		$sfrm->add_submit("go", "Envoyer");
 	$frm->add($sfrm,false,true,0,"sub",false,true);
-	
 
-	$cts->add($frm, true);	
+
+	$cts->add($frm, true);
 
 }
 
 /***************************************************************
- * Onglet de gestion des annonces 
+ * Onglet de gestion des annonces
  */
 else if(isset($_REQUEST['get_ann_table']))
 {
   if( isset($_REQUEST['hide_closed']) && $_REQUEST['hide_closed'] == 'true')
     $append_sql = "WHERE closed = '0'";
   else $append_sql = "";
-   
+
   $sql = new requete($site->db, "SELECT utilisateurs.id_utilisateur,
 																	CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`,
 																	id_annonce, titre, provided, closed, nb_postes,
@@ -336,12 +336,12 @@ else if(isset($_REQUEST['get_ann_table']))
 																	LEFT JOIN `job_types`
 																	ON `job_types`.`id_type` = `job_annonces`.`job_type`
 																	$append_sql ", false);
-  
-																	
-  $table = new sqltable("list_annonces", "Annonces présentes sur AE JobEtu", $sql, "admin.php?view=annonces", "id_annonce", 
+
+
+  $table = new sqltable("list_annonces", "Annonces présentes sur AE JobEtu", $sql, "admin.php?view=annonces", "id_annonce",
 	                      array("id_annonce" => "ID", "titre" => "Titre", "nom_utilisateur" => "Client", "nom_type" => "Catégorie", "nb_postes" => "Nb postes", "provided" => "Pourvue", "closed" => "Etat"),
-	                      array("info" => "Détails", "edit" => "Editer", "delete" => "Supprimer"), 
-	                      array("info" => "Détails", "delete" => "Supprimer"), 
+	                      array("info" => "Détails", "edit" => "Editer", "delete" => "Supprimer"),
+	                      array("info" => "Détails", "delete" => "Supprimer"),
 	                      array("provided" => array("true" => "Oui", "false" => ""), "closed" => array('0' => "", '1' => "Fermée"))
 	                      );
 
@@ -354,14 +354,14 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
   $cts->puts("<div id=\"ann_table\"></div>".
 	     "<script language=\"javascript\">openInContents('ann_table', './admin.php', 'get_ann_table&hide_closed=true');</script>".
 	     "\n");
-  
+
   $frm = new form("hide_closed", null, false, null);
   $frm->puts("<input type=\"checkbox\" name=\"hide_box\" value=\"true\" checked=\"checked\" onClick=\"openInContents('ann_table', './admin.php', 'get_ann_table&hide_closed='+this.checked);\"/><label for=\"hide_box\">Cacher les annonces fermées");
   $cts->add($frm);
-  
+
   /** Listing vieilles annonces */
   $sql = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`,
-                                   CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`, 
+                                   CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`,
                                    id_annonce, titre, nb_postes,
                                    `job_types`.`nom` as `nom_type`,
                                    DATEDIFF(NOW(), `date`) AS `nb_jours`
@@ -382,7 +382,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
   $cts->add($table, true);
   /************************/
   $sql = new requete($site->db, "SELECT `utilisateurs`.`id_utilisateur`,
-                                   CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`, 
+                                   CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`,
                                    id_annonce, titre, nb_postes,
                                    `job_types`.`nom` as `nom_type`,
                                    DATEDIFF(NOW(), `date`) AS `nb_jours`
@@ -392,7 +392,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "annonces")
                                    LEFT JOIN `job_types`
                                    ON `job_types`.`id_type` = `job_annonces`.`job_type`
                                    WHERE closed = '0' AND provided = 'true'  AND DATEDIFF(NOW(), `date`) >= 90"); // c'est quand meme pas normal qu il veuille pas avec nb_jours
-                                   
+
   $table = new sqltable("list_ann_nclose_nprovided", "Annonces **pourvues** et non closes de plus de 90 jours", $sql, "admin.php?view=clients", "id_utilisateur",
                   array("id_annonce" => "ID", "titre" => "Titre", "nom_utilisateur" => "Client", "nom_type" => "Catégorie", "nb_jours" => "Jours"),
                   array("mail" => "Envoyer un mail"),
@@ -413,12 +413,12 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "clients")
 																	NATURAL JOIN `utl_groupe`
 																	WHERE id_groupe = ".GRP_JOBETU_CLIENT."
 																	GROUP BY utilisateurs.id_utilisateur", false);
-	
+
 	$cts->add( new sqltable("list_clients", "Clients de AE JobEtu", $sql, "admin.php?view=clients", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array("mail" => "Envoyer un mail", "delete" => "Désactiver compte", "edit" => "Editer préférences"), array("mail" => "Envoyer un mail", "delete" => "Désactiver compte")), true );
 }
 
 /***************************************************************
- * Onglet de gestion des étudiants 
+ * Onglet de gestion des étudiants
  */
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "etudiants")
 {
@@ -428,7 +428,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "etudiants")
 																	NATURAL JOIN `utl_groupe`
 																	WHERE id_groupe = ".GRP_JOBETU_ETU."
 																	GROUP BY utilisateurs.id_utilisateur", false);
-	
+
 	$cts->add( new sqltable("list_clients", "Etudiants inscrits à AE JobEtu", $sql, "admin.php?view=etudiants", "id_utilisateur", array("id_utilisateur" => "ID", "nom_utilisateur" => "Nom"), array("mail" => "Envoyer un mail", "convention" => "Editer profil", "edit" => "Editer préférences", "delete" => "Désactiver le compte"), array("mail" => "Envoyer un mail", "delete" => "Désactiver compte")), true );
 }
 

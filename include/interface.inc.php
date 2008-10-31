@@ -28,7 +28,7 @@
 
 $timing["all"] -= microtime(true);
 
-setlocale(LC_ALL,"fr_FR.UTF8"); 
+setlocale(LC_ALL,"fr_FR.UTF8");
 
 if( !strncmp('/var/www/ae/www/taiste', $_SERVER['SCRIPT_FILENAME'], 22) )
   $GLOBALS["taiste"] = true;
@@ -61,7 +61,7 @@ class interfaceweb
   var $boxes;
 
   var $section;
-  var $title;  
+  var $title;
 
   var $extracss;
   var $rss;
@@ -159,7 +159,7 @@ class interfaceweb
    * @param $title Titre de la page
    */
   function start_page ( $section, $title, $compact=false ) // <=> page
-  {  
+  {
     $this->section = $section;
     $this->title = $title;
     $this->compact = $compact;
@@ -167,12 +167,12 @@ class interfaceweb
 
   function add_css ( $url )
   {
-    $this->extracss[] = $url;  
+    $this->extracss[] = $url;
   }
 
   function add_js ( $url )
   {
-    $this->extrajs[] = $url;  
+    $this->extrajs[] = $url;
   }
 
   function add_rss ( $title, $url )
@@ -223,14 +223,14 @@ class interfaceweb
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js\"></script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js\"></script>\n";
 
-    foreach ( $this->extrajs as $url ) 
+    foreach ( $this->extrajs as $url )
       echo "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
 
     echo "</head>\n";
 
     echo "<body>\n";
     /* Generate the logo */
-    echo "<div id=\"site clearfix\">";    
+    echo "<div id=\"site clearfix\">";
 
     if (!$this->compact )
     {
@@ -249,7 +249,7 @@ class interfaceweb
 
       echo "<div id=\"fsearchres\"></div>\n";
 
-      echo "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/Ae.jpg\" height=\"60\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";          
+      echo "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/Ae.jpg\" height=\"60\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";
 
     }
     echo "<div class=\"tabsv2\">\n";
@@ -275,7 +275,7 @@ class interfaceweb
 
     if ( $links )
     {
-      echo "<div class=\"sectionlinks\">";  
+      echo "<div class=\"sectionlinks\">";
 
       foreach ( $links as $entry )
       {
@@ -288,7 +288,7 @@ class interfaceweb
       echo "</div>\n";
     }
     else
-      echo "<div class=\"emptysectionlinks\"></div>\n";  
+      echo "<div class=\"emptysectionlinks\"></div>\n";
 
     echo "<div class=\"contents\">\n";
     $idpage = "";
@@ -297,7 +297,7 @@ class interfaceweb
 
     foreach ( $this->sides as $side => $names )
     {
-      if ( count($names) ) 
+      if ( count($names) )
       {
         $idpage .= substr($side,0,1);
 
@@ -310,7 +310,7 @@ class interfaceweb
             $elts =   explode(",",$_SESSION["usersession"][$ref]);
             foreach ( $elts as $elt )
             {
-              $name = substr($elt,5);  
+              $name = substr($elt,5);
               if ( in_array($name,$names) )
                 $n_names[] = $name;
             }
@@ -320,7 +320,7 @@ class interfaceweb
                 $n_names = array_merge( array($name), $n_names );
             }
             $names = $n_names;
-          }        
+          }
         }
         else
           $ref = null;
@@ -337,7 +337,7 @@ class interfaceweb
             elseif ( $cts->title )
               echo "<h1>".$cts->title."</h1>\n";
 
-            echo "<div class=\"body\" id=\"sbox_body_".$name."\">\n";      
+            echo "<div class=\"body\" id=\"sbox_body_".$name."\">\n";
 
             echo $cts->html_render();
 
@@ -361,7 +361,7 @@ class interfaceweb
       $cssclass = "article";
 
       if ( !is_null($cts->cssclass) )
-        $cssclass = $cts->cssclass;      
+        $cssclass = $cts->cssclass;
 
       $i++;
 
@@ -375,10 +375,10 @@ class interfaceweb
 
       if ( $cts->toolbox )
       {
-        echo "<div class=\"toolbox\">\n";    
+        echo "<div class=\"toolbox\">\n";
         echo $cts->toolbox->html_render()."\n";
-        echo "</div>\n";  
-      }        
+        echo "</div>\n";
+      }
 
       if ( $cts->title )
         echo "<h1>".$cts->title."</h1>\n";
@@ -393,7 +393,7 @@ class interfaceweb
     echo " - <a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a>";
     echo " - <a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a>";
     echo " - <a href=\"". $wwwtopdir ."wiki2/?name=ae:info\">Equipe info</a>";
-    echo "<br/>\n"; 
+    echo "<br/>\n";
 
     echo "Icones par <a href=\"http://www.everaldo.com/\">Everaldo.com</a></p>\n";
 
@@ -401,7 +401,7 @@ class interfaceweb
     echo "<!-- end of page -->\n\n";
 
     echo "</div>\n"; // /contents
-    echo "<div id=\"endsite\">&nbsp;</div></div>\n";    
+    echo "<div id=\"endsite\">&nbsp;</div></div>\n";
 
 /*    if ( $this->user->is_valid() && !ereg("majprofil\.php$",$_SERVER['SCRIPT_FILENAME'])
     && $user->type != "srv" )
@@ -409,10 +409,10 @@ class interfaceweb
       $days_last = (time() - $this->user->date_maj)/(60*60*24);
       if ( is_null($this->user->date_maj) || ($days_last > 182 && $this->user->utbm) )
       {
-        echo "<div id=\"hugealert\">";    
+        echo "<div id=\"hugealert\">";
         echo "<p>Merci de mettre à jour votre profil : ".
-             "<a href=\"". $wwwtopdir ."majprofil.php\">le mettre à jour</a></p>";    
-        echo "</div>";    
+             "<a href=\"". $wwwtopdir ."majprofil.php\">le mettre à jour</a></p>";
+        echo "</div>";
       }
     }*/
     if ( $this->get_param("backup_server",true) )
@@ -458,10 +458,10 @@ class interfaceweb
     echo "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
     echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css?".filemtime($wwwtopdir . "themes/default/css/site.css")."\" title=\"AE2-NEW2\" />\n";
     echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/popup.css?".filemtime($wwwtopdir ."css/popup.css")."\" />\n";
-    foreach ( $this->extracss as $url ) 
+    foreach ( $this->extracss as $url )
       echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8"). "\" />\n";
 
-    foreach ( $this->rss as $title => $url ) 
+    foreach ( $this->rss as $title => $url )
       echo "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_COMPAT,"UTF-8")."\" href=\"".htmlentities($url,ENT_COMPAT,"UTF-8")."\" />";
 
     echo "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico\" />\n";
@@ -470,7 +470,7 @@ class interfaceweb
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js\"></script>\n";
     echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js\"></script>\n";
 
-    foreach ( $this->extrajs as $url ) 
+    foreach ( $this->extrajs as $url )
       echo "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
 
     echo "</head>\n";
@@ -478,7 +478,7 @@ class interfaceweb
     echo "<body>\n";
     /* Generate the logo */
 
-    echo "<div id=\"popup\">";    
+    echo "<div id=\"popup\">";
 
     $i=0;
     foreach ( $this->contents as $cts )
@@ -486,7 +486,7 @@ class interfaceweb
       $cssclass = "article";
 
       if ( !is_null($cts->cssclass) )
-        $cssclass = $cts->cssclass;      
+        $cssclass = $cts->cssclass;
 
       $i++;
       echo "<div class=\"".$cssclass."\"";
@@ -498,10 +498,10 @@ class interfaceweb
 
       if ( $cts->toolbox )
       {
-        echo "<div class=\"toolbox\">\n";    
+        echo "<div class=\"toolbox\">\n";
         echo $cts->toolbox->html_render()."\n";
-        echo "</div>\n";  
-      }        
+        echo "</div>\n";
+      }
 
       if ( $cts->title )
         echo "<h1>".$cts->title."</h1>\n";
@@ -539,10 +539,10 @@ class interfaceweb
    */
   function get_param ( $name, $default=null )
   {
-    if ( !$this->params )  
+    if ( !$this->params )
       $this->load_params();
 
-    if ( !isset($this->params[$name]) )  
+    if ( !isset($this->params[$name]) )
       return $default;
 
     return unserialize($this->params[$name]);
@@ -556,7 +556,7 @@ class interfaceweb
    */
   function set_param ( $name, $value )
   {
-    if ( !$this->params )  
+    if ( !$this->params )
       $this->load_params();
 
     $value = serialize($value);
@@ -564,13 +564,13 @@ class interfaceweb
     if ( !isset($this->params[$name]) )
     {
       $sql = new insert($this->dbrw,"site_parametres",
-        array ( 
+        array (
           "nom_param" => $name,
           "valeur_param" => $value
         ));
       $this->params[$name]=$value;
     }
-    elseif ( $this->params[$name] !== $value ) 
+    elseif ( $this->params[$name] !== $value )
     {
       $sql = new update($this->dbrw,"site_parametres",
         array( "valeur_param" => $value),
@@ -631,8 +631,8 @@ class interfaceweb
       if ( $key != "magicform" )
         $frm->add_hidden($key,$val);
 
-    $frm->add_submit("___i_am_really_sure","OUI");  
-    $frm->add_submit("___finally_i_want_to_cancel","NON");  
+    $frm->add_submit("___i_am_really_sure","OUI");
+    $frm->add_submit("___finally_i_want_to_cancel","NON");
 
     $cts->add($frm);
 

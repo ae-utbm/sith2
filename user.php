@@ -42,14 +42,14 @@ require_once($topdir . "jobetu/include/jobuser_etu.inc.php");
 
 $site = new site ();
 $site->add_css("css/userfullinfo.css");
-  
+
 $site->allow_only_logged_users("matmatronch");
 
 if ( isset($_REQUEST['id_utilisateur']) )
 {
   $user = new utilisateur($site->db,$site->dbrw);
   $user->load_by_id($_REQUEST["id_utilisateur"]);
-  
+
   if ( !$user->is_valid() )
     $site->error_not_found("matmatronch");
 
@@ -63,13 +63,13 @@ if ( isset($_REQUEST['id_utilisateur']) )
   // ou vouloir consulter sa propre fiche
   if ( $user->id != $site->user->id && !$site->user->utbm && !$site->user->ae )
     $site->error_forbidden("matmatronch","group",10001);
-    
+
   // Si la fiche n'est pas publique, et qu'on ne peut pas l'éditer,
   // cela veut dire que l'on est i admin, ni l'utilisateur en question
-  // donc on a pas le droit de la consulter  
+  // donc on a pas le droit de la consulter
   if ( !$user->publique && !$can_edit )
     $site->error_forbidden("mat11matronch","private");
-    
+
 }
 else
 {
@@ -95,7 +95,7 @@ if ( $_REQUEST['action'] == "reinit" && $site->user->is_in_group("gestion_ae") )
     $pass = genere_pass(10);
     $user->invalidate();
     $user->change_password($pass);
-    
+
     $user->send_autopassword_email($email,$pass);
     $Notice = "Compte re-initialisé";
   }
@@ -163,7 +163,7 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
     $user->tel_maison = telephone_userinput($_REQUEST['tel_maison']);
     $user->tel_portable = telephone_userinput($_REQUEST['tel_portable']);
     $user->date_maj = time();
-    
+
     $user->publique = isset($_REQUEST["publique"]);
     $user->publique_mmtpapier = isset($_REQUEST["publique_mmtpapier"]);
 
@@ -186,7 +186,7 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
         "ON (`utl_joue_instru`.`id_instru_musique`=`mmt_instru_musique`.`id_instru_musique`" .
         " AND `utl_joue_instru`.`id_utilisateur`='".$user->id."' )".
       "ORDER BY nom_instru_musique");
-          
+
     while ( $row = $req->get_row() )
     {
       if ( isset($_REQUEST['instru'][$row['id_instru_musique']]) && is_null($row['id_utilisateur']) )
@@ -201,7 +201,7 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
       $user->adresse_parents = $_REQUEST['adresse_parents'];
       $user->tel_parents = telephone_userinput($_REQUEST['tel_parents']);
       $user->nom_ecole_etudiant = $_REQUEST['nom_ecole'];
-        
+
       if ( $_REQUEST['id_ville_parents'] )
       {
         $ville_parents->load_by_id($_REQUEST['id_ville_parents']);
@@ -212,7 +212,7 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
       {
         $user->id_ville_parents = null;
         $user->id_pays_parents = $_REQUEST['id_pays_parents'];
-      }          
+      }
     }
     if ( $user->utbm )
     {
@@ -223,8 +223,8 @@ elseif ( $_REQUEST["action"] == "saveinfos" && $can_edit )
       $user->filiere = $_REQUEST['filiere'];
       $user->promo_utbm = $_REQUEST['promo'];
 
-      if ( $_REQUEST['date_diplome'] < time() 
-        && $_REQUEST['date_diplome'] != 0 
+      if ( $_REQUEST['date_diplome'] < time()
+        && $_REQUEST['date_diplome'] != 0
         && $_REQUEST['date_diplome'] != "" )
         $user->date_diplome_utbm = $_REQUEST['date_diplome'];
       else
@@ -320,9 +320,9 @@ elseif ( $_REQUEST["action"] == "setattributes" &&
          ||$site->user->is_in_group("root")) )
 {
   if ( isset($_REQUEST["etudiant"]) || isset($_REQUEST["ancien_etudiant"]) )
-    $user->became_etudiant ( 
-        is_null($user->nom_ecole_etudiant)?"":$user->nom_ecole_etudiant, 
-        isset($_REQUEST["ancien_etudiant"]), 
+    $user->became_etudiant (
+        is_null($user->nom_ecole_etudiant)?"":$user->nom_ecole_etudiant,
+        isset($_REQUEST["ancien_etudiant"]),
         true );
 }
 // Ajout de l'utilisateur comme membre d'une activité ou association
@@ -385,7 +385,7 @@ elseif ( $_REQUEST["action"] == "changeemail" && $can_edit  )
   else
   {
     $user->set_email($_POST["email"], $site->user->is_in_group("gestion_ae"));
-    
+
     if ( $site->user->is_in_group("gestion_ae") )
       $Notice = "Adresse e-mail principale modifiée";
     else
@@ -394,7 +394,7 @@ elseif ( $_REQUEST["action"] == "changeemail" && $can_edit  )
       $cts = new contents ($user->prenom . " " . $user->nom );
 
       $cts->add_paragraph("Votre adresse e-mail principale a été modifiée");
-      
+
       $cts->add_paragraph("Vous allez recevoir un e-mail de vérification à l'adresse ".$_POST["email"].". Vous devrez cliquer sur le lien se trouvant dans cet e-mail piur pouvoir utiliser de nouveau le site.");
 
       $cts->add_paragraph("Pour plus d'informations, ou si vous ne recevez pas l'email, consultez la documentation : <a href=\"article.php?name=docs:profil\">Documentation : Profil personnel : Questions et problèmes fréquents</a>");
@@ -402,7 +402,7 @@ elseif ( $_REQUEST["action"] == "changeemail" && $can_edit  )
       $site->add_contents($cts);
       $site->end_page();
       exit();
-    }  
+    }
   }
 }
 // Definition ou changement d'adresse e-mail utbm
@@ -426,7 +426,7 @@ elseif ( $_REQUEST["action"] == "changeemailutbm" && $can_edit  )
       $user->set_email_utbm($_POST["email_utbm"], $site->user->is_in_group("gestion_ae"));
       $lex = "modifiée";
     }
-    
+
     if ( $site->user->is_in_group("gestion_ae") )
       $Notice = "Adresse e-mail utbm $lex";
     else
@@ -435,7 +435,7 @@ elseif ( $_REQUEST["action"] == "changeemailutbm" && $can_edit  )
       $cts = new contents ($user->prenom . " " . $user->nom );
 
       $cts->add_paragraph("Votre adresse e-mail utbm a été $lex");
-      
+
       $cts->add_paragraph("Vous allez recevoir un e-mail de vérification à l'adresse ".$_POST["email"].". Vous devrez cliquer sur le lien se trouvant dans cet e-mail piur pouvoir utiliser de nouveau le site.");
 
       $cts->add_paragraph("Pour plus d'informations, ou si vous ne recevez pas l'email, consultez la documentation : <a href=\"article.php?name=docs:profil\">Documentation : Profil personnel : Questions et problèmes fréquents</a>");
@@ -443,7 +443,7 @@ elseif ( $_REQUEST["action"] == "changeemailutbm" && $can_edit  )
       $site->add_contents($cts);
       $site->end_page();
       exit();
-    }     
+    }
   }
 }
 elseif ( $_REQUEST["action"] == "reprint" && $site->user->is_in_group("gestion_ae") )
@@ -496,10 +496,10 @@ if ( $_REQUEST["action"] == "setphotos" && $can_edit && is_dir("/var/www/ae/www/
 
   $dest_idt = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg";
   if(isset($_REQUEST['delete_idt']) && file_exists($dest_idt)
-     && ($site->user->is_asso_role ( 27, 1 ) 
+     && ($site->user->is_asso_role ( 27, 1 )
    || $site->user->is_in_group("gestion_ae")))
     unlink($dest_idt);
-  
+
   $_REQUEST["page"] = "edit";
   $_REQUEST["open"] = "photo";
 }
@@ -530,16 +530,16 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
   $site->start_page("matmatronch",$user->prenom." ".$user->nom);
 
   $user->load_all_extra();
-  
+
   $ville->load_by_id($user->id_ville);
   $pays->load_by_id($user->id_pays);
-  
+
   $cts = new contents($user->prenom." ".$user->nom);
-  
+
   // Legacy support
   if ( isset($_REQUEST["open"]) && ( $_REQUEST["open"]=="email" || $_REQUEST["open"]=="emailutbm") )
     $_REQUEST["see"] = "email";
-    
+
   $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
   $cts->add(new tabshead(array(
@@ -586,23 +586,23 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
       $frm->add_text_field("surnom","Surnom (utbm)",$user->surnom);
     $frm->add_select_field("sexe","Sexe",array(1=>"Homme",2=>"Femme"),$user->sexe,false,false,($site->user->is_in_group("gestion_ae") || $site->user->is_asso_role(27,1)));
     $frm->add_date_field("date_naissance","Date de naissance",$user->date_naissance);
-    
+
     $frm->add_select_field("taille_tshirt","Taille de t-shirt (non publié***)",array(0=>"-",
-      "XS"=>"XS","S"=>"S","M"=>"M","L"=>"L","XL"=>"XL","XXL"=>"XXL","XXXL"=>"XXXL"),$user->taille_tshirt);  
-      
+      "XS"=>"XS","S"=>"S","M"=>"M","L"=>"L","XL"=>"XL","XXL"=>"XXL","XXXL"=>"XXXL"),$user->taille_tshirt);
+
     if ( $user->utbm )
     {
       $frm->add_select_field("role","Role",$GLOBALS["utbm_roles"],$user->role);
       $frm->add_select_field("departement","Departement",$GLOBALS["utbm_departements"],$user->departement);
-      
+
       $frm->add_text_field("semestre","Semestre",$user->semestre);
     }
-    
+
     // Permis de conduire
     $subfrm = new form("permis_conduire",null,null,null,"Permis de conduire (informations non publiées**)");
     $subfrm->add_date_field("date_permis_conduire","Date d'obtention (non publiée)", $user->date_permis_conduire);
-    $frm->add ( $subfrm, true, false, $user->permis_conduire, false, false, true );    
-    
+    $frm->add ( $subfrm, true, false, $user->permis_conduire, false, false, true );
+
     // Musicien
     $subfrm = new form("musicien",null,null,null,"Musicien");
     $req = new requete($site->db,"SELECT mmt_instru_musique.id_instru_musique, ".
@@ -613,81 +613,81 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
         "ON (`utl_joue_instru`.`id_instru_musique`=`mmt_instru_musique`.`id_instru_musique`" .
         " AND `utl_joue_instru`.`id_utilisateur`='".$user->id."' )".
       "ORDER BY nom_instru_musique");
-    
+
     while ( $row = $req->get_row() )
       $subfrm->add_checkbox("instru[".$row['id_instru_musique']."]",$row['nom_instru_musique'], !is_null($row['id_utilisateur']));
     $frm->add ( $subfrm, true, false, $user->musicien, false, false, true );
-    
+
     $subfrm1 = new form("infocontact",null,null,null,"Adresse et téléphone");
-  
+
     $subfrm1->add_text_field("addresse","Adresse",$user->addresse);
-  
+
     $subfrm1->add_entity_smartselect ("id_ville","Ville (France)", $ville,true);
     $subfrm1->add_entity_smartselect ("id_pays","ou pays", $pays,true);
-            
+
     $subfrm1->add_text_field("tel_maison","Telephone (fixe)",$user->tel_maison);
     $subfrm1->add_text_field("tel_portable","Telephone (portable)",$user->tel_portable);
     $frm->add ( $subfrm1, false, false, false, false, false, true, false );
-  
+
     if ( $user->etudiant || $user->ancien_etudiant )
     {
       $ville_parents->load_by_id($user->id_ville_parents);
-      $pays_parents->load_by_id($user->id_pays_parents);  
-      
+      $pays_parents->load_by_id($user->id_pays_parents);
+
       $subfrm2 = new form("infoextra",null,null,null,"Informations suppl&eacute;mentaires");
       $subfrm2->add_text_field("citation","Citation",$user->citation,false,"60");
       $subfrm2->add_text_field("nom_ecole","Ecole",$user->nom_ecole_etudiant);
       $frm->add ( $subfrm2, false, false, false, false, false, true, false );
-  
+
       $subfrm3 = new form("infoparents",null,null,null,"Informations sur les parents");
       $subfrm3->add_text_field("adresse_parents","Adresse parents",$user->adresse_parents);
-        
+
       $subfrm3->add_entity_smartselect ("id_ville_parents","Ville parents (France)", $ville_parents,true);
       $subfrm3->add_entity_smartselect ("id_pays_parents","ou pays parents", $pays_parents,true);
-        
+
       $subfrm3->add_text_field("tel_parents","T&eacute;l&eacute;phone parents",$user->tel_parents);
       $frm->add ( $subfrm3, false, false, false, false, false, true, false );
     }
-  
+
     if ( $user->utbm )
     {
       $subfrm4 = new form("infoutbm",null,null,null,"Informations UTBM");
-  
+
       $subfrm4->add_text_field("filiere","Filiere",$user->filiere);
 
       $subfrm4->add_select_field("promo","Promo",$user->liste_promos("-"),$user->promo_utbm);
       $subfrm4->add_date_field("date_diplome","Date d'obtention du diplome",($user->date_diplome_utbm!=NULL)?$user->date_diplome_utbm:null);
       $frm->add ( $subfrm4, false, false, false, false, false, true, false );
     }
-    
 
-    
+
+
     $subfrm = new form(null,null,null,null,"Habilitations (informations non publiées**)");
     $subfrm->add_checkbox ( "hab_elect", "Habilitation électrique", $user->hab_elect );
     $subfrm->add_checkbox ( "afps", "Attestation de Formation aux Permiers Secours (AFPS)", $user->afps );
     $subfrm->add_checkbox ( "sst", "Sauveteur Secouriste du Travail (SST)", $user->sst );
     $frm->add ( $subfrm, false, false, false, false, false, true, false );
-      
-    //signature  
+
+    //signature
     $frm->add_text_area("signature","Signature (forum)",$user->signature);
-      
+
     $frm->add_checkbox ( "publique", "Rendre mon profil publique : Apparaitre dans le matmatronch en ligne.", $user->publique );
     $frm->add_checkbox ( "publique_mmtpapier", "Autoriser la publication de mon profil dans le matmatronch papier.", $user->publique_mmtpapier );
-      
+
     $frm->add_submit("save","Enregistrer");
     $cts->add($frm,true);
-  
+
     $cts->add_paragraph("** Ces informations ne seront pas rendues publiques, elles pourrons être utilisées pour pouvoir vous contacter si l'association recherche des bénévoles particuliers.");
     $cts->add_paragraph("*** La taille de t-shirt est collectée à des fins statistiques, pour commander le nombre de t-shirt par taille au plus juste pour le cadeau offert avec une cotisation, ou lors des différents évenements.");
     $cts->add_paragraph("&nbsp;");
-        
+
     $cts->add(new itemlist("Modification des autres informations",false,array(
     "<a href=\"user.php?see=email&amp;page=edit&amp;id_utilisateur=".$user->id."\">Adresses e-mail (personelle et utbm)</a>",
     "<a href=\"user.php?see=passwd&amp;page=edit&amp;id_utilisateur=".$user->id."\">Mot de passe</a>",
     "<a href=\"user.php?see=photos&amp;page=edit&amp;id_utilisateur=".$user->id."\">Photo d'identité, avatar et blouse</a>"
     )),true);
-    
-  } 
+
+  }
   elseif ( $_REQUEST["see"] == "email" )
   {
 
@@ -696,25 +696,25 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
       $frm->error($ErreurMail);
     $frm->add_hidden("action","changeemail");
     $frm->add_info("<b>Attention:</b> Votre compte sera d&eacute;sactiv&eacute; et votre session sera ferm&eacute;e jusqu'a validation du lien qui vous sera envoye par email &agrave; l'adresse que vous pr&eacute;ciserez !");
-  
+
     $frm->add_text_field("email","Adresse email",$user->email,true);
     $frm->add_submit("save","Enregistrer");
     $cts->add($frm,true);
-  
+
     $cts->add_paragraph("<b>Remarque:</b> Votre adresse e-mail principale est utilisée pour les mailing listes. Si vous changer votre adresse, les mailing listes seront mises à jours au bout de 60 minutes environs.");
     $cts->add_paragraph("<b>Attention:</b> Pour envoyer des messages sur les mailing listes vous devez le faire depuis votre adresse e-mail principale.");
-  
+
     $frm = new form("changeemailutbm","user.php?id_utilisateur=".$user->id,true,"POST","Adresse email UTBM ou ASSIDU");
     if ( $ErreurMailUtbm )
       $frm->error($ErreurMailUtbm);
     $frm->add_hidden("action","changeemailutbm");
     $frm->add_info("<b>Attention:</b> Votre compte sera d&eacute;sactiv&eacute; et votre session sera ferm&eacute;e jusqu'a validation du lien qui vous sera envoye par email &agrave; l'adresse que vous pr&eacute;ciserez !");
     $frm->add_text_field("email_utbm","Adresse email",$user->email_utbm?$user->email_utbm:"prenom.nom@utbm.fr",true);
-  
+
     $frm->add_submit("save","Enregistrer");
     $cts->add($frm,true);
 
-  } 
+  }
   elseif ( $_REQUEST["see"] == "passwd" )
   {
 
@@ -724,14 +724,14 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $frm->add_password_field("ae2_password2","Repetez le mot de passe","",true);
     $frm->add_submit("save","Enregistrer");
     $cts->add($frm,true);
-  
-  } 
+
+  }
   elseif ( $_REQUEST["see"] == "photos" )
   {
 
     $frm = new form("setphotos","user.php?id_utilisateur=".$user->id."#setphotos",true,"POST","Changer mes photos persos");
     $frm->add_hidden("action","setphotos");
-  
+
     $subfrm = new form("mmt",null,null,null,"Avatar");
     if ( file_exists( $topdir."var/img/matmatronch/".$user->id.".jpg") )
     {
@@ -740,13 +740,13 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     $subfrm->add_file_field ( "mmtfile", "Fichier" );
     $subfrm->add_checkbox("delete_mmt","Supprimer mon avatar");
     $frm->add ( $subfrm );
-  
+
     $subfrm = new form("idt",null,null,null,"Photo identit&eacute; (carte AE et matmatronch)");
-  
+
     if ( file_exists( $topdir."var/img/matmatronch/".$user->id.".identity.jpg") )
     {
       $subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".identity.jpg?".filemtime($topdir."var/img/matmatronch/".$user->id.".identity.jpg")."\" alt=\"\" width=\"100\" /><br/>");
-      
+
       if ($site->user->is_asso_role ( 27, 1 ) || $site->user->is_in_group("gestion_ae"))
       {
         $subfrm->add_file_field ( "idtfile", "Fichier" );
@@ -759,27 +759,27 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     }
     else
       $subfrm->add_file_field ( "idtfile", "Fichier" );
-  
+
     $frm->add ( $subfrm );
     $frm->add_submit("save","Enregistrer");
-  
+
     $cts->add($frm,true);
-  
+
     $frm = new form("setblouse","user.php?id_utilisateur=".$user->id."#setblouse",true,"POST","Changer la photo de ma blouse");
     $frm->add_hidden("action","setblouse");
     $subfrm = new form("blouse",null,null,null,"Photo de la blouse");
-  
+
     if ( file_exists( $topdir."var/img/matmatronch/".$user->id.".blouse.mini.jpg") )
       $subfrm->add_info("<img src=\"".$topdir."var/img/matmatronch/".$user->id.".blouse.mini.jpg\" alt=\"\" width=\"100\" /><br/>");
-      
+
     $subfrm->add_file_field ( "blousefile", "Fichier" );
     $subfrm->add_checkbox("delete_blouse","Supprimer la photo de ma blouse");
     $frm->add ( $subfrm );
     $frm->add_submit("save","Enregistrer");
-  
+
     $cts->add($frm,true);
   }
-  
+
   $site->add_contents($cts);
   $site->end_page();
   exit();
@@ -838,8 +838,8 @@ if ( $_REQUEST["view"]=="parrain" )
     $frm->add_user_fieldv2("id_utilisateur_parrain","Parrain");
     $frm->add_submit("addresp","Ajouter");
     $cts->add($frm,true);
-  
-  
+
+
     $frm = new form("addfillot","user.php?view=parrain&id_utilisateur=".$user->id,true,"POST","Ajouter un fillot/une fillote");
     $frm->add_hidden("action","addfillot");
     if ( $ErreurFillot ) $frm->error($ErreurFillot);
@@ -859,41 +859,41 @@ elseif ( $_REQUEST["view"]=="pedagogie" )
   exit();
 
   $cts->add_title(2, "Liste des emplois du temps");
-  
-  $req = new requete($site->db, "SELECT 
+
+  $req = new requete($site->db, "SELECT
                                         `semestre_grp`
                                         , `edu_uv_groupe_etudiant`.`id_utilisateur`
                                         , `nom_utl`
-                                        , `prenom_utl` 
-                               FROM 
-                                        `edu_uv_groupe` 
-                               INNER JOIN 
-                                        `edu_uv_groupe_etudiant` 
-                               USING(`id_uv_groupe`) 
-                               INNER JOIN 
-                                        `utilisateurs` 
+                                        , `prenom_utl`
+                               FROM
+                                        `edu_uv_groupe`
+                               INNER JOIN
+                                        `edu_uv_groupe_etudiant`
+                               USING(`id_uv_groupe`)
+                               INNER JOIN
+                                        `utilisateurs`
                                USING(`id_utilisateur`)
-                               WHERE 
+                               WHERE
                                         `id_utilisateur` = ".
-         $user->id." 
-                               GROUP BY 
+         $user->id."
+                               GROUP BY
                                         `semestre_grp` ORDER BY `semestre_grp` DESC");
   if ($req->lines <= 0)
   {
     $cts->add_paragraph("<b>Cet utilisateur n'a pas renseigné d'emploi du temps.</b>");
-  } 
+  }
   else
     {
       $tab = array();
 
       while ($rs = $req->get_row())
         {
-          
+
           $tab[] = "<a href=\"javascript:edtopen('".
             $rs['semestre_grp']."', '".
             $rs['id_utilisateur']."')\">".
             "Semestre ".$rs['semestre_grp']."</a>" . " | " .
-            "<a href=\"".$topdir."uvs/edt_ical.php?id=".$rs['id_utilisateur'] . 
+            "<a href=\"".$topdir."uvs/edt_ical.php?id=".$rs['id_utilisateur'] .
             "&semestre=" . $rs['semestre_grp']."\">Format iCal</a>";
         }
 
@@ -913,51 +913,51 @@ function edtopen(semestre, id)
               <p>
                     <center><img id=\"edtrdr\" src=\"\" alt=\"\" /></center>
               </p>\n");
-  
+
   /** afichage des uvs suivies */
   if ($user->sexe == 2)
     $cts->add_title(2, "Elle suit / a suivi les UVs suivantes :");
   else
     $cts->add_title(2, "Il suit / a suivi les UVs suivantes :");
 
-  $sql = new requete($site->db, "SELECT 
+  $sql = new requete($site->db, "SELECT
                                           `edu_uv`.`id_uv`
                                         , `edu_uv_groupe`.`semestre_grp`
-                                        , `edu_uv`.`code_uv` 
-                                 FROM 
-                                          `edu_uv_groupe_etudiant` 
-                                 INNER JOIN 
-                                          `edu_uv_groupe` 
-                                 ON 
-                                          `edu_uv_groupe`.`id_uv_groupe` = `edu_uv_groupe_etudiant`.`id_uv_groupe` 
+                                        , `edu_uv`.`code_uv`
+                                 FROM
+                                          `edu_uv_groupe_etudiant`
+                                 INNER JOIN
+                                          `edu_uv_groupe`
+                                 ON
+                                          `edu_uv_groupe`.`id_uv_groupe` = `edu_uv_groupe_etudiant`.`id_uv_groupe`
 
-                                 INNER JOIN 
-                                          `edu_uv` USING (`id_uv`) 
-                                 WHERE 
-                                          `id_utilisateur` = ".$user->id." 
-                                 GROUP BY 
+                                 INNER JOIN
+                                          `edu_uv` USING (`id_uv`)
+                                 WHERE
+                                          `id_utilisateur` = ".$user->id."
+                                 GROUP BY
                                           `id_uv`
                                  UNION
                                  SELECT
                                           `edu_uv_obtention`.`id_uv`
                                         , `semestre_obtention` AS `semestre_grp`
                                         , `edu_uv`.`code_uv`
-                                 FROM 
+                                 FROM
                                           `edu_uv_obtention`
                                  INNER JOIN
                                           `edu_uv`
                                  ON
                                           `edu_uv`.`id_uv` = `edu_uv_obtention`.`id_uv`
-                                 WHERE 
+                                 WHERE
                                           `id_utilisateur` = ".$user->id."
                                  GROUP BY `id_uv`");
 
 
-  $cts->add(new sqltable("uvf", "UVs suivies", $sql, $topdir. "uvs/uvs.php", "id_uv", 
+  $cts->add(new sqltable("uvf", "UVs suivies", $sql, $topdir. "uvs/uvs.php", "id_uv",
 			 array("code_uv" => "Code de l'UV",
 			       "semestre_grp" => "Semestre suivi"),
 			 array("view" => "visualiser l'UV"), array()));
-  /** 
+  /**
    * Affichage des CV
    */
   $cts->add_title(2, "CVs");
@@ -977,14 +977,14 @@ function edtopen(semestre, id)
 							"kr" => "Coréen",
 							"pt" => "Portugais"
 							);
-							
+
 			$lst = new itemlist(sizeof($jobuser->pdf_cvs) . " CV(s) disponible(s)");
 			foreach($jobuser->pdf_cvs as $cv)
 				$lst->add("<img src=\"$topdir/images/i18n/$cv.png\" />&nbsp; <a href=\"". $topdir . "var/cv/". $jobuser->id . "." . $cv .".pdf\"> CV en ". $i18n[ $cv ] ."</a>");
-			
+
 			$cts->add($lst);
 		}else{
-			$cts->add_paragraph("<p>Cet utilisateur n'a pas mis de CV en ligne ou n'a pas souhaité qu'ils soient publics</b>");	
+			$cts->add_paragraph("<p>Cet utilisateur n'a pas mis de CV en ligne ou n'a pas souhaité qu'ils soient publics</b>");
 		}
   }else{
 		$cts->add_paragraph("<p>Cet utilisateur n'a pas activé son compte Jobetu</b>");
@@ -1012,7 +1012,7 @@ elseif ( $_REQUEST["view"]=="assos" )
       "listasso",
       "Associations et activités actuelles", $req, "user.php?id_utilisateur=".$user->id,
       "id_membership",
-      array("nom_asso"=>"Association","role"=>"Role","desc_role"=>"","date_debut"=>"Depuis"), 
+      array("nom_asso"=>"Association","role"=>"Role","desc_role"=>"","date_debut"=>"Depuis"),
       $can_edit?array("delete"=>"Supprimer","stop"=>"Arreter à la date de ce jour"):array(),
       array(), array("role"=>$GLOBALS['ROLEASSO100'])
       );
@@ -1125,7 +1125,7 @@ elseif ( ($_REQUEST["view"]=="groups") &&
   $frm = new form("setgroups","user.php?view=groups&id_utilisateur=".$user->id,true,"POST","Groupes");
   $frm->add_hidden("action","setgroups");
   $grp = new group($site->db);
-  
+
   while ( $row=$req->get_row())
   {
     $grp->_load($row);
@@ -1134,7 +1134,7 @@ elseif ( ($_REQUEST["view"]=="groups") &&
     else
       $frm->add_checkbox("groups|".$row["id_groupe"],$grp->get_html_link(),$row["id_utilisateur"]!="");
   }
-  
+
   $frm->add_submit("save","Enregistrer");
   $cts->add($frm,true);
 }
@@ -1143,14 +1143,14 @@ else
 {
   if ( $site->user->id != $user->id )
     new requete($site->dbrw, "UPDATE `utl_etu` SET `visites`=`visites`+1 WHERE `id_utilisateur`=".$user->id);
-  
+
   $user->load_all_extra();
-  
+
   $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"));
 
   if ( $can_edit )
     $info->set_toolbox(new toolbox(array("user.php?id_utilisateur=".$user->id."&page=edit"=>"Modifier")));
-  
+
   $cts->add($info);
 
   if ( $site->user->id == $user->id && !$user->ae )
@@ -1199,26 +1199,26 @@ else
         if ( $item['a_retirer_vente'])
         {
           $noms=array();
-          
+
           $req2 = new requete($site->db,
             "SELECT `cpt_comptoir`.`nom_cpt`
             FROM `cpt_mise_en_vente`
             INNER JOIN `cpt_comptoir` ON `cpt_comptoir`.`id_comptoir` = `cpt_mise_en_vente`.`id_comptoir`
-            WHERE `cpt_mise_en_vente`.`id_produit` = '".$item['id_produit']."' 
+            WHERE `cpt_mise_en_vente`.`id_produit` = '".$item['id_produit']."'
             AND `cpt_comptoir`.`type_cpt`!=1");
-          
+
           if ( $req2->lines != 0 )
             while ( list($nom) = $req2->get_row() )
               $noms[] = $nom;
-          
+
           $item["info"] = "À venir retirer à : ".implode(" ou ",$noms);
         }
         else if ( $item['a_expedier_vente'])
           $item["info"] = "En preparation";
-        
+
         $items[]=$item;
       }
-      
+
       $cts->add(new sqltable(
         "listresp",
         "Commandes à retirer", $items,
@@ -1267,7 +1267,7 @@ else
       $req = new requete($site->db,"SELECT `id_carte_ae`, `etat_vie_carte_ae`, `cle_carteae`, `a_pris_cadeau` FROM `ae_carte` INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` WHERE `ae_cotisations`.`id_utilisateur`='".$user->id."' AND `ae_carte`.`etat_vie_carte_ae`<".CETAT_EXPIRE."");
 
 	  $item = $req->get_row();
-	  
+
 	  $tab = array("reprint"=>"Re-imprimer carte");
 	  if($item['etat_vie_carte_ae']==CETAT_AU_BUREAU_AE)
 	  {
@@ -1279,7 +1279,7 @@ else
 	  	$cad = array("cadeau" => "Retrait cadeau");
 	  	$tab += $cad;
 	  }
-	  
+
       $tbl = new sqltable(
         "listasso",
         "Ma carte AE", array($item), "user.php?id_utilisateur=".$user->id,
@@ -1289,7 +1289,7 @@ else
         array(), array("etat_vie_carte_ae"=>$EtatsCarteAE )
         );
       $cts->add($tbl,true);
-      
+
     }
   }
 
@@ -1301,7 +1301,7 @@ else
     "<a href=\"user.php?see=passwd&amp;page=edit&amp;id_utilisateur=".$user->id."\">Mot de passe</a>",
     "<a href=\"user.php?see=photos&amp;page=edit&amp;id_utilisateur=".$user->id."\">Photo d'identité, avatar et blouse</a>",
     "<a href=\"user.php?action=serviceident&amp;id_utilisateur=".$user->id."\">Générer un identifiant de service</a>"
-    )),true); 
+    )),true);
   }
 
   if ( $site->user->is_in_group("gestion_ae") )

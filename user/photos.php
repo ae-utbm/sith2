@@ -39,10 +39,10 @@ if ( isset($_REQUEST['id_utilisateur']) )
 {
   $user = new utilisateur($site->db);
   $user->load_by_id($_REQUEST["id_utilisateur"]);
-  
+
   if ( !$user->is_valid() )
     $site->error_not_found("matmatronch");
-    
+
   $can_edit = ( $user->id==$site->user->id || $site->user->is_in_group("gestion_ae") );
 
   if ( $user->id != $site->user->id && !$site->user->utbm && !$site->user->ae )
@@ -112,7 +112,7 @@ elseif ( $user->id == $site->user->id && isset($_REQUEST["see"]) && $_REQUEST["s
     $req = new requete($site->dbrw,"UPDATE sas_personnes_photos " .
             "SET vu_phutl='1' " .
             "WHERE id_utilisateur='".$user->id."' AND vu_phutl='0'");
-    
+
     $cts->add_paragraph("Toutes vos photos ont été marquées comme vues.");
     $cts->add_paragraph("<a href=\"photos.php\">Retourner à vos photos</a>");
   }
@@ -146,7 +146,7 @@ elseif ( $user->id == $site->user->id && isset($_REQUEST["see"]) && $_REQUEST["s
       {
         if ( $gal )
           $cts->add($gal,true);
-  
+
         $gal = new gallery($row['nom_catph'],"photos");
 
         $prev_id_catph = $row['id_catph'];

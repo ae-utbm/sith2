@@ -26,7 +26,7 @@
  * @file
  * Gestion de l'inventaire
  */
- 
+
 /**
  * Type d'objet
  * @ingroup inventaire
@@ -41,7 +41,7 @@ class objtype extends stdentity
 	var $empruntable;
 	var $notes;
 
-	
+
 	/** Charge un type d'objet en fonction de son id
 	 * $this->id est égal à -1 en cas d'erreur
 	 * @param $id id de la fonction
@@ -50,36 +50,36 @@ class objtype extends stdentity
 	{
 		$req = new requete($this->db, "SELECT * FROM `inv_type_objets`
 				WHERE `id_objtype` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-	
+
 	function load_by_code ( $code )
 	{
 		$req = new requete($this->db, "SELECT * FROM `inv_type_objets`
 				WHERE `code_objtype` = '" . mysql_real_escape_string($code) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-	
 
-	
+
+
 	function _load ( $row )
 	{
 		$this->id			= $row['id_objtype'];
@@ -91,7 +91,7 @@ class objtype extends stdentity
 		$this->empruntable	= $row['empruntable_objtype'];
 		$this->notes			= $row['notes_objtype'];
 	}
-	
+
 	function add ( $nom, $prix, $caution, $prix_emprunt, $code, $empruntable, $notes )
 	{
 		$this->nom = $nom;
@@ -100,8 +100,8 @@ class objtype extends stdentity
 		$this->prix_emprunt = $prix_emprunt;
 		$this->code = $code;
 		$this->empruntable = $empruntable;
-		$this->notes = $notes;	
-		
+		$this->notes = $notes;
+
 		$sql = new insert ($this->dbrw,
 			"inv_type_objets",
 			array(
@@ -114,14 +114,14 @@ class objtype extends stdentity
 				"notes_objtype" => $this->notes
 				)
 			);
-				
+
 		if ( $sql )
 			$this->id = $sql->get_id();
 		else
 			$this->id = null;
 
 	}
-	
+
 	function save ( $nom, $prix, $caution, $prix_emprunt, $code, $empruntable, $notes )
 	{
 		$this->nom = $nom;
@@ -130,8 +130,8 @@ class objtype extends stdentity
 		$this->prix_emprunt = $prix_emprunt;
 		$this->code = $code;
 		$this->empruntable = $empruntable;
-		$this->notes = $notes;	
-		
+		$this->notes = $notes;
+
 		$sql = new update ($this->dbrw,
 			"inv_type_objets",
 			array(
@@ -148,7 +148,7 @@ class objtype extends stdentity
 				)
 			);
 	}
-	
+
 }
 
 
@@ -162,13 +162,13 @@ define("OEVENT_VOLE",4);
  */
 class objet extends stdentity
 {
-	
+
 	var $id_asso;
 	var $id_asso_prop;
 	var $id_salle;
 	var $id_objtype;
 	var $id_op;
-	
+
 	var $nom;
 	var $num;
 	var $cbar;
@@ -184,7 +184,7 @@ class objet extends stdentity
 
   var $_is_book;
   var $_is_jeu;
-	
+
 	/** Charge un objet en fonction de son id
 	 * $this->id est égal à -1 en cas d'erreur
 	 * @param $id id de la fonction
@@ -193,51 +193,51 @@ class objet extends stdentity
 	{
 		$req = new requete($this->db, "SELECT * FROM `inv_objet`
 				WHERE `id_objet` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-	
+
 	function load_by_cbar ( $cbar )
 	{
 		$req = new requete($this->db, "SELECT * FROM `inv_objet`
 				WHERE `cbar_objet` = '" . mysql_real_escape_string($cbar) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-	
+
 	function load_by_num ( $id_objtype, $num )
 	{
 		$req = new requete($this->db, "SELECT * FROM `inv_objet`
-				WHERE `id_objtype` = '" . mysql_real_escape_string($id_objtype) . "' 
+				WHERE `id_objtype` = '" . mysql_real_escape_string($id_objtype) . "'
 				AND `num_objet` = '" . mysql_real_escape_string($num) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-	
+
   function get_display_name()
   {
 		if ( $this->nom )
@@ -245,7 +245,7 @@ class objet extends stdentity
 		else
 			return $this->num;
   }
-	
+
 	function _load ( $row )
 	{
 		$this->id			= $row['id_objet'];
@@ -267,64 +267,64 @@ class objet extends stdentity
 		$this->notes			= $row['notes_objet'];
 		$this->date_achat	= strtotime($row['date_achat']);
 	}
-		
+
   function _determine_special()
   {
     if ( !$this->is_valid() )
       return;
-    
+
     if ( !isset($this->_is_book) )
     {
 		  $req = new requete($this->db, "SELECT id_objet FROM `bk_book`
 				WHERE `id_objet` = '" . mysql_real_escape_string($this->id) . "'
-				LIMIT 1");	      
-      
+				LIMIT 1");
+
       $this->_is_book = $req->lines == 1;
-      
+
 		  $req = new requete($this->db, "SELECT id_objet FROM `inv_jeu`
 				WHERE `id_objet` = '" . mysql_real_escape_string($this->id) . "'
-				LIMIT 1");	      
-      
+				LIMIT 1");
+
       $this->_is_jeu = $req->lines == 1;
     }
-    
-  }		
+
+  }
 
   /**
    * Determine si par ailleurs cet objet est un livre
    * @see livre
    */
-  function is_book() 
+  function is_book()
   {
     $this->_determine_special();
     return $this->_is_book;
   }
-  
+
   /**
    * Determine si par ailleurs cet objet est un jeu
    * @see jeu
    */
-  function is_jeu() 
+  function is_jeu()
   {
     $this->_determine_special();
     return $this->_is_jeu;
   }
-	
+
 	function add ( $id_asso, $id_asso_prop, $id_salle, $id_objtype, $id_op, $nom,
 				$code_objtype, $num_serie, $prix, $caution, $prix_emprunt, $empruntable,
 				$en_etat, $date_achat, $notes )
 	{
-		
+
 		$sql = new requete ( $this->db, "SELECT MAX(`num_objet`) FROM `inv_objet` " .
 				"WHERE `id_objtype`='".intval($id_objtype)."'" );
-		
+
 		if ( $sql->lines == 1 )
 			list($pnum) = $sql->get_row();
 		else
 			$pnum = 0;
 
-		$this->num = $pnum + 1;		
-		
+		$this->num = $pnum + 1;
+
 		$this->id_asso		= $id_asso;
 		$this->id_asso_prop	= $id_asso_prop;
 		$this->id_salle		= $id_salle;
@@ -341,7 +341,7 @@ class objet extends stdentity
 		$this->archive		= false;
 		$this->notes			= $notes;
 		$this->date_achat	= $date_achat;
-		
+
 		$sql = new insert ($this->dbrw,
 			"inv_objet",
 			array(
@@ -364,19 +364,19 @@ class objet extends stdentity
 				"notes_objet" => $this->notes
 				)
 			);
-				
+
 		if ( $sql )
 			$this->id = $sql->get_id();
 		else
 			$this->id = null;
 
 	}
-	
+
 	function save_objet ( $id_asso, $id_asso_prop, $id_salle, $id_objtype, $id_op, $nom,
 				$num_serie, $prix, $caution, $prix_emprunt, $empruntable,
 				$en_etat, $date_achat, $notes,$cbar )
 	{
-			
+
 		$this->id_asso		= $id_asso;
 		$this->id_asso_prop	= $id_asso_prop;
 		$this->id_salle		= $id_salle;
@@ -392,7 +392,7 @@ class objet extends stdentity
 		$this->en_etat		= $en_etat;
 		$this->notes			= $notes;
 		$this->date_achat	= $date_achat;
-		
+
 		$sql = new update ($this->dbrw,
 			"inv_objet",
 			array(
@@ -417,9 +417,9 @@ class objet extends stdentity
 			array ("id_objet"=>$this->id)
 			);
 
-	}	
-	
-	
+	}
+
+
 	function set_cbar ( $cbar)
 	{
 		$this->cbar			= $cbar;
@@ -430,10 +430,10 @@ class objet extends stdentity
 				),
 			array ("id_objet"=>$this->id)
 			);
-		
+
 	}
-	
-	
+
+
 	function event ( $id_emprunt, $id_utilisateur, $type, $date, $notes )
 	{
 		$sql = new insert ($this->dbrw,
@@ -448,22 +448,22 @@ class objet extends stdentity
 				)
 			);
 	}
-	
+
 	function is_avaible ( $from, $to )
 	{
-		
-		
+
+
 		$req = new requete($this->db,"SELECT * FROM inv_emprunt_objet ".
 			"INNER JOIN inv_emprunt ON inv_emprunt.id_emprunt=inv_emprunt_objet.id_emprunt ".
 			"WHERE ".
 			"(( inv_emprunt.date_debut_emp < '".date("Y-m-d H:i:s",$to)."' ) AND ".
 			"( inv_emprunt.date_fin_emp > '".date("Y-m-d H:i:s",$from)."') ) ".
 			"AND inv_emprunt_objet.id_objet=".$this->id." ".
-			"AND inv_emprunt_objet.retour_effectif_emp IS NULL");	
-		
+			"AND inv_emprunt_objet.retour_effectif_emp IS NULL");
+
 		return ($req->lines==0);
 	}	//!(date_debut_emp > $to || (r).date_fin_emp < $from)
-	
+
 	/**
 	 * Supprime l'objet de l'inventaire, à utiliser en cas d'erreur de saisie ou autre.
 	 * En aucun cas à utiliser pour un objet manquant ou détruit : das ce cas il faut l'archiver.
@@ -472,15 +472,15 @@ class objet extends stdentity
 	{
 		new delete($this->dbrw,"inv_objet",array("id_objet" => $this->id));
 		new delete($this->dbrw,"inv_objet_evenement",array("id_objet" => $this->id));
-		
+
 		// Nettoyage des extentions
 		new delete($this->dbrw,"inv_jeu",array("id_objet" => $this->id));
 		new delete($this->dbrw,"bk_book",array("id_objet" => $this->id));
 		new delete($this->dbrw,"bk_livre_auteur",array("id_objet" => $this->id));
-		
+
 		$this->id=null;
 	}
-	
+
 	/**
 	 * Marque l'etat d'archive ou non de l'objet
 	 * @param $archive Etat d'archivage (true=archivé, false=actif)
@@ -490,14 +490,14 @@ class objet extends stdentity
 		$this->archive=$archive;
 		$req = new update($this->dbrw,"inv_objet",array("archive_objet"=>$this->archive),array("id_objet" => $this->id));
 	}
-	
+
 }
 
 /**
  * @defgroup empruntmod Etats d'un pret/une reservation de matériel
  * @ingroup inventaire
  * @{
- */ 
+ */
 define("EMPRUNT_RESERVATION",0);
 define("EMPRUNT_MODERE",1);
 define("EMPRUNT_PRIS",2);
@@ -537,50 +537,50 @@ class emprunt extends stdentity /*inv_emprunt*/
 	var $etat;/*etat_emprunt */
 
 
-  
+
 	/* inv_emprunt_objet
 	 id_objet
 	 id_emprunt
 	 retour_effectif_emp
 	 */
-	 
+
 
 	function load_by_id ( $id )
 	{
 		$req = new requete($this->db, "SELECT * FROM `inv_emprunt`
 				WHERE `id_emprunt` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-	
+
 	/** Charge un emprunt en cours en fonction d'un objet
 	 * $this->id est égal à null en cas d'erreur
 	 * @param $id_objet id de l'objet
 	 */
 	function load_by_objet ( $id_objet )
 	{
-		$req = new requete($this->db, "SELECT inv_emprunt.* FROM `inv_emprunt_objet` 
+		$req = new requete($this->db, "SELECT inv_emprunt.* FROM `inv_emprunt_objet`
 				INNER JOIN inv_emprunt ON inv_emprunt.id_emprunt=inv_emprunt_objet.id_emprunt
 				WHERE inv_emprunt_objet.`id_objet` = '" . mysql_real_escape_string($id_objet) . "'
 				AND inv_emprunt_objet.retour_effectif_emp IS NULL
 				AND inv_emprunt.date_prise_emp IS NOT NULL
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
 
@@ -602,7 +602,7 @@ class emprunt extends stdentity /*inv_emprunt*/
 		$this->notes			= $row['notes_emprunt'];
 		$this->etat			= $row['etat_emprunt'];
 	}
-	
+
 	function add_emprunt ( $id_utilisateur, $id_asso, $emprunteur_ext, $date_debut, $date_fin )
 	{
 		$this->id_utilisateur = $id_utilisateur;
@@ -612,7 +612,7 @@ class emprunt extends stdentity /*inv_emprunt*/
 		$this->date_fin = $date_fin;
 		$this->etat = EMPRUNT_RESERVATION;
 		$this->date_demande = time();
-		
+
 		$sql = new insert($this->dbrw,"inv_emprunt",
 					array (
 						"id_utilisateur"=>$this->id_utilisateur,
@@ -636,7 +636,7 @@ class emprunt extends stdentity /*inv_emprunt*/
 		$this->prix_paye = $prix_paye;
 		$this->notes = $notes;
 		$this->etat = EMPRUNT_MODERE;
-		
+
 		$sql = new update($this->dbrw,"inv_emprunt",
 					array (
 						"id_utilisateur_op"=>$this->id_utilisateur_op,
@@ -655,7 +655,7 @@ class emprunt extends stdentity /*inv_emprunt*/
 		$this->notes = $notes;
 		$this->etat = EMPRUNT_PRIS;
 		$this->date_prise = time();
-		
+
 		$sql = new update($this->dbrw,"inv_emprunt",
 					array (
 						"id_utilisateur_op"=>$this->id_utilisateur_op,
@@ -667,7 +667,7 @@ class emprunt extends stdentity /*inv_emprunt*/
 					),array("id_emprunt"=>$this->id) );
 
 	}
-	
+
 	function add_object($id_objet)
 	{
 		$sql = new insert($this->dbrw,"inv_emprunt_objet",
@@ -676,7 +676,7 @@ class emprunt extends stdentity /*inv_emprunt*/
 						"id_objet"=>$id_objet
 					) );
 	}
-	
+
 	function remove_object($id_objet)
 	{
 		$sql = new delete($this->dbrw,"inv_emprunt_objet",
@@ -685,7 +685,7 @@ class emprunt extends stdentity /*inv_emprunt*/
 						"id_objet"=>$id_objet
 					) );
 	}
-	
+
 	function remove_emp()
 	{
 		$sql = new delete($this->dbrw,"inv_emprunt_objet",
@@ -695,28 +695,28 @@ class emprunt extends stdentity /*inv_emprunt*/
 		$sql = new delete($this->dbrw,"inv_emprunt",
 					array (
 						"id_emprunt"=>$this->id,
-					) );					
-					
+					) );
+
 	}
-	
+
 	function full_back ()
 	{
 		$sql = new update($this->dbrw,"inv_emprunt_objet",
 					array("retour_effectif_emp"=>date("Y-m-d H:i:s")),
 					array (
 						"id_emprunt"=>$this->id
-					) );	
-		
+					) );
+
 		$this->etat = EMPRUNT_RETOUR;
 		$this->date_retour = time();
 		$sql = new update($this->dbrw,"inv_emprunt",
 						array (
 							"date_retour_emp"=>date("Y-m-d H:i:s",$this->date_retour),
 							"etat_emprunt"=>$this->etat
-						),array("id_emprunt"=>$this->id) );	
+						),array("id_emprunt"=>$this->id) );
 	}
-	
-	
+
+
 	function back_objet($id_objet)
 	{
 		$sql = new update($this->dbrw,"inv_emprunt_objet",
@@ -725,12 +725,12 @@ class emprunt extends stdentity /*inv_emprunt*/
 						"id_emprunt"=>$this->id,
 						"id_objet"=>$id_objet
 					) );
-					
+
 		$req = new requete($this->db,"SELECT COUNT(*) FROM `inv_emprunt_objet` " .
 				"WHERE `id_emprunt`='".$this->id."' AND `retour_effectif_emp` IS NULL");
-				
+
 		list($left) = $req->get_row();
-		
+
 		if ( $left == 0 )
 		{
 			$this->etat = EMPRUNT_RETOUR;
@@ -739,7 +739,7 @@ class emprunt extends stdentity /*inv_emprunt*/
 						array (
 							"date_retour_emp"=>date("Y-m-d H:i:s",$this->date_retour),
 							"etat_emprunt"=>$this->etat
-						),array("id_emprunt"=>$this->id) );			
+						),array("id_emprunt"=>$this->id) );
 		}
 		elseif ( $this->etat != EMPRUNT_RETOURPARTIEL )
 		{
@@ -750,7 +750,7 @@ class emprunt extends stdentity /*inv_emprunt*/
 						),array("id_emprunt"=>$this->id) );
 		}
 	}
-	
+
 
 }
 

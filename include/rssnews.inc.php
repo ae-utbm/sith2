@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -21,13 +21,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 require_once($topdir."include/rss.inc.php");
 require_once($topdir."include/entities/news.inc.php");
 
 /**
  * @file
- */ 
+ */
 
 /**
  * Generateur de flux RSS reltif à des nouvelles du site
@@ -38,31 +38,31 @@ class rssfeednews extends rssfeed
 {
   /** Lien vers la base de données */
   var $db;
-  
+
   /** URL publique du site (support AECMS) */
   var $pubUrl;
-  
+
   /**
    * Constructeur de la classe
    * @param $db Lien à la base de données
    */
   function rssfeednews ( &$db )
   {
-    $this->db = $db;  
+    $this->db = $db;
     $this->pubUrl = "http://ae.utbm.fr/";
     $this->rssfeed();
   }
 
   /**
-   * Ecrit un ensemble de nouvelles 
+   * Ecrit un ensemble de nouvelles
    * @param $req Requete SQL (Objet requete)
-   * @param $ids Liste où seront stocké les id des nouvelles ecritent 
+   * @param $ids Liste où seront stocké les id des nouvelles ecritent
    * (utilisé parfois pour éviter les redondances entre plusieurs "sections")
    */
   function output_news ( $req, &$ids )
   {
   	if ( $req->lines == 0 ) return;
-  	
+
   	while ( $row = $req->get_row() )
   	{
   		echo "<item>\n";
@@ -71,13 +71,13 @@ class rssfeednews extends rssfeed
   		echo "<description>".htmlspecialchars($row["resume_nvl"],ENT_NOQUOTES,"UTF-8")."</description>\n";
   		echo "<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date_nvl"]))."</pubDate>\n";
   		echo "<guid>http://ae.utbm.fr/news.php?id_nouvelle=".$row["id_nouvelle"]."</guid>\n";
-  		
+
   		if ( !is_null($row["lat_geopoint"]) && !is_null($row["long_geopoint"]) )
   		  echo "<georss:point>".sprintf("%.12F",$row['lat_geopoint']*360/2/M_PI)." ".
       sprintf("%.12F",$row['long_geopoint']*360/2/M_PI)."</georss:point>\n";
-  		
-  		echo "</item>\n";	
-  		
+
+  		echo "</item>\n";
+
 		  $ids[] = $row["id_nouvelle"];
   	}
   }
@@ -100,33 +100,33 @@ class rssfeednewshome extends rssfeednews
     $this->description = "Les dernières nouvelles de la vie étudiante de l'UTBM";
     $this->link = "http://ae.utbm.fr/";
   }
-  
+
   /*
    * Re-implémentation
    */
   function output_items ()
   {
     $ids = array(0);
-    
+
     $sql = new requete($this->db,"SELECT * FROM nvl_nouvelles " .
     		"INNER JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
     		"LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
     		"WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
     		"NOW() > nvl_dates.date_debut_eve AND NOW() < nvl_dates.date_fin_eve");
-    
+
     $this->output_news($sql,$ids);
-    
+
     $sql = new requete($this->db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso,geopoint.* FROM nvl_nouvelles " .
     		"LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
     		"LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
     		"WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
     		"DATEDIFF(NOW(),date_nvl) < 14 " .
     		"LIMIT 3");
-    		
-    $this->output_news($sql,$ids);		
-    		
-    $ids = array(0);		
-    		
+
+    $this->output_news($sql,$ids);
+
+    $ids = array(0);
+
     $sql = new requete($this->db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso,nvl_dates.date_debut_eve,nvl_dates.date_fin_eve,geopoint.* " .
     		"FROM nvl_dates " .
     		"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
@@ -136,9 +136,9 @@ class rssfeednewshome extends rssfeednews
     		"NOW() < nvl_dates.date_fin_eve " .
     		"ORDER BY nvl_dates.date_debut_eve " .
     		"LIMIT 5");
-    		
-    $this->output_news($sql,$ids);		
-    		
+
+    $this->output_news($sql,$ids);
+
     $sql = new requete($this->db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso,nvl_dates.date_debut_eve,nvl_dates.date_fin_eve,geopoint.* " .
     		"FROM nvl_dates " .
     		"INNER JOIN  nvl_nouvelles ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
@@ -148,8 +148,8 @@ class rssfeednewshome extends rssfeednews
     		"nvl_dates.id_nouvelle NOT IN (".implode(",",$ids).") AND " .
     		"NOW() < nvl_dates.date_debut_eve " .
     		"ORDER BY nvl_dates.date_debut_eve " .
-    		"LIMIT 10");			
-    
+    		"LIMIT 10");
+
     $this->output_news($sql,$ids);
   }
 }
@@ -161,7 +161,7 @@ class rssfeednewshome extends rssfeednews
 class rssfeednewsclub extends rssfeednews
 {
   var $asso;
-  
+
   /**
    * Constructeur
    * @param $db Lien à la base de données
@@ -177,21 +177,21 @@ class rssfeednewsclub extends rssfeednews
     $this->pubUrl = $pubUrl;
     $this->asso = $asso;
   }
-  
+
   /*
    * Re-implémentation
    */
   function output_items ()
   {
     $ids = array(0);
-    
+
     $req = new requete($this->db,"SELECT * FROM nvl_nouvelles ".
       "LEFT JOIN geopoint ON ( nvl_nouvelles.id_lieu = geopoint.id_geopoint) ".
       "WHERE id_asso='".mysql_real_escape_string($this->asso->id)."' ".
       "AND `modere_nvl`='1' ".
       "ORDER BY date_nvl DESC ".
       "LIMIT 30");
-    
+
     $this->output_news($req,$ids);
   }
 }

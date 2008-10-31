@@ -40,19 +40,19 @@ if ( isset($_REQUEST["id_asso"]) )
     $site->error_not_found();
     exit();
   }
-  
+
   if ( !$site->user->is_in_group("gestion_ae") && !$asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU) )
     $site->error_forbidden();
-  
+
   $site->start_page("presentation",$asso->nom);
-    
+
   $cts = new contents($asso->get_html_path());
-      
+
   $cts->add(new tabshead($asso->get_tabs($site->user),"tools"));
 
   $brd = new board();
 
-  $lst = new itemlist("Outils"); 
+  $lst = new itemlist("Outils");
   $lst->add("<a href=\"../salle.php?page=reservation&amp;id_asso=".$asso->id."\">Reserver une salle</a>");
   $lst->add("<a href=\"../emprunt.php?id_asso=".$asso->id."\">Reserver du matériel</a>");
   $lst->add("<a href=\"../news.php?id_asso=".$asso->id."\">Proposer une nouvelle</a>");
@@ -62,26 +62,26 @@ if ( isset($_REQUEST["id_asso"]) )
   $lst->add("<a href=\"campagne.php?id_asso=".$asso->id."\">Organiser une campagne</a>");
 
   $brd->add($lst,true);
-  
+
   $req = new requete ($site->db,
       "SELECT DISTINCTROW cpta_cpbancaire.nom_cptbc, cpta_cpasso.id_cptasso " .
       "FROM `cpta_classeur` " .
       "INNER JOIN `cpta_cpasso` ON `cpta_cpasso`.`id_cptasso`=`cpta_classeur`.`id_cptasso` " .
       "INNER JOIN cpta_cpbancaire ON cpta_cpbancaire.id_cptbc=cpta_cpasso.id_cptbc " .
       "WHERE cpta_cpasso.id_asso='".$asso->id."' AND `cpta_classeur`.`ferme`='0'" .
-      "ORDER BY `cpta_classeur`.`date_debut_classeur` DESC");  
-      
-  $lst = new itemlist("Comptabilité"); 
-  
+      "ORDER BY `cpta_classeur`.`date_debut_classeur` DESC");
+
+  $lst = new itemlist("Comptabilité");
+
   if ( $req->lines == 1 )
-  {  
+  {
     $reqa = new requete ($site->db,
       "SELECT id_classeur,nom_classeur " .
       "FROM `cpta_classeur` " .
       "INNER JOIN `cpta_cpasso` ON `cpta_cpasso`.`id_cptasso`=`cpta_classeur`.`id_cptasso` " .
       "INNER JOIN cpta_cpbancaire ON cpta_cpbancaire.id_cptbc=cpta_cpasso.id_cptbc " .
       "WHERE cpta_cpasso.id_asso='".$asso->id."' AND `cpta_classeur`.`ferme`='0'" .
-      "ORDER BY `cpta_classeur`.`date_debut_classeur` DESC");    
+      "ORDER BY `cpta_classeur`.`date_debut_classeur` DESC");
     list($nom_cpbc,$id_cptasso) = $req->get_row();
     if ( $reqa->lines == 1 )
     {
@@ -90,56 +90,56 @@ if ( isset($_REQUEST["id_asso"]) )
       $lst->add("<a href=\"../compta/classeur.php?id_classeur=$id&amp;page=types\">Obtenir le bilan du classeur $nom</a>");
       $lst->add("<a href=\"../compta/classeur.php?id_classeur=$id&amp;page=new\">Ajouter une opération dans le classeur $nom</a>");
       $lst->add("<a href=\"../compta/classeur.php?id_classeur=$id&amp;view=budget\">Proposer un budget pour le classeur $nom</a>");
-      
+
     }
     $lst->add("<a href=\"../compta/cptasso.php?id_cptasso=$id_cptasso\">Gestion des classeurs $nom_cpbc</a>");
   }
   $lst->add("<a href=\"../compta/\">Accès la comptabilité</a>");
   $brd->add($lst,true);
-  
-  $lst = new itemlist("Inventaire"); 
+
+  $lst = new itemlist("Inventaire");
   $lst->add("<a href=\"../objet.php?id_asso=".$asso->id."\">Ajouter un objet</a>");
   $lst->add("<a href=\"inventaire.php?id_asso=".$asso->id."\">Consulter</a>");
   $brd->add($lst,true);
-  
-  $lst = new itemlist("Membres et mailing"); 
+
+  $lst = new itemlist("Membres et mailing");
   $lst->add("<a href=\"membres.php?id_asso=".$asso->id."#add\">Ajouter un membre</a>");
   $lst->add("<a href=\"membres.php?id_asso=".$asso->id."\">Consulter</a>");
   $lst->add("<a href=\"mailing.php?id_asso=".$asso->id."#sendmembers\"><b>Envoyer un email à tous les membres</b></a>");
   if ( $asso->is_mailing_allowed() )
     $lst->add("<a href=\"mailing.php?id_asso=".$asso->id."\">Mailing listes, inscription/desinscription manuelle.</a>");
-  
+
   $brd->add($lst,true);
-  
-  
+
+
   require_once($topdir."sas2/include/cat.inc.php");
   $cat = new catphoto($site->db);
   $cat->load_by_asso_summary($asso->id);
-  if ( $cat->id > 0 )  
+  if ( $cat->id > 0 )
   {
     $seealso[] = "<a href=\"".$topdir."sas2/?id_catph=".$cat->id."\">Photos</a>";
   }
-  
+
   require_once($topdir."include/entities/folder.inc.php");
   $fl = new dfolder($site->db);
   $fl->load_root_by_asso($asso->id);
-  if ( $fl->id > 0 )  
+  if ( $fl->id > 0 )
   {
     $seealso[] = "<a href=\"".$topdir."d.php?id_folder=".$fl->id."\">Fichiers</a>";
   }
-  
+
   if ( count($seealso) > 0)
     $brd->add(new itemlist("A voir aussi",false,$seealso),true);
-  
+
   $cts->add($brd);
-  
-  $lst = new itemlist("Documentation utile"); 
+
+  $lst = new itemlist("Documentation utile");
   $lst->add("<a href=\"../article.php?name=docs:index\">Documentation du site</a>");
   $lst->add("<a href=\"../wiki2/?name=guide_resp\">Guide des responsables d'activités</a>");
   $brd->add($lst,true);
-  
+
   $site->add_contents($cts);
-      
+
   $site->end_page();
   exit();
 }
@@ -154,8 +154,8 @@ $req = new requete($site->db,
     "WHERE `asso_membre`.`role` > 1 AND `asso_membre`.`date_fin` IS NULL " .
     "AND `asso_membre`.`id_utilisateur`='".$site->user->id."' " .
     "ORDER BY asso.`nom_asso`");
-    
-$cts = new contents("Associations et clubs");    
+
+$cts = new contents("Associations et clubs");
 $tbl = new sqltable ("user_assos",
              "",
              $req,
@@ -165,11 +165,11 @@ $tbl = new sqltable ("user_assos",
              array("admin"=>"Administration"),
              array(),
              array());
-          
-$cts->add($tbl);  
+
+$cts->add($tbl);
 
 $cts->add_paragraph("<br/>Si le club dont vous êtes responsable n'est pas dans cette liste, merci de prendre contact avec l'AE pour mettre à jour la base de données.");
 
-$site->add_contents($cts);       
+$site->add_contents($cts);
 $site->end_page();
 ?>

@@ -73,11 +73,11 @@ class flickr_info
 
     $xml = new u007xml($photoscts);
 
-    
+
 
 
     $cts = new contents("Les dernières photographies flickr de " .
-			$this->user->prenom . " " . 
+			$this->user->prenom . " " .
 			$this->user->nom);
 
     if (count($xml->arrOutput[0]['childrens'][0]['childrens']) > 0)

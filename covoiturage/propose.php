@@ -41,7 +41,7 @@ $pgsql = new pgsqlae();
 
 $trajet = new trajet($site->db, $site->dbrw, $pgsql);
 
-$site->start_page("services", 
+$site->start_page("services",
 		  "Covoiturage - proposition d'un trajet");
 
 
@@ -95,7 +95,7 @@ if (isset($_REQUEST['step2']))
       $cts = new contents("Ajout de dates", "Date ajoutée avec succès !");
       $trajet->load_dates();
     }
-  
+
   $site->add_contents($cts);
 
   /* affichage des dates du trajet */
@@ -116,17 +116,17 @@ if (isset($_REQUEST['step2']))
 
       if (!$ret)
 	{
-	  $cts = new contents("Ajout de dates sur trajet retour", 
+	  $cts = new contents("Ajout de dates sur trajet retour",
 			      "<b>Echec lors de l'ajout de date sur le trajet de retour.</b>");
 	}
 
       else
 	{
-	  $cts = new contents("Ajout de dates sur trajet retour", 
+	  $cts = new contents("Ajout de dates sur trajet retour",
 			      "Date sur trajet de retour ajoutée avec succès !");
 	  $trajet_ret->load_dates();
 	}
-      
+
       if (count($trajet_ret->dates))
 	{
 	  $itmlst = new itemlist("Dates proposées pour le trajet de retour :",false, $trajet_ret->dates);
@@ -140,7 +140,7 @@ if (isset($_REQUEST['step2']))
   $frm = new form('trip_step2', "propose.php", true);
   $frm->add_hidden('id_trajet', $trajet->id);
   $frm->add_date_field('date', 'Date de voyage proposée');
-  
+
   /* trajet retour */
   if (isset($trajet_ret))
     {
@@ -149,10 +149,10 @@ if (isset($_REQUEST['step2']))
     }
   $frm->add_submit('step2', 'Ajouter des dates de trajet');
   $frm->add_submit('finalizetrip', 'Finaliser la proposition');
-  
+
 
   $cts->add($frm);
-      
+
   $site->add_contents($cts);
   $site->end_page();
   exit();
@@ -178,11 +178,11 @@ if (isset($_REQUEST['step1']))
   $cts = new contents("Proposition de trajet",
 		      "Vous proposez un trajet ".
 		      $vdep->nom ." / " . $varr->nom.".");
-  
+
   $comments = $_REQUEST['comments'];
 
 
-  
+
   if (strlen($_REQUEST['comments']))
     {
       $cts->add_paragraph("Vous avez laissé les observations suivantes sur ce trajet : <div class=\"comment\">".
@@ -197,7 +197,7 @@ if (isset($_REQUEST['step1']))
     }
 
   $ret = $trajet->create($site->user->id, $vdep->id, $varr->id, $comments, $type, $ident);
-  
+
   if ($ret)
     {
       if ($type == TRJ_PCT)
@@ -232,7 +232,7 @@ if (isset($_REQUEST['step1']))
     {
       $ret = $trajet->create($site->user->id, $varr->id, $vdep->id, "Trajet de retour, ".
 			     "voir trajet aller pour de plus amples informations", $type, $ident);
-  
+
       if ($ret)
 	{
 	  if ($type == TRJ_PCT)
@@ -279,7 +279,7 @@ $frm->add_entity_smartselect("start", "Ville de départ", $ville);
 $frm->add_entity_smartselect("stop", "Ville d'arrivée", $ville);
 
 $frm->add_dokuwiki_toolbar('comments');
-$frm->add_text_area("comments", 
+$frm->add_text_area("comments",
 		    "Commentaires (facultatif - format DokuWiki)",
 		    null, 80, 20);
 

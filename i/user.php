@@ -55,7 +55,7 @@ else if (file_exists("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".iden
   $src =  "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.jpg";
   $dest = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".identity.i.jpg";
   print_r(exec("/usr/share/php5/exec/convert $src -thumbnail 64x64 -quality 95 $dest"));
-      
+
   $fiche->puts("<p align=\"center\"><img src=\"/var/img/matmatronch/".$user->id.".identity.i.jpg\" /></p>");
 }
 else if (file_exists("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".i.jpg"))
@@ -67,7 +67,7 @@ else if (file_exists("/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg"
   $src =  "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".jpg";
   $dest = "/var/www/ae/www/ae2/var/img/matmatronch/".$user->id.".i.jpg";
   print_r(exec("/usr/share/php5/exec/convert $src -thumbnail 64x64 -quality 95 $dest"));
-  
+
   $fiche->puts("<p align=\"center\"><img src=\"/var/img/matmatronch/".$user->id.".i.jpg\" /></p>");
 }
 
@@ -78,14 +78,14 @@ if ( $user->surnom )
   $fiche->puts("Surnom: ".htmlentities($user->surnom,ENT_COMPAT,"UTF-8")."<br />");
 elseif ( $user->alias )
   $fiche->puts("Surnom: ".htmlentities($user->alias,ENT_COMPAT,"UTF-8")."<br />");
-  
+
 if ( $user->date_naissance )
 {
   if ( $user->sexe == 1 )
     $fiche->puts("N&eacute; ");
   else
     $fiche->puts("N&eacute;e ");
-    
+
   $fiche->puts("le : ". date("d/m/Y", $user->date_naissance)."<br />");
 }
 
@@ -96,7 +96,7 @@ $ville->load_by_id($user->id_ville);
 $pays->load_by_id($user->id_pays);
 
 if ( $user->tel_maison )
-  $fiche->puts("Fixe: <a href=\"tel:" . htmlentities($user->tel_maison,ENT_COMPAT,"UTF-8")  ."\" telbook=\"".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."\" accesskey=\"1\">&#59106;</a> " . htmlentities($user->tel_maison,ENT_COMPAT,"UTF-8")  ."<br />");  
+  $fiche->puts("Fixe: <a href=\"tel:" . htmlentities($user->tel_maison,ENT_COMPAT,"UTF-8")  ."\" telbook=\"".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."\" accesskey=\"1\">&#59106;</a> " . htmlentities($user->tel_maison,ENT_COMPAT,"UTF-8")  ."<br />");
 if ( $user->tel_portable )
   $fiche->puts("Portable: <a href=\"tel:" . htmlentities($user->tel_portable,ENT_COMPAT,"UTF-8") ."\" telbook=\"".htmlentities($user->prenom." ".$user->nom,ENT_COMPAT,"UTF-8")."\" accesskey=\"2\">&#59107;</a> " . htmlentities($user->tel_portable,ENT_COMPAT,"UTF-8") ."<br />");
 

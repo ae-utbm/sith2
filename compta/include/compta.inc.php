@@ -20,12 +20,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /**
  * @file
  */
 
-/** 
+/**
  * @defgroup compta Comptabilité
  *
  * Avant tout chose, comme pour les comptoirs : LA COMPTA EST EN CENTIMES !
@@ -34,7 +34,7 @@
  *
  *
  *
- */ 
+ */
 
 require_once($topdir."include/site.inc.php");
 
@@ -57,12 +57,12 @@ class sitecompta extends site
 	var $id_classeur;
 	var $nom_classeur;
 	var $nom_cpbc;
-	
-	
+
+
 	function sitecompta ()
 	{
 		global $topdir;
-		
+
 		$this->site();
 		$this->set_side_boxes("left",array("compta","connexion"));
 
@@ -71,18 +71,18 @@ class sitecompta extends site
 	function get_libelles($id_asso, $none=true)
 	{
 		$req = new requete($this->db,"SELECT `id_libelle`, `nom_libelle`  FROM `cpta_libelle` WHERE `id_asso`='".intval($id_asso)."' ORDER BY `nom_libelle`");
-		
-		if ( $none ) 
+
+		if ( $none )
 		  $libelles=array(0=>"-");
-		else 
+		else
 		  $libelles=array();
-		  
+
 		while ( $row = $req->get_row() )
-		  $libelles[$row[0]] = $row[1];	
-		  
+		  $libelles[$row[0]] = $row[1];
+
 		return $libelles;
 	}
-	
+
 	function get_typeop_clb($id_asso, $none=false,$mvt=false)
 	{
 		$req = new requete($this->db,"SELECT `id_opclb`, `type_mouvement`, `libelle_opclb`  FROM `cpta_op_clb` WHERE (`id_asso`='".intval($id_asso)."' OR `id_asso` IS NULL)".($mvt?" AND type_mouvement=$mvt":"")." ORDER BY `type_mouvement`,`libelle_opclb`");
@@ -91,11 +91,11 @@ class sitecompta extends site
 		while ( $row = $req->get_row() )
 		{
 			if ( $row[1] == -1 )
-				$typeopclb[$row[0]] = "Debit: ".$row[2];	
+				$typeopclb[$row[0]] = "Debit: ".$row[2];
 			else
-				$typeopclb[$row[0]] = "Credit: ".$row[2];	
+				$typeopclb[$row[0]] = "Credit: ".$row[2];
 		}
-			
+
 		return $typeopclb;
 	}
 
@@ -105,10 +105,10 @@ class sitecompta extends site
 
 		if ( $none ) $typeopstd=array(0=>"-");
 		else $typeopstd=array();
-		
+
 		while ( $row = $req->get_row() )
-			$typeopstd[$row[0]] = $row[1];	
-			
+			$typeopstd[$row[0]] = $row[1];
+
 		return $typeopstd;
 	}
 
@@ -122,7 +122,7 @@ class sitecompta extends site
 				"ORDER BY `cpta_cpbancaire`.`nom_cptbc`, `asso`.`nom_asso`");
 		$typeopstd=array(0=>"-");
 		while ( $row = $req->get_row() )
-			$typeopstd[$row[0]] = $row[1];	
+			$typeopstd[$row[0]] = $row[1];
 		return $typeopstd;
 	}
 
@@ -131,7 +131,7 @@ class sitecompta extends site
 		$req = new requete($this->db,"SELECT `id_asso`, `nom_asso`  FROM `asso` WHERE `id_asso_parent` IS NULL ORDER BY `nom_asso`");
 		$typeopstd=array(0=>"-");
 		while ( $row = $req->get_row() )
-			$typeopstd[$row[0]] = $row[1];	
+			$typeopstd[$row[0]] = $row[1];
 		return $typeopstd;
 	}
 	function get_lst_asso ( $none=false)
@@ -140,7 +140,7 @@ class sitecompta extends site
 		if ( $none ) $typeopstd=array(0=>"-");
 		else $typeopstd=array();
 		while ( $row = $req->get_row() )
-			$typeopstd[$row[0]] = $row[1];	
+			$typeopstd[$row[0]] = $row[1];
 		return $typeopstd;
 	}
 	function get_lst_entreprises ( )
@@ -148,15 +148,15 @@ class sitecompta extends site
 		$req = new requete($this->db,"SELECT `id_ent`, `nom_entreprise` FROM `entreprise` ORDER BY `nom_entreprise`");
 		$typeopstd=array(0=>"-");
 		while ( $row = $req->get_row() )
-			$typeopstd[$row[0]] = $row[1];	
+			$typeopstd[$row[0]] = $row[1];
 		return $typeopstd;
 	}
-	
+
 	function get_lst_cptbc ( )
 	{
 		$req = new requete($this->db,"SELECT `id_cptbc`, `nom_cptbc` FROM `cpta_cpbancaire` ORDER BY `nom_cptbc`");
 		while ( $row = $req->get_row() )
-			$typeopstd[$row[0]] = $row[1];	
+			$typeopstd[$row[0]] = $row[1];
 		return $typeopstd;
 	}
 
@@ -178,14 +178,14 @@ class sitecompta extends site
 			$this->nom_cpbc = $nom_cpbc;
 			$_SESSION['cpta_old_id_asso'] = $this->id_asso;
 			$_SESSION['cpta_old_id_classeur'] = $this->id_classeur;
-			$_SESSION['cpta_old_nom_classeur'] = $this->nom_classeur;	
-			$_SESSION['cpta_old_nom_cpbc'] = $this->nom_cpbc; 	
+			$_SESSION['cpta_old_nom_classeur'] = $this->nom_classeur;
+			$_SESSION['cpta_old_nom_cpbc'] = $this->nom_cpbc;
 		}
 	}
 
 
-	function start_page ( $section, $title ) 
-	{	
+	function start_page ( $section, $title )
+	{
 		global $topdir;
 	    $cts = new contents("Comptabilité");
 
@@ -193,14 +193,14 @@ class sitecompta extends site
 	    $sublist->add("Comptabilité","title");
 	    $sublist->add("<a href=\"".$topdir."compta/\">Comptes et classeurs</a>");
 	    $sublist->add("<a href=\"".$topdir."entreprise.php\">Entreprises</a>");
-	    
+
 	    if ( $this->id_asso )
 	    {
 	    		$sublist->add("<a href=\"".$topdir."compta/typeop.php?id_asso=".$this->id_asso."\">Natures (types) d'opération ".$this->nom_asso."</a>");
 	    		$sublist->add("<a href=\"".$topdir."compta/libelle.php?id_asso=".$this->id_asso."\">Etiquettes ".$this->nom_asso."</a>");
 
 	    }
-	    
+
 	    if ( $this->id_classeur )
 	    {
 	    		if ( $this->nom_asso != $this->nom_cpbc)
@@ -209,7 +209,7 @@ class sitecompta extends site
 	    			$sublist->add("<a href=\"".$topdir."compta/classeur.php?id_classeur=".$this->id_classeur."\">Retour classeur ".$this->nom_classeur." ".$this->nom_asso."</a>");
 	    }
 	    $cts->add($sublist);
-	    
+
 	    if ( $this->user->is_in_group("compta_admin") )
 	    {
 		    $sublist = new itemlist(false,"boxlist");
@@ -219,8 +219,8 @@ class sitecompta extends site
 		    $cts->add($sublist);
 	    }
 		$this->add_box("compta",$cts);
-		
-		
+
+
 		parent::start_page("services",$title);
 	}
 }

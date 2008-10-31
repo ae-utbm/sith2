@@ -36,7 +36,7 @@ $cpbc->load_by_id($_REQUEST["id_cptbc"]);
 if ( $cpbc->id < 1 )
 {
 	$site->error_not_found();
-	exit();	
+	exit();
 }
 
 $site->start_page ("none", "Compte bancaire" );
@@ -58,7 +58,7 @@ $req_sql = new requete ($site->db,
 			"INNER JOIN `asso` ON `asso`.`id_asso`=`cpta_cpasso`.`id_asso` " .
 			"WHERE `cpta_classeur`.`ferme`=0 AND cpta_cpasso.id_cptbc='".$cpbc->id."' " .
 			"ORDER BY  `asso`.`nom_asso`");
-			
+
 $tbl = new sqltable ("lstclasseur",
 				       "Classeur ouverts",
 				       $req_sql,
@@ -70,14 +70,14 @@ $tbl = new sqltable ("lstclasseur",
 				       "solde"=>"Solde",
 				       "date_debut_classeur"=>"De",
 				       "date_fin_classeur"=>"Au"
-					   
+
 					   ),
 				       array(),
 				       array(),
 				       array());
 $cts->add($tbl,true);
-			
-			
+
+
 /* principes de l'algo de bilans pour les comptes bancaires de types trésorie interne
  * 1- On detecte le compte asso "master", c'es dire celui de l'association niveau 1
  * 2- On récupère son dernier classeur ouvert, qui est considéré comme référence
@@ -90,30 +90,30 @@ $cts->add($tbl,true);
  *                                    cas classeur fermé -> si sa date est vers la fin du classeur: fermeture, sinon ouverture (trés subjectif)
  *     - Opération interne au compte bancaire
  *     - Opération externes
- */			
-			
+ */
+
 $sql = 	new requete ($site->db,"SELECT id_cptasso " .
 			"FROM `cpta_cpasso` " .
 			"INNER JOIN asso ON asso.id_asso=cpta_cpasso.id_asso " .
-			"WHERE cpta_cpasso.id_cptbc='".$cpbc->id."' AND asso.id_asso_parent IS NULL");		
-			
+			"WHERE cpta_cpasso.id_cptbc='".$cpbc->id."' AND asso.id_asso_parent IS NULL");
+
 if ( $sql->lines == 1 )
 {
-	
-list($id_cptasso) = $sql->get_row();		
-			
+
+list($id_cptasso) = $sql->get_row();
+
 $sql = new requete ($site->db,
 			"SELECT `id_classeur`,`nom_classeur`," .
 			"`date_debut_classeur`,`date_fin_classeur` " .
 			"FROM `cpta_classeur` " .
 			"WHERE `ferme`=0 AND id_cptasso='".$id_cptasso."' " .
-			"ORDER BY `date_debut_classeur` DESC");	
-			
-if ( $sql->lines >= 1 )	
+			"ORDER BY `date_debut_classeur` DESC");
+
+if ( $sql->lines >= 1 )
 {
-	
-list($id_classeur,$nom_classeur,$debut,$fin) = $sql->get_row();				
-			
+
+list($id_classeur,$nom_classeur,$debut,$fin) = $sql->get_row();
+
 $sql = new requete ($site->db,
 			"SELECT `id_classeur`,`nom_classeur`," .
 			"`date_debut_classeur`,`date_fin_classeur`," .
@@ -125,20 +125,20 @@ $sql = new requete ($site->db,
 			"(date_fin_classeur >= '$debut' AND  date_fin_classeur < '$fin')) " .
 			"AND (cpta_classeur.id_cptasso!='".$id_cptasso."' OR `id_classeur`='$id_classeur') " .
 			"AND cpta_cpasso.id_cptbc='".$cpbc->id."' " .
-			"ORDER BY asso.id_asso_parent, asso.nom_asso, date_debut_classeur");		
-			
+			"ORDER BY asso.id_asso_parent, asso.nom_asso, date_debut_classeur");
+
 $all = array();
-			
+
 while ( $cla = $sql->get_row() )
 {
-	
+
 	$sql2 = new requete($site->db,"SELECT " .
 		"SUM(IF(`cpta_op_plcptl`.`type_mouvement` IS NULL,`cpta_op_clb`.`type_mouvement`,`cpta_op_plcptl`.`type_mouvement`)*`montant_op`) " .
 		"FROM `cpta_operation` " .
 		"LEFT JOIN `cpta_op_clb` ON `cpta_operation`.`id_opclb`=`cpta_op_clb`.`id_opclb` ".
 		"LEFT JOIN `cpta_op_plcptl` ON `cpta_operation`.`id_opstd`=`cpta_op_plcptl`.`id_opstd` ".
 		"WHERE `cpta_operation`.id_classeur='".$cla["id_classeur"]."' ");
-	
+
 	list($sum) = $sql2->get_row();
 
 
@@ -155,9 +155,9 @@ while ( $cla = $sql->get_row() )
 		"(cpta_operation.id_utilisateur IS NULL) AND ".
 		"(cpta_operation.id_asso IS NULL) AND ".
 		"(cpta_operation.id_ent IS NULL)");
-	
+
 	list($sum_mvint) = $sql2->get_row();
-	
+
 	$sql2 = new requete($site->db,"SELECT " .
 		"SUM(IF(`cpta_op_plcptl`.`type_mouvement` IS NULL,`cpta_op_clb`.`type_mouvement`,`cpta_op_plcptl`.`type_mouvement`)*`montant_op`) " .
 		"FROM `cpta_operation` " .
@@ -169,9 +169,9 @@ while ( $cla = $sql->get_row() )
 		"(cpta_operation.id_utilisateur IS NULL) AND ".
 		"(cpta_operation.id_asso IS NULL) AND ".
 		"(cpta_operation.id_ent IS NULL))");
-	
+
 	list($sum_ext) = $sql2->get_row();
-	
+
 	$sql2 = new requete($site->db,"SELECT " .
 		"IF(`cpta_op_plcptl`.`type_mouvement` IS NULL,`cpta_op_clb`.`type_mouvement`,`cpta_op_plcptl`.`type_mouvement`)*`montant_op` AS `montant`," .
 		"`date_op` " .
@@ -184,27 +184,27 @@ while ( $cla = $sql->get_row() )
 		"(cpta_operation.id_asso IS NULL) AND ".
 		"(cpta_operation.id_ent IS NULL) " .
 		"ORDER BY `date_op`");
-	
+
 	if ( $sql2->lines > 1 )
 	{
 		$sum_ouv=0;
 		for($i=0;$i<$sql2->lines-1;$i++)
 		{
 			list($m,$d) = $sql2->get_row();
-			$sum_ouv += $m;	
+			$sum_ouv += $m;
 		}
-			
+
 		list($sum_clo,$d) = $sql2->get_row();
 	}
 	else if ( $sql2->lines == 1 )
 	{
-		$sum_ouv=0;	
+		$sum_ouv=0;
 		$sum_clo=0;
-		
+
 		list($m,$d) = $sql2->get_row();
-		
+
 		$d = strtotime($d);
-		
+
 		if ( $d-strtotime($cla["date_fin_classeur"]) > -(10*24*60*60) )
 			$sum_clo = $m;
 		else
@@ -212,24 +212,24 @@ while ( $cla = $sql->get_row() )
 	}
 	else
 	{
-		$sum_ouv=0;	
+		$sum_ouv=0;
 		$sum_clo=0;
 	}
-	
+
 	$cla["sum"] = $sum/100;
 	$cla["sum_mvint"] = $sum_mvint/100;
 	$cla["sum_ext"] = $sum_ext/100;
 	$cla["sum_ouv"] = $sum_ouv/100;
 	$cla["sum_clo"] = $sum_clo/100;
-	
+
 	$csum += $sum;
 	$csum_mvint += $sum_mvint;
 	$csum_ext += $sum_ext;
 	$csum_ouv += $sum_ouv;
 	$csum_clo += $sum_clo;
-	
+
 	$all[] = $cla;
-}	
+}
 $cla = array("nom_classeur"=>"TOTAL");
 $cla["sum"] = $csum/100;
 $cla["sum_mvint"] = $csum_mvint/100;
@@ -253,7 +253,7 @@ $tbl = new sqltable ("bilan",
 						"sum_clo"=>"Fermeture",
 				       "date_debut_classeur"=>"De",
 				       "date_fin_classeur"=>"Au"
-					   
+
 					   ),
 				       array(),
 				       array(),
@@ -263,7 +263,7 @@ $cts->add($tbl,true);
 
 }
 }
-		
+
 $req_sql = new requete ($site->db,
 			"SELECT id_cptasso, asso.nom_asso as nom_cptasso, " .
 			"asso.id_asso, asso.nom_asso " .
@@ -271,7 +271,7 @@ $req_sql = new requete ($site->db,
 			"INNER JOIN asso ON asso.id_asso=cpta_cpasso.id_asso " .
 			"WHERE cpta_cpasso.id_cptbc='".$cpbc->id."' " .
 			"ORDER BY `asso`.`nom_asso`");
-			
+
 $tbl = new sqltable ("cpta_cptasso",
 			       "Comptes association",
 			       $req_sql,

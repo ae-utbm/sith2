@@ -76,7 +76,7 @@ $cts = new contents("Modérer et completer les noms");
 if ( $_REQUEST["action"] == "modere" )
 {
   $photo->load_by_id($_REQUEST["id_photo"]);
-  
+
   $incomplet=!isset($_REQUEST["complet"]);
 
   $req = new requete($site->db,"SELECT `id_utilisateur`,`modere_phutl` FROM `sas_personnes_photos` WHERE `id_photo`='".$photo->id."'");
@@ -94,7 +94,7 @@ if ( $_REQUEST["action"] == "modere" )
 }
 
 
-$req = new requete($site->db, 
+$req = new requete($site->db,
       "SELECT `sas_photos`.* ".
       "FROM `sas_personnes_photos` ".
       "INNER JOIN `sas_photos` USING(`id_photo`) ".
@@ -107,7 +107,7 @@ if ( $req->lines == 1 )
 {
   $row = $req->get_row();
   $photo->_load($row);
-  
+
   $cat = new catphoto($site->db);
   $catpr = new catphoto($site->db);
 
@@ -139,7 +139,7 @@ if ( $req->lines == 1 )
   $cts->add($imgcts,false,true,"sasimg");
 
   $subcts = new contents();
-  
+
   $req = new requete($site->db,
     "SELECT `utilisateurs`.`id_utilisateur`, " .
     "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
@@ -148,12 +148,12 @@ if ( $req->lines == 1 )
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`sas_personnes_photos`.`id_utilisateur` " .
     "WHERE `sas_personnes_photos`.`id_photo`='".$photo->id."' " .
     "ORDER BY `nom_utilisateur`");
-    
+
   $frm = new form("peoples",$page,false,"POST","Est-ce que ces personnes sont bien sur la photo ?");
 
   $frm->add_hidden("id_photo",$photo->id);
   $frm->add_hidden("action","modere");
-  
+
   while ( list($id,$nom,$modere) = $req->get_row() )
   {
     if ( $modere )

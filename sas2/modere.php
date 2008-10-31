@@ -63,7 +63,7 @@ if ( $_REQUEST["mode"] == "adminzone" )
 
   if ( !$site->user->is_in_group_id($id_groupe_admin) && !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("sas_admin"))
     $site->error_forbidden("sas","group",$id_groupe_admin);
-    
+
   $page .= "mode=adminzone&id_groupe_admin=".$id_groupe_admin;
   $filter .= " AND `id_groupe_admin` ='".$id_groupe_admin."'";
 }
@@ -71,7 +71,7 @@ else
 {
   if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("sas_admin"))
     $site->error_forbidden("sas","group",9);
-    
+
   $page .= "mode=full";
 }
 
@@ -100,7 +100,7 @@ if ( $_REQUEST["action"] == "modere" )
         if ( !isset($_REQUEST["yet"][$id]) )
           $photo->remove_personne($id);
         elseif ( $modere == 0 )
-          $photo->modere_personne($id);  
+          $photo->modere_personne($id);
       }
 
       $utl = new utilisateur($site->db);
@@ -132,10 +132,10 @@ if ( $_REQUEST["action"] == "modere" )
       }
       else
         $photo->droits_acces = 0x311;
-        
+
       $phasso->load_by_id($_REQUEST["id_asso"]);
       $ptasso->load_by_id($_REQUEST["id_asso_photographe"]);
-    
+
       $photo->update_photo(
         $photo->date_prise_vue,
         $photo->commentaire,
@@ -144,7 +144,7 @@ if ( $_REQUEST["action"] == "modere" )
         $_REQUEST["titre"],
         $ptasso->id
         );
-        
+
       $photo->set_tags($_REQUEST["tags"]);
     }
   }
@@ -234,12 +234,12 @@ if ( $req->lines == 1 )
     "ORDER BY `nom_utilisateur`");
 
   $imgcts = new contents();
-  
+
   if ( $photo->type_media == MEDIA_VIDEOFLV )
     $imgcts->add(new flvideo($photo->id,"sas2/images.php?/".$photo->id.".flv"));
   else
     $imgcts->add(new image($photo->id,"images.php?/".$photo->id.".diapo.jpg"));
-      
+
   $cts->add($imgcts,false,true,"sasimg");
 
   $subcts = new contents();
@@ -259,7 +259,7 @@ if ( $req->lines == 1 )
   $sfrm->add_submit("modere","Accepter");
 	$frm->add($sfrm);
 
-    
+
   $sfrm = new form("people",null,null,null,"Personnes sur la photo");
   while ( list($id,$nom) = $req->get_row() )
     $sfrm->add_checkbox("yet|$id",$nom,true);
@@ -282,7 +282,7 @@ if ( $req->lines == 1 )
 	$ssfrm->add_entity_select( "id_group", "Groupe", $site->db, "group", $photo->id_groupe );
 	$sfrm->add($ssfrm,false,true,!($photo->droits_acces & 1),"limittogroup",false,true);
 	$frm->add($sfrm);
-	
+
   $subcts->add($frm,true);
 
   $cts->add($subcts,false,true,"photoinfo");

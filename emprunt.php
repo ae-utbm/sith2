@@ -42,17 +42,17 @@ if ( isset($_REQUEST["id_emprunt"]) )
 	if ( $emp->id < 1 && !isset($_REQUEST["valid"]) )
 	{
 		$site->error_not_found();
-		exit();	
+		exit();
 	}
 	elseif ( $emp->id > 0 )
 	{
 		$asso->load_by_id($emp->id_asso);
-		
+
 		$can_edit = $site->user->is_in_group("gestion_ae") || ($emp->id_utilisateur == $site->user->id);
-		
+
 		if ( $asso->id > 0 )
-			$can_edit = $can_edit || $asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU);	
-		
+			$can_edit = $can_edit || $asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU);
+
 		if ( !$can_edit )
 			$site->error_forbidden();
 	}
@@ -76,22 +76,22 @@ elseif ( $_REQUEST["action"] == "fullretour" && $site->user->is_in_group("gestio
 	$emp->id = -1;
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Visualisation d'une reservation/emprunt
  */
 if ( $emp->id > 0 )
 {
 	$user_op = new utilisateur($site->db);
-	
+
 	$user->load_by_id($emp->id_utilisateur);
 	$user_op->load_by_id($emp->id_utilisateur_op);
-	
 
-	
+
+
 	if ( $_REQUEST["action"] == "print" && ($emp->etat == EMPRUNT_PRIS) )
 	{
 		require_once($topdir. "include/pdf/emprunt.inc.php");
-		
+
 		$req = new requete ( $site->db, "SELECT " .
 			"`inv_objet`.`id_objet`," .
 			"`inv_objet`.`nom_objet`," .
@@ -101,21 +101,21 @@ if ( $emp->id > 0 )
 			"INNER JOIN `inv_objet` ON `inv_objet`.`id_objet`=`inv_emprunt_objet`.`id_objet` " .
 			"INNER JOIN `inv_type_objets` ON `inv_objet`.`id_objtype`=`inv_type_objets`.`id_objtype` " .
 			"WHERE `inv_emprunt_objet`.`id_emprunt`='".$emp->id."'" );
-			
+
 		$pdf = new pdfemprunt($emp, $user, $asso, $user_op);
 		$pdf->objects($req);
 		$pdf->Output();
 		exit();
 	}
-	
+
 	$site->start_page("services","Reservation/Emprunt n°".$emp->id);
-	
+
 	$cts = new contents("Emprunts de matériel");
-	
+
 	$cts->add_title(2,"Emprunt n°".$emp->id);
-	
+
 	if ( $site->user->is_in_group("gestion_ae"))
-	{	
+	{
 		$tabs = array(array(false,"ae/modereemp.php", "Modération"),
 					array(false,"ae/modereemp.php?view=togo", "A venir"),
 					array(false,"ae/modereemp.php?view=out", "Matériel prété"),
@@ -123,22 +123,22 @@ if ( $emp->id > 0 )
 					array(false,"emprunt.php?page=retrait", "Preter"),
 					array(false,"emprunt.php?page=retour", "Retour")
 					);
-		$cts->add(new tabshead($tabs,true));		
+		$cts->add(new tabshead($tabs,true));
 	}
-	
+
 	$cts->add_paragraph("Reservation du ".textual_plage_horraire($emp->date_debut,$emp->date_fin));
 	$cts->add_paragraph("Demandé par ".($user->id==-1?$emp->emprunteur_ext:$user->get_html_link())." le ".date("d/m/Y à H:i",$emp->date_demande));
 	if ( $asso->id > 0)
-		$cts->add_paragraph($asso->get_html_link());	
+		$cts->add_paragraph($asso->get_html_link());
 	$cts->add_paragraph("Etat: ".$EmpruntObjetEtats[$emp->etat]);
-	
+
 	if ( $emp->etat == EMPRUNT_MODERE )
 	{
 		$cts->add_paragraph("Validé par ".$user_op->get_html_link());
 		if ( $emp->caution )
 			$cts->add_paragraph("Caution fixée à ".($emp->caution/100)." Euros");
 		if ( $emp->prix_paye )
-			$cts->add_paragraph("Participation aux frais fixé à ".($emp->prix_paye/100)." Euros");	
+			$cts->add_paragraph("Participation aux frais fixé à ".($emp->prix_paye/100)." Euros");
 	}
 	elseif ( $emp->etat == EMPRUNT_PRIS || $emp->etat == EMPRUNT_RETOURPARTIEL )
 	{
@@ -147,14 +147,14 @@ if ( $emp->id > 0 )
 		if ( $emp->caution )
 			$cts->add_paragraph("Caution de ".($emp->caution/100)." Euros");
 		if ( $emp->prix_paye )
-			$cts->add_paragraph("Participation aux frais de ".($emp->prix_paye/100)." Euros");	
+			$cts->add_paragraph("Participation aux frais de ".($emp->prix_paye/100)." Euros");
 	}
 	elseif ( $emp->etat == EMPRUNT_RETOUR )
 	{
 		$cts->add_paragraph("Restitué en totalité le ".date("d/m/Y à H:i",$emp->date_retour));
 
 	}
-	
+
 	$req = new requete ( $site->db, "SELECT " .
 			"`inv_objet`.`id_objet`," .
 			"CONCAT(`inv_objet`.`nom_objet`,' ',`inv_objet`.`cbar_objet`) AS `nom_objet`, " .
@@ -164,18 +164,18 @@ if ( $emp->id > 0 )
 			"INNER JOIN `inv_objet` ON `inv_objet`.`id_objet`=`inv_emprunt_objet`.`id_objet` " .
 			"INNER JOIN `inv_type_objets` ON `inv_objet`.`id_objtype`=`inv_type_objets`.`id_objtype` " .
 			"WHERE `inv_emprunt_objet`.`id_emprunt`='".$emp->id."'" );
-			
+
 	$tbl = new sqltable(
-		"listobjets", 
-		"Objets empruntés", $req, "emprunt.php?id_emprunt=".$emp->id, 
-		"id_objet", 
-		array("nom_objet"=>"Objet","nom_objtype"=>"Type"), 
+		"listobjets",
+		"Objets empruntés", $req, "emprunt.php?id_emprunt=".$emp->id,
+		"id_objet",
+		array("nom_objet"=>"Objet","nom_objtype"=>"Type"),
 		($can_edit && ($emp->etat < EMPRUNT_PRIS))?array("delete"=>"Enlever"):array(), array(), array()
 		);
-		
-	$cts->add($tbl);	
-	
-	
+
+	$cts->add($tbl);
+
+
 	if ( $site->user->is_in_group("gestion_ae") )
 	{
 		if ( $emp->etat == EMPRUNT_RESERVATION )
@@ -189,17 +189,17 @@ if ( $emp->id > 0 )
 				$prix +=$row['prix_emprunt_objet'];
 			}
 			$frm = new form("validemp","ae/modereemp.php?id_emprunt=".$emp->id,false,"POST","Valider l'emprunt");
-			$frm->add_hidden("action","valide");		
+			$frm->add_hidden("action","valide");
 			$frm->add_price_field("caution","Caution",$caution);
 			$frm->add_price_field("prix_emprunt","Prix",$prix);
 			$frm->add_text_area("notes","Notes");
 			$frm->add_submit("val","Valider");
-			$cts->add($frm,true);	
-			
+			$cts->add($frm,true);
+
 			$frm = new form("unvalidemp","ae/modereemp.php?id_emprunt=".$emp->id,false,"POST","Refuser l'emprunt");
-			$frm->add_hidden("action","delete");		
+			$frm->add_hidden("action","delete");
 			$frm->add_submit("ref","Refuser");
-			$cts->add($frm,true);		
+			$cts->add($frm,true);
 		}
 		elseif ( $emp->etat == EMPRUNT_MODERE )
 		{
@@ -214,11 +214,11 @@ if ( $emp->id > 0 )
 					$ok = $ok && $obj->is_avaible(time(),$emp->date_debut-1);
 				}
 			}
-			
+
 			if ( !$ok )
 			{
 				$cts->add_title(2,"Retrait");
-				$cts->add_paragraph("Tout le matériel n'est pas encore disponible, ou est réservé avant la date de debut de l'emprunt.");	
+				$cts->add_paragraph("Tout le matériel n'est pas encore disponible, ou est réservé avant la date de debut de l'emprunt.");
 				$cts->add_paragraph("<a href=\"ae/modereemp.php?view=out\">Matériel prété actuellement</a>");
 				$cts->add_paragraph("<a href=\"ae/modereemp.php?view=togo\">Reservations modérés</a>");
 				$cts->add_paragraph("<a href=\"ae/modereemp.php\">Reservations en attente de modération</a>");
@@ -241,10 +241,10 @@ if ( $emp->id > 0 )
 			$frm->add_hidden("action","fullretour");
 			$frm->add_hidden("id_emprunt",$emp->id);
 			$frm->add_submit("valid","Marquer comme restitué");
-			$cts->add($frm);	
+			$cts->add($frm);
 		}
 	}
-	
+
 	$site->add_contents($cts);
 	$site->end_page();
 	exit();
@@ -254,13 +254,13 @@ function add_objet_once( &$list, &$obj )
 {
   if (!empty($list))
 	{
-	  foreach( $list as $o )	
+	  foreach( $list as $o )
 		  if ( $o->id == $obj->id ) return;
 	}
 	$list[]=$obj;
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Interface de retour du matériel
  */
 if ( $_REQUEST["page"] == "retour" && $site->user->is_in_group("gestion_ae") )
@@ -280,7 +280,7 @@ if ( $_REQUEST["page"] == "retour" && $site->user->is_in_group("gestion_ae") )
 		else
 		 $Erreur="Objet inconnu.";
 	}
-	
+
 	$site->start_page("services","Retour matériel");
 
 	$cts = new contents("Emprunts de matériel");
@@ -292,10 +292,10 @@ if ( $_REQUEST["page"] == "retour" && $site->user->is_in_group("gestion_ae") )
 				array(false,"emprunt.php?page=retrait", "Preter"),
 				array(true,"emprunt.php?page=retour", "Retour")
 				);
-	$cts->add(new tabshead($tabs,true));	
+	$cts->add(new tabshead($tabs,true));
 
 
-	
+
 	if ( $emp->id > 0 )
 	{
 		if ( $emp->etat == EMPRUNT_RETOURPARTIEL )
@@ -303,26 +303,26 @@ if ( $_REQUEST["page"] == "retour" && $site->user->is_in_group("gestion_ae") )
 		elseif ( $emp->etat == EMPRUNT_RETOUR )
 			$cts->add_paragraph("Emprunt restitué en totalité.");
 	}
-	
+
 	$frm = new form("retourobjet","emprunt.php?page=retour",false,"POST","Objet par objet");
 	$frm->add_hidden("action","retourobjet");
 	if ( $Error )
 		$frm->error($Error);
 	$frm->add_text_field("cbar","Code barre");
 	$frm->add_submit("valid","Terminer");
-	$cts->add($frm,true);	
+	$cts->add($frm,true);
 
 	$frm = new form("goemprunt","emprunt.php?page=retour",false,"POST","Emprunt");
 	$frm->add_text_field("id_emprunt","N° d'emprunt");
 	$frm->add_submit("valid","Voir");
-	$cts->add($frm,true);	
+	$cts->add($frm,true);
 
 	$site->add_contents($cts);
 	$site->end_page();
 	exit();
 }
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Interface de retrait immédiat
  */
 if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
@@ -334,14 +334,14 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 		{
 			if ( $_REQUEST["asso"] == "asso" )
 				$asso->load_by_id($_REQUEST["id_asso"]);
-				
+
 			if ( $_REQUEST["emp"] == "moi" )
 				$user = $site->user;
 			elseif ( $_REQUEST["emp"] == "carte" )
 				$user->load_by_carteae($_REQUEST["carte"]);
 			elseif ( $_REQUEST["emp"] == "email" )
 				$user->load_by_id($_REQUEST["id_utilisateur"]);
-				
+
 			if ( $_REQUEST["emp"] != "ext" && !$user->is_valid() )
 				$Error="Utilisateur inconnu";
 			elseif ( $_REQUEST["asso"] == "asso" && !$asso->is_valid() )
@@ -350,24 +350,24 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 				$Error="Date et heure de fin invalide";
 			else
 				$Step=1;
-			
+
 		}
 		else	if ( $Step > 0 )
 		{
 			$asso->load_by_id($_REQUEST["id_asso"]);
-			
+
 			if ( empty($_REQUEST["id_utilisateur"]) )
 			  $user->id=null;
 			else
 			  $user->load_by_id($_REQUEST["id_utilisateur"]);
-			  
+
 			if ( (!$user->is_valid() && !$_REQUEST["emprunteur_ext"]) || $_REQUEST["endtime"] <= time() )
 			{
 				$Step=0;
-				$Error="Erreur de passage de valeurs";	
+				$Error="Erreur de passage de valeurs";
 			}
 		}
-		
+
 		if ( $Step >= 1 )
 		{
 			$objets=array();
@@ -383,9 +383,9 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 			}
 			if ( $Step > 1 && !count($objets) ) $Step=1;
 		}
-		
+
 		if ( $_REQUEST["step"] == 1 )
-		{		
+		{
 			if ( count($objets) && !$_REQUEST["cbar"] )
 			{
 				$Step=2;
@@ -394,7 +394,7 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 			{
 				$obj = new objet($site->db);
 				$obj->load_by_cbar($_REQUEST["cbar"]);
-	
+
 				if ( !$obj->is_valid() )
 					$Error = "Objet inconnu";
 				elseif ( !$obj->is_avaible(time(),$_REQUEST["endtime"]))
@@ -403,15 +403,15 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 					add_objet_once($objets,$obj);
 			}
 		}
-		
+
 		if ( $_REQUEST["step"] == 2 )
 		{
 			$Step=3;
 			//if ( !$asso->is_valid() ) $asso->id = null;
 			//if ( !$user->is_valid() ) $user->id = null;
-			
+
 			$emp->add_emprunt ( $user->id, $asso->id, $_REQUEST["emprunteur_ext"], time(), $_REQUEST["endtime"] );
-			
+
 			if(!empty($objets))
 			{
 			  foreach ( $objets as $objet )
@@ -419,15 +419,15 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
       }
 
 			$emp->retrait ( $site->user->id, $_REQUEST["caution"], $_REQUEST["prix_emprunt"], $_REQUEST["notes"] );
-			
+
 		}
 	}
-	
-	
+
+
 	$site->start_page("services","Emprunt matériel");
 
 	$cts = new contents("Emprunts de matériel");
-	
+
 	$tabs = array(array(false,"ae/modereemp.php", "Modération"),
 				array(false,"ae/modereemp.php?view=togo", "A venir"),
 				array(false,"ae/modereemp.php?view=out", "Matériel prété"),
@@ -435,55 +435,55 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 				array(true,"emprunt.php?page=retrait", "Preter"),
 				array(false,"emprunt.php?page=retour", "Retour")
 				);
-	$cts->add(new tabshead($tabs,true));		
-	
-	
-	
+	$cts->add(new tabshead($tabs,true));
+
+
+
 	$frm = new form("stepemprunt","emprunt.php?page=retrait",$Step == 0);
 	$frm->add_hidden("step",$Step);
 	$frm->add_hidden("action","gonext");
 	if ( $Error )
 		$frm->error($Error);
-	
+
 	$cts->add_title(2,"1. Identité de l'emprunteur");
-	
+
 	if ( $Step == 0 )
 	{
 		$frm->add_datetime_field("endtime","Fin de l'emprunt");
-		
+
 		$ssfrm = new form("mtf",null,null,null,"Cadre");
-		
+
 		$sfrm = new form("asso",null,null,null,"A titre personnel");
 		$ssfrm->add($sfrm,false,true,true,"nasso",true);
-		
+
 		$sfrm = new form("asso",null,null,null,"Pour une association");
 		$sfrm->add_entity_select("id_asso"," : ",$site->db,"asso");
 		$ssfrm->add($sfrm,false,true,false,"asso",true);
-	
+
 		$frm->add($ssfrm);
-	
+
 		$ssfrm = new form("qui",null,null,null,"Emprunteur");
-	
+
 		$sfrm = new form("emp",null,null,null,"Moi même");
 		$ssfrm->add($sfrm,false,true,false,"moi",true);
-	
+
 		$sfrm = new form("emp",null,null,null,"Le cotisant dont la carte est");
 		$sfrm->add_text_field("carte"," : ");
 		$ssfrm->add($sfrm,false,true,true,"carte",true);
-	
+
 		$sfrm = new form("emp",null,null,null,"L'utilisateur");
 		$sfrm->add_entity_smartselect("id_utilisateur","",new utilisateur($site->db));
 		$ssfrm->add($sfrm,false,true,false,"email",true);
-		
+
 		$sfrm = new form("emp",null,null,null,"La personne non inscrite suivante");
 		$sfrm->add_text_field("emprunteur_ext"," : ");
 		$ssfrm->add($sfrm,false,true,false,"ext",true);
-		
+
 		$frm->add($ssfrm);
-		
+
 		$frm->add_submit("next","Suivant");
-		
-		$cts->add($frm);	
+
+		$cts->add($frm);
 	}
 	elseif( $Step > 0 )
 	{
@@ -492,9 +492,9 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 		$frm->add_hidden("id_utilisateur",$user->id);
 		if ( $user->is_valid() )
 			$frm->add_hidden("emprunteur_ext",$_REQUEST["emprunteur_ext"]);
-			
+
 		$cts->add_paragraph("Jusqu'au ".date("d/m/Y H:i",$_REQUEST["endtime"]));
-			
+
 		if ( $asso->id > 0 )
 			$cts->add_paragraph("Pour l'association : ".$asso->get_html_link());
 
@@ -503,7 +503,7 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 		else
 			$cts->add_paragraph("Emprunteur : ".$_REQUEST["emprunteur_ext"]);
 	}
-	
+
 	$cts->add_title(2,"2. Matériel");
 
 	if ( $Step >= 1 && count($objets) )
@@ -519,19 +519,19 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 		  $cts->add($lst);
 		}
 	}
-	
+
 	if( $Step == 1 )
 	{
-		
+
 		$frm->add_text_field("cbar","Code barre de l'objet");
 		$frm->add_submit("next","Suivant");
-		
-		$cts->add($frm);	
+
+		$cts->add($frm);
 	}
 
 
 	$cts->add_title(2,"3. Caution et eventuel prix");
-	
+
 	if ( $Step == 2 )
 	{
 		$prix =0;
@@ -548,7 +548,7 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 		$frm->add_price_field("prix_emprunt","Prix",$prix);
 		$frm->add_text_area("notes","Notes");
 		$frm->add_submit("valid","Terminer");
-		$cts->add($frm);	
+		$cts->add($frm);
 	}
 	elseif( $Step > 2 )
 	{
@@ -557,13 +557,13 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
 		if ( $_REQUEST["prix_emprunt"] )
 			$cts->add_paragraph("Prix : ".($_REQUEST["prix_emprunt"]/100)." Euros");
 	}
-	
+
 	$cts->add_title(2,"4. Impression bon");
-	
+
 	if ( $Step == 3 )
 	{
 		$cts->add_paragraph($emp->get_html_link()." : <a href=\"emprunt.php?action=print&amp;id_emprunt=".$emp->id."\">Imprimer</a>");
-			
+
 	}
 
 	$site->add_contents($cts);
@@ -575,7 +575,7 @@ if (!$site->user->ae)
 	$site->error_forbidden();
 
 
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Interface de reservation
  */
 $Step = intval($_REQUEST["step"]);
@@ -586,8 +586,8 @@ if ( $_REQUEST["action"] == "gonextres" )
 	{
 		if ( $_REQUEST["asso"] == "asso" )
 			$asso->load_by_id($_REQUEST["id_asso"]);
-			
-		if ( $site->user->is_in_group("gestion_ae") )	
+
+		if ( $site->user->is_in_group("gestion_ae") )
 		{
 			if ( $_REQUEST["emp"] == "moi" )
 				$user = $site->user;
@@ -598,7 +598,7 @@ if ( $_REQUEST["action"] == "gonextres" )
 		}
 		else
 			$user = &$site->user;
-			
+
 		if ( $user->id < 1 )
 			$Error="Utilisateur inconnu";
 		elseif ( $_REQUEST["asso"] == "asso" && $asso->id < 1 )
@@ -606,30 +606,30 @@ if ( $_REQUEST["action"] == "gonextres" )
 		elseif ( $_REQUEST["endtime"] <= time() )
 			$Error="Date et heure de fin invalide";
 		elseif ( $_REQUEST["starttime"] <= time() )
-			$Error="Date de début invalide";	
+			$Error="Date de début invalide";
 		elseif ( $_REQUEST["starttime"] >= $_REQUEST["endtime"] )
-			$Error="Dates invalides";			
+			$Error="Dates invalides";
 		else
 			$Step=1;
-		
+
 	}
 	else	if ( $Step > 0 )
 	{
 		$asso->load_by_id($_REQUEST["id_asso"]);
-		
-		if ( $site->user->is_in_group("gestion_ae") )	
+
+		if ( $site->user->is_in_group("gestion_ae") )
 			$user->load_by_id($_REQUEST["id_utilisateur"]);
 		else
 			$user = &$site->user;
-		
-		if ( $user->id < 1 || $_REQUEST["endtime"] <= time() || 
+
+		if ( $user->id < 1 || $_REQUEST["endtime"] <= time() ||
 			$_REQUEST["starttime"] >= $_REQUEST["endtime"]  || $_REQUEST["endtime"] <= time() )
 		{
 			$Step=0;
-			$Error="Erreur de passage de valeurs";	
+			$Error="Erreur de passage de valeurs";
 		}
 	}
-	
+
 	if ( $Step >= 1 )
 	{
 		$objets=array();
@@ -645,9 +645,9 @@ if ( $_REQUEST["action"] == "gonextres" )
 		}
 		if ( $Step > 1 && !count($objets) ) $Step=1;
 	}
-	
+
 	if ( $_REQUEST["step"] == 1 )
-	{		
+	{
 
 		if ( isset($_REQUEST["next"]))
 		{
@@ -665,8 +665,8 @@ if ( $_REQUEST["action"] == "gonextres" )
 						  $max_num = $objet->num;
 			  }
 		  }
-			
-			
+
+
 			$qty = intval($_REQUEST['nombre']);
 			////date_debut_emp > $to || (r).date_fin_emp < $from
 			$req = new requete($site->db,"SELECT * FROM `inv_objet` " .
@@ -700,50 +700,50 @@ if ( $_REQUEST["action"] == "gonextres" )
 		{
 			$obj = new objet($site->db);
 			$obj->load_by_id($_REQUEST["id_objet"]);
-			
+
 			if ( $obj->id < 1 )
 				$Error="Objet inconnu.";
 			elseif ( !$obj->is_avaible($_REQUEST["starttime"],$_REQUEST["endtime"]) )
 				$Error="Objet non disponible.";
 			else
 				add_objet_once($objets,$obj);
-			
+
 		}
 		elseif ( $_REQUEST["kind"] == "exact" )
 		{
 			$obj = new objet($site->db);
 			$obj->load_by_cbar($_REQUEST["cbar"]);
-			
+
 			if ( $obj->id < 1 )
 				$Error="Objet non inconnu.";
 			elseif ( !$obj->is_avaible($_REQUEST["starttime"],$_REQUEST["endtime"]) )
 				$Error="Objet non disponible.";
 			else
 				add_objet_once($objets,$obj);
-			
+
 		}
 	}
-	
-	
-	
+
+
+
 	if ( $_REQUEST["step"] == 2 )
-	{	
-	
+	{
+
 		$Step=3;
 		if ( $asso->id < 1 ) $asso->id = null;
 
 		$emp->add_emprunt ( $user->id, $asso->id, null, $_REQUEST["starttime"], $_REQUEST["endtime"] );
-		
+
 		foreach ( $objets as $objet )
 			 $emp->add_object($objet->id);
-			
-		if ( $site->user->is_in_group("gestion_ae") )	
+
+		if ( $site->user->is_in_group("gestion_ae") )
 			$emp->modere ( $site->user->id, $_REQUEST["caution"], $_REQUEST["prix_emprunt"], $_REQUEST["notes"] );
 
 	}
 
 }
-	
+
 $site->start_page("services","Emprunts de matériel");
 $frm = new form("reserver","emprunt.php",$Step==0);
 $frm->add_hidden("step",$Step);
@@ -755,9 +755,9 @@ if ( $message )
 $cts = new contents("Emprunts de matériel");
 if ( $Error )
 	$frm->error($Error);
-	
+
 if ( $site->user->is_in_group("gestion_ae"))
-{	
+{
 	$tabs = array(array(false,"ae/modereemp.php", "Modération"),
 				array(false,"ae/modereemp.php?view=togo", "A venir"),
 				array(false,"ae/modereemp.php?view=out", "Matériel prété"),
@@ -765,21 +765,21 @@ if ( $site->user->is_in_group("gestion_ae"))
 				array(false,"emprunt.php?page=retrait", "Preter"),
 				array(false,"emprunt.php?page=retour", "Retour")
 				);
-	$cts->add(new tabshead($tabs,true));		
+	$cts->add(new tabshead($tabs,true));
 }
-	
+
 $cts->add_title(2,"1. Identité de l'emprunteur");
 
 if ( $Step == 0 )
 {
 	$frm->add_datetime_field("starttime","Debut de l'emprunt");
 	$frm->add_datetime_field("endtime","Fin de l'emprunt");
-	
+
 	$ssfrm = new form("mtf",null,null,null,"Cadre");
-	
+
 	$sfrm = new form("asso",null,null,null,"A titre personnel");
 	$ssfrm->add($sfrm,false,true,$_REQUEST["id_asso"]==0,"nasso",true);
-	
+
 	$sfrm = new form("asso",null,null,null,"Pour une association");
 	$sfrm->add_entity_select("id_asso"," : ",$site->db,"asso",$_REQUEST["id_asso"]);
 	$ssfrm->add($sfrm,false,true,$_REQUEST["id_asso"]>0,"asso",true);
@@ -789,28 +789,28 @@ if ( $Step == 0 )
 	if ( $site->user->is_in_group("gestion_ae"))
 	{
 		$ssfrm = new form("qui",null,null,null,"Emprunteur");
-	
+
 		$sfrm = new form("emp",null,null,null,"Moi même");
 		$ssfrm->add($sfrm,false,true,false,"moi",true);
-	
+
 		$sfrm = new form("emp",null,null,null,"Le cotisant dont la carte est");
 		$sfrm->add_text_field("carte"," : ");
 		$ssfrm->add($sfrm,false,true,true,"carte",true);
-	
+
 		$sfrm = new form("emp",null,null,null,"L'utilisateur dont l'adresse email est");
 		$sfrm->add_entity_smartselect("id_utilisateur","",new utilisateur($site->db));
 		$ssfrm->add($sfrm,false,true,false,"email",true);
-		
+
 		$sfrm = new form("emp",null,null,null,"La personne non inscrite suivante");
 		$sfrm->add_text_field("emprunteur_ext"," : ");
 		$ssfrm->add($sfrm,false,true,false,"ext",true);
-		
+
 		$frm->add($ssfrm);
 	}
-	
+
 	$frm->add_submit("next","Suivant");
-	
-	$cts->add($frm);	
+
+	$cts->add($frm);
 }
 elseif( $Step > 0 )
 {
@@ -818,9 +818,9 @@ elseif( $Step > 0 )
 	$frm->add_hidden("endtime",$_REQUEST["endtime"]);
 	$frm->add_hidden("id_asso",$asso->id);
 	$frm->add_hidden("id_utilisateur",$user->id);
-		
+
 	$cts->add_paragraph("Du ".date("d/m/Y H:i",$_REQUEST["starttime"])." jusqu'au ".date("d/m/Y H:i",$_REQUEST["endtime"]));
-		
+
 	if ( $asso->id > 0 )
 		$cts->add_paragraph("Pour l'association : ".$asso->get_html_link());
 
@@ -841,51 +841,51 @@ if ( $Step >= 1 && count($objets) )
 	  }
 	  $cts->add($lst);
 	}
-	
 
-	
+
+
 }
 
-	
+
 if ( $Step == 1 )
 {
 	$req = new requete($site->db, "SELECT `id_objtype`,`nom_objtype` FROM `inv_type_objets`
 					WHERE `empruntable_objtype` = '1'
-					ORDER BY `nom_objtype`");	
-	while(list($id,$nom)=$req->get_row()) $types[$id]=$nom;			
-	
+					ORDER BY `nom_objtype`");
+	while(list($id,$nom)=$req->get_row()) $types[$id]=$nom;
+
 	$ids[] = 0;
 	if(!empty($objets))
 	  foreach ( $objets as $objet ) $ids[] = $objet->id;
-	
-		
+
+
 	$req = new requete($site->db, "SELECT `id_objet`,`nom_objet` FROM `inv_objet`
 					INNER JOIN `inv_type_objets` ON `inv_objet`.`id_objtype`=`inv_type_objets`.`id_objtype`
 					WHERE `objet_empruntable` = '1' AND `nom_objet` != '' AND `empruntable_objtype` = '0' AND
 					`id_objet` NOT IN (".implode(",",$ids).")
-					ORDER BY `nom_objet`");	
-					
-	while(list($id,$nom)=$req->get_row()) $eobjets[$id]=$nom;	
-	
-	
-	
+					ORDER BY `nom_objet`");
+
+	while(list($id,$nom)=$req->get_row()) $eobjets[$id]=$nom;
+
+
+
 	$sfrm = new form("kind",null,null,null,"Objet(s) du type");
 	$sfrm->add_select_field("id_objtype"," : ",$types);
 	$sfrm->add_text_field("nombre"," x ","1");
 	$frm->add($sfrm,false,true,false,"type",true);
-	
+
 	$sfrm = new form("kind",null,null,null,"L'objet");
 	$sfrm->add_select_field("id_objet"," : ",$eobjets);
 	$frm->add($sfrm,false,true,true,"objet",true);
-	
+
 	$sfrm = new form("kind",null,null,null,"L'objet dont le code barre est");
 	$sfrm->add_text_field("cbar"," : ");
 	$frm->add($sfrm,false,true,false,"exact",true);
-	
+
 	$frm->add_submit("add","Ajouter");
 	if ( count($objets) )
 		$frm->add_submit("next","Etape suivante");
-	$cts->add($frm);	
+	$cts->add($frm);
 }
 
 $cts->add_title(2,"3. Caution");
@@ -913,7 +913,7 @@ if ( $Step == 2 )
 		$cts->add_paragraph("La caution et l'eventuel prix de l'emprunt seront fixés ultérieurement par un modérateur.");
 	}
 	$frm->add_submit("next","Terminer");
-	$cts->add($frm);	
+	$cts->add($frm);
 }
 elseif( $Step > 2 )
 {

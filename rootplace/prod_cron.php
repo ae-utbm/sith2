@@ -32,7 +32,7 @@ $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
-	
+
 $site->start_page("none","Administration / passage en prod");
 $cts = new contents("<a href=\"./\">Administration</a> / Passage en production");
 $tabs = array(array("","rootplace/prod_cron.php","Passage en prod"),

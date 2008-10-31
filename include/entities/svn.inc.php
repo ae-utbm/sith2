@@ -113,7 +113,7 @@ class svn_depot extends stdentity
       @rmdir("/tmp/".$this->nom."/tags");
       @rmdir("/tmp/".$this->nom."/trunk");
       @rmdir("/tmp/".$this->nom);
-      
+
       $this->create_auth_file();
 
       return true;
@@ -302,11 +302,11 @@ class svn_depot extends stdentity
 
         $readwrite = array();
         $readonly = array();
-  
+
         if($req->lines != 0)
         {
           $user = new utilisateur($this->db,$this->dbrw);
-   
+
           while(list($id,$right) = $req->get_row())
           {
             if($user->load_by_id($id))
@@ -333,7 +333,7 @@ class svn_depot extends stdentity
         {
           if($i != 0)
             $_ro .= ", ";
-    
+
             $_ro .= $readonly[$i];
         }
         $render .= $nom_depot."ro = ".$_ro."\n";
@@ -347,7 +347,7 @@ class svn_depot extends stdentity
         }
         $render .= $nom_depot."rw = ".$_rw."\n";
       }
-    
+
 
       for($i = 0; $i < count($depots); $i++)
       {
@@ -356,7 +356,7 @@ class svn_depot extends stdentity
         else
           $render .= "[".$depots[$i].":/]\n@".$depots[$i]."rw = rw\n@".$depots[$i]."ro = r\n* =\n";
       }
-        
+
       if(!$handle = @fopen($path.AUTHFILE, "w"))
          return false;
       fwrite($handle,$render);

@@ -7,47 +7,47 @@ require_once($topdir. "include/site.inc.php");
 $site = new site();
 
 if (!$site->user->is_in_group ("gestion_ae"))
-{ 
+{
   $site->error_forbidden();
-}   
+}
 
 if (isset($_REQUEST['toptenimg']))
 {
   require_once($topdir. "include/graph.inc.php");
-  $req = "SELECT 
+  $req = "SELECT
                 COUNT(`id_message`) as totmesg
               , `utilisateurs`.`alias_utl`
-          FROM 
+          FROM
                 `frm_message`
-          INNER JOIN 
+          INNER JOIN
                 `utilisateurs`
           USING (`id_utilisateur`)
-          GROUP BY 
+          GROUP BY
                  `id_utilisateur`
-          ORDER BY 
+          ORDER BY
                  COUNT(`id_message`) DESC LIMIT 10";
 
   $rs = new requete($site->db, $req);
 
 
   $datas = array("utilisateur" => "Nbmessages");
-  
+
 
   while ($plouf = $rs->get_row())
     {
       $plouf['alias_utl'] = explode(' ', $plouf['alias_utl']);
       $plouf['alias_utl'] = $plouf['alias_utl'][0];
-      
+
       $datas[utf8_decode($plouf['alias_utl'])] = $plouf['totmesg'];
     }
-  
-  
+
+
   $hist = new histogram($datas, "Top 10");
-  
+
   $hist->png_render();
-  
+
   $hist->destroy();
-  
+
   exit();
 
 }
@@ -70,16 +70,16 @@ if (isset($_REQUEST['mesgbyday']))
 
   require_once($topdir. "include/graph.inc.php");
   $query =
-    "SELECT 
+    "SELECT
             DATE_FORMAT(date_message,'%Y-%m-%d') AS `datemesg`
-            , COUNT(id_message) AS `nbmesg` 
-     FROM 
-            `frm_message` 
-     WHERE 
+            , COUNT(id_message) AS `nbmesg`
+     FROM
+            `frm_message`
+     WHERE
             `date_message` >= '".$db."'
      AND
             `date_message` <= '".$de."'
-     GROUP BY 
+     GROUP BY
             `datemesg`";
 
   $req = new requete($site->db, $query);
@@ -96,7 +96,7 @@ if (isset($_REQUEST['mesgbyday']))
 			'y' => $rs['nbmesg']);
       $i++;
     }
-  
+
 
   $grp = new graphic("",
 		     "messages par jour",

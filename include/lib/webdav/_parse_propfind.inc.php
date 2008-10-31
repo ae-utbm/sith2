@@ -23,15 +23,15 @@
 /**
  * @cond false
  */
- 
+
 /**
  * helper class for parsing PROPFIND request bodies
- * 
+ *
  * @package HTTP_WebDAV_Server
  * @author Hartmut Holzgraefe <hholzgra@php.net>
  * @version @package-version@
  */
-class _parse_propfind 
+class _parse_propfind
 {
     /**
      * success state flag
@@ -57,17 +57,17 @@ class _parse_propfind
      */
     var $depth = 0;
 
-    
+
     /**
      * constructor
      *
      * @access public
      */
-    function _parse_propfind($path) 
+    function _parse_propfind($path)
     {
         // success state flag
         $this->success = true;
-        
+
         // property storage array
         $this->props = array();
 
@@ -93,7 +93,7 @@ class _parse_propfind
                                 array(&$this, "_endElement"));
 
         // we want a case sensitive parser
-        xml_parser_set_option($xml_parser, 
+        xml_parser_set_option($xml_parser,
                               XML_OPTION_CASE_FOLDING, false);
 
 
@@ -104,8 +104,8 @@ class _parse_propfind
                 $had_input = true;
                 $this->success &= xml_parse($xml_parser, $line, false);
             }
-        } 
-        
+        }
+
         // finish parsing
         if ($had_input) {
             $this->success &= xml_parse($xml_parser, "", true);
@@ -113,24 +113,24 @@ class _parse_propfind
 
         // free parser
         xml_parser_free($xml_parser);
-        
+
         // close input stream
         fclose($f_in);
 
         // if no input was parsed it was a request
         if(!count($this->props)) $this->props = "all"; // default
     }
-    
+
 
     /**
      * start tag handler
-     * 
+     *
      * @access private
      * @param  resource  parser
      * @param  string    tag name
      * @param  array     tag attributes
      */
-    function _startElement($parser, $name, $attrs) 
+    function _startElement($parser, $name, $attrs)
     {
         // name space handling
         if (strstr($name, " ")) {
@@ -162,16 +162,16 @@ class _parse_propfind
         // increment depth count
         $this->depth++;
     }
-    
+
 
     /**
      * end tag handler
-     * 
+     *
      * @access private
      * @param  resource  parser
      * @param  string    tag name
      */
-    function _endElement($parser, $name) 
+    function _endElement($parser, $name)
     {
         // here we only need to decrement the depth count
         $this->depth--;

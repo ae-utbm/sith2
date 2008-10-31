@@ -49,7 +49,7 @@ if ( $site->user->is_valid()  && $site->user->is_in_group("moderateur_site") )
       $Erreur = "Nom invalide";
     elseif ( !$_REQUEST["title"] || !$_REQUEST["texte"] )
       $Erreur = "Veuillez préciser un titre et/ou un contenu";
-    elseif ( $page->load_by_pagename($_REQUEST["name"]) )  
+    elseif ( $page->load_by_pagename($_REQUEST["name"]) )
       $Erreur = "Cette page existe déjà";
     else
     {
@@ -72,11 +72,11 @@ if ( $site->user->is_valid()  && $site->user->is_in_group("moderateur_site") )
     $frm->add_text_field("title","Titre","",true);
     //$frm->add_entity_select("groupid","Groupe",$site->db,"group" );
     $frm->add_select_field("section","Section",$sections,"presentation");
-    
+
     $frm->add_rights_field($page,false,$page->is_admin($site->user),"pages");
     $frm->add_dokuwiki_toolbar('texte');
     $frm->add_text_area("texte","Contenu","",80,20,true);
-    
+
     $frm->add_submit("save","Ajouter");
     $site->add_contents($frm);
     $site->add_contents(new wikihelp());
@@ -97,7 +97,7 @@ if ( isset($_REQUEST["name"]) && ereg("^activites-(.*)$",$_REQUEST["name"],$regs
   }
 }
 
-if ( isset($_REQUEST["name"]) ) 
+if ( isset($_REQUEST["name"]) )
 {
   if ( $_REQUEST["name"]{0} == ":" )
     $page->load_by_pagename(substr($_REQUEST["name"],1));
@@ -149,7 +149,7 @@ if ( $page->is_right($site->user,DROIT_ECRITURE) )
       $frm->add_text_field("title","Titre",$page->titre,true);
       //$frm->add_entity_select("groupid","Groupe",$site->db,"group",$page->id_groupe );
       $frm->add_select_field("section","Section",$sections,$page->section);
-      
+
       $frm->add_rights_field($page,false,$page->is_admin($site->user),"pages");
       $frm->add_dokuwiki_toolbar('texte');
       $frm->add_text_area("texte","Contenu",$page->texte,80,20,true);

@@ -36,7 +36,7 @@ $asso->load_by_id($_REQUEST["id_asso"]);
 if( $asso->id < 1 )
 {
   $site->error_not_found();
-  exit();	
+  exit();
 }
 
 if ( !$site->user->is_in_group("compta_admin") && !$asso->is_member_role($site->user->id,ROLEASSO_TRESORIER) )
@@ -52,27 +52,27 @@ if ( $_REQUEST["action"] == "new" )
 elseif ( $_REQUEST["action"] == "save" )
 {
   $libelle->load_by_id( $_REQUEST["id_libelle"]);
-  
+
   if ( $_REQUEST["libelle"] &&  $libelle->id > 0 )
     $libelle->update_libelle($_REQUEST["libelle"]);
 }
 elseif ( $_REQUEST["action"] == "delete" )
 {
   $libelle->load_by_id( $_REQUEST["id_libelle"]);
-  
+
   if ( $libelle->id > 0 )
     $libelle->remove_libelle();
 }
 elseif ( $_REQUEST["action"] == "edit" )
 {
   $libelle->load_by_id($_REQUEST["id_libelle"]);
-  
+
   if( $libelle->id < 1 )
   {
     $site->error_not_found();
-    exit();	
-  }	
-  
+    exit();
+  }
+
   $site->start_page ("none", "Etiquette ".$asso->nom );
 
   $frm = new form ("save","libelle.php?id_asso=".$asso->id,true,"POST","Edition");
@@ -82,12 +82,12 @@ elseif ( $_REQUEST["action"] == "edit" )
   $frm->add_submit("valid","Enregistrer");
 
   $site->add_contents($frm);
-  
+
   $site->add_contents(new contents(false,"<a href=\"libelle.php?id_asso=".$asso->id."\">Annuler</a>"));
-  
-  
+
+
   $site->end_page ();
-  
+
   exit();
 }
 
@@ -102,13 +102,13 @@ $req = new requete ($site->db, "SELECT * " .
     "ORDER BY nom_libelle");
 
 $cts->add(new sqltable(
-  "listlbl", 
-  "Etiquettes", $req, "libelle.php?id_asso=".$asso->id, 
-  "id_libelle", 
+  "listlbl",
+  "Etiquettes", $req, "libelle.php?id_asso=".$asso->id,
+  "id_libelle",
   array(
     "nom_libelle"=>"Libellé"
-    ), 
-  array("edit"=>"Editer","delete"=>"Supprimer"), 
+    ),
+  array("edit"=>"Editer","delete"=>"Supprimer"),
   array(),
   array()
   ),true);

@@ -361,7 +361,7 @@ class carto
       $img = new img_watermark ($this->fond_carte, $watermark);
     $img->output ();
     $img->destroy ();
-    
+
   }
   /*
    * "enregistrer sous"

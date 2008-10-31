@@ -59,7 +59,7 @@ if(empty($site->user->alias))
 
   if( !isset($_REQUEST["alias"]) || isset($ErreurMAJ) )
   {
-    $cts->add_paragraph("<b>Vous n'avez pas d'alias, il vous ets donc impossible d'utiliser les dépots" . 
+    $cts->add_paragraph("<b>Vous n'avez pas d'alias, il vous ets donc impossible d'utiliser les dépots" .
                         " subversions.</b>");
     $frm = new form("setalias","svn.php",false,"post","Créer un alias :");
     if ( isset($ErreurMAJ) )
@@ -88,7 +88,7 @@ if( isset($_REQUEST["action"]) && $_REQUEST["action"]=="pass" )
 $find = @exec("grep \"^".strtolower($site->user->alias).":\" " .SVN_PATH.PASSWORDFILE);
 if( empty($find) )
 {
-  $cts->add_paragraph("<b>Vous n'avez pas de mot de passe, il vous est donc impossible d'utiliser les dépots" . 
+  $cts->add_paragraph("<b>Vous n'avez pas de mot de passe, il vous est donc impossible d'utiliser les dépots" .
                       " subversions.</b>");
   $frm = new form("setmdp","svn.php",false,"post","Créer un mot de passe :");
   $frm->add_hidden("action","pass");

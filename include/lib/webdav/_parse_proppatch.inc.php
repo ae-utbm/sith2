@@ -23,19 +23,19 @@
 /**
  * @cond false
  */
- 
+
 /**
  * helper class for parsing PROPPATCH request bodies
- * 
+ *
  * @package HTTP_WebDAV_Server
  * @author Hartmut Holzgraefe <hholzgra@php.net>
  * @version @package-version@
  */
-class _parse_proppatch 
+class _parse_proppatch
 {
     /**
      *
-     * 
+     *
      * @var
      * @access
      */
@@ -43,7 +43,7 @@ class _parse_proppatch
 
     /**
      *
-     * 
+     *
      * @var
      * @access
      */
@@ -51,7 +51,7 @@ class _parse_proppatch
 
     /**
      *
-     * 
+     *
      * @var
      * @access
      */
@@ -59,7 +59,7 @@ class _parse_proppatch
 
     /**
      *
-     * 
+     *
      * @var
      * @access
      */
@@ -67,7 +67,7 @@ class _parse_proppatch
 
     /**
      *
-     * 
+     *
      * @var
      * @access
      */
@@ -75,11 +75,11 @@ class _parse_proppatch
 
     /**
      * constructor
-     * 
-     * @param  string  path of input stream 
+     *
+     * @param  string  path of input stream
      * @access public
      */
-    function _parse_proppatch($path) 
+    function _parse_proppatch($path)
     {
         $this->success = true;
 
@@ -111,8 +111,8 @@ class _parse_proppatch
                 $had_input = true;
                 $this->success &= xml_parse($xml_parser, $line, false);
             }
-        } 
-        
+        }
+
         if($had_input) {
             $this->success &= xml_parse($xml_parser, "", true);
         }
@@ -131,7 +131,7 @@ class _parse_proppatch
      * @return void
      * @access private
      */
-    function _startElement($parser, $name, $attrs) 
+    function _startElement($parser, $name, $attrs)
     {
         if (strstr($name, " ")) {
             list($ns, $tag) = explode(" ", $name);
@@ -144,7 +144,7 @@ class _parse_proppatch
 
         if ($this->depth == 1) {
             $this->mode = $tag;
-        } 
+        }
 
         if ($this->depth == 3) {
             $prop = array("name" => $tag);
@@ -164,7 +164,7 @@ class _parse_proppatch
             $this->current["val"] .= ">";
         }
 
-        
+
 
         $this->depth++;
     }
@@ -177,7 +177,7 @@ class _parse_proppatch
      * @return void
      * @access private
      */
-    function _endElement($parser, $name) 
+    function _endElement($parser, $name)
     {
         if (strstr($name, " ")) {
             list($ns, $tag) = explode(" ", $name);
@@ -210,7 +210,7 @@ class _parse_proppatch
      * @return void
      * @access private
      */
-    function _data($parser, $data) 
+    function _data($parser, $data)
     {
         if (isset($this->current)) {
             $this->current["val"] .= $data;

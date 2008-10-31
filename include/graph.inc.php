@@ -377,11 +377,11 @@ class histogram
     $minvalue = 0;
     $maxvalue = 0;
 
-    
+
 
     foreach ($plots as $key => $value)
     {
-      $out_data .= "\"".$key."\"" . "\t". $value."\n";  
+      $out_data .= "\"".$key."\"" . "\t". $value."\n";
       if ($value >= $maxvalue)
         $maxvalue = $value;
       if ($value <= $minvalue)
@@ -390,7 +390,7 @@ class histogram
 
     file_put_contents($this->data_file, $out_data);
     file_put_contents($this->conf_file, $out_gplot);
- 
+
   }
 
   function png_render ()
@@ -425,7 +425,7 @@ class histogram
 
 class graph
 {
-  
+
   var $img;
   var $tabValeurColor;
   var $tabComment;
@@ -490,7 +490,7 @@ class graph
     $hexa = str_replace('#', '', $hexa);
     for ($i=0; $i<3; $i++)
       $tab[$i]=hexdec(substr($hexa, (2 * $i),2));
-    
+
     return $tab;
   }
 
@@ -509,7 +509,7 @@ class graph
     $this->tabValue[]= $v;
     $this->tabComment[]= $com;
   }
-  
+
   function makePalette($ombre=0)
   {
     $colors = array (
@@ -524,7 +524,7 @@ class graph
       array(255, 121, 0),
       array(255, 101, 0),
       array(255, 0  , 0));
-      
+
     foreach( $colors as $col )
     {
       $coef = 1.05-$this->ombre;
@@ -532,7 +532,7 @@ class graph
       $this->tabColorOmbre[]=imagecolorallocate($this->img, $col[0]*$coef, $col[1]*$coef, $col[2]*$coef );
     }
   }
-  
+
   function drawLegend()
   {
     $col=count($this->tabColor);
@@ -543,7 +543,7 @@ class graph
                          ($this->largeurImg - $this->padding),
                          ($this->hauteurImg - $this->padding),
                          $this->colorLegende);
-                         
+
     foreach( $this->tabComment as $i => $comment )
     {
       $col--;
@@ -568,14 +568,14 @@ class graph
   function png_render ($watermark=true)
   {
     if (function_exists('imageantialias'))
-      imageantialias($this->img, true);    
-    
+      imageantialias($this->img, true);
+
     $this->initColor();
-    
+
     $this->initCam();
-    
+
     $this->dataTreat();
-    
+
     if ($this->ombrage>0)
       $this->ombrage();
 
@@ -597,20 +597,20 @@ class graph
       imagepng($this->img);
     }
   }
-  
+
   function initCam()
   {
-    
+
   }
-  
+
   function dataTreat()
   {
-    
+
   }
-  
+
   function ombrage()
   {
-    
+
   }
 
   function traceValues($img, $ombre)
@@ -620,54 +620,54 @@ class graph
 
   function markValeur()
   {
-    
+
   }
-  
+
 }
 
 class histogram2 extends graph
 {
   var $min;
   var $max;
-  
+
   var $drawWidth;
   var $drawHeight;
-  
+
   var $barWidth;
   var $barInterval;
-  
+
   var $ticksWidth=20;
-  
+
   function initCam()
   {
     $this->drawWidth=$this->largeurImg - $this->largeurLegend - $this->padding - $this->padding - $this->ticksWidth;
-    $this->drawHeight=$this->hauteurImg - $this->padding - $this->padding;   
-     
+    $this->drawHeight=$this->hauteurImg - $this->padding - $this->padding;
+
     $this->barInterval = $this->drawWidth/count($this->tabValue);
     $this->barWidth = $this->barInterval/3;
   }
-  
+
   function dataTreat()
   {
     $this->min=null;
     $this->max=null;
-    
+
     foreach( $this->tabValue as $v )
     {
       if ( is_null($this->min) || $v < $this->min )
         $this->min = $v;
-        
+
       if ( is_null($this->max) || $v > $this->max )
-        $this->max = $v;      
+        $this->max = $v;
     }
-    
+
     if ( $this->min >= 0 && $this->max <=100 )
     {
       $this->min = 0;
       $this->max = 100;
     }
   }
-  
+
   function ombrage()
   {
   }
@@ -675,45 +675,45 @@ class histogram2 extends graph
   function traceValues($img, $ombre)
   {
     $this->makePalette($ombre);
-    
+
     $delta = $this->max-$this->min;
-    
+
     if ( $delta > 500 )
       $delta=100;
     elseif ( $delta > 100 )
-      $delta=50;         
+      $delta=50;
     elseif ( $delta > 50 )
-      $delta=10;   
+      $delta=10;
     elseif ( $delta > 10 )
-      $delta=5;   
+      $delta=5;
     elseif ( $delta > 5 )
-      $delta=1;       
-    
+      $delta=1;
+
     $this->min = floor($this->min/$delta)*$delta;
-    
+
     $v=$this->min;
-    
+
     $scale = $this->drawHeight/($this->max-$this->min);
 
     while ( $v <= $this->max )
     {
       $y = $this->padding+(($this->max-$v)*$scale);
-      
+
       imageline ( $this->img, $this->padding, $y, $this->padding+$this->ticksWidth, $y, $this->colorArette);
-      
+
       $y = $y-imagefontheight(2)-1;
-      
+
       if ( $y < $this->padding )
         $y = $this->padding+1;
-      
+
       imagestring ( $this->img, 2, $this->padding+1, $y, $v, $this->texte);
-      
+
       $v += $delta;
     }
-    
-    
-    
-    
+
+
+
+
     $x1=$this->ticksWidth+$this->padding + (($this->barInterval-$this->barWidth)/2);
     $col=count($this->tabColor);
 
@@ -722,28 +722,28 @@ class histogram2 extends graph
       $col--;
       if($col<0)
         $col=count($this->tabColor)-1;
-      
+
       $y1=$this->padding+(($this->max-$v)*$scale);
       $y2=$this->padding+$this->drawHeight;
       $x2 = $x1+$this->barWidth;
-      
+
       imagefilledrectangle($this->img,$x1,$y1,$x2,$y2,$this->tabColor[$col]);
-      
-      
+
+
       $tw = imagefontwidth(2)*strlen("$v");
       $tx = ($x1+$x2-$tw)/2;
       $ty = $y1-imagefontheight(2);
-      
-      if( $ty < $this->padding ) 
+
+      if( $ty < $this->padding )
         $ty = $y1;
-        
+
       imagestring ( $this->img, 2, $tx, $ty, "$v", $this->texte);
-        
-      
-      
+
+
+
       $x1+=$this->barInterval;
     }
-    
+
   }
 
 

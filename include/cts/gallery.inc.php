@@ -35,14 +35,14 @@
  */
 class gallery extends stdcontents
 {
-	
+
 	var $page;
 	var $id_name;
 	var $actions;
 	var $batchactions;
 	var $get_page;
-	
-	
+
+
 	/**
 	 * Construit une galerie.
 	 * API similaire à sqltable.
@@ -54,24 +54,24 @@ class gallery extends stdcontents
 	 * @param $batchactions Actions collectives (array(action=>titre))
 	 * @see sqltable
 	 */
-	function gallery($title=false,$class=false,$name=false,$page=false,$id_name=false,$actions=array(),$batchactions=array())	
+	function gallery($title=false,$class=false,$name=false,$page=false,$id_name=false,$actions=array(),$batchactions=array())
 	{
 		$this->title = $title;
-		
-		
+
+
 		$this->page = $page;
 		$this->id_name = $id_name;
 		$this->actions = $actions;
 		$this->batchactions = $batchactions;
-		
+
 		if ( strstr($page,"?"))
 			$this->get_page = $page."&";
 		else
 			$this->get_page = $page."?";
-			
+
 		if ( count($batchactions) )
 			$this->buffer .= "<form name=\"$name\" action=\"$page\" method=\"POST\">\n";
-			
+
 		$this->buffer .= "<div class=\"gallery".($class?" ".$class:"")."\">\n";
 	}
 	/**
@@ -84,29 +84,29 @@ class gallery extends stdcontents
 	 */
 	function add_item ( $data, $label=false, $id=false, $actallowed=false, $class=false )
 	{
-			
+
 		$this->buffer .= "<div class=\"galitem".($class?" ".$class:"")."\">\n";
-		
+
 		$this->buffer .= "<div class=\"galitemdata\">";
-		
+
 		if ( is_object($data) )
 			$this->buffer .= $data->html_render()."\n";
 		else
 			$this->buffer .= $data."\n";
-		
+
 		$this->buffer .= "</div>";
-		
+
 		$this->buffer .= "<div class=\"galiteminfo\">";
-		
+
 		if ( count($this->batchactions) )
 			$this->buffer .= "<input type=\"checkbox\" class=\"chkbox\" name=\"".$this->id_name."s[]\" value=\"".$id."\" />\n";
-		
+
 		if ( $label )
 			$this->buffer .= $label."\n";
-		
+
 		if ( $actallowed && $label )
 			$this->buffer .= "</div><div class=\"tooldep\">\n";
-		
+
 		if ( is_array($actallowed) )
 		{
 			foreach ( $actallowed as $action  )
@@ -122,7 +122,7 @@ class gallery extends stdcontents
 
 		$this->buffer .= "</div>\n";
 	}
-	
+
 	function _render_action(  $id, $action, $name)
 	{
 		global $wwwtopdir,$topdir;
@@ -133,7 +133,7 @@ class gallery extends stdcontents
 			$this->buffer .= htmlentities($name,ENT_NOQUOTES,"UTF-8");
 		$this->buffer .= "</a>\n";
 	}
-	
+
 	function generate_hlink ( $action, $id )
 	{
 		if ( strpos($id,"=") )
@@ -143,17 +143,17 @@ class gallery extends stdcontents
 			else
 				return htmlentities($this->get_page.$id."&action=".$action);
 		}
-		
+
 		if ( !$action )
 			return htmlentities($this->get_page.$this->id_name."=".$id);
 		else
 			return htmlentities($this->get_page.$this->id_name."=".$id."&action=".$action);
 	}
-	
+
 	function html_render ()
 	{
 		$this->buffer .= "<div class=\"clearboth\"></div>\n</div>";
-		
+
 		if ( count($this->batchactions) )
 		{
 			$this->buffer .= "<p>\n<select name=\"action\">\n";
@@ -161,11 +161,11 @@ class gallery extends stdcontents
 				$this->buffer .= "<option value=\"$action\">".htmlentities($name,ENT_NOQUOTES,"UTF-8")."</option>\n";
 			$this->buffer .= "</select>\n<input type=\"submit\" value=\"ok\" />\n</p>\n";
 			$this->buffer .= "</form>\n";
-		}		
+		}
 
-		return $this->buffer;	
+		return $this->buffer;
 	}
-	
+
 }
 
 ?>

@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir="../";
 require_once("include/site.inc.php");
 require_once($topdir."include/entities/bus.inc.php");
@@ -47,27 +47,27 @@ if ( isset($_REQUEST["id_lignebus"]) )
 }
 elseif ( isset($_REQUEST["id_reseaubus"]) )
   $reseaubus->load_by_id($_REQUEST["id_reseaubus"]);
-  
+
 if ( $site->is_admin() && isset($_REQUEST["action"]) )
 {
-  if ( $_REQUEST["action"] == "createreseaubus" ) 
+  if ( $_REQUEST["action"] == "createreseaubus" )
   {
     $reseaubusparent = new reseaubus($site->db);
     $reseaubusparent->load_by_id($_REQUEST["id_reseaubus_parent"]);
     $reseaubus->create ( $_REQUEST["nom"], $_REQUEST["siteweb"], $reseaubusparent->id );
   }
-  elseif ( $_REQUEST["action"] == "createarretbus" ) 
+  elseif ( $_REQUEST["action"] == "createarretbus" )
   {
     $ville->load_by_id($_REQUEST["id_ville"]);
     $arretbus->create ( $ville->id,  $_REQUEST["nom"], $_REQUEST["lat"], $_REQUEST["long"], $_REQUEST["eloi"] );
-  }  
+  }
   elseif ( $_REQUEST["action"] == "createlignebus" && $reseaubus->is_valid() )
   {
     $problems=0;
     $arrets=array();
-    
+
     $ErrorLigne="";
-    
+
     $data = explode("\n",$_REQUEST["arrets"]);
     foreach ( $data as $e )
     {
@@ -76,15 +76,15 @@ if ( $site->is_admin() && isset($_REQUEST["action"]) )
       if ( count($rows) != 1 )
       {
         if ( count($rows)==0 )
-          $ErrorLigne .= "Arret \"$e\" inconnu, ";  
+          $ErrorLigne .= "Arret \"$e\" inconnu, ";
         else
-          $ErrorLigne .= "Plusieurs arrets pour \"$e\" précisez ville, ";  
+          $ErrorLigne .= "Plusieurs arrets pour \"$e\" précisez ville, ";
         $problems++;
       }
       else
         $arrets[] = current($rows);
     }
-    
+
     if ( $problems == 0 )
     {
       $lignebus->load_by_id($_REQUEST["id_lignebus_parent"]);
@@ -103,8 +103,8 @@ if ( $reseaubus->is_valid() )
 
   $reseaubusparent = new reseaubus($site->db);
   $reseaubusparent->id_reseaubus_parent = $reseaubus->id_reseaubus_parent;
-  
-  while ( !is_null($reseaubusparent->id_reseaubus_parent) 
+
+  while ( !is_null($reseaubusparent->id_reseaubus_parent)
     && $reseaubusparent->load_by_id($reseaubusparent->id_reseaubus_parent) )
     $path = $reseaubusparent->get_html_link()." / ".$path;
 
@@ -117,44 +117,44 @@ else
 if ( $arretbus->is_valid() )
 {
   $path .= " / ".$arretbus->get_html_link();
-  
+
   $site->start_page("pgbus","Arret ".$arretbus->nom." - Reseaux de bus");
   $site->add_alternate_geopoint($arretbus);
   $cts = new contents($path);
-  
-  
-  
+
+
+
   $site->add_contents($cts);
-  $site->end_page(); 
-  exit();  
-} 
-elseif ( $lignebus->is_valid() ) 
+  $site->end_page();
+  exit();
+}
+elseif ( $lignebus->is_valid() )
 {
   $path .= " / ".$lignebus->get_html_link();
   $site->start_page("pgbus","Ligne ".$lignebus->nom." - Reseaux de bus");
   $cts = new contents($path);
-  
+
   $gmap = new gmap("lignebus");
   $gmap->add_path ( $lignebus->nom, $lignebus->get_path(), $lignebus->couleur );
   $cts->add($gmap);
-  
-  
+
+
   $site->add_contents($cts);
-  $site->end_page(); 
-  exit();  
+  $site->end_page();
+  exit();
 }
-elseif ( $reseaubus->is_valid() ) 
+elseif ( $reseaubus->is_valid() )
 {
   $site->start_page("pgbus","Reseaux de bus");
   $cts = new contents($path);
-  
+
   $req = new requete($site->db,"SELECT pg_lignebus.*, pg_reseaubus.nom_reseaubus FROM ".
   "pg_lignebus ".
   "INNER JOIN pg_reseaubus ON (pg_reseaubus.id_reseaubus=pg_lignebus.id_reseaubus) ".
   "WHERE pg_reseaubus.id_reseaubus = '".mysql_real_escape_string($reseaubus->id)."' ".
   "OR pg_reseaubus.id_reseaubus_parent = '".mysql_real_escape_string($reseaubus->id)."' ".
   "ORDER BY pg_lignebus.nom_lignebus");
-  
+
   $gmap = new gmap("reseaubus");
   while ( $req->get_row() )
   {
@@ -162,9 +162,9 @@ elseif ( $reseaubus->is_valid() )
     $gmap->add_path ( $lignebus->nom, $lignebus->get_path(), $lignebus->couleur );
   }
   $cts->add($gmap);
-  
+
   $req->go_first();
-  
+
   $tbl = new sqltable(
     "listlignes",
     "Lignes de bus", $req, "bus.php",
@@ -172,8 +172,8 @@ elseif ( $reseaubus->is_valid() )
     array("nom_lignebus"=>"Nom de la ligne"),
     array("info"=>"Informations / Horraires"), array(), array( )
     );
-  $cts->add($tbl,true);  
-  
+  $cts->add($tbl,true);
+
   if ( $site->is_admin() )
   {
     $frm = new form("createlignebus","bus.php",true,"POST","Ajouter une ligne de bus");
@@ -188,14 +188,14 @@ elseif ( $reseaubus->is_valid() )
     $frm->add_submit("valid","Ajouter");
     $cts->add($frm,true);
   }
-  
+
   $site->add_contents($cts);
-  $site->end_page(); 
-  exit();  
+  $site->end_page();
+  exit();
 }
 
 $site->start_page("pgbus","Reseaux de bus");
-  
+
 $cts = new contents($path);
 
 $req = new requete($site->db,"SELECT * FROM pg_reseaubus WHERE id_reseaubus_parent IS NULL ORDER BY nom_reseaubus");
@@ -217,7 +217,7 @@ if ( $site->is_admin() )
   $frm->add_entity_smartselect("id_reseaubus_parent","Reseau parent",$reseaubus,true);
   $frm->add_submit("valid","Ajouter");
   $cts->add($frm,true);
-  
+
   $frm = new form("createarretbus","bus.php",false,"POST","Ajouter un arret de bus");
   $frm->add_hidden("action","createarretbus");
   $frm->add_text_field("nom","Nom");
@@ -226,8 +226,8 @@ if ( $site->is_admin() )
   $frm->add_geo_field("long","Longitude","long");
   $frm->add_text_field("eloi","Eloignement");
   $frm->add_submit("valid","Ajouter");
-  $cts->add($frm,true);  
-  
+  $cts->add($frm,true);
+
 }
 
 $site->add_contents($cts);

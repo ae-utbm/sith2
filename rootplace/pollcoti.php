@@ -7,7 +7,7 @@
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the 
+ * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but
@@ -28,29 +28,29 @@ $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
-	
+
 $site->start_page("none","Administration");
 
 $cts = new contents("<a href=\"./\">Administration</a> / Maintenance / Auto-Reparation de la base de données");
 
 $req = new requete($site->dbrw,"UPDATE `ae_carte` SET `etat_vie_carte_ae`='".CETAT_EXPIRE."' " .
 		"WHERE `date_expiration` <= NOW() AND `etat_vie_carte_ae`<".CETAT_EXPIRE."");
-		
-$cts->add_paragraph($req->lines." cartes ont expirées");			
+
+$cts->add_paragraph($req->lines." cartes ont expirées");
 
 $req = new requete($site->dbrw,"UPDATE `utilisateurs` SET `ae_utl`='1' " .
 		"WHERE `ae_utl`='0' AND EXISTS(SELECT * FROM `ae_cotisations` " .
 			"WHERE `ae_cotisations`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
 			"AND `date_fin_cotis` > NOW())");
-			
-$cts->add_paragraph($req->lines." utilisateurs de plus sont désormais cotisants");			
+
+$cts->add_paragraph($req->lines." utilisateurs de plus sont désormais cotisants");
 
 $req = new requete($site->dbrw,"UPDATE `utilisateurs` SET `ae_utl`='0' " .
 		"WHERE `ae_utl`='1' AND NOT EXISTS(SELECT * FROM `ae_cotisations` " .
 			"WHERE `ae_cotisations`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
 			"AND `date_fin_cotis` > NOW())");
-			
-$cts->add_paragraph($req->lines." utilisateurs ne sont plus cotisants");			
+
+$cts->add_paragraph($req->lines." utilisateurs ne sont plus cotisants");
 
 $site->add_contents($cts);
 $site->end_page();

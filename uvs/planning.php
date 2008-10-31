@@ -1,7 +1,7 @@
 <?
 /** @file
  *
- * @brief Gestion du planning par semestre, fourni par 
+ * @brief Gestion du planning par semestre, fourni par
  *  le SME
  *
  */
@@ -65,8 +65,8 @@ $cts->add_paragraph("Cette page est réservée au groupe gestion-ae.".
 		    "les Services des Moyens de l'Enseignement");
 
 $form = new form('add_evt', 'planning.php?action=add_evt');
- 
-$form->add_select_field('addevt_type', "Type d'événement", 
+
+$form->add_select_field('addevt_type', "Type d'événement",
 			array(0 => "Semaine A",
 			      1 => "Semaine B",
 			      2 => "Examen d'espagnol (Cervantès)",
@@ -88,11 +88,11 @@ $form->add_select_field('addevt_type', "Type d'événement",
 			      18 => "Date limite de résultat aux UVs",
 			      19 => "Activités d'intersemestre",
 			      99 => "Semestre (dates)"), 0);
-			      
+
 
 $form->add_date_field('addevt_datedeb', "Date de début", -1, true);
 $form->add_date_field('addevt_datefin', "Date de fin", -1, true);
- 
+
 /* a définir ... je crois que je vais faire du javascript ici */
 $form->add_entity_smartselect('addevt_entity', "Entité liée éventuelle", new uv($site->db));
 
@@ -100,7 +100,7 @@ $form->add_entity_smartselect('addevt_entity', "Entité liée éventuelle", new 
 
 $form->add_submit('addevt_submit', "Ajouter");
 $cts->add($form);
- 
+
 
 $site->add_contents($cts);
 

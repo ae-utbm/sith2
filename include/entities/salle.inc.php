@@ -20,13 +20,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /** @file
  * @addtogroup inventaire
  * @{
  */
 
-/** 
+/**
  * Class gérant les salles
  *
  *
@@ -46,7 +46,7 @@ class salle extends stdentity
 	var $tel;
 	var $notes;
 
-	
+
 	/** Charge une salle en fonction de son id
 	 * $this->id est égal à -1 en cas d'erreur
 	 * @param $id id de la fonction
@@ -55,18 +55,18 @@ class salle extends stdentity
 	{
 		$req = new requete($this->db, "SELECT * FROM `sl_salle`
 				WHERE `id_salle` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-	
+
 	function _load ( $row )
 	{
 		$this->id			= $row['id_salle'];
@@ -80,7 +80,7 @@ class salle extends stdentity
 		$this->tel			= $row['tel_salle'];
 		$this->notes			= $row['notes_salle'];
 	}
-	
+
 	/** Ajoute une salle et le charge dans l'instance
 	 * @param $id_site Id du batiment dans le quel se trouve la salle
 	 * @param $nom Nom de la salle
@@ -102,8 +102,8 @@ class salle extends stdentity
 		$this->reservable	= is_null($reservable)?false:$reservable;
 		$this->surface		= $surface;
 		$this->tel			= $tel;
-		$this->notes			= $notes;	
-		
+		$this->notes			= $notes;
+
 		$sql = new insert ($this->dbrw,
 			"sl_salle",
 			array(
@@ -118,20 +118,20 @@ class salle extends stdentity
 				"notes_salle" => $this->notes
 				)
 			);
-				
+
 		if ( $sql )
 			$this->id = $sql->get_id();
 		else
 			$this->id = null;
-			
-	}	
-	
+
+	}
+
 	/** Ajouter une association dans la salle
 	 * @param $id_asso Id de l'association
 	 */
 	function add_asso ( $id_asso )
 	{
-		
+
 		$sql = new insert ($this->dbrw,
 			"sl_association",
 			array(
@@ -139,15 +139,15 @@ class salle extends stdentity
 				"id_asso" => $id_asso
 				)
 			);
-		
+
 	}
-	
+
 	/** Enlève une association de la salle
 	 * @param $id_asso Id de l'association
 	 */
 	function remove_asso ( $id_asso )
 	{
-		
+
 		$sql = new delete ($this->dbrw,
 			"sl_association",
 			array(
@@ -155,9 +155,9 @@ class salle extends stdentity
 				"id_asso" => $id_asso
 				)
 			);
-		
-	}	
-	
+
+	}
+
 	/** Met à jour une salle
 	 * @param $nom Nom de la salle
 	 * @param $etage Etage de la salle
@@ -177,8 +177,8 @@ class salle extends stdentity
 		$this->reservable	= is_null($reservable)?false:$reservable;
 		$this->surface		= $surface;
 		$this->tel			= $tel;
-		$this->notes			= $notes;	
-		
+		$this->notes			= $notes;
+
 		$sql = new update ($this->dbrw,
 			"sl_salle",
 			array(
@@ -197,30 +197,30 @@ class salle extends stdentity
 				)
 			);
 
-			
-	}		
-	
-	
+
+	}
+
+
   function can_enumerate()
   {
     return true;
   }
-  
+
   function enumerate ( $null=false, $conds = null )
   {
     $class = get_class($this);
 
-		if ( $null ) 
+		if ( $null )
 			$values=array(null=>"(aucun)");
 		else
 			$values=array();
-    
+
 		$sql = "SELECT `id_salle`,CONCAT(nom_bat,' / ',nom_salle) FROM sl_salle INNER JOIN sl_batiment ON sl_batiment.id_batiment=sl_salle.id_batiment";
-      
+
     if ( !is_null($conds) && count($conds) > 0 )
     {
       $firststatement=true;
-      
+
       foreach ($conds as $key => $value)
       {
         if( $firststatement )
@@ -230,16 +230,16 @@ class salle extends stdentity
         }
         else
           $sql .= " AND ";
-          
+
         if ( is_null($value) )
           $sql .= "(`" . $key . "` is NULL)";
         else
           $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
       }
     }
-    
-    $sql .= " ORDER BY 2";  
-    
+
+    $sql .= " ORDER BY 2";
+
 		$req = new requete($this->db,$sql);
 
 		while ( $row = $req->get_row() )
@@ -247,8 +247,8 @@ class salle extends stdentity
 
     return $values;
   }
-	
-	
+
+
 }
 
 /**
@@ -269,24 +269,24 @@ class reservation extends stdentity
 	var $etat;
 	var $notes;
 
-	
+
 	function load_by_id ( $id )
 	{
 		$req = new requete($this->db, "SELECT * FROM `sl_reservation`
 				WHERE `id_salres` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-		
-	
+
+
 	function _load ( $row )
 	{
 		$this->id = $row['id_salres'];
@@ -305,13 +305,13 @@ class reservation extends stdentity
 		$this->convention = $row['convention_salres'];
 		$this->etat = $row['etat_salres'];
 		$this->notes = $row['notes_salres'];
-		
-		
-		
+
+
+
 	}
-	
-	
-	
+
+
+
 	function est_disponible ( $id_salle, $debut, $fin )
 	{
 		$req = new requete($this->db,
@@ -320,12 +320,12 @@ class reservation extends stdentity
 				"!(`date_debut_salres` > '".date("Y-m-d H:i:s",$fin-1)."' OR " .
 				"`date_fin_salres` < '".date("Y-m-d H:i:s",$debut)."') ".
 				"AND id_salle='".$id_salle."'");
-				
+
 		list($count) = $req->get_row();
-		
+
 		return ($count == 0);
 	}
-	
+
 	function est_disponible_hors_non_accord ( $id_salle, $debut, $fin )
 	{
 		$req = new requete($this->db,
@@ -334,18 +334,18 @@ class reservation extends stdentity
 				"!(`date_debut_salres` > '".date("Y-m-d H:i:s",$fin-1)."' OR " .
 				"`date_fin_salres` < '".date("Y-m-d H:i:s",$debut)."') ".
 				"AND id_salle='".$id_salle."' AND `date_accord_res` IS NOT NULL");
-				
+
 		list($count) = $req->get_row();
-		
+
 		return ($count == 0);
 	}
-	
+
 	function add ( $id_salle, $id_utilisateur, $id_asso, $debut, $fin, $description )
 	{
-		
-		if ( !$this->est_disponible($id_salle,$debut,$fin) )	
+
+		if ( !$this->est_disponible($id_salle,$debut,$fin) )
 			return false;
-		
+
 		$this->id_utilisateur = $id_utilisateur;
 		$this->id_utilisateur_op = NULL;
 		$this->id_salle = $id_salle;
@@ -358,7 +358,7 @@ class reservation extends stdentity
 		$this->convention = false;
 		$this->etat = 0;
 		$this->notes = "";
-		
+
 		$sql = new insert ($this->dbrw,
 			"sl_reservation",
 			array(
@@ -376,19 +376,19 @@ class reservation extends stdentity
 				"notes_salres" => $this->notes
 				)
 			);
-				
+
 		if ( $sql )
 			$this->id = $sql->get_id();
 		else
 			$this->id = null;
-			
+
 		return true;
 	}
-	
+
 	function convention_done ()
 	{
 		$this->convention = true;
-		
+
 		$sql = new update ($this->dbrw,
 			"sl_reservation",
 			array(
@@ -398,14 +398,14 @@ class reservation extends stdentity
 				"id_salres" => $this->id
 				)
 			);
-		
+
 	}
-	
+
 	function accord ( $id_utilisateur )
 	{
 		$this->date_accord = time();
 		$this->id_utilisateur_op = $id_utilisateur;
-		
+
 		$sql = new update ($this->dbrw,
 			"sl_reservation",
 			array(
@@ -417,11 +417,11 @@ class reservation extends stdentity
 				)
 			);
 	}
-	
+
 	function set_notes($notes)
 	{
 		$this->notes = $notes;
-		
+
 		$sql = new update ($this->dbrw,
 			"sl_reservation",
 			array(
@@ -430,25 +430,25 @@ class reservation extends stdentity
 			array(
 				"id_salres" => $this->id
 				)
-			);	
+			);
 	}
-	
-	
-	
+
+
+
 	function delete ()
 	{
-		
+
 		$sql = new delete ($this->dbrw,
 			"sl_reservation",
 			array(
 				"id_salres" => $this->id
 				)
 			);
-		
+
 	}
-	
-	
+
+
 }
- 
- 
+
+
 ?>

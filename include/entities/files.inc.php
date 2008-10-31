@@ -47,7 +47,7 @@ class dfile extends fs
   /** Id du dossier dans le quel le fichier se trouve */
   var $id_folder;
   var $id_folder_parent; // alias pour simplicité
-  
+
   /** Description du fichier */
   var $description;
   /** date de l'ajout du fichier */
@@ -71,7 +71,7 @@ class dfile extends fs
   var $date_rev_file;
 
 
-  /** 
+  /**
    * Charge un fichier par son ID
    * @param $id ID du fichier
    * @return false en cas d'erreur, sinon true
@@ -84,18 +84,18 @@ class dfile extends fs
           "AND d_file_rev.id_rev_file=d_file.id_rev_file_last ) ".
         "WHERE d_file.`id_file` = '" . mysql_real_escape_string($id) . "' ".
         "LIMIT 1");
-        
+
     if ( $req->lines == 1 )
     {
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
-  
-  /** 
+
+  /**
    * Charge un fichier par son ID et sa revision
    * @param $id ID du fichier
   * @param $rev Revision du fichier
@@ -109,17 +109,17 @@ class dfile extends fs
           "AND d_file_rev.id_rev_file='".mysql_real_escape_string($rev)."' ) ".
         "WHERE d_file.`id_file` = '".mysql_real_escape_string($id)."' ".
         "LIMIT 1");
-        
+
     if ( $req->lines == 1 )
     {
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
-  
+
   /**
    * Charge un fichier par son nom "logique"
    * @param $id_parent Id du dossier parent
@@ -134,15 +134,15 @@ class dfile extends fs
           "AND d_file_rev.id_rev_file=d_file.id_rev_file_last ) ".
         "WHERE `nom_fichier_file` = '" . mysql_real_escape_string($nom_fichier) . "' ".
         "AND id_folder ='".mysql_real_escape_string($id_parent)."' ".
-        "LIMIT 1");  
-        
+        "LIMIT 1");
+
     if ( $req->lines == 1 )
     {
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
   /**
@@ -170,14 +170,14 @@ class dfile extends fs
     $this->id_groupe_admin = $row['id_groupe_admin'];
     $this->droits_acces = $row['droits_acces_file'];
     $this->modere = $row['modere_file'];
-    
+
     // Revision
     $this->id_rev_file = $row['id_rev_file'];
     $this->id_utilisateur_rev_file = $row['id_utilisateur_rev_file'];
     $this->date_rev_file = $row['date_rev_file'];
     $this->mime_type = $row['mime_type_rev_file'];
     $this->taille = $row['filesize_rev_file'];
-    
+
   }
 
   /**
@@ -202,7 +202,7 @@ class dfile extends fs
     $this->date_modif = time();
     $this->modere=false;
     $this->auto_modere();
-    
+
     $this->nom_fichier= $this->get_free_filename($id_folder,$file['name']);
     $this->taille=$file['size'];
     $this->mime_type=$file['type']; // ou mime_content_type($file['tmp_name']);
@@ -239,9 +239,9 @@ class dfile extends fs
       $this->id = null;
       return;
     }
-    
+
     $this->_new_revision ( $this->id_utilisateur, $file['size'], $file['type'], "Created" );
-    
+
     move_uploaded_file ( $file['tmp_name'], $this->get_real_filename() );
     $this->generate_thumbs();
 
@@ -330,19 +330,19 @@ class dfile extends fs
     if ( ereg("image/(.*)",$this->mime_type) )
     {
       $f = $this->get_thumb_filename();
-      
+
       if ( file_exists($f) )
         unlink($f);
-      
+
       exec("/usr/share/php5/exec/convert ".$this->get_real_filename()." -thumbnail 128x128 -quality 95 $f");
-      
+
       $f = $this->get_screensize_filename();
-      
+
       if ( file_exists($f) )
-        unlink($f);      
-      
+        unlink($f);
+
       exec("/usr/share/php5/exec/convert ".$this->get_real_filename()." -thumbnail 500x1000 -quality 95 $f");
-    }    
+    }
   }
 
 
@@ -374,9 +374,9 @@ class dfile extends fs
       );
 
   }
-  
+
   /**
-   * Insère une nouvelle révision du fichier à partir d'un élément de $_FILES 
+   * Insère une nouvelle révision du fichier à partir d'un élément de $_FILES
    * Fonction à usage interne
    * @param $id_utilisateur Utilisateur faisant la révision
    * @param $filesize Taille du nouveau fichier
@@ -389,7 +389,7 @@ class dfile extends fs
     $this->date_rev_file = time();
     $this->taille=$filesize;
     $this->mime_type=$mime_type;
-    
+
     $sql = new insert($this->dbrw, "d_file_rev", array(
       "id_file"=>$this->id,
       "id_utilisateur_rev_file"=>$this->id_utilisateur_rev_file,
@@ -397,12 +397,12 @@ class dfile extends fs
       "filesize_rev_file"=>$this->taille,
       "mime_type_rev_file"=>$this->mime_type,
       "comment_rev_file"=>$comment));
-   
+
     $this->id_rev_file = $sql->get_id();
     $this->date_modif=time();
     $this->modere=false;
     $this->auto_modere();
-    
+
     $sql = new update ($this->dbrw,
       "d_file",
       array(
@@ -415,9 +415,9 @@ class dfile extends fs
         ),
       array("id_file"=>$this->id)
       );
-   
-  } 
-  
+
+  }
+
   /**
    * Insère une nouvelle révision du fichier à partir d'un élément de $_FILES
    * @param $file Element de $_FILES
@@ -429,39 +429,39 @@ class dfile extends fs
   {
     if ( $this->is_locked($user) )
       return false;
-   
+
     if ( !is_uploaded_file($file['tmp_name']) )
       return false;
 
     $this->_new_revision($user->id,$file['size'],$file['type'],$comment);
-    
+
     move_uploaded_file ( $file['tmp_name'], $this->get_real_filename() );
     $this->generate_thumbs();
     return true;
   }
-  
-  
+
+
   function create_copy_of ( &$source, $id_parent, $new_nom_fichier=null, $depth=0 )
   {
     $this->id_utilisateur = $source->id_utilisateur;
     $this->id_groupe = $source->id_groupe;
     $this->id_groupe_admin = $source->id_groupe_admin;
-    $this->droits_acces = $source->droits_acces;   
-    $this->import_file ( 
-      $source->get_real_filename(), 
-      is_null($new_nom_fichier)?$source->nom_fichier:$new_nom_fichier, 
-      $source->taille, 
-      $source->mime_type, 
-      time(), 
-      0, 
-      0, 
-      $source->titre, 
-      $id_parent, 
-      $source->description, 
+    $this->droits_acces = $source->droits_acces;
+    $this->import_file (
+      $source->get_real_filename(),
+      is_null($new_nom_fichier)?$source->nom_fichier:$new_nom_fichier,
+      $source->taille,
+      $source->mime_type,
+      time(),
+      0,
+      0,
+      $source->titre,
+      $id_parent,
+      $source->description,
       $source->id_asso );
     return true;
   }
-  
+
   function create_empty ( $id_folder, $filename, $filesize, $mime_type )
   {
     $this->titre = $filename;
@@ -507,13 +507,13 @@ class dfile extends fs
       $this->id = null;
       return;
     }
-    
+
     $this->_new_revision ( $this->id_utilisateur, $filesize, $mime_type, "Created" );
 
   }
 
-  
-  
+
+
   /**
    * Deplace le fichier dans un autre dossier
    * @param $id_folder Titre du dossier
@@ -522,18 +522,18 @@ class dfile extends fs
   {
     $this->id_folder = $id_folder;
     $this->id_folder_parent = $id_folder;
-    
+
     if ( is_null($new_nom_fichier) )
       $this->nom_fichier= $this->get_free_filename($id_folder,$this->nom_fichier);
     else
       $this->nom_fichier= $this->get_free_filename($id_folder,$new_nom_fichier);
-      
+
     $sql = new update ($this->dbrw,
       "d_file",
       array("nom_fichier_file"=>$this->nom_fichier,"id_folder"=>$this->id_folder),
       array("id_file"=>$this->id)
       );
-      
+
     return true;
   }
 
@@ -632,7 +632,7 @@ class dfile extends fs
     $f = $this->get_thumb_filename();
     if ( file_exists($f))
       unlink($f);
-    
+
     $f = $this->get_screensize_filename();
     if ( file_exists($f))
       unlink($f);
@@ -643,13 +643,13 @@ class dfile extends fs
     new delete($this->dbrw,"d_file_lock",array("id_file"=>$this->id));
     new delete($this->dbrw,"d_file_rev",array("id_file"=>$this->id));
   }
-  
+
   /**
    * Supprime le fichier. fs support.
    */
   function delete()
   {
-    $this->delete_file();  
+    $this->delete_file();
   }
 
   /**
@@ -660,30 +660,30 @@ class dfile extends fs
     $sql = new requete($this->dbrw,"UPDATE `d_file` SET nb_telechargement_file=nb_telechargement_file+1 WHERE id_file='".$this->id."'");
     $this->nb_telechargement++;
   }
-  
+
   function get_root_element()
   {
     $folder = new dfolder($this->db);
     $folder->load_root_by_asso(null);
-    return $folder;  
+    return $folder;
   }
-  
+
   function get_parent()
   {
     $folder = new dfolder($this->db);
     $folder->load_by_id($this->id_folder);
-    return $folder;  
+    return $folder;
   }
-  
+
   function can_explore()
   {
-    return true;  
+    return true;
   }
-  
+
   function is_admin ( &$user )
   {
     if ( $user->is_in_group("gestion_ae") )
-      return true;  
+      return true;
 
     return parent::is_admin($user);
   }
@@ -695,36 +695,36 @@ class dfile extends fs
       "WHERE `id_file` = '" . mysql_real_escape_string($this->id) . "' ".
       /*"AND time_file_lock >= '".date("Y-m-d H:i:s",time()-WIKI_LOCKTIME)."' ".*/
       "LIMIT 1");
-    
+
     if ( $req->lines == 0 )
     {
-      //new delete($this->dbrw,"d_file_lock",array("id_file"=>$this->id)); // Nettoyage      
+      //new delete($this->dbrw,"d_file_lock",array("id_file"=>$this->id)); // Nettoyage
       return false;
     }
-    
+
     list($uid) = $req->get_row();
-    
+
     if ( $uid == $user->id )
       return false;
-    
-    return $uid; 
+
+    return $uid;
   }
-  
+
   function get_lock()
   {
     $req = new requete($this->dbrw,
       "SELECT id_utilisateur, time_file_lock FROM d_file_lock ".
       "WHERE `id_file` = '" . mysql_real_escape_string($this->id) . "' ".
       "LIMIT 1");
-    
+
     if ( $req->lines == 0 )
     {
       return false;
     }
-    
-    return $req->get_row(); 
+
+    return $req->get_row();
   }
-  
+
   function lock(&$user)
   {
     $this->unlock($user); // Supprime d'eventuels vieux verrous...
@@ -734,7 +734,7 @@ class dfile extends fs
         "id_utilisateur"=>$user->id,
         "time_file_lock"=>date("Y-m-d H:i:s")));
   }
-  
+
   function unlock(&$user)
   {
     new delete($this->dbrw,"d_file_lock",
@@ -743,7 +743,7 @@ class dfile extends fs
         "id_utilisateur"=>$user->id
         ));
   }
-  
+
   function force_unlock()
   {
     new delete($this->dbrw,"d_file_lock",array("id_file"=>$this->id));
@@ -758,17 +758,17 @@ class dfile extends fs
   {
     if ( $this->modere )
       return;
-    
+
     if ( (DROIT_LECTURE & ($this->droits_acces)) == DROIT_LECTURE )
       return;
-      
+
     if ( $this->id_groupe >= 10000 && $this->id_groupe < 20000 )
-      return; 
-      
+      return;
+
     $this->modere = true;
   }
 
-  
+
 }
 
 ?>

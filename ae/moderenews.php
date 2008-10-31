@@ -75,7 +75,7 @@ if ((isset($_REQUEST['id_nws']))
     $lieu->load_by_id($_REQUEST["id_lieu"]);
 
     $news->load_by_id($id);
-    
+
     $news->save_news(
 			     $_REQUEST['id_asso'],
 			     $_REQUEST['nws_title'],
@@ -85,16 +85,16 @@ if ((isset($_REQUEST['id_nws']))
 
 		        $site->add_contents (new contents("Mod&eacute;ration",
 					"<p>Mod&eacute;ration eff&eacute;ctu&eacute;e avec succ&egrave;s</p>"));
-					
-		if ( isset($_REQUEST["dfile"]))			
+
+		if ( isset($_REQUEST["dfile"]))
 		{
 			$fl = new dfile($site->db,$site->dbrw);
-			foreach($_REQUEST["dfile"]as $id=>$chk)	
+			foreach($_REQUEST["dfile"]as $id=>$chk)
 			{
 				$fl->load_by_id($id);
 				$fl->set_modere();
 			}
-			
+
 		}
   }
 }
@@ -123,20 +123,20 @@ if (isset($_REQUEST['id_nouvelle']) &&
 		    true,
 		    "post",
 		    "Edition de \"".$news->titre."\"");
-		    
+
   $form->add_select_field ("type",
 			   "Type de nouvelle", array( 3 => "Appel/concours",
                                           1 => "Évenement ponctuel",
                                           2 => "Séance hebdomadaire",
                                           0 => "Info/résultat")
 			   ,$news->type);
-			   
+
   $form->add_entity_select("id_asso", "Association concern&eacute;e", $site->db, "asso",$news->id_asso,true);
   $form->add_entity_select("id_lieu", "Lieu", $site->db, "lieu",$news->id_lieu,true);
 
   /* titre */
   $form->add_text_field ("nws_title", "Titre de la nouvelle :",$news->titre, true,"80");
-  
+
   /* resume */
   $form->add_text_area ("nws_sum","Resume :",$news->resume,80,2);
 
@@ -154,8 +154,8 @@ if (isset($_REQUEST['id_nouvelle']) &&
 			$fl->load_by_id($id);
 			if ( !$fl->modere )
 			{
-				$form->add_checkbox("dfile|".$fl->id,"Accepter de m&ecirc;me l'image contenue dans la nouvelle : ".$fl->get_html_link(),true);	
-			}	
+				$form->add_checkbox("dfile|".$fl->id,"Accepter de m&ecirc;me l'image contenue dans la nouvelle : ".$fl->get_html_link(),true);
+			}
 		}
 	}
 
@@ -196,7 +196,7 @@ else
   $modhelp = new contents("Mod&eacute;ration des nouvelles",
 			  "<p>Sur cette page, vous pouvez mod&eacute;rer ".
 			  "les nouvelles</p>");
-  
+
 
   $tabl = new sqltable ("moderenews_list",
 			"Nouvelles en attente de mod&eacute;ration",

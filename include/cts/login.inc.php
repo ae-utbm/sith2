@@ -30,7 +30,7 @@ require_once($topdir."include/cts/board.inc.php");
 /**
  * Affiche un formulaire de connexion et des liens pour l'inscription.
  *
- * Vous ne devriez pas avoir besoin de ce contents.  
+ * Vous ne devriez pas avoir besoin de ce contents.
  * Utilisez site::allow_only_logged_users
  *
  * @author Julien Etelain
@@ -39,27 +39,27 @@ require_once($topdir."include/cts/board.inc.php");
  */
 class loginerror extends board
 {
-  
+
   function loginerror($section = "none")
   {
     global $wwwtopdir;
-    
+
     $_SESSION['session_redirect'] = $_SERVER["REQUEST_URI"];
-    
-    $this->board("Veuillez vous identifier","loginerror");  
-    
+
+    $this->board("Veuillez vous identifier","loginerror");
+
   	$frm = new form("connect2","/connect.php",true,"POST","Vous avez déjà un compte");
   	$frm->add_select_field("domain","Connexion",array("utbm"=>"UTBM","assidu"=>"Assidu","id"=>"ID","autre"=>"Autre","alias"=>"Alias"), $section=="jobetu"?"autre":"utbm");
   	$frm->add_text_field("username","Utilisateur","prenom.nom","",27);
   	$frm->add_password_field("password","Mot de passe","","",27);
   	$frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", false );
   	$frm->add_submit("connectbtn2","Se connecter");
-    $this->add($frm,true);	
-	
+    $this->add($frm,true);
+
     $cts = new contents("Créer un compte");
     $cts->add_paragraph("Pour acceder à cette page vous devez posséder un compte.<br/>La création d'un compte nécessite que vous possédiez une addresse e-mail pour pouvoir l'activer.<br/> Le fait que vous soyez membre ou non de l'utbm vous donnera plus ou moins de droits d'accès sur le site. Un compte vous permettra au minimum de pouvoir utiliser job étu, e-boutic, et de poster des messages sur les forums publics.");
     $cts->add_paragraph("<a href=\"/newaccount.php\">Créer un compte</a>");
-    $this->add($cts,true);	
+    $this->add($cts,true);
   }
 }
 

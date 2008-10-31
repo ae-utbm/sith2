@@ -101,7 +101,7 @@ if ( $_REQUEST["action"] == "reserver" )
   if ( $is_admin && isset($_REQUEST["id_utilisateur"]) )
   {
     $user = new utilisateur($site->db);
-    $user->load_by_id($_REQUEST["id_utilisateur"]);  
+    $user->load_by_id($_REQUEST["id_utilisateur"]);
   }
 
   if(!$user->is_valid())
@@ -121,11 +121,11 @@ if ( $_REQUEST["action"] == "reserver" )
       $machine->load_by_id_creneau($_REQUEST["id_creneau2"],$debut);
       $machine->take_creneau($_REQUEST["id_creneau2"],$user->id);
     }
-    
+
     if ( isset($_REQUEST["fallback"]) && $_REQUEST["fallback"] == "admin" )
     {
       header("Location: admin.php?id_salle=".$machine->id_salle);
-      exit();  
+      exit();
     }
   }
 }
@@ -135,7 +135,7 @@ if ( $_REQUEST["page"] == "reserver" )
   if ( isset($_REQUEST["id_creneau1"]) )
   {
     $id_creneau1 = $_REQUEST["id_creneau1"];
-    $id_creneau2 = isset($_REQUEST["id_creneau2"])?$_REQUEST["id_creneau2"]:null;    
+    $id_creneau2 = isset($_REQUEST["id_creneau2"])?$_REQUEST["id_creneau2"]:null;
   }
   elseif ( strpos($_REQUEST["id_creneau"],",") !== false )
   {
@@ -146,15 +146,15 @@ if ( $_REQUEST["page"] == "reserver" )
     $id_creneau1 = $_REQUEST["id_creneau"];
     $id_creneau2 = null;
   }
-  
+
   $machine1 = new machine($site->db);
   $machine2 = new machine($site->db);
-  
+
   $machine1->load_by_id_creneau($id_creneau1,$debut1);
-  
+
   if ( !is_null($id_creneau2) )
     $machine2->load_by_id_creneau($id_creneau2,$debut2);
-  
+
   $site->start_page("services","Laverie");
   $cts = new contents("<a href=\"index.php\">Laverie</a> / ".$salles[$machine1->id_salle]." / Reservation");
 
@@ -170,41 +170,41 @@ if ( $_REQUEST["page"] == "reserver" )
   $frm = new form("reserver","index.php",false);
   $frm->add_hidden("action","reserver");
   $frm->add_hidden("id_creneau1",$id_creneau1);
-  
+
   if ( isset($_REQUEST["fallback"]) )
     $frm->add_hidden("fallback",$_REQUEST["fallback"]);
-  
+
   if ( !is_null($id_creneau2) )
     $frm->add_hidden("id_creneau2",$id_creneau2);
-    
+
   if ( $Erreur )
     $frm->error($Erreur);
-    
+
   if ( $is_admin )
     $frm->add_entity_smartselect ( "id_utilisateur", "Reserver pour", $site->user );
-    
+
   $frm->add_submit("valid","Confirmer");
   $cts->add($frm);
 
 
   $site->add_contents($cts);
   $site->end_page();
-  
-  exit(); 
+
+  exit();
 }
 elseif ( $_REQUEST["action"] == "searchmc" )
 {
   $site->start_page("services","Laverie");
   $cts = new contents("<a href=\"index.php\">Laverie</a> / ".$salles[$_REQUEST["id_salle"]]." / Recherche");
-  
+
   $extraurl="";
   if ( isset($_REQUEST["fallback"]) )
     $extraurl = "&fallback=".rawurlencode($_REQUEST["fallback"]);
-    
+
   if ( $_REQUEST["operation"] ==  3 )
   {
-    $sql = 
-    "SELECT 
+    $sql =
+    "SELECT
      CONCAT(MIN(cl.id_creneau),',',MIN(cs.id_creneau)) AS id_creneau,
      cl.debut_creneau, SUBTIME(cl.fin_creneau,'00:00:01') AS fin_creneau,
      'Choisir' AS texte
@@ -217,16 +217,16 @@ elseif ( $_REQUEST["action"] == "searchmc" )
      AND cs.id_utilisateur IS NULL
      AND cl.id_utilisateur IS NULL
      AND cl.debut_creneau > NOW()";
-    
+
     $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "cl.debut_creneau", "cl.fin_creneau", "texte", "index.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"].$extraurl, "index.php?page=reserver".$extraurl, "GROUP BY cl.debut_creneau" );
-    $cts->add($pl,true);    
+    $cts->add($pl,true);
   }
   else
   {
     $type = $_REQUEST["operation"] ==  1 ? 'laver' : 'secher';
-    
-    $sql = 
-    "SELECT 
+
+    $sql =
+    "SELECT
      id_creneau,
      debut_creneau, SUBTIME(fin_creneau,'00:00:01') as fin_creneau,
      'Choisir' AS texte
@@ -235,14 +235,14 @@ elseif ( $_REQUEST["action"] == "searchmc" )
      WHERE mc_machines.type='".mysql_real_escape_string($type)."'
      AND mc_machines.loc='".mysql_real_escape_string($_REQUEST["id_salle"])."'
      AND id_utilisateur IS NULL
-     AND debut_creneau > NOW()";    
-     
-    $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "debut_creneau", "fin_creneau", "texte", "index.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"].$extraurl, "index.php?page=reserver".$extraurl, "GROUP BY debut_creneau" );
-    $cts->add($pl,true);     
-  }
-    
+     AND debut_creneau > NOW()";
 
-    
+    $pl = new weekplanning ( "Selectionner un creneau", $site->db, $sql, "id_creneau", "debut_creneau", "fin_creneau", "texte", "index.php?action=searchmc&operation=".$_REQUEST["operation"]."&id_salle=".$_REQUEST["id_salle"].$extraurl, "index.php?page=reserver".$extraurl, "GROUP BY debut_creneau" );
+    $cts->add($pl,true);
+  }
+
+
+
   $frm = new form("searchmc","index.php",false,"POST","Nouvelle recherche");
   $frm->add_hidden("action","searchmc");
   if ( isset($_REQUEST["fallback"]) )
@@ -251,16 +251,16 @@ elseif ( $_REQUEST["action"] == "searchmc" )
   $frm->add_select_field("operation","Machines désirées",array(3=>"Lavage et sechage",1=>"Lavage seulement",2=>"Sechage seulement"));
   $frm->add_submit("search","Rechercher un créneau");
   $cts->add($frm,true);
-  
+
   if ( $is_admin )
     $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
-    
+
   $cts->add_paragraph("<a href=\"index.php\">Créneaux déjà réservés</a>");
-    
+
   $site->add_contents($cts);
   $site->end_page();
-  
-  exit(); 
+
+  exit();
 }
 
 
@@ -309,6 +309,6 @@ if ( $is_admin )
   $cts->add_paragraph("<a href=\"admin.php\">Administration</a>");
 
 $site->add_contents($cts);
-$site->end_page(); 
+$site->end_page();
 
 ?>

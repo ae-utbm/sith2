@@ -28,7 +28,7 @@
 
 $timing["all"] -= microtime(true);
 
-setlocale(LC_ALL,"fr_FR.UTF8"); 
+setlocale(LC_ALL,"fr_FR.UTF8");
 
 if( !strncmp('/var/www/ae/www/taiste', $_SERVER['SCRIPT_FILENAME'], 22) )
   $GLOBALS["taiste"] = true;
@@ -63,7 +63,7 @@ class interfaceweb
   protected $buffer="";
 
   var $section;
-  var $title;  
+  var $title;
 
   var $extracss;
   var $rss;
@@ -161,7 +161,7 @@ class interfaceweb
    * @param $title Titre de la page
    */
   function start_page ( $section, $title, $compact=false ) // <=> page
-  {  
+  {
     $this->section = $section;
     $this->title = $title;
     $this->compact = $compact;
@@ -169,12 +169,12 @@ class interfaceweb
 
   function add_css ( $url )
   {
-    $this->extracss[] = $url;  
+    $this->extracss[] = $url;
   }
 
   function add_js ( $url )
   {
-    $this->extrajs[] = $url;  
+    $this->extrajs[] = $url;
   }
 
   function add_rss ( $title, $url )
@@ -222,15 +222,15 @@ class interfaceweb
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js?".filemtime($wwwtopdir . "js/site.js")."\"></script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js?".filemtime($wwwtopdir . "js/ajax.js")."\"></script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js?".filemtime($wwwtopdir . "js/dnds.js")."\"></script>\n";
-    
-    foreach ( $this->extrajs as $url ) 
+
+    foreach ( $this->extrajs as $url )
       $this->buffer .= "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."?".filemtime(htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8"))."\"></script>\n";
 
     $this->buffer .= "</head>\n";
 
     $this->buffer .= "<body>\n";
     /* Generate the logo */
-    $this->buffer .= "<div id=\"site\">\n";    
+    $this->buffer .= "<div id=\"site\">\n";
 
 /* header */
     $this->buffer .= "<div id='header'>\n";
@@ -388,7 +388,7 @@ class interfaceweb
 
     if ( $links )
     {
-      $this->buffer .= "<div class=\"sectionlinks\">";  
+      $this->buffer .= "<div class=\"sectionlinks\">";
 
       foreach ( $links as $entry )
       {
@@ -401,7 +401,7 @@ class interfaceweb
       $this->buffer .= "</div>\n";
     }
     else
-      $this->buffer .= "<div class=\"emptysectionlinks\"></div>\n";  
+      $this->buffer .= "<div class=\"emptysectionlinks\"></div>\n";
 
     $this->buffer .= "<div class=\"contents\">\n";
     $idpage = "";
@@ -410,7 +410,7 @@ class interfaceweb
 
     foreach ( $this->sides as $side => $names )
     {
-      if ( count($names) ) 
+      if ( count($names) )
       {
         $idpage .= substr($side,0,1);
 
@@ -423,7 +423,7 @@ class interfaceweb
             $elts =   explode(",",$_SESSION["usersession"][$ref]);
             foreach ( $elts as $elt )
             {
-              $name = substr($elt,5);  
+              $name = substr($elt,5);
               if ( in_array($name,$names) )
                 $n_names[] = $name;
             }
@@ -433,7 +433,7 @@ class interfaceweb
                 $n_names = array_merge( array($name), $n_names );
             }
             $names = $n_names;
-          }        
+          }
         }
         else
           $ref = null;
@@ -450,7 +450,7 @@ class interfaceweb
             elseif ( $cts->title )
               $this->buffer .= "<h1>".$cts->title."</h1>\n";
 
-            $this->buffer .= "<div class=\"body\" id=\"sbox_body_".$name."\">\n";      
+            $this->buffer .= "<div class=\"body\" id=\"sbox_body_".$name."\">\n";
 
             $this->buffer .= $cts->html_render();
 
@@ -474,7 +474,7 @@ class interfaceweb
       $cssclass = "article";
 
       if ( !is_null($cts->cssclass) )
-        $cssclass = $cts->cssclass;      
+        $cssclass = $cts->cssclass;
 
       $i++;
 
@@ -488,10 +488,10 @@ class interfaceweb
 
       if ( $cts->toolbox )
       {
-        $this->buffer .= "<div class=\"toolbox\">\n";    
+        $this->buffer .= "<div class=\"toolbox\">\n";
         $this->buffer .= $cts->toolbox->html_render()."\n";
-        $this->buffer .= "</div>\n";  
-      }        
+        $this->buffer .= "</div>\n";
+      }
 
       if ( $cts->title )
         $this->buffer .= "<h1>".$cts->title."</h1>\n";
@@ -506,7 +506,7 @@ class interfaceweb
     $this->buffer .= " - <a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a>";
     $this->buffer .= " - <a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a>";
     $this->buffer .= " - <a href=\"". $wwwtopdir ."wiki2/?name=ae:info\">Equipe info</a>";
-    $this->buffer .= "<br/>\n"; 
+    $this->buffer .= "<br/>\n";
 
     $this->buffer .= "Icones par <a href=\"http://www.everaldo.com/\">Everaldo.com</a></p>\n";
 
@@ -514,7 +514,7 @@ class interfaceweb
     $this->buffer .= "<!-- end of page -->\n\n";
 
     $this->buffer .= "</div>\n"; // /contents
-    $this->buffer .= "<div id=\"endsite\">&nbsp;</div></div>\n";    
+    $this->buffer .= "<div id=\"endsite\">&nbsp;</div></div>\n";
 
     if ( $this->get_param("backup_server",true) )
     {
@@ -560,10 +560,10 @@ class interfaceweb
     $this->buffer .= "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
     $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css?".filemtime($wwwtopdir . "themes/default/css/site.css")."\" title=\"AE2-NEW2\" />\n";
     $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/popup.css?".filemtime($wwwtopdir ."css/popup.css")."\" />\n";
-    foreach ( $this->extracss as $url ) 
+    foreach ( $this->extracss as $url )
       $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8"). "\" />\n";
 
-    foreach ( $this->rss as $title => $url ) 
+    foreach ( $this->rss as $title => $url )
       $this->buffer .= "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_COMPAT,"UTF-8")."\" href=\"".htmlentities($url,ENT_COMPAT,"UTF-8")."\" />";
 
     $this->buffer .= "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico\" />\n";
@@ -572,7 +572,7 @@ class interfaceweb
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js\"></script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js\"></script>\n";
 
-    foreach ( $this->extrajs as $url ) 
+    foreach ( $this->extrajs as $url )
       $this->buffer .= "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
 
     $this->buffer .= "</head>\n";
@@ -580,7 +580,7 @@ class interfaceweb
     $this->buffer .= "<body>\n";
     /* Generate the logo */
 
-    $this->buffer .= "<div id=\"popup\">";    
+    $this->buffer .= "<div id=\"popup\">";
 
     $i=0;
     foreach ( $this->contents as $cts )
@@ -588,7 +588,7 @@ class interfaceweb
       $cssclass = "article";
 
       if ( !is_null($cts->cssclass) )
-        $cssclass = $cts->cssclass;      
+        $cssclass = $cts->cssclass;
 
       $i++;
       $this->buffer .= "<div class=\"".$cssclass."\"";
@@ -600,10 +600,10 @@ class interfaceweb
 
       if ( $cts->toolbox )
       {
-        $this->buffer .= "<div class=\"toolbox\">\n";    
+        $this->buffer .= "<div class=\"toolbox\">\n";
         $this->buffer .= $cts->toolbox->html_render()."\n";
-        $this->buffer .= "</div>\n";  
-      }        
+        $this->buffer .= "</div>\n";
+      }
 
       if ( $cts->title )
         $this->buffer .= "<h1>".$cts->title."</h1>\n";
@@ -641,10 +641,10 @@ class interfaceweb
    */
   function get_param ( $name, $default=null )
   {
-    if ( !$this->params )  
+    if ( !$this->params )
       $this->load_params();
 
-    if ( !isset($this->params[$name]) )  
+    if ( !isset($this->params[$name]) )
       return $default;
 
     return unserialize($this->params[$name]);
@@ -658,7 +658,7 @@ class interfaceweb
    */
   function set_param ( $name, $value )
   {
-    if ( !$this->params )  
+    if ( !$this->params )
       $this->load_params();
 
     $value = serialize($value);
@@ -666,13 +666,13 @@ class interfaceweb
     if ( !isset($this->params[$name]) )
     {
       $sql = new insert($this->dbrw,"site_parametres",
-        array ( 
+        array (
           "nom_param" => $name,
           "valeur_param" => $value
         ));
       $this->params[$name]=$value;
     }
-    elseif ( $this->params[$name] !== $value ) 
+    elseif ( $this->params[$name] !== $value )
     {
       $sql = new update($this->dbrw,"site_parametres",
         array( "valeur_param" => $value),
@@ -733,8 +733,8 @@ class interfaceweb
       if ( $key != "magicform" )
         $frm->add_hidden($key,$val);
 
-    $frm->add_submit("___i_am_really_sure","OUI");  
-    $frm->add_submit("___finally_i_want_to_cancel","NON");  
+    $frm->add_submit("___i_am_really_sure","OUI");
+    $frm->add_submit("___finally_i_want_to_cancel","NON");
 
     $cts->add($frm);
 

@@ -41,7 +41,7 @@ $site->set_side_boxes("left",array("uvsmenu", "connexion"));
 
 $site->start_page("services", "Emploi du temps");
 
-$cts = new contents("Pédagogie");                                                             
+$cts = new contents("Pédagogie");
 $cts->add_paragraph("La partie pédagogie est fermée pour une durée indéterminée pour une refonte complète.");
 $site->add_contents($cts);
 $site->end_page();
@@ -65,7 +65,7 @@ if($_REQUEST['showincts'] == 1)
 		      $_REQUEST['semestre']."&id=". $_REQUEST['id']
 		      ."\" alt=\"emploi du temps\" /></center>");
 
-  echo "<h1>Emploi du temps - semestre " . 
+  echo "<h1>Emploi du temps - semestre " .
     htmlentities($_REQUEST['semestre'])."</h1>\n";
   echo $cts->html_render();
   exit();
@@ -79,7 +79,7 @@ if ($_REQUEST['render'] == 1)
   $sem = (date("m") > 6 ? "A" : "P") . date("y");
 
   isset($_REQUEST['semestre']) ? $semestre = $_REQUEST['semestre'] : $semestre = $sem;
- 
+
   $user = new utilisateur($site->db);
   $user->load_by_id($id);
 
@@ -120,22 +120,22 @@ function render(sem, iduser)
 </script>
 ");
 
-$req = new requete($site->db, "SELECT 
+$req = new requete($site->db, "SELECT
                                         `semestre_grp`
-                                        , `edu_uv_groupe_etudiant`.`id_utilisateur` 
-                               FROM 
-                                        `edu_uv_groupe` 
-                               INNER JOIN 
-                                        `edu_uv_groupe_etudiant` 
-                               USING(`id_uv_groupe`) 
-                               WHERE 
-                                        `id_utilisateur` = ".$site->user->id." 
-                               GROUP BY 
+                                        , `edu_uv_groupe_etudiant`.`id_utilisateur`
+                               FROM
+                                        `edu_uv_groupe`
+                               INNER JOIN
+                                        `edu_uv_groupe_etudiant`
+                               USING(`id_uv_groupe`)
+                               WHERE
+                                        `id_utilisateur` = ".$site->user->id."
+                               GROUP BY
                                         `semestre_grp`, `id_utilisateur`");
 if ($req->lines <= 0)
 {
   $cts->add_paragraph("Vous n'avez pas enregistré d'emploi du temps.");
-} 
+}
 
 else
 {

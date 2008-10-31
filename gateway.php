@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir = "./";
 require_once($topdir. "include/site.inc.php");
 
@@ -32,29 +32,29 @@ if ( isset($_REQUEST['topdir']) && ($_REQUEST['topdir']=="./" || $_REQUEST['topd
 if ( $_REQUEST['module']=="fsearch" )
 {
   header("Content-Type: text/javascript; charset=UTF-8");
-  
-  echo "if ( ".$_REQUEST['fsearch_sequence']." > fsearch_actual_sequence ) {\n";  
-  
+
+  echo "if ( ".$_REQUEST['fsearch_sequence']." > fsearch_actual_sequence ) {\n";
+
   echo "fsearch_actual_sequence=".$_REQUEST['fsearch_sequence'].";\n";
-  
+
   if ( $_REQUEST["pattern"] == "" )
   {
     echo "var content = document.getElementById('fsearchres');\n";
     echo "content.style.display = 'none';\n";
     exit();
   }
-  
+
   $results="";
   require_once($topdir. "include/cts/fsearch.inc.php");
   $fsearch = new fsearch ( $site );
-  
+
   echo "var content = document.getElementById('fsearchres');\n";
   echo "content.style.zIndex = 100000;\n";
   echo "content.style.display = 'block';\n";
   echo "content.innerHTML ='".addslashes($fsearch->buffer)."';\n";
   echo "fsearch_display_query='".addslashes($_REQUEST["pattern"])."';";
   echo "}\n";
-  
+
 }
 elseif ( $_REQUEST['module']=="explorer" )
 {
@@ -62,33 +62,33 @@ elseif ( $_REQUEST['module']=="explorer" )
 
   require_once($topdir."include/entities/files.inc.php");
   require_once($topdir."include/entities/folder.inc.php");
-  
+
   $folder = new dfolder($site->db);
-  
+
   if ( !isset($_REQUEST["id_folder"]) || !$_REQUEST["id_folder"] )
     $folder->id = null;
   else
     $folder->load_by_id($_REQUEST["id_folder"]);
-    
+
   $field = $_REQUEST["field"];
-    
+
   if ( is_null($folder->id) )
     $sub1 = new requete($this->db,"SELECT `d_folder`.`id_folder`, ".
     "IF(`asso`.`id_asso` IS NULL,`d_folder`.`titre_folder`, `asso`.`nom_asso`) AS `titre_folder` ".
     "FROM `d_folder` ".
     "LEFT JOIN `asso` ON `asso`.`id_asso` = `d_folder`.`id_asso` ".
     "WHERE `d_folder`.`id_folder_parent` IS NULL ".
-    "ORDER BY `asso`.`nom_asso`");  
-  else  
+    "ORDER BY `asso`.`nom_asso`");
+  else
     $sub1 = $folder->get_folders ( $site->user );
-    
+
   $fd = new dfolder(null);
   while ( $row = $sub1->get_row() )
   {
     $fd->_load($row);
     echo "<li><a href=\"#\" onclick=\"zd_seldir('$field','".$fd->id."','$wwwtopdir'); return false;\"><img src=\"".$wwwtopdir."images/icons/16/folder.png\" alt=\"dossier\" /> ".htmlentities($fd->titre,ENT_COMPAT,"UTF-8")."</a><ul id=\"".$field."_".$fd->id."_cts\" style=\"display:none;\"></ul></li>";
   }
-  
+
   if ( !is_null($folder->id) )
   {
     $sub2 = $folder->get_files ( $site->user);
@@ -107,20 +107,20 @@ elseif ( $_REQUEST['module']=="usersession" )
    * En raison de ce module, les valeurs de $_SESSION["usersession"] ne peuvent être
    * considéré comme "sûres"
    */
-  
+
   if ( isset($_REQUEST["set"]) )
   {
     $_SESSION["usersession"][$_REQUEST["set"]]   = $_REQUEST["value"];
-    
-    
-    if ( $site->user->is_valid() ) // mémorise le usersession
-      $site->user->set_param("usersession",$_SESSION["usersession"]);  
 
-    
+
+    if ( $site->user->is_valid() ) // mémorise le usersession
+      $site->user->set_param("usersession",$_SESSION["usersession"]);
+
+
     //echo "alert('".$_REQUEST["set"]."=".$_REQUEST["set"]."');";
   }
-  
-  exit();  
+
+  exit();
 }
 elseif ( $_REQUEST['module']=="userfield" )
 {
@@ -135,8 +135,8 @@ elseif ( $_REQUEST['module']=="userfield" )
   $pattern = ereg_replace("(o|O|ò|Ò|ô|Ô)","(o|O|ò|Ò|ô|Ô)",$pattern);
   $pattern = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","(u|ù|ü|û|Ü|Û|Ù)",$pattern);
   $pattern = ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$pattern);
-  
-  $req = new requete($site->db, 
+
+  $req = new requete($site->db,
     "SELECT `id_utilisateur`,CONCAT(`prenom_utl`,' ',`nom_utl`) " .
     "FROM `utilisateurs` " .
     "WHERE CONCAT(`prenom_utl`,' ',`nom_utl`) REGEXP '^".$pattern."' " .
@@ -147,51 +147,51 @@ elseif ( $_REQUEST['module']=="userfield" )
     "FROM `utl_etu_utbm` " .
     "INNER JOIN `utilisateurs` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
     "WHERE `surnom_utbm`!='' AND `surnom_utbm` REGEXP '^".$pattern."' " .
-    "ORDER BY 2 LIMIT 10");  
-      
+    "ORDER BY 2 LIMIT 10");
+
   if ( !$req || $req->errno != 0) // Si l'expression régulière envoyée par l'utilisateur est invalide, on évite l'erreur mysql
   {
     echo "<ul>\n";
     echo "<li>Recherche invalide.</li>\n";
     echo "</ul>\n";
     echo "<div class=\"clearboth\"></div>";
-    exit(); 
-  }    
-      
-      
+    exit();
+  }
+
+
   echo "<ul>\n";
-  
+
   while ( list($id,$email) = $req->get_row() )
   {
     echo "<li><div class=\"imguser\"><img src=\"";
-      
+
     if (file_exists($topdir."var/img/matmatronch/".$id.".identity.jpg"))
       echo $wwwtopdir."var/img/matmatronch/".$id.".identity.jpg";
     elseif (file_exists($topdir."var/img/matmatronch/".$id.".jpg"))
       echo $wwwtopdir."var/img/matmatronch/".$id.".jpg";
     else
       echo $wwwtopdir."var/img/matmatronch/na.gif";
-      
+
     echo "\" /></div><a href=\"#\" onclick=\"userselect_set_user('$wwwtopdir','".$_REQUEST["ref"]."',$id,'".addslashes(htmlspecialchars($email))."'); return false;\">".htmlspecialchars($email)."</a></li>\n";
   }
   echo "</ul>\n";
   echo "<div class=\"clearboth\"></div>";
-  exit();  
+  exit();
 }
 elseif ( $_REQUEST['module']=="userinfo" )
 {
   if ( !$site->user->is_valid() && !count($_SESSION["Comptoirs"])) exit();
-  
+
   $user = new utilisateur($site->db,$site->dbrw);
-  $user->load_by_id($_REQUEST["id_utilisateur"]);  
+  $user->load_by_id($_REQUEST["id_utilisateur"]);
   if ( $user->id < 0 )
     $user = &$site->user;
-    
+
   if (file_exists($topdir."var/img/matmatronch/".$user->id.".identity.jpg"))
     echo "<img src=\"".$wwwtopdir."var/img/matmatronch/".$user->id.".jpg\" alt=\"\" />\n";
   else
     echo "<img src=\"".$wwwtopdir."var/img/matmatronch/na.gif"."\" alt=\"\" />\n";
-    
+
   echo "<p class=\"nomprenom\">". $user->prenom . " " . $user->nom . "</p>";
   if ( $user->surnom )
     echo "<p class=\"surnom\">'' ". $user->surnom . " ''</p>";
@@ -201,79 +201,79 @@ elseif ( $_REQUEST['module']=="userinfo" )
 elseif ( $_REQUEST['module']=="entinfo" )
 {
   $class = $_REQUEST['class'];
-  
+
   if ( class_exists($class) )
     $std = new $class($site->db);
-    
+
   elseif ( isset($GLOBALS["entitiescatalog"][$class][5]) && $GLOBALS["entitiescatalog"][$class][5] )
   {
     include($topdir."include/entities/".$GLOBALS["entitiescatalog"][$class][5]);
     if ( class_exists($class) )
       $std = new $class($site->db);
   }
-  
+
   $std->load_by_id($_REQUEST['id']);
-  
+
   if ( !$std->is_valid() )
   {
     echo "?";
-    exit();  
+    exit();
   }
-  
+
   if ( !$std->allow_user_consult($site->user) )
-    exit();  
-  
+    exit();
+
   if ( $std->can_preview() )
     echo "<p class=\"stdpreview\"><img src=\"".$wwwtopdir.$std->get_preview()."\" alt=\"".htmlentities($std->get_display_name(),ENT_COMPAT,"UTF-8")."\" /></p>";
-  
+
   echo "<p class=\"stdinfo\">".$std->get_html_extended_info()."</p>";
   echo "<div class=\"clearboth\"></div>";
-  exit();  
+  exit();
 
 }
 elseif ( $_REQUEST['module']=="entdesc" )
 {
   $class = $_REQUEST['class'];
-  
+
   if ( class_exists($class) )
     $std = new $class($site->db);
-    
+
   elseif ( isset($GLOBALS["entitiescatalog"][$class][5]) && $GLOBALS["entitiescatalog"][$class][5] )
   {
     include($topdir."include/entities/".$GLOBALS["entitiescatalog"][$class][5]);
     if ( class_exists($class) )
       $std = new $class($site->db);
   }
-  
+
   $std->load_by_id($_REQUEST['id']);
-  
+
   if ( !$std->is_valid() )
   {
     echo "?";
-    exit();  
+    exit();
   }
-  
+
   if ( !$std->allow_user_consult($site->user) )
-    exit();  
-  
+    exit();
+
   echo htmlentities($std->get_description(),ENT_NOQUOTES,"UTF-8");
-  
-  exit();  
+
+  exit();
 }
 elseif ( $_REQUEST['module']=="fsfield" )
 {
   $class = $_REQUEST['class'];
   $field = $_REQUEST['field'];
-  
-  
+
+
   if ( !ereg("^([a-z0-9]*)$",$class) )
     exit();
-    
+
   $std = null;
-  
+
   if ( class_exists($class) )
     $std = new $class($site->db);
-    
+
   elseif ( isset($GLOBALS["entitiescatalog"][$class][5]) && $GLOBALS["entitiescatalog"][$class][5] )
   {
     include($topdir."include/entities/".$GLOBALS["entitiescatalog"][$class][5]);
@@ -282,14 +282,14 @@ elseif ( $_REQUEST['module']=="fsfield" )
   }
 
   if ( is_null($std) )
-    exit();  
-  
+    exit();
+
   if ( !$std->can_fsearch() )
-    exit();  
-    
+    exit();
+
   if ( !$std->allow_user_consult($site->user) )
-    exit();  
-    
+    exit();
+
   if ( $_REQUEST['pattern'] != "" )
   {
     $res = $std->fsearch ( $_REQUEST['pattern'], 5 );
@@ -299,7 +299,7 @@ elseif ( $_REQUEST['module']=="fsfield" )
       foreach ( $res as $id => $name )
       {
         $buffer .= "<li>";
-        
+
         $std->id = $id;
         if ( $std->can_preview() )
         {
@@ -307,7 +307,7 @@ elseif ( $_REQUEST['module']=="fsfield" )
           if ( !is_null($img) )
             $buffer .= "<div class=\"imguser\"><img src=\"".$wwwtopdir.$img."\" /></div>";
         }
-        
+
         $buffer .= "<a href=\"#\" onclick=\"fsfield_sel('$wwwtopdir','$field',$id,'".addslashes(htmlspecialchars($name))."','".$GLOBALS["entitiescatalog"][$class][2]."'); return false;\">";
         $buffer .= htmlspecialchars($name);
         $buffer .= "</a>";
@@ -321,15 +321,15 @@ elseif ( $_REQUEST['module']=="fsfield" )
   }
   else
     $buffer="";
-    
-  echo "if ( ".$_REQUEST['sequence']." > fsfield_current_sequence['".$field."'] )\n{\n";  
+
+  echo "if ( ".$_REQUEST['sequence']." > fsfield_current_sequence['".$field."'] )\n{\n";
   echo "  fsfield_current_sequence['".$field."']=".$_REQUEST['sequence'].";\n";
   echo "  var content = document.getElementById('".$field."_result');\n";
   echo "  content.style.zIndex = 100000;\n";
   echo "  content.style.display = 'block';\n";
   echo "  content.innerHTML ='".addslashes($buffer)."';\n";
   echo "}\n";
-  
+
   exit();
 }
 elseif ( $_REQUEST['module']=="exfield" )
@@ -337,30 +337,30 @@ elseif ( $_REQUEST['module']=="exfield" )
   $class = $_REQUEST['class'];
   $field = $_REQUEST['field'];
   $eclass = $_REQUEST['eclass'];
-  
+
   if ( !ereg("^([a-z0-9]*)$",$class) || !ereg("^([a-z0-9]*)$",$class) )
     exit();
-    
+
   $std = null;
 
   if ( class_exists($eclass) )
     $std = new $eclass($site->db);
-    
+
   elseif ( isset($GLOBALS["entitiescatalog"][$eclass][5]) && $GLOBALS["entitiescatalog"][$eclass][5] )
   {
     include($topdir."include/entities/".$GLOBALS["entitiescatalog"][$eclass][5]);
     if ( class_exists($eclass) )
       $std = new $eclass($site->db);
   }
-  
+
   if ( is_null($std) )
-    exit();  
-    
+    exit();
+
   if ( $_REQUEST['eid'] == "root" )
   {
     $std = $std->get_root_element();
     if ( is_null($std) )
-      exit();  
+      exit();
   }
   else
     $std->load_by_id($_REQUEST['eid']);
@@ -369,32 +369,32 @@ elseif ( $_REQUEST['module']=="exfield" )
     exit();
 
   if ( !$std->allow_user_consult($site->user) )
-    exit();  
+    exit();
 
   $childs = $std->get_childs($site->user);
-  
+
   if ( is_null($childs) || count($childs) == 0 )
-    exit();  
+    exit();
 
   foreach ( $childs as $child )
   {
     $name = $child->get_display_name();
-    
-    echo "<li>"; 
-    
+
+    echo "<li>";
+
     echo "<a href=\"#\" onclick=\"";
     if ( get_class($child) == $class )
       echo "exfield_select('$wwwtopdir','$field','$class','".$child->id."','".addslashes(htmlspecialchars($name))."','".$GLOBALS["entitiescatalog"][$class][2]."');";
     else
       echo "exfield_explore('$wwwtopdir','$field','$class','".get_class($child)."','".$child->id."');";
     echo "return false;\">";
-    
+
     echo "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][get_class($child)][2]."\" alt=\"\" />";
     echo htmlspecialchars($name);
     echo "</a>";
-    
+
     echo "<ul id=\"".$field."_".get_class($child)."_".$child->id."\"></ul>";
-    
+
     echo "</li>";
   }
 
@@ -414,7 +414,7 @@ elseif( $_REQUEST['module']=="tinycal" )
 if ( $_REQUEST['class'] == "calendar" )
   $cts = new calendar($site->db);
 else
-  $cts = new contents();  
+  $cts = new contents();
 
 echo $cts->html_render();
 

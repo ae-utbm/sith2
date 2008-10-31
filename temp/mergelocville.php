@@ -36,7 +36,7 @@ foreach ($countries as $code => $name)
       $ctoget[] = $code;
       $countries[$code]['id_pays'] = $ret['id_pays'];
     }
-  
+
 }
 
 
@@ -50,24 +50,24 @@ foreach ($ctoget as $country)
   if ($country == 'FR')
     continue;
 
-  $pgrq = new pgrequete($pgdb, 
-			"SELECT 
+  $pgrq = new pgrequete($pgdb,
+			"SELECT
                               name_loc,
                               countryc_loc,
                               AsText(the_geom) AS pos
-                       FROM 
-                              worldloc 
+                       FROM
+                              worldloc
                        WHERE
                               countryc_loc = '".$country."'");
-			      
-  
+
+
   $bigarray = $pgrq->get_all_rows();
 
   foreach ($bigarray as $location)
     {
       $idpays = $countries[$country]['id_pays'];
       $nomville = mysql_real_escape_string($location['name_loc']);
-      
+
       $coords = $location['pos'];
       $coords = str_replace(array("POINT(", ")"), "", $coords);
       list($lat, $long) = explode(" ", $coords);
@@ -83,7 +83,7 @@ foreach ($ctoget as $country)
     }
 
 
-  /* on s'arrete pour l'instant au premier pays, sinon ca va 
+  /* on s'arrete pour l'instant au premier pays, sinon ca va
    * tout tuer
    */
   //  exit();

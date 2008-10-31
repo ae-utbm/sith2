@@ -65,7 +65,7 @@ if ( count($assos) )
         "INNER JOIN `asso` ON `asso`.`id_asso`=`cpta_cpasso`.`id_asso` " .
         "WHERE `cpta_classeur`.`ferme`=0 AND $filter " .
         "ORDER BY `cpta_cpbancaire`.`nom_cptbc`, `asso`.`nom_asso`");
-  
+
   $tbl = new sqltable ("lstclasseur",
                  "Classeur ouverts",
                  $req_sql,
@@ -78,16 +78,16 @@ if ( count($assos) )
                  "solde"=>"Solde",
                  "date_debut_classeur"=>"De",
                  "date_fin_classeur"=>"Au"
-               
+
                ),
                  array(),
                  array(),
                  array());
-  
-  
+
+
   $cts->add($tbl,true);
-  
-  
+
+
   $req_sql = new requete ($site->db,
         "SELECT id_cptasso, asso.nom_asso as nom_cptasso, " .
         "cpta_cpbancaire.nom_cptbc, cpta_cpbancaire.id_cptbc " .
@@ -96,7 +96,7 @@ if ( count($assos) )
         "INNER JOIN cpta_cpbancaire ON cpta_cpbancaire.id_cptbc=cpta_cpasso.id_cptbc " .
         "WHERE $filter " .
         "ORDER BY `cpta_cpbancaire`.`nom_cptbc`, `asso`.`nom_asso`");
-        
+
   $tbl = new sqltable ("cpta_cptasso",
                "Comptes association",
                $req_sql,
@@ -108,9 +108,9 @@ if ( count($assos) )
                array(),
                array(),
                array());
-  
+
   $cts->add($tbl,true);
-  
+
   $cts->add_paragraph("&nbsp;");
 
 }
@@ -150,7 +150,7 @@ $tbl = new sqltable ("lstclasseur",
 				       "solde"=>"Solde",
 				       "date_debut_classeur"=>"De",
 				       "date_fin_classeur"=>"Au"
-					   
+
 					   ),
 				       array(),
 				       array(),
@@ -165,7 +165,7 @@ $req_sql = new requete ($site->db,
 			"INNER JOIN asso ON asso.id_asso=cpta_cpasso.id_asso " .
 			"INNER JOIN cpta_cpbancaire ON cpta_cpbancaire.id_cptbc=cpta_cpasso.id_cptbc " .
 			"ORDER BY `cpta_cpbancaire`.`nom_cptbc`, `asso`.`nom_asso`");
-			
+
 $tbl = new sqltable ("cpta_cptasso",
 			       "Comptes association",
 			       $req_sql,

@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /**
  * @file
  */
@@ -38,7 +38,7 @@ class flvideo extends stdcontents
 
 	var $src;
 	var $class;
-	
+
 	/**
 	 * Contruit le lecteur FLV
 	 * @param $title Titre du contenu
@@ -53,11 +53,11 @@ class flvideo extends stdcontents
 	function html_render ()
 	{
 	  global $wwwtopdir;
-	  
+
 		return
 "<object type=\"application/x-shockwave-flash\" data=\"".$wwwtopdir."images/flash/flvplayer.swf\" width=\"400\" height=\"300\">".
 "<param name=\"movie\" value=\"".$wwwtopdir."images/flash/flvplayer.swf\" />"."<param name=\"FlashVars\" value=\"flv=../../".$this->src."\" />"."<param name=\"wmode\" value=\"transparent\" />"."</object>";
-	}	
+	}
 
 }
 

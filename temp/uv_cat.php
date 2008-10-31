@@ -18,8 +18,8 @@ $dbrw = new mysqlae("rw");
 echo "--- EXPRESSION COMMUNICATION ---\n";
 
 
-$req_EC = "SELECT `id_uv`, `code_uv` FROM `edu_uv` 
-                      WHERE 
+$req_EC = "SELECT `id_uv`, `code_uv` FROM `edu_uv`
+                      WHERE
                             `code_uv` LIKE 'LC%'
                       OR
                             `code_uv` LIKE 'LE%'
@@ -154,7 +154,7 @@ $req = new requete($dbrw, $req_ex);
 while ($rs = $req->get_row())
      categorize($rs['id_uv'], 'EDIM', 'EX');
 
-     
+
 // GESC
 
 $req_rn = "SELECT `id_uv` FROM `edu_uv`

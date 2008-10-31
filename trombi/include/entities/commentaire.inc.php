@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * FORUM2
- *        
+ *
  * Copyright 2007
  * - Nicolas Demengel < maitre dot poireau at gmail dot com >
  *
@@ -23,13 +23,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /**
  * @file
  * Gestion des commentaires de trombi
  */
- 
- 
+
+
 /**
  * Commentaire dans le trombi d'une promo
  */
@@ -42,7 +42,7 @@ class commentaire extends stdentity
   var $date;
   var $modere;
   var $id_utilisateur_moderateur;
-  
+
   function load_by_couple ( $id_commente, $id_commentateur )
   {
     $req = new requete($this->db, "SELECT * FROM `trombi_commentaire`
@@ -62,7 +62,7 @@ class commentaire extends stdentity
     $this->id = null;
     return false;
   }
-  
+
   function load_by_id ( $id )
   {
     $req = new requete($this->db, "SELECT * FROM `trombi_commentaire`
@@ -75,11 +75,11 @@ class commentaire extends stdentity
       $this->_load($req->get_row());
       return true;
     }
-		
-    $this->id = null;	
+
+    $this->id = null;
     return false;
   }
-  
+
   function _load ( $row )
   {
     $this->id = $row['id_commentaire'];
@@ -90,16 +90,16 @@ class commentaire extends stdentity
     $this->modere = $row['modere_commentaire'];
     $this->id_utilisateur_moderateur = $row['id_utilisateur_moderateur'];
   }
-  
+
   function get_contents ()
-  {    
-    $cts = new contents();      
-    
+  {
+    $cts = new contents();
+
     $cts->add(new wikicontents(false,$this->commentaire));
 
     return $cts;
   }
-  
+
   function comment_exists ($id_commente, $id_commentateur)
   {
     $req = new requete($this->db, "SELECT id_commentaire FROM `trombi_commentaire`
@@ -111,22 +111,22 @@ class commentaire extends stdentity
 
     return ( $req->lines == 1 );
   }
-  
+
   function create ( $id_commente, $id_commentateur, $commentaire )
   {
     if ( !$this->dbrw )
       return false;
-    
+
     if ( $this->comment_exists($id_commente, $id_commentateur) )
       return false;
-    
+
     $this->id_commente = $id_commente;
     $this->id_commentateur = $id_commentateur;
     $this->commentaire = $commentaire;
     $this->date = time();
     $this->modere = false;
     $this->id_utilisateur_moderateur = null;
-   
+
     $req = new insert ($this->dbrw,
              "trombi_commentaire", array(
                "id_commente"=>$this->id_commente,
@@ -137,24 +137,24 @@ class commentaire extends stdentity
                "id_utilisateur_moderateur"=>$this->id_utilisateur_moderateur
              )
            );
-  
+
     if ( $req )
     {
       $this->id = $req->get_id();
       return true;
      }
-	
+
     $this->id = null;
     return false;
   }
-  
+
   function update ( $commentaire )
   {
     if ( !$this->dbrw )
       return;
-      
+
     $this->commentaire = $commentaire;
-    $this->id_utilisateur_moderateur = null;    
+    $this->id_utilisateur_moderateur = null;
     $req = new update ($this->dbrw,
              "trombi_commentaire", array(
                "commentaire"=>$this->commentaire,
@@ -168,32 +168,32 @@ class commentaire extends stdentity
   {
     if ( !$this->dbrw )
       return;
-      
+
     $this->modere = !$this->modere;
     if ( $this->modere )
       $this->id_utilisateur_moderateur = $id_moderateur;
     else
       $this->id_utilisateur_moderateur = null;
-         
+
     $req = new update ($this->dbrw,
-             "trombi_commentaire", 
+             "trombi_commentaire",
              array(
                "modere_commentaire"=>$this->modere,
                "id_utilisateur_moderateur"=>$this->id_utilisateur_moderateur),
              array("id_commentaire"=>$this->id)
-           );    
+           );
   }
 
   function delete ()
   {
     if ( !$this->dbrw )
       return;
-    
+
     new delete($this->dbrw,
       "trombi_commentaire",
       array("id_commentaire"=>$this->id)
     );
-    
+
     $this->id = null;
   }
 

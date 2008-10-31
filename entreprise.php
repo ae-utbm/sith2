@@ -46,29 +46,29 @@ if (isset($_REQUEST["id_ent"]))
 
 if ( $entreprise->is_valid() )
 {
-	
+
 	$ville->load_by_id($entreprise->id_ville);
-	
+
 	if ( $_REQUEST["action"] == "addcontact" )
 	{
 		$contact = new contact_entreprise($site->db,$site->dbrw);
-		
+
 		if ( $_REQUEST["nom"] )
 			$contact->add ( $entreprise->id, $_REQUEST["nom"], $_REQUEST["telephone"], $_REQUEST["service"], $_REQUEST["email"], $_REQUEST["fax"] );
-	}	
+	}
 	elseif ( $_REQUEST["action"] == "addcomment" )
 	{
 		if ( $_REQUEST["commentaire"] )
 		{
 			$contact = new contact_entreprise($site->db);
 			$commentaire = new commentaire_entreprise($site->db,$site->dbrw);
-			
+
 			if ( $_REQUEST["id_contact"] )
 				$contact->load_by_id($_REQUEST["id_contact"]);
-				
+
 			if ( ($contact->id < 1) || ($entreprise->id != $contact->id_ent) )
 				$contact->id = NULL;
-			
+
 			$commentaire->add ( $site->user->id, $entreprise->id, $contact->id, $_REQUEST["commentaire"] );
 		}
 	}
@@ -76,19 +76,19 @@ if ( $entreprise->is_valid() )
 	{
 	  if ($_REQUEST["id_ent_doublon"])
 	    $entreprise->join($_REQUEST["id_ent_doublon"]);
-	 
+
 	}
 	elseif ( $_REQUEST["action"] == "addtosecteur" )
 	{
 	  if ($_REQUEST["id_secteur"])
 	    $entreprise->add_secteur($_REQUEST["id_secteur"]);
-	 
+
 	}
 	elseif ( $_REQUEST["page"] == "edit" )
 	{
 		$site->start_page("none",$entreprise->nom);
-		
-		
+
+
 		$frm = new form("addent","entreprise.php?id_ent=".$entreprise->id,false,"POST","Editer");
 		$frm->add_hidden("action","save");
 		$frm->add_text_field("nom","Nom",$entreprise->nom,true);
@@ -99,45 +99,45 @@ if ( $entreprise->is_valid() )
 		$frm->add_text_field("fax","Numéro de fax",$entreprise->fax);
 		$frm->add_text_field("siteweb","Site web",$entreprise->siteweb);
 		$frm->add_submit("valid","Enregistrer");
-			
+
 		$site->add_contents($frm);
 		$site->end_page();
-		exit();	
-	}	
+		exit();
+	}
 	elseif( $_REQUEST["action"] == "save" )
 	{
 		if ( $_REQUEST["nom"] != "" )
 		{
-			$entreprise->save($_REQUEST["nom"],$_REQUEST["rue"],$_REQUEST["id_ville"], 
+			$entreprise->save($_REQUEST["nom"],$_REQUEST["rue"],$_REQUEST["id_ville"],
 			  $_REQUEST["telephone"],$_REQUEST["email"],$_REQUEST["fax"], $_REQUEST["siteweb"]);
 			$ville->load_by_id($entreprise->id_ville);
 		}
 	}
-		
+
 	if ( $_REQUEST["action"] == "viewcomment" )
 	{
 		$commentaire = new commentaire_entreprise($site->db);
 		$utl = new utilisateur($site->db);
 		$commentaire->load_by_id($_REQUEST["id_com_ent"]);
 		$utl->load_by_id($commentaire->id_utilisateur);
-		
+
 		$title = "Commentaire de ".$utl->prenom." ".$utl->nom;
 		if ( $commentaire->id_contact )
 		{
 			$contact = new contact_entreprise($site->db);
 			$contact->load_by_id($commentaire->id_contact);
-			$title .= " (interlocuteur: ".$contact->nom.")";	
+			$title .= " (interlocuteur: ".$contact->nom.")";
 		}
 		$cmt = new wikicontents($title,$commentaire->commentaire);
-		
+
 	}
-	
+
 	$site->start_page("none",$entreprise->nom);
-	
+
 	if ( $cmt )
 		$site->add_contents($cmt);
 	$l = strtolower(substr($entreprise->nom,0,1));
-	
+
 	$cts = new contents("<a href=\"entreprise.php\">Entreprises</a> / <a href=\"entreprise.php?letter=$l\">$l</a> / ".$entreprise->get_html_link());
 
 	$tbl = new table("Informations");
@@ -152,31 +152,31 @@ if ( $entreprise->is_valid() )
 	$cts->add($tbl,true);
 
 	$cts->add_paragraph("Voir aussi : <a href=\"entreprise.php\">Autres entreprises</a>");
-	
+
 	$frm = new form("addtosecteur","entreprise.php?id_ent=".$entreprise->id,false,"POST","Ajouter à un secteur d'activité");
 	$frm->add_hidden("action","addtosecteur");
 	$frm->add_entity_smartselect ("id_secteur","Secteur", new secteur($site->db) );
 	$frm->add_submit("valid","Ajouter");
 	$cts->add($frm,true);
-	
+
 	$frm = new form("joinent","entreprise.php?id_ent=".$entreprise->id,false,"POST","Fusionner avec un doublon");
 	$frm->add_hidden("action","joinent");
 	$frm->add_entity_smartselect ("id_ent_doublon","Entreprise", new entreprise($site->db) );
 	$frm->add_submit("valid","Fusionner");
 	$cts->add($frm,true);
-	
+
 	$req = new requete($site->db,
 		"SELECT `id_contact`, `nom_contact`, `service_contact`, `telephone_contact`, `email_contact`, `fax_contact` " .
 		"FROM `contact_entreprise` WHERE `id_ent`='".$entreprise->id."' ORDER BY `nom_contact`");
 	if ( $req->lines > 0 )
 	{
 		$tbl = new sqltable(
-			"listcontacts", 
-			"Contacts au sein de l'entreprise", $req, "entreprise.php?id_ent=".$entreprise->id, 
-			"id_contact", 
-			array("nom_contact"=>"Contact","service_contact"=>"Service","service_contact"=>"Telephone","email_contact"=>"Adresse email","fax_contact"=>"Fax"), 
+			"listcontacts",
+			"Contacts au sein de l'entreprise", $req, "entreprise.php?id_ent=".$entreprise->id,
+			"id_contact",
+			array("nom_contact"=>"Contact","service_contact"=>"Service","service_contact"=>"Telephone","email_contact"=>"Adresse email","fax_contact"=>"Fax"),
 			array(), array(), array()
-			);	
+			);
 		$cts->add($tbl,true);
 	}
 
@@ -191,12 +191,12 @@ if ( $entreprise->is_valid() )
 	if ( $req->lines > 0 )
 	{
 		$tbl = new sqltable(
-			"listcomment", 
-			"Commentaires", $req, "entreprise.php?id_ent=".$entreprise->id, 
-			"id_com_ent", 
-			array("nom_utilisateur"=>"Déposé par","date_com_ent"=>"Date","nom_contact"=>"Interlocuteur"), 
+			"listcomment",
+			"Commentaires", $req, "entreprise.php?id_ent=".$entreprise->id,
+			"id_com_ent",
+			array("nom_utilisateur"=>"Déposé par","date_com_ent"=>"Date","nom_contact"=>"Interlocuteur"),
 			array("viewcomment"=>"Voir commentaire"), array(), array()
-			);	
+			);
 		$cts->add($tbl,true);
 	}
 
@@ -208,7 +208,7 @@ if ( $entreprise->is_valid() )
 	$req->go_first();
 	$contacts=array(0=>"(Aucun)");
 	while ( $row = $req->get_row() )
-		$contacts[$row['id_contact']] = $row['nom_contact'];	
+		$contacts[$row['id_contact']] = $row['nom_contact'];
 
 
 	$frm = new form("addcomment","entreprise.php?id_ent=".$entreprise->id,false,"POST","Ajouter un commentaire");
@@ -232,7 +232,7 @@ if ( $entreprise->is_valid() )
 
 	$site->add_contents($cts);
 	$site->end_page();
-	exit();	
+	exit();
 }
 
 if( $_REQUEST["action"] == "addent"/* && $site->user->is_in_group("gestion_ae")*/)
@@ -281,12 +281,12 @@ if ( !is_null($id_secteur) )
   if ( $req->lines > 0 )
   {
   	$tbl = new sqltable(
-  		"listent", 
-  		"Liste", $req, "entreprise.php", 
-  		"id_ent", 
-  		array("nom_entreprise"=>"Nom","telephone_entreprise"=>"Telephone","email_entreprise"=>"Adresse email","siteweb_entreprise"=>"Site web"), 
+  		"listent",
+  		"Liste", $req, "entreprise.php",
+  		"id_ent",
+  		array("nom_entreprise"=>"Nom","telephone_entreprise"=>"Telephone","email_entreprise"=>"Adresse email","siteweb_entreprise"=>"Site web"),
   		array("view"=>"Voir fiche, commentaires..."), array(), array()
-  		);	
+  		);
   	$cts->add($tbl);
   }
 }
@@ -316,12 +316,12 @@ if ( !is_null($letter) )
   if ( $req->lines > 0 )
   {
   	$tbl = new sqltable(
-  		"listent", 
-  		"Liste", $req, "entreprise.php", 
-  		"id_ent", 
-  		array("nom_entreprise"=>"Nom","telephone_entreprise"=>"Telephone","email_entreprise"=>"Adresse email","siteweb_entreprise"=>"Site web"), 
+  		"listent",
+  		"Liste", $req, "entreprise.php",
+  		"id_ent",
+  		array("nom_entreprise"=>"Nom","telephone_entreprise"=>"Telephone","email_entreprise"=>"Adresse email","siteweb_entreprise"=>"Site web"),
   		array("view"=>"Voir fiche, commentaires..."), array(), array()
-  		);	
+  		);
   	$cts->add($tbl);
   }
 }

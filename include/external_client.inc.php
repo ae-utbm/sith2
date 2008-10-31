@@ -2,9 +2,9 @@
 
 /** @file
  *
- * @brief Classe d'accès à diverses ressources 
+ * @brief Classe d'accès à diverses ressources
  * en lecture seule pour les besoins des clubs
- * 
+ *
  */
 
 /* Copyright 2004
@@ -118,7 +118,7 @@ class external_client
 	/* Fonction show_user_photo()
 	 *
 	 * Fonction permettant d'obtenir le nom et le chemin relatif
-	 * de la photo d'identité, matmatronch ou matmatblouse de l'utilisateur 
+	 * de la photo d'identité, matmatronch ou matmatblouse de l'utilisateur
 	 *
 	 * @Params :
 	 * $user	Un objet utilisateur
@@ -180,7 +180,7 @@ class external_client
 
 		if (!$user->load_by_email($email))
 			$this->error ("Utilisateur INTROUVABLE");
-		
+
 		if ($ae_user_required && !$user->ae)
 			$this->error ("Utilisateur NON cotistant AE");
 

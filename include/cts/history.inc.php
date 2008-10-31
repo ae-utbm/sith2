@@ -35,7 +35,7 @@ class history extends stdcontents
 {
 
   var $_class;
-  
+
   var $history;
 
   var $begin;
@@ -43,15 +43,15 @@ class history extends stdcontents
 
   function history($title=false,$class=false)
   {
-  
+
     $this->title = $title;
     $this->_class = $class;
-  
+
     $this->begin = null;
     $this->end = null;
     $this->history = array();
   }
-  
+
   /**
    * Ajoute un élèment à l'historique
    * @param $timestamp Timestamp unix de la date de l'élèment
@@ -61,7 +61,7 @@ class history extends stdcontents
   {
     // enlève heure, minutes et secondes
     $timestamp =  mktime(0, 0, 0, date("m",$timestamp), date("d",$timestamp), date("Y",$timestamp));
-  
+
     if ( is_null($this->begin) )
     {
       $this->begin = $timestamp;
@@ -71,51 +71,51 @@ class history extends stdcontents
       $this->begin = $timestamp;
     else if ( $timestamp > $this->end )
       $this->end = $timestamp;
-  
+
     $element = array($data,$info);
-      
-    if ( !isset($this->history[$timestamp]) ) 
+
+    if ( !isset($this->history[$timestamp]) )
       $this->history[$timestamp] = array($element);
     else
       $this->history[$timestamp][] = $element;
-      
+
   }
-  
+
   function html_render ()
   {
     ksort($this->history);
-  
+
     $this->buffer .= "<div class=\"history".($this->_class?" ".$this->_class:"")."\">\n";
     $n = 0;
     foreach ( $this->history as $date => $elements )
     {
 
       $this->buffer .= "<div class=\"date side$n\">\n";
-      
+
       $this->buffer .= "<div class=\"timebar\"></div>\n";
-      
+
       $this->buffer .= "<div class=\"dcts\">\n";
       $this->buffer .= "<h2>".date("d/m/Y",$date)."</h2>\n";
       $this->buffer .= "<div class=\"elements\">\n";
-      
+
       foreach ( $elements as $element )
       {
         $this->buffer .= "<div class=\"element\">\n";
-        
+
         $this->buffer .= "<div class=\"data\">\n";
         if ( is_object($element[0]) )
           $this->buffer .= $element[0]->html_render()."\n";
         else
-          $this->buffer .= $element[0]."\n";     
+          $this->buffer .= $element[0]."\n";
         $this->buffer .= "</div>\n";
-        
+
         if ( $element[1] )
         {
           $this->buffer .= "<div class=\"info\">\n";
-          $this->buffer .= $element[1]."\n";     
+          $this->buffer .= $element[1]."\n";
           $this->buffer .= "</div>\n";
         }
-        
+
         $this->buffer .= "</div>\n";
       }
       $this->buffer .= "<div class=\"clearboth\"></div></div>\n";
@@ -123,10 +123,10 @@ class history extends stdcontents
       $this->buffer .= "<div class=\"clearboth\"></div></div>\n";
       $n = ($n+1)%2;
     }
-    
+
     $this->buffer .= "<div class=\"clearlast\"></div></div>\n";
-    
-    return $this->buffer;	
+
+    return $this->buffer;
   }
 }
 

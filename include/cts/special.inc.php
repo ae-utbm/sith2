@@ -3,9 +3,9 @@
 function telephone_userinput ( $tel )
 {
   $tel = ereg_replace("^\+([0-9]*)([^0-9\+]*)\(0\)(.*)$","+\\1\\3",$tel);
-  
+
   $tel = ereg_replace("[^0-9\+]","",$tel);
-  
+
   if ( $tel != "" && !ereg("^\+",$tel) )
     $tel = "+33".substr($tel,1);
 
@@ -15,8 +15,8 @@ function telephone_userinput ( $tel )
 function telephone_display ( $tel )
 {
   if ( ereg("^\+33([0-9])([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2})$",$tel,$regs) )
-    return "0".$regs[1]." ".$regs[2]." ".$regs[3]." ".$regs[4]." ".$regs[5];  
-  
+    return "0".$regs[1]." ".$regs[2]." ".$regs[3]." ".$regs[4]." ".$regs[5];
+
   return $tel;
 }
 

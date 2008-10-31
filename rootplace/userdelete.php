@@ -30,19 +30,19 @@ $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
-	
+
 if ( $_REQUEST["action"] == "delete" && $GLOBALS["svalid_call"] )
 {
-  $user = new utilisateur($site->db,$site->dbrw);  
+  $user = new utilisateur($site->db,$site->dbrw);
   $user->load_by_id($_REQUEST["id_utilisateur"]);
-     
+
   if ( !$user->is_valid() )
-    $Erreur="ID invalide";   
-  elseif ( $site->is_sure ( "","Suppression de l'utilisateur N°".$user->id." : ".$user->get_html_link(),"delusr".$user->id, 2 ) )	
+    $Erreur="ID invalide";
+  elseif ( $site->is_sure ( "","Suppression de l'utilisateur N°".$user->id." : ".$user->get_html_link(),"delusr".$user->id, 2 ) )
     $Success = $user->delete_utilisateur();
-  
+
 }
-	
+
 $site->start_page("none","Administration");
 
 $cts = new contents("<a href=\"./\">Administration</a> / Suppression d'un utilisateur");

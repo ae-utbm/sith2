@@ -1,5 +1,5 @@
 <?php
-/*   
+/*
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -21,14 +21,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
  /**
  * @file
  */
- 
+
 class pays extends stdentity
 {
-  
+
   var $nom;
   var $indtel;
 
@@ -44,44 +44,44 @@ class pays extends stdentity
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
   }
-  
+
   function _load ( $row )
   {
     $this->id = $row['id_pays'];
     $this->nom = $row['nom_pays'];
     $this->indtel = $row['indtel_pays'];
   }
-  
+
   function create ( $nom, $indtel )
   {
     $this->nom = $nom;
     $this->indtel = $indtel;
-    
+
     $req = new insert ($this->dbrw,
             "loc_pays", array(
               "nom_pays"=>$this->nom,
               "indtel_pays"=>$this->indtel
             ));
-  
+
 		if ( $req )
 		{
 			$this->id = $req->get_id();
 		  return true;
 		}
-		
+
 		$this->id = null;
     return false;
   }
-  
+
   function update ( $nom, $indtel )
   {
     $this->nom = $nom;
     $this->indtel = $indtel;
-    
+
     $req = new update ($this->dbrw,
             "loc_pays", array(
               "nom_pays"=>$this->nom,

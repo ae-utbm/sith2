@@ -44,7 +44,7 @@ $loc = new imgloc(800, $level, $site->db, $pgconn);
 
 $statscotis = new requete($site->db, "SELECT `utl_etu`.`id_ville`
                                       FROM `utl_etu`
-                                      INNER JOIN `loc_ville` ON `loc_ville`.`id_ville` = `utl_etu`.`id_ville` 
+                                      INNER JOIN `loc_ville` ON `loc_ville`.`id_ville` = `utl_etu`.`id_ville`
                                       WHERE `utl_etu`.`id_ville` IS NOT NULL");
 $idloc=array();
 while (list($id_ville) = $statscotis->get_row())
@@ -56,7 +56,7 @@ while (list($id_ville) = $statscotis->get_row())
   }
 }
 $loc->add_context();
- 
+
 $img = $loc->generate_img();
 $wm_img = new img_watermark ($img->imgres);
 $wm_img->output();

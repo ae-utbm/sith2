@@ -3,7 +3,7 @@
 /**
  * @file
  * Tutoriel n°1 : stdentities et stdcontents
- * 
+ *
  * Exemple des plannings
  *
  * @author Julien Etelain
@@ -35,14 +35,14 @@ require_once($topdir."include/entities/planning.inc.php");
 /*
  * Inclusion des stdcontents : cts/weekplanning.inc.php
  * Les stdcontents permettent l'affichage, ils correspondant aux "widget" des
- * applications lourdes (un bouton, un datagrid...) 
+ * applications lourdes (un bouton, un datagrid...)
  * en reprennant le parallèle avec le modèle MVC, ici c'est le V : View
  */
 require_once($topdir."include/cts/planning.inc.php");
 
 /*
  * Une fois que l'on a inclus tout ce dont on a besoin, on crée une instance de
- * site. On récupère ainsi 
+ * site. On récupère ainsi
  * - les liens à la base de données : $site->db et $site->dbrw
  * - l'utilisateur connecté $site->user
  * - la racine dans la quelle on va insérer les stdcontents pour qu'ils soient
@@ -75,7 +75,7 @@ if ( !$site->user->is_in_group("root") )
  */
 
 /*
- * Tous les stdentities fournissent un certain nombre de fonctionalités que nous 
+ * Tous les stdentities fournissent un certain nombre de fonctionalités que nous
  * ne verrons pas dans ce tutorirel, ces fonctions sont liées à stdentity.
  * Pour voir ces fonctions avancées, voir la focumentation de la classe
  * stdentity.
@@ -90,27 +90,27 @@ if ( !$site->user->is_in_group("root") )
 $planning = new planning($site->db,$site->dbrw);
 
 
-/* 
+/*
  * Créons un planning dans le quel nous allons ajouter des créneaux
  */
- 
+
 /*
  * Les stdentites manipulent les dates et les heures sous forme de timestamp unix
  * Préparons les dates de début et de fin de validité pour notre planning de test
- */ 
- 
+ */
+
 $start_date = strtotime("2008-04-01");
 $end_date = strtotime("2008-08-01");
 
 /*
  * Ajoute le planning dans la base et l'affecte dans l'instance
- */ 
-$planning->add ( 
+ */
+$planning->add (
   1, /* id_asso : ici 1 pour AE */
   "Planning d'essai", /* un nom pour le planning */
   -1, /* nombre de personne par créneau : ici -1 pour infini */
-  $start_date /* date de début de validité du planning */, 
-  $end_date /* date de fin de validité du planning */, 
+  $start_date /* date de début de validité du planning */,
+  $end_date /* date de fin de validité du planning */,
   true /* il s'agit d'un planning hebdomadaire */ );
 
 /*
@@ -126,7 +126,7 @@ $jeudi = 3600*24*3;
 $h8 = 8*3600;
 $h12 = 12*3600;
 $h14 = 14*3600;
-$h18 = 18*3600; 
+$h18 = 18*3600;
 
 /*
  * Crée des créneaux et récupère leur identifiant
@@ -152,18 +152,18 @@ $planning->add_user_to_gap($id_creneau_1,3033);
 $planning->add_user_to_gap($id_creneau_2,3253);
 $planning->add_user_to_gap($id_creneau_4,3033);
 $planning->add_user_to_gap($id_creneau_5,3253);
-$planning->add_user_to_gap($id_creneau_5,1827); 
+$planning->add_user_to_gap($id_creneau_5,1827);
 $planning->add_user_to_gap($id_creneau_5,3033);
 
 /*
  * On ne crée pas l'objet à chaque chargement de page dans la vrai vie,
- * on souhaite le conserver et le ré-utiliser. Dans ces cas il faut le 
+ * on souhaite le conserver et le ré-utiliser. Dans ces cas il faut le
  * charger : c'est le rôle de load_by_id.
  *
  * En cas d'echec, $objet->is_valid() renvoie faux, et là on affiche une erreur
  * grâce à une fonction de site. En précisant toujours la section.
  */
- 
+
 /*
  * affecte l'id du planning dans $_REQUEST pour la simulation
  */
@@ -199,7 +199,7 @@ $site->start_page("section","Mon planning de test");
 
 /*
  * Crée un stdcontents, du type contents, dans le quel on va mettre tous les autres
- * On lui met comme titre le nom du planning 
+ * On lui met comme titre le nom du planning
  */
 $cts = new contents($planning->name);
 
@@ -209,21 +209,21 @@ $cts = new contents($planning->name);
  * automatiquement les données, mais les génériques on besoin d'être alimenté soit
  * par une requête SQL (éxécuté ou non), soit des stdentites, soit des arrays
  */
-$sql = 
-    "SELECT 
+$sql =
+    "SELECT
      id_gap,
-     start_gap, 
+     start_gap,
      end_gap,
      IFNULL(utilisateurs.alias_utl,'(personne)') AS texte
      FROM pl_gap
      LEFT JOIN pl_gap_user USING(id_gap)
      LEFT JOIN utilisateurs USING(id_utilisateur)
-     WHERE pl_gap.id_planning='".mysql_real_escape_string($planning->id)."'";   
-     
+     WHERE pl_gap.id_planning='".mysql_real_escape_string($planning->id)."'";
+
 /*
  * Construit note stdcontents weekplanning pour afficher notre planning
  */
-$pl = new weekplanning ( 
+$pl = new weekplanning (
 "Planning", /* Titre du stdcontents */
 $site->db, /* Lien à la base de données */
 $sql,  /* La requête SQL */
@@ -232,10 +232,10 @@ $sql,  /* La requête SQL */
 "end_gap", /* Champ SQL de la date de fin */
 "texte", /* Champ sql contentenant le texte à afficher */
 "demoplanning.php", /* URL de cette page (ou naviguer entre les dates) */
-"demoplanning.php?action=details", /* page d'information sur un élément 
+"demoplanning.php?action=details", /* page d'information sur un élément
 (non implementé dans cette démo) */
 "", /* Fin de la requête SQL (ce qui vient après les conditions WHERE ) */
-PL_LUNDI /* Date de référence correspondant à Lundi pour basculer en mode 
+PL_LUNDI /* Date de référence correspondant à Lundi pour basculer en mode
             hebdomadaire, c'est une constante définit avec le stdentity */
  );
 
@@ -245,7 +245,7 @@ PL_LUNDI /* Date de référence correspondant à Lundi pour basculer en mode
 $cts->add($pl,true);
 
 /*
- * Ajoute le contents dans le site pour l'affichage, s'il y a un titre il est 
+ * Ajoute le contents dans le site pour l'affichage, s'il y a un titre il est
  * toujours affiché (en H1). Nous avons définit un titre, il sera donc affiché.
  */
 $site->add_contents($cts);
@@ -271,7 +271,7 @@ $planning->remove_user_from_gap($id_creneau_1,142);
 $planning->remove_gap($id_creneau_5);
 
 /*
- * Supprime finalement le planning  et toutes les données liées que l'on a 
+ * Supprime finalement le planning  et toutes les données liées que l'on a
  * ajouté dans la partie B.
  */
 $planning->remove();
@@ -281,5 +281,5 @@ $planning->remove();
  * Voilà c'est tout pour cette fois ci !
  * Pour voir le résultat : http://ae.utbm.fr/taiste/temp/demoplanning.php
  */
- 
+
 ?>

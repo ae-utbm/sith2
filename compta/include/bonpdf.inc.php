@@ -5,9 +5,9 @@
  * To change the template for this generated file go to
  * Window - Preferences - PHPeclipse - PHP - Code Templates
  */
- 
-require_once($topdir . "include/lib/fpdf.inc.php"); 
- 
+
+require_once($topdir . "include/lib/fpdf.inc.php");
+
 class compta_bonpdf extends FPDF
 {
 	function compta_bonpdf()
@@ -16,16 +16,16 @@ class compta_bonpdf extends FPDF
 
 		$this->FPDF();
 	}
-	
+
 	function add_op ( $op,$trez,$cla,$asso,$cpbc,$opclb,$opstd,$utl,$assotier,$ent,$cptasso2 )
 	{
-		$this->AddPage();	
+		$this->AddPage();
 		/*
 		 *  AE
-		 * 
+		 *
 		 *  ASSO, COMPTE BANCAIRE
 		 *      N° CLASSEUR-NUM
-		 * 
+		 *
 		 *       DEBIT | CREDIT
 		 *          MONTANT
 		 *  mode/ num chèque
@@ -33,7 +33,7 @@ class compta_bonpdf extends FPDF
 		 *  date
 		 *  bénéficiaire
 		 *  commentaire
-		 *   
+		 *
 		 *                trésorier
 		 *                signature
 		 */
@@ -55,30 +55,30 @@ class compta_bonpdf extends FPDF
 		$num_cheque = $op->num_cheque;
 		$commentaire = $op->commentaire;
 		$nom_trez = $trez->prenom." ".$trez->nom;
-		 
-		$montant = $op->montant/100; 
-		 
+
+		$montant = $op->montant/100;
+
 		if ( $cptasso2->id > 0 )
 		{
 			$cpbc2  = new compte_bancaire($cptasso2->db);
 			$assotier->load_by_id($cptasso2->id_asso);
 			$cpbc2->load_by_id($cptasso2->id_cptbc);
-			
+
 			$beneficiaire = $assotier->nom." sur ".$cpbc2->nom;
-			
-			if($utl->id > 0)
-			{
-				$intermediaire = $utl->prenom." ".$utl->nom;
-			}	
-		}
-		elseif ( $assotier->id > 0 )
-		{
-		 	$beneficiaire = $assotier->nom;	
 
 			if($utl->id > 0)
 			{
 				$intermediaire = $utl->prenom." ".$utl->nom;
-			}		 	
+			}
+		}
+		elseif ( $assotier->id > 0 )
+		{
+		 	$beneficiaire = $assotier->nom;
+
+			if($utl->id > 0)
+			{
+				$intermediaire = $utl->prenom." ".$utl->nom;
+			}
 		}
 		elseif( $ent->id > 0 )
 		{
@@ -86,22 +86,22 @@ class compta_bonpdf extends FPDF
 			if($utl->id > 0)
 			{
 				$intermediaire = $utl->prenom." ".$utl->nom;
-			}	
+			}
 		}
 		elseif($utl->id > 0)
 		{
 		 	$beneficiaire = $utl->prenom." ".$utl->nom;
 		 	$intermediaire = "";
 		}
-		
-		
+
+
 		$this->SetY(10);
 		$this->SetX(130);
 		$this->SetFont('Arial','B',25);
 		$this->Cell(60,20,utf8_decode('N°'.$num_bon),1,0,'C');
 		$this->Ln();
-		
-		
+
+
 		$this->SetY(50);
 		$this->SetX(20);
    		$this->SetFont('Arial','B',15);
@@ -110,37 +110,37 @@ class compta_bonpdf extends FPDF
 		$this->SetX(20);
 		$this->Cell(170,15,utf8_decode('Libellé: '.$type_libelle),0,0,'L');
 		$this->Ln();
-		
+
    		$this->SetFont('Arial','B',20);
    		$this->SetX(20);
    		$y = $this->GetY()+7;
    		$this->Cell(85,14,utf8_decode('CREDIT'),1,0,'C');
 		$this->Cell(85,14,utf8_decode('DEBIT'),1,0,'C');
 		$this->Ln();
-		
+
 		$this->SetX(20);
 		$this->Cell(170,14,utf8_decode('MONTANT: '.$montant.' Euros'),1,0,'C');
 		$this->Ln();
-		
+
 		$x = 35;
 		if ( $type_mouvement > 0 )
 			$x += 85;
 		$this->Line($x,$y,$x+55,$y);
 		$this->Line($x,$y-1,$x+55,$y-1);
 		$this->Line($x,$y+1,$x+55,$y+1);
-		
+
 		$y = $this->GetY();
-		
+
 		$this->SetFont('Arial','',12);
 		$this->Rect(20,$y,85,50);
 		$this->Rect(105,$y,85,50);
-			
+
 		for($i=0;$i<40;$i+=10)
 		{
 			$this->Rect(23,$y+$i+3,4,4);
 			$this->Rect(23+85,$y+$i+3,4,4);
-		}	
-			
+		}
+
 		if ( $type_mouvement > 0 )
 		{
 
@@ -159,14 +159,14 @@ class compta_bonpdf extends FPDF
 			$this->SetX(30);
 			$this->Cell(85,10,utf8_decode('Carte bancaire'),0,0,'L');
 			$this->Cell(85,10,utf8_decode('Carte bancaire'),0,0,'L');
-			$this->Ln();			
+			$this->Ln();
 			$this->SetX(20);
-			$this->Cell(85,10,utf8_decode('Date: '.$date),0,0,'L');	
+			$this->Cell(85,10,utf8_decode('Date: '.$date),0,0,'L');
 			$this->Cell(85,10,utf8_decode('Date:'),0,0,'L');
 			$this->Ln();
-			
+
 			$this->Rect(23,$y+(($mode-1)*10)+3,4,4,'F');
-			
+
 			$this->SetX(20);
    			$this->Cell(85,14,utf8_decode('Debiteur: '.$beneficiaire),1,0,'L');
 			$this->Cell(85,14,utf8_decode('Crediteur: '),1,0,'L');
@@ -188,14 +188,14 @@ class compta_bonpdf extends FPDF
 			$this->SetX(30);
 			$this->Cell(85,10,utf8_decode('Carte bancaire'),0,0,'L');
 			$this->Cell(85,10,utf8_decode('Carte bancaire'),0,0,'L');
-			$this->Ln();			
+			$this->Ln();
 			$this->SetX(20);
-			$this->Cell(85,10,utf8_decode('Date:'),0,0,'L');	
+			$this->Cell(85,10,utf8_decode('Date:'),0,0,'L');
 			$this->Cell(85,10,utf8_decode('Date: '.$date),0,0,'L');
 			$this->Ln();
-			
+
 			$this->Rect(23+85,$y+(($mode-1)*10)+3,4,4,'F');
-			
+
 			$this->SetX(20);
    			$this->Cell(85,14,utf8_decode('Debiteur: '),1,0,'L');
 			$this->Cell(85,14,utf8_decode('Crediteur: '.$beneficiaire),1,0,'L');
@@ -204,7 +204,7 @@ class compta_bonpdf extends FPDF
 
 		$y = $this->GetY();
 		$this->Rect(20,$y,170,40);
-		
+
 		$this->SetY($y+2);
 		$this->SetX(20);
 		$this->MultiCell(160,5,utf8_decode("Commentaires:\n".$commentaire),0,"L");
@@ -221,10 +221,10 @@ class compta_bonpdf extends FPDF
 		$this->Ln();
 		$this->SetX(105);
 		$this->Cell(85,6,utf8_decode('Signature:'),0,0,'L');
-		
+
 	}
-	
-	
+
+
 	function Header()
 	{
 		global $topdir;
@@ -240,7 +240,7 @@ class compta_bonpdf extends FPDF
 		/* Jump lines */
 		//$this->Ln(30);
 	}
-  
+
 	function Footer()
 	{
 		//Position at 1.5 cm from bottom
@@ -252,9 +252,9 @@ class compta_bonpdf extends FPDF
 		$this->Cell(0,4,'6 Bd Anatole France 90 000 BELFORT',0,0,'C');
 		$this->Ln();
 	}
-  
-  
-	
-} 
- 
+
+
+
+}
+
 ?>

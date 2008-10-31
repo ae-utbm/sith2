@@ -62,7 +62,7 @@ class imgloc
 
   /*  une liste de lieux à afficher */
   var $locs = array();
-  
+
   /* une liste de contextes */
   var $contexts = array();
 
@@ -71,14 +71,14 @@ class imgloc
 
   /* une liste de lieux à relier (étapes) */
   var $steps = array();
-  
+
   /* constructeur */
   function imgloc($width, $level, &$mysqldb, &$pgsqldb)
   {
     $this->width   = $width;
     $this->level   = $level;
     $this->mysqldb = $mysqldb;
-    $this->pgsqldb = $pgsqldb;    
+    $this->pgsqldb = $pgsqldb;
   }
 
 
@@ -96,7 +96,7 @@ class imgloc
 
   function add_step_by_idville($id, $hilight = true, $red = false)
   {
-    $this->add_location_by_idville($id, $hilight, $red); 
+    $this->add_location_by_idville($id, $hilight, $red);
     $this->steps[] = count($this->locs) - 1;
   }
 
@@ -124,17 +124,17 @@ class imgloc
                        worldloc
             WHERE
                         name_loc = '".pg_escape_string($name)."'";
-    
+
     if ($countryc != null)
       $sql .= "\n AND countryc_loc = '".pg_escape_string($countryc)."'";
-    
+
     $sql .= "\n LIMIT 1;";
 
 
-    $pgreq = new pgrequete($this->pgsqldb, 
+    $pgreq = new pgrequete($this->pgsqldb,
 			   $sql);
 
-    
+
     $rs = $pgreq->get_all_rows();
     $rs = $rs[0];
 
@@ -152,8 +152,8 @@ class imgloc
   {
     $convert = new pgrequete($this->pgsqldb, "SELECT GeomFromText('POINT(".$lng." ".$lat. ")', $srid) as datas;");
     $rs = $convert->get_all_rows();
-    
-    $coords['datas'] = $rs[0]['datas']; 
+
+    $coords['datas'] = $rs[0]['datas'];
     $coords['srid']  = $srid;
 
     $this->_add_location($name,  $coords);
@@ -162,15 +162,15 @@ class imgloc
   /* ajout d'une ville via idville */
   function add_location_by_idville($id, $hilight = true, $red = false)
   {
-    $my = new requete($this->mysqldb, "SELECT 
-                                              id_ville, 
-                                              nom_ville, 
+    $my = new requete($this->mysqldb, "SELECT
+                                              id_ville,
+                                              nom_ville,
                                               cpostal_ville,
                                               lat_ville,
                                               long_ville
-                                       FROM 
-                                              loc_ville 
-                                       WHERE 
+                                       FROM
+                                              loc_ville
+                                       WHERE
                                               id_ville = " . intval($id));
 
     while ($rs = $my->get_row())
@@ -183,8 +183,8 @@ class imgloc
 
 	$convert = new pgrequete($this->pgsqldb, "SELECT GeomFromText('POINT(".$lng." ".$lat. ")', 4030) as datas;");
 	$pgrs = $convert->get_all_rows();
-	
-	$coords['datas'] = $pgrs[0]['datas']; 
+
+	$coords['datas'] = $pgrs[0]['datas'];
 	$coords['srid']  = 4030;
 
 	$this->_add_location($rs['nom_ville'],  $coords, $red);
@@ -194,14 +194,14 @@ class imgloc
 	      $cp = "0" . substr($rs['cpostal_ville'], 0, 1);
 	    else
 	      $cp = substr($rs['cpostal_ville'], 0, 2);
-	
+
 	    $this->add_hilighted_context_fr($cp);
 	  }
       }
 
   }
 
-  /* ajout d'un lieu par objet 
+  /* ajout d'un lieu par objet
    */
   function add_location_by_object(&$myloc)
   {
@@ -216,8 +216,8 @@ class imgloc
 
     $convert = new pgrequete($this->pgsqldb, "SELECT GeomFromText('POINT(".$lng." ".$lat. ")', 4030) as datas;");
     $rs = $convert->get_all_rows();
-    
-    $coords['datas'] = $rs[0]['datas']; 
+
+    $coords['datas'] = $rs[0]['datas'];
     $coords['srid']  = 4030;
 
     $this->_add_location($myloc->nom,  $coords);
@@ -246,7 +246,7 @@ class imgloc
                     code_dept = '".pg_escape_string($identifier) . "'
             OR
                     nom_region = '".pg_escape_string($identifier) . "';";
-    
+
     $this->add_hl_context_by_sql($sql);
   }
 
@@ -265,7 +265,7 @@ class imgloc
                     name = '".pg_escape_string($identifier) ."'
             OR
                     region = '".pg_escape_string($identifier) . "'";
-    
+
     $this->add_hl_context_by_sql($sql);
 
   }
@@ -295,10 +295,10 @@ class imgloc
      */
     if ($this->level == IMGLOC_WORLD)
       {
-	
+
 	/* on passe toutes les coordonnées au format "mondial" (SRID 3395) */
-	
-	$sql = "SELECT 
+
+	$sql = "SELECT
                        AsText(Transform(Simplify(the_geom, 0.20), 3395)) AS points \n";
 	if (count($this->locs))
 	  {
@@ -320,7 +320,7 @@ class imgloc
 		  }
 		/* par ailleurs, pour le tracé mondial, il nous faut une projection dans le SRID 3395 */
 		$sql .= ", AsText(Transform('".$loc[1]['datas'] . "', 3395)) AS coords".$i."\n";
-		
+
 		$i++;
 	      }
 	  }
@@ -330,21 +330,21 @@ class imgloc
                        worldadmwgs
                  WHERE
                        region != 'Antarctica';";
-	
+
 	$rq = new pgrequete($this->pgsqldb, $sql);
-	
+
 	$rs = $rq->get_all_rows();
 
-	$this->get_locs_coords($rs[0]);	
-	
+	$this->get_locs_coords($rs[0]);
+
 	$this->parse_polygons($rs);
-	
+
 	return;
       }
     else if ($this->level == IMGLOC_CONTINENT)
       {
-	
-       	$sql = "SELECT 
+
+       	$sql = "SELECT
                        AsText(Transform(Simplify(the_geom, 0.20), 3395)) AS points \n";
 
 	if (count($this->locs))
@@ -364,7 +364,7 @@ class imgloc
 		if ($loc[1]['srid'] != 4030)
 		  {
 		    $conds[] = " CONTAINS(the_geom, Transform('".$loc[1]['datas']."', 4030)) ";
-		    
+
 		  }
 		else
 		  {
@@ -382,13 +382,13 @@ class imgloc
 	if ($subrq)
 	  $sql .="     WHERE
                               region IN (" . $subrq . ")";
-	
+
 	$rq = new pgrequete($this->pgsqldb, $sql);
-	
+
 	$rs = $rq->get_all_rows();
 
-	$this->get_locs_coords($rs[0]);	
-	
+	$this->get_locs_coords($rs[0]);
+
 	$this->parse_polygons($rs);
 
 	return;
@@ -396,8 +396,8 @@ class imgloc
 
     else if ($this->level == IMGLOC_COUNTRY)
       {
-	
-       	$sql = "SELECT 
+
+       	$sql = "SELECT
                        AsText(Transform(the_geom, 3395)) AS points \n";
 
 	if (count($this->locs))
@@ -417,7 +417,7 @@ class imgloc
 		if ($loc[1]['srid'] != 4030)
 		  {
 		    $conds[] = " CONTAINS(the_geom, Transform('".$loc[1]['datas']."', 4030)) ";
-		    
+
 		  }
 		else
 		  {
@@ -435,13 +435,13 @@ class imgloc
 	if ($subrq)
 	  $sql .=" WHERE
                        name IN (" . $subrq . ")";
-	
+
 	$rq = new pgrequete($this->pgsqldb, $sql);
-	
+
 	$rs = $rq->get_all_rows();
 
-	$this->get_locs_coords($rs[0]);	
-	
+	$this->get_locs_coords($rs[0]);
+
 	$this->parse_polygons($rs);
 
 	return;
@@ -456,7 +456,7 @@ class imgloc
 	if (count($this->locs))
 	  {
 	    $i = 0;
-	    $subrq = "SELECT DISTINCT code_reg FROM deptfr WHERE "; 
+	    $subrq = "SELECT DISTINCT code_reg FROM deptfr WHERE ";
 	    foreach ($this->locs as &$loc)
 	      {
 		/* on ajoute un identifiant de point */
@@ -485,26 +485,26 @@ class imgloc
                        code_reg IN (".$subrq.");";
 
 	$rq = new pgrequete($this->pgsqldb, $sql);
-	
+
 	$rs = $rq->get_all_rows();
 
-	$this->get_locs_coords($rs[0]);	
-	
+	$this->get_locs_coords($rs[0]);
+
 	$this->parse_polygons($rs);
- 
+
 
 	return;
       }
     else if ($this->level == IMGLOC_DEPTFR)
       {
-	
+
 	/* on supprime les points non concernés par la France Métropolitaine */
 	$sql = "SELECT
                          AsText(the_geom) AS points\n";
 	if (count($this->locs))
 	  {
 	    $i = 0;
-	    $subrq = "SELECT DISTINCT code_dept FROM deptfr WHERE "; 
+	    $subrq = "SELECT DISTINCT code_dept FROM deptfr WHERE ";
 	    foreach ($this->locs as &$loc)
 	      {
 		/* on ajoute un identifiant de point */
@@ -533,12 +533,12 @@ class imgloc
                        code_dept IN (".$subrq.");";
 
 	$rq = new pgrequete($this->pgsqldb, $sql);
-	
+
 	$rs = $rq->get_all_rows();
 
-	$this->get_locs_coords($rs[0]);	
+	$this->get_locs_coords($rs[0]);
 	$this->parse_polygons($rs);
-  
+
 	return;
       }
   }
@@ -557,13 +557,13 @@ class imgloc
 	$coordspt = str_replace('POINT(', '', $coordspt);
 	$coordspt = str_replace(')', '', $coordspt);
 	$coordspt = explode(' ', $coordspt);
-	
+
 	$loc[1]['long'] = $coordspt[0];
-	$loc[1]['lat'] =  $coordspt[1]; 
+	$loc[1]['lat'] =  $coordspt[1];
       }
 
   }
-  
+
   function parse_polygons($datas, $hl = false)
   {
     if ((!is_array($datas)) || (count($datas) <= 0))
@@ -575,25 +575,25 @@ class imgloc
       $arraysto = &$this->contexts;
     else
       $arraysto = &$this->hlcontexts;
-    
+
     foreach($datas as $data)
       {
 	$astext = $data['points'];
 	$matched = array();
 
 	preg_match_all("/\(([^)]*)\)/", $astext, $matched);
-	
-	
+
+
 	foreach ($matched[1] as $polygon)
 	  {
 	    $polygon = str_replace("(", "", $polygon);
 	    $points = explode(",", $polygon);
-	    
+
 	    foreach ($points as $point)
 	      {
 		$coord = explode(" ", $point);
-		$step = count($arraysto[$numplg]); 
-		
+		$step = count($arraysto[$numplg]);
+
 		/* premier point */
 		if ($step == 0)
 		  {
@@ -615,7 +615,7 @@ class imgloc
 	  } // polygones
       } // lignes de résultat pgsql
   }
-  
+
   /*
    * Génération de l'image
    *
@@ -628,7 +628,7 @@ class imgloc
     $myimg->addcolor("grey", 210, 210, 210);
     $myimg->addcolor("pgreen", 184, 255, 184);
     $myimg->addcolor("porange", 238, 172, 0);
-    
+
     if (count($this->contexts))
       {
 	foreach($this->contexts as $plg)

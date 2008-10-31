@@ -70,20 +70,20 @@ elseif ( $site->user->is_asso_role(14,1) )
 {
   $cts = new contents("Pré-parrainage",
                       "");
-  
-  $sql = new requete($site->db, "SELECT utilisateurs.nom_utl, 
-						utilisateurs.prenom_utl, 
+
+  $sql = new requete($site->db, "SELECT utilisateurs.nom_utl,
+						utilisateurs.prenom_utl,
 						utilisateurs.id_utilisateur,
 						utilisateurs.email_utl AS email_utilisateur,
 						pre_parrainage.tc,
 						pre_parrainage.branche,
 					CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`
-					FROM pre_parrainage 
-					LEFT JOIN utilisateurs 
-					ON pre_parrainage.id_utilisateur = utilisateurs.id_utilisateur 
+					FROM pre_parrainage
+					LEFT JOIN utilisateurs
+					ON pre_parrainage.id_utilisateur = utilisateurs.id_utilisateur
 					WHERE `semestre` = '".$sem."'");
-					
-  $tbl = new sqltable("bijoux", 
+
+  $tbl = new sqltable("bijoux",
 				"Liste des bijoux inscrits à la campagne de pré-parrainage",
 				$sql,
 				"index.php",

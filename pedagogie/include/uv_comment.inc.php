@@ -81,34 +81,34 @@ class uv_comment extends stdentity
   var $id;
   var $id_uv; /* en general, uv_comment appele depuis une UV, donc a n'utiliser que dans les autres cas */
   var $id_utilisateur;
-  
+
   /* notes entre 0 et 5 */
   var $note_generale;
   var $note_utilite;
   var $note_interet;
   var $note_enseignement;
   var $note_travail;
-  
+
   var $content;
   var $date;
-  
+
   public function load_by_id($id){
   }
-  
+
   private function _load($row){
   }
-  
-  public function add($id_uv, $id_utilisateur, 
-                      $note_generale, $note_utilite, $note_interet, $note_enseignement, $note_travail, 
+
+  public function add($id_uv, $id_utilisateur,
+                      $note_generale, $note_utilite, $note_interet, $note_enseignement, $note_travail,
                       $content){
   }
-  
+
   public function update(){
   }
-  
+
   public function remove(){
   }
-  
+
   public function set_valid($value=1){
   }
 }

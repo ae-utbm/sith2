@@ -17,24 +17,24 @@ $nalnum = "\. _\n\r,;:'\!\?\(\)\-";
 function extract_matching_liste ( $text, $id )
 {
   global $motclefs, $dbpg,$nalnum;
-  
+
   while ( eregi("(^|[$nalnum])([^$nalnum]+)($|[$nalnum])(.*)",$text,$regs) )
   {
     $text = $regs[4];
-    
+
     $motclef = strtolower($regs[2]);
     $base = $motclef;
-    
+
     $motclef = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","e",$motclef);
     $motclef = ereg_replace("(a|à|â|ä|À|Â|Ä)","a",$motclef);
     $motclef = ereg_replace("(i|ï|î|Ï|Î)","i",$motclef);
     $motclef = ereg_replace("(c|ç|Ç)","c",$motclef);
     $motclef = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","u",$motclef);
     $motclef = ereg_replace("(n|ñ|Ñ)","n",$motclef);
-    
+
     if ( isset($motclefs[$motclef]) )
       $id_motclef = $motclefs[$motclef];
-      
+
     else
     {
 		  $sql = new insert ($dbpg,"pg_motclef",array("nom_motclef"=>$motclef,"titre_motclef"=>$base));
@@ -42,7 +42,7 @@ function extract_matching_liste ( $text, $id )
 			$motclefs[$motclef] = $id_motclef;
 			echo "<p>$motclef</p>\n";
     }
-    
+
 		$sql = new insert ($dbpg,"pg_motclef_liste",array("id_motclef"=>$id_motclef,"id_liste"=>$id));
 
   }

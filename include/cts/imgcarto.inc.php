@@ -1,6 +1,6 @@
 <?
 /*
- * @brief Classe de traçage d'objets géographiques. 
+ * @brief Classe de traçage d'objets géographiques.
  *
  */
 /* Copyright 2007
@@ -43,7 +43,7 @@ class imgcarto
 
   /* un facteur de division d'échelle */
   var $factor = 1.0;
-  
+
   /* une valeur en pixels de décalage */
   var $offset = 10;
 
@@ -55,14 +55,14 @@ class imgcarto
   var $dimx, $dimy;
 
   var $errmsg;
-  
+
   var $calculated = false;
 
   function imgcarto($dimx, $offset)
   {
     $this->dimx = $dimx;
     $this->offset = $offset;
-    
+
     /* quelques couleurs de base */
     $this->addcolor("black", 0,0,0);
     $this->addcolor("red", 255, 0,0);
@@ -71,7 +71,7 @@ class imgcarto
 
     return;
   }
-  
+
   function addcolor($def, $r,$g,$b)
   {
     /* on ne génère pas encore la couleur via imagecolorallocate()
@@ -81,7 +81,7 @@ class imgcarto
 
     $this->colors[$def] = array($r,$g,$b);
   }
-  
+
 
   function addtext($size, $angle, $x, $y, $color, $text, $font = null, $pointed = null)
   {
@@ -89,7 +89,7 @@ class imgcarto
 
     if ($font == null)
       $font =  $topdir . "font/verdana.ttf";
-    
+
     if (!isset($this->minx))
       $this->minx = $x;
     if (!isset($this->miny))
@@ -106,7 +106,7 @@ class imgcarto
     if ($this->maxy < $y)
       $this->maxy = $y;
 
-    
+
     $this->texts[] = array($size, $angle, $x, $y, $color, $font, $text, $pointed);
 
   }
@@ -177,7 +177,7 @@ class imgcarto
   {
     if (count($plg) <= 0)
       return;
-    
+
     for ($i = 0; $i < count($plg); $i +=2)
       {
 	$x = $plg[$i];
@@ -200,7 +200,7 @@ class imgcarto
 
     $this->polygons[] = array($plg, $color, $filled, $mapdatas);
   }
-  
+
   /* passe les coordonnées des objets en positif */
   function setpositivecoords()
   {
@@ -246,7 +246,7 @@ class imgcarto
 		$polygon[0][$i] -= $this->minx;
 		$polygon[0][$i+1] -= $this->miny;
 	      }
-	    
+
 	  }
       }
   }
@@ -266,7 +266,7 @@ class imgcarto
 	  {
 	    $text[2] = $text[2] * $this->factor + $this->offset;
 	    $text[3] = $text[3] * $this->factor + $this->offset;
-	    
+
 	    /* point avec légende */
 	    if ($text[7] != null)
 	      {
@@ -274,7 +274,7 @@ class imgcarto
 		$text[3] = $text[3] - $text[7] / 2;
 	      }
 
-	    
+
 
 	    if ($invert_y)
 	      $text[3] = $this->dimy - $text[3];
@@ -317,7 +317,7 @@ class imgcarto
 	      {
 		$polygon[0][$i]    = $polygon[0][$i] * $this->factor + $this->offset;
 		$polygon[0][$i+1]  = $polygon[0][$i+1] * $this->factor + $this->offset;
-		
+
 		if ($invert_y)
 		  $polygon[0][$i+1] = $this->dimy - $polygon[0][$i+1];
 	      }
@@ -336,7 +336,7 @@ class imgcarto
       }
 
     $this->imgres = imagecreatetruecolor($this->dimx, $this->dimy);
-    
+
     /* allocate colors */
     if (count($this->colors))
     {
@@ -387,7 +387,7 @@ class imgcarto
                             $point[2],
                             $point[2],
                             $this->colors[$point[3]]['gd']);
- 
+
       }
     }
     /* draw texts */

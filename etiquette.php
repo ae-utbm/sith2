@@ -48,8 +48,8 @@ if ( $_REQUEST["id_asso_prop"])
 
 if ( $_REQUEST["id_salle"])
 	$salle->load_by_id($_REQUEST["id_salle"]);
-	
-	
+
+
 if ( $_REQUEST["action"] == "generate" )
 {
 	$sql = "SELECT " .
@@ -58,10 +58,10 @@ if ( $_REQUEST["action"] == "generate" )
 			"`inv_objet`.`num_objet`, " .
 			"`asso_gest`.`id_asso` AS `id_asso_gest`, " .
 			"`asso_gest`.`nom_asso` AS `nom_asso_gest`, " .
-			"`asso_gest`.`nom_unix_asso` AS `nom_unix_asso_gest`, " .		
+			"`asso_gest`.`nom_unix_asso` AS `nom_unix_asso_gest`, " .
 			"`asso_prop`.`id_asso` AS `id_asso_prop`, " .
 			"`asso_prop`.`nom_asso` AS `nom_asso_prop`, " .
-			"`asso_prop`.`nom_unix_asso` AS `nom_unix_asso_prop`, " .	
+			"`asso_prop`.`nom_unix_asso` AS `nom_unix_asso_prop`, " .
 			"`inv_type_objets`.`nom_objtype` " .
 			"FROM `inv_objet` " .
 			"INNER JOIN `asso` AS `asso_gest` ON `inv_objet`.`id_asso`=`asso_gest`.`id_asso` " .
@@ -70,32 +70,32 @@ if ( $_REQUEST["action"] == "generate" )
 
 	if ( $objtype->id > 0 )
 		$conds[] = "`inv_objet`.`id_objtype`='".intval($objtype->id)."'";
-	
+
 	if ( $asso_gest->id > 0 )
 		$conds[] = "`inv_objet`.`id_asso`='".intval($asso_gest->id)."'";
-	
+
 	if ( $asso_prop->id > 0 )
 		$conds[] = "`inv_objet`.`id_asso_prop`='".intval($asso_prop->id)."'";
-		
+
 	if ( $salle->id > 0 )
-		$conds[] = "`inv_objet`.`id_salle`='".intval($salle->id)."'";		
-	
-	
+		$conds[] = "`inv_objet`.`id_salle`='".intval($salle->id)."'";
+
+
 	if ( count($conds) )
 		$sql .= "WHERE ".implode(" AND ",$conds);
-	
+
 	$sql .= " ORDER BY `inv_objet`.`id_objtype`,`inv_objet`.`num_objet`";
-	
+
 	$req = new requete($site->db,$sql);
-	
-	
+
+
 	$pdf = new pdfetiquette();
-	
+
 	while ( $row = $req->get_row())
 	{
 		$barcode = $row['cbar_objet'];
 		$name = $row['nom_objet'];
-		
+
 		$src = "/var/www/ae/www/ae2/var/img/logos/".$row['nom_unix_asso_gest'].".png";
 		$logo = "/var/www/ae/www/ae2/var/img/logos/".$row['nom_unix_asso_gest'].".jpg";
 		if ( !file_exists($logo) && file_exists($src) )
@@ -105,28 +105,28 @@ if ( $_REQUEST["action"] == "generate" )
 		{
 			$src = "/var/www/ae/www/ae2/var/img/logos/".$row['nom_unix_asso_prop'].".png";
 			$logo = "/var/www/ae/www/ae2/var/img/logos/".$row['nom_unix_asso_prop'].".jpg";
-			
+
 			if ( !file_exists($logo) && file_exists($src) )
 				exec(escapeshellcmd("/usr/share/php5/exec/convert $src -background white $logo"));
 		}
-		
+
 		if ( !file_exists($logo) )
 			$logo=null;
 
-			
+
 		if ( !$name )
 			$name = $row['nom_objtype'].' '.$row['num_objet'];
-			
-		if ( $row['nom_asso_prop'] != $row['nom_asso_gest'] )	
+
+		if ( $row['nom_asso_prop'] != $row['nom_asso_gest'] )
 			$owner = $row['nom_asso_prop'].'/'.$row['nom_asso_gest'];
 		else
 			$owner = $row['nom_asso_prop'];
-		
+
 		$pdf->add_etiquette ( $owner, $name, $barcode,$logo );
-	
+
 	}
 	$pdf->Output();
-	
+
 	exit();
 }
 

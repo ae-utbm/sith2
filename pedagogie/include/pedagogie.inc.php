@@ -24,8 +24,8 @@
  */
 
 /**
- * les enumerations et constantes ci-dessous doivent respecter les 
- * valeurs de leurs équivalents dans la BDD 
+ * les enumerations et constantes ci-dessous doivent respecter les
+ * valeurs de leurs équivalents dans la BDD
  */
 
 /* Resultat */
@@ -64,7 +64,7 @@ $dpt_short = array(
   DPT_MC => "MC",
   DPT_EDIM => "EDIM"
   );
-  
+
 $dpt_long = array(
   DPT_HUMA => "Humanités",
   DPT_TC => "Tronc Commun",
@@ -82,7 +82,7 @@ else  $s = 'P'                  /* entre Fevrier et Juillet */
 define("SEMESTER_NOW", $s.date('Y'));
 
 /**
- * Vérifie si le format de semestre est bien au format A2004 
+ * Vérifie si le format de semestre est bien au format A2004
  * @param $value donnee a vérifiée
  * @return true/false suivant le résultat
  */

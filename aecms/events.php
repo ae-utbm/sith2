@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * AECMS : CMS pour les clubs et activités de l'AE UTBM
- *        
+ *
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $_GET['caldate'] = $_REQUEST["day"];
 
 require_once("include/site.inc.php");

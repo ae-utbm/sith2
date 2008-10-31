@@ -45,9 +45,9 @@ $db = new mysqlae ();
 $level = IMGLOC_COUNTRY;
 
 if (isset($_REQUEST['level']))
-{  
+{
   $level = intval($_REQUEST['level']);
-} 
+}
 
 $img = new imgloc(400, $level, $db, new pgsqlae());
 
@@ -72,7 +72,7 @@ if (isset($_REQUEST['date']))
 	      $img->add_step_by_idville($idville, false, true);
 	      continue;
 	    }
-	  
+
 	  if ($etape['etat'] == 1)
 	    $img->add_step_by_idville($idville, false);
 	  else if ($_REQUEST['id_etape'] == $etape['id'])

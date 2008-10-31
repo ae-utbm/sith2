@@ -20,11 +20,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /**
  * @file
  */
- 
+
 /**
  * Budget à placer dans un classeur de compta
  * @ingroup compta
@@ -42,19 +42,19 @@ class budget extends stdentity
 	{
 		$req = new requete($this->db, "SELECT * FROM `cpta_budget`
 				WHERE `id_budget` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 
 	}
-	
+
 	function _load ( $row )
 	{
 		$this->id = $row['id_budget'];
@@ -66,10 +66,10 @@ class budget extends stdentity
 		$this->projets = $row['projets_budget'];
 		$this->termine = $row['termine_budget'];
 	}
-	
+
 	function new_budget ( $id_classeur, $nom, $projets="" )
 	{
-		
+
 		$this->id_classeur = $id_classeur;
 		$this->nom = $nom;
 		$this->date = time();
@@ -77,7 +77,7 @@ class budget extends stdentity
 		$this->total = 0;
 		$this->projets = $projets;
 		$this->termine = 0;
-		
+
 		$sql = new insert ($this->dbrw,
 			"cpta_budget",
 			array(
@@ -90,20 +90,20 @@ class budget extends stdentity
 				"termine_budget" => $this->termine
 				)
 			);
-				
+
 		if ( $sql )
 			$this->id = $sql->get_id();
 		else
 			$this->id = null;
-		
+
 	}
-	
+
 	function update ( $nom, $projets )
 	{
 		$this->nom = $nom;
 		$this->date = time();
-		$this->projets = $projets;	 
-		
+		$this->projets = $projets;
+
 		$sql = new update ($this->dbrw,
 			"cpta_budget",
 			array(
@@ -116,11 +116,11 @@ class budget extends stdentity
 			  )
 			);
 	}
-	
+
 	function set_termine ( )
 	{
 		$this->termine = 1;
-		
+
 		$sql = new update ($this->dbrw,
 			"cpta_budget",
 			array(
@@ -131,11 +131,11 @@ class budget extends stdentity
 			  )
 			);
 	}
-	
+
 	function set_valide ( )
 	{
 	  $this->valide = 1;
-	 
+
 		$sql = new update ($this->dbrw,
 			"cpta_budget",
 			array(
@@ -146,7 +146,7 @@ class budget extends stdentity
 			  )
 			);
 	}
-	
+
 	function add_line ( $id_opclb, $montant, $description )
 	{
 		$sql = new insert ($this->dbrw,
@@ -159,18 +159,18 @@ class budget extends stdentity
 				)
 			);
 	}
-	
+
 	function get_line ( $num )
 	{
 	  $req = new requete($this->db,"SELECT * FROM cpta_ligne_budget WHERE id_budget='".mysql_real_escape_string($this->id)."' AND num_lignebudget='".mysql_real_escape_string($num)."'");
-	  
+
 	  if ( $req->lines != 1 )
 	    return null;
-	    
+
 	  return $req->get_row();
 	}
-	
-	
+
+
 	function update_line ( $num, $id_opclb, $montant, $description )
 	{
 		$sql = new update($this->dbrw,
@@ -185,7 +185,7 @@ class budget extends stdentity
 				"num_lignebudget" => $num
 				));
 	}
-	
+
 	function remove_line ( $num )
 	{
 		$sql = new delete($this->dbrw,

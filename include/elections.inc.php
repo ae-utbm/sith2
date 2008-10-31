@@ -8,7 +8,7 @@
 /* Copyright 2005
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  * - Julien Etelain < julien at pmad dot net >
- * 
+ *
  * Ce fichier fait partie du site de l'Association des �tudiants de
  * l'UTBM, http://ae.utbm.fr.
  *
@@ -56,15 +56,15 @@ class election
 	{
 		$req = new requete($this->db, "SELECT * FROM `vt_election`
 				WHERE `id_election` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 			$this->_load($req->get_row());
 		else
 			$this->id = -1;
 	}
-  
-  
+
+
 	function _load ($row )
 	{
   		$this->id = $row['id_election'];
@@ -72,35 +72,35 @@ class election
   		$this->fin = strtotime($row['date_fin']);
   		$this->debut = strtotime($row['date_debut']);
   		$this->nom = $row['nom_elec'];
-  	
+
 	}
-  
-  
+
+
 	function new_election ( $id_groupe, $debut, $fin, $nom )
 	{
   		$this->id_groupe = $id_groupe;
   		$this->fin = $fin;
   		$this->debut = $debut;
   		$this->nom = $nom;
-  	
+
   		$req = new insert($this->dbrw, "vt_election", array(
   					"id_groupe"=>$this->id_groupe,
   					"date_fin"=>date("Y-m-d H:i:s",$this->fin),
   					"date_debut"=>date("Y-m-d H:i:s",$this->debut),
   					"nom_elec"=>$this->nom
-  		
+
   					));
-  	
+
 		if ( $req )
 			$this->id = $req->get_id();
 		else
 		{
-			$this->id = -1;	
+			$this->id = -1;
 			return false;
 		}
-		
+
 		return true;
-  	
+
 	}
 
   /* enregistre le vote d'un utilisateur
@@ -251,7 +251,7 @@ class election
 			     "nom_liste" => $nom_liste));
     return $ins;
   }
-  
+
   function remove_liste($id_liste)
   {
     $ins = new delete ($this->dbrw,
@@ -261,9 +261,9 @@ class election
 		       "vt_candidat",
 		       array("id_liste" => $id_liste));
     return $ins;
-  }  
-  
-  
+  }
+
+
   /**
    *
    * @brief fonction d'ajout d'un poste
@@ -278,29 +278,29 @@ class election
 			     "description_poste" => $description_poste));
     return $ins;
   }
-  
+
   function remove_poste ( $id_poste )
   {
     $ins = new delete ($this->dbrw,
 		       "vt_postes",
 		       array("id_election" => $this->id,
 			     "id_poste" => $id_poste));
-			     
+
     $ins = new delete ($this->dbrw,
 		       "vt_candidat",
-		       array("id_poste" => $id_poste));			     
-			     
+		       array("id_poste" => $id_poste));
+
     return $ins;
-    	
-  	
-  	
-  	
+
+
+
+
   }
-  
-  
+
+
   /** @Static */
-  
-  
+
+
   /** Fonction permettant de r�cup�rer les elections en cours
    *
    * @return un tableau associatif du type :
@@ -345,7 +345,7 @@ class election
 			     $row['date_fin']);
       }
     $this->current_elections = $elections;
-  }  
+  }
 }
 
 ?>

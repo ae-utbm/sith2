@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * AECMS : CMS pour les clubs et activités de l'AE UTBM
- *        
+ *
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 require_once("include/site.inc.php");
 
 if( $_REQUEST['module']=="tinycal" )
@@ -39,7 +39,7 @@ if( $_REQUEST['module']=="tinycal" )
 if ( $_REQUEST['class'] == "calendar" )
   $cts = new calendar($site->db,$site->asso->id);
 else
-  $cts = new contents();  
+  $cts = new contents();
 
 echo $cts->html_render();
 

@@ -25,21 +25,21 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 require_once($topdir."include/lib/dokusyntax.inc.php");
-require_once($topdir."include/catalog.inc.php"); 
+require_once($topdir."include/catalog.inc.php");
 require_once($topdir."include/entities/group.inc.php");
 require_once($topdir."include/geo.inc.php");
 
 /**
- * @defgroup display Affichage 
- */ 
- 
+ * @defgroup display Affichage
+ */
+
 /**
- * @defgroup display_cts Contents 
+ * @defgroup display_cts Contents
  * @ingroup display
- */ 
- 
+ */
+
 
 /** Conteneur standart
  * @ingroup display_cts
@@ -59,12 +59,12 @@ class stdcontents
     $this->divid = null;
     $this->cssclass = null;
   }
-  
+
   /** Definie l'element à la position "toolbox"
    * @param $cts stdcontents à definir
    */
   function set_toolbox ( $cts )
-  {    
+  {
     $this->toolbox = $cts;
   }
 
@@ -88,7 +88,7 @@ class stdcontents
  */
 class contents extends stdcontents
 {
-  
+
   function contents ( $title = false, $buffer = "" )
   {
     $this->title = $title;
@@ -108,61 +108,61 @@ class contents extends stdcontents
   function add ( $cts, $title = false, $box = false, $name = false, $class = false, $onoff = false, $on = true, $remember = true )
   {
     global $wwwtopdir;
-    
+
     if ( $box && $name )
     {
       $this->buffer .= "<div id=\"$name\" ";
       if ( $class )
         $this->buffer .=" class=\"$class\"";
-      $this->buffer .=">\n";    
+      $this->buffer .=">\n";
     }
-  
+
     if ( $cts->toolbox )
     {
-      $this->buffer .= "<div class=\"toolbox\">\n";    
+      $this->buffer .= "<div class=\"toolbox\">\n";
       $this->buffer .= $cts->toolbox->html_render()."\n";
-      $this->buffer .= "</div>\n";  
+      $this->buffer .= "</div>\n";
     }
-  
+
     if ( $onoff && $name && $title)
     {
 
       $uinf_ref = "on-cts-".$name;
-      
+
       if ( $remember )
         if ( isset($_SESSION["usersession"][$uinf_ref]) )
           $on = ($_SESSION["usersession"][$uinf_ref] == 1);
-      
+
       $img = "fld.png";
       if ( !$on )
-        $img = "fll.png";      
-      
+        $img = "fll.png";
+
       $this->buffer .= "<h2><a href=\"#\" onclick=\"on_off_icon_store('".$name."','".$wwwtopdir."','$uinf_ref'); return false;\"><img src=\"".$wwwtopdir."images/".$img."\" alt=\"togle\" class=\"icon\" id=\"".$name."_icon\" /> ".$cts->title."</a></h2>\n";
     }
     else if ( $title )
       $this->buffer .= "<h2>".$cts->title."</h2>\n";
-  
+
 
     if ( $onoff && $name )
     {
       $this->buffer .=  "<div id=\"".$name."_contents\"";
       if ( !$on )
         $this->buffer .=  " style=\"display: none;\"";
-      $this->buffer .=  ">\n";  
+      $this->buffer .=  ">\n";
     }
-  
+
     $this->buffer .= $cts->html_render()."\n";
-    
+
     if ( $onoff && $name )
       $this->buffer .= "</div>\n";
-    
+
     if ( $box && $name )
       $this->buffer .= "</div>\n";
   }
 
-  
-  
-  /** Ajoute un titre 
+
+
+  /** Ajoute un titre
    * @param $level  Niveau du titre (1 à n)
    * @param $title   Titre
    */
@@ -170,8 +170,8 @@ class contents extends stdcontents
   {
     $this->buffer .= "<h".$level.">".$title."</h".$level.">\n";
   }
-  
-  /** Ajoute un paragraphe 
+
+  /** Ajoute un paragraphe
    * @param $contents Paragraphe
    * @see wikicontents
    */
@@ -181,7 +181,7 @@ class contents extends stdcontents
     if ( $class ) $this->buffer .= " class=\"$class\"";
     $this->buffer .= ">".$contents."</p>\n";
   }
-  
+
   function puts ( $data )
   {
     $this->buffer .= $data;
@@ -196,7 +196,7 @@ class wikicontents extends contents
 {
   var $contents;
   var $wiki;
-  
+
   /** Crée un stdcontents à partir d'un texte au format DokuWiki et de son titre
    * @param $title  Titre
    * @param $contents  Texte structuré
@@ -213,7 +213,7 @@ class wikicontents extends contents
   {
     if ( $this->buffer )
       return $this->buffer;
-      
+
     return $this->buffer = doku2xhtml($this->contents);
   }
 }
@@ -223,9 +223,9 @@ class wikicontents extends contents
  */
 class wikihelp extends stdcontents
 {
-  
+
   var $page;
-  
+
   /** Crée un stdcontents servant d'aide pour le wiki
    */
   function wikihelp()
@@ -236,7 +236,7 @@ class wikihelp extends stdcontents
   function html_render ()
   {
     global $wwwtopdir;
-    return 
+    return
     "<h2>Mise en forme élémentaire</h2>".
     "<ul>".
     "<li><b>Gras</b> : **gras**</li>".
@@ -250,7 +250,7 @@ class wikihelp extends stdcontents
     "<h2>Paragraphes</h2>".
     "<h2>Tableaux</h2>".
     "<p><a href=\"".$wwwtopdir."article.php?name=docs:syntax\">Voir aussi : <b>Aide détaillée</b></a></p>";
-    
+
 
 
   }
@@ -272,7 +272,7 @@ class error extends stdcontents
     $this->title = "Erreur : ".$title;
     $this->buffer = "<p>".$description."</p>";
   }
-  
+
 }
 
 /** Conteneur de formulaires
@@ -283,9 +283,9 @@ class form extends stdcontents
   var $action;
   var $method;
   var $name;
-  
+
   var $autorefill;
-  
+
   var $hiddens;
   var $enctype;
   var $error_contents;
@@ -308,14 +308,14 @@ class form extends stdcontents
     $this->name = $name;
     $this->title = $title;
     $this->enc = false;
-    
-    if ( $_REQUEST["magicform"]["name"] == $name ) 
+
+    if ( $_REQUEST["magicform"]["name"] == $name )
       $this->autorefill = $allow_refill;
 
     $this->hiddens=array();
     $this->hiddens["magicform[name]"] = $name;
   }
-  
+
   /** Ajoute un champ caché au formulaire
    * Valeur à récupérer dans $_REQUEST[$name]
    * @param $name    Nom du champ
@@ -336,12 +336,12 @@ class form extends stdcontents
    */
   function add_text_field ( $name, $title, $value = "", $required = false , $size = false, $fast_clean = false, $enabled = true, $text_after = null)
   {
-    if ( $this->autorefill && ($_REQUEST[$name] || $_REQUEST[$name] =="0")) $value = $_REQUEST[$name];  
-    
+    if ( $this->autorefill && ($_REQUEST[$name] || $_REQUEST[$name] =="0")) $value = $_REQUEST[$name];
+
     $this->buffer .= "<div class=\"formrow\">\n";
-    
+
     $this->_render_name($name,$title,$required);
-    
+
     $this->buffer .= "<div class=\"formfield\"><input type=\"text\" name=\"$name\" value=\"".htmlentities($value,ENT_COMPAT,"UTF-8"). "\"";
     if ( $fast_clean )
       $this->buffer .= " onfocus=\"if(this.value=='$value')this.value=''\" onblur=\"if(this.value=='')this.value='$value'\"";
@@ -351,20 +351,20 @@ class form extends stdcontents
     if (!$enabled)
       $this->buffer .= " DISABLED";
     $this->buffer .= "/>";
-    
+
     if ($text_after)
       $this->buffer .= $text_after;
 
     $this->buffer .= "</div>\n";
-    
+
     $this->buffer .= "</div>\n";
   }
-  
+
   function add_color_field ( $name, $mode="rgb", $title, $value = "000000", $required = false )
   {
     $this->add_text_field ( $name, $title, $value, $required ); // En attendant mieu
   }
-  
+
   function add_geo_field ( $name, $title, $type, $value = null, $required = false)
   {
     if ( $type == "lat" )
@@ -385,20 +385,20 @@ class form extends stdcontents
       else
         $value=geo_radians_to_degrees($value)."E";
     }
-   
+
     $this->add_text_field("magicform[geo][$name]",$title,$value,$required);
   }
-  
+
   /**
-   * @deprecated Technique un peu ancienne, smartselect est une généralisation : 
+   * @deprecated Technique un peu ancienne, smartselect est une généralisation :
    * Utilisez plutôt add_entity_smartselect ( $name, $title, new Utilisateur($site->db)...)
    */
   function add_user_fieldv2 ( $name, $title, $value = "", $required = false )
   {
     global $topdir;
-    
-    if ( $this->autorefill && ($_REQUEST[$name] || $_REQUEST[$name] =="0")) $value = $_REQUEST[$name];  
-    
+
+    if ( $this->autorefill && ($_REQUEST[$name] || $_REQUEST[$name] =="0")) $value = $_REQUEST[$name];
+
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->_render_name($name,$title,$required);
     $this->buffer .= "<div class=\"formfield\">";
@@ -425,10 +425,10 @@ class form extends stdcontents
 
 
     $this->buffer .= "</div>\n";
-    $this->buffer .= "</div>\n";    
-    
+    $this->buffer .= "</div>\n";
+
   }
-  
+
   /** Ajoute un champ de selection d'une entité (stdentity).
   *
    * Determine automatiquement la forme la plus appropriée pour la selection,
@@ -442,7 +442,7 @@ class form extends stdcontents
    *
    * @param $name    Nom du champ
    * @param $title  Libéllé du champ
-   * @param $instance Instance de l'entité : soit une vierge, soit la valeur 
+   * @param $instance Instance de l'entité : soit une vierge, soit la valeur
    * @param $none Authorise à selectionner aucunne entité (0 sera placé dans la variable)
    * @param $required  Précise si le champ est obligatoire [redondant avec $none, mais passons]
    * @param $conds Conditions sur les entités selectionnable (tableau associatif avec nom du champ sql associé à une valeur)
@@ -451,77 +451,77 @@ class form extends stdcontents
   function add_entity_smartselect ( $name, $title, &$instance, $none = false, $required = false, $conds=null )
   {
     global $wwwtopdir;
-    
+
     if ( $this->autorefill && ($_REQUEST[$name] || $_REQUEST[$name] =="0"))
       $instance->load_by_id($_REQUEST[$name]);
-      
+
     $classname = get_class($instance);
-    
+
     if ( $instance->can_explore() && is_null($conds) )
     {
-      
+
       $this->buffer .= "<div class=\"formrow\">\n";
       $this->_render_name($name,$title,$required);
       $this->buffer .= "<div class=\"formfield\">";
-     
+
       if ( $instance->is_valid() )
         $value=$instance->id;
       else
         $value=0;
-     
+
       $this->buffer .= "<div id=\"$name\" class=\"userfield\">" .
           "<input type=\"hidden\" name=\"".$name."\" id=\"".$name."_id\" value=\"$value\" />" .
           "<div id=\"".$name."_static\" class=\"staticbox\" onclick=\"exfield_toggle('".$wwwtopdir."','".$name."','".$classname."');\">";
       $verbe = "choisir";
       if ( $instance->is_valid() )
       {
-        $this->buffer .= "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$classname][2]."\" class=\"icon\" alt=\"\" /> ".htmlentities($instance->get_display_name(),ENT_COMPAT,"UTF-8");  
+        $this->buffer .= "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$classname][2]."\" class=\"icon\" alt=\"\" /> ".htmlentities($instance->get_display_name(),ENT_COMPAT,"UTF-8");
         $verbe="changer";
       }
       else
-        $this->buffer .= "(aucun)";  
-        
+        $this->buffer .= "(aucun)";
+
       $this->buffer .= "</div>" .
           "<div class=\"button\">" .
           "<a href=\"#\" id=\"".$name."_button\" onclick=\"exfield_toggle('".$wwwtopdir."','".$name."','".$classname."'); return false;\">$verbe</a>" .
           "</div>" .
           "<div id=\"".$name."_result\" class=\"tree\" style=\"display:none;\">";
-          
+
       if ( $none )
         $this->buffer .= "<ul><li><a href=\"#\" onclick=\"exfield_select('$wwwtopdir','$name','$classname','0','(aucun)','');\">(aucun)</a></li></ul>";
-      
+
       $this->buffer .= "<ul id=\"".$name."_".$classname."_root\"></ul>".
           "</div>" .
           "</div>";
-  
+
       $this->buffer .= "</div>\n";
-      $this->buffer .= "</div>\n";  
-    
+      $this->buffer .= "</div>\n";
+
       return;
     }
-    
+
     if ( !$instance->can_fsearch() || !is_null($conds)  || $instance->prefer_list() )
     {
       if ( !$instance->can_enumerate() )
         return;
-        
+
       $values = $instance->enumerate ( $none, $conds );
 
       $this->add_select_list_entity_field ( $name, $title, $values, $instance );
       return;
     }
-    
 
-    
+
+
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->_render_name($name,$title,$required);
     $this->buffer .= "<div class=\"formfield\">";
-   
+
     if ( $instance->is_valid() )
       $value=$instance->id;
     else
       $value=0;
-   
+
     $this->buffer .= "<div id=\"$name\" class=\"userfield\">" .
         "<input type=\"hidden\" name=\"".$name."\" id=\"".$name."_id\" value=\"$value\" />" .
         "<div id=\"".$name."_fieldbox\" class=\"fieldbox\" style=\"display:none;\">" .
@@ -531,18 +531,18 @@ class form extends stdcontents
     $verbe = "choisir";
     if ( $instance->is_valid() )
     {
-      $this->buffer .= "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$classname][2]."\" class=\"icon\" alt=\"\" /> ".htmlentities($instance->get_display_name(),ENT_COMPAT,"UTF-8");  
+      $this->buffer .= "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$classname][2]."\" class=\"icon\" alt=\"\" /> ".htmlentities($instance->get_display_name(),ENT_COMPAT,"UTF-8");
       $verbe="changer";
     }
     else
-      $this->buffer .= "(aucun)";  
-      
+      $this->buffer .= "(aucun)";
+
     $this->buffer .= "</div>" .
         "<div class=\"button\">" .
         "<a href=\"#\" id=\"".$name."_button\" onclick=\"fsfield_toggle('".$wwwtopdir."','".$name."'); return false;\">$verbe</a>" .
         "</div>" .
         "<div id=\"".$name."_result\" class=\"listing\" style=\"display:none;\">";
-        
+
     if ( $none )
       $this->buffer .= "<ul><li><a href=\"#\" onclick=\"fsfield_sel('$wwwtopdir','$name','0','(aucun)','');\">(aucun)</a></li></ul>";
 
@@ -550,14 +550,14 @@ class form extends stdcontents
         "</div>";
 
     $this->buffer .= "</div>\n";
-    $this->buffer .= "</div>\n";  
-   
+    $this->buffer .= "</div>\n";
+
     $this->buffer .= "<script>fsfield_init('".$wwwtopdir."','".$name."');</script>";
   }
 
-  
-  
-  
+
+
+
   /** Ajoute un champ monétaire
    * Valeur à récupérer dans $_REQUEST[$name] (en centimes!)
    * @param $name    Nom du champ
@@ -569,25 +569,25 @@ class form extends stdcontents
    */
   function add_price_field ( $name, $title, $value = "", $required = false, $devise="Euros" , $size = false)
   {
-   
-    if ( $this->autorefill && ($_REQUEST[$name] || $_REQUEST[$name] =="0")) $value = $_REQUEST[$name];  
-    
+
+    if ( $this->autorefill && ($_REQUEST[$name] || $_REQUEST[$name] =="0")) $value = $_REQUEST[$name];
+
     $name = fname_protect($name);
 
     $this->buffer .= "<div class=\"formrow\">\n";
-    
+
     $this->_render_name($name,$title,$required);
-    
+
     $this->buffer .= "<div class=\"formfield\"><input type=\"text\" name=\"magicform[price][$name]\" value=\"".sprintf("%.2f",$value/100)."\"";
     if ( $size )
       $this->buffer .= " size=\"$size\"";
     $this->buffer .= "/> $devise</div>\n";
-    
+
     $this->buffer .= "</div>\n";
   }
-  
-  
-  
+
+
+
   /** Ajoute un texte d'information
    * @param $info    Texte
    */
@@ -598,20 +598,20 @@ class form extends stdcontents
     $this->buffer .= "<div class=\"formfield\">$info</div>\n";
     $this->buffer .= "</div>\n";
   }
-  
-  
+
+
   /** Ajoute une barre de bouton de syntaxe DokuWiki
    * @param $area_name nom du textarea concerné (attribut 'name' et non pas 'id' !)
    */
   function add_dokuwiki_toolbar($area_name,$id_asso=null,$folder=null,$forum=false)
   {
     global $wwwtopdir;
-    
+
     $context="";
-    
+
     if ( !is_null($id_asso) )
       $context="id_asso=".$id_asso;
-    
+
     if($forum)
     {
       if(!empty($context))
@@ -625,7 +625,7 @@ class form extends stdcontents
         $context.= "&amp;";
       $context.="folder=".rawurlencode($folder);
     }
-    
+
     $id = "textarea_".$this->name."_".$area_name;
 
     $tools = array (
@@ -637,7 +637,7 @@ class form extends stdcontents
       "h2" => array("Titre de niveau 2","===== "," =====\\n","Titre de niveau 2"),
       "h3" => array("Titre de niveau 3","==== "," ====\\n","Titre de niveau 3"),
       "h4" => array("Titre de niveau 4","=== "," ===\\n","Titre de niveau 4"),
-      "h5" => array("Titre de niveau 5","== "," ==\\n","Titre de niveau 5"),  
+      "h5" => array("Titre de niveau 5","== "," ==\\n","Titre de niveau 5"),
       "link" => array("Lien interne","[[","]]","Lien interne"),
       "linkext" => array("Lien externe","[[","]]","http://exemple.com/|Lien externe"),
       "ul" => array("Liste à puce","  * ","\\n","Liste à puce"),
@@ -645,31 +645,31 @@ class form extends stdcontents
       "quote" => array("Citer","[quote]","[/quote]\\n","Citation"),
       "image" => array("Image","{{","}}","Image"),
       "hr" => array("Ligne horizontale","----\\n","",""));
-      
+
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->buffer .= "<div class=\"formlabel\"></div>\n";
     $this->buffer .= "<div class=\"formfield\">\n";
-    
+
     foreach ( $tools as $tool => $infos )
     {
-      $this->buffer .= 
+      $this->buffer .=
         "<a onclick=\"insert_tags2('".$id."','".$infos[1]."','".$infos[2]."','".$infos[3]."');\" />".
         "<img src=\"".$wwwtopdir."/images/toolbar/".$tool.".png\" alt=\"".$infos[0]."\" title=\"".$infos[0]."\" />".
         "</a> \n";
     }
-    
-    $this->buffer .= 
+
+    $this->buffer .=
       "<a onclick=\"selectWikiImage('".$wwwtopdir."','".$id."','$context');\" />".
       "<img src=\"".$wwwtopdir."/images/toolbar/browse_image.png\" alt=\"Parcourir image\" title=\"Parcourir image\" />".
       "</a> \n";
-    
-    $this->buffer .= 
+
+    $this->buffer .=
       "<a onclick=\"selectWikiFile('".$wwwtopdir."','".$id."','$context');\" />".
       "<img src=\"".$wwwtopdir."/images/toolbar/attach.png\" alt=\"Attacher un fichier\" title=\"Attacher un fichier\" />".
       "</a> \n";
-    
+
     $this->buffer .= " - <a href=\"".$wwwtopdir."article.php?name=docs:syntax\" target=\"_blank\">aide sur la syntaxe</a>";
-    
+
     $this->buffer .= "</div>\n";
     $this->buffer .= "</div>\n";
   }
@@ -688,20 +688,20 @@ class form extends stdcontents
 
     $name = fname_protect($name);
 
-    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];  
-    
+    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];
+
     $context="";
-    
+
     if ( !is_null($id_asso) )
       $context="id_asso=".$id_asso;
-      
+
     if ( !is_null($folder) )
     {
       if ( !empty($context) )
         $context.= "&amp;";
       $context.="folder=".rawurlencode($folder);
     }
-    
+
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->_render_name($name,$title,$required);
     $this->buffer .= "<div class=\"formfield\">";
@@ -714,13 +714,13 @@ class form extends stdcontents
     {
       foreach ( $files as $file )
       {
-        $ids[] = $file->id;  
-        
+        $ids[] = $file->id;
+
         /* ATTENTION, toute modification du code HTML doit être faite aussi dans site.js */
-        
+
         $this->buffer .= "<div class=\"slsitem\" id=\"_files_".$name."_".$file->id."\">";
         $this->buffer .= "<a href=\"".$wwwtopdir."/dfile.php?id_file=".$file->id."\"><img src=\"".$wwwtopdir."images/icons/16/file.png\" /> ".htmlentities($file->titre,ENT_NOQUOTES,"UTF-8")."</a> ";
-        
+
         $this->buffer .= "<a href=\"\" onclick=\"removeListFile('$wwwtopdir','$name',".$file->id."); return false;\"><img src=\"".$wwwtopdir."images/actions/delete.png\" alt=\"Enlever\" /></a>";
         $this->buffer .= "</div>\n";
       }
@@ -738,7 +738,7 @@ class form extends stdcontents
   }
 
 
-  
+
   /** Ajoute un champ mot de passe au formulaire
    * Valeur à récupérer dans $_REQUEST[$name]
    * @param $name    Nom du champ
@@ -749,8 +749,8 @@ class form extends stdcontents
    */
   function add_password_field ( $name, $title, $value = "", $required = false, $size = false )
   {
-    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];  
-    
+    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];
+
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->_render_name($name,$title,$required);
     $this->buffer .= "<div class=\"formfield\"><input type=\"password\" name=\"$name\"";
@@ -759,7 +759,7 @@ class form extends stdcontents
     $this->buffer .= "/></div>\n";
     $this->buffer .= "</div>\n";
   }
-  
+
   /** Ajoute un champ fichier au formulaire
    * @param $name    Nom du champ
    * @param $title  Libéllé du champ
@@ -769,13 +769,13 @@ class form extends stdcontents
   {
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->_render_name($name,$title,$required);
-  
+
     $this->buffer .= "<div class=\"formfield\"><input type=\"file\" name=\"$name\" /></div>\n";
     $this->buffer .= "</div>\n";
     $this->enctype = "multipart/form-data";
     $this->method = "post";
   }
-  
+
   /** Ajoute un champ texte multi-lignes au formulaire
    * Valeur à récupérer dans $_REQUEST[$name]
    * @param $name    Nom du champ
@@ -787,15 +787,15 @@ class form extends stdcontents
    */
   function add_text_area ( $name, $title, $value="", $width=40, $height=3, $required = false )
   {
-    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];  
+    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->_render_name($name,$title,$required);
     $this->buffer .= "<div class=\"formfield\"><textarea name=\"$name\" id=\"textarea_".$this->name."_".$name."\" rows=\"$height\" cols=\"$width\">";
-    
+
     $this->buffer .= htmlentities($value,ENT_NOQUOTES,"UTF-8")."</textarea></div>\n";
     $this->buffer .= "</div>\n";
   }
-  
+
   /** Ajoute un champ date au formulaire
    * Valeur à récupérer dans $_REQUEST[$name] sous forme d'un timestamp unix
    * @param $name    Nom du champ
@@ -807,10 +807,10 @@ class form extends stdcontents
   {
     global $wwwtopdir;
 
-    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];  
+    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->_render_name($name,$title,$required);
-    
+
     $this->buffer .= "<div class=\"formfield\"><input type=\"text\" id=\"$name\" name=\"magicform[date][$name]\" value=\"";
     if ( $value != -1 && !is_null($value) )
       $this->buffer .= date("d/m/Y",$value);
@@ -825,71 +825,71 @@ class form extends stdcontents
     $this->buffer .= "</div>\n";
   }
 
-  
+
   /** Ajoute un champ date et heure au formulaire
    * Valeur à récupérer dans $_REQUEST[$name] sous forme d'un timestamp unix
    * @param $name    Nom du champ
    * @param $title  Libéllé du champ
    * @param $value  Valeur du champ (timestamp unix, -1 ou null pour aucun)
    * @param $required  Précise si le champ est obligatoire
-   */  
+   */
   function add_datetime_field ( $name, $title, $value = -1, $required = false )
-  {  
+  {
     global $wwwtopdir;
-    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];    
+    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->_render_name($name,$title,$required);
-    
+
     $this->buffer .= "<div class=\"formfield\"><input type=\"text\" id=\"$name\" name=\"magicform[datetime][$name]\" value=\"";
     if ( $value != -1 && !is_null($value) )
       $this->buffer .= date("d/m/Y H:i:s",$value);
     $this->buffer .= "\" />";
     $this->buffer .= "<a href=\"javascript:opencal('".$wwwtopdir."','$name','datetime')\">";
     $this->buffer .= "<img src=\"".$wwwtopdir."images/icons/16/ical.png\">";
-    $this->buffer .= "</a>";    
+    $this->buffer .= "</a>";
     $this->buffer .= "</div>\n";
     $this->buffer .= "</div>\n";
   }
-  
+
   /** Ajoute un champ date et heure au formulaire
    * Valeur à récupérer dans $_REQUEST[$name] sous forme d'un timestamp unix
    * @param $name    Nom du champ
    * @param $title  Libéllé du champ
    * @param $value  Valeur du champ (timestamp unix, -1 ou null pour aucun)
    * @param $required  Précise si le champ est obligatoire
-   */  
+   */
   function add_datetime_field_old ( $name, $title, $value = -1, $required = false )
-  {  
+  {
     global $wwwtopdir;
-    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];    
+    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->_render_name($name,$title,$required);
-    
+
     $this->buffer .= "<div class=\"formfield\"><input type=\"text\" id=\"$name\" name=\"magicform[datetime][$name]\" value=\"";
     if ( $value != -1 && !is_null($value) )
       $this->buffer .= date("d/m/Y H:i:s",$value);
     $this->buffer .= "\" />";
     $this->buffer .= "<a href=\"javascript:openCalendar('".$wwwtopdir."','".$this->name."','$name','datetime')\">";
     $this->buffer .= "<img src=\"".$wwwtopdir."images/calendar.png\">";
-    $this->buffer .= "</a>";    
+    $this->buffer .= "</a>";
     $this->buffer .= "</div>\n";
     $this->buffer .= "</div>\n";
   }
-  
+
   /** Ajoute un champ heure au formulaire
    * Valeur à récupérer dans $_REQUEST[$name] sous forme d'un timestamp unix
    * @param $name    Nom du champ
    * @param $title  Libéllé du champ
    * @param $value  Valeur du champ (timestamp unix)
    * @param $required  Précise si le champ est obligatoire
-   */  
+   */
   function add_time_field ( $name, $title, $value = -1, $required = false )
-  {  
+  {
     global $topdir;
-    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];    
+    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->_render_name($name,$title,$required);
-    
+
     $this->buffer .= "<div class=\"formfield\"><input type=\"text\" id=\"$name\" name=\"magicform[time][$name]\" value=\"";
     if ( $value != -1 && !is_null($value) )
       $this->buffer .= date("H:i",$value);
@@ -897,20 +897,20 @@ class form extends stdcontents
     $this->buffer .= "</div>\n";
     $this->buffer .= "</div>\n";
   }
-  
+
   /** Ajoute un champ à cocher au formulaire
    * Valeur à récupérer dans $_REQUEST[$name] sous forme d'un booléen
    * @param $name    Nom du champ
    * @param $title  Libéllé du champ
    * @param $checked  Valeur du champ (booléen)
    * @param $disabled  Checkbox non active
-   */    
+   */
   function add_checkbox ( $name, $title, $checked=false,$disabled=false )
   {
-    if ( $this->autorefill && $_REQUEST[$name] ) $checked = $_REQUEST[$name];  
-    
+    if ( $this->autorefill && $_REQUEST[$name] ) $checked = $_REQUEST[$name];
+
     $name = fname_protect($name);
-    
+
     $this->buffer .= "<div class=\"formrow\">\n";
     $this->buffer .= "<div class=\"formlabel\"></div>";
     $this->buffer .= "<div class=\"formfield\"><input type=\"checkbox\" class=\"chkbox\" name=\"magicform[boolean][$name]\" value=\"true\"";
@@ -918,9 +918,9 @@ class form extends stdcontents
       $this->buffer .= " checked=\"checked\"";
     if ( $disabled )
       $this->buffer .= " disabled=\"disabled\"";
-    $this->buffer .= " /> $title</div>\n";  
+    $this->buffer .= " /> $title</div>\n";
     $this->buffer .= "</div>\n";
-    
+
   }
 
   /** Ajoute un champ à cocher au formulaire
@@ -932,7 +932,7 @@ class form extends stdcontents
    * @param $disabled  Nom de la radio box desactivee non active
    * @param $required  Précise si le champ est obligatoire
    * @param $imgs  Tableau associatif des items et des images
-   */ 
+   */
   function add_radiobox_field ( $name, $title=false, $values, $value=false , $disabled=false, $required = false, $imgs=array(), $inline=true, $nodiv=false  )
   {
     global $topdir;
@@ -941,13 +941,13 @@ class form extends stdcontents
     if(!is_array($values))
       return;
 
-    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name]; 
+    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];
     if ( !$nodiv )
       $this->buffer .= "<div class=\"formrow\">\n";
     $this->_render_name($name,$title,$required);
     if ( !$nodiv )
       $this->buffer .= "<div class=\"formfield\">";
-    
+
     $i=1;
     foreach ( $values as $key => $item )
     {
@@ -957,11 +957,11 @@ class form extends stdcontents
       if ( $key == $disabled )
         $this->buffer .= " disabled=\"disabled\"";
       $this->buffer .= " />&nbsp;";
-      
+
       if ( isset($imgs[$key]) )
       {
         $this->buffer .= "<img src=\"".$topdir.$imgs[$key]."\" alt=\"".htmlentities($item,ENT_NOQUOTES,"UTF-8")."\" title=\"".htmlentities($item,ENT_NOQUOTES,"UTF-8")."\" ";
-        
+
         if ( $key != $disabled )
           $this->buffer .= "onclick=\"document.getElementById('__".$name."_".$key."').checked = true;\" ";
         $this->buffer .= "/>";
@@ -970,14 +970,14 @@ class form extends stdcontents
       {
         if ( $key != $disabled )
           $this->buffer .= "<span onclick=\"document.getElementById('__".$name."_".$key."').checked = true;\">$item</span>";
-        
+
         else
           $this->buffer .= $item;
       }
-      
+
       if(!$inline && $i != count($values) )
         $this->buffer .= "<br />\n";
-      
+
       $i++;
     }
     if ( !$nodiv )
@@ -993,17 +993,17 @@ class form extends stdcontents
    * @param $title  Libéllé du champ
    * @param $values  Valeurs possibles array( clé => valeur)
    * @param $value  Valeur selectionnée
-   */  
+   */
   function add_select_field ( $name, $title, $values, $value = false, $prefix="" ,$required = false, $enabled = true, $jscript_onchange = null)
   {
     if (empty($values))
       return;
 
-    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];  
+    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];
     $this->buffer .= "<div class=\"formrow\">";
     $this->_render_name($name,$title,$required);
-  
-    
+
+
     $this->buffer .= "<div class=\"formfield\">$prefix";
     $this->buffer .= "<select name=\"$name\" ";
 
@@ -1022,49 +1022,49 @@ class form extends stdcontents
       $this->buffer .= ">".htmlentities($item,ENT_NOQUOTES,"UTF-8")."</option>\n";
     }
 
-    $this->buffer .= "</select></div>\n";  
+    $this->buffer .= "</select></div>\n";
     $this->buffer .= "</div>";
-  
-  }  
-  
-  
-  /** 
+
+  }
+
+
+  /**
    * Ajoute une sleection d'entité par liste à choix au formulaire.
    * Exploité par add_entity_smartselect et add_entity_select
-   * 
+   *
    * @param $name    Nom du champ
    * @param $title  Libéllé du champ
    * @param $value Valeurs autorisées (id => Nom, id=0 pour null)
    * @param $std Instance de l'entité : soit vierge, soit la valeur selectionnée
    * @see add_entity_smartselect
    * @see add_entity_select
-   */  
+   */
   private function add_select_list_entity_field ( $name, $title, $values, $std )
   {
     global $wwwtopdir;
-    
+
     static $uid=0;
     $uid++;
-   
+
     if (empty($values))
       return;
 
     $class=get_class($std);
 
-    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];  
-    
+    if ( $this->autorefill && $_REQUEST[$name] ) $value = $_REQUEST[$name];
+
     $this->buffer .= "<div class=\"formrow\">";
     $this->_render_name($name,$title,$required);
     $this->buffer .= "<div class=\"formfield\">";
-    
+
     if ( $GLOBALS["entitiescatalog"][$class][2] )
-      $this->buffer .= "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$class][2]."\" class=\"icon\" alt=\"\" /> ";    
-    
+      $this->buffer .= "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$class][2]."\" class=\"icon\" alt=\"\" /> ";
+
     $this->buffer .= "<select name=\"$name\" id=\"sd".$uid."_field\"";
-    
+
     if ( $std->can_describe() )
       $this->buffer .= "onchange=\"openInContents('sd".$uid."_desc', '".$wwwtopdir."gateway.php', 'module=entdesc&class=".$class."&id='+document.getElementById('sd".$uid."_field').value)\"";
-    
+
     $this->buffer .= ">\n";
 
     foreach ( $values as $key => $item )
@@ -1076,7 +1076,7 @@ class form extends stdcontents
     }
 
     $this->buffer .= "</select>";
-    
+
     if ( $std->can_describe() )
     {
       $this->buffer .= " (<span id=\"sd".$uid."_desc\">";
@@ -1086,25 +1086,25 @@ class form extends stdcontents
         $this->buffer .= "rien";
       $this->buffer .= "</span>)";
     }
-    
+
     $this->buffer .= "</div>\n</div>";
   }
-  
+
   /**
-   * 
-   * 
+   *
+   *
    */
   function add_rights_field ( $basedb, $category=false, $admin=false, $context="sas" )
   {
     global $wwwtopdir;
-   
+
     $this->add_hidden("magicform[processrights]",true);
-    
+
     if ( $admin )
       $this->add_entity_select( "rights_id_group_admin", "Propri&eacute;taire", $basedb->db, "group",$basedb->id_groupe_admin);
-      
+
     $this->add_entity_select( "rights_id_group", "Groupe", $basedb->db, "group",$basedb->id_groupe);
-  
+
     $this->buffer .= "<div class=\"_right_opts\">";
 
     $this->add_radiobox_field ( "__rights_lect", "Droits d'acc&egrave;s",
@@ -1113,16 +1113,16 @@ class form extends stdcontents
     $this->add_radiobox_field ( "__rights_lect", "",
             array( 0x110 => "Lecture par les membres du groupe s&eacute;lectionn&eacute;"),
             $basedb->droits_acces & 0x111 );
-    
+
     $this->buffer .= "</div>";
-    
+
     /* Est-ce vraiment utile ?
     if ( $admin || ($basedb->droits_acces & 0x111==0x010) )
       $this->add_radiobox_field ( "__rights_lect", "",
                 array( 0x010 => "Lecture par les membres du groupe s&eacute;lectionn&eacute; uniquement (pas le propri&eacute;taire)"),
                 $basedb->droits_acces & 0x111 );
     */
-    
+
     if ( $context =="wiki") // Droits un peu plus complexes pour le wiki
     {
       $this->buffer .= "<div class=\"_right_opts\">";
@@ -1133,14 +1133,14 @@ class form extends stdcontents
               array( 0x220 => "Ecriture par les membres du groupe s&eacute;lectionn&eacute;"),
               $basedb->droits_acces & 0x222 );
       $this->buffer .= "</div>";
-              
+
       $this->buffer .= "<div class=\"_right_opts\">";
       $this->add_radiobox_field ( "__rights_ajout", "Droits d'ajout",
               array( 0x444 => "Ajout par tous"),
               $basedb->droits_acces & 0x444 );
       $this->add_radiobox_field ( "__rights_ajout", "",
               array( 0x440 => "Ajout par les membres du groupe s&eacute;lectionn&eacute;"),
-              $basedb->droits_acces & 0x444 );              
+              $basedb->droits_acces & 0x444 );
       $this->buffer .= "</div>";
     }
     elseif ( $category )
@@ -1178,13 +1178,13 @@ class form extends stdcontents
               array( 0x220 => "Ecriture par les membres du groupe s&eacute;lectionn&eacute;"),
               $basedb->droits_acces & 0x222 );
       $this->buffer .= "</div>";
-      
+
     }
-    
+
     $this->add_info("<a href=\"".$wwwtopdir."article.php?name=docs:basedb\">Aide sur les droits d'accés</a>");
-    
+
   }
-  
+
   /** Ajoute un bouton de validation
    * Valeur à récupérer dans $_REQUEST[$name]
    * @param $name    Nom du champ
@@ -1198,7 +1198,7 @@ class form extends stdcontents
     $this->buffer .= "<input type=\"submit\" id=\"$name\" name=\"$name\" value=\"$title\" class=\"isubmit\" />";
     $this->buffer .= "</div></div>\n";
   }
-  /** Ajoute un bouton 
+  /** Ajoute un bouton
    * @param $name    Nom du champ
    * @param $title  Libéllé du champ
    * @param $action  Action (javascript) lors de l'appui
@@ -1211,7 +1211,7 @@ class form extends stdcontents
     $this->buffer .= "<input type=\"button\" id=\"$name\" name=\"$name\" value=\"$title\" onclick=\"$action\" class=\"isubmit\" />";
     $this->buffer .= "</div></div>\n";
   }
-  
+
   /** Selecteur d'une entité definie dans entitiescatalog
    * @param $name    Nom du champ
    * @param $title  Libéllé du champ
@@ -1226,11 +1226,11 @@ class form extends stdcontents
   {
     global $topdir;
 
-    if ( !class_exists($entityclass) 
-         && isset($GLOBALS["entitiescatalog"][$entityclass][5]) 
+    if ( !class_exists($entityclass)
+         && isset($GLOBALS["entitiescatalog"][$entityclass][5])
          && $GLOBALS["entitiescatalog"][$entityclass][5] )
       require_once($topdir."include/entities/".$GLOBALS["entitiescatalog"][$entityclass][5]);
-    
+
     if (class_exists($entityclass)) // Nouvelle méthode
     {
       $std = new $entityclass($db);
@@ -1238,34 +1238,34 @@ class form extends stdcontents
       $std->load_by_id($value);
       $this->add_select_list_entity_field ( $name, $title, $values, $std );
       return;
-    }    
+    }
     elseif ( $entityclass == "group") // déprécié
     {
       $title = $title." (!)";
       $values=enumerates_groups($db);
     }
     else // déprécié
-    {    
+    {
       $title = $title." (!)";
-      
-      if ( $none ) 
+
+      if ( $none )
         $values=array(0=>"-");
       else
         $values=array();
-        
+
       $firststatement = true;
-      
+
       if ( $entityclass == "salle" ) // Cas particulier
         $sql = "SELECT `id_salle`,CONCAT(nom_bat,' / ',nom_salle) FROM sl_salle INNER JOIN sl_batiment ON sl_batiment.id_batiment=sl_salle.id_batiment";
-        
+
       elseif ( $entityclass == "assocpt") // Autre cas particulier
         $sql = "SELECT `id_assocpt`,`nom_asso` FROM asso INNER JOIN cpt_association ON asso.id_asso=cpt_association.id_assocpt";
-          
+
       else if ( $GLOBALS["entitiescatalog"][$entityclass][4] )
-        $sql = "SELECT `".$GLOBALS["entitiescatalog"][$entityclass][0]."`,`".$GLOBALS["entitiescatalog"][$entityclass][1]."` FROM `".$GLOBALS["entitiescatalog"][$entityclass][4]."`";  
+        $sql = "SELECT `".$GLOBALS["entitiescatalog"][$entityclass][0]."`,`".$GLOBALS["entitiescatalog"][$entityclass][1]."` FROM `".$GLOBALS["entitiescatalog"][$entityclass][4]."`";
       else
         return; // non supporté
-        
+
       foreach ($conds as $key => $value)
       {
         if( $firststatement )
@@ -1275,27 +1275,27 @@ class form extends stdcontents
         }
         else
           $sql .= " AND ";
-          
+
         if ( is_null($value) )
           $sql .= "(`" . $key . "` is NULL)";
         else
           $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
-  
+
       }
-      
+
       $sql .= " ORDER BY 2";
-    
+
       $req = new requete($db,$sql);
 
       while ( $row = $req->get_row() )
-        $values[$row[0]] = $row[1];  
+        $values[$row[0]] = $row[1];
     }
-    
+
     $prefix="";
-    
+
     if ( $GLOBALS["entitiescatalog"][$entityclass][2] )
       $prefix = "<img src=\"".$topdir."images/icons/16/".$GLOBALS["entitiescatalog"][$entityclass][2]."\" class=\"icon\" alt=\"\" /> ";
-    
+
     $this->add_select_field ( $name, $title, $values, $value,$prefix );
   }
 
@@ -1309,13 +1309,13 @@ class form extends stdcontents
    */
   function error ( $error )
   {
-    $this->error_contents = $error;  
+    $this->error_contents = $error;
   }
 
-  /** Authorise le présent formulaire a être utilisé une et une seule foi. 
+  /** Authorise le présent formulaire a être utilisé une et une seule foi.
    * La protection anti boulet par excellance, nottament pour éviter que des
    * actions soient reproduites en raison d'un retour en arrière.
-   * De plus on s'assure que l'appel en resultant est bien le resultat du formulaire et non 
+   * De plus on s'assure que l'appel en resultant est bien le resultat du formulaire et non
    * un appel venant d'un site extréieur.
    * La variable $GLOBALS["svalid_call"] permet de vérifier que l'appel est valide.
    * L'usage de cette fonction est FORTEMENT recommandé pour les formulaires sensibles
@@ -1348,67 +1348,67 @@ class form extends stdcontents
   function add ( $frm, $check=false, $option=false, $checked=false, $value=false, $line=false, $onoff=false,$on=true )
   {
     global $topdir;
-    
+
     foreach ( $frm->hiddens  as $k => $v )
     {
       if ( $k != "magicform[name]" )
         $this->hiddens[$k] = $v;
     }
-    
-    
+
+
     if ( $frm->enctype )
       $this->enctype = $frm->enctype;
-    
+
     $this->buffer .= "<div class=\"formrow\"";
-    
+
     if ( $frm->name )
       $this->buffer .= " name=\"".$frm->name."_row\" id=\"".$frm->name."_row\"";
-    
+
     $this->buffer .= ">";
-      
+
     if ( !$line )
-      $this->buffer .= "<div class=\"fullrow\">";  
+      $this->buffer .= "<div class=\"fullrow\">";
     else
       $this->buffer .= "<div class=\"linedrow\">";
-    $name = $frm->name;  
-      
-      
-      
+    $name = $frm->name;
+
+
+
     if ( $check )
     {
-      $this->buffer .= "<div class=\"subformlabel\">";  
+      $this->buffer .= "<div class=\"subformlabel\">";
       $this->buffer .= "<input type=\"checkbox\" id=\"__$name\" name=\"magicform[boolean][".$name."]\" class=\"chkbox\" value=\"true\"";
       if ( $checked )
         $this->buffer .= " checked=\"checked\"";
-        
+
       if ( $onoff )
         $this->buffer .= " onclick=\"on_off('".$name."_contents');\"";
-        
+
       $this->buffer .= " /> ".$frm->title."</div>\n";
 
       if ( $onoff )
         $on = $checked;
-        
-      if ( !$onoff )  
-        $onclick="document.getElementById('__$name').checked = true; ";  
+
+      if ( !$onoff )
+        $onclick="document.getElementById('__$name').checked = true; ";
     }
     elseif ( $option )
     {
-      $this->buffer .= "<div class=\"subformlabel\">";  
-      
+      $this->buffer .= "<div class=\"subformlabel\">";
+
       $this->buffer .= "<input type=\"radio\" id=\"__".$name."_".$value."\" name=\"$name\" class=\"radiobox\" value=\"$value\"";
       if ( $onoff )
         $this->buffer .= " onclick=\"on_off_options('$name','$value',".$name."_val); ".$name."_val='$value';\"";
-      
+
       if ( $checked )
         $this->buffer .= " checked=\"checked\"";
-      
+
       $this->buffer .= " /> ".$frm->title."</div>\n";
-      
+
       if ( $onoff )
       {
         $on = $checked;
-        
+
         if ( $checked )
         {
           $this->work_variables[$name."_val"] = $value;
@@ -1419,26 +1419,26 @@ class form extends stdcontents
           $this->work_variables[$name."_val"] = "";
           $this->buffer .= "<script>".$name."_val='';</script>";
         }
-      }  
-      
-      if ( !$onoff )  
+      }
+
+      if ( !$onoff )
         $onclick="document.getElementById('__".$name."_".$value."').checked = true;";
-      
-      $name .= "_".$value;    
+
+      $name .= "_".$value;
     }
     else  if ( $onoff )
     {
       $img = "fld.png";
       if ( !$on )
         $img = "fll.png";
-              
-      $this->buffer .= "<div class=\"subformlabel\">";  
+
+      $this->buffer .= "<div class=\"subformlabel\">";
       $this->buffer .= "<a href=\"#\" onclick=\"on_off_icon('".$name."','".$topdir."'); return false;\"><img src=\"".$topdir."images/".$img."\" alt=\"togle\" class=\"icon\" id=\"".$name."_icon\" /> ".$frm->title."</a>";
       $this->buffer .= "</div>\n";
     }
     else
     {
-      $this->buffer .= "<div class=\"subformlabel\">".$frm->title."</div>";  
+      $this->buffer .= "<div class=\"subformlabel\">".$frm->title."</div>";
     }
 
     $class="subform";
@@ -1450,23 +1450,23 @@ class form extends stdcontents
       $this->buffer .=  " style=\"display: none;\"";
     if ( $onclick )
       $this->buffer .=  " onClick=\"$onclick\"";
-      
-    $this->buffer .=  "> <!-- ".$name."_contents -->\n";  
+
+    $this->buffer .=  "> <!-- ".$name."_contents -->\n";
 
     $this->buffer .= $frm->buffer;
-    
+
     $this->buffer .= "</div><!-- end of ".$name."_contents -->\n";
-    
+
 
     $this->buffer .= "</div><!-- end of fullrow/linedrow -->\n";
     $this->buffer .= "</div>\n";
   }
-  
+
   /**
    * Ajoute un sous formulaire.
    *
-   * form::add est trop compliqué, on s'enmèle toujours entre les paramètres, 
-   * c'est pourquoi cette fonction existe en combinaison des classes subform, 
+   * form::add est trop compliqué, on s'enmèle toujours entre les paramètres,
+   * c'est pourquoi cette fonction existe en combinaison des classes subform,
    * subformcheck et subformoption.
    *
    * @param $subfrm Sous formulaire (subform, subformcheck ou subformoption)
@@ -1474,15 +1474,15 @@ class form extends stdcontents
    * @param $line Affiche en formulaire sur une ligne
    */
   function addsub ( subform $subfrm, $onoff=false, $line=false )
-  {  
+  {
     $check = false;
     $option=false;
     $checked=false;
     $value=false;
-    
+
     $class = get_class($subfrm);
-    
-    
+
+
     if ( $class == "subformoption" )
     {
       $option=true;
@@ -1491,7 +1491,7 @@ class form extends stdcontents
         $on = $checked = ($this->_subform_values[$subfrm->name]==$value);
       else
         $on = $checked = $subfrm->on;
-      
+
     }
     else if ( $class == "subformcheck" )
     {
@@ -1499,23 +1499,23 @@ class form extends stdcontents
       if ( isset($this->_subform_values[$subfrm->name]) )
         $on = $checked = $this->_subform_values[$subfrm->name];
       else
-        $on = $checked = $subfrm->on;      
+        $on = $checked = $subfrm->on;
     }
     else
     {
       if ( isset($this->_subform_values[$subfrm->name]) )
         $on = $this->_subform_values[$subfrm->name];
       else
-        $on = $subfrm->on;    
+        $on = $subfrm->on;
     }
-    
+
     //$_subform_values
-    
+
     //$subfrm->title .= "($class)";
-    
+
     $this->add ( $subfrm, $check, $option, $checked, $value, $line, $onoff, $on );
   }
-  
+
   /**
    * Définit le sous-formulaire selectionné d'un groupe exclusif.
    * Cette fonction est prioritaire sur les valeurs passés aux contructeurs des
@@ -1530,7 +1530,7 @@ class form extends stdcontents
       $this->_subform_values = array();
     $this->_subform_values[$name] = $value;
   }
-  
+
   /**
    * Définit l'etat d'ouverture / selection d'un sous-formulaire.
    * Cette fonction est prioritaire sur les valeurs passés aux contructeurs des
@@ -1545,18 +1545,18 @@ class form extends stdcontents
       $this->_subform_values = array();
     $this->_subform_values[$name] = $on;
   }
-    
+
   function html_render ()
   {
     $html = "";
-    
+
     if ( $this->error_contents )
       $html .= "<p class=\"formerror\">Erreur : ".$this->error_contents."</p>\n";
-      
+
     $html .= "<form action=\"$this->action\" method=\"".strtolower($this->method)."\"";
-    if ( $this->name ) 
+    if ( $this->name )
       $html .= " name=\"".$this->name."\" id=\"".$this->name."\"";
-    if ( $this->enctype ) 
+    if ( $this->enctype )
       $html .= " enctype=\"".$this->enctype."\"";
     $html .= ">\n";
     foreach ( $this->hiddens as $key => $value )
@@ -1568,33 +1568,33 @@ class form extends stdcontents
     $html .= "</form>\n";
     return $html;
   }
-  
-  /** 
+
+  /**
    * @protected
    */
   protected function _render_name ( $name, $title, $required )
   {
     if ( !$title )
     {
-      $this->buffer .= "<div class=\"formlabel\"></div>";  
-      return;  
+      $this->buffer .= "<div class=\"formlabel\"></div>";
+      return;
     }
-    
+
     if ( $required && $this->autorefill && $_REQUEST[$name]=="" )
       $this->buffer .= "<div class=\"formlabel missing\">";
     else
       $this->buffer .= "<div class=\"formlabel\">";
-    
+
     $this->buffer .= $title;
-    if ( $required ) 
+    if ( $required )
       $this->buffer .= " *";
-    $this->buffer .= "</div>";  
-  }  
- 
-  
+    $this->buffer .= "</div>";
+  }
+
+
 }
 
-/** 
+/**
  * Sous-formulaire
  * @ingroup display_cts
  * @see form::addsub
@@ -1609,7 +1609,7 @@ class subform extends form
   }
 }
 
-/** 
+/**
  * Sous-formulaire selectionnable
  * @ingroup display_cts
  * @see form::addsub
@@ -1622,7 +1622,7 @@ class subformcheck extends subform
   }
 }
 
-/** 
+/**
  * Sous-formulaire selectionnable exclusif
  * @ingroup display_cts
  * @see form::addsub
@@ -1652,12 +1652,12 @@ class table extends stdcontents
     $this->title = $title;
     $this->tclass = $class;
   }
-  
+
   function set_head ( $heads )
   {
-  
+
   }
-  
+
   function add_row ( $row, $class=false )
   {
 
@@ -1672,7 +1672,7 @@ class table extends stdcontents
 
   function rows_from_sql ( $res )
   {
-  
+
   }
 
   function html_render ()
@@ -1692,7 +1692,7 @@ class image extends stdcontents
 
   var $src;
   var $class;
-  
+
   /** Consrtuit une image
    * @param $title Titre
    * @param $src URL de l'image
@@ -1709,14 +1709,14 @@ class image extends stdcontents
   {
     $buf = "<img src=\"".$this->scr."\" alt=\"".$this->title."\" border=\"0\"";
     if ( $this->class )
-      $buf .= " class=\"".$this->class."\""; 
+      $buf .= " class=\"".$this->class."\"";
     $buf .= " />";
     return $buf;
-  }  
+  }
 
 }
 
-/** 
+/**
  * Conteneur de boit d'outils
  * @see stdcontents::set_toolbox
  * @ingroup display_cts
@@ -1733,10 +1733,10 @@ class toolbox extends stdcontents
       $this->buffer .="<a href=\"".htmlentities($link,ENT_NOQUOTES,"UTF-8")."\">".htmlentities($title,ENT_NOQUOTES,"UTF-8")."</a>";
     }
   }
-  
+
 }
 
-/** 
+/**
  * Conteneur de listes
  * @ingroup display_cts
  */
@@ -1754,8 +1754,8 @@ class itemlist extends stdcontents
     $this->class = $class;
     foreach($list as $item)
       $this->add($item);
-  }  
-  
+  }
+
   /** Ajoute un élément à la liste
    * @param $item HTML brut ou objet itemlist à ajouter
    * @param $class Class CSS
@@ -1773,7 +1773,7 @@ class itemlist extends stdcontents
   {
     $this->buffer .= $data;
   }
-  
+
   function html_render()
   {
     return "<ul".($this->class?" class=\"".$this->class."\"":"").">\n".$this->buffer."</ul>\n";
@@ -1787,24 +1787,24 @@ class itemlist extends stdcontents
  */
 class tabshead extends stdcontents
 {
-  
+
   var $entries;
   var $sel;
   var $tclass;
-  
+
   function tabshead($entries, $sel,$class="",$tclass="tabs")
   {
     $this->entries = $entries;
-    $this->sel = $sel;  
+    $this->sel = $sel;
     $this->tclass = $tclass.$class;
-  }  
-  
+  }
+
   function html_render()
   {
     global $wwwtopdir;
-    
+
     $this->buffer .= "<div class=\"".$this->tclass."\">\n";
-    
+
     foreach ($this->entries as $entry)
     {
       $this->buffer .= "<span";
@@ -1815,9 +1815,9 @@ class tabshead extends stdcontents
         $this->buffer .= " class=\"selected\"";
       $this->buffer .= " title=\"" .  htmlentities($entry[2],ENT_QUOTES,"UTF-8") . "\">" . $entry[2] . "</a></span>\n";
     }
-    $this->buffer .= "<div class=\"clearboth\"></div>\n";  
-    $this->buffer .= "</div>\n";  
-    
+    $this->buffer .= "<div class=\"clearboth\"></div>\n";
+    $this->buffer .= "</div>\n";
+
     return $this->buffer;
   }
 }
@@ -1829,10 +1829,10 @@ class tabshead extends stdcontents
  * Le code de prise en charge des formulaires se trouve à la fin de standart.inc.php
  * @ingroup display_cts
  * @{
- */ 
- 
+ */
+
 /**
- * Transforme un nom de variable REQUEST pour pouvoir être utilisé comme clé ou 
+ * Transforme un nom de variable REQUEST pour pouvoir être utilisé comme clé ou
  * valeur d'un tableau passé en REQUEST
  * Utilisé pour les "magic forms"
  * @param $fname Nom de variable (nom,nom[1][2]...)
@@ -1867,7 +1867,7 @@ function set_request_fname_unprotect ( $fname, $value )
 /**
  * Converti une valeur monétaire saisie en format interne (centimes)
  * Ne supporte pas les séparateurs décimaux autres que les espsaces.
- * Supporte . et , 
+ * Supporte . et ,
  * @param $prix Valeur saisie par l'utilisateur
  * @return la valeur correspondante en format interne (centimes)
  */
@@ -1880,7 +1880,7 @@ function get_prix ( $prix  )
 
 /**
  * Converti une date saisie en timestamp.
- * Formats supportés : 
+ * Formats supportés :
  * - AAAA:MM:JJ HH:MM:SS
  * - AAAA-MM-JJ HH:MM:SS
  * - JJ:MM:AAAA HH:MM:SS
@@ -1895,13 +1895,13 @@ function get_prix ( $prix  )
  * @return le timestamp correspondant, null si le format n'est reconnu
  * @todo vérifier que toutes les pages utilisant les forms supportent bien
  * le renvoie de null en cas d'erreur
- */ 
+ */
 function datetime_to_timestamp ( $datetime ) {
-  
+
   // AAAA:MM:JJ HH:MM:SS
   if ( ereg("([0-9]{4}):([0-9]{1,2}):([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})",$datetime,$reg) )
     return mktime ( $reg[4], $reg[5], $reg[6] , $reg[2] , $reg[3], $reg[1]);
-  
+
   // AAAA-MM-JJ HH:MM:SS
   else if ( ereg("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})",$datetime,$reg) )
     return mktime ( $reg[4], $reg[5], $reg[6] , $reg[2] , $reg[3], $reg[1]);
@@ -1909,7 +1909,7 @@ function datetime_to_timestamp ( $datetime ) {
   // JJ:MM:AAAA HH:MM:SS
   else if ( ereg("([0-9]{1,2}):([0-9]{1,2}):([0-9]{4}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})",$datetime,$reg) )
     return mktime ( $reg[4], $reg[5], $reg[6] , $reg[2] , $reg[1], $reg[3]);
-    
+
   // JJ-MM-AAAA HH:MM:SS
   else if ( ereg("([0-9]{1,2})-([0-9]{1,2})-([0-9]{4}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})",$datetime,$reg) )
     return mktime ( $reg[4], $reg[5], $reg[6] , $reg[2] , $reg[1], $reg[3]);
@@ -1917,7 +1917,7 @@ function datetime_to_timestamp ( $datetime ) {
   // JJ/MM/AAAA HH:MM:SS
   else if ( ereg("([0-9]{1,2})/([0-9]{1,2})/([0-9]{4}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})",$datetime,$reg) )
     return mktime ( $reg[4], $reg[5], $reg[6] , $reg[2] , $reg[1], $reg[3]);
-  
+
   // JJ-MM-AAAA HH:MM
   else if ( ereg("([0-9]{1,2})-([0-9]{1,2})-([0-9]{4}) ([0-9]{1,2}):([0-9]{1,2})",$datetime,$reg) )
     return mktime ( $reg[4], $reg[5], 0, $reg[2] , $reg[1], $reg[3]);
@@ -1925,15 +1925,15 @@ function datetime_to_timestamp ( $datetime ) {
   // JJ/MM/AAAA HH:MM
   else if ( ereg("([0-9]{1,2})/([0-9]{1,2})/([0-9]{4}) ([0-9]{1,2}):([0-9]{1,2})",$datetime,$reg) )
     return mktime ( $reg[4], $reg[5], 0, $reg[2] , $reg[1], $reg[3]);
-    
+
   // JJ-MM-AAAA
   else if ( ereg("([0-9]{1,2})-([0-9]{1,2})-([0-9]{4})",$datetime,$reg) )
     return mktime ( 0, 0, 0, $reg[2] , $reg[1], $reg[3]);
-  
+
   // JJ/MM/AAAA
   else if ( ereg("([0-9]{1,2})/([0-9]{1,2})/([0-9]{4})",$datetime,$reg) )
     return mktime ( 0, 0, 0, $reg[2] , $reg[1], $reg[3]);
-    
+
   return null;
 }
 
@@ -1941,7 +1941,7 @@ function datetime_to_timestamp ( $datetime ) {
  * Converti une heure saisie en timestamp.
  * Format supporté : HH:MM
  * @param $time Heure saisie par un utilisateur
- * @return le timestamp correspondant (secondes depuis 00:00), 
+ * @return le timestamp correspondant (secondes depuis 00:00),
  * null si le format n'est reconnu
  * @todo vérifier que toutes les pages utilisant les forms supportent bien
  * le renvoie de null en cas d'erreur
@@ -1963,7 +1963,7 @@ function textual_plage_horraire ( $debut, $fin )
 {
   if ( $fin-$debut < 120 )
     return strftime("%A %d %B %G %H:%M",$fin);
-  
+
   if( date("d/m/Y",$debut) != date("d/m/Y",$fin) )
     return strftime("%A %d %B %G %H:%M",$debut) . " jusqu'au ".strftime("%A %d %B %G %H:%M",$fin);
   else
@@ -1978,7 +1978,7 @@ function textual_plage_horraire ( $debut, $fin )
 if ( isset($_REQUEST["magicform"]) )
 {
   $name = $_REQUEST["magicform"]["name"];
-  
+
   if ( isset($_SESSION["forms"][$name]["once"]) ) // formulaire à usage "UNIQUE", verifions le ticket
   {
     $ticket = $_REQUEST["magicform"]["ticket"];
@@ -1988,7 +1988,7 @@ if ( isset($_REQUEST["magicform"]) )
       unset($_SESSION["forms"][$name]["once"][$ticket]); // on supprime le ticket
       $GLOBALS["svalid_call"] = true;
     }
-    else if ( !isset($_SESSION["forms"][$name]["once"]["init"]) ) 
+    else if ( !isset($_SESSION["forms"][$name]["once"]["init"]) )
     // la session a du expirée, évitons de facher l'utilisateur
       $GLOBALS["svalid_call"] = true;
     else
@@ -1996,16 +1996,16 @@ if ( isset($_REQUEST["magicform"]) )
   }
   else
     $GLOBALS["svalid_call"] = false; // Ce n'est pas un formulaire à usage unique
-  
+
   if ( $_REQUEST["magicform"]["date"] )
   {
     foreach ( $_REQUEST["magicform"]["date"] as $name => $value )
       set_request_fname_unprotect($name,datetime_to_timestamp($value));
   }
-  
+
   if ( $_REQUEST["magicform"]["datetime"] )
   {
-    foreach ( $_REQUEST["magicform"]["datetime"] as $name => $value )    
+    foreach ( $_REQUEST["magicform"]["datetime"] as $name => $value )
       set_request_fname_unprotect($name,datetime_to_timestamp($value));
   }
 
@@ -2017,16 +2017,16 @@ if ( isset($_REQUEST["magicform"]) )
 
   if ( $_REQUEST["magicform"]["price"] )
   {
-    foreach ( $_REQUEST["magicform"]["price"] as $name => $value )    
+    foreach ( $_REQUEST["magicform"]["price"] as $name => $value )
       set_request_fname_unprotect($name,get_prix($value));
   }
-  
+
   if ( $_REQUEST["magicform"]["boolean"] )
   {
     foreach ( $_REQUEST["magicform"]["boolean"] as $name => $value )
       set_request_fname_unprotect($name,($value == "true"));
   }
-  
+
   if ( $_REQUEST["magicform"]["files"] )
   {
     require_once($topdir . "include/entities/files.inc.php");
@@ -2039,7 +2039,7 @@ if ( isset($_REQUEST["magicform"]) )
         $ids = explode(",",$value);
         foreach( $ids as $id )
         {
-          $file = new dfile($db);  
+          $file = new dfile($db);
           if ( $file->load_by_id($id) )
             $files[] = $file;
         }
@@ -2048,23 +2048,23 @@ if ( isset($_REQUEST["magicform"]) )
     }
     unset($db);
   }
-  
+
   if ( $_REQUEST["magicform"]["processrights"] )
   {
-    if ( isset($_REQUEST["__rights_ecrt"]) && isset($_REQUEST["__rights_ajout"]) ) 
+    if ( isset($_REQUEST["__rights_ecrt"]) && isset($_REQUEST["__rights_ajout"]) )
       $_REQUEST["rights"] = 0x200 | intval($_REQUEST["__rights_lect"]) | intval($_REQUEST["__rights_ecrt"]) | intval($_REQUEST["__rights_ajout"]);
-    elseif ( isset($_REQUEST["__rights_ecrt"]) ) 
+    elseif ( isset($_REQUEST["__rights_ecrt"]) )
       $_REQUEST["rights"] = intval($_REQUEST["__rights_lect"]) | intval($_REQUEST["__rights_ecrt"]);
     else
-      $_REQUEST["rights"] = 0x200 | intval($_REQUEST["__rights_lect"]) | 
+      $_REQUEST["rights"] = 0x200 | intval($_REQUEST["__rights_lect"]) |
               (intval($_REQUEST["__rights_lect"])*intval($_REQUEST["__rights_ajoutsub"]));
 
   }
-  
+
   if ( isset($_REQUEST["magicform"]["geo"]) && count($_REQUEST["magicform"]["geo"]) > 0  )
   {
-    foreach ( $_REQUEST["magicform"]["geo"] as $name => $value )  
-    {  
+    foreach ( $_REQUEST["magicform"]["geo"] as $name => $value )
+    {
       $conv = geo_degrees_to_radians($value);
       if ( is_null($conv) )
         set_request_fname_unprotect($name,$value);
@@ -2072,7 +2072,7 @@ if ( isset($_REQUEST["magicform"]) )
         set_request_fname_unprotect($name,$conv);
     }
   }
-  
+
 }
 
 

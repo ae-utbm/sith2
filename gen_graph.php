@@ -21,14 +21,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir = "./";
 require_once($topdir . "include/graph.inc.php");
 
 $values=explode(";",utf8_decode($_REQUEST["values"]));
 if(empty($values))
   exit();
-  
+
 $val=array();
 foreach($values as $value)
 {
@@ -38,12 +38,12 @@ foreach($values as $value)
   else
     exit();
 }
-  
+
 if ( $_REQUEST["action"] == "cam" )
 {
   $graph=new camembert(600,400,array(),2,0,0,0,0,0,0,10,150);
   arsort($val);
-}  
+}
 elseif ( $_REQUEST["action"] == "bar" )
   $graph=new histogram2(600,400,array(),2,0,0,0,0,0,0,10,150);
 else

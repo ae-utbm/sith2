@@ -3,8 +3,8 @@
 /** @file
  * @defgroup inventaire Inventaire/Reservation salles/Reservation matériel
  * @{
- */ 
- 
+ */
+
 /**
  * Classe gérant les batiments
  */
@@ -17,7 +17,7 @@ class batiment extends stdentity
 	var $convention;
 	var $notes;
 
-	
+
 	/** Charge un batiment en fonction de son id
 	 * $this->id est égal à -1 en cas d'erreur
 	 * @param $id id de la fonction
@@ -26,18 +26,18 @@ class batiment extends stdentity
 	{
 		$req = new requete($this->db, "SELECT * FROM `sl_batiment`
 				WHERE `id_batiment` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-	
+
 	function _load ( $row )
 	{
 		$this->id			= $row['id_batiment'];
@@ -47,7 +47,7 @@ class batiment extends stdentity
 		$this->convention	= $row['convention_bat'];
 		$this->notes			= $row['notes_bat'];
 	}
-	
+
 	/** Ajoute un batiment et le charge dans l'instance
 	 * @param $id_site Id du site sur le quel se trouve le batiment
 	 * @param $nom Nom du batiment
@@ -61,8 +61,8 @@ class batiment extends stdentity
 		$this->nom			= $nom;
 		$this->fumeur		= is_null($fumeur)?false:$fumeur;
 		$this->convention	= is_null($convention)?false:$convention;
-		$this->notes			= $notes;	
-		
+		$this->notes			= $notes;
+
 		$sql = new insert ($this->dbrw,
 			"sl_batiment",
 			array(
@@ -73,14 +73,14 @@ class batiment extends stdentity
 				"notes_bat" => $this->notes
 				)
 			);
-				
+
 		if ( $sql )
 			$this->id = $sql->get_id();
 		else
 			$this->id = null;
-			
-	}	
-	
-}  
- 
+
+	}
+
+}
+
 ?>

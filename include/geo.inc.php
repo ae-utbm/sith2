@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /**
  * @file
  * Fonctions de calcul geographique
@@ -56,21 +56,21 @@ function geo_degrees_to_radians ( $deg )
   if ( ereg("^([0-9]+)°([0-9]+)'([0-9,\.]+)\"(E|N|S|O|W)$",$deg,$regs) )
   {
     $res = ((((str_replace(",",".",$regs[3])/60)+$regs[2])/60)+$regs[1])*2*M_PI/360;
-    
+
     if ( $regs[4] == "O" || $regs[4] == "S" || $regs[4] == "W" )
       return -1*$res;
-    
+
     return $res;
-  }  
+  }
   elseif ( ereg("^([0-9]+)°([0-9]+)'([0-9,\.]+)\"$",$deg,$regs) )
-    return ((((str_replace(",",".",$regs[3])/60)+$regs[2])/60)+$regs[1])*2*M_PI/360;  
+    return ((((str_replace(",",".",$regs[3])/60)+$regs[2])/60)+$regs[1])*2*M_PI/360;
   elseif ( ereg("^([0-9]+)([,\.])([0-9]+)([ENSOW]?)$",$deg,$regs) )
   {
     $res = floatval($regs[1].".".$regs[3]);
-    
+
     if ( $regs[4] == "O" || $regs[4] == "S" || $regs[4] == "W" )
       return -1*$res;
-    
+
     return $res;
   }
   return NULL;

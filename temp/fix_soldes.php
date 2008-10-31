@@ -18,8 +18,8 @@ $allsoldes = 0;
 foreach ( $comptes as $id => $solde )
 {
   $allsoldes+=$solde;
-  
-	$up = new requete($dbrw,"UPDATE `utilisateurs` 
+
+	$up = new requete($dbrw,"UPDATE `utilisateurs`
 						SET `montant_compte` = '$solde'
 						WHERE `id_utilisateur` = '$id'");
 }

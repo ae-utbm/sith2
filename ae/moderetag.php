@@ -38,8 +38,8 @@ if ( $_REQUEST["action"] == "modere" )
   {
     $tag->load_by_id($id);
     $tag->set_modere(true);
-  }  
-} 
+  }
+}
 elseif ( $_REQUEST["action"] == "delete" )
 {
   $tag = new tag($site->db,$site->dbrw);
@@ -47,12 +47,12 @@ elseif ( $_REQUEST["action"] == "delete" )
   {
     $tag->load_by_id($id);
     $tag->delete();
-  }  
+  }
 }
 
 $site->start_page ("none", "Modération des tags");
 
-$cts = new contents("Modération des tags");  
+$cts = new contents("Modération des tags");
 
 $req = new requete($site->db,"SELECT * FROM tag WHERE modere_tag='0' ORDER BY nom_tag");
 

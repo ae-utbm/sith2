@@ -30,7 +30,7 @@
 
 /* On interdit le chargement de ce script si il ne vient pas du site
    officiel */
-   
+
 if( !preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21|ae2)\//', $_SERVER['SCRIPT_FILENAME'])
     && !ereg("^/var/www/ae/accounts/([a-z0-9]*)/aecms",$_SERVER['SCRIPT_FILENAME']) )
 {
@@ -39,7 +39,7 @@ if( !preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21|ae2)\//', $_SERVER['SCR
 		require_once($topdir . "include/mysqlae_home.inc.php");
 	else
 		die("denied");
-		
+
 }
 else
 {
@@ -63,7 +63,7 @@ else
       }
     }
   }
-  class mysqlforum extends mysql 
+  class mysqlforum extends mysql
   {
 
     function mysqlforum ()

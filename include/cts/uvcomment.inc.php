@@ -9,7 +9,7 @@
 /* Copyright 2007
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  * - Manuel Vonthron <manuel DOT vonthron AT acadis DOT org>
- * 
+ *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
  *
@@ -56,34 +56,34 @@ function p_stars($note)
  */
 class uvcomment_contents extends stdcontents
 {
-  
-  function uvcomment_contents (&$comments, 
-			       &$db, 
-			       &$user, 
+
+  function uvcomment_contents (&$comments,
+			       &$db,
+			       &$user,
 			       $page = "uvs.php")
   {
     $author = new utilisateur($db);
 
-    /* TODO : meme remarque concernant 
-     * l'éventuelle mise en place d'un groupe de modérateurs 
+    /* TODO : meme remarque concernant
+     * l'éventuelle mise en place d'un groupe de modérateurs
      */
     $admin = $user->is_in_group("gestion_ae");
-    
+
     $i = 0;
     for ($i = 0 ; $i < count($comments); $i++)
       {
 	$comment = &$comments[$i];
 
 	$parity = (($i %2) == 0);
-	
+
 	/* commentaire "abusé" */
 	if ($comment->etat == 1)
 	  $extra = "abuse";
 	else if ($parity)
 	  $extra = "pair";
-	
+
 	$this->buffer .= "<div class=\"uvcomment $extra\" id=\"cmt_".$comment->id."\">\n";
-	  
+
 	$this->buffer .= "<div class=\"uvcheader\">\n";
 
 	$this->buffer .= "<span class=\"uvcdate\"><b>Le ".
@@ -112,7 +112,7 @@ class uvcomment_contents extends stdcontents
 	else if ($comment->etat != 1)
 	  $links[] = "<a href=\"".$page."?action=reportabuse&id=".$comment->id."\">Signaler un abus</a>";
 
-	/* mise en "quarantaine" par un admin 
+	/* mise en "quarantaine" par un admin
 	 * (demande de modération)
 	 */
 	if (($admin) && ($user->id != $comment->id_commentateur))
@@ -124,22 +124,22 @@ class uvcomment_contents extends stdcontents
 
 	$author->load_by_id($comment->id_commentateur);
 
-	$this->buffer .= "<span class=\"uvcauthor\"> Par ".  
+	$this->buffer .= "<span class=\"uvcauthor\"> Par ".
 	  $author->get_html_extended_info() . "</span>";
 
 
 	if ($comment->note_obtention != null)
 	  {
-	    if (($comment->note_obtention != 'F') 
+	    if (($comment->note_obtention != 'F')
 		&& ($comment->note_obtention != 'Fx'))
-	      $this->buffer .= "<span class=\"uvcnote\">obtenu avec " . 
+	      $this->buffer .= "<span class=\"uvcnote\">obtenu avec " .
 		$comment->note_obtention;
 	    else
-	      $this->buffer .= "<span class=\"uvcnote\">échec (" . 
+	      $this->buffer .= "<span class=\"uvcnote\">échec (" .
 		$comment->note_obtention . ")";
 	    $this->buffer .= "</span>";
 		}
-		
+
 	$this->buffer .= "</div><br/>"; // fin du header
 	$this->buffer .= "<div class=\"uvleftbloc\" style=\"width: 235px;\">";
 	$this->buffer .= "<table class=\"uvtable\">";
@@ -165,14 +165,14 @@ class uvcomment_contents extends stdcontents
 	$this->buffer .= "</tr>";
 	$this->buffer .= "</table>";
 	$this->buffer .= "</div>";
-	
+
 	$this->buffer .= "<div class=\"uvrightbloc\">";
 	$this->buffer .= doku2xhtml($comment->comment);
 	$this->buffer .= "</div>";
-	
+
 	$this->buffer .= "<div class=\"clearboth\"></div>";
-	
-	
+
+
 
 	$this->buffer .= "</div>\n"; // fin du commentaire
 

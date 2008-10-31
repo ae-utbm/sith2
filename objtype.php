@@ -99,7 +99,7 @@ if ( isset($_REQUEST["id_objtype"]) )
 				"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`, ".
 				"`utilisateurs`.`id_utilisateur`, " .
 		    "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
-		    
+
 				"FROM `inv_objet` " .
 				"INNER JOIN `asso` AS `asso_gest` ON `inv_objet`.`id_asso`=`asso_gest`.`id_asso` " .
 				"INNER JOIN `asso` AS `asso_prop` ON `inv_objet`.`id_asso_prop`=`asso_prop`.`id_asso` " .
@@ -112,7 +112,7 @@ if ( isset($_REQUEST["id_objtype"]) )
 				  "AND inv_emprunt_objet.retour_effectif_emp IS NULL ".
 				  "AND inv_emprunt.date_prise_emp IS NOT NULL LIMIT 1)	 ) ".
 				"LEFT JOIN utilisateurs ON ( utilisateurs.id_utilisateur=inv_emprunt.id_utilisateur)".
-				
+
 				"WHERE `id_objtype`='".$objtype->id."' $filter" .
 				"GROUP BY `inv_objet`.`id_objet`".
         "ORDER BY `inv_objet`.`nom_objet`" );

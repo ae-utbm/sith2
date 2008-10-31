@@ -42,7 +42,7 @@ $catpr = new catphoto($site->db);
 $asso = new asso($site->db);
 $phasso = new asso($site->db);
 $ptasso = new asso($site->db);
-    
+
 if ( isset($_REQUEST["id_photo"]))
 {
   $photo->load_by_id($_REQUEST["id_photo"]);
@@ -84,7 +84,7 @@ if ( $_REQUEST["action"] == "cut" )
 {
   if ( $photo->is_valid() && $photo->is_right($site->user,DROIT_ECRITURE) )
   {
-   
+
     $sqlph = $cat->get_photos ( $cat->id, $site->user, $grps, "sas_photos.id_photo");
     $count=0;
     while ( list($id) = $sqlph->get_row() )
@@ -93,12 +93,12 @@ if ( $_REQUEST["action"] == "cut" )
         $idx = $count;
       $count++;
     }
-    
-    $_REQUEST["page"] = ($idx) / SAS_NPP;   
-   
+
+    $_REQUEST["page"] = ($idx) / SAS_NPP;
+
     if ( !isset($_SESSION["sas_clipboard"]["photos"]) )
       $_SESSION["sas_clipboard"]["photos"]  = array();
-    
+
     $_SESSION["sas_clipboard"]["photos"][$photo->id] = $photo->id;
     $photo->id=null;
   }
@@ -106,7 +106,7 @@ if ( $_REQUEST["action"] == "cut" )
   {
    if ( !isset($_SESSION["sas_clipboard"]["categories"]) )
       $_SESSION["sas_clipboard"]["categories"]  = array();
-      
+
     $_SESSION["sas_clipboard"]["categories"][$cat->id] = $cat->id;
     $cat->load_by_id($cat->id_catph_parent);
   }
@@ -125,17 +125,17 @@ elseif ( $_REQUEST["action"] == "addphoto" && $GLOBALS["svalid_call"] )
 
     $phasso->load_by_id($_REQUEST["id_asso"]);
     $ptasso->load_by_id($_REQUEST["id_asso_photographe"]);
-    
+
     $photo->herit($cat,false);
     $photo->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin'],false);
-    $photo->add_photo ( 
-      $_FILES['file']['tmp_name'], 
-      $cat->id, 
-      $_REQUEST['comment'], 
-      null, 
-      $_REQUEST['personne'], 
+    $photo->add_photo (
+      $_FILES['file']['tmp_name'],
+      $cat->id,
+      $_REQUEST['comment'],
+      null,
+      $_REQUEST['personne'],
       $phasso->id,
-      $_REQUEST["titre"], 
+      $_REQUEST["titre"],
       $ptasso->id);
 
   }
@@ -144,7 +144,7 @@ elseif ( $_REQUEST["action"] == "delete" && $photo->is_valid() && !$_REQUEST["id
 {
   if ( $photo->is_right($site->user,DROIT_ECRITURE) )
   {
-    
+
     $sqlph = $cat->get_photos ( $cat->id, $site->user, $grps, "sas_photos.id_photo");
     $count=0;
     while ( list($id) = $sqlph->get_row() )
@@ -153,12 +153,12 @@ elseif ( $_REQUEST["action"] == "delete" && $photo->is_valid() && !$_REQUEST["id
         $idx = $count;
       $count++;
     }
-    
+
     if ( $idx == 0 )
       $_REQUEST["page"] = 0;
     else
       $_REQUEST["page"] = ($idx-1) / SAS_NPP;
-    
+
     $photo->remove_photo();
     $photo->id=null;
   }
@@ -176,9 +176,9 @@ elseif ( $_REQUEST["action"] == "sethome" && $photo->is_valid() && $cat->is_vali
           $idx = $count;
         $count++;
       }
-      
-      $_REQUEST["page"] = ($idx) / SAS_NPP;   
-    
+
+      $_REQUEST["page"] = ($idx) / SAS_NPP;
+
       $cat->set_photo($photo->id);
       $photo->id=null;
     }
@@ -221,7 +221,7 @@ while ( $catpr->is_valid() )
 {
   if ( is_null($root_asso_id) && $catpr->meta_mode == CATPH_MODE_META_ASSO )
     $root_asso_id = $catpr->meta_id_asso;
-    
+
   $path =   $catpr->get_html_link()." / ".$path;
   $catpr->load_by_id($catpr->id_catph_parent);
 }
@@ -270,10 +270,10 @@ if ( $photo->is_valid() )
 
   $can_write = $photo->is_right($site->user,DROIT_ECRITURE);
   $can_comment = $can_write; //|| $photo->is_on_photo($site->user->id);
-  
+
   if ( $photo->meta_id_asso )
     $phasso->load_by_id($photo->meta_id_asso);
-    
+
   if ( $photo->id_asso_photographe )
     $ptasso->load_by_id($photo->id_asso_photographe);
 
@@ -313,13 +313,13 @@ if ( $photo->is_valid() )
   {
     $phasso->load_by_id($_REQUEST["id_asso"]);
     $ptasso->load_by_id($_REQUEST["id_asso_photographe"]);
-    
-    
+
+
     $userinfo = new utilisateur($site->db);
     $userinfo->load_by_id($_REQUEST["id_utilisateur_photographe"]);
-    
-    $old = htmlentities($photo->get_display_name(),ENT_COMPAT,"UTF-8"); 
-    
+
+    $old = htmlentities($photo->get_display_name(),ENT_COMPAT,"UTF-8");
+
     $photo->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin'],false);
     $photo->update_photo(
       $_REQUEST["date"],
@@ -331,13 +331,13 @@ if ( $photo->is_valid() )
       );
 
     $photo->set_incomplet(isset($_REQUEST["incomplet"]));
-    
+
     $photo->set_tags($_REQUEST["tags"]);
-    
+
     // petit hack pour éviter de recalculer tout le chemin
-    $new = htmlentities($photo->get_display_name(),ENT_COMPAT,"UTF-8"); 
+    $new = htmlentities($photo->get_display_name(),ENT_COMPAT,"UTF-8");
     $path = str_replace($old,$new,$path);
-    
+
   }
   elseif ( ($_REQUEST["action"] == "setcomment") && $can_comment)
   {
@@ -360,10 +360,10 @@ if ( $photo->is_valid() )
   {
     copy($photo->get_abs_path().$photo->id.".jpg",
          "/var/www/ae/www/ae2/var/img/com/weekly_photo.jpg");
-         
+
     copy($photo->get_abs_path().$photo->id.".diapo.jpg",
          "/var/www/ae/www/ae2/var/img/com/weekly_photo-diapo.jpg");
-         
+
     copy($photo->get_abs_path().$photo->id.".vignette.jpg",
          "/var/www/ae/www/ae2/var/img/com/weekly_photo-small.jpg");
 
@@ -371,12 +371,12 @@ if ( $photo->is_valid() )
       array ("contenu_boite" => $cat->nom),
       array ("nom_boite" => "Weekly_Photo"));
   }
-  
+
   if ( ($_REQUEST["page"] == "edit" || $_REQUEST["action"] == "edit") && $can_write )
   {
     $userinfo = new utilisateur($site->db);
-    $userinfo->load_by_id($photo->id_utilisateur_photographe);    
-    
+    $userinfo->load_by_id($photo->id_utilisateur_photographe);
+
     $site->start_page("sas","Stock à Souvenirs");
 
     $cts = new contents($path." / Editer");
@@ -391,7 +391,7 @@ if ( $photo->is_valid() )
     $frm->add_entity_select ( "id_asso", "Association/Club lié", $site->db, "asso",$photo->meta_id_asso,true);
     $frm->add_entity_select ( "id_asso_photographe", "Photographe (club)", $site->db, "asso",$photo->id_asso_photographe,true);
     $frm->add_entity_smartselect ( "id_utilisateur_photographe", "Photographe", $userinfo, true );
-    
+
     $frm->add_rights_field($photo,false,$photo->is_admin($site->user));
     $frm->add_submit("valid","Enregistrer");
 
@@ -470,11 +470,11 @@ if ( $photo->is_valid() )
     echo $cts->html_render();
     exit();
   }
-  
+
   $site->start_page("sas","Stock à Souvenirs",true);
   $site->add_contents($cts);
   $site->end_page ();
-  
+
   exit();
 }
 
@@ -608,7 +608,7 @@ elseif ( $_REQUEST["action"] == "paste" && isset($_SESSION["sas_clipboard"]) )
     }
     unset($_SESSION["sas_clipboard"]["photos"]);
   }
-  
+
   if ( $cat->is_right($site->user,DROIT_AJOUTCAT) && isset($_SESSION["sas_clipboard"]["categories"]) && count($_SESSION["sas_clipboard"]["categories"])>0 )
   {
     foreach( $_SESSION["sas_clipboard"]["categories"] as $id )
@@ -618,7 +618,7 @@ elseif ( $_REQUEST["action"] == "paste" && isset($_SESSION["sas_clipboard"]) )
     }
     unset($_SESSION["sas_clipboard"]["categories"]);
   }
-  
+
   if ( !isset($_SESSION["sas_clipboard"]["categories"]) && !isset($_SESSION["sas_clipboard"]["photos"]) )
     unset($_SESSION["sas_clipboard"]);
 }
@@ -659,7 +659,7 @@ function cats_produde_gallery ( $sqlct)
 
 
 
-    
+
 if ( $cat->id == 1 )
 {
   $page = new page ($site->db);
@@ -684,12 +684,12 @@ if ( isset($_SESSION["sas_clipboard"]) )
   $infcat = new catphoto($site->db);
 
   $cts = new contents("Presse papier");
-  
+
   if ( $cat->is_right($site->user,DROIT_AJOUTITEM) || $cat->is_right($site->user,DROIT_AJOUTCAT) )
     $cts->add_paragraph("<a href=\"index.php?id_catph=".$cat->id."&amp;action=paste\">Deplacer ici</a><br/><br/>");
-  
+
   $cts->add_paragraph("<a href=\"index.php?id_catph=".$cat->id."&amp;action=emptyclpbrd\">Vider le presse papier</a>");
-  
+
   $lst = new itemlist("Contenu");
 
   if ( isset($_SESSION["sas_clipboard"]["photos"]) && count($_SESSION["sas_clipboard"]["photos"])>0 )
@@ -700,7 +700,7 @@ if ( isset($_SESSION["sas_clipboard"]) )
       $lst->add($infphoto->get_html_link());
     }
   }
-  
+
   if ( isset($_SESSION["sas_clipboard"]["categories"]) && count($_SESSION["sas_clipboard"]["categories"])>0 )
   {
     foreach( $_SESSION["sas_clipboard"]["categories"] as $id )
@@ -709,9 +709,9 @@ if ( isset($_SESSION["sas_clipboard"]) )
       $lst->add($infcat->get_html_link());
     }
   }
-  
+
   $cts->add($lst,true);
-  
+
   $site->add_contents($cts);
 }
 
@@ -720,12 +720,12 @@ if ( $metacat->is_valid() || $cat->meta_mode == CATPH_MODE_META_ASSO || !is_null
 {
 
   if ( $cat->meta_mode == CATPH_MODE_META_ASSO )
-    $asso->load_by_id($cat->meta_id_asso); 
+    $asso->load_by_id($cat->meta_id_asso);
   else if ( !is_null($root_asso_id) )
-    $asso->load_by_id($root_asso_id); 
+    $asso->load_by_id($root_asso_id);
   else
-    $asso->load_by_id($metacat->meta_id_asso); 
-    
+    $asso->load_by_id($metacat->meta_id_asso);
+
   $cts = new contents($asso->get_html_path());
   $site->start_page("presentation","Photos"); // Et oui, on peut le refaire quand on veut !
 
@@ -741,7 +741,7 @@ if ( $cat->id == 1 )
 // Sous-catégories
 if ( $cat->is_right($site->user,DROIT_AJOUTCAT) )
   $cts->add_paragraph("<a href=\"./?id_catph=".$cat->id."&amp;page=subcat\">Ajouter une catégorie dans ".$cat->nom."</a>");
-  
+
 if ( !is_null($cat->date_debut) )
   $cts->add(new reactonforum ( $site->db, $site->user, $cat->nom, array("id_catph"=>$cat->id), $cat->meta_id_asso, true ));
 

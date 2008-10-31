@@ -169,9 +169,9 @@ if ( $news->id > 0 )
 
   $site->start_page ("accueil", $news->titre);
 	$site->set_side_boxes("right",array());
-	
+
   $cts = $news->get_contents();
-  
+
   $cts->puts("<div class=\"clearboth\"></div>");
 
   if ( $site->user->is_in_group("gestion_ae"))
@@ -183,7 +183,7 @@ if ( $news->id > 0 )
 
     $cts->add_title(2,"");
     $cts->add_paragraph("Post&eacute; par : ".$user1->get_html_link());
-    
+
     if ( $user2->is_valid() )
       $cts->add_paragraph("Valid&eacute; par : ".$user2->get_html_link());
   }
@@ -246,7 +246,7 @@ if ( isset($_REQUEST["preview"]) || isset($_REQUEST["submit"]) )
   {
     $_REQUEST["content"] = str_replace("{{@affiche|","{{dfile://".$file->id."/preview|",$_REQUEST["content"]);
     $_REQUEST["content"] = str_replace("[[@affiche|","[[dfile://".$file->id."]",$_REQUEST["content"]);
-    
+
     if ( !ereg("\{\{dfile\:\/\/([0-9]*)\/preview\|(.*)\}\}",$_REQUEST["content"]) )
     {
       $_REQUEST["content"] .= "\n\n{{dfile://".$file->id."/preview|Affiche}}\n\n[[dfile://".$file->id."|Version HD de l'affiche]]";
@@ -304,9 +304,9 @@ if ( $suitable && isset($_REQUEST["submit"]) )
                   $_REQUEST['resume'],
                   $_REQUEST['content'],
                   $_REQUEST['type'],$lieu->id,NEWS_CANAL_SITE);
-                  
+
   $news->set_tags($_REQUEST["tags"]);
-  
+
   if ( $_REQUEST["type"] == 3  )
     $news->add_date($_REQUEST["t3_debut"],$_REQUEST["t3_fin"]);
   elseif ( $_REQUEST["type"] == 1  )
@@ -388,7 +388,7 @@ if ( isset($_REQUEST["type"]) )
   $type = $_REQUEST["type"];
 else
   $type=1;
-  
+
 $sfrm = new form("type",null,null,null,"Nouvelle sur un concours, un appel &agrave; canditure : longue dur&eacute;e");
 $sfrm->add_datetime_field("t3_debut","Date et heure de d&eacute;but",time());
 $sfrm->add_datetime_field("t3_fin","Date et heure de fin",$_REQUEST['t3_fin']);

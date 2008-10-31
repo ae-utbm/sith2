@@ -38,7 +38,7 @@ function get_cp ($db)
 {
   $sql = new requete ($db,
           "SELECT `cpostal_parents`
-                       FROM `utl_etu` 
+                       FROM `utl_etu`
                        INNER JOIN `utl_etu_utbm`
                         ON `utl_etu`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur`
                        WHERE `cpostal_parents` != ''

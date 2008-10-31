@@ -32,7 +32,7 @@ if ( $valid->lines != 1 )
 if ( isset($_REQUEST["done"]) )
 {
   $num = intval($_REQUEST["done"]);
-  
+
   $req = new requete($db,"SELECT num_todo FROM ml_todo WHERE num_todo <= $num ORDER BY num_todo DESC LIMIT 1");
 
   if ($req->lines!= 1 )
@@ -45,7 +45,7 @@ if ( isset($_REQUEST["done"]) )
     new requete($db,"DELETE FROM ml_todo WHERE num_todo <= $num");
     echo "ACK ".$real;
   }
-  exit();  
+  exit();
 }
 
 $req = new requete($db,"SELECT * FROM ml_todo ORDER BY num_todo");

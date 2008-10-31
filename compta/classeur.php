@@ -47,7 +47,7 @@ if( isset($_REQUEST['id_op']))
 	if( $op->is_valid() )
 	{
 		$cla->load_by_id($op->id_classeur);
-		
+
 		if ( !is_null($op->id_ent) )
 		  $ent->load_by_id($op->id_ent);
 	}
@@ -59,7 +59,7 @@ if( !$cla->is_valid() && isset($_REQUEST['id_classeur']))
 	if( !$cla->is_valid() )
 	{
 		header("Location: compta.php");
-		exit();	
+		exit();
 	}
 }
 $cptasso->load_by_id($cla->id_cptasso);
@@ -79,10 +79,10 @@ if ( $_REQUEST["action"] == "newop" && $GLOBALS["svalid_call"] )
 	$assotier = new asso($site->db);
 	$utl = new utilisateur($site->db);
 	$cptasso2 = new compte_asso($site->db);
-	
-	
+
+
 	if ( $site->user->is_in_group("compta_admin") )
-	{ 
+	{
 		if ( $_REQUEST["kindtp"] == "cpt" )
 			$opstd->load_by_id($_REQUEST["id_opstd"]);
 		else
@@ -90,33 +90,33 @@ if ( $_REQUEST["action"] == "newop" && $GLOBALS["svalid_call"] )
 	}
 	else
 		$opclb->load_by_id($_REQUEST["id_opclb"]);
-		
-	if ( $_REQUEST["kindtg"] == "ent" )	
+
+	if ( $_REQUEST["kindtg"] == "ent" )
 	{
 		$ent->load_by_id($_REQUEST["id_ent"]);
 		if( $_REQUEST["id_utilisateur_ent"] )
 			$utl->load_by_id($_REQUEST["id_utilisateur_ent"]);
 	}
-	elseif ( $_REQUEST["kindtg"] == "asso" )	
-	{	
+	elseif ( $_REQUEST["kindtg"] == "asso" )
+	{
 		$assotier->load_by_id($_REQUEST["id_asso"]);
 	}
-	elseif ( $_REQUEST["kindtg"] == "cptasso" )	
+	elseif ( $_REQUEST["kindtg"] == "cptasso" )
 	{
 		$cptasso2->load_by_id($_REQUEST["id_cptasso"]);
 	}
-	elseif ( $_REQUEST["kindtg"] == "etu" )	
+	elseif ( $_REQUEST["kindtg"] == "etu" )
 	{
 		$utl->load_by_id($_REQUEST["id_utilisateur"]);
 	}
-	elseif ( $_REQUEST["kindtg"] == "etustier" )	
+	elseif ( $_REQUEST["kindtg"] == "etustier" )
 	{
 		$ent->load_by_id(3);
 	}
 
 	if ( $opclb->id )
 		$opstd->id = $opclb->id_opstd;
-	
+
 	if ( !$_REQUEST["date"] )
 		$_REQUEST["page"] = "new";
 	else if ( is_null($opclb->id) && is_null($opstd->id)  )
@@ -136,24 +136,24 @@ if ( $_REQUEST["action"] == "newop" && $GLOBALS["svalid_call"] )
 	  $op->set_files($_REQUEST["files"]);
 		$succes = true;
 		$_REQUEST["page"] = "new";
-		
+
 	  if ( $_REQUEST["id_efact"] )
 	  {
 	    $efact->load_by_id($_REQUEST["id_efact"]);
 	    if ( $efact->is_valid() )
 	      $efact->set_op($op->id);
 	  }
-		
+
 		if ( $cptasso2->id )
-		{	
+		{
 			if ( $opclb->is_valid() )
 				$type_mouvement = $opclb->type_mouvement;
-			else 
-				$type_mouvement = $opstd->type_mouvement;		
-			
+			else
+				$type_mouvement = $opstd->type_mouvement;
+
 			/* CODE DUPLIQUE PLUS LOIN */
 			$site->start_page ("none", "Classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")" );
-		
+
 			$frm = new form("newopjum","classeur.php?id_classeur=".$cla->id,true,"POST","Opération jumelée");
 			$frm->add_hidden("action","newoplinked");
 			$frm->add_hidden("id_op",$op->id);
@@ -167,14 +167,14 @@ if ( $_REQUEST["action"] == "newop" && $GLOBALS["svalid_call"] )
       $frm->add_submit("newopjum","Ajouter");
 			$site->add_contents($frm);
 			$site->end_page ();
-		
-		
+
+
 			exit();
-		
+
 		}
-		
+
 	}
-		
+
 }
 elseif ( $_REQUEST["action"] == "save" )
 {
@@ -184,9 +184,9 @@ elseif ( $_REQUEST["action"] == "save" )
 	$assotier = new asso($site->db);
 	$utl = new utilisateur($site->db);
 	$cptasso2 = new compte_asso($site->db);
-	
+
 	if ( $site->user->is_in_group("compta_admin") )
-	{ 
+	{
 		if ( $_REQUEST["kindtp"] == "cpt" )
 			$opstd->load_by_id($_REQUEST["id_opstd"]);
 		else
@@ -194,33 +194,33 @@ elseif ( $_REQUEST["action"] == "save" )
 	}
 	else
 		$opclb->load_by_id($_REQUEST["id_opclb"]);
-		
-	if ( $_REQUEST["kindtg"] == "ent" )	
+
+	if ( $_REQUEST["kindtg"] == "ent" )
 	{
 		$ent->load_by_id($_REQUEST["id_ent"]);
 		if( $_REQUEST["id_utilisateur_ent"] )
 			$utl->load_by_id($_REQUEST["id_utilisateur_ent"]);
 	}
-	elseif ( $_REQUEST["kindtg"] == "asso" )	
-	{	
+	elseif ( $_REQUEST["kindtg"] == "asso" )
+	{
 		$assotier->load_by_id($_REQUEST["id_asso"]);
 	}
-	elseif ( $_REQUEST["kindtg"] == "cptasso" )	
+	elseif ( $_REQUEST["kindtg"] == "cptasso" )
 	{
 		$cptasso2->load_by_id($_REQUEST["id_cptasso"]);
 	}
-	elseif ( $_REQUEST["kindtg"] == "etu" )	
+	elseif ( $_REQUEST["kindtg"] == "etu" )
 	{
 		$utl->load_by_id($_REQUEST["id_utilisateur"]);
 	}
-	elseif ( $_REQUEST["kindtg"] == "etustier" )	
+	elseif ( $_REQUEST["kindtg"] == "etustier" )
 	{
 		$ent->load_by_id(3);
 	}
-	
+
 	if ( $opclb->id )
 		$opstd->id = $opclb->id_opstd;
-	
+
 	if ( !$_REQUEST["date"] )
 		$_REQUEST["action"] = "edit";
 	else if ( is_null($opclb->id) && is_null($opstd->id)  )
@@ -229,14 +229,14 @@ elseif ( $_REQUEST["action"] == "save" )
 		$_REQUEST["action"] = "edit";
 	else
 	{
-		$op->save ( 
+		$op->save (
 					$opclb->id, $opstd->id,
 					$utl->id,
 					$assotier->id, $ent->id, $cptasso2->id,
 					$_REQUEST["montant"], $_REQUEST["date"], $_REQUEST["commentaire"], $_REQUEST["effectue"]!=NULL,
 					$_REQUEST["mode"], $_REQUEST["num_cheque"],
 					$_REQUEST["id_libelle"]?$_REQUEST["id_libelle"]:NULL
-					);	
+					);
 	  $op->set_files($_REQUEST["files"]);
 	  if ( $_REQUEST["id_efact"] )
 	  {
@@ -245,31 +245,31 @@ elseif ( $_REQUEST["action"] == "save" )
 	      $efact->set_op($op->id);
 	  }
 	}
-		
+
 }
 else if ( $_REQUEST["action"] == "newoplinked" && ($op->is_valid()) && $GLOBALS["svalid_call"])
 {
 	$opclb = new operation_club($site->db);
 	$opstd = new operation_comptable($site->db);
 	$cla2   = new classeur_compta($site->db);
-	
+
 	$opclb->load_by_id($_REQUEST["id_opclb"]);
 	if ( $site->user->is_in_group("compta_admin") ) $opstd->load_by_id($_REQUEST["id_opstd"]);
 	$cla2->load_opened($op->id_cptasso, $cla->id);
-	
-	
+
+
 	if ( $opclb->id )
-		$opstd->id = $opclb->id_opstd;	
-	
+		$opstd->id = $opclb->id_opstd;
+
 	if ( !($opstd->id||$opclb->id) )
-	{		
+	{
 		$opclb->load_by_id($op->id_opclb);
 		$opstd->load_by_id($op->id_opstd);
 		if ( $opclb->is_valid() )
 			$type_mouvement = $opclb->type_mouvement;
-		else 
-			$type_mouvement = $opstd->type_mouvement;				
-		
+		else
+			$type_mouvement = $opstd->type_mouvement;
+
 		/* CODE DUPLIQUE PLUS HAUT */
 		$site->start_page ("none", "Classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")" );
 		$frm = new form("newopjum","classeur.php?id_classeur=".$cla->id,true,"POST","Opération jumelée");
@@ -300,7 +300,7 @@ else if ( $_REQUEST["action"] == "newoplinked" && ($op->is_valid()) && $GLOBALS[
 					);
 	  $op2->set_files($_REQUEST["files"]);
 		$op->link_op($op2);
-		
+
 		$succes = true;
 		$_REQUEST["page"] = "new";
 	}
@@ -315,22 +315,22 @@ elseif ( $_REQUEST["action"] == "delete" && ($op->is_valid()))
 }
 elseif ( $_REQUEST["action"] == "done" && ($op->is_valid()))
 {
-	$op->mark_done();	
+	$op->mark_done();
 }
 elseif($_REQUEST["action"] == "deletes")
 {
 	foreach($_REQUEST["id_ops"] as $id)
 	{
 		$op->load_by_id($id);
-		
+
 		if ( $op->is_valid() )
 		{
 			if ( $op->id_op_liee && !$site->user->is_in_group("compta_admin") )
 				$Erreur = "Une (ou plusieurs) opérations n'a pas été supprimée car elle est liée à une autre opération. Seuls les administrateurs sont habilités à faire une telle opération.";
-			else	
+			else
 				$op->delete();
 		}
-	}	
+	}
 }//
 elseif ( ereg("^ssetlbl=([0-9]*)$",$_REQUEST["action"],$regs) )
 {
@@ -344,7 +344,7 @@ elseif ( ereg("^ssetlbl=([0-9]*)$",$_REQUEST["action"],$regs) )
       $op->load_by_id($id);
       if ( $op->is_valid() )
         $op->set_libelle($libelle->id);
-    }	
+    }
   }
 }
 elseif ( ereg("^ssetopclb=([0-9]*)$",$_REQUEST["action"],$regs) )
@@ -358,15 +358,15 @@ elseif ( ereg("^ssetopclb=([0-9]*)$",$_REQUEST["action"],$regs) )
     {
       $op->load_by_id($id);
       if ( $op->is_valid() )
-      {	
+      {
         $op->save ( $opclb->id, $opclb->id_opstd,
 					$op->id_utilisateur,
 					$op->id_asso, $op->id_ent, $op->id_cptasso,
-					$op->montant, $op->date, $op->commentaire, $op->effectue, 
+					$op->montant, $op->date, $op->commentaire, $op->effectue,
 					$op->mode, $op->num_cheque,
 					$op->id_libelle);
       }
-    }	
+    }
   }
 }
 elseif($_REQUEST["action"] == "dones")
@@ -376,7 +376,7 @@ elseif($_REQUEST["action"] == "dones")
 		$op->load_by_id($id);
 		if ( $op->is_valid() )
 			$op->mark_done();
-	}	
+	}
 }
 elseif( $_REQUEST["action"] == "print" || $_REQUEST["action"] == "prints" )
 {
@@ -387,14 +387,14 @@ elseif( $_REQUEST["action"] == "print" || $_REQUEST["action"] == "prints" )
 
     $bons = new compta_bonpdf();
     $bons->AliasNbPages();
-    
+
 	$opclb = new operation_club($site->db);
 	$opstd = new operation_comptable($site->db);
 	$ent = new entreprise($site->db);
 	$assotier = new asso($site->db);
 	$utl = new utilisateur($site->db);
 	$cptasso2 = new compte_asso($site->db);
-	
+
 	foreach($_REQUEST["id_ops"] as $id)
 	{
 		$op->load_by_id($id);
@@ -407,17 +407,17 @@ elseif( $_REQUEST["action"] == "print" || $_REQUEST["action"] == "prints" )
 
 		$bons->add_op($op,$site->user,$cla,$asso,$cpbc,$opclb,$opstd,$utl,$assotier,$ent,$cptasso2);
 	}
-	
-	$bons->Output();	
-	exit();	
+
+	$bons->Output();
+	exit();
 }
 elseif ( $_REQUEST["action"] == "newbudget" )
 {
 	$budget = new budget($site->db,$site->dbrw);
-		
+
 	if ( $_REQUEST["nom"])
 		$budget->new_budget($cla->id,$_REQUEST["nom"]);
-	
+
 	$_REQUEST["view"] = "budget";
 }
 
@@ -434,9 +434,9 @@ $req = new requete ( $site->db, "SELECT " .
 		"WHERE `cpta_operation`.id_classeur='".$cla->id."' " .
 		"GROUP BY `cpta_operation`.`op_effctue`" );
 while($row=$req->get_row())
-	$globalsum[$row[0]] = $row[1];	
-	
-	
+	$globalsum[$row[0]] = $row[1];
+
+
 $cts = new contents("<a href=\"./\">Compta</a> / ".$cpbc->get_html_link()." / ".$cptasso->get_html_link()." / ".$cla->get_html_link());
 
 $cts->add(new tabshead(array(
@@ -448,9 +448,9 @@ $cts->add(new tabshead(array(
 if ( $Erreur )
 	$cts->add_paragraph("<b>$Erreur</b>");
 
-$tabsentries = array ( 
+$tabsentries = array (
 		array( !$_REQUEST["view"] && $_REQUEST["page"] != "new", "compta/classeur.php?id_classeur=".$cla->id, "Opérations" ),
-		
+
 		array( $_REQUEST["page"] == "new", "compta/classeur.php?id_classeur=".$cla->id."&page=new", "Ajouter" ),
     array( $_REQUEST["view"] == "factures", "compta/classeur.php?id_classeur=".$cla->id."&view=factures", "Factures" ),
 		array( $_REQUEST["view"] == "budget", "compta/classeur.php?id_classeur=".$cla->id."&view=budget", "Budget" ),
@@ -467,19 +467,19 @@ if( $_REQUEST["action"] == "edit" && ($op->is_valid()))
 	$utl->load_by_id($op->id_utilisateur);
 
 	$frm = new form("editop","classeur.php?id_classeur=".$cla->id,true,"POST","Opération n°".$op->num);
-	
+
   $frm->set_toolbox(new toolbox(array(
   "classeur.php?action=print&id_classeur=".$cla->id."&id_op=".$op->id=>"Imprimer"
   )));
-	
+
 	$efact->load_by_id_op($op->id);
-	
+
 	$frm->add_hidden("action","save");
 	$frm->add_hidden("id_op",$op->id);
 	$frm->add_price_field("montant","Montant",$op->montant,true);
 	$frm->add_date_field("date","Date",$op->date,true);
 	$frm->add_select_field("mode","Mode",$modes_operation,$op->mode);
-	$frm->add_text_field("num_cheque","Numéro de chèque",$op->num_cheque);	
+	$frm->add_text_field("num_cheque","Numéro de chèque",$op->num_cheque);
 	$frm->add_text_field("commentaire","Commentaire",$op->commentaire,false);
 	$frm->add_select_field("id_libelle","Etiquette",$site->get_libelles($cptasso->id_asso),$op->id_libelle);
 	$frm->add_entity_smartselect ("id_efact","Facture", $efact, true, false,array("id_classeur"=>$cla->id));
@@ -487,26 +487,26 @@ if( $_REQUEST["action"] == "edit" && ($op->is_valid()))
   $frm->add_attached_files_field("files","Fichiers",$op->get_files(),$asso->id,"Comptabilité/".$cla->nom."/Justificatifs");
 
 	$frm->add_checkbox("effectue","Opération éffectuée",$op->effectue);
-	
+
 	$cfrm = new form(null,null,null,null,"Type");
-	
+
 	if ( $site->user->is_in_group("compta_admin") )
 	{
 		$sfrm = new form("kindtp",null,null,null,"Type simplifié");
 		$sfrm->add_select_field("id_opclb","Nature (type)",$site->get_typeop_clb($cptasso->id_asso,true),$op->id_opclb);
 		$cfrm->add($sfrm,false,true,!is_null($op->id_opclb),"clb",false,true,$s);
-		
+
 		$sfrm = new form("kindtp",null,null,null,"Type comptable");
 		$sfrm->add_select_field("id_opstd","Nature (type)",$site->get_typeop_std(true),$op->id_opstd);
 		$cfrm->add($sfrm,false,true,is_null($op->id_opclb),"cpt",false,true,!$s);
-	}	
+	}
 	else
 		$cfrm->add_select_field("id_opclb","Nature (type)",$site->get_typeop_clb($cptasso->id_asso,true),$op->id_opclb);
-		
+
 	$frm->add($cfrm);
-	
+
 	$cfrm = new form(null,null,null,null,"Crediteur/Debiteur");
-	
+
 	$sfrm = new form("kindtg",null,null,null,"Entreprise");
 	$sfrm->add_entity_smartselect ("id_ent","Nom", $ent);
 	$sfrm->add_entity_smartselect ("id_utilisateur_ent","Etudiant intermédiaire (email)", $utl, true);
@@ -515,24 +515,24 @@ if( $_REQUEST["action"] == "edit" && ($op->is_valid()))
 	$sfrm = new form("kindtg",null,null,null,"Association tier");
 	$sfrm->add_entity_select ("id_asso","Nom", $site->db, "asso",$op->id_asso);
 	$cfrm->add($sfrm,false,true,!is_null($op->id_asso),"asso",false,true);
-	
+
 	$sfrm = new form("kindtg",null,null,null,"Compte asso");
 	$sfrm->add_select_field("id_cptasso","Nom",$site->get_lst_cptasso(),$op->id_cptasso);
 	$cfrm->add($sfrm,false,true,!is_null($op->id_cptasso),"cptasso",false,true);
-	
+
 	$sfrm = new form("kindtg",null,null,null,"Etudiant");
 	$sfrm->add_entity_smartselect ("id_utilisateur","Etudiant", $utl);
 	$cfrm->add($sfrm,false,true,(is_null($op->id_ent) && !is_null($utl->id)),"etu",false,true);
-	
+
 	$sfrm = new form("kindtg",null,null,null,"Etudiants / Tiers");
 	$cfrm->add($sfrm,false,true,($op->id_ent ==3),"etustier",false,true);
-	
+
 	$frm->add($cfrm);
-		
+
 	$frm->add_submit("saveop","Enregistrer");
 
 	$cts->add($frm,true);
-	
+
 	if ( $op->id_op_liee )
 	{
     $lien_op    = new operation($site->db,$site->dbrw);
@@ -551,35 +551,35 @@ if( $_REQUEST["action"] == "edit" && ($op->is_valid()))
 
     $cts->add_paragraph($lien_cpbc->get_html_link()." / ".$lien_cptasso->get_html_link()." / ".$lien_cla->get_html_link()." / ".$lien_op->get_html_link());
 	}
-	
+
 
 }
 else if ( $_REQUEST["view"] == "budget" ) /* **** Budgets **** */
 {
 	$req = new requete ( $site->db, "SELECT id_budget,nom_budget,date_budget,total_budget/100 AS total_budget,valide_budget FROM cpta_budget WHERE id_classeur='".$cla->id."'");
-	
+
 	$cts->add(new sqltable(
-		"listbudget", 
-		"Budgets", $req, "classeur.php?id_classeur=".$cla->id, 
-		"id_budget", 
+		"listbudget",
+		"Budgets", $req, "classeur.php?id_classeur=".$cla->id,
+		"id_budget",
 		array(
 			"nom_budget"=>"Nom du budget",
 			"date_budget"=>"Proposé le",
 			"total_budget"=>"Somme",
 			"valide_budget"=>"Validé"
-			), 
-		array(), 
+			),
+		array(),
 		array(),
 		array("valide_budget"=>array(0=>"Non",1=>"Oui"))
 		),true);
-	
+
 	$frm = new form("newbudget","classeur.php?id_classeur=".$cla->id,true,"POST","Nouveau budget");
 	$frm->set_help_page("compta-budget");
 	$frm->add_hidden("action","newbudget");
 	$frm->add_text_field("nom","Nom","",true);
 	$frm->add_submit("newbudget","Ajouter");
 	$cts->add($frm,true);
-	
+
 }
 elseif ( $_REQUEST["view"] == "blcpt" ) /* **** Bilan selon le plan comptable **** */
 {
@@ -593,7 +593,7 @@ elseif ( $_REQUEST["view"] == "blcpt" ) /* **** Bilan selon le plan comptable **
 		"WHERE `cpta_operation`.id_classeur='".$cla->id."' " .
 		"GROUP BY `cpta_op_plcptl`.`code_plan`" );
 
-	
+
 
 	while( list($code,$sum) = $req->get_row())
 	{
@@ -603,13 +603,13 @@ elseif ( $_REQUEST["view"] == "blcpt" ) /* **** Bilan selon le plan comptable **
 				$pl["debit"] += abs($sum);
 			else
 				$pl["credit"] += abs($sum);
-			
-		} 
+
+		}
 		else
 		{
 			for($i=1;$i<=strlen($code);$i++)
 			{
-				$pl[substr($code,0,$i)] += abs($sum);	
+				$pl[substr($code,0,$i)] += abs($sum);
 			}
 		}
 	}
@@ -628,7 +628,7 @@ elseif ( $_REQUEST["view"] == "blcpt" ) /* **** Bilan selon le plan comptable **
 		$pl["78"] += abs($sum);
 		$pl["7"] += abs($sum);
 	}
-	
+
 	$req = new requete ( $site->db, "SELECT " .
 		"`code_plan`, `libelle_plan` " .
 		"FROM  `cpta_op_plcptl`  ".
@@ -647,14 +647,14 @@ elseif ( $_REQUEST["view"] == "blcpt" ) /* **** Bilan selon le plan comptable **
 	if ( $pl["credit"] )
 	$tbl->add_row(array("","Credit non codé",$pl["credit"]/100));
 	$cts->add($tbl);
-	
+
 }
 elseif ( $_REQUEST["view"] == "types" ) /* **** Bilan par types **** */
 {
-	
-	
+
+
 	$cts->add_title(1,"Bilan général");
-	
+
 	$req = new requete ( $site->db, "SELECT " .
 		"IF (`cpta_op_clb`.`libelle_opclb` IS NULL, CONCAT(`cpta_op_plcptl`.`code_plan`,' ',`cpta_op_plcptl`.`libelle_plan`),`cpta_op_clb`.`libelle_opclb`) AS `type`, " .
 		"SUM(`montant_op`)/100 AS `sum` " .
@@ -664,27 +664,27 @@ elseif ( $_REQUEST["view"] == "types" ) /* **** Bilan par types **** */
 		"WHERE `cpta_operation`.id_classeur='".$cla->id."' AND " .
 		"(`cpta_op_clb`.`type_mouvement`=1 OR`cpta_op_plcptl`.`type_mouvement`=1)" .
 		"GROUP BY `type`" );
-	
+
 	$cts->add(new sqltable(
-		"listops", 
-		"Credit", $req, "classeur.php?id_classeur=".$cla->id, 
-		"type", 
+		"listops",
+		"Credit", $req, "classeur.php?id_classeur=".$cla->id,
+		"type",
 		array(
 			"type"=>"Nature(type) d'opération",
 			"sum"=>"Somme"
-			
-			), 
-		array(), 
+
+			),
+		array(),
 		array(),
 		array()
 		),true);
-		
+
 	$req->go_first();
 	$sum=0;
-	while ( $row = $req->get_row() ) $sum += $row['sum'];		
-	$cts->add_paragraph("Total : $sum");		
-		
-		
+	while ( $row = $req->get_row() ) $sum += $row['sum'];
+	$cts->add_paragraph("Total : $sum");
+
+
 	$req = new requete ( $site->db, "SELECT " .
 		"IF (`cpta_op_clb`.`libelle_opclb` IS NULL, CONCAT(`cpta_op_plcptl`.`code_plan`,' ',`cpta_op_plcptl`.`libelle_plan`),`cpta_op_clb`.`libelle_opclb`) AS `type`, " .
 		"SUM(`montant_op`)/-100 AS `sum` " .
@@ -694,33 +694,33 @@ elseif ( $_REQUEST["view"] == "types" ) /* **** Bilan par types **** */
 		"WHERE `cpta_operation`.id_classeur='".$cla->id."' AND " .
 		"(`cpta_op_clb`.`type_mouvement`=-1 OR`cpta_op_plcptl`.`type_mouvement`=-1)" .
 		"GROUP BY `type`" );
-	
+
 	$cts->add(new sqltable(
-		"listops", 
-		"Debit", $req, "classeur.php?id_classeur=".$cla->id, 
-		"type", 
+		"listops",
+		"Debit", $req, "classeur.php?id_classeur=".$cla->id,
+		"type",
 		array(
 			"type"=>"Nature(type) d'opération",
 			"sum"=>"Somme"
-			
-			), 
-		array(), 
+
+			),
+		array(),
 		array(),
 		array()
 		),true);
-		
+
 	$req->go_first();
 	$sum=0;
-	while ( $row = $req->get_row() ) $sum += $row['sum'];		
+	while ( $row = $req->get_row() ) $sum += $row['sum'];
 	$cts->add_paragraph("Total : $sum");
-	
+
 	$reqlbl = new requete ( $site->db, "SELECT " .
 		"`cpta_libelle`.`id_libelle`, `cpta_libelle`.`nom_libelle` " .
 		"FROM `cpta_operation` " .
     "LEFT JOIN `cpta_libelle` ON `cpta_operation`.`id_libelle`=`cpta_libelle`.`id_libelle` ".
 		"WHERE `cpta_operation`.id_classeur='".$cla->id."' " .
 		"GROUP BY `cpta_operation`.`id_libelle`" );
-	
+
   while ( list($id,$nom) = $reqlbl->get_row() )
   {
     $sum=0;
@@ -729,7 +729,7 @@ elseif ( $_REQUEST["view"] == "types" ) /* **** Bilan par types **** */
       $cond = "`cpta_operation`.`id_libelle` IS NULL";
     else
       $cond = "`cpta_operation`.`id_libelle` = '$id'";
-    
+
     $req = new requete ( $site->db, "SELECT " .
       "IF (`cpta_op_clb`.`libelle_opclb` IS NULL, CONCAT(`cpta_op_plcptl`.`code_plan`,' ',`cpta_op_plcptl`.`libelle_plan`),`cpta_op_clb`.`libelle_opclb`) AS `type`, " .
       "SUM(`montant_op`)/100 AS `sum` " .
@@ -739,24 +739,24 @@ elseif ( $_REQUEST["view"] == "types" ) /* **** Bilan par types **** */
       "WHERE `cpta_operation`.id_classeur='".$cla->id."' AND " .
       "(`cpta_op_clb`.`type_mouvement`=1 OR`cpta_op_plcptl`.`type_mouvement`=1) AND $cond " .
       "GROUP BY `type`" );
-    
+
     $tbl1= new sqltable(
-      "listops", 
-      "Credit", $req, "classeur.php?id_classeur=".$cla->id, 
-      "type", 
+      "listops",
+      "Credit", $req, "classeur.php?id_classeur=".$cla->id,
+      "type",
       array(
         "type"=>"Type d'opération",
         "sum"=>"Somme"
-        ), 
-      array(), 
+        ),
+      array(),
       array(),
       array()
       );
-      
+
     $req->go_first();
     $sum1=0;
     while ( $row = $req->get_row() ) $sum1 += $row['sum']*100;
-      
+
     $req = new requete ( $site->db, "SELECT " .
       "IF (`cpta_op_clb`.`libelle_opclb` IS NULL, CONCAT(`cpta_op_plcptl`.`code_plan`,' ',`cpta_op_plcptl`.`libelle_plan`),`cpta_op_clb`.`libelle_opclb`) AS `type`, " .
       "SUM(`montant_op`)/-100 AS `sum` " .
@@ -766,43 +766,43 @@ elseif ( $_REQUEST["view"] == "types" ) /* **** Bilan par types **** */
       "WHERE `cpta_operation`.id_classeur='".$cla->id."' AND " .
       "(`cpta_op_clb`.`type_mouvement`=-1 OR`cpta_op_plcptl`.`type_mouvement`=-1) AND $cond " .
       "GROUP BY `type`" );
-    
+
     $tbl2= new sqltable(
-      "listops", 
-      "Debit", $req, "classeur.php?id_classeur=".$cla->id, 
-      "type", 
+      "listops",
+      "Debit", $req, "classeur.php?id_classeur=".$cla->id,
+      "type",
       array(
         "type"=>"Type d'opération",
         "sum"=>"Somme"
-        ), 
-      array(), 
+        ),
+      array(),
       array(),
       array()
       );
-      
+
     $req->go_first();
     $sum2=0;
-    while ( $row = $req->get_row() ) $sum2 += $row['sum']*100;		
-    
+    while ( $row = $req->get_row() ) $sum2 += $row['sum']*100;
+
     if ( is_null($id) )
       $cts->add_title(1,"Bilan des opérations sans étiquette : ".(($sum1+$sum2)/100));
     else
       $cts->add_title(1,"Bilan des opérations avec étiquette $nom : ".(($sum1+$sum2)/100));
-    
+
     $cts->add($tbl1,true);
     $cts->add_paragraph("Total : ".($sum1/100));
-    
+
     $cts->add($tbl2,true);
-    $cts->add_paragraph("Total : ".($sum2/100));		
+    $cts->add_paragraph("Total : ".($sum2/100));
 
   }
 
 
-	
+
 }
 elseif ( $_REQUEST["view"] == "actors" ) /* **** Bilan par acteur **** */
-{	
-	
+{
+
 	//"nom_entreprise","nom_asso","nom_cptasso", "nom_utilisateur"
 	$req = new requete ( $site->db, "SELECT " .
 
@@ -813,19 +813,19 @@ elseif ( $_REQUEST["view"] == "actors" ) /* **** Bilan par acteur **** */
 		"SUM(`montant_op`)/100 AS `sum`, ".
 		"`entreprise`.`nom_entreprise`, " .
 		"`entreprise`.`id_ent`, " .
-		
+
 		"`asso`.`id_asso`, " .
 		"`asso`.`nom_asso`, " .
-		
+
 		"`cpta_cpasso`.`id_cptasso`, " .
 		"CONCAT(`asso2`.`nom_asso`,' sur ',`cpta_cpbancaire`.`nom_cptbc` ) AS `nom_cptasso`, " .
-		
+
 		"`utilisateurs`.`id_utilisateur`, " .
 		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
-		
+
 		"FROM `cpta_operation` " .
 		"LEFT JOIN `cpta_op_clb` ON `cpta_operation`.`id_opclb`=`cpta_op_clb`.`id_opclb` ".
-		"LEFT JOIN `cpta_op_plcptl` ON `cpta_operation`.`id_opstd`=`cpta_op_plcptl`.`id_opstd` ".		
+		"LEFT JOIN `cpta_op_plcptl` ON `cpta_operation`.`id_opstd`=`cpta_op_plcptl`.`id_opstd` ".
 		"LEFT JOIN `cpta_cpasso` ON `cpta_operation`.`id_cptasso`=`cpta_cpasso`.`id_cptasso` ".
 		"LEFT JOIN `asso` ON `cpta_operation`.`id_asso`=`asso`.`id_asso` ".
 		"LEFT JOIN `entreprise` ON `cpta_operation`.`id_ent`=`entreprise`.`id_ent` ".
@@ -835,25 +835,25 @@ elseif ( $_REQUEST["view"] == "actors" ) /* **** Bilan par acteur **** */
 		"WHERE `cpta_operation`.id_classeur='".$cla->id."' " .
 		"AND (`cpta_op_clb`.`type_mouvement`=1 OR`cpta_op_plcptl`.`type_mouvement`=1) " .
 		"GROUP BY id_actor" );
-	
+
 	$cts->add(new sqltable(
-		"listops", 
-		"Credit", $req, "classeur.php?id_classeur=".$cla->id, 
-		"type", 
+		"listops",
+		"Credit", $req, "classeur.php?id_classeur=".$cla->id,
+		"type",
 		array(
 			"nom_entreprise"=>array("Entreprise/asso/compte","nom_utilisateur","nom_entreprise","nom_asso","nom_cptasso"),
 			"sum"=>"Somme"
-			), 
-		array(), 
+			),
+		array(),
 		array(),
 		array()
 		),true);
-		
+
 	$req->go_first();
 	$sum=0;
-	while ( $row = $req->get_row() ) $sum += $row['sum'];		
+	while ( $row = $req->get_row() ) $sum += $row['sum'];
 	$cts->add_paragraph("Total : $sum");
-	
+
 	$req = new requete ( $site->db, "SELECT " .
 
 		"IF(`entreprise`.`id_ent` IS NOT NULL, CONCAT('ident-',`entreprise`.`id_ent`)," .
@@ -863,19 +863,19 @@ elseif ( $_REQUEST["view"] == "actors" ) /* **** Bilan par acteur **** */
 		"SUM(`montant_op`)/-100 AS `sum`, ".
 		"`entreprise`.`nom_entreprise`, " .
 		"`entreprise`.`id_ent`, " .
-		
+
 		"`asso`.`id_asso`, " .
 		"`asso`.`nom_asso`, " .
-		
+
 		"`cpta_cpasso`.`id_cptasso`, " .
 		"CONCAT(`asso2`.`nom_asso`,' sur ',`cpta_cpbancaire`.`nom_cptbc` ) AS `nom_cptasso`, " .
-		
+
 		"`utilisateurs`.`id_utilisateur`, " .
 		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
-		
+
 		"FROM `cpta_operation` " .
 		"LEFT JOIN `cpta_op_clb` ON `cpta_operation`.`id_opclb`=`cpta_op_clb`.`id_opclb` ".
-		"LEFT JOIN `cpta_op_plcptl` ON `cpta_operation`.`id_opstd`=`cpta_op_plcptl`.`id_opstd` ".		
+		"LEFT JOIN `cpta_op_plcptl` ON `cpta_operation`.`id_opstd`=`cpta_op_plcptl`.`id_opstd` ".
 		"LEFT JOIN `cpta_cpasso` ON `cpta_operation`.`id_cptasso`=`cpta_cpasso`.`id_cptasso` ".
 		"LEFT JOIN `asso` ON `cpta_operation`.`id_asso`=`asso`.`id_asso` ".
 		"LEFT JOIN `entreprise` ON `cpta_operation`.`id_ent`=`entreprise`.`id_ent` ".
@@ -885,52 +885,52 @@ elseif ( $_REQUEST["view"] == "actors" ) /* **** Bilan par acteur **** */
 		"WHERE `cpta_operation`.id_classeur='".$cla->id."' " .
 		"AND (`cpta_op_clb`.`type_mouvement`=-1 OR`cpta_op_plcptl`.`type_mouvement`=-1) " .
 		"GROUP BY id_actor" );
-	
+
 	$cts->add(new sqltable(
-		"listops", 
-		"Debit", $req, "classeur.php?id_classeur=".$cla->id, 
-		"type", 
+		"listops",
+		"Debit", $req, "classeur.php?id_classeur=".$cla->id,
+		"type",
 		array(
 			"nom_entreprise"=>array("Entreprise/asso/compte","nom_utilisateur","nom_entreprise","nom_asso","nom_cptasso"),
 			"sum"=>"Somme"
-			), 
-		array(), 
+			),
+		array(),
 		array(),
 		array()
 		),true);
-		
+
 	$req->go_first();
 	$sum=0;
-	while ( $row = $req->get_row() ) $sum += $row['sum'];		
+	while ( $row = $req->get_row() ) $sum += $row['sum'];
 	$cts->add_paragraph("Total : $sum");
-	
+
 }
 elseif ( $_REQUEST["view"] == "factures" )
 {
   $req = new requete($site->db,"SELECT titre_facture, id_efact, date_facture, montant_facture/100 as montant FROM cpta_facture WHERE id_classeur='".$cla->id."' ORDER BY date_facture,titre_facture");
-  
+
 	$cts->add(new sqltable(
-		"listfact", 
-		"Factures", $req, "classeur.php?id_classeur=".$cla->id, 
-		"id_efact", 
+		"listfact",
+		"Factures", $req, "classeur.php?id_classeur=".$cla->id,
+		"id_efact",
 		array(
 			"titre_facture"=>"Titre",
 			"date_facture"=>"Date",
 			"montant"=>"Montant"
-			), 
-		array(), 
+			),
+		array(),
 		array(),
 		array()
 		),true);
-		
-		
-		
+
+
+
 	$frm = new form("newfact","efact.php?id_classeur=".$cla->id,false,"POST","Nouvelle facture");
 	$frm->allow_only_one_usage();
 	$frm->add_hidden("action","create");
-	$frm->add_text_field("titre","Titre de la facture");	
-	$frm->add_text_field("nom_facture","Nom de la personne facturée");	
-	$frm->add_text_area("adresse_facture","Adresse de la personne facturée");	
+	$frm->add_text_field("titre","Titre de la facture");
+	$frm->add_text_field("nom_facture","Nom de la personne facturée");
+	$frm->add_text_area("adresse_facture","Adresse de la personne facturée");
 	$frm->add_submit("create","Ajouter");
 	$cts->add($frm,true);
 }
@@ -948,7 +948,7 @@ elseif ( $_REQUEST["page"] == "new" )
   elseif ( isset($_REQUEST["id_efact"]) )
     $efact->load_by_id($_REQUEST["id_efact"]);
 
-  $utl = new utilisateur($site->db);  
+  $utl = new utilisateur($site->db);
 
 	$frm = new form("newop","classeur.php?id_classeur=".$cla->id,!$succes,"POST","Ajouter une opération");
 	$frm->add_hidden("action","newop");
@@ -957,32 +957,32 @@ elseif ( $_REQUEST["page"] == "new" )
 	$frm->add_price_field("montant","Montant", $efact->is_valid()?$efact->montant:0,true);
 	$frm->add_date_field("date","Date",time(),true);
 	$frm->add_select_field("mode","Mode",$modes_operation);
-	$frm->add_text_field("num_cheque","Numéro de chèque");	
-	$frm->add_text_field("commentaire","Commentaire","",false);	
+	$frm->add_text_field("num_cheque","Numéro de chèque");
+	$frm->add_text_field("commentaire","Commentaire","",false);
 	$frm->add_select_field("id_libelle","Etiquette",$site->get_libelles($cptasso->id_asso),null);
 	$frm->add_entity_smartselect ("id_efact","Facture", $efact, true, false, array("id_classeur"=>$cla->id));
-  $frm->add_attached_files_field("files","Fichiers",array(),$asso->id,"Comptabilité/".$cla->nom."/Justificatifs");	
+  $frm->add_attached_files_field("files","Fichiers",array(),$asso->id,"Comptabilité/".$cla->nom."/Justificatifs");
 	$frm->add_checkbox("effectue","Opération éffectuée");
-	
+
 	$cfrm = new form(null,null,null,null,"Type");
-	
+
 	if ( $site->user->is_in_group("compta_admin") )
 	{
 		$sfrm = new form("kindtp",null,null,null,"Type simplifié");
 		$sfrm->add_select_field("id_opclb","Nature (type)",$site->get_typeop_clb($cptasso->id_asso,true));
 		$cfrm->add($sfrm,false,true,true,"clb",false,true,true);
-		
+
 		$sfrm = new form("kindtp",null,null,null,"Type comptable");
 		$sfrm->add_select_field("id_opstd","Nature (type)",$site->get_typeop_std(true));
 		$cfrm->add($sfrm,false,true,false,"cpt",false,true,false);
-	}	
+	}
 	else
 		$cfrm->add_select_field("id_opclb","Nature (type)",$site->get_typeop_clb($cptasso->id_asso,true));
-		
+
 	$frm->add($cfrm);
-	
+
 	$cfrm = new form(null,null,null,null,"Crediteur/Debiteur");
-	
+
 	$sfrm = new form("kindtg",null,null,null,"Entreprise");
 	$sfrm->add_entity_smartselect ("id_ent","Nom", $ent);
 	$sfrm->add_entity_smartselect ("id_utilisateur_ent","Etudiant intermédiaire (email)", $utl, true);
@@ -991,20 +991,20 @@ elseif ( $_REQUEST["page"] == "new" )
 	$sfrm = new form("kindtg",null,null,null,"Association tier");
 	$sfrm->add_entity_select ("id_asso","Nom", $site->db, "asso");
 	$cfrm->add($sfrm,false,true,false,"asso",false,true,false);
-	
+
 	$sfrm = new form("kindtg",null,null,null,"Compte asso");
 	$sfrm->add_select_field("id_cptasso","Nom",$site->get_lst_cptasso());
 	$cfrm->add($sfrm,false,true,false,"cptasso",false,true,false);
-	
+
 	$sfrm = new form("kindtg",null,null,null,"Etudiant");
 	$sfrm->add_entity_smartselect ("id_utilisateur","Etudiant", $utl);
 	$cfrm->add($sfrm,false,true,false,"etu",false,true,false);
-	
+
 	$sfrm = new form("kindtg",null,null,null,"Etudiants / Tiers");
 	$cfrm->add($sfrm,false,true,false,"etustier",false,true,false);
-	
+
 	$frm->add($cfrm);
-	
+
 
 	$frm->add_submit("newop","Ajouter");
 	$cts->add($frm,true);
@@ -1012,45 +1012,45 @@ elseif ( $_REQUEST["page"] == "new" )
 else /* **** Relevé des opérations **** */
 {
 	$filter="";
-	
+
 	if ( $_REQUEST["filter"] == "pending" )
 	  $filter="AND `cpta_operation`.`op_effctue`='0'";
-	
+
 $cts->add(new tabshead(array(
   array("","compta/classeur.php?id_classeur=".$cla->id,"Tout"),
   array("pending","compta/classeur.php?filter=pending&id_classeur=".$cla->id,"Non effectué")),
   isset($_REQUEST["filter"])?$_REQUEST["filter"]:"","","subtab"));
-  
+
 $req = new requete ( $site->db, "SELECT " .
 		"`cpta_operation`.`id_op`, " .
 		"`cpta_operation`.`num_op`, " .
 		"`cpta_operation`.`date_op`, " .
 		"`cpta_operation`.`op_effctue`, " .
 		"`cpta_operation`.`commentaire_op`, " .
-		
+
 		"IF(`cpta_operation`.`mode_op`='1',CONCAT('Chèque ',`cpta_operation`.`num_cheque_op`),NULL) AS `cheque`, " .
-		"`cpta_operation`.`mode_op`, " .		
+		"`cpta_operation`.`mode_op`, " .
 
 		"(IF(`cpta_op_plcptl`.`type_mouvement` IS NULL,`cpta_op_clb`.`type_mouvement`,`cpta_op_plcptl`.`type_mouvement`)*`montant_op`/100) as `montant`, " .
-		
+
 		"`cpta_op_clb`.`libelle_opclb`, " .
 		//"CONCAT(`cpta_op_plcptl`.`code_plan`,' ',`cpta_op_plcptl`.`libelle_plan`) AS `libelle_plcptl`, " .
 		"`cpta_op_plcptl`.`code_plan`, " .
-		
+
 		"`entreprise`.`nom_entreprise`, " .
 		"`entreprise`.`id_ent`, " .
-		
+
 		"`asso`.`id_asso`, " .
 		"`asso`.`nom_asso`, " .
 
 		"`cpta_cpasso`.`id_cptasso`, " .
 		"CONCAT(`asso2`.`nom_asso`,' sur ',`cpta_cpbancaire`.`nom_cptbc` ) AS `nom_cptasso`, " .
-		
+
 		"`utilisateurs`.`id_utilisateur`, " .
 		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-		
+
 		"`cpta_libelle`.`nom_libelle` ".
-		
+
 		"FROM `cpta_operation` " .
 		"LEFT JOIN `cpta_op_clb` ON `cpta_operation`.`id_opclb`=`cpta_op_clb`.`id_opclb` ".
 		"LEFT JOIN `cpta_op_plcptl` ON `cpta_operation`.`id_opstd`=`cpta_op_plcptl`.`id_opstd` ".
@@ -1095,7 +1095,7 @@ while ( $row = $reqlbl->get_row() )
      $batch[] = "----";
      $prevtype = $row["type_mouvement"];
   }
-  
+
 	if ( $row["type_mouvement"] == -1 )
     $batch["ssetopclb=".$row['id_opclb']] = "Transformer en débit: ".$row['libelle_opclb'];
 	else
@@ -1104,9 +1104,9 @@ while ( $row = $reqlbl->get_row() )
 
 
 $cts->add(new sqltable(
-	"listops", 
-	"Opérations", $req, "classeur.php?id_classeur=".$cla->id, 
-	"id_op", 
+	"listops",
+	"Opérations", $req, "classeur.php?id_classeur=".$cla->id,
+	"id_op",
 	array(
 		"num_op"=>"N°",
 		"date_op"=>"Date",
@@ -1118,8 +1118,8 @@ $cts->add(new sqltable(
 		"libelle_opclb" => "Nature(type)",
 		"op_effctue"=>"Eff.",
 		"commentaire_op"=>"Commentaire"
-		), 
-	array("edit"=>"Editer","delete"=>"Supprimer","done"=>"Effectué","print"=>"Imprimer"), 
+		),
+	array("edit"=>"Editer","delete"=>"Supprimer","done"=>"Effectué","print"=>"Imprimer"),
 	$batch,
 	array("op_effctue"=>array(0=>"Non",1=>"Oui"),"mode_op"=>$modes_operation)
 	));

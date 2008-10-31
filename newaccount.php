@@ -47,23 +47,23 @@ if ( isset($_REQUEST["mode"]) )
   elseif ( $user->load_by_email($_REQUEST["email"]) )
     $Erreur = "Votre adresse e-mail est déjà utilisée pour un autre compte";
   elseif ( $mode == "utbm" && !ereg("^([a-zA-Z0-9\.\-]+)@(utbm\.fr|assidu-utbm\.fr)$",$_REQUEST["email"]) )
-    $Erreur = "Adresse e-mail non utbm"; 
+    $Erreur = "Adresse e-mail non utbm";
   else
   {
     if ( $_REQUEST["action"] == "create" )
     {
       $user->id=null;
-      
+
       if ( !$GLOBALS["svalid_call"] )
         $Erreur = "Votre demande à déjà été traitée. Si le prolème persiste contactez nous.";
       elseif ( !$_REQUEST["password"] )
         $Erreur = "Veuillez préciser un mot de passe";
       elseif ( $_REQUEST["password"] != $_REQUEST["password_repeat"] )
-        $Erreur = "Les deux saisies du mot de passe ne dont pas identiques";    
+        $Erreur = "Les deux saisies du mot de passe ne dont pas identiques";
       elseif ( $_REQUEST["alias"] && !preg_match("#^([a-z0-9][a-z0-9\-\._]+)$#i",$_REQUEST["alias"]) )
-        $Erreur = "L'alias choisi comporte des caractères non autorisés";        
+        $Erreur = "L'alias choisi comporte des caractères non autorisés";
       elseif ( $_REQUEST["alias"] && !$user->is_alias_avaible ($_REQUEST["alias"]) )
-        $Erreur = "L'alias que vous avez choisi est déjà utilisé, veuillez en choisir un autre";        
+        $Erreur = "L'alias que vous avez choisi est déjà utilisé, veuillez en choisir un autre";
       else
       {
         /** @todo créer le compte avec les informations élémentaires */
@@ -73,35 +73,35 @@ if ( isset($_REQUEST["mode"]) )
           $user->create_etudiant_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["alias"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"], $_REQUEST["ecole"] );
         else
           $user->create_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["alias"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"] );
-        
+
         $site->start_page("services","Inscription");
-        $cts = new contents("Inscription : Etape 3/3");  
-        
+        $cts = new contents("Inscription : Etape 3/3");
+
         $cts->add_paragraph("Votre compte vient d'être crée, il faut maintenant l'activer. Pour cela vous devez cliquer le lien qui vous a été envoyé par email à l'adresse ".htmlentities($_REQUEST["email"]).". Votre compte ne sera utilisable que dès lors que cette opération sera terminée.");
-        
+
         $cts->add_paragraph("Votre compte sera soumis à vérification (modération), vous ne pourrez accéder à toutes les fonctions dès que votre compte sera vérifié.");
-        
-        $site->add_contents($cts); 
+
+        $site->add_contents($cts);
         $site->end_page();
-        exit();  
+        exit();
       }
     }
-    
-    
+
+
     $site->start_page("services","Inscription");
-    $cts = new contents("Inscription : Etape 2/3");    
-    
+    $cts = new contents("Inscription : Etape 2/3");
+
     $frm = new form("createaccount","newaccount.php?mode=$mode",true);
     $frm->allow_only_one_usage();
     $frm->add_hidden("action","create");
-    
+
     if ( isset($Erreur) )
       $frm->error($Erreur);
-      
+
     $frm->add_select_field("sexe","Je suis",array(1=>"un homme",2=>"une femme"));
     $frm->add_text_field("nom","Votre nom",$_REQUEST["nom"],true);
     $frm->add_text_field("prenom","Votre prenom",$_REQUEST["prenom"],true);
-    
+
     if ( $mode == "utbm" )
     {
       $frm->add_text_field("email","Votre adresse email utbm",$_REQUEST["email"],true);
@@ -115,31 +115,31 @@ if ( isset($_REQUEST["mode"]) )
     }
     else
       $frm->add_text_field("email","Votre adresse email (pas utbm.fr)",$_REQUEST["email"],true);
-    
+
     $frm->add_text_field("alias","Alias (affiché dans le forum)");
     $frm->add_password_field("password","Mot de passe","",true);
     $frm->add_password_field("password_repeat","Mot de passe (pour vérification)","",true);
 
     $frm->add_date_field("naissance","Date de naissance");
-    
+
     $frm->add_checkbox("droitimage","J'accorde mon droit à l'image");
 
-    
+
     $frm->add_checkbox("agree","J'ai lu et j'accepte le <a href=\"article.php?name=legals:rinfo\">réglement informatique</a>",true);
     $frm->add_submit("next","Etape suivante");
 
     $cts->add($frm);
-    
+
     $cts->add_paragraph("Les informations recueillies font l'objet d'un traitement informatique. Conformément à la loi « informatique et libertés » du 6 janvier 1978, vous bénéficiez d'un droit d'accès et de rectification aux informations qui vous concernent. Si vous souhaitez exercer ce droit et obtenir communication des informations vous concernant, veuillez vous adresser par courrier éléctronique à ae arroba utbm point fr ou par courrier postal à ae utbm, 6 Boulevard Anatole France, 90000 Belfort.");
-    
+
     $list = new itemlist("Voir aussi");
     $list->add("<a href=\"article.php?name=docs:inscription\">Documentation : Inscription</a>");
     $list->add("<a href=\"article.php?name=docs:inscription\">Documentation : Inscription : Questions et problèmes fréquents</a>");
     $list->add("<a href=\"article.php?name=docs:index\">Documentation</a>");
-    $cts->add($list,true);    
-    
-    
-    $site->add_contents($cts); 
+    $cts->add($list,true);
+
+
+    $site->add_contents($cts);
     $site->end_page();
     exit();
   }

@@ -55,15 +55,15 @@ $sqlph = $cat->get_photos ( $cat->id, $site->user, $site->user->get_groups_csv()
 while ( $row = $sqlph->get_row() )
 {
   $photo->_load($row);
-  
+
   $img_vignette = "http://ae.utbm.fr/sas2/images.php?/".$photo->id.".vignette.jpg";
   $img = "http://ae.utbm.fr/sas2/images.php?/".$photo->id.".jpg";
   $title = $photo->id;
   $link = "http://ae.utbm.fr/sas2/?id_photo=".$photo->id;
 
   $description="<p><a href=\"$link\" title=\"$title\"><img src=\"$img_vignette\" alt=\"$title\" /></a></p> ";
-  
-  echo "		<item>\n";  echo "			<title>".htmlspecialchars($title)."</title>\n";  echo "			<link>".htmlspecialchars($link)."</link>\n";  echo "			<description>".htmlspecialchars($description)."</description>\n";  
+
+  echo "		<item>\n";  echo "			<title>".htmlspecialchars($title)."</title>\n";  echo "			<link>".htmlspecialchars($link)."</link>\n";  echo "			<description>".htmlspecialchars($description)."</description>\n";
   echo "			<pubDate>".gmdate("D, j M Y G:i:s T",$photo->date_ajout)."</pubDate>\n";
 
   if ( !is_null($photo->date_prise_vue) )

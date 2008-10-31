@@ -22,7 +22,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 
@@ -56,7 +56,7 @@ elseif ( $_REQUEST["action"] == "accords" )
 		$resa->load_by_id($id_salres);
 		if( $resa->id > 0 )
 			$resa->accord($site->user->id);
-	}	
+	}
 }
 elseif ( $_REQUEST["action"] == "conventions" )
 {
@@ -65,7 +65,7 @@ elseif ( $_REQUEST["action"] == "conventions" )
 		$resa->load_by_id($id_salres);
 		if( $resa->id > 0 )
 			$resa->convention_done();
-	}	
+	}
 }
 elseif ( $_REQUEST["action"] == "deletes" )
 {
@@ -74,7 +74,7 @@ elseif ( $_REQUEST["action"] == "deletes" )
 		$resa->load_by_id($id_salres);
 		if( $resa->id > 0 )
 			$resa->delete();
-	}	
+	}
 }
 elseif ( $_REQUEST["action"] == "info")
 {
@@ -84,23 +84,23 @@ elseif ( $_REQUEST["action"] == "info")
 	$bat = new batiment($site->db);
 	$salle = new salle($site->db);
 	$asso = new asso($site->db);
-	
+
 	$salle->load_by_id($resa->id_salle);
 	$bat->load_by_id($salle->id_batiment);
 	$sitebat->load_by_id($bat->id_site);
 	$user->load_by_id($resa->id_utilisateur);
 	$userop->load_by_id($resa->id_utilisateur_op);
 	$asso->load_by_id($resa->id_asso);
-	
+
 	if (isset($_REQUEST["notes"]))
 	{
 		$resa->set_notes($_REQUEST["notes"]);
 	}
-	
+
 	$site->start_page("none","Moderation des reservations de salle");
-	
+
 	$cts = new contents("Reservation n°".$resa->id);
-	
+
 	$tbl = new table("Informations");
 	$tbl->add_row(array("Demande faite le ",date("d/m/Y H:i",$resa->date_demande)));
 	$tbl->add_row(array("Période",date("d/m/Y H:i",$resa->date_debut)." au ".date("d/m/Y H:i",$resa->date_fin)));
@@ -116,32 +116,32 @@ elseif ( $_REQUEST["action"] == "info")
 	$tbl->add_row(array("Site",$sitebat->get_html_link()));
 	$tbl->add_row(array("Motif",htmlentities($resa->description,ENT_NOQUOTES,"UTF-8")));
 	$cts->add($tbl,true);
-	
+
 	$frm = new form("notes","modereres.php?id_salres=".$resa->id."&action=info", false,"POST","Notes");
 	$frm->add_text_area("notes","Notes",$resa->notes,40,4);
 	$frm->add_submit("valid","Enregistrer");
 	$cts->add($frm,true);
-	
-	
+
+
 	if($site->user->is_in_group("gestion_ae"))
 	{
 		$lst = new itemlist("Opérations");
-		
+
 		if( !$resa->date_accord )
 			$lst->add("<a href=\"modereres.php?id_salres=".$resa->id."&action=accord\">Accord</a>");
-		
+
 		if ( !$resa->convention && $salle->convention )
 			$lst->add("<a href=\"modereres.php?id_salres=".$resa->id."&action=convention\">Convention faite</a>");
-		
+
 		$lst->add("<a href=\"modereres.php?id_salres=".$resa->id."&action=delete\">Refuser/Supprimer</a>");
 		$lst->add("<a href=\"modereres.php\">Retour modération</a>");
-		
+
 		$cts->add($lst,true);
 	}
-	
+
 	$site->add_contents($cts);
 	$site->end_page();
-	exit();	
+	exit();
 }
 
 $site->start_page("none","Moderation des reservations de salle");
@@ -165,9 +165,9 @@ if($site->user->is_in_group("gestion_ae"))
 		"AND sl_reservation.date_debut_salres > NOW()");
 
 	$site->add_contents(new sqltable(
-			"modereres", 
-			"Demandes de reservation", $req, "modereres.php", 
-			"id_salres", 
+			"modereres",
+			"Demandes de reservation", $req, "modereres.php",
+			"id_salres",
 			array("nom_utilisateur"=>array("Demandeur","nom_utilisateur","nom_asso"),
 				"nom_salle"=>"Salle",
 				"date_debut_salres"=>"De",
@@ -175,8 +175,8 @@ if($site->user->is_in_group("gestion_ae"))
 				"description_salres" => "Motif",
 				"convention"=>"Conv.",
 				"date_accord_res"=>"Accord le"
-				), 
-			array("accord"=>"Donner accord", "convention"=>"Convention faite", "delete"=>"Refuser","info"=>"Details"), 
+				),
+			array("accord"=>"Donner accord", "convention"=>"Convention faite", "delete"=>"Refuser","info"=>"Details"),
 			array("accords"=>"Donner accord", "conventions"=>"Convention faite", "deletes"=>"Refuser"),
 			array("convention"=>array(0=>"Non requise",1=>"A faire",11=>"Faite") )
 			));
@@ -197,17 +197,17 @@ if($site->user->is_in_group("gestion_ae"))
 		"AND sl_reservation.date_debut_salres > NOW()");
 
 	$site->add_contents(new sqltable(
-			"modereres", 
-			"Réservations validées", $req, "modereres.php", 
-			"id_salres", 
+			"modereres",
+			"Réservations validées", $req, "modereres.php",
+			"id_salres",
 			array("nom_utilisateur"=>array("Demandeur","nom_utilisateur","nom_asso"),
 				"nom_salle"=>"Salle",
 				"date_debut_salres"=>"De",
 				"date_fin_salres"=>"A",
 				"description_salres" => "Motif",
 				"date_accord_res"=>"Accord le"
-				), 
-			array("info"=>"Details"), 
+				),
+			array("info"=>"Details"),
 			array(),
 			array()
 			));
@@ -231,9 +231,9 @@ elseif($site->user->is_in_group("bdf-bureau"))
 		"AND (sl_salle.id_salle='5' OR sl_salle.id_salle='28')");
 
 	$site->add_contents(new sqltable(
-			"modereres", 
-			"Demandes de reservation", $req, "modereres.php", 
-			"id_salres", 
+			"modereres",
+			"Demandes de reservation", $req, "modereres.php",
+			"id_salres",
 			array("nom_utilisateur"=>array("Demandeur","nom_utilisateur","nom_asso"),
 				"nom_salle"=>"Salle",
 				"date_debut_salres"=>"De",
@@ -242,7 +242,7 @@ elseif($site->user->is_in_group("bdf-bureau"))
 				"convention"=>"Conv.",
 				"date_accord_res"=>"Accord le"
 				),
-			array("info"=>"Details"), 
+			array("info"=>"Details"),
 			array(),
 			array("convention"=>array(0=>"Non requise",1=>"A faire",11=>"Faite"))
 			));

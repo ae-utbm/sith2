@@ -41,21 +41,21 @@ $site->add_contents($cts);
 if ( $_REQUEST["action"] == "generatepal" )
 {
   $Mosaic = new ImageMosaic($site->dbrw,3);
-  $Mosaic->generate_palette(); 
-  $Mosaic->store_palette(); 
-  
+  $Mosaic->generate_palette();
+  $Mosaic->store_palette();
+
   $cts = new contents("log");
   $cts->add(new itemlist(false,false,explode("\n",$Mosaic->log)));
-  $site->add_contents($cts); 
+  $site->add_contents($cts);
 }
 elseif ( $_REQUEST["action"] == "mosaic" )
 {
   $Mosaic = new ImageMosaic($site->db,3);
-  $Mosaic->load_palette(); 
-  
+  $Mosaic->load_palette();
+
   $img = $_REQUEST["url"];
   $infos = @getimagesize($img);
-  
+
   if ( $infos === false )
   {
     $cts->add_paragraph("Une erreur c'est produite lors de la lecture de l'image","error");
@@ -64,31 +64,31 @@ elseif ( $_REQUEST["action"] == "mosaic" )
   {
     $w=$infos[0];
     $h=$infos[1];
-    
+
     if ( $w > 100 )
     {
       $h = $h*100/$w;
-      $w = 100;  
+      $w = 100;
     }
-    
+
     if ( $h > 100 )
     {
       $w = $w*100/$h;
-      $h = 100;  
+      $h = 100;
     }
-    
+
     $Mosaic->load_image($w,$h,$img);
-    
+
     $cts = new contents("Resultat");
     $cts->add($Mosaic->output_stdcontents());
-    
+
     $cts->add_paragraph("Lien vers cette page : http://".$_SERVER["HTTP_HOST"].$_SERVER["SCRIPT_NAME"]."?url=".rawurlencode($_REQUEST["url"])."&amp;action=mosaic");
     $site->add_contents($cts);
-    
+
     $cts = new contents("log");
     $cts->add(new itemlist(false,false,explode("\n",$Mosaic->log)));
     $site->add_contents($cts);
-    
+
 
   }
 }

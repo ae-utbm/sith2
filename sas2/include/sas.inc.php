@@ -30,7 +30,7 @@ define("SAS_NPP",60);
 /**
  * @defgroup sas SAS 2.0
  */
- 
+
 /**
  * Version spécialisé du site pour le SAS
  * @ingroup sas
@@ -43,10 +43,10 @@ class sas extends site
   {
 
     $this->site();
-    
+
 		if ( ($this->get_param("closed.sas",false) && !$this->user->is_in_group("root")) || !is_dir("/var/www/ae/accounts/sas")	)
       $this->fatal_partial("sas");
-      
+
     $this->set_side_boxes("left",array("monsas","connexion"));
 
     if( $this->user->is_valid() )
@@ -97,14 +97,14 @@ class sas extends site
           $msg = "rien";
 
         $lst->add("<a href=\"modere.php\">$msg &agrave; moderer</a>");
-        
+
         $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_photos` WHERE `incomplet`='1'");
         list($nphoto) = $req->get_row();
-        
+
         $lst->add("<a href=\"complete.php\">$nphoto photos &agrave; completer</a>");
 
 
-        $req = new requete($this->db, 
+        $req = new requete($this->db,
               "SELECT COUNT(`sas_photos`.`id_photo`) ".
               "FROM `sas_personnes_photos` ".
               "INNER JOIN `sas_photos` USING(`id_photo`) ".
@@ -128,12 +128,12 @@ class sas extends site
         while ( list($id_groupe) = $sql->get_row() )
         {
           $lst = new itemlist("Moderation ".$this->user->groupes[$id_groupe]);
-        
+
           $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_cat_photos` WHERE `modere_catph`='0' AND id_groupe_admin='$id_groupe'");
           list($ncat) = $req->get_row();
           $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_photos` WHERE `modere_ph`='0' AND id_groupe_admin='$id_groupe'");
           list($nphoto) = $req->get_row();
-  
+
           $msg = "";
           if ( $ncat > 0 )
             $msg .= $ncat." cat&eacute;gorie(s)";
@@ -141,15 +141,15 @@ class sas extends site
             $msg .= " et ";
           if ($nphoto > 0 )
             $msg .= $nphoto." photo(s)";
-  
+
           if ( empty($msg))
             $msg = "rien";
-  
+
           $lst->add("<a href=\"modere.php?mode=adminzone&amp;id_groupe_admin=$id_groupe\">$msg &agrave; moderer</a>");
-          
+
           $req = new requete($this->db, "SELECT COUNT(*) FROM `sas_photos` WHERE `incomplet`='1' AND id_groupe_admin='$id_groupe'");
           list($nphoto) = $req->get_row();
-          
+
           $lst->add("<a href=\"complete.php?mode=adminzone&amp;id_groupe_admin=$id_groupe\">$nphoto photos &agrave; completer</a>");
           $box->add($lst,true);
         }

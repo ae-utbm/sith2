@@ -30,15 +30,15 @@ $site = new site ();
 // Code barres & co
 if ( $site->user->is_in_group("gestion_ae") && $_REQUEST["pattern"] != "" )
 {
-  
+
   $obj = new objet($site->db);
   $obj->load_by_cbar($_REQUEST["pattern"]);
   if ( $obj->id > 0 )
   {
     header("Location: objet.php?id_objet=".$obj->id);
-    exit();  
+    exit();
   }
-  
+
   if ( ereg("^([A-Za-z]{1,10})([0-9]{1,20})$",$_REQUEST["pattern"],$regs))
   {
     $objtype = new objtype($site->db);
@@ -49,37 +49,37 @@ if ( $site->user->is_in_group("gestion_ae") && $_REQUEST["pattern"] != "" )
       if ( $obj->id > 0 )
       {
         header("Location: objet.php?id_objet=".$obj->id);
-        exit();  
+        exit();
       }
     }
   }
-  
+
   $user = new utilisateur($site->db);
   $user->load_by_carteae($_REQUEST["pattern"]);
   if ( $user->id > 0 )
   {
     header("Location: user.php?id_utilisateur=".$user->id);
-    exit();  
+    exit();
   }
-  
-  
+
+
 }
 require_once($topdir. "include/cts/fsearch.inc.php");
 $fs  = new fsearch ( $site );
-if ( $fs->nb == 1 && $fs->redirect )   
+if ( $fs->nb == 1 && $fs->redirect )
 {
   header("Location: ".$fs->redirect);
-  exit();  
-}  
+  exit();
+}
 
 $site->start_page("","Recherche rapide");
 $cts = new contents("Resultats");
-  
 
-$cts->add($fs,false,true,"fsearchblock");  
-  
-if ( $site->user->is_in_group("gestion_ae") )  
-{  
+
+$cts->add($fs,false,true,"fsearchblock");
+
+if ( $site->user->is_in_group("gestion_ae") )
+{
   $frm = new form("addobjet","objet.php",!$sucess,"POST","Ajouter un objet avec comme code barre ".$_REQUEST["pattern"]);
   $frm->add_hidden("action","addobjet");
   $frm->add_hidden("nb","1");
@@ -101,7 +101,7 @@ if ( $site->user->is_in_group("gestion_ae") )
   $cts->add($frm,true);
 }
 
-  
+
 $site->add_contents($cts);
 $site->end_page();
 

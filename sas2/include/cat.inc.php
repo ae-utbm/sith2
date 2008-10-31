@@ -30,7 +30,7 @@ $GLOBALS['catph_modes'] =
     CATPH_MODE_NORMAL=>"Catégorie normale",
     CATPH_MODE_META_ASSO=>"Catégorie sommaire association"
   );
-  
+
 /**
  * Catégorie du SAS
  * @ingroup sas
@@ -50,7 +50,7 @@ class catphoto extends basedb
   var $meta_mode;
 
   var $meta_cat;
-  
+
   var $id_lieu;
 
   /** Charge une catégorie par son ID
@@ -66,8 +66,8 @@ class catphoto extends basedb
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
 
@@ -82,8 +82,8 @@ class catphoto extends basedb
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
 
@@ -106,8 +106,8 @@ class catphoto extends basedb
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
 
@@ -137,7 +137,7 @@ class catphoto extends basedb
     $this->id_catph_parent = $row['id_catph_parent'];
     $this->id_photo = $row['id_photo'];
     $this->nom = $row['nom_catph'];
-    
+
     if ( is_null($row['date_debut_catph']) )
     {
       $this->date_debut = null;
@@ -148,7 +148,7 @@ class catphoto extends basedb
       $this->date_debut = strtotime($row['date_debut_catph']);
       $this->date_fin = strtotime($row['date_fin_catph']);
     }
-    
+
     $this->modere = $row['modere_catph'];
 
     $this->id_utilisateur = $row['id_utilisateur'];
@@ -158,7 +158,7 @@ class catphoto extends basedb
 
     $this->meta_id_asso = $row['meta_id_asso_catph'];
     $this->meta_mode = $row['meta_mode_catph'];
-    
+
     $this->id_lieu = $row['id_lieu'];
   }
 
@@ -220,7 +220,7 @@ class catphoto extends basedb
         "((droits_acces_catph & 0x100) AND id_utilisateur='".$user->id."')) " .
         "ORDER BY `date_debut_catph` DESC,`nom_catph`");
   }
-  
+
   /**
    * Retourne toutes les sous-catégories que l'utilisateur peut voir.
    * Retourne un tableau ou chaque entrée est un tableau associatif contenant :
@@ -236,13 +236,13 @@ class catphoto extends basedb
    * - droits_acces_catph
    * - meta_mode_catph
    * - meta_id_asso
-   * Attention: Si id_catph_parent != $this->id, alors il s'agit d'une méta sous-catégorie 
+   * Attention: Si id_catph_parent != $this->id, alors il s'agit d'une méta sous-catégorie
    */
   function get_all_categories ( &$user )
   {
     $cats = array();
     $grps = $user->get_groups_csv();
-    
+
     if ( $this->is_admin( $user ) )
       $query = "SELECT id_catph, nom_catph, id_photo, id_catph_parent, NULL AS nom_catph_parent, date_debut_catph, id_utilisateur, id_groupe, id_groupe_admin, droits_acces_catph, meta_mode_catph, meta_id_asso_catph   " .
         "FROM sas_cat_photos " .
@@ -257,7 +257,7 @@ class catphoto extends basedb
         "((droits_acces_catph & 0x10) AND id_groupe IN ($grps)) OR " .
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_catph & 0x100) AND id_utilisateur='".$user->id."')) ";
-      
+
     if ( $this->meta_mode == CATPH_MODE_META_ASSO )
     {
       $query .= "UNION ".
@@ -270,9 +270,9 @@ class catphoto extends basedb
         "NULL AS id_utilisateur, ".
         "NULL AS id_groupe, ".
         "NULL AS id_groupe_admin, ".
-        "NULL AS droits_acces_catph, " .    
-        "NULL AS meta_mode_catph, " .    
-        "NULL AS meta_id_asso_catph " .    
+        "NULL AS droits_acces_catph, " .
+        "NULL AS meta_mode_catph, " .
+        "NULL AS meta_id_asso_catph " .
         "FROM `sas_photos` ".
         "INNER JOIN sas_cat_photos ON ( sas_photos.id_catph = sas_cat_photos.id_catph ) " .
         "LEFT JOIN sas_cat_photos as parent ON ( parent.id_catph = sas_cat_photos.id_catph_parent ) ".
@@ -280,8 +280,8 @@ class catphoto extends basedb
           "(sas_photos.meta_id_asso_ph='".$this->meta_id_asso."' ".
           "OR sas_photos.id_asso_photographe='".$this->meta_id_asso."') " .
         "AND sas_cat_photos.id_catph!='".$this->id."' ".
-        "AND sas_cat_photos.id_catph_parent!='".$this->id."' ".    
-        "AND parent.id_catph_parent!='".$this->id."' ".      
+        "AND sas_cat_photos.id_catph_parent!='".$this->id."' ".
+        "AND parent.id_catph_parent!='".$this->id."' ".
         "AND (sas_cat_photos.meta_id_asso_catph!='".$this->meta_id_asso."' OR sas_cat_photos.meta_id_asso_catph IS NULL)";
 
       $query .= "UNION ".
@@ -294,24 +294,24 @@ class catphoto extends basedb
         "NULL AS id_utilisateur, ".
         "NULL AS id_groupe, ".
         "NULL AS id_groupe_admin, ".
-        "NULL AS droits_acces_catph, " .    
-        "NULL AS meta_mode_catph, " .    
-        "NULL AS meta_id_asso_catph " .   
+        "NULL AS droits_acces_catph, " .
+        "NULL AS meta_mode_catph, " .
+        "NULL AS meta_id_asso_catph " .
         "FROM sas_cat_photos ".
         "LEFT JOIN sas_cat_photos as parent ON ( parent.id_catph = sas_cat_photos.id_catph_parent ) ".
         "WHERE sas_cat_photos.meta_id_asso_catph='".$this->meta_id_asso."' ".
         "AND sas_cat_photos.id_catph!='".$this->id."' ".
-        "AND sas_cat_photos.id_catph_parent!='".$this->id."' ".    
-        "AND parent.id_catph_parent!='".$this->id."' ".    
+        "AND sas_cat_photos.id_catph_parent!='".$this->id."' ".
+        "AND parent.id_catph_parent!='".$this->id."' ".
         "AND sas_cat_photos.meta_mode_catph!='".CATPH_MODE_META_ASSO."'";
-    }    
+    }
 
     $query .= "ORDER BY  `date_debut_catph` DESC,`nom_catph`";
-    
+
     $cats = array();
-    
+
     $req = new requete($this->db,$query);
-    
+
     while ( $row = $req->get_row() )
     {
       if ( is_null($row['id_photo']) || $row['id_photo'] <= 0 )
@@ -331,18 +331,18 @@ class catphoto extends basedb
             "AND droits_acquis =1 " .
             "AND (droits_acces_ph & 1) = 1 " .
             "ORDER BY date_prise_vue");
-          
+
         if ( $req2->lines > 0 )
           list($row['id_photo']) = $req2->get_row();
       }
-      
+
       $cats[] = $row;
     }
-    
+
     return $cats;
   }
-  
-  
+
+
 
   function get_recent_photos_categories ($user, $grps )
   {
@@ -384,7 +384,7 @@ class catphoto extends basedb
     $this->nom = $nom;
     $this->id_catph_parent = $id_catph_parent;
     $this->id_photo = null;
-    
+
     $this->date_debut = $debut;
     $this->date_fin = $fin;
     $this->modere=0;
@@ -410,7 +410,7 @@ class catphoto extends basedb
 
         "meta_id_asso_catph"=>$this->meta_id_asso,
         "meta_mode_catph"=>$this->meta_mode,
-        
+
         "id_lieu"=>$this->id_lieu
         )
       );
@@ -464,7 +464,7 @@ class catphoto extends basedb
 
         "meta_id_asso_catph"=>$this->meta_id_asso,
         "meta_mode_catph"=>$this->meta_mode,
-        
+
         "id_lieu"=>$this->id_lieu
 
         ),
@@ -531,7 +531,7 @@ class catphoto extends basedb
   function move_to ( $id_catph_parent )
   {
     $this->id_catph_parent = $id_catph_parent;
-    
+
     $sql = new update ($this->dbrw,
       "sas_cat_photos",
       array("id_catph_parent"=>$this->id_catph_parent),
@@ -542,10 +542,10 @@ class catphoto extends basedb
   {
     if ( is_null($this->date_debut) )
       return null;
-    
+
     $y = date("Y",$this->date_debut);
     $m = date("m",$this->date_debut);
-    
+
     if ( $m >= 2 && $m < 9)
       return "Printemps ".$y;
     else if ( $m >= 9 )
@@ -553,15 +553,15 @@ class catphoto extends basedb
     else
       return "Automne ".($y-1);
   }
-  
+
   function get_short_semestre ()
   {
     if ( is_null($this->date_debut) )
       return null;
-    
+
     $y = date("Y",$this->date_debut);
     $m = date("m",$this->date_debut);
-    
+
     if ( $m >= 2 && $m < 9)
       return "P".$y;
     else if ( $m >= 9 )
@@ -569,12 +569,12 @@ class catphoto extends basedb
     else
       return "A".($y-1);
   }
-  
-  
-  
+
+
+
   function get_photos_search ( $user, $filter, $joins="", $select="*", $limit="", $order="type_media_ph DESC, date_prise_vue")
   {
-    
+
     if ( $this->is_admin( $user ) )
       return new requete($this->db,"SELECT $select " .
         "FROM sas_photos " .
@@ -583,9 +583,9 @@ class catphoto extends basedb
         "($filter) ".
         "ORDER BY $order " .
         "$limit");
-        
+
     $grps = $user->get_groups_csv();
-    
+
     return new requete($this->db,"SELECT $select " .
         "FROM sas_photos " .
         "$joins ".
@@ -609,7 +609,7 @@ class catphoto extends basedb
         "$limit");
 
   }
-  
+
 }
 
 

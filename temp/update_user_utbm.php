@@ -51,21 +51,21 @@ if( isset($_REQUEST["action"]) )
 
       $notfound = array();
       $updated = array();
-      
+
 
       foreach($xml->Etudiant as $student)
       {
         $user->load_by_email($student->email);
-        
+
         if ( !$user->is_valid() ) // Non trouvé... essayons par nom/prenom/date de naissance
         {
-          $naissance = datetime_to_timestamp($student->DateNaissance);  
+          $naissance = datetime_to_timestamp($student->DateNaissance);
           $nom = $student->Nom;
           $prenom = $student->Prenom;
-          
+
           if ( !is_null($naissance) )
           {
-            $req = new requete($site->db, 
+            $req = new requete($site->db,
               "SELECT * FROM `utilisateurs`
               WHERE `nom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($nom)) . "$'
               AND `prenom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($prenom)) . "$'
@@ -74,38 +74,38 @@ if( isset($_REQUEST["action"]) )
           /*
           if ( is_null($naissance) || $req->lines == 0 )
           {
-            $req = new requete($site->db, 
+            $req = new requete($site->db,
               "SELECT * FROM `utilisateurs`
               WHERE `nom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($nom)) . "$'
               AND `prenom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($prenom)) . "$'");
-          }          
+          }
           */
           if ( $req->lines == 1 )
             $user->_load($req->get_row());
-          
+
         }
-        
+
         if($user->is_valid())
         {
           $updated[] = $user->id;
-          
+
           $user->load_all_extra();
-          
+
           $cts = new contents($user->prenom." ".$user->nom." ".$student->email);
           $cts->add_paragraph("<a href='".$topdir."user.php?id_utilisateur=".
 			      $user->id."'>fiche matmat</a>");
-			                
+
       	  $error = 0;
-      	  
+
           if ( !$user->became_utbm($student->email, true) )
           {
             $cts->add_paragraph("Erreur passage UTBM");
-            $error++;            
+            $error++;
           }
           $user->became_etudiant("UTBM", false, true);
 
 
-	  
+
       	  /* date naissance ? */
       	  if ($student->DateNaissance != date("d/m/Y", $user->date_naissance))
           {
@@ -115,33 +115,33 @@ if( isset($_REQUEST["action"]) )
             $error++;
             change_birthdate($user->id, $student->DateNaissance);
           }
-      
+
           if ( !trim($student->CodeDepartement) )
           {
             $cts->add_paragraph("<b>cri=boulets?</b> : departement selon le CRI ".$student->CodeDepartement);
             $error++;
           }
-      
+
       	  /* branche ? */
       	  if ($student->CodeDepartement != strtoupper($user->departement))
           {
             $cts->add_paragraph("<b>departement non concordant</b> : ".
       			  $student->CodeDepartement . " (CRI) / " . strtoupper($user->departement) . " (NOUS)");
             $error++;
-      
+
             move_to_branche($user->id, $student->CodeDepartement);
           }
-      	    
+
       	  /* filière ? */
       	  if ($student->CodeFiliere != strtoupper($user->filiere))
           {
             $cts->add_paragraph("<b>filiere non concordante</b> : <br/>".
       			  $student->CodeFiliere . " (CRI) / " . strtoupper($user->filiere) . " (NOUS)");
             $error++;
-      
+
             move_to_filiere($user->id, $student->CodeFiliere);
           }
-      
+
       	  /* semestre ? */
       	  if ($student->Semestre != $user->semestre)
           {
@@ -150,12 +150,12 @@ if( isset($_REQUEST["action"]) )
             $error++;
             move_to_semester($user->id, $student->Semestre);
           }
-      	  
-      
+
+
       	  if ($error > 0)
           {
             $cts->add_paragraph("$error erreurs.","error");
-      
+
             $site->add_contents($cts);
           }
         }
@@ -168,21 +168,21 @@ if( isset($_REQUEST["action"]) )
           $notfound[] = $student;
         }
       }
-      
+
       // Passe en ancien les autres
-      $req = new requete($site->dbrw, "UPDATE utilisateurs SET 
+      $req = new requete($site->dbrw, "UPDATE utilisateurs SET
       `ancien_etudiant_utl` = '1', `etudiant_utl` = '0'
-      WHERE id_utilisateur NOT IN (".implode(",",$updated).") AND `utbm_utl` = '1' AND `etudiant_utl` = '1'");  
-      
+      WHERE id_utilisateur NOT IN (".implode(",",$updated).") AND `utbm_utl` = '1' AND `etudiant_utl` = '1'");
+
       $cts = new contents("Passage en ancien");
       $cts->add_paragraph($req->lines." utilisateur(s) affecté(s)");
       $site->add_contents($cts);
-      
+
       $cts = new contents("Stats");
       $cts->add_paragraph(count($updated)." etudiants mise à jour");
       $cts->add_paragraph(count($notfound)." inconnus");
       $site->add_contents($cts);
-      
+
       $site->end_page();
       exit();
     }
@@ -192,10 +192,10 @@ if( isset($_REQUEST["action"]) )
 function move_to_semester($iduser, $sem)
 {
   global $site;
-  
-  return new update($site->dbrw, 
-		    "utl_etu_utbm", 
-		    array("semestre_utbm" => strtolower($sem)), 
+
+  return new update($site->dbrw,
+		    "utl_etu_utbm",
+		    array("semestre_utbm" => strtolower($sem)),
 		    array("id_utilisateur" => $iduser));
 }
 
@@ -204,10 +204,10 @@ function move_to_branche($iduser, $branche)
   global $site;
 
   $branche = strtolower($branche);
-  
-  return new update($site->dbrw, 
-		    "utl_etu_utbm", 
-		    array("departement_utbm" => $branche), 
+
+  return new update($site->dbrw,
+		    "utl_etu_utbm",
+		    array("departement_utbm" => $branche),
 		    array("id_utilisateur" => $iduser));
 }
 function move_to_filiere($iduser, $filiere)
@@ -215,10 +215,10 @@ function move_to_filiere($iduser, $filiere)
   global $site;
 
   $filiere = strtolower($filiere);
-  
-  return new update($site->dbrw, 
-		    "utl_etu_utbm", 
-		    array("filiere_utbm" => $filiere), 
+
+  return new update($site->dbrw,
+		    "utl_etu_utbm",
+		    array("filiere_utbm" => $filiere),
 		    array("id_utilisateur" => $iduser));
 }
 

@@ -42,7 +42,7 @@ $sitebat->load_by_id($bat->id_site);
 
 if ( $_REQUEST["action"] == "addsalle" )
 {
-	
+
 	if ($_REQUEST["nom"] != "" && $_REQUEST["etage"]  != "")
 	{
 		$salle = new salle($site->db,$site->dbrw);
@@ -57,13 +57,13 @@ $cts->add_paragraph("Voir aussi : <a href=\"sitebat.php\">Autre sites</a>");
 
 $req = new requete($site->db,"SELECT * FROM `sl_salle` WHERE `id_batiment`='".$bat->id."'");
 $tbl = new sqltable(
-	"listsalles", 
-	"Salles", $req, "batiment.php?id_batiment=".$bat->id, 
-	"id_salle", 
-	array("nom_salle"=>"Salle","etage"=>"Etage"), 
+	"listsalles",
+	"Salles", $req, "batiment.php?id_batiment=".$bat->id,
+	"id_salle",
+	array("nom_salle"=>"Salle","etage"=>"Etage"),
 	array(), array(),array()
-	);	
-$cts->add($tbl,true); 
+	);
+$cts->add($tbl,true);
 
 
 if ( $site->user->is_in_group("gestion_ae") )
@@ -83,5 +83,5 @@ if ( $site->user->is_in_group("gestion_ae") )
 }
 $site->add_contents($cts);
 $site->end_page();
-exit();	
+exit();
 ?>

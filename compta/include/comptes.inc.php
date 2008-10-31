@@ -22,7 +22,7 @@
  * 02111-1307, USA.
  */
 
-/** 
+/**
  * @file
  * @author Julien Etelain
  */
@@ -32,7 +32,7 @@ require_once($topdir . "include/entities/asso.inc.php");
 /**
  * Compte bancaire
  *
- * Il s'agit de traiter un compte bancaire réel, celui ci se déclinant en 
+ * Il s'agit de traiter un compte bancaire réel, celui ci se déclinant en
  * "comptes associations" correspondant aux différentes activités et associations
  * partageant le même compte bancaire (pour traiter le cas TI).
  *
@@ -64,27 +64,27 @@ class compte_bancaire extends stdentity
   {
     $req = new requete ($this->db, "SELECT * FROM `cpta_cpbancaire`
               WHERE id_cptbc='".intval($id_cptbc)."'");
-    
+
     if ( $req->lines == 1 )
     {
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
-  
+
   function _load ( $row )
   {
     $this->id = $row['id_cptbc'];
     $this->nom = $row['nom_cptbc'];
-    
-    $this->solde = $row['solde_cptbc'];    
+
+    $this->solde = $row['solde_cptbc'];
     $this->date_releve = is_null($row['date_releve_cptbc'])?null:strtotime($row['date_releve_cptbc']);
-    $this->num = $row['num_cptbc'];    
+    $this->num = $row['num_cptbc'];
   }
-  
+
   /**
    * Crée un compte bancire dans la base
    * Si le compte est crée avec succès, alors id est mis à jour.
@@ -98,7 +98,7 @@ class compte_bancaire extends stdentity
     $this->num = compte_bancaire::standardize_account_number($num);
     $this->solde = null;
     $this->date_releve = null;
-    
+
 
     $req = new insert ($this->dbrw,
            "cpta_cpbancaire",
@@ -116,7 +116,7 @@ class compte_bancaire extends stdentity
 
     return true;
   }
-  
+
   /**
    * Met à jour les informations sur le compte bancaire
    * @param $nom Nom du compte
@@ -127,7 +127,7 @@ class compte_bancaire extends stdentity
   {
     $this->nom = $nom;
     $this->num = compte_bancaire::standardize_account_number($num);
-    
+
     $req = new update ($this->dbrw,
            "cpta_cpbancaire",
            array(
@@ -141,23 +141,23 @@ class compte_bancaire extends stdentity
 
     return true;
   }
-  
+
   /**
    * Importe un relevè de compte au format progeliance CSV
    * @param $data Données brutes du fichier progeliance au format CSV
    */
   function import_csv_progeliance ( $data )
   {
-    $lines = explode("\n",$data);  
-    
+    $lines = explode("\n",$data);
+
     $ignore_before = $this->date_releve;
-    
+
     ereg("^Solde au;([0-9\/]*)$",$lines[3],$regs);
     $this->date_releve=datetime_to_timestamp($regs[1]);
-    
+
     ereg("^Solde;([0-9\, ]*);EUR$",$lines[4],$regs);
     $this->solde=get_prix($regs[1]);
-    
+
     $req = new update ($this->dbrw,
            "cpta_cpbancaire",
            array(
@@ -165,30 +165,30 @@ class compte_bancaire extends stdentity
              "date_releve_cptbc" => date("Y-m-d",$this->date_releve)
            ),
            array("id_cptbc" => $this->id));
-        
+
     $row = null;
-    
+
     for ($i=7;$i<count($lines);$i++)
     {
       $cols = explode(";",$lines[$i]);
-      
+
       if ( count($cols) == 7 )
       {
         if ( !is_null($row) )
           $req = new insert ($this->dbrw,"cpta_cpbancaire_lignes",$row);
-        
+
         $time = datetime_to_timestamp($cols[0]);
-        
+
         if ( is_null($ignore_before) || $ignore_before < $time )
           $row=array(
-            "id_cptbc"=>$this->id, 
+            "id_cptbc"=>$this->id,
             "date_ligne_cptbc"=>date("Y-m-d",$time),
             "date_valeur_ligne_cptbc"=>date("Y-m-d",datetime_to_timestamp($cols[5])),
             "libelle_ligne_cptbc"=>trim($cols[1]),
             "montant_ligne_cptbc"=>$cols[2]?get_prix($cols[2]):get_prix($cols[3]),
             "devise_ligne_cptbc"=>$cols[4],
             "libbanc_ligne_cptbc"=>trim($cols[6])
-          );  
+          );
          else
            $row=null;
       }
@@ -200,11 +200,11 @@ class compte_bancaire extends stdentity
           $row["commentaire_ligne_cptbc"] = trim($cols[1]);
       }
     }
-    
+
     if ( !is_null($row) )
       $req = new insert ($this->dbrw,"cpta_cpbancaire_lignes",$row);
   }
-  
+
   /**
    * Permet de normaliser un numéro de compte
    * @param $num Un numéro de compte dans un format quelquonque
@@ -212,14 +212,14 @@ class compte_bancaire extends stdentity
    */
   static function standardize_account_number ( $num )
   {
-    return ereg_replace("[^0-9]","",$num); 
+    return ereg_replace("[^0-9]","",$num);
   }
-  
+
 }
 
 /**
  * Compte association
- * Permet d'associer une association/activité à un compte bancaire tout en 
+ * Permet d'associer une association/activité à un compte bancaire tout en
  * permettant le partage d'un compte bancaire entre plusieures activités
  * pour traiter le cas de la TI.
  * @ingroup compta
@@ -245,14 +245,14 @@ class compte_asso extends stdentity
               FROM `cpta_cpasso` " .
               "INNER JOIN `asso` ON `asso`.`id_asso`=`cpta_cpasso`.`id_asso`
               WHERE `cpta_cpasso`.`id_cptasso`='".intval($id)."'");
-              
+
     if ( $req->lines == 1 )
     {
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
 
@@ -324,16 +324,16 @@ class classeur_compta extends stdentity
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
-  
-  /** 
+
+  /**
    * Charge le classeur ouvert d'un compte association
    * @param $id_cptasso Id du compte association
    * @param $not Id du classeur à ne pas charger (si plusieurs sont ouverts)
-   */  
+   */
    function load_opened ( $id_cptasso, $not=-1 )
   {
     $req = new requete ($this->db, "SELECT *
@@ -347,11 +347,11 @@ class classeur_compta extends stdentity
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
-  
+
   function _load ( $row )
   {
     $this->id = $row['id_classeur'];
@@ -369,7 +369,7 @@ class classeur_compta extends stdentity
    * @param $date_debut_classeur Date de début de la période couverte par le classeur
    * @param $date_fin_classeur Date de fin de la période couverte par le classeur
    * @param $nom_classeur Nom du classeur
-   * @return true en cas de succès, false sinon   
+   * @return true en cas de succès, false sinon
    */
   function ajouter ( $id_cptasso, $date_debut_classeur,
              $date_fin_classeur, $nom_classeur )
@@ -399,7 +399,7 @@ class classeur_compta extends stdentity
 
     return true;
   }
-  
+
   /**
    * Met à jour le classeur dans la base de données.
    * @param $date_debut_classeur Date de début de la période couverte par le classeur
@@ -408,7 +408,7 @@ class classeur_compta extends stdentity
    */
    function update ( $date_debut_classeur, $date_fin_classeur, $nom_classeur )
   {
-   
+
     $this->date_debut_classeur = $date_debut_classeur;
     $this->date_fin_classeur = $date_fin_classeur;
     $this->nom = $nom_classeur;
@@ -432,7 +432,7 @@ class classeur_compta extends stdentity
   function fermer($ferme=true)
   {
     $this->ferme = $ferme;
-    
+
     $req = new update ($this->dbrw,
       "cpta_classeur",
       array(
@@ -442,7 +442,7 @@ class classeur_compta extends stdentity
         "id_classeur"=>$this->id
         )
       );
-    
+
   }
 
 }

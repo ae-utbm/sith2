@@ -8,7 +8,7 @@ $site = new sas();
 $ph = new photo($site->db,$site->dbrw);
 
 $req = new requete($site->db, "SELECT * FROM `sas_photos` WHERE couleur_moyenne IS NULL LIMIT 10");
-        
+
 $st = microtime_float();
 
 echo "<ul>";

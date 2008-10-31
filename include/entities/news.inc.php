@@ -20,7 +20,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  */
- 
+
 /** @file
  * Gestion des nouvelles
  *
@@ -53,7 +53,7 @@ class canalnouvelles extends stdentity
 {
   /** Nom du canal */
   var $nom;
-  
+
   /** Association/Club administrant le canal (null si moderateur_site) */
   var $id_asso;
 
@@ -68,8 +68,8 @@ class canalnouvelles extends stdentity
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
   }
 
@@ -79,16 +79,16 @@ class canalnouvelles extends stdentity
     $this->nom = $row['nom_canal'];
     $this->id_asso = $row['id_asso'];
   }
-  
-  
+
+
   function is_admin(&$user)
   {
     if ( is_null($this->id_asso) )
       return $user->is_in_group("moderateur_site");
-      
+
     return $user->is_asso_role($this->id_asso,2);
   }
-  
+
 }
 
 define("NEWS_CANAL_SITE",1);
@@ -101,34 +101,34 @@ class nouvelle extends stdentity
 {
   /** Auteur de la nouvelle */
   var $id_utilisateur;
-  
+
   /** Association/club concerné */
   var $id_asso;
-  
+
   /** Titre */
   var $titre;
-  
+
   /** Résumé */
   var $resume;
-  
+
   /** Contenu */
   var $contenu;
-  
+
   /** Date d'ajout */
   var $date;
-  
+
   /** Etat de modération: true modéré, false non modéré */
   var $modere;
-  
+
   /** Utilisateur ayant modéré la nouvelle */
   var $id_utilisateur_moderateur;
-  
+
   /** Canal au quel la news appartient */
   var $id_canal;
-  
+
   /** Lieu concerné par la nouvelle */
   var $id_lieu;
-  
+
   /** Charge une nouvelle en fonction de son id
    * $this->id est égal à null en cas d'erreur
    * @param $id id de la fonction
@@ -145,8 +145,8 @@ class nouvelle extends stdentity
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
   }
 
@@ -178,30 +178,30 @@ class nouvelle extends stdentity
   function get_contents ($displaymap=true)
   {
     global $wwwtopdir,$topdir;
-    
+
     $asso = new asso($this->db);
     $asso->load_by_id($this->id_asso);
-    
+
     $cts = new contents($this->titre);
-    
+
     if ( $asso->is_valid() )
     {
       if ( !file_exists($topdir."var/img/logos/".$asso->nom_unix.".small.png") )
         $img =  $wwwtopdir."images/default/news.small.png";
       else
         $img = "/var/img/logos/".$asso->nom_unix.".small.png";
-      
+
       $cts->add(new image($asso->nom, $img, "newsimg"));
     }
     else
-      $cts->add(new image("Nouvelle",  $wwwtopdir."images/default/news.small.png", "newsimg"));      
-    
+      $cts->add(new image("Nouvelle",  $wwwtopdir."images/default/news.small.png", "newsimg"));
+
     $cts->add(new wikicontents(false,$this->contenu));
-  
+
     $req = new requete ( $this->db,
         "SELECT * FROM nvl_dates ".
         "WHERE id_nouvelle='".$this->id."' ORDER BY date_debut_eve");
-  
+
     if ( $req->lines || !is_null($this->id_lieu) )
       $cts->add_title(2,"Informations pratiques");
 
@@ -220,16 +220,16 @@ class nouvelle extends stdentity
             strtotime($row['date_fin_eve'])));
       $cts->add($lst);
     }
-    
+
     if ( !is_null($this->id_lieu) && $this->id_lieu != 0)
     {
       require_once($topdir. "include/entities/lieu.inc.php");
       require_once($topdir. "include/cts/gmap.inc.php");
-      
+
       $lieu = new lieu($this->db);
       $lieu->load_by_id($this->id_lieu);
       $cts->add_paragraph("<b>Lieu</b> : ".$lieu->get_html_link());
-    
+
       if ( $displaymap )
       {
         $map = new gmap("map");
@@ -237,19 +237,19 @@ class nouvelle extends stdentity
         $cts->add($map);
       }
     }
-      
+
     if ( $asso->is_valid() )
     {
       $cts->puts("<div class=\"clearboth\"></div>");
       $cts->add_title(2,"Pour en savoir plus");
       $cts->add_paragraph($asso->get_html_link());
       if ( $asso->is_mailing_allowed() && !is_null($asso->id_parent) )
-        $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"".$wwwtopdir."asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");      
+        $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"".$wwwtopdir."asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");
     }
 
     return $cts;
   }
-  
+
   /** Construit un stdcontents avec le contenu de la nouvelle
    */
   function get_contents_nobrand_flow ()
@@ -257,17 +257,17 @@ class nouvelle extends stdentity
     global $wwwtopdir,$topdir;
 
     $cts = new contents($this->titre);
-    
-    $cts->add(new image("Nouvelle",  $wwwtopdir."images/default/news.small.png", "newsimg"));      
-    
+
+    $cts->add(new image("Nouvelle",  $wwwtopdir."images/default/news.small.png", "newsimg"));
+
     $cts->add(new wikicontents(false,$this->contenu));
-  
+
     $req = new requete ( $this->db,
         "SELECT * FROM nvl_dates ".
         "WHERE id_nouvelle='".$this->id."' ORDER BY date_debut_eve");
-        
+
     $cts->add_paragraph("Posté le ".date("d/m/Y",$this->date));
-            
+
     if ( $req->lines || !is_null($this->id_lieu) )
       $cts->add_title(2,"Informations pratiques");
 
@@ -286,16 +286,16 @@ class nouvelle extends stdentity
             strtotime($row['date_fin_eve'])));
       $cts->add($lst);
     }
-      
+
     if ( !is_null($this->id_lieu) )
     {
       require_once($topdir. "include/entities/lieu.inc.php");
       require_once($topdir. "include/cts/gmap.inc.php");
-      
+
       $lieu = new lieu($this->db);
       $lieu->load_by_id($this->id_lieu);
       $cts->add_paragraph("<b>Lieu</b> : ".$lieu->get_html_link());
-      
+
       $map = new gmap("map");
       $map->add_marker("lieu",$lieu->lat,$lieu->long);
       $cts->add($map);
@@ -304,15 +304,15 @@ class nouvelle extends stdentity
 
     return $cts;
   }
-  
+
   /** Supprime la nouvelle
    */
   function delete ()
   {
     if ( !$this->dbrw ) return;
-    
+
     $this->set_tags_array(array());
-    
+
     new delete($this->dbrw,"nvl_nouvelles",array("id_nouvelle"=>$this->id));
     new delete($this->dbrw,"nvl_dates",array("id_nouvelle"=>$this->id));
     new delete($this->dbrw,"nvl_nouvelles_files",array("id_nouvelle"=>$this->id));
@@ -360,10 +360,10 @@ class nouvelle extends stdentity
   {
     if (!$this->dbrw)
       return false;
-      
+
     $this->id_lieu = $id_lieu;
     $this->id_canal = $id_canal;
-    
+
     $req = new insert ($this->dbrw,
 		       "nvl_nouvelles",
 		       array ("id_utilisateur" => $id_utilisateur,
@@ -378,17 +378,17 @@ class nouvelle extends stdentity
 			      "id_lieu"=>$this->id_lieu,
 			      "id_canal" => $this->id_canal
 			      ));
-			      
+
 		if ( $req )
 			$this->id = $req->get_id();
 		else
 			$this->id = null;
-			
+
     $this->update_references($this->resume."\n".$this->contenu);
-          
+
     return ($req != false);
   }
-  
+
   /**
    * Associe la nouvelle à une date
    * @param $debut Timestamp de début
@@ -403,7 +403,7 @@ class nouvelle extends stdentity
 						"date_fin_eve" => date("Y-m-d H:i:s",$fin)
 					));
 	}
-	
+
   /**
    * Desassocie la nouvelle à une date
    * @param $id_date Numéro de date
@@ -416,7 +416,7 @@ class nouvelle extends stdentity
 						"id_dates_nvl" => $id_date,
 					));
 	}
-	
+
 	/**
 	 * Modifie la nouvelle
 	 *
@@ -444,7 +444,7 @@ class nouvelle extends stdentity
 		$this->id_utilisateur_moderateur = $id_utilisateur_moderateur;
     $this->id_lieu = $id_lieu;
     $this->id_canal = $id_canal;
-    
+
 		$req = new update ($this->dbrw,
 		       "nvl_nouvelles",
 		       array (
@@ -462,7 +462,7 @@ class nouvelle extends stdentity
 			   	));
     $this->update_references($this->resume."\n".$this->contenu);
 	}
-	
+
   function update_references($contents)
   {
     new requete($this->dbrw,
@@ -477,20 +477,20 @@ class nouvelle extends stdentity
 
   function add_rel_file ( $id_file )
   {
-    if ( !isset($this->_ref_cache[$id_file]) ) 
+    if ( !isset($this->_ref_cache[$id_file]) )
     {
       new insert($this->dbrw,"nvl_nouvelles_files",array("id_nouvelle"=>$this->id,"id_file"=>$id_file));
       $this->_ref_cache[$id_file]=1;
     }
   }
-  
+
   function _update_references( $contents, $regexp, $media=false )
   {
     if ( !preg_match_all ( $regexp, $contents, $matches ) ) return;
     foreach( $matches[1] as $link )
     {
       $link = trim($link);
-      
+
       list($link,$dummy) = explode("|",$link,2);
       list($link,$dummy) = explode("#",$link,2);
       if ( $media )
@@ -502,7 +502,7 @@ class nouvelle extends stdentity
       }
     }
   }
-	
+
 }
 
 

@@ -52,38 +52,38 @@ if ( isset($_REQUEST["id_objet"]) )
 	$objet->load_by_id($_REQUEST["id_objet"]);
 	if ( $objet->id < 1 )
 	{
-		$site->error_not_found();	
+		$site->error_not_found();
 		exit();
 	}
 	$can_admin=false;
-	
+
 	$asso_gest->load_by_id($objet->id_asso);
 
 	if ( ($asso_gest->id > 0 && $asso_gest->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU)) ||
 	      $site->user->is_in_group("gestion_ae")  )
 		$can_admin=true;
-		
-		
+
+
 	if ( $_REQUEST["action"] == "saveobjet" && $can_admin)
 	{
 		$objtype->load_by_id($_REQUEST["id_objtype"]);
 		$asso_gest->load_by_id($_REQUEST["id_asso"]);
 		$asso_prop->load_by_id($_REQUEST["id_asso_prop"]);
 		$salle->load_by_id($_REQUEST["id_salle"]);
-		
-		$objet->save_objet ( 
+
+		$objet->save_objet (
 				$asso_gest->id, $asso_prop->id, $salle->id, $objtype->id, $objet->id_op, $_REQUEST["nom"],
-				$_REQUEST["num_serie"], $_REQUEST["prix"], $_REQUEST["caution"], 
+				$_REQUEST["num_serie"], $_REQUEST["prix"], $_REQUEST["caution"],
 				$_REQUEST["prix_emprunt"], $_REQUEST["empruntable"],
 				$_REQUEST["en_etat"], $_REQUEST["date_achat"], $_REQUEST["notes"], $_REQUEST["cbar"] );
 	}
 	elseif ( $_REQUEST["page"] == "edit" && $can_admin)
-	{	
+	{
 		$objtype->load_by_id($objet->id_objtype);
 		$path = "<a href=\"objtype.php\">Inventaire</a> / ".$objtype->get_html_link()." / ".$objet->get_html_link();
-	
+
 		$site->start_page("services","Objet ".$objet->nom." ".$objtype->code.$objet->num);
-		
+
 		$frm = new form("saveobjet","objet.php?id_objet=".$objet->id,true,"POST",$path. " / Modifier");
 		$frm->add_hidden("action","saveobjet");
 		$frm->add_entity_select("id_objtype", "Type", $site->db, "objtype", $objet->id_objtype);
@@ -102,7 +102,7 @@ if ( isset($_REQUEST["id_objet"]) )
 		$frm->add_text_area("notes","Notes",$objet->notes);
 		$frm->add_submit("valide","Enregistrer");
 		$site->add_contents($frm);
-	
+
 		$site->end_page();
 		exit();
 	}
@@ -110,17 +110,17 @@ if ( isset($_REQUEST["id_objet"]) )
 	{
 		$asso = new asso($site->db);
 		$user = new utilisateur($site->db);
-		
+
 		if ( $_REQUEST["asso"] == "asso" )
 			$asso->load_by_id($_REQUEST["id_asso"]);
-			
+
 		if ( $_REQUEST["emp"] == "moi" )
 			$user = $site->user;
 		elseif ( $_REQUEST["emp"] == "carte" )
 			$user->load_by_carteae($_REQUEST["carte"]);
 		elseif ( $_REQUEST["emp"] == "email" )
 			$user->load_by_id($_REQUEST["id_utilisateur"]);
-			
+
 		if ( $_REQUEST["emp"] != "ext" && $user->id < 1 )
 			$Error="Utilisateur inconnu";
 		elseif ( $_REQUEST["asso"] == "asso" && $asso->id < 1 )
@@ -130,32 +130,32 @@ if ( isset($_REQUEST["id_objet"]) )
 		else
 		{
 			$emp = new emprunt ( $site->db, $site->dbrw );
-			
+
 			$emp->add_emprunt ( $user->id, $asso->id, $_REQUEST["emprunteur_ext"], time(), $_REQUEST["endtime"] );
 
 		  $emp->add_object($objet->id);
 
 			$emp->retrait ( $site->user->id, $_REQUEST["caution"], $_REQUEST["prix_emprunt"], $_REQUEST["notes"] );
-			
+
 			$Sucess = new contents("Pret enregistré",$emp->get_html_link()." : <a href=\"emprunt.php?action=print&amp;id_emprunt=".$emp->id."\">Imprimer</a>");
-			
-		}	
-	
-		
+
+		}
+
+
 	}
-	
+
 	$asso_prop->load_by_id($objet->id_asso_prop);
 	$objtype->load_by_id($objet->id_objtype);
 	$salle->load_by_id($objet->id_salle);
 	$bat->load_by_id($salle->id_batiment);
 	$sitebat->load_by_id($bat->id_site);
-	
+
 	$path = "<a href=\"objtype.php\">Inventaire</a> / ".$objtype->get_html_link()." / ".$objet->get_html_link();
-	
+
 	$site->start_page("services","Objet ".$objet->nom." ".$objtype->code.$objet->num);
-	
+
 	$cts = new contents($path);
-	
+
 	if ( $can_admin )
 		$cts->set_toolbox(new toolbox(array("objet.php?page=edit&id_objet=".$objet->id=>"Editer")));
 
@@ -167,8 +167,8 @@ if ( isset($_REQUEST["id_objet"]) )
 
 	if ( $can_admin )
 		$tabs[] = array("borrow","objet.php?id_objet=".$objet->id."&view=borrow", "Preter");
-	
-	
+
+
 	$cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 	if ( $_REQUEST["view"] == "borrow" )
@@ -177,55 +177,55 @@ if ( isset($_REQUEST["id_objet"]) )
 			$cts->add($Sucess,true);
 
 		$frm = new form("emprunter","objet.php?id_objet=".$objet->id."&view=borrow",!isset($Error),"POST","Preter");
-		
+
 		$frm->add_hidden("action","preter");
-		
+
 		if ( $Error )
 			$frm->error($Error);
-			
+
 		$frm->add_datetime_field("endtime","Fin de l'emprunt");
-		
+
 		$ssfrm = new form("mtf",null,null,null,"Cadre");
-		
+
 		$sfrm = new form("asso",null,null,null,"A titre personnel");
 		$ssfrm->add($sfrm,false,true,$_REQUEST["id_asso"]==0,"nasso",true);
-		
+
 		$sfrm = new form("asso",null,null,null,"Pour une association");
 		$sfrm->add_entity_select("id_asso"," : ",$site->db,"asso",$_REQUEST["id_asso"]);
 		$ssfrm->add($sfrm,false,true,$_REQUEST["id_asso"]>0,"asso",true);
-	
+
 		$frm->add($ssfrm);
-	
+
 		$ssfrm = new form("qui",null,null,null,"Emprunteur");
-	
+
 		$sfrm = new form("emp",null,null,null,"Moi même");
 		$ssfrm->add($sfrm,false,true,false,"moi",true);
-	
+
 		$sfrm = new form("emp",null,null,null,"Le cotisant dont la carte est");
 		$sfrm->add_text_field("carte"," : ");
 		$ssfrm->add($sfrm,false,true,true,"carte",true);
-	
+
 		$sfrm = new form("emp",null,null,null,"L'utilisateur");
 		$sfrm->add_entity_smartselect("id_utilisateur","",new utilisateur($site->db));
 		$ssfrm->add($sfrm,false,true,false,"email",true);
-		
+
 		$sfrm = new form("emp",null,null,null,"La personne non inscrite suivante");
 		$sfrm->add_text_field("emprunteur_ext"," : ");
 		$ssfrm->add($sfrm,false,true,false,"ext",true);
-		
+
 		$frm->add($ssfrm);
-		
+
 		$frm->add_price_field("caution","Caution",$caution);
 		$frm->add_price_field("prix_emprunt","Prix",$prix);
 		$frm->add_text_area("notes","Notes");
-		
+
 		$frm->add_submit("valid","Terminer");
-			
-	
-		$cts->add($frm);	
+
+
+		$cts->add($frm);
 
 	}
-	elseif ( $_REQUEST["view"] == "hist" ) 
+	elseif ( $_REQUEST["view"] == "hist" )
 	{
 		$req = new requete($site->db,"SELECT inv_emprunt.*, " .
 				"asso.nom_asso, asso.id_asso," .
@@ -237,12 +237,12 @@ if ( isset($_REQUEST["id_objet"]) )
 				"LEFT JOIN utilisateurs ON utilisateurs.id_utilisateur=inv_emprunt.id_utilisateur " .
 				"LEFT JOIN asso ON inv_emprunt.id_asso=asso.id_asso " .
 				"WHERE inv_emprunt_objet.id_objet='".$objet->id."' AND inv_emprunt_objet.retour_effectif_emp IS NOT NULL " .
-				"ORDER BY inv_emprunt.date_debut_emp");		
-				
-		$cts->add(new sqltable("histobjet", 
-				"Historique", $req, "emprunt.php", 
-				"id_emprunt", 
-				array("id_emprunt"=>"N° d'emprunt","nom_utilisateur"=>"Qui","nom_asso"=>"Pour","date_debut_emp"=>"Du","date_retour_effectif_emp"=>"Au (effectif)"), 
+				"ORDER BY inv_emprunt.date_debut_emp");
+
+		$cts->add(new sqltable("histobjet",
+				"Historique", $req, "emprunt.php",
+				"id_emprunt",
+				array("id_emprunt"=>"N° d'emprunt","nom_utilisateur"=>"Qui","nom_asso"=>"Pour","date_debut_emp"=>"Du","date_retour_effectif_emp"=>"Au (effectif)"),
 				array("view"=>"Information sur l'emprunt"), array(), array()
 				),true);
 	}
@@ -267,7 +267,7 @@ if ( isset($_REQUEST["id_objet"]) )
 		$tbl->add_row(array("Prix emprunt",$objet->prix_emprunt/100));
 		$tbl->add_row(array("Notes",$objet->notes));
 	}
-	
+
 	$emp = new emprunt($site->db);
 	$emp->load_by_objet($objet->id);
 	if ( $emp->is_valid() )
@@ -285,29 +285,29 @@ if ( isset($_REQUEST["id_objet"]) )
 		$text .= " (Emprunt ".$emp->get_html_link().")";
 		$tbl->add_row(array("Actuellment emprunté par",$text));
 	}
-	
+
 	if ( $objet->is_book() )
 	{
     require_once($topdir. "include/entities/books.inc.php");
-    
+
     $editeur = new editeur($site->db);
     $serie = new serie($site->db);
     $livre = new livre($site->db);
   	$auteur = new auteur($site->db);
-  	
+
     $livre->load_by_id($objet->id);
   	$editeur->load_by_id($livre->id_editeur);
   	$serie->load_by_id($livre->id_serie);
-  	
+
   	$req = new requete ( $site->db, "SELECT " .
   			"`bk_auteur`.`id_auteur`,`bk_auteur`.`nom_auteur` " .
   			"FROM `bk_livre_auteur` " .
   			"INNER JOIN `bk_auteur` ON `bk_livre_auteur`.`id_auteur`=`bk_auteur`.`id_auteur` " .
   			"WHERE id_objet='".$livre->id."'");
-  	
+
   	$auteurs = null;
-  			
-  	while ( $row = $req->get_row() )		
+
+  	while ( $row = $req->get_row() )
   	{
   		$auteur->_load($row);
   		if ( is_null($auteurs) )
@@ -315,25 +315,25 @@ if ( isset($_REQUEST["id_objet"]) )
   		else
   			$auteurs .= ", ".$auteur->get_html_link();
   	}
-			
+
 		$tbl->add_row(array("Special","<b>Cet objet est un livre</b> : <a href=\"biblio/?id_livre=".$livre->id."\">Voir sa fiche livre</a>"));
-		
+
   	$tbl->add_row(array("Livre : Titre",$livre->nom));
   	$tbl->add_row(array("Livre : Serie",$serie->get_html_link()));
   	$tbl->add_row(array("Livre : N°",$livre->num_livre));
   	$tbl->add_row(array("Livre : Auteur(s)",$auteurs));
   	$tbl->add_row(array("Livre : Editeur",$editeur->get_html_link()));
   	$tbl->add_row(array("Livre : ISBN",$livre->isbn));
-		
+
 	}
-	
+
 	if ( $objet->is_jeu() )
 		$tbl->add_row(array("Special","<b>Cet objet est un jeu</b> : <a href=\"biblio/?id_jeu=".$objet->id."\">Voir sa fiche jeu</a>"));
-	
+
 	$cts->add($tbl,true);
 	}
 	$site->add_contents($cts);
-	
+
 	$site->end_page();
 	exit();
 }
@@ -344,12 +344,12 @@ if ( isset($_REQUEST["id_asso"]))
 if ( !($asso_gest->id > 0 && $asso_gest->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU)) &&
 	!$site->user->is_in_group("gestion_ae")  )
 	$site->error_forbidden("none","group",9);
-	
+
 if ( $_REQUEST["action"] == "addobjet" )
 {
 	$asso_prop->load_by_id($_REQUEST["id_asso_prop"]);
 	$salle->load_by_id($_REQUEST["id_salle"]);
-	
+
 	if ( $asso_prop->id > 0 && $asso_gest->id > 0 && $salle->id > 0 && $objtype->id > 0)
 	{
 		$nb = intval($_REQUEST["nb"]);
@@ -360,11 +360,11 @@ if ( $_REQUEST["action"] == "addobjet" )
 			$objet->add ( $asso_gest->id, $asso_prop->id, $salle->id, $objtype->id, NULL, $_REQUEST["nom"],
 				$objtype->code, $_REQUEST["num_serie"], $_REQUEST["prix"], $_REQUEST["caution"], $_REQUEST["prix_emprunt"], $_REQUEST["empruntable"],
 				$_REQUEST["en_etat"], $_REQUEST["date_achat"], $_REQUEST["notes"] );
-			
+
 			if ( $_REQUEST["force_cbar"] && $nb == 1 )
 				$objet->set_cbar($_REQUEST["force_cbar"]);
-			
-			
+
+
 			$sucess->add($objet->get_html_link());
 		}
 		$sucess->add("Retourner au type : ".$objtype->get_html_link());
@@ -397,7 +397,7 @@ $frm->add_checkbox("en_etat","En etat",true);
 $frm->add_text_area("notes","Notes");
 $frm->add_submit("valide","Ajouter");
 $site->add_contents($frm);
-		
+
 $site->end_page();
 
 ?>

@@ -33,7 +33,7 @@ $i18n = array("ar" => "Arabe",
 							"kr" => "Coréen",
 							"pt" => "Portugais"
 							);
-							
+
 require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
@@ -78,7 +78,7 @@ $cts->add(new tabshead($tabs, $_REQUEST['view']));
 if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 {
 	if( empty($usr->prefs) ) $usr->load_prefs();
-	
+
 	if(isset($_REQUEST['action']) && $_REQUEST['action'] == "save_prefs")
 	{
 		$yeah = $usr->update_prefs( isset($_REQUEST['pub_profil']), $_REQUEST['mail_prefs'], isset($_REQUEST['pub_num']) );
@@ -109,12 +109,12 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 else
 {
 	$usr->load_annonces();
-	
+
 	if( isset($_REQUEST['action']) )
 	{
 		$annonce = new annonce($site->db, $site->dbrw);
 		$annonce->load_by_id($_REQUEST['id']);
-		
+
 			if( $annonce->id_client != $usr->id )
 			{
 				$site->add_contents(new error("Erreur", "Soit vous essayez de frauder soit ya un bug, mais dans tout les cas ça peut pas se passer comme ça !"));
@@ -140,11 +140,11 @@ else
 				}
 			}
 	}
-		
+
 	$cts->add_title(3, "Vous avez ".count($user->annonces)." annonce(s) en cours");
-	
+
 	foreach($usr->annonces as $ann)
-	{		
+	{
 		$annonce = new annonce($site->db);
 		$annonce->load_by_id($ann['id_annonce']);
 		if( !($annonce->is_provided() ) );
@@ -152,8 +152,8 @@ else
 		$box = new annonce_box($annonce);
 		$cts->add($box);
 	}
-	
-	$sql = new requete($site->db, "SELECT *, 
+
+	$sql = new requete($site->db, "SELECT *,
 																	`job_annonces`.`id_annonce` AS `id`,
 																	DATE_FORMAT(`date`, '%e/%c/%Y') AS `date`
 																	FROM job_annonces

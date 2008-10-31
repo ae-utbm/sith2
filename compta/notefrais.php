@@ -47,7 +47,7 @@ elseif ( $_REQUEST["action"] == "create" )
   else
   {
     $asso->load_by_id($_REQUEST["id_asso"]);
-    $notefrais->create ( null, $asso->id, $site->user->id, $_REQUEST["commentaire"], $_REQUEST["avance"] ); 
+    $notefrais->create ( null, $asso->id, $site->user->id, $_REQUEST["commentaire"], $_REQUEST["avance"] );
     foreach( $_REQUEST["designation"] as $i => $designation )
     {
       if ( $designation && $_REQUEST["prix"][$i] )
@@ -62,10 +62,10 @@ if ( $notefrais->is_valid() )
        && !$asso->is_member_role($site->user->id,ROLEASSO_TRESORIER)
        && $site->user->id != $notefrais->id_utilisateur )
     $site->error_forbidden("none","group");
-    
+
   $user = new utilisateur($site->db);
   $user->load_by_id($notefrais->id_utilisateur);
-  
+
   if ( $_REQUEST["action"] == "delete" && !$notefrais->valide )
   {
     $notefrais->delete();
@@ -76,62 +76,62 @@ if ( $notefrais->is_valid() )
   {
     $asso->load_by_id($_REQUEST["id_asso"]);
     $notefrais->update ( $asso->id, $_REQUEST["commentaire"], $_REQUEST["avance"] );
-    
+
     $notefrais->delete_all_lines();
-    
+
     foreach( $_REQUEST["designation"] as $i => $designation )
     {
       if ( $designation && $_REQUEST["prix"][$i] )
         $notefrais->create_line( $designation, $_REQUEST["prix"][$i] );
     }
-    
+
   }
   elseif ( $_REQUEST["action"] == "edit" && !$notefrais->valide )
   {
     $site->start_page ("none", "Note de frais" );
-    
-    $cts = new contents("<a href=\"notefrais.php\">Note de frais</a> / N°".$notefrais->id);    
-    
+
+    $cts = new contents("<a href=\"notefrais.php\">Note de frais</a> / N°".$notefrais->id);
+
     $frm = new form ("editnotefrais","notefrais.php?id_notefrais=".$notefrais->id,true,"POST","Modification");
     $frm->add_hidden("action","save");
     $frm->add_entity_smartselect ("id_asso","Activité concernée", $asso, false, true);
     $frm->add_text_area("commentaire","Commentaire",$notefrais->commentaire,40,3,true);
     $frm->add_price_field("avance","Avance (qui vous a déjà été versée)",$notefrais->avance);
-    
+
     $lines = $notefrais->get_lines();
-    
+
     for($i=0;$i<5;$i++)
     {
-      $sfrm = new form(null,null,null,null);  
+      $sfrm = new form(null,null,null,null);
       $sfrm->add_text_field("designation[$i]","Designation",$lines[$i]["designation_ligne_notefrais"]);
       $sfrm->add_price_field("prix[$i]","Prix",$lines[$i]["prix_ligne_notefrais"]);
       $frm->add($sfrm, false, false, false, false, true);
     }
-    
+
     $frm->add_submit("record","Enregistrer");
-    
+
     $cts->add($frm,true);
-    
+
     $site->add_contents($cts);
     $site->end_page ();
     exit();
   }
-  
+
   $site->start_page ("none", "Note de frais" );
-  
-  $cts = new contents("<a href=\"notefrais.php\">Note de frais</a> / N°".$notefrais->id);    
-  
+
+  $cts = new contents("<a href=\"notefrais.php\">Note de frais</a> / N°".$notefrais->id);
+
   $cts->add_paragraph("Benevole : ".$user->get_html_link());
   $cts->add_paragraph("Activité : ".$asso->get_html_link());
   $cts->add_paragraph("Date : ".date("d/m/Y",$notefrais->date));
   $cts->add_paragraph("Commentaire : ".$notefrais->commentaire);
-  
+
   $lines = $notefrais->get_lines();
-  
+
   foreach($lines as $k => $d )
     $lines[$k]["prix_ligne_notefrais"] = $d["prix_ligne_notefrais"]/100;
-  
-  
+
+
   $tbl = new sqltable("frais",
     "",
     $lines,
@@ -143,15 +143,15 @@ if ( $notefrais->is_valid() )
     array(),
     array(),
     array() );
-  
+
   $cts->add($tbl);
-  
+
   $cts->add_paragraph("Total : ".($notefrais->total/100));
-  
+
   $cts->add_paragraph("Avance : ".($notefrais->avance/100));
-  
+
   $cts->add_paragraph("A payer : ".($notefrais->total_payer/100));
-  
+
   if ( $notefrais->valide )
   {
     if ( $notefrais->id_classeur )
@@ -164,8 +164,8 @@ if ( $notefrais->is_valid() )
     $cts->add_paragraph("En attente de validation");
     $cts->add_paragraph("<a href=\"?id_notefrais=".$notefrais->id."&amp;action=edit\">Editer</a>");
     $cts->add_paragraph("<a href=\"?id_notefrais=".$notefrais->id."&amp;action=delete\">Supprimer</a>");
-    
-    if ( $asso->is_member_role($site->user->id,ROLEASSO_TRESORIER) 
+
+    if ( $asso->is_member_role($site->user->id,ROLEASSO_TRESORIER)
          || $site->user->is_in_group("compta_admin") )
     {
       // TODO: Valider, classer, et decomposer en operations
@@ -220,7 +220,7 @@ $frm->add_price_field("avance","Avance (qui vous a déjà été versée)");
 
 for($i=0;$i<5;$i++)
 {
-  $sfrm = new form(null,null,null,null);  
+  $sfrm = new form(null,null,null,null);
   $sfrm->add_text_field("designation[$i]","Designation");
   $sfrm->add_price_field("prix[$i]","Prix");
   $frm->add($sfrm, false, false, false, false, true);

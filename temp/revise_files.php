@@ -13,14 +13,14 @@ $req = new requete($dbrw,"SELECT * FROM d_file");
 while ( $row = $req->get_row() )
 {
   echo "Processing file ".$row["id_file"]."<br/>";
-  
+
   $sql = new insert($dbrw, "d_file_rev", array(
 	  "id_file"=>$row["id_file"],
 	  "id_utilisateur_rev_file"=>$row["id_utilisateur"],
 	  "date_rev_file"=>$row["date_modif_file"],
 	  "filesize_rev_file"=>$row["taille_file"],
 	  "mime_type_rev_file"=>$row["mime_type_file"]));
- 
+
   $id_rev_file = $sql->get_id();
 
   new update ($dbrw,"d_file",array("id_rev_file_last"=>$id_rev_file),array("id_file"=>$row["id_file"]));

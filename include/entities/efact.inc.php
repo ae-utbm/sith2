@@ -34,25 +34,25 @@
  */
 class efact extends stdentity
 {
-	
+
 	/** Classeur virtuel de compta où la facture est rangée */
 	var $id_classeur;
-	
+
 	/** Raison sociale de la personne facturée */
 	var $nom_facture;
-	
+
 	/** Adresse (siège social) de la personne factuée */
 	var $adresse_facture;
-	
+
 	/** Date d'emission de la facture */
 	var $date;
-	
+
 	/** Titre de la facture */
 	var $titre;
-	
+
 	/** Montant total de la facture (calculé, pour optimisation) */
   var $montant;
-  
+
   /** Operation de compta liée (peut être NULL) */
   var $id_op;
 
@@ -69,11 +69,11 @@ class efact extends stdentity
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
   }
-  
+
   function load_by_id_op ( $id_op )
   {
     $req = new requete($this->db, "SELECT * FROM `cpta_facture`
@@ -86,11 +86,11 @@ class efact extends stdentity
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
   }
-  
+
   function _load ( $row )
   {
     $this->id = $row['id_efact'];
@@ -102,10 +102,10 @@ class efact extends stdentity
     $this->montant = $row['montant_facture'];
     $this->id_op = $row['id_op'];
   }
-  
+
   function create ( $id_classeur, $nom_facture, $adresse_facture, $date, $titre, $id_op=null )
   {
-    
+
     $this->id_classeur = $id_classeur;
     $this->nom_facture = $nom_facture;
     $this->adresse_facture = $adresse_facture;
@@ -113,7 +113,7 @@ class efact extends stdentity
     $this->titre = $titre;
     $this->montant = 0;
     $this->id_op = $id_op;
-    
+
     $req = new insert ($this->dbrw,
             "cpta_facture", array(
               "id_classeur"=>$this->id_classeur,
@@ -124,13 +124,13 @@ class efact extends stdentity
               "montant_facture"=>$this->montant,
               "id_op"=>$this->id_op
             ));
-  
+
 		if ( $req )
 		{
 			$this->id = $req->get_id();
 		  return true;
 		}
-		
+
 		$this->id = null;
     return false;
   }
@@ -143,7 +143,7 @@ class efact extends stdentity
     $this->date = $date;
     $this->titre = $titre;
     $this->id_op = $id_op;
-        
+
     $req = new update ($this->dbrw,
             "cpta_facture", array(
               "id_classeur"=>$this->id_classeur,
@@ -155,19 +155,19 @@ class efact extends stdentity
             ),
             array("id_efact"=>$this->id) );
   }
-	
+
   function set_op ( $id_op=null )
   {
 
     $this->id_op = $id_op;
-        
+
     $req = new update ($this->dbrw,
             "cpta_facture", array(
               "id_op"=>$this->id_op
             ),
             array("id_efact"=>$this->id) );
   }
-  
+
 	/**
 	 * Ajoute une ligne à la facture
 	 * @param $prix_unit Prix unitaire
@@ -182,10 +182,10 @@ class efact extends stdentity
               "quantite_ligne_efact"=>$quantite,
               "designation_ligne_efact"=>$designation,
               "id_efact"=>$this->id
-            ));	
+            ));
     $this->_update_montant();
 	}
-	
+
 	function update_line ( $num, $prix_unit, $quantite, $designation )
 	{
     $req = new update ($this->dbrw,
@@ -193,26 +193,26 @@ class efact extends stdentity
               "prix_unit_ligne_efact"=>$prix_unit,
               "quantite_ligne_efact"=>$quantite,
               "designation_ligne_efact"=>$designation),
-            array("id_efact"=>$this->id,"num_ligne_efact"=>$num));		
+            array("id_efact"=>$this->id,"num_ligne_efact"=>$num));
     $this->_update_montant();
 	}
-	
+
 	function delete_line ( $num )
 	{
     $req = new delete ($this->dbrw,"cpta_facture_ligne",array("id_efact"=>$this->id,"num_ligne_efact"=>$num));
     $this->_update_montant();
 	}
-	
+
 	function get_line  ( $num )
 	{
     $req = new requete($this->db, "SELECT * FROM `cpta_facture_ligne`
 				WHERE `id_efact` = '".mysql_real_escape_string($this->id)."' AND `num_ligne_efact` = '".mysql_real_escape_string($num)."'
 				LIMIT 1");
-				
+
 	  return $req->get_row();
 	}
-	
-	
+
+
 	function _update_montant()
 	{
 	  $req = new requete($this->dbrw,
@@ -224,22 +224,22 @@ class efact extends stdentity
 	    "WHERE id_efact='".mysql_real_escape_string($this->id)."'".
 	  ") ".
 	  "WHERE id_efact='".mysql_real_escape_string($this->id)."'");
-	  
+
 	  if ( !is_null($this->id_op) )
 	  {
 	    $this->load_by_id($this->id);
 		  $sql = new update ($this->dbrw,"cpta_operation",array("montant_op" => $this->montant),array("id_op" => $this->id_op));
 	  }
 	}
-	
+
 	function delete()
 	{
     new delete ($this->dbrw,"cpta_facture_ligne",array("id_efact"=>$this->id));
-    new delete ($this->dbrw,"cpta_facture",array("id_efact"=>$this->id));	
+    new delete ($this->dbrw,"cpta_facture",array("id_efact"=>$this->id));
 	}
-	
-	
-	
+
+
+
 }
 
 

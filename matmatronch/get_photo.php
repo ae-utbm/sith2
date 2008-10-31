@@ -51,7 +51,7 @@ if ($_REQUEST['email'])
 	$user = $ext_client->load_user_by_email($_REQUEST['email'],$_REQUEST['ae_user']?1:0);
 
 	$ext_client->show_user_photo($user,$_REQUEST['type']?$_REQUEST['type']:1);
-	
+
 }
 
 ?>

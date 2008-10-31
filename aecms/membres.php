@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * AECMS : CMS pour les clubs et activités de l'AE UTBM
- *        
+ *
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 require_once("include/site.inc.php");
 require_once($topdir."include/cts/gallery.inc.php");
 
@@ -49,7 +49,7 @@ $site->add_css("css/sas.css");
 if ( $_REQUEST["action"] == "selfenroll" && !is_null($site->asso->id_parent) )
 {
   $site->allow_only_logged_users(CMS_PREFIX."membres");
-  
+
   if ( $site->asso->is_member($site->user->id) )
   {
     $cts->add_title(2,"Inscription enregistrée");
@@ -57,7 +57,7 @@ if ( $_REQUEST["action"] == "selfenroll" && !is_null($site->asso->id_parent) )
   }
   else
   {
-    $site->asso->add_actual_member ( $site->user->id, time(), ROLEASSO_MEMBRE, "" );    
+    $site->asso->add_actual_member ( $site->user->id, time(), ROLEASSO_MEMBRE, "" );
     $cts->add_title(2,"Inscription enregistrée");
     $cts->add_paragraph("Votre inscription a été enregistrée. Pour modifier à tout moment votre inscription, allez sur le site de l'AE dans <a href=\"/user.php?view=assos\">votre profil</a>.");
   }
@@ -78,7 +78,7 @@ $req = new requete($site->db,
   "AND `asso_membre`.`id_asso`='".$site->asso->id."' " .
   "AND `asso_membre`.`role` >= '".$site->config["membres.upto"]."' ".
   "ORDER BY `asso_membre`.`role` DESC, `asso_membre`.`desc_role`,`utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl` ");
-  
+
 $gal = new gallery();
 while ( $row = $req->get_row() )
 {
@@ -87,11 +87,11 @@ while ( $row = $req->get_row() )
   if ( file_exists($topdir."var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg") )
     $img = "/var/img/matmatronch/".$row['id_utilisateur'].".identity.jpg";
 
-  if ( $row['desc_role'] ) 
+  if ( $row['desc_role'] )
     $role = $row['desc_role'];
   else
     $role = $GLOBALS['ROLEASSO'][$row['role']];
-  
+
   $gal->add_item(
   "<img src=\"$img\" alt=\"Photo\" height=\"105\">",
   "".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")." (".htmlentities($role,ENT_NOQUOTES,"UTF-8").")");
@@ -100,11 +100,11 @@ $cts->add($gal);
 
 if ( $site->config["membres.allowjoinus"] == 1 && !is_null($asso->id_parent) && (!$site->user->is_valid() || !$asso->is_member($site->user->id)) )
 {
-  $cts->add_title(2,"Rejoignez-nous");  
+  $cts->add_title(2,"Rejoignez-nous");
   $cts->add_paragraph("Inscrivez vous pour recevoir toutes les nouvelles par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"membres.php?action=selfenroll\">cliquez ici</a>.");
 }
 
-$site->add_contents($cts);  
+$site->add_contents($cts);
 
 $site->end_page();
 

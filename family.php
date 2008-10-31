@@ -31,14 +31,14 @@ $site = new site ();
 if ( isset($_REQUEST['id_utilisateur']) )
 {
 	$user = new utilisateur($site->db,$site->dbrw);
-	$user->load_by_id($_REQUEST["id_utilisateur"]);	
+	$user->load_by_id($_REQUEST["id_utilisateur"]);
 	if ( $user->id < 0 )
 	{
-		$site->error_not_found();	
-		exit();	
+		$site->error_not_found();
+		exit();
 	}
 	$can_edit = ( $user->id==$site->user->id || $site->user->is_in_group("gestion_ae") );
-	
+
 	if ( $user->id != $site->user->id && !$site->user->utbm && !$site->user->ae )
 		$site->error_forbidden("none","reserved");
 }

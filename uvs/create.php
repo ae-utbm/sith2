@@ -542,7 +542,7 @@ if (isset($_REQUEST['modifyuv']))
 if (isset($_REQUEST['subscr']))
 {
   $uv = $_REQUEST['subscr'];
- 
+
   if (! array_key_exists($uv, $_SESSION['edu_uv_subscr']))
     {
       $rq = new requete($site->db,
@@ -561,7 +561,7 @@ if (isset($_REQUEST['subscr']))
         $format_h[] =  "TD";
       if ($res['tp_uv'] == 1)
         $format_h[] = "TP";
-      
+
       if (count($format_h) == 0)
         $format_h = "HET";
       else

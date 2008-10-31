@@ -34,18 +34,18 @@ class sondage extends stdentity
 {
   /** Question posée */
 	var $question;
-	
+
 	/** Nombre de réponses données */
 	var $total;
-	
+
 	/** Date d'ajout du sondage */
 	var $date;
-	
+
   /** Date de fin de sondage */
 	var $end_date;
-	
+
 	var $officiel;
-	
+
 	/** Charge un sondage en fonction de son id
 	 * $this->id est égal à -1 en cas d'erreur
 	 * @param $id id du sondage
@@ -54,29 +54,29 @@ class sondage extends stdentity
 	{
 		$req = new requete($this->db, "SELECT * FROM `sdn_sondage`
 				WHERE `id_sondage` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-	
+
 	function load_lastest ( )
 	{
-		$req = new requete($this->db, "SELECT * FROM `sdn_sondage` WHERE `date_fin`>=NOW() ORDER BY date_sondage DESC LIMIT 1");	
-				
+		$req = new requete($this->db, "SELECT * FROM `sdn_sondage` WHERE `date_fin`>=NOW() ORDER BY date_sondage DESC LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
 
@@ -87,7 +87,7 @@ class sondage extends stdentity
 		else
 			return 1;
 	}
-	
+
 	function _load ( $row )
 	{
 		$this->id		= $row['id_sondage'];
@@ -96,14 +96,14 @@ class sondage extends stdentity
 		$this->date		= $row['date_sondage'];
 		$this->end_date		= $row['date_fin'];
 	}
-	
+
 	function new_sondage ( $question, $end_date )
 	{
 		$this->question = $question;
 		$this->end_date = $end_date;
 		$this->date = time();
 		$this->total = 0;
-		
+
 		$sql = new insert ($this->dbrw,
 			"sdn_sondage",
 			array(
@@ -113,7 +113,7 @@ class sondage extends stdentity
 				"date_fin" => date("Y-m-d",$this->end_date)
 				)
 			);
-				
+
 		if ( $sql )
 			$this->id = $sql->get_id();
 		else
@@ -132,7 +132,7 @@ class sondage extends stdentity
 	{
 		$this->question = $question;
 		$this->end_date = $end_date;
-		
+
 		$sql = new update($this->dbrw,
 			"sdn_sondage",
 			array(
@@ -143,7 +143,7 @@ class sondage extends stdentity
 				),array("id_sondage"=>$this->id)
 			);
 	}
-	
+
 	function update_reponse ($reponse , $num)
 	{
 		$sql = new requete($this->db,"SELECT `nom_reponse` FROM `sdn_reponse` WHERE `id_sondage`='".mysql_real_escape_string($this->id)."' AND `num_reponse`='".mysql_real_escape_string($num)."'");
@@ -155,9 +155,9 @@ class sondage extends stdentity
 			"sdn_reponse",
 			array("nom_reponse" => $reponse),
 			array("id_sondage"=>$this->id,"num_reponse"=>$num)
-			);		
+			);
 	}
-	
+
 	function add_reponse ( $reponse )
 	{
 		$sql = new insert ($this->dbrw,
@@ -169,7 +169,7 @@ class sondage extends stdentity
 				)
 			);
 	}
-	
+
 	function remove_reponse ( $num )
 	{
 		$sql = new delete($this->dbrw,
@@ -180,46 +180,46 @@ class sondage extends stdentity
 				)
 			);
 	}
-	
+
 	function get_reponses()
 	{
 		$sql = new requete($this->db, "SELECT `num_reponse`,`nom_reponse` " .
 						"FROM `sdn_reponse` " .
 						"WHERE id_sondage='".mysql_escape_string($this->id)."' " .
 						"ORDER BY `num_reponse`");
-		
+
 		$reponses = array();
-		
+
 		while ( list($id,$nom) = $sql->get_row() )
 			$reponses[$id] = $nom;
-			
+
 		return $reponses;
 	}
-	
+
 	function get_results()
 	{
 		$sql = new requete($this->db, "SELECT `num_reponse`,`nom_reponse`,nb_reponse " .
 						"FROM `sdn_reponse` " .
 						"WHERE id_sondage='".mysql_escape_string($this->id)."' " .
 						"ORDER BY `num_reponse`");
-		
+
 		$resultats = array();
-		
+
 		while ( list($id,$nom,$nb) = $sql->get_row() )
 			$resultats[$id] = array($nom,$nb);
-			
+
 		return $resultats;
 	}
 	function a_repondu ( $id_utilisateur )
 	{
-		
+
 		$sql = new requete($this->db, "SELECT * " .
 						"FROM `sdn_a_repondu` " .
 						"WHERE id_sondage='".mysql_escape_string($this->id)."' " .
 						"AND id_utilisateur='".mysql_escape_string($id_utilisateur)."'");
 
 		return ($sql->lines == 1);
-		
+
 	}
 
 	/**
@@ -227,8 +227,8 @@ class sondage extends stdentity
 	 * Si le numéro de reponse est invalide, le vote est compté comme blanc
 	 */
 	function repondre ( $id_utilisateur, $numrep )
-	{		
-		
+	{
+
 		if ( $this->a_repondu($id_utilisateur) ) return;
 
 		$sql = new insert ($this->dbrw,
@@ -239,20 +239,20 @@ class sondage extends stdentity
 				"date_reponse" => date("Y-m-d H:i:s")
 				)
 			);
-		
+
 		if ( $numrep ) // vote pas blanc
 			$sql = new requete($this->dbrw, "UPDATE `sdn_reponse` " .
 					"SET `nb_reponse`=`nb_reponse`+1 " .
 					"WHERE id_sondage='".mysql_escape_string($this->id)."' " .
 					"AND num_reponse='".mysql_escape_string($numrep)."'");
-	
+
 		$sql = new requete($this->dbrw, "UPDATE `sdn_sondage` " .
 					"SET `total_reponses`=`total_reponses`+1 " .
 					"WHERE id_sondage='".mysql_escape_string($this->id)."'");
 		$this->total++;
 	}
 }
- 
- 
- 
+
+
+
 ?>

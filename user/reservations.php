@@ -21,7 +21,7 @@
  * 02111-1307, USA.
  */
 $topdir = "../";
- 
+
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
 require_once($topdir. "include/entities/sitebat.inc.php");
@@ -45,7 +45,7 @@ if ( isset($_REQUEST["id_salres"]) )
 {
 	$resa->load_by_id($_REQUEST["id_salres"]);
 	if ( $resa->id < 1 )
-    $site->error_not_found("matmatronch");	
+    $site->error_not_found("matmatronch");
 
 	$asso->load_by_id($resa->id_asso);
 	$can_edit = $site->user->is_in_group("gestion_ae") || ($resa->id_utilisateur == $site->user->id);
@@ -65,14 +65,14 @@ if ( $_REQUEST["action"] == "delete" && $can_edit )
 if ( isset($_REQUEST['id_utilisateur']) )
 {
 	$user = new utilisateur($site->db,$site->dbrw);
-	
-	$user->load_by_id($_REQUEST["id_utilisateur"]);	
+
+	$user->load_by_id($_REQUEST["id_utilisateur"]);
 	if ( !$user->is_valid() )
-    $site->error_not_found("matmatronch");	
-	
+    $site->error_not_found("matmatronch");
+
 	if ( $user->id != $site->user->id && !$site->user->is_in_group("gestion_ae") )
 		$site->error_forbidden("matmatronch","group",1);
-		
+
 }
 else
 	$user = &$site->user;
@@ -84,7 +84,7 @@ $cts = new contents( $user->prenom . " " . $user->nom );
 $cts->add(new tabshead($user->get_tabs($site->user),"resa"));
 
 $cts->add_paragraph("<a href=\"".$topdir."salle.php?page=reservation\">Nouvelle reservation</a>");
-		
+
 $req = new requete($site->db,"SELECT  " .
 		"`date_demande_res`, " .
 		"sl_salle.id_salle, sl_salle.nom_salle," .
@@ -101,11 +101,11 @@ $req = new requete($site->db,"SELECT  " .
 		"(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
 		"AND sl_reservation.date_debut_salres > NOW() " .
 		"ORDER BY date_debut_salres");
-		
+
 $cts->add(new sqltable(
-		"modereres", 
-		"En attente (de validation ou de convention)", $req, "reservations.php", 
-		"id_salres", 
+		"modereres",
+		"En attente (de validation ou de convention)", $req, "reservations.php",
+		"id_salres",
 		array("nom_asso"=>"Association",
 			"nom_salle"=>"Salle",
 			"date_debut_salres"=>"De",
@@ -113,12 +113,12 @@ $cts->add(new sqltable(
 			"description_salres" => "Motif",
 			"convention"=>"Conv.",
 			"date_demande_res"=>"Demandé le"
-			), 
-		array("delete"=>"Annuler"), 
+			),
+		array("delete"=>"Annuler"),
 		array(),
 		array("convention"=>array(0=>"Non requise",1=>"A faire",11=>"Faite") )
 		),true);
-		
+
 $req = new requete($site->db,"SELECT `utilisateurs`.`id_utilisateur` as `id_utilisateur_op`, " .
 		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur_op`, " .
 		"`date_accord_res`, " .
@@ -137,13 +137,13 @@ $req = new requete($site->db,"SELECT `utilisateurs`.`id_utilisateur` as `id_util
 		"(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
 		"AND sl_reservation.date_debut_salres > NOW() " .
 		"ORDER BY date_debut_salres");
-		
+
 $cts->add_paragraph("<a href=\"".$topdir."wiki2/?name=guide_resp:gestion\">Article sur les conventions de locaux.</a>");
-		
+
 $cts->add(new sqltable(
-		"modereres", 
-		"Reservations validés", $req, "reservations.php", 
-		"id_salres", 
+		"modereres",
+		"Reservations validés", $req, "reservations.php",
+		"id_salres",
 		array("nom_asso"=>"Association",
 			"nom_salle"=>"Salle",
 			"date_debut_salres"=>"De",
@@ -152,12 +152,12 @@ $cts->add(new sqltable(
 			"convention"=>"Conv.",
 			"date_accord_res"=>"Accord le",
 			"nom_utilisateur_op"=>"donné par"
-			), 
-		array("delete"=>"Annuler"), 
+			),
+		array("delete"=>"Annuler"),
 		array(),
 		array("convention"=>array(0=>"Non requise",1=>"A faire",11=>"Faite") )
 		),true);
-		
+
 $site->add_contents($cts);
 $site->end_page();
 ?>

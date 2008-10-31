@@ -16,29 +16,29 @@ $sql = "SELECT " .
 		"`cpta_operation`.`date_op`, " .
 		"`cpta_operation`.`op_effctue`, " .
 		"`cpta_operation`.`commentaire_op`, " .
-		
+
 		"`cpta_operation`.`num_cheque_op`, " .
-		"`cpta_operation`.`mode_op`, " .		
+		"`cpta_operation`.`mode_op`, " .
 
 		"(IF(`cpta_op_plcptl`.`type_mouvement` IS NULL,`cpta_op_clb`.`type_mouvement`,`cpta_op_plcptl`.`type_mouvement`)*`montant_op`) as `montant`, " .
-		
+
 		"`cpta_op_clb`.`libelle_opclb`, " .
 		"`cpta_op_plcptl`.`code_plan`, " .
-		
+
 		"`entreprise`.`nom_entreprise`, " .
 		"`entreprise`.`id_ent`, " .
-		
+
 		"`asso`.`id_asso`, " .
 		"`asso`.`nom_asso`, " .
 
 		"`cpta_cpasso`.`id_cptasso`, " .
 		"CONCAT(`asso2`.`nom_asso`,' sur ',`cpta_cpbancaire`.`nom_cptbc` ) AS `nom_cptasso`, " .
-		
+
 		"`utilisateurs`.`id_utilisateur`, " .
 		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
-		
+
 		"`cpta_libelle`.`nom_libelle` ".
-		
+
 		"FROM `cpta_operation` " .
 		"LEFT JOIN `cpta_op_clb` ON `cpta_operation`.`id_opclb`=`cpta_op_clb`.`id_opclb` ".
 		"LEFT JOIN `cpta_op_plcptl` ON `cpta_operation`.`id_opstd`=`cpta_op_plcptl`.`id_opstd` ".
@@ -52,7 +52,7 @@ $sql = "SELECT " .
 		"LEFT JOIN `cpta_cpbancaire` ON `cpta_cpasso`.`id_cptbc`=`cpta_cpbancaire`.`id_cptbc` ".
 		"WHERE `cpta_operation`.id_classeur='162' " .
 		"ORDER BY `cpta_operation`.`num_op` DESC" ;
-		
+
 
 $tbl = new sqltable2("compte","Test","sqltable2.php");
 $tbl->add_column_number("num_op","N°");

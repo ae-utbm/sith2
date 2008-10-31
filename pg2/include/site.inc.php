@@ -5,11 +5,11 @@ require_once($topdir."include/site.inc.php");
 
 class pgsite extends site
 {
-  
+
   function pgsite()
   {
     $this->site();
-    
+
     $this->tab_array = array (
         array ("pg", "pg2/index.php", "Accueil"),
         /*array ("pgsearch", "pg2/search.php", "Recherche" ),
@@ -19,30 +19,30 @@ class pgsite extends site
         array ("jobetu",   "jobetu/", "Job-étu" ),*/
         array ("retour","index.php","Site AE UTBM")
         );
-        
-    $this->add_css("themes/pg/css/site.css");        
-        
+
+    $this->add_css("themes/pg/css/site.css");
+
   }
-  
+
   function start_page ( $section, $title,$compact=false )
   {
     global $topdir;
 
     interfaceweb::start_page($section,$title." (version provisoire)",$compact);
-    
+
     //$this->add_box("calendrier",new calendar($this->db));
 
     $this->set_side_boxes("left",array("pg","connexion"),"pg_left");
-    
+
     $this->add_box("connexion", $this->get_connection_contents());
   }
-  
+
   function is_admin()
   {
-    return $this->user->is_in_group("pg2_admin");  
+    return $this->user->is_in_group("pg2_admin");
   }
-  
-  
+
+
   function get_connection_contents ()
   {
     global $topdir;
@@ -58,9 +58,9 @@ class pgsite extends site
       $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", false );
       $frm->add_submit("connectbtn","Se connecter");
       $cts->add($frm);
-      
+
       $cts->add_paragraph("<a href=\"".$wwwtopdir."article.php?name=docs:connexion\">Aide</a> - <a href=\"".$wwwtopdir."password.php\">Mot de passe perdu</a>");
-      
+
       return $cts;
     }
 

@@ -52,7 +52,7 @@ $accueil = new contents("Accueil - Covoiturage",
 
 /* "Mes trajets proposés" */
 
-$sql = new requete($site->db, "SELECT 
+$sql = new requete($site->db, "SELECT
                                       `id_trajet`
                                FROM
                                       `cv_trajet`
@@ -62,7 +62,7 @@ $sql = new requete($site->db, "SELECT
                                        `id_trajet`");
 if ($sql->lines)
 {
-  
+
   $trajet = new trajet($site->db);
   $usrtrj = new utilisateur($site->db);
 
@@ -77,11 +77,11 @@ if ($sql->lines)
 
 
       if ($trajet->has_expired())
-	$mytrj[] = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom . 
+	$mytrj[] = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom .
 	  " / " . $trajet->ville_arrivee->nom . "<b> - TRAJET EXPIRE (cliquez pour ajouter une date)</b></a>";
       else
 	{
-	  $str = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom . 
+	  $str = "<a href=\"./gerer.php?id_trajet=".$trajet->id."\">Trajet ". $trajet->ville_depart->nom .
 	    " / " . $trajet->ville_arrivee->nom;
 
 	  if ($trajet->has_pending_steps())
@@ -90,7 +90,7 @@ if ($sql->lines)
 	  $str .= "</a>";
 
 	  $mytrj[] = $str;
-	} 
+	}
     }
 
   if (count($mytrj) > 0)
@@ -103,18 +103,18 @@ if ($sql->lines)
 
 
   $idtrjs = implode(",", $idtrjs);
-  $req = new requete($site->db, "SELECT `id_trajet` FROM `cv_trajet_etape` 
+  $req = new requete($site->db, "SELECT `id_trajet` FROM `cv_trajet_etape`
                                  WHERE `id_trajet` IN (".$idtrjs.") AND `accepted_etape` = '0'");
-  
+
 }
 
 
 
 /* mes "étapes" proposées */
 
-$req = new requete($site->db, "SELECT 
-                                       * 
-                               FROM    
+$req = new requete($site->db, "SELECT
+                                       *
+                               FROM
                                        `cv_trajet_etape`
                                INNER JOIN
                                        `cv_trajet`
@@ -126,7 +126,7 @@ $req = new requete($site->db, "SELECT
 if ($req->lines > 0)
 {
   $trajet = new trajet($site->db);
-  
+
   while ($rs = $req->get_row())
     {
       if ($rs['accepted_etape'] == 2)
@@ -140,31 +140,31 @@ if ($req->lines > 0)
 
 
       $trajet->load_by_id($rs['id_trajet']);
-      
-      $desc = "Trajet ".$trajet->ville_depart->nom." / ".	
+
+      $desc = "Trajet ".$trajet->ville_depart->nom." / ".
 	$trajet->ville_arrivee->nom;
-      
+
       $date = HumanReadableDate($rs['trajet_date'], "", false, true);
-      
+
       $stepsarr[] = array("id" => $rs['id_etape'].','.$rs['id_trajet'].','.$rs['trajet_date'],
-			  "description" => $desc, 
+			  "description" => $desc,
 			  "date" => $date ,
 			  "state" => $state);
-      
-    }
-  
 
-  $accueil->add_title(2, "Mes étapes");                             
+    }
+
+
+  $accueil->add_title(2, "Mes étapes");
 
   $accueil->add_paragraph("Cette partie liste les étapes sur les trajets que vous ".
 			  "souhaitez rejoindre, ainsi que l'état d'acceptation des étapes");
-  
-  $accueil->add(new sqltable("mysteps", "Mes étapes", $stepsarr, "./details.php", "id", 
-			     array("description" => "Description du trajet", 
+
+  $accueil->add(new sqltable("mysteps", "Mes étapes", $stepsarr, "./details.php", "id",
+			     array("description" => "Description du trajet",
 				   "date" => "Date",
-				   "state" => "Etat de la demande"), 
+				   "state" => "Etat de la demande"),
 			     array("delete" => "supprimer", "view" => "Voir"), array()));
-  
+
 } // fin "mes étapes"
 
 /* options */

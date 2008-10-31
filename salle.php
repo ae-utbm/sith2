@@ -21,8 +21,8 @@
  * 02111-1307, USA.
  */
  $topdir = "./";
-setlocale(LC_ALL,"fr_FR.UTF8"); 
- 
+setlocale(LC_ALL,"fr_FR.UTF8");
+
 include($topdir. "include/site.inc.php");
 
 require_once($topdir. "include/cts/sqltable.inc.php");
@@ -46,44 +46,44 @@ if (isset($_REQUEST["id_salle"]))
 if (isset($_REQUEST["id_salres"]))
 {
 	$resa->load_by_id($_REQUEST["id_salres"]);
-	
+
 	if ( $resa->is_valid() )
 	{
   	$salle->load_by_id($resa->id_salle);
   	$asso->load_by_id($resa->id_asso);
   	$can_edit = $site->user->is_in_group("gestion_ae") || ($resa->id_utilisateur == $site->user->id);
-  
+
   	if ( $asso->is_valid() )
   		$can_edit = $can_edit || $asso->is_member_role($site->user->id,ROLEASSO_MEMBREBUREAU);
-  		
+
     if ( $_REQUEST["action"] == "delete" && $can_edit )
     {
     	$resa->delete();
     	$resa->id = null;
-    }  	
+    }
 	}
 }
 
 if ( $salle->is_valid() )
-{	
+{
 	$bat->load_by_id($salle->id_batiment);
 	$sitebat->load_by_id($bat->id_site);
-	
+
 	$tabs = array(array("","salle.php?id_salle=".$salle->id, "Informations"));
-	
+
 	if ( $salle->reservable )
 	{
 		$tabs[] = array("pln","salle.php?id_salle=".$salle->id."&view=pln","Planning");
 		$tabs[] = array("res","salle.php?action=reservation&id_salle=".$salle->id,"Reserver");
 	}
-	
+
 	if ( $site->user->is_in_group("gestion_ae") )
 	{
 		$sql = new requete ( $site->db, "SELECT COUNT(*) FROM `inv_objet` WHERE `id_salle`='".$salle->id."'" );
 		list($count) = $sql->get_row();
 		$tabs[] = array("inv","salle.php?id_salle=".$salle->id."&view=inv", "Inventaire ($count)");
 	}
-	
+
 	if ( $_REQUEST["action"] == "addasso" )
 	{
 		$asso = new asso($site->db);
@@ -91,61 +91,61 @@ if ( $salle->is_valid() )
 		if ( $asso->id > 0 )
 			$salle->add_asso($asso->id);
 	}
-	
+
   if ( $_REQUEST["action"] == "weekplanning" )
   {
     $today = mktime ( 0, 0, 0, date("m"),  date("d"), date("Y") );
-  
+
     require_once($topdir. "include/pdf/planning.inc.php");
-  
+
     $pdf = new pdfplanning("Salle ".$salle->nom,"Seules les reservations sur le site de l'AE seront prises en compte : http://ae.utbm.fr/",7,$today);
-    
+
     $end = $today + (8*SECONDSADAY) - 1;
-    
-		$req = new requete($site->db, 
+
+		$req = new requete($site->db,
 		"SELECT * FROM sl_reservation ".
 		"LEFT JOIN `asso` USING(`id_asso`) ".
 		"WHERE id_salle='".$salle->id."' ".
 		"AND date_debut_salres >= '".date("Y-m-d H:i:s",$today)."' ".
 		"AND date_fin_salres <= '".date("Y-m-d H:i:s",$end)."' ".
 		" ORDER BY date_debut_salres");
-		
+
 		while ( $row = $req->get_row() )
 		{
       $desc = $row['description_salres'];
-      
+
       if(  !is_null($row["nom_asso"] ) )
         $desc.= " (".$row["nom_asso"].")";
 
 		  $pdf->add_element (
-		  strtotime($row['date_debut_salres']), 
-		  strtotime($row['date_fin_salres']), 
+		  strtotime($row['date_debut_salres']),
+		  strtotime($row['date_fin_salres']),
 		  $desc );
 		}
 
 	 $pdf->Output();
     exit();
   }
-	
+
 	if ( $_REQUEST["action"] == "reserver" && $salle->reservable )
 	{
-		
+
 		$resa = new reservation($site->db, $site->dbrw);
 		$asso = new asso($site->db, $site->dbrw);
-		
+
 		if  ($_REQUEST["id_asso"] ) $asso->load_by_id($_REQUEST["id_asso"]);
 		if ( $asso->id > 0 ) $id_asso = $asso->id;
 		else $id_asso = NULL;
-		
-		
+
+
 		if ( isset($_REQUEST["seq"]) && $_REQUEST['description'])
 		{
 			$result = new itemlist("Dates réservés :");
-			
+
 			foreach($_REQUEST["seq"] as $seq => $reserved )
 			{
 				list($debut,$fin) = explode(":",$seq);
-				
+
 				if ( $resa->add ( $salle->id, $site->user->id, $id_asso, $debut, $fin, $_REQUEST['description'] ) )
 				{
 
@@ -157,31 +157,31 @@ if ( $salle->is_valid() )
 		{
 			$_REQUEST["action"] = "reservation";
 			$ErreurResa = "Incomplet";
-		}	
+		}
 		else if ( $_REQUEST['debut'] > $_REQUEST['fin'] )
 		{
 			$_REQUEST["action"] = "reservation";
 			$ErreurResa = "BOULET! La date de fin doit être après la date de début.";
-		}		
+		}
 		else if ( $_REQUEST["allweeks"] )
 		{
 			$site->start_page("none","Reservation ".$salle->nom);
 			$cts = new contents($sitebat->get_html_link()." / ".$bat->get_html_link()." / ".$salle->get_html_link());
-			$cts->add(new tabshead($tabs,"res"));	
+			$cts->add(new tabshead($tabs,"res"));
 			$cts->add_paragraph("Selectionnez les dates à réserver.");
 			$frm = new form("selectdateresa","salle.php?id_salle=".$salle->id,false);
 			$frm->add_hidden("action","reserver");
 			$frm->add_hidden("description",$_REQUEST['description']);
 			$frm->add_hidden("id_asso",$id_asso);
 			$h = intval(date("H",$_REQUEST["debut"]));
-			
+
 			for($debut=$_REQUEST["debut"];$debut<$_REQUEST["until"];$debut+=60*60*24*7)
 			{
 				$debut += ($h-intval(date("H",$debut)))*(60*60);
-				
+
 				$fin = $debut+($_REQUEST["fin"]-$_REQUEST["debut"]);
 				$nom = "Le ".textual_plage_horraire($debut,$fin);
-				
+
 				$dispo = $resa->est_disponible($salle->id,$debut,$fin);
 				if ( ! $dispo )
 				{
@@ -191,11 +191,11 @@ if ( $salle->is_valid() )
 			}
 			$frm->add_submit("valide","Demander");
 			$cts->add($frm);
-			
+
 			$site->add_contents($cts);
 			$site->end_page();
-			exit();			
-			
+			exit();
+
 		}
 		else if ( !$resa->est_disponible($salle->id,$_REQUEST['debut'],$_REQUEST['fin']) )
 		{
@@ -207,18 +207,18 @@ if ( $salle->is_valid() )
 		}
 		else
 			$resa->add ( $salle->id, $site->user->id, $id_asso, $_REQUEST['debut'], $_REQUEST['fin'], $_REQUEST['description'] );
-		
-		
-		
+
+
+
 	}
-	
+
 	if ( $_REQUEST["action"] == "reservation" && $salle->reservable )
 	{
 		$site->start_page("none","Reservation ".$salle->nom);
 		$cts = new contents($sitebat->get_html_link()." / ".$bat->get_html_link()." / ".$salle->get_html_link());
 
-		$cts->add(new tabshead($tabs,"res"));	
-		
+		$cts->add(new tabshead($tabs,"res"));
+
 		$cts->add_paragraph("Votre réservation est immédiate, mais elle est soumise à modération, en cas de refus elle sera supprimée.");
 
 		if ( $salle->convention )
@@ -226,8 +226,8 @@ if ( $salle->is_valid() )
 			$cts->add_paragraph("<b>ATTENTION : Une convention de locaux sera nécessaire.</b><br/>" .
 					"Veuillez lire l'article suivant : <a href=\"".$topdir."wiki2/?name=guide_resp:gestion\">Article sur les conventions de locaux.</a>");
 
-		}			
-	
+		}
+
 		$frm = new form("newresasalle","salle.php?id_salle=".$salle->id,true,"POST","Formulaire de réservation");
 		$frm->add_hidden("action","reserver");
 		if( $ErreurResa ) $frm->error($ErreurResa);
@@ -239,21 +239,21 @@ if ( $salle->is_valid() )
 		$frm->add_datetime_field("until","... jusqu'au");
 		$frm->add_submit("valide","Demander");
 		$cts->add($frm,true);
-		
+
 		$site->add_contents($cts);
 		$site->end_page();
 		exit();
 	}
-	
+
 	$site->start_page("none","Salle ".$salle->nom);
-	
+
 	$cts = new contents($sitebat->get_html_link()." / ".$bat->get_html_link()." / ".$salle->get_html_link());
 
-	$cts->add(new tabshead($tabs,$resa->is_valid()?"pln":$_REQUEST["view"]));	
-	
+	$cts->add(new tabshead($tabs,$resa->is_valid()?"pln":$_REQUEST["view"]));
+
 	if ( ($_REQUEST["view"] == "pln" && $salle->reservable) || $resa->is_valid() )
 	{
-  $cts->add_paragraph("<a href=\"?view=pln&amp;id_salle=".$salle->id."\">Retour au planning</a>");	
+  $cts->add_paragraph("<a href=\"?view=pln&amp;id_salle=".$salle->id."\">Retour au planning</a>");
 	  if ( $resa->is_valid() )
 	  {
       $user = new utilisateur($site->db);
@@ -273,16 +273,16 @@ if ( $salle->is_valid() )
     	$tbl->add_row(array("Motif",htmlentities($resa->description,ENT_NOQUOTES,"UTF-8")));
     	$tbl->add_row(array("Notes",htmlentities($resa->notes,ENT_NOQUOTES,"UTF-8")));
     	$cts->add($tbl,true);
-    	
+
     	if ( $can_edit )
     	  $cts->add_paragraph("<a href=\"?id_salres=".$resa->id."&amp;action=delete\">Supprimer</a>");
-    	
+
 	  }
 	  else
 	  {
-  		$cts->add_paragraph("<a href=\"?action=weekplanning&amp;id_salle=".$salle->id."\">Version PDF</a>");	
+  		$cts->add_paragraph("<a href=\"?action=weekplanning&amp;id_salle=".$salle->id."\">Version PDF</a>");
   		$planning = new weekplanning ( "Planning de reservation",$site->db, "SELECT * FROM sl_reservation WHERE id_salle='".$salle->id."'", "id_salres", "date_debut_salres", "date_fin_salres", "description_salres", "salle.php?view=pln&id_salle=".$salle->id, "salle.php" );
-  		$cts->add($planning);	
+  		$cts->add($planning);
 	  }
 	}
 	elseif ( $_REQUEST["view"] == "inv" && $site->user->is_in_group("gestion_ae") )
@@ -290,7 +290,7 @@ if ( $salle->is_valid() )
 		$req = new requete ( $site->db, "SELECT `inv_objet`.`id_objet`," .
 				"CONCAT(`inv_objet`.`nom_objet`,' ',`inv_objet`.`cbar_objet`) AS `nom_objet`, " .
 				"`asso_gest`.`id_asso` AS `id_asso_gest`, " .
-				"`asso_gest`.`nom_asso` AS `nom_asso_gest`, " .				
+				"`asso_gest`.`nom_asso` AS `nom_asso_gest`, " .
 				"`asso_prop`.`id_asso` AS `id_asso_prop`, " .
 				"`asso_prop`.`nom_asso` AS `nom_asso_prop`, " .
 				"`inv_type_objets`.`id_objtype`,`inv_type_objets`.`nom_objtype`  " .
@@ -299,24 +299,24 @@ if ( $salle->is_valid() )
 				"INNER JOIN `asso` AS `asso_prop` ON `inv_objet`.`id_asso_prop`=`asso_prop`.`id_asso` " .
 				"INNER JOIN `inv_type_objets` ON `inv_objet`.`id_objtype`=`inv_type_objets`.`id_objtype` " .
 				"WHERE `id_salle`='".$salle->id."'" );
-		
+
 		$tbl = new sqltable(
-			"listobjets", 
-			"Inventaire", $req, "objtype.php", 
-			"id_objet", 
-			array("nom_objet"=>"Objet","nom_objtype"=>"Type","nom_asso_gest"=>"Gestionnaire","nom_asso_prop"=>"Propriétaire"), 
+			"listobjets",
+			"Inventaire", $req, "objtype.php",
+			"id_objet",
+			array("nom_objet"=>"Objet","nom_objtype"=>"Type","nom_asso_gest"=>"Gestionnaire","nom_asso_prop"=>"Propriétaire"),
 			array(), array(), array()
 			);
-		
+
 		$cts->add($tbl);
-		
+
 	}
 	else
 	{
-	
-	
+
+
 	if ( $result ) $cts->add($result,true);
-	
+
 	$tbl = new table("Informations");
 	$tbl->add_row(array("Etage:",$salle->etage));
 	$tbl->add_row(array("Fumeur",$salle->fumeur?"Oui":"Non"));
@@ -325,45 +325,45 @@ if ( $salle->is_valid() )
 	$tbl->add_row(array("Telephone:",$salle->tel));
 	$tbl->add_row(array("Batiment",$bat->get_html_link()));
 	$tbl->add_row(array("Site",$sitebat->get_html_link()));
-	
+
 	$cts->add($tbl,true);
-	
+
 	$cts->add_paragraph("Voir aussi : <a href=\"sitebat.php\">Autre sites</a>");
-	
+
 	if ( $salle->reservable )
 		$cts->add_paragraph("<a href=\"salle.php?action=reservation&amp;id_salle=".$salle->id."\"><b>Reserver la salle</b></a>");
-	
+
 	$req = new requete($site->db,"SELECT `asso`.`id_asso` , `asso`.`nom_asso` FROM `sl_association` " .
 			"INNER JOIN `asso` ON `sl_association`.`id_asso`=`asso`.`id_asso`" .
 			"WHERE `sl_association`.`id_salle`='".$salle->id."'");
-	
+
 	if ( $req->lines > 0 )
 	{
 		$tbl = new sqltable(
-			"listassosalle", 
-			"Associations", $req, "salle.php?id_salle=".$salle->id, 
-			"id_asso", 
-			array("nom_asso"=>"Association"), 
+			"listassosalle",
+			"Associations", $req, "salle.php?id_salle=".$salle->id,
+			"id_asso",
+			array("nom_asso"=>"Association"),
 			array(), array(),array()
-			);	
+			);
 		$cts->add($tbl,true);
 	}
-	
-	
-	
+
+
+
 	if ( $site->user->is_in_group("gestion_ae") )
 	{
 		$req = new requete($site->db,"SELECT `asso`.`id_asso`,`asso`.`nom_asso` FROM `asso` " .
 				"LEFT JOIN `sl_association` ON (`sl_association`.`id_asso`=`asso`.`id_asso` AND `sl_association`.`id_salle`='".$salle->id."')" .
 				"WHERE `sl_association`.`id_asso` IS NULL " .
 				"ORDER BY `nom_asso`");
-		
+
 		if ( $req->lines > 0 )
 		{
 			while ( $row = $req->get_row() )
-				$assos[$row['id_asso']] = $row['nom_asso'];		
-			
-	
+				$assos[$row['id_asso']] = $row['nom_asso'];
+
+
 			$frm = new form("addassotosalle","salle.php?id_salle=".$salle->id,false,"POST","Ajouter association");
 			$frm->add_hidden("action","addasso");
 			$frm->add_select_field("id_asso","Association",$assos);
@@ -373,7 +373,7 @@ if ( $salle->is_valid() )
 	}
 	}
 	$site->add_contents($cts);
-		
+
 	$site->end_page();
 	exit();
 }
@@ -391,12 +391,12 @@ $req = new requete($site->db,"SELECT `id_salle`,`nom_salle`,`etage`,`sl_batiment
 							"INNER JOIN `sl_batiment` ON `sl_batiment`.`id_batiment`=`sl_salle`.`id_batiment` " .
 							"INNER JOIN `sl_site` ON `sl_site`.`id_site`=`sl_batiment`.`id_site` $cond");
 $tbl = new sqltable(
-	"listsalles", 
-	"Salles", $req, $_REQUEST["id_asso"]?"salle.php?id_asso=".$_REQUEST["id_asso"]:"salle.php", 
-	"id_salle", 
-	array("nom_salle"=>"Salle","etage"=>"Etage","nom_bat"=>"Batiment","nom_site"=>"Site"), 
+	"listsalles",
+	"Salles", $req, $_REQUEST["id_asso"]?"salle.php?id_asso=".$_REQUEST["id_asso"]:"salle.php",
+	"id_salle",
+	array("nom_salle"=>"Salle","etage"=>"Etage","nom_bat"=>"Batiment","nom_site"=>"Site"),
 	( $_REQUEST["page"] = "reservation" ) ? array("reservation"=>"Reserver") : array(), array(),array()
-	);	
+	);
 $cts->add($tbl);
 $site->add_contents($cts);
 $site->end_page();

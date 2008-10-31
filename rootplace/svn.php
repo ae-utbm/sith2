@@ -134,7 +134,7 @@ if(isset($_REQUEST["id_depot"]))
   }
 
   if($svn)
-  {    
+  {
     if ( isset($_REQUEST["action"]) && isset($_REQUEST["mode"]) && $_REQUEST["action"].$_REQUEST["mode"] == "edituser" )
     {
       $user->load_by_id($_REQUEST["id_utilisateur"]);
@@ -179,7 +179,7 @@ if(isset($_REQUEST["id_depot"]))
       $frm->add_submit("valid","Valider");
       $cts->add($frm,true);
     }
-    
+
     $cts->add_title(2,"Information sur le dépot");
     $cts->add_paragraph("Nom : ".$svn->nom."<br />type : ".$svn->type);
     $req2 = new requete($site->db,"SELECT `id_utilisateur`, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, `right` ".

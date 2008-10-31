@@ -59,13 +59,13 @@ class carteae extends stdentity
 	 * @see $EtatsCarteAE
 	 */
 	var $etat_vie_carte;
-	/** Date d'expiration de la carte (timestamp), 
-	 * corresponds à la fin de la cotisation associée 
+	/** Date d'expiration de la carte (timestamp),
+	 * corresponds à la fin de la cotisation associée
 	 */
 	var $date_expiration;
 	/** Lettre complémentaire au numéro de la carte pour éviter les erreurs de saisie */
   var $cle;
-  
+
 
 	function load_by_id ( $id )
 	{
@@ -78,8 +78,8 @@ class carteae extends stdentity
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
 
@@ -94,7 +94,7 @@ class carteae extends stdentity
 	  {
 	    if ( !$this->load_by_id($regs[1]) )
 	      return false;
-	    
+
 	    if ( strtoupper($this->cle) != strtoupper($regs[2]) ) // Verifie la cle de contrôle
 	    {
 	      $this->id=null;
@@ -130,7 +130,7 @@ class carteae extends stdentity
 		else
 			$this->id = null;
 	}
-	
+
 	/**
 	 * Détermine si la carte chargée est valide
 	 * @return true si la carte est valide, false sinon
@@ -148,7 +148,7 @@ class carteae extends stdentity
 		$this->date_expiration	= $row['date_expiration'];
 		$this->cle	= $row['cle_carteae'];
 	}
-	
+
   /**
    * Crée une nouvelle carte AE
    * @param $id_cotisation Id de la cotisantion
@@ -160,7 +160,7 @@ class carteae extends stdentity
 		$this->etat_vie_carte = CETAT_ATTENTE;
 		$this->date_expiration = $expire;
     $this->cle = chr(ord('A')+rand(0,25));
-    
+
 		$sql = new insert ($this->dbrw,
 			"ae_carte",
 			array(
@@ -204,7 +204,7 @@ class carteae extends stdentity
 	}
 
   /**
-   * Modifie l'etat de la carte 
+   * Modifie l'etat de la carte
    * @param $state Nouvel etat de la carte
 	 * @return true en cas de succès, false sinon
    */

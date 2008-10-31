@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * AECMS : CMS pour les clubs et activités de l'AE UTBM
- *        
+ *
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *

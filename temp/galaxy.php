@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir="../";
 require_once($topdir."include/mysql.inc.php");
 require_once($topdir."include/mysqlae.inc.php");
@@ -51,7 +51,7 @@ if ( isset($_REQUEST["update"]) )
 
 if ( isset($_GET["rand"]) )
   $galaxy->rand();
-  
+
 if ( isset($_GET["optimize"]) )
 {
   echo "OPTIMIZE : ";
@@ -64,11 +64,11 @@ $cycles=10;
 
 if ( isset($_GET["cycles"]) )
    $cycles = intval($_GET["cycles"]);
-   
+
 for($i=0;$i<$cycles;$i++)
 {
   echo "CYCLE : ";
-  $st = microtime(true);  
+  $st = microtime(true);
   $galaxy->cycle(!isset($_REQUEST["bypasscollision"]));
   echo "done in ".round(microtime(true)-$st,2)." sec<br/>\n";
 }

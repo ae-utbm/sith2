@@ -16,16 +16,16 @@ $sql = new requete($sqlae,"SELECT id_message,contenu_message FROM frm_message WH
 
 while ( $row = $sql->get_row() )
 {
-  $msg = substr($row["contenu_message"],strlen($key));  
-  
+  $msg = substr($row["contenu_message"],strlen($key));
+
   echo "\"$msg\"<br/><br/><br/>";
-  
-  
-  
+
+
+
   new update($sqlae,"frm_message",array("id_utilisateur"=>1909,"contenu_message"=>$msg),array("id_message"=>$row["id_message"]));
-  
-  
-  
+
+
+
 }
 
 

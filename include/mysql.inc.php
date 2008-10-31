@@ -34,9 +34,9 @@
  */
 
 /**
- * @defgroup mysql Accès à la base de données 
- */ 
-  
+ * @defgroup mysql Accès à la base de données
+ */
+
 /**
  * Prépare une chaine de caractère pour injection dans une requête SQL pour être
  * utilisée avec l'opérateur 'LIKE'
@@ -48,7 +48,7 @@ function mysql_escape_joker_string ( $string ) {
 	return str_replace("_","\\_",str_replace("%","\\%",mysql_real_escape_string($string)));
 }
 
-/** Classe permettant de se connecter à la base 
+/** Classe permettant de se connecter à la base
  * @ingroup mysql
  */
 class mysql {
@@ -65,7 +65,7 @@ class mysql {
     $this->user = $my_user;
     $this->serveur = $my_serveur;
     $this->base = $my_base;
-    
+
     $my_dbh = @mysql_connect("$my_serveur", "$my_user", "$my_pass");
     if (!$my_dbh) {
       $this->errmsg = "Connexion impossible.";
@@ -97,28 +97,28 @@ class mysql {
  * @ingroup mysql
  */
 class requete {
-  
+
   var $result=null;
   var $errno=0;
   var $errmsg=null;
   var $lines=-1;
   var $base=null;
-  
+
   /**
    * Execute une requête sur la base de données
-   * @param $base Connexion à la base de données 
+   * @param $base Connexion à la base de données
    * @param $req_sql Requête SQL à executer
    * @param $debug Mode debuggage (si 1) (non utilisé)
    */
   function requete (&$base, $req_sql, $debug = 0) {
     global $timing;
-    
+
     $timing["mysql"] -= $st = microtime(true);
 
     if($debug == 1)
       echo "Votre requete SQL est <b> " . $req_sql . "</b><br/>";
 
-    if(!$base->dbh) 
+    if(!$base->dbh)
     {
       $this->errmsg = "Non connecté";
       if( $GLOBALS["taiste"] )
@@ -126,14 +126,14 @@ class requete {
       return;
     }
     $this->base = $base;
-    
+
     $this->result = mysql_query($req_sql, $base->dbh);
-    
+
     $timing["mysql"] += $fn = microtime(true);
     $timing["mysql.counter"]++;
     if ( $fn-$st > 0.001 )
     $timing["req"][] = array($fn-$st,$req_sql);
-    
+
     if ( ($this->errno = mysql_errno($base->dbh)) != 0)
     {
       $this->errmsg = mysql_error($base->dbh);
@@ -142,7 +142,7 @@ class requete {
       $this->lines = -1;
       return;
     }
-    
+
     if(strncasecmp($req_sql, "SELECT",6) == 0)
       $this->lines =  mysql_num_rows ($this->result);
     else
@@ -159,7 +159,7 @@ class requete {
 		else
 		  return null;
   }
-  
+
   /**
    * Retroune à la première ligne du résultat de la requête (si applicable)
    */
@@ -168,7 +168,7 @@ class requete {
   	if ($this->lines > 0 )
   	mysql_data_seek($this->result, 0);
   }
-  
+
   /**
    * Détermine si la requête s'est déroulée avec succès
    * @return true si la requête a été éxécuté avec succès, false sinon
@@ -407,13 +407,13 @@ class delete extends requete {
         $sql .= "(`" . $key . "` is NULL)";
       else
         $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
-  
-  
+
+
   	  if($i != ($delete_conds_count-1))
 	    {
 	      $sql .= " AND ";
 	    }
-  
+
   	  $i++;
   	}
 

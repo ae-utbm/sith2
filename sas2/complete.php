@@ -109,10 +109,10 @@ if ( $_REQUEST["action"] == "complete" )
 
     if ( !$incomplet )
       $photo->set_incomplet(false);
-      
+
     $phasso->load_by_id($_REQUEST["id_asso"]);
     $ptasso->load_by_id($_REQUEST["id_asso_photographe"]);
-    
+
     if ( $_REQUEST["restrict"] == "limittogroup" )
     {
       $photo->droits_acces = 0x310;
@@ -120,7 +120,7 @@ if ( $_REQUEST["action"] == "complete" )
     }
     else
       $photo->droits_acces = 0x311;
-    
+
     $photo->update_photo(
         $photo->date_prise_vue,
         $photo->commentaire,
@@ -178,12 +178,12 @@ if ( $req->lines == 1 )
     "ORDER BY `nom_utilisateur`");
 
   $imgcts = new contents();
-  
+
   if ( $photo->type_media == MEDIA_VIDEOFLV )
     $imgcts->add(new flvideo($photo->id,"sas2/images.php?/".$photo->id.".flv"));
   else
-    $imgcts->add(new image($photo->id,"images.php?/".$photo->id.".diapo.jpg"));  
-  
+    $imgcts->add(new image($photo->id,"images.php?/".$photo->id.".diapo.jpg"));
+
   $cts->add($imgcts,false,true,"sasimg");
 
   $subcts = new contents();
@@ -202,7 +202,7 @@ if ( $req->lines == 1 )
   $frm = new form("peoples",$page,false,"POST","Compléter la photo");
   $frm->add_hidden("id_photo",$photo->id);
   $frm->add_hidden("action","complete");
-    
+
   $sfrm = new subform("people","Personnes sur la photo");
   while ( list($id,$nom) = $req->get_row() )
     $sfrm->add_checkbox("yet|$id",$nom,true);
@@ -210,7 +210,7 @@ if ( $req->lines == 1 )
     $sfrm->add_user_fieldv2("id_utilisateur[$i]","");
   $sfrm->add_checkbox("complet","Liste complète",$photo->incomplet?false:true);
 	$frm->addsub($sfrm);
-  
+
   $sfrm = new subform("meta","Meta-informations");
   $sfrm->add_text_field("titre","Titre",$photo->titre);
   $sfrm->add_text_field("tags","Tags (séparteur: virgule)",$photo->get_tags());
@@ -226,7 +226,7 @@ if ( $req->lines == 1 )
 	$ssfrm->add_entity_select( "id_group", "Groupe", $site->db, "group", $photo->id_groupe );
 	$sfrm->addsub($ssfrm,true);
 	$frm->addsub($sfrm);
-  
+
   $frm->add_submit("fin","Valider/Suivant");
   $subcts->add($frm,true);
 

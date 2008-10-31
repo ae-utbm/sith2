@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/entities/carteae.inc.php");
@@ -38,7 +38,7 @@ if ( !$site->user->is_in_group("root") )
 if ( $_REQUEST["page"] == "avatars" )
 {
   $ids = explode(",",$_REQUEST["id_utilisateurs"]);
-  
+
   if ( $_REQUEST["action"] == "agree" )
   {
     $id = intval(array_shift($ids));
@@ -48,23 +48,23 @@ if ( $_REQUEST["page"] == "avatars" )
   {
     array_shift($ids);
   }
-  
+
   if ( count($ids) > 0 )
   {
     $id = intval($ids[0]);
     $ids = implode(",",$ids);
-    
+
     $site->start_page("matmatronch","Administration");
-    
+
     $cts = new contents("Photos manquantes");
-    $cts->add_paragraph("<img src=\"../var/img/matmatronch/".$id.".jpg\" />");  
-      
-    $cts->add_paragraph("<a href=\"?page=avatars&amp;action=reject&amp;id_utilisateurs=$ids\">Refuser</a>");  
-    $cts->add_paragraph("<a href=\"?page=avatars&amp;action=agree&amp;id_utilisateurs=$ids\">Accepter</a>");  
-      
+    $cts->add_paragraph("<img src=\"../var/img/matmatronch/".$id.".jpg\" />");
+
+    $cts->add_paragraph("<a href=\"?page=avatars&amp;action=reject&amp;id_utilisateurs=$ids\">Refuser</a>");
+    $cts->add_paragraph("<a href=\"?page=avatars&amp;action=agree&amp;id_utilisateurs=$ids\">Accepter</a>");
+
     $site->add_contents($cts);
     $site->end_page();
-    
+
     exit();
   }
 }
@@ -76,12 +76,12 @@ $cts = new contents("Photos manquantes");
 
 $lst = new itemlist();
 
-$req = new requete($site->db, 
+$req = new requete($site->db,
 		"SELECT * ".
 		"FROM `utilisateurs` " .
 		"INNER JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur`=`utl_etu_utbm`.`id_utilisateur` ".
-		"WHERE utbm_utl='1' AND ancien_etudiant_utl!='1' AND role_utbm='etu'");	
-		
+		"WHERE utbm_utl='1' AND ancien_etudiant_utl!='1' AND role_utbm='etu'");
+
 $count=0;
 $noway=0;
 
@@ -94,38 +94,38 @@ while ( $row = $req->get_row() )
 	if ( !file_exists("../var/img/matmatronch/" . $row['id_utilisateur'] .".identity.jpg"))
 	{
     $user->_load_all($row);
-    
+
     $info = "";
-    
+
 	  if ( file_exists("../var/img/matmatronch/" . $row['id_utilisateur'] .".jpg"))
 	  {
       $info = ", avartar disponible";
       $avatar_todo[] = $user->id;
 	  }
-	  
+
     $req2 = new requete($site->db,"SELECT COUNT(id_photo) " .
       "FROM sas_personnes_photos " .
-      "WHERE id_utilisateur='". $user->id."' ");	  
-           
+      "WHERE id_utilisateur='". $user->id."' ");
+
     list($nb) = $req2->get_row();
-        
+
 	  if ( $nb > 0 )
 	  {
       $info .= ", $nb photos disponibles sur le SAS";
       $sas_todo[] = $user->id;
 	  }
-	  
+
 	  if ( $_REQUEST["action"] == "sendmail" )
 	  {
 	    $user->send_photo_email ( $site, $_REQUEST["title"], $_REQUEST["message"] );
       $info .= ", e-mail envoyé";
 	  }
-	  
+
     $lst->add($user->get_html_link().$info);
-    
+
     if ( empty($info) )
       $noway++;
-    
+
     $count++;
 	}
 }
@@ -137,10 +137,10 @@ $lst->add("<b>$noway</b> sans solution possible" );
 if ( count($avatar_todo) || count($sas_todo) )
 {
   $cts->add_title(2,"Resolution");
-  
+
   if ( count($avatar_todo) )
     $cts->add_paragraph("<a href=\"?page=avatars&amp;id_utilisateurs=".implode(",",$avatar_todo)."\">Passer en revue les avatars pour en utiliser en photo d'identité</a>");
-  
+
   if ( count($sas_todo) )
     $cts->add_paragraph("<a href=\"?page=sas&amp;id_utilisateurs=".implode(",",$sas_todo)."\">Decouper des photos dans le SAS pour les utiliser en photo d'identité</a>");
 }

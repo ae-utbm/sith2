@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /** @file
  *
  * @brief Page d'erreur HTTP 404
@@ -30,12 +30,12 @@ Header("HTTP/1.0 404 Not Found");
 
 include($topdir. "include/site.inc.php");
 include($topdir. "include/entities/page.inc.php");
- 
+
 $site = new site ();
- 
+
 $site->start_page("none","Erreur 404");
 $site->add_contents(new error("Page inconnue (404)","Merci de vérifier le lien que vous avez emprunté"));
-$site->end_page(); 	
- 	
+$site->end_page();
+
 
 ?>

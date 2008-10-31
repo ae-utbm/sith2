@@ -51,15 +51,15 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	$jobuser = new jobuser_client($site->db);
 	$jobuser->load_by_id($site->user->id);
 	$jobuser->load_prefs();
-	
+
 	$cts->add_paragraph("Veuillez à présent entrer la description de votre annonce.");
 	$cts->add_paragraph("Soyez aussi précis que possible dans la description de vos besoins afin que nous puissions pleinement vous satisfaire.");
-	
+
 	$jobetu = new jobetu($site->db, $site->dbrw);
 	$jobetu->get_job_types();
 
 	$frm = new form("jobs", "depot.php?action=add", false, "POST", "Contenu de l'annonce");
-	
+
 	$frm->add_text_field("titre_ann", "Titre de l'annonce", false, true, 60);
 	$frm->add( new jobtypes_select_field($jobetu, "job_type", "Catégorie") );
 	$frm->add_info("<i>Si vous ne trouvez pas de categorie adequate, n'hesitez pas a <a href=\"mailto:ae.jobetu@utbm.fr?subject=Demande d'ajout de catégorie\">le signaler</a></i>");
@@ -74,30 +74,30 @@ if(!empty($_REQUEST['action']) && $_REQUEST['action']=="annonce")
 	$frm->add_checkbox("allow_diff", "Diffuser mon numéro de téléphone aux candidats afin qu'ils puissent me contacter", ($jobuser->prefs) ? $jobuser->prefs['pub_num'] : false );
 	$frm->add_submit("go", "Enregistrer mon annonce");
 	$frm->add_info("Les champs marqués d'une astérisque (*) doivent être remplis.");
-	
+
 	$cts->add($frm, true);
 }
 
 /*******************************************************************************************************
- * Formulaire inscription/connexion 
+ * Formulaire inscription/connexion
  */
 else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 {
 	$site->allow_only_logged_users("jobetu");
 	if(!$site->user->is_in_group("jobetu_client")) header("Location: depot.php?action=infos");
-	
+
 	$annonce = new annonce($site->db, $site->dbrw);
 	$annonce->load_by_id($_REQUEST['id']);
 	if( !$annonce->id || !($site->user->id == $annonce->id_client || $site->user->is_in_group("gestion_ae") || $site->user->is_in_group("jobetu_admin") ))
 		header("Location: index.php");
-	
+
 	$cts->add_paragraph("Edition de l'annonce n°$annonce->id : \"$annonce->titre\" ");
-	
+
 	$jobetu = new jobetu($site->db, $site->dbrw);
 	$jobetu->get_job_types();
 
 	$frm = new form("jobs", "depot.php?action=save&id=$annonce->id", false, "POST", "Edition de l'annonce");
-	
+
 	$frm->add_text_field("titre_ann", "Titre de l'annonce", $annonce->titre, true, 60);
 	$frm->add( new jobtypes_select_field($jobetu, "job_type", "Catégorie", $annonce->id_type) );
 	$frm->add_info("<i>Si vous ne trouvez pas de categorie adequate, n'hesitez pas a <a href=\"mailto:ae-jobetu@utbm.fr?subject=Demande d'ajout de catégorie\">le signaler</a></i>");
@@ -115,19 +115,19 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="edit")
 	if($site->user->is_in_group("jobetu_admin"))
 	  $frm->puts("<div class=\"formrow\"><div class=\"formlabel error\">admin</div><div class=\"formfield\"><input type=\"button\" class=\"isubmit\" onClick=\"javascript: window.location.replace('admin.php?view=annonces');\" value=\"Revenir à l'administration\" /></div></div>");
 	$frm->add_info("Les champs marqués d'une astérisque (*) doivent être remplis.");
-	
+
 	$cts->add($frm, true);
 }
 /*******************************************************************************************************
- * Formulaire inscription/connexion 
+ * Formulaire inscription/connexion
  */
 else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 {
 	$site->allow_only_logged_users("services");
 	$site->user->load_all_extra();
-	
+
 	if(isset($_REQUEST) && $_REQUEST['magicform']['name'] == "user_info")
-	{		
+	{
 		if( !$_REQUEST['accept_cgu'] )
 			$error = "Vous devez accepter les conditions générales d'utilisation pour poursuivre";
 		else
@@ -137,35 +137,35 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 			$site->user->id_pays = $_REQUEST['pays'];
 			$site->user->tel_maison = telephone_userinput($_REQUEST['tel_fixe']);
 			$site->user->tel_portable = telephone_userinput($_REQUEST['tel_portable']);
-			
+
 			if( $site->user->saveinfos() )
 			{
 				$site->user->add_to_group(GRP_JOBETU_CLIENT);
 				header("Location: depot.php?action=annonce");
 				exit;
-			} 
-			
-			
+			}
+
+
 		}
 	}
-	
+
 	$ville = new ville($site->db);
 	$pays = new pays($site->db);
-	
+
 	if(!empty($site->user->id_pays))
 		$pays->load_by_id($site->user->id_pays);
 	else
 		$pays->load_by_id(1); //France par défaut
-	
+
 	if(!empty($site->user->id_pays))
 		$ville->load_by_id($site->user->id_ville);
-		
-		
+
+
 	$cts->add_paragraph("Vous êtes à présent inscrit sur le site de l'AE, nous vous remerçions de votre confiance.");
 	$cts->add_paragraph("Afin de compléter votre profil, nous vous remerçions de bien vouloir prendre le temps de remplir les champs ci-dessous.<br />
 												Vous devrez également accepter les conditions générales d'utilisation du service AE Job Etu pour valider cette inscription. <br />
 												Vous pourrez passer votre annonce à la prochaine étape.");
-	
+
 	$frm = new form("user_info", "depot.php?action=infos", true, "POST", "Informations complémentaires (".$site->user->prenom." ".$site->user->nom.")");
 	if(!empty($error))
 		$frm->error($error);
@@ -178,7 +178,7 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
 	$frm->add_checkbox("accept_cgu", "J'ai lu et j'accepte les <a href=\"http://ae.utbm.fr/article.php?name=docs:jobetu:cgu\">conditions générales d'utilisation</a>", false);
 	$frm->add_submit("go", "Etape suivante");
 	$frm->set_focus("adresse");
-	
+
 	$cts->add($frm, true);
 
 
@@ -188,41 +188,41 @@ else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="infos")
  * Traitement de l'annonce à enregistrer
  */
 else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="add" && $_REQUEST['magicform']['name'] == "jobs")
-{	
+{
 	$jobuser = new jobuser_client($site->db);
 	$annonce = new annonce($site->db, $site->dbrw);
 	$jobuser->load_by_id($site->user->id);
-	
+
 	$result = $annonce->add($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['divers'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['nb_postes'], $_REQUEST['remuneration'], $_REQUEST['lieu'], null, $_REQUEST['allow_diff']);
-	
+
 	if($result)
 	{
 		$cts->add_paragraph("Votre annonce a bien été enregistrée sous le numéro $result. Elle sera désormais soumise aux candidatures des étudiants.");
 		$cts->add_paragraph("Vous pouvez désormais gérer l'avancée de votre offre dans votre tableau de bord, les différents candidats vous y seront proposés à mesure que leurs candidatures nous parviennent, vous pourrez alors en sélectionner une pour répondre à votre attente");
-		
+
 		$frm = new form("go", "board_client.php", false, "POST", false);
 		$frm->add_submit("next", "Aller à mon tableau de bord");
-		$cts->add($frm);	
+		$cts->add($frm);
 	}
 }
 /*******************************************************************************************************
  * Traitement de l'annonce à éditer
  */
 else if(!empty($_REQUEST['action']) && $_REQUEST['action']=="save" && $_REQUEST['magicform']['name'] == "jobs")
-{	
+{
 	$jobuser = new jobuser_client($site->db);
 	$jobuser->load_by_id($annonce->id_client);
 	$annonce = new annonce($site->db, $site->dbrw);
 	$annonce->load_by_id($_REQUEST['id']);
-			
+
 	$result = $annonce->save($jobuser, $_REQUEST['titre_ann'], $_REQUEST['job_type'], $_REQUEST['desc_ann'], $_REQUEST['profil'], $_REQUEST['divers'], $_REQUEST['date_debut'], $_REQUEST['duree'], $_REQUEST['nb_postes'], $_REQUEST['remuneration'], $_REQUEST['lieu'], null, $_REQUEST['allow_diff']);
-	
+
 	if($result)
 	{
 		$cts->add_paragraph("Votre annonce \"$annonce->titre\" (n°$result) à bien été éditée.");
 		$frm = new form("go", "board_client.php", false, "POST", false);
 		$frm->add_submit("next", "Aller à mon tableau de bord");
-		$cts->add($frm);	
+		$cts->add($frm);
 	}
 }
 else
@@ -230,15 +230,15 @@ else
 	/******************************************************************************************************
 	 * Onglets informations générales et conditions
 	 */
-	
+
 	$cts->add_title(2, "Quelques details concernant votre depot");
 	$cts->add_paragraph("Vous vous appretez à déposer une annonce sur AE Job Etu et nous vous en remercions");
 	$cts->add_paragraph("Patati patata bla bla bla <br /> Vous devrez tout d'abord vous inscrire si c'est la premiere fois que vous venez et puis allez y");
 	$cts->add_paragraph("A lire : <a href=\"http://ae.utbm.fr/article.php?name=docs:jobetu:cgu\">C.G.U.</a>");
-	
+
 	$frm = new form("go", "depot.php?action=annonce", false, "POST", false);
 	$frm->add_submit("next", "Etape suivante");
-	
+
 	$cts->add($frm);
 
 }

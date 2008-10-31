@@ -20,13 +20,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /**
  * @file
- * 
+ *
  */
- 
-/** 
+
+/**
  * Entreprise en relation avec l'AE
  * @author Julien Etelain
  * @ingroup compta
@@ -38,26 +38,26 @@ class entreprise extends stdentity
 	var $id_ville;
 	var $telephone;
 	var $email;
-	var $fax;	
+	var $fax;
   var $siteweb;
-	
+
 
 	function load_by_id ( $id )
 	{
 		$req = new requete($this->db, "SELECT * FROM `entreprise`
 				WHERE `id_ent` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-	
+
 	function _load ( $row )
 	{
 		$this->id		= $row['id_ent'];
@@ -69,11 +69,11 @@ class entreprise extends stdentity
 		$this->fax		= $row['fax_entreprise'];
 		$this->siteweb		= $row['siteweb_entreprise'];
 	}
-	
+
 	function add ( $nom,$rue,$id_ville,$telephone,$email,$fax,$siteweb)
 	{
 		if ( !$this->dbrw ) return; // Exits if "Read Only" mode
-		
+
 		$this->nom = $nom;
 		$this->rue = $rue;
 		$this->id_ville = $id_ville;
@@ -81,7 +81,7 @@ class entreprise extends stdentity
 		$this->email = $email;
 		$this->fax = $fax;
 		$this->siteweb = $siteweb;
-		
+
 		$sql = new insert ($this->dbrw,
 			"entreprise",
 			array(
@@ -94,30 +94,30 @@ class entreprise extends stdentity
 				"siteweb_entreprise"=> $this->siteweb
 				)
 			);
-				
+
 		if ( $sql )
 			$this->id = $sql->get_id();
 		else
-			$this->id = null;		
-		
+			$this->id = null;
+
 	}
-	
+
 	function remove ( )
 	{
 		if ( !$this->dbrw ) return; // Exits if "Read Only" mode
-	
+
 		$sql = new delete ($this->dbrw,
 			"entreprise",
-			array( 
+			array(
 				"id_ent" => $this->id
 				)
-			);	
-	}	
-	
+			);
+	}
+
 	function save ( $nom,$rue,$id_ville,$telephone,$email,$fax,$siteweb)
 	{
-		
-		
+
+
 		$this->nom = $nom;
 		$this->rue = $rue;
 		$this->id_ville = $id_ville;
@@ -141,19 +141,19 @@ class entreprise extends stdentity
 				"id_ent" => $this->id
 				)
 			);
-		
-		
+
+
 	}
-	
-	
-	
+
+
+
   function _fsearch ( $sqlpattern, $limit=5, $count=false, $conds = null )
   {
     $class = get_class($this);
-    
-    if ( !$sqlpattern ) 
+
+    if ( !$sqlpattern )
       return null;
-    
+
     if ( $count )
     {
 		  $sql = "SELECT COUNT(*) ";
@@ -161,10 +161,10 @@ class entreprise extends stdentity
     }
     else
 		  $sql = "SELECT `id_ent`,`nom_entreprise` ";
-      
+
     $sql .= "FROM `entreprise` ".
-      "WHERE `nom_entreprise` REGEXP '$sqlpattern'";	
-    
+      "WHERE `nom_entreprise` REGEXP '$sqlpattern'";
+
     if ( !is_null($conds) && count($conds) > 0 )
     {
       foreach ($conds as $key => $value)
@@ -176,12 +176,12 @@ class entreprise extends stdentity
           $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
       }
     }
-    
+
     $sql .= " ORDER BY 1";
-    
+
     if ( !is_null($limit) && $limit > 0 )
       $sql .= " LIMIT ".$limit;
-      
+
 		$req = new requete($this->db,$sql);
 
     if ( $count )
@@ -189,12 +189,12 @@ class entreprise extends stdentity
       list($nb) = $req->get_row();
       return $nb;
     }
-    
+
     if ( !$req || $req->errno != 0 )
       return null;
 
     $values=array();
-    
+
 		while ( $row = $req->get_row() )
 		  $values[$row[0]] = $row[1];
 
@@ -205,28 +205,28 @@ class entreprise extends stdentity
 	{
     if ( $this->id == $id_ent )
       return;
-	   
+
 		$sql = new update($this->dbrw,
 			"contact_entreprise",
 			array("id_ent" => $this->id),
 			array("id_ent" => $id_ent));
-			
+
 		$sql = new update($this->dbrw,
 			"commentaire_entreprise",
 			array("id_ent" => $this->id),
 			array("id_ent" => $id_ent));
-			
+
 		$sql = new update($this->dbrw,
 			"cpta_operation",
 			array("id_ent" => $this->id),
 			array("id_ent" => $id_ent));
-	 
+
 		$sql = new delete($this->dbrw,"entreprise_secteur",array("id_ent" => $id_ent));
-	 
-		$sql = new delete($this->dbrw,"entreprise",array("id_ent" => $id_ent));	
+
+		$sql = new delete($this->dbrw,"entreprise",array("id_ent" => $id_ent));
 	}
-	
-	
+
+
 	function add_secteur ( $id_secteur )
 	{
 		$sql = new insert ($this->dbrw,
@@ -237,7 +237,7 @@ class entreprise extends stdentity
 				)
 			);
 	}
-	
+
 	function remove_secteur ( $id_secteur )
 	{
 		$sql = new delete ($this->dbrw,
@@ -248,7 +248,7 @@ class entreprise extends stdentity
 				)
 			);
 	}
-	
+
 }
 
 /**
@@ -269,18 +269,18 @@ class contact_entreprise extends stdentity
 	{
 		$req = new requete($this->db, "SELECT * FROM `contact_entreprise`
 				WHERE `id_contact` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-	
+
 	function _load ( $row )
 	{
 		$this->id		= $row['id_contact'];
@@ -291,7 +291,7 @@ class contact_entreprise extends stdentity
 		$this->email		= $row['email_contact'];
 		$this->fax		= $row['fax_contact'];
 	}
-	
+
 	function add ( $id_ent, $nom, $telephone, $service, $email, $fax )
 	{
 		$this->id_ent	= $id_ent;
@@ -300,8 +300,8 @@ class contact_entreprise extends stdentity
 		$this->service	= $service;
 		$this->email		= $email;
 		$this->fax		= $fax;
-		
-		
+
+
 		$sql = new insert ($this->dbrw,
 			"contact_entreprise",
 			array(
@@ -313,34 +313,34 @@ class contact_entreprise extends stdentity
 				"fax_contact" => $this->fax
 				)
 			);
-				
+
 		if ( $sql )
 			$this->id = $sql->get_id();
 		else
-			$this->id = null;			
-		
+			$this->id = null;
+
 	}
-	
+
 	function remove ( )
 	{
 		if ( !$this->dbrw ) return; // Exits if "Read Only" mode
-	
+
 		$sql = new delete ($this->dbrw,
 			"contact_entreprise",
-			array( 
+			array(
 				"id_contact" => $this->id
 				)
-			);	
-	}	
-	
-} 
+			);
+	}
+
+}
 
 /**
  * Commentaire sur une entreprise
  * @author Julien Etelain
  * @ingroup compta
  */
-class commentaire_entreprise extends stdentity 
+class commentaire_entreprise extends stdentity
 {
 	var $id_ent;
 	var $id_utilisateur;
@@ -348,7 +348,7 @@ class commentaire_entreprise extends stdentity
 	var $date;
 	var $commentaire;
 
-	
+
 	/** Charge un commentaire en fonction de son id
 	 * $this->id est égal à -1 en cas d'erreur
 	 * @param $id id de la fonction
@@ -357,18 +357,18 @@ class commentaire_entreprise extends stdentity
 	{
 		$req = new requete($this->db, "SELECT * FROM `commentaire_entreprise`
 				WHERE `id_com_ent` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-	
+
 	function _load ( $row )
 	{
 		$this->id			= $row['id_com_ent'];
@@ -378,7 +378,7 @@ class commentaire_entreprise extends stdentity
 		$this->date			= $row['date_com_ent'];
 		$this->commentaire	= $row['commentaire_ent'];
 	}
-	
+
 	function add ( $id_utilisateur, $id_ent, $id_contact, $commentaire )
 	{
 		if ( !$id_contact )
@@ -389,7 +389,7 @@ class commentaire_entreprise extends stdentity
 		$this->id_contact	= $id_contact;
 		$this->date 			= time();
 		$this->commentaire	= $commentaire;
-		
+
 		$sql = new insert ($this->dbrw,
 			"commentaire_entreprise",
 			array(
@@ -400,26 +400,26 @@ class commentaire_entreprise extends stdentity
 				"commentaire_ent" => $this->commentaire
 				)
 			);
-				
+
 		if ( $sql )
 			$this->id = $sql->get_id();
 		else
-			$this->id = null;			
-		
+			$this->id = null;
+
 	}
-	
+
 	function remove ( )
 	{
 		if ( !$this->dbrw ) return; // Exits if "Read Only" mode
-	
+
 		$sql = new delete ($this->dbrw,
 			"commentaire_entreprise",
-			array( 
+			array(
 				"id_com_ent" => $this->id
 				)
-			);	
-	}	
-} 
+			);
+	}
+}
 
 /**
  * Secteur d'activité pour les entreprises
@@ -429,52 +429,52 @@ class commentaire_entreprise extends stdentity
  */
 class secteur extends stdentity
 {
-  
+
 	var $nom;
 
 	function load_by_id ( $id )
 	{
 		$req = new requete($this->db, "SELECT * FROM `secteur`
 				WHERE `id_secteur` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
-				
+				LIMIT 1");
+
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-  
-  
+
+
 	function _load ( $row )
 	{
 		$this->id			= $row['id_secteur'];
 		$this->nom		= $row['nom_secteur'];
 	}
-  
+
 	function add ( $nom )
 	{
 		$this->nom		= $nom;
-		
+
 		$sql = new insert ($this->dbrw,
 			"secteur",
 			array(
 				"nom_secteur" => $this->nom
 				)
 			);
-				
+
 		if ( $sql )
 			$this->id = $sql->get_id();
 		else
-			$this->id = null;			
-		
+			$this->id = null;
+
 	}
   function can_fsearch ( )
   {
-    return false;  
+    return false;
   }
 }
 

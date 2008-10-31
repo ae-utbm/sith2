@@ -3,7 +3,7 @@
 /** @file
  *
  * @brief Classe de traduction dokuwiki -> html
- * 
+ *
  */
 
 /* Copyright 2007,2008
@@ -48,16 +48,16 @@ class dokusyntax
     $js = false;
     $table   = array();
     $hltable = array();
-  
+
     //preparse
     $text = $this->preparse($text,$hltable);
-  
+
     //fix : je sais pas comment changer le vin en eau dsl
     $text  = "\n".$text."\n";
-  
+
     // last revision
     //$text = str_replace("«««site-rev»»»", get_rev(), $text);
-  
+
     /*les liens (à la base y'en a plein de suportés j'ai fait le ménage
      * ex : telnet, gopher, irc, ...
      */
@@ -67,7 +67,7 @@ class dokusyntax
     $punc = '.:?\-';
     $host = $ltrs.$punc;
     $any  = $ltrs.$gunk.$punc;
-  
+
     /* first pass */
 
     // textes préformatés
@@ -79,14 +79,14 @@ class dokusyntax
     // je sais pas si ça servira mais bon ...
     $this->firstpass($table,$text,"#<html>(.*?)</html>#se","\$this->preformat('\\1','html')");
     $this->firstpass($table,$text,"#<php>(.*?)</php>#se","\$this->preformat('\\1','php')");
-  
+
     $this->firstpass($table,$text,"#<file>(.*?)</file>#se","\$this->preformat('\\1','file')");
-  
-  
-  
+
+
+
     // block de code
     $this->firstpass($table,$text,"/(\n( {2,}|\t)[^\*\-\n ][^\n]+)(\n( {2,}|\t)[^\n]*)*/se","\$this->preformat('\\0','block')","\n");
-  
+
     //check if toc is wanted
     if(!isset($parser['toc'])){
       if(strpos($text,'~~NOTOC~~')!== false)
@@ -98,39 +98,39 @@ class dokusyntax
         $parser['toc']  = true;
     }
     if(!isset($parser['secedit'])) $parser['secedit'] = true;
-  
-  
+
+
     //headlines
     $this->format_headlines($table,$hltable,$text);
 
     // links
     $this->firstpass($table,$text,"#\[\[([^\]]+?)\]\]#ie","\$this->linkformat('\\1')");
-  
+
     // media
     $this->firstpass($table,$text,"#\{\{([^\}]+?)\}\}#ie","\$this->mediaformat('\\1')");
-  
+
     // cherche les url complètes
     $this->firstpass($table,$text,"#(\b)($urls:[$any]+?)([$punc]*[^$any])#ie","\$this->linkformat('\\2')",'\1','\4');
-  
+
     // url www version courte
     $this->firstpass($table,$text,"#(\b)(www\.[$host]+?\.[$host]+?[$any]+?)([$punc]*[^$any])#ie","\$this->linkformat('http://\\2')",'\1','\3');
-  
-    // windows shares 
+
+    // windows shares
     $this->firstpass($table,$text,"#([$gunk$punc\s])(\\\\\\\\[$host]+?\\\\[$any]+?)([$punc]*[^$any])#ie","\$this->linkformat('\\2')",'\1','\3');
-  
-    // url ftp version courtes 
+
+    // url ftp version courtes
     $this->firstpass($table,$text,"#(\b)(ftp\.[$host]+?\.[$host]+?[$any]+?)([$punc]*[^$any])#ie","\$this->linkformat('ftp://\\2')",'\1','\3');
-  
+
     // les n'emails
     $this->firstpass($table,$text,"#([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#ie", "\$this->linkformat('\\1@\\2')");
-  
+
     if(isset($conf["macrofunction"]) && is_array($conf["macrofunction"]) && is_callable($conf["macrofunction"]))
       $this->firstpass($table,$text,"#@@([^@]+)@@#ie","\$this->wikimacro('\\1')");
-  
+
     $text = htmlspecialchars($text);
-  
-  
-  
+
+
+
     //citation
     $text = str_replace( CHR(10), "__slash_n__" , $text );
     while( preg_match("/\[quote=(.*?)\](.*?)\[\/quote\]/i",$text) )
@@ -152,7 +152,7 @@ class dokusyntax
     $text= str_replace('___</div>___</div>___','</div></div>'.CHR(10),$text);
     $text= str_replace('__slash_n__',CHR(10),$text);
 
-    
+
     if(isset($conf['bookmarks']) && $conf['bookmarks'])
     {
       global $wwwtopdir;
@@ -165,47 +165,47 @@ class dokusyntax
 
     /* deuxième pass pour les formatages simples */
     $text = $this->simpleformat($text);
-    
+
     /* troisième pass - insert les trucs de la première pass */
     reset($table);
     while (list($key, $val) = each($table))
       $text = str_replace($key,$val,$text);
-  
+
     $text = trim($text);
-    
+
     $timing["doku2xhtml"] += microtime(true);
 
     $text=str_replace('__dot__','[dot]',str_replace('__at__','[at]',$text));
 
     if ( $summury )
       return array($js.$text,$hltable);
- 
+
     return $js.$text;
   }
 
   function wikimacro($match)
   {
     global $conf;
-    
+
     if ( !$conf["macrofunction"] || !is_callable($conf["macrofunction"]) )
       return $match;
-    
+
     return call_user_func( $conf["macrofunction"], $match );
   }
-  
-  
+
+
   /**
    * On préparse le texte ligne par ligne.
    */
   function preparse($text,&$hltable)
   {
     $lines = split("\n",$text);
-  
-  
+
+
     for ($l=0; $l<count($lines); $l++)
     {
       $line = $lines[$l];
-  
+
       // on cherche la fin des trucs à ne pas parser qui sont sur plusieurs lignes
       if($noparse){
         if(preg_match("#^.*?$noparse#",$line))
@@ -216,7 +216,7 @@ class dokusyntax
         else
           continue;
       }
-  
+
       if(!$noparse)
       {
         // abat les indentations \o/
@@ -241,19 +241,19 @@ class dokusyntax
           continue;
         }
       }
-  
+
       //headlines
       if(preg_match('/^(\s)*(==+)(.+?)(==+)(\s*)$/',$lines[$l],$matches))
       {
         $tk = $this->tokenize_headline($hltable,$matches[2],$matches[3],$l);
         $lines[$l] = $tk;
       }
-  
+
     }
-  
+
     return join("\n",$lines);
   }
-  
+
   /**
    * Cette fonction ajoute quelques infos à propos du "headline" qui lui est passé
    * comme ça on pourra faire de la marmelade après (un sommaire)
@@ -285,16 +285,16 @@ class dokusyntax
                         'token' => $token );
     return $token;
   }
-  
+
   function format_headlines(&$table,&$hltable,&$text)
   {
     global $parser;
     global $conf;
     global $lang;
     global $ID;
-    $uid=$this->uid; 
+    $uid=$this->uid;
     $lang = 'fr'; // bein quoi ?
-  
+
     $last = 0;
     $cnt  = 0;
     foreach($hltable as $hl)
@@ -308,24 +308,24 @@ class dokusyntax
       $headline  .= $hl['name'];
       $headline  .= '</h'.$hl['level'].'>';
       $headline  .= '<div class="level'.$hl['level'].'">';
-  
+
       if($hl['level'] <= $conf['maxtoclevel'])
       {
         $content[]  = array('id'    => 'h_'.$uid.'_'.$cnt,
                             'name'  => $hl['name'],
                             'level' => $hl['level']);
       }
-  
+
       $table[$hl['token']] = $headline;
     }
-  
+
     if ($cnt)
     {
       $token = $this->mktoken();
       $text .= $token;
       $table[$token] = '</div>';
     }
-  
+
     if ($parser['toc'] && count($content) > 2)
     {
       $token = $this->mktoken();
@@ -386,14 +386,14 @@ class dokusyntax
     $ret .= '</a>';
     return $ret;
   }
-  
+
   function linkformat($match)
   {
     global $conf;
     global $wwwtopdir,$topdir;
     $ret = '';
     $match = str_replace('\\"','"',$match);
-  
+
     list($link,$name) = split('\|',$match,2);
     $link   = trim($link);
     $name   = trim($name);
@@ -403,17 +403,17 @@ class dokusyntax
     $pre    = '';
     $post   = '';
     $more   = '';
-  
+
     $realname = $name;
-  
+
     // email
     if(preg_match('#([a-z0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)#i',$link))
       $this->format_link_email($link,$name,$class,$target,$style,$pre,$post,$more);
     // liens
     else
       $this->format_link($link,$name,$class,$target,$style,$pre,$post,$more);
-      
-      
+
+
     if( !strpos($link,'mailto:') && preg_match('/^([a-zA-Z]+):\/\//',$link) ) // liens externe et spéciaux
     {
       if ( preg_match('/dfile:\/\/([0-9]*)(\/preview|\/info|\/download|\/thumb)?/i',$link,$match) )
@@ -432,19 +432,19 @@ class dokusyntax
         elseif ( $match[2] == "/thumb" )
           $link = "http://ae.utbm.fr/d.php?action=download&download=thumb&id_file=".$match[1];
         elseif ( $match[2] == "/info" )
-          $link = "http://ae.utbm.fr/d.php?id_file=".$match[1];      
+          $link = "http://ae.utbm.fr/d.php?id_file=".$match[1];
       }
       else
       {
         //les article://
         $link = preg_replace("/article:\/\//i",'http://ae.utbm.fr/'.$GLOBALS["entitiescatalog"]["page"][3]."?name=",$link);
         //les wiki://
-        $link = preg_replace("/wiki:\/\//i",'http://ae.utbm.fr/'.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link); 
+        $link = preg_replace("/wiki:\/\//i",'http://ae.utbm.fr/'.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=",$link);
         $link = preg_replace("/sas:\/\//i","http://ae.utbm.fr/sas2/images.php?/",$link);
       }
     }
     elseif ( !strpos($link,'mailto:') && !preg_match("#(\.|/)#",$link) )
-    {  
+    {
       $link = preg_replace("/[^a-z0-9\-_:#]/","_",strtolower(utf8_enleve_accents($link)));
       if ( $link{0} != '#' )
       {
@@ -452,9 +452,9 @@ class dokusyntax
           $link = substr($link,1);
         elseif ( !empty($conf["linksscope"]))
           $link = $conf["linksscope"].$link;
-          
+
         if ( $conf["linkscontext"] == "wiki" )
-          $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=".$link; 
+          $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["wiki"][3]."?name=".$link;
         else
           $link = $wwwtopdir.$GLOBALS["entitiescatalog"]["page"][3]."?name=".$link;
       }
@@ -464,9 +464,9 @@ class dokusyntax
         $link=substr($link,$pos);
       }
     }
-  
-  
-    
+
+
+
     $ret .= $pre;
     $ret .= '<a href="'.$link.'"';
     if($class)  $ret .= ' class="'.$class.'"';
@@ -477,29 +477,29 @@ class dokusyntax
     $ret .= $name;
     $ret .= '</a>';
     $ret .= $post;
-  
+
     return $ret;
   }
-  
+
   /**
    * les trucs simples et pas chiant c'est ici
    */
   function simpleformat($text)
   {
     global $conf;
-  
+
     $text = preg_replace('#&lt;del&gt;(.*?)&lt;/del&gt;#is','<s>\1</s>',$text); //del
     $text = preg_replace('/__([^_]+?)__/s','<u>\1</u>',$text);  //underline
     $text = preg_replace('/\/\/([^_]+?)\/\//s','<em>\1</em>',$text);  //emphasize
     $text = preg_replace('/\*\*([^*]+?)\*\*/s','<strong>\1</strong>',$text);  //bold
     $text = preg_replace('/\'\'([^\']+?)\'\'/s','<code>\1</code>',$text);  //code
     $text = preg_replace('/^(\s)*----+(\s*)$/m','<hr noshade="noshade" size="1" />',$text); //hr
-  
+
     $text = preg_replace('#&lt;sub&gt;(.*?)&lt;/sub&gt;#is','<sub>\1</sub>',$text);
     $text = preg_replace('#&lt;sup&gt;(.*?)&lt;/sup&gt;#is','<sup>\1</sup>',$text);
-   
+
     $text = preg_replace("/\n((&gt;)[^\n]*?\n)+/se","'\n'.\$this->quoteformat('\\0').'\n'",$text);
-    
+
     $text = preg_replace('/([^-])--([^-])/s','\1&#8211;\2',$text);
     $text = preg_replace('/([^-])---([^-])/s','\1&#8212;\2',$text);
     $text = preg_replace('/&quot;([^\"]+?)&quot;/s','&#8220;\1&#8221;',$text);
@@ -507,48 +507,48 @@ class dokusyntax
     $text = preg_replace('/(\S)\'/','\1&#8217;',$text);
     $text = preg_replace('/\.\.\./','\1&#8230;\2',$text);
     $text = preg_replace('/(\d+)x(\d+)/i','\1&#215;\2',$text);
-  
+
     $text = preg_replace('/&gt;&gt;/i','&raquo;',$text);
     $text = preg_replace('/&lt;&lt;/i','&laquo;',$text);
-  
+
     $text = preg_replace('/&lt;-&gt;/i','&#8596;',$text);
     $text = preg_replace('/&lt;-/i','&#8592;',$text);
     $text = preg_replace('/-&gt;/i','&#8594;',$text);
-  
+
     $text = preg_replace('/&lt;=&gt;/i','&#8660;',$text);
     $text = preg_replace('/&lt;=/i','&#8656;',$text);
     $text = preg_replace('/=&gt;/i','&#8658;',$text);
-    
+
     $text = preg_replace('/\(c\)/i','&copy;',$text);
     $text = preg_replace('/\(r\)/i','&reg;',$text);
     $text = preg_replace('/\(tm\)/i','&trade;',$text);
-    
+
     //retours à la ligne forcés
     $text = preg_replace('#\\\\\\\\(\s)#',"<br />\\1",$text);
-  
+
     // dos2unix
     $text = str_replace("\r\n","\n",$text);
     $text = str_replace("\n\r","\n",$text);
     $text = str_replace("\r","\n",$text);
-  
+
     // lists (blocks leftover after blockformat)
     $text = preg_replace("/(\n( {2,}|\t)[\*\-][^\n]+)(\n( {2,}|\t)[^\n]*)*/se","\"\\n\".\$this->listformat('\\0')",$text);
-  
+
     // tableaux
     $text = preg_replace("/\n(([\|\^][^\n]*?)+[\|\^]\n)+/se","\"\\n\".\$this->tableformat('\\0')",$text);
-  
+
     //smileys
     $text = $this->smileys($text);
-  
+
     // footnotes
     $text = $this->footnotes($text);
-  
+
     // double sauts de ligne = nouveau paragraphe
     $text = str_replace("\n\n","<p />",$text);
-  
+
     return $text;
   }
-  
+
   /**
    * les footnotes
    */
@@ -565,11 +565,11 @@ class dokusyntax
       if($num == 1) $text .= '<div class="footnotes">';
       $text .= '<div class="fn">'.$linkb.' '.$fn.'</div>';
     }
-  
+
     if($num) $text .= '</div>';
     return $text;
   }
-  
+
   /**
    * on remplace les smileys :)
    */
@@ -577,16 +577,16 @@ class dokusyntax
   {
     global $wwwtopdir;
     $smileys = array(
-    
+
       ":-o"=>"omg.png",
       ":-O"=>"omg.png",
       ":o"=>"omg.png",
       ":O"=>"omg.png",
       "8-O"=>"omg.png",
-      
+
       ":-("=>"sad.png",
-      ":("=>"sad.png",    
-      
+      ":("=>"sad.png",
+
       ":-)"=>"smile.png",
       ":)"=>"smile.png",
       ":-/"=>"confused.png",
@@ -607,8 +607,8 @@ class dokusyntax
       ";-("=>"cry.png",
       ";("=>"cry.png",
       "x)"=>"caca.png",
-      "x-)"=>"caca.png",                  
-      ":caca:"=>"caca.png",     
+      "x-)"=>"caca.png",
+      ":caca:"=>"caca.png",
       ":-p"=>"tongue.png",
       ":-P"=>"tongue.png",
       ":p"=>"tongue.png",
@@ -638,12 +638,12 @@ class dokusyntax
         $tag = preg_replace('!\.!i', '\.', $tag);
         $tag = preg_replace('!\|!i', '\|', $tag);
         $text = preg_replace('!( |^|\n)'.$tag.'( |$|\n)!i', "$1<img src=\"".$smPath.$img."\" alt=\"\" />$2", $text);
-  
+
       }
     }
     return $text;
   }
-  
+
   function firstpass(&$table,&$text,$regexp,$replace,$lpad='',$rpad='')
   {
     $ext='';
@@ -652,7 +652,7 @@ class dokusyntax
       $ext='e';
       $regexp = substr($regexp,0,-1);
     }
-  
+
     while(preg_match($regexp,$text,$matches))
     {
       $token = $this->mkToken();
@@ -661,12 +661,12 @@ class dokusyntax
       $table[$token] = preg_replace($regexp.$ext,$replace,$match);
     }
   }
-  
+
   function mkToken()
   {
     return '~'.md5(uniqid(rand(), true)).'~';
   }
-  
+
   /**
    * quote quote quodec !
    */
@@ -674,7 +674,7 @@ class dokusyntax
   {
     $block = trim($block);
     $lines = split("\n",$block);
-  
+
     $lvl = 0;
     $ret = "";
     foreach ($lines as $line)
@@ -685,35 +685,35 @@ class dokusyntax
         $line = substr($line,4);
         $cnt++;
       }
-  
+
       if($cnt > $lvl)
         for ($i=0; $i< $cnt - $lvl; $i++)
           $ret .= '<div class="quote">';
       elseif($cnt < $lvl)
         for ($i=0; $i< $lvl - $cnt; $i++)
           $ret .= "</div>\n";
-  
+
       $ret .= ltrim($line)."\n";
       $lvl = $cnt;
     }
-  
+
     for ($i=0; $i< $lvl; $i++)
       $ret .= "</div>\n";
-  
+
     return $ret;
   }
-  
+
   function tableformat($block)
   {
     $block = trim($block);
-    
+
     if(preg_match("/@(.+?)@/",$block))
     {
       preg_match("/@(.+?)@/s",$block,$match);
       $class = str_replace('@', '', $match[0]);
       $block = preg_replace('/@(.+?)@/s', '', $block);
     }
-    
+
     $lines = split("\n",$block);
     $ret = "";
     $rows = array();
@@ -754,7 +754,7 @@ class dokusyntax
       $gen_graph=false;
       unset($graph);
     }
-  
+
     // et là les tables de la loi furent !
     if(isset($class))
       $ret .= "<table class=\"".$class."\">\n";
@@ -784,7 +784,7 @@ class dokusyntax
         }
         else
           $cspan = '';
-  
+
         if ($head)
           $ret .= "    <th class=\"inline $format\" $cspan>$data</th>\n";
         else
@@ -810,7 +810,7 @@ class dokusyntax
       }
     }
     $ret .= "</table>\n\n";
-  
+
     if($gen_graph)
     {
       global $js;
@@ -868,18 +868,18 @@ class dokusyntax
     }
     return $ret;
   }
-  
+
   function listformat($block)
   {
     $block = substr($block,1);
     $text = str_replace('\\"','"',$text);
-  
+
     $ret='';
     $lst=0;
     $lvl=0;
     $enc=0;
     $lines = split("\n",$block);
-  
+
     $cnt=0;
     $items = array();
     foreach ($lines as $line)
@@ -896,16 +896,16 @@ class dokusyntax
       $items[$cnt]['text']  = $line;
       $cnt++;
     }
-  
+
     $current['level'] = 0;
     $current['type']  = '';
-  
+
     $level = 0;
     $opens = array();
-  
+
     foreach ($items as $item)
     {
-  
+
       if( $item['level'] > $level )
       {
         $ret .= "\n<".$item['type'].">\n";
@@ -919,13 +919,13 @@ class dokusyntax
       }
       else
         $ret .= "</li>\n";
-  
+
       $level = $item['level'];
-  
+
       $ret .= '<li class="level'.$item['level'].'">';
       $ret .= '<span class="li">'.$item['text'].'</span>';
     }
-  
+
     while ($open = array_pop($opens))
     {
       $ret .= "</li>\n";
@@ -933,15 +933,15 @@ class dokusyntax
     }
     return $ret;
   }
-  
+
   function preformat($text,$type,$option='')
   {
     global $conf;
     $text = str_replace('\\"','"',$text);
-    
+
     if($type == 'php' && !$conf['phpok']) $type='file';
     if($type == 'html' && !$conf['htmlok']) $type='file';
-    
+
     switch ($type)
     {
       case 'php':
@@ -975,7 +975,7 @@ class dokusyntax
     }
     return $text;
   }
-  
+
   function mediaformat($text)
   {
     global $conf;
@@ -999,22 +999,22 @@ class dokusyntax
     {
       if ( !$width )
         $width=400;
-        
+
       if ( !$height )
         $height=300;
-        
-      if ( !preg_match("/([a-z0-9]+):\/\//",$img) )  
+
+      if ( !preg_match("/([a-z0-9]+):\/\//",$img) )
       {
         if ( substr($img,0,strlen($wwwtopdir)) == $wwwtopdir )
           $img = "../../".substr($img,strlen($wwwtopdir));
         else
           $img = "../../".$img;
-      }  
+      }
       $ret .= "<object type=\"application/x-shockwave-flash\" data=\"".$wwwtopdir."images/flash/flvplayer.swf\" width=\"400\" height=\"300\" class=\"media".$format["align"]."\">";
       $ret .="<param name=\"movie\" value=\"".$wwwtopdir."images/flash/flvplayer.swf\" />";      $ret .="<param name=\"FlashVars\" value=\"flv=".$img."\" />";      $ret .="<param name=\"wmode\" value=\"transparent\" />";      $ret .="</object>";
       return $ret;
     }
-    
+
     $ret .= '<img src="'.$img.'"';
     $ret .= ' class="media'.$format['align'].'"';
     if(!empty($width))
@@ -1024,7 +1024,7 @@ class dokusyntax
     $ret .= ' alt="'.$name.'" title="'.$name.'" />';
     return $ret;
   }
-  
+
   function alignment($texte)
   {
     $r=false;
@@ -1035,7 +1035,7 @@ class dokusyntax
       $r=true;
     if($texte != $left)
       $l=true;
-    
+
     if ($l && $r)
       return array('src'=>$texte, 'align'=>"center");
     elseif($r)
@@ -1045,7 +1045,7 @@ class dokusyntax
     else
       return array('src'=>$texte, 'align'=>"");
   }
-  
+
   /**
    * formatage des liens
    *
@@ -1059,7 +1059,7 @@ class dokusyntax
    * $more
    *
    */
-  
+
   function format_link(&$link,&$name,&$class,&$target,&$style,&$pre,&$post,&$more)
   {
     $class  = 'urlextern';
@@ -1081,7 +1081,7 @@ class dokusyntax
       }
     }
   }
-  
+
   function format_link_email(&$link,&$name,&$class,&$target,&$style,&$pre,&$post,&$more)
   {
     global $conf;
@@ -1091,16 +1091,16 @@ class dokusyntax
     $post   = '';
     $style  = '';
     $more   = '';
-  
+
     $name   = htmlspecialchars($name);
-    
+
     if($conf['mailguard']=='visible')
     {
       $link = str_replace('@',' [at] ',$link);
       $link = str_replace('.',' [dot] ',$link);
       $link = str_replace('-',' [dash] ',$link);
     }
-    
+
     if(!$name)
       $name = $link;
     else

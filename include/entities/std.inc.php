@@ -42,12 +42,12 @@ abstract class stdentity
   /** Lien à la base de données en lecture et écriture. Peut être null si
    * l'objet est en lecture seule */
   var $dbrw;
-  
-  /** Cache des tags de l'objet 
+
+  /** Cache des tags de l'objet
    * @private
    */
   var $_tags;
-  
+
   /**
    * Constructeur par défaut.
    *
@@ -65,7 +65,7 @@ abstract class stdentity
     $this->dbrw = &$dbrw;
     $this->id = null;
     $this->_tags = null;
-  } 
+  }
 
   /**
    * Check if entity is valid
@@ -84,16 +84,16 @@ abstract class stdentity
   {
     if ( !empty($this->nom) )
       return $this->nom;
-      
+
     if ( !empty($this->titre) )
       return $this->titre;
-      
+
     if ( !empty($this->num) )
-      return "n°".$this->num;      
-      
+      return "n°".$this->num;
+
     return "n°".$this->id;
   }
-  
+
   /**
    * Get an html link to the entity with an icon and entity display name
    * @return an html link to the entity
@@ -101,26 +101,26 @@ abstract class stdentity
   function get_html_link()
   {
     global $topdir,$wwwtopdir;
-  
+
     $class = get_class($this);
-    
+
     if ( !$this->is_valid() )
       return "(aucun)";
-    
-    
+
+
     if ( !isset($GLOBALS["entitiescatalog"][$class][3]) || is_null($GLOBALS["entitiescatalog"][$class][3]) )
     {
     return "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$class][2]."\" class=\"icon\" alt=\"\" /> ".
-      htmlentities($this->get_display_name(),ENT_COMPAT,"UTF-8");      
+      htmlentities($this->get_display_name(),ENT_COMPAT,"UTF-8");
     }
-    
+
     if ( !isset($GLOBALS["__std_ref"]) )
       $GLOBALS["__std_ref"] = 1;
     else
       $GLOBALS["__std_ref"]++;
-    
+
     $ref = "std".$GLOBALS["__std_ref"];
-    
+
     if ( $this->can_preview() )
       return "<a id=\"$ref\" onmouseover=\"show_tooltip('$ref','$wwwtopdir','$class','".$this->id."');\" onmouseout=\"hide_tooltip('$ref');\" href=\"".$wwwtopdir.$GLOBALS["entitiescatalog"][$class][3]."?".$GLOBALS["entitiescatalog"][$class][0]."=".$this->id."\">".
       "<img src=\"".$wwwtopdir."images/icons/16/".$GLOBALS["entitiescatalog"][$class][2]."\" class=\"icon\" alt=\"\" /> ".
@@ -141,7 +141,7 @@ abstract class stdentity
    */
   function prefer_list()
   {
-    return false;  
+    return false;
   }
 
   /**
@@ -166,7 +166,7 @@ abstract class stdentity
     $class = get_class($this);
     return isset($GLOBALS["entitiescatalog"][$class][4]) && $GLOBALS["entitiescatalog"][$class][4];
   }
-  
+
   /**
    * Enumerate entities elements in an associative array.
    * This function only required an intialised object (no wonder if it's a valid one).
@@ -177,20 +177,20 @@ abstract class stdentity
   function enumerate ( $null=false, $conds = null )
   {
     $class = get_class($this);
-    
+
     if ( !isset($GLOBALS["entitiescatalog"][$class][4]) || !$GLOBALS["entitiescatalog"][$class][4] )
       return null;
-    
-    if ( $null ) 
+
+    if ( $null )
       $values=array(null=>"(aucun)");
     else
       $values=array();
-    
-    $sql = 
+
+    $sql =
       "SELECT `".$GLOBALS["entitiescatalog"][$class][0]."`,`".
       $GLOBALS["entitiescatalog"][$class][1]."` ".
-      "FROM `".$GLOBALS["entitiescatalog"][$class][4]."`";  
-      
+      "FROM `".$GLOBALS["entitiescatalog"][$class][4]."`";
+
     if ( !is_null($conds) && count($conds) > 0 )
     {
       $firststatement=true;
@@ -203,16 +203,16 @@ abstract class stdentity
         }
         else
           $sql .= " AND ";
-          
+
         if ( is_null($value) )
           $sql .= "(`" . $key . "` is NULL)";
         else
           $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
       }
     }
-    
-    $sql .= " ORDER BY 2";  
-    
+
+    $sql .= " ORDER BY 2";
+
     $req = new requete($this->db,$sql);
 
     while ( $row = $req->get_row() )
@@ -220,10 +220,10 @@ abstract class stdentity
 
     return $values;
   }
-  
+
   /**
    * Determine si un utilisateur peut consulter cet objet.
-   * @param $user Utilisateur qui souhaite consulter cet objet  
+   * @param $user Utilisateur qui souhaite consulter cet objet
    *              (instance de utilisateur)
    * @return true si l'utilisateur peut consulter, false sinon
    * @see utilisateur
@@ -232,7 +232,7 @@ abstract class stdentity
   {
     return true;
   }
-  
+
   /**
    * Check if class can make fsearch on its elements.
    * @return true if it can fsearch, else return false
@@ -242,7 +242,7 @@ abstract class stdentity
     $class = get_class($this);
     return isset($GLOBALS["entitiescatalog"][$class][4]) && $GLOBALS["entitiescatalog"][$class][4];
   }
-  
+
   /**
    * Advanced fsearch function. Should be subclass if required.
    * @param $pattern Patern to use to find elements
@@ -254,7 +254,7 @@ abstract class stdentity
   function _fsearch ( $sqlpattern, $limit=5, $count=false, $conds = null )
   {
     $class = get_class($this);
-    
+
     if ( !isset($GLOBALS["entitiescatalog"][$class][4]) || !$GLOBALS["entitiescatalog"][$class][4] )
       //return null;
       return array(0=>"Calsse $class non suportée");
@@ -265,10 +265,10 @@ abstract class stdentity
     }
     else
       $sql = "SELECT `".$GLOBALS["entitiescatalog"][$class][0]."`,`".$GLOBALS["entitiescatalog"][$class][1]."` ";
-      
+
     $sql .= "FROM `".$GLOBALS["entitiescatalog"][$class][4]."` ".
-      "WHERE `".$GLOBALS["entitiescatalog"][$class][1]."` REGEXP '^$sqlpattern'";  
-    
+      "WHERE `".$GLOBALS["entitiescatalog"][$class][1]."` REGEXP '^$sqlpattern'";
+
     if ( !is_null($conds) && count($conds) > 0 )
     {
       foreach ($conds as $key => $value)
@@ -280,12 +280,12 @@ abstract class stdentity
           $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
       }
     }
-    
+
     $sql .= " ORDER BY 1";
-    
+
     if ( !is_null($limit) && $limit > 0 )
       $sql .= " LIMIT ".$limit;
-      
+
     $req = new requete($this->db,$sql);
 
     if ( $count )
@@ -293,19 +293,19 @@ abstract class stdentity
       list($nb) = $req->get_row();
       return $nb;
     }
-    
+
     if ( !$req || $req->errno != 0 )
       //return null;
       return array(0=>$sql);
 
     $values=array();
-    
+
     while ( $row = $req->get_row() )
       $values[$row[0]] = $row[1];
 
     return $values;
   }
-  
+
   /**
    * Standart function to make regexp patters for insensitive to accent a search
    * @param $pattern User pattern
@@ -320,7 +320,7 @@ abstract class stdentity
     $pattern = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","(u|ù|ü|û|Ü|Û|Ù)",$pattern);
     return ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$pattern);
   }
-  
+
   /**
    * Standart function to make regexp patterns for insensitive to accent a search and SQL safe
    * @return transformed pattern
@@ -341,7 +341,7 @@ abstract class stdentity
   {
     return $this->_fsearch(stdentity::_fsearch_prepare_sql_pattern($pattern),$limit,false,$conds);
   }
-  
+
   /**
    * Count elements matching a partern.
    * @param $pattern Patern to use to find elements
@@ -352,7 +352,7 @@ abstract class stdentity
   {
     return $this->_fsearch(stdentity::_fsearch_prepare_sql_pattern($pattern),null,true,$conds);
   }
-  
+
   /**
    * Check if instance can provide a preview image.
    */
@@ -360,7 +360,7 @@ abstract class stdentity
   {
     return false;
   }
-  
+
   /**
    * Return instance preview image. Only require 'id' to be loaded.
    */
@@ -368,7 +368,7 @@ abstract class stdentity
   {
     return null;
   }
-  
+
   /**
    * Get extended informations on instance (minimalist). Require all instance informations loaded.
    * @return html contents
@@ -377,42 +377,42 @@ abstract class stdentity
   {
     return "<b>".htmlentities($this->get_display_name(),ENT_COMPAT,"UTF-8")."</b>";
   }
-  
+
   /**
    * Check if class universe can be explored using get_root_element(), get_childs(), get_parent()
    */
   function can_explore()
   {
-    return false;  
+    return false;
   }
-  
+
   /**
    * Get root element for the class (can be of a different class)
    * @return an instance or null
    */
   function get_root_element()
   {
-    return null;  
+    return null;
   }
-  
+
   /**
-   * Get parent element of instance (can be of a different class) 
+   * Get parent element of instance (can be of a different class)
    * @return an instance or null
    */
   function get_parent()
   {
-    return null;  
+    return null;
   }
-  
+
   /**
    * Get childs of instance (can ba mix of differents class)
    * @return an array of class instances or null
    */
   function get_childs(&$user)
   {
-    return null;  
+    return null;
   }
-  
+
   /**
    * Generate the patrh to the element using html link to each parent
    */
@@ -427,15 +427,15 @@ abstract class stdentity
     }
     return $path;
   }
-  
+
   /**
    * Check if class can describe an instance
    */
   function can_describe()
   {
-    return false; 
+    return false;
   }
-  
+
   /**
    * Get description of instance
    * @see can_describe
@@ -444,40 +444,40 @@ abstract class stdentity
   {
     return "";
   }
-  
+
   /**
    * Return the list of tags associated to the instance if supported
    * @return list of tags (id=>name), or null if unsupported
    */
   function get_tags_list()
   {
-    $class = get_class($this);    
-    
+    $class = get_class($this);
+
     if ( !isset($GLOBALS["entitiescatalog"][$class][6]) || !$GLOBALS["entitiescatalog"][$class][6] )
     {
-      $class = get_parent_class($class);    
+      $class = get_parent_class($class);
       if ( !isset($GLOBALS["entitiescatalog"][$class][6]) || !$GLOBALS["entitiescatalog"][$class][6] )
         return null;
     }
-      
+
     if ( !is_null($this->_tags) )
       return $this->_tags;
-      
+
     $req = new requete($this->db,
       "SELECT tag.id_tag, tag.nom_tag ".
       "FROM ".$GLOBALS["entitiescatalog"][$class][6]." ".
       "INNER JOIN tag USING(id_tag) ".
       "WHERE ".$GLOBALS["entitiescatalog"][$class][0]."='".mysql_escape_string($this->id)."' ".
-      "ORDER BY nom_tag");  
-      
+      "ORDER BY nom_tag");
+
     $this->_tags = array();
-    
+
     while ( list($id,$tag) = $req->get_row() )
-      $this->_tags[$id] = $tag; 
-      
-    return $this->_tags;  
+      $this->_tags[$id] = $tag;
+
+    return $this->_tags;
   }
-  
+
   /**
    * Return the list of tags in ahuman readable format (if supported)
    * @return a string, or null if unsupported
@@ -485,31 +485,31 @@ abstract class stdentity
   function get_tags()
   {
     $tags = $this->get_tags_list();
-    
+
     if ( is_null($tags) )
       return null;
-    
+
     return implode(", ",$tags);
   }
-  
+
   /**
-   * Set tags of instance using a array of tags name. 
+   * Set tags of instance using a array of tags name.
    * Create missing tags if any.
    * @param $tags Array of tags name : array("tag1","tag2"...)
    */
   function set_tags_array($tags)
   {
-    $class = get_class($this);    
-    
+    $class = get_class($this);
+
     if ( !isset($GLOBALS["entitiescatalog"][$class][6]) || !$GLOBALS["entitiescatalog"][$class][6] )
     {
-      $class = get_parent_class($class);    
+      $class = get_parent_class($class);
       if ( !isset($GLOBALS["entitiescatalog"][$class][6]) || !$GLOBALS["entitiescatalog"][$class][6] )
         return null;
     }
 
     $conds = array();
-    
+
     $tocreate=array();
 
     if(!empty($tags))
@@ -520,36 +520,36 @@ abstract class stdentity
         $tocreate[$tag]=$tag;
       }
     }
-    
+
     $tags = array();
-    
+
     if ( count($conds) > 0 )
     {
       $req = new requete($this->db, "SELECT id_tag, nom_tag FROM tag WHERE ".implode(" OR ",$conds));
-            
+
       while ( list($id,$tag) = $req->get_row() )
       {
         $tags[$id]=$tag;
         unset($tocreate[$tag]);
       }
-      
+
       if(!empty($tocreate))
       {
         foreach ( $tocreate as $tag )
         {
           $crt = new insert($this->dbrw, "tag", array("nom_tag"=>$tag));
-          $tags[$crt->get_id()]=$tag;  
+          $tags[$crt->get_id()]=$tag;
         }
-      }      
+      }
     }
 
     $actual = $this->get_tags_list();
-    
+
     foreach ( $tags as $id => $tag )
     {
       if ( !isset($actual[$id]) )
       {
-        new insert($this->dbrw, $GLOBALS["entitiescatalog"][$class][6], 
+        new insert($this->dbrw, $GLOBALS["entitiescatalog"][$class][6],
           array("id_tag"=>$id,$GLOBALS["entitiescatalog"][$class][0]=>$this->id));
         $id = mysql_escape_string($id);
         new requete($this->dbrw, "UPDATE tag SET nombre_tag=nombre_tag+1 WHERE id_tag='$id'");
@@ -557,21 +557,21 @@ abstract class stdentity
       else
         unset($actual[$id]);
     }
-    
+
     if(!empty($actual))
     {
       foreach ( $actual as $id => $tag )
       {
-        new delete($this->dbrw, $GLOBALS["entitiescatalog"][$class][6], 
+        new delete($this->dbrw, $GLOBALS["entitiescatalog"][$class][6],
           array("id_tag"=>$id,$GLOBALS["entitiescatalog"][$class][0]=>$this->id));
         $id = mysql_escape_string($id);
         new requete($this->dbrw, "UPDATE tag SET nombre_tag=nombre_tag-1 WHERE id_tag='$id'");
       }
     }
-    
+
     $this->_tags=$tags;
   }
-  
+
   /**
    * Set tags using a human readable string
    * Create missing tags if any.
@@ -580,23 +580,23 @@ abstract class stdentity
   function set_tags($tags)
   {
     $tags=trim(mb_strtolower($tags,"UTF-8"));
-    
+
     if ( empty($tags) )
     {
       $this->set_tags_array(array());
       return;
     }
-    
+
     $l1 = explode(",",$tags);
-    $l2 = array();  
+    $l2 = array();
     foreach ( $l1 as $tag )
     {
-      $l2[] = trim($tag);  
-    } 
-    
+      $l2[] = trim($tag);
+    }
+
     $this->set_tags_array($l2);
   }
-  
+
 }
 
 

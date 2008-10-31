@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * AECMS : CMS pour les clubs et activités de l'AE UTBM
- *        
+ *
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 require_once("include/site.inc.php");
 require_once($topdir."include/entities/news.inc.php");
 
@@ -45,9 +45,9 @@ if ( $site->is_user_admin() )
       $Erreur = "Nom invalide";
     elseif ( !$_REQUEST["title"] || !$_REQUEST["texte"] )
       $Erreur = "Veuillez préciser un titre et/ou un contenu";
-    elseif ( $page->load_by_pagename(CMS_PREFIX.$_REQUEST["name"]) )  
+    elseif ( $page->load_by_pagename(CMS_PREFIX.$_REQUEST["name"]) )
       $Erreur = "Cette page existe déjà";
-    else      
+    else
     {
       $page->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
       $page->add($site->user,CMS_PREFIX.$_REQUEST["name"], $_REQUEST["title"], $_REQUEST['texte'], $_REQUEST['section']);
@@ -103,15 +103,15 @@ if ( isset($_REQUEST["name"]) )
 }
 else
   $page->load_by_pagename(CMS_PREFIX."home");
-  
+
 if ( !$page->is_valid() )
 {
   $site->start_page ( $section, "Erreur" );
-  
+
   $cts = new contents("Page inconnue");
-  
+
   $cts->add_paragraph("Merci de vérifier le lien que vous avez emprunté.","error");
-  
+
   if ( $site->is_user_admin() )
   {
     if ( isset($_REQUEST["name"]) )
@@ -119,9 +119,9 @@ if ( !$page->is_valid() )
     else
       $cts->add_paragraph("<a href=\"index.php?page=new&amp;name=home\">Créer la page</a>");
   }
-  
-  $site->add_contents($cts);  
-    
+
+  $site->add_contents($cts);
+
   $site->end_page();
   exit();
 }
@@ -132,10 +132,10 @@ if ( $page->section )
 if ( !$page->is_right($site->user,DROIT_LECTURE) )
 {
   $site->start_page ( $section, "Erreur" );
-  
+
   $err = new error("Accès restreint","Vous n'avez pas le droit d'accéder à cette page.");
   $site->add_contents($err);
-  
+
   $site->end_page();
   exit();
 }
@@ -154,7 +154,7 @@ if ( ($page->is_right($site->user,DROIT_ECRITURE) || $site->is_user_admin()) && 
   {
     foreach ($site->tab_array as $entry)
       $sections[$entry[0]] = $entry[2];
-      
+
     $site->start_page($section,"Edition :".$page->titre);
     $frm = new form("editarticle","index.php?name=".substr($page->nom,strlen(CMS_PREFIX)),true,"POST","Edition : ".$page->nom);
     $frm->add_hidden("action","save");
@@ -186,35 +186,35 @@ if ( $can_edit )
 if ( $page->nom == CMS_PREFIX."home" && $site->config["home.news"] == 1 )
 {
   $site->add_rss("L'actualité de ".$site->asso->nom,"rss.php");
-  
+
   if ( !is_null($site->asso->id_parent) )
     $site->add_rss("Toute l'actualité de l'association des étudiants","/rss.php");
 
   $newscount = 0;
-  
+
   if ( $site->config["home.excludenewssiteae"] == 1 )
   $req = new requete($site->db,"SELECT COUNT(*) FROM nvl_nouvelles WHERE id_asso='".mysql_real_escape_string($site->asso->id)."' AND `modere_nvl`='1' AND id_canal='".NEWS_CANAL_AECMS."'");
   else
   $req = new requete($site->db,"SELECT COUNT(*) FROM nvl_nouvelles WHERE id_asso='".mysql_real_escape_string($site->asso->id)."' AND `modere_nvl`='1'");
   list($newscount) = $req->get_row();
-  
-  
-  
+
+
+
   $page=0;
   $npp=10;
-  
+
   $pagescount = ceil($newscount/$npp);
-  
+
   if ( isset($_REQUEST["npage"]) )
     $page = intval($_REQUEST["npage"]);
-  
+
   if ( $page < 0 )
     $page=0;
   elseif ( $page >= $pagescount )
     $page = $pagescount-1;
-  
+
   $st = $page*$npp;
-  
+
   if ( $site->config["home.excludenewssiteae"] == 1 )
   $req = new requete($site->db,"SELECT * FROM nvl_nouvelles WHERE id_asso='".mysql_real_escape_string($site->asso->id)."' AND `modere_nvl`='1' AND id_canal='".NEWS_CANAL_AECMS."' ".
   "ORDER BY date_nvl DESC ".
@@ -223,27 +223,27 @@ if ( $page->nom == CMS_PREFIX."home" && $site->config["home.news"] == 1 )
   $req = new requete($site->db,"SELECT * FROM nvl_nouvelles WHERE id_asso='".mysql_real_escape_string($site->asso->id)."' AND `modere_nvl`='1' ".
   "ORDER BY date_nvl DESC ".
   "LIMIT $st,$npp");
-  
+
   $news = new nouvelle($site->db);
-  
+
   while ( $row = $req->get_row() )
   {
     $news->_load($row);
-    
+
     $cts = $news->get_contents_nobrand_flow();
     $cts->cssclass="article anews";
     if ( $can_edit )
       $cts->set_toolbox(new toolbox(array("configurecms.php?view=news&action=edit&id_nouvelle=".$news->id=>"Editer")));
     $site->add_contents($cts);
   }
-  
+
   $cts = new contents();
-  
+
   for($p=0;$p<$pagescount;$p++)
-    $cts->puts("<a href=\"index.php?npage=$p\">".($p+1)."</a> "); 
-    
+    $cts->puts("<a href=\"index.php?npage=$p\">".($p+1)."</a> ");
+
   $cts->cssclass="apages";
-  
+
   $site->add_contents($cts);
 }
 

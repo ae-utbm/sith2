@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * FORUM2
- *        
+ *
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
@@ -41,7 +41,7 @@ require_once($topdir . "include/cts/forum.inc.php");
 $site = new site ();
 $site->add_css("css/forum.css");
 $site->add_css("css/doku.css");
-$site->add_rss("Les 40 derniers messages du forum de l'AE", 
+$site->add_rss("Les 40 derniers messages du forum de l'AE",
          "rss.php");
 
 
@@ -74,40 +74,40 @@ if ( isset($_REQUEST["id_message"]) )
   $message->load_by_id($_REQUEST["id_message"]);
   if ( $message->is_valid() )
   {
-    $sujet->load_by_id($message->id_sujet); 
-    $forum->load_by_id($sujet->id_forum); 
+    $sujet->load_by_id($message->id_sujet);
+    $forum->load_by_id($sujet->id_forum);
   }
 }
 elseif ( isset($_REQUEST["id_sujet"]) )
 {
-  $sujet->load_by_id($_REQUEST["id_sujet"]); 
+  $sujet->load_by_id($_REQUEST["id_sujet"]);
   if ( $sujet->is_valid() )
   {
-    $forum->load_by_id($sujet->id_forum); 
+    $forum->load_by_id($sujet->id_forum);
   }
 }
 elseif ( isset($_REQUEST["id_forum"]) )
 {
-  $forum->load_by_id($_REQUEST["id_forum"]); 
+  $forum->load_by_id($_REQUEST["id_forum"]);
 }
 elseif ( isset($_REQUEST["react"]) )
 {
-  
+
   $conds=array();
-  
+
   if ( isset($_REQUEST["id_nouvelle"]) )
     $conds[]= "(`frm_sujet`.`id_nouvelle`='" . mysql_escape_string($_REQUEST["id_nouvelle"]) . "')";
-    
+
   if ( isset($_REQUEST["id_catph"]) )
     $conds[]= "(`frm_sujet`.`id_catph`='" . mysql_escape_string($_REQUEST["id_catph"]) . "')";
-  
+
   if ( isset($_REQUEST["id_sondage"]) )
     $conds[]= "(`frm_sujet`.`id_sondage`='" . mysql_escape_string($_REQUEST["id_sondage"]) . "')";
-  
+
   if ( count($conds) > 0 )
   {
     $sqlconds = implode(" AND ",$conds);
-    
+
     if ( $site->user->is_valid() )
     {
       $grps = $site->user->get_groups_csv();
@@ -126,11 +126,11 @@ elseif ( isset($_REQUEST["react"]) )
         "INNER JOIN frm_forum USING(`id_forum`) ".
         "WHERE (droits_acces_forum & 0x1) ".
         "AND $sqlconds");
-      
+
     if ( $req->lines > 0 )
     {
       $sujet->_load($req->get_row());
-      $forum->load_by_id($sujet->id_forum); 
+      $forum->load_by_id($sujet->id_forum);
     }
     else
     {
@@ -166,14 +166,14 @@ if( isset($_REQUEST['get_preview']) )
   $message->id_utilisateur = $_REQUEST['user'];
   $message->syntaxengine = $_REQUEST['syntaxengine'];
   $message->date = time();
-  
-  
+
+
   $preview = new simplemessageforum($message);
   header("Content-Type: text/javascript; charset=utf-8");
   echo "<h2>Prévisualisation</h2>";
   echo( $preview->html_render() );
   echo "<h2>Historique</h2>";
-  
+
   exit();
 }
 
@@ -182,7 +182,7 @@ if ( $_REQUEST["action"] == "setallread" )
   $site->allow_only_logged_users("forum");
   $site->user->set_all_read( );
   header("Location: ".$wwwtopdir."forum2/index.php");
-  exit();  
+  exit();
 }
 
 
@@ -190,55 +190,55 @@ if ( $_REQUEST["action"] == "setallread" )
 if ( $_REQUEST["action"] == "post" && !$forum->categorie )
 {
   $site->allow_only_logged_users("forum");
-  
+
   $_REQUEST["page"]="post";
-  
+
   if ( !$_REQUEST["titre_sujet"] )
     $Erreur="Veuillez préciser un titre";
-    
+
   elseif ( !$_REQUEST["subjtext"] )
     $Erreur="Veuillez saisir le texte du message";
-  
+
   elseif ( $GLOBALS['svalid_call'] )
   {
-  
+
     $type=SUJET_NORMAL;
     $date_fin_annonce=null;
-    
+
     if ( $forum->is_admin($site->user) )
     {
       $type = $_REQUEST["subj_type"];
-      if ( $type == SUJET_ANNONCESITE && 
-        !$site->user->is_in_group("moderateur_forum") && 
+      if ( $type == SUJET_ANNONCESITE &&
+        !$site->user->is_in_group("moderateur_forum") &&
         !$site->user->is_in_group("root") )
       {
         $type = SUJET_ANNONCE;
         $date_fin_annonce=$_REQUEST["date_fin_announce_site"];
-      }  
+      }
       elseif ( $type == SUJET_ANNONCE )
         $date_fin_annonce=$_REQUEST["date_fin_announce"];
-        
+
       elseif ( $type == SUJET_ANNONCESITE )
         $date_fin_annonce=$_REQUEST["date_fin_announce_site"];
     }
-    
+
     $news = new nouvelle($site->db);
     $catph = new catphoto($site->db);
     $sdn = new sondage($site->db);
-    
+
     if ( isset($_REQUEST["id_nouvelle"]) )
       $news->load_by_id($_REQUEST["id_nouvelle"]);
-      
+
     elseif ( isset($_REQUEST["id_catph"]) )
       $catph->load_by_id($_REQUEST["id_catph"]);
-  
+
     elseif ( isset($_REQUEST["id_sondage"]) )
       $sdn->load_by_id($_REQUEST["id_sondage"]);
-  
+
     $sujet->create ( $forum, $site->user->id, $_REQUEST["titre_sujet"], $_REQUEST["soustitre_sujet"],
         $type,null,$date_fin_annonce,
         $news->id,$catph->id,$sdn->id );
-       
+
     $subjtext = $message->commit_replace($_REQUEST['subjtext'],$site->user);
 
     $message->create($forum,
@@ -247,13 +247,13 @@ if ( $_REQUEST["action"] == "post" && !$forum->categorie )
             $_REQUEST['titre_sujet'],
             $subjtext,
             $_REQUEST['synengine']);
-            
+
     if ( isset($_REQUEST['star']) )
       $sujet->set_user_star($site->user->id,true);
-                  
+
   }
 }
-    
+
 if ( $_REQUEST['page'] == 'delete' )
 {
   $site->allow_only_logged_users("forum");
@@ -264,20 +264,20 @@ if ( $_REQUEST['page'] == 'delete' )
         || ($message->id_utilisateur == $site->user->id))
     {
       $message_initial = new message($site->db);
-      $message_initial->load_initial_of_sujet($sujet->id);   
-         
+      $message_initial->load_initial_of_sujet($sujet->id);
+
       if ( $message_initial->id == $message->id ) // La supression du message initial, entraine la supression du sujet
         $sujet->delete($forum);
       else
         $ret =$message->delete($forum, $sujet);
-        
+
       $cts = new contents("Suppression d'un message",
         "Message supprimé avec succès.");
     }
     else
       $cts = new contents("Suppression d'un message",
         "Vous n'avez pas les autorisations nécessaires pour supprimer ce message.");
-        
+
     $site->add_contents($cts);
   }
   elseif ( $sujet->is_valid() )
@@ -292,7 +292,7 @@ if ( $_REQUEST['page'] == 'delete' )
     else
       $cts = new contents("Suppression d'un Sujet",
         "Vous n'avez pas les autorisations nécessaires pour supprimer ce sujet.");
-        
+
     $site->add_contents($cts);
   }
 }
@@ -308,7 +308,7 @@ while ( $pforum->is_valid() )
   $path = $pforum->get_html_link()." / ".$path;
   $pforum->load_by_id($pforum->id_forum_parent);
 }
-  
+
 if ( $sujet->is_valid() )
 {
   if ($_REQUEST['action'] == 'star')
@@ -324,34 +324,34 @@ if ( $sujet->is_valid() )
   elseif ($_REQUEST['page'] == 'edit')
   {
     $site->allow_only_logged_users("forum");
-    
+
     if ( $message->is_valid() ) // On edite un message
     {
-      if ($message->id_utilisateur != $site->user->id && !$forum->is_admin($site->user))    
+      if ($message->id_utilisateur != $site->user->id && !$forum->is_admin($site->user))
         $site->error_forbidden("forum","group");
-      
+
       $site->start_page("forum",$sujet->titre);
 
-      $frm = new form("frmedit", 
+      $frm = new form("frmedit",
           "?page=commitedit&amp;id_sujet=".
           $sujet->id."&amp;".
-          "id_message=".$message->id."#msg".$message->id, 
+          "id_message=".$message->id."#msg".$message->id,
           true);
-      
+
       $frm->add_text_field("title", "Titre du message : ", $message->titre,false,80);
       $frm->add_select_field('synengine',
            'Moteur de rendu : ',
            array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),
            $message->syntaxengine);
-      if ( $message->syntaxengine == "doku" ) 
+      if ( $message->syntaxengine == "doku" )
         $frm->add_dokuwiki_toolbar('text',$forum->id_asso,null,true);
       $frm->add_text_area("text", "Texte du message : ",$message->contenu,80,20);
       $frm->add_submit("submit", "Modifier");
       $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:make_preview();\" /></div></div>\n");
       $frm->allow_only_one_usage();
-      
+
       $cts = new contents($path." / Edition");
-    
+
       $cts->add_paragraph("<script language=\"javascript\">
       function make_preview()
       {
@@ -359,69 +359,69 @@ if ( $sujet->is_valid() )
         content = document.frmedit.text.value;
         user = ".$site->user->id.";
         syntaxengine = document.frmedit.synengine.value;
-        
+
         openInContents('msg_preview', './index.php', 'get_preview&title='+encodeURIComponent(title)+'&content='+encodeURIComponent(content)+'&user='+user+'&syntaxengine='+syntaxengine);
       }
       </script>\n");
-     
+
       $cts->add($frm);
-      
+
       $cts->puts("<div id=\"msg_preview\"></div>");
-      
+
       $site->add_contents($cts);
       $site->end_page();
       exit();
     }
-    
+
     // On edite le sujet
-    
-    if ($sujet->id_utilisateur != $site->user->id && !$forum->is_admin($site->user))    
+
+    if ($sujet->id_utilisateur != $site->user->id && !$forum->is_admin($site->user))
       $site->error_forbidden("forum","group");
-      
+
     // Recupération du premier message du sujet
-    $message->load_initial_of_sujet($sujet->id);  
-      
+    $message->load_initial_of_sujet($sujet->id);
+
     $site->start_page("forum",$sujet->titre);
     $cts = new contents($path." / Edition");
-  
-    $frm = new form("frmedit", 
-        "?page=commitedit&amp;id_sujet=".$sujet->id, 
+
+    $frm = new form("frmedit",
+        "?page=commitedit&amp;id_sujet=".$sujet->id,
         true);
-    
+
     if ( $forum->is_admin($site->user) )
     {
-      if ( !$sujet->type ) 
+      if ( !$sujet->type )
         $sujet->type = SUJET_NORMAL;
-      
+
       $sfrm = new form("subj_type",null,null,null,"Sujet normal");
       $frm->add($sfrm,false,true, $sujet->type==SUJET_NORMAL ,SUJET_NORMAL ,false,true);
-      
+
       $sfrm = new form("subj_type",null,null,null,"Sujet épinglé, il sera toujours affiché en haut");
       $frm->add($sfrm,false,true, $sujet->type==SUJET_STICK ,SUJET_STICK ,false,true);
-      
+
       $sfrm = new form("subj_type",null,null,null,"Annonce, le message sera affiché en haut dans un cadre séparé");
-      $sfrm->add_datetime_field('date_fin_announce', 
+      $sfrm->add_datetime_field('date_fin_announce',
              'Date de fin de l\'annonce',
              $sujet->date_fin_annonce);
       $frm->add($sfrm,false,true, $sujet->type==SUJET_ANNONCE ,SUJET_ANNONCE ,false,true);
-      
+
       if ( $site->user->is_in_group("moderateur_forum") || $site->user->is_in_group("root") )
       {
         $sfrm = new form("subj_type",null,null,null,"Annonce du site, le message sera affiché en haut sur la première page du forum");
-        $sfrm->add_datetime_field('date_fin_announce_site', 
+        $sfrm->add_datetime_field('date_fin_announce_site',
                'Date de fin de l\'annonce',
                $sujet->date_fin_annonce);
         $frm->add($sfrm,false,true, $sujet->type==SUJET_ANNONCESITE ,SUJET_ANNONCESITE ,false,true);
       }
     }
-    
+
     /**
      * @todo : edition des metas données
      */
-    
+
     $frm->add_text_field("titre", "Titre : ", $sujet->titre,true,80);
-    $frm->add_text_field("soustitre","Sous-titre du message (optionel) : ",$sujet->soustitre,false,80);    
-    
+    $frm->add_text_field("soustitre","Sous-titre du message (optionel) : ",$sujet->soustitre,false,80);
+
     $frm->add_select_field('synengine',
          'Moteur de rendu : ',
          array('bbcode' => 'bbcode (type phpBB)','doku' => 'Doku Wiki (recommandé)'),
@@ -431,7 +431,7 @@ if ( $sujet->is_valid() )
     $frm->add_submit("submit", "Modifier");
     $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:make_preview();\" /></div></div>\n");
     $frm->allow_only_one_usage();
-    
+
     $cts->add_paragraph("<script language=\"javascript\">
       function make_preview()
       {
@@ -439,25 +439,25 @@ if ( $sujet->is_valid() )
         content = document.frmedit.text.value;
         user = ".$site->user->id.";
         syntaxengine = document.frmedit.synengine.value;
-        
+
         openInContents('msg_preview', './index.php', 'get_preview&title='+encodeURIComponent(title)+'&content='+encodeURIComponent(content)+'&user='+user+'&syntaxengine='+syntaxengine);
       }
       </script>\n");
-    
+
     $cts->add($frm);
     $cts->puts("<div id=\"msg_preview\"></div>");
-  
+
     /**@todo*/
     $site->add_contents($cts);
     $site->end_page();
-      
+
     exit();
   }
 
   if ($_REQUEST['page'] == 'commitedit')
   {
     $site->allow_only_logged_users("forum");
-    
+
     //$site->start_page("forum",$sujet->titre);
     if ( $message->is_valid() )
     {
@@ -466,7 +466,7 @@ if ( $sujet->is_valid() )
         && ($GLOBALS['svalid_call'] == true))
       {
         $text = $message->commit_replace($_REQUEST['text'],$site->user);
-        $ret = $message->update($forum, 
+        $ret = $message->update($forum,
               $sujet,
               $_REQUEST['title'],
               $text,
@@ -474,42 +474,42 @@ if ( $sujet->is_valid() )
         $cts = new contents("Modification d'un message", "Message modifié");
       }
       else
-        $cts = new contents("Modification d'un message", 
+        $cts = new contents("Modification d'un message",
           "Erreur lors de la modification du message. Assurez-vous d'avoir les privilèges suffisants.");
-      
+
       $site->add_contents($cts);
     }
     elseif ($GLOBALS['svalid_call'] == true)
     {
-      if ($sujet->id_utilisateur != $site->user->id && !$forum->is_admin($site->user))    
+      if ($sujet->id_utilisateur != $site->user->id && !$forum->is_admin($site->user))
         $site->error_forbidden("forum","group");
-        
-      $message->load_initial_of_sujet($sujet->id);  
-      
+
+      $message->load_initial_of_sujet($sujet->id);
+
       $text = $message->commit_replace($_REQUEST['text'],$site->user);
 
-      $message->update($forum, 
+      $message->update($forum,
               $sujet,
               $_REQUEST['titre'],
               $text,
               $_REQUEST['synengine']);
-      
+
       $type=SUJET_NORMAL;
       $date_fin_annonce=null;
-      
+
       if ( $forum->is_admin($site->user) )
       {
         $type = $_REQUEST["subj_type"];
-        if ( $type == SUJET_ANNONCESITE && 
-          !$site->user->is_in_group("moderateur_forum") && 
+        if ( $type == SUJET_ANNONCESITE &&
+          !$site->user->is_in_group("moderateur_forum") &&
           !$site->user->is_in_group("root") )
         {
           $type = SUJET_ANNONCE;
           $date_fin_annonce=$_REQUEST["date_fin_announce_site"];
-        }  
+        }
         elseif ( $type == SUJET_ANNONCE )
           $date_fin_annonce=$_REQUEST["date_fin_announce"];
-          
+
         elseif ( $type == SUJET_ANNONCESITE )
           $date_fin_annonce=$_REQUEST["date_fin_announce_site"];
       }
@@ -517,11 +517,11 @@ if ( $sujet->is_valid() )
       $sujet->update ($_REQUEST["titre"], $_REQUEST["soustitre"],
           $type,null,$date_fin_annonce,
           $sujet->id_nouvelle,$sujet->id_catph,$sujet->id_sondage );
-      
+
     }
     //$site->end_page();
     //exit();
-  }    
+  }
 
   if ( $_REQUEST["page"] == "reply" )
   {
@@ -529,8 +529,8 @@ if ( $sujet->is_valid() )
 
     $site->start_page("forum",$sujet->titre);
 
-    $cts = new contents($path." / <a href=\"?id_sujet=".$sujet->id."&amp;page=reply\">Répondre</a>");    
-    
+    $cts = new contents($path." / <a href=\"?id_sujet=".$sujet->id."&amp;page=reply\">Répondre</a>");
+
     $cts->add_paragraph("<script language=\"javascript\">
       function make_preview()
       {
@@ -538,14 +538,14 @@ if ( $sujet->is_valid() )
         content = document.frmreply.rpltext.value;
         user = ".$site->user->id.";
         syntaxengine = document.frmreply.synengine.value;
-        
+
         openInContents('msg_preview', './index.php', 'get_preview&title='+encodeURIComponent(title)+'&content='+encodeURIComponent(content)+'&user='+user+'&syntaxengine='+syntaxengine);
       }
       </script>\n");
-  
+
     /* formulaire d'invite à postage de réponse */
     $frm = new form("frmreply", "?page=commit&amp;id_sujet=".$sujet->id."#lastmessage", true);
-  
+
     if (intval($_REQUEST['quote']) == 1)
     {
       $_auteur="";
@@ -560,14 +560,14 @@ if ( $sujet->is_valid() )
           $_auteur="=".($_auteur->surnom!=null ? $_auteur->surnom : $_auteur->alias);
 				}
       }
-      
+
       $rpltext = "[quote".$_auteur."]".$message->contenu . "[/quote]";
       $rpltitle = "Re : " . $message->titre;
     }
-    else 
+    else
     {
       $rpltext = '';
-      $rpltitle = '';  
+      $rpltitle = '';
     }
 
     $frm->add_text_field("rpltitle", "Titre du message : ", $rpltitle,false,80);
@@ -579,48 +579,48 @@ if ( $sujet->is_valid() )
     $frm->add_checkbox ( "star", "Ajouter à mes sujets favoris.", true );
     $frm->add_submit("rplsubmit", "Poster");
     $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:make_preview();\" /></div></div>\n");
-    
+
     $frm->allow_only_one_usage();
     $cts->add($frm);
 
     $cts->puts("<div id=\"msg_preview\"></div>");
-    
+
     $npp=40;
     $nbpages = ceil($sujet->nb_messages / $npp);
     $start = ($nbpages - 1) * $npp;
-    
-    $cts->add(new sujetforum ($forum, 
-          $sujet, 
-          $site->user, 
-          "./", 
-          0, 
-          40, 
+
+    $cts->add(new sujetforum ($forum,
+          $sujet,
+          $site->user,
+          "./",
+          0,
+          40,
           "DESC" ));
-          
+
 
     $site->add_contents($cts);
     $site->end_page();
-    exit();  
+    exit();
   }
 
-  
+
   /* réponse postée */
   if ($_REQUEST['page'] == 'commit')
   {
     $site->allow_only_logged_users("forum");
-    
+
     if ( isset($_REQUEST['star']) )
       $sujet->set_user_star($site->user->id,true);
-    
+
     $site->start_page("forum",$sujet->titre);
 
     $cts = new contents($path.
       " / <a href=\"?id_sujet=".
       $sujet->id.
-      "&amp;page=reply\">Répondre</a>");          
-    
+      "&amp;page=reply\">Répondre</a>");
+
     /*  sujet */
-    
+
     /* nombre de posts par page */
     $npp=40;
 
@@ -635,24 +635,24 @@ if ( $sujet->is_valid() )
             $_REQUEST['synengine']);
     else
       $retpost = false;
-          
+
     /* nombre de pages */
     $nbpages = ceil($sujet->nb_messages / $npp);
     /* on va à la derniere */
     $start = ($nbpages - 1) * $npp;
-    
-    $cts->add(new sujetforum ($forum, 
-      $sujet, 
-      $site->user, 
-      "./", 
-      $start, 
+
+    $cts->add(new sujetforum ($forum,
+      $sujet,
+      $site->user,
+      "./",
+      $start,
       $npp));
-      
+
     if ($retpost == true)
       $answ = new contents("Poster une réponse",
-           "<b>Réponse postée avec succès.</b>");      
+           "<b>Réponse postée avec succès.</b>");
     else
-      $answ = new contents("Poster une réponse", 
+      $answ = new contents("Poster une réponse",
            "<b>Echec lors de la tentative de postage de la réponse.</b>");
 
     if ($GLOBALS['svalid_call'] == false)
@@ -662,21 +662,21 @@ if ( $sujet->is_valid() )
 
     for($n=0 ; $n<$nbpages ; $n++)
       $entries[]=array($n,"forum2/?id_sujet=".$sujet->id."&spage=".$n,$n+1);
-      
+
     $cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
-    
+
     $cts->add_paragraph("<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a>","frmtools");
     $cts->add_paragraph($path);
-    
+
     $site->add_contents($cts);
-  
+
     $site->end_page();
     exit();
   }
-  
+
 
   $site->start_page("forum",$sujet->titre);
-  
+
   $cts = new contents($path);
 
   $npp=40;
@@ -685,7 +685,7 @@ if ( $sujet->is_valid() )
   $nbpages = ceil($sujet->nb_messages/$npp);
 
   if ( isset($_REQUEST["spage"]) && $_REQUEST["spage"] == "firstunread" && $site->user->is_valid() )
-  { 
+  {
     $last_read = $sujet->get_last_read_message ( $site->user->id );
     if ( !is_null($last_read) )
     {
@@ -711,11 +711,11 @@ if ( $sujet->is_valid() )
   if ( $message->is_valid() )
   {
     $req = new requete($site->db,"SELECT id_message FROM frm_message WHERE id_sujet='".mysql_real_escape_string($sujet->id)."' ORDER BY date_message");
-    
+
     $ids = array();
     while ( list($id) = $req->get_row() )
       $ids[] = $id;
-  
+
     list($start) = array_keys($ids, $message->id);
     $start += $delta;
     $start -= $start%$npp;
@@ -729,11 +729,11 @@ if ( $sujet->is_valid() )
       $start -= $start%$npp;
     }
   }
-  
+
   /**@todo:bouttons+infos*/
-  
+
   $buttons= "<a href=\"?id_sujet=".$sujet->id."&amp;page=reply\"><img src=\"".$wwwtopdir."images/icons/16/message.png\" class=\"icon\" alt=\"\" />Répondre</a>";
-    
+
   if ( $site->user->is_valid() )
   {
     $row = $sujet->get_user_infos($site->user->id);
@@ -749,37 +749,37 @@ if ( $sujet->is_valid() )
   {
     if ( !is_null($sujet->id_sondage) )
     {
-      $sdn = new sondage($site->db);  
+      $sdn = new sondage($site->db);
       $sdn->load_by_id($sujet->id_sondage);
-      
+
       $cts->puts("<div class=\"sujetcontext\">");
-      
+
       $cts->add_title(2,"Sondage : resultats");
-  
+
       $cts->add_paragraph($sdn->question);
-      
+
       $cts->puts("<p>");
-    
+
       $res = $sdn->get_results();
-      
+
       foreach ( $res as $re )
       {
         $cumul+=$re[1];
         $pc = $re[1]*100/$sdn->total;
-        
+
         $cts->puts($re[0]."<br/>");
-        
+
         $wpx = floor($pc);
         if ( $wpx != 0 )
           $cts->puts("<div class=\"activebar\" style=\"width: ".$wpx."px\"></div>");
         if ( $wpx != 100 )
           $cts->puts("<div class=\"inactivebar\" style=\"width: ".(100-$wpx)."px\"></div>");
-        
+
         $cts->puts("<div class=\"percentbar\">".round($pc,1)."%</div>");
         $cts->puts("<div class=\"clearboth\"></div>\n");
-        
+
       }
-      
+
       if ( $cumul < $sdn->total )
       {
         $pc = ( $sdn->total-$cumul)*100/$sdn->total;
@@ -799,7 +799,7 @@ if ( $sujet->is_valid() )
       $cat = new catphoto($site->db);
       $catpr = new catphoto($site->db);
       $cat->load_by_id($sujet->id_catph);
-      
+
       $path = $cat->get_html_link();
       $catpr->load_by_id($cat->id_catph_parent);
       while ( $catpr->is_valid() )
@@ -807,7 +807,7 @@ if ( $sujet->is_valid() )
         $path = $catpr->get_html_link()." / ".$path;
         $catpr->load_by_id($catpr->id_catph_parent);
       }
-      
+
       if ( !$cat->is_right($site->user,DROIT_LECTURE) )
       {
         $cts->add(new contents($path),true,true,"sasboxed","sujetcontext");
@@ -818,7 +818,7 @@ if ( $sujet->is_valid() )
         $site->add_css("css/sas.css");
 
         $sqlph = $cat->get_photos ( $cat->id, $site->user, $site->user->get_groups_csv(), "sas_photos.*", " LIMIT 5");
-        
+
         $gal = new gallery($path,"photos","phlist","../sas2/?id_catph=".$cat->id,"id_photo",array());
         while ( $row = $sqlph->get_row() )
         {
@@ -829,40 +829,40 @@ if ( $sujet->is_valid() )
           else
             $gal->add_item("<a href=\"../sas2/?id_photo=".$row['id_photo']."\"><img src=\"$img\" alt=\"Photo\"></a>","");
         }
-        
+
         $img = $topdir."images/misc/sas-default.png";
-        
+
         if ( $cat->id_photo )
           $img = "../sas2/images.php?/".$cat->id_photo.".vignette.jpg";
-      
+
         $gal->add_item("<a href=\"../sas2/?id_catph=".$cat->id."\"><img src=\"$img\" alt=\"Photo\"></a>",$cat->nom." : suite..." );
-        
+
         $cts->add($gal,true,true,"sasboxed","sujetcontext");
       }
     }
   }
-  
-  
+
+
   $entries=array();
-  
+
   for( $n=0;$n<$nbpages;$n++)
     $entries[]=array($n,"forum2/?id_sujet=".$sujet->id."&spage=".$n,$n+1);
-    
+
   $cts->add(new tabshead($entries, floor($start/$npp), "_top"));
-    
-  $cts->add(new sujetforum ($forum, 
-          $sujet, 
-          $site->user, 
-          "./", 
-          $start, 
+
+  $cts->add(new sujetforum ($forum,
+          $sujet,
+          $site->user,
+          "./",
+          $start,
           $npp ));
-    
+
   $cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
 
   $cts->add_paragraph($buttons,"frmtools");
 
   $cts->add_paragraph($path);
-  
+
 
   if ( $site->user->is_valid() )
   {
@@ -871,10 +871,10 @@ if ( $sujet->is_valid() )
       $max_id_message = null;
     else
     {
-      $req = new requete($site->db,"SELECT id_message FROM frm_message WHERE id_sujet='".mysql_real_escape_string($sujet->id)."' ORDER BY date_message LIMIT $num,1"); 
-      list($max_id_message) = $req->get_row();    
+      $req = new requete($site->db,"SELECT id_message FROM frm_message WHERE id_sujet='".mysql_real_escape_string($sujet->id)."' ORDER BY date_message LIMIT $num,1");
+      list($max_id_message) = $req->get_row();
     }
-    
+
     $sujet->set_user_read ( $site->user->id, $max_id_message );
   }
 
@@ -887,42 +887,42 @@ if ( $sujet->is_valid() )
 if ( $_REQUEST["page"] == "post" && !$forum->categorie )
 {
   $site->allow_only_logged_users("forum");
-  
+
   $site->start_page("forum", $forum->titre);
-  
+
   $cts = new contents($path." / Nouveau sujet");
-  
+
   /* formulaire d'invite à postage de nouveau sujet */
-  $frm = new form("newsbj","?id_forum=".$forum->id, 
+  $frm = new form("newsbj","?id_forum=".$forum->id,
       true);
-      
+
   $frm->add_hidden("action","post");
-      
+
   $frm->allow_only_one_usage();
-  
+
   if ( isset($Erreur) )
     $frm->error($Erreur);
 
   if ( $forum->is_admin($site->user) )
   {
     $type=SUJET_NORMAL;
-  
+
     $sfrm = new form("subj_type",null,null,null,"Sujet normal");
     $frm->add($sfrm,false,true, $type==SUJET_NORMAL ,SUJET_NORMAL ,false,true);
-    
+
     $sfrm = new form("subj_type",null,null,null,"Sujet épinglé, il sera toujours affiché en haut");
     $frm->add($sfrm,false,true, $type==SUJET_STICK ,SUJET_STICK ,false,true);
-    
+
     $sfrm = new form("subj_type",null,null,null,"Annonce, le message sera affiché en haut dans un cadre séparé");
-    $sfrm->add_datetime_field('date_fin_announce', 
+    $sfrm->add_datetime_field('date_fin_announce',
            'Date de fin de l\'annonce',
            time()+(7*24*60*60));
     $frm->add($sfrm,false,true, $type==SUJET_ANNONCE ,SUJET_ANNONCE ,false,true);
-    
+
     if ( $site->user->is_in_group("moderateur_forum") || $site->user->is_in_group("root") )
     {
       $sfrm = new form("subj_type",null,null,null,"Annonce du site, le message sera affiché en haut sur la première page du forum");
-      $sfrm->add_datetime_field('date_fin_announce_site', 
+      $sfrm->add_datetime_field('date_fin_announce_site',
              'Date de fin de l\'annonce',
              time()+(7*24*60*60));
       $frm->add($sfrm,false,true, $type==SUJET_ANNONCESITE ,SUJET_ANNONCESITE ,false,true);
@@ -958,7 +958,7 @@ if ( $_REQUEST["page"] == "post" && !$forum->categorie )
     {
       $frm->add_hidden("id_catph",$catph->id);
       $frm->add_info("<b>En reaction de la catégorie du SAS</b> : ".$catph->get_html_link());
-    }    
+    }
   }
   elseif ( isset($_REQUEST["id_sondage"]) )
   {
@@ -972,25 +972,25 @@ if ( $_REQUEST["page"] == "post" && !$forum->categorie )
   }
 
   /* titre du sujet */
-  $frm->add_text_field("titre_sujet", 
+  $frm->add_text_field("titre_sujet",
            "Titre du message : ",$_REQUEST["titre_sujet"],true,80);
   /* sous-titre du sujet */
-  $frm->add_text_field("soustitre_sujet", 
+  $frm->add_text_field("soustitre_sujet",
            "Sous-titre du message (optionel) : ","",false,80);
   /* moteur de rendu */
   $frm->add_select_field('synengine',
        'Moteur de rendu : ',
        array('bbcode' => 'bbcode (type phpBB)',
              'doku' => 'Doku Wiki (recommandé)'),'doku');
-  
+
   /* texte du message initiateur */
   $frm->add_dokuwiki_toolbar('subjtext',$forum->id_asso,null,true);
   $frm->add_text_area("subjtext", "Texte du message : ","",80,20);
   /* et hop ! */
-  
+
   $frm->add_checkbox ( "star", "Ajouter à mes sujets favoris.", true );
-  
-  
+
+
   $frm->add_submit("subjsubmit", "Poster");
   $frm->puts("<div class=\"formrow\"><div class=\"formlabel\"></div><div class=\"formfield\"><input type=\"button\" id=\"preview\" name=\"preview\" value=\"Prévisualiser\" class=\"isubmit\" onClick=\"javascript:make_preview();\" /></div></div>\n");
   $cts->add_paragraph("<script language=\"javascript\">
@@ -1000,26 +1000,26 @@ if ( $_REQUEST["page"] == "post" && !$forum->categorie )
         content = document.newsbj.subjtext.value;
         user = ".$site->user->id.";
         syntaxengine = document.newsbj.synengine.value;
-        
+
         openInContents('msg_preview', './index.php', 'get_preview&title='+encodeURIComponent(title)+'&content='+encodeURIComponent(content)+'&user='+user+'&syntaxengine='+syntaxengine);
       }
       </script>\n");
   $cts->add($frm);
   $cts->puts("<div id=\"msg_preview\"></div>");
   $site->add_contents($cts);
-  
-  $site->end_page();  
-  
+
+  $site->end_page();
+
   exit();
 }
 elseif ( $_REQUEST["page"] == "edit" && $forum->is_admin($site->user) )
 {
   $asso = new asso($site->db);
   $asso->load_by_id($forum->id_asso);
-  
+
   $site->start_page("forum", $forum->titre);
   $cts = new contents($path." / Editer");
-  
+
   $frm = new form("editfrm","?id_forum=".$forum->id);
   $frm->add_hidden("action","edit");
   $frm->add_text_field("titre","Titre",$forum->titre);
@@ -1030,16 +1030,16 @@ elseif ( $_REQUEST["page"] == "edit" && $forum->is_admin($site->user) )
   $frm->add_rights_field($forum,false,$forum->is_admin($site->user));
   $frm->add_submit("rec","Enregistrer");
   $cts->add($frm);
-  
+
   $site->add_contents($cts);
-  $site->end_page();  
+  $site->end_page();
   exit();
 }
 elseif ( $_REQUEST["action"] == "edit" && $forum->is_admin($site->user) )
 {
   $asso = new asso($site->db);
   $asso->load_by_id($_REQUEST["id_asso"]);
-  $forum->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin'],false);  
+  $forum->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin'],false);
   $forum->update ( $_REQUEST["titre"], $_REQUEST["description"], $_REQUEST["categorie"], $forum->id_forum_parent, $asso->id, $_REQUEST["ordre"] );
 }
 
@@ -1052,15 +1052,15 @@ if ( $forum->is_admin($site->user) )
 
 if ( $forum->categorie )
 {
-// Liste des sous-forums 
+// Liste des sous-forums
 
   if ( $forum->id == 1 && $site->user->is_valid() )
   {
    /*$cts->add_paragraph("<a href=\"./search.php?page=unread\">Voir tous les messages non lu</a>","frmgeneral");
    $cts->add_paragraph("<a href=\"./?action=setallread\">Marquer tous les messages comme lu</a>","frmgeneral");*/
-   
 
-   
+
+
     $query = "SELECT COUNT(*) " .
         "FROM frm_sujet " .
         "INNER JOIN frm_forum USING(id_forum) ".
@@ -1069,15 +1069,15 @@ if ( $forum->categorie )
           "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
           "AND frm_sujet_utilisateur.id_utilisateur='".$site->user->id."' ) ".
         "WHERE ";
-              
+
     if( is_null($site->user->tout_lu_avant))
       $query .= "(frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
-                "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ";    
+                "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ";
     else
       $query .= "((frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
                 "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ".
-                "AND frm_message.date_message > '".date("Y-m-d H:i:s",$site->user->tout_lu_avant)."') ";  
-    
+                "AND frm_message.date_message > '".date("Y-m-d H:i:s",$site->user->tout_lu_avant)."') ";
+
     if ( !$forum->is_admin( $site->user ) )
     {
       $grps = $site->user->get_groups_csv();
@@ -1086,11 +1086,11 @@ if ( $forum->categorie )
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$site->user->id."')) ";
     }
-      
-    $req = new requete($site->db,$query);  
-      
+
+    $req = new requete($site->db,$query);
+
     list($nb)=$req->get_row();
-      
+
     if ( $nb > 0 )
       $cts->add_paragraph(
       "<a href=\"search.php?page=unread\">".
@@ -1105,7 +1105,7 @@ if ( $forum->categorie )
       ,"frmtools");
     else
       $cts->add_paragraph("<a href=\"search.php\"><img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher</a>","frmtools");
-      
+
   }
   else
     $cts->add_paragraph("<a href=\"search.php\"><img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher</a>","frmtools");
@@ -1115,11 +1115,11 @@ if ( $forum->categorie )
 }
 else
 {
-// Liste des sujets 
+// Liste des sujets
   $npp=40;
   $start=0;
   $nbpages = ceil($forum->nb_sujets/$npp);
-  
+
   if ( isset($_REQUEST["fpage"]) )
   {
     $start = intval($_REQUEST["fpage"])*$npp;
@@ -1129,20 +1129,20 @@ else
       $start -= $start%$npp;
     }
   }
-  
+
   /**@todo:bouttons+infos*/
-  
+
   $cts->add_paragraph("<a href=\"search.php\"><img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher</a> <a href=\"?id_forum=".$forum->id."&amp;page=post\"><img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" />Nouveau sujet</a>","frmtools");
-  
+
   $cts->add(new sujetslist($forum, $site->user, "./", $start, $npp));
-  
+
   $entries=array();
-  
+
   for( $n=0;$n<$nbpages;$n++)
     $entries[]=array($n,"forum2/?id_forum=".$forum->id."&fpage=".$n,$n+1);
-  
+
   $cts->add(new tabshead($entries, floor($start/$npp), "_bottom"));
-  
+
   $cts->add_paragraph("<a href=\"search.php\"><img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher</a> <a href=\"?id_forum=".$forum->id."&amp;page=post\"><img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" />Nouveau sujet</a>","frmtools");
 
   /**@todo:bouttons+infos*/

@@ -33,12 +33,12 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="process_one")
 		$email = $user->email?$user->email:($user->emailutbm?$user->emailutbm:null);
 		echo $email;
 		$insert_req = new requete($insert_db_home,"INSERT INTO `profs` (`nom`,`prenom`,`sexe`,`email`,`fonction`,`telephone`) VALUES('".mysql_escape_string($user->nom)."', '".mysql_escape_string($user->prenom)."', '" . mysql_escape_string($user->sexe) . "', '".mysql_escape_string($email)."', '".mysql_escape_string($user->departement)."', '".mysql_escape_string($user->telephone)."'");
-		$lst->add($user->prenom." ".$user->nom." : OK <img src=\"". $topdir . "images/actions/done.png\">");	
+		$lst->add($user->prenom." ".$user->nom." : OK <img src=\"". $topdir . "images/actions/done.png\">");
 	}
 	else
 	$lst->add($_GET['id_utilisateur']." inconnu <img src=\"".$topdir."images/actions/delete.png\">");
-	
-	
+
+
 	$valid->add($lst,true);
 	/*while($res = $req_prof->get_row())
 	{
@@ -54,12 +54,12 @@ elseif ($_REQUEST['action']=="process_any")
 	$ids_ae->add_paragraph(print_r($_POST['id_utilisateurs']));
 }
 $cts = new sqltable(
-				"listeinteg", 
-				"Liste des prof (".$req_prof->lines.")", $req_prof,$_SERVER['REQUEST_URI'], 
-				"id_utilisateur", 
-				array("id_utilisateur"=>"ID", "nom_utilisateur" => "Nom","prenom_utl"=>utf8_encode("Prénom")), 
+				"listeinteg",
+				"Liste des prof (".$req_prof->lines.")", $req_prof,$_SERVER['REQUEST_URI'],
+				"id_utilisateur",
+				array("id_utilisateur"=>"ID", "nom_utilisateur" => "Nom","prenom_utl"=>utf8_encode("Prénom")),
 				array("process_one"=>"Ajouter aux profs"), array("process_any"=>"Marquer comme profs"));
-				
+
 $site->add_contents($cts);
 
 $process = new form("pr",$_SERVER['REQUEST_URI'],null,"POST","Manual Processing ?");

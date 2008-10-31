@@ -172,7 +172,7 @@ class edt_img
 
 
     // Trame de fond hachurée
-    
+
     for($i = $this->dim['mg'] + 1, $j = $this->dim['entete'] + 1;
 	$i < $this->dim['width'] * 2, $j < $this->dim['height'] * 2;
 	$i+=10, $j+=10)
@@ -182,7 +182,7 @@ class edt_img
 		$this->dim['mg'] + 1,
 		$j,
 		$this->colors['gris']);
-    
+
     imagefilledrectangle($this->img,
 			 0,
 			 $this->dim['height'] - 15,
@@ -197,7 +197,7 @@ class edt_img
 			 $this->dim['height'] - 2,
 			 $this->colors['blanc']);
     // Cadre de la semaine avec bordure doublï¿½e
-  
+
 
     imagerectangle ($this->img,
 		    $this->dim['mg'],
@@ -333,7 +333,7 @@ class edt_img
     //imagettftext($this->img,10,0,$this->dim['mg'],42,$noir,$police,$NomEtab);
 
     // Date de génération
-  
+
     $date=date("d-m-Y");
     $heure=date("G\hi");
     imagettftext($this->img,
@@ -345,7 +345,7 @@ class edt_img
 		 $this->font, "Emploi du temps généré le $date à $heure.");
 
     // Signature / credits
-  
+
     imagettftext($this->img,
 		 7,
 		 0,

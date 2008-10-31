@@ -27,28 +27,28 @@
  * 02111-1307, USA.
  */
 
-class pgsqlae 
+class pgsqlae
 {
 
   var $connection = null;
 
-  function pgsqlae () 
+  function pgsqlae ()
   {
     /* La problématique de la livraison des mots de passe n'a pas une
      * importance capitale ici, au vu des données que l'on garde en
      * base de données PostGreSQL, et des accès possibles (pas de
      * frontend web).
      */
-   
-    $this->connection = pg_connect("host=localhost 
-                                    dbname=geography 
-                                    user=geography 
+
+    $this->connection = pg_connect("host=localhost
+                                    dbname=geography
+                                    user=geography
                                     password=geography");
   }
 
 }
 
-class pgrequete 
+class pgrequete
 {
   var $base;
   var $sql;
@@ -58,14 +58,14 @@ class pgrequete
   var $errmsg;
 
   var $lines;
-  
-  function pgrequete ($base, $req_sql, $debug = 0) 
+
+  function pgrequete ($base, $req_sql, $debug = 0)
   {
     $this->base = $base;
     $this->sql = $req_sql;
     $esql = explode(" ", $req_sql);
-    
-    if(!$base->connection) 
+
+    if(!$base->connection)
     {
       $this->errmsg = "Non connecté";
       $this->lines = -1;
@@ -74,7 +74,7 @@ class pgrequete
     $res = pg_query($base->connection, $req_sql);
     $this->errno = pg_last_error($base->connection);
 
-    if ($this->errno != 0) 
+    if ($this->errno != 0)
     {
       $this->errmsg = pg_last_error($base->connection);
       $this->lines = -1;
@@ -82,7 +82,7 @@ class pgrequete
     }
 
     $this->errmsg = "";
-    
+
     if($this->result)
       pg_free_result($this->result);
 
@@ -102,7 +102,7 @@ class pgrequete
     }
   }
 
-  function get_all_rows () 
+  function get_all_rows ()
   {
     if(!empty($this->result))
       return pg_fetch_all($this->result);

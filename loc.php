@@ -40,13 +40,13 @@ if ( $_REQUEST["action"] == "allkml" )
 
   echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
   echo "<kml xmlns=\"http://earth.google.com/kml/2.1\">";
-  
+
   echo "<Document id=\"ae_utbm_fr_geopoints\">";
   echo "<name>ae utbm</name>";
   $req = new requete($site->db, "SELECT * FROM geopoint");
   $lieu = new lieu($site->db);
   while ( $row = $req->get_row() )
-  {   
+  {
     $lieu->_load($row);
     echo "<Placemark id=\"ae_utbm_fr_geopoint_".$row['id_geopoint']."\">";
     echo "<name>".htmlspecialchars($row['nom_geopoint'])."</name>";
@@ -56,12 +56,12 @@ if ( $_REQUEST["action"] == "allkml" )
       sprintf("%.12F",$row['lat_geopoint']*360/2/M_PI)."</coordinates>";
     echo "</Point>";
     echo "</Placemark>";
-  } 
+  }
   echo "</Document>";
   echo "</kml>";
-    
+
   exit();
-  
+
 }
 
 
@@ -71,18 +71,18 @@ $lieu = new lieu($site->db,$site->dbrw);
 
 if ( isset($_REQUEST["id_lieu"]) )
   $lieu->load_by_id($_REQUEST["id_lieu"]);
-  
+
 elseif ( isset($_REQUEST["id_geopoint"]) )
   $lieu->load_by_id($_REQUEST["id_geopoint"]);
-  
+
 elseif ( isset($_REQUEST["id_ville"]) )
   $ville->load_by_id($_REQUEST["id_ville"]);
-  
+
 elseif ( isset($_REQUEST["id_pays"]) )
   $pays->load_by_id($_REQUEST["id_pays"]);
 
 if ( $lieu->is_valid() && !is_null($lieu->id_ville) )
-  $ville->load_by_id($lieu->id_ville);    
+  $ville->load_by_id($lieu->id_ville);
 
 if ( $ville->is_valid() )
   $pays->load_by_id($ville->id_pays);
@@ -116,7 +116,7 @@ if ( $lieu->is_valid() )
     echo "</kml>";
     exit();
   }
-  
+
   $lieu_parent = new lieu($site->db);
   $lieu_parent->load_by_id($lieu->id_lieu_parent);
   $path = $lieu->get_html_link();
@@ -125,52 +125,52 @@ if ( $lieu->is_valid() )
     $path = $lieu_parent->get_html_link(). " / ". $path;
     $lieu_parent->load_by_id($lieu_parent->id_lieu_parent);
   }
-  
-  
+
+
   $site->start_page("none",$lieu->nom);
 
   $cts = new contents("<a href=\"loc.php\">Lieux</a> / ".$path);
   $cts->add_paragraph("Ville: ".$ville->get_html_link());
   $cts->add_paragraph("Position: ".geo_radians_to_degrees($lieu->lat)."N , ".geo_radians_to_degrees($lieu->long)."E");
-  
+
   $map = new gmap("map");
   $map->add_marker("lieu",$lieu->lat,$lieu->long);
   $cts->add($map);
-  
-  $req = new requete($site->db, "SELECT id_lieu, nom_geopoint FROM loc_lieu 
+
+  $req = new requete($site->db, "SELECT id_lieu, nom_geopoint FROM loc_lieu
   INNER JOIN geopoint ON (geopoint.id_geopoint=loc_lieu.id_lieu)
   WHERE id_lieu_parent='".mysql_real_escape_string($lieu->id)."' ORDER BY nom_geopoint");
-		      
+
   if ( $req->lines > 0 )
-    $cts->add(new sqltable("listsublieux", "Sous-lieux", $req, "loc.php", 
-                           "id_lieu", 
-                           array("nom_geopoint"=>"Nom"), 
-                           array(), array(),array()),true); 
+    $cts->add(new sqltable("listsublieux", "Sous-lieux", $req, "loc.php",
+                           "id_lieu",
+                           array("nom_geopoint"=>"Nom"),
+                           array(), array(),array()),true);
 
   //TODO: Lister les informations liées à ce lieu
   // - Catégories du SAS
-  
+
   $sql = new requete($site->db,"SELECT MIN(nvl_dates.date_debut_eve) AS date, COUNT(nvl_dates.id_nouvelle) AS cnt, nvl_nouvelles.* FROM nvl_nouvelles " .
   			"LEFT JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
   			"WHERE id_lieu='".$lieu->id."' AND modere_nvl='1' " .
   			"GROUP BY nvl_dates.id_nouvelle ".
   			"ORDER BY 1 DESC");
-  
+
   if ( $sql->lines > 0 )
   {
     $lst = new itemlist("Nouvelles liées à ce lieu");
   	while ( $row = $sql->get_row() )
   	{
   	  if ( is_null($row['date']) )
-  	    $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))."</span>");	
+  	    $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))."</span>");
   	  elseif ( $row["cnt"] == 1 )
-  	    $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))."</span>");	
+  	    $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))."</span>");
   	  else
-  	    $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))." (ainsi que d'autres dates ensuite)</span>");	
+  	    $lst->add("<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".$row['titre_nvl']."</a> <span class=\"hour\">le ".strftime("%A %d %B %G à %H:%M",strtotime($row['date']))." (ainsi que d'autres dates ensuite)</span>");
   	}
   	$cts->add($lst,true);
-  }			
-  			
+  }
+
   if ( $site->user->is_in_group("gestion_ae") )
   {
     $frm = new form("editlieu","loc.php?id_lieu=".$lieu->id,true,"POST","Editer");
@@ -187,7 +187,7 @@ if ( $lieu->is_valid() )
 
   $site->add_contents($cts);
   $site->end_page();
-  
+
   exit();
 }
 elseif ( $ville->is_valid() )
@@ -207,7 +207,7 @@ elseif ( $ville->is_valid() )
 	$cts->add_paragraph("Echelle: France / Régionale");
       if ($_REQUEST['level'] == 5)
 	$cts->add_paragraph("Echelle: France / Départementale");
-     
+
     }
 
   $cts->add_paragraph("Pays: ".$pays->get_html_link());
@@ -230,7 +230,7 @@ elseif ( $pays->is_valid() )
   $map = new gmap("map");
   $map->add_geopoint($pays);
   $cts->add($map);
-  
+
   $site->add_contents($cts);
 
   $site->end_page();
@@ -242,23 +242,23 @@ $site->start_page("none","Lieux");
 
 $cts = new contents("Gestion des lieux");
 
-$req = new requete($site->db, "SELECT * 
-FROM loc_lieu 
+$req = new requete($site->db, "SELECT *
+FROM loc_lieu
 INNER JOIN geopoint ON (loc_lieu.id_lieu=geopoint.id_geopoint)
-LEFT JOIN loc_ville ON (geopoint.id_ville=loc_ville.id_ville) 
+LEFT JOIN loc_ville ON (geopoint.id_ville=loc_ville.id_ville)
 WHERE id_lieu_parent IS NULL ORDER BY nom_geopoint");
 
-$cts->add(new sqltable("listsublieux", "Lieux racines", $req, "loc.php", 
-                       "id_lieu", 
-                       array("nom_geopoint"=>"Nom","nom_ville"=>"Ville"), 
-                       array(), array(),array()),true); 
+$cts->add(new sqltable("listsublieux", "Lieux racines", $req, "loc.php",
+                       "id_lieu",
+                       array("nom_geopoint"=>"Nom","nom_ville"=>"Ville"),
+                       array(), array(),array()),true);
 
 if ( $site->user->is_in_group("gestion_ae") )
 {
   $frm = new form("addlieu","loc.php",true,"POST","Nouveau lieu");
   $frm->add_hidden("action","addlieu");
   $frm->add_text_field("nom","Nom","",true);
-  
+
   //$frm->add_entity_select("id_ville", "Ville", $site->db, "ville",false,true);
   $frm->add_entity_smartselect ("id_ville", "Ville", $ville );
   $frm->add_entity_select("id_lieu_parent", "Lieu parent", $site->db, "lieu",false,true);
@@ -266,7 +266,7 @@ if ( $site->user->is_in_group("gestion_ae") )
   $frm->add_geo_field("lat","Latitude","lat");
   $frm->add_geo_field("long","Longitude","long");
   $frm->add_text_field("eloi","Eloignement");
-  
+
   $frm->add_submit("valid","Ajouter");
   $cts->add($frm,true);
 }

@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir."include/cts/board.inc.php");
@@ -31,14 +31,14 @@ $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_ae") )
   $site->error_forbidden("none","group","gestion_ae");
-	
+
 $site->start_page("none","Tâches courantes AE");
 
 $cts = new contents("Tâches courantes AE");
 
 $board = new board();
 
-$sublist = new itemlist("Pret matériel"); 
+$sublist = new itemlist("Pret matériel");
 $sublist->add("<a href=\"../emprunt.php\">Reserver du matériel</a>");
 $sublist->add("<a href=\"../emprunt.php?page=retrait\">Preter du matériel</a> (retrait immédiat)");
 $sublist->add("<a href=\"modereemp.php?view=togo\">Retrait matériel</a>");
@@ -47,35 +47,35 @@ $sublist->add("<a href=\"../emprunt.php?page=retour\">Retour de matériel</a>");
 
 $board->add($sublist,true);
 
-$sublist = new itemlist("Salles"); 
+$sublist = new itemlist("Salles");
 $sublist->add("<a href=\"".$topdir."salle.php?page=reservation\">Reserver une salle</a>");
 $sublist->add("<a href=\"".$topdir."ae/modereres.php\">Modération des reservations de salle</a>");
 $board->add($sublist,true);
 
-$sublist = new itemlist("Carte AE"); 
+$sublist = new itemlist("Carte AE");
 $sublist->add("<a href=\"cartesae.php?view=retrait\">Retrait carte AE (+ cadeau)</a>");
 $sublist->add("<a href=\"cartesae.php?view=bureau\">Arrivée cartes AE au bureau</a>");
 $sublist->add("<a href=\"cartesae.php\">Impression cartes AE</a>");
 $board->add($sublist,true);
 
-$sublist = new itemlist("Cotisations"); 
+$sublist = new itemlist("Cotisations");
 $sublist->add("<a href=\"cotisations.php#newstudent\">Nouvelle cotisation</a>");
 $sublist->add("<a href=\"cotisations.php\">Renouvellement cotisation/consultation</a> (Possible aussi depuis la fiche utilisateur)");
 $board->add($sublist,true);
 
-$sublist = new itemlist("Inventaire"); 
+$sublist = new itemlist("Inventaire");
 $sublist->add("Ajout matériel");
 $sublist->add("Types d'objet");
 $sublist->add("Batiments/Salles");
 $board->add($sublist,true);
 
 
-$sublist = new itemlist("Elections"); 
+$sublist = new itemlist("Elections");
 $sublist->add("<a href=\"elections.php\">Organiser une election</a>");
 $sublist->add("<a href=\"elections.php\">Modifier/Consulter une election</a>");
 $board->add($sublist,true);
 
-$sublist = new itemlist("Divers"); 
+$sublist = new itemlist("Divers");
 $sublist->add("<a href=\"activites.php\">Listing des responsables et des trésoriers des activités</a>");
 $sublist->add("<a href=\"".$topdir."asso/sendfax.php?id_asso=1\">Envoyer des fax</a>");
 $board->add($sublist,true);
@@ -83,7 +83,7 @@ $board->add($sublist,true);
 $cts->add($board);
 
 $site->add_contents($cts);
-		
-$site->end_page();	
+
+$site->end_page();
 
 ?>

@@ -59,7 +59,7 @@ $site->set_side_boxes("right",array(),"nope");
 $site->set_side_boxes("left",array(),"nope");
 
 $cts = new contents($asso->nom);
-$cts->add(new tabshead($asso->get_tabs($site->user),"info"));	
+$cts->add(new tabshead($asso->get_tabs($site->user),"info"));
 
 $history = new history("Petite histoire de ".$asso->nom);
 
@@ -82,8 +82,8 @@ $req = new requete($site->db,
   "LEFT JOIN sas_cat_photos as parent ON ( parent.id_catph = sas_cat_photos.id_catph_parent ) ".
   "WHERE  sas_photos.meta_id_asso_ph='".$cat->meta_id_asso."' " .
   "AND sas_cat_photos.id_catph!='".$cat->id."' ".
-  "AND sas_cat_photos.id_catph_parent!='".$cat->id."' ".    
-  "AND parent.id_catph_parent!='".$cat->id."' ".      
+  "AND sas_cat_photos.id_catph_parent!='".$cat->id."' ".
+  "AND parent.id_catph_parent!='".$cat->id."' ".
   "AND (sas_cat_photos.meta_id_asso_catph!='".$cat->meta_id_asso."' OR sas_cat_photos.meta_id_asso_catph IS NULL)");
 
 while ( $row = $req->get_row() )
@@ -109,8 +109,8 @@ $req = new requete($site->db,
   "LEFT JOIN sas_cat_photos as parent ON ( parent.id_catph = sas_cat_photos.id_catph_parent ) ".
   "WHERE sas_cat_photos.meta_id_asso_catph='".$cat->meta_id_asso."' ".
   "AND sas_cat_photos.id_catph!='".$cat->id."' ".
-  "AND sas_cat_photos.id_catph_parent!='".$cat->id."' ".    
-  "AND parent.id_catph_parent!='".$cat->id."' ".    
+  "AND sas_cat_photos.id_catph_parent!='".$cat->id."' ".
+  "AND parent.id_catph_parent!='".$cat->id."' ".
   "AND sas_cat_photos.meta_mode_catph!='".CATPH_MODE_META_ASSO."'");
 
 while ( $row = $req->get_row() ) $cats[] = $row;
@@ -155,7 +155,7 @@ $req = new requete($site->db,
 		"WHERE `asso_membre`.`id_asso`='".$asso->id."' " .
 		"AND `asso_membre`.`role` >= ".ROLEASSO_VICEPRESIDENT." ".
 		"ORDER BY `asso_membre`.`date_debut`, `asso_membre`.`desc_role`");
-		
+
 
 
 if ( !is_null($asso->id_parent) )
@@ -168,7 +168,7 @@ else
   $role[ROLEASSO_PRESIDENT] = "Président(e)";
   $role[ROLEASSO_VICEPRESIDENT] = "Vice-Président(e)";
 }
- 
+
 while ( $row = $req->get_row() )
 {
 
@@ -181,7 +181,7 @@ while ( $row = $req->get_row() )
   $role[$row['role']]." : <a href=\"../user.php?id_utilisateur=".$row['id_utilisateur']."\">".htmlentities($row['nom_utilisateur'],ENT_NOQUOTES,"UTF-8")."</a>");
 }
 
-$cts->add($history,true);	
+$cts->add($history,true);
 $site->add_contents($cts);
 $site->end_page();
 

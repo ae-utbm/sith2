@@ -5,7 +5,7 @@ require_once($topdir."sas2/include/mosaic.inc.php");
 
 $site = new sas();
 
-$req = new requete($site->db,"select r<<16|g<<8|b from sas_palette");  
+$req = new requete($site->db,"select r<<16|g<<8|b from sas_palette");
 
 $n=0;
 

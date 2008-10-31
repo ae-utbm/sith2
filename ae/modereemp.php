@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 
@@ -34,11 +34,11 @@ $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_ae") )
 	$site->error_forbidden();
-	
+
 $emp = new emprunt ( $site->db, $site->dbrw );
 $asso = new asso($site->db);
 $user = new utilisateur($site->db);
-	
+
 if ( $_REQUEST["id_emprunt"] )
 {
 	$emp->load_by_id($_REQUEST["id_emprunt"]);
@@ -63,15 +63,15 @@ elseif ( $emp->id > 0 && $_REQUEST["action"] == "valide" && ($emp->etat == EMPRU
 elseif ( $emp->id > 0 && $_REQUEST["action"] == "retrait" && ($emp->etat == EMPRUNT_MODERE ))
 {
 	$emp->retrait ( $site->user->id, $_REQUEST["caution"], $_REQUEST["prix_emprunt"], $_REQUEST["notes"] );
-	
+
 	$Message = new contents("Emprunt de matériel retiré.",$emp->get_html_link()." : <a href=\"".$topdir."emprunt.php?action=print&amp;id_emprunt=".$emp->id."\">Imprimer</a>");
 	$emp->id = -1;
 }
-	
+
 $site->start_page("services","Moderation des emprunts de matériel");
-	
+
 $cts = new contents ( "Emprunts de matériel" );
-	
+
 $tabs = array(array("","ae/modereemp.php", "Modération"),
 			array("togo","ae/modereemp.php?view=togo", "A venir"),
 			array("out","ae/modereemp.php?view=out", "Matériel prété"),
@@ -79,18 +79,18 @@ $tabs = array(array("","ae/modereemp.php", "Modération"),
 			array("nan","emprunt.php?page=retrait", "Preter"),
 			array("nan","emprunt.php?page=retour", "Retour")
 			);
-$cts->add(new tabshead($tabs,$_REQUEST["view"]));	
-	
-	
-if ( isset($Message) )	
+$cts->add(new tabshead($tabs,$_REQUEST["view"]));
+
+
+if ( isset($Message) )
 	$cts->add($Message,true);
-if ( $_REQUEST["view"] == "" )	
+if ( $_REQUEST["view"] == "" )
 {
 	$cts->add_paragraph("<a href=\"../emprunt.php\">Reserver du matériel</a>");
 	$cts->add_paragraph("<a href=\"../emprunt.php?page=retrait\">Retrait sans réservation</a> (retrait immédiat)");
-	
-	$cts->add_paragraph("Cliquez sur l'icone info pour visualiser la demande et procéder à sa modération.");	
-		
+
+	$cts->add_paragraph("Cliquez sur l'icone info pour visualiser la demande et procéder à sa modération.");
+
 	$req = new requete($site->db,"SELECT inv_emprunt.*, " .
 			"`inv_objet`.`id_objet`," .
 			"CONCAT(`inv_objet`.`nom_objet`,' ',`inv_objet`.`cbar_objet`) AS `nom_objet`, " .
@@ -106,11 +106,11 @@ if ( $_REQUEST["view"] == "" )
 			"LEFT JOIN asso ON inv_emprunt.id_asso=asso.id_asso " .
 			"WHERE etat_emprunt=0 " .
 			"ORDER BY etat_emprunt,date_debut_emp");
-			
+
 	$cts->add(new sqltable(
-			"attenteemprunt", 
-			"Reservations de matériel à modérer", $req, "modereemp.php", 
-			"id_emprunt", 
+			"attenteemprunt",
+			"Reservations de matériel à modérer", $req, "modereemp.php",
+			"id_emprunt",
 			array(
 				"id_emprunt"=>"N° d'emprunt",
 				"nom_utilisateur"=>"Qui",
@@ -118,16 +118,16 @@ if ( $_REQUEST["view"] == "" )
 				"date_debut_emp"=>"De",
 				"date_fin_emp"=>"Au",
 				"nom_asso"=>"Pour"
-				), 
-			array(), 
+				),
+			array(),
 			array(),
 			array()
 			),true);
 }
 elseif ( $_REQUEST["view"] == "togo" )
-{		
+{
 	$cts->add_paragraph("<a href=\"../emprunt.php?page=retrait\">Retrait sans réservation</a> (retrait immédiat)");
-	
+
 	$req = new requete($site->db,"SELECT inv_emprunt.*, " .
 			"asso.nom_asso, asso.id_asso," .
 			"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`," .
@@ -136,30 +136,30 @@ elseif ( $_REQUEST["view"] == "togo" )
 			"INNER JOIN utilisateurs ON utilisateurs.id_utilisateur=inv_emprunt.id_utilisateur " .
 			"LEFT JOIN asso ON inv_emprunt.id_asso=asso.id_asso " .
 			"WHERE etat_emprunt=1 " .
-			"ORDER BY etat_emprunt,date_debut_emp");		
-			
+			"ORDER BY etat_emprunt,date_debut_emp");
+
 	$cts->add(new sqltable(
-			"attenteemprunt", 
-			"Reservations de matériel modérés à venir", $req, "modereemp.php?view=togo", 
-			"id_emprunt", 
+			"attenteemprunt",
+			"Reservations de matériel modérés à venir", $req, "modereemp.php?view=togo",
+			"id_emprunt",
 			array(
 				"id_emprunt"=>"N° d'emprunt",
 				"nom_utilisateur"=>"Qui",
 				"date_debut_emp"=>"De",
 				"date_fin_emp"=>"Au",
 				"nom_asso"=>"Pour"
-				), 
-			array("delete"=>"Supprimer"), 
+				),
+			array("delete"=>"Supprimer"),
 			array(),
 			array()
-			),true);		
-}			
+			),true);
+}
 elseif ( $_REQUEST["view"] == "out" )
-{	
-	
+{
+
 	$cts->add_paragraph("<a href=\"../emprunt.php?page=retour\">Retour de matériel</a>");
-	
-	
+
+
 	$req = new requete($site->db,"SELECT inv_emprunt.*, " .
 			"`inv_objet`.`id_objet`," .
 			"CONCAT(`inv_objet`.`nom_objet`,' ',`inv_objet`.`cbar_objet`) AS `nom_objet`, " .
@@ -174,16 +174,16 @@ elseif ( $_REQUEST["view"] == "out" )
 			"INNER JOIN inv_type_objets ON inv_objet.id_objtype=inv_type_objets.id_objtype " .
 			"LEFT JOIN asso ON inv_emprunt.id_asso=asso.id_asso " .
 			"WHERE (inv_emprunt.etat_emprunt > 1) AND inv_emprunt_objet.retour_effectif_emp IS NULL " .
-			"ORDER BY inv_emprunt.date_fin_emp");		
-			
-	$cts->add(new sqltable("listobjets", 
-			"Objets empruntés", $req, "../emprunt.php", 
-			"id_emprunt", 
-			array("id_emprunt"=>"N° d'emprunt","nom_objet"=>"Objet","nom_utilisateur"=>"Qui","nom_asso"=>"Pour","date_fin_emp"=>"A rendre le"), 
+			"ORDER BY inv_emprunt.date_fin_emp");
+
+	$cts->add(new sqltable("listobjets",
+			"Objets empruntés", $req, "../emprunt.php",
+			"id_emprunt",
+			array("id_emprunt"=>"N° d'emprunt","nom_objet"=>"Objet","nom_utilisateur"=>"Qui","nom_asso"=>"Pour","date_fin_emp"=>"A rendre le"),
 			array("view"=>"Information sur l'emprunt"), array(), array()
 			),true);
-	
-}	
+
+}
 
 $site->add_contents($cts);
 

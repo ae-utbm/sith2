@@ -9,14 +9,14 @@ class icalendar
   var $name;
   var $filename;
   var $events;
-  
+
   function icalendar ( $name = "AE EVENEMENTS", $filename = "ae-events.ics" )
   {
     $this->name = $name;
     $this->filename = $filename;
     $this->events=array();
   }
-  
+
   static function iescape ( $str )
   {
     $str=preg_replace('/([\,\\\\;])/u','\\\\$1', $str);
@@ -73,14 +73,14 @@ RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
 ";
-    
+
     foreach ( $this->events as $event )
     {
       echo "BEGIN:VEVENT\n";
       echo "UID:".$this->iescape($event["uid"])."\n";
       echo "SUMMARY:".$this->iescape($event['summary'])."\n";
       echo "DESCRIPTION:".$this->iescape($event['description'])."\n";
-      
+
       if ( isset($event['dateonly'])  && $event['dateonly'] )
       {
         echo "DTSTART;TZID=Europe/Paris;VALUE=DATE:".date("Ymd",$event['start'])."\n";
@@ -91,22 +91,22 @@ END:VTIMEZONE
         echo "DTSTART;TZID=Europe/Paris:".date("Ymd",$event['start'])."T".date("His",$event['start'])."\n";
         echo "DTEND;TZID=Europe/Paris:".date("Ymd",$event['end'])."T".date("His",$event['end'])."\n";
       }
-      
+
       if ( isset($event['location']) && $event['location'] )
         echo "LOCATION:".$this->iescape($event['location'])."\n";
-        
+
       if ( isset($event['lat']) && isset($event['long']) && !is_null($event['lat']) && !is_null($event['long'])  )
-        echo "GEO:".sprintf("%.12F",$event['lat']*360/2/M_PI).";".sprintf("%.12F",$event['long']*360/2/M_PI)."\n";      
-      
+        echo "GEO:".sprintf("%.12F",$event['lat']*360/2/M_PI).";".sprintf("%.12F",$event['long']*360/2/M_PI)."\n";
+
       if ( isset($event['url']) && $event['url'] )
         echo "URL:".$this->iescape($event["url"])."\n";
-      
+
       echo "END:VEVENT\n";
     }
     echo "END:VCALENDAR\n";
-  }  
-  
-  
+  }
+
+
 }
 
 

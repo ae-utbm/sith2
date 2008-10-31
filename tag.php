@@ -36,28 +36,28 @@ $tag = new tag ($site->db,$site->dbrw);
 
 if ( isset($_REQUEST["id_tag"]) )
   $tag->load_by_id($_REQUEST["id_tag"]);
-  
+
 if ( $tag->is_valid() )
 {
   $site->start_page("presentation",$tag->nom);
   $cts = new contents("<a href=\"tag.php\">Tags</a> / ".$tag->nom);
-  
+
   $site->add_css("css/sas.css");
   // photo
   $cat = new catphoto($site->db);
   $cat->load_by_id(1);
   $photos = $cat->get_photos_search ( $site->user, "id_tag='".$tag->id."'", "LEFT JOIN sas_photos_tag USING(id_photo)", "*", "LIMIT 6");
-  
+
   if ( $photos->lines > 0 )
   {
     $photo = new photo($site->db);
-    
+
     $gal = new gallery("Photo(s)","photos","phlist");
     while ( $row = $photos->get_row() )
     {
       $photo->_load($row);
       $img = "sas2/images.php?/".$photo->id.".vignette.jpg";
-  
+
       if ( $row['type_media_ph'] == 1 )
         $gal->add_item("<a href=\"sas2/?id_photo=".$photo->id."\"><img src=\"$img\" alt=\"Photo\">".
             "<img src=\"".$wwwtopdir."images/icons/32/multimedia.png\" alt=\"Video\" class=\"ovideo\" /></a>");
@@ -65,13 +65,13 @@ if ( $tag->is_valid() )
         $gal->add_item("<a href=\"sas2/?id_photo=".$photo->id."\"><img src=\"$img\" alt=\"Photo\"></a>");
     }
     $cts->add($gal,true);
-  
+
     $cts->add_paragraph("<a href=\"sas2/search.php?action=search&amp;tags=".$tag->nom."\">Toutes les photos</a>");
   }
-  
+
   // fichier
   $req = new requete($site->db,
-    "SELECT d_file.* FROM d_file_tag INNER JOIN d_file USING(id_file) WHERE id_tag='".$tag->id."' ORDER BY titre_file");  
+    "SELECT d_file.* FROM d_file_tag INNER JOIN d_file USING(id_file) WHERE id_tag='".$tag->id."' ORDER BY titre_file");
   if ( $req->lines > 0 )
   {
     $dfile = new dfile($site->db);
@@ -83,7 +83,7 @@ if ( $tag->is_valid() )
     }
     $cts->add($lst,true);
   }
-  
+
   // asso et club
   $req = new requete($site->db,
     "SELECT asso.* FROM asso_tag INNER JOIN asso USING(id_asso) WHERE id_tag='".$tag->id."' ORDER BY nom_asso");
@@ -98,10 +98,10 @@ if ( $tag->is_valid() )
     }
     $cts->add($lst,true);
   }
-  
+
   $site->add_contents($cts);
   $site->end_page ();
-  exit();  
+  exit();
 }
 
 $site->start_page("presentation","Tags");

@@ -38,7 +38,7 @@ $budget->load_by_id($_REQUEST["id_budget"]);
 if ( $budget->id < 1 )
 {
 	$site->error_not_found();
-	exit();	
+	exit();
 }
 $cla->load_by_id($budget->id_classeur);
 $cptasso->load_by_id($cla->id_cptasso);
@@ -47,7 +47,7 @@ $asso->load_by_id($cptasso->id_asso);
 
 if ( !$site->user->is_in_group("compta_admin") && !$asso->is_member_role($site->user->id,ROLEASSO_TRESORIER) )
 	$site->error_forbidden();
-	
+
 $site->set_current($asso->id,$asso->nom,$cla->id,$cla->nom,$cpbc->nom);
 
 if ( $_REQUEST["action"] == "newligne" && !$budget->valide )
@@ -56,14 +56,14 @@ if ( $_REQUEST["action"] == "newligne" && !$budget->valide )
 	$opclb->load_by_id($_REQUEST["id_opclb"]);
 
 	if ( $opclb->is_valid() )
-	{ 
+	{
 		$budget->add_line($opclb->id,get_prix($_REQUEST["montant"]),$_REQUEST["description"]);
 	}
 }
 elseif ( $_REQUEST["action"] == "delete" && !$budget->valide )
 {
 	$budget->remove_line($_REQUEST["num_lignebudget"]);
-	
+
 }
 elseif ( $_REQUEST["action"] == "updatebudget" && !$budget->valide )
 {
@@ -77,32 +77,32 @@ elseif ( $_REQUEST["action"] == "termine" && !$budget->valide )
 elseif ( $_REQUEST["action"] == "editline" && !$budget->valide )
 {
   $num = intval($_REQUEST["num_lignebudget"]);
-  
+
 	$opclb = new operation_club($site->db);
 	$opclb->load_by_id($_REQUEST["id_opclb"]);
 
 	if ( $opclb->is_valid() )
 		$budget->update_line($num,$opclb->id,get_prix($_REQUEST["montant"]),$_REQUEST["description"]);
-  
+
 }
 elseif ( $_REQUEST["action"] == "edit" && !$budget->valide  )
 {
   $num = intval($_REQUEST["num_lignebudget"]);
-  
+
   $datas = $budget->get_line($num);
-  
+
   if ( is_null($datas) )
   {
-    header("Location: budget.php?id_budget=".$budget->id); 
+    header("Location: budget.php?id_budget=".$budget->id);
     exit();
   }
-  
+
   $site->start_page ("none", "Budget ".$budget->nom." dans classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")" );
-  
+
   //$cts = new contents("Budget ".$budget->nom." dans classeur ".$cla->nom." ( ".$asso->nom ." - ". $cpbc->nom.")");
   $cts = new contents("<a href=\"./\">Compta</a> / ".$cpbc->get_html_link()." / ".$cptasso->get_html_link()." / ".$cla->get_html_link()." / ".$budget->get_html_link());
   $cts->set_help_page("compta-budget");
-    
+
   $frm = new form("editline","budget.php?id_budget=".$budget->id,true,"POST","Editer une ligne budgetaire");
   $frm->add_hidden("action","editline");
   $frm->add_hidden("num_lignebudget",$num);
@@ -111,9 +111,9 @@ elseif ( $_REQUEST["action"] == "edit" && !$budget->valide  )
   $frm->add_text_field("montant","Montant",$datas["montant_ligne"]/100,false);
   $frm->add_submit("editline","Enregistrer");
   $cts->add($frm,true);
-  
+
   $site->add_contents($cts);
-  
+
   $site->end_page ();
   exit();
 }
@@ -136,17 +136,17 @@ $req = new requete ( $site->db, "SELECT  " .
 		"FROM cpta_ligne_budget " .
 		"LEFT JOIN `cpta_op_clb` ON `cpta_ligne_budget`.`id_opclb`=`cpta_op_clb`.`id_opclb` " .
 		"WHERE cpta_ligne_budget.id_budget='".$budget->id."' ".
-		"GROUP BY type_mouvement");	
+		"GROUP BY type_mouvement");
 
 $sums[-1]=0;
 $sums[1]=0;
 
 while ( list($sum,$mvt) = $req->get_row() )
   $sums[$mvt]=$sum;
-  
+
 if ( $sums[1]+$sums[-1] != 0 )
-  $cts->add_paragraph("Attention, budget non équilibré : Différence de <b>".(($sums[1]+$sums[-1])/100)."</b> Euros","error");	
-  
+  $cts->add_paragraph("Attention, budget non équilibré : Différence de <b>".(($sums[1]+$sums[-1])/100)."</b> Euros","error");
+
 $req = new requete ( $site->db, "SELECT cpta_ligne_budget.num_lignebudget, " .
 		"cpta_ligne_budget.description_ligne," .
 		"(cpta_ligne_budget.montant_ligne/100) AS montant, " .
@@ -157,19 +157,19 @@ $req = new requete ( $site->db, "SELECT cpta_ligne_budget.num_lignebudget, " .
 		"ORDER BY cpta_op_clb.libelle_opclb");
 
 $cts->add(new sqltable(
-	"lstcredit", 
-	"Recettes : ".($sums[1]/100)." Euros", $req, "budget.php?id_budget=".$budget->id, 
-	"num_lignebudget", 
+	"lstcredit",
+	"Recettes : ".($sums[1]/100)." Euros", $req, "budget.php?id_budget=".$budget->id,
+	"num_lignebudget",
 	array(
 		"libelle_opclb"=>"Libéllé",
 		"description_ligne"=>"Description",
 		"montant"=>"Montant"
-		), 
-	$budget->valide?array():array("delete"=>"Supprimer","edit"=>"Editer"), 
+		),
+	$budget->valide?array():array("delete"=>"Supprimer","edit"=>"Editer"),
 	array(),
 	array()
 	),true);
-	
+
 
 $req = new requete ( $site->db, "SELECT cpta_ligne_budget.num_lignebudget, " .
 		"cpta_ligne_budget.description_ligne," .
@@ -181,23 +181,23 @@ $req = new requete ( $site->db, "SELECT cpta_ligne_budget.num_lignebudget, " .
 		"ORDER BY cpta_op_clb.libelle_opclb");
 
 $cts->add(new sqltable(
-	"lstdepenses", 
-	"Depenses : ".($sums[-1]/100)." Euros", $req, "budget.php?id_budget=".$budget->id, 
-	"num_lignebudget", 
+	"lstdepenses",
+	"Depenses : ".($sums[-1]/100)." Euros", $req, "budget.php?id_budget=".$budget->id,
+	"num_lignebudget",
 	array(
 		"libelle_opclb"=>"Libéllé",
 		"description_ligne"=>"Description",
 		"montant"=>"Montant"
-		), 
-	$budget->valide?array():array("delete"=>"Supprimer","edit"=>"Editer"), 
+		),
+	$budget->valide?array():array("delete"=>"Supprimer","edit"=>"Editer"),
 	array(),
 	array()
 	),true);
-	
+
 
 if ( $sums[1]+$sums[-1] != 0 )
-  $cts->add_paragraph("Attention, budget non équilibré : Différence de <b>".(($sums[1]+$sums[-1])/100)."</b> Euros","error");	
-	
+  $cts->add_paragraph("Attention, budget non équilibré : Différence de <b>".(($sums[1]+$sums[-1])/100)."</b> Euros","error");
+
 if ( !$budget->valide )
 {
   $frm = new form("newligne","budget.php?id_budget=".$budget->id,true,"POST","Ajouter ligne budgetaire");

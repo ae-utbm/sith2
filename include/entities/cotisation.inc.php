@@ -41,8 +41,8 @@ class cotisation extends stdentity
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
 
@@ -57,8 +57,8 @@ class cotisation extends stdentity
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
 
@@ -150,7 +150,7 @@ class cotisation extends stdentity
 				)
 			);
 	}
-	
+
   function generate_card()
   {
     $carte = new carteae($this->db,$this->dbrw);

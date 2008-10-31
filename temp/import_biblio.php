@@ -44,20 +44,20 @@ $olivre = new livre($site->db,$site->dbrw);
 if ( $_REQUEST["action"] == "process")
 {
 	$lines = explode("\n",$_REQUEST["data"]);
-	
+
 	foreach ( $lines as $line)
 	{
 		if ( $line)
 		{
-		
-		list($serie,$nom,$num_livre,$auteur,$editeur) = explode(";",$line);	
-		
+
+		list($serie,$nom,$num_livre,$auteur,$editeur) = explode(";",$line);
+
 		if ( $num_livre != intval($num_livre) ) $num_livre=null;
-		
-		
+
+
 		if ( $serie && $serie!= "****" && $serie != "*****" )
 		{
-			$id_serie = $cache_series[$serie];	
+			$id_serie = $cache_series[$serie];
 			if ( !$id_serie )
 			{
 				$oserie->add_serie($serie);
@@ -67,23 +67,23 @@ if ( $_REQUEST["action"] == "process")
 		}
 		else
 			$id_serie = NULL;
-			
-		$id_auteur = $cache_auteurs[$auteur];	
+
+		$id_auteur = $cache_auteurs[$auteur];
 		if ( !$id_auteur )
 		{
 			$oauteur->add_auteur($auteur);
 			$id_auteur = $oauteur->id;
 			$cache_auteurs[$auteur]	 = $id_auteur;
 		}
-			
-		$id_editeur = $cache_editeurs[$editeur];	
+
+		$id_editeur = $cache_editeurs[$editeur];
 		if ( !$id_editeur )
 		{
 			$oediteur->add_editeur($editeur);
 			$id_editeur = $oediteur->id;
 			$cache_editeurs[$editeur]	 = $id_editeur;
-		}	
-		
+		}
+
 		$olivre->add_book ( 33, 1, 5, 12, null, $nom,
 				"BDN", "", 700, 1500, 0, 1,
 				1, 0, "",
@@ -91,8 +91,8 @@ if ( $_REQUEST["action"] == "process")
 
 		}
 	}
-	
-	
+
+
 	exit();
 }
 

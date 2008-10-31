@@ -22,7 +22,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir = "./";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
@@ -32,34 +32,34 @@ $site = new site ();
 
 if ( !$site->user->is_in_group("root"))
   $site->error_forbidden("none","group",1);
-  
-$grp = new group ( $site->db,$site->dbrw);    
-  
+
+$grp = new group ( $site->db,$site->dbrw);
+
 if ( isset($_REQUEST["id_groupe"]) )
-{  
-  $grp->load_by_id($_REQUEST["id_groupe"]);  
+{
+  $grp->load_by_id($_REQUEST["id_groupe"]);
   if ( $grp->id < 1 )
   {
     $site->error_not_found();
-    exit();  
+    exit();
   }
 }
 
 if ( $_REQUEST["action"] == "delete" && !isset($_REQUEST["id_utilisateur"]) && $site->user->is_in_group("root") )
 {
   // Opération **trés** critique (la suppression d'un groupe barman, ou d'admin serai trés dommagable)
-  if ( $site->is_sure ( "","Suppression du groupe ".$grp->nom,"delgrp".$grp->id, 2 ) )  
+  if ( $site->is_sure ( "","Suppression du groupe ".$grp->nom,"delgrp".$grp->id, 2 ) )
   {
     $site->log("Retrait d'un groupe","Retrait du groupe ". $grp->nom ."(id : ". $grp->id .")","Groupes",$site->user->id);
     $grp->delete_group();
   }
   $grp->id = -1;
-  
+
 }
 
 if (  $grp->id > 0)
-{  
-  
+{
+
   if ( $_REQUEST["action"] == "delete")
   {
     if ( ($grp->id != 7 && $grp->id != 46 && $grp->id != 47) || $site->user->is_in_group("root") )
@@ -102,9 +102,9 @@ if (  $grp->id > 0)
     else
       $Error = "Veuillez contacter l'équipe informatique pour modifier les groupes systèmes.";
   }
-  
+
   $site->start_page("none","Groupe");
-  
+
   $cts = new contents("<a href=\"group.php\">Groupes</a> / ".$grp->get_html_link());
   $cts->add_paragraph($grp->description);
   $req = new requete($site->db,
@@ -114,30 +114,30 @@ if (  $grp->id > 0)
     "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`utl_groupe`.`id_utilisateur` " .
     "WHERE `utl_groupe`.`id_groupe`='".$grp->id."' " .
     "ORDER BY `utilisateurs`.`nom_utl`,`utilisateurs`.`prenom_utl`");
-    
+
   $tbl = new sqltable(
-      "listmemb", 
-      "Membres", $req, "group.php?id_groupe=".$grp->id, 
-      "id_utilisateur", 
-      array("nom_utilisateur"=>"Utilisateur"), 
-      array("delete"=>"Supprimer"), 
+      "listmemb",
+      "Membres", $req, "group.php?id_groupe=".$grp->id,
+      "id_utilisateur",
+      array("nom_utilisateur"=>"Utilisateur"),
+      array("delete"=>"Supprimer"),
       array("deletes"=>"Supprimer"),
       array( )
       );
   $cts->add($tbl,true);
-  
+
   $frm = new form("adduser","group.php?id_groupe=".$grp->id, false,"POST","Ajouter un utilisateur");
   $frm->add_hidden("action","add");
-  
-  if ( $Error )  
+
+  if ( $Error )
     $frm->error($Error);
-    
+
   $frm->add_user_fieldv2("id_utilisateur","Utilisateur");
   $frm->add_submit("valid","Ajouter");
   $cts->add($frm,true);
-  
+
   $site->add_contents($cts);
-  
+
   $site->end_page();
   exit();
 }
@@ -159,30 +159,30 @@ $cts = new contents("Groupes");
 $req = new requete($site->db,
   "SELECT * FROM `groupe` " .
   "ORDER BY nom_groupe");
-  
+
 if ( $site->user->is_in_group("root") )
 {
   $tbl = new sqltable(
-      "listgrp", 
-      "Groupes", $req, "group.php", 
-      "id_groupe", 
-      array("id_groupe" => "ID", "nom_groupe"=>"Groupe","description_groupe"=>"Description"), 
-      array("delete"=>"Supprimer"), 
+      "listgrp",
+      "Groupes", $req, "group.php",
+      "id_groupe",
+      array("id_groupe" => "ID", "nom_groupe"=>"Groupe","description_groupe"=>"Description"),
+      array("delete"=>"Supprimer"),
       array(),
       array( )
-      );  
+      );
 }
 else
 {
   $tbl = new sqltable(
-      "listgrp", 
-      "Groupes", $req, "group.php", 
-      "id_groupe", 
-      array("id_groupe" => "ID", "nom_groupe"=>"Groupe","description_groupe"=>"Description"), 
-      array(), 
+      "listgrp",
+      "Groupes", $req, "group.php",
+      "id_groupe",
+      array("id_groupe" => "ID", "nom_groupe"=>"Groupe","description_groupe"=>"Description"),
+      array(),
       array(),
       array( )
-      );  
+      );
 }
 $cts->add($tbl,true);
 
@@ -190,7 +190,7 @@ if ( $site->user->is_in_group("root") )
 {
   $frm = new form("addgroup","group.php", false,"POST","Créer un groupe");
   $frm->add_hidden("action","addgroup");
-  if ( $Error )  
+  if ( $Error )
     $frm->error($Error);
   $frm->add_text_field("nom","Nom (unix)","",true);
   $frm->add_text_field("description","Description","");

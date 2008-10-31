@@ -31,22 +31,22 @@ class jobetu extends stdentity
 
   function _load($row)
   {
-    
-  }
-  
-  function load_by_id($id)
-  {
-    return false;  
+
   }
 
-  
+  function load_by_id($id)
+  {
+    return false;
+  }
+
+
   /** Récupère les différents types de job
    * renvoie un tableau: array( array("id_type", "cat", "nom") ) dans $this->jobtypes
    */
   function get_job_types()
   {
     $sql = new requete($this->db, "SELECT * FROM job_types ORDER BY id_type ASC");
-    
+
     while($type = $sql->get_row())
     {
 			$this->job_types[ $type['id_type'] ] = $type['nom'];
@@ -66,15 +66,15 @@ class jobetu extends stdentity
     $sql = new requete($this->db, "SELECT MAX(id_type) FROM job_types");
     $cat = $sql->get_row();
     $max = floor($cat[0] / 100);
-    
-    $sql = new insert($this->dbrw, 
-		      "job_types", 
+
+    $sql = new insert($this->dbrw,
+		      "job_types",
 		      array(
 			    "id_type" => ($max + 1)*100,
 			    "nom" => mysql_real_escape_string($nom)
 			    )
 		      );
-    
+
     if($sql)
       return ($max + 1)*100;
     else
@@ -102,12 +102,12 @@ class jobetu extends stdentity
     if($sql)
       return $id_cat + $max[0] + 1;
     else
-      return -1;   
+      return -1;
   }
-  
+
   function del_subtype($id)
   {
-  	
+
   }
 
 }
@@ -115,21 +115,21 @@ class jobetu extends stdentity
 class rssjobetu extends rssfeed
 {
 	var $db;
-	
+
 	function rssjobetu(&$db)
 	{
 		$this->db = $db;
     $this->title = "AE JobEtu";
     $this->description = "Les dernières annonces de JobEtu";
     $this->link = "http://ae.utbm.fr/jobetu/";
-    
+
 		$this->rssfeed();
 	}
-	
+
 	function output_items()
 	{
 		$sql = new requete($this->db, "SELECT `id_annonce`, `titre`, `desc`, `date`, `profil`, `nb_postes`, `indemnite`, `job_types`.`nom` AS `job_nom` FROM `job_annonces` LEFT JOIN `job_types` ON `job_types`.`id_type` = `job_annonces`.`job_type` WHERE `closed` != '1' AND `id_select_etu` IS NULL ORDER BY `date` DESC LIMIT 15");
-		
+
 		while( $row = $sql->get_row() )
 		{
 			echo "<item>\n";
@@ -143,8 +143,8 @@ class rssjobetu extends rssfeed
   		echo "<description>".htmlspecialchars($buffer, ENT_NOQUOTES,"UTF-8")."</description>\n";
   		echo "<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date"]))."</pubDate>\n";
   		echo "<guid>http://ae.utbm.fr/jobetu/board_etu.php?view=general&amp;action=detail&amp;id_annonce=".$row["id_annonce"]."</guid>\n";
-  		echo "</item>\n";	
+  		echo "</item>\n";
 		}
-		
+
 	}
 }

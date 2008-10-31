@@ -113,7 +113,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
                                 "INNER JOIN `cpt_comptoir` ON `cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
                                 "WHERE " .implode(" AND ",$conds).
                                 "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
-  
+
   while ($res = $req_->get_row())
   {
     if(($skip + $height) > 255)
@@ -184,7 +184,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
 $site->start_page("presentation",$asso->nom);
 
 $cts = new contents($asso->get_html_path());
-    
+
 $cts->add(new tabshead($asso->get_tabs($site->user),"slds"));
 
 $cts->add_title(1,"Ventes cartes AE + e-boutic");
@@ -215,18 +215,18 @@ if ( $_REQUEST["id_comptoir"] )
   $conds[] = "cpt_debitfacture.id_comptoir='".intval($_REQUEST["id_comptoir"])."'";
   $comptoir=true;
 }
-    
+
 if ( $_REQUEST["id_typeprod"] )
   $conds[] = "cpt_produits.id_typeprod='".intval($_REQUEST["id_typeprod"])."'";
-    
+
 if ( $_REQUEST["id_produit"] )
   $conds[] = "cpt_vendu.id_produit='".intval($_REQUEST["id_produit"])."'";
 
 if ( count($conds) >= 1 )
 {
-  
+
   $req = new requete($site->db, "SELECT " .
-                                "COUNT(`cpt_vendu`.`id_produit`), " .    
+                                "COUNT(`cpt_vendu`.`id_produit`), " .
                                 "SUM(`cpt_vendu`.`quantite`), " .
                                 "SUM(`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`) AS `total`," .
                                 "SUM(`cpt_produits`.`prix_achat_prod`*`cpt_vendu`.`quantite`) AS `total_coutant`" .
@@ -235,15 +235,15 @@ if ( count($conds) >= 1 )
                                 "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
                                 "INNER JOIN `cpt_type_produit` ON `cpt_produits`.`id_typeprod` =`cpt_type_produit`.`id_typeprod` " .
                                 "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
-                                "INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_debitfacture`.`id_utilisateur` =`vendeur`.`id_utilisateur` " .  
+                                "INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_debitfacture`.`id_utilisateur` =`vendeur`.`id_utilisateur` " .
                                 "INNER JOIN `utilisateurs` AS `client` ON `cpt_debitfacture`.`id_utilisateur_client` =`client`.`id_utilisateur` " .
                                 "INNER JOIN `cpt_comptoir` ON `cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
                                 "WHERE " .implode(" AND ",$conds).
-                                "ORDER BY `cpt_debitfacture`.`date_facture` DESC");    
-  
+                                "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
+
   list($ln,$qte,$sum,$sumcoutant) = $req->get_row();
-  
-  
+
+
   $cts->add_title(2,"Sommes");
   $cts->add_paragraph("Quantitée : $qte unités<br/>" .
                       "Chiffre d'affaire: ".($sum/100)." Euros<br/>" .
@@ -263,7 +263,7 @@ if ( count($conds) >= 1 )
 
   if ( $ln < 1000 )
   {
-  
+
     $req = new requete($site->db, "SELECT " .
                                   "`cpt_debitfacture`.`id_facture`, " .
                                   "`cpt_debitfacture`.`date_facture`, " .
@@ -272,7 +272,7 @@ if ( count($conds) >= 1 )
                                   "CONCAT(`client`.`prenom_utl`,' ',`client`.`nom_utl`) as `nom_utilisateur_client`, " .
                                   "`client`.`id_utilisateur` AS `id_utilisateur_client`, " .
                                   "CONCAT(`vendeur`.`prenom_utl`,' ',`vendeur`.`nom_utl`) as `nom_utilisateur_vendeur`, " .
-                                  "`vendeur`.`id_utilisateur` AS `id_utilisateur_vendeur`, " .      
+                                  "`vendeur`.`id_utilisateur` AS `id_utilisateur_vendeur`, " .
                                   "`cpt_vendu`.`quantite`, " .
                                   "`cpt_vendu`.`prix_unit`/100 AS `prix_unit`, " .
                                   "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total`," .
@@ -282,22 +282,22 @@ if ( count($conds) >= 1 )
                                   "`cpt_produits`.`nom_prod`, " .
                                   "`cpt_produits`.`id_produit`, " .
                                   "`cpt_type_produit`.`id_typeprod`, " .
-                                  "`cpt_type_produit`.`nom_typeprod`" .      
+                                  "`cpt_type_produit`.`nom_typeprod`" .
                                   "FROM `cpt_vendu` " .
                                   "INNER JOIN `asso` ON `asso`.`id_asso` =`cpt_vendu`.`id_assocpt` " .
                                   "INNER JOIN `cpt_produits` ON `cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
                                   "INNER JOIN `cpt_type_produit` ON `cpt_produits`.`id_typeprod` =`cpt_type_produit`.`id_typeprod` " .
                                   "INNER JOIN `cpt_debitfacture` ON `cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
-                                  "INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_debitfacture`.`id_utilisateur` =`vendeur`.`id_utilisateur` " .  
+                                  "INNER JOIN `utilisateurs` AS `vendeur` ON `cpt_debitfacture`.`id_utilisateur` =`vendeur`.`id_utilisateur` " .
                                   "INNER JOIN `utilisateurs` AS `client` ON `cpt_debitfacture`.`id_utilisateur_client` =`client`.`id_utilisateur` " .
                                   "INNER JOIN `cpt_comptoir` ON `cpt_debitfacture`.`id_comptoir` =`cpt_comptoir`.`id_comptoir` " .
                                   "WHERE " .implode(" AND ",$conds).
                                   "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
-  
-  
-    $cts->add(new sqltable( "listresp", 
-                            "Listing", $req, "ventes.php", 
-                            "id_facture", 
+
+
+    $cts->add(new sqltable( "listresp",
+                            "Listing", $req, "ventes.php",
+                            "id_facture",
                             array( "id_facture"=>"Facture",
                                    "date_facture"=>"Date",
                                    "nom_typeprod"=>"Type",
@@ -309,7 +309,7 @@ if ( count($conds) >= 1 )
                                    "quantite"=>"Qte",
                                    "total"=>"Som.",
                                    "total_coutant"=>"Coutant*"),
-                            array(), 
+                            array(),
                             array(),
                             array( )
                           ),true);
@@ -319,6 +319,6 @@ if ( count($conds) >= 1 )
 
 
 $site->add_contents($cts);
-    
+
 $site->end_page();
 ?>

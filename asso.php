@@ -70,7 +70,7 @@ else if ( isset($_REQUEST["id_asso"]) )
 		$site->error_not_found();
 		exit();
 	}
-	
+
 	// Correction du vocabulaire
   if ( !is_null($asso->id_parent) )
   {
@@ -82,10 +82,10 @@ else if ( isset($_REQUEST["id_asso"]) )
     $GLOBALS['ROLEASSO'][ROLEASSO_PRESIDENT] = "Président";
     $GLOBALS['ROLEASSO'][ROLEASSO_VICEPRESIDENT] = "Vice-président";
   }
-    
+
 	if ( $site->user->is_in_group("gestion_ae") || $asso->is_member_role( $site->user->id, ROLEASSO_VICEPRESIDENT ) )
 	{
-	
+
     if ( $_REQUEST['action'] == "applyedit" )
     {
       if ( $site->user->is_in_group("gestion_ae") && ( !$_REQUEST['nom']  || !$_REQUEST['nom_unix'] ) )
@@ -113,10 +113,10 @@ else if ( isset($_REQUEST["id_asso"]) )
           $asso->update_asso($asso->nom,$asso->nom_unix,$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email'],isset($_REQUEST['distinct_benevole']));
         else
           $asso->update_asso($asso->nom,$asso->nom_unix,$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],null,null,isset($_REQUEST['distinct_benevole']));
-          
-          
+
+
         $asso->set_tags($_REQUEST['tags']);
-        
+
       }
     }
     else if ( is_dir("/var/www/ae/www/ae2/var/img") && $_REQUEST['action'] == "setlogo"  )
@@ -124,35 +124,35 @@ else if ( isset($_REQUEST["id_asso"]) )
       if ( is_uploaded_file($_FILES['logofile']['tmp_name']) )
       {
         $src = $_FILES['logofile']['tmp_name'];
-    
+
         $dest_small ="/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".small.png";
         $dest_icon = "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".icon.png";
         $dest_full = "/var/www/ae/www/ae2/var/img/logos/".$asso->nom_unix.".jpg";
-    
+
         exec("/usr/share/php5/exec/convert $src -thumbnail 80x80 $dest_small");
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 48x48 -bordercolor white  -border 24 -background white -gravity center -crop 48x48+0+0 +repage $dest_icon"));
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -background white $dest_full"));
       }
       else
         $ErreurLogo = "Erreur lors de l'upload";
-    
+
       $_REQUEST['page'] = "edit";
     }
 
 	}
-	
+
 	if ( ($_REQUEST['page'] == "edit" ) && ($site->user->is_in_group("gestion_ae") || $asso->is_member_role($site->user->id, ROLEASSO_VICEPRESIDENT)))
 	{
     $site->start_page("presentation",$asso->nom);
     $cts = new contents($asso->get_html_path());
-    $cts->add(new tabshead($asso->get_tabs($site->user),"info"));	
-    
+    $cts->add(new tabshead($asso->get_tabs($site->user),"info"));
+
     $frm = new form("editasso","asso.php?id_asso=".$asso->id,true,"POST","Edition");
     $frm->add_hidden("action","applyedit");
-  
+
     if ( $Error )
       $frm->error($Error);
-    if ( $site->user->is_in_group("gestion_ae") ) 
+    if ( $site->user->is_in_group("gestion_ae") )
     {
 			$frm->add_text_field("nom","Nom de l'association",$asso->nom,true);
       $frm->add_entity_select("asso_parent", "Association parent", $site->db, "asso",$asso->id_parent,true);
@@ -164,11 +164,11 @@ else if ( isset($_REQUEST["id_asso"]) )
     }
 
 		$frm->add_text_area("adresse","Adresse postale",$asso->adresse_postale);
-    
+
     $frm->add_text_field("email","Email",$asso->email);
     $frm->add_text_field("siteweb","Site web",$asso->siteweb);
     $frm->add_text_field("tags","Tags (séparateur: virgule)",$asso->get_tags());
-    
+
     $frm->add_checkbox("distinct_benevole","Activer la mailing liste bénévoles",$asso->distinct_benevole);
 
     if ( $GLOBALS["is_using_ssl"] )
@@ -181,7 +181,7 @@ else if ( isset($_REQUEST["id_asso"]) )
 
     $frm->add_submit("applyedit","Enregistrer");
     $cts->add($frm,true);
-  
+
     $frm = new form("setlogo","asso.php?id_asso=".$asso->id,true,"POST","Logo");
     $frm->add_hidden("action","setlogo");
     if ( $ErreurLogo )
@@ -192,7 +192,7 @@ else if ( isset($_REQUEST["id_asso"]) )
     $frm->add_file_field("logofile","Fichier PNG");
     $frm->add_submit("valid","Enregistrer");
     $cts->add($frm,true);
-    
+
     $site->add_contents($cts);
     $site->end_page();
     exit();
@@ -203,14 +203,14 @@ else if ( isset($_REQUEST["id_asso"]) )
 	$cts = new contents($asso->get_html_path());
 	if ( $site->user->is_in_group("moderateur_site") || $asso->is_member_role( $site->user->id, ROLEASSO_MEMBREBUREAU ) || $site->user->is_in_group("root") )
 	  $cts->set_toolbox(new toolbox(array("article.php?page=edit&name=activites:".$asso->nom_unix=>"Editer Présentation","asso.php?page=edit&id_asso=".$asso->id=>"Editer")));
-	
-	$cts->add(new tabshead($asso->get_tabs($site->user),"info"));	
+
+	$cts->add(new tabshead($asso->get_tabs($site->user),"info"));
 
 
   if ( $_REQUEST["action"] == "selfenroll" && !is_null($asso->id_parent) )
   {
     $site->allow_only_logged_users("presentation");
-    
+
     if ( $asso->is_member($site->user->id) )
     {
       $cts->add_title(2,"Inscription enregistrée");
@@ -218,7 +218,7 @@ else if ( isset($_REQUEST["id_asso"]) )
     }
     else
     {
-      $asso->add_actual_member ( $site->user->id, time(), ROLEASSO_MEMBRE, "" );		
+      $asso->add_actual_member ( $site->user->id, time(), ROLEASSO_MEMBRE, "" );
       $cts->add_title(2,"Inscription enregistrée");
       $cts->add_paragraph("Votre inscription a été enregistré, vous receverez désormais par e-mail les nouvelles de ".$asso->nom);
     }
@@ -231,11 +231,11 @@ else if ( isset($_REQUEST["id_asso"]) )
 
 	$page = new page($site->db);
 	$page->load_by_pagename("activites:".$asso->nom_unix);
-	if ( $page->id > 0 ) 
+	if ( $page->id > 0 )
 	{
 		$cts->add_title(2,"Pr&eacute;sentation");
 		$cts->add($page->get_contents());
-		
+
 	}
 	elseif ( $site->user->is_in_group("moderateur_site") )
 		$cts->add_paragraph("<a href=\"article.php?page=edit&amp;name=activites:".$asso->nom_unix."\">Creer l'article de pr&eacute;sentation</a>");
@@ -249,11 +249,11 @@ else if ( isset($_REQUEST["id_asso"]) )
     require_once($topdir."include/cts/gallery.inc.php");
 
     $site->add_css("css/asso.css");
-		
+
 		$vocable = "Activités";
 		if ( $asso->id == 1 )
 		  $vocable = "Pôles";
-		
+
     $gal = new gallery($vocable,"clubsgal");
     while ( $row = $req->get_row() )
     {
@@ -262,31 +262,31 @@ else if ( isset($_REQUEST["id_asso"]) )
       if ( !file_exists("/var/www/ae/www/ae2".$img) )
       {
         $gal->add_item(
-          "<a href=\"asso.php?id_asso=".$row['id_asso']."\">&nbsp;<img src=\"images/icons/128/asso.png\" alt=\"\" class=\"nope\" />&nbsp;</a>", 
+          "<a href=\"asso.php?id_asso=".$row['id_asso']."\">&nbsp;<img src=\"images/icons/128/asso.png\" alt=\"\" class=\"nope\" />&nbsp;</a>",
           "<a href=\"asso.php?id_asso=".$row['id_asso']."\">".$row['nom_asso']."</a>" );
       }
       else
         $gal->add_item(
-          "<a href=\"asso.php?id_asso=".$row['id_asso']."\">&nbsp;<img src=\"$img\" alt=\"\" />&nbsp;</a>", 
+          "<a href=\"asso.php?id_asso=".$row['id_asso']."\">&nbsp;<img src=\"$img\" alt=\"\" />&nbsp;</a>",
           "<a href=\"asso.php?id_asso=".$row['id_asso']."\">".$row['nom_asso']."</a>" );
     }
     $cts->add($gal,true);
-		
+
 	}
-		
+
   $links = array();
-  
+
   if ( $asso->email )
 		$links[] = "<b>Contact</b> : <a href=\"mailto:".$asso->email."\">".$asso->email."</a>";
-		
+
   if ( $asso->siteweb )
 		$links[] = "<b>Site web</b> : <a href=\"".$asso->siteweb."\">".$asso->siteweb."</a>";
-		
+
   if ( is_null($asso->id_parent) )
     $extracond .= "`asso_membre`.`role` > '".ROLEASSO_MEMBREACTIF."' ";
   else
     $extracond .= "`asso_membre`.`role` > '".ROLEASSO_TRESORIER."' ";
-    
+
   $req = new requete($site->db,
 		"SELECT COUNT(*) " .
 		"FROM `asso_membre` " .
@@ -295,29 +295,29 @@ else if ( isset($_REQUEST["id_asso"]) )
 		"AND ".$extracond);
 
   list($respcnt) = $req->get_row();
-  
+
   if ( $respcnt > 0 )
   {
     if ( is_null($asso->id_parent) )
 		  $links[] = "<b>Bureau</b> : <a href=\"asso/membres.php?id_asso=".$asso->id."\">Voir les membres du bureau</a>";
 		else
 		  $links[] = "<b>Responsable</b> : <a href=\"asso/membres.php?id_asso=".$asso->id."\">Voir le(s) responsable(s)</a>";
-	}	
-		
+	}
+
 	$links[] = "<b>Historique</b> : <a href=\"asso/history.php?id_asso=".$asso->id."\">Voir résumé</a>";
-		
+
 	if ( count($links) > 0)
 		$cts->add(new itemlist("",false,$links),true);
-		
+
 	$cts->puts("<div class=\"clearboth\"></div>");
 
   if ( $asso->is_mailing_allowed() && !is_null($asso->id_parent) && (!$site->user->is_valid() || !$asso->is_member($site->user->id)) )
   {
-    $cts->add_title(2,"Inscrivez vous pour en savoir plus");  
-  
+    $cts->add_title(2,"Inscrivez vous pour en savoir plus");
+
     $cts->add_paragraph("Inscrivez vous pour recevoir les nouvelles de ".$asso->nom." par e-mail et participer aux discussions, c'est simple et rapide : <a href=\"asso.php?id_asso=".$asso->id."&amp;action=selfenroll\">cliquez ici</a>");
   }
-  
+
   $cts->add(new taglist($asso),true);
 
 	$site->add_contents($cts);
@@ -342,22 +342,22 @@ $site->add_contents(new treects ( "Associations", $req, 0, "id_asso", "id_asso_p
 if ( $site->user->is_in_group("root") )
 {
   $frm = new form("newasso","asso.php",true,"POST","Ajouter une association");
-  
+
   if ( isset($Error) && $Error )
     $frm->error($Error);
-  
+
   $frm->add_hidden("action","addasso");
   $frm->add_text_field("nom","Nom de l'association","",true);
   $frm->add_text_field("nom_unix","Nom 'unix' (lettres et chiffres sans espaces)","",true);
 	$frm->add_entity_select("asso_parent", "Association parent", $site->db, "asso",0,true);
   $frm->add_text_area("adresse","Adresse postale");
-  
+
   $frm->add_text_field("email","Email",$asso->email);
   $frm->add_text_field("siteweb","Site web",$asso->siteweb);
-  
+
   $frm->add_checkbox("distinct_benevole","Activer la mailing liste bénévoles",$asso->distinct_benevole);
-  
-  
+
+
   if ( $GLOBALS["is_using_ssl"] )
   {
     $frm->add_text_field("login_email","Login mail utbm",$asso->login_email);
@@ -368,7 +368,7 @@ if ( $site->user->is_in_group("root") )
 
 
   $frm->add_submit("addasso","Ajouter");
-  
+
   $site->add_contents($frm);
 }
 

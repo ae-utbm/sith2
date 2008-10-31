@@ -30,22 +30,22 @@ $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
-	
+
 if ( $_REQUEST["action"] == "fusion" && $GLOBALS["svalid_call"] )
 {
-  $user1 = new utilisateur($site->db,$site->dbrw);  
+  $user1 = new utilisateur($site->db,$site->dbrw);
   $user1->load_by_id($_REQUEST["id_utilisateur1"]);
-  
-  $user2 = new utilisateur($site->db);  
+
+  $user2 = new utilisateur($site->db);
   $user2->load_by_id($_REQUEST["id_utilisateur2"]);
-      
+
   if ( !$user1->is_valid() || !$user2->is_valid() )
-    $Erreur="ID invalide";   
-  elseif ( $site->is_sure ( "","Suppression de l'utilisateur N°".$user1->id." : ".$user1->get_html_link()." en faveur de l'utilisateur N°".$user2->id." : ".$user2->get_html_link(),"fusionusr".$user->id, 2 ) )	
+    $Erreur="ID invalide";
+  elseif ( $site->is_sure ( "","Suppression de l'utilisateur N°".$user1->id." : ".$user1->get_html_link()." en faveur de l'utilisateur N°".$user2->id." : ".$user2->get_html_link(),"fusionusr".$user->id, 2 ) )
     $Success = $user1->replace_and_remove($user2);
-  
+
 }
-	
+
 $site->start_page("none","Administration");
 
 $cts = new contents("<a href=\"./\">Administration</a> / Fusion de deux utilisateurs");

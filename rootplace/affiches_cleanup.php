@@ -31,7 +31,7 @@ $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
-	
+
 $site->start_page("none","Administration");
 
 $cts = new contents("<a href=\"index.php\">Administration</a> / Maintenance / Nettoyage affiches");
@@ -42,7 +42,7 @@ $lst = new itemlist();
 
 $req = new requete($site->db,"SELECT d_file.*, d_file_rev.*
 FROM d_file
-INNER JOIN d_file_rev ON (d_file.id_file=d_file_rev.id_file AND d_file_rev.id_rev_file=d_file.id_rev_file_last ) 
+INNER JOIN d_file_rev ON (d_file.id_file=d_file_rev.id_file AND d_file_rev.id_rev_file=d_file.id_rev_file_last )
 INNER JOIN d_folder AS f1 ON ( d_file.id_folder=f1.id_folder)
 INNER JOIN d_folder AS f2 ON ( f1.id_folder_parent=f2.id_folder)
 LEFT JOIN nvl_nouvelles_files ON ( d_file.id_file=nvl_nouvelles_files.id_file)

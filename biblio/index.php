@@ -49,36 +49,36 @@ $salle = new salle($site->db);
 function get_lieux ()
 {
 	global $site;
-	$req = new requete ( $site->db, "SELECT ".				
+	$req = new requete ( $site->db, "SELECT ".
 			"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`  " .
 			"FROM `inv_objet` " .
 			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
-			"LEFT JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".	
+			"LEFT JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".
 			"LEFT JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".
-			"WHERE `inv_jeu`.`id_objet` IS NOT NULL OR `bk_book`.`id_objet` IS NOT NULL ".				
+			"WHERE `inv_jeu`.`id_objet` IS NOT NULL OR `bk_book`.`id_objet` IS NOT NULL ".
 			"GROUP BY `sl_salle`.`id_salle`" );
-	$values[0]="-";	
+	$values[0]="-";
 	while ( list($id,$nom) = $req->get_row())
 		$values[$id]=$nom;
-	
+
 	return $values;
 }
 
 if ( isset($_REQUEST["id_editeur"]))
 	$editeur->load_by_id($_REQUEST["id_editeur"]);
-	
+
 if ( isset($_REQUEST["id_serie"]))
 	$serie->load_by_id($_REQUEST["id_serie"]);
-	
+
 if ( isset($_REQUEST["id_auteur"]))
 	$auteur->load_by_id($_REQUEST["id_auteur"]);
-	
+
 if ( isset($_REQUEST["id_livre"]))
 	$livre->load_by_id($_REQUEST["id_livre"]);
-	
+
 if ( isset($_REQUEST["id_jeu"]))
 	$jeu->load_by_id($_REQUEST["id_jeu"]);
-	
+
 if ( isset($_REQUEST["id_salle"]))
 	$salle->load_by_id($_REQUEST["id_salle"]);
 
@@ -101,10 +101,10 @@ elseif ( $_REQUEST["action"] == "addediteur" && $is_admin)
 elseif ( $_REQUEST["action"] == "bookback" && $is_admin )
 {
 	$emp = new emprunt ( $site->db, $site->dbrw );
-	
-	$obj = new objet($site->db);	
+
+	$obj = new objet($site->db);
 	$obj->load_by_cbar($_REQUEST["cbar"]);
-	
+
 	if ( $obj->is_valid() && ($obj->is_book() || $obj->is_jeu()) )
 	{
 		$emp->load_by_objet($obj->id);
@@ -118,34 +118,34 @@ elseif ( $_REQUEST["action"] == "bookback" && $is_admin )
 	}
 	else
 		$ErreurRetour="Objet inconnu.";
-	
+
 }
 elseif ( $_REQUEST["action"] == "borrowbooks" && $is_admin )
 {
 	$ErreurEmprunt = null;
-	
+
 	function add_objet_once( &$list, &$obj )
 	{
-		foreach( $list as $o )	
+		foreach( $list as $o )
 			if ( $o->id == $obj->id ) return;
 		$list[]=$obj;
 	}
-	
+
 	$user = new utilisateur($site->db);
 	$emp = new emprunt ( $site->db, $site->dbrw );
 	$livres=array();
-	
+
 	if ( $_REQUEST["emp"] == "carte" )
 		$user->load_by_carteae($_REQUEST["carte"]);
 	elseif ( $_REQUEST["emp"] == "email" )
 		$user->load_by_id($_REQUEST["id_utilisateur"]);
-		
+
 	$cbars = explode("\n",$_REQUEST["cbars"]);
 	foreach ( $cbars as $cbar)
 	{
 		if ( $cbar )
 		{
-			$l = new objet($site->db);	
+			$l = new objet($site->db);
 			$l->load_by_cbar(trim($cbar));
 			if ( $l->is_valid() && ($l->is_book() || $l->is_jeu()) )
 				add_objet_once($livres,$l);
@@ -153,7 +153,7 @@ elseif ( $_REQUEST["action"] == "borrowbooks" && $is_admin )
 				$ErreurEmprunt = "Un ou plusieurs codes barres sont inconnus.";
 		}
 	}
-		
+
 	if ( !$user->is_valid() )
 		$ErreurEmprunt="Utilisateur inconnu";
 	elseif ( $_REQUEST["endtime"] <= time() )
@@ -172,18 +172,18 @@ elseif ( $_REQUEST["action"] == "addlivres" && $is_admin )
 	$objtype = new objtype($site->db);
 	$asso = new asso($site->db);
 	$asso_prop = new asso($site->db);
-  
+
 	$asso->load_by_id($_POST["id_asso_prop"]);
 	$asso_gest->load_by_id($_POST["id_asso"]);
 	$objtype->load_by_id($_POST["id_objtype"]);
 	$salle->load_by_id($_POST["id_salle"]);
-		
+
 	$lines = explode("\n",$_POST["data"]);
-		
+
   foreach ( $lines as $line )
   {
     $rows = explode(";",$line);
-    
+
     if ( $rows[0] != "Serie" )
     {
       $nserie = trim($rows[0]);
@@ -192,25 +192,25 @@ elseif ( $_REQUEST["action"] == "addlivres" && $is_admin )
       $auteurs = trim($rows[3]);
       $nediteur = trim($rows[4]);
       $isbn = trim($rows[5]);
-      
+
     	$editeur->load_or_create($nediteur);
-    	
+
     	if ( !empty($nserie) )
     	  $serie->load_or_create($nserie);
       else
         $serie->id = null;
-        
+
       $livre->add_book ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $nom,
 				$objtype->code, "", $_POST["prix"], $_POST["caution"], 0, 0,
 				true, $_POST["date_achat"], "",
 				$serie->id, $editeur->id, $num, $isbn );
-      
+
       if ( !empty($auteurs) )
       {
         $auteurs = explode(",",$auteurs);
         foreach ( $auteurs as $nom )
         {
-          if ( !empty($nom) ) 
+          if ( !empty($nom) )
           {
           	$auteur->load_or_create($nom);
           	$livre->add_auteur($auteur->id);
@@ -229,7 +229,7 @@ elseif ( $_REQUEST["action"] == "addlivre" && $is_admin )
   $auteur1 = new auteur($site->db);
   $auteur2 = new auteur($site->db);
   $auteur3 = new auteur($site->db);
-	
+
 	$asso_prop->load_by_id($_POST["id_asso_prop"]);
 	$asso->load_by_id($_POST["id_asso"]);
 	$objtype->load_by_id($_POST["id_objtype"]);
@@ -242,20 +242,20 @@ elseif ( $_REQUEST["action"] == "addlivre" && $is_admin )
 	$auteur1->load_by_id($_POST["id_auteur1"]);
 	$auteur2->load_by_id($_POST["id_auteur2"]);
 	$auteur3->load_by_id($_POST["id_auteur3"]);
-	
+
   $livre->add_book ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $_POST["nom"],
 				$objtype->code, $_POST["num_serie"], $_POST["prix"], $_POST["caution"], 0, 0,
 				$_POST["en_etat"], $_POST["date_achat"], $_POST["notes"],
 				$serie->id, $editeur->id, $_POST["num"], $_POST["isbn"] );
-				
+
 	$livre->add_auteur($auteur->id);
-	
+
 	if ( $auteur1->id > 0 )
     $livre->add_auteur($auteur1->id);
-    
+
 	if ( $auteur2->id > 0 )
     $livre->add_auteur($auteur2->id);
-    
+
 	if ( $auteur3->id > 0 )
     $livre->add_auteur($auteur3->id);
 
@@ -265,7 +265,7 @@ elseif ( $_REQUEST["action"] == "addjeu" && $is_admin )
 	$objtype = new objtype($site->db);
 	$asso = new asso($site->db);
 	$asso_prop = new asso($site->db);
-  
+
 	$asso_prop->load_by_id($_POST["id_asso_prop"]);
 	$asso->load_by_id($_POST["id_asso"]);
 	$objtype->load_by_id($_POST["id_objtype"]);
@@ -283,18 +283,18 @@ elseif ( $_REQUEST["action"] == "addjeux" && $is_admin )
 	$objtype = new objtype($site->db);
 	$asso = new asso($site->db);
 	$asso_prop = new asso($site->db);
-  
+
 	$asso_prop->load_by_id($_POST["id_asso_prop"]);
 	$asso->load_by_id($_POST["id_asso"]);
 	$objtype->load_by_id($_POST["id_objtype"]);
 	$salle->load_by_id($_POST["id_salle"]);
-	
+
 	$lines = explode("\n",$_POST["data"]);
-		
+
   foreach ( $lines as $line )
   {
     $rows = explode(";",$line);
-    
+
     if ( $rows[0] != "Nom" )
     {
       $nom = trim($rows[0]);
@@ -304,24 +304,24 @@ elseif ( $_REQUEST["action"] == "addjeux" && $is_admin )
       $duree = trim($rows[4]);
       $langue = trim($rows[5]);
       $difficulte = trim($rows[6]);
-      
-      $prix = get_prix(trim($rows[7]));      
+
+      $prix = get_prix(trim($rows[7]));
       $caution = get_prix(trim($rows[8]));
-      
+
       $reservable = trim($rows[9]) == "o";
-      
+
     	if ( !empty($nserie) )
     	  $serie->load_or_create($nserie);
       else
         $serie->id = null;
-        
+
       $jeu->add_jeu ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $nom,
 				$objtype->code, "", $prix, $caution, 0, $reservable,
 				true, $_POST["date_achat"], $_POST["notes"],
 				$serie->id, $etat, $nb_joueurs, $duree, $langue, $difficulte );
     }
   }
-  
+
 }
 
 
@@ -341,7 +341,7 @@ if ( $_REQUEST["action"] == "search" )
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,""));
-	
+
 	$frm = new form("search","./",false,"POST","Recherche d'un livre/BD");
 	$frm->add_hidden("action","search");
 	$frm->add_text_field("name","Titre",$_REQUEST["name"]);
@@ -351,19 +351,19 @@ if ( $_REQUEST["action"] == "search" )
 	$frm->add_select_field("id_salle","Lieu",get_lieux());
 	$frm->add_submit("valide","Rechercher");
 	$cts->add($frm,true);
-	
+
 	if ( $editeur->is_valid() )
 		$conds[] = "`bk_book`.`id_editeur`='".$editeur->id."'";
-	
+
 	if ( $auteur->is_valid() )
-		$conds[] = "`bk_livre_auteur`.`id_auteur`='".$auteur->id."'";	
-	
-	
+		$conds[] = "`bk_livre_auteur`.`id_auteur`='".$auteur->id."'";
+
+
 	if ( $salle->is_valid() )
-		$conds[] = "`inv_objet`.`id_salle`='".$salle->id."'";	
-		
+		$conds[] = "`inv_objet`.`id_salle`='".$salle->id."'";
+
 	if ( $serie->is_valid() )
-		$conds[] = "`bk_book`.`id_serie`='".$serie->id."'";	
+		$conds[] = "`bk_book`.`id_serie`='".$serie->id."'";
 
 	if ( count($conds) || $_REQUEST["name"] )
 	{
@@ -374,27 +374,27 @@ if ( $_REQUEST["action"] == "search" )
 				"`bk_editeur`.`id_editeur`,`bk_editeur`.`nom_editeur`," .
 				"`bk_serie`.`id_serie`,`bk_serie`.`nom_serie`," .
 				"`bk_book`.`num_livre`,".
-				"`inv_objet`.`nom_objet` AS `nom_livre`, " .				
+				"`inv_objet`.`nom_objet` AS `nom_livre`, " .
 				"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`  " .
 				"FROM `inv_objet` " .
-				"INNER JOIN `bk_book` USING(`id_objet`) ".				
+				"INNER JOIN `bk_book` USING(`id_objet`) ".
 				"INNER JOIN `bk_livre_auteur` USING(`id_objet`) ".
 				"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
 				"INNER JOIN `bk_editeur` ON `bk_book`.`id_editeur`=`bk_editeur`.`id_editeur` ".
 				"LEFT JOIN `bk_serie` ON `bk_book`.`id_serie`=`bk_serie`.`id_serie` ".
 				"WHERE ".implode(" AND ",$conds)." " .
 				"ORDER BY `bk_serie`.`nom_serie`,`bk_book`.`num_livre`,`inv_objet`.`nom_objet`" );
-				
+
 		$tbl = new sqltable(
-			"listlivres", 
-			"Livres", $req, "./", 
-			"id_livre", 
-			array("nom_livre"=>"Titre","nom_serie"=>"Serie","num_livre"=>"N°"/*,"nom_auteur"=>"Auteur"*/,"nom_editeur"=>"Editeur","nom_salle"=>"Lieu"), 
+			"listlivres",
+			"Livres", $req, "./",
+			"id_livre",
+			array("nom_livre"=>"Titre","nom_serie"=>"Serie","num_livre"=>"N°"/*,"nom_auteur"=>"Auteur"*/,"nom_editeur"=>"Editeur","nom_salle"=>"Lieu"),
 			array(), array(), array()
 			);
 		$cts->add($tbl,true);
 	}
-	
+
 	$site->add_contents($cts);
 	$site->end_page();
 	exit();
@@ -404,10 +404,10 @@ elseif ( $_REQUEST["action"] == "searchjeu" )
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,""));
-	
+
 //TODO:recherche/jeu
 
-	
+
 	$site->add_contents($cts);
 	$site->end_page();
 	exit();
@@ -416,23 +416,23 @@ elseif ( $jeu->is_valid() )
 {
 	$objtype = new objtype($site->db);
 	$asso_gest = new asso($site->db);
-	
+
   if ( $_REQUEST["action"] == "save" && $is_admin )
   {
   	$objtype = new objtype($site->db);
   	$asso = new asso($site->db);
   	$asso_prop = new asso($site->db);
-    
+
   	$asso_prop->load_by_id($_POST["id_asso_prop"]);
   	$asso->load_by_id($_POST["id_asso"]);
   	$objtype->load_by_id($_POST["id_objtype"]);
-  	$salle->load_by_id($_POST["id_salle"]);    
+  	$salle->load_by_id($_POST["id_salle"]);
   	$serie->load_by_id($_POST["id_serie"]);
-  	
+
     $jeu->save_jeu ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $_REQUEST["nom"],
   				$_REQUEST["num_serie"], $_REQUEST["prix"], $_REQUEST["caution"], $_REQUEST["prix_emprunt"], isset($_REQUEST["empruntable"]),
   				isset($_REQUEST["en_etat"]), $_REQUEST["date_achat"], $_REQUEST["notes"], $livre->cbar,
-  				$serie->id, $_REQUEST["etat"], $_REQUEST["nb_joueurs"], $_REQUEST["duree"], $_REQUEST["langue"], $_REQUEST["difficulte"] );				
+  				$serie->id, $_REQUEST["etat"], $_REQUEST["nb_joueurs"], $_REQUEST["duree"], $_REQUEST["langue"], $_REQUEST["difficulte"] );
   }
   elseif ( $_REQUEST["action"] == "edit" && $is_admin )
   {
@@ -440,13 +440,13 @@ elseif ( $jeu->is_valid() )
   	$objtype->load_by_id($jeu->id_objtype);
   	$salle->load_by_id($jeu->id_salle);
   	$serie->load_by_id($jeu->id_serie);
-	    
+
   	$site->start_page("services","Bibliothéque");
   	$cts = new contents("Bibliothèque");
   	$cts->add(new tabshead($tabs,"jeux"));
-  	
+
   	$cts->add_title(2,$serie->get_html_link()." / ".$jeu->get_html_link());
-    
+
 		$frm = new form("savejeu","./?id_jeu=".$jeu->id,false,"POST","Modifier");
 		$frm->add_hidden("action","save");
 		$frm->add_text_field("nom","Nom",$jeu->nom);
@@ -470,29 +470,29 @@ elseif ( $jeu->is_valid() )
 		$frm->add_text_area("notes","Notes",$jeu->notes);
 		$frm->add_submit("valide","Enregistrer");
 		$cts->add($frm,true);
-    
+
   	$site->add_contents($cts);
   	$site->end_page();
   	exit();
 	}
-	
+
   $asso_gest->load_by_id($jeu->id_asso);
 	$objtype->load_by_id($jeu->id_objtype);
 	$salle->load_by_id($jeu->id_salle);
 	$serie->load_by_id($jeu->id_serie);
-  
+
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,"jeux"));
-	
+
 	$cts->add_title(2,$serie->get_html_link()." / ".$jeu->get_html_link());
-	
+
 	if ( $is_admin )
 	{
 	  $cts->add_paragraph("<a href=\"../objet.php?id_objet=".$jeu->id."\">Voir fiche objet</a>");
 	  $cts->add_paragraph("<a href=\"?action=edit&amp;id_jeu=".$jeu->id."\">Editer</a>");
-	}	
-  
+	}
+
 	$tbl = new table("Informations");
 	$tbl->add_row(array("Titre",$jeu->nom));
 	$tbl->add_row(array("Type",$objtype->get_html_link()));
@@ -504,15 +504,15 @@ elseif ( $jeu->is_valid() )
 	$tbl->add_row(array("Difficultée",$jeu->difficulte));
 	$tbl->add_row(array("Association",$asso_gest->get_html_link()));
 	$tbl->add_row(array("Emplacement",$salle->get_html_link()));
-	if ($livre->date_achat) 
+	if ($livre->date_achat)
 	  $tbl->add_row(array("Date d'achat",date("d/m/Y",$jeu->date_achat)));
 	$tbl->add_row(array("En etat",$jeu->en_etat?"Oui":"Non"));
 	$tbl->add_row(array("Archive (sorti de l'inventaire)",$jeu->archive?"Oui":"Non"));
 	$tbl->add_row(array("Code barre",$jeu->cbar));
 	$cts->add($tbl,true);
-	
-	
-	  
+
+
+
 	$site->add_contents($cts);
 	$site->end_page();
 	exit();
@@ -521,7 +521,7 @@ elseif ( $livre->is_valid() )
 {
 	$objtype = new objtype($site->db);
 	$asso_gest = new asso($site->db);
-	
+
 	if ( $_REQUEST["action"] == "delete" && $is_admin && isset($_REQUEST["id_auteur"]) )
   {
     $livre->remove_auteur($_REQUEST["id_auteur"]);
@@ -530,17 +530,17 @@ elseif ( $livre->is_valid() )
 	elseif ( $_REQUEST["action"] == "addauteur" && $is_admin && isset($_REQUEST["id_auteur"]) )
   {
 	  $auteur->load_by_id($_POST["id_auteur"]);
-	  if ( $auteur->is_valid() ) 
+	  if ( $auteur->is_valid() )
       $livre->add_auteur($auteur->id);
     $_REQUEST["action"] = "edit";
   }
-  
+
   if ( $_REQUEST["action"] == "save" && $is_admin )
   {
   	$objtype = new objtype($site->db);
   	$asso = new asso($site->db);
   	$asso_prop = new asso($site->db);
-    
+
   	$asso_prop->load_by_id($_POST["id_asso_prop"]);
   	$asso->load_by_id($_POST["id_asso"]);
   	$objtype->load_by_id($_POST["id_objtype"]);
@@ -551,23 +551,23 @@ elseif ( $livre->is_valid() )
     $livre->save_book ( $asso->id, $asso_prop->id, $salle->id, $objtype->id, 0, $_REQUEST["nom"],
   				$_REQUEST["num_serie"], $_REQUEST["prix"], $_REQUEST["caution"], $_REQUEST["prix_emprunt"], isset($_REQUEST["empruntable"]),
   				isset($_REQUEST["en_etat"]), $_REQUEST["date_achat"], $_REQUEST["notes"], $livre->cbar,
-  				$serie->id, $editeur->id, $_REQUEST["num"], $_REQUEST["isbn"] );				
+  				$serie->id, $editeur->id, $_REQUEST["num"], $_REQUEST["isbn"] );
   }
   elseif ( $_REQUEST["action"] == "edit" && $is_admin )
   {
-   
+
   	$asso_gest->load_by_id($livre->id_asso);
   	$objtype->load_by_id($livre->id_objtype);
   	$salle->load_by_id($livre->id_salle);
   	$editeur->load_by_id($livre->id_editeur);
   	$serie->load_by_id($livre->id_serie);
-	    
+
   	$site->start_page("services","Bibliothéque");
   	$cts = new contents("Bibliothèque");
   	$cts->add(new tabshead($tabs,"livres"));
-  	
+
   	$cts->add_title(2,$serie->get_html_link()." / ".$livre->get_html_link());
-    
+
 		$frm = new form("savelivre","./?id_livre=".$livre->id,false,"POST","Modifier");
 		$frm->add_hidden("action","save");
 		$frm->add_text_field("nom","Nom",$livre->nom);
@@ -589,49 +589,49 @@ elseif ( $livre->is_valid() )
 		$frm->add_text_area("notes","Notes",$livre->notes);
 		$frm->add_submit("valide","Enregistrer");
 		$cts->add($frm,true);
-    
+
   	$req = new requete ( $site->db, "SELECT " .
   			"`bk_auteur`.`id_auteur`,`bk_auteur`.`nom_auteur` " .
   			"FROM `bk_livre_auteur` " .
   			"INNER JOIN `bk_auteur` ON `bk_livre_auteur`.`id_auteur`=`bk_auteur`.`id_auteur` " .
   			"WHERE id_objet='".$livre->id."'");
-			
+
   	$tbl = new sqltable(
-  		"listauteurs", 
-  		"Modifier les auteurs", $req, "./?id_livre=".$livre->id, 
-  		"id_auteur", 
-  		array("nom_auteur"=>"Auteur"), 
+  		"listauteurs",
+  		"Modifier les auteurs", $req, "./?id_livre=".$livre->id,
+  		"id_auteur",
+  		array("nom_auteur"=>"Auteur"),
   		array("delete"=>"Enlever auteur"), array(), array()
   		);
   	$cts->add($tbl,true);
-  	
+
 		$frm = new form("addauteur","./?id_livre=".$livre->id,false,"POST","Ajouter un auteur");
 		$frm->add_hidden("action","addauteur");
 		$frm->add_entity_select("id_auteur", "Auteur", $site->db, "auteur");
 		$frm->add_submit("valide","Ajouter auteur");
 		$cts->add($frm,true);
-		 
+
   	$site->add_contents($cts);
   	$site->end_page();
   	exit();
 	}
-	
+
 	$asso_gest->load_by_id($livre->id_asso);
 	$objtype->load_by_id($livre->id_objtype);
 	$salle->load_by_id($livre->id_salle);
 	$editeur->load_by_id($livre->id_editeur);
 	$serie->load_by_id($livre->id_serie);
-	
-	
+
+
 	$req = new requete ( $site->db, "SELECT " .
 			"`bk_auteur`.`id_auteur`,`bk_auteur`.`nom_auteur` " .
 			"FROM `bk_livre_auteur` " .
 			"INNER JOIN `bk_auteur` ON `bk_livre_auteur`.`id_auteur`=`bk_auteur`.`id_auteur` " .
 			"WHERE id_objet='".$livre->id."'");
-	
+
 	$auteurs = null;
-			
-	while ( $row = $req->get_row() )		
+
+	while ( $row = $req->get_row() )
 	{
 		$auteur->_load($row);
 		if ( is_null($auteurs) )
@@ -639,20 +639,20 @@ elseif ( $livre->is_valid() )
 		else
 			$auteurs .= ", ".$auteur->get_html_link();
 	}
-			
-			
+
+
 	$site->start_page("services","Bibliothéque");
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,"livres"));
-	
+
 	$cts->add_title(2,$serie->get_html_link()." / ".$livre->get_html_link());
-	
+
 	if ( $is_admin )
 	{
 	  $cts->add_paragraph("<a href=\"../objet.php?id_objet=".$livre->id."\">Voir fiche objet</a>");
 	  $cts->add_paragraph("<a href=\"?action=edit&amp;id_livre=".$livre->id."\">Editer</a>");
-	}	
-	
+	}
+
 	$tbl = new table("Informations");
 	$tbl->add_row(array("Titre",$livre->nom));
 	$tbl->add_row(array("Type",$objtype->get_html_link()));
@@ -668,7 +668,7 @@ elseif ( $livre->is_valid() )
 	$tbl->add_row(array("Code barre",$livre->cbar));
 	$tbl->add_row(array("ISBN",$livre->isbn));
 	$cts->add($tbl,true);
-	
+
 	$site->add_contents($cts);
 	$site->end_page();
 	exit();
@@ -679,36 +679,36 @@ elseif ( $serie->is_valid() )
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,"series"));
 	$cts->add_paragraph($serie->get_html_link());
-	
-	
+
+
 	$req = new requete ( $site->db, "SELECT `inv_objet`.`id_objet` AS `id_livre`," .
 			//"`bk_auteur`.`id_auteur`,`bk_auteur`.`nom_auteur`," .
 			"`bk_editeur`.`id_editeur`,`bk_editeur`.`nom_editeur`," .
 			"`bk_serie`.`id_serie`,`bk_serie`.`nom_serie`," .
 			"`bk_book`.`num_livre`,".
-			"`inv_objet`.`nom_objet` AS `nom_livre`, " .				
+			"`inv_objet`.`nom_objet` AS `nom_livre`, " .
 			"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`  " .
 			"FROM `inv_objet` " .
 			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
-			"INNER JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".				
+			"INNER JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".
 			//"INNER JOIN `bk_auteur` ON `bk_book`.`id_auteur`=`bk_auteur`.`id_auteur` ".
 			"INNER JOIN `bk_editeur` ON `bk_book`.`id_editeur`=`bk_editeur`.`id_editeur` ".
 			"LEFT JOIN `bk_serie` ON `bk_book`.`id_serie`=`bk_serie`.`id_serie` ".
 			"WHERE `bk_book`.`id_serie`='".$serie->id."' " .
 			"ORDER BY `bk_serie`.`nom_serie`,`bk_book`.`num_livre`,`inv_objet`.`nom_objet`" );
-			
+
 	$tbl = new sqltable(
-		"listlivres", 
-		"Livres", $req, "./", 
-		"id_livre", 
-		array("nom_livre"=>"Titre","nom_serie"=>"Serie","num_livre"=>"N°"/*,"nom_auteur"=>"Auteur"*/,"nom_editeur"=>"Editeur","nom_salle"=>"Lieu"), 
+		"listlivres",
+		"Livres", $req, "./",
+		"id_livre",
+		array("nom_livre"=>"Titre","nom_serie"=>"Serie","num_livre"=>"N°"/*,"nom_auteur"=>"Auteur"*/,"nom_editeur"=>"Editeur","nom_salle"=>"Lieu"),
 		array(), array(), array()
 		);
 	$cts->add($tbl,true);
-	
+
 	$req = new requete ( $site->db, "SELECT `inv_objet`.`id_objet` AS `id_jeu`," .
 			"`bk_serie`.`id_serie`,`bk_serie`.`nom_serie`," .
-			"`inv_objet`.`nom_objet` AS `nom_jeu`, " .				
+			"`inv_objet`.`nom_objet` AS `nom_jeu`, " .
 			"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`, " .
 			"`inv_jeu`.`nb_joueurs_jeu`, " .
 			"`inv_jeu`.`duree_jeu`, " .
@@ -717,24 +717,24 @@ elseif ( $serie->is_valid() )
 	  	"`inv_type_objets`.`nom_objtype`  " .
 			"FROM `inv_objet` " .
 			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
-			"INNER JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".	
+			"INNER JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".
 	  	"INNER JOIN `inv_type_objets` ON `inv_objet`.`id_objtype`=`inv_type_objets`.`id_objtype` " .
 			"LEFT JOIN `bk_serie` ON `inv_jeu`.`id_serie`=`bk_serie`.`id_serie` ".
 		  "WHERE `inv_jeu`.`id_serie`='".$serie->id."' " .
 			"ORDER BY `inv_type_objets`.`nom_objtype`,`bk_serie`.`nom_serie`,`inv_objet`.`nom_objet`" );
-			
+
 	$tbl = new sqltable(
-		"listjeux", 
-		"Jeux", $req, "./", 
-		"id_jeu", 
-		array("nom_objtype"=>"Type","nom_jeu"=>"Titre", "nom_serie"=>"Serie", "nb_joueurs_jeu"=>"Nombre de joueurs", "duree_jeu"=>"Durée partie", "difficulte_jeu"=>"Difficultée", "langue_jeu" => "Langue", "nom_salle"=>"Lieu"), 
+		"listjeux",
+		"Jeux", $req, "./",
+		"id_jeu",
+		array("nom_objtype"=>"Type","nom_jeu"=>"Titre", "nom_serie"=>"Serie", "nb_joueurs_jeu"=>"Nombre de joueurs", "duree_jeu"=>"Durée partie", "difficulte_jeu"=>"Difficultée", "langue_jeu" => "Langue", "nom_salle"=>"Lieu"),
 		array(), array(), array()
 		);
-	$cts->add($tbl,true);	
-	
-	
+	$cts->add($tbl,true);
+
+
 	$site->add_contents($cts);
-	
+
 	$site->end_page();
 	exit();
 }
@@ -749,26 +749,26 @@ elseif ( $auteur->is_valid() )
 			"`bk_editeur`.`id_editeur`,`bk_editeur`.`nom_editeur`," .
 			"`bk_serie`.`id_serie`,`bk_serie`.`nom_serie`," .
 			"`bk_book`.`num_livre`,".
-			"`inv_objet`.`nom_objet` AS `nom_livre`, " .			
+			"`inv_objet`.`nom_objet` AS `nom_livre`, " .
 			"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`  " .
 			"FROM `bk_livre_auteur` " .
 			"INNER JOIN `inv_objet` ON `inv_objet`.`id_objet`=`bk_livre_auteur`.`id_objet` " .
 			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
-			"INNER JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".				
+			"INNER JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".
 			"INNER JOIN `bk_editeur` ON `bk_book`.`id_editeur`=`bk_editeur`.`id_editeur` ".
 			"LEFT JOIN `bk_serie` ON `bk_book`.`id_serie`=`bk_serie`.`id_serie` ".
 			"WHERE `bk_livre_auteur`.`id_auteur`='".$auteur->id."' " .
 			"ORDER BY `bk_serie`.`nom_serie`,`bk_book`.`num_livre`,`inv_objet`.`nom_objet`" );
-			
+
 	$tbl = new sqltable(
-		"listlivres", 
-		"Livres", $req, "./", 
-		"id_livre", 
-		array("nom_livre"=>"Titre","nom_serie"=>"Serie","num_livre"=>"N°","nom_editeur"=>"Editeur","nom_salle"=>"Lieu"), 
+		"listlivres",
+		"Livres", $req, "./",
+		"id_livre",
+		array("nom_livre"=>"Titre","nom_serie"=>"Serie","num_livre"=>"N°","nom_editeur"=>"Editeur","nom_salle"=>"Lieu"),
 		array(), array(), array()
 		);
 	$cts->add($tbl,true);
-	
+
 	$site->add_contents($cts);
 	$site->end_page();
 	exit();
@@ -784,22 +784,22 @@ elseif ( $editeur->is_valid() )
 			"`bk_editeur`.`id_editeur`,`bk_editeur`.`nom_editeur`," .
 			"`bk_serie`.`id_serie`,`bk_serie`.`nom_serie`," .
 			"`bk_book`.`num_livre`,".
-			"`inv_objet`.`nom_objet` AS `nom_livre`, " .				
+			"`inv_objet`.`nom_objet` AS `nom_livre`, " .
 			"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`  " .
 			"FROM `inv_objet` " .
 			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
-			"INNER JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".				
+			"INNER JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".
 			/*"INNER JOIN `bk_auteur` ON `bk_book`.`id_auteur`=`bk_auteur`.`id_auteur` ".*/
 			"INNER JOIN `bk_editeur` ON `bk_book`.`id_editeur`=`bk_editeur`.`id_editeur` ".
 			"LEFT JOIN `bk_serie` ON `bk_book`.`id_serie`=`bk_serie`.`id_serie` ".
 			"WHERE `bk_book`.`id_editeur`='".$editeur->id."' " .
 			"ORDER BY `bk_serie`.`nom_serie`,`bk_book`.`num_livre`,`inv_objet`.`nom_objet`" );
-			
+
 	$tbl = new sqltable(
-		"listlivres", 
-		"Livres", $req, "./", 
-		"id_livre", 
-		array("nom_livre"=>"Titre","nom_serie"=>"Serie","num_livre"=>"N°"/*,"nom_auteur"=>"Auteur"*/,"nom_editeur"=>"Editeur","nom_salle"=>"Lieu"), 
+		"listlivres",
+		"Livres", $req, "./",
+		"id_livre",
+		array("nom_livre"=>"Titre","nom_serie"=>"Serie","num_livre"=>"N°"/*,"nom_auteur"=>"Auteur"*/,"nom_editeur"=>"Editeur","nom_salle"=>"Lieu"),
 		array(), array(), array()
 		);
 	$cts->add($tbl,true);
@@ -813,13 +813,13 @@ elseif ( $salle->is_valid() )
 	$cts = new contents("Bibliothèque");
 	$cts->add(new tabshead($tabs,"lieux"));
 	$cts->add_paragraph($salle->get_html_link());
-	
+
 	if ( $is_admin )
 		$cts->add_paragraph("<a href=\"./?id_salle=".$salle->id."&amp;mode=cbars\">Planche de correspondance code barres-livres</a>");
-	
+
 	if ( $_REQUEST["mode"] == "cbars" )
 	{
-		
+
 		$req = new requete ( $site->db, "SELECT " .
 				"`inv_objet`.`cbar_objet`," .
 				"`inv_objet`.`nom_objet`," .
@@ -829,54 +829,54 @@ elseif ( $salle->is_valid() )
 				"`bk_editeur`.`nom_editeur` " .
 				"FROM `inv_objet` " .
 				"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
-				"INNER JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".				
+				"INNER JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".
 				//"INNER JOIN `bk_auteur` ON `bk_book`.`id_auteur`=`bk_auteur`.`id_auteur` ".
 				"INNER JOIN `bk_editeur` ON `bk_book`.`id_editeur`=`bk_editeur`.`id_editeur` ".
 				"LEFT JOIN `bk_serie` ON `bk_book`.`id_serie`=`bk_serie`.`id_serie` ".
 				"WHERE `inv_objet`.`id_salle`='".$salle->id."' " .
 				"ORDER BY `inv_objet`.`cbar_objet`" );
-				
+
 		$tbl = new sqltable(
-			"listlivres", 
-			"Livres", $req, "./", 
-			"id_livre", 
-			array("cbar_objet"=>"Code","nom_objet"=>"Titre","nom_serie"=>"Serie","num_livre"=>"",/*"nom_auteur"=>"Auteur",*/"nom_editeur"=>"Editeur"), 
+			"listlivres",
+			"Livres", $req, "./",
+			"id_livre",
+			array("cbar_objet"=>"Code","nom_objet"=>"Titre","nom_serie"=>"Serie","num_livre"=>"",/*"nom_auteur"=>"Auteur",*/"nom_editeur"=>"Editeur"),
 			array(), array(), array()
 			);
 		$cts->add($tbl,true);
-		
+
 	}
 	else
 	{
-	
+
 		$req = new requete ( $site->db, "SELECT `inv_objet`.`id_objet` AS `id_livre`," .
 				//"`bk_auteur`.`id_auteur`,`bk_auteur`.`nom_auteur`," .
 				"`bk_editeur`.`id_editeur`,`bk_editeur`.`nom_editeur`," .
 				"`bk_serie`.`id_serie`,`bk_serie`.`nom_serie`," .
 				"`bk_book`.`num_livre`,".
-				"`inv_objet`.`nom_objet` AS `nom_livre`, " .				
+				"`inv_objet`.`nom_objet` AS `nom_livre`, " .
 				"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`  " .
 				"FROM `inv_objet` " .
 				"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
-				"INNER JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".				
+				"INNER JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".
 				//"INNER JOIN `bk_auteur` ON `bk_book`.`id_auteur`=`bk_auteur`.`id_auteur` ".
 				"INNER JOIN `bk_editeur` ON `bk_book`.`id_editeur`=`bk_editeur`.`id_editeur` ".
 				"LEFT JOIN `bk_serie` ON `bk_book`.`id_serie`=`bk_serie`.`id_serie` ".
 				"WHERE `inv_objet`.`id_salle`='".$salle->id."' " .
 				"ORDER BY `bk_serie`.`nom_serie`,`bk_book`.`num_livre`,`inv_objet`.`nom_objet`" );
-				
+
 		$tbl = new sqltable(
-			"listlivres", 
-			"Livres", $req, "./", 
-			"id_livre", 
-			array("nom_livre"=>"Titre","nom_serie"=>"Serie","num_livre"=>"N°"/*,"nom_auteur"=>"Auteur"*/,"nom_editeur"=>"Editeur","nom_salle"=>"Lieu"), 
+			"listlivres",
+			"Livres", $req, "./",
+			"id_livre",
+			array("nom_livre"=>"Titre","nom_serie"=>"Serie","num_livre"=>"N°"/*,"nom_auteur"=>"Auteur"*/,"nom_editeur"=>"Editeur","nom_salle"=>"Lieu"),
 			array(), array(), array()
 			);
 		$cts->add($tbl,true);
-		
+
   	$req = new requete ( $site->db, "SELECT `inv_objet`.`id_objet` AS `id_jeu`," .
   			"`bk_serie`.`id_serie`,`bk_serie`.`nom_serie`," .
-  			"`inv_objet`.`nom_objet` AS `nom_jeu`, " .				
+  			"`inv_objet`.`nom_objet` AS `nom_jeu`, " .
   			"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`, " .
   			"`inv_jeu`.`nb_joueurs_jeu`, " .
   			"`inv_jeu`.`duree_jeu`, " .
@@ -885,21 +885,21 @@ elseif ( $salle->is_valid() )
   	  	"`inv_type_objets`.`nom_objtype`  " .
   			"FROM `inv_objet` " .
   			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
-  			"INNER JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".	
+  			"INNER JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".
   	  	"INNER JOIN `inv_type_objets` ON `inv_objet`.`id_objtype`=`inv_type_objets`.`id_objtype` " .
   			"LEFT JOIN `bk_serie` ON `inv_jeu`.`id_serie`=`bk_serie`.`id_serie` ".
   		  "WHERE `inv_objet`.`id_salle`='".$salle->id."' " .
   			"ORDER BY `inv_type_objets`.`nom_objtype`,`bk_serie`.`nom_serie`,`inv_objet`.`nom_objet`" );
-  			
+
   	$tbl = new sqltable(
-  		"listjeux", 
-  		"Jeux", $req, "./", 
-  		"id_jeu", 
-  		array("nom_objtype"=>"Type","nom_jeu"=>"Titre", "nom_serie"=>"Serie", "nb_joueurs_jeu"=>"Nombre de joueurs", "duree_jeu"=>"Durée partie", "difficulte_jeu"=>"Difficultée", "langue_jeu" => "Langue", "nom_salle"=>"Lieu"), 
+  		"listjeux",
+  		"Jeux", $req, "./",
+  		"id_jeu",
+  		array("nom_objtype"=>"Type","nom_jeu"=>"Titre", "nom_serie"=>"Serie", "nb_joueurs_jeu"=>"Nombre de joueurs", "duree_jeu"=>"Durée partie", "difficulte_jeu"=>"Difficultée", "langue_jeu" => "Langue", "nom_salle"=>"Lieu"),
   		array(), array(), array()
   		);
   	$cts->add($tbl,true);
-		
+
 	}
 	$site->add_contents($cts);
 	$site->end_page();
@@ -942,7 +942,7 @@ if ( $_REQUEST["view"] == "" )
 	$frm->add_submit("valide","Rechercher");
 	$cts->add($frm,true);
 	*/
-	
+
 	$cts->add_title(2,"Jeux");
 	$cts->add_paragraph("<a href=\"?view=jeux\">Consulter la liste des jeux</a>");
 }
@@ -956,13 +956,13 @@ elseif ( $_REQUEST["view"] == "auteurs" )
 		$frm->add_submit("valide","Ajouter");
 		$cts->add($frm,true);
 	}
-	
+
 	$req = new requete($site->db,"SELECT * FROM `bk_auteur` ORDER BY `nom_auteur`");
 	$cts->add(new sqltable(
-		"listauteurs", 
-		"Auteurs", $req, "./", 
-		"id_auteur", 
-		array("nom_auteur"=>"Nom"), 
+		"listauteurs",
+		"Auteurs", $req, "./",
+		"id_auteur",
+		array("nom_auteur"=>"Nom"),
 		array(), array(), array()
 		),true);
 }
@@ -976,13 +976,13 @@ elseif ( $_REQUEST["view"] == "series" )
 		$frm->add_submit("valide","Ajouter");
 		$cts->add($frm,true);
 	}
-	
+
 	$req = new requete($site->db,"SELECT * FROM `bk_serie` ORDER BY `nom_serie`");
 	$cts->add(new sqltable(
-		"listseries", 
-		"Series", $req, "./", 
-		"id_serie", 
-		array("nom_serie"=>"Nom"), 
+		"listseries",
+		"Series", $req, "./",
+		"id_serie",
+		array("nom_serie"=>"Nom"),
 		array(), array(), array()
 		),true);
 }
@@ -996,37 +996,37 @@ elseif ( $_REQUEST["view"] == "editeurs" )
 		$frm->add_submit("valide","Ajouter");
 		$cts->add($frm,true);
 	}
-	
+
 	$req = new requete($site->db,"SELECT * FROM `bk_editeur` ORDER BY `nom_editeur`");
 	$cts->add(new sqltable(
-		"listediteurs", 
-		"Editeurs", $req, "./", 
-		"id_editeur", 
-		array("nom_editeur"=>"Nom"), 
+		"listediteurs",
+		"Editeurs", $req, "./",
+		"id_editeur",
+		array("nom_editeur"=>"Nom"),
 		array(), array(), array()
 		),true);
 }
 
 elseif ( $_REQUEST["view"] == "lieux" )
 {
-	
-	$req = new requete ( $site->db, "SELECT ".				
+
+	$req = new requete ( $site->db, "SELECT ".
 			"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`  " .
 			"FROM `inv_objet` " .
 			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
-			"LEFT JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".	
+			"LEFT JOIN `bk_book` ON `bk_book`.`id_objet`=`inv_objet`.`id_objet` ".
 			"LEFT JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".
-			"WHERE `inv_jeu`.`id_objet` IS NOT NULL OR `bk_book`.`id_objet` IS NOT NULL ".			
+			"WHERE `inv_jeu`.`id_objet` IS NOT NULL OR `bk_book`.`id_objet` IS NOT NULL ".
 			"GROUP BY `sl_salle`.`id_salle`" );
-			
+
 	$cts->add(new sqltable(
-		"listelieux", 
-		"Lieux", $req, "./", 
-		"id_salle", 
-		array("nom_salle"=>"Lieu"), 
+		"listelieux",
+		"Lieux", $req, "./",
+		"id_salle",
+		array("nom_salle"=>"Lieu"),
 		array(), array(), array()
 		),true);
-	
+
 }
 
 elseif ( $_REQUEST["view"] == "livres" )
@@ -1034,17 +1034,17 @@ elseif ( $_REQUEST["view"] == "livres" )
 	if ( $_REQUEST["action"] == "detectlivre" )
 	{
 		require_once($topdir."include/extdb/isbndb.inc.php");
-		
+
 		$res = 0;
-		
+
 		if ( ereg("^([0-9]{13})$",$_REQUEST["cbar"]) )
 			$res = isbn_get_infos_from_ean13($_REQUEST["cbar"]);
 		else
 			$res = isbn_get_infos(str_replace("-","",$_REQUEST["cbar"]));
-			
-		if ( !is_array($res) )	
+
+		if ( !is_array($res) )
 		{
-			$cts->add(new contents("Erreur","<p>Impossible de trouver des informations sur ".htmlentities($_REQUEST["cbar"]).". Erreur $res</p>"),true);		
+			$cts->add(new contents("Erreur","<p>Impossible de trouver des informations sur ".htmlentities($_REQUEST["cbar"]).". Erreur $res</p>"),true);
 		}
 		else
 		{
@@ -1056,9 +1056,9 @@ elseif ( $_REQUEST["view"] == "livres" )
 						"Titre long : ".$res["longtitle"],
 						"Auteur(s) : ".$res["author"],
 						"Editeur : ".$res["editor"])),true);
-			
+
 			$isbn = $res["isbn"];
-						
+
 			// Petit jeu des déductions
 			if ( ereg("^(.*),([ ]*)tome([0-9 ]*):(.*)$",$res["title"],$cap) )
 			{
@@ -1084,17 +1084,17 @@ elseif ( $_REQUEST["view"] == "livres" )
 				$num=NULL;
 				$nom=trim($res["title"]);
 			}
-			
+
 			if ( ereg("^(.*),([ ]*)$",$res["author"],$cap) )
 				$auteur=trim($cap[1]);
 			else
 				$auteur=trim($res["author"]);
-				
+
 			if ( ereg("^(.*),([ ]*)$",$res["editor"],$cap) )
 				$editeur=trim($cap[1]);
 			else
 				$editeur=trim($res["editor"]);
-			
+
 			$cts->add(new itemlist("Après traitement",false,
 					array(
 						"ISBN : ".$isbn,
@@ -1103,15 +1103,15 @@ elseif ( $_REQUEST["view"] == "livres" )
 						"Tome : ".(is_null($num)?"N/A":$num),
 						"Auteur(s) : ".$auteur,
 						"Editeur : ".$editeur)),true);
-			
-			
+
+
 		}
-		
+
 		$frm = new form("detectlivre","./?view=livres",false,"POST","Ajout d'un livre par ISBN ou EAN13");
 		$frm->add_hidden("action","detectlivre");
 		$frm->add_text_field("cbar","ISBN ou EAN13");
 		$frm->add_submit("valide","Rechercher");
-		$cts->add($frm,true);	
+		$cts->add($frm,true);
 	}
 	else if ( $is_admin )
 	{
@@ -1120,7 +1120,7 @@ elseif ( $_REQUEST["view"] == "livres" )
 		$frm->add_text_field("cbar","ISBN ou EAN13");
 		$frm->add_submit("valide","Rechercher");
 		$cts->add($frm,true);
-		
+
 		$frm = new form("addlivre","./?view=livres",false,"POST","Ajout d'un livre");
 		$frm->add_hidden("action","addlivre");
 		$frm->add_text_field("nom","Nom");
@@ -1144,7 +1144,7 @@ elseif ( $_REQUEST["view"] == "livres" )
 		$frm->add_text_area("notes","Notes");
 		$frm->add_submit("valide","Ajouter");
 		$cts->add($frm,true);
-		
+
 		$frm = new form("addlivres","./?view=livres",false,"POST","Ajout de livres");
 		$frm->add_hidden("action","addlivres");
 		$frm->add_date_field("date_achat","Date d'achat");
@@ -1159,13 +1159,13 @@ elseif ( $_REQUEST["view"] == "livres" )
 		$cts->add($frm,true);
 	}
 
-	
+
 }
 elseif ( $_REQUEST["view"] == "prets" && $is_admin )
 {
 	if ( $Message )
 		$cts->add($Message,true);
-	
+
 	$frm = new form("borrowbooks","./?view=livres",false,"POST","Preter des livres");
 	if ( $ErreurEmprunt )
 		$frm->error($ErreurEmprunt);
@@ -1177,31 +1177,31 @@ elseif ( $_REQUEST["view"] == "prets" && $is_admin )
 	$ssfrm->add($sfrm,false,true,true,"carte",true);
 	$sfrm = new form("emp",null,null,null,"L'utilisateur");
 	$sfrm->add_entity_smartselect("id_utilisateur","",new utilisateur($site->db));
-	
+
 	$ssfrm->add($sfrm,false,true,false,"email",true);
 	$frm->add($ssfrm);
 	$frm->add_text_area("cbars","Codes barres des livres","",40,3,true);
 	$frm->add_price_field("caution","Caution",$caution);
 	$frm->add_text_area("notes","Notes");
 	$frm->add_submit("valide","Preter");
-	$cts->add($frm,true);		
-	
-	
+	$cts->add($frm,true);
+
+
 	$frm = new form("bookback","./?view=livres",false,"POST","Retour de livres");
 	$frm->add_hidden("action","bookback");
 	if ( $ErreurRetour )
 		$frm->error($ErreurRetour);
 	$frm->add_text_field("cbar","Code barre");
 	$frm->add_submit("valide","Rendu");
-	$cts->add($frm,true);	
-	
+	$cts->add($frm,true);
+
 }
 elseif ( $_REQUEST["view"] == "jeux" )
 {
 
 	$req = new requete ( $site->db, "SELECT `inv_objet`.`id_objet` AS `id_jeu`," .
 			"`bk_serie`.`id_serie`,`bk_serie`.`nom_serie`," .
-			"`inv_objet`.`nom_objet` AS `nom_jeu`, " .				
+			"`inv_objet`.`nom_objet` AS `nom_jeu`, " .
 			"`sl_salle`.`id_salle`,`sl_salle`.`nom_salle`, " .
 			"`inv_jeu`.`nb_joueurs_jeu`, " .
 			"`inv_jeu`.`duree_jeu`, " .
@@ -1210,23 +1210,23 @@ elseif ( $_REQUEST["view"] == "jeux" )
 	  	"`inv_type_objets`.`nom_objtype`  " .
 			"FROM `inv_objet` " .
 			"INNER JOIN `sl_salle` ON `inv_objet`.`id_salle`=`sl_salle`.`id_salle` " .
-			"INNER JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".	
+			"INNER JOIN `inv_jeu` ON `inv_jeu`.`id_objet`=`inv_objet`.`id_objet` ".
 	  	"INNER JOIN `inv_type_objets` ON `inv_objet`.`id_objtype`=`inv_type_objets`.`id_objtype` " .
 			"LEFT JOIN `bk_serie` ON `inv_jeu`.`id_serie`=`bk_serie`.`id_serie` ".
 			"ORDER BY `inv_type_objets`.`nom_objtype`,`bk_serie`.`nom_serie`,`inv_objet`.`nom_objet`" );
-			
+
 	$tbl = new sqltable(
-		"listjeux", 
-		"Jeux", $req, "./", 
-		"id_jeu", 
-		array("nom_objtype"=>"Type","nom_jeu"=>"Titre", "nom_serie"=>"Serie", "nb_joueurs_jeu"=>"Nombre de joueurs", "duree_jeu"=>"Durée partie", "difficulte_jeu"=>"Difficultée", "langue_jeu" => "Langue", "nom_salle"=>"Lieu"), 
+		"listjeux",
+		"Jeux", $req, "./",
+		"id_jeu",
+		array("nom_objtype"=>"Type","nom_jeu"=>"Titre", "nom_serie"=>"Serie", "nb_joueurs_jeu"=>"Nombre de joueurs", "duree_jeu"=>"Durée partie", "difficulte_jeu"=>"Difficultée", "langue_jeu" => "Langue", "nom_salle"=>"Lieu"),
 		array(), array(), array()
 		);
 	$cts->add($tbl,true);
-	
+
   if ( $is_admin )
 	{
-	 
+
 		$frm = new form("addjeu","./?view=jeux",false,"POST","Ajout d'un jeu");
 		$frm->add_hidden("action","addjeu");
 		$frm->add_text_field("nom","Nom");
@@ -1248,7 +1248,7 @@ elseif ( $_REQUEST["view"] == "jeux" )
 		$frm->add_text_area("notes","Notes");
 		$frm->add_submit("valide","Ajouter");
 		$cts->add($frm,true);
-		
+
 		$frm = new form("addjeux","./?view=jeux",false,"POST","Ajout de jeux");
 		$frm->add_hidden("action","addjeux");
 		$frm->add_entity_select("id_objtype", "Type", $site->db, "objtype", $objtype->id);
@@ -1258,8 +1258,8 @@ elseif ( $_REQUEST["view"] == "jeux" )
 		$frm->add_entity_select("id_salle", "Salle", $site->db, "salle");
 		$frm->add_text_area("data","Tableau CSV","Nom; Serie (facultatif); Etat; Nombre de joueurs; Durée moyenne; Langue; Difficultée; Prix; Caution; Reservable (o/n)\n",80,12);
 		$frm->add_submit("valide","Ajouter");
-		$cts->add($frm,true);	 
-	 
+		$cts->add($frm,true);
+
 	}
 
 }

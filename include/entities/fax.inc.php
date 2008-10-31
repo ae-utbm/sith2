@@ -34,7 +34,7 @@ class fax extends stdentity
   /* ceci sont des identifiants temporaires fournis par Free */
   var $idfree;
   var $idtfree;
-  
+
   /* addresse du captcha */
   var $imgcaptcha = "";
   var $captchavalue = "";
@@ -63,13 +63,13 @@ class fax extends stdentity
   /* date de demande d'envoi (création de l'instance)
    * Se renseigner sur la durée de vie des identifiants temporaires filés par free */
   var $date_fax;
-  
+
 
   /* Lecture d'une instance de fax */
   function load_by_id($id_fax)
   {
     $query = "SELECT * FROM `fax_fbx` WHERE id_fax = '".intval($id_fax)."' LIMIT 1";
-    
+
     $req = new requete($this->db, $query);
 
     if ($req->lines <= 0)
@@ -93,15 +93,15 @@ class fax extends stdentity
     return true;
 
   }
-  
+
   /**
-   * @todo à implémenter 
+   * @todo à implémenter
    */
   function _load($row)
   {
-    
+
   }
-  
+
   /* fonction permettant d'envoyer sur la sortie le PDF.
    */
   function output_pdf()
@@ -112,9 +112,9 @@ class fax extends stdentity
     header("Content-Type: application/pdf");
     @readfile($this->pdffile);
   }
-  
+
   /* Fonction de création d'instance de fax. Ne faxe pas
-   * à proprement parler, mais prépare un faxage. 
+   * à proprement parler, mais prépare un faxage.
    *
    * @param id_utilisateur : identifiant de l'utilisateur voulant faxer
    * @param numdest : numéro du destinataire
@@ -137,24 +137,24 @@ class fax extends stdentity
     }
 
     $this->id_asso = $id_asso;
-    
+
     if ($id_asso == null)
       $id_asso = "NULL";
 
     $this->id_utilisateur = $id_utilisateur;
     $this->numdest        = $numdest;
-    
+
     /* connect to the free.fr website */
     $query = "login=".$this->login."&pass=".$this->pass;
 
-    $string = $this->_sendrequest("subscribe.free.fr", 
+    $string = $this->_sendrequest("subscribe.free.fr",
                                   "/login/login.pl",
                                   "application/x-www-form-urlencoded",
                                   $query);
-    
+
     preg_match_all("/id=([0-9]*)&idt=([a-z0-9]*)/", $string, $found);
-    
-    /* now we got ours id / idt from free.fr 
+
+    /* now we got ours id / idt from free.fr
      * In theory, no need to sanitize, but in doubt ... */
     $this->idfree  = mysql_real_escape_string($found[1][0]);
     $this->idtfree = mysql_real_escape_string($found[2][0]);
@@ -171,10 +171,10 @@ class fax extends stdentity
     $sendfaxaddr = $found[1];
     $newpage = file_get_contents($sendfaxaddr);
     preg_match("/src=\"(captcha.pl?[^\"]*)\"/", $newpage, $found);
-    
+
     /* so there is our captcha */
     $this->imgcaptcha = "http://adsl.free.fr/admin/tel/" . $found[1];
-    
+
     if ( !is_uploaded_file($file['tmp_name']))
     {
       return false;
@@ -200,10 +200,10 @@ class fax extends stdentity
 
       @move_uploaded_file($file['tmp_name'], $topdir ."var/fax/". $this->id . ".pdf");
       $this->pdffile = $topdir . "var/fax/". $this->id . ".pdf";
-      
+
       /* convert pdf in order to comply with free.fr architecture */
       @exec("mogrify -page A4 " . $this->pdffile);
-      
+
       return true;
     }
     return false;
@@ -219,7 +219,7 @@ class fax extends stdentity
   }
 
   /* envoie une requete à un serveur Web
-   * 
+   *
    * @param host : le serveur Web à contacter
    * @param page : la page Web qui attend le contenu
    * @param cttype : la ligne spécifiant le content-type
@@ -235,7 +235,7 @@ class fax extends stdentity
       $query,
       $stop = false)
   {
-    
+
     if ((!$host) || (!$page) || (!$cttype) || (!$query))
     {
       return false;
@@ -249,7 +249,7 @@ class fax extends stdentity
               "\r\nConnection: close\r\n\r\n$query";
 
     $h = fsockopen($host,80);
- 
+
     if ($stop == true)
     {
       header("Content-type: text/plain");
@@ -258,7 +258,7 @@ class fax extends stdentity
     }
     if (!$h)
       return false;
-    
+
     fwrite($h, $tosend);
 
     for($a = 0,$r = '';!$a;)
@@ -267,9 +267,9 @@ class fax extends stdentity
       $r .= $b;
       $a = (($b == '')?1:0);
     }
-    
+
     fclose($h);
-    
+
     return $r;
   }
 
@@ -337,11 +337,11 @@ class fax extends stdentity
                                   $cttype,
                                   $query);
 
-    
+
     /* resultat */
     if (strpos($txtres, "Votre Fax est en cours d'envoi") > 0)
       return true;
-    else 
+    else
       return false;
   }
 

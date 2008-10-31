@@ -19,16 +19,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  */
- 
+
 /**
  * @file
  */
- 
+
 require_once($topdir."include/entities/basedb.inc.php");
 require_once($topdir."include/entities/wiki.inc.php");
 
 /**
- * Page editable du site. 
+ * Page editable du site.
  *
  * Essentiellement utilisé par articles.php
  *
@@ -66,11 +66,11 @@ class page extends wiki
   {
     return $this->load_by_fullpath($this->translate_pagename($name));
   }
-  
+
   function _load ( $row )
   {
     parent::_load($row);
-    
+
     $this->nom = substr($this->fullpath,9);
     $this->texte = $this->rev_contents;
     $this->date = $this->rev_date;
@@ -98,12 +98,12 @@ class page extends wiki
   {
     if ( $this->is_locked($user) )
       return false;
-    
-    $this->section = $section;     
+
+    $this->section = $section;
     $this->update();
-    
+
     $this->revision ( $user->id, $titre, $texte, "Edité comme un article" );
-    
+
     return true;
   }
 
@@ -119,16 +119,16 @@ class page extends wiki
   function add ( &$user, $nom, $titre, $texte, $section )
   {
     $path = $this->translate_pagename($nom);
-    
+
     $parent = new wiki($this->db,$this->dbrw);
-    
+
     $pagename = $parent->load_or_create_parent($path, $user, $this->droits_acces, $this->id_groupe, $this->id_groupe_admin);
-        
+
     if ( is_null($pagename) || !$parent->is_valid() || $this->load_by_name($parent,$pagename) )
       return false;
-      
-    $this->create ( $parent, null, $pagename, 0, $titre, $texte, "Créée comme un article", $section );        
-    
+
+    $this->create ( $parent, null, $pagename, 0, $titre, $texte, "Créée comme un article", $section );
+
     return true;
   }
 
@@ -137,7 +137,7 @@ class page extends wiki
     if ( $user->is_in_group("moderateur_site") ) return true;
     return parent::is_admin($user);
   }
-  
-} 
- 
+
+}
+
 ?>

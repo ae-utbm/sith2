@@ -1,5 +1,5 @@
 <?php
-/*   
+/*
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -25,19 +25,19 @@
  /**
  * @file
  */
- 
+
 class ville extends stdentity
 {
-  
+
   var $nom;
   var $id_pays;
   var $cpostal;
   var $lat;
   var $long;
   var $eloi;
-  
+
   var $pgdb;
-  
+
   function ville($db, $dbrw = null, $pgdb = null)
   {
     $this->stdentity ($db, $dbrw);
@@ -56,8 +56,8 @@ class ville extends stdentity
 	$this->_load($req->get_row());
 	return true;
       }
-    
-    $this->id = null;	
+
+    $this->id = null;
     return false;
   }
 
@@ -70,7 +70,7 @@ class ville extends stdentity
       return false;
 
     $req = new pgrequete($this->pgdb,
-			 "SELECT 
+			 "SELECT
                                    AsText(TRANSFORM(the_geom, 4030)) AS coords
                                    , id_loc AS id_ville
                                    , name_loc AS nom_ville
@@ -85,10 +85,10 @@ class ville extends stdentity
     $rs['coords'] = str_replace("POINT(", "", $rs['coords']);
     $rs['coords'] = str_replace(")", "", $rs['coords']);
     list($rs['long_ville'], $rs['lat_ville']) = explode(' ', $rs['coords']);
-    
+
     $this->_load($rs);
 
-    
+
   }
 
 
@@ -100,9 +100,9 @@ class ville extends stdentity
     $this->cpostal = $row['cpostal_ville'];
     $this->lat = $row['lat_ville'];
     $this->long = $row['long_ville'];
-    $this->eloi = $row['eloi_ville'];    
+    $this->eloi = $row['eloi_ville'];
   }
-  
+
   function create ( $id_pays, $nom, $cpostal, $lat, $long, $eloi )
   {
     $this->id_pays = $id_pays;
@@ -111,7 +111,7 @@ class ville extends stdentity
     $this->lat = $lat;
     $this->long = $long;
     $this->eloi = $eloi;
-    
+
     $req = new insert ($this->dbrw,
             "loc_ville", array(
               "nom_ville"=>$this->nom,
@@ -121,17 +121,17 @@ class ville extends stdentity
               "long_ville"=>sprintf("%.12F",$this->long),
               "eloi_ville"=>sprintf("%.12F",$this->eloi)
             ));
-  
+
 		if ( $req )
 		{
 			$this->id = $req->get_id();
 		  return true;
 		}
-		
+
 		$this->id = null;
     return false;
   }
-  
+
   function update ( $id_pays, $nom, $cpostal, $lat, $long, $eloi )
   {
     $this->id_pays = $id_pays;
@@ -140,7 +140,7 @@ class ville extends stdentity
     $this->lat = $lat;
     $this->long = $long;
     $this->eloi = $eloi;
-        
+
     $req = new update ($this->dbrw,
             "loc_ville", array(
               "nom_ville"=>$this->nom,
@@ -148,7 +148,7 @@ class ville extends stdentity
               "cpostal_ville"=>$this->cpostal,
               "lat_ville"=>sprintf("%.12F",$this->lat),
               "long_ville"=>sprintf("%.12F",$this->long),
-              "eloi_ville"=>sprintf("%.12F",$this->eloi)              
+              "eloi_ville"=>sprintf("%.12F",$this->eloi)
             ),
             array("id_ville"=>$this->id) );
   }
@@ -161,7 +161,7 @@ class ville extends stdentity
 
 
   /**
-   * Version otpmimisée de fsearch 
+   * Version otpmimisée de fsearch
    *
    */
   function fsearch ( $pattern, $limit=5, $conds = null, $full=false )
@@ -174,29 +174,29 @@ class ville extends stdentity
       // Recherche par code postal
       $cp = mysql_escape_string($match[1]);
       $pattern = mysql_escape_joker_string($match[2]);
-      
+
       if ( empty($pattern) )
       {
         $sql = "SELECT `id_ville`,`nom_ville`, `nom_pays`, `cpostal_ville` ".
           "FROM `loc_ville` INNER JOIN `loc_pays` USING (`id_pays`) ".
-          "WHERE `cpostal_ville` LIKE '$cp%'";	        
+          "WHERE `cpostal_ville` LIKE '$cp%'";
       }
       else
       {
         $sql = "SELECT `id_ville`,`nom_ville`, `nom_pays`, `cpostal_ville` ".
           "FROM `loc_ville` INNER JOIN `loc_pays` USING (`id_pays`) ".
-          "WHERE `cpostal_ville`='$cp' AND `nom_ville` LIKE '$pattern%'";	
+          "WHERE `cpostal_ville`='$cp' AND `nom_ville` LIKE '$pattern%'";
       }
     }
     else
     {
       $pattern = mysql_escape_joker_string($pattern);
-  
+
       $sql = "SELECT `id_ville`,`nom_ville`, `nom_pays` ".
         "FROM `loc_ville` INNER JOIN `loc_pays` USING (`id_pays`) ".
-        "WHERE `nom_ville` LIKE '$pattern%'";	
+        "WHERE `nom_ville` LIKE '$pattern%'";
     }
-    
+
     if ( !is_null($conds) && count($conds) > 0 )
     {
       foreach ($conds as $key => $value)
@@ -208,22 +208,22 @@ class ville extends stdentity
           $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
       }
     }
-    
+
     if ( isset($cp) && empty($pattern) )
       $sql .= " ORDER BY cpostal_ville, nom_ville";
     else
       $sql .= " ORDER BY 1";
-    
+
     if ( !is_null($limit) && $limit > 0 )
       $sql .= " LIMIT ".$limit;
-      
+
     $req = new requete($this->db,$sql);
 
     if ( !$req || $req->errno != 0 )
       return null;
 
     $values=array();
-    
+
     while ( $row = $req->get_row() )
     {
       if ( isset($row["cpostal_ville"]) )
@@ -234,7 +234,7 @@ class ville extends stdentity
     return $values;
   }
 
- 
+
 }
 
 

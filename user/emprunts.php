@@ -40,10 +40,10 @@ $site->allow_only_logged_users("matmatronch");
 if ( isset($_REQUEST['id_utilisateur']) )
 {
 	$user = new utilisateur($site->db,$site->dbrw);
-	$user->load_by_id($_REQUEST["id_utilisateur"]);	
+	$user->load_by_id($_REQUEST["id_utilisateur"]);
 	if ( !$user->is_valid() )
     $site->error_not_found("matmatronch");
-	
+
 	if ( !( $user->id==$site->user->id || $site->user->is_in_group("gestion_ae") ) )
 		$site->error_forbidden("matmatronch","group",1);
 }
@@ -61,19 +61,19 @@ $cts = new contents ( $user->prenom . " " . $user->nom );
 $cts->add(new tabshead($user->get_tabs($site->user),"emp"));
 
 $cts->add_paragraph("<a href=\"../emprunt.php?page=reservation\">Nouvelle reservation de matériel</a>");
-				
+
 $req = new requete($site->db,"SELECT inv_emprunt.*, " .
 		"IF(etat_emprunt=0,'Non fixé',caution_emp/100) AS caution," .
 		"asso.nom_asso, asso.id_asso  " .
 		"FROM inv_emprunt " .
 		"LEFT JOIN asso ON inv_emprunt.id_asso=asso.id_asso " .
 		"WHERE id_utilisateur='".$user->id."' AND etat_emprunt<=1 " .
-		"ORDER BY etat_emprunt,date_debut_emp");		
-		
+		"ORDER BY etat_emprunt,date_debut_emp");
+
 $cts->add(new sqltable(
-		"attenteemprunt", 
-		"Reservations de matériel en attente", $req, "../emprunt.php", 
-		"id_emprunt", 
+		"attenteemprunt",
+		"Reservations de matériel en attente", $req, "../emprunt.php",
+		"id_emprunt",
 		array(
 			"id_emprunt"=>"N° d'emprunt",
 			"date_debut_emp"=>"De",
@@ -82,8 +82,8 @@ $cts->add(new sqltable(
 			"caution"=>"Caution",
 			"etat_emprunt"=>"Etat",
 			"notes_emprunt"=>"Notes"
-			), 
-		array("info"=>"Details","delete"=>"Annuler"), 
+			),
+		array("info"=>"Details","delete"=>"Annuler"),
 		array(),
 		array("etat_emprunt"=>$EmpruntObjetEtats)
 		),true);
@@ -99,16 +99,16 @@ $req = new requete($site->db,"SELECT inv_emprunt.*, " .
 		"INNER JOIN inv_type_objets ON inv_objet.id_objtype=inv_type_objets.id_objtype " .
 		"LEFT JOIN asso ON inv_emprunt.id_asso=asso.id_asso " .
 		"WHERE inv_emprunt.id_utilisateur='".$user->id."' AND (inv_emprunt.etat_emprunt > 1) AND inv_emprunt_objet.retour_effectif_emp IS NULL " .
-		"ORDER BY inv_emprunt.date_fin_emp");		
-		
-$cts->add(new sqltable("listobjets", 
-		"Objets empruntés", $req, "emprunt.php", 
-		"id_emprunt", 
-		array("id_emprunt"=>"N° d'emprunt","nom_objet"=>"Objet","nom_asso"=>"Pour","date_fin_emp"=>"A rendre le"), 
+		"ORDER BY inv_emprunt.date_fin_emp");
+
+$cts->add(new sqltable("listobjets",
+		"Objets empruntés", $req, "emprunt.php",
+		"id_emprunt",
+		array("id_emprunt"=>"N° d'emprunt","nom_objet"=>"Objet","nom_asso"=>"Pour","date_fin_emp"=>"A rendre le"),
 		array("view"=>"Information sur l'emprunt"), array(), array()
 		),true);
 
-$site->add_contents($cts);		
+$site->add_contents($cts);
 
 $site->end_page();
 ?>

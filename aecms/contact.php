@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * AECMS : CMS pour les clubs et activités de l'AE UTBM
- *        
+ *
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 require_once("include/site.inc.php");
 
 $site->start_page ( CMS_PREFIX."contact", "Contact" );
@@ -55,8 +55,8 @@ $cts->add_paragraph(
 "<a href=\"http://www.utbm.fr/\">université de technologie de belfort-montébliard</a><br/>".
 "<a href=\"http://ae.utbm.fr/\">association des étudiants</a>");
 
-$site->add_contents($cts);  
-  
+$site->add_contents($cts);
+
 $site->end_page();
 
 ?>

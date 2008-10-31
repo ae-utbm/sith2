@@ -22,7 +22,7 @@
  */
 
 /**
- * Permet d'afficher des contents sur deux colonnes 
+ * Permet d'afficher des contents sur deux colonnes
  *
  * @author Julien Etelain
  * @ingroup display_cts
@@ -30,7 +30,7 @@
 class board extends stdcontents
 {
   var $boardclass;
-  
+
   /**
    * Construit un board
    * @param $title Titre
@@ -41,7 +41,7 @@ class board extends stdcontents
     $this->title = $title;
     $this->boardclass = $class;
   }
-  
+
   /**
    * Ajoute in contents dans le board
    * @param $cts contents à ajouté
@@ -52,18 +52,18 @@ class board extends stdcontents
   {
     if ( is_null($class) )
       $this->buffer .= "<div class=\"panel\">\n";
-    else 
+    else
       $this->buffer .= "<div class=\"panel $class\">\n";
-    
+
     if ( $title )
       $this->buffer .= "<h2>".$cts->title."</h2>\n";
-    
+
     $this->buffer .= "<div class=\"panelcts\">\n";
     $this->buffer .= $cts->html_render()."\n";
 		$this->buffer .= "</div>\n";
 		$this->buffer .= "</div>\n";
   }
-  
+
 	function html_render ()
 	{
 	  if ( !is_null($this->boardclass) )
@@ -71,7 +71,7 @@ class board extends stdcontents
 		else
 		  return "<div class=\"board\">".$this->buffer."<div class=\"clearboth\"></div></div>";
 	}
-  
+
 }
 
 

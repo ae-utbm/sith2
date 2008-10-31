@@ -55,7 +55,7 @@ class planet extends stdentity
     }
   }
 
-	
+
 	/* je sais c'est sale, mais le temps de faire plus proprement ...*/
 	function load_by_id($id)
   {

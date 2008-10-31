@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * AECMS : CMS pour les clubs et activités de l'AE UTBM
- *        
+ *
  * Copyright 2006,2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 require_once("include/site.inc.php");
 require_once($topdir."include/entities/files.inc.php");
 require_once($topdir."include/entities/folder.inc.php");
@@ -38,7 +38,7 @@ if ( isset($_REQUEST["id_file"]))
   {
     if ( !$file->is_right($site->user,DROIT_LECTURE) )
       $site->error_forbidden(CMS_PREFIX."fichiers","group",$file->id_groupe);
-      
+
     $folder->load_by_id($file->id_folder);
   }
   else
@@ -76,18 +76,18 @@ if ( $_REQUEST["action"] == "download" && $file->is_valid() )
   }
   $file->increment_download();
   $filename = $file->get_real_filename();
-  
+
   header("Content-Disposition: filename=".$file->nom_fichier);
-  
+
   if ( file_exists($filename) )
     $site->return_simplefile( "d".$file->id, $file->mime_type, $filename );
-  
+
   exit();
 }
 
 if ( isset($_REQUEST["id_folder"]) && !( isset($_REQUEST["id_file"]) && $file->is_valid() ) )
   $folder->load_by_id($_REQUEST["id_folder"]);
-  
+
 if ( !$folder->is_valid() )
 {
   $file->id = null;
@@ -104,10 +104,10 @@ if ( !$folder->is_valid() )
 
 if ( !$folder->is_right($site->user,DROIT_LECTURE) )
   $site->error_forbidden(CMS_PREFIX."fichiers","group",$folder->id_groupe);
-  
+
 if ( $_REQUEST["action"] == "cut" )
 {
-	
+
 	if ( $file->is_valid() && $file->is_right($site->user,DROIT_ECRITURE) )
 	{
 		$_SESSION["d_clipboard"]["I".$file->id] = $file->id;
@@ -250,7 +250,7 @@ if ( $file->is_valid() )
 
   if ( ! file_exists($file->get_screensize_filename()) )
     $actions[] = "<a href=\"d.php?id_file=".$file->id."&amp;action=download&amp;download=preview\">Voir</a>";
-  
+
   $cts->add(new image("Miniature","d.php?id_file=".$file->id."&amp;action=download&amp;download=thumb","imgright"));
   $cts->add( new wikicontents ("Description",$file->description),true );
 
@@ -263,13 +263,13 @@ if ( $file->is_valid() )
   }
 
   $cts->add(new itemlist(false,false,$actions));
-  
+
   if ($file->mime_type == "audio/mpeg" )
   {
     require_once($topdir."include/cts/player.inc.php");
     $cts->add(new mp3player("Ecouter","../../d.php?id_file=".$file->id."&action=download"),true);
   }
-  
+
   $cts->add(new itemlist("Informations",false,
       array(
         "Taille: ".$file->taille." Octets",
@@ -360,7 +360,7 @@ elseif ( $folder->is_right($site->user,DROIT_ECRITURE) && $_REQUEST["action"] ==
 {
 	$inffile = new dfile($site->db,$site->dbrw);
 	$inffolder = new dfolder($site->db,$site->dbrw);
-	
+
 	foreach( $_SESSION["d_clipboard"] as $aid => $id )
 	{
 		if ( $aid{0} == 'I' )
@@ -371,10 +371,10 @@ elseif ( $folder->is_right($site->user,DROIT_ECRITURE) && $_REQUEST["action"] ==
 		else
 		{
 			$inffolder->load_by_id($id);
-			$inffolder->move_to($folder->id);			
+			$inffolder->move_to($folder->id);
 		}
 	}
-	
+
 	unset($_SESSION["d_clipboard"]);
 }
 
@@ -390,12 +390,12 @@ if ( isset($_SESSION["d_clipboard"]) )
 {
 	$inffile = new dfile($site->db);
 	$inffolder = new dfolder($site->db);
-	
+
 	$cts = new contents("Presse papier");
-	
+
 	if ( $folder->is_right($site->user,DROIT_ECRITURE) )
 	$cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;action=paste\">Deplacer ici</a>");
-	
+
 	$lst = new itemlist("Contenu");
 
 	foreach( $_SESSION["d_clipboard"] as $aid => $id )
@@ -411,9 +411,9 @@ if ( isset($_SESSION["d_clipboard"]) )
 			$lst->add($inffolder->get_html_link());
 		}
 	}
-	
+
 	$cts->add($lst,true);
-	
+
 	$site->add_contents($cts);
 }
 
@@ -460,7 +460,7 @@ while ( $row = $sub2->get_row() )
   {
     $acts[] ="edit";
     $acts[] ="delete";
-    $acts[] ="cut";   
+    $acts[] ="cut";
   }
 
   $img = "d.php?id_file=".$fd->id."&amp;action=download&amp;download=thumb";
@@ -485,5 +485,5 @@ if ( $folder->is_right($site->user,DROIT_AJOUTITEM) )
 $site->add_contents($cts);
 $site->end_page();
 
-  
+
 ?>

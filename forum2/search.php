@@ -32,11 +32,11 @@ $forum->load_by_id(1);
 if ( $_REQUEST["page"] == "unread" )
 {
   $site->allow_only_logged_users("forum");
-  
+
   $site->start_page("forum","Messages non lus");
-  
+
   $cts = new contents($forum->get_html_link()." / <a href=\"search.php?page=unread\">Messages non lus</a>");
-    
+
   $cts->add_paragraph(
   "<a href=\"search.php?page=unread\">".
     "<img src=\"".$wwwtopdir."images/icons/16/reload.png\" class=\"icon\" alt=\"\" />Actualiser".
@@ -48,8 +48,8 @@ if ( $_REQUEST["page"] == "unread" )
     "<img src=\"".$wwwtopdir."images/icons/16/search.png\" class=\"icon\" alt=\"\" />Rechercher".
   "</a>"
   ,"frmtools");
-      
-    
+
+
   $query = "SELECT frm_sujet.*, ".
       "frm_message.date_message, " .
       "frm_message.id_message, " .
@@ -77,14 +77,14 @@ if ( $_REQUEST["page"] == "unread" )
         "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
         "AND frm_sujet_utilisateur.id_utilisateur='".$site->user->id."' ) ".
       "WHERE ";
-            
+
   if( is_null($site->user->tout_lu_avant))
     $query .= "(frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
-              "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ";    
+              "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ";
   else
     $query .= "((frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
               "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ".
-              "AND frm_message.date_message > '".date("Y-m-d H:i:s",$site->user->tout_lu_avant)."') ";  
+              "AND frm_message.date_message > '".date("Y-m-d H:i:s",$site->user->tout_lu_avant)."') ";
 
   if ( !$forum->is_admin( $site->user ) )
   {
@@ -99,14 +99,14 @@ if ( $_REQUEST["page"] == "unread" )
   $query_fav = $query."AND frm_sujet_utilisateur.etoile_sujet='1' ";
   $query_fav .= "ORDER BY frm_message.date_message DESC ";
   $query_fav .= "LIMIT 75 ";
-  
+
   $query .= "AND ( frm_sujet_utilisateur.etoile_sujet IS NULL OR frm_sujet_utilisateur.etoile_sujet!='1' ) ";
   $query .= "ORDER BY frm_message.date_message DESC ";
   $query .= "LIMIT 75 ";
 
   /*$query .= "ORDER BY frm_message.date_message DESC ";
   $query .= "LIMIT 100 ";*/
-  
+
   $req = new requete($site->db,$query_fav);
   if ( $req->lines > 0 )
   {
@@ -114,12 +114,12 @@ if ( $_REQUEST["page"] == "unread" )
   	$rows = array();
   	while ( $row = $req->get_row() )
   	  $rows[] = $row;
-    
+
   	$cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
   	$cts->add_paragraph("&nbsp;");
   }
-	
-	
+
+
   $req = new requete($site->db,$query);
   if ( $req->lines > 0 )
   {
@@ -127,12 +127,12 @@ if ( $_REQUEST["page"] == "unread" )
   	$rows = array();
   	while ( $row = $req->get_row() )
   	  $rows[] = $row;
-    
+
   	$cts->add(new sujetslist($rows, $site->user, "./", null, null,true));
   }
-	    
+
   $site->add_contents($cts);
-  
+
   $site->end_page();
   exit();
 }
@@ -146,7 +146,7 @@ if ( isset($_REQUEST["pattern"] ) )
 	$pattern = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","(u|ù|ü|û|Ü|Û|Ù)",$pattern);
 	$pattern = ereg_replace("(n|ñ|Ñ)","(n|ñ|Ñ)",$pattern);
 	$sqlpattern = mysql_real_escape_string($pattern);
-	
+
   $sql = "SELECT frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message ".
          "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) WHERE ";
 
@@ -156,79 +156,79 @@ if ( isset($_REQUEST["pattern"] ) )
   foreach ( $words as $word )
   {
     if ( $first )
-      $first=false;  
+      $first=false;
     else
       $sql .= " AND ";
-    
+
     $sql .= "(contenu_message REGEXP '$word' OR titre_sujet REGEXP '$word' OR soustitre_sujet REGEXP '$word')";
-    
+
   }
-  
+
   $sql .= " ORDER BY frm_message.id_message DESC ";
   $sql .= "LIMIT 50";
   */
-  
+
   $sql = "SELECT MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') AS deg, frm_sujet.*, frm_message.id_message, frm_message.contenu_message, frm_message.date_message ".
          "FROM frm_message INNER JOIN frm_sujet USING ( id_sujet ) WHERE ";
   $sql .= "MATCH (titre_message,contenu_message) AGAINST ('".mysql_real_escape_string($_REQUEST["pattern"])."') ";
   $sql .= "ORDER BY 1 DESC ";
   $sql .= "LIMIT 50";
-  
+
   $req = new requete($site->db,$sql);
 
-	    
-	    
+
+
   $site->start_page("forum","Recherche ".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8"));
-  
+
   $cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche</a> / <a href=\"search.php?pattern=".urlencode($_REQUEST["pattern"])."\">".htmlentities($_REQUEST["pattern"],ENT_COMPAT,"UTF-8")."</a>");
-    
-   
+
+
 	//$cts->add(new sujetslist($rows, $site->user, "./", null, null, false));
-	    
+
 		$id_sujet=null;
-		
+
 		$cts->buffer .= "<ul class=\"frmsujetres\">";
-		
+
 		while ( $row = $req->get_row() )
 		{
 			if ( 	$id_sujet!=$row['id_sujet'] )
 			{
 			  if ( !is_null($id_sujet) )
   			  $cts->buffer .= "</ul>";
-  			$cts->buffer .= 
+  			$cts->buffer .=
   			"<li class=\"sujet\"><a href=\"".$wwwtopdir."forum2/?id_sujet=".$row['id_sujet']."\">".
   			"<img src=\"".$wwwtopdir."images/icons/16/sujet.png\" class=\"icon\" alt=\"\" /> <b>".
-  			$row['titre_sujet']."</b></a></li>";	
+  			$row['titre_sujet']."</b></a></li>";
   			$cts->buffer .= "<ul class=\"frmmessagesres\">";
 			}
-			
-  		$cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a> <span>- ".human_date(strtotime($row['date_message']))."</span></li>";	
-  			
+
+  		$cts->buffer .= "<li><a href=\"".$wwwtopdir."forum2/?id_message=".$row['id_message']."#msg".$row['id_message']."\">".substr($row['contenu_message'],0,120)."...</a> <span>- ".human_date(strtotime($row['date_message']))."</span></li>";
+
 			$id_sujet=$row['id_sujet'];
 		}
 		if ( !is_null($id_sujet) )
 		  $cts->buffer .= "</ul>";
 		$cts->buffer .= "</ul>";
-	    
-	    
-	    
+
+
+
   $site->add_contents($cts);
-  
+
   $site->end_page();
   exit();
 
 }
-	    
+
 $site->start_page("forum","Recherche");
 
 $cts = new contents($forum->get_html_link()." / <a href=\"search.php\">Recherche</a>");
-  
+
 $frm = new form("frmsearch",$wwwtopdir."forum2/search.php");
 $frm->add_text_field("pattern","");
 $frm->add_submit("search","Rechercher");
 $frm->set_focus("pattern");
-$cts->add($frm);  
-  
+$cts->add($frm);
+
 $site->add_contents($cts);
 
 $site->end_page();

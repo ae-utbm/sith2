@@ -25,7 +25,7 @@ foreach ($matched[1] as $polygon)
 {
   $polygon = str_replace("(", "", $polygon);
   $points = explode(",", $polygon);
-  
+
   foreach ($points as $point)
     {
       $point = explode (" ", $point);
@@ -92,9 +92,9 @@ foreach ($totalpoints as $polygon)
 {
 
   foreach($polygon as $point)
-    {      
+    {
       $sommetsx[$i][] = (int) ($point[0] / $factor);
-      $sommetsy[$i][] = (int) ($point[1] / $factor);      
+      $sommetsy[$i][] = (int) ($point[1] / $factor);
     }
 
   $i++;
@@ -118,7 +118,7 @@ for ($i = 0; $i < count($sommetsx); $i++)
 {
   if (min($sommetsx[$i]) < $minlat)
     $minlat = min($sommetsx[$i]);
-  
+
   if (max($sommetsx[$i]) > $maxlat)
     $maxlat = max($sommetsx[$i]);
 

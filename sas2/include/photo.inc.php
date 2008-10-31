@@ -58,7 +58,7 @@ class photo extends basedb
 
   var $type_media;
   var $id_asso_photographe;
-  
+
   /** Charge une photo par son ID
    * @param $id ID de la photo
    */
@@ -72,8 +72,8 @@ class photo extends basedb
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
 
@@ -105,7 +105,7 @@ class photo extends basedb
     $this->droits_acces = $row['droits_acces_ph'];
 
     $this->meta_id_asso = $row['meta_id_asso_ph'];
-    
+
     $this->date_ajout = strtotime($row['date_ajout_ph']);
     $this->id_asso_photographe = $row['id_asso_photographe'];
 
@@ -290,10 +290,10 @@ class photo extends basedb
     $this->type_media = MEDIA_PHOTO;
     $this->titre = $titre;
     $this->id_asso_photographe = $id_asso_photographe;
-    
+
     if ( is_null($this->id_utilisateur_photographe) )
       $this->id_utilisateur_photographe = $this->id_utilisateur;
-    
+
     $sql = new insert ($this->dbrw,
       "sas_photos",
       array(
@@ -344,7 +344,7 @@ class photo extends basedb
     exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail 140x105 -quality 95 $dest_vgt");
     exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail 680x510 -quality 80 $dest_dip");
     exec("/usr/share/php5/exec/convert $tmp_filename -thumbnail 2400x2400 -quality 80 $dest_hd");
-    
+
     //rotation automatique
     if(isset($IFDO['Orientation']))
     {
@@ -369,16 +369,16 @@ class photo extends basedb
           $this->flip(2);
           $this->rotate(90);
           break;
-                
+
         case 6: // 90 rotate right
           $this->rotate(90);
           break;
-                
+
         case 7: // horizontal flip + 90 rotate right
-          $this->flip(1);    
+          $this->flip(1);
           $this->rotate(90);
           break;
-                
+
         case 8: // 90 rotate left
           $this->rotate(-90);
           break;
@@ -412,7 +412,7 @@ class photo extends basedb
       $this->incomplet=true;
       $this->droits_acquis=false;
     }
-    
+
     $this->id_catph = $id_catph;
     $this->commentaire = $commentaire;
     $this->id_utilisateur_photographe = $id_utilisateur_photographe;
@@ -424,10 +424,10 @@ class photo extends basedb
     $this->type_media = MEDIA_VIDEOFLV;
     $this->titre = $titre;
     $this->id_asso_photographe = $id_asso_photographe;
-    
+
     if ( is_null($this->id_utilisateur_photographe) )
       $this->id_utilisateur_photographe = $this->id_utilisateur;
-    
+
     $sql = new insert ($this->dbrw,
       "sas_photos",
       array(
@@ -469,13 +469,13 @@ class photo extends basedb
     $dest_dip = $this->get_abs_path().$this->id.".diapo.jpg";
     $dest_vgt = $this->get_abs_path().$this->id.".vignette.jpg";
     $dest_flv = $this->get_abs_path().$this->id.".flv";
-    
+
     exec("/usr/share/php5/exec/convert $tmp_photo_filename -thumbnail 140x105 -quality 95 $dest_vgt");
     exec("/usr/share/php5/exec/convert $tmp_photo_filename -thumbnail 680x510 -quality 80 $dest_dip");
     exec("/usr/share/php5/exec/convert $tmp_photo_filename -thumbnail 2400x2400 -quality 80 $dest_hd");
-    
+
     copy($tmp_flv_filename,$dest_flv);
-    
+
     $this->_calcul_couleur_moyenne();
   }
 
@@ -491,17 +491,17 @@ class photo extends basedb
     $vgt = $this->get_abs_path().$this->id.".vignette.jpg";
     $img = imagecreatefromjpeg($vgt);
 
-    if ( !$img ) 
+    if ( !$img )
       return;
 
     $sR = 0;
     $sG = 0;
     $sB = 0;
     $n = 0;
-    
+
     $W = imagesx($img);
     $H = imagesy($img);
-    
+
     for ( $x=0; $x < $W; $x++ )
       for ( $y=0; $y < $H; $y++ ) {
         $rgb = imagecolorat($img,$x,$y);
@@ -510,21 +510,21 @@ class photo extends basedb
         $sB += $rgb & 0xFF;
         $n++;
       }
-      
+
     imagedestroy($img);
-    
-    $R = round($sR/$n);  
-    $G = round($sG/$n);  
-    $B = round($sB/$n);  
-    
+
+    $R = round($sR/$n);
+    $G = round($sG/$n);
+    $B = round($sB/$n);
+
     $this->couleur_moyenne = ($R << 16) | ($G << 8) | $B;
-    
+
     $sql = new update ($this->dbrw, "sas_photos",
         array("couleur_moyenne"=>$this->couleur_moyenne),
         array("id_photo"=>$this->id )
       );
-      
-  }  
+
+  }
 
   /**
    * Recalcule et met à jour les droits à l'image pour la photo
@@ -575,7 +575,7 @@ class photo extends basedb
       );
     $this->_update_droits_acquis();
   }
-  
+
   /**
    * @param $id_utilisateur Id de la personne
    */
@@ -587,7 +587,7 @@ class photo extends basedb
           ));
     $this->_update_droits_acquis();
   }
-  
+
   /**
    * Enlève une personne de la liste des présents sur la photo.
    * Et prosséde aux mises à jours nécessaires.
@@ -689,7 +689,7 @@ class photo extends basedb
   {
     $sql = new update($this->dbrw,"sas_personnes_photos",
       array("vu_phutl" => 1),
-      array("id_utilisateur" => $id_utilisateur, 
+      array("id_utilisateur" => $id_utilisateur,
         "id_photo" => $this->id,
         "vu_phutl" => 0)
       );
@@ -714,12 +714,12 @@ class photo extends basedb
     unlink($this->get_abs_path().$this->id.".jpg");
     unlink($this->get_abs_path().$this->id.".diapo.jpg");
     unlink($this->get_abs_path().$this->id.".vignette.jpg");
-    
+
     if ( $this->type_media == MEDIA_VIDEOFLV )
       unlink($this->get_abs_path().$this->id.".flv");
 
     $this->set_tags_array(array());
-    
+
     new delete($this->dbrw,"sas_photos",array("id_photo"=>$this->id) );
     new delete($this->dbrw,"sas_personnes_photos",array("id_photo"=>$this->id) );
    }
@@ -810,12 +810,12 @@ class photo extends basedb
     $src_hd = $this->get_abs_path().$this->id.".jpg";
     $dest_dip = $this->get_abs_path().$this->id.".diapo.jpg";
     $dest_vgt = $this->get_abs_path().$this->id.".vignette.jpg";
-    
+
     exec("/usr/share/php5/exec/convert $src_hd -rotate ".intval($degrees)." -quality 80 $src_hd");
     exec("/usr/share/php5/exec/convert $src_hd -thumbnail 140x105 -quality 95 $dest_vgt");
     exec("/usr/share/php5/exec/convert $src_hd -thumbnail 680x510 -quality 80 $dest_dip");
   }
-  
+
   function flip($flip=1)
   {
     $src_hd = $this->get_abs_path().$this->id.".jpg";
@@ -832,7 +832,7 @@ class photo extends basedb
   function move_to ( $id_catph )
   {
     $this->id_catph = $id_catph;
-    
+
     $sql = new update ($this->dbrw,
       "sas_photos",
       array("id_catph"=>$this->id_catph),

@@ -1,7 +1,7 @@
 <?
-/* 
+/*
  * FORUM2 - flux rss
- *        
+ *
  * Copyright 2007
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *

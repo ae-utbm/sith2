@@ -48,13 +48,13 @@ $site->add_css("css/wiki.css");
 function build_htmlpath ( $fullpath )
 {
   $buffer = "<a href=\"./\">Wiki</a>";
-  
+
   if ( empty($fullpath) )
     return $buffer;
-  
+
   $path=null;
   $tokens = explode(":",$fullpath);
-  
+
   foreach ( $tokens as $token )
   {
     if ( is_null($path) )
@@ -94,23 +94,23 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
   /*
   // Prepare les info
   $pagepath = $_REQUEST["name"];
-  
+
   // Récupère les tokens et le nom de la page (dernier token du path)
   $tokens = explode(":",$pagepath);
-  $pagename=array_pop($tokens); 
-  
+  $pagename=array_pop($tokens);
+
   // Cherche le dernier parent, crée les parents manquant si nécessaire
   // Commençons par la racine
   $parent->load_by_id(1);
-  $can_create = $parent->is_right($site->user,DROIT_AJOUTCAT);  
-  
+  $can_create = $parent->is_right($site->user,DROIT_AJOUTCAT);
+
   // Poursuivons par les eventuel parents
   $parentparent = clone $parent;
   foreach( $tokens as $token )
   {
     if ( $parent->load_by_name($parentparent,$token) )
       $can_create = $parent->is_right($site->user,DROIT_AJOUTCAT);
-      
+
     elseif( $can_create ) // On a le droit de creer, on alors on crée le parent manquant
     {
       $parent->herit($parentparent);
@@ -124,18 +124,18 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
     }
     $parentparent = clone $parent;
   }
-  
+
   if ( !preg_match("#^([a-z0-9\-_:]+)$#",$pagepath) )
     $can_create=false;
-    
+
   if ( strlen($pagename) > 64 )
     $can_create = false;
-    
+
   if ( strlen($pagepath) > 512 )
     $can_create = false;*/
-      
+
   $pagename = $parent->load_or_create_parent($_REQUEST["name"], $site->user, $_REQUEST['rights'], $_REQUEST['rights_id_group'], $_REQUEST['rights_id_group_admin']);
-      
+
   if ( !is_null($pagename) && $parent->is_valid() && !$wiki->load_by_name($parent,$pagename) )
   {
     $wiki->herit($parent);
@@ -144,8 +144,8 @@ if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
           $_REQUEST['rights'],$_REQUEST['rights_id_group'],
           $_REQUEST['rights_id_group_admin']);
     else
-      $parent->id_utilisateur=$site->user->id;    
-    $wiki->create ( $parent, null, $pagename, 0, $_REQUEST["title"], $_REQUEST["contents"], $_REQUEST["comment"] );    
+      $parent->id_utilisateur=$site->user->id;
+    $wiki->create ( $parent, null, $pagename, 0, $_REQUEST["title"], $_REQUEST["contents"], $_REQUEST["comment"] );
   }
   else
   {
@@ -160,9 +160,9 @@ elseif ( isset($_REQUEST["name"]) )
   {
     $_REQUEST["name"] = preg_replace("#[^a-z0-9\-_:]#","_",strtolower(utf8_enleve_accents($_REQUEST["name"])));
     $valid_name=true;
-    
+
     if ( !(isset($_REQUEST["rev"]) && $wiki->load_by_fullpath_and_rev($_REQUEST["name"],$_REQUEST["rev"])) )
-      $wiki->load_by_fullpath($_REQUEST["name"]);  
+      $wiki->load_by_fullpath($_REQUEST["name"]);
   }
   else
     $valid_name=false;
@@ -181,13 +181,13 @@ if ( !$wiki->is_valid() )
     $parent = new wiki($site->db);
     $tokens = explode(":",$pagepath);
     $pagename = array_pop($tokens);
-    
+
     // La racine
     $parent->load_by_id(1);
     $can_create = $parent->is_right($site->user,DROIT_AJOUTCAT);
     $is_admin = $parent->is_admin($site->user);
     $lastparent = clone $parent;
-    // Les eventuels parents    
+    // Les eventuels parents
     foreach( $tokens as $token )
     {
       if ( $parent->load_by_name($parent,$token) )
@@ -199,30 +199,30 @@ if ( !$wiki->is_valid() )
         break;
       $lastparent = clone $parent;
     }
-    
+
     if ( strlen($pagename) > 64 )
       $can_create = false;
-      
+
     if ( strlen($pagepath) > 512 )
       $can_create = false;
   }
-  
+
   $site->start_page ("wiki", "Page inexistante");
- 
+
   /*$side = new contents("Wiki");
   $lst = new itemlist();
   $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."\">Voir la page</a>");
   if ( $can_create )
     $lst->add("<a href=\"".$wwwtopdir."wiki2/?name=".$pagepath."&view=create\">Créer</a>");
   $side->add($lst);*/
- 
- 
+
+
   $tools = array();
   $tools[$wwwtopdir."wiki2/?name=".$pagepath] = "Voir la page";
-  
+
   if ( $can_create )
     $tools[$wwwtopdir."wiki2/?name=".$pagepath."&view=create"] = "Créer";
-  
+
   $castor = explode(":",$pagepath);
 
   $req = new requete($site->db,"SELECT asso.id_asso FROM asso
@@ -238,13 +238,13 @@ if ( !$wiki->is_valid() )
   {
     $asso = new asso($site->db);
     $asso->load_by_id($asso_id);
-  
+
     $cts = new contents($asso->get_html_path());
     $site->start_page("presentation","Wiki");
-  
+
     $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
     $path = build_asso_htmlpath($pagepath);
-    
+
     $ctsttl = new contents();
     $ctsttl->set_toolbox(new toolbox($tools));
     $ctsttl->add_title(1,build_asso_htmlpath($pagepath),"wikipath");
@@ -255,9 +255,9 @@ if ( !$wiki->is_valid() )
     $cts = new contents(build_htmlpath($pagepath));
     $cts->set_toolbox(new toolbox($tools));
   }
-  
+
   $site->add_box("wiki",$side);
-  
+
   if ( $can_create && $_REQUEST["view"] == "create" )
   {
     $frm = new form("newwiki","./?name=$pagepath",true,"POST");
@@ -270,7 +270,7 @@ if ( !$wiki->is_valid() )
     $frm->add_text_field("comment","Log","Créée");
     if ( $is_admin )
       $frm->add_rights_field($lastparent,true,true,"wiki");
-    $frm->add_submit("save","Ajouter");  
+    $frm->add_submit("save","Ajouter");
     $cts->add($frm);
   }
   else
@@ -281,10 +281,10 @@ if ( !$wiki->is_valid() )
       $cts->add_paragraph("Cette page n'existe pas.","error");
   }
   $site->add_contents($cts);
-  
+
   $site->end_page ();
-  
-  exit();  
+
+  exit();
 }
 
 $pagepath = $wiki->fullpath;
@@ -320,13 +320,13 @@ else if ( $_REQUEST["action"] == "revision" && $can_edit )
     else
       $wiki->revision ( $site->user->id, $_REQUEST["title"], $_REQUEST["contents"], $_REQUEST["comment"] );
   }
-}  
+}
 elseif ( $_REQUEST["action"] == "edit" && $is_admin )
 {
   $wiki->set_rights($site->user,
           $_REQUEST['rights'],$_REQUEST['rights_id_group'],
           $_REQUEST['rights_id_group_admin']);
-  $wiki->update();          
+  $wiki->update();
 }
 $site->start_page ("wiki", $wiki->rev_title);
 
@@ -377,7 +377,7 @@ if ( !is_null($asso_id))
 
   $cts->add(new tabshead($asso->get_tabs($site->user),"wiki2"));
   $path = build_asso_htmlpath($pagepath);
-  
+
   $ctsttl = new contents();
   $ctsttl->set_toolbox(new toolbox($tools));
   $ctsttl->add_title(1,build_asso_htmlpath($pagepath),"wikipath");
@@ -408,12 +408,12 @@ elseif ( $can_edit && $_REQUEST["view"] == "edit" )
   {
     if ( isset($Erreur) )
     {
-      $cts->add_paragraph($Erreur,"error"); 
-      /* et oui, un autre a pu modifier et encore un autre peut editer la page 
-       * à ce moment là, là c'est vraiment pas de bol, ça peut arriver qu'a Ayolo 
+      $cts->add_paragraph($Erreur,"error");
+      /* et oui, un autre a pu modifier et encore un autre peut editer la page
+       * à ce moment là, là c'est vraiment pas de bol, ça peut arriver qu'a Ayolo
        * ce genre de situation, mais bon... :-P
        */
-      $cts->add_paragraph("<a href=\"./?name=$pagepath\">Voir la version actuelle.</a>");      
+      $cts->add_paragraph("<a href=\"./?name=$pagepath\">Voir la version actuelle.</a>");
       $cts->add_paragraph("La page est en cours d'édition par un autre utilisteur. Il n'est pas possible de reprendre l'édition de la page.","error");
       $cts->add_paragraph("<b>Conseil</b>: Sauvegardez vos modification dans un éditeur de texte, et retentez de le modifier dans une dizaine de minutes.");
       $cts->add_paragraph("Voici ce que vous vouliez soumettre :");
@@ -435,12 +435,12 @@ elseif ( $can_edit && $_REQUEST["view"] == "edit" )
       $cts->add_paragraph($Erreur,"error");
       $cts->add_paragraph("<a href=\"./?name=$pagepath\">Voir la version actuelle.</a>");
       $cts->add_paragraph("<b>Attention</b>: Le texte en cours d'édition corresponds à votre soumission, il ne tient pas compte des modifications apportés par l'autre utilisateur.");
-      $cts->add_paragraph("<b>Conseil</b>: Sauvegardez vos modification dans un éditeur de texte, et repartez de la version actuelle.");      
+      $cts->add_paragraph("<b>Conseil</b>: Sauvegardez vos modification dans un éditeur de texte, et repartez de la version actuelle.");
     }
 
     $wiki->lock($site->user);
     $frm = new form("revisewiki","./?name=$pagepath",true,"POST");
-    // le true au desus, va dire à form reprendre le bordel soumis, 
+    // le true au desus, va dire à form reprendre le bordel soumis,
     // dans le cas où la page a été appelée par la validation du formulaire
     $frm->add_hidden("action","revision");
     $frm->add_hidden("id_rev_last",$wiki->id_rev_last);
@@ -448,21 +448,21 @@ elseif ( $can_edit && $_REQUEST["view"] == "edit" )
     $frm->add_dokuwiki_toolbar("contents");
     $frm->add_text_area("contents","Contenu",$wiki->rev_contents,80,20,true);
     $frm->add_text_field("comment","Log","");
-    $frm->add_submit("save","Enregistrer"); 
+    $frm->add_submit("save","Enregistrer");
     $frm->add_submit("save","Annuler");
     $cts->add($frm);
     $cts->puts("<script>wiki_lock_maintain('".$topdir."',".WIKI_LOCKTIME.",'".$pagepath."');</script>");
 
   }
 }
-elseif ( $_REQUEST["view"] == "srcs" ) 
+elseif ( $_REQUEST["view"] == "srcs" )
 {
   if ( $wiki->rev_id != $wiki->id_rev_last )
     $cts->add_paragraph("Ceci est une version archivée. En date du ".date("d/m/Y H:i",$wiki->rev_date).". ".
     "<a href=\"./?name=$pagepath\">Version actuelle</a>","wikinotice");
   $cts->add_paragraph(nl2br(htmlentities($wiki->rev_contents,ENT_NOQUOTES,"UTF-8")));
 }
-elseif ( $_REQUEST["view"] == "refs" ) 
+elseif ( $_REQUEST["view"] == "refs" )
 {
   $req = new requete($site->db,"SELECT fullpath_wiki, title_rev ".
     "FROM wiki_ref_wiki ".
@@ -481,7 +481,7 @@ elseif ( $_REQUEST["view"] == "refs" )
       $list->add(
         "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".
         ($row['fullpath_wiki']?$row['fullpath_wiki']:"(racine)")."</a> ".
-        " : <span class=\"wtitle\">".htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8")."</span> ");      
+        " : <span class=\"wtitle\">".htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8")."</span> ");
     }
     $cts->add($list,true);
   }
@@ -503,7 +503,7 @@ elseif ( $_REQUEST["view"] == "refs" )
       $list->add(
         "<a class=\"wpage\" href=\"?name=".$row['fullpath_wiki']."\">".
         ($row['fullpath_wiki']?$row['fullpath_wiki']:"(racine)")."</a> ".
-        " : <span class=\"wtitle\">".htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8")."</span> ");      
+        " : <span class=\"wtitle\">".htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8")."</span> ");
     }
     $cts->add($list,true);
   }
@@ -512,7 +512,7 @@ elseif ( $_REQUEST["view"] == "refs" )
     "FROM wiki_ref_file ".
     "INNER JOIN d_file USING(id_file) ".
     "WHERE wiki_ref_file.id_wiki='".$wiki->id."' ".
-    "ORDER BY titre_file");  
+    "ORDER BY titre_file");
 
   if ( $req->lines )
   {
@@ -521,12 +521,12 @@ elseif ( $_REQUEST["view"] == "refs" )
     {
       $list->add(
         "<a class=\"wfile\" href=\"".$wwwtopdir."d.php?id_file=".$row['id_file']."\">".
-        htmlentities($row['titre_file'],ENT_NOQUOTES,"UTF-8")."</a>  (".$row['nom_fichier_file'].") ");      
+        htmlentities($row['titre_file'],ENT_NOQUOTES,"UTF-8")."</a>  (".$row['nom_fichier_file'].") ");
     }
     $cts->add($list,true);
   }
 }
-elseif ( $_REQUEST["view"] == "hist" ) 
+elseif ( $_REQUEST["view"] == "hist" )
 {
   $site->add_js("js/wiki.js");
   $req = new requete($site->db,"SELECT ".

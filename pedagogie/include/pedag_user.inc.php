@@ -23,7 +23,7 @@
  */
 
 /**
- * extension de l'utilisateur site AE pour utilisation de 
+ * extension de l'utilisateur site AE pour utilisation de
  * la partie pedagogie
  */
 class pedag_user extends utilisateur{
@@ -31,22 +31,22 @@ class pedag_user extends utilisateur{
   var $uv_suivies = array();
   /* UV suivies dans le passé */
   var $uv_passe = array();
-  
+
   public function add_uv_result($id_uv, $semestre, $result){
   }
-  
+
   public function remove_uv_result($id_result){
   }
-  
+
   public function update_uv_result($id_result, $id_uv, $semestre, $result){
   }
-  
+
   public function join_uv_group($id_group, $semaine){
   }
-  
+
   public function leave_uv_group($id_group){
   }
-  
+
   /* desincription d'une UV entiere, donc desinscrition de tous les groupes */
   public function get_out_from_uv($id_uv){
   }

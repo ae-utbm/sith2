@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * AECMS : CMS pour les clubs et activités de l'AE UTBM
- *        
+ *
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 require_once("include/site.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
 require_once($topdir."include/entities/news.inc.php");
@@ -47,25 +47,25 @@ else
   $GLOBALS['ROLEASSO'][ROLEASSO_VICEPRESIDENT] = "Vice-président";
 }
 
-$req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "%' AND `nom_page` NOT LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");  
+$req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "%' AND `nom_page` NOT LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");
 $pages = array();
 while ( $row = $req->get_row() )
   $pages[substr($row['nom_page'],strlen(CMS_PREFIX))] = $row['titre_page'];
-  
+
 if ( !isset($pages["home"]) )
   $pages["home"] = "Accueil";
-  
+
 if ( $_REQUEST["action"] == "addonglet" )
 {
   $name = null;
-  
+
   if ( !$_REQUEST["title"] )
     $ErreurAddOnglet = "Veuillez choisir un titre";
   elseif ( $_REQUEST["typepage"] == "article" )
   {
     $lien = "index.php?name=".$_REQUEST["nom_page"];
     $name = $_REQUEST["nom_page"];
-    
+
     $page = new page ($site->db,$site->dbrw);
     $page->load_by_pagename(CMS_PREFIX.$_REQUEST["nom_page"]);
     $page->save($site->user,$page->title, $page->texte, CMS_PREFIX.$name );
@@ -75,19 +75,19 @@ if ( $_REQUEST["action"] == "addonglet" )
     if ( !$_REQUEST["name"] || !preg_match("#^([a-z0-9\-_:]+)$#",$_REQUEST["name"]) )
       $ErreurAddOnglet = "Nom invalide";
     else
-    {    
+    {
       $lien = "index.php?name=".$_REQUEST["name"];
       $name = $_REQUEST["name"];
-      
+
       $page = new page ($site->db,$site->dbrw);
       $page->load_by_pagename(CMS_PREFIX.$name);
-      
+
       if ( !$page->is_valid() )
       {
         $page->id_utilisateur = $site->user->id;
         $page->id_groupe = $site->asso->get_membres_group_id();
         $page->id_groupe_admin = $site->asso->get_bureau_group_id();
-        $page->droits_acces = 0x311;      
+        $page->droits_acces = 0x311;
         $page->add($site->user,CMS_PREFIX.$name, $_REQUEST["title"], "", CMS_PREFIX.$name);
       }
       else
@@ -108,7 +108,7 @@ if ( $_REQUEST["action"] == "addonglet" )
   {
     $lien = "contact.php";
     $name = "contact";
-  }  
+  }
   elseif ( $_REQUEST["typepage"] == "membres" )
   {
     $lien = "membres.php";
@@ -129,9 +129,9 @@ elseif ( $_REQUEST["action"] == "addbox" )
     $boxes = array();
   else
     $boxes = explode(",",$site->config["boxes.names"]);
-  
+
   $name = null;
-  
+
   if ( $_REQUEST["typebox"] == "custom" )
   {
     if ( !$_REQUEST["name"] || !preg_match("#^([a-z0-9\-_:]+)$#",$_REQUEST["name"]) )
@@ -146,7 +146,7 @@ elseif ( $_REQUEST["action"] == "addbox" )
         $page->id_utilisateur = $site->user->id;
         $page->id_groupe = $site->asso->get_membres_group_id();
         $page->id_groupe_admin = $site->asso->get_bureau_group_id();
-        $page->droits_acces = 0x311;      
+        $page->droits_acces = 0x311;
         $page->add($site->user,CMS_PREFIX."boxes:".$name, $_REQUEST["title"], "", CMS_PREFIX."accueil");
       }
       else
@@ -155,12 +155,12 @@ elseif ( $_REQUEST["action"] == "addbox" )
   }
   else//if ( $_REQUEST["typebox"] == "calendrier" )
     $name = "calendrier";
-  
+
   if ( !is_null($name) )
   {
     if ( !in_array($name,$boxes) )
     $boxes[] = $name;
-    
+
     $site->config["boxes.names"] = implode(",",$boxes);
     $site->save_conf();
   }
@@ -171,14 +171,14 @@ elseif ( $_REQUEST["action"] == "setconfig" )
   $site->config["membres.allowjoinus"] = isset($_REQUEST["membres_allowjoinus"])?1:0;
   $site->config["home.news"] = isset($_REQUEST["home_news"])?1:0;
   $site->config["home.excludenewssiteae"] = isset($_REQUEST["home_excludenewssiteae"])?1:0;
-  
+
   $site->save_conf();
 }
 elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["nom_onglet"]) )
 {
   if ( $_REQUEST["nom_onglet"] != CMS_PREFIX."accueil" )
   {
-  
+
     foreach ( $site->tab_array as $key => $row )
     {
       if ( $_REQUEST["nom_onglet"] == $row[0] )
@@ -193,31 +193,31 @@ elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["box_name"]) )
     $boxes = array();
   else
     $boxes = explode(",",$site->config["boxes.names"]);
-  
+
   foreach ( $boxes as $key => $name )
   {
     if ( $_REQUEST["box_name"] == $name )
       unset($boxes[$key]);
   }
-  
+
   $site->config["boxes.names"] = implode(",",$boxes);
   $site->save_conf();
-  
+
 }
 elseif ( $_REQUEST["action"] == "setboxsections"  )
 {
-  $sections = array(); 
-  
+  $sections = array();
+
   foreach( $_REQUEST["sections"]  as $nom => $set )
-    $sections[]=$nom;  
-    
+    $sections[]=$nom;
+
   $site->config["boxes.sections"] = implode(",",$sections);
   $site->save_conf();
 }
 elseif ( $_REQUEST["action"] == "up" && isset($_REQUEST["nom_onglet"]) )
 {
   $prevkey=null;
-  
+
   foreach ( $site->tab_array as $key => $row )
   {
     if ( $_REQUEST["nom_onglet"] == $row[0] )
@@ -258,7 +258,7 @@ elseif ( $_REQUEST["action"] == "up" && isset($_REQUEST["box_name"]) )
     $boxes = explode(",",$site->config["boxes.names"]);
 
   $prevkey=null;
-  
+
   foreach ( $boxes as $key => $name )
   {
     if ( $_REQUEST["box_name"] == $name )
@@ -272,17 +272,17 @@ elseif ( $_REQUEST["action"] == "up" && isset($_REQUEST["box_name"]) )
     }
     $prevkey = $key;
   }
-  
+
   $site->config["boxes.names"] = implode(",",$boxes);
-  $site->save_conf();  
+  $site->save_conf();
 }
 elseif ( $_REQUEST["action"] == "down" && isset($_REQUEST["box_name"]) )
 {
   if ( empty($site->config["boxes.names"]) )
     $boxes = array();
   else
-    $boxes = explode(",",$site->config["boxes.names"]);  
-  
+    $boxes = explode(",",$site->config["boxes.names"]);
+
   $prevkey=null;
   foreach ( $boxes as $key => $name )
   {
@@ -295,9 +295,9 @@ elseif ( $_REQUEST["action"] == "down" && isset($_REQUEST["box_name"]) )
       $boxes[$prevkey] = $tmp;
     }
   }
-  
+
   $site->config["boxes.names"] = implode(",",$boxes);
-  $site->save_conf();  
+  $site->save_conf();
 }
 elseif ( $_REQUEST["action"] == "edit" )
 {
@@ -322,7 +322,7 @@ elseif ( $_REQUEST["action"] == "save" )
 {
   $page = new page ($site->db,$site->dbrw);
   $page->load_by_pagename(CMS_PREFIX."boxes:".$_REQUEST["box_name"]);
-  
+
   if ($page->is_valid() )
   {
     $page->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
@@ -332,15 +332,15 @@ elseif ( $_REQUEST["action"] == "save" )
 elseif( $_REQUEST["action"] == "setcss" )
 {
   $site->config["css.base"] = $_REQUEST["css_base"];
-  $site->save_conf();  
-  file_put_contents($basedir."/specific/custom.css",$_REQUEST["data"]);  
+  $site->save_conf();
+  file_put_contents($basedir."/specific/custom.css",$_REQUEST["data"]);
 }
 elseif ( $_REQUEST["action"] == "delete" && isset($_REQUEST["filename"]) )
 {
   $dir = $basedir."/specific/img/";
-  
-  $filename = $dir.preg_replace("`([^a-zA-Z0-9_\\-\\.])`", "", basename($_REQUEST["filename"]));  
-  
+
+  $filename = $dir.preg_replace("`([^a-zA-Z0-9_\\-\\.])`", "", basename($_REQUEST["filename"]));
+
   unlink($filename);
 }
 elseif ( $_REQUEST["action"] == "addimgfile" )
@@ -348,11 +348,11 @@ elseif ( $_REQUEST["action"] == "addimgfile" )
   if( is_uploaded_file($_FILES['file']['tmp_name']) && ($_FILES['file']['error'] == UPLOAD_ERR_OK ) )
   {
     $dir = $basedir."/specific/img/";
-    
+
     if (!is_dir($dir))
       mkdir($dir);
-    
-    $filename = $dir.preg_replace("`([^a-zA-Z0-9_\\-\\.])`", "", basename($_FILES['file']['name']));  
+
+    $filename = $dir.preg_replace("`([^a-zA-Z0-9_\\-\\.])`", "", basename($_FILES['file']['name']));
 
     move_uploaded_file ( $_FILES['file']['tmp_name'], $filename );
   }
@@ -360,11 +360,11 @@ elseif ( $_REQUEST["action"] == "addimgfile" )
 
 
 
-$req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");  
+$req = new requete($site->db, "SELECT nom_page,titre_page FROM `pages` WHERE `nom_page` LIKE '" . mysql_real_escape_string(CMS_PREFIX) . "boxes:%'");
 $pages_boxes = array();
 while ( $row = $req->get_row() )
   $pages_boxes[substr($row['nom_page'],strlen(CMS_PREFIX))] = $row['titre_page'];
-  
+
 $site->start_page ( CMS_PREFIX."config", "Configuration de AECMS" );
 
 $cts = new contents("Configuration de AECMS");
@@ -378,7 +378,7 @@ foreach ( $site->tab_array as $row )
   if ( $row[0] != CMS_PREFIX."config" )
   {
     $dejafait[substr($row[0],strlen(CMS_PREFIX))] = true;
-    
+
     if ( ereg("^index\.php\?name=(.*)$",$row[1],$regs) )
     {
       $lien = "Page: ".$pages[$regs[1]];
@@ -389,14 +389,14 @@ foreach ( $site->tab_array as $row )
     elseif ( $row[1] == "d.php" )
       $lien = "Espace fichiers";
     elseif ( $row[1] == "membres.php" )
-      $lien = "Membres";      
+      $lien = "Membres";
     elseif ( $row[1] == "contact.php" )
-      $lien = "Contact";      
+      $lien = "Contact";
     elseif ( $row[1] == "index.php" )
       $lien = "Page: ".$pages["home"];
     else
       $lien = "Lien spécial (".$row[1].")";
-      
+
     $liste_onglets[] = array("nom_onglet"=>$row[0],"titre_onglet"=>stripslashes($row[2]),"lien_onglet"=>$lien);
     $onglets_noms[$row[0]] = $row[2];
   }
@@ -410,43 +410,43 @@ $tabs = array(
         array("css","configurecms.php?view=css","Style"),
   array("news","configurecms.php?view=news","Nouvelles")
         );
-            
+
 $cts->add(new tabshead($tabs,$_REQUEST["view"]));
 
 
 if ( $_REQUEST["view"] == "" )
 {
   $cts->add_title(2,"Onglets");
-  
-  
-  $cts->add( new sqltable ( "onglets", "Onglets", $liste_onglets, 
-  "configurecms.php", "nom_onglet", array("titre_onglet"=>"Titre","lien_onglet"=>"Lien"), 
+
+
+  $cts->add( new sqltable ( "onglets", "Onglets", $liste_onglets,
+  "configurecms.php", "nom_onglet", array("titre_onglet"=>"Titre","lien_onglet"=>"Lien"),
   array("delete"=>"Supprimer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
-  
+
   $cts->add_title(2,"Nouvel onglet");
-  
+
   $frm = new form("newonglet","configurecms.php",false,"POST","Nouvel onglet");
-  
-  
+
+
   $frm->add_hidden("action","addonglet");
   if ( $ErreurAddOnglet )
     $frm->error($ErreurAddOnglet);
-  
+
   $frm->add_text_field("title","Titre","",true);
-  
+
   unset($pages["home"]);
-  
+
   if ( count($pages) > 0 )
   {
     $sfrm = new form("typepage",null,null,null,"Page existante");
     $sfrm->add_select_field("nom_page","Page",$pages);
     $frm->add($sfrm,false,true,true,"article",false,true);
   }
-  
+
   $sfrm = new form("typepage",null,null,null,"Nouvelle page");
   $sfrm->add_text_field("name","Code (nom)","",true);
   $frm->add($sfrm,false,true,true,"crearticle",false,true);
-  
+
   if ( !isset($dejafait["fichiers"]) )
   {
     $sfrm = new form("typepage",null,null,null,"Espace fichiers (aedrive)");
@@ -480,9 +480,9 @@ else if ( $_REQUEST["view"] == "boxes" )
     $boxes = array();
   else
     $boxes = explode(",",$site->config["boxes.names"]);
-  
+
   $boxes_sections = explode(",",$site->config["boxes.sections"]);
-  
+
   $boxes_list = array();
   foreach ( $boxes as $name )
   {
@@ -498,23 +498,23 @@ else if ( $_REQUEST["view"] == "boxes" )
     }
     $boxes_list[] = array("box_name"=>$name,"box_title"=>$title,"box_type"=>$type);
   }
-  
-  $cts->add( new sqltable ( "boxes", "Boites", $boxes_list, 
-  "configurecms.php?view=boxes", "box_name", array("box_title"=>"Titre","box_type"=>"Type"), 
+
+  $cts->add( new sqltable ( "boxes", "Boites", $boxes_list,
+  "configurecms.php?view=boxes", "box_name", array("box_title"=>"Titre","box_type"=>"Type"),
   array("delete"=>"Supprimer","edit"=>"Editer","up"=>"Vers le haut","down"=>"Vers le bas"), array() ));
-  
+
   $cts->add_title(2,"Nouvelle boite");
-  
+
   $frm = new form("newbox","configurecms.php?view=boxes",false,"POST","Nouvelle boite");
   $frm->add_hidden("action","addbox");
   if ( $ErreurAddBox )
     $frm->error($ErreurAddBox);
-    
+
   $sfrm = new form("typebox",null,null,null,"Personnalisée");
   $sfrm->add_text_field("name","Code (nom)","",true);
   $sfrm->add_text_field("title","Titre","",true);
   $frm->add($sfrm,false,true,true,"custom",false,true);
-  
+
   if ( !in_array("calendrier",$boxes) )
   {
     $sfrm = new form("typebox",null,null,null,"Calendrier");
@@ -522,15 +522,15 @@ else if ( $_REQUEST["view"] == "boxes" )
   }
   $frm->add_submit("save","Ajouter");
   $cts->add ( $frm );
-  
+
   $cts->add_title(2,"Sections où les boites seront affichées");
-  
+
   $frm = new form("setboxsections","configurecms.php?view=boxes",false,"POST","Sections où les boites seront affichées");
   $frm->add_hidden("action","setboxsections");
-  
+
   foreach ( $onglets_noms as $nom => $titre )
     $frm->add_checkbox("sections[$nom]","$titre",in_array($nom,$boxes_sections));
-  
+
   $frm->add_submit("save","Enregistrer");
   $cts->add ( $frm );
 
@@ -541,7 +541,7 @@ else if ( $_REQUEST["view"] == "options" )
 
   $frm = new form("setconfig","configurecms.php?view=options",true,"POST","Options");
   $frm->add_hidden("action","setconfig");
-  
+
   $sfrm = new form("typebox",null,null,null,"Section membres");
 
   unset($GLOBALS['ROLEASSO'][ROLEASSO_MEMBRE]);
@@ -550,17 +550,17 @@ else if ( $_REQUEST["view"] == "options" )
   $sfrm->add_select_field("membres_upto","Membres, liste jusqu'au niveau",$GLOBALS['ROLEASSO'], $site->config["membres.upto"]);
   $sfrm->add_checkbox("membres_allowjoinus","Membres, afficher le formulaire \"Rejoignez-nous\"",$site->config["membres.allowjoinus"]);
   $frm->add($sfrm);
-  
+
   $sfrm = new form("typebox",null,null,null,"Page accueil");
   $sfrm->add_checkbox("home_news","Afficher les nouvelles",$site->config["home.news"]);
   $sfrm->add_checkbox("home_excludenewssiteae","Afficher seulement les nouvelles spécifiques à AECMS",$site->config["home.excludenewssiteae"]);
-  
-  
+
+
   //excludenewssiteae
   $frm->add($sfrm);
-  
-  
-  
+
+
+
   $frm->add_submit("save","Enregistrer");
   $cts->add($frm);
 
@@ -568,7 +568,7 @@ else if ( $_REQUEST["view"] == "options" )
 else if ( $_REQUEST["view"] == "css" )
 {
   $base_styles = array("base.css"=>"Site AE","base-blackie.css"=>"Blackie","base-verticalie.css"=>"Verticalie");
-  
+
   if ( file_exists($basedir."/specific/custom.css") )
     $custom = file_get_contents($basedir."/specific/custom.css");
   else
@@ -576,17 +576,17 @@ else if ( $_REQUEST["view"] == "css" )
   $cts->add_title(2,"Feuille de style");
   $frm = new form("setcss","configurecms.php?view=css",true,"POST","CSS");
   $frm->add_hidden("action","setcss");
-  $frm->add_select_field("css_base","Style de base",$base_styles, $site->config["css.base"]);  
+  $frm->add_select_field("css_base","Style de base",$base_styles, $site->config["css.base"]);
   $frm->add_text_area("data","Code CSS personalisé",$custom,80,20);
   $frm->add_submit("save","Enregistrer");
-  $cts->add($frm);  
-  
+  $cts->add($frm);
+
   $cts->add_title(2,"Images pour la feuille de style personalisée");
-  
+
   $files=array();
-  
+
   $dir = $basedir."/specific/img/";
-  
+
   if (is_dir($dir))
   {    if ($dh = opendir($dir))
     {      while (($file = readdir($dh)) !== false)
@@ -595,23 +595,23 @@ else if ( $_REQUEST["view"] == "css" )
           $files[]=array("filename"=>$file,"useincss"=>"img/".$file);
       }      closedir($dh);    }  }
 
-  $cts->add( new sqltable ( "cssimg", "Images", $files, 
-  "configurecms.php?view=css", "filename", array("filename"=>"Fichier","useincss"=>"Nom à utiliser dans le code CSS"), 
+  $cts->add( new sqltable ( "cssimg", "Images", $files,
+  "configurecms.php?view=css", "filename", array("filename"=>"Fichier","useincss"=>"Nom à utiliser dans le code CSS"),
   array("delete"=>"Supprimer"), array() ));
 
   $cts->add_title(2,"Ajouter une image pour la feuille de style personalisée");
-  
+
   $frm = new form("addfile","configurecms.php?view=css");
   $frm->allow_only_one_usage();
   $frm->add_hidden("action","addimgfile");
   $frm->add_file_field("file","Fichier",true);
   $frm->add_submit("add","Ajouter");
-  $cts->add($frm);    
-  
-  
-  
+  $cts->add($frm);
+
+
+
 }
-else if( $_REQUEST["view"] == "news" ) 
+else if( $_REQUEST["view"] == "news" )
 {
 
 
@@ -622,14 +622,14 @@ else if( $_REQUEST["view"] == "news" )
   if ((isset($_REQUEST['id_nouvelle']))
       && ($_REQUEST['action'] == "delete"))
     {
-      
+
       $news = new nouvelle ($site->db, $site->dbrw);
       $id = intval($_REQUEST['id_nouvelle']);
       $news->load_by_id ($id);
-      $news->delete (); 
+      $news->delete ();
       $cts->add("<p>Suppression de la nouvelle eff&eacute;ctu&eacute;e avec succ&egrave;s</p>");
     }
-  
+
   /* modification de la nouvelle via formulaire */
   if ((isset($_REQUEST['id_nouvelle']))
       && ($_REQUEST["action"] == "save"))
@@ -638,8 +638,8 @@ else if( $_REQUEST["view"] == "news" )
       $id_lieu = intval($_REQUEST['id_lieu']);
       $lieu->load_by_id($id_lieu);
       $news->load_by_id($_REQUEST["id_nouvelle"]);
-      
-      
+
+
       if ( $_REQUEST["title"] && $_REQUEST["content"] )
   {
     $news->save_news($site->asso->id,
@@ -649,7 +649,7 @@ else if( $_REQUEST["view"] == "news" )
          false,
          null,
          $_REQUEST["type"],
-         $lieu->id, 
+         $lieu->id,
          !isset($_REQUEST['non_asso_seule']) ? NEWS_CANAL_AECMS : NEWS_CANAL_SITE);
     $news->set_tags($_REQUEST["tags"]);
   }
@@ -663,7 +663,7 @@ else if( $_REQUEST["view"] == "news" )
       $news = new nouvelle ($site->db);
       $id = intval($_REQUEST['id_nouvelle']);
       $news->load_by_id ($id);
-      
+
       // affichage de la nouvelle
       $frm = new form ("editnews","configurecms.php?view=news",false,"POST","Edition d'une nouvelle");
       $frm->add_hidden("action","save");
@@ -683,28 +683,28 @@ else if( $_REQUEST["view"] == "news" )
       $frm->add_text_area ("resume","Resume",$news->resume);
       $frm->add_dokuwiki_toolbar('content');
       $frm->add_text_area ("content", "Contenu",$news->contenu,80,10,true);
-      
+
       $frm->add_submit("valid","Enregistrer");
       $cts->add($frm);
     }
-  
-  
+
+
   /* affichage de la liste des nouvelles */
   $req = new requete($site->db,
          "SELECT `nvl_nouvelles`.*,
                       CONCAT(`utilisateurs`.`prenom_utl`,
                              ' ',
                              `utilisateurs`.`nom_utl`) AS `nom_prenom`
-                      FROM `nvl_nouvelles`, `utilisateurs` 
-                      WHERE `nvl_nouvelles`.`modere_nvl`='1' 
+                      FROM `nvl_nouvelles`, `utilisateurs`
+                      WHERE `nvl_nouvelles`.`modere_nvl`='1'
                       AND `nvl_nouvelles`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
-                      AND `nvl_nouvelles`.`id_canal`='".NEWS_CANAL_AECMS."' 
-                      AND `nvl_nouvelles`.`id_asso`='".$site->asso->id."' 
-                      ORDER BY `nvl_nouvelles`.`date_nvl` 
+                      AND `nvl_nouvelles`.`id_canal`='".NEWS_CANAL_AECMS."'
+                      AND `nvl_nouvelles`.`id_asso`='".$site->asso->id."'
+                      ORDER BY `nvl_nouvelles`.`date_nvl`
                       DESC");
 
 
-    
+
   // génération de la liste de nouvelles
   $tabl = new sqltable ("news_list",
       "Liste des nouvelles",
@@ -718,9 +718,9 @@ else if( $_REQUEST["view"] == "news" )
              "delete"=>"Supprimer"),
       array (),
       array ());
-  
-  
-  
+
+
+
   $cts->add($tabl,true);
   $cts->add_title(2,"Ajouter une nouvelle");
   // pour eviter d'ajouter 400 ligne de code ici ca sera juste un lien

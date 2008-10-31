@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir = "./";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir."include/entities/files.inc.php");
@@ -69,21 +69,21 @@ if ( !$folder->is_valid() )
 function explore_folders ( &$user, $path )
 {
   $folder = array_shift($path);
-  
+
   $req = $folder->get_folders($user,"id_folder, nom_fichier_folder, titre_folder");
-  
+
   $buffer="";
-  
+
   while ( $row = $req->get_row() )
   {
-    $buffer .= "<li>"; 
+    $buffer .= "<li>";
     $buffer .= "<a href=\"#\" onclick=\"explore('".$row["id_folder"]."'); return false;\">";
     $buffer .= "<img src=\"".$wwwtopdir."images/icons/16/".
          $GLOBALS["entitiescatalog"]["folder"][2]."\" alt=\"\" />";
     $buffer .= htmlspecialchars($row["titre_folder"]);
     $buffer .= "</a>";
-    $buffer .= "</li>"; 
-    
+    $buffer .= "</li>";
+
     $buffer .= "<ul id=\"folder_".$row["id_folder"]."\">";
     if ( !empty($path) && $path[0]->id == $row["id_folder"] )
       $buffer .= explore_folders($user,$path);
@@ -96,10 +96,10 @@ function explore_folders ( &$user, $path )
 if ( $_REQUEST["get"] == "folderchilds" )
 {
   header("Content-Type: text/html; charset=utf-8");
-  
+
   echo explore_folders($site->user,array($folder));
-  
-  exit();  
+
+  exit();
 }
 
 if ( $_REQUEST["action"] == "addfile" && $folder->is_right($site->user,DROIT_AJOUTITEM) )
@@ -120,7 +120,7 @@ if ( $_REQUEST["action"] == "addfile" && $folder->is_right($site->user,DROIT_AJO
     $file->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
     $file->add_file ( $_FILES["file"], $_REQUEST["nom"], $folder->id, $_REQUEST["description"],$asso->id );
     $file->set_tags($_REQUEST["tags"]);
-    
+
   }
 }
 
@@ -152,9 +152,9 @@ $fcts->add($gal);
 if ( !$forum && $folder->is_right($site->user,DROIT_AJOUTITEM) )
 {
   $folder->droits_acces |= 0x200;
-  
+
   $fcts->add_title(2,"Nouveau fichier");
-  
+
   $frm = new form("addfile","explorer.php");
   $frm->allow_only_one_usage();
   if ( $ErreurAjout )
@@ -187,8 +187,8 @@ $pfolder->load_by_id($folder->id_folder_parent);
 while ( $pfolder->is_valid() )
 {
   array_unshift ($path,$pfolder);
-  
-  $id_parent = $pfolder->id_folder_parent; 
+
+  $id_parent = $pfolder->id_folder_parent;
   $pfolder = new dfolder($site->db);
   $pfolder->load_by_id($id_parent);
 }

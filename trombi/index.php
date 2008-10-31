@@ -51,7 +51,7 @@ $site->add_css("css/trombicomment.css");
 
 if (!$site->user->id)
   $site->error_forbidden();
-  
+
 
 $is_user_moderator = ( $site->user->is_in_group("gestion_ae") || $site->user->is_asso_role ( 27, 1 ) );
 
@@ -59,23 +59,23 @@ if (isset($_REQUEST['id_utilisateur']))
 {
   $user = new utilisateur($site->db,$site->dbrw);
   $user->load_by_id($_REQUEST["id_utilisateur"]);
-  
+
   if (!$user->is_valid())
     $site->error_not_found("matmatronch");
-  
+
   $user->load_all_extra();
 
   $is_user_page = ($user->id==$site->user->id);
-  
+
   $can_edit = ($user->id==$site->user->id || $is_user_moderator);
-  
+
   if ($user->id != $site->user->id && !$site->user->utbm && !$site->user->ae)
     $site->error_forbidden("matmatronch","group",10001);
- 
+
   if (!$user->publique && !$can_edit)
     $site->error_forbidden("matmatronch","private");
-  
-  if ($user->promo_utbm != $site->user->promo_utbm) 
+
+  if ($user->promo_utbm != $site->user->promo_utbm)
     $user = &$site->user;
 
   if ($site->user->is_in_group("gestion_ae"))
@@ -88,7 +88,7 @@ else
   $can_edit = true;
 }
 
-  
+
 if ( $_REQUEST["page"]  == "edit" )
 {
   if ( isset($_REQUEST["id_commentaire"]) )
@@ -99,7 +99,7 @@ if ( $_REQUEST["page"]  == "edit" )
       $site->error_not_found();
       exit();
     }
-    
+
     if ( $is_user_moderator || $cmt->id_commentateur == $site->user->id )
     {
       $site->start_page ("services", "Edition d'un commentaire");
@@ -133,7 +133,7 @@ elseif ( $_REQUEST["page"]  == "del" )
       $site->error_not_found();
       exit();
     }
-    
+
     if ( $cmt->id_commentateur == $site->user->id )
     {
       $site->start_page ("services", "Suppression d'un commentaire");
@@ -169,7 +169,7 @@ elseif ( ($_REQUEST["action"] == "edit") && (!$is_user_page || $is_user_moderato
   if ( isset($_REQUEST["id_commentaire"]) && isset($_REQUEST["commentaire"]) )
   {
     $cmt->load_by_id($_REQUEST["id_commentaire"]);
-    
+
     if ( $site->user->id == $cmt->id_commentateur || $is_user_moderator)
       $cmt->update($_REQUEST["commentaire"]);
   }
@@ -179,7 +179,7 @@ elseif ( ($_REQUEST["action"] == "delete") && (!$is_user_page) )
   if ( isset($_REQUEST["id_commentaire"]) )
   {
     $cmt->load_by_id($_REQUEST["id_commentaire"]);
-    
+
     if ( $site->user->id == $cmt->id_commentateur )
       $cmt->delete();
   }
@@ -291,9 +291,9 @@ if(isset($_REQUEST["stats"]))
 
     $pgconn = new pgsqlae();
 
-    $statscotis = new requete($site->db, "SELECT  
-                                          COUNT(`utl_etu`.`id_utilisateur`) AS num  
-                                          , substring(cpostal_ville,1,2) AS cpostal 
+    $statscotis = new requete($site->db, "SELECT
+                                          COUNT(`utl_etu`.`id_utilisateur`) AS num
+                                          , substring(cpostal_ville,1,2) AS cpostal
                                           FROM `utl_etu`
                                           INNER JOIN `loc_ville` ON `loc_ville`.`id_ville` = `utl_etu`.`id_ville`
                                           INNER JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utl_etu`.`id_utilisateur`
@@ -387,19 +387,19 @@ if($_REQUEST["view"] == "listing")
   */
 
   $reqnb = new requete($site->db,
-                       "SELECT 
+                       "SELECT
                                `utilisateurs`.`nom_utl`
                         FROM
                                `utl_etu_utbm`
-                        LEFT JOIN 
-                               `utilisateurs` 
+                        LEFT JOIN
+                               `utilisateurs`
                         USING (`id_utilisateur`)
-                        LEFT JOIN 
-                               `utl_etu` 
+                        LEFT JOIN
+                               `utl_etu`
                         USING (`id_utilisateur`)
-                        WHERE 
+                        WHERE
                                `promo_utbm`='" . $site->user->promo_utbm . "'
-                        AND 
+                        AND
                                `publique_utl`='1'
                         ORDER BY
                                `nom_utl`
@@ -499,7 +499,7 @@ else
   $cts->add_title(2, "Informations personnelles");
   $info = new userinfov2($user,"full",$site->user->is_in_group("gestion_ae"), "trombi/index.php");
   $cts->add($info);
-  
+
   /* renvoie plus bas */
   $cts->add_paragraph("<a href=\"#comments\">Voir les commentaires</a>");
 
@@ -641,12 +641,12 @@ else
                        );
     $cts->add($tbl,true);
   }
-  
+
   /* Commentaires */
   $site->add_contents($cts);
   $cts = new contents("Commentaires");
   $cts->add_paragraph("<a name=\"comments\"></a><a href=\"#trombicard\">Remonter aux informations personnelles</a>");
-  
+
   $req = new requete($site->db,
            "SELECT `trombi_commentaire`.*, `utilisateurs`.*
              FROM `trombi_commentaire`
@@ -664,19 +664,19 @@ else
   while ( $row = $req->get_row() )
   {
     $commentaires[$row["id_commentaire"]] = $row;
-    
+
     if ( $row["id_commentateur"] == $site->user->id )
     {
       $cmt_exists = true;
       $cmt_is_moderated = $row["modere_commentaire"];
     }
-    
+
     if ( !$row["modere_commentaire"] )
-      $all_cmt_moderated = false; 
+      $all_cmt_moderated = false;
   }
-  
+
   $are_comments = ( count($commentaires) > 0 );
-  
+
   if ( !$are_comments )
   {
     $cts->add_paragraph( ($is_user_page ? "Vous n'avez" : "Cet utilisateur n'a") . " encore aucun commentaire.");
@@ -685,10 +685,10 @@ else
   {
     if ($all_cmt_moderated )
       $cts->add_paragraph( ($is_user_page ? "Vous avez" : "Cet utilisateur a") . " des commentaires, mais ils ont tous été modérés.");
-      
+
     if ( !$is_user_page )
     {
-      
+
       if ( $cmt_exists )
       {
         if ( !$cmt_is_moderated )
@@ -697,16 +697,16 @@ else
           $cts->add_paragraph("<strong>Attention :</strong> Votre commentaire a été modéré. Peut-être contenait-il un contenu offensant.<br />Contactez un responsable de vore promo pour toute réclamation.");
       }
     }
-    
+
     foreach ( $commentaires as $row )
     {
       $cts->add(new comment_contents(&$row, $site->user->id, $is_user_moderator));
     }
-    
+
   }
-  
+
   if ( !$is_user_page && !$cmt_exists )
-  {    
+  {
     $frm = new form("createcomment", "index.php#mycomment", false, "POST", "Ajouter mon commentaire");
     $frm->add_hidden("action","create");
     $frm->add_hidden("id_utilisateur",$user->id);
@@ -714,7 +714,7 @@ else
     $frm->add_dokuwiki_toolbar('commentaire');
     $frm->add_text_area ("commentaire","Commentaire");
     $frm->add_submit("valid","Enregistrer");
-    
+
     $cts->add($frm);
     $cts->add(new wikihelp());
   }

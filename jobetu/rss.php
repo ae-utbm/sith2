@@ -24,9 +24,9 @@
 	$topdir = "../";
 	require_once($topdir. "include/site.inc.php");
 	require_once("include/jobetu.inc.php");
-	
+
 	$site = new site ();
-	
+
 	$rss = new rssjobetu($site->db);
 	$rss->output();
 

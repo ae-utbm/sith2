@@ -31,7 +31,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 if ( !isset($GLOBALS['nosession']) )
   session_start();
 
@@ -57,7 +57,7 @@ class site extends interfaceweb
     $this->siteae=$siteae;
 
     $dbro = new mysqlae ();
-    
+
     if (!$dbro->dbh)
       $this->fatal("no db");
 
@@ -74,7 +74,7 @@ class site extends interfaceweb
       $this->fatal("closed");
 
     $this->set_side_boxes("right",array("calendrier","alerts"),"default_left");
-    
+
     $timing["site::site"] += microtime(true);
 
     /*
@@ -84,8 +84,8 @@ class site extends interfaceweb
     {
       $this->add_css("themes/congres08/css/site.css");
     }*/
-    
-  }  
+
+  }
 
   private function unset_session (  )
   {
@@ -95,10 +95,10 @@ class site extends interfaceweb
       setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain, 0);
       unset($_COOKIE['AE2_SESS_ID']);
     }
-    
+
     if ( !isset($_SESSION["visite"]) )
-      unset($_SESSION['visite']); 
-        
+      unset($_SESSION['visite']);
+
     if ( isset($_SESSION['session_redirect']) )
       unset($_SESSION['session_redirect']);
   }
@@ -111,7 +111,7 @@ class site extends interfaceweb
   function load_session ( $sid )
   {
 
-    $req = new requete($this->db, 
+    $req = new requete($this->db,
       "SELECT `utilisateurs`.*, `expire_sess`, `derniere_visite`  ".
       "FROM `site_sessions` ".
       "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
@@ -122,16 +122,16 @@ class site extends interfaceweb
       $this->unset_session();
       return;
     }
-    
+
     $row = $req->get_row();
-    
+
     if ( $row["hash_utl"] != "valid")
     {
       new delete($this->dbrw,"site_sessions",array("id_session" => $sid));
       $this->unset_session();
       return;
     }
-    
+
     $expire = $row['expire_sess'];
 
     // On n'est pas à une minute près
@@ -140,43 +140,43 @@ class site extends interfaceweb
     if ( !is_null($expire) )
     {
       $expire = strtotime($expire)-time();
-      
+
       if ( $expire < 0 ) // Session expirée, fait le ménage
       {
         new delete($this->dbrw,"site_sessions",array("id_session" => $sid));
         $this->unset_session();
         return;
       }
-      
+
       if ( $d != $row['derniere_visite'] )
         new update($this->dbrw, "site_sessions",
             array(
               "derniere_visite" => $d,
               "expire_sess" => date("Y-m-d H:i:s",time()+(16*60))),
-              array("id_session" => $sid));       
+              array("id_session" => $sid));
     }
     else if ( $d != $row['derniere_visite'] )
     {
       new update($this->dbrw, "site_sessions",
           array("derniere_visite" => $d),
-          array("id_session" => $sid)); 
+          array("id_session" => $sid));
     }
-            
+
     $this->user->_load($row);
-      
+
     if ( !isset($_SESSION["visite"]) )
     {
       $this->user->visite();
       $_SESSION["visite"]=time();
     }
-    
+
     if ( !isset($_SESSION["usersession"]) ) // restore le usersession
       $_SESSION["usersession"] = $this->user->get_param("usersession",null);
-    
+
   }
 
   /**
-   * Connecte l'utilisateur chargé dans le champ user ($this->user) pour 
+   * Connecte l'utilisateur chargé dans le champ user ($this->user) pour
    * 15 minutes, ou permanente, en créant une sessions et en envoyant un cookie.
    * @param $forever Precise si la session doit être permanente
    * @return l'identifiant de la session
@@ -187,7 +187,7 @@ class site extends interfaceweb
       $expire = null;
     else
       $expire = date("Y-m-d H:i:s",time()+(15*60)); // Session expire dans 15 minutes
-  
+
     $sid = md5(rand(0,32000) . $_SERVER['REMOTE_ADDR'] . rand(0,32000));
 
     $req = new insert($this->dbrw, "site_sessions",
@@ -205,7 +205,7 @@ class site extends interfaceweb
 
     return $sid;
   }
-  
+
   /**
    * Crée un identifiant unique pour connecter ultérieurement un utilisateur.
    * Utile pour envoyer un lien par e-mail avec authentification automatique.
@@ -229,7 +229,7 @@ class site extends interfaceweb
 
     return $sid;
   }
-  
+
   /**
    * Ouvre une session pour l'utilisateur associé à un token donné.
    * La session est ouverte par le biai de connect_user(). Le token n'est plus
@@ -242,7 +242,7 @@ class site extends interfaceweb
   function load_token ( $token )
   {
     $this->user->id=null;
-    $this->load_session($token);  
+    $this->load_session($token);
     if ( $this->user->is_valid() )
     {
       new delete($this->dbrw, "site_sessions", array("id_session"=>$token) );
@@ -252,7 +252,7 @@ class site extends interfaceweb
   }
 
   /**
-   * Crée une session pour  l'utilisateur chargé dans le champ user ($this->user)  
+   * Crée une session pour  l'utilisateur chargé dans le champ user ($this->user)
    * pour 15 minutes, ou permanente.
    * @param $forever Precise si la session doit être permanente
    * @return l'identifiant de la session
@@ -263,7 +263,7 @@ class site extends interfaceweb
       $expire = null;
     else
       $expire = date("Y-m-d H:i:s",time()+(15*60)); // Session expire dans 15 minutes
-  
+
     $sid = md5(rand(0,32000) . $_SERVER['REMOTE_ADDR'] . rand(0,32000));
 
     $req = new insert($this->dbrw, "site_sessions",
@@ -288,39 +288,39 @@ class site extends interfaceweb
   function start_page ( $section, $title,$compact=false )
   {
     global $topdir,$timing;
-    
+
     if ( isset($_REQUEST["fetch"]) )
       return;
-      
+
     $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
-    
+
     $this->add_box("calendrier",new calendar($this->db));
-    
+
     if ( $section == "accueil" )
     {
       //Nb: alerts est *trés* long à calculer, il ne sera donc que dans accueil
       $this->add_box("alerts",$this->get_alerts());
-      
+
       $this->add_box("photo",$this->get_weekly_photo_contents());
       $this->add_box("anniv", $this->get_anniv_contents());
       $this->add_box("planning", $this->get_planning_contents());
       $this->add_box("planning_permanences", $this->get_planning_permanences_contents());
-      
+
       if ($this->user->is_valid())
       {
         $this->add_box("forum",$this->get_forum_box());
-        
-        $this->add_box("comptoirs",$this->get_comptoirs_box());        
+
+        $this->add_box("comptoirs",$this->get_comptoirs_box());
         $this->add_box("sondage",$this->get_sondage());
         $this->set_side_boxes("right",
-          array("planning","photo","anniv","stream", 
+          array("planning","photo","anniv","stream",
                 "sondage","comptoirs","forum", "planning_permanences"),"accueil_c_right");
-      } 
+      }
       else
         $this->set_side_boxes("right",
           array("planning", "stream", "planning_permanences"),"accueil_nc_right");
-      
+
     }
     elseif ( $section == "pg" )
     {
@@ -329,7 +329,7 @@ class site extends interfaceweb
     elseif ( $section == "matmatronch" )
     {
       require_once($topdir . "include/cts/newsflow.inc.php");
-      
+
       //$this->set_side_boxes("left",array("lastnews","connexion"),"mmt_left");
     }
     elseif ( $section == "forum" )
@@ -338,7 +338,7 @@ class site extends interfaceweb
       $this->set_side_boxes("right",array());
     }
     $timing["site::start_page"] += microtime(true);
-    
+
   }
 
   /**
@@ -413,7 +413,7 @@ class site extends interfaceweb
       if ( $nbflux > 0 )
         $elements[] = "<a href=\"".$topdir."planet/index.php?view=modere\"><b>$nbflux flux</b> à modérer</b></a>";
     }
-    
+
     if ( $this->user->is_in_group("gestion_salles") )
     {
       $req = new requete($this->db,"SELECT COUNT(*) ".
@@ -436,7 +436,7 @@ class site extends interfaceweb
       list($count) = $req->get_row();
 
       if ( $count > 0 )
-        $elements[] = "<a href=\"".$topdir."ae/modereres.php\"><b>$count reservation(s) de salles</b> dans les 10 prochaines jours</a>"; 
+        $elements[] = "<a href=\"".$topdir."ae/modereres.php\"><b>$count reservation(s) de salles</b> dans les 10 prochaines jours</a>";
 
     }
     else if( $this->user->is_in_group("bdf-bureau") )
@@ -451,7 +451,7 @@ class site extends interfaceweb
       if ( $count > 0 )
       $elements[] = "<a href=\"".$topdir."ae/modereres.php\"><b>$count reservation(s) du foyer et de la Kfet</b></a>";
     }
-    
+
     if ( $this->user->is_in_group("gestion_emprunts") )
     {
       $req = new requete($this->db,"SELECT COUNT(*) " .
@@ -478,7 +478,7 @@ class site extends interfaceweb
 
     if ( $nb > 0 )
       $elements[] = "<a href=\"".$topdir."comptoir/encours.php\">Vous avez des commandes à venir retirer</a>";
-      
+
     $sql = new requete($this->db,"SELECT `vt_election`.id_election, `vt_election`.nom_elec " .
         "FROM `vt_election` " .
         "LEFT JOIN vt_a_vote ON (`vt_a_vote`.`id_election`=`vt_election`.`id_election` AND vt_a_vote.id_utilisateur='".$this->user->id."')  " .
@@ -510,7 +510,7 @@ class site extends interfaceweb
       {
         $msg = "";
         if ( $ncat > 0 )
-          $msg .= $ncat." catégorie(s)";  
+          $msg .= $ncat." catégorie(s)";
         if ( $ncat > 0 && $nphoto > 0 )
           $msg .= " et ";
         if ($nphoto > 0 )
@@ -526,7 +526,7 @@ class site extends interfaceweb
       if ( $nphoto > 0 )
         $elements[] = "<a href=\"".$topdir."user/photos.php?see=new\"><b>".$nphoto." nouvelle(s) photo(s)</b> dans le SAS</a>";
     }
-    
+
     $cotiz = new cotisation($this->db);
     $cotiz->load_lastest_by_user ( $this->user->id );
 
@@ -548,12 +548,12 @@ class site extends interfaceweb
 
       if ( $count > 0 )
         $elements[] ="<a href=\"".$topdir."sas2/droitimage.php?page=process\"><b>$count photo(s)</b> nécessitent votre accord</a>";
-      
+
     }
 
     /* alertes covoiturage */
-    $nbsteps = $this->user->covoiturage_steps_moderation(); 
-    
+    $nbsteps = $this->user->covoiturage_steps_moderation();
+
     if ($nbsteps == 1)
     {
       $elements[] = "<a href=\"".$topdir."covoiturage/\">$nbsteps étape de covoiturage à modérer<b></a>";
@@ -562,11 +562,11 @@ class site extends interfaceweb
       $elements[] = "<a href=\"".$topdir."covoiturage/\">$nbsteps étapes de covoiturage à modérer<b></a>";
 
     $assoces = $this->user->get_assos(ROLEASSO_PRESIDENT);
-    
+
     if (count($assoces) > 0)
     {
       require_once($topdir. "include/entities/asso.inc.php");
-       
+
       foreach ($assoces as $key => $assoce)
       {
         $asso = new asso($this->db);
@@ -584,7 +584,7 @@ class site extends interfaceweb
     }
 
     if ( count($elements) == 0 ) return null;
-    
+
     $cts = new contents("Attention");
 
     if ( count($elements) == 1 )
@@ -607,9 +607,9 @@ class site extends interfaceweb
     $sdn->load_lastest();
     if ( !$sdn->is_valid() )
       return NULL;
-      
+
     if ( $this->user->type=="srv" ) return null;
-    
+
     require_once($topdir."include/cts/react.inc.php");
 
     $react = new reactonforum ( $this->db, $this->user, $sdn->question, array("id_sondage"=>$sdn->id), null, false );
@@ -651,18 +651,18 @@ class site extends interfaceweb
       $cts->puts("</p>");
 
       $cts->add_paragraph("(".$sdn->total." réponses)","nbvotes");
-      
+
       $cts->add($react);
-      
+
       $cts->add_paragraph("<a href=\"sondage.php\">Archives</a>","nbvotes");
-      
+
       return $cts;
     }
 
     $cts = new contents("Sondage");
     $cts->add_paragraph("<b>".$sdn->question."</b>");
 
-    
+
     $frm = new form("sondage","sondage.php");
     $frm->add_hidden("id_sondage",$sdn->id);
 
@@ -674,11 +674,11 @@ class site extends interfaceweb
 
     $frm->add_submit("answord","Repondre");
     $cts->add($frm);
-    
+
     $cts->add($react);
 
     $cts->add_paragraph("<a href=\"sondage.php\">Archives</a>","nbvotes");
-    
+
     return $cts;
   }
 
@@ -686,14 +686,14 @@ class site extends interfaceweb
   function get_anniv_contents ()
   {
     global $topdir;
-    
+
     require_once($topdir."include/cts/cached.inc.php");
-    
+
     $cache = new cachedcontents("anniv");
-    
+
     if ( $cache->is_cached_since(strtotime(date("Y-m-d")." 00:00:00")) )
       return $cache->get_cache();
-      
+
     $cts = new contents("Anniversaire");
 
     $annee = date("Y");
@@ -704,7 +704,7 @@ class site extends interfaceweb
     "INNER JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur` ".
     "WHERE `utilisateurs`.`date_naissance_utl` LIKE '%-" . date("m-d") . "' ".
     "AND (`utilisateurs`.`ancien_etudiant_utl` = '0' OR `utilisateurs`.`ae_utl` = '1') ".
-    "ORDER BY `utilisateurs`.`date_naissance_utl` DESC");                                
+    "ORDER BY `utilisateurs`.`date_naissance_utl` DESC");
 
     if ($req->lines > 0)
     {
@@ -721,7 +721,7 @@ class site extends interfaceweb
         {
           if ( $count )
             $cts->puts("</ul>\n");
-          
+
           $cts->puts("<h2 class=\"epure\">" . $age . " ans</h2>\n");
           $cts->puts("<ul>\n");
           $old_age = $age;
@@ -733,7 +733,7 @@ class site extends interfaceweb
           $nom = $res['surnom_utbm'];
 
         $ref = "anniv". $res['id_utilisateur'];
-        
+
         $count++;
         $cts->puts ("<li><a id=\"$ref\" onmouseover=\"show_tooltip('$ref','$topdir','utilisateur','".$res['id_utilisateur']."');\" onmouseout=\"hide_tooltip('$ref');\" href=\"". $topdir ."user.php?id_utilisateur=". $res['id_utilisateur'] .
          "\">" . $nom . "</a></li>\n");
@@ -744,7 +744,7 @@ class site extends interfaceweb
     {
       $cts->add_paragraph("L'AE est triste de vous annoncer qu'il n'y a pas d'anniversaire aujourd'hui.\n");
     }
-    
+
     return $cache->set_contents($cts);
   }
 
@@ -754,7 +754,7 @@ class site extends interfaceweb
     global $topdir;
     if ( !file_exists($topdir."var/img/com/planning.jpg"))
       return null;
-      
+
     $planning_valid = filemtime($topdir."var/img/com/planning.jpg") + (7 * 24 * 60 * 60);
     if ( time() <= $planning_valid )
     {
@@ -763,7 +763,7 @@ class site extends interfaceweb
       return $cts;
     }
   }
-  
+
   /**
    * Gènère la boite contenant la photo de la semaine.
    * @param renvoie un stdcontents
@@ -796,7 +796,7 @@ class site extends interfaceweb
            "UPDATE `cpt_tracking` SET `closed_time`='".date("Y-m-d H:i:s")."'
             WHERE `activity_time` <= '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
             AND `closed_time` IS NULL");
-  
+
     // 2- On récupère les infos sur les bars ouverts
     $req = new requete ($this->dbrw,
            "SELECT MAX(activity_time),id_comptoir
@@ -804,17 +804,17 @@ class site extends interfaceweb
             WHERE `activity_time` > '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
             AND `closed_time` IS NULL
             GROUP BY id_comptoir");
-            
+
     while ( list($act,$id) = $req->get_row() )
       $activity[$id]=strtotime($act);
-  
-    // 3- On récupère les infos sur tous les bars 
+
+    // 3- On récupère les infos sur tous les bars
     $req = new requete ($this->dbrw,
            "SELECT id_comptoir, nom_cpt
-            FROM cpt_comptoir 
+            FROM cpt_comptoir
             WHERE type_cpt='0' AND id_comptoir != '4' AND id_comptoir != '8'
             ORDER BY nom_cpt");
-            
+
     $list = new itemlist("Comptoirs <i>(beta)</i>");
 
 
@@ -822,7 +822,7 @@ class site extends interfaceweb
     {
       $led = "green";
       $descled = "ouvert";
-  
+
       if ( !isset($activity[$id]) )
       {
         $led = "red";
@@ -835,26 +835,26 @@ class site extends interfaceweb
 
       }
         $list->add("<a href=\"comptoir/activity.php?id_comptoir=$id\"><img src=\"".$topdir."images/leds/".$led."led.png\" class=\"icon\" alt=\"".htmlentities($descled,ENT_NOQUOTES,"UTF-8")."\" title=\"".htmlentities($descled,ENT_NOQUOTES,"UTF-8")."\" /> $nom</a>");
-    
+
     }
-  
+
     return $list;
-  
+
   }
-  
+
   /**
    * Gènère la boite d'information sur le forum
    * @param renvoie un stdcontents
    */
   function get_forum_box ()
-  {  
+  {
     global $wwwtopdir, $topdir;
     require_once($topdir . "include/entities/forum.inc.php");
     $forum = new forum($this->db);
     $forum->load_by_id(1);
 
     $cts = new contents("Forum");
-  
+
     $query = "SELECT frm_sujet.titre_sujet, ".
         "frm_sujet.id_sujet, " .
         "frm_message.date_message, " .
@@ -874,15 +874,15 @@ class site extends interfaceweb
           "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
           "AND frm_sujet_utilisateur.id_utilisateur='".$this->user->id."' ) ".
         "WHERE ";
-              
+
     if( is_null($this->user->tout_lu_avant))
       $query .= "(frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
-                "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ";    
+                "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ";
     else
       $query .= "((frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
                 "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ".
-                "AND frm_message.date_message > '".date("Y-m-d H:i:s",$this->user->tout_lu_avant)."') ";  
-  
+                "AND frm_message.date_message > '".date("Y-m-d H:i:s",$this->user->tout_lu_avant)."') ";
+
     if ( !$forum->is_admin( $this->user ) )
     {
       $grps = $this->user->get_groups_csv();
@@ -891,17 +891,17 @@ class site extends interfaceweb
         "(id_groupe_admin IN ($grps)) OR " .
         "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$this->user->id."')) ";
     }
-  
+
     $query_fav = $query."AND frm_sujet_utilisateur.etoile_sujet='1' ";
     $query_fav .= "ORDER BY frm_message.date_message DESC ";
     $query_fav .= "LIMIT 4 ";
-    
+
     $query .= "AND ( frm_sujet_utilisateur.etoile_sujet IS NULL OR frm_sujet_utilisateur.etoile_sujet!='1' ) ";
     $query .= "ORDER BY frm_message.date_message DESC ";
     $query .= "LIMIT 4 ";
-  
+
     $req = new requete($this->db,$query_fav);
-  
+
     if ( $req->lines > 0 )
     {
       $cts->add_title(2,"<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">Favoris non lus</a>");
@@ -918,9 +918,9 @@ class site extends interfaceweb
     }
     else
       $cts->add_paragraph("pas de favoris non lus");
-  
+
     $req = new requete($this->db,$query);
-    
+
     if ( $req->lines > 0 )
     {
       $cts->add_title(2,"<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">Derniers messages non lus</a>");
@@ -937,10 +937,10 @@ class site extends interfaceweb
     }
     else
       $cts->add_paragraph("pas d'autres messages non lus");
-    
+
     return $cts;
   }
- 
+
   /**
    * Génère la boite des permanences à venir
    * @param renvoie un stdcontents
@@ -955,7 +955,7 @@ class site extends interfaceweb
 
     //TODO : Faire en sorte qu'il affiche tout seul les différents plannings et plus avoir à hardcoder l'id_planning
     $sublist = new itemlist("Bureau AE - Belfort");
-    
+
     $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour,
                                   IF(DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE()),true,false) as next
                                   FROM pl_gap
@@ -984,7 +984,7 @@ class site extends interfaceweb
     }
 
     $cts->add($sublist, true, true, "bureau_ae_belfort", "boxlist", true, true);
-    
+
         $sublist = new itemlist("Bureau AE - Sevenans");
 
     $req = new requete($this->db,"SELECT DAYNAME(start_gap) AS day, HOUR(start_gap) AS hour,
@@ -998,7 +998,7 @@ class site extends interfaceweb
                                     AND (((WEEKOFYEAR(CURDATE())+1)-WEEKOFYEAR(start_gap))%2)=0))
                                   GROUP BY id_gap
                                   ORDER BY IF(DAYOFWEEK(start_gap)<DAYOFWEEK(CURDATE()),1,0), DAYOFWEEK(start_gap), HOUR(start_gap) LIMIT 3");
-   
+
     if($req->lines < 1)
     {
       $sublist->add("Aucune permanence à venir pour cette semaine");
@@ -1026,58 +1026,58 @@ class site extends interfaceweb
   function get_stream_box()
   {
     $cts = new contents("Superflux");
-    
+
     $cts->add_paragraph("La webradio de l'AE");
-    
+
     if ( $GLOBALS["taiste"] )
       $infofile = $topdir."var/cache/stream";
     else
       $infofile = $topdir."var/cache/stream-prod";
-  
+
     if ( file_exists($infofile) )
       $GLOBALS["streaminfo"] = unserialize(file_get_contents($infofile));
-    
-    if ( $GLOBALS["streaminfo"]["ogg"] || $GLOBALS["streaminfo"]["mp3"] ) 
+
+    if ( $GLOBALS["streaminfo"]["ogg"] || $GLOBALS["streaminfo"]["mp3"] )
     {
       if ( $GLOBALS["streaminfo"]["title"] || $GLOBALS["streaminfo"]["artist"] )
       {
         $cts->add_title(2,"Actuellement");
-        
+
         $cts->add_paragraph("<span id=\"streaminfo\">".
           htmlentities($GLOBALS["streaminfo"]["title"], ENT_NOQUOTES, "UTF-8").
           " - ".
           htmlentities($GLOBALS["streaminfo"]["artist"], ENT_NOQUOTES, "UTF-8")."</span>");
       }
-      
-      if ( $GLOBALS["streaminfo"]["message"] ) 
+
+      if ( $GLOBALS["streaminfo"]["message"] )
       {
         $cts->add_title(2,"Information");
         $cts->add_paragraph($GLOBALS["streaminfo"]["message"]);
       }
-      
+
       $cts->add_title(2,"Ecouter");
       $list = new itemlist();
-      
+
       if ( $GLOBALS["streaminfo"]["mp3"] )
       {
         $list->add("<a href=\"".$wwwtopdir."stream.php\" onclick=\"return popUpStream('".$wwwtopdir."');\">Lecteur web</a>");
         $list->add("<a href=\"".$GLOBALS["streaminfo"]["mp3"]."\">Flux MP3</a>");
       }
-      
+
       if ( $GLOBALS["streaminfo"]["ogg"] )
         $list->add("<a href=\"".$GLOBALS["streaminfo"]["ogg"]."\">Flux Ogg</a>");
-        
+
       $cts->add($list);
     }
     else
       $cts->add_paragraph("Indisponible");
-    
-    return $cts;  
+
+    return $cts;
   }
-  
+
   /**
-   * S'assure qu'a partir de ce point, seul les utilisateur connecté peuvent 
-   * accèder à la suite. Dans le cas d'un utilisateur connecté, affiche une 
+   * S'assure qu'a partir de ce point, seul les utilisateur connecté peuvent
+   * accèder à la suite. Dans le cas d'un utilisateur connecté, affiche une
    * erreur avec la section précisé active, propose aussi de se connecter et/ou
    * de créer un compte et arrête l'execution du script.
    * @param $section Section à activer en cas d'utilisateur non connecté.
@@ -1085,18 +1085,18 @@ class site extends interfaceweb
   function allow_only_logged_users($section="none")
   {
     global $topdir;
-    
+
     if ( $this->user->is_valid() )
-      return;  
-      
+      return;
+
     require_once($topdir."include/cts/login.inc.php");
-    
+
     $this->start_page($section,"Identification requise");
     $this->add_contents(new loginerror($section));
-    $this->end_page(); 
+    $this->end_page();
     exit();
   }
-  
+
   /**
    * Erreur "Fatale" (ensemble du site) : Arrête l'execution du script et
    * affiche un message de maintenance.
@@ -1117,11 +1117,11 @@ class site extends interfaceweb
     echo "  <p><img src=\"".$wwwtopdir."images/fatalerror.jpg\" alt=\"Site en maintenance\" /></p>\n";
     echo " </body>\n";
     echo "</html>\n";
-    exit(); 
+    exit();
   }
-  
+
   /**
-   * Erreur "fatale" dans une section : Arrête l'execution du script et affiche 
+   * Erreur "fatale" dans une section : Arrête l'execution du script et affiche
    * un message de maintenance dans l'interface du site avec la section précisé
    * active.
    * @param $section Section où se produit l'erreur.
@@ -1129,19 +1129,19 @@ class site extends interfaceweb
   function fatal_partial($section="none")
   {
     global $wwwtopdir;
-    
+
     $this->set_side_boxes("right",array());
     $this->set_side_boxes("left",array());
-    
+
     $this->start_page($section,"En maintenance");
     $cts = new image ( "En maintenance", $wwwtopdir."images/partialclose.jpg" );
     $cts->cssclass = "partialclose";
     $cts->title = null;
     $this->add_contents($cts);
-    $this->end_page(); 
+    $this->end_page();
     exit();
   }
-  
+
   /**
    * Affiche une erreur "Accès refusé", en explique la raison si précisé et
    * arrête l'execution du script.
@@ -1152,11 +1152,11 @@ class site extends interfaceweb
   function error_forbidden($section="none",$reason=null,$id_group=null)
   {
     $this->start_page($section,"Accés refusé");
-    
+
     if ( $reason == "group" )
     {
       $who = "aux administrateurs";
-      
+
       if ( $id_group == 10000 )
         $who = "aux membres de l'AE";
       elseif ( $id_group == 10001 )
@@ -1169,30 +1169,30 @@ class site extends interfaceweb
         $who = "au bureau de l'activité";
       elseif ( $id_group >= 10000 )
         $who = "";
-        
-      $this->add_contents(new contents("Accés refusé","<p>Accès réservé $who.</p>")); 
+
+      $this->add_contents(new contents("Accés refusé","<p>Accès réservé $who.</p>"));
     }
     elseif ( $reason == "private" && $section =="matmatronch" )
       $this->add_contents(new contents("Accés refusé","<p>Cette fiche est privée, la personne concernée a souhaité que les informations la concernant ne soit pas rendues publiques.</p>"));
-      
+
     elseif ( $reason == "blacklist_machines" )
       $this->add_contents(new contents("Accès refusé","<p>Vous n'avez pas le droit d'utiliser les machines à laver de l'AE, car vous n'avez pas respecté les conditions d'utilisations.</p>"));
-      
+
     elseif ( $reason == "invalid" )
       $this->add_contents(new contents("Mode incompatible","<p>Ce mode ne peut pas être utilisé avec l'élément demandé.</p>"));
-      
+
     elseif ( $reason == "wrongplace" )
       $this->add_contents(new contents("Salle invalide","<p>Il n'est pas possible d'accèder à cette page depuis ce poste. En cas de problème, demandez à un administrateur de corriger la salle associée à ce poste.</p>"));
-              
+
     else
       $this->add_contents(new contents("Accés refusé","<p>Vos droits sont insuffisant pour accéder à cette page.</p>"));
-    $this->end_page();     
+    $this->end_page();
     exit();
   }
-  
+
   /**
-   * Affiche une erreur "non trouvé", ou si possible redirige l'utilisateur, 
-   * arrête l'execution du script dans tous les cas. La redirection est soit 
+   * Affiche une erreur "non trouvé", ou si possible redirige l'utilisateur,
+   * arrête l'execution du script dans tous les cas. La redirection est soit
    * celle précisé, soit vers la page principale de la section.
    * @param $section Section où s'est produite l'erreur.
    * @param $redirect Redirection à faire.
@@ -1200,13 +1200,13 @@ class site extends interfaceweb
   function error_not_found($section="none", $redirect=null)
   {
     global $wwwtopdir;
-    
+
     if ( !is_null($redirect) )
     {
       header("Location: $redirect");
       exit();
     }
-    
+
     if (!empty($this->tab_array))
     {
       foreach ($this->tab_array as $entry)
@@ -1215,36 +1215,36 @@ class site extends interfaceweb
           $redirect = $wwwtopdir . $entry[1];
       }
     }
-    
+
     if ( !is_null($redirect) )
     {
       header("Location: $redirect");
       exit();
     }
-    
+
     $this->start_page($section,"Non trouvé");
     $this->add_contents(new contents("Non trouvé","<p>L'élément demandé n'a pas été trouvé</p>"));
-    $this->end_page(); 
-    
+    $this->end_page();
+
     exit();
   }
-  
+
   function return_file (  $uid, $mime_type, $mtime, $size, $file )
   {
     // Ferme la session si elle est encore ouverte
     if ( !isset($GLOBALS['nosession']) )
       session_write_close();
-    
+
     // Ferme les accès à la base de donnés
     $this->db->close();
     $this->dbrw->close();
-      
-      
+
+
     $etag = $uid."M".$mtime;
-    
+
     header('ETag: "'.$etag.'"', true);
     header("Cache-Control: public, must-revalidate", true);
-    
+
     if ( !isset($_SERVER["HTTP_CACHE_CONTROL"]) )
     {
       if ( isset($_SERVER["HTTP_IF_NONE_MATCH"]) )
@@ -1268,18 +1268,18 @@ class site extends interfaceweb
         }
       }
     }
-    
+
     $modified = gmdate("D, d M Y H:i:s \G\M\T",$mtime);
-    
+
     header("Last-Modified: ".$modified, true);
     header("Content-Length: ".$size, true);
     header("Content-Type: ".$mime_type);
     header("Content-Disposition: filename=\"".$uid."\"");
-    
+
     readfile($file);
     exit();
   }
-  
+
   function return_simplefile (  $uid, $mime_type, $file )
   {
     $this->return_file (  $uid, $mime_type, filemtime($file), filesize($file), $file );

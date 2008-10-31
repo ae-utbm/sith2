@@ -96,10 +96,10 @@ foreach ($edt->edt_arr as $seance)
     }
   $start .= "T";
   $end = $start;
-  
+
   $start .= str_replace("h", "", $seance['hr_deb_seance']) . "00";
   $end   .= str_replace("h", "", $seance['hr_fin_seance']) . "00";
-  
+
   $until .= "T" .str_replace("h", "", $seance['hr_fin_seance']) . "00" ."Z";
 
 

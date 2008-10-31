@@ -37,13 +37,13 @@ switch ($_REQUEST["domain"])
 	break;
 	case "id" :
 		$site->user->load_by_id($_REQUEST["username"]);
-	break;	
+	break;
 	case "autre" :
 		$site->user->load_by_email($_REQUEST["username"]);
 	break;
 	case "alias" :
 		$site->user->load_by_alias($_REQUEST["username"]);
-	break;	
+	break;
 	default :
 		$site->user->load_by_email($_REQUEST["username"]."@utbm.fr");
 	break;
@@ -78,7 +78,7 @@ $page = $topdir;
 
 /*
  * Le passage de la redirection se fait via la variable de session pour eviter
- * toute redirection non controlée. 
+ * toute redirection non controlée.
  */
 if ( $_SESSION['session_redirect'] )
 {

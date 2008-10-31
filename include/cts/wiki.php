@@ -25,16 +25,16 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /**
- * @defgroup display Affichage 
- */ 
- 
+ * @defgroup display Affichage
+ */
+
 /**
- * @defgroup display_cts Contents 
+ * @defgroup display_cts Contents
  * @ingroup display
- */ 
- 
+ */
+
 
 /** Conteneur de diffwiki
  * @ingroup display_cts

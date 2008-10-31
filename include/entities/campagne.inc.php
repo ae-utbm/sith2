@@ -33,7 +33,7 @@ class campagne extends stdentity
 {
   /** Date d'ajout de la campagne */
   var $date;
-  
+
   /** Date de fin de la campagne */
   var $end_date;
 
@@ -51,7 +51,7 @@ class campagne extends stdentity
 
   /** asso recrutante */
   var $asso;
-  
+
   /** Charge une campagne en fonction de son id
    * $this->id est égal à -1 en cas d'erreur
    * @param $id id de la campagne
@@ -60,29 +60,29 @@ class campagne extends stdentity
   {
     $req = new requete($this->db, "SELECT * FROM `cpg_campagne`
         WHERE `id_campagne` = '" . mysql_real_escape_string($id) . "'
-        LIMIT 1");  
-        
+        LIMIT 1");
+
     if ( $req->lines == 1 )
     {
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
-  
+
   function load_lastest ( )
   {
-    $req = new requete($this->db, "SELECT * FROM `cpg_campagne` WHERE `date_fin_campagne`>=NOW() ORDER BY date_debut_campagne DESC LIMIT 1");  
-        
+    $req = new requete($this->db, "SELECT * FROM `cpg_campagne` WHERE `date_fin_campagne`>=NOW() ORDER BY date_debut_campagne DESC LIMIT 1");
+
     if ( $req->lines == 1 )
     {
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
 
@@ -93,7 +93,7 @@ class campagne extends stdentity
     else
       return 1;
   }
-  
+
   function _load ( $row )
   {
     $this->id  = $row['id_campagne'];
@@ -104,7 +104,7 @@ class campagne extends stdentity
     $this->end_date  = $row['date_fin_campagne'];
     $this->asso = $row['id_asso'];
   }
-  
+
   function new_campagne ( $nom, $description, $end_date, $group , $asso=1)
   {
     $this->nom = $nom;
@@ -113,7 +113,7 @@ class campagne extends stdentity
     $this->date = time();
     $this->group = $group;
     $this->asso= $asso;
-    
+
     $sql = new insert ($this->dbrw,
       "cpg_campagne",
       array(
@@ -125,7 +125,7 @@ class campagne extends stdentity
         "id_asso"=>$this->asso
         )
       );
-        
+
     if ( $sql )
       $this->id = $sql->get_id();
     else
@@ -143,7 +143,7 @@ class campagne extends stdentity
     $this->nom = $nom;
     $this->description=$descritpion;
     $this->end_date = $end_date;
-    
+
     $sql = new update($this->dbrw,
       "cpg_campagne",
       array(
@@ -154,11 +154,11 @@ class campagne extends stdentity
         ),array("id_campagne"=>$this->id)
       );
   }
-  
+
   function update_question ($id, $question, $desc, $type, $resp, $limit=0)
   {
     $sql = new requete($this->db,"SELECT `nom_question` FROM `cpg_question` WHERE `id_campagne`='".mysql_real_escape_string($this->id)."' AND `id_question`='".mysql_real_escape_string($id)."'");
- 
+
     if ( $sql->lines == 0 )
       $this->add_question($question, $desc, $type, $resp, $limit);
     else
@@ -171,9 +171,9 @@ class campagne extends stdentity
             "limites_reponses_question" => $limit
            ),
       array("id_campagne"=>$this->id,"id_question"=>$id)
-      );    
+      );
   }
-  
+
   function add_question ( $nom, $desc, $type, $resp="", $limit=0 )
   {
     $sql = new insert ($this->dbrw,
@@ -188,7 +188,7 @@ class campagne extends stdentity
         )
       );
   }
-  
+
   function remove_question ( $id )
   {
     $sql = new delete($this->dbrw,
@@ -199,16 +199,16 @@ class campagne extends stdentity
         )
       );
   }
-  
+
   function get_questions()
   {
     $sql = new requete($this->db, "SELECT * " .
             "FROM `cpg_question` " .
             "WHERE id_campagne='".mysql_escape_string($this->id)."' " .
             "ORDER BY `id_question`");
-    
+
     $questions = array();
-    
+
     while ( $row = $sql->get_row() )
     {
       $id=$row['id_question'];
@@ -217,27 +217,27 @@ class campagne extends stdentity
                                              "type"=>$row["type_question"],
                                              "reponses"=>$row["reponses_question"],
                                              "limit"=>$row["limites_reponses_question"]);
-    }  
+    }
     return $questions;
   }
-  
+
   function get_user_results($id_utilisateur)
   {
     $sql = new requete($this->db, "SELECT `id_question`, `valeur_reponse` " .
             "FROM `cpg_reponse` " .
             "WHERE `id_campagne`='".mysql_escape_string($this->id)."' && `id_utilisateur`='".$id_utilisateur."'" .
             "ORDER BY `id_question`");
-    
+
     $resultats = array();
-    
+
     while ( list($id,$rep) = $sql->get_row() )
       $resultats[$id] = $rep;
-      
+
     return $resultats;
   }
   function a_repondu ( $id_utilisateur )
   {
-    
+
     $sql = new requete($this->db, "SELECT * " .
             "FROM `cpg_participe` " .
             "WHERE `id_campagne`='".mysql_escape_string($this->id)."' " .
@@ -247,14 +247,14 @@ class campagne extends stdentity
       return true;
     else
       return false;
-    
+
   }
 
   /**
    * Definit les réponses à la campagne pour un utilisateur
    */
   function repondre ( $id_utilisateur, $answers )
-  {      
+  {
     if ( $this->a_repondu($id_utilisateur) ) return;
 
     $sql = new insert ($this->dbrw,
@@ -267,7 +267,7 @@ class campagne extends stdentity
       );
 
     if ( !empty($answers) )
-    {  
+    {
       foreach($answers as $id => $value)
         $sql = new insert($this->dbrw,
           "cpg_reponse",
@@ -278,7 +278,7 @@ class campagne extends stdentity
     }
   }
 }
- 
- 
- 
+
+
+
 ?>

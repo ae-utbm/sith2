@@ -59,7 +59,7 @@ if ($_REQUEST['action'] == "commitnewcomm")
 if ($_REQUEST['action'] == "modcomm")
 {
   $accueil->add_paragraph("Vous pouvez modifier le commentaire à l'aide du formulaire suivant :");
-  
+
   $frm = new form('modify_comment', 'gerer.php?action=commitnewcomm&id_trajet=' .$trajet->id, true);
   $frm->add_dokuwiki_toolbar('comments');
   $frm->add_text_area('comments', 'Commentaires (Syntaxe DokuWiki)', $trajet->commentaires, 80, 20);
@@ -88,18 +88,18 @@ if ($_REQUEST['action'] == "delete")
       foreach ($dates as $date)
       {
         $ret = $trajet->delete_date($site->user->id, $date);
-        
+
         if ($ret == true)
         {
           $accueil->add_paragraph("<b>Date  du ".
                 HumanReadableDate($date, "", false, true)
                 ."supprimée avec succès.</b>");
-      
+
         }
       }
     }
   }
-  
+
   /* rechargement du trajet */
   $trajet->load_by_id($trajet->id);
 }
@@ -118,7 +118,7 @@ if ($_REQUEST['action'] == "accept")
   $opts[] = "<a href=\"./\">Retour à la page d'accueil du covoiturage</a>";
   $opts[] = "<a href=\"./propose.php\">Proposer un trajet</a>";
   $opts[] = "<a href=\"./search.php\">Rechercher un trajet</a>";
- 
+
   $options = new itemlist(false, false, $opts);
   $accueil->add($options);
 
@@ -131,13 +131,13 @@ if ($_REQUEST['action'] == "accept")
 else if ($_REQUEST['action'] == "refuse")
 {
   $accueil->add_title(2, "Acceptation de l'étape");
-  
+
 
   if ($trajet->refuse_step($_REQUEST['id_etape'], $_REQUEST['date']))
     $accueil->add_paragraph("Etape refusée avec succès !");
   else
     $accueil->add_paragraph("Erreur lors du refus de l'étape.");
-    
+
   /* options */
   $accueil->add_title(2, "Autres options");
   $opts[] = "<a href=\"./\">Retour à la page d'accueil du covoiturage</a>";
@@ -156,11 +156,11 @@ else if ($_REQUEST['action'] == "refuse")
 if ($_REQUEST['action'] == "moderer")
 {
   $accueil->add_title(2, "Modération des étapes");
-  
+
   $trajet->load_steps();
 
   $step = $trajet->get_step_by_id($_REQUEST['id_etape'], $_REQUEST['date_trajet']);
-  
+
   $propusr = new utilisateur ($site->db);
   $propusr->load_by_id($step['id_utilisateur']);
 
@@ -171,7 +171,7 @@ if ($_REQUEST['action'] == "moderer")
   }
   else
     $villeetp = NULL;
-  
+
   if ($villeetp != NULL)
   {
     $accueil->add_paragraph("<b><center>".$propusr->get_html_link() . " souhaiterait faire partie du trajet pour le ".
@@ -184,12 +184,12 @@ if ($_REQUEST['action'] == "moderer")
 
   if (strlen($step['comments']) > 0)
   {
-    $accueil->add_paragraph("L'utilisateur a laissé le commentaire suivant :<br/>" . 
+    $accueil->add_paragraph("L'utilisateur a laissé le commentaire suivant :<br/>" .
             "<div class=\"comment\">".
             doku2xhtml($step['comments']).
             "</div>");
   }
-  
+
   if ($villeetp != NULL)
   {
     $accueil->add_paragraph("Ci-dessous un rendu du trajet en prenant en compte cette étape (la ville concernée apparaît en rouge) :");
@@ -224,16 +224,16 @@ if ($_REQUEST['action'] == "moderer")
 
   $accueil->add_paragraph("Cliquez sur les liens ci-dessous pour accepter ou refuser l'étape. Vous pouvez en outre prendre contact avec ".
         "l'utilisateur afin de vous arranger à l'amiable");
-  
+
   $lnkaccept = "gerer.php?action=accept&id_trajet=".$trajet->id."&amp;date=".$step['date_etape']."&amp;id_etape=".$step['id'];
   $lnkrefuse = "gerer.php?action=refuse&id_trajet=".$trajet->id."&amp;date=".$step['date_etape']."&amp;id_etape=".$step['id'];
   $accueil->add_paragraph("<center><a href=\"".$lnkaccept."\">ACCEPTER</a> | <a href=\"".$lnkrefuse."\">REFUSER</a></center>");
 
   $site->add_contents($accueil);
-  
-  
+
+
   $site->end_page();
-  
+
   exit();
 }
 
@@ -283,19 +283,19 @@ if (count($trajet->dates))
 
   foreach($trajet->dates as $date)
   {
-    $datetrj[] = array("id"  => $date, 
+    $datetrj[] = array("id"  => $date,
                        "dates" =>  "Le " . HumanReadableDate($date, "", false, true));
   }
 
-  $lst = new sqltable("managedatestrj", 
-          "Dates du trajet enregistrées", 
-          $datetrj, 
+  $lst = new sqltable("managedatestrj",
+          "Dates du trajet enregistrées",
+          $datetrj,
           "./gerer.php?id_trajet=".$trajet->id,
-          "id", 
-          array("dates" => "Dates de trajet"), 
-          array("delete" => "Supprimer"), 
-          array("delete" => "Supprimer"));  
-  
+          "id",
+          array("dates" => "Dates de trajet"),
+          array("delete" => "Supprimer"),
+          array("delete" => "Supprimer"));
+
   $accueil->add($lst);
 }
 
@@ -325,17 +325,17 @@ if (count($trajet->etapes))
 
     $propuser = new utilisateur($site->db);
     $propuser->load_by_id($etape['id_utilisateur']);
-      
+
     if ($etape['etat'] == STEP_ACCEPTED)
     {
       if ($obville != NULL)
       {
-        $str = "Passage par <b>" . $obville->nom . "</b> suggéré par " . 
+        $str = "Passage par <b>" . $obville->nom . "</b> suggéré par " .
                $propuser->get_html_link() . " le " . HumanReadableDate($etape['date_proposition'], "", true) .
                " pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false, true)."</b>";
       }
       else
-        $str = $propuser->get_html_link() . 
+        $str = $propuser->get_html_link() .
                " accepté pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false, true)."</b>";
 
       $accepted[] = $str;
@@ -346,8 +346,8 @@ if (count($trajet->etapes))
     {
       if ($obville != NULL)
       {
-        $str = "Passage par <b>" . 
-              $obville->nom . "</b> suggéré par " . 
+        $str = "Passage par <b>" .
+              $obville->nom . "</b> suggéré par " .
               $propuser->get_html_link() . " le " . HumanReadableDate($etape['date_proposition'], "", true) .
               " pour le trajet du <b>" . HumanReadableDate($etape['date_etape'], "", false, true).
               "</b> | <a href=\"./gerer.php?action=moderer&amp;id_trajet=".$trajet->id ."&amp;date_trajet=".
@@ -365,7 +365,7 @@ if (count($trajet->etapes))
       $proposed[] = $str;
     }
   }
-  
+
 }
 
 if (count($accepted))
@@ -398,7 +398,7 @@ if (count($trajet->dates))
 {
   foreach ($trajet->dates as $date)
   {
-      
+
     $idusers = $trajet->get_users_by_date($date);
     if ($idusers != false)
     {
@@ -435,12 +435,12 @@ if (count($trajet->dates))
       $passager = new utilisateur($site->db);
 
       $lstp = array();
-    
+
       foreach ($idusers as $idusr)
       {
         $passager->load_by_id($idusr);
         $lstp[] = $passager->get_html_link();
-        
+
       }
       $accueil->add(new itemlist(false, false, $lstp));
     }

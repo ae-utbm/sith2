@@ -71,19 +71,19 @@ $filter.= ")";
 		"SUM(`montant_op`)/100 AS `sum`, ".
 		"`entreprise`.`nom_entreprise`, " .
 		"`entreprise`.`id_ent`, " .
-		
+
 		"`asso`.`id_asso`, " .
 		"`asso`.`nom_asso`, " .
-		
+
 		"`cpta_cpasso`.`id_cptasso`, " .
 		"CONCAT(`asso2`.`nom_asso`,' sur ',`cpta_cpbancaire`.`nom_cptbc` ) AS `nom_cptasso`, " .
-		
+
 		"`utilisateurs`.`id_utilisateur`, " .
 		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
-		
+
 		"FROM `cpta_operation` " .
 		"LEFT JOIN `cpta_op_clb` ON `cpta_operation`.`id_opclb`=`cpta_op_clb`.`id_opclb` ".
-		"LEFT JOIN `cpta_op_plcptl` ON `cpta_operation`.`id_opstd`=`cpta_op_plcptl`.`id_opstd` ".		
+		"LEFT JOIN `cpta_op_plcptl` ON `cpta_operation`.`id_opstd`=`cpta_op_plcptl`.`id_opstd` ".
 		"LEFT JOIN `cpta_cpasso` ON `cpta_operation`.`id_cptasso`=`cpta_cpasso`.`id_cptasso` ".
 		"LEFT JOIN `asso` ON `cpta_operation`.`id_asso`=`asso`.`id_asso` ".
 		"LEFT JOIN `entreprise` ON `cpta_operation`.`id_ent`=`entreprise`.`id_ent` ".
@@ -93,25 +93,25 @@ $filter.= ")";
 		"WHERE $filter " .
 		"AND (`cpta_op_clb`.`type_mouvement`=1 OR`cpta_op_plcptl`.`type_mouvement`=1) " .
 		"GROUP BY id_actor" );
-	
+
 	$cts->add(new sqltable(
-		"listops", 
-		"Credit", $req, "classeur.php?id_classeur=".$cla->id, 
-		"type", 
+		"listops",
+		"Credit", $req, "classeur.php?id_classeur=".$cla->id,
+		"type",
 		array(
 			"nom_entreprise"=>array("Entreprise/asso/compte","nom_utilisateur","nom_entreprise","nom_asso","nom_cptasso"),
 			"sum"=>"Somme"
-			), 
-		array(), 
+			),
+		array(),
 		array(),
 		array()
 		),true);
-		
+
 	$req->go_first();
 	$sum=0;
-	while ( $row = $req->get_row() ) $sum += $row['sum'];		
+	while ( $row = $req->get_row() ) $sum += $row['sum'];
 	$cts->add_paragraph("Total : $sum");
-	
+
 	$req = new requete ( $site->db, "SELECT " .
 
 		"IF(`entreprise`.`id_ent` IS NOT NULL, CONCAT('ident-',`entreprise`.`id_ent`)," .
@@ -121,19 +121,19 @@ $filter.= ")";
 		"SUM(`montant_op`)/-100 AS `sum`, ".
 		"`entreprise`.`nom_entreprise`, " .
 		"`entreprise`.`id_ent`, " .
-		
+
 		"`asso`.`id_asso`, " .
 		"`asso`.`nom_asso`, " .
-		
+
 		"`cpta_cpasso`.`id_cptasso`, " .
 		"CONCAT(`asso2`.`nom_asso`,' sur ',`cpta_cpbancaire`.`nom_cptbc` ) AS `nom_cptasso`, " .
-		
+
 		"`utilisateurs`.`id_utilisateur`, " .
 		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
-		
+
 		"FROM `cpta_operation` " .
 		"LEFT JOIN `cpta_op_clb` ON `cpta_operation`.`id_opclb`=`cpta_op_clb`.`id_opclb` ".
-		"LEFT JOIN `cpta_op_plcptl` ON `cpta_operation`.`id_opstd`=`cpta_op_plcptl`.`id_opstd` ".		
+		"LEFT JOIN `cpta_op_plcptl` ON `cpta_operation`.`id_opstd`=`cpta_op_plcptl`.`id_opstd` ".
 		"LEFT JOIN `cpta_cpasso` ON `cpta_operation`.`id_cptasso`=`cpta_cpasso`.`id_cptasso` ".
 		"LEFT JOIN `asso` ON `cpta_operation`.`id_asso`=`asso`.`id_asso` ".
 		"LEFT JOIN `entreprise` ON `cpta_operation`.`id_ent`=`entreprise`.`id_ent` ".
@@ -143,23 +143,23 @@ $filter.= ")";
 		"WHERE $filter " .
 		"AND (`cpta_op_clb`.`type_mouvement`=-1 OR`cpta_op_plcptl`.`type_mouvement`=-1) " .
 		"GROUP BY id_actor" );
-	
+
 	$cts->add(new sqltable(
-		"listops", 
-		"Debit", $req, "classeur.php?id_classeur=".$cla->id, 
-		"type", 
+		"listops",
+		"Debit", $req, "classeur.php?id_classeur=".$cla->id,
+		"type",
 		array(
 			"nom_entreprise"=>array("Entreprise/asso/compte","nom_utilisateur","nom_entreprise","nom_asso","nom_cptasso"),
 			"sum"=>"Somme"
-			), 
-		array(), 
+			),
+		array(),
 		array(),
 		array()
 		),true);
-		
+
 	$req->go_first();
 	$sum=0;
-	while ( $row = $req->get_row() ) $sum += $row['sum'];		
+	while ( $row = $req->get_row() ) $sum += $row['sum'];
 	$cts->add_paragraph("Total : $sum");
 
 	$req = new requete ( $site->db, "SELECT " .
@@ -171,27 +171,27 @@ $filter.= ")";
 		"WHERE $filter AND " .
 		"(`cpta_op_clb`.`type_mouvement`=1 OR`cpta_op_plcptl`.`type_mouvement`=1)" .
 		"GROUP BY `type`" );
-	
+
 	$cts->add(new sqltable(
-		"listops", 
-		"Credit", $req, "classeur.php?id_classeur=".$cla->id, 
-		"type", 
+		"listops",
+		"Credit", $req, "classeur.php?id_classeur=".$cla->id,
+		"type",
 		array(
 			"type"=>"Nature(type) d'opération",
 			"sum"=>"Somme"
-			
-			), 
-		array(), 
+
+			),
+		array(),
 		array(),
 		array()
 		),true);
-		
+
 	$req->go_first();
 	$sum=0;
-	while ( $row = $req->get_row() ) $sum += $row['sum'];		
-	$cts->add_paragraph("Total : $sum");		
-		
-		
+	while ( $row = $req->get_row() ) $sum += $row['sum'];
+	$cts->add_paragraph("Total : $sum");
+
+
 	$req = new requete ( $site->db, "SELECT " .
 		"IF (`cpta_op_clb`.`libelle_opclb` IS NULL, CONCAT(`cpta_op_plcptl`.`code_plan`,' ',`cpta_op_plcptl`.`libelle_plan`),`cpta_op_clb`.`libelle_opclb`) AS `type`, " .
 		"SUM(`montant_op`)/-100 AS `sum` " .
@@ -201,29 +201,29 @@ $filter.= ")";
 		"WHERE $filter AND " .
 		"(`cpta_op_clb`.`type_mouvement`=-1 OR`cpta_op_plcptl`.`type_mouvement`=-1)" .
 		"GROUP BY `type`" );
-	
+
 	$cts->add(new sqltable(
-		"listops", 
-		"Debit", $req, "classeur.php?id_classeur=".$cla->id, 
-		"type", 
+		"listops",
+		"Debit", $req, "classeur.php?id_classeur=".$cla->id,
+		"type",
 		array(
 			"type"=>"Nature(type) d'opération",
 			"sum"=>"Somme"
-			
-			), 
-		array(), 
+
+			),
+		array(),
 		array(),
 		array()
 		),true);
-		
+
 	$req->go_first();
 	$sum=0;
-	while ( $row = $req->get_row() ) $sum += $row['sum'];		
+	while ( $row = $req->get_row() ) $sum += $row['sum'];
 	$cts->add_paragraph("Total : $sum");
-	
-	
-	
-	
+
+
+
+
 		$req = new requete ( $site->db, "SELECT " .
 		"COALESCE(`cpta_op_plcptl`.`code_plan`,`cpta_op_clb`.`type_mouvement`) , " .
 		"SUM(COALESCE(`cpta_op_plcptl`.`type_mouvement`,`cpta_op_clb`.`type_mouvement`)*`montant_op`) AS `sum` " .
@@ -247,12 +247,12 @@ $filter.= ")";
 		{
 			$pl["credit"] += abs($sum);
 			$pl["7"] += abs($sum);
-		}	
+		}
 		else
 		{
 			for($i=1;$i<=strlen($code);$i++)
 			{
-				$pl[substr($code,0,$i)] += abs($sum);	
+				$pl[substr($code,0,$i)] += abs($sum);
 			}
 		}
 	}
@@ -271,7 +271,7 @@ $filter.= ")";
 		$pl["78"] += abs($sum);
 		$pl["7"] += abs($sum);
 	}
-	
+
 	$req = new requete ( $site->db, "SELECT " .
 		"`code_plan`, `libelle_plan` " .
 		"FROM  `cpta_op_plcptl`  ".
@@ -287,12 +287,12 @@ $filter.= ")";
 	  if ( $code == "6" && $pl["debit"] > 0 )
 	    $tbl->add_row(array("6?","Debit non codé",$pl["debit"]/100),"plct2");
 	 	if ( $code == "7" && $pl["credit"] > 0 )
-	    $tbl->add_row(array("7?","Credit non codé",$pl["credit"]/100),"plct2");			
+	    $tbl->add_row(array("7?","Credit non codé",$pl["credit"]/100),"plct2");
 	}
 	$cts->add($tbl);
-	
+
 $site->add_contents($cts);
 
 $site->end_page ();
-	
+
 ?>

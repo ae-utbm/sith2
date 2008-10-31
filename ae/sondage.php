@@ -36,7 +36,7 @@ if (isset($_REQUEST["addsdn"]) && $_REQUEST["question"] && $_REQUEST["end_date"]
 {
 	$cts = new contents("Sondage ajouté avec succès");
 	$nb=0;
-	
+
 	foreach ( $_REQUEST["reponses"] as $rep )
 		if ( $rep ) $nb++;
 
@@ -61,7 +61,7 @@ if (isset($_REQUEST["addsdn"]) && $_REQUEST["question"] && $_REQUEST["end_date"]
 if (isset($_REQUEST["editsdn"]) && $_REQUEST["question"] && $_REQUEST["reponses"] && $_REQUEST["end_date"])
 {
 	$nb=0;
-	
+
 	foreach ( $_REQUEST["reponses"] as $rep )
 		if ( $rep ) $nb++;
 
@@ -70,7 +70,7 @@ if (isset($_REQUEST["editsdn"]) && $_REQUEST["question"] && $_REQUEST["reponses"
 		$sdn = new sondage($site->db,$site->dbrw);
 		$sdn->load_lastest();
 		$sdn->update_sondage($_REQUEST["question"], $_REQUEST["total_reponses"] , $_REQUEST["date_sondage"], $_REQUEST["end_date"]);
-		
+
 		foreach ( $_REQUEST["reponses"] as $num=>$rep)
 		{
 			if ( $rep )
@@ -130,7 +130,7 @@ if ($_REQUEST["end_date"])
 else
 	$frm->add_date_field("end_date", "Date de fin de validite : ",$default_valid,true);
 
-$frm->add_text_field("question", "Question",$_REQUEST["question"],true,80);	  
+$frm->add_text_field("question", "Question",$_REQUEST["question"],true,80);
 
 $frm->add_info("Pour supprimer une réponse, il suffit de la laisser vide !");
 
@@ -150,7 +150,7 @@ if (isset($_REQUEST["reponses"]))
 }
 else
 {
-	$frm->add_text_field("reponses[]", "Reponse 1","",true,80);	  
+	$frm->add_text_field("reponses[]", "Reponse 1","",true,80);
 	$frm->add_text_field("reponses[]", "Reponse 2","",false,80);
 	$frm->add_text_field("reponses[]", "Reponse 3","",false,80);
 	$frm->add_text_field("reponses[]", "Reponse 4","",false,80);
@@ -171,14 +171,14 @@ else
 
 $site->add_contents($frm);
 
-$req = new requete($site->db, "SELECT * FROM `sdn_sondage` ORDER BY date_sondage DESC");	
+$req = new requete($site->db, "SELECT * FROM `sdn_sondage` ORDER BY date_sondage DESC");
 	if ( $req->lines > 0 )
 	{
 		$cts = new sqltable(
-				"listsdn", 
-				"Derniers Sondages", $req, $topdir."ae/sondage.php", 
-				"id_sondage", 
-				array("question"=>"Question du sondage","total_reponses"=>"Nb total de réponses","date_sondage"=>"Depuis le","date_fin"=>"Jusqu'au"), 
+				"listsdn",
+				"Derniers Sondages", $req, $topdir."ae/sondage.php",
+				"id_sondage",
+				array("question"=>"Question du sondage","total_reponses"=>"Nb total de réponses","date_sondage"=>"Depuis le","date_fin"=>"Jusqu'au"),
 				array("edit"=>"Editer"), array());
 	}
 $site->add_contents($cts);

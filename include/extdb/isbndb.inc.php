@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file Base de donnés externe : ISBNDB.COM. 
+ * @file Base de donnés externe : ISBNDB.COM.
  * Base de donnés de livres.
  */
 
@@ -26,7 +26,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 require_once("xml.inc.php");
 
 function isbn_get_infos( $isbn )
@@ -39,7 +39,7 @@ function isbn_get_infos( $isbn )
 		$xml = new u007xml($cts);
 		if ( $xml->arrOutput[0]["childrens"][0]["attributes"]["TOTAL_RESULTS"] != 1 )
 			return -2;
-		
+
 		$res["isbn"]=$xml->arrOutput[0]["childrens"][0]["childrens"][0]["attributes"]["ISBN"];
 		$res["title"]=$xml->arrOutput[0]["childrens"][0]["childrens"][0]["childrens"][0]["nodevalue"];
 		$res["longtitle"]=$xml->arrOutput[0]["childrens"][0]["childrens"][0]["childrens"][1]["nodevalue"];
@@ -58,8 +58,8 @@ function isbn_get_infos_from_ean13 ( $cbar )
 		$poids = array(10,9,8,7,6,5,4,3,2);
 		for($i=0;$i<9;$i++)
 			$t += $cap[1]{$i} * $poids[$i];
-		$l = ($t%11);	
-		
+		$l = ($t%11);
+
 		if ( $l == 1 )
 			$l = "X";
 		elseif ( $l !=0 )
@@ -68,6 +68,6 @@ function isbn_get_infos_from_ean13 ( $cbar )
 	}
 	return -1;
 }
- 
- 
+
+
 ?>

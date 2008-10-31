@@ -33,27 +33,27 @@ class edt extends stdentity
 {
   var $id_utilisateur;
   var $semestre;
-  
+
   var $seances;
   var $prefs;
-  
+
   private function load_by_id(){}
-   
+
   public function load_by_utl_semestre($id_utilisateur, $semestre=SEMESTER_NOW){
   }
-  
+
   private function _load(){
   }
-  
+
   public function set_prefs(){
   }
-  
+
   public function generate(){
   }
-  
+
   public function clear_cache(){
   }
-  
+
   public function get_image_link(){
   }
 }

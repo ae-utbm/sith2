@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/cts/sqltable.inc.php");
@@ -67,6 +67,6 @@ $tbl = new sqltable(
   );
 $cts->add($tbl,true);
 $site->add_contents($cts);
-$site->end_page();  
+$site->end_page();
 
 ?>

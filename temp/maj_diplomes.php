@@ -41,56 +41,56 @@ if ( $_REQUEST["action"] == "process")
     $pattern2 = str_replace("n","(n|ñ|Ñ)",$pattern2);
     return $pattern2;
   }
-  
-  
-  
+
+
+
   $traduc = array(
     "GP"=>"imap",
     "GM"=>"mc",
     "GI"=>"gi",
     "GC"=>"gesc");
-  
+
   $user = new utilisateur($site->db,$site->dbrw);
-  
+
 	$lines = explode("\n",$_REQUEST["data"]);
-	
+
 	echo "<ul>";
 
 	foreach ( $lines as $line)
 	{
-	 
+
     $data = explode(";",$line);
     $user->id = NULL;
-    
-    $nom = strtolower(trim($data[0]));  
-    $prenom = strtolower(trim($data[1]));  
-    
+
+    $nom = strtolower(trim($data[0]));
+    $prenom = strtolower(trim($data[1]));
+
     if ( trim($data[2]) )
-      $naissance = datetime_to_timestamp(trim($data[2]));  
+      $naissance = datetime_to_timestamp(trim($data[2]));
     else
       $naissance = null;
-    
+
     echo "<li>$nom $prenom : ";
 
     if ( !is_null($naissance) )
     {
-      $req = new requete($site->db, 
+      $req = new requete($site->db,
         "SELECT * FROM `utilisateurs`
         WHERE `nom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($nom)) . "$'
         AND `prenom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($prenom)) . "$'
         AND `date_naissance_utl` = '".date("Y-m-d",$naissance)."'");
       echo $req->lines." line(s) ";
     }
-    
+
     if ( is_null($naissance) || $req->lines == 0 )
     {
-      $req = new requete($site->db, 
+      $req = new requete($site->db,
         "SELECT * FROM `utilisateurs`
         WHERE `nom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($nom)) . "$'
         AND `prenom_utl` REGEXP '^" . mysql_real_escape_string(regaccent($prenom)) . "$'");
       echo ", ".$req->lines." line(s) ";
     }
-    
+
     if ( $req->lines == 1 )
     {
       $user->_load($req->get_row());
@@ -98,9 +98,9 @@ if ( $_REQUEST["action"] == "process")
       if ( !is_null($naissance) && $naissance != $user->date_naissance )
         $user->date_naissance = $naissance;
       $user->role="etu";
-      $user->departement = $traduc[trim($data[3])];  
-      $user->filiere = strtolower(trim($data[4]));  
-      $user->date_diplome_utbm = datetime_to_timestamp(trim($data[5]));  
+      $user->departement = $traduc[trim($data[3])];
+      $user->filiere = strtolower(trim($data[4]));
+      $user->date_diplome_utbm = datetime_to_timestamp(trim($data[5]));
       $user->became_etudiant ( "UTBM", true, true );
       $user->saveinfos();
       $user->add_to_group(42);//Nouveaux diplomé
@@ -115,10 +115,10 @@ if ( $_REQUEST["action"] == "process")
     echo "</li>";
 
 	}
-	
+
 	echo "<li>$updated Updated, $notfound Not found</li>";
 	echo "</ul>";
-	
+
 	exit();
 }
 

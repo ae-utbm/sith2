@@ -30,7 +30,7 @@
 /**
  * Donnés sur les différents objets traités.
  *
- * Chaque nom de classe est associée à un tableau : 
+ * Chaque nom de classe est associée à un tableau :
  * - [0] Nom du champ SQL d'identification
  * - [1] Nom du champ SQl du nom (ou alias systèmatiquement utilisé)
  * - [2] Fichier d'iconne associée (du dossier images/icons/(16|32)/)
@@ -38,7 +38,7 @@
  * - [4] Nom de table SQL (facultatif)
  * - [5] Fichier où est déclarée la classe (facultatif)
  * - [6] Nom de la table pour associer des tags aux objets de l'entité (facultatif)
- * 
+ *
  * @ingroup stdentity
  */
 $GLOBALS['entitiescatalog'] = array (
@@ -65,7 +65,7 @@ $GLOBALS['entitiescatalog'] = array (
   'compte_bancaire' => array ('id_cptbc','nom_cptbc','cptbc.png','compta/cptbc.php'),
   'operation'       => array ('id_op', 'id_op', 'file.png', 'compta/classeur.php'),
   'efact'           => array ('id_efact','titre_facture','file.png','compta/efact.php','cpta_facture','efact.inc.php'),
-  'notefrais'       => array ('id_notefrais','id_notefrais','file.png','compta/notefrais.php','cpta_notefrais','notefrais.inc.php'),  
+  'notefrais'       => array ('id_notefrais','id_notefrais','file.png','compta/notefrais.php','cpta_notefrais','notefrais.inc.php'),
 
   'emprunt'         => array ('id_emprunt', 'id_emprunt', 'emprunt.png', 'emprunt.php', 'inv_emprunt' ),
   'produit'         => array ('id_produit', 'nom_prod', 'produit.png', 'comptoir/admin.php', 'cpt_produits','produit.inc.php' ),
@@ -79,48 +79,48 @@ $GLOBALS['entitiescatalog'] = array (
   'comptoir'        => array ('id_comptoir', 'nom_cpt', 'misc.png', false, 'cpt_comptoir' ),
   'dfile'           => array ('id_file', 'titre_file', 'file.png', 'd.php',false,'files.inc.php','d_file_tag'),
   'dfolder'         => array ('id_folder', 'titre_folder', 'folder.png', 'd.php',false,'folder.inc.php'),
-  
+
   // Forum
   'admin_forum'     => array ('id_forum', 'admin_forum', 'forum.png', 'forum2/admin.php'),
   'forum'           => array ('id_forum', 'titre_forum', 'forum.png', 'forum2/'),
   'sujet'           => array ('id_sujet', 'titre_sujet', 'sujet.png', 'forum2/'),
   'message'         => array ('id_message', 'id_message', 'message.png', 'forum2/'),
-  
+
   // Localisation
   'pays'            => array ('id_pays', 'nom_pays', 'pays.png', 'loc.php', 'loc_pays','pays.inc.php'),
   'ville'           => array ('id_ville', 'nom_ville', 'ville.png', 'loc.php', 'loc_ville','ville.inc.php'),
   'lieu'            => array ('id_lieu', 'nom_geopoint', 'lieu.png', 'loc.php', 'loc_lieu','lieu.inc.php'),
-  
+
   // Compta : Entreprises
   'entreprise'      => array ('id_ent', 'nom_entreprise', 'entreprise.png', 'entreprise.php', 'entreprise','entreprise.inc.php' ),
   'secteur'         => array ('id_secteur', 'nom_secteur', 'lieu.png', 'entreprise.php', 'secteur'),
-  
+
   // Pedagogie
   'uv'              => array ('id_uv', 'code_uv', 'misc.png', 'uvs/uvs.php', 'edu_uv', 'uv.inc.php' ),
-  
+
   // Nouvelles
   'nouvelle'        => array ('id_nouvelle', 'titre_nvl', 'misc.png', 'news.php', 'nvl_nouvelles', 'news.inc.php', 'nvl_nouvelles_tag'),
   'canalnouvelles'  => array ('id_canal', 'nom_canal', 'misc.png', 'news.php', 'nvl_canal', 'news.inc.php'),
-  
+
   // Petit Géni 2 : Reseaux de bus
   'reseaubus'       => array ('id_reseaubus', 'nom_reseaubus', 'misc.png', 'pg2/bus.php', 'pg_reseaubus', 'bus.inc.php' ),
   'lignebus'        => array ('id_lignebus', 'nom_lignebus', 'misc.png', 'pg2/bus.php', 'pg_lignebus', 'bus.inc.php' ),
   'arretbus'        => array ('id_arretbus', 'nom_geopoint', 'misc.png', 'pg2/bus.php', 'geopoint', 'bus.inc.php' ),
-  
+
   // Petit Géni 2 : Rues
   'typerue'         => array ('id_typerue', 'nom_typerue', 'misc.png', 'pg2/rue.php', 'pg_typerue', 'rue.inc.php' ),
   'rue'             => array ('id_rue', 'nom_rue', 'misc.png', 'pg2/rue.php', 'pg_rue', 'rue.inc.php' ),
-  
+
   // Petit Géni 2 : Fiches
   'pgcategory'      => array ('id_pgcategory', 'nom_pgcategory', 'misc.png', 'pg2/', 'pg_category', 'pgfiche.inc.php', 'pg_category_tags' ),
   'pgfiche'         => array ('id_pgfiche', 'nom_geopoint', 'misc.png', 'pg2/', 'pg_fiche', 'pgfiche.inc.php', 'pg_fiche_tags' ),
-  
+
   // Petit Géni 2 : Types
   'service'         => array ('id_service', 'nom_service', 'misc.png', null, 'pg_service', 'pgtype.inc.php'),
   'typetarif'       => array ('id_typetarif', 'nom_typetarif', 'misc.png', null, 'pg_typetarif', 'pgtype.inc.php'),
   'typereduction'   => array ('id_typereduction', 'nom_typereduction', 'misc.png', null, 'pg_typereduction', 'pgtype.inc.php'),
 
-  'planet_flux'     => array (null,'planet',null,null,null,null,'planet_flux_tags')  
+  'planet_flux'     => array (null,'planet',null,null,null,null,'planet_flux_tags')
   );
 
 ?>

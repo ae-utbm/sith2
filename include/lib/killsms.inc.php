@@ -3,7 +3,7 @@
 /** @file
  *
  * @brief Classe de traduction du language sms et d'évaluation de qualité
- * 
+ *
  */
 
 /* Copyright 2007
@@ -122,7 +122,7 @@ class killsms
         return array("score"=>$points,"errors"=>$errors);
       }
       else
-      {  
+      {
         if($point > ACCEPTABLE_LIMIT)
           return $points;
         else

@@ -18,18 +18,18 @@ while ( $row = $req->get_row() )
   if ( isset($done[$row['id_salle']][$row['type_jeton']][$row['nom_jeton']]))
   {
     echo "Doublons ! : ".$row[0]."<br/>\n";
-    
+
     if ( is_null($row['id_utilisateur']) )
       new delete($dbrw,"mc_jeton",array("id_jeton"=>$row[0]));
-    
-    
+
+
   }
   else
     $done[$row['id_salle']][$row['type_jeton']][$row['nom_jeton']]=1;
-  
-  
-  
-  
+
+
+
+
 }
 
 

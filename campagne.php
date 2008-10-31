@@ -2,7 +2,7 @@
 
 /* Copyright 2007
  * - Simon Lopez <simon POINT lopez CHEZ ayolo POINT org>
- * 
+ *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
  *
@@ -31,13 +31,13 @@ $site = new site ();
 
 if ( !$site->user->is_valid() )
   $site->error_forbidden();
-  
+
 $cpg = new campagne($site->db,$site->dbrw);
 
 if (!isset($_REQUEST['id_campagne']))
 {
   $cpg->load_lastest();
-}    
+}
 else
 {
   $cpg->load_by_id($_REQUEST['id_campagne']);
@@ -53,22 +53,22 @@ if ( $cpg->id > 0 && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repond
 
   $res = new contents("Merci","Votre participation.");
   unset($_REQUEST['id_campagne']);
-}  
+}
 
 if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && $site->user->is_in_group_id($cpg->group) && !$cpg->a_repondu($site->user->id) )
 {
   $questions = $cpg->get_questions();
   if (!empty($questions))
   {
-    $site->start_page("accueil","Campagne");  
-    
+    $site->start_page("accueil","Campagne");
+
     $cts = new contents("Campagne : ".$cpg->nom);
     $cts->add_paragraph("La campagne se terminera le ".date("d/m/y",strtotime($cpg->end_date)));
 
     $frm = new form("discard","campagne.php",true,"POST",false);
     $frm->add_hidden("answord","true");
     $frm->add_hidden("id_campagne",$cpg->id);
-    $frm->add_checkbox ( "discard", "Je ne souhaite pas participer.", false );  
+    $frm->add_checkbox ( "discard", "Je ne souhaite pas participer.", false );
     $frm->add_submit("save","Enregistrer");
 
     $cts->add($frm,true);
@@ -100,7 +100,7 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
         $values=explode(";",$question["reponses"]);
         $keys=array();
         foreach($values as $value)
-        {  
+        {
           $value=explode("|", $value,2);
           $keys[$value[0]]=$value[1];
         }
@@ -135,7 +135,7 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
     $cts->add($frm,true);
 
     $site->add_contents($cts);
-  
+
     $site->end_page();
     exit();
   }
@@ -144,11 +144,11 @@ if ( isset($_REQUEST["id_campagne"]) && $cpg->id == $_REQUEST["id_campagne"] && 
 $site->start_page("accueil","Campagne");
 
 
-$req = new requete($site->db, "SELECT * FROM `cpg_campagne` ORDER BY date_debut_campagne");  
+$req = new requete($site->db, "SELECT * FROM `cpg_campagne` ORDER BY date_debut_campagne");
 
 $site->add_contents(new sqltable(
-                                 "listcampagnes", 
-                                 "Archives", $req, "../campagne.php", 
+                                 "listcampagnes",
+                                 "Archives", $req, "../campagne.php",
                                  "id_campagne",
                                  array(
                                        "nom_campagne"=>"Campagne",

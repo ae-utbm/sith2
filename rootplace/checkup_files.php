@@ -31,7 +31,7 @@ $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
-	
+
 $site->start_page("none","Administration");
 
 $cts = new contents("<a href=\"index.php\">Administration</a> / Maintenance / Verifications fichiers");
@@ -64,7 +64,7 @@ $lst->add(count($excepted_preview)." fichiers preview attendus");
 function checkup_dir(&$lst,&$excepted,$folder)
 {
   $lst->add("<b>Liste tous les fichiers de $folder</b>");
-  
+
   $found=0;
   $excepted_found=0;
   $unexcepted_found=0;
@@ -91,9 +91,9 @@ function checkup_dir(&$lst,&$excepted,$folder)
     }
     closedir($dh);
   }
-  
+
   $lst->add("$found fichiers trouvés, $excepted_found attendus, $unexcepted_found inattendus, ".count($excepted)." non trouvés");
-  
+
 }
 
 checkup_dir($lst,$excepted,$topdir."var/files/");

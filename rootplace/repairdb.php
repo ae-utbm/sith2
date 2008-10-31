@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/entities/carteae.inc.php");
@@ -98,14 +98,14 @@ while ( $row = $sql->get_row() )
   //load_by_alias ( $alias )
   if ( $row["email_utbm"] )
   {
-    $alias = substr($row["email_utbm"],0,strpos($row["email_utbm"], "@"));  
+    $alias = substr($row["email_utbm"],0,strpos($row["email_utbm"], "@"));
     if ( !$user->is_alias_avaible($alias) )
       $alias=null;
   }
 
   if ( (is_null($alias) || empty($alias)) && $row["email_utl"]  )
   {
-    $alias = substr($row["email_utl"],0,strpos($row["email_utl"], "@"));  
+    $alias = substr($row["email_utl"],0,strpos($row["email_utl"], "@"));
     if ( !$user->is_alias_avaible($alias) )
       $alias=null;
   }
@@ -113,21 +113,21 @@ while ( $row = $sql->get_row() )
   if ( is_null($alias) || empty($alias) )
   {
     $alias = $row["prenom_utl"].".".$row["nom_utl"];
-    
+
     $alias = ereg_replace("(e|é|è|ê|ë|É|È|Ê|Ë)","e",$alias);
     $alias = ereg_replace("(a|à|â|ä|À|Â|Ä)","a",$alias);
     $alias = ereg_replace("(i|ï|î|Ï|Î)","i",$alias);
     $alias = ereg_replace("(c|ç|Ç)","c",$alias);
     $alias = ereg_replace("(u|ù|ü|û|Ü|Û|Ù)","u",$alias);
     $alias = ereg_replace("(n|ñ|Ñ)","n",$alias);
-    
+
     $alias = ereg_replace("[^a-z0-9\\.]","",$alias);
-    
+
     $base = $alias;
-    
+
     if ( !$user->is_alias_avaible($alias) )
       $alias=null;
-    
+
     $i=1;
     while ( is_null($alias) )
     {
@@ -139,13 +139,13 @@ while ( $row = $sql->get_row() )
       }
     }
   }
-  
+
   $lst->add("Alias for ".$row["prenom_utl"]." ".$row["nom_utl"]." (".$row["id_utilisateur"].") : $alias");
-  
+
   new update($site->dbrw,
                       "utilisateurs",
                       array('alias_utl' => $alias),
-                      array('id_utilisateur' => $row["id_utilisateur"]));  
+                      array('id_utilisateur' => $row["id_utilisateur"]));
 }
 
 $lst->add("<b>Check folder names (nulls)</b>");

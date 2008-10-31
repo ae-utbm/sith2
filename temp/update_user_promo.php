@@ -20,10 +20,10 @@ $user = new utilisateur($site->db,$site->dbrw);
 
 while ( $row = $req->get_row() )
 {
-  $user->_load_all($row);  
-  
+  $user->_load_all($row);
+
   $promo=0;
-  
+
   if ( $user->departement == 'tc' )
   {
     if ( $user->semestre == 1 ) //TC1
@@ -42,13 +42,13 @@ while ( $row = $req->get_row() )
     elseif ( $user->semestre < 4 ) // GX2-GX3
       $promo=6;
     elseif ( $user->semestre < 6 ) // GX4-GX5
-      $promo=5;      
+      $promo=5;
     elseif ( $user->semestre < 8 ) // GX6-GX7
-      $promo=4;    
+      $promo=4;
     else // GX8
       $promo=3;
   }
-  
+
   if ( $promo )
   {
     echo $user->departement.$user->semestre." => $promo <br/>\n";

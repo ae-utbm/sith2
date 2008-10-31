@@ -128,7 +128,7 @@ class facture_pdf extends FPDF
 		$y += (20-$h)/2;
 		$this->Image($this->facturing_infos['logo'],$x,+$y,$w,$h);
 	}
-	
+
     $this->SetXY(10, 30);
 
 
@@ -217,7 +217,7 @@ class facture_pdf extends FPDF
 			  $this->bought[$i]['quantite'],
 			  $this->bought[$i]['sous_total']);
       }
-    $this->print_total();  
+    $this->print_total();
     $this->print_mentions_legales();
     return;
   }
@@ -227,7 +227,7 @@ class facture_pdf extends FPDF
   function print_total()
   {
 
-     
+
     $this->Ln(10);
     //Police de caractere
     $this->SetFont('Arial','B',14);

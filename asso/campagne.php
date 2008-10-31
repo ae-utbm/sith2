@@ -120,7 +120,7 @@ if($_REQUEST["action"]=="add")
   else
     $frm->add_date_field("end_date", "Date de fin de validite : ",$default_valid,true);
 
-  $frm->add_text_field("nom", "Nom de la campagne",$_REQUEST["nom"],true,80);    
+  $frm->add_text_field("nom", "Nom de la campagne",$_REQUEST["nom"],true,80);
 
   $frm->add_text_area("description", "Description de la campagne",$_REQUEST["description"]);
   $frm->add_entity_smartselect("id_groupe","Groupe",new group($site->db));
@@ -236,8 +236,8 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="results" && $cpg->asso==$_REQ
                       `id_question`, `nom_question`, `valeur_reponse`
                       FROM `cpg_reponse`
                       INNER JOIN `cpg_question` USING(`id_question`)
-                      WHERE `id_campagne`='".$cpg->id."' 
-                        AND (`type_question`=\"radio\" 
+                      WHERE `id_campagne`='".$cpg->id."'
+                        AND (`type_question`=\"radio\"
                           OR `type_question`=\"checkbox\"
                           OR `type_question`=\"list\")
                       GROUP BY `valeur_reponse`
@@ -277,7 +277,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
   $frm = new form("editcpg","./campagne.php",true,"POST","Edition campagne ".$cpg->id);
   $frm->add_hidden("id_campagne",$cpg->id);
   $frm->add_date_field("end_date", "Date de fin de validite : ",$cpg->end_date,true);
-  $frm->add_text_field("nom", "Nom de la campagne",$cpg->nom,true,80);    
+  $frm->add_text_field("nom", "Nom de la campagne",$cpg->nom,true,80);
   $frm->add_text_area("description", "Description de la campagne",$cpg->description);
   $frm->add_entity_select("id_groupe", "Groupe concern&eacute;", $site->db, "group",$cpg->group,true);
   $frm->add_entity_select("id_asso", "Association", $site->db, "asso",$cpg->asso,true);
@@ -299,7 +299,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
       $subfrm->add_text_field("questions[".$row['id_question']."][reponses_question]", "Réponses possibles",$row["reponses_question"],true,80);
       $frm->addsub ( $subfrm, true, false );
       $n++;
- 
+
     }
 
   $frm->add_submit("editcpg","Enregistrer");
@@ -307,10 +307,10 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
   $site->add_contents($cts);
 
 
-}elseif(isset($_REQUEST["editcpg"]) && 
+}elseif(isset($_REQUEST["editcpg"]) &&
 	isset($_REQUEST["nom"]) && !empty($_REQUEST["nom"]) &&
-	isset($_REQUEST["end_date"]) && 
-	isset($_REQUEST["description"]) && 
+	isset($_REQUEST["end_date"]) &&
+	isset($_REQUEST["description"]) &&
 	isset($_REQUEST["id_asso"]) &&
 	isset($_REQUEST["id_groupe"]) &&
 	isset($_REQUEST["questions"])
@@ -353,7 +353,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
         }
         $cpg->update_question($id_question,$rep['nom_question'],$rep['description_question'],$rep['type_question'],$reponses);
       }
-      elseif ($rep['type_question'] == "text" || 
+      elseif ($rep['type_question'] == "text" ||
               $rep['type_question'] == "checkbox" )
       {
         $cpg->update_question($id_question,$rep['nom_question'],$rep['description_question'],$rep['type_question'],NULL);
@@ -365,7 +365,7 @@ elseif(!is_null($cpg->id) && $_REQUEST["action"]=="edit" && $cpg->asso==$_REQUES
       }
     }
   }
-  
+
 
   $cts->add_paragraph("<a href=\"./campagne.php?id_asso=".$asso->id."&action=add\">Ajouter une campagne</a>");
   if($nb_remove_question == 1){

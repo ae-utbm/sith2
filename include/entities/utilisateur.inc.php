@@ -49,7 +49,7 @@ class utilisateur extends stdentity
 
   /** Type d'utilisateur
    * "std" Utilisateur normal
-   * "srv" Personne morale, un service de l'UTBM. 
+   * "srv" Personne morale, un service de l'UTBM.
    */
   var $type;
   var $nom;
@@ -172,7 +172,7 @@ class utilisateur extends stdentity
     }*/
 
     if (ereg("^([A-Za-z0-9\._-]+)@(utbm\.fr|assidu-utbm\.fr)$", $email, $regs))
-      $req = new requete($this->db, 
+      $req = new requete($this->db,
         "SELECT `utilisateurs`.* FROM `utilisateurs` " .
         "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
         "WHERE `utilisateurs`.`email_utl` = '".mysql_real_escape_string($regs[1]."@utbm.fr")."' " .
@@ -181,7 +181,7 @@ class utilisateur extends stdentity
         "OR `utl_etu_utbm`.`email_utbm` = '".mysql_real_escape_string($regs[1]."@assidu-utbm.fr")."' " .
         "LIMIT 1");
     else
-      $req = new requete($this->db, 
+      $req = new requete($this->db,
         "SELECT `utilisateurs`.* FROM `utilisateurs` " .
         "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
         "WHERE `utilisateurs`.`email_utl` = '" . mysql_real_escape_string($email) . "' OR " .
@@ -323,7 +323,7 @@ class utilisateur extends stdentity
     if(!CheckEmail($email,3))
       return false;
     if (ereg("^([A-Za-z0-9\._-]+)@(utbm\.fr|assidu-utbm\.fr)$", $email, $regs))
-      $req = new requete($this->db, 
+      $req = new requete($this->db,
         "SELECT `utilisateurs`.* FROM `utilisateurs` " .
         "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur` " .
         "WHERE (`utilisateurs`.`email_utl` = '".mysql_real_escape_string($regs[1]."@utbm.fr")."' " .
@@ -332,7 +332,7 @@ class utilisateur extends stdentity
         "OR `utl_etu_utbm`.`email_utbm` = '".mysql_real_escape_string($regs[1]."@assidu-utbm.fr")."') " .
         "AND `utilisateurs`.`id_utilisateur`!='".$this->id."'");
     else
-      $req = new requete($this->db, 
+      $req = new requete($this->db,
         "SELECT `utilisateurs`.* FROM `utilisateurs` " .
         "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
         "WHERE (`utilisateurs`.`email_utl`='" . mysql_real_escape_string($email) . "' OR " .
@@ -549,10 +549,10 @@ class utilisateur extends stdentity
   function load_groups ()
   {
     $this->groupes = array();
-    
+
     if ( !$this->is_valid() )
-      return;    
-      
+      return;
+
     $req = new requete($this->db,
                        "SELECT `groupe`.`id_groupe`,`groupe`.`nom_groupe`
                         FROM `utl_groupe`
@@ -592,7 +592,7 @@ class utilisateur extends stdentity
 
     if ( $this->modere )
       $this->groupes[10008] = "utilisateurs-valides";
-      
+
     $req = new requete($this->db,
                        "SELECT `asso`.`id_asso`, ".
                        "`asso`.`nom_unix_asso`, ".
@@ -632,11 +632,11 @@ class utilisateur extends stdentity
       $this->groupes[$this->promo_utbm+40000] = "promo".sprintf("%02d",$this->promo_utbm)."-membres";
 
   }
-  
+
   function _update_mailings ( $oldemail, $newemail )
   {
     require_once($topdir."include/entities/asso.inc.php");
-    
+
     $req = new requete($this->db,
                        "SELECT ".
                        "`asso`.`nom_unix_asso`, ".
@@ -662,12 +662,12 @@ class utilisateur extends stdentity
         asso::_ml_unsubscribe($this->dbrw,$name.".membres",$oldemail);
         asso::_ml_subscribe($this->dbrw,$name.".membres",$newemail);
       }
-    } 
-    
+    }
+
   }
-  
-  
-  
+
+
+
   /** Determine si l'utilisateur est membre du groupe précisé.
    * (Charge automatiquement les groupes)
    * @param $name nom du groupe
@@ -745,14 +745,14 @@ class utilisateur extends stdentity
   function saveinfos ()
   {
     global $topdir;
-    
+
     if ( empty($this->alias) )
       $this->alias = null;
-    
+
     require_once($topdir."include/cts/cached.inc.php");
     $cache = new cachedcontents("sig".$this->id);
     $cache->expire();
-    
+
     new update($this->dbrw,
                       "utilisateurs",
                       array('nom_utl' => $this->nom,
@@ -805,10 +805,10 @@ class utilisateur extends stdentity
     }
 
     $req = new requete($this->db,"SELECT id_utilisateur FROM utl_extra WHERE id_utilisateur='".mysql_real_escape_string($this->id)."'");
-    
+
     if ( !$this->permis_conduire )
       $this->date_permis_conduire=null;
-    
+
     if ( $req->lines == 0 )
       new insert($this->dbrw,
                       "utl_extra",
@@ -890,7 +890,7 @@ class utilisateur extends stdentity
                         array("id_utilisateur" => $this->id,
                               "email_utbm"=>$email_utbm));
     }
-    
+
     // Si c'est un admin qui fait l'opération, on considère que la vérification par email n'est pas requise
     if ( $admin )
     {
@@ -938,17 +938,17 @@ class utilisateur extends stdentity
                             "etudiant_utl"=>$this->etudiant,
                             "ancien_etudiant_utl"=>$this->ancien_etudiant),
                       array("id_utilisateur"=>$this->id));
-                      
-    // Force le role à "etu" si l'utilisateur est utbm 
+
+    // Force le role à "etu" si l'utilisateur est utbm
     if ( $this->utbm )
     {
-      $this->role = "etu";               
+      $this->role = "etu";
       new update($this->dbrw,"utl_etu_utbm",
         array('role_utbm' => $this->role),
         array('id_utilisateur' => $this->id));
-    }                        
+    }
   }
-  
+
   function became_notetudiant ( )
   {
     $this->etudiant = 0;
@@ -1190,7 +1190,7 @@ class utilisateur extends stdentity
   function new_utbm_user ( $nom, $prenom, $email, $emailutbm, $alias, $password, $semestre, $branche, $promo, $etudiant, $droit_image, $nom_ecole, $date_naissance = null , $sexe = 1)
   {
     $this->type="std";
-    
+
     $this->nom = convertir_nom($nom);
     $this->prenom = convertir_prenom($prenom);
 
@@ -1302,7 +1302,7 @@ class utilisateur extends stdentity
   function set_email ( $email, $admin=false )
   {
     $this->_update_mailings($this->email,$email);
-    
+
     $this->email = $email;
 
     $req = new update($this->dbrw,
@@ -1395,19 +1395,19 @@ L'équipe info AE";
   function _get_textual_identifier ( )
   {
     $this->load_all_extra();
-    
+
     if ( $this->email_utbm && CheckEmail($this->email_utbm, 1) )
       return "Connexion : UTBM\nIdentifiant : ".substr($this->email_utbm,0,-8);
-      
+
     elseif ( $this->email_utbm && CheckEmail($this->email_utbm, 2) )
       return "Connexion : ASSIDU\nIdentifiant : ".substr($this->email_utbm,0,-15);
-    
+
     elseif ( $this->alias )
       return "Connexion : Alias\nIdentifiant : ".$this->alias;
-      
+
     elseif ( $this->email )
       return "Connexion : Autre\nIdentifiant : ".$this->email;
-      
+
     else
       return "Connexion : ID\nIdentifiant : ".$this->id;
   }
@@ -1521,7 +1521,7 @@ L'équipe info AE";
   {
     if ( $this->type == "srv" )
       return true;
-    
+
     return $this->montant_compte >= $prix;
   }
 
@@ -1909,7 +1909,7 @@ L'équipe info AE";
    */
   function get_tabs ( &$user )
   {
-    if ( $this->type=="srv" ) 
+    if ( $this->type=="srv" )
     {
       $tabs = array(array("","user.php?id_utilisateur=".$this->id, "Informations") );
       if (  $this->id == $user->id || $user->is_in_group("gestion_ae") )
@@ -1926,7 +1926,7 @@ L'équipe info AE";
                     array("assos","user.php?view=assos&id_utilisateur=".$this->id, "Associations"),
                     array("photos","user/photos.php?id_utilisateur=".$this->id, "Photos"),
   		              array("pedagogie","user.php?view=pedagogie&id_utilisateur=".$this->id, "Pédagogie") );
-  
+
       if (  $this->id == $user->id || $user->is_in_group("gestion_ae") )
       {
         $tabs[]=array("resa","user/reservations.php?id_utilisateur=".$this->id, "Reservations");
@@ -1934,8 +1934,8 @@ L'équipe info AE";
         $tabs[]=array("compte","user/compteae.php?id_utilisateur=".$this->id, "Compte AE");
       }
     }
-    
-    if ( ( $user->is_in_group("gestion_ae") && $user->id != $this->id ) || 
+
+    if ( ( $user->is_in_group("gestion_ae") && $user->id != $this->id ) ||
          $user->is_in_group("root") )
       $tabs[]=array("groups","user.php?view=groups&id_utilisateur=".$this->id, "Groupes");
 
@@ -1958,14 +1958,14 @@ L'équipe info AE";
   function set_all_read ( )
   {
     $this->tout_lu_avant = time();
-        
+
     // supprime les frm_sujet_utilisateur qui ne servirons plus à rien
     new delete($this->dbrw,"frm_sujet_utilisateur",
       array("etoile_sujet"=>0,"id_utilisateur"=>$this->id));
 
     new delete($this->dbrw,"frm_sujet_utilisateur",
       array("etoile_sujet"=>NULL,"id_utilisateur"=>$this->id));
-    
+
     new update($this->dbrw,"utilisateurs",
       array("tout_lu_avant_utl"=>date("Y-m-d H:i:s")),
       array("id_utilisateur"=>$this->id));
@@ -2013,7 +2013,7 @@ L'équipe info AE";
       else
         $email = $this->email;
     }
-    
+
     if ( $this->hash != "valid" )
       $body = "Bonjour,\n".
         "Votre compte n'est pas toujours pas activé, de plus il faudrais mettre à jour votre profil.\n".
@@ -2030,20 +2030,20 @@ L'équipe info AE";
         "http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&token=" . $site->create_token_for_user($this->id) . "\n".
         "\n".
         "L'équipe info AE";
-    
+
     $ret = mail($email,
                 utf8_decode("[Site AE] Mise à jour de votre profil"),
                 utf8_decode($body),
                 "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ae@utbm.fr");
   }
-  
+
   function send_photo_email ( &$site, $title, $infotext )
   {
     if ( $this->email_utbm )
       $email = $this->email_utbm;
     else
       $email = $this->email;
-    
+
     if ( $this->hash != "valid" )
       $body = "Bonjour,\n".
         $infotext.
@@ -2060,16 +2060,16 @@ L'équipe info AE";
         "http://ae.utbm.fr/majprofil.php?id_utilisateur=" . $this->id . "&token=" . $site->create_token_for_user($this->id) . "\n".
         "\n".
         "L'équipe info AE";
-    
+
     $ret = mail($email,
                 utf8_decode($title),
                 utf8_decode($body),
-                "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ae@utbm.fr");    
-    
+                "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ae@utbm.fr");
+
   }
-  
-  
-  /** 
+
+
+  /**
    * Supprime un utilisateur **si possible**
    *
    * @return true si l'utilisateur a été supprimé, false si impossible
@@ -2077,7 +2077,7 @@ L'équipe info AE";
   function delete_utilisateur()
   {
     global $Erreur;
-    
+
     $no_matter = array(
       "utilisateurs",
       "utl_etu",
@@ -2088,7 +2088,7 @@ L'équipe info AE";
       "utl_parametres",
       "site_sessions",
       "frm_sujet_utilisateur");
-    
+
     // Liste toutes les tables
     $req1 = new requete($this->db,"SHOW TABLES");
     while ( list($table) = $req1->get_row() )
@@ -2103,7 +2103,7 @@ L'équipe info AE";
           // S'il s'agit d'un champ utilisateur
           if ( ereg("^id_utilisateur",$row[0]) )
           {
-            // Recherche s'il y a des enregistrements pour l'utilisateur 
+            // Recherche s'il y a des enregistrements pour l'utilisateur
             $req3 = new requete($this->db, "SELECT $row[0] FROM $table WHERE ".$row[0]."='".$this->id."'");
             if ( $req3->lines != 0 )
             {
@@ -2115,29 +2115,29 @@ L'équipe info AE";
         }
       }
     }
-    
+
     foreach($no_matter as $table)
       new delete($this->dbrw,$table,array("id_utilisateur"=>$this->id));
-    
+
     $p1 = $topdir."var/img/matmatronch/".$this->id.".identity.jpg";
     if ( file_exists($p1) )
-      unlink($p1);  
-    
+      unlink($p1);
+
     $p1 = $topdir."var/img/matmatronch/".$this->id.".jpg";
     if ( file_exists($p1) )
-      unlink($p1); 
-      
+      unlink($p1);
+
     $p1 = $topdir."var/img/matmatronch/".$this->id.".blouse.jpg";
     if ( file_exists($p1) )
-      unlink($p1); 
-      
+      unlink($p1);
+
     $p1 = $topdir."var/img/matmatronch/".$this->id.".blouse.mini.jpg";
     if ( file_exists($p1) )
-      unlink($p1); 
-    
+      unlink($p1);
+
     return true;
   }
-  
+
   /**
    * Remplace l'utilisateur par un autre, et le supprime
    * Analyse la base de données pour procéder aux différents opérations
@@ -2146,27 +2146,27 @@ L'équipe info AE";
    * @param $replacement Instance de utilisateur qui va remplacer celle-ci
    * @return true en cas de succès, sinon false
    */
-  function replace_and_remove ( &$replacement )   
+  function replace_and_remove ( &$replacement )
   {
     global $Erreur, $topdir;
-    
+
     // 1- Analyse de la base de données
-    $updates = array(); // Remplacements de valeurs 
+    $updates = array(); // Remplacements de valeurs
     $fusions = array(); // Fusions
-    
+
     $req1 = new requete($this->db,"SHOW TABLES");
     while ( list($table) = $req1->get_row() )
     {
       $primary=array();
-      
+
       // Extrait la clé primaire
-      $req2 = new requete($this->db,"SHOW INDEX FROM $table"); 
+      $req2 = new requete($this->db,"SHOW INDEX FROM $table");
       while ( $row = $req2->get_row() )
       {
         if ( $row[2] == "PRIMARY" )
           $primary[] = $row[4];
-      }        
-      
+      }
+
       // Liste les champs de la table
       $req2 = new requete($this->db, "DESCRIBE $table");
       while ( $row = $req2->get_row() )
@@ -2182,8 +2182,8 @@ L'équipe info AE";
             $updates[] = array($table,$row[0]);
         }
       }
-    }    
-    
+    }
+
     // 2- Verifie qu'il existe des stratégies pour toutes les fusions requises
     $known_fusions = array("utilisateurs","utl_etu_utbm","utl_etu","utl_extra","job_prefs");
     foreach ( $fusions as $fusion )
@@ -2191,16 +2191,16 @@ L'équipe info AE";
       if ( !in_array($fusion[0],$known_fusions) )
       {
         $Erreur = "Aucune stratégie de fusion connue pour la table ".$fusion[0];
-        return false;  
+        return false;
       }
     }
-    
+
     //3- Procéde aux fusions
-    
+
     // Champs avec stratégie spéciale
-    $special = array ( 
-      "utilisateurs.montant_compte" => "sum", 
-      "utilisateurs.email_utl" => "noop", 
+    $special = array (
+      "utilisateurs.montant_compte" => "sum",
+      "utilisateurs.email_utl" => "noop",
       "utilisateurs.hash_utl"=>"noop",
       "utilisateurs.tovalid_utl"=>"noop",
       "utilisateurs.pass_utl"=>"noop",
@@ -2211,91 +2211,91 @@ L'équipe info AE";
     foreach ( $fusions as $fusion )
     {
       // Recherche les données sur les deux instances
-      $req1 = new requete($this->db,"SELECT * FROM ".$fusion[0]." WHERE ".$fusion[1]."='".$this->id."'");      
-      $req2 = new requete($this->db,"SELECT * FROM ".$fusion[0]." WHERE ".$fusion[1]."='".$replacement->id."'");      
-      
+      $req1 = new requete($this->db,"SELECT * FROM ".$fusion[0]." WHERE ".$fusion[1]."='".$this->id."'");
+      $req2 = new requete($this->db,"SELECT * FROM ".$fusion[0]." WHERE ".$fusion[1]."='".$replacement->id."'");
+
       if ( $req1->lines == 1 && $req2->lines == 1 ) // Une fusion une vrai
       {
         $row1 = $req1->get_row();
         $row2 = $req2->get_row();
         $row = array();
-        
+
         unset($row1[$fusion[1]]);
         unset($row2[$fusion[1]]);
-        
+
         // Prepare les mises à jours à procéder sur l'utilisateur 2
         foreach ( $row1 as $key => $value1 )
         {
           $value2 = $row2[$key];
-          
+
           $n = $fusion[0].".".$key;
-          
+
           // Cas spéciaux
           if ( isset($special[$n]) )
           {
             if ( $special[$n] == "sum" )
-              $row[$key] = $value2+$value1; 
+              $row[$key] = $value2+$value1;
             elseif ( $special[$n] == "or" )
-              $row[$key] = intval($value2)|intval($value1); 
+              $row[$key] = intval($value2)|intval($value1);
             elseif ( $special[$n] == "validutbm" )
             {
-              if ( (CheckEmail($value1, 1) || CheckEmail($value1, 2)) 
+              if ( (CheckEmail($value1, 1) || CheckEmail($value1, 2))
                  && !(CheckEmail($value2, 1) || CheckEmail($value2, 2)) )
-                $row[$key] = $value1; 
+                $row[$key] = $value1;
             }
           }
-          // Stratégie par défaut: On ne comble que le trous de l'utilisateur 2 
+          // Stratégie par défaut: On ne comble que le trous de l'utilisateur 2
           // par les données l'utilisateur 1
-          elseif ( is_string($key) && empty($value2) ) 
-            $row[$key] = $value1; 
+          elseif ( is_string($key) && empty($value2) )
+            $row[$key] = $value1;
 
         }
-        
+
         new update($this->dbrw,$fusion[0],$row,array($fusion[1]=>$replacement->id));
         new delete($this->dbrw,$fusion[0],array($fusion[1]=>$this->id));
       }
       elseif ( $req1->lines == 1 ) // Un simplement remplacement
         new update($this->dbrw,$fusion[0],array($fusion[1]=>$replacement->id),array($fusion[1]=>$this->id));
-      
+
       // Dans les autres cas, il n'y a rien à faire
     }
-    
+
     //4- Procéde aux remplacements
     foreach( $updates as $update )
       new update($this->dbrw,$update[0],array($update[1]=>$replacement->id),array($update[1]=>$this->id));
-      
+
     //5- Procède aux opérations sur fichiers
-    
+
     $p1 = $topdir."var/img/matmatronch/".$this->id.".identity.jpg";
-    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".identity.jpg"; 
-    
+    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".identity.jpg";
+
     if ( !file_exists($p2) && file_exists($p1) )
-      rename($p1,$p2);  
-    
+      rename($p1,$p2);
+
     $p1 = $topdir."var/img/matmatronch/".$this->id.".jpg";
-    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".jpg"; 
-    
+    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".jpg";
+
     if ( !file_exists($p2) && file_exists($p1) )
-      rename($p1,$p2); 
-      
+      rename($p1,$p2);
+
     $p1 = $topdir."var/img/matmatronch/".$this->id.".blouse.jpg";
-    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".blouse.jpg"; 
-    
+    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".blouse.jpg";
+
     if ( !file_exists($p2) && file_exists($p1) )
-      rename($p1,$p2); 
-      
+      rename($p1,$p2);
+
     $p1 = $topdir."var/img/matmatronch/".$this->id.".blouse.mini.jpg";
-    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".blouse.mini.jpg"; 
-    
+    $p2 = $topdir."var/img/matmatronch/".$replacement->id.".blouse.mini.jpg";
+
     if ( !file_exists($p2) && file_exists($p1) )
-      rename($p1,$p2); 
-                  
+      rename($p1,$p2);
+
     return true;
   }
 
   /*
    * Covoiturage
-   * 
+   *
    */
 
   /*
@@ -2305,7 +2305,7 @@ L'équipe info AE";
    */
   function covoiturage_steps_moderation()
   {
-    $req = new requete($this->db, "SELECT 
+    $req = new requete($this->db, "SELECT
                                           COUNT(`cv_trajet_etape`.`id_trajet`) AS `nb`
                                    FROM
                                           `cv_trajet_etape`
@@ -2320,7 +2320,7 @@ L'équipe info AE";
     $rs = $req->get_row();
 
     return $rs['nb'];
-  }  
+  }
 
   /*
    * Pédagogie
@@ -2328,7 +2328,7 @@ L'équipe info AE";
    */
   function a_fait_tc()
   {
-    $requete = "SELECT 
+    $requete = "SELECT
                         `id_utilisateur`
                 FROM
                         `edu_uv_groupe_etudiant`
@@ -2348,7 +2348,7 @@ L'équipe info AE";
                 UNION
                 SELECT
                         `id_utilisateur`
-                FROM 
+                FROM
                         `edu_uv_obtention`
                 INNER JOIN
                         `edu_uv`

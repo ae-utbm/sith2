@@ -11,7 +11,7 @@ function extract_tags_iso ( $textiso )
     $text = $regs[4];
     $motclef = utf8_encode($regs[2]);
     $motclefs[$motclef] = $motclef;
-  }  
+  }
   return $motclefs;
 }
 
@@ -20,7 +20,7 @@ $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir. "include/mysqlpg.inc.php");
 
-$site = new site (); 
+$site = new site ();
 $dbpg = new mysqlpg ();
 
 new requete($site->dbrw,"TRUNCATE TABLE pg_category");
@@ -45,12 +45,12 @@ $req = new requete($dbpg,"SELECT * FROM pg_cat1");
 while ( $row = $req->get_row() )
 {
   $cat = new pgcategory($site->db,$site->dbrw);
-  $cat->create ( $rootcat->id, utf8_encode($row['nom']), "", $row['ordre'], 
-    sprintf("%02x%02x%02x",$row['r1'],$row['v1'],$row['b1']), 
-    sprintf("%02x%02x%02x",$row['r2'],$row['v2'],$row['b2']), 
-    sprintf("%02x%02x%02x",$row['r3'],$row['v3'],$row['b3']), 
-    sprintf("%02x%02x%02x%02x",$row['c1'],$row['m1'],$row['j1'],$row['n1']), 
-    sprintf("%02x%02x%02x%02x",$row['c2'],$row['m2'],$row['j2'],$row['n2']), 
+  $cat->create ( $rootcat->id, utf8_encode($row['nom']), "", $row['ordre'],
+    sprintf("%02x%02x%02x",$row['r1'],$row['v1'],$row['b1']),
+    sprintf("%02x%02x%02x",$row['r2'],$row['v2'],$row['b2']),
+    sprintf("%02x%02x%02x",$row['r3'],$row['v3'],$row['b3']),
+    sprintf("%02x%02x%02x%02x",$row['c1'],$row['m1'],$row['j1'],$row['n1']),
+    sprintf("%02x%02x%02x%02x",$row['c2'],$row['m2'],$row['j2'],$row['n2']),
     sprintf("%02x%02x%02x%02x",$row['c3'],$row['m3'],$row['j3'],$row['n3']) );
 
   $cat->set_tags($cat->nom);
@@ -63,9 +63,9 @@ $req = new requete($dbpg,"SELECT * FROM pg_cat2");
 while ( $row = $req->get_row() )
 {
   $parent = $cat1_to_cat[$row['id_cat1']];
-  
+
   $cat = new pgcategory($site->db,$site->dbrw);
-  $cat->create ( $parent->id, utf8_encode($row['nom']), "", 1, 
+  $cat->create ( $parent->id, utf8_encode($row['nom']), "", 1,
     $parent->couleur_bordure_web,
     $parent->couleur_titre_web,
     $parent->couleur_contraste_web,
@@ -82,9 +82,9 @@ $req = new requete($dbpg,"SELECT * FROM pg_cat3");
 while ( $row = $req->get_row() )
 {
   $parent = $cat2_to_cat[$row['id_cat2']];
-  
+
   $cat = new pgcategory($site->db,$site->dbrw);
-  $cat->create ( $parent->id, utf8_encode($row['nom']), "", 1, 
+  $cat->create ( $parent->id, utf8_encode($row['nom']), "", 1,
     $parent->couleur_bordure_web,
     $parent->couleur_titre_web,
     $parent->couleur_contraste_web,
@@ -106,7 +106,7 @@ $req = new requete($dbpg,"SELECT * FROM pg_secteur2");
 $manual =  array (
 "90800 Argièsans" => 34576,
 "90800 Bavilliers" => 34580,"90140 Autrechêne" => 2283465, "90200 Auxelles Bas" => 34577,"90200 Auxelles Haut" => 34578,"90200 Ballon d'Alsace" => 34632,
-"90200 Gromagny" => 34621,"90200 Lepuix Gy" => 34632, 
+"90200 Gromagny" => 34621,"90200 Lepuix Gy" => 34632,
 "90200 Riervescemont" => 2283466,"90110 Bourg sous Châtelet" => 34588,
 "90110 Romagny sous Rougemont" => 34648, "90110 Rougemont le Château" => 34651,
 "90110 Saint Germain le Châtelet" => 34653,"90700 Châtenois les Forges" => 34594,"90100 Chavannes les Grands" => 34597,
@@ -128,33 +128,33 @@ while ( $row = $req->get_row() )
 {
   $id_ville=null;
   $complement="";
-  
+
   $row['nom'] = utf8_encode($row['nom']);
-  
+
   if ( preg_match('/^([^\(\)]*) \(([A-Z0-9]*)\)$/ui',$row['nom'], $match) )
   {
     $nom = $match[1];
-    $complement = $match[2]; 
+    $complement = $match[2];
   }
   else
   {
     $nom = $row['nom'];
     $complement = "";
   }
-  
+
   if ( !empty($row['code_postal']) )
     $nom = str_replace(" ","",$row['code_postal'])." ".$nom;
-  
+
   if ( isset($manual[$nom]) )
   {
     $id_ville=$manual[$nom];
-    
+
     $ville->load_by_id($id_ville);
   }
   else
   {
     $candidates = $ville->fsearch ( $nom, 2, array("id_pays"=>1) );
-    
+
     if ( !is_null($candidates) && count($candidates) == 1 )
     {
       reset($candidates);
@@ -165,7 +165,7 @@ while ( $row = $req->get_row() )
       echo "$nom non trouvé !<br/>\n";
       print_r($candidates);
       print_r($row);
-      exit();  
+      exit();
     }
   }
   $secteurs2[$row['id']]=array("old"=>$nom,"id_ville"=>$id_ville,"complement"=>$complement);
@@ -193,17 +193,17 @@ $req = new requete($dbpg,"SELECT * FROM pg_voie");
 while ( $row = $req->get_row() )
 {
   $rue = new rue($site->db,$site->dbrw);
-  
+
   $sec = array();
-  
+
   for($i=1;$i<7;$i++)
     if ( $row["id_secteur$i"] != -1 )
       $sec[] = $secteurs2[$row["id_secteur$i"]];
-  
+
   $id_ville=null;
   $complement="";
-  $err=false; 
-      
+  $err=false;
+
   foreach( $sec as $s )
   {
     if ( is_null($id_ville) )
@@ -211,7 +211,7 @@ while ( $row = $req->get_row() )
     elseif ( $id_ville != $s["id_ville"] )
     {
       echo "Pas cohérent !<br/>\n";
-      $err=true; 
+      $err=true;
     }
     if ( !empty($s["complement"]) )
     {
@@ -221,34 +221,34 @@ while ( $row = $req->get_row() )
         $complement .= ", ".$s["complement"];
     }
   }
-  
+
   if ( is_null($id_ville) )
   {
     echo "Pas de ville !<br/>\n";
-    $err=true; 
+    $err=true;
   }
-  
+
   if ( $err )
   {
     echo "<i>Tentative de resolution</i><br/>\n";
     $req1 = new requete($dbpg,"SELECT secteur FROM pg_liste WHERE pg_liste.voie='".$row['id']."' GROUP BY secteur");
-    
+
     if ( $req1->lines > 0 )
     {
       $id_ville=null;
-      $complement="";     
-      $err=false;  
-      
+      $complement="";
+      $err=false;
+
       echo "Secteurs d'origine : ";
-      
+
       for($i=1;$i<7;$i++)
         if ( $row["id_secteur$i"] != -1 )
           echo $row["id_secteur$i"]."  ";
-     
+
       echo "<br/>\nSecteurs retrouvés : ";
-      
+
       $sec = array();
-      
+
       while ( list($secteur) = $req1->get_row() )
       {
         $sec[] = $secteurs2[$secteur];
@@ -265,7 +265,7 @@ while ( $row = $req->get_row() )
         elseif ( $id_ville != $s["id_ville"] )
         {
           echo "Pas cohérent !<br/>\n";
-          $err=true; 
+          $err=true;
         }
         if ( !empty($s["complement"]) )
         {
@@ -273,19 +273,19 @@ while ( $row = $req->get_row() )
             $complement = $s["complement"];
           else
             $complement .= ", ".$s["complement"];
-        }        
+        }
       }
       if ( is_null($id_ville) )
       {
         echo "<b>FATAL</b> Pas de ville !<br/>\n";
-        $err=true; 
-      }      
+        $err=true;
+      }
     }
     else
       echo "<b>FATAL</b> Jamais utilisé !<br/>\n";
   }
-  
-  
+
+
   if ( !isset($typesderue[$row['id_type']]) )
   {
     echo "<b>FATAL</b> Type de rue iconnu !<br/>\n";
@@ -293,7 +293,7 @@ while ( $row = $req->get_row() )
     print_r($sec);
     $err = true;
   }
-  
+
   if ( !$err )
   {
     $rue->create ( utf8_encode($row['nom']), utf8_encode($complement), $typesderue[$row['id_type']], $id_ville);
@@ -303,7 +303,7 @@ while ( $row = $req->get_row() )
   {
     echo "<b>Ignoré</b><br/>\n";
     print_r($row);
-    print_r($sec);    
+    print_r($sec);
     echo "<br/>\n<br/>\n<br/>\n\n";
   }
 }
@@ -359,20 +359,20 @@ while ( $row = $req->get_row() )
   }
   else
   {
-  
+
     $fiche->id=null;
-    
+
     $fiche->create ( $secteurs2[$row['secteur']]['id_ville'], utf8_encode($row['nom']), null, null, null, $cat3_to_cat[$row['cat']]->id, $rues[$row['voie']], null, utf8_encode($row['description']), utf8_encode($row['description']), utf8_encode($row['tel']), utf8_encode($row['fax']), utf8_encode($row['email']), utf8_encode($row['http']), utf8_encode($row['no']), utf8_encode($row['adresse'])."\n".$secteurs2[$row['secteur']]['old'], false, $row['mav'], !empty($row['coupdecoeur']), utf8_encode($row['coupdecoeur']), utf8_encode($row['remarques']), strtotime($row['date_maj']), null, null );
-    
+
     $tags = /*array_merge(*/$cat3_to_cat[$row['cat']]->_tags;/*,extract_tags_iso($row['description']));*/
     $fiche->set_tags_array($tags);
-    
+
     if ( $row['handicape'] )
       $fiche->add_service ( $services["handicape"], "", strtotime($row['date_maj']) );
-    
+
     if ( $row['reduc_bij'] )
       $fiche->add_reduction ( $typesreduction["bij"], "", "", "", strtotime($row['date_maj']) );
-    
+
     if ( $row['reduc_psa'] )
       $fiche->add_reduction ( $typesreduction["psa"], utf8_encode($row['reduc_psa']), "", "", strtotime($row['date_maj']) );
     if ( $row['reduc_alsthom'] )
@@ -385,8 +385,8 @@ while ( $row = $req->get_row() )
       $fiche->add_reduction ( $typesreduction["divers"], utf8_encode($row['reduc_divers']), "", "", strtotime($row['date_maj']) );
     if ( $row['reduc_petitgeni'] )
       $fiche->add_reduction ( $typesreduction["petitgeni"], utf8_encode($row['reduc_petitgeni']), "", "", strtotime($row['date_maj']) );
-  
-    $fiches[$row['id']] = $fiche->id;  
+
+    $fiches[$row['id']] = $fiche->id;
   }
 }
 
@@ -404,11 +404,11 @@ while ( $row = $req->get_row() )
   elseif ( isset($fiches[$row['id_liste_parent']]) )
   {
     $fiche->load_by_id($fiches[$row['id_liste_parent']]);
-    
+
     $fiche->add_extra_pgcategory ( $cat3_to_cat[$row['cat']]->id, utf8_encode($row['nom']), utf8_encode($row['description']) );
-    
-    $fiches[$row['id']] = $fiche->id;  
-    
+
+    $fiches[$row['id']] = $fiche->id;
+
   }
   else
   {

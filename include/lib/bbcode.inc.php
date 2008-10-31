@@ -3,7 +3,7 @@
 /** @file
  *
  * @brief Classe de traduction bbcode -> html
- * 
+ *
  */
 
 /* Copyright 2007
@@ -32,7 +32,7 @@
 
 
 //bbcode
-function bbcode($text) 
+function bbcode($text)
 {
   global $topdir;
 
@@ -46,7 +46,7 @@ function bbcode($text)
 
 
   //destruction des codes html manuels et remplacement des caractères spéciaux
- 
+
   $text = str_replace( ">"    , "&gt;" , $text );
   $text = str_replace( "<"    , "&lt;" , $text );
   $text = str_replace( "\""    , "&quot;" , $text );
@@ -69,22 +69,22 @@ function bbcode($text)
   //bare
   $text = str_replace( "[hr]", "<hr>" , $text );
   //images
-  $text = preg_replace("#\[img\]((ht|f)tp://)([^\r\n\t<\"]*?)\[/img\]#sie", "'<img src=\\1' . str_replace(' ', '%20', '\\3') . '>'", 
-           $text); 
+  $text = preg_replace("#\[img\]((ht|f)tp://)([^\r\n\t<\"]*?)\[/img\]#sie", "'<img src=\\1' . str_replace(' ', '%20', '\\3') . '>'",
+           $text);
   //url
   $text = preg_replace("/\[url\](.+?)\[\/url\]/", "<a href=\"$1\" target=\"blank\">$1</a>", $text);
-  $text = preg_replace("/\[url=(.+?)\](.+?)\[\/url\]/", "<a href=\"$1\" target=\"blank\">$2</a>", $text); 
+  $text = preg_replace("/\[url=(.+?)\](.+?)\[\/url\]/", "<a href=\"$1\" target=\"blank\">$2</a>", $text);
   $text = preg_replace("/\[URL\](.+?)\[\/URL\]/", "<a href=\"$1\" target=\"blank\">$1</a>", $text);
-  $text = preg_replace("/\[URL=(.+?)\](.+?)\[\/URL\]/", "<a href=\"$1\" target=\"blank\">$2</a>", $text); 
+  $text = preg_replace("/\[URL=(.+?)\](.+?)\[\/URL\]/", "<a href=\"$1\" target=\"blank\">$2</a>", $text);
 
 
   //email
   $text = preg_replace("/\[email\](.+?)\[\/email\]/", "<a href=\"mailto:$1\">$1</a>", $text);
-  $text = preg_replace("/\[email=(.+?)\](.+?)\[\/email\]/", "<a href=\"mailto:$1\">$2</a>", $text); 
+  $text = preg_replace("/\[email=(.+?)\](.+?)\[\/email\]/", "<a href=\"mailto:$1\">$2</a>", $text);
   //gras
-  $text = preg_replace("/\[b\](.+?)\[\/b\]/", "<b>$1</b>", $text); 
+  $text = preg_replace("/\[b\](.+?)\[\/b\]/", "<b>$1</b>", $text);
   //italique
-  $text = preg_replace("/\[i\](.+?)\[\/i\]/", "<i>$1</i>", $text); 
+  $text = preg_replace("/\[i\](.+?)\[\/i\]/", "<i>$1</i>", $text);
   //souligné
   $text = preg_replace("/\[u\](.+?)\[\/u\]/", "<u>$1</u>", $text);
   //justifié
@@ -94,7 +94,7 @@ function bbcode($text)
   //droite
   $text = preg_replace("/\[droite\](.+?)\[\/droite\]/", "<div style=\"text-align: right\">$1</div>", $text);
   //code
-  $text = preg_replace("/\[code\](.+?)\[\/code\]/", "<div class=\"codetop\">Code :</div><br/><pre>$1</pre>", $text); 
+  $text = preg_replace("/\[code\](.+?)\[\/code\]/", "<div class=\"codetop\">Code :</div><br/><pre>$1</pre>", $text);
   //citation
   while( preg_match("/\[quote=(.+?)\](.+?)\[\/quote\]/i",$text) )
   {
@@ -120,14 +120,14 @@ function bbcode($text)
   background-color: #ecf4fe;\">$1</div></div>",
                         $text);
   }
-  
+
   //couleur
-  $text = preg_replace("/\[color=(.+?)\](.+?)\[\/color\]/", "<font color=$1>$2</font>", $text); 
+  $text = preg_replace("/\[color=(.+?)\](.+?)\[\/color\]/", "<font color=$1>$2</font>", $text);
   //taille
   $text = preg_replace("/\[size=(.+?)\](.+?)\[\/size\]/", "<font style=\"font-size:$1px\">$2</font>", $text);
   //formattage pre
   $text = preg_replace("/\[pre\](.+?)\[\/pre\]/", "<pre>$1</pre>", $text);
- 
+
   //smilies
   $smTags = array(":-)"=>"smile.png",
                   ":)"=>"smile.png",
@@ -180,14 +180,14 @@ function bbcode($text)
        $text = preg_replace('! ' . $tag . '!i', '<img src="'.$smPath.$img.'" alt="" />', $text);
     }
 
-  return $text; 
+  return $text;
 }
- 
+
 class bbcontents extends contents
 {
   var $contents;
   var $wiki;
-  
+
   /** Crée un stdcontents à partir d'un texte au format DokuWiki et de son titre
    * @param $title  Titre
    * @param $contents  Texte structuré
@@ -204,10 +204,10 @@ class bbcontents extends contents
   {
     if ( $this->buffer )
       return $this->buffer;
-      
+
     return $this->buffer = bbcode($this->contents);
   }
 }
- 
- 
+
+
 ?>

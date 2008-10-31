@@ -21,7 +21,7 @@ for ($i = 1; $i <= 321 ; $i++)
     $dept = 'IMAP';
   else if ($i < 322)
     $dept = 'GMC';
-      
+
   $req = new insert($site->dbrw,
 		    'edu_uv_dept',
 		    array('id_uv' => $i, 'id_dept' => $dept));

@@ -65,7 +65,7 @@ while(list($idpays,$nom)=$req->get_row())
   $pgconn = new pgsqlae();
   $pgreq = new pgrequete($pgconn, "SELECT name , AsText(the_geom) AS points FROM worldadmwgs");
   $rs = $pgreq->get_all_rows();
-  
+
   $numpays = 0;
 
   foreach($rs as $result)
@@ -74,14 +74,14 @@ while(list($idpays,$nom)=$req->get_row())
     $astext = $result['points'];
     $matched = array();
     preg_match_all("/\(([^)]*)\)/", $astext, $matched);
-      
+
     /* récupère les différents polygones pour un pays donné */
     $i = 0;
     foreach ($matched[1] as $polygon)
     {
       $polygon = str_replace("(", "", $polygon);
       $points = explode(",", $polygon);
-  
+
       foreach ($points as $point)
       {
         $coord = explode(" ", $point);

@@ -28,7 +28,7 @@ $site = new site ();
 
 if (!$site->user->is_in_group ("moderateur_site"))
   $site->error_forbidden();
-	
+
 $site->start_page ("none", "Planning / Photo de la semaine");
 
 $cts = new contents("Attention");
@@ -44,9 +44,9 @@ if ( is_dir("/var/www/ae/www/ae2/var/img") && $_REQUEST["action"] == "setplannin
 {
   $dest_small = "/var/www/ae/www/ae2/var/img/com/planning-small.jpg";
   $dest_diapo = "/var/www/ae/www/ae2/var/img/com/planning-diapo.jpg";
-  $dest_full  = "/var/www/ae/www/ae2/var/img/com/planning.jpg";	
+  $dest_full  = "/var/www/ae/www/ae2/var/img/com/planning.jpg";
   if ( isset($_REQUEST['delete']) && file_exists($topdir."var/img/com/planning.jpg"))
-  {		
+  {
     if (!unlink($dest_small))
       $erreur = "Erreur lors de la suppression du planning miniature";
     elseif (!unlink($dest_diapo))
@@ -70,7 +70,7 @@ if ( is_dir("/var/www/ae/www/ae2/var/img") && $_REQUEST["action"] == "setplannin
         $src = $_FILES['file']['tmp_name'];
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 140x100 -quality 95 \"$dest_small\""));
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 680x510 -quality 95 \"$dest_diapo\""));
-        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -quality 95 \"$dest_full\""));	
+        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -quality 95 \"$dest_full\""));
         $cts->add_title(2,"Planning mis à jour");
         $cts->add_paragraph("<p><img src=\"".$topdir."images/actions/done.png\">Le planning a été correctement mis à jour.</p>");
       }
@@ -104,7 +104,7 @@ if ( is_dir("/var/www/ae/www/ae2/var/img") && $_REQUEST["action"] == "setweekly_
   $dest_small = "/var/www/ae/www/ae2/var/img/com/weekly_photo-small.jpg";
   $dest_diapo = "/var/www/ae/www/ae2/var/img/com/weekly_photo-diapo.jpg";
   $dest_full  = "/var/www/ae/www/ae2/var/img/com/weekly_photo.jpg";
-	
+
   if ( isset($_REQUEST['delete']) && file_exists($topdir."var/img/com/weekly_photo.jpg"))
   {
     if (!unlink($dest_small))
@@ -130,12 +130,12 @@ if ( is_dir("/var/www/ae/www/ae2/var/img") && $_REQUEST["action"] == "setweekly_
         $src = $_FILES['file']['tmp_name'];
         $dest_small = "/var/www/ae/www/ae2/var/img/com/weekly_photo-small.jpg";
         $dest_diapo = "/var/www/ae/www/ae2/var/img/com/weekly_photo-diapo.jpg";
-        $dest_full  = "/var/www/ae/www/ae2/var/img/com/weekly_photo.jpg";	
-		
+        $dest_full  = "/var/www/ae/www/ae2/var/img/com/weekly_photo.jpg";
+
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 140x100 -quality 95 \"$dest_small\""));
         exec(escapeshellcmd("/usr/share/php5/exec/convert $src -thumbnail 680x510 -quality 95 \"$dest_diapo\""));
-        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -quality 95 \"$dest_full\""));	
-				
+        exec(escapeshellcmd("/usr/share/php5/exec/convert $src -quality 95 \"$dest_full\""));
+
         $cts->add_title(2,"Photo de la semaine mis à jour");
         $cts->add_paragraph("<p><img src=\"".$topdir."images/actions/done.png\">La photo de la semaine a été correctement mis à jour.</p>");
 

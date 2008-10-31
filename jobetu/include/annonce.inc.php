@@ -27,7 +27,7 @@ require_once("jobuser_etu.inc.php");
  * @todo conformer cette classe à stdentity
  */
 class annonce extends stdentity
-{  
+{
   var $id;
   var $id_client;
   var $nom_client;
@@ -49,18 +49,18 @@ class annonce extends stdentity
   var $allow_diff;
   var $tel_client;
   var $closed;
-  
+
   var $applicants;
   var $applicants_fullobj;
-    
+
   function load_by_id($id)
   {
-    $sql = new requete($this->db, "SELECT `job_annonces`.*, 
+    $sql = new requete($this->db, "SELECT `job_annonces`.*,
                                     DATE_FORMAT(`job_annonces`.`start_date`, '%e/%c/%Y') as `s_date`,
                                     CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_client`,
                                     IFNULL(`utilisateurs`.`tel_portable_utl`, `utilisateurs`.`tel_maison_utl`) AS num_client,
                                     `job_types`.`nom` as `nom_type`
-                                    FROM `job_annonces` 
+                                    FROM `job_annonces`
                                     LEFT JOIN `utilisateurs`
                                     ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
                                     LEFT JOIN `job_types`
@@ -89,36 +89,36 @@ class annonce extends stdentity
     $this->allow_diff = $line['allow_diff'];
     $this->tel_client = $line['num_client'];
     $this->closed = $line['closed'];
-    
-    $this->load_winner();    
-    
+
+    $this->load_winner();
+
     /* C'est pas beau mais j'arrive pas à le faire en une requete */
     $sql = new requete($this->db, "SELECT `job_types`.`nom` FROM `job_annonces` LEFT JOIN `job_types` ON `job_types`.`id_type` = ". ($this->id_type - $this->id_type%100) ."");
     $line = $sql->get_row();
     $this->nom_main_cat = $line['nom'];
-    
+
     $this->load_applicants();
   }
 
   /**
-   * @todo à implémenter 
+   * @todo à implémenter
    */
   function _load($row)
   {
-    
+
   }
 
   function load_applicants()
   {
     $this->applicants = array();
-    
+
     $sql = new requete($this->db, "SELECT `id_etu`, `comment` FROM `job_annonces_etu` WHERE `id_annonce` = $this->id AND `relation` = 'apply'");
     while($line = $sql->get_row())
       $this->applicants[] = $line;
-      
-    return count($this->applicants);    
+
+    return count($this->applicants);
   }
-  
+
   function load_winner()
   {
     $sql = new requete($this->db, "SELECT id_etu FROM `job_annonces_etu` WHERE id_annonce='$this->id' AND relation='selected'");
@@ -133,16 +133,16 @@ class annonce extends stdentity
     else
       $this->winner = NULL;
   }
-    
+
   function load_applicants_fullobj()
   {
     $this->applicants = array();
-     
+
     $sql = new requete($this->db, "SELECT `id_etu`, `comment` FROM `job_annonces_etu` WHERE `id_annonce` = $this->id AND `relation` = 'apply'");
     while($line = $sql->get_row())
     {
       $this->applicants[] = $line;
-      
+
       $etu = new jobuser_etu($this->db);
       $etu->load_by_id($line['id_etu']);
       $this->applicants_fullobj[] = $etu;
@@ -155,26 +155,26 @@ class annonce extends stdentity
   {
     if( $this->winner != NULL && count($this->winner) >= $this->nb_postes )
       return true;
-    else 
+    else
       return false;
   }
-  
+
   function remaining_positions()
   {
     return ($this->nb_postes - count($this->winner));
   }
-  
+
   function set_winner($winner, $client)
   {
     if( $this->is_provided() )
       return false;
     else
       $sql = new update($this->dbrw, "job_annonces_etu", array("relation" => "selected"), array("id_annonce" => $this->id, "id_etu" => $winner->id, "relation" => "apply"));
-      
+
     $this->load_winner(); /* maj des gens sélectionnés */
     if( $this->is_provided() )
       $sql = new update($this->dbrw, "job_annonces", array("provided" => "true"), array("id_annonce" => $this->id));
-    
+
     /**
      * Envois de mails
      */
@@ -194,19 +194,19 @@ class annonce extends stdentity
       case 2:
         $genre_etu = "Mlle"; break;
     }
-    
+
     $tel = telephone_display($this->tel_client);
     $text_etu = <<<EOF
 Bonjour,
 
 Nous avons le plaisir de vous annoncer que vous avez été sélectionné par $genre_client $client->prenom $client->nom, client de AE Job Etu, pour son annonce "$this->titre" (numéro $this->id).
-Cette personne à été incitée à vous contacter, mais si cela devait tarder anormalement, n'hésitez pas à prendre les devants. 
+Cette personne à été incitée à vous contacter, mais si cela devait tarder anormalement, n'hésitez pas à prendre les devants.
 N° de téléphone : $tel
 Pour plus de renseignements, consultez sa fiche Matmatronch : http://ae.utbm.fr/user.php?id_utilisateur=$this->id_client
-   
+
 Nous vous remerçions d'utiliser AE Job Etu et vous souhaitons bon courage pour cette nouvelle mission !
 
-L'équipe AE et les responsables d'AE Job Etu  
+L'équipe AE et les responsables d'AE Job Etu
 
 --
 AE JobEtu est un service de l'Association des Etudiants de l'UTBM.
@@ -214,7 +214,7 @@ http://ae.utbm.fr/
 
 EOF;
 
-    
+
     $tel = telephone_display($winner->tel_portable);
     $text_client = <<<EOF
 Bonjour,
@@ -236,16 +236,16 @@ EOF;
 
     if(!$this->is_provided())
       $text_client .= "PS: il reste désormais ".$this->remaining_positions()." place(s) disponibles pour votre offre.";
-        
+
     $mail_etu = mail($winner->email, utf8_decode("[AE JobEtu] Sélection pour l'annonce n°".$this->id), utf8_decode($text_etu), "From: \"AE Job Etu\" <ae-jobetu@utbm.fr>");
     $mail_client = mail($client->email, utf8_decode("[AE JobEtu] Sélection de $winner->prenom $winner->nom pour l'annonce n°".$this->id), utf8_decode($text_client), "From: \"AE JobEtu\" <ae-jobetu@utbm.fr>");
-  
+
     if($mail_etu && $mail_client)
       return true;
-    else 
+    else
       return false;
   }
-  
+
   function is_closed()
   {
     return $this->closed;
@@ -255,12 +255,12 @@ EOF;
   {
     return $id_client;
   }
-  
+
   function set_closed($eval = NULL, $comment = NULL)
   {
     $val = "";
     $comment = mysql_real_escape_string($comment);
-    
+
     switch( mysql_real_escape_string($eval) ) //vu qu'on peut pas mettre de '0' dans les radiobox ...
     {
       case "bof":
@@ -270,9 +270,9 @@ EOF;
       case "yeah":
         $val = +1; break;
     }
-    
+
     $sql = new update($this->dbrw, "job_annonces", array("closed" => true), array("id_annonce" => $this->id) );
-    
+
     if( $val != NULL || $comment != NULL )
       $sql2 = new insert($this->dbrw, "job_feedback", array("id_annonce" => $this->id, "note_client" => $val, "avis_client" => $comment) );
   }
@@ -280,33 +280,33 @@ EOF;
   function apply_to($etu, $comment = null)
   {
     if( !($etu instanceof jobuser_etu) ) exit("NIET !");
-    
-    $sql = new insert($this->dbrw, 
+
+    $sql = new insert($this->dbrw,
                       "job_annonces_etu",
                       array(
                         "id_annonce" => $this->id,
                         "id_etu" => $etu->id,
                         "relation" => "apply",
-                        "comment" => $comment 
+                        "comment" => $comment
                         )
                       );
-    
+
     if($sql)
       return $sql->get_id();
     else
       return false;
   }
-  
+
   function delete_relation($id_relation)
   {
     $sql = new delete($this->dbrw, "job_annonces_etu", array("id_relation" => $id_relation));
   }
-  
+
   function reject($etu)
   {
     if( !($etu instanceof jobuser_etu) ) exit("NIET !");
-    
-    $sql = new insert($this->dbrw, 
+
+    $sql = new insert($this->dbrw,
                       "job_annonces_etu",
                       array(
                         "id_annonce" => $this->id,
@@ -315,39 +315,39 @@ EOF;
                         "comment" => null
                         )
                       );
-    
+
     if($sql)
       return true;
     else
       return false;
   }
-  
+
   function is_applicant($id_etu)
   {
     $val = false;
-    
+
     if(empty($this->applicants))
       return false;
-    
+
     foreach($this->applicants as $tmp)
       if($tmp['id_etu'] == $id_etu)
         $val = true;
-    
+
     return $val;
   }
-  
+
   /**
    *  Détruit une annonce et les candidatures associées a condition qu'il n'y ait pas eu d'étudiants sélectionnés
    */
   function destroy()
   {
     if( !empty($this->winner) ) return false;
-    
+
     $sql_mail = new requete($this->db, "SELECT email_utl FROM `utilisateurs` NATURAL JOIN `job_annonces_etu` NATURAL JOIN `job_prefs` WHERE id_annonce = $this->id AND mail_prefs = 'full'");
-    
+
     $sql = new delete($this->dbrw, "job_annonces", array("id_annonce" => $this->id) ); // suppression annonce
     $sql2 = new delete($this->dbrw, "job_annonces_etu", array("id_annonce" => $this->id) ); // suppression relations
-    
+
     if( $sql->is_success() && $sql2->is_success() )
     {
       if($sql_mail->lines > 0)
@@ -371,24 +371,24 @@ http://ae.utbm.fr/
 EOF;
           mail($email, utf8_decode("[AE JobEtu] Annulation de l'annonce n°".$this->id), utf8_decode($text), "From: \"AE Job Etu\" <ae-jobetu@utbm.fr>");
         }
-      // mails envoyés      
-      return true;     
+      // mails envoyés
+      return true;
     }
     else
       return false;
-    
+
   }
 
   /**
    * Ajoute une nouvelle annonce
    * @return l'id de l'annonce (+ chargement des infos dans l'objet courant)
    * @param $client objet jobuser_client
-   * @param $titre titre de l'annonce 
+   * @param $titre titre de l'annonce
    */
   function add($client, $titre, $job_type, $desc, $profil, $divers = null, $start_date = null, $duree = null, $nb_postes = 1, $indemnite = null, $lieu = null, $type_contrat = null, $allow_diff = 0 )
   {
     if(!($client instanceof jobuser_client))  return -1;
-     
+
     $this->id_client = $client->id;
     $this->titre = $titre;
     $this->job_type  = $job_type;
@@ -420,7 +420,7 @@ EOF;
                             "lieu" => $this->lieu,
                             "type_contrat" => $this->type_contrat,
                             "allow_diff" => $this->allow_diff,
-                            "closed" => 0                    
+                            "closed" => 0
                       )
                       );
     if($sql)
@@ -430,9 +430,9 @@ EOF;
 
     /**
      * Envoi des mails
-     */    
+     */
       $sql = new requete($this->db, "SELECT email_utl, nom FROM `utilisateurs` NATURAL JOIN `job_types_etu` NATURAL JOIN `job_types` NATURAL JOIN `job_prefs` WHERE id_type = $this->job_type AND mail_prefs = 'full'", false);
-      
+
       if($sql->lines > 0)
       {
         while( $row = $sql->get_row() )
@@ -457,17 +457,17 @@ EOF;
           $mail = mail($row['email_utl'], utf8_decode("[AE JobEtu] Nouvelle annonce dans la catégorie ". $row['nom']), utf8_decode($text), "From: \"AE JobEtu\" <ae-jobetu@utbm.fr>");
         }
       }
-    
+
     return $this->id;
   }
-  
+
   /**
    * Edition d'une annonce
    */
   function save($client, $titre, $job_type, $desc, $profil = null, $divers = null, $start_date = null, $duree = null, $nb_postes = 1, $indemnite = null, $lieu = null, $type_contrat = null, $allow_diff = 0 )
   {
     if(!($client instanceof jobuser_client))  return -1;
-    
+
     $this->titre = $titre;
     $this->job_type  = $job_type;
     $this->desc = $desc;
@@ -479,8 +479,8 @@ EOF;
     $this->indemnite = $indemnite;
     $this->lieu = $lieu;
     $this->type_contrat = $type_contrat;
-    $this->allow_diff = $allow_diff;  
-      
+    $this->allow_diff = $allow_diff;
+
     $sql = new update($this->dbrw,
                       "job_annonces",
                       array(
@@ -495,14 +495,14 @@ EOF;
                             "indemnite" => $this->indemnite,
                             "lieu" => $this->lieu,
                             "type_contrat" => $this->type_contrat,
-                            "allow_diff" => $this->allow_diff                
+                            "allow_diff" => $this->allow_diff
                       ),
                       array("id_annonce" => $this->id)
                       );
-                    
+
     if($sql)
       return $this->id;
-    else 
+    else
       return false;
   }
 

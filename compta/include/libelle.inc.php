@@ -21,10 +21,10 @@
  * 02111-1307, USA.
  */
 
-/** 
+/**
  * @file
  */
- 
+
 /**
  * Etiquette à associer à une opération pour classer ses dernières.
  * @ingroup compta
@@ -51,19 +51,19 @@ class compta_libelle extends stdentity
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
 	}
-  
+
   function _load ( $row )
   {
 			$this->id = $row['id_libelle'];
 			$this->id_asso = $row['id_asso'];
-			$this->nom = $row['nom_libelle'];  
+			$this->nom = $row['nom_libelle'];
   }
-  
-  
+
+
   function add_libelle ( $id_asso, $nom )
   {
     $this->nom = $nom;
@@ -83,9 +83,9 @@ class compta_libelle extends stdentity
       $this->id = null;
       return;
     }
-    
+
   }
-  
+
   function update_libelle ( $nom )
   {
     $this->nom = $nom;
@@ -100,13 +100,13 @@ class compta_libelle extends stdentity
 
     return true;
   }
-  
+
   function remove_libelle ()
   {
-    new delete ($this->dbrw,"cpta_libelle",array("id_libelle" => $this->id));  
+    new delete ($this->dbrw,"cpta_libelle",array("id_libelle" => $this->id));
   }
-  
-  
+
+
 }
 
 ?>

@@ -38,7 +38,7 @@ class sqlrewriter
   var $orderby='';
   var $limit='';
   var $fields=array();
-  
+
   /**
    * Consrtuit un sqlrewrite en partant sur une requête SQL.
    * Attention/ Ne fonctionne *que* pour les requêtes de selection !
@@ -56,10 +56,10 @@ class sqlrewriter
   function sqlrewriter ( $sql )
   {
     $sql = str_replace('\n',' ',$sql); // Protection des requêtes insérées avec le coding style de pedrov
-    
+
     $ppos = $pos = stripos($sql, 'FROM ');
     $this->select = substr($sql,0,$pos);
-    
+
     $pos = strpos($sql, 'WHERE ', $ppos);
     if ( $pos !== false )
     {
@@ -69,7 +69,7 @@ class sqlrewriter
     }
     else
       $p='from';
-    
+
     $pos = strpos($sql, 'GROUP BY ', $ppos);
     if ( $pos !== false )
     {
@@ -77,7 +77,7 @@ class sqlrewriter
       $ppos=$pos;
       $p='groupby';
     }
-    
+
     $pos = strpos($sql, 'HAVING ', $ppos);
     if ( $pos !== false )
     {
@@ -85,7 +85,7 @@ class sqlrewriter
       $ppos=$pos;
       $p='having';
     }
-    
+
     $pos = strpos($sql, 'ORDER BY ', $ppos);
     if ( $pos !== false )
     {
@@ -93,7 +93,7 @@ class sqlrewriter
       $ppos=$pos;
       $p='orderby';
     }
-    
+
     $pos = strpos($sql, 'LIMIT ', $ppos);
     if ( $pos !== false )
     {
@@ -101,19 +101,19 @@ class sqlrewriter
       $this->limit = substr($sql,$pos);
       $ppos=$pos;
     }
-    else 	
+    else
       $this->$p = substr($sql,$ppos);
   }
-  
+
   private function register_field($type,$nom)
   {
     $nom = trim(str_replace('`','',$nom));
-    
+
     $p = strpos($nom,'.');
     if ( $p !== false )
     {
       $this->fields[substr($nom,$p+1)] = array($type,$nom);
-      return;  
+      return;
     }
     $this->fields[$nom] = array($type,$nom);
   }
@@ -139,15 +139,15 @@ class sqlrewriter
       $pos0 = stripos($this->select, ' AS ', $ppos);
       if ( $pos1 !== false && $pos1 < $ppos )
       $pos1 = strpos($this->select, '(', $ppos);
-      
+
       if ( $pos !== false && (( $pos1 !== false && $pos1 < $pos) || ($pos0 !== false && $pos0 < $pos) ) )
       {
         $type=1;
-        
+
         $ppos = $pos0+4;
         $pos = strpos($this->select, ',', $ppos);
       }
-      
+
       if ( $pos !== false )
       {
         $this->register_field($type, substr($this->select,$ppos,$pos-$ppos));
@@ -158,12 +158,12 @@ class sqlrewriter
         $this->register_field($type, substr($this->select,$ppos));
         $ppos = false;
       }
-      
+
     }
     while ( $ppos !== false );
-    
+
   }
-  
+
   /**
    * Renvoie la requête SQL reconstruite
    * @return la requête SQL
@@ -173,12 +173,12 @@ class sqlrewriter
     return $this->select.$this->from.$this->where.$this->groupby.
       $this->having.$this->orderby.$this->limit;
   }
-  
+
   function reset_orderby()
   {
     $this->orderby = '';
   }
-   
+
   function add_orderbyraw ( $raw, $o = 'ASC' )
   {
     if ( empty($this->orderby) )
@@ -187,7 +187,7 @@ class sqlrewriter
       $this->orderby .= ', '.$raw.' '.$o.' ';
     return true;
   }
-   
+
   function add_orderby ( $nom, $o = 'ASC' )
   {
     if ( empty($this->orderby) )
@@ -196,17 +196,17 @@ class sqlrewriter
       $this->orderby .= ', '.$this->fields[$nom][1].' '.$o.' ';
     return true;
   }
-  
+
   function add_condition ( $nom, $condition )
   {
     if ( count($this->fields) == 0 )
       $this->extract_fields();
-    
+
     if ( !isset($this->fields[$nom]) )
       return false;
-       
+
     $field = $this->fields[$nom];
-    
+
     if ( $field[0] == 1 ) // Alias => HAVING
     {
       if ( !$this->havingwrap )
@@ -219,12 +219,12 @@ class sqlrewriter
       }
       else
           $this->having .= 'AND ';
-          
+
       $this->having .= $field[1].' '.$condition.' ';
-          
+
       return true;
     }
-    
+
     if ( !$this->wherewrap )
     {
       if ( !empty($this->where ) )
@@ -235,17 +235,17 @@ class sqlrewriter
     }
     else
         $this->where .= 'AND ';
-    
+
     $this->where .= $field[1].' '.$condition.' ';
-    
+
     return true;
   }
-  
+
   function set_limit ( $start, $length )
   {
     $this->limit='LIMIT '.$start.','.$length;
   }
-  
+
 }
 
 ?>

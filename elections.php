@@ -37,42 +37,42 @@ $site = new site ();
 if ( isset($_REQUEST["id_election"]))
 {
 	$elec = new election($site->db,$site->dbrw);
-	$elec->load_by_id($_REQUEST["id_election"]);	
+	$elec->load_by_id($_REQUEST["id_election"]);
 	if ( $elec->id < 1 )
 	{
 		$site->error_not_found();
-		exit();	
+		exit();
 	}
-	
+
 	if ( isset($_REQUEST['vote']))
 	{
-		
+
 		if ( $elec->fin >= time() && $elec->debut <= time() &&
 			$site->user->is_in_group_id($elec->id_groupe) && ! $elec->a_vote($site->user->id) )
 		$elec->enregistre_vote($site->user->id, $_REQUEST['vote']);
-		
+
 		$Message = "Votre vote a été bien enregistré.";
-		
+
 	}
-	
+
 	if ( $_REQUEST["page"] == "results" )
 	{
 		if ( $elec->fin >= time() /*&& !$site->user->is_in_group("gestion_ae")*/ )
 			$site->error_forbidden("none");
-		
+
 		$site->start_page("main","Resultats: ".$elec->nom);
-		
+
 		$cts = new contents("Resultats: ".$elec->nom);
 
 		$sql = new requete($site->db,"SELECT COUNT(*) FROM vt_a_vote WHERE id_election='".$elec->id."'");
-		
+
 		list($rtotal) = $sql->get_row();
-		
+
 		if ( $rtotal == 0 )
 		{
-			
+
 			$cts->add_paragraph("Aucun vote enregistré.");
-			
+
 		}
 		else
 		{
@@ -80,61 +80,61 @@ if ( isset($_REQUEST["id_election"]))
 
 			$sql = new requete($site->db,"SELECT * FROM vt_liste_candidat WHERE id_election='".$elec->id."' ORDER BY `nom_liste`");
 			while ( $row = $sql->get_row() )
-				$listes[$row["id_liste"]] = $row["nom_liste"];		
-			
+				$listes[$row["id_liste"]] = $row["nom_liste"];
+
 			$listes[0] = "Indépendants";
 			$listes[-1] = "Abstention";
-			
-			
+
+
 			$tbl = new table(false,"elections");
-			
+
 			foreach ( $listes as $id => $name )
 			{
 				$row[$id] = $name;
 			}
 			$tbl->add_row($row);
 			$cts->add($tbl);
-			
-			
-			
+
+
+
 			$sql = new requete($site->db,"SELECT id_poste,nom_poste,votes_blancs,votes_total FROM vt_postes WHERE id_election='".$elec->id."'");
 			while ( list($id_poste,$nom_poste,$blanc,$total) = $sql->get_row() )
 			{
-				$cdts = array();	
+				$cdts = array();
 				$tbl = new table($nom_poste,"elections");
-				
+
 				$sql2 = new requete($site->db,"SELECT vt_candidat.*,utilisateurs.*,utl_etu_utbm.* " .
 						"FROM vt_candidat " .
 						"INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`vt_candidat`.`id_utilisateur` " .
-						"LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .		
+						"LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
 						"WHERE id_poste='".$id_poste."' " .
 						"ORDER BY utilisateurs.nom_utl");
-				
+
 				while ( $srow = $sql2->get_row() )
 				{
 					$id_liste = intval($srow["id_liste"]);
 					$idradio= "__vote_".$id_poste."_".$srow['id_utilisateur'];
-					
+
 					$cdts[$id_liste] .= "<div class=\"candidat\"><br/>";
-					
+
 					if ( file_exists($topdir."var/img/matmatronch/".$srow['id_utilisateur'].".identity.jpg") )
 						$cdts[$id_liste] .= "<img src=\"/var/img/matmatronch/".$srow['id_utilisateur'].".identity.jpg\" alt=\"\" onclick=\"document.getElementById('$idradio').checked = true;\" /><br/>\n";
 					else
 						$cdts[$id_liste] .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" onclick=\"document.getElementById('$idradio').checked = true;\" /><br/>\n";
-									
+
 					$cdts[$id_liste] .= $srow['prenom_utl']." ".$srow['nom_utl'];
-					
+
 					if ( $srow['surnom_utbm'] )
-						$cdts[$id_liste] .= "<br/><i>".$srow['surnom_utbm']."</i>";			
-	
+						$cdts[$id_liste] .= "<br/><i>".$srow['surnom_utbm']."</i>";
+
 					$cdts[$id_liste] .= "<br/>".$srow['nombre_voix']." soit ".round($srow['nombre_voix']*100/$total,2)." %";
 					$cdts[$id_liste] .= "</div>";
 				}
-				
-				
+
+
 				$cdts[-1] = "Abstention";
 				$cdts[-1] .= "<br/>".$blanc." soit ".round($blanc*100/$total,2)." %";
-					
+
 				foreach ( $listes as $id => $name )
 				{
 					if ( !$cdts[$id] )
@@ -152,23 +152,23 @@ if ( isset($_REQUEST["id_election"]))
 		$site->end_page();
 		exit();
 	}
-	
-	
+
+
 	$site->start_page("main","Election: ".$elec->nom);
-	
+
 	$cts = new contents("Election: ".$elec->nom);
-	
+
 	if ( $elec->fin < time() )
 	{
 		$cts->add_paragraph("Election terminée.");
 		$cts->add_paragraph("<a href=\"elections.php?id_election=".$elec->id."&amp;page=results\">Election terminée.</a>");
-		
+
 	}
 	elseif ( $elec->debut > time() )
 	{
-		$cts->add_paragraph("Election programmé pour le ".textual_plage_horraire($elec->debut,$elec->fin));	
+		$cts->add_paragraph("Election programmé pour le ".textual_plage_horraire($elec->debut,$elec->fin));
 		if ( !$site->user->is_in_group_id($elec->id_groupe) && $site->user->is_valid() )
-			$cts->add_paragraph("Remarque: Vous n'avez pas le droit de voter pour cette election.");		
+			$cts->add_paragraph("Remarque: Vous n'avez pas le droit de voter pour cette election.");
 	}
 	elseif( !$site->user->is_valid() )
 	{
@@ -176,7 +176,7 @@ if ( isset($_REQUEST["id_election"]))
 	}
 	elseif ( !$site->user->is_in_group_id($elec->id_groupe) )
 	{
-		$cts->add_paragraph("Vous n'avez pas le droit de voter pour cette election.");	
+		$cts->add_paragraph("Vous n'avez pas le droit de voter pour cette election.");
 	}
 	elseif( $elec->a_vote($site->user->id) )
 	{
@@ -188,62 +188,62 @@ if ( isset($_REQUEST["id_election"]))
 	else
 	{
 		$cts->puts("<form action=\"elections.php?id_election=".$elec->id."\" method=\"POST\">");
-		
+
 		$sql = new requete($site->db,"SELECT * FROM vt_liste_candidat WHERE id_election='".$elec->id."' ORDER BY `nom_liste`");
 		while ( $row = $sql->get_row() )
-			$listes[$row["id_liste"]] = $row["nom_liste"];		
-		
+			$listes[$row["id_liste"]] = $row["nom_liste"];
+
 		$listes[0] = "Indépendants";
 		$listes[-1] = "Abstention";
-		
-		
+
+
 		$tbl = new table(false,"elections");
-		
+
 		foreach ( $listes as $id => $name )
 		{
 			$row[$id] = $name;
 		}
 		$tbl->add_row($row);
 		$cts->add($tbl);
-		
-		
-		
+
+
+
 		$sql = new requete($site->db,"SELECT id_poste,nom_poste FROM vt_postes WHERE id_election='".$elec->id."'");
 		while ( list($id_poste,$nom_poste) = $sql->get_row() )
 		{
-			$cdts = array();	
+			$cdts = array();
 			$tbl = new table($nom_poste,"elections");
-			
+
 			$sql2 = new requete($site->db,"SELECT vt_candidat.*,utilisateurs.*,utl_etu_utbm.* " .
 					"FROM vt_candidat " .
 					"INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`vt_candidat`.`id_utilisateur` " .
-					"LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .		
+					"LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` " .
 					"WHERE id_poste='".$id_poste."' " .
 					"ORDER BY utilisateurs.nom_utl");
-			
+
 			while ( $srow = $sql2->get_row() )
 			{
 				$id_liste = intval($srow["id_liste"]);
 				$idradio= "__vote_".$id_poste."_".$srow['id_utilisateur'];
-				
+
 				$cdts[$id_liste] .= "<div class=\"candidat\"><input type=\"radio\" id=\"$idradio\" name=\"vote[$id_poste]\" value=\"".$srow['id_utilisateur']."\" /><br/>";
-				
+
 				if ( file_exists($topdir."var/img/matmatronch/".$srow['id_utilisateur'].".identity.jpg") )
 					$cdts[$id_liste] .= "<img src=\"/var/img/matmatronch/".$srow['id_utilisateur'].".identity.jpg\" alt=\"\" onclick=\"document.getElementById('$idradio').checked = true;\" /><br/>\n";
 				else
 					$cdts[$id_liste] .= "<img src=\"/var/img/matmatronch/na.gif"."\" alt=\"\" onclick=\"document.getElementById('$idradio').checked = true;\" /><br/>\n";
-								
+
 				$cdts[$id_liste] .= $srow['prenom_utl']." ".$srow['nom_utl'];
-				
+
 				if ( $srow['surnom_utbm'] )
-					$cdts[$id_liste] .= "<br/><i>".$srow['surnom_utbm']."</i>";			
+					$cdts[$id_liste] .= "<br/><i>".$srow['surnom_utbm']."</i>";
 
 				$cdts[$id_liste] .= "</div>";
 			}
-			
-			
+
+
 			$cdts[-1] = "<input type=\"radio\" name=\"vote[$id_poste]\" value=\"-1\" checked=\"checked\" /><br/>Abstention";
-			
+
 			foreach ( $listes as $id => $name )
 			{
 				if ( !$cdts[$id] )
@@ -254,12 +254,12 @@ if ( isset($_REQUEST["id_election"]))
 			$tbl->add_row($row);
 			$cts->add($tbl,true);
 		}
-		$cts->add_paragraph("<input type=\"submit\" value=\"voter\" />","center");	
+		$cts->add_paragraph("<input type=\"submit\" value=\"voter\" />","center");
 		$cts->puts("</form>");
 	}
-	
+
 	$site->add_contents($cts);
-	
+
 	$site->end_page();
 	exit();
 }

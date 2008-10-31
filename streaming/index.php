@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 
@@ -37,7 +37,7 @@ $rdd=array("title"=>"remise des diplômes",
            "photo"=>"photo_rdd.jpg",
            "type"=>"La cérémonie"
           );
-          
+
 $ff1j=array("title"=>"Festival du film d'un jour",
            "intro"=>"Cette année, afin de faire participer les personnes ne pouvant se rendre à la cérémonie de cloture du festival du film d'un jour, nous avons mis en place un service expérimental de diffusion de la cérémonie en direct.",
            "date"=>"samedi 3 mai 2008",

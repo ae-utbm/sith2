@@ -3,7 +3,7 @@
 /** @file Gestion des associations et clubs
  *
  */
- 
+
 /* Copyright 2007
  * - Simon Lopez <simon DOT lopez AT ayolo DOT org>
  *
@@ -46,7 +46,7 @@ class carnetperso extends stdentity
 		                   "SELECT `id_utilisateur_member`, `nom`".
 		                   "FROM `carnetperso` ".
 		                   "INNER JOIN `carnetperso_cat` USING(`id_cat`) ".
-				               "WHERE `id_utilisateur` = '" . mysql_real_escape_string($id) . "'");	
+				               "WHERE `id_utilisateur` = '" . mysql_real_escape_string($id) . "'");
 		if ( $req->lines > 0 )
 		{
 			while(list($id_utl_member,$categorie))
@@ -61,7 +61,7 @@ class carnetperso extends stdentity
 			}
 		}
 	}
-	
+
 	/** Ajoute un contact
 	 * @param $id_utilisateur_member  Id du contact
 	 * @param $id_cat	                Id de la catégorie
@@ -71,7 +71,7 @@ class carnetperso extends stdentity
 	{
 		if ( is_null($this->dbrw) ) return false; // "Read Only" mode
 		if ( is_null($id_utilisateur) )  $id_utilisateur=$this->id_utilisateur;
-				
+
 		$sql = new insert ($this->dbrw,
 			                 "carnetperso",
 			                 array("id_utilisateur" => $id_utilisateur,
@@ -89,12 +89,12 @@ class carnetperso extends stdentity
     else
       return true;
 	}
-	
+
 	function delete_contact ( $id_utilisateur_member, $id_cat=1, $id_utilisateur=null )
 	{
 	  if ( is_null($this->dbrw) ) return; // Read Only mode
 	  if ( is_null($id_utilisateur) )  $id_utilisateur=$this->id_utilisateur;
-	  
+
 	  new delete($this->dbrw,
 	             "carnetperso",
 	             array("id_utilisateur"=>$id_utilisateur,

@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * FORUM2
- *        
+ *
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -23,12 +23,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /**
  * @file
  */
- 
- 
+
+
 /**
  * Message dand un sujet d'un forum
  */
@@ -37,14 +37,14 @@ class message extends stdentity
 
   var $id_utilisateur;
   var $id_sujet;
-  
+
   var $titre;
   var $contenu;
   var $date;
   var $syntaxengine;
 
   var $id_utilisateur_moderateur;
-  
+
   function load_by_id ( $id )
   {
     $req = new requete($this->db, "SELECT * FROM `frm_message`
@@ -57,11 +57,11 @@ class message extends stdentity
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
   }
-  
+
   function load_initial_of_sujet ( $id_sujet )
   {
     $req = new requete($this->db, "SELECT * FROM `frm_message`
@@ -74,11 +74,11 @@ class message extends stdentity
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
   }
-  
+
   function _load ( $row )
   {
     $this->id = $row['id_message'];
@@ -90,21 +90,21 @@ class message extends stdentity
     $this->syntaxengine = $row['syntaxengine_message'];
     $this->id_utilisateur_moderateur = $row['id_utilisateur_moderateur'];
   }
-  
+
   function create ( &$forum, &$sujet, $id_utilisateur, $titre, $contenu, $syntaxengine )
   {
     if ( $forum->id != $sujet->id_forum )
       return;
-    
+
     $this->id_utilisateur = $id_utilisateur;
     $this->id_sujet = $sujet->id;
     $this->titre = $titre;
     $this->contenu = $contenu;
     $this->date = time();
     $this->syntaxengine = $syntaxengine;
-    $this->id_utilisateur_moderateur = null;    
-    
-   
+    $this->id_utilisateur_moderateur = null;
+
+
     $req = new insert ($this->dbrw,
             "frm_message", array(
               "id_utilisateur"=>$this->id_utilisateur,
@@ -115,39 +115,39 @@ class message extends stdentity
               "syntaxengine_message"=>$this->syntaxengine,
               "id_utilisateur_moderateur"=>$this->id_utilisateur_moderateur
             ));
-  
+
 		if ( $req )
 		{
 			$this->id = $req->get_id();
-			
-      $sujet->update_last_message($forum); 
-      $forum->update_last_sujet(); 
-      
+
+      $sujet->update_last_message($forum);
+      $forum->update_last_sujet();
+
       $sujet->set_user_read ( $id_utilisateur, $this->id );
 
 		  return true;
 		}
-		
+
 		$this->id = null;
     return false;
   }
-  
+
   function update ( &$forum, &$sujet, $titre, $contenu, $syntaxengine )
   {
     global $topdir;
-    
+
     if ( $forum->id != $sujet->id_forum || $sujet->id != $this->id_sujet )
       return;
-    
+
     require_once($topdir."include/cts/cached.inc.php");
     $cache = new cachedcontents("msg".$this->id);
-    $cache->expire();        
-    
+    $cache->expire();
+
     $this->titre = $titre;
     $this->contenu = $contenu;
     $this->syntaxengine = $syntaxengine;
-    $this->id_utilisateur_moderateur = null;    
-   
+    $this->id_utilisateur_moderateur = null;
+
     $req = new update ($this->dbrw,
             "frm_message", array(
               "titre_message"=>$this->titre,
@@ -160,23 +160,23 @@ class message extends stdentity
 
   function set_modere ( $id_utilisateur )
   {
-    $this->id_utilisateur_moderateur = $id_utilisateur;    
-    $req = new update ($this->dbrw,"frm_message", 
+    $this->id_utilisateur_moderateur = $id_utilisateur;
+    $req = new update ($this->dbrw,"frm_message",
         array("id_utilisateur_moderateur"=>$this->id_utilisateur_moderateur),
-        array("id_message"=>$this->id) );    
+        array("id_message"=>$this->id) );
   }
 
   function delete ( &$forum, &$sujet )
   {
     if ( $forum->id != $sujet->id_forum || $sujet->id != $this->id_sujet )
       return;
-      
+
     new delete($this->dbrw,"frm_message",array("id_message"=>$this->id));
-    
+
     $this->id = null;
-    
-    $sujet->update_last_message($forum); 
-    $forum->update_last_sujet(); 
+
+    $sujet->update_last_message($forum);
+    $forum->update_last_sujet();
   }
 
   /**
@@ -185,7 +185,7 @@ class message extends stdentity
 	function commit_replace($text,$user)
 	{
 	  $text = preg_replace("/(\n|^)\/me\s/","\n* ".$user->alias." ",$text);
-	
+
 	  return $text;
 	}
 

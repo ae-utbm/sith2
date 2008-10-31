@@ -60,7 +60,7 @@ if ( isset($_REQUEST["id_file"]))
   {
     if ( !$file->is_right($site->user,DROIT_LECTURE) )
       $site->error_forbidden($section,"group",$file->id_groupe);
-      
+
     $folder->load_by_id($file->id_folder);
   }
   else
@@ -101,12 +101,12 @@ if ( $_REQUEST["action"] == "download" && $file->is_valid() )
   }
   $file->increment_download();
   $filename = $file->get_real_filename();
-  
+
   header("Content-Disposition: filename=".$file->nom_fichier);
-  
+
   if ( file_exists($filename) )
     $site->return_simplefile( $file->nom_fichier, $file->mime_type, $filename );
-  
+
   exit();
 }
 
@@ -144,7 +144,7 @@ if ( !$folder->is_right($site->user,DROIT_LECTURE) )
 
 if ( $_REQUEST["action"] == "cut" )
 {
-	
+
 	if ( $file->is_valid() && $file->is_right($site->user,DROIT_ECRITURE) )
 	{
 		$_SESSION["d_clipboard"]["I".$file->id] = $file->id;
@@ -179,44 +179,44 @@ elseif ( $folder->is_valid() && $_REQUEST["action"] == "delete" )
 }
 
 
-if ( $_REQUEST["action"] == "davmount" ) 
+if ( $_REQUEST["action"] == "davmount" )
 {
   /*
    * Support RFC 4709
    * http://www.ietf.org/rfc/rfc4709.txt
    */
-  
+
   $rpath = rawurlencode($folder->nom_fichier);
-  
+
   $pfolder = new dfolder($site->db);
-  $pfolder->load_by_id($folder->id_folder_parent);  
+  $pfolder->load_by_id($folder->id_folder_parent);
   while ( $pfolder->is_valid() )
   {
     $rpath = rawurlencode($pfolder->nom_fichier)."/".$rpath;
     $pfolder->load_by_id($pfolder->id_folder_parent);
   }
-  
+
   if ( !$site->user->is_valid() )
     $url = "http://".$_SERVER["HTTP_HOST"].dirname($_SERVER["SCRIPT_NAME"])."/webdav.php/";
   else
     $url = "https://".$_SERVER["HTTP_HOST"].dirname($_SERVER["SCRIPT_NAME"])."/webdav.php/";
-  
+
   header("Content-Type: application/davmount+xml");
   header("Cache-Control: private");
   header("Content-Disposition: filename=".$folder->id.".davmount");
-  
+
   echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
   echo "<dm:mount xmlns:dm=\"http://purl.org/NET/webdav/mount\">\n";
   echo "  <dm:url>".htmlspecialchars($url,ENT_NOQUOTES,"UTF-8")."</dm:url>\n";
   echo "  <dm:open>".htmlspecialchars($rpath,ENT_NOQUOTES,"UTF-8")."/</dm:open>\n";
-  
-  if ( $site->user->is_valid() 
+
+  if ( $site->user->is_valid()
        /*&& !preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME'])*/ )
     echo "  <dm:username>".htmlspecialchars($site->user->email,ENT_NOQUOTES,"UTF-8")."</dm:username>\n";
-  
+
   echo "</dm:mount>\n";
-     
-  exit(); 
+
+  exit();
 }
 
 if ( $file->is_valid() )
@@ -303,7 +303,7 @@ if ( $file->is_valid() )
   elseif ( $_REQUEST["action"] == "returnfile" && $file->is_right($site->user,DROIT_ECRITURE) )
   {
     //ErreurReturn
-    
+
     if ( $file->is_locked($site->user) )
       $ErreurReturn="Impossible de restituer le fichier";
     elseif( !is_uploaded_file($_FILES['file']['tmp_name']) || ($_FILES['file']['error'] != UPLOAD_ERR_OK ) )
@@ -314,12 +314,12 @@ if ( $file->is_valid() )
       $file->unlock($site->user);
       $Notice = "Fichier restitué";
     }
-    
-  }  
+
+  }
   elseif ( $_REQUEST["action"] == "borrow" && $file->is_right($site->user,DROIT_ECRITURE) )
   {
     if ( $file->is_locked($site->user) )
-      $Notice="Impossible d'emprunter le fichier";    
+      $Notice="Impossible d'emprunter le fichier";
     else
     {
       $file->lock($site->user);
@@ -348,7 +348,7 @@ if ( $file->is_valid() )
     $frm->add_text_field("nom","Nom",$file->titre,true);
     $frm->add_text_field("tags","Tags (séparateur: virgule)",$file->get_tags());
     $frm->add_text_area("description","Description",$file->description);
-    
+
     $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$file->id_asso,true);
     $frm->add_rights_field($file,false,$file->is_admin($site->user),"files");
     $frm->add_submit("valid","Enregistrer");
@@ -379,7 +379,7 @@ if ( $file->is_valid() )
 
   if ( isset($Notice) )
     $cts->add_paragraph("<b>$Notice</b>");
-  
+
     $actions = array();
 
   $filename = $file->get_thumb_filename();
@@ -416,18 +416,18 @@ if ( $file->is_valid() )
         "Nombre de t&eacute;l&eacute;chargements: ".$file->nb_telechargement,
         "Propos&eacute; par : ". $user->get_html_link()
       )),true);
-      
-      
+
+
   if ( $file->is_right($site->user,DROIT_ECRITURE) )
   {
     $lock = $file->get_lock();
-    
+
     if ( $lock )
     {
       if ( $lock['id_utilisateur'] == $site->user->id )
       {
         $cts->add_title(2,"Restituer le fichier");
-        
+
         $frm = new form("addfile","d.php?id_file=".$file->id);
         $frm->allow_only_one_usage();
         $frm->add_hidden("action","returnfile");
@@ -436,9 +436,9 @@ if ( $file->is_valid() )
         $frm->add_file_field("file","Fichier",true);
         $frm->add_text_area("comment","Commentaire","");
         $frm->add_submit("valid","Restituer");
-        
+
         $cts->add($frm);
-        
+
         $cts->add_paragraph("<a href=\"d.php?id_file=".$file->id."&amp;action=cancelborrow\">Annuler l'emprunt</a>");
       }
       else
@@ -455,9 +455,9 @@ if ( $file->is_valid() )
     {
       $cts->add_title(2,"Emprunter le fichier");
       $cts->add_paragraph("<a href=\"d.php?id_file=".$file->id."&amp;action=borrow\">Emprunter et télécharger le fichier</a>");
-    }  
-  }      
-      
+    }
+  }
+
   $cts->add_title(2,"Historique");
 
   $req = new requete($site->db,"SELECT ".
@@ -467,7 +467,7 @@ if ( $file->is_valid() )
   "INNER JOIN utilisateurs ON ( d_file_rev.id_utilisateur_rev_file=utilisateurs.id_utilisateur) ".
   "WHERE id_file='".$file->id."' ".
   "ORDER BY date_rev_file DESC");
-  
+
   $list = new itemlist(false,"wikihist");
   while ( $row = $req->get_row() )
   {
@@ -499,7 +499,7 @@ if ( $file->is_valid() )
       $list->add(
         "<a class=\"wpage\" href=\"wiki2/?name=".$row['fullpath_wiki']."\">".
         ($row['fullpath_wiki']?$row['fullpath_wiki']:"(racine)")."</a> ".
-        " : <span class=\"wtitle\">".htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8")."</span> ");      
+        " : <span class=\"wtitle\">".htmlentities($row['title_rev'],ENT_NOQUOTES,"UTF-8")."</span> ");
     }
     $cts->add($list);
   }
@@ -517,11 +517,11 @@ if ( $file->is_valid() )
     while ( $row = $req->get_row() )
     {
       $list->add(
-        "<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".htmlentities($row['titre_nvl'],ENT_NOQUOTES,"UTF-8")."</a>");      
+        "<a href=\"news.php?id_nouvelle=".$row['id_nouvelle']."\">".htmlentities($row['titre_nvl'],ENT_NOQUOTES,"UTF-8")."</a>");
     }
     $cts->add($list);
   }
-  
+
   $cts->add_title(3,"Tags");
   $cts->add(new taglist($file));
 
@@ -606,7 +606,7 @@ elseif ( isset($_SESSION["d_clipboard"]) && $_REQUEST["action"] == "paste" )
 {
 	$inffile = new dfile($site->db,$site->dbrw);
 	$inffolder = new dfolder($site->db,$site->dbrw);
-	
+
 	foreach( $_SESSION["d_clipboard"] as $aid => $id )
 	{
 		if ( $aid{0} == 'I' )
@@ -620,10 +620,10 @@ elseif ( isset($_SESSION["d_clipboard"]) && $_REQUEST["action"] == "paste" )
 		elseif ( $folder->is_right($site->user,DROIT_AJOUTCAT) )
 		{
 			$inffolder->load_by_id($id);
-			$inffolder->move_to($folder->id);			
+			$inffolder->move_to($folder->id);
 		}
 	}
-	
+
 	unset($_SESSION["d_clipboard"]);
 }
 
@@ -638,12 +638,12 @@ if ( isset($_SESSION["d_clipboard"]) )
 {
 	$inffile = new dfile($site->db);
 	$inffolder = new dfolder($site->db);
-	
+
 	$cts = new contents("Presse papier");
-	
+
 	if ( $folder->is_right($site->user,DROIT_AJOUTITEM) || $folder->is_right($site->user,DROIT_AJOUTCAT) )
 	  $cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;action=paste\">Deplacer ici</a>");
-	
+
 	$lst = new itemlist("Contenu");
 
 	foreach( $_SESSION["d_clipboard"] as $aid => $id )
@@ -659,9 +659,9 @@ if ( isset($_SESSION["d_clipboard"]) )
 			$lst->add($inffolder->get_html_link());
 		}
 	}
-	
+
 	$cts->add($lst,true);
-	
+
 	$site->add_contents($cts);
 }
 
@@ -718,7 +718,7 @@ while ( $row = $sub2->get_row() )
   {
     $acts[] ="edit";
     $acts[] ="delete";
-    $acts[] ="cut";   
+    $acts[] ="cut";
   }
 
   if ( !file_exists($fd->get_thumb_filename()) )

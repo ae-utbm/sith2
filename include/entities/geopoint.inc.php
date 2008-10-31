@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /**
  * @file
  */
@@ -54,7 +54,7 @@ abstract class geopoint extends stdentity
   var $type;
   /** Nom du point, son titre */
   var $nom;
-  
+
   /**
    * Charge un geopoint dans sa classe d'origine en lecture seule.
    * @param $db Lien à la base de donnée en lecture seule
@@ -65,36 +65,36 @@ abstract class geopoint extends stdentity
   static function autoload_by_id ( $db, $id, $type=null )
   {
     global $topdir;
-    
+
     if ( is_null($type) )
     {
-      $req = new requete($db, 
+      $req = new requete($db,
         "SELECT type_geopoint ".
         "FROM `geopoint` ".
         "WHERE `id_geopoint` = '" . mysql_real_escape_string($id) . "' ".
         "LIMIT 1");
-      
+
       if ( $req->lines != 1 )
         return null;
-      
+
       list($type) = $req->get_row();
     }
-    
-    if ( !class_exists($type) 
-         && isset($GLOBALS["entitiescatalog"][$type][5]) 
+
+    if ( !class_exists($type)
+         && isset($GLOBALS["entitiescatalog"][$type][5])
          && $GLOBALS["entitiescatalog"][$type][5] )
       require_once($topdir."include/entities/".$GLOBALS["entitiescatalog"][$type][5]);
-      
+
     if ( class_exists($type) )
   		$item = new $type($db);
     else
       return null;
-    
+
     $item->load_by_id($id);
-    
+
     return $item;
   }
-  
+
   /**
    * Charge les données du point geographique depuis une ligne SQL
    * @param $row Ligne SQL
@@ -106,11 +106,11 @@ abstract class geopoint extends stdentity
     $this->id_ville = $row['id_ville'];
     $this->lat = $row['lat_geopoint'];
     $this->long = $row['long_geopoint'];
-    $this->eloi = $row['eloi_geopoint'];   
+    $this->eloi = $row['eloi_geopoint'];
     $this->type = $row['type_geopoint'];
     $this->nom = $row['nom_geopoint'];
   }
-  
+
   /**
    * Créer un point geographique
    * @param $nom Nom du point
@@ -127,11 +127,11 @@ abstract class geopoint extends stdentity
     $this->nom = $nom;
     $this->lat = $lat;
     $this->long = $long;
-    $this->eloi = $eloi;   
+    $this->eloi = $eloi;
     $this->type = get_class($this);
-    
-    $req = new insert ( $this->dbrw, "geopoint", 
-      array( 
+
+    $req = new insert ( $this->dbrw, "geopoint",
+      array(
       "id_ville" => $this->id_ville,
       "lat_geopoint" => sprintf("%.12F",$this->lat),
       "long_geopoint" => sprintf("%.12F",$this->long),
@@ -139,17 +139,17 @@ abstract class geopoint extends stdentity
       "type_geopoint" => $this->type,
       "nom_geopoint" => $this->nom
       ) );
-    
+
     if ( !$req->is_success() )
     {
       $this->id = null;
       return false;
     }
-    
+
 	  $this->id = $req->get_id();
     return true;
   }
-  
+
   /**
    * Enregistre des informations sur le point geographique
    * @param $nom Nom du point
@@ -165,10 +165,10 @@ abstract class geopoint extends stdentity
     $this->id_ville = $id_ville;
     $this->lat = $lat;
     $this->long = $long;
-    $this->eloi = $eloi;     
-    
-    new update ( $this->dbrw, "geopoint", 
-      array( 
+    $this->eloi = $eloi;
+
+    new update ( $this->dbrw, "geopoint",
+      array(
       "id_ville" => $this->id_ville,
       "lat_geopoint" => sprintf("%.12F",$this->lat),
       "long_geopoint" => sprintf("%.12F",$this->long),
@@ -177,7 +177,7 @@ abstract class geopoint extends stdentity
       ),
       array("id_geopoint"=>$this->id) );
   }
-  
+
   /**
    * Supprime les informations sur le point geographique
    */
@@ -185,30 +185,30 @@ abstract class geopoint extends stdentity
   {
     new delete($this->dbrw,"geopoint",array("id_geopoint"=>$this->id));
     $this->id = null;
-  }  
-  
+  }
+
   function can_enumerate()
   {
     return true;
   }
-  
+
   function enumerate ( $null=false, $conds = null )
   {
     $class = get_class($this);
-    
-		if ( $null ) 
+
+		if ( $null )
 			$values=array(null=>"(aucun)");
 		else
 			$values=array();
-    
+
 		$sql = "SELECT `id_geopoint`,`nom_geopoint` ".
-      "FROM `geopoint`";	
-      
+      "FROM `geopoint`";
+
     if ( is_null($conds) || !is_array($conds) )
       $conds = array();
-      
+
     $conds["type_geopoint"] = $class;
-      
+
     if ( !is_null($conds) && count($conds) > 0 )
     {
       $firststatement=true;
@@ -221,16 +221,16 @@ abstract class geopoint extends stdentity
         }
         else
           $sql .= " AND ";
-          
+
         if ( is_null($value) )
           $sql .= "(`" . $key . "` is NULL)";
         else
           $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
       }
     }
-    
-    $sql .= " ORDER BY 2";  
-    
+
+    $sql .= " ORDER BY 2";
+
 		$req = new requete($this->db,$sql);
 
 		while ( $row = $req->get_row() )
@@ -238,12 +238,12 @@ abstract class geopoint extends stdentity
 
     return $values;
   }
-  
+
   function can_fsearch ( )
   {
     return true;
   }
-  
+
   function _fsearch ( $sqlpattern, $limit=5, $count=false, $conds = null )
   {
     if ( $count )
@@ -253,20 +253,20 @@ abstract class geopoint extends stdentity
     }
     else
 		  $sql = "SELECT `id_geopoint`,`nom_geopoint` ";
-      
+
     $sql .= "FROM `geopoint` ".
-      "WHERE `nom_geopoint` REGEXP '^$sqlpattern'";	
-      
+      "WHERE `nom_geopoint` REGEXP '^$sqlpattern'";
+
     $class = get_class($this);
-      
+
     if ( $class != "lieu" )
     {
       if ( is_null($conds) || !is_array($conds) )
         $conds = array();
-        
+
       $conds["type_geopoint"] = $class;
     }
-    
+
     if ( !is_null($conds) && count($conds) > 0 )
     {
       foreach ($conds as $key => $value)
@@ -278,12 +278,12 @@ abstract class geopoint extends stdentity
           $sql .= "(`" . $key . "`='" . mysql_escape_string($value) . "')";
       }
     }
-    
+
     $sql .= " ORDER BY 1";
-    
+
     if ( !is_null($limit) && $limit > 0 )
       $sql .= " LIMIT ".$limit;
-      
+
 		$req = new requete($this->db,$sql);
 
     if ( $count )
@@ -291,24 +291,24 @@ abstract class geopoint extends stdentity
       list($nb) = $req->get_row();
       return $nb;
     }
-    
+
     if ( !$req || $req->errno != 0 )
       //return null;
       return array(0=>$sql);
 
     $values=array();
-    
+
 		while ( $row = $req->get_row() )
 		  $values[$row[0]] = $row[1];
 
     return $values;
   }
-  
+
   function prefer_list()
   {
-    return true;  
+    return true;
   }
-  
+
   function get_kml_placemark()
   {
     $buffer .= "<Placemark id=\"ae_utbm_fr_geopoint_".$this->id_geopoint."\">";

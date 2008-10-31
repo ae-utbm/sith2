@@ -1,7 +1,7 @@
 <?
-/* 
+/*
  * flux rss du forum
- *        
+ *
  * Copyright 2007
  * - Pierre Mauduit <pierre POINT mauduit CHEZ utbm POINT fr>
  *
@@ -65,7 +65,7 @@ class rssfeedforum extends rssfeed
                "(id_groupe_admin IN ($grps)) OR " .
                "((droits_acces_forum & 0x100) AND frm_forum.id_utilisateur='".$this->user->id."')) ";
     }
-    $req = new requete ($this->db, "SELECT 
+    $req = new requete ($this->db, "SELECT
                                              COALESCE(`surnom_utbm`,CONCAT(`prenom_utl`,' ',`nom_utl`)) AS `nom_utilisateur`
                                              , `frm_message`.`id_message`
                                              , `frm_message`.`id_sujet`
@@ -93,7 +93,7 @@ class rssfeedforum extends rssfeed
       echo "<item>\n";
       echo "\t<title><![CDATA[". $row["titre_sujet"] . ", par ".$row['nom_utilisateur']."]]></title>\n";
       echo "\t<link>".$this->pubUrl."?id_message=".$row["id_message"]."#msg".$row['id_message']."</link>\n";
-  
+
       if ($row['syntaxengine_message'] == 'doku')
         $content = doku2xhtml($row['contenu_message']);
 
@@ -103,8 +103,8 @@ class rssfeedforum extends rssfeed
       echo "\t<description><![CDATA[".$content."]]></description>\n";
       echo "\t<pubDate>".gmdate("D, j M Y G:i:s T",strtotime($row["date_message"]))."</pubDate>\n";
       echo "\t<guid>".$this->pubUrl."?id_sujet=".$row["id_sujet"]."#msg".$row['id_message']."</guid>\n";
-      echo "</item>\n";  
-  
+      echo "</item>\n";
+
     }
 
   }
@@ -117,26 +117,26 @@ class rssfeedforum extends rssfeed
     echo "<?xml-stylesheet type=\"text/css\" href=\"http://ae.utbm.fr/themes/default/css/site.css?".filemtime($topdir."themes/default/css/site.css")."\" ?>";
     echo "<rss version=\"2.0\" xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\">\n";
     echo "<channel>\n";
-    
+
     if ( !empty($this->title) )
       echo "<title>".htmlspecialchars($this->title,ENT_NOQUOTES,"UTF-8")."</title>\n";
-      
+
     if ( !empty($this->link) )
-      echo "<link>".htmlspecialchars($this->link,ENT_NOQUOTES,"UTF-8")."</link>\n";      
-      
+      echo "<link>".htmlspecialchars($this->link,ENT_NOQUOTES,"UTF-8")."</link>\n";
+
     if ( !empty($this->description) )
       echo "<description>".htmlspecialchars($this->description,ENT_NOQUOTES,"UTF-8")."</description>\n";
-      
+
     if ( !empty($this->generator) )
-      echo "<generator>".htmlspecialchars($this->generator,ENT_NOQUOTES,"UTF-8")."</generator>\n";    
-    
+      echo "<generator>".htmlspecialchars($this->generator,ENT_NOQUOTES,"UTF-8")."</generator>\n";
+
     echo "<pubDate>".gmdate("D, j M Y G:i:s T",$this->pubDate)."</pubDate>\n";
-    
+
     $this->output_items();
-        
+
     echo "</channel>\n";
     echo "</rss>\n";
-  }  
+  }
 }
 
 

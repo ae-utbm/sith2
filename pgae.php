@@ -22,7 +22,7 @@
  */
 /**
  *  Mini site de consultation du petit géni
- * 
+ *
  */
 
 $topdir = "./";
@@ -32,7 +32,7 @@ require_once($topdir. "include/mysqlpg.inc.php");
 require_once($topdir. "include/catalog.inc.php");
 require_once($topdir."include/cts/board.inc.php");
 
-$site = new site (); 
+$site = new site ();
 $site->start_page ("maintenance", "Petit géni");
 $cts = new contents();
 $cts->add_title(2, "Petit géni : en maintenance");
@@ -58,7 +58,7 @@ $sqlbase = "SELECT pg_liste.*," .
 			"LEFT JOIN pg_voie_type ON pg_voie_type.id=pg_voie.id_type " .
 			"LEFT JOIN pg_secteur2 ON pg_secteur2.id=pg_liste.secteur " .
 			"WHERE ( pg_liste.status = 1 AND pg_liste.print_web = 1 ) ";
-			
+
 function afficher_encart($id){
 	if (file_exists("/var/www/ae/accounts/petitgeni/images/encarts/".$id."_mini.jpg")){
 		return "<a href=\"/petitgeni/images/encarts/".$id."_rvb.jpg\"><img src=\"/petitgeni/images/encarts/".$id."_mini.jpg\" alt=\"Encart publicitaire\"></a>\n";
@@ -67,7 +67,7 @@ function afficher_encart($id){
 
 class pgresults extends stdcontent
 {
-	
+
 	function pgresults ( $title, $req )
 	{
 		$this->title = $title;
@@ -81,13 +81,13 @@ class pgresults extends stdcontent
 			}
 			else
 			{
-				$page_secteur = "plans_territoire";	
+				$page_secteur = "plans_territoire";
 				$secteur = "";
 			}
-		
+
 			$gde_cat_min = strtolower($row['nom_cat1']);
 			$adresse = ($row['no']?($row['no'].", "):'') . ($row['nom_voie_type']?(($row['nom_voie_type'][strlen($row['nom_voie_type'])-1] == "'")?($row['nom_voie_type']):($row['nom_voie_type']." ")):'') . $row['nom_voie'];
-	
+
 			$i++;
 			$this->buffer .= ($row['mav']||$row['encart'])?"<div class=\"".$gde_cat_min."_faible\">":"";
 			$this->buffer .= "<div class=\"fiche\">\n";
@@ -113,7 +113,7 @@ class pgresults extends stdcontent
 			$this->buffer .= "		<div class=\"encart\">".afficher_encart($row['id'])."</div>\n";
 			$this->buffer .= "</div>\n";
 			$this->buffer .= ($row['mav']||$row['encart'])?"</div>\n":"";
-			
+
 		}
 		$this->buffer .= "</div>\n";
 	}
@@ -148,7 +148,7 @@ class pgitemlist extends stdcontent
 	{
 		$this->title = $title;
 		$this->class = $class;
-	}	
+	}
 
 	function add ( $item, $class=false )
 	{
@@ -157,7 +157,7 @@ class pgitemlist extends stdcontent
 		else
 			$this->buffer .= "<div".($class?" class=\"item ".$class."\"":" class=\"item\"").">".$item."</div>\n";
 	}
-	
+
 	function html_render()
 	{
 		return "<div".($this->class?" class=\"list ".$this->class."\"":" class=\"list\"").">\n".$this->buffer."\n</div>\n";
@@ -168,22 +168,22 @@ if ( isset($_REQUEST["id_cat1"]) )
 {
 	$sql1 = new requete($dbpg,"SELECT nom,id FROM pg_cat1 WHERE id='".mysql_real_escape_string($_REQUEST["id_cat1"])."'");
 	list($nom,$id_cat1) = $sql1->get_row();
-	
+
 	$lst = new pgitemlist("<a href=\"pgae.php\">Le guide</a> / <a href=\"pgae.php?id_cat1=$id_cat1\">".utf8_encode($nom)."</a>","pg_cat1");
 
 	$sql2 = new requete($dbpg,"SELECT nom,id FROM pg_cat2 WHERE id_cat1='$id_cat1' ORDER BY nom");
-	
+
 	while ( list($nom,$id_cat2) = $sql2->get_row() )
 	{
 		$sublst = new pgitemlist("<a href=\"pgae.php?id_cat2=$id_cat2\">".utf8_encode($nom)."</a>");
-		
+
 		$sql3 = new requete($dbpg,"SELECT nom,id FROM pg_cat3 WHERE id_cat2='$id_cat2' ORDER BY nom");
 		while ( list($nom,$id_cat3) = $sql3->get_row() )
 			$sublst->add("<a href=\"pgae.php?id_cat3=$id_cat3\">".utf8_encode($nom)."</a>");
-		
+
 		$lst->add($sublst,"pg_$id_cat1");
 	}
-	
+
 	$site->add_contents ($lst);
 }
 elseif ( isset($_REQUEST["id_cat2"]) )
@@ -194,22 +194,22 @@ elseif ( isset($_REQUEST["id_cat2"]) )
 			"FROM pg_cat2 " .
 			"INNER JOIN pg_cat1 ON pg_cat1.id =pg_cat2.id_cat1 " .
 			"WHERE pg_cat2.id='".mysql_real_escape_string($_REQUEST["id_cat2"])."'");
-			
-	list($nom1,$id_cat1,$nom2,$id_cat2) = $sql->get_row();	
-	
+
+	list($nom1,$id_cat1,$nom2,$id_cat2) = $sql->get_row();
+
 	$lst = new pgitemlist("<a href=\"pgae.php\">Le guide</a> / <a href=\"pgae.php?id_cat1=$id_cat1\">".utf8_encode($nom1)."</a> / <a href=\"pgae.php?id_cat2=$id_cat2\">".utf8_encode($nom2)."</a>","pg_cat1");
 	$sublst = new pgitemlist("<a href=\"pgae.php?id_cat2=$id_cat2\">".utf8_encode($nom2)."</a>");
-	
+
 	$sql3 = new requete($dbpg,"SELECT nom,id FROM pg_cat3 WHERE id_cat2='$id_cat2' ORDER BY nom");
 	while ( list($nom,$id_cat3) = $sql3->get_row() )
 		$sublst->add("<a href=\"pgae.php?id_cat3=$id_cat3\">".utf8_encode($nom)."</a>");
-		
+
 	$lst->add($sublst,"pg_$id_cat1");
 	$site->add_contents ($lst);
-	
+
 }
 elseif ( isset($_REQUEST["id_cat3"]) )
-{	
+{
 	$sql = new requete($dbpg,"SELECT pg_cat1.nom, pg_cat1.id," .
 			"pg_cat2.nom, pg_cat2.id, " .
 			"pg_cat3.nom, pg_cat3.id " .
@@ -217,42 +217,42 @@ elseif ( isset($_REQUEST["id_cat3"]) )
 			"INNER JOIN pg_cat2 ON pg_cat2.id =pg_cat3.id_cat2 " .
 			"INNER JOIN pg_cat1 ON pg_cat1.id =pg_cat2.id_cat1 " .
 			"WHERE pg_cat3.id='".mysql_real_escape_string($_REQUEST["id_cat3"])."'");
-			
+
 	list($nom1,$id_cat1,$nom2,$id_cat2,$nom3,$id_cat3) = $sql->get_row();
-			
+
 	$req = new requete($dbpg,$sqlbase."AND cat='".mysql_real_escape_string($_REQUEST["id_cat3"])."' ORDER BY pg_liste.nom");
-	
+
 	$site->add_contents (new pgresults("<a href=\"pgae.php\">Le guide</a> / <a href=\"pgae.php?id_cat1=$id_cat1\">".utf8_encode($nom1)."</a> / <a href=\"pgae.php?id_cat2=$id_cat2\">".utf8_encode($nom2)."</a> / <a href=\"pgae.php?id_cat3=$id_cat3\">".utf8_encode($nom3)."</a>",$req));
-	
+
 }
 elseif ( isset($_REQUEST["recherche"]))
 {
 	$patterns=explode(" ",$_REQUEST["recherche"]);
-	
+
 	$reqf="";
 
 	foreach ( $patterns as $value ) {
 
 		$value = utf8_decode(mysql_real_escape_string($value));
-		
+
 		if ( $reqf ) $reqf .= " AND ";
-		
+
 		$reqf .= "(pg_liste.nom REGEXP '[[:<:]]".$value."[[:>:]]' OR ".
 				"pg_liste.description REGEXP '[[:<:]]".$value."[[:>:]]')";
 	}
 
 	$cts = new contents("Recherche \"".$_REQUEST["recherche"]."\"");
-	
+
 	$req = new requete($dbpg,"SELECT pg_cat1.nom, pg_cat1.id," .
 			"pg_cat2.nom, pg_cat2.id, " .
 			"pg_cat3.nom, pg_cat3.id " .
 			"FROM pg_cat3 " .
 			"INNER JOIN pg_cat2 ON pg_cat2.id =pg_cat3.id_cat2 " .
 			"INNER JOIN pg_cat1 ON pg_cat1.id =pg_cat2.id_cat1 " .
-			"WHERE pg_cat3.nom LIKE '%".utf8_decode(mysql_real_escape_string($_REQUEST["recherche"]))."%'");	
-	
+			"WHERE pg_cat3.nom LIKE '%".utf8_decode(mysql_real_escape_string($_REQUEST["recherche"]))."%'");
+
 	$lst = new pgitemlist("Catégories");
-	
+
 	if ( $req->lines == 0 )
 		$lst->add("Aucun résultats");
 	else
@@ -263,40 +263,40 @@ elseif ( isset($_REQUEST["recherche"]))
 		}
 	}
 	$cts->add($lst,true);
-	
-	$req = new requete($dbpg,$sqlbase."AND ($reqf) ORDER BY pg_liste.nom");	
+
+	$req = new requete($dbpg,$sqlbase."AND ($reqf) ORDER BY pg_liste.nom");
 	if ( $req->lines == 0 )
 		$cts->add(new contents("Fiches","<p>Aucun résultats</p>"),true);
 	else
 		$cts->add(new pgresults("Fiches",$req),true);
-	
+
 	$site->add_contents ($cts);
 }
 else
 {
 	$cts = new contents("Le guide");
-	
+
 	$board = new board(false,"pg_guide");
-	
-	
+
+
 	$sql1 = new requete($dbpg,"SELECT nom,id FROM pg_cat1 ORDER BY ordre");
-	
+
 	while ( list($nom,$id_cat1) = $sql1->get_row() )
 	{
 		$sublst = new pgitemlist("<a href=\"pgae.php?id_cat1=$id_cat1\">".utf8_encode($nom)."</a>");
-		
+
 		$sql2 = new requete($dbpg,"SELECT nom,id FROM pg_cat2 WHERE id_cat1='$id_cat1' ORDER BY nom");
 		while ( list($nom,$id_cat2) = $sql2->get_row() )
 			$sublst->add("<a href=\"pgae.php?id_cat2=$id_cat2\">".utf8_encode($nom)."</a>");
-		
+
 		$board->add($sublst,true,"pg_$id_cat1");
 	}
-	
+
 	$cts->add($board);
-	
+
 	$site->add_contents ($cts);
-	
-	
+
+
 	$frm = new form("rechpg2","pgae.php",false,"POST","Rechercher");
 	$frm->add_text_field("recherche","Faites un voeu");
 	$frm->add_submit("btnrechpg2","Exaucer!");

@@ -48,7 +48,7 @@ Contact author at: barcode@mribti.com
  * 02111-1307, USA.
  */
 
-require_once($topdir . "include/lib/fpdf.inc.php"); 
+require_once($topdir . "include/lib/fpdf.inc.php");
 /***************************** base class ********************************************/
 /** NB: all GD call's is here **/
 
@@ -100,13 +100,13 @@ class PDF_BarcodeObject {
   var $FPDF;
   var $x;
   var $y;
-  
+
   function PDF_BarcodeObject ($Width = BCD_DEFAULT_Width, $Height = BCD_DEFAULT_HEIGHT, $Style = BCD_DEFAULT_STYLE, $FPDF, $x=0, $y=0)
   {
     $this->mWidth   = $Width;
     $this->mHeight  = $Height;
     $this->mStyle   = $Style;
-    
+
 	$this->FPDF = &$FPDF;
 	$this->x = $x;
 	$this->y = $y;
@@ -437,13 +437,13 @@ class PDF_C128AObject extends PDF_BarcodeObject
       if ($this->mStyle & BCS_DRAW_TEXT) $ysize = $this->mHeight - 2 - $this->GetFontHeight($this->mFont);
       else $ysize = $this->mHeight - 2;
 
-	
+
     /* Draw text */
     if ($this->mStyle & BCS_DRAW_TEXT)
       {
       		$this->FPDF->SetY($this->y+$ysize);
 			$this->FPDF->SetX($this->x);
-			$this->FPDF->Cell($this->mWidth, $this->GetFontHeight() ,$this->mValue,0,0,'C');	
+			$this->FPDF->Cell($this->mWidth, $this->GetFontHeight() ,$this->mValue,0,0,'C');
       }
 
     $cPos = 0;

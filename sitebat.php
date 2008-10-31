@@ -55,31 +55,31 @@ if ( $sitebat->id > 0 )
 {
 	$site->start_page("none",$sitebat->nom);
 	$cts = new contents($sitebat->get_html_link());
-	
+
 	$cts->add_paragraph("Voir aussi : <a href=\"sitebat.php\">Autre sites</a>");
 
 	$req = new requete($site->db,"SELECT * FROM `sl_batiment` WHERE `id_site`='".$sitebat->id."'");
 	$tbl = new sqltable(
-		"listsites", 
-		"Batiments", $req, "sitebat.php?id_site=".$sitebat->id, 
-		"id_batiment", 
-		array("nom_bat"=>"Batiment"), 
+		"listsites",
+		"Batiments", $req, "sitebat.php?id_site=".$sitebat->id,
+		"id_batiment",
+		array("nom_bat"=>"Batiment"),
 		array(), array(),array()
-		);	
+		);
 	$cts->add($tbl,true);
-	 
+
 	$req = new requete($site->db,"SELECT `id_salle`,`nom_salle`,`etage`,`sl_batiment`.`id_batiment`,`nom_bat` FROM `sl_salle` " .
 								"INNER JOIN `sl_batiment` ON `sl_batiment`.`id_batiment`=`sl_salle`.`id_batiment` " .
 								"WHERE `id_site`='".$sitebat->id."'");
 	$tbl = new sqltable(
-		"listsalles", 
-		"Salles", $req, "salle.php", 
-		"id_salle", 
-		array("nom_salle"=>"Salle","etage"=>"Etage","nom_bat"=>"Batiment"), 
+		"listsalles",
+		"Salles", $req, "salle.php",
+		"id_salle",
+		array("nom_salle"=>"Salle","etage"=>"Etage","nom_bat"=>"Batiment"),
 		array(), array(),array()
 		);
-	$cts->add($tbl,true); 
-	
+	$cts->add($tbl,true);
+
 	if ( $site->user->is_in_group("gestion_ae") )
 	{
 		$frm = new form("newbat","sitebat.php?id_site=".$sitebat->id,true,"POST","Nouveau batiment");
@@ -93,21 +93,21 @@ if ( $sitebat->id > 0 )
 	}
 	$site->add_contents($cts);
 	$site->end_page();
-	exit();	
+	exit();
 }
 
 $site->start_page("none","Sites");
 
 $req = new requete($site->db,"SELECT * FROM `sl_site`");
 $tbl = new sqltable(
-	"listsites", 
-	"Sites", $req, "sitebat.php", 
-	"id_site", 
-	array("nom_site"=>"Site"), 
+	"listsites",
+	"Sites", $req, "sitebat.php",
+	"id_site",
+	array("nom_site"=>"Site"),
 	array(), array(),array()
-	);	
-$site->add_contents($tbl); 
- 
+	);
+$site->add_contents($tbl);
+
 if (  $site->user->is_in_group("gestion_ae") )
 {
 	$frm = new form("newsitebat","sitebat.php",true,"POST","Nouveau site");
@@ -120,5 +120,5 @@ if (  $site->user->is_in_group("gestion_ae") )
 	$site->add_contents($frm);
 }
 $site->end_page();
- 
+
 ?>

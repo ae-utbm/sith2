@@ -38,10 +38,10 @@ if ($_REQUEST['action'] == "addcptasso")
   $cptasso = new compte_asso($site->db,$site->dbrw);
   $cpbc  = new compte_bancaire($site->db);
   $asso  = new asso($site->db);
-  
+
   $asso->load_by_id($_REQUEST["id_asso"]);
   $cpbc->load_by_id($_REQUEST["id_cptbc"]);
-  
+
   if ( $asso->id > 0 && $cpbc->id > 0 )
     $cptasso->ajouter( $asso->id,$cpbc->id);
 }

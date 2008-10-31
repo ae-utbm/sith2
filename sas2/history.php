@@ -46,7 +46,7 @@ while ( $row = $req->get_row() )
 {
   if ( $row['parent_nom_catph'] )
     $row['nom_catph'] .= " (".$row['parent_nom_catph'].")";
-    
+
   $img = $topdir."images/misc/sas-default.png";
   if ( $row['id_photo'] )
     $img = $topdir."sas2/images.php?/".$row['id_photo'].".vignette.jpg";

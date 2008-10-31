@@ -25,7 +25,7 @@
  * @see include/entities/files.inc.php
  * @see include/entities/folder.inc.php
  */
- 
+
 $topdir="../";
 require_once($topdir."include/site.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
@@ -37,57 +37,57 @@ $site = new site ();
 
 if ( !$site->user->is_in_group("moderateur_site") )
 	$site->error_forbidden();
-	 
-	 
-if ( $_REQUEST["action"] == "foldermodere") 
+
+
+if ( $_REQUEST["action"] == "foldermodere")
 {
 	$fl = new dfolder($site->db,$site->dbrw);
-	foreach ($_REQUEST["id_folders"] as $id)		
+	foreach ($_REQUEST["id_folders"] as $id)
 	{
 		$fl->load_by_id($id);
-		if ( $fl->id > 0 )	
+		if ( $fl->id > 0 )
 			$fl->set_modere();
-	}	
+	}
 }
-elseif ( $_REQUEST["action"] == "folderdelete") 
+elseif ( $_REQUEST["action"] == "folderdelete")
 {
 	$fl = new dfolder($site->db,$site->dbrw);
-	foreach ($_REQUEST["id_folders"] as $id)		
+	foreach ($_REQUEST["id_folders"] as $id)
 	{
 		$fl->load_by_id($id);
-		if ( $fl->id > 0 )	
+		if ( $fl->id > 0 )
 			$fl->delete_folder();
-	}	
+	}
 }
-elseif ( $_REQUEST["action"] == "filemodere") 
+elseif ( $_REQUEST["action"] == "filemodere")
 {
 	$fl = new dfile($site->db,$site->dbrw);
-	foreach ($_REQUEST["id_files"] as $id)		
+	foreach ($_REQUEST["id_files"] as $id)
 	{
 		$fl->load_by_id($id);
-		if ( $fl->id > 0 )	
+		if ( $fl->id > 0 )
 			$fl->set_modere();
-	}	
+	}
 }
-elseif ( $_REQUEST["action"] == "filedelete") 
+elseif ( $_REQUEST["action"] == "filedelete")
 {
 	$fl = new dfile($site->db,$site->dbrw);
-	foreach ($_REQUEST["id_files"] as $id)		
+	foreach ($_REQUEST["id_files"] as $id)
 	{
 		$fl->load_by_id($id);
-		if ( $fl->id > 0 )	
+		if ( $fl->id > 0 )
 			$fl->delete_file();
-	}	
+	}
 }
-		 
+
 $site->start_page("none","Modération des fichiers");
-$cts = new contents("Modération");	
- 
+$cts = new contents("Modération");
+
 $req = new requete($site->db,"SELECT * " .
 				"FROM d_folder " .
 				"WHERE " .
-				"modere_folder='0'"); 
- 
+				"modere_folder='0'");
+
 $tbl = new sqltable("modfolders",
 			  "Dossiers à modérer",
 			  $req,
@@ -99,14 +99,14 @@ $tbl = new sqltable("modfolders",
 			  array("foldermodere" => "Accepter",
 				"folderdelete" => "Supprimer"),
 			  array());
-			  
-$cts->add($tbl,true); 
- 
+
+$cts->add($tbl,true);
+
 $req = new requete($site->db,"SELECT * " .
 				"FROM d_file " .
 				"WHERE " .
-				"modere_file='0'");		
-				 
+				"modere_file='0'");
+
 $tbl = new sqltable("modfolders",
 			  "Fichiers à modérer",
 			  $req,
@@ -119,9 +119,9 @@ $tbl = new sqltable("modfolders",
 			  array("filemodere" => "Accepter",
 				"filedelete" => "Supprimer"),
 			  array());
- 
-$cts->add($tbl,true); 
- 
+
+$cts->add($tbl,true);
+
 $site->add_contents($cts);
-$site->end_page();	 
+$site->end_page();
 ?>

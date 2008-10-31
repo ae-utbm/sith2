@@ -2,7 +2,7 @@
 /**
  * @file
  */
- 
+
 /* Copyright 2007
  * - Julien Etelain < julien at pmad dot net >
  *
@@ -24,10 +24,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
-/* 
+
+/*
  * Some parts of this file is subject to version 2.02 of the PHP license
- */ 
+ */
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
 // +----------------------------------------------------------------------+
@@ -62,11 +62,11 @@ class webdavserverae extends HTTP_WebDAV_Server
   var $db;
   var $dbrw;
   var $user;
-  
+
   function webdavserverae ()
   {
     $this->HTTP_WebDAV_Server();
-    
+
     $this->http_auth_realm = "Connexion site AE. Entrez votre adresse e-mail et votre mot de passe. Pour une connexion anonyme, precisez anonymous comme nom d'utilisateur (sans mot de passe).";
     $this->dav_powered_by = "AE-2.1.5";
 
@@ -74,7 +74,7 @@ class webdavserverae extends HTTP_WebDAV_Server
     $this->dbrw = new mysqlae ("rw");
 		$this->user = new utilisateur( $this->db );
   }
-  
+
   /**
     * check authentication
     *
@@ -83,30 +83,30 @@ class webdavserverae extends HTTP_WebDAV_Server
     * @param string passwort Transmitted password
     * @returns bool Authentication status
     */
-  function checkAuth($type, $username, $password) 
+  function checkAuth($type, $username, $password)
   {
     if ( $_SERVER["REMOTE_ADDR"] != "127.0.1.1" ) // on n'est pas en HTTPS : Pas d'auth, accès anonyme
       return true;
-    
+
     if ( $type == "digest" ) // Digest not supported
       return false;
-    
+
     if ( $username == "anonymous" )
       return true;
-    
+
     if ( preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
-    {  
-      $this->user->load_by_alias($username); 
+    {
+      $this->user->load_by_alias($username);
       return true;
     }
-      
+
     $this->user->load_by_email($username);
-    
+
     if ( !$this->user->is_valid() || !$this->user->is_password($password) )
       return false;
-      
+
     return true;
-  } 
+  }
 
 }
 

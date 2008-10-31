@@ -65,7 +65,7 @@ else
       }
     }
   }
-  class mysqlforum extends mysql 
+  class mysqlforum extends mysql
   {
 
     function mysqlforum ()

@@ -102,7 +102,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 					$lst->add("Votre CV en ".$i18n[ $_REQUEST['lang_'.$i] ]." a été correctement envoyé", "ok");
 				else
 					$lst->add("Une erreur s'est produite", "ko");
-					
+
 				$i++;
 			}
 		}
@@ -113,12 +113,12 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 			else
 				$lst->add("Une erreur s'est produite.", "ko");
 		}
-		
+
 		$cts->add($lst);
-		
+
 		$cts->add_title(2, "Modifiez vos informations");
 	  $cts->add_paragraph("Toutes vos informations personnelles, telles que votre adresse, téléphone, date de naissance... sont celles de votre fiche Matmatronch, pour les modifier, <a href=\"$topdir./user.php?id_utilisateur=$usr->id&page=edit\">cliquez ici</a>");
-	
+
 	/**
 	 * sqltable des compétences
 	 */
@@ -135,7 +135,7 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 	$cts->add_paragraph("Vous avez ici la possiblité d'envoyer vos CV sur le site afin qu'ils soient consultés par les recruteurs <br />");
 	$cts->add_paragraph("Attention : Vous ne pouvez envoyer que des fichiers PDF, si vous n'avez pas la possiblité d'en produire un par votre traitement de texte, vous pouvez vous tourner vers des outils de conversion tels <a href=\"http://www.zamzar.com\"> le site Zamzar</a>. <br />
 											Vous pouvez envoyer un CV par langue, si vous envoyez un deuxième CV dans une même langue, celui-ci remplacera le précédent.");
-	
+
 	$cts->add_title(3, "Vos fichiers actuellement disponibles");
 	if( empty($usr->pdf_cvs) )
 		$cts->add_paragraph("Vous n'avez envoyé aucun CV pour l'instant.");
@@ -146,29 +146,29 @@ if(isset($_REQUEST['view']) && $_REQUEST['view'] == "profil")
 			$lst->add("<img src=\"$topdir/images/i18n/$cv.png\" />&nbsp; CV PDF en " . $i18n[ $cv ] . ".&nbsp;&nbsp;&nbsp; [<a href=\"". $topdir . "var/cv/". $usr->id . "." . $cv .".pdf\">voir</a>] [<a href=\"board_etu.php?view=profil&action=delete&cv=$cv\">supprimer</a>]");
 		$cts->add($lst, false);
 	}
-	
+
 	$cts->add_title(3, "Envoyer un nouveau fichier");
-	$cts->puts("<script langage=\"javascript\"> 
-								function add_cv_field(){ 
+	$cts->puts("<script langage=\"javascript\">
+								function add_cv_field(){
 										if ( typeof this.counter == 'undefined' ) this.counter = 1;
 										this.counter++;
-										document.getElementById(\"jobcvs\").innerHTML += '<div class=\"formrow\" name=\"cv_item_row\" id=\"cv_item_row\"><div class=\"linedrow\"><div class=\"subformlabel\"></div><div class=\"subforminline\" id=\"cv_item_contents\"> <!-- cv_item_contents --><div class=\"formrow\"><div class=\"formlabel\">Un autre CV &nbsp;&nbsp;</div><div class=\"formfield\"><input type=\"file\" name=\"cv_' + this.counter + '\" /></div></div><div class=\"formrow\"><div class=\"formlabel\">Langue &nbsp;&nbsp;</div><div class=\"formfield\"><select name=\"lang_' + this.counter + '\" ><option value=\"ar\">Arabe</option>	<option value=\"ch\">Chinois</option>	<option value=\"de\">Allemand</option>	<option value=\"en\">Anglais</option>	<option value=\"es\">Espagnol</option>	<option value=\"fr\" selected=\"selected\">Fran&ccedil;ais</option>	<option value=\"it\">Italien</option>	<option value=\"kr\">Cor&eacute;en</option>	<option value=\"pt\">Portugais</option></select></div></div></div><!-- end of cv_item_contents --></div><!-- end of fullrow/linedrow --></div></div>';								
-							} 
+										document.getElementById(\"jobcvs\").innerHTML += '<div class=\"formrow\" name=\"cv_item_row\" id=\"cv_item_row\"><div class=\"linedrow\"><div class=\"subformlabel\"></div><div class=\"subforminline\" id=\"cv_item_contents\"> <!-- cv_item_contents --><div class=\"formrow\"><div class=\"formlabel\">Un autre CV &nbsp;&nbsp;</div><div class=\"formfield\"><input type=\"file\" name=\"cv_' + this.counter + '\" /></div></div><div class=\"formrow\"><div class=\"formlabel\">Langue &nbsp;&nbsp;</div><div class=\"formfield\"><select name=\"lang_' + this.counter + '\" ><option value=\"ar\">Arabe</option>	<option value=\"ch\">Chinois</option>	<option value=\"de\">Allemand</option>	<option value=\"en\">Anglais</option>	<option value=\"es\">Espagnol</option>	<option value=\"fr\" selected=\"selected\">Fran&ccedil;ais</option>	<option value=\"it\">Italien</option>	<option value=\"kr\">Cor&eacute;en</option>	<option value=\"pt\">Portugais</option></select></div></div></div><!-- end of cv_item_contents --></div><!-- end of fullrow/linedrow --></div></div>';
+							}
 							</script>");
 
 	$frm = new form("job_cvs", "board_etu.php?view=profil", true, "POST");
 		$frm->puts("<div name=\"jobcvs\" id=\"jobcvs\">");
-		
+
 		$subfrm = new form("cv_item", false, false, "POST");
 		$subfrm->add_file_field("cv_1", "Envoyez un CV &nbsp;&nbsp;");
 		$subfrm->add_select_field("lang_1", "Langue &nbsp;&nbsp;", $i18n, "fr");
-		
+
 		$frm->add($subfrm, false, false, false, false, true);
 		$frm->puts("</div>");
 		$frm->puts("<input type=\"button\" onclick=\"add_cv_field();\" value=\"Ajouter un champ\"/>");
 	$frm->add_submit("go", "Envoyer les CVs");
 	$cts->add($frm);
-	
+
 }
 
 /*******************************************************************************
@@ -186,13 +186,13 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
 																	NATURAL JOIN `job_annonces`
 																	LEFT JOIN `utilisateurs`
 																	ON `job_annonces`.`id_client` = `utilisateurs`.`id_utilisateur`
-																	WHERE `job_annonces_etu`.`id_etu` = $usr->id 
+																	WHERE `job_annonces_etu`.`id_etu` = $usr->id
 																	AND `job_annonces_etu`.`relation` = 'apply'
 																	AND `job_annonces`.`provided` = 'false'
 																");
 	//faudrait trouver aussi un moyen de compter le nombre de concurrents
 	$cts->add(new sqltable("candidatures", "Candidatures en cours", $sql, "board_etu.php?view=general", 'id_annonce', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le", "nom_utilisateur" => "Par", "etat" => "Etat"), array("detail" => "Détails"), array("detail" => "Détails")), true);
-	
+
 	$sql = new requete($site->db, "SELECT `job_annonces_etu`.*,
 																	`job_annonces`.`titre`,
 																	DATE_FORMAT(`job_annonces`.`date`, '%e/%c/%Y') AS `date`
@@ -202,14 +202,14 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "candidatures")
 																	AND `job_annonces_etu`.`relation` = 'selected'
 																");
 	$cts->add(new sqltable("candidatures", "Candidatures victorieuses", $sql, "board_etu.php?view=general", 'id_annonce', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le"), array("detail" => "Détails"), array("detail" => "Détails")), true);
-	
+
 	$sql = new requete($site->db, "SELECT `job_annonces_etu`.*,
 																	`job_annonces`.`titre`,
 																	DATE_FORMAT(`job_annonces`.`date`, '%e/%c/%Y') AS `date`,
 																	'Vous saurez pas gniak gniak gniak !' AS `people`
 																	FROM `job_annonces_etu`
 																	NATURAL JOIN `job_annonces`
-																	WHERE `job_annonces_etu`.`id_etu` = $usr->id 
+																	WHERE `job_annonces_etu`.`id_etu` = $usr->id
 																	AND `job_annonces_etu`.`relation` = 'apply'
 																	AND `job_annonces`.`provided` = 'true'
 																");
@@ -229,16 +229,16 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 		if(isset($_REQUEST['id_annonces']))
 			foreach ($_REQUEST['id_annonces'] as $id)
 				$ids[] = $id;
-		
+
 		if($_REQUEST['action'] == "detail")
-		{				
+		{
 			foreach ($ids as $id_annonce)
 			{
 				$annonce = new annonce($site->db);
 				$annonce->load_by_id($id_annonce);
 				$cts->add( new apply_annonce_box($annonce) );
 			}
-			
+
 		}
 		else if($_REQUEST['action'] == "reject")
 		{
@@ -249,7 +249,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 				if( $annonce->reject($usr) )
 					$cts->add_paragraph("Votre souhait de ne plus voir l'annonce n°".$annonce->id." vous être proposée à bien été enregistré.\n");;
 			}
-		}	
+		}
 		else if($_REQUEST['action'] == "apply")
 		{
 			$cts->add_paragraph("Namého ! tu te crois chez mémé ? ca se passe pas comme ça nondidiou !!");
@@ -271,7 +271,7 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 
 		/**
 		 * @todo possibilité de trier par catégorie (voire utilisateur, date...)
-		 */		
+		 */
 		$table = new sqltable("annlist", "Liste des annonces en cours", $sql, "board_etu.php?view=general", "id_annonce",
 													array(
 														"id_annonce" => "N°",
@@ -281,11 +281,11 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 													),
 													array("detail" => "Détails", "reject" => "Ne plus me montrer"),
 													array("detail" => "Détails", "reject" => "Ne plus me montrer"),
-													array()											
+													array()
 												);
-		
+
 		$cts->add($table, true);
-	
+
 }
 
 /*******************************************************************************
@@ -294,14 +294,14 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "general")
 else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
 {
 	if( empty($usr->prefs) ) $usr->load_prefs();
-	
+
 	if(isset($_REQUEST['action']) && $_REQUEST['action'] == "save_prefs")
 	{
 	  if(isset($_REQUEST['pub_cv']) && $_REQUEST['pub_cv'] == "1")
 	    $pub_cv = "true";
 	  else
 	    $pub_cv = "false";
-	  
+
 		$yeah = $usr->update_prefs($pub_cv, $_REQUEST['mail_prefs'] );
 		if($yeah)
 		{
@@ -326,12 +326,12 @@ else if(isset($_REQUEST['view']) && $_REQUEST['view'] == "preferences")
  * Onglet d'accueil sinon
  */
 else
-{	
+{
 	if( isset($_REQUEST['action']) )
 	{
 		$annonce = new annonce($site->db, $site->dbrw);
 		$annonce->load_by_id($_REQUEST['id']);
-		
+
 		if($_REQUEST['action'] == "apply")
 		{
 			if( $annonce->apply_to($usr, $_REQUEST['comment']) )
@@ -346,11 +346,11 @@ else
 				$cts->add_paragraph("Votre souhait de ne plus voir l'annonce n°".$annonce->id." vous être proposée à bien été enregistré.\n");
 			}
 		}
-		
+
 	} //fin 'actions'
 
 	$usr->load_annonces();
-	
+
 	if(empty($usr->annonces))
 	{
 		$cts->add_paragraph("<b>Nous n'avons trouvé aucune annonce correspondant à votre profil</b>.");
@@ -360,7 +360,7 @@ else
 	else
 	{
 		$cts->add_title(3, "Nous avons trouvé ".count($usr->annonces)." annonce(s) correspondant à votre <a href=\"board_etu.php?view=profil\">profil</a> :");
-		
+
 		foreach($usr->annonces as $id_annonce)
 		{
 			$annonce = new annonce($site->db);
@@ -368,7 +368,7 @@ else
 			$cts->add( new apply_annonce_box($annonce) );
 		}
 	}
-	
+
 }
 
 

@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * AECMS : CMS pour les clubs et activités de l'AE UTBM
- *        
+ *
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -23,7 +23,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 require_once("include/site.inc.php");
 require_once($topdir."include/entities/news.inc.php");
 require_once($topdir."include/entities/lieu.inc.php");
@@ -36,7 +36,7 @@ $lieu = new lieu($site->db);
 if ( isset($_REQUEST["id_nouvelle"]) )
 {
   $news->load_by_id($_REQUEST["id_nouvelle"]);
-  
+
   if ( !$news->is_valid() || $news->id_asso != $site->asso->id )
   {
     header("Location: index.php");
@@ -82,7 +82,7 @@ elseif ( ($_REQUEST["action"] == "save") && $can_edit )
                      false,
                      null,
                      $_REQUEST["type"],
-                     $lieu->id, 
+                     $lieu->id,
                      !isset($_REQUEST['non_asso_seule']) ? NEWS_CANAL_AECMS : NEWS_CANAL_SITE);
     $news->set_tags($_REQUEST["tags"]);
   }
@@ -213,7 +213,7 @@ if ( isset($_REQUEST["preview"]) || isset($_REQUEST["submit"]) )
   {
     $_REQUEST["content"] = str_replace("{{@affiche|","{{dfile://".$file->id."/preview|",$_REQUEST["content"]);
     $_REQUEST["content"] = str_replace("[[@affiche|","[[dfile://".$file->id."]",$_REQUEST["content"]);
-    
+
     if ( !ereg("\{\{dfile\:\/\/([0-9]*)\/preview\|(.*)\}\}",$_REQUEST["content"]) )
     {
       $_REQUEST["content"] .= "\n\n{{dfile://".$file->id."/preview|Affiche}}\n\n[[dfile://".$file->id."|Version HD de l'affiche]]";
@@ -263,7 +263,7 @@ if ( isset($_REQUEST["preview"]) || isset($_REQUEST["submit"]) )
 if ( $suitable && isset($_REQUEST["submit"]) )
 {
   $lieu->load_by_id($_REQUEST["id_lieu"]);
-  
+
   $news->add_news($site->user->id,
                   $site->asso->id,
                   $_REQUEST['title'],

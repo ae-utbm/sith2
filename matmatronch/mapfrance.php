@@ -57,11 +57,11 @@ $img->addcolor('l10', 255, 0, 0);
 $pgconn = new pgsqlae();
 
 
-$statscotis = new requete($site->db, "SELECT  
-                                      COUNT(`id_utilisateur`) AS num  
-                                      , substring(cpostal_ville,1,2) AS cpostal 
+$statscotis = new requete($site->db, "SELECT
+                                      COUNT(`id_utilisateur`) AS num
+                                      , substring(cpostal_ville,1,2) AS cpostal
                                       FROM `utl_etu`
-                                      INNER JOIN `loc_ville` ON `loc_ville`.`id_ville` = `utl_etu`.`id_ville` 
+                                      INNER JOIN `loc_ville` ON `loc_ville`.`id_ville` = `utl_etu`.`id_ville`
                                       WHERE `utl_etu`.`id_ville` IS NOT NULL
                                       GROUP BY substring(cpostal_ville,1,2)");
 
@@ -106,12 +106,12 @@ foreach($dept as $departement)
   foreach($departement['plgs'] as $plg)
   {
     if ($statsdep[$departement['iddept']] == 0)
-      $img->addpolygon($plg, 'l0', true, 
+      $img->addpolygon($plg, 'l0', true,
            array('id' =>$departement['gid'],
            'url' => "javascript:ploufdept(this, ".
            $departement['iddept']. ")"));
     else
-      $img->addpolygon($plg, 'l' . (int) (1 + $statsdep[$departement['iddept']] / 20), true, 
+      $img->addpolygon($plg, 'l' . (int) (1 + $statsdep[$departement['iddept']] / 20), true,
                        array('id' =>$departement['gid'],
                              'url' => "javascript:ploufdept(this, ".
                              $departement['iddept']. ")"));
@@ -153,8 +153,8 @@ if (isset($_REQUEST['getinfodepts']))
                                  INNER JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur` = `utilisateurs`.`id_utilisateur`
                                  INNER JOIN `loc_ville` ON `loc_ville`.`id_ville` = `utl_etu`.`id_ville`
                                  WHERE `loc_ville`.`cpostal_ville` LIKE '".$cp."'
-                                 AND   `publique_utl` = '1'        
-                                 ORDER BY RAND() 
+                                 AND   `publique_utl` = '1'
+                                 ORDER BY RAND()
                                  LIMIT 10");
 
 
@@ -164,15 +164,15 @@ if (isset($_REQUEST['getinfodepts']))
       exit();
     }
   require_once($topdir . "include/cts/sqltable.inc.php");
-  
-  $sqlt = new sqltable('userslst', 
+
+  $sqlt = new sqltable('userslst',
                        'Liste des utilisateurs',
                        $req,
                        '../user.php',
-                       'id_utilisateur', 
+                       'id_utilisateur',
                        array('prenom_utl' => 'prenom', 'nom_utl' => 'nom', 'surnom_utbm' => 'surnom'),
-                       array('view' => 'Voir la fiche'), 
-                       array(), 
+                       array('view' => 'Voir la fiche'),
+                       array(),
                        array());
 
   echo $sqlt->html_render();
@@ -193,7 +193,7 @@ document.getElementById('cts1').style.display = 'none';
 
 $site->add_contents($cts);
 
-/* cts 2 : la carte de France */ 
+/* cts 2 : la carte de France */
 $cts = new contents("La carte de France de l'AE", "");
 
 $cts->add_paragraph("<script language=\"javascript\">

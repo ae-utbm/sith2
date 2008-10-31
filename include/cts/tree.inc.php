@@ -20,8 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
-require_once($topdir."include/catalog.inc.php"); 
+
+require_once($topdir."include/catalog.inc.php");
 
 /**
  * Affiche un arbre d'éléments depuis une requête SQL
@@ -31,36 +31,36 @@ require_once($topdir."include/catalog.inc.php");
  */
 class treects extends itemlist
 {
-  
+
   var $data;
   var $entity;
   var $ent_id;
   var $ent_name;
-  
+
   function treects ( $title=null, $req, $start=0, $id_field, $id_parent_field, $name_field )
   {
     global $topdir;
-    
+
     while ( $row = $req->get_row() )
     {
       if ( !$row[$id_parent_field] ) $row[$id_parent_field] = 0;
       $this->data[$row[$id_field]]["row"] = $row;
       $this->data[$row[$id_parent_field]]["childs"][] = $row[$id_field];
     }
-    
+
     $reg=null;
     $this->ent_name = $name_field;
-    
+
     foreach ( $GLOBALS["entitiescatalog"] as $ent )
     {
-      if ( ereg("^".$ent[1]."(.*)$",$this->ent_name,$reg))  
+      if ( ereg("^".$ent[1]."(.*)$",$this->ent_name,$reg))
       {
         $this->ent_id = $ent[0].$reg[1];
         $this->entity = $ent;
         break;
       }
-    }    
-  
+    }
+
     if ( $start !=0 )
     {
       if ($this->entity && $this->data[$start]["row"][$this->ent_id])
@@ -75,7 +75,7 @@ class treects extends itemlist
     }
     else
       $this->title = $title;
-    
+
     $this->tree_itere(&$this,$start);
 
   }
@@ -87,9 +87,9 @@ class treects extends itemlist
     {
       foreach ( $this->data[$id]["childs"] as $sid )
       {
-      
-      
-      
+
+
+
         if ($this->entity && $this->data[$sid]["row"][$this->ent_id])
         {
           $title = "<a href=\"".$topdir.$this->entity[3]."?".$this->entity[0]."=".$this->data[$sid]["row"][$this->ent_id]."\">";
@@ -99,8 +99,8 @@ class treects extends itemlist
         }
         else
           $title = htmlentities($this->data[$sid]["row"][$this->ent_name],ENT_NOQUOTES,"UTF-8");
-      
-        if ( !$this->data[$sid]["childs"] ) 
+
+        if ( !$this->data[$sid]["childs"] )
           $itm->add($title);
         elseif ( $this->data[$sid]["done"]==1 ) // Boulet Proof !
           $itm->add($title." (déjà vu, voir plus haut)");
@@ -113,8 +113,8 @@ class treects extends itemlist
         }
       }
     }
-  }  
-  
-} 
- 
+  }
+
+}
+
 ?>

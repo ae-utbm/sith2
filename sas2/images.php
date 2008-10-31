@@ -20,8 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
-$GLOBALS['nosession'] = true; 
- 
+$GLOBALS['nosession'] = true;
+
 $topdir="../";
 require_once("include/sas.inc.php");
 $site = new sas();
@@ -62,7 +62,7 @@ if ( $id_photo > 0 )
 {
   $photo = new photo($site->db);
   $photo->load_by_id($id_photo);
-  
+
   if ( !$photo->is_valid() || !$photo->is_right($site->user,DROIT_LECTURE) )
   {
     $site->return_simplefile( "pherror", "image/png", $topdir."images/action.delete.png");
@@ -82,7 +82,7 @@ if ( $id_photo > 0 )
     $abs_file.=".diapo.jpg";
   else
     $abs_file.=".jpg";
-  
+
   $site->return_simplefile( "sas".$mode.$photo->id, "image/jpeg", $abs_file );
 }
 

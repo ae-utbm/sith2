@@ -2,124 +2,124 @@
 
 class map
 {
-  
-  var $personnes;  
+
+  var $personnes;
   var $wires;
-  
+
   var $gx;
   var $gy;
-  
+
   function map ()
   {
     $this->personnes = array();
     $this->wires = array();
-    
+
     $this->gx = 0;
     $this->gy = 0;
   }
-  
-  
+
+
   function poll ()
   {
     foreach($this->personnes as $per )
       $per->pre_poll();
-      
+
     foreach($this->personnes as $per )
-      $per->do_poll();      
-  }      
-    
+      $per->do_poll();
+  }
+
   function echo_infos ()
   {
     echo "listing<br/>\n";
     foreach($this->personnes as $per )
-      echo $per->id." (".$per->x.",".$per->y.")<br/>\n";     
+      echo $per->id." (".$per->x.",".$per->y.")<br/>\n";
   }
- 
+
   function dim ()
   {
     $min_x=null;
     $max_x=null;
     $min_y=null;
     $max_y=null;
-    
+
     foreach($this->personnes as $per )
     {
       if ( $per->sum_tension  > 0 )
       {
         if ( is_null($min_x) )
         {
-          $min_x = $per->x;  
-          $max_x = $per->x;  
-          $min_y = $per->y;  
-          $max_y = $per->y;  
+          $min_x = $per->x;
+          $max_x = $per->x;
+          $min_y = $per->y;
+          $max_y = $per->y;
         }
         else
         {
-          
+
           if ( $min_x > $per->x )
-            $min_x = $per->x;  
+            $min_x = $per->x;
           elseif ( $max_x < $per->x )
-            $max_x = $per->x; 
-            
+            $max_x = $per->x;
+
           if ( $min_y > $per->y )
-            $min_y = $per->y;  
+            $min_y = $per->y;
           elseif ( $max_y < $per->y )
-            $max_y = $per->y;       
-            
-        }    
-      }  
+            $max_y = $per->y;
+
+        }
+      }
     }
     return array( $min_x,  $min_y, $max_x, $max_y);
-  } 
-  
-  
+  }
+
+
   function can_go ( &$me, $x, $y )
   {
     foreach($this->personnes as $per )
     {
       if ( $me !== $per && pow($x-$per->x,2)+pow($y-$per->y,2) < 0.1 )
         return false;
-    }   
-    
-    
-    return true;  
+    }
+
+
+    return true;
   }
-  
+
   function draw ()
   {
     $tx=100;
-    
+
     $dim = $this->dim();
-    
+
     print_r($dim);
-    
+
     $top_x = floor($dim[0]-1);
     $top_y = floor($dim[1]-1);
     $bottom_x = ceil($dim[2]+1);
     $bottom_y = ceil($dim[3]+1);
-    
+
     $width = ($bottom_x-$top_x)*$tx;
     $height = ($bottom_y-$top_y)*$tx;
-    
+
     echo "size= $width x $height<br/>";
-    
+
     $img = imagecreate($width,$height);
-    
+
     if ( $img === false )
       return;
-    
+
     $bg = imagecolorallocate($img, 255, 255, 255);
     $textcolor = imagecolorallocate($img, 0, 0, 0);
     $wirecolor = imagecolorallocate($img, 255, 192, 192);
     $idealwirecolor = imagecolorallocate($img, 192, 255, 192);
     $bullcolor = imagecolorallocate($img, 255, 128, 128);
-    
+
     foreach($this->personnes as $per )
     {
       $per->ix = round(($per->x-$top_x)*$tx);
       $per->iy = round(($per->y-$top_y)*$tx);
     }
-    
+
     foreach($this->wires as $wire )
     {
       if ( abs($wire->get_length()- $wire->get_minimal_length()) < 0.1 )
@@ -127,108 +127,108 @@ class map
       else
         imageline ($img, $wire->p1->ix, $wire->p1->iy, $wire->p2->ix, $wire->p2->iy, $wirecolor );
     }
-    
+
     foreach($this->personnes as $per )
     {
       imagefilledellipse ($img, $per->ix, $per->iy, $tx/3, $tx/3, $bullcolor );
-    }    
-    
+    }
+
     foreach($this->personnes as $per )
     {
       imagestring($img, 1, $per->ix, $per->iy,  $per->nom, $textcolor);
-    } 
-    //      
+    }
+    //
 
-    
+
     imagepng($img,"friends_temp.png");
     imagedestroy($img);
   }
- 
+
 }
 
 class personne
 {
   var $id;
   var $nom;
-  var $x;  
+  var $x;
   var $y;
-  
+
   var $wires;
-  
+
   var $map;
-  
-  var $dx;  
+
+  var $dx;
   var $dy;
-  
+
   var $sum_tension;
-  
-  
+
+
   function personne ( $id, $nom, &$map)
   {
     $this->id= $id;
     $this->nom= $nom;
-    
+
     $this->x = $map->gx;
     $this->y = $map->gy;
-    
+
     $map->gx += 1;
     $map->gy += 0.05;
-    
+
     if ( $map->gx > 20 )
       $map->gx = 0;
-   
+
     $this->map = &$map;
     $this->wires = array();
     $map->personnes[$this->id] = &$this;
     $this->sum_tension=0;
   }
-  
+
   function pre_poll ()
   {
     $this->dx = 0;
-    $this->dy = 0;  
+    $this->dy = 0;
     //echo "pre_poll() on ".$this->id." (".$this->x.",".$this->y.")<br/>";
     foreach ( $this->wires as $wire )
     {
       list($mx,$my) = $wire->get_delta($this);
-      
+
       $this->dx += $mx;
       $this->dy += $my;
     }
       //echo "dx=".$this->dx.",dy=".$this->dy."<br/>";
   }
-  
+
   function do_poll ()
   {
     if ( $this->map-> can_go ( $this, $this->x + $this->dx, $this->y + $this->dy ) )
     {
       $this->x += $this->dx;
-      $this->y += $this->dy;  
+      $this->y += $this->dy;
     }
   }
-  
 
-  
+
+
 }
 
 
 class wire
 {
-  
+
   var $p1;
   var $p2;
-  var $tension;  
-  
+  var $tension;
+
   var $len;
-  
+
   function wire ( &$p1, &$p2, $tension )
   {
     if ( isset($p1->wires[$p2->id]) )
       return;
-      
+
     if ( isset($p2->wires[$p1->id]) )
       return;
-    
+
     $p1->wires[$p2->id] = &$this;
     $p2->wires[$p1->id] = &$this;
     $this->p1 = &$p1;
@@ -236,71 +236,71 @@ class wire
     $this->tension = $tension;
     $p1->map->wires[] = &$this;
     $this->len=null;
-    
+
     $p1->sum_tension += $tension;
     $p2->sum_tension += $tension;
   }
-  
+
   function get_length()
   {
     return sqrt(pow($this->p1->x-$this->p2->x,2)+pow($this->p1->y-$this->p2->y,2));
   }
-  
+
   function get_minimal_length()
   {
     return 1+(1/$this->tension);
     //return 1;
   }
-  
+
   function get_delta(&$p)
   {
     // Vecteur de P1 à P2
     $dx = ($this->p2->x-$this->p1->x);
     $dy = ($this->p2->y-$this->p1->y);
-    
+
     if ( $dx == 0 && $dy == 0 ) // Vecteur zéro, on est supperposé...
       $l = 0;
     else
-    {  
+    {
       // Longueur du vecteur
       $l = sqrt(pow($dx,2)+pow($dy,2));
-  
+
       // Vecteur reduit à la longueur 1
       $dx = $dx/$l;
       $dy = $dy/$l;
     }
-    
+
     // Longueur au "repos"
     $l_repos = $this->get_minimal_length();
-    
+
     if ( abs($l-$l_repos) < 0.01 )
       return array(0,0); // Ca nous va...
-    
+
     // Calcul du déplacement à appliquer pour aller vers une position qui nous satisfait plus
-    
+
     if ( $l < $l_repos ) // On est écrasé, repulsion mais reduite par la tension
       $delta = ($l-$l_repos)/2;// *$p->sum_tension/$this->tension;
     else // On est tendu, attraction proportinelle à la tension, longueur & co
       $delta = ($l-$l_repos)*$this->tension/$p->sum_tension/2;
-    
+
     if ( $dx == 0 && $dy == 0 ) // Vecteur zéro, on va donner une implusion aléatoire pour aller vers une position satisfaisante
     {
-      $dx = mt_rand(-100,100)/100;  
-      $dy = mt_rand(-100,100)/100;  
+      $dx = mt_rand(-100,100)/100;
+      $dy = mt_rand(-100,100)/100;
       $l = sqrt(pow($dx,2)+pow($dy,2));
       $dx = $dx/$l;
-      $dy = $dy/$l;      
+      $dy = $dy/$l;
     }
-    
+
     if ( $p === $this->p2 ) // On n'est pas du point de vue de P1, on inverse donc le signe
     {
-      $dx = -$dx;  
+      $dx = -$dx;
       $dy = -$dy;
-    }    
-    
+    }
+
     return array( $dx*$delta, $dy*$delta );
   }
-   
+
 }
 
 
@@ -339,14 +339,14 @@ while ( $row = $req2->get_row() )
 {
   if ( $row['c'] > $tension_max )
     $tension_max = $row['c'];
-  
+
   if ( isset($map->personnes[$row['u1']]) && isset($map->personnes[$row['u2']]) && $row['c'] > 2 )
   {
     new wire($map->personnes[$row['u1']],$map->personnes[$row['u2']],$row['c']);
     //echo "new wire(".'$'."map->personnes[".$row['u1']."],".'$'."map->personnes[".$row['u2']."],".$row['c'].");<br/>";
   }
 }
-  
+
 echo count($map->wires)." liens dans la moulinette<br/>";
 /*
 new personne(1,"Ness",$map);

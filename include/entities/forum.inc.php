@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * FORUM2
- *        
+ *
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -26,11 +26,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /**l
  * @file
  */
- 
+
 require_once($topdir."include/entities/basedb.inc.php");
 require_once($topdir."include/entities/asso.inc.php");
 require_once($topdir."include/entities/sujet.inc.php");
@@ -42,20 +42,20 @@ class forum extends basedb
 {
 
   var $titre;
-  
+
   var $description;
-  
+
   var $categorie;
-  
+
   var $id_forum_parent;
-  
+
   var $id_asso;
-  
-  var $id_sujet_dernier; 
+
+  var $id_sujet_dernier;
   var $nb_sujets;
-    
+
   var $ordre;
-    
+
   function load_by_id ( $id )
   {
     $req = new requete($this->db, "SELECT * FROM `frm_forum`
@@ -68,11 +68,11 @@ class forum extends basedb
       $this->_load($req->get_row());
       return true;
     }
-    
-    $this->id = null;  
+
+    $this->id = null;
     return false;
   }
-  
+
   function _load ( $row )
   {
     $this->id = $row['id_forum'];
@@ -83,7 +83,7 @@ class forum extends basedb
     $this->id_asso = $row['id_asso'];
     $this->id_sujet_dernier = $row['id_sujet_dernier'];
     $this->nb_sujets = $row['nb_sujets_forum'];
-    
+
     $this->id_utilisateur = $row['id_utilisateur'];
     $this->id_groupe = $row['id_groupe'];
     $this->id_groupe_admin = $row['id_groupe_admin'];
@@ -93,24 +93,24 @@ class forum extends basedb
 
 
   }
-  
+
   function is_admin ( &$user )
   {
     if ( $user->is_in_group("moderateur_forum") )
-      return true;  
-    
+      return true;
+
     if ( !is_null($this->id_asso) )
       if ( $user->is_asso_role ( $this->id_asso, ROLEASSO_RESPINFO ) )
         return true;
-    
+
     return parent::is_admin($user);
   }
-  
+
   function is_category()
   {
-    return $this->categorie;  
+    return $this->categorie;
   }
-  
+
   function create ( $titre, $description, $categorie, $id_forum_parent, $id_asso=null, $ordre=0 )
   {
     $this->titre = $titre;
@@ -136,17 +136,17 @@ class forum extends basedb
               "nb_sujets_forum"=>$this->nb_sujets,
               "ordre_forum"=>$this->ordre
             ));
-  
+
     if ( $req )
     {
       $this->id = $req->get_id();
       return true;
     }
-    
+
     $this->id = null;
     return false;
   }
-  
+
   function update ( $titre, $description, $categorie, $id_forum_parent, $id_asso=null, $ordre=0 )
   {
     $this->titre = $titre;
@@ -169,13 +169,13 @@ class forum extends basedb
               "ordre_forum"=>$this->ordre
             ),
             array("id_forum"=>$this->id) );
-  }  
-  
+  }
+
 
 
   function delete ( $recursif=false )
   {
-  
+
     $sql="SELECT * from frm_forum WHERE id_forum_parent=".$this->id." ;";
     $req = new requete($this->db,$sql);
     // test si le forum est rataché à des autres forums
@@ -223,7 +223,7 @@ class forum extends basedb
 
   function get_sub_forums ( &$user, $searchforunread=true )
   {
-   
+
     $query = "SELECT frm_forum.*, ".
         "frm_sujet.titre_sujet, ".
         "frm_message.date_message, " .
@@ -233,8 +233,8 @@ class forum extends basedb
           CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl)
          ) AS `nom_utilisateur_dernier_auteur`, " .
         "utilisateurs.id_utilisateur AS `id_utilisateur_dernier`, ";
-        
-    if ( $user->is_valid() && $searchforunread ) 
+
+    if ( $user->is_valid() && $searchforunread )
     {
       $query .= "EXISTS( ".
         "SELECT  ".
@@ -253,15 +253,15 @@ class forum extends basedb
         "level3.id_forum=frm_forum.id_forum)  ".
         "AND ".
         "((sujet_util.id_message_dernier_lu<sujet.id_message_dernier OR sujet_util.id_message_dernier_lu IS NULL)";
-        
+
       if( !is_null($user->tout_lu_avant))
         $query .= " AND message.date_message > '".date("Y-m-d H:i:s",$user->tout_lu_avant)."'";
-        
+
       $query .= ")) AS non_lu ";
     }
     else
       $query .= "'0' AS non_lu ";
-        
+
     $query .= "FROM frm_forum " .
         "LEFT JOIN frm_sujet ON ( frm_sujet.id_sujet = frm_forum.id_sujet_dernier ) " .
         "LEFT JOIN frm_message ON ( frm_message.id_message = frm_sujet.id_message_dernier ) " .
@@ -269,10 +269,10 @@ class forum extends basedb
         "LEFT JOIN utl_etu_utbm ON ( utilisateurs.id_utilisateur = utl_etu_utbm.id_utilisateur ) " .
         "WHERE " .
         "id_forum_parent='".$this->id."' ";
-   
+
     if ( !$user->is_valid() )
       $query .= "AND (droits_acces_forum & 0x1) ";
-      
+
     elseif ( !$this->is_admin( $user ) )
     {
       $grps = $user->get_groups_csv();
@@ -281,17 +281,17 @@ class forum extends basedb
         "(id_groupe_admin IN ($grps))) ";
     }
     $query .= "ORDER BY frm_forum.ordre_forum";
-        
+
     $req = new requete($this->db,$query);
-    
+
     $rows = array();
-    
+
     while ( $row = $req->get_row() )
       $rows[] = $row;
-   
+
     return $rows;
   }
-  
+
   function get_sujets ( &$user, $st, $npp )
   {
     $query = "SELECT frm_sujet.*, ".
@@ -307,18 +307,18 @@ class forum extends basedb
           CONCAT(premier_auteur.prenom_utl,' ',premier_auteur.nom_utl)
         ) AS `nom_utilisateur_premier_auteur`, " .
         "premier_auteur.id_utilisateur AS `id_utilisateur_premier`, ";
-        
+
     if ( !$user->is_valid() )
       $query .= "0 AS `nonlu`, 0 AS `etoile` ";
     elseif( is_null($user->tout_lu_avant))
       $query .= "IF(frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
                 "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL,1,0) AS `nonlu`, ".
-                "frm_sujet_utilisateur.etoile_sujet AS `etoile` ";    
+                "frm_sujet_utilisateur.etoile_sujet AS `etoile` ";
     else
       $query .= "IF((frm_sujet_utilisateur.id_message_dernier_lu<frm_sujet.id_message_dernier ".
                 "OR frm_sujet_utilisateur.id_message_dernier_lu IS NULL) ".
                 "AND frm_message.date_message > '".date("Y-m-d H:i:s",$user->tout_lu_avant)."' ,1,0) AS `nonlu`, ".
-                "frm_sujet_utilisateur.etoile_sujet AS `etoile` ";    
+                "frm_sujet_utilisateur.etoile_sujet AS `etoile` ";
 
     $query .= "FROM frm_sujet " .
         "LEFT JOIN frm_message ON ( frm_message.id_message = frm_sujet.id_message_dernier ) " .
@@ -326,27 +326,27 @@ class forum extends basedb
         "LEFT JOIN utilisateurs AS `premier_auteur` ON ( premier_auteur.id_utilisateur=frm_sujet.id_utilisateur ) " .
         "LEFT JOIN utl_etu_utbm AS `dernier_auteur_etu_utbm` ON ( dernier_auteur_etu_utbm.id_utilisateur=frm_message.id_utilisateur ) " .
         "LEFT JOIN utl_etu_utbm AS `premier_auteur_etu_utbm` ON ( premier_auteur_etu_utbm.id_utilisateur=frm_sujet.id_utilisateur ) ";
-        
+
     if ( $user->is_valid() )
       $query .= "LEFT JOIN frm_sujet_utilisateur ".
                    "ON ( frm_sujet_utilisateur.id_sujet=frm_sujet.id_sujet ".
                    "AND frm_sujet_utilisateur.id_utilisateur='".$user->id."' ) ";
-                   
+
     $query .= "WHERE " .
               "id_forum='".$this->id."' ";
     $query .= "ORDER BY frm_sujet.type_sujet=2 DESC, frm_message.date_message DESC ";
     $query .= "LIMIT $st, $npp";
-    
+
     $req = new requete($this->db,$query);
-    
+
     $rows = array();
-    
+
     while ( $row = $req->get_row() )
       $rows[] = $row;
-   
+
     return $rows;
   }
-  
+
   /**
    * Met à jour le dernier sujet actif, et le nombre de sujets
    */
@@ -354,7 +354,7 @@ class forum extends basedb
   {
     if ( $this->categorie )
     {
-      $req = new requete($this->db, 
+      $req = new requete($this->db,
         "SELECT frm_forum.id_sujet_dernier ".
         "FROM `frm_forum` ".
         "INNER JOIN `frm_sujet` ON ( `frm_sujet`.`id_sujet` = `frm_forum`.`id_sujet_dernier` ) ".
@@ -364,42 +364,42 @@ class forum extends basedb
         "LIMIT 1");
 
       list($this->id_sujet_dernier) = $req->get_row();
-      
-      $req = new requete($this->db, 
+
+      $req = new requete($this->db,
         "SELECT SUM(nb_sujets_forum) ".
         "FROM `frm_forum` ".
         "WHERE `id_forum_parent` = '". mysql_real_escape_string($this->id) . "' ");
-      
-      list($this->nb_sujets) = $req->get_row();      
-      
+
+      list($this->nb_sujets) = $req->get_row();
+
     }
     else
     {
-      $req = new requete($this->db, 
+      $req = new requete($this->db,
         "SELECT frm_sujet.id_sujet ".
         "FROM `frm_sujet` ".
         "INNER JOIN `frm_message` ON ( `frm_sujet`.`id_message_dernier` = `frm_message`.`id_message` ) ".
         "WHERE `frm_sujet`.`id_forum` = '". mysql_real_escape_string($this->id) . "' ".
         "ORDER BY `date_message` DESC ".
         "LIMIT 1");
-      
+
       if ( $req->lines == 0 )
         $this->id_sujet_dernier = null;
       else
         list($this->id_sujet_dernier) = $req->get_row();
 
-      $req = new requete($this->db, 
+      $req = new requete($this->db,
         "SELECT COUNT(*) ".
         "FROM `frm_sujet` ".
         "WHERE `id_forum` = '". mysql_real_escape_string($this->id) . "' ");
       list($this->nb_sujets) = $req->get_row();
-      
+
     }
-    
-    $req = new update ($this->dbrw, "frm_forum", 
+
+    $req = new update ($this->dbrw, "frm_forum",
         array("id_sujet_dernier"=>$this->id_sujet_dernier,"nb_sujets_forum"=>$this->nb_sujets),
-        array("id_forum"=>$this->id) );     
-  
+        array("id_forum"=>$this->id) );
+
     if ( !is_null($this->id_forum_parent) )
     {
       $parent = new forum($this->db,$this->dbrw);
@@ -407,10 +407,10 @@ class forum extends basedb
       if ( $parent->is_valid() )
         $parent->update_last_sujet();
     }
-    
+
   }
-  
-  
+
+
 }
 
 ?>

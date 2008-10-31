@@ -35,7 +35,7 @@ if (!$site->user->is_in_group ("gestion_ae"))
 $site->start_page("none","Activités");
 
 $req_assos = new requete($site->db, "SELECT asso_parent.id_asso AS id_asso_parent,
-      asso_parent.nom_asso AS nom_asso_parent, 
+      asso_parent.nom_asso AS nom_asso_parent,
       asso.id_asso AS id_asso,
       asso.nom_asso AS nom_asso,
       utilisateurs_resp.id_utilisateur as id_utilisateur_resp,
@@ -44,12 +44,12 @@ $req_assos = new requete($site->db, "SELECT asso_parent.id_asso AS id_asso_paren
       CONCAT(utilisateurs_tres.nom_utl,' ',utilisateurs_tres.prenom_utl) AS nom_utilisateur_tres
     FROM asso
     LEFT JOIN asso_membre AS tbl_resp ON (tbl_resp.id_asso=asso.id_asso AND tbl_resp.role='10' AND tbl_resp.date_fin IS NULL)
-    LEFT JOIN asso_membre AS tbl_tres ON (tbl_tres.id_asso=asso.id_asso AND tbl_tres.role='7' AND tbl_tres.date_fin IS NULL) 
-    LEFT JOIN utilisateurs AS utilisateurs_resp ON tbl_resp.id_utilisateur=utilisateurs_resp.id_utilisateur 
+    LEFT JOIN asso_membre AS tbl_tres ON (tbl_tres.id_asso=asso.id_asso AND tbl_tres.role='7' AND tbl_tres.date_fin IS NULL)
+    LEFT JOIN utilisateurs AS utilisateurs_resp ON tbl_resp.id_utilisateur=utilisateurs_resp.id_utilisateur
     LEFT JOIN utilisateurs AS utilisateurs_tres ON tbl_tres.id_utilisateur=utilisateurs_tres.id_utilisateur
     INNER JOIN asso AS asso_parent ON asso.id_asso_parent=asso_parent.id_asso
-    WHERE asso.id_asso_parent IN (SELECT id_asso FROM asso WHERE id_asso_parent='1') 
-    GROUP BY asso.id_asso 
+    WHERE asso.id_asso_parent IN (SELECT id_asso FROM asso WHERE id_asso_parent='1')
+    GROUP BY asso.id_asso
     ORDER BY asso_parent.nom_asso, asso.nom_asso");
 
 $table = new sqltable("", "Liste des responsables et des trésoriers des activités", $req_assos, "", "",

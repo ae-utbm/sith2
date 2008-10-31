@@ -7,7 +7,7 @@ $dbpg = new mysqlpg ();
 
 /* Nettoyage de la base de données du PG v1
  * Objectif : calculer les champs suivants :
- * id_liste_parent : Fiche "parent" pour les fichez dupliqués dans plusieurs * 	catégories * import_liste : Import ou non de la fiche 
+ * id_liste_parent : Fiche "parent" pour les fichez dupliqués dans plusieurs * 	catégories * import_liste : Import ou non de la fiche
  */
 
 /*NOTE: ne tente de travailler que si import_liste=1, sinon ignorer*/
@@ -26,8 +26,8 @@ while ( list($id1,$nom1,$cat1,$date1,$id2,$nom2,$cat2,$date2) = $req->get_row() 
   if ( !isset($solved[$id1]) && !isset($solved[$id2]) )
   {
     echo "<br/>$id1, $nom1, $cat1 - $id2, $nom2, $cat2<br/>";
-    
-    if ( $nom1 == $nom2 && $cat1 == $cat2 ) // de pures doublons  
+
+    if ( $nom1 == $nom2 && $cat1 == $cat2 ) // de pures doublons
     {
       echo "Resolution : Cas 1<br/>";
       // On conserve le plus récent
@@ -37,7 +37,7 @@ while ( list($id1,$nom1,$cat1,$date1,$id2,$nom2,$cat2,$date2) = $req->get_row() 
         new update($dbpg,"pg_liste",array("import_liste"=>0),array("id"=>$id2));
       else
         new update($dbpg,"pg_liste",array("import_liste"=>0),array("id"=>$id1));
-        
+
       $solved[$id2]=true;
     }
     elseif ( strpos($nom2, $nom1) !== false ) // nom1 inclus dans nom2

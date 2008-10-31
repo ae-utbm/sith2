@@ -72,13 +72,13 @@ class vignette extends stdcontents
 	if ($stock != -1)
 	{
 	    $stck = $stock;
-	    
+
 	    if ($stock == 0)
 	      $stck = "Epuise";
-	
+
 	    $this->buffer .= "<br/>Stock : ".$stck ."";
 	}
-		
+
 
     if ($stock != 0)
       $this->buffer .= "<br/><a class=\"eb_addcart\" href=\"./".
@@ -117,7 +117,7 @@ class vignette2 extends stdcontents
     $regs=null;
 
     $this->buffer .= "<p><b>". $title . "</b></p>\n";
-	  
+
 		$this->buffer .= "<a href=\"./?cat=$id\">";
 
     if ( !is_null($id_file) )

@@ -32,18 +32,18 @@ if ( $_REQUEST["action"] == "init" )
 {
   $user = new utilisateur($site->db,$site->dbrw);
   $user->load_by_id(4228);
-  
+
   $user->tovalid="";
   $user->hash="valid";
-  
+
   if ( !isset($_REQUEST["valid"]) )
     $user->invalidate($_REQUEST["invalid_reason"]);
   else
     $user->validate();
-    
+
   $user->utbm = false;
   new delete($user->dbrw,"utl_etu_utbm",array("id_utilisateur"=>$user->id));
-  
+
   if ( isset($_REQUEST["utbm"]) )
   {
     $user->utbm = true;
@@ -52,15 +52,15 @@ if ( $_REQUEST["action"] == "init" )
   }
   else
     new update($user->user,"utilisateurs",array("utbm_utl"=>$user->utbm),array("id_utilisateur"=>$user->id));
-  
+
   if ( isset($_REQUEST["etudiant"]) || isset($_REQUEST["ancien"]) )
     $user->became_etudiant(isset($_REQUEST["utbm"])?"UTBM":"Autre",isset($_REQUEST["ancien"]),true);
   else
     $user->became_notetudiant();
-  
-  
+
+
   $user->send_majprofil_email($site);
-  
+
   $cts->add_paragraph("Fait");
 }
 

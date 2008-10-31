@@ -71,7 +71,7 @@ $frm = new form ("trip",
 if (!isset($_SESSION['trajet']['start']))
 {
      $frm->add_entity_smartselect("start", "Ville de départ", $ville);
-}    
+}
 
 $infos = "<p><h3>Etapes actuelles</h3><br/>
           <ul>\n";
@@ -96,7 +96,7 @@ $frm->add_entity_smartselect("etape", "Etape", $ville);
 if (!isset($_SESSION['trajet']['stop']))
 {
   $frm->add_entity_smartselect("stop", "Arrivée", $ville);
-}    
+}
 
 $frm->add_submit ("submit",
 		  "Envoyer");

@@ -21,25 +21,25 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /**
  * @file Gestion des groupes.
  * Les groupes permettent en général de definir des droits d'accés.
  * De nombreux groupes sont automatiques :
  * - ae : personnes ayant l'attribu ae=true
- * - utbm : personnes ayant l'attribu utbm=true  
+ * - utbm : personnes ayant l'attribu utbm=true
  * - ancien_etudiant : personnes ayant l'attribu ancien_etudiant=true
  * - etudiant : personnes ayant l'attribu etudiant=true
  * - asso-bureau : personnes membres du bureau de l'association asso
  * - asso-membres : membres de l'association asso (non valable pour les association de 1 niveau (parent=null))
- * 
+ *
  * Attention: ces groupes ont un id > 10000 et ne peuvent pas êtres édités ni chargés via la classe group.
  * Les ids 10000 à 49999 sont réservés pour ces groupes.
- */ 
- 
+ */
+
 /**
  * Classe gérant les groupes
- */ 
+ */
 class group extends stdentity
 {
 
@@ -47,12 +47,12 @@ class group extends stdentity
 	var $nom;
 	/** Description du groupe */
 	var $description;
-		
+
 	/** Accés à la base de donnés en lecture seule.*/
 	var $db;
 	/** Accés à la base de donnés en lecture et ecriture.*/
 	var $dbrw;
-	
+
 	/** Charge un groupe par son ID
 	 * @param $id ID du groupe
 	 */
@@ -61,40 +61,40 @@ class group extends stdentity
 	  if ( $id >= 10000 )
 	  {
 	    $all = $this->enumerate();
-	   
+
 	    if ( !isset($all[$id]) )
 	     return false;
-	   
+
 	    $this->id = $id;
 	    $this->nom = $all[$id];
 	    $this->description = "";
-	    return true; 
+	    return true;
 	  }
-	 
+
 		$req = new requete($this->db, "SELECT * FROM `groupe`
 				WHERE `id_groupe` = '" . mysql_real_escape_string($id) . "'
-				LIMIT 1");	
+				LIMIT 1");
 		if ( $req->lines == 1 )
 		{
 			$this->_load($req->get_row());
 			return true;
 		}
-		
+
 		$this->id = null;
     return false;
-	} 
-	
+	}
+
 	/**
 	 * Charge un groupe depuis une ligne SQL.
 	 * @param $row Ligne SQL
 	 */
 	function _load ( $row )
 	{
-		$this->id = $row['id_groupe'];	
+		$this->id = $row['id_groupe'];
 		$this->nom = $row['nom_groupe'];
 		$this->description = $row['description_groupe'];
 	}
-	
+
 	/**
 	 * Crée un groupe
 	 * @param $nom Nom du groupe (unix)
@@ -102,10 +102,10 @@ class group extends stdentity
 	 */
 	function add_group ( $nom, $description )
 	{
-		
+
 		$this->nom = $nom;
 		$this->description = $description;
-		
+
 		$sql = new insert ($this->dbrw,
 				"groupe",
 				array(
@@ -113,13 +113,13 @@ class group extends stdentity
 					"description_groupe" => $this->description
 					)
 				);
-						
+
 		if ( $sql )
 			$this->id = $sql->get_id();
 		else
 			$this->id = null;
 	}
-	
+
 	/**
 	 * Supprime un groupe
 	 */
@@ -128,12 +128,12 @@ class group extends stdentity
 		$req = new delete($this->dbrw,"utl_groupe",
 						array(
 							"id_groupe"=>$this->id
-							));		
+							));
 		$req = new delete($this->dbrw,"groupe",
 						array(
 							"id_groupe"=>$this->id
-							));		
-	}	
+							));
+	}
 	/**
 	 * Ajoute un utilisateur au groupe
 	 * @param $id_utilisateur Id de l'utilisateur
@@ -145,7 +145,7 @@ class group extends stdentity
 							"id_groupe"=>$this->id,
 							"id_utilisateur"=>$id_utilisateur
 							));
-		
+
 	}
 	/**
 	 * Enlève un utilisateur
@@ -158,24 +158,24 @@ class group extends stdentity
 							"id_groupe"=>$this->id,
 							"id_utilisateur"=>$id_utilisateur
 							));
-		
+
 	}
-	
+
 	function can_enumerate()
 	{
     return true;
 	}
-	
+
   function enumerate ( $null=false, $conds = null )
   {
     if ( !isset($GLOBALS["groupscache"]) )
     {
       $values = array();
-      $req = new requete($this->db, "SELECT `id_groupe`,`nom_groupe` FROM `groupe` ORDER BY `nom_groupe`");		
-  
+      $req = new requete($this->db, "SELECT `id_groupe`,`nom_groupe` FROM `groupe` ORDER BY `nom_groupe`");
+
       while ( list($id,$fname) = $req->get_row() )
         $values[$id] = $fname;
-        
+
       $values[10000] = "ae-membres";
       $values[10001] = "utbm";
       $values[10002] = "etudiants-anciens";
@@ -186,37 +186,37 @@ class group extends stdentity
       $values[10007] = "etudiants-tous";
       $values[10008] = "utilisateurs-valides";
       $values[10009] = "responsables-clubs";
-      
+
       $req = new requete($this->db,
         "SELECT `id_asso`, `nom_unix_asso` " .
         "FROM  `asso`  " .
-        "ORDER BY `nom_asso`");	
-          
+        "ORDER BY `nom_asso`");
+
       while ( list($id,$fname) = $req->get_row() )
         $values[$id+20000] = strtolower($fname)."-bureau";
-        
+
       $req = new requete($this->db,
         "SELECT `id_asso`, `nom_unix_asso` " .
         "FROM `asso` " .
         "WHERE `id_asso_parent` IS NOT NULL " .
-        "ORDER BY `nom_asso`");	
-        
+        "ORDER BY `nom_asso`");
+
       while ( list($id,$fname) = $req->get_row() )
         $values[$id+30000] = strtolower($fname)."-membres";
-      
+
       $promo = 1;
       while ( in_array("promo".sprintf("%02d",$promo)."-bureau", $values) )
       {
         $values[$promo+40000] = "promo".sprintf("%02d",$promo)."-membres";
         $promo++;
       }
-      
+
       asort($values);
-      
+
       $GLOBALS["groupscache"] = $values;
-      
+
     }
-    
+
     if ( $null )
     {
       $ret = $GLOBALS["groupscache"];
@@ -226,24 +226,24 @@ class group extends stdentity
     }
     return $GLOBALS["groupscache"];
   }
-  
+
   function can_fsearch ()
   {
     return false;
   }
-  
+
   function can_describe()
   {
-    return true; 
+    return true;
   }
 
   function get_description()
   {
     global $topdir;
-    
+
     if ( $this->id > 40000 )
       return "membres de la promo ".sprintf("%02d",$this->id-40000)." de l'utbm";
-      
+
     if ( $this->id > 20000 )
     {
       if ( $this->id > 30000 )
@@ -257,37 +257,37 @@ class group extends stdentity
         $append = " qui ont un rôle supérieur ou égal à \"Membre du bureau\"";
       }
       require_once($topdir . "include/entities/asso.inc.php");
-      
+
       $asso = new asso($this->db);
       $asso->load_by_id($id_asso);
       return "membres de ".$asso->nom.$append;
     }
 
-    if ( $this->id == 10000 ) 
+    if ( $this->id == 10000 )
       return "cotisants à l'AE";
-      
-    if ( $this->id == 10001 ) 
+
+    if ( $this->id == 10001 )
       return "etudiants, ancien étudiants, membres du personnel et enseignants à l'utbm";
-      
-    if ( $this->id == 10002 ) 
+
+    if ( $this->id == 10002 )
       return "anciens étudiants";
-      
-    if ( $this->id == 10003 ) 
+
+    if ( $this->id == 10003 )
       return "étudiants";
-      
-    if ( $this->id == 10004 ) 
+
+    if ( $this->id == 10004 )
       return "étudiants de l'utbm";
-      
-    if ( $this->id == 10005 ) 
+
+    if ( $this->id == 10005 )
       return "anciens étudiants de l'utbm";
-      
-    if ( $this->id == 10006 ) 
+
+    if ( $this->id == 10006 )
       return "étudiants et anciens étudiants de l'utbm";
-      
-    if ( $this->id == 10007 ) 
+
+    if ( $this->id == 10007 )
       return "étudiants et anciens étudiants";
-      
-    if ( $this->id == 10008 ) 
+
+    if ( $this->id == 10008 )
       return "utilisateurs dont le compte a été modéré";
 
     if ( $this->id == 10009 )
@@ -295,8 +295,8 @@ class group extends stdentity
 
     return trim($this->description);
   }
-  
-} 
+
+}
 
 /**
  * Enumère tous les groupes existants.
@@ -307,6 +307,6 @@ function enumerates_groups($db)
 {
   $grp = new group($db);
   return $grp->enumerate();
-} 
- 
+}
+
 ?>

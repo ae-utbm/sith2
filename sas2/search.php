@@ -43,23 +43,23 @@ $userad = new utilisateur($site->db);
 
 if ( isset($_REQUEST["id_asso"]) )
   $asso->load_by_id($_REQUEST["id_asso"]);
-  
+
 if ( isset($_REQUEST["id_asso_photographe"]) )
   $assoph->load_by_id($_REQUEST["id_asso_photographe"]);
-  
+
 if ( isset($_REQUEST["id_utilisateurs_presents"]) )
 {
   $id_utilisateurs_presents = $_REQUEST["id_utilisateurs_presents"];
-    
+
   if ( !is_array($id_utilisateurs_presents) )
     $id_utilisateurs_presents = array($id_utilisateurs_presents);
-    
+
   if ( !empty($id_utilisateurs_presents) )
   {
     $id_utilisateurs_presents = array_unique($id_utilisateurs_presents);
-    
+
     $utilisateurs_presents = array();
-    
+
     foreach ( $id_utilisateurs_presents as $id_utilisateur_present )
     {
       $utilisateur_temporaire = new utilisateur($site->db);
@@ -68,13 +68,13 @@ if ( isset($_REQUEST["id_utilisateurs_presents"]) )
     }
   }
 }
-  
+
 if ( isset($_REQUEST["id_utilisateur_photographe"]) )
   $userph->load_by_id($_REQUEST["id_utilisateur_photographe"]);
-  
+
 if ( isset($_REQUEST["id_utilisateur_contributeur"]) )
-  $userad->load_by_id($_REQUEST["id_utilisateur_contributeur"]);  
-  
+  $userad->load_by_id($_REQUEST["id_utilisateur_contributeur"]);
+
 $site->add_css("css/sas.css");
 
 $site->start_page("sas","Recherche - Stock à Souvenirs");
@@ -123,7 +123,7 @@ if ( $_REQUEST["action"] == "search" )
   $params="&order=".intval($_REQUEST["order"]);
   $fail=false;
   $order = "type_media_ph DESC, date_prise_vue";
-  
+
   if ( $_REQUEST["order"] == 1 )
     $order = "date_prise_vue";
   elseif ( $_REQUEST["order"] == 2 )
@@ -132,55 +132,55 @@ if ( $_REQUEST["action"] == "search" )
     $order = "date_ajout_ph";
   elseif ( $_REQUEST["order"] == 4 )
     $order = "date_ajout_ph DESC";
-  
+
   if ( $asso->is_valid() )
   {
     $conds[] = "sas_photos.meta_id_asso_ph='".mysql_escape_string($asso->id)."'";
     $params.="&id_asso=".$asso->id;
   }
-  
+
   if ( $assoph->is_valid() )
   {
     $conds[] = "sas_photos.id_asso_photographe='".mysql_escape_string($assoph->id)."'";
     $params.="&id_asso_photographe=".$assoph->id;
   }
-  
+
   if ( $user->is_valid() )
   {
     $joins[] = "INNER JOIN sas_personnes_photos AS `p2` ON ( sas_photos.id_photo=p2.id_photo AND p2.id_utilisateur='".mysql_escape_string($user->id)."') ";
     $params.="&id_utilisateur_present=".$user->id;
   }
-  
+
   if ( $userph->is_valid() )
   {
     $conds[] = "sas_photos.id_utilisateur_photographe='".mysql_escape_string($userph->id)."'";
     $params.="&id_utilisateur_photographe=".$userph->id;
   }
-  
+
   if ( $userad->is_valid() )
   {
     $conds[] = "sas_photos.id_utilisateur='".mysql_escape_string($userad->id)."'";
     $params.="&id_utilisateur_contributeur=".$userad->id;
   }
-  
+
   if ( $_REQUEST["date_debut"] )
   {
     $conds[] = "sas_photos.date_prise_vue>='".date("Y-m-d H:i",$_REQUEST["date_debut"])."'";
     $params.="&date_debut=".rawurlencode(date("Y-m-d H:i",$_REQUEST["date_debut"]));
   }
-  
+
   if ( $_REQUEST["date_fin"] )
   {
     $conds[] = "sas_photos.date_prise_vue<='".date("Y-m-d H:i",$_REQUEST["date_fin"])."'";
     $params.="&date_debut=".rawurlencode(date("Y-m-d H:i",$_REQUEST["date_fin"]));
   }
-  
+
   if ( $_REQUEST["type"] )
   {
     $conds[] = "sas_photos.type_media_ph='".mysql_escape_string($_REQUEST["type"]-1)."'";
     $params.="&type=".rawurlencode($_REQUEST["type"]);
   }
-  
+
   if ( $_REQUEST["tags"] )
   {
     $tags=trim(strtolower($_REQUEST["tags"]));
@@ -191,11 +191,11 @@ if ( $_REQUEST["action"] == "search" )
       $missing=array();
       foreach ( $tags as $tag )
       {
-        $tag = trim($tag);  
+        $tag = trim($tag);
         $tconds[] = "nom_tag='".mysql_escape_string($tag)."'";
         $missing[$tag]=$tag;
       }
-      
+
       $tags=array();
       $req = new requete($site->db, "SELECT id_tag, nom_tag FROM tag WHERE ".implode(" OR ",$tconds));
       while ( list($id,$tag) = $req->get_row() )
@@ -219,19 +219,19 @@ if ( $_REQUEST["action"] == "search" )
         $fail=true;
     }
   }
-  
+
   if ( !empty($utilisateurs_presents) )
   {
     foreach ( $utilisateurs_presents as $utilisateur_present )
     {
         if ( $utilisateur_present->is_valid() )
-        {     
+        {
           $joins[] = "INNER JOIN sas_personnes_photos AS `p".mysql_escape_string($utilisateur_present->id)."` ON ( sas_photos.id_photo=p".mysql_escape_string($utilisateur_present->id).".id_photo AND p".mysql_escape_string($utilisateur_present->id).".id_utilisateur='".mysql_escape_string($utilisateur_present->id)."') ";
           $params.="&id_utilisateurs_presents[]=".$utilisateur_present->id;
         }
     }
   }
-  
+
   if ( $fail )
   {
     $count=0;
@@ -240,12 +240,12 @@ if ( $_REQUEST["action"] == "search" )
   {
     if ( count($conds) == 0 )
       $conds[]="1";
-    
+
     $req = $cat->get_photos_search ( $site->user, implode(" AND ",$conds), implode(" ",$joins), "COUNT(*)");
-  
+
     list($count) = $req->get_row();
   }
-  
+
   if ( $count == 0 )
   {
     $cts->add_title(2,"Aucun resultat");
@@ -253,34 +253,34 @@ if ( $_REQUEST["action"] == "search" )
   else
   {
     $cts->add_title(2,"$count réponse(s)");
-    
+
     $npp=SAS_NPP;
     $page = intval($_REQUEST["page"]);
-    
+
     if ( $page)
       $st=$page*$npp;
     else
       $st=0;
-      
+
     if ( $st > $count )
-      $st = floor($count/$npp)*$npp;   
-    
+      $st = floor($count/$npp)*$npp;
+
     $req = $cat->get_photos_search ( $site->user, implode(" AND ",$conds), implode(" ",$joins), "sas_photos.*", "LIMIT $st,$npp", $order);
-    
+
     $photo = new photo($site->db);
-    
+
     $gal = new gallery(false,"photos","phlist");
     while ( $row = $req->get_row() )
     {
       $photo->_load($row);
       $img = "images.php?/".$photo->id.".vignette.jpg";
-      
+
       $titre="";
-      
+
       if ( $photo->titre )
         $titre = htmlentities($photo->titre,ENT_COMPAT,"UTF-8");
-      
-      
+
+
       if ( $row['type_media_ph'] == 1 )
       $gal->add_item("<a href=\"./?id_photo=".$photo->id."\"><img src=\"$img\" alt=\"Photo\">".
         "<img src=\"".$wwwtopdir."images/icons/32/multimedia.png\" alt=\"Video\" class=\"ovideo\" /></a>",$titre);
@@ -296,12 +296,12 @@ if ( $_REQUEST["action"] == "search" )
     {
       $tabs[]=array($n,"sas2/search.php?action=search&page=".$n.$params,$n+1 );
       $i+=$npp;
-      $n++;  
+      $n++;
     }
     $cts->add(new tabshead($tabs, $page, "_bottom"));
-        
+
   }
-  
+
 
 
 }

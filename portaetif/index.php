@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 $site = new site ();
@@ -34,6 +34,6 @@ $cts->add_paragraph("<a href=\"parrainages.php\">parrainages</a>");
 $cts->add_paragraph("<a href=\"prets.php\">click la tente</a>");
 
 $site->add_contents($cts);
-$site->end_page();  
+$site->end_page();
 
 ?>

@@ -1,7 +1,7 @@
 <?php
-/* 
+/*
  * FORUM2
- *        
+ *
  * Copyright 2007
  * - Julien Etelain < julien dot etelain at gmail dot com >
  *
@@ -23,11 +23,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 /**
  * @file
  */
- 
+
 define("SUJET_NORMAL",1);
 define("SUJET_STICK",2);
 define("SUJET_ANNONCE",3);
@@ -41,16 +41,16 @@ class sujet extends stdentity
 
   var $id_utilisateur;
   var $id_forum;
-  
+
   var $titre;
   var $soustitre;
   var $type;
   var $icon;
   var $date;
-  
+
   var $id_message_dernier;
   var $nb_messages;
-  
+
   var $date_fin_annonce;
 
   var $id_utilisateur_moderateur;
@@ -71,8 +71,8 @@ class sujet extends stdentity
 			$this->_load($req->get_row());
 			return true;
 		}
-		
-		$this->id = null;	
+
+		$this->id = null;
 		return false;
   }
 
@@ -99,30 +99,30 @@ class sujet extends stdentity
       $type=SUJET_NORMAL,$icon=null,$date_fin_annonce=null,
       $id_nouvelle=null,$id_catph=null,$id_sondage=null   )
   {
-  
+
     /**@TODO: tester droit d'écriture*/
-  
+
     $this->id_utilisateur=$id_utilisateur;
     $this->id_forum=$forum->id;
-  
+
     $this->titre=$titre;
     $this->soustitre=$soustitre;
     $this->type=$type;
     $this->icon=$icon;
     $this->date=time();
-  
+
     $this->id_message_dernier=null;
-    $this->nb_messages=0;  
-    
+    $this->nb_messages=0;
+
     $this->date_fin_annonce=$date_fin_annonce;
 
     $this->id_utilisateur_moderateur=null;
 
     $this->id_nouvelle=$id_nouvelle;
     $this->id_catph=$id_catph;
-    $this->id_sondage=$id_sondage;  
-    
-    
+    $this->id_sondage=$id_sondage;
+
+
     $req = new insert ($this->dbrw,
             "frm_sujet", array(
               "id_utilisateur"=>$this->id_utilisateur,
@@ -140,37 +140,37 @@ class sujet extends stdentity
               "id_catph"=>$this->id_catph,
               "id_sondage"=>$this->id_sondage
             ));
-  
+
 		if ( $req )
 		{
 			$this->id = $req->get_id();
 			$this->auto_user_star($forum,true);
 		  return true;
 		}
-		
+
 		$this->id = null;
     return false;
   }
-  //      $forum->update_last_sujet(); 
+  //      $forum->update_last_sujet();
 
   function update ( $titre, $soustitre=null,
       $type=SUJET_NORMAL,$icon=null,$date_fin_annonce=null,
       $id_nouvelle=null,$id_catph=null,$id_sondage=null   )
   {
-  
+
     $this->titre=$titre;
     $this->soustitre=$soustitre;
     $this->type=$type;
     $this->icon=$icon;
-  
+
     $this->date_fin_annonce=$date_fin_annonce;
 
     $this->id_utilisateur_moderateur=null;
 
     $this->id_nouvelle=$id_nouvelle;
     $this->id_catph=$id_catph;
-    $this->id_sondage=$id_sondage;  
-    
+    $this->id_sondage=$id_sondage;
+
     $req = new update ($this->dbrw,
             "frm_sujet", array(
               "id_forum"=>$this->id_forum,
@@ -185,24 +185,24 @@ class sujet extends stdentity
               "id_sondage"=>$this->id_sondage
             ),
             array("id_sujet"=>$this->id) );
-  
+
 
   }
-  
+
   function move_to ( &$forum_old, &$forum_new )
   {
     if ( $forum_old->id != $sujet->id_forum )
-      return;    
-      
+      return;
+
     $this->id_forum=$forum_new->id;
-    
+
     $req = new update ($this->dbrw,"frm_sujet",array("id_forum"=>$this->id_forum),array("id_sujet"=>$this->id) );
-         
+
     $forum_old->update_last_sujet();
     $forum_new->update_last_sujet();
     $this->auto_user_star($forum_new);
   }
-  
+
   /**
    * Supprime le sujet et tous les éléments dépendants
    */
@@ -210,13 +210,13 @@ class sujet extends stdentity
   {
     if ( $forum->id != $this->id_forum )
       return;
-    
+
     if ( !$this->dbrw ) return;
     new delete($this->dbrw,"frm_sujet",array("id_sujet"=>$this->id));
     new delete($this->dbrw,"frm_message",array("id_sujet"=>$this->id));
     new delete($this->dbrw,"frm_sujet_utilisateur",array("id_sujet"=>$this->id));
     $this->id = null;
-    
+
     $forum->update_last_sujet();
   }
 
@@ -230,16 +230,16 @@ class sujet extends stdentity
   {
     if ( is_null($forum->id_asso) )
       return;
-      
-    $req = new requete($this->db, 
+
+    $req = new requete($this->db,
   		"SELECT `id_utilisateur` FROM `asso_membre` " .
   		"WHERE `asso_membre`.`date_fin` IS NULL AND `asso_membre`.`id_asso`='".$forum->id_asso."' ");
-    
+
     while ( list($id_utilisateur) = $req->get_row() )
     {
       if ( $fresh )
-        new insert ($this->dbrw,"frm_sujet_utilisateur", 
-          array("etoile_sujet"=>true,"id_sujet"=>$this->id,"id_utilisateur"=>$id_utilisateur) );        
+        new insert ($this->dbrw,"frm_sujet_utilisateur",
+          array("etoile_sujet"=>true,"id_sujet"=>$this->id,"id_utilisateur"=>$id_utilisateur) );
       else
         $this->set_user_star ( $id_utilisateur, true );
     }
@@ -250,13 +250,13 @@ class sujet extends stdentity
    */
 	function update_last_message ( &$forum )
   {
-    $req = new requete($this->db, 
+    $req = new requete($this->db,
       "SELECT id_message ".
       "FROM `frm_message` ".
 		  "WHERE `id_sujet` = '". mysql_real_escape_string($this->id) . "' ".
 		  "ORDER BY `date_message` DESC ".
 		  "LIMIT 1");
-    
+
     if ( $req->lines == 0 )
     {
       $this->delete($forum);
@@ -264,17 +264,17 @@ class sujet extends stdentity
     }
     else
       list($this->id_message_dernier) = $req->get_row();
-  
-    $req = new requete($this->db, 
+
+    $req = new requete($this->db,
       "SELECT COUNT(*) ".
       "FROM `frm_message` ".
 		  "WHERE `id_sujet` = '". mysql_real_escape_string($this->id) . "' ");
-		            
+
     list($this->nb_messages) = $req->get_row();
-              
-    $req = new update ($this->dbrw, "frm_sujet", 
+
+    $req = new update ($this->dbrw, "frm_sujet",
         array("nb_messages_sujet"=>$this->nb_messages,"id_message_dernier"=>$this->id_message_dernier),
-        array("id_sujet"=>$this->id) );              
+        array("id_sujet"=>$this->id) );
   }
 
 
@@ -284,11 +284,11 @@ class sujet extends stdentity
 				WHERE `id_sujet` = '".mysql_real_escape_string($this->id) . "'
 		    AND `id_utilisateur` = '".mysql_real_escape_string($id_utilisateur) . "'
 				LIMIT 1");
-				
+
 		if ( $req->lines == 0 )
 		  return null;
-		
-		return $req->get_row();    
+
+		return $req->get_row();
   }
 
   /**
@@ -300,10 +300,10 @@ class sujet extends stdentity
   function get_last_read_message ( $id_utilisateur )
   {
     $row = $this->get_user_infos($id_utilisateur);
-    
+
     if ( is_null($row) )
       return null;
-    
+
 		return $row['id_message_dernier_lu'];
   }
 
@@ -316,19 +316,19 @@ class sujet extends stdentity
   {
     if ( is_null($max_id_message) )
       $max_id_message = $this->id_message_dernier;
-  
+
     $row = $this->get_user_infos($id_utilisateur);
-    
+
     if ( is_null($row) )
     {
       $req = new insert ($this->dbrw,
-            "frm_sujet_utilisateur", 
-            array("id_message_dernier_lu"=>$max_id_message,"id_sujet"=>$this->id,"id_utilisateur"=>$id_utilisateur) );    
+            "frm_sujet_utilisateur",
+            array("id_message_dernier_lu"=>$max_id_message,"id_sujet"=>$this->id,"id_utilisateur"=>$id_utilisateur) );
     }
     elseif ( $max_id_message > $row['id_message_dernier_lu'] )
     {
       $req = new update ($this->dbrw,
-            "frm_sujet_utilisateur", 
+            "frm_sujet_utilisateur",
             array("id_message_dernier_lu"=>$max_id_message),
             array("id_sujet"=>$this->id,"id_utilisateur"=>$id_utilisateur) );
     }
@@ -337,17 +337,17 @@ class sujet extends stdentity
   function set_user_star ( $id_utilisateur, $etoile )
   {
     $row = $this->get_user_infos($id_utilisateur);
-    
+
     if ( is_null($row) )
     {
       $req = new insert ($this->dbrw,
-            "frm_sujet_utilisateur", 
-            array("etoile_sujet"=>$etoile,"id_sujet"=>$this->id,"id_utilisateur"=>$id_utilisateur) );    
+            "frm_sujet_utilisateur",
+            array("etoile_sujet"=>$etoile,"id_sujet"=>$this->id,"id_utilisateur"=>$id_utilisateur) );
     }
     elseif ( $etoile != $row['etoile_sujet'] )
     {
       $req = new update ($this->dbrw,
-            "frm_sujet_utilisateur", 
+            "frm_sujet_utilisateur",
             array("etoile_sujet"=>$etoile),
             array("id_sujet"=>$this->id,"id_utilisateur"=>$id_utilisateur) );
     }
@@ -375,12 +375,12 @@ class sujet extends stdentity
         "LIMIT $st, $npp";
 
     $req = new requete($this->db,$query);
-    
+
 	  $rows = array();
-	  
+
 	  while ( $row = $req->get_row() )
 	    $rows[] = $row;
-	 
+
 	  return $rows;
   }
 

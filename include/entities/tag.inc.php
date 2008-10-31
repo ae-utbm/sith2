@@ -36,7 +36,7 @@ class tag extends stdentity
   var $nom;
   var $modere;
   var $nombre;
-  
+
   function load_by_id ( $id )
   {
     $req = new requete($this->db, "SELECT * FROM `tag`
@@ -52,15 +52,15 @@ class tag extends stdentity
     $this->id = null;
     return false;
   }
-  
+
   function _load ( $row )
   {
-    $this->id = $row["id_tag"];  
-    $this->nom = $row["nom_tag"];  
-    $this->modere = $row["modere_tag"];  
-    $this->nombre = $row["nombre_tag"];  
+    $this->id = $row["id_tag"];
+    $this->nom = $row["nom_tag"];
+    $this->modere = $row["modere_tag"];
+    $this->nombre = $row["nombre_tag"];
   }
-  
+
   /**
    * Definit l'état de modération du tag
    * @param $modere Etat de moderation (true: modéré, false: non modéré)
@@ -70,7 +70,7 @@ class tag extends stdentity
     $this->modere = $modere;
     new update($this->dbrw, "tag", array("modere_tag"=>$this->modere), array("id_tag"=>$this->id));
   }
-  
+
   /**
    * Supprime le tag
    */
@@ -78,17 +78,17 @@ class tag extends stdentity
   {
     foreach ( $GLOBALS["entitiescatalog"] as $row )
     {
-      if ( isset($row[6]) && !empty($row[6]) )  
+      if ( isset($row[6]) && !empty($row[6]) )
         new delete($this->dbrw, $row[6], array("id_tag"=>$this->id));
     }
-    
+
     new delete($this->dbrw, "tag", array("id_tag"=>$this->id));
   }
-  
-  
-  
-  
-  
+
+
+
+
+
 }
 
 

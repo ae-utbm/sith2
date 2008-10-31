@@ -22,7 +22,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
- 
+
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once($topdir."include/cts/board.inc.php");
@@ -32,7 +32,7 @@ $site = new site ();
 
 if ( !$site->user->is_in_group("moderateur_site") )
   $site->error_forbidden();
-  
+
 $site->start_page("none","Tâches courantes Com` AE");
 
 $cts = new contents("Tâches courantes de la Com` AE");
@@ -46,7 +46,7 @@ $sublist->add("<a href=\"../article.php?name=info:welcome\">Texte d'acceuil pour
 
 $board->add($sublist,true);
 
-$sublist = new itemlist("Modération"); 
+$sublist = new itemlist("Modération");
 
 $req = new requete($site->db,"SELECT COUNT(*) FROM `nvl_nouvelles`  WHERE `modere_nvl`='0' ");
 list($nbnews) = $req->get_row();
@@ -80,7 +80,7 @@ else
 
 $board->add($sublist,true);
 
-$sublist = new itemlist("Divers"); 
+$sublist = new itemlist("Divers");
 $sublist->add("<a href=\"sondage.php\">Sondages</a>");
 $sublist->add("<a href=\"weekmail.php\">Weekmail</a>");
 $board->add($sublist,true);
@@ -88,7 +88,7 @@ $board->add($sublist,true);
 $cts->add($board);
 
 $site->add_contents($cts);
-    
-$site->end_page();  
+
+$site->end_page();
 
 ?>

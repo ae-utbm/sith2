@@ -1,5 +1,5 @@
 <?php
-/*   
+/*
  * Copyright 2008
  * - Simon Lopez < simon dot lopez at ayolo dot org >
  *
@@ -25,17 +25,17 @@
  /**
  * @file
  */
- 
+
 class weekmail extends stdentity
 {
-  
+
   var $id;
   var $date;
   var $titre;
   var $content;
 	var $statut;
 	var $imgheder="http://ae.utbm.fr/images/headerweekmail.png";
-  
+
   function weekmail ($db, $dbrw = null)
   {
     $this->stdentity ($db, $dbrw);
@@ -54,8 +54,8 @@ class weekmail extends stdentity
 	    $this->_load($req->get_row());
 	    return true;
     }
-    
-		$this->id = null;	
+
+		$this->id = null;
     return false;
   }
 
@@ -67,7 +67,7 @@ class weekmail extends stdentity
     $this->content = $row['content'];
     $this->statut = $row['statut'];
   }
-  
+
 }
 
 ?>

@@ -35,7 +35,7 @@
 if ( $_SERVER["REMOTE_ADDR"] != "127.0.1.1" )
 {
 	header("Location: https://ae.utbm.fr".$_SERVER["REQUEST_URI"]);
-	exit();	
+	exit();
 }
 
 $GLOBALS["localisation_pv"]="AE2//testusage/";
@@ -69,18 +69,18 @@ function get_localisation ( )
 	if ( isset($_COOKIE["AE2_LOCALISATION"]) )
 	{
 		$data = unserialize($_COOKIE["AE2_LOCALISATION"]);
-		
+
 		if ( $data["check"] != md5($GLOBALS["localisation_pv"].$data["id_salle"].$data["ip"]) )
 			return null;
-			
+
 		/* En raison du changement intenpestif des IPS des PCs, on 	oublie cette vérification pour le moment
 		 * jusqu'a obtenir des baux dhcp fixess
 		if ( $data["ip"] != $_SERVER["HTTP_X_FORWARDED_FOR"])
 			return null;*/
-			
+
 		return $data["id_salle"];
 	}
-	
+
 	return null;
 }
 

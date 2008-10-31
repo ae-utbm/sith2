@@ -59,7 +59,7 @@ $img = new imgloc(800, IMGLOC_COUNTRY, $db, new pgsqlae());
 
 
 if (count($villes))
-{  
+{
   foreach($villes as $ville)
     $img->add_step_by_idville($ville, false);
 }

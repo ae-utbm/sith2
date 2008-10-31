@@ -1,5 +1,5 @@
 <?php
- 
+
 /** @file
  *
  * @brief La page principale avec l'affichage des 10 dernières new
@@ -55,7 +55,7 @@ if ( !$site->user->is_valid() )
 	$page->load_by_pagename("info:welcome");
 	$site->add_contents($page->get_contents());
 }
-	
+
 $site->add_contents(new newsfront($site->db));
 
 $site->end_page();

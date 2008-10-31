@@ -42,7 +42,7 @@ if ( $site->user->is_valid() )
 								FROM fimu_inscr
 								WHERE id_utilisateur = ".$site->user->id);
 }
-								
+
 if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "fimu_inscr" && !$sql->lines)
 {
 	$sql = new insert($site->dbrw, "fimu_inscr",
@@ -85,17 +85,17 @@ if(isset($_REQUEST['magicform']) && $_REQUEST['magicform']['name'] == "fimu_insc
 				erreur n°$sql->errno <br />
 				détail : $sql->errmsg <br /><br />
 				Merci de contacter les authorités compétentes ");
-		
+
 }
 else if (isset($_REQUEST['listing']) && ($site->user->is_in_group("gestion_ae") || $site->user->is_in_group("test")))
 {
 
 //	$tbl = new itemlist("Liste des personnes s'étant inscrites pour le FIMU via le site de l'AE", false);
 	$site->set_side_boxes("left",array());
-	
-	$sql = new requete($site->db, "SELECT fimu_inscr.id_utilisateur, 
-						utilisateurs.nom_utl, 
-						utilisateurs.prenom_utl, 
+
+	$sql = new requete($site->db, "SELECT fimu_inscr.id_utilisateur,
+						utilisateurs.nom_utl,
+						utilisateurs.prenom_utl,
 						utilisateurs.id_utilisateur,
 						utilisateurs.email_utl AS email_utilisateur,
 						utilisateurs.addresse_utl AS adresse_utilisateur,
@@ -107,20 +107,20 @@ else if (isset($_REQUEST['listing']) && ($site->user->is_in_group("gestion_ae") 
 						fimu_inscr.jour5,
 						fimu_inscr.jour6,
 						fimu_inscr.choix1_choix,
-						fimu_inscr.choix1_com,  
+						fimu_inscr.choix1_com,
 						fimu_inscr.choix2_choix,
-						fimu_inscr.choix2_com,  
-						fimu_inscr.lang1_lang, 
+						fimu_inscr.choix2_com,
+						fimu_inscr.lang1_lang,
 						fimu_inscr.lang2_lang,
 						fimu_inscr.lang3_lang,
 						fimu_inscr.poste_preced,
 						fimu_inscr.remarques,
 					CONCAT(utilisateurs.prenom_utl,' ',utilisateurs.nom_utl) AS `nom_utilisateur`
-					FROM fimu_inscr 
-					LEFT JOIN utilisateurs 
+					FROM fimu_inscr
+					LEFT JOIN utilisateurs
 					ON fimu_inscr.id_utilisateur = utilisateurs.id_utilisateur");
-					
-	$tbl = new sqltable("fimu_benevoles", 
+
+	$tbl = new sqltable("fimu_benevoles",
 				"Liste des personnes s'étant inscrites pour le FIMU via le site de l'AE",
 				$sql,
 				"index.php",
@@ -180,19 +180,19 @@ else
 <br />
 <hr />
 	";
-	
+
 	$cts->add_paragraph($intro);
-	
+
 	if( $site->user->is_valid() )
 	{
 		$usrinfo = new userinfo($site->user, true, false, false, false, true, true);
 		$cts->add($usrinfo, false, true, "Informations personnelles");
 		$trait = "<hr />";
 		$cts->add_paragraph($trait);
-	
+
 	/* Prévention des doublons */
-	$sql = new requete($site->db, "SELECT id_utilisateur 
-					FROM fimu_inscr 
+	$sql = new requete($site->db, "SELECT id_utilisateur
+					FROM fimu_inscr
 					WHERE id_utilisateur = ".$site->user->id);
 	if($sql->lines)
 	{
@@ -203,10 +203,10 @@ else
 	{
 
 	/* Start form */
-	
+
 	$frm = new form("fimu_inscr", "index.php", true, "POST", "Inscription");
 	$frm->allow_only_one_usage();
-	
+
 	$subfrm = new form("fimu_inscr", "index.php", true, "POST", "Disponibilités");
 		$subfrm->add_info("Il est fortement souhaitable que vous soyez disponible 3 jours consécutifs minimum");
 		$subfrm->add_checkbox("jour1", "Jeudi 8 Mai");
@@ -216,66 +216,66 @@ else
 		$subfrm->add_checkbox("jour5", "Lundi 12 Mai");
 		$subfrm->add_checkbox("jour6", "Mardi 13 Mai");
 	$frm->add($subfrm);
-	
+
 	$subfrm = new form("fimu_inscr", "index.php", true, "POST", "<a href='http://ae.utbm.fr/article.php?name=fimu_info'>Souhaits de poste <img src='$topdir/images/tipp.png' /></a>");
 
 		$prefs = array("pilote" => "Pilote de groupe", "regisseur" => "Régisseur de scène", "accueil" => "Accueil du public", "autres" => "Autres");
-	
+
 		$subfrm2 = new form("fimu_inscr", "index.php");
 			$subfrm2->add_select_field("choix1_choix", "Choix 1", $prefs);
 			$subfrm2->add_text_field("choix1_com", "Commentaire", "", false, 63);
 		$subfrm->add($subfrm2, false, false, false, false, true);
-		
+
 		$subfrm2 = new form("fimu_inscr", "index.php");
 			$subfrm2->add_select_field("choix2_choix", "Choix 2", $prefs);
 			$subfrm2->add_text_field("choix2_com", "Commentaire", "", false, 63);
 		$subfrm->add($subfrm2, false, false, false, false, true);
-		
+
 	$frm->add($subfrm);
 
 	$subfrm = new form("fimu_inscr", "index.php", true, "POST", "Langues parlées");
-	
+
 		$subfrm2 = new form("fimu_inscr", "index.php");
 			$subfrm2->add_text_field("lang1_lang", "Langue 1");
 			$subfrm2->add_text_field("lang1_lvl", "Niveau", "", false, 10);
 			$subfrm2->add_text_field("lang1_com", "Commentaire", "", false, 40);
 		$subfrm->add($subfrm2, false, false, false, false, true);
-		
+
 		$subfrm2 = new form("fimu_inscr", "index.php");
 			$subfrm2->add_text_field("lang2_lang", "Langue 2");
 			$subfrm2->add_text_field("lang2_lvl", "Niveau", "", false, 10);
 			$subfrm2->add_text_field("lang2_com", "Commentaire", "", false, 40);
 		$subfrm->add($subfrm2, false, false, false, false, true);
-		
+
 		$subfrm2 = new form("fimu_inscr", "index.php");
 			$subfrm2->add_text_field("lang3_lang", "Langue 3");
 			$subfrm2->add_text_field("lang3_lvl", "Niveau", "", false, 10);
 			$subfrm2->add_text_field("lang3_com", "Commentaire", "", false, 40);
 		$subfrm->add($subfrm2, false, false, false, false, true);
-		
+
 	$frm->add($subfrm);
-	
+
 	$ouinon = array('O' => "Oui", 'N' => "Non");
 	$subfrm = new form("fimu_inscr", "index.php", true, "POST", "Autres renseignements");
 		$subfrm->add_radiobox_field("permis", "Possession du permis de conduire", $ouinon, "N");
 		$subfrm->add_radiobox_field("voiture", "Possession d'une voiture personnelle", $ouinon, "N");
-		
+
 		$subfrm2 = new form("fimu_inscr", "index.php");
 			$subfrm2->add_radiobox_field("afps", "Titulaire d'un diplôme de premiers secours (AFPS...)", $ouinon, "N");
 			$subfrm2->add_text_field("type_afps", "Lequel", "", false, 35);
 		$subfrm->add($subfrm2, false, false, false, false, true);
-		
+
 		$subfrm->add_text_field("poste_preced", "Poste(s) aux précédents FIMU", "", false, 43);
 		$subfrm->add_text_area("remarques", "Remarques/suggestions");
-		
-		
-		
+
+
+
 	$frm->add($subfrm);
-	
+
 	$frm->add_submit("valid","Valider");
-	
-	
-	
+
+
+
 $cts->add($frm,true);
 
 } //fin condition prevention doublons
@@ -291,7 +291,7 @@ $cts->add_paragraph("Pour plus d'information : <a href='http://www.fimu.com'>www
 			Cellule des Festivals : 03 84 22 94 43 <br />
 			Com'Et : 03 84 26 48 01 <br />
 			Renseignement auprès de l'AE ");
-			
+
 }
 
 $site->add_contents($cts);

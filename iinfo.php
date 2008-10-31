@@ -46,11 +46,11 @@ if ( $site->user->id )
   if ( isset($_POST["emailadress"]) && CheckEmail($_POST["emailadress"],3) )
   {
     $cts->add_paragraph("Email envoyé à ".htmlentities($_POST["emailadress"]));
-  
+
     $sid = $site->create_session(true);
-    
+
     $url = "http://ae.utbm.fr/i/?sid=$sid";
-    
+
   $body = "Bonjour,
 Pour accéder au site mobile de l'AE, veuillez vous rendre à l'adresse :
 $url

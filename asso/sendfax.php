@@ -45,12 +45,12 @@ if ( $asso->id < 1 )
 
 if ((!$site->user->is_in_group("gestion_ae"))
     && (!$asso->is_member_role($site->user->id,ROLEASSO_PRESIDENT)))
-{     
+{
   $site->error_forbidden();
 }
 
 $site->start_page("Presentation", $asso->nom);
-     
+
 if (isset($_POST['sendfaxsbmt']))
 {
   $fax = new fax ($site->db, $site->dbrw);
@@ -72,20 +72,20 @@ if (isset($_POST['sendfaxsbmt']))
 
 if (isset($_POST['preparefaxsbmt']))
 {
-  
+
   $fax = new fax($site->db, $site->dbrw);
-  
+
   $fax->create_instance($site->user->id,
 			$_POST['numdest'],
 			$_FILES['mypdf'],
 			$asso->id);
-  
+
   $cts = new contents("Vérification",
 		      "Veuillez entrer la série de caractères contenue ".
-		      "dans l'image ci-dessous :"); 
-  
+		      "dans l'image ci-dessous :");
+
   $cts->puts("<br/><img src=\"".$fax->imgcaptcha."\" alt=\"captchos\" />");
-  
+
   $frm = new form("sendfax",
 		  "sendfax.php",
 		  true,
@@ -106,7 +106,7 @@ if (isset($_POST['preparefaxsbmt']))
 
   exit();
 
-}	
+}
 
 $cts = new contents("Envoi de fax",
 		    "Par cette page, vous pouvez addresser des fax ".

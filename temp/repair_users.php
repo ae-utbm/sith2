@@ -110,7 +110,7 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         $_photo =  "/var/www/ae/www/var/matmatronch/" . $id . ".jpg";
         if(file_exists($_photo))
           @unlink($_photo);
-        
+
         /* photo mmt */
         $_photo =  "/var/www/ae/www/var/matmatronch/" . $id . ".identity.jpg";
         $photo = "/var/www/ae/www/var/matmatronch/" . $_id . ".identity.jpg";
@@ -126,7 +126,7 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
           @unlink($_photo);
           @unlink($_identityi);
         }
-        
+
         /* blouse */
         $_photo =  "/var/www/ae/www/var/matmatronch/" . $id . ".blouse.jpg";
         $_blousemini =  "/var/www/ae/www/var/matmatronch/" . $id . ".blouse.mini.jpg";
@@ -141,16 +141,16 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         /* TODO : vérifier qu'il n'existe qu'une carte */
         if($user2->ae)
           $echec.="$user2->id => vérifier les cotisations\n";
-        /*new update($site->dbrw, 
-                   "ae_cotisations", 
+        /*new update($site->dbrw,
+                   "ae_cotisations",
                    array('id_utilisateur' => $_id),
                    array('id_utilisateur'  => $id));//, true);*/
 
         /* on vérifie les photos */
 
         /* on vérifie le forum */
-        new update($site->dbrw, 
-                   "frm_message", 
+        new update($site->dbrw,
+                   "frm_message",
                    array('id_utilisateur' => $_id),
                    array('id_utilisateur'  => $id));//, true);
         new update($site->dbrw,
@@ -172,27 +172,27 @@ if(isset($_POST["action"]) && $_POST["action"]=="merge")
         new delete($site->dbrw,
                    "frm_sujet_utilisateur",
                    array('id_utilisateur'  => $id));
-  
+
 
 
         /* on vérifie les emprunts matériel */
-        new update($site->dbrw, 
-                   "inv_emprunt", 
+        new update($site->dbrw,
+                   "inv_emprunt",
                    array('id_utilisateur' => $_id),
                    array('id_utilisateur'  => $id));//, true);
 
         /* on vérifie les réservations de salles */
-        new update($site->dbrw, 
-                   "sl_reservation", 
+        new update($site->dbrw,
+                   "sl_reservation",
                    array('id_utilisateur' => $_id),
                    array('id_utilisateur'  => $id));//, true);
-  
+
         /* on vérifie les asso */
         new update($site->dbrw,
                    "asso_membre",
                    array('id_utilisateur' => $_id),
                    array('id_utilisateur' => $id));
-  
+
         /* on vérifie les groupes */
         /*
           is_in_group_id();

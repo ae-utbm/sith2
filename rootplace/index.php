@@ -30,7 +30,7 @@ $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
-	
+
 $site->start_page("none","Administration");
 
 $cts = new contents("Administration");
