@@ -47,8 +47,8 @@ define ("CPT_E_BOUTIC", 3);
 define ("EB_TOT_MINI_CB", 1000);
 
 // Adaptation du catalog pour e-boutic
-$GLOBALS["entitiescatalog"]["typeproduit"] 	= array ( "id_typeprod", "nom_typeprod", "typeprod.png", "e-boutic/");
-$GLOBALS["entitiescatalog"]["produit"]		= array ( "id_produit", "nom_prod", "produit.png", "e-boutic/" );
+$GLOBALS["entitiescatalog"]["typeproduit"]   = array ( "id_typeprod", "nom_typeprod", "typeprod.png", "e-boutic/");
+$GLOBALS["entitiescatalog"]["produit"]    = array ( "id_produit", "nom_prod", "produit.png", "e-boutic/" );
 
 /**
  * Version spécialisée de site pour e-boutic
@@ -72,7 +72,7 @@ class eboutic extends site
     $this->comptoir = new comptoir($this->db,$this->dbrw);
     $this->comptoir->load_by_id(CPT_E_BOUTIC);
     
-  	if ( $this->get_param("closed.eboutic",false) && !$this->user->is_in_group("root")  )
+    if ( $this->get_param("closed.eboutic",false) && !$this->user->is_in_group("root")  )
       $this->fatal_partial("services");
   }
 
@@ -252,6 +252,7 @@ class eboutic extends site
 
             WHERE `cpt_mise_en_vente`.`id_comptoir` = ".CPT_E_BOUTIC."
             AND `cpt_produits`.`prod_archive` = 0
+            AND `cpt_produits`.date_fin_produit < NOW()
             AND id_produit_parent IS NULL";
             //AND `cpt_produits`.`id_produit_parent` IS NOT NULL";
 
@@ -293,7 +294,7 @@ class eboutic extends site
             INNER JOIN `cpt_type_produit` USING (`id_typeprod`)
 
             WHERE `cpt_mise_en_vente`.`id_comptoir` = ".CPT_E_BOUTIC."
-
+            AND `cpt_produits`.date_fin_produit < NOW()
             GROUP BY `id_typeprod`
             ORDER BY `id_typeprod`";
 
