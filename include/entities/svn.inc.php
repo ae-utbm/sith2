@@ -114,8 +114,6 @@ class svn_depot extends stdentity
       @rmdir("/tmp/".$this->nom."/trunk");
       @rmdir("/tmp/".$this->nom);
 
-      $this->create_auth_file();
-
       return true;
     }
   }
@@ -156,9 +154,7 @@ class svn_depot extends stdentity
 
     if(rename($from.$this->nom,$dest.$this->nom))
     {
-      $this->delete_auth_file();
       $this->type=$type;
-      $this->create_auth_file();
       return true;
     }
     else
@@ -170,18 +166,6 @@ class svn_depot extends stdentity
                       );
       return false;
     }
-  }
-
-  /* create associated trac */
-  function init_trac()
-  {
-    // TODO
-  }
-
-  /* delete associated trac */
-  function delete_trac()
-  {
-    // TODO
   }
 
   /* add an user to the repository with specified level */
@@ -207,7 +191,6 @@ class svn_depot extends stdentity
                          "id_depot" => $this->id,
                          "right" => $level
                         ));
-        $this->update_auth_file();
         return true;
       }
     }
@@ -221,7 +204,6 @@ class svn_depot extends stdentity
     if( $user->is_valid() )
     {
       new delete ($this->dbrw,"svn_member_depot",array("id_utilisateur" => $user->id, "id_depot" => $this->id));
-      $this->update_auth_file();
       return true;
     }
     else
@@ -253,7 +235,6 @@ class svn_depot extends stdentity
                       array("id_utilisateur"=>$user->id,
                       "id_depot"=>$this->id)
                      );
-        $this->update_auth_file();
         return true;
         }
       }
@@ -262,161 +243,6 @@ class svn_depot extends stdentity
     }
     else
       return false;
-  }
-
-
-  /* create auth file */
-  function create_auth_file()
-  {
-    if($this->type == "private")
-      $path = SVN_PATH.PRIVATE_SVN;
-    elseif($this->type == "public")
-      $path = SVN_PATH.PUBLIC_SVN;
-    elseif($this->type == "aeinfo")
-      $path = SVN_PATH.AEINFO_SVN;
-
-    if(!$handle = @fopen($path.AUTHFILE, "w"))
-      return false;
-
-    $render = "";
-    $render .= "[groups]\n";
-
-    $req_depots = new requete($this->db,
-                       "SELECT `id_depot`, `nom` ".
-           "FROM `svn_depot` ".
-           "WHERE `type`='".$this->type."'");
-
-    if($req_depots->lines == 0)
-      return true;
-    else
-    {
-      $depots = array();
-      while(list($id_depot,$nom_depot) = $req_depots->get_row())
-      {
-        $depots[] = $nom_depot;
-
-        $req = new requete($this->db,
-                           "SELECT `id_utilisateur`, `right` ".
-                           "FROM `svn_member_depot` ".
-                           "WHERE `id_depot`='".$id_depot."'");
-
-        $readwrite = array();
-        $readonly = array();
-
-        if($req->lines != 0)
-        {
-          $user = new utilisateur($this->db,$this->dbrw);
-
-          while(list($id,$right) = $req->get_row())
-          {
-            if($user->load_by_id($id))
-            {
-              if(!is_null($user->alias))
-              {
-                if($right == "rw")
-                  $readwrite[] = strtolower($user->alias);
-                elseif($right == "r")
-                  $readonly[] = strtolower($user->alias);
-              }
-              else
-              {
-                //ici soit on génère un alias soit on mail bombe !
-              }
-            }
-          }
-        }
-
-        $_ro = "";
-        $_rw = "";
-
-        for($i = 0; $i < count($readonly); $i++)
-        {
-          if($i != 0)
-            $_ro .= ", ";
-
-            $_ro .= $readonly[$i];
-        }
-        $render .= $nom_depot."ro = ".$_ro."\n";
-
-        for($i = 0; $i < count($readwrite); $i++)
-        {
-          if($i != 0)
-            $_rw .= ", ";
-
-            $_rw .= $readwrite[$i];
-        }
-        $render .= $nom_depot."rw = ".$_rw."\n";
-      }
-
-
-      for($i = 0; $i < count($depots); $i++)
-      {
-        if($this->type == "public")
-          $render .= "[".$depots[$i].":/]\n@".$depots[$i]."rw = rw\n@".$depots[$i]."ro = r\n* = r\n";
-        else
-          $render .= "[".$depots[$i].":/]\n@".$depots[$i]."rw = rw\n@".$depots[$i]."ro = r\n* =\n";
-      }
-
-      if(!$handle = @fopen($path.AUTHFILE, "w"))
-         return false;
-      fwrite($handle,$render);
-      @fclose ($handle);
-
-      return true;
-    }
-  }
-
-  /* delete auth file */
-  function delete_auth_file()
-  {
-    if($this->type == "private")
-      $path = SVN_PATH.PRIVATE_SVN;
-    elseif($this->type == "public")
-      $path = SVN_PATH.PUBLIC_SVN;
-    elseif($this->type == "aeinfo")
-      $path = SVN_PATH.AEINFO_SVN;
-
-    $handle = @fopen($path.AUTHFILE, "r");
-    $contents = @fread($handle, @filesize($path.AUTHFILE));
-    @fclose($handle);
-    $con = explode("\n", $contents);
-    $find=false;
-    $render="";
-    for ( $i=0; $i<count($con);$i++)
-    {
-      if($find)
-      {
-        if(preg_match("#\* =$#",$con[$i]) || preg_match("#\* = r$#",$con[$i]))
-        {
-          $find=false;
-          continue;
-        }
-        else
-          continue;
-      }
-      elseif(preg_match("#^".$this->nom."(rw|ro) \= (.*?)$#",$con[$i]))
-        continue;
-      elseif(preg_match("#^\[".$this->nom.":/\]$#",$con[$i]))
-      {
-        $find=true;
-        continue;
-      }
-      else
-        $render .= $con[$i]."\n";
-    }
-
-    $handle = @fopen($path.AUTHFILE, "w");
-    @fwrite($handle,$render);
-    @fclose ($handle);
-
-    return true;
-  }
-
-  /* update auth file */
-  function update_auth_file()
-  {
-    $this->delete_auth_file();
-    $this->create_auth_file();
   }
 
 }
