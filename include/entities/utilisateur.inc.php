@@ -523,7 +523,8 @@ class utilisateur extends stdentity
    */
   function is_password ( $password )
   {
-    if ($this->pass == crypt($password, substr($this->pass,0,2) ))
+//    if ($this->pass == crypt($password, substr($this->pass,0,2) ))
+    if ($this->pass == crypt($password,$this->pass))
       return true;
     return false;
   }
