@@ -523,7 +523,8 @@ class utilisateur extends stdentity
    */
   function is_password ( $password )
   {
-    if ($this->pass == crypt($password, substr($this->pass,0,2)))
+//    if ($this->pass == crypt($password, substr($this->pass,0,2)))
+    if ($this->pass == crypt($password, md5("ae")))
       return true;
     return false;
   }
@@ -533,7 +534,7 @@ class utilisateur extends stdentity
    */
   function change_password ( $new_password )
   {
-    $this->pass = crypt($new_password, "ae");
+    $this->pass = crypt($new_password, md5("ae"));
     $req = new update($this->dbrw,
                       "utilisateurs",
                       array("pass_utl"=>$this->pass),
@@ -1046,7 +1047,7 @@ class utilisateur extends stdentity
       $this->alias = null;
     else
       $this->alias = $alias;
-    $this->pass = crypt($password, "ae");
+    $this->pass = crypt($password, md5("ae"));
     $this->sexe = $sexe;
     $this->date_naissance = $date_naissance;
     $this->droit_image = $droit_image;
@@ -1209,7 +1210,7 @@ class utilisateur extends stdentity
     if (!$password)
       $password = genere_pass(7);
 
-    $this->pass = crypt($password, "ae");
+    $this->pass = crypt($password, md5("ae"));
     $this->etudiant = $etudiant==true;
 
     $this->modere = true;
