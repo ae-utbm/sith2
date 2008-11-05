@@ -1199,8 +1199,10 @@ else
         if ( $item['a_retirer_vente'])
         {
           $noms=array();
-
-          $req2 = new requete($site->db,
+          $noms[]='Bureau AE belfort';
+          $noms[]='bureau AE sevenans';
+          $noms[]='bureau AE montbéliard';
+          /*$req2 = new requete($site->db,
             "SELECT `cpt_comptoir`.`nom_cpt`
             FROM `cpt_mise_en_vente`
             INNER JOIN `cpt_comptoir` ON `cpt_comptoir`.`id_comptoir` = `cpt_mise_en_vente`.`id_comptoir`
@@ -1210,7 +1212,7 @@ else
           if ( $req2->lines != 0 )
             while ( list($nom) = $req2->get_row() )
               $noms[] = $nom;
-
+*/
           $item["info"] = "À venir retirer à : ".implode(" ou ",$noms);
         }
         else if ( $item['a_expedier_vente'])
