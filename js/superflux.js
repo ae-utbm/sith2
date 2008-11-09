@@ -6,4 +6,4 @@ function updateStreamInfo()
   setTimeout("updateStreamInfo()",10000);
 }
 
-updateStreamInfo();
+/*updateStreamInfo();*/
