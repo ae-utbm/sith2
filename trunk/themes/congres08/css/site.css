@@ -1,0 +1,18 @@
+#logo
+{
+  height:85px;
+  background: url("../images/top-bg.png");
+}
+
+#logo a img
+{
+  display: none;
+}
+
+#logo a
+{
+  width:682px;
+  height:85px;
+  display: block;
+  background: url("../images/top-logo.png");
+}

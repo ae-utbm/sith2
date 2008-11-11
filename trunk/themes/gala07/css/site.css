@@ -1,0 +1,38 @@
+#logo
+{
+  height:85px;
+  background: url("../images/top-bg.png");
+  border-bottom:1px solid white;
+}
+
+#logo a
+{
+	width:231px;
+	height:85px;
+	display: block;
+  background: url("../images/top-logo.png");
+}
+
+div.tabsv2
+{
+	background: #0f3849;
+}
+
+div.tabsv2 span a
+{
+  color:#ffffff;
+  border-left:1px solid #ffffff;
+  border-right:1px solid #ffffff;
+}
+
+div.tabsv2 span.selected a, div.tabsv2 span a:hover
+{
+  background:#ffffff;
+  color:#000000;
+  border-left:1px solid #000000;
+  border-right:1px solid #000000;
+}
+div.sectionlinks
+{
+	border-bottom: 1px solid #0f3849;
+}

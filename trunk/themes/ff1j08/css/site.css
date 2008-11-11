@@ -1,0 +1,14 @@
+#logo
+{
+  background: url("../images/top-bg.png");
+}
+
+#logo a img
+{
+  display: none;
+}
+
+#logo a
+{
+  background: url("../images/top-logo.png");
+}
