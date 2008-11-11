@@ -47,11 +47,10 @@ $site->set_side_boxes("left",array("uvsmenu", "connexion"));
 
 $site->start_page("services", "Informations UV");
 
-$cts = new contents("Pédagogie");
-$cts->add_paragraph("La partie pédagogie est fermée pour une durée indéterminée pour une refonte complète.");
+$cts = new contents("Pédagogie : Maintenance");
+$cts->add_paragraph("La partie pédagogie est partiellement fermée pour une refonte complète.");
+$cts->add_paragraph("Pour tout bug ou demande de fonctionnalité, contactez <a href=\"http://ae.utbm.fr/user.php?id_utilisateur=1956\">Gliss</a>.");
 $site->add_contents($cts);
-$site->end_page();
-exit();
 
 // Génération d'un camembert sur les
 // statitistiques d'obtention d'une uv

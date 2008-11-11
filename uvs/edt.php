@@ -41,11 +41,10 @@ $site->set_side_boxes("left",array("uvsmenu", "connexion"));
 
 $site->start_page("services", "Emploi du temps");
 
-$cts = new contents("Pédagogie");
-$cts->add_paragraph("La partie pédagogie est fermée pour une durée indéterminée pour une refonte complète.");
+$cts = new contents("Pédagogie : Maintenance");
+$cts->add_paragraph("La partie pédagogie est partiellement fermée pour une refonte complète.");
+$cts->add_paragraph("Pour tout bug ou demande de fonctionnalité, contactez <a href=\"http://ae.utbm.fr/user.php?id_utilisateur=1956\">Gliss</a>.");
 $site->add_contents($cts);
-$site->end_page();
-exit();
 
 if (!$site->user->utbm)
 {
@@ -105,7 +104,8 @@ $path .= "/" . " Emploi du temps";
 $cts = new contents($path);
 
 $cts->add_paragraph("Sur cette page vous pouvez gérer vos emplois du temps.".
-		    "<br/><a href=\"./create.php\">Ajouter un emploi du temps</a>");
+		    "<br/><a href=\"#\" onClick=\"javascript:alert('Fonction indisponible pour le moment')\">Ajouter un emploi du temps</a>");
+/*		    "<br/><a href=\"./create.php\">Ajouter un emploi du temps</a>"); */
 
 
 $cts->add_paragraph("<h2>Vos emplois du temps disponibles</h2><br/>");
@@ -149,8 +149,10 @@ else
       $tab[] = "<a href=\"javascript:render('".$rs['semestre_grp']."', '".$site->user->id."')\">".
 	"Emploi du temps du semestre ".$rs['semestre_grp'].
 	"</a> | <a href=\"".$topdir."uvs/edt_ical.php?semestre=".$rs['semestre_grp']."&id=".$site->user->id."\">iCal</a> | ".
-	"<a href=\"./edit.php?semestre=".$rs['semestre_grp']."\">Editer</a> | ".
-	"<a href=\"\" onClick=\"javascript:if(confirm('Etes vous sûr de souhaiter supprimer cet emploi du temps ?')) window.location = './edt.php?delete&semestre=".$rs['semestre_grp']."'\">Supprimer</a>";
+	"<a href=\"#\" onClick=\"javascript:alert('Fonction indisponible pour le moment')\">Editer</a> | ".
+/*	"<a href=\"./edit.php?semestre=".$rs['semestre_grp']."\">Editer</a> | ". */
+	"<a href=\"#\" onClick=\"javascript:alert('Fonction indisponible pour le moment')\">Supprimer</a>";
+/*	"<a href=\"\" onClick=\"javascript:if(confirm('Etes vous sûr de souhaiter supprimer cet emploi du temps ?')) window.location = './edt.php?delete&semestre=".$rs['semestre_grp']."'\">Supprimer</a>"; */
     }
   $itemlst = new itemlist("Liste des emploi du temps", false, $tab);
   $cts->add($itemlst);
