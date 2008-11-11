@@ -853,10 +853,8 @@ if ( $_REQUEST["view"]=="parrain" )
 elseif ( $_REQUEST["view"]=="pedagogie" )
 {
   $cts->add_title(2, "Pédagogie : en maintenance");
-  $cts->add_paragraph("La partie pédagogie est fermée pour une durée indéterminée pour une refonte complète. Pour toutes remarques constructives, merci de contacter Gliss (Manuel Vonthron).");
+  $cts->add_paragraph("La partie pédagogie est partiellement fermée pour une durée indéterminée pour une refonte complète. Pour toutes remarques constructives, merci de contacter <a href=\"http://ae.utbm.fr/user.php?id_utilisateur=1956\">Gliss</a>.");
   $site->add_contents($cts);
-  $site->end_page();
-  exit();
 
   $cts->add_title(2, "Liste des emplois du temps");
 
