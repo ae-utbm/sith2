@@ -56,7 +56,6 @@ $frm->add_hidden("action","delete");
 if ( $Erreur )
   $frm->error($Erreur);
 $frm->add_text_field("id_utilisateur","ID Utilisateur");
-$frm->add_checkbox("physical_delete","Voulez-vous faire supprimer physiquement l'utilisateur ?");
 $frm->add_submit("valid","Supprimer");
 $cts->add($frm,true);
 
