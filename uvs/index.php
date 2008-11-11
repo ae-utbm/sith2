@@ -43,9 +43,10 @@ $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.
 $path .= "/" . " Accueil";
 $cts = new contents($path);
 
-$cts = new contents("Pédagogie : Maintenance");
-$cts->add_paragraph("La partie pédagogie est partiellement fermée pour une refonte complète.");
-$cts->add_paragraph("Pour tout bug ou demande de fonctionnalité, contactez <a href=\"http://ae.utbm.fr/user.php?id_utilisateur=1956\">Gliss</a>.");
+$cts->add_paragraph("La partie pédagogie est fermée pour une durée indéterminée pour une refonte complète.");
+$site->add_contents($cts);
+$site->end_page();
+exit();
 
 
 $cts->add_paragraph("Bienvenue sur la partie Pédagogie du site de l'AE");

@@ -38,17 +38,9 @@ require_once ($topdir . "include/cts/edt_img.inc.php");
 
 $site = new site();
 
-$site->start_page("services", "Emploi du temps");
-
-$cts = new contents("Pédagogie : Maintenance");
-$cts->add_paragraph("La partie pédagogie est partiellement fermée pour une refonte complète.");
-$cts->add_paragraph("Pour tout bug ou demande de fonctionnalité, contactez <a href=\"http://ae.utbm.fr/user.php?id_utilisateur=1956\">Gliss</a>.");
-$site->add_contents($cts);
-
-$site->end_page();
-exit;
-
 $edt = new edt($site->db, $site->dbrw);
+
+$site->start_page("services", "Emploi du temps");
 
 if (!$site->user->utbm)
 {
