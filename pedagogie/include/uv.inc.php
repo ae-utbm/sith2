@@ -87,6 +87,16 @@ class uv extends stdentity
 
   public function set_alias_of($id_uv, $comment=null){
   }
+  
+  /**
+   * N'oublions pas les methodes d'acces aux tags heritees de stdentity
+   * @see stdentity::set_tags_array
+   * @see stdentity::set_tags
+   * @see stdentity::get_tags_list
+   * @see stdentity::get_tags
+   */
+  
+
 
   /**
    * Antecedents
@@ -101,8 +111,9 @@ class uv extends stdentity
    * @param $semestre semestre visé, courant par défaut
    * @return nombre d'eleves
    */
-  public function get_nb_students($semestre=null){
+  public function get_nb_students($semestre=SEMESTER_NOW){
   }
+
 
   /**
    * gestion des groupes
@@ -117,8 +128,17 @@ class uv extends stdentity
 
   public function update_group($id_group, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null){
   }
-
-  public function get_nb_students_group($id_group=SEMESTER_NOW){
+  
+  /**
+   * Recuperation des id de groupes
+   * @param $type type des groupes recherches du style GROUP_TD ou null si tout
+   * @param $semestre semestre visé
+   * @return tableau des ids
+   */
+  public function get_groups($type=null, $semestre=SEMESTER_NOW){
+  }
+  
+  public function get_nb_students_group($id_group){
   }
 
   /**
