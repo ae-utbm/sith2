@@ -42,6 +42,7 @@ class uv extends stdentity
   var $semestre;
   var $credits;
   /* extra infos */
+  var $extra_loaded = false;
   var $guide = array("objectifs" => null,
                      "programme" => null,
                      "c" => null,
@@ -52,6 +53,7 @@ class uv extends stdentity
   var $antecedent = array();
   var $nb_comments = null;
   var $alias_of = null;
+  var $cursus = array();
 
   /**
    * chargement d'une UV par son id dans la BDD
@@ -145,7 +147,7 @@ class uv extends stdentity
                                     WHERE `id_uv_source` = ".$this->id);
     if($sql->is_success()){
       $row = $sql->get_row()
-      $this->alias_of = array("id_cible" => $row['id_uv_cible'],
+      $this->alias_of = array("id" => $row['id_uv_cible'],
                               "commentaire" => $row['commentaire']);
     }
     
@@ -159,12 +161,21 @@ class uv extends stdentity
     }
     
     /* chargement cursus */
+    $sql = new requete($site->db, "SELECT `id_cursus` 
+                                    FROM `pedag_uv_cursus`
+                                    WHERE `id_uv` = ".$this->id);
+    if($sql->is_success())
+      while($row = $sql->get_row())
+        $this->cursus[] = $row['id_cursus'];
+        
+    $this->extra_loaded = true;
   }
   
   /**
    * Ajout d'une UV
    */
   public function add($code, $intitule){
+    
   }
 
   public function set_open($value){
@@ -175,9 +186,17 @@ class uv extends stdentity
 
   /**
    * L'UV est-elle un alias d'une autre UV ? ex XE03 => LE03
+   * @todo voir en fonction des besoins d utilisation si prop a detacher de extra
    * @return id de l'UV cible si c'est un alias, false sinon
    */
   public function is_alias(){
+    if(!$this->extra_loaded)
+      $this->load_extra();
+    
+    if(is_null($this->alias_of))
+      return false;
+    else
+      return $this->alias_of['id'];
   }
 
   public function set_alias_of($id_uv, $comment=null){
@@ -197,6 +216,10 @@ class uv extends stdentity
    * Antecedents
    */
   public function has_antecedent(){
+    if(!$this->extra_loaded)
+      $this->load_extra();
+      
+    return !empty($this->antecedent);
   }
 
   public function add_antecedent($id_uv, $comment=null, $obligatoire=true){
