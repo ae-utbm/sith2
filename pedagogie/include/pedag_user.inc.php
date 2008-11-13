@@ -35,6 +35,14 @@ class pedag_user extends utilisateur{
   public function add_uv_result($id_uv, $semestre, $result){
   }
 
+  /**
+   * Permet d'annuler un resultat d'ÚV sans le supprimer
+   * afin de pouvoir conserver les UV passées par un étudiant parti puis reviendu
+   * sans pour autant les prendre en compte dans le comptage des crédits
+   */
+  public function set_cancelled_result($id_result, $val=true){
+  }
+  
   public function remove_uv_result($id_result){
   }
 
@@ -49,6 +57,31 @@ class pedag_user extends utilisateur{
 
   /* desincription d'une UV entiere, donc desinscrition de tous les groupes */
   public function get_out_from_uv($id_uv){
+  }
+  
+  /**
+   * Verification de la conformité des infos déclarées dans la fiche Matmat
+   * avec celles utilisées pour ici (Dpt, filiere)
+   */
+  public function check_validity(){
+  }
+  
+  /**
+   * Gestion/calcul des credits ECTS
+   */
+  /* Valeurs issues du marvelouze pdf de resultats de cursus UTBM 
+  define('MIN_GLOBAL', 300);
+  define('MIN_TC', );
+  define('MIN_BRANCHE', 84);
+  
+  define('MIN_STAGE', 66);
+  define('MIN_EC', 20);
+  define('MIN_CG', 32);
+  */
+  public function is_from_tc($ignore_cancelled_result=false){
+  }
+  
+  public function get_credits_tc(){
   }
 }
 

@@ -56,5 +56,8 @@ class edt extends stdentity
 
   public function get_image_link(){
   }
+  
+  public function get_ical_link(){
+  }
 }
 ?>
