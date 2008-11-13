@@ -89,7 +89,7 @@ function list_noaecms ()
 
 function install_aecms ( $unixname, $id_asso )
 {
-  if ( !ereg("^([a-z0-9]+)$", $unixname) )
+  if ( !ereg("^([a-z0-9][a-z0-9_-]*)$", $unixname) )
     return "Nom de l'emplacement invalide";
 
   return _install_aecms(AECMS_ACCOUNTS.$unixname."/",$id_asso);
