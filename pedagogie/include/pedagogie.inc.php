@@ -46,6 +46,25 @@ define("GROUP_TD", 2);
 define("GROUP_TP", 3);
 define("GROUP_THE",4);
 
+/* type d'UV */
+define("UV_CS", 1);
+define("UV_TM", 2);
+define("UV_EC", 3);
+define("UV_CG", 4);
+define("UV_Ext",5);
+
+/* type de cours */
+define("SEMESTER_A",  1);
+define("SEMESTER_B",  2);
+define("SEMESTER_AB", 3);
+define("SEMESTER_closed",4);
+
+
+/* Etats */
+define("STATE_VALID",   1);
+define("STATE_PENDING", 2);
+define("STATE_MODIFIED",3);
+
 /* departements */
 define("DPT_HUMA",  1);
 define("DPT_TC",    2);

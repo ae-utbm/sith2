@@ -32,36 +32,77 @@
  */
 class uv extends stdentity
 {
+  /* basic infos */
   var $id;
   var $code;
   var $intitule;
+  var $state;
+  var $tc_available;
+  var $semestre;
+  var $credits;
+  /* extra infos */
+  var $guide = array("objectifs" => null,
+                     "programme" => null,
+                     "c" => null,
+                     "td" => null,
+                     "tp" => null,
+                     "the" => null);
+  var $prerequis = null;
+  var $nb_comments = null;
 
   /**
    * chargement d'une UV par son id dans la BDD
    * n'initialise que les principaux attributs (code, intitulé, ...)
    * @param $id Id de l'UV
-   * @return true/false selon le résultat
+   * @return id/false selon le résultat
    * @see load_extra()
    */
   public function load_by_id($id){
+    $sql = new requete($this->db, "SELECT `id_uv`, `code`, `intitule`,
+                                    `semestre`, `state`, `tc_available`,
+                                    `guide_credits`
+                                    FROM `pedag_uv`
+                                    WHERE `id_uv` = ".$id." LIMIT 1");
+    if($sql->is_success()){
+      $this->_load($sql->get_row());
+      return $this->id;
+    }else{
+      $this->id = -1;
+      return false;
+    }
   }
 
   /**
    * chargement d'une UV a partir de son code UTBM (ex RE41)
    * @param $code code de l'UV
-   * @return true/false selon le résultat
+   * @return id/false selon le résultat
    * @see load_extra()
    */
   public function load_by_code($code){
+    if(!check_semester_format($code))
+      return false;
+
+    $sql = new requete($this->db, "SELECT `id_uv`, `code`, `intitule`,
+                                    `semestre`, `state`, `tc_available`,
+                                    `guide_credits`
+                                    FROM `pedag_uv`
+                                    WHERE `code` = ".$code." LIMIT 1");
+    if($sql->is_success()){
+      $this->_load($sql->get_row());
+      return $this->id;
+    }else{
+      $this->id = -1;
+      return false;
+    }
   }
 
-  private function _load(){
-  }
-
-  /**
-   * Ajout d'une UV
-   */
-  public function add($code, $intitule){
+  private function _load($row){
+    $this->id = $row['id_uv'];
+    $this->code = $row['code'];
+    $this->intitule = $row['intitule'];
+    $this->semestre = $row['semestre'];
+    $this->state = $row['state'];
+    $this->tc_available = $row['tc_available'];
   }
 
   /**
@@ -70,6 +111,14 @@ class uv extends stdentity
    * ex: departements, credits, tags, ...
    */
   public function load_extra(){
+  }
+    
+  private function _load_extra(){
+  }
+  /**
+   * Ajout d'une UV
+   */
+  public function add($code, $intitule){
   }
 
   public function set_open($value){
@@ -148,6 +197,16 @@ class uv extends stdentity
   }
 
   public function remove_from_dpt($dpt){
+  }
+  
+  /**
+   * Admin des commentaires
+   * dans leur globalité
+   */
+  public function reset_eval_comments(){
+  }
+  
+  public function get_nb_comments(){
   }
 }
 

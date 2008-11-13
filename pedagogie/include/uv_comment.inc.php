@@ -91,7 +91,17 @@ class uv_comment extends stdentity
 
   var $content;
   var $date;
-
+  var $valid;
+  /**
+   * eval est une evaluation du commentaire
+   * il ne s'agit pas de trier par nombres de votes des commentaires
+   * mais de mettre en exergue des remarques jugée "au dessus du lot"
+   * donc on propose un système de +/- mais sans afficher de note
+   * mais si un ou deux commentaires ont des notes particulièrement
+   * élevées, on les détache et on les met en avant.
+   */
+  var $eval;
+  
   public function load_by_id($id){
   }
 
