@@ -106,6 +106,7 @@ define("SEMESTER_NOW", $s.date('Y'));
  * @return true/false suivant le résultat
  */
 function check_semester_format($value){
+  return preg_match('/^[A-Z]{2}[0-9]{2}$/');
 }
 
 /**
@@ -114,6 +115,7 @@ function check_semester_format($value){
  * @param $id_row indice de la colonne dans laquelle se trouve le semestre
  */
 function sort_by_semester(&$data, $id_row){
+  /* celui la il va etre coton */  
 }
 
 ?>

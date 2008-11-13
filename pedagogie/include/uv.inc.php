@@ -36,6 +36,7 @@ class uv extends stdentity
   var $id;
   var $code;
   var $intitule;
+  var $dept;
   var $state;
   var $tc_available;
   var $semestre;
@@ -47,8 +48,10 @@ class uv extends stdentity
                      "td" => null,
                      "tp" => null,
                      "the" => null);
-  var $prerequis = null;
+  var $responsable = null;
+  var $antecedent = array();
   var $nb_comments = null;
+  var $alias_of = null;
 
   /**
    * chargement d'une UV par son id dans la BDD
@@ -96,6 +99,7 @@ class uv extends stdentity
     }
   }
 
+  /* chargement effectif infos basiques */
   private function _load($row){
     $this->id = $row['id_uv'];
     $this->code = $row['code'];
@@ -111,10 +115,52 @@ class uv extends stdentity
    * ex: departements, credits, tags, ...
    */
   public function load_extra(){
-  }
+    $sql = new requete($this->db, "SELECT `responsable`,
+                                    `guide_objectifs`, `guide_programme`,
+                                    `guide_c`, `guide_td`, `guide_tp`, `guide_the`,
+                                    FROM `pedag_uv`
+                                    WHERE `id_uv` = ".$this->id." LIMIT 1");
+    if($sql->is_success()){
+      $sql->get_row();
+      
+      $this->reponsable = $row['responsable'];
+      $this->guide['objectifs'] = $row['objectifs'];
+      $this->guide['programme'] = $row['programme'];
+      $this->guide['c'] = $row['guide_c'];
+      $this->guide['td'] = $row['guide_td'];
+      $this->guide['tp'] = $row['guide_tp'];
+      $this->guide['the'] = $row['guide_the'];
+    }
+    /* chargement des antecedents */
+    $sql = new requete($site->db, "SELECT * FROM `pedag_uv_antecedent`
+                                    WHERE `id_uv_source` = ".$this->id);
+    if($sql->is_success())
+      while($row = $sql->get_row())
+        $this->antecedent[] = array("id_cible" => $row['id_uv_cible'],
+                                    "obligatoire" => $row['obligatoire'],
+                                    "commentaire" => $row['commentaire']);
+
+    /* chargement alias */
+    $sql = new requete($site->db, "SELECT * FROM `pedag_uv_alias`
+                                    WHERE `id_uv_source` = ".$this->id);
+    if($sql->is_success()){
+      $row = $sql->get_row()
+      $this->alias_of = array("id_cible" => $row['id_uv_cible'],
+                              "commentaire" => $row['commentaire']);
+    }
     
-  private function _load_extra(){
+    /* chargement nb commentaires */
+    $sql = new requete($site->db, "SELECT COUNT(*) as `nb_comments`
+                                    FROM `pedag_uv_commentaire`
+                                    WHERE `id_uv` = ".$this->id);
+    if($sql->is_success()){
+      $row = $sql->get_row()
+      $this->nb_comments = $row['nb_comments'];
+    }
+    
+    /* chargement cursus */
   }
+  
   /**
    * Ajout d'une UV
    */
