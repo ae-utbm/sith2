@@ -106,6 +106,13 @@ define("SEMESTER_NOW", $s.date('Y'));
  * @return true/false suivant le résultat
  */
 function check_semester_format($value){
+  return preg_match('/^[AP][0-9]{4}$/');
+}
+
+/**
+ * LO45 et cie
+ */
+function check_uv_format($value){
   return preg_match('/^[A-Z]{2}[0-9]{2}$/');
 }
 
@@ -115,7 +122,32 @@ function check_semester_format($value){
  * @param $id_row indice de la colonne dans laquelle se trouve le semestre
  */
 function sort_by_semester(&$data, $id_row){
-  /* celui la il va etre coton */  
+  $GLOBALS['id_row_sort'] = $id_row;
+  usort($data, '__semester_comp');
+}
+
+/**
+ * comparaisons entre deux lignes pour le tri par semestre
+ * appelee par usort
+ * @see sort_by_semester
+ */
+function __semester_comp($row1, $row2){
+  global $id_row_sort;
+  preg_match("/^([AP])([0-9]{4})$/", $row1[$id_row_sort], $s1);
+  preg_match("/^([AP])([0-9]{4})$/", $row2[$id_row_sort], $s2);
+
+  /* comparaisons sur les annees, puis si egalite sur les A/P */
+  if($s1[2] < $s2[2])
+    return -1;
+  else if ($s1[2] > $s2[2])
+    return 1;
+  else{
+    /* si < : A pour 1 et P pour 2 */
+    if($s1[1] < $s2[1])
+      return 1;
+     else 
+      return -1;
+  }
 }
 
 ?>
