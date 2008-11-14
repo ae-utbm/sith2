@@ -340,9 +340,7 @@ class fax extends stdentity
 
 
     /* resultat */
-    print_r($txtres);
-    exit();
-    if (strpos($txtres, "Votre Fax est en cours d'envoi") > 0)
+    if (strpos($txtres, "Votre fax est en cours d'envoi") > 0)
       return true;
     else
       return false;
