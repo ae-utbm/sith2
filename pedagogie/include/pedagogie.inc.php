@@ -97,7 +97,7 @@ $dpt_long = array(
 /* definition du semestre actuel */
 $m = date('n');
 if($m > 7 || $m == 1) $s = 'A'; /* entre Aout et Janvier */
-else  $s = 'P'                  /* entre Fevrier et Juillet */
+else  $s = 'P';                 /* entre Fevrier et Juillet */
 define("SEMESTER_NOW", $s.date('Y'));
 
 /**
