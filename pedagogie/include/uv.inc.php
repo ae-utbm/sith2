@@ -254,6 +254,11 @@ class uv extends stdentity
   }
 
   public function set_alias_of($id_uv, $comment=null){
+    $sql = new insert($this->dbrw, 'pedag_uv_alias',
+                      array('id_uv_source' => $this->id,
+                            'id_uv_cible' => $id_uv,
+                            'commentaire' => $comment));
+    return $sql->is_success();
   }
   
   /**

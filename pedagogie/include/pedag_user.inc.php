@@ -59,6 +59,16 @@ class pedag_user extends utilisateur{
   public function get_out_from_uv($id_uv){
   }
   
+  
+  /**
+   * Affiliation a un cursus (filiere, mineur, ...)
+   */
+  public function join_cursus($id_cursus){
+  }
+  
+  public function leave_cursus($id_cursus){
+  }
+  
   /**
    * Verification de la conformité des infos déclarées dans la fiche Matmat
    * avec celles utilisées pour ici (Dpt, filiere)

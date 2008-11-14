@@ -30,6 +30,39 @@
  */
 class cursus extends stdentity
 {
+  var $id;
+  var $intitule;
+  var $type;
+  var $description;
+  var $responsable;
+  var $nb_all_of;
+  var $nb_some_of;
+  var $uv_all_of=array();
+  var $uv_some_of=array();
+  
+  public function load_by_id($id){
+  }
+  
+  private function _load($row){
+  }
+  
+  public function add(){
+  }
+  
+  public function remove(){
+  }
+  
+  public function update(){
+  }
+  
+  public function add_uv($id_uv, $relation){
+  }
+  
+  public function remove_uv($id_uv){
+  }
+  
+  /* le mot `diplomed` sera proposé a l'academie amglaise l'an prochain si vous etes sages */
+  public function get_nb_students($ignore_diplomed=false){
+  }
 }
-
 ?>
