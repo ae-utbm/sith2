@@ -167,14 +167,9 @@ class fax extends stdentity
     $adminitf = @file_get_contents($opensess);
 
     /* and what about send_fax.pl ? */
-    preg_match("/<a href=\"([^\"]*)\">Envoyer un Fax<\/a>/", $adminitf, $found);
-    $sendfaxaddr = $found[1];
+    $sendfaxaddr = "http://adsl.free.fr/admin/tel/sendfax.pl?id=".$this->idfree."&idt=".$this->idtfree;
     $newpage = file_get_contents($sendfaxaddr);
     preg_match("/src=\"(captcha.pl?[^\"]*)\"/", $newpage, $found);
-print_r($adminitf."\n");
-print_r($sendfaxaddr."\n");
-print_r($newpage."\n");
-exit();
     /* so there is our captcha */
     $this->imgcaptcha = "http://adsl.free.fr/admin/tel/" . $found[1];
 
