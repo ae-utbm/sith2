@@ -1,27 +1,10 @@
 <?
+require_once("../pedagogie/include/pedagogie.inc.php");
+
 function p($d){
   foreach($d as $r)
 		echo implode(" . ", $r)."<br />";
 }
-
-function c($n, $m){
-  preg_match("/^([AP])([0-9]{4})$/", $n[3], $s1);
-  preg_match("/^([AP])([0-9]{4})$/", $m[3], $s2);
-
-	/* comparaisons sur les annees, puis si egalite sur les A/P */
-  if($s1[2] < $s2[2])
-		return -1;
-  else if ($s1[2] > $s2[2])
-    return 1;
-	else{
-    /* si < : A pour 1 et P pour 2 */
-    if($s1[1] < $s2[1])
-		  return 1;
-	  else 
-		  return -1;
-  }
-}
-
 
 $data = array(
   array("LO41", 1, "LO41 bleh", "A2005"),      
@@ -39,7 +22,7 @@ $result = $data;
 p($data);
 echo "<br />  <br />\n";
 
-usort($result, 'c');
+sort_by_semester($result, 3);
 
 p($result);
 
