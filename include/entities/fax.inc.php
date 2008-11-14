@@ -171,7 +171,10 @@ class fax extends stdentity
     $sendfaxaddr = $found[1];
     $newpage = file_get_contents($sendfaxaddr);
     preg_match("/src=\"(captcha.pl?[^\"]*)\"/", $newpage, $found);
-
+print_r($adminitf."\n");
+print_r($sendfaxaddr."\n");
+print_r($newpage."\n");
+exit();
     /* so there is our captcha */
     $this->imgcaptcha = "http://adsl.free.fr/admin/tel/" . $found[1];
 
