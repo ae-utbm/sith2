@@ -223,6 +223,13 @@ class uv extends stdentity
   }
 
   public function add_antecedent($id_uv, $comment=null, $obligatoire=true){
+    $sql = new insert($this->dbrw, 'pedag_uv_antecedent',
+                      array('id_uv_source' => $this->id,
+                            'id_uv_cible' => $id_uv,
+                            'commentaire' => $comment,
+                            'obligatoire' => $obligatoire),
+                      false);
+    return $sql->is_success();
   }
 
   /* nombre d'eleves inscrits a l'UV pour un semestre donne
@@ -254,9 +261,31 @@ class uv extends stdentity
    * @return tableau des ids
    */
   public function get_groups($type=null, $semestre=SEMESTER_NOW){
+    $sql = "SELECT `id_groupe`
+            FROM `pedag_groupe`
+            WHERE `id_uv` = ".$this->id."
+              AND `semestre` = '".$semestre."'";
+    if($type)
+      $sql .= "  AND `type` = ".$type;
+    $req = new requete($this->db, $sql);
+    
+    if(!$req->is_success)
+      return false;
+    else
+      $t = array();
+      
+    while($row = $req->get_row())
+      $t[] = $row['id_groupe'];
+      
+    return $t;
   }
   
   public function get_nb_students_group($id_group){
+    $sql = new requete($this->db, "SELECT COUNT(*) as `nb` 
+                                    FROM `pedag_groupe_utl`
+                                    WHERE `id_groupe` = ".$id_group);
+    $row = $sql->get_row();
+    return $row['nb'];
   }
 
   /**
