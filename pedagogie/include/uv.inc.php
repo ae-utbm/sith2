@@ -174,11 +174,36 @@ class uv extends stdentity
   /**
    * Ajout d'une UV
    */
-  public function add($code, $intitule){
-    
+  public function add($code, $intitule, $type, $responsable=null, $semestre, $tc_available=true){
+    $code = strtoupper($code);
+    if(!check_uv_format($code))
+      throw new Exception("Wrong format code ".$code);
+    /* verification qu elle n existe pas deja, avec le code */
+    $sql = new requete($this-db, "SELECT 1 FROM `pedag_uv` WHERE `code` = '".$code."'");
+    if($sql->lines != 0)
+      throw new Exception("UV code already used in database");
+      
+    $sql = new insert($site->dbrw, "pedag_uv", 
+                      array("code" => $code,
+                            "intitule" => mysql_real_escape_string($intitule),
+                            "type" => $type,
+                            "semestre" => $semestre,
+                            "responsable" => mysql_real_escape_string($responsable),
+                            "state" => STATE_PENDING,
+                            "tc_available" => (bool) $tc_available));
+    if($sql->is_success())
+      return $this->load_by_id($sql->get_id());
+    else
+      return false;      
+  }
+  
+  /* separation des infos du guide pour ne pas alourdir la fonction de creation */
+  public function update_guide_infos(){
   }
 
   public function set_open($value){
+    $sql = new update($site->dbrw, "pedag_uv", array("semestre"=>$value), array("id_uv"=>$this->id));
+    return $sql->is_success();
   }
 
   public function update($set_valid=false){
