@@ -5,13 +5,19 @@ function p($d){
 }
 
 function c($n, $m){
+  preg_match("/^([AP])([0-9]{4})$/", $n[3], $s1);
+  preg_match("/^([AP])([0-9]{4})$/", $m[3], $s2);
+
+print_r($s1);
+print_r($s2);
+/*
   $s1= $n[3][0];
   $y1= intval(array_slice($n[3], 1));
   $s2= $m[3][0];
   $y2= intval(array_slice($m[3], 1));
 
 echo $n, $s1, $y1, $m, $s2, $y2, "\n";
-
+*/
   if($n[1] < $m[1])
 		return -1;
   else
