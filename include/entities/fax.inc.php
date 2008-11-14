@@ -82,7 +82,7 @@ class fax extends stdentity
     $this->id             = $rs['id_fax'];
     $this->idfree         = $rs['idfree_fax'];
     $this->idtfree        = $rs['idtfree_fax'];
-    $this->imgcaptcha     = "http://adsl.free.fr/admin/tel/captcha.pl?id=".$this->idfree."&idt=".$this->idtfree;
+    $this->imgcaptcha     = "http://adsl.free.fr/admin/tel/captcha.pl?id_client=".$this->idfree."&idt=".$this->idtfree;
     $this->filename       = $rs['filename_fax'];
     $this->pdffile        = $topdir . "var/fax/" . $this->id . ".pdf";
     $this->numdest        = $rs['numdest_fax'];
@@ -172,7 +172,7 @@ class fax extends stdentity
     preg_match("/src=\"(captcha.pl?[^\"]*)\"/", $newpage, $found);
     /* so there is our captcha */
 //    $this->imgcaptcha = "http://adsl.free.fr/admin/tel/" . $found[1];
-    $this->imgcaptcha = "http://adsl.free.fr/admin/tel/captcha.pl?id=".$this->idfree."&idt=".$this->idtfree;
+    $this->imgcaptcha = "http://adsl.free.fr/admin/tel/captcha.pl?id_client=".$this->idfree."&idt=".$this->idtfree;
 
     if ( !is_uploaded_file($file['tmp_name']))
     {
