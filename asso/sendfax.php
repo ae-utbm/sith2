@@ -84,7 +84,7 @@ if (isset($_POST['preparefaxsbmt']))
 		      "Veuillez entrer la série de caractères contenue ".
 		      "dans l'image ci-dessous :");
 
-  $cts->puts("<br/><img src=\"".$fax->imgcaptcha."\" alt=\"captchos\" />");
+  $cts->puts("<br/><img src=\"".$fax->imgcaptcha."\" alt=\"captchos\" /><br /><a href=\"".$fax->captchaaudio."\"><br />Version Audio</a>");
 
   $frm = new form("sendfax",
 		  "sendfax.php",

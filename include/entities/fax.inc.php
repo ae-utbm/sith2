@@ -38,6 +38,7 @@ class fax extends stdentity
   /* addresse du captcha */
   var $imgcaptcha = "";
   var $captchavalue = "";
+  var $captchaaudio = "";
 
   /* PDF */
   /* le nom d'origine du fichier */
@@ -83,6 +84,7 @@ class fax extends stdentity
     $this->idfree         = $rs['idfree_fax'];
     $this->idtfree        = $rs['idtfree_fax'];
     $this->imgcaptcha     = "http://adsl.free.fr/admin/tel/captcha.pl?id_client=".$this->idfree."&idt=".$this->idtfree;
+    $this->captchaaudio   = "http://adsl.free.fr/admin/tel/captcha_audio.pl?id_client=".$this->idfree."&idt=".$this->idtfree;
     $this->filename       = $rs['filename_fax'];
     $this->pdffile        = $topdir . "var/fax/" . $this->id . ".pdf";
     $this->numdest        = $rs['numdest_fax'];
@@ -173,6 +175,7 @@ class fax extends stdentity
     /* so there is our captcha */
 //    $this->imgcaptcha = "http://adsl.free.fr/admin/tel/" . $found[1];
     $this->imgcaptcha = "http://adsl.free.fr/admin/tel/captcha.pl?id_client=".$this->idfree."&idt=".$this->idtfree;
+    $this->captchaaudio = "http://adsl.free.fr/admin/tel/captcha_audio.pl?id_client=".$this->idfree."&idt=".$this->idtfree;
 
     if ( !is_uploaded_file($file['tmp_name']))
     {
@@ -278,7 +281,6 @@ class fax extends stdentity
     if ((!$this->numdest) || (!$this->captchavalue) || (!$this->idfree)
         || (!$this->idtfree) || (!file_exists($this->pdffile)))
     {
-      print_r("bleh");
       return false;
     }
 
@@ -338,6 +340,8 @@ class fax extends stdentity
 
 
     /* resultat */
+    print_r($txtres);
+    exit();
     if (strpos($txtres, "Votre Fax est en cours d'envoi") > 0)
       return true;
     else
