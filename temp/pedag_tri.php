@@ -6,9 +6,9 @@ function p($d){
 
 function c($n, $m){
   $s1= $n[3][0];
-  $y1= array_slice($n, 1);
+  $y1= intval(array_slice($n[3], 1));
   $s2= $m[3][0];
-  $y2= array_slice($m, 1);
+  $y2= intval(array_slice($m[3], 1));
 
 echo $n, $s1, $y1, $m, $s2, $y2, "\n";
 
