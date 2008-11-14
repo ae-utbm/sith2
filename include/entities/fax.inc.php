@@ -277,6 +277,7 @@ class fax extends stdentity
     if ((!$this->numdest) || (!$this->captchavalue) || (!$this->idfree)
         || (!$this->idtfree) || (!file_exists($this->pdffile)))
     {
+      print_r("bleh");
       return false;
     }
 
