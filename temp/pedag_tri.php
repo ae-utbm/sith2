@@ -5,6 +5,13 @@ function p($d){
 }
 
 function c($n, $m){
+  $s1= $n[3][0];
+  $y1= array_slice($n, 1);
+  $s2= $m[3][0];
+  $y2= array_slice($m, 1);
+
+echo $n, $s1, $y1, $m, $s2, $y2, "\n";
+
   if($n[1] < $m[1])
 		return -1;
   else
