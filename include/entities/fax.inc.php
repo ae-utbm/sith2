@@ -172,6 +172,7 @@ class fax extends stdentity
     preg_match("/src=\"(captcha.pl?[^\"]*)\"/", $newpage, $found);
     /* so there is our captcha */
 //    $this->imgcaptcha = "http://adsl.free.fr/admin/tel/" . $found[1];
+    $this->imgcaptcha = "http://adsl.free.fr/admin/tel/captcha.pl?id=".$this->idfree."&idt=".$this->idtfree;
 
     if ( !is_uploaded_file($file['tmp_name']))
     {
