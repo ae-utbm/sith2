@@ -284,6 +284,9 @@ class eboutic extends site
   /* fonction de recuperation des categories */
   function get_cat ()
   {
+    $except="";
+    if(!$site->user->ae)
+      $except =" AND id_typeprod!=11 ";
     $sql = "SELECT   `cpt_type_produit`.`id_typeprod`
                    , `cpt_type_produit`.`nom_typeprod`
                    , `cpt_type_produit`.`id_file`
@@ -295,6 +298,7 @@ class eboutic extends site
 
             WHERE `cpt_mise_en_vente`.`id_comptoir` = ".CPT_E_BOUTIC."
             AND (`cpt_produits`.date_fin_produit > NOW() OR `cpt_produits`.date_fin_produit IS NULL)
+            $except
             GROUP BY `id_typeprod`
             ORDER BY `id_typeprod`";
 

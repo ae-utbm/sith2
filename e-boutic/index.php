@@ -51,7 +51,10 @@ if ( isset($_REQUEST["id_produit"]) )
 {
   $produit->load_by_id($_REQUEST["id_produit"]);
 
-  if ( $produit->is_valid() )
+  if (
+       $produit->is_valid()
+       && ($produit->id_type!=11 || ($site->user->ae && $produit->id_type!=11))
+     )
   {
     $venteprod = new venteproduit ($site->db);
     if ( !$venteprod->_charge($produit,$site->comptoir) )
@@ -75,8 +78,11 @@ elseif ( isset($_REQUEST["item"]) ) // legacy support
 }
 
 elseif ( isset($_REQUEST["id_typeprod"]) )
+{
+  if(   (intval($_REQUEST["id_typeprod"])==11 && $site->user->ae)
+     || (intval($_REQUEST["id_typeprod"])!=11) )
   $typeproduit->load_by_id($_REQUEST["id_typeprod"]);
-
+}
 elseif ( isset($_REQUEST["cat"]) ) // legacy support
   $typeproduit->load_by_id($_REQUEST["cat"]);
 
