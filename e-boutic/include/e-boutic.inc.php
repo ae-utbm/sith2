@@ -285,7 +285,7 @@ class eboutic extends site
   function get_cat ()
   {
     $except="";
-    if(!$site->user->ae)
+    if(!$this->user->ae)
       $except =" AND id_typeprod!=11 ";
     $sql = "SELECT   `cpt_type_produit`.`id_typeprod`
                    , `cpt_type_produit`.`nom_typeprod`
