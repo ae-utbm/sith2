@@ -58,7 +58,7 @@ for ($i = 0;$i < $req->lines; $i++)
 header ("Content-Type: text/plain");
 
 
-echo "digraph $this->name {\n";
+echo "digraph bleh {\n";
 echo "\tranksep = \"1.7 equally\";\n";
 
 /*generation des infos de promo */
