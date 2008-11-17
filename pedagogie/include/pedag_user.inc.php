@@ -93,6 +93,29 @@ class pedag_user extends utilisateur{
   
   public function get_credits_tc(){
   }
+  
+  /**************************************
+   * Données annexes de l'emploi du temps
+   */
+
+  /**
+   * Cherche si l'utilisateur a des permanences inscrites dans un planning
+   * du site de l'AE : foyer, MDE, Bureau AE ...
+   * 
+   * @return true si des perms ont été trouvées, false sinon
+   */
+  public function get_permanence(){
+  }
+
+  /**
+   * Cherche si il y a des réunions/activités régulières inscrites dans
+   * le planning du site AE pour les clubs auxquels l'utilisateur est
+   * inscrit
+   * 
+   * @return true si des activités ont été trouvées, false sinon
+   */
+  public function get_recurrent_activity(){
+  }
 }
 
 ?>
