@@ -28,7 +28,7 @@ require_once($topdir. "include/site.inc.php");
 /* on défini des variables simples et efficaces */
 $rdd=array("title"=>"remise des diplômes",
            "intro"=>"Cette année, afin de faire participer les personnes non-conviées à la cérémonie de la Remise des Diplômes de l'<a href='http://www.utbm.fr'>Université de Technologie de Belfort-Montbéliard</a>, nous avons mis en place un service expérimental de diffusion de la cérémonie en direct.",
-           "date"=>"samedi 17 novembre 2007",
+           "date"=>"samedi 21 novembre 2008",
            "h-debut"=>"10h",
            "h-fin"=>"12h",
            "lieu"=>"au centre des expositions AirExpo d'Andelnans (entre Belfort et Sevenans)",
@@ -62,7 +62,7 @@ $congres=array("title"=>"Congres 2008",
               "type"=>"La retransmission"
           );
 
-$event=$congres;
+$event=$rdd;
 
 $site = new site ();
 
