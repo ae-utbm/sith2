@@ -102,7 +102,7 @@ class uv extends stdentity
   }
 
   /* chargement effectif infos basiques */
-  private function _load($row){
+  public function _load($row){
     $this->id = $row['id_uv'];
     $this->code = $row['code'];
     $this->intitule = $row['intitule'];
@@ -146,7 +146,7 @@ class uv extends stdentity
     $sql = new requete($site->db, "SELECT * FROM `pedag_uv_alias`
                                     WHERE `id_uv_source` = ".$this->id);
     if($sql->is_success()){
-      $row = $sql->get_row()
+      $row = $sql->get_row();
       $this->alias_of = array("id" => $row['id_uv_cible'],
                               "commentaire" => $row['commentaire']);
     }
@@ -156,7 +156,7 @@ class uv extends stdentity
                                     FROM `pedag_uv_commentaire`
                                     WHERE `id_uv` = ".$this->id);
     if($sql->is_success()){
-      $row = $sql->get_row()
+      $row = $sql->get_row();
       $this->nb_comments = $row['nb_comments'];
     }
     
@@ -165,7 +165,7 @@ class uv extends stdentity
                                     FROM `pedag_uv_cursus`
                                     WHERE `id_uv` = ".$this->id);
     if($sql->is_success())
-      while($row = $sql->get_row())
+      while($row = $sql->get_row());
         $this->cursus[] = $row['id_cursus'];
         
     $this->extra_loaded = true;

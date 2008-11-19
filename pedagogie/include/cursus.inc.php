@@ -43,7 +43,7 @@ class cursus extends stdentity
   public function load_by_id($id){
   }
   
-  private function _load($row){
+  public function _load($row){
   }
   
   public function add(){

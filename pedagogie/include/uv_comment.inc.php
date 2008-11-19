@@ -105,7 +105,7 @@ class uv_comment extends stdentity
   public function load_by_id($id){
   }
 
-  private function _load($row){
+  public function _load($row){
   }
 
   public function add($id_uv, $id_utilisateur,
