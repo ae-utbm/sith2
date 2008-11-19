@@ -28,7 +28,8 @@
  * valeurs de leurs équivalents dans la BDD
  */
 
-/* Resultat */
+/* Resultat 
+ * @var RESULT_ */
 define("RESULT_A",      1);
 define("RESULT_B",      2);
 define("RESULT_C",      3);
@@ -40,32 +41,37 @@ define("RESULT_ABS",    8);
 define("RESULT_EQUIV",  9);
 
 
-/* type de cours */
+/* type de cours 
+ * @var GROUP_ */
 define("GROUP_C",  1);
 define("GROUP_TD", 2);
 define("GROUP_TP", 3);
 define("GROUP_THE",4);
 
-/* type d'UV */
-define("UV_CS", 1);
-define("UV_TM", 2);
-define("UV_EC", 3);
-define("UV_CG", 4);
-define("UV_Ext",5);
+/* type d'UV 
+ * @var TYPE_ */
+define("TYPE_CS", 1);
+define("TYPE_TM", 2);
+define("TYPE_EC", 3);
+define("TYPE_CG", 4);
+define("TYPE_Ext",5);
 
-/* type de cours */
+/* semestres d ouverture (ou pas)
+ * @var SEMESTER_ */
 define("SEMESTER_A",  1);
 define("SEMESTER_B",  2);
 define("SEMESTER_AB", 3);
 define("SEMESTER_closed",4);
 
 
-/* Etats */
+/* Etats 
+ * @var STATE_  */
 define("STATE_VALID",   1);
 define("STATE_PENDING", 2);
 define("STATE_MODIFIED",3);
 
-/* departements */
+/* departements 
+ * @var DPT_  */
 define("DPT_HUMA",  1);
 define("DPT_TC",    2);
 define("DPT_GI",    3);
@@ -94,7 +100,8 @@ $dpt_long = array(
   DPT_EDIM => "Ergonomie, Design et Ingénierie Mécanique"
   );
 
-/* definition du semestre actuel */
+/* definition du semestre actuel 
+ * @var SEMESTRE_NOW  */
 $m = date('n');
 if($m > 7 || $m == 1) $s = 'A'; /* entre Aout et Janvier */
 else  $s = 'P';                 /* entre Fevrier et Juillet */
@@ -105,14 +112,16 @@ define("SEMESTER_NOW", $s.date('Y'));
  * @param $value donnee a vérifiée
  * @return true/false suivant le résultat
  */
-function check_semester_format($value){
+function check_semester_format(&$value){
+  $value = strtoupper($value);
   return preg_match('/^[AP][0-9]{4}$/');
 }
 
 /**
  * LO45 et cie
  */
-function check_uv_format($value){
+function check_uv_format(&$value){
+  $value = strtoupper($value);
   return preg_match('/^[A-Z]{2}[0-9]{2}$/');
 }
 

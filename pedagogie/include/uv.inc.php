@@ -183,7 +183,6 @@ class uv extends stdentity
    * Ajout d'une UV
    */
   public function add($code, $intitule, $type, $responsable=null, $semestre, $tc_available=true){
-    $code = strtoupper($code);
     if(!check_uv_format($code))
       throw new Exception("Wrong format code ".$code);
     /* verification qu elle n existe pas deja, avec le code */
@@ -353,7 +352,40 @@ class uv extends stdentity
   /**
    * gestion des groupes
    */
+
+  /**
+   * Ajout d'un groupe/seance d'une UV
+   * @param $type type d'UV @see TYPE_
+   * @param $num numero du groupe tel qu'indiqué sur les EDT de l'UTBM
+   * @param $freq fréquence (1|2)
+   * @param $semestre semestre d'ouverture @see SEMESTER_
+   * @param $jour jour où a lieu la séance (lundi=1, etc)
+   * @param $debut heure de debut de la seance (format time)
+   * @param $fin heure de fin de la seance (format time)
+   * @param $salle salle ou a lieu la seance si connue (varchar 5)
+   */
   public function add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null){
+    if(!check_uv_format($code))
+      throw new Exception("Wrong format code ".$code);
+    if(!check_semester_format($semestre))
+      throw new Exception("Wrong format semestre ".$semestre);
+      
+    $data = array("id_uv" => $this->id,
+                  "type" => $type,
+                  "num_groupe" => $num,
+                  "freq" => $freq,
+                  "semestre" => $semestre,
+                  "debut" => $debut,
+                  "fin" => $fin,
+                  "jour" => $jour,
+                  "salle" => $salle);
+      
+    $sql = new insert($this->dbrw, "pedag_groupe", $data);
+    
+    if($sql->is_success())
+      return $sql->get_id();
+    else 
+      return false;
   }
 
   /* suppression de groupe
@@ -394,8 +426,11 @@ class uv extends stdentity
     $sql = new requete($this->db, "SELECT COUNT(*) as `nb` 
                                     FROM `pedag_groupe_utl`
                                     WHERE `id_groupe` = ".$id_group);
-    $row = $sql->get_row();
-    return $row['nb'];
+    if($sql->is_success()){
+      $row = $sql->get_row;
+      return $row['nb'];
+    }else
+      return false;
   }
 
   /**
@@ -416,9 +451,23 @@ class uv extends stdentity
    * dans leur globalité
    */
   public function reset_eval_comments(){
+    $sql = new update($this->dbrw, "pedag_uv_commentaire", array("eval_comment" => 0), array("id_uv" => $this->id));
+    return $sql->is_success();
   }
   
+  /**
+   * recupere le nombre de commentaires enregistres pour une UV quoi
+   * @return le nombre, ou false si echec
+   */
   public function get_nb_comments(){
+    $sql = new requete($this->db, "SELECT COUNT(*) as `nb` 
+                                    FROM `pedag_uv_commentaire`
+                                    WHERE `id_uv` = ".$this->id);
+    if($sql->is_success()){
+      $row = $sql->get_row;
+      return $row['nb'];
+    }else
+      return false;
   }
   
   /**
