@@ -227,6 +227,9 @@ class uv extends stdentity
     $sql = new update($site->dbrw, "pedag_uv", $data, array("id_uv"=>$this->id));
     return $sql->is_success();
   }
+  
+  public function add_or_update(){
+  }
 
   public function set_open($value){
     $sql = new update($site->dbrw, "pedag_uv", array("semestre"=>$value), array("id_uv"=>$this->id));
@@ -259,6 +262,9 @@ class uv extends stdentity
                             'id_uv_cible' => $id_uv,
                             'commentaire' => $comment));
     return $sql->is_success();
+  }
+  
+  public function has_alias(){
   }
   
   /**
@@ -354,6 +360,23 @@ class uv extends stdentity
   }
 
   public function remove_from_dpt($dpt){
+  }
+
+  /**
+   * @brief Tente de détecter une erreur de saisie des UV
+   * 
+   * Si un etudiant noté GI, donc sur Belfort, s'inscrit a une UV sur 
+   * Sévenans comme LE03 et qu'il existe un alias sur Belfort (XE03)
+   * alors on lui propose.
+   * Fonction destinee a un controle AJAX pendant la creation d'un EDT
+   * (voire ajout de resultat), donc en static pour l'instant
+   * 
+   * @param $db base de donnee en lecture seule
+   * @param $id_utl utilisateur concerné par le contrôle
+   * @param $id_uv UV entrée par l'utilisateur et que l'on controle
+   * @return l'id de l'UV conseillée s'il y en a une, false sinon
+   */
+  public static function find_proper_uv($db, $id_utl, $id_uv){
   }
   
   /**
