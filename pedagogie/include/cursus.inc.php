@@ -41,15 +41,21 @@ class cursus extends stdentity
   var $uv_some_of=array();
   
   public function load_by_id($id){
+    $sql = new requete($this->db, "SELECT * FROM `pedag_cursus` WHERE `id_cursus` = ".$id." LIMIT 1");
+    if($sql->is_success()){
+      $row = $sql->get_row();
+      $this->_load($row);
+    }else
+      return false;
   }
   
   public function _load($row){
   }
   
-  public function add(){
+  public function add($intitule, $type, $description, $responsable, $nb_some_of, $nb_all_of){
   }
   
-  public function remove(){
+  public function remove($intitule=null, $type=null, $description=null, $responsable=null, $nb_some_of=null, $nb_all_of=null){
   }
   
   public function update(){
