@@ -33,6 +33,16 @@ class pedag_user extends utilisateur{
   var $uv_passe = array();
 
   public function add_uv_result($id_uv, $semestre, $result){
+    if(!check_semester_format($semestre))
+      throw new Exception("Wrong format \$semestre ".$semestre);
+    $sql = new insert($this->dbrw, "pedag_resultat", array("id_utilisateur" => $this->id, 
+                                                           "id_uv" => $id_uv,
+                                                           "semestre" => $semestre,
+                                                           "note" => $result));
+    if($sql->is_success())
+      return $sql->get_id();
+    else 
+      return false;
   }
 
   /**
@@ -41,18 +51,42 @@ class pedag_user extends utilisateur{
    * sans pour autant les prendre en compte dans le comptage des crédits
    */
   public function set_cancelled_result($id_result, $val=true){
+    if($val != 0 && $val != 1)
+      return false;
+    $sql = new update($this->dbrw, "pedag_resultat", 
+                      array("id_utilisateur" => $this->id, "id_resultat" => $id_result),
+                      array("cancelled" => $val));
+    return $sql->is_success();
   }
   
   public function remove_uv_result($id_result){
+    $sql = new delete($this->dbrw, "pedag_resultat", array("id_utilisateur"=>$this->id, "id_resultat"=>$id_result));
+    return $sql->is_success();
   }
 
-  public function update_uv_result($id_result, $id_uv, $semestre, $result){
+  public function update_uv_result($id_result=null, $id_uv=null, $semestre=null, $result=null){
+    if(!check_semester_format($semestre))
+      throw new Exception("Wrong format \$semestre ".$semestre);
+    $data = array()
+    if($id_uv)  $data['id_uv'] = $id_uv;
+    if($semestre)  $data['semestre'] = $semestre;
+    if($result)  $data['note'] = $result;
+    
+    $sql = new update($this->dbrw, "pedag_resultat", array("id_resultat" => $id_result), $data);
+    if($sql->is_success())
+      return $sql->get_id();
+    else 
+      return false;
   }
 
-  public function join_uv_group($id_group, $semaine){
+  public function join_uv_group($id_group, $semaine=null){
+    $sql = new insert($this->dbrw, "pedag_groupe_utl", array("id_utilisateur"=>$this->id, "id_groupe"=>$id_group, "semaine"=>$semaine));
+    return $sql->is_success();
   }
 
   public function leave_uv_group($id_group){
+    $sql = new delete($this->dbrw, "pedag_groupe_utl", array("id_utilisateur"=>$this->id, "id_groupe"=>$id_group));
+    return $sql->is_success();
   }
 
   /* desincription d'une UV entiere, donc desinscrition de tous les groupes */
@@ -64,9 +98,13 @@ class pedag_user extends utilisateur{
    * Affiliation a un cursus (filiere, mineur, ...)
    */
   public function join_cursus($id_cursus){
+    $sql = new insert($this->dbrw, "pedag_cursus_utl", array("id_utilisateur"=>$this->id, "id_cursus"=>$id_cursus));
+    return $sql->is_success();
   }
   
   public function leave_cursus($id_cursus){
+    $sql = new delete($this->dbrw, "pedag_cursus_utl", array("id_utilisateur"=>$this->id, "id_cursus"=>$id_cursus));
+    return $sql->is_success();
   }
   
   /**

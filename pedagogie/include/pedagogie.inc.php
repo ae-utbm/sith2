@@ -26,6 +26,7 @@
 /**
  * les enumerations et constantes ci-dessous doivent respecter les
  * valeurs de leurs équivalents dans la BDD
+ * @todo remplacer toutes ces constates par une vraie class enum
  */
 
 /* Resultat 
@@ -69,6 +70,12 @@ define("SEMESTER_closed",4);
 define("STATE_VALID",   1);
 define("STATE_PENDING", 2);
 define("STATE_MODIFIED",3);
+
+/* Types de cursus
+ * @var CURSUS_  */
+define("CURSUS_FILIERE",1);
+define("CURSUS_MINEUR", 2);
+define("CURSUS_AUTRE",  3);
 
 /* departements 
  * @var DPT_  */

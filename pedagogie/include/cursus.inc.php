@@ -52,13 +52,26 @@ class cursus extends stdentity
   public function _load($row){
   }
   
-  public function add($intitule, $type, $description, $responsable, $nb_some_of, $nb_all_of){
+  public function add($intitule, $type, $description, $responsable, $nb_some_of, $nb_all_of, $departement=null){
+    $data = array("type" => $type,
+                  "intitule" => mysql_real_escape_string($intitule),
+                  "description" => mysql_real_escape_string($description),
+                  "responsable" => mysql_real_escape_string($responsable),
+                  "nb_some_of" => intval($nb_some_of),
+                  "nb_all_of" => intval($nb_all_of);
+    if($departement) $data["departement"] = $departement;
+    
+    $sql = new insert($this->db, "pedag_cursus", $data);
+    if($sql->is_success())
+      return $sql->get_id();
+    else 
+      return false;
   }
   
-  public function remove($intitule=null, $type=null, $description=null, $responsable=null, $nb_some_of=null, $nb_all_of=null){
+  public function remove(){
   }
   
-  public function update(){
+  public function update($intitule=null, $type=null, $description=null, $responsable=null, $nb_some_of=null, $nb_all_of=null){
   }
   
   public function add_uv($id_uv, $relation){

@@ -184,7 +184,7 @@ class uv extends stdentity
    */
   public function add($code, $intitule, $type, $responsable=null, $semestre, $tc_available=true){
     if(!check_uv_format($code))
-      throw new Exception("Wrong format code ".$code);
+      throw new Exception("Wrong format \$code ".$code);
     /* verification qu elle n existe pas deja, avec le code */
     $sql = new requete($this-db, "SELECT 1 FROM `pedag_uv` WHERE `code` = '".$code."'");
     if($sql->lines != 0)
@@ -239,7 +239,7 @@ class uv extends stdentity
                                 $objectifs=null, $programme=null, $c=null, $td=null, $tp=null, $the=null, $credits=null){
     $code = strtoupper($code);
     if(!check_uv_format($code))
-      throw new Exception("Wrong format code ".$code);
+      throw new Exception("Wrong format \$code ".$code);
 
     /* vérification si l UV existe déjà dans la base */
     $sql = new requete($this->db, "SELECT `id` FROM `pedag_uv` WHERE `code` = '".$code."'");
@@ -344,8 +344,6 @@ class uv extends stdentity
       return $row['nb'];
     }else
       return false;
-    
-    
   }
 
 
@@ -366,9 +364,9 @@ class uv extends stdentity
    */
   public function add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null){
     if(!check_uv_format($code))
-      throw new Exception("Wrong format code ".$code);
+      throw new Exception("Wrong format \$code ".$code);
     if(!check_semester_format($semestre))
-      throw new Exception("Wrong format semestre ".$semestre);
+      throw new Exception("Wrong format \$semestre ".$semestre);
       
     $data = array("id_uv" => $this->id,
                   "type" => $type,
@@ -471,7 +469,7 @@ class uv extends stdentity
   }
   
   /**
-   * Fonction static
+   * Fonctions static
    * plutot destinees a etre appelees rapidement par un appel AJAX
    */
   
