@@ -508,5 +508,5 @@ class uv extends stdentity
     $sql = new requete($db, "SELECT 1 FROM `pedag_uv` WHERE `id_uv` = ".$id_uv);
     return $sql->lines;
   }
-
+}
 ?>
