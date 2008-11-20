@@ -79,10 +79,20 @@ class cursus extends stdentity
   public function update($intitule=null, $type=null, $description=null, $responsable=null, $nb_some_of=null, $nb_all_of=null){
   }
   
+  /**
+   * Ajout d'une UV au cursus
+   * @param $id_uv UV a ajouter
+   * @param $relation (SOME_OF|ALL_OF)
+   */
   public function add_uv($id_uv, $relation){
+    if(uv::exists($this->db, $id_uv))
+      $sql = new insert($this->dbrw, "pedag_uv_cursus", array("id_uv" => $id_uv, "id_cursus" => $this->id, "relation" => $relation));
+    return $sql->is_success();
   }
   
   public function remove_uv($id_uv){
+    $sql = new delete($this->dbrw, "pedag_uv_cursus", array("id_uv" => $id_uv, "id_cursus" => $this->id));
+    return $sql->is_success();
   }
   
   /* le mot `diplomed` sera proposé a l'academie amglaise l'an prochain si vous etes sages */

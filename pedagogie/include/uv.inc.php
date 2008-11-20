@@ -485,13 +485,13 @@ class uv extends stdentity
    * @param $id_uv UV entrée par l'utilisateur et que l'on controle
    * @return l'id de l'UV conseillée s'il y en a une, false sinon
    */
-  public static function find_proper_uv($db, $id_utl, $id_uv){
+  public static function find_proper_uv(&$db, $id_utl, $id_uv){
   }
   
   /**
    * Recuperation en static d'un code d UV a partir d un id
    */
-  public static function get_code($db, $id_uv){
+  public static function get_code(&$db, $id_uv){
     $sql = new requete($db, "SELECT `code` FROM `pedag_uv` WHERE `id_uv` = ".$id_uv);
     if($sql->is_success()){
       $row = $sql->get_row;
@@ -499,8 +499,14 @@ class uv extends stdentity
     }else
       return false;
     
-  }  
+  }
   
+  /**
+   * teste l'existence d'une UV dans la base d apres son id
+   */
+  public static function exists(&$db, $id_uv){
+    $sql = new requete($db, "SELECT 1 FROM `pedag_uv` WHERE `id_uv` = ".$id_uv);
+    return $sql->lines;
 }
 
 ?>
