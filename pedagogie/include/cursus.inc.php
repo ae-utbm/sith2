@@ -77,6 +77,18 @@ class cursus extends stdentity
   }
   
   public function update($intitule=null, $type=null, $description=null, $responsable=null, $nb_some_of=null, $nb_all_of=null){
+    if(func_num_args() < 1) return false;
+
+    $data = array();
+    if($) $data["type"] => $type;
+    if($) $data["intitule"] => mysql_real_escape_string($intitule);
+    if($) $data["description"] => mysql_real_escape_string($description);
+    if($) $data["responsable"] => mysql_real_escape_string($responsable);
+    if($) $data["nb_some_of"] => intval($nb_some_of);
+    if($) $data["nb_all_of"] => intval($nb_all_of);
+    
+    $sql = new update($this->dbrw, "pedag_resultat", array("id_cursus" => $this->id), $data);
+    return $sql->is_success();
   }
   
   /**

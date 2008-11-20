@@ -498,7 +498,6 @@ class uv extends stdentity
       return $row['code'];
     }else
       return false;
-    
   }
   
   /**
@@ -507,7 +506,7 @@ class uv extends stdentity
   public static function exists(&$db, $id_uv){
     $sql = new requete($db, "SELECT 1 FROM `pedag_uv` WHERE `id_uv` = ".$id_uv);
     return $sql->lines;
-}
+  }
 
 ?>
 

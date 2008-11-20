@@ -121,6 +121,9 @@ class uv_comment extends stdentity
   public function add($id_uv, $id_utilisateur,
                       $note_generale, $note_utilite, $note_interet, $note_enseignement, $note_travail,
                       $content){
+    if(!uv::exists($this->db, $id_uv)) 
+      throw new Exception("Invalid UV id ".$id_uv);
+
     $data = array("id_uv" => intval($id_uv), 
                   "id_utilisateur" => intval($id_utilisateur),
                   "note_generale" => intval($note_generale),
@@ -138,11 +141,13 @@ class uv_comment extends stdentity
       return false;
   }
 
-  public function update($id_uv=null, $id_utilisateur,
-                      $note_generale, $note_utilite, $note_interet, $note_enseignement, $note_travail,
-                      $content){
+  public function update($id_uv=null, $id_utilisateur=null,
+                      $note_generale=null, $note_utilite=null, $note_interet=null, $note_enseignement=null, $note_travail=null,
+                      $content=null){
+    if(func_num_args() < 1) return false;
+
     $data = array();
-    if($id_uv)          $data["id_uv"] => intval($id_uv)
+    if($id_uv)          $data["id_uv"] => intval($id_uv);
     if($id_utilisateur) $data["id_utilisateur"] => intval($id_utilisateur);
     if($note_generale)  $data["note_generale"] => intval($note_generale);
     if($note_utilite)   $data["note_utilite"] => intval($note_utilite);
@@ -151,7 +156,7 @@ class uv_comment extends stdentity
     if($note_travail)   $data["note_travail"] => intval($note_travail);
     if($content)        $data["content"] => mysql_real_escape_string($content);
     
-    $sql = new update();
+    $sql = new update($this->dbrw, "pedag_uv_commentaire", array("id_commentaire" => $this->id), $data);
     return $sql->is_success();
   }
 
