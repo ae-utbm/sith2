@@ -185,8 +185,7 @@ class uv extends stdentity
     if(!check_uv_format($code))
       throw new Exception("Wrong format \$code ".$code);
     /* verification qu elle n existe pas deja, avec le code */
-    $sql = new requete($this-db, "SELECT 1 FROM `pedag_uv` WHERE `code` = '".$code."'");
-    if($sql->lines != 0)
+    if(uv::exists($code))
       throw new Exception("UV code already used in database");
       
     $sql = new insert($this->dbrw, "pedag_uv", 
@@ -502,10 +501,13 @@ class uv extends stdentity
   }
   
   /**
-   * teste l'existence d'une UV dans la base d apres son id
+   * teste l'existence d'une UV dans la base d apres son id ou son code
    */
-  public static function exists(&$db, $id_uv){
-    $sql = new requete($db, "SELECT 1 FROM `pedag_uv` WHERE `id_uv` = ".$id_uv);
+  public static function exists(&$db, $uv){
+    if(check_uv_format($uv))
+      $sql = new requete($db, "SELECT 1 FROM `pedag_uv` WHERE `code_uv` = ".$uv);
+    else
+      $sql = new requete($db, "SELECT 1 FROM `pedag_uv` WHERE `id_uv` = ".$uv);  
     return $sql->lines;
   }
 }
