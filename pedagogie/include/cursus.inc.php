@@ -35,6 +35,7 @@ class cursus extends stdentity
   var $type;
   var $description;
   var $responsable;
+  var $departement;
   var $nb_all_of;
   var $nb_some_of;
   var $uv_all_of=array();
@@ -49,6 +50,11 @@ class cursus extends stdentity
   }
   
   public function _load($row){
+    foreach($row as $att => $val)
+      if(property_exists($this, $att))
+        $this->{$att} = $val;
+    $this->id = $row['id_cursus'];
+    return $this->id;
   }
   
   public function add($intitule, $type, $description, $responsable, $nb_some_of, $nb_all_of, $departement=null){

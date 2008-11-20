@@ -93,14 +93,14 @@ class uv_comment extends stdentity
   var $date;
   var $valid;
   /**
-   * eval est une evaluation du commentaire
+   * eval_comment est une evaluation du commentaire
    * il ne s'agit pas de trier par nombres de votes des commentaires
    * mais de mettre en exergue des remarques jugée "au dessus du lot"
    * donc on propose un système de +/- mais sans afficher de note
    * mais si un ou deux commentaires ont des notes particulièrement
    * élevées, on les détache et on les met en avant.
    */
-  var $eval;
+  var $eval_comment;
   
   public function load_by_id($id){
     $sql = new requete($this->db, "SELECT * FROM `pedag_uv_commentaire` WHERE `id_commentaire` = ".$id." LIMIT 1");
@@ -111,7 +111,11 @@ class uv_comment extends stdentity
   }
 
   public function _load($row){
-    
+    foreach($row as $att => $val)
+      if(property_exists($this, $att))
+        $this->{$att} = $val;
+    $this->id = $row['id_commentaire'];
+    return $this->id;
   }
 
   public function add($id_uv, $id_utilisateur,

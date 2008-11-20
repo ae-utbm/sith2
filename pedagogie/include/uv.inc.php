@@ -88,7 +88,7 @@ class uv extends stdentity
     if(!check_semester_format($code))
       return false;
 
-    $sql = new requete($this->db, "SELECT `id_uv`, `code`, `intitule`,
+    $sql = new requete($this->db, "SELECT `id_uv` as `id`, `code`, `intitule`,
                                     `semestre`, `state`, `tc_available`,
                                     `guide_credits`
                                     FROM `pedag_uv`
@@ -104,12 +104,10 @@ class uv extends stdentity
 
   /* chargement effectif infos basiques */
   public function _load($row){
-    $this->id = $row['id_uv'];
-    $this->code = $row['code'];
-    $this->intitule = $row['intitule'];
-    $this->semestre = $row['semestre'];
-    $this->state = $row['state'];
-    $this->tc_available = $row['tc_available'];
+    foreach($row as $att => $val)
+      if(property_exists($this, $att))
+        $this->{$att} = $val;
+    return $this->id;
   }
 
   /**
