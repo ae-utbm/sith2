@@ -66,7 +66,7 @@ class cursus extends stdentity
                   "nb_all_of" => intval($nb_all_of);
     if($departement) $data["departement"] = $departement;
     
-    $sql = new insert($this->db, "pedag_cursus", $data);
+    $sql = new insert($this->dbrw, "pedag_cursus", $data);
     if($sql->is_success())
       return $sql->get_id();
     else 

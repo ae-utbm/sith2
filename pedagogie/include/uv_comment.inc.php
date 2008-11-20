@@ -121,9 +121,38 @@ class uv_comment extends stdentity
   public function add($id_uv, $id_utilisateur,
                       $note_generale, $note_utilite, $note_interet, $note_enseignement, $note_travail,
                       $content){
+    $data = array("id_uv" => intval($id_uv), 
+                  "id_utilisateur" => intval($id_utilisateur),
+                  "note_generale" => intval($note_generale),
+                  "note_utilite" => intval($note_utilite),
+                  "note_interet" => intval($note_interet),
+                  "note_enseignement" => intval($note_enseignement),
+                  "note_travail" => intval($note_travail),
+                  "content" => mysql_real_escape_string($content));
+
+    $sql = new insert($this->dbrw, "pedag_uv_commentaire", $data);
+
+    if($sql->is_success())
+      return $sql->get_id();
+    else 
+      return false;
   }
 
-  public function update(){
+  public function update($id_uv=null, $id_utilisateur,
+                      $note_generale, $note_utilite, $note_interet, $note_enseignement, $note_travail,
+                      $content){
+    $data = array();
+    if($id_uv)          $data["id_uv"] => intval($id_uv)
+    if($id_utilisateur) $data["id_utilisateur"] => intval($id_utilisateur);
+    if($note_generale)  $data["note_generale"] => intval($note_generale);
+    if($note_utilite)   $data["note_utilite"] => intval($note_utilite);
+    if($note_interet)   $data["note_interet" => intval($note_interet);
+    if($note_enseignement)  $data["note_enseignement"] => intval($note_enseignement);
+    if($note_travail)   $data["note_travail"] => intval($note_travail);
+    if($content)        $data["content"] => mysql_real_escape_string($content);
+    
+    $sql = new update();
+    return $sql->is_success();
   }
 
   public function remove(){
