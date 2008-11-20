@@ -12,6 +12,9 @@ require_once("include/cursus.inc.php");
 require_once("include/pedag_user.inc.php");
 require_once("include/edt.inc.php");
 
+/* ancien systeme */
+//require_once($topdir."include/entities/uv.inc.php");
+
 $site = new site();
 
   

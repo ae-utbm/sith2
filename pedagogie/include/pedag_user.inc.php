@@ -67,7 +67,7 @@ class pedag_user extends utilisateur{
   public function update_uv_result($id_result=null, $id_uv=null, $semestre=null, $result=null){
     if(!check_semester_format($semestre))
       throw new Exception("Wrong format \$semestre ".$semestre);
-    $data = array()
+    $data = array();
     if($id_uv)  $data['id_uv'] = $id_uv;
     if($semestre)  $data['semestre'] = $semestre;
     if($result)  $data['note'] = $result;

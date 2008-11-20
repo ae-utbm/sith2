@@ -63,7 +63,7 @@ class cursus extends stdentity
                   "description" => mysql_real_escape_string($description),
                   "responsable" => mysql_real_escape_string($responsable),
                   "nb_some_of" => intval($nb_some_of),
-                  "nb_all_of" => intval($nb_all_of);
+                  "nb_all_of" => intval($nb_all_of));
     if($departement) $data["departement"] = $departement;
     
     $sql = new insert($this->dbrw, "pedag_cursus", $data);
@@ -80,12 +80,12 @@ class cursus extends stdentity
     if(func_num_args() < 1) return false;
 
     $data = array();
-    if($) $data["type"] => $type;
-    if($) $data["intitule"] => mysql_real_escape_string($intitule);
-    if($) $data["description"] => mysql_real_escape_string($description);
-    if($) $data["responsable"] => mysql_real_escape_string($responsable);
-    if($) $data["nb_some_of"] => intval($nb_some_of);
-    if($) $data["nb_all_of"] => intval($nb_all_of);
+    if($type) $data["type"] = $type;
+    if($intitule) $data["intitule"] = mysql_real_escape_string($intitule);
+    if($description) $data["description"] = mysql_real_escape_string($description);
+    if($responsable) $data["responsable"] = mysql_real_escape_string($responsable);
+    if($nb_some_of) $data["nb_some_of"] = intval($nb_some_of);
+    if($nb_all_of) $data["nb_all_of"] = intval($nb_all_of);
     
     $sql = new update($this->dbrw, "pedag_resultat", array("id_cursus" => $this->id), $data);
     return $sql->is_success();

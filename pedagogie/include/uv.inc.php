@@ -30,6 +30,7 @@
  * @author Manuel Vonthron
  * @author Pierre Mauduit
  */
+
 class uv extends stdentity
 {
   /* basic infos */
@@ -509,4 +510,3 @@ class uv extends stdentity
   }
 
 ?>
-
