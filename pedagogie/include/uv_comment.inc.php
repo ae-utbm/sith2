@@ -103,9 +103,15 @@ class uv_comment extends stdentity
   var $eval;
   
   public function load_by_id($id){
+    $sql = new requete($this->db, "SELECT * FROM `pedag_uv_commentaire` WHERE `id_commentaire` = ".$id." LIMIT 1");
+    if($sql->is_success())
+      return $this->_load($sql->get_row());
+    else
+      return false;
   }
 
   public function _load($row){
+    
   }
 
   public function add($id_uv, $id_utilisateur,
@@ -117,9 +123,31 @@ class uv_comment extends stdentity
   }
 
   public function remove(){
+    $sql = new delete($this->dbrw, "pedag_uv_commentaire", );
+    return $sql->is_success();
   }
 
-  public function set_valid($value=1){
+  public function set_valid($val=1){
+    if($val != 0 && $val != 1)
+      return false;
+    $sql = new update($this->dbrw, "pedag_resultat", 
+                      array("id_commentaire" => $this->id),
+                      array("valid" => $val));
+    return $sql->is_success();
+  }
+  
+  /**
+   * Alias de la fonction update
+   * destinee a deplacer un commentaire vers une autre UV notamment
+   * si qqun a mis a une UV type XE03 alors qu'on souhaite les regrouper 
+   * dans LE03
+   */
+  public function move($id_new_uv){
+    return $this->update($id_new_uv);
+  }
+  
+  public function is_valid(){
+    return $this->valid;
   }
 }
 

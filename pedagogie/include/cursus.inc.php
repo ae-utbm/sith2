@@ -42,10 +42,9 @@ class cursus extends stdentity
   
   public function load_by_id($id){
     $sql = new requete($this->db, "SELECT * FROM `pedag_cursus` WHERE `id_cursus` = ".$id." LIMIT 1");
-    if($sql->is_success()){
-      $row = $sql->get_row();
-      $this->_load($row);
-    }else
+    if($sql->is_success())
+      return $this->_load($sql->get_row());
+    else
       return false;
   }
   
