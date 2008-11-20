@@ -73,7 +73,15 @@ class cursus extends stdentity
       return false;
   }
   
-  public function remove(){
+  /**
+   * finalement on authorise pas la suppression 
+   * mais on passe un flag 'closed' a true
+   */
+  public function set_closed(boolean $var=true){
+    $sql = new update($this->dbrw, "pedag_cursus", 
+                      array("id_cursus" => $this->id),
+                      array("closed" => $val));
+    return $sql->is_success();
   }
   
   public function update($intitule=null, $type=null, $description=null, $responsable=null, $nb_some_of=null, $nb_all_of=null){
