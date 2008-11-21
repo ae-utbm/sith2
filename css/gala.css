@@ -81,7 +81,7 @@ div#id_utilisateur_static
   background-color:#cccccc;
   color:#ffffff;
 }
-.button
+div.button, div#id_utilisateur_button
 {
   background-color:#cccccc;
   color:#ffffff;
