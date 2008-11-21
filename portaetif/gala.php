@@ -74,7 +74,7 @@ if ( $_REQUEST["action"] == "getpass" )
   else
     $Erreur = "Une erreur a été détectée, êtes-vous sûr d'avoir bien rempli le champ avec votre nom ?";
 }
-elseif( $_REQUEST["action"] == "getnbpass" )
+elseif( $_REQUEST["action"] == "getnbpass" && isset($_REQUEST["nb_places"]) && $_REQUEST["nb_places"]>0)
 {
   $user = new utilisateur($site->db,$site->dbrw);
   $user->load_by_id($_REQUEST["id_utilisateur"]);
@@ -87,10 +87,16 @@ elseif( $_REQUEST["action"] == "getnbpass" )
       $Erreur = "Aucune place en stock pour vous.";
     else
       list($nb)=$req->get_row();
-    if($nb>0)
+    if($nb>0 && $n>=$_REQUEST["nb_places"])
     {
-      $cts=new contents("Bienvenue au gala de prestige 2008 de l'UTBM");
-      $cts->add_paragraph("Il vous reste $nb places");
+      $cts=new contents("Le gala souhaite la bienvenue à :");
+      $cts->add_paragraph('<div class="welcomeuh">'.$user->get_display_name().'</div>');
+      $nb=$nb-$_REQUEST["nb_places"];
+      new update($this->dbrw,
+                 'zzz_places_gala',
+                 array('quantite'=>$nb),
+                 array('id_utilisateur'=>$user->id);
+      $cts->add_paragraph("Il vous reste $nb places à retirer.");
       $site->add_contents($cts);
       $site->end_page();
       exit();
