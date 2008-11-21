@@ -27,6 +27,7 @@
 *, .contents, .page, .article, h2, #cts1
 {
   background-color:#000000;
+  border:0;
 }
 .tabsv2, #logo, #fsearchbox, #site, #fsearchres, #fend, #emptysectionlinks, .emptysectionlinks
 {
