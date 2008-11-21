@@ -30,6 +30,9 @@ $site = new site ();
 
 if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_in_group ("portaetif"))
   $site->error_forbidden();
+
+$site->start_page("gala","Gala 2008");
+
 $site->add_css("css/gala.css");
 $site->set_side_boxes("left",array());
 $site->set_side_boxes("right",array());
@@ -40,11 +43,18 @@ if ( $_REQUEST["action"] == "getpass" )
   $user->load_by_id($_REQUEST["id_utilisateur"]);
   if ( $user->id > 0 )
   {
-    $sql = 'SELECT * FROM zzz_places_gala WHERE id_utilisateur='.$user->id;
+    $sql = 'SELECT quantite FROM zzz_places_gala WHERE id_utilisateur='.$user->id;
     $req = new requete($site->db,$sql);
     if ( $req->lines>0 )
     {
-      
+      $nb=0;
+      while(list($n)$req->get_row())
+        $nb+=$n;
+      $cts=new content("Bienvenue au gala de prestige 2008 de l'UTBM");
+      $cts->add_paragraph("Il vous reste $nb places à retirer, combien voulez vous en retirer maintenant ?");
+      $site->add_contents($cts);
+      $site->end_page();
+      exit();
     }
     else
       $Erreur = "Aucune place en stock pour vous.";
