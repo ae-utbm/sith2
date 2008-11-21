@@ -54,7 +54,7 @@ if ( $_REQUEST["action"] == "getpass" )
 
 $cts = new contents("");
 $frm = new form("getpass","gala.php",true,"POST","Gala");
-$frm->add_hidden("action","search");
+$frm->add_hidden("action","getpass");
 if ( $Erreur ) $frm->error($Erreur);
 $frm->add_user_fieldv2("id_utilisateur","");
 $frm->add_submit("get","Retirer des places");
