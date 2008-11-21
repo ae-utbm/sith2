@@ -97,6 +97,13 @@ elseif( $_REQUEST["action"] == "getnbpass" && isset($_REQUEST["nb_places"]) && $
                  array('quantite'=>$nb),
                  array('id_utilisateur'=>$user->id));
       $cts->add_paragraph("Il vous reste $nb places à retirer.");
+      $cts->puts('<script type="text/javascript">
+function delayer(){
+    window.location = "gala.php"
+}
+setTimeout(\'delayer()\', 5000);
+</script>
+');
       $site->add_contents($cts);
       $site->end_page();
       exit();
