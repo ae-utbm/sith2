@@ -87,7 +87,7 @@ elseif( $_REQUEST["action"] == "getnbpass" && isset($_REQUEST["nb_places"]) && $
       $Erreur = "Aucune place en stock pour vous.";
     else
       list($nb)=$req->get_row();
-    if($nb>0 && $n>=$_REQUEST["nb_places"])
+    if($nb>0 && $nb>=$_REQUEST["nb_places"])
     {
       $cts=new contents("Le gala souhaite la bienvenue à :");
       $cts->add_paragraph('<div class="welcomeuh">'.$user->get_display_name().'</div>');
@@ -101,6 +101,7 @@ elseif( $_REQUEST["action"] == "getnbpass" && isset($_REQUEST["nb_places"]) && $
       $site->end_page();
       exit();
     }
+    $Erreur = "Une erreur est survenue :/ please, try again.";
   }
   else
     $Erreur = "Une erreur est survenue :/ please, try again.";
