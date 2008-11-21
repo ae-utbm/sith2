@@ -30,7 +30,7 @@ $site = new site ();
 
 if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_in_group ("portaetif"))
   $site->error_forbidden();
-
+$site->add_css("css/gala.css");
 $site->set_side_boxes("left",array());
 $site->set_side_boxes("right",array());
 
