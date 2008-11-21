@@ -30,7 +30,7 @@ body, .contents, .page, .article, #cts1, #site, .clearfix, #n
   border:0;
   color:#ffffff;
 }
-.tabsv2, #logo, #fsearchbox, #site, #fsearchres, #fend, #emptysectionlinks, .emptysectionlinks, h2, .text-footer
+.tabsv2, .article, #logo, #fsearchbox, #site, #fsearchres, #fend, #emptysectionlinks, .emptysectionlinks, h2, .text-footer
 {
   display:none;
 }
@@ -44,7 +44,7 @@ body, .contents, .page, .article, #cts1, #site, .clearfix, #n
   margin-top: 20px;
   width: 800px;  
 }
-#site
+div.page
 {
   margin-top: 20px;
 }
