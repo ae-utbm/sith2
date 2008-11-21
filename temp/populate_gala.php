@@ -6,7 +6,7 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site ();
 
-//new requete($site->dbrw,"TRUNCATE TABLE places_gala");
+new requete($site->dbrw,"TRUNCATE TABLE zzz_places_gala");
 
 $sql = 'SELECT id_utilisateur, id_produit, quantite
 FROM `cpt_vendu`
@@ -34,6 +34,14 @@ while(list($id,$prod,$q)=$req->get_row())
     $cmd[$id]=array($prod=>$q);
 }
 
-print_r($cmd);
+foreach($cmd as $id => $prods)
+{
+  foreach($prods as $prod => $q)
+    new insert($site->dbrw,
+               'zzz_places_gala',
+               array('id_utilisateur'=>$id,
+                     'id_produit'=>$prod,
+                     'quantite'=>$q));
+}
 
 ?>
