@@ -54,12 +54,14 @@ if ( $_REQUEST["action"] == "getpass" )
 
 $cts = new contents("Bienvenue au gala de prestige 2008 de l'UTBM");
 $frm = new form("getpass","gala.php",true,"POST","Gala");
+$frm->add_info("Bienvenue au Gala de Prestige 2008 de l'UTBM");
+$frm->add_info("Veuillez entrer votre nom ci-dessous pour pouvoir retirer votre place :");
 $frm->add_hidden("action","getpass");
 if ( $Erreur ) $frm->error($Erreur);
 $frm->add_user_fieldv2("id_utilisateur","");
 $frm->add_submit("get","Retirer des places");
 $cts->add($frm,true);
-$cts->puts("<script type='text/javascript'>userselect_toggle('id_utilisateur');</script>")
+$cts->puts("<script type='text/javascript'>userselect_toggle('id_utilisateur');</script>");
 
 /* c'est tout */
 $site->add_contents($cts);
