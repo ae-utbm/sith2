@@ -49,7 +49,7 @@ if ( $_REQUEST["action"] == "getpass" )
     else*/
       $Erreur = "Aucune place en stock pour vous.";
   }
-  $Erreur = "Try again please :/";
+  $Erreur = "Une erreur a été détectée, êtes-vous sûr d'avoir bien rempli le champ avec votre nom ?";
 }
 
 $cts = new contents("Bienvenue au gala de prestige 2008 de l'UTBM");
