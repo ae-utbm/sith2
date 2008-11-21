@@ -24,7 +24,7 @@
  * 02111-1307, USA.
  */
 
-*, .contents, .page, .article, #cts1
+*, .contents, .page, .article, #cts1, .site
 {
   background-color:#000000;
   border:0;
