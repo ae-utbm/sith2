@@ -54,7 +54,6 @@ if ( $_REQUEST["action"] == "getpass" )
     {
       $cts=new contents("Bienvenue au gala de prestige 2008 de l'UTBM");
       $cts->add_paragraph("Il vous reste $nb places à retirer, combien voulez vous en retirer maintenant ?");
-      $site->add_contents($cts);
 
       $frm = new form("getnbpass","gala.php",true,"POST","");
       $frm->add_hidden("action","getnbpass");
@@ -93,6 +92,7 @@ elseif( $_REQUEST["action"] == "getnbpass" )
       $cts=new contents("Bienvenue au gala de prestige 2008 de l'UTBM");
       $cts->add_paragraph("Il vous reste $nb places");
       $site->add_contents($cts);
+      exit();
     }
   }
   else
