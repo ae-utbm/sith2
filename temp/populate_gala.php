@@ -33,6 +33,6 @@ foreach($cmd as $id => $nb)
   new insert($site->dbrw,
               'zzz_places_gala',
               array('id_utilisateur'=>$id,
-                    'quantite'=>$q));
+                    'quantite'=>$nb));
 
 ?>
