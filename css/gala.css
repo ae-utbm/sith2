@@ -24,13 +24,13 @@
  * 02111-1307, USA.
  */
 
-body, .contents, .page, .article, #cts1, #site, .clearfix, #n
+body, .article, .contents, .page, .article, #cts1, #site, .clearfix, #n
 {
   background-color:#000000;
   border:0;
   color:#ffffff;
 }
-.tabsv2, .article, #logo, #fsearchbox, #site, #fsearchres, #fend, #emptysectionlinks, .emptysectionlinks, h2, .text-footer
+.tabsv2, #logo, #fsearchbox, #site, #fsearchres, #fend, #emptysectionlinks, .emptysectionlinks, h2, .text-footer
 {
   display:none;
 }
