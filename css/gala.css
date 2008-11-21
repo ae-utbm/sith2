@@ -61,3 +61,12 @@ ul, li {
   text-align:center;
 }
 
+.formrow
+{
+  margin-bottom:10px;
+}
+
+input.text {
+background-color:#cccccc;
+color:#ffffff;
+}
