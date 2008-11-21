@@ -41,12 +41,12 @@ if ( $_REQUEST["action"] == "getpass" )
   if ( $user->id > 0 )
   {
     $sql = 'SELECT * FROM places_gala WHERE id_utilisateur='.$user->id;
-    $req = new requete($site->db,$sql);
+/*    $req = new requete($site->db,$sql);
     if ( $req->lines>0 )
     {
       
     }
-    else
+    else*/
       $Erreur = "Aucune place en stock pour vous.";
   }
   $Erreur = "Try again please :/";
