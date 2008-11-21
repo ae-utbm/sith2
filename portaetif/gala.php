@@ -52,14 +52,14 @@ if ( $_REQUEST["action"] == "getpass" )
   $Erreur = "Try again please :/";
 }
 
-$cts = new contents("");
+$cts = new contents("Bienvenue au gala de prestige 2008 de l'UTBM");
 $frm = new form("getpass","gala.php",true,"POST","Gala");
 $frm->add_hidden("action","getpass");
 if ( $Erreur ) $frm->error($Erreur);
 $frm->add_user_fieldv2("id_utilisateur","");
 $frm->add_submit("get","Retirer des places");
 $cts->add($frm,true);
-
+$cts->puts("<script type='text/javascript'>userselect_toggle('id_utilisateur');</script>")
 
 /* c'est tout */
 $site->add_contents($cts);
