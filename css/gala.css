@@ -50,6 +50,7 @@
   font-size:80%;
 }
 
-ul {
-  background-color: #ffffff;
+ul, li {
+  background-color: #ffffff !important;
+  color: #000000;
 }
