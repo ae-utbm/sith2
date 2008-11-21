@@ -29,9 +29,11 @@ $site = new site ();
 if (!$site->user->is_in_group ("gestion_ae") && !$site->user->is_in_group ("portaetif"))
   $site->error_forbidden();
 
+$this->set_side_boxes("left",array());
+$this->set_side_boxes("right",array());
 $cts = new contents("Portaetif");
 $cts->add_paragraph("<a href=\"parrainages.php\">parrainages</a>");
-$cts->add_paragraph("<a href=\"prets.php\">click la tente</a>");
+$cts->add_paragraph("<a href=\"gala.php\">gala</a>");
 
 $site->add_contents($cts);
 $site->end_page();
