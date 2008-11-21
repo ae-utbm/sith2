@@ -92,6 +92,7 @@ elseif( $_REQUEST["action"] == "getnbpass" )
       $cts=new contents("Bienvenue au gala de prestige 2008 de l'UTBM");
       $cts->add_paragraph("Il vous reste $nb places");
       $site->add_contents($cts);
+      $site->end_page();
       exit();
     }
   }
