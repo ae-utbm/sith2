@@ -66,12 +66,18 @@ ul, li {
   margin-bottom:10px;
 }
 
-input[type=text] {
-background-color:#cccccc;
-color:#ffffff;
+input[type=text]
+{
+  background-color:#cccccc;
+  color:#ffffff;
 }
 div#id_utilisateur_static
 {
+  border: 1px #364970 solid;
+  padding: 1px;
+  margin-left: 2px;
+  margin-right: 2px;
+  margin-bottom: 3px;
   background-color:#cccccc;
   color:#ffffff;
 }
