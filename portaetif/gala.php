@@ -50,7 +50,7 @@ if ( $_REQUEST["action"] == "getpass" )
       $nb=0;
       while(list($n)=$req->get_row())
         $nb+=$n;
-      $cts=new content("Bienvenue au gala de prestige 2008 de l'UTBM");
+      $cts=new contents("Bienvenue au gala de prestige 2008 de l'UTBM");
       $cts->add_paragraph("Il vous reste $nb places à retirer, combien voulez vous en retirer maintenant ?");
       $site->add_contents($cts);
       $site->end_page();
