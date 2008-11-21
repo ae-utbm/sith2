@@ -95,7 +95,7 @@ elseif( $_REQUEST["action"] == "getnbpass" && isset($_REQUEST["nb_places"]) && $
       new update($this->dbrw,
                  'zzz_places_gala',
                  array('quantite'=>$nb),
-                 array('id_utilisateur'=>$user->id);
+                 array('id_utilisateur'=>$user->id));
       $cts->add_paragraph("Il vous reste $nb places à retirer.");
       $site->add_contents($cts);
       $site->end_page();
