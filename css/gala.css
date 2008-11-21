@@ -28,11 +28,7 @@
 {
   background-color:#000000;
 }
-.tabsv2
-{
-  display:none;
-}
-#fsearchbox
+.tabsv2, #logo, #fsearchbox, #site, #fsearchres, #fend, #emptysectionlinks
 {
   display:none;
 }
