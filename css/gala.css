@@ -44,7 +44,10 @@ body, .contents, .page, .article, #cts1, .site, .clearfix, #n
   margin-top: 20px;
   width: 800px;  
 }
-
+.page
+{
+  margin-top: 20px;
+}
 .button {
   color: #666666;
   font-size:80%;
