@@ -63,8 +63,6 @@ $frm->add_submit("get","Retirer des places");
 $cts->add($frm,true);
 $cts->puts("<script type='text/javascript'>
               userselect_toggle('id_utilisateur');
-              document.getElementById('id_utilisateur_currentuser').style.display = 'none';
-              document.getElementById('id_utilisateur_result').style.display = 'none';
             </script>");
 
 /* c'est tout */
