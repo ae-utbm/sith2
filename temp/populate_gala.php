@@ -24,24 +24,15 @@ $cmd=array();
 while(list($id,$prod,$q)=$req->get_row())
 {
   if(isset($cmd[$id]))
-  {
-    if(isset($cmd[$id][$prod]))
-      $cmd[$id][$prod]+=$q;
-    else
-      $cmd[$id][$prod]=$q;
-  }
+    $cmd[$id]+=$q;
   else
-    $cmd[$id]=array($prod=>$q);
+    $cmd[$id]=>$q;
 }
 
-foreach($cmd as $id => $prods)
-{
-  foreach($prods as $prod => $q)
-    new insert($site->dbrw,
-               'zzz_places_gala',
-               array('id_utilisateur'=>$id,
-                     'id_produit'=>$prod,
-                     'quantite'=>$q));
-}
+foreach($cmd as $id => $nb)
+  new insert($site->dbrw,
+              'zzz_places_gala',
+              array('id_utilisateur'=>$id,
+                    'quantite'=>$q));
 
 ?>
