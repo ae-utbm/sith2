@@ -47,9 +47,9 @@ if ( $_REQUEST["action"] == "getpass" )
       
     }
     else
-      $ErreurParrain = "Aucune place en stock pour vous.";
+      $Erreur = "Aucune place en stock pour vous.";
   }
-  $ErreurParrain = "Try again please :/";
+  $Erreur = "Try again please :/";
 }
 
 $cts = new contents("");
