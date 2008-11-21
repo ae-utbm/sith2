@@ -92,7 +92,7 @@ elseif( $_REQUEST["action"] == "getnbpass" && isset($_REQUEST["nb_places"]) && $
       $cts=new contents("Le gala souhaite la bienvenue à :");
       $cts->add_paragraph('<div class="welcomeuh">'.$user->get_display_name().'</div>');
       $nb=$nb-$_REQUEST["nb_places"];
-      new update($this->dbrw,
+      new update($site->dbrw,
                  'zzz_places_gala',
                  array('quantite'=>$nb),
                  array('id_utilisateur'=>$user->id));
