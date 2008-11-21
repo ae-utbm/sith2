@@ -84,7 +84,7 @@ elseif( $_REQUEST["action"] == "getnbpass" && isset($_REQUEST["nb_places"]) && $
     $nb=0;
     $req = new requete($site->db,$sql);
     if ( $req->lines<1 )
-      $Erreur = "Aucune place en stock pour vous.";
+      $Erreur = "Aucune place ne semble réservée à votre nom.";
     else
       list($nb)=$req->get_row();
     if($nb>0 && $nb>=$_REQUEST["nb_places"])
