@@ -124,10 +124,10 @@ if ( $Erreur ) $frm->error($Erreur);
 $frm->add_user_fieldv2("id_utilisateur","");
 $frm->add_submit("get","Retirer des places");
 $cts->add($frm,true);
-$cts->puts("<script type='text/javascript'>
+/*$cts->puts("<script type='text/javascript'>
               userselect_toggle('id_utilisateur');
             </script>");
-
+*/
 /* c'est tout */
 $site->add_contents($cts);
 
