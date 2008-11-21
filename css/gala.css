@@ -40,5 +40,7 @@
 }
 
 .contents {
-  margin: 0px auto;
+  margin: 0px auto; !important
+  margin-top: 20px;
+  width: 800px;  
 }
