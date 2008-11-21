@@ -88,3 +88,8 @@ div.button, div#id_utilisateur_button
   background-color:#cccccc;
   color:#ffffff;
 }
+
+h1
+{
+  font-size:30px;
+}
