@@ -53,6 +53,16 @@ if ( $_REQUEST["action"] == "getpass" )
       $cts=new contents("Bienvenue au gala de prestige 2008 de l'UTBM");
       $cts->add_paragraph("Il vous reste $nb places à retirer, combien voulez vous en retirer maintenant ?");
       $site->add_contents($cts);
+
+      $frm = new form("getnbpass","gala.php",true,"POST","");
+      $frm->add_hidden("action","getnbpass");
+      $frm->add_hidden("id_utilisateur",$user->id);
+      $vals=array();
+      for($i=0;$i<$nb+1;$i++)
+        $vals[$i]=$i;
+      $frm->add_select_field('nb_places','Nombre de places',$vals);
+      $frm->add_submit("get","Retirer des places");
+      $cts->add($frm,true);
       $site->end_page();
       exit();
     }
