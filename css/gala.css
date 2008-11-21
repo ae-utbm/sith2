@@ -30,7 +30,7 @@
   border:0;
   color:#ffffff;
 }
-.tabsv2, #logo, #fsearchbox, #site, #fsearchres, #fend, #emptysectionlinks, .emptysectionlinks, h2
+.tabsv2, #logo, #fsearchbox, #site, #fsearchres, #fend, #emptysectionlinks, .emptysectionlinks, h2, .text-footer
 {
   display:none;
 }
