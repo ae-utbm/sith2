@@ -56,7 +56,8 @@ ul, li {
 }
 #welcomeuh
 {
-  float:center;
-  font-size:60px;
+  width:100%;
+  font-size:70px;
+  text-align:center;
 }
 
