@@ -40,16 +40,17 @@ if ( $_REQUEST["action"] == "getpass" )
   $user->load_by_id($_REQUEST["id_utilisateur"]);
   if ( $user->id > 0 )
   {
-    $sql = 'SELECT * FROM places_gala WHERE id_utilisateur='.$user->id;
-/*    $req = new requete($site->db,$sql);
+    $sql = 'SELECT * FROM zzz_places_gala WHERE id_utilisateur='.$user->id;
+    $req = new requete($site->db,$sql);
     if ( $req->lines>0 )
     {
       
     }
-    else*/
+    else
       $Erreur = "Aucune place en stock pour vous.";
   }
-  $Erreur = "Une erreur a été détectée, êtes-vous sûr d'avoir bien rempli le champ avec votre nom ?";
+  else
+    $Erreur = "Une erreur a été détectée, êtes-vous sûr d'avoir bien rempli le champ avec votre nom ?";
 }
 
 $cts = new contents("Bienvenue au gala de prestige 2008 de l'UTBM");
