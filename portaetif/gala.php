@@ -45,11 +45,13 @@ if ( $_REQUEST["action"] == "getpass" )
   {
     $sql = 'SELECT quantite FROM zzz_places_gala WHERE id_utilisateur='.$user->id;
     $req = new requete($site->db,$sql);
-    if ( $req->lines>0 )
+    $nb=0;
+    if ($req->lines<1)
+      $Erreur = "Aucune place en stock pour vous.";
+    else
+      list($nb)=$req->get_row();
+    if ( $nb>0)
     {
-      $nb=0;
-      while(list($n)=$req->get_row())
-        $nb+=$n;
       $cts=new contents("Bienvenue au gala de prestige 2008 de l'UTBM");
       $cts->add_paragraph("Il vous reste $nb places à retirer, combien voulez vous en retirer maintenant ?");
       $site->add_contents($cts);
@@ -63,6 +65,7 @@ if ( $_REQUEST["action"] == "getpass" )
       $frm->add_select_field('nb_places','Nombre de places',$vals);
       $frm->add_submit("get","Retirer des places");
       $cts->add($frm,true);
+      $site->add_contents($cts);
       $site->end_page();
       exit();
     }
@@ -72,6 +75,30 @@ if ( $_REQUEST["action"] == "getpass" )
   else
     $Erreur = "Une erreur a été détectée, êtes-vous sûr d'avoir bien rempli le champ avec votre nom ?";
 }
+elseif( $_REQUEST["action"] == "getnbpass" )
+{
+  $user = new utilisateur($site->db,$site->dbrw);
+  $user->load_by_id($_REQUEST["id_utilisateur"]);
+  if ( $user->id > 0 )
+  {
+    $sql = 'SELECT quantite FROM zzz_places_gala WHERE id_utilisateur='.$user->id;
+    $nb=0;
+    $req = new requete($site->db,$sql);
+    if ( $req->lines<1 )
+      $Erreur = "Aucune place en stock pour vous.";
+    else
+      list($nb)=$req->get_row();
+    if($nb>0)
+    {
+      $cts=new contents("Bienvenue au gala de prestige 2008 de l'UTBM");
+      $cts->add_paragraph("Il vous reste $nb places");
+      $site->add_contents($cts);
+    }
+  }
+  else
+    $Erreur = "Une erreur est survenue :/ please, try again.";
+}
+
 
 $cts = new contents("Bienvenue au gala de prestige 2008 de l'UTBM");
 $frm = new form("getpass","gala.php",true,"POST","Gala");
