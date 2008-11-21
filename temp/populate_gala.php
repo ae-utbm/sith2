@@ -26,7 +26,7 @@ while(list($id,$prod,$q)=$req->get_row())
   if(isset($cmd[$id]))
     $cmd[$id]+=$q;
   else
-    $cmd[$id]=>$q;
+    $cmd[$id]=$q;
 }
 
 foreach($cmd as $id => $nb)
