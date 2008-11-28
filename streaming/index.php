@@ -61,12 +61,6 @@ $congres=array("title"=>"Congres 2008",
               "photo"=>"photo_congres.png",
               "type"=>"La retransmission"
           );
-Richard Stallman, programmeur et activiste du logiciel libre, 
-est le fondateur de la Free Software Fondation. Il est à 
-l’origine du système   d’exploitation GNU et de la licence GPL. GNU est
-un logiciel libre : tout le monde est libre de le
-copier, le redistribuer ainsi que le modifier à sa
-guise;
 
 $stallman=array("title"=>"Le mouvement du Logiciel Libre",
                 "intro"=>"Richard Stallman, programmeur et activiste du logiciel libre, 
