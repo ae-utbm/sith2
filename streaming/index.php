@@ -63,12 +63,7 @@ $congres=array("title"=>"Congres 2008",
           );
 
 $stallman=array("title"=>"Le mouvement du Logiciel Libre",
-                "intro"=>"Richard Stallman, programmeur et activiste du logiciel libre, 
-                          est le fondateur de la Free Software Fondation. Il est à 
-                          l’origine du système   d’exploitation GNU et de la licence GPL. GNU est
-                          un logiciel libre : tout le monde est libre de le
-                          copier, le redistribuer ainsi que le modifier à sa
-                          guise;",
+                "intro"=>"Vendredi 28 novembre 2008 à 18h30, dans le cadre des conférences des jeudis des Humanités, Richard Stallman, programmeur et activiste du logiciel libre, fondateur de la Free Software Fondation, parlera des buts et de la philosophie du mouvement du Logiciel Libre ainsi que de l’histoire du système d’exploitation en combinaison avec le noyau Linux, est aujourd’hui utilisé par plus de 10 millions d’utilisateurs dans le monde.",
                 "date"=>"vendredi 28 Novembre",
                 "h-debut"=>"18h",
                 "h-fin"=>"20h",
