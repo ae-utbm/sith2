@@ -61,7 +61,30 @@ $congres=array("title"=>"Congres 2008",
               "photo"=>"photo_congres.png",
               "type"=>"La retransmission"
           );
+Richard Stallman, programmeur et activiste du logiciel libre, 
+est le fondateur de la Free Software Fondation. Il est à 
+l’origine du système   d’exploitation GNU et de la licence GPL. GNU est
+un logiciel libre : tout le monde est libre de le
+copier, le redistribuer ainsi que le modifier à sa
+guise;
 
+$stallman=array("title"=>"Le mouvement du Logiciel Libre",
+                "intro"=>"Richard Stallman, programmeur et activiste du logiciel libre, 
+                          est le fondateur de la Free Software Fondation. Il est à 
+                          l’origine du système   d’exploitation GNU et de la licence GPL. GNU est
+                          un logiciel libre : tout le monde est libre de le
+                          copier, le redistribuer ainsi que le modifier à sa
+                          guise;",
+                "date"=>"vendredi 28 Novembre",
+                "h-debut"=>"18h",
+                "h-fin"=>"20h",
+                "lieu"=>"à l'UTBM Belfort (amphi A200)",
+                "remerciements"=>"Grâce au travail d'UTBM-Productions pendant la conférence, nous vous offrons en direct les images montées afin de profiter, chez vous, de la conférence. Nous remercions aussi le CRI de l'UTBM ainsi que l'ensemble des bénévoles et partenaires.",
+                "bandeau"=>"bandeau_stallman.png",
+                "photo"=>"photo_stallman.png",
+                "type"=>"La retransmission"
+            );
+          
 $event=$rdd;
 
 $site = new site ();
