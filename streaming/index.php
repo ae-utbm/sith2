@@ -79,7 +79,7 @@ $stallman=array("title"=>"Le mouvement du Logiciel Libre",
                 "type"=>"La retransmission"
             );
           
-$event=$rdd;
+$event=$stallman;
 
 $site = new site ();
 
