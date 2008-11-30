@@ -54,7 +54,7 @@ if(in_array($_REQUEST['site'],array("belfort","sevenans","montbeliard")))
   elseif($_REQUEST['site']=="montbeliard")
     $filter.=' AND `sl_site`.`id_ville`=9137 ';
 }
-if( $_REQUEST["debut"] && $_REQUEST["fin"] && ( $_REQUEST["debut"]  < $_REQUEST["fin"] )
+if( $_REQUEST["debut"] && $_REQUEST["fin"] && ( $_REQUEST["debut"]  < $_REQUEST["fin"] ))
 {
   $filter.= " AND sl_reservation.date_debut_salres >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."' ";
   $filter.= " AND sl_reservation.date_fin_salres <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."' ";
@@ -65,7 +65,7 @@ elseif($_REQUEST['debut'])
 }
 elseif($_REQUEST['fin'])
 {
-  $filter. = " AND sl_reservation.date_fin_salres <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."' ";
+  $filter.= " AND sl_reservation.date_fin_salres <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."' ";
 }
 
 
