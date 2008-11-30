@@ -48,7 +48,7 @@ if(isset($_REQUEST['filter']))
   if(in_array($_REQUEST['site'],array("belfort","sevenans","montbéliard")))
   {
     $sfilter=' INNER JOIN sl_batiment ON sl_salle.id_batiment=sl_batiment.id_batiment '
-            .'INNER JOIN sl_site ON sl_batiment.id_site=sl_site.id_site '
+            .'INNER JOIN sl_site ON sl_batiment.id_site=sl_site.id_site ';
     if($_REQUEST['site']=="belfort")
       $filter=' AND `sl_site`.`id_ville`=34582 ';
     elseif($_REQUEST['site']=="sevenans")
