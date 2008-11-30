@@ -37,7 +37,7 @@ $site = new site ();
 if (!$site->user->is_in_group ("moderateur_site"))
 	$site->error_forbidden();
 
-$site->start_page ("none", "Mod&eacute;ration des nouvelles");
+$site->start_page ("none", "Modération des nouvelles");
 
 /*suppression via la sqltable */
 if ((isset($_REQUEST['id_nouvelle']))

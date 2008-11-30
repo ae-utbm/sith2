@@ -36,91 +36,95 @@ require_once($topdir."include/entities/folder.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("moderateur_site") )
-	$site->error_forbidden();
+  $site->error_forbidden();
 
 
 if ( $_REQUEST["action"] == "foldermodere")
 {
-	$fl = new dfolder($site->db,$site->dbrw);
-	foreach ($_REQUEST["id_folders"] as $id)
-	{
-		$fl->load_by_id($id);
-		if ( $fl->id > 0 )
-			$fl->set_modere();
-	}
+  $fl = new dfolder($site->db,$site->dbrw);
+  foreach ($_REQUEST["id_folders"] as $id)
+  {
+    $fl->load_by_id($id);
+    if ( $fl->id > 0 )
+      $fl->set_modere();
+  }
 }
 elseif ( $_REQUEST["action"] == "folderdelete")
 {
-	$fl = new dfolder($site->db,$site->dbrw);
-	foreach ($_REQUEST["id_folders"] as $id)
-	{
-		$fl->load_by_id($id);
-		if ( $fl->id > 0 )
-			$fl->delete_folder();
-	}
+  $fl = new dfolder($site->db,$site->dbrw);
+  foreach ($_REQUEST["id_folders"] as $id)
+  {
+    $fl->load_by_id($id);
+    if ( $fl->id > 0 )
+      $fl->delete_folder();
+  }
 }
 elseif ( $_REQUEST["action"] == "filemodere")
 {
-	$fl = new dfile($site->db,$site->dbrw);
-	foreach ($_REQUEST["id_files"] as $id)
-	{
-		$fl->load_by_id($id);
-		if ( $fl->id > 0 )
-			$fl->set_modere();
-	}
+  $fl = new dfile($site->db,$site->dbrw);
+  foreach ($_REQUEST["id_files"] as $id)
+  {
+    $fl->load_by_id($id);
+    if ( $fl->id > 0 )
+      $fl->set_modere();
+  }
 }
 elseif ( $_REQUEST["action"] == "filedelete")
 {
-	$fl = new dfile($site->db,$site->dbrw);
-	foreach ($_REQUEST["id_files"] as $id)
-	{
-		$fl->load_by_id($id);
-		if ( $fl->id > 0 )
-			$fl->delete_file();
-	}
+  $fl = new dfile($site->db,$site->dbrw);
+  foreach ($_REQUEST["id_files"] as $id)
+  {
+    $fl->load_by_id($id);
+    if ( $fl->id > 0 )
+      $fl->delete_file();
+  }
 }
 
 $site->start_page("none","Modération des fichiers");
 $cts = new contents("Modération");
 
 $req = new requete($site->db,"SELECT * " .
-				"FROM d_folder " .
-				"WHERE " .
-				"modere_folder='0'");
+        "FROM d_folder " .
+        ", CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` ".
+        "LEFT JOIN `utilisateurs` USING(`id_utilisateur`) ".
+        "WHERE " .
+        "modere_folder='0'");
 
 $tbl = new sqltable("modfolders",
-			  "Dossiers à modérer",
-			  $req,
-			  "moderedrive.php",
-			  "id_folder",
-			  array("titre_folder"=>"Titre",
-				"description_folder"=>"Description",
-                                "id_utilisateur"=>"Utilisateur"),
-			  array(),
-			  array("foldermodere" => "Accepter",
-				"folderdelete" => "Supprimer"),
-			  array());
+        "Dossiers à modérer",
+        $req,
+        "moderedrive.php",
+        "id_folder",
+        array("titre_folder"=>"Titre",
+        "description_folder"=>"Description",
+        "nom_utilisateur"=>"Auteur"),
+        array(),
+        array("foldermodere" => "Accepter",
+        "folderdelete" => "Supprimer"),
+        array());
 
 $cts->add($tbl,true);
 
 $req = new requete($site->db,"SELECT * " .
-				"FROM d_file " .
-				"WHERE " .
-				"modere_file='0'");
+        "FROM d_file " .
+        ", CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` ".
+        "LEFT JOIN `utilisateurs` USING(`id_utilisateur`) ".
+        "WHERE " .
+        "modere_file='0'");
 
 $tbl = new sqltable("modfolders",
-			  "Fichiers à modérer",
-			  $req,
-			  "moderedrive.php",
-			  "id_file",
-			  array("titre_file"=>"Titre",
-			  	"mime_type_file"=>"Type",
-				"description_file"=>"Description",
-                                "id_utilisateur"=>"Utilisateur"),
-			  array(),
-			  array("filemodere" => "Accepter",
-				"filedelete" => "Supprimer"),
-			  array());
+        "Fichiers à modérer",
+        $req,
+        "moderedrive.php",
+        "id_file",
+        array("titre_file"=>"Titre",
+          "mime_type_file"=>"Type",
+        "description_file"=>"Description",
+        "nom_utilisateur"=>"Auteur"),
+        array(),
+        array("filemodere" => "Accepter",
+        "filedelete" => "Supprimer"),
+        array());
 
 $cts->add($tbl,true);
 
