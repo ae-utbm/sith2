@@ -176,9 +176,9 @@ $site->start_page("none","Moderation des reservations de salle");
 if($site->user->is_in_group("gestion_ae"))
 {
   $frm = new form ("filter","?",false,"POST","Filtrer");
-  $frm->add_select_field("site","Site",array(""=>"--","belfort"=>"Belfort","sevenans"=>"Sévenans","montbeliard"=>"Montbéliard"));
-  $frm->add_datetime_field("debut","Date et heure de d&eacute;but");
-  $frm->add_datetime_field("fin","Date et heure de fin");
+  $frm->add_select_field("site","Site",array(""=>"--","belfort"=>"Belfort","sevenans"=>"Sévenans","montbeliard"=>"Montbéliard"),$_REQUEST['site']);
+  $frm->add_datetime_field("debut","Date et heure de d&eacute;but",$_REQUEST['debut']);
+  $frm->add_datetime_field("fin","Date et heure de fin",$_REQUEST['fin']);
   $frm->add_submit("valid","Filtrer");
   $site->add_contents ($frm);
 
