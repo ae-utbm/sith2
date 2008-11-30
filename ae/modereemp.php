@@ -159,7 +159,7 @@ elseif ( $_REQUEST["view"] == "togo" )
     $detail="";
     while(list($nom,$type)=$_req->get_row())
     {
-      if(empty($detail)
+      if(empty($detail))
         $detail="- ".$nom." (".$type.")";
       else
         $detail.="<br />- ".$nom." (".$type.")";
