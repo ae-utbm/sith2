@@ -80,10 +80,12 @@ class site extends interfaceweb
     /*
      * LEs css du site ae restent sur le site ae
      */
+    /*
     if ( $siteae )
     {
       $this->add_css("themes/gala08/css/site.css");
     }
+    */
 
   }
 
