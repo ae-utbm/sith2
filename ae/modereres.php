@@ -45,7 +45,7 @@ $resa = new reservation($site->db, $site->dbrw);
 
 if(isset($_REQUEST['filter']))
 {
-  if(in_array($_REQUEST['site'],array("belfort","sevenans","montbéliard")))
+  if(in_array($_REQUEST['site'],array("belfort","sevenans","montbeliard")))
   {
     $sfilter=' INNER JOIN sl_batiment ON sl_salle.id_batiment=sl_batiment.id_batiment '
             .'INNER JOIN sl_site ON sl_batiment.id_site=sl_site.id_site ';
