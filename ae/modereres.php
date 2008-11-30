@@ -38,7 +38,25 @@ $site = new site ();
 if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("bdf-bureau") )
   $site->error_forbidden();
 
+$sfilter='';
+$filter='';
+
 $resa = new reservation($site->db, $site->dbrw);
+
+if(isset($_REQUEST['filter']))
+{
+  if(in_array($_REQUEST['site'],array("belfort","sevenans","montbéliard")))
+  {
+    $sfilter=' INNER JOIN sl_batiment ON sl_salle.id_batiment=sl_batiment.id_batiment '
+            .'INNER JOIN sl_site ON sl_batiment.id_site=sl_site.id_site '
+    if($_REQUEST['site']=="belfort")
+      $filter=' AND `sl_site`.`id_ville`=34582 ';
+    elseif($_REQUEST['site']=="sevenans")
+      $filter=' AND `sl_site`.`id_ville`=34655 ';
+    elseif($_REQUEST['site']=="montbeliard")
+      $filter=' AND `sl_site`.`id_ville`=9137 ';
+  }
+}
 
 if ( isset($_REQUEST['id_salres']))
   $resa->load_by_id($_REQUEST['id_salres']);
@@ -160,9 +178,11 @@ if($site->user->is_in_group("gestion_ae"))
     "INNER JOIN utilisateurs ON `utilisateurs`.`id_utilisateur`=sl_reservation.id_utilisateur " .
     "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
     "LEFT JOIN asso ON asso.id_asso=sl_reservation.id_asso " .
+    $sfilter.
     "WHERE ((sl_reservation.date_accord_res IS NULL) OR " .
     "(sl_salle.convention_salle=1 AND sl_reservation.convention_salres=0)) " .
     "AND sl_reservation.date_debut_salres > NOW() ".
+    $filter.
     "ORDER BY date_debut_salres");
 
   $site->add_contents(new sqltable(
@@ -194,8 +214,10 @@ if($site->user->is_in_group("gestion_ae"))
     "INNER JOIN utilisateurs ON `utilisateurs`.`id_utilisateur`=sl_reservation.id_utilisateur " .
     "INNER JOIN sl_salle ON sl_salle.id_salle=sl_reservation.id_salle " .
     "LEFT JOIN asso ON asso.id_asso=sl_reservation.id_asso " .
+    $sfilter.
     "WHERE sl_reservation.date_accord_res IS NOT NULL " .
     "AND sl_reservation.date_debut_salres > NOW() ".
+    $filter.
     "ORDER BY date_debut_salres");
 
   $site->add_contents(new sqltable(
