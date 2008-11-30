@@ -43,20 +43,31 @@ $filter='';
 
 $resa = new reservation($site->db, $site->dbrw);
 
-if(isset($_REQUEST['filter']))
+if(in_array($_REQUEST['site'],array("belfort","sevenans","montbeliard")))
 {
-  if(in_array($_REQUEST['site'],array("belfort","sevenans","montbeliard")))
-  {
-    $sfilter=' INNER JOIN sl_batiment ON sl_salle.id_batiment=sl_batiment.id_batiment '
-            .'INNER JOIN sl_site ON sl_batiment.id_site=sl_site.id_site ';
-    if($_REQUEST['site']=="belfort")
-      $filter=' AND `sl_site`.`id_ville`=34582 ';
-    elseif($_REQUEST['site']=="sevenans")
-      $filter=' AND `sl_site`.`id_ville`=34655 ';
-    elseif($_REQUEST['site']=="montbeliard")
-      $filter=' AND `sl_site`.`id_ville`=9137 ';
-  }
+  $sfilter=' INNER JOIN sl_batiment ON sl_salle.id_batiment=sl_batiment.id_batiment '
+          .'INNER JOIN sl_site ON sl_batiment.id_site=sl_site.id_site ';
+  if($_REQUEST['site']=="belfort")
+    $filter.=' AND `sl_site`.`id_ville`=34582 ';
+  elseif($_REQUEST['site']=="sevenans")
+    $filter.=' AND `sl_site`.`id_ville`=34655 ';
+  elseif($_REQUEST['site']=="montbeliard")
+    $filter.=' AND `sl_site`.`id_ville`=9137 ';
 }
+if( $_REQUEST["debut"] && $_REQUEST["fin"] && ( $_REQUEST["debut"]  < $_REQUEST["fin"] )
+{
+  $filter.= " AND sl_reservation.date_debut_salres >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."' ";
+  $filter.= " AND sl_reservation.date_fin_salres <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."' ";
+}
+elseif($_REQUEST['debut'])
+{
+  $filter.= " AND sl_reservation.date_debut_salres >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."' ";
+}
+elseif($_REQUEST['fin'])
+{
+  $filter. = " AND sl_reservation.date_fin_salres <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."' ";
+}
+
 
 if ( isset($_REQUEST['id_salres']))
   $resa->load_by_id($_REQUEST['id_salres']);
@@ -111,9 +122,7 @@ elseif ( $_REQUEST["action"] == "info")
   $asso->load_by_id($resa->id_asso);
 
   if (isset($_REQUEST["notes"]))
-  {
     $resa->set_notes($_REQUEST["notes"]);
-  }
 
   $site->start_page("none","Moderation des reservations de salle");
 
@@ -166,6 +175,13 @@ $site->start_page("none","Moderation des reservations de salle");
 
 if($site->user->is_in_group("gestion_ae"))
 {
+  $frm = new form ("filter","?",false,"POST","Filtrer");
+  $frm->add_select_field("site","Site",array(""=>"--","belfort"=>"Belfort","sevenans"=>"Sévenans","montbeliard"=>"Montbéliard"));
+  $frm->add_datetime_field("debut","Date et heure de d&eacute;but");
+  $frm->add_datetime_field("fin","Date et heure de fin");
+  $frm->add_submit("valid","Filtrer");
+  $site->add_contents ($frm);
+
   $req = new requete($site->db,"SELECT `utilisateurs`.`id_utilisateur`, " .
     "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
     "sl_salle.id_salle, sl_salle.nom_salle," .
