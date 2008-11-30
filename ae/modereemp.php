@@ -151,7 +151,7 @@ elseif ( $_REQUEST["view"] == "togo" )
     $t["date_fin_emp"]=$row["date_fin_emp"];
     $_req = new requete($site->db, "SELECT " .
                         "CONCAT(`inv_objet`.`nom_objet`,' ',`inv_objet`.`cbar_objet`) AS `nom_objet`, " .
-                        "`inv_type_objets`.`nom_objtype`, " .
+                        "`inv_type_objets`.`nom_objtype` " .
                         "FROM inv_emprunt_objet " .
                         "INNER JOIN `inv_objet` ON `inv_objet`.`id_objet`=`inv_emprunt_objet`.`id_objet` " .
                         "INNER JOIN `inv_type_objets` ON `inv_objet`.`id_objtype`=`inv_type_objets`.`id_objtype` " .
