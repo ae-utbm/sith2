@@ -83,10 +83,11 @@ elseif ( $_REQUEST["action"] == "filedelete")
 $site->start_page("none","Modération des fichiers");
 $cts = new contents("Modération");
 
-$req = new requete($site->db,"SELECT * " .
-        "FROM d_folder " .
+$req = new requete($site->db,"SELECT d_folder.* " .
+        ", `utilisateurs`.`id_utilisateur` ".
         ", CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` ".
-        "LEFT JOIN `utilisateurs` USING(`id_utilisateur`) ".
+        "FROM d_folder " .
+        "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
         "WHERE " .
         "modere_folder='0'");
 
@@ -105,10 +106,11 @@ $tbl = new sqltable("modfolders",
 
 $cts->add($tbl,true);
 
-$req = new requete($site->db,"SELECT * " .
-        "FROM d_file " .
+$req = new requete($site->db,"SELECT d_file.* " .
+        ", `utilisateurs`.`id_utilisateur` ".
         ", CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) AS `nom_utilisateur` ".
-        "LEFT JOIN `utilisateurs` USING(`id_utilisateur`) ".
+        "FROM d_file " .
+        "INNER JOIN `utilisateurs` USING(`id_utilisateur`) ".
         "WHERE " .
         "modere_file='0'");
 
