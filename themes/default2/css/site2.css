@@ -69,8 +69,6 @@ div#headermenu
   padding:0 0 0 15px;
   height:50px;
   background-color:#424242;
-  background-image: url("../images/header-menu.png");
-  background-repeat:no-repeat;
 }
 div#fsearchbox
 {
@@ -295,7 +293,6 @@ ul li.info
 div.tabsv2
 {
   background: #326698;
-  background-image: url("../images/tabsv2.png");
   height:32px;
   padding-left:0;
   margin-bottom:0;
@@ -314,8 +311,6 @@ div.tabsv2 span a
   text-align:center;
   font-weight:bold;
   line-height:12px;
-  background-image: url("../images/tabsv2-normal.png");
-  background-repeat:no-repeat;
   width:105px;
   height:32px;
   margin:0;
@@ -325,8 +320,6 @@ div.tabsv2 span.selected a, div.tabsv2 span a:hover
 {
   color:#000000;
   text-decoration:none;
-  background-image: url("../images/tabsv2-selected.png");
-  background-repeat:no-repeat;
   width:105px;
   height:32px;
   margin:0;
