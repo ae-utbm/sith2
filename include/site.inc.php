@@ -32,6 +32,13 @@
  * 02111-1307, USA.
  */
 
+
+if( !strncmp('/var/www/ae/www/taiste', $_SERVER['SCRIPT_FILENAME'], 22) )
+  require_once($topdir . "include/site2.inc.php");
+else
+{
+
+
 if ( !isset($GLOBALS['nosession']) )
   session_start();
 
@@ -1524,5 +1531,9 @@ class site extends interfaceweb
                                                   "context_log" => $context_log ));
   }
 
+}
+
+
+//IF !TAISTE
 }
 ?>

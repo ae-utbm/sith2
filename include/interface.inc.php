@@ -195,7 +195,11 @@ class interfaceweb
     echo "<head>\n";
 
     echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n"; // (IE6 Legacy support)
-    echo "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
+    if(!defined('NOTAE'))
+      echo "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
+    else
+      echo "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")."</title>\n";
+
     echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css?".filemtime($wwwtopdir . "themes/default/css/site.css")."\" title=\"AE2-NEW2\" />\n";
     foreach ( $this->extracss as $url )
       if(file_exists(htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8")))
