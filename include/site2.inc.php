@@ -277,6 +277,10 @@ class site extends interfaceweb
     return $sid;
   }
 
+  function get_connection_contents()
+  {
+  }
+
   /**
    * Demarre la page à rendre en spécifiant quelques informations clefs.
    * Aucune donnée ne sera envoyé au client avant l'appel de end_page.
