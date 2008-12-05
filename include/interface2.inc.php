@@ -122,9 +122,9 @@ class interfaceweb
    * @param $side Coté (left ou right)
    * @param $boxes Array des nom des boites à afficher
    */
-  function set_side_boxes ( $side, $boxes, $ref=null )
+  function set_side_boxes ( $side, $boxes, $ref=null, $self=false )
   {
-/*
+    if(!$self) return;
     if ( $side != "left" && $side != "right" ) return;
     $this->sides[$side] = $boxes;
 
@@ -135,7 +135,6 @@ class interfaceweb
     }
     else
       $this->sides_ref[$side] = $ref;
-*/
   }
 
   /** Ajoute une boite affichable sur le coté
