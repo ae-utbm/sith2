@@ -292,7 +292,7 @@ ul li.info
 
 div.tabsv2
 {
-  background: #326698;
+  background: #eeac00;
   height:32px;
   padding-left:0;
   margin-bottom:0;
@@ -306,6 +306,10 @@ div.tabsv2 span a
 {
   float:left;
   color:#ffffff;
+
+  border-left:1px solid #ffffff;
+  border-right:1px solid #ffffff;
+
   font-size:12px;
   padding-top:8px;
   text-align:center;
@@ -319,6 +323,7 @@ div.tabsv2 span a
 div.tabsv2 span.selected a, div.tabsv2 span a:hover
 {
   color:#000000;
+  background-color:#ffffff;
   text-decoration:none;
   width:105px;
   height:32px;
