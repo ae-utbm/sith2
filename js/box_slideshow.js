@@ -36,24 +36,36 @@
 /*
  * @ingroup js
  */
+var slideshowboxes=array();
+
+function over_slideshow(cts){
+  slideshowboxes[cts]=true;
+}
+
+function away_slideshow(cts){
+  slideshowboxes[cts]=false;
+}
 
 function start_slideshow(cts,start_frame, end_frame, delay) {
   setTimeout(switch_slides(cts,start_frame,start_frame,end_frame, delay),delay);
 }
 
 function switch_slides(cts,frame, start_frame, end_frame, delay,pause) {
-  var cts1;
-  var cts2;
-  if( cts1 = document.getElementById(cts+frame) )
+  if(!slideshowboxes[cts])
   {
-    if (frame == end_frame)
-      frame = start_frame;
-    else
-      frame = frame + 1;
-    if( cts2 = document.getElementById(cts+frame) )
+    var cts1;
+    var cts2;
+    if( cts1 = document.getElementById(cts+frame) )
     {
-      cts1.style.display='none';
-      cts2.style.display='block';
+      if (frame == end_frame)
+        frame = start_frame;
+      else
+        frame = frame + 1;
+      if( cts2 = document.getElementById(cts+frame) )
+      {
+        cts1.style.display='none';
+        cts2.style.display='block';
+      }
     }
   }
   return (function() {
