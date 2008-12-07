@@ -122,7 +122,7 @@ class interfaceweb
    * @param $side Coté (left ou right)
    * @param $boxes Array des nom des boites à afficher
    */
-  function set_side_boxes ( $side, $boxes, $ref=null, $self=false )
+  function set_side_boxes ( $side, $boxes, $ref=null )
   {
     if($side=="left") $side="right";
 

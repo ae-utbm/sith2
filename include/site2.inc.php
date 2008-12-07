@@ -73,7 +73,7 @@ class site extends interfaceweb
     if ( $this->get_param("closed",false) && !$this->user->is_in_group("root") )
       $this->fatal("closed");
 
-    $this->set_side_boxes("right",array("calendrier","alerts"),"default_left",true);
+    $this->set_side_boxes("right",array("calendrier","alerts"),"default_left");
 
     $timing["site::site"] += microtime(true);
 
@@ -326,16 +326,14 @@ class site extends interfaceweb
                                     "comptoirs",
                                     "forum",
                                     "planning_permanences"),
-                              "accueil_c_right",
-                              true);
+                              "accueil_c_right");
       }
       else
         $this->set_side_boxes("right",
                               array("planning",
                                     "stream",
                                     "planning_permanences"),
-                              "accueil_nc_right",
-                              true);
+                              "accueil_nc_right");
 
     }
     elseif ( $section == "pg" )
@@ -350,8 +348,8 @@ class site extends interfaceweb
     }
     elseif ( $section == "forum" )
     {
-      $this->set_side_boxes("left",array(),null,true);
-      $this->set_side_boxes("right",array(),null,true);
+      $this->set_side_boxes("left",array());
+      $this->set_side_boxes("right",array());
     }
     $timing["site::start_page"] += microtime(true);
 
