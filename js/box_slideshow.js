@@ -53,7 +53,7 @@ function switch_slides(cts,frame, start_frame, end_frame, delay) {
     if( cts2 = document.getElementById(cts+frame) )
     {
       cts1.style.display='none';
-      cts1.style.display='block';
+      cts2.style.display='block';
     }
   }
   return (function() {
