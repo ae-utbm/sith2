@@ -41,7 +41,7 @@ function start_slideshow(cts,start_frame, end_frame, delay) {
   setTimeout(switch_slides(cts,start_frame,start_frame,end_frame, delay),delay);
 }
 
-function switch_slides(cts,frame, start_frame, end_frame, delay) {
+function switch_slides(cts,frame, start_frame, end_frame, delay,pause) {
   var cts1;
   var cts2;
   if( cts1 = document.getElementById(cts+frame) )
