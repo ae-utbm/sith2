@@ -58,7 +58,7 @@ class box_slideshow extends stdcontents
     if($this->pause)
     {
       $pause=1;
-      $over=" onmouseover='over_slideshow(\"$uid\")' onmouseout='away_slideshow(\"$uid\")' ";
+      $this->buffer="<div onmouseover='over_slideshow(\"$uid\")' onmouseout='away_slideshow(\"$uid\")' >";
     }
     for($i=0;$i<count($this->slides);$i++)
     {
@@ -67,12 +67,10 @@ class box_slideshow extends stdcontents
       else
         $this->buffer.="<div id='slideshow$uid$i' style=\"display:none\" $over>".$this->slides[$i]->html_render()."</div>\n";
     }
+    if($this->pause)
+      $this->buffer.='</div>';
     $this->buffer.="<script type=\"text/javascript\">\n";
     $this->buffer.="slideshowboxes['slideshow$uid']=0;\n";
-    if($this->pause)
-      $pause=1;
-    else
-      $pause=0;
     $this->buffer.="start_slideshow('slideshow$uid', 0, ".(count($this->slides)-1).", ".$this->delay.",$pause);\n";
     $this->buffer.="</script>\n";
     return $this->buffer;
