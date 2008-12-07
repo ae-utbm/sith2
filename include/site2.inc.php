@@ -318,7 +318,9 @@ class site extends interfaceweb
         $this->add_box("comptoirs",$this->get_comptoirs_box());
         $this->add_box("sondage",$this->get_sondage());
         $this->set_side_boxes("right",
-                              array("planning",
+                              array("calendrier",
+                                    "alerts",
+                                    "planning",
                                     "photo",
                                     "anniv",
                                     "stream",
