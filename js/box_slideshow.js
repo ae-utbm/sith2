@@ -42,14 +42,14 @@ function slideshow_onoff(cts,id){
   if(slideshowboxes[cts]==0)
   {
     slideshowboxes[cts]=1;
-    if(cts = document.getElementById('slideshowonoff'+cts) )
-      cts.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+id+'\'); return false;">start<a/>';
+    if(cts = document.getElementById(id) )
+      cts.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+cts+'\',\''+id+'\'); return false;">start<a/>';
   }
   else
   {
     slideshowboxes[cts]=0;
-    if(cts = document.getElementById('slideshowonoff'+cts) )
-      cts.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+id+'\'); return false;">pause<a/>';
+    if(cts = document.getElementById(id) )
+      cts.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+cts+'\',\''+id+'\'); return false;">pause<a/>';
   }
 }
 
