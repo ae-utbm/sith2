@@ -53,7 +53,7 @@ function start_slideshow(cts,start_frame, end_frame, delay, pause) {
 }
 
 function switch_slides(cts,frame, start_frame, end_frame, delay,pause) {
-  if(pause==1 && !slideshowboxes[cts])
+  if(pause==1 && slideshowboxes[cts]==false)
   {
     var cts1;
     var cts2;
