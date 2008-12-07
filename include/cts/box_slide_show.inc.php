@@ -45,7 +45,7 @@ class box_slideshow extends stdcontents
 
   function add_slide($cts)
   {
-    $this->slides[]$cts;
+    $this->slides[]=$cts;
   }
 
   function html_render ()
