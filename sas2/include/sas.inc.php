@@ -44,10 +44,12 @@ class sas extends site
 
     $this->site();
 
-		if ( ($this->get_param("closed.sas",false) && !$this->user->is_in_group("root")) || !is_dir("/var/www/ae/accounts/sas")	)
+      if ( ($this->get_param("closed.sas",false) && !$this->user->is_in_group("root")) || !is_dir("/var/www/ae/accounts/sas")	)
       $this->fatal_partial("sas");
-
-    $this->set_side_boxes("left",array("monsas","connexion"));
+    if ( $GLOBALS["taiste"] )
+      $this->set_side_boxes("right",array("monsas"));
+    else
+      $this->set_side_boxes("left",array("monsas","connexion"));
 
     if( $this->user->is_valid() )
     {
@@ -163,7 +165,11 @@ class sas extends site
   {
     global $topdir;
     if ( $compact )
+    {
+      if ( $GLOBALS["taiste"] )
+        $this->set_side_boxes("right",array());
       $this->set_side_boxes("left",array());
+    }
     parent::start_page($section,$title,$compact);
   }
 
