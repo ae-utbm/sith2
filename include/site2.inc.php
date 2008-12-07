@@ -302,18 +302,15 @@ class site extends interfaceweb
     $slides->add_slide($this->get_weekly_photo_contents());
     $slides->add_slide($this->get_planning_contents());
     $slides->add_slide($this->get_planning_permanences_contents());
-//    $this->add_box("calendrier",new calendar($this->db,null,'calbox'));
-    $this->add_box("calendrier",$slides);
+    $this->add_box("info_en_boucle",$slides);
 
     if ( $section == "accueil" )
     {
       //Nb: alerts est *trés* long à calculer, il ne sera donc que dans accueil
       $this->add_box("alerts",$this->get_alerts());
 
-//      $this->add_box("photo",$this->get_weekly_photo_contents());
       $this->add_box("anniv", $this->get_anniv_contents());
       $this->add_box("planning", $this->get_planning_contents());
-//      $this->add_box("planning_permanences", $this->get_planning_permanences_contents());
 
       if ($this->user->is_valid())
       {
@@ -322,25 +319,20 @@ class site extends interfaceweb
         $this->add_box("comptoirs",$this->get_comptoirs_box());
         $this->add_box("sondage",$this->get_sondage());
         $this->set_side_boxes("right",
-                              array("calendrier",
+                              array("info_en_boucle",
                                     "alerts",
-//                                    "planning",
-//                                    "photo",
                                     "anniv",
                                     "stream",
                                     "sondage",
                                     "comptoirs",
-                                    "forum",
-//                                    "planning_permanences"
+                                    "forum"
                               ),
                               "accueil_c_right");
       }
       else
         $this->set_side_boxes("right",
-                              array("calendrier",
-//                                    "planning",
-                                    "stream",
-//                                    "planning_permanences"
+                              array("info_en_boucle",
+                                    "stream"
                               ),
                               "accueil_nc_right");
 
@@ -350,12 +342,12 @@ class site extends interfaceweb
       //$this->set_side_boxes("left",array("connexion"),"pg_left");
     }
     elseif ( $section == "matmatronch" )
-    {
       require_once($topdir . "include/cts/newsflow.inc.php");
-
-      //$this->set_side_boxes("left",array("lastnews","connexion"),"mmt_left");
+    elseif(in_array($section,array('e-boutic','sas')))
+    {
+      $this->set_side_boxes("left",array());
     }
-    else//if ( in_array($section,array("forum","wiki")) )
+    else
     {
       $this->set_side_boxes("left",array());
       $this->set_side_boxes("right",array());
