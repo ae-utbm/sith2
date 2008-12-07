@@ -54,10 +54,6 @@ function slideshow_onoff(cts,id){
   alert(slideshowboxes[cts]);
 }
 
-function away_slideshow(cts){
-  slideshowboxes[cts]=0;
-}
-
 function start_slideshow(cts,start_frame, end_frame, delay, pause) {
   setTimeout(switch_slides(cts,start_frame,start_frame,end_frame, delay, pause),delay);
 }
