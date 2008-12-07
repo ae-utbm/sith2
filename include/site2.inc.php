@@ -296,7 +296,7 @@ class site extends interfaceweb
 
     $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
-    box_slide_show.inc.php
+    require_once($topdir . "include/cts/box_slide_show.inc.php");
     $slides = new box_slideshow();
     $slides->add_slide(new calendar($this->db,null,'calbox'));
     $slides->add_slide(get_alerts());
