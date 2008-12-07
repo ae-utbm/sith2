@@ -166,7 +166,7 @@ class sas extends site
     global $topdir;
     if ( $compact )
     {
-      if ( $GLOBALS["taiste"] )
+      if ( !$GLOBALS["taiste"] )
         $this->set_side_boxes("right",array());
       $this->set_side_boxes("left",array());
     }
