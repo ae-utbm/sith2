@@ -40,7 +40,7 @@ var slideshowboxes=new Array();
 
 function over_slideshow(cts){
   slideshowboxes[cts]=1;
-  alert('bleh');
+  alert(slideshowboxes[cts]);
 }
 
 function away_slideshow(cts){
