@@ -51,23 +51,20 @@ function start_slideshow(cts,start_frame, end_frame, delay, pause) {
 }
 
 function switch_slides(cts,frame, start_frame, end_frame, delay,pause) {
-  if(pause==1)
+  if(pause==0 || (pause==1 && slideshowboxes[cts]==0))
   {
-    if(slideshowboxes[cts]==0)
+    var cts1;
+    var cts2;
+    if( cts1 = document.getElementById(cts+frame) )
     {
-      var cts1;
-      var cts2;
-      if( cts1 = document.getElementById(cts+frame) )
+      if (frame == end_frame)
+        frame = start_frame;
+      else
+        frame = frame + 1;
+      if( cts2 = document.getElementById(cts+frame) )
       {
-        if (frame == end_frame)
-          frame = start_frame;
-        else
-          frame = frame + 1;
-        if( cts2 = document.getElementById(cts+frame) )
-        {
-          cts1.style.display='none';
-          cts2.style.display='block';
-        }
+        cts1.style.display='none';
+        cts2.style.display='block';
       }
     }
     else
@@ -75,8 +72,6 @@ function switch_slides(cts,frame, start_frame, end_frame, delay,pause) {
        setTimeout(switch_slides(cts,frame, start_frame, end_frame, delay, pause), delay);
      })
   }
-  else
-   alert("bleh");
   return (function() {
     setTimeout(switch_slides(cts,frame, start_frame, end_frame, delay, pause), delay);
   })
