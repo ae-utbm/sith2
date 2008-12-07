@@ -343,11 +343,7 @@ class site extends interfaceweb
     }
     elseif ( $section == "matmatronch" )
       require_once($topdir . "include/cts/newsflow.inc.php");
-    elseif($section=='e-boutic' || $section=='sas')
-    {
-      $this->set_side_boxes("left",array());
-    }
-    else
+    elseif($section!='e-boutic' && $section!='sas')
     {
       $this->set_side_boxes("left",array());
       $this->set_side_boxes("right",array());
