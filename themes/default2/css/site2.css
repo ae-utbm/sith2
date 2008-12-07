@@ -371,7 +371,14 @@ div.contents
   background-color:#ffffff;
   display:block;
 }
-
+div.contents:after
+{
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility:hidden;
+}
 
 /**
  * Colones de boites
