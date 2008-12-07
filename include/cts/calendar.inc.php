@@ -167,7 +167,10 @@ class calendar extends stdcontents
     $this->buffer .= "</div>\n";
 
     /* Partie principale du calendrier : les jours du mois */
-    $this->buffer .= "<div class=\"calendar\">\n";
+    if(!empty($this->subclass))
+      $this->buffer .= "<div class=\"calendar ".$this->subclass."\">\n";
+    else
+      $this->buffer .= "<div class=\"calendar\">\n";
     $this->buffer .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"99%\">\n";
 
     /* On cherche le premier jour du mois dans la semaine */
