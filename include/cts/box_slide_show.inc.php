@@ -68,7 +68,7 @@ class box_slideshow extends stdcontents
         $this->buffer.="<div id='slideshow$uid$i' style=\"display:none\" $over>".$this->slides[$i]->html_render()."</div>\n";
     }
     $this->buffer.="<script type=\"text/javascript\">\n";
-    $this->buffer.="slideshowboxes['$uid']=0;\n";
+    $this->buffer.="slideshowboxes['slideshow$uid']=0;\n";
     if($this->pause)
       $pause=1;
     else
