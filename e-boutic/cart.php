@@ -57,7 +57,7 @@ $site = new eboutic ();
 
 $site->allow_only_logged_users();
 
-$site->start_page ("Panier e-boutic", "Etat du panier");
+$site->start_page ("e-boutic", "Etat du panier");
 
 $accueil = new contents ("E-boutic : Etat du panier",
                          "<p>Sur cette page, vous allez pouvoir ".

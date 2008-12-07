@@ -128,12 +128,18 @@ if ( $produit->is_valid() && !is_null($produit->id_produit_parent) )
 }
 
 
-$site->start_page ("Accueil e-boutic", "e-boutic");
+$site->start_page ("e-boutic", "Accueil e-boutic");
 
 /* ajout panier ? */
 if (isset($add_rs))
   $site->add_contents ($add_rs);
 
+if(
+   $typeproduit->is_valid()
+   && !empty($typeproduit->css)
+   && file_exists($wwwtopdir.'css/eboutic/'.$typeproduit->css)
+  )
+  $site->add_css('css/eboutic/'.$typeproduit->css);
 
 if ( $produit->is_valid() )
 {

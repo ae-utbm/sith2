@@ -32,7 +32,7 @@ if (isset($_POST['DATA']))
   /* si erreur ne venant pas de nous */
   if ($success->code != 0)
   {
-    $site->start_page ("Accueil e-boutic", "Bienvenue");
+    $site->start_page ("e-boutic", "Blèh");
     $site->add_contents (new error("e-boutic",
              "<p>Une erreur est survenue lors ".
              "du paiement.</p>"));
@@ -54,7 +54,7 @@ if (isset($_POST['DATA']))
     if ($ret == true)
     {
       $site->empty_cart ();
-      $site->start_page ("Accueil e-boutic", "Bienvenue");
+      $site->start_page ("e-boutic","Succès");
       /* si boutique de test */
       if (STO_PRODUCTION == false)
         $site->add_contents (new contents("ATTENTION",
@@ -83,7 +83,7 @@ if (isset($_POST['DATA']))
     }
     else
     {
-      $site->start_page ("Accueil e-boutic", "Bienvenue");
+      $site->start_page ("e-boutic", "Blèh");
       $site->add_contents (new error("e-boutic",
              "Une erreur est survenue lors ".
              "de l'enregistrement des " .
@@ -95,7 +95,7 @@ if (isset($_POST['DATA']))
 
 else
 {
-  $site->start_page ("Accueil e-boutic", "Bienvenue");
+  $site->start_page ("e-boutic", "Blèh");
   $site->add_contents(new error("e-boutic",
         "Une erreur est survenue, la commande ".
         "n'a pas été enregistrée. Veuillez ".

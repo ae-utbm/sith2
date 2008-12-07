@@ -38,7 +38,7 @@ require_once($topdir . "include/cts/vignette.inc.php");
 
 $site = new site ();
 
-$site->start_page ("Accueil e-boutic", "E-boutic : Annulation");
+$site->start_page ("e-boutic", "E-boutic : Annulation");
 
 $site->add_contents (new error("Annulation", "<p>Suite a un incident, ".
                                "la vente a ete annulee.".

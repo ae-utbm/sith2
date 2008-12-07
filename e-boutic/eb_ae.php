@@ -55,7 +55,7 @@ $site = new eboutic ();
 
 $site->allow_only_logged_users();
 
-$site->start_page ("Panier e-boutic", "Etat du panier");
+$site->start_page ("e-boutic", "Etat du panier");
 
 $modal = "par carte AE";
 if ( $site->user->type == "srv" )
