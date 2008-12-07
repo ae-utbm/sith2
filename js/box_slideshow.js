@@ -51,7 +51,7 @@ function slideshow_onoff(cts,id){
     if(cts = document.getElementById(id) )
       cts.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+cts+'\',\''+id+'\'); return false;">pause</a>';
   }
-  alert(slideshowboxes[cts]);
+  alert(cts);
 }
 
 function start_slideshow(cts,start_frame, end_frame, delay, pause) {
