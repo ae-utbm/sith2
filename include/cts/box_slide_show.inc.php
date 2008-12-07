@@ -53,24 +53,24 @@ class box_slideshow extends stdcontents
     if(empty($this->slides))
       return "";
     $uid=gen_uid();
-    $pause=0;
-    $over="";
+    $this->buffer.="<script type=\"text/javascript\">\n";
+    $this->buffer.="slideshowboxes['slideshow$uid']=0;\n";
     if($this->pause)
     {
-      $pause=1;
-      $this->buffer="<div class='slidebox_pause' id='slideshowonoff$uid'><a href='#' onclick=\"slideshow_onoff('slideshow$uid','slideshowonoff$uid'); return false;\">pause<a/></div>";
+      $this->buffer.="start_slideshow('slideshow$uid', 0, ".(count($this->slides)-1).", ".$this->delay.",1);\n";
+      $this->buffer.="<div class='slidebox_pause' id='slideshowonoff$uid'><a href='#' onclick=\"slideshow_onoff('slideshow$uid','slideshowonoff$uid'); return false;\">pause<a/></div>";
     }
+    else
+      $this->buffer.="start_slideshow('slideshow$uid', 0, ".(count($this->slides)-1).", ".$this->delay.",0);\n";
+    $this->buffer.="</script>\n";
+
     for($i=0;$i<count($this->slides);$i++)
     {
       if($i==0)
-        $this->buffer.="<div id='slideshow$uid$i' style=\"display:block\" $over>".$this->slides[$i]->html_render()."</div>\n";
+        $this->buffer.="<div id='slideshow$uid$i' style=\"display:block\">".$this->slides[$i]->html_render()."</div>\n";
       else
-        $this->buffer.="<div id='slideshow$uid$i' style=\"display:none\" $over>".$this->slides[$i]->html_render()."</div>\n";
+        $this->buffer.="<div id='slideshow$uid$i' style=\"display:none\">".$this->slides[$i]->html_render()."</div>\n";
     }
-    $this->buffer.="<script type=\"text/javascript\">\n";
-    $this->buffer.="slideshowboxes['slideshow$uid']=0;\n";
-    $this->buffer.="start_slideshow('slideshow$uid', 0, ".(count($this->slides)-1).", ".$this->delay.",$pause);\n";
-    $this->buffer.="</script>\n";
     return $this->buffer;
   }
 
