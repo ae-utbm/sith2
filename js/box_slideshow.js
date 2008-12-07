@@ -40,7 +40,6 @@ var slideshowboxes=new Array();
 var i=0;
 function over_slideshow(cts){
   slideshowboxes[cts]=1;
-  alert(cts+slideshowboxes[cts]);
 }
 
 function away_slideshow(cts){
@@ -54,9 +53,6 @@ function start_slideshow(cts,start_frame, end_frame, delay, pause) {
 function switch_slides(cts,frame, start_frame, end_frame, delay, pause) {
   if(pause==0 || (pause==1 && slideshowboxes[cts]==0))
   {
-    if(i==1)
-    alert(cts+slideshowboxes[cts]);
-    i++;
     var cts1;
     var cts2;
     if( cts1 = document.getElementById(cts+frame) )
