@@ -300,7 +300,7 @@ class site extends interfaceweb
     $slides = new box_slideshow();
     $slides->add_slide(new calendar($this->db,null,'calbox'));
     $slides->add_slide($this->get_alerts());
-
+    $sildes->add_slide($this->get_weekly_photo_contents());
 //    $this->add_box("calendrier",new calendar($this->db,null,'calbox'));
     $this->add_box("calendrier",$slides);
 
@@ -309,7 +309,7 @@ class site extends interfaceweb
       //Nb: alerts est *trés* long à calculer, il ne sera donc que dans accueil
       $this->add_box("alerts",$this->get_alerts());
 
-      $this->add_box("photo",$this->get_weekly_photo_contents());
+//      $this->add_box("photo",$this->get_weekly_photo_contents());
       $this->add_box("anniv", $this->get_anniv_contents());
       $this->add_box("planning", $this->get_planning_contents());
       $this->add_box("planning_permanences", $this->get_planning_permanences_contents());
@@ -322,9 +322,9 @@ class site extends interfaceweb
         $this->add_box("sondage",$this->get_sondage());
         $this->set_side_boxes("right",
                               array("calendrier",
-                                    "alerts",
+//                                    "alerts",
                                     "planning",
-                                    "photo",
+//                                    "photo",
                                     "anniv",
                                     "stream",
                                     "sondage",
