@@ -346,7 +346,7 @@ class site extends interfaceweb
 
       //$this->set_side_boxes("left",array("lastnews","connexion"),"mmt_left");
     }
-    elseif ( $section == "forum" )
+    elseif ( in_array($section,array("forum","wiki") )
     {
       $this->set_side_boxes("left",array());
       $this->set_side_boxes("right",array());
