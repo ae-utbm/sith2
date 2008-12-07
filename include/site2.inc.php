@@ -296,8 +296,13 @@ class site extends interfaceweb
 
     $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
+    box_slide_show.inc.php
+    $slides = new box_slideshow();
+    $slides->add_slide(new calendar($this->db,null,'calbox'));
+    $slides->add_slide(get_alerts());
 
-    $this->add_box("calendrier",new calendar($this->db,null,'calbox'));
+//    $this->add_box("calendrier",new calendar($this->db,null,'calbox'));
+    $this->add_box("calendrier",$slides);
 
     if ( $section == "accueil" )
     {

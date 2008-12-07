@@ -228,6 +228,7 @@ class interfaceweb
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js?".filemtime($wwwtopdir . "js/site.js")."\"></script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js?".filemtime($wwwtopdir . "js/ajax.js")."\"></script>\n";
     $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js?".filemtime($wwwtopdir . "js/dnds.js")."\"></script>\n";
+    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/box_slideshow.js?".filemtime($wwwtopdir . "js/box_slideshow.js")."\"></script>\n";
 
     foreach ( $this->extrajs as $url )
       $this->buffer .= "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."?".filemtime(htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8"))."\"></script>\n";
