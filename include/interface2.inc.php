@@ -518,7 +518,7 @@ class interfaceweb
 
     $this->buffer .= "</div>\n"; // /page
     $this->buffer .= "<!-- end of page -->\n\n";
-    $this->buffer .= "<div class=\"clearfix\">&nbsp;</div>\n";
+    $this->buffer .= "<div style=\"clear: both\"></div>\n";
     $this->buffer .= "</div>\n"; // /contents
     $this->buffer .= "<div id=\"endsite\">&nbsp;</div></div>\n";
 
