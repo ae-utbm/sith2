@@ -2428,7 +2428,11 @@ div._right_opts
 
 div.sbox_body_calendrier p.ical
 {
-  margin-top:15px;
+  height:15px;
+  position:absolute;
+  right:20px;
+  top:0px;
+  width:15px;
 }
 div.calbox
 {
