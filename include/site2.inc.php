@@ -331,7 +331,8 @@ class site extends interfaceweb
                                     "sondage",
                                     "comptoirs",
                                     "forum",
-//                                    "planning_permanences"),
+//                                    "planning_permanences"
+                              ),
                               "accueil_c_right");
       }
       else
