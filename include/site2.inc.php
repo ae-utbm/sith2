@@ -299,8 +299,9 @@ class site extends interfaceweb
     require_once($topdir . "include/cts/box_slide_show.inc.php");
     $slides = new box_slideshow();
     $slides->add_slide(new calendar($this->db,null,'calbox'));
-    $slides->add_slide($this->get_alerts());
     $slides->add_slide($this->get_weekly_photo_contents());
+    $slides->add_slide($this->get_planning_contents());
+    $slides->add_slide($this->get_planning_permanences_contents());
 //    $this->add_box("calendrier",new calendar($this->db,null,'calbox'));
     $this->add_box("calendrier",$slides);
 
@@ -312,7 +313,7 @@ class site extends interfaceweb
 //      $this->add_box("photo",$this->get_weekly_photo_contents());
       $this->add_box("anniv", $this->get_anniv_contents());
       $this->add_box("planning", $this->get_planning_contents());
-      $this->add_box("planning_permanences", $this->get_planning_permanences_contents());
+//      $this->add_box("planning_permanences", $this->get_planning_permanences_contents());
 
       if ($this->user->is_valid())
       {
@@ -322,22 +323,23 @@ class site extends interfaceweb
         $this->add_box("sondage",$this->get_sondage());
         $this->set_side_boxes("right",
                               array("calendrier",
-//                                    "alerts",
-                                    "planning",
+                                    "alerts",
+//                                    "planning",
 //                                    "photo",
                                     "anniv",
                                     "stream",
                                     "sondage",
                                     "comptoirs",
                                     "forum",
-                                    "planning_permanences"),
+//                                    "planning_permanences"),
                               "accueil_c_right");
       }
       else
         $this->set_side_boxes("right",
-                              array("planning",
+                              array("calendrier",
+//                                    "planning",
                                     "stream",
-                                    "planning_permanences"),
+//                                    "planning_permanences"),
                               "accueil_nc_right");
 
     }
