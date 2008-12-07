@@ -340,7 +340,8 @@ class site extends interfaceweb
                               array("calendrier",
 //                                    "planning",
                                     "stream",
-//                                    "planning_permanences"),
+//                                    "planning_permanences"
+                              ),
                               "accueil_nc_right");
 
     }
