@@ -42,14 +42,20 @@ function start_slideshow(cts,start_frame, end_frame, delay) {
 }
 
 function switch_slides(cts,frame, start_frame, end_frame, delay) {
-  var cts1 = document.getElementById(cts+frame);
-  if (frame == end_frame)
-    frame = start_frame;
-  else
-    frame = frame + 1;
-  var cts2 = document.getElementById(cts+frame);
-  cts1.style.display='none';
-  cts1.style.display='block';
+  var cts1;
+  var cts2;
+  if( cts1 = document.getElementById(cts+frame) )
+  {
+    if (frame == end_frame)
+      frame = start_frame;
+    else
+      frame = frame + 1;
+    if( cts2 = document.getElementById(cts+frame) )
+    {
+      cts1.style.display='none';
+      cts1.style.display='block';
+    }
+  }
   setTimeout(switch_slides(cts,frame, start_frame, end_frame, delay), delay);
 }
 
