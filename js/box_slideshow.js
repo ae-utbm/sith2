@@ -36,7 +36,7 @@
 /*
  * @ingroup js
  */
-var slideshowboxes=array();
+var slideshowboxes=new Array();
 
 function over_slideshow(cts){
   slideshowboxes[cts]=true;
