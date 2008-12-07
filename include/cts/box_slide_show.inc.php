@@ -58,7 +58,7 @@ class box_slideshow extends stdcontents
     if($this->pause)
     {
       $pause=1;
-      $this->buffer="<div style='z-index=100; background-color:#ffffff; width:100%; height:100%;' onmouseover='over_slideshow(\"$uid\")' onmouseout='away_slideshow(\"$uid\")' >&nbsp;</div>";
+      $this->buffer="<div style='z-index=100; background-color:#ffffff; width:100%; height:100%;' onmouseover='over_slideshow(\"slideshow$uid\")' onmouseout='away_slideshow(\"slideshow$uid\")' >&nbsp;</div>";
     }
     for($i=0;$i<count($this->slides);$i++)
     {
