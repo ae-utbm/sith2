@@ -39,11 +39,11 @@
 var slideshowboxes=new Array();
 
 function over_slideshow(cts){
-  slideshowboxes[cts]=true;
+  slideshowboxes[cts]=1;
 }
 
 function away_slideshow(cts){
-  slideshowboxes[cts]=false;
+  slideshowboxes[cts]=0;
 }
 
 function start_slideshow(cts,start_frame, end_frame, delay, pause) {
@@ -51,7 +51,7 @@ function start_slideshow(cts,start_frame, end_frame, delay, pause) {
 }
 
 function switch_slides(cts,frame, start_frame, end_frame, delay,pause) {
-  if(pause==1 && slideshowboxes[cts]==false)
+  if(pause==1 && slideshowboxes[cts]==1)
   {
     var cts1;
     var cts2;
