@@ -247,10 +247,7 @@ class calendar extends stdcontents
 
       if ( $idx != 3 )
       {
-        if(!empty($this->subclass))
-          $this->events .= "<dl class=\"event ".$this->subclass."\" id=\"de".$day."\">";
-        else
-          $this->events .= "<dl class=\"event\" id=\"de".$day."\">";
+        $this->events .= "<dl class=\"event\" id=\"de".$day."\">";
         foreach( $events as $ev)
         {
           $this->event_add ($ev,$date);
