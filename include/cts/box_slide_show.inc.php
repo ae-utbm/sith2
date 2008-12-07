@@ -32,7 +32,7 @@
 class box_slideshow extends stdcontents
 {
 
-  function box_slideshow($delay=2000,$pause=true)
+  function box_slideshow($delay=5000,$pause=true)
   {
     $this->title = null;
     $this->divid = null;
