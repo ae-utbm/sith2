@@ -56,6 +56,6 @@ function switch_slides(cts,frame, start_frame, end_frame, delay) {
       cts1.style.display='block';
     }
   }
-  setTimeout(switch_slides(cts,frame, start_frame, end_frame, delay), delay);
+//  setTimeout(switch_slides(cts,frame, start_frame, end_frame, delay), delay);
 }
 
