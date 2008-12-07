@@ -65,8 +65,13 @@ class eboutic extends site
   function eboutic ()
   {
     $this->site();
-    $this->set_side_boxes("left",array("e-boutic","connexion"));
-    $this->set_side_boxes("right",array());
+    if ( $GLOBALS["taiste"] )
+      $this->set_side_boxes("left",array("e-boutic"));
+    else
+    {
+      $this->set_side_boxes("left",array("e-boutic","connexion"));
+      $this->set_side_boxes("right",array());
+    }
     $this->add_css ("css/eboutic.css");
 
     $this->comptoir = new comptoir($this->db,$this->dbrw);
