@@ -297,7 +297,7 @@ class site extends interfaceweb
     $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
 
-    $this->add_box("calendrier",new calendar($this->db,null,false));
+    $this->add_box("calendrier",new calendar($this->db,null,'calbox'));
 
     if ( $section == "accueil" )
     {

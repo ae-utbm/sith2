@@ -60,10 +60,10 @@ class calendar extends stdcontents
 
   /** Constructeur de la classe
   */
-  function calendar (&$db,$id_asso=null,$icon=true)
+  function calendar (&$db,$id_asso=null,$subclass='')
   {
     $this->db = $db;
-    $this->icon=$icon;
+    $this->subclass=$subclass;
     /* Si les paramètres temporels sont donnés, on les utilise */
     if ($_GET['caldate'] != "")
       $this->date = strtotime($_GET['caldate']);
@@ -93,11 +93,14 @@ class calendar extends stdcontents
     $days = date("t", $this->date);
 
     //
-    if ( $topdir == $wwwtopdir && $this->icon )
+    if ( $topdir == $wwwtopdir )
       $this->buffer = "<p class=\"ical\"><a href=\"".$wwwtopdir."article.php?name=ical\"><img src=\"".$wwwtopdir."images/icons/16/ical.png\" alt=\"iCalendar\" /></a></p>";
     else
       $this->buffer = "";
-    $this->buffer .= "<div class=\"calendarhead\">\n";
+    if(!empty($this->subclass))
+      $this->buffer .= "<div class=\"calendarhead ".$this->subclass."\">\n";
+    else
+      $this->buffer .= "<div class=\"calendarhead\">\n";
     $this->buffer .= "<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"99%\">\n";
 
     $prevmonth = $month - 1;
