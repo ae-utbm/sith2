@@ -38,20 +38,19 @@
  */
 var slideshowboxes=new Array();
 function slideshow_onoff(cts,id){
-  var cts;
+  var cts1;
   if(slideshowboxes[cts]==0)
   {
     slideshowboxes[cts]=1;
-    if(cts = document.getElementById(id) )
-      cts.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+cts+'\',\''+id+'\'); return false;">start</a>';
+    if(cts1 = document.getElementById(id) )
+      cts1.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+cts+'\',\''+id+'\'); return false;">start</a>';
   }
   else
   {
     slideshowboxes[cts]=0;
-    if(cts = document.getElementById(id) )
-      cts.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+cts+'\',\''+id+'\'); return false;">pause</a>';
+    if(cts1 = document.getElementById(id) )
+      cts1.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+cts+'\',\''+id+'\'); return false;">pause</a>';
   }
-  alert(cts);
 }
 
 function start_slideshow(cts,start_frame, end_frame, delay, pause) {
