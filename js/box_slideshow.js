@@ -37,14 +37,19 @@
  * @ingroup js
  */
 
+var i=0;
 function start_slideshow(cts,start_frame, end_frame, delay) {
   setTimeout(switch_slides(cts,start_frame,start_frame,end_frame, delay),delay);
-  alert('bleh');
 }
 
 function switch_slides(cts,frame, start_frame, end_frame, delay) {
   var cts1;
   var cts2;
+  if(i<10)
+  {
+    alert('bleh '+i);
+    i++;
+  }
   if( cts1 = document.getElementById(cts+frame) )
   {
     if (frame == end_frame)
