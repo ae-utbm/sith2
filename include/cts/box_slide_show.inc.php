@@ -45,13 +45,13 @@ class box_slideshow extends stdcontents
 
   function add_slide($cts)
   {
-    if(get_class($cts) && method_exists($cts,'html_render'));
+    if(!is_null($cts))
       $this->slides[]=$cts;
   }
 
   function html_render ()
   {
-    if(empty($this->slides))
+    if(count($this->slides)==0)
       return "";
     $uid=gen_uid();
     $this->buffer.="<script type=\"text/javascript\">\n";
