@@ -73,8 +73,6 @@ class site extends interfaceweb
     if ( $this->get_param("closed",false) && !$this->user->is_in_group("root") )
       $this->fatal("closed");
 
-    $this->set_side_boxes("right",array("calendrier","alerts"),"default_left");
-
     $timing["site::site"] += microtime(true);
 
     /*
@@ -299,7 +297,7 @@ class site extends interfaceweb
     $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
 
-    $this->add_box("calendrier",new calendar($this->db));
+    $this->add_box("calendrier",new calendar($this->db,null,false));
 
     if ( $section == "accueil" )
     {
