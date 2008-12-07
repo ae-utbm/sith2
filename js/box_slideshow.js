@@ -45,6 +45,7 @@ function over_slideshow(cts){
 
 function away_slideshow(cts){
   slideshowboxes[cts]=0;
+  alert(slideshowboxes[cts]);
 }
 
 function start_slideshow(cts,start_frame, end_frame, delay, pause) {
