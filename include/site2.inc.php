@@ -300,7 +300,7 @@ class site extends interfaceweb
     $slides = new box_slideshow();
     $slides->add_slide(new calendar($this->db,null,'calbox'));
     $slides->add_slide($this->get_alerts());
-    $slides->add_slide($this->get_weekly_photo_contents());
+//    $slides->add_slide($this->get_weekly_photo_contents());
 //    $this->add_box("calendrier",new calendar($this->db,null,'calbox'));
     $this->add_box("calendrier",$slides);
 
