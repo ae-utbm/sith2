@@ -94,15 +94,11 @@ div.gallery div.galitem div.tooldep
   position:relative;
 }
 
-#sasimg_img
-{
-  background-color:#303030;
-  padding:20px;
-}
-
-#sasimg #sasimg_img img
+#sasimg img
 {
   max-width:100%;
+  border-color:#303030;
+  border-width:20px;
 }
 
 #photoinfo
