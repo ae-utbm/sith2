@@ -819,7 +819,6 @@ p.ical
   position:absolute;
   width:15px;
   height:15px;
-  top:-15px;
   right:20px;
 }
 
@@ -2426,14 +2425,6 @@ div._right_opts
   border-top:1px solid #f0f0f0;
 }
 
-div.sbox_body_calendrier p.ical
-{
-  height:15px;
-  position:absolute;
-  right:20px;
-  top:0px;
-  width:15px;
-}
 div.calbox
 {
   margin:auto;
