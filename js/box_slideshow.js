@@ -39,6 +39,7 @@
 
 function start_slideshow(cts,start_frame, end_frame, delay) {
   setTimeout(switch_slides(cts,start_frame,start_frame,end_frame, delay),delay);
+  alert('bleh');
 }
 
 function switch_slides(cts,frame, start_frame, end_frame, delay) {
