@@ -299,7 +299,7 @@ class site extends interfaceweb
     require_once($topdir . "include/cts/box_slide_show.inc.php");
     $slides = new box_slideshow();
     $slides->add_slide(new calendar($this->db,null,'calbox'));
-    $slides->add_slide(get_alerts());
+    $slides->add_slide($this->get_alerts());
 
 //    $this->add_box("calendrier",new calendar($this->db,null,'calbox'));
     $this->add_box("calendrier",$slides);
