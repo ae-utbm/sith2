@@ -37,9 +37,20 @@
  * @ingroup js
  */
 var slideshowboxes=new Array();
-var i=0;
-function over_slideshow(cts){
-  slideshowboxes[cts]=1;
+function slideshow_onoff(cts,id){
+  var cts;
+  if(slideshowboxes[cts]==0)
+  {
+    slideshowboxes[cts]=1;
+    if(cts = document.getElementById('slideshowonoff'+cts) )
+      cts.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+id+'\'); return false;">start<a/>';
+  }
+  else
+  {
+    slideshowboxes[cts]=0;
+    if(cts = document.getElementById('slideshowonoff'+cts) )
+      cts.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+id+'\'); return false;">pause<a/>';
+  }
 }
 
 function away_slideshow(cts){
