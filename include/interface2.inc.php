@@ -507,7 +507,7 @@ class interfaceweb
       $this->buffer .= "</div>\n";
     }
 
-    $this->buffer .= "<p class=\"text-footer\">";
+    $this->buffer .= "<p class=\"text-footer clearboth\">";
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a>";
     $this->buffer .= " - <a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a>";
     $this->buffer .= " - <a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a>";
