@@ -40,10 +40,12 @@ var slideshowboxes=new Array();
 
 function over_slideshow(cts){
   slideshowboxes[cts]=true;
+  alert('bleh');
 }
 
 function away_slideshow(cts){
   slideshowboxes[cts]=false;
+  alert('bleh2');
 }
 
 function start_slideshow(cts,start_frame, end_frame, delay, pause) {
