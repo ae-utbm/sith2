@@ -55,7 +55,7 @@ function switch_slides(cts,frame, start_frame, end_frame, delay,pause) {
   {
     if(i==1)
     alert(slideshowboxes[cts]);
-    i=1;
+    i++;
     var cts1;
     var cts2;
     if( cts1 = document.getElementById(cts+frame) )
