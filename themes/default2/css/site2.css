@@ -262,7 +262,7 @@ p.error
 {
   vertical-align:middle;
   margin:0px;
-  margin-left:10px;
+  margin-left:14px;
 }
 span#endspanfirst
 {
@@ -272,6 +272,7 @@ span#endspanfirst
 {
   text-decoration:none;
   color:#ffffff;
+  font-weight: bold;
 }
 
 div.important p
