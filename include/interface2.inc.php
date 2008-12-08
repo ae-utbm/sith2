@@ -524,10 +524,10 @@ class interfaceweb
 
     $this->buffer .= "<div id=\"endsite\">";
     $this->buffer .= "<div id=\"endsitelinks\">";
-    $this->buffer .= "<span id=\"endspanfirst\"><a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a></span>";
-    $this->buffer .= "<span><a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a></span>";
-    $this->buffer .= "<span><a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a></span>";
-    $this->buffer .= "<span><a href=\"". $wwwtopdir ."wiki2/?name=ae:info\">Equipe info</a></span>";
+    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a>";
+    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a>";
+    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a>";
+    $this->buffer .= "<a href=\"". $wwwtopdir ."wiki2/?name=ae:info\">Equipe info</a>";
     $this->buffer .= "</div>";// /endsitelinks
     $this->buffer .= "<div id=\"logofooter\">";
     $this->buffer .= "&nbsp;";
