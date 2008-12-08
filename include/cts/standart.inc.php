@@ -1704,7 +1704,7 @@ class image extends stdcontents
   {
     $this->title  = $title;
     $this->scr    = $scr;
-    $this->class  = $class;i
+    $this->class  = $class;
     $this->border = $border;
   }
 
