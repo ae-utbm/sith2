@@ -92,8 +92,6 @@ div.gallery div.galitem div.tooldep
   float:left;
   text-align:center;
   position:relative;
-  background-color:#303030;
-  padding:20px;
 }
 
 #sasimg img
@@ -247,3 +245,8 @@ img.mininav
   font-weight:bold;
 }
 
+.sas_img
+{
+  background-color:#303030;
+  padding:20px;
+}
