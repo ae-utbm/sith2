@@ -237,7 +237,7 @@ class sasphoto extends contents
     }
     else
     {
-      $imgcts->add(new image($photo->id,"images.php?/".$photo->id.".diapo.jpg","sas_img",true));
+      $imgcts->add(new image($photo->id,"images.php?/".$photo->id.".diapo.jpg"),false,true,gen_uid(),"sas_img");
       $_exif="<div id=\"exif\">\n";
       if(!empty($photo->manufacturer) || !empty($photo->manufacturer))
       {
