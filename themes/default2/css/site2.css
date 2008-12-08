@@ -257,6 +257,8 @@ p.error
   padding:0;
   color:#ffffff;
   vertical-align:middle;
+  display:table-cell;
+  vertical-align: middle;
 }
 #endsitelinks span
 {
