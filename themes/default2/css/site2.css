@@ -261,7 +261,6 @@ p.error
   height:57px;
   font-size:10px;
   margin:0;
-/*  margin-bottom:-80px;*/
   padding:0;
   color:#ffffff;
 }
@@ -407,7 +406,7 @@ div.contents
 {
   width:980px;
   margin:0 auto 80 auto;
-  position:relative;
+/*  position:relative;*/
   border:0;
   padding: 0 0 0 0;
   background-color:#ffffff;
