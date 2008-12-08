@@ -262,7 +262,7 @@ p.error
 {
   vertical-align:middle;
   margin:0px;
-  margin-left:14px;
+  margin-left:10px;
 }
 span#endspanfirst
 {
@@ -271,6 +271,7 @@ span#endspanfirst
 #endsite span a
 {
   text-decoration:none;
+  font-size:14px;
   color:#ffffff;
   font-weight: bold;
 }
