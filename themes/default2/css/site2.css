@@ -91,6 +91,10 @@ div#fsearchbox
   color:#ffffff;
   font-size:8px;
 }
+#head_comptoirs img
+{
+  height:8px;
+}
 #dropmenudiv, #assos, #login
 {
   font:normal 10px;
