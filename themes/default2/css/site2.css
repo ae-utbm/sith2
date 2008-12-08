@@ -247,6 +247,8 @@ p.error
 }
 #endsite
 {
+  position:absolute;
+  bottom:0;
   clear: both;
   width:100%;
   background-color:#333333;
