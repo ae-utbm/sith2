@@ -251,4 +251,5 @@ img.mininav
   padding:20px;
   width:1px;
   margin:auto;
+  overflow:visible;
 }
