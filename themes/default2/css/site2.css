@@ -260,16 +260,10 @@ p.error
 #endsitelinks
 {
   width:980px;
+  height:54px;
   margin:auto;
-}
-#endsitelinks span
-{
-  width:980px;
-  padding:0;
-  margin:auto;
+  margin-top:auto;
   vertical-align:middle;
-  margin:0px;
-  margin-left:10px;
 }
 #endsitelinks a
 {
