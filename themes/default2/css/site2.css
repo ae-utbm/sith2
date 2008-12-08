@@ -258,8 +258,11 @@ p.error
   color:#ffffff;
   vertical-align:middle;
 }
-#endsite span
+#endsitelinks span
 {
+  width:980px;
+  padding:0;
+  margin:auto;
   vertical-align:middle;
   margin:0px;
   margin-left:10px;
@@ -268,7 +271,7 @@ span#endspanfirst
 {
   margin-left:44px;
 }
-#endsite span a
+#endsitelinks span a
 {
   text-decoration:none;
   font-size:14px;
