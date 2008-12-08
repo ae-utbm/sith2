@@ -520,7 +520,7 @@ class interfaceweb
     $this->buffer .= "</div>\n"; // /page
     $this->buffer .= "<!-- end of page -->\n\n";
     $this->buffer .= "</div>\n"; // /contents
-    $this->buffer .= "<div id=\"contentsends\">&nbsp;</div>\n";
+    $this->buffer .= "<div id=\"contentsend\">&nbsp;</div>\n";
     $this->buffer .= "<div id=\"endsite\">";
     $this->buffer .= "<div id=\"endsitelinks\">";
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a> ";
