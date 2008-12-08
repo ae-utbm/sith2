@@ -241,7 +241,7 @@ class interfaceweb
 
 /* header */
     $this->buffer .= "<div id='header'>\n";
-    $this->buffer .= "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/Ae.jpg\" height=\"60\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";
+    $this->buffer .= "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/ae_header.png\" height=\"60\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";
 
     $this->buffer .= "<div id='headermenu'>\n";
     if ( !$this->user->is_valid() )
@@ -523,10 +523,9 @@ class interfaceweb
     $this->buffer .= "<div id=\"contentsend\">&nbsp;</div>\n";
     $this->buffer .= "<div id=\"endsite\">";
     $this->buffer .= "<div id=\"endsitelinks\">";
-    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a> ";
+    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">Mentions légales</a> ";
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a> ";
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a> ";
-    $this->buffer .= "<a href=\"". $wwwtopdir ."wiki2/?name=ae:info\">Equipe info</a>";
     $this->buffer .= "</div>";// /endsitelinks
     $this->buffer .= "</div>";// /endsite
     $this->buffer .= "</div>\n"; // /site
