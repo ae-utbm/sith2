@@ -903,7 +903,7 @@ class site extends interfaceweb
         $list.='<br />';
     }
     
-    return '<div id="comptoirs">'.$list.'</div>';
+    return '<div id="head_comptoirs">'.$list.'</div>';
   }
 
   /**
