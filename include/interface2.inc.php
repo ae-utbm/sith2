@@ -520,7 +520,17 @@ class interfaceweb
     $this->buffer .= "</div>\n"; // /page
     $this->buffer .= "<!-- end of page -->\n\n";
     $this->buffer .= "</div>\n"; // /contents
-    $this->buffer .= "<div id=\"endsite\">&nbsp;</div></div>\n";
+    $this->buffer .= "</div>\n"; // /site
+
+    $this->buffer .= "<div id=\"endsite\">";
+    $this->buffer .= "<span><a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a></span>";
+    $this->buffer .= "<span><a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a></span>";
+    $this->buffer .= "<span><a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a></span>";
+    $this->buffer .= "<span><a href=\"". $wwwtopdir ."wiki2/?name=ae:info\">Equipe info</a></span>";
+    $this->buffer .= "<div id=\"logofooter\">";
+    $this->buffer .= "&nbsp;";
+    $this->buffer .= "</div>";// /logofooter
+    $this->buffer .= "</div>";// /endsite
 
     if ( $this->get_param("backup_server",true) )
     {
