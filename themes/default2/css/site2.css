@@ -2468,16 +2468,14 @@ div.slidebox_pause
 div.slidebox_pause a
 {
   color:#B5DC10;
-  text-decoration:underline;
+  font-size:bold;
 }
 
 div.slidebox_pause a:before
 {
   content: "- ";
-  text-decoration:none;
 }
 div.slidebox_pause a:after
 {
-  content: "-";
-  text-decoration:none;
+  content: " -";
 }
