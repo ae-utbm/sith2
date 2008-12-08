@@ -256,13 +256,9 @@ p.error
   margin-top:20px;
   padding:0;
   color:#ffffff;
-  vertical-align:middle;
-  display:table;
 }
 #endsitelinks
 {
-  display:table-cell;
-  vertical-align:middle;
   width:980px;
   margin:auto;
 }
