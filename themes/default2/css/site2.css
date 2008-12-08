@@ -259,11 +259,10 @@ p.error
 }
 #endsitelinks
 {
+  position:relative;
+  top:20px;
   width:980px;
-  height:54px;
   margin:auto;
-  margin-top:auto;
-  vertical-align:middle;
 }
 #endsitelinks a
 {
