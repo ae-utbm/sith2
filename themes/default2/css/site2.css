@@ -414,10 +414,8 @@ div.contents
   display:block;
   margin-bottom:100px;
 }
-div.contents:after
+div#contentsends
 {
-  content: ".";
-  display: block;
   height: 100;
   clear: both;
   visibility:hidden;
