@@ -2463,17 +2463,21 @@ div.slidebox_pause
 {
   text-align:center;
   color:#B5DC10;
+  margin-bottom:10px;
 }
 div.slidebox_pause a
 {
   color:#B5DC10;
+  text-decoration:underline;
 }
 
 div.slidebox_pause a:before
 {
   content: "- ";
+  text-decoration:none;
 }
 div.slidebox_pause a:after
 {
-  content: " -";
+  content: "-";
+  text-decoration:none;
 }
