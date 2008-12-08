@@ -249,6 +249,5 @@ img.mininav
 
 img.sas_img
 {
-  border-width:20px;
-  border-color:#303030;
+  border: 20px solid #303030; 
 }
