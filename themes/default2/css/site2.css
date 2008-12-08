@@ -259,6 +259,11 @@ p.error
   vertical-align:middle;
   display:table;
 }
+#endsitelinks
+{
+  display:table-cell;
+  vertical-align:middle;
+}
 #endsitelinks span
 {
   width:980px;
