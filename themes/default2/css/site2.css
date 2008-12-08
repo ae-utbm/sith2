@@ -262,7 +262,7 @@ p.error
   padding-top:20px;
   padding-bottom:7px;
   width:980px;
-  margin:auto;
+  margin:0 auto 0 auto;
   background-image: url("../images/footer.png");
   background-repeat: no-repeat;
   background-position:100% 9px;
