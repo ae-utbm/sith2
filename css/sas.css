@@ -249,7 +249,7 @@ img.mininav
 {
   background-color:#303030;
   padding:20px;
-  width:1px;
+  width:auto;
   margin:auto;
   overflow:visible;
 }
