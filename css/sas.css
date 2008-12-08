@@ -96,7 +96,7 @@ div.gallery div.galitem div.tooldep
 
 #sasimg img
 {
-  /*max-width:100%;*/
+  max-width:100%;
 }
 
 #photoinfo
@@ -249,5 +249,5 @@ img.mininav
 {
   background-color:#303030;
   padding:20px;
-  max-width:100%;
+  margin:auto;
 }
