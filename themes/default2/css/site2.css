@@ -2468,3 +2468,12 @@ div.slidebox_pause a
 {
   color:#B5DC10;
 }
+
+div.slidebox_pause a:before
+{
+  content: "- ";
+}
+div.slidebox_pause a:after
+{
+  content: " -";
+}
