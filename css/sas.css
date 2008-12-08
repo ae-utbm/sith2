@@ -245,11 +245,8 @@ img.mininav
   font-weight:bold;
 }
 
-.sas_img
+div.sas_img
 {
   background-color:#303030;
   padding:20px;
-  width:auto;
-  margin:auto;
-  overflow:visible;
 }
