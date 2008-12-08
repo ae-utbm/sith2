@@ -272,7 +272,10 @@ p.error
   color:#ffffff;
   font-weight: bold;
 }
-
+#endsitelinks a:hover
+{
+  text-decoration:underline;
+}
 div.important p
 {
   margin: 0;
