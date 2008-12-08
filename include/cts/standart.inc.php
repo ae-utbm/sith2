@@ -1692,22 +1692,27 @@ class image extends stdcontents
 
   var $src;
   var $class;
+  var $border;
 
   /** Consrtuit une image
    * @param $title Titre
    * @param $src URL de l'image
    * @param $class Class CSS
+   * @param $border une bordure ou non ?
    */
-  function image ( $title, $scr,$class=false )
+  function image ( $title, $scr,$class=false,$border=false )
   {
-    $this->title = $title;
-    $this->scr = $scr;
-    $this->class = $class;
+    $this->title  = $title;
+    $this->scr    = $scr;
+    $this->class  = $class;i
+    $this->border = $border;
   }
 
   function html_render ()
   {
-    $buf = "<img src=\"".$this->scr."\" alt=\"".$this->title."\" border=\"0\"";
+    $buf = "<img src=\"".$this->scr."\" alt=\"".$this->title."\"";
+    if(!$this->border)
+      $buf .= " border=\"0\"";
     if ( $this->class )
       $buf .= " class=\"".$this->class."\"";
     $buf .= " />";
