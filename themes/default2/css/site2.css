@@ -38,7 +38,7 @@
 
 body
 {
-  background: #326698;
+  background: #00A0C6;
   margin: 0;
   padding: 0;
 }
@@ -60,7 +60,7 @@ div#header
   width:980px;
   margin:auto;
   height:85px;
-  background-color: #326698;
+  background-color: #00A0C6;
 }
 div#logo
 {
