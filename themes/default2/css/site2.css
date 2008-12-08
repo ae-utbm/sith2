@@ -82,6 +82,10 @@ div#fsearchbox
   padding:0;
   display:inline-block;
 }
+#comptoirs
+{
+  display:inline-block;
+}
 #dropmenudiv, #assos, #login
 {
   font:normal 10px;
