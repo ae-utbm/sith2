@@ -853,6 +853,59 @@ class site extends interfaceweb
 
   }
 
+  function get_comptoir()
+  {
+    global $topdir;
+    // 1- On ferme les sessions expirés
+    $req = new requete ($this->dbrw,
+           "UPDATE `cpt_tracking` SET `closed_time`='".date("Y-m-d H:i:s")."'
+            WHERE `activity_time` <= '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
+            AND `closed_time` IS NULL");
+
+
+    // 2- On récupère les infos sur les bars ouverts
+    $req = new requete ($this->dbrw,
+           "SELECT MAX(activity_time),id_comptoir
+            FROM `cpt_tracking`
+            WHERE `activity_time` > '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
+            AND `closed_time` IS NULL
+            GROUP BY id_comptoir");
+
+    while ( list($act,$id) = $req->get_row() )
+      $activity[$id]=strtotime($act);
+
+    // 3- On récupère les infos sur tous les bars
+    $req = new requete ($this->dbrw,
+           "SELECT id_comptoir, nom_cpt
+            FROM cpt_comptoir
+            WHERE type_cpt='0' AND id_comptoir != '4' AND id_comptoir != '8'
+            ORDER BY nom_cpt");
+    $list='';
+    $i=0;
+    while ( list($id,$nom) = $req->get_row() )
+    {
+      $i++;
+      $led = "green";
+      $descled = "ouvert";
+
+      if ( !isset($activity[$id]) )
+      {
+        $led = "red";
+        $descled = "fermé (ou pas d'activité depuis plus de ".(intval(ini_get("session.gc_maxlifetime"))/60)." minutes)";
+      }
+      elseif ( time()-$activity[$id] > 600 )
+      {
+        $led = "yellow";
+        $descled = "ouvert (mais pas d'activité depuis plus de 10 minutes)";
+      }
+      $list.="<a href=\"comptoir/activity.php?id_comptoir=$id\"><img src=\"".$topdir."images/leds/".$led."led.png\" class=\"icon\" alt=\"".htmlentities($descled,ENT_NOQUOTES,"UTF-8")."\" title=\"".htmlentities($descled,ENT_NOQUOTES,"UTF-8")."\" /> $nom</a>";
+      if($i<$req->lines)
+        $list.='<br />';
+    }
+    
+    return '<div id="comptoirs">'.$list.'</div>';
+  }
+
   /**
    * Gènère la boite d'information sur le forum
    * @param renvoie un stdcontents

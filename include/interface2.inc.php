@@ -169,6 +169,14 @@ class interfaceweb
     $this->compact = $compact;
   }
 
+  /** Calcul de la survie des bars :P
+   *
+   */
+  function get_comptoir()
+  {
+    return '';
+  }
+
   function add_css ( $url )
   {
     $this->extracss[] = $url;
@@ -287,6 +295,10 @@ class interfaceweb
     }
     else
     {
+      if($this->user->ae)
+      {
+        $this->buffer.=$this->get_comptoir();
+      }
       $this->buffer .= "<script type=\"text/javascript\">\n";
       $this->buffer .= "var menu_utilisateur=new Array();";
       $i=0;
