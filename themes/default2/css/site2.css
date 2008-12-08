@@ -423,12 +423,6 @@ div.contents:after
   clear: both;
   visibility:hidden;
 }
-div#contentsends
-{
-  height: 80px;
-  clear: both;
-  visibility:hidden;
-}
 /**
  * Colones de boites
  */
