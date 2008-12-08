@@ -53,6 +53,7 @@ div#site
 div#header
 {
   width:980px;
+  margin:auto;
   height:85px;
   background-color: #326698;
 }
@@ -322,6 +323,8 @@ ul li.info
 
 div.tabsv2
 {
+  width:980px;
+  margin:auto;
   background: #eeac00;
   height:32px;
   padding-left:0;
@@ -366,6 +369,8 @@ div.tabsv2 span.selected a, div.tabsv2 span a:hover
  */
 div.sectionlinks
 {
+  width:980px;
+  margin: 0 auto 0 auto;
   padding-top: 0.25em;
   padding-bottom: 0.25em;
   text-align: center;
@@ -393,11 +398,11 @@ div.emptysectionlinks
  */
 div.contents
 {
+  width:980px;
+  margin:0 auto 0 auto;
   position:relative;
   border:0;
-  margin:0;
   padding: 0 0 0 0;
-  margin-top: 0;
   background-color:#ffffff;
   display:block;
 }
