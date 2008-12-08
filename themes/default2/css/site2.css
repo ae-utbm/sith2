@@ -259,13 +259,13 @@ p.error
 }
 #endsitelinks
 {
-  position:relative;
-  top:20px;
+  padding-top:20px;
+  padding-bottom:7px;
   width:980px;
   margin:auto;
-  background-image: url ("../images/footer.png");
+  background-image: url("../images/footer.png");
   background-repeat: no-repeat;
-  background-position: top right;
+  background-position:100% 9px;
 }
 #endsitelinks a
 {
