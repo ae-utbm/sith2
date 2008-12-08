@@ -406,13 +406,12 @@ div.emptysectionlinks
 div.contents
 {
   width:980px;
-  margin:0 auto 80 auto;
+  margin:0 auto 60 auto;
   position:relative;
   border:0;
   padding: 0 0 0 0;
   background-color:#ffffff;
   display:block;
-  margin-bottom:100px;
 }
 div.contents:after
 {
