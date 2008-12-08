@@ -263,6 +263,8 @@ p.error
 {
   display:table-cell;
   vertical-align:middle;
+  width:980px;
+  margin:auto;
 }
 #endsitelinks span
 {
@@ -273,11 +275,7 @@ p.error
   margin:0px;
   margin-left:10px;
 }
-span#endspanfirst
-{
-  margin-left:44px;
-}
-#endsitelinks span a
+#endsitelinks a
 {
   text-decoration:none;
   font-size:14px;
