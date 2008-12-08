@@ -253,14 +253,20 @@ p.error
   height:54px;
   font-size:10px;
   margin:0;
-  padding-left:44px;
+  margin-top:20px;
+  padding:0;
   color:#ffffff;
+  vertical-align:middle;
 }
 #endsite span
 {
   vertical-align:middle;
   margin:0px;
   margin-left:10px;
+}
+span#endspanfirst
+{
+  margin-left:44px;
 }
 #endsite span a
 {
