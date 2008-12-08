@@ -263,6 +263,9 @@ p.error
   top:20px;
   width:980px;
   margin:auto;
+  background-image: url ("../images/footer.png");
+  background-repeat: no-repeat;
+  background-position: top right;
 }
 #endsitelinks a
 {
@@ -276,6 +279,7 @@ p.error
 {
   text-decoration:underline;
 }
+
 div.important p
 {
   margin: 0;
