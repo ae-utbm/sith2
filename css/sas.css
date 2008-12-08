@@ -247,6 +247,7 @@ img.mininav
 
 .sas_img
 {
+  width:100%;
   background-color:#303030;
   padding:20px;
 }
