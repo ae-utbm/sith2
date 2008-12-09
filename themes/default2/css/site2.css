@@ -1771,9 +1771,11 @@ td.moneycell
  */
 #fsearchbox
 {
+  float:right;
   text-align:left;
   padding:0;
   margin:0;
+  margin-top:3px;
   height:24px;
 }
 
