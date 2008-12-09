@@ -168,6 +168,7 @@ abstract class newslister extends stdcontents
       $this->puts("    var left=((12-hour)*60-min)*60-sec;\n");
       $this->puts("  else\n");
       $this->puts("    var left=((24-hour)*60-min)*60-sec;\n");
+      $this->puts(" alert('bleh');");
       $this->puts("  expire.setTime(expire.getTime() + (left*1000));\n");
       $this->puts(" alert('bleh');");
       $this->puts(" alert(expire.toGMTString());\n");
