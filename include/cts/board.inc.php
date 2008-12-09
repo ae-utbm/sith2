@@ -60,17 +60,22 @@ class board extends stdcontents
 
     $this->buffer .= "<div class=\"panelcts\">\n";
     $this->buffer .= $cts->html_render()."\n";
-		$this->buffer .= "</div>\n";
-		$this->buffer .= "</div>\n";
+    $this->buffer .= "</div>\n";
+    $this->buffer .= "</div>\n";
   }
 
-	function html_render ()
-	{
-	  if ( !is_null($this->boardclass) )
-		  return "<div class=\"board ".$this->boardclass."\">".$this->buffer."<div class=\"clearboth\"></div></div>";
-		else
-		  return "<div class=\"board\">".$this->buffer."<div class=\"clearboth\"></div></div>";
-	}
+  function clear()
+  {
+    $this->buffer .= "<div class=\"clearboth\"></div>\n";
+  }
+
+  function html_render ()
+  {
+    if ( !is_null($this->boardclass) )
+      return "<div class=\"board ".$this->boardclass."\">".$this->buffer."<div class=\"clearboth\"></div></div>";
+    else
+      return "<div class=\"board\">".$this->buffer."<div class=\"clearboth\"></div></div>";
+  }
 
 }
 
