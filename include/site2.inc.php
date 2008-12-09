@@ -298,7 +298,7 @@ class site extends interfaceweb
     parent::start_page($section,$title,$compact);
     require_once($topdir . "include/cts/box_slide_show.inc.php");
     $slides = new box_slideshow('L\'info en boucle');
-    $slides->add_slide(new calendar($this->db,null,'calbox',$slides->uid.$slides->nb));
+    $slides->add_slide(new calendar($this->db,null,'calbox','slideshow'.$slides->uid.$slides->nb));
     $slides->add_slide($this->get_weekly_photo_contents());
     $slides->add_slide($this->get_planning_contents());
     $slides->add_slide($this->get_planning_permanences_contents());
