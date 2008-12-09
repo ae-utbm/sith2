@@ -685,6 +685,7 @@ function dropdownmenu(obj, e, menucontents, menuwidth)
     e.stopPropagation();
   clearhidemenu();
   dropmenuobj=document.getElementById? document.getElementById("dropmenudiv") : dropmenudiv;
+  dropmenuobj.style.display = 'block';
   populatemenu(menucontents);
   if (ie4||ns6)
   {
