@@ -38,7 +38,7 @@
 
 body
 {
-  background: #166C8D;
+  background: #0f5169 url(../images/global-top.png) top repeat-x;
   margin: 0;
   padding: 0;
 }
@@ -508,7 +508,7 @@ div.box
 div.box a
 {
 /*  color:#ff3399; */
-  color:#00b1ff;
+  color:#436E7D;
   text-decoration: none;
 }
 
