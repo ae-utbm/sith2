@@ -269,7 +269,7 @@ p.error
   bottom:0;
   clear: both;
   width:100%;
-  background-color:#333333;
+  background :#333333 url(../images/global-bottom.png) top repeat-x;
   height:57px;
   font-size:10px;
   margin:0;
