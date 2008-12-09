@@ -425,7 +425,7 @@ div.contents
   margin:auto;
   margin-top:0;
   margin-bottom:60px;
-/*  position:relative;*/
+  position:relative;
   border:0;
   padding: 0 0 0 0;
   background-color:#ffffff;
