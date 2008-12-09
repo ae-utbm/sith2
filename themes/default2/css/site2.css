@@ -272,7 +272,6 @@ p.error
 {
   position:absolute;
   left:0;
-  text-align:left;
   bottom:0;
   clear: both;
   width:100%;
@@ -289,6 +288,7 @@ p.error
   padding-top:20px;
   padding-bottom:12px;
   width:980px;
+  text-align:left;
   margin:0 auto 0 auto;
   background-image: url("../images/footer.png");
   background-repeat: no-repeat;
