@@ -438,7 +438,7 @@ class interfaceweb
     else
       $this->buffer .= "<div class=\"emptysectionlinks\"></div>\n";
 
-    $this->buffer .= "<div class=\"contents\"><div id=\"fixcontent\">\n";
+    $this->buffer .= "<div class=\"contents\">\n";
     $idpage = "";
 
     $mode = $this->user->id > 0 ? "c" : "nc";
@@ -547,7 +547,7 @@ class interfaceweb
 
     $this->buffer .= "</div>\n"; // /page
     $this->buffer .= "<!-- end of page -->\n\n";
-    $this->buffer .= "</div></div>\n"; // /contents
+    $this->buffer .= "</div>\n"; // /contents
     $this->buffer .= "<div id=\"contentsend\">&nbsp;</div>\n";
     $this->buffer .= "<div id=\"endsite\">";
     $this->buffer .= "<div id=\"endsitelinks\">";
