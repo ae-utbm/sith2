@@ -74,7 +74,7 @@ div#headermenu
   margin:0;
   padding:0 0 0 15px;
   height:30px;
-  background-color:#424242;
+  background:#424242 url(../images/box-bl-corner.png) no-repeat bottom left;
 }
 div#fsearchbox
 {
@@ -346,7 +346,7 @@ div.tabsv2
   width:980px;
   margin:auto;
   background: #eeac00;
-  height:32px;
+  height:28px;
   padding-left:0;
   margin-bottom:0;
 }
@@ -522,6 +522,7 @@ div.box h1
   font-size: 0;
   color: #ffffff;
   text-align:right;
+	border-bottom: 1px dotted #ffffff;
 }
 
 div.box h1 a
