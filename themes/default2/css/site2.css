@@ -422,6 +422,7 @@ div.emptysectionlinks
  */
 div.contents
 {
+  text-align:left;
   width:980px;
   position:relative;
   margin:auto;
