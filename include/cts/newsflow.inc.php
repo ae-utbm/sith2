@@ -154,27 +154,8 @@ abstract class newslister extends stdcontents
     if ( $sql->lines > 0 )
     {
       $this->puts("<div class=\"newsappel\" id=\"newsappel\">\n");
-      $this->puts("<SCRIPT LANGUAGE=\"JavaScript\">\n");
-      $this->puts("function hide_news_appels(){\n");
-      $this->puts("  var cts;\n");
-      $this->puts("  if( cts = document.getElementById('newsappel') )\n");
-      $this->puts("    cts.style.display='none';\n");
-      $this->puts("  var name='AE2_HIDE_APPLES';\n");
-      $this->puts("  expire = new Date();\n");
-      $this->puts("  var hour=expire.getHours();\n");
-      $this->puts("  var min=expire.getMinutes();\n");
-      $this->puts("  var sec=expire.getSeconds();\n");
-      $this->puts("  if(hour<12)\n");
-      $this->puts("    var left=((12-hour)*60-min)*60-sec;\n");
-      $this->puts("  else\n");
-      $this->puts("    var left=((24-hour)*60-min)*60-sec;\n");
-      $this->puts("  expire.setTime(expire.getTime() + (left*1000));\n");
-      $this->puts("  document.cookie = name + '=1; expires='+expire.toGMTString();\n");
-      $this->puts(" return false;");
-      $this->puts("}\n");
-      $this->puts("</SCRIPT>\n");
       $this->puts("<div id=\"hide_apples\">\n");
-      $this->puts("<a href=\"#\" onclick=\"hide_news_appels(); return false;\">");
+      $this->puts("<a href=\"#\" onclick=\"hide_with_cookies('newsappel' 'AE2_HIDE_APPLES'); return false;\">");
       $this->puts("<img src=\"".$topdir."images/actions/delete.png\" alt=\"faire disparaire\" title=\"faire disparaire\"/>");
       $this->puts("</a>\n");
       $this->puts("</div>\n");
@@ -192,8 +173,12 @@ abstract class newslister extends stdcontents
     global $wwwtopdir, $topdir;
     if ( $sql->lines > 0 )
     {
-      $this->puts("<div class=\"newsnotices\">");
-
+      $this->puts("<div class=\"newsnotices\" id=\"newsnotices\">");
+      $this->puts("<div id=\"hide_notice\">\n");
+      $this->puts("<a href=\"#\" onclick=\"hide_with_cookies('newsnotices' 'AE2_HIDE_NOTICE'); return false;\">");
+      $this->puts("<img src=\"".$topdir."images/actions/delete.png\" alt=\"faire disparaire\" title=\"faire disparaire\"/>");
+      $this->puts("</a>\n");
+      $this->puts("</div>\n");
       if ( !is_null($title) )
         $this->puts("<h2>".$title."</h2>\n");
 
