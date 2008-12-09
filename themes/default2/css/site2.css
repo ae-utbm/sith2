@@ -118,6 +118,7 @@ div#fsearchbox
   margin:10px 0 0 0;
   padding:0;
   height:20px;
+  max-height:30px;
   padding:0;
   text-align:center;
   font-weight: bold;
