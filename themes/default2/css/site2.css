@@ -2516,3 +2516,7 @@ div.calbox td.weekday
 {
   background-color:#CC2227;
 }
+#hide_apples
+{
+  float:right;
+}
