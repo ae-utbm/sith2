@@ -59,6 +59,7 @@ div#site
 
 div#header
 {
+  z-index:59;
   position:relative;
   width:980px;
   margin:auto;
