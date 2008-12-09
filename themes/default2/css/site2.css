@@ -1803,6 +1803,7 @@ td.moneycell
 
 #fsearchres
 {
+  z-index:60;
   text-align:left;
   position:absolute;
   width:400px;
