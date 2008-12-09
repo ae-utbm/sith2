@@ -595,7 +595,7 @@ div.box h2, div.box h3
 /*  color: #00b1ff; */
   color:#ffffff;
   position:relative;
-  font-weight:normal;
+  font-weight:bold;
   font-size:11px;
   line-height:11px;
   padding-bottom:5px;
@@ -640,6 +640,11 @@ div.box div.body ul li
 div.box div.body ul li a
 {
   color:#ffffff;
+}
+
+div.box p
+{
+  font-weight:bold;
 }
 
 /**
