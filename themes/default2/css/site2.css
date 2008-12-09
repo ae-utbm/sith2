@@ -422,6 +422,7 @@ div.emptysectionlinks
 div.contents
 {
   width:980px;
+  position:relative;
   margin:auto;
   margin-top:0;
   margin-bottom:60px;
@@ -438,12 +439,6 @@ div.contents:after
   height: 0;
   clear: both;
   visibility:hidden;
-}
-#fixcontent
-{
-  position:relative;
-  padding:0;
-  margin:0;
 }
 /**
  * Colones de boites
