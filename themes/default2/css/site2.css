@@ -85,6 +85,7 @@ div#fsearchbox
 #head_comptoirs
 {
   display:inline-block;
+  display:none;
 }
 #head_comptoirs a
 {
@@ -97,6 +98,7 @@ div#fsearchbox
 }
 #dropmenudiv, #assos, #login
 {
+  float:left;
   font:normal 10px;
   width:155px;
   background-color: #424242;
