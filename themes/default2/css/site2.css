@@ -133,7 +133,7 @@ div#fsearchbox
   z-index:100;
   color:#ffffff;
   font-weight: bold;
-  margin-top:10px;
+  /*margin-top:10px;*/
 }
 
 #dropmenudiv a
