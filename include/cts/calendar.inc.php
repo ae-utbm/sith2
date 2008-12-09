@@ -60,7 +60,7 @@ class calendar extends stdcontents
 
   /** Constructeur de la classe
   */
-  function calendar (&$db,$id_asso=null,$subclass='')
+  function calendar (&$db,$id_asso=null,$subclass='',$id_box='sbox_body_calendrier')
   {
     $this->db = $db;
     $this->subclass=$subclass;
@@ -75,7 +75,7 @@ class calendar extends stdcontents
     $this->events = "";
     $this->title = "Calendrier";
     $this->id_asso = $id_asso;
-
+    $this->id_box=$id_box;
 
   }
 
@@ -152,9 +152,9 @@ class calendar extends stdcontents
     unset($req);
 
     $this->buffer .= "<tr>\n";
-    $this->buffer .= "<td class=\"month\"><a href=\"?caldate=$prevdate\" onclick=\"return !openInContents('sbox_body_calendrier','".$wwwtopdir."gateway.php','class=calendar&amp;caldate=$prevdate&amp;topdir=$wwwtopdir');\">&laquo;</a></td>\n";
+    $this->buffer .= "<td class=\"month\"><a href=\"?caldate=$prevdate\" onclick=\"return !openInContents('".$this->id_box."','".$wwwtopdir."gateway.php','class=calendar&amp;caldate=$prevdate&amp;topdir=$wwwtopdir&amp;".$this->id_box."');\">&laquo;</a></td>\n";
     $this->buffer .= "<td class=\"month\" colspan=\"5\">" . $this->months[$month-1] . " " . $year . "</td>\n";
-    $this->buffer .= "<td class=\"month\"><a href=\"?caldate=$nextdate\" onclick=\"return !openInContents('sbox_body_calendrier','".$wwwtopdir."gateway.php','class=calendar&amp;caldate=$nextdate&amp;topdir=$wwwtopdir');\">&raquo;</a></td>\n";
+    $this->buffer .= "<td class=\"month\"><a href=\"?caldate=$nextdate\" onclick=\"return !openInContents('".$this->id_box."','".$wwwtopdir."gateway.php','class=calendar&amp;caldate=$nextdate&amp;topdir=$wwwtopdir&amp;".$this->id_box."');\">&raquo;</a></td>\n";
     $this->buffer .= "</tr>\n";
 
     /* Affichage des jours de la semaine */
