@@ -38,9 +38,10 @@
 
 body
 {
-  background: #0f5169 url(../images/global-top.png) top repeat-x;
+  background: #0f5169; /* url(../images/global-top.png) top repeat-x; */
   margin: 0;
   padding: 0;
+	border-top: #424242 solid 5px;
 }
 html,body
 {
