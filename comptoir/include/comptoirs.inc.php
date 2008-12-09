@@ -63,7 +63,7 @@ class sitecomptoirs extends site
     global $topdir;
 
     $this->site();
-    $this->set_side_boxes("left",array("comptoir","connexion"));
+    $this->set_side_boxes("right",array("comptoir","connexion"));
 
     if ( $modevente )
     {
