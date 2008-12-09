@@ -122,6 +122,7 @@ div#fsearchbox
 }
 #dropmenudiv
 {
+  display:none;
   position:absolute;
   z-index:100;
   color:#ffffff;
