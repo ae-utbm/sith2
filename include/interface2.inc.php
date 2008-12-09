@@ -4,8 +4,9 @@
  *
  *
  */
-/* Copyright 2005,2006
+/* Copyright 2005,2006,2008
  * - Julien Etelain < julien at pmad dot net >
+ * - Simon lopez < simon dot lopez at ayolo dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -359,6 +360,21 @@ class interfaceweb
       if($this->user->is_in_group("moderateur_site"))
       {
         $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."ae/com.php\">Équipe com</a>';";
+        $i++;
+      }
+      if( $this->user->is_in_group("compta_admin") )
+      {
+        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."ae/compta.php\">Équipe trésorerie</a>';";
+        $i++;
+      }
+      if( $this->user->is_in_group("gestion_ae") )
+      {
+        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."ae/\">Équipe AE</a>';";
+        $i++;
+      }
+      if( $this->user->is_in_group("gestion_syscarteae") )
+      {
+        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."ae/syscarteae.php\">Carte AE</a>';";
         $i++;
       }
       while(list($id,$nom)=$req->get_row())
