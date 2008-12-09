@@ -1804,11 +1804,10 @@ td.moneycell
 #fsearchres
 {
   text-align:left;
-  position:relative;
+  position:absolute;
   width:400px;
-  margin-right:0;
-  margin-left:auto;
-  display:none;
+  right:0px;
+  top:20px;
   background:#ffffff;
   border:2px solid #424242;
   padding:0.5em;
