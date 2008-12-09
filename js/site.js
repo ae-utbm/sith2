@@ -843,3 +843,21 @@ function center(name)
 
 /* fin connexion topmoumoute */
 
+
+function hide_with_cookies(ctsp,cookiename){
+  if(!cookiename)
+    return false;
+  var cts;
+  if( cts = document.getElementById(ctsp) )
+    cts.style.display='none';
+  expire = new Date();
+  var hour=expire.getHours();
+  var min=expire.getMinutes();
+  var sec=expire.getSeconds();
+  if(hour<12)
+    var left=((12-hour)*60-min)*60-sec;
+  else
+    var left=((24-hour)*60-min)*60-sec;
+  expire.setTime(expire.getTime() + (left*1000));
+  document.cookie = cookiename + '=1; expires='+expire.toGMTString();
+}
