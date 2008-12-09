@@ -169,7 +169,7 @@ abstract class newslister extends stdcontents
       $this->puts("  else\n");
       $this->puts("    var left=((24-hour)*60-min)*60-sec;\n");
       $this->puts("  expire.setTime(expire.getTime() + (left*1000));\n");
-      $this->puts(" alert(expire.toGMTString());\n";
+      $this->puts(" alert(expire.toGMTString());\n");
       $this->puts("  document.cookie = name + '=1; expires='+expire.toGMTString();\n");
       $this->puts(" return false;");
       $this->puts("}\n");
