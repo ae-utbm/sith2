@@ -64,9 +64,8 @@ $sublist->add("<a href=\"cotisations.php\">Renouvellement cotisation/consultatio
 $board->add($sublist,true);
 
 $sublist = new itemlist("Inventaire");
-$sublist->add("Ajout matériel");
-$sublist->add("Types d'objet");
-$sublist->add("Batiments/Salles");
+$sublist->add("<a href=\"".$topdir."objtype.php\">Types d'objet</a>");
+$sublist->add("<a href=\"".$topdir."sitebat.php\">Batiments/Salles</a>");
 $board->add($sublist,true);
 
 
