@@ -44,18 +44,17 @@ $sublist->add("<a href=\"../emprunt.php?page=retrait\">Preter du matériel</a> (
 $sublist->add("<a href=\"modereemp.php?view=togo\">Retrait matériel</a>");
 $sublist->add("<a href=\"modereemp.php\">Modération des emprunts de matériel</a>");
 $sublist->add("<a href=\"../emprunt.php?page=retour\">Retour de matériel</a>");
-
-$board->add($sublist,true);
-
-$sublist = new itemlist("Salles");
-$sublist->add("<a href=\"".$topdir."salle.php?page=reservation\">Reserver une salle</a>");
-$sublist->add("<a href=\"".$topdir."ae/modereres.php\">Modération des reservations de salle</a>");
 $board->add($sublist,true);
 
 $sublist = new itemlist("Carte AE");
 $sublist->add("<a href=\"cartesae.php?view=retrait\">Retrait carte AE (+ cadeau)</a>");
 $sublist->add("<a href=\"cartesae.php?view=bureau\">Arrivée cartes AE au bureau</a>");
 $sublist->add("<a href=\"cartesae.php\">Impression cartes AE</a>");
+$board->add($sublist,true);
+
+$sublist = new itemlist("Salles");
+$sublist->add("<a href=\"".$topdir."salle.php?page=reservation\">Reserver une salle</a>");
+$sublist->add("<a href=\"".$topdir."ae/modereres.php\">Modération des reservations de salle</a>");
 $board->add($sublist,true);
 
 $sublist = new itemlist("Cotisations");
