@@ -48,10 +48,10 @@ $site->start_page("accueil","Bienvenue");
 
 if ( !$site->user->is_valid() )
 {
-	require_once($topdir. "include/entities/page.inc.php");
-	$page = new page ($site->db);
-	$page->load_by_pagename("info:welcome");
-	$site->add_contents($page->get_contents());
+  require_once($topdir. "include/entities/page.inc.php");
+  $page = new page ($site->db);
+  $page->load_by_pagename("info:welcome");
+  $site->add_contents($page->get_contents());
 }
 
 $site->add_contents(new newsfront($site->db));
