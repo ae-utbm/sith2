@@ -925,8 +925,8 @@ class site extends interfaceweb
       if ( $req->lines == 4 )
         $cts->add_paragraph("<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">suite...</a>");
     }
-    else
-      $cts->add_paragraph("pas de favoris non lus");
+
+    $i=$req->lines;
 
     $req = new requete($this->db,$query);
 
@@ -944,8 +944,8 @@ class site extends interfaceweb
       if ( $req->lines == 4 )
         $cts->add_paragraph("<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">suite...</a>");
     }
-    else
-      $cts->add_paragraph("pas d'autres messages non lus");
+    elseif($i==0)//ni favoris ni pas favoris
+      return null;
 
     return $cts;
   }
