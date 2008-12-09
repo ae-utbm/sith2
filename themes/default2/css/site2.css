@@ -59,6 +59,7 @@ div#site
 
 div#header
 {
+  position:relative;
   width:980px;
   margin:auto;
   height:85px;
@@ -70,9 +71,12 @@ div#logo
 }
 div#headermenu
 {
+  position:absolute;
   display:block-inline;
-  float:right;
+  top:0;
+  right:0;
   margin:0;
+  max-width:510px;
   padding:0 0 0 15px;
   height:30px;
   background:#424242 url(../images/box-bl-corner.png) no-repeat bottom left;
@@ -80,6 +84,7 @@ div#headermenu
 div#fsearchbox
 {
   margin:0;
+  margin-top:5px;
   padding:0;
   display:inline-block;
 }
