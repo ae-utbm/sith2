@@ -159,6 +159,7 @@ abstract class newslister extends stdcontents
       $this->puts("  var cts;\n");
       $this->puts("  if( cts = document.getElementById('newsappel') )\n");
       $this->puts("    cts.style.display='none';\n");
+      $this->puts(" alert('bleh');");
       $this->puts("  var name='AE2_HIDE_APPLES';\n");
       $this->puts("  expire = new Date();\n");
       $this->puts("  var hour=getHours();\n");
