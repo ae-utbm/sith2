@@ -422,8 +422,10 @@ div.emptysectionlinks
 div.contents
 {
   width:980px;
-  margin:0 auto 60 auto;
-  position:relative;
+  margin:auto;
+  margin-top:0;
+  margin-bottom:60px;
+/*  position:relative;*/
   border:0;
   padding: 0 0 0 0;
   background-color:#ffffff;
