@@ -418,7 +418,7 @@ if ( $_REQUEST['class'] == "calendar" )
   else
     $subclass='';
   if(isset($_REQUEST['id_box']) && !empty($_REQUEST['id_box']))
-    $cts = new calendar($site->db,null,'',$_REQUEST['id_box']);
+    $cts = new calendar($site->db,null,$subclass,$_REQUEST['id_box']);
   else
     $cts = new calendar($site->db);
 }
