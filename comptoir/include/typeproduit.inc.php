@@ -24,6 +24,9 @@ class typeproduit extends stdentity
   var $id_file;
   /** Description du type de produit */
   var $description;
+  /** Css de la catégorie */
+  var $css=null;
+
 
   function load_by_id ( $id )
   {
@@ -49,9 +52,10 @@ class typeproduit extends stdentity
     $this->id_assocpt = $row["id_assocpt"];
     $this->id_file = $row["id_file"];
     $this->description = $row["description_typeprod"];
+    $this->css = $row['css'];
   }
 
-  function ajout ( $nom, $action, $id_assocpt, $id_file, $description )
+  function ajout ( $nom, $action, $id_assocpt, $id_file, $description, $css="" )
   {
     $this->nom = $nom;
     $this->action = $action;
@@ -59,6 +63,7 @@ class typeproduit extends stdentity
 
     $this->id_file = $id_file;
     $this->description = $description;
+    $this->css = $css;
 
     $req = new insert ($this->dbrw,
            "cpt_type_produit",
@@ -66,7 +71,8 @@ class typeproduit extends stdentity
              "action_typeprod" => $this->action,
            "id_assocpt" => $this->id_assocpt,
            "id_file" => $this->id_file,
-           "description_typeprod" => $this->description
+           "description_typeprod" => $this->description,
+           "css" => $css
            ));
 
     if ( !$req )
@@ -77,13 +83,14 @@ class typeproduit extends stdentity
     return true;
   }
 
-  function modifier ( $nom, $action, $id_assocpt, $id_file, $description )
+  function modifier ( $nom, $action, $id_assocpt, $id_file, $description, $css="" )
   {
     $this->nom = $nom;
     $this->action = $action;
     $this->id_assocpt = $id_assocpt;
     $this->id_file = $id_file;
     $this->description = $description;
+    $this->css = $css;
 
     $sql = new update($this->dbrw,
           "cpt_type_produit",
@@ -91,7 +98,8 @@ class typeproduit extends stdentity
              "action_typeprod" => $this->action,
            "id_assocpt" => $this->id_assocpt,
            "id_file" => $this->id_file,
-           "description_typeprod" => $this->description
+           "description_typeprod" => $this->description,
+           "css" => $css
            ),
           array("id_typeprod" => $this->id));
 

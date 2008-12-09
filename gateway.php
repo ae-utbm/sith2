@@ -412,7 +412,16 @@ elseif( $_REQUEST['module']=="tinycal" )
 }
 
 if ( $_REQUEST['class'] == "calendar" )
-  $cts = new calendar($site->db);
+{
+  if(isset($_REQUEST['subclass']) && !empty($_REQUEST['subclass']))
+    $subclass=$_REQUEST['subclass'];
+  else
+    $subclass='';
+  if(isset($_REQUEST['id_box']) && !empty($_REQUEST['id_box']))
+    $cts = new calendar($site->db,null,'',$_REQUEST['id_box']);
+  else
+    $cts = new calendar($site->db);
+}
 else
   $cts = new contents();
 
