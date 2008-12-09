@@ -785,12 +785,13 @@ class site extends interfaceweb
     $weekly_photo_valid = filemtime($topdir."var/img/com/weekly_photo.jpg") + (7 * 24 * 60 * 60);
     if ( time() <= $weekly_photo_valid )
     {
-    $cts = new contents("Photo de la semaine");
-    $cts->puts("<center><a href=\"".$topdir."article.php?name=weekly_photo\"><img src=\"".$topdir."var/img/com/weekly_photo-small.jpg?".$weekly_photo_valid."\" style=\"margin-bottom:0.5em;\" alt=\"Photo de la semaine\" /></a><br/>");
-    $cts->puts($this->get_param('box.Weekly_photo'));
-    $cts->puts("</center>");
-    return $cts;
+      $cts = new contents("Photo de la semaine");
+      $cts->puts("<center><a href=\"".$topdir."article.php?name=weekly_photo\"><img src=\"".$topdir."var/img/com/weekly_photo-small.jpg?".$weekly_photo_valid."\" style=\"margin-bottom:0.5em;\" alt=\"Photo de la semaine\" /></a><br/>");
+      $cts->puts($this->get_param('box.Weekly_photo'));
+      $cts->puts("</center>");
+      return $cts;
     }
+    return null;
   }
 
   /**
