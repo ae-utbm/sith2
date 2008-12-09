@@ -49,6 +49,7 @@ html,body
 }
 div#site
 {
+  text-align:center;
   position:relative;
   width:100%;
   padding:0;
