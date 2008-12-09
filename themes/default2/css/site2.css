@@ -2481,7 +2481,7 @@ div.slidebox_pause
 /*  color:#B5DC10; */
   color:#ffffff;
   margin-bottom:10px;
-  font-size:11px;
+  font-size:19px;
 }
 div.slidebox_pause a
 {
@@ -2497,4 +2497,13 @@ div.slidebox_pause a:before
 div.slidebox_pause a:after
 {
   content: " -";
+}
+
+div.slideshow_box div.calendarhead td.month
+{
+  color:#ffffff;
+}
+div.slideshow_box div.calendarhead td.weekday
+{
+  color:#ffffff;
 }
