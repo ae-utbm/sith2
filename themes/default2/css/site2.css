@@ -2525,4 +2525,5 @@ div.calbox td.weekday
 #hide_apples, #hide_notice
 {
   float:right;
+  z-index: 60;
 }
