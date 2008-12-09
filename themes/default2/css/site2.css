@@ -272,6 +272,7 @@ p.error
 {
   position:absolute;
   left:0;
+  text-align:left;
   bottom:0;
   clear: both;
   width:100%;
