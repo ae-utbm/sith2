@@ -425,7 +425,6 @@ div.contents
   margin:auto;
   margin-top:0;
   margin-bottom:60px;
-  position:relative;
   border:0;
   padding: 0 0 0 0;
   background-color:#ffffff;
@@ -439,6 +438,12 @@ div.contents:after
   height: 0;
   clear: both;
   visibility:hidden;
+}
+#fixcontent
+{
+  position:relative;
+  padding:0;
+  margin:0;
 }
 /**
  * Colones de boites
