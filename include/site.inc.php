@@ -4,7 +4,7 @@
  * @brief Fonctions générales du site.
  *
  */
-/* Copyright 2004,2005,2006,2007
+/* Copyright 2004,2005,2006,2007,2008
  * - Alexandre Belloni <alexandre POINT belloni CHEZ utbm POINT fr>
  * - Thomas Petazzoni <thomas POINT petazzoni CHEZ enix POINT org>
  * - Maxime Petazzoni <maxime POINT petazzoni CHEZ bulix POINT org>
@@ -12,6 +12,7 @@
  * - Julien Etelain <julien CHEZ pmad POINT net>
  * - Benjamin Collet <bcollet CHEZ oxynux POINT org>
  * - Sarah Amsellem <sarah POINT amsellem CHEZ gmail POINT com>
+ * - Simon Lopez < simon dot lopez at ayolo dot org >
  *
  * Ce fichier fait partie du site de l'Association des 0tudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -31,13 +32,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
-
-
-if( !strncmp('/var/www/ae/www/taiste', $_SERVER['SCRIPT_FILENAME'], 22) )
-  require_once($topdir . "include/site2.inc.php");
-else
-{
-
 
 if ( !isset($GLOBALS['nosession']) )
   session_start();
@@ -80,19 +74,15 @@ class site extends interfaceweb
     if ( $this->get_param("closed",false) && !$this->user->is_in_group("root") )
       $this->fatal("closed");
 
-    $this->set_side_boxes("left",array("calendrier","alerts","connexion"),"default_left");
-
     $timing["site::site"] += microtime(true);
 
     /*
      * LEs css du site ae restent sur le site ae
      */
-    /*
-    if ( $siteae )
+/*    if ( $siteae )
     {
-      $this->add_css("themes/gala08/css/site.css");
-    }
-    */
+      $this->add_css("themes/congres08/css/site.css");
+    }*/
 
   }
 
@@ -212,8 +202,6 @@ class site extends interfaceweb
 
     $this->user->visite();
 
-    $this->add_box("connexion", $this->get_connection_contents());
-
     return $sid;
   }
 
@@ -288,6 +276,10 @@ class site extends interfaceweb
     return $sid;
   }
 
+  function get_connection_contents()
+  {
+  }
+
   /**
    * Demarre la page à rendre en spécifiant quelques informations clefs.
    * Aucune donnée ne sera envoyé au client avant l'appel de end_page.
@@ -305,47 +297,52 @@ class site extends interfaceweb
 
     $timing["site::start_page"] -= microtime(true);
     parent::start_page($section,$title,$compact);
-
-    $this->add_box("calendrier",new calendar($this->db));
-    $this->add_box("connexion", $this->get_connection_contents());
+    require_once($topdir . "include/cts/box_slide_show.inc.php");
+    $slides = new box_slideshow('L\'info en boucle');
+    $slides->add_slide(new calendar($this->db,null,'calbox','slideshow'.$slides->uid.$slides->nb));
+    $slides->add_slide($this->get_weekly_photo_contents());
+    $slides->add_slide($this->get_planning_contents());
+    $slides->add_slide($this->get_planning_permanences_contents());
+    $this->add_box("info_en_boucle",$slides);
 
     if ( $section == "accueil" )
     {
       //Nb: alerts est *trés* long à calculer, il ne sera donc que dans accueil
       $this->add_box("alerts",$this->get_alerts());
 
-      $this->add_box("photo",$this->get_weekly_photo_contents());
       $this->add_box("anniv", $this->get_anniv_contents());
       $this->add_box("planning", $this->get_planning_contents());
-      $this->add_box("planning_permanences", $this->get_planning_permanences_contents());
-
-      if ( $GLOBALS["taiste"] )
-        $this->add_box("stream",$this->get_stream_box());
 
       if ($this->user->is_valid())
       {
         $this->add_box("forum",$this->get_forum_box());
 
-        $this->add_box("comptoirs",$this->get_comptoirs_box());
         $this->add_box("sondage",$this->get_sondage());
         $this->set_side_boxes("right",
-          array("planning","photo","anniv","stream",
-                "sondage","comptoirs","forum", "planning_permanences"),"accueil_c_right");
+                              array("info_en_boucle",
+                                    "alerts",
+                                    "anniv",
+                                    "stream",
+                                    "sondage",
+                                    "forum"
+                              ),
+                              "accueil_c_right");
       }
       else
         $this->set_side_boxes("right",
-          array("planning", "stream", "planning_permanences"),"accueil_nc_right");
+                              array("info_en_boucle",
+                                    "stream"
+                              ),
+                              "accueil_nc_right");
 
     }
     elseif ( $section == "pg" )
     {
-      $this->set_side_boxes("left",array("connexion"),"pg_left");
+      //$this->set_side_boxes("left",array("connexion"),"pg_left");
     }
     elseif ( $section == "matmatronch" )
-    {
-      $this->set_side_boxes("left",array("connexion"),"mmt_left");
-    }
-    elseif ( $section == "forum" )
+      require_once($topdir . "include/cts/newsflow.inc.php");
+    elseif($section!='e-boutic' && $section!='sas')
     {
       $this->set_side_boxes("left",array());
       $this->set_side_boxes("right",array());
@@ -695,222 +692,6 @@ class site extends interfaceweb
     return $cts;
   }
 
-  /**
-   * Gènère la boite de "Connexion" / "L'AE et Moi".
-   * @param renvoie un stdcontents, ou null (si vide)
-   */
-  function get_connection_contents ()
-  {
-    global $topdir;
-    global $wwwtopdir;
-
-    if ( !$this->user->is_valid() )
-    {
-      $cts = new contents("Connexion");
-      $frm = new form("connect",$topdir."connect.php",true,"POST","Connexion");
-      $jsoch = "javascript:switchSelConnection(this);";
-      $frm->add_select_field("domain",
-           "Connexion",
-           array("utbm"=>"UTBM / Assidu",
-           "id"=>"ID",
-           "autre"=>"E-mail",
-           "alias"=>"Alias"),
-           false,
-           "",
-           false,
-           true,
-           $jsoch);
-      $frm->add_text_field("username","Utilisateur","prenom.nom","",20,true);
-      $frm->add_password_field("password","Mot de passe","","",20);
-      $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", false );
-      $frm->add_submit("connectbtn","Se connecter");
-      $cts->add($frm);
-
-      $cts->add_paragraph("<a href=\"".$wwwtopdir."article.php?name=docs:connexion\">Aide</a> - <a href=\"".$wwwtopdir."password.php\">Mot de passe perdu</a>");
-
-      return $cts;
-    }
-
-    $today=date("Y-m-d");
-
-    $cts = new contents("L'AE et Moi");
-    $cts->add_paragraph($this->get_param('box.Welcome')." <b>".$this->user->prenom." ".$this->user->nom."</b>");
-
-    if ( $this->user->type=="srv" )
-    {
-      if ( $this->user->montant_compte < 0 )
-        $cts->add_paragraph("<br><a href=\"".$topdir."user/compteae.php\">Factures en attente de paiement : ".(sprintf("%.2f", $this->user->montant_compte/-100))." Euros</a>");
-    }
-    else
-      $cts->add_paragraph("<br><a href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>");
-
-    $sublist = new itemlist("Mon Compte","boxlist");
-    $sublist->add("<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>");
-
-    if ( $this->user->type=="srv" )
-      $sublist->add("<a href=\"".$topdir."user/compteae.php\">Factures</a>");
-    else
-    {
-      if($this->user->utbm)
-        $sublist->add("<a href=\"".$topdir."trombi/index.php\">Trombinoscope</a>");
-      if( $this->user->is_in_group("jobetu_etu") )
-      {
-        $jobuser = new jobuser_etu($this->db);
-        $jobuser->load_by_id($this->user->id);
-        $jobuser->load_annonces();
-        $sublist->add("<a href=\"".$topdir."jobetu/board_etu.php\">Mon compte JobEtu (".count($jobuser->annonces).")</a>");
-      }
-      else if( $this->user->is_in_group("jobetu_client") )
-        $sublist->add("<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>");
-      else
-        $sublist->add("<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>");
-      $sublist->add("<a href=\"".$topdir."user/outils.php\">Mes outils</a>");
-    }
-    $cts->add($sublist,true, true, "accountbox", "boxlist", true, true);
-
-    if( $this->user->is_in_group("compta_admin") )
-    {
-      $sublist = new itemlist("Comptabilité de l'AE","boxlist");
-      $sublist->add("<a href=\"".$topdir."entreprise.php\">Carnet d'adresses</a>");
-      $sublist->add("<a href=\"".$topdir."compta/\">Comptabilité</a>");
-      $sublist->add("<a href=\"".$topdir."comptoir/admin.php\">Comptoirs AE</a>");
-      $cts->add($sublist,true, true, "comptaadminbox", "boxlist", true, false);
-    }
-
-    if( $this->user->is_in_group("gestion_ae") )
-    {
-      $sublist = new itemlist("AE : Administration","boxlist");
-      $sublist->add("<a href=\"".$topdir."ae/\">Tâches usuelles</a>");
-      $sublist->add("<a href=\"".$topdir."ae/cartesae.php\">Cartes AE</a>");
-      $sublist->add("<a href=\"".$topdir."asso.php\">Associations et clubs</a>");
-      $cts->add($sublist,true, true, "aeadminbox", "boxlist", true, false);
-
-      $sublist = new itemlist("Salles, inventaire","boxlist");
-      $sublist->add("<a href=\"".$topdir."sitebat.php\">Batiments, salles</a>");
-      $sublist->add("<a href=\"".$topdir."objtype.php\">Type d'objets (inventaire)</a>");
-      $sublist->add("<a href=\"".$topdir."ae/modereres.php\">Reservation salles</a>");
-      $sublist->add("<a href=\"".$topdir."ae/modereemp.php\">Emprunts de matériel</a>");
-      $cts->add($sublist,true, true, "sainvadminbox", "boxlist", true, false);
-    }
-
-    if( $this->user->is_in_group("gestion_syscarteae") )
-    {
-      $sublist = new itemlist("Système Carte AE","boxlist");
-      $sublist->add("<a href=\"".$topdir."ae/syscarteae.php?view=factures\">Appels à facture</a>");
-      $sublist->add("<a href=\"".$topdir."ae/syscarteae.php?view=comptes\">Comptes</a>");
-      $sublist->add("<a href=\"".$topdir."ae/syscarteae.php?view=retrait\">Produits non retirés</a>");
-      $sublist->add("<a href=\"".$topdir."ae/syscarteae.php?view=remb\">Rembourser</a>");
-      $cts->add($sublist,true, true, "syscarteaebox", "boxlist", true, false);
-    }
-
-    $req = new requete($this->db,
-        "SELECT `asso`.`id_asso`, " .
-        "`asso`.`nom_asso` ".
-        "FROM `asso_membre` " .
-        "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
-        "WHERE `asso_membre`.`role` > 1 AND `asso_membre`.`date_fin` IS NULL " .
-        "AND `asso_membre`.`id_utilisateur`='".$this->user->id."' " .
-        "AND `asso`.`id_asso` != '1' " .
-        "ORDER BY asso.`nom_asso`");
-
-    if ( $req->lines > 0 )
-    {
-      if( $this->user->is_in_group("root") || $this->user->is_in_group("moderateur_site"))
-        $sublist = new itemlist("Gestion assos/clubs","boxlist");
-      elseif( $req->lines == 0 )
-        $sublist = new itemlist("Gestion asso/club","boxlist");
-      else
-        $sublist = new itemlist("Gestion assos/clubs","boxlist");
-
-      if( $this->user->is_in_group("root") )
-        $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
-      if($this->user->is_in_group("moderateur_site"))
-        $sublist->add("<a href=\"".$topdir."ae/com.php\">Équipe com</a>");
-
-      while ( list($id,$nom) = $req->get_row() )
-        $sublist->add("<a href=\"".$topdir."asso/index.php?id_asso=$id\">$nom</a>");
-      $cts->add($sublist,true, true, "assobox", "boxlist", true, true);
-    }
-    elseif($this->user->is_in_group("root") || $this->user->is_in_group("moderateur_site"))
-    {
-      if($this->user->is_in_group("root") && $this->user->is_in_group("moderateur_site"))
-        $sublist = new itemlist("Gestion assos/clubs","boxlist");
-      else
-        $sublist = new itemlist("Gestion asso/club","boxlist");
-      if($this->user->is_in_group("root"))
-        $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
-      if($this->user->is_in_group("moderateur_site"))
-        $sublist->add("<a href=\"".$topdir."ae/com.php\">Équipe com</a>");
-      $cts->add($sublist,true, true, "assobox", "boxlist", true, true);
-    }
-
-    $req = new requete($this->db,"SELECT id_comptoir,nom_cpt " .
-        "FROM cpt_comptoir " .
-        "WHERE `type_cpt`='2' " .
-        "AND id_groupe_vendeur IN (".$this->user->get_groups_csv().") " .
-        "ORDER BY nom_cpt");
-
-    if ( $req->lines > 0 )
-    {
-
-      $sublist = new itemlist("Actions bureaux AE","boxlist");
-
-       while ( list($id,$nom) = $req->get_row() )
-         $sublist->add("<a href=\"".$topdir."comptoir/bureau.php?id_comptoir=$id\">$nom</a>");
-
-      $cts->add($sublist,true, true, "cptbureau", "boxlist", true, true);
-
-    }
-    elseif($this->user->is_in_group("root"))
-    {
-      $sublist = new itemlist("Gestion assos/club","boxlist");
-      $sublist->add("<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>");
-      $cts->add($sublist,true);
-    }
-
-
-    if ( $this->user->is_in_group("root") && $this->user->is_in_group("gestion_syscarteae") )
-      $req = new requete($this->db,"SELECT cpt_comptoir.id_comptoir,cpt_comptoir.nom_cpt " .
-        "FROM cpt_comptoir " .
-        "ORDER BY cpt_comptoir.nom_cpt");
-    elseif ( $this->user->is_in_group("gestion_syscarteae") )
-      $req = new requete($this->db,"SELECT cpt_comptoir.id_comptoir,cpt_comptoir.nom_cpt " .
-        "FROM cpt_comptoir WHERE cpt_comptoir.nom_cpt != 'test' " .
-        "ORDER BY cpt_comptoir.nom_cpt");
-    else
-      $req = new requete($this->db,"SELECT id_comptoir,nom_cpt " .
-        "FROM cpt_comptoir " .
-        "WHERE ( id_groupe IN (".$this->user->get_groups_csv().") OR `id_assocpt` IN (".$this->user->get_assos_csv(4).") ) AND nom_cpt != 'test' " .
-        "ORDER BY nom_cpt");
-
-    if ( $req->lines > 0 )
-    {
-      $sublist = new itemlist("Admin comptoirs","boxlist");
-
-       while ( list($id,$nom) = $req->get_row() )
-        $sublist->add("<a href=\"".$topdir."comptoir/admin.php?id_comptoir=$id\">$nom</a>");
-
-      $cts->add($sublist,true, true, "cptadmin", "boxlist", true, false);
-    }
-
-    if ( $this->user->is_asso_role ( 27, 1 ) )
-    {
-      $sublist = new itemlist("Staff Mat'Matronch","boxlist");
-       $sublist->add("<a href=\"".$topdir."mmt/wiki/\">Wiki Mat'Matronch</a>");
-      $sublist->add("<a href=\"".$topdir."matmatronch/upload_photo_user.php\">Upload des Photos</a>");
-      $sublist->add("<a href=\"".$topdir."matmatronch/inscriptions.php\">Ajout utilisateur</a>");
-      $cts->add($sublist,true, true, "matmatronchbox", "boxlist", true, false);
-    }
-
-
-    /* Bouton de Deconnexion */
-    $frm = new form("disconnect",$topdir."disconnect.php",false,"POST","Deconnexion");
-    $frm->add_submit("disconnect","Se déconnecter");
-    $cts->add($frm);
-
-    return $cts;
-  }
-
   /** Génre la boite qui affiche les anniversaires */
   function get_anniv_contents ()
   {
@@ -1005,19 +786,20 @@ class site extends interfaceweb
     $weekly_photo_valid = filemtime($topdir."var/img/com/weekly_photo.jpg") + (7 * 24 * 60 * 60);
     if ( time() <= $weekly_photo_valid )
     {
-    $cts = new contents("Photo de la semaine");
-    $cts->puts("<center><a href=\"".$topdir."article.php?name=weekly_photo\"><img src=\"".$topdir."var/img/com/weekly_photo-small.jpg?".$weekly_photo_valid."\" style=\"margin-bottom:0.5em;\" alt=\"Photo de la semaine\" /></a><br/>");
-    $cts->puts($this->get_param('box.Weekly_photo'));
-    $cts->puts("</center>");
-    return $cts;
+      $cts = new contents("Photo de la semaine");
+      $cts->puts("<center><a href=\"".$topdir."article.php?name=weekly_photo\"><img src=\"".$topdir."var/img/com/weekly_photo-small.jpg?".$weekly_photo_valid."\" style=\"margin-bottom:0.5em;\" alt=\"Photo de la semaine\" /></a><br/>");
+      $cts->puts($this->get_param('box.Weekly_photo'));
+      $cts->puts("</center>");
+      return $cts;
     }
+    return null;
   }
 
   /**
-   * Gènère la boite d'information sur les comptoirs.
-   * @param renvoie un stdcontents
+   * Vérifie la vie des comptoirs :).
    */
-  function get_comptoirs_box ()
+
+  function get_comptoir()
   {
     global $topdir;
     // 1- On ferme les sessions expirés
@@ -1025,6 +807,7 @@ class site extends interfaceweb
            "UPDATE `cpt_tracking` SET `closed_time`='".date("Y-m-d H:i:s")."'
             WHERE `activity_time` <= '".date("Y-m-d H:i:s",time()-intval(ini_get("session.gc_maxlifetime")))."'
             AND `closed_time` IS NULL");
+
 
     // 2- On récupère les infos sur les bars ouverts
     $req = new requete ($this->dbrw,
@@ -1043,12 +826,11 @@ class site extends interfaceweb
             FROM cpt_comptoir
             WHERE type_cpt='0' AND id_comptoir != '4' AND id_comptoir != '8'
             ORDER BY nom_cpt");
-
-    $list = new itemlist("Comptoirs <i>(beta)</i>");
-
-
+    $list='';
+    $i=0;
     while ( list($id,$nom) = $req->get_row() )
     {
+      $i++;
       $led = "green";
       $descled = "ouvert";
 
@@ -1061,14 +843,13 @@ class site extends interfaceweb
       {
         $led = "yellow";
         $descled = "ouvert (mais pas d'activité depuis plus de 10 minutes)";
-
       }
-        $list->add("<a href=\"comptoir/activity.php?id_comptoir=$id\"><img src=\"".$topdir."images/leds/".$led."led.png\" class=\"icon\" alt=\"".htmlentities($descled,ENT_NOQUOTES,"UTF-8")."\" title=\"".htmlentities($descled,ENT_NOQUOTES,"UTF-8")."\" /> $nom</a>");
-
+      $list.="<a href=\"comptoir/activity.php?id_comptoir=$id\"><img src=\"".$topdir."images/leds/".$led."led.png\" class=\"icon\" alt=\"".htmlentities($descled,ENT_NOQUOTES,"UTF-8")."\" title=\"".htmlentities($descled,ENT_NOQUOTES,"UTF-8")."\" /> $nom</a>";
+      if($i<$req->lines)
+        $list.='<br />';
     }
-
-    return $list;
-
+    
+    return '<div id="head_comptoirs">'.$list.'</div>';
   }
 
   /**
@@ -1145,8 +926,8 @@ class site extends interfaceweb
       if ( $req->lines == 4 )
         $cts->add_paragraph("<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">suite...</a>");
     }
-    else
-      $cts->add_paragraph("pas de favoris non lus");
+
+    $i=$req->lines;
 
     $req = new requete($this->db,$query);
 
@@ -1164,8 +945,8 @@ class site extends interfaceweb
       if ( $req->lines == 4 )
         $cts->add_paragraph("<a href=\"".$wwwtopdir."forum2/search.php?page=unread\">suite...</a>");
     }
-    else
-      $cts->add_paragraph("pas d'autres messages non lus");
+    elseif($i==0)//ni favoris ni pas favoris
+      return null;
 
     return $cts;
   }
@@ -1531,9 +1312,5 @@ class site extends interfaceweb
                                                   "context_log" => $context_log ));
   }
 
-}
-
-
-//IF !TAISTE
 }
 ?>

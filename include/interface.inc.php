@@ -4,8 +4,9 @@
  *
  *
  */
-/* Copyright 2005,2006
+/* Copyright 2005,2006,2008
  * - Julien Etelain < julien at pmad dot net >
+ * - Simon lopez < simon dot lopez at ayolo dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -60,6 +61,8 @@ class interfaceweb
   var $sides_ref;
   var $boxes;
 
+  protected $buffer="";
+
   var $section;
   var $title;
 
@@ -105,7 +108,7 @@ class interfaceweb
     $this->db = $db;
     $this->dbrw = $dbrw;
 
-    $this->sides["left"] = array("connexion");
+    $this->sides["left"] = array();
     $this->sides["right"] = array();
 
     $this->user = new utilisateur( $db, $dbrw );
@@ -122,6 +125,8 @@ class interfaceweb
    */
   function set_side_boxes ( $side, $boxes, $ref=null )
   {
+    if($side=="left") $side="right";
+
     if ( $side != "left" && $side != "right" ) return;
     $this->sides[$side] = $boxes;
 
@@ -165,6 +170,14 @@ class interfaceweb
     $this->compact = $compact;
   }
 
+  /** Calcul de la survie des bars :P
+   *
+   */
+  function get_comptoir()
+  {
+    return '';
+  }
+
   function add_css ( $url )
   {
     $this->extracss[] = $url;
@@ -184,117 +197,248 @@ class interfaceweb
    */
   function end_page () // <=> html_render
   {
-    global $wwwtopdir,$timing ;
+    global $wwwtopdir,$topdir,$timing ;
     $timing["render"] -= microtime(true);
 
     header("Content-Type: text/html; charset=utf-8");
 
-    //echo "<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">";
+    $this->buffer .= "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">\n";
+    $this->buffer .= "<head>\n";
 
-    echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">\n";
-    echo "<head>\n";
-
-    echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n"; // (IE6 Legacy support)
+    $this->buffer .= "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n"; // (IE6 Legacy support)
     if(!defined('NOTAE'))
       echo "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
     else
       echo "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")."</title>\n";
 
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css?".filemtime($wwwtopdir . "themes/default/css/site.css")."\" title=\"AE2-NEW2\" />\n";
+    $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default2/css/site2.css?".filemtime($wwwtopdir . "themes/default2/css/site2.css")."\" title=\"AE2-NEW2\" />\n";
     foreach ( $this->extracss as $url )
       if(file_exists(htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8")))
-        echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"".
+        $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"".
              htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8")."?".
              filemtime(htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8"))."\" />\n";
 
     foreach ( $this->alternate as $row )
     {
-      echo "<link rel=\"alternate\" ".
+      $this->buffer .= "<link rel=\"alternate\" ".
         "type=\"".htmlentities($row[0],ENT_COMPAT,"UTF-8")."\" ".
         "title=\"".htmlentities($row[1],ENT_COMPAT,"UTF-8")."\" ".
         "href=\"".htmlentities($row[2],ENT_COMPAT,"UTF-8")."\" />\n";
     }
 
     if ( !empty($this->meta_keywords) )
-      echo "<meta name=\"keywords\" content=\"".htmlentities($this->meta_keywords,ENT_COMPAT,"UTF-8")."\" />\n";
+      $this->buffer .= "<meta name=\"keywords\" content=\"".htmlentities($this->meta_keywords,ENT_COMPAT,"UTF-8")."\" />\n";
 
     if ( !empty($this->meta_description) )
-      echo "<meta name=\"description\" content=\"".htmlentities($this->meta_description,ENT_COMPAT,"UTF-8")."\" />\n";
+      $this->buffer .= "<meta name=\"description\" content=\"".htmlentities($this->meta_description,ENT_COMPAT,"UTF-8")."\" />\n";
 
-    echo "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico\" />\n";
-    echo "<script type=\"text/javascript\">var site_topdir='".$wwwtopdir."';</script>\n";
-    echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js\"></script>\n";
-    echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js\"></script>\n";
-    echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js\"></script>\n";
+    $this->buffer .= "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico\" />\n";
+    $this->buffer .= "<script type=\"text/javascript\">var site_topdir='".$wwwtopdir."';</script>\n";
+    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js?".filemtime($wwwtopdir . "js/site.js")."\"></script>\n";
+    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js?".filemtime($wwwtopdir . "js/ajax.js")."\"></script>\n";
+    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js?".filemtime($wwwtopdir . "js/dnds.js")."\"></script>\n";
+    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/box_slideshow.js?".filemtime($wwwtopdir . "js/box_slideshow.js")."\"></script>\n";
 
     foreach ( $this->extrajs as $url )
-      echo "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
+      $this->buffer .= "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."?".filemtime(htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8"))."\"></script>\n";
 
-    echo "</head>\n";
+    $this->buffer .= "</head>\n";
 
-    echo "<body>\n";
+    $this->buffer .= "<body>\n";
     /* Generate the logo */
-    echo "<div id=\"site clearfix\">";
+    $this->buffer .= "<div id=\"site\">\n";
 
-    if (!$this->compact )
+/* header */
+    $this->buffer .= "<div id='header'>\n";
+    $this->buffer .= "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/ae_header.png\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";
+
+    $this->buffer .= "<div id='headermenu'>\n";
+    if ( !$this->user->is_valid() )
     {
-      if(!$this->get_param('box.Important',false))
-      {
-        echo "<div class=\"box clearfix\" id=\"important\"><div class=\"body\">\n";
-        echo $this->get_param('box.Important'). "\n";
-        echo "</div></div>\n";
-      }
+      $this->buffer .= "<div id=\"overlay\" onclick=\"hideConnexionBox()\" style=\"display:none\"></div>\n";
+      $this->buffer .= '<div id="passwordbox" style="display:none">';
+      $this->buffer .= '<img id="close" src="'.$topdir.'images/actions/delete.png" onClick="hideConnexionBox()" alt="Fermer" ';
+      $this->buffer .= 'title="Fermer" />';
+      $frm = new form("connect",$topdir."connect.php",true,"POST","Connexion");
+      $jsoch = "javascript:switchSelConnection(this);";
+      $frm->add_select_field("domain",
+           "Connexion",
+           array("utbm"=>"UTBM / Assidu",
+           "id"=>"ID",
+           "autre"=>"E-mail",
+           "alias"=>"Alias"),
+           false,
+           "",
+           false,
+           true,
+           $jsoch);
+      $frm->add_text_field("username","Utilisateur","prenom.nom","",20,true);
+      $frm->add_password_field("password","Mot de passe","","",20);
+      $frm->add_checkbox ( "personnal_computer", "Me connecter automatiquement la prochaine fois", false );
+      $frm->add_submit("connectbtn","Se connecter");
+      $this->buffer .= $frm->html_render();
+      unset($frm);
+      $this->buffer .= "</div>\n";
 
-      echo "<div id=\"fsearchbox\">\n";
-      echo "<form action=\"".$wwwtopdir."fsearch.php\" method=\"post\">";
-      echo "<input type=\"text\" id=\"fsearchpattern\" name=\"pattern\" onblur=\"fsearch_stop_delayed();\" onkeyup=\"fsearch_keyup(event);\" value=\"\" />\n";
-      echo "</form>";
-      echo "<div class=\"fend\"></div></div>\n";
-
-      echo "<div id=\"fsearchres\"></div>\n";
-
-      echo "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/Ae.jpg\" height=\"60\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";
-
+      $this->buffer .= "<script type=\"text/javascript\">\n";
+      $this->buffer .= "var menu_utilisateur=new Array();";
+      $this->buffer .= "menu_utilisateur[0]='<a href=\"".$topdir."index.php\" onClick=\"return showConnexionBox()\">Connexion</a>';";
+      $this->buffer .= "menu_utilisateur[1]='<a href=\"".$topdir."password.php\">Mot de passe perdu</a>';";
+      $this->buffer .= "menu_utilisateur[2]='<a href=\"".$topdir."newaccount.php\">Créer un compte</a>';";
+      $this->buffer .= "</script>";
+      $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">\n";
+        $this->buffer .= "Identification\n";
     }
-    echo "<div class=\"tabsv2\">\n";
+    elseif($this->user->type=="srv" )
+    {
+      $this->buffer .= "<div id='login'>\n";
+      $this->buffer .= "<a href=\"".$topdir."user/compteae.php\">Factures en attente de paiement : ".(sprintf("%.2f", $this->user->montant_compte/-100))." Euros</a>\n";
+    }
+    else
+    {
+      if($this->user->ae)
+      {
+        $this->buffer.=$this->get_comptoir();
+      }
+      $this->buffer .= "<script type=\"text/javascript\">\n";
+      $this->buffer .= "var menu_utilisateur=new Array();";
+      $i=0;
+      if($this->user>-ae)
+      {
+        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>';";
+        $i++;
+      }
+      $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
+      $i++;
+      if($this->user->utbm)
+      {
+        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."trombi/index.php\">Trombinoscope</a>';";
+        $i++;
+      }
+      if( $this->user->is_in_group("jobetu_etu") )
+      {
+        $jobuser = new jobuser_etu($this->db);
+        $jobuser->load_by_id($this->user->id);
+        $jobuser->load_annonces();
+        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".
+                         $topdir."jobetu/board_etu.php\">Mon compte JobEtu (".count($jobuser->annonces).")</a>';";
+        unset($jobuser);
+      }
+      elseif( $this->user->is_in_group("jobetu_client") )
+        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>';";
+      else
+        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>';";
+      $i++;
+      $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user/outils.php\">Mes outils</a>';";
+      $i++;
+      $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."disconnect.php\">Déconnexion</a>';";
+      $this->buffer .= "</script>";
+      $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">\n";
+      $this->buffer .= $this->user->prenom." ".$this->user->nom;
+    }
+    $this->buffer .= "</div>\n";
+
+    $req = new requete($this->db,
+        "SELECT `asso`.`id_asso`, " .
+        "`asso`.`nom_asso` ".
+        "FROM `asso_membre` " .
+        "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
+        "WHERE `asso_membre`.`role` > 1 AND `asso_membre`.`date_fin` IS NULL " .
+        "AND `asso_membre`.`id_utilisateur`='".$this->user->id."' " .
+        "AND `asso`.`id_asso` != '1' " .
+        "ORDER BY asso.`nom_asso`");
+    if ( $req->lines > 0 || $this->user->is_in_group("root") || $this->user->is_in_group("moderateur_site") )
+    {
+      $this->buffer .= "<script type=\"text/javascript\">\n";
+      $this->buffer .= "var menu_assos=new Array();";
+      $i=0;
+      if( $this->user->is_in_group("root") )
+      {
+        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>';";
+        $i++;
+      }
+      if($this->user->is_in_group("moderateur_site"))
+      {
+        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."ae/com.php\">Équipe com</a>';";
+        $i++;
+      }
+      if( $this->user->is_in_group("compta_admin") )
+      {
+        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."ae/compta.php\">Équipe trésorerie</a>';";
+        $i++;
+      }
+      if( $this->user->is_in_group("gestion_ae") )
+      {
+        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."ae/\">Équipe AE</a>';";
+        $i++;
+      }
+      if( $this->user->is_in_group("gestion_syscarteae") )
+      {
+        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."ae/syscarteae.php\">Carte AE</a>';";
+        $i++;
+      }
+      while(list($id,$nom)=$req->get_row())
+      {
+        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."asso/index.php?id_asso=$id\">$nom</a>';";
+        $i++;
+      }
+      $this->buffer .= "</script>";
+      $this->buffer .= "<div id='assos' onMouseover=\"dropdownmenu(this, event, menu_assos, '150px')\" onMouseout='delayhidemenu()'>\n";
+      $this->buffer .= "Gestion assos/clubs";
+      $this->buffer .= "</div>\n";
+    }
+
+
+    $this->buffer .= "<div id=\"fsearchbox\">\n";
+    $this->buffer .= "<form action=\"".$wwwtopdir."fsearch.php\" method=\"post\">";
+    $this->buffer .= "<input type=\"text\" id=\"fsearchpattern\" name=\"pattern\" onblur=\"fsearch_stop_delayed();\" onkeyup=\"fsearch_keyup(event);\" value=\"\" />\n";
+    $this->buffer .= "</form>";
+    $this->buffer .= "<div class=\"fend\"></div></div>\n";
+
+    $this->buffer .= "<div id=\"fsearchres\"></div>\n";
+    $this->buffer .= "</div>\n";
+    $this->buffer .= "</div>\n";
+/* fin header */
+
+    $this->buffer .= "<div class=\"tabsv2\">\n";
     $links=null;
 
     foreach ($this->tab_array as $entry)
     {
 
-      echo "<span";
+      $this->buffer .= "<span";
       if ($this->section == $entry[0])
       {
-        echo " class=\"selected tab".$entry[0]."\"";
+        $this->buffer .= " class=\"selected tab".$entry[0]."\"";
         $links=$entry[3];
       }
       else
-        echo " class=\"tab".$entry[0]."\"";
+        $this->buffer .= " class=\"tab".$entry[0]."\"";
 
-      echo "><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
-      echo " title=\"" . $entry[2] . "\">".$entry[2] . "</a></span>";
+      $this->buffer .= "><a id=\"tab_".$entry[0]."\" href=\"" . $wwwtopdir . $entry[1] . "\"";
+      $this->buffer .= " title=\"" . $entry[2] . "\">".$entry[2] . "</a></span>";
     }
 
-    echo "</div>\n"; // /tabs
+    $this->buffer .= "</div>\n"; // /tabs
 
     if ( $links )
     {
-      echo "<div class=\"sectionlinks\">";
+      $this->buffer .= "<div class=\"sectionlinks\">";
 
       foreach ( $links as $entry )
       {
         if ( !strncmp("http://",$entry[0],7) )
-          echo "<a href=\"".$entry[0]."\">".$entry[1]."</a>";
+          $this->buffer .= "<a href=\"".$entry[0]."\">".$entry[1]."</a>";
         else
-          echo "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>";
+          $this->buffer .= "<a href=\"".$wwwtopdir.$entry[0]."\">".$entry[1]."</a>";
       }
 
-      echo "</div>\n";
+      $this->buffer .= "</div>\n";
     }
     else
-      echo "<div class=\"emptysectionlinks\"></div>\n";
+      $this->buffer .= "<div class=\"emptysectionlinks\"></div>\n";
 
-    echo "<div class=\"contents\">\n";
+    $this->buffer .= "<div class=\"contents\">\n";
     $idpage = "";
 
     $mode = $this->user->id > 0 ? "c" : "nc";
@@ -329,35 +473,35 @@ class interfaceweb
         else
           $ref = null;
 
-        echo "<div id=\"".$side."\" class=\"clearfix\">\n";
+        $this->buffer .= "<div id=\"".$side."\" class=\"clearfix\">\n";
         foreach ( $names as $name )
         {
 
           if ( $cts = $this->boxes[$name] )
           {
-            echo "<div class=\"box\" id=\"sbox_".$name."\">\n";
+            $this->buffer .= "<div class=\"box\" id=\"sbox_".$name."\">\n";
             if ( $cts->title && ($ref != null) )
-              echo "<h1><a onmousedown=\"dnds_startdrag(event,'sbox_".$name."','".$ref."');\" class=\"dragstartzone\">".$cts->title."</a></h1>\n";
+              $this->buffer .= "<h1><a onmousedown=\"dnds_startdrag(event,'sbox_".$name."','".$ref."');\" class=\"dragstartzone\">".$cts->title."</a></h1>\n";
             elseif ( $cts->title )
-              echo "<h1>".$cts->title."</h1>\n";
+              $this->buffer .= "<h1>".$cts->title."</h1>\n";
 
-            echo "<div class=\"body\" id=\"sbox_body_".$name."\">\n";
+            $this->buffer .= "<div class=\"body\" id=\"sbox_body_".$name."\">\n";
 
-            echo $cts->html_render();
+            $this->buffer .= $cts->html_render();
 
-            echo "</div>\n";
-            echo "</div>\n";
+            $this->buffer .= "</div>\n";
+            $this->buffer .= "</div>\n";
           }
 
         }
-        echo "</div>\n";
+        $this->buffer .= "</div>\n";
       }
     }
 
     if ( $idpage == "" ) $idpage = "n";
 
-    echo "\n<!-- page -->\n";
-    echo "<div class=\"page\" id=\"".$idpage."\">\n";
+    $this->buffer .= "\n<!-- page -->\n";
+    $this->buffer .= "<div class=\"page\" id=\"".$idpage."\">\n";
 
     $i=0;
     foreach ( $this->contents as $cts )
@@ -370,80 +514,75 @@ class interfaceweb
       $i++;
 
 
-      echo "<div class=\"".$cssclass."\"";
+      $this->buffer .= "<div class=\"".$cssclass."\"";
       if ( $cts->divid )
-        echo " id=\"".$cts->divid."\"";
+        $this->buffer .= " id=\"".$cts->divid."\"";
       else
-        echo " id=\"cts".$i."\"";
-      echo ">\n";
+        $this->buffer .= " id=\"cts".$i."\"";
+      $this->buffer .= ">\n";
 
       if ( $cts->toolbox )
       {
-        echo "<div class=\"toolbox\">\n";
-        echo $cts->toolbox->html_render()."\n";
-        echo "</div>\n";
+        $this->buffer .= "<div class=\"toolbox\">\n";
+        $this->buffer .= $cts->toolbox->html_render()."\n";
+        $this->buffer .= "</div>\n";
       }
 
       if ( $cts->title )
-        echo "<h1>".$cts->title."</h1>\n";
+        $this->buffer .= "<h1>".$cts->title."</h1>\n";
 
-      echo $cts->html_render();
+      $this->buffer .= $cts->html_render();
 
-      echo "</div>\n";
+      $this->buffer .= "</div>\n";
     }
 
-    echo "<p class=\"text-footer\">";
-    echo "<a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a>";
-    echo " - <a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a>";
-    echo " - <a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a>";
-    echo " - <a href=\"". $wwwtopdir ."wiki2/?name=ae:info\">Equipe info</a>";
-    echo "<br/>\n";
+    $this->buffer .= "<p class=\"text-footer\">";
+    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a>";
+    $this->buffer .= " - <a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a>";
+    $this->buffer .= " - <a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a>";
+    $this->buffer .= " - <a href=\"". $wwwtopdir ."wiki2/?name=ae:info\">Equipe info</a>";
+    $this->buffer .= "<br/>\n";
 
-    echo "Icones par <a href=\"http://www.everaldo.com/\">Everaldo.com</a></p>\n";
+    $this->buffer .= "Icones par <a href=\"http://www.everaldo.com/\">Everaldo.com</a></p>\n";
 
-    echo "</div>\n"; // /page
-    echo "<!-- end of page -->\n\n";
+    $this->buffer .= "</div>\n"; // /page
+    $this->buffer .= "<!-- end of page -->\n\n";
+    $this->buffer .= "</div>\n"; // /contents
+    $this->buffer .= "<div id=\"contentsend\">&nbsp;</div>\n";
+    $this->buffer .= "<div id=\"endsite\">";
+    $this->buffer .= "<div id=\"endsitelinks\">";
+    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">Mentions légales</a> ";
+    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a> ";
+    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a> ";
+    $this->buffer .= "</div>";// /endsitelinks
+    $this->buffer .= "</div>";// /endsite
+    $this->buffer .= "</div>\n"; // /site
 
-    echo "</div>\n"; // /contents
-    echo "<div id=\"endsite\">&nbsp;</div></div>\n";
-
-/*    if ( $this->user->is_valid() && !ereg("majprofil\.php$",$_SERVER['SCRIPT_FILENAME'])
-    && $user->type != "srv" )
-    {
-      $days_last = (time() - $this->user->date_maj)/(60*60*24);
-      if ( is_null($this->user->date_maj) || ($days_last > 182 && $this->user->utbm) )
-      {
-        echo "<div id=\"hugealert\">";
-        echo "<p>Merci de mettre à jour votre profil : ".
-             "<a href=\"". $wwwtopdir ."majprofil.php\">le mettre à jour</a></p>";
-        echo "</div>";
-      }
-    }*/
     if ( $this->get_param("backup_server",true) )
     {
-      echo "<div id=\"topalert\">";
-      echo "<img width=\"16\" height=\"16\" src=\"".$wwwtopdir."themes/default/images/exclamation.png\" />";
-      echo "Le système fonctionne actuellement sur le serveur de secours, ".
+      $this->buffer .= "<div id=\"topalert\">";
+      $this->buffer .= "<img width=\"16\" height=\"16\" src=\"".$wwwtopdir."themes/default/images/exclamation.png\" />";
+      $this->buffer .= "Le système fonctionne actuellement sur le serveur de secours, ".
            "veuillez limiter vos actions au strict minimum.";
-      echo "</div>";
+      $this->buffer .= "</div>";
     }
     elseif ( $this->get_param("warning_enabled",true) )
     {
-      echo "<div id=\"topalert\">";
-      echo "<img width=\"16\" height=\"16\" src=\"".$wwwtopdir."themes/default/images/exclamation.png\" />";
-      echo $this->get_param("warning_message");
-      echo "</div>";
+      $this->buffer .= "<div id=\"topalert\">";
+      $this->buffer .= "<img width=\"16\" height=\"16\" src=\"".$wwwtopdir."themes/default/images/exclamation.png\" />";
+      $this->buffer .= $this->get_param("warning_message");
+      $this->buffer .= "</div>";
     }
-    echo "</body>\n";
-    echo "</html>\n";
-    if ( $GLOBALS["taiste"] ){
-      $timing["render"] += microtime(true);
-      $timing["all"] += microtime(true);
-      echo "<!-- ";
-      print_r($timing);
+    $this->buffer .= "</body>\n";
+    $this->buffer .= "</html>\n";
+    echo $this->buffer;
+    $timing["render"] += microtime(true);
+    $timing["all"] += microtime(true);
+    echo "<!-- ";
+    print_r($timing);
+    if ( $GLOBALS["taiste"] )
       echo "\non est en taiste\n";
-      echo " -->";
-		}
+    echo " -->";
   }
 
   /**
@@ -455,35 +594,35 @@ class interfaceweb
 
     header("Content-Type: text/html; charset=utf-8");
 
-    //echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">";
+    //$this->buffer .= "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">";
 
-    echo "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">\n";
-    echo "<head>\n";
-    echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
-    echo "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css?".filemtime($wwwtopdir . "themes/default/css/site.css")."\" title=\"AE2-NEW2\" />\n";
-    echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/popup.css?".filemtime($wwwtopdir ."css/popup.css")."\" />\n";
+    $this->buffer .= "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\">\n";
+    $this->buffer .= "<head>\n";
+    $this->buffer .= "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n";
+    $this->buffer .= "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
+    $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default/css/site.css?".filemtime($wwwtopdir . "themes/default/css/site.css")."\" title=\"AE2-NEW2\" />\n";
+    $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "css/popup.css?".filemtime($wwwtopdir ."css/popup.css")."\" />\n";
     foreach ( $this->extracss as $url )
-      echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8"). "\" />\n";
+      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8"). "\" />\n";
 
     foreach ( $this->rss as $title => $url )
-      echo "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_COMPAT,"UTF-8")."\" href=\"".htmlentities($url,ENT_COMPAT,"UTF-8")."\" />";
+      $this->buffer .= "<link rel=\"alternate\" type=\"application/rss+xml\" title=\"".htmlentities($title,ENT_COMPAT,"UTF-8")."\" href=\"".htmlentities($url,ENT_COMPAT,"UTF-8")."\" />";
 
-    echo "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico\" />\n";
-    echo "<script type=\"text/javascript\">var site_topdir='".$wwwtopdir."';</script>\n";
-    echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js\"></script>\n";
-    echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js\"></script>\n";
-    echo "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js\"></script>\n";
+    $this->buffer .= "<link rel=\"SHORTCUT ICON\" href=\"" . $wwwtopdir . "favicon.ico\" />\n";
+    $this->buffer .= "<script type=\"text/javascript\">var site_topdir='".$wwwtopdir."';</script>\n";
+    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/site.js\"></script>\n";
+    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/ajax.js\"></script>\n";
+    $this->buffer .= "<script type=\"text/javascript\" src=\"" . $wwwtopdir . "js/dnds.js\"></script>\n";
 
     foreach ( $this->extrajs as $url )
-      echo "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
+      $this->buffer .= "<script type=\"text/javascript\" src=\"".htmlentities($wwwtopdir.$url,ENT_QUOTES,"UTF-8")."\"></script>\n";
 
-    echo "</head>\n";
+    $this->buffer .= "</head>\n";
 
-    echo "<body>\n";
+    $this->buffer .= "<body>\n";
     /* Generate the logo */
 
-    echo "<div id=\"popup\">";
+    $this->buffer .= "<div id=\"popup\">";
 
     $i=0;
     foreach ( $this->contents as $cts )
@@ -494,30 +633,30 @@ class interfaceweb
         $cssclass = $cts->cssclass;
 
       $i++;
-      echo "<div class=\"".$cssclass."\"";
+      $this->buffer .= "<div class=\"".$cssclass."\"";
       if ( $cts->divid )
-        echo " id=\"".$cts->divid."\"";
+        $this->buffer .= " id=\"".$cts->divid."\"";
       else
-        echo " id=\"cts".$i."\"";
-      echo ">\n";
+        $this->buffer .= " id=\"cts".$i."\"";
+      $this->buffer .= ">\n";
 
       if ( $cts->toolbox )
       {
-        echo "<div class=\"toolbox\">\n";
-        echo $cts->toolbox->html_render()."\n";
-        echo "</div>\n";
+        $this->buffer .= "<div class=\"toolbox\">\n";
+        $this->buffer .= $cts->toolbox->html_render()."\n";
+        $this->buffer .= "</div>\n";
       }
 
       if ( $cts->title )
-        echo "<h1>".$cts->title."</h1>\n";
+        $this->buffer .= "<h1>".$cts->title."</h1>\n";
 
-      echo $cts->html_render();
-      echo "</div>\n";
+      $this->buffer .= $cts->html_render();
+      $this->buffer .= "</div>\n";
     }
 
-    echo "</div>\n";
-    echo "</body>\n";
-    echo "</html>\n";
+    $this->buffer .= "</div>\n";
+    $this->buffer .= "</body>\n";
+    $this->buffer .= "</html>\n";
   }
 
   /** Charge tous les paramètres du site.
@@ -579,7 +718,7 @@ class interfaceweb
     {
       $sql = new update($this->dbrw,"site_parametres",
         array( "valeur_param" => $value),
-        array( "nom_param" => $name));      //echo " onmouseover=\"tabsection('".$entry[0]."', 'hoversectionlinks');\"";
+        array( "nom_param" => $name));      //$this->buffer .= " onmouseover=\"tabsection('".$entry[0]."', 'hoversectionlinks');\"";
       $this->params[$name]=$value;
     }
   }
