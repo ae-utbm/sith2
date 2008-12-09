@@ -106,7 +106,7 @@ class typeproduit extends stdentity
     if ( !$sql )
       return false;
 
-        return true;
+    return true;
   }
 
 }
