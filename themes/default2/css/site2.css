@@ -508,7 +508,8 @@ div.box
 
 div.box a
 {
-  color:#ff3399;
+/*  color:#ff3399; */
+  color:#00b1ff;
   text-decoration: none;
 }
 
@@ -591,7 +592,8 @@ div.box h2, div.box h3
   margin:0 2px 0 0;
   border-bottom: 1px;
   border-color:#4c4c4c;
-  color: #00b1ff;
+/*  color: #00b1ff; */
+  color:#ffffff;
   position:relative;
   font-weight:normal;
   font-size:11px;
@@ -621,7 +623,8 @@ div.box h2 a
   border: 0;
   border-bottom: 1px;
   border-color:#4c4c4c;
-  color: #00b1ff;
+/*  color: #00b1ff; */
+  color:#ffffff;
 }
 
 div.box div.body ul
@@ -2475,12 +2478,15 @@ div.calbox
 div.slidebox_pause
 {
   text-align:center;
-  color:#B5DC10;
+/*  color:#B5DC10; */
+  color:#ffffff;
   margin-bottom:10px;
+  font-size:11px;
 }
 div.slidebox_pause a
 {
-  color:#B5DC10;
+/*  color:#B5DC10; */
+  color:#ffffff;
   font-weight:bold;
 }
 
