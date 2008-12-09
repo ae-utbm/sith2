@@ -327,22 +327,25 @@ class newsfront extends newslister
 
     $this->class="nvls";
 
-    $sql = new requete($db,"SELECT * FROM nvl_nouvelles " .
-        "INNER JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
-        "WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
-        "NOW() > nvl_dates.date_debut_eve AND NOW() < nvl_dates.date_fin_eve");
-
     if(!$_COOKIE['AE2_HIDE_APPLES'])
+    {
+      $sql = new requete($db,"SELECT * FROM nvl_nouvelles " .
+          "INNER JOIN nvl_dates ON (nvl_dates.id_nouvelle=nvl_nouvelles.id_nouvelle) " .
+          "WHERE nvl_nouvelles.type_nvl='".NEWS_TYPE_APPEL."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
+          "NOW() > nvl_dates.date_debut_eve AND NOW() < nvl_dates.date_fin_eve");
       $this->appel_list($sql);
+    }
 
-    $sql = new requete($db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso FROM nvl_nouvelles " .
-        "LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
-        "WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
-        "DATEDIFF(NOW(),date_nvl) < 14 " .
-        "LIMIT 3");
+    if(!$_COOKIE['AE2_HIDE_NOTICE'])
+    {
+      $sql = new requete($db,"SELECT nvl_nouvelles.*,asso.nom_unix_asso FROM nvl_nouvelles " .
+          "LEFT JOIN asso ON asso.id_asso = nvl_nouvelles.id_asso " .
+          "WHERE type_nvl='".NEWS_TYPE_NOTICE."' AND modere_nvl='1' AND id_canal='".NEWS_CANAL_SITE."' AND " .
+          "DATEDIFF(NOW(),date_nvl) < 14 " .
+          "LIMIT 3");
 
-    $this->notices_list($sql);
-
+      $this->notices_list($sql);
+    }
     $this->ids=array(0);
 
     $sql = new requete($db,"SELECT nvl_nouvelles.*,".
