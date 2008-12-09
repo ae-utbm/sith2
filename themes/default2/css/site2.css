@@ -76,7 +76,7 @@ div#headermenu
   top:0;
   right:0;
   margin:0;
-  max-width:510px;
+  width:510px;
   padding:0 0 0 15px;
   height:30px;
   background:#424242 url(../images/box-bl-corner.png) no-repeat bottom left;
