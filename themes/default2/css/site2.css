@@ -2499,11 +2499,11 @@ div.slidebox_pause a:after
   content: " -";
 }
 
-div.slideshow_box div.calendarhead td.month
+div.calbox td.month
 {
   color:#ffffff;
 }
-div.slideshow_box div.calendarhead td.weekday
+div.calbox td.weekday
 {
   color:#ffffff;
 }
