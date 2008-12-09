@@ -4,7 +4,7 @@
  * @brief Fonctions générales du site.
  *
  */
-/* Copyright 2004,2005,2006,2007
+/* Copyright 2004,2005,2006,2007,2008
  * - Alexandre Belloni <alexandre POINT belloni CHEZ utbm POINT fr>
  * - Thomas Petazzoni <thomas POINT petazzoni CHEZ enix POINT org>
  * - Maxime Petazzoni <maxime POINT petazzoni CHEZ bulix POINT org>
@@ -12,6 +12,7 @@
  * - Julien Etelain <julien CHEZ pmad POINT net>
  * - Benjamin Collet <bcollet CHEZ oxynux POINT org>
  * - Sarah Amsellem <sarah POINT amsellem CHEZ gmail POINT com>
+ * - Simon Lopez < simon dot lopez at ayolo dot org >
  *
  * Ce fichier fait partie du site de l'Association des 0tudiants de
  * l'UTBM, http://ae.utbm.fr.
