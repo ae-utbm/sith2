@@ -197,7 +197,7 @@ class interfaceweb
    */
   function end_page () // <=> html_render
   {
-    global $wwwtopdir,$timing ;
+    global $wwwtopdir,$topdir,$timing ;
     $timing["render"] -= microtime(true);
 
     header("Content-Type: text/html; charset=utf-8");
