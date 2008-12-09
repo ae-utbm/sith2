@@ -120,6 +120,7 @@ div#fsearchbox
   height:30px;
 <!--[if IE]>
   height:20px;
+  max-height:20px;
 <![endif]-->
   padding:0;
   text-align:center;
