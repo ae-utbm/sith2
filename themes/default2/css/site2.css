@@ -117,8 +117,10 @@ div#fsearchbox
   display:inline-block;
   margin:10px 0 0 0;
   padding:0;
+  height:30px;
+<!--[if IE]>
   height:20px;
-  max-height:30px;
+<![endif]-->
   padding:0;
   text-align:center;
   font-weight: bold;
