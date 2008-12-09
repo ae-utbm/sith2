@@ -52,6 +52,8 @@ $sublist->add("<a href=\"cartesae.php?view=bureau\">Arrivée cartes AE au bureau
 $sublist->add("<a href=\"cartesae.php\">Impression cartes AE</a>");
 $board->add($sublist,true);
 
+$board->clear();
+
 $sublist = new itemlist("Salles");
 $sublist->add("<a href=\"".$topdir."salle.php?page=reservation\">Reserver une salle</a>");
 $sublist->add("<a href=\"".$topdir."ae/modereres.php\">Modération des reservations de salle</a>");
@@ -61,6 +63,8 @@ $sublist = new itemlist("Cotisations");
 $sublist->add("<a href=\"cotisations.php#newstudent\">Nouvelle cotisation</a>");
 $sublist->add("<a href=\"cotisations.php\">Renouvellement cotisation/consultation</a> (Possible aussi depuis la fiche utilisateur)");
 $board->add($sublist,true);
+
+$board->clear();
 
 $sublist = new itemlist("Inventaire");
 $sublist->add("<a href=\"".$topdir."objtype.php\">Types d'objet</a>");
@@ -72,6 +76,8 @@ $sublist = new itemlist("Elections");
 $sublist->add("<a href=\"elections.php\">Organiser une election</a>");
 $sublist->add("<a href=\"elections.php\">Modifier/Consulter une election</a>");
 $board->add($sublist,true);
+
+$board->clear();
 
 $sublist = new itemlist("Divers");
 $sublist->add("<a href=\"activites.php\">Listing des responsables et des trésoriers des activités</a>");
