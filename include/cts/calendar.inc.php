@@ -152,9 +152,9 @@ class calendar extends stdcontents
     unset($req);
 
     $this->buffer .= "<tr>\n";
-    $this->buffer .= "<td class=\"month\"><a href=\"?caldate=$prevdate\" onclick=\"return !openInContents('".$this->id_box."','".$wwwtopdir."gateway.php','class=calendar&amp;caldate=$prevdate&amp;topdir=$wwwtopdir&amp;".$this->id_box."');\">&laquo;</a></td>\n";
+    $this->buffer .= "<td class=\"month\"><a href=\"?caldate=$prevdate\" onclick=\"return !openInContents('".$this->id_box."','".$wwwtopdir."gateway.php','class=calendar&amp;caldate=$prevdate&amp;topdir=$wwwtopdir&amp;id_box=".$this->id_box."');\">&laquo;</a></td>\n";
     $this->buffer .= "<td class=\"month\" colspan=\"5\">" . $this->months[$month-1] . " " . $year . "</td>\n";
-    $this->buffer .= "<td class=\"month\"><a href=\"?caldate=$nextdate\" onclick=\"return !openInContents('".$this->id_box."','".$wwwtopdir."gateway.php','class=calendar&amp;caldate=$nextdate&amp;topdir=$wwwtopdir&amp;".$this->id_box."');\">&raquo;</a></td>\n";
+    $this->buffer .= "<td class=\"month\"><a href=\"?caldate=$nextdate\" onclick=\"return !openInContents('".$this->id_box."','".$wwwtopdir."gateway.php','class=calendar&amp;caldate=$nextdate&amp;topdir=$wwwtopdir&amp;id_box=".$this->id_box."');\">&raquo;</a></td>\n";
     $this->buffer .= "</tr>\n";
 
     /* Affichage des jours de la semaine */
