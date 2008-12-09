@@ -2481,13 +2481,13 @@ div.slidebox_pause
 /*  color:#B5DC10; */
   color:#ffffff;
   margin-bottom:10px;
-  font-size:19px;
 }
 div.slidebox_pause a
 {
 /*  color:#B5DC10; */
   color:#ffffff;
   font-weight:bold;
+    font-size:9px;
 }
 
 div.slidebox_pause a:before
