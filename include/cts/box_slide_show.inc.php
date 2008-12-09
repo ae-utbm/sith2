@@ -71,9 +71,9 @@ class box_slideshow extends stdcontents
     for($i=0;$i<count($this->slides);$i++)
     {
       if($i==0)
-        $this->buffer.="<div id='slideshow$uid$i' style=\"display:block\">".$this->slides[$i]->html_render()."</div>\n";
+        $this->buffer.="<div id='slideshow$uid$i' class='slideshow_box' style=\"display:block\">".$this->slides[$i]->html_render()."</div>\n";
       else
-        $this->buffer.="<div id='slideshow$uid$i' style=\"display:none\">".$this->slides[$i]->html_render()."</div>\n";
+        $this->buffer.="<div id='slideshow$uid$i' class='slideshow_box' style=\"display:none\">".$this->slides[$i]->html_render()."</div>\n";
     }
     return $this->buffer;
   }
