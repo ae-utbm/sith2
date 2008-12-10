@@ -74,9 +74,9 @@ function openInContents( name, page, data)
       content.innerHTML = XhrObj.responseText ;
   }    
 
-	XhrObj.send(null);
-	
-	return true;
+  XhrObj.send(null);
+  
+  return true;
 }
 
 /**
@@ -95,8 +95,8 @@ function evalCommand( page, data )
     var XhrObj = new XMLHttpRequest();
  
   if ( !XhrObj ) return false;
-    	
-	XhrObj.open("GET", page+"?"+data);
+      
+  XhrObj.open("GET", page+"?"+data);
 
   XhrObj.onreadystatechange = function()
   {
@@ -106,9 +106,9 @@ function evalCommand( page, data )
     }
   }    
 
-	XhrObj.send(null);
-	
-	return true;
+  XhrObj.send(null);
+  
+  return true;
 }
 
 /**
@@ -122,7 +122,7 @@ function evalCommand( page, data )
  */
 function usersession_set ( topdir, key, value )
 {
-	evalCommand ( topdir + "gateway.php", "module=usersession&set=" + escape(key) + "&value=" + escape(value) );
+  evalCommand ( topdir + "gateway.php", "module=usersession&set=" + escape(key) + "&value=" + escape(value) );
 }
 
 /**
@@ -146,32 +146,32 @@ var fsearch_actual_sequence=0;
 
 function fsearch_keyup(event)
 {
-	if ( event != null )
-	{
-		if ( event.ctrlKey || event.keyCode == 13 ) return false;
-		if ( event.keyCode == 27 ) // ESC
-		{
-			fsearch_stop();
-			return false;
-		}
-	}
-	
+  if ( event != null )
+  {
+    if ( event.ctrlKey || event.keyCode == 13 ) return false;
+    if ( event.keyCode == 27 ) // ESC
+    {
+      fsearch_stop();
+      return false;
+    }
+  }
+  
   var obj = document.getElementById('fsearchpattern');
     
   if ( !obj ) return false;
     
   fsearch_sequence=fsearch_sequence+1;
     
-	evalCommand( site_topdir + "gateway.php", "module=fsearch&fsearch_sequence="+fsearch_sequence+"&topdir="+site_topdir+"&pattern="+obj.value );
-	
-	return true;
+  evalCommand( site_topdir + "gateway.php", "module=fsearch&fsearch_sequence="+fsearch_sequence+"&topdir="+site_topdir+"&pattern="+obj.value );
+  
+  return true;
 }
 
 function fsearch_stop ( )
 {
-	var obj = document.getElementById('fsearchres');
-	obj.style.display = 'none';
-	fsearch_display_query='';
+  var obj = document.getElementById('fsearchres');
+  obj.style.display = 'none';
+  fsearch_display_query='';
 }
 
 function fsearch_stop_delayed( field ) {
@@ -188,28 +188,28 @@ function fsearch_stop_delayed( field ) {
  */
 function userselect_toggle(ref)
 {
-	var obj1 = document.getElementById(ref+"_fieldbox");
-	var obj2 = document.getElementById(ref+"_static");
-	var obj3 = document.getElementById(ref+"_currentuser");
-	var obj4 = document.getElementById(ref+"_result");
-	var obj5 = document.getElementById(ref+"_button");
-	var obj6 = document.getElementById(ref+"_field");
+  var obj1 = document.getElementById(ref+"_fieldbox");
+  var obj2 = document.getElementById(ref+"_static");
+  var obj3 = document.getElementById(ref+"_currentuser");
+  var obj4 = document.getElementById(ref+"_result");
+  var obj5 = document.getElementById(ref+"_button");
+  var obj6 = document.getElementById(ref+"_field");
 
-	if ( obj1.style.display == 'none' ) {
-		obj1.style.display = 'block';
-		obj2.style.display = 'none';
-		obj3.style.display = 'block';
-		obj4.style.display = 'block';
-		obj5.innerHTML="fermer";
-		obj6.value="";
-		obj6.focus();
-	} else {
-		obj1.style.display = 'none';
-		obj2.style.display = 'block';
-		obj3.style.display = 'none';
-		obj4.style.display = 'none';
-		obj5.innerHTML="changer";
-	}
+  if ( obj1.style.display == 'none' ) {
+    obj1.style.display = 'block';
+    obj2.style.display = 'none';
+    obj3.style.display = 'block';
+    obj4.style.display = 'block';
+    obj5.innerHTML="fermer";
+    obj6.value="";
+    obj6.focus();
+  } else {
+    obj1.style.display = 'none';
+    obj2.style.display = 'block';
+    obj3.style.display = 'none';
+    obj4.style.display = 'none';
+    obj5.innerHTML="changer";
+  }
 }
 
 /**
@@ -220,25 +220,25 @@ function userselect_toggle(ref)
  */
 function userselect_set_user(topdir, ref,id,nom)
 {
-	var obj1 = document.getElementById(ref+"_fieldbox");
-	var obj2 = document.getElementById(ref+"_static");
-	var obj3 = document.getElementById(ref+"_currentuser");
-	var obj4 = document.getElementById(ref+"_result");
-	var obj5 = document.getElementById(ref+"_id");
-	var obj6 = document.getElementById(ref+"_button");
+  var obj1 = document.getElementById(ref+"_fieldbox");
+  var obj2 = document.getElementById(ref+"_static");
+  var obj3 = document.getElementById(ref+"_currentuser");
+  var obj4 = document.getElementById(ref+"_result");
+  var obj5 = document.getElementById(ref+"_id");
+  var obj6 = document.getElementById(ref+"_button");
 
-	obj1.style.display = 'none';
-	obj2.style.display = 'block';
-	obj3.style.display = 'none';
-	obj4.style.display = 'none';
-	
-	obj6.innerHTML="changer";
+  obj1.style.display = 'none';
+  obj2.style.display = 'block';
+  obj3.style.display = 'none';
+  obj4.style.display = 'none';
+  
+  obj6.innerHTML="changer";
 
-	obj5.value=id;
-	obj2.innerHTML="<img src=\""+topdir+"images/icons/16/user.png\" class=\"icon\" alt=\"\" /> "+nom;
-	obj4.innerHTML="";
-	openInContents( ref + "_currentuser", topdir + "gateway.php", "module=userinfo&targettopdir=" + topdir + "&id_utilisateur=" + id );
-	
+  obj5.value=id;
+  obj2.innerHTML="<img src=\""+topdir+"images/icons/16/user.png\" class=\"icon\" alt=\"\" /> "+nom;
+  obj4.innerHTML="";
+  openInContents( ref + "_currentuser", topdir + "gateway.php", "module=userinfo&targettopdir=" + topdir + "&id_utilisateur=" + id );
+  
 }
 
 /**
@@ -250,17 +250,17 @@ function userselect_set_user(topdir, ref,id,nom)
  */
 function userselect_keyup(event,ref,topdir)
 {
-	if ( event != null )
-		if ( event.ctrlKey || event.keyCode == 27 || event.keyCode == 13  )
-			return false;
-	
+  if ( event != null )
+    if ( event.ctrlKey || event.keyCode == 27 || event.keyCode == 13  )
+      return false;
+  
   var obj = document.getElementById(ref+'_field');
-    	
+      
   if ( !obj ) return false;
     
-	openInContents( ref + "_result", topdir + "gateway.php", "module=userfield&topdir="+topdir+"&pattern="+obj.value+"&ref="+ref );
-	
-	return true;
+  openInContents( ref + "_result", topdir + "gateway.php", "module=userfield&topdir="+topdir+"&pattern="+obj.value+"&ref="+ref );
+  
+  return true;
 }
 
 /*
@@ -286,28 +286,28 @@ function fsfield_init ( topdir, field )
  */
 function fsfield_toggle ( topdir, field )
 {
-	var obj1 = document.getElementById(field+"_fieldbox");
-	var obj2 = document.getElementById(field+"_static");
-	var obj4 = document.getElementById(field+"_result");
-	var obj5 = document.getElementById(field+"_button");
-	var obj6 = document.getElementById(field+"_field");
+  var obj1 = document.getElementById(field+"_fieldbox");
+  var obj2 = document.getElementById(field+"_static");
+  var obj4 = document.getElementById(field+"_result");
+  var obj5 = document.getElementById(field+"_button");
+  var obj6 = document.getElementById(field+"_field");
 
-	if ( obj1.style.display == 'none' )
-	{
-		obj1.style.display = 'block';
-		obj2.style.display = 'none';
-		obj4.style.display = 'block';
-		obj5.innerHTML="annuler";
-		obj6.value="";
-		obj6.focus();
-	}
-	else
-	{
-		obj1.style.display = 'none';
-		obj2.style.display = 'block';
-		obj4.style.display = 'none';
-		obj5.innerHTML="changer";
-	}
+  if ( obj1.style.display == 'none' )
+  {
+    obj1.style.display = 'block';
+    obj2.style.display = 'none';
+    obj4.style.display = 'block';
+    obj5.innerHTML="annuler";
+    obj6.value="";
+    obj6.focus();
+  }
+  else
+  {
+    obj1.style.display = 'none';
+    obj2.style.display = 'block';
+    obj4.style.display = 'none';
+    obj5.innerHTML="changer";
+  }
 }
 
 /**
@@ -317,22 +317,22 @@ function fsfield_toggle ( topdir, field )
 function fsfield_sel ( topdir, field, id, title, iconfile )
 {
   // Bloque les reponses pas encore données par le serveur (évite que la boite re-aparaisse après avoir choisi l'élément)
-	fsfield_current_sequence[field] = fsfield_sequence[field];
+  fsfield_current_sequence[field] = fsfield_sequence[field];
   
-	var obj1 = document.getElementById(field+"_fieldbox");
-	var obj2 = document.getElementById(field+"_static");
-	var obj4 = document.getElementById(field+"_result");
-	var obj5 = document.getElementById(field+"_id");
-	var obj6 = document.getElementById(field+"_button");
+  var obj1 = document.getElementById(field+"_fieldbox");
+  var obj2 = document.getElementById(field+"_static");
+  var obj4 = document.getElementById(field+"_result");
+  var obj5 = document.getElementById(field+"_id");
+  var obj6 = document.getElementById(field+"_button");
 
-	obj1.style.display = 'none';
-	obj2.style.display = 'block';
-	obj4.style.display = 'none';
-	obj6.innerHTML="changer";
+  obj1.style.display = 'none';
+  obj2.style.display = 'block';
+  obj4.style.display = 'none';
+  obj6.innerHTML="changer";
 
-	obj5.value=id;
-	obj2.innerHTML="<img src=\""+topdir+"images/icons/16/"+iconfile+"\" class=\"icon\" alt=\"\" /> "+title;
-	obj4.innerHTML="";
+  obj5.value=id;
+  obj2.innerHTML="<img src=\""+topdir+"images/icons/16/"+iconfile+"\" class=\"icon\" alt=\"\" /> "+title;
+  obj4.innerHTML="";
 }
 
 /**
@@ -343,25 +343,25 @@ function fsfield_sel ( topdir, field, id, title, iconfile )
  */
 function fsfield_keyup ( event, topdir, field, myclass )
 {
-	if ( event != null )
-		if ( event.ctrlKey || event.keyCode == 27 || event.keyCode == 13  )
-			return false;
-			
+  if ( event != null )
+    if ( event.ctrlKey || event.keyCode == 27 || event.keyCode == 13  )
+      return false;
+      
   var obj = document.getElementById(field + '_field');
 
   if ( !obj ) return false;
     
   fsfield_sequence[field] = fsfield_sequence[field]+1;
     
-	evalCommand( topdir + "gateway.php", 
-  	"module=fsfield"+
-  	"&topdir="+topdir+
-  	"&pattern="+obj.value+
-  	"&field="+field+
-  	"&class="+myclass+
-  	"&sequence="+fsfield_sequence[field] );
-	
-	return true;
+  evalCommand( topdir + "gateway.php", 
+    "module=fsfield"+
+    "&topdir="+topdir+
+    "&pattern="+obj.value+
+    "&field="+field+
+    "&class="+myclass+
+    "&sequence="+fsfield_sequence[field] );
+  
+  return true;
 }
 
 /*
@@ -382,9 +382,20 @@ tooltip_element.style.position="absolute";
  * @ingroup js
  */
 function findPos(obj)
-{	var curleft = curtop = 0;	if (obj.offsetParent)
-	{		curleft = obj.offsetLeft		curtop = obj.offsetTop		while (obj = obj.offsetParent)
-		{			curleft += obj.offsetLeft			curtop += obj.offsetTop		}	}	return [curleft,curtop];}
+{
+  var curleft = curtop = 0;
+  if (obj.offsetParent)
+  {
+    curleft = obj.offsetLeft
+    curtop = obj.offsetTop
+    while (obj = obj.offsetParent)
+    {
+      curleft += obj.offsetLeft
+      curtop += obj.offsetTop
+    }
+  }
+  return [curleft,curtop];
+}
 
 /**
  * Bulle d'information : Affiche une bulle d'information dans un délai de 1 seconde
@@ -433,8 +444,8 @@ function go_tooltip ( ref, topdir, myclass, id )
     }
   }    
 
-	XhrObj.send(null);
-	return true;
+  XhrObj.send(null);
+  return true;
 }
 
 /**
@@ -458,27 +469,27 @@ function hide_tooltip ( ref )
  */
 function exfield_toggle ( topdir, field, myclass )
 {
-	var obj2 = document.getElementById(field+"_static");
-	var obj4 = document.getElementById(field+"_result");
-	var obj5 = document.getElementById(field+"_button");
+  var obj2 = document.getElementById(field+"_static");
+  var obj4 = document.getElementById(field+"_result");
+  var obj5 = document.getElementById(field+"_button");
   var obj7 = document.getElementById(field+"_"+myclass+"_root");
 
-	if ( obj4.style.display == 'none' )
-	{
-		obj2.style.display = 'none';
-		obj4.style.display = 'block';
-		obj5.innerHTML="annuler";
-		obj7.innerHTML="";
+  if ( obj4.style.display == 'none' )
+  {
+    obj2.style.display = 'none';
+    obj4.style.display = 'block';
+    obj5.innerHTML="annuler";
+    obj7.innerHTML="";
 
     exfield_explore ( topdir, field, myclass, myclass, 'root' );
-	}
-	else
-	{
-		obj2.style.display = 'block';
-		obj4.style.display = 'none';
-		obj5.innerHTML="changer";
-		obj7.innerHTML="";
-	}
+  }
+  else
+  {
+    obj2.style.display = 'block';
+    obj4.style.display = 'none';
+    obj5.innerHTML="changer";
+    obj7.innerHTML="";
+  }
 }
 
 /**
@@ -502,18 +513,18 @@ function exfield_explore ( topdir, field, myclass, eclass, eid )
 function exfield_select ( topdir, field, myclass, id, title, iconfile )
 {
   
-	var obj2 = document.getElementById(field+"_static");
-	var obj4 = document.getElementById(field+"_result");
-	var obj5 = document.getElementById(field+"_id");
-	var obj6 = document.getElementById(field+"_button");
+  var obj2 = document.getElementById(field+"_static");
+  var obj4 = document.getElementById(field+"_result");
+  var obj5 = document.getElementById(field+"_id");
+  var obj6 = document.getElementById(field+"_button");
   var obj7 = document.getElementById(field+"_"+myclass+"_root");
   
-	obj2.style.display = 'block';
-	obj4.style.display = 'none';
-	obj6.innerHTML="changer";
+  obj2.style.display = 'block';
+  obj4.style.display = 'none';
+  obj6.innerHTML="changer";
 
-	obj5.value=id;
-	obj2.innerHTML="<img src=\""+topdir+"images/icons/16/"+iconfile+"\" class=\"icon\" alt=\"\" /> "+title;
-	obj7.innerHTML="";
+  obj5.value=id;
+  obj2.innerHTML="<img src=\""+topdir+"images/icons/16/"+iconfile+"\" class=\"icon\" alt=\"\" /> "+title;
+  obj7.innerHTML="";
 }
 
