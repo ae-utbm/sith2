@@ -285,7 +285,7 @@ class interfaceweb
     {
       $this->buffer .= "<script type=\"text/javascript\">\n";
       $this->buffer .= "var menu_utilisateur=new Array();";
-      $this->buffer .= "menu_utilisateur[0]='<a class='firstdropdown' href=\"".$topdir."index.php\" onClick=\"return showConnexionBox()\">Connexion</a>';";
+      $this->buffer .= "menu_utilisateur[0]='<a class=\"firstdropdown\" href=\"".$topdir."index.php\" onClick=\"return showConnexionBox()\">Connexion</a>';";
       $this->buffer .= "menu_utilisateur[1]='<a href=\"".$topdir."password.php\">Mot de passe perdu</a>';";
       $this->buffer .= "menu_utilisateur[2]='<a href=\"".$topdir."newaccount.php\">Créer un compte</a>';";
       $this->buffer .= "</script>";
@@ -308,11 +308,11 @@ class interfaceweb
       $i=0;
       if($this->user->ae)
       {
-        $this->buffer .= "menu_utilisateur[$i]='<a class='firstdropdown' href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>';";
+        $this->buffer .= "menu_utilisateur[$i]='<a class=\"firstdropdown\" href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>';";
         $i++;
       }
       if($i==0)
-        $this->buffer .= "menu_utilisateur[$i]='<a class='firstdropdown' href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
+        $this->buffer .= "menu_utilisateur[$i]='<a class=\"firstdropdown\" href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
       else
         $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
       $i++;
@@ -371,7 +371,7 @@ class interfaceweb
       $this->buffer .= "<script type=\"text/javascript\">\n";
       $this->buffer .= "var menu_assos=new Array();";
       $i=0;
-      $class="class='firstdropdown'";
+      $class="class=\"firstdropdown\"";
       if( $this->user->is_in_group("root") )
       {
         $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>';";
