@@ -691,9 +691,9 @@ function dropdownmenu(obj, e, menucontents, menuwidth)
   {
     showhide(dropmenuobj.style, e, "visible", "hidden", menuwidth);
     dropmenuobj.x=getposOffset(obj, "left");
-    alert(obj);
 //    dropmenuobj.y=getposOffset(obj, "top");
-    dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+"px";
+//    dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+"px";
+    dropmenuobj.style.left=dropmenuobj.x=getposOffset(obj, "left");
 //    dropmenuobj.style.top=dropmenuobj.y-clearbrowseredge(obj, "bottomedge")+obj.offsetHeight+"px";
   }
   return clickreturnvalue();
