@@ -125,6 +125,7 @@ div#fsearchbox
   font-weight: bold;
   color:#ffffff;
   width:155px;
+  cursor: pointer;
 }
 #assos:hover, #login:hover
 {
