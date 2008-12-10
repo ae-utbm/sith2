@@ -131,6 +131,11 @@ div#fsearchbox
 {
   color:#6d6d6d;
 }
+#login a, #assos a
+{
+  text-decoration:none;
+  color:#ffffff;
+}
 #dropmenudiv
 {
   display:none;
