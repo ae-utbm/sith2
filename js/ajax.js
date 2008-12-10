@@ -427,7 +427,7 @@ function go_tooltip ( ref, topdir, myclass, id )
         var pos = findPos(elem);
         tooltip_element.innerHTML = XhrObj.responseText ;
         tooltip_element.style.left=pos[0];
-        tooltip_element.style.top=pos[1]+elem.offsetHeight+10;
+        tooltip_element.style.top=pos[1]+elem.offsetHeight+15;
         tooltip_element.style.display = 'block';
       }
     }
