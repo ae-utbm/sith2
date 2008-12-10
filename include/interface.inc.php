@@ -382,7 +382,7 @@ class interfaceweb
       }
       while(list($id,$nom)=$req->get_row())
       {
-        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."asso/index.php?id_asso=$id\">$nom</a>';";
+        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."asso/index.php?id_asso=$id\">".str_replace("'","\'",$nom)."</a>';";
         $i++;
       }
       $this->buffer .= "</script>";
