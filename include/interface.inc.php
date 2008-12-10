@@ -350,7 +350,24 @@ class interfaceweb
         "AND `asso_membre`.`id_utilisateur`='".$this->user->id."' " .
         "AND `asso`.`id_asso` != '1' " .
         "ORDER BY asso.`nom_asso`");
-    if ( $req->lines > 0 || $this->user->is_in_group("root") || $this->user->is_in_group("moderateur_site") )
+    if ( $this->user->is_in_group("root") && $this->user->is_in_group("gestion_syscarteae") )
+      $req2 = new requete($this->db,
+         "SELECT cpt_comptoir.id_comptoir,cpt_comptoir.nom_cpt ".
+         "FROM cpt_comptoir " .
+         "ORDER BY cpt_comptoir.nom_cpt");
+    elseif( $this->user->is_in_group("gestion_syscarteae") )
+      $req2 = new requete($this->db,
+         "SELECT cpt_comptoir.id_comptoir,cpt_comptoir.nom_cpt " .
+         "FROM cpt_comptoir WHERE cpt_comptoir.nom_cpt != 'test' " .
+         "ORDER BY cpt_comptoir.nom_cpt");
+    else
+      $req2 = new requete($this->db,
+         "SELECT id_comptoir,nom_cpt " .
+         "FROM cpt_comptoir " .
+         "WHERE ( id_groupe IN (".$this->user->get_groups_csv().") OR `id_assocpt` IN (".$this->user->get_assos_csv(4).") ) AND nom_cpt != 'test' " .
+         "ORDER BY nom_cpt");
+
+    if ( $req->lines > 0 || $req2->lines > 0 || $this->user->is_in_group("root") || $this->user->is_in_group("moderateur_site") )
     {
       $this->buffer .= "<script type=\"text/javascript\">\n";
       $this->buffer .= "var menu_assos=new Array();";
@@ -383,6 +400,11 @@ class interfaceweb
       while(list($id,$nom)=$req->get_row())
       {
         $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."asso/index.php?id_asso=$id\">".str_replace("'","\'",$nom)."</a>';";
+        $i++;
+      }
+      while(list($id,$nom)=$req->get_row())
+      {
+        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."comptoir/admin.php?id_comptoir=$id\">Admin : ".str_replace("'","\'",$nom)."</a>';";
         $i++;
       }
       $this->buffer .= "</script>";
