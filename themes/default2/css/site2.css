@@ -173,11 +173,10 @@ div#fsearchbox
   height: 100%;
 }
 
-#overlay
+* html #overlay
 {
-/*  background-color: #333;
-  background-color: transparent;*/
-  filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="/images/overlay.png", sizingMethod="scale");
+  background-color: #333;
+  background-color: transparent;
 }
 
 #passwordbox
