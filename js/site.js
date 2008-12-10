@@ -748,10 +748,22 @@ document.onclick=hidemenu;
 
 
 /* connexion topmoumoute */
-
+function resize(){ 
+var htmlheight = document.body.parentNode.clientHeight; 
+var windowheight = window.screen.height; 
+var frame = document.getElementById("frame1"); 
+if ( htmlheight < windowheight ) 
+ { frame.style.height = windowheight + "px"; } 
+} 
 function showConnexionBox()
 {
   var e=document.getElementById('overlay');
+  var htmlheight = document.body.parentNode.clientHeight;
+  var windowheight = window.screen.height;
+  if ( htmlheight < windowheight )
+    e.style.height = windowheight + "px";
+  else
+    e.style.height = htmlheight + "px";
   e.style.display = 'block';
   center('passwordbox');
   return false;
