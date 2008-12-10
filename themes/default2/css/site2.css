@@ -173,7 +173,7 @@ div#fsearchbox
   height: 100%;
 }
 
-* html #body
+* html #overlay
 {
   background-color: #333;
   background-color: transparent;
