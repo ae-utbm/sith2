@@ -402,7 +402,7 @@ class interfaceweb
         $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."asso/index.php?id_asso=$id\">".str_replace("'","\'",$nom)."</a>';";
         $i++;
       }
-      while(list($id,$nom)=$req->get_row())
+      while(list($id,$nom)=$req2->get_row())
       {
         $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."comptoir/admin.php?id_comptoir=$id\">Admin : ".str_replace("'","\'",$nom)."</a>';";
         $i++;
