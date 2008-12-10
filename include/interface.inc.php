@@ -247,7 +247,7 @@ class interfaceweb
     $this->buffer .= "<body>\n";
     /* Generate the logo */
     $this->buffer .= "<div id=\"site\">\n";
-
+    $this->buffer .= "<div id=\"dropmenudiv\" onMouseover=\"clearhidemenu()\" onMouseout=\"dynamichide(event)\"></div>\n";
     if(!$this->user->is_valid())
     {
       $this->buffer .= "<div id=\"overlay\" onclick=\"hideConnexionBox()\" style=\"display:none\"></div>\n";
@@ -418,7 +418,6 @@ class interfaceweb
     $this->buffer .= "<div class=\"fend\"></div></div>\n";
 
     $this->buffer .= "</div>\n";
-    $this->buffer .= "<div id=\"dropmenudiv\" onMouseover=\"clearhidemenu()\" onMouseout=\"dynamichide(event)\"></div>\n";
     $this->buffer .= "<div id=\"fsearchres\"></div>\n";
     $this->buffer .= "</div>\n";
 /* fin header */
