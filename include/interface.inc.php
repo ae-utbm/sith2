@@ -398,8 +398,8 @@ class interfaceweb
     $this->buffer .= "</form>";
     $this->buffer .= "<div class=\"fend\"></div></div>\n";
 
-    $this->buffer .= "<div id=\"fsearchres\"></div>\n";
     $this->buffer .= "</div>\n";
+    $this->buffer .= "<div id=\"fsearchres\"></div>\n";
     $this->buffer .= "</div>\n";
 /* fin header */
 
