@@ -285,7 +285,7 @@ class interfaceweb
     {
       $this->buffer .= "<script type=\"text/javascript\">\n";
       $this->buffer .= "var menu_utilisateur=new Array();";
-      $this->buffer .= "menu_utilisateur[0]='<a href=\"".$topdir."index.php\" onClick=\"return showConnexionBox()\">Connexion</a>';";
+      $this->buffer .= "menu_utilisateur[0]='<a class='firstdropdown' href=\"".$topdir."index.php\" onClick=\"return showConnexionBox()\">Connexion</a>';";
       $this->buffer .= "menu_utilisateur[1]='<a href=\"".$topdir."password.php\">Mot de passe perdu</a>';";
       $this->buffer .= "menu_utilisateur[2]='<a href=\"".$topdir."newaccount.php\">Créer un compte</a>';";
       $this->buffer .= "</script>";
@@ -306,12 +306,15 @@ class interfaceweb
       $this->buffer .= "<script type=\"text/javascript\">\n";
       $this->buffer .= "var menu_utilisateur=new Array();";
       $i=0;
-      if($this->user>-ae)
+      if($this->user->ae)
       {
-        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>';";
+        $this->buffer .= "menu_utilisateur[$i]='<a class='firstdropdown' href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>';";
         $i++;
       }
-      $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
+      if($i==0)
+        $this->buffer .= "menu_utilisateur[$i]='<a class='firstdropdown' href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
+      else
+        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
       $i++;
       if($this->user->utbm)
       {
@@ -356,52 +359,68 @@ class interfaceweb
        "WHERE ( id_groupe IN (".$this->user->get_groups_csv().") OR `id_assocpt` IN (".$this->user->get_assos_csv(4).") ) AND nom_cpt != 'test' " .
        "ORDER BY nom_cpt");
 
-    if ( $req->lines > 0 || $req2->lines > 0 || $this->user->is_in_group("root") || $this->user->is_in_group("moderateur_site") )
+    if (   $req->lines > 0
+        || $req2->lines > 0
+        || $this->user->is_in_group("root")
+        || $this->user->is_in_group("moderateur_site")
+        || $this->user->is_in_group("compta_admin")
+        || $this->user->is_in_group("gestion_ae")
+        || $this->user->is_in_group("gestion_syscarteae")
+       )
     {
       $this->buffer .= "<script type=\"text/javascript\">\n";
       $this->buffer .= "var menu_assos=new Array();";
       $i=0;
+      $class="class='firstdropdown'";
       if( $this->user->is_in_group("root") )
       {
-        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>';";
+        $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>';";
         $i++;
+        $class="";
       }
       if($this->user->is_in_group("moderateur_site"))
       {
-        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."ae/com.php\">Équipe com</a>';";
+        $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."ae/com.php\">Équipe com</a>';";
         $i++;
+        $class="";
       }
       if( $this->user->is_in_group("compta_admin") )
       {
-        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."ae/compta.php\">Équipe trésorerie</a>';";
+        $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."ae/compta.php\">Équipe trésorerie</a>';";
         $i++;
+        $class="";
       }
       if( $this->user->is_in_group("gestion_ae") )
       {
-        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."ae/\">Équipe AE</a>';";
+        $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."ae/\">Équipe AE</a>';";
         $i++;
+        $class="";
       }
       if( $this->user->is_in_group("gestion_syscarteae") )
       {
-        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."ae/syscarteae.php\">Carte AE</a>';";
+        $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."ae/syscarteae.php\">Carte AE</a>';";
         $i++;
+        $class="";
       }
       while(list($id,$nom)=$req->get_row())
       {
-        $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."asso/index.php?id_asso=$id\">".str_replace("'","\'",$nom)."</a>';";
+        $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."asso/index.php?id_asso=$id\">".str_replace("'","\'",$nom)."</a>';";
         $i++;
+        $class="";
       }
       if( $this->user->is_in_group("gestion_syscarteae") )
       {
-         $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."comptoir/admin.php\">Admin : comptoirs</a>';";
+        $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."comptoir/admin.php\">Admin : comptoirs</a>';";
         $i++;
+        $class="";
       }
       else
       {
         while(list($id,$nom)=$req2->get_row())
         {
-          $this->buffer .= "menu_assos[".$i."]='<a href=\"".$topdir."comptoir/admin.php?id_comptoir=$id\">Admin : ".str_replace("'","\'",$nom)."</a>';";
+          $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."comptoir/admin.php?id_comptoir=$id\">Admin : ".str_replace("'","\'",$nom)."</a>';";
           $i++;
+          $class="";
         }
       }
       $this->buffer .= "</script>";
