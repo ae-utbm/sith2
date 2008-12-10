@@ -136,6 +136,10 @@ div#fsearchbox
   text-decoration:none;
   color:#ffffff;
 }
+#login a:hover, #assos a:hover
+{
+  color:#6d6d6d;
+}
 #dropmenudiv
 {
   display:none;
