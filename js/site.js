@@ -691,7 +691,7 @@ function dropdownmenu(obj, e, menucontents, menuwidth)
   {
     showhide(dropmenuobj.style, e, "visible", "hidden", menuwidth);
     dropmenuobj.x=getposOffset(obj, "left");
-    alert(getposOffset(obj, "left");)
+    alert(getposOffset(obj, "left"));
 //    dropmenuobj.y=getposOffset(obj, "top");
     dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+"px";
 //    dropmenuobj.style.top=dropmenuobj.y-clearbrowseredge(obj, "bottomedge")+obj.offsetHeight+"px";
