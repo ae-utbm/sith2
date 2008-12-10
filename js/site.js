@@ -608,9 +608,9 @@ var disappeardelay=250;  //dispartion des menus apres X milisecondes
 var ie4=document.all;
 var ns6=document.getElementById&&!document.all;
 
-if (ie4||ns6)
+/*if (ie4||ns6)
   document.write('<div id="dropmenudiv" onMouseover="clearhidemenu()" onMouseout="dynamichide(event)"></div>');
-
+*/
 function getposOffset(what, offsettype)
 {
   var totaloffset=(offsettype=="left")? what.offsetLeft : what.offsetTop;
