@@ -337,7 +337,7 @@ class interfaceweb
       $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."disconnect.php\">Déconnexion</a>';";
       $this->buffer .= "</script>";
       $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">\n";
-      $this->buffer .= $this->user->prenom." ".$this->user->nom;
+      $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">".$this->user->prenom." ".$this->user->nom."</a>";
     }
     $this->buffer .= "</div>\n";
 
