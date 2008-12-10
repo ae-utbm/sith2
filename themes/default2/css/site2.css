@@ -112,6 +112,13 @@ div#fsearchbox
   background-color: #424242;
   color:#ffffff;
 }
+#dropmenudiv
+{
+  z-index:60;
+  position:absolute;
+  top:29px;
+  right:0px;
+}
 #login, #assos
 {
   display:inline-block;
