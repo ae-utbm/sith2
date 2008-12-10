@@ -248,12 +248,7 @@ class interfaceweb
     /* Generate the logo */
     $this->buffer .= "<div id=\"site\">\n";
 
-/* header */
-    $this->buffer .= "<div id='header'>\n";
-    $this->buffer .= "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/ae_header.png\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";
-
-    $this->buffer .= "<div id='headermenu'>\n";
-    if ( !$this->user->is_valid() )
+    if(!$this->user->is_valid())
     {
       $this->buffer .= "<div id=\"overlay\" onclick=\"hideConnexionBox()\" style=\"display:none\"></div>\n";
       $this->buffer .= '<div id="passwordbox" style="display:none">';
@@ -279,7 +274,15 @@ class interfaceweb
       $this->buffer .= $frm->html_render();
       unset($frm);
       $this->buffer .= "</div>\n";
+    }
 
+/* header */
+    $this->buffer .= "<div id='header'>\n";
+    $this->buffer .= "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/ae_header.png\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";
+
+    $this->buffer .= "<div id='headermenu'>\n";
+    if ( !$this->user->is_valid() )
+    {
       $this->buffer .= "<script type=\"text/javascript\">\n";
       $this->buffer .= "var menu_utilisateur=new Array();";
       $this->buffer .= "menu_utilisateur[0]='<a href=\"".$topdir."index.php\" onClick=\"return showConnexionBox()\">Connexion</a>';";
