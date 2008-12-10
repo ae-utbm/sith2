@@ -112,13 +112,6 @@ div#fsearchbox
   background-color: #424242;
   color:#ffffff;
 }
-#dropmenudiv
-{
-  z-index:60;
-  position:absolute;
-  top:29px;
-  right:0px;
-}
 #login, #assos
 {
   display:inline-block;
@@ -149,13 +142,14 @@ div#fsearchbox
 }
 #dropmenudiv
 {
+  z-index:60;
+  text-align:left;
   display:none;
   position:absolute;
-  top:25px;
+  top:30px;
   z-index:100;
   color:#ffffff;
   font-weight: bold;
-  /*margin-top:10px;*/
 }
 
 #dropmenudiv a
