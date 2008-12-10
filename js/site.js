@@ -233,7 +233,6 @@ function opencal(topdir, __target, type)
       elem.style.display = 'block';
       elem.style.left = pos[0] + 150;
       elem.style.top = pos[1] - 20;
-      openInContents(__target + '_calendar', topdir + 'gateway.php', 'module=tinycal&target=' + __target + '&type=' + type + '&topdir=' + topdir); 
   }
   else
   {
@@ -626,8 +625,6 @@ function getposOffset(what, offsettype)
 
 function showhide(obj, e, visible, hidden, menuwidth)
 {
-  //if (ie4||ns6)
-  //  dropmenuobj.style.left=dropmenuobj.style.top="-500px";
   if (menuwidth!="")
   {
     dropmenuobj.widthobj=dropmenuobj.style;
@@ -691,6 +688,7 @@ function dropdownmenu(obj, e, menucontents, menuwidth)
   {
     showhide(dropmenuobj.style, e, "visible", "hidden", menuwidth);
     dropmenuobj.x=getposOffset(obj, "left");
+    dropmenuobj.style.top="30px";
     dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+"px";
   }
   return clickreturnvalue();
