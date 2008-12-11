@@ -91,13 +91,13 @@ class debitfacture extends stdentity
    * @return false en cas de problème (solde insuffisent, erreur sql) sinon true
    * @see venteproduit
    */
-  function debit ( $client, $panier, $prix_service, $etat=0 )
+  function debit ( $client, $panier, $etat=0 )
   {
     $this->id_utilisateur = $client->id;
     $this->date = time();
     $this->etat = $etat;
 
-    $this->montant = $this->calcul_montant($panier, $prix_service,$client);
+    $this->montant = $this->calcul_montant($panier,$client);
 
     $req = new insert ($this->dbrw,
            "boutiqueut_debitfacture",
@@ -160,7 +160,7 @@ La boutique utbm";
    * @param $prix_barman Utilise le prix barman ou non (true:prix barman, false: prix publique)
    * @return le montant en centimes
    */
-  function calcul_montant ( $panier, $prix_service, &$client )
+  function calcul_montant ( $panier, &$client )
   {
     $montant = 0;
     foreach ( $panier as $item )

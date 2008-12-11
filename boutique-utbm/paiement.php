@@ -136,10 +136,8 @@ else
       }
 
       $debfact->debit ($site->user,
-                       $site->user,
-                       $cpt,
-                       $cpt_cart,
-                       false);
+                       $cpt_cart
+                      );
       $accueil->add_paragraph ("<h1>Vente effectuee</h1>".
                                "<p>Vos achats ont ".
                                "&eacute;t&eacute; effectu&eacute;s.<br/><br/>".
