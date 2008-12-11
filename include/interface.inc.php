@@ -295,7 +295,7 @@ class interfaceweb
     elseif($this->user->type=="srv" )
     {
       $this->buffer .= "<div id='login'>\n";
-      $this->buffer .= "<a href=\"".$topdir."user/compteae.php\">Factures en attente de paiement : ".(sprintf("%.2f", $this->user->montant_compte/-100))." Euros</a>\n";
+      $this->buffer .= "<a href=\"".$topdir."boutique-utbm/suivi.php\">Suivi commandes</a>\n";
     }
     else
     {
