@@ -75,6 +75,11 @@ class produit extends stdentity
   var $cl;
 
 
+  function get_extra_info (&$user)
+  {
+    return '';
+  }
+
   /* Class "amies" pouvant modifier les instances
     - VenteProduit
   */
