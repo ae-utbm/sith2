@@ -40,7 +40,6 @@ $site = new boutique();
 $site->allow_only_logged_users();
 if($site->user->type != "srv" )
   $site->error_forbidden();
-$cts->add(new tabshead(array(array("","index.php","Boutique"),array("pannier","cart.php","Pannier"),array("suivi","suivi.php","Commandes")),"section"));
 /* modifications du panier */
 if (isset($_POST['cart_modify']))
 {
@@ -58,7 +57,7 @@ if (isset($_POST['cart_modify']))
 $site->start_page ("Panier Boutique", "Etat du panier");
 
 $accueil = new contents ("E-boutic : Paiement");
-
+$accueil->add(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"boutique"));
 
 /* panier vide */
 if ($site->cart == false)

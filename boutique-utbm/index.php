@@ -47,7 +47,6 @@ if($site->user->type != "srv" )
   $site->error_forbidden();
 $produit = new produit($site->db);
 $typeproduit = new typeproduit($site->db);
-$cts->add(new tabshead(array(array("","index.php","Boutique"),array("pannier","cart.php","Pannier"),array("suivi","suivi.php","Commandes")),"section"));
 if ( isset($_REQUEST["id_produit"]) )
 {
   $produit->load_by_id($_REQUEST["id_produit"]);
@@ -127,7 +126,9 @@ if ( $produit->is_valid() && !is_null($produit->id_produit_parent) )
 
 
 $site->start_page ("Accueil boutique utbm", "boutiqueutbm");
-
+$cts= new contents();
+$cts->add(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"boutique"));
+$site->add_contents ($cts);
 /* ajout panier ? */
 if (isset($add_rs))
   $site->add_contents ($add_rs);

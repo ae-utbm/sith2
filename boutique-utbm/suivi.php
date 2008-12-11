@@ -34,9 +34,6 @@ $user = &$site->user;
 
 if ( $_REQUEST["page"] == "all")
 {
-  $cts->add(new tabshead(array(array("boutique","index.php","Boutique"),array("","suivi.php","Commandes")),"section"));
-  $mode = $_REQUEST["page"];
-
   $req = new requete($site->db, "SELECT " .
       "`boutiqueut_debitfacture`.`id_facture`, " .
       "`boutiqueut_debitfacture`.`date_facture`, " .
@@ -59,7 +56,7 @@ if ( $_REQUEST["page"] == "all")
 
   $site->start_page("boutique", $user->prenom . " " . $user->nom );
   $cts = new contents( $user->prenom . " " . $user->nom );
-
+  $cts->add(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"suivi"));
   $cts->add(new sqltable(
     "listresp",
     "Depenses", $req, "suivi.php?id_utilisateur=".$user->id,
