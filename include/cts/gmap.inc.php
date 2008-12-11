@@ -91,9 +91,8 @@ class gmap extends stdcontents
     $this->buffer .= "<div id=\"".$this->uid."_canvas\" style=\"width: 500px; height: 300px\"></div>";
 
 
-    //<script src=\"http://www.google.com/jsapi?key=".$this->key."\" type=\"text/javascript\"></script>
     $this->buffer .= "
-    <script src=\"http://maps.google.com/maps?file=api&v=2&key=".$this->key."\" type=\"text/javascript\"></script>
+    <script src=\"http://www.google.com/jsapi?key=".$this->key."\" type=\"text/javascript\"></script>
     <script type=\"text/javascript\">\n";
 
     //
@@ -210,9 +209,9 @@ function(point)
     $this->buffer .= "
     }
 
-    google.setOnLoadCallback(initialize);
-    document.onunload=GUnload();
-
+    google.setOnLoadCallback(initialize);";
+//    document.onunload=GUnload();
+"
     </script>";
 
 
