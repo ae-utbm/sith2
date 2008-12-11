@@ -176,6 +176,7 @@ if(isset($_REQUEST["id_facture"]))
 }
 
 $site->start_page("boutique", "Suivi" );
+$site->add_contents(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"suivi"));
 $cts = new contents( "Suivi" );
 
 $cts->add_title(2,"Factures");
