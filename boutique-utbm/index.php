@@ -185,10 +185,9 @@ elseif ( !$typeproduit->is_valid() )
   * contenu itemlist
   */
   $items_lst = new gallery ("Rayons disponibles");
-  foreach ($cat as $c)
-  {
-    $items_lst->add_item (new vigtypeproduit($c));
-  }
+  if(!empty($cat))
+    foreach ($cat as $c)
+      $items_lst->add_item (new vigtypeproduit($c));
 
   $site->add_contents ($items_lst);
 }
