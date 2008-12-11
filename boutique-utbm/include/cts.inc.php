@@ -101,7 +101,7 @@ class ficheproduit extends stdcontents
     $req = new requete($produit->db,"SELECT `boutiqueut_produits`.* ".
             "FROM     `boutiqueut_produits` ".
             "WHERE ".
-            "AND `boutiqueut_produits`.`id_produit_parent`='".$produit->id."'");
+            "`boutiqueut_produits`.`id_produit_parent`='".$produit->id."'");
 
     $this->buffer .= "<div class=\"achat\">";
     $this->buffer .= "<h3>Acheter le produit</h3>";
