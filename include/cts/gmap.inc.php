@@ -182,7 +182,7 @@ function(point)
         }
 
         $this->buffer .= "var ".$this->uid."path_".$i."_points = \"from: ".implode(" to: ",$points)."\";\n";
-        $this->buffer .= $this->uid."path_".$i."= new google.maps.Directions(map);\n";
+        $this->buffer .= $this->uid."path_".$i."= new google.maps.Directions(".$this->uid.");\n";
         $this->buffer .= $this->uid."path_".$i."_path.load(".$this->uid."path_".$i."_points, {getSteps:true});\n";
       }
     }
