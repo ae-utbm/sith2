@@ -74,7 +74,7 @@ class site extends interfaceweb
     /* les services n'ont acces qu'à la boutique utbm */
     if($this->user->type=="srv" && !strpos($_SERVER['SCRIPT_FILENAME'],'boutique-utbm') )
     {
-      header("Location: ".$topdir."boutiqueutbm/");
+      header("Location: ".$topdir."boutique-utbm/");
       exit();
     }
 
