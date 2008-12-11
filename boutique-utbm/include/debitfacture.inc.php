@@ -53,7 +53,7 @@ class debitfacture extends stdentity
    * Charge la facture en fonction de son ID
    * @param $id Id de la facture
    */
-  function load_by_id_n_utl ( $id)
+  function load_by_id ( $id)
   {
 
     $req = new requete($this->db,"SELECT * FROM boutiqueut_debitfacture WHERE id_facture='".intval($id)."' AND id_utilisateur='".intval($userid)."'");
