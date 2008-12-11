@@ -89,7 +89,7 @@ if(isset($_REQUEST["id_facture"]))
 
   require_once("include/debitfacture.inc.php");
   $fact = new debitfacture($site->db);
-  if($fact->load_by_id($_REQUEST["id_facture"]) && $fact->id_utilisateur==$user->id))
+  if($fact->load_by_id($_REQUEST["id_facture"]) && $fact->id_utilisateur==$user->id)
   {
     if(isset($_REQUEST["gen_pdf"]))
     {
