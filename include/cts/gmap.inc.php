@@ -91,9 +91,14 @@ class gmap extends stdcontents
     $this->buffer .= "<div id=\"".$this->uid."_canvas\" style=\"width: 500px; height: 300px\"></div>";
 
 
+    if(!isset($GLOBALS["gmaploaded"]))
+    {
+      $this->buffer .= "
+        <script src=\"http://www.google.com/jsapi?key=".$this->key."\" type=\"text/javascript\"></script>\n";
+      $GLOBALS["gmaploaded"]=true;
+    }
     $this->buffer .= "
-    <script src=\"http://www.google.com/jsapi?key=".$this->key."\" type=\"text/javascript\"></script>
-    <script type=\"text/javascript\">\n";
+      <script type=\"text/javascript\">\n";
 
     //
     $this->buffer .="google.load(\"maps\", \"2\");\n";
