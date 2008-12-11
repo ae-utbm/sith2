@@ -49,8 +49,7 @@ class venteproduit extends stdentity
   {
     $this->produit = new produit($this->db);
 
-    $this->produit->load_by_id($id_produit);
-    if ( !$this->produit->is_valid() )
+    if(!$this->produit->load_by_id($id_produit))
       return false;
 
     return true;

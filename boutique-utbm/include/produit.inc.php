@@ -94,7 +94,6 @@ class produit extends stdentity
   {
     $req = new requete ($this->db, "SELECT * FROM `boutiqueut_produits`
                                     WHERE `id_produit`='".mysql_real_escape_string($id)."'");
-
     if ( $req->lines == 1 )
     {
       $this->_load($req->get_row());
