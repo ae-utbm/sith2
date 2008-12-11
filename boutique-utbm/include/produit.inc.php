@@ -351,9 +351,12 @@ class produit extends stdentity
    * @param $user utilisateur à qui le pdoruit va être vendu (intsance de utilisateur)
    * @return le prix (en centimes d'euros)
    */
-  function obtenir_prix ($service,$user=false)
+  function obtenir_prix ($user)
   {
-    return $service ? $this->prix_vente_service : $this->prix_vente;
+    if($user->type=="srv")
+      return $this->prix_vente_service;
+    else
+      return $this->prix_vente;
   }
 
   /**

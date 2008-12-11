@@ -166,7 +166,7 @@ La boutique utbm";
     foreach ( $panier as $item )
     {
       list($quantite,$vp) = $item;
-      $montant += $quantite * $vp->produit->obtenir_prix($prix_service,$client );
+      $montant += $quantite * $vp->produit->obtenir_prix($client );
     }
 
     return $montant;
@@ -227,7 +227,7 @@ La boutique utbm";
         $a_retirer=1;
       }
 
-      $prix = $vp->produit->obtenir_prix($prix_service,$client);
+      $prix = $vp->produit->obtenir_prix($client);
 
       $req = new insert ($this->dbrw,
              "boutiqueut_vendu",
