@@ -137,7 +137,6 @@ if(isset($_REQUEST["id_facture"]))
     }
     else
     {
-      $cts->add(new tabshead(array(array("boutique","index.php","Boutique"),array("","suivi.php","Commandes")),"section"));
       if($fact->ready==1) // commande à retirer
       {
         $cts = new contents( "Commande à retirer" );
@@ -178,7 +177,6 @@ if(isset($_REQUEST["id_facture"]))
 
 $site->start_page("boutique", "Suivi" );
 $cts = new contents( "Suivi" );
-$cts->add(new tabshead(array(array("boutique","index.php","Boutique"),array("","suivi.php","Commandes")),"section"));
 
 $cts->add_title(2,"Factures");
 
