@@ -126,9 +126,7 @@ if ( $produit->is_valid() && !is_null($produit->id_produit_parent) )
 
 
 $site->start_page ("Accueil boutique utbm", "boutiqueutbm");
-$cts= new contents();
-$cts->add(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"boutique"));
-$site->add_contents ($cts);
+$site->add_contents(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"boutique"));
 /* ajout panier ? */
 if (isset($add_rs))
   $site->add_contents ($add_rs);

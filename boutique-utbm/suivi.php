@@ -55,8 +55,8 @@ if ( $_REQUEST["page"] == "all")
   $annee = substr($_REQUEST["month"],0,4);
 
   $site->start_page("boutique", $user->prenom . " " . $user->nom );
+  $site->add_contents(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"suivi"));
   $cts = new contents( $user->prenom . " " . $user->nom );
-  $cts->add(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"suivi"));
   $cts->add(new sqltable(
     "listresp",
     "Depenses", $req, "suivi.php?id_utilisateur=".$user->id,

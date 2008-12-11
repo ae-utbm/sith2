@@ -55,9 +55,8 @@ if (isset($_POST['cart_modify']))
 }
 
 $site->start_page ("Panier Boutique", "Etat du panier");
-
+$site->add_contents(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"boutique"));
 $accueil = new contents ("E-boutic : Paiement");
-$accueil->add(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"boutique"));
 
 /* panier vide */
 if ($site->cart == false)

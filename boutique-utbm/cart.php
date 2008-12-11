@@ -58,7 +58,6 @@ if (isset($_POST['cart_modify']))
 }
 
 $site->start_page ("Panier", "Etat du panier");
-$site->add_contents(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"pannier"));
 $accueil = new contents ("Etat du panier",
                          "<p>Sur cette page, vous allez pouvoir ".
                          "recenser les articles que vous vous ".
