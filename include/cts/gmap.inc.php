@@ -209,9 +209,9 @@ function(point)
     $this->buffer .= "
     }
 
-    google.setOnLoadCallback(initialize);";
-//    document.onunload=GUnload();
-"
+    google.setOnLoadCallback(initialize);
+    document.onunload=GUnload();
+
     </script>";
 
 
