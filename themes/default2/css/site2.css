@@ -167,7 +167,9 @@ div#fsearchbox
   font-weight: bold;
   height:20px;
 }
-
+#dropmenudiv a.firstdropdown
+{
+}
 #dropmenudiv a:hover
 {
   color:#6d6d6d;

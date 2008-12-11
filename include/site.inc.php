@@ -71,6 +71,13 @@ class site extends interfaceweb
     if($_COOKIE['AE2_SESS_ID'])
       $this->load_session($_COOKIE['AE2_SESS_ID']);
 
+    /* les services n'ont acces qu'à la boutique utbm */
+    if($this->user->type=="srv" && !strpos($_SERVER['SCRIPT_FILENAME'],'boutique-utbm') )
+    {
+      header("Location: ".$topdir."boutiqueutbm/");
+      exit();
+    }
+
     if ( $this->get_param("closed",false) && !$this->user->is_in_group("root") )
       $this->fatal("closed");
 
