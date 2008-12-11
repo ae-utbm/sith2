@@ -126,22 +126,20 @@ else
     if (isset($_POST["payment_boutique_proceed"]))
     {
       $debfact = new debitfacture ($site->db, $site->dbrw);
-      $cpt = new comptoir ($site->db, $site->dbrw);
-      $cpt->load_by_id (CPT_E_BOUTIC);
       $cpt_cart=array();
 
       foreach ($site->cart as $item)
       {
         $vp = new venteproduit ($site->db, $site->dbrw);
-        $vp->load_by_id ($item->id, CPT_E_BOUTIC);
+        $vp->load_by_id ($item->id);
         $cpt_cart[] = array($_SESSION['boutique_cart'][$item->id], $vp);
       }
 
-      $debfact->debitAE ($site->user,
-                         $site->user,
-                         $cpt,
-                         $cpt_cart,
-                         false);
+      $debfact->debit ($site->user,
+                       $site->user,
+                       $cpt,
+                       $cpt_cart,
+                       false);
       $accueil->add_paragraph ("<h1>Vente effectuee</h1>".
                                "<p>Vos achats ont ".
                                "&eacute;t&eacute; effectu&eacute;s.<br/><br/>".

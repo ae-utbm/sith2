@@ -45,7 +45,7 @@ class venteproduit extends stdentity
 
   var $produit;
 
-  function load_by_id ( $id_produit, $force=false )
+  function load_by_id ( $id_produit )
   {
     $this->produit = new produit($this->db);
 
