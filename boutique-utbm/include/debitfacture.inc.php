@@ -121,7 +121,7 @@ class debitfacture extends stdentity
     return true;
   }
 
-  function send_email ()
+  function send_emails ()
   {
     $body = "Bonjour,
 Vous vennez d'effectuer une commande sur la boutique utbm.
