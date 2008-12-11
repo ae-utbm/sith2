@@ -49,7 +49,7 @@ class gmap extends stdcontents
   function gmap ( $name )
   {
     $this->name = $name;
-    $this->uid="gmap_"gen_uid();
+    $this->uid="gmap_".gen_uid();
   }
 
   function add_marker ( $name, $lat, $long, $draggable=false, $dragend=null )
