@@ -189,7 +189,7 @@ function(point)
     else
     {
       $this->buffer .= 'var '.$this->uid.'pays_'.$this->pays->id."= new google.maps.ClientGeocoder();\n";
-      $this->buffer .= .$this->uid."pays_".$this->pays->id.".getLatLng(\"".$this->pays->nom."\",
+      $this->buffer .= $this->uid."pays_".$this->pays->id.".getLatLng(\"".$this->pays->nom."\",
 function(point)
 {
   if(!point)
