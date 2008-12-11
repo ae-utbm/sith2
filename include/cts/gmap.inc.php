@@ -210,7 +210,7 @@ function(point)
     }
 
     google.setOnLoadCallback(initialize);
-    document.onunload=GUnload;
+    document.onunload=GUnload();
 
     </script>";
 
