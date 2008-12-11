@@ -131,8 +131,8 @@ else
       foreach ($site->cart as $item)
       {
         $vp = new venteproduit ($site->db, $site->dbrw);
-        $vp->load_by_id ($item->id);
-        $cpt_cart[] = array($_SESSION['boutique_cart'][$item->id], $vp);
+        if($vp->load_by_id ($item->id))
+          $cpt_cart[] = array($_SESSION['boutique_cart'][$item->id], $vp);
       }
 
       $debfact->debit ($site->user,

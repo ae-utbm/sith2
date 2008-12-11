@@ -166,7 +166,7 @@ La boutique utbm";
     foreach ( $panier as $item )
     {
       list($quantite,$vp) = $item;
-      $montant += $quantite * $vp->produit->obtenir_prix($client );
+      $montant += $quantite * $vp->produit->obtenir_prix($client);
     }
 
     return $montant;
