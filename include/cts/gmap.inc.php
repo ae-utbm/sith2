@@ -49,7 +49,7 @@ class gmap extends stdcontents
   function gmap ( $name )
   {
     $this->name = $name;
-    $this->uid=gen_uid();
+    $this->uid="gmap_"gen_uid();
   }
 
   function add_marker ( $name, $lat, $long, $draggable=false, $dragend=null )
@@ -102,10 +102,10 @@ class gmap extends stdcontents
     if(is_null($this->pays))
     {
       foreach ( $this->markers as $i => $marker )
-        $this->buffer .= "var ".$i."_marker;\n";
+        $this->buffer .= "var ".$this->uid."marker_".$i.";\n";
 
       foreach ( $this->paths as $i => $path )
-        $this->buffer .= "var ".$i."_path;\n";
+        $this->buffer .= "var ".$this->uid."path_".$i.";\n";
     }
 
     $this->buffer .="function initialize() {\n";
@@ -118,25 +118,25 @@ class gmap extends stdcontents
 
       foreach ( $this->markers as $i => $marker )
       {
-        $this->buffer .= "var ".$i."_marker_point = new google.maps.LatLng(".sprintf("%.12F",$marker['lat']*360/2/M_PI).", ".sprintf("%.12F",$marker['long']*360/2/M_PI).");\n";
+        $this->buffer .= "var ".$this->uid."marker_".$i."_point = new google.maps.LatLng(".sprintf("%.12F",$marker['lat']*360/2/M_PI).", ".sprintf("%.12F",$marker['long']*360/2/M_PI).");\n";
 
 
         if ( $first )
         {
-          $this->buffer .= $this->uid.".setCenter(".$i."_marker_point, 15);\n";
+          $this->buffer .= $this->uid.".setCenter(".$this->uid."marker_".$i."_point, 15);\n";
           $first = false;
         }
 
         if ( $marker["draggable"] )
         {
-          $this->buffer .= $i."_marker = new google.maps.Marker(".$i."_marker_point, {draggable: true});\n";
+          $this->buffer .= $this->uid."marker_".$i." = new google.maps.Marker(".$this->uid."marker_".$i."_point, {draggable: true});\n";
           if ( !is_null($marker["dragend"]) )
             $this->buffer .= "google.maps.Event.addListener(marker, \"dragend\", ".$marker["dragend"]." );\n";
         }
         else
-          $this->buffer .= $i."_marker = new google.maps.Marker(".$i."_marker_point);\n";
+          $this->buffer .= $this->uid."marker_".$i." = new google.maps.Marker(".$this->uid."marker_".$i."_point);\n";
 
-        $this->buffer .= $this->uid.".addOverlay(".$i."_marker);\n";
+        $this->buffer .= $this->uid.".addOverlay(".$this->uid."marker_".$i.");\n";
 
       }
 
@@ -144,9 +144,9 @@ class gmap extends stdcontents
       {
         $pays = new pays($site->db);
 	$pays->load_by_id($ville->id_pays);
-        $this->buffer .= "var ".$ville->id."_ville_dec = new google.maps.ClientGeocoder();\n";
+        $this->buffer .= "var ".$this->uid."ville_".$ville->id."_dec = new google.maps.ClientGeocoder();\n";
 	$this->buffer .= "
-".$ville->id."_ville_dec.getLatLng(\"".$ville->nom.", ".$ville->cpostal.", ".$pays->nom."\",
+".$this->uid."ville_".$ville->id."_dec.getLatLng(\"".$ville->nom.", ".$ville->cpostal.", ".$pays->nom."\",
 function(point)
 {
   if(!point)
@@ -181,15 +181,15 @@ function(point)
             $points[] = "@".sprintf("%.12F",$point['lat']*360/2/M_PI).", ".sprintf("%.12F",$point['long']*360/2/M_PI);
         }
 
-        $this->buffer .= "var ".$i."_path_points = \"from: ".implode(" to: ",$points)."\";\n";
-        $this->buffer .= $i."_path= new google.maps.Directions(map);\n";
-        $this->buffer .= $i."_path.load(".$i."_path_points, {getSteps:true});\n";
+        $this->buffer .= "var ".$this->uid."path_".$i."_points = \"from: ".implode(" to: ",$points)."\";\n";
+        $this->buffer .= $this->uid."path_".$i."= new google.maps.Directions(map);\n";
+        $this->buffer .= $this->uid."path_".$i."_path.load(".$this->uid."path_".$i."_points, {getSteps:true});\n";
       }
     }
     else
     {
-      $this->buffer .= 'var '.$this->pays->id."_pays= new google.maps.ClientGeocoder();\n";
-      $this->buffer .= $this->pays->id."_pays.getLatLng(\"".$this->pays->nom."\",
+      $this->buffer .= 'var '.$this->uid.'pays_'.$this->pays->id."= new google.maps.ClientGeocoder();\n";
+      $this->buffer .= .$this->uid."pays_".$this->pays->id.".getLatLng(\"".$this->pays->nom."\",
 function(point)
 {
   if(!point)
