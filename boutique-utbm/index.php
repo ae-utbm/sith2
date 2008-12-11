@@ -47,7 +47,7 @@ if($site->user->type != "srv" )
   $site->error_forbidden();
 $produit = new produit($site->db);
 $typeproduit = new typeproduit($site->db);
-
+$cts->add(new tabshead(array(array("","index.php","Boutique"),array("pannier","cart.php","Pannier"),array("suivi","suivi.php","Commandes")),"section"));
 if ( isset($_REQUEST["id_produit"]) )
 {
   $produit->load_by_id($_REQUEST["id_produit"]);

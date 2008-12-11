@@ -40,6 +40,7 @@ $site = new boutique();
 $site->allow_only_logged_users();
 if($site->user->type != "srv" )
   $site->error_forbidden();
+$cts->add(new tabshead(array(array("","index.php","Boutique"),array("pannier","cart.php","Pannier"),array("suivi","suivi.php","Commandes")),"section"));
 /* modifications du panier */
 if (isset($_POST['cart_modify']))
 {

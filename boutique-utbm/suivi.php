@@ -34,6 +34,7 @@ $user = &$site->user;
 
 if ( $_REQUEST["page"] == "all")
 {
+  $cts->add(new tabshead(array(array("boutique","index.php","Boutique"),array("","suivi.php","Commandes")),"section"));
   $mode = $_REQUEST["page"];
 
   $req = new requete($site->db, "SELECT " .
@@ -58,7 +59,6 @@ if ( $_REQUEST["page"] == "all")
 
   $site->start_page("boutique", $user->prenom . " " . $user->nom );
   $cts = new contents( $user->prenom . " " . $user->nom );
-//  $cts->add(new tabshead($user->get_tabs($site->user),"compte"));
 
   $cts->add(new sqltable(
     "listresp",
@@ -99,15 +99,15 @@ if(isset($_REQUEST["id_facture"]))
            "90400 SEVENANS"),
        'logo' => "http://ae.utbm.fr/images/Ae-blanc.jpg");
 
-$factured_infos = array ('name' => utf8_decode($user->nom)
-       . " " .
-       utf8_decode($user->prenom),
-       'addr' => array(
-           utf8_decode($user->addresse),
-           utf8_decode($ville->cpostal)
-           . " " .
-           utf8_decode($ville->nom)),
-       false);
+      $factured_infos = array ('name' => utf8_decode($user->nom)
+             . " " .
+             utf8_decode($user->prenom),
+             'addr' => array(
+                 utf8_decode($user->addresse),
+                 utf8_decode($ville->cpostal)
+                 . " " .
+                 utf8_decode($ville->nom)),
+             false);
 
       $date_facturation = date("d/m/Y H:i", $fact->date);
       $titre = "Facture boutique UTBM";
@@ -140,6 +140,7 @@ $factured_infos = array ('name' => utf8_decode($user->nom)
     }
     else
     {
+      $cts->add(new tabshead(array(array("boutique","index.php","Boutique"),array("","suivi.php","Commandes")),"section"));
       if($fact->ready==1) // commande à retirer
       {
         $cts = new contents( "Commande à retirer" );
@@ -180,7 +181,7 @@ $factured_infos = array ('name' => utf8_decode($user->nom)
 
 $site->start_page("boutique", "Suivi" );
 $cts = new contents( "Suivi" );
-$cts->add(new tabshead($user->get_tabs($site->user),"compte"));
+$cts->add(new tabshead(array(array("boutique","index.php","Boutique"),array("","suivi.php","Commandes")),"section"));
 
 $cts->add_title(2,"Factures");
 
