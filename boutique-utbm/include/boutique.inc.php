@@ -176,22 +176,6 @@ class boutique extends site
     if ( !$vp->produit->can_be_sold($this->user) )
       return;
 
-    if ( $cl = $vp->produit->get_prodclass($this->user) )
-    {
-      if ($this->cart == null)
-        $this->load_cart();
-
-      if(!empty($this->cart))
-      {
-        foreach ($this->cart as $prod)
-        {
-          $cl2 = $prod->get_prodclass($this->user);
-          if ( $cl2 && !$cl->is_compatible($cl2) )
-            return false;
-        }
-      }
-    }
-
     $_SESSION['boutique_locked'] = $site->user->id;
 
     $ret = $vp->bloquer($this->user);
