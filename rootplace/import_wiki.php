@@ -60,7 +60,7 @@ function list_wikis ()
 
 $site->start_page("none","Administration");
 
-$baselist = list_wiki();
+$baselist = list_wikis();
 $list=array();
 $asso = new asso($site->db);
 
