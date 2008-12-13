@@ -104,7 +104,7 @@ class killsms
           if($e)
             $foundErrors['mixedcase'][] = $w;
         }
-        elseif(ereg("[0-9]+",$w) && !ereg("^[A-Z][0-9]$",$w))
+        elseif(ereg("[0-9]+",$w) && !ereg("^[A-Z]{2}[0-9]$",$w))
         {
           $points += NUMBERS;
           if($e)
