@@ -149,7 +149,7 @@ div#fsearchbox
   top:30px;
   z-index:100;
   color:#ffffff;
-  font-weight: bold;
+  /*font-weight: bold;*/
 }
 
 #dropmenudiv a
@@ -182,6 +182,7 @@ div#fsearchbox
 #dropmenudiv a:hover
 {
   color:#00AEDD;
+  background: #999999;
 }
 
 #overlay

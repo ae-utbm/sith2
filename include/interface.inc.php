@@ -327,7 +327,7 @@ class interfaceweb
         $jobuser->load_by_id($this->user->id);
         $jobuser->load_annonces();
         $this->buffer .= "menu_utilisateur[$i]='<a href=\"".
-                         $topdir."jobetu/board_etu.php\">Mon compte JobEtu (".count($jobuser->annonces).")</a>';";
+                         $topdir."jobetu/board_etu.php\">JobEtu (".count($jobuser->annonces).")</a>';";
         unset($jobuser);
       }
       elseif( $this->user->is_in_group("jobetu_client") )
