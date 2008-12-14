@@ -2560,9 +2560,9 @@ div.calbox td.weekday
 {
   background-color:#FF3399;
 }
-#sbox_info_en_boucle
+#sbox_info_en_boucle .body
 {
-/*  min-height:220px;*/
+  min-height: 200px;
 }
 #hide_apples, #hide_notice
 {
