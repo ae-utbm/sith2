@@ -294,12 +294,13 @@ p.error
 }
 #endsite
 {
-  position:absolute;
+/*  position:absolute;*/
   left:0;
   bottom:0;
   clear: both;
   width:100%;
-  background :#333333 url(../images/global-bottom.png) top repeat-x;
+  background :#333333;
+  border-top: 1px solid #303030;
   height:80px;
   font-size:10px;
   margin:0;
@@ -314,11 +315,6 @@ p.error
   width:980px;
   text-align:left;
   margin:0 auto 0 auto;
-/*
-  background-image: url("../images/footer.png");
-  background-repeat: no-repeat;
-  background-position:100% 9px;
-*/
 }
 #endsitelinks .endlinksblock
 {
@@ -328,22 +324,6 @@ p.error
 {
   float: right;
 }
-/*
-#endsitelinks .endlogoblock #endlogoae
-{
-  background-image: url("../images/footer_ae.png");
-  background-repeat: no-repeat;
-  width: 35px;
-  height: 35px;
-}
-#endsitelinks .endlogoblock #endlogoutbm
-{
-  background-image: url("../images/footer_utbm.png");
-  background-repeat: no-repeat;
-  height: 35px;
-  width: 102px;
-}
-*/
 #endsitelinks a
 {
   margin-left:10px;

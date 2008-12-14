@@ -115,7 +115,7 @@ class cursus extends stdentity
     return $sql->is_success();
   }
   
-  /* le mot `diplomed` sera proposé a l'academie amglaise l'an prochain si vous etes sages */
+  /* le mot `diplomed` sera proposé a l'academie anglaise l'an prochain si vous etes sages */
   public function get_nb_students($ignore_diplomed=false){
   }
 }
