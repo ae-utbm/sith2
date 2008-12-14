@@ -538,7 +538,7 @@ div.box
   padding-top:0.75em;
   margin:10px 0 0 10px;
   width: 250px;
-  background-color: #CCCCCC;
+  background-color: #999999;
   color: #ffffff;
 }
 
@@ -2557,7 +2557,7 @@ div.calbox td.weekday
 }
 #sbox_alerts
 {
-  background-color:#CC2227;
+  background-color:#FF3399;
 }
 #sbox_info_en_boucle
 {
