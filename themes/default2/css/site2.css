@@ -378,7 +378,7 @@ div.tabsv2
 {
   width:980px;
   margin:auto;
-  background: #eeac00;
+/*  background: #eeac00;*/
   height:28px;
   padding-left:0;
   margin-bottom:0;
@@ -486,7 +486,7 @@ div.contents:after
 #right
 {
   position: absolute;
-  right: 20px;
+  right: 18px;
   top: 7px;
   width: 270px;
   padding-bottom:10px;
