@@ -380,7 +380,7 @@ div.tabsv2
   margin:auto;
 /*  background: #eeac00;*/
   background: transparent url("../images/menu_bg.png") repeat-x;
-  height:28px;
+  height:36px;
   padding-left:0;
   margin-bottom:0;
 }
@@ -409,8 +409,8 @@ div.tabsv2 span a
 
 div.tabsv2 span.selected a, div.tabsv2 span a:hover
 {
-  color:#000000;
-  background-color:#ffffff;
+  color:#eeac00;
+  background:transparent url("../images/arrow-up.png");
   text-decoration:none;
   width:95px;
   height:32px;
