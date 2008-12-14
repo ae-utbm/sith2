@@ -556,7 +556,7 @@ div.box h1
   font-size: 0;
   color: #ffffff;
   text-align:right;
-	border-bottom: 1px dotted #ffffff;
+/*	border-bottom: 1px dotted #ffffff; */
 	background: #00AEDD;
 }
 
