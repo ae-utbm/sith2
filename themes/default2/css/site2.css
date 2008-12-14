@@ -551,8 +551,7 @@ div.box a
 /* Titre de la boite */
 div.box h1
 {
-  padding-right: 5px;
-  padding-top: 0;
+  padding: 3px 5px;
   margin-bottom:0;
   font-size: 0;
   color: #ffffff;
