@@ -486,7 +486,7 @@ div.contents:after
 #right
 {
   position: absolute;
-  right: 5px;
+  right: 12px;
   top: 7px;
   width: 270px;
   padding-bottom:10px;
@@ -509,7 +509,7 @@ div.page#lr
 
 div.page#r
 {
-  margin:0 285px 0 10px;
+  margin:0 295px 0 10px;
 }
 
 div.page#l
@@ -537,7 +537,7 @@ div.box
   position: relative;
   margin: 5px;
   margin-bottom: 15px;
-  padding: 5px;
+  padding: 10px;
   width: 250px;
   color: #ffffff;
   border: 1px solid #999999;
@@ -2562,7 +2562,7 @@ div.calbox td.weekday
 }
 #sbox_info_en_boucle .body
 {
-  min-height: 200px;
+  min-height: 160px;
 }
 #hide_apples, #hide_notice
 {
