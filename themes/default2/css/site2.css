@@ -379,8 +379,8 @@ div.tabsv2
   width:980px;
   margin:auto;
 /*  background: #eeac00;*/
-  background-image: url("../images/menu_bg.png") repeat-x;
-  height:36px;
+  background: transparent url("../images/menu_bg.png") repeat-x;
+  height:28px;
   padding-left:0;
   margin-bottom:0;
 }
@@ -393,10 +393,10 @@ div.tabsv2 span a
 {
   float:left;
   color:#ffffff;
-
+/*
   border-left:1px solid #ffffff;
   border-right:1px solid #ffffff;
-
+*/
   font-size:12px;
   padding-top:8px;
   text-align:center;
