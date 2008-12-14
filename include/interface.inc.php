@@ -596,24 +596,25 @@ class interfaceweb
     $this->buffer .= "<div class='endlinksblock'>";
     $this->buffer .= "L'ASSOCIATION
     <ul>
-    <li>Contacts</li>
-    <li>Status de l'AE</li>
+      <li><a href=\"". $wwwtopdir ."article.php?name=legals\">Contacts</a></li>
+      <li><a href=\"". $wwwtopdir ."article.php?\">Status de l'AE</a></li>
+      <li><a href=\"". $wwwtopdir ."article.php?\">Clubs &activités</a></li>
     </ul>";
     $this->buffer .= "</div>";
     $this->buffer .= "<div class='endlinksblock'>";
     $this->buffer .= "LE SITE
     <ul>
-    <li>Mentions légales</li>
-    <li>Aide &amp; documentation</li>
-    <li>R&amp;D</li>
+      <li><a href=\"". $wwwtopdir ."article.php?name=legals\">Mentions légales</a></li>
+      <li><a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide &amp; documentation</a></li>
+      <li><a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a></li>
     </ul>";
     $this->buffer .= "</div>";
     $this->buffer .= "<div class='endlinksblock'>";
     $this->buffer .= "PARTENAIRES
     <ul>
-    <li>Le BDS</li>
-    <li>Le CETU</li>
-    <li>Com'Et</li>
+      <li><a href=\"http://bds.utbm.fr/\">Le BDS</a></li>
+      <li><a href=\"http://cetu.utbm.fr/\">Le CETU</a></li>
+      <li><a href=\"http://comet.asso.fr/\">Com'Et</a></li>
     </ul>";
    $this->buffer .= "</div>";
 
