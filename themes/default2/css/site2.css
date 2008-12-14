@@ -535,10 +535,12 @@ img#bureau_ae_belfort_icon, img#bureau_ae_sevenans_icon
 div.box
 {
   position: relative;
-  margin:10px 0 0 10px;
+  margin: 5px;
+  padding: 5px;
   width: 250px;
-  background-color: #999999;
+/*  background-color: #999999; */
   color: #ffffff;
+  border: 1px solid #999999;
 }
 
 div.box a
@@ -579,6 +581,7 @@ div.box div.body
   border:0;
   padding: 8px;
   position:relative;
+  background: #999999;
 }
 
 
@@ -2533,7 +2536,7 @@ div.slidebox_pause a
 /*  color:#B5DC10; */
   color:#ffffff;
   font-weight:bold;
-    font-size:9px;
+  font-size:9px;
 }
 
 div.slidebox_pause a:before
@@ -2559,7 +2562,7 @@ div.calbox td.weekday
 }
 #sbox_info_en_boucle
 {
-  min-height:220px;
+/*  min-height:220px;*/
 }
 #hide_apples, #hide_notice
 {
