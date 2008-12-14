@@ -318,6 +318,10 @@ p.error
   background-repeat: no-repeat;
   background-position:100% 9px;
 }
+#endsitelinks .endlinksblock
+{
+  float: left;
+}
 #endsitelinks a
 {
   margin-left:10px;

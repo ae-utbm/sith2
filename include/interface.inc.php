@@ -591,29 +591,37 @@ class interfaceweb
     $this->buffer .= "</div>\n"; // /contents
     $this->buffer .= "<div id=\"contentsend\">&nbsp;</div>\n";
     $this->buffer .= "<div id=\"endsite\">";
-    $this->buffer .= "<div id=\"endsitelinks\" class=\"float:left\">";
+    $this->buffer .= "<div id=\"endsitelinks\">";
 
-    $this->buffer .= "<div>";
+    $this->buffer .= "<div class='endlinksblock'>";
     $this->buffer .= "L'ASSOCIATION
-		<ul>
-		<li>Contacts</li>
-		<li>Status de l'AE</li>
-		</ul>";
+    <ul>
+    <li>Contacts</li>
+    <li>Status de l'AE</li>
+    </ul>";
     $this->buffer .= "</div>";
-    $this->buffer .= "<div>";
+    $this->buffer .= "<div class='endlinksblock'>";
     $this->buffer .= "LE SITE
-		<ul>
-		<li>Mentions légales</li>
-		<li>Aide &amp; documentation</li>
-		<li>R&amp;D
-		</ul>";
+    <ul>
+    <li>Mentions légales</li>
+    <li>Aide &amp; documentation</li>
+    <li>R&amp;D</li>
+    </ul>";
+    $this->buffer .= "</div>";
+    $this->buffer .= "<div class='endlinksblock'>";
+    $this->buffer .= "PARTENAIRES
+    <ul>
+    <li>Le BDS</li>
+    <li>Le CETU</li>
+    <li>Com'Et</li>
+    </ul>";
    $this->buffer .= "</div>";
 
-
-
+/*
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">Mentions légales</a> ";
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a> ";
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a> ";
+*/
     $this->buffer .= "</div>";// /endsitelinks
     $this->buffer .= "</div>";// /endsite
     $this->buffer .= "</div>\n"; // /site
