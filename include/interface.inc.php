@@ -597,8 +597,8 @@ class interfaceweb
     $this->buffer .= "L'ASSOCIATION
     <ul>
       <li><a href=\"". $wwwtopdir ."article.php?name=legals\">Contacts</a></li>
-      <li><a href=\"". $wwwtopdir ."article.php?\">Status de l'AE</a></li>
-      <li><a href=\"". $wwwtopdir ."article.php?\">Clubs &activités</a></li>
+      <li><a href=\"". $wwwtopdir ."d.php?id_folder=934\">Statuts &amp; R.I.</a></li>
+      <li><a href=\"". $wwwtopdir ."article.php?name=presentation:activites\">Clubs &activités</a></li>
     </ul>";
     $this->buffer .= "</div>";
     $this->buffer .= "<div class='endlinksblock'>";
