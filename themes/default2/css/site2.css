@@ -511,6 +511,7 @@ div.page#lr
 div.page#r
 {
   margin:0 300px 0 10px;
+  padding-top: 12px;
 }
 
 div.page#l
