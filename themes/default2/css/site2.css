@@ -379,7 +379,8 @@ div.tabsv2
   width:980px;
   margin:auto;
 /*  background: #eeac00;*/
-  height:28px;
+  background-image: url("../images/menu_bg.png") repeat-x;
+  height:36px;
   padding-left:0;
   margin-bottom:0;
 }
