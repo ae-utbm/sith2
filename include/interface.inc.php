@@ -618,9 +618,8 @@ class interfaceweb
     </ul>";
    $this->buffer .= "</div>";
    
-   $this->buffer .= "<div class='endlogoblock'><a href='http://ae.utbm.fr/'><img src=\"". $wwwtopdir ."themes/default2/images/footer_ae.png\" alt='AE UTBM'/></a></div>";
    $this->buffer .= "<div class='endlogoblock'><a href='http://www.utbm.fr/'><img src=\"". $wwwtopdir ."themes/default2/images/footer_utbm.png\" alt='UTBM'/></a></div>";
-
+   $this->buffer .= "<div class='endlogoblock'><a href='http://ae.utbm.fr/'><img src=\"". $wwwtopdir ."themes/default2/images/footer_ae.png\" alt='AE UTBM'/></a></div>";
 /*
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">Mentions légales</a> ";
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a> ";

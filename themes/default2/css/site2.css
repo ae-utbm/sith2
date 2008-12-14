@@ -314,9 +314,11 @@ p.error
   width:980px;
   text-align:left;
   margin:0 auto 0 auto;
+/*
   background-image: url("../images/footer.png");
   background-repeat: no-repeat;
   background-position:100% 9px;
+*/
 }
 #endsitelinks .endlinksblock
 {
