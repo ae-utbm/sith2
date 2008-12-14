@@ -327,14 +327,14 @@ p.error
   float: right;
   cursor: pointer;
 }
-#endsitelinks .endlogoblock #ae
+#endsitelinks .endlogoblock #endlogoae
 {
   background-image: url("../images/footer_ae.png");
   background-repeat: no-repeat;
   width: 35px;
   height: 35px;
 }
-#endsitelinks .endlogoblock #utbm
+#endsitelinks .endlogoblock #endlogoutbm
 {
   background-image: url("../images/footer_utbm.png");
   background-repeat: no-repeat;

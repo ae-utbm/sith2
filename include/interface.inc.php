@@ -617,6 +617,9 @@ class interfaceweb
       <li><a href=\"http://comet.asso.fr/\">Com'Et</a></li>
     </ul>";
    $this->buffer .= "</div>";
+   
+   $this->buffer .= "<div class='endlogoblock' id='endlogoae'></div>";
+   $this->buffer .= "<div class='endlogoblock' id='endlogoutbm'></div>";
 
 /*
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">Mentions légales</a> ";
