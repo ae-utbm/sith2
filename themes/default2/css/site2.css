@@ -486,7 +486,7 @@ div.contents:after
 #right
 {
   position: absolute;
-  right: 12px;
+  right: 20px;
   top: 7px;
   width: 270px;
   padding-bottom:10px;
@@ -509,7 +509,7 @@ div.page#lr
 
 div.page#r
 {
-  margin:0 295px 0 10px;
+  margin:0 300px 0 10px;
 }
 
 div.page#l
