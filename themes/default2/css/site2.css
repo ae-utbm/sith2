@@ -158,13 +158,13 @@ div#fsearchbox
   width:130px;
   height:25px;
   color:#ffffff;
-/*  display: block; */
+  display: block;
   text-indent: 3px;
   border-top: 1px solid #545454;
   margin:0 7px 4px 7px;
   padding: 4px 0 4px 4px;
   text-decoration: none;
-  font-weight: bold;
+/*  font-weight: bold;*/
   height:20px;
 }
 #dropmenudiv a.firstdropdown:before
