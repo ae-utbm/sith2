@@ -591,7 +591,26 @@ class interfaceweb
     $this->buffer .= "</div>\n"; // /contents
     $this->buffer .= "<div id=\"contentsend\">&nbsp;</div>\n";
     $this->buffer .= "<div id=\"endsite\">";
-    $this->buffer .= "<div id=\"endsitelinks\">";
+    $this->buffer .= "<div id=\"endsitelinks\" class=\"float:left\">";
+
+    $this->buffer .= "<div>";
+    $this->buffer .= "L'ASSOCIATION
+		<ul>
+		<li>Contacts</li>
+		<li>Status de l'AE</li>
+		</ul>";
+    $this->buffer .= "</div>";
+    $this->buffer .= "<div>";
+    $this->buffer .= "LE SITE
+		<ul>
+		<li>Mentions légales</li>
+		<li>Aide &amp; documentation</li>
+		<li>R&amp;D
+		</ul>";
+   $this->buffer .= "</div>";
+
+
+
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">Mentions légales</a> ";
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a> ";
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a> ";
