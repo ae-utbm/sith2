@@ -325,8 +325,8 @@ p.error
 #endsitelinks .endlogoblock
 {
   float: right;
-  cursor: pointer;
 }
+/*
 #endsitelinks .endlogoblock #endlogoae
 {
   background-image: url("../images/footer_ae.png");
@@ -341,6 +341,7 @@ p.error
   height: 35px;
   width: 102px;
 }
+*/
 #endsitelinks a
 {
   margin-left:10px;
