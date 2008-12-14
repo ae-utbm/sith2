@@ -158,7 +158,7 @@ div#fsearchbox
   width:130px;
   height:25px;
   color:#ffffff;
-  display: block;
+/*  display: block; */
   text-indent: 3px;
   border-top: 1px solid #545454;
   margin:0 7px 4px 7px;
@@ -167,12 +167,21 @@ div#fsearchbox
   font-weight: bold;
   height:20px;
 }
-#dropmenudiv a.firstdropdown
+#dropmenudiv a.firstdropdown:before
 {
+  background: transparent url("../images/menu-tl-round.png") no-repeat;
+  height: 8px;
+  width: 8px;
+}
+#dropmenudiv a.firstdropdown:after
+{
+  background: transparent url("../images/menu-tr-round.png") no-repeat;
+  height: 8px;
+  width: 8px;
 }
 #dropmenudiv a:hover
 {
-  color:#6d6d6d;
+  color:#00AEDD;
 }
 
 #overlay
