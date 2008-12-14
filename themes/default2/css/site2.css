@@ -322,6 +322,25 @@ p.error
 {
   float: left;
 }
+#endsitelinks .endlogoblock
+{
+  float: right;
+  cursor: pointer;
+}
+#endsitelinks .endlogoblock #ae
+{
+  background-image: url("../images/footer_ae.png");
+  background-repeat: no-repeat;
+  width: 35px;
+  height: 35px;
+}
+#endsitelinks .endlogoblock #utbm
+{
+  background-image: url("../images/footer_utbm.png");
+  background-repeat: no-repeat;
+  height: 35px;
+  width: 102px;
+}
 #endsitelinks a
 {
   margin-left:10px;
