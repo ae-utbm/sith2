@@ -50,6 +50,8 @@ function process_namespace($path,$namespace)
   {
     while (($file = readdir($dh)) !== false)
     {
+      if($file=='.' || $file=='..')
+        continue;
       if(is_dir($path.$file))
         $subs[]=$file;
       else
