@@ -677,7 +677,10 @@ function populatemenu(what)
 function dropdownmenu(obj, e, menucontents, menuwidth)
 {
   if (typeof menuwidth=="undefined")
+  {
     menuwidth="";
+    alert("bleh");
+  }
   if (window.event)
     event.cancelBubble=true;
   else if (e.stopPropagation)
