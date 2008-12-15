@@ -289,7 +289,7 @@ class interfaceweb
       $this->buffer .= "menu_utilisateur[1]='<a href=\"".$topdir."password.php\">Mot de passe perdu</a>';";
       $this->buffer .= "menu_utilisateur[2]='<a href=\"".$topdir."newaccount.php\">Créer un compte</a>';";
       $this->buffer .= "</script>";
-      $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">\n";
+      $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur)\" onMouseout=\"delayhidemenu()\">\n";
         $this->buffer .= "Identification\n";
     }
     elseif($this->user->type=="srv" )
@@ -339,7 +339,7 @@ class interfaceweb
       $i++;
       $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."disconnect.php\">Déconnexion</a>';";
       $this->buffer .= "</script>";
-      $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur, '150px')\" onMouseout=\"delayhidemenu()\">\n";
+      $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur)\" onMouseout=\"delayhidemenu()\">\n";
       $this->buffer .= "<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">".$this->user->prenom." ".$this->user->nom."</a>";
     }
     $this->buffer .= "</div>\n";
