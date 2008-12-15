@@ -233,6 +233,7 @@ function opencal(topdir, __target, type)
       elem.style.display = 'block';
       elem.style.left = pos[0] + 150;
       elem.style.top = pos[1] - 20;
+    alert("bleh");
   }
   else
   {
