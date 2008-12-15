@@ -688,7 +688,7 @@ function dropdownmenu(obj, e, menucontents, menuwidth)
   {
     showhide(dropmenuobj.style, e, "visible", "hidden", menuwidth);
     dropmenuobj.x=getposOffset(obj, "left");
-//    dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+"px";
+    dropmenuobj.style.left=dropmenuobj.x-clearbrowseredge(obj, "rightedge")+"px";
   }
   return clickreturnvalue();
 }
