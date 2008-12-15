@@ -78,7 +78,7 @@ class asso extends stdentity
   /* table asso */
   var $id_parent;
   var $nom;
-        var $nom_unix;
+  var $nom_unix;
   var $adresse_postale;
 
   var $email;
