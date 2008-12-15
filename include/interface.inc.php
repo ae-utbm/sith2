@@ -327,7 +327,7 @@ class interfaceweb
         $jobuser->load_by_id($this->user->id);
         $jobuser->load_annonces();
         $this->buffer .= "menu_utilisateur[$i]='<a href=\"".
-                         $topdir."jobetu/board_etu.php\">JobEtu (".count($jobuser->annonces).")</a>';";
+                         $topdir."jobetu/board_etu.php\">Mon compte JobEtu (".count($jobuser->annonces).")</a>';";
         unset($jobuser);
       }
       elseif( $this->user->is_in_group("jobetu_client") )
@@ -592,39 +592,9 @@ class interfaceweb
     $this->buffer .= "<div id=\"contentsend\">&nbsp;</div>\n";
     $this->buffer .= "<div id=\"endsite\">";
     $this->buffer .= "<div id=\"endsitelinks\">";
-
-    $this->buffer .= "<div class='endlinksblock'>";
-    $this->buffer .= "L'ASSOCIATION
-    <ul>
-      <li><a href=\"". $wwwtopdir ."article.php?name=legals\">Contacts</a></li>
-      <li><a href=\"". $wwwtopdir ."d.php?id_folder=934\">Statuts &amp; R.I.</a></li>
-      <li><a href=\"". $wwwtopdir ."article.php?name=presentation:activites\">Clubs & Activités</a></li>
-    </ul>";
-    $this->buffer .= "</div>";
-    $this->buffer .= "<div class='endlinksblock'>";
-    $this->buffer .= "LE SITE
-    <ul>
-      <li><a href=\"". $wwwtopdir ."article.php?name=legals\">Mentions légales</a></li>
-      <li><a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide &amp; documentation</a></li>
-      <li><a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a></li>
-    </ul>";
-    $this->buffer .= "</div>";
-    $this->buffer .= "<div class='endlinksblock'>";
-    $this->buffer .= "PARTENAIRES
-    <ul>
-      <li><a href=\"http://bds.utbm.fr/\">Le BDS</a></li>
-      <li><a href=\"http://cetu.utbm.fr/\">Le CETU</a></li>
-      <li><a href=\"http://comet.asso.fr/\">Com'Et</a></li>
-    </ul>";
-   $this->buffer .= "</div>";
-   
-   $this->buffer .= "<div class='endlogoblock'><a href='http://www.utbm.fr/'><img src=\"". $wwwtopdir ."themes/default2/images/footer_utbm.png\" alt='UTBM'/></a></div>";
-   $this->buffer .= "<div class='endlogoblock'><a href='http://ae.utbm.fr/'><img src=\"". $wwwtopdir ."themes/default2/images/footer_ae.png\" alt='AE UTBM'/></a></div>";
-/*
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">Mentions légales</a> ";
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a> ";
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a> ";
-*/
     $this->buffer .= "</div>";// /endsitelinks
     $this->buffer .= "</div>";// /endsite
     $this->buffer .= "</div>\n"; // /site
