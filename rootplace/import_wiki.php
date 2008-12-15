@@ -51,7 +51,7 @@ function process_namespace($path,$namespace)
   {
     while (($file = readdir($dh)) !== false)
     {
-      if($file=='.' || $file=='..')
+      if($file=='.' || $file=='..' || $file='playground')
         continue;
       if(is_dir($path.$file))
         $subs[]=$file;
