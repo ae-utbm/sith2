@@ -114,9 +114,8 @@ class cursus extends stdentity
     $sql = new delete($this->dbrw, "pedag_uv_cursus", array("id_uv" => $id_uv, "id_cursus" => $this->id));
     return $sql->is_success();
   }
-  
-  /* le mot `diplomed` sera proposé a l'academie anglaise l'an prochain si vous etes sages */
-  public function get_nb_students($ignore_diplomed=false){
+
+  public function get_nb_students($ignore_graduated=false){
   }
 }
 ?>
