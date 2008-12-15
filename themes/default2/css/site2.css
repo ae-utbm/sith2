@@ -78,8 +78,8 @@ div#headermenu
   top:0;
   right:0;
   margin:0;
-  width:619px;
-  padding:0;
+  width:604px;
+  padding:0 0 0 15px;
   height:30px;
   background:url(../images/box-bl-corner.png) no-repeat bottom left;
 }
@@ -148,7 +148,8 @@ div#fsearchbox
   top:30px;
   z-index:100;
   color:#ffffff;
-  background-color: #424242;
+/*  background-color: #424242;*/
+  background:url(../images/dropdown-bg.png) no-repeat bottom left;
   font-weight: bold;
 }
 
