@@ -109,7 +109,6 @@ div#fsearchbox
   float:left;
   font:normal 10px;
   width:155px;
-  background-color: #424242;
   color:#ffffff;
 }
 #login, #assos
@@ -149,6 +148,7 @@ div#fsearchbox
   top:30px;
   z-index:100;
   color:#ffffff;
+  background-color: #424242;
   font-weight: bold;
 }
 
