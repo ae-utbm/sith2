@@ -63,7 +63,6 @@ function process_namespace($path,$namespace)
       foreach($subs as $sub)
         process_namespace($path.$sub.'/',$namespace.':'.$sub);
   }
-  exit();
 }
 
 
@@ -85,8 +84,11 @@ if($_REQUEST["action"]=="process")
        $passo->load_by_id($asso->id_parent);
        $wiki_path=$passo->nom_unix.":".$asso->nom_unix;
        process_namespace($path,$wiki_path);
+       exit();
     }
   }
+  else
+    echo "bleh : ".AE_ACCOUNTS.$_REQUEST["unixname"];
 }
 
 
