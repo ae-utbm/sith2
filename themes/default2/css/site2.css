@@ -170,6 +170,7 @@ div#fsearchbox
 }
 #dropmenudiv a.firstdropdown
 {
+  background:url(../images/dropdown-first-bg.png) no-repeat top left;
 }
 #dropmenudiv a:hover
 {
