@@ -28,12 +28,13 @@
  * @ingroup wiki2
  * @author Simon Lopez
  */
-
+exit();///pas encore testé !
 $topdir="../";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
 require_once($topdir."include/entities/asso.inc.php");
+require_once($topdir."include/entities/wiki.inc.php");
 
 $site = new site ();
 
@@ -42,7 +43,7 @@ if ( !$site->user->is_in_group("root") )
 
 define("AE_ACCOUNTS","/var/www/ae/accounts/");
 
-function process_namespace($path,$namespace)
+function process_namespace($path,$namespace,$config)
 {
   echo '<h1>namespace : '.$namespace.'</h1>';;
   $subs=array();
@@ -67,23 +68,32 @@ function process_namespace($path,$namespace)
     {
       foreach($pages as $page => $revisions)
       {
+        $_page=$page;
+        if($page=="start")
+          $_page=$config['unixname'];
         echo '<h2>page : '.$namespace.':'.$page.'</h2>';
-        sort($revisions);
-        foreach($revisions as $revision)
+        $lion = new utilisateur($this->db);
+        $lion->load_by_id(3538);
+        $wiki = new wiki($site->db,$site->dbrw);
+        $parent = new wiki($site->db,$site->dbrw);
+        $pagename = $parent->load_or_create_parent($namespace, $lion, $config['rights'], $config['rights_id_group'], $config['rights_id_group_admin']);
+        if ( !is_null($pagename) && $parent->is_valid() && !$wiki->load_by_name($parent,$pagename) )
         {
-          echo '&eacute;dit&eacute;e le : '.date('Y-m-d', $revision).' &agrave; '.date('H:i:s', $revision).'<br/>';
-          $lines = gzfile($path.$page.'.'.$revision.'.txt.gz');
-          echo $path.$page.'.'.$revision.'.txt.gz<br />';
-          $txt=implode("",$lines);
-          echo '<pre>'.$txt.'</pre>';
-          exit();
+          $wiki->herit($parent);
+          $parent->id_utilisateur=$site->user->id;
+          $wiki->set_rights($site->user,$config['rights'], $config['rights_id_group'], $config['rights_id_group_admin']);
+          sort($revisions);
+          $first=array_shift($revisions);
+          $wiki->create ($parent, $config['id_asso'], $_page, 0,$title,implode("",gzfile($path.$page.'.'.$first.'.txt.gz')));
+          foreach($revisions as $revision)
+            $wiki->revision($lion->id,$_page,implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
         }
       }
     }
     closedir($dh);
     if(!empty($subs))
       foreach($subs as $sub)
-        process_namespace($path.$sub.'/',$namespace.':'.$sub);
+        process_namespace($path.$sub.'/',$namespace.':'.$sub,$config);
   }
 }
 
@@ -105,7 +115,16 @@ if($_REQUEST["action"]=="process")
        $asso->load_by_unix_name($_REQUEST["unixname"]);
        $passo->load_by_id($asso->id_parent);
        $wiki_path=$passo->nom_unix.":".$asso->nom_unix;
-       process_namespace($path,$wiki_path);
+       $config=array();
+       $config['rights_id_group']=30000+$asso->id;
+       $config['rights_id_group_admin']=200000+$asso->id;
+       $config['__rights_lect']=272;
+       $config['__rights_ecrt']=544;
+       $config['__rights_ajout']=1088;
+       $config['rights']=1904;
+       $config['id_asso']=$asso->id;
+       $config['unixname']=$asso->nom_unix;
+       process_namespace($path,$wiki_path,$config);
        exit();
     }
   }
