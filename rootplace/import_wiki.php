@@ -72,8 +72,8 @@ function process_namespace($path,$namespace)
         foreach($revisions as $revision)
         {
           echo '&eacute;dit&eacute;e le : '.date('Y-m-d', $revision).' &agrave; '.date('H:i:s', $revision).'<br/>';
-          $lines = gzfile($path.$page.'.'.$revision.'.gz');
-          echo $path.$page.'.'.$revision.'.gz';
+          $lines = gzfile($path.$page.'.'.$revision.'.txt.gz');
+          echo $path.$page.'.'.$revision.'.txt.gz';
           $txt=implode('\n',$lines);
           echo $txt;
           exit();
