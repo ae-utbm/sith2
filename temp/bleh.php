@@ -28,7 +28,7 @@ require_once($topdir. "include/entities/wiki.inc.php");
 $site = new site();
 if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
 {
-  echo $_REQUEST;
+  print_r( $_REQUEST );
 }
 $site->start_page ("wiki", "Page inexistante");
 $parent = new wiki($site->db,$site->dbrw);
