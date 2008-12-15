@@ -46,6 +46,7 @@ function process_namespace($path,$namespace)
 {
   echo '<h1>namespace : '.$namespace.'</h1>';;
   $subs=array();
+  $pages=array();
   if ($dh = opendir($path))
   {
     while (($file = readdir($dh)) !== false)
@@ -57,7 +58,19 @@ function process_namespace($path,$namespace)
       else
       {
         $_file=explode('.',$file,2);
-        echo $namespace.':'.$_file[0].' édité le : '.date('Y-m-d', $_file[1]).'<br/>';
+        if(!isset($pages[$_file[0]]))
+          $pages[$_file[0]]=array();
+        $pages[$_file[0]][]=$_file[1];
+      }
+    }
+    if(!empty($pages))
+    {
+      foreach($pages as $page => $revisions)
+      {
+        echo '<h2>page : '.$namespace.':'.$page.'</h2>';
+        sort($revisions);
+        foreach($revisions as $revision)
+          echo '&eacute;dit&eacute;e le : '.date('Y-m-d', $_file[1]).' &agrave; '.date('H:i:s', $_file[1]).'<br/>';
       }
     }
     closedir($dh);
