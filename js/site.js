@@ -630,8 +630,6 @@ function showhide(obj, e, visible, hidden, menuwidth)
     dropmenuobj.widthobj=dropmenuobj.style;
     dropmenuobj.widthobj.width=menuwidth;
   }
-  else
-    alert("bleh");
   if (e.type=="click" && obj.visibility==hidden || e.type=="mouseover")
     obj.visibility=visible;
   else if (e.type=="click")
