@@ -70,7 +70,7 @@ function process_namespace($path,$namespace)
         echo '<h2>page : '.$namespace.':'.$page.'</h2>';
         sort($revisions);
         foreach($revisions as $revision)
-          echo '&eacute;dit&eacute;e le : '.date('Y-m-d', $_file[1]).' &agrave; '.date('H:i:s', $_file[1]).'<br/>';
+          echo '&eacute;dit&eacute;e le : '.date('Y-m-d', $revision).' &agrave; '.date('H:i:s', $revision).'<br/>';
       }
     }
     closedir($dh);
