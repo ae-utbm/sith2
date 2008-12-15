@@ -73,6 +73,7 @@ function process_namespace($path,$namespace)
         {
           echo '&eacute;dit&eacute;e le : '.date('Y-m-d', $revision).' &agrave; '.date('H:i:s', $revision).'<br/>';
           $lines = gzfile($path.$page.'.'.$revision.'.gz');
+          echo $path.$page.'.'.$revision.'.gz';
           $txt=implode('\n',$lines);
           echo $txt;
           exit();
