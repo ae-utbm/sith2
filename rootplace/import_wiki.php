@@ -80,7 +80,7 @@ if($_REQUEST["action"]=="process")
     {
        $asso = new asso($site->db);
        $passo = new asso($site->db);
-       $asso->load_by_unix_name($row["unixname"]);
+       $asso->load_by_unix_name($_REQUEST["unixname"]);
        $passo->load_by_id($asso->id_parent);
        $wiki_path=$passo->nom_unix.":".$asso->nom_unix;
        process_namespace($path,$wiki_path);
