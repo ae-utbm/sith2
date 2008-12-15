@@ -83,10 +83,10 @@ $cts = new contents("<a href=\"./\">Administration</a> / IMPORTS WIKI");
 $cts->add(new sqltable(
   "wikis",
   "Liste des wikis installés", $list, "import_wiki.php",
-  "type",
+  "unixname",
   array("path"=>"Path","unixname"=>"Nom","nom_asso"=>"Association/Activité"),
-  array(),
-  array(),
+  array("process"=>"Goooo"),
+  array("process"=>"Goooo"),
   array()
   ),true);
 
