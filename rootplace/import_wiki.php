@@ -75,7 +75,7 @@ foreach($baselist as $row)
   $asso->load_by_unix_name($row["unixname"]);
   $row["nom_asso"]=$asso->nom;
   $passo->load_by_unix_name($asso->id_parent);
-  $row["pole"]=$passo->nom_unix;
+  $row["pole"]=$passo->nom;
   $list[]=$row;
 }
 
