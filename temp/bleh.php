@@ -24,13 +24,17 @@
 
 $topdir = "../";
 require_once($topdir. "include/site.inc.php");
+require_once($topdir. "include/entities/wiki.inc.php");
 $site = new site();
 if ( $site->user->is_valid() && $_REQUEST["action"] == "create" )
 {
   echo $_REQUEST;
 }
 $site->start_page ("wiki", "Page inexistante");
-$frm = new form("newwiki","./?name=$pagepath",true,"POST");
+$parent = new wiki($site->db,$site->dbrw);
+$parent->load_by_id(1);
+$lastparent = clone $parent;
+$frm = new form("newwiki","./?",true,"POST");
 $frm->add_hidden("action","create");
 $frm->add_text_field("title","Titre","",true);
 $frm->add_dokuwiki_toolbar("contents");
@@ -38,7 +42,6 @@ $frm->add_text_area("contents","Contenu","",80,20,true);
 $frm->add_text_field("comment","Log","Créée");
 $frm->add_rights_field($lastparent,true,true,"wiki");
 $frm->add_submit("save","Ajouter");
-$cts->add($frm);
-$site->add_contents($cts);
+$site->add_contents($frm);
 $site->end_page ();
 ?>
