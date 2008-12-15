@@ -34,7 +34,7 @@ $site->start_page ("wiki", "Page inexistante");
 $parent = new wiki($site->db,$site->dbrw);
 $parent->load_by_id(1);
 $lastparent = clone $parent;
-$frm = new form("newwiki","./?",true,"POST");
+$frm = new form("newwiki","?",true,"POST");
 $frm->add_hidden("action","create");
 $frm->add_text_field("title","Titre","",true);
 $frm->add_dokuwiki_toolbar("contents");
