@@ -625,7 +625,7 @@ function getposOffset(what, offsettype)
 
 function showhide(obj, e, visible, hidden, menuwidth)
 {
-  if (menuwidth!="")
+  if (typeof menuwidth!="undefined" && menuwidth!="")
   {
     dropmenuobj.widthobj=dropmenuobj.style;
     dropmenuobj.widthobj.width=menuwidth;
