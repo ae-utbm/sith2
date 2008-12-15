@@ -84,7 +84,7 @@ $cts->add(new sqltable(
   "wikis",
   "Liste des wikis installés", $list, "import_wiki.php",
   "type",
-  array("pole"=>"Pole","unixname"=>"Nom","nom_asso"=>"Association/Activité"),
+  array("path"=>"Path","unixname"=>"Nom","nom_asso"=>"Association/Activité"),
   array(),
   array(),
   array()
