@@ -65,11 +65,13 @@ $site->start_page("none","Administration");
 $baselist = list_wikis();
 $list=array();
 $asso = new asso($site->db);
-
+$passo = new asso($site->db);
 foreach($baselist as $row)
 {
   $asso->load_by_unix_name($row["unixname"]);
   $row["nom_asso"]=$asso->nom;
+  $passo->load_by_unix_name($asso->id_parent);
+  $row["pole"]=$passo->nom_unix;
   $list[]=$row;
 }
 
@@ -78,7 +80,7 @@ $cts->add(new sqltable(
   "wikis",
   "Liste des wikis installés", $list, "import_wiki.php",
   "type",
-  array("unixname"=>"Nom","nom_asso"=>"Association/Activité"),
+  array("pole"=>"Pole","unixname"=>"Nom","nom_asso"=>"Association/Activité"),
   array(),
   array(),
   array()
