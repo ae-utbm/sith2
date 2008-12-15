@@ -42,6 +42,53 @@ if ( !$site->user->is_in_group("root") )
 
 define("AE_ACCOUNTS","/var/www/ae/accounts/");
 
+function process_namespace($path,$namespace)
+{
+  echo '<h1>namespace : '.$namespace.'</h1>';;
+  $subs=array();
+  if ($dh = opendir($path))
+  {
+    while (($file = readdir($dh)) !== false)
+    {
+      if(is_dir($path.$file))
+        $subs[]=$file;
+      else
+      {
+        $_file=explode('.',$file,2);
+        echo $namespace.':'.$_file[0].' édité le : '.date('Y-m-d', $_file[1]).'<br/>';
+      }
+    }
+    closedir($dh);
+    if(!empty($subs))
+      foreach($subs => $sub)
+        process_namespace($path.$sub.'/',$namespace.':'.$sub);
+  }
+  exit();
+}
+
+
+if($_REQUEST["action"]=="process")
+{
+  if(is_dir(AE_ACCOUNTS.$_REQUEST["unixname"]))
+  {
+    if(is_dir(AE_ACCOUNTS.$_REQUEST["unixname"]."/wiki/data/attic/"))
+      $path=AE_ACCOUNTS.$_REQUEST["unixname"]."/wiki/data/attic/";
+    elseif(is_dir(AE_ACCOUNTS.$file) && is_dir(AE_ACCOUNTS.$file."/data/attic/"))
+      $path=AE_ACCOUNTS.$_REQUEST["unixname"]."/data/attic/";
+    else
+      $path=null;
+    if(!is_null($path))
+    {
+       $asso = new asso($site->db);
+       $passo = new asso($site->db);
+       $asso->load_by_unix_name($row["unixname"]);
+       $passo->load_by_id($asso->id_parent);
+       $wiki_path=$passo->nom_unix.":".$asso->nom_unix;
+       process_namespace($path,$wiki_path);
+    }
+  }
+}
+
 
 function list_wikis ()
 {
@@ -86,7 +133,7 @@ $cts->add(new sqltable(
   "unixname",
   array("path"=>"Path","unixname"=>"Nom","nom_asso"=>"Association/Activité"),
   array("process"=>"Goooo"),
-  array("process"=>"Goooo"),
+  array(),
   array()
   ),true);
 
