@@ -70,7 +70,11 @@ function process_namespace($path,$namespace)
         echo '<h2>page : '.$namespace.':'.$page.'</h2>';
         sort($revisions);
         foreach($revisions as $revision)
+        {
           echo '&eacute;dit&eacute;e le : '.date('Y-m-d', $revision).' &agrave; '.date('H:i:s', $revision).'<br/>';
+          $lines = gzfile($path.$page.'.'.$revision.'.gz');
+          exit();
+        }
       }
     }
     closedir($dh);
