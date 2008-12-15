@@ -225,15 +225,14 @@ function opencal(topdir, __target, type)
   var elem = document.getElementById(__target + '_calendar');
   if(elem == null)
   {
-      elem = document.createElement('div');
-      elem.id = __target + '_calendar';
-      elem.className = 'tinycal_box';
-      document.body.appendChild(elem);
+    elem = document.createElement('div');
+    elem.id = __target + '_calendar';
+    elem.className = 'tinycal_box';
+    document.body.appendChild(elem);
     
-      elem.style.display = 'block';
-      elem.style.left = pos[0] + 150;
-      elem.style.top = pos[1] - 20;
-    alert("bleh");
+    elem.style.display = 'block';
+    elem.style.left = pos[0] + 150;
+    elem.style.top = pos[1] - 20;
   }
   else
   {
