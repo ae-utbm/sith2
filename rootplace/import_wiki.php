@@ -50,10 +50,14 @@ function list_wikis ()
   if ($dh = opendir(AE_ACCOUNTS))
   {
     while (($file = readdir($dh)) !== false)
+    {
+      if($file=='equipecom')
+        continue;
       if ( is_dir(AE_ACCOUNTS.$file) && is_dir(AE_ACCOUNTS.$file."/wiki/data/attic/") )
         $list[] = array("unixname"=>$file );
       elseif( is_dir(AE_ACCOUNTS.$file) && is_dir(AE_ACCOUNTS.$file."/data/attic/") )
         $list[] = array("unixname"=>$file );
+    }
     closedir($dh);
   }
   return $list;
