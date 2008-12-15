@@ -51,7 +51,7 @@ function process_namespace($path,$namespace)
   {
     while (($file = readdir($dh)) !== false)
     {
-      if($file=='.' || $file=='..' || $file='playground')
+      if($file=='.' || $file=='..' || $file=='playground')
         continue;
       if(is_dir($path.$file))
         $subs[]=$file;
@@ -63,7 +63,6 @@ function process_namespace($path,$namespace)
         $pages[$_file[0]][]=$_file[1];
       }
     }
-    print_r($pages);
     if(!empty($pages))
     {
       foreach($pages as $page => $revisions)
