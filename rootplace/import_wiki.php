@@ -57,7 +57,7 @@ function process_namespace($path,$namespace)
         $subs[]=$file;
       else
       {
-        $_file=explode('.',$file,2);
+        $_file=explode('.',$file,3);
         if(!isset($pages[$_file[0]]))
           $pages[$_file[0]]=array();
         $pages[$_file[0]][]=$_file[1];
