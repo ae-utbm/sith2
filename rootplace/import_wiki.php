@@ -60,7 +60,7 @@ function process_namespace($path,$namespace)
     }
     closedir($dh);
     if(!empty($subs))
-      foreach($subs => $sub)
+      foreach($subs as $sub)
         process_namespace($path.$sub.'/',$namespace.':'.$sub);
   }
   exit();
