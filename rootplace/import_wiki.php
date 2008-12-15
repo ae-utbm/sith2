@@ -70,6 +70,7 @@ if($_REQUEST["action"]=="process")
 {
   if(is_dir(AE_ACCOUNTS.$_REQUEST["unixname"]))
   {
+    echo AE_ACCOUNTS.$_REQUEST["unixname"];
     if(is_dir(AE_ACCOUNTS.$_REQUEST["unixname"]."/wiki/data/attic/"))
       $path=AE_ACCOUNTS.$_REQUEST["unixname"]."/wiki/data/attic/";
     elseif(is_dir(AE_ACCOUNTS.$file) && is_dir(AE_ACCOUNTS.$file."/data/attic/"))
@@ -87,8 +88,6 @@ if($_REQUEST["action"]=="process")
        exit();
     }
   }
-  else
-    echo "bleh : ".AE_ACCOUNTS.$_REQUEST["unixname"];
 }
 
 
