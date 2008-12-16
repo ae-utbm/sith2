@@ -533,7 +533,7 @@ elseif ( $_REQUEST["view"] == "hist" )
     "id_rev, date_rev, comment_rev, id_utilisateur_rev ".
     "FROM wiki_rev ".
     "WHERE id_wiki='".$wiki->id."' ".
-    "ORDER BY id_rev,date_rev DESC");
+    "ORDER BY id_rev DESC");
 
   $user_hist = new utilisateur($site->db);
 
