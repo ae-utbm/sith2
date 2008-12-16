@@ -52,7 +52,7 @@ function process_namespace($path,$namespace,$config)
   {
     while (($file = readdir($dh)) !== false)
     {
-      if($file=='.' || $file=='..' || $file=='playground' || $file='_dummy')
+      if($file=='.' || $file=='..' || $file=='playground' || $file=='_dummy')
         continue;
       if(is_dir($path.$file))
         $subs[]=$file;
@@ -78,7 +78,7 @@ function process_namespace($path,$namespace,$config)
           $_page=$config["unixname"];
           echo '<h2>page : '.$namespace.'</h2>';
           $pagename = $parent->load_or_create_parent($namespace, $lion, $config['rights'], $config['rights_id_group'], $config['rights_id_group_admin']);
-          if ( !is_null($pagename) && $parent->is_valid() && !$wiki->load_by_name($parent,$pagename) )
+          if ( !is_null($pagename) && $parent->is_valid() && !$wiki->load_by_name($parent,$pagename))
           {
             $wiki->herit($parent);
             $parent->id_utilisateur=$site->user->id;
@@ -89,8 +89,16 @@ function process_namespace($path,$namespace,$config)
             foreach($revisions as $revision)
               $wiki->revision($lion->id,$_page,implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
           }
+          elseif(!$parent->is_valid())
+          {
+            echo "pb de parent";
+            exit();
+          }
           elseif($wiki->load_by_name($parent,$pagename))
-            echo "bleh";
+          {
+            echo "existe déja ???";
+            exit();
+          }
           continue;
         }
         echo '<h2>page : '.$namespace.':'.$page.'</h2>';
