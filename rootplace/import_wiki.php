@@ -116,6 +116,7 @@ function process_namespace($path,$namespace,$config)
         }
         elseif($wiki->load_by_name($parent,$pagename))
         {
+          echo "bleh<br />";
           sort($revisions);
           foreach($revisions as $revision)
             $wiki->revision($lion->id,$_page,implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
