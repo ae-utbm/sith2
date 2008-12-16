@@ -179,7 +179,7 @@ function process_files($path,$wikipath,&$asso)
     $subs=array();
     while (($file = readdir($dh)) !== false)
     {
-      if($file!='texit' && $file!='latex' && $file!='wiki' && $file!='outils' && !preg_match('/^dw-backup-/i',$file))
+      if($file!='.' && $file!='..' && $file!='texit' && $file!='latex' && $file!='wiki' && $file!='outils' && !preg_match('/^dw-backup-/i',$file))
       {
         if(is_dir($path.$file))
         {
