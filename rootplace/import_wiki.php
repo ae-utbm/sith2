@@ -66,16 +66,33 @@ function process_namespace($path,$namespace,$config)
     }
     if(!empty($pages))
     {
+      $lion = new utilisateur($site->db);
+      $lion->load_by_id(3538);
       foreach($pages as $page => $revisions)
       {
         $_page=$page;
-        if($page=="start")
-          $_page=$config['unixname'];
-        echo '<h2>page : '.$namespace.':'.$page.'</h2>';
-        $lion = new utilisateur($site->db);
-        $lion->load_by_id(3538);
         $wiki = new wiki($site->db,$site->dbrw);
         $parent = new wiki($site->db,$site->dbrw);
+        if($page=="start")
+        {
+          echo '<h2>page : '.$namespace.'</h2>';
+          $pagename = $parent->load_or_create_parent($namespace, $lion, $config['rights'], $config['rights_id_group'], $config['rights_id_group_admin']);
+          if ( !is_null($pagename) && $parent->is_valid() && !$wiki->load_by_name($parent,$pagename) )
+          {
+            $wiki->herit($parent);
+            $parent->id_utilisateur=$site->user->id;
+            $wiki->set_rights($site->user,$config['rights'], $config['rights_id_group'], $config['rights_id_group_admin']);
+            sort($revisions);
+            $first=array_shift($revisions);
+            $wiki->create ($parent, $config['id_asso'], $_page, 0,$title,implode("",gzfile($path.$page.'.'.$first.'.txt.gz')));
+            foreach($revisions as $revision)
+              $wiki->revision($lion->id,$_page,implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
+          }
+          else
+            echo "bleh";
+          continue;
+        }
+        echo '<h2>page : '.$namespace.':'.$page.'</h2>';
         $pagename = $parent->load_or_create_parent($namespace, $lion, $config['rights'], $config['rights_id_group'], $config['rights_id_group_admin']);
         if ( !is_null($pagename) && $parent->is_valid() && !$wiki->load_by_name($parent,$pagename) )
         {
