@@ -44,11 +44,11 @@ define("AE_ACCOUNTS","/var/www/ae/accounts/");
 
 function process_namespace($path,$namespace,$config)
 {
+  echo $path;
   global $site;
   echo '<h1>namespace : '.$namespace.'</h1>';;
   $subs=array();
   $pages=array();
-  print_r($path);
   if ($dh = opendir($path))
   {
     while (($file = readdir($dh)) !== false)
