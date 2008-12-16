@@ -34,7 +34,8 @@ require_once($topdir. "include/site.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
 require_once($topdir."include/entities/asso.inc.php");
 require_once($topdir."include/entities/wiki.inc.php");
-
+require_once("fileswiki.inc.php");
+require_once($topdir."include/entities/folder.inc.php");
 $site = new site ();
 
 if ( !$site->user->is_in_group("root") )
@@ -45,6 +46,7 @@ define("AE_ACCOUNTS","/var/www/ae/accounts/");
 function process_namespace($path,$namespace,$config)
 {
   global $site;
+  global $dfiles;
   echo '<h1>namespace : '.$namespace.'</h1>';;
   $subs=array();
   $pages=array();
@@ -85,9 +87,19 @@ function process_namespace($path,$namespace,$config)
             $wiki->set_rights($site->user,$config['rights'], $config['rights_id_group'], $config['rights_id_group_admin']);
             sort($revisions);
             $first=array_shift($revisions);
-            $wiki->create ($parent, $config['id_asso'], $_page, 0,$_page,implode("",gzfile($path.$page.'.'.$first.'.txt.gz')));
+            $content=implode("",gzfile($path.$page.'.'.$first.'.txt.gz'));
+            foreach($dfiles as $url => $dfile)
+              $content=str_replace($url,$dfile,$content);
+            $content=preg_replace("/\[\[([A-Za-z-0-9\-_])([A-Za-z-0-9\-_.:#]+?)\]\]/", "[[".$_page.":$1$2]]",$content);
+            $wiki->create ($parent, $config['id_asso'], $_page, 0,$_page,$content);
             foreach($revisions as $revision)
-              $wiki->revision($lion->id,$_page,implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
+            {
+              $content=implode("",gzfile($path.$page.'.'.$revision.'.txt.gz'));
+              foreach($dfiles as $url => $dfile)
+                $content=str_replace($url,$dfile,$content);
+              $content=preg_replace("/\[\[([A-Za-z-0-9\-_])([A-Za-z-0-9\-_.:#]+?)\]\]/", "[[".$_page.":$1$2]]",$content);
+              $wiki->revision($lion->id,$_page,$content,'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
+            }
           }
           continue;
         }
@@ -100,9 +112,17 @@ function process_namespace($path,$namespace,$config)
           $wiki->set_rights($site->user,$config['rights'], $config['rights_id_group'], $config['rights_id_group_admin']);
           sort($revisions);
           $first=array_shift($revisions);
-          $wiki->create ($parent, $config['id_asso'], $_page, 0,$_page,implode("",gzfile($path.$page.'.'.$first.'.txt.gz')));
+          $content=implode("",gzfile($path.$page.'.'.$first.'.txt.gz'));
+          foreach($dfiles as $url => $dfile)
+            $content=str_replace($url,$dfile,$content);
+          $wiki->create ($parent, $config['id_asso'], $_page, 0,$_page,$content);
           foreach($revisions as $revision)
-            $wiki->revision($lion->id,$_page,implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
+          {
+            $content=implode("",gzfile($path.$page.'.'.$revision.'.txt.gz'));
+            foreach($dfiles as $url => $dfile)
+              $content=str_replace($url,$dfile,$content);
+            $wiki->revision($lion->id,$_page,$content,'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
+          }
         }
       }
     }
@@ -112,7 +132,92 @@ function process_namespace($path,$namespace,$config)
         process_namespace($path.$sub.'/',$namespace.':'.$sub,$config);
   }
 }
-if($_REQUEST["action"]=="cleanup")
+
+process_files($path,$wikipath,&$asso)
+{
+  global $dfiles;
+  global $site;
+  global $idfolder;
+  $lion = new utilisateur($site->db);
+  $lion->load_by_id(3538);
+  $file = new dfile($site->db, $site->dbrw);
+  $folder = new dfolder($site->db, $site->dbrw);
+  if(is_null($idfolder))
+  {
+    $folder->load_root_by_asso($asso->id);
+    $fd = new dfolder($site->db);
+    if ( !$folder->is_valid() ) // Le dossier racine n'existe pas... on va le creer :)
+    {
+      $folder->id_groupe_admin = $asso->get_bureau_group_id(); // asso-bureau
+      $folder->id_groupe = $asso->get_membres_group_id(); // asso-membre
+      $folder->droits_acces = 0xDDD;
+      $folder->id_utilisateur = null;
+      $folder->add_folder ( $section, null, null, $asso_folder->id );
+    }
+    $sub = $folder->get_folders ( $lion );
+    while ( $row = $sub1->get_row() )
+    {
+      $fd->_load($row);
+      if($fd->titre)=='wiki')
+        break;
+    }
+    if($fd->titre)!='wiki')//on crée un dossier wiki
+    {
+      $nfolder = new dfolder($site->db,$site->dbrw);
+      $nfolder->herit($folder);
+      $nfolder->set_rights($lion,0xDDD,$asso->get_membres_group_id(),$asso->get_bureau_group_id());
+      $nfolder->add_folder('wiki',$folder->id,'le bordel importé du wiki',$asso->id );
+      $nfolder->set_modere();
+      $fd=$nfolder;
+    }
+    $idfolder=$fd->id;
+  }
+  $folder->load_by_id($idfolder);
+
+  if ($dh = opendir($path))
+  {
+    $subs=array();
+    while (($file = readdir($dh)) !== false)
+    {
+      if($file!='texit' && $file!='latex' && $file!='wiki' && $file!='outils' && !preg_match('/^dw-backup-/i',$file))
+      {
+        if(is_dir($path.$file))
+        {
+          $subs[]=$file;
+          continue;
+        }
+        $file->herit($folder);
+        $file->set_rights($lion,0xDDD,$asso->get_membres_group_id(),$asso->get_bureau_group_id());
+        $file=array();
+        $file['name']=$file;
+        $file['size']=filesize($path.$file);
+        $file['type']=mime_content_type($path.$file);
+        $file['tmp_name']=$path.$file;
+        $file->add_file ($_FILES["file"],$file,$folder->id,'fichier importé du wiki',$asso->id );
+        if(!empty($wikipath))
+          $dfiles[$wikipath.':'.$file]='dfile://'.$file->id;
+        else
+          $dfiles[$file]='dfile://'.$file->id;
+        $file->set_modere();
+      }
+    }
+  }
+  if(!empty($subs))
+  {
+    foreach($subs as $sub)
+    {
+      if(!empty($wikipath))
+        process_files($path.$sub.'/',$wikipath.':'.$sub,$asso);
+      else
+        process_files($path.$sub.'/',$sub,$asso);
+    }
+  }
+}
+
+
+
+
+/*if($_REQUEST["action"]=="cleanup")
 {
   new requete($site->dbrw,'DELETE FROM wiki WHERE id_utilisateur=3538');
   new requete($site->dbrw,'DELETE FROM wiki_rev WHERE id_utilisateur_rev=3538');
@@ -124,12 +229,28 @@ if($_REQUEST["action"]=="cleanup")
   $req = new requete($site->db, 'SELECT wiki_ref_file.id_wiki FROM wiki_ref_file LEFT JOIN wiki ON wiki_ref_file.id_wiki=wiki.id_wiki WHERE wiki.id_wiki IS NULL');
   while(list($id)=$req->get_row())
     new requete($site->dbrw,'DELETE FROM wiki_ref_file WHERE id_wiki='.$id);
-}
+}*/
 
 if($_REQUEST["action"]=="process")
 {
   if(is_dir(AE_ACCOUNTS.$_REQUEST["unixname"]))
   {
+    $asso = new asso($site->db);
+    $passo = new asso($site->db);
+    $asso->load_by_unix_name($_REQUEST["unixname"]);
+    $passo->load_by_id($asso->id_parent);
+    // on traite les fichiers des wiki
+    if(is_dir(AE_ACCOUNTS.$_REQUEST["unixname"]."/wiki/data/attic/"))
+      $path=AE_ACCOUNTS.$_REQUEST["unixname"]."/wiki/data/media/";
+    elseif(is_dir(AE_ACCOUNTS.$_REQUEST["unixname"]."/data/media/"))
+      $path=AE_ACCOUNTS.$_REQUEST["unixname"]."/data/media/";
+    else
+      $path=null;
+    $dfiles=array();
+    if(!is_null($path))
+      process_files($path,'',$asso);
+
+    // on traite le contenu des wiki
     if(is_dir(AE_ACCOUNTS.$_REQUEST["unixname"]."/wiki/data/attic/"))
       $path=AE_ACCOUNTS.$_REQUEST["unixname"]."/wiki/data/attic/";
     elseif(is_dir(AE_ACCOUNTS.$_REQUEST["unixname"]."/data/attic/"))
@@ -138,33 +259,29 @@ if($_REQUEST["action"]=="process")
       $path=null;
     if(!is_null($path))
     {
-       $asso = new asso($site->db);
-       $passo = new asso($site->db);
-       $asso->load_by_unix_name($_REQUEST["unixname"]);
-       $passo->load_by_id($asso->id_parent);
-       $wiki_path=$passo->nom_unix.":".$asso->nom_unix;
-       $req = new requete($site->db, 'SELECT id_wiki, fullpath_wiki FROM wiki WHERE fullpath_wiki LIKE \''.$wiki_path.'%\'');
-       while(list($id,$_path)=$req->get_row())
-       {
-         new requete($site->dbrw,'DELETE FROM wiki_lock WHERE id_wiki='.$id);
-         new requete($site->dbrw,'DELETE FROM wiki_ref_file WHERE id_wiki='.$id);
-         new requete($site->dbrw,'DELETE FROM wiki_ref_missingwiki WHERE id_wiki='.$id);
-         new requete($site->dbrw,'DELETE FROM wiki_ref_wiki WHERE id_wiki='.$id);
-         new requete($site->dbrw,'DELETE FROM wiki_ref_wiki WHERE id_wiki_rel='.$id);
-         new requete($site->dbrw,'DELETE FROM wiki_rev WHERE id_wiki='.$id);
-       }
-       new requete($site->dbrw,'DELETE FROM wiki WHERE fullpath_wiki LIKE \''.$wiki_path.'%\'');
-       $config=array();
-       $config['rights_id_group']=30000+$asso->id;
-       $config['rights_id_group_admin']=20000+$asso->id;
-       $config['__rights_lect']=272;
-       $config['__rights_ecrt']=544;
-       $config['__rights_ajout']=1088;
-       $config['rights']=1904;
-       $config['id_asso']=$asso->id;
-       $config['unixname']=$asso->nom_unix;
-       process_namespace($path,$wiki_path,$config);
-       exit();
+      $wiki_path=$passo->nom_unix.":".$asso->nom_unix;
+      $req = new requete($site->db, 'SELECT id_wiki, fullpath_wiki FROM wiki WHERE fullpath_wiki LIKE \''.$wiki_path.'%\'');
+      while(list($id,$_path)=$req->get_row())
+      {
+        new requete($site->dbrw,'DELETE FROM wiki_lock WHERE id_wiki='.$id);
+        new requete($site->dbrw,'DELETE FROM wiki_ref_file WHERE id_wiki='.$id);
+        new requete($site->dbrw,'DELETE FROM wiki_ref_missingwiki WHERE id_wiki='.$id);
+        new requete($site->dbrw,'DELETE FROM wiki_ref_wiki WHERE id_wiki='.$id);
+        new requete($site->dbrw,'DELETE FROM wiki_ref_wiki WHERE id_wiki_rel='.$id);
+        new requete($site->dbrw,'DELETE FROM wiki_rev WHERE id_wiki='.$id);
+      }
+      new requete($site->dbrw,'DELETE FROM wiki WHERE fullpath_wiki LIKE \''.$wiki_path.'%\'');
+      $config=array();
+      $config['rights_id_group']=30000+$asso->id;
+      $config['rights_id_group_admin']=20000+$asso->id;
+      $config['__rights_lect']=272;
+      $config['__rights_ecrt']=544;
+      $config['__rights_ajout']=1088;
+      $config['rights']=1904;
+      $config['id_asso']=$asso->id;
+      $config['unixname']=$asso->nom_unix;
+      process_namespace($path,$wiki_path,$config);
+      exit();
     }
   }
 }
