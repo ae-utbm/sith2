@@ -37,7 +37,7 @@ require_once($topdir."include/entities/folder.inc.php");
  * @ingroup aedrive
  * @author Julien Etelain
  */
-class dfile extends fs
+class newdfile extends fs
 {
 
   /** Nom du fichier avec l'extention, c'est ce qui sera communiqué au navigateur lors du téléchargement */

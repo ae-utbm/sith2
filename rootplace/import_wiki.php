@@ -46,7 +46,7 @@ define("AE_ACCOUNTS","/var/www/ae/accounts/");
 function process_namespace($path,$namespace,$config)
 {
   global $site;
-  global $dfiles;
+  global $newdfiles;
   echo '<h1>namespace : '.$namespace.'</h1>';;
   $subs=array();
   $pages=array();
@@ -88,15 +88,15 @@ function process_namespace($path,$namespace,$config)
             sort($revisions);
             $first=array_shift($revisions);
             $content=implode("",gzfile($path.$page.'.'.$first.'.txt.gz'));
-            foreach($dfiles as $url => $dfile)
-              $content=str_replace($url,$dfile,$content);
+            foreach($newdfiles as $url => $newdfile)
+              $content=str_replace($url,$newdfile,$content);
             $content=preg_replace("/\[\[([A-Za-z-0-9\-_])([A-Za-z-0-9\-_.:#]+?)\]\]/", "[[".$_page.":$1$2]]",$content);
             $wiki->create ($parent, $config['id_asso'], $_page, 0,$_page,$content);
             foreach($revisions as $revision)
             {
               $content=implode("",gzfile($path.$page.'.'.$revision.'.txt.gz'));
-              foreach($dfiles as $url => $dfile)
-                $content=str_replace($url,$dfile,$content);
+              foreach($newdfiles as $url => $newdfile)
+                $content=str_replace($url,$newdfile,$content);
               $content=preg_replace("/\[\[([A-Za-z-0-9\-_])([A-Za-z-0-9\-_.:#]+?)\]\]/", "[[".$_page.":$1$2]]",$content);
               $wiki->revision($lion->id,$_page,$content,'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
             }
@@ -113,14 +113,14 @@ function process_namespace($path,$namespace,$config)
           sort($revisions);
           $first=array_shift($revisions);
           $content=implode("",gzfile($path.$page.'.'.$first.'.txt.gz'));
-          foreach($dfiles as $url => $dfile)
-            $content=str_replace($url,$dfile,$content);
+          foreach($newdfiles as $url => $newdfile)
+            $content=str_replace($url,$newdfile,$content);
           $wiki->create ($parent, $config['id_asso'], $_page, 0,$_page,$content);
           foreach($revisions as $revision)
           {
             $content=implode("",gzfile($path.$page.'.'.$revision.'.txt.gz'));
-            foreach($dfiles as $url => $dfile)
-              $content=str_replace($url,$dfile,$content);
+            foreach($newdfiles as $url => $newdfile)
+              $content=str_replace($url,$newdfile,$content);
             $wiki->revision($lion->id,$_page,$content,'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
           }
         }
@@ -135,12 +135,12 @@ function process_namespace($path,$namespace,$config)
 
 function process_files($path,$wikipath,&$asso)
 {
-  global $dfiles;
+  global $newdfiles;
   global $site;
   global $idfolder;
   $lion = new utilisateur($site->db);
   $lion->load_by_id(3538);
-  $file = new dfile($site->db, $site->dbrw);
+  $file = new newdfile($site->db, $site->dbrw);
   $folder = new dfolder($site->db, $site->dbrw);
   if(is_null($idfolder))
   {
@@ -195,9 +195,9 @@ function process_files($path,$wikipath,&$asso)
         $file['tmp_name']=$path.$file;
         $file->add_file ($_FILES["file"],$file,$folder->id,'fichier importé du wiki',$asso->id );
         if(!empty($wikipath))
-          $dfiles[$wikipath.':'.$file]='dfile://'.$file->id;
+          $newdfiles[$wikipath.':'.$file]='newdfile://'.$file->id;
         else
-          $dfiles[$file]='dfile://'.$file->id;
+          $newdfiles[$file]='newdfile://'.$file->id;
         $file->set_modere();
       }
     }
@@ -246,7 +246,7 @@ if($_REQUEST["action"]=="process")
       $path=AE_ACCOUNTS.$_REQUEST["unixname"]."/data/media/";
     else
       $path=null;
-    $dfiles=array();
+    $newdfiles=array();
     if(!is_null($path))
       process_files($path,'',$asso);
 
