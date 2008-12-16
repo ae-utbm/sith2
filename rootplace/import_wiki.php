@@ -44,7 +44,6 @@ define("AE_ACCOUNTS","/var/www/ae/accounts/");
 
 function process_namespace($path,$namespace,$config)
 {
-  echo $path;
   global $site;
   echo '<h1>namespace : '.$namespace.'</h1>';;
   $subs=array();
@@ -117,9 +116,9 @@ if($_REQUEST["action"]=="process")
        $passo->load_by_id($asso->id_parent);
        $wiki_path=$passo->nom_unix.":".$asso->nom_unix;
        $req = new requete($site->db, 'SELECT id_wiki, fullpath_wiki FROM wiki WHERE fullpath_wiki LIKE \''.$wiki_path.'%\'');
-       while(list($id,$path)=$req->get_row())
+       while(list($id,$_path)=$req->get_row())
        {
-         echo $path.'<br />';
+         echo $_path.'<br />';
          new requete($site->dbrw,'DELETE FROM wiki_lock WHERE id_wiki='.$id);
          new requete($site->dbrw,'DELETE FROM wiki_ref_file WHERE id_wiki='.$id);
          new requete($site->dbrw,'DELETE FROM wiki_ref_missingwiki WHERE id_wiki='.$id);
