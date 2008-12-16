@@ -133,7 +133,7 @@ function process_namespace($path,$namespace,$config)
   }
 }
 
-process_files($path,$wikipath,&$asso)
+function process_files($path,$wikipath,&$asso)
 {
   global $dfiles;
   global $site;
@@ -158,10 +158,10 @@ process_files($path,$wikipath,&$asso)
     while ( $row = $sub1->get_row() )
     {
       $fd->_load($row);
-      if($fd->titre)=='wiki')
+      if($fd->titre=='wiki')
         break;
     }
-    if($fd->titre)!='wiki')//on crée un dossier wiki
+    if($fd->titre!='wiki')//on crée un dossier wiki
     {
       $nfolder = new dfolder($site->db,$site->dbrw);
       $nfolder->herit($folder);
