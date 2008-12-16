@@ -90,7 +90,7 @@ function process_namespace($path,$namespace,$config)
             $content=implode("",gzfile($path.$page.'.'.$first.'.txt.gz'));
             foreach($newdfiles as $url => $newdfile)
               $content=str_replace($url,$newdfile,$content);
-            $content=preg_replace("/\[\[([A-Za-z0-9])([A-Za-z0-9\-_.:#]+?)\]\]/", "[[".$_page.":$1$2]]",$content);
+            $content=preg_replace("/\[\[([A-Za-z0-9)([A-Za-z0-9\-_.:#]+?)(|(.*?))?\]\]/", "[[".$_page.":$1$2]]",$content);
             $wiki->create ($parent, $config['id_asso'], $_page, 0,$_page,$content);
             foreach($revisions as $revision)
             {
@@ -101,7 +101,7 @@ title=MyTitle
 </texit>",'',$content);
               foreach($newdfiles as $url => $newdfile)
                 $content=str_replace($url,$newdfile,$content);
-              $content=preg_replace("/\[\[([A-Za-z-0-9\-_])([A-Za-z-0-9\-_.:#]+?)\]\]/", "[[".$_page.":$1$2]]",$content);
+              $content=preg_replace("/\[\[([A-Za-z0-9)([A-Za-z0-9\-_.:#]+?)(|(.*?))?\]\]/", "[[".$_page.":$1$2]]",$content);
               $wiki->revision($lion->id,$_page,$content,'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
             }
           }
@@ -199,7 +199,7 @@ function process_files($path,$wikipath,&$asso)
         $filec['tmp_name']=$path.$file;
         $_file->add_file ($filec,$file,$folder->id,'fichier importé du wiki',$asso->id );
         if(!empty($wikipath))
-          $newdfiles[$wikipath.':'.$file]='newdfile://'.$_file->id;
+          $newdfiles[$wikipath.':'.$file]='dfile://'.$_file->id;
         else
           $newdfiles[$file]='dfile://'.$_file->id;
         $_file->set_modere();
