@@ -119,14 +119,14 @@ if($_REQUEST["action"]=="process")
        while(list($id,$path)=$req->get_row())
        {
          echo $path.'<br />';
-         //new request($site->dbrw,'DELETE FROM wiki WHERE fullpath_wiki LIKE \''.$wiki_path.'%\'';
+         new request($site->dbrw,'DELETE FROM wiki_lock WHERE id_wiki='.$id);
+         new request($site->dbrw,'DELETE FROM wiki_ref_file WHERE id_wiki='.$id);
+         new request($site->dbrw,'DELETE FROM wiki_ref_missingwiki WHERE id_wiki='.$id);
+         new request($site->dbrw,'DELETE FROM wiki_ref_wiki WHERE id_wiki='.$id);
+         new request($site->dbrw,'DELETE FROM wiki_ref_wiki WHERE id_wiki_rel='.$id);
+         new request($site->dbrw,'DELETE FROM wiki_rev WHERE id_wiki='.$id);
        }
-/*       new request($site->dbrw,'DELETE FROM wiki_lock WHERE id_wiki='.$id);
-       new request($site->dbrw,'DELETE FROM wiki_ref_file WHERE id_wiki='.$id);
-       new request($site->dbrw,'DELETE FROM wiki_ref_missingwiki WHERE id_wiki='.$id);
-       new request($site->dbrw,'DELETE FROM wiki_ref_wiki WHERE id_wiki='.$id);
-       new request($site->dbrw,'DELETE FROM wiki_ref_wiki WHERE id_wiki_rel='.$id);
-       new request($site->dbrw,'DELETE FROM wiki_rev WHERE id_wiki='.$id);*/
+       new request($site->dbrw,'DELETE FROM wiki WHERE fullpath_wiki LIKE \''.$wiki_path.'%\'';
        $config=array();
        $config['rights_id_group']=30000+$asso->id;
        $config['rights_id_group_admin']=200000+$asso->id;
@@ -136,7 +136,7 @@ if($_REQUEST["action"]=="process")
        $config['rights']=1904;
        $config['id_asso']=$asso->id;
        $config['unixname']=$asso->nom_unix;
-//       process_namespace($path,$wiki_path,$config);
+       process_namespace($path,$wiki_path,$config);
        exit();
     }
   }
