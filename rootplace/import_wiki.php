@@ -88,7 +88,7 @@ function process_namespace($path,$namespace,$config)
             foreach($revisions as $revision)
               $wiki->revision($lion->id,$_page,implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
           }
-          else
+          elseif(is_null($pagename))
             echo "bleh";
           continue;
         }
