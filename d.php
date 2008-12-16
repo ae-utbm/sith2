@@ -64,7 +64,7 @@ if ( isset($_REQUEST["id_file"]))
     $folder->load_by_id($file->id_folder);
   }
   else
-  	$site->error_not_found($section);
+    $site->error_not_found($section);
 
 }
 
@@ -145,16 +145,16 @@ if ( !$folder->is_right($site->user,DROIT_LECTURE) )
 if ( $_REQUEST["action"] == "cut" )
 {
 
-	if ( $file->is_valid() && $file->is_right($site->user,DROIT_ECRITURE) )
-	{
-		$_SESSION["d_clipboard"]["I".$file->id] = $file->id;
-    		$file->id=null;
-	}
-	elseif ( $folder->id_folder_parent && $folder->is_right($site->user,DROIT_ECRITURE) ) // la racine ne peut pas être coupée
-	{
-		$_SESSION["d_clipboard"]["O".$folder->id] = $folder->id;
-		$folder->load_by_id($folder->id_folder_parent);
-	}
+  if ( $file->is_valid() && $file->is_right($site->user,DROIT_ECRITURE) )
+  {
+    $_SESSION["d_clipboard"]["I".$file->id] = $file->id;
+        $file->id=null;
+  }
+  elseif ( $folder->id_folder_parent && $folder->is_right($site->user,DROIT_ECRITURE) ) // la racine ne peut pas être coupée
+  {
+    $_SESSION["d_clipboard"]["O".$folder->id] = $folder->id;
+    $folder->load_by_id($folder->id_folder_parent);
+  }
 }
 elseif ( $file->is_valid() && $_REQUEST["action"] == "delete" )
 {
@@ -485,10 +485,10 @@ if ( $file->is_valid() )
     "FROM wiki_ref_file ".
     "INNER JOIN wiki ON ( wiki.id_wiki=wiki_ref_file.id_wiki) ".
     "INNER JOIN `wiki_rev` ON (".
-		      "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
-		       "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) ".
-		"WHERE wiki_ref_file.id_file='".$file->id."' ".
-		"ORDER BY fullpath_wiki");
+          "`wiki`.`id_wiki`=`wiki_rev`.`id_wiki` ".
+           "AND `wiki`.`id_rev_last`=`wiki_rev`.`id_rev` ) ".
+    "WHERE wiki_ref_file.id_file='".$file->id."' ".
+    "ORDER BY fullpath_wiki");
 
   if ( $req->lines )
   {
@@ -507,8 +507,8 @@ if ( $file->is_valid() )
   $req = new requete($site->db,"SELECT nvl_nouvelles.id_nouvelle, titre_nvl ".
     "FROM nvl_nouvelles_files ".
     "INNER JOIN nvl_nouvelles USING(id_nouvelle) ".
-		"WHERE nvl_nouvelles_files.id_file='".$file->id."' ".
-		"ORDER BY titre_nvl");
+    "WHERE nvl_nouvelles_files.id_file='".$file->id."' ".
+    "ORDER BY titre_nvl");
 
   if ( $req->lines )
   {
@@ -604,27 +604,27 @@ elseif ( $_REQUEST["page"] == "newfile" && $folder->is_right($site->user,DROIT_A
 }
 elseif ( isset($_SESSION["d_clipboard"]) && $_REQUEST["action"] == "paste" )
 {
-	$inffile = new dfile($site->db,$site->dbrw);
-	$inffolder = new dfolder($site->db,$site->dbrw);
+  $inffile = new dfile($site->db,$site->dbrw);
+  $inffolder = new dfolder($site->db,$site->dbrw);
 
-	foreach( $_SESSION["d_clipboard"] as $aid => $id )
-	{
-		if ( $aid{0} == 'I' )
-		{
-		  if ( $folder->is_right($site->user,DROIT_AJOUTITEM) )
-		  {
-  			$inffile->load_by_id($id);
-  			$inffile->move_to($folder->id);
-		  }
-		}
-		elseif ( $folder->is_right($site->user,DROIT_AJOUTCAT) )
-		{
-			$inffolder->load_by_id($id);
-			$inffolder->move_to($folder->id);
-		}
-	}
+  foreach( $_SESSION["d_clipboard"] as $aid => $id )
+  {
+    if ( $aid{0} == 'I' )
+    {
+      if ( $folder->is_right($site->user,DROIT_AJOUTITEM) )
+      {
+        $inffile->load_by_id($id);
+        $inffile->move_to($folder->id);
+      }
+    }
+    elseif ( $folder->is_right($site->user,DROIT_AJOUTCAT) )
+    {
+      $inffolder->load_by_id($id);
+      $inffolder->move_to($folder->id);
+    }
+  }
 
-	unset($_SESSION["d_clipboard"]);
+  unset($_SESSION["d_clipboard"]);
 }
 
 require_once($topdir."include/cts/sqltable.inc.php");
@@ -636,33 +636,33 @@ $site->start_page($section,"Fichiers");
 
 if ( isset($_SESSION["d_clipboard"]) )
 {
-	$inffile = new dfile($site->db);
-	$inffolder = new dfolder($site->db);
+  $inffile = new dfile($site->db);
+  $inffolder = new dfolder($site->db);
 
-	$cts = new contents("Presse papier");
+  $cts = new contents("Presse papier");
 
-	if ( $folder->is_right($site->user,DROIT_AJOUTITEM) || $folder->is_right($site->user,DROIT_AJOUTCAT) )
-	  $cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;action=paste\">Deplacer ici</a>");
+  if ( $folder->is_right($site->user,DROIT_AJOUTITEM) || $folder->is_right($site->user,DROIT_AJOUTCAT) )
+    $cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;action=paste\">Deplacer ici</a>");
 
-	$lst = new itemlist("Contenu");
+  $lst = new itemlist("Contenu");
 
-	foreach( $_SESSION["d_clipboard"] as $aid => $id )
-	{
-		if ( $aid{0} == 'I' )
-		{
-			$inffile->load_by_id($id);
-			$lst->add($inffile->get_html_link());
-		}
-		else
-		{
-			$inffolder->load_by_id($id);
-			$lst->add($inffolder->get_html_link());
-		}
-	}
+  foreach( $_SESSION["d_clipboard"] as $aid => $id )
+  {
+    if ( $aid{0} == 'I' )
+    {
+      $inffile->load_by_id($id);
+      $lst->add($inffile->get_html_link());
+    }
+    else
+    {
+      $inffolder->load_by_id($id);
+      $lst->add($inffolder->get_html_link());
+    }
+  }
 
-	$cts->add($lst,true);
+  $cts->add($lst,true);
 
-	$site->add_contents($cts);
+  $site->add_contents($cts);
 }
 
 
