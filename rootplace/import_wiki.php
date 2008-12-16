@@ -126,7 +126,7 @@ if($_REQUEST["action"]=="process")
          new request($site->dbrw,'DELETE FROM wiki_ref_wiki WHERE id_wiki_rel='.$id);
          new request($site->dbrw,'DELETE FROM wiki_rev WHERE id_wiki='.$id);
        }
-       new request($site->dbrw,'DELETE FROM wiki WHERE fullpath_wiki LIKE \''.$wiki_path.'%\'';
+       new request($site->dbrw,'DELETE FROM wiki WHERE fullpath_wiki LIKE \''.$wiki_path.'%\'');
        $config=array();
        $config['rights_id_group']=30000+$asso->id;
        $config['rights_id_group_admin']=200000+$asso->id;
