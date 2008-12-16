@@ -109,9 +109,9 @@ if($_REQUEST["action"]=="process")
       $path=AE_ACCOUNTS.$_REQUEST["unixname"]."/data/attic/";
     else
       $path=null;
-    echo $path;
     if(!is_null($path))
     {
+       echo $path;
        $asso = new asso($site->db);
        $passo = new asso($site->db);
        $asso->load_by_unix_name($_REQUEST["unixname"]);
