@@ -52,7 +52,7 @@ function process_namespace($path,$namespace,$config)
   {
     while (($file = readdir($dh)) !== false)
     {
-      if($file=='.' || $file=='..' || $file=='playground')
+      if($file=='.' || $file=='..' || $file=='playground' || $file='_dummy')
         continue;
       if(is_dir($path.$file))
         $subs[]=$file;
@@ -86,7 +86,7 @@ function process_namespace($path,$namespace,$config)
             $first=array_shift($revisions);
             $wiki->create ($parent, $config['id_asso'], $_page, 0,$title,implode("",gzfile($path.$page.'.'.$first.'.txt.gz')));
             foreach($revisions as $revision)
-              $wiki->revision($lion->id,$_page,implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
+              $wiki->revision($lion->id,'import',implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
           }
           elseif(is_null($pagename))
             echo "bleh";
