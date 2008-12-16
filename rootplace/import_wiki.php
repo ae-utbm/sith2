@@ -102,7 +102,7 @@ function process_namespace($path,$namespace,$config)
           continue;
         }
         echo '<h2>page : '.$namespace.':'.$page.'</h2>';
-        $pagename = $parent->load_or_create_parent($namespace, $lion, $config['rights'], $config['rights_id_group'], $config['rights_id_group_admin']);
+        $pagename = $parent->load_or_create_parent($namespace.':'.$page, $lion, $config['rights'], $config['rights_id_group'], $config['rights_id_group_admin']);
         if ( !is_null($pagename) && $parent->is_valid() && !$wiki->load_by_name($parent,$pagename) )
         {
           $wiki->herit($parent);
@@ -150,7 +150,6 @@ if($_REQUEST["action"]=="process")
        $req = new requete($site->db, 'SELECT id_wiki, fullpath_wiki FROM wiki WHERE fullpath_wiki LIKE \''.$wiki_path.'%\'');
        while(list($id,$_path)=$req->get_row())
        {
-         echo $_path.'<br />';
          new requete($site->dbrw,'DELETE FROM wiki_lock WHERE id_wiki='.$id);
          new requete($site->dbrw,'DELETE FROM wiki_ref_file WHERE id_wiki='.$id);
          new requete($site->dbrw,'DELETE FROM wiki_ref_missingwiki WHERE id_wiki='.$id);
