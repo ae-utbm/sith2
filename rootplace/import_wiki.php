@@ -110,7 +110,7 @@ function process_namespace($path,$namespace,$config)
           $wiki->set_rights($site->user,$config['rights'], $config['rights_id_group'], $config['rights_id_group_admin']);
           sort($revisions);
           $first=array_shift($revisions);
-          $wiki->create ($parent, $config['id_asso'], $_page, 0,$title,implode("",gzfile($path.$page.'.'.$first.'.txt.gz')));
+          $wiki->create ($parent, $config['id_asso'], $_page, 0,$_page,implode("",gzfile($path.$page.'.'.$first.'.txt.gz')));
           foreach($revisions as $revision)
             $wiki->revision($lion->id,$_page,implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
         }
