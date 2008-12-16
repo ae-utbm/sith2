@@ -140,7 +140,7 @@ function process_files($path,$wikipath,&$asso)
   global $idfolder;
   $lion = new utilisateur($site->db);
   $lion->load_by_id(3538);
-  $file = new newdfile($site->db, $site->dbrw);
+  $_file = new newdfile($site->db, $site->dbrw);
   $folder = new dfolder($site->db, $site->dbrw);
   if(is_null($idfolder))
   {
@@ -186,19 +186,19 @@ function process_files($path,$wikipath,&$asso)
           $subs[]=$file;
           continue;
         }
-        $file->herit($folder);
-        $file->set_rights($lion,0xDDD,$asso->get_membres_group_id(),$asso->get_bureau_group_id());
-        $file=array();
-        $file['name']=$file;
-        $file['size']=filesize($path.$file);
-        $file['type']=mime_content_type($path.$file);
-        $file['tmp_name']=$path.$file;
-        $file->add_file ($_FILES["file"],$file,$folder->id,'fichier importé du wiki',$asso->id );
+        $_file->herit($folder);
+        $_file->set_rights($lion,0xDDD,$asso->get_membres_group_id(),$asso->get_bureau_group_id());
+        $filec=array();
+        $filec['name']=$file;
+        $filec['size']=filesize($path.$file);
+        $filec['type']=mime_content_type($path.$file);
+        $filec['tmp_name']=$path.$file;
+        $_file->add_file ($_FILES["file"],$filec,$folder->id,'fichier importé du wiki',$asso->id );
         if(!empty($wikipath))
-          $newdfiles[$wikipath.':'.$file]='newdfile://'.$file->id;
+          $newdfiles[$wikipath.':'.$file]='newdfile://'.$_file->id;
         else
-          $newdfiles[$file]='newdfile://'.$file->id;
-        $file->set_modere();
+          $newdfiles[$file]='newdfile://'.$_file->id;
+        $_file->set_modere();
       }
     }
   }
