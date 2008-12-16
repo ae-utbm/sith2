@@ -114,6 +114,12 @@ function process_namespace($path,$namespace,$config)
           foreach($revisions as $revision)
             $wiki->revision($lion->id,$_page,implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
         }
+        elseif($wiki->load_by_name($parent,$pagename))
+        {
+          sort($revisions);
+          foreach($revisions as $revision)
+            $wiki->revision($lion->id,$_page,implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
+        }
       }
     }
     closedir($dh);
@@ -155,7 +161,7 @@ if($_REQUEST["action"]=="process")
        new requete($site->dbrw,'DELETE FROM wiki WHERE fullpath_wiki LIKE \''.$wiki_path.'%\'');
        $config=array();
        $config['rights_id_group']=30000+$asso->id;
-       $config['rights_id_group_admin']=200000+$asso->id;
+       $config['rights_id_group_admin']=20000+$asso->id;
        $config['__rights_lect']=272;
        $config['__rights_ecrt']=544;
        $config['__rights_ajout']=1088;
