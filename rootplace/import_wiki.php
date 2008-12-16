@@ -193,7 +193,7 @@ function process_files($path,$wikipath,&$asso)
         $filec['size']=filesize($path.$file);
         $filec['type']=mime_content_type($path.$file);
         $filec['tmp_name']=$path.$file;
-        $_file->add_file ($_FILES["file"],$filec,$folder->id,'fichier importé du wiki',$asso->id );
+        $_file->add_file ($filec,$file,$folder->id,'fichier importé du wiki',$asso->id );
         if(!empty($wikipath))
           $newdfiles[$wikipath.':'.$file]='newdfile://'.$_file->id;
         else
