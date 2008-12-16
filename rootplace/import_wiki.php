@@ -155,7 +155,7 @@ function process_files($path,$wikipath,&$asso)
       $folder->add_folder ( $section, null, null, $asso_folder->id );
     }
     $sub = $folder->get_folders ( $lion );
-    while ( $row = $sub1->get_row() )
+    while ( $row = $sub->get_row() )
     {
       $fd->_load($row);
       if($fd->titre=='wiki')
