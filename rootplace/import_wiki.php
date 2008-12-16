@@ -118,10 +118,10 @@ if($_REQUEST["action"]=="cleanup")
   new requete($site->dbrw,'DELETE FROM wiki_rev WHERE id_utilisateur_rev=3538');
   new requete($site->dbrw,'DELETE FROM wiki_lock WHERE id_utilisateur=3538');
   new requete($site->dbrw,'DELETE FROM wiki_ref_missingwiki WHERE `fullname_wiki_rel` LIKE \'pt:%\'');
-  $req = new requete($site->db, 'SELECT id_wiki FROM wiki_ref_wiki LEFT JOIN wiki ON wiki_ref_wiki.id_wiki=wiki.id_wiki WHERE wiki.id_wiki IS NULL');
+  $req = new requete($site->db, 'SELECT wiki_ref_wiki.id_wiki FROM wiki_ref_wiki LEFT JOIN wiki ON wiki_ref_wiki.id_wiki=wiki.id_wiki WHERE wiki.id_wiki IS NULL');
   while(list($id)=$req->get_row())
     new requete($site->dbrw,'DELETE FROM wiki_ref_wiki WHERE id_wiki='.$id);
-  $req = new requete($site->db, 'SELECT id_wiki FROM wiki_ref_file LEFT JOIN wiki ON wiki_ref_file.id_wiki=wiki.id_wiki WHERE wiki.id_wiki IS NULL');
+  $req = new requete($site->db, 'SELECT wiki_ref_file.id_wiki FROM wiki_ref_file LEFT JOIN wiki ON wiki_ref_file.id_wiki=wiki.id_wiki WHERE wiki.id_wiki IS NULL');
   while(list($id)=$req->get_row())
     new requete($site->dbrw,'DELETE FROM wiki_ref_file WHERE id_wiki='.$id);
 }
