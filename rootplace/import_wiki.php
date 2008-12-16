@@ -90,11 +90,15 @@ function process_namespace($path,$namespace,$config)
             $content=implode("",gzfile($path.$page.'.'.$first.'.txt.gz'));
             foreach($newdfiles as $url => $newdfile)
               $content=str_replace($url,$newdfile,$content);
-            $content=preg_replace("/\[\[([A-Za-z-0-9\-_])([A-Za-z-0-9\-_.:#]+?)\]\]/", "[[".$_page.":$1$2]]",$content);
+            $content=preg_replace("/\[\[([A-Za-z0-9])([A-Za-z0-9\-_.:#]+?)\]\]/", "[[".$_page.":$1$2]]",$content);
             $wiki->create ($parent, $config['id_asso'], $_page, 0,$_page,$content);
             foreach($revisions as $revision)
             {
               $content=implode("",gzfile($path.$page.'.'.$revision.'.txt.gz'));
+              $content=str_replace("<texit info>
+author=MySelf
+title=MyTitle
+</texit>",'',$content);
               foreach($newdfiles as $url => $newdfile)
                 $content=str_replace($url,$newdfile,$content);
               $content=preg_replace("/\[\[([A-Za-z-0-9\-_])([A-Za-z-0-9\-_.:#]+?)\]\]/", "[[".$_page.":$1$2]]",$content);
@@ -197,7 +201,7 @@ function process_files($path,$wikipath,&$asso)
         if(!empty($wikipath))
           $newdfiles[$wikipath.':'.$file]='newdfile://'.$_file->id;
         else
-          $newdfiles[$file]='newdfile://'.$_file->id;
+          $newdfiles[$file]='dfile://'.$_file->id;
         $_file->set_modere();
       }
     }
