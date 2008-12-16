@@ -28,7 +28,6 @@
  * @ingroup wiki2
  * @author Simon Lopez
  */
-exit();///pas encore testé !
 $topdir="../";
 
 require_once($topdir. "include/site.inc.php");
@@ -45,6 +44,7 @@ define("AE_ACCOUNTS","/var/www/ae/accounts/");
 
 function process_namespace($path,$namespace,$config)
 {
+  global $site;
   echo '<h1>namespace : '.$namespace.'</h1>';;
   $subs=array();
   $pages=array();
@@ -72,7 +72,7 @@ function process_namespace($path,$namespace,$config)
         if($page=="start")
           $_page=$config['unixname'];
         echo '<h2>page : '.$namespace.':'.$page.'</h2>';
-        $lion = new utilisateur($this->db);
+        $lion = new utilisateur($site->db);
         $lion->load_by_id(3538);
         $wiki = new wiki($site->db,$site->dbrw);
         $parent = new wiki($site->db,$site->dbrw);
@@ -115,6 +115,18 @@ if($_REQUEST["action"]=="process")
        $asso->load_by_unix_name($_REQUEST["unixname"]);
        $passo->load_by_id($asso->id_parent);
        $wiki_path=$passo->nom_unix.":".$asso->nom_unix;
+       $req = new requete($site->db, 'SELECT id_wiki, fullpath_wiki FROM wiki WHERE fullpath_wiki LIKE \''.$wiki_path.'%\'');
+       while(list($id,$path)=$req->get_row())
+       {
+         echo $path.'<br />';
+         //new request($site->dbrw,'DELETE FROM wiki WHERE fullpath_wiki LIKE \''.$wiki_path.'%\'';
+       }
+/*       new request($site->dbrw,'DELETE FROM wiki_lock WHERE id_wiki='.$id);
+       new request($site->dbrw,'DELETE FROM wiki_ref_file WHERE id_wiki='.$id);
+       new request($site->dbrw,'DELETE FROM wiki_ref_missingwiki WHERE id_wiki='.$id);
+       new request($site->dbrw,'DELETE FROM wiki_ref_wiki WHERE id_wiki='.$id);
+       new request($site->dbrw,'DELETE FROM wiki_ref_wiki WHERE id_wiki_rel='.$id);
+       new request($site->dbrw,'DELETE FROM wiki_rev WHERE id_wiki='.$id);*/
        $config=array();
        $config['rights_id_group']=30000+$asso->id;
        $config['rights_id_group_admin']=200000+$asso->id;
@@ -124,7 +136,7 @@ if($_REQUEST["action"]=="process")
        $config['rights']=1904;
        $config['id_asso']=$asso->id;
        $config['unixname']=$asso->nom_unix;
-       process_namespace($path,$wiki_path,$config);
+//       process_namespace($path,$wiki_path,$config);
        exit();
     }
   }
