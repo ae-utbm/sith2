@@ -75,6 +75,7 @@ function process_namespace($path,$namespace,$config)
         $parent = new wiki($site->db,$site->dbrw);
         if($page=="start")
         {
+          $_page=$config["unixname"];
           echo '<h2>page : '.$namespace.'</h2>';
           $pagename = $parent->load_or_create_parent($namespace, $lion, $config['rights'], $config['rights_id_group'], $config['rights_id_group_admin']);
           if ( !is_null($pagename) && $parent->is_valid() && !$wiki->load_by_name($parent,$pagename) )
@@ -86,7 +87,7 @@ function process_namespace($path,$namespace,$config)
             $first=array_shift($revisions);
             $wiki->create ($parent, $config['id_asso'], $_page, 0,$title,implode("",gzfile($path.$page.'.'.$first.'.txt.gz')));
             foreach($revisions as $revision)
-              $wiki->revision($lion->id,'import',implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
+              $wiki->revision($lion->id,$_page,implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
           }
           elseif(is_null($pagename))
             echo "bleh";
