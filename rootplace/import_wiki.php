@@ -78,7 +78,7 @@ function process_namespace($path,$namespace,$config)
           $_page=$config["unixname"];
           echo '<h2>page : '.$namespace.'</h2>';
           $pagename = $parent->load_or_create_parent($namespace, $lion, $config['rights'], $config['rights_id_group'], $config['rights_id_group_admin']);
-          if ( !is_null($pagename) && $parent->is_valid() && !$wiki->load_by_name($parent,$pagename))
+          if ( !is_null($pagename) && $parent->is_valid() && !$wiki->load_by_fullpath($parent,$namespace))
           {
             $wiki->herit($parent);
             $parent->id_utilisateur=$site->user->id;
@@ -103,7 +103,7 @@ function process_namespace($path,$namespace,$config)
         }
         echo '<h2>page : '.$namespace.':'.$page.'</h2>';
         $pagename = $parent->load_or_create_parent($namespace.':'.$page, $lion, $config['rights'], $config['rights_id_group'], $config['rights_id_group_admin']);
-        if ( !is_null($pagename) && $parent->is_valid() && !$wiki->load_by_name($parent,$pagename) )
+        if ( !is_null($pagename) && $parent->is_valid() && !$wiki->load_by_fullpath($parent,$namespace.':'.$page) )
         {
           $wiki->herit($parent);
           $parent->id_utilisateur=$site->user->id;
@@ -111,13 +111,6 @@ function process_namespace($path,$namespace,$config)
           sort($revisions);
           $first=array_shift($revisions);
           $wiki->create ($parent, $config['id_asso'], $_page, 0,$_page,implode("",gzfile($path.$page.'.'.$first.'.txt.gz')));
-          foreach($revisions as $revision)
-            $wiki->revision($lion->id,$_page,implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
-        }
-        elseif($wiki->load_by_name($parent,$pagename))
-        {
-          echo "bleh<br />";
-          sort($revisions);
           foreach($revisions as $revision)
             $wiki->revision($lion->id,$_page,implode("",gzfile($path.$page.'.'.$revision.'.txt.gz')),'Édité le '.date('Y-m-d', $revision).' à '.date('H:i:s', $revision));
         }
