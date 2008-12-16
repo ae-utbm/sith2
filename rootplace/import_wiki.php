@@ -48,6 +48,7 @@ function process_namespace($path,$namespace,$config)
   echo '<h1>namespace : '.$namespace.'</h1>';;
   $subs=array();
   $pages=array();
+  echo $path;
   if ($dh = opendir($path))
   {
     while (($file = readdir($dh)) !== false)
