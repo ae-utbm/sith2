@@ -48,7 +48,7 @@ function process_namespace($path,$namespace,$config)
   echo '<h1>namespace : '.$namespace.'</h1>';;
   $subs=array();
   $pages=array();
-  echo $path;
+  print_r($path);
   if ($dh = opendir($path))
   {
     while (($file = readdir($dh)) !== false)
@@ -111,7 +111,6 @@ if($_REQUEST["action"]=="process")
       $path=null;
     if(!is_null($path))
     {
-       echo $path;
        $asso = new asso($site->db);
        $passo = new asso($site->db);
        $asso->load_by_unix_name($_REQUEST["unixname"]);
