@@ -231,7 +231,7 @@ function opencal(topdir, __target, type)
       document.body.appendChild(elem);
     
       elem.style.display = 'block';
-      elem.style.z-index = 99;
+      elem.style.zIndex = '99';
       elem.style.left = pos[0] + 150;
       elem.style.top = pos[1] - 20;
   }
