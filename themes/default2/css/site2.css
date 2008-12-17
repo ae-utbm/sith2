@@ -552,15 +552,12 @@ div.box
   margin-bottom: 15px;
   padding: 10px;
   width: 250px;
-  color: #ffffff;
+  color: #2F3238;
   border: 1px solid #999999;
 }
 
 div.box a
 {
-/*  color:#0066CC;*/
-/*  color:#FFCC00;*/
-/*  color:#00AEDD;*/
   color:#364970;
   text-decoration: none;
 }
@@ -595,8 +592,7 @@ div.box div.body
   border:0;
   padding: 8px;
   position:relative;
-/*  background: #999999;*/
-  background:#8C8C8C;
+  background:#cccccc;
 }
 
 
@@ -633,7 +629,7 @@ div.box ul
   padding-left: 15px;
   list-style: none;
   font-size:9px;
-  color:#ffffff;
+  color:#20252A;
 }
 
 div.box ul li:before
@@ -646,8 +642,7 @@ div.box h2, div.box h3
   margin:0 2px 0 0;
   border-bottom: 1px;
   border-color:#4c4c4c;
-/*  color: #00b1ff; */
-  color:#ffffff;
+  color:#20252A;
   position:relative;
   font-weight:bold;
   font-size:11px;
@@ -677,8 +672,7 @@ div.box h2 a
   border: 0;
   border-bottom: 1px;
   border-color:#4c4c4c;
-/*  color: #00b1ff; */
-  color:#ffffff;
+  color:#20252A;
 }
 
 div.box div.body ul
@@ -693,7 +687,7 @@ div.box div.body ul li
 
 div.box div.body ul li a
 {
-  color:#ffffff;
+  color:#20252A;
 }
 
 div.box p
@@ -2543,14 +2537,12 @@ div.calbox
 div.slidebox_pause
 {
   text-align:center;
-/*  color:#B5DC10; */
-  color:#ffffff;
+  color:#9F111B;
   margin-bottom:10px;
 }
 div.slidebox_pause a
 {
-/*  color:#B5DC10; */
-  color:#ffffff;
+  color:#9F111B;
   font-weight:bold;
   font-size:9px;
 }
@@ -2566,11 +2558,11 @@ div.slidebox_pause a:after
 
 div.calbox td.month
 {
-  color:#ffffff;
+  color:#2F3238;
 }
 div.calbox td.weekday
 {
-  color:#ffffff;
+  color:#2F3238;
 }
 #sbox_alerts h1
 {
