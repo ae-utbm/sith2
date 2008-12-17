@@ -221,7 +221,7 @@ function opencal(topdir, __target, type)
 {
   var target = document.getElementById(__target);
   var pos = findPos(target);
-    
+
   var elem = document.getElementById(__target + '_calendar');
   if(elem == null)
   {
@@ -231,6 +231,7 @@ function opencal(topdir, __target, type)
       document.body.appendChild(elem);
     
       elem.style.display = 'block';
+      elem.style.z-index = 99;
       elem.style.left = pos[0] + 150;
       elem.style.top = pos[1] - 20;
   }
