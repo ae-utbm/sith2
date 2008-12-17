@@ -559,7 +559,8 @@ div.box
 div.box a
 {
 /*  color:#0066CC;*/
-  color:#FFCC00;
+/*  color:#FFCC00;*/
+  color:#00AEDD;
   text-decoration: none;
 }
 
@@ -593,7 +594,8 @@ div.box div.body
   border:0;
   padding: 8px;
   position:relative;
-  background: #999999;
+/*  background: #999999;*/
+  background:#8C8C8C;
 }
 
 
