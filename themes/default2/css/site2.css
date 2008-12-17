@@ -483,7 +483,7 @@ div.contents:after
  */
 #left
 {
-  margin-top:7px;
+  margin-top:5px;
   float:left;
   margin-left:15px;
   width: 270px;
@@ -525,14 +525,8 @@ div.page#r
 
 div.page#l
 {
-  margin:0 0 0 10px;
+  margin:10px 0 0 10px;
   width:680px;
-  float:right;
-}
-
-div.page#l
-{
-  margin:0 10px 0 290px;
   float:right;
 }
 
@@ -2615,5 +2609,4 @@ div.calbox td.weekday
   color:#ffffff;
   font-weight:bold;
 }
-
 
