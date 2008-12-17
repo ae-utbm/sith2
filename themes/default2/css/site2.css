@@ -326,6 +326,7 @@ p.error
   background-image: url("../images/footer.png");
   background-repeat: no-repeat;
   background-position:100% 9px;
+  height:44px;
 }
 #endsitelinks .endlinksblock
 {
