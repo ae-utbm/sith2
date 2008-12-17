@@ -502,7 +502,6 @@ div.contents:after
  */
 div.page
 {
-  position:absolute;
   margin: 0;
   padding: 0;
   width: auto;
@@ -510,14 +509,23 @@ div.page
 
 div.page#lr
 {
+  position:absolute;
   margin: 0 290px;
 }
 
 div.page#r
 {
+  position:absolute;
   margin:0 290px 0 10px;
   float:left;
   padding-top: 12px;
+}
+
+div.page#l
+{
+  position:absolute;
+  margin:0 10px 0 290px;
+  float:right;
 }
 
 div.page#l
