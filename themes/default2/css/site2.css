@@ -556,7 +556,7 @@ div.box
   padding: 10px;
   width: 250px;
   color: #2F3238;
-  border: 1px solid #999999;
+  border: 1px solid #D2D2D9;
 }
 
 div.box a
@@ -1918,7 +1918,8 @@ td.moneycell
 div.newsappel ul li a
 {
   font-size:120%;
-  color:#ffffff;
+  font-weight:bold;
+  color:#696969;
 }
 
 div.newsappel ul
@@ -1928,8 +1929,7 @@ div.newsappel ul
 
 div.newsappel
 {
-/*  background: #606060;*/
-  background:#8C8C8C;
+  background:#D2D2D9;
   position:relative;
 }
 
