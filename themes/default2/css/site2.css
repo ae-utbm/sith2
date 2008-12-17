@@ -558,7 +558,8 @@ div.box
 
 div.box a
 {
-  color:#0066CC;
+/*  color:#0066CC;*/
+  color:#FFCC00;
   text-decoration: none;
 }
 
