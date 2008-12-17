@@ -2604,7 +2604,7 @@ div.calbox td.weekday
 {
   position:absolute;
   margin:auto;
-  width:100px;
+  width:100%;
   text-align:center;
   color:#ffffff;
   font-weight:bold;
