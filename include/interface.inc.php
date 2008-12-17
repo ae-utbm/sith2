@@ -591,7 +591,7 @@ class interfaceweb
     $this->buffer .= "<div id=\"endsite\">";
     $this->buffer .= "<div id=\"endsitelinks\">";
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">MENTIONS LÉGALES</a> ";
-    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">AIDE ET DOCUMENTIATION</a> ";
+    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">AIDE ET DOCUMENTATION</a> ";
     $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a> ";
     $this->buffer .= "</div>";// /endsitelinks
     $this->buffer .= "</div>";// /endsite
