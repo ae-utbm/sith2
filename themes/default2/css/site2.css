@@ -558,8 +558,7 @@ div.box
 
 div.box a
 {
-/*  color:#ff3399; */
-  color:#00aedd;
+  color:#0066CC;
   text-decoration: none;
 }
 
@@ -571,8 +570,7 @@ div.box h1
   font-size: 0;
   color: #ffffff;
   text-align:right;
-/*	border-bottom: 1px dotted #ffffff; */
-	background: #00AEDD;
+  background: #00AEDD;
 }
 
 div.box h1 a
