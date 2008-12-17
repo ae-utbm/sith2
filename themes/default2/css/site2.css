@@ -303,7 +303,7 @@ p.error
 }
 #endsite
 {
-/*  position:absolute;*/
+  position:absolute;
   left:0;
   bottom:0;
   clear: both;
@@ -319,6 +319,7 @@ p.error
 }
 #endsitelinks
 {
+  width:980px;
   padding: 12px 50px;
   text-align:left;
   margin:0 auto 0 auto;
@@ -402,10 +403,6 @@ div.tabsv2 span a
 {
   float:left;
   color:#ffffff;
-/*
-  border-left:1px solid #ffffff;
-  border-right:1px solid #ffffff;
-*/
   font-size:12px;
   padding-top: 10px;
   text-align:center;
@@ -466,7 +463,7 @@ div.contents
   position:relative;
   margin:auto;
   margin-top:0;
-  margin-bottom:60px;
+  margin-bottom:80px;
   border:0;
   padding: 0 0 0 0;
   background-color:#ffffff;
@@ -486,19 +483,17 @@ div.contents:after
  */
 #left
 {
-  position: absolute;
-  left: 5px;
-  top: 0px;
+  float:left;
+  margin-left:15px;
   width: 270px;
   padding-bottom:10px;
 }
 
 #right
 {
-  position: absolute;
-  right: 18px;
-  top: 7px;
+  float:right;
   width: 270px;
+  margin-right:15px;
   padding-bottom:10px;
 }
 
@@ -507,6 +502,7 @@ div.contents:after
  */
 div.page
 {
+  position:absolute;
   margin: 0;
   padding: 0;
   width: auto;
@@ -514,18 +510,20 @@ div.page
 
 div.page#lr
 {
-  margin: 0 285px;
+  margin: 0 290px;
 }
 
 div.page#r
 {
-  margin:0 300px 0 10px;
+  margin:0 290px 0 10px;
+  float:left;
   padding-top: 12px;
 }
 
 div.page#l
 {
-  margin:0 10px 0 275px;
+  margin:0 10px 0 290px;
+  float:right;
 }
 
 div.page#n
@@ -2581,8 +2579,6 @@ div.calbox td.weekday
   z-index: 60;
 }
 
-
-
 /* progress bar */
 .progressbar
 {
@@ -2609,3 +2605,4 @@ div.calbox td.weekday
   color:#ffffff;
   font-weight:bold;
 }
+
