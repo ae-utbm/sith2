@@ -483,6 +483,7 @@ div.contents:after
  */
 #left
 {
+  margin-top:7px;
   float:left;
   margin-left:15px;
   width: 270px;
@@ -491,6 +492,7 @@ div.contents:after
 
 #right
 {
+  margin-top:7px;
   float:right;
   width: 270px;
   margin-right:15px;
@@ -509,22 +511,22 @@ div.page
 
 div.page#lr
 {
-  position:absolute;
-  margin: 0 290px;
+  margin: 0;
+  width:380px;
 }
 
 div.page#r
 {
-  position:absolute;
-  margin:0 290px 0 10px;
+  margin:0 0 0 10px;
+  width:680px;
   float:left;
   padding-top: 12px;
 }
 
 div.page#l
 {
-  position:absolute;
-  margin:0 10px 0 290px;
+  margin:0 0 0 10px;
+  width:680px;
   float:right;
 }
 
@@ -2613,4 +2615,5 @@ div.calbox td.weekday
   color:#ffffff;
   font-weight:bold;
 }
+
 
