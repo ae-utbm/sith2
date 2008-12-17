@@ -625,7 +625,7 @@ div.box div.body div.fastsearch a
    font-weight: normal;
 }
 
-div.box ul
+div.box ul, div.box ul.boxnewslist
 {
   margin: 0px;
   margin-bottom: 0.25em;
