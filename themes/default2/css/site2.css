@@ -310,10 +310,9 @@ p.error
   width:100%;
   background :#212121;
   border-top: 1px solid #111111;
-  height:80px;
+  height:50px;
   font-size:10px;
   margin:0;
-/*  margin-bottom:-80px;*/
   padding:0;
   color:#ffffff;
 }
@@ -467,7 +466,7 @@ div.contents
   position:relative;
   margin:auto;
   margin-top:0;
-  margin-bottom:80px;
+  margin-bottom:50px;
   border:0;
   padding: 0 0 0 0;
   background-color:#ffffff;
