@@ -325,7 +325,7 @@ class site extends interfaceweb
         $this->add_box("forum",$this->get_forum_box());
 
         $this->add_box("sondage",$this->get_sondage());
-        $this->set_side_boxes("right",
+        $this->set_side_boxes("left",
                               array("info_en_boucle",
                                     "alerts",
                                     "anniv",
