@@ -484,6 +484,7 @@ class interfaceweb
 
     $mode = $this->user->id > 0 ? "c" : "nc";
 
+    $sides=array('left'=>'',$right=>'');
     foreach ( $this->sides as $side => $names )
     {
       if ( count($names) )
@@ -514,33 +515,36 @@ class interfaceweb
         else
           $ref = null;
 
-        $this->buffer .= "<div id=\"".$side."\" class=\"clearfix\">\n";
+        $sides[$side] = "<div id=\"".$side."\" class=\"clearfix\">\n";
         foreach ( $names as $name )
         {
 
           if ( $cts = $this->boxes[$name] )
           {
-            $this->buffer .= "<div class=\"box\" id=\"sbox_".$name."\">\n";
+            $sides[$side] .= "<div class=\"box\" id=\"sbox_".$name."\">\n";
             if ( $cts->title && ($ref != null) )
-              $this->buffer .= "<h1><a onmousedown=\"dnds_startdrag(event,'sbox_".$name."','".$ref."');\" class=\"dragstartzone\">".$cts->title."</a></h1>\n";
+              $sides[$side] .= "<h1><a onmousedown=\"dnds_startdrag(event,'sbox_".$name."','".$ref."');\" class=\"dragstartzone\">".$cts->title."</a></h1>\n";
             elseif ( $cts->title )
-              $this->buffer .= "<h1>".$cts->title."</h1>\n";
+              $sides[$side] .= "<h1>".$cts->title."</h1>\n";
 
-            $this->buffer .= "<div class=\"body\" id=\"sbox_body_".$name."\">\n";
+            $sides[$side] .= "<div class=\"body\" id=\"sbox_body_".$name."\">\n";
 
-            $this->buffer .= $cts->html_render();
+            $sides[$side] .= $cts->html_render();
 
-            $this->buffer .= "</div>\n";
-            $this->buffer .= "</div>\n";
+            $sides[$side] .= "</div>\n";
+            $sides[$side] .= "</div>\n";
           }
 
         }
-        $this->buffer .= "</div>\n";
+        $sides[$side] .= "</div>\n";
       }
     }
 
     if ( $idpage == "" ) $idpage = "n";
 
+    if(!empty($sides['left']))
+      $this->buffer.=$sides['left'];
+    unset($sides['left']);
     $this->buffer .= "\n<!-- page -->\n";
     $this->buffer .= "<div class=\"page\" id=\"".$idpage."\">\n";
 
@@ -588,6 +592,9 @@ class interfaceweb
 
     $this->buffer .= "</div>\n"; // /page
     $this->buffer .= "<!-- end of page -->\n\n";
+    if(!empty($sides['right']))
+      $this->buffer.=$sides['right'];
+    unset($sides['right']);
     $this->buffer .= "</div>\n"; // /contents
     $this->buffer .= "<div id=\"contentsend\">&nbsp;</div>\n";
     $this->buffer .= "<div id=\"endsite\">";
