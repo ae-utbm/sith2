@@ -104,7 +104,6 @@ elseif ( ($_REQUEST["action"] == "save") && $can_edit )
 if ( $_REQUEST["page"]  == "edit" && $can_edit )
 {
   $site->start_page ("services", $news->titre);
-  $site->set_side_boxes("right",array("calendrier","lastnews","alerts","connexion"),"news_left");
   $cts = new contents("Editer");
 
   $frm = new form ("editnews","news.php",false,"POST","Edition d'une nouvelle");
@@ -169,7 +168,7 @@ if ( $news->id > 0 )
 {
 
   $site->start_page ("accueil", $news->titre);
-
+  $site->set_side_boxes("right",array("calendrier","lastnews"),"news_left");
   $cts = $news->get_contents();
 
   $cts->puts("<div class=\"clearboth\"></div>");
