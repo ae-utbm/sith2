@@ -152,7 +152,7 @@ class dokusyntax
     $text= str_replace('___</div>___</div>___','</div></div>'.CHR(10),$text);
     $text= str_replace('__slash_n__',CHR(10),$text);
 
-    $text=preg_replace("/#\#\#([0-9])+?\#\#\#/","<div class=\"progressbar\">\n<div class=\"progressbar_prog\" style=\"width:$1%;\"></div>\n<div class=\"progressbar_value\">$1%</div>\n</div>",$text);
+    $text=preg_replace("/#\#\#([0-9]+?)\#\#\#/","<div class=\"progressbar\">\n<div class=\"progressbar_prog\" style=\"width:$1%;\"></div>\n<div class=\"progressbar_value\">$1%</div>\n</div>",$text);
 
     if(isset($conf['bookmarks']) && $conf['bookmarks'])
     {
