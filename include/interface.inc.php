@@ -125,8 +125,6 @@ class interfaceweb
    */
   function set_side_boxes ( $side, $boxes, $ref=null )
   {
-    if($side=="left") $side="right";
-
     if ( $side != "left" && $side != "right" ) return;
     $this->sides[$side] = $boxes;
 
