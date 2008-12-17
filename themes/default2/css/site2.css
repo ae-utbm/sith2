@@ -1020,8 +1020,9 @@ div.calendar td.event3
 div.tinycal_box
 {
 position: absolute;
-background: url(../images/box-top-small.png) no-repeat;
-border: none;
+border: 1px solid #D2D2D9;
+background:#cccccc;
+/*border: none;*/
 display: none;
 }
 
