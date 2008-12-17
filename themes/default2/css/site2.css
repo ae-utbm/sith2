@@ -319,13 +319,13 @@ p.error
 #endsitelinks
 {
   width:98%;
-  padding: 12px 0px;
+  padding: 0px;
   text-align:left;
-  margin:0 auto 0 auto;
+  margin:10px auto 0 auto;
   background-image: url("../images/footer.png");
   background-repeat: no-repeat;
-  background-position:100% 5px;
-  height:27px;
+  background-position:100% 0;
+  height:35px;
 }
 #endsitelinks .endlinksblock
 {
