@@ -66,11 +66,11 @@ class eboutic extends site
   {
     $this->site();
     if ( $GLOBALS["taiste"] )
-      $this->set_side_boxes("left",array("e-boutic"));
+      $this->set_side_boxes("right",array("e-boutic"));
     else
     {
-      $this->set_side_boxes("left",array("e-boutic","connexion"));
-      $this->set_side_boxes("right",array());
+      $this->set_side_boxes("right",array("e-boutic","connexion"));
+      $this->set_side_boxes("",array());
     }
     $this->add_css ("css/eboutic.css");
 
