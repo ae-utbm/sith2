@@ -625,13 +625,13 @@ div.box div.body div.fastsearch a
    font-weight: normal;
 }
 
-div.box ul, div.box ul.boxnewslist
+div.box ul
 {
   margin: 0px;
   margin-bottom: 0.25em;
   padding-left: 15px;
   list-style: none;
-  font-size:9px;
+  font-size:12px;
   color:#20252A;
 }
 
