@@ -1931,7 +1931,8 @@ div.newsappel ul
 
 div.newsappel
 {
-  background: #606060;
+/*  background: #606060;*/
+  background:#8C8C8C;
   position:relative;
 }
 
