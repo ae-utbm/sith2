@@ -168,7 +168,6 @@ if ( $news->id > 0 )
 {
 
   $site->start_page ("accueil", $news->titre);
-	$site->set_side_boxes("right",array());
 
   $cts = $news->get_contents();
 
