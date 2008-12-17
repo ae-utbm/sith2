@@ -42,7 +42,7 @@ $lieu = new lieu($site->db);
 $can_edit = false;
 
 $site->add_box("lastnews",new newslist ( "Deni&egrave;res nouvelles", $site->db ) );
-$site->set_side_boxes("left",array("calendrier","lastnews","alerts","connexion"),"news_left");
+$site->set_side_boxes("right",array("calendrier","lastnews","alerts","connexion"),"news_left");
 
 if ( isset($_REQUEST["id_nouvelle"]) )
 {
