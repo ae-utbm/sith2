@@ -234,6 +234,7 @@ function opencal(topdir, __target, type)
       elem.style.zIndex = '99';
       elem.style.left = pos[0] + 150;
       elem.style.top = pos[1] - 20;
+      openInContents(__target + '_calendar', topdir + 'gateway.php', 'module=tinycal&target=' + __target + '&type=' + type + '&topdir=' + topdir);
   }
   else
   {
