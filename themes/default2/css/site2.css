@@ -2580,3 +2580,32 @@ div.calbox td.weekday
   float:right;
   z-index: 60;
 }
+
+
+
+/* progress bar */
+.progressbar
+{
+  width:200px;
+  height:20px;
+  position:relative;
+  border:1px solid #054CE6;
+  background-color:#709DFF;
+}
+.progressbar_prog
+{
+  position:absolute;
+  left:0;
+  top:0;
+  height:20px;
+  background-color:#054CE6;
+}
+.progressbar_value
+{
+  position:absolute;
+  margin:auto;
+  width:100px;
+  text-align:center;
+  color:#ffffff;
+  font-weight:bold;
+}
