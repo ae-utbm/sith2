@@ -691,7 +691,7 @@ class utilisateur extends stdentity
    */
   function is_in_group_id ( $id )
   {
-    if(is_null($id))
+    if(is_null($id) || empty($id))
       return false;
     if ( is_null($this->groupes) )
       $this->load_groups();
