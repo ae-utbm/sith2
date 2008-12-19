@@ -104,6 +104,9 @@ abstract class basedb extends stdentity
    */
   function is_right ( &$user, $required )
   {
+    if(!$user->is_valid())
+      return false;
+
     if ( $this->is_admin($user)) return true;
 
     if ( !is_null($this->id_utilisateur) &&
@@ -114,9 +117,9 @@ abstract class basedb extends stdentity
 
     if ( ($user->is_in_group_id($this->id_groupe)) &&
       ($required & ($this->droits_acces >> 4)) == $required ) return true;
-print_r("bleh");
+
     if ( ($required & ($this->droits_acces)) == $required ) return true;
-print_r("bleh2");
+
     return false;
   }
 
