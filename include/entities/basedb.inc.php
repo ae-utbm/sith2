@@ -114,7 +114,7 @@ abstract class basedb extends stdentity
 
     if ( ($user->is_in_group_id($this->id_groupe)) &&
       ($required & ($this->droits_acces >> 4)) == $required ) return true;
-print_r($required ." ". ($this->droits_acces)."\n");
+//ce teste merde quand on est pas connecté !!!
     if ( ($required & ($this->droits_acces)) == $required ) return true;
 
     return false;
