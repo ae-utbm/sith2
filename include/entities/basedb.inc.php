@@ -104,7 +104,7 @@ abstract class basedb extends stdentity
    */
   function is_right ( &$user, $required )
   {
-    print_r($required."\n")
+    print_r($required."\n");
     if ( $this->is_admin($user)) return true;
 
     if ( !is_null($this->id_utilisateur) &&
