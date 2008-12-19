@@ -105,18 +105,18 @@ abstract class basedb extends stdentity
   function is_right ( &$user, $required )
   {
     if ( $this->is_admin($user)) return true;
-print_r("bleh");
+
     if ( !is_null($this->id_utilisateur) &&
       ($user->id ==  $this->id_utilisateur) &&
       ($required & ($this->droits_acces >> 8)) == $required ) return true;
-print_r("bleh2");
+
     if ( $this->modere == 0 ) return false;
-print_r("bleh3");
+
     if ( ($user->is_in_group_id($this->id_groupe)) &&
       ($required & ($this->droits_acces >> 4)) == $required ) return true;
-print_r("bleh4");
+print_r("bleh");
     if ( ($required & ($this->droits_acces)) == $required ) return true;
-
+print_r("bleh2");
     return false;
   }
 
