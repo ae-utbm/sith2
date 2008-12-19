@@ -474,7 +474,7 @@ while ( $row = $sub2->get_row() )
 }
 $cts->add($gal,true);
 
-if($user->is_valid())
+if($site->user->is_valid())
 {
   if ( $folder->is_right($site->user,DROIT_AJOUTCAT) )
     $cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;page=newfolder\">Ajouter un dossier</a>");
