@@ -108,16 +108,16 @@ if ( !$folder->is_right($site->user,DROIT_LECTURE) )
 if ( $_REQUEST["action"] == "cut" )
 {
 
-	if ( $file->is_valid() && $file->is_right($site->user,DROIT_ECRITURE) )
-	{
-		$_SESSION["d_clipboard"]["I".$file->id] = $file->id;
-    		$file->id=null;
-	}
-	elseif ( $folder->id_folder_parent && $folder->is_right($site->user,DROIT_ECRITURE) ) // la racine ne peut pas être coupée
-	{
-		$_SESSION["d_clipboard"]["O".$folder->id] = $folder->id;
-		$folder->load_by_id($folder->id_folder_parent);
-	}
+  if ( $file->is_valid() && $file->is_right($site->user,DROIT_ECRITURE) )
+  {
+    $_SESSION["d_clipboard"]["I".$file->id] = $file->id;
+        $file->id=null;
+  }
+  elseif ( $folder->id_folder_parent && $folder->is_right($site->user,DROIT_ECRITURE) ) // la racine ne peut pas être coupée
+  {
+    $_SESSION["d_clipboard"]["O".$folder->id] = $folder->id;
+    $folder->load_by_id($folder->id_folder_parent);
+  }
 }
 elseif ( $file->is_valid() && $_REQUEST["action"] == "delete" )
 {
@@ -358,24 +358,24 @@ elseif ( $_REQUEST["page"] == "newfile" && $folder->is_right($site->user,DROIT_A
 }
 elseif ( $folder->is_right($site->user,DROIT_ECRITURE) && $_REQUEST["action"] == "paste" )
 {
-	$inffile = new dfile($site->db,$site->dbrw);
-	$inffolder = new dfolder($site->db,$site->dbrw);
+  $inffile = new dfile($site->db,$site->dbrw);
+  $inffolder = new dfolder($site->db,$site->dbrw);
 
-	foreach( $_SESSION["d_clipboard"] as $aid => $id )
-	{
-		if ( $aid{0} == 'I' )
-		{
-			$inffile->load_by_id($id);
-			$inffile->move_to($folder->id);
-		}
-		else
-		{
-			$inffolder->load_by_id($id);
-			$inffolder->move_to($folder->id);
-		}
-	}
+  foreach( $_SESSION["d_clipboard"] as $aid => $id )
+  {
+    if ( $aid{0} == 'I' )
+    {
+      $inffile->load_by_id($id);
+      $inffile->move_to($folder->id);
+    }
+    else
+    {
+      $inffolder->load_by_id($id);
+      $inffolder->move_to($folder->id);
+    }
+  }
 
-	unset($_SESSION["d_clipboard"]);
+  unset($_SESSION["d_clipboard"]);
 }
 
 require_once($topdir."include/cts/sqltable.inc.php");
@@ -388,33 +388,33 @@ $site->start_page(CMS_PREFIX."fichiers","Fichiers");
 
 if ( isset($_SESSION["d_clipboard"]) )
 {
-	$inffile = new dfile($site->db);
-	$inffolder = new dfolder($site->db);
+  $inffile = new dfile($site->db);
+  $inffolder = new dfolder($site->db);
 
-	$cts = new contents("Presse papier");
+  $cts = new contents("Presse papier");
 
-	if ( $folder->is_right($site->user,DROIT_ECRITURE) )
-	$cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;action=paste\">Deplacer ici</a>");
+  if ( $folder->is_right($site->user,DROIT_ECRITURE) )
+  $cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;action=paste\">Deplacer ici</a>");
 
-	$lst = new itemlist("Contenu");
+  $lst = new itemlist("Contenu");
 
-	foreach( $_SESSION["d_clipboard"] as $aid => $id )
-	{
-		if ( $aid{0} == 'I' )
-		{
-			$inffile->load_by_id($id);
-			$lst->add($inffile->get_html_link());
-		}
-		else
-		{
-			$inffolder->load_by_id($id);
-			$lst->add($inffolder->get_html_link());
-		}
-	}
+  foreach( $_SESSION["d_clipboard"] as $aid => $id )
+  {
+    if ( $aid{0} == 'I' )
+    {
+      $inffile->load_by_id($id);
+      $lst->add($inffile->get_html_link());
+    }
+    else
+    {
+      $inffolder->load_by_id($id);
+      $lst->add($inffolder->get_html_link());
+    }
+  }
 
-	$cts->add($lst,true);
+  $cts->add($lst,true);
 
-	$site->add_contents($cts);
+  $site->add_contents($cts);
 }
 
 
@@ -474,12 +474,14 @@ while ( $row = $sub2->get_row() )
 }
 $cts->add($gal,true);
 
-if ( $folder->is_right($site->user,DROIT_AJOUTCAT) )
-  $cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;page=newfolder\">Ajouter un dossier</a>");
+if($user->is_valid())
+{
+  if ( $folder->is_right($site->user,DROIT_AJOUTCAT) )
+    $cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;page=newfolder\">Ajouter un dossier</a>");
 
-if ( $folder->is_right($site->user,DROIT_AJOUTITEM) )
-  $cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;page=newfile\">Ajouter un fichier</a>");
-
+  if ( $folder->is_right($site->user,DROIT_AJOUTITEM) )
+    $cts->add_paragraph("<a href=\"d.php?id_folder=".$folder->id."&amp;page=newfile\">Ajouter un fichier</a>");
+}
 
 
 $site->add_contents($cts);
