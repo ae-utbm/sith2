@@ -25,6 +25,7 @@
 $topdir='../../';
 require_once($topdir .'include/site.inc.php');
 require_once($topdir .'include/cts/sqltable.inc.php');
+require_once($topdir .'include/cts/tree.inc.php');
 require_once($topdir .'include/entities/forum.inc.php');
 $site = new site();
 
@@ -65,7 +66,7 @@ if(!$forum->is_valid())
                         0,
                         "id_forum",
                         "id_forum_parent",
-                        "admin_forum",
+                        "admin_forum"
                         ));
 }
 else
