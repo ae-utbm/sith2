@@ -81,7 +81,7 @@ $GLOBALS['entitiescatalog'] = array (
   'dfolder'         => array ('id_folder', 'titre_folder', 'folder.png', 'd.php',false,'folder.inc.php'),
 
   // Forum
-  'admin_forum'     => array ('id_forum', 'admin_forum', 'forum.png', 'forum2/admin.php'),
+  'admin_forum'     => array ('id_forum', 'admin_forum', 'forum.png', 'forum2/admin/update_forum.php'),
   'forum'           => array ('id_forum', 'titre_forum', 'forum.png', 'forum2/'),
   'sujet'           => array ('id_sujet', 'titre_sujet', 'sujet.png', 'forum2/'),
   'message'         => array ('id_message', 'id_message', 'message.png', 'forum2/'),
