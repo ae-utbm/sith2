@@ -24,7 +24,7 @@
 
 $topdir='../../';
 require_once($topdir .'include/site.inc.php');
-
+require_once($topdir .'include/cts/sqltable.inc.php');
 $site = new site();
 
 if ( !$site->user->is_in_group('root')
