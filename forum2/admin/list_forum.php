@@ -57,7 +57,7 @@ $cts->add(new treects("Forums",
                       0,
                       "id_forum",
                       "id_forum_parent",
-                      "admin_forum",
+                      "admin_forum"
                       ));
 
 $site->add_contents($cts);
