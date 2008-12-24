@@ -37,5 +37,4 @@ $site->start_page("none","Erreur 404");
 $site->add_contents(new error("Page inconnue (404)","Merci de vérifier le lien que vous avez emprunté"));
 $site->end_page();
 
-
 ?>

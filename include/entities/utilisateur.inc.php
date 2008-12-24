@@ -2371,6 +2371,8 @@ L'équipe info AE";
 
   function gen_serviceident()
   {
+    if(!$this->is_valid())
+      return;
     $uid=gen_uid();
     new update($this->dbrw,
                "utilisateurs",
@@ -2379,7 +2381,19 @@ L'équipe info AE";
     $body = "Bonjour,
 Votre identifiant de services est : $uid
 
-L'équipe info AE";
+Vous pouvez notament l'utiliser pour consulter les flux rss du forum :
+http://ae.utbm.fr/forum2/rss.php?id_utilisateur=".$this->id."&serviceident=$uid
+
+Vous ne devez en aucun cas communiquer cet identifiant à une tierce personne. Cet
+identifiant est strictement personnel. En cas de perte, un nouvel idententifiant
+peut être généré en retournant sur votre fiche utilisateur sur le site AE
+
+Cordialement,
+
+L'équipe info AE
+
+--
+http://ae.utbm.fr";
 
     $ret = mail($this->email,
                 "[Site AE] Nouvel identifiant de services",
@@ -2391,7 +2405,7 @@ L'équipe info AE";
   {
     $req = new requete($this->db,
                        'SELECT * FROM `utilisateurs` '.
-                       'WHERE `id_utilisateur` = \''. mysql_real_escape_string($id).'\' '.
+                       'WHERE `id_utilisateur` = \''. intval($id).'\' '.
                        'AND serviceident=\''.mysql_real_escape_string($key).'\' '.
                        'LIMIT 1');
 

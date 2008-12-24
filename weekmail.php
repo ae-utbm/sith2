@@ -41,7 +41,7 @@ if(isset($_REQUEST['id']))
   else
   {
     list($id,$date,$title,$content,$statut)=$req->get_row();
-    $cts = new contents('<a href="weekmail.php">Weekmails</a> / [Weekmail] '.$title);
+    $cts = new contents('<a href="weekmail.php">Weekmails</a> / [Weekmail AE] '.$title);
     list($annee, $mois, $jour) = explode("-", $date);
     $date=$jour."/".$mois."/".$annee;
     $cts->add_paragraph('Envoyé le '. $date);
@@ -53,7 +53,7 @@ if(isset($_REQUEST['id']))
 }
 
 $sql = 'SELECT id'.
-       ',CONCAT(\'[Weekmail] \',title) as title'.
+       ',CONCAT(\'[Weekmail AE] \',title) as title'.
        ',CONCAT(RIGHT(CONCAT(\'00\',DAY(date)),2),\'/\',RIGHT(CONCAT(\'00\',MONTH(date)),2),\'/\',YEAR(date)) as date '.
        'FROM weekmail '.
        'WHERE statut=1 '.

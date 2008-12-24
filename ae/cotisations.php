@@ -48,15 +48,15 @@ if (date("m-d") < "02-15")
 else
 {
   if (date("m-d") < "08-15")
-    {
-      $date1 = date("Y") . "-08-15";
-      $date2 = date("Y") + 1 . "-02-15";
-    }
+  {
+    $date1 = date("Y") . "-08-15";
+    $date2 = date("Y") + 1 . "-02-15";
+  }
   else
-    {
-      $date1 = date("Y") + 1 . "-02-15";
-      $date2 = date("Y") + 1 . "-08-15";
-    }
+  {
+    $date1 = date("Y") + 1 . "-02-15";
+    $date2 = date("Y") + 1 . "-08-15";
+  }
 }
 
 $site->start_page ("none", "Gestion des cotisations");
@@ -266,7 +266,7 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     $user->droit_image = $_REQUEST["droit"]==true;
     $user->sexe = $_REQUEST['sexe'];
     $user->surnom = $_REQUEST['surnom'];
-    $user->date_naissance = $_REQUEST['date_naissance'];
+    $user->date_naissance = strtotime($_REQUEST['date_naissance']);
     $user->addresse = $_REQUEST['addresse'];
     $ville = new ville($site->db);
     $pays = new pays($site->db);

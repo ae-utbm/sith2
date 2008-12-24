@@ -38,40 +38,40 @@ $asso = new asso($site->db,$site->dbrw);
 
 if ( ($_REQUEST['action'] == "addasso") && $site->user->is_in_group("gestion_ae") )
 {
-	$asso_parent = new asso($site->db);
+  $asso_parent = new asso($site->db);
 
-	if ( !$_REQUEST['nom']  || !$_REQUEST['nom_unix'] )
-	{
-		$Error = "Un ou plusieurs champs sont incomplets.";
-	}
-	else
-	{
-		if ( $_REQUEST['asso_parent'] )
-		{
-			$asso_parent->load_by_id($_REQUEST['asso_parent']);
-			if ( $asso_parent->id < 1 )
-				$asso_parent->id = null;
-		}
-		else
-			$asso_parent->id = null;
+  if ( !$_REQUEST['nom']  || !$_REQUEST['nom_unix'] )
+  {
+    $Error = "Un ou plusieurs champs sont incomplets.";
+  }
+  else
+  {
+    if ( $_REQUEST['asso_parent'] )
+    {
+      $asso_parent->load_by_id($_REQUEST['asso_parent']);
+      if ( $asso_parent->id < 1 )
+        $asso_parent->id = null;
+    }
+    else
+      $asso_parent->id = null;
 
     if ( $GLOBALS["is_using_ssl"] )
-		  $asso->add_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email'],isset($_REQUEST['distinct_benevole']));
+      $asso->add_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],$_REQUEST['login_email'],$_REQUEST['passwd_email'],isset($_REQUEST['distinct_benevole']));
     else
-		  $asso->add_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],null,null,isset($_REQUEST['distinct_benevole']));
-	}
+      $asso->add_asso($_REQUEST['nom'],$_REQUEST['nom_unix'],$asso_parent->id,$_REQUEST["adresse"],$_REQUEST['email'],$_REQUEST['siteweb'],null,null,isset($_REQUEST['distinct_benevole']));
+  }
 }
 else if ( isset($_REQUEST["id_asso"]) )
 {
-	$asso_parent = new asso($site->db);
-	$asso->load_by_id($_REQUEST["id_asso"]);
-	if ( $asso->id < 1 )
-	{
-		$site->error_not_found();
-		exit();
-	}
+  $asso_parent = new asso($site->db);
+  $asso->load_by_id($_REQUEST["id_asso"]);
+  if ( $asso->id < 1 )
+  {
+    $site->error_not_found();
+    exit();
+  }
 
-	// Correction du vocabulaire
+  // Correction du vocabulaire
   if ( !is_null($asso->id_parent) )
   {
     $GLOBALS['ROLEASSO'][ROLEASSO_PRESIDENT] = "Responsable";
@@ -83,8 +83,8 @@ else if ( isset($_REQUEST["id_asso"]) )
     $GLOBALS['ROLEASSO'][ROLEASSO_VICEPRESIDENT] = "Vice-président";
   }
 
-	if ( $site->user->is_in_group("gestion_ae") || $asso->is_member_role( $site->user->id, ROLEASSO_VICEPRESIDENT ) )
-	{
+  if ( $site->user->is_in_group("gestion_ae") || $asso->is_member_role( $site->user->id, ROLEASSO_VICEPRESIDENT ) )
+  {
 
     if ( $_REQUEST['action'] == "applyedit" )
     {
@@ -100,8 +100,8 @@ else if ( isset($_REQUEST["id_asso"]) )
       }
       else
       {
-			  if ( $site->user->is_in_group("gestion_ae") )
-				{
+        if ( $site->user->is_in_group("gestion_ae") )
+        {
           $asso_parent->load_by_id($_REQUEST['asso_parent']);
 
           if ( $GLOBALS["is_using_ssl"] )
@@ -139,10 +139,10 @@ else if ( isset($_REQUEST["id_asso"]) )
       $_REQUEST['page'] = "edit";
     }
 
-	}
+  }
 
-	if ( ($_REQUEST['page'] == "edit" ) && ($site->user->is_in_group("gestion_ae") || $asso->is_member_role($site->user->id, ROLEASSO_VICEPRESIDENT)))
-	{
+  if ( ($_REQUEST['page'] == "edit" ) && ($site->user->is_in_group("gestion_ae") || $asso->is_member_role($site->user->id, ROLEASSO_VICEPRESIDENT)))
+  {
     $site->start_page("presentation",$asso->nom);
     $cts = new contents($asso->get_html_path());
     $cts->add(new tabshead($asso->get_tabs($site->user),"info"));
@@ -154,7 +154,7 @@ else if ( isset($_REQUEST["id_asso"]) )
       $frm->error($Error);
     if ( $site->user->is_in_group("gestion_ae") )
     {
-			$frm->add_text_field("nom","Nom de l'association",$asso->nom,true);
+      $frm->add_text_field("nom","Nom de l'association",$asso->nom,true);
       $frm->add_entity_select("asso_parent", "Association parent", $site->db, "asso",$asso->id_parent,true);
     }
     if ( $site->user->is_in_group("root") )
@@ -163,7 +163,7 @@ else if ( isset($_REQUEST["id_asso"]) )
       $frm->add_text_field("nom_unix","Nom 'unix' (lettres et chiffres sans espaces)",$asso->nom_unix,true);
     }
 
-		$frm->add_text_area("adresse","Adresse postale",$asso->adresse_postale);
+    $frm->add_text_area("adresse","Adresse postale",$asso->adresse_postale);
 
     $frm->add_text_field("email","Email",$asso->email);
     $frm->add_text_field("siteweb","Site web",$asso->siteweb);
@@ -196,15 +196,15 @@ else if ( isset($_REQUEST["id_asso"]) )
     $site->add_contents($cts);
     $site->end_page();
     exit();
-	}
+  }
   $site->add_css("css/doku.css");
-	$site->start_page("presentation",$asso->nom);
+  $site->start_page("presentation",$asso->nom);
 
-	$cts = new contents($asso->get_html_path());
-	if ( $site->user->is_in_group("moderateur_site") || $asso->is_member_role( $site->user->id, ROLEASSO_MEMBREBUREAU ) || $site->user->is_in_group("root") )
-	  $cts->set_toolbox(new toolbox(array("article.php?page=edit&name=activites:".$asso->nom_unix=>"Editer Présentation","asso.php?page=edit&id_asso=".$asso->id=>"Editer")));
+  $cts = new contents($asso->get_html_path());
+  if ( $site->user->is_in_group("moderateur_site") || $asso->is_member_role( $site->user->id, ROLEASSO_MEMBREBUREAU ) || $site->user->is_in_group("root") )
+    $cts->set_toolbox(new toolbox(array("article.php?page=edit&name=activites:".$asso->nom_unix=>"Editer Présentation","asso.php?page=edit&id_asso=".$asso->id=>"Editer")));
 
-	$cts->add(new tabshead($asso->get_tabs($site->user),"info"));
+  $cts->add(new tabshead($asso->get_tabs($site->user),"info"));
 
 
   if ( $_REQUEST["action"] == "selfenroll" && !is_null($asso->id_parent) )
@@ -225,39 +225,39 @@ else if ( isset($_REQUEST["id_asso"]) )
   }
 
 
-	/*$img = "/var/img/logos/".$asso->nom_unix.".small.png";
-	if ( file_exists("/var/www/ae/www/ae2".$img) )
-		$cts->add(new image($asso->nom, $img, "newsimg"));*/
+  /*$img = "/var/img/logos/".$asso->nom_unix.".small.png";
+  if ( file_exists("/var/www/ae/www/ae2".$img) )
+    $cts->add(new image($asso->nom, $img, "newsimg"));*/
 
-	$page = new page($site->db);
-	$page->load_by_pagename("activites:".$asso->nom_unix);
-	if ( $page->id > 0 )
-	{
-		$cts->add_title(2,"Pr&eacute;sentation");
-		$cts->add($page->get_contents());
+  $page = new page($site->db);
+  $page->load_by_pagename("activites:".$asso->nom_unix);
+  if ( $page->id > 0 )
+  {
+    $cts->add_title(2,"Pr&eacute;sentation");
+    $cts->add($page->get_contents());
 
-	}
-	elseif ( $site->user->is_in_group("moderateur_site") )
-		$cts->add_paragraph("<a href=\"article.php?page=edit&amp;name=activites:".$asso->nom_unix."\">Creer l'article de pr&eacute;sentation</a>");
+  }
+  elseif ( $site->user->is_in_group("moderateur_site") )
+    $cts->add_paragraph("<a href=\"article.php?page=edit&amp;name=activites:".$asso->nom_unix."\">Creer l'article de pr&eacute;sentation</a>");
 
-	$req = new requete($site->db,
-		"SELECT `id_asso`, `nom_asso`, `nom_unix_asso` " .
-		"FROM `asso` WHERE `id_asso_parent`='".$asso->id."' " .
-		"ORDER BY `nom_asso`");
-	if ( $req->lines > 0 )
-	{
+  $req = new requete($site->db,
+    "SELECT `id_asso`, `nom_asso`, `nom_unix_asso` " .
+    "FROM `asso` WHERE `id_asso_parent`='".$asso->id."' " .
+    "ORDER BY `nom_asso`");
+  if ( $req->lines > 0 )
+  {
     require_once($topdir."include/cts/gallery.inc.php");
 
     $site->add_css("css/asso.css");
 
-		$vocable = "Activités";
-		if ( $asso->id == 1 )
-		  $vocable = "Pôles";
+    $vocable = "Activités";
+    if ( $asso->id == 1 )
+      $vocable = "Pôles";
 
     $gal = new gallery($vocable,"clubsgal");
     while ( $row = $req->get_row() )
     {
-  		$img = "/var/img/logos/".$row['nom_unix_asso'].".small.png";
+      $img = "/var/img/logos/".$row['nom_unix_asso'].".small.png";
 
       if ( !file_exists("/var/www/ae/www/ae2".$img) )
       {
@@ -272,15 +272,15 @@ else if ( isset($_REQUEST["id_asso"]) )
     }
     $cts->add($gal,true);
 
-	}
+  }
 
   $links = array();
 
   if ( $asso->email )
-		$links[] = "<b>Contact</b> : <a href=\"mailto:".$asso->email."\">".$asso->email."</a>";
+    $links[] = "<b>Contact</b> : <a href=\"mailto:".$asso->email."\">".$asso->email."</a>";
 
   if ( $asso->siteweb )
-		$links[] = "<b>Site web</b> : <a href=\"".$asso->siteweb."\">".$asso->siteweb."</a>";
+    $links[] = "<b>Site web</b> : <a href=\"".$asso->siteweb."\">".$asso->siteweb."</a>";
 
   if ( is_null($asso->id_parent) )
     $extracond .= "`asso_membre`.`role` > '".ROLEASSO_MEMBREACTIF."' ";
@@ -288,28 +288,28 @@ else if ( isset($_REQUEST["id_asso"]) )
     $extracond .= "`asso_membre`.`role` > '".ROLEASSO_TRESORIER."' ";
 
   $req = new requete($site->db,
-		"SELECT COUNT(*) " .
-		"FROM `asso_membre` " .
-		"WHERE `asso_membre`.`date_fin` IS NULL " .
-		"AND `asso_membre`.`id_asso`='".$asso->id."' " .
-		"AND ".$extracond);
+    "SELECT COUNT(*) " .
+    "FROM `asso_membre` " .
+    "WHERE `asso_membre`.`date_fin` IS NULL " .
+    "AND `asso_membre`.`id_asso`='".$asso->id."' " .
+    "AND ".$extracond);
 
   list($respcnt) = $req->get_row();
 
   if ( $respcnt > 0 )
   {
     if ( is_null($asso->id_parent) )
-		  $links[] = "<b>Bureau</b> : <a href=\"asso/membres.php?id_asso=".$asso->id."\">Voir les membres du bureau</a>";
-		else
-		  $links[] = "<b>Responsable</b> : <a href=\"asso/membres.php?id_asso=".$asso->id."\">Voir le(s) responsable(s)</a>";
-	}
+      $links[] = "<b>Bureau</b> : <a href=\"asso/membres.php?id_asso=".$asso->id."\">Voir les membres du bureau</a>";
+    else
+      $links[] = "<b>Responsable</b> : <a href=\"asso/membres.php?id_asso=".$asso->id."\">Voir le(s) responsable(s)</a>";
+  }
 
-	$links[] = "<b>Historique</b> : <a href=\"asso/history.php?id_asso=".$asso->id."\">Voir résumé</a>";
+  $links[] = "<b>Historique</b> : <a href=\"asso/history.php?id_asso=".$asso->id."\">Voir résumé</a>";
 
-	if ( count($links) > 0)
-		$cts->add(new itemlist("",false,$links),true);
+  if ( count($links) > 0)
+    $cts->add(new itemlist("",false,$links),true);
 
-	$cts->puts("<div class=\"clearboth\"></div>");
+  $cts->puts("<div class=\"clearboth\"></div>");
 
   if ( $asso->is_mailing_allowed() && !is_null($asso->id_parent) && (!$site->user->is_valid() || !$asso->is_member($site->user->id)) )
   {
@@ -320,9 +320,9 @@ else if ( isset($_REQUEST["id_asso"]) )
 
   $cts->add(new taglist($asso),true);
 
-	$site->add_contents($cts);
-	$site->end_page();
-	exit();
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
 }
 
 require_once($topdir. "include/cts/tree.inc.php");
@@ -330,12 +330,12 @@ require_once($topdir. "include/cts/tree.inc.php");
 $site->start_page("presentation","Associations");
 
 $req = new requete($site->db,
-		"SELECT " .
-		"`asso1`.*, " .
-		"`asso2`.`id_asso` as `id_asso_parent` " .
-		"FROM `asso` AS `asso1`" .
-		"LEFT JOIN `asso` AS `asso2` ON `asso1`.`id_asso_parent`=`asso2`.`id_asso`" .
-		"ORDER BY `asso2`.`id_asso`,`asso1`.`nom_asso` ");
+    "SELECT " .
+    "`asso1`.*, " .
+    "`asso2`.`id_asso` as `id_asso_parent` " .
+    "FROM `asso` AS `asso1`" .
+    "LEFT JOIN `asso` AS `asso2` ON `asso1`.`id_asso_parent`=`asso2`.`id_asso`" .
+    "ORDER BY `asso2`.`id_asso`,`asso1`.`nom_asso` ");
 
 $site->add_contents(new treects ( "Associations", $req, 0, "id_asso", "id_asso_parent", "nom_asso" ));
 
@@ -349,7 +349,7 @@ if ( $site->user->is_in_group("root") )
   $frm->add_hidden("action","addasso");
   $frm->add_text_field("nom","Nom de l'association","",true);
   $frm->add_text_field("nom_unix","Nom 'unix' (lettres et chiffres sans espaces)","",true);
-	$frm->add_entity_select("asso_parent", "Association parent", $site->db, "asso",0,true);
+  $frm->add_entity_select("asso_parent", "Association parent", $site->db, "asso",0,true);
   $frm->add_text_area("adresse","Adresse postale");
 
   $frm->add_text_field("email","Email",$asso->email);

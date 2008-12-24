@@ -46,7 +46,7 @@ $tabs = array(array('','forum2/admin/index.php','Accueil'),
 $cts->add(new tabshead($tabs,$_REQUEST['view']));
 
 $req = new requete($site->db,
-                   'SELECT `forum1`.`id_forum`'.
+                   'SELECT `forum1`.`id_forum` as idx_forum'.
                    ', `forum1`.`titre_forum` as `admin_forum`'.
                    ', `forum2`.`id_forum` as `id_forum_parent` '.
                    'FROM `frm_forum` as `forum1` '.
@@ -56,7 +56,7 @@ $req = new requete($site->db,
 $cts->add(new treects("Forums",
                       $req,
                       0,
-                      "id_forum",
+                      "idx_forum",
                       "id_forum_parent",
                       "admin_forum"
                       ));
