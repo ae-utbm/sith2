@@ -721,6 +721,7 @@ class site extends interfaceweb
     "INNER JOIN `utl_etu_utbm` ON `utilisateurs`.`id_utilisateur` = `utl_etu_utbm`.`id_utilisateur` ".
     "WHERE `utilisateurs`.`date_naissance_utl` LIKE '%-" . date("m-d") . "' ".
     "AND (`utilisateurs`.`ancien_etudiant_utl` = '0' OR `utilisateurs`.`ae_utl` = '1') ".
+    "AND (`utl_etu_utbm`.`role_utbm` LIKE 'etu' OR `utl_etu_utbm`.`role_utbm` LIKE 'anc') ".
     "ORDER BY `utilisateurs`.`date_naissance_utl` DESC");
 
     if ($req->lines > 0)
