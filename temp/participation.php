@@ -34,7 +34,7 @@ while(list($id,$nom,$fin)=$req->get_row())
   list($nb)=$req2->get_row();
   $participation = round(($nb/$max)*100,0);
   $prog = new progressbar($participation,$nom);
-  $cts->add($prog);
+  $cts->add($prog,true);
 }
 $site->add_contents($cts);
 $site->end_page();
