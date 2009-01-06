@@ -53,12 +53,12 @@ if ( isset($_REQUEST["id_asso"]) )
   $brd = new board();
 
   $lst = new itemlist("Outils");
-  $lst->add("<a href=\"../salle.php?page=reservation&amp;id_asso=".$asso->id."\">Reserver une salle</a>");
-  $lst->add("<a href=\"../emprunt.php?id_asso=".$asso->id."\">Reserver du matériel</a>");
-  $lst->add("<a href=\"../news.php?id_asso=".$asso->id."\">Proposer une nouvelle</a>");
+  $lst->add("<a href=\"".$topdir."salle.php?page=reservation&amp;id_asso=".$asso->id."\">Reserver une salle</a>");
+  $lst->add("<a href=\"".$topdir."emprunt.php?id_asso=".$asso->id."\">Reserver du matériel</a>");
+  $lst->add("<a href=\"".$topdir."news.php?id_asso=".$asso->id."\">Proposer une nouvelle</a>");
   $lst->add("<a href=\"reservations.php?id_asso=".$asso->id."\">Suivre les reservations de salle et emprunts de matériel</a>");
   $lst->add("<a href=\"sendfax.php?id_asso=".$asso->id."\">Envoyer un fax</a>");
-  $lst->add("<a href=\"../entreprise.php\">Carnet d'adresse des entreprises</a>");
+  $lst->add("<a href=\"".$topdir."entreprise.php\">Carnet d'adresse des entreprises</a>");
   $lst->add("<a href=\"campagne.php?id_asso=".$asso->id."\">Organiser une campagne</a>");
 
   $brd->add($lst,true);
@@ -86,19 +86,32 @@ if ( isset($_REQUEST["id_asso"]) )
     if ( $reqa->lines == 1 )
     {
       list($id,$nom) = $reqa->get_row();
-      $lst->add("<a href=\"../compta/classeur.php?id_classeur=$id\">Consulter le classeur $nom</a>");
-      $lst->add("<a href=\"../compta/classeur.php?id_classeur=$id&amp;page=types\">Obtenir le bilan du classeur $nom</a>");
-      $lst->add("<a href=\"../compta/classeur.php?id_classeur=$id&amp;page=new\">Ajouter une opération dans le classeur $nom</a>");
-      $lst->add("<a href=\"../compta/classeur.php?id_classeur=$id&amp;view=budget\">Proposer un budget pour le classeur $nom</a>");
+      $lst->add("<a href=\"".$topdir."compta/classeur.php?id_classeur=$id\">Consulter le classeur $nom</a>");
+      $lst->add("<a href=\"".$topdir."compta/classeur.php?id_classeur=$id&amp;page=types\">Obtenir le bilan du classeur $nom</a>");
+      $lst->add("<a href=\"".$topdir."compta/classeur.php?id_classeur=$id&amp;page=new\">Ajouter une opération dans le classeur $nom</a>");
+      $lst->add("<a href=\"".$topdir."compta/classeur.php?id_classeur=$id&amp;view=budget\">Proposer un budget pour le classeur $nom</a>");
 
     }
-    $lst->add("<a href=\"../compta/cptasso.php?id_cptasso=$id_cptasso\">Gestion des classeurs $nom_cpbc</a>");
+    $lst->add("<a href=\"".$topdir."compta/cptasso.php?id_cptasso=$id_cptasso\">Gestion des classeurs $nom_cpbc</a>");
   }
-  $lst->add("<a href=\"../compta/\">Accès la comptabilité</a>");
+  $lst->add("<a href=\"".$topdir."compta/\">Accès la comptabilité</a>");
   $brd->add($lst,true);
 
+  $req = new requete ($site->db,
+    'SELECT id_comptoir, nom_cpt '.
+    'FROM cpt_comptoir '.
+    'WHERE id_groupe_vendeur=\''.(20000+$asso->id).'\''.
+    'AND type_cpt=2';
+  if ( $req->lines > 0 )
+  {
+    $lst = new itemlist("Comptoirs");
+    while(list($id,$nom) = $reqa->get_row())
+      $lst->add("<a href=\"".$topdir."comptoir/bureau.php?id_comptoir=".$id"\">".$nom."</a>");
+    $brd->add($lst,true);
+  }
+
   $lst = new itemlist("Inventaire");
-  $lst->add("<a href=\"../objet.php?id_asso=".$asso->id."\">Ajouter un objet</a>");
+  $lst->add("<a href=\"".$topdir."objet.php?id_asso=".$asso->id."\">Ajouter un objet</a>");
   $lst->add("<a href=\"inventaire.php?id_asso=".$asso->id."\">Consulter</a>");
   $brd->add($lst,true);
 
@@ -134,8 +147,8 @@ if ( isset($_REQUEST["id_asso"]) )
   $cts->add($brd);
 
   $lst = new itemlist("Documentation utile");
-  $lst->add("<a href=\"../article.php?name=docs:index\">Documentation du site</a>");
-  $lst->add("<a href=\"../wiki2/?name=guide_resp\">Guide des responsables d'activités</a>");
+  $lst->add("<a href=\"".$topdir."article.php?name=docs:index\">Documentation du site</a>");
+  $lst->add("<a href=\"".$topdir."wiki2/?name=guide_resp\">Guide des responsables d'activités</a>");
   $brd->add($lst,true);
 
   $site->add_contents($cts);
