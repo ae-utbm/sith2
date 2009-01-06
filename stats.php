@@ -640,8 +640,8 @@ elseif ( $_REQUEST["view"] == "elections" )
   if(isset($_REQUEST['bananas']) && $_REQUEST['bananas'] = "cuitas")
     $histo=true;
 
-  $cts = new contents("Participation aux élections");
-  $cts->add_paragraph("<center><img src=\"./stats.php?view=elections&bananas=cuitas\" alt=\"bananas cuitas\" /></center>");
+  $cts2 = new contents("Participation aux élections");
+  $cts2->add_paragraph("<center><img src=\"./stats.php?view=elections&bananas=cuitas\" alt=\"bananas cuitas\" /></center>");
   $req = new requete($site->db,
          "SELECT ".
          "  id_election".
@@ -672,7 +672,7 @@ elseif ( $_REQUEST["view"] == "elections" )
       "WHERE `id_election` =".$id);
     list($vot)=$req2->get_row();
 
-    $cts2 = new contents($nom);
+    $cts3 = new contents($nom." (".$i.")");
     $lst = new itemlist();
     $lst->add("Début : ".date("d/m/Y H:i",strtotime($deb)));
     $lst->add("Fin : ".date("d/m/Y H:i",strtotime($fin)));
@@ -684,8 +684,8 @@ elseif ( $_REQUEST["view"] == "elections" )
     if($histo)
       $datas[$i]=$part;
     $prog = new progressbar($part);
-    $cts2->add($prog);
-    $cts->add($cts2,true);
+    $cts3->add($prog);
+    $cts2->add($cts3,true);
   }
   if($histo)
   {
@@ -694,6 +694,7 @@ elseif ( $_REQUEST["view"] == "elections" )
     $hist->destroy();
     exit();
   }
+  $cts->add($cts2,true);
 }
 else
 {
