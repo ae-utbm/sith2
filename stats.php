@@ -652,8 +652,10 @@ elseif ( $_REQUEST["view"] == "elections" )
          "WHERE id_groupe=10000 ".
          "ORDER BY date_debut, date_fin");
   $elections = array();
+  $i=0;
   while(list($id,$nom,$deb,$fin)=$req->get_row())
   {
+    $i++;
     $req2 = new requete($site->db,
       "SELECT ".
       "COUNT(DISTINCT(id_utilisateur)) as nb ".
@@ -680,7 +682,7 @@ elseif ( $_REQUEST["view"] == "elections" )
 
     $part = round(($vot/$cot)*100,1);
     if($histo)
-      $datas[utf8_decode($nom)]=$part;
+      $datas[$i]=$part;
     $prog = new progressbar($part);
     $cts2->add($prog);
     $cts->add($cts2,true);
