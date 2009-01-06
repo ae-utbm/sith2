@@ -105,7 +105,7 @@ if ( isset($_REQUEST["id_asso"]) )
   if ( $req->lines > 0 )
   {
     $lst = new itemlist("Comptoirs");
-    while(list($id,$nom) = $reqa->get_row())
+    while(list($id,$nom) = $req->get_row())
       $lst->add("<a href=\"".$topdir."comptoir/bureau.php?id_comptoir=".$id."\">".$nom."</a>");
     $brd->add($lst,true);
   }
