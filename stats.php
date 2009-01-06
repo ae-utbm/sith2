@@ -651,7 +651,7 @@ elseif ( $_REQUEST["view"] == "elections" )
          "FROM vt_election ".
          "WHERE id_groupe=10000 ".
          "ORDER BY date_debut, date_fin");
-  $elections = array();
+  $elections = array(0=>"Participation en %");
   $i=0;
   while(list($id,$nom,$deb,$fin)=$req->get_row())
   {
