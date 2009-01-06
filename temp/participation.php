@@ -28,12 +28,13 @@ while(list($id,$nom,$fin)=$req->get_row())
   list($max)=$req2->get_row();
   $req2 = new requete($site->db,
     "SELECT ".
-    "COUNT(*) ".
+    "COUNT(*) as nb ".
     "FROM `vt_a_vote` ".
     "WHERE `id_election` =".$id);
   list($nb)=$req2->get_row();
   $participation = round(($nb/$max)*100,1);
-  $prog = new progressbar($participation,$nom);
+  $titre = $nom." - ".$max." cotisants, ".$nb." votants";
+  $prog = new progressbar($participation,$titre);
   $cts->add($prog,true);
 }
 $site->add_contents($cts);
