@@ -35,7 +35,7 @@ while(list($id,$nom,$deb,$fin)=$req->get_row())
     "WHERE `id_election` =".$id);
   list($vot)=$req2->get_row();
 
-  $cts2 new contents($nom);
+  $cts2 = new contents($nom);
   $lst = new itemlist();
   $lst->add("Début : ".date("d/m/Y H:i",strtotime($deb)));
   $lst->add("Fin : ".date("d/m/Y H:i",strtotime($fin)));
