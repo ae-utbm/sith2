@@ -13,7 +13,7 @@ $req = new requete($site->db,
        ", nom_elec".
        ", date_fin ".
        "FROM vt_election ".
-       "WHERE id_groupe=10000".
+       "WHERE id_groupe=10000 ".
        "ORDER BY date_debut, date_fin");
 $elections = array();
 while(list($id,$nom,$fin)=$req->get_row())
