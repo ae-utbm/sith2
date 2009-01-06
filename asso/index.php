@@ -101,7 +101,7 @@ if ( isset($_REQUEST["id_asso"]) )
     'SELECT id_comptoir, nom_cpt '.
     'FROM cpt_comptoir '.
     'WHERE id_groupe_vendeur=\''.(20000+$asso->id).'\''.
-    'AND type_cpt=2';
+    'AND type_cpt=2');
   if ( $req->lines > 0 )
   {
     $lst = new itemlist("Comptoirs");
