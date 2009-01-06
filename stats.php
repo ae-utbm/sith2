@@ -689,7 +689,7 @@ elseif ( $_REQUEST["view"] == "elections" )
   }
   if($histo)
   {
-    $hist = new histogram($datas, "Taux de participation aux élections");
+    $hist = new histogram($datas, utf8_decode("Taux de participation aux élections"));
     $hist->png_render();
     $hist->destroy();
     exit();
