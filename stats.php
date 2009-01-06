@@ -46,7 +46,6 @@ if(!$site->user->is_in_group ("gestion_ae"))
     $tabs[]=array("matmatronch","stats.php?view=matmatronch", "Matmatronch");
   if($site->user->is_asso_role ( 2, 9 ))
     $tabs[]=array("comptoirs","stats.php?view=comptoirs", "Comptoirs");
-  $tabs[]=array("electionss","stats.php?view=elections", "Élections");
 }
 else
 {
@@ -56,7 +55,8 @@ else
                 array("matmatronch","stats.php?view=matmatronch", "Matmatronch"),
                 array("sas","stats.php?view=sas", "SAS"),
                 array("forum","stats.php?view=forum", "Forum"),
-                array("comptoirs","stats.php?view=comptoirs", "Comptoirs")
+                array("comptoirs","stats.php?view=comptoirs", "Comptoirs"),
+                array("electionss","stats.php?view=elections", "Élections");
                 );
 }
 
