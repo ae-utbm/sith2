@@ -106,7 +106,7 @@ if ( isset($_REQUEST["id_asso"]) )
   {
     $lst = new itemlist("Comptoirs");
     while(list($id,$nom) = $reqa->get_row())
-      $lst->add("<a href=\"".$topdir."comptoir/bureau.php?id_comptoir=".$id"\">".$nom."</a>");
+      $lst->add("<a href=\"".$topdir."comptoir/bureau.php?id_comptoir=".$id."\">".$nom."</a>");
     $brd->add($lst,true);
   }
 
