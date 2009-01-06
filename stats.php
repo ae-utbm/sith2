@@ -56,7 +56,7 @@ else
                 array("sas","stats.php?view=sas", "SAS"),
                 array("forum","stats.php?view=forum", "Forum"),
                 array("comptoirs","stats.php?view=comptoirs", "Comptoirs"),
-                array("electionss","stats.php?view=elections", "Élections");
+                array("electionss","stats.php?view=elections", "Élections")
                 );
 }
 
