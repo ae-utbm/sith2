@@ -20,7 +20,7 @@ while(list($id,$nom,$fin)=$req->get_row())
 {
   $req2 = new requete($site->db,
     "SELECT ".
-    "COUNT(DISTINCT(id_utilisateur) as nb ".
+    "COUNT(DISTINCT(id_utilisateur)) as nb ".
     "FROM `ae_cotisations` ".
     "WHERE ".
     "`date_fin_cotis` > '".$fin."' ".
