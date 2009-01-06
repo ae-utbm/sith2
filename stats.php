@@ -378,7 +378,6 @@ elseif ( $_REQUEST["view"] == "forum" )
 
   if (isset($_REQUEST['toptenimg']))
     {
-      require_once($topdir. "include/graph.inc.php");
       $req = "SELECT
                 COUNT(`id_message`) as totmesg
               , `utilisateurs`.`alias_utl`
@@ -433,7 +432,6 @@ elseif ( $_REQUEST["view"] == "forum" )
       $de = mysql_real_escape_string($de);
 
 
-      require_once($topdir. "include/graph.inc.php");
       $query =
   "SELECT
             DATE_FORMAT(date_message,'%Y-%m-%d') AS `datemesg`
@@ -637,7 +635,13 @@ elseif ( $_REQUEST["view"] == "elections" )
 {
   if (!$site->user->is_in_group ("gestion_ae"))
     $site->error_forbidden("none","group",9);
+
+  $histo=false;
+  if(isset($_REQUEST['bananas']) && $_REQUEST['bananas'] = "cuitas")
+    $histo=true;
+
   $cts = new contents("Participation aux élections");
+  $cts->add_paragraph("<center><img src=\"./stats.php?view=elections&bananas=cuitas\" alt=\"bananas cuitas\" /></center>");
   $req = new requete($site->db,
          "SELECT ".
          "  id_election".
@@ -675,9 +679,18 @@ elseif ( $_REQUEST["view"] == "elections" )
     $cts2->add($lst);
 
     $part = round(($vot/$cot)*100,1);
+    if($histo)
+      $datas[utf8_decode($nom)]=$part;
     $prog = new progressbar($part);
     $cts2->add($prog);
     $cts->add($cts2,true);
+  }
+  if($histo)
+  {
+    $hist = new histogram($datas, "graph graph graph");
+    $hist->png_render();
+    $hist->destroy();
+    exit();
   }
 }
 else
