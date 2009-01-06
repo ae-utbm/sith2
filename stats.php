@@ -678,6 +678,7 @@ elseif ( $_REQUEST["view"] == "elections" )
     $prog = new progressbar($part);
     $cts2->add($prog);
     $cts->add($cts2,true);
+  }
 }
 else
 {
