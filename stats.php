@@ -678,7 +678,7 @@ elseif ( $_REQUEST["view"] == "elections" )
     $lst->add("Fin : ".date("d/m/Y H:i",strtotime($fin)));
     $lst->add("Cotisants : ".$cot);
     $lst->add("Votants : ".$vot);
-    $cts2->add($lst);
+    $cts3->add($lst);
 
     $part = round(($vot/$cot)*100,1);
     if($histo)
