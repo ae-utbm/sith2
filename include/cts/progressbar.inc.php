@@ -53,7 +53,7 @@ class progressbar extends stdcontents
     if ( !is_null($this->class) )
       $this->buffer = "<div class=\"progressbar ".$this->class."\">\n";
     else
-      $this->buffer = "<div class=\"brogressbar\">\n";
+      $this->buffer = "<div class=\"progressbar\">\n";
     $this->buffer.= "<div class=\"progressbar_prog\" style=\"width=".$this->percent."%;\">\n";
     $this->buffer.= "</div><div class=\"progressbar_value\">".$this->percent."%</div>\n";
     $this->buffer.= "</div>\n";
