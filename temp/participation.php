@@ -32,7 +32,7 @@ while(list($id,$nom,$fin)=$req->get_row())
     "FROM `vt_a_vote` ".
     "WHERE `id_election` =".$id);
   list($nb)=$req2->get_row();
-  $participation = round(($nb/$max)*100,0);
+  $participation = round(($nb/$max)*100,1);
   $prog = new progressbar($participation,$nom);
   $cts->add($prog,true);
 }
