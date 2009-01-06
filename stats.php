@@ -651,7 +651,7 @@ elseif ( $_REQUEST["view"] == "elections" )
          "FROM vt_election ".
          "WHERE id_groupe=10000 ".
          "ORDER BY date_debut, date_fin");
-  $datas = array(0=>"Participation en %");
+  $datas = array(0=>"Participation");
   $i=0;
   while(list($id,$nom,$deb,$fin)=$req->get_row())
   {
@@ -689,7 +689,7 @@ elseif ( $_REQUEST["view"] == "elections" )
   }
   if($histo)
   {
-    $hist = new histogram($datas, "graph graph graph");
+    $hist = new histogram($datas, "Taux de participation aux élections");
     $hist->png_render();
     $hist->destroy();
     exit();
