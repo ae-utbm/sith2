@@ -69,6 +69,7 @@ else
     $frm = new form("logsearch","logs.php",true,"POST","Critères de sélection");
     $frm->add_datetime_field("start","Date et heure de début");
     $frm->add_datetime_field("end","Date et heure de fin");
+    $frm->add_text_field('pattern','Valeur cherchée');
     $frm->add_select_field("context","Contexte", $context_list, $_REQUEST["context"]);
     $frm->add_submit("submit","Rechercher");
     $cts->add($frm,true);
@@ -93,6 +94,12 @@ else
   {
     $elements[] = "`time_log` <= '".mysql_escape_string(date("Y-m-d H:i:s",$_REQUEST["end"]))."'";
     $params .= "&start=".rawurlencode($_REQUEST["end"]);
+  }
+
+  if($_REQUEST['pattern'])
+  {
+    $elements[] = "`time_log` <= '".mysql_escape_string($_REQUEST["pattern"])."'";
+    $params .= "&pattern=".rawurlencode($_REQUEST["pattern"]);
   }
 
   if(empty($elements))
