@@ -98,7 +98,7 @@ else
 
   if($_REQUEST['pattern'])
   {
-    $elements[] = "`description_log` <= '".mysql_escape_string($_REQUEST["pattern"])."'";
+    $elements[] = "`description_log` LIKE '%".mysql_escape_string($_REQUEST["pattern"])."%'";
     $params .= "&pattern=".rawurlencode($_REQUEST["pattern"]);
   }
 
