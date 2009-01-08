@@ -55,7 +55,7 @@ if($_REQUEST['action'] == "info" && !empty($_REQUEST['id_log']))
 }
 else
 {
-  $req = new requete($site->db, "SELECT context_log FROM logs GROUP BY context_log");
+  $req = new requete($site->db, "SELECT DISTINCT(context_log) FROM logs GROUP BY context_log");
 
   if($req->lines >= 1)
   {
