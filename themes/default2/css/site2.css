@@ -185,7 +185,7 @@ div#fsearchbox
 }
 
 #overlay
-{ 
+{
   background-image: url("../images/overlay.png");
   position: absolute;
   top: 0px;
@@ -360,7 +360,7 @@ div.important p
 ul
 {
   list-style-position: outside;
-  margin: 0 0 0 13px; 
+  margin: 0 0 0 13px;
   padding: 0;
   padding-left:0.5em;
 }
@@ -398,7 +398,7 @@ div.tabsv2
   margin-bottom:0;
 }
 
-div.tabsv2 span 
+div.tabsv2 span
 {
 }
 
@@ -428,7 +428,7 @@ div.tabsv2 span.selected a, div.tabsv2 span a:hover
 
 
 /*
- * Liens rapide sous les onglets principaux 
+ * Liens rapide sous les onglets principaux
  */
 div.sectionlinks
 {
@@ -456,7 +456,7 @@ div.emptysectionlinks
 }
 
 /*
- * Boite conteneur 
+ * Boite conteneur
  * TODO: Verifier l'interet
  */
 div.contents
@@ -651,7 +651,7 @@ div.box h2, div.box h3
   font-size:11px;
   line-height:11px;
   padding-bottom:5px;
-  
+
 }
 
 div.box h2 img
@@ -708,9 +708,9 @@ div.article
   padding: 10px;
   margin-bottom: 10px;
   clear: both;
-  position:relative;  
+  position:relative;
 }
-  
+
 div.article a
 {
   font-size: 100%;
@@ -736,7 +736,7 @@ div.article h2
 
 div.article div.level2
 {
-  margin-left:0.2em;  
+  margin-left:0.2em;
 }
 
 div.article h3
@@ -750,7 +750,7 @@ div.article h3
 
 div.article div.level3
 {
-  margin-left:1.2em;  
+  margin-left:1.2em;
 }
 
 div.article img
@@ -780,7 +780,7 @@ div.article p
   text-align: justify;
   margin: 0;
   padding: 0;
-  
+
   margin-bottom: 1em;
   margin-top: 1em;
 }
@@ -825,7 +825,7 @@ div.article p.center
 div.article ul
 {
   list-style-position: inside;
-  
+
 }
 
 /* Gestion des tableaux dans les articles pour generer des listes
@@ -969,7 +969,7 @@ div.calendar
   background: #ffffff;
   text-align: center;
   padding: 1px;
-  width:184px;  
+  width:184px;
 }
 
 div.tinycal
@@ -988,7 +988,7 @@ div.calendar td
 
 div.calendar td a
 {
-  color: #c0c0c0;  
+  color: #c0c0c0;
 }
 
 div.calendar td.event1 a, div.calendar td.event2 a, div.calendar td.event3 a
@@ -1053,7 +1053,7 @@ width: 12px;
 cursor: pointer;
 }
 
-/* 
+/*
  * Evenements du calendrier
  */
 dl.event
@@ -1087,7 +1087,7 @@ dl.event dd
   margin:0;
   border:0;
   font-size:10px;
-  
+
 }
 
 dl.event .e1
@@ -1342,7 +1342,7 @@ div.toolbox a:hover
   text-decoration:none;
 }
 /*
- * Onglets au sein d'un article 
+ * Onglets au sein d'un article
  */
 div.article div.tabs
 {
@@ -1369,7 +1369,7 @@ div.article div.tabs span a
   margin-right:-1px;
   padding-top:4px;
   padding-bottom:4px;
-  padding-left:8px; 
+  padding-left:8px;
   padding-right:8px;
   font-weight:normal;
   line-height:12px;
@@ -1380,7 +1380,7 @@ div.article div.tabs span.selected a, div.article div.tabs span a:hover
   background:#ffffff;
   color:#000000;
   text-decoration:none;
-  
+
   border-left:1px solid #EEAC00;
   border-right:1px solid #EEAC00;
 }
@@ -1492,7 +1492,7 @@ div.article div.tabs_lg a
   margin-right:-1px;
   padding-top:4px;
   padding-bottom:4px;
-  padding-left:4px; 
+  padding-left:4px;
   padding-right:4px;
   font-weight:normal;
   line-height:12px;
@@ -1533,7 +1533,7 @@ div.article div.tabs_top a, div.article div.tabs_bottom a
   margin-right:-1px;
   padding-top:4px;
   padding-bottom:4px;
-  padding-left:8px; 
+  padding-left:8px;
   padding-right:8px;
   font-weight:normal;
   line-height:12px;
@@ -1547,7 +1547,7 @@ div.article div.tabs_top a.selected, div.article div.tabs_top a:hover, div.artic
   background:#ffffff;
   color:#000000;
   text-decoration:none;
-  
+
   /*border-left:1px solid #EEAC00;
   border-right:1px solid #EEAC00;*/
 }
@@ -1567,7 +1567,7 @@ div.news div.newsitem
   overflow:hidden;
   padding: 0.5em;
   margin:0;
-  border:0;    
+  border:0;
   margin-bottom:0.1em;
   font-weight: bold;
 }
@@ -1576,7 +1576,7 @@ div.news span.newsdate
 {
   font-size: 80%;
   font-weight: normal;
-  font-style: italic; 
+  font-style: italic;
 }
 
 div.news div.newsleft
@@ -1705,7 +1705,7 @@ div.activebar
   background:#336699;
   height:1em;
   margin-bottom: 0.4em;
-  position:relative;  
+  position:relative;
 }
 
 div.inactivebar
@@ -1714,7 +1714,7 @@ div.inactivebar
   background: #eff7ff;
   height:1em;
   margin-bottom: 0.4em;
-  position:relative;  
+  position:relative;
 }
 
 div.percentbar
@@ -1724,7 +1724,7 @@ div.percentbar
   height:1em;
   text-align: right;
   margin-bottom: 0.4em;
-  position:relative;  
+  position:relative;
 }
 
 p.nbvotes
@@ -1735,18 +1735,18 @@ p.nbvotes
 /*
  * Affichage matmatronch
  */
- 
+
 #setphotos .formrow
 {
-  clear:both;  
+  clear:both;
 }
- 
+
 #setphotos .formrow#mmt_row
 {
   width:49%;
   float:left;
   position:static;
-  clear:none; 
+  clear:none;
 }
 
 #setphotos .formrow#idt_row
@@ -1754,13 +1754,13 @@ p.nbvotes
   width:49%;
   float:right;
   position:static;
-  clear:none; 
-} 
+  clear:none;
+}
 
 #blouse_row
 {
   width:45%;
-} 
+}
 
 #setphotos div.subform
 {
@@ -1853,7 +1853,7 @@ td.moneycell
 
 #fsearchres h2
 {
-  border-bottom: 1px black solid;  
+  border-bottom: 1px black solid;
 }
 
 #fsearchres ul
@@ -2097,7 +2097,7 @@ li.nvlttls .hour
   font-size:80%;
   color:#808080;
   margin-left:0.25em;
-  
+
 }
 
 li.nvlttls .hour a
@@ -2377,7 +2377,7 @@ p.text-footer
 {
   background:white;
   border:1px solid black;
-  padding:5px; 
+  padding:5px;
 }
 
 #systooltip p.stdinfo
@@ -2391,7 +2391,7 @@ p.text-footer
   float:left;
   margin:0;
   padding:0;
-  margin-right:5px; 
+  margin-right:5px;
 }
 
 #systooltip p.stdpreview img
@@ -2431,7 +2431,7 @@ div.board div.panel div.panelcts
 
 div.partialclose
 {
-  text-align:center;  
+  text-align:center;
   margin-top:40px;
   margin-bottom:70px;
 
@@ -2487,20 +2487,20 @@ div.comment
 
 #topalert
 {
-  position:absolute; 
+  position:absolute;
   top: 0px;
   left: 0px;
   right: 0px;
   width:auto;
-  padding: 5px; 
-  background: #ffd; 
-  border-bottom: 1px solid #777; 
+  padding: 5px;
+  background: #ffd;
+  border-bottom: 1px solid #777;
   font-size: 11px;
 }
 
 #topalert img
 {
-  float: left; 
+  float: left;
   margin-right: 5px;
 }
 
@@ -2608,4 +2608,7 @@ div.calbox td.weekday
   color:#ffffff;
   font-weight:bold;
 }
-
+.boxlist h2 img
+{
+  display:none;
+}
