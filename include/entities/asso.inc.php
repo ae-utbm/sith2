@@ -718,28 +718,23 @@ class asso extends stdentity
 
   function get_pending_unmod_mail()
   {
+    return 0;
 
     if (strlen($this->nom_unix) <= 0)
-      {
-  return 0;
-      }
+      return 0;
 
     $pendings = file_get_contents("http://barty.me.aeinfo.net/list_heldmsgs.php");
     $pendings = explode("\n", $pendings);
 
     foreach ($pendings as $asso_pending)
-      {
-  $asso_pending = explode(":", $asso_pending);
-
-  if ($asso_pending[0] == ($this->nom_unix . ".membres"))
     {
-      return $asso_pending[1];
+      $asso_pending = explode(":", $asso_pending);
+
+      if ($asso_pending[0] == ($this->nom_unix . ".membres"))
+        return $asso_pending[1];
     }
-      }
     return 0;
-
   }
-
 }
 
 
