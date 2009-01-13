@@ -39,8 +39,10 @@ if ( !is_null($site->asso->id_parent) )
 $page = new page ($site->db);
 $page->load_by_pagename(CMS_PREFIX."__contacts");
 if ( !$page->is_valid() )
+{
   if ( $site->is_user_admin() )
     $cts->add_paragraph("<a href=\"index.php?page=new&amp;name=__contacts\">Ajouter des contacts</a>");
+}
 else
 {
   if ( $site->is_user_admin() )
