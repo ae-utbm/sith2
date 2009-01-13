@@ -76,7 +76,7 @@ function forceslideshow(cts,cts2,start_frame, end_frame,add)
       else
         slideshowpos[cts]=slideshowpos[cts]+add;
     }
-    alert("bleh");
+    alert(slideshowpos[cts]);
     if( cts_2 = document.getElementById(cts+slideshowpos[cts]) )
     {
       cts1.style.display='none';
