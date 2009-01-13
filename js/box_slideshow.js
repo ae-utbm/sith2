@@ -27,7 +27,7 @@
  * **RAPPEL** Ce fichier est sous licence GNU GPL. Vous pouvez le ré-utiliser
  * sur votre site internet, mais il doit rester sous licence GNU GPL même si
  * vous le modifiez. Si vous ré-utilisez des sources de gateway.php, ces sources
- * étant sous la même licence, elles devront aussi rester sous GNU GPL. 
+ * étant sous la même licence, elles devront aussi rester sous GNU GPL.
  * Pour plus d'information : http://www.gnu.org/
  *
  * @author Simon Lopez
@@ -37,6 +37,7 @@
  * @ingroup js
  */
 var slideshowboxes=new Array();
+var slideshowpos=new Array();
 function slideshow_onoff(cts,id){
   var cts1;
   if(slideshowboxes[cts]==0)
@@ -53,11 +54,46 @@ function slideshow_onoff(cts,id){
   }
 }
 
-function start_slideshow(cts,start_frame, end_frame, delay, pause) {
+function forceslideshow(cts,cts2,start_frame, end_frame,add)
+{
+  var cts_1;
+  var cts_2;
+  if(slideshowboxes[cts]==0)
+    slideshow_onoff(cts,cts2);
+  if( cts1 = document.getElementById(cts+slideshowpos[cts]) )
+  {
+    if(add>0)
+    {
+      if((slideshowpos[cts]+add)>end_frame)
+        slideshowpos[cts]=slideshowpos[cts]+add-end_frame+start_frame;
+      else
+        slideshowpos[cts]=slideshowpos[cts]+add;
+    }
+    else
+    {
+      if((slideshowpos[cts]+add)<start_frame)
+        slideshowpos[cts]=end_frame-start_frame-slideshowpos[cts]-add;
+      else
+        slideshowpos[cts]=slideshowpos[cts]+add;
+    }
+    if( cts2 = document.getElementById(cts+slideshowpos[cts]) )
+    {
+      cts1.style.display='none';
+      cts2.style.display='block';
+    }
+  }
+  return false;
+}
+
+function start_slideshow(cts,start_frame, end_frame, delay, pause)
+{
+  slideshowboxes[cts]=0;
+  slideshowpos[cts]=0;
   setTimeout(switch_slides(cts,start_frame,start_frame,end_frame, delay, pause),delay);
 }
 
-function switch_slides(cts,frame, start_frame, end_frame, delay, pause) {
+function switch_slides(cts,frame, start_frame, end_frame, delay, pause)
+{
   if(pause==0 || (pause==1 && slideshowboxes[cts]==0))
   {
     var cts1;
@@ -72,6 +108,7 @@ function switch_slides(cts,frame, start_frame, end_frame, delay, pause) {
       {
         cts1.style.display='none';
         cts2.style.display='block';
+        slideshowpos[cts]=frame;
       }
     }
     else
