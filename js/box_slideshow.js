@@ -65,7 +65,7 @@ function forceslideshow(cts,cts2,start_frame, end_frame,fn)
   {
     if(add>0)
     {
-      if((slideshowpos[cts]+add)>end_frame)
+      if((slideshowpos[cts]+add)>=end_frame)
         slideshowpos[cts]=slideshowpos[cts]+add-end_frame+start_frame;
       else
         slideshowpos[cts]=slideshowpos[cts]+add;
@@ -77,7 +77,6 @@ function forceslideshow(cts,cts2,start_frame, end_frame,fn)
       else
         slideshowpos[cts]=slideshowpos[cts]+add;
     }
-    alert(cts+slideshowpos[cts]);
     if( cts_2 = document.getElementById(cts+slideshowpos[cts]) )
     {
       cts_1.style.display='none';
