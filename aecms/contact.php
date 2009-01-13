@@ -33,6 +33,21 @@ $cts = new contents("Contact");
 if ( !is_null($site->asso->id_parent) )
   $cts->add_paragraph(htmlentities($site->asso->nom,ENT_NOQUOTES,"UTF-8")." est une activitée de l'association des étudiants de l'université de technologie de belfort montbéliard");
 
+/*
+ * Possibilité d'ajouter des informations de contact
+ */
+$page = new page ($site->db);
+$page->load_by_pagename(CMS_PREFIX."__contacts");
+if ( !$page->is_valid() )
+  if ( $site->is_user_admin() )
+    $cts->add_paragraph("<a href=\"index.php?page=new&amp;name=__contacts\">Ajouter des contacts</a>");
+else
+{
+  if ( $page->is_right($site->user,DROIT_ECRITURE) || $site->is_user_admin() )
+    $cts->set_toolbox(new toolbox(array("index.php?page=edit&name=__contacts"=>"Editer"))
+  $cts->add($page->get_contents());
+}
+
 $cts->add_title(2,"Adresses");
 
 if ( !is_null($site->asso->id_parent) )
