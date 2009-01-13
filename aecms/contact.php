@@ -43,7 +43,7 @@ if ( !$page->is_valid() )
     $cts->add_paragraph("<a href=\"index.php?page=new&amp;name=__contacts\">Ajouter des contacts</a>");
 else
 {
-  if ( $page->is_right($site->user,DROIT_ECRITURE) || $site->is_user_admin() )
+  if ( $site->is_user_admin() )
     $cts->set_toolbox(new toolbox(array("index.php?page=edit&name=__contacts"=>"Editer")));
   $cts->add($page->get_contents());
 }
