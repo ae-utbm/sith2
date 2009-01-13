@@ -100,6 +100,11 @@ if ( !$folder->is_valid() )
     $folder->id_utilisateur = null;
     $folder->add_folder ( "Fichiers", null, null, $site->asso->id );
   }
+  $sfolder = new dfolder($site->db, $site->dbrw);
+  if($sfolder->load_by_titre($folder->id,"aecms"))
+    $folder=$sfolder;
+  else
+   unset($sfolder);
 }
 
 if ( !$folder->is_right($site->user,DROIT_LECTURE) )
