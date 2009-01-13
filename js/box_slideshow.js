@@ -44,14 +44,12 @@ function slideshow_onoff(cts,id){
   {
     slideshowboxes[cts]=1;
     if(cts1 = document.getElementById(id) )
-//      cts1.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+cts+'\',\''+id+'\'); return false;">start</a>';
       cts1.innerHTML=cts1.innerHTML.replace(/pause/,'start');
   }
   else
   {
     slideshowboxes[cts]=0;
     if(cts1 = document.getElementById(id) )
-//      cts1.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+cts+'\',\''+id+'\'); return false;">pause</a>';
       cts1.innerHTML=cts1.innerHTML.replace(/start/,'pause');
   }
 }
@@ -64,6 +62,7 @@ function forceslideshow(cts,cts2,start_frame, end_frame,add)
     slideshow_onoff(cts,cts2);
   if( cts1 = document.getElementById(cts+slideshowpos[cts]) )
   {
+    alert("bleh");
     if(add>0)
     {
       if((slideshowpos[cts]+add)>end_frame)
