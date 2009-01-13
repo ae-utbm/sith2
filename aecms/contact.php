@@ -33,6 +33,19 @@ $cts = new contents("Contact");
 if ( !is_null($site->asso->id_parent) )
   $cts->add_paragraph(htmlentities($site->asso->nom,ENT_NOQUOTES,"UTF-8")." est une activitée de l'association des étudiants de l'université de technologie de belfort montbéliard");
 
+$cts->add_title(2,"Adresses");
+
+if ( !is_null($site->asso->id_parent) )
+  $cts->add_paragraph(
+  "université de technologie de belfort-montébliard<br/>".
+  "association des étudiants<br/>".
+  htmlentities($site->asso->nom,ENT_NOQUOTES,"UTF-8")."<br/>".
+  "90010 BELFORT CEDEX");
+else
+  $cts->add_paragraph(
+  htmlentities($site->asso->nom,ENT_NOQUOTES,"UTF-8")."<br/>".
+  nl2br(htmlentities($site->asso->adresse_postale,ENT_NOQUOTES,"UTF-8")));
+
 /*
  * Possibilité d'ajouter des informations de contact
  */
@@ -47,21 +60,9 @@ else
 {
   if ( $page->is_right($site->user,DROIT_ECRITURE) || $site->is_user_admin() )
     $cts->set_toolbox(new toolbox(array("index.php?page=edit&name=__contacts"=>"Editer")));
+  $cts->add_title(2,"Informations complémentaires");
   $cts->add($page->get_contents());
 }
-
-$cts->add_title(2,"Adresses");
-
-if ( !is_null($site->asso->id_parent) )
-  $cts->add_paragraph(
-  "université de technologie de belfort-montébliard<br/>".
-  "association des étudiants<br/>".
-  htmlentities($site->asso->nom,ENT_NOQUOTES,"UTF-8")."<br/>".
-  "90010 BELFORT CEDEX");
-else
-  $cts->add_paragraph(
-  htmlentities($site->asso->nom,ENT_NOQUOTES,"UTF-8")."<br/>".
-  nl2br(htmlentities($site->asso->adresse_postale,ENT_NOQUOTES,"UTF-8")));
 
 if ( $site->asso->email )
   $cts->add_paragraph("e-mail: ".htmlentities($site->asso->email,ENT_NOQUOTES,"UTF-8"));
