@@ -45,14 +45,14 @@ function slideshow_onoff(cts,id){
     slideshowboxes[cts]=1;
     if(cts1 = document.getElementById(id) )
 //      cts1.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+cts+'\',\''+id+'\'); return false;">start</a>';
-      cts1.innerHTML.replace('/pause/','start');
+      cts1.innerHTML.replace(/pause/,'start');
   }
   else
   {
     slideshowboxes[cts]=0;
     if(cts1 = document.getElementById(id) )
 //      cts1.innerHTML='<a href=\'#\' onclick="slideshow_onoff(\''+cts+'\',\''+id+'\'); return false;">pause</a>';
-      cts1.innerHTML.replace('/start/','pause');
+      cts1.innerHTML.replace(/start/,'pause');
   }
 }
 
