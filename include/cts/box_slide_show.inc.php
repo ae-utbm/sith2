@@ -65,9 +65,9 @@ class box_slideshow extends stdcontents
       $this->buffer.="start_slideshow('slideshow$uid', 0, ".(count($this->slides)-1).", ".$this->delay.",1);\n";
        $this->buffer.="</script>\n";
       $this->buffer.="<div class='slidebox_pause' id='slideshowonoff$uid'>";
-      $this->buffer.="<a href='#' onclick=\"forceslideshow('slideshow$uid', 'slideshowonoff$uid', 0, ".(count($this->slides)-1).",'-1');\">←</a> ";
+      $this->buffer.="<a href='#' onclick=\"forceslideshow('slideshow$uid', 'slideshowonoff$uid', 0, ".(count($this->slides)-1).",'-1');\"><b>←</b></a> ";
       $this->buffer.="<a href='#' onclick=\"slideshow_onoff('slideshow$uid','slideshowonoff$uid'); return false;\">pause</a> ";
-      $this->buffer.="<a href='#' onclick=\"forceslideshow('slideshow$uid', 'slideshowonoff$uid', 0, ".(count($this->slides)-1).",'1');\">→</a></div>";
+      $this->buffer.="<a href='#' onclick=\"forceslideshow('slideshow$uid', 'slideshowonoff$uid', 0, ".(count($this->slides)-1).",'1');\"><b>→</b></a></div>";
     }
     elseif($this->nb>1)
     {
