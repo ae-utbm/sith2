@@ -73,7 +73,7 @@ function forceslideshow(cts,cts2,start_frame, end_frame,fn)
     else
     {
       if((slideshowpos[cts]+add)<start_frame)
-        slideshowpos[cts]=end_frame-start_frame-slideshowpos[cts]-add;
+        slideshowpos[cts]=end_frame-start_frame-slideshowpos[cts]-add-1;
       else
         slideshowpos[cts]=slideshowpos[cts]+add;
     }
