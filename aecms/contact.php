@@ -46,6 +46,9 @@ else
   htmlentities($site->asso->nom,ENT_NOQUOTES,"UTF-8")."<br/>".
   nl2br(htmlentities($site->asso->adresse_postale,ENT_NOQUOTES,"UTF-8")));
 
+if ( $site->asso->email )
+  $cts->add_paragraph("e-mail: ".htmlentities($site->asso->email,ENT_NOQUOTES,"UTF-8"));
+
 /*
  * Possibilité d'ajouter des informations de contact
  */
@@ -63,9 +66,6 @@ else
   $cts->add_title(2,"Informations complémentaires");
   $cts->add($page->get_contents());
 }
-
-if ( $site->asso->email )
-  $cts->add_paragraph("e-mail: ".htmlentities($site->asso->email,ENT_NOQUOTES,"UTF-8"));
 
 $cts->add_title(2,"Liens");
 
