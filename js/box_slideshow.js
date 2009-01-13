@@ -80,8 +80,8 @@ function forceslideshow(cts,cts2,start_frame, end_frame,fn)
     alert(cts+slideshowpos[cts]);
     if( cts_2 = document.getElementById(cts+slideshowpos[cts]) )
     {
-      cts1.style.display='none';
-      cts2.style.display='block';
+      cts_1.style.display='none';
+      cts_2.style.display='block';
     }
   }
   return false;
