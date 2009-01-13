@@ -45,7 +45,7 @@ if ( !$page->is_valid() )
 }
 else
 {
-  if ( $site->is_user_admin() )
+  if ( $page->is_right($site->user,DROIT_ECRITURE) || $site->is_user_admin() )
     $cts->set_toolbox(new toolbox(array("index.php?page=edit&name=__contacts"=>"Editer")));
   $cts->add($page->get_contents());
 }
