@@ -69,7 +69,6 @@ function forceslideshow(cts,cts2,start_frame, end_frame,fn)
         slideshowpos[cts]=slideshowpos[cts]+add-end_frame+start_frame-1;
       else
         slideshowpos[cts]=slideshowpos[cts]+add;
-      alert(slideshowpos[cts]);
     }
     else
     {
