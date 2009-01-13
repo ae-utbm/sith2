@@ -2551,15 +2551,6 @@ div.slidebox_pause a
   font-size:9px;
 }
 
-div.slidebox_pause a:before
-{
-  content: "- ";
-}
-div.slidebox_pause a:after
-{
-  content: " -";
-}
-
 div.calbox td.month
 {
   color:#2F3238;
