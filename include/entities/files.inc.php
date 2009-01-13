@@ -64,7 +64,7 @@ class dfile extends fs
   var $taille;
 
   /** ID de la revision en cours */
-  var $id_rev_file;
+  var $id_rev_file=0;
   /** utilisateur ayant fait cette révision */
   var $id_utilisateur_rev_file;
   /** Date de la revision */
