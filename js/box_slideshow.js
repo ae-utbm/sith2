@@ -54,10 +54,11 @@ function slideshow_onoff(cts,id){
   }
 }
 
-function forceslideshow(cts,cts2,start_frame, end_frame,add)
+function forceslideshow(cts,cts2,start_frame, end_frame,fn)
 {
   var cts_1;
   var cts_2;
+  var add = parseInt(fn,10);
   if(slideshowboxes[cts]==0)
     slideshow_onoff(cts,cts2);
   if( cts_1 = document.getElementById(cts+slideshowpos[cts]) )
