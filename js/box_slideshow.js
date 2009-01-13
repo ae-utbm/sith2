@@ -60,9 +60,8 @@ function forceslideshow(cts,cts2,start_frame, end_frame,add)
   var cts_2;
   if(slideshowboxes[cts]==0)
     slideshow_onoff(cts,cts2);
-  if( cts1 = document.getElementById(cts+slideshowpos[cts]) )
+  if( cts_1 = document.getElementById(cts+slideshowpos[cts]) )
   {
-    alert("bleh");
     if(add>0)
     {
       if((slideshowpos[cts]+add)>end_frame)
@@ -77,7 +76,8 @@ function forceslideshow(cts,cts2,start_frame, end_frame,add)
       else
         slideshowpos[cts]=slideshowpos[cts]+add;
     }
-    if( cts2 = document.getElementById(cts+slideshowpos[cts]) )
+    alert("bleh");
+    if( cts_2 = document.getElementById(cts+slideshowpos[cts]) )
     {
       cts1.style.display='none';
       cts2.style.display='block';
