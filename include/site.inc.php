@@ -833,7 +833,10 @@ class site extends interfaceweb
     $req = new requete ($this->dbrw,
            "SELECT id_comptoir, nom_cpt
             FROM cpt_comptoir
-            WHERE type_cpt='0' AND id_comptoir != '4' AND id_comptoir != '8'
+            WHERE type_cpt='0'
+            AND id_comptoir != '4'
+            AND id_comptoir != '8'
+            AND id_comptoir != '13'
             ORDER BY nom_cpt");
     $list='';
     $i=0;
@@ -857,7 +860,7 @@ class site extends interfaceweb
       if($i<$req->lines)
         $list.='<br />';
     }
-    
+
     return '<div id="head_comptoirs">'.$list.'</div>';
   }
 
