@@ -90,10 +90,16 @@ div#fsearchbox
   padding:0;
   display:inline-block;
 }
+div#fsearchbox input
+{
+  width:155px;
+}
 #head_comptoirs
 {
-  display:inline-block;
-  display:none;
+  margin-top:5px;
+  float:left;
+  height:20px;
+  width:40px;
 }
 #head_comptoirs a
 {
