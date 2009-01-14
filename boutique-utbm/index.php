@@ -42,9 +42,6 @@ require_once("include/cts.inc.php");
 
 
 $site = new boutique();
-$site->allow_only_logged_users();
-if($site->user->type != "srv" )
-  $site->error_forbidden();
 $produit = new produit($site->db);
 $typeproduit = new typeproduit($site->db);
 if ( isset($_REQUEST["id_produit"]) )

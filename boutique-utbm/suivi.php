@@ -25,10 +25,6 @@ require_once($topdir."include/site.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
 require_once($topdir."comptoir/include/defines.inc.php");
 $site = new site();
-$site->allow_only_logged_users();
-if($site->user->type != "srv")
-  $site->error_forbidden();
-
 
 $user = &$site->user;
 

@@ -45,6 +45,10 @@ class boutique extends site
   function boutique ()
   {
     $this->site();
+    $this->allow_only_logged_users();
+    if($this->user->type != "srv" && !$this->user->is_in_group("gestion_ae"))
+      $this->error_forbidden();
+
     $this->set_side_boxes("left",array());
     $this->set_side_boxes("right",array());
     $this->add_css ("css/boutiqueutbm.css");

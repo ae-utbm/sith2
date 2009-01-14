@@ -37,9 +37,6 @@ require_once($topdir . "include/cts/gallery.inc.php");
 require_once($topdir . "include/cts/vignette.inc.php");
 
 $site = new boutique();
-$site->allow_only_logged_users();
-if($site->user->type != "srv" )
-  $site->error_forbidden();
 /* modifications du panier */
 if (isset($_POST['cart_modify']))
 {
