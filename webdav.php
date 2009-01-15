@@ -48,8 +48,8 @@ require_once($topdir . "include/entities/files.inc.php");
 require_once($topdir . "include/entities/folder.inc.php");
 require_once($topdir . "include/entities/asso.inc.php");
 if(isset($_REQUEST['__pathinfo__']))
-  $SERVER["PATH_INFO"]='/public';
-print_r($SERVER);
+  $_SERVER["PATH_INFO"]=$_REQUEST['__pathinfo__'];
+//print_r($SERVER);
 /**
  * Serveur WEBDAV d'accès à la partie fichier
  * @ingroup aedrive
