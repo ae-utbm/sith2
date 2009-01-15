@@ -51,6 +51,7 @@ class boutique extends site
 
   function boutique ()
   {
+   global $topdir;
     $this->site();
     $this->allow_only_logged_users();
     if($this->user->type != "srv" && !$this->user->is_in_group("gestion_ae"))
@@ -62,6 +63,13 @@ class boutique extends site
 
     if ( $this->get_param("closed.boutiqueutbm",false) && !$this->user->is_in_group("root")  )
       $this->fatal_partial("services");
+
+    $this->tab_array = array(
+       array("accueil", "index.php", "Accueil")/*,
+       array ("pannier", "cart.php", "Pannier"),
+       array("commandes", "suivi.php", "Commandes")*/
+    );
+
   }
 
   function start_page ($section, $title)
