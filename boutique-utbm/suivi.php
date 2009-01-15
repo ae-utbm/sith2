@@ -88,9 +88,11 @@ if(isset($_REQUEST["id_facture"]))
            "90010 BELFORT Cedex"),
        'logo' => "http://ae.utbm.fr/images/logo_utbm_eboutic.jpg");
 
-      $factured_infos = array ('name' => utf8_decode($user->nom)
+      $factured_infos = array (
+/*
+             'name' => utf8_decode($user->nom)
              . " " .
-             utf8_decode($user->prenom),
+             utf8_decode($user->prenom),*/
 /*
              'addr' => array(
                  utf8_decode($user->addresse),
@@ -98,8 +100,8 @@ if(isset($_REQUEST["id_facture"]))
                  . " " .
                  utf8_decode($ville->nom)),
 */
+             'name' => utf8_decode("service propagande"),
              'addr' => array(
-                utf8_decode("service propagande"),
                 utf8_decode("UTBM"),
                 utf8_decode("90010 BELFORT Cedex")),
              false);
