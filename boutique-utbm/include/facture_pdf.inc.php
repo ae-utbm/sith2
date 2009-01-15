@@ -128,9 +128,18 @@ class facture_pdf extends FPDF
       $y += (20-$h)/2;
       $this->Image($this->facturing_infos['logo'],$x,+$y,$w,$h);
     }
+   $this->SetXY(10, 30);
+    /** TITRE  CENTRE **/
+    /* fonte */
+    $this->SetFont('Arial','B',25);
+    /* Couleur */
+    $this->SetTextColor(0, 0, 0);
+    /* titre */
     $this->Cell(190, 5, $this->fact_titre,0,0,'R');
+    /* Jump lines */
+    $this->Ln(5);
 
-    $this->SetXY(10, 30);
+//    $this->SetXY(10, 30);
 
     /* addresse facturant */
     /* fonte */
@@ -148,7 +157,7 @@ class facture_pdf extends FPDF
     /* Couleur */
     $this->SetTextColor(0, 0, 0);
     /* titre */
-//    $this->Cell(190, 5, $this->fact_titre,0,0,'R');
+    $this->Cell(190, 5, $this->fact_titre,0,0,'R');
     /* Jump lines */
     $this->Ln(5);
 
