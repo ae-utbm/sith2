@@ -27,6 +27,13 @@
  * 02111-1307, USA.
  */
 
+require_once($topdir . "include/site.inc.php");
+require_once("include/defines.inc.php");
+require_once("include/produit.inc.php");
+require_once("include/typeproduit.inc.php");
+require_once("include/venteproduit.inc.php");
+require_once("include/debitfacture.inc.php");
+require_once("include/cts.inc.php");
 
 // Adaptation du catalog pour boutique
 $GLOBALS["entitiescatalog"]["typeproduit"]   = array ( "id_typeprod", "nom_typeprod", "typeprod.png", "boutique-utbm/");

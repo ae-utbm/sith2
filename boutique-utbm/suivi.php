@@ -21,9 +21,8 @@
  * 02111-1307, USA.
  */
 $topdir="../";
-require_once($topdir."include/site.inc.php");
+require_once("include/boutique.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
-require_once($topdir."comptoir/include/defines.inc.php");
 $site = new site();
 $user = &$site->user;
 
@@ -78,8 +77,6 @@ if ( $_REQUEST["page"] == "ALL")
 
 if(isset($_REQUEST["id_facture"]))
 {
-
-  require_once("include/debitfacture.inc.php");
   $fact = new debitfacture($site->db);
   if($fact->load_by_id($_REQUEST["id_facture"]) && $fact->id_utilisateur==$user->id)
   {

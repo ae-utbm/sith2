@@ -30,9 +30,6 @@
 
 $topdir="../";
 
-require_once($topdir . "include/site.inc.php");
-require_once("include/produit.inc.php");
-require_once("include/venteproduit.inc.php");
 require_once("include/boutique.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
 require_once($topdir . "include/cts/gallery.inc.php");
