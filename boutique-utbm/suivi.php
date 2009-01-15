@@ -82,7 +82,7 @@ if(isset($_REQUEST["id_facture"]))
   {
     if(isset($_REQUEST["gen_pdf"]))
     {
-      require_once ($topdir . "include/pdf/facture_pdf.inc.php");
+      require_once ("include/facture_pdf.inc.php");
       $facturing_infos = array ('name' => "Service Communication",
        'addr' => array(utf8_decode("UTBM"),
            "90010 BELFORT Cedex"),
