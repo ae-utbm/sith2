@@ -84,7 +84,7 @@ if(isset($_REQUEST["id_facture"]))
     {
       require_once ($topdir . "include/pdf/facture_pdf.inc.php");
       $facturing_infos = array ('name' => "Service Communication",
-       'addr' => array(utf8_decode("90010 BELFORT Cedex"),
+       'addr' => array(utf8_decode("UTBM"),
            "90010 BELFORT Cedex"),
        'logo' => "http://ae.utbm.fr/images/logo_utbm_eboutic.jpg");
 
