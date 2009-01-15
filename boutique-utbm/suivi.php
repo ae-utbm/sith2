@@ -152,7 +152,7 @@ if(isset($_REQUEST["id_facture"]))
            "`prix_unit`*`boutiqueut_vendu`.`quantite`/100 AS `total`, ".
            "`nom_prod` " .
            "FROM `boutiqueut_vendu` ".
-           "INNER JOIN boutiqueut_produits USING(id_produit) "
+           "INNER JOIN boutiqueut_produits USING(id_produit) ".
            "WHERE `id_facture` =".$fact->id);
       $cts->add(new sqltable('detailcmd',
                              'Détail de la commande',
