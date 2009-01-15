@@ -120,7 +120,7 @@ if(isset($_REQUEST["id_facture"]))
                  $factured_infos,
                  $date_facturation,
                  $titre,
-                 $ref,
+                 $fact->id,
                  $lines);
 
       /* on sort la facture */
