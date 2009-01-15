@@ -153,6 +153,7 @@ class facture_pdf extends FPDF
     $this->Ln(5);
 
     /** REFERENCE FACTURE **/
+    $this->SetFont('Arial','B',20);
     $this->Cell(210,20,utf8_decode("Facture n°") . $this->fact_ref_num,0,0,'C');
     $this->Ln(20);
     $this->SetFont('Arial','I',15);
