@@ -25,7 +25,6 @@ require_once($topdir."include/site.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
 require_once($topdir."comptoir/include/defines.inc.php");
 $site = new site();
-
 $user = &$site->user;
 
 if ( $_REQUEST["page"] == "ALL")
@@ -87,10 +86,10 @@ if(isset($_REQUEST["id_facture"]))
     if(isset($_REQUEST["gen_pdf"]))
     {
       require_once ($topdir . "include/pdf/facture_pdf.inc.php");
-      $facturing_infos = array ('name' => "UTBM",
-       'addr' => array(utf8_decode("rue du chateaux tout ça"),
-           "90400 SEVENANS"),
-       'logo' => "http://ae.utbm.fr/images/Ae-blanc.jpg");
+      $facturing_infos = array ('name' => "Service Communication",
+       'addr' => array(utf8_decode("90010 BELFORT Cedex"),
+           "90010 BELFORT Cedex"),
+       'logo' => "http://ae.utbm.fr/images/logo_utbm_edt.png");
 
       $factured_infos = array ('name' => utf8_decode($user->nom)
              . " " .
