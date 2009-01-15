@@ -83,7 +83,7 @@ div#headermenu
   height:30px;
   background:#424242 url(../images/box-bl-corner.png) no-repeat bottom left;
 }
-#dropmenudiv, #assos, #login
+#dropmenudiv, #login
 {
   float:left;
   font:normal 10px;
@@ -91,14 +91,14 @@ div#headermenu
   background-color: #424242;
   color:#ffffff;
 }
-#login, #assos
+#login
 {
   display:inline-block;
   margin:10px 0 0 0;
   padding:0;
   height:30px;
   max-height:30px;
-  #height:20px;
+  height:20px;
   padding:0;
   text-align:center;
   font-weight: bold;
