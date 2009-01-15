@@ -101,8 +101,7 @@ if(isset($_REQUEST["id_facture"]))
              'addr' => array(
                 utf8_decode("service propagande"),
                 utf8_decode("UTBM"),
-                "90010 BELFORT Cedex")
-                ),
+                utf8_decode("90010 BELFORT Cedex")),
              false);
 
       $date_facturation = date("d/m/Y H:i", $fact->date);
