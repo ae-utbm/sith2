@@ -28,6 +28,8 @@
  */
 
 define('NOTAE',true);
+define('FOLDERID',1314);
+
 require_once($topdir . "include/site.inc.php");
 require_once("include/defines.inc.php");
 require_once("include/produit.inc.php");
