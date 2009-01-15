@@ -247,17 +247,9 @@ class facture_pdf extends FPDF
     //Police de caractere
     $this->SetFont('Arial','',14);
     /* total */
-    $this->Cell(150,10,utf8_decode("TVA non-applicable, art.293B CGI"), "B", 0, "");
+    $this->Cell(150,10,utf8_decode("TVA non-applicable, Bahquoi?"), "B", 0, "");
     //marge
     $this->Ln(10);
-    if(isset($this->facturing_infos['asso']))
-    {
-      $this->Ln(10);
-      $this->Cell(95,10,utf8_decode("Facturant : ".$this->facturing_infos['asso']), "B", 0, "");
-      $this->Cell(95,10,utf8_decode("Facturé : AE - Carte AE"), "B", 0, "R");
-      //marge
-      $this->Ln(40);
-    }
   }
 
 
