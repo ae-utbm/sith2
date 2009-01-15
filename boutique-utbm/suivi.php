@@ -28,7 +28,7 @@ $site = new site();
 
 $user = &$site->user;
 
-if ( $_REQUEST["page"] == "all")
+if ( $_REQUEST["page"] == "ALL")
 {
   $req = new requete($site->db, "SELECT " .
       "`boutiqueut_debitfacture`.`id_facture`, " .
