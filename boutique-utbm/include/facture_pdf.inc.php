@@ -64,11 +64,11 @@ class facture_pdf extends FPDF
   /* @brief constructeur de la classe
    */
   function facture_pdf ($facturing_infos,
-			$factured_infos,
-			$date_facturation,
-			$fact_titre,
-			$fact_ref_num,
-			$bought)
+      $factured_infos,
+      $date_facturation,
+      $fact_titre,
+      $fact_ref_num,
+      $bought)
   {
     /* affectation des variables */
     $this->facturing_infos  = $facturing_infos;
@@ -86,11 +86,11 @@ class facture_pdf extends FPDF
   /* @brief constructeur de la classe
    */
   function set_infos ($facturing_infos,
-			$factured_infos,
-			$date_facturation,
-			$fact_titre,
-			$fact_ref_num,
-			$bought)
+      $factured_infos,
+      $date_facturation,
+      $fact_titre,
+      $fact_ref_num,
+      $bought)
   {
     /* affectation des variables */
     $this->facturing_infos  = $facturing_infos;
@@ -115,31 +115,31 @@ class facture_pdf extends FPDF
     /* Logo facturant */
     if ($this->facturing_infos['logo'])
     {
-		$x = 10;
-		$y = 8;
-		list($width, $height, $type, $attr) = getimagesize($this->facturing_infos['logo']);
-		$w = 80;
-		$h = 80*$height/$width;
-		if ( $h > 20 )
-		{
-			$h = 20;
-			$w = 20*$width/$height;
-		}
-		$y += (20-$h)/2;
-		$this->Image($this->facturing_infos['logo'],$x,+$y,$w,$h);
-	}
+      $x = 10;
+      $y = 8;
+      list($width, $height, $type, $attr) = getimagesize($this->facturing_infos['logo']);
+      $w = 80;
+      $h = 80*$height/$width;
+      if ( $h > 20 )
+      {
+        $h = 20;
+        $w = 20*$width/$height;
+      }
+      $y += (20-$h)/2;
+      $this->Image($this->facturing_infos['logo'],$x,+$y,$w,$h);
+    }
 
     $this->SetXY(10, 30);
-
 
     /* addresse facturant */
     /* fonte */
     $this->SetFont('Arial','B', 8);
     /* Couleur */
     $this->SetTextColor(0, 0, 0);
+    $this->Cell(190,3,$this->facturing_infos['name'],0,1,'L');
     if ( isset($this->facturing_infos['addr']) && is_array($this->facturing_infos['addr']) )
-    foreach ($this->facturing_infos['addr'] as $line)
-      $this->Cell (190, 3, $line, 0, 1, 'L');
+      foreach ($this->facturing_infos['addr'] as $line)
+        $this->Cell (190, 3, $line, 0, 1, 'L');
 
     /** TITRE  CENTRE **/
     /* fonte */
@@ -161,8 +161,8 @@ class facture_pdf extends FPDF
     $this->SetFont('Arial','I',8);
     $this->Cell(190,3,$this->factured_infos['name'],0,1,'R');
     if ( isset($this->factured_infos['addr']) && is_array($this->factured_infos['addr']) )
-    foreach ($this->factured_infos['addr'] as $line)
-      $this->Cell (190, 3, $line, 0, 1, 'R');
+      foreach ($this->factured_infos['addr'] as $line)
+        $this->Cell (190, 3, $line, 0, 1, 'R');
     //horizontal line
     $this->Line(10,$this->GetY(),200,$this->GetY());
     $this->Ln(10);
@@ -191,7 +191,7 @@ class facture_pdf extends FPDF
     $this->SetY(-20);
     //Page number
     if ( $this->pagination )
-    $this->Cell(0,10,'Page '.$this->PageNo().' - {nb}',0,0,'C');
+      $this->Cell(0,10,'Page '.$this->PageNo().' - {nb}',0,0,'C');
   }
 
   /* @brief Fonction de traitement des donn�es
@@ -202,21 +202,21 @@ class facture_pdf extends FPDF
     $this->SetFont('Times','',12);
 
     for ($i = 0; $i < count($this->bought); $i++)
-      {
-	/* si taille du nom est trop grande, on tronque */
-	if (strlen($this->bought[$i]['nom']) > 50)
-	  $this->bought[$i]['nom'] = substr($this->bought[$i]['nom'],0,47) . "...";
-	/* calcul du sous total */
-	$this->bought[$i]['sous_total'] = $this->bought[$i]['prix'] *
-	  $this->bought[$i]['quantite'];
-	/* incr�mentation du total */
-	$this->total += $this->bought[$i]['sous_total'];
-	/* Affichage dans le corps du pdf */
-	$this->print_line($this->bought[$i]['nom'],
-			  $this->bought[$i]['prix'],
-			  $this->bought[$i]['quantite'],
-			  $this->bought[$i]['sous_total']);
-      }
+    {
+  /* si taille du nom est trop grande, on tronque */
+      if (strlen($this->bought[$i]['nom']) > 50)
+        $this->bought[$i]['nom'] = substr($this->bought[$i]['nom'],0,47) . "...";
+      /* calcul du sous total */
+      $this->bought[$i]['sous_total'] = $this->bought[$i]['prix'] *
+      $this->bought[$i]['quantite'];
+      /* incrémentation du total */
+      $this->total += $this->bought[$i]['sous_total'];
+      /* Affichage dans le corps du pdf */
+      $this->print_line($this->bought[$i]['nom'],
+      $this->bought[$i]['prix'],
+      $this->bought[$i]['quantite'],
+      $this->bought[$i]['sous_total']);
+    }
     $this->print_total();
     $this->print_mentions_legales();
     return;
