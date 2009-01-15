@@ -128,7 +128,7 @@ class facture_pdf extends FPDF
       $y += (20-$h)/2;
       $this->Image($this->facturing_infos['logo'],$x,+$y,$w,$h);
     }
-   $this->SetXY(10, 20);
+   $this->SetXY(10, 10);
     /** TITRE  CENTRE **/
     /* fonte */
     $this->SetFont('Arial','B',25);
