@@ -150,14 +150,6 @@ class facture_pdf extends FPDF
       foreach ($this->facturing_infos['addr'] as $line)
         $this->Cell (190, 3, $line, 0, 1, 'L');
 
-    /** TITRE  CENTRE **/
-    /* fonte */
-    $this->SetFont('Arial','B',25);
-    /* Couleur */
-    $this->SetTextColor(0, 0, 0);
-    /* titre */
-    $this->Cell(190, 5, $this->fact_titre,0,0,'R');
-    /* Jump lines */
     $this->Ln(5);
 
     /** REFERENCE FACTURE **/
