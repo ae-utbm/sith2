@@ -100,6 +100,7 @@ if(isset($_REQUEST["id_facture"]))
 
       $date_facturation = date("d/m/Y H:i", $fact->date);
       $titre = "Facture boutique UTBM";
+      $ref=(string)printf('%6$d',$fact->id);
       $req = "SELECT * FROM `boutiqueut_vendu`
               INNER JOIN `boutiqueut_produits` USING (`id_produit`)
               WHERE `id_facture` = $fact->id";
@@ -120,7 +121,7 @@ if(isset($_REQUEST["id_facture"]))
                  $factured_infos,
                  $date_facturation,
                  $titre,
-                 $fact->id,
+                 $ref,
                  $lines);
 
       /* on sort la facture */
