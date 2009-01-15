@@ -56,7 +56,7 @@ class debitfacture extends stdentity
   function load_by_id ( $id)
   {
 
-    $req = new requete($this->db,"SELECT * FROM boutiqueut_debitfacture WHERE id_facture='".intval($id)."' AND id_utilisateur='".intval($userid)."'");
+    $req = new requete($this->db,"SELECT * FROM boutiqueut_debitfacture WHERE id_facture='".intval($id)."'");
 
     if ( $req->lines == 1 )
     {
