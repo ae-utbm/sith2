@@ -56,8 +56,6 @@ if(!isset($_SERVER["PATH_INFO"]) || empty($_SERVER["PATH_INFO"]))
   else
     $_SERVER["PATH_INFO"]='/';
 }
-else
-  echo "bleh";
 /**
  * Serveur WEBDAV d'accès à la partie fichier
  * @ingroup aedrive
