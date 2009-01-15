@@ -180,7 +180,7 @@ elseif ( $_REQUEST["page"] == "addtype" )
  $frm = new form ("addtype","admin.php",true,"POST","Ajout d'un type de produit");
  $frm->add_hidden("action","addtype");
  $frm->add_text_field("nom","Nom du type","",true);
- $frm->add_entity_smartselect("id_file","Image",$file,true);
+ $frm->add_entity_smartselect("id_file","Image",$file,true,false,array('id_folder'=>FOLDERID));
  $frm->add_text_area("description","Description");
  $frm->add_submit("valid","Ajouter");
  $cts->add($frm,true);
