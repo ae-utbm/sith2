@@ -594,23 +594,29 @@ class interfaceweb
     }
 
     $this->buffer .= "<p class=\"text-footer\">";
-    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a>";
-    $this->buffer .= " - <a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a>";
-    $this->buffer .= " - <a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a>";
-    $this->buffer .= " - <a href=\"". $wwwtopdir ."wiki2/?name=ae:info\">Equipe info</a>";
-    $this->buffer .= "<br/>\n";
-
-    $this->buffer .= "Icones par <a href=\"http://www.everaldo.com/\">Everaldo.com</a></p>\n";
-
+    if(!defined('NOTAE'))
+    {
+      $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">AE UTBM</a>";
+      $this->buffer .= " - <a href=\"". $wwwtopdir ."article.php?name=docs:index\">Aide et documentation</a>";
+      $this->buffer .= " - <a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a>";
+      $this->buffer .= " - <a href=\"". $wwwtopdir ."wiki2/?name=ae:info\">Equipe info</a>";
+      $this->buffer .= "<br/>\n";
+      $this->buffer .= "Icones par <a href=\"http://www.everaldo.com/\">Everaldo.com</a></p>\n";
+    }
     $this->buffer .= "</div>\n"; // /page
     $this->buffer .= "<!-- end of page -->\n\n";
     $this->buffer .= "</div>\n"; // /contents
     $this->buffer .= "<div id=\"contentsend\">&nbsp;</div>\n";
     $this->buffer .= "<div id=\"endsite\">";
     $this->buffer .= "<div id=\"endsitelinks\">";
-    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">MENTIONS LÉGALES</a> ";
-    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">AIDE ET DOCUMENTATION</a> ";
-    $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a> ";
+    if(!defined('NOTAE'))
+    {
+      $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">MENTIONS LÉGALES</a> ";
+      $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">AIDE ET DOCUMENTATION</a> ";
+      $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a> ";
+    }
+    elseif(isset($this->footer))
+      $this->buffer=$this->footer;
     $this->buffer .= "</div>";// /endsitelinks
     $this->buffer .= "</div>";// /endsite
     $this->buffer .= "</div>\n"; // /site
