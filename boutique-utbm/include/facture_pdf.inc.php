@@ -160,8 +160,9 @@ class facture_pdf extends FPDF
     /* date */
     $this->Cell(190,10, $this->date_facturation,0,1,'R');
     $this->Ln(0.5);
-    $this->SetFont('Arial','I',8);
+    $this->SetFont('Arial','BI',8);
     $this->Cell(190,3,$this->factured_infos['name'],0,1,'R');
+    $this->SetFont('Arial','I',8);
     if ( isset($this->factured_infos['addr']) && is_array($this->factured_infos['addr']) )
       foreach ($this->factured_infos['addr'] as $line)
         $this->Cell (190, 3, $line, 0, 1, 'R');
