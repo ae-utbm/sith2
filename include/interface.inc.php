@@ -284,7 +284,10 @@ class interfaceweb
 
 /* header */
     $this->buffer .= "<div id='header'>\n";
-    $this->buffer .= "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/ae_header.png\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";
+    if(!defined('NOTAE'))
+      $this->buffer .= "<div id=\"logo\"><a href=\"http://ae.utbm.fr\"><img src=\"" . $wwwtopdir ."images/ae_header.png\" width=\"218\" alt=\"Logo AE\"/></a></div>\n";
+    if(isset($this->logo))
+      $this->buffer .= "<div id=\"logo\"><img src=\"" . $wwwtopdir ."images/".$this->logo."\" alt=\"Logo\"/></div>\n";
 
     $this->buffer .= "<div id='headermenu'>\n";
     if ( !$this->user->is_valid() )
@@ -449,7 +452,8 @@ class interfaceweb
       $this->buffer .= "<div class=\"fend\"></div></div>\n";
     }
     $this->buffer .= "</div>\n";
-    $this->buffer .= "<div id=\"fsearchres\"></div>\n";
+    if(!defined('NOTAE'))
+      $this->buffer .= "<div id=\"fsearchres\"></div>\n";
     $this->buffer .= "</div>\n";
 /* fin header */
 
