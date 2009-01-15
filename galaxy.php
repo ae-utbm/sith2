@@ -299,7 +299,7 @@ $cts->puts("<div class=\"viewer\" id=\"viewer\">
     "SELECT SQRT(POW(a.x_star-b.x_star,2)+POW(a.y_star-b.y_star,2)) AS dist,
     COALESCE(alias_utl,CONCAT(prenom_utl,' ',nom_utl)) AS nom_utilisateur,
     id_utilisateur
-    FROM galaxy_star AS a, galaxy_star AS b, utilisateur
+    FROM galaxy_star AS a, galaxy_star AS b, utilisateurs
     WHERE a.id_star='".mysql_real_escape_string($user->id)."'
     AND a.id_star!=b.id_star
     AND b.id_star=id_utilisateur

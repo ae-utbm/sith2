@@ -29,42 +29,42 @@ $site = new site ();
 
 switch ($_REQUEST["domain"])
 {
-	case "utbm" :
-		$site->user->load_by_email($_REQUEST["username"]."@utbm.fr");
-	break;
-	case "assidu" :
-		$site->user->load_by_email($_REQUEST["username"]."@assidu-utbm.fr");
-	break;
-	case "id" :
-		$site->user->load_by_id($_REQUEST["username"]);
-	break;
-	case "autre" :
-		$site->user->load_by_email($_REQUEST["username"]);
-	break;
-	case "alias" :
-		$site->user->load_by_alias($_REQUEST["username"]);
-	break;
-	default :
-		$site->user->load_by_email($_REQUEST["username"]."@utbm.fr");
-	break;
+  case "utbm" :
+    $site->user->load_by_email($_REQUEST["username"]."@utbm.fr");
+  break;
+  case "assidu" :
+    $site->user->load_by_email($_REQUEST["username"]."@assidu-utbm.fr");
+  break;
+  case "id" :
+    $site->user->load_by_id($_REQUEST["username"]);
+  break;
+  case "autre" :
+    $site->user->load_by_email($_REQUEST["username"]);
+  break;
+  case "alias" :
+    $site->user->load_by_alias($_REQUEST["username"]);
+  break;
+  default :
+    $site->user->load_by_email($_REQUEST["username"]."@utbm.fr");
+  break;
 }
 
 if ( !$site->user->is_valid() )
 {
-	header("Location: article.php?name=site:wrongpassoruser");
-	exit();
+  header("Location: article.php?name=site:wrongpassoruser");
+  exit();
 }
 
 if ( $site->user->hash != "valid" )
 {
-	header("Location: article.php?name=site:activate");
-	exit();
+  header("Location: article.php?name=site:activate");
+  exit();
 }
 
 if ( !$site->user->is_password($_POST["password"]) )
 {
-	header("Location: article.php?name=site:wrongpassorduser");
-	exit();
+  header("Location: article.php?name=site:wrongpassorduser");
+  exit();
 }
 
 $forever=false;
@@ -82,8 +82,8 @@ $page = $topdir;
  */
 if ( $_SESSION['session_redirect'] )
 {
-	$page = $_SESSION['session_redirect'];
-	unset($_SESSION['session_redirect']);
+  $page = $_SESSION['session_redirect'];
+  unset($_SESSION['session_redirect']);
 }
 
 header("Location: $page");
