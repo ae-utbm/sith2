@@ -44,6 +44,10 @@ $file = new dfile($site->db, $site->dbrw);
 $folder = new dfolder($site->db, $site->dbrw);
 $folder->load_by_id(FOLDERID);
 $file = new dfile($site->db, $site->dbrw);
+$typeprod = new typeproduit($site->db,$site->dbrw);
+$produit = new produit($site->db,$site->dbrw);
+$produit_parent = new produit($site->db);
+
 if ( isset($_REQUEST["id_typeprod"]) )
  $typeprod->load_by_id($_REQUEST["id_typeprod"]);
 if ( isset($_REQUEST["id_produit"]) )
