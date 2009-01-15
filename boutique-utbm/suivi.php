@@ -23,7 +23,7 @@
 $topdir="../";
 require_once("include/boutique.inc.php");
 require_once($topdir."include/cts/sqltable.inc.php");
-$site = new site();
+$site = new boutique();
 $user = &$site->user;
 
 if ( $_REQUEST["page"] == "ALL")
