@@ -440,15 +440,17 @@ class interfaceweb
       $this->buffer .= "</div>\n";
     }
 
+    if(!defined('NOTAE'))
+    {
+      $this->buffer .= "<div id=\"fsearchbox\">\n";
+      $this->buffer .= "<form action=\"".$wwwtopdir."fsearch.php\" method=\"post\">";
+      $this->buffer .= "<input type=\"text\" id=\"fsearchpattern\" name=\"pattern\" onblur=\"fsearch_stop_delayed();\" onkeyup=\"fsearch_keyup(event);\" value=\"\" />\n";
+      $this->buffer .= "</form>";
+      $this->buffer .= "<div class=\"fend\"></div></div>\n";
 
-    $this->buffer .= "<div id=\"fsearchbox\">\n";
-    $this->buffer .= "<form action=\"".$wwwtopdir."fsearch.php\" method=\"post\">";
-    $this->buffer .= "<input type=\"text\" id=\"fsearchpattern\" name=\"pattern\" onblur=\"fsearch_stop_delayed();\" onkeyup=\"fsearch_keyup(event);\" value=\"\" />\n";
-    $this->buffer .= "</form>";
-    $this->buffer .= "<div class=\"fend\"></div></div>\n";
-
-    $this->buffer .= "</div>\n";
-    $this->buffer .= "<div id=\"fsearchres\"></div>\n";
+      $this->buffer .= "</div>\n";
+      $this->buffer .= "<div id=\"fsearchres\"></div>\n";
+    }
     $this->buffer .= "</div>\n";
 /* fin header */
 
