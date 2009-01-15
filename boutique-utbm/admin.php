@@ -97,10 +97,9 @@ elseif ( $_REQUEST["action"] == "addproduit" )
     $_REQUEST["id_groupe"],
     $_REQUEST["date_fin"],
 
-    $produit_parent->id,
+    $produit_parent->id
     ))
   {
-    $site->log("Ajout d'un produit","Ajout du produit ".$_REQUEST['nom']." (".$_REQUEST["description"].") au profit de ".$asso->nom,"Comptoirs",$site->user->id);
   }
 }
 else if ( $_REQUEST["action"] == "upproduit" && ($produit->id > 0) && ($typeprod->id > 0) )
@@ -120,10 +119,10 @@ else if ( $_REQUEST["action"] == "upproduit" && ($produit->id > 0) && ($typeprod
     $_REQUEST["description"],
     $_REQUEST["description_longue"],
     $_REQUEST["date_fin"],
-    $produit_parent->id,
+    $produit_parent->id
     );
 }
-else if ( $_REQUEST["action"] == "uptype" && ($typeprod->id > 0) && ($assoboutiqueut->id > 0)  )
+else if ( $_REQUEST["action"] == "uptype" && ($typeprod->id > 0) )
 {
   $file->load_by_id($_REQUEST["id_file"]);
 
@@ -146,10 +145,6 @@ if ( $_REQUEST["page"] == "newfile" )
   $frm->add_text_field("nom","Nom","",true);
   $frm->add_text_field("tags","Tags (séparateur: virgule)","");
   $frm->add_text_area("description","Description","");
-  $_asso=false;
-  if(!is_null($folder->id_asso))
-    $_asso=$folder->id_asso;
-  $frm->add_entity_select("id_asso", "Association/Club lié", $site->db, "asso",$_asso,true);
   $frm->add_rights_field($folder,false,$folder->is_admin($site->user),"files");
   $frm->add_submit("valid","Ajouter");
 
@@ -229,11 +224,9 @@ if ( $_REQUEST["page"] == "produits" )
   "SELECT `boutiqueut_produits`.`nom_prod`, `boutiqueut_produits`.`id_produit`," .
   "`boutiqueut_produits`.stock_global_prod, `boutiqueut_produits`.prix_vente_prod_service/100 AS prix_vente_prod_service," .
   "`boutiqueut_produits`.prix_vente_prod/100 AS prix_vente_prod, `boutiqueut_produits`.prix_achat_prod/100 AS  prix_achat_prod, " .
-  "`asso`.`nom_asso`,`asso`.`id_asso`, " .
   "`boutiqueut_type_produit`.`id_typeprod`,`boutiqueut_type_produit`.`nom_typeprod` " .
   "FROM `boutiqueut_produits` " .
   "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_type_produit`.`id_typeprod`=`boutiqueut_produits`.`id_typeprod` " .
-  "INNER JOIN `asso` ON `asso`.`id_asso`=`boutiqueut_produits`.`id_assoboutiqueut` " .
   "WHERE prod_archive != 1 " .
   "ORDER BY `boutiqueut_type_produit`.`nom_typeprod`,`boutiqueut_produits`.`nom_prod`");
 
@@ -247,8 +240,7 @@ if ( $_REQUEST["page"] == "produits" )
    "prix_vente_prod_service"=>"Prix service",
    "prix_vente_prod"=>"Prix de vente",
    "prix_achat_prod"=>"Prix d'achat",
-   "stock_global_prod"=>"Stock global",
-   "nom_asso"=>"Association"
+   "stock_global_prod"=>"Stock global"
    ),
    array("edit"=>"Editer"), $batch, array()
    );
