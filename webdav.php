@@ -49,7 +49,7 @@ require_once($topdir . "include/entities/folder.inc.php");
 require_once($topdir . "include/entities/asso.inc.php");
 if(!isset($_SERVER["PATH_INFO"]) || empty($_SERVER["PATH_INFO"]))
 {
-  if(empty($_REQUEST['__pathinfo__']))
+  if(!isset($_REQUEST['__pathinfo__'])||empty($_REQUEST['__pathinfo__']))
     $_REQUEST['__pathinfo__']='/';
   if(isset($_REQUEST['__pathinfo__']))
     $_SERVER["PATH_INFO"]=$_REQUEST['__pathinfo__'];
