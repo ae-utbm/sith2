@@ -47,9 +47,13 @@ require_once($topdir . "include/serverwebdavae.inc.php");
 require_once($topdir . "include/entities/files.inc.php");
 require_once($topdir . "include/entities/folder.inc.php");
 require_once($topdir . "include/entities/asso.inc.php");
-if(isset($_REQUEST['__pathinfo__']))
-  $_SERVER["PATH_INFO"]=$_REQUEST['__pathinfo__'];
-
+if(!isset($_SERVER["PATH_INFO"]))
+{
+  if(isset($_REQUEST['__pathinfo__']))
+    $_SERVER["PATH_INFO"]=$_REQUEST['__pathinfo__'];
+  else
+    $_SERVER["PATH_INFO"]='/';
+}
 /**
  * Serveur WEBDAV d'accès à la partie fichier
  * @ingroup aedrive
