@@ -63,11 +63,9 @@ if ( $_REQUEST["action"] == "addfile" )
   }
   else
   {
-    $asso = new asso($site->db);
-    $asso->load_by_id($_REQUEST["id_asso"]);
     $file->herit($folder);
     $file->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin']);
-    $file->add_file ( $_FILES["file"], $_REQUEST["nom"], $folder->id, $_REQUEST["description"],$asso->id );
+    $file->add_file ( $_FILES["file"], $_REQUEST["nom"], $folder->id, $_REQUEST["description"],null );
     $file->set_tags($_REQUEST["tags"]);
   }
 }
@@ -75,7 +73,7 @@ elseif ( $_REQUEST["action"] == "addtype" )
 {
   $file->load_by_id($_REQUEST["id_file"]);
 
- $typeprod->ajout( $_REQUEST["nom"], $_REQUEST["id_action"], $assoboutiqueut->id, $file->id,$_REQUEST["description"] );
+ $typeprod->ajout( $_REQUEST["nom"], $file->id,$_REQUEST["description"] );
 
   $site->log("Ajout d'un type de produit","Ajout du type de produit \"".$_REQUEST["nom"]."\" (".$_REQUEST["description"].")","Comptoirs",$site->user->id);
 }
@@ -87,28 +85,19 @@ elseif ( $_REQUEST["action"] == "addproduit" )
   if ( $_REQUEST["stock"] == "lim" )
     $stock_global = $_REQUEST["stock_value"];
   if ( $produit->ajout ($typeprod->id,
-    $assoboutiqueut->id,
     $_REQUEST['nom'],
     $_REQUEST['prix_vente_prod_service'],
     $_REQUEST['prix_vente'],
     $_REQUEST['prix_achat'],
-    $_REQUEST['meta'],
-    $_REQUEST['id_action'],
-    $_REQUEST['code_barre'],
     $stock_global,
     $file->id,
     $_REQUEST["description"],
     $_REQUEST["description_longue"],
 
-    $_REQUEST["a_retirer"],
-    $_REQUEST["postable"],
-    $_REQUEST["frais_port"],
-
     $_REQUEST["id_groupe"],
     $_REQUEST["date_fin"],
 
     $produit_parent->id,
-    $_REQUEST["mineur"]
     ))
   {
     $site->log("Ajout d'un produit","Ajout du produit ".$_REQUEST['nom']." (".$_REQUEST["description"].") au profit de ".$asso->nom,"Comptoirs",$site->user->id);
@@ -126,32 +115,20 @@ else if ( $_REQUEST["action"] == "upproduit" && ($produit->id > 0) && ($typeprod
     $_REQUEST['prix_vente_prod_service'],
     $_REQUEST['prix_vente'],
     $_REQUEST['prix_achat'],
-    $_REQUEST['meta'],
-    $_REQUEST['id_action'],
-    $_REQUEST['code_barre'],
     $stock_global,
     $file->id,
     $_REQUEST["description"],
     $_REQUEST["description_longue"],
-    $assoboutiqueut->id,
-    $_REQUEST["a_retirer"],
-    $_REQUEST["postable"],
-    $_REQUEST["frais_port"],
-    $_REQUEST["id_groupe"],
     $_REQUEST["date_fin"],
     $produit_parent->id,
-    $_REQUEST["mineur"]
     );
 }
 else if ( $_REQUEST["action"] == "uptype" && ($typeprod->id > 0) && ($assoboutiqueut->id > 0)  )
 {
   $file->load_by_id($_REQUEST["id_file"]);
 
-  $typeprod->modifier( $_REQUEST["nom"], $_REQUEST["action"], $assoboutiqueut->id, $file->id, $_REQUEST["description"] );
+  $typeprod->modifier( $_REQUEST["nom"], $file->id, $_REQUEST["description"] );
 }
-
-
-
 
 
 if ( $_REQUEST["page"] == "newfile" )
