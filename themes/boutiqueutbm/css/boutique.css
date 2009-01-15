@@ -78,37 +78,10 @@ div#headermenu
   top:0;
   right:0;
   margin:0;
-  width:520px;
+  width:200px;
   padding:0 0 0 15px;
   height:30px;
   background:#424242 url(../images/box-bl-corner.png) no-repeat bottom left;
-}
-div#fsearchbox
-{
-  margin:0;
-  margin-top:5px;
-  padding:0;
-  display:inline-block;
-}
-div#fsearchbox input
-{
-  width:155px;
-}
-#head_comptoirs
-{
-  margin-top:5px;
-  float:left;
-  height:20px;
-  width:40px;
-}
-#head_comptoirs a
-{
-  color:#ffffff;
-  font-size:9px;
-}
-#head_comptoirs img
-{
-  height:9px;
 }
 #dropmenudiv, #assos, #login
 {
@@ -133,16 +106,16 @@ div#fsearchbox input
   width:155px;
   cursor: pointer;
 }
-#assos:hover, #login:hover
+#login:hover
 {
   color:#6d6d6d;
 }
-#login a, #assos a
+#login a
 {
   text-decoration:none;
   color:#ffffff;
 }
-#login a:hover, #assos a:hover
+#login a:hover
 {
   color:#6d6d6d;
 }
@@ -157,7 +130,6 @@ div#fsearchbox input
   color:#ffffff;
   /*font-weight: bold;*/
 }
-
 #dropmenudiv a
 {
   font:normal 10px;
@@ -189,7 +161,6 @@ div#fsearchbox input
 {
   color:#00AEDD;
 }
-
 #overlay
 {
   background-image: url("../images/overlay.png");
@@ -200,13 +171,11 @@ div#fsearchbox input
   width: 100%;
   height: 100%;
 }
-
 * html #overlay
 {
   background-color: #333;
   background-color: transparent;
 }
-
 #passwordbox
 {
   width:300px;
@@ -215,7 +184,6 @@ div#fsearchbox input
   border:2px solid #000000;
   z-index: 100;
 }
-
 #close
 {
   position:absolute;
@@ -223,8 +191,6 @@ div#fsearchbox input
   right:-5px;
   cursor:pointer;
 }
-
-
 a
 {
   text-decoration: none;
@@ -235,23 +201,19 @@ a:hover
 {
   text-decoration: underline;
 }
-
 tt
 {
   font-family: monospace;
 }
-
 img
 {
   border: 0;
 }
-
 form
 {
   margin: 0;
   padding: 0;
 }
-
 input
 {
   border: 1px #364970 solid;
@@ -261,7 +223,6 @@ input
   margin-right: 2px;
   margin-bottom: 3px;
 }
-
 input.radiobox
 {
   border: 0;
@@ -271,7 +232,6 @@ input.radiobox
   margin-right: 2px;
   margin-bottom: 3px;
 }
-
 input.chkbox
 {
   border: 0;
@@ -281,7 +241,6 @@ input.chkbox
   margin-right: 2px;
   margin-bottom: 3px;
 }
-
 textarea
 {
   border: 1px #364970 solid;
@@ -291,18 +250,15 @@ textarea
   margin-right: 2px;
   margin-bottom: 3px;
 }
-
 input.connect
 {
   width: 95%;
 }
-
 p.error
 {
   color: red;
   font-weight: bold;
 }
-
 .clearboth
 {
   clear: both;
@@ -358,7 +314,6 @@ div.important p
   margin: 0;
   padding: 0.5em;
 }
-
 /**
  * Listes non ordonnées
  * TODO: Verifier le rendu sous IE et FF dans les boites et les articles
@@ -544,166 +499,6 @@ div.page#n
   margin: 0 1em;
 }
 
-
-/*
- * Boites des colonnes
- */
-
-img#bureau_ae_belfort_icon, img#bureau_ae_sevenans_icon
-{
-  display:none;
-}
-
-div.box
-{
-  position: relative;
-  margin: 5px;
-  margin-bottom: 15px;
-  padding: 10px;
-  width: 250px;
-  color: #2F3238;
-  border: 1px solid #D2D2D9;
-}
-
-div.box a
-{
-  color:#364970;
-  text-decoration: none;
-}
-
-/* Titre de la boite */
-div.box h1
-{
-  padding: 3px 5px;
-  margin-bottom:0;
-  font-size: 0;
-  color: #ffffff;
-  text-align:right;
-  background: #00AEDD;
-}
-
-div.box h1 a
-{
-  cursor:move;
-  color: #ffffff;
-  font-size: 18px;
-}
-
-div.box h1 a:hover
-{
-  text-decoration: none;
-}
-
-/** Corps de la boite */
-div.box div.body
-{
-  margin:0;
-  border:0;
-  padding: 8px;
-  position:relative;
-  background:#cccccc;
-}
-
-
-div.box p
-{
-  margin: 0px;
-  padding-bottom: 5px;
-}
-div.box div.body div.fastsearch h2
-{
-  list-style: none;
-  margin-bottom: 0.3em;
-  margin-top: -2px;
-}
-
-div.box div.body div.fastsearch input.isubmit
-{
-  list-style: none;
-  float: right;
-  border-top:0;
-  border-left:0;
-}
-
-div.box div.body div.fastsearch a
-{
-   text-decoration: none;
-   font-weight: normal;
-}
-
-div.box ul
-{
-  margin: 0px;
-  margin-bottom: 0.25em;
-  padding-left: 15px;
-  list-style: none;
-  font-size:12px;
-  color:#20252A;
-}
-
-div.box ul li:before
-{
-  content: "+ ";
-}
-div.box h2, div.box h3
-{
-  padding-left:5px;
-  margin:0 2px 0 0;
-  border-bottom: 1px;
-  border-color:#4c4c4c;
-  color:#20252A;
-  position:relative;
-  font-weight:bold;
-  font-size:11px;
-  line-height:11px;
-  padding-bottom:5px;
-
-}
-
-div.box h2 img
-{
-  position:absolute;
-  top:6px;
-  left:-20px;
-}
-
-html > * div.box h2 img
-{
-  position:absolute;
-  top:4px;
-  left:5px;
-}
-
-
-div.box h2 a
-{
-  text-decoration:none;
-  border: 0;
-  border-bottom: 1px;
-  border-color:#4c4c4c;
-  color:#20252A;
-}
-
-div.box div.body ul
-{
-  margin-bottom:0px;
-}
-
-div.box div.body ul li
-{
-  padding-bottom:1px;
-}
-
-div.box div.body ul li a
-{
-  color:#20252A;
-}
-
-div.box p
-{
-  font-weight:bold;
-}
-
 /**
  * Articles (corps de page)
  */
@@ -836,99 +631,57 @@ div.article ul
 
 /* Gestion des tableaux dans les articles pour generer des listes
    d'elements */
-div.article table.liste {
+div.article table.liste
+{
   width: 95%;
   border: 1px #364970 solid;
   border-collapse: collapse;
   margin: 1em auto;
 }
 
-div.article table.liste td {
+div.article table.liste td
+{
   border: 1px #364970 solid;
   border-spacing: 0px;
   margin: 0px;
   padding: 1px;
 }
 
-div.article table.liste th {
+div.article table.liste th
+{
   font-weight: bold;
 }
 
-div.article table.liste tr.error {
+div.article table.liste tr.error
+{
   color: red;
   font-weight: bold;
 }
 
-div.article table.liste td.info {
+div.article table.liste td.info
+{
   color: blue;
 }
 
-div.article table.liste tr.credit {
+div.article table.liste tr.credit
+{
   color: blue;
 }
 
-div.article table.liste tr.debit {
+div.article table.liste tr.debit
+{
   color: green;
 }
 
-div.article table.liste tr.header {
+div.article table.liste tr.header
+{
   font-weight: bold;
 }
 
-/* Pour afficher en tr\x{FFFD}s gros et tr\x{FFFD}s lisible */
-div.article p.huge {
+div.article p.huge
+{
   font-weight: bold;
   font-size: 300%;
-}
-
-/* pour la kfet, on affiche la commande en gros */
-div.article table.commande {
-  border: 1px #364970 solid;
-  border-collapse: collapse;
-  font-size: 200%;
-}
-
-div.article table.commande td {
-  font-size: 200%;
-}
-div.article table.commande tr.total {
-  border-top: 1px #364970 solid;
-  font-weight: bold;
-}
-
-div.article table.photos
-{
-  width: 100%;
-}
-
-div.article table.photos thead td
-{
-  width: 50%;
-  font-weight: bold;
-  border-bottom: 1px black solid;
-  margin-bottom: 0.5em;
-}
-
-div.article table.photos tbody td
-{
-  width: 50%;
-  text-align: center;
-}
-
-/* En dessous de chaque nouvelle ou de chaque \x{FFFD}v\x{FFFD}nement, il y a une
-   signature avec le nom de l'auteur, le mail, la date d'envoi ... */
-div.news-footer {
-  margin-top: 1em;
-  clear: both;
-}
-
-div.news-footer p {
-  text-align: right;
-  font-size: 80%;
-}
-
-div.news-footer a.link {
-  font-size: 100%;
 }
 
 /*
@@ -1058,54 +811,6 @@ height: 12px;
 width: 12px;
 cursor: pointer;
 }
-
-/*
- * Evenements du calendrier
- */
-dl.event
-{
-  position: absolute;
-  text-align: left;
-  width: 15em;
-  z-index: 10000;
-  list-style: none;
-  display: none;
-  padding:0;
-  border-bottom:1px solid white;
-  left:10px;
-}
-
-dl.event dt
-{
-  padding:5px;
-  padding-bottom:2px;
-  margin:0;
-  border:0;
-  border-top:1px solid white;
-  font-size:11px;
-  font-weight:bold;
-}
-
-dl.event dd
-{
-  padding:5px;
-  padding-top:2px;
-  margin:0;
-  border:0;
-  font-size:10px;
-
-}
-
-dl.event .e1
-{
-  background: #eeac00;
-}
-
-dl.event .e2
-{
-  background: #f5c753;
-}
-
 table.caddie
 {
   border: 1px #364970 solid;
@@ -1202,8 +907,6 @@ div.article div.formrow img
 {
   vertical-align: middle;
 }
-
-
 div.form div.filesselect
 {
   padding:2px;
@@ -1558,143 +1261,6 @@ div.article div.tabs_top a.selected, div.article div.tabs_top a:hover, div.artic
   border-right:1px solid #EEAC00;*/
 }
 
-/*
- * News en première page
- */
-div.news
-{
-  padding: 0;
-  margin: 0;
-}
-
-div.news div.newsitem
-{
-  clear: both;
-  overflow:hidden;
-  padding: 0.5em;
-  margin:0;
-  border:0;
-  margin-bottom:0.1em;
-  font-weight: bold;
-}
-
-div.news span.newsdate
-{
-  font-size: 80%;
-  font-weight: normal;
-  font-style: italic;
-}
-
-div.news div.newsleft
-{
-  font-size: 90%;
-  font-weight: normal;
-}
-
-div.news span.resume
-{
-  font-weight: normal;
-}
-
-div.news div.first
-{
-  padding-bottom:0.2em;
-  background-color:transparent;
-}
-
-div.news div.altfirst
-{
-  padding-bottom:0.2em;
-}
-
-div.news_top
-{
-  width:100%;
-}
-
-div.news_top h2
-{
-  margin-top: 0;
-  margin-bottom: 0.2em;
-  padding-left: 0.2em;
-  border-bottom: 1px dashed #364970;
-  border-left: 1px dashed #364970;
-  font-size: 120%;
-}
-
-div.news_top a
-{
-  color:black;
-  font-size:100%;
-}
-
-div.news_left h2
-{
-  margin-bottom: 0.2em;
-  padding-left: 0.2em;
-  border-bottom: 1px dashed #364970;
-  border-left: 1px dashed #364970;
-  font-size: 120%;
-}
-
-div.news_left a
-{
-  color:black;
-  font-size:100%;
-}
-
-div.news_right h2
-{
-  margin-bottom: 0.2em;
-  padding-left: 0.2em;
-  border-bottom: 1px dashed #364970;
-  border-left: 1px dashed #364970;
-  font-size: 120%;
-}
-
-div.news_right a
-{
-  color:black;
-  font-size:100%;
-}
-
-div.news_left
-{
-  width:49%;
-  float:left;
-}
-
-div.news_right
-{
-  width:49%;
-  float:right;
-}
-
-div.news_line
-{
-  width:100%;
-  clear: both;
-}
-
-/*
- * Affichage d'une nouvelle
- */
-div.article img.newsimg
-{
-  float: left;
-  margin-right: 10px;
-  max-height:6em;
-  position:relative;
-}
-
-div.news img.newsimg
-{
-  float: left;
-  max-height:4em;
-  margin-right: 1em;
-  position:static;
-}
-
 div.navbox
 {
   float:right;
@@ -1732,537 +1298,10 @@ div.percentbar
   margin-bottom: 0.4em;
   position:relative;
 }
-
-p.nbvotes
-{
-  font-size:80%;
-}
-
-/*
- * Affichage matmatronch
- */
-
-#setphotos .formrow
-{
-  clear:both;
-}
-
-#setphotos .formrow#mmt_row
-{
-  width:49%;
-  float:left;
-  position:static;
-  clear:none;
-}
-
-#setphotos .formrow#idt_row
-{
-  width:49%;
-  float:right;
-  position:static;
-  clear:none;
-}
-
-#blouse_row
-{
-  width:45%;
-}
-
-#setphotos div.subform
-{
-  padding-left:0em;
-}
-
-#idt_row div.formlabel
-{
-  width:4em;
-}
-
-#setphotos img
-{
-  margin-left:3em;
-}
-
-/*
- * Elections
- */
-table.elections
-{
-
-}
-
-table.elections td
-{
-  text-align: center;
-  width: 150px;
-  vertical-align:top;
-}
-
-table.elections div.candidat
-{
-  width: 150px;
-  margin-bottom:5px;
-}
-
-table.elections div.candidat img
-{
-  width: 80px;
-}
-
-td.moneycell
-{
-  text-align:right;
-}
-
-/*
- * Recherche rapide
- */
-#fsearchbox
-{
-  float:right;
-  text-align:left;
-  padding:0;
-  margin:0;
-  margin-top:3px;
-  height:24px;
-}
-
-#fsearchbox input
-{
-  padding:0;
-  margin:0 10px 0 5px;
-  width:180px;
-  background:#ffffff;
-  border:0;
-}
-
-#fsearchbox form
-{
-  padding:0;
-  margin:0;
-  border:0;
-}
-
-#fsearchres
-{
-  z-index:60;
-  text-align:left;
-  position:absolute;
-  width:400px;
-  right:0px;
-  top:29px;
-  background:#ffffff;
-  border:2px solid #424242;
-  padding:0.5em;
-  display:none;
-}
-
-#fsearchres h2
-{
-  border-bottom: 1px black solid;
-}
-
-#fsearchres ul
-{
-  margin-left: 2em;
-}
-
-#fsearchres ul li
-{
-  clear:both;
-}
-
-#fsearchres ul li div.imguser
-{
-  float:right;
-  width:28px;
-  height:30px;
-  background:#c0c0c0;
-  overflow:hidden;
-  margin:1px;
-}
-
-#fsearchres ul li div.imguser img
-{
-  width:28px;
-}
-
-#fsearchres p.more
-{
-  clear:both;
-  text-align:right;
-}
-
-#fsearchblock ul li
-{
-  clear:both;
-}
-
-#fsearchblock ul li div.imguser
-{
-  float:right;
-  width:28px;
-  height:30px;
-  background:#c0c0c0;
-  overflow:hidden;
-  margin:1px;
-}
-
-#fsearchblock ul li div.imguser img
-{
-  width:28px;
-}
-
-#fsearchblock p.more
-{
-  clear:both;
-  text-align:right;
-}
-
-/*
- * Nouvelles de la première page
- */
-div.newsappel ul li a
-{
-  font-size:120%;
-  font-weight:bold;
-  color:#696969;
-}
-
-div.newsappel ul
-{
-  padding:0.5em;
-}
-
-div.newsappel
-{
-  background:#D2D2D9;
-  position:relative;
-}
-
-div.newsnotices ul
-{
-  list-style: none;
-  margin-right:1em;
-  position:relative;
-  list-style-image: none;
-}
-
-div.newsnotices
-{
-  background: #cddcec;
-  padding:0.5em;
-  padding-right:1.5em;
-  margin-top:1em;
-}
-
-div.newssoon
-{
-  border-top: 1px solid #c0c0c0;
-  padding:0.5em;
-  margin-top:1em;
-  position:relative;
-}
-
-div.newsnotices h2
-{
-  margin:0;
-  border:0;
-  font-size:140%;
-  border-bottom:1px solid #fff;
-}
-
-div.newssoon h2
-{
-  margin:0;
-  border:0;
-  font-size:140%;
-}
-
-div.newsnottomiss
-{
-  border-top: 1px solid #c0c0c0;
-  padding:0.5em;
-  margin-top:1em;
-}
-
-div.newsnottomiss h2
-{
-  margin:0;
-  border:0;
-  font-size:140%;
-}
-
-div.newsnottomiss ul
-{
-  margin-top:0.5em;
-  position:relative;
-}
-
-div.newsnottomiss li
-{
-  margin-top:0.3em;
-}
-
-div.newsnottomiss li a
-{
-  color:#222;
-  font-weight: bold;
-  font-size:110%;
-}
-
-div.newssoon ul
-{
-  list-style: none;
-  margin-right:1em;
-  list-style-image: none;
-}
-
-div.newssoon h3
-{
-  border-bottom: 1px dotted #808080;
-  margin-top:1em;
-  margin-bottom:0.5em;
-  color: #336699;
-  margin-left:0.5em;
-  font-size:110%;
-}
-
-li.nvlitm
-{
-  padding:0.5em;
-  position:relative;
-}
-
-li.nvlitm .nvltitre
-{
-  font-size:120%;
-  color:#000;
-  font-weight: bold;
-}
-
-li.nvlitm .hour
-{
-  font-size:80%;
-  margin-left:0.25em;
-  color:#808080;
-}
-
-li.nvlitm .hour a
-{
-  font-size:100%;
-  color:#808080;
-}
-
-li.nvlitm .nvlresume
-{
-  color:#404040;
-}
-
-div.newssoon li.nvl1
-{
-  background:#ffe7ab;
-}
-
-div.newsnotices li.nvl1
-{
-  background:#fff;
-}
-
-li.nvl0 img.nvlicon
-{
-  position:relative;
-  float:left;
-  width:48px;
-  height:48px;
-  margin-right:1em;
-  background:#fff;
-}
-
-/* IE n'aime pas le float right, donc float left */
-li.nvl1 img.nvlicon
-{
-  position:relative;
-  float:left;
-  width:48px;
-  height:48px;
-  margin-right:1em;
-  background:#fff;
-}
-
-/* Mais les vrais navigateurs float right */
-html > * li.nvl1 img.nvlicon
-{
-  float:right;
-  margin-right:0;
-  margin-left:1em;
-}
-
-li.nvlttls .hour
-{
-  font-size:80%;
-  color:#808080;
-  margin-left:0.25em;
-
-}
-
-li.nvlttls .hour a
-{
-  font-size:100%;
-  color:#808080;
-  font-weight:normal;
-}
-
-li.nvlitm .when
-{
-  font-size:80%;
-  margin-left:0.25em;
-  color:#808080;
-}
-
-li.nvlitm .when a
-{
-  font-size:100%;
-  font-weight:normal;
-  color:#808080;
-}
-
-
-#sbox_body_lastnews li
-{
-  font-size:80%;
-  color:#000;
-}
-
-#sbox_body_lastnews li a
-{
-  font-size:110%;
-  color:#000;
-}
-
-/**
- * Boite particulière : Ma session (l'AE et moi)
- */
-#disconnect
-{
-  margin-top:1em;
-}
-
-/*
- * Affichage des donnés des emplois du temps
- */
-form#edtcts div.form table
-{
-  border-collapse:collapse;
-  border-right: 1px #d8e7f3 solid;
-  border-top: 1px #d8e7f3 solid;
-  border-bottom: 1px #d8e7f3 solid;
-  margin-right: auto;
-  margin-left: auto;
-}
-
-form#edtcts div.form thead
-{
-  background: #d8e7f3;
-  font-weight: bold;
-}
-
-form#edtcts div.form tbody td
-{
-  border-left: 1px #d8e7f3 solid;
-  border-bottom: 1px #d8e7f3 solid;
-  padding: 2px;
-}
-
 input.img_submit
 {
   border: none;
   background: #BABBBC;
-}
-
-/*
- * Champ de selection d'un utilisateur
- */
-.userfield
-{
-  position:relative;
-  width:200px;
-}
-
-.userfield .button
-{
-  position:absolute;
-  top:0;
-  right:0;
-}
-
-.userfield .listing ul li
-{
-  clear:both;
-  position:relative;
-  height:20px;
-  padding-top:10px;
-}
-
-.userfield .listing ul li div.imguser
-{
-  position:absolute;
-  width:28px;
-  height:30px;
-  background:#c0c0c0;
-  overflow:hidden;
-  margin:1px;
-  top:0px;
-  right:0px;
-}
-
-.userfield .listing ul li div.imguser img
-{
-  width:28px;
-}
-
-.userfield .listing
-{
-  background:white;
-  border:1px solid #c0c0c0;
-  padding:5px;
-}
-
-.userfield .tree
-{
-  background:white;
-  border:1px solid #c0c0c0;
-  padding:5px;
-}
-
-.userfield .currentuser
-{
-  background:white;
-  border:1px solid #c0c0c0;
-  padding:5px;
-  border-bottom:0;
-}
-
-.userfield .currentuser img
-{
-  width:48px;
-  float:left;
-  margin-right:10px;
-}
-
-.userfield .currentuser .nomprenom
-{
-  font-weight:bold;
-}
-
-.userfield .currentuser .surnom
-{
-  font-style:italic;
-}
-
-div.box div.body .userfield
-{
-  width:170px;
 }
 
 /*
@@ -2288,95 +1327,11 @@ div.article div.subtab a
 }
 
 /*
- * Boite d'information se trouvant dans le header
- */
-#important
-{
-  position: absolute;
-  top: 16px;
-  right: 10px;
-  width:339px;
-  height:44px;
-  background: url("../images/infobox.png");
-  padding:0;
-  margin:0;
-  border:0;
-  overflow:hidden;
-}
-
-#important div.body
-{
-  background: none;
-  padding:0;
-  margin:0;
-  border:0;
-  padding-top:8px;
-  padding-left:20px;
-  padding-right:8px;
-}
-
-/*
  * Footer : Liens en bas (legals, equipeinfo, everaldo.com)
  */
 p.text-footer
 {
   display:none;
-}
-
-/**
- * Boite particulières
- *
- * Avertissements (pour attirer l'attention sur un élément)
- */
-#sbox_alerts
-{
-  background-image: url("../images/redbox-top.png") ;
-}
-
-#sbox_alerts div.body
-{
-  background-image: url("../images/redbox-bottom.png") ;
-}
-
-#sbox_alerts small
-{
-  font-size: 10px;
-}
-
-#sbox_alerts small b
-{
-  font-size: 10px;
-}
-
-/*
- * Autres boites particulières
- */
-#sbox_calendrier
-{
-}
-
-#sbox_pg
-{
-}
-
-#sbox_connexion
-{
-}
-
-#sbox_anniv
-{
-}
-
-#sbox_mmt
-{
-}
-
-#sbox_lastnews
-{
-}
-
-#sbox_Panier
-{
 }
 
 #systooltip
@@ -2565,19 +1520,6 @@ div.calbox td.weekday
 {
   color:#2F3238;
 }
-#sbox_alerts h1
-{
-  background-color:#FF3399;
-}
-#sbox_info_en_boucle .body
-{
-  min-height: 160px;
-}
-#hide_apples, #hide_notice
-{
-  float:right;
-  z-index: 60;
-}
 
 /* progress bar */
 .progressbar
@@ -2609,8 +1551,6 @@ div.calbox td.weekday
 {
   display:none;
 }
-
-
 /* vignetes et compagnie */
 .galitem
 {
