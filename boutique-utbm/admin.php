@@ -36,6 +36,22 @@ require_once($topdir . "include/entities/folder.inc.php");
 require_once($topdir . "include/entities/files.inc.php");
 require_once($topdir . "include/cts/taglist.inc.php");
 
+function generate_subform_stock ( $nom,$form_n, $stock_n, $stock_value_n, $stock = -1 )
+{
+
+ $subfrm=new form ($form_n,false,false,false,$nom);
+
+ $subfrm1=new form ($stock_n,false,false,false,"Non limité");
+ $subfrm->add($subfrm1,false,true,($stock==-1),"nlim",true);
+
+ $subfrm2=new form ($stock_n,false,false,false,"Limité à");
+ $subfrm2->add_text_field($stock_value_n,"",($stock==-1)?"":$stock);
+ $subfrm->add($subfrm2,false,true,($stock!=-1),"lim",true);
+
+ return $subfrm;
+}
+
+
 $site = new boutique();
 if(!is_dir("/var/www/ae/www/ae2/var/files"))
   $site->fatal_partial("fichiers");
