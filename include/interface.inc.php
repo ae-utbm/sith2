@@ -205,10 +205,18 @@ class interfaceweb
 
     $this->buffer .= "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n"; // (IE6 Legacy support)
     if(!defined('NOTAE'))
-      echo "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
+    {
+      $this->buffer .= "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")." - association des etudiants de l'utbm</title>\n";
+      $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default2/css/site2.css?".filemtime($wwwtopdir . "themes/default2/css/site2.css")."\" title=\"AE2-NEW2\" />\n";
+    }
     else
-      echo "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")."</title>\n";
-
+    {
+      $this->buffer .= "<title>".htmlentities($this->title,ENT_COMPAT,"UTF-8")."</title>\n";
+      if(isset($this->css))
+        $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . $this->css."?".filemtime($wwwtopdir . $this->css)."\" title=\"AE2-NEW2\" />\n";
+      else
+        $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default2/css/site2.css?".filemtime($wwwtopdir . "themes/default2/css/site2.css")."\" title=\"AE2-NEW2\" />\n";
+    }
     $this->buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"" . $wwwtopdir . "themes/default2/css/site2.css?".filemtime($wwwtopdir . "themes/default2/css/site2.css")."\" title=\"AE2-NEW2\" />\n";
     foreach ( $this->extracss as $url )
       if(file_exists(htmlentities($wwwtopdir . $url,ENT_COMPAT,"UTF-8")))
@@ -292,7 +300,12 @@ class interfaceweb
     }
     elseif($this->user->type=="srv" )
     {
-      $this->buffer .= "<div id='login'>\n";
+      $this->buffer .= "<script type=\"text/javascript\">\n";
+      $this->buffer .= "var menu_utilisateur=new Array();";
+      $i=0;
+      $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."disconnect.php\">Déconnexion</a>';";
+      $this->buffer .= "</script>";
+      $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur)\" onMouseout=\"delayhidemenu()\">\n";
       $this->buffer .= "<a href=\"".$topdir."boutique-utbm/suivi.php\">Suivi commandes</a>\n";
     }
     else

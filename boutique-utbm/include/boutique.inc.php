@@ -27,6 +27,7 @@
  * 02111-1307, USA.
  */
 
+define('NOTAE',true);
 require_once($topdir . "include/site.inc.php");
 require_once("include/defines.inc.php");
 require_once("include/produit.inc.php");
@@ -48,6 +49,8 @@ class boutique extends site
   var $cart;
   /* une variable total */
   var $total;
+  /* une variable pour la css */
+  var $css = 'themes/boutiqueutbm/css/boutique.css';
 
   function boutique ()
   {
@@ -80,44 +83,10 @@ class boutique extends site
       $this->load_cart();
 
 
-    /*** boite boutique */
-
-
-    $eb_box = new contents("Panier boutique");
-
-    $lst = new itemlist(null,"actions");
-
-    if ($this->cart != null)
-    {
-      $eb_box->add_paragraph("Votre panier:","intro");
-
-       $prods = new itemlist(null,"items");
-
-      foreach ($this->cart as $item)
-      {
-        $prods->add($item->nom." x ".$_SESSION['boutique_cart'][$item->id]);
-      }
-
-      $eb_box->add ($prods);
-
-
-      $eb_box->add_paragraph("Total: ".sprintf("%.2f Euros",$this->total / 100),"total");
-
-      $lst->add ("<a href=\"./cart.php\">Modifier le panier</a>");
-      $lst->add ("<a href=\"./cart.php\">Passer la commande</a>");
-    }
-    else
-      $lst->add("Votre panier est actuellement vide.");
-
-    $eb_box->add ($lst);
-
     $categories = $this->get_cat ();
 
-
-    $this->add_box ("boutique", $eb_box);
-
     /* demarrage normal de la page */
-    parent::start_page("boutique",$title);
+    parent::start_page("boutique",'Boutique UTBM');
   }
 
   /* chargement du panier de l'utilisateur */
