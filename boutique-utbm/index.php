@@ -138,12 +138,8 @@ elseif ( !$typeproduit->is_valid() )
 {
   $accueil = new contents("Boutique utbm",
         "Bienvenue dans la boutique UTBM, la boutique en ligne ".
-        "de l'UTBM. Sur cette page, vous allez pouvoir ".
-        "selectionner des categories dans lesquelles ".
-        "sont ranges les differents articles proposes ".
-        "a la vente.<br/>".
-        "Une fois votre panier rempli, vous pourrez ".
-        "passer a l'achat."
+        "de l'UTBM.<br />".
+        "Cette boutique est réalisée en partenariat avec l'association des étudiants de l'utbm."
         );
 
   $site->add_contents ($accueil);
