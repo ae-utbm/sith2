@@ -91,11 +91,18 @@ if(isset($_REQUEST["id_facture"]))
       $factured_infos = array ('name' => utf8_decode($user->nom)
              . " " .
              utf8_decode($user->prenom),
+/*
              'addr' => array(
                  utf8_decode($user->addresse),
                  utf8_decode($ville->cpostal)
                  . " " .
                  utf8_decode($ville->nom)),
+*/
+             'addr' => array(
+                utf8_decode("service propagande"),
+                utf8_decode("UTBM"),
+                "90010 BELFORT Cedex")
+                ),
              false);
 
       $date_facturation = date("d/m/Y H:i", $fact->date);
