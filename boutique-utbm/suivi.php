@@ -40,9 +40,9 @@ if ( $_REQUEST["page"] == "ALL")
       "`boutiqueut_vendu`.`prix_unit`*`boutiqueut_vendu`.`quantite`/100 AS `total`, " .
       "`boutiqueut_produits`.`nom_prod` " .
       "FROM `boutiqueut_vendu` " .
-      "INNER JOIN `boutiqueut_produits` ON `boutiqueut_produits`.`id_produit` =`boutiqueut_vendu`.`id_produit` " .
-      "INNER JOIN `boutiqueut_debitfacture` ON `boutiqueut_debitfacture`.`id_facture` =`boutiqueut_vendu`.`id_facture` " .
-      "INNER JOIN `utilisateurs` ON `boutiqueut_debitfacture`.`id_utilisateur` =`utilisateurs`.`id_utilisateur` " .
+      "INNER JOIN `boutiqueut_produits` USING(`id_produit`) " .
+      "INNER JOIN `boutiqueut_debitfacture` USING(`id_facture`) " .
+      "INNER JOIN `utilisateurs` USING(`id_utilisateur`) " .
       "WHERE `id_utilisateur`='".$user->id."' " .
       "AND EXTRACT(YEAR_MONTH FROM `date_facture`)='".mysql_real_escape_string($_REQUEST["month"])."' " .
       "ORDER BY `boutiqueut_debitfacture`.`date_facture` DESC");
