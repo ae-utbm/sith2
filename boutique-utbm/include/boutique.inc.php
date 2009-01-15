@@ -62,7 +62,6 @@ class boutique extends site
 
     $this->set_side_boxes("left",array());
     $this->set_side_boxes("right",array());
-    $this->add_css ("css/boutiqueutbm.css");
 
     if ( $this->get_param("closed.boutiqueutbm",false) && !$this->user->is_in_group("root")  )
       $this->fatal_partial("services");
