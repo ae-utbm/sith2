@@ -159,16 +159,18 @@ if ( $_REQUEST["page"] == "newfile" )
   $site->start_page($section,"Fichiers");
   $cts = new contents($path." / Ajouter un fichier");
 
-  $frm = new form("addfile","d.php?id_folder=".$folder->id);
+  $frm = new form("addfile","admin.php?id_folder=".$folder->id);
   $frm->allow_only_one_usage();
   $frm->add_hidden("action","addfile");
+  $frm->add_hidden("rights_id_group_admin",7);
+  $frm->add_hidden("rights_id_group",7);
+  $frm->add_hidden("__rights_lect","273");
+  $frm->add_hidden("__rights_ecrt","544");
   if ( $ErreurAjout )
     $frm->error($ErreurAjout);
   $frm->add_file_field("file","Fichier",true);
   $frm->add_text_field("nom","Nom","",true);
-  $frm->add_text_field("tags","Tags (séparateur: virgule)","");
   $frm->add_text_area("description","Description","");
-  $frm->add_rights_field($folder,false,$folder->is_admin($site->user),"files");
   $frm->add_submit("valid","Ajouter");
 
   $cts->add($frm);
