@@ -238,15 +238,15 @@ class facture_pdf extends FPDF
     {
       $this->SetFont('Arial','I',12);
       $this->Cell(150,10,utf8_decode("Total HT : "), "B", 0, "R");
-      $this->ht=sprintf("%.2f",$this->total/119.6);
-      $this->Cell(40,10,$this->ht . " Euros", "B", 0, "R");
+      $ht=sprintf("%.2f",$this->total/119.6);
+      $this->Cell(40,10,$ht . " Euros", "B", 0, "R");
       $this->Ln(10);
     }
     $this->SetFont('Arial','B',14);
     $this->SetFont('Arial','B',14);
     $this->Cell(150,10,utf8_decode("Total à payer : "), "B", 0, "R");
-    $this->total = sprintf("%.2f", $this->total / 100);
-    $this->Cell(40,10,$this->total . " Euros", "B", 0, "R");
+    $_total = sprintf("%.2f", $this->total / 100);
+    $this->Cell(40,10,$_total . " Euros", "B", 0, "R");
     //marge
     $this->Ln(10);
   }
@@ -257,7 +257,10 @@ class facture_pdf extends FPDF
     //Police de caractere
     $this->SetFont('Arial','',14);
     /* total */
-    $this->Cell(150,10,utf8_decode("TVA non-applicable, Bahquoi?"), "B", 0, "");
+    if($this->ht)
+      $this->Cell(150,10,utf8_decode("TVA : 19.6%"), "B", 0, "");
+    else
+      $this->Cell(150,10,utf8_decode("TVA non applicable, article 293B du CGI"), "B", 0, "");
     //marge
     $this->Ln(10);
   }
