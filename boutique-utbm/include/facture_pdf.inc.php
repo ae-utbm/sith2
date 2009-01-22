@@ -233,14 +233,16 @@ class facture_pdf extends FPDF
 
 
     $this->Ln(10);
-    //Police de caractere
-    $this->SetFont('Arial','B',14);
     /* total */
     if($this->ht)
     {
-      $this->Cell(150,10,utf8_decode("Total HT : "), "I", 0, "R");
+      $this->SetFont('Arial','I',12);
+      $this->Cell(150,10,utf8_decode("Total HT : "), "B", 0, "R");
       $this->ht=sprintf("%.2f",$this->total/119.6);
+      $this->Ln(10);
     }
+    $this->SetFont('Arial','B',14);
+    $this->SetFont('Arial','B',14);
     $this->Cell(150,10,utf8_decode("Total à payer : "), "B", 0, "R");
     $this->total = sprintf("%.2f", $this->total / 100);
     $this->Cell(40,10,$this->total . " Euros", "B", 0, "R");
