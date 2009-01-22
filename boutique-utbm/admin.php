@@ -218,7 +218,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
   {
     $prix=sprintf("%.2f Euros",$prix/100);
     $frm->add_hidden("max_idprod".$id_produit,$stock_global_prod);
-    $frm->add_text_field("prod[$id_produit]","<b>$nom_prod, $prix </b>","");
+    $frm->add_text_field("prod[$id_produit]","<b>$nom_prod</b>","",false,false,true,true,$prix);
   }
 //liste des articles et leur nombre
 //affichage du total en temps réel ?
