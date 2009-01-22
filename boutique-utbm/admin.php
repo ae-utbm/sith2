@@ -99,7 +99,7 @@ elseif ( $_REQUEST["action"] == "addtype" )
 {
   $file->load_by_id($_REQUEST["id_file"]);
 
- $typeprod->ajout( $_REQUEST["nom"], $file->id,$_REQUEST["description"] );
+  $typeprod->ajout( $_REQUEST["nom"], $file->id,$_REQUEST["description"] );
 
   $site->log("Ajout d'un type de produit","Ajout du type de produit \"".$_REQUEST["nom"]."\" (".$_REQUEST["description"].")","Comptoirs",$site->user->id);
 }
@@ -183,14 +183,44 @@ if ( $_REQUEST["page"] == "newfile" )
 }
 elseif( $_REQUEST["page"] == "newcmd" )
 {
+  if(isset($_REQUEST['action']))
+  {
+    if($_REQUEST['action']=="newcmd")
+    {
+      //on demande confirmation
+    }
+    elseif($_REQUEST['action']=="validercmd")
+    {
+      //on valide
+    }
+  }
   $site->start_page("services","Administration");
   $cts = new contents("<a href=\"admin.php\">Administration</a> / Enregistrer une commande");
-  $frm = new form ("addtype","admin.php",true,"POST","Enregistrer une commande");
+  $frm = new form ("addtype","admin.php",false,"POST","Enregistrer une commande (PAS POUR LES SERVICES!)");
+  $frm->allow_only_one_usage();
   $frm->add_hidden("page","newcmd");
+  $frm->add_hidden("action","newcmd");
   $frm->add_text_field("nom","Nom :","",true);
   $frm->add_text_field("prenom","Prenom","",true);
   $frm->add_text_area("adresse","Adresse");
 
+  //liste des articles
+  $req = new requete($site->db,
+    "SELECT `boutiqueut_produits`.`nom_prod`, `boutiqueut_produits`.`id_produit`," .
+    "`boutiqueut_produits`.stock_global_prod, " .
+    "`boutiqueut_produits`.prix_vente_prod/100 AS prix_vente_prod, " .
+    "`boutiqueut_type_produit`.`nom_typeprod` " .
+    "FROM `boutiqueut_produits` " .
+    "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_type_produit`.`id_typeprod`=`boutiqueut_produits`.`id_typeprod` " .
+    "WHERE prod_archive != 1 " .
+    "ORDER BY `boutiqueut_type_produit`.`nom_typeprod`,`boutiqueut_produits`.`nom_prod`");
+  $i=0;
+  while(list($nom_prod,$id_produit,$stock_global_prod,$prix,$typeprod)=$req->get_row())
+  {
+    $prix=sprintf("%.2f Euros",$prix /100);
+    $frm->add_hidden("max_idprod".$id_produit,$stock_global_prod);
+    $frm->add_text_field("prod[$id_produit]","$nom_prod ($typeprod), $prix :","");
+  }
 //liste des articles et leur nombre
 //affichage du total en temps réel ?
 

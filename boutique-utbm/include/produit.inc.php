@@ -356,7 +356,9 @@ class produit extends stdentity
    */
   function obtenir_prix ($user)
   {
-    if($user->type=="srv")
+    if($user->is_valid())
+      return $this->prix_vente;
+    elseif($user->type=="srv")
       return $this->prix_vente_service;
     else
       return $this->prix_vente;

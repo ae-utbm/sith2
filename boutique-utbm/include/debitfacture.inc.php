@@ -37,6 +37,12 @@ class debitfacture extends stdentity
 
   /** Id du client */
   var $id_utilisateur;
+  /** Nom utl */
+  var $nom=null;
+  /** Prénom utl */
+  var $prenom=null;
+  /** Adresse */
+  var $adresse=null;
   /** date de la vente */
   var $date;
   /** Mode de paiement AE ou SG */
@@ -72,6 +78,9 @@ class debitfacture extends stdentity
   {
     $this->id = $row['id_facture'];
     $this->id_utilisateur = $row['id_utilisateur'];
+    $this->nom=$row['nom'];
+    $this->prenom=$row['prenom'];
+    $this->adresse=$row['adresse'];
     $this->date = strtotime($row['date_facture']);
     $this->mode = $row['mode_paiement'];
     $this->montant = $row['montant_facture'];
@@ -91,11 +100,14 @@ class debitfacture extends stdentity
    * @return false en cas de problème (solde insuffisent, erreur sql) sinon true
    * @see venteproduit
    */
-  function debit ( $client, $panier, $etat=0 )
+  function debit ( $client, $panier, $etat=0 ,$nom=null,$prenom=null,$adresse=null)
   {
     $this->id_utilisateur = $client->id;
     $this->date = time();
     $this->etat = $etat;
+    $this->nom=$nom;
+    $this->prenom=$prenom;
+    $this->adresse=$adresse;
 
     $this->montant = $this->calcul_montant($panier,$client);
 
@@ -103,6 +115,9 @@ class debitfacture extends stdentity
            "boutiqueut_debitfacture",
            array(
            "id_utilisateur" => $this->id_utilisateur,
+           "nom"=>$this->nom,
+           "prenom"=>$this->prenom,
+           "adresse"=>$this->adresse,
            "date_facture" => date("Y-m-d H:i:s",$this->date),
            "montant_facture" => $this->montant,
            "etat_facture" => $this->etat,
@@ -121,8 +136,10 @@ class debitfacture extends stdentity
     return true;
   }
 
-  function send_emails ()
+  function send_emails ($client)
   {
+    if(!$client->is_valid())
+      return;
     $body = "Bonjour,
 Vous vennez d'effectuer une commande sur la boutique utbm.
 
