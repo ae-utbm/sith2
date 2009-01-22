@@ -32,7 +32,7 @@ if(isset($_REQUEST["id_facture"]))
   $fact = new debitfacture($site->db);
   if($fact->load_by_id($_REQUEST["id_facture"]))
   {
-    $client=new utilisateur($site->db);
+    $user=new utilisateur($site->db);
     $user->load_by_id($fact->id_utilisateur);
     if(isset($_REQUEST["gen_pdf"]))
     {
