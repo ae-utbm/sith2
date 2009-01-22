@@ -239,6 +239,7 @@ class facture_pdf extends FPDF
       $this->SetFont('Arial','I',12);
       $this->Cell(150,10,utf8_decode("Total HT : "), "B", 0, "R");
       $this->ht=sprintf("%.2f",$this->total/119.6);
+      $this->Cell(40,10,$this->ht . " Euros", "B", 0, "R");
       $this->Ln(10);
     }
     $this->SetFont('Arial','B',14);
