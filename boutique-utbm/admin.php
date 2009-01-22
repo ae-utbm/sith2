@@ -228,9 +228,10 @@ elseif( $_REQUEST["page"] == "newcmd" )
     elseif($_REQUEST['action']=="validercmd" && $_REQUEST['save']=='Valider')
     {
       $debfact = new debitfacture ($site->db, $site->dbrw);
-      $vp = new venteproduit ($site->db, $site->dbrw);
+      print_r($_REQUEST['prod'])
       foreach ($_REQUEST['prod'] as $id=>$nb)
       {
+        $vp = new venteproduit ($site->db, $site->dbrw);
         if($vp->load_by_id ($id))
           $cpt_cart[] = array($id, $vp);
       }
