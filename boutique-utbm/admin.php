@@ -372,7 +372,7 @@ elseif ( $typeprod->id > 0 )
   "FROM `boutiqueut_produits` " .
   "INNER JOIN `boutiqueut_type_produit` USING(`id_typeprod`) " .
   "WHERE `boutiqueut_produits`.`id_typeprod`='".$typeprod->id."' " .
-  "ORDER BY `boutique_type_produit`.`nom_typeprod`,`boutiqueut_produits`.`nom_prod`");
+  "ORDER BY `boutiqueut_type_produit`.`nom_typeprod`,`boutiqueut_produits`.`nom_prod`");
  $tbl = new sqltable(
    "lstproduits",
    "Produits", $req, "admin.php?id_typeprod=".$typeprod->id,
