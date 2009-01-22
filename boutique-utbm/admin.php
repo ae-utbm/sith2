@@ -208,18 +208,17 @@ elseif( $_REQUEST["page"] == "newcmd" )
   $req = new requete($site->db,
     "SELECT `boutiqueut_produits`.`nom_prod`, `boutiqueut_produits`.`id_produit`," .
     "`boutiqueut_produits`.stock_global_prod, " .
-    "`boutiqueut_produits`.prix_vente_prod/100 AS prix_vente_prod, " .
-    "`boutiqueut_type_produit`.`nom_typeprod` " .
+    "`boutiqueut_produits`.prix_vente_prod/100 AS prix_vente_prod " .
     "FROM `boutiqueut_produits` " .
     "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_type_produit`.`id_typeprod`=`boutiqueut_produits`.`id_typeprod` " .
     "WHERE prod_archive != 1 " .
     "ORDER BY `boutiqueut_type_produit`.`nom_typeprod`,`boutiqueut_produits`.`nom_prod`");
   $i=0;
-  while(list($nom_prod,$id_produit,$stock_global_prod,$prix,$typeprod)=$req->get_row())
+  while(list($nom_prod,$id_produit,$stock_global_prod,$prix)=$req->get_row())
   {
     $prix=sprintf("%.2f Euros",$prix /100);
     $frm->add_hidden("max_idprod".$id_produit,$stock_global_prod);
-    $frm->add_text_field("prod[$id_produit]","$nom_prod ($typeprod), $prix :","");
+    $frm->add_text_field("prod[$id_produit]","<b>$nom_prod, $prix€ </b>","");
   }
 //liste des articles et leur nombre
 //affichage du total en temps réel ?
