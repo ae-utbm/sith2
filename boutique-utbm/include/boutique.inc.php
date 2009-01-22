@@ -39,9 +39,9 @@ require_once("include/debitfacture.inc.php");
 require_once("include/cts.inc.php");
 
 // Adaptation du catalog pour boutique
-$GLOBALS["entitiescatalog"]["typeproduit"]   = array ( "id_typeprod", "nom_typeprod", "typeprod.png", "boutique-utbm/");
-$GLOBALS["entitiescatalog"]["produit"]       = array ( "id_produit", "nom_prod", "produit.png", "boutique-utbm/" );
-$GLOBALS['entitiescatalog']['facture']       = array ('id_facture', 'id_facture', 'emprunt.png', 'boutique-utbm/suivi.php', 'boutiqueut_debitfacture' );
+$GLOBALS["entitiescatalog"]["typeproduit"]   = array ( "id_typeprod", "nom_typeprod", "typeprod.png", "boutique-utbm/", "boutiqueut_type_produit");
+$GLOBALS["entitiescatalog"]["produit"]       = array ( "id_produit", "nom_prod", "produit.png", "boutique-utbm/", "boutiqueut_produits" );
+$GLOBALS['entitiescatalog']['facture']       = array ('id_facture', 'id_facture', 'emprunt.png', 'boutique-utbm/suivi.php', 'boutiqueut_debitfacture', "boutiqueut_debitfacture");
 /**
  * Version spécialisée de site pour boutique
  */

@@ -190,10 +190,6 @@ elseif ( $_REQUEST["page"] == "addtype" )
 }
 elseif ( $_REQUEST["page"] == "addproduit" )
 {
-  if($produit_parent->can_enumerate())
-    print_r("bleh");
-  if($produit_parent->can_fsearch())
-    print_r("bleh2");
   $site->start_page("services","Administration des comptoirs");
   $cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / <a href=\"admin.php?page=produits\">Produits</a> / Ajouter un produit");
   $frm = new form ("addproduit","admin.php",true,"POST","Ajout d'un produit");
