@@ -216,7 +216,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
   $i=0;
   while(list($nom_prod,$id_produit,$stock_global_prod,$prix)=$req->get_row())
   {
-    $prix=sprintf("%.2f Euros",$prix /100);
+    $prix=sprintf("%.2f Euros",$prix/100);
     $frm->add_hidden("max_idprod".$id_produit,$stock_global_prod);
     $frm->add_text_field("prod[$id_produit]","<b>$nom_prod, $prix€ </b>","");
   }
