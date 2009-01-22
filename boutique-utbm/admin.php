@@ -36,6 +36,9 @@ require_once($topdir . "include/entities/folder.inc.php");
 require_once($topdir . "include/entities/files.inc.php");
 require_once($topdir . "include/cts/taglist.inc.php");
 
+$GLOBALS["entitiescatalog"]["typeproduit"]   = array ( "id_typeprod", "nom_typeprod", "typeprod.png", "boutique-utbm/admin.php", "boutiqueut_type_produit");
+$GLOBALS["entitiescatalog"]["produit"]       = array ( "id_produit", "nom_prod", "produit.png", "boutique-utbm/admin.php", "boutiqueut_produits" );
+
 function generate_subform_stock ( $nom,$form_n, $stock_n, $stock_value_n, $stock = -1 )
 {
 
