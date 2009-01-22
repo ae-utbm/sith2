@@ -160,7 +160,7 @@ if ( $_REQUEST["page"] == "newfile" )
 {
   $folder->droits_acces |= 0x200;
   $site->start_page($section,"Fichiers");
-  $cts = new contents($path." / Ajouter un fichier");
+  $cts = new contents("<a href=\"admin.php\">Administration</a> / Ajouter un fichier");
 
   $frm = new form("addfile","admin.php?id_folder=".$folder->id);
   $frm->allow_only_one_usage();
@@ -183,8 +183,8 @@ if ( $_REQUEST["page"] == "newfile" )
 }
 elseif ( $_REQUEST["page"] == "addtype" )
 {
-  $site->start_page("services","Administration des comptoirs");
-  $cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / <a href=\"admin.php?page=produits\">Produits</a> / Ajouter un type de produit");
+  $site->start_page("services","Administration");
+  $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"admin.php?page=produits\">Produits</a> / Ajouter un type de produit");
   $frm = new form ("addtype","admin.php",true,"POST","Ajout d'un type de produit");
   $frm->add_hidden("action","addtype");
   $frm->add_text_field("nom","Nom du type","",true);
@@ -198,8 +198,8 @@ elseif ( $_REQUEST["page"] == "addtype" )
 }
 elseif ( $_REQUEST["page"] == "addproduit" )
 {
-  $site->start_page("services","Administration des comptoirs");
-  $cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / <a href=\"admin.php?page=produits\">Produits</a> / Ajouter un produit");
+  $site->start_page("services","Administration");
+  $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"admin.php?page=produits\">Produits</a> / Ajouter un produit");
   $frm = new form ("addproduit","admin.php",true,"POST","Ajout d'un produit");
   $frm->add_hidden("action","addproduit");
   $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit");
@@ -245,8 +245,8 @@ if ( $_REQUEST["page"] == "produits" )
    $batch["settypeprod=".$row['id_typeprod']] = "Modifier le type pour ".$row['nom_typeprod'];
 
 
- $site->start_page("services","Administration des comptoirs");
- $cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / Produits");
+ $site->start_page("services","Administration");
+ $cts = new contents("<a href=\"admin.php\">Administration</a> / Produits");
 
  $req = new requete($site->db,
   "SELECT `boutiqueut_produits`.`nom_prod`, `boutiqueut_produits`.`id_produit`," .
@@ -298,8 +298,8 @@ elseif ( $produit->id > 0 )
 {
  $typeprod->load_by_id($produit->id_type);
 
- $site->start_page("services","Administration des comptoirs");
- $cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / <a href=\"admin.php?page=produits\">Produits</a> / ".$typeprod->get_html_link()." / ".$produit->get_html_link());
+ $site->start_page("services","Administration");
+ $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"admin.php?page=produits\">Produits</a> / ".$typeprod->get_html_link()." / ".$produit->get_html_link());
 
  $cts->add_paragraph("<a href=\"compta.php?id_produit=".$produit->id."\">Comptabilité</a>");
 
@@ -354,8 +354,8 @@ elseif ( $typeprod->id > 0 )
   }
 
 
- $site->start_page("services","Administration des comptoirs");
- $cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / <a href=\"admin.php?page=produits\">Produits</a> / ".$typeprod->nom);
+ $site->start_page("services","Administration");
+ $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"admin.php?page=produits\">Produits</a> / ".$typeprod->nom);
 
  $cts->add_paragraph("<a href=\"compta.php?id_typeprod=".$typeprod->id."\">Comptabilité</a>");
 
