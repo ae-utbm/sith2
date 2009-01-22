@@ -205,7 +205,6 @@ elseif( $_REQUEST["page"] == "newcmd" )
       $frm->add_text_field("prenom","Prenom",$_REQUEST['prenom'],true);
       $frm->add_text_area("adresse","Adresse",$_REQUEST['adresse']);
       $sum=0;
-print_r($_REQUEST);
       while(list($nom_prod,$id_produit,$stock_global_prod,$prix)=$req->get_row())
       {
         $_prix=sprintf("%.2f Euros",$prix);
@@ -213,10 +212,10 @@ print_r($_REQUEST);
         if(isset($_REQUEST['prod'][$id_produit]) && intval($_REQUEST['prod'][$id_produit])!=0)
         {
           $frm->add_text_field("prod[$id_produit]","<b>$nom_prod</b>",intval($_REQUEST['prod'][$id_produit]),false,false,true,true,$_prix);
-          $sum=$sum+$prix*intval($_REQUEST['prod'][$id_produit]);
+          $sum=$sum+($prix*intval($_REQUEST['prod'][$id_produit]));
         }
       }
-      $frm->add_info('<b>Total : '.sprintf("%.2f Euros",$prix).'</b>');
+      $frm->add_info('<b>Total : '.sprintf("%.2f Euros",$sum).'</b>');
       if($sum>0)
         $frm->add_submit("save","Valider");
       $frm->add_submit("save","Annuler");
