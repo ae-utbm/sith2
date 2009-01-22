@@ -193,7 +193,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
     "ORDER BY `boutiqueut_type_produit`.`nom_typeprod`,`boutiqueut_produits`.`nom_prod`");
   if(isset($_REQUEST['action']))
   {
-    if($_REQUEST['action']=="newcmd" && !empty($_REQUEST['nom']) && !empty($_REQUEST['prenom']))
+    if($_REQUEST['action']=="newcmd" && !empty(trim($_REQUEST['nom'])) && !empty(trim($_REQUEST['prenom'])))
     {
       $site->start_page("services","Administration");
       $cts = new contents("<a href=\"admin.php\">Administration</a> / Enregistrer une commande");
@@ -236,7 +236,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
       }
       $client=new utilisateur($site->db);
       $client->id=-1;
-      $debfact->debit ($client,$cpt_cart,0,$_REQUEST['nom'],$_REQUEST['prenom'],$_REQUEST['adresse']);
+      $debfact->debit ($client,$cpt_cart,0,convertir_nom($_REQUEST['nom']),do_prenom_stuff($_REQUEST['prenom']),$_REQUEST['adresse']);
       if($debfact->is_valid())
         $info='<script language="javascript" type="text/javascript">newwindow=window.open(\'suivi.php?id_facture='.$debfact->id.'&gen_pdf=1\',\'facture\',\'height=500,width=300\');</script>';
     }
