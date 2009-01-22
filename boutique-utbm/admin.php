@@ -181,6 +181,25 @@ if ( $_REQUEST["page"] == "newfile" )
   $site->end_page();
   exit();
 }
+elseif( $_REQUEST["page"] == "newcmd" )
+{
+  $site->start_page("services","Administration");
+  $cts = new contents("<a href=\"admin.php\">Administration</a> / Enregistrer une commande");
+  $frm = new form ("addtype","admin.php",true,"POST","Enregistrer une commande");
+  $frm->add_hidden("page","newcmd");
+  $frm->add_text_field("nom","Nom :","",true);
+  $frm->add_text_field("prenom","Prenom","",true);
+  $frm->add_text_area("adresse","Adresse");
+
+//liste des articles et leur nombre
+//affichage du total en temps réel ?
+
+  $frm->add_submit("valid","Ajouter");
+  $cts->add($frm,true);
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
+}
 elseif ( $_REQUEST["page"] == "addtype" )
 {
   $site->start_page("services","Administration");
@@ -413,6 +432,7 @@ $lst->add("<a href=\"admin.php?page=addproduit\">Ajouter un produit</a>");
 $lst->add("<a href=\"admin.php?page=addtype\">Ajouter un type de produit</a>");
 $lst->add("<a href=\"admin.php?page=produits\">Liste des produits et des types de produits</a>");
 $lst->add("<a href=\"admin.php?page=newfile\">Ajouter un fichier</a>");
+$lst->add("<a href=\"admin.php?page=newcmd\">Enregistrer une commande</a>");
 $cts->add($lst,true);
 $site->add_contents($cts);
 $site->end_page();
