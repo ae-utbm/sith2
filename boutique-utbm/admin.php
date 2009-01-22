@@ -236,7 +236,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
       }
       $client=new utilisateur($site->db);
       $client->id=-1;
-      $debfact->debit ($client,$cpt_cart,0,convertir_nom($_REQUEST['nom']),do_prenom_stuff($_REQUEST['prenom']),$_REQUEST['adresse']);
+      $debfact->debit ($client,$cpt_cart,0,convertir_nom($_REQUEST['nom']),convertir_prenom($_REQUEST['prenom']),$_REQUEST['adresse']);
       if($debfact->is_valid())
         $info='<script language="javascript" type="text/javascript">newwindow=window.open(\'suivi.php?id_facture='.$debfact->id.'&gen_pdf=1\',\'facture\',\'height=500,width=300\');</script>';
     }
