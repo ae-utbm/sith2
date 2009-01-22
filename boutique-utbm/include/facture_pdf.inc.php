@@ -68,7 +68,8 @@ class facture_pdf extends FPDF
       $date_facturation,
       $fact_titre,
       $fact_ref_num,
-      $bought)
+      $bought,
+      $ht=false)
   {
     /* affectation des variables */
     $this->facturing_infos  = $facturing_infos;
@@ -78,7 +79,7 @@ class facture_pdf extends FPDF
     $this->fact_titre       = $fact_titre;
     $this->bought           = $bought;
     $this->pagination=true;
-
+    $this->ht=$ht;
     /* on passe au constructeur h�rit� */
     $this->FPDF();
   }
@@ -235,6 +236,11 @@ class facture_pdf extends FPDF
     //Police de caractere
     $this->SetFont('Arial','B',14);
     /* total */
+    if($this->ht)
+    {
+      $this->Cell(150,10,utf8_decode("Total HT : "), "I", 0, "R");
+      $this->ht=sprintf("%.2f",$this->total/119.6);
+    }
     $this->Cell(150,10,utf8_decode("Total à payer : "), "B", 0, "R");
     $this->total = sprintf("%.2f", $this->total / 100);
     $this->Cell(40,10,$this->total . " Euros", "B", 0, "R");

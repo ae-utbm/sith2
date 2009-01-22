@@ -89,7 +89,8 @@ if(isset($_REQUEST["id_facture"]))
                  $date_facturation,
                  $titre,
                  $ref,
-                 $lines);
+                 $lines,
+                 true);
 
       /* on sort la facture */
       $fact_pdf->renderize ();
