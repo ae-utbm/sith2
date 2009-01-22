@@ -183,15 +183,62 @@ if ( $_REQUEST["page"] == "newfile" )
 }
 elseif( $_REQUEST["page"] == "newcmd" )
 {
+   $req = new requete($site->db,
+    "SELECT `boutiqueut_produits`.`nom_prod`, `boutiqueut_produits`.`id_produit`," .
+    "`boutiqueut_produits`.stock_global_prod, " .
+    "`boutiqueut_produits`.prix_vente_prod/100 AS prix_vente_prod " .
+    "FROM `boutiqueut_produits` " .
+    "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_type_produit`.`id_typeprod`=`boutiqueut_produits`.`id_typeprod` " .
+    "WHERE prod_archive != 1 " .
+    "ORDER BY `boutiqueut_type_produit`.`nom_typeprod`,`boutiqueut_produits`.`nom_prod`");
   if(isset($_REQUEST['action']))
   {
-    if($_REQUEST['action']=="newcmd")
+    if($_REQUEST['action']=="newcmd" && !empty($_REQUEST['nom']) && !empty($_REQUEST['prenom']))
     {
-      //on demande confirmation
+      $site->start_page("services","Administration");
+      $cts = new contents("<a href=\"admin.php\">Administration</a> / Enregistrer une commande");
+      $frm = new form ("addtype","admin.php",false,"POST","Enregistrer une commande (PAS POUR LES SERVICES!)");
+      $frm->allow_only_one_usage();
+      $frm->add_hidden("page","newcmd");
+      $frm->add_hidden("action","validercmd");
+      $frm->add_text_field("nom","Nom :",$_REQUEST['nom'],true);
+      $frm->add_text_field("prenom","Prenom",$_REQUEST['prenom'],true);
+      $frm->add_text_area("adresse","Adresse",$_REQUEST['adresse']);
+      $sum=0;
+      while(list($nom_prod,$id_produit,$stock_global_prod,$prix)=$req->get_row())
+      {
+        $prix=sprintf("%.2f Euros",$prix);
+        $frm->add_hidden("max_idprod".$id_produit,$stock_global_prod);
+        if(isset($_REQUEST['prod[$id_produit]']) && intval($_REQUEST['prod[$id_produit]'])!=0)
+        {
+          $frm->add_text_field("prod[$id_produit]","<b>$nom_prod</b>",intval($_REQUEST['prod[$id_produit]']),false,false,true,true,$prix);
+          $sum=$sum+$prix*intval($_REQUEST['prod[$id_produit]']);
+        }
+      }
+      $frm->add_info('<b>Total : '.sprintf("%.2f Euros",$prix).'</b>');
+      if($sum>0)
+        $frm->add_submit("save","Valider");
+      $frm->add_submit("save","Annuler");
+      $cts->add($frm,true);
+      $site->add_contents($cts);
+      $site->end_page();
+      exit();
+
     }
-    elseif($_REQUEST['action']=="validercmd")
+    elseif($_REQUEST['action']=="validercmd" && $_REQUEST['save']=='Valider')
     {
-      //on valide
+      $debfact = new debitfacture ($site->db, $site->dbrw);
+      $vp = new venteproduit ($site->db, $site->dbrw);
+      foreach ($_REQUEST['prod'] as $id=>$nb)
+      {
+        if($vp->load_by_id ($id))
+          $cpt_cart[] = array($id, $vp);
+      }
+      $client=new utilisateur($site->db);
+      $client->id=-1;
+      $debfact->debit ($client,$cpt_cart,0,$_REQUEST['nom'],$_REQUEST['prenom'],$_REQUEST['adresse']);
+      if($debfact->is_valid())
+        $info='<script language="javascript" type="text/javascript">newwindow=window.open(\'suivi.php?id_facture='.($debfact->id.'&gen_pdf=1\',\'facture\',\'height=500,width=300\');</script>';
     }
   }
   $site->start_page("services","Administration");
@@ -203,17 +250,6 @@ elseif( $_REQUEST["page"] == "newcmd" )
   $frm->add_text_field("nom","Nom :","",true);
   $frm->add_text_field("prenom","Prenom","",true);
   $frm->add_text_area("adresse","Adresse");
-
-  //liste des articles
-  $req = new requete($site->db,
-    "SELECT `boutiqueut_produits`.`nom_prod`, `boutiqueut_produits`.`id_produit`," .
-    "`boutiqueut_produits`.stock_global_prod, " .
-    "`boutiqueut_produits`.prix_vente_prod/100 AS prix_vente_prod " .
-    "FROM `boutiqueut_produits` " .
-    "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_type_produit`.`id_typeprod`=`boutiqueut_produits`.`id_typeprod` " .
-    "WHERE prod_archive != 1 " .
-    "ORDER BY `boutiqueut_type_produit`.`nom_typeprod`,`boutiqueut_produits`.`nom_prod`");
-  $i=0;
   while(list($nom_prod,$id_produit,$stock_global_prod,$prix)=$req->get_row())
   {
     $prix=sprintf("%.2f Euros",$prix);
@@ -223,7 +259,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
 //liste des articles et leur nombre
 //affichage du total en temps réel ?
 
-  $frm->add_submit("valid","Ajouter");
+  $frm->add_submit("valid","Valider");
   $cts->add($frm,true);
   $site->add_contents($cts);
   $site->end_page();

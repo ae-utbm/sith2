@@ -88,24 +88,29 @@ if(isset($_REQUEST["id_facture"]))
            "90010 BELFORT Cedex"),
        'logo' => "http://ae.utbm.fr/images/logo_utbm_eboutic.jpg");
 
-      $factured_infos = array (
-/*
+      if($user->is_valid())
+      {
+        $factured_infos = array (
              'name' => utf8_decode($user->nom)
              . " " .
-             utf8_decode($user->prenom),*/
-/*
+             utf8_decode($user->prenom),
              'addr' => array(
                  utf8_decode($user->addresse),
                  utf8_decode($ville->cpostal)
                  . " " .
                  utf8_decode($ville->nom)),
-*/
-             'name' => utf8_decode("service propagande"),
-             'addr' => array(
-                utf8_decode("UTBM"),
-                utf8_decode("90010 BELFORT Cedex")),
              false);
-
+      }
+      else
+      {
+        $adresse=explode("\n",$fact->adresse);
+        $factured_infos = array (
+             'name' => utf8_decode($fact->nom)
+             . " " .
+             utf8_decode($fact->prenom),
+             'addr' => $adresse,
+             false);
+      }
       $date_facturation = date("d/m/Y H:i", $fact->date);
       $titre = "Facture boutique UTBM";
       $ref=' '.sprintf('%06d',$fact->id);
