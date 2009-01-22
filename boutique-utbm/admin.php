@@ -205,6 +205,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
       $frm->add_text_field("prenom","Prenom",$_REQUEST['prenom'],true);
       $frm->add_text_area("adresse","Adresse",$_REQUEST['adresse']);
       $sum=0;
+print_r($_REQUEST);
       while(list($nom_prod,$id_produit,$stock_global_prod,$prix)=$req->get_row())
       {
         $prix=sprintf("%.2f Euros",$prix);
