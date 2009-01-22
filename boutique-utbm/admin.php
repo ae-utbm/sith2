@@ -210,10 +210,10 @@ print_r($_REQUEST);
       {
         $prix=sprintf("%.2f Euros",$prix);
         $frm->add_hidden("max_idprod".$id_produit,$stock_global_prod);
-        if(isset($_REQUEST['prod[$id_produit]']) && intval($_REQUEST['prod[$id_produit]'])!=0)
+        if(isset($_REQUEST['prod'][$id_produit]) && intval($_REQUEST['prod'][$id_produit])!=0)
         {
-          $frm->add_text_field("prod[$id_produit]","<b>$nom_prod</b>",intval($_REQUEST['prod[$id_produit]']),false,false,true,true,$prix);
-          $sum=$sum+$prix*intval($_REQUEST['prod[$id_produit]']);
+          $frm->add_text_field("prod[$id_produit]","<b>$nom_prod</b>",intval($_REQUEST['prod'][$id_produit]),false,false,true,true,$prix);
+          $sum=$sum+$prix*intval($_REQUEST['prod'][$id_produit]);
         }
       }
       $frm->add_info('<b>Total : '.sprintf("%.2f Euros",$prix).'</b>');
