@@ -238,7 +238,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
       $client->id=-1;
       $debfact->debit ($client,$cpt_cart,0,$_REQUEST['nom'],$_REQUEST['prenom'],$_REQUEST['adresse']);
       if($debfact->is_valid())
-        $info='<script language="javascript" type="text/javascript">newwindow=window.open(\'suivi.php?id_facture='.($debfact->id.'&gen_pdf=1\',\'facture\',\'height=500,width=300\');</script>';
+        $info='<script language="javascript" type="text/javascript">newwindow=window.open(\'suivi.php?id_facture='.$debfact->id.'&gen_pdf=1\',\'facture\',\'height=500,width=300\');</script>';
     }
   }
   $site->start_page("services","Administration");
