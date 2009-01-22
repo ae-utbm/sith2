@@ -221,7 +221,6 @@ class produit extends stdentity
 
            'a_retirer_prod'=> $this->a_retirer,
 
-           'id_groupe'=>$this->id_groupe,
            'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
            'id_produit_parent'=> $this->id_produit_parent
             ),

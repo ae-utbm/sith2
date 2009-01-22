@@ -56,6 +56,9 @@ function generate_subform_stock ( $nom,$form_n, $stock_n, $stock_value_n, $stock
 
 
 $site = new boutique();
+if(!$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("adminboutiqueutbm"))
+  $site->error_forbidden();
+
 if(!is_dir("/var/www/ae/www/ae2/var/files"))
   $site->fatal_partial("fichiers");
 
