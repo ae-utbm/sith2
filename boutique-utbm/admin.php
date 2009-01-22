@@ -232,7 +232,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
       {
         $vp = new venteproduit ($site->db, $site->dbrw);
         if($vp->load_by_id ($id))
-          $cpt_cart[] = array($id, $vp);
+          $cpt_cart[] = array($nb, $vp);
       }
       $client=new utilisateur($site->db);
       $client->id=-1;
@@ -243,6 +243,8 @@ elseif( $_REQUEST["page"] == "newcmd" )
   }
   $site->start_page("services","Administration");
   $cts = new contents("<a href=\"admin.php\">Administration</a> / Enregistrer une commande");
+  if(isset($info))
+  $cts->add_paragraph($info);
   $frm = new form ("addtype","admin.php",false,"POST","Enregistrer une commande (PAS POUR LES SERVICES!)");
   $frm->allow_only_one_usage();
   $frm->add_hidden("page","newcmd");
