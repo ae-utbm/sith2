@@ -175,41 +175,45 @@ if ( $_REQUEST["page"] == "newfile" )
 }
 elseif ( $_REQUEST["page"] == "addtype" )
 {
- $site->start_page("services","Administration des comptoirs");
- $cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / <a href=\"admin.php?page=produits\">Produits</a> / Ajouter un type de produit");
- $frm = new form ("addtype","admin.php",true,"POST","Ajout d'un type de produit");
- $frm->add_hidden("action","addtype");
- $frm->add_text_field("nom","Nom du type","",true);
- $frm->add_entity_smartselect("id_file","Image",$file,true,false,array('id_folder'=>FOLDERID));
- $frm->add_text_area("description","Description");
- $frm->add_submit("valid","Ajouter");
- $cts->add($frm,true);
- $site->add_contents($cts);
- $site->end_page();
- exit();
+  $site->start_page("services","Administration des comptoirs");
+  $cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / <a href=\"admin.php?page=produits\">Produits</a> / Ajouter un type de produit");
+  $frm = new form ("addtype","admin.php",true,"POST","Ajout d'un type de produit");
+  $frm->add_hidden("action","addtype");
+  $frm->add_text_field("nom","Nom du type","",true);
+  $frm->add_entity_smartselect("id_file","Image",$file,true,false,array('id_folder'=>FOLDERID));
+  $frm->add_text_area("description","Description");
+  $frm->add_submit("valid","Ajouter");
+  $cts->add($frm,true);
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
 }
 elseif ( $_REQUEST["page"] == "addproduit" )
 {
- $site->start_page("services","Administration des comptoirs");
- $cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / <a href=\"admin.php?page=produits\">Produits</a> / Ajouter un produit");
- $frm = new form ("addproduit","admin.php",true,"POST","Ajout d'un produit");
- $frm->add_hidden("action","addproduit");
- $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit");
- $frm->add_text_field("nom","Nom","",true);
- $frm->add_entity_smartselect("id_file","Image",$file,true);
- $frm->add_entity_smartselect("id_produit_parent","Produit parent",$produit_parent,true);
- $frm->add_text_area("description","Résumé");
- $frm->add_text_area("description_longue","Description");
- $frm->add_price_field("prix_vente_prod_service","Prix services",0,true);
- $frm->add_price_field("prix_vente","Prix autre",0,true);
- $frm->add_price_field("prix_achat","Prix achat",0,true);
- $frm->add_datetime_field("date_fin","Date de fin de mise en vente");
- $frm->add(generate_subform_stock("Stock global","global","stock","stock_value",-1),false, false, false,false, true);
- $frm->add_submit("valid","Ajouter");
- $cts->add($frm,true);
- $site->add_contents($cts);
- $site->end_page();
- exit();
+  if($produit_parent->can_enumerate())
+    print_r("bleh");
+  if($produit_parent->can_fsearch())
+    print_r("bleh2");
+  $site->start_page("services","Administration des comptoirs");
+  $cts = new contents("<a href=\"admin.php\">Administration comptoirs</a> / <a href=\"admin.php?page=produits\">Produits</a> / Ajouter un produit");
+  $frm = new form ("addproduit","admin.php",true,"POST","Ajout d'un produit");
+  $frm->add_hidden("action","addproduit");
+  $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit");
+  $frm->add_text_field("nom","Nom","",true);
+  $frm->add_entity_smartselect("id_file","Image",$file,true);
+  $frm->add_entity_smartselect("id_produit_parent","Produit parent",$produit_parent,true);
+  $frm->add_text_area("description","Résumé");
+  $frm->add_text_area("description_longue","Description");
+  $frm->add_price_field("prix_vente_prod_service","Prix services",0,true);
+  $frm->add_price_field("prix_vente","Prix autre",0,true);
+  $frm->add_price_field("prix_achat","Prix achat",0,true);
+  $frm->add_datetime_field("date_fin","Date de fin de mise en vente");
+  $frm->add(generate_subform_stock("Stock global","global","stock","stock_value",-1),false, false, false,false, true);
+  $frm->add_submit("valid","Ajouter");
+  $cts->add($frm,true);
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
 }
 if ( ereg("^settypeprod=([0-9]*)$",$_REQUEST["action"],$regs) )
 {
