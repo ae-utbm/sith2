@@ -275,19 +275,14 @@ $req1 = new requete($site->db,
 
 $req2 = new requete($site->db,
         "SELECT " .
-        "`cpt_debitfacture`.`id_facture`, " .
-        "`cpt_debitfacture`.`date_facture`, " .
-        "`cpt_vendu`.`prix_unit`*`cpt_vendu`.`quantite`/100 AS `total` " .
-        "FROM `cpt_vendu` " .
-        "INNER JOIN `cpt_produits` ON ".
-        "`cpt_produits`.`id_produit` =`cpt_vendu`.`id_produit` " .
-        "INNER JOIN `cpt_debitfacture` ON ".
-        "`cpt_debitfacture`.`id_facture` =`cpt_vendu`.`id_facture` " .
+        "`id_facture`, " .
+        "`date_facture`, " .
+        "`montant_facture`/100 AS `total` " .
+        "FROM `cpt_debitfacture` " .
         "WHERE mode_paiement = 'AE' " .
-        "AND `cpt_debitfacture`.`id_comptoir` = '3' ".
-        "AND `cpt_debitfacture`.`id_utilisateur_client` = '".mysql_real_escape_string($user->id) ."' ".
-        "GROUP BY `cpt_debitfacture`.`id_facture` ".
-        "ORDER BY `cpt_debitfacture`.`date_facture` DESC");
+        "AND `id_comptoir` = '3' ".
+        "AND `id_utilisateur_client` = '".mysql_real_escape_string($user->id) ."' ".
+        "ORDER BY `date_facture` DESC");
 
 if ( $req1->lines > 0 )
 {
