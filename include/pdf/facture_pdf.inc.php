@@ -292,7 +292,7 @@ class facture_pdf extends FPDF
     $this->AliasNbPages ();
     $this->AddPage ();
     $this->print_items ();
-    $this->Output ("facture_".$this->fact_ref_num.".pdf");
+    $this->Output ("facture_".$this->fact_ref_num.".pdf", "D");
   }
 }
 ?>
