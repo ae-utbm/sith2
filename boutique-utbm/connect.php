@@ -67,6 +67,7 @@ if ( isset($_REQUEST["personnal_computer"]) )
 $site->connect_user($forever);
 
 $page='index.php';
+print_r("bleh");
 header("Location: $page");
 
 ?>
