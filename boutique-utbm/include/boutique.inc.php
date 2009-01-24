@@ -54,7 +54,7 @@ class boutique extends site
   /* une variable pour la css */
   var $css = 'themes/boutiqueutbm/css/boutique.css';
 
-  var $deftabs=array("accueil", "index.php", "Accueil");
+  var $deftabs=array(array("accueil", "index.php", "Accueil"));
 
   function boutique ()
   {
