@@ -66,7 +66,7 @@ if ( isset($_REQUEST["personnal_computer"]) )
 
 if(!$site->connect_user($forever))
 {
-  print_r('bleh');
+  print_r($_SERVER['HTTP_HOST']);
   exit();
 }
 
