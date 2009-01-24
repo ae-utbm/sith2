@@ -59,9 +59,11 @@ class boutique extends site
    global $topdir;
     $this->site();
     if(!isset($_REQUEST["domain"]) || $_SERVER["SCRIPT_NAME"]!='/boutique-utbm/connect.php')
+    {
       $this->allow_only_logged_users();
-    if($this->user->type != "srv" && !$this->user->is_in_group("gestion_ae") && !$this->user->is_in_group("adminboutiqueutbm"))
-      $this->error_forbidden();
+      if($this->user->type != "srv" && !$this->user->is_in_group("gestion_ae") && !$this->user->is_in_group("adminboutiqueutbm"))
+        $this->error_forbidden();
+    }
 
     $this->set_side_boxes("left",array());
     $this->set_side_boxes("right",array());
