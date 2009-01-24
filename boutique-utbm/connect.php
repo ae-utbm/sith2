@@ -65,7 +65,7 @@ if ( isset($_REQUEST["personnal_computer"]) )
   $forever=true;
 
 $site->connect_user($forever);
-print_r($_SERVER['HTTP_HOST']);
+print_r($_SERVER);
 exit();
 
 $page='http://boutique.utbm.fr/index.php';
