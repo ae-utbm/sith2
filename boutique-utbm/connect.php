@@ -21,7 +21,7 @@
  * 02111-1307, USA.
  */
 
-$topdir = "./";
+$topdir = "../";
 
 require_once("include/boutique.inc.php");
 
