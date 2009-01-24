@@ -217,6 +217,8 @@ elseif( $_REQUEST["page"] == "newcmd" )
           $frm->add_text_field("prod[$id_produit]","<b>$nom_prod</b>",intval($_REQUEST['prod'][$id_produit]),false,false,true,true,$_prix);
           $sum=$sum+($prix*intval($_REQUEST['prod'][$id_produit]));
         }
+	else
+	  $frm->add_text_field("prod[$id_produit]","<b>$nom_prod</b>",0,false,false,true,true,$_prix);
       }
       $frm->add_info('<b>Total : '.sprintf("%.2f Euros",$sum).'</b>');
       $frm->add_select_field('modepaiement','Paiement par',array('CH'=>'Chèque','LI'=>"Espèce"),$_REQUEST['modepaiement']);
