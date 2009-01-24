@@ -48,17 +48,14 @@ switch ($_REQUEST["domain"])
 }
 
 if ( !$site->user->is_valid() )
-{
-  header("Location: article.php?name=site:wrongpassoruser");
-  exit();
-}
+  $site->allow_only_logged_users();
 
 if ( $site->user->hash != "valid" )
 {
   header("Location: http://ae.utbm.fr/article.php?name=site:activate");
   exit();
 }
-
+print_r("bleh");
 if ( !$site->user->is_password($_POST["password"]) )
   $site->allow_only_logged_users();
 
