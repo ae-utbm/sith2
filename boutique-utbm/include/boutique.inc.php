@@ -56,11 +56,11 @@ class boutique extends site
 
   function boutique ()
   {
-   global $topdir,$_REQUEST;
+   global $topdir;
     $this->site();
-    if(!(isset($_REQUEST["domain"]) && $_SERVER["SCRIPT_NAME"]=='/boutique-utbm/connect.php'))
+
+    if(!$_SERVER["SCRIPT_NAME"]!='/boutique-utbm/connect.php')
     {
-    print_r($_REQUEST);
       $this->allow_only_logged_users();
       if($this->user->type != "srv" && !$this->user->is_in_group("gestion_ae") && !$this->user->is_in_group("adminboutiqueutbm"))
         $this->error_forbidden();
