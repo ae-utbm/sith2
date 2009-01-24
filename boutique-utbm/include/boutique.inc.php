@@ -54,6 +54,8 @@ class boutique extends site
   /* une variable pour la css */
   var $css = 'themes/boutiqueutbm/css/boutique.css';
 
+  var $deftabs=array("accueil", "index.php", "Accueil");
+
   function boutique ()
   {
    global $topdir;
@@ -71,12 +73,17 @@ class boutique extends site
 
     if ( $this->get_param("closed.boutiqueutbm",false) && !$this->user->is_in_group("root")  )
       $this->fatal_partial("services");
-
-    $this->tab_array = array(
-       array("accueil", "index.php", "Accueil")/*,
-       array ("pannier", "cart.php", "Pannier"),
-       array("commandes", "suivi.php", "Commandes")*/
-    );
+    if($this->user->is_in_group("adminboutiqueutbm"))
+      $this->tab_array = array(
+             array("accueil", "index.php", "Accueil"),
+             array("admin", "admin.php", "Administration")
+      );
+    else
+      $this->tab_array = array(
+         array("accueil", "index.php", "Accueil")/*,
+         array ("pannier", "cart.php", "Pannier"),
+         array("commandes", "suivi.php", "Commandes")*/
+      );
 
   }
 
