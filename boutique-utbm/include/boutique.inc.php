@@ -56,7 +56,7 @@ class boutique extends site
 
   function boutique ()
   {
-   global $topdir $_REQUEST;
+   global $topdir,$_REQUEST;
     $this->site();
     if(!isset($_REQUEST["domain"]) || $_SERVER["SCRIPT_NAME"]!='/boutique-utbm/connect.php')
     {
