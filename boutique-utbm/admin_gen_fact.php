@@ -40,7 +40,7 @@ if(isset($_REQUEST["id_facture"]))
       $facturing_infos = array ('name' => "Service Communication",
        'addr' => array(utf8_decode("UTBM"),
            "90010 BELFORT Cedex"),
-       'logo' => "http://ae.utbm.fr/images/logo_utbm_eboutic.jpg");
+       'logo' => "http://ae.utbm.fr/images/logo_boutique_ut.jpg");
 
       if($user->is_valid())
       {
