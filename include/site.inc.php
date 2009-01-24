@@ -1113,8 +1113,6 @@ class site extends interfaceweb
 
     if ( $this->user->is_valid() )
       return;
-    if(isset($this->deftabs))
-      $this->tab_array=$this->deftabs;
     require_once($topdir."include/cts/login.inc.php");
 
     $this->start_page($section,"Identification requise");
