@@ -247,8 +247,9 @@ elseif( $_REQUEST["page"] == "newcmd" )
       foreach ($_REQUEST['prod'] as $id=>$nb)
       {
         $vp = new venteproduit ($site->db, $site->dbrw);
-        if($vp->load_by_id ($id))
-          $cpt_cart[] = array($nb, $vp);
+	if($nb>0)
+          if($vp->load_by_id ($id))
+            $cpt_cart[] = array($nb, $vp);
       }
       $client=new utilisateur($site->db);
       $client->id=-1;
