@@ -234,21 +234,20 @@ class facture_pdf extends FPDF
 
     $this->Ln(10);
     /* total */
-    if($this->ht)
-    {
-      $this->SetFont('Arial','I',12);
-      $this->Cell(150,10,utf8_decode("Total HT : "), "B", 0, "R");
-      $ht=sprintf("%.2f",$this->total/119.6);
-      $this->Cell(40,10,$ht . " Euros", "B", 0, "R");
-      $this->Ln(10);
-    }
-    $this->SetFont('Arial','B',14);
     $this->SetFont('Arial','B',14);
     $this->Cell(150,10,utf8_decode("Total à payer : "), "B", 0, "R");
     $_total = sprintf("%.2f", $this->total / 100);
     $this->Cell(40,10,$_total . " Euros", "B", 0, "R");
     //marge
     $this->Ln(10);
+    if($this->ht)
+    {
+      $this->SetFont('Arial','I',12);
+      $this->Cell(150,10,utf8_decode("Dont TVA : "), "B", 0, "R");
+      $ht=sprintf("%.2f",19.6*$this->total/(119.6*100));
+      $this->Cell(40,10,$ht . " Euros", "B", 0, "R");
+      $this->Ln(10);
+    }
   }
 
   function print_mentions_legales()
@@ -258,7 +257,10 @@ class facture_pdf extends FPDF
     $this->SetFont('Arial','',14);
     /* total */
     if($this->ht)
-      $this->Cell(150,10,utf8_decode("TVA : 19.6%"), "B", 0, "");
+    {
+      $this->Cell(150,10,utf8_decode("N°SIRET : 199 003 567 000 13"), "B", 0, "");
+      $this->Cell(150,10,utf8_decode("TVA intracommunautaire : FR 60 199 003 567"), "B", 0, "");
+    }
     else
       $this->Cell(150,10,utf8_decode("TVA non applicable, article 293B du CGI"), "B", 0, "");
     //marge
