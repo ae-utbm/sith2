@@ -235,9 +235,9 @@ class facture_pdf extends FPDF
     $this->Ln(10);
     /* total */
     $this->SetFont('Arial','B',14);
-    $this->Cell(150,10,utf8_decode("Total à payer : "), "", 0, "R");
+    $this->Cell(150,10,utf8_decode("Total à payer : "), "", 0, "T");
     $_total = sprintf("%.2f", $this->total / 100);
-    $this->Cell(40,10,$_total . " Euros", "B", 0, "R");
+    $this->Cell(40,10,$_total . " Euros", "T", 0, "R");
     //marge
     $this->Ln(10);
     if($this->ht)
@@ -245,8 +245,8 @@ class facture_pdf extends FPDF
       $this->SetFont('Arial','I',12);
       $this->Cell(150,10,utf8_decode("Dont TVA : "), "0", 0, "R");
       $ht=sprintf("%.2f",19.6*$this->total/(119.6*100));
-      $this->Cell(40,10,$ht . " Euros", "B", 0, "R");
-      $this->Ln(10);
+      $this->Cell(40,10,$ht . " Euros", "0", 0, "R");
+      $this->Ln(30);
     }
   }
 
