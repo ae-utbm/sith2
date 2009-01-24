@@ -64,10 +64,13 @@ $forever=false;
 if ( isset($_REQUEST["personnal_computer"]) )
   $forever=true;
 
-$site->connect_user($forever);
+if(!$site->connect_user($forever))
+{
+  print_r('bleh');
+  exit();
+}
 
-$page='index.php';
-print_r("bleh");
-//header("Location: $page");
+$page='http://boutique.utbm.fr/index.php';
+header("Location: $page");
 
 ?>
