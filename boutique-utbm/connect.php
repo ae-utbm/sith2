@@ -23,7 +23,7 @@
 
 $topdir = "./";
 
-require_once($topdir. "include/site.inc.php");
+require_once($topdir. "include/boutique.inc.php");
 
 $site = new site ();
 
