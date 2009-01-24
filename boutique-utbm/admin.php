@@ -202,6 +202,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
       $frm = new form ("addtype","admin.php",false,"POST","Enregistrer une commande (PAS POUR LES SERVICES!)");
       $frm->allow_only_one_usage();
       $frm->add_hidden("page","newcmd");
+      $frm->add_hidden("checksum", gen_uid());
       $frm->add_hidden("action","validercmd");
       $frm->add_text_field("nom","Nom :",$_REQUEST['nom'],true);
       $frm->add_text_field("prenom","Prenom",$_REQUEST['prenom'],true);
@@ -231,8 +232,15 @@ elseif( $_REQUEST["page"] == "newcmd" )
       exit();
 
     }
-    elseif($_REQUEST['action']=="validercmd" && $_REQUEST['save']=='Valider')
-    {//modepaiement
+    elseif($_REQUEST['action']=="validercmd"
+           && $_REQUEST['save']=='Valider'
+	   && (!isset($_SESSION['boutiquechecksum'])
+	       ||!isset($_SESSION['boutiquechecksum'][$_REQUEST['checksum']])
+	      )
+	  )
+    {
+      if(!isset($_SESSION['boutiquechecksum']))
+        $_SESSION['boutiquechecksum']=array();
       $debfact = new debitfacture ($site->db, $site->dbrw);
       foreach ($_REQUEST['prod'] as $id=>$nb)
       {
@@ -244,7 +252,14 @@ elseif( $_REQUEST["page"] == "newcmd" )
       $client->id=-1;
       $debfact->debit ($client,$cpt_cart,0,$_REQUEST['modepaiement'],convertir_nom($_REQUEST['nom']),convertir_prenom($_REQUEST['prenom']),$_REQUEST['adresse']);
       if($debfact->is_valid())
+      {
         $info='<script language="javascript" type="text/javascript">newwindow=window.open(\'admin_gen_fact.php?id_facture='.$debfact->id.'\',\'facture\',\'height=500,width=300\');</script>';
+        $_SESSION['boutiquechecksum'][$_REQUEST['checksum']]=$debfact->id;
+      }
+    }
+    else
+    {
+      $info='<script language="javascript" type="text/javascript">newwindow=window.open(\'admin_gen_fact.php?id_facture='.$_SESSION['boutiquechecksum'][$_REQUEST['checksum']].'\',\'facture\',\'height=500,width=300\');</script>';
     }
   }
   $site->start_page("services","Administration");
