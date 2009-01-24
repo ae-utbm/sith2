@@ -56,15 +56,12 @@ if ( !$site->user->is_valid() )
 
 if ( $site->user->hash != "valid" )
 {
-  header("Location: article.php?name=site:activate");
+  header("Location: http://ae.utbm.fr/article.php?name=site:activate");
   exit();
 }
 
 if ( !$site->user->is_password($_POST["password"]) )
-{
-  header("Location: article.php?name=site:wrongpassorduser");
-  exit();
-}
+  $site->allow_only_logged_users();
 
 $forever=false;
 
