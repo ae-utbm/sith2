@@ -24,8 +24,8 @@
 $topdir = "../";
 
 require_once("include/boutique.inc.php");
-print_r($_REQUEST);
 $site = new boutique ();
+print_r($_REQUEST);
 switch ($_REQUEST["domain"])
 {
   case "utbm" :
