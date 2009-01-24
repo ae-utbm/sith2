@@ -26,7 +26,6 @@ $topdir = "../";
 require_once("include/boutique.inc.php");
 
 $site = new boutique ();
-print_r($_REQUEST['domain']);
 switch ($_REQUEST["domain"])
 {
   case "utbm" :
@@ -51,21 +50,18 @@ switch ($_REQUEST["domain"])
 
 if ( !$site->user->is_valid() )
 {
-print_r("bleh");
   header("Location: article.php?name=site:wrongpassoruser");
   exit();
 }
 
 if ( $site->user->hash != "valid" )
 {
-print_r("bleh2");
   header("Location: article.php?name=site:activate");
   exit();
 }
 
 if ( !$site->user->is_password($_POST["password"]) )
 {
-print_r("bleh3");
   header("Location: article.php?name=site:wrongpassorduser");
   exit();
 }
