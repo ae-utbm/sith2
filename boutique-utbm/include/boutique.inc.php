@@ -60,7 +60,7 @@ class boutique extends site
     $this->site();
     if(!isset($_REQUEST["domain"]) || $_SERVER["SCRIPT_NAME"]!='/boutique-utbm/connect.php')
     {
-print_r('beh');
+print_r($_SERVER["SCRIPT_NAME"]);
       $this->allow_only_logged_users();
       if($this->user->type != "srv" && !$this->user->is_in_group("gestion_ae") && !$this->user->is_in_group("adminboutiqueutbm"))
         $this->error_forbidden();
