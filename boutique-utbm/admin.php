@@ -193,7 +193,9 @@ elseif( $_REQUEST["page"] == "newcmd" )
     "ORDER BY `boutiqueut_type_produit`.`nom_typeprod`,`boutiqueut_produits`.`nom_prod`");
   if(isset($_REQUEST['action']))
   {
-    if($_REQUEST['action']=="newcmd" && trim($_REQUEST['nom'])!='' && trim($_REQUEST['prenom'])!='')
+    if(($_REQUEST['action']=="newcmd" && trim($_REQUEST['nom'])!='' && trim($_REQUEST['prenom'])!='')
+      || ($_REQUEST['action']=="validercmd" && $_REQUEST['save']=='Modifier')
+    )
     {
       $site->start_page("services","Administration");
       $cts = new contents("<a href=\"admin.php\">Administration</a> / Enregistrer une commande");
@@ -216,8 +218,12 @@ elseif( $_REQUEST["page"] == "newcmd" )
         }
       }
       $frm->add_info('<b>Total : '.sprintf("%.2f Euros",$sum).'</b>');
+      $frm->add_select_field('modepaiement','Paiement par',array('CH'=>'Chèque','LI'=>"Espèce"),$_REQUEST['modepaiement']);
       if($sum>0)
+      {
+        $frm->add_submit("save","Modifier");
         $frm->add_submit("save","Valider");
+      }
       $frm->add_submit("save","Annuler");
       $cts->add($frm,true);
       $site->add_contents($cts);
@@ -226,7 +232,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
 
     }
     elseif($_REQUEST['action']=="validercmd" && $_REQUEST['save']=='Valider')
-    {
+    {//modepaiement
       $debfact = new debitfacture ($site->db, $site->dbrw);
       foreach ($_REQUEST['prod'] as $id=>$nb)
       {
@@ -236,7 +242,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
       }
       $client=new utilisateur($site->db);
       $client->id=-1;
-      $debfact->debit ($client,$cpt_cart,0,convertir_nom($_REQUEST['nom']),convertir_prenom($_REQUEST['prenom']),$_REQUEST['adresse']);
+      $debfact->debit ($client,$cpt_cart,0,$_REQUEST['modepaiement'],convertir_nom($_REQUEST['nom']),convertir_prenom($_REQUEST['prenom']),$_REQUEST['adresse']);
       if($debfact->is_valid())
         $info='<script language="javascript" type="text/javascript">newwindow=window.open(\'admin_gen_fact.php?id_facture='.$debfact->id.'&gen_pdf=1\',\'facture\',\'height=500,width=300\');</script>';
     }

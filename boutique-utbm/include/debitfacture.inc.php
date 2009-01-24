@@ -100,7 +100,7 @@ class debitfacture extends stdentity
    * @return false en cas de problème (solde insuffisent, erreur sql) sinon true
    * @see venteproduit
    */
-  function debit ( $client, $panier, $etat=0 ,$nom=null,$prenom=null,$adresse=null)
+  function debit ( $client, $panier, $etat=0 ,$mode='UT',$nom=null,$prenom=null,$adresse=null)
   {
     $this->id_utilisateur = $client->id;
     $this->date = time();
@@ -108,6 +108,7 @@ class debitfacture extends stdentity
     $this->nom=$nom;
     $this->prenom=$prenom;
     $this->adresse=$adresse;
+    $this->mode=$mode;
 
     $this->montant = $this->calcul_montant($panier,$client);
 
@@ -121,6 +122,7 @@ class debitfacture extends stdentity
            "date_facture" => date("Y-m-d H:i:s",$this->date),
            "montant_facture" => $this->montant,
            "etat_facture" => $this->etat,
+           "mode_paiement" => $this->mode,
            "ready" => 1
          ));
 
