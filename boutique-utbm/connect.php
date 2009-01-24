@@ -68,6 +68,6 @@ $site->connect_user($forever);
 
 $page='index.php';
 print_r("bleh");
-header("Location: $page");
+//header("Location: $page");
 
 ?>
