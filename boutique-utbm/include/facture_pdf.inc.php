@@ -258,8 +258,8 @@ class facture_pdf extends FPDF
     /* total */
     if($this->ht)
     {
-      $this->Cell(80,10,utf8_decode("N°SIRET : 199 003 567 000 13"), "T", 1, "");
-      $this->Cell(80,10,utf8_decode("TVA intracommunautaire : FR 60 199 003 567"), "0", 0, "");
+      $this->Cell(80,5,utf8_decode("N°SIRET : 199 003 567 000 13"), "T", 1, "");
+      $this->Cell(80,5,utf8_decode("TVA intracommunautaire : FR 60 199 003 567"), "0", 0, "");
     }
     else
       $this->Cell(150,10,utf8_decode("TVA non applicable, article 293B du CGI"), "T", 0, "");
