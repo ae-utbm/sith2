@@ -65,7 +65,7 @@ if ( isset($_REQUEST["personnal_computer"]) )
   $forever=true;
 
 $site->connect_user($forever);
-print_r($_COOKIE['AE2_SESS_ID']);
+print_r($_COOKIE);
 exit();
 
 $page='http://boutique.utbm.fr/index.php';
