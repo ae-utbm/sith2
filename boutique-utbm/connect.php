@@ -23,9 +23,9 @@
 
 $topdir = "./";
 
-require_once($topdir. "include/boutique.inc.php");
+require_once("include/boutique.inc.php")
 
-$site = new site ();
+$site = new boutique ();
 
 switch ($_REQUEST["domain"])
 {
