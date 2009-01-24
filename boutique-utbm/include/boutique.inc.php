@@ -58,7 +58,7 @@ class boutique extends site
 
   function boutique ()
   {
-   global $topdir;
+    global $topdir;
     $this->site();
 
     if($_SERVER["SCRIPT_NAME"]!='/boutique-utbm/connect.php')
@@ -73,6 +73,7 @@ class boutique extends site
 
     if ( $this->get_param("closed.boutiqueutbm",false) && !$this->user->is_in_group("root")  )
       $this->fatal_partial("services");
+
     if($this->user->is_in_group("adminboutiqueutbm"))
       $this->tab_array = array(
              array("accueil", "index.php", "Accueil"),
@@ -80,16 +81,23 @@ class boutique extends site
       );
     else
       $this->tab_array = array(
-         array("accueil", "index.php", "Accueil")/*,
-         array ("pannier", "cart.php", "Pannier"),
-         array("commandes", "suivi.php", "Commandes")*/
+         array("accueil", "index.php", "Accueil")
       );
-
   }
 
   function start_page ($section, $title)
   {
     global $topdir;
+
+    if($this->user->is_in_group("adminboutiqueutbm"))
+      $this->tab_array = array(
+         array("accueil", "index.php", "Accueil"),
+         array("admin", "admin.php", "Administration")
+        );
+    else
+      $this->tab_array = array(
+         array("accueil", "index.php", "Accueil")
+        );
 
     if ( $this->cart == null && isset($_SESSION['boutique_cart']))
       $this->load_cart();
