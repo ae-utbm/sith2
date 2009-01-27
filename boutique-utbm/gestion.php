@@ -91,7 +91,7 @@ elseif( $_REQUEST["page"] == "factures" )
          ", f.date_facture ".
          ", IF(f.mode_paiement='UT', 'Boutique', IF(f.mode_paiement='CH','Chèque','Espèces')) AS mode ".
          ", f.id_facture ".
-         ", IF(f.ready=1,IF(f.etat_facture=1,'à retirer','retiré'),'en préparation') AS etat ".
+         ", IF(f.ready=1,IF(f.etat_facture=1,'à retirer','retirée'),'en préparation') AS etat ".
          "FROM boutiqueut_debitfacture f ".
          "LEFT JOIN utilisateurs u USING(id_utilisateur) ".
          "ORDER BY f.id_facture DESC");
