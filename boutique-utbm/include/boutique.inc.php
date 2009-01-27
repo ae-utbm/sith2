@@ -64,7 +64,7 @@ class boutique extends site
     if($_SERVER["SCRIPT_NAME"]!='/boutique-utbm/connect.php')
     {
       $this->allow_only_logged_users();
-      if($this->user->type != "srv" && !$this->user->is_in_group("gestion_ae") && !$this->user->is_in_group("adminboutiqueutbm"))
+      if($this->user->type != "srv" && !$this->user->is_in_group("root") && !$this->user->is_in_group("adminboutiqueutbm"))
         $this->error_forbidden();
     }
 
@@ -74,21 +74,15 @@ class boutique extends site
     if ( $this->get_param("closed.boutiqueutbm",false) && !$this->user->is_in_group("root")  )
       $this->fatal_partial("services");
 
-    if($this->user->is_in_group("adminboutiqueutbm"))
-    {
+    if($this->user->is_in_group("adminboutiqueutbm") || $this->user->is_in_group("root"))
       $this->tab_array = array(
              array("accueil", "index.php", "Accueil"),
              array("admin", "admin.php", "Administration")
       );
-      print_r("bleh");
-    }
     else
-    {
-      print_r("bleh2");
       $this->tab_array = array(
          array("accueil", "index.php", "Accueil")
       );
-    }
   }
 
   function start_page ($section, $title)
