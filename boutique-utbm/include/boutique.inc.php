@@ -75,10 +75,13 @@ class boutique extends site
       $this->fatal_partial("services");
 
     if($this->user->is_in_group("adminboutiqueutbm") || $this->user->is_in_group("root"))
+    {
+      print_r("bleh");
       $this->tab_array = array(
              array("accueil", "index.php", "Accueil"),
              array("admin", "admin.php", "Administration")
       );
+    }
     else
       $this->tab_array = array(
          array("accueil", "index.php", "Accueil")
