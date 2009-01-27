@@ -94,7 +94,7 @@ elseif( $_REQUEST["page"] == "factures" )
          ", IF(f.ready=1,IF(f.etat_facture=1,'à retirer','retiré'),'en préparation') AS etat ".
          "FROM boutiqueut_debitfacture f ".
          "LEFT JOIN utilisateurs u USING(id_utilisateur) ".
-         "ORDER BY f.id_facture DESC",1);
+         "ORDER BY f.id_facture DESC");
   $cts->add(new sqltable(
          "factures",
          "Factures",
