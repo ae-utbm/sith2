@@ -83,22 +83,11 @@ class boutique extends site
       $this->tab_array = array(
          array("accueil", "index.php", "Accueil")
       );
-print_r($this->tab_array);
   }
 
   function start_page ($section, $title)
   {
     global $topdir;
-
-    if($this->user->is_in_group("adminboutiqueutbm"))
-      $this->tab_array = array(
-         array("accueil", "index.php", "Accueil"),
-         array("admin", "admin.php", "Administration")
-        );
-    else
-      $this->tab_array = array(
-         array("accueil", "index.php", "Accueil")
-        );
 
     if ( $this->cart == null && isset($_SESSION['boutique_cart']))
       $this->load_cart();
