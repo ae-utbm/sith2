@@ -83,9 +83,12 @@ class boutique extends site
       print_r("bleh");
     }
     else
+    {
+      print_r("bleh2");
       $this->tab_array = array(
          array("accueil", "index.php", "Accueil")
       );
+    }
   }
 
   function start_page ($section, $title)
