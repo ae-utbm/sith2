@@ -100,11 +100,17 @@ class debitfacture extends stdentity
    * @return false en cas de problème (solde insuffisent, erreur sql) sinon true
    * @see venteproduit
    */
-  function debit ( $client, $panier, $etat=0 ,$mode='UT',$nom=null,$prenom=null,$adresse=null)
+  function debit ( $client, $panier, $etat=1, $ready=0 ,$mode='UT',$nom=null,$prenom=null,$adresse=null)
   {
+/*
+ready=1+etat=1 : à retirer
+ready=1+etat=0 : retiré
+etat=1+ready=0 : en préparation
+*/
     $this->id_utilisateur = $client->id;
     $this->date = time();
     $this->etat = $etat;
+    $this->ready = $ready;
     $this->nom=$nom;
     $this->prenom=$prenom;
     $this->adresse=$adresse;

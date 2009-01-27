@@ -253,7 +253,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
       }
       $client=new utilisateur($site->db);
       $client->id=-1;
-      $debfact->debit ($client,$cpt_cart,0,$_REQUEST['modepaiement'],convertir_nom($_REQUEST['nom']),convertir_prenom($_REQUEST['prenom']),$_REQUEST['adresse']);
+      $debfact->debit ($client,$cpt_cart,0,1,$_REQUEST['modepaiement'],convertir_nom($_REQUEST['nom']),convertir_prenom($_REQUEST['prenom']),$_REQUEST['adresse']);
       if($debfact->is_valid())
       {
         $info='<script language="javascript" type="text/javascript">newwindow=window.open(\'admin_gen_fact.php?id_facture='.$debfact->id.'\',\'facture\',\'height=500,width=300\');</script>';
@@ -524,6 +524,7 @@ $lst->add("<a href=\"admin.php?page=addtype\">Ajouter un type de produit</a>");
 $lst->add("<a href=\"admin.php?page=produits\">Liste des produits et des types de produits</a>");
 $lst->add("<a href=\"admin.php?page=newfile\">Ajouter un fichier</a>");
 $lst->add("<a href=\"admin.php?page=newcmd\">Enregistrer une commande</a>");
+$lst->add("<a href=\"gestion.php\">Enregistrer une commande</a>");
 $cts->add($lst,true);
 $site->add_contents($cts);
 $site->end_page();

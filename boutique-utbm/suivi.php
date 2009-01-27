@@ -143,11 +143,11 @@ if(isset($_REQUEST["id_facture"]))
     }
     else
     {
-      if($fact->ready==1) // commande à retirer
+      if($fact->ready==1 && $fact->etat==1) // commande à retirer
       {
         $cts = new contents( "Commande à retirer" );
       }
-      elseif($fact->ready==1) // commande en cours de préparation
+      elseif($fact->etat==1 && $fact->ready==0) //en cours de préparation
       {
         $cts = new contents( "Commande en attente de préparation" );
       }
