@@ -524,7 +524,7 @@ $lst->add("<a href=\"admin.php?page=addtype\">Ajouter un type de produit</a>");
 $lst->add("<a href=\"admin.php?page=produits\">Liste des produits et des types de produits</a>");
 $lst->add("<a href=\"admin.php?page=newfile\">Ajouter un fichier</a>");
 $lst->add("<a href=\"admin.php?page=newcmd\">Enregistrer une commande</a>");
-$lst->add("<a href=\"gestion.php\">Enregistrer une commande</a>");
+$lst->add("<a href=\"gestion.php\">Gestion</a>");
 $cts->add($lst,true);
 $site->add_contents($cts);
 $site->end_page();
