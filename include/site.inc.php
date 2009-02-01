@@ -98,7 +98,7 @@ class site extends interfaceweb
     {
       $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
       if($_SERVER['SCRIPT_URI'] == 'http://ae.utbm.fr/boutique-utbm/connect.php')
-        $domain = '.utbm.fr'; // Va être rejetté par plusieurs navigateurs...
+        $domain = '.utbm.fr';
       setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain, 0);
       unset($_COOKIE['AE2_SESS_ID']);
     }
@@ -206,7 +206,7 @@ class site extends interfaceweb
               "expire_sess" => $expire
               ));
     $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
-    if($_SERVER['SCRIPT_URI']='http://ae.utbm.fr/boutique-utbm/connect.php')
+    if($_SERVER['SCRIPT_URI'] == 'http://ae.utbm.fr/boutique-utbm/connect.php')
       $domain='.utbm.fr';
     setcookie ("AE2_SESS_ID", $sid, time() + 31536000, "/", $domain, 0);
 
