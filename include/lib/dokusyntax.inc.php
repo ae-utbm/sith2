@@ -1111,7 +1111,12 @@ print_r($matches);
       {
         if(!preg_match('/'.$begin.'/',$match) && !preg_match('/'.$end.'/',$match))
         {
-          if($first && $match{0}==$first)
+          if(!$first)
+          {
+            curl_close($session);
+            return html_entity_decode($match,ENT_COMPAT,'UTF-8');
+          }
+          elseif($first && $match{0}==$first)
           {
             curl_close($session);
             return html_entity_decode($match,ENT_COMPAT,'UTF-8');
