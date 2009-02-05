@@ -1058,7 +1058,7 @@ class dokusyntax
     }
     elseif(preg_match('/http\:\/\/www\.youtube\.com\//',$url))
     {
-      return $this->stdvideofetch($url,'\<input id\=\"embed_code\" name=\"embed_code\" type=\"text\" value=\"','\" onClick=\"javascript:document.embedForm.embed_code.focus();document.embedForm.embed_code.select();\" readonly \/\>');
+      return $this->stdvideofetch($url,'\<input id=\"embed\_code\" name\=\"embed\_code\" type\=\"text\" value\=\"','\" onClick\=\"javascript\:document\.embedForm\.embed\_code\.focus\(\)\;document\.embedForm\.embed\_code\.select()\;\" readonly \/\>');
     }
 
     if(!preg_match("/^(http:\/\/)?([^\/]+)/i",$url))
@@ -1103,14 +1103,17 @@ class dokusyntax
       $result['body'] = substr( $response, $header_size );
       $result['http_code'] = curl_getinfo($session, CURLINFO_HTTP_CODE);
       $result['last_url'] = curl_getinfo($session, CURLINFO_EFFECTIVE_URL);
-      if(preg_match('/http\:\/\/www\.youtube\.com\//',$url))
+      /*if(preg_match('/http\:\/\/www\.youtube\.com\//',$url))
       {
         echo '<pre>';
         print_r($result['body']);
         echo '</pre>';
-      }
+      }*/
       list($header,  $result['header']) = explode("\n\n",  $result['header'], 2);
       $matches = array();
+      preg_match('/'.$begin.'(.*?)'.$end.'/', $result['body'], $matches);
+      if(preg_match('/http\:\/\/www\.youtube\.com\//',$url))
+        print_r($matches);
       foreach($matches as $match)
       {
         if(!preg_match('/'.$begin.'/',$match) && !preg_match('/'.$end.'/',$match))
