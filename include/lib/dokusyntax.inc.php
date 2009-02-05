@@ -109,6 +109,10 @@ class dokusyntax
     // media
     $this->firstpass($table,$text,"#\{\{([^\}]+?)\}\}#ie","\$this->mediaformat('\\1')");
 
+    // flash
+    $this->firstpass($table,$text,"#\{d\[([^\}]+?)\]d\}#ie","\$this->dailymotion('\\1')");
+    $this->firstpass($table,$text,"#\{\[([^\}]+?)\]\}#ie","\$this->flashformat('\\1')");
+
     // cherche les url complètes
     $this->firstpass($table,$text,"#(\b)($urls:[$any]+?)([$punc]*[^$any])#ie","\$this->linkformat('\\2')",'\1','\4');
 
@@ -1012,7 +1016,10 @@ class dokusyntax
           $img = "../../".$img;
       }
       $ret .= "<object type=\"application/x-shockwave-flash\" data=\"".$wwwtopdir."images/flash/flvplayer.swf\" width=\"400\" height=\"300\" class=\"media".$format["align"]."\">";
-      $ret .="<param name=\"movie\" value=\"".$wwwtopdir."images/flash/flvplayer.swf\" />";      $ret .="<param name=\"FlashVars\" value=\"flv=".$img."\" />";      $ret .="<param name=\"wmode\" value=\"transparent\" />";      $ret .="</object>";
+      $ret .="<param name=\"movie\" value=\"".$wwwtopdir."images/flash/flvplayer.swf\" />";
+      $ret .="<param name=\"FlashVars\" value=\"flv=".$img."\" />";
+      $ret .="<param name=\"wmode\" value=\"transparent\" />";
+      $ret .="</object>";
       return $ret;
     }
 
@@ -1025,6 +1032,79 @@ class dokusyntax
     $ret .= ' alt="'.$name.'" title="'.$name.'" />';
     return $ret;
   }
+
+  /*
+   * format :
+   * url(|param,valeur(;param,valeur(...)))
+   *
+   */
+  function flashformat($text)
+  {
+    $format=$this->alignment($text);
+    list($url,$params) = split('\|',$format['src'],2);
+    $params=trim($params);
+    $url=trim($url);
+    if(!preg_match("/^(http:\/\/)?([^\/]+)/i",$url))
+      return '';
+    $ret='<div class="externflash media'.$format['align'].'">';
+    $ret .= "<object type=\"application/x-shockwave-flash\" data=\"".$url."\" width=\"400\" height=\"300\" class=\"media".$format["align"]."\">";
+    $ret .= "<param name=\"movie\" value=\"".$url."\" />";
+    if(!empty($params))
+    {
+      $params=explode(';',$params);
+      foreach($params as $param)
+      {
+        list($name,$value)=split(',',$param,2);
+        $name=trim($name);
+        if(!empty($name) && $name!='movie')
+          $ret .= "<param name=\"".$name."\" value=\"".$value."\" />";
+      }
+    }
+    return $ret.'</object></div>'.chr(13);
+  }
+
+  function dailymotion($url)
+  {
+    //on va récupérer les valeurs qui vont bien !
+    $session = curl_init(trim($url));
+    curl_setopt($session, CURLOPT_HEADER, true);
+    curl_setopt($session, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.9) Gecko/20071025 Firefox/2.0.0.9');
+    curl_setopt($session, CURLOPT_FOLLOWLOCATION, false); 
+    curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($session);
+    $error = curl_error($session);
+    $result = array( 'header' => '',
+                     'body' => '',
+                     'curl_error' => '',
+                     'http_code' => '',
+                     'last_url' => '');
+    if ( !empty($error) )
+      return 'Impossible de récupérer la vidéo :/';
+    else
+    {
+      $header_size = curl_getinfo($session,CURLINFO_HEADER_SIZE);
+      $result['header'] = substr($response, 0, $header_size);
+      $result['body'] = substr( $response, $header_size );
+      $result['http_code'] = curl_getinfo($session, CURLINFO_HTTP_CODE);
+      $result['last_url'] = curl_getinfo($session, CURLINFO_EFFECTIVE_URL);
+      list($header,  $result['header']) = explode("\n\n",  $result['header'], 2);
+      $matches = array();
+      $begin='\<textarea (.*?)\>';
+      $end='\<\/textarea\>';
+      preg_match('/'.$begin.'(.*?)'.$end.'/', $result['body'], $matches);
+      foreach($matches as $match)
+      {
+        if($match{0}=='&')
+        {
+          curl_close($session);
+          return html_entity_decode($match,ENT_COMPAT,'UTF-8');
+        }
+      }
+    }
+    curl_close($session);
+    return $this->falshformat($url);
+  }
+
 
   function alignment($texte)
   {
