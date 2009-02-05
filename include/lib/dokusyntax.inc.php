@@ -1105,7 +1105,7 @@ class dokusyntax
                      'http_code' => '',
                      'last_url' => '');
     if ( !empty($error) )
-      return 'Impossible de récupérer la vidéo :/';
+      return 'Une erreur s\'est produite :/';
     else
     {
       $header_size = curl_getinfo($session,CURLINFO_HEADER_SIZE);
