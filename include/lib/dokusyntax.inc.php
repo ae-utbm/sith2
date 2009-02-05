@@ -1032,16 +1032,6 @@ class dokusyntax
     return $ret;
   }
 
-
-  function videoflash($url)
-  {
-    /*
-     * dailymotion : http://www.dailymotion.com/swf/@VIDEO@
-     * googlevideo : http://video.google.com/googleplayer.swf?docid=@VIDEO@
-     * vimeo       : http://www.vimeo.com/moogaloop.swf?clip_id=@VIDEO@
-     * youtube     : http://www.youtube.com/v/@VIDEO@
-     */
-  }
   /*
    * format :
    * url(|param,valeur(;param,valeur(...)))
@@ -1055,7 +1045,7 @@ class dokusyntax
     $url=trim($url);
     if(preg_match('/http\:\/\/www\.dailymotion\.com\//',$url))
     {
-      return $this->stdvideofetch($url,'\<textarea (.*?)\>','\<\/textarea\>');
+      return $this->stdvideofetch($url,'\<textarea (.*?)\>','\<\/textarea\>','&');
     }
     elseif(preg_match('/http\:\/\/www\.vimeo\.com\//',$url))
     {
@@ -1090,7 +1080,7 @@ class dokusyntax
     return $ret.'</object></div>'.chr(13);
   }
 
-  function stdvideofetch($url,$begin,$end)
+  function stdvideofetch($url,$begin,$end,$first=false)
   {
     $session = curl_init($url);
     curl_setopt($session, CURLOPT_HEADER, true);
@@ -1121,8 +1111,11 @@ print_r($matches);
       {
         if(!preg_match('/'.$begin.'/',$match) && !preg_match('/'.$end.'/',$match))
         {
-          curl_close($session);
-          return html_entity_decode($match,ENT_COMPAT,'UTF-8');
+          if($first && $match{0}==$first)
+          {
+            curl_close($session);
+            return html_entity_decode($match,ENT_COMPAT,'UTF-8');
+          }
         }
       }
     }
