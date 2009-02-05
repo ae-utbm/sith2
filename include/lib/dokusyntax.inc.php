@@ -1058,7 +1058,7 @@ class dokusyntax
     }
     elseif(preg_match('/http\:\/\/www\.youtube\.com\//',$url))
     {
-      return $this->stdvideofetch($url,'\<input id=\"embed\_code\" name\=\"embed\_code\" type\=\"text\" value\=\"','\" onClick\=\"javascript\:document\.embedForm\.embed\_code\.focus\(\)\;document\.embedForm\.embed\_code\.select()\;\" readonly \/\>');
+      return $this->stdvideofetch($url,'\<input id=\"embed\_code\" name\=\"embed\_code\" type\=\"text\" value\=\"','\" onClick(.*?)readonly \/\>','&');
     }
 
     if(!preg_match("/^(http:\/\/)?([^\/]+)/i",$url))
