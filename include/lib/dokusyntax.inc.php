@@ -110,7 +110,6 @@ class dokusyntax
     $this->firstpass($table,$text,"#\{\{([^\}]+?)\}\}#ie","\$this->mediaformat('\\1')");
 
     // flash
-    $this->firstpass($table,$text,"#\{d\[([^\}]+?)\]d\}#ie","\$this->dailymotion('\\1')");
     $this->firstpass($table,$text,"#\{\[([^\}]+?)\]\}#ie","\$this->flashformat('\\1')");
 
     // cherche les url complètes
@@ -1033,6 +1032,16 @@ class dokusyntax
     return $ret;
   }
 
+
+  function videoflash($url)
+  {
+    /*
+     * dailymotion : http://www.dailymotion.com/swf/@VIDEO@
+     * googlevideo : http://video.google.com/googleplayer.swf?docid=@VIDEO@
+     * vimeo       : http://www.vimeo.com/moogaloop.swf?clip_id=@VIDEO@
+     * youtube     : http://www.youtube.com/v/@VIDEO@
+     */
+  }
   /*
    * format :
    * url(|param,valeur(;param,valeur(...)))
@@ -1044,6 +1053,24 @@ class dokusyntax
     list($url,$params) = split('\|',$format['src'],2);
     $params=trim($params);
     $url=trim($url);
+    if(preg_match('/http\:\/\/www\.dailymotion\.com\//',$url))
+    {
+      return $this->stdvideofetch($url,'\<textarea (.*?)\>','\<\/textarea\>');
+    }
+    elseif(preg_match('/http\:\/\/www\.vimeo\.com\//',$url))
+    {
+      $url=str_replace('http://www.vimeo.com/','',$url);
+      $url='http://vimeo.com/moogaloop/load/clip:'.$url.'/embed?param_md5=0&param_context_id=undefined&param_force_embed=1&param_clip_id='.$url.'&param_show_portrait=0&param_color=00ADEF&param_multimoog=&param_server=vimeo.com&param_show_title=1&param_autoplay=0&param_show_byline=1&param_fullscreen=1&param_context=undefined&context=undefined&context_id=undefined';
+      return $this->stdvideofetch($url,'\<embed_code\>\<\!\[CDATA\[','\]\]\>\<\/embed_code\>');
+    }
+    elseif(strncmp($url,'googlevideo',11)==0)
+    {
+    }
+    elseif(preg_match('/http\:\/\/www\.youtube\.com\//',$url))
+    {
+      return $this->stdvideofetch($url,'/\<input id\=\"embed_code\" name=\"embed_code\" type=\"text\" value=\"/','/\"onClick=\"javascript:document.embedForm.embed_code.focus();document.embedForm.embed_code.select();\" readonly \/\>/');
+    }
+
     if(!preg_match("/^(http:\/\/)?([^\/]+)/i",$url))
       return '';
     $ret='<div class="externflash media'.$format['align'].'">';
@@ -1063,13 +1090,12 @@ class dokusyntax
     return $ret.'</object></div>'.chr(13);
   }
 
-  function dailymotion($url)
+  function stdvideofetch($url,$begin,$end)
   {
-    //on va récupérer les valeurs qui vont bien !
-    $session = curl_init(trim($url));
+    $session = curl_init($url);
     curl_setopt($session, CURLOPT_HEADER, true);
     curl_setopt($session, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.9) Gecko/20071025 Firefox/2.0.0.9');
-    curl_setopt($session, CURLOPT_FOLLOWLOCATION, false); 
+    curl_setopt($session, CURLOPT_FOLLOWLOCATION, false);
     curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($session);
     $error = curl_error($session);
@@ -1089,12 +1115,10 @@ class dokusyntax
       $result['last_url'] = curl_getinfo($session, CURLINFO_EFFECTIVE_URL);
       list($header,  $result['header']) = explode("\n\n",  $result['header'], 2);
       $matches = array();
-      $begin='\<textarea (.*?)\>';
-      $end='\<\/textarea\>';
       preg_match('/'.$begin.'(.*?)'.$end.'/', $result['body'], $matches);
       foreach($matches as $match)
       {
-        if($match{0}=='&')
+        if(!preg_match('/'.$begin.'/',$match) && !preg_match('/'.$end.'/',$match))
         {
           curl_close($session);
           return html_entity_decode($match,ENT_COMPAT,'UTF-8');
@@ -1102,7 +1126,7 @@ class dokusyntax
       }
     }
     curl_close($session);
-    return $this->falshformat($url);
+    return 'Impossible de récupérer la vidéo :/';
   }
 
 
