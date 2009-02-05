@@ -1054,8 +1054,9 @@ class dokusyntax
       $url='http://vimeo.com/moogaloop/load/clip:'.$url.'/embed?param_md5=0&param_context_id=undefined&param_force_embed=1&param_clip_id='.$url.'&param_show_portrait=0&param_color=00ADEF&param_multimoog=&param_server=vimeo.com&param_show_title=1&param_autoplay=0&param_show_byline=1&param_fullscreen=1&param_context=undefined&context=undefined&context_id=undefined';
       return $this->stdvideofetch($url,'\<embed_code\>\<\!\[CDATA\[','\]\]\>\<\/embed_code\>');
     }
-    elseif(strncmp($url,'googlevideo',11)==0)
+    elseif(preg_match('/http:\/\/video\.google\.(fr|com)/',$url))
     {
+      return $this->stdvideofetch($url,'\<textarea rows\=\"4\" style\=\"width\:100\%\;\" onclick\=\"this\.select\(\)\;\"\>','\<\/textarea\>','&');
     }
     elseif(preg_match('/http\:\/\/www\.youtube\.com\//',$url) || preg_match('/http\:\/\/youtube\.com\//',$url))
     {
