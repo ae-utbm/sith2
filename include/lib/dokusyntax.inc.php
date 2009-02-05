@@ -1116,6 +1116,7 @@ class dokusyntax
       list($header,  $result['header']) = explode("\n\n",  $result['header'], 2);
       $matches = array();
       preg_match('/'.$begin.'(.*?)'.$end.'/', $result['body'], $matches);
+print_r($matches);
       foreach($matches as $match)
       {
         if(!preg_match('/'.$begin.'/',$match) && !preg_match('/'.$end.'/',$match))
