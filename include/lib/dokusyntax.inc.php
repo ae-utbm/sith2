@@ -1040,7 +1040,7 @@ class dokusyntax
   function flashformat($text)
   {
     $format=$this->alignment($text);
-    list($url,$params) = split('\|',$format['src'],2);
+    list($url,$sizes,$params) = split('\|',$format['src'],3);
     $params=trim($params);
     $url=trim($url);
     if(preg_match('/http\:\/\/www\.dailymotion\.com\//',$url) || preg_match('/http\:\/\/dailymotion\.com\//',$url))
@@ -1065,8 +1065,29 @@ class dokusyntax
 
     if(!preg_match("/^(http:\/\/)?([^\/]+)/i",$url))
       return '';
+    $sizes=trim($sizes);
+    $x=0;
+    $y=0;
+    if(!empty($sizes))
+    {
+      $sizes=explode(';',$sizes);
+      foreach($sizes as $size)
+      {
+        list($name,$value)=split('=',$size,3);
+        if($name=='x')
+          $x=intval($value);
+        elseif($name=='y')
+          $y=intval($value);
+      }
+    }
+    else
+    {
+      $x=400;
+      $y=300;
+    }
+
     $ret='<div class="externflash media'.$format['align'].'">';
-    $ret .= "<object type=\"application/x-shockwave-flash\" data=\"".$url."\" width=\"400\" height=\"300\" class=\"media".$format["align"]."\">";
+    $ret .= "<object type=\"application/x-shockwave-flash\" data=\"".$url."\" width=\"$x\" height=\"$y\" class=\"media".$format["align"]."\">";
     $ret .= "<param name=\"movie\" value=\"".$url."\" />";
     if(!empty($params))
     {
