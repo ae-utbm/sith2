@@ -1041,28 +1041,31 @@ class dokusyntax
   {
     $format=$this->alignment($text);
     list($url,$sizes,$params) = split('\|',$format['src'],3);
+    $sizes=trim($sizes);
     $params=trim($params);
     $url=trim($url);
-    if(preg_match('/http\:\/\/www\.dailymotion\.com\//',$url) || preg_match('/http\:\/\/dailymotion\.com\//',$url))
+    if(empty($sizes) && empty($params))
     {
-      return $this->stdvideofetch($url,'\<textarea (.*?)\>','\<\/textarea\>','&');
+      if(preg_match('/http\:\/\/www\.dailymotion\.com\//',$url) || preg_match('/http\:\/\/dailymotion\.com\//',$url))
+      {
+        return $this->stdvideofetch($url,'\<textarea (.*?)\>','\<\/textarea\>','&');
+      }
+      elseif(preg_match('/http\:\/\/www\.vimeo\.com\//',$url) || preg_match('/http\:\/\/vimeo\.com\//',$url))
+      {
+        $url=str_replace('http://www.vimeo.com/','',$url);
+        $url=str_replace('http://vimeo.com/','',$url);
+        $url='http://vimeo.com/moogaloop/load/clip:'.$url.'/embed?param_md5=0&param_context_id=undefined&param_force_embed=1&param_clip_id='.$url.'&param_show_portrait=0&param_color=00ADEF&param_multimoog=&param_server=vimeo.com&param_show_title=1&param_autoplay=0&param_show_byline=1&param_fullscreen=1&param_context=undefined&context=undefined&context_id=undefined';
+        return $this->stdvideofetch($url,'\<embed_code\>\<\!\[CDATA\[','\]\]\>\<\/embed_code\>');
+      }
+      elseif(preg_match('/http:\/\/video\.google\.(fr|com)/',$url))
+      {
+        return $this->stdvideofetch($url,'\<textarea rows\=\"4\" style\=\"width\:100\%\;\" onclick\=\"this\.select\(\)\;\"\>','\<\/textarea\>','&');
+      }
+      elseif(preg_match('/http\:\/\/www\.youtube\.com\//',$url) || preg_match('/http\:\/\/youtube\.com\//',$url))
+      {
+        return $this->stdvideofetch($url,'\<input id=\"embed\_code\" name\=\"embed\_code\" type\=\"text\" value\=\"','\" onClick(.*?)readonly \/\>','&');
+      }
     }
-    elseif(preg_match('/http\:\/\/www\.vimeo\.com\//',$url) || preg_match('/http\:\/\/vimeo\.com\//',$url))
-    {
-      $url=str_replace('http://www.vimeo.com/','',$url);
-      $url=str_replace('http://vimeo.com/','',$url);
-      $url='http://vimeo.com/moogaloop/load/clip:'.$url.'/embed?param_md5=0&param_context_id=undefined&param_force_embed=1&param_clip_id='.$url.'&param_show_portrait=0&param_color=00ADEF&param_multimoog=&param_server=vimeo.com&param_show_title=1&param_autoplay=0&param_show_byline=1&param_fullscreen=1&param_context=undefined&context=undefined&context_id=undefined';
-      return $this->stdvideofetch($url,'\<embed_code\>\<\!\[CDATA\[','\]\]\>\<\/embed_code\>');
-    }
-    elseif(preg_match('/http:\/\/video\.google\.(fr|com)/',$url))
-    {
-      return $this->stdvideofetch($url,'\<textarea rows\=\"4\" style\=\"width\:100\%\;\" onclick\=\"this\.select\(\)\;\"\>','\<\/textarea\>','&');
-    }
-    elseif(preg_match('/http\:\/\/www\.youtube\.com\//',$url) || preg_match('/http\:\/\/youtube\.com\//',$url))
-    {
-      return $this->stdvideofetch($url,'\<input id=\"embed\_code\" name\=\"embed\_code\" type\=\"text\" value\=\"','\" onClick(.*?)readonly \/\>','&');
-    }
-
     if(!preg_match("/^(http:\/\/)?([^\/]+)/i",$url))
       return '';
     $sizes=trim($sizes);
