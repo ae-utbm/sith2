@@ -39,11 +39,11 @@ if ( file_exists($infofile) )
 else
   $GLOBALS["streaminfo"] = array();
 
-/*if ( !$GLOBALS["is_using_ssl"] )
+if ( !$GLOBALS["is_using_ssl"] )
 {
   echo "sorry, please use ssl\n";
   exit();
-}*/
+}
 
 $valid = new requete($site->db,
   "SELECT `key` ".
