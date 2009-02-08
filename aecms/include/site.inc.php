@@ -138,7 +138,8 @@ class aecms extends site
       "boxes.names"=>"calendrier",
       "home.news"=>1,
       "home.excludenewssiteae"=>0,
-      "css.base"=>"base.css"
+      "css.base"=>"base.css",
+      "footer"=>false
     );
 
     $this->asso = new asso($this->db,$this->dbrw);
@@ -423,11 +424,15 @@ class aecms extends site
 
     echo "<p class=\"footer\">\n";
 
-    if ( !is_null($this->asso->id_parent) )
+    if ( !is_null($this->asso->id_parent) && $this->config["footer"] == false )
     {
       echo "<a href=\"/\">association des etudiants de l'utbm</a>";
       echo " - <a href=\"index.php?name=:legals\">informations légales</a>";
       echo " - <a href=\"contact.php\">contact</a>";
+    }
+    elseif ( !is_null($this->asso->id_parent) )
+    {
+      echo stripslashes($this->config["footer"]);
     }
     else
     {
