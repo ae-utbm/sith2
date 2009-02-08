@@ -424,7 +424,7 @@ class aecms extends site
 
     echo "<p class=\"footer\">\n";
 
-    if ( !is_null($this->asso->id_parent) && $this->config["footer"] == false )
+    if ( !is_null($this->asso->id_parent) && !$this->config["footer"] )
     {
       echo "<a href=\"/\">association des etudiants de l'utbm</a>";
       echo " - <a href=\"index.php?name=:legals\">informations légales</a>";

@@ -28,7 +28,7 @@ require_once($topdir. "include/site.inc.php");
 
 $site = new site();
 
-if ( preg_match('/^\/var\/www\/ae\/www\/(taiste|taiste21)\//', $_SERVER['SCRIPT_FILENAME']) )
+if ( preg_match('/^\/var\/www\/ae\/www\/taiste\//', $_SERVER['SCRIPT_FILENAME']) )
   $infofile = $topdir."var/cache/stream";
 else
   $infofile = $topdir."var/cache/stream-prod";
@@ -39,11 +39,11 @@ if ( file_exists($infofile) )
 else
   $GLOBALS["streaminfo"] = array();
 
-if ( !$GLOBALS["is_using_ssl"] )
+/*if ( !$GLOBALS["is_using_ssl"] )
 {
   echo "sorry, please use ssl\n";
   exit();
-}
+}*/
 
 $valid = new requete($site->db,
   "SELECT `key` ".
