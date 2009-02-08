@@ -15,9 +15,11 @@ if ( $GLOBALS["streaminfo"]["ogg"] || $GLOBALS["streaminfo"]["mp3"] )
   {
     $cts->add_title(2,"Actuellement");
 
-    $cts->add_paragraph(htmlentities($GLOBALS["streaminfo"]["title"], ENT_NOQUOTES, "UTF-8").
-                        ", interprété par : ".
-                        htmlentities($GLOBALS["streaminfo"]["artist"], ENT_NOQUOTES, "UTF-8"));
+    $cts->add_paragraph("<b>".
+                        htmlentities($GLOBALS["streaminfo"]["title"], ENT_NOQUOTES, "UTF-8").
+                        "</b>, interprété par : <b><i>".
+                        htmlentities($GLOBALS["streaminfo"]["artist"], ENT_NOQUOTES, "UTF-8").
+                        "</i></b>");
   }
 
   if ( $GLOBALS["streaminfo"]["message"] )
