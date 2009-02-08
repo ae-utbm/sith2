@@ -36,10 +36,8 @@
 if ( !isset($GLOBALS['nosession']) )
   session_start();
 
-if ( $_SERVER["REMOTE_ADDR"] == "127.0.0.1" )
+if ( $_SERVER["REMOTE_ADDR"] == "127.0.1.1" )
   $GLOBALS["is_using_ssl"] = true;
-
-print_r($_SERVER["REMOTE_ADDR"]);
 
 require_once($topdir . "include/interface.inc.php");
 require_once($topdir . "include/globals.inc.php");
