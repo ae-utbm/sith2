@@ -292,7 +292,10 @@ elseif ( $_REQUEST['module']=="fsfield" )
 
   if ( $_REQUEST['pattern'] != "" )
   {
-    $res = $std->fsearch ( $_REQUEST['pattern'], 5 );
+    $conds=array();
+    if(isset($_REQUEST['conds']) && !empty($_REQUEST['conds']) && is_array($_REQUEST['conds']))
+      $conds=$_REQUEST['conds'];
+    $res = $std->fsearch ( $_REQUEST['pattern'], 5 , $conds);
     if ( !is_null($res) )
     {
       $buffer = "<ul class=\"fsfield_list\">";
