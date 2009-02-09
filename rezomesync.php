@@ -31,9 +31,11 @@ function error($apikey)
 {
   $ip = explode(".", $_SERVER["REMOTE_ADDR"]);
 
-  if($ip[0] != 192 || $ip[1] != 168 || $ip[2] != 2)
-    return "notAllowed";
-
+  if ( !$GLOBALS["is_using_ssl"] )
+  {
+    if($ip[0] != 192 || $ip[1] != 168 || $ip[2] != 2)
+      return "notAllowed";
+  }
   /*if ( $_SERVER["REMOTE_ADDR"] != "127.0.1.1" )
     return "httpsRequired";*/
 
