@@ -269,15 +269,17 @@ function userselect_keyup(event,ref,topdir)
  */
 var fsfield_current_sequence = new Array();
 var fsfield_sequence = new Array();
-
+var fsfield_constraintfield = new Array();
 /**
  * Champ de selection par recherche : Initialisation d'un champ
  * @ingroup display_cts_js
  */
-function fsfield_init ( topdir, field )
+function fsfield_init ( topdir, field, constraint )
 {
   fsfield_current_sequence[field]=0;
   fsfield_sequence[field]=0;
+  if(typeof(constraint)!='undefined')
+    fsfield_constraintfield[field]=constraint;
 }
 
 /**
@@ -341,26 +343,45 @@ function fsfield_sel ( topdir, field, id, title, iconfile )
  * 
  * @ingroup display_cts_js
  */
-function fsfield_keyup ( event, topdir, field, myclass )
+function fsfield_keyup ( event, topdir, field, myclass, constraints )
 {
   if ( event != null )
     if ( event.ctrlKey || event.keyCode == 27 || event.keyCode == 13  )
       return false;
-      
+
   var obj = document.getElementById(field + '_field');
 
   if ( !obj ) return false;
     
   fsfield_sequence[field] = fsfield_sequence[field]+1;
-    
-  evalCommand( topdir + "gateway.php", 
-    "module=fsfield"+
-    "&topdir="+topdir+
-    "&pattern="+obj.value+
-    "&field="+field+
-    "&class="+myclass+
-    "&sequence="+fsfield_sequence[field] );
-  
+  if(typeof(constraints) == ‘object’ && constraints.length)
+  {
+    var append='';
+    for ( var sqlfield in constraints )
+    {
+      var obj2 = document.getElementById(constraints[sqlfield]);
+      if(obj2 && obj2.value!='')
+        append=append+'&conds['+sqlfield']='+obj2.value;
+    }
+    evalCommand( topdir + "gateway.php",
+      "module=fsfield"+
+      "&topdir="+topdir+
+      "&pattern="+obj.value+
+      "&field="+field+
+      "&class="+myclass+
+      "&sequence="+fsfield_sequence[field]+
+      append);
+  }
+  else
+  {
+    evalCommand( topdir + "gateway.php", 
+      "module=fsfield"+
+      "&topdir="+topdir+
+      "&pattern="+obj.value+
+      "&field="+field+
+      "&class="+myclass+
+      "&sequence="+fsfield_sequence[field] );
+  }
   return true;
 }
 

@@ -522,10 +522,21 @@ class form extends stdcontents
     else
       $value=0;
 
+    $constraints='';
+    if(is_array($conds) && !empty($conds))
+    {
+      $uid='constraint_'.gen_uid();
+      $constraints=', '.$uid;
+      $this->buffer .= "\n<script language=\"javascript\">";
+      $this->buffer .= "var ".$uid."=new Array();\n";
+      foreach($conds as $sqlfield => $formfield)
+        $this->buffer .=$uid."['".$sqlfield."']='".$formfield."';\n";
+      $this->buffer="</script>\n";
+    }
     $this->buffer .= "<div id=\"$name\" class=\"userfield\">" .
         "<input type=\"hidden\" name=\"".$name."\" id=\"".$name."_id\" value=\"$value\" />" .
         "<div id=\"".$name."_fieldbox\" class=\"fieldbox\" style=\"display:none;\">" .
-        "<input type=\"text\" id=\"".$name."_field\" onkeyup=\"fsfield_keyup ( event, '".$wwwtopdir."','".$name."', '".$classname."' )\" />" .
+        "<input type=\"text\" id=\"".$name."_field\" onkeyup=\"fsfield_keyup ( event, '".$wwwtopdir."','".$name."', '".$classname."' ".$constraints.")\" />" .
         "</div>" .
         "<div id=\"".$name."_static\" class=\"staticbox\" onclick=\"fsfield_toggle('".$wwwtopdir."','".$name."');\">";
     $verbe = "choisir";
