@@ -100,6 +100,7 @@ class site extends interfaceweb
     if ( isset($_COOKIE['AE2_SESS_ID']) )
     {
       $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
+      print_r($domain);
       if($_SERVER['SCRIPT_URI'] == 'http://ae.utbm.fr/boutique-utbm/connect.php')
         $domain = '.utbm.fr';
       setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain, 0);
