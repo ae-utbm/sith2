@@ -25,27 +25,20 @@ require_once($topdir. "include/site.inc.php");
 $site = new site ();
 
 $req = new requete($site->db,
-'SELECT LEFT(nom_ville,5) as Nom
-        , COUNT(*) as Nb
- FROM `loc_ville`
- GROUP BY LEFT(nom_ville,5)
- HAVING COUNT(*)>5');
+'SELECT l1.id_ville as id1
+       ,l1.nom_ville as nom1
+       ,l2.id_ville as id2
+       ,l2.nom_ville as nom2
+ FROM `loc_ville` l1
+     ,`loc_ville` l2
+ WHERE
+    l1.id_ville!=l2.id_ville
+    AND
+    SQRT(POW((l2.lat_ville-l1.lat_ville),2)+POW((l2.long_ville-l1.long_ville),2))<1
+ LIMIT 10');
 
 echo '<pre>';
-while(list($nom,$nb)=$req->get_row())
-{
-  echo $nom."\n";
-  $req2 = new requete($site->db,
-'SELECT id_ville
-      , lat_ville
-      , long_ville
-      , nom_ville
-FROM `loc_ville`
-WHERE nom_ville LIKE \''.mysql_real_escape_string($nom).'%\'');
-
-  while(list($id,$lat,$long,$nom2)=$req2->get_row())
-    echo " -  (".$id.") ".$nom." : ".geo_radians_to_degrees($lat).", ".geo_radians_to_degrees($long)."\n";
-
-}
+while(list($id1,$nom1,$id2,$nom2)=$req->get_row())
+  echo "($id1) $nom - ($id2) $nom2\n";
 echo '</pre>';
 ?>
