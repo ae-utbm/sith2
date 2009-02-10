@@ -354,7 +354,7 @@ function fsfield_keyup ( event, topdir, field, myclass, constraints )
   if ( !obj ) return false;
     
   fsfield_sequence[field] = fsfield_sequence[field]+1;
-  alert(typeof(constraints));
+  alert(constraints.length);
   if(typeof(constraints) == 'object' && constraints.length)
   {
     alert('bleh');
