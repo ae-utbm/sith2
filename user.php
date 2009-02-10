@@ -643,7 +643,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
       $subfrm3->add_text_field("adresse_parents","Adresse parents",$user->adresse_parents);
 
       $subfrm3->add_entity_smartselect ("id_pays_parents","ou pays parents", $pays_parents,true);
-      $subfrm3->add_entity_smartselect ("id_ville_parents","Ville parents (France)", $ville_parents,true,false,array('id_pays'=>'id_pays_parents');
+      $subfrm3->add_entity_smartselect ("id_ville_parents","Ville parents (France)", $ville_parents,true,false,array('id_pays'=>'id_pays_parents'));
 
       $subfrm3->add_text_field("tel_parents","T&eacute;l&eacute;phone parents",$user->tel_parents);
       $frm->add ( $subfrm3, false, false, false, false, false, true, false );
