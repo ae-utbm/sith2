@@ -30,22 +30,22 @@ $site = new site ();
 
 if ( isset($_REQUEST['id_utilisateur']) )
 {
-	$user = new utilisateur($site->db,$site->dbrw);
-	$user->load_by_id($_REQUEST["id_utilisateur"]);
-	if ( $user->id < 0 )
-	{
-		$site->error_not_found();
-		exit();
-	}
-	$can_edit = ( $user->id==$site->user->id || $site->user->is_in_group("gestion_ae") );
+  $user = new utilisateur($site->db,$site->dbrw);
+  $user->load_by_id($_REQUEST["id_utilisateur"]);
+  if ( $user->id < 0 )
+  {
+    $site->error_not_found();
+    exit();
+  }
+  $can_edit = ( $user->id==$site->user->id || $site->user->is_in_group("gestion_ae") );
 
-	if ( $user->id != $site->user->id && !$site->user->utbm && !$site->user->ae )
-		$site->error_forbidden("none","reserved");
+  if ( $user->id != $site->user->id && !$site->user->utbm && !$site->user->ae )
+    $site->error_forbidden("none","reserved");
 }
 else
 {
-	$user = &$site->user;
-	$can_edit = true;
+  $user = &$site->user;
+  $can_edit = true;
 }
 
 $site->start_page("services","Famille");
@@ -53,20 +53,20 @@ $site->start_page("services","Famille");
 // On charge tout, ça évite un nombre déraisonable de requête
 // si la base passe à 20000 entrés, il faudra trouver une autre solution
 $req = new requete($site->db,
-		"SELECT " .
-		"`parrains`.`id_utilisateur` AS `id_utilisateur_parent`, " .
-		"`utilisateurs`.`id_utilisateur` AS `id_utilisateur`, " .
-		"CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
-		"FROM `utilisateurs` " .
-		"LEFT JOIN `parrains` ON `utilisateurs`.`id_utilisateur`=`parrains`.`id_utilisateur_fillot` ");
+    "SELECT " .
+    "`parrains`.`id_utilisateur` AS `id_utilisateur_parent`, " .
+    "`utilisateurs`.`id_utilisateur` AS `id_utilisateur`, " .
+    "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur` " .
+    "FROM `utilisateurs` " .
+    "LEFT JOIN `parrains` ON `utilisateurs`.`id_utilisateur`=`parrains`.`id_utilisateur_fillot` ");
 
 
 $site->add_contents(new treects ( "Famille UTBM", $req, $user->id, "id_utilisateur", "id_utilisateur_parent", "nom_utilisateur" ));
 
 $site->add_contents(new contents ("Arbre g&eacute;n&eacute;alogique",
-				  "<p>Un arbre g&eacute;n&eacute;alogique peut &ecirc;tre g&eacute;n&eacute;r&eacute; ".
-				  "en <a href=./matmatronch/family_graph.php?".
-				  "id=".$user->id.">cliquant ici</a></p>"));
+          "<p>Un arbre g&eacute;n&eacute;alogique peut &ecirc;tre g&eacute;n&eacute;r&eacute; ".
+          "en <a href=./matmatronch/family_graph.php?".
+          "id=".$user->id.">cliquant ici</a></p>"));
 
 $site->end_page();
 

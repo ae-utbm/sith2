@@ -103,7 +103,7 @@ class genealogie
     $this->surnom = $rs[0];
     $nom = utf8_decode($rs[1] . "\\n" . $rs[0]);
 
-    $this->get_childs ($this->id_utl, $nom);
+    $this->get_childs ($this->id_utl, $nom, 3);
 
     /* fin configuration */
     $this->out_conf .= "}\n";
@@ -126,8 +126,10 @@ class genealogie
    * attention : il est possible que cet algorithme soit
    * tres vite lourd au cours du temps
    */
-  function get_childs ($id, $nom)
+  function get_childs ($id, $nom, $rank)
   {
+    if($rank==0)
+      return;
     $req = "SELECT COALESCE(`surnom_utbm`,`alias_utl`),
                    CONCAT(`utilisateurs`.`prenom_utl`,' ', `utilisateurs`.`nom_utl`) AS `nom`,
                    `utilisateurs`.`id_utilisateur`
@@ -157,7 +159,7 @@ class genealogie
 	    $this->explored[] = $id_child;
 	    //$this->write_on_conf ($nom, $nom_child);
 	    /* descente recursive dans la genealogie */
-	    $this->get_childs($id_child, $nom_child);
+	    $this->get_childs($id_child, $nom_child, $rank-1);
 	  }
       }
     return;
