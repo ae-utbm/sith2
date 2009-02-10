@@ -290,30 +290,17 @@ elseif ( $_REQUEST['module']=="fsfield" )
   if ( !$std->allow_user_consult($site->user) )
     exit();
 
-  $max=5;
-  if($_REQUEST['max'])
-    $max=intval($_REQUEST['max']);
-
   if ( $_REQUEST['pattern'] != "" )
   {
     $conds=array();
     if(isset($_REQUEST['conds']) && !empty($_REQUEST['conds']) && is_array($_REQUEST['conds']))
       $conds=$_REQUEST['conds'];
-    $res = $std->fsearch ( $_REQUEST['pattern'], $max+1 , $conds);
+    $res = $std->fsearch ( $_REQUEST['pattern'], 6 , $conds);
     if ( !is_null($res) )
     {
-      $more=false;
-      if(count($res)>$max)
-        $more=true;
       $buffer = "<ul class=\"fsfield_list\">";
-      $i=0;
       foreach ( $res as $id => $name )
       {
-        $i++;
-        if($max-$i>4)
-          continue;
-        if($i>$max)
-          break;
         $buffer .= "<li>";
 
         $std->id = $id;
@@ -330,13 +317,6 @@ elseif ( $_REQUEST['module']=="fsfield" )
         $buffer .= "</li>";
       }
       $buffer .=  "</ul>";
-      if($more)
-      {
-        $query=str_replace('&max='.$max,'',$_SERVER['QUERY_STRING'])."&max=".($max+5);
-        $buffer.='<a href="#" onclick="evalCommand( \'http://'.
-                 $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'].'\', \''.$query.
-                 '\' ); return false;">suivants</a>';
-      }
       $buffer .=  "<div class=\"clearboth\"></div>";
     }
     else
