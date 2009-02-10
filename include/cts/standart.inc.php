@@ -531,7 +531,7 @@ class form extends stdcontents
       $this->buffer .= "var ".$uid."=new Array();\n";
       foreach($conds as $sqlfield => $formfield)
         $this->buffer .=$uid."['".$sqlfield."']='".$formfield."';\n";
-      $this->buffer="</script>\n";
+      $this->buffer .="</script>\n";
     }
     $this->buffer .= "<div id=\"$name\" class=\"userfield\">" .
         "<input type=\"hidden\" name=\"".$name."\" id=\"".$name."_id\" value=\"$value\" />" .
