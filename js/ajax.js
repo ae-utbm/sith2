@@ -359,7 +359,6 @@ function fsfield_keyup ( event, topdir, field, myclass, constraints )
     var append='';
     for ( var sqlfield in constraints )
     {
-      alert(constraints[sqlfield]+' : '+document.getElementById(constraints[sqlfield]).value);
       var obj2 = document.getElementById(constraints[sqlfield]).value;
       if(obj2 && obj2!='')
         append=append+'&conds['+sqlfield+']='+obj2;
