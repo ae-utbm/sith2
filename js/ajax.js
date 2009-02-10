@@ -103,7 +103,7 @@ function evalCommand( page, data )
     if (XhrObj.readyState == 4 && XhrObj.status == 200)
     {
       eval(XhrObj.responseText);
-      alert('bleh');
+      alert(XhrObj.responseText);
     }
   }    
 
