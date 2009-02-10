@@ -33,7 +33,9 @@ $req = new requete($site->db,
      ,`loc_ville` l2
  WHERE
     l1.id_ville!=l2.id_ville
-    AND
+  AND
+    LEFT(l1.nom_ville,7)=LEFT(l2.nom_ville,7)
+  AND
     SQRT(POW((l2.lat_ville-l1.lat_ville),2)+POW((l2.long_ville-l1.long_ville),2))<1
  LIMIT 10');
 
