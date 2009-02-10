@@ -360,9 +360,10 @@ function fsfield_keyup ( event, topdir, field, myclass, constraints )
     for ( var sqlfield in constraints )
     {
       alert(constraints[sqlfield]);
-      var obj2 = document.getElementById(constraints[sqlfield]);
-      if(obj2 && obj2.value!='')
-        append=append+'&conds['+sqlfield+']='+obj2.value;
+      var obj2 = document.getElementById(constraints[sqlfield]).value;
+      alert(obj2);
+      if(obj2 && obj2!='')
+        append=append+'&conds['+sqlfield+']='+obj2;
     }
     evalCommand( topdir + "gateway.php",
       "module=fsfield"+
