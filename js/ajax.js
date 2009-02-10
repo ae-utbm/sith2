@@ -269,17 +269,14 @@ function userselect_keyup(event,ref,topdir)
  */
 var fsfield_current_sequence = new Array();
 var fsfield_sequence = new Array();
-var fsfield_constraintfield = new Array();
 /**
  * Champ de selection par recherche : Initialisation d'un champ
  * @ingroup display_cts_js
  */
-function fsfield_init ( topdir, field, constraint )
+function fsfield_init ( topdir, field )
 {
   fsfield_current_sequence[field]=0;
   fsfield_sequence[field]=0;
-  if(typeof(constraint)!='undefined')
-    fsfield_constraintfield[field]=constraint;
 }
 
 /**
