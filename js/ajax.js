@@ -354,10 +354,7 @@ function fsfield_keyup ( event, topdir, field, myclass, constraints )
   if ( !obj ) return false;
     
   fsfield_sequence[field] = fsfield_sequence[field]+1;
-  alert(constraints.length);
-  for ( var sqlfield in constraints )
-    alert(constraints[sqlfield]);
-  if(typeof(constraints) == 'object' && constraints.length)
+  if(typeof(constraints) == 'object')
   {
     alert('bleh');
     var append='';
