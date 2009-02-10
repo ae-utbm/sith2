@@ -361,7 +361,7 @@ function fsfield_keyup ( event, topdir, field, myclass, constraints )
     {
       var obj2 = document.getElementById(constraints[sqlfield]);
       if(obj2 && obj2.value!='')
-        append=append+'&conds['+sqlfield']='+obj2.value;
+        append=append+'&conds['+sqlfield+']='+obj2.value;
     }
     evalCommand( topdir + "gateway.php",
       "module=fsfield"+
