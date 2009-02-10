@@ -33,6 +33,19 @@ $req = new requete($site->db,
 
 echo '<pre>';
 while(list($nom,$nb)=$req->get_row())
-  echo $nom.' : '.$nb.chr(13);
+{
+  echo $nom."\n";
+  $req2 = new requete($site->db,
+'SELECT id_ville
+      , lat_ville
+      , long_ville
+      , nom_ville
+FROM `loc_ville`
+WHERE nom_ville LIKE \''.mysql_real_escape_string($nom).'%\'');
+
+  while(list($id,$lat,$long,$nom2)=$req2->get_row())
+    echo " -  (".$id.") ".$nom." : ".geo_radians_to_degrees($lat).", ".geo_radians_to_degrees($long)."\n";
+
+}
 echo '</pre>';
 ?>
