@@ -356,10 +356,10 @@ function fsfield_keyup ( event, topdir, field, myclass, constraints )
   fsfield_sequence[field] = fsfield_sequence[field]+1;
   if(typeof(constraints) == 'object')
   {
-    alert('bleh');
     var append='';
     for ( var sqlfield in constraints )
     {
+      alert(constraints[sqlfield]);
       var obj2 = document.getElementById(constraints[sqlfield]);
       if(obj2 && obj2.value!='')
         append=append+'&conds['+sqlfield+']='+obj2.value;
