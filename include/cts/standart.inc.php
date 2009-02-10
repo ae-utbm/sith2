@@ -446,9 +446,10 @@ class form extends stdcontents
    * @param $none Authorise à selectionner aucunne entité (0 sera placé dans la variable)
    * @param $required  Précise si le champ est obligatoire [redondant avec $none, mais passons]
    * @param $conds Conditions sur les entités selectionnable (tableau associatif avec nom du champ sql associé à une valeur)
+   * @param $force Forcer le dernier cas
    * @see stdentity
    */
-  function add_entity_smartselect ( $name, $title, &$instance, $none = false, $required = false, $conds=null )
+  function add_entity_smartselect ( $name, $title, &$instance, $none = false, $required = false, $conds=null, $force=false )
   {
     global $wwwtopdir;
 
@@ -500,7 +501,7 @@ class form extends stdcontents
       return;
     }
 
-/*    if ( !$instance->can_fsearch() || !is_null($conds)  || $instance->prefer_list() )
+    if ( !$force && (!$instance->can_fsearch() || !is_null($conds)  || $instance->prefer_list()) )
     {
       if ( !$instance->can_enumerate() )
         return;
@@ -510,7 +511,6 @@ class form extends stdcontents
       $this->add_select_list_entity_field ( $name, $title, $values, $instance );
       return;
     }
-*/
 
 
     $this->buffer .= "<div class=\"formrow\">\n";
