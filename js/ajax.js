@@ -355,6 +355,8 @@ function fsfield_keyup ( event, topdir, field, myclass, constraints )
     
   fsfield_sequence[field] = fsfield_sequence[field]+1;
   alert(constraints.length);
+  for ( var sqlfield in constraints )
+    alert(constraints[sqlfield]);
   if(typeof(constraints) == 'object' && constraints.length)
   {
     alert('bleh');
