@@ -29,6 +29,7 @@ $req = new requete($site->db,
        ,l1.nom_ville as nom1
        ,l2.id_ville as id2
        ,l2.nom_ville as nom2
+       , SQRT(POW((l2.lat_ville-l1.lat_ville),2)+POW((l2.long_ville-l1.long_ville),2)) as dist
  FROM `loc_ville` l1
      ,`loc_ville` l2
  WHERE
@@ -40,7 +41,7 @@ $req = new requete($site->db,
  LIMIT 10');
 
 echo '<pre>';
-while(list($id1,$nom1,$id2,$nom2)=$req->get_row())
-  echo "($id1) $nom1 - ($id2) $nom2\n";
+while(list($id1,$nom1,$id2,$nom2,$dist)=$req->get_row())
+  echo "($id1) $nom1 - ($id2) $nom2 : $dist\n";
 echo '</pre>';
 ?>
