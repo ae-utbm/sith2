@@ -41,6 +41,6 @@ $req = new requete($site->db,
 
 echo '<pre>';
 while(list($id1,$nom1,$id2,$nom2)=$req->get_row())
-  echo "($id1) $nom - ($id2) $nom2\n";
+  echo "($id1) $nom1 - ($id2) $nom2\n";
 echo '</pre>';
 ?>
