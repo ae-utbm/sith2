@@ -335,7 +335,7 @@ elseif ( $_REQUEST['module']=="fsfield" )
         $query=str_replace('&max='.$max,'',$_SERVER['QUERY_STRING'])."&max=".($max+5);
         $buffer.='<a href="#" onclick="evalCommand( \'http://'.
                  $_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'].'\', \''.$query.
-                 '\' ); return false;">suivants</a>';
+                 '\' ); alert(\'bleh\'); return false;">suivants</a>';
       }
       $buffer .=  "<div class=\"clearboth\"></div>";
     }
