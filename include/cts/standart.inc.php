@@ -500,7 +500,7 @@ class form extends stdcontents
       return;
     }
 
-    if ( !$instance->can_fsearch() || !is_null($conds)  || $instance->prefer_list() )
+/*    if ( !$instance->can_fsearch() || !is_null($conds)  || $instance->prefer_list() )
     {
       if ( !$instance->can_enumerate() )
         return;
@@ -510,7 +510,7 @@ class form extends stdcontents
       $this->add_select_list_entity_field ( $name, $title, $values, $instance );
       return;
     }
-
+*/
 
 
     $this->buffer .= "<div class=\"formrow\">\n";
