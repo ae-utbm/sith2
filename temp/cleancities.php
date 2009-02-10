@@ -29,19 +29,24 @@ $req = new requete($site->db,
        ,l1.nom_ville as nom1
        ,l2.id_ville as id2
        ,l2.nom_ville as nom2
-       , SQRT(POW((l2.lat_ville-l1.lat_ville),2)+POW((l2.long_ville-l1.long_ville),2)) as dist
+       , ABS(l2.lat_ville-l1.lat_ville) as dla
+       , ABS(l2.long_ville-l1.long_ville) as dlo
  FROM `loc_ville` l1
      ,`loc_ville` l2
  WHERE
     l1.id_ville!=l2.id_ville
   AND
+    l1.id_pays!=l2.id_pays
+  AND
     LEFT(l1.nom_ville,7)=LEFT(l2.nom_ville,7)
   AND
-    SQRT(POW((l2.lat_ville-l1.lat_ville),2)+POW((l2.long_ville-l1.long_ville),2))<1
+    ABS(l2.lat_ville-l1.lat_ville)<1
+  AND
+    ABS(l2.long_ville-l1.long_ville)<1
  LIMIT 10');
 
 echo '<pre>';
-while(list($id1,$nom1,$id2,$nom2,$dist)=$req->get_row())
-  echo "($id1) $nom1 - ($id2) $nom2 : $dist\n";
+while(list($id1,$nom1,$id2,$nom2,$dla,$dlo)=$req->get_row())
+  echo "($id1) $nom1 - ($id2) $nom2 : $dla, $dlo\n";
 echo '</pre>';
 ?>
