@@ -103,7 +103,7 @@ class site extends interfaceweb
       if($_SERVER['SCRIPT_URI'] == 'http://ae.utbm.fr/boutique-utbm/connect.php')
         $domain = '.utbm.fr';
 
-      setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain, 0);
+      setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain);
       unset($_COOKIE['AE2_SESS_ID']);
     }
 
@@ -215,7 +215,7 @@ class site extends interfaceweb
       $domain = '.utbm.fr';
 
     $domain = 'ae.utbm.fr';
-    setcookie ("AE2_SESS_ID", $sid, time() + 31536000, "/", $domain, 0);
+    setcookie ("AE2_SESS_ID", $sid, time() + 31536000, "/", $domain);
 
     $this->user->visite();
 
