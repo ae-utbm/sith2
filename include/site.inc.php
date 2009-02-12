@@ -214,6 +214,7 @@ class site extends interfaceweb
     if($_SERVER['SCRIPT_URI'] == 'http://ae.utbm.fr/boutique-utbm/connect.php')
       $domain = '.utbm.fr';
 
+    $domain = 'ae.utbm.fr';
     setcookie ("AE2_SESS_ID", $sid, time() + 31536000, "/", $domain, 0);
 
     $this->user->visite();
