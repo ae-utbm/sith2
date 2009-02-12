@@ -71,8 +71,8 @@ class site extends interfaceweb
 
     $this->interfaceweb($dbro, $dbrw);
 
-    if($_COOKIE['AE2_SESS_ID'])
-      $this->load_session($_COOKIE['AE2_SESS_ID']);
+    if($_COOKIE['AE_SESS_ID'])
+      $this->load_session($_COOKIE['AE_SESS_ID']);
 
     /*if($this->user->type=="srv" && !strpos($_SERVER['SCRIPT_FILENAME'],'boutique-utbm') )
     {
@@ -97,14 +97,14 @@ class site extends interfaceweb
 
   private function unset_session (  )
   {
-    if ( isset($_COOKIE['AE2_SESS_ID']) )
+    if ( isset($_COOKIE['AE_SESS_ID']) )
     {
       $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
       if($_SERVER['SCRIPT_URI'] == 'http://ae.utbm.fr/boutique-utbm/connect.php')
         $domain = '.utbm.fr';
 
-      setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain);
-      unset($_COOKIE['AE2_SESS_ID']);
+      setcookie ("AE_SESS_ID", "", time() - 3600, "/", $domain);
+      unset($_COOKIE['AE_SESS_ID']);
     }
 
     if ( !isset($_SESSION["visite"]) )
@@ -215,7 +215,7 @@ class site extends interfaceweb
       $domain = '.utbm.fr';
 
     $domain = 'ae.utbm.fr';
-    setcookie ("AE2_SESS_ID", $sid, time() + 31536000, "/", $domain);
+    setcookie ("AE_SESS_ID", $sid, time() + 31536000, "/", $domain);
 
     $this->user->visite();
 
