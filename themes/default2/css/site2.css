@@ -2502,6 +2502,7 @@ div.comment
   background: #ffd;
   border-bottom: 1px solid #777;
   font-size: 11px;
+  clear: both;
 }
 
 #topalert img
