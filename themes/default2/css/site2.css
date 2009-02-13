@@ -2493,6 +2493,7 @@ div.comment
 
 #topalert
 {
+  float:left;
   position:absolute;
   top: 0px;
   left: 0px;
@@ -2502,7 +2503,7 @@ div.comment
   background: #ffd;
   border-bottom: 1px solid #777;
   font-size: 11px;
-  clear: both;
+  clear:both;
 }
 
 #topalert img
