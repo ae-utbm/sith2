@@ -29,17 +29,12 @@ require_once($topdir. "include/mysqlae.inc.php");
 
 function error($apikey)
 {
-  $ip = explode(".", $_SERVER["REMOTE_ADDR"]);
-  if(
-     !($ip[0] == 192 || $ip[1] == 168 || $ip[2] == 2)
-     &&
-     !($ip[0] == 127 || $ip[1] == 0 || $ip[2] == 0 || $ip[2] == 1)
-    )
-    return "notAllowed";
+  if(!$GLOBALS["is_using_ssl"])
+    return "httpsRequired";
 
   $db = new mysqlae ("rw");
 
-  if ( !$db->dbh )
+  if(!$db->dbh)
     return "DatabaseUnavailable";
 
   $valid = new requete($db,
@@ -47,7 +42,7 @@ function error($apikey)
     "FROM `sso_api_keys` ".
     "WHERE `key` = '".mysql_real_escape_string($apikey)."'");
 
-  if ( $valid->lines != 1 )
+  if($valid->lines != 1)
     return "KeyNotValid";
 
   return "ok";
