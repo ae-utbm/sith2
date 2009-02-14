@@ -88,6 +88,38 @@ XML;
   return $response;
 }
 
+function testAssoRole($message)
+{
+  $simplexml = new SimpleXMLElement($message->str);
+  $apikey = $simplexml->apikey[0];
+  $login = $simplexml->uid[0];
+  $asso = $simplexml->aid[0];
+  $role = $simplexml->role[0];
+
+  $error = error($apikey);
+
+  if($error == "ok")
+  {
+    $site = new site();
+    $site->user->load_by_id($iud);
+
+    if($site->user->is_asso_role($asso, $role))
+      $return = 1;
+    else
+      $return = 0;
+  }
+  else
+    $return = $error;
+
+  $response = <<<XML
+<testAssoRoleResponse>
+  <result>$return</result>
+</testAssoRoleResponse>
+XML;
+
+  return $response;
+}
+
 /* Ils utilisent pas l'inscription via site AE donc on commente */
 /*function inscription($message)
 {
@@ -152,7 +184,7 @@ XML;
 }*/
 
 /*$service = new WSService(array("operations" => array("testLogin", "inscription")));*/
-$service = new WSService(array("operations" => array("testLogin")));
+$service = new WSService(array("operations" => array("testLogin", "testAssoRole")));
 $service->reply();
 
 ?>
