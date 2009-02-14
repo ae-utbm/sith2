@@ -92,7 +92,7 @@ function testAssoRole($message)
 {
   $simplexml = new SimpleXMLElement($message->str);
   $apikey = $simplexml->apikey[0];
-  $login = $simplexml->uid[0];
+  $uid = $simplexml->uid[0];
   $asso = $simplexml->aid[0];
   $role = $simplexml->role[0];
 
@@ -101,7 +101,7 @@ function testAssoRole($message)
   if($error == "ok")
   {
     $site = new site();
-    $site->user->load_by_id($iud);
+    $site->user->load_by_id($uid);
 
     if($site->user->is_asso_role($asso, $role))
       $return = 1;
