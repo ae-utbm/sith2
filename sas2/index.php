@@ -864,10 +864,10 @@ elseif ( $_REQUEST["view"] == "add" && $cat->is_right($site->user,DROIT_AJOUTITE
   $sfrm = new form("auteur",null,null,null,"Je certifie être le photographe");
   $licence = new licence($site->db);
   $sfrm->add_entity_smartselect('id_licence','Choix de la licence',$licence);
-  $frm->add($sfrm,false,true, true, 1);
+  $frm->add($sfrm,false,true, true, 1, true, true);
   $sfrm = new form("auteur",null,null,null,"Je ne suis pas le photographe");
   $sfrm->add_user_fieldv2('photographe','Photographe');
-  $frm->add($sfrm,false,true, false, 0);
+  $frm->add($sfrm,false,true, false, 0, true, true);
   $frm->add_checkbox("auteur","Je certifie être l'auteur de la photo",false);
   $frm->add_submit("valid","Ajouter");
 
