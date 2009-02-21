@@ -1241,10 +1241,10 @@ class form extends stdcontents
          && isset($GLOBALS["entitiescatalog"][$entityclass][5])
          && $GLOBALS["entitiescatalog"][$entityclass][5] )
       require_once($topdir."include/entities/".$GLOBALS["entitiescatalog"][$entityclass][5]);
-
+print_r($entityclass);
     if (class_exists($entityclass)) // Nouvelle méthode
     {
-print_r("bleh");
+print_r($entityclass);
       $std = new $entityclass($db);
       $values = $std->enumerate ( $none, $conds );
       $std->load_by_id($value);
