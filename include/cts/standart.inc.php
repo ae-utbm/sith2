@@ -1233,7 +1233,7 @@ class form extends stdcontents
    * @param $conds Conditions sur l'entitée (niveau sql)
    * @see add_entity_smartselect à préférer
    */
-  function add_entity_select ( $name, $title, $db, $entityclass, $value=false, $none=false, $conds=array())
+  function add_entity_select ( $name, $title, $db, $entityclass, $value=false, $none=false, $conds=array(), $order='2')
   {
     global $topdir;
 
@@ -1294,7 +1294,7 @@ class form extends stdcontents
 
       }
 
-      $sql .= " ORDER BY 2";
+      $sql .= " ORDER BY '".$order."'";
 
       $req = new requete($db,$sql);
 
