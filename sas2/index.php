@@ -863,7 +863,7 @@ elseif ( $_REQUEST["view"] == "add" && $cat->is_right($site->user,DROIT_AJOUTITE
   $frm->add_rights_field($cat,false,$cat->is_admin($site->user));
   $sfrm = new form("auteur",null,null,null,"Je certifie être le photographe");
   $licence = new licence($site->db);
-  $sfrm->add_entity_select('id_licence','Choix de la licence',$site->db,'licence',false,true);
+  $sfrm->add_entity_select('id_licence','Choix de la licence',$site->db,'licence');
   $frm->add($sfrm,false,true, true, 1, false, true);
   $sfrm = new form("auteur",null,null,null,"Je ne suis pas le photographe");
   $sfrm->add_user_fieldv2('photographe','Photographe');
