@@ -413,7 +413,7 @@ if ( $photo->is_valid() )
       $licence=$photo->id_licence;
     else
       $licence=false;
-    $sfrm->add_entity_select('id_licence','Choix de la licence',$site->db,'licence',$licence,false,array(),'\'id_licence\' ASC');
+    $frm->add_entity_select('id_licence','Choix de la licence',$site->db,'licence',$licence,false,array(),'\'id_licence\' ASC');
     $frm->add_rights_field($photo,false,$photo->is_admin($site->user));
     $frm->add_submit("valid","Enregistrer");
 
