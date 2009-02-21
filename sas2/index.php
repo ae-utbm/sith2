@@ -327,10 +327,13 @@ if ( $photo->is_valid() )
   {
     $phasso->load_by_id($_REQUEST["id_asso"]);
     $ptasso->load_by_id($_REQUEST["id_asso_photographe"]);
-
-    $licence = new licence($site->db);
-    $licence->load_by_id($_REQUEST['id_licence']);
-
+    $licence=$photo->id_licence;
+    if($site->user->id==$photo->id_utilisateur_photographe)
+    {
+      $licence = new licence($site->db);
+      if($licence->load_by_id($_REQUEST['id_licence']))
+        $licence=$licence->id;
+    }
     $userinfo = new utilisateur($site->db);
     $userinfo->load_by_id($_REQUEST["id_utilisateur_photographe"]);
 
@@ -344,7 +347,7 @@ if ( $photo->is_valid() )
       $phasso->id,
       $_REQUEST["titre"],
       $ptasso->id,
-      $licence->id
+      $licence
       );
 
     $photo->set_incomplet(isset($_REQUEST["incomplet"]));
