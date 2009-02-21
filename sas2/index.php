@@ -409,8 +409,11 @@ if ( $photo->is_valid() )
     $frm->add_entity_select ( "id_asso_photographe", "Photographe (club)", $site->db, "asso",$photo->id_asso_photographe,true);
     $frm->add_entity_smartselect ( "id_utilisateur_photographe", "Photographe", $userinfo, true );
     $licence = new licence($site->db);
-    $licence->load_by_id($photo->id_licence);
-    $frm->add_entity_smartselect('id_licence','Choix de la licence',$licence, true);
+    if($licence->load_by_id($photo->id_licence))
+      $licence=$photo->id_licence;
+    else
+      $licence=false;
+    $sfrm->add_entity_select('id_licence','Choix de la licence',$site->db,'licence',$licence,false,array(),'\'id_licence\' ASC');
     $frm->add_rights_field($photo,false,$photo->is_admin($site->user));
     $frm->add_submit("valid","Enregistrer");
 
