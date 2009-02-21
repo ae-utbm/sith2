@@ -329,6 +329,7 @@ class sasphoto extends contents
     }
 
     $subcts->add_title(2,"Licence");
+    global $site;
     $licence = new licence($site->db);
     if (   !is_null($photo->id_licence)
         && $licence->load_by_id($photo->id_licence))
