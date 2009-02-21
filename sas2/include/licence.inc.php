@@ -35,6 +35,7 @@ class licence extends stdentity
   var $title;
   var $desc;
   var $url=null;
+  var $icone=null;
 
   /** Charge une licence par son ID
    * @param $id ID de le licence
@@ -59,6 +60,7 @@ class licence extends stdentity
     $this->title = $row['titre'];
     $this->desc  = $row['description'];
     $this->url   = $row['url'];
+    $this->icone = $row['icone'];
   }
 
 }
