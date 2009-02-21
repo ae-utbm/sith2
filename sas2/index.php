@@ -867,7 +867,7 @@ elseif ( $_REQUEST["view"] == "add" && $cat->is_right($site->user,DROIT_AJOUTITE
   $frm->add($sfrm,false,true, true ,1 ,false,true);
   $sfrm = new form("auteur",null,null,null,"Je ne suis pas le photographe");
   $sfrm->add_user_fieldv2('photographe','Photographe');
-  $frm->add($sfrm,false,true, true ,0 ,false,true);
+  $frm->add($sfrm,false,true, true ,0 ,false,false);
   $frm->add_checkbox("auteur","Je certifie être l'auteur de la photo",false);
   $frm->add_submit("valid","Ajouter");
 
