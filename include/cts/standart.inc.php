@@ -1244,6 +1244,7 @@ class form extends stdcontents
 
     if (class_exists($entityclass)) // Nouvelle méthode
     {
+print_r("bleh");
       $std = new $entityclass($db);
       $values = $std->enumerate ( $none, $conds );
       $std->load_by_id($value);
