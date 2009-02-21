@@ -1296,7 +1296,7 @@ class form extends stdcontents
 
       $sql .= " ORDER BY '".$order."'";
 
-      $req = new requete($db,$sql);
+      $req = new requete($db,$sql,1);
 
       while ( $row = $req->get_row() )
         $values[$row[0]] = $row[1];
