@@ -23,7 +23,7 @@
  * 02111-1307, USA.
  */
 require_once($topdir."include/entities/basedb.inc.php");
-
+require_once($topdir.'/sas2/include/licence.inc.php');
 /**
  * @file
  */
@@ -55,6 +55,7 @@ class photo extends basedb
 
   var $meta_id_asso;
   var $date_ajout;
+  var $id_licence;
 
   var $type_media;
   var $id_asso_photographe;
@@ -108,6 +109,7 @@ class photo extends basedb
 
     $this->date_ajout = strtotime($row['date_ajout_ph']);
     $this->id_asso_photographe = $row['id_asso_photographe'];
+    $this->id_licence = $row['id_licence'];
 
     //exif et puis nah ! :)
     $this->iso = $row["iso"];
@@ -184,7 +186,15 @@ class photo extends basedb
    * @param $id_utilisateur_photographe Id du photographe (facultatif)
    * @param $nobody S'il n'y a personne sur la photo (si true alors incomplet=false,droits_acquis=true)
    */
-  function add_photo ( $tmp_filename, $id_catph, $commentaire="", $id_utilisateur_photographe=null, $nobody=false,$meta_id_asso=NULL, $titre=NULL,$id_asso_photographe=NULL)
+  function add_photo (  $tmp_filename
+                      , $id_catph
+                      , $commentaire=""
+                      , $id_utilisateur_photographe=null
+                      , $nobody=false
+                      , $meta_id_asso=NULL
+                      , $titre=NULL
+                      , $id_asso_photographe=NULL
+                      , $id_licence=null)
   {
     $this->date_prise_vue=null;
     $this->iso=0;
@@ -195,6 +205,7 @@ class photo extends basedb
     $this->aperture=0;
     $this->manufacturer=null;
     $this->model=null;
+    $this->id_licence=$id_licence;
 
     $exif = @exif_read_data($tmp_filename, "IFDO", true);
     if ( $exif )
@@ -323,7 +334,8 @@ class photo extends basedb
         "exposuretime"=>$this->exposuretime,
         "aperture"=>$this->aperture,
         "manufacturer"=>$this->manufacturer,
-        "model"=>$this->model
+        "model"=>$this->model,
+        "id_licence"=>$this->id_licence
         )
       );
 
@@ -398,8 +410,18 @@ class photo extends basedb
    * @param $id_utilisateur_photographe Id du photographe (facultatif)
    * @param $nobody S'il n'y a personne sur la photo (si true alors incomplet=false,droits_acquis=true)
    */
-  function add_videoflv ( $tmp_photo_filename, $tmp_flv_filename, $id_catph, $commentaire="", $id_utilisateur_photographe=null, $nobody=false,$meta_id_asso=NULL, $titre=NULL,$id_asso_photographe=NULL)
+  function add_videoflv (  $tmp_photo_filename
+                         , $tmp_flv_filename
+                         , $id_catph
+                         , $commentaire=""
+                         , $id_utilisateur_photographe=null
+                         , $nobody=false
+                         , $meta_id_asso=NULL
+                         , $titre=NULL
+                         , $id_asso_photographe=NULL
+                         , $id_licence=null)
   {
+    $this->id_licence=$id_licence;
     $this->date_prise_vue=null;
 
     if ( $nobody )
@@ -449,7 +471,8 @@ class photo extends basedb
         "date_ajout_ph"=>date("Y-m-d H:i:s"),
         "type_media_ph"=>$this->type_media,
         "titre_ph"=>$this->titre,
-        "id_asso_photographe"=>$this->id_asso_photographe
+        "id_asso_photographe"=>$this->id_asso_photographe,
+        "id_licence"=>$this->id_licence;
         )
       );
 
@@ -726,8 +749,16 @@ class photo extends basedb
 
 
 
-  function update_photo ( $date_prise_vue, $commentaire="", $id_utilisateur_photographe=null, $meta_id_asso=NULL, $titre=NULL,$id_asso_photographe=NULL)
+  function update_photo (  $date_prise_vue
+                         , $commentaire=""
+                         , $id_utilisateur_photographe=null
+                         , $meta_id_asso=NULL
+                         , $titre=NULL
+                         , $id_asso_photographe=NULL
+                         , $id_licence=null)
   {
+    if(!is_null($id_licence))
+      $this->id_licence=$id_licence;
     $this->date_prise_vue=$date_prise_vue;
     $this->commentaire = $commentaire;
     $this->id_utilisateur_photographe = $id_utilisateur_photographe;
@@ -752,7 +783,8 @@ class photo extends basedb
         "droits_acces_ph"=>$this->droits_acces,
         "meta_id_asso_ph"=>$this->meta_id_asso,
         "titre_ph"=>$this->titre,
-        "id_asso_photographe"=>$this->id_asso_photographe
+        "id_asso_photographe"=>$this->id_asso_photographe,
+        "id_licence"=>$this->id_licence
         ),
         array("id_photo"=>$this->id )
       );

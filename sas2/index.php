@@ -128,15 +128,29 @@ elseif ( $_REQUEST["action"] == "addphoto" && $GLOBALS["svalid_call"] )
 
     $photo->herit($cat,false);
     $photo->set_rights($site->user,$_REQUEST['rights'],$_REQUEST['rights_id_group'],$_REQUEST['rights_id_group_admin'],false);
+    if($_REQUEST['auteur']==1)
+      $auteur=$site->user->id;
+    else
+    {
+      $auteur = new utilisateur($site->db);
+      if($auteur->load_by_id($_REQUEST['photographe']))
+        $auteur=$auteur->id;
+      else
+        $auteur=null;
+    }
+    $licence = new licence($site->db);
+    $licence->load_by_id($_REQUEST['id_licence']);
     $photo->add_photo (
       $_FILES['file']['tmp_name'],
       $cat->id,
       $_REQUEST['comment'],
-      null,
+      $auteur,
       $_REQUEST['personne'],
       $phasso->id,
       $_REQUEST["titre"],
-      $ptasso->id);
+      $ptasso->id,
+      $licence->id
+      );
 
   }
 }
@@ -314,6 +328,8 @@ if ( $photo->is_valid() )
     $phasso->load_by_id($_REQUEST["id_asso"]);
     $ptasso->load_by_id($_REQUEST["id_asso_photographe"]);
 
+    $licence = new licence($site->db);
+    $licence->load_by_id($_REQUEST['id_licence']);
 
     $userinfo = new utilisateur($site->db);
     $userinfo->load_by_id($_REQUEST["id_utilisateur_photographe"]);
@@ -327,7 +343,8 @@ if ( $photo->is_valid() )
       $userinfo->id,
       $phasso->id,
       $_REQUEST["titre"],
-      $ptasso->id
+      $ptasso->id,
+      $licence->id
       );
 
     $photo->set_incomplet(isset($_REQUEST["incomplet"]));
@@ -391,7 +408,9 @@ if ( $photo->is_valid() )
     $frm->add_entity_select ( "id_asso", "Association/Club lié", $site->db, "asso",$photo->meta_id_asso,true);
     $frm->add_entity_select ( "id_asso_photographe", "Photographe (club)", $site->db, "asso",$photo->id_asso_photographe,true);
     $frm->add_entity_smartselect ( "id_utilisateur_photographe", "Photographe", $userinfo, true );
-
+    $licence = new licence($site->db);
+    $licence->load_by_id($photo->id_licence);
+    $frm->add_entity_smartselect('id_licence','Choix de la licence',$licence, true);
     $frm->add_rights_field($photo,false,$photo->is_admin($site->user));
     $frm->add_submit("valid","Enregistrer");
 
@@ -842,6 +861,14 @@ elseif ( $_REQUEST["view"] == "add" && $cat->is_right($site->user,DROIT_AJOUTITE
   $frm->add_entity_select ( "id_asso_photographe", "Photographe", $site->db, "asso",null,true);
 
   $frm->add_rights_field($cat,false,$cat->is_admin($site->user));
+  $sfrm = new form("auteur",null,null,null,"Je certifie être le photographe");
+  $licence = new licence($site->db);
+  $sfrm->add_entity_smartselect('id_licence','Choix de la licence',$licence);
+  $frm->add($sfrm,false,true, true ,1 ,false,true);
+  $sfrm = new form("auteur",null,null,null,"Je ne suis pas le photographe");
+  $sfrm->add_user_fieldv2('photographe','Photographe');
+  $frm->add($sfrm,false,true, true ,0 ,false,true);
+  $frm->add_checkbox("auteur","Je certifie être l'auteur de la photo",false);
   $frm->add_submit("valid","Ajouter");
 
   $cts->add($frm);
