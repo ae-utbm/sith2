@@ -328,6 +328,33 @@ class sasphoto extends contents
       $subcts->add_paragraph($Message);
     }
 
+    $subcts->add_title(2,"Licence");
+    $licence = new licence($site->db);
+    if (   !is_null($photo->id_licence)
+        && $licence->load_by_id($photo->id_licence))
+    {
+      if(!is_null($licence->icone))
+        $subcts->add_paragraph( '<a href="'
+                               .$licence->url
+                               .'"><img title="'
+                               .$licence->titre
+                               .'" alt="'
+                               .$licence->titre
+                               .'" src="'
+                               .$licence->icone
+                               .'"/></a><br />'
+                               .$licence->desc);
+      else
+        $subcts->add_paragraph( '<a href="'
+                               .$licence->url
+                               .'"'
+                               .$licence->titre
+                               .'</a><br />'
+                               .$licence->desc);
+    }
+    else //copyright classique
+      $subcts->add_paragraph('<a href="http://www.sg.cnrs.fr/daj/propriete/droits/droits.htm">Soumise aux droits d\'auteurs, toute utilisation sans l\'accord de l\'auteur est interdite !</a>');
+
     $subcts->add_title(2,"Informations");
 
     if ( !is_null($photo->date_prise_vue) && $photo->date_prise_vue > 3600 )
