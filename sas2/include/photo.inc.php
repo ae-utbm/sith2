@@ -472,7 +472,7 @@ class photo extends basedb
         "type_media_ph"=>$this->type_media,
         "titre_ph"=>$this->titre,
         "id_asso_photographe"=>$this->id_asso_photographe,
-        "id_licence"=>$this->id_licence;
+        "id_licence"=>$this->id_licence
         )
       );
 
