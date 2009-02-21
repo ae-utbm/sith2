@@ -213,7 +213,7 @@ abstract class stdentity
 
     $sql .= " ORDER BY 2";
 
-    $req = new requete($this->db,$sql,1);
+    $req = new requete($this->db,$sql);
 
     while ( $row = $req->get_row() )
       $values[$row[0]] = $row[1];
