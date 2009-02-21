@@ -1245,7 +1245,7 @@ class form extends stdcontents
     if (class_exists($entityclass)) // Nouvelle méthode
     {
       $std = new $entityclass($db);
-      $values = $std->enumerate ( $none, $conds );
+      $values = $std->enumerate ( $none, $conds, $order );
       $std->load_by_id($value);
       $this->add_select_list_entity_field ( $name, $title, $values, $std );
       return;
@@ -1298,8 +1298,7 @@ class form extends stdcontents
         $sql .= " ORDER BY ".$order;
       else
         $sql .= " ORDER BY 2";
-print_r($sql);
-      $req = new requete($db,$sql,1);
+      $req = new requete($db,$sql);
 
       while ( $row = $req->get_row() )
         $values[$row[0]] = $row[1];

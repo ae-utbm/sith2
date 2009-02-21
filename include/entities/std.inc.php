@@ -174,7 +174,7 @@ abstract class stdentity
    * @param $conds Adds conditions to select entities
    * @return an associative array ( id => name )
    */
-  function enumerate ( $null=false, $conds = null )
+  function enumerate ( $null=false, $conds = null, $order=false )
   {
     $class = get_class($this);
 
@@ -211,7 +211,10 @@ abstract class stdentity
       }
     }
 
-    $sql .= " ORDER BY 2";
+    if($order)
+      $sql .= " ORDER BY ".$order;
+    else
+      $sql .= " ORDER BY 2";
 
     $req = new requete($this->db,$sql);
 
