@@ -1298,7 +1298,7 @@ class form extends stdcontents
         $sql .= " ORDER BY ".$order;
       else
         $sql .= " ORDER BY 2";
-
+print_r($sql);
       $req = new requete($db,$sql,1);
 
       while ( $row = $req->get_row() )
