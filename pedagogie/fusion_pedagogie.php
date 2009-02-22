@@ -64,9 +64,9 @@ if($_REQUEST['merge_uv']){
         }
         
         $uv_new = new uv2($site->db, $site->dbrw);
-        $uv_new->add($uv_old->code, $uv_old->intitule, $uv_old->cat_by_depts[0], null, SEMESTER_AP, true);
+        $uv_new->add($uv_old->code, $uv_old->intitule, $uv_old->cat_by_depts[$uv_old->depts[0]], null, SEMESTER_AP, true);
         /* plouf dans le nouveau */
-        if(!$uv_new){
+        if($uv_new->id < 0){
           echo "*** ".$uv_old->code." n'a pu etre ajoutee à nouvelle base ***<br />";
           continue;
         }
@@ -78,6 +78,20 @@ if($_REQUEST['merge_uv']){
     }
   }
 }
+
+if($_REQUEST['uv_diff']){
+  $sql = new requete($site->db, "SELECT *
+                                  FROM `edu_uv`
+                                  WHERE `code_uv` NOT
+                                  IN (
+                                    SELECT `code`
+                                    FROM `pedag_uv`
+                                  )");
+  while($row = $sql->get_row()){
+    echo "- ".implode(" : ", array($row['id_uv'], $row['code_uv'], $row['intitule_uv']))." <br />"
+  }
+}
+
 
 if($_REQUEST['merge_comment']){
 }
