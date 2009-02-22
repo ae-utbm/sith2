@@ -184,7 +184,7 @@ if ( $_REQUEST["action"] == "search" )
     $params.="&droitimage=1";
   }
 
-  if ( $_REQUEST['id_licence'] && intval($_REQUEST['id_licence']) > 0 )
+  if ( $_REQUEST['id_licence'] )
   {
     $conds[] = "sas_photos.id_licence='".mysql_escape_string($_REQUEST["id_licence"])."'";
     $params.="&id_licence=".rawurlencode($_REQUEST["id_licence"]);
