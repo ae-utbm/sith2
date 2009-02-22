@@ -41,7 +41,7 @@ if(isset($_REQUEST['id_licence']))
   $licence = new licence($site->db,$site->dbrw);
   if($licence->load_by_id($_REQUEST['id_licence']))
   {
-    $cts = new contents("Information sur la licence : ".$licence->titre);
+    $cts = new contents("Information sur la licence : \"".$licence->titre."\"");
     
     $cts->add_paragraph($licence->desc);
     if(!is_null($licence->url))
