@@ -52,7 +52,7 @@ if ( $_REQUEST["page"]=="process" )
     "       OR (".
     "           id_utilisateur_photographe IS NULL".
     "           AND".
-    "           id_utilisateur_photographe=".$site->user->id.
+    "           id_utilisateur=".$site->user->id.
     "      ))".
     " AND id_licence IS NULL".
     " ORDER BY id_photo ".
@@ -131,7 +131,7 @@ $sql = new requete($site->db,
   "       OR (".
   "           id_utilisateur_photographe IS NULL".
   "           AND".
-  "           id_utilisateur_photographe=".$site->user->id.
+  "           id_utilisateur=".$site->user->id.
   "      ))".
   " AND id_licence IS NULL");
 list($count) = $sql->get_row();
