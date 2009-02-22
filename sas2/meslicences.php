@@ -38,7 +38,7 @@ if ( $_REQUEST["page"]=="process" )
   if($_REQUEST['action']=='setlicence')
   {
     $photo = new photo($site->db,$site->dbrw);
-    $photo->load_by_id(($_REQUEST['id_photo']);
+    $photo->load_by_id($_REQUEST['id_photo']);
     if($photo->id>0 && $photo->id_utilisateur_photographe==$site->user->id)
       $photo->set_licence($_REQUEST['id_licence']);
   }
