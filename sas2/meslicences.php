@@ -28,7 +28,7 @@ $site->add_css("css/sas.css");
 
 $site->allow_only_logged_users("sas");
 
-if ( $_REQUEST["action"] == "defaultlicence"] )
+if ( $_REQUEST["action"] == "defaultlicence" )
   $site->user->set_licence_default_sas ( $_REQUEST["id_licence"]
                                         , isset($_REQUEST["applyall"]));
 
