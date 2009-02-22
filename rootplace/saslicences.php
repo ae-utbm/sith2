@@ -39,6 +39,34 @@ if ( !$site->user->is_in_group("root") )
   $site->error_forbidden("none","group",7);
 
 $site->start_page("none","Administration");
+if($_REQUEST['action']=='addlicence')
+{
+  $licence = new licence($site->db,$site->dbrw);
+  if($licence->add($_REQUEST['titre'],
+                   $_REQUEST['desc'],
+                   $_REQUEST['url'],
+                   $_REQUEST['icone']))
+  {
+    $_REQUEST['id_licence']=$licence->id;
+    $_REQUEST['action']='edit';
+  }
+}
+
+if($_REQUEST['action']=='add')
+{
+  $cts = new contents("<a href=\"./\">Administration</a> / <a href=\"saslicences.php\">Licences sas</a>");
+  $frm = new form("updatelicence","?".$licence->id);
+  $frm->add_hidden("action","addlicence");
+  $frm->add_text_field("titre","Titre");
+  $frm->add_text_field("desc","Description");
+  $frm->add_text_field("url","URL");
+  $frm->add_text_field("icone","Icone");
+  $frm->add_submit("valid","Enregistrer");
+  $cts->add($frm);
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
+}
 
 if(isset($_REQUEST['id_licence']))
 {
@@ -69,6 +97,7 @@ if(isset($_REQUEST['id_licence']))
 }
 
 $cts = new contents("<a href=\"./\">Administration</a> / Licences sas");
+$cts->add_paragraph("<a href=\"saslicences.php?action=add\">Ajouter une licence</a>");
 $req = new requete($site->db,'select * from licences');
 $cts->add(new sqltable(
   "wikis",
