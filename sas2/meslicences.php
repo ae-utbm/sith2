@@ -45,12 +45,18 @@ if ( $_REQUEST["page"]=="process" )
   $photo = new photo($site->db,$site->dbrw);
   $cts = new contents("Licence");
   $sql = new requete($site->db,
-    "SELECT * " .
+    "SELECT COUNT(*) " .
     "FROM sas_photos " .
-    "WHERE id_utilisateur_photographe=".$site->user->id." " .
-    "AND id_licence IS NULL ".
-    "ORDER BY id_photo " .
-    "LIMIT 1");
+    "WHERE (".
+    "       id_utilisateur_photographe=".$site->user->id.
+    "       OR (".
+    "           id_utilisateur_photographe IS NULL".
+    "           AND".
+    "           id_utilisateur_photographe=".$site->user->id.
+    "      ))".
+    " AND id_licence IS NULL".
+    " ORDER BY id_photo ".
+    " LIMIT 1");
   if ( $sql->lines == 1)
   {
     $photo->_load($sql->get_row());
@@ -120,8 +126,14 @@ $cts->add_title(2,"Mes photos sans licences");
 $sql = new requete($site->db,
   "SELECT COUNT(*) " .
   "FROM sas_photos " .
-  "WHERE id_utilisateur_photographe=".$site->user->id." " .
-  "AND id_licence IS NULL ");
+  "WHERE (".
+  "       id_utilisateur_photographe=".$site->user->id.
+  "       OR (".
+  "           id_utilisateur_photographe IS NULL".
+  "           AND".
+  "           id_utilisateur_photographe=".$site->user->id.
+  "      ))".
+  " AND id_licence IS NULL");
 list($count) = $sql->get_row();
 $cts->add_paragraph("<a href=\"meslicences.php?page=process\">$count photo(s) en sans licence définie</a>");
 
