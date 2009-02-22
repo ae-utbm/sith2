@@ -582,7 +582,7 @@ class catphoto extends basedb
         "WHERE " .
         "($filter) ".
         "ORDER BY $order " .
-        "$limit");
+        "$limit",1);
 
     $grps = $user->get_groups_csv();
 
