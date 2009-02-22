@@ -103,7 +103,8 @@ class uv_comment extends stdentity
   var $eval_comment;
   
   public function load_by_id($id){
-    $sql = new requete($this->db, "SELECT * FROM `pedag_uv_commentaire` WHERE `id_commentaire` = ".$id." LIMIT 1");
+    $sql = new requete($this->db, "SELECT * FROM `pedag_uv_commentaire`
+                                    WHERE `id_commentaire` = ".$id." LIMIT 1");
     if($sql->is_success())
       return $this->_load($sql->get_row());
     else
@@ -111,10 +112,21 @@ class uv_comment extends stdentity
   }
 
   public function _load($row){
-    foreach($row as $att => $val)
-      if(property_exists($this, $att))
-        $this->{$att} = $val;
     $this->id = $row['id_commentaire'];
+    $this->id_uv = $row['id_uv'];
+    $this->id_utilisateur = $row['id_utilisateur'];
+    
+    $this->note_generale = $row['note_generale'];
+    $this->note_utilite = $row['note_utilite'];
+    $this->note_interet = $row['note_interet'];
+    $this->note_enseignement = $row['note_enseignement'];
+    $this->note_travail = $row['note_travail'];
+    
+    $this->content = $row['content'];
+    $this->date = $row['date'];
+    $this->valid = $row['valid'];
+    $this->eval_comment = $row['eval_comment'];
+
     return $this->id;
   }
 

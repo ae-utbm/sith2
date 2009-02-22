@@ -31,7 +31,7 @@
  * @author Pierre Mauduit
  */
 
-class uv extends stdentity
+class uv2 extends stdentity
 {
   /* basic infos */
   var $id;
@@ -65,7 +65,7 @@ class uv extends stdentity
    * @see load_extra()
    */
   public function load_by_id($id){
-    $sql = new requete($this->db, "SELECT `id_uv`, `code`, `intitule`,
+    $sql = new requete($this->db, "SELECT `id_uv` as `id`, `code`, `intitule`,
                                     `semestre`, `state`, `tc_available`,
                                     `guide_credits`
                                     FROM `pedag_uv`
@@ -105,9 +105,14 @@ class uv extends stdentity
 
   /* chargement effectif infos basiques */
   public function _load($row){
-    foreach($row as $att => $val)
-      if(property_exists($this, $att))
-        $this->{$att} = $val;
+    $this->id = $row['id'];
+    $this->code = $row['code'];
+    $this->intitule = $row['intitule'];
+    $this->semestre = $row['semestre'];
+    $this->state = $row['state'];
+    $this->tc_available = $row['tc_available'];
+    $this->guide_credits = $row['guide_credits'];
+    
     return $this->id;
   }
 

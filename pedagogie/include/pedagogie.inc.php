@@ -60,8 +60,8 @@ define("TYPE_Ext",5);
 /* semestres d ouverture (ou pas)
  * @var SEMESTER_ */
 define("SEMESTER_A",  1);
-define("SEMESTER_B",  2);
-define("SEMESTER_AB", 3);
+define("SEMESTER_P",  2);
+define("SEMESTER_AP", 3);
 define("SEMESTER_closed",4);
 
 
@@ -116,12 +116,12 @@ define("SEMESTER_NOW", $s.date('Y'));
 
 /**
  * Vérifie si le format de semestre est bien au format A2004
- * @param $value donnee a vérifiée
- * @return true/false suivant le résultat
+ * @param $value donnee a vérifier
+ * @return true/false suivant le resultat
  */
 function check_semester_format(&$value){
   $value = strtoupper($value);
-  return preg_match('/^[AP][0-9]{4}$/');
+  return preg_match('/^[AP][0-9]{4}$/', $value);
 }
 
 /**
@@ -129,7 +129,7 @@ function check_semester_format(&$value){
  */
 function check_uv_format(&$value){
   $value = strtoupper($value);
-  return preg_match('/^[A-Z]{2}[0-9]{2}$/');
+  return preg_match('/^[A-Z]{2}[0-9]{2}$/', $value);
 }
 
 /**
