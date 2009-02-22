@@ -40,6 +40,27 @@ if ( !$site->user->is_in_group("root") )
 
 $site->start_page("none","Administration");
 
+if(isset($_REQUEST['id_licence']))
+{
+  $licence = new licence($site->db,$site->dbrw);
+  if($licence->load_by_id($_REQUEST['id_licence']))
+  {
+    if($_REQUEST['action']=='edit')
+    {
+      $cts = new contents("<a href=\"./\">Administration</a> / <a href=\"saslicences.php\">Licences sas</a>");
+      $frm == new form("updatelicence","?id_licence=".$licence->id);
+      $frm->add_hidden("action","updatelicence");
+      $frm->add_text_field("titre","Titre",$licence->titre);
+      $frm->add_text_field("desc","Description",$licence->desc);
+      $frm->add_text_field("url","URL",$licence->url);
+      $frm->add_text_field("icone","icone",$licence->icone);
+      $cts->add($frm);
+      $site->add_contents($cts);
+      exit();
+    }
+  }
+}
+
 $cts = new contents("<a href=\"./\">Administration</a> / Licences sas");
 $req = new requete($site->db,'select * from licences');
 $cts->add(new sqltable(
