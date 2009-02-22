@@ -35,9 +35,9 @@ if ( $_REQUEST["action"] == "defaultlicence" )
 
 $photo = new photo($site->db,$site->dbrw);
 
-$site->start_page("sas","Droit à l'image");
-$cts = new contents("Droit à l'image");
-
+$site->start_page("sas","Gestion des licences");
+$cts = new contents("Gestion des licences");
+$cts->add_paragraph("Plus d'informations sur les licences <a href='licences.php'>ici</a>");
 $frm = new form("auto","meslicences.php",false,"POST","Licence par défaut pour mes photos");
 $frm->add_hidden("action","defaultlicence");
 $frm->add_entity_select('id_licence',
