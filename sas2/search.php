@@ -85,8 +85,8 @@ $cts = new contents($cat->get_html_link()." / Recherche");
 
 $frm = new form("search","search.php",false,"POST","Paramètres de recherche");
 $frm->add_hidden("action","search");
-$frm->add_date_field("date_debut","Photos prisent après le",$_REQUEST["date_debut"]?$_REQUEST["date_debut"]:null);
-$frm->add_date_field("date_fin","Photos prisent avant le",$_REQUEST["date_fin"]?$_REQUEST["date_fin"]:null);
+$frm->add_date_field("date_debut","Photos prises après le",$_REQUEST["date_debut"]?$_REQUEST["date_debut"]:null);
+$frm->add_date_field("date_fin","Photos prises avant le",$_REQUEST["date_fin"]?$_REQUEST["date_fin"]:null);
 $frm->add_text_field("tags","Tags",$_REQUEST["tags"]);
 $frm->add_entity_smartselect ( "id_asso", "Association/Club", $asso, true );
 $frm->add_entity_smartselect ( "id_asso_photographe", "Club photographe", $assoph, true );
