@@ -82,7 +82,7 @@ if ( $_REQUEST["page"]=="process" )
     $frm = new form("licences","meslicences.php?page=process",false,"POST","Votre souhait");
     $frm->add_hidden("action","setlicence");
     $frm->add_hidden("id_photo",$photo->id);
-    $sfrm->add_entity_select('id_licence','Choix de la licence',$site->db,'licence',false,false,array(),'\'id_licence\' ASC');
+    $frm->add_entity_select('id_licence','Choix de la licence',$site->db,'licence',false,false,array(),'\'id_licence\' ASC');
     $frm->add_submit("set","Valider");
     $cts->add($frm);
   }
