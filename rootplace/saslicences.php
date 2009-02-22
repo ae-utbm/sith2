@@ -45,6 +45,11 @@ if(isset($_REQUEST['id_licence']))
   $licence = new licence($site->db,$site->dbrw);
   if($licence->load_by_id($_REQUEST['id_licence']))
   {
+    if($_REQUEST['action']=='updatelicence')
+    {
+      $licence->update($_REQUEST['titre'],$_REQUEST['desc'],$_REQUEST['url'],$_REQUEST['icone']);
+      $_REQUEST['action']='edit';
+    }
     if($_REQUEST['action']=='edit')
     {
       $cts = new contents("<a href=\"./\">Administration</a> / <a href=\"saslicences.php\">Licences sas</a>");
