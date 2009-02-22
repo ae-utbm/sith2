@@ -5,24 +5,22 @@
 $topdir="../";
 require_once($topdir."include/site.inc.php");
 /* on inclu tout pour voir deja si ya pas d erreur syntaxique */
-/*
+
 require_once($topdir."pedagogie/include/pedagogie.inc.php");
 require_once($topdir."pedagogie/include/uv.inc.php");
 require_once($topdir."pedagogie/include/uv_comment.inc.php");
 require_once($topdir."pedagogie/include/cursus.inc.php");
 require_once($topdir."pedagogie/include/pedag_user.inc.php");
 require_once($topdir."pedagogie/include/edt.inc.php");
-*/
+
 
 /* ancien systeme */
 require_once($topdir."include/entities/uv.inc.php");
 
-/* nouveau systeme temporaire */
-require_once("include/uv.inc.php");
-require_once("include/pedagogie.inc.php");
-
 $site = new site();
 
+if ( !$site->user->is_in_group("taiste") )
+  $site->error_forbidden();
 
 $sql = new requete($site->db, "SELECT COUNT('id_uv') FROM `edu_uv`");
 $n = $sql->get_row();
@@ -41,6 +39,9 @@ $n = $sql->get_row();
 echo $n[0]." UV enregistrés dans `pedag_uv_commentaire` <br />";  
 
 if($_REQUEST['test_add_uv']){
+  $uv = new uv2($site->db, $site->dbrw);
+  $uv->add("TE00", "Test UV", TYPE_CS, null, SEMESTER_AP, true);
+  print_r($uv);
 }
 
 if($_REQUEST['test_add_comment']){
@@ -56,13 +57,14 @@ if($_REQUEST['merge_uv']){
         /* chargement UV schema precedent */
         $uv_old = new uv($site->db, $site->dbrw);
         $uv_old->load_by_code($row['code_uv']);
+        $uv_old->load_depts();
         if(!$uv_old){
           echo "*** ".$row[0]." n'a pu etre chargee depuis l'ancienne base ***<br />";
           continue;
         }
         
         $uv_new = new uv2($site->db, $site->dbrw);
-        $uv_new->add($uv_old->code, $uv_old->intitule, null, SEMESTER_AP, true);
+        $uv_new->add($uv_old->code, $uv_old->intitule, $uv_old->cat_by_depts[0], null, SEMESTER_AP, true);
         /* plouf dans le nouveau */
         if(!$uv_new){
           echo "*** ".$uv_old->code." n'a pu etre ajoutee à nouvelle base ***<br />";
@@ -86,5 +88,4 @@ if($_REQUEST['merge_guide_info']){
 if($_REQUEST['merge_groups']){
 }
 
-$site->end_page();
 ?>
