@@ -91,7 +91,7 @@ $frm->add_text_field("tags","Tags",$_REQUEST["tags"]);
 $frm->add_entity_smartselect ( "id_asso", "Association/Club", $asso, true );
 $frm->add_entity_smartselect ( "id_asso_photographe", "Club photographe", $assoph, true );
 $frm->add_entity_select('id_licence','Choix de la licence',$site->db,'licence',$_REQUEST['id_licence'],true,array(),'\'id_licence\' ASC');
-$frm->add_checkbox('droitimage','Droit à l\'image non applicable',isset($_REQUEST['droitimage']);
+$frm->add_checkbox('droitimage','Droit à l\'image non applicable',isset($_REQUEST['droitimage']));
 if ( empty($utilisateurs_presents) )
 {
   $la_fonction_veut_une_instance_de_classe = new utilisateur($site->db);
