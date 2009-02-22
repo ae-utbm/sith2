@@ -57,7 +57,7 @@ class licence extends stdentity
   function _load($row)
   {
     $this->id    = $row['id_licence'];
-    $this->title = $row['titre'];
+    $this->titre = $row['titre'];
     $this->desc  = $row['description'];
     $this->url   = $row['url'];
     $this->icone = $row['icone'];
