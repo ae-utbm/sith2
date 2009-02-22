@@ -353,7 +353,13 @@ class sasphoto extends contents
                                .$licence->desc);
     }
     else //copyright classique
-      $subcts->add_paragraph('<a href="http://www.sg.cnrs.fr/daj/propriete/droits/droits.htm">Soumise aux droits d\'auteurs, toute utilisation sans l\'accord de l\'auteur est interdite !</a>');
+    {
+      if($photo->->type_media == MEDIA_PHOTO)
+        $subcts->add_paragraph('<a href="http://www.sg.cnrs.fr/daj/propriete/droits/droits.htm">Photo soumise aux droits d\'auteurs, toute utilisation sans l\'accord de l\'auteur est interdite !</a>');
+      else
+        $subcts->add_paragraph('<a href="http://www.sg.cnrs.fr/daj/propriete/droits/droits.htm">Vidéo soumise aux droits d\'auteurs, toute utilisation sans l\'accord de l\'auteur est interdite !</a>');
+    }
+    $subcts->add_paragraph('Il est aussi de votre ressort de vous assurer de l\'accord des personnes reconnaissable conformément au droit à l\'image. Plus d\'informations <a href="http://www.cnil.fr/index.php?id=1790">ici</a>');
 
     $subcts->add_title(2,"Informations");
 
