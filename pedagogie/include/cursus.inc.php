@@ -77,7 +77,7 @@ class cursus extends stdentity
    * finalement on authorise pas la suppression 
    * mais on passe un flag 'closed' a true
    */
-  public function set_closed(boolean $var=true){
+  public function set_closed($var=true){
     $sql = new update($this->dbrw, "pedag_cursus", 
                       array("id_cursus" => $this->id),
                       array("closed" => $val));
