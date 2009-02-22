@@ -50,7 +50,7 @@ if($_REQUEST['test_add_comment']){
 if($_REQUEST['merge_uv']){
   $sql = new requete($site->db, "SELECT `code_uv` FROM `edu_uv`");
   while($row = $sql->get_row()){
-    if($row['code_uv'] && check_semester_format($row['code_uv'])){
+    if($row['code_uv'] && check_uv_format($row['code_uv'])){
       if(uv2::exists($site->db, $row['code_uv']))
         echo "- ".$row[0]." existe deja dans la nouvelle base <br />";
       else{
