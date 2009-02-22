@@ -47,6 +47,7 @@ if(isset($_REQUEST['id_licence']))
       $cts->add_paragraph("Plus d'information <a href='".$licence->url."'>ici</a>");
     if(!is_null($licence->icone))
       $cts->add_paragraph("<img src='".$licence->icone."' alt='icone' />");
+    $site->add_contents($cts);
   }
 }
 
