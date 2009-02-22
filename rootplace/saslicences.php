@@ -50,7 +50,7 @@ if(isset($_REQUEST['id_licence']))
       $cts = new contents("<a href=\"./\">Administration</a> / <a href=\"saslicences.php\">Licences sas</a>");
       $frm = new form("updatelicence","?id_licence=".$licence->id);
       $frm->add_hidden("action","updatelicence");
-      $frm->add_text_field("titre","Titre",$licence->titre);
+      $frm->add_text_field("titre","Titre",$licence->title);
       $frm->add_text_field("desc","Description",$licence->desc);
       $frm->add_text_field("url","URL",$licence->url);
       $frm->add_text_field("icone","icone",$licence->icone);
