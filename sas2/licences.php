@@ -30,7 +30,7 @@
 $topdir="../";
 require_once("include/sas.inc.php");
 require_once("include/licence.inc.php");
-require_once($topdir. "include/entities/page.inc.php");
+require_once($topdir."include/cts/sqltable.inc.php");
 $site = new sas();
 $site->add_css("css/sas.css");
 
