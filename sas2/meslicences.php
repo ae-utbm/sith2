@@ -45,7 +45,7 @@ if ( $_REQUEST["page"]=="process" )
   $photo = new photo($site->db,$site->dbrw);
   $cts = new contents("Licence");
   $sql = new requete($site->db,
-    "SELECT COUNT(*) " .
+    "SELECT * " .
     "FROM sas_photos " .
     "WHERE (".
     "       id_utilisateur_photographe=".$site->user->id.
