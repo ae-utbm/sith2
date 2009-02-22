@@ -1007,7 +1007,7 @@ class utilisateur extends stdentity
   function set_licence_default_sas( $id_licence, $all = false)
   {
     global $topdir;
-    require_once($topdir."sas2/include/licence.php");
+    require_once($topdir."sas2/include/licence.inc.php");
     $licence=new licence($this->db);
     if($licence->load_by_id($id_licence))
     {
