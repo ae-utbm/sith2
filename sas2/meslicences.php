@@ -28,6 +28,11 @@ $site->add_css("css/sas.css");
 
 $site->allow_only_logged_users("sas");
 
+if ( isset($_REQUEST["defaultlicence"]) )
+  $site->user->set_licence_default_sas ( $_REQUEST["id_licence"]
+                                        , isset($_REQUEST["applyall"]));
+
+
 $photo = new photo($site->db,$site->dbrw);
 
 $site->start_page("sas","Droit à l'image");
