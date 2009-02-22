@@ -88,7 +88,7 @@ if($_REQUEST['uv_diff']){
                                     FROM `pedag_uv`
                                   )");
   while($row = $sql->get_row()){
-    echo "- ".implode(" : ", array($row['id_uv'], $row['code_uv'], $row['intitule_uv']))." <br />"
+    echo "- ".implode(" : ", array($row['id_uv'], $row['code_uv'], $row['intitule_uv']))." <br />";
   }
 }
 
