@@ -1,0 +1,90 @@
+<?php
+/**
+ * Import de l'ancienne base vers la nouvelle
+ */
+$topdir="../";
+require_once($topdir."include/site.inc.php");
+/* on inclu tout pour voir deja si ya pas d erreur syntaxique */
+/*
+require_once($topdir."pedagogie/include/pedagogie.inc.php");
+require_once($topdir."pedagogie/include/uv.inc.php");
+require_once($topdir."pedagogie/include/uv_comment.inc.php");
+require_once($topdir."pedagogie/include/cursus.inc.php");
+require_once($topdir."pedagogie/include/pedag_user.inc.php");
+require_once($topdir."pedagogie/include/edt.inc.php");
+*/
+
+/* ancien systeme */
+require_once($topdir."include/entities/uv.inc.php");
+
+/* nouveau systeme temporaire */
+require_once("temp/uv.inc.php");
+require_once("temp/pedagogie.inc.php");
+
+$site = new site();
+
+
+$sql = new requete($site->db, "SELECT COUNT('id_uv') FROM `edu_uv`");
+$n = $sql->get_row();
+echo $n[0]." UV enregistrées dans `edu_uv` <br />";
+
+$sql = new requete($site->db, "SELECT COUNT('id_uv') FROM `pedag_uv`");
+$n = $sql->get_row();
+echo $n[0]." UV enregistrées dans `pedag_uv` <br />";  
+
+$sql = new requete($site->db, "SELECT COUNT('id_comment') FROM `edu_uv_comments`");
+$n = $sql->get_row();
+echo $n[0]." commentaires enregistrés dans `edu_uv_comments` <br />";  
+
+$sql = new requete($site->db, "SELECT COUNT('id_commentaire') FROM `pedag_uv_commentaire`");
+$n = $sql->get_row();
+echo $n[0]." UV enregistrés dans `pedag_uv_commentaire` <br />";  
+
+if($_REQUEST['test_add_uv']){
+}
+
+if($_REQUEST['test_add_comment']){
+}
+
+if($_REQUEST['merge_uv']){
+  $sql = new requete($site->db, "SELECT `code_uv` FROM `edu_uv`");
+  while($row = $sql->get_row()){
+    if($row['code_uv'] && check_semester_format($row['code_uv'])){
+      if(uv2::exists($site->db, $row['code_uv']))
+        echo "- ".$row[0]." existe deja dans la nouvelle base <br />";
+      else{
+        /* chargement UV schema precedent */
+        $uv_old = new uv($site->db, $site->dbrw);
+        $uv_old->load_by_code($row['code_uv']);
+        if(!$uv_old){
+          echo "*** ".$row[0]." n'a pu etre chargee depuis l'ancienne base ***<br />";
+          continue;
+        }
+        
+        $uv_new = new uv2($site->db, $site->dbrw);
+        $uv_new->add($uv_old->code, $uv_old->intitule, null, SEMESTER_AP, true);
+        /* plouf dans le nouveau */
+        if(!$uv_new){
+          echo "*** ".$uv_old->code." n'a pu etre ajoutee à nouvelle base ***<br />";
+          continue;
+        }
+        echo "+ ".$row[0]." a ete ajoutee à la nouvelle base<br />";
+      }
+    }
+    else{
+      echo "*** ".$row[0]." n'a pu etre validee ***<br />";
+    }
+  }
+}
+
+if($_REQUEST['merge_comment']){
+}
+
+if($_REQUEST['merge_guide_info']){
+}
+
+if($_REQUEST['merge_groups']){
+}
+
+$site->end_page();
+?>
