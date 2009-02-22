@@ -63,6 +63,46 @@ class licence extends stdentity
     $this->icone = $row['icone'];
   }
 
+  function update($titre,$desc,$url,$icone)
+  {
+    $this->title = $titre;
+    $this->desc  = $desc;
+    $this->url   = $url;
+    if(empty($icone))
+      $this->icone = null;
+    else
+      $this->icone = $icone;
+    new update ( $this->dbrw,
+                 'licences',
+                 array('titre'       => $this->title,
+                       'description' => $this->desc,
+                       'url'         => $this->url,
+                       'icone'       => $this->icone),
+                 array("id_licence"=>$this->id));
+  }
+ 
+  function add($titre,$desc,$url,$icone)
+  {
+    $this->title = $titre;
+    $this->desc  = $desc;
+    $this->url   = $url;
+    $this->icone = $icone;
+    $req = new insert($this->dbrw,
+                      'licences',
+                      array('titre'       => $this->title,
+                            'description' => $this->desc,
+                            'url'         => $this->url,
+                            'icone'       => $this->icone));
+    if ($req)
+      $this->id = $req->get_id();
+    else
+    {
+      $this->id = -1;
+      return false;
+    }
+    return true;
+  }
+
 }
 
 ?>
