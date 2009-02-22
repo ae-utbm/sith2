@@ -359,7 +359,18 @@ class sasphoto extends contents
       else
         $subcts->add_paragraph('<a href="http://www.sg.cnrs.fr/daj/propriete/droits/droits.htm">Vidéo soumise aux droits d\'auteurs, toute utilisation sans l\'accord de l\'auteur est interdite !</a>');
     }
-    $subcts->add_paragraph('Il est aussi de votre ressort de vous assurer de l\'accord des personnes reconnaissable conformément au droit à l\'image. Plus d\'informations <a href="http://www.cnil.fr/index.php?id=1790">ici</a>');
+
+    $req = new requete($photo->db,
+        "SELECT `utilisateurs`.`id_utilisateur`, " .
+        "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
+        "FROM `sas_personnes_photos` " .
+        "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`sas_personnes_photos`.`id_utilisateur` " .
+        "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
+        "WHERE `sas_personnes_photos`.`id_photo`='".$photo->id."' " .
+        "ORDER BY `nom_utilisateur`");
+
+    if(!$photo->modere || $photo->incomplet || !$photo->droits_acquis || $req->lines!=0)
+      $subcts->add_paragraph('Il est aussi de votre ressort de vous assurer de l\'accord des personnes reconnaissable conformément au droit à l\'image. Plus d\'informations <a href="http://www.cnil.fr/index.php?id=1790">ici</a>');
 
     $subcts->add_title(2,"Informations");
 
@@ -420,16 +431,6 @@ class sasphoto extends contents
     $photo->set_seen_photo ($user->id);
 
     $subcts->add(new taglist($photo));
-
-    $req = new requete($photo->db,
-      "SELECT `utilisateurs`.`id_utilisateur`, " .
-      "IF(utl_etu_utbm.surnom_utbm!='' AND utl_etu_utbm.surnom_utbm IS NOT NULL,utl_etu_utbm.surnom_utbm, CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`)) as `nom_utilisateur` " .
-      "FROM `sas_personnes_photos` " .
-      "INNER JOIN `utilisateurs` ON `utilisateurs`.`id_utilisateur`=`sas_personnes_photos`.`id_utilisateur` " .
-      "LEFT JOIN `utl_etu_utbm` ON `utl_etu_utbm`.`id_utilisateur`=`utilisateurs`.`id_utilisateur` ".
-      "WHERE `sas_personnes_photos`.`id_photo`='".$photo->id."' " .
-      "ORDER BY `nom_utilisateur`");
-
 
     if ( $can_write )
     {
