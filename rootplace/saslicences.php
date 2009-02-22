@@ -24,8 +24,8 @@
 
 /**
  * @file
- * Administration de AECMS
- * @ingroup wiki2
+ * Administration des licences du sas
+ * @ingroup sas
  * @author Simon Lopez
  */
 $topdir="../";
@@ -100,7 +100,7 @@ $cts = new contents("<a href=\"./\">Administration</a> / Licences sas");
 $cts->add_paragraph("<a href=\"saslicences.php?action=add\">Ajouter une licence</a>");
 $req = new requete($site->db,'select * from licences');
 $cts->add(new sqltable(
-  "wikis",
+  "licences",
   "Liste des licences",
   $req,
   "saslicences.php",
