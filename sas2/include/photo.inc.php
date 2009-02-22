@@ -654,6 +654,24 @@ class photo extends basedb
     $this->_update_droits_acquis();
   }
 
+  function set_licence($id_licence)
+  {
+    if(is_null($id_licence))
+      return false;
+    $licence = new licence($this->db);
+    if($licence->load_by_id($id_licence))
+    {
+      $this->id_licence=$licence->id;
+      new update($this->dbrw,
+                 "sas_photos",
+                 array("id_licence"=>$this->id_licence),
+                 array("id_photo"=>$this->id));
+      return true;
+    }
+    else
+      return false;
+  }
+
   /**
    * Définit si la photo est modérée ou pas
    * @param $modere Modérée(=true) ou non (=false)
