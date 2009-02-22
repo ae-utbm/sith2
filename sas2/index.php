@@ -417,8 +417,8 @@ if ( $photo->is_valid() )
       $licence = new licence($site->db);
       if($licence->load_by_id($photo->id_licence))
         $licence=$photo->id_licence;
-      else
-        $licence=false;
+      elseif(!is_null($site->user->id_licence_default_sas))
+        $licence=$site->user->id_licence_default_sas;
       $frm->add_entity_select('id_licence','Choix de la licence',$site->db,'licence',$licence,false,array(),'\'id_licence\' ASC');
     }
     $frm->add_rights_field($photo,false,$photo->is_admin($site->user));

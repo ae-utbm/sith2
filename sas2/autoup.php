@@ -165,7 +165,27 @@ elseif ( $_REQUEST["act"] == "UploadImage" )
 
     $photo->set_rights($site->user,$_REQUEST["Rights"] & 0x333,$id_group,$cat->id_groupe_admin,false);
 
-    $photo->add_photo ( $_FILES['imageFile']['tmp_name'], $cat->id, "", $site->user->id, false);
+    if(isset($_REQUEST['id_licence']))
+    {
+      require_once('include/licences.inc.php');
+      $licence=new licence($site);
+      if($licence->load_by_id($_REQUEST['id_licence']);
+        $licence=$licence->id;
+      else
+        $licence=$site->user->id_licence_default_sas;
+    }
+    else
+      $licence=$site->user->id_licence_default_sas;
+
+    $photo->add_photo ( $_FILES['imageFile']['tmp_name'],
+                        $cat->id,
+                        "",
+                        $site->user->id,
+                        false,
+                        NULL,
+                        NULL,
+                        NULL,
+                        $licence);
 
     echo "<error>0</error>\n";
 
