@@ -354,7 +354,7 @@ class sasphoto extends contents
     }
     else //copyright classique
     {
-      if($photo->->type_media == MEDIA_PHOTO)
+      if($photo->type_media == MEDIA_PHOTO)
         $subcts->add_paragraph('<a href="http://www.sg.cnrs.fr/daj/propriete/droits/droits.htm">Photo soumise aux droits d\'auteurs, toute utilisation sans l\'accord de l\'auteur est interdite !</a>');
       else
         $subcts->add_paragraph('<a href="http://www.sg.cnrs.fr/daj/propriete/droits/droits.htm">Vidéo soumise aux droits d\'auteurs, toute utilisation sans l\'accord de l\'auteur est interdite !</a>');
