@@ -90,8 +90,8 @@ $frm->add_date_field("date_fin","Photos prises avant le",$_REQUEST["date_fin"]?$
 $frm->add_text_field("tags","Tags",$_REQUEST["tags"]);
 $frm->add_entity_smartselect ( "id_asso", "Association/Club", $asso, true );
 $frm->add_entity_smartselect ( "id_asso_photographe", "Club photographe", $assoph, true );
-$frm->add_entity_select('id_licence','Choix de la licence',$site->db,'licence',$licence,true,array(),'\'id_licence\' ASC');
-$frm->add_checkbox('droitimage','Droit à l\'image non applicable');
+$frm->add_entity_select('id_licence','Choix de la licence',$site->db,'licence',$_REQUEST['id_licence'],true,array(),'\'id_licence\' ASC');
+$frm->add_checkbox('droitimage','Droit à l\'image non applicable',isset($_REQUEST['droitimage']);
 if ( empty($utilisateurs_presents) )
 {
   $la_fonction_veut_une_instance_de_classe = new utilisateur($site->db);
@@ -180,7 +180,7 @@ if ( $_REQUEST["action"] == "search" )
   if ( isset($_REQUEST["droitimage"]) )
   {
     $joins[] = "LEFT JOIN sas_personnes_photos AS droitimage ON droitimage.id_photo=sas_photos.id_photo";
-    $conds[] = "droitimage.id_photo IS NULL";
+    $conds[] = "droitimage.id_photo IS NULL AND sas_photos.incomplet=0 AND sas_photos.modere_ph=1 AND droits_acquis=1";
     $params.="&droitimage=1";
   }
 
