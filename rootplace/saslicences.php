@@ -54,6 +54,7 @@ if(isset($_REQUEST['id_licence']))
       $frm->add_text_field("desc","Description",$licence->desc);
       $frm->add_text_field("url","URL",$licence->url);
       $frm->add_text_field("icone","icone",$licence->icone);
+      $frm->add_submit("valid","Enregistrer");
       $cts->add($frm);
       $site->add_contents($cts);
       $site->end_page();
