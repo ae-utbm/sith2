@@ -48,7 +48,7 @@ if(isset($_REQUEST['id_licence']))
     if($_REQUEST['action']=='edit')
     {
       $cts = new contents("<a href=\"./\">Administration</a> / <a href=\"saslicences.php\">Licences sas</a>");
-      $frm == new form("updatelicence","?id_licence=".$licence->id);
+      $frm = new form("updatelicence","?id_licence=".$licence->id);
       $frm->add_hidden("action","updatelicence");
       $frm->add_text_field("titre","Titre",$licence->titre);
       $frm->add_text_field("desc","Description",$licence->desc);
