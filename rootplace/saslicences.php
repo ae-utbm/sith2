@@ -41,6 +41,7 @@ if ( !$site->user->is_in_group("root") )
 $site->start_page("none","Administration");
 
 $cts = new contents("<a href=\"./\">Administration</a> / Licences sas");
+$req = new requete($site->db,'select * from licences');
 $cts->add(new sqltable(
   "wikis",
   "Liste des licences",
