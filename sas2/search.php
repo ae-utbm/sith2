@@ -90,6 +90,8 @@ $frm->add_date_field("date_fin","Photos prises avant le",$_REQUEST["date_fin"]?$
 $frm->add_text_field("tags","Tags",$_REQUEST["tags"]);
 $frm->add_entity_smartselect ( "id_asso", "Association/Club", $asso, true );
 $frm->add_entity_smartselect ( "id_asso_photographe", "Club photographe", $assoph, true );
+$frm->add_entity_select('id_licence','Choix de la licence',$site->db,'licence',$licence,true,array(),'\'id_licence\' ASC');
+$frm->add_checkbox('droitimage','Droit à l\'image non applicable');
 if ( empty($utilisateurs_presents) )
 {
   $la_fonction_veut_une_instance_de_classe = new utilisateur($site->db);
@@ -173,6 +175,19 @@ if ( $_REQUEST["action"] == "search" )
   {
     $conds[] = "sas_photos.date_prise_vue<='".date("Y-m-d H:i",$_REQUEST["date_fin"])."'";
     $params.="&date_debut=".rawurlencode(date("Y-m-d H:i",$_REQUEST["date_fin"]));
+  }
+
+  if ( isset($_REQUEST["droitimage"]) )
+  {
+    $joins[] = "LEFT JOIN sas_personnes_photos AS droitimage ON droitimage.id_photo=sas_photos.id_photo";
+    $conds[] = "droitimage.id_photo IS NULL";
+    $params.="&droitimage=1";
+  }
+
+  if ( $_REQUEST['id_licence'] && intval($_REQUEST['id_licence']) > 0 )
+  {
+    $conds[] = "sas_photos.id_licence='".mysql_escape_string($_REQUEST["id_licence"])."'";
+    $params.="&id_licence=".rawurlencode($_REQUEST["id_licence"]);
   }
 
   if ( $_REQUEST["type"] )
