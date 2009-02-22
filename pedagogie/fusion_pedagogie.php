@@ -18,8 +18,8 @@ require_once($topdir."pedagogie/include/edt.inc.php");
 require_once($topdir."include/entities/uv.inc.php");
 
 /* nouveau systeme temporaire */
-require_once("temp/uv.inc.php");
-require_once("temp/pedagogie.inc.php");
+require_once("include/uv.inc.php");
+require_once("include/pedagogie.inc.php");
 
 $site = new site();
 
