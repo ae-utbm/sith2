@@ -32,10 +32,73 @@ if ( $_REQUEST["action"] == "defaultlicence" )
   $site->user->set_licence_default_sas ( $_REQUEST["id_licence"]
                                         , isset($_REQUEST["applyall"]));
 
-
-$photo = new photo($site->db,$site->dbrw);
-
 $site->start_page("sas","Gestion des licences");
+if ( $_REQUEST["page"]=="process" )
+{
+  if($_REQUEST['action']=='setlicence')
+  {
+    $photo = new photo($site->db,$site->dbrw);
+    $photo->load_by_id(($_REQUEST['id_photo']);
+    if($photo->id>0 && $photo->id_utilisateur_photographe==$site->user->id)
+      $photo->set_licence($_REQUEST['id_licence']);
+  }
+  $photo = new photo($site->db,$site->dbrw);
+  $cts = new contents("Licence");
+  $sql = new requete($site->db,
+    "SELECT * " .
+    "FROM sas_photos " .
+    "WHERE id_utilisateur_photographe=".$site->user->id." " .
+    "AND id_licence IS NULL ".
+    "ORDER BY id_photo " .
+    "LIMIT 1");
+  if ( $sql->lines == 1)
+  {
+    $photo->_load($sql->get_row());
+    $cat = new catphoto($site->db);
+    $catpr = new catphoto($site->db);
+    $cat->load_by_id($photo->id_catph);
+    $path = $cat->get_html_link()." / ".$photo->get_html_link();
+    $catpr->load_by_id($cat->id_catph_parent);
+    while ( $catpr->id > 0 )
+    {
+      $path = $catpr->get_html_link()." / ".$path;
+      $catpr->load_by_id($catpr->id_catph_parent);
+    }
+    $cts->add_title(2,$path);
+
+    $site->user->load_all_extra();
+    $imgcts = new contents();
+    $imgcts->add(new image($photo->id,"images.php?/".$photo->id.".diapo.jpg"));
+    $cts->add($imgcts,false,true,"sasimg");
+
+    $subcts = new contents();
+
+    if ( ($photo->droits_acces & 1) == 0 )
+    {
+      require_once($topdir."include/entities/group.inc.php");
+      $groups = enumerates_groups($site->db);
+      $subcts->add_paragraph("L'accés à cette photo est limité à ".$groups[$photo->id_groupe]);
+    }
+    $frm = new form("licences","meslicences.php?page=process",false,"POST","Votre souhait");
+    $frm->add_hidden("action","setlicence");
+    $frm->add_hidden("id_photo",$photo->id);
+    $sfrm->add_entity_select('id_licence','Choix de la licence',$site->db,'licence',false,false,array(),'\'id_licence\' ASC');
+    $frm->add_submit("set","Valider");
+    $cts->add($frm);
+  }
+  else
+  {
+    $cts->add_paragraph("Merci, toutes les photos ont été passés en revue.");
+    $cts->add_paragraph("<a href=\"./\">Retour au SAS</a>");
+  }
+
+  $site->add_contents($cts);
+  $site->end_page ();
+  exit();
+}
+
+
+
 $cts = new contents("Gestion des licences");
 $cts->add_paragraph("Plus d'informations sur les licences <a href='licences.php'>ici</a>");
 $frm = new form("auto","meslicences.php",false,"POST","Licence par défaut pour mes photos");
