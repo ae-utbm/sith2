@@ -73,6 +73,7 @@ class utilisateur extends stdentity
   var $modere;
 
   var $droit_image;
+  var $id_licence_default_sas;
   var $montant_compte;
   var $site_web;
 
@@ -365,6 +366,7 @@ class utilisateur extends stdentity
     $this->ae = $row['ae_utl'];
     $this->modere = $row['modere_utl'];
     $this->droit_image = $row['droit_image_utl'];
+    $this->id_licence_default_sas = $row['id_licence_default_sas'];
     $this->montant_compte = $row['montant_compte'];
     if ( $row['date_maj_utl'] )
       $this->date_maj = strtotime($row['date_maj_utl']);
@@ -1000,6 +1002,26 @@ class utilisateur extends stdentity
 
   return $Name;
 
+  }
+
+  function set_licence_default_sas( $id_licence, $all = false)
+  {
+    global $topdir;
+    require_once($topdir."sas2/include/licence.php");
+    $licence=new licence($this->db);
+    if($licence->load_by_id($id_licence))
+    {
+      $this->id_licence_default_sas = $id_licence;
+      $req = new update($this->dbrw,
+                      "utilisateurs",
+                      array('id_licence_default_sas' => $this->id_licence_default_sas),
+                      array( 'id_utilisateur' => $this->id));
+      if($all)
+        $req = new update($this->dbrw,
+                          'sas_photos',
+                          array('id_licence'=>$this->id_licence_default_sas),
+                          array('id_utilisateur_photographe' => $this->id));
+    }
   }
 
   function set_droit_image ( $droit_image )
