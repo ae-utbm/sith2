@@ -56,6 +56,7 @@ if(isset($_REQUEST['id_licence']))
       $frm->add_text_field("icone","icone",$licence->icone);
       $cts->add($frm);
       $site->add_contents($cts);
+      $site->end_page();
       exit();
     }
   }
