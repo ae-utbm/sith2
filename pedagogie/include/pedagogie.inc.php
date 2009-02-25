@@ -49,10 +49,10 @@ define("GROUP_TD", 2);
 define("GROUP_TP", 3);
 define("GROUP_THE",4);
 $_GROUP = array(
-  GROUP_C  = array('short'=>'c',  'long'=>"Cours"),
-  GROUP_TD = array('short'=>'td', 'long'=>"TD"),
-  GROUP_TP = array('short'=>'tp', 'long'=>"TP"),
-  GROUP_THE = array('short'=>'the', 'long'=>"THE")
+  GROUP_C  => array('short'=>'c',  'long'=>"Cours"),
+  GROUP_TD => array('short'=>'td', 'long'=>"TD"),
+  GROUP_TP => array('short'=>'tp', 'long'=>"TP"),
+  GROUP_THE => array('short'=>'the', 'long'=>"THE")
 );
   
 /* type d'UV 
