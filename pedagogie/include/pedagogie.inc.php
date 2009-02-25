@@ -114,6 +114,7 @@ if($m > 7 || $m == 1) $s = 'A'; /* entre Aout et Janvier */
 else  $s = 'P';                 /* entre Fevrier et Juillet */
 define("SEMESTER_NOW", $s.date('Y'));
 
+
 /**
  * Vérifie si le format de semestre est bien au format A2004
  * @param $value donnee a vérifier
@@ -164,6 +165,22 @@ function __semester_comp($row1, $row2){
      else 
       return -1;
   }
+}
+
+/**
+ * Corrélation jour <=> index
+ * commencant a lundi=1
+ */
+function get_day($index){
+  $jours = array(
+    'Lundi',
+    'Mardi',
+    'Mercredi',
+    'Jeudi',
+    'Vendredi',
+    'Samedi',
+    'Dimanche');
+  return $jours[1+$index];
 }
 
 ?>

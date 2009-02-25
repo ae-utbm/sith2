@@ -132,6 +132,10 @@ class pedag_user extends utilisateur{
   public function get_credits_tc(){
   }
   
+  public function get_nb_uv_result(){
+    return;
+  }
+  
   /**************************************
    * Données annexes de l'emploi du temps
    */

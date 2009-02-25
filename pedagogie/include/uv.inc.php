@@ -31,7 +31,7 @@
  * @author Pierre Mauduit
  */
 
-class uv2 extends stdentity
+class uv extends stdentity
 {
   /* basic infos */
   var $id;
@@ -190,7 +190,7 @@ class uv2 extends stdentity
     if(!check_uv_format($code))
       throw new Exception("Wrong format \$code ".$code);
     /* verification qu elle n existe pas deja, avec le code */
-    if(uv2::exists($this->db, $code))
+    if(uv::exists($this->db, $code))
       throw new Exception("UV code already used in database");
       
     $sql = new insert($this->dbrw, "pedag_uv", 
@@ -419,6 +419,32 @@ class uv2 extends stdentity
       
     while($row = $req->get_row())
       $t[] = $row['id_groupe'];
+      
+    return $t;
+  }
+
+  /**
+   * Recuperation des infos de groupes
+   * @param $type type des groupes recherches du style GROUP_TD ou null si tout
+   * @param $semestre semestre visé
+   * @return tableau des informations
+   */
+  public function get_groups_full($type=null, $semestre=SEMESTER_NOW){
+    $sql = "SELECT *
+            FROM `pedag_groupe`
+            WHERE `id_uv` = ".$this->id."
+              AND `semestre` = '".$semestre."'";
+    if($type)
+      $sql .= "  AND `type` = ".$type;
+    $req = new requete($this->db, $sql);
+    
+    if(!$req->is_success)
+      return false;
+    else
+      $t = array();
+      
+    while($row = $req->get_row())
+      $t[] = $row;
       
     return $t;
   }
