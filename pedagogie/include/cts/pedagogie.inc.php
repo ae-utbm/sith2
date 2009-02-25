@@ -29,7 +29,7 @@ class add_uv_edt_box extends stdcontents
   {
     if( !($uv instanceof uv) )
       throw new Exception("Incorrect type");
-      
+    
     $this->title = $uv->code." - ".$uv->intitule;
     $code = $uv->code;
     $this->buffer = "";    
@@ -40,7 +40,6 @@ class add_uv_edt_box extends stdcontents
     
     if(!$uv->extra_loaded)
       $uv->load_extra();
-      
     $this->buffer .= "<p>Selon nos informations, les enseignements de cette UV
       sont composés de "
         .$uv->guide['c']."h de Cours, "
@@ -57,9 +56,12 @@ class add_uv_edt_box extends stdcontents
   }
   
   private function build_uv_choice($uv, $type){
+    global $_GROUP;
+    print_r($_GROUP);
+    print_r($uv);
     if($uv->guide[ $_GROUP[$type]['short'] ]){
       $groups = $uv->get_groups_full($type);
-      print_r($groups);
+      //print_r($groups);
       $buffer  = "<div class=\"formrow\">\n";
       $buffer .= "  <div class=\"formlabel\">".$_GROUP[$type]['long']." : </div>\n";
       $buffer .= "  <div class=\"formfield\">\n";

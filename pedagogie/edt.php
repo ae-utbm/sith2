@@ -44,7 +44,7 @@ $cts = new contents('pof');
 $site->add_contents(new add_uv_edt_box($uv));
 
 $bleh = new add_uv_edt_box($uv);
-print_r($bleh);
+//print_r($bleh);
 $cts->add($bleh);
 
 $site->add_contents($cts);
