@@ -124,7 +124,7 @@ class uv extends stdentity
   public function load_extra(){
     $sql = new requete($this->db, "SELECT `responsable`,
                                     `guide_objectifs`, `guide_programme`,
-                                    `guide_c`, `guide_td`, `guide_tp`, `guide_the`,
+                                    `guide_c`, `guide_td`, `guide_tp`, `guide_the`
                                     FROM `pedag_uv`
                                     WHERE `id_uv` = ".$this->id." LIMIT 1");
     if($sql->is_success()){
