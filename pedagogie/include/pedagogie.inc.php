@@ -30,7 +30,7 @@
  */
 
 /* Resultat 
- * @var RESULT_ */
+ * @var _RESULT */
 define("RESULT_A",      1);
 define("RESULT_B",      2);
 define("RESULT_C",      3);
@@ -43,42 +43,60 @@ define("RESULT_EQUIV",  9);
 
 
 /* type de cours 
- * @var GROUP_ */
+ * @var _GROUP */
 define("GROUP_C",  1);
 define("GROUP_TD", 2);
 define("GROUP_TP", 3);
 define("GROUP_THE",4);
-
+$_GROUP = array(
+  GROUP_C  = array('short'=>'c',  'long'=>"Cours"),
+  GROUP_TD = array('short'=>'td', 'long'=>"TD"),
+  GROUP_TP = array('short'=>'tp', 'long'=>"TP"),
+  GROUP_THE = array('short'=>'the', 'long'=>"THE")
+);
+  
 /* type d'UV 
- * @var TYPE_ */
+ * @var _TYPE */
 define("TYPE_CS", 1);
 define("TYPE_TM", 2);
 define("TYPE_EC", 3);
 define("TYPE_CG", 4);
 define("TYPE_Ext",5);
+$_TYPE = array(
+  TYPE_CS => array('short'=>'CS', 'long'=>"Connaissances scientifiques"),
+  TYPE_CS => array('short'=>'TM', 'long'=>"Techniques & Méthodes"),
+  TYPE_CS => array('short'=>'EC', 'long'=>"Expression & Communication"),
+  TYPE_CS => array('short'=>'CG', 'long'=>"Culture générale"),
+  TYPE_CS => array('short'=>'Ext', 'long'=>"Extérieur")
+);
 
 /* semestres d ouverture (ou pas)
- * @var SEMESTER_ */
+ * @var _SEMESTER */
 define("SEMESTER_A",  1);
 define("SEMESTER_P",  2);
 define("SEMESTER_AP", 3);
 define("SEMESTER_closed",4);
-
+$_SEMESTER = array(
+  SEMESTER_A => array('short'=>'A', 'long'=>"Automne"),
+  SEMESTER_P => array('short'=>'P', 'long'=>"Printemps"),
+  SEMESTER_AP => array('short'=>'AP', 'long'=>"Automne & Printemps"),
+  SEMESTER_closed => array('short'=>'closed', 'long'=>"UV fermée")
+);
 
 /* Etats 
- * @var STATE_  */
+ * @var _STATE  */
 define("STATE_VALID",   1);
 define("STATE_PENDING", 2);
 define("STATE_MODIFIED",3);
 
 /* Types de cursus
- * @var CURSUS_  */
+ * @var _CURSUS  */
 define("CURSUS_FILIERE",1);
 define("CURSUS_MINEUR", 2);
 define("CURSUS_AUTRE",  3);
 
 /* departements 
- * @var DPT_  */
+ * @var _DPT  */
 define("DPT_HUMA",  1);
 define("DPT_TC",    2);
 define("DPT_GI",    3);
@@ -86,26 +104,15 @@ define("DPT_GESC",  4);
 define("DPT_IMAP",  5);
 define("DPT_GMC",   6);
 define("DPT_EDIM",  7);
-
-$dpt_short = array(
-  DPT_HUMA => "Humas",
-  DPT_TC => "TC",
-  DPT_GI => "GI",
-  DPT_GESC => "GESC",
-  DPT_IMAP => "IMAP",
-  DPT_MC => "MC",
-  DPT_EDIM => "EDIM"
-  );
-
-$dpt_long = array(
-  DPT_HUMA => "Humanités",
-  DPT_TC => "Tronc Commun",
-  DPT_GI => "Informatique",
-  DPT_GESC => "Génie Électrique et Systèmes de Commande",
-  DPT_IMAP => "Ingénierie et Management de Process",
-  DPT_MC => "Mécanique et Conception",
-  DPT_EDIM => "Ergonomie, Design et Ingénierie Mécanique"
-  );
+$_DPT = array(
+  DPT_HUMA => array('short'=>'Humas', 'long'=>"Humanités"),
+  DPT_TC => array('short'=>'TC', 'long'=>"Tronc Commun"),
+  DPT_GI => array('short'=>'GI', 'long'=>"Informatique"),
+  DPT_GESC => array('short'=>'GESC', 'long'=>"Génie Électrique et Systèmes de Commande"),
+  DPT_IMAP => array('short'=>'IMAP', 'long'=>"Ingénierie et Management de Process"),
+  DPT_GMC => array('short'=>'GMC', 'long'=>"Mécanique et Conception"),
+  DPT_EDIM => array('short'=>'EDIM', 'long'=>"Ergonomie, Design et Ingénierie Mécanique")  
+);
 
 /* definition du semestre actuel 
  * @var SEMESTRE_NOW  */
