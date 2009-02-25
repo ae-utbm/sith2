@@ -54,7 +54,7 @@ class add_uv_edt_box extends stdcontents
       foreach($groups as $group){
         $buffer .= "      <option value=".$group['id_group'].">".ucfirst($typename)." n°".$group['num_groupe']." du ".get_day($group['jour'])." de ".$group['debut']." &agrave; ".$group['fin']." en ".$group['salle']."</option>\n";
       }
-      $buffer .= "      <option value=\"_add_\" onclick=\"javascript:alert('Ajout d'une s&eacute;ance');\"></option>\n";
+      $buffer .= "      <option value=\"_add_\" onclick=\"javascript:alert('Ajout d'une s&eacute;ance');\">Ajouter une s&eacute;ance de ".ucfirst($typename)."...</option>\n";
       $buffer .= "    </select>\n";
       $buffer .= "  </div>\n";
       $buffer .= "</div>\n\n";

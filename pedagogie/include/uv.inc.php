@@ -130,7 +130,7 @@ class uv extends stdentity
     if($sql->is_success()){
       $row = $sql->get_row();
       
-      $this->reponsable = $row['responsable'];
+      $this->responsable = $row['responsable'];
       $this->guide['objectifs'] = $row['objectifs'];
       $this->guide['programme'] = $row['programme'];
       $this->guide['c'] = $row['guide_c'];
