@@ -66,7 +66,7 @@ Veuillez prendre les mesures nécessaire afin de corriger ceci :
 Le site AE
 ";
   $ret = mail("ae.com@utbm.fr",
-              "VIOLATION DE PROPRIÉTÉ INTELLECTUELLE",
+              "Violation de propriété intellectuelle",
               utf8_decode($body),
               "From: \"AE UTBM\" <ae@utbm.fr>\nReply-To: ".$_POST['email']."\nCC: ae.info@utbm.fr");
   $cts = new contents("Confirmation");
@@ -76,8 +76,8 @@ Le site AE
   exit();
 }
 
-$site->start_page("","PROPRIÉTÉ INTELLECTUELLE");
-$cts = new contents("PROPRIÉTÉ INTELLECTUELLE");
+$site->start_page("","Propriété intellectuelle");
+$cts = new contents("Propriété intellectuelle");
 $cts->add_paragraph("<b>Formulaire de déclaration de violation des droits de propriété intellectuelle</b>");
 $cts->add_paragraph("Merci de bien vouloir remplir ce formulaire, tous les champs sont obligatoires !");
 $frm = new form("sendcopyrightreport","copyright_agent.php",true,"POST");
