@@ -43,7 +43,7 @@ class add_uv_edt_box extends stdcontents
   }
   
   private function build_uv_choice($uv, $type){
-    if($uv->guide[$typename]){
+    if($uv->guide[ $_GROUP[$type]['short'] ]){
       $groups = $uv->get_groups_full($type);
       print_r($groups);
       $buffer  = "<div class=\"formrow\">\n";
