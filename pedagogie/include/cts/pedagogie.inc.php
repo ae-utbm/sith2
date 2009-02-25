@@ -34,12 +34,26 @@ class add_uv_edt_box extends stdcontents
     $code = $uv->code;
     $this->buffer = "";    
     
+    $this->buffer .= "<p>Indiquez ci-dessous les séances auxquelles vous êtes
+      inscrit. Si celle-ci n'est pas présente dans la liste proposée, choisissez
+      \"Ajouter une séance\" afin de la créer.</p>";
+    
     if(!$uv->extra_loaded)
       $uv->load_extra();
+      
+    $this-buffer .= "<p>Selon nos informations, les enseignements de cette UV
+      sont composés de "
+        .$uv->guide['c']."h de Cours, "
+        .$uv->guide['td']."h de TD et "
+        .$uv->guide['tp']."h de TP (*)</p>";
     
     $this->buffer .= $this->build_uv_choice($uv, GROUP_C);
     $this->buffer .= $this->build_uv_choice($uv, GROUP_TD);
     $this->buffer .= $this->build_uv_choice($uv, GROUP_TP);
+    
+    $this->buffer .= "<p><i>(*) Si certaines des informations concernant cette UV
+      sont incorrectes (détails des séances...), vous pouvez les 
+      <a href=\"#\">corriger ici.</a></i></p>";
   }
   
   private function build_uv_choice($uv, $type){
