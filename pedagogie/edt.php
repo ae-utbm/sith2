@@ -38,7 +38,7 @@ $site->start_page("services", "Pédagogie");
 
 $uv = new uv($site->db, $site->dbrw);
 $uv->load_by_id(0);
-print_r($uv);
+
 $cts = new contents('pof');
 
 $site->add_contents(new add_uv_edt_box($uv));
