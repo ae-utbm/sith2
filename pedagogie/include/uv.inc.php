@@ -111,7 +111,7 @@ class uv extends stdentity
     $this->semestre = $row['semestre'];
     $this->state = $row['state'];
     $this->tc_available = $row['tc_available'];
-    $this->guide_credits = $row['guide_credits'];
+    $this->credits = $row['guide_credits'];
     
     return $this->id;
   }
@@ -436,7 +436,7 @@ class uv extends stdentity
               AND `semestre` = '".$semestre."'";
     if($type)
       $sql .= "  AND `type` = ".$type;
-    $req = new requete($this->db, $sql);
+    $req = new requete($this->db, $sql, true);
     
     if(!$req->is_success)
       return false;

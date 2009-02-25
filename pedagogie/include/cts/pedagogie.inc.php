@@ -45,16 +45,16 @@ class add_uv_edt_box extends stdcontents
   private function build_uv_choice($uv, $type, $typename){
     if($uv->guide[$typename]){
       $groups = $uv->get_groups_full($type);
-      $opt = null;
       
       $buffer  = "<div class=\"formrow\">\n";
       $buffer .= "  <div class=\"formlabel\">".ucfirst($typename)." : </div>\n";
       $buffer .= "  <div class=\"formfield\">\n";
       $buffer .= "    <select name=\"_".$uv->id."_".$typename."_\">\n";
+      $buffer .= "      <option value=\"_none_\">S&eacute;llectionnez votre s&eacute;ance</option>\n";
       foreach($groups as $group){
         $buffer .= "      <option value=".$group['id_group'].">".ucfirst($typename)." n°".$group['num_groupe']." du ".get_day($group['jour'])." de ".$group['debut']." &agrave; ".$group['fin']." en ".$group['salle']."</option>\n";
       }
-      $buffer .= "      <option value=\"_add_\" onclick=\"javascript:alert('Ajout d'une s&eacute;ance');\">Ajouter une s&eacute;ance de ".ucfirst($typename)."...</option>\n";
+      $buffer .= "      <option value=\"_add_\" onclick=\"javascript:alert('Ajout d'une s&eacute;ance');\">Ajouter une s&eacute;ance...</option>\n";
       $buffer .= "    </select>\n";
       $buffer .= "  </div>\n";
       $buffer .= "</div>\n\n";
