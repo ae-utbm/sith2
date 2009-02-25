@@ -96,7 +96,7 @@ $frm->add_info("Je certifie sur l’honneur et en toute bonne foi :");
 $frm->add_checkbox("di","Disposer des droits de propriété intellectuelle ou être dûment autorisé à agir au nom et pour le compte du titulaire des droits.");
 $frm->add_checkbox("na","Ne pas avoir autorisé l’utilisation contestée et/ou que cette utilisation n'a pas été autorisée par le titulaire des droits, son agent, et/ou plus généralement les lois et règlements en vigueur.");
 $frm->add_checkbox("ie","Que les informations communiquées dans le cadre de cette déclaration sont exactes.");
-$frm->submit("sendcopyrightreporteuh","Envoyer");
+$frm->add_submit("sendcopyrightreporteuh","Envoyer");
 $cts->add($frm);
 $site->add_contents($cts);
 $site->end_page();
