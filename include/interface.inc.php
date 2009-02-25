@@ -612,7 +612,7 @@ class interfaceweb
     if(!defined('NOTAE'))
     {
       $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=legals\">MENTIONS LÉGALES</a> ";
-      $this->buffer .= "<a href=\"". $wwwtopdir ."copyright_agent.php\">Propriété intellectuelle</a>";
+      $this->buffer .= "<a href=\"". $wwwtopdir ."copyright_agent.php\">PROPRIÉTÉ INTELLECTUELLE</a>";
       $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=docs:index\">AIDE ET DOCUMENTATION</a> ";
       $this->buffer .= "<a href=\"". $wwwtopdir ."article.php?name=rd\">R&amp;D</a> ";
     }
