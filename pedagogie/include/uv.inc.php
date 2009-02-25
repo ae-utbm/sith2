@@ -128,7 +128,7 @@ class uv extends stdentity
                                     FROM `pedag_uv`
                                     WHERE `id_uv` = ".$this->id." LIMIT 1");
     if($sql->is_success()){
-      $sql->get_row();
+      $row = $sql->get_row();
       
       $this->reponsable = $row['responsable'];
       $this->guide['objectifs'] = $row['objectifs'];
