@@ -23,7 +23,7 @@
  * 02111-1307, USA.
  */
 
-class add_uv_edt_box extends contents
+class add_uv_edt_box extends stdcontents
 {
   public function __construct($uv)
   {
@@ -37,9 +37,9 @@ class add_uv_edt_box extends contents
     if(!$uv->extra_loaded)
       $uv->load_extra();
     
-    $this->buffer .= build_uv_choice($uv, GROUP_C, "c");
-    $this->buffer .= build_uv_choice($uv, GROUP_TD, "td");
-    $this->buffer .= build_uv_choice($uv, GROUP_TP, "tp");
+    $this->buffer .= $this->build_uv_choice($uv, GROUP_C, "c");
+    $this->buffer .= $this->build_uv_choice($uv, GROUP_TD, "td");
+    $this->buffer .= $this->build_uv_choice($uv, GROUP_TP, "tp");
   }
   
   private function build_uv_choice($uv, $type, $typename){
@@ -47,7 +47,7 @@ class add_uv_edt_box extends contents
       $groups = $uv->get_groups_full($type);
       $opt = null;
       
-      $buffer  = "<div class=\"formrow\">\n"
+      $buffer  = "<div class=\"formrow\">\n";
       $buffer .= "  <div class=\"formlabel\">".strtotitle($typename)." : </div>\n";
       $buffer .= "  <div class=\"formfield\">\n";
       $buffer .= "    <select name=\"_".$uv->id."_".$typename."_\">\n";

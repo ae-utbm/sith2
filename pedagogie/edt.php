@@ -34,10 +34,19 @@ require_once("include/cts/pedagogie.inc.php");
 $site = new site();
 //$site->allow_only_logged_users();
 
+$site->start_page("services", "Pédagogie");
+
 $uv = new uv($site->db, $site->dbrw);
 $uv->load_by_id(0);
+print_r($uv);
+$cts = new contents('pof');
 
-$site->add_contents(new semestre_box($uv));
+$site->add_contents(new add_uv_edt_box($uv));
 
+$bleh = new add_uv_edt_box($uv);
+print_r($bleh);
+$cts->add($bleh);
+
+$site->add_contents($cts);
 $site->end_page();
 ?>
