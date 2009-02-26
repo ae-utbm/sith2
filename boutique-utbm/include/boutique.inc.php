@@ -61,7 +61,7 @@ class boutique extends site
     global $topdir;
     $this->site();
 
-    if($_SERVER["SCRIPT_NAME"]!='/boutique-utbm/connect.php')
+    if($_SERVER["SCRIPT_NAME"]!='/boutique-utbm/connect.php' && $_SERVER["SCRIPT_NAME"]!='/boutique-utbm/newaccount.php')
     {
       $this->allow_only_logged_users();
       if($this->user->type != "srv" && !$this->user->is_in_group("root") && !$this->user->is_in_group("adminboutiqueutbm"))
