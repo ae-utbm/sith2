@@ -76,7 +76,7 @@ if ( $_REQUEST["page"] == "statistiques" )
   $site->start_page("services","Administration");
   $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"gestion.php\">Gestion</a> / Statistiques");
   // chiffre d'affaire
-  $frm = new form ("boutiqueutaboutiqueut","gestion.php",true,"POST","Critères de selection");
+  $frm = new form ("boutiqueutaboutiqueut","gestion.php?page=statistiques",true,"POST","Critères de selection");
   $frm->add_hidden("action","view");
   $frm->add_select_field("mode","Mode", array(""=>"Brut","day"=>"Statistiques/Jour","week"=>"Statistiques/Semaines","month"=>"Statistiques/Mois","year"=>"Statistiques/Année"),$_REQUEST["mode"]);
   $frm->add_datetime_field("debut","Date et heure de début");
