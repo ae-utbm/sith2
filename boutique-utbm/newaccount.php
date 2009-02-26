@@ -74,7 +74,7 @@ if ( isset($_REQUEST["mode"]) )
         else
           $user->create_user ( $_REQUEST["nom"], $_REQUEST["prenom"], $_REQUEST["alias"], $_REQUEST["email"], $_REQUEST["password"], $_REQUEST["droitimage"], $_REQUEST["naissance"], $_REQUEST["sexe"] );
 
-        $site->start_page("services","Inscription");
+        $site->start_page("","Inscription");
         $cts = new contents("Inscription : Etape 3/3");
 
         $cts->add_paragraph("Votre compte vient d'être crée, il faut maintenant l'activer. Pour cela vous devez cliquer le lien qui vous a été envoyé par email à l'adresse ".htmlentities($_REQUEST["email"]).". Votre compte ne sera utilisable que dès lors que cette opération sera terminée.");
@@ -88,7 +88,7 @@ if ( isset($_REQUEST["mode"]) )
     }
 
 
-    $site->start_page("services","Inscription");
+    $site->start_page("","Inscription");
     $cts = new contents("Inscription : Etape 2/3");
     $cts->add_paragraph("La boutique UTBM est réalisée en partenariat avec l'<a href='http://ae.utbm.fr'>Association des étudiants</a>(AE) de l'UTBM. ".
       "Il vous est donc demandé de respecter le <a href=\"http://ae.utbm.fr/article.php?name=legals:rinfo\">règlement informatique</a> de l'AE.".
@@ -157,7 +157,7 @@ if ( isset($_REQUEST["only_mode"]) )
   $mode = $only_mode;
 }
 
-$site->start_page("services","Inscription");
+$site->start_page("","Inscription");
 
 $cts = new contents("Inscription : Etape 1/3");
 
