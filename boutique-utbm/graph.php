@@ -21,7 +21,6 @@
  * 02111-1307, USA.
  */
 $topdir="../";
-require_once($topdir."include/cts/sqltable.inc.php");
 require_once($topdir."include/graph.inc.php");
 $site = new boutique();
 if(!$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("adminboutiqueutbm"))
