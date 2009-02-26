@@ -282,6 +282,11 @@ class boutique extends site
 
     if ( $this->user->is_valid() )
       return;
+
+    $this->tab_array = array(
+         array("accueil", "index.php", "Accueil")
+      );
+
     require_once("include/login.inc.php");
 
     $this->start_page($section,"Identification requise");
