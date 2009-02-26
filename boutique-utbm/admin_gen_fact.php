@@ -104,7 +104,7 @@ if(isset($_REQUEST["id_facture"]))
       if($fact->ready==1 && $fact->etat==1) // commande à retirer
         $cts = new contents( "Commande à retirer" );
       elseif($fact->ready==0) // commande en cours de préparation
-        $cts = new contents( "Commande en attente de préparation" );
+        $cts = new contents( "Commande en attente/cours de préparation" );
       else // commande retirée
         $cts = new contents("Commande retirée");
 
