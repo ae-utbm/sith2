@@ -27,14 +27,15 @@ var edt = {
   },
 
   disp_freq_choice: function(elemid, freq, uvid, type){
-    if(freq != 2) return;
-    
     e = document.getElementById(elemid);
     if(!e)  return;
-    
-    e.innerHTML += "<select name=\"_"+uvid+"_freq_"+type+"_\">  \
+
+    if(freq != 2) 
+      e.innerHTML = "";
+    else
+      e.innerHTML = "<select name=\"_"+uvid+"_freq_"+type+"_\">  \
                       <option value=\"A\">Semaine A</option> \
                       <option value=\"B\">Semaine B</option> \
-                    </select>";
+                     </select>";
   }
 }

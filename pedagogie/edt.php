@@ -40,6 +40,11 @@ $site->start_page("services", "Pédagogie");
 $uv = new uv($site->db, $site->dbrw);
 $uv->load_by_id(0);
 
+$cts = new contents("Détails des UV");
+$cts->add_paragraph("Indiquez ci-dessous les séances auxquelles vous êtes
+      inscrit. Si celle-ci n'est pas présente dans la liste proposée, choisissez
+      \"Ajouter une séance\" afin de la créer.");
+
 $site->add_contents(new add_uv_edt_box($uv));
 
 $site->end_page();

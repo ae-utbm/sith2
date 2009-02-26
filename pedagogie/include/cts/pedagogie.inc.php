@@ -34,10 +34,6 @@ class add_uv_edt_box extends stdcontents
     $code = $uv->code;
     $this->buffer = "";    
     
-    $this->buffer .= "<p>Indiquez ci-dessous les séances auxquelles vous êtes
-      inscrit. Si celle-ci n'est pas présente dans la liste proposée, choisissez
-      \"Ajouter une séance\" afin de la créer.</p>";
-    
     if(!$uv->extra_loaded)
       $uv->load_extra();
     $this->buffer .= "<p>Selon nos informations, les enseignements de cette UV
@@ -64,7 +60,7 @@ class add_uv_edt_box extends stdcontents
       
       $buffer  = "<div class=\"formrow\">\n";
       $buffer .= "  <div class=\"formlabel\">".$_GROUP[$type]['long']." : </div>\n";
-      $buffer .= "  <div class=\"formfield\" id=\"".$divid."\">\n";
+      $buffer .= "  <div class=\"formfield\">\n";
       $buffer .= "    <select name=\"_".$uv->id."_".$_GROUP[$type]['short']."_\">\n";
       $buffer .= "      <option value=\"_none_\">S&eacute;lectionnez votre s&eacute;ance</option>\n";
       foreach($groups as $group){
@@ -72,8 +68,9 @@ class add_uv_edt_box extends stdcontents
                             .$_GROUP[$type]['long']." n°".$group['num_groupe']." du ".get_day($group['jour'])." de ".$group['debut']." &agrave; ".$group['fin']." en ".$group['salle']
                             ."</option>\n";
       }
-      $buffer .= "      <option value=\"_add_\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.");\">Ajouter une s&eacute;ance de ".$_GROUP[$type]['long']."...</option>\n";
+      $buffer .= "      <option value=\"_add_\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.");\">Ajouter une s&eacute;ance manquante...</option>\n";
       $buffer .= "    </select>\n";
+      $buffer .= "    <span id=\"".$divid."\"></span>\n";
       $buffer .= "  </div>\n";
       $buffer .= "</div>\n\n";
     }
