@@ -101,6 +101,15 @@ if(isset($_REQUEST["id_facture"]))
     }
     else
     {
+      if($_REQUEST["action"]=='prep')
+      {
+        $fact->set_retire($_REQUEST["id_produit"], $user);
+      }
+      elseif($_REQUEST["action"]=='preps')
+      {
+        foreach($_REQUEST["id_produits"] as $id_produit )
+          $fact->set_retire($id_produit, $user);
+      }
       if($fact->ready==1 && $fact->etat==1) // commande à retirer
         $cts = new contents( "Commande à retirer" );
       elseif($fact->ready==0) // commande en cours de préparation
@@ -140,7 +149,7 @@ if(isset($_REQUEST["id_facture"]))
                                "id_produit",
                                array("nom_prod"=>"Produit","quantite"=>"Quantité","total"=>"Total"),
                                array('prep'=>'Marquer pret'),
-                               array('prep'=>'Marquer pret')));
+                               array('preps'=>'Marquer pret')));
       }
       $site->add_contents($cts);
       $site->end_page();

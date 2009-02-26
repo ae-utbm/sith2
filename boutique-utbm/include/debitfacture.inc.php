@@ -129,7 +129,7 @@ etat=1+ready=0 : en préparation
            "montant_facture" => $this->montant,
            "etat_facture" => $this->etat,
            "mode_paiement" => $this->mode,
-           "ready" => 1
+           "ready" => $this->ready
          ));
 
     if ( !$req )
@@ -137,9 +137,13 @@ etat=1+ready=0 : en préparation
 
     $this->id = $req->get_id();
 
-    $this->traiter_panier($client,$panier, $prix_service);
+    if($etat==0 && $ready==1)//on force le retrait
+      $this->traiter_panier($client,$panier, $prix_service,0);
+    else
+      $this->traiter_panier($client,$panier, $prix_service,1);
 
-    $this->send_emails($client);
+    if(!($etat==0 && $ready==1))//non retiré
+      $this->send_emails($client);
 
     return true;
   }
@@ -168,17 +172,34 @@ La boutique utbm";
 Une commande est en attente de préparation.
 
 Pour consulter la commande, rendez vous à l'adresse suivante :
-http://ae.utbm.fr/boutique-utbm/traitement.php?id_facture=".$this->id."
+http://boutique.utbm.fr/admin_gen_fact.php?id_facture=".$this->id."
 
 Cordialement,
 La boutique utbm";
-    $ret = mail("simon.lopez@utbm.fr",
+    $ret = mail("boutique@utbm.fr",
                 "[boutique utbm] nouvelle commande",
                 utf8_decode($body),
                 "From: \"La boutique utbm\" <boutique@utbm.fr>\nReply-To: boutique@utbm.fr");
 
   }
+  function send_email_ready($client)
+  {
+    if(!$client->is_valid())
+      return;
+    $body = "Bonjour,
+Votre commande N°".$this->id." sur la boutique utbm est prête.
 
+Pour suivre l'avancement de votre commande, rendez vous à l'adresse suivante :
+http://boutique.utbm.fr/suivi.php?id_facture=".$this->id."
+
+Cordialement,
+La boutique utbm";
+
+    $ret = mail($client->email,
+                "[boutique utbm] confirmation de commande",
+                utf8_decode($body),
+                "From: \"La boutique utbm\" <boutique@utbm.fr>\nReply-To: boutique@utbm.fr");
+  }
   /**
    * Calcule le montant d'un panier
    * @param $panier Panier, tableau contenant des instances de venteproduit de la forme array(array(quatité,venteproduit))
@@ -237,7 +258,7 @@ La boutique utbm";
    * @param $eboutic Vente sur un comptoir eboutic, procède aux mises à jour de l'état de retrait/expedition
    * @private
    */
-  function traiter_panier ( $client, $panier, $prix_service )
+  function traiter_panier ( $client, $panier, $prix_service, $retirer=1 )
   {
     foreach ( $panier as $item )
     {
@@ -245,7 +266,7 @@ La boutique utbm";
       $a_expedier=NULL;
       $a_retirer=NULL;
 
-      if ( $vp->produit->a_retirer )
+      if ( $retirer==1 && $vp->produit->a_retirer )
       {
         $this->set_etat( 1 );
         $this->set_ready( 0 );
@@ -272,20 +293,20 @@ La boutique utbm";
    * Marque un produit de la facture comme retiré
    * @param $id_produit Id du produit
    */
-  function set_retire ( $id_produit)
+  function set_retire ( $id_produit, $client)
   {
     $req = new update ($this->dbrw,"boutiqueut_vendu",
       array("a_retirer_vente" => 0 ),
       array("id_facture" => $this->id,"id_produit"=>$id_produit));
 
-    $this->recalcul_ready_state();
+    $this->recalcul_ready_state($client);
   }
 
   /**
    * Met à jour l'état de retrait de la facture
    * @private
    */
-  function recalcul_ready_state()
+  function recalcul_ready_state($client)
   {
     $req = new requete($this->db, "SELECT COUNT(*) ".
       "FROM `boutiqueut_vendu` " .
@@ -297,6 +318,7 @@ La boutique utbm";
     {
       $this->set_etat( 1 );
       $this->set_ready( 1 );
+      $this->send_email_ready($client);
     }
   }
 
