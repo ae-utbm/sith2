@@ -27,6 +27,9 @@ $site = new boutique();
 if(!$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("adminboutiqueutbm"))
   $site->error_forbidden();
 
+$site->start_page("boutique", "Suivi" );
+$site->add_contents(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"suivi"));
+
 if(isset($_REQUEST["id_facture"]))
 {
   $fact = new debitfacture($site->db);
@@ -98,11 +101,11 @@ if(isset($_REQUEST["id_facture"]))
     }
     else
     {
-      if($fact->ready==1) // commande à retirer
+      if($fact->ready==1 && $fact->etat=1) // commande à retirer
       {
         $cts = new contents( "Commande à retirer" );
       }
-      elseif($fact->ready==1) // commande en cours de préparation
+      elseif($fact->ready==0) // commande en cours de préparation
       {
         $cts = new contents( "Commande en attente de préparation" );
       }
@@ -133,12 +136,12 @@ if(isset($_REQUEST["id_facture"]))
                              array(),
                              array()));
       $site->add_contents($cts);
+      $site->end_page();
+      exit();
     }
   }
 }
 
-$site->start_page("boutique", "Suivi" );
-$site->add_contents(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"suivi"));
 $cts = new contents( "Suivi" );
 
 $cts->add_title(2,"Factures");
