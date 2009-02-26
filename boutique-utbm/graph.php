@@ -62,8 +62,8 @@ $req = new requete($site->db, "SELECT " .
     "INNER JOIN `boutiqueut_debitfacture` ON `boutiqueut_debitfacture`.`id_facture` =`boutiqueut_vendu`.`id_facture` " .
     "WHERE " .implode(" AND ",$conds)." " .
     "GROUP BY `unit` ".
-    "ORDER BY `unit`");
-
+    "ORDER BY `unit`",1);
+exit();
 $coords=array();
 $tics=array();
 $i=0;
