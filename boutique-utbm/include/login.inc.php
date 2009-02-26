@@ -67,6 +67,8 @@ class loginerror extends board
     $frm->add_submit("connectbtn2","Se connecter");
     $this->add($frm,true);
 
+    $this->clear();
+
     $cts = new contents("Créer un compte");
     $cts->add_paragraph("Pour acceder à cette page vous devez posséder un compte.<br/>La création d'un compte nécessite que vous possédiez une addresse e-mail pour pouvoir l'activer.");
     $cts->add_paragraph("<a href=\"/newaccount.php\">Créer un compte</a>");
