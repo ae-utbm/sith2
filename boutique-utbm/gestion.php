@@ -54,7 +54,6 @@ function generate_subform_stock ( $nom,$form_n, $stock_n, $stock_value_n, $stock
  return $subfrm;
 }
 
-
 $site = new boutique();
 if(!$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("adminboutiqueutbm"))
   $site->error_forbidden();
@@ -68,14 +67,124 @@ $produit = new produit($site->db,$site->dbrw);
 $produit_parent = new produit($site->db);
 
 if ( isset($_REQUEST["id_typeprod"]) )
- $typeprod->load_by_id($_REQUEST["id_typeprod"]);
+  $typeprod->load_by_id($_REQUEST["id_typeprod"]);
 if ( isset($_REQUEST["id_produit"]) )
- $produit->load_by_id($_REQUEST["id_produit"]);
+  $produit->load_by_id($_REQUEST["id_produit"]);
 
 if ( $_REQUEST["page"] == "statistiques" )
 {
   $site->start_page("services","Administration");
   $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"gestion.php\">Gestion</a> / Statistiques");
+  // chiffre d'affaire
+  $frm = new form ("boutiqueutaboutiqueut","gestion.php",true,"POST","Critères de selection");
+  $frm->add_hidden("action","view");
+  $frm->add_select_field("mode","Mode", array(""=>"Brut","day"=>"Statistiques/Jour","week"=>"Statistiques/Semaines","month"=>"Statistiques/Mois","year"=>"Statistiques/Année"),$_REQUEST["mode"]);
+  $frm->add_datetime_field("debut","Date et heure de début");
+  $frm->add_datetime_field("fin","Date et heure de fin");
+  $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit",$_REQUEST["id_typeprod"],true);
+  $frm->add_entity_select("id_produit", "Produit", $site->db, "produit",$_REQUEST["id_produit"],true);
+  $frm->add_submit("valid","Voir");
+  $cts->add($frm,true);
+
+  if($_REQUEST["action"] == "view" && $_REQUEST["mode"] == "" )
+  {
+    $conds = array();
+    if ( $_REQUEST["debut"] )
+      $conds[] = "boutiqueut_debitfacture.date_facture >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
+    if ( $_REQUEST["fin"] )
+      $conds[] = "boutiqueut_debitfacture.date_facture <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
+    if ( $_REQUEST["id_typeprod"] )
+      $conds[] = "boutiqueut_produits.id_typeprod='".intval($_REQUEST["id_typeprod"])."'";
+    if ( $_REQUEST["id_produit"] )
+      $conds[] = "boutiqueut_vendu.id_produit='".intval($_REQUEST["id_produit"])."'";
+    if ( count($conds) )
+    {
+
+      $req = new requete($site->db, "SELECT " .
+          "COUNT(`boutiqueut_vendu`.`id_produit`), " .
+          "SUM(`boutiqueut_vendu`.`quantite`), " .
+          "SUM(`boutiqueut_vendu`.`prix_unit`*`boutiqueut_vendu`.`quantite`) AS `total`," .
+          "SUM(`boutiqueut_produits`.`prix_achat_prod`*`boutiqueut_vendu`.`quantite`) AS `total_coutant`" .
+          "FROM `boutiqueut_vendu` " .
+          "INNER JOIN `boutiqueut_produits` ON `boutiqueut_produits`.`id_produit` =`boutiqueut_vendu`.`id_produit` " .
+          "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_produits`.`id_typeprod` =`boutiqueut_type_produit`.`id_typeprod` " .
+          "INNER JOIN `boutiqueut_debitfacture` ON `boutiqueut_debitfacture`.`id_facture` =`boutiqueut_vendu`.`id_facture` " .
+          "WHERE " .implode(" AND ",$conds).
+          "ORDER BY `boutiqueut_debitfacture`.`date_facture` DESC");
+
+      list($ln,$qte,$sum,$sumcoutant) = $req->get_row();
+
+      $cts->add_title(2,"Sommes");
+      $cts->add_paragraph("Quantitée : $qte unités<br/>" .
+          "Chiffre d'affaire: ".($sum/100)." Euros<br/>" .
+          "Prix countant total estimé* : ".($sumcoutant/100)." Euros");
+      $cts->add_paragraph("* ATTENTION: Prix coutant basé sur le prix actuel.");
+    }
+  }
+  elseif($_REQUEST["action"] == "view")
+  {
+    $conds = array();
+
+    if ( $_REQUEST["debut"] )
+      $conds[] = "boutiqueut_debitfacture.date_facture >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
+
+    if ( $_REQUEST["fin"] )
+      $conds[] = "boutiqueut_debitfacture.date_facture <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
+
+    if ( $_REQUEST["id_typeprod"] )
+      $conds[] = "boutiqueut_produits.id_typeprod='".intval($_REQUEST["id_typeprod"])."'";
+
+    if ( $_REQUEST["id_produit"] )
+      $conds[] = "boutiqueut_vendu.id_produit='".intval($_REQUEST["id_produit"])."'";
+    if ( count($conds))
+    {
+      if ( $_REQUEST["mode"] == "day" )
+        $decoupe = "DATE_FORMAT(`boutiqueut_debitfacture`.`date_facture`,'%Y-%m-%d')";
+      elseif ( $_REQUEST["mode"] == "week" )
+        $decoupe = "YEARWEEK(`boutiqueut_debitfacture`.`date_facture`)";
+      elseif ( $_REQUEST["mode"] == "year" )
+        $decoupe = "DATE_FORMAT(`boutiqueut_debitfacture`.`date_facture`,'%Y')";
+      else
+        $decoupe = "DATE_FORMAT(`boutiqueut_debitfacture`.`date_facture`,'%Y-%m')";
+
+      $req = new requete($site->db, "SELECT " .
+          "$decoupe AS `unit`, " .
+          "SUM(`boutiqueut_vendu`.`quantite`), " .
+          "SUM(`boutiqueut_vendu`.`prix_unit`*`boutiqueut_vendu`.`quantite`) AS `total`," .
+          "SUM(`boutiqueut_produits`.`prix_achat_prod`*`boutiqueut_vendu`.`quantite`) AS `total_coutant`" .
+          "FROM `boutique_vendu` " .
+          "INNER JOIN `boutiqueut_produits` ON `boutiqueut_produits`.`id_produit` =`boutiqueut_vendu`.`id_produit` " .
+          "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_produits`.`id_typeprod` =`boutiqueut_type_produit`.`id_typeprod` " .
+          "INNER JOIN `boutiqueut_debitfacture` ON `boutiqueut_debitfacture`.`id_facture` =`boutiqueut_vendu`.`id_facture` " .
+          "WHERE " .implode(" AND ",$conds)." " .
+          "GROUP BY `unit` ".
+          "ORDER BY `unit`");
+
+      $tbl = new table("Tableau");
+
+      $tbl->add_row(array("","Quantité","CA","Coutant"));
+
+      while ( list($unit,$qte,$total,$coutant) = $req->get_row() )
+        $tbl->add_row(array($unit,$qte,$total/100,$coutant/100));
+
+      $cts->add($tbl,true);
+
+
+      $cts->add(new image("Graphique","graph.php?mode=".$_REQUEST["mode"]."&".
+        "debut=".$_REQUEST["debut"]."&".
+        "fin=".$_REQUEST["fin"]."&".
+        "id_typeprod=".$_REQUEST["id_typeprod"]."&".
+        "id_produit=".$_REQUEST["id_produit"]),true);
+
+    }
+  }
+
+  //chiffre 
+  //statistiques stocks presques vides
+  //statistiques meilleurs ventes sur le dernier mois
+  //statistiques meilleurs ventes sur l'année
+  //statistiques pires ventes sur le mois
+  //statistiques pires ventes sur l'année
   $site->add_contents($cts);
   $site->end_page();
   exit();
