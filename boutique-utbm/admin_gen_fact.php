@@ -120,15 +120,28 @@ if(isset($_REQUEST["id_facture"]))
            "FROM `boutiqueut_vendu` ".
            "INNER JOIN boutiqueut_produits USING(id_produit) ".
            "WHERE `id_facture` =".$fact->id);
-      $cts->add(new sqltable('detailcmd',
-                             'Détail de la commande',
-                             $req,
-                             '',
-                             "id_produit",
-                             array("nom_prod"=>"Produit","quantite"=>"Quantité","total"=>"Total"),
-                             array(),
-                             array(),
-                             array()));
+      if($fact->ready==1)
+      {
+        $cts->add(new sqltable('detailcmd',
+                               'Détail de la commande',
+                               $req,
+                               '',
+                               "id_produit",
+                               array("nom_prod"=>"Produit","quantite"=>"Quantité","total"=>"Total"),
+                               array(),
+                               array()));
+      }
+      else
+      {
+        $cts->add(new sqltable('detailcmd',
+                               'Détail de la commande',
+                               $req,
+                               'admin_gen_fact.php?id_facture='.$_REQUEST["id_facture"],
+                               "id_produit",
+                               array("nom_prod"=>"Produit","quantite"=>"Quantité","total"=>"Total"),
+                               array('prep'=>'Marquer pret'),
+                               array('prep'=>'Marquer pret')));
+      }
       $site->add_contents($cts);
       $site->end_page();
       exit();
