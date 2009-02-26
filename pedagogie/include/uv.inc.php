@@ -436,7 +436,7 @@ class uv extends stdentity
               AND `semestre` = '".$semestre."'";
     if($type)
       $sql .= "  AND `type` = ".$type;
-    $req = new requete($this->db, $sql, true);
+    $req = new requete($this->db, $sql);
     if(!$req->is_success())
       return false;
     else

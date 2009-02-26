@@ -32,6 +32,7 @@ require_once("include/pedagogie.inc.php");
 require_once("include/cts/pedagogie.inc.php");
 
 $site = new site();
+$site->add_js("pedagogie/pedagogie.js");
 //$site->allow_only_logged_users();
 
 $site->start_page("services", "Pédagogie");
