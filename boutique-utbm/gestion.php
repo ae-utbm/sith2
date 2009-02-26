@@ -152,7 +152,7 @@ if ( $_REQUEST["page"] == "statistiques" )
           "SUM(`boutiqueut_vendu`.`quantite`), " .
           "SUM(`boutiqueut_vendu`.`prix_unit`*`boutiqueut_vendu`.`quantite`) AS `total`," .
           "SUM(`boutiqueut_produits`.`prix_achat_prod`*`boutiqueut_vendu`.`quantite`) AS `total_coutant`" .
-          "FROM `boutique_vendu` " .
+          "FROM `boutiqueut_vendu` " .
           "INNER JOIN `boutiqueut_produits` ON `boutiqueut_produits`.`id_produit` =`boutiqueut_vendu`.`id_produit` " .
           "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_produits`.`id_typeprod` =`boutiqueut_type_produit`.`id_typeprod` " .
           "INNER JOIN `boutiqueut_debitfacture` ON `boutiqueut_debitfacture`.`id_facture` =`boutiqueut_vendu`.`id_facture` " .
