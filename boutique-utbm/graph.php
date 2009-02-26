@@ -67,7 +67,9 @@ $req = new requete($site->db, "SELECT " .
 $coords=array();
 $tics=array();
 $i=0;
-$strip = round($req->lines/7);
+$strip=1;
+if($req->lines>7)
+  $strip = round($req->lines/7);
 
 while ( list($unit,$qte,$total,$coutant) = $req->get_row() )
 {
