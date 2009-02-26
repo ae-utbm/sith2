@@ -437,8 +437,7 @@ class uv extends stdentity
     if($type)
       $sql .= "  AND `type` = ".$type;
     $req = new requete($this->db, $sql, true);
-    print_r($req);
-    if(!$req->is_success)
+    if(!$req->is_success())
       return false;
     else
       $t = array();
