@@ -25,26 +25,41 @@ $topdir = "../";
 
 require_once("include/boutique.inc.php");
 $site = new boutique ();
-switch ($_REQUEST["domain"])
+if($_REQUEST["mode"]=='ae')
 {
-  case "utbm" :
-    $site->user->load_by_email($_REQUEST["username"]."@utbm.fr");
-  break;
-  case "assidu" :
-    $site->user->load_by_email($_REQUEST["username"]."@assidu-utbm.fr");
-  break;
-  case "id" :
-    $site->user->load_by_id($_REQUEST["username"]);
-  break;
-  case "autre" :
-    $site->user->load_by_email($_REQUEST["username"]);
-  break;
-  case "alias" :
-    $site->user->load_by_alias($_REQUEST["username"]);
-  break;
-  default :
-    $site->user->load_by_email($_REQUEST["username"]."@utbm.fr");
-  break;
+  switch ($_REQUEST["domain"])
+  {
+    case "utbm" :
+      $site->user->load_by_email($_REQUEST["username"]."@utbm.fr");
+    break;
+    case "assidu" :
+      $site->user->load_by_email($_REQUEST["username"]."@assidu-utbm.fr");
+    break;
+    case "id" :
+      $site->user->load_by_id($_REQUEST["username"]);
+    break;
+    case "autre" :
+      $site->user->load_by_email($_REQUEST["username"]);
+    break;
+    case "alias" :
+      $site->user->load_by_alias($_REQUEST["username"]);
+    break;
+    default :
+      $site->user->load_by_email($_REQUEST["username"]."@utbm.fr");
+    break;
+  }
+}
+elseif($_REQUEST['mode']=='service')
+{
+
+  $req = new requete($site->db,
+    'SELECT id_utilisateur FROM boutiqueut_service_utl WHERE centre_financier=\''.mysql_real_escape_string($_REQUEST["cf"]).'\'');
+  if($req->lines==1)
+  {
+    list($id)=$req->get_rows();
+    $site->user->load_by_id($id);
+  }
+
 }
 
 if ( !$site->user->is_valid() )
