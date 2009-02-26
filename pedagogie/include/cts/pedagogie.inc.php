@@ -60,17 +60,19 @@ class add_uv_edt_box extends stdcontents
     
     if($uv->guide[ $_GROUP[$type]['short'] ]){
       $groups = $uv->get_groups_full($type);
-      print_r($groups);
+      $divid = $uv->id."_".$type;
+      
       $buffer  = "<div class=\"formrow\">\n";
       $buffer .= "  <div class=\"formlabel\">".$_GROUP[$type]['long']." : </div>\n";
-      $buffer .= "  <div class=\"formfield\">\n";
+      $buffer .= "  <div class=\"formfield\" id=\"".$divid."\">\n";
       $buffer .= "    <select name=\"_".$uv->id."_".$_GROUP[$type]['short']."_\">\n";
       $buffer .= "      <option value=\"_none_\">S&eacute;lectionnez votre s&eacute;ance</option>\n";
       foreach($groups as $group){
-        print_r($group);
-        $buffer .= "      <option value=".$group['id_group'].">".$_GROUP[$type]['long']." n°".$group['num_groupe']." du ".get_day($group['jour'])." de ".$group['debut']." &agrave; ".$group['fin']." en ".$group['salle']."</option>\n";
+        $buffer .= "      <option value=\"".$group['id_groupe']."\" onclick=\"edt.disp_freq_choice(".$divid.", ".$group['jour'].", ".$uv->id.", ".$type.");\">"
+                            .$_GROUP[$type]['long']." n°".$group['num_groupe']." du ".get_day($group['jour'])." de ".$group['debut']." &agrave; ".$group['fin']." en ".$group['salle']
+                            ."</option>\n";
       }
-      $buffer .= "      <option value=\"_add_\" onclick=\"javascript:alert('Ajout d'une s&eacute;ance');\">Ajouter une s&eacute;ance de ".$_GROUP[$type]['long']."...</option>\n";
+      $buffer .= "      <option value=\"_add_\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.");\">Ajouter une s&eacute;ance de ".$_GROUP[$type]['long']."...</option>\n";
       $buffer .= "    </select>\n";
       $buffer .= "  </div>\n";
       $buffer .= "</div>\n\n";
