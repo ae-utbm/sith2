@@ -27,7 +27,7 @@ var edt = {
   },
 
   disp_freq_choice: function(elemid, freq, uvid, type){
-    if(freq != 1) return;
+    if(freq != 2) return;
     
     e = document.getElementById(elemid);
     if(!e)  return;
