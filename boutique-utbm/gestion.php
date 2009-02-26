@@ -223,6 +223,35 @@ elseif( $_REQUEST["page"] == "ventes" )
 {
   $site->start_page("services","Administration");
   $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"gestion.php\">Gestion</a> / Ventes");
+
+  $req = new requete($site->db,
+         "SELECT ".
+         "IF(f.id_utilisateur=0, CONCAT(u.prenom_utl,' ',u.nom_utl), CONCAT(f.prenom,' ',f.nom)) AS nom_utilisateur ".
+         ", IF(f.id_utilisateur=0, -1, f.id_utilisateur) ".
+         ", f.date_facture ".
+         ", f.id_facture ".
+         ", IF(f.ready=1,'à retirer','en préparation') AS etat ".
+         "FROM boutiqueut_debitfacture f ".
+         "LEFT JOIN utilisateurs u USING(id_utilisateur) ".
+         "WHERE mode_paiement='UT' ".
+         "AND f.ready=0 OR (f.ready=1 AND f.etat_facture=1)".
+         "ORDER BY f.id_facture DESC");
+  $cts->add(new sqltable(
+         "factures",
+         "Factures",
+         $req,
+         "admin_gen_fact.php",
+         "id_facture",
+         array('date_facture'=>'Date',"nom_utilisateur" => "Utilisateur","etat"=>"État"),
+         array('info'=>'Détail'),
+         array(),
+         array()),
+         true);
+
+
+//liste des ventes en attente
+
+
   $site->add_contents($cts);
   $site->end_page();
   exit();
