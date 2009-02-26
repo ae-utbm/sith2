@@ -57,16 +57,17 @@ class add_uv_edt_box extends stdcontents
   
   private function build_uv_choice($uv, $type){
     global $_GROUP;
-    print("** ".$_GROUP[$type]['short']." - ".$uv->guide[ $_GROUP[$type]['short'] ]." **\n");
+    
     if($uv->guide[ $_GROUP[$type]['short'] ]){
       $groups = $uv->get_groups_full($type);
-      //print_r($groups);
+      print_r($groups);
       $buffer  = "<div class=\"formrow\">\n";
       $buffer .= "  <div class=\"formlabel\">".$_GROUP[$type]['long']." : </div>\n";
       $buffer .= "  <div class=\"formfield\">\n";
       $buffer .= "    <select name=\"_".$uv->id."_".$_GROUP[$type]['short']."_\">\n";
       $buffer .= "      <option value=\"_none_\">S&eacute;lectionnez votre s&eacute;ance</option>\n";
       foreach($groups as $group){
+        print_r($group);
         $buffer .= "      <option value=".$group['id_group'].">".$_GROUP[$type]['long']." n°".$group['num_groupe']." du ".get_day($group['jour'])." de ".$group['debut']." &agrave; ".$group['fin']." en ".$group['salle']."</option>\n";
       }
       $buffer .= "      <option value=\"_add_\" onclick=\"javascript:alert('Ajout d'une s&eacute;ance');\">Ajouter une s&eacute;ance de ".$_GROUP[$type]['long']."...</option>\n";
