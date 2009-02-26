@@ -268,6 +268,27 @@ class boutique extends site
 
     return $cat;
   }
+
+  /**
+   * S'assure qu'a partir de ce point, seul les utilisateur connecté peuvent
+   * accèder à la suite. Dans le cas d'un utilisateur connecté, affiche une
+   * erreur avec la section précisé active, propose aussi de se connecter et/ou
+   * de créer un compte et arrête l'execution du script.
+   * @param $section Section à activer en cas d'utilisateur non connecté.
+   */
+  function allow_only_logged_users($section="none")
+  {
+    global $topdir;
+
+    if ( $this->user->is_valid() )
+      return;
+    require_once("include/login.inc.php");
+
+    $this->start_page($section,"Identification requise");
+    $this->add_contents(new loginerror($section));
+    $this->end_page();
+    exit();
+  }
 }
 
 ?>
