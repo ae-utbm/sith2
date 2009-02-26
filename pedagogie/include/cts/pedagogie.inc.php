@@ -57,8 +57,7 @@ class add_uv_edt_box extends stdcontents
   
   private function build_uv_choice($uv, $type){
     global $_GROUP;
-    print_r($_GROUP);
-    print_r($uv);
+    print("** ".$_GROUP[$type]['short']." - ".$uv->guide[ $_GROUP[$type]['short'] ]." **\n");
     if($uv->guide[ $_GROUP[$type]['short'] ]){
       $groups = $uv->get_groups_full($type);
       //print_r($groups);
