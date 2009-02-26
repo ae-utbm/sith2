@@ -56,7 +56,7 @@ elseif($_REQUEST['mode']=='service')
     'SELECT id_utilisateur FROM boutiqueut_service_utl WHERE centre_financier=\''.mysql_real_escape_string($_REQUEST["cf"]).'\'');
   if($req->lines==1)
   {
-    list($id)=$req->get_rows();
+    list($id)=$req->get_row();
     $site->user->load_by_id($id);
   }
 
