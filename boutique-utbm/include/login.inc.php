@@ -49,7 +49,7 @@ class loginerror extends board
 
     $this->board("Merci de vous identifier","loginerror");
 
-    $frm = new form("connect2","/connect.php",true,"POST","Vous etes un particulier");
+    $frm = new form("connect2","/connect.php",true,"POST","Vous êtes un particulier");
     $frm->add_info("Compte unifié avec le site ae");
     $frm->add_hidden("mode","ae");
     $frm->add_select_field("domain","Connexion",array("utbm"=>"UTBM","assidu"=>"Assidu","id"=>"ID","autre"=>"Autre","alias"=>"Alias"), $section=="jobetu"?"autre":"utbm");
@@ -59,7 +59,7 @@ class loginerror extends board
     $frm->add_submit("connectbtn2","Se connecter");
     $this->add($frm,true);
 
-    $frm = new form("connect2","/connect.php",true,"POST","Vous etes un service UTBM");
+    $frm = new form("connect2","/connect.php",true,"POST","Vous êtes un service UTBM");
     $frm->add_hidden("mode","service");
     $frm->add_text_field("cf","Centre financier","centre financier",true,27,true);
     $frm->add_password_field("password","Mot de passe","",true,27);
