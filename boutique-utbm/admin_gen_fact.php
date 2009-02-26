@@ -106,7 +106,7 @@ if(isset($_REQUEST["id_facture"]))
       elseif($fact->ready==0) // commande en cours de préparation
         $cts = new contents( "Commande en attente de préparation" );
       else // commande retirée
-        $cts = new contents("Commande finalisée");
+        $cts = new contents("Commande retirée");
 
       $cts->add_paragraph("Facture n° ".$fact->id." du ".date("d/m/Y H:i", $fact->date));
       $cts->add_paragraph("facture au format PDF : <a href=\"?id_facture=".$fact->id."&gen_pdf=1\">ici</a>");
