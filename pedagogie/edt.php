@@ -50,7 +50,7 @@ foreach($user->get_edt_list() as $edt){
   foreach($user->get_edt_detail($edt) as $uv)
     $tab['uv'.++$i] = $uv['code'];
 }
-$cts->add(new sqltable("edtlist", "Liste de vos enmplois du temps", $tab, "edt.php", 'semestre', 
+print_r(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.php", 'semestre', 
                         array("semestre"=>"Semestre", 
                               "uv1" => "UV 1", 
                               "uv2" => "UV 2", 
@@ -63,6 +63,8 @@ $cts->add(new sqltable("edtlist", "Liste de vos enmplois du temps", $tab, "edt.p
                               "edit" => "Éditer",
                               "delete" => "Supprimer"), 
                         array()), true);
+print_r($tab);
+
 $site->add_contents($cts);
 
 /**** ajout d'UV */
