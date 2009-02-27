@@ -75,7 +75,7 @@ $tab = array(
   array('value'=>'YJ00', 'title'=>'UV test'),
   array('value'=>'ZJ00', 'title'=>'UV blabla'),
   array('value'=>'LO10', 'title'=>'UV pouet')
-)
+);
 
 $site->add_contents(new selectbox('uvlist', 'Choix des UV', $tab, 'UV'));
 
