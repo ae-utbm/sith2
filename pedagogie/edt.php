@@ -77,7 +77,7 @@ $tab = array(
   array('value'=>'LO10', 'title'=>'UV pouet')
 );
 
-$cts->puts("<form action=\"edt.php\" method=\post"\">");
+$cts->puts("<form action=\"edt.php\" method=\"post\">");
 $site->add_contents(new selectbox('uvlist', 'Choix des UV', $tab, 'UV'));
 $cts->puts("</form>");
 
