@@ -43,7 +43,7 @@ class selectbox extends stdcontents
     $this->buffer = "";
     
     $this->buffer .= "<form name =\"$name\" action=\"$page\" method=\"post\">\n";
-    $this->buffer .= "<script type=\"text/javascript\">var sel_from = this.form.$sel_from; var sel_to = this.form.$sel_to;</script>\n";
+    $this->buffer .= "<script type=\"text/javascript\">\n  var sel_from = document.forms.$name.$sel_from;\n  var sel_to = document.forms.$name.$sel_to;\n</script>\n";
     
     /* div from */
     if($select_title)
