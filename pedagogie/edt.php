@@ -28,8 +28,9 @@ $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
-require_once("include/uv.inc.php");
 require_once("include/pedagogie.inc.php");
+require_once("include/uv.inc.php");
+require_once("include/pedag_user.inc.php");
 require_once("include/cts/pedagogie.inc.php");
 
 $site = new site();
@@ -37,12 +38,13 @@ $site->add_js("pedagogie/pedagogie.js");
 //$site->allow_only_logged_users();
 
 $site->start_page("services", "Pédagogie");
-
+$user = new pedag_user($site->db, $site->dbrw);
+$user->load_by_id($site->user->id);
 
 /* recap edt */
 $cts = new contents();
-$sql = new requete($site->db, "SELECT * FROM ");
-$cts->add(new sqltable("edtlist", "Liste de vos emplois du temps ", $sql, "edt.php", 'semestre', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le", "nom_utilisateur" => "Par", "etat" => "Etat"), array("detail" => "Détails"), array("detail" => "Détails")));
+foreach($user->get_edt_list() as $edt)
+  print_r($edt);
 $site->add_contents($cts);
 
 /**** ajout d'UV */
