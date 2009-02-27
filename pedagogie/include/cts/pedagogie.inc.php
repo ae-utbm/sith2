@@ -81,7 +81,7 @@ class add_uv_edt_box extends stdcontents
   }
 }
 
-class add_edt_start_box extends sdtcontents
+class add_edt_start_box extends stdcontents
 {
   public function __construct($semestre=SEMESTER_NOW)
   {
@@ -90,7 +90,7 @@ class add_edt_start_box extends sdtcontents
     
     $y = date('Y');
     $sem = array();
-    for($i = $y-2, $i <= $y, $i++){
+    for($i = $y-2; $i <= $y; $i++){
       $sem[] = array('val'=>'P'.$i, 'name'=>'Printemps '.$i);
       $sem[] = array('val'=>'A'.$i, 'name'=>'Automne '.$i);
     }
@@ -106,6 +106,7 @@ class add_edt_start_box extends sdtcontents
     $this->buffer .= "  </div>\n";
     $this->buffer .= "</div>\n\n";
 
+    $this->buffer .= "<p>UV disponibles</p>";
     $this->buffer .= $this->build_uv_choice();
   }
   
@@ -116,7 +117,7 @@ class add_edt_start_box extends sdtcontents
     $buffer  = "<div class=\"formrow\">\n";
     $buffer .= "  <select name=\"uvlist\">\n";
     foreach($uvlist as $uv)
-      $buffer .= "    <option value=\"".$uv['id_uv']."\">".$uv['code']." - ".$uv['intitule']."</option>\n";
+      $buffer .= "    <option value=\"".$uv['id_uv']."\">".$uv['code']." - ".substr($uv['intitule'], 0, 50)."</option>\n";
     $buffer .= "  </select>\n";
     $buffer .= "</div>\n\n";
     
