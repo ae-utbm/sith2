@@ -42,5 +42,22 @@ var edt = {
   /* pour l instant juste une redirection */
   add: function(){
     document.location.href="edt.php?action=new" ;
+  },
+  
+  select_uv: function(optionelt){
+  }
+}
+
+/** 
+ * si ca marche => generalisation => stdcontents
+ */
+var select_box = {
+  add_to: function(){
+  },
+  
+  remove_from(){
+  },
+  
+  move(){
   }
 }

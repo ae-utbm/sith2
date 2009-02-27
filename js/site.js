@@ -873,3 +873,33 @@ function hide_with_cookies(ctsp,cookiename){
   expire.setTime(expire.getTime() + (left*1000));
   document.cookie = cookiename + '=1; expires='+expire.toGMTString();
 }
+
+var select_box = {
+  add_to: function(elem, content, value){
+    elem.options[elem.length] = new Option(content, value);
+  },
+
+  remove_from: function(elem, index){ 
+    if(elem.length > 0){
+      elem.options[index] = null;
+    }
+  },
+
+  move: function(from, to){    
+    var contents = new Array();
+    var values = new Array();
+    var count = 0;
+    
+    for(var i = from.length-1; i >= 0; i--){
+      if(from.options[i].selected){
+        content[count] = from.options[i].text;
+        values[count] = from.options[i].value;
+        this.remove_from(from, i);
+        count++;
+      }
+    }
+    for(i = count-1; i >= 0; i--){
+      this.add_to(to, content[i], values[i]);
+    }
+  }
+}
