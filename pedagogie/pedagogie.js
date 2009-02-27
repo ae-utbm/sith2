@@ -37,5 +37,10 @@ var edt = {
                       <option value=\"A\">Semaine A</option> \
                       <option value=\"B\">Semaine B</option> \
                      </select>";
+  },
+  
+  /* pour l instant juste une redirection */
+  add = function(){
+    document.location.href="edt.php?action=new" ;
   }
 }

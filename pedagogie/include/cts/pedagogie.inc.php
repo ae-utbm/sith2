@@ -55,7 +55,7 @@ class add_uv_edt_box extends stdcontents
     global $_GROUP;
     
     if($uv->guide[ $_GROUP[$type]['short'] ]){
-      $groups = $uv->get_groups_full($type);
+      $groups = $uv->get_groups($type);
       $divid = $uv->id."_".$type;
       
       $buffer  = "<div class=\"formrow\">\n";

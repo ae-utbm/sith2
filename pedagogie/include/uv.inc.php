@@ -402,7 +402,7 @@ class uv extends stdentity
    * @param $type type des groupes recherches du style GROUP_TD ou null si tout
    * @param $semestre semestre visé
    * @return tableau des ids
-   */
+   *
   public function get_groups($type=null, $semestre=SEMESTER_NOW){
     $sql = "SELECT `id_groupe`
             FROM `pedag_groupe`
@@ -422,14 +422,15 @@ class uv extends stdentity
       
     return $t;
   }
-
+  */
+  
   /**
    * Recuperation des infos de groupes
    * @param $type type des groupes recherches du style GROUP_TD ou null si tout
    * @param $semestre semestre visé
    * @return tableau des informations
    */
-  public function get_groups_full($type=null, $semestre=SEMESTER_NOW){
+  public function get_groups($type=null, $semestre=SEMESTER_NOW){
     $sql = "SELECT *
             FROM `pedag_groupe`
             WHERE `id_uv` = ".$this->id."
