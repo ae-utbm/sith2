@@ -27,6 +27,7 @@
 $topdir = "../";
 
 require_once($topdir. "include/site.inc.php");
+require_once($topdir . "include/cts/sqltable.inc.php");
 require_once("include/uv.inc.php");
 require_once("include/pedagogie.inc.php");
 require_once("include/cts/pedagogie.inc.php");
@@ -37,6 +38,14 @@ $site->add_js("pedagogie/pedagogie.js");
 
 $site->start_page("services", "Pédagogie");
 
+
+/* recap edt */
+$cts = new contents();
+$sql = new requete($site->db, "SELECT * FROM ");
+$cts->add(new sqltable("edtlist", "Liste de vos emplois du temps ", $sql, "edt.php", 'semestre', array("id_annonce"=>"N°", "titre" => "Annonce", "date" => "Déposée le", "nom_utilisateur" => "Par", "etat" => "Etat"), array("detail" => "Détails"), array("detail" => "Détails")));
+$site->add_contents($cts);
+
+/**** ajout d'UV */
 $uv = new uv($site->db, $site->dbrw);
 $uv->load_by_id(0);
 
@@ -44,7 +53,8 @@ $cts = new contents("Détails des UV");
 $cts->add_paragraph("Indiquez ci-dessous les séances auxquelles vous êtes
       inscrit. Si celle-ci n'est pas présente dans la liste proposée, choisissez
       \"Ajouter une séance\" afin de la créer.");
-
+      
+$site->add_contents($cts);
 $site->add_contents(new add_uv_edt_box($uv));
 
 $site->end_page();

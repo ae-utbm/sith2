@@ -136,6 +136,26 @@ class pedag_user extends utilisateur{
     return;
   }
   
+  public function get_edt_list(){
+    $sql = new requete($this->db, "SELECT DISTINCT `semestre` 
+                                    FROM `pedag_groupe`
+                                    NATURAL JOIN `pedag_groupe_utl`
+                                    WHERE `pedag_groupe_utl`.`id_utilisateur` = ".$this->id);
+    if(!$sql->is_success())
+      return false;
+    else{
+      $t=null;
+      while($row = $sql->get_row())
+        $t[] = $row['semestre'];
+        
+      return $t;
+    }
+  }
+
+  public function get_edt_detail($semestre=SEMESTER_NOW){
+    
+  }
+  
   /**************************************
    * Données annexes de l'emploi du temps
    */
