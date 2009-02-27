@@ -106,7 +106,7 @@ class add_edt_start_box extends stdcontents
     $this->buffer .= "  </div>\n";
     $this->buffer .= "</div>\n\n";
 
-    $this->buffer .= "<p>UV disponibles</p>";
+    $this->buffer .= "UV disponibles : <br />";
     $this->buffer .= $this->build_uv_choice();
   }
   
@@ -115,7 +115,7 @@ class add_edt_start_box extends stdcontents
     $uvlist = uv::get_list($site->db);
     
     $buffer  = "<div class=\"formrow\">\n";
-    $buffer .= "  <select name=\"uvlist\">\n";
+    $buffer .= "  <select name=\"uvlist\" multiple>\n";
     foreach($uvlist as $uv)
       $buffer .= "    <option value=\"".$uv['id_uv']."\">".$uv['code']." - ".substr($uv['intitule'], 0, 50)."</option>\n";
     $buffer .= "  </select>\n";
