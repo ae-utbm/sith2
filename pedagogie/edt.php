@@ -44,7 +44,7 @@ $user->load_by_id($site->user->id);
 /* recap edt */
 $cts = new contents();
 foreach($user->get_edt_list() as $edt)
-  print_r($edt);
+  print_r($user->get_edt_detail($edt));
 $site->add_contents($cts);
 
 /**** ajout d'UV */

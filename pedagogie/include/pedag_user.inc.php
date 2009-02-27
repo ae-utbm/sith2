@@ -153,7 +153,20 @@ class pedag_user extends utilisateur{
   }
 
   public function get_edt_detail($semestre=SEMESTER_NOW){
-    
+    $sql = new requete($this->db, "SELECT * 
+                                    FROM `pedag_uv` 
+                                    LEFT JOIN `pedag_groupe`
+                                      ON `pedag_uv`.`id_uv` = `pedag_groupe`.`id_uv`
+                                    WHERE `pedag_groupe`.`semestre` = '".$semestre."'");
+    if(!$sql->is_success())
+      return false;
+    else{
+      $t=null;
+      while($row = $sql->get_row())
+        $t[] = $row['semestre'];
+        
+      return $t;
+    }
   }
   
   /**************************************
