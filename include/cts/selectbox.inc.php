@@ -40,8 +40,10 @@ class selectbox extends stdcontents
     $this->title = $title;
     $sel_from = $name.'_from';
     $sel_to = $name.'_to';
-    $this->buffer = "<form name =\"$name\" action=\"$page\" method=\"post\">\n";
-    $this->buffer = "<script type=\"text/javascript\">var sel_from = this.form.$sel_from; var sel_to = this.form.$sel_to;</script>\n";
+    $this->buffer = "";
+    
+    $this->buffer .= "<form name =\"$name\" action=\"$page\" method=\"post\">\n";
+    $this->buffer .= "<script type=\"text/javascript\">var sel_from = this.form.$sel_from; var sel_to = this.form.$sel_to;</script>\n";
     
     /* div from */
     if($select_title)
@@ -55,8 +57,8 @@ class selectbox extends stdcontents
     
     /* actions */
     /* @todo trouver qqch de moins moche */
-    $this->buffer .=	" <input type=\"button\" value=\"--&gt;\" onclick=\"select_box.move($sel_from, $sel_from);\" /> \n";
-		$this->buffer .=	" <input type=\"button\" value=\"&lt;--\" onclick=\"select_box.move($sel_to, $sel_from);\" /> \n";
+    $this->buffer .=	" <input type=\"button\" value=\"--&gt;\" onclick=\"select_box.move(sel_from, sel_from);\" /> \n";
+		$this->buffer .=	" <input type=\"button\" value=\"&lt;--\" onclick=\"select_box.move(sel_to, sel_from);\" /> \n";
 			 
     /* div to */
     if($select_title)
