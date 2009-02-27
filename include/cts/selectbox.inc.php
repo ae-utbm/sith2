@@ -44,7 +44,7 @@ class selectbox extends stdcontents
     /* div from */
     if($select_title)
       $this->buffer .= "<h4>".$select_title." disponible(s)</h4>\n";
-    $this->buffer .= "<select name=\"$sel_from\">\n";
+    $this->buffer .= "<select name=\"$sel_from\" multiple=\"multiple\">\n";
     foreach($values as $val)
       $this->buffer .= "  <option value=\"".$val['value']."\" "
                         ."ondblclick=\"select_box.move(sel_from, sel_to);\">"
@@ -59,7 +59,7 @@ class selectbox extends stdcontents
     /* div to */
     if($select_title)
       $this->buffer .= "<h4>".$select_title." choisi(es)</h4>\n";
-    $this->buffer .= "<select name=\"$sel_to\">\n";
+    $this->buffer .= "<select name=\"$sel_to\" multiple=\"multiple\">\n";
     $this->buffer .= "</select>\n";
   }
 }
