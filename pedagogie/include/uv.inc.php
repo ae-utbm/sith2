@@ -557,5 +557,6 @@ class uv extends stdentity
         
       return $t;
     }
+  }
 }
 ?>
