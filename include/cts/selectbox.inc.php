@@ -57,7 +57,7 @@ class selectbox extends stdcontents
     
     /* actions */
     /* @todo trouver qqch de moins moche */
-    $this->buffer .=	" <input type=\"button\" value=\"--&gt;\" onclick=\"select_box.move(sel_from, sel_from);\" /> \n";
+    $this->buffer .=	" <input type=\"button\" value=\"--&gt;\" onclick=\"select_box.move(sel_from, sel_to);\" /> \n";
 		$this->buffer .=	" <input type=\"button\" value=\"&lt;--\" onclick=\"select_box.move(sel_to, sel_from);\" /> \n";
 			 
     /* div to */
