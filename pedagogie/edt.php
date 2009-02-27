@@ -45,10 +45,10 @@ $user->load_by_id($site->user->id);
 $cts = new contents();
 $tab = array();
 foreach($user->get_edt_list() as $edt){
-  $tab['semestre'] = $edt;
+  $tab[$edt]['semestre'] = $edt;
   $i=0;
   foreach($user->get_edt_detail($edt) as $uv)
-    $tab['uv'.++$i] = $uv['code'];
+    $tab[$edt]['uv'.++$i] = $uv['code'];
 }
 $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.php", 'semestre', 
                         array("semestre"=>"Semestre", 
@@ -63,7 +63,6 @@ $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.ph
                               "edit" => "Éditer",
                               "delete" => "Supprimer"), 
                         array()), true);
-print_r($tab);
 
 $site->add_contents($cts);
 
