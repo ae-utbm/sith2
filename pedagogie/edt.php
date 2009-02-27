@@ -43,8 +43,14 @@ $user->load_by_id($site->user->id);
 
 /* recap edt */
 $cts = new contents();
-foreach($user->get_edt_list() as $edt)
-  print_r($user->get_edt_detail($edt));
+$tab = array();
+foreach($user->get_edt_list() as $edt){
+  $tab['semestre'] = $edt;
+  $i=0;
+  foreach($user->get_edt_detail($edt) as $uv)
+    $tab['uv'.++$i] = $uv['code'];
+}
+print_r($tab);
 $site->add_contents($cts);
 
 /**** ajout d'UV */
