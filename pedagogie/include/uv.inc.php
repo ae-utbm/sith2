@@ -541,5 +541,21 @@ class uv extends stdentity
       $sql = new requete($db, "SELECT 1 FROM `pedag_uv` WHERE `id_uv` = ".$uv);  
     return $sql->lines;
   }
+  
+  /**
+   * retourne la liste des uvs et leurs infos
+   */
+  public static function get_list(&$db){
+    $sql = new requete($db, "SELECT * FROM `pedag_uv` ORDER BY `code` ASC");
+
+    if(!$sql->is_success())
+      return false;
+    else{
+      $t=null;
+      while($row = $sql->get_row())
+        $t[] = $row;
+        
+      return $t;
+    }
 }
 ?>

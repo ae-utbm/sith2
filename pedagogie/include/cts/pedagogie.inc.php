@@ -81,12 +81,46 @@ class add_uv_edt_box extends stdcontents
   }
 }
 
-class semestre_box extends contents
+class add_edt_start_box extends sdtcontents
 {
   public function __construct($semestre=SEMESTER_NOW)
   {
-    $this->title = $title;
+    $this->title = "Ajoutez un nouvel emploi du temps   (Étape 1/2)";
     $this->buffer = "";
+    
+    $y = date('Y');
+    $sem = array();
+    for($i = $y-2, $i <= $y, $i++){
+      $sem[] = array('val'=>'P'.$i, 'name'=>'Printemps '.$i);
+      $sem[] = array('val'=>'A'.$i, 'name'=>'Automne '.$i);
+    }
+    sort_by_semester($sem, 'val');
+    
+    $this->buffer  = "<div class=\"formrow\">\n";
+    $this->buffer .= "  <div class=\"formlabel\">Semestre concerné : </div>\n";
+    $this->buffer .= "  <div class=\"formfield\">\n";
+    $this->buffer .= "    <select name=\"semestre\">\n";
+    foreach($sem as $s)
+      $this->buffer .= "      <option value=\"".$s['val']."\">".$s['name']."</option>\n";
+    $this->buffer .= "    </select>\n";
+    $this->buffer .= "  </div>\n";
+    $this->buffer .= "</div>\n\n";
+
+    $this->buffer .= $this->build_uv_choice();
+  }
+  
+  private function build_uv_choice(){
+    global $site;
+    $uvlist = uv::get_list($site->db);
+    
+    $buffer  = "<div class=\"formrow\">\n";
+    $buffer .= "  <select name=\"uvlist\">\n";
+    foreach($uvlist as $uv)
+      $buffer .= "    <option value=\"".$uv['id_uv']."\">".$uv['code']." - ".$uv['intitule']."</option>\n";
+    $buffer .= "  </select>\n";
+    $buffer .= "</div>\n\n";
+    
+    return $buffer;
   }
 }
 

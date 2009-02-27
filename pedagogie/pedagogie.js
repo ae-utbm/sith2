@@ -40,7 +40,7 @@ var edt = {
   },
   
   /* pour l instant juste une redirection */
-  add = function(){
+  add: function(){
     document.location.href="edt.php?action=new" ;
   }
 }

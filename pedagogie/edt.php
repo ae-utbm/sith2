@@ -69,6 +69,9 @@ $cts->puts("<input type=\"submit\" class=\"isubmit\" "
               ."name=\"add_edt\" id=\"add_edt\"/>");
 $site->add_contents($cts);
 
+
+$site->add_contents(new add_edt_start_box());
+
 /**** ajout d'UV */
 $uv = new uv($site->db, $site->dbrw);
 $uv->load_by_id(0);
