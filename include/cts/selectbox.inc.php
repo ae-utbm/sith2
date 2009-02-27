@@ -28,18 +28,20 @@
  * @param name
  * @param title
  * @param values array( array('value', 'title') )
+ * @param page page de reception du form
  * @param select_title (sera affiche sous la forme '<truc> disponibles')
  * @see /js/site.js var select_box
  */
 
 class selectbox extends stdcontents
 {
-  public function __construct($name, $title, $values, $select_title=null)
+  public function __construct($name, $title, $values, $page, $select_title=null)
   {
     $this->title = $title;
     $sel_from = $name.'_from';
     $sel_to = $name.'_to';
-    $this->buffer = "<script type=\"text/javascript\">var sel_from = this.form.$sel_from; var sel_to = this.form.$sel_to;</script>";
+    $this->buffer = "<form name =\"$name\" action=\"$page\" method=\"post\">\n";
+    $this->buffer = "<script type=\"text/javascript\">var sel_from = this.form.$sel_from; var sel_to = this.form.$sel_to;</script>\n";
     
     /* div from */
     if($select_title)
@@ -48,19 +50,21 @@ class selectbox extends stdcontents
     foreach($values as $val)
       $this->buffer .= "  <option value=\"".$val['value']."\" "
                         ."ondblclick=\"select_box.move(sel_from, sel_to);\">"
-                        .$val['title']."</option>";
+                        .$val['title']."</option>\n";
     $this->buffer .= "</select>\n";
     
     /* actions */
     /* @todo trouver qqch de moins moche */
-    $this->buffer .=	" <input type=\"button\" value=\"--&gt;\" onclick=\"select_box.move($sel_from, $sel_from);\" /><br />";
-		$this->buffer .=	" <input type=\"button\" value=\"&lt;--\" onclick=\"select_box.move($sel_to, $sel_from);\" />";
+    $this->buffer .=	" <input type=\"button\" value=\"--&gt;\" onclick=\"select_box.move($sel_from, $sel_from);\" /> \n";
+		$this->buffer .=	" <input type=\"button\" value=\"&lt;--\" onclick=\"select_box.move($sel_to, $sel_from);\" /> \n";
 			 
     /* div to */
     if($select_title)
       $this->buffer .= "<h4>".$select_title." choisi(es)</h4>\n";
     $this->buffer .= "<select name=\"$sel_to\" multiple=\"multiple\">\n";
     $this->buffer .= "</select>\n";
+    
+    $this->buffer .= "</form>\n";
   }
 }
 
