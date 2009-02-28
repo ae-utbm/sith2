@@ -33,6 +33,13 @@
  * @see /js/site.js var select_box
  */
 
+/**
+ * @todo pour demain
+ * - etendre form plutot que stdcontents
+ *  -> le submit en add_submit
+ *  -> tout le bordel dans un truc separe
+ *  -> et puis voila on pourra rajouter des trucs en plus (au hasard le semestre)
+ */
 class selectbox extends stdcontents
 {
   public function __construct($name, $title, $values, $page, $select_title=null)
@@ -42,7 +49,7 @@ class selectbox extends stdcontents
     $sel_to = $name.'_to';
     $this->buffer = "";
     
-    $this->buffer .= "<form name =\"$name\" action=\"$page\" method=\"post\" onclick=\"select_box.select_all(select_box.sel_to)\">\n";
+    $this->buffer .= "<form name =\"$name\" action=\"$page\" method=\"post\" onsubmit=\"select_box.select_all(select_box.sel_to)\">\n";
     $this->buffer .= "<div class=\"selectbox\">\n";
     
     /* div from */

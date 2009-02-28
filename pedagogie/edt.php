@@ -62,7 +62,8 @@ $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.ph
                               "uv5" => "UV 5", 
                               "uv6" => "UV 6", 
                               "uv7" => "UV 7"),
-                        array("detail" => "Détails",
+                        array("view" => "Voir détails",
+                              "print" => "Format imprimable",
                               "edit" => "Éditer",
                               "delete" => "Supprimer"), 
                         array()), true);
