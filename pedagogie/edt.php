@@ -70,13 +70,9 @@ $cts->puts("<input type=\"submit\" class=\"isubmit\" "
               ."name=\"add_edt\" id=\"add_edt\"/>");
 $site->add_contents($cts);
 
-$tab = array(
-  array('value'=>'XJ00', 'title'=>'UV taiste'),
-  array('value'=>'YJ00', 'title'=>'UV test'),
-  array('value'=>'ZJ00', 'title'=>'UV blabla'),
-  array('value'=>'LO10', 'title'=>'UV pouet')
-);
-
+$tab= array();
+foreach(uv::get_list($site->db) as $uv)
+  $tab[] = array('value'=>$uv['id_uv'], 'title'=>$uv['code']." - ".$uv['intitule']);
 $site->add_contents(new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV'));
 
 $site->add_contents(new add_edt_start_box());
