@@ -912,7 +912,7 @@ var select_box = {
 
   /* appele notamment en onsubmit pour recuperer les valeurs du select des choix */
   select_all: function(elem){
-    for(var i = from.length-1; i >= 0; i--){
+    for(var i = elem.length-1; i >= 0; i--){
       elem.options[i].selected = true;
     }
   }
