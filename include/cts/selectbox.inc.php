@@ -42,13 +42,9 @@
  */
 class selectbox extends form
 {
-  public function __construct($name, $title, $values, $page, $select_title=null)
+  public function __construct($name, $title, $values, $action, $select_title=null)
   {
-    $this->title = $title;
-    $this->name = $name;
-    $this->action = $page;
-    $this->method = "post";
-    $this->buffer = "";
+    $this->form($name, $action, false, "post", $title);
     
     $this->values = $values;
     $this->sel_from = $name.'_from';
@@ -56,10 +52,6 @@ class selectbox extends form
     $this->select_title = $select_title;
     
     $this->add_selectbox();
-    /*
-    $this->buffer .= "<form name =\"$name\" action=\"$page\" method=\"post\" onsubmit=\"select_box.select_all(select_box.sel_to)\">\n";
-    $this->buffer .= "</form>\n";
-    */
   }
   
   private function add_selectbox(){
@@ -106,7 +98,7 @@ class selectbox extends form
               " onsubmit=\"select_box.select_all(select_box.sel_to)\">\n";
 
     foreach ( $this->hiddens as $key => $value )
-     $html .= "<input type=\"hidden\" name=\"$key\" value=\"$value\" />\n";
+      $html .= "<input type=\"hidden\" name=\"$key\" value=\"$value\" />\n";
 
     $html .= "<div class=\"form\">\n";
     
