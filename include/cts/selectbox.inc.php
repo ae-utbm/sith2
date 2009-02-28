@@ -77,7 +77,9 @@ class selectbox extends stdcontents
     $this->buffer .= "</div>\n";
     $this->buffer .= "<script type=\"text/javascript\">\nwindow.onload = function(e) {\n  select_box.sel_from = document.forms.$name.$sel_from;\n  select_box.sel_to = document.forms.$name.$sel_to;\n};\n</script>\n";
     $this->buffer .= "</form>\n";
+    $this->buffer .= "</div>\n";
   }
 }
 
 ?>
+
