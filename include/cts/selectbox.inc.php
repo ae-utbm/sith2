@@ -82,9 +82,13 @@ class selectbox extends form
     $this->buffer .= "<select name=\"".$this->sel_to."[]\" id=\"$this->sel_to\" multiple=\"multiple\">\n";
     $this->buffer .= "</select>\n";
     $this->buffer .= "</div>\n";
-    
+
+    $this->buffer .= "<div class=\"clearboth\"></div>\n";
+
     $this->buffer .= "</div>\n";
     $this->buffer .= "<script type=\"text/javascript\">\nwindow.onload = function(e) {\n  select_box.sel_from = document.getElementById('".$this->sel_from."');\n  select_box.sel_to = document.getElementById('".$this->sel_to."');\n};\n</script>\n";
+
+    $this->buffer .= "<p></p>";
   }
   
   public function html_render(){

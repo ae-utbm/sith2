@@ -113,7 +113,7 @@ for($i = $y-2; $i <= $y; $i++){
   $sem['P'.$i] = 'Printemps '.$i;
   $sem['A'.$i] = 'Automne '.$i;
 }
-$sb->add_select_field("semestre", "Semestre", $sem, SEMESTER_NOW);
+$sb->add_select_field("semestre", "Semestre concern&eacute;", $sem, SEMESTER_NOW);
 $sb->add_submit("continue", "Passer à l'étape suivante");
 $cts2->add($sb);
 
