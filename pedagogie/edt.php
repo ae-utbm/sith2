@@ -34,6 +34,8 @@ require_once("include/uv.inc.php");
 require_once("include/pedag_user.inc.php");
 require_once("include/cts/pedagogie.inc.php");
 
+print_r($_REQUEST);
+
 $site = new site();
 $site->add_js("pedagogie/pedagogie.js");
 //$site->allow_only_logged_users();
@@ -88,6 +90,9 @@ $cts->add_paragraph("Indiquez ci-dessous les séances auxquelles vous êtes
       
 $site->add_contents($cts);
 $site->add_contents(new add_uv_edt_box($uv));
+
+$site->add_contents(new add_seance_box(0, GROUP_C, SEMESTER_NOW));
+
 
 $site->end_page();
 ?>

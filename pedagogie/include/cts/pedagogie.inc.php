@@ -62,13 +62,13 @@ class add_uv_edt_box extends stdcontents
       $buffer .= "  <div class=\"formlabel\">".$_GROUP[$type]['long']." : </div>\n";
       $buffer .= "  <div class=\"formfield\">\n";
       $buffer .= "    <select name=\"_".$uv->id."_".$_GROUP[$type]['short']."_\">\n";
-      $buffer .= "      <option value=\"_none_\">S&eacute;lectionnez votre s&eacute;ance</option>\n";
+      $buffer .= "      <option value=\"none\">S&eacute;lectionnez votre s&eacute;ance</option>\n";
       foreach($groups as $group){
         $buffer .= "      <option value=\"".$group['id_groupe']."\" onclick=\"edt.disp_freq_choice('".$divid."', ".$group['freq'].", ".$uv->id.", ".$type.");\">"
                             .$_GROUP[$type]['long']." n°".$group['num_groupe']." du ".get_day($group['jour'])." de ".$group['debut']." &agrave; ".$group['fin']." en ".$group['salle']
                             ."</option>\n";
       }
-      $buffer .= "      <option value=\"_add_\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.");\">Ajouter une s&eacute;ance manquante...</option>\n";
+      $buffer .= "      <option value=\"add\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.");\">Ajouter une s&eacute;ance manquante...</option>\n";
       $buffer .= "    </select>\n";
       $buffer .= "    <span id=\"".$divid."\"></span>\n";
       $buffer .= "  </div>\n";
@@ -125,4 +125,72 @@ class add_edt_start_box extends stdcontents
   }
 }
 
+class add_seance_box extends stdcontents
+{
+  public function __construct($iduv, $type=null, $semestre=SEMESTER_NOW)
+  {
+    global $site;
+  
+    $uv = new uv($site->db, $site->dbrw);
+    $uv->load_by_id($iduv);
+    if(!$uv->is_valid())
+      throw new Exception("Object not found : UV ".$iduv);
+    
+    $this->title = "Ajouter une séance de ".$uv->code;
+    
+    $frm = new form("seance_".$iduv, "");
+    $frm->allow_only_one_usage();
+    
+    /* type de seance C/TD/TP (on vire THE) */
+    $avail_type = array();
+    foreach($_GROUP as $grp => $desc)
+      if($grp != GROUP_THE)
+        $avail_type[$grp] = $desc['long'];
+    $frm->add_select_field("type", "Type", $avail_type, $type);
+    if($type)
+      $frm->add_info("Il y a déjà ".count($uv->get_groups($type, $semestre))." séances de ".$_GROUP[$type]['long']." enregistrées pour ".$semestre.".");
+    
+    /* semestre */
+    $y = date('Y');
+    $avail_sem = array();
+    for($i = $y-2; $i <= $y; $i++){
+      $avail_sem['P'.$i] = 'Printemps '.$i;
+      $avail_sem['A'.$i] = 'Automne '.$i;
+    }
+    $frm->add_select_field("semestre", "Semestre", $avail_sem, $semestre);
+    
+    /* numéro du groupe */
+    $frm->add_text_field("num", "N° du groupe", "", 4, false, true, "(Tel que figurant sur la feuille de l'UTBM)");
+    
+    /* jour */
+    $avail_jour = array(
+      1 => "Lundi",
+      2 => "Mardi",
+      3 => "Mercredi",
+      4 => "Jeudi",
+      5 => "Vendredi",
+      6 => "Samedi",
+      7 => "Dimanche ?!",
+    );
+    $frm->add_select_field("jour", "Jour", $avail_jour);
+    
+    /* heures */
+    $min = array('00', '15', '30', '45'); 
+
+    $subfrm = new subform("heures", "Heures");
+    $subfrm->add_text_field("hdebut", "Début", "" ,false, 4);
+    $subfrm->add_select_field("mdebut", ":", $min);
+    $subfrm->add_text_field("hfin", "Fin", "" ,false, 4);
+    $subfrm->add_select_field("mfin", ":", $min);
+    $frm->add($subfrm, false, false, false, false, true);
+    
+    /* salle */
+    $frm->add_text_field("salle", "N° de la salle", "", 8);
+    
+    /* submit */
+    $frm->add_submit("add", "Ajouter la séance");
+    
+    $this->buffer .= $frm->html_render();
+  }
+}
 ?>

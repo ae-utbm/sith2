@@ -187,7 +187,7 @@ function get_day($index){
     'Vendredi',
     'Samedi',
     'Dimanche');
-  return $jours[1+$index];
+  return $jours[1-$index];
 }
 
 ?>
