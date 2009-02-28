@@ -169,7 +169,7 @@ elseif ( $_REQUEST["act"] == "UploadImage" )
     {
       require_once('include/licences.inc.php');
       $licence=new licence($site);
-      if($licence->load_by_id($_REQUEST['id_licence']);
+      if($licence->load_by_id($_REQUEST['id_licence']))
         $licence=$licence->id;
       else
         $licence=$site->user->id_licence_default_sas;
