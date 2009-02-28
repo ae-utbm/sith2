@@ -2612,32 +2612,29 @@ div.calbox td.weekday
 }
 
 
-.selectbox .selectbox_disp{
+.selectbox .selectbox_disp, .selectbox .selectbox_choix{
   float: left;
 }
-
-.selectbox .selectbox_choix{
-  float: left;
+.selectbox h4
+{
+  margin: 0px;
 }
-
 .selectbox .selectbox_actions{
   float: left;
   margin: 110px 0px 0px 0px;
   padding: 0px 10px;
 }
-
 .selectbox select{
   width: 300px;
   height: 200px;
 }
-
 .selectbox li{
   list-style-type: none;
   height: 22px;
   width: 22px;
-    display: block;
+  display: block;
+  cursor: pointer;
 }
-
 .selectbox li.ajouter{
   display: block;
   background: url(/images/to_next.png) center top no-repeat;

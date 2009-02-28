@@ -48,7 +48,7 @@ class selectbox extends stdcontents
     /* div from */
     $this->buffer .= "<div class=\"selectbox_disp\">\n";
     if($select_title)
-      $this->buffer .= "<h4>".$select_title." disponible(s)</h4>\n";
+      $this->buffer .= "<h4>".$select_title." disponible(s) :</h4>\n";
     $this->buffer .= "<select name=\"$sel_from\" multiple=\"multiple\">\n";
     foreach($values as $val)
       $this->buffer .= "  <option value=\"".$val['value']."\" "
@@ -60,14 +60,14 @@ class selectbox extends stdcontents
     /* actions */
     /* @todo trouver qqch de moins moche */
     $this->buffer .= "<ul class=\"selectbox_actions\">";
-    $this->buffer .= "  <li class=\"ajouter\"><a href=\"#\" onclick=\"javascript:select_box.move(select_box.sel_from, select_box.sel_to);\">&nbsp;</a></li>";
-    $this->buffer .= "  <li class=\"enlever\"><a href=\"#\" onclick=\"javascript:select_box.move(select_box.sel_to, select_box.sel_from);\">&nbsp;</a></li>";
+    $this->buffer .= "  <li class=\"ajouter\" onclick=\"javascript:select_box.move(select_box.sel_from, select_box.sel_to);\">&nbsp;</li>";
+    $this->buffer .= "  <li class=\"enlever\" onclick=\"javascript:select_box.move(select_box.sel_to, select_box.sel_from);\">&nbsp;</li>";
     $this->buffer .= "</ul>";
     	 
     /* div to */
     $this->buffer .= "<div class=\"selectbox_choix\">\n";
     if($select_title)
-      $this->buffer .= "<h4>".$select_title." choisi(es)</h4>\n";
+      $this->buffer .= "<h4>".$select_title." choisi(es) :</h4>\n";
     $this->buffer .= "<select name=\"$sel_to\" multiple=\"multiple\">\n";
     $this->buffer .= "</select>\n";
     $this->buffer .= "</div>\n";
