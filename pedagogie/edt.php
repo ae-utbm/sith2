@@ -96,19 +96,16 @@ $sem_select .= <<<EOF
 </div>
 
 EOF;
-
-$cts->puts($sem_select);
+$cts2 = new contents("Ajoutez un nouvel emploi du temps   (Étape 1/2)"); 
+$cts2->puts($sem_select);
 
 $tab = array();
 foreach(uv::get_list($site->db) as $uv)
   $tab[] = array('value'=>$uv['id_uv'], 'title'=>$uv['code']." - ".$uv['intitule']);
   
-$cts->add(new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV'));
+$cts2->add(new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV'));
 
-$site->add_contents($cts);
-
-//$this->build_uv_choice();
-//$site->add_contents(new add_edt_start_box());
+$site->add_contents($cts2);
 
 /**** ajout d'UV */
 $uv = new uv($site->db, $site->dbrw);
