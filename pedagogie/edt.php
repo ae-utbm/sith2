@@ -68,7 +68,7 @@ $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.ph
                               "delete" => "Supprimer"), 
                         array()), true);
 $cts->puts("<input type=\"submit\" class=\"isubmit\" "
-              ."value=\"Ajouter un emploi du temps\" "
+              ."value=\"+ Ajouter un emploi du temps\" "
               ."onclick=\"edt.add();\" "
               ."name=\"add_edt\" id=\"add_edt\"/>");
 $site->add_contents($cts);

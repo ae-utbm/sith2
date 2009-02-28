@@ -192,6 +192,8 @@ class add_seance_box extends stdcontents
     $subfrm->add_select_field("mfin", ":", $min);
     $frm->add($subfrm, false, false, false, false, true);
     
+    /**/
+    $frm->add_time_field("heure", "test heure");
     /* salle */
     $frm->add_text_field("salle", "N° de la salle", "", 8);
     
