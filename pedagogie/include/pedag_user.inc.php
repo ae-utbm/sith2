@@ -142,7 +142,7 @@ class pedag_user extends utilisateur{
                                     NATURAL JOIN `pedag_groupe_utl`
                                     WHERE `pedag_groupe_utl`.`id_utilisateur` = ".$this->id);
     if(!$sql->is_success())
-      return false;
+      return array();
     else{
       $t=null;
       while($row = $sql->get_row())

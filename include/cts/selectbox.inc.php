@@ -43,7 +43,6 @@ class selectbox extends stdcontents
     $this->buffer = "";
     
     $this->buffer .= "<form name =\"$name\" action=\"$page\" method=\"post\">\n";
-    $this->buffer .= "<script type=\"text/javascript\">\n  var sel_from = document.forms.$name.$sel_from;\n  var sel_to = document.forms.$name.$sel_to;\n</script>\n";
     
     /* div from */
     if($select_title)
@@ -51,14 +50,14 @@ class selectbox extends stdcontents
     $this->buffer .= "<select name=\"$sel_from\" multiple=\"multiple\">\n";
     foreach($values as $val)
       $this->buffer .= "  <option value=\"".$val['value']."\" "
-                        ."ondblclick=\"select_box.move(sel_from, sel_to);\">"
+                        ."ondblclick=\"select_box.move(select_box.sel_from, select_box.sel_to);\">"
                         .$val['title']."</option>\n";
     $this->buffer .= "</select>\n";
     
     /* actions */
     /* @todo trouver qqch de moins moche */
-    $this->buffer .=	" <input type=\"button\" value=\"--&gt;\" onclick=\"select_box.move(sel_from, sel_to);\" /> \n";
-		$this->buffer .=	" <input type=\"button\" value=\"&lt;--\" onclick=\"select_box.move(sel_to, sel_from);\" /> \n";
+    $this->buffer .=	" <input type=\"button\" value=\"--&gt;\" onclick=\"select_box.move(select_box.sel_from, select_box.sel_to);\" /> \n";
+		$this->buffer .=	" <input type=\"button\" value=\"&lt;--\" onclick=\"select_box.move(select_box.sel_to, select_box.sel_from);\" /> \n";
 			 
     /* div to */
     if($select_title)
@@ -66,6 +65,7 @@ class selectbox extends stdcontents
     $this->buffer .= "<select name=\"$sel_to\" multiple=\"multiple\">\n";
     $this->buffer .= "</select>\n";
     
+    $this->buffer .= "<script type=\"text/javascript\">\n  window.onload = function(e) {\n  select_box.sel_from = document.forms.$name.$sel_from;\n select_box.sel_to = document.forms.$name.$sel_to;\n};\n</script>\n";
     $this->buffer .= "</form>\n";
   }
 }
