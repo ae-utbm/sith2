@@ -75,6 +75,7 @@ $site->add_contents($cts);
 
 
 /******************/
+/*
 $y = date('Y');
 $sem = array();
 for($i = $y-2; $i <= $y; $i++){
@@ -97,16 +98,27 @@ $sem_select .= <<<EOF
 </div>
 
 EOF;
+*/
 $cts2 = new contents("Ajoutez un nouvel emploi du temps   (Étape 1/2)"); 
-$cts2->puts($sem_select);
 
 $tab = array();
 foreach(uv::get_list($site->db) as $uv)
   $tab[] = array('value'=>$uv['id_uv'], 'title'=>$uv['code']." - ".$uv['intitule']);
-  
-$cts2->add(new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV'));
+
+$sb = new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV');
+/* semestre */
+$y = date('Y');
+$sem = array();
+for($i = $y-2; $i <= $y; $i++){
+  $sem['P'.$i] = 'Printemps '.$i;
+  $sem['A'.$i] = 'Automne '.$i;
+}
+$sb->add_select_field("semestre", "Semestre", $avail_sem, SEMESTER_NOW);
+$sb->add_submit("continue", "Passer à l'étape suivante");
+$cts2->add($sb);
 
 $site->add_contents($cts2);
+
 
 /**** ajout d'UV */
 $uv = new uv($site->db, $site->dbrw);

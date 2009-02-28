@@ -89,10 +89,8 @@ class selectbox extends stdcontents
       $this->buffer .= "<h4>".$this->select_title." choisi(es) :</h4>\n";
     $this->buffer .= "<select name=\"".$this->sel_to."[]\" id=\"$this->sel_to\" multiple=\"multiple\">\n";
     $this->buffer .= "</select>\n";
-    $this->buffer .= "<br />\n<input type=\"submit\" value=\"Envoyer\"/>\n";
     $this->buffer .= "</div>\n";
     
-    //$this->buffer .= "<div class=\"clearboth\"/>\n";
     $this->buffer .= "</div>\n";
     $this->buffer .= "<script type=\"text/javascript\">\nwindow.onload = function(e) {\n  select_box.sel_from = document.getElementById('".$this->sel_from."');\n  select_box.sel_to = document.getElementById('".$this->sel_to."');\n};\n</script>\n";
   }
