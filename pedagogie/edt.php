@@ -74,21 +74,13 @@ $site->add_contents($cts);
 
 
 /******************/
-
-$tab= array();
-foreach(uv::get_list($site->db) as $uv)
-  $tab[] = array('value'=>$uv['id_uv'], 'title'=>$uv['code']." - ".$uv['intitule']);
-$site->add_contents(new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV'));
-
-$cts = new contents("Ajoutez un nouvel emploi du temps   (Étape 1/2)");
-
-  $y = date('Y');
-  $sem = array();
-  for($i = $y-2; $i <= $y; $i++){
-    $sem[] = array('val'=>'P'.$i, 'name'=>'Printemps '.$i);
-    $sem[] = array('val'=>'A'.$i, 'name'=>'Automne '.$i);
-  }
-  sort_by_semester($sem, 'val');
+$y = date('Y');
+$sem = array();
+for($i = $y-2; $i <= $y; $i++){
+  $sem[] = array('val'=>'P'.$i, 'name'=>'Printemps '.$i);
+  $sem[] = array('val'=>'A'.$i, 'name'=>'Automne '.$i);
+}
+sort_by_semester($sem, 'val');
 
 $sem_select = <<<EOF
 <div class="formrow">
@@ -96,10 +88,8 @@ $sem_select = <<<EOF
   <div class="formfield">
     <select name="semestre">
 EOF;
-
 foreach($sem as $s)
   $sem_select .= "      <option value=\"".$s['val']."\">".$s['name']."</option>\n";
-
 $sem_select .= <<<EOF
     </select>
   </div>
@@ -108,9 +98,8 @@ $sem_select .= <<<EOF
 EOF;
 
 $cts->puts($sem_select);
-$cts->add_paragraph("UV disponibles :");
 
-$tab= array();
+$tab = array();
 foreach(uv::get_list($site->db) as $uv)
   $tab[] = array('value'=>$uv['id_uv'], 'title'=>$uv['code']." - ".$uv['intitule']);
   
