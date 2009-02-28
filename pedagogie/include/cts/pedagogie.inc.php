@@ -107,11 +107,17 @@ class add_edt_start_box extends stdcontents
     $this->buffer .= "</div>\n\n";
 
     $this->buffer .= "UV disponibles : <br />";
-    $this->buffer .= $this->build_uv_choice();
+    $this->build_uv_choice();
   }
   
   private function build_uv_choice(){
     global $site;
+    $tab= array();
+    foreach(uv::get_list($site->db) as $uv)
+      $tab[] = array('value'=>$uv['id_uv'], 'title'=>$uv['code']." - ".$uv['intitule']);
+      
+    $this->add(new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV'));
+    /*
     $uvlist = uv::get_list($site->db);
     
     $buffer  = "<div class=\"formrow\">\n";
@@ -122,6 +128,7 @@ class add_edt_start_box extends stdcontents
     $buffer .= "</div>\n\n";
     
     return $buffer;
+    */
   }
 }
 
@@ -130,7 +137,8 @@ class add_seance_box extends stdcontents
   public function __construct($iduv, $type=null, $semestre=SEMESTER_NOW)
   {
     global $site;
-  
+    global $_GROUP;
+    
     $uv = new uv($site->db, $site->dbrw);
     $uv->load_by_id($iduv);
     if(!$uv->is_valid())

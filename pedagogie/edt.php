@@ -72,12 +72,51 @@ $cts->puts("<input type=\"submit\" class=\"isubmit\" "
               ."name=\"add_edt\" id=\"add_edt\"/>");
 $site->add_contents($cts);
 
+
+/******************/
+
 $tab= array();
 foreach(uv::get_list($site->db) as $uv)
   $tab[] = array('value'=>$uv['id_uv'], 'title'=>$uv['code']." - ".$uv['intitule']);
 $site->add_contents(new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV'));
 
-$site->add_contents(new add_edt_start_box());
+$cts = new contents("Ajoutez un nouvel emploi du temps   (Étape 1/2)");
+
+  $y = date('Y');
+  $sem = array();
+  for($i = $y-2; $i <= $y; $i++){
+    $sem[] = array('val'=>'P'.$i, 'name'=>'Printemps '.$i);
+    $sem[] = array('val'=>'A'.$i, 'name'=>'Automne '.$i);
+  }
+  sort_by_semester($sem, 'val');
+
+$sem_select = <<<EOF    
+<div class="formrow">
+  <div class="formlabel">Semestre concerné :</div>
+  <div class="formfield">
+    <select name="semestre">
+EOF;
+foreach($sem as $s)
+  $sem_select .= "      <option value=\"".$s['val']."\">".$s['name']."</option>\n";
+$sem_select .= <<<EOF
+    </select>
+  </div>
+</div>
+
+EOF;
+$cts->puts($sem_select);
+$cts->add_paragraph("UV disponibles :");
+
+$tab= array();
+foreach(uv::get_list($site->db) as $uv)
+  $tab[] = array('value'=>$uv['id_uv'], 'title'=>$uv['code']." - ".$uv['intitule']);
+  
+$cts->add(new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV'));
+
+$site->add_contents($cts);
+
+//$this->build_uv_choice();
+//$site->add_contents(new add_edt_start_box());
 
 /**** ajout d'UV */
 $uv = new uv($site->db, $site->dbrw);
