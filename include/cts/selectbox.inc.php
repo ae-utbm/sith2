@@ -60,13 +60,10 @@ class selectbox extends stdcontents
     /* actions */
     /* @todo trouver qqch de moins moche */
     $this->buffer .= "<ul class=\"selectbox_actions\">";
-    $this->buffer .= "  <li class=\"ajouter\"><a href=\"javascript:select_box.move(select_box.sel_from, select_box.sel_to);\">&nbsp;</a></li>";
-    $this->buffer .= "  <li class=\"enlever\"><a href=\"javascript:select_box.move(select_box.sel_to, select_box.sel_from);\">&nbsp;</a></li>";
+    $this->buffer .= "  <li class=\"ajouter\"><a href=\"#\" onclick=\"javascript:select_box.move(select_box.sel_from, select_box.sel_to);\">&nbsp;</a></li>";
+    $this->buffer .= "  <li class=\"enlever\"><a href=\"#\" onclick=\"javascript:select_box.move(select_box.sel_to, select_box.sel_from);\">&nbsp;</a></li>";
     $this->buffer .= "</ul>";
-    
-    $this->buffer .=	" <input type=\"button\" value=\"--&gt;\" onclick=\"\" /> \n";
-		$this->buffer .=	" <input type=\"button\" value=\"&lt;--\" onclick=\"select_box.move(select_box.sel_to, select_box.sel_from);\" /> \n";
-			 
+    	 
     /* div to */
     $this->buffer .= "<div class=\"selectbox_choix\">\n";
     if($select_title)

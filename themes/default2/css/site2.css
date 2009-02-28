@@ -2622,6 +2622,8 @@ div.calbox td.weekday
 
 .selectbox .selectbox_actions{
   float: left;
+  margin: 110px 0px 0px 0px;
+  padding: 0px 10px;
 }
 
 .selectbox select{
@@ -2631,17 +2633,17 @@ div.calbox td.weekday
 
 .selectbox li{
   list-style-type: none;
+  height: 22px;
+  width: 22px;
+    display: block;
 }
 
 .selectbox li.ajouter{
   display: block;
-  background: url(/images/to_next.png);
+  background: url(/images/to_next.png) center top no-repeat;
   height: 22px;
   width: 22px;
 }
 .selectbox li.enlever{
-  display: block;
-  background: url(/images/to_prev.png);
-  height: 22px;
-  width: 22px;
+  background: url(/images/to_prev.png) center top no-repeat;
 }
