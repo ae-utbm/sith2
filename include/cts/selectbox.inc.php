@@ -45,19 +45,32 @@ class selectbox extends stdcontents
   public function __construct($name, $title, $values, $page, $select_title=null)
   {
     $this->title = $title;
-    $sel_from = $name.'_from';
-    $sel_to = $name.'_to';
+    $this->name = $name;
+    $this->action = $page;
+    $this->method = "post";
     $this->buffer = "";
     
+    $this->values = $values;
+    $this->sel_from = $name.'_from';
+    $this->sel_to = $name.'_to';
+    $this->select_title = $select_title;
+    
+    $this->add_selectbox();
+    /*
     $this->buffer .= "<form name =\"$name\" action=\"$page\" method=\"post\" onsubmit=\"select_box.select_all(select_box.sel_to)\">\n";
+    $this->buffer .= "</form>\n";
+    */
+  }
+  
+  private function add_selectbox(){
     $this->buffer .= "<div class=\"selectbox\">\n";
     
     /* div from */
     $this->buffer .= "<div class=\"selectbox_disp\">\n";
-    if($select_title)
-      $this->buffer .= "<h4>".$select_title." disponible(s) :</h4>\n";
-    $this->buffer .= "<select name=\"$sel_from\" id=\"$sel_from\" multiple=\"multiple\">\n";
-    foreach($values as $val)
+    if($this->select_title)
+      $this->buffer .= "<h4>".$this->select_title." disponible(s) :</h4>\n";
+    $this->buffer .= "<select name=\"$this->sel_from\" id=\"$this->sel_from\" multiple=\"multiple\">\n";
+    foreach($this->values as $val)
       $this->buffer .= "  <option value=\"".$val['value']."\" "
                         ."ondblclick=\"select_box.move(select_box.sel_from, select_box.sel_to);\">"
                         .$val['title']."</option>\n";
@@ -72,18 +85,40 @@ class selectbox extends stdcontents
     	 
     /* div to */
     $this->buffer .= "<div class=\"selectbox_choix\">\n";
-    if($select_title)
-      $this->buffer .= "<h4>".$select_title." choisi(es) :</h4>\n";
-    $this->buffer .= "<select name=\"".$sel_to."[]\" id=\"$sel_to\" multiple=\"multiple\">\n";
+    if($this->select_title)
+      $this->buffer .= "<h4>".$this->select_title." choisi(es) :</h4>\n";
+    $this->buffer .= "<select name=\"".$this->sel_to."[]\" id=\"$this->sel_to\" multiple=\"multiple\">\n";
     $this->buffer .= "</select>\n";
     $this->buffer .= "<br />\n<input type=\"submit\" value=\"Envoyer\"/>\n";
     $this->buffer .= "</div>\n";
     
-    $this->buffer .= "<div class=\"clearboth\"/>\n";
+    //$this->buffer .= "<div class=\"clearboth\"/>\n";
     $this->buffer .= "</div>\n";
-    $this->buffer .= "<script type=\"text/javascript\">\nwindow.onload = function(e) {\n  select_box.sel_from = document.getElementById('".$sel_from."');\n  select_box.sel_to = document.getElementById('".$sel_to."');\n};\n</script>\n";
-    $this->buffer .= "</form>\n";
-    $this->buffer .= "</div>\n";
+    $this->buffer .= "<script type=\"text/javascript\">\nwindow.onload = function(e) {\n  select_box.sel_from = document.getElementById('".$this->sel_from."');\n  select_box.sel_to = document.getElementById('".$this->sel_to."');\n};\n</script>\n";
+  }
+  
+  public function html_render(){
+    $html = "";
+
+    if ( $this->error_contents )
+     $html .= "<p class=\"formerror\">Erreur : ".$this->error_contents."</p>\n";
+     
+    $html .= "<form action=\"$this->action\" method=\"".strtolower($this->method)."\"".
+              " name=\"".$this->name."\" id=\"".$this->name."\"".
+              " onsubmit=\"select_box.select_all(select_box.sel_to)\">\n";
+
+    foreach ( $this->hiddens as $key => $value )
+     $html .= "<input type=\"hidden\" name=\"$key\" value=\"$value\" />\n";
+
+    $html .= "<div class=\"form\">\n";
+    
+    $html .= $this->buffer;
+    
+    $html .= "<div class=\"clearboth\"></div>\n";
+    $html .= "</div>\n";
+    $html .= "</form>\n";
+    
+    return $html;
   }
 }
 
