@@ -42,7 +42,7 @@ class selectbox extends stdcontents
     $sel_to = $name.'_to';
     $this->buffer = "";
     
-    $this->buffer .= "<form name =\"$name\" action=\"$page\" method=\"post\">\n";
+    $this->buffer .= "<form name =\"$name\" action=\"$page\" method=\"post\" onclick=\"select_box.select_all(select_box.sel_to)\">\n";
     $this->buffer .= "<div class=\"selectbox\">\n";
     
     /* div from */
@@ -67,7 +67,7 @@ class selectbox extends stdcontents
     $this->buffer .= "<div class=\"selectbox_choix\">\n";
     if($select_title)
       $this->buffer .= "<h4>".$select_title." choisi(es) :</h4>\n";
-    $this->buffer .= "<select name=\"$sel_to\" multiple=\"multiple\">\n";
+    $this->buffer .= "<select name=\"".$sel_to."[]\" multiple=\"multiple\">\n";
     $this->buffer .= "</select>\n";
     $this->buffer .= "<br />\n<input type=\"submit\" value=\"Envoyer\"/>\n";
     $this->buffer .= "</div>\n";

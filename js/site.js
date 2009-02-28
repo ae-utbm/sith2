@@ -903,5 +903,17 @@ var select_box = {
     for(i = count-1; i >= 0; i--){
       this.add_to(to, content[i], values[i], from);
     }
+  },
+
+  move_all: function(from, to){
+    this.select_all(from);
+    this.move(from, to);
+  },
+
+  /* appele notamment en onsubmit pour recuperer les valeurs du select des choix */
+  select_all: function(elem){
+    for(var i = from.length-1; i >= 0; i--){
+      elem.options[i].selected = true;
+    }
   }
 }
