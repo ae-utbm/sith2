@@ -49,7 +49,7 @@ class selectbox extends stdcontents
     $this->buffer .= "<div class=\"selectbox_disp\">\n";
     if($select_title)
       $this->buffer .= "<h4>".$select_title." disponible(s) :</h4>\n";
-    $this->buffer .= "<select name=\"$sel_from\" multiple=\"multiple\">\n";
+    $this->buffer .= "<select name=\"$sel_from\" id=\"$sel_from\" multiple=\"multiple\">\n";
     foreach($values as $val)
       $this->buffer .= "  <option value=\"".$val['value']."\" "
                         ."ondblclick=\"select_box.move(select_box.sel_from, select_box.sel_to);\">"
@@ -67,14 +67,14 @@ class selectbox extends stdcontents
     $this->buffer .= "<div class=\"selectbox_choix\">\n";
     if($select_title)
       $this->buffer .= "<h4>".$select_title." choisi(es) :</h4>\n";
-    $this->buffer .= "<select name=\"".$sel_to."[]\" multiple=\"multiple\">\n";
+    $this->buffer .= "<select name=\"".$sel_to."[]\" id=\"$sel_to\" multiple=\"multiple\">\n";
     $this->buffer .= "</select>\n";
     $this->buffer .= "<br />\n<input type=\"submit\" value=\"Envoyer\"/>\n";
     $this->buffer .= "</div>\n";
     
     $this->buffer .= "<div class=\"clearboth\"/>\n";
     $this->buffer .= "</div>\n";
-    $this->buffer .= "<script type=\"text/javascript\">\nwindow.onload = function(e) {\n  select_box.sel_from = document.forms.$name.$sel_from;\n  select_box.sel_to = document.forms.$name.$sel_to;\n};\n</script>\n";
+    $this->buffer .= "<script type=\"text/javascript\">\nwindow.onload = function(e) {\n  select_box.sel_from = document.getElementById('".$sel_from."');\n  select_box.sel_to = document.getElementById('".$sel_to."');\n};\n</script>\n";
     $this->buffer .= "</form>\n";
     $this->buffer .= "</div>\n";
   }
