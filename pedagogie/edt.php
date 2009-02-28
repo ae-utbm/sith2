@@ -90,20 +90,23 @@ $cts = new contents("Ajoutez un nouvel emploi du temps   (Étape 1/2)");
   }
   sort_by_semester($sem, 'val');
 
-$sem_select = <<<EOF    
+$sem_select = <<<EOF
 <div class="formrow">
   <div class="formlabel">Semestre concerné :</div>
   <div class="formfield">
     <select name="semestre">
 EOF;
+
 foreach($sem as $s)
   $sem_select .= "      <option value=\"".$s['val']."\">".$s['name']."</option>\n";
+
 $sem_select .= <<<EOF
     </select>
   </div>
 </div>
 
 EOF;
+
 $cts->puts($sem_select);
 $cts->add_paragraph("UV disponibles :");
 
