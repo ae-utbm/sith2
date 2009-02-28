@@ -43,8 +43,10 @@ class selectbox extends stdcontents
     $this->buffer = "";
     
     $this->buffer .= "<form name =\"$name\" action=\"$page\" method=\"post\">\n";
+    $this->buffer .= "<div class=\"selectbox\">\n";
     
     /* div from */
+    $this->buffer .= "<div class=\"selectbox_disp\">\n";
     if($select_title)
       $this->buffer .= "<h4>".$select_title." disponible(s)</h4>\n";
     $this->buffer .= "<select name=\"$sel_from\" multiple=\"multiple\">\n";
@@ -53,19 +55,28 @@ class selectbox extends stdcontents
                         ."ondblclick=\"select_box.move(select_box.sel_from, select_box.sel_to);\">"
                         .$val['title']."</option>\n";
     $this->buffer .= "</select>\n";
+    $this->buffer .= "</div>\n";
     
     /* actions */
     /* @todo trouver qqch de moins moche */
-    $this->buffer .=	" <input type=\"button\" value=\"--&gt;\" onclick=\"select_box.move(select_box.sel_from, select_box.sel_to);\" /> \n";
+    $this->buffer .= "<ul class=\"selectbox_actions\">";
+    $this->buffer .= "  <li class=\"ajouter\"><a href=\"javascript:select_box.move(select_box.sel_from, select_box.sel_to);\">&nbsp;</a></li>";
+    $this->buffer .= "  <li class=\"enlever\"><a href=\"javascript:select_box.move(select_box.sel_to, select_box.sel_from);\">&nbsp;</a></li>";
+    $this->buffer .= "</ul>";
+    
+    $this->buffer .=	" <input type=\"button\" value=\"--&gt;\" onclick=\"\" /> \n";
 		$this->buffer .=	" <input type=\"button\" value=\"&lt;--\" onclick=\"select_box.move(select_box.sel_to, select_box.sel_from);\" /> \n";
 			 
     /* div to */
+    $this->buffer .= "<div class=\"selectbox_choix\">\n";
     if($select_title)
       $this->buffer .= "<h4>".$select_title." choisi(es)</h4>\n";
     $this->buffer .= "<select name=\"$sel_to\" multiple=\"multiple\">\n";
     $this->buffer .= "</select>\n";
+    $this->buffer .= "</div>\n";
     
-    $this->buffer .= "<script type=\"text/javascript\">\n  window.onload = function(e) {\n  select_box.sel_from = document.forms.$name.$sel_from;\n select_box.sel_to = document.forms.$name.$sel_to;\n};\n</script>\n";
+    $this->buffer .= "</div>\n";
+    $this->buffer .= "<script type=\"text/javascript\">\nwindow.onload = function(e) {\n  select_box.sel_from = document.forms.$name.$sel_from;\n  select_box.sel_to = document.forms.$name.$sel_to;\n};\n</script>\n";
     $this->buffer .= "</form>\n";
   }
 }

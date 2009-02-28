@@ -2610,3 +2610,38 @@ div.calbox td.weekday
 {
   display:none;
 }
+
+
+.selectbox .selectbox_disp{
+  float: left;
+}
+
+.selectbox .selectbox_choix{
+  float: left;
+}
+
+.selectbox .selectbox_actions{
+  float: left;
+}
+
+.selectbox select{
+  width: 300px;
+  height: 200px;
+}
+
+.selectbox li{
+  list-style-type: none;
+}
+
+.selectbox li.ajouter{
+  display: block;
+  background: url(/images/to_next.png);
+  height: 22px;
+  width: 22px;
+}
+.selectbox li.enlever{
+  display: block;
+  background: url(/images/to_prev.png);
+  height: 22px;
+  width: 22px;
+}

@@ -875,8 +875,10 @@ function hide_with_cookies(ctsp,cookiename){
 }
 
 var select_box = {
-  add_to: function(elem, content, value){
-    elem.options[elem.length] = new Option(content, value);
+  add_to: function(elem, content, value, otherone){
+    var o = new Option(content, value);
+    o.ondblclick = function(e){select_box.move(elem, otherone);};
+    elem.options[elem.length] = o;
   },
 
   remove_from: function(elem, index){ 
@@ -899,7 +901,7 @@ var select_box = {
       }
     }
     for(i = count-1; i >= 0; i--){
-      this.add_to(to, content[i], values[i]);
+      this.add_to(to, content[i], values[i], from);
     }
   }
 }
