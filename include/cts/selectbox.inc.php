@@ -70,7 +70,7 @@ class selectbox extends stdcontents
       $this->buffer .= "<h4>".$select_title." choisi(es) :</h4>\n";
     $this->buffer .= "<select name=\"$sel_to\" multiple=\"multiple\">\n";
     $this->buffer .= "</select>\n";
-    $this->buffer .= "<input type=\"submit\" value=\"Envoyer\"/>\n";
+    $this->buffer .= "<br />\n<input type=\"submit\" value=\"Envoyer\"/>\n";
     $this->buffer .= "</div>\n";
     
     $this->buffer .= "<div class=\"clearboth\"/>\n";
