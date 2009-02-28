@@ -103,7 +103,7 @@ $cts2 = new contents("Ajoutez un nouvel emploi du temps   (Étape 1/2)");
 
 $tab = array();
 foreach(uv::get_list($site->db) as $uv)
-  $tab[] = array('value'=>$uv['id_uv'], 'title'=>$uv['code']." - ".$uv['intitule']);
+  $tab[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
 
 $sb = new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV');
 /* semestre */
@@ -113,7 +113,7 @@ for($i = $y-2; $i <= $y; $i++){
   $sem['P'.$i] = 'Printemps '.$i;
   $sem['A'.$i] = 'Automne '.$i;
 }
-$sb->add_select_field("semestre", "Semestre", $avail_sem, SEMESTER_NOW);
+$sb->add_select_field("semestre", "Semestre", $sem, SEMESTER_NOW);
 $sb->add_submit("continue", "Passer à l'étape suivante");
 $cts2->add($sb);
 

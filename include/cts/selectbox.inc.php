@@ -27,7 +27,7 @@
  * Inspiree de `selector` de django-admin
  * @param name
  * @param title
- * @param values array( array('value', 'title') )
+ * @param values array( key => value )
  * @param page page de reception du form
  * @param select_title (sera affiche sous la forme '<truc> disponibles')
  * @see /js/site.js var select_box
@@ -40,7 +40,7 @@
  *  -> tout le bordel dans un truc separe
  *  -> et puis voila on pourra rajouter des trucs en plus (au hasard le semestre)
  */
-class selectbox extends stdcontents
+class selectbox extends form
 {
   public function __construct($name, $title, $values, $page, $select_title=null)
   {
@@ -70,10 +70,10 @@ class selectbox extends stdcontents
     if($this->select_title)
       $this->buffer .= "<h4>".$this->select_title." disponible(s) :</h4>\n";
     $this->buffer .= "<select name=\"$this->sel_from\" id=\"$this->sel_from\" multiple=\"multiple\">\n";
-    foreach($this->values as $val)
-      $this->buffer .= "  <option value=\"".$val['value']."\" "
+    foreach($this->values as $key => $value)
+      $this->buffer .= "  <option value=\"".$key."\" "
                         ."ondblclick=\"select_box.move(select_box.sel_from, select_box.sel_to);\">"
-                        .$val['title']."</option>\n";
+                        .$value."</option>\n";
     $this->buffer .= "</select>\n";
     $this->buffer .= "</div>\n";
     
