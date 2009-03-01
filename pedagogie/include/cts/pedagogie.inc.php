@@ -117,18 +117,6 @@ class add_edt_start_box extends stdcontents
       $tab[] = array('value'=>$uv['id_uv'], 'title'=>$uv['code']." - ".$uv['intitule']);
       
     $this->add(new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV'));
-    /*
-    $uvlist = uv::get_list($site->db);
-    
-    $buffer  = "<div class=\"formrow\">\n";
-    $buffer .= "  <select name=\"uvlist\" multiple>\n";
-    foreach($uvlist as $uv)
-      $buffer .= "    <option value=\"".$uv['id_uv']."\">".$uv['code']." - ".substr($uv['intitule'], 0, 50)."</option>\n";
-    $buffer .= "  </select>\n";
-    $buffer .= "</div>\n\n";
-    
-    return $buffer;
-    */
   }
 }
 

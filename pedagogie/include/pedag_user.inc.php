@@ -140,7 +140,7 @@ class pedag_user extends utilisateur{
     $sql = new requete($this->db, "SELECT DISTINCT `semestre` 
                                     FROM `pedag_groupe`
                                     NATURAL JOIN `pedag_groupe_utl`
-                                    WHERE `pedag_groupe_utl`.`id_utilisateur` = ".$this->id);
+                                    WHERE `pedag_groupe_utl`.`id_utilisateur` = ".$this->id, true);
     if(!$sql->is_success())
       return array();
     else{
@@ -162,7 +162,7 @@ class pedag_user extends utilisateur{
                                       LEFT JOIN `pedag_groupe` 
                                         ON `pedag_uv`.`id_uv` = `pedag_groupe`.`id_uv`
                                       WHERE `pedag_groupe`.`semestre` = '".$semestre."'
-                                    )");
+                                    )", true);
     if(!$sql->is_success())
       return false;
     else{
