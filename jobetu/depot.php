@@ -233,7 +233,7 @@ else
 
 	$cts->add_title(2, "Quelques details concernant votre depot");
 	$cts->add_paragraph("Vous vous appretez à déposer une annonce sur AE Job Etu et nous vous en remercions");
-	$cts->add_paragraph("Patati patata bla bla bla <br /> Vous devrez tout d'abord vous inscrire si c'est la premiere fois que vous venez et puis allez y");
+	$cts->add_paragraph("Vous devrez tout d'abord vous inscrire si c'est la premiere fois que vous venez et puis allez y.");
 	$cts->add_paragraph("A lire : <a href=\"http://ae.utbm.fr/article.php?name=docs:jobetu:cgu\">C.G.U.</a>");
 
 	$frm = new form("go", "depot.php?action=annonce", false, "POST", false);
