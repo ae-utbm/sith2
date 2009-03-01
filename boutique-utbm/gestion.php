@@ -291,23 +291,32 @@ elseif( $_REQUEST["page"] == "bilan" )
           INNER JOIN `boutiqueut_produits` p USING(`id_produit`)
           WHERE ".implode(" AND ",$conds)."
           ORDER BY `id_facture` DESC");
-      $tbl = new table('Bilan');
-      $tbl->add_row(array('<b>N° fact</b>','<b>Date</b>','<b>Client</b>','<b>Article</b>','<b>Quantité</b>','<b>P.U.</b>','<b>Total</b>'));
+      $tbl = new table('Bilan','bilancomptable');
+      $tbl->add_row(array('N° fact','Date','Client','Article','Quantité','P.U.','Total'),'headbilan');
       $_last=-1;
       $_mode=null;
       $_total=0;
+      $_gtotal=0;
+      $_smode=array();
       while(list($id_facture,$date,$client,$Article,$Quantite,$pu,$total,$mode)=$req->get_row())
       {
         if($id_facture==$_last)
         {
-          $tbl->add_row(array('','','',$Article,$Quantite,$pu,$total));
+          $tbl->add_row(array('','','',$Article,$Quantite,$pu,$total.' €'));
           $_total=$_total+$total;
         }
         else
         {
           //on ajoute le bilan de la facture
           if(!is_null($_mode))
-            $tbl->add_row(array('','','','<b>Paiement :</b>',$_mode,'<b>Total :<b/>',$_total));
+          {
+            $tbl->add_row(array('','','','Paiement :',$_mode,'Total :',$_total.' €'),'totalfactbilan');
+            $_gtotal = $_gtotal+$_total;
+            if(!isset($_smode[$_mode]))
+              $_smode[$_mode]=$_total;
+            else
+              $_smode[$_mode]=$_smode[$_mode]+$_total;
+          }
           $tbl->add_row(array($id_facture,$date,$client,$Article,$Quantite,$pu,$total));
           $_last  = $id_facture;
           $_mode  = $mode;
@@ -315,7 +324,17 @@ elseif( $_REQUEST["page"] == "bilan" )
         }
       }
       if(!is_null($_mode))
-        $tbl->add_row(array('','','','<b>Paiement :</b>',$_mode,'<b>Total :<b/>',$_total));
+      {
+        $tbl->add_row(array('','','','Paiement :',$_mode,'Total :',$_total.' €'),'totalfactbilan');
+        $_gtotal = $_gtotal+$_total;
+        if(!isset($_smode[$_mode]))
+          $_smode[$_mode]=$_total;
+        else
+          $_smode[$_mode]=$_smode[$_mode]+$_total;
+        $tbl->add_row(array('','','','','','Total :',$_gtotal.' €'),'totalbilan');
+        foreach($_smode as $mode => $total)
+          $tbl->add_row(array('','','','','',$mode.' :',$total.' €'),'totalmodebilan');
+      }
       $cts->add($tbl,true);
     }
   }

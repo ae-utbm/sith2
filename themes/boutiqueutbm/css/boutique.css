@@ -1698,3 +1698,35 @@ div.calbox td.weekday
   margin:0;
 }
 
+
+table.bilancomptable
+{
+  border:1px solid #000000;
+  width:100%;
+}
+table.bilancomptable td
+{
+  border:0;
+  border-top:1px solid #000000;
+}
+table.bilancomptable tr.headbilan td
+{
+  border:0;
+}
+table.bilancomptable tr.headbilan
+{
+  font-size:14px;
+  font-weight:bold;
+}
+table.bilancomptable tr.totalfactbilan
+{
+  font-weight:bold;
+}
+table.bilancomptable tr.totalbilan
+{
+  font-weight:bold;
+}
+table.bilancomptable tr.totalmodebilan
+{
+  font-style:italic;
+}
