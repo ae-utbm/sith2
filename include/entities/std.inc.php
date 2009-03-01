@@ -58,13 +58,19 @@ abstract class stdentity
    *
    * @param $db Lien à la base de données en lecture seule
    * @param $dbrw Lien à la base de données en lecture et écriture
+   * @param $id Si fourni, appelle load_by_id avec $id
    */
-  function stdentity ( &$db, &$dbrw = null )
+  function stdentity ( &$db, &$dbrw = null, $id = null )
   {
     $this->db = &$db;
     $this->dbrw = &$dbrw;
     $this->id = null;
     $this->_tags = null;
+    
+    if($id && method_exists($this, 'load_by_id')
+      try{
+        $this->load_by_id($id);
+      }catch($e){}
   }
 
   /**

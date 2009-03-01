@@ -45,7 +45,7 @@ $user = new pedag_user($site->db, $site->dbrw);
 $user->load_by_id($site->user->id);
 
 /* recap edt */
-$cts = new contents();
+$cts = new contents("Pydègogy");
 $tab = array();
 foreach($user->get_edt_list() as $edt){
   $tab[$edt]['semestre'] = $edt;
@@ -75,30 +75,6 @@ $site->add_contents($cts);
 
 
 /******************/
-/*
-$y = date('Y');
-$sem = array();
-for($i = $y-2; $i <= $y; $i++){
-  $sem[] = array('val'=>'P'.$i, 'name'=>'Printemps '.$i);
-  $sem[] = array('val'=>'A'.$i, 'name'=>'Automne '.$i);
-}
-sort_by_semester($sem, 'val');
-
-$sem_select = <<<EOF
-<div class="formrow">
-  <div class="formlabel">Semestre concerné :</div>
-  <div class="formfield">
-    <select name="semestre">
-EOF;
-foreach($sem as $s)
-  $sem_select .= "      <option value=\"".$s['val']."\">".$s['name']."</option>\n";
-$sem_select .= <<<EOF
-    </select>
-  </div>
-</div>
-
-EOF;
-*/
 $cts2 = new contents("Ajoutez un nouvel emploi du temps   (Étape 1/2)"); 
 
 $tab = array();
