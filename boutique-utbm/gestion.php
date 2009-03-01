@@ -296,7 +296,7 @@ elseif( $_REQUEST["page"] == "bilan" )
       {
         require_once ($topdir . "include/pdf/facture_pdf.inc.php");
         define('FPDF_FONTPATH', $topdir.'./font/');
-        $pdf=new FPDF();
+        $pdf=new FPDF('l');
         $pdf->AliasNbPages();
         $pdf->SetAutoPageBreak(true);
         $pdf->AddPage();
