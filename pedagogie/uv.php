@@ -36,7 +36,7 @@ $site = new site();
 $site->allow_only_logged_users("services");
 if(!$site->user->is_in_group("jobetu_etu")) header("Location: index.php");
 
-$usr = new peda_etu($site->db, $site->dbrw);
+$usr = new pedag_etu($site->db, $site->dbrw);
 
 $site->add_css("jobetu/jobetu.css");
 $site->add_rss("Les dernières annonces de JobEtu","rss.php");
