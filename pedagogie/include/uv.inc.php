@@ -561,7 +561,7 @@ class uv extends stdentity
     global $_DPT;
     if(!is_null($dept) && array_key_exists($dept, $_DPT)){
       $req .= " NATURAL JOIN `pedag_uv_dept`
-                WHERE `pedag_uv_dept`.`departement` = ".$type;
+                WHERE `pedag_uv_dept`.`departement` = ".$dept;
       $where = true;
     }
     if(!is_null($type) && array_key_exists($type, $_TYPE)){
@@ -573,7 +573,7 @@ class uv extends stdentity
     }
     $req .= " ORDER BY `code` ASC";
     
-    $sql = new requete($db, $req, true);
+    $sql = new requete($db, $req);
 
     if(!$sql->is_success())
       return false;

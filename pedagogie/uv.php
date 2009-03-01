@@ -94,7 +94,7 @@ $path .= " / "."Guide des UV";
 $cts = new contents($path);
 $cts->add(new tabshead($tabs, $_REQUEST['dept']));
 
-$cts->add_paragraph("Bienvenue sur la versione \"site AE\" du guide des UV.
+$cts->add_paragraph("Bienvenue sur la version \"site AE\" du guide des UV.
 Nous vous rappelons que tout comme le reste de la partie pédagogie, toutes 
 les informations que vous pouvez trouver ici sont fournies uniquement à
 titre indicatif et que seules les informations issues des documents
