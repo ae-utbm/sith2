@@ -383,7 +383,7 @@ elseif( $_REQUEST["page"] == "bilan" )
           $pdf->Ln();
           $pdf->Cell($w2[0],6,'','LB',0,'L',$fill);
           $pdf->Cell($w2[1],6,'Total :','LRBT',0,'L',$fill);
-          $pdf->Cell($w2[2],6,sprintf('%.2f',$_total),$'LRBT',0,'L',$fill);
+          $pdf->Cell($w2[2],6,sprintf('%.2f',$_total),'LRBT',0,'L',$fill);
           $pdf->Ln();
           $_gtotal = $_gtotal+$_total;
           if(!isset($_smode[$_mode]))
