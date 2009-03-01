@@ -333,13 +333,13 @@ elseif( $_REQUEST["page"] == "bilan" )
         {
           if($id_facture==$_last)
           {
-            $pdf->Cell($w[0],6,'','L',0,'L',$fill);
-            $pdf->Cell($w[1],6,'',0,0,'L',$fill);
-            $pdf->Cell($w[2],6,'',0,0,'L',$fill);
-            $pdf->Cell($w[3],6,utf8_decode($Article),'LRBT',0,'L',$fill);
-            $pdf->Cell($w[4],6,$Quantite,'LRBT',0,'L',$fill);
-            $pdf->Cell($w[5],6,sprintf('%.2f',$pu),'LRBT',0,'L',$fill);
-            $pdf->Cell($w[6],6,sprintf('%.2f',$total),'LRBT',0,'L',$fill);
+            $pdf->Cell($w[0],6,'','L',0,'L');
+            $pdf->Cell($w[1],6,'',0,0,'L');
+            $pdf->Cell($w[2],6,'',0,0,'L');
+            $pdf->Cell($w[3],6,utf8_decode($Article),'LRBT',0,'L');
+            $pdf->Cell($w[4],6,$Quantite,'LRBT',0,'L');
+            $pdf->Cell($w[5],6,sprintf('%.2f',$pu),'LRBT',0,'L');
+            $pdf->Cell($w[6],6,sprintf('%.2f',$total),'LRBT',0,'L');
             $pdf->Ln();
             $_total=$_total+$total;
           }
@@ -348,13 +348,13 @@ elseif( $_REQUEST["page"] == "bilan" )
             //on ajoute le bilan de la facture
             if(!is_null($_mode))
             {
-              $pdf->Cell($w2[0],6,'','L',0,'L',$fill);
-              $pdf->Cell($w2[1],6,'Paiment :','LRBT',0,'L',$fill);
-              $pdf->Cell($w2[2],6,utf8_decode($_mode),'LRBT',0,'L',$fill);
+              $pdf->Cell($w2[0],6,'','L',0,'L');
+              $pdf->Cell($w2[1],6,'Paiment :','LRBT',0,'L');
+              $pdf->Cell($w2[2],6,utf8_decode($_mode),'LRBT',0,'L');
               $pdf->Ln();
-              $pdf->Cell($w2[0],6,'','LB',0,'L',$fill);
-              $pdf->Cell($w2[1],6,'Total :','LRBT',0,'L',$fill);
-              $pdf->Cell($w2[2],6,sprintf('%.2f',$_total),'LRBT',0,'L',$fill);
+              $pdf->Cell($w2[0],6,'','LB',0,'L');
+              $pdf->Cell($w2[1],6,'Total :','LRBT',0,'L');
+              $pdf->Cell($w2[2],6,sprintf('%.2f',$_total),'LRBT',0,'L');
               $pdf->Ln();
               $_gtotal = $_gtotal+$_total;
               if(!isset($_smode[$_mode]))
@@ -362,13 +362,13 @@ elseif( $_REQUEST["page"] == "bilan" )
               else
                 $_smode[$_mode]=$_smode[$_mode]+$_total;
             }
-            $pdf->Cell($w[0],6,$id_facture,'LRBT',0,'L',$fill);
-            $pdf->Cell($w[1],6,$date,'LRBT',0,'L',$fill);
-            $pdf->Cell($w[2],6,utf8_decode($client),'LRBT',0,'L',$fill);
-            $pdf->Cell($w[3],6,utf8_decode($Article),'LRBT',0,'L',$fill);
-            $pdf->Cell($w[4],6,$Quantite,'LRBT',0,'L',$fill);
-            $pdf->Cell($w[5],6,sprintf('%.2f',$pu),'LRBT',0,'L',$fill);
-            $pdf->Cell($w[6],6,sprintf('%.2f',$total),'LRBT',0,'L',$fill);
+            $pdf->Cell($w[0],6,$id_facture,'LRBT',0,'L');
+            $pdf->Cell($w[1],6,$date,'LRBT',0,'L');
+            $pdf->Cell($w[2],6,utf8_decode($client),'LRBT',0,'L');
+            $pdf->Cell($w[3],6,utf8_decode($Article),'LRBT',0,'L');
+            $pdf->Cell($w[4],6,$Quantite,'LRBT',0,'L');
+            $pdf->Cell($w[5],6,sprintf('%.2f',$pu),'LRBT',0,'L');
+            $pdf->Cell($w[6],6,sprintf('%.2f',$total),'LRBT',0,'L');
             $pdf->Ln();
             $_last  = $id_facture;
             $_mode  = $mode;
@@ -377,13 +377,13 @@ elseif( $_REQUEST["page"] == "bilan" )
         }
         if(!is_null($_mode))
         {
-          $pdf->Cell($w2[0],6,'','L',0,'L',$fill);
-          $pdf->Cell($w2[1],6,'Paiment :','LRBT',0,'L',$fill);
-          $pdf->Cell($w2[2],6,utf8_decode($_mode),'LRBT',0,'L',$fill);
+          $pdf->Cell($w2[0],6,'','L',0,'L');
+          $pdf->Cell($w2[1],6,'Paiment :','LRBT',0,'L');
+          $pdf->Cell($w2[2],6,utf8_decode($_mode),'LRBT',0,'L');
           $pdf->Ln();
-          $pdf->Cell($w2[0],6,'','LB',0,'L',$fill);
-          $pdf->Cell($w2[1],6,'Total :','LRBT',0,'L',$fill);
-          $pdf->Cell($w2[2],6,sprintf('%.2f',$_total),'LRBT',0,'L',$fill);
+          $pdf->Cell($w2[0],6,'','LB',0,'L');
+          $pdf->Cell($w2[1],6,'Total :','LRBT',0,'L');
+          $pdf->Cell($w2[2],6,sprintf('%.2f',$_total),'LRBT',0,'L');
           $pdf->Ln();
           $_gtotal = $_gtotal+$_total;
           if(!isset($_smode[$_mode]))
@@ -392,17 +392,18 @@ elseif( $_REQUEST["page"] == "bilan" )
             $_smode[$_mode]=$_smode[$_mode]+$_total;
 
           $pdf->Ln(20);
-          $pdf->Cell(275,6,utf8_decode('Résumé'),'LRBT',0,'C',$fill);
+          $pdf->Cell('', 20, 'Bilan du '.date("d/m/Y",$_REQUEST["debut"]).' au '.date("d/m/Y",$_REQUEST["fin"]),'','','C');
+          $pdf->Cell('',20,utf8_decode('Résumé'),'LRBT',0,'C');
           $pdf->Ln();
-          $pdf->Cell($w2[0],6,'',0,0,'L',$fill);
-          $pdf->Cell($w2[1],6,'Total :','LRBT',0,'L',$fill);
-          $pdf->Cell($w2[2],6,sprintf('%.2f',$_gtotal),'LRBT',0,'L',$fill);
+          $pdf->Cell($w2[0],6,'',0,0,'L');
+          $pdf->Cell($w2[1],6,'Total :','LRBT',0,'L');
+          $pdf->Cell($w2[2],6,sprintf('%.2f',$_gtotal),'LRBT',0,'L');
           foreach($_smode as $mode => $total)
           {
             $pdf->Ln();
-            $pdf->Cell($w2[0],6,'',0,0,'L',$fill);
-            $pdf->Cell($w2[1],6,utf8_decode($mode).' :','LRBT',0,'L',$fill);
-            $pdf->Cell($w2[2],6,sprintf('%.2f',$total),'LRBT',0,'L',$fill);
+            $pdf->Cell($w2[0],6,'',0,0,'L');
+            $pdf->Cell($w2[1],6,utf8_decode($mode).' :','LRBT',0,'L');
+            $pdf->Cell($w2[2],6,sprintf('%.2f',$total),'LRBT',0,'L');
           }
         }
         $pdf->Output('bilan_'.date("d-m-Y").'.pdf',D);
