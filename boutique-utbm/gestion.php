@@ -392,7 +392,6 @@ elseif( $_REQUEST["page"] == "bilan" )
             $_smode[$_mode]=$_smode[$_mode]+$_total;
 
           $pdf->Ln(20);
-          $pdf->Cell('', 20, 'Bilan du '.date("d/m/Y",$_REQUEST["debut"]).' au '.date("d/m/Y",$_REQUEST["fin"]),'','','C');
           $pdf->Cell('',20,utf8_decode('Résumé'),'LRBT',0,'C');
           $pdf->Ln();
           $pdf->Cell($w2[0],6,'',0,0,'L');
