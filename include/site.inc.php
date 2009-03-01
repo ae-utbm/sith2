@@ -96,6 +96,7 @@ class site extends interfaceweb
       $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
 
       setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain);
+      setcookie ("AE2_SESS_ID", "", time() - 3600, "/", 'boutique.utbm.fr');
       unset($_COOKIE['AE2_SESS_ID']);
     }
 
@@ -204,6 +205,7 @@ class site extends interfaceweb
     $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
 
     setcookie ("AE2_SESS_ID", $sid, time() + 31536000, "/", $domain);
+    setcookie ("AE2_SESS_ID", "", time() - 3600, "/", 'boutique.utbm.fr');
 
     $this->user->visite();
 
