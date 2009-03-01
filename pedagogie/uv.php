@@ -35,7 +35,7 @@ require_once("include/cts/pedagogie.inc.php");
 $site = new site();
 $site->start_page("services", "AE Pédagogie");
 
-$usr = new pedag_etu($site->db, $site->dbrw, $site->user->id);
+$usr = new pedag_user($site->db, $site->dbrw, $site->user->id);
 print_r($usr);
 
 $path = "<a href=\"".$topdir."jobetu/\" title=\"AE JobEtu\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" /> AE JobEtu</a>";
