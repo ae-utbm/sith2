@@ -1707,11 +1707,11 @@ table.bilancomptable
 table.bilancomptable td
 {
   border:0;
-  border-top:1px solid #000000;
 }
-table.bilancomptable tr.headbilan td
+table.bilancomptable tr.headbilan
 {
   border:0;
+  border-bottom:1px double #000000;
 }
 table.bilancomptable tr.headbilan
 {
@@ -1721,6 +1721,7 @@ table.bilancomptable tr.headbilan
 table.bilancomptable tr.totalfactbilan
 {
   font-weight:bold;
+  border-bottom:1px solid #000000;
 }
 table.bilancomptable tr.modefactbilan
 {
