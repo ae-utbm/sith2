@@ -555,8 +555,24 @@ class uv extends stdentity
   /**
    * retourne la liste des uvs et leurs infos
    */
-  public static function get_list(&$db){
-    $sql = new requete($db, "SELECT * FROM `pedag_uv` ORDER BY `code` ASC");
+  public static function get_list(&$db, $type=null, $dept=null){
+    $req = "SELECT * FROM `pedag_uv`";
+    $where=false
+    if(!is_null($dept) && array_key_exists($dept, $_DPT)){
+      $req .= " NATURAL JOIN `pedag_uv_dept`
+                WHERE `pedag_uv_dept`.`departement` = ".$type;
+      $where = true;
+    }
+    if(!is_null($type) && array_key_exists($type, $_TYPE)){
+      if($where)
+        $req .= " AND";
+      else
+        $req .= " WHERE";
+      $req .= " `pedag_uv`.`type` = ".$type;
+    }
+    $req .= " ORDER BY `code` ASC";
+    
+    $sql = new requete($db, $req);
 
     if(!$sql->is_success())
       return false;

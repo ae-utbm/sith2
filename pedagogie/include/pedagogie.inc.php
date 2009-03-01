@@ -64,10 +64,10 @@ define("TYPE_CG", 4);
 define("TYPE_Ext",5);
 $_TYPE = array(
   TYPE_CS => array('short'=>'CS', 'long'=>"Connaissances scientifiques"),
-  TYPE_CS => array('short'=>'TM', 'long'=>"Techniques & Méthodes"),
-  TYPE_CS => array('short'=>'EC', 'long'=>"Expression & Communication"),
-  TYPE_CS => array('short'=>'CG', 'long'=>"Culture générale"),
-  TYPE_CS => array('short'=>'Ext', 'long'=>"Extérieur")
+  TYPE_TM => array('short'=>'TM', 'long'=>"Techniques & Méthodes"),
+  TYPE_EC => array('short'=>'EC', 'long'=>"Expression & Communication"),
+  TYPE_CG => array('short'=>'CG', 'long'=>"Culture générale"),
+  TYPE_Ext => array('short'=>'Ext', 'long'=>"Extérieur")
 );
 
 /* semestres d ouverture (ou pas)

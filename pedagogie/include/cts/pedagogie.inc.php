@@ -203,4 +203,27 @@ class add_seance_box extends stdcontents
     $this->buffer .= $frm->html_render();
   }
 }
+
+class uv_dept_table extends stdcontents
+{
+  public function __construct($uvlist)
+  {
+    $this->buffer = "";
+    $this->buffer .= "<table class=\"uvlist\">\n";
+    $this->buffer .= " <tr>\n";
+    $i = 0;
+    $uvs = array();
+    while ($rs = $req->get_row())
+    foreach($uvlist as $uv)
+    {
+      $this->buffer .= "  <td><a href=\"./uv.php?id=".$uv['id_uv']."\">".$uv['code']."</a></td>\n";
+      $i++;
+      if($i == 15){
+        $this->buffer .= "</tr><tr>\n"; 
+        $i = 0; 
+      }
+    }
+    $this->buffer .= "\n </tr>\n</table>\n";
+  }
+}
 ?>

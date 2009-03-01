@@ -37,7 +37,7 @@ $site->start_page("services", "AE Pédagogie");
 
 $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 
-/**
+/***********************************************************************
  * Affichage detail UV
  */
 if($_REQUEST['id'])
@@ -45,9 +45,6 @@ if($_REQUEST['id'])
   $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
   if(!$uv->is_valid())
     $site->redirect('/pedagogie/');
-
-  print_r($_DPT);
-  print_r($uv->get_dept_list());
 
   $cts = new contents($path);
 
@@ -63,11 +60,49 @@ if($_REQUEST['id'])
   $site->end_page();
 }
 
+/***********************************************************************
+ * Affichage guide des UV
+ */
+
+$tabs = array(array("", "pedagogie/uv.php", "Guide des UV"));
+foreach($_DPT as $dpt=>$desc)
+  $tabs[] = array($dpt, "pedagogie/uv.php?dept=".$dpt, $desc['short']);
+
 /**
  * Affichage 'sommaire' par departement
  */
 if($_REQUEST['dept'])
 {
+  if(array_key_exists($_REQUEST['dept'], $_DPT))
+    $dept = $_REQUEST['dept'];
+  else
+    $site->redirect('/pedagogie/');
+  
+  $path .= " / "."<a href=\"".$topdir."pedagogie/uv.php?dept=$dept\"><img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" /> ".$_DPT[$dept]['short']." </a>";
+  $cts = new contents($path);
+  $cts->add(new tabshead($tabs, $_REQUEST['dept']));
+  
+  $uvlist = uv::get_list($site->db, null, $dept);
+  $cts->add(new uv_dept_table($uvlist));
+  
+  $site->add_contents($cts);
+  $site->end_page();
 }
 
+/* affichage par defaut de la page : guide des UV */
+$path .= " / "."Guide des UV";
+$cts = new contents($path);
+$cts->add(new tabshead($tabs, $_REQUEST['dept']));
+
+$cts->add_paragraph("blabla");
+
+foreach($_DPT as $dept=>$desc){
+  $cts->add_title(2,"<a id=\"dept_".$dept."\" href=\"./uv.php?dept=$dept\">".$desc['short']."</a>");
+
+  $uvlist = uv::get_list($site->db, null, $dept);
+  $cts->add(new uv_dept_table($uvlist));
+}
+
+$site->add_contents($cts);
+$site->end_page();
 ?>
