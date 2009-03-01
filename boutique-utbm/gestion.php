@@ -307,7 +307,7 @@ elseif( $_REQUEST["page"] == "bilan" )
         $pdf->SetFont('Arial','B',11);
         //Header
         $w=array(15,50,60,20,15,15,15);
-        $w2=array(170,50,30)
+        $w2=array(170,50,30);
         $pdf->SetFillColor(0,0,0);
         $pdf->SetTextColor(255);
         $pdf->SetDrawColor(128,128,128);
@@ -352,11 +352,11 @@ elseif( $_REQUEST["page"] == "bilan" )
               $border = 'LRB';
               $pdf->Cell($w2[0],6,'',$border,0,'L',$fill);
               $pdf->Cell($w2[1],6,'Paiment :',$border,0,'L',$fill);
-              $pdf->Cell($w2[2],6,utf8_decode($_mode),$border),0,'L',$fill);
+              $pdf->Cell($w2[2],6,utf8_decode($_mode),$border,0,'L',$fill);
               $pdf->Ln();
               $pdf->Cell($w2[0],6,'',$border,0,'L',$fill);
               $pdf->Cell($w2[1],6,'Total :',$border,0,'L',$fill);
-              $pdf->Cell($w2[2],6,$_total,$border),0,'L',$fill);
+              $pdf->Cell($w2[2],6,$_total,$border,0,'L',$fill);
               $pdf->Ln();
               $_gtotal = $_gtotal+$_total;
               if(!isset($_smode[$_mode]))
@@ -383,11 +383,11 @@ elseif( $_REQUEST["page"] == "bilan" )
           $border = 'LRB';
           $pdf->Cell($w2[0],6,'',$border,0,'L',$fill);
           $pdf->Cell($w2[1],6,'Paiment :',$border,0,'L',$fill);
-          $pdf->Cell($w2[2],6,utf8_decode($_mode),$border),0,'L',$fill);
+          $pdf->Cell($w2[2],6,utf8_decode($_mode),$border,0,'L',$fill);
           $pdf->Ln();
           $pdf->Cell($w2[0],6,'',$border,0,'L',$fill);
           $pdf->Cell($w2[1],6,'Total :',$border,0,'L',$fill);
-          $pdf->Cell($w2[2],6,$_total,$border),0,'L',$fill);
+          $pdf->Cell($w2[2],6,$_total,$border,0,'L',$fill);
           $pdf->Ln();
           $_gtotal = $_gtotal+$_total;
           if(!isset($_smode[$_mode]))
@@ -398,13 +398,13 @@ elseif( $_REQUEST["page"] == "bilan" )
           $pdf->Ln();
           $pdf->Cell($w2[0],6,'',$border,0,'L',$fill);
           $pdf->Cell($w2[1],6,'Total :',$border,0,'L',$fill);
-          $pdf->Cell($w2[2],6,$_gtotal,$border),0,'L',$fill);
+          $pdf->Cell($w2[2],6,$_gtotal,$border,0,'L',$fill);
           foreach($_smode as $mode => $total)
           {
             $pdf->Ln();
             $pdf->Cell($w2[0],6,'',$border,0,'L',$fill);
             $pdf->Cell($w2[1],6,utf8_decode($mode).' :',$border,0,'L',$fill);
-            $pdf->Cell($w2[2],6,$total,$border),0,'L',$fill);
+            $pdf->Cell($w2[2],6,$total,$border,0,'L',$fill);
           }
         }
         $pdf->Output('bilan_'.date("d-m-Y").'.pdf',D);
