@@ -289,7 +289,7 @@ elseif( $_REQUEST["page"] == "bilan" )
           LEFT JOIN utilisateurs u USING(id_utilisateur)
           INNER JOIN `boutiqueut_produits` p USING(`id_produit`)
           WHERE ".implode(" AND ",$conds)."
-          ORDER BY `boutiqueut_debitfacture`.`id_facture` DESC");
+          ORDER BY `id_facture` DESC",1);
       $tbl = new table('Bilan');
       $tbl->add_row(array('N° fact','Date','Client','Article','Quantité','P.U.','Total'));
       $_last=-1;
