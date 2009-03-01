@@ -318,7 +318,7 @@ elseif( $_REQUEST["page"] == "bilan" )
             else
               $_smode[$_mode]=$_smode[$_mode]+$_total;
           }
-          $tbl->add_row(array($id_facture,$date,$client,$Article,$Quantite,$pu,$total));
+          $tbl->add_row(array('<b>'.$id_facture.'</b>',$date,$client,$Article,$Quantite,$pu,$total));
           $_last  = $id_facture;
           $_mode  = $mode;
           $_total = $total;

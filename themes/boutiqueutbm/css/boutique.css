@@ -1723,6 +1723,7 @@ table.bilancomptable tr.totalfactbilan td
 table.bilancomptable tr.modefactbilan
 {
   font-weight:bold;
+  border-top:1px solid #000000;
 }
 table.bilancomptable tr.totalbilan
 {
