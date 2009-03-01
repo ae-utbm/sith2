@@ -94,7 +94,19 @@ $path .= " / "."Guide des UV";
 $cts = new contents($path);
 $cts->add(new tabshead($tabs, $_REQUEST['dept']));
 
-$cts->add_paragraph("blabla");
+$cts->add_paragraph("Bienvenue sur la versione \"site AE\" du guide des UV.
+Nous vous rappelons que tout comme le reste de la partie pédagogie, toutes 
+les informations que vous pouvez trouver ici sont fournies uniquement à
+titre indicatif et que seules les informations issues des documents
+officiels de l'UTBM (notamment le guide des UV et le récapitulatif
+de vos crédits) font foi.");
+
+$cts->add_paragraph("Nous ne sommes pour le moment pas en mesure d'assurer
+la parfaite synchronisation des données avec le guide des UV, les informations
+que vous pouvez trouver peuvent donc être dépassées, voire des UV manquer.
+Vous êtes invités à contribuer à l'utilité de ce site en mettant à jour
+les fiches d'UV (bouton `modifier`) et/ou en ajoutant les UV manquantes :");
+$cts->puts("<input type=\"button\" onclick=\"location.href='uv.php?action=new';\">+ Ajouter une UV</input>");
 
 foreach($_DPT as $dept=>$desc){
   $cts->add_title(2,"<a id=\"dept_".$dept."\" href=\"./uv.php?dept=$dept\">".$desc['long']."</a>");
