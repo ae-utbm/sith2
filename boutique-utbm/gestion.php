@@ -393,7 +393,7 @@ elseif( $_REQUEST["page"] == "bilan" )
 
           $pdf->Ln(20);
           $pdf->SetFont('Arial','B',14);
-          $pdf->Cell('',20,utf8_decode('Résumé'),'LRBT',0,'C');
+          $pdf->Cell(275,10,utf8_decode('Résumé'),'LRBT',0,'C');
           $pdf->Ln();
           $pdf->SetFont('');
           $pdf->Cell($w2[0],6,'',0,0,'L');
