@@ -271,9 +271,9 @@ elseif( $_REQUEST["page"] == "bilan" )
   {
     $conds = array();
     if ( $_REQUEST["debut"] )
-      $conds[] = "boutiqueut_debitfacture.date_facture >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
+      $conds[] = "f.date_facture >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
     if ( $_REQUEST["fin"] )
-      $conds[] = "boutiqueut_debitfacture.date_facture <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
+      $conds[] = "f.date_facture <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
     if ( count($conds) )
     {
       $req = new requete($site->db,
@@ -290,7 +290,7 @@ elseif( $_REQUEST["page"] == "bilan" )
           LEFT JOIN utilisateurs u USING(id_utilisateur)
           INNER JOIN `boutiqueut_produits` p USING(`id_produit`)
           WHERE ".implode(" AND ",$conds)."
-          ORDER BY `id_facture` DESC",1);
+          ORDER BY `id_facture` DESC");
       $tbl = new table('Bilan');
       $tbl->add_row(array('N° fact','Date','Client','Article','Quantité','P.U.','Total'));
       $_last=-1;
