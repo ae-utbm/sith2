@@ -41,8 +41,7 @@ $site->add_js("pedagogie/pedagogie.js");
 //$site->allow_only_logged_users();
 
 $site->start_page("services", "AE Pédagogie");
-$user = new pedag_user($site->db, $site->dbrw);
-$user->load_by_id($site->user->id);
+$user = new pedag_user($site->db, $site->dbrw, $site->user->id);
 
 /* recap edt */
 $cts = new contents("Pydègogy");
@@ -97,8 +96,7 @@ $site->add_contents($cts2);
 
 
 /**** ajout d'UV */
-$uv = new uv($site->db, $site->dbrw);
-$uv->load_by_id(0);
+$uv = new uv($site->db, $site->dbrw, 0);
 
 $cts = new contents("Détails des UV");
 $cts->add_paragraph("Indiquez ci-dessous les séances auxquelles vous êtes

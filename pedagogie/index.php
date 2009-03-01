@@ -35,8 +35,7 @@ $site = new site();
 
 $site->start_page("services", "AE - Pédagogie");
 
-$user = new pedag_user();
-$user->load_by_id();
+$user = new pedag_user($site->db, $site->dbrw, $site->user->id);
 
 $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 $path .= "/" . " Accueil";

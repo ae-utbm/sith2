@@ -35,22 +35,33 @@ require_once("include/cts/pedagogie.inc.php");
 $site = new site();
 $site->start_page("services", "AE Pédagogie");
 
-$usr = new pedag_user($site->db, $site->dbrw, $site->user->id);
-print_r($usr);
+$path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 
-$path = "<a href=\"".$topdir."jobetu/\" title=\"AE JobEtu\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" /> AE JobEtu</a>";
-$path .= " / "."<a href=\"".$topdir."jobetu/board_etu.php\" title=\"Tableau de bord\"><img src=\"".$topdir."images/icons/16/board.png\" class=\"icon\" /> Tableau de bord candidat</a>";
-$path .= " / "."<a href=\"".$topdir."user.php?id_utilisateur=$usr->id\" title=\"$usr->prenom $usr->nom\"><img src=\"".$topdir."images/icons/16/user.png\" class=\"icon\" /> $usr->prenom $usr->nom</a>";
-$cts = new contents($path);
 
-$tabs = array(
-		      array("", "jobetu/board_etu.php", "mes annonces"),
-		      array("candidatures", "jobetu/board_etu.php?view=candidatures", "mes candidatures"),
-		      array("general", "jobetu/board_etu.php?view=general", "tout job-etu"),
-		      array("profil", "jobetu/board_etu.php?view=profil", "profil"),
-		      array("preferences", "jobetu/board_etu.php?view=preferences", "préférences")
-	      );
-$cts->add(new tabshead($tabs, $_REQUEST['view']));
+if($_REQUEST['id'])
+{
+  $cts = new contents($path);
+  $uv = new uv($site->db, null, $_REQUEST['id']);
+  if(!$uv->is_valid())
+    $site->redirect('/pedagogie/');
 
+  $tabs = array(
+            array("", "pedagogie/uv.php?id=".$uv->id, "Informations générales"),
+            array("candidatures", "pedagogie/uv.php?id=".$uv->id."&view=commentaires", "Commentaires"),
+            array("general", "pedagogie/uv.php?id=".$uv->id."&view=suivi", "Séances & Élèves"),
+            array("profil", "pedagogie/uv.php?id=".$uv->id."&view=ressources", "Ressources")
+          );
+  $cts->add(new tabshead($tabs, $_REQUEST['view']));
+  $site->add_contents($cts);
+  
+  $site->end_page();
+}
+
+/**
+ * Affichage 'sommaire' par departement
+ */
+if($_REQUEST['dept'])
+{
+}
 
 ?>
