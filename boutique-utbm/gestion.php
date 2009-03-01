@@ -262,8 +262,8 @@ elseif( $_REQUEST["page"] == "bilan" )
   $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"gestion.php\">Gestion</a> / Bilan mensuel");
   $frm = new form ("boutiqueutaboutiqueut","gestion.php?page=bilan",true,"POST","Bilan");
   $frm->add_hidden("action","bilan");
-  $frm->add_datetime_field("debut","Date et heure de début",-1,true);
-  $frm->add_datetime_field("fin","Date et heure de fin",-1,true);
+  $frm->add_date_field("debut","Date de début",-1,true);
+  $frm->add_date_field("fin","Date de fin",-1,true);
   $frm->add_submit("valid","Générer");
   $cts->add($frm,true);
 
@@ -291,7 +291,7 @@ elseif( $_REQUEST["page"] == "bilan" )
           INNER JOIN `boutiqueut_produits` p USING(`id_produit`)
           WHERE ".implode(" AND ",$conds)."
           ORDER BY `id_facture` ASC");
-      $tbl = new table('Bilan','bilancomptable');
+      $tbl = new table('Bilani du '.$_REQUEST["debut"].'au'.$_REQUEST["fin"],'bilancomptable');
       $tbl->add_row(array('N° fact','Date','Client','Article','Quantité','P.U.','Total'),'headbilan');
       $_last=-1;
       $_mode=null;
