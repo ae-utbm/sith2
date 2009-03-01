@@ -306,8 +306,8 @@ elseif( $_REQUEST["page"] == "bilan" )
 
         $pdf->SetFont('Arial','B',11);
         //Header
-        $w=array(15,60,60,60,20,25,25);
-        $w2=array(170,50,30);
+        $w=array(15,40,70,80,20,25,25);
+        $w2=array(180,50,30);
         $pdf->SetFillColor(0,0,0);
         $pdf->SetTextColor(255);
         $pdf->SetDrawColor(128,128,128);
