@@ -96,8 +96,7 @@ $site->add_contents($cts2);
 
 
 /**** ajout d'UV */
-$uv = new uv($site->db, $site->dbrw);
-$uv->load_by_id(0);
+$uv = new uv($site->db, $site->dbrw, 0);
 
 $cts = new contents("Détails des UV");
 $cts->add_paragraph("Indiquez ci-dessous les séances auxquelles vous êtes
