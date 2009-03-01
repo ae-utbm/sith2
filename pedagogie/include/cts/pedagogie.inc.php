@@ -212,8 +212,7 @@ class uv_dept_table extends stdcontents
     $this->buffer .= "<table class=\"uvlist\">\n";
     $this->buffer .= " <tr>\n";
     $i = 0;
-    $uvs = array();
-    while ($rs = $req->get_row())
+    if(!empty($uvlist))
     foreach($uvlist as $uv)
     {
       $this->buffer .= "  <td><a href=\"./uv.php?id=".$uv['id_uv']."\">".$uv['code']."</a></td>\n";

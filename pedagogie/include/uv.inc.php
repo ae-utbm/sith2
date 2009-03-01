@@ -557,7 +557,8 @@ class uv extends stdentity
    */
   public static function get_list(&$db, $type=null, $dept=null){
     $req = "SELECT * FROM `pedag_uv`";
-    $where=false
+    $where=false;
+    global $_DPT;
     if(!is_null($dept) && array_key_exists($dept, $_DPT)){
       $req .= " NATURAL JOIN `pedag_uv_dept`
                 WHERE `pedag_uv_dept`.`departement` = ".$type;

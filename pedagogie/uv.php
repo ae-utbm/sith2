@@ -97,7 +97,7 @@ $cts->add(new tabshead($tabs, $_REQUEST['dept']));
 $cts->add_paragraph("blabla");
 
 foreach($_DPT as $dept=>$desc){
-  $cts->add_title(2,"<a id=\"dept_".$dept."\" href=\"./uv.php?dept=$dept\">".$desc['short']."</a>");
+  $cts->add_title(2,"<a id=\"dept_".$dept."\" href=\"./uv.php?dept=$dept\">".$desc['long']."</a>");
 
   $uvlist = uv::get_list($site->db, null, $dept);
   $cts->add(new uv_dept_table($uvlist));
