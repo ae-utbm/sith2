@@ -292,7 +292,7 @@ elseif( $_REQUEST["page"] == "bilan" )
           WHERE ".implode(" AND ",$conds)."
           ORDER BY `id_facture` DESC");
       $tbl = new table('Bilan');
-      $tbl->add_row(array('N° fact','Date','Client','Article','Quantité','P.U.','Total'));
+      $tbl->add_row(array('<b>N° fact</b>','<b>Date</b>','<b>Client</b>','<b>Article</b>','<b>Quantité</b>','<b>P.U.</b>','<b>Total</b>'));
       $_last=-1;
       $_mode=null;
       $_total=0;
