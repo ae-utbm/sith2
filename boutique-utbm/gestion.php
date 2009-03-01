@@ -291,7 +291,134 @@ elseif( $_REQUEST["page"] == "bilan" )
           INNER JOIN `boutiqueut_produits` p USING(`id_produit`)
           WHERE ".implode(" AND ",$conds)."
           ORDER BY `id_facture` ASC");
-      $tbl = new table('Bilani du '.date("d/m/Y",$_REQUEST["debut"]).' au '.date("d/m/Y",$_REQUEST["fin"]),'bilancomptable');
+
+      if ($_REQUEST['pdf'])
+      {
+        require_once ($topdir . "include/pdf/facture_pdf.inc.php");
+        define('FPDF_FONTPATH', $topdir.'./font/');
+        $pdf=new FPDF();
+        $pdf->AliasNbPages();
+        $pdf->SetAutoPageBreak(true);
+        $pdf->AddPage();
+        $pdf->SetFont('Arial','B',14);
+        $pdf->Cell('', 20, 'Bilan du '.date("d/m/Y",$_REQUEST["debut"]).' au '.date("d/m/Y",$_REQUEST["fin"]),'','','C');
+        $pdf->Ln();
+
+        $pdf->SetFont('Arial','B',11);
+        //Header
+        $w=array(15,50,60,20,15,15,15);
+        $w2=array(170,50,30)
+        $pdf->SetFillColor(0,0,0);
+        $pdf->SetTextColor(255);
+        $pdf->SetDrawColor(128,128,128);
+        $pdf->SetLineWidth(.3);
+        $pdf->SetFont('','B');
+        $pdf->Cell($w[0],7,utf8_decode("N° Fact"), 1, 0, 'C', 1);
+        $pdf->Cell($w[1],7,"Date", 1, 0, 'C', 1);
+        $pdf->Cell($w[2],7,"Client", 1, 0, 'C', 1);
+        $pdf->Cell($w[3],7,"Article", 1, 0, 'C', 1);
+        $pdf->Cell($w[4],7,utf8_decode("Quantité"), 1, 0, 'C', 1);
+        $pdf->Cell($w[5],7,utf8_decode("P.U. (€)"), 1, 0, 'C', 1);
+        $pdf->Cell($w[6],7,utf8_decode("Total (€)"), 1, 0, 'C', 1);
+        $pdf->Ln();
+        $pdf->SetFillColor(200,200,200);
+        $pdf->SetTextColor(0);
+        $pdf->SetFont('');
+        $_last=-1;
+        $_mode=null;
+        $_total=0;
+        $_gtotal=0;
+        $_smode=array();
+        while (list($id_facture,$date,$client,$Article,$Quantite,$pu,$total,$mode)=$req->get_row())
+        {
+          if($id_facture==$_last)
+          {
+            $border = 'LRB';
+            $pdf->Cell($w[0],6,'',$border,0,'L',$fill);
+            $pdf->Cell($w[1],6,'',$border,0,'L',$fill);
+            $pdf->Cell($w[2],6,'',$border,0,'L',$fill);
+            $pdf->Cell($w[3],6,utf8_decode($Article),$border,0,'L',$fill);
+            $pdf->Cell($w[4],6,$Quantite,$border,0,'L',$fill);
+            $pdf->Cell($w[5],6,$pu,$border,0,'L',$fill);
+            $pdf->Cell($w[6],6,$total,$border,0,'L',$fill);
+            $pdf->Ln();
+            $_total=$_total+$total;
+          }
+          else
+          {
+            //on ajoute le bilan de la facture
+            if(!is_null($_mode))
+            {
+              $border = 'LRB';
+              $pdf->Cell($w2[0],6,'',$border,0,'L',$fill);
+              $pdf->Cell($w2[1],6,'Paiment :',$border,0,'L',$fill);
+              $pdf->Cell($w2[2],6,utf8_decode($_mode),$border),0,'L',$fill);
+              $pdf->Ln();
+              $pdf->Cell($w2[0],6,'',$border,0,'L',$fill);
+              $pdf->Cell($w2[1],6,'Total :',$border,0,'L',$fill);
+              $pdf->Cell($w2[2],6,$_total,$border),0,'L',$fill);
+              $pdf->Ln();
+              $_gtotal = $_gtotal+$_total;
+              if(!isset($_smode[$_mode]))
+                $_smode[$_mode]=$_total;
+              else
+                $_smode[$_mode]=$_smode[$_mode]+$_total;
+            }
+            $border = 'LRB';
+            $pdf->Cell($w[0],6,$id_facture,$border,0,'L',$fill);
+            $pdf->Cell($w[1],6,$date,$border,0,'L',$fill);
+            $pdf->Cell($w[2],6,utf8_decode($client),$border,0,'L',$fill);
+            $pdf->Cell($w[3],6,utf8_decode($Article),$border,0,'L',$fill);
+            $pdf->Cell($w[4],6,$Quantite,$border,0,'L',$fill);
+            $pdf->Cell($w[5],6,$pu,$border,0,'L',$fill);
+            $pdf->Cell($w[6],6,$total,$border,0,'L',$fill);
+            $pdf->Ln();
+            $_last  = $id_facture;
+            $_mode  = $mode;
+            $_total = $total;
+          }
+        }
+        if(!is_null($_mode))
+        {
+          $border = 'LRB';
+          $pdf->Cell($w2[0],6,'',$border,0,'L',$fill);
+          $pdf->Cell($w2[1],6,'Paiment :',$border,0,'L',$fill);
+          $pdf->Cell($w2[2],6,utf8_decode($_mode),$border),0,'L',$fill);
+          $pdf->Ln();
+          $pdf->Cell($w2[0],6,'',$border,0,'L',$fill);
+          $pdf->Cell($w2[1],6,'Total :',$border,0,'L',$fill);
+          $pdf->Cell($w2[2],6,$_total,$border),0,'L',$fill);
+          $pdf->Ln();
+          $_gtotal = $_gtotal+$_total;
+          if(!isset($_smode[$_mode]))
+            $_smode[$_mode]=$_total;
+          else
+            $_smode[$_mode]=$_smode[$_mode]+$_total;
+
+          $pdf->Ln();
+          $pdf->Cell($w2[0],6,'',$border,0,'L',$fill);
+          $pdf->Cell($w2[1],6,'Total :',$border,0,'L',$fill);
+          $pdf->Cell($w2[2],6,$_gtotal,$border),0,'L',$fill);
+          foreach($_smode as $mode => $total)
+          {
+            $pdf->Ln();
+            $pdf->Cell($w2[0],6,'',$border,0,'L',$fill);
+            $pdf->Cell($w2[1],6,utf8_decode($mode).' :',$border,0,'L',$fill);
+            $pdf->Cell($w2[2],6,$total,$border),0,'L',$fill);
+          }
+        }
+        $pdf->Output('bilan_'.date("d-m-Y").'.pdf',D);
+      }
+
+      $frm = new form ("pdf","gestion.php?page=bilan",true,"POST","PDF");
+      $frm->add_hidden("action","bilan");
+      $frm->add_hidden("pdf","true");
+      $frm->add_hidden('debut',$_REQUEST["debut"]);
+      $frm->add_hidden('fin',$_REQUEST["fin"]);
+      $frm->add_submit("valid","Générer le PDF");
+      $cts->add($frm,true);
+
+      $tbl = new table('Bilan du '.date("d/m/Y",$_REQUEST["debut"]).' au '.date("d/m/Y",$_REQUEST["fin"]),'bilancomptable');
       $tbl->add_row(array('N° fact','Date','Client','Article','Quantité','P.U.','Total'),'headbilan');
       $_last=-1;
       $_mode=null;

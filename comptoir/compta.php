@@ -73,7 +73,7 @@ if (isset($_REQUEST['action']) && $_REQUEST['action']=="pdf")
   $breakpage = false;
 
   $conds = array();
-  foreach($_POST[conds] as $value)
+  foreach($_POST['conds'] as $value)
   {
     $conds[] = $value;
   }
