@@ -179,7 +179,7 @@ if ( $_REQUEST["page"] == "statistiques" )
     }
   }
 
-  //chiffre 
+  //chiffre
   //statistiques stocks presques vides
   //statistiques meilleurs ventes sur le dernier mois
   //statistiques meilleurs ventes sur l'année
@@ -256,12 +256,80 @@ elseif( $_REQUEST["page"] == "ventes" )
   $site->end_page();
   exit();
 }
+elseif( $_REQUEST["page"] == "bilan" )
+{
+  $site->start_page("services","Administration");
+  $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"gestion.php\">Gestion</a> / Bilan mensuel");
+  $frm = new form ("boutiqueutaboutiqueut","gestion.php?page=bilan",true,"POST","Bilan");
+  $frm->add_hidden("action","bilan");
+  $frm->add_datetime_field("debut","Date et heure de début",-1,true);
+  $frm->add_datetime_field("fin","Date et heure de fin",-1,true);
+  $frm->add_submit("valid","Générer");
+  $cts->add($frm,true);
+
+  if($_REQUEST["action"] == "bilan" )
+  {
+    $conds = array();
+    if ( $_REQUEST["debut"] )
+      $conds[] = "boutiqueut_debitfacture.date_facture >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
+    if ( $_REQUEST["fin"] )
+      $conds[] = "boutiqueut_debitfacture.date_facture <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
+    if ( count($conds) )
+    {
+      $req = new requete($site->db,
+          "SELECT  f.id_facture
+                 , f.date_facture
+                 , IF(f.id_utilisateur=0, CONCAT(u.prenom_utl,' ',u.nom_utl), CONCAT(f.prenom,' ',f.nom)) AS client
+                 , p.nom_prod
+                 ,v.quantite/100 as q
+                 , v.prix_unit/100 as pu
+                , (v.quantite*v.prix_unit)/100 as total
+          FROM `boutiqueut_vendu` v
+          INNER JOIN `boutiqueut_debitfacture` f USING(`id_facture`)
+          LEFT JOIN utilisateurs u USING(id_utilisateur)
+          INNER JOIN `boutiqueut_produits` p USING(`id_produit`)
+          WHERE ".implode(" AND ",$conds)."
+          ORDER BY `boutiqueut_debitfacture`.`id_facture` DESC");
+      $tbl = new table('Bilan');
+      $tbl->add_row(array('N° fact','Date','Client','Article','Quantité','P.U.','Total'));
+      $_last=-1;
+      $_mode=null;
+      $_total=0;
+      while(list($id_facture,$date,$client,$Article,$Quantite,$pu,$total,$mode)=$req->get_row())
+      {
+        if($id_facture==$_last)
+        {
+          $tbl->add_row(array('','','',$Article,$Quantite,$pu,$total));
+          $_total=$_total+$total;
+        }
+        else
+        {
+          //on ajoute le bilan de la facture
+          if(!is_null($_mode))
+            $tbl->add_row(array('','','','<b>Paiement :</b>',$_mode,'<b>Total :<b/>',$_total));
+          $tbl->add_row(array($id_facture,$date,$client,$Article,$Quantite,$pu,$total));
+          $_last  = $id_facture;
+          $_mode  = $mode;
+          $_total = $total;
+        }
+      }
+      $cts->add($tbl,true);
+    }
+  }
+
+
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
+}
+
 
 $site->add_css("css/d.css");
 $site->start_page('adminbooutique',"Administration");
 $cts = new contents("Administration");
 $cts = new contents("<a href=\"admin.php\">Administration</a> / Gestion");
 $lst = new itemlist("");
+$lst->add("<a href=\"gestion.php?page=bilan\">Bilan mensuel</a>");
 $lst->add("<a href=\"gestion.php?page=statistiques\">Statistiques</a>");
 $lst->add("<a href=\"gestion.php?page=factures\">Factures</a>");
 $lst->add("<a href=\"gestion.php?page=ventes\">Ventes</a>");
