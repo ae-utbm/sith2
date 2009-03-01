@@ -37,11 +37,13 @@ $site->start_page("services", "AE Pédagogie");
 
 $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 
-
+/**
+ * Affichage detail UV
+ */
 if($_REQUEST['id'])
 {
   $cts = new contents($path);
-  $uv = new uv($site->db, null, $_REQUEST['id']);
+  $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
   if(!$uv->is_valid())
     $site->redirect('/pedagogie/');
 
