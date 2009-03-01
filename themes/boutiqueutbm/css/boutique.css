@@ -1722,6 +1722,10 @@ table.bilancomptable tr.totalfactbilan
 {
   font-weight:bold;
 }
+table.bilancomptable tr.modefactbilan
+{
+  font-weight:bold;
+}
 table.bilancomptable tr.totalbilan
 {
   font-weight:bold;

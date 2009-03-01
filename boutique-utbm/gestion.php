@@ -310,7 +310,8 @@ elseif( $_REQUEST["page"] == "bilan" )
           //on ajoute le bilan de la facture
           if(!is_null($_mode))
           {
-            $tbl->add_row(array('','','','Paiement :',$_mode,'Total :',$_total.' €'),'totalfactbilan');
+            $tbl->add_row(array('','','','','','Paiement :',$_mode),'modefactbilan');
+            $tbl->add_row(array('','','','','','Total :',$_total.' €'),'totalfactbilan');
             $_gtotal = $_gtotal+$_total;
             if(!isset($_smode[$_mode]))
               $_smode[$_mode]=$_total;
@@ -325,7 +326,8 @@ elseif( $_REQUEST["page"] == "bilan" )
       }
       if(!is_null($_mode))
       {
-        $tbl->add_row(array('','','','Paiement :',$_mode,'Total :',$_total.' €'),'totalfactbilan');
+        $tbl->add_row(array('','','','','','Paiement :',$_mode),'modefactbilan');
+        $tbl->add_row(array('','','','','','Total :',$_total.' €'),'totalfactbilan');
         $_gtotal = $_gtotal+$_total;
         if(!isset($_smode[$_mode]))
           $_smode[$_mode]=$_total;
