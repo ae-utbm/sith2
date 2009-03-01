@@ -271,9 +271,9 @@ elseif( $_REQUEST["page"] == "bilan" )
   {
     $conds = array();
     if ( $_REQUEST["debut"] )
-      $conds[] = "f.date_facture >= '".date("Y-m-d H:i:s",$_REQUEST["debut"])."'";
+      $conds[] = "f.date_facture >= '".date("Y-m-d",$_REQUEST["debut"])."'";
     if ( $_REQUEST["fin"] )
-      $conds[] = "f.date_facture <= '".date("Y-m-d H:i:s",$_REQUEST["fin"])."'";
+      $conds[] = "f.date_facture <= '".date("Y-m-d",$_REQUEST["fin"])."'";
     if ( count($conds) )
     {
       $req = new requete($site->db,
@@ -291,7 +291,7 @@ elseif( $_REQUEST["page"] == "bilan" )
           INNER JOIN `boutiqueut_produits` p USING(`id_produit`)
           WHERE ".implode(" AND ",$conds)."
           ORDER BY `id_facture` ASC");
-      $tbl = new table('Bilani du '.$_REQUEST["debut"].'au'.$_REQUEST["fin"],'bilancomptable');
+      $tbl = new table('Bilani du '.date("d/m/Y",$_REQUEST["debut"]).' au '.date("d/m/Y",$_REQUEST["fin"]),'bilancomptable');
       $tbl->add_row(array('N° fact','Date','Client','Article','Quantité','P.U.','Total'),'headbilan');
       $_last=-1;
       $_mode=null;
