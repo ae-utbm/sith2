@@ -391,6 +391,8 @@ elseif( $_REQUEST["page"] == "bilan" )
           else
             $_smode[$_mode]=$_smode[$_mode]+$_total;
 
+          $pdf->Ln(20);
+          $pdf->Cell(275,6,utf8_decode('Résumé'),'LRBT',0,'C',$fill);
           $pdf->Ln();
           $pdf->Cell($w2[0],6,'',0,0,'L',$fill);
           $pdf->Cell($w2[1],6,'Total :','LRBT',0,'L',$fill);
