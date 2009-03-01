@@ -62,12 +62,14 @@ define("TYPE_TM", 2);
 define("TYPE_EC", 3);
 define("TYPE_CG", 4);
 define("TYPE_Ext",5);
+define("TYPE_RN",6);
 $_TYPE = array(
   TYPE_CS => array('short'=>'CS', 'long'=>"Connaissances scientifiques"),
   TYPE_TM => array('short'=>'TM', 'long'=>"Techniques & Méthodes"),
   TYPE_EC => array('short'=>'EC', 'long'=>"Expression & Communication"),
   TYPE_CG => array('short'=>'CG', 'long'=>"Culture générale"),
-  TYPE_Ext => array('short'=>'Ext', 'long'=>"Extérieur")
+  TYPE_Ext => array('short'=>'Ext', 'long'=>"Extérieur"),
+  TYPE_RN => array('short'=>'RN', 'long'=>"Remise à niveau")
 );
 
 /* semestres d ouverture (ou pas)
