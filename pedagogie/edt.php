@@ -39,8 +39,8 @@ $site->add_js("pedagogie/pedagogie.js");
 //$site->allow_only_logged_users();
 
 $site->start_page("services", "AE Pédagogie");
-$user = new pedag_user($site->db, $site->dbrw, $site->user->id);
-print_r($user);
+$user = new pedag_user($site->db, $site->dbrw);
+$user->load_by_id($site->user->id);
 /* recap edt */
 $cts = new contents("Pydègogy");
 $tab = array();

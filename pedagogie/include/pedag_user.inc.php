@@ -31,7 +31,7 @@ class pedag_user extends utilisateur{
   var $uv_suivies = array();
   /* UV suivies dans le passé */
   var $uv_passe = array();
-
+  
   public function add_uv_result($id_uv, $semestre, $result){
     if(!check_semester_format($semestre))
       throw new Exception("Wrong format \$semestre ".$semestre);
@@ -43,10 +43,6 @@ class pedag_user extends utilisateur{
       return $sql->get_id();
     else 
       return false;
-  }
-  
-  public function load_by_id($id){
-    $this->id = $id;
   }
 
   /**
