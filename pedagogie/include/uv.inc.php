@@ -463,6 +463,16 @@ class uv extends stdentity
   /**
    * Departements
    */
+  public function get_dept_list(){
+    if(empty($this->dept)){
+      $sql = new requete($this->db, "SELECT * FROM `pedag_uv_dept` WHERE `id_uv`='".$this->id."'");
+      if($sql->is_success())
+        while($row = $sql->get_row())
+          $this->dept[] = $row['departement'];
+    }
+    return $this->dept;
+  }
+  
   public function add_to_dept($dept){
     $sql = new insert($this->dbrw, "pedag_uv_dept", array("id_uv" => $this->id, "departement" => $dept));
     return $sql->is_success();

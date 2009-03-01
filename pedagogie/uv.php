@@ -42,10 +42,14 @@ $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.
  */
 if($_REQUEST['id'])
 {
-  $cts = new contents($path);
   $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
   if(!$uv->is_valid())
     $site->redirect('/pedagogie/');
+
+  print_r($_DPT);
+  print_r($uv->get_dept_list());
+
+  $cts = new contents($path);
 
   $tabs = array(
             array("", "pedagogie/uv.php?id=".$uv->id, "Informations générales"),

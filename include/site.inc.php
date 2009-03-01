@@ -1258,6 +1258,12 @@ class site extends interfaceweb
 
     exit();
   }
+  
+  function redirect($url='/')
+  {
+    header("Location: $url");
+    exit();
+  }
 
   function return_file (  $uid, $mime_type, $mtime, $size, $file )
   {
