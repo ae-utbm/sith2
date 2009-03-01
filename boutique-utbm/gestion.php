@@ -314,6 +314,8 @@ elseif( $_REQUEST["page"] == "bilan" )
           $_total = $total;
         }
       }
+      if(!is_null($_mode))
+        $tbl->add_row(array('','','','<b>Paiement :</b>',$_mode,'<b>Total :<b/>',$_total));
       $cts->add($tbl,true);
     }
   }
