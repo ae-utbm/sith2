@@ -281,7 +281,7 @@ elseif( $_REQUEST["page"] == "bilan" )
                  , f.date_facture
                  , IF(f.id_utilisateur=0, CONCAT(u.prenom_utl,' ',u.nom_utl), CONCAT(f.prenom,' ',f.nom)) AS client
                  , p.nom_prod
-                 ,v.quantite/100 AS q
+                 ,v.quantite AS q
                  , v.prix_unit/100 AS pu
                  , (v.quantite*v.prix_unit)/100 AS total
                  , IF(f.mode_paiement='UT', 'Boutique', IF(f.mode_paiement='CH','Chèque','Espèces')) AS mode
