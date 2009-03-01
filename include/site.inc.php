@@ -74,12 +74,6 @@ class site extends interfaceweb
     if($_COOKIE['AE2_SESS_ID'])
       $this->load_session($_COOKIE['AE2_SESS_ID']);
 
-    /*if($this->user->type=="srv" && !strpos($_SERVER['SCRIPT_FILENAME'],'boutique-utbm') )
-    {
-      header("Location: ".$topdir."boutique-utbm/");
-      exit();
-    }*/
-
     if ( $this->get_param("closed",false) && !$this->user->is_in_group("root") )
       $this->fatal("closed");
 
@@ -100,8 +94,6 @@ class site extends interfaceweb
     if ( isset($_COOKIE['AE2_SESS_ID']) )
     {
       $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
-      if($_SERVER['SCRIPT_URI'] == 'http://ae.utbm.fr/boutique-utbm/connect.php')
-        $domain = '.utbm.fr';
 
       setcookie ("AE2_SESS_ID", "", time() - 3600, "/", $domain);
       unset($_COOKIE['AE2_SESS_ID']);
@@ -210,9 +202,6 @@ class site extends interfaceweb
               "expire_sess" => $expire
               ));
     $domain = ($_SERVER['HTTP_HOST'] != 'localhost' && $_SERVER['HTTP_HOST'] != '127.0.0.1') ? $_SERVER['HTTP_HOST'] : false;
-
-    if($_SERVER['SCRIPT_URI'] == 'http://ae.utbm.fr/boutique-utbm/connect.php')
-      $domain = '.utbm.fr';
 
     setcookie ("AE2_SESS_ID", $sid, time() + 31536000, "/", $domain);
 
@@ -1258,7 +1247,7 @@ class site extends interfaceweb
 
     exit();
   }
-  
+
   function redirect($url='/')
   {
     header("Location: $url");
