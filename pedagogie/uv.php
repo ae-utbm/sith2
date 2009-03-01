@@ -106,7 +106,7 @@ la parfaite synchronisation des données avec le guide des UV, les informations
 que vous pouvez trouver peuvent donc être dépassées, voire des UV manquer.
 Vous êtes invités à contribuer à l'utilité de ce site en mettant à jour
 les fiches d'UV (bouton `modifier`) et/ou en ajoutant les UV manquantes :");
-$cts->puts("<input type=\"button\" onclick=\"location.href='uv.php?action=new';\">+ Ajouter une UV</input>");
+$cts->puts("<input type=\"button\" onclick=\"location.href='uv.php?action=new';\" value=\"+ Ajouter une UV\" />");
 
 foreach($_DPT as $dept=>$desc){
   $cts->add_title(2,"<a id=\"dept_".$dept."\" href=\"./uv.php?dept=$dept\">".$desc['long']."</a>");

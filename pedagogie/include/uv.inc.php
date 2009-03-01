@@ -573,7 +573,7 @@ class uv extends stdentity
     }
     $req .= " ORDER BY `code` ASC";
     
-    $sql = new requete($db, $req);
+    $sql = new requete($db, $req, true);
 
     if(!$sql->is_success())
       return false;
