@@ -1708,17 +1708,14 @@ table.bilancomptable td
 {
   border:0;
 }
-table.bilancomptable tr.headbilan
-{
-  border:0;
-  border-bottom:1px double #000000;
-}
-table.bilancomptable tr.headbilan
+table.bilancomptable tr.headbilan td
 {
   font-size:14px;
   font-weight:bold;
+  border:0;
+  border-bottom:1px double #000000;
 }
-table.bilancomptable tr.totalfactbilan
+table.bilancomptable tr.totalfactbilan td
 {
   font-weight:bold;
   border-bottom:1px solid #000000;
