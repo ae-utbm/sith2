@@ -27,21 +27,16 @@ $topdir = "../";
 
 require_once($topdir . "include/site.inc.php");
 require_once($topdir . "include/cts/sqltable.inc.php");
-require_once("include/jobetu.inc.php");
-require_once("include/annonce.inc.php");
-require_once("include/cts/jobetu.inc.php");
-require_once("include/jobuser_etu.inc.php");
+require_once("include/pedagogie.inc.php");
+require_once("include/uv.inc.php");
+require_once("include/pedag_user.inc.php");
+require_once("include/cts/pedagogie.inc.php");
 
 $site = new site();
-$site->allow_only_logged_users("services");
-if(!$site->user->is_in_group("jobetu_etu")) header("Location: index.php");
+$site->start_page("services", "AE Pédagogie");
 
-$usr = new pedag_etu($site->db, $site->dbrw);
-
-$site->add_css("jobetu/jobetu.css");
-$site->add_rss("Les dernières annonces de JobEtu","rss.php");
-
-$site->start_page("services", "AE Job Etu");
+$usr = new pedag_etu($site->db, $site->dbrw, $site->user->id);
+print_r($usr);
 
 $path = "<a href=\"".$topdir."jobetu/\" title=\"AE JobEtu\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" /> AE JobEtu</a>";
 $path .= " / "."<a href=\"".$topdir."jobetu/board_etu.php\" title=\"Tableau de bord\"><img src=\"".$topdir."images/icons/16/board.png\" class=\"icon\" /> Tableau de bord candidat</a>";

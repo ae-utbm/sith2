@@ -40,7 +40,7 @@ $site = new site();
 $site->add_js("pedagogie/pedagogie.js");
 //$site->allow_only_logged_users();
 
-$site->start_page("services", "Pédagogie");
+$site->start_page("services", "AE Pédagogie");
 $user = new pedag_user($site->db, $site->dbrw);
 $user->load_by_id($site->user->id);
 
