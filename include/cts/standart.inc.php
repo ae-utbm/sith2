@@ -308,6 +308,7 @@ class form extends stdcontents
     $this->name = $name;
     $this->title = $title;
     $this->enc = false;
+    $this->event = array();
 
     if ( $_REQUEST["magicform"]["name"] == $name )
       $this->autorefill = $allow_refill;
@@ -326,6 +327,13 @@ class form extends stdcontents
     $this->hiddens[$name] = $value;
   }
 
+  /** Ajoute des fonctions javascripti= au formulaire
+   * @param $event evenement cible : ex : onsubmit
+   * @param $action fonction javascript a appeler : ex : valider_entrees(this)
+   */
+  function set_event($event, $action){
+    $this->event[$event] = $action;
+  }
   /** Ajoute un champ texte au formulaire
    * Valeur à récupérer dans $_REQUEST[$name]
    * @param $name    Nom du champ
@@ -1571,6 +1579,8 @@ class form extends stdcontents
       $html .= " name=\"".$this->name."\" id=\"".$this->name."\"";
     if ( $this->enctype )
       $html .= " enctype=\"".$this->enctype."\"";
+    foreach($this->event as $event=>$action)
+      $html .= " ".strtolower($event)."=\"javascript:".$action.";\"";
     $html .= ">\n";
     foreach ( $this->hiddens as $key => $value )
       $html .= "<input type=\"hidden\" name=\"$key\" value=\"$value\" />\n";

@@ -114,6 +114,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
    * informations principales
    */
   $frm = new form("editmain", "uv.php?action=save", true, "post", "Informations principales");
+  $frm->set_event("onclick", "alert('bleh')");
   $frm->add_text_field("code", "Code", $uv->code, true, 4);
   $frm->add_text_field("intitule", "Intitulé", $uv->intitule, true);
   $frm->add_text_field("responsable", "Responsable", $uv->responsable);
@@ -224,7 +225,7 @@ if($_REQUEST['dept'])
   $uvlist = uv::get_list($site->db, null, $dept);
   $cts->add(new uv_dept_table($uvlist));
   
-  $cts->add(new sqltable1("uvlist_".$dept, "UV de ".$_DPT[$dept]['long'], $uvlist, "", 'id_uv',
+  $cts->add(new sqltable("uvlist_".$dept, "UV de ".$_DPT[$dept]['long'], $uvlist, "", 'id_uv',
                           array("code"=>"Code",
                                 "intitule"=>"Intitulé",
                                 "type"=>"Type",
