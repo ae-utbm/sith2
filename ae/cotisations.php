@@ -157,7 +157,7 @@ function add_user_info_form ($user = null)
   if ($user->date_naissance)
     $sub_frm->add_date_field("date_naissance","Date de naissance",$user->date_naissance,false,true);
   else
-    $sub_frm->add_date_field("date_naissance","Date de naissance",strtotime("1986-01-01"),false,false,true);
+    $sub_frm->add_date_field("date_naissance","Date de naissance",strtotime("1986-01-01"),false,true);
 
   if ($user->utbm)
   {
@@ -311,9 +311,11 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     if ( $user->utbm )
     {
       $user->surnom = $_REQUEST['surnom'];
+      $user->departement = $_REQUEST['departement'];
       $user->semestre = $_REQUEST['semestre'];
       $user->role = $_REQUEST['role'];
     }
+    $user->taille_tshirt = $_REQUEST['taille_tshirt'];
     $user->saveinfos();
 
     $info = new contents("Nouvelle cotisation","<img src=\"".$topdir."images/actions/done.png\">&nbsp;&nbsp;La cotisation a bien &eacute;t&eacute; enregistr&eacute;e.<br /><a href=\"" . $topdir . "ae/cotisations.php\">Retour</a>");
