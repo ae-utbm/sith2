@@ -69,8 +69,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
   Merci de votre participation !");
   
   $frm = new form("newuv", "uv.php?action=save", true, "post");
-  $frm->add_text_field("code", "Code", "", false, 4, false, true, "(format XX00)");
-  $frm->add_text_field("intitule", "Intitulé");
+  $frm->add_text_field("code", "Code", "", true, 4, false, true, "(format XX00)");
+  $frm->add_text_field("intitule", "Intitulé", "", true, 36);
   $frm->add_text_field("responsable", "Responsable");
   
   $avail_type=array();
@@ -88,6 +88,70 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
   
   $frm->add_submit("saveuv", "Enregistrer l'UV & éditer la fiche");
   $cts->add($frm);
+  
+  $site->add_contents($cts);
+  $site->end_page();
+  exit;
+}
+
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
+{
+  $uv = new uv($site->db, $site->dbrw, intval($_REQUEST['id']));
+  if(!$uv->is_valid())
+    $site->redirect('./');
+  
+  
+  $path .= " / "."Ajouter une UV";
+  $cts = new contents($path);
+  $cts->add_paragraph("");
+  
+  /** 
+   * informations principales
+   */
+  $frm = new form("editmain", "uv.php?action=save", true, "post", "Informations principales");
+  $frm->add_text_field("code", "Code", $uv->code, true, 4);
+  $frm->add_text_field("intitule", "Intitulé", $uv->intitule, true);
+  $frm->add_text_field("responsable", "Responsable", $uv->responsable);
+  
+  $avail_type=array();
+  foreach($_TYPE as $type=>$desc)
+    $avail_type[$type] = $desc['long'];
+  $frm->add_select_field("type", "Catégorie", $avail_type);
+  
+  $avail_sem=array();
+  foreach($_SEMESTER as $sem=>$desc)
+    $avail_sem[$sem] = $desc['long'];
+  $frm->add_select_field("semestre", "Semestre(s) d'ouverture", $avail_sem, SEMESTER_AP);
+    
+  $frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03')");
+  $frm->add_checkbox("tc_avail", "UV ouverte aux TC", true);
+  
+  $frm->add_submit("saveuv", "Enregistrer les modifications");
+  $cts->add($frm, true, false, "main", false, true);
+  
+  /**
+   * infos du guide 
+   */
+  $frm = new form("editextra", "uv.php?action=save", true, "post", "Informations du guide des UV");
+    $subfrm = new subform("charge");
+    $subfrm->add_info("Ces informations sont très importantes car elles permettent de plannifier les séances de C/TD/TP");
+    $subfrm->add_text_field("c", "Nombre d'heures de : cours", $uv->guide['c'], true, 2);
+    $subfrm->add_text_field("td", "TD", $uv->guide['td'], true, 2);
+    $subfrm->add_text_field("tp", "TP", $uv->guide['tp'], true, 2);
+    $subfrm->add_text_field("the", "THE", $uv->guide['the'], true, 2);
+  $frm->add($frm, false, false, false, false, true);
+    
+  $frm->add_text_field("credits", "Nombre de crédits ECTS", $uv->credits, true, 2);
+  $frm->add_text_area("objectifs", "Objectifs de l'UV", $uv->guide['objectifs']);
+  $frm->add_text_area("programme", "Programme de l'UV", $uv->guide['programme']);
+  
+  $frm->add_submit("saveuv", "Enregistrer les modifications");
+  $cts->add($frm, true, false, "guide", false, true);
+  
+  /**
+   * Informations relatives
+   */
+  /* ajout dept, filieres, alias... */
   
   $site->add_contents($cts);
   $site->end_page();
