@@ -42,7 +42,7 @@ $site->start_page("services", "AE Pédagogie");
 $user = new pedag_user($site->db, $site->dbrw);
 $user->load_by_id($site->user->id);
 /* recap edt */
-$cts = new contents("Pydègogy");
+$cts = new contents("Pédagogie");
 $tab = array();
 $edts = $user->get_edt_list();
 if(!empty($edts))
