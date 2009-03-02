@@ -2,6 +2,7 @@
 /* Copyright 2006
  * - Julien Etelain < julien at pmad dot net >
  * - Simon Lopez < simon DOT lopez AT ayolo DOT org >
+ * - Benjamin Collet < bcollet AT oxynux DOT org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
  * l'UTBM, http://ae.utbm.fr.
@@ -34,6 +35,8 @@ require_once($topdir. "include/entities/cotisation.inc.php");
 require_once($topdir. "include/cts/special.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
+
+print_r($_REQUEST);
 
 $site = new site ();
 
