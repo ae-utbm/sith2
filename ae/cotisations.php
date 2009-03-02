@@ -36,8 +36,6 @@ require_once($topdir. "include/cts/special.inc.php");
 require_once($topdir . "include/entities/ville.inc.php");
 require_once($topdir . "include/entities/pays.inc.php");
 
-print_r($_REQUEST);
-
 $site = new site ();
 
 if ( !$site->user->is_in_group("gestion_ae") )
