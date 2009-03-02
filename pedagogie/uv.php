@@ -44,8 +44,17 @@ $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
   print_r($_REQUEST);
+  $uv = new uv($site->db, $site->dbrw);
   
-  //$site->redirect("./uv.php?id=".$uv->id."&action=edit#guide");
+  $uv->add($_REQUEST['code'], $_REQUEST['intitule'], $_REQUEST['type'], $_REQUEST['responsable'], $_REQUEST['semestre'], $_REQUEST['tc_avail']);
+  
+  if(!$uv->is_valid())
+    exit; //ouais faudra trouver mieux :)
+  
+  if(isset($_REQUEST['alias_of']) && !empty($_REQUEST['alias_of']))
+    $uv->set_alias_of($_REQUEST['alias_uv']);
+    
+  $site->redirect("./uv.php?id=".$uv->id."&action=edit#guide");
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
@@ -72,16 +81,17 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
   $avail_sem=array();
   foreach($_SEMESTER as $sem=>$desc)
     $avail_sem[$sem] = $desc['long'];
-  $frm->add_select_field("semestre", "Semestre(s) d'ouverture", $avail_sem);
-  
-  $frm->add_checkbox("tc_avail", "UV ouverte aux TC", true);
+  $frm->add_select_field("semestre", "Semestre(s) d'ouverture", $avail_sem, SEMESTER_AP);
+    
   $frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03')");
+  $frm->add_checkbox("tc_avail", "UV ouverte aux TC", true);
   
   $frm->add_submit("saveuv", "Enregistrer l'UV & éditer la fiche");
   $cts->add($frm);
   
   $site->add_contents($cts);
   $site->end_page();
+  exit;
 }
 
 /***********************************************************************
@@ -105,6 +115,7 @@ if($_REQUEST['id'])
   $site->add_contents($cts);
   
   $site->end_page();
+  exit;
 }
 
 /***********************************************************************
@@ -128,6 +139,7 @@ if($_REQUEST['dept'])
   $path .= " / "."<a href=\"".$topdir."pedagogie/uv.php?dept=$dept\"><img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" /> ".$_DPT[$dept]['short']." </a>";
   $cts = new contents($path);
   $cts->add(new tabshead($tabs, $_REQUEST['dept']));
+  $cts->add_paragraph("");
   
   $uvlist = uv::get_list($site->db, null, $dept);
   $cts->add(new uv_dept_table($uvlist));
