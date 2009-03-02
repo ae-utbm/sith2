@@ -44,35 +44,40 @@ $user->load_by_id($site->user->id);
 /* recap edt */
 $cts = new contents("Pydègogy");
 $tab = array();
-foreach($user->get_edt_list() as $edt){
-  $tab[$edt]['semestre'] = $edt;
-  $i=0;
-  foreach($user->get_edt_detail($edt) as $uv)
-    $tab[$edt]['uv'.++$i] = $uv['code'];
+$edts = $user->get_edt_list();
+if(!empty($edts))
+{
+  foreach($user->get_edt_list() as $edt)
+  {
+    $tab[$edt]['semestre'] = $edt;
+    $i=0;
+    foreach($user->get_edt_detail($edt) as $uv)
+      $tab[$edt]['uv'.++$i] = $uv['code'];
+  }
 }
-$cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.php", 'semestre', 
-                        array("semestre"=>"Semestre", 
-                              "uv1" => "UV 1", 
-                              "uv2" => "UV 2", 
-                              "uv3" => "UV 3", 
-                              "uv4" => "UV 4", 
-                              "uv5" => "UV 5", 
-                              "uv6" => "UV 6", 
+$cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.php", 'semestre',
+                        array("semestre"=>"Semestre",
+                              "uv1" => "UV 1",
+                              "uv2" => "UV 2",
+                              "uv3" => "UV 3",
+                              "uv4" => "UV 4",
+                              "uv5" => "UV 5",
+                              "uv6" => "UV 6",
                               "uv7" => "UV 7"),
                         array("view" => "Voir détails",
                               "print" => "Format imprimable",
                               "edit" => "Éditer",
-                              "delete" => "Supprimer"), 
+                              "delete" => "Supprimer"),
                         array()), true);
-$cts->puts("<input type=\"submit\" class=\"isubmit\" "
-              ."value=\"+ Ajouter un emploi du temps\" "
-              ."onclick=\"edt.add();\" "
-              ."name=\"add_edt\" id=\"add_edt\"/>");
+$cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
+                    ."value=\"+ Ajouter un emploi du temps\" "
+                    ."onclick=\"edt.add();\" "
+                    ."name=\"add_edt\" id=\"add_edt\"/>");
 $site->add_contents($cts);
 
 
 /******************/
-$cts2 = new contents("Ajoutez un nouvel emploi du temps   (Étape 1/2)"); 
+$cts2 = new contents("Ajoutez un nouvel emploi du temps   (Étape 1/2)");
 
 $tab = array();
 foreach(uv::get_list($site->db) as $uv)
@@ -100,7 +105,7 @@ $cts = new contents("Détails des UV");
 $cts->add_paragraph("Indiquez ci-dessous les séances auxquelles vous êtes
       inscrit. Si celle-ci n'est pas présente dans la liste proposée, choisissez
       \"Ajouter une séance\" afin de la créer.");
-      
+
 $site->add_contents($cts);
 $site->add_contents(new add_uv_edt_box($uv));
 
