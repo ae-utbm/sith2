@@ -39,13 +39,43 @@ $site->start_page("services", "AE Pédagogie");
 $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 
 /***********************************************************************
+ * Actions
+ */
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
+{
+  print_r($_REQUEST);
+}
+
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
+{
+  $path .= " / "."Ajouter une UV";
+  $cts = new contents($path);
+  $cts->add_paragraph("Vous pouvez ici ajouter une UV au guide des UV. Bien
+  que quelques vérifications automatiques seront faites, nous vous incitons
+  à bien vous assurer que la fiche n'existe pas déjà. De plus, nous vous 
+  demandons de n'ajouter *que* des UV réelles de l'UTBM, et non pas vos
+  permanences de foyer, etc (utilisez pour cela le planning à cet effet).
+  Merci de votre participation !");
+  
+  $frm = new form("newuv", "uv.php?action=save", true, "post");
+  $frm->add_text_field("code", "Code", "", false, 4, false, true, "(format XX00)");
+  $frm->add_text_field("intitule", "Intitulé");
+  
+  $frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03' après vous être assuré que l'UV principale existe)");
+  $cts->add($frm);
+  
+  $site->add_contents($cts);
+  $site->end_page();
+}
+
+/***********************************************************************
  * Affichage detail UV
  */
 if($_REQUEST['id'])
 {
   $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
   if(!$uv->is_valid())
-    $site->redirect('/pedagogie/');
+    $site->redirect('./');
 
   $cts = new contents($path);
 
@@ -77,7 +107,7 @@ if($_REQUEST['dept'])
   if(array_key_exists($_REQUEST['dept'], $_DPT))
     $dept = $_REQUEST['dept'];
   else
-    $site->redirect('/pedagogie/');
+    $site->redirect('./');
   
   $path .= " / "."<a href=\"".$topdir."pedagogie/uv.php?dept=$dept\"><img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" /> ".$_DPT[$dept]['short']." </a>";
   $cts = new contents($path);
@@ -85,6 +115,14 @@ if($_REQUEST['dept'])
   
   $uvlist = uv::get_list($site->db, null, $dept);
   $cts->add(new uv_dept_table($uvlist));
+  
+  $cts->add(new sqltable("uvlist_".$dept, "UV de ".$_DPT[$dept]['long'], $uvlist, "", 'id_uv',
+                          array("code"=>"Code",
+                                "intitule"=>"Intitulé",
+                                "type"=>"Type",
+                                "responsable"=>"Responsable",
+                                "semestre"=>"Ouverture")
+                          ));
   
   $site->add_contents($cts);
   $site->end_page();
