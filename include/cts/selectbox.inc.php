@@ -42,14 +42,17 @@
  */
 class selectbox extends form
 {
-  public function __construct($name, $title, $values, $action, $select_title=null)
+  public function __construct($name, $title, $values, $action, $select_title=null, $right_val=null, $width=null, $height=null)
   {
     $this->form($name, $action, false, "post", $title);
 
     $this->values = $values;
+    $this->right_values = $right_val;
     $this->sel_from = $name.'_from';
     $this->sel_to = $name.'_to';
     $this->select_title = $select_title;
+    $this->width = $width;
+    $this->height = $height;
 
     $this->add_selectbox();
   }
@@ -80,6 +83,11 @@ class selectbox extends form
     if($this->select_title)
       $this->buffer .= "<h4>".$this->select_title." choisi(es) :</h4>\n";
     $this->buffer .= "<select name=\"".$this->sel_to."[]\" id=\"$this->sel_to\" multiple=\"multiple\">\n";
+    if(!empty($this->right_values))
+      foreach($this->right_values as $key => $value)
+        $this->buffer .= "  <option value=\"".$key."\" "
+                          ."ondblclick=\"select_box.move(select_box.sel_to, select_box.sel_from);\">"
+                          .$value."</option>\n";
     $this->buffer .= "</select>\n";
     $this->buffer .= "</div>\n";
 

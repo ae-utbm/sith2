@@ -137,8 +137,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
    */
   unset($frm);
   $frm = new form("editextra", "uv.php?action=save", true, "post", "Informations du guide des UV");
+  $frm->add_info("Ces informations sont très importantes car elles permettent de plannifier les séances de C/TD/TP");
     $subfrm = new subform("charge");
-    $subfrm->add_info("Ces informations sont très importantes car elles permettent de plannifier les séances de C/TD/TP");
     $subfrm->add_text_field("c", "Nombre d'heures de : cours", $uv->guide['c'], true, 2);
     $subfrm->add_text_field("td", "TD", $uv->guide['td'], true, 2);
     $subfrm->add_text_field("tp", "TP", $uv->guide['tp'], true, 2);
@@ -156,6 +156,16 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
    * Informations relatives
    */
   /* ajout dept, filieres, alias... */
+  unset($frm);
+  $frm = new form("editrelative", "uv.php?action=save", true, "post", "Informations relatives");
+  
+  $avail_dept=array();
+  foreach($_DPT as $dept=>$desc)
+    $avail_dept[$dept] = $desc['long'];
+  $frm->add(new selectbox("dept", "Départements", $avail_dept));
+    
+  $frm->add_submit("saveuv", "Enregistrer les modifications");
+  $cts->add($frm, true, false, "relative", false, true);
   
   $site->add_contents($cts);
   $site->end_page();
