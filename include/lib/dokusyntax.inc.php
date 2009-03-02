@@ -398,11 +398,11 @@ class dokusyntax
     $ret = '';
     $match = str_replace('\\"','"',$match);
 
-    list($link,$name) = split('\|',$match,2);
+    list($link,$name,$target) = split('\|',$match,3);
     $link   = trim($link);
     $name   = trim($name);
     $class  = '';
-    $target = '';
+    $target = trim($target);
     $style  = '';
     $pre    = '';
     $post   = '';
