@@ -26,7 +26,7 @@
 
 $topdir = "../";
 
-require_once($topdir. "include/site.inc.php")
+require_once($topdir. "include/site.inc.php");
 require_once("include/pedagogie.inc.php");
 require_once("include/cts/pedagogie.inc.php");
 

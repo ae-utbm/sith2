@@ -100,8 +100,11 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   if(!$uv->is_valid())
     $site->redirect('./');
   
+  $uv->load_extra();
   
-  $path .= " / "."Ajouter une UV";
+  $path .= " / "."[Dpt]";
+  $path .= " / "."<a href=\"./uvs.php?id=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
+  $path .= " / "."Éditer";
   $cts = new contents($path);
   $cts->add_paragraph("");
   
@@ -132,6 +135,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   /**
    * infos du guide 
    */
+  unset($frm);
   $frm = new form("editextra", "uv.php?action=save", true, "post", "Informations du guide des UV");
     $subfrm = new subform("charge");
     $subfrm->add_info("Ces informations sont très importantes car elles permettent de plannifier les séances de C/TD/TP");
@@ -139,7 +143,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
     $subfrm->add_text_field("td", "TD", $uv->guide['td'], true, 2);
     $subfrm->add_text_field("tp", "TP", $uv->guide['tp'], true, 2);
     $subfrm->add_text_field("the", "THE", $uv->guide['the'], true, 2);
-  $frm->add($frm, false, false, false, false, true);
+  $frm->add($subfrm, false, false, false, false, true);
     
   $frm->add_text_field("credits", "Nombre de crédits ECTS", $uv->credits, true, 2);
   $frm->add_text_area("objectifs", "Objectifs de l'UV", $uv->guide['objectifs']);
