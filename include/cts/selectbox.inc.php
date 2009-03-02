@@ -1,5 +1,5 @@
 <?php
-/* Copyright 2005,2006
+/* Copyright 2008
  * - Manuel Vonthron < manuel dot vonthron at acadis dot org >
  *
  * Ce fichier fait partie du site de l'Association des Étudiants de
@@ -45,18 +45,18 @@ class selectbox extends form
   public function __construct($name, $title, $values, $action, $select_title=null)
   {
     $this->form($name, $action, false, "post", $title);
-    
+
     $this->values = $values;
     $this->sel_from = $name.'_from';
     $this->sel_to = $name.'_to';
     $this->select_title = $select_title;
-    
+
     $this->add_selectbox();
   }
-  
+
   private function add_selectbox(){
     $this->buffer .= "<div class=\"selectbox\">\n";
-    
+
     /* div from */
     $this->buffer .= "<div class=\"selectbox_disp\">\n";
     if($this->select_title)
@@ -68,13 +68,13 @@ class selectbox extends form
                         .$value."</option>\n";
     $this->buffer .= "</select>\n";
     $this->buffer .= "</div>\n";
-    
+
     /* actions */
     $this->buffer .= "<ul class=\"selectbox_actions\">";
     $this->buffer .= "  <li class=\"ajouter\" onclick=\"javascript:select_box.move(select_box.sel_from, select_box.sel_to);\">&nbsp;</li>";
     $this->buffer .= "  <li class=\"enlever\" onclick=\"javascript:select_box.move(select_box.sel_to, select_box.sel_from);\">&nbsp;</li>";
     $this->buffer .= "</ul>";
-    	 
+
     /* div to */
     $this->buffer .= "<div class=\"selectbox_choix\">\n";
     if($this->select_title)
@@ -90,13 +90,13 @@ class selectbox extends form
 
     $this->buffer .= "<p></p>";
   }
-  
+
   public function html_render(){
     $html = "";
 
     if ( $this->error_contents )
      $html .= "<p class=\"formerror\">Erreur : ".$this->error_contents."</p>\n";
-     
+
     $html .= "<form action=\"$this->action\" method=\"".strtolower($this->method)."\"".
               " name=\"".$this->name."\" id=\"".$this->name."\"".
               " onsubmit=\"select_box.select_all(select_box.sel_to)\">\n";
@@ -105,16 +105,15 @@ class selectbox extends form
       $html .= "<input type=\"hidden\" name=\"$key\" value=\"$value\" />\n";
 
     $html .= "<div class=\"form\">\n";
-    
+
     $html .= $this->buffer;
-    
+
     $html .= "<div class=\"clearboth\"></div>\n";
     $html .= "</div>\n";
     $html .= "</form>\n";
-    
+
     return $html;
   }
 }
 
 ?>
-
