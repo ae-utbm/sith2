@@ -1262,33 +1262,34 @@ else
       $cts->add_paragraph("<img src=\"" . $topdir . "images/carteae/mini_ae.png\">&nbsp;&nbsp;" .
                           "Cotisant(e) AE jusqu'au " .
                           HumanReadableDate($res['date_fin_cotis'], null, false) . " $year !");
+      if ( $can_edit )
+      {
+        $req = new requete($site->db,"SELECT `id_carte_ae`, `etat_vie_carte_ae`, `cle_carteae`, `a_pris_cadeau` FROM `ae_carte` INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` WHERE `ae_cotisations`.`id_utilisateur`='".$user->id."' AND `ae_carte`.`etat_vie_carte_ae`<".CETAT_EXPIRE."");
 
-      $req = new requete($site->db,"SELECT `id_carte_ae`, `etat_vie_carte_ae`, `cle_carteae`, `a_pris_cadeau` FROM `ae_carte` INNER JOIN `ae_cotisations` ON `ae_cotisations`.`id_cotisation`=`ae_carte`.`id_cotisation` WHERE `ae_cotisations`.`id_utilisateur`='".$user->id."' AND `ae_carte`.`etat_vie_carte_ae`<".CETAT_EXPIRE."");
+        $item = $req->get_row();
 
-	  $item = $req->get_row();
+        $tab = array("reprint"=>"Re-imprimer carte");
+        if($item['etat_vie_carte_ae']==CETAT_AU_BUREAU_AE)
+        {
+          $ret = array("retrait" => "Retrait carte");
+          $tab += $ret;
+        }
+        if($item['a_pris_cadeau']==0)
+        {
+          $cad = array("cadeau" => "Retrait cadeau");
+          $tab += $cad;
+        }
 
-	  $tab = array("reprint"=>"Re-imprimer carte");
-	  if($item['etat_vie_carte_ae']==CETAT_AU_BUREAU_AE)
-	  {
-	  	$ret = array("retrait" => "Retrait carte");
-	  	$tab += $ret;
-	  }
-	  if($item['a_pris_cadeau']==0)
-	  {
-	  	$cad = array("cadeau" => "Retrait cadeau");
-	  	$tab += $cad;
-	  }
-
-      $tbl = new sqltable(
-        "listasso",
-        "Ma carte AE", array($item), "user.php?id_utilisateur=".$user->id,
-        "id_carte_ae",
-        array("id_carte_ae"=>"N°","cle_carteae"=>"Lettre clé","etat_vie_carte_ae"=>"Etat"),
-        $site->user->is_in_group("gestion_ae")?$tab:array(),
-        array(), array("etat_vie_carte_ae"=>$EtatsCarteAE )
-        );
-      $cts->add($tbl,true);
-
+        $tbl = new sqltable(
+          "listasso",
+          "Ma carte AE", array($item), "user.php?id_utilisateur=".$user->id,
+          "id_carte_ae",
+          array("id_carte_ae"=>"N°","cle_carteae"=>"Lettre clé","etat_vie_carte_ae"=>"Etat"),
+          $site->user->is_in_group("gestion_ae")?$tab:array(),
+          array(), array("etat_vie_carte_ae"=>$EtatsCarteAE )
+          );
+        $cts->add($tbl,true);
+      }
     }
   }
 
