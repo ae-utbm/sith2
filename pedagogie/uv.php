@@ -44,6 +44,8 @@ $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
   print_r($_REQUEST);
+  
+  //$site->redirect("./uv.php?id=".$uv->id."&action=edit#guide");
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
@@ -60,8 +62,22 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
   $frm = new form("newuv", "uv.php?action=save", true, "post");
   $frm->add_text_field("code", "Code", "", false, 4, false, true, "(format XX00)");
   $frm->add_text_field("intitule", "Intitulé");
+  $frm->add_text_field("responsable", "Responsable");
   
-  $frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03' après vous être assuré que l'UV principale existe)");
+  $avail_type=array();
+  foreach($_TYPE as $type=>$desc)
+    $avail_type[$type] = $desc['long'];
+  $frm->add_select_field("type", "Catégorie", $avail_type);
+  
+  $avail_sem=array();
+  foreach($_SEMESTER as $sem=>$desc)
+    $avail_sem[$sem] = $desc['long'];
+  $frm->add_select_field("semestre", "Semestre(s) d'ouverture", $avail_sem);
+  
+  $frm->add_checkbox("tc_avail", "UV ouverte aux TC", true);
+  $frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03')");
+  
+  $frm->add_submit("saveuv", "Enregistrer l'UV & éditer la fiche");
   $cts->add($frm);
   
   $site->add_contents($cts);
@@ -122,7 +138,7 @@ if($_REQUEST['dept'])
                                 "type"=>"Type",
                                 "responsable"=>"Responsable",
                                 "semestre"=>"Ouverture")
-                          ));
+                          ), true);
   
   $site->add_contents($cts);
   $site->end_page();
