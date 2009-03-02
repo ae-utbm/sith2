@@ -269,7 +269,7 @@ elseif ( $_REQUEST["action"] == "savecotiz" )
     $user->droit_image = $_REQUEST["droit"]==true;
     $user->sexe = $_REQUEST['sexe'];
     $user->surnom = $_REQUEST['surnom'];
-    $user->date_naissance = strtotime($_REQUEST['date_naissance']);
+    $user->date_naissance = $_REQUEST['date_naissance'];
     $user->addresse = $_REQUEST['addresse'];
     $ville = new ville($site->db);
     $pays = new pays($site->db);
