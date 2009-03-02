@@ -142,7 +142,7 @@ class fsearch extends stdcontents
     if ( $site->user->is_valid() && $site->user->ae )
     {
 
-      if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_asso_role ( 27, 1 ) )
+      if ( !$site->user->is_in_group("gestion_ae") && !$site->user->is_asso_role ( 27, 1 ) && !$site->user->is_in_group("visu_cotisants") )
         $force_sql = "AND `publique_utl`='1'";
       else
         $force_sql = "";
