@@ -104,7 +104,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $uv->load_extra();
   
   $path .= " / "."[Dpt]";
-  $path .= " / "."<a href=\"./uvs.php?id=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
+  $path .= " / "."<a href=\"./uv.php?id=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
   $path .= " / "."Éditer";
   $cts = new contents($path);
   $cts->add_paragraph("");
@@ -163,7 +163,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $avail_dept=array();
   foreach($_DPT as $dept=>$desc)
     $avail_dept[$dept] = $desc['long'];
-  $frm->add(new selectbox("dept", "Départements", $avail_dept));
+  $frm->add(new selectbox("dept", "Départements", $avail_dept, null));
     
   $frm->add_submit("saveuv", "Enregistrer les modifications");
   $cts->add($frm, true, false, "relative", false, true);
@@ -223,12 +223,13 @@ if($_REQUEST['dept'])
   $uvlist = uv::get_list($site->db, null, $dept);
   $cts->add(new uv_dept_table($uvlist));
   
-  $cts->add(new sqltable("uvlist_".$dept, "UV de ".$_DPT[$dept]['long'], $uvlist, "", 'id_uv',
+  $cts->add(new sqltable1("uvlist_".$dept, "UV de ".$_DPT[$dept]['long'], $uvlist, "", 'id_uv',
                           array("code"=>"Code",
                                 "intitule"=>"Intitulé",
                                 "type"=>"Type",
                                 "responsable"=>"Responsable",
-                                "semestre"=>"Ouverture")
+                                "semestre"=>"Ouverture"),
+                          array(), array()
                           ), true);
   
   $site->add_contents($cts);
