@@ -1236,7 +1236,7 @@ else
   }
 
   /* l'onglet AE */
-  if ( $can_edit && $user->ae )
+  if ( ($can_edit || $site->user->is_in_group("visu_cotisants") ) && $user->ae )
   {
     $cts->add_title(2, "Cotisation AE");
 
