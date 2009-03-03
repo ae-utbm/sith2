@@ -60,7 +60,7 @@ class selectbox extends form
   }
 
   private function add_selectbox(){
-    $this->buffer .= "<div class=\"selectbox\">\n";
+    $this->buffer .= "<div class=\"selectbox\" id=\"$this->name\">\n";
 
     /* div from */
     $this->buffer .= "<div class=\"selectbox_disp\">\n";
@@ -96,7 +96,7 @@ class selectbox extends form
     $this->buffer .= "<div class=\"clearboth\"></div>\n";
 
     $this->buffer .= "</div>\n";
-    $this->buffer .= "<script type=\"text/javascript\">\n  var $this->sb_name = new select_box(document.getElementById('$this->sb_from'), document.getElementById('$this->sb_to'), '$this->sb_name');\n</script>\n";
+    $this->buffer .= "<script type=\"text/javascript\">\n  document.getElementById('$this->name').sb = new select_box(document.getElementById('$this->sb_from'), document.getElementById('$this->sb_to'), '$this->sb_name');\n</script>\n";
 
     $this->buffer .= "<p></p>";
   }
