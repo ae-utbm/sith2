@@ -880,15 +880,17 @@ var select_box = function(from, to){
 select_box.prototype = {
   from: null,
   to: null,
+  self: null,
   
-  init: function(from, to){
+  init: function(from, to, self){
     this.from = from;
     this.to = to;
+    this.self = self;
   },
   
   add_to: function(elem, content, value, otherone){
     var o = new Option(content, value);
-    o.ondblclick = function(e){select_box.move(elem, otherone);};
+    o.ondblclick = function(e){eval(this.self+".move(elem, otherone)");};
     elem.options[elem.length] = o;
   },
 

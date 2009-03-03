@@ -48,8 +48,8 @@ class selectbox extends form
 
     $this->values = $values;
     $this->right_values = $right_val;
-    $this->sel_from = $name.'_from';
-    $this->sel_to = $name.'_to';
+    $this->sb_from = $name.'_from';
+    $this->sb_to = $name.'_to';
     $this->sb_name = $name.'_sb';
     $this->select_title = $select_title;
     $this->width = $width;
@@ -66,7 +66,7 @@ class selectbox extends form
     $this->buffer .= "<div class=\"selectbox_disp\">\n";
     if($this->select_title)
       $this->buffer .= "<h4>".$this->select_title." disponible(s) :</h4>\n";
-    $this->buffer .= "<select name=\"$this->sel_from\" id=\"$this->sel_from\" multiple=\"multiple\">\n";
+    $this->buffer .= "<select name=\"$this->sb_from\" id=\"$this->sb_from\" multiple=\"multiple\">\n";
     foreach($this->values as $key => $value)
       $this->buffer .= "  <option value=\"".$key."\" "
                         ."ondblclick=\"$this->sb_name.move($this->sb_name.from, $this->sb_name.to);\">"
@@ -84,7 +84,7 @@ class selectbox extends form
     $this->buffer .= "<div class=\"selectbox_choix\">\n";
     if($this->select_title)
       $this->buffer .= "<h4>".$this->select_title." choisi(es) :</h4>\n";
-    $this->buffer .= "<select name=\"".$this->sel_to."[]\" id=\"$this->sel_to\" multiple=\"multiple\">\n";
+    $this->buffer .= "<select name=\"".$this->sb_to."[]\" id=\"$this->sb_to\" multiple=\"multiple\">\n";
     if(!empty($this->right_values))
       foreach($this->right_values as $key => $value)
         $this->buffer .= "  <option value=\"".$key."\" "
@@ -96,7 +96,7 @@ class selectbox extends form
     $this->buffer .= "<div class=\"clearboth\"></div>\n";
 
     $this->buffer .= "</div>\n";
-    $this->buffer .= "<script type=\"text/javascript\">\n  var $this->sb_name = new select_box(document.getElementById('$this->sel_from'), document.getElementById('$this->sel_to'));\n</script>\n";
+    $this->buffer .= "<script type=\"text/javascript\">\n  var $this->sb_name = new select_box(document.getElementById('$this->sb_from'), document.getElementById('$this->sb_to'), '$this->sb_name');\n</script>\n";
 
     $this->buffer .= "<p></p>";
   }
