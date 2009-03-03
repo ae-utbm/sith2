@@ -69,15 +69,15 @@ class selectbox extends form
     $this->buffer .= "<select name=\"$this->sel_from\" id=\"$this->sel_from\" multiple=\"multiple\">\n";
     foreach($this->values as $key => $value)
       $this->buffer .= "  <option value=\"".$key."\" "
-                        ."ondblclick=\"$this->sb_name.move($this->sb_name.sel_from, $this->sb_name.to);\">"
+                        ."ondblclick=\"$this->sb_name.move($this->sb_name.from, $this->sb_name.to);\">"
                         .$value."</option>\n";
     $this->buffer .= "</select>\n";
     $this->buffer .= "</div>\n";
 
     /* actions */
     $this->buffer .= "<ul class=\"selectbox_actions\">";
-    $this->buffer .= "  <li class=\"ajouter\" onclick=\"javascript:$this->sb_name.move($this->sb_name.sel_from, $this->sb_name.to);\">&nbsp;</li>";
-    $this->buffer .= "  <li class=\"enlever\" onclick=\"javascript:$this->sb_name.move($this->sb_name.to, $this->sb_name.sel_from);\">&nbsp;</li>";
+    $this->buffer .= "  <li class=\"ajouter\" onclick=\"javascript:$this->sb_name.move($this->sb_name.from, $this->sb_name.to);\">&nbsp;</li>";
+    $this->buffer .= "  <li class=\"enlever\" onclick=\"javascript:$this->sb_name.move($this->sb_name.to, $this->sb_name.from);\">&nbsp;</li>";
     $this->buffer .= "</ul>";
 
     /* div to */
@@ -88,7 +88,7 @@ class selectbox extends form
     if(!empty($this->right_values))
       foreach($this->right_values as $key => $value)
         $this->buffer .= "  <option value=\"".$key."\" "
-                          ."ondblclick=\"$this->sb_name.move($this->sb_name.to, $this->sb_name.sel_from);\">"
+                          ."ondblclick=\"$this->sb_name.move($this->sb_name.to, $this->sb_name.from);\">"
                           .$value."</option>\n";
     $this->buffer .= "</select>\n";
     $this->buffer .= "</div>\n";
@@ -96,7 +96,7 @@ class selectbox extends form
     $this->buffer .= "<div class=\"clearboth\"></div>\n";
 
     $this->buffer .= "</div>\n";
-    $this->buffer .= "<script type=\"text/javascript\">\n  var $this->sb_name = new select_box(document.getElementById('$this->sel_from'), document.getElementById('$this->sel_to'));\n};\n</script>\n";
+    $this->buffer .= "<script type=\"text/javascript\">\n  var $this->sb_name = new select_box(document.getElementById('$this->sel_from'), document.getElementById('$this->sel_to'));\n</script>\n";
 
     $this->buffer .= "<p></p>";
   }
