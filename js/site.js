@@ -874,23 +874,22 @@ function hide_with_cookies(ctsp,cookiename){
   document.cookie = cookiename + '=1; expires='+expire.toGMTString();
 }
 
-var select_box = function(from, to, self){
-  this.init(from, to, self);
+var select_box = function(from, to){
+  this.init(from, to);
 }
 select_box.prototype = {
   from: null,
   to: null,
   self: null,
   
-  init: function(from, to, self){
+  init: function(from, to){
     this.from = from;
     this.to = to;
-    this.self = self;
   },
   
   add_to: function(elem, content, value, otherone){
     var o = new Option(content, value);
-    o.ondblclick = function(e){this.form.sb.move(elem, otherone);};
+    o.ondblclick = function(e){r();};
     elem.options[elem.length] = o;
   },
 
@@ -930,11 +929,11 @@ select_box.prototype = {
     }
   }
 }
-m = function(){
-  e = this.parentNode.parentNode.parentNode.sb;
+m = function(elem){
+  e = elem.parentNode.parentNode.parentNode.sb;
   e.move(e.from, e.to);
 }
-r = function(){
-  e = this.parentNode.parentNode.parentNode;
+r = function(elem){
+  e = elem.parentNode.parentNode.parentNode.sb;
   e.move(e.to, e.from);
 }

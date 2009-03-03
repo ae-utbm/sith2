@@ -69,7 +69,7 @@ class selectbox extends form
     $this->buffer .= "<select name=\"$this->sb_from\" id=\"$this->sb_from\" multiple=\"multiple\">\n";
     foreach($this->values as $key => $value)
       $this->buffer .= "  <option value=\"".$key."\" "
-                        ."ondblclick=\"$this->sb_name.move($this->sb_name.from, $this->sb_name.to);\">"
+                        ."ondblclick=\"m(this);\">"
                         .$value."</option>\n";
     $this->buffer .= "</select>\n";
     $this->buffer .= "</div>\n";
@@ -88,7 +88,7 @@ class selectbox extends form
     if(!empty($this->right_values))
       foreach($this->right_values as $key => $value)
         $this->buffer .= "  <option value=\"".$key."\" "
-                          ."ondblclick=\"$this->sb_name.move($this->sb_name.to, $this->sb_name.from);\">"
+                          ."ondblclick=\"r(this);\">"
                           .$value."</option>\n";
     $this->buffer .= "</select>\n";
     $this->buffer .= "</div>\n";
