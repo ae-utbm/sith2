@@ -889,7 +889,7 @@ select_box.prototype = {
   
   add_to: function(elem, content, value, otherone){
     var o = new Option(content, value);
-    o.ondblclick = function(e){r();};
+    o.ondblclick = function(e){m(this);};
     elem.options[elem.length] = o;
   },
 
@@ -930,8 +930,10 @@ select_box.prototype = {
   }
 }
 m = function(elem){
+  from = elem.parentNode.parentNode;
+  to = elem.parentNode.parentNode.to;
   e = elem.parentNode.parentNode.parentNode.sb;
-  e.move(e.from, e.to);
+  e.move(from, to);
 }
 r = function(elem){
   e = elem.parentNode.parentNode.parentNode.sb;

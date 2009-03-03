@@ -96,7 +96,11 @@ class selectbox extends form
     $this->buffer .= "<div class=\"clearboth\"></div>\n";
 
     $this->buffer .= "</div>\n";
-    $this->buffer .= "<script type=\"text/javascript\">\n  document.getElementById('$this->name').sb = new select_box(document.getElementById('$this->sb_from'), document.getElementById('$this->sb_to'), '$this->sb_name');\n</script>\n";
+    $this->buffer .= "<script type=\"text/javascript\">\n".
+                     "  document.getElementById('$this->name').sb = new select_box(document.getElementById('$this->sb_from'), document.getElementById('$this->sb_to'));\n".
+                     "  document.getElementById('$this->sb_from').to = document.getElementById('$this->sb_to')".
+                     "  document.getElementById('$this->sb_to').to = document.getElementById('$this->sb_from')".
+                     "</script>\n";
 
     $this->buffer .= "<p></p>";
   }
