@@ -930,8 +930,8 @@ select_box.prototype = {
   }
 }
 m = function(elem){
-  from = elem.parentNode.parentNode;
-  to = elem.parentNode.parentNode.to;
+  from = elem.parentNode;
+  to = elem.parentNode.to;
   e = elem.parentNode.parentNode.parentNode.sb;
   e.move(from, to);
 }

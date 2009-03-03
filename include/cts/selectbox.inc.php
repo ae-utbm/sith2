@@ -98,8 +98,8 @@ class selectbox extends form
     $this->buffer .= "</div>\n";
     $this->buffer .= "<script type=\"text/javascript\">\n".
                      "  document.getElementById('$this->name').sb = new select_box(document.getElementById('$this->sb_from'), document.getElementById('$this->sb_to'));\n".
-                     "  document.getElementById('$this->sb_from').to = document.getElementById('$this->sb_to')".
-                     "  document.getElementById('$this->sb_to').to = document.getElementById('$this->sb_from')".
+                     "  document.getElementById('$this->sb_from').to = document.getElementById('$this->sb_to');\n".
+                     "  document.getElementById('$this->sb_to').to = document.getElementById('$this->sb_from');\n".
                      "</script>\n";
 
     $this->buffer .= "<p></p>";
