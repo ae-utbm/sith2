@@ -874,6 +874,9 @@ function hide_with_cookies(ctsp,cookiename){
   document.cookie = cookiename + '=1; expires='+expire.toGMTString();
 }
 
+/**
+ * @see /include/cts/selectbox.inc.php
+ */
 var select_box = function(from, to){
   this.init(from, to);
 }
@@ -934,8 +937,4 @@ m = function(elem){
   to = elem.parentNode.to;
   e = elem.parentNode.parentNode.parentNode.sb;
   e.move(from, to);
-}
-r = function(elem){
-  e = elem.parentNode.parentNode.parentNode.sb;
-  e.move(e.to, e.from);
 }

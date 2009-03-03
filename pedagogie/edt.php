@@ -23,6 +23,7 @@
  * 02111-1307, USA.
  */
 
+print_r($_REQUEST);
 
 $topdir = "../";
 
@@ -83,7 +84,8 @@ $tab = array();
 foreach(uv::get_list($site->db) as $uv)
   $tab[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
 
-$sb = new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV');
+$frm = new form("addedt", "edt.php?action=new", true, "post", "Choix des UV");
+$frm->add(new selectbox('uvlist', 'Choisissez les UV de ce nouvel emploi du temps', $tab, '', 'UV'));
 /* semestre */
 $y = date('Y');
 $sem = array();
@@ -91,9 +93,9 @@ for($i = $y-2; $i <= $y; $i++){
   $sem['P'.$i] = 'Printemps '.$i;
   $sem['A'.$i] = 'Automne '.$i;
 }
-$sb->add_select_field("semestre", "Semestre concern&eacute;", $sem, SEMESTER_NOW);
-$sb->add_submit("continue", "Passer à l'étape suivante");
-$cts2->add($sb);
+$frm->add_select_field("semestre", "Semestre concern&eacute;", $sem, SEMESTER_NOW);
+$frm->add_submit("continue", "Passer à l'étape suivante");
+$cts2->add($frm);
 
 $site->add_contents($cts2);
 

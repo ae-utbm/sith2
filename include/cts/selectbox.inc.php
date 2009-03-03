@@ -25,6 +25,10 @@
  * Fourni une interface de sélection d'elements a base de
  * deux <select> multiples
  * Inspiree de `selector` de django-admin
+ * 
+ * Le composant peut etre utilise tel quel ou dans un form
+ * il peut etre multiplie dans la meme page sans probleme
+ * 
  * @param name
  * @param title
  * @param values array( key => value )
@@ -33,13 +37,6 @@
  * @see /js/site.js class select_box
  */
 
-/**
- * @todo pour demain
- * - etendre form plutot que stdcontents
- *  -> le submit en add_submit
- *  -> tout le bordel dans un truc separe
- *  -> et puis voila on pourra rajouter des trucs en plus (au hasard le semestre)
- */
 class selectbox extends form
 {
   public function __construct($name, $title, $values, $action, $select_title=null, $right_val=null, $width=null, $height=null)
@@ -75,8 +72,8 @@ class selectbox extends form
 
     /* actions */
     $this->buffer .= "<ul class=\"selectbox_actions\">";
-    $this->buffer .= "  <li class=\"ajouter\" onclick=\"document.getElementById('$this->name').sb.move($this->sb_name.from, $this->sb_name.to);\">&nbsp;</li>";
-    $this->buffer .= "  <li class=\"enlever\" onclick=\"document.getElementById('$this->name').sb.move($this->sb_name.to, $this->sb_name.from);\">&nbsp;</li>";
+    $this->buffer .= "  <li class=\"ajouter\" onclick=\"document.getElementById('$this->name').sb.move(document.getElementById('$this->sb_from'), document.getElementById('$this->sb_to'));\">&nbsp;</li>";
+    $this->buffer .= "  <li class=\"enlever\" onclick=\"document.getElementById('$this->name').sb.move(document.getElementById('$this->sb_to'), document.getElementById('$this->sb_from'));\">&nbsp;</li>";
     $this->buffer .= "</ul>";
 
     /* div to */
@@ -87,7 +84,7 @@ class selectbox extends form
     if(!empty($this->right_values))
       foreach($this->right_values as $key => $value)
         $this->buffer .= "  <option value=\"".$key."\" "
-                          ."ondblclick=\"r(this);\">"
+                          ."ondblclick=\"m(this);\">"
                           .$value."</option>\n";
     $this->buffer .= "</select>\n";
     $this->buffer .= "</div>\n";
@@ -98,7 +95,7 @@ class selectbox extends form
     $this->buffer .= "<script type=\"text/javascript\">\n".
                      "  document.getElementById('$this->name').sb = new select_box(document.getElementById('$this->sb_from'), document.getElementById('$this->sb_to'));\n".
                      "  document.getElementById('$this->sb_from').to = document.getElementById('$this->sb_to');\n".
-                     "  document.getElementById('$this->sb_from').form.onsubmit = function(e){ this.sb.select_all(document.getElementById('$this->sb_from')); };\n".
+                     "  document.getElementById('$this->sb_from').form.onsubmit = function(e){ document.getElementById('$this->name').sb.select_all(document.getElementById('$this->sb_from')); };\n".
                      "  document.getElementById('$this->sb_to').to = document.getElementById('$this->sb_from');\n".
                      "</script>\n";
 
