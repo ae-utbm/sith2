@@ -1381,7 +1381,7 @@ class form extends stdcontents
     }
     
     foreach($frm->event as $event=>$action){
-      $this->set_event($event $action);
+      $this->set_event($event, $action);
     }
 
     if ( $frm->enctype )
