@@ -874,7 +874,18 @@ function hide_with_cookies(ctsp,cookiename){
   document.cookie = cookiename + '=1; expires='+expire.toGMTString();
 }
 
-var select_box = {
+var select_box = function(from, to){
+  this.init(from, to);
+}
+select_box.prototype = {
+  from: null,
+  to: null,
+  
+  init: function(from, to){
+    this.from = from;
+    this.to = to;
+  },
+  
   add_to: function(elem, content, value, otherone){
     var o = new Option(content, value);
     o.ondblclick = function(e){select_box.move(elem, otherone);};
