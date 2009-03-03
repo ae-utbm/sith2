@@ -55,6 +55,7 @@ class selectbox extends form
     $this->height = $height;
 
     $this->add_selectbox();
+    $this->set_event("onsubmit", "select_box.select_all(select_box.sel_to)");
   }
 
   private function add_selectbox(){

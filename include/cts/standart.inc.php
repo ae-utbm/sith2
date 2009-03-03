@@ -327,12 +327,16 @@ class form extends stdcontents
     $this->hiddens[$name] = $value;
   }
 
-  /** Ajoute des fonctions javascripti= au formulaire
+  /** Ajoute des fonctions javascript au formulaire
+   * Les actions successives d'un meme event sont concatenees par "; "
    * @param $event evenement cible : ex : onsubmit
    * @param $action fonction javascript a appeler : ex : valider_entrees(this)
    */
   function set_event($event, $action){
-    $this->event[$event] = $action;
+    if(!isset($this->event[$event]) || empty($this->event[$event]))
+      $this->event[$event] = $action;
+    else
+      $this->event[$event] = implode("; ", array($this->event[$event], $action));
   }
   /** Ajoute un champ texte au formulaire
    * Valeur à récupérer dans $_REQUEST[$name]
@@ -1375,7 +1379,10 @@ class form extends stdcontents
       if ( $k != "magicform[name]" )
         $this->hiddens[$k] = $v;
     }
-
+    
+    foreach($frm->event as $event=>$action){
+      $this->set_event($action, $event);
+    }
 
     if ( $frm->enctype )
       $this->enctype = $frm->enctype;
