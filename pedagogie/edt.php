@@ -23,8 +23,6 @@
  * 02111-1307, USA.
  */
 
-print_r($_REQUEST);
-
 $topdir = "../";
 
 require_once($topdir . "include/site.inc.php");
