@@ -56,7 +56,6 @@ class selectbox extends form
     $this->height = $height;
 
     $this->add_selectbox();
-    //$this->set_event("onsubmit", "$this->sb_name.select_all($this->sb_name.to)");
   }
 
   private function add_selectbox(){
@@ -76,8 +75,8 @@ class selectbox extends form
 
     /* actions */
     $this->buffer .= "<ul class=\"selectbox_actions\">";
-    $this->buffer .= "  <li class=\"ajouter\" onclick=\"javascript:$this->sb_name.move($this->sb_name.from, $this->sb_name.to);\">&nbsp;</li>";
-    $this->buffer .= "  <li class=\"enlever\" onclick=\"javascript:$this->sb_name.move($this->sb_name.to, $this->sb_name.from);\">&nbsp;</li>";
+    $this->buffer .= "  <li class=\"ajouter\" onclick=\"document.getElementById('$this->name').sb.move($this->sb_name.from, $this->sb_name.to);\">&nbsp;</li>";
+    $this->buffer .= "  <li class=\"enlever\" onclick=\"document.getElementById('$this->name').sb.move($this->sb_name.to, $this->sb_name.from);\">&nbsp;</li>";
     $this->buffer .= "</ul>";
 
     /* div to */
@@ -113,7 +112,7 @@ class selectbox extends form
      $html .= "<p class=\"formerror\">Erreur : ".$this->error_contents."</p>\n";
 
     $html .= "<form action=\"$this->action\" method=\"".strtolower($this->method)."\"".
-              " name=\"".$this->name."form\" id=\"".$this->name."\"".
+              " name=\"".$this->name."form\" id=\"".$this->name."form\"".
               " onsubmit=\"$this->sb_name.select_all($this->sb_name.to)\">\n";
 
     foreach ( $this->hiddens as $key => $value )
