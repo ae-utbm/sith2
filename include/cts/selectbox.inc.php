@@ -113,7 +113,7 @@ class selectbox extends form
      $html .= "<p class=\"formerror\">Erreur : ".$this->error_contents."</p>\n";
 
     $html .= "<form action=\"$this->action\" method=\"".strtolower($this->method)."\"".
-              " name=\"".$this->name."\" id=\"".$this->name."\"".
+              " name=\"".$this->name."form\" id=\"".$this->name."\"".
               " onsubmit=\"$this->sb_name.select_all($this->sb_name.to)\">\n";
 
     foreach ( $this->hiddens as $key => $value )
