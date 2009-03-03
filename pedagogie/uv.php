@@ -22,7 +22,6 @@
  * 02111-1307, USA.
  */
 
-print_r($_REQUEST);
 
 $topdir = "../";
 
