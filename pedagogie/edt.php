@@ -47,7 +47,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 {
   $path .= " / "."<a href=\"./\"><img src=\"".$topdir."images/icons/16/user.png\" class=\"icon\" /> ".$user->get_display_name()."</a>";
   $path .= " / "."Ajouter un emploi du temps";
-
+  $cts = new contents($path);
+  
   /**
    * creation edt : etape 2 !
    */
