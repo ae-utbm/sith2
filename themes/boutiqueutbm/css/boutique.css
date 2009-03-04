@@ -78,10 +78,18 @@ div#headermenu
   top:0;
   right:0;
   margin:0;
-  width:200px;
+  width:520px;
   padding:0 0 0 15px;
   height:30px;
   background:#424242 url(../images/box-bl-corner.png) no-repeat bottom left;
+}
+div#fsearchbox
+{
+  display:none;
+}
+#head_comptoirs, #assos
+{
+  display:none;
 }
 #dropmenudiv, #login
 {
@@ -98,7 +106,7 @@ div#headermenu
   padding:0;
   height:30px;
   max-height:30px;
-  height:20px;
+  #height:20px;
   padding:0;
   text-align:center;
   font-weight: bold;
@@ -130,6 +138,7 @@ div#headermenu
   color:#ffffff;
   /*font-weight: bold;*/
 }
+
 #dropmenudiv a
 {
   font:normal 10px;
