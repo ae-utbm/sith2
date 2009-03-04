@@ -31,7 +31,7 @@ $site->start_page("boutique", "Suivi" );
 
 if(isset($_REQUEST["id_facture"]))
 {
-  $fact = new debitfacture($site->db);
+  $fact = new debitfacture($site->db,$site->dbrw);
   if($fact->load_by_id($_REQUEST["id_facture"]))
   {
     $user=new utilisateur($site->db);
