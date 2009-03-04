@@ -60,7 +60,10 @@ if ($site->cart == false)
 else
 {
   /* pas de formulaire de validation d'achat poste */
-  if (!isset($_POST['confirm_payment']))
+  if (!isset($_POST['confirm_payment'])
+      ||
+      ($site->user->type=="srv" && (!isset($_REQUEST['objectif'])||empty($_REQUEST['objectif'])))
+     )
   {
     $accueil->add_paragraph("Vous etes sur le point de ".
        "confirmer l'achat des articles suivants<br/><br/>");
@@ -101,10 +104,15 @@ else
     /* formulaire de confirmation */
     $frm = new form ("confirm_payment",
                      "payment.php",
-                     false,
+                     true,
                      "POST",
                      "Confirmation");
     $frm->add_hidden("confirm_payment");
+    if($site->user->type=="srv")
+    {
+      $frm->add_text_field('eotp','EOTP');
+      $frm->add_text_field('objectif','Objectif');
+    }
     $frm->add_submit("payment_boutique_proceed",
                      "OUI");
     $frm->add_submit("payment_boutique_cancel",
@@ -129,9 +137,23 @@ else
           $cpt_cart[] = array($_SESSION['boutique_cart'][$item->id], $vp);
       }
 
-      $debfact->debit ($site->user,
-                       $cpt_cart
-                      );
+      if($site->user->type=='srv')
+      {
+        $debfact->debit ($site->user,
+                         $cpt_cart,
+                         1,
+                         0,
+                         'UT',
+                         null,
+                         null,
+                         null,
+                         $_REQUEST['objectif'],
+                         $_REQUEST['eotp']);
+      }
+      else
+        $debfact->debit ($site->user,
+                         $cpt_cart);
+
       $accueil->add_paragraph ("<h1>Vente effectuee</h1>".
                                "<p>Vos achats ont ".
                                "&eacute;t&eacute; effectu&eacute;s.<br/><br/>".

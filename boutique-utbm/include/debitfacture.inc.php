@@ -43,6 +43,12 @@ class debitfacture extends stdentity
   var $prenom=null;
   /** Adresse */
   var $adresse=null;
+  /** eotp */
+  var $eotp=null;
+  var $contact= null;
+  var $centre_de_cout = null;
+  /** objectif */
+  var $objectif=null;
   /** date de la vente */
   var $date;
   /** Mode de paiement AE ou SG */
@@ -76,17 +82,21 @@ class debitfacture extends stdentity
 
   function _load ( $row )
   {
-    $this->id = $row['id_facture'];
+    $this->id             = $row['id_facture'];
     $this->id_utilisateur = $row['id_utilisateur'];
-    $this->nom=$row['nom'];
-    $this->prenom=$row['prenom'];
-    $this->adresse=$row['adresse'];
-    $this->date = strtotime($row['date_facture']);
-    $this->mode = $row['mode_paiement'];
-    $this->montant = $row['montant_facture'];
-    $this->transacid = $row['transacid'];
-    $this->etat = $row['etat_facture'];
-    $this->ready = $row['ready'];
+    $this->nom            = $row['nom'];
+    $this->prenom         = $row['prenom'];
+    $this->adresse        = $row['adresse'];
+    $this->date           = strtotime($row['date_facture']);
+    $this->mode           = $row['mode_paiement'];
+    $this->montant        = $row['montant_facture'];
+    $this->transacid      = $row['transacid'];
+    $this->etat           = $row['etat_facture'];
+    $this->ready          = $row['ready'];
+    $this->objectif       = $row['objectif'];
+    $this->eotp           = $row['eotp'];
+    $this->contact        = $row['contact'];
+    $this->centre_de_cout = $row['centre_de_cout'];
   }
 
   /**
@@ -100,7 +110,7 @@ class debitfacture extends stdentity
    * @return false en cas de problème (solde insuffisent, erreur sql) sinon true
    * @see venteproduit
    */
-  function debit ( $client, $panier, $etat=1, $ready=0 ,$mode='UT',$nom=null,$prenom=null,$adresse=null)
+  function debit ( $client, $panier, $etat=1, $ready=0 ,$mode='UT',$nom=null,$prenom=null,$adresse=null,$contact=null,$objectif=null,$eotp=null)
   {
 /*
 ready=1+etat=1 : à retirer
@@ -115,21 +125,38 @@ etat=1+ready=0 : en préparation
     $this->prenom=$prenom;
     $this->adresse=$adresse;
     $this->mode=$mode;
-
+    if(!is_null($eotp) && !empty($eotp))
+      $this->eotp=$eotp;
+    if(!is_null($eotp) && !empty($eotp))
+      $this->objectif=$objectif;
     $this->montant = $this->calcul_montant($panier,$client);
+    if($client->is_valid() && $client->type=='srv')
+    {
+      $req = new requete($this->db,'SELECT centre_de_cout,contact FROM boutiqueut_service_utl WHERE id_utilisateur='.$client->id);
+      if($req->lines==1)
+      {
+        list($cf,$ct)         = $req->get_row();
+        $this->contact        = $ct;
+        $this->centre_de_cout = $cf;
+      }
+    }
 
     $req = new insert ($this->dbrw,
            "boutiqueut_debitfacture",
            array(
-           "id_utilisateur" => $this->id_utilisateur,
-           "nom"=>$this->nom,
-           "prenom"=>$this->prenom,
-           "adresse"=>$this->adresse,
-           "date_facture" => date("Y-m-d H:i:s",$this->date),
+           "id_utilisateur"  => $this->id_utilisateur,
+           "nom"             => $this->nom,
+           "prenom"          => $this->prenom,
+           "adresse"         => $this->adresse,
+           "date_facture"    => date("Y-m-d H:i:s",$this->date),
            "montant_facture" => $this->montant,
-           "etat_facture" => $this->etat,
-           "mode_paiement" => $this->mode,
-           "ready" => $this->ready
+           "etat_facture"    => $this->etat,
+           "mode_paiement"   => $this->mode,
+           "ready"           => $this->ready,
+           "objectif"        => $this->objectif,
+           "eotp"            => $this->eotp,
+           "contact"         => $this->contact,
+           "centre_de_cout"  => $this->centre_de_cout
          ));
 
     if ( !$req )

@@ -296,6 +296,7 @@ class boutique extends site
     $this->end_page();
     exit();
   }
+
 }
 
 ?>

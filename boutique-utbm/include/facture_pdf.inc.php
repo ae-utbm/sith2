@@ -263,7 +263,28 @@ class facture_pdf extends FPDF
       $this->Cell(80,5,utf8_decode("TVA intracommunautaire : FR 60 199 003 567"), "0", 0, "");
     }
     else
+    {
+      if(isset($this->factured_infos['srv_obj'])
+         && isset($this->factured_infos['srv_contact'])
+         && isset($this->factured_infos['srv_centre_cout']))
+      {
+        $this->Ln(10);
+        $this->Cell(210,10,utf8_decode("Service        : ".$this->factured_infos['name']), "RTL", 0, "");
+        $this->Ln();
+        $this->Cell(210,10,utf8_decode("Centre de coût : ".$this->factured_infos['srv_centre_cout']), "RTL", 0, "");
+        $this->Ln();
+        if(isset($this->factured_infos['srv_eopt']))
+        {
+          $this->Cell(210,10,utf8_decode("EOPT         : ".$this->factured_infos['srv_eopt']), "RTL", 0, "");
+          $this->Ln();
+        }
+        $this->Cell(210,10,utf8_decode("Contact        : ".$this->factured_infos['srv_contact']), "RTL", 0, "");
+        $this->Ln();
+        $this->Cell(210,10,utf8_decode("Objectif       : ".$this->factured_infos['srv_obj']), "RTLB", 0, "");
+      }
+      $this->Ln(10);
       $this->Cell(150,10,utf8_decode("TVA non applicable, article 293B du CGI"), "T", 0, "");
+    }
     //marge
     $this->Ln(10);
   }
@@ -290,6 +311,7 @@ class facture_pdf extends FPDF
     $total = sprintf("%.2f", $total / 100);
     $this->Cell(40,5,$total, "B", 1, "R");
   }
+
   /*
    * @brief : rendu et download de la facture par le client
    * j'h�sitais entre ca et une fonction qui se serait appel�e

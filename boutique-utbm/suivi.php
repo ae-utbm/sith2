@@ -85,7 +85,7 @@ if(isset($_REQUEST["id_facture"]))
       require_once ("include/facture_pdf.inc.php");
       $facturing_infos = array ('name' => "Service Communication",
        'addr' => array(utf8_decode("UTBM"),
-           "90010 BELFORT Cedex"),
+       "90010 BELFORT Cedex"),
        'logo' => "http://ae.utbm.fr/images/logo_utbm_eboutic.jpg");
 
       if($user->is_valid())
@@ -100,6 +100,13 @@ if(isset($_REQUEST["id_facture"]))
                  . " " .
                  utf8_decode($ville->nom)),
              false);
+        if($user->type=='srv')
+        {
+          $factured_infos['srv_obj']         = $fact->objectif;
+          $factured_infos['srv_eopt']        = $fact->eopt;
+          $factured_infos['srv_contact']     = $fact->contact;
+          $factured_infos['srv_centre_cout'] = $fact->centre_de_cout;
+        }
       }
       else
       {
@@ -144,20 +151,23 @@ if(isset($_REQUEST["id_facture"]))
     else
     {
       if($fact->ready==1 && $fact->etat==1) // commande à retirer
-      {
         $cts = new contents( "Commande à retirer" );
-      }
       elseif($fact->etat==1 && $fact->ready==0) //en cours de préparation
-      {
         $cts = new contents( "Commande en attente de préparation" );
-      }
       else // commande retirée
-      {
         $cts = new contents("Commande finalisée");
-      }
 
       $cts->add_paragraph("Facture n° ".$fact->id." du ".date("d/m/Y H:i", $fact->date));
       $cts->add_paragraph("facture au format PDF : <a href=\"?id_facture=".$fact->id."&gen_pdf=1\">ici</a>");
+
+      if($site->user->type=='srv')
+      {
+        $cts->add_paragraph('Objectif : '.$fact->objectif);
+        if(!is_null($fact->eotp))
+          $cts->add_paragraph('EOTP : '.$fact->eotp);
+        $cts->add_paragraph('Contact : '.$fact->contact);
+        $cts->add_paragraph('Centre de coût : '.$fact->centre_de_cout);
+      }
 
       $req = new requete($site->db,
            "SELECT id_produit, ".
