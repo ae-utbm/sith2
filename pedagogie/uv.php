@@ -34,6 +34,7 @@ require_once("include/pedag_user.inc.php");
 require_once("include/cts/pedagogie.inc.php");
 
 $site = new site();
+$site->add_js("pedagogie/pedagogie.js");
 $site->add_css("css/pedagogie.css");
 $site->start_page("services", "AE Pédagogie");
 
@@ -170,9 +171,22 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   
   $frm->add_submit("saveuv", "Enregistrer les modifications");
   $cts->add($frm, true, false, "relative", false, true);
- print_r($frm); 
+   print_r($frm); 
   $site->add_contents($cts);
   $site->end_page();
+  exit;
+}
+
+if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup')
+{
+  print_r($_REQUEST);
+  
+  /** on va dire que ca a marche */
+  $val = "{'id': 42, 'jour': 3}";
+
+  echo "<a href=\"#\" onclick=\"window.parent.bleh = 1; self.close();\">Revenir</a>";
+  
+  $site->popup_end_page();
   exit;
 }
 

@@ -22,7 +22,8 @@
  */
 
 var edt = {
-  add_uv_seance: function(id, type){
+  add_uv_seance: function(id, type, calling){
+    win = window.open('uv.php?id='+id+"&type="+type+"&action=add_seance&mode=popup");
     alert('ajout de type '+type+' pour l\'UV '+id);
   },
 

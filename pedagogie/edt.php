@@ -147,6 +147,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     }    
   }
   
+  if(empty($seances))
+    $site->redirect('edt.php?action=new');
+    
   foreach($seances as $iduv=>$types){
     $uv = new uv($site->db, $site->dbrw, $iduv);
     if(!$uv->is_valid())
