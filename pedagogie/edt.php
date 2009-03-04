@@ -75,7 +75,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
   }
   $frm->add_select_field("semestre", "Semestre concern&eacute;", $sem, SEMESTER_NOW);
   $frm->add_submit("continue", "Passer à l'étape suivante");
-  $cts2->add($frm);
+  $cts->add($frm);
 
   
   $site->add_contents($cts);
