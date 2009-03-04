@@ -102,16 +102,17 @@ if(isset($_REQUEST["id_facture"]))
     {
       $ccts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"gestion.php\">Gestion</a> / Détail facture");
       if($_REQUEST["action"]=='prep')
-      {
         $fact->set_retire($_REQUEST["id_produit"], $user);
-      }
       elseif($_REQUEST["action"]=='preps')
-      {
         foreach($_REQUEST["id_produits"] as $id_produit )
           $fact->set_retire($id_produit, $user);
-      }
+      elseif($_REQUEST["action"]=='retirer')
+        $fact->set_etat(1);
       if($fact->ready==1 && $fact->etat==1) // commande à retirer
+      {
         $cts = new contents( "Commande à retirer" );
+        $cts->add_paragraph("<a href='?id_facture=".$fact->id."&action=retirer'>Marquer comme retirée</a>");
+      }
       elseif($fact->ready==0) // commande en cours de préparation
         $cts = new contents( "Commande en attente/cours de préparation" );
       else // commande retirée
