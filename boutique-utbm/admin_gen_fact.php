@@ -151,7 +151,7 @@ if(isset($_REQUEST["id_facture"]))
                                array('prep'=>'Marquer pret'),
                                array('preps'=>'Marquer pret')));
       }
-      $ccts->add($cts);
+      $ccts->add($ctsi,true);
       $site->add_contents($ccts);
       $site->end_page();
       exit();
@@ -234,7 +234,7 @@ if ( $req2->lines > 0 )
           array()));
 }
 $ccts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"gestion.php\">Gestion</a> / Détail facture");
-$ccts->add($cts);
+$ccts->add($cts,true);
 $site->add_contents($ccts);
 
 $site->end_page();
