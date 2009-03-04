@@ -132,18 +132,17 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     $semestre = $_REQUEST['semestre'];
   
   $freq = array(); //tableau des frequences envoyees 
-  foreach($_REQUEST as $arg=>$value)
-    if(is_string($arg) 
-        && preg_match("/^freq/", $arg)
-        && ($value == 'A' || $value == 'B')){
+  reset($_REQUEST);
+  foreach($_REQUEST as $arg=>$value){
+    if(preg_match("/^freq/", $arg) && ($value == 'A' || $value == 'B')){
       list(, $uv, $type) = explode("_", $arg);
       $freq[$uv][$type] = $value;
     }
+  }
   
-  foreach($_REQUEST as $arg=>$value)
-    if(is_string($arg) 
-        && preg_match("/^seance/", $arg)
-        && is_int($value)){
+  reset($_REQUEST);
+  foreach($_REQUEST as $arg=>$value){
+    if(preg_match("/^seance/", $arg) && is_int($value)){
       list(, $uv, $type) = explode("_", $arg);
       
       if(isset($freq[$uv][$type]))
@@ -153,7 +152,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       echo "Ajout $value en semaine $semaine \n";
       $user->join_uv_group($value, $semaine);
     }
-  print_r($user);
+  }
   
   //$site->end_page();
   exit;
