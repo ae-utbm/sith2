@@ -46,7 +46,7 @@ if ( isset($_REQUEST["id_produit"]) )
   if ($produit->is_valid())
   {
     $venteprod = new venteproduit ($site->db);
-    if ( !$venteprod->_charge($produit,$site->comptoir) )
+    if ( !$venteprod->_charge($produit) )
       $produit->id = null;
     else
       $typeproduit->load_by_id($produit->id_type);
@@ -85,7 +85,7 @@ if ($_REQUEST['act'] == "empty_cart")
 /*mise a jour du panier */
 if ($_REQUEST['act'] == "add")
 {
-  if(isset($_REQUEST['nb']) && $_REQUEST['nb']>1)
+  if(isset($_REQUEST['nb']) && !empty($_REQUEST['nb']) && $_REQUEST['nb']>1)
     $ret = $site->add_item ($produit->id,$_REQUEST['nb']);
   else
     $ret = $site->add_item ($produit->id,1);
@@ -103,7 +103,31 @@ if ($_REQUEST['act'] == "add")
     $produit->id=null;
   }
 }
-
+elseif($_REQUEST['act'] == "adds")
+{
+  if(isset($_REQUEST['nb']) && is_array($_REQUEST['nb']))
+  {
+    $buffer='';
+    $produit = new produit($site->db);
+    foreach($_REQUEST['nb'] as $id => $nb)
+    {
+      $produit->load_by_id($id);
+      if ($produit->is_valid())
+      {
+        if($site->add_item ($produit->id,$nb))
+          $buffer.='<li>Ajout de '.$nb.' '.$produit->nom.' au pannier</li>';
+        else
+          $buffer.='<li>Impossible d\'ajouter '.$nb.' '.$produit->nom.' au pannier</li>';
+      }
+    }
+    if(!empty($buffer))
+    {
+      $add_rs = new contents ("Ajout");
+      $add_rs->puts('<ul>'.$buffer.'</ul>');
+      $add_rs->add_paragraph ("<a href=\"./cart.php\">Passer la commande</a>");
+    }
+  }
+}
 if ( $produit->is_valid() && !is_null($produit->id_produit_parent) )
 {
   while ( $produit->is_valid() && !is_null($produit->id_produit_parent) )

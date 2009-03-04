@@ -107,6 +107,7 @@ class ficheproduit extends contents
     $this->buffer .= "<h3>Acheter le produit</h3>";
     if ( $req->lines > 0 )
     {
+      $frm = new form('cmd', '/?act=adds');
       $subprod=new produit($produit->db);
 
       while ( $row = $req->get_row() )
@@ -121,23 +122,28 @@ class ficheproduit extends contents
         $stock = $row["stock_global_prod"];
 
         if ( $stock == 0 )
-          $this->buffer .= $row["nom_prod"].$extra." : épuisé";
+          continue;
         else
         {
           if ( $stock != -1 )
             $this->buffer .="Stock disponible : $stock";
 
-          if ( $subprod->obtenir_prix($user) != $produit->obtenir_prix($user) )
-            $this->buffer .=
-              "<li><a href=\"./?act=add&amp;id_produit=".$row["id_produit"]."\">".
-              $row["nom_prod"].$extra." <b>".($subprod->obtenir_prix($user)/100).
-              "&euro;</b> : Ajouter au panier</a>$info_stock</li>";
+          if( $subprod->obtenir_prix($user) != $produit->obtenir_prix($user) )
+          {
+            $frm->add_text_field('nb['.$row["id_produit"].']', $row["nom_prod"].$extra." <b>".($subprod->obtenir_prix($user)/100).' €</b>');
+            if ( $stock != -1 )
+              $frm->add_info("Stock disponible : $stock");
+          }
           else
-            $this->buffer .=
-              "<li><a href=\"./?act=add&amp;id_produit=".$row["id_produit"]."\">".
-              $row["nom_prod"].$extra." : Ajouter au panier</a>$info_stock</li>";
+          {
+            $frm->add_text_field('nb['.$row["id_produit"].']', $row["nom_prod"].$extra);
+            if ( $stock != -1 )
+              $frm->add_info("Stock disponible : $stock");
+          }
         }
       }
+      $frm->add_submit ( 'ajout', 'Ajouter');
+      $this->add($frm);
       $this->buffer .= "</ul>";
     }
     else
