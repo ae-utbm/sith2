@@ -33,7 +33,7 @@ var edt = {
     if(freq != 2) 
       e.innerHTML = "";
     else
-      e.innerHTML = "<select name=\"_"+uvid+"_freq_"+type+"_\">  \
+      e.innerHTML = "<select name=\"freq_"+uvid+"_"+type+"\">  \
                       <option value=\"A\">Semaine A</option> \
                       <option value=\"B\">Semaine B</option> \
                      </select>";

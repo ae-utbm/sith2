@@ -133,14 +133,28 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   else
     $semestre = $_REQUEST['semestre'];
   
+  $freq = array(); //tableau des frequences envoyees 
+  foreach($_REQUEST as $arg=>$value)
+    if(is_string($arg) 
+        && preg_match("/^freq/", $arg)
+        && ($value == 'A' || $value == 'B')){
+      list(, $uv, $type) = explode("_", $arg);
+      $freq[$uv][$type] = $value;
+    }
+  
   foreach($_REQUEST as $arg=>$value)
     if(is_string($arg) 
         && preg_match("/^seance/", $arg)
         && is_int($value)){
       list(, $uv, $type) = explode("_", $arg);
       
-      //$user->join_uv_group($value);
+      if(isset($freq[$uv][$type])
+        $semaine = $freq[$uv][$type];
+      else
+        $semaine = null;
+      $user->join_uv_group($value, $semaine);
     }
+  
   exit;
 }
 
