@@ -87,7 +87,7 @@ class pedag_user extends utilisateur{
 
   public function leave_uv_group($id_group){
     $sql = new delete($this->dbrw, "pedag_groupe_utl", array("id_utilisateur"=>$this->id, "id_groupe"=>$id_group));
-    return $sql->is_success();
+    return; // $sql->is_success();
   }
 
   /* desincription d'une UV entiere, donc desinscrition de tous les groupes */
