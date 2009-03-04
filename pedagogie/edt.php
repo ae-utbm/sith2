@@ -150,10 +150,12 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
         $semaine = $freq[$uv][$type];
       else
         $semaine = null;
+      echo "Ajout $value en semaine $semaine \n";
       $user->join_uv_group($value, $semaine);
     }
+  print_r($user);
   
-  $site->end_page();
+  //$site->end_page();
   exit;
 }
 
