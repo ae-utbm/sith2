@@ -124,10 +124,22 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
   print_r($_REQUEST);
+  
+  if(!isset($_REQUEST['newedtstep2']))
+    $site->redirect('edt.php?action=new');
+
+  if(!check_semester_format($_REQUEST['semestre']))
+    $site->redirect('edt.php?action=new');
+  else
+    $semestre = $_REQUEST['semestre'];
+  
   foreach($_REQUEST as $arg=>$value)
-    if(is_string($arg) && preg_match("/^seance/", $arg)){
-      $data = explode("_", $arg);
-      print_r($data);
+    if(is_string($arg) 
+        && preg_match("/^seance/", $arg)
+        && is_int($value)){
+      list(, $uv, $type) = explode("_", $arg);
+      
+      //$user->join_uv_group($value);
     }
   exit;
 }
