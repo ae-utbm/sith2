@@ -319,37 +319,40 @@ class interfaceweb
       $this->buffer .= "<script type=\"text/javascript\">\n";
       $this->buffer .= "var menu_utilisateur=new Array();";
       $i=0;
-      if($this->user->ae)
+      if(!defined('NOTAE'))
       {
-        $this->buffer .= "menu_utilisateur[$i]='<a class=\"firstdropdown\" href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>';";
+        if($this->user->ae)
+        {
+          $this->buffer .= "menu_utilisateur[$i]='<a class=\"firstdropdown\" href=\"".$topdir."user/compteae.php\">Compte AE : ".(sprintf("%.2f", $this->user->montant_compte/100))." Euros</a>';";
+          $i++;
+        }
+        if($i==0)
+          $this->buffer .= "menu_utilisateur[$i]='<a class=\"firstdropdown\" href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
+        else
+          $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
+        $i++;
+        if($this->user->utbm)
+        {
+          $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."trombi/index.php\">Trombinoscope</a>';";
+          $i++;
+        }
+        if( $this->user->is_in_group("jobetu_etu") )
+        {
+          $jobuser = new jobuser_etu($this->db);
+          $jobuser->load_by_id($this->user->id);
+          $jobuser->load_annonces();
+          $this->buffer .= "menu_utilisateur[$i]='<a href=\"".
+                           $topdir."jobetu/board_etu.php\">Mon compte JobEtu (".count($jobuser->annonces).")</a>';";
+          unset($jobuser);
+        }
+        elseif( $this->user->is_in_group("jobetu_client") )
+          $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>';";
+        else
+          $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>';";
+        $i++;
+        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user/outils.php\">Mes outils</a>';";
         $i++;
       }
-      if($i==0)
-        $this->buffer .= "menu_utilisateur[$i]='<a class=\"firstdropdown\" href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
-      else
-        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user.php?id_utilisateur=".$this->user->id."\">Informations personnelles</a>';";
-      $i++;
-      if($this->user->utbm)
-      {
-        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."trombi/index.php\">Trombinoscope</a>';";
-        $i++;
-      }
-      if( $this->user->is_in_group("jobetu_etu") )
-      {
-        $jobuser = new jobuser_etu($this->db);
-        $jobuser->load_by_id($this->user->id);
-        $jobuser->load_annonces();
-        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".
-                         $topdir."jobetu/board_etu.php\">Mon compte JobEtu (".count($jobuser->annonces).")</a>';";
-        unset($jobuser);
-      }
-      elseif( $this->user->is_in_group("jobetu_client") )
-        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."jobetu/board_client.php\">AE JobEtu</a>';";
-      else
-        $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."jobetu/index.php\">AE JobEtu</a>';";
-      $i++;
-      $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."user/outils.php\">Mes outils</a>';";
-      $i++;
       $this->buffer .= "menu_utilisateur[$i]='<a href=\"".$topdir."disconnect.php\">Déconnexion</a>';";
       $this->buffer .= "</script>";
       $this->buffer .= "<div id='login' onMouseover=\"dropdownmenu(this, event, menu_utilisateur)\" onMouseout=\"delayhidemenu()\">\n";
@@ -357,93 +360,93 @@ class interfaceweb
     }
     $this->buffer .= "</div>\n";
 
-    $req = new requete($this->db,
-        "SELECT `asso`.`id_asso`, " .
-        "`asso`.`nom_asso` ".
-        "FROM `asso_membre` " .
-        "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
-        "WHERE `asso_membre`.`role` > 1 AND `asso_membre`.`date_fin` IS NULL " .
-        "AND `asso_membre`.`id_utilisateur`='".$this->user->id."' " .
-        "AND `asso`.`id_asso` != '1' " .
-        "ORDER BY asso.`nom_asso`");
-    $req2 = new requete($this->db,
-       "SELECT id_comptoir,nom_cpt " .
-       "FROM cpt_comptoir " .
-       "WHERE ( id_groupe IN (".$this->user->get_groups_csv().") OR `id_assocpt` IN (".$this->user->get_assos_csv(4).") ) AND nom_cpt != 'test' " .
-       "ORDER BY nom_cpt");
-
-    if (   $req->lines > 0
-        || $req2->lines > 0
-        || $this->user->is_in_group("root")
-        || $this->user->is_in_group("moderateur_site")
-        || $this->user->is_in_group("compta_admin")
-        || $this->user->is_in_group("gestion_ae")
-        || $this->user->is_in_group("gestion_syscarteae")
-       )
+    if(!defined('NOTAE'))
     {
-      $this->buffer .= "<script type=\"text/javascript\">\n";
-      $this->buffer .= "var menu_assos=new Array();";
-      $i=0;
-      $class="class=\"firstdropdown\"";
-      if( $this->user->is_in_group("root") )
+      $req = new requete($this->db,
+          "SELECT `asso`.`id_asso`, " .
+          "`asso`.`nom_asso` ".
+          "FROM `asso_membre` " .
+          "INNER JOIN `asso` ON `asso`.`id_asso`=`asso_membre`.`id_asso` " .
+          "WHERE `asso_membre`.`role` > 1 AND `asso_membre`.`date_fin` IS NULL " .
+          "AND `asso_membre`.`id_utilisateur`='".$this->user->id."' " .
+          "AND `asso`.`id_asso` != '1' " .
+          "ORDER BY asso.`nom_asso`");
+      $req2 = new requete($this->db,
+         "SELECT id_comptoir,nom_cpt " .
+         "FROM cpt_comptoir " .
+         "WHERE ( id_groupe IN (".$this->user->get_groups_csv().") OR `id_assocpt` IN (".$this->user->get_assos_csv(4).") ) AND nom_cpt != 'test' " .
+         "ORDER BY nom_cpt");
+
+      if (   $req->lines > 0
+          || $req2->lines > 0
+          || $this->user->is_in_group("root")
+          || $this->user->is_in_group("moderateur_site")
+          || $this->user->is_in_group("compta_admin")
+          || $this->user->is_in_group("gestion_ae")
+          || $this->user->is_in_group("gestion_syscarteae")
+         )
       {
-        $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>';";
-        $i++;
-        $class="";
-      }
-      if($this->user->is_in_group("moderateur_site"))
-      {
-        $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."ae/com.php\">Équipe com</a>';";
-        $i++;
-        $class="";
-      }
-      if( $this->user->is_in_group("compta_admin") )
-      {
-        $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."ae/compta.php\">Équipe trésorerie</a>';";
-        $i++;
-        $class="";
-      }
-      if( $this->user->is_in_group("gestion_ae") )
-      {
-        $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."ae/\">Équipe AE</a>';";
-        $i++;
-        $class="";
-      }
-      if( $this->user->is_in_group("gestion_syscarteae") )
-      {
-        $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."ae/syscarteae.php\">Carte AE</a>';";
-        $i++;
-        $class="";
-      }
-      while(list($id,$nom)=$req->get_row())
-      {
-        $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."asso/index.php?id_asso=$id\">".str_replace("'","\'",$nom)."</a>';";
-        $i++;
-        $class="";
-      }
-      if( $this->user->is_in_group("gestion_syscarteae") )
-      {
-        $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."comptoir/admin.php\">Admin : comptoirs</a>';";
-        $i++;
-        $class="";
-      }
-      else
-      {
-        while(list($id,$nom)=$req2->get_row())
+        $this->buffer .= "<script type=\"text/javascript\">\n";
+        $this->buffer .= "var menu_assos=new Array();";
+        $i=0;
+        $class="class=\"firstdropdown\"";
+        if( $this->user->is_in_group("root") )
         {
-          $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."comptoir/admin.php?id_comptoir=$id\">Admin : ".str_replace("'","\'",$nom)."</a>';";
+          $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."rootplace/index.php\">Équipe informatique</a>';";
           $i++;
           $class="";
         }
+        if($this->user->is_in_group("moderateur_site"))
+        {
+          $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."ae/com.php\">Équipe com</a>';";
+          $i++;
+          $class="";
+        }
+        if( $this->user->is_in_group("compta_admin") )
+        {
+          $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."ae/compta.php\">Équipe trésorerie</a>';";
+          $i++;
+          $class="";
+        }
+        if( $this->user->is_in_group("gestion_ae") )
+        {
+          $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."ae/\">Équipe AE</a>';";
+          $i++;
+          $class="";
+        }
+        if( $this->user->is_in_group("gestion_syscarteae") )
+        {
+          $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."ae/syscarteae.php\">Carte AE</a>';";
+          $i++;
+          $class="";
+        }
+        while(list($id,$nom)=$req->get_row())
+        {
+          $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."asso/index.php?id_asso=$id\">".str_replace("'","\'",$nom)."</a>';";
+          $i++;
+          $class="";
+        }
+        if( $this->user->is_in_group("gestion_syscarteae") )
+        {
+          $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."comptoir/admin.php\">Admin : comptoirs</a>';";
+          $i++;
+          $class="";
+        }
+        else
+        {
+          while(list($id,$nom)=$req2->get_row())
+          {
+            $this->buffer .= "menu_assos[".$i."]='<a $class href=\"".$topdir."comptoir/admin.php?id_comptoir=$id\">Admin : ".str_replace("'","\'",$nom)."</a>';";
+            $i++;
+            $class="";
+          }
+        }
+        $this->buffer .= "</script>";
+        $this->buffer .= "<div id='assos' onMouseover=\"dropdownmenu(this, event, menu_assos, '150px')\" onMouseout='delayhidemenu()'>\n";
+        $this->buffer .= "Gestion assos/clubs";
+        $this->buffer .= "</div>\n";
       }
-      $this->buffer .= "</script>";
-      $this->buffer .= "<div id='assos' onMouseover=\"dropdownmenu(this, event, menu_assos, '150px')\" onMouseout='delayhidemenu()'>\n";
-      $this->buffer .= "Gestion assos/clubs";
-      $this->buffer .= "</div>\n";
-    }
 
-    if(!defined('NOTAE'))
-    {
       $this->buffer .= "<div id=\"fsearchbox\">\n";
       $this->buffer .= "<form action=\"".$wwwtopdir."fsearch.php\" method=\"post\">";
       $this->buffer .= "<input type=\"text\" id=\"fsearchpattern\" name=\"pattern\" onblur=\"fsearch_stop_delayed();\" onkeyup=\"fsearch_keyup(event);\" value=\"\" />\n";
