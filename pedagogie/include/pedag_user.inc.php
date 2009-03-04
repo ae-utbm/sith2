@@ -98,14 +98,12 @@ class pedag_user extends utilisateur{
    * Affiliation a un cursus (filiere, mineur, ...)
    */
   public function join_cursus($id_cursus){
-    $sql = new insert($this->dbrw, "pedag_cursus_utl", array("id_utilisateur"=>$this->id, "id_cursus"=>$id_cursus), true);
+    $sql = new insert($this->dbrw, "pedag_cursus_utl", array("id_utilisateur"=>$this->id, "id_cursus"=>$id_cursus));
     return $sql->is_success();
   }
   
   public function leave_cursus($id_cursus){
-    echo "- in leave_cursus($id_cursus)\n";
-    $sql = new delete($this->dbrw, "pedag_cursus_utl", array("id_utilisateur"=>$this->id, "id_cursus"=>$id_cursus), true);
-    print_r($sql);
+    $sql = new delete($this->dbrw, "pedag_cursus_utl", array("id_utilisateur"=>$this->id, "id_cursus"=>$id_cursus));
     return $sql->is_success();
   }
   
@@ -187,10 +185,8 @@ class pedag_user extends utilisateur{
                                     LEFT JOIN `pedag_groupe_utl` 
                                       ON `pedag_groupe`.`id_groupe` = `pedag_groupe_utl`.`id_groupe`
                                     WHERE `pedag_groupe`.`semestre` = '$semestre'
-                                      AND `pedag_groupe_utl`.`id_utilisateur` = ".$this->id, true);
-    print_r($sql);
-    
-    if($sql->is_success())
+                                      AND `pedag_groupe_utl`.`id_utilisateur` = ".$this->id);
+    if(!$sql->is_success())
       return false;
     else
       while($row = $sql->get_row())
