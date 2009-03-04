@@ -107,7 +107,7 @@ if(isset($_REQUEST["id_facture"]))
         foreach($_REQUEST["id_produits"] as $id_produit )
           $fact->set_retire($id_produit, $user);
       elseif($_REQUEST["action"]=='retirer')
-        $fact->set_etat(1);
+        $fact->set_etat(0);
       if($fact->ready==1 && $fact->etat==1) // commande à retirer
       {
         $cts = new contents( "Commande à retirer" );
