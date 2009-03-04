@@ -170,7 +170,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   
   $frm->add_submit("saveuv", "Enregistrer les modifications");
   $cts->add($frm, true, false, "relative", false, true);
-  
+ print_r($frm); 
   $site->add_contents($cts);
   $site->end_page();
   exit;

@@ -144,17 +144,16 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     }    
   }
   
-  print_r($freq);
-  print_r($seances);
-  
   foreach($seances as $iduv=>$types){
     $uv = new uv($site->db, $site->dbrw, $iduv);
     if(!$uv->is_valid())
       continue;
     
     foreach($types as $type => $val){
-      if($uv->has_group($type, $val)){
-        
+      if($val == 'add' || $val == 'none')
+        continue;
+      if($uv->has_group(intval($val), $type)){
+       
         if(isset($freq[$uv][$type]))
           $semaine = $freq[$uv][$type];
         else
