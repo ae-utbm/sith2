@@ -171,7 +171,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
 {
-  if(isset($_REQUEST['semestre']))
+  if(!isset($_REQUEST['semestre']))
     $site->redirect('edt.php');
     
   /** confirmation anti boulets */
