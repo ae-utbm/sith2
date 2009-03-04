@@ -30,7 +30,8 @@ class add_uv_edt_box extends form
     if( !($uv instanceof uv) )
       throw new Exception("Incorrect type");
     
-    $this->title = $uv->code." - ".$uv->intitule;
+    $this->form($uv->code, null, null, null, $uv->code." - ".$uv->intitule);
+    
     $code = $uv->code;
     $this->buffer = "";    
     
@@ -61,7 +62,7 @@ class add_uv_edt_box extends form
       $buffer  = "<div class=\"formrow\">\n";
       $buffer .= "  <div class=\"formlabel\">".$_GROUP[$type]['long']." : </div>\n";
       $buffer .= "  <div class=\"formfield\">\n";
-      $buffer .= "    <select name=\"_".$uv->id."_".$_GROUP[$type]['short']."_\">\n";
+      $buffer .= "    <select name=\"seance_".$uv->id."_".$_GROUP[$type]['short']."\">\n";
       $buffer .= "      <option value=\"none\">S&eacute;lectionnez votre s&eacute;ance</option>\n";
       foreach($groups as $group){
         $buffer .= "      <option value=\"".$group['id_groupe']."\" onclick=\"edt.disp_freq_choice('".$divid."', ".$group['freq'].", ".$uv->id.", ".$type.");\">"

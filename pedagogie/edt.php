@@ -124,6 +124,11 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
   print_r($_REQUEST);
+  foreach($_REQUEST as $arg)
+    if(preg_match("/^seance/", $arg){
+      $data = explode("_", $arg);
+      print_r($data);
+    }
   exit;
 }
 
