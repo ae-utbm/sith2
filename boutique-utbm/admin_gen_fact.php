@@ -151,7 +151,7 @@ if(isset($_REQUEST["id_facture"]))
                                array('prep'=>'Marquer pret'),
                                array('preps'=>'Marquer pret')));
       }
-      $ccts->add($ctsi,true);
+      $ccts->add($cts,true);
       $site->add_contents($ccts);
       $site->end_page();
       exit();
