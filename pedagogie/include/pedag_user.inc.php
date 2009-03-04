@@ -103,7 +103,9 @@ class pedag_user extends utilisateur{
   }
   
   public function leave_cursus($id_cursus){
-    $sql = new delete($this->dbrw, "pedag_cursus_utl", array("id_utilisateur"=>$this->id, "id_cursus"=>$id_cursus));
+    echo "- in leave_cursus($id_cursus)\n";
+    $sql = new delete($this->dbrw, "pedag_cursus_utl", array("id_utilisateur"=>$this->id, "id_cursus"=>$id_cursus), true);
+    print_r($sql);
     return $sql->is_success();
   }
   
@@ -185,7 +187,9 @@ class pedag_user extends utilisateur{
                                     LEFT JOIN `pedag_groupe_utl` 
                                       ON `pedag_groupe`.`id_groupe` = `pedag_groupe_utl`.`id_groupe`
                                     WHERE `pedag_groupe`.`semestre` = '$semestre'
-                                      AND `pedag_groupe_utl`.`id_utilisateur` = ".$this->id);
+                                      AND `pedag_groupe_utl`.`id_utilisateur` = ".$this->id, true);
+    print_r($sql);
+    
     if($sql->is_success())
       return false;
     else

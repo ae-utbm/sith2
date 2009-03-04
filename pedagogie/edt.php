@@ -178,7 +178,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
   if(isset($_REQUEST['sure']) && $_REQUEST['sure'] == 'yes')
   {
     $user->delete_edt($_REQUEST['semestre']);
-    $site->redirect('edt.php');
+    //$site->redirect('edt.php');
   }
   else
   {
