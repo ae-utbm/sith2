@@ -85,10 +85,10 @@ if ($_REQUEST['act'] == "empty_cart")
 /*mise a jour du panier */
 if ($_REQUEST['act'] == "add")
 {
+  $nb=1;
   if(isset($_REQUEST['nb']) && !empty($_REQUEST['nb']) && $_REQUEST['nb']>1)
-    $ret = $site->add_item ($produit->id,$_REQUEST['nb']);
-  else
-    $ret = $site->add_item ($produit->id,1);
+  $nb=intval($_REQUEST['nb']);
+  $ret = $site->add_item ($produit->id,$nb);
 
   /* produit non trouve ou stock insuffisant */
   if ($ret == false)
@@ -98,7 +98,7 @@ if ($_REQUEST['act'] == "add")
   else
   {
     $add_rs = new contents ("Ajout");
-    $add_rs->add_paragraph ( "Ajout de l'article effectue avec succes.");
+    $add_rs->add_paragraph ( "Ajout de $nb l'article effectue avec succes.");
     $add_rs->add_paragraph ("<a href=\"./cart.php\">Passer la commande</a>");
     $produit->id=null;
   }
@@ -111,13 +111,17 @@ elseif($_REQUEST['act'] == "adds")
     $produit = new produit($site->db);
     foreach($_REQUEST['nb'] as $id => $nb)
     {
+      $nb=intval($nb);
+      $id=intval($id);
+      if(empty($nb) || $nb < 1)
+        continue;
       $produit->load_by_id($id);
       if ($produit->is_valid())
       {
         if($site->add_item ($produit->id,$nb))
-          $buffer.='<li>Ajout de '.$nb.' '.$produit->nom.' au pannier</li>';
+          $buffer.='<li>Ajout de '.$nb.' '.$produit->nom.' au panier</li>';
         else
-          $buffer.='<li>Impossible d\'ajouter '.$nb.' '.$produit->nom.' au pannier</li>';
+          $buffer.='<li>Impossible d\'ajouter '.$nb.' '.$produit->nom.' au panier</li>';
       }
     }
     if(!empty($buffer))
