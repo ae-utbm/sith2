@@ -157,9 +157,9 @@ class facture_pdf extends FPDF
     $this->SetFont('Arial','B',20);
     $this->Cell(210,20,utf8_decode("Facture n°") . $this->fact_ref_num,0,0,'C');
     $this->SetFont('Arial','I',15);
-    $this->Ln(20);
+    $this->Ln(10);
     /* date */
-    $this->Cell(210,10, $this->date_facturation,0,0,'C');
+    $this->Cell(210,10, 'Du '.$this->date_facturation,0,0,'C');
     $this->Ln(20);
     $this->Ln(0.5);
     $this->SetFont('Arial','BI',8);
