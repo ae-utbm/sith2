@@ -80,8 +80,8 @@ class pedag_user extends utilisateur{
   }
 
   public function join_uv_group($id_group, $semaine=null){
-    $sql = new insert($this->dbrw, "pedag_groupe_utl", array("id_utilisateur"=>$this->id, "id_groupe"=>$id_group, "semaine"=>$semaine), true);
-    print_r($sql);
+    $sql = "- join_uv_group("$this->id.", ".$id_group.", ".$semaine.")";//new insert($this->dbrw, "pedag_groupe_utl", array("id_utilisateur"=>$this->id, "id_groupe"=>$id_group, "semaine"=>$semaine), true);
+    echo($sql."\n");
     return $sql->is_success();
   }
 
