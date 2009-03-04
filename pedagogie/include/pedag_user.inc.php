@@ -136,6 +136,10 @@ class pedag_user extends utilisateur{
     return;
   }
   
+  
+  /**
+   * Emplois du temps
+   */
   public function get_edt_list(){
     $sql = new requete($this->db, "SELECT DISTINCT `semestre` 
                                     FROM `pedag_groupe`
@@ -173,6 +177,22 @@ class pedag_user extends utilisateur{
         
       return $t;
     }
+  }
+  
+  public function delete_edt($semestre){
+    $sql = new requete($this->db, "SELECT `pedag_groupe`.`id_groupe`
+                                    FROM `pedag_groupe`
+                                    LEFT JOIN `pedag_groupe_utl` 
+                                      ON `pedag_groupe`.`id_groupe` = `pedag_groupe_utl`.`id_groupe`
+                                    WHERE `pedag_groupe`.`semestre` = '$semestre'
+                                      AND `pedag_groupe_utl`.`id_utilisateur` = "$this.->id);
+    if($sql->is_success())
+      return false;
+    else
+      while($row = $sql->get_row())
+        $this->leave_uv_group($row['id_groupe']);
+        
+    return true;
   }
   
   /**************************************

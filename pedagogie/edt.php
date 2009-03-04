@@ -189,6 +189,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
     du semestre ".$_REQUEST['semestre'].". Êtes vous absolument sûr ?</b>");
     
     $frm = new form("iwantit", "edt.php?action=delete", true, "post", "");
+    $frm->add_hidden("semestre", $_REQUEST['semestre']);
     $frm->add_hidden("sure", "yes");
     $frm->add_submit("send", "Supprimer ".$_REQUEST['semestre']);
     $cts->add($frm);
