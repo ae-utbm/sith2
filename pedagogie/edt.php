@@ -143,7 +143,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       $seances[$uv][$type] = $value;
     }    
   }
-  print_r($freq);
+  
   foreach($seances as $iduv=>$types){
     $uv = new uv($site->db, $site->dbrw, $iduv);
     if(!$uv->is_valid())
@@ -153,7 +153,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       if($val == 'add' || $val == 'none')
         continue;
       if($uv->has_group(intval($val), $type)){
-        print "- isset(\$freq[".$uv->id."][".$type."]\n";
         if(isset($freq[$uv->id]) && isset($freq[$uv->id][$type]))
           $semaine = $freq[$uv->id][$type];
         else
@@ -164,22 +163,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       }
     }    
   }
-  /*
-  reset($_REQUEST);
-  foreach($_REQUEST as $arg=>$value){
-    if(preg_match("/^seance/", $arg) && $value){
-      list(, $uv, $type) = explode("_", $arg);
-      
-      if(isset($freq[$uv][$type]))
-        $semaine = $freq[$uv][$type];
-      else
-        $semaine = null;
-      echo "Ajout $value en semaine $semaine \n";
-      $user->join_uv_group(int($value), $semaine);
-    }
-  }
-  print_r($user);
-  */
   //$site->end_page();
   exit;
 }
