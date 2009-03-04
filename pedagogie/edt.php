@@ -121,9 +121,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 /**
  * enregistrement effectif du nouvel emploi du temps
  */
-if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
   print_r($_REQUEST);
+  exit;
 }
 
 /**
