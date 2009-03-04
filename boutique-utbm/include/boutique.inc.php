@@ -116,7 +116,7 @@ class boutique extends site
       if ( $prod->is_valid() )
       {
         $this->cart[] = $prod;
-        $this->total += ($prod->obtenir_prix(false,$this->user) * $count);
+        $this->total += ($prod->obtenir_prix($this->user) * $count);
       }
     }
 
