@@ -323,6 +323,7 @@ La boutique utbm";
    */
   function set_retire ( $id_produit, $client)
   {
+    print_r('bleh');
     $req = new update ($this->dbrw,"boutiqueut_vendu",
       array("a_retirer_vente" => null ),
       array("id_facture" => $this->id,"id_produit"=>$id_produit),1);
