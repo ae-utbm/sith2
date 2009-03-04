@@ -29,6 +29,8 @@ $topdir = "../";
 require_once($topdir. "include/site.inc.php");
 require_once("include/pedagogie.inc.php");
 require_once("include/cts/pedagogie.inc.php");
+require_once("include/uv.inc.php");
+require_once("include/pedag_user.inc.php");
 
 $site = new site();
 //$site->allow_only_logged_users();

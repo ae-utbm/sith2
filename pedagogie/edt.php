@@ -41,19 +41,19 @@ $site->start_page("services", "AE Pédagogie");
 $user = new pedag_user($site->db, $site->dbrw);
 $user->load_by_id($site->user->id);
 
-$path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
+$path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
+$path .= " / "."<a href=\"./edt.php\"><img src=\"".$topdir."images/icons/16/user.png\" class=\"icon\" /> Emploi du temps </a>";
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
-{
-  $path .= " / "."<a href=\"./\"><img src=\"".$topdir."images/icons/16/user.png\" class=\"icon\" /> ".$user->get_display_name()."</a>";
-  $path .= " / "."Ajouter un emploi du temps";
-  $cts = new contents($path);
-  
+{  
   /**
    * creation edt : etape 2 !
    */
   if(isset($_REQUEST['newedtstep1']))
   {
+    $path .= " / "."Ajouter un emploi du temps (Étape 2/2)";
+    $cts = new contents($path);
+  
     $sem = $_REQUEST['semestre'];
     $cts->add_paragraph("Vous ajoutez un emploi du temps pour le semestre <b>$sem</b>");
     $cts->add_paragraph("Pour chacune de vos UV, choisissez à présent
@@ -83,6 +83,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
    */
   else
   {
+    $path .= " / "."Ajouter un emploi du temps (Étape 1/2)";
+    $cts = new contents($path);
+    
     $cts->add_paragraph("Vous pouvez ici créer d'un nouvel emploi du temps
     sur le site de l'AE.");
     $cts->add_paragraph("Choisissez pour commencer les UV auxquelles vous
@@ -171,7 +174,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
  */
 
 /* recap edt */
-$cts = new contents("Pédagogie");
+$cts = new contents($path);
 $tab = array();
 $edts = $user->get_edt_list();
 if(!empty($edts))
