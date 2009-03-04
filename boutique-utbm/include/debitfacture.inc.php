@@ -110,7 +110,7 @@ class debitfacture extends stdentity
    * @return false en cas de problème (solde insuffisent, erreur sql) sinon true
    * @see venteproduit
    */
-  function debit ( $client, $panier, $etat=1, $ready=0 ,$mode='UT',$nom=null,$prenom=null,$adresse=null,$contact=null,$objectif=null,$eotp=null)
+  function debit ( $client, $panier, $etat=1, $ready=0 ,$mode='UT',$nom=null,$prenom=null,$adresse=null,$objectif=null,$eotp=null)
   {
 /*
 ready=1+etat=1 : à retirer
