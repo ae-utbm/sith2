@@ -54,7 +54,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
    */
   if(isset($_REQUEST['newedtstep1']))
   {
-      print_r($_REQUEST);
     $sem = $_REQUEST['semestre'];
     $cts->add_paragraph("Vous ajoutez un emploi du temps pour le semestre <b>$sem</b>");
     $cts->add_paragraph("Pour chacune de vos UV, choisissez à présent
@@ -134,14 +133,17 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   $freq = array(); //tableau des frequences envoyees 
   reset($_REQUEST);
   foreach($_REQUEST as $arg=>$value){
+    echo "in_freq : $arg\n";
     if(preg_match("/^freq/", $arg) && ($value == 'A' || $value == 'B')){
       list(, $uv, $type) = explode("_", $arg);
       $freq[$uv][$type] = $value;
     }
   }
+  print_r($freq);
   
   reset($_REQUEST);
   foreach($_REQUEST as $arg=>$value){
+    echo "in_seance : $arg\n";
     if(preg_match("/^seance/", $arg) && is_int($value)){
       list(, $uv, $type) = explode("_", $arg);
       
@@ -153,6 +155,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       $user->join_uv_group($value, $semaine);
     }
   }
+  print_r($user);
   
   //$site->end_page();
   exit;
