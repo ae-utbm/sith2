@@ -159,12 +159,11 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
           $semaine = null;
           
         $user->join_uv_group($val, $semaine);
-        
       }
     }    
   }
-  //$site->end_page();
-  exit;
+  
+  $site->redirect("edt.php?semestre=".$semestre);
 }
 
 /**
