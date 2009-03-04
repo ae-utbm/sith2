@@ -185,7 +185,7 @@ class pedag_user extends utilisateur{
                                     LEFT JOIN `pedag_groupe_utl` 
                                       ON `pedag_groupe`.`id_groupe` = `pedag_groupe_utl`.`id_groupe`
                                     WHERE `pedag_groupe`.`semestre` = '$semestre'
-                                      AND `pedag_groupe_utl`.`id_utilisateur` = "$this.->id);
+                                      AND `pedag_groupe_utl`.`id_utilisateur` = "$this->id);
     if($sql->is_success())
       return false;
     else
