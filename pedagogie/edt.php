@@ -148,7 +148,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
         && is_int($value)){
       list(, $uv, $type) = explode("_", $arg);
       
-      if(isset($freq[$uv][$type])
+      if(isset($freq[$uv][$type]))
         $semaine = $freq[$uv][$type];
       else
         $semaine = null;
