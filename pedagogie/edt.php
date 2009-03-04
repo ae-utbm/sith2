@@ -135,7 +135,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   foreach($_REQUEST as $arg=>$value){
     if(preg_match("/^freq/", $arg) && ($value == 'A' || $value == 'B')){
       list(, $uv, $type) = explode("_", $arg);
-      $freq[$uv][$_GROUP[$type]['short'] = $value;
+      $freq[$uv][$_GROUP[$type]['short']] = $value;
     }
     
     if(preg_match("/^seance/", $arg) && $value){
