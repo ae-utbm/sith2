@@ -161,13 +161,6 @@ else
                                "<br/><br/>".
                                "<a href=\"./\">Retour à l'accueil</a></p>");
 
-      foreach ($site->cart as $prod)
-      {
-        if ($cl=$prod->get_prodclass($site->user))
-          if ( $cts=$cl->get_once_sold_cts($site->user))
-            $site->add_contents($cts);
-      }
-
       $site->empty_cart ();
     }
     //si annulation (NON)
