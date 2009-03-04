@@ -203,8 +203,8 @@ http://boutique.utbm.fr/admin_gen_fact.php?id_facture=".$this->id."
 
 Cordialement,
 La boutique utbm";
-//    $ret = mail("boutique@utbm.fr",
-    $ret = mail("simon.lopez@ayolo.org",
+    $ret = mail("boutique@utbm.fr",
+//    $ret = mail("simon.lopez@ayolo.org",
                 "[boutique utbm] nouvelle commande",
                 utf8_decode($body),
                 "From: \"La boutique utbm\" <boutique@utbm.fr>\nReply-To: boutique@utbm.fr");
