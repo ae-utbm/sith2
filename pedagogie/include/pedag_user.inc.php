@@ -157,11 +157,12 @@ class pedag_user extends utilisateur{
                                     FROM `pedag_uv`
                                     WHERE `id_uv`
                                     IN (
-                                      SELECT DISTINCT `pedag_uv`.`id_uv`
-                                      FROM `pedag_uv`
-                                      LEFT JOIN `pedag_groupe` 
-                                        ON `pedag_uv`.`id_uv` = `pedag_groupe`.`id_uv`
-                                      WHERE `pedag_groupe`.`semestre` = '".$semestre."'
+                                      SELECT DISTINCT `pedag_groupe`.`id_uv`
+                                      FROM `pedag_groupe`
+                                      LEFT JOIN `pedag_groupe_utl` 
+                                        ON `pedag_groupe`.`id_groupe` = `pedag_groupe_utl`.`id_groupe`
+                                      WHERE `pedag_groupe`.`semestre` = '$semestre'
+                                        AND `pedag_groupe_utl`.`id_utilisateur` = $this->id
                                     )");
     if(!$sql->is_success())
       return false;

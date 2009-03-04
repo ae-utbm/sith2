@@ -163,7 +163,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     }    
   }
   
-  $site->redirect("edt.php?semestre=".$semestre);
+  $site->redirect("edt.php?semestre=".$semestre."&action=view");
 }
 
 /**
@@ -176,7 +176,7 @@ $tab = array();
 $edts = $user->get_edt_list();
 if(!empty($edts))
 {
-  foreach($user->get_edt_list() as $edt)
+  foreach($edts as $edt)
   {
     $tab[$edt]['semestre'] = $edt;
     $i=0;
@@ -215,7 +215,6 @@ $cts->add_paragraph("Indiquez ci-dessous les séances auxquelles vous êtes
       \"Ajouter une séance\" afin de la créer.");
 
 $site->add_contents($cts);
-$site->add_contents(new add_uv_edt_box($uv));
 
 $site->add_contents(new add_seance_box(0, GROUP_C, SEMESTER_NOW));
 
