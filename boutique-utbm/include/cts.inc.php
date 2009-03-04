@@ -41,7 +41,7 @@
  * - Affichage des informations complémentaires (générée spécifiquement pour le client)
  * @ingroup display_cts_eboutic
  */
-class ficheproduit extends stdcontents
+class ficheproduit extends contents
 {
 
   function ficheproduit( &$typeproduit, &$produit, &$venteprod, &$user )
