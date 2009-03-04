@@ -270,22 +270,22 @@ class facture_pdf extends FPDF
       {
         $this->Ln(10);
         $this->Cell(21.5,10,utf8_decode("Service"), "TL", 0, "");
-        $this->Cell(175,10,utf8_decode(": ".$this->factured_infos['name']), "RT", 0, "");
+        $this->Cell(173.5,10,utf8_decode(": ".$this->factured_infos['name']), "RT", 0, "");
         $this->Ln();
         $this->Cell(21.5,10,utf8_decode("Centre de coût"), "L", 0, "");
-        $this->Cell(175,10,utf8_decode(": ".$this->factured_infos['srv_centre_cout']), "R", 0, "");
+        $this->Cell(173.5,10,utf8_decode(": ".$this->factured_infos['srv_centre_cout']), "R", 0, "");
         $this->Ln();
         if(isset($this->factured_infos['srv_eopt']))
         {
           $this->Cell(21.5,10,utf8_decode("EOTP"), "L", 0, "");
-          $this->Cell(175,10,utf8_decode(": ".$this->factured_infos['srv_eopt']), "R", 0, "");
+          $this->Cell(173.5,10,utf8_decode(": ".$this->factured_infos['srv_eopt']), "R", 0, "");
           $this->Ln();
         }
         $this->Cell(21.5,10,utf8_decode("Contact"), "L", 0, "");
-        $this->Cell(175,10,utf8_decode(": ".$this->factured_infos['srv_contact']), "R", 0, "");
+        $this->Cell(173.5,10,utf8_decode(": ".$this->factured_infos['srv_contact']), "R", 0, "");
         $this->Ln();
         $this->Cell(21.5,10,utf8_decode("Objectif"), "LB", 0, "");
-        $this->Cell(175,10,utf8_decode(": ".$this->factured_infos['srv_obj']), "RB", 0, "");
+        $this->Cell(173.5,10,utf8_decode(": ".$this->factured_infos['srv_obj']), "RB", 0, "");
       }
       $this->Ln(10);
       $this->Cell(150,10,utf8_decode("TVA non applicable, article 293B du CGI"), "T", 0, "");
