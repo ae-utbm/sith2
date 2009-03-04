@@ -28,7 +28,6 @@ if(!$site->user->is_in_group("gestion_ae") && !$site->user->is_in_group("adminbo
   $site->error_forbidden();
 
 $site->start_page("boutique", "Suivi" );
-$site->add_contents(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"suivi"));
 
 if(isset($_REQUEST["id_facture"]))
 {
@@ -101,6 +100,7 @@ if(isset($_REQUEST["id_facture"]))
     }
     else
     {
+      $ccts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"gestion.php\">Gestion</a> / Détail facture");
       if($_REQUEST["action"]=='prep')
       {
         $fact->set_retire($_REQUEST["id_produit"], $user);
@@ -151,7 +151,8 @@ if(isset($_REQUEST["id_facture"]))
                                array('prep'=>'Marquer pret'),
                                array('preps'=>'Marquer pret')));
       }
-      $site->add_contents($cts);
+      $ccts->add($cts);
+      $site->add_contents($ccts);
       $site->end_page();
       exit();
     }
