@@ -153,9 +153,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       if($val == 'add' || $val == 'none')
         continue;
       if($uv->has_group(intval($val), $type)){
-        print "- isset(\$freq\[".$uv."\]\[".$type."\]\n";
-        if(isset($freq[$uv]) && isset($freq[$uv][$type]))
-          $semaine = $freq[$uv][$type];
+        print "- isset(\$freq\[".$uv->id."\]\[".$type."\]\n";
+        if(isset($freq[$uv->id]) && isset($freq[$uv->id][$type]))
+          $semaine = $freq[$uv->id][$type];
         else
           $semaine = null;
           
