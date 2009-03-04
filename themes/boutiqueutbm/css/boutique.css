@@ -68,6 +68,7 @@ div#header
 div#logo
 {
   float:left;
+  margin-top:30px;
   display:block-inline;
 }
 div#headermenu
