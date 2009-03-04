@@ -169,6 +169,39 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   $site->redirect("edt.php?semestre=".$semestre."&action=view");
 }
 
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
+{
+  if(isset($_REQUEST['semestre']))
+    $site->redirect('edt.php');
+    
+  /** confirmation anti boulets */
+  if(isset($_REQUEST['sure']) && $_REQUEST['sure'] == 'yes')
+  {
+    $user->delete_edt($_REQUEST['semestre']);
+    $site->redirect('edt.php');
+  }
+  else
+  {
+    $path .= " / "."Suppression emploi du temps ".$_REQUEST['semestre'];
+    $cts = new contents($path);
+    
+    $cts->add_paragraph("<b>Vous vous apprêtez à supprimer l'emploi du temps
+    du semestre ".$_REQUEST['semestre'].". Êtes vous absolument sûr ?</b>");
+    
+    $frm = new form("iwantit", "edt.php?action=delete", true, "post", "");
+    $frm->add_hidden("sure", "yes");
+    $frm->add_submit("send", "Supprimer ".$_REQUEST['semestre']);
+    $cts->add($frm);
+    
+    $cts->add_paragraph("<a href=\"edt.php\">Annuler</a>");
+    
+    $site->add_contents($cts);
+    $site->end_page();
+    exit;
+  }
+  
+}
+
 /**
  * Contenu défaut page
  */
