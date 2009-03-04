@@ -142,8 +142,17 @@ if(isset($_REQUEST["id_facture"]))
       }
       else
       {
+        $req = new requete($site->db,
+           "SELECT id_produit, ".
+           "`quantite`, " .
+           "`prix_unit`/100 AS `prix_unit`, ".
+           "`prix_unit`*`boutiqueut_vendu`.`quantite`/100 AS `total`, ".
+           "`nom_prod` " .
+           "FROM `boutiqueut_vendu` ".
+           "INNER JOIN boutiqueut_produits USING(id_produit) ".
+           "WHERE a_retirer_vente IS NOT NULL AND `id_facture` =".$fact->id);
         $cts->add(new sqltable('detailcmd',
-                               'Détail de la commande',
+                               'Produits en attente de préparation',
                                $req,
                                'admin_gen_fact.php?id_facture='.$_REQUEST["id_facture"],
                                "id_produit",

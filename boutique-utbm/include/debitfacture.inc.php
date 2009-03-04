@@ -255,7 +255,7 @@ La boutique utbm";
     if ( $this->etat != $etat )
     {
       $this->etat = $etat;
-      $req = new update ($this->dbrw,"boutiqueut_debitfacture",array("etat_facture" => $this->etat),array("id_facture" => $this->id));
+      $req = new update ($this->dbrw,"boutiqueut_debitfacture",array("etat_facture" => $this->etat),array("id_facture" => $this->id),1);
     }
   }
 
@@ -264,7 +264,7 @@ La boutique utbm";
     if ( $this->ready != $etat )
     {
       $this->ready = $etat;
-      $req = new update ($this->dbrw,"boutiqueut_debitfacture",array("ready" => $this->ready),array("id_facture" => $this->id));
+      $req = new update ($this->dbrw,"boutiqueut_debitfacture",array("ready" => $this->ready),array("id_facture" => $this->id),1);
     }
   }
 
@@ -324,8 +324,8 @@ La boutique utbm";
   function set_retire ( $id_produit, $client)
   {
     $req = new update ($this->dbrw,"boutiqueut_vendu",
-      array("a_retirer_vente" => 0 ),
-      array("id_facture" => $this->id,"id_produit"=>$id_produit));
+      array("a_retirer_vente" => null ),
+      array("id_facture" => $this->id,"id_produit"=>$id_produit),1);
 
     $this->recalcul_ready_state($client);
   }
