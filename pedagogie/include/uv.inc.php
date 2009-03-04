@@ -423,7 +423,6 @@ class uv extends stdentity
   }
   
   public function has_group($id_group, $type, $semestre = SEMESTER_NOW){
-    echo "- in has_group($id_group, $type, $semestre)\n";
     if(!isset($this->groups) || !isset($this->groups[$semestre]) || empty($this->groups[$semestre])){
       $tab = $this->get_groups(null, $semestre);
       foreach($tab as $grp)

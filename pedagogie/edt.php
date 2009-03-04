@@ -153,13 +153,12 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       if($val == 'add' || $val == 'none')
         continue;
       if($uv->has_group(intval($val), $type)){
-       
-        if(isset($freq[$uv][$type]))
+        if(isset($freq[$uv]) && isset($freq[$uv][$type]))
           $semaine = $freq[$uv][$type];
         else
           $semaine = null;
           
-        $user->join_uv_group($value, $semaine);
+        $user->join_uv_group($val, $semaine);
         
       }
     }    
