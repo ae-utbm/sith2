@@ -236,7 +236,7 @@ class facture_pdf extends FPDF
     $this->Ln(10);
     /* total */
     $this->SetFont('Arial','B',14);
-    $this->Cell(123,10,utf8_decode("Total à payer : "), "T", 0, "R");
+    $this->Cell(190,10,utf8_decode("Total à payer : "), "T", 0, "R");
     $_total = sprintf("%.2f", $this->total / 100);
     $this->Cell(40,10,$_total . " Euros", "T", 0, "R");
     //marge
