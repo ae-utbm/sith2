@@ -53,6 +53,8 @@ class boutique extends site
   var $total;
   /* une variable pour la css */
   var $css = 'themes/boutiqueutbm/css/boutique.css';
+  /* un logo pour la boutique */
+  var $logo = 'logo_boutique_utbm.gif';
 
   var $deftabs=array(array("accueil", "index.php", "Accueil"));
 
