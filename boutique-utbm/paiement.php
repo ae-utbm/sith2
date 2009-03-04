@@ -111,7 +111,7 @@ else
     if($site->user->type=="srv")
     {
       $frm->add_text_field('eotp','EOTP');
-      $frm->add_text_field('objectif','Objectif');
+      $frm->add_text_field('objectif','Objectif','',true);
     }
     $frm->add_submit("payment_boutique_proceed",
                      "OUI");
