@@ -135,7 +135,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   foreach($_REQUEST as $arg=>$value){
     if(preg_match("/^freq/", $arg) && ($value == 'A' || $value == 'B')){
       list(, $uv, $type) = explode("_", $arg);
-      $freq[$uv][$type] = $value;
+      $freq[$uv][$_GROUP[$type]['short'] = $value;
     }
     
     if(preg_match("/^seance/", $arg) && $value){
@@ -153,7 +153,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       if($val == 'add' || $val == 'none')
         continue;
       if($uv->has_group(intval($val), $type)){
-        print "- isset(\$freq\[".$uv->id."\]\[".$type."\]\n";
+        print "- isset(\$freq[".$uv->id."][".$type."]\n";
         if(isset($freq[$uv->id]) && isset($freq[$uv->id][$type]))
           $semaine = $freq[$uv->id][$type];
         else
