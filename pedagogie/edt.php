@@ -123,8 +123,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
  */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
-  print_r($_REQUEST);
-  
   if(!isset($_REQUEST['newedtstep2']))
     $site->redirect('edt.php?action=new');
 
@@ -155,6 +153,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       $user->join_uv_group($value, $semaine);
     }
   
+  $site->end_page();
   exit;
 }
 
