@@ -85,7 +85,10 @@ if ($_REQUEST['act'] == "empty_cart")
 /*mise a jour du panier */
 if ($_REQUEST['act'] == "add")
 {
-  $ret = $site->add_item ($produit->id);
+  if(isset($_REQUEST['nb']) && $_REQUEST['nb']>1)
+    $ret = $site->add_item ($produit->id,$_REQUEST['nb']);
+  else
+    $ret = $site->add_item ($produit->id,1);
 
   /* produit non trouve ou stock insuffisant */
   if ($ret == false)

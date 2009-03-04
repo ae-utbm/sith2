@@ -165,7 +165,7 @@ class boutique extends site
   }
 
   /* ajout d'un article dans le panier de l'utilisateur */
-  function add_item ($item)
+  function add_item ($item,$nb=1)
   {
     $vp = new venteproduit ($this->db, $this->dbrw);
     $ret = $vp->load_by_id ($item, CPT_E_BOUTIC);
@@ -178,10 +178,10 @@ class boutique extends site
 
     $_SESSION['boutique_locked'] = $site->user->id;
 
-    $ret = $vp->bloquer($this->user);
+    $ret = $vp->bloquer($this->user,$nb);
 
     if ($ret == true)
-      $_SESSION['boutique_cart'][$item] += 1;
+      $_SESSION['boutique_cart'][$item] += $nb;
 
     return $ret;
   }

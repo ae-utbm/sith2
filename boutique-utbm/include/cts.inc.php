@@ -109,7 +109,6 @@ class ficheproduit extends stdcontents
     {
       $subprod=new produit($produit->db);
 
-      $this->buffer .= "<ul>";
       while ( $row = $req->get_row() )
       {
         $subprod->_load($row);
@@ -122,14 +121,11 @@ class ficheproduit extends stdcontents
         $stock = $row["stock_global_prod"];
 
         if ( $stock == 0 )
-          $this->buffer .=
-            "<li>".$row["nom_prod"].$extra." : épuisé</li>";
+          $this->buffer .= $row["nom_prod"].$extra." : épuisé";
         else
         {
           if ( $stock != -1 )
-            $info_stock=" ($stock en stock)";
-          else
-            $info_stock="";
+            $this->buffer .="Stock disponible : $stock";
 
           if ( $subprod->obtenir_prix($user) != $produit->obtenir_prix($user) )
             $this->buffer .=
@@ -157,11 +153,11 @@ class ficheproduit extends stdcontents
           $info_stock=" ($stock en stock)";
         else
           $info_stock="";
-
-        $this->buffer .=
-          "<ul>".
-          "<li><a href=\"./?act=add&amp;id_produit=".$produit->id."\">Ajouter au panier</a>$info_stock</li>".
-          "</ul>";
+        $frm = new form('cmd', '/?act=add'):
+        $frm->add_hidden('id_produit',$produit->id);
+        $frm->add_text_field('nb', 'Quantité '.$info_stock);
+        $frm->add_submit ( 'ajout', 'Ajouter');
+        $this->add($frm);
       }
     }
     $this->buffer .= "</div>";
