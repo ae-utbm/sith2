@@ -45,38 +45,50 @@ $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 {
-  $path .= " / ".$user->get_display_name();
+  $path .= " / "."<a href=\"./\"><img src=\"".$topdir."images/icons/16/user.png\" class=\"icon\" /> ".$user->get_display_name()."</a>";
   $path .= " / "."Ajouter un emploi du temps";
   $cts = new contents($path);
   
-  $cts->add_paragraph("Vous pouvez ici créer d'un nouvel emploi du temps
-  sur le site de l'AE.");
-  $cts->add_paragraph("Choisissez pour commencer les UV auxquelles vous
-  vous êtes inscrit (y compris les UV hors emploi du temps), le semestre
-  concerné (par défaut il s'agit du semestre courant) et appuyez sur \"Passer
-  à l'étape suivante\".");
-  $cts->add_paragraph("Notez que vous ne pouvez créer qu'un emploi du 
-  temps par semestre, mais vous aurez la possibilité de l'éditer.");
-  
-  $frm = new form("newedt", "edt.php?action=new2", true, "post", "Ajouter un nouvel emploi du temps   (Étape 1/2)");
-  $frm->add_hidden("step", "1");
-  
-  $tab = array();
-  foreach(uv::get_list($site->db) as $uv)
-    $tab[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
-    
-  $frm->add(new selectbox('uvlist', 'Choisissez les UV de ce nouvel emploi du temps', $tab, '', 'UV'));
-  /* semestre */
-  $y = date('Y');
-  $sem = array();
-  for($i = $y-2; $i <= $y; $i++){
-    $sem['P'.$i] = 'Printemps '.$i;
-    $sem['A'.$i] = 'Automne '.$i;
+  /**
+   * creation edt : etape 2 !
+   */
+  if(isset($_REQUEST['newedtstep1']))
+  {
+      print_r($_REQUEST);
   }
-  $frm->add_select_field("semestre", "Semestre concern&eacute;", $sem, SEMESTER_NOW);
-  $frm->add_submit("continue", "Passer à l'étape suivante");
-  $cts->add($frm);
-
+  /**
+   * sinon etape 1 
+   */
+  else
+  {
+    $cts->add_paragraph("Vous pouvez ici créer d'un nouvel emploi du temps
+    sur le site de l'AE.");
+    $cts->add_paragraph("Choisissez pour commencer les UV auxquelles vous
+    vous êtes inscrit (y compris les UV hors emploi du temps), le semestre
+    concerné (par défaut il s'agit du semestre courant) et appuyez sur \"Passer
+    à l'étape suivante\".");
+    $cts->add_paragraph("Notez que vous ne pouvez créer qu'un emploi du 
+    temps par semestre, mais vous aurez la possibilité de l'éditer.");
+    
+    $frm = new form("newedt", "edt.php?action=new", true, "post", "Ajouter un nouvel emploi du temps   (Étape 1/2)");
+    $frm->add_hidden("step", "1");
+    
+    $tab = array();
+    foreach(uv::get_list($site->db) as $uv)
+      $tab[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
+      
+    $frm->add(new selectbox('uvlist', 'Choisissez les UV de ce nouvel emploi du temps', $tab, '', 'UV'));
+    /* semestre */
+    $y = date('Y');
+    $sem = array();
+    for($i = $y-2; $i <= $y; $i++){
+      $sem['P'.$i] = 'Printemps '.$i;
+      $sem['A'.$i] = 'Automne '.$i;
+    }
+    $frm->add_select_field("semestre", "Semestre concern&eacute;", $sem, SEMESTER_NOW);
+    $frm->add_submit("newedtstep1", "Passer à l'étape suivante");
+    $cts->add($frm);
+  }
   
   $site->add_contents($cts);
   $site->end_page();
