@@ -1380,8 +1380,10 @@ class form extends stdcontents
         $this->hiddens[$k] = $v;
     }
     
-    foreach($frm->event as $event=>$action){
-      $this->set_event($event, $action);
+    if(isset($frm->event) && !empty($frm->event)){
+      foreach($frm->event as $event=>$action){
+        $this->set_event($event, $action);
+      } 
     }
 
     if ( $frm->enctype )

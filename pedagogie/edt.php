@@ -56,7 +56,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
   {
       print_r($_REQUEST);
     $sem = $_REQUEST['semestre'];
-    $cts->add_paragraph("Vous ajoutez un emploi du temps pour le semestre **$sem**");
+    $cts->add_paragraph("Vous ajoutez un emploi du temps pour le semestre <b>$sem</b>");
     $cts->add_paragraph("Pour chacune de vos UV, choisissez à présent
     les séances auxquelles vous êtes inscrit, si la séance n'apparait pas
     dans la liste proposée, c'est que vous êtes le premier à l'entrer 
@@ -71,6 +71,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
       if($uv->is_valid())
         $frm->add(new add_uv_edt_box($uv, $sem), false, false, false, false, false, true);
     }
+    
+    $frm->add_submit("newedtstep2", "Enregistrer l'emploi du temps");
     
     $cts->add($frm);
     $site->add_contents($cts);
