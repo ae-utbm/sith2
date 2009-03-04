@@ -233,8 +233,9 @@ if ( $req2->lines > 0 )
           array(),
           array()));
 }
-
-$site->add_contents($cts);
+$ccts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"gestion.php\">Gestion</a> / Détail facture");
+$ccts->add($cts);
+$site->add_contents($ccts);
 
 $site->end_page();
 ?>
