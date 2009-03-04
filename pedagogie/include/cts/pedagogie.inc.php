@@ -23,9 +23,9 @@
  * 02111-1307, USA.
  */
 
-class add_uv_edt_box extends stdcontents
+class add_uv_edt_box extends form
 {
-  public function __construct($uv)
+  public function __construct($uv, $sem=SEMESTER_NOW)
   {
     if( !($uv instanceof uv) )
       throw new Exception("Incorrect type");
@@ -42,20 +42,20 @@ class add_uv_edt_box extends stdcontents
         .$uv->guide['td']."h de TD et "
         .$uv->guide['tp']."h de TP (*)</p>";
     
-    $this->buffer .= $this->build_uv_choice($uv, GROUP_C);
-    $this->buffer .= $this->build_uv_choice($uv, GROUP_TD);
-    $this->buffer .= $this->build_uv_choice($uv, GROUP_TP);
+    $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_C);
+    $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TD);
+    $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TP);
     
     $this->buffer .= "<p><i>(*) Si certaines des informations concernant cette UV
       sont incorrectes (détails des séances...), vous pouvez les 
       <a href=\"#\">corriger ici.</a></i></p>";
   }
   
-  private function build_uv_choice($uv, $type){
+  private function build_uv_choice($uv, $sem, $type){
     global $_GROUP;
     
     if($uv->guide[ $_GROUP[$type]['short'] ]){
-      $groups = $uv->get_groups($type);
+      $groups = $uv->get_groups($type, $sem);
       $divid = $uv->id."_".$type;
       
       $buffer  = "<div class=\"formrow\">\n";

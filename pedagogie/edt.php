@@ -47,14 +47,34 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 {
   $path .= " / "."<a href=\"./\"><img src=\"".$topdir."images/icons/16/user.png\" class=\"icon\" /> ".$user->get_display_name()."</a>";
   $path .= " / "."Ajouter un emploi du temps";
-  $cts = new contents($path);
-  
+
   /**
    * creation edt : etape 2 !
    */
   if(isset($_REQUEST['newedtstep1']))
   {
       print_r($_REQUEST);
+    $sem = $_REQUEST['semestre'];
+    $cts->add_paragraph("Vous ajoutez un emploi du temps pour le semestre **$sem**");
+    $cts->add_paragraph("Pour chacune de vos UV, choisissez à présent
+    les séances auxquelles vous êtes inscrit, si la séance n'apparait pas
+    dans la liste proposée, c'est que vous êtes le premier à l'entrer 
+    sur le site, cliquez alors sur \"Ajouter une séance manquante\" pour 
+    poursuivre.");
+    
+    $frm = new form("newedt", "edt.php?action=save", true, "post", "Ajouter un nouvel emploi du temps   (Étape 2/2)");
+    $frm->add_hidden("semestre", $sem);
+  
+    foreach($_REQUEST['uvlist_to'] as $iduv){
+      $uv = new uv($site->db, $site->dbrw, $iduv);
+      if($uv->is_valid())
+        $frm->add(new add_uv_edt_box($uv, $sem), false, false, false, false, false, true);
+    }
+    
+    $cts->add($frm);
+    $site->add_contents($cts);
+    $site->end_page();
+    exit;  
   }
   /**
    * sinon etape 1 
@@ -95,6 +115,17 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
   exit;
 }
 
+/**
+ * enregistrement effectif du nouvel emploi du temps
+ */
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
+{
+  print_r($_REQUEST);
+}
+
+/**
+ * Contenu défaut page
+ */
 
 /* recap edt */
 $cts = new contents("Pédagogie");
@@ -132,28 +163,6 @@ $site->add_contents($cts);
 
 
 /******************/
-$cts2 = new contents("Ajoutez un nouvel emploi du temps   (Étape 1/2)");
-
-$tab = array();
-foreach(uv::get_list($site->db) as $uv)
-  $tab[ $uv['id_uv'] ] = $uv['code']." - ".$uv['intitule'];
-
-$frm = new form("addedt", "edt.php?action=new", true, "post", "Choix des UV");
-$frm->add(new selectbox('uvlist', 'Choisissez les UV de ce nouvel emploi du temps', $tab, '', 'UV'));
-/* semestre */
-$y = date('Y');
-$sem = array();
-for($i = $y-2; $i <= $y; $i++){
-  $sem['P'.$i] = 'Printemps '.$i;
-  $sem['A'.$i] = 'Automne '.$i;
-}
-$frm->add_select_field("semestre", "Semestre concern&eacute;", $sem, SEMESTER_NOW);
-$frm->add_submit("continue", "Passer à l'étape suivante");
-$cts2->add($frm);
-
-$site->add_contents($cts2);
-
-
 /**** ajout d'UV */
 $uv = new uv($site->db, $site->dbrw, 0);
 
