@@ -80,7 +80,7 @@ class pedag_user extends utilisateur{
   }
 
   public function join_uv_group($id_group, $semaine=null){
-    $sql = new insert($this->dbrw, "pedag_groupe_utl", array("id_utilisateur"=>$this->id, "id_groupe"=>$id_group, "semaine"=>$semaine));
+    $sql = new insert($this->dbrw, "pedag_groupe_utl", array("id_utilisateur"=>$this->id, "id_groupe"=>$id_group, "semaine"=>$semaine), true);
     return $sql->is_success();
   }
 
@@ -98,7 +98,7 @@ class pedag_user extends utilisateur{
    * Affiliation a un cursus (filiere, mineur, ...)
    */
   public function join_cursus($id_cursus){
-    $sql = new insert($this->dbrw, "pedag_cursus_utl", array("id_utilisateur"=>$this->id, "id_cursus"=>$id_cursus));
+    $sql = new insert($this->dbrw, "pedag_cursus_utl", array("id_utilisateur"=>$this->id, "id_cursus"=>$id_cursus), true);
     return $sql->is_success();
   }
   
