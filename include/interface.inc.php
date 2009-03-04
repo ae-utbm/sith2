@@ -312,7 +312,7 @@ class interfaceweb
     }
     else
     {
-      if($this->user->ae)
+      if(!defined('NOTAE') && $this->user->ae)
       {
         $this->buffer.=$this->get_comptoir();
       }
