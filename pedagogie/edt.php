@@ -153,7 +153,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       continue;
     
     foreach($types as $type => $val){
-      if($uv->has_group($type, $val){
+      if($uv->has_group($type, $val)){
         
         if(isset($freq[$uv][$type]))
           $semaine = $freq[$uv][$type];
