@@ -151,10 +151,10 @@ elseif ( !$typeproduit->is_valid() )
             "AND `boutiqueut_produits`.`stock_global_prod`!=0 ".
             "AND (`boutiqueut_produits`.date_fin_produit > NOW() OR `boutiqueut_produits`.date_fin_produit IS NULL) ".
             "AND id_produit_parent IS NULL ".
-            "ORDER BY id_produit DESC ".
+            "ORDER BY RAND() ".
             "LIMIT 3");
 
-  $items_lst = new gallery ("Derniers produits mis en vente");
+  $items_lst = new gallery ("Quelques produits :");
 
   while ( $row = $items->get_row() )
     $items_lst->add_item (new vigproduit($row,$site->user));
