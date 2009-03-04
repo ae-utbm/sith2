@@ -131,20 +131,44 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     $semestre = $_REQUEST['semestre'];
   
   $freq = array(); //tableau des frequences envoyees 
-  reset($_REQUEST);
+  $seances = array(); //tableau des seances
   foreach($_REQUEST as $arg=>$value){
-    echo "in_freq : $arg\n";
     if(preg_match("/^freq/", $arg) && ($value == 'A' || $value == 'B')){
       list(, $uv, $type) = explode("_", $arg);
       $freq[$uv][$type] = $value;
     }
+    
+    if(preg_match("/^seance/", $arg) && $value){
+      list(, $uv, $type) = explode("_", $arg);
+      $seances[$uv][$type] = $value;
+    }    
   }
-  print_r($freq);
   
+  print_r($freq);
+  print_r($seances);
+  
+  foreach($seances as $iduv=>$types){
+    $uv = new uv($site->db, $site->dbrw, $iduv);
+    if(!$uv->is_valid())
+      continue;
+    
+    foreach($types as $type => $val){
+      if($uv->has_group($type, $val){
+        
+        if(isset($freq[$uv][$type]))
+          $semaine = $freq[$uv][$type];
+        else
+          $semaine = null;
+          
+        $user->join_uv_group($value, $semaine);
+        
+      }
+    }    
+  }
+  /*
   reset($_REQUEST);
   foreach($_REQUEST as $arg=>$value){
-    echo "in_seance : $arg\n";
-    if(preg_match("/^seance/", $arg) && is_int($value)){
+    if(preg_match("/^seance/", $arg) && $value){
       list(, $uv, $type) = explode("_", $arg);
       
       if(isset($freq[$uv][$type]))
@@ -152,11 +176,11 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       else
         $semaine = null;
       echo "Ajout $value en semaine $semaine \n";
-      $user->join_uv_group($value, $semaine);
+      $user->join_uv_group(int($value), $semaine);
     }
   }
   print_r($user);
-  
+  */
   //$site->end_page();
   exit;
 }
