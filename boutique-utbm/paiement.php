@@ -159,7 +159,7 @@ else
                                "&eacute;t&eacute; effectu&eacute;s.<br/><br/>".
                                "Toute la procédure pour récupérer vos articles vous a été envoyé par mail.".
                                "<br/><br/>".
-                               "<a href=\"./\">Retour à l'accueil</a></p>");
+                               "<a href=\"http://boutique.utbm.fr/\">Retour à l'accueil</a></p>");
 
       $site->empty_cart ();
     }

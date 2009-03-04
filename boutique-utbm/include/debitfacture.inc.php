@@ -183,7 +183,7 @@ etat=1+ready=0 : en préparation
 Vous vennez d'effectuer une commande sur la boutique utbm.
 
 Pour suivre l'avancement de votre commande, rendez vous à l'adresse suivante :
-http://ae.utbm.fr/boutique-utbm/suivi.php?id_facture=".$this->id."
+http://boutique.utbm.fr/suivi.php?id_facture=".$this->id."
 
 A chacune des étapes de traitement de votre commande, vous serrez informé par email.
 
