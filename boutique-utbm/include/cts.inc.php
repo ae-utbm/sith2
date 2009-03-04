@@ -153,7 +153,7 @@ class ficheproduit extends stdcontents
           $info_stock=" ($stock en stock)";
         else
           $info_stock="";
-        $frm = new form('cmd', '/?act=add'):
+        $frm = new form('cmd', '/?act=add');
         $frm->add_hidden('id_produit',$produit->id);
         $frm->add_text_field('nb', 'Quantité '.$info_stock);
         $frm->add_submit ( 'ajout', 'Ajouter');
