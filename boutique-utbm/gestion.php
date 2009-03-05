@@ -115,7 +115,7 @@ if ( $_REQUEST["page"] == "statistiques" )
       list($ln,$qte,$sum,$sumcoutant) = $req->get_row();
 
       $cts->add_title(2,"Sommes");
-      $cts->add_paragraph("Quantitée : $qte unités<br/>" .
+      $cts->add_paragraph("Quantité : $qte unités<br/>" .
           "Chiffre d'affaire: ".($sum/100)." Euros<br/>" .
           "Prix countant total estimé* : ".($sumcoutant/100)." Euros");
       $cts->add_paragraph("* ATTENTION: Prix coutant basé sur le prix actuel.");

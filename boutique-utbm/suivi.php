@@ -49,7 +49,7 @@ if ( $_REQUEST["page"] == "ALL")
   $annee = substr($_REQUEST["month"],0,4);
 
   $site->start_page("boutique", $user->prenom . " " . $user->nom );
-  $site->add_contents(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"suivi"));
+  $site->add_contents(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("panier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"suivi"));
   $cts = new contents( $user->prenom . " " . $user->nom );
   $cts->add(new sqltable(
     "listresp",
@@ -193,7 +193,7 @@ if(isset($_REQUEST["id_facture"]))
 }
 
 $site->start_page("boutique", "Suivi" );
-$site->add_contents(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("pannier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"suivi"));
+$site->add_contents(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("panier","boutique-utbm/cart.php","Pannier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"suivi"));
 $cts = new contents( "Suivi" );
 
 $cts->add_title(2,"Factures");

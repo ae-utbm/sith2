@@ -294,7 +294,7 @@ La boutique utbm";
       $a_expedier=NULL;
       $a_retirer=NULL;
 
-      if ( $retirer==1 && $vp->produit->a_retirer )
+      if ( $retirer==1 /*&& $vp->produit->a_retirer*/ )
       {
         $this->set_etat( 1 );
         $this->set_ready( 0 );
