@@ -299,6 +299,7 @@ if($_REQUEST['dept'])
   
   $site->add_contents($cts);
   $site->end_page();
+  exit;
 }
 
 /* affichage par defaut de la page : guide des UV */

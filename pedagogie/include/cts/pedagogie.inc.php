@@ -47,9 +47,10 @@ class add_uv_edt_box extends form
     $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TD);
     $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TP);
     
-    $this->buffer .= "<p><i>(*) Si certaines des informations concernant cette UV
-      sont incorrectes (détails des séances...), vous pouvez les 
-      <a href=\"#\">corriger ici.</a></i></p>";
+    
+    $this->buffer .= "<input type=\"button\" onclick=\"window.open('');\" value=\"Annuler l'inscription\" />";
+    $this->buffer .= "<input type=\"button\" onclick=\"window.open('');\" value=\"Corriger la fiche\" />";
+    $this->buffer .= "<input type=\"button\" class=\"bold\" onclick=\"window.open('');\" value=\"Voir la fiche\" />";
   }
   
   private function build_uv_choice($uv, $sem, $type){
