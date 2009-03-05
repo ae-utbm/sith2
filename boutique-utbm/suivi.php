@@ -67,7 +67,9 @@ if ( $_REQUEST["page"] == "ALL")
       "total"=>"Total"),
     array(),
     array(),
-    array()
+    array(),
+    true,
+    false
     ));
 
   $site->add_contents($cts);
