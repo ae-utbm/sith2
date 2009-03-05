@@ -5,17 +5,21 @@
 $topdir="../";
 require_once($topdir."include/site.inc.php");
 /* on inclu tout pour voir deja si ya pas d erreur syntaxique */
-
-require_once("include/pedagogie.inc.php");
+/**
 require_once("include/uv.inc.php");
 require_once("include/uv_comment.inc.php");
 require_once("include/cursus.inc.php");
 require_once("include/pedag_user.inc.php");
-require_once("include/edt.inc.php");
+*/
+
+require_once("temp/pedagogie2.inc.php");
+require_once("temp/edt2.inc.php");
 
 
 /* ancien systeme */
 require_once($topdir."include/entities/uv.inc.php");
+
+
 
 $site = new site();
 
@@ -97,6 +101,19 @@ if($_REQUEST['merge_comment']){
 }
 
 if($_REQUEST['merge_guide_info']){
+  $sql = new requete($site->db, "SELECT `code_uv` FROM `edu_uv`", true);
+  while(list($code) = $sql->get_row()){
+    $uv = new uv($site->db, $site->dbrw);
+    $uv->load_by_code($code);
+    
+    $uv2 = new uv2($site->db, $site->dbrw);
+    $uv2->load_by_code($code);
+    
+    if(!$uv->is_valid())
+      echo "- ".$code." : probleme base 1 <br />";
+    if(!$uv2->is_valid())
+      echo "- ".$code." : probleme base 2 <br />";
+  }
 }
 
 if($_REQUEST['merge_groups']){
