@@ -109,10 +109,17 @@ if($_REQUEST['merge_guide_info']){
     $uv2 = new uv2($site->db, $site->dbrw);
     $uv2->load_by_code($code);
     
-    if(!$uv->is_valid())
-      echo "- ".$code." : probleme base 1 <br />";
+    if(!$uv->is_valid()){
+      echo "- ".$code." : probleme base 1 <br />\n";
+      continue;
+    }
+    
     if(!$uv2->is_valid())
-      echo "- ".$code." : probleme base 2 <br />";
+      echo "- ".$code." : probleme base 2 <br />\n";
+    else{
+      $r = $uv2->update_guide_infos($uv->objectifs, $uv->programme, $uv->cours, $uv->td, $uv->tp, null, $uv->ects);
+      echo "- ".$code." : $r<br />\n";
+    }
   }
 }
 
