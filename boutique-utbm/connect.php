@@ -53,7 +53,7 @@ elseif($_REQUEST['mode']=='service')
 {
 
   $req = new requete($site->db,
-    'SELECT id_utilisateur FROM boutiqueut_service_utl WHERE centre_de_cout=\''.mysql_real_escape_string($_REQUEST["cf"]).'\'');
+    'SELECT id_utilisateur FROM boutiqueut_service_utl WHERE centre_de_cout=\''.mysql_real_escape_string(strtoupper($_REQUEST["cf"])).'\'');
   if($req->lines==1)
   {
     list($id)=$req->get_row();
