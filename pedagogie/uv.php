@@ -201,11 +201,11 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
     
     $id_groupe =  $uv->add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
     
-    $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de $hdebut à $hfin en $salle";
+    $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de $debut à $fin en $salle";
     $cts->puts("<script type='text/javascript'>
     function ret(){
       var o = new Option('$texte', '$id_groupe');
-      o.onclick = function(e){ edt.disp_freq_choice('".$id_uv."_".$type."', $freq, $id_uv, $type); };
+      o.onclick = function(e){ edt.disp_freq_choice('".$id_uv."_".$type."', $freq, ".$uv->id.", $type); };
       o.selected = true;
       window.opener.document.getElementById('seance_0_c').options.add(o);
       self.close();

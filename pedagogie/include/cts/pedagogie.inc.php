@@ -146,7 +146,7 @@ class add_seance_box extends stdcontents
         $avail_type[$grp] = $desc['long'];
     $frm->add_select_field("type", "Type", $avail_type, $type);
     if($type)
-      $frm->add_info("Il y a déjà ".count($uv->get_groups($type, $semestre))." séances de ".$_GROUP[$type]['long']." enregistrées pour ".$semestre.".");
+      $frm->add_info("Il y a déjà ".count($uv->get_groups($type, $semestre))." séance(s) de ".$_GROUP[$type]['long']." enregistrées pour ".$semestre.".");
     
     /* semestre */
     $y = date('Y');
@@ -189,7 +189,7 @@ class add_seance_box extends stdcontents
     $frm->add_text_field("salle", "Salle", "", false, 8, false, true, "(ex: P108)");
     
     /* submit */
-    $frm->add_submit("save", "Ajouter la séance");
+    $frm->add_submit("save", "+ Ajouter la séance");
     
     $this->buffer .= $frm->html_render();
   }
