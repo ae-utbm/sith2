@@ -133,6 +133,7 @@ else if ( $_REQUEST["action"] == "upproduit" && ($produit->id > 0) && ($typeprod
   $stock_global = -1;
   $file->load_by_id($_REQUEST["id_file"]);
   $produit_parent->load_by_id($_REQUEST["id_produit_parent"]);
+  print_r($_REQUEST["id_produit_parent"]);
   if ( $_REQUEST["stock"] == "lim" )
     $stock_global = $_REQUEST["stock_value"];
   $produit->modifier ($typeprod->id,
