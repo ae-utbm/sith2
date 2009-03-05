@@ -43,7 +43,7 @@ if(isset($_REQUEST["id_facture"]))
        'addr' => array(utf8_decode("UTBM"),
            "90010 BELFORT Cedex"),
        'logo' => "http://ae.utbm.fr/images/logo_boutique_ut.jpg");
-
+      $ht=false;
       if($user->is_valid())
       {
         $factured_infos = array (
@@ -62,6 +62,7 @@ if(isset($_REQUEST["id_facture"]))
           $factured_infos['srv_eopt']        = $fact->eopt;
           $factured_infos['srv_contact']     = $fact->contact;
           $factured_infos['srv_centre_cout'] = $fact->centre_de_cout;
+          $ht=true;
         }
       }
       else
@@ -99,7 +100,7 @@ if(isset($_REQUEST["id_facture"]))
                  $titre,
                  $ref,
                  $lines,
-                 true);
+                 $ht);
 
       /* on sort la facture */
       $fact_pdf->renderize ();
