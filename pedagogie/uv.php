@@ -185,7 +185,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
   if(isset($_REQUEST['save'])){
     /** on va dire que ca a marche */
     $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
-    if(!uv->is_valid())
+    if(!$uv->is_valid())
       $site->redirect('uv.php');
     
     $type = $_REQUEST['type'];
