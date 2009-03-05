@@ -111,7 +111,7 @@ class ficheproduit extends contents
       {
         $subprod->_load($row);
 
-        $extra = $produit->get_extra_info($user);
+        $extra = $subprod->get_extra_info($user);
 
         if ( !empty($extra) )
           $extra = " <i>($extra)</i>";
@@ -124,6 +124,7 @@ class ficheproduit extends contents
         {
           if($stock!=-1)
             $extra.=' (stock : '.$stock.')';
+          $row["nom_prod"]=trim(str_replace($produit->nom,'',$row["nom_prod"]));
           if( $subprod->obtenir_prix($user) != $produit->obtenir_prix($user) )
             $frm->add_text_field('nb['.$row["id_produit"].']', $row["nom_prod"].$extra." <b>".($subprod->obtenir_prix($user)/100).' €</b>');
           else
