@@ -444,7 +444,7 @@ elseif ( $produit->id > 0 )
 }
 elseif ( $typeprod->id > 0 )
 {
-  if ( $_REQUEST["action"] == "arch" !empty($_REQUEST["id_produits"]))
+  if ( $_REQUEST["action"] == "arch" && !empty($_REQUEST["id_produits"]))
   {
     foreach($_REQUEST["id_produits"] as $id)
     {
@@ -453,7 +453,9 @@ elseif ( $typeprod->id > 0 )
          $produit->archiver();
     }
   }
-  elseif ( $_REQUEST["action"] == "unarch" )
+  elseif ( $_REQUEST["action"] == "unarch" && !empty($_REQUEST["id_produits"]))
+  {
+)
   {
     foreach($_REQUEST["id_produits"] as $id)
     {
