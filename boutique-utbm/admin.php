@@ -315,7 +315,11 @@ elseif ( $_REQUEST["page"] == "addproduit" )
   $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit");
   $frm->add_text_field("nom","Nom","",true);
   $frm->add_entity_smartselect("id_file","Image",$file,true);
-  $frm->add_entity_smartselect("id_produit_parent","Produit parent",$produit_parent,true);
+  $parents =array('0'=>'Aucun');
+  $req = new requete($site->db,'SELECT id_produit,nom_prod FROM boutiqueut_produits WHERE prod_archive = 0 ORDER BY id_typeprod, id_produit');
+  while(list($id,$nom)=$req->get_row())
+    $parents[$id]=$nom;
+  $frm->add_select_field("id_produit_parent","Produit Parent",$parents);
   $frm->add_text_area("description","Résumé");
   $frm->add_text_area("description_longue","Description");
   $frm->add_price_field("prix_vente_prod_service","Prix services",0,true);
@@ -423,7 +427,11 @@ elseif ( $produit->id > 0 )
  $frm->add_entity_smartselect("id_file","Image",$file,true);
 
  $produit_parent->load_by_id($produit->id_produit_parent);
- $frm->add_entity_smartselect("id_produit_parent","Produit parent",$produit_parent,true);
+ $parents =array('0'=>'Aucun');
+  $req = new requete($site->db,'SELECT id_produit,nom_prod FROM boutiqueut_produits WHERE prod_archive = 0 ORDER BY id_typeprod, id_produit');
+  while(list($id,$nom)=$req->get_row())
+    $parents[$id]=$nom;
+  $frm->add_select_field("id_produit_parent","Produit Parent",$parents, $produit_parent->id);
 
  $frm->add_text_area("description","Résumé",$produit->description);
  $frm->add_text_area("description_longue","Description",$produit->description_longue);
