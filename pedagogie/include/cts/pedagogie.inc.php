@@ -58,18 +58,19 @@ class add_uv_edt_box extends form
     if($uv->guide[ $_GROUP[$type]['short'] ]){
       $groups = $uv->get_groups($type, $sem);
       $divid = $uv->id."_".$type;
+      $sel_id = "seance_".$uv->id."_".$_GROUP[$type]['short'];
       
       $buffer  = "<div class=\"formrow\">\n";
       $buffer .= "  <div class=\"formlabel\">".$_GROUP[$type]['long']." : </div>\n";
       $buffer .= "  <div class=\"formfield\">\n";
-      $buffer .= "    <select name=\"seance_".$uv->id."_".$_GROUP[$type]['short']."\">\n";
+      $buffer .= "    <select name=\"$sel_id\" id=\"sel_id\">\n";
       $buffer .= "      <option value=\"none\">S&eacute;lectionnez votre s&eacute;ance</option>\n";
       foreach($groups as $group){
         $buffer .= "      <option value=\"".$group['id_groupe']."\" onclick=\"edt.disp_freq_choice('".$divid."', ".$group['freq'].", ".$uv->id.", ".$type.");\">"
                             .$_GROUP[$type]['long']." n°".$group['num_groupe']." du ".get_day($group['jour'])." de ".$group['debut']." &agrave; ".$group['fin']." en ".$group['salle']
                             ."</option>\n";
       }
-      $buffer .= "      <option value=\"add\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.", this.parentNode);\">Ajouter une s&eacute;ance manquante...</option>\n";
+      $buffer .= "      <option value=\"add\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.", '".$sel_name."');\">Ajouter une s&eacute;ance manquante...</option>\n";
       $buffer .= "    </select>\n";
       $buffer .= "    <span id=\"".$divid."\"></span>\n";
       $buffer .= "  </div>\n";
