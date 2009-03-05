@@ -135,6 +135,9 @@ if($_REQUEST['merge_groups']){
 }
 
 if($_REQUEST['merge_dept']){
+  /** merde on peut pas le faire deux fois pour l instant */
+  exit;
+  
   $sql = new requete($site->db, "SELECT `code_uv` FROM `edu_uv`", true);
   /* noms utilisés dans la premiere base */
   $noms = array(
