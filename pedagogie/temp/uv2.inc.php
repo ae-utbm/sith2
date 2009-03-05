@@ -93,7 +93,7 @@ class uv2 extends stdentity
                                     `semestre`, `state`, `tc_available`,
                                     `guide_credits`
                                     FROM `pedag_uv`
-                                    WHERE `code` = ".$code." LIMIT 1");
+                                    WHERE `code` = '".$code."' LIMIT 1");
     if($sql->is_success()){
       $this->_load($sql->get_row());
       return $this->id;
