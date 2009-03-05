@@ -127,6 +127,14 @@ if(isset($_REQUEST["id_facture"]))
 
       $cts->add_paragraph("Facture n° ".$fact->id." du ".date("d/m/Y H:i", $fact->date));
       $cts->add_paragraph("facture au format PDF : <a href=\"?id_facture=".$fact->id."&gen_pdf=1\">ici</a>");
+      if($site->user->type=='srv')
+      {
+        $cts->add_paragraph('Objectif : '.$fact->objectif);
+        if(!is_null($fact->eotp))
+          $cts->add_paragraph('EOTP : '.$fact->eotp);
+        $cts->add_paragraph('Contact : '.$fact->contact);
+        $cts->add_paragraph('Centre de coût : '.$fact->centre_de_cout);
+      }
 
       $req = new requete($site->db,
            "SELECT id_produit, ".
