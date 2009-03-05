@@ -205,9 +205,9 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
     $cts->puts("<script type='text/javascript'>
     function ret(){
       var o = new Option('$texte', '$id_groupe');
-      o.onclick = function(e){ edt.disp_freq_choice('".$id_uv."_".$type."', $freq, ".$uv->id.", $type); };
+      o.onclick = function(e){ edt.disp_freq_choice('".$uv->id."_".$type."', $freq, ".$uv->id.", $type); };
       o.selected = true;
-      window.opener.document.getElementById('seance_0_c').options.add(o);
+      window.opener.document.getElementById('".$_REQUEST['calling']."').options.add(o);
       self.close();
     }
   </script>");
