@@ -366,8 +366,6 @@ class uv extends stdentity
    * @param $salle salle ou a lieu la seance si connue (varchar 5)
    */
   public function add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null){
-    if(!check_uv_format($code))
-      throw new Exception("Wrong format \$code ".$code);
     if(!check_semester_format($semestre))
       throw new Exception("Wrong format \$semestre ".$semestre);
       

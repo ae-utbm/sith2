@@ -180,13 +180,15 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
 if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
     && isset($_REQUEST['action']) && $_REQUEST['action'] == 'add_seance')
 {
-  $cts = new contents("Ajout séance");
+  $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
+  if(!$uv->is_valid())
+    $site->redirect('uv.php');
+    
+  $cts = new contents("Ajout d'une séance de ".$uv->code);
   
   if(isset($_REQUEST['save'])){
     /** on va dire que ca a marche */
-    $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
-    if(!$uv->is_valid())
-      $site->redirect('uv.php');
+
     
     $type = $_REQUEST['type'];
     $num = $_REQUEST['num'];
@@ -197,7 +199,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
     $fin = $_REQUEST['hfin'].":".$_REQUEST['mfin'];
     $salle = $_REQUEST['salle'];
     
-    $id_groupe =  add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null);
+    $id_groupe =  $uv->add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null);
     
     $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de $hdebut à $hfin en $salle";
     $cts->puts("<script type='text/javascript'>
@@ -213,16 +215,13 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
   }
   /** formulaire d ajout */
   else{
-    if(isset($_REQUEST['id']))  $id = $_REQUEST['id'];
-    else                        $site->redirect('uv.php');
-      
     if(isset($_REQUEST['type']))  $type = $_REQUEST['type'];
     else                          $type = null;
     
     if(isset($_REQUEST['semestre']))  $semestre = $_REQUEST['semestre'];
     else                              $semestre = SEMESTER_NOW;
       
-    $cts->add(new add_seance_box($id, $type, $semestre));
+    $cts->add(new add_seance_box($uv->id, $type, $semestre));
   }
   
   $site->add_contents($cts);
