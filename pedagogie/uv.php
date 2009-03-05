@@ -210,9 +210,12 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
       window.opener.document.getElementById('seance_0_c').options.add(o);
       self.close();
     }
-    ret();
   </script>");
-    //$cts->add_paragraph("<a href=\"#\" onclick=\"ret();\">Revenir</a>");
+    $cts->add_paragraph("Votre séance de ".$_GROUP[$type]['long']." de ".$uv->code." du ".get_day($jour)." à bien été enregistrée.");
+    $cts->add_paragraph("Merci de votre participation.");
+    $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
+                    ."value=\"Continuer\" "
+                    ."onclick=\"ret();\"/>");
   }
   /** formulaire d ajout */
   else{
