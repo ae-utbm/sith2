@@ -645,9 +645,10 @@ class interfaceweb
     $timing["render"] += microtime(true);
     $timing["all"] += microtime(true);
     echo "<!-- ";
-    print_r($timing);
-    if ( $GLOBALS["taiste"] )
+    if ( $GLOBALS["taiste"] ){
+      print_r($timing);
       echo "\non est en taiste\n";
+    }
     echo " -->";
   }
 
