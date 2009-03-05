@@ -1609,6 +1609,7 @@ div.calbox td.weekday
 .galitem .ebv p.image img
 {
   width:80px;
+  border:0;
 }
 
 .galitem .ebv p.description
@@ -1689,6 +1690,7 @@ div.calbox td.weekday
 .ebficheprod .image img
 {
   max-width:250px;
+  border:0;
 }
 
 .ebficheprod .prix
