@@ -426,12 +426,12 @@ elseif ( $produit->id > 0 )
  $file->load_by_id($produit->id_file);
  $frm->add_entity_smartselect("id_file","Image",$file,true);
 
- $produit_parent->load_by_id($produit->id_produit_parent);
  $parents =array('0'=>'Aucun');
   $req = new requete($site->db,'SELECT id_produit,nom_prod FROM boutiqueut_produits WHERE prod_archive = 0 ORDER BY id_typeprod, id_produit');
   while(list($id,$nom)=$req->get_row())
-    $parents[$id]=$nom;
-  $frm->add_select_field("id_produit_parent","Produit Parent",$parents, $produit_parent->id);
+    if($id!=$produit->$id)
+      $parents[$id]=$nom;
+  $frm->add_select_field("id_produit_parent","Produit Parent",$parents, $produit->id_produit_parent);
 
  $frm->add_text_area("description","Résumé",$produit->description);
  $frm->add_text_area("description_longue","Description",$produit->description_longue);
