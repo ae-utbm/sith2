@@ -13,7 +13,7 @@ require_once("include/pedag_user.inc.php");
 */
 
 require_once("temp/pedagogie2.inc.php");
-require_once("temp/edt2.inc.php");
+require_once("temp/uv2.inc.php");
 
 
 /* ancien systeme */
