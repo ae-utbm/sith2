@@ -177,36 +177,54 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   exit;
 }
 
-if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup')
+if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
+    && isset($_REQUEST['action']) && $_REQUEST['action'] == 'add_seance')
 {
   $cts = new contents("Ajout séance");
   
-  /** on va dire que ca a marche */
-  // add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null)
-  $id_uv = 0;
-  $type = 1;
-  $sum = 0;
-  $num = 42;
-  $freq = 2;
-  $semestre = 'P2009';
-  $jour = 3;
-  $hdebut = '14:00';
-  $hfin = '16:00';
-  $salle = 'P108';
-  
-  $id_groupe = 42;
-  $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de $hdebut à $hfin en $salle";
-  
-  $cts->puts("<script type='text/javascript'>
-  function ret(){
-    var o = new Option('$texte', '$id_groupe');
-    o.onclick = function(e){ edt.disp_freq_choice('".$id_uv."_".$type."', $freq, $id_uv, $type); };
-    o.selected = \"selected\";
-    window.opener.document.getElementById('seance_0_c').options.add(o);
-    self.close();
+  if(isset($_REQUEST['save'])){
+    /** on va dire que ca a marche */
+    print_r($_REQUEST);
+    // add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null)
+    $id_uv = 0;
+    $type = 1;
+    $sum = 0;
+    $num = 42;
+    $freq = 2;
+    $semestre = 'P2009';
+    $jour = 3;
+    $hdebut = '14:00';
+    $hfin = '16:00';
+    $salle = 'P108';
+    
+    $id_groupe = 42;
+    $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de $hdebut à $hfin en $salle";
+    
+    $cts->puts("<script type='text/javascript'>
+    function ret(){
+      var o = new Option('$texte', '$id_groupe');
+      o.onclick = function(e){ edt.disp_freq_choice('".$id_uv."_".$type."', $freq, $id_uv, $type); };
+      o.selected = true;
+      window.opener.document.getElementById('seance_0_c').options.add(o);
+      self.close();
+    }
+  </script>");
+    $cts->add_paragraph("<a href=\"#\" onclick=\"ret();\">Revenir</a>");
   }
-</script>");
-  $cts->add_paragraph("<a href=\"#\" onclick=\"ret();\">Revenir</a>");
+  /** formulaire d ajout */
+  else{
+    if(isset($_REQUEST['id']))  $id = $_REQUEST['id'];
+    else                        $site->redirect('uv.php');
+      
+    if(isset($_REQUEST['type']))  $type = $_REQUEST['type'];
+    else                          $type = null;
+    
+    if(isset($_REQUEST['semestre']))  $semestre = $_REQUEST['semestre'];
+    else                              $semestre = SEMESTER_NOW;
+      
+    $cts->add(new add_seance_box($id, $type, $semestre));
+  }
+  
   $site->add_contents($cts);
   $site->popup_end_page(); //c'est expres que ca envoie pas directement ?
   exit;

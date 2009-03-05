@@ -70,7 +70,7 @@ class add_uv_edt_box extends form
                             .$_GROUP[$type]['long']." n°".$group['num_groupe']." du ".get_day($group['jour'])." de ".$group['debut']." &agrave; ".$group['fin']." en ".$group['salle']
                             ."</option>\n";
       }
-      $buffer .= "      <option value=\"add\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.", '".$sel_name."');\">Ajouter une s&eacute;ance manquante...</option>\n";
+      $buffer .= "      <option value=\"add\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.", '".$sel_name."', '".$sem."', '".$sel_id."');\">Ajouter une s&eacute;ance manquante...</option>\n";
       $buffer .= "    </select>\n";
       $buffer .= "    <span id=\"".$divid."\"></span>\n";
       $buffer .= "  </div>\n";
@@ -188,7 +188,7 @@ class add_seance_box extends stdcontents
     $frm->add_text_field("salle", "N° de la salle", "", 8);
     
     /* submit */
-    $frm->add_submit("add", "Ajouter la séance");
+    $frm->add_submit("save", "Ajouter la séance");
     
     $this->buffer .= $frm->html_render();
   }
