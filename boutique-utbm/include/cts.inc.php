@@ -122,18 +122,12 @@ class ficheproduit extends contents
           continue;
         else
         {
+          if($stock!=-1)
+            $extra.='(stock : '.$stock.')';
           if( $subprod->obtenir_prix($user) != $produit->obtenir_prix($user) )
-          {
             $frm->add_text_field('nb['.$row["id_produit"].']', $row["nom_prod"].$extra." <b>".($subprod->obtenir_prix($user)/100).' €</b>');
-            if ( $stock != -1 )
-              $frm->add_info("Stock disponible : $stock");
-          }
           else
-          {
             $frm->add_text_field('nb['.$row["id_produit"].']', $row["nom_prod"].$extra);
-            if ( $stock != -1 )
-              $frm->add_info("Stock disponible : $stock");
-          }
         }
       }
       $frm->add_submit ( 'ajout', 'Ajouter');
