@@ -127,7 +127,7 @@ etat=1+ready=0 : en préparation
     $this->mode=$mode;
     if(!is_null($eotp) && !empty($eotp))
       $this->eotp=$eotp;
-    if(!is_null($eotp) && !empty($eotp))
+    if(!is_null($objectif) && !empty($objectif))
       $this->objectif=$objectif;
     $this->montant = $this->calcul_montant($panier,$client);
     if($client->is_valid() && $client->type=='srv')
