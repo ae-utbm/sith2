@@ -257,7 +257,7 @@ class facture_pdf extends FPDF
     //Police de caractere
     $this->SetFont('Arial','',9);
     /* total */
-    if($this->ht)
+    if($this->ht && !isset($this->factured_infos['srv_obj']))
     {
       $this->Cell(80,5,utf8_decode("N°SIRET : 199 003 567 000 13"), "T", 1, "");
       $this->Cell(80,5,utf8_decode("TVA intracommunautaire : FR 60 199 003 567"), "0", 0, "");
