@@ -199,7 +199,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
     $fin = $_REQUEST['hfin'].":".$_REQUEST['mfin'];
     $salle = $_REQUEST['salle'];
     
-    $id_groupe =  $uv->add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null);
+    $id_groupe =  $uv->add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
     
     $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de $hdebut à $hfin en $salle";
     $cts->puts("<script type='text/javascript'>
