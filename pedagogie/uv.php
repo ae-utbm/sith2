@@ -180,7 +180,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
 if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup')
 {
   $cts = new contents("Ajout séance");
-  print_r($_REQUEST);
   
   /** on va dire que ca a marche */
   // add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null)
