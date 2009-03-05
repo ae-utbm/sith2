@@ -91,12 +91,9 @@ class ficheproduit extends contents
     $this->buffer .= "</div>";
 
     // Informations sur le retrait
-    if ( $produit->a_retirer )
-    {
-      $this->buffer .= "<div class=\"retrait\">";
-      $this->buffer .= "<h3>Produit à venir retirer à l'accueil sévenans</h3>";
-      $this->buffer .= "</div>";
-    }
+    $this->buffer .= "<div class=\"retrait\">";
+    $this->buffer .= "<h3>Produit à venir retirer à l'accueil sévenans</h3>";
+    $this->buffer .= "</div>";
 
     $req = new requete($produit->db,"SELECT `boutiqueut_produits`.* ".
             "FROM     `boutiqueut_produits` ".

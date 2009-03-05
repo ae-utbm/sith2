@@ -63,8 +63,6 @@ class produit extends stdentity
   /** Id du produit parent (null si aucun) si non null, alors ce produit est une
    *  déclinaisaon du produit parent */
   var $id_produit_parent;
-  /** A venir retiré aux bureaux où cet objet est vendu (boolénn) */
-  var $a_retirer;
   /** etat d'un produit hors commerce, gardé pour archive */
   var $archive;
 
@@ -120,7 +118,6 @@ class produit extends stdentity
       $id_file,
       $description,
       $description_longue,
-      $a_retirer,
       $date_fin=null,
       $id_produit_parent=null
       )
@@ -137,8 +134,6 @@ class produit extends stdentity
     $this->description = $description;
     $this->description_longue = $description_longue;
 
-    $this->a_retirer = $a_retirer?1:0;
-
     $this->date_fin = $date_fin?$date_fin:null;
     $this->id_produit_parent = $id_produit_parent;
 
@@ -154,8 +149,6 @@ class produit extends stdentity
            "id_file" => $this->id_file,
            "description_prod" => $this->description,
            "description_longue_prod" => $this->description_longue,
-
-           'a_retirer_prod'=> $this->a_retirer,
 
            'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
            'id_produit_parent'=> $this->id_produit_parent
@@ -186,7 +179,6 @@ class produit extends stdentity
          $id_file,
          $description,
          $description_longue,
-         $a_retirer,
          $date_fin=null,
          $id_produit_parent=null
          )
@@ -202,8 +194,6 @@ class produit extends stdentity
     $this->description = $description;
     $this->description_longue = $description_longue;
 
-    $this->a_retirer = $a_retirer?1:0;
-
     $this->date_fin = $date_fin?$date_fin:null;
     $this->id_produit_parent = $id_produit_parent;
     $req = new update ($this->dbrw,
@@ -217,9 +207,6 @@ class produit extends stdentity
            "id_file" => $this->id_file,
            "description_prod" => $this->description,
            "description_longue_prod" => $this->description_longue,
-
-           'a_retirer_prod'=> $this->a_retirer,
-
            'date_fin_produit'=>is_null($this->date_fin)?null:date("Y-m-d H:i:s",$this->date_fin),
            'id_produit_parent'=> $this->id_produit_parent
             ),
@@ -339,8 +326,6 @@ class produit extends stdentity
     $this->id_file = $row['id_file'];
     $this->description = $row['description_prod'];
     $this->description_longue = $row['description_longue_prod'];
-
-    $this->a_retirer = $row['a_retirer_prod'];
 
     $this->date_fin = is_null($row['date_fin_produit'])?null:strtotime($row['date_fin_produit']);
     $this->id_produit_parent = $row['id_produit_parent'];

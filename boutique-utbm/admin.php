@@ -119,8 +119,6 @@ elseif ( $_REQUEST["action"] == "addproduit" )
     $file->id,
     $_REQUEST["description"],
     $_REQUEST["description_longue"],
-
-    $_REQUEST["id_groupe"],
     $_REQUEST["date_fin"],
 
     $produit_parent->id
