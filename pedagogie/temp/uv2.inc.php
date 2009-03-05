@@ -86,7 +86,7 @@ class uv2 extends stdentity
    * @see load_extra()
    */
   public function load_by_code($code){
-    if(!check_semester_format($code))
+    if(!check_uv_format($code))
       return false;
 
     $sql = new requete($this->db, "SELECT `id_uv` as `id`, `code`, `intitule`,
