@@ -207,7 +207,6 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup')
   $cts->add_paragraph("<a href=\"#\" onclick=\"ret();\">Revenir</a>");
   $site->add_contents($cts);
   $site->popup_end_page(); //c'est expres que ca envoie pas directement ?
-  echo $site->buffer;
   exit;
 }
 

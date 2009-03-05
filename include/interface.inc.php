@@ -724,6 +724,7 @@ class interfaceweb
     $this->buffer .= "</div>\n";
     $this->buffer .= "</body>\n";
     $this->buffer .= "</html>\n";
+    echo $this->buffer;
   }
 
   /** Charge tous les paramètres du site.
