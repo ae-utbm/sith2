@@ -429,7 +429,7 @@ elseif ( $produit->id > 0 )
  $parents =array('0'=>'Aucun');
   $req = new requete($site->db,'SELECT id_produit,nom_prod FROM boutiqueut_produits WHERE prod_archive = 0 ORDER BY id_typeprod, id_produit');
   while(list($id,$nom)=$req->get_row())
-    if($id!=$produit->$id)
+    if($id!=$produit->id)
       $parents[$id]=$nom;
   $frm->add_select_field("id_produit_parent","Produit Parent",$parents, $produit->id_produit_parent);
 
