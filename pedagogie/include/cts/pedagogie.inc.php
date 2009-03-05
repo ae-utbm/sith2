@@ -70,7 +70,7 @@ class add_uv_edt_box extends form
                             .$_GROUP[$type]['long']." n°".$group['num_groupe']." du ".get_day($group['jour'])." de ".$group['debut']." &agrave; ".$group['fin']." en ".$group['salle']
                             ."</option>\n";
       }
-      $buffer .= "      <option value=\"add\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.", '".$sel_name."', '".$sem."', '".$sel_id."');\">Ajouter une s&eacute;ance manquante...</option>\n";
+      $buffer .= "      <option value=\"add\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.", '".$sem."', '".$sel_id."');\">Ajouter une s&eacute;ance manquante...</option>\n";
       $buffer .= "    </select>\n";
       $buffer .= "    <span id=\"".$divid."\"></span>\n";
       $buffer .= "  </div>\n";
@@ -173,19 +173,20 @@ class add_seance_box extends stdcontents
     $frm->add_select_field("jour", "Jour", $avail_jour);
     
     /* heures */
-    $min = array('00', '15', '30', '45'); 
+    $min = array(0=>'00', 15=>'15', 30=>'30', 45=>'45'); 
 
-    $subfrm = new subform("heures", "Heures");
-    $subfrm->add_text_field("hdebut", "Début", "" ,false, 4);
+    $subfrm = new subform("heures", "Heures : ");
+    $subfrm->add_text_field("hdebut", "Début", "" ,false, 2);
     $subfrm->add_select_field("mdebut", ":", $min);
-    $subfrm->add_text_field("hfin", "Fin", "" ,false, 4);
+    $subfrm->add_text_field("hfin", "Fin", "" ,false, 2);
     $subfrm->add_select_field("mfin", ":", $min);
     $frm->add($subfrm, false, false, false, false, true);
     
-    /**/
-    $frm->add_time_field("heure", "test heure");
+    /* frequence */
+    $subfrm->add_select_field("freq", "Fréquence", array(1=>"Toutes les semaines", 2=>"Une semaine sur deux"), 1);
+    
     /* salle */
-    $frm->add_text_field("salle", "N° de la salle", "", 8);
+    $frm->add_text_field("salle", "Salle", "", 8, false, true, "(ex: P108)");
     
     /* submit */
     $frm->add_submit("save", "Ajouter la séance");

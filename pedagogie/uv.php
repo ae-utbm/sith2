@@ -184,22 +184,22 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
   
   if(isset($_REQUEST['save'])){
     /** on va dire que ca a marche */
-    print_r($_REQUEST);
-    // add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null)
-    $id_uv = 0;
-    $type = 1;
-    $sum = 0;
-    $num = 42;
-    $freq = 2;
-    $semestre = 'P2009';
-    $jour = 3;
-    $hdebut = '14:00';
-    $hfin = '16:00';
-    $salle = 'P108';
+    $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
+    if(!uv->is_valid())
+      $site->redirect('uv.php');
     
-    $id_groupe = 42;
+    $type = $_REQUEST['type'];
+    $num = $_REQUEST['num'];
+    $freq = $_REQUEST['freq'];
+    $semestre = $_REQUEST['semestre'];
+    $jour = $_REQUEST['jour'];
+    $debut = $_REQUEST['hdebut'].":".$_REQUEST['mdebut'];
+    $fin = $_REQUEST['hfin'].":".$_REQUEST['mfin'];
+    $salle = $_REQUEST['salle'];
+    
+    $id_groupe =  add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null);
+    
     $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de $hdebut à $hfin en $salle";
-    
     $cts->puts("<script type='text/javascript'>
     function ret(){
       var o = new Option('$texte', '$id_groupe');
