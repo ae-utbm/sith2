@@ -131,8 +131,7 @@ if(isset($_REQUEST["id_facture"]))
       if($user->type=='srv')
       {
         $cts->add_paragraph('Objectif : '.$fact->objectif);
-        if(!is_null($fact->eotp))
-          $cts->add_paragraph('EOTP : '.$fact->eotp);
+        $cts->add_paragraph('EOTP : '.(string)$fact->eotp);
         $cts->add_paragraph('Contact : '.$fact->contact);
         $cts->add_paragraph('Centre de coût : '.$fact->centre_de_cout);
       }
