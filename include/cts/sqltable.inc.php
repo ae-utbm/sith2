@@ -63,7 +63,7 @@ class sqltable extends stdcontents
    * @param $enumerated valeurs des champs énumérés ($enumerated[id] = array(0=>"truc"))
    * @param $htmlentitize indique si les entrées du tableau doivent être passées par la fonction htmlentities()
    **/
-  function sqltable ( $formname, $title, $sql, $page, $id_field, $cols, $actions, $batch_actions, $enumerated=array(), $htmlentitize = true)
+  function sqltable ( $formname, $title, $sql, $page, $id_field, $cols, $actions, $batch_actions, $enumerated=array(), $htmlentitize = true, $fjs=true)
   {
     global $topdir,$wwwtopdir;
 
@@ -188,7 +188,7 @@ class sqltable extends stdcontents
             $id = $row[$ent[0].$reg[1]];
             if ( $id )
             {
-              if ( $ent[5] )
+              if ( $ent[5] && $fjs)
               {
                 $ref="sqt".$num.$key;
                 $javascript="id=\"$ref\" onmouseover=\"show_tooltip('$ref','$wwwtopdir','$class','".$id."');\" ".
