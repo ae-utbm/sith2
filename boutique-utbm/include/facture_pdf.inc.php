@@ -241,7 +241,7 @@ class facture_pdf extends FPDF
     $this->Cell(40,10,$_total . " Euros", "T", 0, "R");
     //marge
     $this->Ln(10);
-    if($this->ht)
+    if(!$this->ht)
     {
       $this->SetFont('Arial','I',12);
       $this->Cell(123,10,utf8_decode("Dont TVA : "), "0", 0, "R");
@@ -257,7 +257,7 @@ class facture_pdf extends FPDF
     //Police de caractere
     $this->SetFont('Arial','',9);
     /* total */
-    if($this->ht && !isset($this->factured_infos['srv_obj']))
+    if(!$this->ht)
     {
       $this->Cell(80,5,utf8_decode("N°SIRET : 199 003 567 000 13"), "T", 1, "");
       $this->Cell(80,5,utf8_decode("TVA intracommunautaire : FR 60 199 003 567"), "0", 0, "");
