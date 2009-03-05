@@ -106,7 +106,7 @@ if(isset($_REQUEST["id_facture"]))
         {
           $ht=true;
           $factured_infos['srv_obj']         = $fact->objectif;
-          $factured_infos['srv_eopt']        = $fact->eopt;
+          $factured_infos['srv_eopt']        = $fact->eotp;
           $factured_infos['srv_contact']     = $fact->contact;
           $factured_infos['srv_centre_cout'] = $fact->centre_de_cout;
         }
