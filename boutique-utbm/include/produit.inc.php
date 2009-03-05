@@ -206,7 +206,7 @@ class produit extends stdentity
 
     $this->date_fin = $date_fin?$date_fin:null;
     $this->id_produit_parent = $id_produit_parent;
-
+print_r($id_produit_parent);
     $req = new update ($this->dbrw,
            "boutiqueut_produits",
            array("id_typeprod" => $this->id_type,
