@@ -179,6 +179,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
 
 if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup')
 {
+  $cts = new contents("Ajout séance");
   print_r($_REQUEST);
   
   /** on va dire que ca a marche */
@@ -196,15 +197,16 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup')
   $id_groupe = 42;
   $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de $hdebut &agrave; $hfin en $salle";
   
-  echo "<script type='text/javascript'>
+  $cts->puts("<script type='text/javascript'>
   function ret(){
     var o = new Option('$texte', '$id_groupe');
     o.onclick = function(e){ edt.disp_freq_choice('".$id_uv."_".$type."', $freq, $id_uv, $type); };
     window.opener.document.getElementById('seance_0_c').options.add(o);
     self.close();
   }
-</script>";
-  echo "<a href=\"#\" onclick=\"ret();\">Revenir</a>";
+</script>");
+  $cts->add_paragraph("<a href=\"#\" onclick=\"ret();\">Revenir</a>");
+  $site->add_contents($cts);
   $site->popup_end_page();
   exit;
 }
