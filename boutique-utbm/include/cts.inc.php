@@ -122,9 +122,6 @@ class ficheproduit extends contents
           continue;
         else
         {
-          if ( $stock != -1 )
-            $this->buffer .="Stock disponible : $stock";
-
           if( $subprod->obtenir_prix($user) != $produit->obtenir_prix($user) )
           {
             $frm->add_text_field('nb['.$row["id_produit"].']', $row["nom_prod"].$extra." <b>".($subprod->obtenir_prix($user)/100).' €</b>');
