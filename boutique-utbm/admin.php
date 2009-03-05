@@ -455,8 +455,6 @@ elseif ( $typeprod->id > 0 )
   }
   elseif ( $_REQUEST["action"] == "unarch" && !empty($_REQUEST["id_produits"]))
   {
-)
-  {
     foreach($_REQUEST["id_produits"] as $id)
     {
       $produit->load_by_id($id);
