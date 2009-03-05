@@ -98,6 +98,14 @@ if($_REQUEST['uv_diff']){
 
 
 if($_REQUEST['merge_comment']){
+  $sql = new requete($site->db, "SELECT `code_uv` FROM `edu_uv`", true);
+  while(list($code) = $sql->get_row()){
+    $uv = new uv($site->db, $site->dbrw);
+    $uv->load_by_code($code);
+    
+    $uv2 = new uv2($site->db, $site->dbrw);
+    $uv2->load_by_code($code);
+  }
 }
 
 if($_REQUEST['merge_guide_info']){
@@ -125,5 +133,33 @@ if($_REQUEST['merge_guide_info']){
 
 if($_REQUEST['merge_groups']){
 }
+
+if($_REQUEST['merge_dept']){
+  $sql = new requete($site->db, "SELECT `code_uv` FROM `edu_uv`", true);
+  /* noms utilisés dans la premiere base */
+  $noms = array(
+    "Humanites" => DPT_HUMA,
+    "TC" => DPT_TC,
+    "GMC" => DPT_GMC,
+    "EDIM" => DPT_EDIM,
+    "GESC" => DPT_GESC,
+    "GI" => DPT_GI,
+    "IMAP" => DPT_IMAP
+  );
+  
+  while(list($code) = $sql->get_row()){
+    $uv = new uv($site->db, $site->dbrw);
+    $uv->load_by_code($code);
+    
+    $uv2 = new uv2($site->db, $site->dbrw);
+    $uv2->load_by_code($code);
+    
+    $uv->load_depts();
+    foreach($uv->depts as $dept){
+      echo "- ".$code.": ajout en ".$dept.": ".$uv2->add_to_dept($noms[$dept])."<br />\n";
+    }      
+  }
+}
+
 
 ?>
