@@ -281,8 +281,6 @@ class facture_pdf extends FPDF
           $this->Cell(167,10,utf8_decode($this->factured_infos['srv_eopt']), "TR", 0, "");
           $this->Ln();
         }
-        else
-          exit();
         $this->Cell(23,10,utf8_decode("Contact"), "LRT", 0, "");
         $this->Cell(167,10,utf8_decode($this->factured_infos['srv_contact']), "TR", 0, "");
         $this->Ln();
