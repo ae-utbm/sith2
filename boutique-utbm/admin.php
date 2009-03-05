@@ -165,8 +165,8 @@ if ( $_REQUEST["page"] == "newfile" )
   $frm = new form("addfile","admin.php?id_folder=".$folder->id);
   $frm->allow_only_one_usage();
   $frm->add_hidden("action","addfile");
-  $frm->add_hidden("rights_id_group_admin",7);
-  $frm->add_hidden("rights_id_group",7);
+  $frm->add_hidden("rights_id_group_admin",49);
+  $frm->add_hidden("rights_id_group",49);
   $frm->add_hidden("__rights_lect","273");
   $frm->add_hidden("__rights_ecrt","544");
   if ( $ErreurAjout )
