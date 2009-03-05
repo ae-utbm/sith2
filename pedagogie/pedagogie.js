@@ -46,5 +46,10 @@ var edt = {
   },
   
   select_uv: function(optionelt){
+  },
+  
+  remove: function(elemid){
+    o = document.getElementById(elemid);
+    o.parentNode.removeChild(o);
   }
 }
