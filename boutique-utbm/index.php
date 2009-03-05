@@ -37,12 +37,6 @@ require_once($topdir . "include/cts/gallery.inc.php");
 
 
 $site = new boutique();
-
-//
-if($site->user-type=='srv')
-{
-//
-
 $produit = new produit($site->db);
 $typeproduit = new typeproduit($site->db);
 if ( isset($_REQUEST["id_produit"]) )
@@ -173,11 +167,6 @@ if ( $produit->is_valid() )
 }
 elseif ( !$typeproduit->is_valid() )
 {
-
-///////
-}
-/////
-
   $accueil = new contents("Boutique utbm",
         "Bienvenue dans la boutique UTBM, la boutique en ligne ".
         "de l'UTBM.<br />".
@@ -185,10 +174,7 @@ elseif ( !$typeproduit->is_valid() )
         );
 
   $site->add_contents ($accueil);
-/////
-if($site->user->type=='srv')
-{
-/////
+
   $items = new requete($site->db,"SELECT `boutiqueut_produits`.* , `boutiqueut_type_produit`.`nom_typeprod` ".
             "FROM `boutiqueut_produits` ".
             "INNER JOIN `boutiqueut_type_produit` USING (`id_typeprod`) ".
@@ -244,9 +230,7 @@ else
   }
   /* fin categorie non vide */
 }
-///////////
-}
-///////
+
 /* fin page */
 $site->end_page ();
 ?>
