@@ -48,9 +48,9 @@ class add_uv_edt_box extends form
     $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TP);
     
     
-    $this->buffer .= "<input type=\"button\" onclick=\"window.open('');\" value=\"Annuler l'inscription\" />";
-    $this->buffer .= "<input type=\"button\" onclick=\"window.open('');\" value=\"Corriger la fiche\" />";
-    $this->buffer .= "<input type=\"button\" class=\"bold\" onclick=\"window.open('');\" value=\"Voir la fiche\" />";
+    $this->buffer .= "<p><input type=\"button\" onclick=\"on_off('SP06');\" value=\"Annuler l'inscription\" />";
+    $this->buffer .= "<input type=\"button\" onclick=\"window.open('uv.php?action=edit&id=$uv->id');\" value=\"Corriger la fiche\" />";
+    $this->buffer .= "<input type=\"button\" style=\"font-weight: bold;\" onclick=\"window.open('uv.php?id=$uv->id');\" value=\"Voir la fiche\" /></p>";
   }
   
   private function build_uv_choice($uv, $sem, $type){
