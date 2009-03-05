@@ -123,7 +123,7 @@ class ficheproduit extends contents
         else
         {
           if($stock!=-1)
-            $extra.='(stock : '.$stock.')';
+            $extra.=' (stock : '.$stock.')';
           if( $subprod->obtenir_prix($user) != $produit->obtenir_prix($user) )
             $frm->add_text_field('nb['.$row["id_produit"].']', $row["nom_prod"].$extra." <b>".($subprod->obtenir_prix($user)/100).' €</b>');
           else
