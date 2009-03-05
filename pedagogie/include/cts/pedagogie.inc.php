@@ -158,7 +158,7 @@ class add_seance_box extends stdcontents
     $frm->add_select_field("semestre", "Semestre", $avail_sem, $semestre);
     
     /* numéro du groupe */
-    $frm->add_text_field("num", "N° du groupe", "", 4, false, true, "(Tel que figurant sur la feuille de l'UTBM)");
+    $frm->add_text_field("num", "N° du groupe", "", false, 2, true, true, "(Tel que figurant sur la feuille de l'UTBM)");
     
     /* jour */
     $avail_jour = array(
@@ -176,17 +176,17 @@ class add_seance_box extends stdcontents
     $min = array(0=>'00', 15=>'15', 30=>'30', 45=>'45'); 
 
     $subfrm = new subform("heures", "Heures : ");
-    $subfrm->add_text_field("hdebut", "Début", "" ,false, 2);
+    $subfrm->add_text_field("hdebut", "Début", "" ,false, 2, true);
     $subfrm->add_select_field("mdebut", ":", $min);
-    $subfrm->add_text_field("hfin", "Fin", "" ,false, 2);
+    $subfrm->add_text_field("hfin", "Fin", "" ,false, 2, true);
     $subfrm->add_select_field("mfin", ":", $min);
     $frm->add($subfrm, false, false, false, false, true);
     
     /* frequence */
-    $subfrm->add_select_field("freq", "Fréquence", array(1=>"Toutes les semaines", 2=>"Une semaine sur deux"), 1);
+    $frm->add_select_field("freq", "Fréquence", array(1=>"Toutes les semaines", 2=>"Une semaine sur deux"), 1);
     
     /* salle */
-    $frm->add_text_field("salle", "Salle", "", 8, false, true, "(ex: P108)");
+    $frm->add_text_field("salle", "Salle", "", false, 8, false, true, "(ex: P108)");
     
     /* submit */
     $frm->add_submit("save", "Ajouter la séance");

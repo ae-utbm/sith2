@@ -210,8 +210,9 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
       window.opener.document.getElementById('seance_0_c').options.add(o);
       self.close();
     }
+    ret();
   </script>");
-    $cts->add_paragraph("<a href=\"#\" onclick=\"ret();\">Revenir</a>");
+    //$cts->add_paragraph("<a href=\"#\" onclick=\"ret();\">Revenir</a>");
   }
   /** formulaire d ajout */
   else{
