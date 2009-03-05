@@ -103,8 +103,14 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
     $site->redirect('./');
   
   $uv->load_extra();
-  
-  $path .= " / "."[Dpt]";
+
+  $path .= " / "."<img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" />";
+  $stop = count($uv->dept);
+  for($i=0; $i<$stop; $i++){
+    $path .= "<a href=\"uv.php?dept=".$uv->depts[$i]."\"> ".$_DPT[$uv->depts[$i]]['short']."</a>";
+    if($i+1 < $stop) $path .= ",";
+  }
+  	
   $path .= " / "."<a href=\"./uv.php?id=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
   $path .= " / "."Éditer";
   $cts = new contents($path);

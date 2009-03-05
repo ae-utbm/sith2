@@ -180,6 +180,8 @@ class uv extends stdentity
       while($row = $sql->get_row());
         $this->cursus[] = $row['id_cursus'];
         
+    $this->load_dept();
+    
     $this->extra_loaded = true;
   }
   
