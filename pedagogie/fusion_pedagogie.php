@@ -99,12 +99,18 @@ if($_REQUEST['uv_diff']){
 
 if($_REQUEST['merge_comment']){
   $sql = new requete($site->db, "SELECT `code_uv` FROM `edu_uv`", true);
+  $c = 0;
+  
   while(list($code) = $sql->get_row()){
     $uv = new uv($site->db, $site->dbrw);
     $uv->load_by_code($code);
     
     $uv2 = new uv2($site->db, $site->dbrw);
     $uv2->load_by_code($code);
+    
+    $uv->load_comments();
+    echo "- ".$code." possede ".count($uv->comments)." commentaires <br />";
+    $c += count($uv->comments);
   }
 }
 

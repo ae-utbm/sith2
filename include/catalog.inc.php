@@ -97,7 +97,7 @@ $GLOBALS['entitiescatalog'] = array (
   'secteur'         => array ('id_secteur', 'nom_secteur', 'lieu.png', 'entreprise.php', 'secteur'),
 
   // Pedagogie
-  'uv'              => array ('id_uv', 'code_uv', 'misc.png', 'uvs/uvs.php', 'edu_uv', 'uv.inc.php' ),
+  'uv'              => array ('id_uv', 'code', 'misc.png', 'pedagogie/uv.php', 'pedagogie_uv'),
 
   // Nouvelles
   'nouvelle'        => array ('id_nouvelle', 'titre_nvl', 'misc.png', 'news.php', 'nvl_nouvelles', 'news.inc.php', 'nvl_nouvelles_tag'),

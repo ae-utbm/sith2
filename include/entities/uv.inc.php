@@ -488,8 +488,8 @@ class uv extends stdentity
            '`edu_uv_comments` '.
            'WHERE '.
            '`id_uv` = '.$this->id;
-    if ($all == false)
-      $sql .= " AND state_comment IN (0, 1, 3)";
+//    if ($admin == false)
+//      $sql .= " AND state_comment IN (0, 1, 3)";
 
     $sql .= " ORDER BY date_commentaire ASC";
 
