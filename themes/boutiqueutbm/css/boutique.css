@@ -286,7 +286,7 @@ ul li.info
 
 div.tabsv2
 {
-  width:980px;
+  width:956px;
   margin:auto;
   background: #0082c6;
   height:36px;
@@ -296,6 +296,7 @@ div.tabsv2
 
 div.tabsv2 span
 {
+  float:left;
 }
 
 div.tabsv2 span a
