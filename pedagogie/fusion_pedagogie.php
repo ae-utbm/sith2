@@ -122,18 +122,19 @@ if($_REQUEST['merge_comment']){
     echo "- ".$code." possede $n commentaires (b.1)<br />";
     $c += $n;
     
-    print_r($uv->comments);
-    if($n != 0)
-      exit;
-    
-    /*
+    if($n < 1)
+      continue;
+  
     foreach($uv->comment as $cmt){
+      if(!($cmt instanceof uvcomment))
+        echo "* pb de classe : $cmt <br />\n";
+        
       $nc = new uv_comment($site->db, $site->dbrw );
       $r = $nc->add($uv2->id, $cmt->id_utilisateur, $cmt->note_generale, $cmt->note_utilite, $cmt->note_interet, $note->note_enseignement, $cmt->note_travail, $cmt->content, $cmt->date);
       if($r === false)
         echo "* le commentaire ".$cmt->id." n'a pas pu etre importe <br />\n";
     }
-    */
+    
   }
   
   echo "+ nombre total de commentaires réel : $c <br />\n";
