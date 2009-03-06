@@ -79,11 +79,13 @@ class boutique extends site
     if($this->user->is_in_group("adminboutiqueutbm") || $this->user->is_in_group("root"))
       $this->tab_array = array(
              array("accueil", "index.php", "Accueil"),
-             array("admin", "admin.php", "Administration")
+             array("admin", "admin.php", "Administration"),
+             array("deco", "disconnect.php", "Déconnexion")
       );
     else
       $this->tab_array = array(
-         array("accueil", "index.php", "Accueil")
+         array("accueil", "index.php", "Accueil"),
+         array("deco", "disconnect.php", "Déconnexion")
       );
   }
 
