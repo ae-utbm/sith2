@@ -180,6 +180,8 @@ if($_REQUEST['merge_groups']){
 }
 
 if($_REQUEST['merge_results']){
+  exit;
+  
   /* stockes dans deux endroits :( 
    *  => edu_uv_comments.note_obtention_uv !pas de semestre
    *  => edu_uv_obtention.note_obtention
