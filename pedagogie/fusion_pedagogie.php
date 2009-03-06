@@ -15,13 +15,15 @@ require_once("include/pedag_user.inc.php");
 require_once("temp/pedagogie2.inc.php");
 require_once("temp/uv2.inc.php");
 require_once("include/uv_comment.inc.php");
+require_once("include/pedag_user.inc.php");
 
 
 /* ancien systeme */
 require_once($topdir."include/entities/uv.inc.php");
 
 /* conversion P09 en P2009 */
-function PXX_to_PXXXX($value){
+function PXX($value){
+  return $value[0].'20'.$value[1].$value[2];
 }
 
 $site = new site();
@@ -216,7 +218,8 @@ if($_REQUEST['merge_results']){
       $c++;
     }
     
-    /** deuxieme tournee */
+    /** deuxieme tournee 
+     * on annule la deuxieme tournee => juste une dizaine de diffs sur lesquels on peut pas revenir car pas de semestre 
     $sql3  = new requete($site->db, "SELECT `id_utilisateur`, `note_obtention_uv` FROM `edu_uv_comments` WHERE `id_uv` = ".$uv->id);
     if(!$sql3->is_success())
       print_r($sql3);
@@ -225,9 +228,27 @@ if($_REQUEST['merge_results']){
       if(!in_array($result, $obt[$utl][$uv2->id]))
         echo "- ".$code." : resultat manquant pour ".$utl." : ".$result." <br />\n";
     }
+    */
   }
   
-  print_r($obt);
+  foreach($obt as $utl=>$uvs){
+    if(empty($val))
+      continue;
+      
+    $usr = new pedag_user($site->db, $site->dbrw);
+    $usr->load_by_id($utl);
+    if(!$usr->is_valid())
+      continue;
+      
+    foreach($uvs as $uv=>$sems){
+      if(empty($sems))
+        continue;
+        
+      foreach($sems as $sem=>$result){
+        $usr->add_uv_result($uv, PXX($sem), strtoupper($result));
+      }
+    }
+  }
   
   echo "+ nombre de resultats : $c <br />\n";
 }
