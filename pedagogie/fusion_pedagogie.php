@@ -20,7 +20,9 @@ require_once("include/uv_comment.inc.php");
 /* ancien systeme */
 require_once($topdir."include/entities/uv.inc.php");
 
-
+/* conversion P09 en P2009 */
+function PXX_to_PXXXX($value){
+}
 
 $site = new site();
 
@@ -177,7 +179,7 @@ if($_REQUEST['merge_groups']){
 
 if($_REQUEST['merge_results']){
   /* stockes dans deux endroits :( 
-   *  => edu_uv_comments.note_obtention_uv
+   *  => edu_uv_comments.note_obtention_uv !pas de semestre
    *  => edu_uv_obtention.note_obtention
    */
   
@@ -207,11 +209,21 @@ if($_REQUEST['merge_results']){
     /** premiere tournee */
     $sql2 = new requete($site->db, "SELECT * FROM `edu_uv_obtention` WHERE `id_uv` = ".$uv->id);
     if(!$sql2->is_success())
-      print_r($sql2);
+      continue;
       
     while(list(, $utl, $result, $semestre) = $sql2->get_row()){
-      echo "- ".$code." => ".$utl." : ".$uv->id." : ".$semestre." <br />\n";
       $obt[$utl][$uv2->id][$semestre] = $result;
+      $c++;
+    }
+    
+    /** deuxieme tournee */
+    $sql3  = new requete($site->db, "SELECT `id_utilisateur`, `note_obtention_uv` FROM `edu_uv_coments` WHERE `id_uv` = ".$uv->id);
+    if(!$sql3->is_success())
+      print_r($sql3);
+      
+    while(list($utl, $result) = $sql3->get_row()){
+      if(!in_array($result, $obt[$utl][$uv2->id]))
+        echo "- ".$code." : resultat manquant pour ".$utl." : ".$result." <br />\n";
     }
   }
   
