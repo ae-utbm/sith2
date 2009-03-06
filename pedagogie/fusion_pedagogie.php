@@ -206,7 +206,10 @@ if($_REQUEST['merge_results']){
     
     /** premiere tournee */
     $sql2 = new requete($site->db, "SELECT * FROM `edu_uv_obtention` WHERE `id_uv` = ".$uv->id);
-    while(list(, $utl, $result, $semestre) = $sql2->get_row){
+    if(!$sql2->is_success())
+      print_r($sql2);
+      
+    while(list(, $utl, $result, $semestre) = $sql2->get_row()){
       echo "- ".$code." => ".$utl." : ".$uv." : ".$semestre." <br />\n";
       $obt[$utl][$uv2->id][$semestre] = $result;
     }
