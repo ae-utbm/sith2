@@ -270,7 +270,7 @@ $req1 = new requete($site->db,
         "GROUP BY `boutiqueut_debitfacture`.`id_facture` ".
         "ORDER BY `boutiqueut_debitfacture`.`date_facture` DESC");
 
-if ( $req2->lines > 0 )
+if ( $req1->lines > 0 )
 {
   $cts->add_title(3, "Commandes sur facturation");
 
