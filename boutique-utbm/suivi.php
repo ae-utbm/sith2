@@ -284,7 +284,9 @@ if ( $req1->lines > 0 )
                 "date_facture"=>"Date"),
           array(),
           array(),
-          array()));
+          array(),
+          true,
+          false));
 }
 
 $site->add_contents($cts);
