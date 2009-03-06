@@ -143,7 +143,7 @@ if ( $produit->is_valid() && !is_null($produit->id_produit_parent) )
 
 
 $site->start_page ("Accueil boutique utbm", "boutiqueutbm");
-if($site->user->type=='srv')
+if($site->user->type!='srv')
 {
   $accueil = new contents("Boutique utbm",
         "Bienvenue dans la boutique UTBM, la boutique en ligne ".
