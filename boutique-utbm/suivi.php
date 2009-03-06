@@ -266,7 +266,7 @@ $req1 = new requete($site->db,
         "INNER JOIN `boutiqueut_debitfacture` ON ".
         "`boutiqueut_debitfacture`.`id_facture` =`boutiqueut_vendu`.`id_facture` " .
         "WHERE " .
-        "`boutiqueut_debitfacture`.`id_utilisateur` = '".mysql_real_escape_string($user->id) ."' ".
+        "`boutiqueut_debitfacture`.`id_utilisateur` = '".mysql_real_escape_string($site->user->id) ."' ".
         "GROUP BY `boutiqueut_debitfacture`.`id_facture` ".
         "ORDER BY `boutiqueut_debitfacture`.`date_facture` DESC");
 
