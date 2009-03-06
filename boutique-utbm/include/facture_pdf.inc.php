@@ -273,23 +273,23 @@ class facture_pdf extends FPDF
       if(isset($this->factured_infos['srv_obj']))
       {
         $this->Ln(10);
-        $this->Cell(23,10,utf8_decode("Service"), "TRL", 0, "");
-        $this->Cell(167,10,utf8_decode($this->factured_infos['name']), "RT", 0, "");
+        $this->Cell(24,10,utf8_decode("Service"), "TRL", 0, "");
+        $this->Cell(157,10,utf8_decode($this->factured_infos['name']), "RT", 0, "");
         $this->Ln();
-        $this->Cell(23,10,utf8_decode("Centre financier"), "TRL", 0, "");
-        $this->Cell(167,10,utf8_decode($this->factured_infos['srv_centre_financier']), "TR", 0, "");
+        $this->Cell(24,10,utf8_decode("Centre financier"), "TRL", 0, "");
+        $this->Cell(157,10,utf8_decode($this->factured_infos['srv_centre_financier']), "TR", 0, "");
         $this->Ln();
-        $this->Cell(23,10,utf8_decode("Centre de coût"), "TRL", 0, "");
-        $this->Cell(167,10,utf8_decode($this->factured_infos['srv_centre_cout']), "TR", 0, "");
+        $this->Cell(24,10,utf8_decode("Centre de coût"), "TRL", 0, "");
+        $this->Cell(157,10,utf8_decode($this->factured_infos['srv_centre_cout']), "TR", 0, "");
         $this->Ln();
-        $this->Cell(23,10,utf8_decode("EOTP"), "LRT", 0, "");
-        $this->Cell(167,10,utf8_decode((string)$this->factured_infos['srv_eopt']), "TR", 0, "");
+        $this->Cell(24,10,utf8_decode("EOTP"), "LRT", 0, "");
+        $this->Cell(157,10,utf8_decode((string)$this->factured_infos['srv_eopt']), "TR", 0, "");
         $this->Ln();
-        $this->Cell(23,10,utf8_decode("Contact"), "LRT", 0, "");
-        $this->Cell(167,10,utf8_decode($this->factured_infos['srv_contact']), "TR", 0, "");
+        $this->Cell(24,10,utf8_decode("Contact"), "LRT", 0, "");
+        $this->Cell(157,10,utf8_decode($this->factured_infos['srv_contact']), "TR", 0, "");
         $this->Ln();
-        $this->Cell(23,10,utf8_decode("Objectif"), "LRBT", 0, "");
-        $this->Cell(167,10,utf8_decode($this->factured_infos['srv_obj']), "TRB", 0, "");
+        $this->Cell(25,10,utf8_decode("Objectif"), "LRBT", 0, "");
+        $this->Cell(157,10,utf8_decode($this->factured_infos['srv_obj']), "TRB", 0, "");
       }
       $this->Ln(10);
       $this->Cell(150,10,utf8_decode("TVA non applicable, article 293B du CGI"), "T", 0, "");

@@ -150,6 +150,7 @@ if(isset($_REQUEST["id_facture"]))
         $cts->add_paragraph('EOTP : '.(string)$fact->eotp);
         $cts->add_paragraph('Contact : '.$fact->contact);
         $cts->add_paragraph('Centre financier : '.$fact->centre_financier);
+        $cts->add_paragraph('Centre de coût : '.$fact->centre_cout);
       }
 
       $req = new requete($site->db,
