@@ -541,6 +541,7 @@ $site->add_css("css/d.css");
 $site->start_page('adminbooutique',"Administration");
 $cts = new contents("Administration");
 $lst = new itemlist("Gestion des produits");
+$lst->add("<a href=\"admin_utl.php\">Gérer les services</a>");
 $lst->add("<a href=\"admin.php?page=addproduit\">Ajouter un produit</a>");
 $lst->add("<a href=\"admin.php?page=addtype\">Ajouter un type de produit</a>");
 $lst->add("<a href=\"admin.php?page=produits\">Liste des produits et des types de produits</a>");
