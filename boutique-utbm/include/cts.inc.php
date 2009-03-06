@@ -92,7 +92,7 @@ class ficheproduit extends contents
 
     // Informations sur le retrait
     $this->buffer .= "<div class=\"retrait\">";
-    $this->buffer .= "<h3>Produit à venir retirer à l'accueil sévenans</h3>";
+    $this->buffer .= "<h3>Produit à venir retirer à l'accueil sevenans</h3>";
     $this->buffer .= "</div>";
 
     $req = new requete($produit->db,"SELECT `boutiqueut_produits`.* ".
@@ -125,10 +125,7 @@ class ficheproduit extends contents
           if($stock!=-1)
             $extra.=' (stock : '.$stock.')';
           $row["nom_prod"]=trim(str_replace($produit->nom,'',$row["nom_prod"]));
-          if( $subprod->obtenir_prix($user) != $produit->obtenir_prix($user) )
-            $frm->add_text_field('nb['.$row["id_produit"].']', $row["nom_prod"].$extra." <b>".($subprod->obtenir_prix($user)/100).' €</b>');
-          else
-            $frm->add_text_field('nb['.$row["id_produit"].']', $row["nom_prod"].$extra);
+          $frm->add_text_field('nb['.$row["id_produit"].']', $row["nom_prod"].$extra);
         }
       }
       $frm->add_submit ( 'ajout', 'Ajouter');

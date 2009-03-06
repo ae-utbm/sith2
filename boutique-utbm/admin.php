@@ -314,7 +314,7 @@ elseif ( $_REQUEST["page"] == "addproduit" )
   $frm->add_text_field("nom","Nom","",true);
   $frm->add_entity_smartselect("id_file","Image",$file,true);
   $parents =array('0'=>'Aucun');
-  $req = new requete($site->db,'SELECT id_produit,nom_prod FROM boutiqueut_produits WHERE prod_archive = 0 ORDER BY id_typeprod, id_produit');
+  $req = new requete($site->db,'SELECT id_produit,nom_prod FROM boutiqueut_produits WHERE prod_archive = 0 AND (id_produit_parent IS NULL OR id_produit_parent=\'\') ORDER BY id_typeprod, id_produit');
   while(list($id,$nom)=$req->get_row())
     $parents[$id]=$nom;
   $frm->add_select_field("id_produit_parent","Produit Parent",$parents);

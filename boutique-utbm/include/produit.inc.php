@@ -137,6 +137,14 @@ class produit extends stdentity
     $this->date_fin = $date_fin?$date_fin:null;
     $this->id_produit_parent = $id_produit_parent;
 
+    $parent = new produit($this->db);
+    $parent->load_by_id($this->id_produit_parent);
+    if($parent->is_valid())
+    {
+      $this->prix_vente_service = $parent->prix_vente_service;
+      $this->prix_vente = $parent->prix_vente;
+    }
+
     $req = new insert ($this->dbrw,
            "boutiqueut_produits",
            array("id_typeprod" => $this->id_type,
@@ -196,6 +204,15 @@ class produit extends stdentity
 
     $this->date_fin = $date_fin?$date_fin:null;
     $this->id_produit_parent = $id_produit_parent;
+
+    $parent = new produit($this->db);
+    $parent->load_by_id($this->id_produit_parent);
+    if($parent->is_valid())
+    {
+      $this->prix_vente_service = $parent->prix_vente_service;
+      $this->prix_vente = $parent->prix_vente;
+    }
+
     $req = new update ($this->dbrw,
            "boutiqueut_produits",
            array("id_typeprod" => $this->id_type,
