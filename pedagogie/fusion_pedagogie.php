@@ -210,7 +210,7 @@ if($_REQUEST['merge_results']){
       print_r($sql2);
       
     while(list(, $utl, $result, $semestre) = $sql2->get_row()){
-      echo "- ".$code." => ".$utl." : ".$uv." : ".$semestre." <br />\n";
+      echo "- ".$code." => ".$utl." : ".$uv->id." : ".$semestre." <br />\n";
       $obt[$utl][$uv2->id][$semestre] = $result;
     }
   }
