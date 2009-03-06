@@ -179,6 +179,9 @@ if($_REQUEST['merge_guide_info']){
 if($_REQUEST['merge_groups']){
 }
 
+if($_REQUEST['merge_groups_utl']){
+}
+
 if($_REQUEST['merge_results']){
   exit;
   

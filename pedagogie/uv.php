@@ -171,9 +171,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $avail_dept=array();
   foreach($_DPT as $dept=>$desc)
     $avail_dept[$dept] = $desc['long'];
-  $frm->add(new selectbox("dept", "Départements", $avail_dept, null));
-    
-  $frm->add(new selectbox("dept2", "Départements 2", $avail_dept, null));
+  $frm->add(new selectbox("dept", "Départements", $avail_dept, null, 120));
   
   $frm->add_submit("saveuv", "Enregistrer les modifications");
   $cts->add($frm, true, false, "relative", false, true);

@@ -39,7 +39,7 @@
 
 class selectbox extends form
 {
-  public function __construct($name, $title, $values, $action, $select_title=null, $right_val=null, $width=null, $height=null)
+  public function __construct($name, $title, $values, $action, $select_title=null, $right_val=null, $height=null, $width=null)
   {
     $this->form($name, $action, false, "post", $title);
 
@@ -57,13 +57,23 @@ class selectbox extends form
   }
 
   private function add_selectbox(){
+    if($this->height){
+      $hsel = "style=\"height: $this->height;\"";
+      $hul = "style=\"margin-top: ".($this->height*0.45-3).";\"";
+    }else{
+      $hsel = "";
+      $hul = "";
+    }
+    
+    
+    
     $this->buffer .= "<div class=\"selectbox\" id=\"$this->name\">\n";
 
     /* div from */
     $this->buffer .= "<div class=\"selectbox_disp\">\n";
     if($this->select_title)
       $this->buffer .= "<h4>".$this->select_title." disponible(s) :</h4>\n";
-    $this->buffer .= "<select name=\"$this->sb_from\" id=\"$this->sb_from\" multiple=\"multiple\">\n";
+    $this->buffer .= "<select name=\"$this->sb_from\" id=\"$this->sb_from\" multiple=\"multiple\" $hsel>\n";
     foreach($this->values as $key => $value)
       $this->buffer .= "  <option value=\"".$key."\" "
                         ."ondblclick=\"m(this);\">"
@@ -72,7 +82,7 @@ class selectbox extends form
     $this->buffer .= "</div>\n";
 
     /* actions */
-    $this->buffer .= "<ul class=\"selectbox_actions\">";
+    $this->buffer .= "<ul class=\"selectbox_actions\" $hul>";
     $this->buffer .= "  <li class=\"ajouter\" onclick=\"document.getElementById('$this->name').sb.move(document.getElementById('$this->sb_from'), document.getElementById('$this->sb_to'));\">&nbsp;</li>";
     $this->buffer .= "  <li class=\"enlever\" onclick=\"document.getElementById('$this->name').sb.move(document.getElementById('$this->sb_to'), document.getElementById('$this->sb_from'));\">&nbsp;</li>";
     $this->buffer .= "</ul>";
@@ -81,7 +91,8 @@ class selectbox extends form
     $this->buffer .= "<div class=\"selectbox_choix\">\n";
     if($this->select_title)
       $this->buffer .= "<h4>".$this->select_title." choisi(es) :</h4>\n";
-    $this->buffer .= "<select name=\"".$this->sb_to."[]\" id=\"$this->sb_to\" multiple=\"multiple\">\n";
+      
+    $this->buffer .= "<select name=\"".$this->sb_to."[]\" id=\"$this->sb_to\" multiple=\"multiple\" $hsel>\n";
     if(!empty($this->right_values))
       foreach($this->right_values as $key => $value)
         $this->buffer .= "  <option value=\"".$key."\" "
