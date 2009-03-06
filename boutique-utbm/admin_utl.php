@@ -79,7 +79,24 @@ if( $user->is_valid() && $user->type=='srv')
   }
   elseif($_REQUEST['action']=='centrefinancier')
   {
-     //on regarde si y'en a un, sinon on l'ajoute
+     if(isset($_REQUEST['nom_centre_financier']) && !empty($_REQUEST['nom_centre_financier']))
+     {
+       $req = new requete($site->db,'SELECT * FROM boutiqueut_service_utl WHERE id_utilisateur='.$user->id);
+       if($req->lines==1)
+         $req = new update($site->dbrw,'boutiqueut_service_utl',array('centre_financier'=>$_REQUEST['nom_centre_financier']),array('id_utilisateur'=>$user->id));
+       else
+         $req = new insert($site->dbrw,'boutiqueut_service_utl',array('id_utilisateur'=>$user->id,'centre_financier'=>$_REQUEST['nom_centre_financier']));
+     }
+     $frm = new form('centrefinan','admin_utl.php');
+     $frm->add_hidden('id_utilisateur',$user->id);
+     $frm->add_hidden('action','centrefinancier');
+     $centre='';
+     $req = new requete($site->db,'SELECT centre_financier FROM boutiqueut_service_utl WHERE id_utilisateur='.$user->id);
+     if($req->lines==1)
+       list($centre)=$req->get_row();
+     $frm->add_text_field('nom_centre_cout','Centre de coût',$centre);
+     $frm->add_submit('submit','Ajouter');
+     $_cts->add($frm);
   }
 
   if(isset($_cts))
