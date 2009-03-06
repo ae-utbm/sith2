@@ -118,11 +118,14 @@ if($_REQUEST['merge_comment']){
     }
     
     $uv->load_comments();
-    echo "- ".$code." possede ".count($uv->comments)." commentaires (b.1)<br />";
-    $c += count($uv->comments);
+    $n = count($uv->comments);
+    echo "- ".$code." possede $n commentaires (b.1)<br />";
+    $c += $n;
     
     print_r($uv->comments);
-    exit;
+    if($n != 0)
+      exit;
+    
     /*
     foreach($uv->comment as $cmt){
       $nc = new uv_comment($site->db, $site->dbrw );
