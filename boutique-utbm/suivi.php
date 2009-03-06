@@ -276,7 +276,7 @@ if ( $req1->lines > 0 )
 
   $cts->add(new sqltable("eblstae",
           null,
-          $req2,
+          $req1,
           "suivi.php",
           "id_facture",
           array("id_facture"=>"Numéro de facture",
