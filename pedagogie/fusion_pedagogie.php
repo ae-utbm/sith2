@@ -217,7 +217,7 @@ if($_REQUEST['merge_results']){
     }
     
     /** deuxieme tournee */
-    $sql3  = new requete($site->db, "SELECT `id_utilisateur`, `note_obtention_uv` FROM `edu_uv_coments` WHERE `id_uv` = ".$uv->id);
+    $sql3  = new requete($site->db, "SELECT `id_utilisateur`, `note_obtention_uv` FROM `edu_uv_comments` WHERE `id_uv` = ".$uv->id);
     if(!$sql3->is_success())
       print_r($sql3);
       
