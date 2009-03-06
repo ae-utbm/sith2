@@ -131,12 +131,12 @@ if($_REQUEST['merge_comment']){
         continue;
       }
         
-      if(!$cmt->id_utilisateur){
+      if(!$cmt->id_commentateur){
         echo "* pb de contenu : $cmt->id ".print_r($cmt)."<br />\n";
       }
         
       $nc = new uv_comment($site->db, $site->dbrw );
-      $r = $nc->add($uv2->id, $cmt->id_utilisateur, $cmt->note_generale, $cmt->note_utilite, $cmt->note_interet, $note->note_enseignement, $cmt->note_travail, $cmt->content, $cmt->date);
+      $r = $nc->add($uv2->id, $cmt->id_commentateur, $cmt->note, $cmt->utilite, $cmt->interet, $note->qualite_ens, $cmt->charge_travail, $cmt->comment, $cmt->date);
       
       if($r === false)
         echo "* le commentaire ".$cmt->id." n'a pas pu etre importe <br />\n";
