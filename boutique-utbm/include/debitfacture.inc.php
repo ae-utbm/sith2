@@ -161,7 +161,7 @@ etat=1+ready=0 : en préparation
            "eotp"              => $this->eotp,
            "contact"           => $this->contact,
            "centre_financier"  => $this->centre_financier,
-           "centre_cout"       => $this->centre_cout;
+           "centre_cout"       => $this->centre_cout
          ));
 
     if ( !$req )
