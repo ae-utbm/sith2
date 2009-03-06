@@ -99,6 +99,8 @@ if($_REQUEST['uv_diff']){
 
 
 if($_REQUEST['merge_comment']){
+  exit;
+  
   $sql = new requete($site->db, "SELECT `code_uv` FROM `edu_uv`", true);
   $c = 0;
   
@@ -171,6 +173,47 @@ if($_REQUEST['merge_guide_info']){
 }
 
 if($_REQUEST['merge_groups']){
+}
+
+if($_REQUEST['merge_results']){
+  /* stockes dans deux endroits :( 
+   *  => edu_uv_comments.note_obtention_uv
+   *  => edu_uv_obtention.note_obtention
+   */
+  
+  $sql = new requete($site->db, "SELECT `code_uv` FROM `edu_uv`", true);
+  $c = 0;
+  
+  /**
+   * $obt[$utl][$uv][$semestre] = $result
+   */
+  $obt = array(array(array()));
+  
+  while(list($code) = $sql->get_row()){
+    $uv = new uv($site->db, $site->dbrw);
+    $uv->load_by_code($code);
+    if(!$uv->is_valid()){
+      echo "- ".$code." : probleme base 1 <br />\n";
+      continue;
+    }
+    
+    $uv2 = new uv2($site->db, $site->dbrw);
+    $uv2->load_by_code($code);
+    if(!$uv2->is_valid()){
+      echo "- ".$code." : probleme base 2 <br />\n";
+      continue;
+    }
+    
+    /** premiere tournee */
+    $sql2 = new requete($site->db, "SELECT * FROM `edu_uv_obtention` WHERE `id_uv` = ".$uv->id);
+    while(list(, $utl, $result, $semestre) = $sql2->get_row){
+      $obt[$utl][$uv][$semestre] = $result
+    }
+  }
+  
+  print_r($obt);
+  
+  echo "+ nombre de resultats : $c <br />\n";
 }
 
 if($_REQUEST['merge_dept']){

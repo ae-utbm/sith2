@@ -149,7 +149,7 @@ class uv_comment extends stdentity
                   "content" => mysql_real_escape_string($content),
                   "date" => $date);
 
-    $sql = new insert($this->dbrw, "pedag_uv_commentaire", $data, true);
+    $sql = new insert($this->dbrw, "pedag_uv_commentaire", $data);
 
     if($sql->is_success())
       return $sql->get_id();
