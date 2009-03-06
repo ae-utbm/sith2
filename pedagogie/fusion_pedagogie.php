@@ -177,6 +177,52 @@ if($_REQUEST['merge_guide_info']){
 }
 
 if($_REQUEST['merge_groups']){
+  $sql = new requete($site->db, "SELECT `code_uv` FROM `edu_uv`", true);
+  $c = 0;
+  
+  while(list($code) = $sql->get_row()){
+    $uv = new uv($site->db, $site->dbrw);
+    $uv->load_by_code($code);
+    if(!$uv->is_valid()){
+      echo "- ".$code." : probleme base 1 <br />\n";
+      continue;
+    }
+    
+    $uv2 = new uv2($site->db, $site->dbrw);
+    $uv2->load_by_code($code);
+    if(!$uv2->is_valid()){
+      echo "- ".$code." : probleme base 2 <br />\n";
+      continue;
+    }
+    
+    $sql2 = new requete($site->db, "SELECT * FROM `edu_uv_groupe` WHERE `id_uv` = ".$uv->id);
+    while(list($id_groupe, ,$type, $numero, $hdebut, $hfin, $jour, $freq, $semestre, $salle) = $sql2->get_row()){
+      /* on la jour bourrin pour conserver les id des groupes sinon ca 
+       * va etre le bordel pour retrouver les correspondances */
+      
+      $data = array("id_groupe" => $id_groupe,
+                  "id_uv" => $uv2->id,
+                  "type" => $type,
+                  "num_groupe" => $numero,
+                  "freq" => $freq,
+                  "semestre" => PXX($semestre),
+                  "debut" => $hdebut,
+                  "fin" => $hfin,
+                  "jour" => $jour,
+                  "salle" => $salle);
+      
+      $sql3 = new insert($this->dbrw, "pedag_groupe", $data);
+      
+      if(!$sql3->is_success())
+        print_r($sql3);
+      else{
+        echo "- groupe n°".$id_groupe." de ".$uv2->code." ajoute <br />\n";
+        $c++
+      }
+    }
+    
+    echo "+ ".$c." groupes ajoutes";
+  }
 }
 
 if($_REQUEST['merge_groups_utl']){
