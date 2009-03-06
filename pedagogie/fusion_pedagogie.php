@@ -47,6 +47,20 @@ $sql = new requete($site->db, "SELECT COUNT('id_commentaire') FROM `pedag_uv_com
 $n = $sql->get_row();
 echo $n[0]." UV enregistrés dans `pedag_uv_commentaire` <br />";  
 
+
+
+
+
+if($_REQUEST['cleanup']){
+  
+}
+
+
+exit;
+
+/**** on touche plus ***************************************************/
+
+
 if($_REQUEST['test_add_uv']){
   $uv = new uv2($site->db, $site->dbrw);
   $uv->add("TE00", "Test UV", TYPE_CS, null, SEMESTER_AP, true);
