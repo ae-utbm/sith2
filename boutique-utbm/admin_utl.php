@@ -79,6 +79,7 @@ if( $user->is_valid() && $user->type=='srv')
   }
   elseif($_REQUEST['action']=='centrefinancier')
   {
+     $_cts=new contents("Centre financier");
      if(isset($_REQUEST['nom_centre_financier']) && !empty($_REQUEST['nom_centre_financier']))
      {
        $req = new requete($site->db,'SELECT * FROM boutiqueut_service_utl WHERE id_utilisateur='.$user->id);
