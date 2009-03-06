@@ -125,7 +125,7 @@ if($_REQUEST['merge_comment']){
     if($n < 1)
       continue;
   
-    foreach($uv->comment as $cmt){
+    foreach($uv->comments as $cmt){
       if(!($cmt instanceof uvcomment))
         echo "* pb de classe : $cmt <br />\n";
         
