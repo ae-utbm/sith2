@@ -50,7 +50,7 @@ if( $user->is_valid() && $user->type=='srv')
 }
 $cts = new contents("<a href=\"admin.php\">Administration</a> / Services");
 
-$req=new requete($site->db,'SELECT id_utilisateur, CONCAT(`prenom_utl`,' ',`nom_utl`) AS srv FROM utilisateurs WHERE type_utl=\'srv\'');
+$req=new requete($site->db,'SELECT id_utilisateur, CONCAT(`prenom_utl`,\' \',`nom_utl`) AS srv FROM utilisateurs WHERE type_utl=\'srv\'');
 $cts->add(new sqltable("utls",
           null,
           $req,
