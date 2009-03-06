@@ -121,13 +121,16 @@ if($_REQUEST['merge_comment']){
     echo "- ".$code." possede ".count($uv->comments)." commentaires (b.1)<br />";
     $c += count($uv->comments);
     
+    print_r($uv->comments);
+    exit;
+    /*
     foreach($uv->comment as $cmt){
       $nc = new uv_comment($site->db, $site->dbrw );
       $r = $nc->add($uv2->id, $cmt->id_utilisateur, $cmt->note_generale, $cmt->note_utilite, $cmt->note_interet, $note->note_enseignement, $cmt->note_travail, $cmt->content, $cmt->date);
       if($r === false)
         echo "* le commentaire ".$cmt->id." n'a pas pu etre importe <br />\n";
     }
-    
+    */
   }
   
   echo "+ nombre total de commentaires réel : $c <br />\n";
