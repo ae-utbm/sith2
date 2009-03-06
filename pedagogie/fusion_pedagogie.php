@@ -231,9 +231,10 @@ if($_REQUEST['merge_results']){
     */
   }
   echo "+ nombre de resultats comptes : $c <br />\n";
+  $c = 0;
   
   foreach($obt as $utl=>$uvs){
-    if(empty($val))
+    if(empty($uvs))
       continue;
       
     $usr = new pedag_user($site->db, $site->dbrw);
@@ -249,14 +250,15 @@ if($_REQUEST['merge_results']){
         $r = $usr->add_uv_result($uv, PXX($sem), strtoupper($result));
         if($r === false)
           echo "- resultat (".$uv.", ".PXX($sem).", ".strtoupper($result).") n'a pas ete ajoute <br />\n";
-        else
+        else{
+          $c++;
           echo "+ resultat (".$uv.", ".PXX($sem).", ".strtoupper($result).") ajout OK <br />\n";
-        
+        }        
       }
     }
   }
   
-  echo "+ nombre de resultats : $c <br />\n";
+  echo "+ nombre de resultats ajoutes : $c <br />\n";
 }
 
 if($_REQUEST['merge_dept']){
