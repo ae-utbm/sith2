@@ -306,6 +306,19 @@ elseif ( $_REQUEST["page"] == "addtype" )
 }
 elseif ( $_REQUEST["page"] == "addproduit" )
 {
+  $parent=new produit($site->db);
+  if(isset($_REQUEST['parent']))
+  {
+    $parent->load_by_id($_REQUEST['parent']);
+    if($parent->is_valid() && !is_null($parent->id_produit_parent))
+      $parent->load_by_id(-1);
+  }
+  if(!$parent->is_valid())
+  {
+    $parent->prix_vente_service=0;
+    $parent->prix_vente=0;
+    $parent->prix_achat=0;
+  }
   $site->start_page("services","Administration");
   $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"admin.php?page=produits\">Produits</a> / Ajouter un produit");
   $frm = new form ("addproduit","admin.php",true,"POST","Ajout d'un produit");
@@ -317,12 +330,12 @@ elseif ( $_REQUEST["page"] == "addproduit" )
   $req = new requete($site->db,'SELECT id_produit,nom_prod FROM boutiqueut_produits WHERE prod_archive = 0 AND (id_produit_parent IS NULL OR id_produit_parent=\'\') ORDER BY id_typeprod, id_produit');
   while(list($id,$nom)=$req->get_row())
     $parents[$id]=$nom;
-  $frm->add_select_field("id_produit_parent","Produit Parent",$parents);
+  $frm->add_select_field("id_produit_parent","Produit Parent",$parents,$parent->id);
   $frm->add_text_area("description","Résumé");
   $frm->add_text_area("description_longue","Description");
-  $frm->add_price_field("prix_vente_prod_service","Prix services",0,true);
-  $frm->add_price_field("prix_vente","Prix autre",0,true);
-  $frm->add_price_field("prix_achat","Prix achat",0,true);
+  $frm->add_price_field("prix_vente_prod_service","Prix services",$parent->prix_vente_service,true);
+  $frm->add_price_field("prix_vente","Prix autre",$parent->prix_vente,true);
+  $frm->add_price_field("prix_achat","Prix achat",$parent->prix_achat,true);
   $frm->add_datetime_field("date_fin","Date de fin de mise en vente");
   $frm->add(generate_subform_stock("Stock global","global","stock","stock_value",-1),false, false, false,false, true);
   $frm->add_submit("valid","Ajouter");
@@ -414,6 +427,9 @@ elseif ( $produit->id > 0 )
  $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"admin.php?page=produits\">Produits</a> / ".$typeprod->get_html_link()." / ".$produit->get_html_link());
 
  $cts->add_paragraph("<a href=\"compta.php?id_produit=".$produit->id."\">Comptabilité</a>");
+
+ if(is_null($produit->id_produit_parent))
+   $cts->add_paragraph("<a href=\"admin.php?page=addproduit&parent=".$produit->id."\">Ajouter un sous-produit</a>");
 
  $frm = new form ("upproduit","admin.php",false,"POST","Editer");
  $frm->add_hidden("action","upproduit");
