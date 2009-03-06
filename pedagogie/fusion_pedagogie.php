@@ -211,7 +211,7 @@ if($_REQUEST['merge_groups']){
                   "jour" => $jour,
                   "salle" => $salle);
       
-      $sql3 = new insert($this->dbrw, "pedag_groupe", $data);
+      $sql3 = new insert($site->dbrw, "pedag_groupe", $data);
       
       if(!$sql3->is_success())
         print_r($sql3);
