@@ -189,6 +189,28 @@ if ( $_REQUEST["page"] == "statistiques" )
   $site->end_page();
   exit();
 }
+elseif( $_REQUEST["page"] == "stocks" )
+{
+  $site->start_page("services","Administration");
+  $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"gestion.php\">Gestion</a> / Stocks");
+  $req = new requete($site->db,
+    'SELECT id_produit, nom_prod, stock_global_prod, IF(prod_archive=0,\'En vente\',\'Archivé\') as arch FROM boutiqueut_produits ORDER BY id_produit');
+
+  $cts->add(new sqltable(
+         "stock",
+         "Stocks",
+         $req,
+         "admin.php",
+         "id_produit",
+         array('nom_prod'=>'Produit',"stock_global_prod" => "Stock","arch"=>"Etat"),
+         array('info'=>'Détail'),
+         array(),
+         array()),
+         true);
+  $site->add_contents($cts);
+  $site->end_page();
+  exit();
+}
 elseif( $_REQUEST["page"] == "factures" )
 {
   $site->start_page("services","Administration");
@@ -479,6 +501,7 @@ $cts = new contents("Administration");
 $cts = new contents("<a href=\"admin.php\">Administration</a> / Gestion");
 $lst = new itemlist("");
 $lst->add("<a href=\"gestion.php?page=bilan\">Bilan mensuel</a>");
+$lst->add("<a href=\"gestion.php?page=stocks\">Stocks</a>");
 $lst->add("<a href=\"gestion.php?page=statistiques\">Statistiques</a>");
 $lst->add("<a href=\"gestion.php?page=factures\">Factures</a>");
 $lst->add("<a href=\"gestion.php?page=ventes\">Ventes</a>");
