@@ -197,7 +197,7 @@ elseif( $_REQUEST["page"] == "factures" )
          "SELECT ".
          "IF(u.id_utilisateur IS NOT NULL, CONCAT(u.prenom_utl,' ',u.nom_utl), CONCAT(f.prenom,' ',f.nom)) AS nom_utilisateur ".
          ", f.date_facture ".
-         ", IF(f.mode_paiement='UT', 'Boutique', IF(f.mode_paiement='CH','Chèque','Espèces')) AS mode ".
+         ", IF(f.mode_paiement='UT', IF(u.type_utl='srv','Facture interne','À régler'), IF(f.mode_paiement='CH','Chèque','Espèces')) AS mode ".
          ", f.id_facture ".
          ", IF(f.ready=1,IF(f.etat_facture=1,'à retirer','retirée'),'en préparation') AS etat ".
          "FROM boutiqueut_debitfacture f ".
@@ -282,7 +282,7 @@ elseif( $_REQUEST["page"] == "bilan" )
                  ,v.quantite AS q
                  , v.prix_unit/100 AS pu
                  , (v.quantite*v.prix_unit)/100 AS total
-                 , IF(f.mode_paiement='UT', 'Boutique', IF(f.mode_paiement='CH','Chèque','Espèces')) AS mode
+                 , IF(f.mode_paiement='UT', IF(u.type_utl='srv','Facture interne','À régler'), IF(f.mode_paiement='CH','Chèque','Espèces')) AS mode
           FROM `boutiqueut_vendu` v
           INNER JOIN `boutiqueut_debitfacture` f USING(`id_facture`)
           LEFT JOIN utilisateurs u USING(id_utilisateur)

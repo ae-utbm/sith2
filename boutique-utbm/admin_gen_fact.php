@@ -64,6 +64,15 @@ if(isset($_REQUEST["id_facture"]))
           $factured_infos['srv_centre_cout'] = $fact->centre_de_cout;
           $ht=true;
         }
+        else
+        {
+          if($fact->mode=='CH')
+            $factured_infos['mode_paiement'] = 'Chèque';
+          elseif($fact->mode=='LI')
+            $factured_infos['mode_paiement'] = 'Liquide';
+          else
+            $factured_infos['mode_paiement'] = '';
+        }
       }
       else
       {
@@ -74,6 +83,12 @@ if(isset($_REQUEST["id_facture"]))
              utf8_decode($fact->prenom),
              'addr' => $adresse,
              false);
+        if($fact->mode=='CH')
+          $factured_infos['mode_paiement'] = 'Chèque';
+        elseif($fact->mode=='LI')
+          $factured_infos['mode_paiement'] = 'Liquide';
+        else
+          $factured_infos['mode_paiement'] = '';
       }
       $date_facturation = date("d/m/Y H:i", $fact->date);
       $titre = "Facture boutique UTBM";

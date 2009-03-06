@@ -247,6 +247,12 @@ class facture_pdf extends FPDF
       $this->Cell(123,10,utf8_decode("Dont TVA : "), "0", 0, "R");
       $ht=sprintf("%.2f",19.6*$this->total/(119.6*100));
       $this->Cell(40,10,$ht . " Euros", "0", 0, "R");
+      if(isset($this->factured_infos['mode_paiement']))
+      {
+        $this->Ln();
+        $this->Cell(123,10,utf8_decode("Règlement : "), "0", 0, "R");
+        $this->Cell(40,10,utf8_decode($this->factured_infos['mode_paiement']), "0", 0, "R");
+      }
       $this->Ln(30);
     }
   }
