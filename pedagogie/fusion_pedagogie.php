@@ -177,6 +177,7 @@ if($_REQUEST['merge_guide_info']){
 }
 
 if($_REQUEST['merge_groups']){
+  exit;
   $sql = new requete($site->db, "SELECT `code_uv` FROM `edu_uv`", true);
   $c = 0;
   
@@ -226,6 +227,24 @@ if($_REQUEST['merge_groups']){
 }
 
 if($_REQUEST['merge_groups_utl']){
+  /* du coup les id des groupes sont les memes */
+  $sql = new requete($site->db, "SELECT * FROM `edu_uv_groupe_etudiant`", true);
+  
+  while(list($groupe, $utl, $semaine) = $sql->get_row()){
+    if($semaine == 'AB')
+      $semaine = NULL;
+      
+    $data = array("id_groupe" => $groupe,
+                  "id_utilisateur" => $utl,
+                  "semaine" => $semaine);
+    $sql2 = new insert($site->dbrw, "pedag_groupe_utl", $data);
+    
+    if(!$sql2->is_success())
+      print_r($sql3);
+    else
+      echo "- inscription ".$groupe." <=> ".$utl." : OK <br />\n";
+    
+  }
 }
 
 if($_REQUEST['merge_results']){
