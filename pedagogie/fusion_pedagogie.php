@@ -112,6 +112,8 @@ if($_REQUEST['merge_comment']){
     echo "- ".$code." possede ".count($uv->comments)." commentaires <br />";
     $c += count($uv->comments);
   }
+  
+  echo "+ nombre total de commentaires réel : $c <br />";
 }
 
 if($_REQUEST['merge_guide_info']){
