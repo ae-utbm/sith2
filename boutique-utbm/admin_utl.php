@@ -44,6 +44,52 @@ $site->start_page("services","Administration");
 if( $user->is_valid() && $user->type=='srv')
 {
   $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"admin_utl.php\">Services</a> / Service");
+  $cts->add_title(2,$user->get_display_name());
+
+  if($_REQUEST['action']=='centrecout')
+  {
+    $_cts = new contents("Centre de coût");
+    if(isset($_REQUEST['nom_centre_cout']) && !empty($_REQUEST['nom_centre_cout']))
+      $req = new insert($site->dbrw,'boutiqueut_centre_cout',array('id_utilisateur'=>$user->id,'centre_cout'=>$_REQUEST['nom_centre_cout']));
+
+    $frm = new form('centrecout','admin_utl.php');
+    $frm->add_hidden('id_utilisateur',$user->id);
+    $frm->add_hidden('action','centrecout');
+    $frm->add_text_field('nom_centre_cout','Centre de coût');
+    $frm->add_submit('submit','Ajouter');
+    $_cts->add($frm);
+    $req = new requete($site->db,'SELECT * FROM boutiqueut_centre_cout WHERE id_utilisateur='.$user->id);
+    $_cts->add(new sqltable("ctcouts",
+          null,
+          $req,
+          "admin_utl.php",
+          "id_utilisateur",
+          array("centre_cout"=>"Centre de coût"),
+          array(),
+          array(),
+          array(),
+          true,
+          false));
+    //on ajoute un centre de cout
+  }
+  elseif($_REQUEST['action']=='changemdp')
+  {
+    //on change et on mail
+    $_cts=new contents("Mot de passe réinitialisé.");
+  }
+  elseif($_REQUEST['action']=='centrefinancier')
+  {
+     //on regarde si y'en a un, sinon on l'ajoute
+  }
+
+  if(isset($_cts))
+    $cts->add($_cts,true);
+
+  $lst = new itemlist("Actions");
+  $lst->add("<a href=\"admin_utl.php?id_utilisateur=".$user->id."&action=centrecout\">Centres de coûts</a>");
+  $lst->add("<a href=\"admin_utl.php?id_utilisateur=".$user->id."&action=changemdp\">Changer le mot de passe</a>");
+  $lst->add("<a href=\"admin_utl.php?id_utilisateur=".$user->id."&action=centrefinancier\">Centre financier</a>");
+  $cts->add($lst,true);
   $site->add_contents($cts);
   $site->end_page();
   exit();
