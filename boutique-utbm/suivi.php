@@ -105,10 +105,11 @@ if(isset($_REQUEST["id_facture"]))
         if($user->type=='srv')
         {
           $ht=true;
-          $factured_infos['srv_obj']         = $fact->objectif;
-          $factured_infos['srv_eopt']        = $fact->eotp;
-          $factured_infos['srv_contact']     = $fact->contact;
+          $factured_infos['srv_obj']              = $fact->objectif;
+          $factured_infos['srv_eopt']             = $fact->eotp;
+          $factured_infos['srv_contact']          = $fact->contact;
           $factured_infos['srv_centre_financier'] = $fact->centre_financier;
+          $factured_infos['srv_centre_cout']      = $fact->centre_cout;
         }
         else
         {

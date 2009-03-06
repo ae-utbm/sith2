@@ -62,9 +62,11 @@ else
   /* pas de formulaire de validation d'achat poste */
   if (!isset($_POST['confirm_payment'])
       ||
-      ($site->user->type=="srv" && (!isset($_REQUEST['objectif'])||empty($_REQUEST['objectif'])))
+      ($site->user->type=="srv" && (!isset($_REQUEST['objectif'])||empty($_REQUEST['objectif'])||!isset($_REQUEST['centre_cout'])||empty($_REQUEST['centre_cout'])))
      )
   {
+    if(isset($_REQUEST['centre_cout']) && empty($_REQUEST['centre_cout']))
+      unset($_REQUEST['centre_cout']);
     $accueil->add_paragraph("Vous etes sur le point de ".
        "confirmer l'achat des articles suivants<br/><br/>");
 
@@ -112,6 +114,20 @@ else
     {
       $frm->add_text_field('eotp','EOTP');
       $frm->add_text_field('objectif','Objectif','',true);
+      $req = new requete($site->db,
+         'SELECT centre_cout FROM boutiqueut_centre_cout WHERE id_utilisateur='.$site->user->id);
+      if($req->lines==1)
+      {
+        list($cc)=$req->get_row();
+        $frm->add_hidden('centre_cout',$cc);
+      }
+      else
+      {
+        $ccs = array(''=>'Centre de coût');
+        while(list($cc)=$req->get_row())
+          $ccs[$cc]=$cc;
+        $frm->add_select_field('centre_cout',$ccs,false,'',true);
+      }
     }
     $frm->add_submit("payment_boutique_proceed",
                      "OUI");
@@ -148,7 +164,8 @@ else
                          null,
                          null,
                          $_REQUEST['objectif'],
-                         $_REQUEST['eotp']);
+                         $_REQUEST['eotp'],
+                         $_REQUEST['centre_cout']);
       }
       else
         $debfact->debit ($site->user,
