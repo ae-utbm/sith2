@@ -38,6 +38,7 @@ if(isset($_REQUEST["id_facture"]))
     $user->load_by_id($fact->id_utilisateur);
     if(isset($_REQUEST["gen_pdf"]))
     {
+exit();
       require_once ("include/facture_pdf.inc.php");
       $facturing_infos = array ('name' => "Service Communication",
        'addr' => array(utf8_decode("UTBM"),
