@@ -132,7 +132,7 @@ etat=1+ready=0 : en préparation
     if(!is_null($objectif) && !empty($objectif))
       $this->objectif=$objectif;
     if(!is_null($centre_cout))
-      $this_>centre_cout=$centre_cout;
+      $this->centre_cout=$centre_cout;
     $this->montant = $this->calcul_montant($panier,$client);
     if($client->is_valid() && $client->type=='srv')
     {
