@@ -62,8 +62,6 @@ $cts->add(new sqltable("utls",
           array(),
           true,
           false));
-
-$cts->add($lst,true);
 $site->add_contents($cts);
 $site->end_page();
 
