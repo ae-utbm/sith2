@@ -272,7 +272,7 @@ $req1 = new requete($site->db,
 
 if ( $req1->lines > 0 )
 {
-  $cts->add_title(3, "Commandes sur facturation");
+  $cts->add_title(3, "Factures");
 
   $cts->add(new sqltable("eblstae",
           null,
