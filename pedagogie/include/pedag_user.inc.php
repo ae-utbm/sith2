@@ -41,8 +41,10 @@ class pedag_user extends utilisateur{
                                                            "note" => $result));
     if($sql->is_success())
       return $sql->get_id();
-    else 
+    else{
+      echo $sql->errmsg." <br />\n;
       return false;
+    }
   }
 
   /**

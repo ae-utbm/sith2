@@ -230,6 +230,7 @@ if($_REQUEST['merge_results']){
     }
     */
   }
+  echo "+ nombre de resultats comptes : $c <br />\n";
   
   foreach($obt as $utl=>$uvs){
     if(empty($val))
@@ -245,7 +246,12 @@ if($_REQUEST['merge_results']){
         continue;
         
       foreach($sems as $sem=>$result){
-        $usr->add_uv_result($uv, PXX($sem), strtoupper($result));
+        $r = $usr->add_uv_result($uv, PXX($sem), strtoupper($result));
+        if($r === false)
+          echo "- resultat (".$uv.", ".PXX($sem).", ".strtoupper($result).") n'a pas ete ajoute <br />\n";
+        else
+          echo "+ resultat (".$uv.", ".PXX($sem).", ".strtoupper($result).") ajout OK <br />\n";
+        
       }
     }
   }
