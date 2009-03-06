@@ -67,20 +67,14 @@ elseif ( isset($_REQUEST["item"]) ) // legacy support
 }
 
 elseif ( isset($_REQUEST["id_typeprod"]) )
-{
-  if(   (intval($_REQUEST["id_typeprod"])==11 && $site->user->ae)
-     || (intval($_REQUEST["id_typeprod"])!=11) )
   $typeproduit->load_by_id($_REQUEST["id_typeprod"]);
-}
 elseif ( isset($_REQUEST["cat"]) ) // legacy support
   $typeproduit->load_by_id($_REQUEST["cat"]);
 
 
 /* vidage du panier */
 if ($_REQUEST['act'] == "empty_cart")
-{
   $site->empty_cart ();
-}
 
 /*mise a jour du panier */
 if ($_REQUEST['act'] == "add")
