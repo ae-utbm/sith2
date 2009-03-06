@@ -14,6 +14,7 @@ require_once("include/pedag_user.inc.php");
 
 require_once("temp/pedagogie2.inc.php");
 require_once("temp/uv2.inc.php");
+require_once("include/uv_comment.inc.php");
 
 
 /* ancien systeme */
@@ -104,16 +105,32 @@ if($_REQUEST['merge_comment']){
   while(list($code) = $sql->get_row()){
     $uv = new uv($site->db, $site->dbrw);
     $uv->load_by_code($code);
+    if(!$uv->is_valid()){
+      echo "- ".$code." : probleme base 1 <br />\n";
+      continue;
+    }
     
     $uv2 = new uv2($site->db, $site->dbrw);
     $uv2->load_by_code($code);
+    if(!$uv2->is_valid()){
+      echo "- ".$code." : probleme base 2 <br />\n";
+      continue;
+    }
     
     $uv->load_comments();
-    echo "- ".$code." possede ".count($uv->comments)." commentaires <br />";
+    echo "- ".$code." possede ".count($uv->comments)." commentaires (b.1)<br />";
     $c += count($uv->comments);
+    
+    foreach($uv->comment as $cmt){
+      $nc = new uv_comment($site->db, $site->dbrw );
+      $r = $nc->add($uv2->id, $cmt->id_utilisateur, $cmt->note_generale, $cmt->note_utilite, $cmt->note_interet, $note->note_enseignement, $cmt->note_travail, $cmt->content, $cmt->date);
+      if($r === false)
+        echo "* le commentaire ".$cmt->id." n'a pas pu etre importe <br />\n";
+    }
+    
   }
   
-  echo "+ nombre total de commentaires réel : $c <br />";
+  echo "+ nombre total de commentaires réel : $c <br />\n";
 }
 
 if($_REQUEST['merge_guide_info']){

@@ -132,9 +132,12 @@ class uv_comment extends stdentity
 
   public function add($id_uv, $id_utilisateur,
                       $note_generale, $note_utilite, $note_interet, $note_enseignement, $note_travail,
-                      $content){
+                      $content, $date=null){
     if(!uv::exists($this->db, $id_uv)) 
       throw new Exception("Invalid UV id ".$id_uv);
+
+    if($date == null)
+      $date = date("Y-m-d H:i:s");
 
     $data = array("id_uv" => intval($id_uv), 
                   "id_utilisateur" => intval($id_utilisateur),
@@ -143,7 +146,8 @@ class uv_comment extends stdentity
                   "note_interet" => intval($note_interet),
                   "note_enseignement" => intval($note_enseignement),
                   "note_travail" => intval($note_travail),
-                  "content" => mysql_real_escape_string($content));
+                  "content" => mysql_real_escape_string($content),
+                  "date" => $date);
 
     $sql = new insert($this->dbrw, "pedag_uv_commentaire", $data);
 
