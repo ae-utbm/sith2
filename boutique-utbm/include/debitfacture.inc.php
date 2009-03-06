@@ -46,7 +46,7 @@ class debitfacture extends stdentity
   /** eotp */
   var $eotp=null;
   var $contact= null;
-  var $centre_de_cout = null;
+  var $centre_financier = null;
   /** objectif */
   var $objectif=null;
   /** date de la vente */
@@ -96,7 +96,7 @@ class debitfacture extends stdentity
     $this->objectif       = $row['objectif'];
     $this->eotp           = $row['eotp'];
     $this->contact        = $row['contact'];
-    $this->centre_de_cout = $row['centre_de_cout'];
+    $this->centre_financier = $row['centre_de_cout'];
   }
 
   /**
@@ -132,12 +132,12 @@ etat=1+ready=0 : en préparation
     $this->montant = $this->calcul_montant($panier,$client);
     if($client->is_valid() && $client->type=='srv')
     {
-      $req = new requete($this->db,'SELECT centre_de_cout,contact FROM boutiqueut_service_utl WHERE id_utilisateur='.$client->id);
+      $req = new requete($this->db,'SELECT centre_financier,contact FROM boutiqueut_service_utl WHERE id_utilisateur='.$client->id);
       if($req->lines==1)
       {
         list($cf,$ct)         = $req->get_row();
         $this->contact        = $ct;
-        $this->centre_de_cout = $cf;
+        $this->centre_financier = $cf;
       }
     }
 
@@ -156,7 +156,7 @@ etat=1+ready=0 : en préparation
            "objectif"        => $this->objectif,
            "eotp"            => $this->eotp,
            "contact"         => $this->contact,
-           "centre_de_cout"  => $this->centre_de_cout
+           "centre_financier"  => $this->centre_de_cout
          ));
 
     if ( !$req )

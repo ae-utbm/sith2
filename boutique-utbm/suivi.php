@@ -108,7 +108,7 @@ if(isset($_REQUEST["id_facture"]))
           $factured_infos['srv_obj']         = $fact->objectif;
           $factured_infos['srv_eopt']        = $fact->eotp;
           $factured_infos['srv_contact']     = $fact->contact;
-          $factured_infos['srv_centre_cout'] = $fact->centre_de_cout;
+          $factured_infos['srv_centre_financier'] = $fact->centre_financier;
         }
         else
         {
@@ -184,7 +184,7 @@ if(isset($_REQUEST["id_facture"]))
         $cts->add_paragraph('Objectif : '.$fact->objectif);
         $cts->add_paragraph('EOTP : '.(string)$fact->eotp);
         $cts->add_paragraph('Contact : '.$fact->contact);
-        $cts->add_paragraph('Centre de coût : '.$fact->centre_de_cout);
+        $cts->add_paragraph('Centre financier : '.$fact->centre_financier);
       }
 
       $req = new requete($site->db,
