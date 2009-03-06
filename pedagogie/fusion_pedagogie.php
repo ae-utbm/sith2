@@ -217,7 +217,7 @@ if($_REQUEST['merge_groups']){
         print_r($sql3);
       else{
         echo "- groupe n°".$id_groupe." de ".$uv2->code." ajoute <br />\n";
-        $c++
+        $c++;
       }
     }
     
