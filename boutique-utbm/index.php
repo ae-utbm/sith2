@@ -143,6 +143,19 @@ if ( $produit->is_valid() && !is_null($produit->id_produit_parent) )
 
 
 $site->start_page ("Accueil boutique utbm", "boutiqueutbm");
+if($site->user->type=='srv')
+{
+  $accueil = new contents("Boutique utbm",
+        "Bienvenue dans la boutique UTBM, la boutique en ligne ".
+        "de l'UTBM.<br />".
+        "Cette boutique est réalisée en partenariat avec l'association des étudiants de l'utbm."
+        );
+
+  $site->add_contents ($accueil);
+  $site->end_page ();
+  exit();
+}
+
 $site->add_contents(new tabshead(array(array("boutique","boutique-utbm/index.php","Boutique"),array("panier","boutique-utbm/cart.php","Panier"),array("suivi","boutique-utbm/suivi.php","Commandes")),"boutique"));
 /* ajout panier ? */
 if (isset($add_rs))
