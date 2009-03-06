@@ -42,7 +42,7 @@ class pedag_user extends utilisateur{
     if($sql->is_success())
       return $sql->get_id();
     else{
-      echo $sql->errmsg." <br />\n;
+      echo $sql->errmsg." <br />\n";
       return false;
     }
   }
