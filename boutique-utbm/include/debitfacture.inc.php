@@ -96,7 +96,7 @@ class debitfacture extends stdentity
     $this->objectif       = $row['objectif'];
     $this->eotp           = $row['eotp'];
     $this->contact        = $row['contact'];
-    $this->centre_financier = $row['centre_de_cout'];
+    $this->centre_financier = $row['centre_financier'];
   }
 
   /**
@@ -156,7 +156,7 @@ etat=1+ready=0 : en préparation
            "objectif"        => $this->objectif,
            "eotp"            => $this->eotp,
            "contact"         => $this->contact,
-           "centre_financier"  => $this->centre_de_cout
+           "centre_financier"  => $this->centre_financier
          ));
 
     if ( !$req )
