@@ -71,7 +71,7 @@ if(isset($_REQUEST["id_facture"]))
           elseif($fact->mode=='LI')
             $factured_infos['mode_paiement'] = 'Liquide';
           else
-            $factured_infos['mode_paiement'] = '';
+            $factured_infos['mode_paiement'] = 'À régler';
         }
       }
       else
@@ -88,7 +88,7 @@ if(isset($_REQUEST["id_facture"]))
         elseif($fact->mode=='LI')
           $factured_infos['mode_paiement'] = 'Liquide';
         else
-          $factured_infos['mode_paiement'] = '';
+          $factured_infos['mode_paiement'] = 'À régler';
       }
       $date_facturation = date("d/m/Y H:i", $fact->date);
       $titre = "Facture boutique UTBM";
