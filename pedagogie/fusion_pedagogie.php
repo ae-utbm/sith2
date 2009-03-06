@@ -247,7 +247,11 @@ if($_REQUEST['merge_results']){
         continue;
         
       foreach($sems as $sem=>$result){
-        $r = $usr->add_uv_result($uv, PXX($sem), strtoupper($result));
+        try{
+          $r = $usr->add_uv_result($uv, PXX($sem), strtoupper($result));
+        }catch(Exception $e){
+          echo "! ".$e->getMessage()."<br />\n";
+        }
         if($r === false)
           echo "- resultat (".$uv.", ".PXX($sem).", ".strtoupper($result).") n'a pas ete ajoute <br />\n";
         else{
