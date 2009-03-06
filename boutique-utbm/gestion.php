@@ -203,7 +203,7 @@ elseif( $_REQUEST["page"] == "stocks" )
          "admin.php",
          "id_produit",
          array('nom_prod'=>'Produit',"stock_global_prod" => "Stock","arch"=>"Etat"),
-         array('info'=>'Détail'),
+         array(),
          array(),
          array()),
          true);
