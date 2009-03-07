@@ -62,7 +62,7 @@ else
   /* pas de formulaire de validation d'achat poste */
   if (!isset($_POST['confirm_payment'])
       ||
-      ($site->user->type=="srv" && (!isset($_REQUEST['objectif'])||empty($_REQUEST['objectif'])||!isset($_REQUEST['centre_cout'])||$_REQUEST['centre_cout']=='--'))
+      ($site->user->type=="srv" && (!isset($_REQUEST['objectif'])||empty($_REQUEST['objectif'])||!isset($_REQUEST['centre_cout'])||empty($_REQUEST['centre_cout'])))
      )
   {
     if(isset($_REQUEST['centre_cout']) && empty($_REQUEST['centre_cout']))
@@ -123,10 +123,10 @@ else
       }
       else
       {
-        $ccs = array('--'=>'Centre de coût');
+        $ccs = array(''=>'--');
         while(list($cc)=$req->get_row())
           $ccs[$cc]=$cc;
-        $frm->add_select_field('centre_cout',$ccs,false,'',true);
+        $frm->add_select_field('centre_cout','Centre de coût',$ccs,false,'',true);
       }
     }
     $frm->add_submit("payment_boutique_proceed",
