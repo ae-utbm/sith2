@@ -137,7 +137,7 @@ class venteproduit extends stdentity
          "SET `stock_global_prod` = `stock_global_prod`+$qte ".
          "WHERE `id_produit` = '".intval($this->produit->id)."' ".
          "LIMIT 1");
-      $this->produit->stock_global--;
+      $this->produit->stock_global=$this->produit->stock_global+$qte;
     }
   }
 
@@ -156,7 +156,7 @@ class venteproduit extends stdentity
          "SET `stock_global_prod` = `stock_global_prod` - $qte ".
          "WHERE `id_produit` = '".intval($this->produit->id)."' ".
          "LIMIT 1");
-      $this->produit->stock_global--;
+      $this->produit->stock_global=$this->produit->stock_global-$qte;
       $altered = true;
     }
 
@@ -258,6 +258,7 @@ class venteproduit extends stdentity
    */
   function vendu_bloque ( $client, $prix, $qte=1 )
   {
+    $this->_decrement($qte);
     $this->_delta_verrou($client, -$qte);
   }
 
