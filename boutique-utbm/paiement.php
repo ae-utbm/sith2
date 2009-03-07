@@ -126,6 +126,7 @@ else
         $ccs = array(''=>'Centre de coût');
         while(list($cc)=$req->get_row())
           $ccs[$cc]=$cc;
+print_r($ccs);
         $frm->add_select_field('centre_cout',$ccs,false,'',true);
       }
     }
