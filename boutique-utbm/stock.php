@@ -70,9 +70,11 @@ while(list($id,$nom,$stock)=$req->get_row())
                         'AND date_facture<\''.$lim.'\' '.
                         'AND ready=1 AND etat_facture=0 '
                        );
-    list($add)=$req->get_row();
-    $stock=$stock+$add;
-    $lim = date("Y-m-d H:i",$_REQUEST["date"]);
+    if($req2->lines==1)
+    {
+      list($add)=$req->get_row();
+      $stock=$stock+$add;
+    }
     $req2 = new requete($site->db,
                        'SELECT SUM(quantite) as qu '.
                        'FROM boutiqueut_reapro '.
@@ -91,8 +93,11 @@ while(list($id,$nom,$stock)=$req->get_row())
                         'WHERE id_produit='.$id.' '.
                         'AND ready=1 AND etat_facture=0 '
                        );
-    list($add)=$req->get_row();
-    $stock=$stock+$add;
+    if($req2->lines==1)
+    {
+      list($add)=$req->get_row();
+      $stock=$stock+$add;
+    }
     $lim = date("Y-m-d H:i",$_REQUEST["date"]);
     $req2 = new requete($site->db,
                        'SELECT SUM(quantite) as qu '.
