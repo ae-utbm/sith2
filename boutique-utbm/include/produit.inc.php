@@ -142,6 +142,7 @@ class produit extends stdentity
     if($parent->is_valid())
     {
       $this->nom = $parent->nom.' '.trim(str_replace($parent->nom,'',$this->nom));
+      $this->id_type = $parent->id_type;
       $this->prix_vente_service = $parent->prix_vente_service;
       $this->prix_vente = $parent->prix_vente;
     }
@@ -211,6 +212,7 @@ class produit extends stdentity
     if($parent->is_valid())
     {
       $this->nom = $parent->nom.' '.trim(str_replace($parent->nom,'',$this->nom));
+      $this->id_type = $parent->id_type;
       $this->prix_vente_service = $parent->prix_vente_service;
       $this->prix_vente = $parent->prix_vente;
     }
