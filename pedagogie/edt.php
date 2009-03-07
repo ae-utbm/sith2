@@ -230,8 +230,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
     0 => array
         (
             "semaine_seance" => null,
-            "hr_debut_seance" => "10:15",
-            "hr_fin_seance" => "12:15",
+            "hr_debut_seance" => "10h15",
+            "hr_fin_seance" => "12h15",
             "jour_seance" => "Mercredi",
             "type_seance" => "C",
             "grp_seance" => 1,
@@ -242,8 +242,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
     1 => array
         (
             "semaine_seance" => null,
-            "hr_debut_seance" => "10:15",
-            "hr_fin_seance" => "12:15",
+            "hr_debut_seance" => "10h15",
+            "hr_fin_seance" => "12h15",
             "jour_seance" => "Vendredi",
             "type_seance" => "TD",
             "grp_seance" => 1,
@@ -254,8 +254,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
     2 => array
         (
             "semaine_seance" => "B",
-            "hr_debut_seance" => "16:15",
-            "hr_fin_seance" => "18:15",
+            "hr_debut_seance" => "16h15",
+            "hr_fin_seance" => "18h15",
             "jour_seance" => "Vendredi",
             "type_seance" => "TP",
             "grp_seance" => 2,
