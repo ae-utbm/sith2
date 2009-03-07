@@ -189,7 +189,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
     "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_type_produit`.`id_typeprod`=`boutiqueut_produits`.`id_typeprod` " .
     "WHERE prod_archive != 1 " .
     "AND `boutiqueut_produits`.`id_produit` NOT IN (SELECT id_produit_parent FROM boutiqueut_produits WHERE id_produit_parent IS NOT NULL) ".
-    "ORDER BY `boutiqueut_type_produit`.`nom_typeprod`,`boutiqueut_produits`.`nom_prod`");
+    "ORDER BY `boutiqueut_produits`.`nom_prod`, `boutiqueut_type_produit`.`nom_typeprod`");
   if(isset($_REQUEST['action']))
   {
     if(($_REQUEST['action']=="newcmd" && trim($_REQUEST['nom'])!='' && trim($_REQUEST['prenom'])!='')
