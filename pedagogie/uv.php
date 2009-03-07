@@ -40,6 +40,10 @@ $site->start_page("services", "AE Pédagogie");
 
 $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 
+/* compatibilite sqltable bleh */
+if(isset($_REQUEST['id_uv']))
+  $_REQUEST['id'] = $_REQUEST['id_uv'];
+
 /***********************************************************************
  * Actions
  */
@@ -103,7 +107,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
     $site->redirect('./');
   
   $uv->load_extra();
-    print_r($uv);
+
   $path .= " / "."<img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" />";
   $stop = count($uv->dept);
   for($i=0; $i<$stop; $i++){
@@ -177,6 +181,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   }
   $frm->add(new selectbox("dept", "Départements", $avail_dept, null, null, $already_dept, 120));
   
+  //$sql = new requete($site->db, "SELECT `id_cursus`, `intitule` FROM `pedag_cursus` WHERE ");
+  $frm->add(new selectbox("cursus", "Cursus", null, null, null, null, 120));
+  
   $frm->add_submit("saveuv", "Enregistrer les modifications");
   $cts->add($frm, true, false, "relative", false, true);
   $site->add_contents($cts);
@@ -236,7 +243,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
   }
   
   $site->add_contents($cts);
-  $site->popup_end_page(); //c'est expres que ca envoie pas directement ?
+  $site->popup_end_page(); 
   exit;
 }
 
@@ -253,13 +260,23 @@ if($_REQUEST['id'])
 
   $tabs = array(
             array("", "pedagogie/uv.php?id=".$uv->id, "Informations générales"),
-            array("candidatures", "pedagogie/uv.php?id=".$uv->id."&view=commentaires", "Commentaires"),
-            array("general", "pedagogie/uv.php?id=".$uv->id."&view=suivi", "Séances & Élèves"),
-            array("profil", "pedagogie/uv.php?id=".$uv->id."&view=ressources", "Ressources")
+            array("commentaires", "pedagogie/uv.php?id=".$uv->id."&view=commentaires", "Commentaires"),
+            array("suivi", "pedagogie/uv.php?id=".$uv->id."&view=suivi", "Séances & Élèves"),
+            array("ressources", "pedagogie/uv.php?id=".$uv->id."&view=ressources", "Ressources")
           );
   $cts->add(new tabshead($tabs, $_REQUEST['view']));
-  $site->add_contents($cts);
   
+  if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'commentaires'){
+    
+  }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'suivi'){
+    
+  }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'ressources'){
+    
+  }else{
+    
+  } 
+  
+  $site->add_contents($cts);
   $site->end_page();
   exit;
 }
