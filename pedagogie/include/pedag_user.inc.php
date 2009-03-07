@@ -219,7 +219,8 @@ class pedag_user extends utilisateur{
       return $t;
     }
   }
-  
+
+
   /**************************************
    * Données annexes de l'emploi du temps
    */

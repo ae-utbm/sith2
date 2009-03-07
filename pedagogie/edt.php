@@ -234,7 +234,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
    * des sources originales, il semblerait qu'il y ait tout.
    */
   
-  $groups = $user->get_groupes_details();
+  $groups = $user->get_groups_detail();
   $lines = array();
   foreach($groups as $group){
     $lines[] = array(
@@ -245,7 +245,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
                 "type_seance" => $_GROUP[ $group['type'] ]['long'],
                 "grp_seance" => $group['num_groupe'],
                 "nom_uv" => $group['code'],
-                "salle_seance" => $group['salle'],
+                "salle_seance" => $group['salle'] 
                );
   }
     
