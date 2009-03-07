@@ -184,7 +184,7 @@ elseif( $_REQUEST["page"] == "newcmd" )
    $req = new requete($site->db,
     "SELECT `boutiqueut_produits`.`nom_prod`, `boutiqueut_produits`.`id_produit`," .
     "`boutiqueut_produits`.stock_global_prod, " .
-    "`boutiqueut_produits`.prix_vente_prod/100 AS prix_vente_prod " .
+    "FORMAT(`boutiqueut_produits`.prix_vente_prod/100,2) AS prix_vente_prod " .
     "FROM `boutiqueut_produits` " .
     "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_type_produit`.`id_typeprod`=`boutiqueut_produits`.`id_typeprod` " .
     "WHERE prod_archive != 1 " .
@@ -375,8 +375,8 @@ if ( $_REQUEST["page"] == "produits" )
 
  $req = new requete($site->db,
   "SELECT `boutiqueut_produits`.`nom_prod`, `boutiqueut_produits`.`id_produit`," .
-  "`boutiqueut_produits`.stock_global_prod, `boutiqueut_produits`.prix_vente_prod_service/100 AS prix_vente_prod_service," .
-  "`boutiqueut_produits`.prix_vente_prod/100 AS prix_vente_prod, `boutiqueut_produits`.prix_achat_prod/100 AS  prix_achat_prod, " .
+  "`boutiqueut_produits`.stock_global_prod, FORMAT(`boutiqueut_produits`.prix_vente_prod_service/100,2) AS prix_vente_prod_service," .
+  "FORMAT(`boutiqueut_produits`.prix_vente_prod/100,2) AS prix_vente_prod, FORMAT(`boutiqueut_produits`.prix_achat_prod/100,2) AS  prix_achat_prod, " .
   "`boutiqueut_type_produit`.`id_typeprod`,`boutiqueut_type_produit`.`nom_typeprod` " .
   "FROM `boutiqueut_produits` " .
   "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_type_produit`.`id_typeprod`=`boutiqueut_produits`.`id_typeprod` " .
@@ -506,8 +506,8 @@ elseif ( $typeprod->id > 0 )
 
  $req = new requete($site->db,
   "SELECT `boutiqueut_produits`.`nom_prod`, `boutiqueut_produits`.`id_produit`,`boutiqueut_produits`.`prod_archive`, " .
-  "`boutiqueut_produits`.stock_global_prod, `boutiqueut_produits`.prix_vente_prod_service/100 AS prix_vente_prod_service," .
-  "`boutiqueut_produits`.prix_vente_prod/100 AS prix_vente_prod, `boutiqueut_produits`.prix_achat_prod/100 AS  prix_achat_prod, " .
+  "`boutiqueut_produits`.stock_global_prod, FORMAT(`boutiqueut_produits`.prix_vente_prod_service/100,2) AS prix_vente_prod_service," .
+  "FORMAT(`boutiqueut_produits`.prix_vente_prod/100,2) AS prix_vente_prod, FORMAT(`boutiqueut_produits`.prix_achat_prod/100,2) AS  prix_achat_prod, " .
   "`boutiqueut_type_produit`.`id_typeprod`,`boutiqueut_type_produit`.`nom_typeprod` " .
   "FROM `boutiqueut_produits` " .
   "INNER JOIN `boutiqueut_type_produit` USING(`id_typeprod`) " .

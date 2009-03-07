@@ -105,7 +105,7 @@ if(isset($_REQUEST["id_facture"]))
         $lines[] = array('nom' => utf8_decode($line['nom_prod']),
              'quantite' => intval($line['quantite']),
              'prix' => $line['prix_unit'],
-             'sous_total' => intval($line['quantite']) * $line['prix_unit']);
+             'sous_total' => sprintf('%.2f',$line['quantite'] * $line['prix_unit']));
 
         $total += intval($line['quantite']) * $line['prix_unit'];
       }
@@ -156,8 +156,8 @@ if(isset($_REQUEST["id_facture"]))
       $req = new requete($site->db,
            "SELECT id_produit, ".
            "`quantite`, " .
-           "`prix_unit`/100 AS `prix_unit`, ".
-           "`prix_unit`*`boutiqueut_vendu`.`quantite`/100 AS `total`, ".
+           "FORMAT(`prix_unit`/100,2) AS `prix_unit`, ".
+           "FORMAT(`prix_unit`*`boutiqueut_vendu`.`quantite`/100,2) AS `total`, ".
            "`nom_prod` " .
            "FROM `boutiqueut_vendu` ".
            "INNER JOIN boutiqueut_produits USING(id_produit) ".
@@ -178,8 +178,8 @@ if(isset($_REQUEST["id_facture"]))
         $req = new requete($site->db,
            "SELECT id_produit, ".
            "`quantite`, " .
-           "`prix_unit`/100 AS `prix_unit`, ".
-           "`prix_unit`*`boutiqueut_vendu`.`quantite`/100 AS `total`, ".
+           "FORMAT(`prix_unit`/100,2) AS `prix_unit`, ".
+           "FORMAT(`prix_unit`*`boutiqueut_vendu`.`quantite`/100,2) AS `total`, ".
            "`nom_prod` " .
            "FROM `boutiqueut_vendu` ".
            "INNER JOIN boutiqueut_produits USING(id_produit) ".
@@ -209,7 +209,7 @@ $cts->add_title(2,"Factures");
 
 $months = array();
 
-$req = new requete($site->db, "SELECT SUM(`montant_facture`), " .
+$req = new requete($site->db, "SELECT FORMAT(SUM(`montant_facture`),2) as somme, " .
     "EXTRACT(YEAR_MONTH FROM `date_facture`) as `month` " .
     "FROM `boutiqueut_debitfacture` " .
     "WHERE `id_utilisateur`='".$user->id."' " .
@@ -248,7 +248,7 @@ $req1 = new requete($site->db,
         "SELECT " .
         "`boutiqueut_debitfacture`.`id_facture`, " .
         "`boutiqueut_debitfacture`.`date_facture`, " .
-        "`boutiqueut_vendu`.`prix_unit`*`boutiqueut_vendu`.`quantite`/100 AS `total` " .
+        "FORMAT(`boutiqueut_vendu`.`prix_unit`*`boutiqueut_vendu`.`quantite`/100,2) AS `total` " .
         "FROM `boutiqueut_vendu` " .
         "INNER JOIN `boutiqueut_produits` ON ".
         "`boutiqueut_produits`.`id_produit` =`boutiqueut_vendu`.`id_produit` " .

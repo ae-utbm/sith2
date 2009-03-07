@@ -114,8 +114,8 @@ if ( $_REQUEST["page"] == "statistiques" )
 
       $cts->add_title(2,"Sommes");
       $cts->add_paragraph("Quantité : $qte unités<br/>" .
-          "Chiffre d'affaire: ".($sum/100)." Euros<br/>" .
-          "Prix countant total estimé* : ".($sumcoutant/100)." Euros");
+          "Chiffre d'affaire: ".sprintf('%.2f',($sum/100)." Euros<br/>" .
+          "Prix countant total estimé* : ".sprintf('%.2f',($sumcoutant/100)." Euros");
       $cts->add_paragraph("* ATTENTION: Prix coutant basé sur le prix actuel.");
     }
   }
@@ -163,7 +163,7 @@ if ( $_REQUEST["page"] == "statistiques" )
       $tbl->add_row(array("","Quantité","CA","Coutant"));
 
       while ( list($unit,$qte,$total,$coutant) = $req->get_row() )
-        $tbl->add_row(array($unit,$qte,$total/100,$coutant/100));
+        $tbl->add_row(array($unit,$qte,sprintf('%.2f',$total/100),sprintf('%.2f',$coutant/100)));
 
       $cts->add($tbl,true);
 
@@ -447,7 +447,7 @@ elseif( $_REQUEST["page"] == "bilan" )
       {
         if($id_facture==$_last)
         {
-          $tbl->add_row(array('','','',$Article,$Quantite,$pu,$total.' €'));
+          $tbl->add_row(array('','','',$Article,$Quantite,$pu,sprintf('%.2f',$total).' €'));
           $_total=$_total+$total;
         }
         else
@@ -456,14 +456,14 @@ elseif( $_REQUEST["page"] == "bilan" )
           if(!is_null($_mode))
           {
             $tbl->add_row(array('','','','','','Paiement :',$_mode),'modefactbilan');
-            $tbl->add_row(array('&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','Total :',$_total.' €'),'totalfactbilan');
+            $tbl->add_row(array('&nbsp;','&nbsp;','&nbsp;','&nbsp;','&nbsp;','Total :',sprintf('%.2f',$_total).' €'),'totalfactbilan');
             $_gtotal = $_gtotal+$_total;
             if(!isset($_smode[$_mode]))
               $_smode[$_mode]=$_total;
             else
               $_smode[$_mode]=$_smode[$_mode]+$_total;
           }
-          $tbl->add_row(array('<b>'.$id_facture.'</b>',$date,$client,$Article,$Quantite,$pu,$total));
+          $tbl->add_row(array('<b>'.$id_facture.'</b>',$date,$client,$Article,$Quantite,$pu,sprintf('%.2f',$total)));
           $_last  = $id_facture;
           $_mode  = $mode;
           $_total = $total;
@@ -478,9 +478,9 @@ elseif( $_REQUEST["page"] == "bilan" )
           $_smode[$_mode]=$_total;
         else
           $_smode[$_mode]=$_smode[$_mode]+$_total;
-        $tbl->add_row(array('','','','','','Total :',$_gtotal.' €'),'totalbilan');
+        $tbl->add_row(array('','','','','','Total :',sprintf('%.2f',$_gtotal).' €'),'totalbilan');
         foreach($_smode as $mode => $total)
-          $tbl->add_row(array('','','','','',$mode.' :',$total.' €'),'totalmodebilan');
+          $tbl->add_row(array('','','','','',$mode.' :',sprintf('%.2f',$total).' €'),'totalmodebilan');
       }
       $cts->add($tbl,true);
     }
