@@ -60,6 +60,7 @@ else
   $cts->add_title(2,'Stock au '.date("d/m/Y H:i"));
 while(list($id,$nom,$stock)=$req->get_row())
 {
+  print_r($stock."\n");
   if(isset($_REQUEST['date']))
   {
     $lim = date("Y-m-d H:i",$_REQUEST["date"]);
@@ -72,7 +73,7 @@ while(list($id,$nom,$stock)=$req->get_row())
                         'AND ready=1 AND etat_facture=0 ');
     if($req2->lines==1)
     {
-      list($add)=$req->get_row();
+      list($add)=$req2->get_row();
       if(!is_null($add))
         $stock=$stock+$add;
     }
@@ -83,7 +84,7 @@ while(list($id,$nom,$stock)=$req->get_row())
                        'AND date_reapro>\''.$lim.'\'');
     if($req2->lines==1)
     {
-      list($add)=$req->get_row();
+      list($add)=$req2->get_row();
       if(!is_null($add))
         $stock=$stock-$add;
     }
@@ -99,7 +100,7 @@ while(list($id,$nom,$stock)=$req->get_row())
                         'AND ready=1 AND etat_facture=0 ');
     if($req2->lines==1)
     {
-      list($add)=$req->get_row();
+      list($add)=$req2->get_row();
       if(!is_null($add))
         $stock=$stock+$add;
     }
