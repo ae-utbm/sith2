@@ -69,7 +69,7 @@ while(list($id,$nom,$stock)=$req->get_row())
                         'INNER JOIN boutiqueut_debitfacture USING(id_facture) '.
                         'WHERE id_produit='.$id.' '.
                         'AND date_facture<\''.$lim.'\' '.
-                        'AND ready=1 AND etat_facture=0 '
+                        'AND ready=1 AND etat_facture=0 ',1
                        );
     if($req2->lines==1)
     {
@@ -80,7 +80,7 @@ while(list($id,$nom,$stock)=$req->get_row())
                        'SELECT SUM(quantite) as qu '.
                        'FROM boutiqueut_reapro '.
                        'WHERE id_produit='.$id.' '.
-                       'AND date_reapro<\''.$lim.'\' ');
+                       'AND date_reapro<\''.$lim.'\' ',1);
     list($add)=$req->get_row();
     $stock=$stock-$add;
     $lst[]=array('id_produit'=>$id,'nom'=>$nom,'stock'=>$stock);
