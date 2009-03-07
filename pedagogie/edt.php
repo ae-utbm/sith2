@@ -223,6 +223,49 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
     $site->redirect('edt.php');
     
   $lines = array();
+  
+  /******************************************/
+  $lines = array
+(
+    0 => array
+        (
+            ["semaine_seance"] => null,
+            ["hr_debut_seance"] => "10:15",
+            ["hr_fin_seance"] => "12:15",
+            ["jour_seance"] => "Mercredi",
+            ["type_seance"] => "C",
+            ["grp_seance"] => 1,
+            ["nom_uv"] => "AG51",
+            ["salle_seance"] => "A200"
+        ),
+
+    1 => array
+        (
+            ["semaine_seance"] => null,
+            ["hr_debut_seance"] => "10:15",
+            ["hr_fin_seance"] => "12:15",
+            ["jour_seance"] => "Vendredi",
+            ["type_seance"] => "TD",
+            ["grp_seance"] => 1,
+            ["nom_uv"] => "AG51",
+            ["salle_seance"] => "A205"
+        ),
+
+    2 => array
+        (
+            ["semaine_seance"] => "B",
+            ["hr_debut_seance"] => "16:15",
+            ["hr_fin_seance"] => "18:15",
+            ["jour_seance"] => "Vendredi",
+            ["type_seance"] => "TP",
+            ["grp_seance"] => 2,
+            ["nom_uv"] => "AG51",
+            ["salle_seance"] => "B401"
+        )
+  );
+
+  /******************************************
+  
   foreach($groups as $group){
     $lines[] = array(
                 "semaine_seance" => $group['semaine'],
@@ -234,7 +277,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
                 "nom_uv" => $group['code'],
                 "salle_seance" => $group['salle'] 
                );
-  }
+  }*/
   //print_r($lines);
   //print_r($groups);
   $edt = new edt_img($user->get_display_name()." - ".$semestre, $lines);
