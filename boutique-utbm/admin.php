@@ -382,7 +382,7 @@ if ( $_REQUEST["page"] == "produits" )
   "FROM `boutiqueut_produits` " .
   "INNER JOIN `boutiqueut_type_produit` ON `boutiqueut_type_produit`.`id_typeprod`=`boutiqueut_produits`.`id_typeprod` " .
   "WHERE prod_archive != 1 " .
-  "ORDER BY `boutiqueut_type_produit`.`nom_typeprod`,`boutiqueut_produits`.`nom_prod`");
+  "ORDER BY `boutiqueut_produits`.`nom_prod`, `boutiqueut_type_produit`.`nom_typeprod`");
 
  $tbl = new sqltable(
    "lstproduits",
