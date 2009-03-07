@@ -53,11 +53,14 @@ $req = new requete($site->db,
   'FROM boutiqueut_produits '.
   'WHERE id_produit NOT IN (SELECT id_produit_parent FROM boutiqueut_produits WHERE id_produit_parent IS NOT NULL)');
 $lst=array();
+if(isset($_REQUEST['date']))
+  $cts->add_title(2,'Stock au '.date("d/m/Y H:i",$_REQUEST["date"]));
+else
+  $cts->add_title(2,'Stock au '.date("d/m/Y H:i"));
 while(list($id,$nom,$stock)=$req->get_row())
 {
   if(isset($_REQUEST['date']))
   {
-    $cts->add_title(2,'Stock au '.date("d/m/Y H:i",$_REQUEST["date"]));
     $lim = date("Y-m-d H:i",$_REQUEST["date"]);
     $req2 = new requete($site->db,
                         'SELECT SUM(quantite) as qu '.
@@ -81,7 +84,6 @@ while(list($id,$nom,$stock)=$req->get_row())
   }
   else
   {
-    $cts->add_title(2,'Stock au '.date("d/m/Y H:i"));
     $req2 = new requete($site->db,
                         'SELECT SUM(quantite) as qu '.
                         'FROM boutiqueut_vendu '.
