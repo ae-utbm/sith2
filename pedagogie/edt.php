@@ -248,9 +248,11 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
                 "salle_seance" => $group['salle'] 
                );
   }
-    
+  
+  print_r($groups)
+  print_r($lines);
   $edt = new edt_img($user->get_display_name()." - ".$semestre, $lines);
-  $edt->generate(false);
+  //$edt->generate(false);
   exit;
 }
 
