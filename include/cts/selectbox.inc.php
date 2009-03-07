@@ -59,7 +59,7 @@ class selectbox extends form
   private function add_selectbox(){
     if($this->height){
       $hsel = "style=\"height: $this->height;\"";
-      $hul = "style=\"margin-top: ".($this->height*0.45-3).";\"";
+      $hul = "style=\"margin-top: ".($this->height*0.50-22).";\"";
     }else{
       $hsel = "";
       $hul = "";

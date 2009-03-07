@@ -168,9 +168,14 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm = new form("editrelative", "uv.php?action=save", true, "post", "Informations relatives");
   
   $avail_dept=array();
-  foreach($_DPT as $dept=>$desc)
-    $avail_dept[$dept] = $desc['long'];
-  $frm->add(new selectbox("dept", "Départements", $avail_dept, null, null, null, 120));
+  $already_dept=array();
+  foreach($_DPT as $dept=>$desc){
+    if(in_array($dept, $uv->dept))
+      $already_dept[$dept] = $desc['long'];
+    else
+      $avail_dept[$dept] = $desc['long'];
+  }
+  $frm->add(new selectbox("dept", "Départements", $avail_dept, null, null, $already_dept, 120));
   
   $frm->add_submit("saveuv", "Enregistrer les modifications");
   $cts->add($frm, true, false, "relative", false, true);
