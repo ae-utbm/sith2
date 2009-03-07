@@ -142,7 +142,7 @@ class ficheproduit extends contents
       else
       {
         if ( $stock != -1 )
-          $info_stock=" ($stock en stock)";
+          $info_stock=" (stock : $stock)";
         else
           $info_stock="";
         $frm = new form('cmd', '/?act=add');
