@@ -60,7 +60,6 @@ else
   $cts->add_title(2,'Stock au '.date("d/m/Y H:i"));
 while(list($id,$nom,$stock)=$req->get_row())
 {
-  print_r($stock."\n");
   if(isset($_REQUEST['date']))
   {
     $lim = date("Y-m-d H:i",$_REQUEST["date"]);
