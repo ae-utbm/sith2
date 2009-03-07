@@ -319,12 +319,13 @@ elseif ( $_REQUEST["page"] == "addproduit" )
     $parent->prix_vente_service=0;
     $parent->prix_vente=0;
     $parent->prix_achat=0;
+    $parent->id_type=0;
   }
   $site->start_page("services","Administration");
   $cts = new contents("<a href=\"admin.php\">Administration</a> / <a href=\"admin.php?page=produits\">Produits</a> / Ajouter un produit");
   $frm = new form ("addproduit","admin.php",true,"POST","Ajout d'un produit");
   $frm->add_hidden("action","addproduit");
-  $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit");
+  $frm->add_entity_select("id_typeprod", "Type", $site->db, "typeproduit",$parent->id_type);
   $frm->add_text_field("nom","Nom","",true);
   $frm->add_entity_smartselect("id_file","Image",$file,true);
   $parents =array('0'=>'Aucun');
