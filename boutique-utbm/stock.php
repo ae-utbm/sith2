@@ -51,7 +51,9 @@ $cts->add($frm);
 $req = new requete($site->db,
   'SELECT id_produit, nom_prod, stock_global_prod '.
   'FROM boutiqueut_produits '.
-  'WHERE stock_global_prod!=-1');
+  'WHERE stock_global_prod!=-1'
+  .' LIMIT 1';
+);
 $lst=array();
 if(isset($_REQUEST['date']))
   $cts->add_title(2,'Stock au '.date("d/m/Y H:i",$_REQUEST["date"]));
@@ -91,8 +93,7 @@ while(list($id,$nom,$stock)=$req->get_row())
                         'FROM boutiqueut_vendu '.
                         'INNER JOIN boutiqueut_debitfacture USING(id_facture) '.
                         'WHERE id_produit='.$id.' '.
-                        'AND ready=1 AND etat_facture=0 '
-                       );
+                        'AND ready=1 AND etat_facture=0 ',1);
     if($req2->lines==1)
     {
       list($add)=$req->get_row();
@@ -102,9 +103,9 @@ while(list($id,$nom,$stock)=$req->get_row())
     $req2 = new requete($site->db,
                        'SELECT SUM(quantite) as qu '.
                        'FROM boutiqueut_reapro '.
-                       'WHERE id_produit='.$id.' ');
-    list($add)=$req->get_row();
-    $stock=$stock-$add;
+                       'WHERE id_produit='.$id.' ',1);
+    list($del)=$req->get_row();
+    $stock=$stock-$del;
     $lst[]=array('id_produit'=>$id,'nom'=>$nom,'stock'=>$stock);
   }
 }
