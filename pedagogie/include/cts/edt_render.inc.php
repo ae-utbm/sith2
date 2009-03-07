@@ -400,7 +400,7 @@ class edt_img
 
     // Si on n'a pas besoin d'afficher le groupe
     // On prend un peu de place pour écarter la salle
-    if($line['semaine_seance']== null)
+    if(empty($line['semaine_seance']) || $line['semaine_seance'] == null)
       $DVSalle+=6;
 
     if(!$this->fillcolor[$line[$ColorSwitch]])
@@ -542,7 +542,7 @@ class edt_img
 		 $line['type_seance'] .' '. $grps);
 
     // Affichage du groupe
-    if($line['semaine_seance']!=null)
+    if(!(empty($line['semaine_seance'])  || $line['semaine_seance'] == null || ))
       imagettftext($this->img,
 		   8,
 		   0,
