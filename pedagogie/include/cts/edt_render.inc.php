@@ -542,7 +542,7 @@ class edt_img
 		 $line['type_seance'] .' '. $grps);
 
     // Affichage du groupe
-    if(!(empty($line['semaine_seance'])  || $line['semaine_seance'] == null || ))
+    if(!(empty($line['semaine_seance'])  || $line['semaine_seance'] == null))
       imagettftext($this->img,
 		   8,
 		   0,
