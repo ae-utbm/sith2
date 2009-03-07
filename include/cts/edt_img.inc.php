@@ -50,7 +50,7 @@ class edt_img
   /* un tableau de lignes (format MasterJul) */
   /*
    * Specification du format
-   * $lines(0 => array ("semaine_seance" => "A",                  'A' semaine A, 'B' semaine B, 'T' toutes les semaines
+   * $lines(0 => array ("semaine_seance" => "A",                  'A' semaine A, 'B' semaine B, null toutes les semaines
    *                    "hr_deb_seance" => "08h00",
    *                    "hr_fin_seance" => "10h00",
    *                    "jour_seance" => "Lundi",
@@ -400,7 +400,7 @@ class edt_img
 
     // Si on n'a pas besoin d'afficher le groupe
     // On prend un peu de place pour écarter la salle
-    if($line['semaine_seance']== "T")
+    if($line['semaine_seance']== null)
       $DVSalle+=6;
 
     if(!$this->fillcolor[$line[$ColorSwitch]])
@@ -542,7 +542,7 @@ class edt_img
 		 $line['type_seance'] .' '. $grps);
 
     // Affichage du groupe
-    if($line['semaine_seance']!="AB")
+    if($line['semaine_seance']!=null)
       imagettftext($this->img,
 		   8,
 		   0,

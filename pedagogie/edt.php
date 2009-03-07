@@ -228,7 +228,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
    *
    */
   $lines = array(
-    array ("semaine_seance" => "T",
+    array ("semaine_seance" => null,
            "hr_deb_seance" => "08h00",
            "hr_fin_seance" => "10h00",
            "jour_seance" => "Lundi",
@@ -236,7 +236,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
            "grp_seance" => "3",
            "nom_uv" => "IN41",
            "salle_seance" => "B404"),
-    array ("semaine_seance" => "T",
+    array ("semaine_seance" => null,
            "hr_deb_seance" => "10h15",
            "hr_fin_seance" => "12h15",
            "jour_seance" => "Lundi",
@@ -260,7 +260,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
            "grp_seance" => "2",
            "nom_uv" => "AG51",
            "salle_seance" => "B404"),  
-    array ("semaine_seance" => "T",
+    array ("semaine_seance" => null,
            "hr_deb_seance" => "14h00",
            "hr_fin_seance" => "16h00",
            "jour_seance" => "Lundi",
