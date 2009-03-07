@@ -224,7 +224,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
     
   $lines = array();
   
-  /******************************************/
+  /*****************************************
   $lines = array
 (
     0 => array
@@ -264,12 +264,12 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
         )
   );
 
-  /******************************************
+  /******************************************/
   
   foreach($groups as $group){
     $lines[] = array(
                 "semaine_seance" => $group['semaine'],
-                "hr_debut_seance" => substr($group['debut'], 0,5),
+                "hr_deb_seance" => substr($group['debut'], 0,5),
                 "hr_fin_seance" => substr($group['fin'], 0, 5),
                 "jour_seance" => get_day($group['jour']),
                 "type_seance" => $group['type'],
@@ -277,7 +277,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
                 "nom_uv" => $group['code'],
                 "salle_seance" => $group['salle'] 
                );
-  }*/
+  }
   //print_r($lines);
   //print_r($groups);
   $edt = new edt_img($user->get_display_name()." - ".$semestre, $lines);
