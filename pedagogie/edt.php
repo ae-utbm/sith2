@@ -208,6 +208,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
 {
+  print_r($_REQUEST);
+  print_r($user->get_edt_list());
+  
   if(isset($_REQUEST['semestre']) && check_semester_format($_REQUEST['semestre']))
     $semestre = $_REQUEST['semestre'];
   else
@@ -217,22 +220,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
     $site->redirect('edt.php');
   
   require_once ("include/cts/edt_render.inc.php");
-
-  /*
-   * Specification du format
-   * $lines(0 => array ("semaine_seance" => "A",                  'A' semaine A, 'B' semaine B, 'T' toutes les semaines
-   *                    "hr_deb_seance" => "08h00",
-   *                    "hr_fin_seance" => "10h00",
-   *                    "jour_seance" => "Lundi",
-   *                    "type_seance" => "TD",
-   *                    "grp_seance" => "3",
-   *                    "nom_uv" => "IN41",
-   *                    "salle_seance" => "B404"),
-   *        ...)
-   *
-   * Il est possible que certains champs manquent, mais d'apres le parcours
-   * des sources originales, il semblerait qu'il y ait tout.
-   */
   
   $groups = $user->get_groups_detail();
   $lines = array();
