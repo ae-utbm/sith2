@@ -224,48 +224,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
     
   $lines = array();
   
-  /*****************************************
-  $lines = array
-(
-    0 => array
-        (
-            "semaine_seance" => null,
-            "hr_deb_seance" => "10h15",
-            "hr_fin_seance" => "12h15",
-            "jour_seance" => "Mercredi",
-            "type_seance" => "C",
-            "grp_seance" => 1,
-            "nom_uv" => "AG51",
-            "salle_seance" => "A200"
-        ),
-
-    1 => array
-        (
-            "semaine_seance" => null,
-            "hr_deb_seance" => "10h15",
-            "hr_fin_seance" => "12h15",
-            "jour_seance" => "Vendredi",
-            "type_seance" => "TD",
-            "grp_seance" => 1,
-            "nom_uv" => "AG51",
-            "salle_seance" => "A205"
-        ),
-
-    2 => array
-        (
-            "semaine_seance" => "B",
-            "hr_deb_seance" => "16h15",
-            "hr_fin_seance" => "18h15",
-            "jour_seance" => "Vendredi",
-            "type_seance" => "TP",
-            "grp_seance" => 2,
-            "nom_uv" => "AG51",
-            "salle_seance" => "B401"
-        )
-  );
-
-  /******************************************/
-  
   foreach($groups as $group){
     $lines[] = array(
                 "semaine_seance" => $group['semaine'],
@@ -324,21 +282,6 @@ $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
                     ."onclick=\"edt.add();\" "
                     ."name=\"add_edt\" id=\"add_edt\"/>");
 $site->add_contents($cts);
-
-
-/******************/
-/**** ajout d'UV */
-$uv = new uv($site->db, $site->dbrw, 0);
-
-$cts = new contents("Détails des UV");
-$cts->add_paragraph("Indiquez ci-dessous les séances auxquelles vous êtes
-      inscrit. Si celle-ci n'est pas présente dans la liste proposée, choisissez
-      \"Ajouter une séance\" afin de la créer.");
-
-$site->add_contents($cts);
-
-$site->add_contents(new add_seance_box(0, GROUP_C, SEMESTER_NOW));
-
 
 $site->end_page();
 ?>
