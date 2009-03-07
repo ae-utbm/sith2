@@ -206,7 +206,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
   
 }
 
-if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
 {
   
   require_once ($topdir . "include/cts/edt_img.inc.php");
