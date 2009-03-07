@@ -1248,8 +1248,16 @@ class site extends interfaceweb
     exit();
   }
 
-  function redirect($url='/')
+  function redirect($url='/', $argv=null)
   {
+    $params=null;
+    if($argv){
+      (strpos($url, '?') !== false) ? $params='?' : $params='&';
+      foreach($argv as $key=>$val)
+        $params .= $key."=".$val.'?';
+      rtrim($url, '?');
+    }
+
     header("Location: $url");
     exit();
   }

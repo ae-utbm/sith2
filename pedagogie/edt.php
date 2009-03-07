@@ -206,6 +206,77 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
   
 }
 
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
+{
+  
+  require_once ($topdir . "include/cts/edt_img.inc.php");
+
+  /*
+   * Specification du format
+   * $lines(0 => array ("semaine_seance" => "A",                  'A' semaine A, 'B' semaine B, 'T' toutes les semaines
+   *                    "hr_deb_seance" => "08h00",
+   *                    "hr_fin_seance" => "10h00",
+   *                    "jour_seance" => "Lundi",
+   *                    "type_seance" => "TD",
+   *                    "grp_seance" => "3",
+   *                    "nom_uv" => "IN41",
+   *                    "salle_seance" => "B404"),
+   *        ...)
+   *
+   * Il est possible que certains champs manquent, mais d'apres le parcours
+   * des sources originales, il semblerait qu'il y ait tout.
+   *
+   */
+  $lines = array(
+    array ("semaine_seance" => "T",
+           "hr_deb_seance" => "08h00",
+           "hr_fin_seance" => "10h00",
+           "jour_seance" => "Lundi",
+           "type_seance" => "TD",
+           "grp_seance" => "3",
+           "nom_uv" => "IN41",
+           "salle_seance" => "B404"),
+    array ("semaine_seance" => "T",
+           "hr_deb_seance" => "10h15",
+           "hr_fin_seance" => "12h15",
+           "jour_seance" => "Lundi",
+           "type_seance" => "C",
+           "grp_seance" => "1",
+           "nom_uv" => "LO53",
+           "salle_seance" => "A200"),
+    array ("semaine_seance" => "A",
+           "hr_deb_seance" => "08h00",
+           "hr_fin_seance" => "10h00",
+           "jour_seance" => "Vendredi",
+           "type_seance" => "TP",
+           "grp_seance" => "2",
+           "nom_uv" => "RE51",
+           "salle_seance" => "B404"),
+    array ("semaine_seance" => "B",
+           "hr_deb_seance" => "08h00",
+           "hr_fin_seance" => "10h00",
+           "jour_seance" => "Vendredi",
+           "type_seance" => "TP",
+           "grp_seance" => "2",
+           "nom_uv" => "AG51",
+           "salle_seance" => "B404"),  
+    array ("semaine_seance" => "T",
+           "hr_deb_seance" => "14h00",
+           "hr_fin_seance" => "16h00",
+           "jour_seance" => "Lundi",
+           "type_seance" => "C",
+           "grp_seance" => "1",
+           "nom_uv" => "LO10",
+           "salle_seance" => "P108")  
+  );
+  
+  $edt = new edt_img("Mme Dugenou", $lines);
+  $edt->generate(false);
+  exit;
+}
+
+
+
 /**
  * Contenu défaut page
  */
