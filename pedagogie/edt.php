@@ -225,7 +225,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
   $lines = array();
   foreach($groups as $group){
     $lines[] = array(
-                "semaine_seance" => $group['semaine'],
+                "semaine_seance" => ($group['semaine'])?$group['semaine']:null,
                 "hr_debut_seance" => substr($group['debut'], 0,5),
                 "hr_fin_seance" => substr($group['fin'], 0, 5),
                 "jour_seance" => get_day($group['jour']),
