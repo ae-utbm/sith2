@@ -49,9 +49,9 @@ $frm->add_submit("valid","Voir");
 $cts->add($frm);
 
 $req = new requete($site->db,
-  'SELECT id_produit, nom_prod, stock_global '.
+  'SELECT id_produit, nom_prod, stock_global_prod '.
   'FROM boutiqueut_produits '.
-  'WHERE id_produit NOT IN (SELECT id_produit_parent FROM boutiqueut_produits WHERE id_produit_parent IS NOT NULL)',1);
+  'WHERE id_produit NOT IN (SELECT id_produit_parent FROM boutiqueut_produits WHERE id_produit_parent IS NOT NULL)');
 $lst=array();
 while(list($id,$nom,$stock)=$req->get_row())
 {
