@@ -447,7 +447,7 @@ elseif( $_REQUEST["page"] == "bilan" )
       {
         if($id_facture==$_last)
         {
-          $tbl->add_row(array('','','',$Article,$Quantite,$pu,sprintf('%.2f',$total).' €'));
+          $tbl->add_row(array('','','',$Article,$Quantite,sprintf('%.2f',$pu),sprintf('%.2f',$total).' €'));
           $_total=$_total+$total;
         }
         else
@@ -463,7 +463,7 @@ elseif( $_REQUEST["page"] == "bilan" )
             else
               $_smode[$_mode]=$_smode[$_mode]+$_total;
           }
-          $tbl->add_row(array('<b>'.$id_facture.'</b>',$date,$client,$Article,$Quantite,$pu,sprintf('%.2f',$total)));
+          $tbl->add_row(array('<b>'.$id_facture.'</b>',$date,$client,$Article,$Quantite,sprintf('%.2f',$pu),sprintf('%.2f',$total)));
           $_last  = $id_facture;
           $_mode  = $mode;
           $_total = $total;
