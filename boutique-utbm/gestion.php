@@ -347,6 +347,7 @@ elseif( $_REQUEST["page"] == "bilan" )
         $_total=0;
         $_gtotal=0;
         $_smode=array();
+        $_tva=0;
         while (list($id_facture,$date,$client,$Article,$Quantite,$pu,$total,$mode)=$req->get_row())
         {
           if($id_facture==$_last)
@@ -379,6 +380,7 @@ elseif( $_REQUEST["page"] == "bilan" )
                 $pdf->Cell($w2[0],6,'','LB',0,'L');
                 $pdf->Cell($w2[1],6,'Dont TVA :','LRBT',0,'L');
                 $pdf->Cell($w2[2],6,sprintf("%.2f",19.6*$_total/(119.6)),'LRBT',0,'L');
+                $_tva+=(19.6*$_total/(119.6));
                 $pdf->Ln();
               }
               else
@@ -423,6 +425,7 @@ elseif( $_REQUEST["page"] == "bilan" )
             $pdf->Cell($w2[1],6,'Dont TVA :','LRBT',0,'L');
             $pdf->Cell($w2[2],6,sprintf("%.2f",19.6*$_total/(119.6)),'LRBT',0,'L');
             $pdf->Ln();
+            $_tva+=(19.6*$_total/(119.6));
           }
           else
           {
@@ -445,6 +448,13 @@ elseif( $_REQUEST["page"] == "bilan" )
           $pdf->Cell($w2[0],6,'',0,0,'L');
           $pdf->Cell($w2[1],6,'Total :','LRBT',0,'L');
           $pdf->Cell($w2[2],6,sprintf('%.2f',$_gtotal),'LRBT',0,'L');
+          if($_tva!=0)
+          {
+            $pdf->Ln();
+            $pdf->Cell($w2[0],6,'',0,0,'L');
+            $pdf->Cell($w2[1],6,utf8_decode($_tva).' :','LRBT',0,'L');
+            $pdf->Cell($w2[2],6,sprintf('%.2f',$_tva),'LRBT',0,'L');
+          }
           foreach($_smode as $mode => $total)
           {
             $pdf->Ln();
