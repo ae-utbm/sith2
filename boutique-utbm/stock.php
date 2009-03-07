@@ -52,7 +52,7 @@ $req = new requete($site->db,
   'SELECT id_produit, nom_prod, stock_global_prod '.
   'FROM boutiqueut_produits '.
   'WHERE stock_global_prod!=-1'
-  .' LIMIT 1';
+  .' LIMIT 1'
 );
 $lst=array();
 if(isset($_REQUEST['date']))
