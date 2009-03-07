@@ -197,6 +197,29 @@ class pedag_user extends utilisateur{
     return true;
   }
   
+  public function get_groups_detail($semestre=SEMESTER_NOW){
+    $sql = new requete($this->db, "SELECT `pedag_groupe`.*, 
+                                      `pedag_groupe_utl`.*, 
+                                      `pedag_uv`.`id_uv`, `pedag_uv`.`code`, `pedag_uv`.`intitule`,
+                                    FROM `pedag_groupe_utl` 
+                                    RIGHT JOIN `pedag_groupe`
+                                      ON `pedag_groupe`.`id_groupe` = `pedag_groupe_utl`.`id_groupe`
+                                    RIGHT JOIN `pedag_uv`
+                                      ON `pedag_uv`.`id_uv` = `pedag_groupe`.`id_uv`
+                                    WHERE `pedag_groupe_utl`.`id_utilisateur` = ".$this->id."
+                                      AND `pedag_groupe`.`semestre` = '".$semestre."'");  
+
+    if(!$sql->is_success())
+      return false;
+    else{
+      $t=null;
+      while($row = $sql->get_row())
+        $t[] = $row;
+        
+      return $t;
+    }
+  }
+  
   /**************************************
    * Données annexes de l'emploi du temps
    */

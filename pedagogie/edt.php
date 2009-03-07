@@ -208,8 +208,15 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
 {
+  if(isset($_REQUEST['semestre']) && check_semester_format($_REQUEST['semestre']))
+    $semestre = $_REQUEST['semestre'];
+  else
+    $semestre = SEMESTER_NOW;
   
-  require_once ($topdir . "include/cts/edt_img.inc.php");
+  if(!in_array($semestre, $user->get_edt_list()))
+    $site->redirect('edt.php');
+  
+  require_once ("include/cts/edt_render.inc.php");
 
   /*
    * Specification du format
@@ -225,52 +232,24 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
    *
    * Il est possible que certains champs manquent, mais d'apres le parcours
    * des sources originales, il semblerait qu'il y ait tout.
-   *
    */
-  $lines = array(
-    array ("semaine_seance" => null,
-           "hr_deb_seance" => "08h00",
-           "hr_fin_seance" => "10h00",
-           "jour_seance" => "Lundi",
-           "type_seance" => "TD",
-           "grp_seance" => "3",
-           "nom_uv" => "IN41",
-           "salle_seance" => "B404"),
-    array ("semaine_seance" => null,
-           "hr_deb_seance" => "10h15",
-           "hr_fin_seance" => "12h15",
-           "jour_seance" => "Lundi",
-           "type_seance" => "C",
-           "grp_seance" => "1",
-           "nom_uv" => "LO53",
-           "salle_seance" => "A200"),
-    array ("semaine_seance" => "A",
-           "hr_deb_seance" => "08h00",
-           "hr_fin_seance" => "10h00",
-           "jour_seance" => "Vendredi",
-           "type_seance" => "TP",
-           "grp_seance" => "2",
-           "nom_uv" => "RE51",
-           "salle_seance" => "B404"),
-    array ("semaine_seance" => "B",
-           "hr_deb_seance" => "08h00",
-           "hr_fin_seance" => "10h00",
-           "jour_seance" => "Vendredi",
-           "type_seance" => "TP",
-           "grp_seance" => "2",
-           "nom_uv" => "AG51",
-           "salle_seance" => "B404"),  
-    array ("semaine_seance" => null,
-           "hr_deb_seance" => "14h00",
-           "hr_fin_seance" => "16h00",
-           "jour_seance" => "Lundi",
-           "type_seance" => "C",
-           "grp_seance" => "1",
-           "nom_uv" => "LO10",
-           "salle_seance" => "P108")  
-  );
   
-  $edt = new edt_img("Mme Dugenou", $lines);
+  $groups = $user->get_groupes_details();
+  $lines = array();
+  foreach($groups as $group){
+    $lines[] = array(
+                "semaine_seance" => $group['semaine'],
+                "hr_debut_seance" => date("H\hi", $group['debut']),
+                "hr_fin_seance" => date("H\hi", $group['fin']),
+                "jour_seance" => get_day($group['jour']),
+                "type_seance" => $_GROUP[ $group['type'] ]['long'],
+                "grp_seance" => $group['num_groupe'],
+                "nom_uv" => $group['code'],
+                "salle_seance" => $group['salle'],
+               );
+  }
+    
+  $edt = new edt_img($user->get_display_name()." - ".$semestre, $lines);
   $edt->generate(false);
   exit;
 }
