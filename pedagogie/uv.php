@@ -97,13 +97,13 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
-{
+{ 
   $uv = new uv($site->db, $site->dbrw, intval($_REQUEST['id']));
   if(!$uv->is_valid())
     $site->redirect('./');
   
   $uv->load_extra();
-
+    print_r($uv);
   $path .= " / "."<img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" />";
   $stop = count($uv->dept);
   for($i=0; $i<$stop; $i++){
@@ -148,10 +148,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm = new form("editextra", "uv.php?action=save", true, "post", "Informations du guide des UV");
   $frm->add_info("Ces informations sont très importantes car elles permettent de plannifier les séances de C/TD/TP");
     $subfrm = new subform("charge");
-    $subfrm->add_text_field("c", "Nombre d'heures de : cours", $uv->guide['c'], true, 2);
-    $subfrm->add_text_field("td", "TD", $uv->guide['td'], true, 2);
-    $subfrm->add_text_field("tp", "TP", $uv->guide['tp'], true, 2);
-    $subfrm->add_text_field("the", "THE", $uv->guide['the'], true, 2);
+    $subfrm->add_text_field("c", "Nombre d'heures de : cours", $uv->guide['c'], false, 2);
+    $subfrm->add_text_field("td", "TD", $uv->guide['td'], false, 2);
+    $subfrm->add_text_field("tp", "TP", $uv->guide['tp'], false, 2);
+    $subfrm->add_text_field("the", "THE", $uv->guide['the'], false, 2);
   $frm->add($subfrm, false, false, false, false, true);
     
   $frm->add_text_field("credits", "Nombre de crédits ECTS", $uv->credits, true, 2);

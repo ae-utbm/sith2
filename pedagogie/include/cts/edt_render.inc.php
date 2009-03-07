@@ -342,7 +342,7 @@ class edt_img
 		 $this->dim['mg'],
 		 $this->dim['height'] - 5,
 		 $this->colors['noir'],
-		 $this->font, "Emploi du temps généré le $date à $heure.");
+		 $this->font, "AE UTBM - http://ae.utbm.fr/");
 
     // Signature / credits
 
