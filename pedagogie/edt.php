@@ -208,9 +208,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
 {
-  print_r($_REQUEST);
-  print_r($user->get_edt_list());
-  
   if(isset($_REQUEST['semestre']) && check_semester_format($_REQUEST['semestre']))
     $semestre = $_REQUEST['semestre'];
   else
@@ -221,7 +218,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
   
   require_once ("include/cts/edt_render.inc.php");
   
-  $groups = $user->get_groups_detail();
+  $groups = $user->get_groups_detail($semestre);
+  if(empty($groups))
+    $site->redirect('edt.php');
+    
   $lines = array();
   foreach($groups as $group){
     $lines[] = array(
@@ -236,10 +236,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
                );
   }
   
-  print_r($groups);
-  print_r($lines);
   $edt = new edt_img($user->get_display_name()." - ".$semestre, $lines);
-  //$edt->generate(false);
+  $edt->generate(false);
   exit;
 }
 
