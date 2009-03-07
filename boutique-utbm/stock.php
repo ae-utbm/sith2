@@ -74,15 +74,20 @@ while(list($id,$nom,$stock)=$req->get_row())
     if($req2->lines==1)
     {
       list($add)=$req->get_row();
-      $stock=$stock+$add;
+      if(!is_null($add))
+        $stock=$stock+$add;
     }
     $req2 = new requete($site->db,
                        'SELECT SUM(quantite) as qu '.
                        'FROM boutiqueut_reapro '.
                        'WHERE id_produit='.$id.' '.
-                       'AND date_reapro<\''.$lim.'\' ',1);
-    list($add)=$req->get_row();
-    $stock=$stock-$add;
+                       'AND date_reapro>\''.$lim.'\' ',1);
+    if($req2->lines==1)
+    {
+      list($add)=$req->get_row();
+      if(!is_null($add))
+        $stock=$stock-$add;
+    }
     $lst[]=array('id_produit'=>$id,'nom'=>$nom,'stock'=>$stock);
   }
   else
@@ -96,15 +101,9 @@ while(list($id,$nom,$stock)=$req->get_row())
     if($req2->lines==1)
     {
       list($add)=$req->get_row();
-      $stock=$stock+$add;
+      if(!is_null($add))
+        $stock=$stock+$add;
     }
-    $lim = date("Y-m-d H:i",$_REQUEST["date"]);
-    $req2 = new requete($site->db,
-                       'SELECT SUM(quantite) as qu '.
-                       'FROM boutiqueut_reapro '.
-                       'WHERE id_produit='.$id.' ');
-    list($del)=$req->get_row();
-    $stock=$stock-$del;
     $lst[]=array('id_produit'=>$id,'nom'=>$nom,'stock'=>$stock);
   }
 }
