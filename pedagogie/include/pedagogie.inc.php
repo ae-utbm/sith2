@@ -62,7 +62,7 @@ define("TYPE_TM", 2);
 define("TYPE_EC", 3);
 define("TYPE_CG", 4);
 define("TYPE_Ext",5);
-define("TYPE_RN",6);
+define("TYPE_RN", 6);
 $_TYPE = array(
   TYPE_CS => array('short'=>'CS', 'long'=>"Connaissances scientifiques"),
   TYPE_TM => array('short'=>'TM', 'long'=>"Techniques & Méthodes"),
@@ -119,9 +119,10 @@ $_DPT = array(
 /* definition du semestre actuel 
  * @var SEMESTRE_NOW  */
 $m = date('n');
-if($m > 7 || $m == 1) $s = 'A'; /* entre Aout et Janvier */
-else  $s = 'P';                 /* entre Fevrier et Juillet */
-define("SEMESTER_NOW", $s.date('Y'));
+if($m > 7)       $s = 'A'.date('Y');   /* entre Aout et Decembre */
+else if($m == 1) $s = 'A'.(date('Y')-1); /* Janvier => annee precedente */
+else             $s = 'P'.date('Y');   /* entre Fevrier et Juillet */
+define("SEMESTER_NOW", $s);
 
 
 /**

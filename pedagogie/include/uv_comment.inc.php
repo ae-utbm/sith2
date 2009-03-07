@@ -132,9 +132,9 @@ class uv_comment extends stdentity
 
   public function add($id_uv, $id_utilisateur,
                       $note_generale, $note_utilite, $note_interet, $note_enseignement, $note_travail,
-                      $content, $date=null){
-//    if(!uv::exists($this->db, $id_uv)) 
-//      throw new Exception("Invalid UV id ".$id_uv);
+                      $content){
+    if(!uv2::exists($this->db, $id_uv)) 
+      throw new Exception("Invalid UV id ".$id_uv);
 
     if($date == null)
       $date = date("Y-m-d H:i:s");

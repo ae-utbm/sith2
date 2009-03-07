@@ -37,7 +37,7 @@ echo $n[0]." UV enregistrées dans `edu_uv` <br />";
 
 $sql = new requete($site->db, "SELECT COUNT('id_uv') FROM `pedag_uv`");
 $n = $sql->get_row();
-echo $n[0]." UV enregistrées dans `pedag_uv` <br />";  
+echo $n[0]." UV enregistrées dans `pedag_uv` <br /><br />";  
 
 $sql = new requete($site->db, "SELECT COUNT('id_comment') FROM `edu_uv_comments`");
 $n = $sql->get_row();
@@ -45,7 +45,7 @@ echo $n[0]." commentaires enregistrés dans `edu_uv_comments` <br />";
 
 $sql = new requete($site->db, "SELECT COUNT('id_commentaire') FROM `pedag_uv_commentaire`");
 $n = $sql->get_row();
-echo $n[0]." UV enregistrés dans `pedag_uv_commentaire` <br />";  
+echo $n[0]." commentaires enregistrés dans `pedag_uv_commentaire` <br />";  
 
 
 
