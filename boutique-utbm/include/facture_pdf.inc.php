@@ -288,7 +288,7 @@ class facture_pdf extends FPDF
         $this->Cell(24,10,utf8_decode("Contact"), "LRT", 0, "");
         $this->Cell(166,10,utf8_decode($this->factured_infos['srv_contact']), "TR", 0, "");
         $this->Ln();
-        $this->Cell(24,10,utf8_decode("Objectif"), "LRBT", 0, "");
+        $this->Cell(24,10,utf8_decode("Motif"), "LRBT", 0, "");
         $this->Cell(166,10,utf8_decode($this->factured_infos['srv_obj']), "TRB", 0, "");
       }
       $this->Ln(10);

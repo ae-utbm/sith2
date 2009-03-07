@@ -113,7 +113,7 @@ else
     if($site->user->type=="srv")
     {
       $frm->add_text_field('eotp','EOTP');
-      $frm->add_text_field('objectif','Objectif','',true);
+      $frm->add_text_field('objectif','Motif','',true);
       $req = new requete($site->db,
          'SELECT centre_cout FROM boutiqueut_centre_cout WHERE id_utilisateur='.$site->user->id);
       if($req->lines==1)

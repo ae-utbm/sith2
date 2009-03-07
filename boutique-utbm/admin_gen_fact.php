@@ -146,7 +146,7 @@ if(isset($_REQUEST["id_facture"]))
       $cts->add_paragraph("facture au format PDF : <a href=\"?id_facture=".$fact->id."&gen_pdf=1\">ici</a>");
       if($user->type=='srv')
       {
-        $cts->add_paragraph('Objectif : '.$fact->objectif);
+        $cts->add_paragraph('Motif : '.$fact->objectif);
         $cts->add_paragraph('EOTP : '.(string)$fact->eotp);
         $cts->add_paragraph('Contact : '.$fact->contact);
         $cts->add_paragraph('Centre financier : '.$fact->centre_financier);
