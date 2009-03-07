@@ -34,8 +34,8 @@ if ( $_REQUEST["page"] == "ALL")
       "CONCAT(`utilisateurs`.`prenom_utl`,' ',`utilisateurs`.`nom_utl`) as `nom_utilisateur`, " .
       "`utilisateurs`.`id_utilisateur`, " .
       "`boutiqueut_vendu`.`quantite`, " .
-      "`boutiqueut_vendu`.`prix_unit`/100 AS `prix_unit`, " .
-      "`boutiqueut_vendu`.`prix_unit`*`boutiqueut_vendu`.`quantite`/100 AS `total`, " .
+      "FORMAT(`boutiqueut_vendu`.`prix_unit`/100,2) AS `prix_unit`, " .
+      "FORMAT(`boutiqueut_vendu`.`prix_unit`*`boutiqueut_vendu`.`quantite`/100,2) AS `total`, " .
       "`boutiqueut_produits`.`nom_prod` " .
       "FROM `boutiqueut_vendu` " .
       "INNER JOIN `boutiqueut_produits` USING(`id_produit`) " .
@@ -192,8 +192,8 @@ if(isset($_REQUEST["id_facture"]))
       $req = new requete($site->db,
            "SELECT id_produit, ".
            "`quantite`, " .
-           "`prix_unit`/100 AS `prix_unit`, ".
-           "`prix_unit`*`boutiqueut_vendu`.`quantite`/100 AS `total`, ".
+           "FORMAT(`prix_unit`/100,2) AS `prix_unit`, ".
+           "FORMAT(`prix_unit`*`boutiqueut_vendu`.`quantite`/100,2) AS `total`, ".
            "`nom_prod` " .
            "FROM `boutiqueut_vendu` ".
            "INNER JOIN boutiqueut_produits USING(id_produit) ".
@@ -261,7 +261,7 @@ $req1 = new requete($site->db,
         "SELECT " .
         "`boutiqueut_debitfacture`.`id_facture`, " .
         "`boutiqueut_debitfacture`.`date_facture`, " .
-        "`boutiqueut_vendu`.`prix_unit`*`boutiqueut_vendu`.`quantite`/100 AS `total` " .
+        "FORMAT(`boutiqueut_vendu`.`prix_unit`*`boutiqueut_vendu`.`quantite`/100,2) AS `total` " .
         "FROM `boutiqueut_vendu` " .
         "INNER JOIN `boutiqueut_produits` ON ".
         "`boutiqueut_produits`.`id_produit` =`boutiqueut_vendu`.`id_produit` " .
