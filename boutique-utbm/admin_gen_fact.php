@@ -70,7 +70,7 @@ if(isset($_REQUEST["id_facture"]))
           if($fact->mode=='CH')
             $factured_infos['mode_paiement'] = 'Chèque';
           elseif($fact->mode=='LI')
-            $factured_infos['mode_paiement'] = 'Liquide';
+            $factured_infos['mode_paiement'] = 'Espèce';
           else
             $factured_infos['mode_paiement'] = 'À régler';
         }
@@ -87,7 +87,7 @@ if(isset($_REQUEST["id_facture"]))
         if($fact->mode=='CH')
           $factured_infos['mode_paiement'] = 'Chèque';
         elseif($fact->mode=='LI')
-          $factured_infos['mode_paiement'] = 'Liquide';
+          $factured_infos['mode_paiement'] = 'Espèce';
         else
           $factured_infos['mode_paiement'] = 'À régler';
       }
