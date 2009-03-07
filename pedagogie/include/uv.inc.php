@@ -131,8 +131,8 @@ class uv extends stdentity
       $row = $sql->get_row();
       
       $this->responsable = $row['responsable'];
-      $this->guide['objectifs'] = $row['objectifs'];
-      $this->guide['programme'] = $row['programme'];
+      $this->guide['objectifs'] = $row['guide_objectifs'];
+      $this->guide['programme'] = $row['guide_programme'];
       $this->guide['c'] = $row['guide_c'];
       $this->guide['td'] = $row['guide_td'];
       $this->guide['tp'] = $row['guide_tp'];
