@@ -370,15 +370,22 @@ elseif( $_REQUEST["page"] == "bilan" )
               $pdf->Cell($w2[1],6,'Paiment :','LRBT',0,'L');
               $pdf->Cell($w2[2],6,utf8_decode($_mode),'LRBT',0,'L');
               $pdf->Ln();
-              $pdf->Cell($w2[0],6,'','LB',0,'L');
-              $pdf->Cell($w2[1],6,'Total :','LRBT',0,'L');
-              $pdf->Cell($w2[2],6,sprintf('%.2f',$_total),'LRBT',0,'L');
-              $pdf->Ln();
               if($_mode!='Facture interne')
               {
+                $pdf->Cell($w2[0],6,'','L',0,'L');
+                $pdf->Cell($w2[1],6,'Total :','LRT',0,'L');
+                $pdf->Cell($w2[2],6,sprintf('%.2f',$_total),'LRT',0,'L');
+                $pdf->Ln();
                 $pdf->Cell($w2[0],6,'','LB',0,'L');
                 $pdf->Cell($w2[1],6,'Dont TVA :','LRBT',0,'L');
-                $pdf->Cell($w2[2],6,sprintf("%.2f",19.6*$_total/(119.6*100)),'LRBT',0,'L');
+                $pdf->Cell($w2[2],6,sprintf("%.2f",19.6*$_total/(119.6)),'LRBT',0,'L');
+                $pdf->Ln();
+              }
+              else
+              {
+                $pdf->Cell($w2[0],6,'','LB',0,'L');
+                $pdf->Cell($w2[1],6,'Total :','LRBT',0,'L');
+                $pdf->Cell($w2[2],6,sprintf('%.2f',$_total),'LRBT',0,'L');
                 $pdf->Ln();
               }
               $_gtotal = $_gtotal+$_total;
@@ -406,15 +413,22 @@ elseif( $_REQUEST["page"] == "bilan" )
           $pdf->Cell($w2[1],6,'Paiment :','LRBT',0,'L');
           $pdf->Cell($w2[2],6,utf8_decode($_mode),'LRBT',0,'L');
           $pdf->Ln();
-          $pdf->Cell($w2[0],6,'','LB',0,'L');
-          $pdf->Cell($w2[1],6,'Total :','LRBT',0,'L');
-          $pdf->Cell($w2[2],6,sprintf('%.2f',$_total),'LRBT',0,'L');
-          $pdf->Ln();
           if($_mode!='Facture interne')
           {
+            $pdf->Cell($w2[0],6,'','L',0,'L');
+            $pdf->Cell($w2[1],6,'Total :','LRT',0,'L');
+            $pdf->Cell($w2[2],6,sprintf('%.2f',$_total),'LRT',0,'L');
+            $pdf->Ln();
             $pdf->Cell($w2[0],6,'','LB',0,'L');
             $pdf->Cell($w2[1],6,'Dont TVA :','LRBT',0,'L');
-            $pdf->Cell($w2[2],6,sprintf("%.2f",19.6*$_total/(119.6*100)),'LRBT',0,'L');
+            $pdf->Cell($w2[2],6,sprintf("%.2f",19.6*$_total/(119.6)),'LRBT',0,'L');
+            $pdf->Ln();
+          }
+          else
+          {
+            $pdf->Cell($w2[0],6,'','LB',0,'L');
+            $pdf->Cell($w2[1],6,'Total :','LRBT',0,'L');
+            $pdf->Cell($w2[2],6,sprintf('%.2f',$_total),'LRBT',0,'L');
             $pdf->Ln();
           }
           $_gtotal = $_gtotal+$_total;
