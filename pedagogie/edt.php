@@ -226,19 +226,19 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
   foreach($groups as $group){
     $lines[] = array(
                 "semaine_seance" => $group['semaine'],
-                "hr_debut_seance" => date("H\hi", $group['debut']),
-                "hr_fin_seance" => date("H\hi", $group['fin']),
+                "hr_debut_seance" => substr($group['debut'], 0,5),
+                "hr_fin_seance" => substr($group['fin'], 0, 5),
                 "jour_seance" => get_day($group['jour']),
-                "type_seance" => $_GROUP[ $group['type'] ]['long'],
+                "type_seance" => $group['type'],
                 "grp_seance" => $group['num_groupe'],
                 "nom_uv" => $group['code'],
                 "salle_seance" => $group['salle'] 
                );
   }
-  print_r($lines);
-  print_r($groups);
+  //print_r($lines);
+  //print_r($groups);
   $edt = new edt_img($user->get_display_name()." - ".$semestre, $lines);
-  //$edt->generate(false);
+  $edt->generate(false);
   exit;
 }
 
