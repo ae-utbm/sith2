@@ -51,7 +51,7 @@ $cts->add($frm);
 $req = new requete($site->db,
   'SELECT id_produit, nom_prod, stock_global_prod '.
   'FROM boutiqueut_produits '.
-  'WHERE id_produit NOT IN (SELECT id_produit_parent FROM boutiqueut_produits WHERE id_produit_parent IS NOT NULL)');
+  'WHERE stock_global_prod!=-1');
 $lst=array();
 if(isset($_REQUEST['date']))
   $cts->add_title(2,'Stock au '.date("d/m/Y H:i",$_REQUEST["date"]));
