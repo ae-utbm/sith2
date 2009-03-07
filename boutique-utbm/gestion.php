@@ -452,7 +452,7 @@ elseif( $_REQUEST["page"] == "bilan" )
           {
             $pdf->Ln();
             $pdf->Cell($w2[0],6,'',0,0,'L');
-            $pdf->Cell($w2[1],6,utf8_decode($_tva).' :','LRBT',0,'L');
+            $pdf->Cell($w2[1],6,utf8_decode('TVA').' :','LRBT',0,'L');
             $pdf->Cell($w2[2],6,sprintf('%.2f',$_tva),'LRBT',0,'L');
           }
           foreach($_smode as $mode => $total)
