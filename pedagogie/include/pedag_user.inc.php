@@ -200,7 +200,7 @@ class pedag_user extends utilisateur{
   public function get_groups_detail($semestre=SEMESTER_NOW){
     $sql = new requete($this->db, "SELECT `pedag_groupe`.*, 
                                       `pedag_groupe_utl`.*, 
-                                      `pedag_uv`.`id_uv`, `pedag_uv`.`code`, `pedag_uv`.`intitule`,
+                                      `pedag_uv`.`id_uv`, `pedag_uv`.`code`, `pedag_uv`.`intitule`
                                     FROM `pedag_groupe_utl` 
                                     RIGHT JOIN `pedag_groupe`
                                       ON `pedag_groupe`.`id_groupe` = `pedag_groupe_utl`.`id_groupe`
