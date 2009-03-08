@@ -276,7 +276,9 @@ if($_REQUEST['id'])
     if($uv->load_comments()){
       
       foreach($uv->comments as $commentid){
-        $cts->add(new uv_comment_box(new uv_comment($site->db, $site->dbrw, $commentid), $uv, $site->user));
+        $author = new pedag_user($site->db);
+        $author->load_by_id($comment->id_utilisateur);
+        $cts->add(new uv_comment_box(new uv_comment($site->db, $site->dbrw, $commentid), $uv, $site->user, $author));
       }
       
     }

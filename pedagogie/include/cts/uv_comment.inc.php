@@ -178,10 +178,104 @@ class uvcomment extends stdcontents
 
 class uv_comment_box extends stdcontents
 {
-  public function __construct($comment, $uv, $user)
+  public function __construct($comment, $uv, $user, $author)
   {
-    $this->buffer .= "bleh";
+    static $n = 0;
+    $parity = ($n++ % 2);  /* commentaire "abusé" */
     
+  
+    if ($comment->valid == 1)
+      $extra = "abuse";
+    else if ($parity)
+      $extra = "pair";
+
+    $this->buffer .= "<div class=\"uvcomment $extra\" id=\"cmt_".$comment->id."\">\n";
+
+    $this->buffer .= "<div class=\"uvcheader\">\n";
+
+    $this->buffer .= "<span class=\"uvcdate\"><b>Le ".HumanReadableDate($comment->date). "\n";
+
+    if ($comment->etat == 1)
+      $this->buffer .= "(Commentaire jugé abusif !)";
+
+    $this->buffer .= "</b></span>\n";
+
+    /* options (modération, ...) */
+    $this->buffer .= "<span class=\"uvcoptions\">";
+    $links = array();
+
+    /* l'auteur peut toujours décider de supprimer son message */
+    if ($user->id == $author->id){
+        $links[] = "<a href=\"".$page."?action=editcomm&id=".
+          $author->id."\">Editer</a>";
+        $links[] = "<a href=\"".$page."?action=deletecomm&id=".
+          $author->id."\">Supprimer</a>";
+      }
+    /* sinon, n'importe qui peut signaler un abus */
+    /* sous reserve que ce ne soit pas deja le cas ... */
+
+    else if ($comment->valid != 1)
+      $links[] = "<a href=\"?action=reportabuse&id=".$comment->id."\">Signaler un abus</a>";
+
+    /* mise en "quarantaine" par un admin
+     * (demande de modération)
+     */
+    if (($admin) && ($user->id != $comment->id_utilisateur))
+      $links[] = "<a href=\"?action=quarantine&id=".$comment->id."\">Mise en modération</a>";
+
+    $this->buffer .= implode(" | ", $links);
+
+    $this->buffer .= "</span>\n<br/>\n"; // fin span modération
+
+    $this->buffer .= "<span class=\"uvcauthor\"> Par ".$author->get_html_extended_info() . "</span>";
+
+    $note = $author->get_uv_result($uv->id);
+    if ($note !== false){
+      if ($note <= RESULT_E)
+        $this->buffer .= "<span class=\"uvcnote\">obtenu avec " . $note;
+      else if ($note == RESULT_F || $note == RESULT_FX)
+        $this->buffer .= "<span class=\"uvcnote\">échec (" . $note . ")";
+      else
+        $this->buffer .= "<span class=\"uvcnote\"> $note ";
+        
+      $this->buffer .= "</span>";
+    }
+
+    $this->buffer .= "</div><br/>"; // fin du header
+    $this->buffer .= "<div class=\"uvleftbloc\" style=\"width: 235px;\">";
+    $this->buffer .= "<table class=\"uvtable\">";
+    $this->buffer .= "<tr>";
+      $this->buffer .= "<td>Intérêt :</td>";
+      $this->buffer .= "<td>".p_stars($comment->note_interet)."</td>";
+    $this->buffer .= "</tr>";
+    $this->buffer .= "<tr>";
+      $this->buffer .= "<td>Utilité :</td>";
+      $this->buffer .= "<td>".p_stars($comment->note_utilite)."</td>";
+    $this->buffer .= "</tr>";
+    $this->buffer .= "<tr>";
+      $this->buffer .= "<td>Charge de travail :</td>";
+      $this->buffer .= "<td>".p_stars($comment->note_travail)."</td>";
+    $this->buffer .= "</tr>";
+    $this->buffer .= "<tr>";
+      $this->buffer .= "<td>Qualité de l'enseignement :</td>";
+      $this->buffer .= "<td>".p_stars($comment->note_enseignement)."</td>";
+    $this->buffer .= "</tr>";
+    $this->buffer .= "<tr>";
+      $this->buffer .= "<td><b>Note globale</b></td>";
+      $this->buffer .= "<td>".p_stars($comment->note_generale)."</td>";
+    $this->buffer .= "</tr>";
+    $this->buffer .= "</table>";
+    $this->buffer .= "</div>";
+
+    $this->buffer .= "<div class=\"uvrightbloc\">";
+    $this->buffer .= doku2xhtml($comment->content);
+    $this->buffer .= "</div>";
+
+    $this->buffer .= "<div class=\"clearboth\"></div>";
+
+
+
+    $this->buffer .= "</div>\n"; // fin du commentaire
   }
 }
 

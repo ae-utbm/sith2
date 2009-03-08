@@ -32,6 +32,9 @@ class pedag_user extends utilisateur{
   /* UV suivies dans le passé */
   var $uv_passe = array();
   
+  var $uv_result = null;
+  
+  
   public function add_uv_result($id_uv, $semestre, $result){
     if(!check_semester_format($semestre))
       throw new Exception("Wrong format \$semestre ".$semestre);
@@ -79,6 +82,29 @@ class pedag_user extends utilisateur{
       return $sql->get_id();
     else 
       return false;
+  }
+  
+  public function load_uv_result(){
+    $sql = new requete($this->db, "SELECT `id_uv`, `note`+0 as `note_num` 
+                                    FROM `pedag_resultat` 
+                                    WHERE `id_utilisateur` = ".$this->id." 
+                                      AND `cancelled` = 0");
+    
+    if($sql->is_success())
+      while($row = $sql->get_row())
+        $this->uv_result[ $row['id_uv'] ][] = $row['note_num'];
+    else 
+      return false;
+  }
+  
+  public function get_uv_result($uvid){
+    if(is_null($this->uv_result))
+      $this->load_uv_result();
+      
+    if(empty($this->uv_result) || !isset($this->uv_result[$uvid]))
+      return false;
+    else 
+     return min($this->uv_result[$uvid]);
   }
 
   public function join_uv_group($id_group, $semaine=null){
