@@ -267,6 +267,7 @@ if($_REQUEST['id'])
   $cts->add(new tabshead($tabs, $_REQUEST['view']));
   
   if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'commentaires'){
+    require_once("include/cts/uvcomment.inc.php");
     
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'suivi'){
     
