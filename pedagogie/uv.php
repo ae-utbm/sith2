@@ -17,7 +17,7 @@
  * General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
+ * along with this program; if not, write to the Free Softwareus
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA.
  */
@@ -266,8 +266,18 @@ if($_REQUEST['id'])
           );
   $cts->add(new tabshead($tabs, $_REQUEST['view']));
   
+  /**
+   * onglet commentaires
+   */
   if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'commentaires'){
     require_once("include/cts/uvcomment.inc.php");
+    
+    $uv->load_comments();
+    
+    if(!empty($uv->comments))
+    foreach($uv->comments as $comment){
+      $cts->add(new uv_comment_box($comment, $uv, $site->user)):
+    }
     
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'suivi'){
     

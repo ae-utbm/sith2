@@ -56,7 +56,7 @@ function p_stars($note)
 class uvcomment extends stdcontents
 {
 
-  public function __construct&$comments, &$db, &$user, $page = "uvs.php")
+  public function __construct(&$comments, &$db, &$user, $page = "uvs.php")
   {
     $author = new pedag_user($db);
 
@@ -73,7 +73,7 @@ class uvcomment extends stdcontents
       $parity = (($i %2) == 0);
 
       /* commentaire "abusé" */
-      if ($comment->etat == 1)
+      if ($comment->valid == 1)
         $extra = "abuse";
       else if ($parity)
         $extra = "pair";
@@ -94,7 +94,7 @@ class uvcomment extends stdcontents
       $links = array();
 
       /* l'auteur peut toujours décider de supprimer son message */
-      if ($user->id == $comment->id_commentateur){
+      if ($user->id == $comment->id_utilisateur){
           $links[] = "<a href=\"".$page."?action=editcomm&id=".
             $comment->id."\">Editer</a>";
           $links[] = "<a href=\"".$page."?action=deletecomm&id=".
@@ -103,20 +103,20 @@ class uvcomment extends stdcontents
       /* sinon, n'importe qui peut signaler un abus */
       /* sous reserve que ce ne soit pas deja le cas ... */
 
-      else if ($comment->etat != 1)
+      else if ($comment->valid != 1)
         $links[] = "<a href=\"".$page."?action=reportabuse&id=".$comment->id."\">Signaler un abus</a>";
 
       /* mise en "quarantaine" par un admin
        * (demande de modération)
        */
-      if (($admin) && ($user->id != $comment->id_commentateur))
+      if (($admin) && ($user->id != $comment->id_utilisateur))
         $links[] = "<a href=\"".$page."?action=quarantine&id=".$comment->id."\">Mise en modération</a>";
 
       $this->buffer .= implode(" | ", $links);
 
       $this->buffer .= "</span>\n<br/>\n"; // fin span modération
 
-      $author->load_by_id($comment->id_commentateur);
+      $author->load_by_id($comment->id_utilisateur);
 
       $this->buffer .= "<span class=\"uvcauthor\"> Par ".
         $author->get_html_extended_info() . "</span>";
@@ -168,6 +168,20 @@ class uvcomment extends stdcontents
       $this->buffer .= "</div>\n"; // fin du commentaire
 
     }
+  }
+}
+
+
+
+
+/* refaisage */
+
+class uv_comment_box
+{
+  public function __construct($comment, $uv, $user)
+  {
+    $this->buffer .= "bleh";
+    
   }
 }
 

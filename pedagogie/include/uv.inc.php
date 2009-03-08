@@ -56,6 +56,8 @@ class uv extends stdentity
   var $alias_of = array();
   var $aliases = array();
   var $cursus = array();
+  
+  var $comments = null;
 
   /**
    * chargement d'une UV par son id dans la BDD
