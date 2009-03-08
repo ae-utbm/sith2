@@ -181,10 +181,10 @@ class uv_comment_box extends stdcontents
   public function __construct($comment, $uv, $user, $author)
   {
     static $n = 0;
-    $parity = ($n++ % 2);  /* commentaire "abusé" */
+    $parity = ($n++ % 2); 
     
   
-    if ($comment->valid == 1)
+    if ($comment->valid != 1)
       $extra = "abuse";
     else if ($parity)
       $extra = "pair";
