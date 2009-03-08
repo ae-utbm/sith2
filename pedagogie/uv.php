@@ -270,13 +270,14 @@ if($_REQUEST['id'])
    * onglet commentaires
    */
   if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'commentaires'){
-    require_once("include/cts/uvcomment.inc.php");
+    require_once("include/cts/uv_comment.inc.php");
     
-    $uv->load_comments();
-    
-    if(!empty($uv->comments))
-    foreach($uv->comments as $comment){
-      $cts->add(new uv_comment_box($comment, $uv, $site->user));
+    if($uv->load_comments()){
+      
+      foreach($uv->comments as $commentid){
+        $cts->add(new uv_comment_box(new uv_comment($site->db, $site->dbrw, $commentid), $uv, $site->user));
+      }
+      
     }
     
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'suivi'){

@@ -347,10 +347,27 @@ class uv extends stdentity
                                     WHERE `id_uv` = ".$this->id."
                                     AND `semestre` = '".$semestre."'");
     if($sql->is_success()){
-      $row = $sql->get_row;
+      $row = $sql->get_row();
       return $row['nb'];
     }else
       return false;
+  }
+  
+  /**
+   * Chargement des commentaires associés à cette uv
+   */
+  public function load_comments(){
+    $sql = new requete($this->db, "SELECT `id_commentaire` as `id` FROM `pedagogie_uv_commentaire` WHERE `id_uv` = ".$this->id);
+    $this->comments = array();
+    
+    if($sql->is_success()){
+      while($row = $sql->get_row())
+        $this->comments[] = $row['id'];
+        
+      return count($this->comments);
+    }else
+      return false;
+    
   }
 
 
