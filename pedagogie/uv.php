@@ -271,6 +271,7 @@ if($_REQUEST['id'])
    */
   if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'commentaires'){
     require_once("include/cts/uv_comment.inc.php");
+    require_once("include/uv_comment.inc.php");
     
     if($uv->load_comments()){
       
