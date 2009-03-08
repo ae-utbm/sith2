@@ -276,7 +276,7 @@ if($_REQUEST['id'])
     
     if(!empty($uv->comments))
     foreach($uv->comments as $comment){
-      $cts->add(new uv_comment_box($comment, $uv, $site->user)):
+      $cts->add(new uv_comment_box($comment, $uv, $site->user));
     }
     
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'suivi'){
