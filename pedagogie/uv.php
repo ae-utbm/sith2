@@ -276,11 +276,11 @@ if($_REQUEST['id'])
     if($uv->load_comments()){
       
       foreach($uv->comments as $commentid){
+        $comment = new uv_comment($site->db, $site->dbrw, $commentid)
         $author = new pedag_user($site->db);
         $author->load_by_id($comment->id_utilisateur);
-        if(!$author->is_valid())
-          print_r($author);
-        $cts->add(new uv_comment_box(new uv_comment($site->db, $site->dbrw, $commentid), $uv, $site->user, $author));
+
+        $cts->add(new uv_comment_box($comment, $uv, $site->user, $author));
       }
       
     }
