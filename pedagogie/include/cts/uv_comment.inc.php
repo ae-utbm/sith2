@@ -176,7 +176,7 @@ class uvcomment extends stdcontents
 
 /* refaisage */
 
-class uv_comment_box
+class uv_comment_box extends stdcontents
 {
   public function __construct($comment, $uv, $user)
   {
