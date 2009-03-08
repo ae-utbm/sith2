@@ -357,7 +357,7 @@ class uv extends stdentity
    * Chargement des commentaires associés à cette uv
    */
   public function load_comments(){
-    $sql = new requete($this->db, "SELECT `id_commentaire` as `id` FROM `pedagogie_uv_commentaire` WHERE `id_uv` = ".$this->id);
+    $sql = new requete($this->db, "SELECT `id_commentaire` as `id` FROM `pedag_uv_commentaire` WHERE `id_uv` = ".$this->id);
     $this->comments = array();
     
     if($sql->is_success()){
