@@ -230,19 +230,20 @@ class uv_comment_box extends stdcontents
     $this->buffer .= "<span class=\"uvcauthor\"> Par ".$author->get_html_extended_info() . "</span>";
 
     $note = $author->get_uv_result($uv->id);
+    global $_RESULT;
     if ($note !== false){
       if ($note <= RESULT_E)
-        $this->buffer .= "<span class=\"uvcnote\">obtenu avec " . $note;
+        $this->buffer .= "<span class=\"uvcnote\">obtenu avec " . $_RESULT[$note]['long'];
       else if ($note == RESULT_F || $note == RESULT_FX)
-        $this->buffer .= "<span class=\"uvcnote\">échec (" . $note . ")";
+        $this->buffer .= "<span class=\"uvcnote\">échec (" . $_RESULT[$note]['long'] . ")";
       else
-        $this->buffer .= "<span class=\"uvcnote\"> $note ";
+        $this->buffer .= "<span class=\"uvcnote\"> ".$_RESULT[$note]['long']." ";
         
       $this->buffer .= "</span>";
     }
 
     $this->buffer .= "</div><br/>"; // fin du header
-    $this->buffer .= "<div class=\"uvleftbloc\" style=\"width: 235px;\">";
+    $this->buffer .= "<div class=\"uvleftbloc\" style=\"width: 200px;\">";
     $this->buffer .= "<table class=\"uvtable\">";
     $this->buffer .= "<tr>";
       $this->buffer .= "<td>Intérêt :</td>";
@@ -257,7 +258,7 @@ class uv_comment_box extends stdcontents
       $this->buffer .= "<td>".p_stars($comment->note_travail)."</td>";
     $this->buffer .= "</tr>";
     $this->buffer .= "<tr>";
-      $this->buffer .= "<td>Qualité de l'enseignement :</td>";
+      $this->buffer .= "<td>Enseignement :</td>";
       $this->buffer .= "<td>".p_stars($comment->note_enseignement)."</td>";
     $this->buffer .= "</tr>";
     $this->buffer .= "<tr>";

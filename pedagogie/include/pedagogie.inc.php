@@ -40,6 +40,17 @@ define("RESULT_F",      6);
 define("RESULT_FX",     7);
 define("RESULT_ABS",    8);
 define("RESULT_EQUIV",  9);
+$_RESULT = array(
+  RESULT_A => array('short'=>'A', 'long'=>'A'),
+  RESULT_B => array('short'=>'B', 'long'=>'B'),
+  RESULT_C => array('short'=>'C', 'long'=>'C'),
+  RESULT_D => array('short'=>'D', 'long'=>'D'),
+  RESULT_E => array('short'=>'E', 'long'=>'E'),
+  RESULT_F => array('short'=>'F', 'long'=>'F'),
+  RESULT_FX => array('short'=>'FX', 'long'=>'Fx'),
+  RESULT_ABS => array('short'=>'ABS', 'long'=>'Absent'),
+  RESULT_EQUIV => array('short'=>'EQUIV', 'long'=>'Équivalence')
+);
 
 
 /* type de cours 
