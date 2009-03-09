@@ -80,6 +80,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
                 $_REQUEST['responsable'],
                 $_REQUEST['semestre'],
                 $_REQUEST['tc_available']);
+                
+    $site->redirect('uv.php?id='.$uv->id);
   }
 
   if($_REQUEST['magicform']['name']=='editextra'){  /* infos guide des UV */
@@ -91,6 +93,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
                             $_REQUEST['the'],
                             $_REQUEST['credits']);
                             
+    $site->redirect('uv.php?id='.$uv->id);
   }
   
   if($_REQUEST['magicform']['name']=='editrelative'){ /* infos relatives */
@@ -209,7 +212,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm = new form("editrelative", "uv.php?action=save", true, "post", "Informations relatives");
   $frm->add_hidden("id", $uv->id);
   
-  $frm->add_entity_smartselect("alias_of2", "Alias de", new uv($site->db));
+  $frm->add_entity_smartselect("alias_of2", "Alias de", new uv($site->db), true);
   $frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03')");
   
   $avail_dept=array();
