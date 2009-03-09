@@ -189,7 +189,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   unset($frm);
   $frm = new form("editextra", "uv.php?action=save", true, "post", "Informations du guide des UV");
   $frm->add_hidden("id", $uv->id);
-  $frm->add_info("Ces informations sont très importantes car elles permettent de plannifier les séances de C/TD/TP");
+  $frm->add_info("La présence ou l'absence d'heures dans les catégories suivantes sert notamment à la création des emplois du temps.");
     $subfrm = new subform("charge");
     $subfrm->add_text_field("c", "Nombre d'heures de : cours", $uv->guide['c'], false, 2);
     $subfrm->add_text_field("td", "TD", $uv->guide['td'], false, 2);
@@ -266,6 +266,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
       o.onclick = function(e){ edt.disp_freq_choice('".$uv->id."_".$type."', $freq, ".$uv->id.", $type); };
       o.selected = true;
       window.opener.document.getElementById('".$_REQUEST['calling']."').options.add(o);
+      window.opener.edt.disp_freq_choice('".$uv->id."_".$type."', $freq, $uv->id, $type);
       self.close();
     }
   </script>");
