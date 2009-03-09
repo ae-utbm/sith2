@@ -159,7 +159,7 @@ class add_seance_box extends stdcontents
     $frm->add_select_field("semestre", "Semestre", $avail_sem, $semestre);
     
     /* numéro du groupe */
-    $frm->add_text_field("num", "N° du groupe", "", false, 2, true, true, "(Tel que figurant sur la feuille de l'UTBM)");
+    $frm->add_text_field("num", "N° du groupe", "", false, 2, true, true, "(Indiquez '1' pour les cours sans numéro.)");
     
     /* jour */
     $avail_jour = array(
@@ -189,6 +189,8 @@ class add_seance_box extends stdcontents
     /* salle */
     $frm->add_text_field("salle", "Salle", "", false, 8, false, true, "(ex: P108)");
     
+    $frm->puts("Tous les champs sont requis. Veuillez vérifier minutieusement 
+    les informations que vous avez entré.");
     /* submit */
     $frm->add_submit("save", "+ Ajouter la séance");
     

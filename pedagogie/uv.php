@@ -255,7 +255,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
     $jour = $_REQUEST['jour'];
     $debut = $_REQUEST['hdebut'].":".$_REQUEST['mdebut'];
     $fin = $_REQUEST['hfin'].":".$_REQUEST['mfin'];
-    $salle = $_REQUEST['salle'];
+    $salle = strtoupper($_REQUEST['salle']);
     
     $id_groupe =  $uv->add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
     
