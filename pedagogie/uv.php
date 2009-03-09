@@ -38,7 +38,7 @@ $site->add_js("pedagogie/pedagogie.js");
 $site->add_css("css/pedagogie.css");
 $site->start_page("services", "AE Pédagogie");
 
-$path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
+$path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 
 /* compatibilite sqltable bleh */
 if(isset($_REQUEST['id_uv']))
@@ -263,7 +263,7 @@ if($_REQUEST['id'])
     $path .= "<a href=\"uv.php?dept=$d\"> ".$_DPT[ $d ]['short']."</a>";
   }else{
   }
-  $path .= " / "."<a href=\"".$topdir."uv.php?id=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
+  $path .= " / "."<a href=\"uv.php?id=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
 
   $cts = new contents($path);
 
@@ -299,6 +299,17 @@ if($_REQUEST['id'])
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'ressources'){
     
   }else{
+    require_once($topdir."include/cts/board.inc.php");
+    $uv->load_extra();
+    
+    $obj = new contents("Objectifs");
+    $obj->add_paragraph(doku2xhtml($uv->guide['objectifs']));
+    $prog = new contents("Programme");
+    $prog->add_paragraph(doku2xhtml($uv->guide['programme']));
+    $board = new board();
+    $board->add($obj, true);
+    $board->add($prog, true);
+    $cts->add($board);
     
   } 
   
