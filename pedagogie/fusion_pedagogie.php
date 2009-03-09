@@ -55,6 +55,20 @@ if($_REQUEST['cleanup']){
   
 }
 
+if($_REQUEST['uv_diff']){
+  $sql = new requete($site->db, "SELECT *
+                                  FROM `edu_uv`
+                                  WHERE `code_uv` NOT
+                                  IN (
+                                    SELECT `code`
+                                    FROM `pedag_uv`
+                                  )");
+  while($row = $sql->get_row()){
+    echo "- ".implode(" : ", array($row['id_uv'], $row['code_uv'], $row['intitule_uv']))." <br />";
+  }
+}
+
+exit;
 
 
 
@@ -99,19 +113,6 @@ if($_REQUEST['merge_uv']){
     else{
       echo "*** ".$row[0]." n'a pu etre validee ***<br />";
     }
-  }
-}
-
-if($_REQUEST['uv_diff']){
-  $sql = new requete($site->db, "SELECT *
-                                  FROM `edu_uv`
-                                  WHERE `code_uv` NOT
-                                  IN (
-                                    SELECT `code`
-                                    FROM `pedag_uv`
-                                  )");
-  while($row = $sql->get_row()){
-    echo "- ".implode(" : ", array($row['id_uv'], $row['code_uv'], $row['intitule_uv']))." <br />";
   }
 }
 

@@ -36,7 +36,7 @@ function p_stars($note)
     return "<b>non renseigné</b>";
 
   $str = "";
-  for ($i = 0; $i <= 4; $i++){
+  for ($i = 1; $i <= 4; $i++){
  		if ($i <= $note)
 			$str .= "<img src=\"$topdir/images/icons/16/star.png\" alt=\"star\" />\n";
     else

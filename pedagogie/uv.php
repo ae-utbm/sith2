@@ -256,6 +256,15 @@ if($_REQUEST['id'])
   if(!$uv->is_valid())
     $site->redirect('./');
 
+  $depts = $uv->get_dept_list();
+  $path .= " / "."<img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" />";
+  if(count($depts) == 1){  /* cas majoritaire */
+    $d = $depts[0];
+    $path .= "<a href=\"uv.php?dept=$d\"> ".$_DPT[ $d ]['short']."</a>";
+  }else{
+  }
+  $path .= " / "."<a href=\"".$topdir."uv.php?id=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
+
   $cts = new contents($path);
 
   $tabs = array(
