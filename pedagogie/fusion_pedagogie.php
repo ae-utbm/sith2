@@ -156,7 +156,7 @@ if($_REQUEST['merge_comment']){
       }
         
       $nc = new uv_comment($site->db, $site->dbrw );
-      $r = $nc->add($uv2->id, $cmt->id_commentateur, $cmt->note, $cmt->utilite, $cmt->interet, $note->qualite_ens, $cmt->charge_travail, $cmt->comment, $cmt->date);
+      $r = $nc->add($uv2->id, $cmt->id_commentateur, $cmt->note, $cmt->utilite, $cmt->interet, $cmt->qualite_ens, $cmt->charge_travail, $cmt->comment, $cmt->date);
       
       if($r === false)
         echo "* le commentaire ".$cmt->id." n'a pas pu etre importe <br />\n";
@@ -165,6 +165,24 @@ if($_REQUEST['merge_comment']){
   }
   
   echo "+ nombre total de commentaires réel : $c <br />\n";
+}
+
+if($_REQUEST['correct_comment']){
+  $sql = new requete($site->db, "SELECT `code_uv` , `id_utilisateur` , `qualite_uv`
+                                  FROM `edu_uv_comments` 
+                                  LEFT JOIN `edu_uv`
+                                    ON `edu_uv`.`id_uv`=`edu_uv_comments`.`id_uv`");
+  while($row = $sql->get_row()){
+    $sql2 = new requete($site->dbrw, "UPDATE `pedag_uv_commentaire`, `pedag_uv`
+                                        SET `pedag_uv_commentaire`.`note_enseignement` = '".$row['qualite_uv']."'
+                                      WHERE `pedag_uv`.`id_uv` = `pedag_uv_commentaire`.`id_uv`
+                                        AND `pedag_uv`.`code` = '".$row['code_uv']."'
+                                        AND `pedag_uv_commentaire`.`id_utilisateur` = ".$row['id_utilisateur']);
+    if($sql2->is_success())
+      echo "- commentaire sur ".$row['code_uv']." modifie avec succes <br />\n";
+    else
+      print_r($sql2);
+  }
 }
 
 if($_REQUEST['merge_guide_info']){

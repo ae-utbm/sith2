@@ -32,12 +32,12 @@
 function p_stars($note)
 {
 
-  if ($note == null)
+  if ($note == -1)
     return "<b>non renseigné</b>";
 
   $str = "";
-  for ($i = 0; $i < 4; $i++){
- 		if ($i+1 <= $note)
+  for ($i = 0; $i <= 4; $i++){
+ 		if ($i <= $note)
 			$str .= "<img src=\"$topdir/images/icons/16/star.png\" alt=\"star\" />\n";
     else
 			$str .= "<img src=\"$topdir/images/icons/16/unstar.png\" alt=\"unstar\" />\n";
