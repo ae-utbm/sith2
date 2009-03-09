@@ -52,15 +52,51 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
   print_r($_REQUEST);
   $uv = new uv($site->db, $site->dbrw);
   
-  $uv->add($_REQUEST['code'], $_REQUEST['intitule'], $_REQUEST['type'], $_REQUEST['responsable'], $_REQUEST['semestre'], $_REQUEST['tc_avail']);
-  
-  if(!$uv->is_valid())
-    exit; //ouais faudra trouver mieux :)
-  
-  if(isset($_REQUEST['alias_of']) && !empty($_REQUEST['alias_of']))
-    $uv->set_alias_of($_REQUEST['alias_uv']);
+  /**
+   * nouvelle UV 
+   */
+  if($_REQUEST['magicform']['name']=='newuv'){
+    $uv->add($_REQUEST['code'], $_REQUEST['intitule'], $_REQUEST['type'], $_REQUEST['responsable'], $_REQUEST['semestre'], $_REQUEST['tc_avail']);
     
-  $site->redirect("./uv.php?id=".$uv->id."&action=edit#guide");
+    if(!$uv->is_valid())
+      exit; //ouais faudra trouver mieux :)
+    
+    if(isset($_REQUEST['alias_of']) && !empty($_REQUEST['alias_of']))
+      $uv->set_alias_of($_REQUEST['alias_uv']);
+      
+    $site->redirect("./uv.php?id=".$uv->id."&action=edit#guide");
+  }
+  
+  $uv->load_by_id(intval($_REQUEST['id']));
+  if(!$uv->is_valid())
+    $site->redirect('uv.php');
+  /**
+   * edition UV 
+   */
+  if($_REQUEST['magicform']['name']=='editmain'){   /* informations principales */
+    $uv->update($_REQUEST['code'], 
+                $_REQUEST['intitule'], 
+                $_REQUEST['type'], 
+                $_REQUEST['responsable'],
+                $_REQUEST['semestre'],
+                $_REQUEST['tc_available']);
+  }
+
+  if($_REQUEST['magicform']['name']=='editextra'){  /* infos guide des UV */
+    $uv->update_guide_infos($_REQUEST['objectifs'],
+                            $_REQUEST['programme'],
+                            $_REQUEST['c'],
+                            $_REQUEST['td'],
+                            $_REQUEST['tp'],
+                            $_REQUEST['the'],
+                            $_REQUEST['credits']);
+                            
+  }
+  
+  if($_REQUEST['magicform']['name']=='editrelative'){ /* infos relatives */
+  
+  }
+  
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
@@ -124,8 +160,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
    * informations principales
    */
   $frm = new form("editmain", "uv.php?action=save", true, "post", "Informations principales");
-  $frm->add_text_field("code", "Code", $uv->code, true, 4);
-  $frm->add_text_field("intitule", "Intitulé", $uv->intitule, true);
+  $frm->add_hidden("id", $uv->id);
+  $frm->add_text_field("code", "Code", $uv->code, true, 4, false, false);
+  $frm->add_text_field("intitule", "Intitulé", $uv->intitule, true, 36);
   $frm->add_text_field("responsable", "Responsable", $uv->responsable);
   
   $avail_type=array();
@@ -137,8 +174,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   foreach($_SEMESTER as $sem=>$desc)
     $avail_sem[$sem] = $desc['long'];
   $frm->add_select_field("semestre", "Semestre(s) d'ouverture", $avail_sem, SEMESTER_AP);
-    
-  $frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03')");
+  
   $frm->add_checkbox("tc_avail", "UV ouverte aux TC", true);
   
   $frm->add_submit("saveuv", "Enregistrer les modifications");
@@ -149,6 +185,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
    */
   unset($frm);
   $frm = new form("editextra", "uv.php?action=save", true, "post", "Informations du guide des UV");
+  $frm->add_hidden("id", $uv->id);
   $frm->add_info("Ces informations sont très importantes car elles permettent de plannifier les séances de C/TD/TP");
     $subfrm = new subform("charge");
     $subfrm->add_text_field("c", "Nombre d'heures de : cours", $uv->guide['c'], false, 2);
@@ -170,6 +207,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   /* ajout dept, filieres, alias... */
   unset($frm);
   $frm = new form("editrelative", "uv.php?action=save", true, "post", "Informations relatives");
+  $frm->add_hidden("id", $uv->id);
+  
+  $frm->add_entity_smartselect("alias_of2", "Alias de", new uv($site->db));
+  $frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03')");
   
   $avail_dept=array();
   $already_dept=array();
@@ -182,7 +223,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm->add(new selectbox("dept", "Départements", $avail_dept, null, null, $already_dept, 120));
   
   //$sql = new requete($site->db, "SELECT `id_cursus`, `intitule` FROM `pedag_cursus` WHERE ");
-  $frm->add(new selectbox("cursus", "Cursus", null, null, null, null, 120));
+  //$frm->add(new selectbox("cursus", "Cursus", null, null, null, null, 120));
   
   $frm->add_submit("saveuv", "Enregistrer les modifications");
   $cts->add($frm, true, false, "relative", false, true);
@@ -307,7 +348,7 @@ if($_REQUEST['id'])
     $left = new contents("");
     if($uv->responsable)  $left->add_paragraph("Responsable : ".$uv->responsable);
     if($uv->credits)      $left->add_paragraph("Crédits ECTS : ".$uv->credits);
-    if($uv->semestre)     $left->add_paragraph("Semestre(s) d'ouverture : ". $uv->semestre);
+    if($uv->semestre)     $left->add_paragraph("Semestre(s) d'ouverture : ". $_SEMESTER[ $uv->semestre ]['long']);
     $left->add_paragraph("Composition des enseignements : ");
     $lst = new itemlist("");
       if($uv->guide['c'])   $lst->add($uv->guide['c']." heures de cours");

@@ -68,7 +68,7 @@ class uv extends stdentity
    */
   public function load_by_id($id){
     $sql = new requete($this->db, "SELECT `id_uv` as `id`, `code`, `intitule`,
-                                    `semestre`, `state`, `tc_available`,
+                                    `semestre`+0 as `semestre`, `state`, `tc_available`,
                                     `guide_credits`
                                     FROM `pedag_uv`
                                     WHERE `id_uv` = ".$id." LIMIT 1");
