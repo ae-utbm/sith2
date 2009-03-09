@@ -302,6 +302,28 @@ if($_REQUEST['id'])
     require_once($topdir."include/cts/board.inc.php");
     $uv->load_extra();
     
+    $cts->add_title(2, $uv->intitule);
+    
+    $left = new contents("");
+    if($uv->responsable)  $left->add_paragraph("Responsable : ".$uv->responsable);
+    if($uv->credits)      $left->add_paragraph("Crédits ECTS : ".$uv->credits);
+    if($uv->semestre)     $left->add_paragraph("Semestre(s) d'ouverture : ". $_SEMESTER[ $uv->semestre ]['long']);
+    $lst = new itemlist("Composition des enseignements :");
+      if($uv->guide['c'])   $lst->add($uv->guide['c']." heures de cours");
+      if($uv->guide['td'])  $lst->add($uv->guide['td']." heures de TD");
+      if($uv->guide['tp'])  $lst->add($uv->guide['tp']." heures de TP");
+      if($uv->guide['the']) $lst->add($uv->guide['the']." heures hors emploi du temps");
+    $left->add($lst, true);
+
+    $right = new contents("");
+    if($uv->tc_available) $right->add_paragraph("Cette UV est ouverte aux élèves de Tronc Commun");
+    if($uv->state == 'MODIFIED') $right->add_paragraph("<i>Cette fiche à été modifiée récemment.</i>");
+    
+    $board = new board();
+    $board->add($left, false);
+    $board->add($right, false);
+    $cts->add($board);
+    
     $obj = new contents("Objectifs");
     $obj->add_paragraph(doku2xhtml($uv->guide['objectifs']));
     $prog = new contents("Programme");
@@ -311,6 +333,7 @@ if($_REQUEST['id'])
     $board->add($prog, true);
     $cts->add($board);
     
+    $cts->puts("<input type=\"button\" onclick=\"location.href='uv.php?action=edit&id=$uv->id';\" value=\"Corriger la fiche\" />");
   } 
   
   $site->add_contents($cts);
