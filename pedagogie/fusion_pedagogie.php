@@ -56,7 +56,7 @@ if($_REQUEST['cleanup']){
 }
 
 
-exit;
+
 
 /**** on touche plus ***************************************************/
 
@@ -171,7 +171,7 @@ if($_REQUEST['correct_comment']){
   $sql = new requete($site->db, "SELECT `code_uv` , `id_utilisateur` , `qualite_uv`
                                   FROM `edu_uv_comments` 
                                   LEFT JOIN `edu_uv`
-                                    ON `edu_uv`.`id_uv`=`edu_uv_comments`.`id_uv`");
+                                    ON `edu_uv`.`id_uv`=`edu_uv_comments`.`id_uv`", true);
   while($row = $sql->get_row()){
     $sql2 = new requete($site->dbrw, "UPDATE `pedag_uv_commentaire`, `pedag_uv`
                                         SET `pedag_uv_commentaire`.`note_enseignement` = '".$row['qualite_uv']."'
