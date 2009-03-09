@@ -307,13 +307,14 @@ if($_REQUEST['id'])
     $left = new contents("");
     if($uv->responsable)  $left->add_paragraph("Responsable : ".$uv->responsable);
     if($uv->credits)      $left->add_paragraph("Crédits ECTS : ".$uv->credits);
-    if($uv->semestre)     $left->add_paragraph("Semestre(s) d'ouverture : ". $_SEMESTER[ $uv->semestre ]['long']);
-    $lst = new itemlist("Composition des enseignements :");
+    if($uv->semestre)     $left->add_paragraph("Semestre(s) d'ouverture : ". $uv->semestre);
+    $left->add_paragraph("Composition des enseignements : ");
+    $lst = new itemlist("");
       if($uv->guide['c'])   $lst->add($uv->guide['c']." heures de cours");
       if($uv->guide['td'])  $lst->add($uv->guide['td']." heures de TD");
       if($uv->guide['tp'])  $lst->add($uv->guide['tp']." heures de TP");
       if($uv->guide['the']) $lst->add($uv->guide['the']." heures hors emploi du temps");
-    $left->add($lst, true);
+    $left->add($lst, false);
 
     $right = new contents("");
     if($uv->tc_available) $right->add_paragraph("Cette UV est ouverte aux élèves de Tronc Commun");
@@ -333,7 +334,7 @@ if($_REQUEST['id'])
     $board->add($prog, true);
     $cts->add($board);
     
-    $cts->puts("<input type=\"button\" onclick=\"location.href='uv.php?action=edit&id=$uv->id';\" value=\"Corriger la fiche\" />");
+    $cts->puts("<input type=\"button\" onclick=\"location.href='uv.php?action=edit&id=$uv->id';\" value=\"Corriger la fiche\" style=\"float:right;\"/>");
   } 
   
   $site->add_contents($cts);
