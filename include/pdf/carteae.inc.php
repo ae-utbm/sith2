@@ -51,7 +51,7 @@ class pdfcarteae extends FPDF
     $this->npp = 10; // Nombre par page
     $this->npl=2; // Nombre par ligne
 
-    $this->img_front = $topdir."images/carteae/front-2006.png";
+    $this->img_front = $topdir."images/carteae/front-2009.png";
     $this->img_back = $topdir."images/carteae/back-2006.png";
 
     /* ATTENTION
