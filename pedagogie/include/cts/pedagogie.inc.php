@@ -233,7 +233,7 @@ function pedag_menu_box()
 
   $outils = new itemlist("Outils", false, array("<a href=\"edt.php\" title=\"Gérer vos emploi du temps\">Emploi du temps</a>",
                                                /* "<a href=\"profils.php\" title=\"Toutes les UV\">Profils</a>",*/
-                                                "<a href=\"cursus.php\" title=\"Filières, mineurs, ...\">Cursus</a>"));
+                                                "<a href=\"cursus.php\" title=\"Cursus\">Filières, mineurs, ...</a>"));
   $cts->add($outils, true);
   
   return $cts;

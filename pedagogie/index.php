@@ -58,7 +58,6 @@ $cts->add_paragraph("<b>Note : </b>Toutes les informations ont été normalement
 
 
 /** idem accueil edt.php */
-$cts = new contents($path);
 $tab = array();
 $edts = $user->get_edt_list();
 if(!empty($edts))
