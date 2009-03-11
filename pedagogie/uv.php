@@ -174,14 +174,14 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $avail_type=array();
   foreach($_TYPE as $type=>$desc)
     $avail_type[$type] = $desc['long'];
-  $frm->add_select_field("type", "Catégorie", $avail_type);
+  $frm->add_select_field("type", "Catégorie", $avail_type, $uv->type);
   
   $avail_sem=array();
   foreach($_SEMESTER as $sem=>$desc)
     $avail_sem[$sem] = $desc['long'];
-  $frm->add_select_field("semestre", "Semestre(s) d'ouverture", $avail_sem, SEMESTER_AP);
+  $frm->add_select_field("semestre", "Semestre(s) d'ouverture", $avail_sem, $uv->semestre);
   
-  $frm->add_checkbox("tc_avail", "UV ouverte aux TC", true);
+  $frm->add_checkbox("tc_avail", "UV ouverte aux TC", $uv->tc_available);
   
   $frm->add_submit("saveuv", "Enregistrer les modifications");
   $cts->add($frm, true, false, "main", false, true);
