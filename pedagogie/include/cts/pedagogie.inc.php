@@ -244,17 +244,17 @@ function last_comments_box(&$db, $nb=5)
 {
   $cts = new contents("Commentaires");
   
-  $sql = new requete(&$db, "SELECT id_uv, id_commentaire, code, surnom_utbm
+  $sql = new requete(&$db, "SELECT id_uv as id, id_commentaire, code, surnom_utbm
                             FROM pedag_uv_commentaire
                             NATURAL JOIN pedag_uv
                             NATURAL JOIN utl_etu_utbm
                             ORDER BY date  DESC
                             LIMIT ".$nb);
 
-  $avis = new itemlist("Les derniers commentaires");
+  $avis = new itemlist("Les $nb derniers commentaires");
 
   while( $row = $sql->get_row() )
-    $avis->add("<a href=\"uv.php?view=commentaires&id_uv=".$row['id']."#cmt_".$row['id_comment']."\">".$row['code_uv']."  par ".$row['surnom_utbm']."</a>");
+    $avis->add("<a href=\"uv.php?view=commentaires&id_uv=".$row['id']."#cmt_".$row['id_commentaire']."\">".$row['code_uv']."  par ".$row['surnom_utbm']."</a>");
 
   $cts->add($avis, true);
 
