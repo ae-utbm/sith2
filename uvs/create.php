@@ -38,6 +38,8 @@ require_once ($topdir . "include/cts/edt_img.inc.php");
 
 $site = new site();
 
+  $site->redirect("/pedagogie/");
+
 $site->start_page("services", "Emploi du temps");
 
 $cts = new contents("Pédagogie : Maintenance");

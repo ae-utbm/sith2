@@ -35,6 +35,9 @@ require_once($topdir. "include/entities/uv.inc.php");
 
 
 $site = new site();
+
+  $site->redirect("/pedagogie/");
+
 $site->add_box("uvsmenu", get_uvsmenu_box() );
 $site->set_side_boxes("left",array("uvsmenu", "connexion"));
 

@@ -27,6 +27,8 @@
  * 02111-1307, USA.
  */
 
+exit;
+
 $topdir = "../";
 
 include($topdir. "include/site.inc.php");

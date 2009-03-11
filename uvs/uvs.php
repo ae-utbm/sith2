@@ -36,6 +36,9 @@ require_once($topdir."include/cts/gallery.inc.php");
 
 
 $site = new site();
+
+  $site->redirect("/pedagogie/uv.php");
+
 $site->add_css("css/doku.css");
 $site->add_css("css/d.css");
 $site->add_css("css/pedagogie.css");
