@@ -231,11 +231,32 @@ function pedag_menu_box()
     $dpt->add("<a href=\"uv.php?dept=".$key."\">".$name['short']."</a>");
   $cts->add($dpt, true);
 
-  $outils = new itemlist("Outils", false, array("<a href=\"edt.php\" title=\"Gérer vos emploi du temps\">Emploi du temps</a>",
-                                               /* "<a href=\"profils.php\" title=\"Toutes les UV\">Profils</a>",*/
+  $outils = new itemlist("Outils", false, array("<a href=\"edt.php\" title=\"Gérer vos emploi du temps\">Emplois du temps</a>",
+                                               /* "<a href=\"parcours.php\" title=\"Toutes les UV\"> */ "Votre parcours", /* </a>",*/
+                                               /* "<a href=\"profils.php\" title=\"Toutes les UV\"> */ "Profils types", /*</a>",*/
                                                 "<a href=\"cursus.php\" title=\"Cursus\">Filières, mineurs, ...</a>"));
   $cts->add($outils, true);
   
   return $cts;
 }
+
+function last_comments_box(&$db, $nb=5)
+{
+  $sql = new requete(&$db, "SELECT id_uv, id_commentaire, code, surnom_utbm
+                            FROM pedag_uv_commentaire
+                            NATURAL JOIN pedag_uv
+                            NATURAL JOIN utl_etu_utbm
+                            ORDER BY date  DESC
+                            LIMIT ".$nb);
+
+  $avis = new itemlist("Les derniers commentaires");
+
+  while( $row = $sql->get_row() )
+    $avis->add("<a href=\"uv.php?view=commentaires&id_uv=".$row['id']."#cmt_".$row['id_comment']."\">".$row['code_uv']."  par ".$row['surnom_utbm']."</a>");
+
+  $cts->add($avis, true);
+
+  return $cts;
+}
+
 ?>

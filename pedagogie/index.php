@@ -39,6 +39,7 @@ $site->add_js("pedagogie/pedagogie.js");
 
 $site->start_page("services", "AE - Pédagogie");
 $site->add_box("pedag_menu", pedag_menu_box());
+$site->add_box("pedag_last_comments", last_comments_box($site->db));
 $site->set_side_boxes("right", array("pedag_menu"));
 
 $user = new pedag_user($site->db, $site->dbrw);
@@ -64,7 +65,8 @@ if(!empty($edts))
 {
   foreach($edts as $edt)
   {
-    $tab[$edt]['semestre'] = "<b>".$edt."</b>";
+    $tab[$edt]['semestre'] = $edt;
+    $tab[$edt]['semestre_bold'] = "<b>".$edt."</b>";
     $i=0;
     foreach($user->get_edt_detail($edt) as $uv){
       $tab[$edt]['code_'.++$i] = $uv['code'];
@@ -74,7 +76,7 @@ if(!empty($edts))
 }
 
 $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.php", 'semestre',
-                        array("semestre"=>"Semestre",
+                        array("semestre_bold"=>"Semestre",
                               "code_1" => "UV 1",
                               "code_2" => "UV 2",
                               "code_3" => "UV 3",
