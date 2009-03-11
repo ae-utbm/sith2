@@ -34,9 +34,12 @@ require_once("include/uv.inc.php");
 require_once("include/pedag_user.inc.php");
 
 $site = new site();
+$site->add_js("pedagogie/pedagogie.js");
 //$site->allow_only_logged_users();
 
 $site->start_page("services", "AE - Pédagogie");
+$site->add_box("pedag_menu", pedag_menu_box());
+$site->set_side_boxes("right", array("pedag_menu"));
 
 $user = new pedag_user($site->db, $site->dbrw);
 $user->load_by_id($site->user->id);
@@ -90,6 +93,7 @@ $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
                     ."value=\"+ Ajouter un emploi du temps\" "
                     ."onclick=\"edt.add();\" "
                     ."name=\"add_edt\" id=\"add_edt\"/>");
+
 $site->add_contents($cts);
 
 $site->end_page();

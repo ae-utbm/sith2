@@ -180,6 +180,7 @@ class pedag_user extends utilisateur{
       while($row = $sql->get_row())
         $t[] = $row['semestre'];
         
+      sort_by_semester($t, 'semestre');
       return $t;
     }
   }

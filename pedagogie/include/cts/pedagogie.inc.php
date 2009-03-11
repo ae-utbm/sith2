@@ -219,4 +219,23 @@ class uv_dept_table extends stdcontents
     $this->buffer .= "\n </tr>\n</table>\n";
   }
 }
+
+function pedag_menu_box()
+{
+  global $_DPT;
+  
+  $cts = new contents("Pédagogie");
+
+  $dpt = new itemlist("<a href=\"uv.php\" title=\"Toutes les UV\">Guide des UV</a>");
+  foreach ($_DPT as $key=>$name)
+    $dpt->add("<a href=\"uv.php?dept=".$key."\">".$name['short']."</a>");
+  $cts->add($dpt, true);
+
+  $outils = new itemlist("Outils", false, array("<a href=\"edt.php\" title=\"Gérer vos emploi du temps\">Emploi du temps</a>",
+                                               /* "<a href=\"profils.php\" title=\"Toutes les UV\">Profils</a>",*/
+                                                "<a href=\"cursus.php\" title=\"Filières, mineurs, ...\">Cursus</a>"));
+  $cts->add($outils, true);
+  
+  return $cts;
+}
 ?>
