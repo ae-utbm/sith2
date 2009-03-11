@@ -41,7 +41,7 @@ class add_uv_edt_box extends form
     /* si UV sans C/TD/TP, peut etre une TX ou un stage */
     if(empty($uv->guide['c']) && empty($uv->guide['td']) && empty($uv->guide['tp'])){
       /* ou alors c'est une erreur */
-      if(empty($uv->guide['the'])
+      if(empty($uv->guide['the']))
         $this->buffer .= "<p>Désolé, aucune information sur les nombres 
           d'heures de cours/TD/TP/THE n'ont été donné concernant cette UV,
           il est nécessaire de corriger la fiche pour continuer.</p>";
