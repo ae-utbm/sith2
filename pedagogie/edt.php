@@ -65,7 +65,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
       $cts->add_paragraph("Attention, vous avez déjà un emploi du temps 
         d'enregistré pour le semestre <a href=\"edt.php?semestre=$sem&action=view\">$sem</a>. 
         Il n'est possible de n'en faire qu'un seul par semestre.");
-      $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Promis je ferai attention\" />");
+      $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" onclick=\"history.go(-1);\" value=\"Promis je ferai attention\" />");
       $site->add_contents($cts);
       $site->end_page();
       exit;  

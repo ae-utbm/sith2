@@ -171,7 +171,7 @@ class add_seance_box extends stdcontents
     foreach($_GROUP as $grp => $desc)
       if($grp != GROUP_THE)
         $avail_type[$grp] = $desc['long'];
-    $frm->add_select_field("type", "Type", $avail_type, $type);
+    $frm->add_select_field("type", "Type", $avail_type, $type, "", true, !is_null($type));
     if($type)
       $frm->add_info("Il y a déjà ".count($uv->get_groups($type, $semestre))." séance(s) de ".$_GROUP[$type]['long']." enregistrées pour ".$semestre.".");
     
@@ -182,10 +182,10 @@ class add_seance_box extends stdcontents
       $avail_sem['P'.$i] = 'Printemps '.$i;
       $avail_sem['A'.$i] = 'Automne '.$i;
     }
-    $frm->add_select_field("semestre", "Semestre", $avail_sem, $semestre);
+    $frm->add_select_field("semestre", "Semestre", $avail_sem, $semestre, "", true, ($semestre == SEMESTER_NOW));
     
     /* numéro du groupe */
-    $frm->add_text_field("num", "N° du groupe", "", false, 2, true, true, "(Indiquez '1' pour les cours sans numéro.)");
+    $frm->add_text_field("num", "N° du groupe", "", true, 2, true, true, "(Indiquez '1' pour les cours sans numéro.)");
     
     /* jour */
     $avail_jour = array(
@@ -215,8 +215,8 @@ class add_seance_box extends stdcontents
     /* salle */
     $frm->add_text_field("salle", "Salle", "", false, 8, false, true, "(ex: P108)");
     
-    $frm->puts("Tous les champs sont requis. Veuillez vérifier minutieusement 
-    les informations que vous avez entré.");
+    $frm->puts("<p>Tous les champs sont requis. Veuillez vérifier minutieusement 
+    les informations que vous avez entré.</p>");
     /* submit */
     $frm->add_submit("save", "+ Ajouter la séance");
     
