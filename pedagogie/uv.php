@@ -397,9 +397,9 @@ if($_REQUEST['id'])
     $cts->puts("</div>");
     
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'suivi'){
-    
+    $cts->add_paragraph("Bientôt ;)");    
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'ressources'){
-    
+    $cts->add_paragraph("Bientôt ;)");
   }else{
     require_once($topdir."include/cts/board.inc.php");
     $uv->load_extra();
