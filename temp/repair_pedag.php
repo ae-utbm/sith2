@@ -8,7 +8,7 @@ $req = new requete($site->db,
 'SELECT count(`id_groupe`) AS nb, `id_uv`, `type`, `num_groupe`, `semestre`
 FROM `pedag_groupe`
 GROUP BY `id_uv`, `type`, `num_groupe`, `semestre`
-HAVING (coint(`id_groupe`))>1');
+HAVING (count(`id_groupe`))>1');
 
 while(list($nb,$uv,$type,$grp,$sem)=$req->get_row())
 {
@@ -30,11 +30,11 @@ AND `semestre`=\''.$sem.'\'');
     {
       $req3 = new update($site->dbrw,
               'pedag_groupe_utl',
-              array('id_group'=>$_id),
-              array('id_group'=>$id));
+              array('id_groupe'=>$_id),
+              array('id_groupe'=>$id));
       $req3 = new delete($site->dbrw,
               'pedag_groupe',
-              array('id_group'=>$id));
+              array('id_groupe'=>$id));
     }
   }
 }
