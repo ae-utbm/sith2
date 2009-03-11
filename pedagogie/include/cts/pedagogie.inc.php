@@ -37,20 +37,42 @@ class add_uv_edt_box extends form
     
     if(!$uv->extra_loaded)
       $uv->load_extra();
-    $this->buffer .= "<p>Selon nos informations, les enseignements de cette UV
-      sont composés de "
-        .$uv->guide['c']."h de Cours, "
-        .$uv->guide['td']."h de TD et "
-        .$uv->guide['tp']."h de TP (*)</p>";
     
-    $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_C);
-    $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TD);
-    $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TP);
-    
-    
+    /* si UV sans C/TD/TP, peut etre une TX ou un stage */
+    if(empty($uv->guide['c']) && empty($uv->guide['td']) && empty($uv->guide['tp'])){
+      /* ou alors c'est une erreur */
+      if(empty($uv->guide['the'])
+        $this->buffer .= "<p>Désolé, aucune information sur les nombres 
+          d'heures de cours/TD/TP/THE n'ont été donné concernant cette UV,
+          il est nécessaire de corriger la fiche pour continuer.</p>";
+          
+      /* mais sinon c'est cool */
+      else{
+        $this->buffer .= "<p>Cette UV ne semble comporter que des heures 
+          hors emplois du temps, c'est le cas pour les TX, TW... ou les 
+          stages. Vous ne pouvez pas lui ajouter de 
+          \"séances\" mais elle apparaitra bien sur votre emploi du temps.</p>";
+        $this->buffer .= "<p>Si vous pensez que l'absence d'heures de cours
+          est une erreur, vous pouvez corriger la fiche.</p>";
+      }
+        
+    /* UV normale */
+    }else{     
+      $this->buffer .= "<p>Selon nos informations, les enseignements de cette UV
+        sont composés de "
+          .$uv->guide['c']."h de Cours, "
+          .$uv->guide['td']."h de TD et "
+          .$uv->guide['tp']."h de TP (*)</p>";
+      
+      $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_C);
+      $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TD);
+      $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TP);
+    } 
+      
     $this->buffer .= "<p><input type=\"button\" onclick=\"edt.remove('".$uv->code."_row');\" value=\"Annuler l'inscription\" />";
     $this->buffer .= "<input type=\"button\" onclick=\"window.open('uv.php?action=edit&id=$uv->id');\" value=\"Corriger la fiche\" />";
     $this->buffer .= "<input type=\"button\" style=\"font-weight: bold;\" onclick=\"window.open('uv.php?id=$uv->id');\" value=\"Voir la fiche\" /></p>";
+  
   }
   
   private function build_uv_choice($uv, $sem, $type){
@@ -84,6 +106,9 @@ class add_uv_edt_box extends form
   }
 }
 
+/**
+ * plus utilisee
+ * 
 class add_edt_start_box extends stdcontents
 {
   public function __construct($semestre=SEMESTER_NOW)
@@ -122,6 +147,7 @@ class add_edt_start_box extends stdcontents
     $this->add(new selectbox('uvlist', 'Choix des UV', $tab, 'edt.php', 'UV'));
   }
 }
+*/
 
 class add_seance_box extends stdcontents
 {
