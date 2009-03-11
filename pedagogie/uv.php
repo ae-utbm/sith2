@@ -215,8 +215,8 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $frm = new form("editrelative", "uv.php?action=save", true, "post", "Informations relatives");
   $frm->add_hidden("id", $uv->id);
   
-  $frm->add_entity_smartselect("alias_of2", "Alias de", new uv($site->db), true);
-  $frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03')");
+  //$frm->add_entity_smartselect("alias_of2", "Alias de", new uv($site->db), true);
+  //$frm->add_text_field("alias_of", "Alias de", "", false, 4, false, true, "(exemple : si vous ajoutez l'UV 'XE03', inscrivez ici 'LE03')");
   
   $avail_dept=array();
   $already_dept=array();
