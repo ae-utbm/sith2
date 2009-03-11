@@ -42,14 +42,14 @@ class add_uv_edt_box extends form
     if(empty($uv->guide['c']) && empty($uv->guide['td']) && empty($uv->guide['tp'])){
       /* ou alors c'est une erreur */
       if(empty($uv->guide['the']))
-        $this->buffer .= "<p>Désolé, aucune information sur les nombres 
+        $this->buffer .= "<p><b>Désolé</b>, aucune information sur les nombres 
           d'heures de cours/TD/TP/THE n'ont été donné concernant cette UV,
           il est nécessaire de corriger la fiche pour continuer.</p>";
           
       /* mais sinon c'est cool */
       else{
-        $this->buffer .= "<p>Cette UV ne semble comporter que des heures 
-          hors emplois du temps, c'est le cas pour les TX, TW... ou les 
+        $this->buffer .= "<p><b>Cette UV ne semble comporter que des heures 
+          hors emplois du temps</b>, c'est le cas pour les TX, TW... ou les 
           stages. Vous ne pouvez pas lui ajouter de 
           \"séances\" mais elle apparaitra bien sur votre emploi du temps.</p>";
         $this->buffer .= "<p>Si vous pensez que l'absence d'heures de cours
@@ -93,7 +93,7 @@ class add_uv_edt_box extends form
                             .$_GROUP[$type]['long']." n°".$group['num_groupe']." du ".get_day($group['jour'])." de ".$group['debut']." &agrave; ".$group['fin']." en ".$group['salle']
                             ."</option>\n";
       }
-      $buffer .= "      <option value=\"add\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.", '".$sem."', '".$sel_id."');\">Ajouter une s&eacute;ance manquante...</option>\n";
+      $buffer .= "      <option value=\"add\" style=\"font-weight: bold;\" onclick=\"edt.add_uv_seance(".$uv->id.", ".$type.", '".$sem."', '".$sel_id."');\">Ajouter une s&eacute;ance manquante...</option>\n";
       $buffer .= "    </select>\n";
       $buffer .= "    <span id=\"".$divid."\"></span>\n";
       $buffer .= "  </div>\n";
