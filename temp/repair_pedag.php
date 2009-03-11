@@ -30,11 +30,11 @@ AND `semestre`=\''.$sem.'\'');
     {
       $req3 = new update($site->dbrw,
               'pedag_groupe_utl',
-              array('id_groupe'=>$_id),
-              array('id_groupe'=>$id));
+              array('id_group'=>$_id),
+              array('id_group'=>$id));
       $req3 = new delete($site->dbrw,
               'pedag_groupe',
-              array('id_groupe'=>$id));
+              array('id_group'=>$id));
     }
   }
 }
