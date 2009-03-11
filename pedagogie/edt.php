@@ -275,7 +275,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
 {
-  $path .= " / "."Emploi du temps ".$_REQUEST['semestre'];
+  $path .= " / ".$_REQUEST['semestre'];
   $cts = new contents($path);
     
   if(isset($_REQUEST['semestre']) && check_semester_format($_REQUEST['semestre']))
@@ -295,6 +295,11 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
                                 "responsable"=>"Responsable"),
                           array(),array()), true);
 
+  $cts->add_paragraph(3, "Version graphique");
+  $cts->add_paragraph("<center><img src=\"edt.php?semestre=$semestre&action=print\" alt=\"Emploi du temps ".$semestre."\" /></center>");
+  $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
+                    ."value=\"Version graphique seule\" "
+                    ."onclick=\"location.href='edt.php?semestre=$semestre&action=print';\" />");
   $site->add_contents($cts);
   $site->end_page();
   exit;
