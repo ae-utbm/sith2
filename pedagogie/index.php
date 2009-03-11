@@ -53,7 +53,7 @@ $cts->add_paragraph("Bienvenue sur la partie pédagogie du site de l'AE");
 $cts->add_paragraph("<b>Note : </b>Toutes les informations ont été normalement 
   transférées depuis la précédente version, cependant si vous constatez 
   des erreurs, n'hésitez pas à les corriger. De même, certaines informations
-  n'existaient pas, telles que le semestre d'ouverture, le responsable de l'UV,
+  n'existaient pas, telles que le semestre d'ouverture, le nombre d'heures de cours,
   etc... Nous comptons sur vous pour rendre ce bout du site de l'AE aussi
   utile et pertinent que possible.");
 

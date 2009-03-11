@@ -49,7 +49,6 @@ if(isset($_REQUEST['id_uv']))
  */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
-  print_r($_REQUEST);
   $uv = new uv($site->db, $site->dbrw);
   
   /**
@@ -311,7 +310,6 @@ if($_REQUEST['id'])
     $d = $depts[0];
     $path .= "<a href=\"uv.php?dept=$d\"> ".$_DPT[ $d ]['short']."</a>";
   }else{
-    $path .= " / "."<img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" />";
     $stop = count($uv->dept);
     for($i=0; $i<$stop; $i++){
       $path .= "<a href=\"uv.php?dept=".$uv->dept[$i]."\"> ".$_DPT[$uv->dept[$i]]['short']."</a>";

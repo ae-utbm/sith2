@@ -67,6 +67,10 @@ class add_uv_edt_box extends form
       $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_C);
       $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TD);
       $this->buffer .= $this->build_uv_choice($uv, $sem, GROUP_TP);
+      
+      if(!empty($uv->guide['the']))
+        $this->buffer .= "<p>Cette UV comporte également ".$uv->guide['the']." heures hors emploi du temps.</p>";
+      
     } 
       
     $this->buffer .= "<p><input type=\"button\" onclick=\"edt.remove('".$uv->code."_row');\" value=\"Annuler l'inscription\" />";
@@ -171,7 +175,7 @@ class add_seance_box extends stdcontents
     foreach($_GROUP as $grp => $desc)
       if($grp != GROUP_THE)
         $avail_type[$grp] = $desc['long'];
-    $frm->add_select_field("type", "Type", $avail_type, $type, "", true, !is_null($type));
+    $frm->add_select_field("type", "Type", $avail_type, $type, "", true, is_null($type));
     if($type)
       $frm->add_info("Il y a déjà ".count($uv->get_groups($type, $semestre))." séance(s) de ".$_GROUP[$type]['long']." enregistrées pour ".$semestre.".");
     
