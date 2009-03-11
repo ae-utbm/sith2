@@ -154,7 +154,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $path .= " / "."<img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" />";
   $stop = count($uv->dept);
   for($i=0; $i<$stop; $i++){
-    $path .= "<a href=\"uv.php?dept=".$uv->depts[$i]."\"> ".$_DPT[$uv->depts[$i]]['short']."</a>";
+    $path .= "<a href=\"uv.php?dept=".$uv->dept[$i]."\"> ".$_DPT[$uv->dept[$i]]['short']."</a>";
     if($i+1 < $stop) $path .= ",";
   }
   	
@@ -311,6 +311,12 @@ if($_REQUEST['id'])
     $d = $depts[0];
     $path .= "<a href=\"uv.php?dept=$d\"> ".$_DPT[ $d ]['short']."</a>";
   }else{
+    $path .= " / "."<img src=\"".$topdir."images/icons/16/forum.png\" class=\"icon\" />";
+    $stop = count($uv->dept);
+    for($i=0; $i<$stop; $i++){
+      $path .= "<a href=\"uv.php?dept=".$uv->dept[$i]."\"> ".$_DPT[$uv->dept[$i]]['short']."</a>";
+      if($i+1 < $stop) $path .= ",";
+    }
   }
   $path .= " / "."<a href=\"uv.php?id=$uv->id\"><img src=\"".$topdir."images/icons/16/emprunt.png\" class=\"icon\" /> $uv->code</a>";
 

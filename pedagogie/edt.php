@@ -59,6 +59,18 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
     $cts = new contents($path);
   
     $sem = $_REQUEST['semestre'];
+    
+    /* on a dit un seul emploi du temps par semestre */
+    if(in_array($sem, $user->get_edt_list())){
+      $cts->add_paragraph("Attention, vous avez déjà un emploi du temps 
+        d'enregistré pour le semestre <a href=\"edt.php?semestre=$sem&action=view\">$sem</a>. 
+        Il n'est possible de n'en faire qu'un seul par semestre.");
+      $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Promis je ferai attention\" />");
+      $site->add_contents($cts);
+      $site->end_page();
+      exit;  
+    }
+    
     $cts->add_paragraph("Vous ajoutez un emploi du temps pour le semestre <b>$sem</b>");
     $cts->add_paragraph("Pour chacune de vos UV, choisissez à présent
     les séances auxquelles vous êtes inscrit, si la séance n'apparait pas
@@ -136,6 +148,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     $site->redirect('edt.php?action=new');
   else
     $semestre = $_REQUEST['semestre'];
+  
   
   $freq = array(); //tableau des frequences envoyees 
   $seances = array(); //tableau des seances
