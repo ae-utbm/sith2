@@ -306,7 +306,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
 }
 
 
-if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
 { 
   $path .= " / "." Édition ".$_REQUEST['semestre'];
   $cts = new contents($path);
