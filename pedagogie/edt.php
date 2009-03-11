@@ -275,6 +275,9 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
 {
+  $path .= " / "."Emploi du temps ".$_REQUEST['semestre'];
+  $cts = new contents($path);
+    
   if(isset($_REQUEST['semestre']) && check_semester_format($_REQUEST['semestre']))
     $semestre = $_REQUEST['semestre'];
   else

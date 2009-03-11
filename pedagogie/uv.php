@@ -299,7 +299,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_comment')
 {
   require_once("include/uv_comment.inc.php");
   $user = new pedag_user($site->db);
-  $user->load_by_id($comment->id_utilisateur);
+  $user->load_by_id($site->user->id);
         
   $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
   if(!$uv->is_valid())
