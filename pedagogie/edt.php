@@ -295,7 +295,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
                                 "responsable"=>"Responsable"),
                           array(),array()), true);
 
-  $cts->add_paragraph("Version graphique", 3);
+  $cts->add_title(3, "Version graphique");
   $cts->add_paragraph("<center><img src=\"edt.php?semestre=$semestre&action=print\" alt=\"Emploi du temps ".$semestre."\" /></center>");
   $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
                     ."value=\"Version graphique seule\" "
