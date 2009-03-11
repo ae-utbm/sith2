@@ -40,7 +40,7 @@ $site->add_js("pedagogie/pedagogie.js");
 $site->start_page("services", "AE - Pédagogie");
 $site->add_box("pedag_menu", pedag_menu_box());
 $site->add_box("pedag_last_comments", last_comments_box($site->db));
-$site->set_side_boxes("right", array("pedag_menu"));
+$site->set_side_boxes("right", array("pedag_menu", "pedag_last_comments"));
 
 $user = new pedag_user($site->db, $site->dbrw);
 $user->load_by_id($site->user->id);
@@ -103,7 +103,7 @@ $cts = new contents("Résumé de votre parcours");
   $lst->add("Vous avez obtenu ".$user->get_nb_uv_result(RESULT_EQUIV)." UV en équivalence");
   $lst->add("bla bla");
 $cts->add($lst);
-$site->add_contents($cts);
+//$site->add_contents($cts);
 
 $site->end_page();
 ?>
