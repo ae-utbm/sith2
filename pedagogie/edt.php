@@ -273,7 +273,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
   exit;
 }
 
-if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'view')
 {
   if(isset($_REQUEST['semestre']) && check_semester_format($_REQUEST['semestre']))
     $semestre = $_REQUEST['semestre'];
@@ -297,7 +297,6 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
   exit;
 }
 
-
 /**
  * Contenu défaut page
  */
@@ -311,25 +310,29 @@ if(!empty($edts))
   foreach($edts as $edt)
   {
     $tab[$edt]['semestre'] = $edt;
+    $tab[$edt]['semestre_bold'] = "<b>".$edt."</b>";
     $i=0;
-    foreach($user->get_edt_detail($edt) as $uv)
-      $tab[$edt]['uv'.++$i] = $uv['code'];
+    foreach($user->get_edt_detail($edt) as $uv){
+      $tab[$edt]['code_'.++$i] = $uv['code'];
+      $tab[$edt]['id_uv_'.$i] = $uv['id_uv'];
+    }
   }
 }
+
 $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.php", 'semestre',
-                        array("semestre"=>"Semestre",
-                              "uv1" => "UV 1",
-                              "uv2" => "UV 2",
-                              "uv3" => "UV 3",
-                              "uv4" => "UV 4",
-                              "uv5" => "UV 5",
-                              "uv6" => "UV 6",
-                              "uv7" => "UV 7"),
+                        array("semestre_bold"=>"Semestre",
+                              "code_1" => "UV 1",
+                              "code_2" => "UV 2",
+                              "code_3" => "UV 3",
+                              "code_4" => "UV 4",
+                              "code_5" => "UV 5",
+                              "code_6" => "UV 6",
+                              "code_7" => "UV 7"),
                         array("view" => "Voir détails",
                               "print" => "Format imprimable",
                               "edit" => "Éditer",
                               "delete" => "Supprimer"),
-                        array()), true);
+                        array(), array(), false), true);
 $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
                     ."value=\"+ Ajouter un emploi du temps\" "
                     ."onclick=\"edt.add();\" "
