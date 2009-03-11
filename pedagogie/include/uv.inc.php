@@ -218,10 +218,10 @@ class uv extends stdentity
     $data = array();
     if($code)     $data['code'] = $code;
     if($intitule) $data['intitule'] = $intitule;
-    if($type)     $data['type'] = $type;    
+    if(isset($type))  $data['type'] = $type;    
     if($responsable)  $data['responsable'] =  $responsable;
     if($semestre)     $data['semestre'] = $semestre;
-    if($tc_available) $data['tc_available'] = $tc_available;
+    if(isset($tc_available)) $data['tc_available'] = $tc_available;
     $data['state'] = STATE_MODIFIED;
 
     $sql = new update($this->dbrw, "pedag_uv", $data, array("id_uv"=>$this->id));
@@ -231,13 +231,13 @@ class uv extends stdentity
   /* separation des infos du guide pour ne pas alourdir la fonction de creation */
   public function update_guide_infos($objectifs=null, $programme=null, $c=null, $td=null, $tp=null, $the=null, $credits=null){
     $data = array();
-    if($objectifs) $data['guide_objectifs'] = $objectifs;
-    if($programme) $data['guide_programme'] = $programme;
-    if($credits)   $data['guide_credits'] = $credits;    
-    if($c)  $data['guide_c'] =  $c;
-    if($td) $data['guide_td'] = $td;
-    if($tp) $data['guide_tp'] = $tp;
-    if($the)$data['guide_the'] = $the;
+    if(isset($objectifs)) $data['guide_objectifs'] = $objectifs;
+    if(isset($programme)) $data['guide_programme'] = $programme;
+    if(isset($credits))   $data['guide_credits'] = $credits;    
+    if(isset($c))  $data['guide_c'] =  $c;
+    if(isset($td)) $data['guide_td'] = $td;
+    if(isset($tp)) $data['guide_tp'] = $tp;
+    if(isset($the))$data['guide_the'] = $the;
     $data['state'] = STATE_MODIFIED;
 
     $sql = new update($this->dbrw, "pedag_uv", $data, array("id_uv"=>$this->id));

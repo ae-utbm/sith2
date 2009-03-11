@@ -82,7 +82,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
                 $_REQUEST['type'], 
                 $_REQUEST['responsable'],
                 $_REQUEST['semestre'],
-                $_REQUEST['tc_available']);
+                isset($_REQUEST['tc_available']) && $_REQUEST['tc_available']);
                 
     $site->redirect('uv.php?id='.$uv->id);
   }
