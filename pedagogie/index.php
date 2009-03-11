@@ -53,7 +53,42 @@ $cts = new contents("Résumé de votre parcours");
 $cts->add($lst);
 $site->add_contents($cts);
 
-$site->add_contents(new semestre_box());
+
+/** idem accueil edt.php */
+$cts = new contents($path);
+$tab = array();
+$edts = $user->get_edt_list();
+if(!empty($edts))
+{
+  foreach($edts as $edt)
+  {
+    $tab[$edt]['semestre'] = $edt;
+    $i=0;
+    foreach($user->get_edt_detail($edt) as $uv){
+      $tab[$edt]['code_'.++$i] = $uv['code'];
+      $tab[$edt]['id_uv_'.$i] = $uv['id_uv'];
+    }
+  }
+}
+$cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.php", 'semestre',
+                        array("semestre"=>"Semestre",
+                              "code_1" => "UV 1",
+                              "code_2" => "UV 2",
+                              "code_3" => "UV 3",
+                              "code_4" => "UV 4",
+                              "code_5" => "UV 5",
+                              "code_6" => "UV 6",
+                              "code_7" => "UV 7"),
+                        array("view" => "Voir détails",
+                              "print" => "Format imprimable",
+                              "edit" => "Éditer",
+                              "delete" => "Supprimer"),
+                        array()), true);
+$cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
+                    ."value=\"+ Ajouter un emploi du temps\" "
+                    ."onclick=\"edt.add();\" "
+                    ."name=\"add_edt\" id=\"add_edt\"/>");
+$site->add_contents($cts);
 
 $site->end_page();
 ?>
