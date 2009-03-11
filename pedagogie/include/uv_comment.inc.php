@@ -28,7 +28,7 @@ $VAL_GENERALE = array (
       '0' => 'Nul',
       '1' => 'Pas terrible',
       '2' => 'Neutre',
-      '3' => 'Pas mal',
+      '3' => 'Bonne UV',
       '4' => 'Génial'
       );
 

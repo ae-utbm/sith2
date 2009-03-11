@@ -358,14 +358,23 @@ if($_REQUEST['id'])
     
     /** formulaire d'ajout */
     $frm = new form("add_comment_".$uv->id."", false, true, "POST");
-    $frm->add_submit("clic", "Ajouter un commentaire");
+    $frm->add_submit("clic", "+ Ajouter un commentaire");
     $cts->puts("<div onClick=\"javascript:on_off('add_comment_".$uv->id."');\">" . $frm->buffer . "</div>");
 
     $cts->puts("<div id=\"add_comment_".$uv->id."\" style=\"display: none;\" class=\"add_comment_form\">");
     $frm = new form("new_comment_".$uv->id, "uv.php?action=new_comment", true, "POST");
     $frm->add_hidden("id", $uv->id);
-    $frm->add_text_area("comment", false, false, 80, 10);
-    $frm->add_submit("send", "+ Ajouter le commentaire");
+    $frm->add_info("Cette section ayant pour but d'aider les étudiants ".
+          "dans leurs choix d'UV, merci de ne pas mettre des notes à la va-vite ".
+          "sans la moindre phrase et d'être constructif dans vos commentaires. <br />".
+          "Tout message offensant pourra se voir supprimé.");
+    $frm->add_select_field('interet','Intéret de l\'UV (pour un ingénieur)', $VAL_INTERET, 3);
+    $frm->add_select_field('utilite','Utilité de l\'UV', $VAL_UTILITE, 2);
+    $frm->add_select_field('travail','Charge de travail', $VAL_TRAVAIL, 2);
+    $frm->add_select_field('enseignement','Qualité de l\'enseignement', $VAL_ENSEIGNEMENT, 2);
+    $frm->add_select_field('generale','<b>Note générale</b>', $VAL_GENERALE, 2);
+    $frm->add_text_area("content", "Contenu", false, 80, 10, true);
+    $frm->add_submit("send", "Enregistrer");
     $cts->add($frm);
 
     $cts->puts("</div>");
