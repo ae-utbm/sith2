@@ -245,7 +245,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
   if(!$uv->is_valid())
     $site->redirect('uv.php');
     
-  $cts = new contents("Ajout d'une séance de ".$uv->code;);
+  $cts = new contents("Ajout d'une séance de ".$uv->code);
   
   if(isset($_REQUEST['save'])){
     /** on va dire que ca a marche */
