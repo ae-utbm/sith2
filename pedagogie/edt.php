@@ -175,6 +175,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
     foreach($types as $type => $val){
       if($val == 'add' || $val == 'none')
         continue;
+      
+      if($type == 'the')
+        print_r($_REQUEST);
+        
       if($uv->has_group(intval($val), $type)){
         if(isset($freq[$uv->id]) && isset($freq[$uv->id][$type]))
           $semaine = $freq[$uv->id][$type];

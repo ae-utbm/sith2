@@ -41,19 +41,20 @@ class add_uv_edt_box extends form
     /* si UV sans C/TD/TP, peut etre une TX ou un stage */
     if(empty($uv->guide['c']) && empty($uv->guide['td']) && empty($uv->guide['tp'])){
       /* ou alors c'est une erreur */
-      if(empty($uv->guide['the']))
+      if(empty($uv->guide['the'])){
         $this->buffer .= "<p><b>Désolé</b>, aucune information sur les nombres 
           d'heures de cours/TD/TP/THE n'ont été donné concernant cette UV,
           il est nécessaire de corriger la fiche pour continuer.</p>";
           
       /* mais sinon c'est cool */
-      else{
+      }else{
         $this->buffer .= "<p><b>Cette UV ne semble comporter que des heures 
           hors emplois du temps</b>, c'est le cas pour les TX, TW... ou les 
           stages. Vous ne pouvez pas lui ajouter de 
           \"séances\" mais elle apparaitra bien sur votre emploi du temps.</p>";
         $this->buffer .= "<p>Si vous pensez que l'absence d'heures de cours
           est une erreur, vous pouvez corriger la fiche.</p>";
+        $this->buffer .= "  <input type=\"seance_".$uv->id."_the"\" name=\"1\" value=\"\"></type>\n";
       }
         
     /* UV normale */
