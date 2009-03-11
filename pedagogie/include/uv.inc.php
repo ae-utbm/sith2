@@ -444,12 +444,17 @@ class uv extends stdentity
   }
   
   public function has_group($id_group, $type, $semestre = SEMESTER_NOW){
-    if(!isset($this->groups) || !isset($this->groups[$semestre]) || empty($this->groups[$semestre])){
+    if(!isset($this->groups) 
+        || !isset($this->groups[$semestre]) 
+        || empty($this->groups[$semestre])){
       $tab = $this->get_groups(null, $semestre);
       foreach($tab as $grp)
         $this->groups[$semestre][strtolower($grp['type'])][] = $grp['id_groupe'];
     }
-    return in_array($id_group, $this->groups[$semestre][$type]);
+    if(isset($this->groups[$semestre][$type]))
+      return in_array($id_group, $this->groups[$semestre][$type]);
+    else 
+      return false;
   }
   
   public function get_nb_students_group($id_group){

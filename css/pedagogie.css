@@ -132,13 +132,13 @@ table.uvlist a:hover
 	text-decoration: none;
 }
 
-div.popup_add_seance
+div#popup_add_seance
 {
   margin: 12px;
 	background: #EFF7FF;
 }
 
-div.popup_add_seance div.subformline
+div#popup_add_seance div.subformline
 {
   margin: 0 0 0 10%;
 }
