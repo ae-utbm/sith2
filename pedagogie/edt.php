@@ -176,10 +176,18 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
       if($val == 'add' || $val == 'none')
         continue;
       
-      if($type == 'the')
-        print_r($_REQUEST);
-        
-      if($uv->has_group(intval($val), $type)){
+      if($type == 'the'){
+        $sql = new requete($site->db, "SELECT `id_groupe` FROM `pedag_groupe` WHERE `id_uv` = $uv->id AND `type` = 'THE'");
+        if(!$sql->is_success())
+          continue;
+        if($sql->lines == 0)
+          $idgroup = $uv->add_group(GROUP_THE, 1, 1, $semestre, 0, '00:00', '00:00');
+        else($row = $sql->get_row())
+          $idgroup = $row[0];
+          
+        $user->join_uv_group($idgroup);
+      }
+      else if($uv->has_group(intval($val), $type, $semestre)){
         if(isset($freq[$uv->id]) && isset($freq[$uv->id][$type]))
           $semaine = $freq[$uv->id][$type];
         else
@@ -202,7 +210,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
   if(isset($_REQUEST['sure']) && $_REQUEST['sure'] == 'yes')
   {
     $user->delete_edt($_REQUEST['semestre']);
-    //$site->redirect('edt.php');
+    $site->redirect('edt.php');
   }
   else
   {
@@ -257,8 +265,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
                 "salle_seance" => $group['salle'] 
                );
   }
-  //print_r($lines);
-  //print_r($groups);
+
   $edt = new edt_img($user->get_display_name()." - ".$semestre, $lines);
   $edt->generate(false);
   exit;
