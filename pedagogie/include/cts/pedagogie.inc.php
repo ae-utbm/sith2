@@ -242,6 +242,8 @@ function pedag_menu_box()
 
 function last_comments_box(&$db, $nb=5)
 {
+  $cts = new contents("Commentaires");
+  
   $sql = new requete(&$db, "SELECT id_uv, id_commentaire, code, surnom_utbm
                             FROM pedag_uv_commentaire
                             NATURAL JOIN pedag_uv
