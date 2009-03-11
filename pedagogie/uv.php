@@ -295,6 +295,12 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
   exit;
 }
 
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_comment')
+{
+  print_r($REQUEST);
+  exit;
+}
+
 /***********************************************************************
  * Affichage detail UV
  */
@@ -345,7 +351,24 @@ if($_REQUEST['id'])
         $cts->add(new uv_comment_box($comment, $uv, $site->user, $author));
       }
       
+    }else{
+      $cts->add_paragraph("Il n'y a pas encore de commentaires associées
+        à cette UV, soyez le premier !");
     }
+    
+    /** formulaire d'ajout */
+    $frm = new form("add_comment_".$uv->id."", false, true, "POST");
+    $frm->add_submit("clic", "Ajouter un commentaire");
+    $cts->puts("<div onClick=\"javascript:on_off('add_comment_".$uv->id."');\">" . $frm->buffer . "</div>");
+
+    $cts->puts("<div id=\"add_comment_".$uv->id."\" style=\"display: none;\" class=\"add_comment_form\">");
+    $frm = new form("new_comment_".$uv->id, "uv.php?action=new_comment", true, "POST");
+    $frm->add_hidden("id", $uv->id);
+    $frm->add_text_area("comment", false, false, 80, 10);
+    $frm->add_submit("send", "+ Ajouter le commentaire");
+    $cts->add($frm);
+
+    $cts->puts("</div>");
     
   }else if(isset($_REQUEST['view']) && $_REQUEST['view'] == 'suivi'){
     

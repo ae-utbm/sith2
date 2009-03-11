@@ -273,6 +273,29 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
   exit;
 }
 
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'print')
+{
+  if(isset($_REQUEST['semestre']) && check_semester_format($_REQUEST['semestre']))
+    $semestre = $_REQUEST['semestre'];
+  else
+    $semestre = SEMESTER_NOW;
+  
+  if(!in_array($semestre, $user->get_edt_list()))
+    $site->redirect('edt.php');
+    
+  $uvs = $user->get_edt_detail($semestre);
+  
+  $cts->add(new sqltable("edtdetail", "Liste de vos UV pour ".$semestre, $uvs, "uv.php", 'id_uv',
+                          array("code"=>"Code",
+                                "intitule"=>"Intitulé",
+                                "type"=>"Type",
+                                "responsable"=>"Responsable"),
+                          array(),array()), true);
+
+  $site->add_contents($cts);
+  $site->end_page();
+  exit;
+}
 
 
 /**
