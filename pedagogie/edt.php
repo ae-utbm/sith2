@@ -182,8 +182,10 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
           continue;
         if($sql->lines == 0)
           $idgroup = $uv->add_group(GROUP_THE, 1, 1, $semestre, 0, '00:00', '00:00');
-        else($row = $sql->get_row())
+        else{
+          $row = $sql->get_row();
           $idgroup = $row[0];
+        }
           
         $user->join_uv_group($idgroup);
       }
