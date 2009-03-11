@@ -47,16 +47,14 @@ $user->load_by_id($site->user->id);
 $path = "<a href=\"".$topdir."uvs/\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 $path .= "/" . " Accueil";
 $cts = new contents($path);
-$cts->add_paragraph("Bienvenue");
-$site->add_contents($cts);
+$cts->add_paragraph("Bienvenue sur la partie pédagogie du site de l'AE");
 
-$cts = new contents("Résumé de votre parcours");
-  $lst = new itemlist(false);
-  $lst->add("Vous venez de ");
-  $lst->add("Vous avez obtenu ".$user->get_nb_uv_result(RESULT_EQUIV)." UV en équivalence");
-  $lst->add("bla bla");
-$cts->add($lst);
-$site->add_contents($cts);
+$cts->add_paragraph("<b>Note : </b>Toutes les informations ont été normalement 
+  transférées depuis la précédente version, cependant si vous constatez 
+  des erreurs, n'hésitez pas à les corriger. De même, certaines informations
+  n'existaient pas, telles que le semestre d'ouverture, le responsable de l'UV,
+  etc... Nous comptons sur vous pour rendre ce bout du site de l'AE aussi
+  utile et pertinent que possible.");
 
 
 /** idem accueil edt.php */
@@ -67,7 +65,7 @@ if(!empty($edts))
 {
   foreach($edts as $edt)
   {
-    $tab[$edt]['semestre'] = $edt;
+    $tab[$edt]['semestre'] = "<b>".$edt."</b>";
     $i=0;
     foreach($user->get_edt_detail($edt) as $uv){
       $tab[$edt]['code_'.++$i] = $uv['code'];
@@ -75,6 +73,7 @@ if(!empty($edts))
     }
   }
 }
+
 $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.php", 'semestre',
                         array("semestre"=>"Semestre",
                               "code_1" => "UV 1",
@@ -88,12 +87,21 @@ $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.ph
                               "print" => "Format imprimable",
                               "edit" => "Éditer",
                               "delete" => "Supprimer"),
-                        array()), true);
+                        array(), array(), false), true);
 $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
                     ."value=\"+ Ajouter un emploi du temps\" "
                     ."onclick=\"edt.add();\" "
                     ."name=\"add_edt\" id=\"add_edt\"/>");
+$site->add_contents($cts);
 
+
+
+$cts = new contents("Résumé de votre parcours");
+  $lst = new itemlist(false);
+  $lst->add("Vous venez de ");
+  $lst->add("Vous avez obtenu ".$user->get_nb_uv_result(RESULT_EQUIV)." UV en équivalence");
+  $lst->add("bla bla");
+$cts->add($lst);
 $site->add_contents($cts);
 
 $site->end_page();
