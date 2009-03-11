@@ -54,7 +54,7 @@ class add_uv_edt_box extends form
           \"séances\" mais elle apparaitra bien sur votre emploi du temps.</p>";
         $this->buffer .= "<p>Si vous pensez que l'absence d'heures de cours
           est une erreur, vous pouvez corriger la fiche.</p>";
-        $this->buffer .= "  <input type=\"seance_".$uv->id."_the"\" name=\"1\" value=\"\"></type>\n";
+        $this->buffer .= "  <input type=\"hidden\" name=\"seance_".$uv->id."_the\" value=\"1\" />\n";
       }
         
     /* UV normale */
