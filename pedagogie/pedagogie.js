@@ -24,7 +24,7 @@
 var edt = {
   add_uv_seance: function(id, type, semestre, calling){
     url = 'uv.php?action=add_seance&mode=popup&id='+id+"&type="+type+"&semestre="+semestre+"&calling="+calling;
-    win = window.open(url, "add_seance_"+id+"_"+type, "toolbar=no,location=no,menubar=no,width=480,height=280");
+    win = window.open(url, "add_seance_"+id+"_"+type, "toolbar=no,location=no,menubar=no,width=500,height=300");
   },
 
   disp_freq_choice: function(elemid, freq, uvid, type){

@@ -198,7 +198,7 @@ class uv extends stdentity
     /* verification qu elle n existe pas deja, avec le code */
     if(uv::exists($this->db, $code))
       throw new Exception("UV code already used in database");
-      
+    
     $sql = new insert($this->dbrw, "pedag_uv", 
                       array("code" => $code,
                             "intitule" => mysql_real_escape_string($intitule),

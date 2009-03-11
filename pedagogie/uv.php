@@ -245,7 +245,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
   if(!$uv->is_valid())
     $site->redirect('uv.php');
     
-  $cts = new contents("Ajout d'une séance de ".$uv->code);
+  $cts = new contents("");
   
   if(isset($_REQUEST['save'])){
     /** on va dire que ca a marche */
@@ -287,7 +287,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
     if(isset($_REQUEST['semestre']))  $semestre = $_REQUEST['semestre'];
     else                              $semestre = SEMESTER_NOW;
       
-    $cts->add(new add_seance_box($uv->id, $type, $semestre));
+    $cts->add(new add_seance_box($uv->id, $type, $semestre), true, true, "seance_".$uv->code, "popup_add_seance");
   }
   
   $site->add_contents($cts);

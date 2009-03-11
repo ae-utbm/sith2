@@ -165,8 +165,8 @@ class add_seance_box extends stdcontents
     if(!$uv->is_valid())
       throw new Exception("Object not found : UV ".$iduv);
     
-    $this->title = "Ajouter une séance de ".$uv->code;
-    
+    $this->title = "Ajout d'une séance de ".$uv->code;
+
     $frm = new form("seance_".$iduv, "");
     $frm->allow_only_one_usage();
     
