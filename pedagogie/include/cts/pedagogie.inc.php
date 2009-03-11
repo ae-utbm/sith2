@@ -285,7 +285,7 @@ function last_comments_box(&$db, $nb=5)
   $avis = new itemlist("Les $nb derniers commentaires");
 
   while( $row = $sql->get_row() )
-    $avis->add("<a href=\"uv.php?view=commentaires&id_uv=".$row['id']."#cmt_".$row['id_commentaire']."\">".$row['code_uv']."  par ".$row['surnom_utbm']."</a>");
+    $avis->add("<a href=\"uv.php?view=commentaires&id_uv=".$row['id']."#cmt_".$row['id_commentaire']."\">".$row['code']."  par ".$row['surnom_utbm']."</a>");
 
   $cts->add($avis, true);
 
