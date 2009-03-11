@@ -297,8 +297,24 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new_comment')
 {
-  print_r($REQUEST);
-  exit;
+  $user = new pedag_user($site->db);
+  $user->load_by_id($comment->id_utilisateur);
+        
+  $uv = new uv($site->db, $site->dbrw, $_REQUEST['id']);
+  if(!$uv->is_valid())
+    $site->redirect('uv.php');
+  
+  if(empty($_REQUEST['content'])) /* PAS de commentaires sans texte */
+    $site->redirect('uv.php?id='.$uv->id.'&view=commentaires'); /* faudra mettre un message d erreur pour etre moins bourrin */
+    
+  $com = new uv_comment($site->db, $site->dbrw);
+  $com->add($uv->id, $user->id, 
+                     $_REQUEST['generale'], $_REQUEST['utilite'], $_REQUEST['interet'], $_REQUEST['enseignement'], $_REQUEST['travail'],
+                     $_REQUEST['content']);
+  if($com->is_valid)
+    $site->redirect('uv.php?id='.$uv->id.'&view=commentaires#cmt_'.$com->id);
+  else
+    $site->redirect('uv.php?id='.$uv->id.'&view=commentaires');
 }
 
 /***********************************************************************

@@ -152,7 +152,7 @@ class uv_comment extends stdentity
     $sql = new insert($this->dbrw, "pedag_uv_commentaire", $data);
 
     if($sql->is_success())
-      return $sql->get_id();
+      return $this->load_by_id($sql->get_id());
     else 
       return false;
   }
