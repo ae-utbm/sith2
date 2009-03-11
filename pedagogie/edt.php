@@ -339,6 +339,8 @@ if(!empty($edts))
   }
 }
 
+sort_by_semester($tab, 'semestre');
+
 $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.php", 'semestre',
                         array("semestre_bold"=>"Semestre",
                               "code_1" => "UV 1",
