@@ -360,7 +360,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
     if(isset($_REQUEST['semestre']))  $semestre = $_REQUEST['semestre'];
     else                              $semestre = SEMESTER_NOW;
 
-    $sql = new requete($site->db, "SELECT * FROM `pedag_groupe` WHERE `id_groupe` = ".intval($_REQUEST['idgroup']));
+    $sql = new requete($site->db, "SELECT *, `type`+0 as `type` FROM `pedag_groupe` WHERE `id_groupe` = ".intval($_REQUEST['idgroup']));
     if(!$sql->is_success() && $sql->lines < 1){
       $cts->add_paragraph("Impossible de trouver le groupe sélectionné.");
       $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Fermer\" onclick=\"self.close();\"/>");
