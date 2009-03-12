@@ -188,7 +188,7 @@ class add_seance_box extends stdcontents
     foreach($_GROUP as $grp => $desc)
       if($grp != GROUP_THE)
         $avail_type[$grp] = $desc['long'];
-    $frm->add_select_field("type", "Type", $avail_type, $type, "", true, is_null($type));
+    $frm->add_select_field("type", "Type", $avail_type, $type, "", true, is_null($type) && !empty($data['type']));
     if($type)
       $frm->add_info("Il y a déjà ".count($uv->get_groups($type, $semestre))." séance(s) de ".$_GROUP[$type]['long']." enregistrées pour ".$semestre.".");
     
@@ -199,7 +199,7 @@ class add_seance_box extends stdcontents
       $avail_sem['P'.$i] = 'Printemps '.$i;
       $avail_sem['A'.$i] = 'Automne '.$i;
     }
-    $frm->add_select_field("semestre", "Semestre", $avail_sem, $semestre, "", true, ($semestre == SEMESTER_NOW));
+    $frm->add_select_field("semestre", "Semestre", $avail_sem, $semestre, "", true, ($semestre == SEMESTER_NOW  && !empty($data['semestre'])));
     
     /* numéro du groupe */
     $frm->add_text_field("num", "N° du groupe", $data['num_groupe'], true, 2, true, true, "(Indiquez '1' pour les cours sans numéro.)");
