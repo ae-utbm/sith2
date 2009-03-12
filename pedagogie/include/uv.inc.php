@@ -461,7 +461,7 @@ class uv extends stdentity
    * recherche avec un numéro de groupe et non un id
    */
   public function search_group($numgroup, $type, $semestre=SEMESTER_NOW){
-    $sql = new requete($site->db, "SELECT `id_groupe` FROM `pedag_groupe` 
+    $sql = new requete($this->db, "SELECT `id_groupe` FROM `pedag_groupe` 
                                     WHERE `id_uv` = '".$this->id."'
                                     AND `num_groupe` = '".$numgroup."' 
                                     AND `type` = '".$type."' 
