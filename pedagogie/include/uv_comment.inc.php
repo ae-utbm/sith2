@@ -122,7 +122,7 @@ class uv_comment extends stdentity
     $this->note_enseignement = $row['note_enseignement'];
     $this->note_travail = $row['note_travail'];
     
-    $this->content = stripslashes($row['content']);
+    $this->content = stripslashes(nl2br($row['content']));
     $this->date = $row['date'];
     $this->valid = $row['valid'];
     $this->eval_comment = $row['eval_comment'];
