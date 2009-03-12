@@ -237,8 +237,13 @@ class add_seance_box extends stdcontents
     
     $frm->puts("<p>Tous les champs sont requis. Veuillez vérifier minutieusement 
     les informations que vous avez entré.</p>");
+    
     /* submit */
-    $frm->add_submit("save", "+ Ajouter la séance");
+    if(empty($data['id_groupe']))
+      $label = "Modifier la séance";
+    else
+      $label = "+ Ajouter la séance";
+    $frm->add_submit("save", $label);
     
     $this->buffer .= $frm->html_render();
   }

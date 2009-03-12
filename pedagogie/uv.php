@@ -315,7 +315,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
   
   if(isset($_REQUEST['save'])){
     /** on va dire que ca a marche */
-    
+    print_r($_REQUEST);
     $type = $_REQUEST['type'];
     $num = $_REQUEST['num'];
     $freq = $_REQUEST['freq'];
