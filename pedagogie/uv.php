@@ -261,8 +261,12 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
     $salle = strtoupper($_REQUEST['salle']);
     
     if($uv->search_group($num, $type, $semestre)){
-      $cts->add_paragraph("Le groupe de ".$type." n°".$num." existe déjà pour ".$uv->code);
-      continue;
+      $cts->add_paragraph("Le groupe de ".$type." n°".$num." existe déjà pour ".$uv->code." !");
+      $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Revenir en arrière\" onclick=\"history.go(-1);\" />");
+      
+      $site->add_contents($cts);
+      $site->popup_end_page(); 
+      exit;
     }
     
     $id_groupe =  $uv->add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
@@ -283,21 +287,16 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
     $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
                     ."value=\"Continuer\" "
                     ."onclick=\"ret();\"/>");
-                    
-    $site->add_contents($cts);
-    $site->popup_end_page(); 
-    exit;
-  }
-  
-  /** formulaire d ajout */
-  if(isset($_REQUEST['type']))  $type = $_REQUEST['type'];
-  else                          $type = null;
-  
-  if(isset($_REQUEST['semestre']))  $semestre = $_REQUEST['semestre'];
-  else                              $semestre = SEMESTER_NOW;
-    
-  $cts->add(new add_seance_box($uv->id, $type, $semestre), false, false, "seance_".$uv->code, "popup_add_seance");
+  }else{
+    /** formulaire d ajout */
+    if(isset($_REQUEST['type']))  $type = $_REQUEST['type'];
+    else                          $type = null;
 
+    if(isset($_REQUEST['semestre']))  $semestre = $_REQUEST['semestre'];
+    else                              $semestre = SEMESTER_NOW;
+      
+    $cts->add(new add_seance_box($uv->id, $type, $semestre), false, false, "seance_".$uv->code, "popup_add_seance");
+  }
   
   $site->add_contents($cts);
   $site->popup_end_page(); 
