@@ -67,7 +67,7 @@ class selectbox extends form
     
     
     /** firebug lite */
-    $this->buffer .= "<script type=\"text/javascript\" src=\"http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js\"></script>\n\n";
+    //$this->buffer .= "<script type=\"text/javascript\" src=\"http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js\"></script>\n\n";
     
     $this->buffer .= "<div class=\"selectbox\" id=\"$this->name\">\n";
 
