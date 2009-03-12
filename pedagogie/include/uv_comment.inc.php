@@ -125,7 +125,7 @@ class uv_comment extends stdentity
     $this->content = $row['content'];
     $this->date = $row['date'];
     $this->valid = $row['valid'];
-    $this->eval_comment = $row['eval_comment'];
+    $this->eval_comment = stripslashes($row['eval_comment']);
 
     return $this->id;
   }

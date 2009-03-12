@@ -158,7 +158,7 @@ class uvcomment extends stdcontents
       $this->buffer .= "</div>";
 
       $this->buffer .= "<div class=\"uvrightbloc\">";
-      $this->buffer .= $comment->comment;
+      $this->buffer .= doku2xhtml($comment->comment);
       $this->buffer .= "</div>";
 
       $this->buffer .= "<div class=\"clearboth\"></div>";
