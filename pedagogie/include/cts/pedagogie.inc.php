@@ -156,10 +156,12 @@ class add_edt_start_box extends stdcontents
 
 class add_seance_box extends stdcontents
 {
-  public function __construct($iduv, $type=null, $semestre=SEMESTER_NOW)
+  public function __construct($iduv, $type=null, $semestre=SEMESTER_NOW, $data=null)
   {
     global $site;
     global $_GROUP;
+    
+    if($data) print_r($data);
     
     $uv = new uv($site->db, $site->dbrw);
     $uv->load_by_id($iduv);

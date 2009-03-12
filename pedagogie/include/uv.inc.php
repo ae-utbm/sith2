@@ -424,13 +424,14 @@ class uv extends stdentity
    * @param $semestre semestre visé
    * @return tableau des informations
    */
-  public function get_groups($type=null, $semestre=SEMESTER_NOW){
+  public function get_groups($type=null, $semestre=SEMESTER_NOW, $idgroup=null){
     $sql = "SELECT *
             FROM `pedag_groupe`
             WHERE `id_uv` = ".$this->id."
               AND `semestre` = '".$semestre."'";
     if($type)
       $sql .= "  AND `type` = ".$type;
+
     $req = new requete($this->db, $sql);
     if(!$req->is_success())
       return false;
