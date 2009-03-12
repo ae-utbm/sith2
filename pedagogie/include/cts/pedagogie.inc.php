@@ -219,8 +219,8 @@ class add_seance_box extends stdcontents
     /* heures */
     $min = array(0=>'00', 15=>'15', 30=>'30', 45=>'45'); 
 
-      $deb = explode(":", $data['debut']):
-      $fin = explode(":", $data['fin']):
+      $deb = explode(":", $data['debut']);
+      $fin = explode(":", $data['fin']);
 
     $subfrm = new subform("heures", "Heures : ");
     $subfrm->add_text_field("hdebut", "Début", $deb[0] ,false, 2, true);
