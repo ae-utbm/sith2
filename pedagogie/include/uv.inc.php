@@ -415,7 +415,18 @@ class uv extends stdentity
   public function remove_group($id_group){
   }
 
-  public function update_group($id_group, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null){
+  public function update_group($id_groupe, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle=null){
+    $data = array("id_uv" => $this->id,
+                  "type" => $type,
+                  "num_groupe" => $num,
+                  "freq" => $freq,
+                  "semestre" => $semestre,
+                  "debut" => $debut,
+                  "fin" => $fin,
+                  "jour" => $jour,
+                  "salle" => $salle);
+    $sql = new update($this->dbrw, "pedag_groupe", $data, array("id_groupe"=>$id_groupe));
+    return $sql->is_success();
   }
   
   /**

@@ -314,8 +314,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
   $cts = new contents("Ajout d'une séance de ".$uv->code);
   
   if(isset($_REQUEST['save'])){
-    /** on va dire que ca a marche */
-    print_r($_REQUEST);
+    $id_groupe = $_REQUEST['id_groupe'];
     $type = $_REQUEST['type'];
     $num = $_REQUEST['num'];
     $freq = $_REQUEST['freq'];
@@ -325,16 +324,8 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
     $fin = $_REQUEST['hfin'].":".$_REQUEST['mfin'];
     $salle = strtoupper($_REQUEST['salle']);
     
-    if($uv->search_group($num, $type, $semestre)){
-      $cts->add_paragraph("Le groupe de ".$_GROUP[ $type ]['long']." n°".$num." existe déjà pour ".$uv->code." !");
-      $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" value=\"Revenir en arrière\" onclick=\"history.go(-1);\" />");
-      
-      $site->add_contents($cts);
-      $site->popup_end_page(); 
-      exit;
-    }
     
-    $id_groupe =  $uv->add_group($type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
+    $r = $uv->update_group($id_groupe, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
     
     $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de $debut à $fin en $salle";
     $cts->puts("<script type='text/javascript'>
@@ -347,7 +338,11 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
       self.close();
     }
   </script>");
-    $cts->add_paragraph("Votre séance de ".$_GROUP[$type]['long']." de ".$uv->code." du ".get_day($jour)." à bien été enregistrée.");
+  
+    if($r)
+      $cts->add_paragraph("Votre séance de ".$_GROUP[$type]['long']." de ".$uv->code." du ".get_day($jour)." à bien été modifiée.");
+    else
+      $cts->add_paragraph("Erreur lors de la mise à jour.");
     $cts->add_paragraph("Merci de votre participation.");
     $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
                     ."value=\"Continuer\" "
