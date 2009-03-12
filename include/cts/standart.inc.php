@@ -683,10 +683,7 @@ class form extends stdcontents
 
     $siteroot = $wwwtopdir;
     if( defined('CMS_ID_ASSO') )
-    {
-      print_r("bleh");
       $siteroot="../".$wwwtopdir;
-    }
     $this->buffer .=
       "<a onclick=\"selectWikiImage('".$siteroot."','".$id."','$context');\" />".
       "<img src=\"".$wwwtopdir."/images/toolbar/browse_image.png\" alt=\"Parcourir image\" title=\"Parcourir image\" />".
