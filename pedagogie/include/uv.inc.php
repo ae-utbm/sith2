@@ -464,8 +464,8 @@ class uv extends stdentity
     $sql = new requete($this->db, "SELECT `id_groupe` FROM `pedag_groupe` 
                                     WHERE `id_uv` = '".$this->id."'
                                     AND `num_groupe` = '".$numgroup."' 
-                                    AND `type` = '".$type."' 
-                                    AND `semestre` = '".$semestre."'", true);
+                                    AND `type` = ".$type." 
+                                    AND `semestre` = '".$semestre."'");
     if($sql->is_success() && $sql->lines > 0){
       $row = $sql->get_row();
       return $row['id_groupe'];
