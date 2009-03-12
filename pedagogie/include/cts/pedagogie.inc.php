@@ -156,12 +156,20 @@ class add_edt_start_box extends stdcontents
 
 class add_seance_box extends stdcontents
 {
-  public function __construct($iduv, $type=null, $semestre=SEMESTER_NOW, $data=null)
+  public function __construct($iduv, $type=null, $semestre=SEMESTER_NOW, 
+    $data=array("id_groupe"=>null,
+                "id_uv"=>null,
+                "type"=>null,
+                "num_groupe"=>null,
+                "freq"=>null,
+                "semestre"=>null,
+                "debut"=>null,
+                "fin"=>null,
+                "jour"=>null,
+                "salle"=>null))
   {
     global $site;
     global $_GROUP;
-    
-    if($data) print_r($data);
     
     $uv = new uv($site->db, $site->dbrw);
     $uv->load_by_id($iduv);
@@ -172,6 +180,8 @@ class add_seance_box extends stdcontents
 
     $frm = new form("seance_".$iduv, "");
     $frm->allow_only_one_usage();
+    
+    $frm->add_hidden("id_groupe", $data['id_groupe']);
     
     /* type de seance C/TD/TP (on vire THE) */
     $avail_type = array();
@@ -192,7 +202,7 @@ class add_seance_box extends stdcontents
     $frm->add_select_field("semestre", "Semestre", $avail_sem, $semestre, "", true, ($semestre == SEMESTER_NOW));
     
     /* numéro du groupe */
-    $frm->add_text_field("num", "N° du groupe", "", true, 2, true, true, "(Indiquez '1' pour les cours sans numéro.)");
+    $frm->add_text_field("num", "N° du groupe", $data['num_groupe'], true, 2, true, true, "(Indiquez '1' pour les cours sans numéro.)");
     
     /* jour */
     $avail_jour = array(
@@ -204,23 +214,26 @@ class add_seance_box extends stdcontents
       6 => "Samedi",
       7 => "Dimanche ?!",
     );
-    $frm->add_select_field("jour", "Jour", $avail_jour);
+    $frm->add_select_field("jour", "Jour", $avail_jour, $data['jour']);
     
     /* heures */
     $min = array(0=>'00', 15=>'15', 30=>'30', 45=>'45'); 
 
+      $deb = explode(":", $data['debut']):
+      $fin = explode(":", $data['fin']):
+
     $subfrm = new subform("heures", "Heures : ");
-    $subfrm->add_text_field("hdebut", "Début", "" ,false, 2, true);
-    $subfrm->add_select_field("mdebut", ":", $min);
-    $subfrm->add_text_field("hfin", "Fin", "" ,false, 2, true);
-    $subfrm->add_select_field("mfin", ":", $min);
+    $subfrm->add_text_field("hdebut", "Début", $deb[0] ,false, 2, true);
+    $subfrm->add_select_field("mdebut", ":", $min, $deb[1]);
+    $subfrm->add_text_field("hfin", "Fin", $fin[0] ,false, 2, true);
+    $subfrm->add_select_field("mfin", ":", $min, $fin[1]);
     $frm->add($subfrm, false, false, false, false, true);
     
     /* frequence */
-    $frm->add_select_field("freq", "Fréquence", array(1=>"Toutes les semaines", 2=>"Une semaine sur deux"), 1);
+    $frm->add_select_field("freq", "Fréquence", array(1=>"Toutes les semaines", 2=>"Une semaine sur deux"), $data['freq'] || 1);
     
     /* salle */
-    $frm->add_text_field("salle", "Salle", "", false, 8, false, true, "(ex: P108)");
+    $frm->add_text_field("salle", "Salle", $data['salle'], false, 8, false, true, "(ex: P108)");
     
     $frm->puts("<p>Tous les champs sont requis. Veuillez vérifier minutieusement 
     les informations que vous avez entré.</p>");
