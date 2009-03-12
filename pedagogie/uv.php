@@ -371,7 +371,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
     
     $data = $sql->get_row();
       
-    $cts->add(new add_seance_box($uv->id, $type, $semestre, $data), false, false, "seance_".$uv->code, "popup_add_seance");
+    $cts->add(new add_seance_box($uv->id, $data['type'], $data['semestre'], $data), false, false, "seance_".$uv->code, "popup_add_seance");
   }
   
   $site->add_contents($cts);
