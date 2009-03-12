@@ -239,7 +239,7 @@ class add_seance_box extends stdcontents
     les informations que vous avez entré.</p>");
     
     /* submit */
-    if(empty($data['id_groupe']))
+    if(!empty($data['id_groupe']))
       $label = "Modifier la séance";
     else
       $label = "+ Ajouter la séance";
