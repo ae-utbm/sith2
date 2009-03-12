@@ -426,6 +426,7 @@ class uv extends stdentity
                   "jour" => $jour,
                   "salle" => $salle);
     $sql = new update($this->dbrw, "pedag_groupe", $data, array("id_groupe"=>$id_groupe));
+    print_r($sql);
     return $sql->is_success();
   }
   
