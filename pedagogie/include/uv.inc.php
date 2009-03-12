@@ -457,6 +457,22 @@ class uv extends stdentity
       return false;
   }
   
+  /**
+   * recherche avec un numéro de groupe et non un id
+   */
+  public function search_group($numgroup, $type, $semestre=SEMESTER_NOW){
+    $sql = new requete($site->db, "SELECT `id_groupe` FROM `pedag_groupe` 
+                                    WHERE `id_uv` = '".$this->id."'
+                                    AND `num_groupe` = '".$numgroup."' 
+                                    AND `type` = '".$type."' 
+                                    AND `semestre` = '".$semestre."'");
+    if($sql->is_success() && $sql->lines > 0){
+      $row = $sql->get_row();
+      return $row['id_groupe'];
+    }else
+      return false;    
+  }
+  
   public function get_nb_students_group($id_group){
     $sql = new requete($this->db, "SELECT COUNT(*) as `nb` 
                                     FROM `pedag_groupe_utl`
