@@ -681,13 +681,16 @@ class form extends stdcontents
         "</a> \n";
     }
 
+    $siteroot = $wwwtopdir;
+    if( CMS_ID_ASSO )
+      $siteroot="../".$wwwtopdir;
     $this->buffer .=
-      "<a onclick=\"selectWikiImage('".$wwwtopdir."','".$id."','$context');\" />".
+      "<a onclick=\"selectWikiImage('".$siteroot."','".$id."','$context');\" />".
       "<img src=\"".$wwwtopdir."/images/toolbar/browse_image.png\" alt=\"Parcourir image\" title=\"Parcourir image\" />".
       "</a> \n";
 
     $this->buffer .=
-      "<a onclick=\"selectWikiFile('".$wwwtopdir."','".$id."','$context');\" />".
+      "<a onclick=\"selectWikiFile('".$siteroot."','".$id."','$context');\" />".
       "<img src=\"".$wwwtopdir."/images/toolbar/attach.png\" alt=\"Attacher un fichier\" title=\"Attacher un fichier\" />".
       "</a> \n";
 
@@ -1379,11 +1382,11 @@ class form extends stdcontents
       if ( $k != "magicform[name]" )
         $this->hiddens[$k] = $v;
     }
-    
+
     if(isset($frm->event) && !empty($frm->event)){
       foreach($frm->event as $event=>$action){
         $this->set_event($event, $action);
-      } 
+      }
     }
 
     if ( $frm->enctype )
