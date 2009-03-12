@@ -179,8 +179,9 @@ class pedag_user extends utilisateur{
       $t=null;
       while($row = $sql->get_row())
         $t[] = $row['semestre'];
-        
-      sort_by_semester($t, 'semestre');
+      
+      if(count($t) > 1)
+        sort_by_semester($t, 'semestre');
       return $t;
     }
   }

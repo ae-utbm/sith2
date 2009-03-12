@@ -34,6 +34,7 @@ require_once("include/pedag_user.inc.php");
 require_once("include/cts/pedagogie.inc.php");
 
 $site = new site();
+$site->allow_only_logged_users();
 $site->add_js("pedagogie/pedagogie.js");
 $site->add_css("css/pedagogie.css");
 $site->start_page("services", "AE Pédagogie");
@@ -221,7 +222,7 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
   $avail_dept=array();
   $already_dept=array();
   foreach($_DPT as $dept=>$desc){
-    if(in_array($dept, $uv->dept))
+    if(!empty($uv->dept) && in_array($dept, $uv->dept))
       $already_dept[$dept] = $desc['long'];
     else
       $avail_dept[$dept] = $desc['long'];

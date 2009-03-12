@@ -35,7 +35,7 @@ require_once("include/cts/pedagogie.inc.php");
 
 $site = new site();
 $site->add_js("pedagogie/pedagogie.js");
-//$site->allow_only_logged_users();
+$site->allow_only_logged_users();
 
 $site->start_page("services", "AE Pédagogie");
 $user = new pedag_user($site->db, $site->dbrw);
@@ -339,7 +339,8 @@ if(!empty($edts))
   }
 }
 
-sort_by_semester($tab, 'semestre');
+if(count($tab) > 1)
+  sort_by_semester($tab, 'semestre');
 
 $cts->add(new sqltable("edtlist", "Liste de vos emplois du temps", $tab, "edt.php", 'semestre',
                         array("semestre_bold"=>"Semestre",
