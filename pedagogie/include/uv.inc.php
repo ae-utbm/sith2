@@ -465,7 +465,7 @@ class uv extends stdentity
                                     WHERE `id_uv` = '".$this->id."'
                                     AND `num_groupe` = '".$numgroup."' 
                                     AND `type` = '".$type."' 
-                                    AND `semestre` = '".$semestre."'");
+                                    AND `semestre` = '".$semestre."'", true);
     if($sql->is_success() && $sql->lines > 0){
       $row = $sql->get_row();
       return $row['id_groupe'];
