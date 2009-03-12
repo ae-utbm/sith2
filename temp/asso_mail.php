@@ -6,5 +6,5 @@ $req = new requete($site->db,'SELECT `nom_asso`,`email_asso` FROM `asso`');
 echo "<pre>";
 while(list($asso,$email)=$req->get_row())
   echo $asso.';'.$email."\n";
-echo "</pre">;
+echo "</pre>";
 ?>
