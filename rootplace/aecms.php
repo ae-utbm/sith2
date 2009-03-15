@@ -112,7 +112,7 @@ function _install_aecms ( $target, $id_asso )
 
   $aecmsConfPhp='<?php
 define("CMS_ID_ASSO",'.$id_asso.');
-if(defined(CMS_ALTERNATE))
+if(defined("CMS_ALTERNATE"))
   define("CMS_PREFIX","cms:".CMS_ID_ASSO.":".CMS_ALTERNATE.":");
 else
   define("CMS_PREFIX","cms:".CMS_ID_ASSO.":");
