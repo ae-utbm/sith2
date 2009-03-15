@@ -80,7 +80,7 @@ $wwwtopdir = "./";
  * @ingroup aecms
  */
 define("CMS_CONFIGPATH","/var/www/ae/www/taiste/var/aecms");
-if(defined(CMS_ALTERNATE))
+if(defined('CMS_ALTERNATE'))
   define("CMS_CONFIGFILE",CMS_CONFIGPATH."/cms".CMS_ID_ASSO.".".CMS_ALTERNATE.".conf.php");
 else
   define("CMS_CONFIGFILE",CMS_CONFIGPATH."/cms".CMS_ID_ASSO.".conf.php");
