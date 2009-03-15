@@ -214,7 +214,7 @@ class wiki extends basedb
 
     $req = requete($this->db,'SELECT * FROM `wiki` WHERE `fullpath_wiki`=\''.$this->fullpath.'\'');
     if($req->lines!=0)
-      return false
+      return false;
 
     $req = new insert($this->dbrw,"wiki", array (
       "id_utilisateur" => $this->id_utilisateur,
