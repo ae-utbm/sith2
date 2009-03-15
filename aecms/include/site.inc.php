@@ -80,7 +80,10 @@ $wwwtopdir = "./";
  * @ingroup aecms
  */
 define("CMS_CONFIGPATH","/var/www/ae/www/taiste/var/aecms");
-define("CMS_CONFIGFILE",CMS_CONFIGPATH."/cms".CMS_ID_ASSO.".conf.php");
+if(defined(CMS_ALTERNATE))
+  define("CMS_CONFIGFILE",CMS_CONFIGPATH."/cms".CMS_ID_ASSO.".".CMS_ALTERNATE.".conf.php");
+else
+  define("CMS_CONFIGFILE",CMS_CONFIGPATH."/cms".CMS_ID_ASSO.".conf.php");
 
 // Inclusion des classes AE2
 require_once($topdir."include/site.inc.php");
