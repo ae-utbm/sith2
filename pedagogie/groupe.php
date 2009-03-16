@@ -41,9 +41,16 @@ $site->start_page("services", "AE Pédagogie");
 
 $path = "<a href=\"./\"><img src=\"".$topdir."images/icons/16/lieu.png\" class=\"icon\" />  Pédagogie </a>";
 
-/* compatibilite sqltable bleh */
+$uv = new uv($site->db, $site->dbrw);
 if(isset($_REQUEST['id_groupe']))
-  $_REQUEST['id'] = $_REQUEST['id_groupe'];
+  $uv->load_by_group_id($_REQUEST['id_groupe']);
+else if(isset($_REQUEST['id']))
+  $uv->load_by_group_id($_REQUEST['id']);
+else
+  $site->redirect("uv.php");
+
+print_r($uv);
+print_r($_REQUEST);
 
 /***********************************************************************
  * Actions

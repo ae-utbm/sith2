@@ -83,6 +83,21 @@ class uv extends stdentity
   }
 
   /**
+   * fonction batarde qui sert a charger une UV depuis l'id
+   * d'un de ses groupes de C/TD/TP
+   * @param $id identifiant d'un groupe (table pedag_groupe)
+   * @see pedagogie/groupe.php
+   */
+  public function load_by_group_id($id){
+    $sql = new requete($this->db, "SELECT `id_uv` FROM `pedag_groupe` WHERE `id_groupe` = ".intval($id));
+    if($sql->is_success()){
+      $row = $sql->get_row();
+      return $this->load_by_id($row['id_uv']);
+    }else
+      return false;
+  }
+
+  /**
    * chargement d'une UV a partir de son code UTBM (ex RE41)
    * @param $code code de l'UV
    * @return id/false selon le résultat
