@@ -503,6 +503,7 @@ if($_REQUEST['id'])
                                   "salle"=>"Salle",
                                   "freq"=>"Fréquence"),
                             array("view"=>"Voir détails",
+                                  "done"=>"S'inscrire",
                                   "edit"=>"Corriger",
                                   "delete"=>"Supprimer"),
                             array()), true);

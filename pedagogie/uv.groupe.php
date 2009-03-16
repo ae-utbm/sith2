@@ -42,10 +42,10 @@ $site->start_page("services", "AE Pédagogie");
 $uv = new uv($site->db, $site->dbrw);
 if(isset($_REQUEST['id_groupe'])){
   $uv->load_by_group_id($_REQUEST['id_groupe']);
-  $groupeid = $_REQUEST['id_groupe'];
+  $groupid = $_REQUEST['id_groupe'];
 }else if(isset($_REQUEST['id'])){
   $uv->load_by_group_id($_REQUEST['id']);
-  $groupeid = $_REQUEST['id'];
+  $groupid = $_REQUEST['id'];
 }else
   $site->redirect("uv.php");
 
@@ -64,6 +64,44 @@ $cts = new contents($path);
  */
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'save')
 {
+  $id_groupe = $_REQUEST['id_groupe'];
+  $type = $_REQUEST['type'];
+  $num = $_REQUEST['num'];
+  $freq = $_REQUEST['freq'];
+  $semestre = $_REQUEST['semestre'];
+  $jour = $_REQUEST['jour'];
+  $debut = $_REQUEST['hdebut'].":".$_REQUEST['mdebut'];
+  $fin = $_REQUEST['hfin'].":".$_REQUEST['mfin'];
+  $salle = strtoupper($_REQUEST['salle']);
+
+
+  $r = $uv->update_group($id_groupe, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
+
+  $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de ".strftime("%H:%M", strtotime($debut))." à ".strftime("%H:%M", strtotime($fin))." en $salle";
+  $cts->puts("<script type='text/javascript'>
+  function ret(){
+    var o = new Option('$texte', '$id_groupe');
+    o.onclick = function(e){ edt.disp_freq_choice('".$uv->id."_".$type."', $freq, ".$uv->id.", $type); };
+    o.selected = true;
+    window.opener.document.getElementById('".$_REQUEST['calling']."').options.add(o);
+    window.opener.edt.disp_freq_choice('".$uv->id."_".$type."', $freq, $uv->id, $type);
+    self.close();
+  }
+</script>");
+
+  if($r)
+    $cts->add_paragraph("Votre séance de ".$_GROUP[$type]['long']." de ".$uv->code." du ".get_day($jour)." à bien été modifiée.");
+  else
+    $cts->add_paragraph("Erreur lors de la mise à jour.");
+  $cts->add_paragraph("Merci de votre participation.");
+  $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
+                  ."value=\"Continuer\" "
+                  ."onclick=\"ret();\"/>");
+}
+
+/* inscription d'un utilisateur a une seance (nom choisi pour l'icone uniquement */
+if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'done')
+{
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
@@ -72,47 +110,11 @@ if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'new')
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'edit')
 {
-  if(isset($_REQUEST['save'])){
-    $id_groupe = $_REQUEST['id_groupe'];
-    $type = $_REQUEST['type'];
-    $num = $_REQUEST['num'];
-    $freq = $_REQUEST['freq'];
-    $semestre = $_REQUEST['semestre'];
-    $jour = $_REQUEST['jour'];
-    $debut = $_REQUEST['hdebut'].":".$_REQUEST['mdebut'];
-    $fin = $_REQUEST['hfin'].":".$_REQUEST['mfin'];
-    $salle = strtoupper($_REQUEST['salle']);
-
-
-    $r = $uv->update_group($id_groupe, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
-
-    $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de ".strftime("%H:%M", strtotime($debut))." à ".strftime("%H:%M", strtotime($fin))." en $salle";
-    $cts->puts("<script type='text/javascript'>
-    function ret(){
-      var o = new Option('$texte', '$id_groupe');
-      o.onclick = function(e){ edt.disp_freq_choice('".$uv->id."_".$type."', $freq, ".$uv->id.", $type); };
-      o.selected = true;
-      window.opener.document.getElementById('".$_REQUEST['calling']."').options.add(o);
-      window.opener.edt.disp_freq_choice('".$uv->id."_".$type."', $freq, $uv->id, $type);
-      self.close();
-    }
-  </script>");
-
-    if($r)
-      $cts->add_paragraph("Votre séance de ".$_GROUP[$type]['long']." de ".$uv->code." du ".get_day($jour)." à bien été modifiée.");
-    else
-      $cts->add_paragraph("Erreur lors de la mise à jour.");
-    $cts->add_paragraph("Merci de votre participation.");
-    $cts->add_paragraph("<input type=\"submit\" class=\"isubmit\" "
-                    ."value=\"Continuer\" "
-                    ."onclick=\"ret();\"/>");
-  }else{
-    /* normalement ne peut pas echouer maintenant */
-    $sql = new requete($site->db, "SELECT *, `type`+0 as `type` FROM `pedag_groupe` WHERE `id_groupe` = ".intval($idgroup));
-    $data = $sql->get_row();
-
-    $cts->add(new add_seance_box($uv->id, $data['type'], $data['semestre'], $data), false, false, "seance_".$uv->code, "popup_add_seance");
-  }
+  /* normalement ne peut pas echouer maintenant */
+  $sql = new requete($site->db, "SELECT *, `type`+0 as `type` FROM `pedag_groupe` WHERE `id_groupe` = ".intval($groupid));
+  $data = $sql->get_row();
+  print_r($data);
+  $cts->add(new add_seance_box($uv->id, $data['type'], $data['semestre'], $data), false, false, "seance_".$uv->code, "popup_add_seance");
 }
 
 if(isset($_REQUEST['action']) && $_REQUEST['action'] == 'delete')
