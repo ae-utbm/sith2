@@ -327,7 +327,7 @@ if(isset($_REQUEST['mode']) && $_REQUEST['mode'] == 'popup'
 
     $r = $uv->update_group($id_groupe, $type, $num, $freq, $semestre, $jour, $debut, $fin, $salle);
 
-    $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de $debut à $fin en $salle";
+    $texte = $_GROUP[$type]['long']." n°$num du ".get_day($jour)." de ".strftime("%H:%M", strtotime($debut))." à ".strftime("%H:%M", strtotime($fin))." en $salle";
     $cts->puts("<script type='text/javascript'>
     function ret(){
       var o = new Option('$texte', '$id_groupe');
@@ -494,7 +494,7 @@ if($_REQUEST['id'])
     }
 
     $cts->add(new sqltable("grouplist", "Séances disponibles pour ".SEMESTER_NOW,
-                            $grp, "", "id_groupe",
+                            $grp, "groupe.php", "id_groupe",
                             array("type"=>"Type",
                                   "num_groupe"=>"N°",
                                   "jour"=>"Jour",
