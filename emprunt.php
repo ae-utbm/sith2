@@ -398,7 +398,7 @@ if ( $_REQUEST["page"] == "retrait" && $site->user->is_in_group("gestion_ae") )
         if ( !$obj->is_valid() )
           $Error = "Objet inconnu";
         elseif ( !$obj->is_avaible(time(),$_REQUEST["endtime"]))
-          $Error = "Objet non disponible jusqu'a la fin de l'emprunt";
+          $Error = "Objet non disponible jusqu'à la fin de l'emprunt";
         else
           add_objet_once($objets,$obj);
       }

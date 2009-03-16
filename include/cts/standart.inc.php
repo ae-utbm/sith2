@@ -2007,7 +2007,7 @@ function textual_plage_horraire ( $debut, $fin )
   if( date("d/m/Y",$debut) != date("d/m/Y",$fin) )
     return strftime("%A %d %B %G %H:%M",$debut) . " jusqu'au ".strftime("%A %d %B %G %H:%M",$fin);
   else
-    return strftime("%A %d %B %G %H:%M",$debut) . " jusqu'a ".date("H:i",$fin);
+    return strftime("%A %d %B %G %H:%M",$debut) . " jusqu'&agrave; ".date("H:i",$fin);
 }
 
 /*

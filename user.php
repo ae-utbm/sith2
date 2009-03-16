@@ -695,7 +695,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     if ( $ErreurMail )
       $frm->error($ErreurMail);
     $frm->add_hidden("action","changeemail");
-    $frm->add_info("<b>Attention:</b> Votre compte sera d&eacute;sactiv&eacute; et votre session sera ferm&eacute;e jusqu'a validation du lien qui vous sera envoye par email &agrave; l'adresse que vous pr&eacute;ciserez !");
+    $frm->add_info("<b>Attention:</b> Votre compte sera d&eacute;sactiv&eacute; et votre session sera ferm&eacute;e jusqu'&agrave; validation du lien qui vous sera envoye par email &agrave; l'adresse que vous pr&eacute;ciserez !");
 
     $frm->add_text_field("email","Adresse email",$user->email,true);
     $frm->add_submit("save","Enregistrer");
@@ -708,7 +708,7 @@ if ( $_REQUEST["page"] == "edit" && $can_edit )
     if ( $ErreurMailUtbm )
       $frm->error($ErreurMailUtbm);
     $frm->add_hidden("action","changeemailutbm");
-    $frm->add_info("<b>Attention:</b> Votre compte sera d&eacute;sactiv&eacute; et votre session sera ferm&eacute;e jusqu'a validation du lien qui vous sera envoye par email &agrave; l'adresse que vous pr&eacute;ciserez !");
+    $frm->add_info("<b>Attention:</b> Votre compte sera d&eacute;sactiv&eacute; et votre session sera ferm&eacute;e jusqu'&agrave; validation du lien qui vous sera envoye par email &agrave; l'adresse que vous pr&eacute;ciserez !");
     $frm->add_text_field("email_utbm","Adresse email",$user->email_utbm?$user->email_utbm:"prenom.nom@utbm.fr",true);
 
     $frm->add_submit("save","Enregistrer");
@@ -951,9 +951,9 @@ function edtopen(semestre, id)
 
 
   $cts->add(new sqltable("uvf", "UVs suivies", $sql, $topdir. "uvs/uvs.php", "id_uv",
-			 array("code_uv" => "Code de l'UV",
-			       "semestre_grp" => "Semestre suivi"),
-			 array("view" => "visualiser l'UV"), array()));
+                         array("code_uv" => "Code de l'UV",
+                               "semestre_grp" => "Semestre suivi"),
+                         array("view" => "visualiser l'UV"), array()));
   /**
    * Affichage des CV
    */
@@ -962,29 +962,29 @@ function edtopen(semestre, id)
   $jobuser->load_by_id( $user->id );
   if( $jobuser->is_jobetu_user() )
   {
-		if($jobuser->load_pdf_cv() &&  $jobuser->public_cv)
-		{
-			$i18n = array("ar" => "Arabe",
-							"cn" => "Chinois",
-							"de" => "Allemand",
-							"en" => "Anglais",
-							"es" => "Espagnol",
-							"fr" => "Français",
-							"it" => "Italien",
-							"kr" => "Coréen",
-							"pt" => "Portugais"
-							);
+                if($jobuser->load_pdf_cv() &&  $jobuser->public_cv)
+                {
+                        $i18n = array("ar" => "Arabe",
+                                                        "cn" => "Chinois",
+                                                        "de" => "Allemand",
+                                                        "en" => "Anglais",
+                                                        "es" => "Espagnol",
+                                                        "fr" => "Français",
+                                                        "it" => "Italien",
+                                                        "kr" => "Coréen",
+                                                        "pt" => "Portugais"
+                                                        );
 
-			$lst = new itemlist(sizeof($jobuser->pdf_cvs) . " CV(s) disponible(s)");
-			foreach($jobuser->pdf_cvs as $cv)
-				$lst->add("<img src=\"$topdir/images/i18n/$cv.png\" />&nbsp; <a href=\"". $topdir . "var/cv/". $jobuser->id . "." . $cv .".pdf\"> CV en ". $i18n[ $cv ] ."</a>");
+                        $lst = new itemlist(sizeof($jobuser->pdf_cvs) . " CV(s) disponible(s)");
+                        foreach($jobuser->pdf_cvs as $cv)
+                                $lst->add("<img src=\"$topdir/images/i18n/$cv.png\" />&nbsp; <a href=\"". $topdir . "var/cv/". $jobuser->id . "." . $cv .".pdf\"> CV en ". $i18n[ $cv ] ."</a>");
 
-			$cts->add($lst);
-		}else{
-			$cts->add_paragraph("<p>Cet utilisateur n'a pas mis de CV en ligne ou n'a pas souhaité qu'ils soient publics</b>");
-		}
+                        $cts->add($lst);
+                }else{
+                        $cts->add_paragraph("<p>Cet utilisateur n'a pas mis de CV en ligne ou n'a pas souhaité qu'ils soient publics</b>");
+                }
   }else{
-		$cts->add_paragraph("<p>Cet utilisateur n'a pas activé son compte Jobetu</b>");
+                $cts->add_paragraph("<p>Cet utilisateur n'a pas activé son compte Jobetu</b>");
   }
 
 }
